@@ -1,0 +1,53 @@
+<!DOCTYPE node PUBLIC
+"-//freedesktop//DTD D-BUS Object Introspection 1.0//EN"
+"http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
+
+<!--
+ DBus Interface to libmtp
+
+ Copyright (C) 2013 Philip Langdale <philipl@overt.org>
+ Copyright (C) 2013 Philipp Schmidt <philschmidt@gmx.net>
+
+ This library is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public
+ License as published by the Free Software Foundation; either
+ version 2 of the License, or (at your option) any later version.
+
+ This library is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ Lesser General Public License for more details.
+
+ You should have received a copy of the GNU Lesser General
+ Public License along with this library; if not, write to the
+ Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ Boston, MA 02110-1301, USA.
+-->
+<node>
+	<interface name="org.libmtp.mtpd.object">
+		<!-- TODO
+		LIBMTP_GetPartialObject
+		LIBMTP_SendPartialObject
+		LIBMTP_BeginEditObject
+		LIBMTP_EndEditObject
+		LIBMTP_TruncateObject
+
+		!!! LIBMTP_Set_Object_Filename is deprecated, will not be used (Use 
+		setFilename/setFoldername etc. instead)
+	-->
+
+		<!--
+			deleteObject:
+			@deviceID:	The id of the device wich contains the object.
+			@objectID:	The id of the object.
+			@result:	The result of the operation. 0 if successful, else not.
+		-->
+		<method name="deleteObject">
+			<arg direction="in"  type="i" name="deviceID" />
+			<arg direction="in"  type="i" name="objectID" />
+
+			<arg direction="out" type="i" name="result" />
+		</method>
+
+	</interface>
+</node>

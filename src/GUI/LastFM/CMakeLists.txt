@@ -1,0 +1,21 @@
+CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
+PROJECT(say_gui_lastfm)
+
+INCLUDE_DIRECTORIES(
+	${CMAKE_CURRENT_BINARY_DIR},
+	${CMAKE_CURRENT_SOURCE_DIR}
+)
+
+SET(SOURCES
+	GUI_LastFM.cpp
+)
+
+QT5_WRAP_UI(FORMS_UIC
+	GUI_LastFM_Dialog.ui
+)
+
+ADD_LIBRARY(${PROJECT_NAME} STATIC ${SOURCES} ${FORMS_UIC})
+TARGET_LINK_LIBRARIES(${PROJECT_NAME}
+    say_comp_streamplugins_lastfm
+	say_interfaces_preference_dialog
+)

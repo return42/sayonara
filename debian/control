@@ -1,0 +1,20 @@
+Source: sayonara
+Section: sound
+Priority: optional
+Maintainer: Lucio Carreras <luciocarreras@gmail.com>
+Build-Depends: debhelper (>= 8.0.0), cmake, pkg-config, qt5-default, qttools5-dev, qttools5-dev-tools, libqt5core5a, libqt5dbus5, libqt5network5, libqt5sql5, libqt5sql5-sqlite, libqt5xml5, libtag1-dev, libgstreamer1.0-dev, libgstreamer-plugins-base1.0-dev, libgstreamer-plugins-bad1.0-dev, libsqlite3-0, libmtp-dev
+Standards-Version: 3.9.4
+Homepage: http://sayonara-player.com
+#Vcs-Git: git://git.debian.org/collab-maint/sayonara.git
+#Vcs-Browser: http://git.debian.org/?p=collab-maint/sayonara.git;a=summary
+
+Package: sayonara
+Architecture: all
+Section: sound
+Priority: optional
+Depends: ${shlibs:Depends}, ${misc:Depends}, gstreamer1.0-plugins-ugly, libqt5sql5-sqlite
+Description:Small and lightweight music player. 
+ Its main focus is on managing libraries and playing sound out of it. 
+ It contains a music library, custom playlists, dynamic playlists, 
+ ID3 Tag Editor, LastFM scrobbling, LastFM radio, web streaming, equalizer, 
+ lyrics, stream recorder and podcasts

@@ -1,0 +1,32 @@
+/*QListView, QTableView{
+background: #FFFFFF;
+alternate-background-color: #DADADA;
+}
+ */
+
+QWidget {
+	font-family: <<FONT_FAMILY>>;
+	font-size: <<FONT_SIZE>>pt;
+}
+
+QFrame#player_frame, 
+	QFrame#genre_frame
+	QFrame#my_frame, 
+	QFrame#my_frame_2, 
+	QFrame#my_frame_3
+{
+	padding: 0px;
+	background-repeat: no-repeat;
+	border: none;
+}
+
+
+QLabel#lab_title,
+QLabel#lab_title_2,
+QLabel#lab_title_3,
+QLabel#lab_title_4,
+QLabel#lab_sayonara
+{
+        font-size: 12px;
+}
+

@@ -1,0 +1,13 @@
+PROJECT(say_gui_menu_tool)
+CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
+
+SET(SOURCES
+	MenuButton.cpp
+	MenuTool.cpp
+)
+
+ADD_LIBRARY(${PROJECT_NAME} STATIC ${SOURCES})
+TARGET_LINK_LIBRARIES(${PROJECT_NAME}
+	say_gui_context_menu
+)
+

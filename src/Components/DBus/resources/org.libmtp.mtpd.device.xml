@@ -1,0 +1,139 @@
+<!DOCTYPE node PUBLIC
+"-//freedesktop//DTD D-BUS Object Introspection 1.0//EN"
+"http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
+
+<!--
+ DBus Interface to libmtp
+ 
+ Copyright (C) 2013 Philip Langdale <philipl@overt.org>
+ Copyright (C) 2013 Philipp Schmidt <philschmidt@gmx.net>
+
+ This library is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public
+ License as published by the Free Software Foundation; either
+ version 2 of the License, or (at your option) any later version.
+
+ This library is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ Lesser General Public License for more details.
+
+ You should have received a copy of the GNU Lesser General
+ Public License along with this library; if not, write to the
+ Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ Boston, MA 02110-1301, USA.
+-->
+
+<node name="/" xmlns:doc="http://www.freedesktop.org/dbus/1.0/doc.dtd">
+
+	<!-- org.libmtp.mtpd.Devices:
+		@short_description: MTP device access API
+
+		This D-Bus interface is used to access MTP devices.
+	-->
+	<interface name="org.libmtp.mtpd.device">
+	
+		<!-- listDevices: The currently discovered and connected devices in the deamon.
+			@devices: A list of the currently accessible devices represented as an array containing structs with the deviceID, Modelname and Friendlyname.
+		-->
+		<method name="listDevices">
+			<arg direction="out" type="a(iss)" name="devices" />
+		</method>
+		
+		<!-- setFriendlyname: Rename the device
+			@deviceID: The id of the device for which to set the name
+			@name: The string the Friendlyname property shall be set to
+		-->
+		<method name="setFriendlyname">
+			<arg direction="in" type="i" name="deviceID" />
+			<arg direction="in" type="s" name="name" />
+		</method>
+		
+		<!-- listStorages: The storages for a device with the given deviceID.
+			@deviceID: The id of the device for which to get the storages
+			@storages: A list of the storages found on the device. The result is presented as an array containing a struct with the storageID, StorageDescription and VolumeIdentifier.
+		-->
+		<method name="listStorages">
+			<arg direction="in" type="i" name="deviceID" />
+			<arg direction="out" type="a(iss)" name="storages" />
+		</method>
+		
+		<!-- getMetadataForDevice: The metadata for a device with the given deviceID.
+			@deviceID: The id of the device for which to get the metadata
+			@params: TODO
+		-->
+		<method name="getMetadataForDevice">
+			<arg direction="in"  type="i" name="deviceID" />
+			
+			<arg direction="out" type="s" name="modelName" />
+			<arg direction="out" type="s" name="friendlyName" />
+			<arg direction="out" type="(ii)" name="usbBusDev" />
+			<arg direction="out" type="i" name="vendorID" />
+			<arg direction="out" type="s" name="vendorName" />
+			<arg direction="out" type="i" name="productID" />
+			<arg direction="out" type="s" name="productName" />
+			<arg direction="out" type="i" name="deviceFlags" />
+			<arg direction="out" type="(iiiiiiii)" name="defaultFolders" />
+			<arg direction="out" type="a(sii)" name="deviceExtensions" />
+		</method>
+		
+		<!-- getMetadataForStorage: The metadata for a device with the given deviceID.
+			@deviceID: The id of the device which holds the storage
+			@storageID: The id of the device for which to get the metadata
+			@params: TODO
+		-->
+		<method name="getMetadataForStorage">
+			<arg direction="in"  type="i" name="deviceID" />
+			<arg direction="in"  type="i" name="storageID" />
+			
+			<arg direction="out" type="s" name="storageDescription" />
+			<arg direction="out" type="s" name="volumeIdentifier" />
+			<arg direction="out" type="n" name="storageType" />
+			<arg direction="out" type="n" name="filesystemType" />
+			<arg direction="out" type="n" name="accessCapability" />
+			<arg direction="out" type="x" name="maxCapacity" />
+			<arg direction="out" type="x" name="freeSpaceInBytes" />
+			<arg direction="out" type="x" name="freeSpaceInObjects" />
+		</method>
+		
+		<!-- formatStorage: Deletes all data on a storage on a device by formatting it.
+			@deviceID: The id of the device which holds the storage
+			@storageID: The id of the storage to format
+		-->
+		<method name="formatStorage">
+			<arg direction="in" type="i" name="deviceID" />
+			<arg direction="in" type="i" name="storageID" />
+		</method>
+		
+		<!-- getBatteryLevel: The storages for a device with the given deviceID.
+			@deviceID: The id of the device for which to get the storages
+			@result: 0 for success, else failure, probably because the underlying property is not supported
+			@currentLevel: The current battery level
+			@maximumLevel: The maximum battery level
+		-->
+		<method name="getBatteryLevel">
+			<arg direction="in" type="i" name="deviceID" />
+			
+			<arg direction="out" type="i" name="result" />
+			<arg direction="out" type="y" name="currentLevel" />
+			<arg direction="out" type="y" name="maximumLevel" />
+		</method>
+		
+		<!-- TODO
+			* LIBMTP_Get_String_From_Object
+			* LIBMTP_Get_u64_From_Object
+			* LIBMTP_Get_u32_From_Object
+			* LIBMTP_Get_u16_From_Object
+			* LIBMTP_Get_u8_From_Object
+			* LIBMTP_Set_Object_String
+			* LIBMTP_Set_Object_u32
+			* LIBMTP_Set_Object_u16
+			* LIBMTP_Set_Object_u8
+			* LIBMTP_Get_Property_Description
+			* LIBMTP_Is_Property_Supported
+			* LIBMTP_Get_Allowed_Property_Values
+		-->
+
+	</interface>
+</node>
+

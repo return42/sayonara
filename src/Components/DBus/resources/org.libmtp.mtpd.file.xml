@@ -1,0 +1,167 @@
+<!DOCTYPE node PUBLIC
+"-//freedesktop//DTD D-BUS Object Introspection 1.0//EN"
+"http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
+
+<!--
+ DBus Interface to libmtp
+
+ Copyright (C) 2013 Philip Langdale <philipl@overt.org>
+ Copyright (C) 2013 Philipp Schmidt <philschmidt@gmx.net>
+
+ This library is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public
+ License as published by the Free Software Foundation; either
+ version 2 of the License, or (at your option) any later version.
+
+ This library is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ Lesser General Public License for more details.
+
+ You should have received a copy of the GNU Lesser General
+ Public License along with this library; if not, write to the
+ Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ Boston, MA 02110-1301, USA.
+-->
+<node>
+	<interface name="org.libmtp.mtpd.file">
+			<!-- TODO
+		LIBMTP_Get_Filelisting
+	-->
+
+		<!--
+			getFilesAndFolders:
+			@deviceID:	The id of the device wich contains the requested file.
+			@deviceID:	The id of the requested file.
+			@result:	The result of the operation. 0 if successful, else not.
+			@listFileStructs:	A list of found files. May be empty if no files were found and no error was reported. The struct follows the
+			LIBMTP_file_struct definitions with some exceptions:
+				* item_id: unchanged
+				* parent_id: unchanged
+				* storage_id: unchanged
+				* filename: represented as string
+				* filesize: unchanged
+				* modificationsdate: represented as an int64
+				* filetype: converted to a mime-string
+				* next: omitted as it is not necessary in a list
+		-->
+		<method name="getFilesAndFolders">
+			<arg direction="in"  type="i" name="deviceID" />
+			<arg direction="in"  type="i" name="fileID" />
+
+			<arg direction="out" type="i" name="result" />
+			<arg direction="out" type="a(iiisxxs)" name="listFileStructs" />
+			<annotation name="org.qtproject.QtDBus.QtTypeName.Out1" value="QList&lt;QVariant>"/>
+		</method>
+
+		<!--
+			getFileToFileDescriptor:
+			@deviceID:	The id of the device which has the file
+			@fileID:	The ID of the file on the device to be copied to the FD
+			@fileDescriptorTarget:	The unix file descriptor to copy to
+			@transactionID:	Custom ID to be used with the device ID for watching the transaction progress
+
+			@result:	The result code for the operation
+		-->
+		<method name="getFileToFileDescriptor">
+			<arg direction="in"  type="i" name="deviceID" />
+			<arg direction="in"  type="i" name="fileID" />
+			<arg direction="in"  type="h" name="fileDescriptorTarget" />
+			<arg direction="in"  type="i" name="transactionID" />
+
+			<arg direction="out" type="i" name="result" />
+		</method>
+
+		<!--
+			getFileFromFileDescriptor:
+			@deviceID:	The id of the device which has the file
+			@fileDescriptorSource:	The unix file descriptor to copy from
+			@transactionID:	Custom ID to be used with the device ID for watching the transaction progress
+
+			@result:	The result code for the operation
+			@fileID:	The fileID of the copied file on the device
+		-->
+		<method name="getFileFromFileDescriptor">
+			<arg direction="in"  type="i" name="deviceID" />
+			<arg direction="in"  type="h" name="fileDescriptorSource" />
+			<arg direction="in"  type="i" name="transactionID" />
+
+			<arg direction="out" type="i" name="result" />
+			<arg direction="out" type="i" name="newFileID" />
+		</method>
+
+		<!--
+			copyProgress: Signal is emitted when a progress update has been issued by LIBMTP. Applies only to copy operations.
+			@deviceOD:	The id of the device of the transaction
+			@transactionID:	The custom id of the transaction
+			@transferredBytes:	Currently transferred bytes
+			@totalBytes:	Total number of bytes to transfer
+		-->
+		<signal name="copyProgress">
+			<arg type="i" name="deviceID"/>
+			<arg type="i" name="transactionID"/>
+			<arg type="x" name="transferredBytes"/>
+			<arg type="x" name="totalBytes"/>
+		</signal>
+
+		<!--
+			getFileMetadata:
+			@deviceID:	The id of the device which has the file
+			@fileID:	The fileID of file on the device
+
+			@result:	The result code for the operation
+			@parentID: fileID of the parent of this file
+			@storageID: ID of the storage the file is on
+			@name: Actual name of the file
+			@size: Size of the file on the device
+			@modificationsdate: Last modification date (time_t represented as an
+			int64)
+			@mimetype: MIME-type of the file
+		-->
+		<method name="getFileMetadata">
+			<arg direction="in"  type="i" name="deviceID" />
+			<arg direction="in"  type="i" name="fileID" />
+
+			<arg direction="out" type="i" name="result" />
+			<arg direction="out" type="i" name="parentID" />
+			<arg direction="out" type="i" name="storageID" />
+			<arg direction="out" type="s" name="name" />
+			<arg direction="out" type="x" name="size" />
+			<arg direction="out" type="x" name="modificationdate" />
+			<arg direction="out" type="s" name="mimetype" />
+		</method>
+
+		<!--
+			setFileName:
+			@deviceID:	The id of the device wich contains the file.
+			@fileID:	The id of the file.
+			@newName:	The new name of the file
+			@result:	The result of the operation. 0 if successful, else not.
+		-->
+		<method name="setFileName">
+			<arg direction="in"  type="i" name="deviceID" />
+			<arg direction="in"  type="i" name="fileID" />
+			<arg direction="in"  type="s" name="newName" />
+
+			<arg direction="out" type="i" name="result" />
+		</method>
+
+		<!--
+			setFileName:
+			@deviceID:	The id of the device wich contains the file.
+			@fileID:	The id of the file.
+			@result:	The result of the operation. 0 if successful, else not.
+			@thumbnail:	The thumbnail as a byte-array
+		-->
+		<method name="getThumbnail">
+			<arg direction="in"  type="i" name="deviceID" />
+			<arg direction="in"  type="i" name="fileID" />
+
+			<arg direction="out" type="i" name="result" />
+			<arg direction="out" type="a{b}" name="thumbnail" />
+			<annotation name="org.qtproject.QtDBus.QtTypeName.Out1" value="QList&lt;bool>" />
+			
+		</method>
+
+	</interface>
+</node>
