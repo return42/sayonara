@@ -3,3 +3,4 @@ debian/sayonara.*
 resources/sayonara
 debian/files
 debian/sayonara/
+CMakeLists.txt.*
