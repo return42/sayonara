@@ -108,7 +108,10 @@ void IconLoader::add_icon_names(const QStringList& icon_names){
 			bool found = false;
 			QString full_theme_path = theme_path + "/" + _theme;
 
+
 			QDir full_theme_dir(full_theme_path);
+			sp_log(Log::Debug) << full_theme_dir.canonicalPath();
+
 
 			QStringList files = dir_reader.find_files_rec(full_theme_dir, icon_name);
 			sp_log(Log::Debug) << "Search for " << icon_name << " in " << full_theme_path << ": " << files;

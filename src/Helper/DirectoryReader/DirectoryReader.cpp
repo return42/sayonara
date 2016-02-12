@@ -25,6 +25,7 @@
 #include "Database/DatabaseConnector.h"
 
 #include <QDirIterator>
+#include <QFileInfo>
 
 
 
@@ -169,7 +170,7 @@ MetaDataList DirectoryReader::get_md_from_filelist(const QStringList& lst)
 
 QStringList DirectoryReader::find_files_rec(QDir dir, const QString& filename)
 {
-	if(dir.filePath("").isEmpty()){
+	if(dir.canonicalPath().isEmpty()){
 		return QStringList();
 	}
 
@@ -178,11 +179,17 @@ QStringList DirectoryReader::find_files_rec(QDir dir, const QString& filename)
 	}
 
 	QStringList ret;
-	QStringList dirs = dir.entryList(QDir::Dirs);
+	QStringList dirs = dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
 	QStringList files = dir.entryList(QDir::Files);
 
 	for(const QString& d : dirs){
+
 		if(d.isEmpty()){
+			continue;
+		}
+
+		QFileInfo fi(d);
+		if(!fi.isDir()){
 			continue;
 		}
 
@@ -192,6 +199,12 @@ QStringList DirectoryReader::find_files_rec(QDir dir, const QString& filename)
 	}
 
 	for(const QString& file : files){
+
+		QFileInfo fi(file);
+		if(!fi.isFile()){
+			continue;
+		}
+
 		if(file.contains(filename)){
 			ret += dir.absoluteFilePath(file);
 		}

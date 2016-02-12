@@ -66,7 +66,7 @@ void GUI_LibraryInfoBox::skin_changed()
 	IconLoader* icon_loader = IconLoader::getInstance();
 
 	sz = lab_icon->size();
-	pm = icon_loader->get_icon("dialog-info", "info").pixmap(sz, QIcon::Normal, QIcon::On);
+	pm = icon_loader->get_icon("dialog-inforrr", "info").pixmap(sz, QIcon::Normal, QIcon::On);
 
 	lab_icon->setPixmap(pm);
 }
