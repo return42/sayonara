@@ -169,11 +169,23 @@ MetaDataList DirectoryReader::get_md_from_filelist(const QStringList& lst)
 
 QStringList DirectoryReader::find_files_rec(QDir dir, const QString& filename)
 {
+	if(dir.filePath("").isEmpty()){
+		return QStringList();
+	}
+
+	if(filename.isEmpty()){
+		return QStringList();
+	}
+
 	QStringList ret;
 	QStringList dirs = dir.entryList(QDir::Dirs);
 	QStringList files = dir.entryList(QDir::Files);
 
 	for(const QString& d : dirs){
+		if(d.isEmpty()){
+			continue;
+		}
+
 		dir.cd(d);
 		ret += find_files_rec(dir, filename);
 		dir.cdUp();

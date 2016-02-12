@@ -20,6 +20,7 @@
 #include "GUI_Playlist.h"
 #include "View/PlaylistView.h"
 #include "TabWidget/PlaylistMenuEntry.h"
+#include "GUI/Helper/IconLoader/IconLoader.h"
 
 
 void GUI_Playlist::playlist_name_changed(int idx){
@@ -232,7 +233,9 @@ void GUI_Playlist::check_tab_icon(){
 		return;
 	}
 
-	QIcon icon = Helper::get_icon("play_bordered");
+	IconLoader* icon_loader = IconLoader::getInstance();
+	QIcon icon = icon_loader->get_icon("media-playback-start", "play_bordered");
+
 	tw_playlists->tabBar()->setTabIcon(active_idx, icon);
 }
 

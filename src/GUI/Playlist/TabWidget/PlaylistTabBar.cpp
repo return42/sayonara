@@ -132,6 +132,12 @@ void PlaylistTabBar::mousePressEvent(QMouseEvent* e){
 	if(e->button() == Qt::RightButton){
 		_menu->exec(e->globalPos());
 	}
+
+	else if(e->button() == Qt::MiddleButton){
+		if(this->count() > 2){
+			emit tabCloseRequested(idx);
+		}
+	}
 }
 
 void PlaylistTabBar::wheelEvent(QWheelEvent* e)

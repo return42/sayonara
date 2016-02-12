@@ -22,6 +22,7 @@
 
 #include "LocalLibraryMenu.h"
 #include "Helper/Helper.h"
+#include "GUI/Helper/IconLoader/IconLoader.h"
 
 
 
@@ -29,14 +30,13 @@ LocalLibraryMenu::LocalLibraryMenu(QWidget* parent) :
 	QMenu(parent),
 	SayonaraClass()
 {
-	_timer = new QTimer(this);
+	_icon_loader = IconLoader::getInstance();
 
 	_reload_library_action = new QAction(Helper::get_icon("undo"), tr("Reload library"), this);
 	_import_file_action = new QAction(Helper::get_icon("open"), tr("Import files"), this);
 	_import_folder_action = new QAction(Helper::get_icon("open"), tr("Import directory"), this);
 	_info_action = new QAction(Helper::get_icon("info"), tr("Info"), this);
 
-	connect(_timer, &QTimer::timeout, this, &LocalLibraryMenu::timed_out);
 	connect(_reload_library_action, &QAction::triggered, this, &LocalLibraryMenu::sig_reload_library);
 	connect(_import_file_action, &QAction::triggered, this, &LocalLibraryMenu::sig_import_file);
 	connect(_import_folder_action, &QAction::triggered, this, &LocalLibraryMenu::sig_import_folder);
@@ -47,6 +47,7 @@ LocalLibraryMenu::LocalLibraryMenu(QWidget* parent) :
 	this->addActions(_actions);
 
 	REGISTER_LISTENER(Set::Player_Language, language_changed);
+	REGISTER_LISTENER(Set::Player_Style, skin_changed);
 }
 
 
@@ -55,29 +56,17 @@ LocalLibraryMenu::~LocalLibraryMenu()
 
 }
 
-void LocalLibraryMenu::showEvent(QShowEvent* e)
-{
-	for(QAction* action : _actions){
-		action->setEnabled(false);
-	}
-
-	QMenu::showEvent(e);
-
-	_timer->setInterval(250);
-	_timer->start();
-}
-
-void LocalLibraryMenu::timed_out(){
-	for(QAction* action : _actions){
-		action->setEnabled(true);
-	}
-
-}
-
 void LocalLibraryMenu::language_changed(){
 	_reload_library_action->setText(tr("Reload library"));
 	_import_file_action->setText(tr("Import files"));
 	_import_folder_action->setText(tr("Import directory"));
 	_info_action->setText(tr("Info"));
+}
+
+void LocalLibraryMenu::skin_changed(){
+	_reload_library_action->setIcon(_icon_loader->get_icon("view-refresh", "undo"));
+	_import_file_action->setIcon(_icon_loader->get_icon("document-open", "open"));
+	_import_folder_action->setIcon(_icon_loader->get_icon("document-open", "open"));
+	_info_action->setIcon(_icon_loader->get_icon("dialog-information", "info"));
 }
 

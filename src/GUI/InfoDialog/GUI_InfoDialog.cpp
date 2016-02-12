@@ -30,12 +30,14 @@
 #include "Components/LyricLookup/LyricLookup.h"
 
 #include "Helper/MetaData/MetaDataInfo.h"
+#include "GUI/Helper/IconLoader/IconLoader.h"
 
 #include <QPixmap>
 #include <QScrollBar>
 #include <QCloseEvent>
 #include <QPainter>
 #include <QDateTime>
+#include <QTabBar>
 
 
 GUI_InfoDialog::GUI_InfoDialog(QWidget* parent) :
@@ -61,6 +63,20 @@ void GUI_InfoDialog::language_changed() {
 	retranslateUi(this);
 
 	prepare_info(_cur_mode);
+}
+
+void GUI_InfoDialog::skin_changed(){
+	if(!_is_initialized){
+		return;
+	}
+
+	QTabBar* tab_bar = tab_widget->tabBar();
+	if(tab_bar){
+		IconLoader* icon_loader = IconLoader::getInstance();
+		tab_bar->setTabIcon(0, icon_loader->get_icon("dialog-info", "info"));
+		tab_bar->setTabIcon(1, icon_loader->get_icon("document-properties", "lyrics"));
+		tab_bar->setTabIcon(2, icon_loader->get_icon("accessories-text-editor", "edit"));
+	}
 }
 
 
@@ -355,6 +371,8 @@ void GUI_InfoDialog::init() {
 	_is_initialized = true;
 
 	language_changed();
+	skin_changed();
+
 	prepare_info(_cur_mode);
 }
 

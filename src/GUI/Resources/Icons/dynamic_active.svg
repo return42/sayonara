@@ -14,7 +14,7 @@
    width="64"
    height="64"
    id="svg4110"
-   inkscape:version="0.48.4 r9939"
+   inkscape:version="0.91 r"
    sodipodi:docname="dynamic_active.svg">
   <sodipodi:namedview
      pagecolor="#ffffff"
@@ -25,16 +25,16 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="840"
-     inkscape:window-height="480"
+     inkscape:window-width="2560"
+     inkscape:window-height="1358"
      id="namedview26"
      showgrid="false"
      inkscape:zoom="3.6875"
-     inkscape:cx="1.6264571"
+     inkscape:cx="-40.407441"
      inkscape:cy="32"
-     inkscape:window-x="2673"
-     inkscape:window-y="367"
-     inkscape:window-maximized="0"
+     inkscape:window-x="1680"
+     inkscape:window-y="32"
+     inkscape:window-maximized="1"
      inkscape:current-layer="svg4110" />
   <defs
      id="defs4112">
@@ -115,16 +115,6 @@
          offset="1"
          id="stop5777-54-5-4-76-89-0" />
     </linearGradient>
-    <linearGradient
-       y2="-58.693573"
-       x2="-225.5"
-       y1="-74.924789"
-       x1="-225.5"
-       gradientTransform="matrix(0.19482496,0,0,4.5714287,80.462718,331.42854)"
-       gradientUnits="userSpaceOnUse"
-       id="linearGradient16426"
-       xlink:href="#linearGradient5773-3-9-7-3-7-3"
-       inkscape:collect="always" />
   </defs>
   <metadata
      id="metadata4115">
@@ -134,21 +124,10 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
-  <rect
-     style="fill:url(#linearGradient16426);fill-opacity:1;fill-rule:nonzero;stroke:none"
-     id="rect4633-9-3-5"
-     width="64"
-     height="64"
-     x="0"
-     y="0"
-     ry="5.0795155"
-     inkscape:export-filename="/home/luke/Desktop/sayonara_new.png"
-     inkscape:export-xdpi="90"
-     inkscape:export-ydpi="90" />
   <rect
      style="fill:url(#linearGradient8950);fill-opacity:1;fill-rule:nonzero;stroke:none"
      id="rect4593-9-1-8-2"

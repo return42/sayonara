@@ -78,6 +78,7 @@ private slots:
 	void cover_clicked();
 	void cover_fetched(const CoverLocation&);
 
+	void skin_changed() override;
 	void language_changed() override;
 
 

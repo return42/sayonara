@@ -26,14 +26,10 @@
 #include <QObject>
 #include <QMenu>
 #include <QAction>
-#include <QTimer>
-#include <QShowEvent>
 
 #include "Helper/SayonaraClass.h"
 
-
-
-
+class IconLoader;
 class LocalLibraryMenu :
 		public QMenu,
 		private SayonaraClass
@@ -56,16 +52,15 @@ private:
 	QAction* _import_file_action=nullptr;
 	QAction* _import_folder_action=nullptr;
 	QAction* _info_action=nullptr;
-	QTimer* _timer=nullptr;
+
+	IconLoader* _icon_loader=nullptr;
 
 	QList<QAction*> _actions;
-
-	void showEvent(QShowEvent* e) override;
 
 
 private slots:
 	void language_changed();
-	void timed_out();
+	void skin_changed();
 
 };
 

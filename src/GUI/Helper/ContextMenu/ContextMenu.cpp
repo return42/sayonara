@@ -21,13 +21,14 @@
 
 
 #include "ContextMenu.h"
-
+#include "GUI/Helper/IconLoader/IconLoader.h"
 
 
 ContextMenu::ContextMenu(QWidget *parent) :
 	QMenu(parent)
 {
 	_timer = new QTimer(this);
+	_icon_loader = IconLoader::getInstance();
 
 	_action_open = new QAction(Helper::get_icon("open"), tr("Open"), this);
 	_action_new = new QAction(Helper::get_icon("new"), tr("New"), this);
@@ -65,6 +66,7 @@ ContextMenu::ContextMenu(QWidget *parent) :
 	connect(_action_delete, &QAction::triggered, this, &ContextMenu::sig_delete);
 
 	REGISTER_LISTENER(Set::Player_Language, language_changed);
+	REGISTER_LISTENER(Set::Player_Style, skin_changed);
 }
 
 void ContextMenu::language_changed(){
@@ -75,6 +77,17 @@ void ContextMenu::language_changed(){
 	 _action_rename->setText(tr("Rename"));
 	 _action_undo->setText(tr("Undo"));
 	 _action_delete->setText(tr("Delete"));
+}
+
+void ContextMenu::skin_changed()
+{
+	_action_open->setIcon(_icon_loader->get_icon( "document-open", "open") );
+	_action_new->setIcon(_icon_loader->get_icon( "document-new", "new") );
+	_action_undo->setIcon(_icon_loader->get_icon( "edit-undo", "undo") );
+	_action_save->setIcon(_icon_loader->get_icon( "document-save", "save") );
+	_action_save_as->setIcon(_icon_loader->get_icon( "document-save-as", "save_as") );
+	_action_rename->setIcon(_icon_loader->get_icon( "accessories-text-editor", "edit") );
+	_action_delete->setIcon(_icon_loader->get_icon( "edit-delete", "delete") );
 }
 
 void ContextMenu::register_action(QAction *action){

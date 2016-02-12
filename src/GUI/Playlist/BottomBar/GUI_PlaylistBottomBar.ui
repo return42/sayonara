@@ -7,11 +7,23 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>24</height>
+    <height>28</height>
    </rect>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
-   <property name="margin">
+   <property name="spacing">
+    <number>4</number>
+   </property>
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
     <number>0</number>
    </property>
    <item>
@@ -37,14 +49,14 @@
     <widget class="QPushButton" name="btn_rep1">
      <property name="minimumSize">
       <size>
-       <width>24</width>
-       <height>24</height>
+       <width>28</width>
+       <height>28</height>
       </size>
      </property>
      <property name="maximumSize">
       <size>
-       <width>24</width>
-       <height>24</height>
+       <width>28</width>
+       <height>28</height>
       </size>
      </property>
      <property name="focusPolicy">
@@ -63,8 +75,8 @@
      </property>
      <property name="iconSize">
       <size>
-       <width>22</width>
-       <height>22</height>
+       <width>20</width>
+       <height>20</height>
       </size>
      </property>
      <property name="shortcut">
@@ -79,14 +91,14 @@
     <widget class="QPushButton" name="btn_repAll">
      <property name="minimumSize">
       <size>
-       <width>24</width>
-       <height>24</height>
+       <width>28</width>
+       <height>28</height>
       </size>
      </property>
      <property name="maximumSize">
       <size>
-       <width>24</width>
-       <height>24</height>
+       <width>28</width>
+       <height>28</height>
       </size>
      </property>
      <property name="focusPolicy">
@@ -105,8 +117,8 @@
      </property>
      <property name="iconSize">
       <size>
-       <width>22</width>
-       <height>22</height>
+       <width>20</width>
+       <height>20</height>
       </size>
      </property>
      <property name="shortcut">
@@ -121,14 +133,14 @@
     <widget class="QPushButton" name="btn_shuffle">
      <property name="minimumSize">
       <size>
-       <width>24</width>
-       <height>24</height>
+       <width>28</width>
+       <height>28</height>
       </size>
      </property>
      <property name="maximumSize">
       <size>
-       <width>24</width>
-       <height>24</height>
+       <width>28</width>
+       <height>28</height>
       </size>
      </property>
      <property name="focusPolicy">
@@ -147,8 +159,8 @@
      </property>
      <property name="iconSize">
       <size>
-       <width>22</width>
-       <height>22</height>
+       <width>20</width>
+       <height>20</height>
       </size>
      </property>
      <property name="shortcut">
@@ -163,14 +175,14 @@
     <widget class="QPushButton" name="btn_dynamic">
      <property name="minimumSize">
       <size>
-       <width>24</width>
-       <height>24</height>
+       <width>28</width>
+       <height>28</height>
       </size>
      </property>
      <property name="maximumSize">
       <size>
-       <width>24</width>
-       <height>24</height>
+       <width>28</width>
+       <height>28</height>
       </size>
      </property>
      <property name="focusPolicy">
@@ -189,8 +201,8 @@
      </property>
      <property name="iconSize">
       <size>
-       <width>22</width>
-       <height>22</height>
+       <width>20</width>
+       <height>20</height>
       </size>
      </property>
      <property name="shortcut">
@@ -205,14 +217,14 @@
     <widget class="QPushButton" name="btn_append">
      <property name="minimumSize">
       <size>
-       <width>24</width>
-       <height>24</height>
+       <width>28</width>
+       <height>28</height>
       </size>
      </property>
      <property name="maximumSize">
       <size>
-       <width>24</width>
-       <height>24</height>
+       <width>28</width>
+       <height>28</height>
       </size>
      </property>
      <property name="focusPolicy">
@@ -226,13 +238,12 @@
      </property>
      <property name="icon">
       <iconset resource="../../Resources/Icons.qrc">
-       <normaloff>:/Icons/append.svg.png</normaloff>
-       <activeon>:/Icons/append_active.svg.png</activeon>:/Icons/append.svg.png</iconset>
+       <normaloff>:/Icons/append.svg.png</normaloff>:/Icons/append.svg.png</iconset>
      </property>
      <property name="iconSize">
       <size>
-       <width>22</width>
-       <height>22</height>
+       <width>20</width>
+       <height>20</height>
       </size>
      </property>
      <property name="shortcut">
@@ -247,14 +258,14 @@
     <widget class="QPushButton" name="btn_gapless">
      <property name="minimumSize">
       <size>
-       <width>24</width>
-       <height>24</height>
+       <width>28</width>
+       <height>28</height>
       </size>
      </property>
      <property name="maximumSize">
       <size>
-       <width>24</width>
-       <height>24</height>
+       <width>28</width>
+       <height>28</height>
       </size>
      </property>
      <property name="focusPolicy">
@@ -273,8 +284,8 @@
      </property>
      <property name="iconSize">
       <size>
-       <width>22</width>
-       <height>22</height>
+       <width>20</width>
+       <height>20</height>
       </size>
      </property>
      <property name="shortcut">
@@ -302,14 +313,14 @@
     <widget class="QPushButton" name="btn_shutdown">
      <property name="minimumSize">
       <size>
-       <width>24</width>
-       <height>24</height>
+       <width>28</width>
+       <height>28</height>
       </size>
      </property>
      <property name="maximumSize">
       <size>
-       <width>24</width>
-       <height>24</height>
+       <width>28</width>
+       <height>28</height>
       </size>
      </property>
      <property name="text">
@@ -326,9 +337,6 @@
       </size>
      </property>
      <property name="checkable">
-      <bool>true</bool>
-     </property>
-     <property name="flat">
       <bool>true</bool>
      </property>
     </widget>

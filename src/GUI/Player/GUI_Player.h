@@ -53,6 +53,7 @@ class PlayerPluginInterface;
 class PlayerPluginHandler;
 class LibraryPluginHandler;
 class PreferenceDialogInterface;
+class IconLoader;
 
 class GUI_Player :
 		public SayonaraMainWindow,
@@ -127,11 +128,8 @@ private:
 	PlayManager*				_play_manager=nullptr;
 	QMessageBox*				_about_box=nullptr;
 
-
-	QString						_skin_suffix;
-
 	MetaData					_md;
-	QFileSystemWatcher*			_fsw=nullptr;
+	IconLoader*				_icon_loader=nullptr;
 
 
 private:

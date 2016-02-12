@@ -1,13 +1,15 @@
-#include "StdIconLoader.h"
+#include "IconLoader.h"
+#include "Helper/Settings/Settings.h"
 #include "Helper/DirectoryReader/DirectoryReader.h"
 #include <QDir>
 #include <QFile>
 #include <QRegExp>
 
-StdIconLoader::StdIconLoader(){
+IconLoader::IconLoader(){
 
 	_theme = QIcon::themeName();
 	_theme_paths = QIcon::themeSearchPaths();
+	_settings = Settings::getInstance();
 
 	for(const QString& theme_path : _theme_paths){
 
@@ -24,12 +26,12 @@ StdIconLoader::StdIconLoader(){
 
 }
 
-StdIconLoader::~StdIconLoader(){
+IconLoader::~IconLoader(){
 
 
 }
 
-QStringList StdIconLoader::load_ancestors(const QString &index_theme_file){
+QStringList IconLoader::load_ancestors(const QString &index_theme_file){
 
 	QFile f(index_theme_file);
 	if(!f.open(QFile::ReadOnly)){
@@ -65,7 +67,7 @@ QStringList StdIconLoader::load_ancestors(const QString &index_theme_file){
 }
 
 
-void StdIconLoader::add_icon_names(const QStringList& icon_names){
+void IconLoader::add_icon_names(const QStringList& icon_names){
 
 	DirectoryReader dir_reader;
 	dir_reader.set_filter("*.png");
@@ -118,12 +120,31 @@ void StdIconLoader::add_icon_names(const QStringList& icon_names){
 	}
 }
 
-QIcon StdIconLoader::get_std_icon(const QString& name) const
+QIcon IconLoader::get_icon(const QString& name, const QString& dark_name)
 {
-	return _icons[name];
+	bool dark = (_settings->get(Set::Player_Style) == 1);
+
+	if(!dark){
+
+		if(!has_std_icon(name)){
+			QStringList lst; lst << name;
+			add_icon_names(lst);
+
+			if(has_std_icon(name)){
+				return _icons[name];
+			}
+		}
+
+		else{
+			return _icons[name];
+		}
+	}
+
+	return Helper::get_icon(dark_name);
 }
 
-bool StdIconLoader::has_std_icon(const QString& name) const
+
+bool IconLoader::has_std_icon(const QString& name) const
 {
 	return _icons.keys().contains(name);
 }

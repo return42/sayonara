@@ -19,6 +19,7 @@
 
 
 #include "PlaylistTabMenu.h"
+#include "GUI/Helper/IconLoader/IconLoader.h"
 
 
 PlaylistTabMenu::PlaylistTabMenu(QWidget* parent) :
@@ -34,6 +35,8 @@ PlaylistTabMenu::PlaylistTabMenu(QWidget* parent) :
 	_action_clear = new QAction(Helper::get_icon("broom.png"), tr("Clear"), this);
 	_action_close = new QAction(Helper::get_icon("power_off"), tr("Close"), this);
 	_action_close_others = new QAction(Helper::get_icon("power_on"), tr("Close others"), this);
+
+	_icon_loader = IconLoader::getInstance();
 
 
 	QList<QAction*> actions;
@@ -61,6 +64,7 @@ PlaylistTabMenu::PlaylistTabMenu(QWidget* parent) :
 	connect(_action_close_others, &QAction::triggered, this, &PlaylistTabMenu::sig_close_others_clicked);
 
 	REGISTER_LISTENER(Set::Player_Language, language_changed);
+	REGISTER_LISTENER(Set::Player_Style, skin_changed);
 }
 
 PlaylistTabMenu::~PlaylistTabMenu(){
@@ -76,6 +80,20 @@ void PlaylistTabMenu::language_changed(){
 	_action_clear->setText(tr("Clear"));
 	_action_close->setText(tr("Close"));
 	_action_close_others->setText(tr("Close others"));
+}
+
+void PlaylistTabMenu::skin_changed(){
+
+	_action_reset->setIcon(_icon_loader->get_icon( "edit-undo", "undo") );
+	_action_rename->setIcon(_icon_loader->get_icon( "accessories-text-editor", "edit") );
+	_action_delete->setIcon(_icon_loader->get_icon( "edit-delete", "delete") );
+	_action_save->setIcon(_icon_loader->get_icon( "document-save", "save") );
+	_action_save_as->setIcon(_icon_loader->get_icon( "document-save-as", "save_as") );
+
+	_action_clear->setIcon(_icon_loader->get_icon( "edit-clear", "broom") );
+	_action_close->setIcon(_icon_loader->get_icon( "window-close", "power_off") );
+	_action_close_others->setIcon(_icon_loader->get_icon( "window-close", "power_on") );
+
 }
 
 void PlaylistTabMenu::show_menu_items(PlaylistMenuEntries entries){

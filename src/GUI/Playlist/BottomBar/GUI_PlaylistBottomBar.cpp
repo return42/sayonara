@@ -19,14 +19,13 @@
 
 
 #include "GUI_PlaylistBottomBar.h"
-#include "Helper/StdIconLoader/StdIconLoader.h"
+#include "GUI/Helper/IconLoader/IconLoader.h"
 
 GUI_PlaylistBottomBar::GUI_PlaylistBottomBar(QWidget *parent) :
 	SayonaraWidget(parent),
 	Ui::GUI_PlaylistBottomBar()
 {
 	this->setupUi(this);
-	StdIconLoader* sil = StdIconLoader::getInstance();
 
 	_playlist_menu = new PlaylistMenu(this);
 	btn_menu->setFlat(true);
@@ -36,14 +35,6 @@ GUI_PlaylistBottomBar::GUI_PlaylistBottomBar(QWidget *parent) :
 #endif
 
 	_plm = _settings->get(Set::PL_Mode);
-
-	sil->add_icon_names(QStringList()
-						<< "go-bottom"
-						<< "media-playlist-repeat"
-						<< "media-playlist-shuffle"
-						<< "media-seek-forward"
-						<< "list-add"
-	);
 
 	btn_rep1->setChecked(_plm.rep1);
 	btn_append->setChecked(_plm.append);
@@ -162,43 +153,6 @@ void GUI_PlaylistBottomBar::_sl_playlist_mode_changed(){
 	btn_gapless->setVisible(_plm.ui_gapless);
 }
 
-void GUI_PlaylistBottomBar::skin_changed()
-{
-	bool dark = (_settings->get(Set::Player_Style) == 1);
-
-	StdIconLoader* sil = StdIconLoader::getInstance();
-
-	QSize sz;
-
-	if(!dark){
-		btn_append->setIcon(sil->get_std_icon("go-bottom"));
-		btn_rep1->setIcon(sil->get_std_icon("media-playlist-repeat"));
-		btn_repAll->setIcon(sil->get_std_icon("media-playlist-repeat"));
-		btn_shuffle->setIcon(sil->get_std_icon("media-playlist-shuffle"));
-		btn_dynamic->setIcon(sil->get_std_icon("list-add"));
-		btn_gapless->setIcon(sil->get_std_icon("media-seek-forward"));
-
-		sz = QSize(42,42);
-	}
-
-	else{
-		btn_append->setIcon(Helper::get_icon("append"));
-		btn_rep1->setIcon(Helper::get_icon("rep_1"));
-		btn_repAll->setIcon(Helper::get_icon("rep_all"));
-		btn_shuffle->setIcon(Helper::get_icon("shuffle"));
-		btn_dynamic->setIcon(Helper::get_icon("dynamic"));
-		btn_gapless->setIcon(Helper::get_icon("gapless"));
-
-		sz = QSize(20, 20);
-	}
-
-	btn_rep1->resize(sz);
-	btn_append->resize(sz);
-	btn_repAll->resize(sz);
-	btn_shuffle->resize(sz);
-	btn_dynamic->resize(sz);
-	btn_gapless->resize(sz);
-}
 
 
 void GUI_PlaylistBottomBar::check_dynamic_play_button() {

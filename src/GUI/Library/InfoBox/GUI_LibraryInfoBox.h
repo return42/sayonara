@@ -44,6 +44,7 @@ public slots:
 
 protected:
 	void language_changed() override;
+	void skin_changed() override;
 
 private:
 

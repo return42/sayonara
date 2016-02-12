@@ -58,6 +58,9 @@
    <property name="horizontalSpacing">
     <number>0</number>
    </property>
+   <property name="verticalSpacing">
+    <number>4</number>
+   </property>
    <item row="2" column="0">
     <widget class="QLabel" name="lab_totalTime">
      <property name="sizePolicy">

@@ -74,6 +74,7 @@ private:
 	/** Overridden events **/
 	void resizeEvent(QResizeEvent *e) override;
 	void language_changed() override;
+	void skin_changed() override;
 
 	void dragEnterEvent(QDragEnterEvent* event) override;
 	void dragLeaveEvent(QDragLeaveEvent* event) override;

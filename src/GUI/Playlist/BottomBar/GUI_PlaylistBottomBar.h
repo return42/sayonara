@@ -47,27 +47,27 @@ signals:
 	void sig_playlist_mode_changed(const PlaylistMode& mode);
 
 public:
-	explicit GUI_PlaylistBottomBar(QWidget *parent = 0);
+	explicit GUI_PlaylistBottomBar(QWidget *parent=nullptr);
 	virtual ~GUI_PlaylistBottomBar();
 
 	void check_dynamic_play_button();
 	void set_playlist_type(Playlist::Type playlist_type);
 
 private slots:
-	void btn_menu_pressed(QPoint pos);
 
-#ifdef WITH_SHUTDOWN
-	void shutdown_toggled(bool b);
-	void shutdown_closed();
-#endif
+	void btn_menu_pressed(QPoint pos);
 
 	void rep1_checked(bool checked);
 	void rep_all_checked(bool checked);
 	void shuffle_checked(bool checked);
 	void playlist_mode_changed();
+
 	void _sl_playlist_mode_changed();
 
-	void skin_changed() override;
+#ifdef WITH_SHUTDOWN
+	void shutdown_toggled(bool b);
+	void shutdown_closed();
+#endif
 
 
 private:

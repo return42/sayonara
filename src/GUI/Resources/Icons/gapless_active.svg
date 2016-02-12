@@ -14,7 +14,7 @@
    width="64"
    height="64"
    id="svg4110"
-   inkscape:version="0.48.4 r9939"
+   inkscape:version="0.91 r"
    sodipodi:docname="gapless_active.svg">
   <sodipodi:namedview
      pagecolor="#ffffff"
@@ -26,14 +26,14 @@
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
      inkscape:window-width="2560"
-     inkscape:window-height="1355"
+     inkscape:window-height="1358"
      id="namedview24"
      showgrid="false"
      inkscape:zoom="5.2149126"
-     inkscape:cx="132.55171"
+     inkscape:cx="102.82926"
      inkscape:cy="41.440755"
      inkscape:window-x="1680"
-     inkscape:window-y="35"
+     inkscape:window-y="32"
      inkscape:window-maximized="1"
      inkscape:current-layer="svg4110" />
   <defs
@@ -155,16 +155,6 @@
          offset="1"
          id="stop5777-54-5-4-76-89" />
     </linearGradient>
-    <linearGradient
-       y2="-58.693573"
-       x2="-225.5"
-       y1="-74.924789"
-       x1="-225.5"
-       gradientTransform="matrix(0.19482496,0,0,4.5714287,80.462721,331.42854)"
-       gradientUnits="userSpaceOnUse"
-       id="linearGradient16426"
-       xlink:href="#linearGradient5773-3-9-7-3-7"
-       inkscape:collect="always" />
   </defs>
   <metadata
      id="metadata4115">
@@ -178,17 +168,6 @@
       </cc:Work>
     </rdf:RDF>
   </metadata>
-  <rect
-     style="fill:url(#linearGradient16426);fill-opacity:1;fill-rule:nonzero;stroke:none"
-     id="rect4633-9-3-5"
-     width="64"
-     height="64"
-     x="0"
-     y="0"
-     ry="5.0795155"
-     inkscape:export-filename="/home/luke/Desktop/sayonara_new.png"
-     inkscape:export-xdpi="90"
-     inkscape:export-ydpi="90" />
   <rect
      style="fill:url(#linearGradient8366);fill-opacity:1;fill-rule:nonzero;stroke:none"
      id="rect4593-9-1-8-2-33"

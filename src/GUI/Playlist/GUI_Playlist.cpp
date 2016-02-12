@@ -29,6 +29,7 @@
 #include "GUI_Playlist.h"
 #include "GUI/InfoDialog/GUI_InfoDialog.h"
 #include "View/PlaylistView.h"
+#include "GUI/Helper/IconLoader/IconLoader.h"
 
 #include <QKeyEvent>
 #include <QFileDialog>
@@ -126,6 +127,11 @@ void GUI_Playlist::language_changed() {
 	bottom_bar->check_dynamic_play_button();
 }
 
+void GUI_Playlist::skin_changed()
+{
+	check_tab_icon();
+}
+
 
 void GUI_Playlist::playlist_track_changed(int row, int playlist_idx) {
 
@@ -142,7 +148,9 @@ void GUI_Playlist::playlist_track_changed(int row, int playlist_idx) {
 	n_rows = plv->get_num_rows();
 
 	if(n_rows > 0){
-		QIcon icon_play = Helper::get_icon("play_bordered");
+		IconLoader* icon_loader = IconLoader::getInstance();
+		QIcon icon_play = icon_loader->get_icon("media-playback-start", "play_bordered");
+
 		tw_playlists->setTabIcon(playlist_idx, icon_play);
 	}
 }

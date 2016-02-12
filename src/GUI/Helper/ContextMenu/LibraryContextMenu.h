@@ -26,10 +26,11 @@
 #include <QMenu>
 #include <QAction>
 #include <QEvent>
+#include "Helper/SayonaraClass.h"
 
 typedef int LibraryContexMenuEntries;
 
-class LibraryContextMenu : public QMenu
+class LibraryContextMenu : public QMenu, private SayonaraClass
 {
     Q_OBJECT
 
@@ -86,6 +87,10 @@ private:
 protected:
     void changeEvent(QEvent* e);
 
+private slots:
+	void skin_changed();
+
 };
+
 
 #endif // LIBRARYCONTEXTMENU_H

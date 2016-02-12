@@ -28,6 +28,7 @@
 #include <QMenu>
 #include <QAction>
 
+class IconLoader;
 
 class PlaylistTabMenu :
 		public QMenu,
@@ -56,8 +57,11 @@ private:
 	QAction*	_action_rename=nullptr;
 	QAction*	_action_clear=nullptr;
 
+	IconLoader* _icon_loader;
+
 private slots:
 	void language_changed();
+	void skin_changed();
 
 
 public:

@@ -29,6 +29,8 @@
 
 #include "Helper/SayonaraClass.h"
 
+class IconLoader;
+
 typedef int ContextMenuEntries;
 
 class ContextMenu :
@@ -71,12 +73,14 @@ private:
 
 	QList<QAction*>		_actions;
 	QTimer*				_timer=nullptr;
+	IconLoader*		_icon_loader=nullptr;
 
 	void show_action(bool b, QAction* action);
 
 
 public:
 	explicit ContextMenu(QWidget *parent=nullptr);
+
 	void register_action(QAction* action);
 	bool has_actions();
 	ContextMenuEntries get_entries() const;
@@ -95,6 +99,7 @@ public slots:
 private slots:
 	void timed_out();
 	void language_changed();
+	void skin_changed();
 };
 
 

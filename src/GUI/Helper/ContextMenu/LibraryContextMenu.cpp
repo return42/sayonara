@@ -24,9 +24,11 @@
 #include "Helper/Helper.h"
 
 #include <QAction>
+#include "GUI/Helper/IconLoader/IconLoader.h"
 
 LibraryContextMenu::LibraryContextMenu(QWidget* parent) :
-	QMenu(parent)
+	QMenu(parent),
+	SayonaraClass()
 {
 	_info_action = new QAction(Helper::get_icon("info"), tr("Info"), this);
 	_lyrics_action  = new QAction(Helper::get_icon("lyrics"), tr("Lyrics"), this);
@@ -64,6 +66,8 @@ LibraryContextMenu::LibraryContextMenu(QWidget* parent) :
 	for(QAction* action : actions){
 		action->setVisible(false);
 	}
+
+	REGISTER_LISTENER(Set::Player_Style, skin_changed);
 }
 
 
@@ -167,4 +171,19 @@ void LibraryContextMenu::show_all(){
 	for(QAction* action : this->actions()){
 		action->setVisible(true);
 	}
+}
+
+
+void LibraryContextMenu::skin_changed()
+{
+	IconLoader* icon_loader = IconLoader::getInstance();
+	_info_action->setIcon(icon_loader->get_icon("dialog-information", "info"));
+	_lyrics_action->setIcon(icon_loader->get_icon("document-properties", "lyrics"));
+	_edit_action->setIcon(icon_loader->get_icon("accessories-text-editor", "edit"));
+	_remove_action->setIcon(icon_loader->get_icon("list-remove", "delete"));
+	_delete_action->setIcon(icon_loader->get_icon("edit-delete", "delete"));
+	_play_next_action->setIcon(icon_loader->get_icon("media-playback-start", "play"));
+	_append_action->setIcon(icon_loader->get_icon("list-add", "append"));
+	_refresh_action->setIcon(icon_loader->get_icon("edit-undo", "undo"));
+	_clear_action->setIcon(icon_loader->get_icon("edit-clear", "broom"));
 }

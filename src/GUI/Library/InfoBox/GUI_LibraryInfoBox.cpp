@@ -28,6 +28,7 @@
 
 #include "Helper/Helper.h"
 #include "Helper/FileHelper.h"
+#include "GUI/Helper/IconLoader/IconLoader.h"
 
 #include <QMap>
 #include <QPixmap>
@@ -42,6 +43,9 @@ GUI_LibraryInfoBox::GUI_LibraryInfoBox(QWidget* parent) :
 	_db = DatabaseConnector::getInstance();
 
     hide();
+
+	skin_changed();
+	language_changed();
 }
 
 GUI_LibraryInfoBox::~GUI_LibraryInfoBox() {
@@ -53,6 +57,18 @@ GUI_LibraryInfoBox::~GUI_LibraryInfoBox() {
 void GUI_LibraryInfoBox::language_changed() {
 
 	retranslateUi(this);
+}
+
+void GUI_LibraryInfoBox::skin_changed()
+{
+	QSize sz;
+	QPixmap pm;
+	IconLoader* icon_loader = IconLoader::getInstance();
+
+	sz = lab_icon->size();
+	pm = icon_loader->get_icon("dialog-info", "info").pixmap(sz, QIcon::Normal, QIcon::On);
+
+	lab_icon->setPixmap(pm);
 }
 
 
