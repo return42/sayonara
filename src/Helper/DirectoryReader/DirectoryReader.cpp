@@ -165,3 +165,25 @@ MetaDataList DirectoryReader::get_md_from_filelist(const QStringList& lst)
 
 	return v_md;
 }
+
+
+QStringList DirectoryReader::find_files_rec(QDir dir, const QString& filename)
+{
+	QStringList ret;
+	QStringList dirs = dir.entryList(QDir::Dirs);
+	QStringList files = dir.entryList(QDir::Files);
+
+	for(const QString& d : dirs){
+		dir.cd(d);
+		ret += find_files_rec(dir, filename);
+		dir.cdUp();
+	}
+
+	for(const QString& file : files){
+		if(file.contains(filename)){
+			ret += dir.absoluteFilePath(file);
+		}
+	}
+
+	return ret;
+}

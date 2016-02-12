@@ -21,6 +21,7 @@
 
 #include "GUI_Player.h"
 #include "GUI_TrayIcon.h"
+#include "Helper/StdIconLoader/StdIconLoader.h"
 #include <QFileDialog>
 
 /** PLAYER BUTTONS **/
@@ -50,11 +51,24 @@ void GUI_Player::play_clicked(){
 }
 
 void GUI_Player::played() {
-	btn_play->setIcon(Helper::get_icon("pause"));
+
+	StdIconLoader* sil = StdIconLoader::getInstance();
+	if(_settings->get(Set::Player_Style) == 0){
+		btn_play->setIcon(sil->get_std_icon("media-playback-pause"));
+	}
+	else {
+		btn_play->setIcon(Helper::get_icon("pause"));
+	}
 }
 
 void GUI_Player::paused() {
-	btn_play->setIcon(Helper::get_icon("play"));
+	StdIconLoader* sil = StdIconLoader::getInstance();
+	if(_settings->get(Set::Player_Style) == 0){
+		btn_play->setIcon(sil->get_std_icon("media-playback-start"));
+	}
+	else {
+		btn_play->setIcon(Helper::get_icon("play"));
+	}
 }
 
 
@@ -69,7 +83,14 @@ void GUI_Player::stopped() {
 
 	progress_widget->setCurrentIndex(0);
 
-	btn_play->setIcon(Helper::get_icon("play"));
+	StdIconLoader* sil = StdIconLoader::getInstance();
+	if(_settings->get(Set::Player_Style) == 0){
+		btn_play->setIcon(sil->get_std_icon("media-playback-start"));
+	}
+
+	else {
+		btn_play->setIcon(Helper::get_icon("play"));
+	}
 
 	lab_title->hide();
 	lab_sayonara->show();
@@ -235,25 +256,38 @@ void GUI_Player::decrease_volume() {
 
 void GUI_Player::setup_volume_button(int percent) {
 
-	QString butFilename = "vol_";
+	StdIconLoader* sil = StdIconLoader::getInstance();
+
+	QString but_name = "vol_";
+	QString but_std_name = "vol_";
 
     if (percent <= 1) {
-		butFilename += QString("mute") + _skin_suffix;
+		but_name += QString("mute") + _skin_suffix;
+		but_std_name = QString("audio-volume-muted");
 	}
 
 	else if (percent < 40) {
-		butFilename += QString("1") + _skin_suffix;
+		but_name += QString("1") + _skin_suffix;
+		but_std_name = QString("audio-volume-low");
 	}
 
 	else if (percent < 80) {
-		butFilename += QString("2") + _skin_suffix;
+		but_name += QString("2") + _skin_suffix;
+		but_std_name = QString("audio-volume-medium");
 	}
 
 	else {
-		butFilename += QString("3") + _skin_suffix;
+		but_name += QString("3") + _skin_suffix;
+		but_std_name = QString("audio-volume-high");
 	}
 
-	btn_mute->setIcon( Helper::get_icon(butFilename) );
+	if(_settings->get(Set::Player_Style) == 1){
+		btn_mute->setIcon( Helper::get_icon(but_name) );
+	}
+
+	else{
+		btn_mute->setIcon( sil->get_std_icon(but_std_name));
+	}
 
 }
 

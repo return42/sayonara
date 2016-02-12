@@ -39,6 +39,8 @@
 #include "Interfaces/PlayerPlugin/PlayerPlugin.h"
 #include "Interfaces/PreferenceDialog/PreferenceDialogInterface.h"
 
+#include "Helper/StdIconLoader/StdIconLoader.h"
+
 #include <QFileDialog>
 #include <QPalette>
 
@@ -52,6 +54,21 @@ GUI_Player::GUI_Player(QTranslator* translator, QWidget *parent) :
 	GlobalMessage::getInstance()->register_receiver(this);
 
 	init_gui();
+
+	StdIconLoader* sil = StdIconLoader::getInstance();
+	sil->add_icon_names(QStringList()
+						<< "media-playback-start"
+						<< "media-playback-pause"
+						<< "media-playback-stop"
+						<< "media-skip-forward"
+						<< "media-skip-backward"
+						<< "media-record"
+						<< "audio-volume-high"
+						<< "audio-volume-medium"
+						<< "audio-volume-low"
+						<< "audio-volume-muted"
+	);
+
 
 	_translator = translator;
 	_engine = EngineHandler::getInstance();
@@ -103,6 +120,7 @@ GUI_Player::GUI_Player(QTranslator* translator, QWidget *parent) :
 
 	// signals and slots
 	setup_connections();
+
 
 	plugin_widget->resize(plugin_widget->width(), 0);
 
@@ -322,10 +340,37 @@ void GUI_Player::skin_changed() {
 
 	if (dark) {
 		_skin_suffix = QString("_dark");
+
+		btn_fw->setIcon(Helper::get_icon("fwd"));
+		btn_bw->setIcon(Helper::get_icon("bwd"));
+		btn_play->setIcon(Helper::get_icon("play"));
+		btn_stop->setIcon(Helper::get_icon("stop"));
+		btn_rec->setIcon(Helper::get_icon("record"));
+
+		btn_fw->setIconSize(QSize(22,22));
+		btn_bw->setIconSize(QSize(22,22));
+		btn_play->setIconSize(QSize(27,27));
+		btn_stop->setIconSize(QSize(22,22));
+		btn_rec->setIconSize(QSize(22,22));
 	}
 
 	else {
 		_skin_suffix = QString("");
+
+		StdIconLoader* sil = StdIconLoader::getInstance();
+
+		btn_fw->setIcon(sil->get_std_icon("media-skip-forward"));
+		btn_bw->setIcon(sil->get_std_icon("media-skip-backward"));
+		btn_play->setIcon(sil->get_std_icon("media-playback-start"));
+		btn_stop->setIcon(sil->get_std_icon("media-playback-stop"));
+		btn_rec->setIcon(sil->get_std_icon("media-record"));
+
+		btn_fw->setIconSize(QSize(16,16));
+		btn_bw->setIconSize(QSize(16,16));
+		btn_play->setIconSize(QSize(22,22));
+		btn_stop->setIconSize(QSize(16,16));
+		btn_rec->setIconSize(QSize(16,16));
+
 	}
 
 	setup_volume_button(sli_volume->value());

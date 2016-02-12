@@ -68,6 +68,9 @@ class DirectoryReader
 		MetaDataList get_md_from_filelist(const QStringList& paths);
 
 
+		QStringList find_files_rec(QDir dir, const QString& filename);
+
+
 	private:
 		/**
 		 * @brief _name_filters may begin with *

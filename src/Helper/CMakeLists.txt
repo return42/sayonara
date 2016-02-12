@@ -34,6 +34,7 @@ SET(SOURCES
     SayonaraClass.cpp
     Tree/Tree.cpp
     WebAccess/AsyncWebAccess.cpp
+	StdIconLoader/StdIconLoader.cpp
 )
 
 SET(HELPER_LIBRARIES
