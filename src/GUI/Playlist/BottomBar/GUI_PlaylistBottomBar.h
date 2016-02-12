@@ -67,6 +67,8 @@ private slots:
 	void playlist_mode_changed();
 	void _sl_playlist_mode_changed();
 
+	void skin_changed() override;
+
 
 private:
 	PlaylistMode		_plm;
