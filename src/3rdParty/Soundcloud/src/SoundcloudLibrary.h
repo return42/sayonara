@@ -70,10 +70,6 @@ protected:
 	void		get_album_by_id(int album_id, Album& album);
 	void		get_artist_by_id(int artist_id, Artist& artist);
 
-	MetaDataList		_fetched_tracks;
-	AlbumList			_fetched_albums;
-	ArtistList			_fetched_artists;
-
 	void				apply_artist_and_album_to_md();
 
 

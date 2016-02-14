@@ -215,7 +215,7 @@ void GUI_ImportFolder::choose_dir() {
 		return;
 	}
 
-	QString parent_folder = FileHelper::get_parent_folder(dir);
+	QString parent_folder = FileHelper::get_parent_directory(dir);
 	dir.remove(parent_folder);
 
 	while(dir.startsWith(QDir::separator())) {

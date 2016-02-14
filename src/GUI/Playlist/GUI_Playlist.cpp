@@ -195,6 +195,7 @@ void GUI_Playlist::add_playlist_button_pressed(){
 
 void GUI_Playlist::double_clicked(int row) {
 
+	sp_log(Log::Debug) << "Double clicked " << row;
 	int cur_idx = tw_playlists->currentIndex();
 	_playlist->change_track(row, cur_idx);
 }

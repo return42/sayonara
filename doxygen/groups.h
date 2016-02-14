@@ -1,8 +1,7 @@
-
 /**
- * @defgroup Interfaces Interfaces
+ * @defgroup Bookmarks Bookmarks
+ * @ingroup PlayerPlugins
  */
-
 
 /**
  * @defgroup Components Basic Components
@@ -13,15 +12,26 @@
  * @ingroup Components
  */
 
+/** 
+ * @defgroup Playlists
+ * @ingroup Components
+ */
+
 /**
  * @defgroup Tagging Tagging
  * @ingroup Components
  */
 
-/** 
- * @defgroup Playlists
- * @ingroup Components
+/**
+ * @defgroup Helper Helper
  */
+
+
+
+/**
+ * @defgroup Interfaces Interfaces
+ */
+
 
 /**
  * @defgroup Plugins
@@ -30,11 +40,6 @@
 /**
  * @defgroup PlayerPlugins Player Plugins
  * @ingroup Plugins
- */
-
-/**
- * @defgroup Bookmarks Bookmarks
- * @ingroup PlayerPlugins
  */
 
 /**

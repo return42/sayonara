@@ -26,6 +26,10 @@
 #include <QString>
 #include <QStringList>
 
+/**
+ * @brief Filehelper functions
+ * @ingroup Helper
+ */
 namespace FileHelper
 {
 	/**
@@ -33,13 +37,56 @@ namespace FileHelper
 	 * @param filename
 	 * @return
 	 */
-	QString calc_file_extension(const QString& filename);
-	void remove_files_in_directory(const QString& dir_name, const QStringList& filters);
-	QString get_parent_folder(const QString& path);
-	QString get_filename_of_path(const QString& path);
-	void split_filename(const QString& src, QString& path, QString& filename);
-	QStringList extract_folders_of_files(const QStringList& list);
-	QString get_absolute_filename(const QString& filename);
+	QString			calc_file_extension(const QString& filename);
+
+	/**
+	 * @brief Remove all files from directory
+	 * @param dir_name directory name
+	 * @param filters file name filters
+	 */
+	void			remove_files_in_directory(const QString& dir_name, const QStringList& filters);
+
+	/**
+	 * @brief get parent directory of a filepath
+	 * @param path File- or directory path
+	 * @return
+	 */
+	QString			get_parent_directory(const QString& path);
+
+	/**
+	 * @brief extract pure filename from a complete file path
+	 * @param path complete file path
+	 * @return pure filename
+	 */
+	QString			get_filename_of_path(const QString& path);
+
+	/**
+	 * @brief split filename into the dir and filename
+	 * @param src
+	 * @param path
+	 * @param filename
+	 */
+	void			split_filename(const QString& src, QString& dir, QString& filename);
+
+	/**
+	 * @brief extract parent folder of a file list (see also get_parent_directory(const QString& path)
+	 * @param list file list
+	 * @return List of parent folders
+	 */
+	QStringList		get_parent_directories(const QStringList& list);
+
+	/**
+	 * @brief get absolute filename of file
+	 * @param filename
+	 * @return
+	 */
+	QString			get_absolute_filename(const QString& filename);
+
+	/**
+	 * @brief create all directories neccessary to access path
+	 * @param path full target path
+	 */
+	void			create_directories(const QString& path);
 
 
 	/**
@@ -47,7 +94,7 @@ namespace FileHelper
 	 * @param filesize in bytes
 	 * @return converted string
 	 */
-	QString calc_filesize_str(quint64 filesize);
+	QString			calc_filesize_str(quint64 filesize);
 
 
 

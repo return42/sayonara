@@ -182,7 +182,9 @@ bool DatabaseAlbums::getAlbumByID(const int& id, Album& album) {
 	SayonaraQuery q (_db);
 	QString querytext =
 			_fetch_query +
-			"WHERE albums.albumID = :id AND tracks.albumID = albums.albumID AND artists.artistID = tracks.artistID;";
+			"WHERE albums.albumID = :id "
+			"AND tracks.albumID = albums.albumID "
+			"AND artists.artistID = tracks.artistID;";
 
 
 	q.prepare(querytext);

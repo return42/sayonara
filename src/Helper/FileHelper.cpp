@@ -59,7 +59,7 @@ void FileHelper::remove_files_in_directory(const QString& dir_name, const QStrin
 	}
 }
 
-QString FileHelper::get_parent_folder(const QString& filename) {
+QString FileHelper::get_parent_directory(const QString& filename) {
 
 	QString ret;
 	int last_idx;
@@ -83,7 +83,7 @@ QString FileHelper::get_filename_of_path(const QString& path) {
 		ret.remove(path.size() - 1, 1);
 	}
 
-	ret.remove(FileHelper::get_parent_folder(path));
+	ret.remove(FileHelper::get_parent_directory(path));
 	ret.remove(QDir::separator());
 
 	return ret;
@@ -91,17 +91,17 @@ QString FileHelper::get_filename_of_path(const QString& path) {
 
 void FileHelper::split_filename(const QString& src, QString& path, QString& filename) {
 
-	path = FileHelper::get_parent_folder(src);
+	path = FileHelper::get_parent_directory(src);
 	filename = FileHelper::get_filename_of_path(src);
 }
 
 
 
-QStringList FileHelper::extract_folders_of_files(const QStringList& files) {
+QStringList FileHelper::get_parent_directories(const QStringList& files) {
 
 	QStringList folders;
 	for(const QString& file : files) {
-		QString folder = get_parent_folder(file);
+		QString folder = get_parent_directory(file);
 		if(!folders.contains(folder)){
 			folders << folder;
 		}
@@ -109,6 +109,7 @@ QStringList FileHelper::extract_folders_of_files(const QStringList& files) {
 
 	return folders;
 }
+
 
 QString FileHelper::get_absolute_filename(const QString& filename){
 	QString f, d;
@@ -153,6 +154,7 @@ bool FileHelper::is_url(const QString& str) {
 bool FileHelper::is_www(const QString& str) {
 
 	if(str.startsWith("http://")) return true;
+	else if(str.startsWith("https://")) return true;
 	else if(str.startsWith("ftp://")) return true;
 	else if(str.startsWith("itpc://")) return true;
 	else if(str.startsWith("feed://")) return true;
@@ -227,3 +229,28 @@ bool FileHelper::is_playlistfile(const QString& filename) {
 
 
 
+
+
+void FileHelper::create_directories(const QString& path)
+{
+	int idx;
+	QDir dir;
+
+	idx = path.indexOf(QDir::separator());
+
+	while(idx >= 0){
+
+		int idx2;
+		QString subdir;
+
+		dir = QDir(path.left(idx));
+		idx2 = path.indexOf(QDir::separator());
+		if(idx2 < 0){
+			break;
+		}
+
+		subdir = path.mid(idx + 1, idx2 - (idx + 1));
+		dir.mkdir(subdir);
+		idx = idx2;
+	}
+}

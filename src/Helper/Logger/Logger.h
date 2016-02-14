@@ -36,6 +36,10 @@ enum class Log : unsigned char
 	Debug
 };
 
+/**
+ * @brief The Logger class
+ * @ingroup Helper
+ */
 class Logger{
 
 protected:

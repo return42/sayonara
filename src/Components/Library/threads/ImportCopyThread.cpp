@@ -55,7 +55,7 @@ QString _create_target_path( const QString& src_dir,    // dir chosen when "impo
 {
 	QString subfolders;
 
-	QString parent = FileHelper::get_parent_folder(src_dir);
+	QString parent = FileHelper::get_parent_directory(src_dir);
 	QString pure_src_dir = src_dir;
 	pure_src_dir.remove(parent);
 

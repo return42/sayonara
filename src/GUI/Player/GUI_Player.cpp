@@ -333,7 +333,7 @@ void GUI_Player::skin_changed() {
 
 
 	btn_stop->setIcon(_icon_loader->get_icon("media-playback-stop", "stop"));
-	btn_rec->setIcon(_icon_loader->get_icon("media-record", "record"));
+	btn_rec->setIcon(_icon_loader->get_icon("media-record", "rec"));
 
 	action_OpenFile->setIcon(_icon_loader->get_icon("document-open", "play"));
 	action_OpenFolder->setIcon(_icon_loader->get_icon("document-open", "play"));

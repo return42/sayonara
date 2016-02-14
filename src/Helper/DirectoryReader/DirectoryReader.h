@@ -27,6 +27,10 @@
 #include <QDir>
 #include <QFileInfo>
 
+/**
+ * @brief Directory reader functions
+ * @ingroup Helper
+ */
 class DirectoryReader
 {
 
@@ -68,6 +72,12 @@ class DirectoryReader
 		MetaDataList get_md_from_filelist(const QStringList& paths);
 
 
+		/**
+		 * @brief Finds files recursively in the given directory with the given filter
+		 * @param dir directory to search in
+		 * @param filename filenames to find
+		 * @return list of all found files
+		 */
 		QStringList find_files_rec(QDir dir, const QString& filename);
 
 

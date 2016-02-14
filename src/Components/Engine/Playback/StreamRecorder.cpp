@@ -113,6 +113,10 @@ QString StreamRecorder::change_track(const MetaData& md) {
 	title.replace("\\", "_");
 
 	sr_path = _settings->get(Set::Engine_SR_Path);
+	if(!QFile::exists(sr_path)){
+
+		FileHelper::create_directories(sr_path);
+	}
 
 	session_path = check_session_path(sr_path);
 
@@ -160,6 +164,7 @@ QString StreamRecorder::check_session_path(const QString& sr_path) {
 
     return sr_path + QDir::separator() + _session_path;
 }
+
 
 
 void StreamRecorder::record(bool b){

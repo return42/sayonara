@@ -122,13 +122,24 @@ void SoundcloudLibrary::refresh_artist(){
 		return;
 	}
 
-	_fetched_tracks.clear();
+	MetaDataList v_md;
+	int artist_id = _selected_artists[0];
+
+	IDList artist_ids;
+	artist_ids << artist_id;
+
+	get_all_tracks_by_artist(artist_ids, v_md, Filter(), LibSortOrder());
+
+	delete_tracks(v_md, TrackDeletionMode::OnlyLibrary);
+	sp_log(Log::Debug) << "Deleted " << v_md.size() << " soundcloud tracks";
 
 	SoundcloudDataFetcher* fetcher = new SoundcloudDataFetcher(this);
+
 	connect(fetcher, &SoundcloudDataFetcher::sig_artists_fetched,
 			this, &SoundcloudLibrary::artists_fetched);
 
-	fetcher->get_artist(_selected_artists[0]);
+
+	fetcher->get_artist(artist_id);
 }
 
 
@@ -210,10 +221,11 @@ void SoundcloudLibrary::artists_fetched(const ArtistList& artists){
 
 		connect(fetcher, &SoundcloudDataFetcher::sig_playlists_fetched,
 				this, &SoundcloudLibrary::albums_fetched);
+
 		connect(fetcher, &SoundcloudDataFetcher::sig_tracks_fetched,
 				this, &SoundcloudLibrary::tracks_fetched);
 
-		fetcher->get_tracks_by_artist(_selected_artists[0]);
+		fetcher->get_tracks_by_artist(artist.id);
 	}
 
 	refetch();
@@ -242,5 +254,5 @@ void SoundcloudLibrary::albums_fetched(const AlbumList& albums){
 	}
 
 	refetch();
-	sender()->deleteLater();
+	//sender()->deleteLater();
 }

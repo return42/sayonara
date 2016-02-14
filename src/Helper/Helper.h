@@ -49,7 +49,10 @@
 #include <QFileInfo>
 #include <QMap>
 
-
+/**
+ * @brief Helper functions
+ * @ingroup Helper
+ */
 namespace Helper {
 
 	class StringDummy : public QObject
