@@ -315,8 +315,6 @@ void PlaylistHandler::change_track(int track_idx, int playlist_idx) {
 	pl = _playlists[playlist_idx];
 	track_changed = pl->change_track(track_idx);
 
-	sp_log(Log::Debug) << "Playlist: change track: " << track_changed;
-
 	if(track_changed){
 		emit_cur_track_changed();
 	}
