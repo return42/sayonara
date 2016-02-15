@@ -158,3 +158,25 @@ QString AsyncWebAccess::get_url_hostname() const
 	return url.host();
 }
 
+QString AsyncWebAccess::get_url_protocol() const
+{
+	QString url_str = _url;
+	int idx = url_str.indexOf(get_url_hostname());
+	if(idx < 0){
+		return "";
+	}
+
+	return _url.left(idx);
+
+}
+
+QString AsyncWebAccess::get_url_wo_file() const{
+	QString url_str = _url;
+	int idx = url_str.lastIndexOf(get_url_filename());
+	if(idx < 0){
+		return "";
+	}
+
+	return _url.left(idx + 1);
+}
+

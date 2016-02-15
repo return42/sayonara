@@ -62,7 +62,6 @@ bool AbstractStreamHandler::parse_station(const QString& url, const QString& sta
 void AbstractStreamHandler::awa_finished(bool success){
 
 	if(!success){
-
 		emit sig_error();
 		_blocked = false;
 		return;
@@ -79,40 +78,42 @@ void AbstractStreamHandler::awa_finished(bool success){
 
 		if(v_md.isEmpty()){
 
-			PlaylistParser::parse_playlist_content(content, v_md);
+			QString extension = FileHelper::get_file_extension(_awa->get_url());
+
+			QString filename = Helper::get_sayonara_path() + QDir::separator() + "tmp_playlist";
+			if(!extension.isEmpty()){
+				filename += "." + extension;
+			}
+
+			FileHelper::write_file(content, filename);
+
+			PlaylistParser::parse_playlist(filename, v_md);
+
+			QFile::remove(filename);
 		}
 
 		if(!v_md.isEmpty()){
 			check_md = true;
 		}
 
-		/*else{
-			QRegExp re("href=(\"|')([^\"]+)\\.(pls|m3u|asx)(\"|').*>");
-			re.setCaseSensitivity(Qt::CaseInsensitive);
+		else{
+			QRegExp re("href=\"([^<]*\\.pls)\"");
 			re.setMinimal(true);
-			QString str_content(content);
-			int idx = re.indexIn(str_content);
-
+			QString utf8_data = QString::fromUtf8(content);
+			int idx = re.indexIn(utf8_data);
 			if(idx > 0){
-
-				QString port = _awa->get_url_port();
-				QString full_url = "http://" + _awa->get_url_hostname();
-				QString playlist_file = re.cap(2) + "." + re.cap(3);
-
-				if(!port.isEmpty()){
-					full_url.append(":" + port);
+				QString playlist = re.cap(1);
+				if(!playlist.startsWith("http")){
+					playlist =  _awa->get_url_wo_file() + "/" + playlist;
 				}
 
-				if(!full_url.endsWith("/")){
-					full_url.append("/");
-				}
+				sp_log(Log::Debug) << playlist;
 
-				parse_station(playlist_file, _station_name);
-				if(!playlist_file.starts("http://")){
-					playlist_file.prepend(full_url);
-				}
+				_blocked = false;
+				parse_station(playlist, _station_name);
+				return;
 			}
-		}*/
+		}
 	}
 
 	else {

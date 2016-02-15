@@ -2,6 +2,12 @@ PROJECT(say_helper_parser)
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 
 SET(SOURCES
+	AbstractPlaylistParser.cpp
+
+	M3UParser.cpp
+	PLSParser.cpp
+	ASXParser.cpp
+
 	PlaylistParser.cpp
 	PodcastParser.cpp
 )

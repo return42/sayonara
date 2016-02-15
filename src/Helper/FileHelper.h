@@ -69,6 +69,13 @@ namespace FileHelper
 	void			split_filename(const QString& src, QString& dir, QString& filename);
 
 	/**
+	 * @brief get file extension
+	 * @param filename filename to get the extension for
+	 * @return extension string
+	 */
+	QString			get_file_extension(const QString& filename);
+
+	/**
 	 * @brief extract parent folder of a file list (see also get_parent_directory(const QString& path)
 	 * @param list file list
 	 * @return List of parent folders
@@ -95,6 +102,25 @@ namespace FileHelper
 	 * @return converted string
 	 */
 	QString			calc_filesize_str(quint64 filesize);
+
+
+	/**
+	 * @brief Tell whether filename is absolute
+	 * @param filename the filename to check
+	 * @return true if filename is absolute, false else
+	 */
+	bool			is_absolute(const QString& filename);
+
+
+	/**
+	 * @brief Write raw data to file
+	 * @param raw_data raw data
+	 * @param filename target_filename
+	 * @return true if successful, false else
+	 */
+	bool			write_file(const QByteArray& raw_data, const QString& filename);
+
+
 
 
 

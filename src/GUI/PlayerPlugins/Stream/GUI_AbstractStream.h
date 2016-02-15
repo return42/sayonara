@@ -100,7 +100,6 @@ public:
 
 		PlayerPluginInterface::setup_parent(subclass);
 
-		//subclass->setupUi(subclass);
 		_le_url =			subclass->le_url;
 		_combo_stream =		subclass->combo_stream;
 		_btn_play =			subclass->btn_play;

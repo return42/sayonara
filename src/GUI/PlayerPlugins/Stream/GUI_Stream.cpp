@@ -26,6 +26,7 @@ GUI_Stream::GUI_Stream(QWidget *parent) :
 	Ui::GUI_Stream()
 {
 	_title_fallback_name = tr("Radio Station");
+
 	setup_parent(this);
 }
 

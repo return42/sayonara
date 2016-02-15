@@ -52,6 +52,8 @@ public:
 	QString	get_url() const;
 	QString get_url_filename() const;
 	QString get_url_hostname() const;
+	QString get_url_protocol() const;
+	QString get_url_wo_file() const;
 
 	void run(const QString& url, int timeout=4000);
 	void run_post(const QString& url, const QByteArray& post_data, int timeout=4000);

@@ -254,3 +254,36 @@ void FileHelper::create_directories(const QString& path)
 		idx = idx2;
 	}
 }
+
+
+bool FileHelper::is_absolute(const QString& filename)
+{
+	QDir dir(filename);
+	return dir.isAbsolute();
+}
+
+
+bool FileHelper::write_file(const QByteArray& arr, const QString& filename)
+{
+	QFile f(filename);
+	if(!f.open(QFile::WriteOnly)){
+		return false;
+	}
+
+	qint64 bytes_written = f.write(arr);
+
+	f.close();
+
+	return(bytes_written >= arr.size());
+}
+
+
+QString FileHelper::get_file_extension(const QString& filename)
+{
+	int idx = filename.lastIndexOf(".");
+	if(idx < 0){
+		return "";
+	}
+
+	return filename.right(filename.size() - (idx + 1));
+}
