@@ -550,7 +550,7 @@ bool PlaybackPipeline::set_uri(gchar* uri) {
 
 	g_object_set(G_OBJECT(_audio_src), "uri", uri, nullptr);
 	gst_element_set_state(_pipeline, GST_STATE_PAUSED);
-	sp_log(Log::Debug) << "Uri set";
+
 
 	return true;
 }
