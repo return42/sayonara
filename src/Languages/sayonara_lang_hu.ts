@@ -30,7 +30,7 @@
         <location filename="../Components/StreamPlugins/Streams/AbstractStreamHandler.cpp" line="+122"/>
         <location line="+22"/>
         <source>Radio</source>
-        <translation type="unfinished">Rádió</translation>
+        <translation>Rádió</translation>
     </message>
 </context>
 <context>
@@ -110,44 +110,44 @@
 <context>
     <name>ContextMenu</name>
     <message>
-        <location filename="../GUI/Helper/ContextMenu/ContextMenu.cpp" line="+10"/>
-        <location line="+40"/>
+        <location filename="../GUI/Helper/ContextMenu/ContextMenu.cpp" line="+33"/>
+        <location line="+41"/>
         <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-39"/>
-        <location line="+38"/>
+        <location line="-40"/>
+        <location line="+39"/>
         <source>New</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-37"/>
-        <location line="+42"/>
+        <location line="-38"/>
+        <location line="+43"/>
         <source>Undo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-41"/>
-        <location line="+38"/>
+        <location line="-42"/>
+        <location line="+39"/>
         <source>Save</source>
-        <translation type="unfinished">Mentés</translation>
+        <translation>Mentés</translation>
     </message>
     <message>
-        <location line="-37"/>
-        <location line="+38"/>
+        <location line="-38"/>
+        <location line="+39"/>
         <source>Save as</source>
-        <translation type="unfinished">Speichern als</translation>
+        <translation>Speichern als</translation>
     </message>
     <message>
-        <location line="-37"/>
-        <location line="+38"/>
+        <location line="-38"/>
+        <location line="+39"/>
         <source>Rename</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-37"/>
-        <location line="+39"/>
+        <location line="-38"/>
+        <location line="+40"/>
         <source>Delete</source>
         <translation>Törlés</translation>
     </message>
@@ -202,7 +202,7 @@
         <location line="-17"/>
         <location line="+17"/>
         <source>Bitrate</source>
-        <translation type="unfinished">Bitrate</translation>
+        <translation>Bitrate</translation>
     </message>
     <message>
         <location line="-17"/>
@@ -233,7 +233,7 @@
     <message>
         <location line="+427"/>
         <source>Library</source>
-        <translation type="unfinished">Könyvtár</translation>
+        <translation>Könyvtár</translation>
     </message>
 </context>
 <context>
@@ -257,7 +257,7 @@
     <message>
         <location line="+100"/>
         <source>Overwrite?</source>
-        <translation type="unfinished">Überschreiben?</translation>
+        <translation>Überschreiben?</translation>
     </message>
     <message>
         <location line="-68"/>
@@ -270,7 +270,7 @@
     <message>
         <location filename="../GUI/AlternativeCovers/GUI_AlternativeCovers.cpp" line="+113"/>
         <source>Stop</source>
-        <translation type="unfinished">Stop</translation>
+        <translation>Stop</translation>
     </message>
     <message>
         <location line="+32"/>
@@ -281,7 +281,7 @@
     <message>
         <location line="+0"/>
         <source>by</source>
-        <translation type="unfinished">által</translation>
+        <translation>által</translation>
     </message>
     <message>
         <location line="+18"/>
@@ -339,7 +339,7 @@
     <message>
         <location line="-21"/>
         <source>Esc</source>
-        <translation type="unfinished"></translation>
+        <translation>Esc</translation>
     </message>
 </context>
 <context>
@@ -381,7 +381,7 @@
     <message>
         <location line="-119"/>
         <source>Esc</source>
-        <translation type="unfinished"></translation>
+        <translation>Esc</translation>
     </message>
     <message>
         <location filename="../GUI/PlayerPlugins/Bookmarks/GUI_Bookmarks.cpp" line="-1"/>
@@ -429,7 +429,7 @@
     <message>
         <location filename="../GUI/PlayerPlugins/Broadcasting/GUI_Broadcast.ui" line="+78"/>
         <source>Esc</source>
-        <translation type="unfinished"></translation>
+        <translation>Esc</translation>
     </message>
     <message>
         <location filename="../GUI/PlayerPlugins/Broadcasting/GUI_Broadcast.cpp" line="+80"/>
@@ -491,7 +491,7 @@
         <location filename="../GUI/DirectoryWidget/GUI_DirectoryWidget.ui" line="+135"/>
         <location filename="../GUI/DirectoryWidget/GUI_DirectoryWidget.cpp" line="-70"/>
         <source>Search</source>
-        <translation type="unfinished">Keresés</translation>
+        <translation>Keresés</translation>
     </message>
     <message>
         <location filename="../GUI/DirectoryWidget/GUI_DirectoryWidget.cpp" line="-19"/>
@@ -514,12 +514,12 @@
     <message>
         <location line="+50"/>
         <source>Esc</source>
-        <translation type="unfinished"></translation>
+        <translation>Esc</translation>
     </message>
     <message>
         <location filename="../GUI/PlayerPlugins/Equalizer/GUI_Equalizer.cpp" line="+70"/>
         <source>Equalizer</source>
-        <translation type="unfinished">Hangszínszabályzó</translation>
+        <translation>Hangszínszabályzó</translation>
     </message>
 </context>
 <context>
@@ -544,7 +544,7 @@
     <message>
         <location line="+25"/>
         <source>Cancel</source>
-        <translation type="unfinished">Mégse</translation>
+        <translation>Mégse</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -559,7 +559,7 @@
     <message>
         <location line="+7"/>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation>OK</translation>
     </message>
 </context>
 <context>
@@ -585,12 +585,7 @@
         <translation>Zielverzeichnis auswählen</translation>
     </message>
     <message>
-        <location line="-161"/>
-        <source>Edit</source>
-        <translation type="unfinished">Szerkesztés</translation>
-    </message>
-    <message>
-        <location line="+74"/>
+        <location line="-87"/>
         <source>Loading tracks...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -669,7 +664,7 @@
     <message>
         <location line="+7"/>
         <source>Last.fm</source>
-        <translation type="unfinished">Last.fm</translation>
+        <translation>Last.fm</translation>
     </message>
 </context>
 <context>
@@ -715,7 +710,7 @@
     <message>
         <location filename="../GUI/PlayerPlugins/Engine/GUI_LevelPainter.cpp" line="+43"/>
         <source>Level</source>
-        <translation type="unfinished">Szint</translation>
+        <translation>Szint</translation>
     </message>
 </context>
 <context>
@@ -723,37 +718,37 @@
     <message>
         <location filename="../GUI/Library/InfoBox/GUI_LibraryInfoBox.ui" line="+14"/>
         <source>Info</source>
-        <translation type="unfinished">Információ</translation>
+        <translation>Információ</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Artists</source>
-        <translation type="unfinished">Előadók</translation>
+        <translation>Előadók</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Tracks</source>
-        <translation type="unfinished">Számok</translation>
+        <translation>Számok</translation>
     </message>
     <message>
         <location line="+34"/>
         <source>Duration</source>
-        <translation type="unfinished">Időtartam</translation>
+        <translation>Időtartam</translation>
     </message>
     <message>
         <location line="+69"/>
         <source>Albums</source>
-        <translation type="unfinished">Albumok</translation>
+        <translation>Albumok</translation>
     </message>
     <message>
         <location line="-49"/>
         <source>Filesize</source>
-        <translation type="unfinished">Fájlméret</translation>
+        <translation>Fájlméret</translation>
     </message>
     <message>
         <location line="+34"/>
         <source>Close</source>
-        <translation type="unfinished">Bezárás</translation>
+        <translation>Bezárás</translation>
     </message>
 </context>
 <context>
@@ -871,7 +866,7 @@
     <message>
         <location line="+37"/>
         <source>Delete</source>
-        <translation type="unfinished">Törlés</translation>
+        <translation>Törlés</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -923,7 +918,7 @@
     <message>
         <location filename="../GUI/Notifications/GUI_Notifications.cpp" line="+78"/>
         <source>Notifications</source>
-        <translation type="unfinished">Értesítések</translation>
+        <translation>Értesítések</translation>
     </message>
 </context>
 <context>
@@ -950,22 +945,7 @@
         <translation>Licenz</translation>
     </message>
     <message>
-        <location filename="../GUI/Player/GUI_Player.cpp" line="+73"/>
-        <source>Sayonara Player</source>
-        <translation type="unfinished">Sayonara Player</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Written by</source>
-        <translation type="unfinished">Írta</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Copyright</source>
-        <translation type="unfinished">Copyright</translation>
-    </message>
-    <message>
-        <location line="+560"/>
+        <location filename="../GUI/Player/GUI_Player.cpp" line="+647"/>
         <source>A new version is available!</source>
         <translation>Új verzió érhető el!</translation>
     </message>
@@ -1006,7 +986,7 @@
         <translation>könyvtár megnyitása</translation>
     </message>
     <message>
-        <location filename="../GUI/Player/GUI_Player.cpp" line="-481"/>
+        <location filename="../GUI/Player/GUI_Player.cpp" line="-492"/>
         <source>&amp;Library</source>
         <translation>&amp;Könyvtár</translation>
     </message>
@@ -1018,29 +998,29 @@
     <message>
         <location filename="../GUI/Player/GUI_PlayerMessages.cpp" line="-5"/>
         <source>Error</source>
-        <translation type="unfinished">Hiba</translation>
+        <translation>Hiba</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>error</source>
-        <translation type="unfinished"></translation>
+        <translation>Hiba</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>warning</source>
-        <translation type="unfinished"></translation>
+        <translation>Figyelem</translation>
     </message>
     <message>
         <location line="+5"/>
         <location line="+6"/>
         <source>info</source>
-        <translation type="unfinished"></translation>
+        <translation>Információ</translation>
     </message>
 </context>
 <context>
     <name>GUI_Playlist</name>
     <message>
-        <location filename="../GUI/Playlist/GUI_Playlist.cpp" line="+310"/>
+        <location filename="../GUI/Playlist/GUI_Playlist.cpp" line="+319"/>
         <source>Playlist empty</source>
         <translation>Lejátszási lista üres</translation>
     </message>
@@ -1055,17 +1035,17 @@
         <translation>Számok</translation>
     </message>
     <message>
-        <location filename="../GUI/Playlist/GUI_PlaylistTabs.cpp" line="+199"/>
+        <location filename="../GUI/Playlist/GUI_PlaylistTabs.cpp" line="+200"/>
         <source>Really</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Delete</source>
-        <translation type="unfinished">Törlés</translation>
+        <translation>Törlés</translation>
     </message>
     <message>
-        <location line="+104"/>
+        <location line="+106"/>
         <source>Cannot save playlist.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1073,7 +1053,7 @@
         <location line="+0"/>
         <location line="+4"/>
         <source>Save as</source>
-        <translation type="unfinished">Speichern als</translation>
+        <translation>Speichern als</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -1083,7 +1063,7 @@
     <message>
         <location line="+0"/>
         <source>Overwrite?</source>
-        <translation type="unfinished">Überschreiben?</translation>
+        <translation>Überschreiben?</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -1096,7 +1076,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-122"/>
+        <location line="-124"/>
         <source>Playlist name already exists</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1104,35 +1084,35 @@
 <context>
     <name>GUI_PlaylistBottomBar</name>
     <message>
-        <location filename="../GUI/Playlist/BottomBar/GUI_PlaylistBottomBar.ui" line="+54"/>
+        <location filename="../GUI/Playlist/BottomBar/GUI_PlaylistBottomBar.ui" line="+66"/>
         <source>Repeat 1</source>
-        <translation type="unfinished">1 ismétlése</translation>
+        <translation>1 ismétlése</translation>
     </message>
     <message>
         <location line="+17"/>
         <location line="+42"/>
         <location line="+42"/>
         <location line="+42"/>
-        <location line="+42"/>
+        <location line="+41"/>
         <location line="+42"/>
         <source>Enter</source>
-        <translation type="unfinished">Enter</translation>
+        <translation>Enter</translation>
     </message>
     <message>
-        <location line="-185"/>
+        <location line="-184"/>
         <source>Repeat All</source>
-        <translation type="unfinished">összes ismétlése</translation>
+        <translation>összes ismétlése</translation>
     </message>
     <message>
         <location line="+42"/>
         <source>Shuffle</source>
-        <translation type="unfinished">Véletlenszerű</translation>
+        <translation>Véletlenszerű</translation>
     </message>
     <message>
         <location line="+42"/>
-        <location filename="../GUI/Playlist/BottomBar/GUI_PlaylistBottomBar.cpp" line="+165"/>
+        <location filename="../GUI/Playlist/BottomBar/GUI_PlaylistBottomBar.cpp" line="+167"/>
         <source>Dynamic playing</source>
-        <translation type="unfinished">dinamikus lejátszás</translation>
+        <translation>dinamikus lejátszás</translation>
     </message>
     <message>
         <location line="+42"/>
@@ -1140,14 +1120,14 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+42"/>
+        <location line="+41"/>
         <source>Gapless playback</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../GUI/Playlist/BottomBar/GUI_PlaylistBottomBar.cpp" line="-4"/>
         <source>Please set library path first</source>
-        <translation type="unfinished">Kérem válasszon könyvtárat</translation>
+        <translation>Kérem válasszon könyvtárat</translation>
     </message>
     <message>
         <location line="+25"/>
@@ -1190,7 +1170,7 @@
     <message>
         <location line="+88"/>
         <source>Esc</source>
-        <translation type="unfinished"></translation>
+        <translation>Esc</translation>
     </message>
 </context>
 <context>
@@ -1211,12 +1191,7 @@
         <translation>Stream índitása</translation>
     </message>
     <message>
-        <location filename="../GUI/PlayerPlugins/Stream/GUI_Podcasts.cpp" line="+30"/>
-        <source>Podcast</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+15"/>
+        <location filename="../GUI/PlayerPlugins/Stream/GUI_Podcasts.cpp" line="+45"/>
         <source>Podcasts</source>
         <translation>Podcasts</translation>
     </message>
@@ -1243,7 +1218,7 @@
     <message>
         <location line="-66"/>
         <source>Esc</source>
-        <translation type="unfinished"></translation>
+        <translation>Esc</translation>
     </message>
 </context>
 <context>
@@ -1290,12 +1265,12 @@
     <message>
         <location line="-76"/>
         <source>Cancel</source>
-        <translation type="unfinished">Mégse</translation>
+        <translation>Mégse</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <location line="+24"/>
@@ -1314,14 +1289,6 @@
     </message>
 </context>
 <context>
-    <name>GUI_SoundCloudLibrary</name>
-    <message>
-        <location filename="../3rdParty/Soundcloud/ui/GUI_SoundcloudLibrary.cpp" line="+36"/>
-        <source>Add artist</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>GUI_SoundcloudArtistSearch</name>
     <message>
         <location filename="../3rdParty/Soundcloud/ui/GUI_SoundcloudArtistSearch.ui" line="+14"/>
@@ -1336,7 +1303,7 @@
     <message>
         <location line="-24"/>
         <source>Cancel</source>
-        <translation type="unfinished">Mégse</translation>
+        <translation>Mégse</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -1440,7 +1407,7 @@
     <message>
         <location line="-12"/>
         <source>Esc</source>
-        <translation type="unfinished"></translation>
+        <translation>Esc</translation>
     </message>
 </context>
 <context>
@@ -1489,7 +1456,7 @@
     <message>
         <location filename="../GUI/StartupDialog/GUI_StartupDialog.cpp" line="+103"/>
         <source>Start up</source>
-        <translation type="unfinished">indítás</translation>
+        <translation>indítás</translation>
     </message>
 </context>
 <context>
@@ -1515,12 +1482,7 @@
         <translation>Stream Url</translation>
     </message>
     <message>
-        <location filename="../GUI/PlayerPlugins/Stream/GUI_Stream.cpp" line="+28"/>
-        <source>Radio Station</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+16"/>
+        <location filename="../GUI/PlayerPlugins/Stream/GUI_Stream.cpp" line="+44"/>
         <source>Webstreams</source>
         <translation>Online Streams</translation>
     </message>
@@ -1542,7 +1504,7 @@
     <message>
         <location line="-82"/>
         <source>Esc</source>
-        <translation type="unfinished"></translation>
+        <translation>Esc</translation>
     </message>
 </context>
 <context>
@@ -1845,37 +1807,37 @@ Kérjük, válasszon egy másik mappát</translation>
     <message>
         <location filename="../GUI/PlayerPlugins/PlaylistChooser/TargetPlaylistDialog/GUI_TargetPlaylistDialog.ui" line="+14"/>
         <source>Choose target playlist</source>
-        <translation type="unfinished">Válasszon lejátszási lsitát</translation>
+        <translation>Válasszon lejátszási lsitát</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>relative filepaths</source>
-        <translation type="unfinished">relatív elérési út</translation>
+        <translation>relatív elérési út</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>...</source>
-        <translation type="unfinished">...</translation>
+        <translation>...</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Close</source>
-        <translation type="unfinished">Bezárás</translation>
+        <translation>Bezárás</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Save</source>
-        <translation type="unfinished">Mentés</translation>
+        <translation>Mentés</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Save playlist as...</source>
-        <translation type="unfinished">Lejátszási lista mentése másként..</translation>
+        <translation>Lejátszási lista mentése másként...</translation>
     </message>
     <message>
         <location filename="../GUI/PlayerPlugins/PlaylistChooser/TargetPlaylistDialog/GUI_TargetPlaylistDialog.cpp" line="+52"/>
         <source>Choose target file</source>
-        <translation type="unfinished">Válasszon célfájlt</translation>
+        <translation>Válasszon célfájlt</translation>
     </message>
 </context>
 <context>
@@ -2045,7 +2007,7 @@ Kérjük, válasszon egy másik mappát</translation>
     <message>
         <location line="+129"/>
         <source>Edit</source>
-        <translation type="unfinished">Szerkesztés</translation>
+        <translation>Szerkesztés</translation>
     </message>
     <message>
         <location line="-427"/>
@@ -2066,56 +2028,56 @@ Kérjük, válasszon egy másik mappát</translation>
 <context>
     <name>LibraryContextMenu</name>
     <message>
-        <location filename="../GUI/Helper/ContextMenu/LibraryContextMenu.cpp" line="+31"/>
-        <location line="+54"/>
+        <location filename="../GUI/Helper/ContextMenu/LibraryContextMenu.cpp" line="+33"/>
+        <location line="+56"/>
         <source>Info</source>
-        <translation type="unfinished">Információ</translation>
+        <translation>Információ</translation>
     </message>
     <message>
-        <location line="-53"/>
-        <location line="+54"/>
+        <location line="-55"/>
+        <location line="+56"/>
         <source>Lyrics</source>
-        <translation type="unfinished">dalszöveg</translation>
+        <translation>dalszöveg</translation>
     </message>
     <message>
-        <location line="-53"/>
-        <location line="+54"/>
+        <location line="-55"/>
+        <location line="+56"/>
         <source>Edit</source>
-        <translation type="unfinished">Szerkesztés</translation>
+        <translation>Szerkesztés</translation>
     </message>
     <message>
-        <location line="-53"/>
-        <location line="+54"/>
+        <location line="-55"/>
+        <location line="+56"/>
         <source>Remove</source>
-        <translation type="unfinished">Eltávolít</translation>
+        <translation>Eltávolít</translation>
     </message>
     <message>
-        <location line="-53"/>
-        <location line="+54"/>
+        <location line="-55"/>
+        <location line="+56"/>
         <source>Delete</source>
-        <translation type="unfinished">Törlés</translation>
+        <translation>Törlés</translation>
     </message>
     <message>
-        <location line="-53"/>
-        <location line="+54"/>
+        <location line="-55"/>
+        <location line="+56"/>
         <source>Play next</source>
-        <translation type="unfinished">Következő lejátszása</translation>
+        <translation>Következő lejátszása</translation>
     </message>
     <message>
-        <location line="-53"/>
-        <location line="+54"/>
+        <location line="-55"/>
+        <location line="+56"/>
         <source>Append</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-53"/>
-        <location line="+54"/>
+        <location line="-55"/>
+        <location line="+56"/>
         <source>Refresh</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-53"/>
-        <location line="+54"/>
+        <location line="-55"/>
+        <location line="+56"/>
         <source>Clear</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2134,22 +2096,22 @@ Kérjük, válasszon egy másik mappát</translation>
     <message>
         <location filename="../Components/Library/LibraryImporter.cpp" line="+172"/>
         <source>All files could be imported</source>
-        <translation type="unfinished">Alle Dateien konnten importiert werden</translation>
+        <translation>Alle Dateien konnten importiert werden</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>%1 of %2 files could be imported</source>
-        <translation type="unfinished">%1 von %2 Dateien wurden importiert</translation>
+        <translation>%1 von %2 Dateien wurden importiert</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Sorry, but tracks could not be imported</source>
-        <translation type="unfinished">Leider konnten die Musiktitel nicht importiert werden</translation>
+        <translation>Leider konnten die Musiktitel nicht importiert werden</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Please use the import function of the file menu&lt;br /&gt; or move tracks to library and use &apos;Reload library&apos;</source>
-        <translation type="unfinished">Bitte benutze Importieren im Datei Menu&lt;br /&gt;oder kopiere die Musikstücke in die Sammlung und lade diese neu</translation>
+        <translation>Bitte benutze Importieren im Datei Menu&lt;br /&gt;oder kopiere die Musikstücke in die Sammlung und lade diese neu</translation>
     </message>
 </context>
 <context>
@@ -2162,7 +2124,7 @@ Kérjük, válasszon egy másik mappát</translation>
     <message>
         <location line="+8"/>
         <source>tracks</source>
-        <translation type="unfinished"></translation>
+        <translation>Számok</translation>
     </message>
 </context>
 <context>
@@ -2170,7 +2132,7 @@ Kérjük, válasszon egy másik mappát</translation>
     <message>
         <location filename="../GUI/Library/Delegates/LibraryItemDelegateArtists.cpp" line="+98"/>
         <source>tracks</source>
-        <translation type="unfinished"></translation>
+        <translation>Számok</translation>
     </message>
 </context>
 <context>
@@ -2184,28 +2146,28 @@ Kérjük, válasszon egy másik mappát</translation>
 <context>
     <name>LocalLibraryMenu</name>
     <message>
-        <location filename="../GUI/Library/LocalLibraryMenu.cpp" line="+34"/>
-        <location line="+44"/>
+        <location filename="../GUI/Library/LocalLibraryMenu.cpp" line="+35"/>
+        <location line="+25"/>
         <source>Reload library</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-43"/>
-        <location line="+44"/>
+        <location line="-24"/>
+        <location line="+25"/>
         <source>Import files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-43"/>
-        <location line="+44"/>
+        <location line="-24"/>
+        <location line="+25"/>
         <source>Import directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-43"/>
-        <location line="+44"/>
+        <location line="-24"/>
+        <location line="+25"/>
         <source>Info</source>
-        <translation type="unfinished">Információ</translation>
+        <translation>Információ</translation>
     </message>
 </context>
 <context>
@@ -2351,7 +2313,7 @@ Kérjük, válasszon egy másik mappát</translation>
         <location filename="../GUI/Playlist/PlaylistMenu.cpp" line="+32"/>
         <location line="+55"/>
         <source>Repeat 1</source>
-        <translation type="unfinished">1 ismétlése</translation>
+        <translation>1 ismétlése</translation>
     </message>
     <message>
         <location line="-54"/>
@@ -2369,7 +2331,7 @@ Kérjük, válasszon egy másik mappát</translation>
         <location line="-54"/>
         <location line="+55"/>
         <source>Shuffle</source>
-        <translation type="unfinished">Véletlenszerű</translation>
+        <translation>Véletlenszerű</translation>
     </message>
     <message>
         <location line="-54"/>
@@ -2406,7 +2368,7 @@ Kérjük, válasszon egy másik mappát</translation>
     <message>
         <location line="+1"/>
         <source>Save as</source>
-        <translation type="unfinished">Speichern als</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+28"/>
@@ -2418,50 +2380,50 @@ Kérjük, válasszon egy másik mappát</translation>
 <context>
     <name>PlaylistTabMenu</name>
     <message>
-        <location filename="../GUI/Playlist/TabWidget/PlaylistTabMenu.cpp" line="+31"/>
-        <location line="+42"/>
+        <location filename="../GUI/Playlist/TabWidget/PlaylistTabMenu.cpp" line="+32"/>
+        <location line="+45"/>
         <source>Delete</source>
         <translation type="unfinished">Törlés</translation>
     </message>
     <message>
-        <location line="-41"/>
-        <location line="+42"/>
+        <location line="-44"/>
+        <location line="+45"/>
         <source>Save</source>
         <translation type="unfinished">Mentés</translation>
     </message>
     <message>
-        <location line="-41"/>
-        <location line="+42"/>
+        <location line="-44"/>
+        <location line="+45"/>
         <source>Save as</source>
         <translation type="unfinished">Speichern als</translation>
     </message>
     <message>
-        <location line="-41"/>
-        <location line="+42"/>
+        <location line="-44"/>
+        <location line="+45"/>
         <source>Clear</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-41"/>
-        <location line="+42"/>
+        <location line="-44"/>
+        <location line="+45"/>
         <source>Close</source>
         <translation type="unfinished">Bezárás</translation>
     </message>
     <message>
-        <location line="-41"/>
-        <location line="+42"/>
+        <location line="-44"/>
+        <location line="+45"/>
         <source>Close others</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-49"/>
-        <location line="+42"/>
+        <location line="-52"/>
+        <location line="+45"/>
         <source>Reset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-41"/>
-        <location line="+42"/>
+        <location line="-44"/>
+        <location line="+45"/>
         <source>Rename</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2482,7 +2444,7 @@ Kérjük, válasszon egy másik mappát</translation>
 <context>
     <name>Sayonara</name>
     <message>
-        <location filename="../GUI/Player/GUI_Player.ui" line="+1166"/>
+        <location filename="../GUI/Player/GUI_Player.ui" line="+1148"/>
         <source>Dark</source>
         <translation>Sötét</translation>
     </message>
@@ -2513,12 +2475,12 @@ Kérjük, válasszon egy másik mappát</translation>
         <translation>Bezárás</translation>
     </message>
     <message>
-        <location line="-418"/>
+        <location line="-409"/>
         <source>Copyright 2011-2016</source>
-        <translation type="unfinished">Copyright 2011-2016</translation>
+        <translation>Copyright 2011-2016</translation>
     </message>
     <message>
-        <location line="+472"/>
+        <location line="+463"/>
         <source>Close to tray</source>
         <translation>bezárás a tálcára</translation>
     </message>
@@ -2533,13 +2495,13 @@ Kérjük, válasszon egy másik mappát</translation>
         <translation>könyvtár megnyitása</translation>
     </message>
     <message>
-        <location line="-1108"/>
-        <location line="+500"/>
+        <location line="-1090"/>
+        <location line="+491"/>
         <source>Sayonara Player</source>
         <translation>Sayonara Player</translation>
     </message>
     <message>
-        <location line="+690"/>
+        <location line="+681"/>
         <source>Fullscreen </source>
         <translation>teljes képernyő</translation>
     </message>
@@ -2559,12 +2521,12 @@ Kérjük, válasszon egy másik mappát</translation>
         <translation>Beállítások</translation>
     </message>
     <message>
-        <location line="-429"/>
+        <location line="-420"/>
         <source>Written by Lucio Carreras</source>
         <translation>Írta: Lucio Carreras</translation>
     </message>
     <message>
-        <location line="+562"/>
+        <location line="+553"/>
         <source>Library live search</source>
         <translation>Könyvtár élő keresése</translation>
     </message>
@@ -2576,15 +2538,15 @@ Kérjük, válasszon egy másik mappát</translation>
     <message>
         <location line="+24"/>
         <source>Library</source>
-        <translation type="unfinished">Könyvtár</translation>
+        <translation>Könyvtár</translation>
     </message>
     <message>
-        <location line="-876"/>
+        <location line="-867"/>
         <source>Ctrl+S</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+933"/>
+        <location line="+924"/>
         <source>Devices</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2639,7 +2601,7 @@ Kérjük, válasszon egy másik mappát</translation>
     <message>
         <location line="+8"/>
         <source>About</source>
-        <translation type="unfinished">Rólunk</translation>
+        <translation>Rólunk</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -2658,9 +2620,9 @@ Kérjük, válasszon egy másik mappát</translation>
     <message>
         <location filename="../3rdParty/Soundcloud/src/SoundcloudLibraryContainer.cpp" line="+45"/>
         <location line="+5"/>
-        <location filename="../3rdParty/Soundcloud/ui/GUI_SoundcloudLibrary.cpp" line="+59"/>
+        <location filename="../3rdParty/Soundcloud/ui/GUI_SoundcloudLibrary.cpp" line="+95"/>
         <source>Soundcloud</source>
-        <translation type="unfinished"></translation>
+        <translation>Soundcloud</translation>
     </message>
 </context>
 <context>
@@ -2669,6 +2631,44 @@ Kérjük, válasszon egy másik mappát</translation>
         <location filename="../Components/Broadcasting/StreamServer.cpp" line="+176"/>
         <source>%1 wants to listen to your music.
 OK?</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Ui</name>
+    <message>
+        <location filename="../3rdParty/Soundcloud/ui/GUI_SoundcloudLibrary.cpp" line="-59"/>
+        <source>Add artist</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../GUI/Library/ImportFolderDialog/GUI_ImportFolder.cpp" line="-85"/>
+        <source>Edit</source>
+        <translation>Szerkesztés</translation>
+    </message>
+    <message>
+        <location filename="../GUI/Player/GUI_Player.cpp" line="-81"/>
+        <source>Sayonara Player</source>
+        <translation>Sayonara Player</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Written by</source>
+        <translation>Írta</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Copyright</source>
+        <translation>Copyright</translation>
+    </message>
+    <message>
+        <location filename="../GUI/PlayerPlugins/Stream/GUI_Podcasts.cpp" line="-15"/>
+        <source>Podcast</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../GUI/PlayerPlugins/Stream/GUI_Stream.cpp" line="-16"/>
+        <source>Radio Station</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -29,7 +29,7 @@
 #include "GUI_AbstractStream.h"
 
 
-class GUI_Stream : public GUI_AbstractStream, public Ui::GUI_Stream {
+class GUI_Stream : public GUI_AbstractStream, private Ui::GUI_Stream {
 
 	Q_OBJECT
 

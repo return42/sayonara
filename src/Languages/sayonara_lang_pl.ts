@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="pl_PL">
+<TS version="2.0" language="pl_PL">
 <context>
     <name>AbstractLibrary</name>
     <message>
@@ -115,44 +115,44 @@
 <context>
     <name>ContextMenu</name>
     <message>
-        <location filename="../GUI/Helper/ContextMenu/ContextMenu.cpp" line="+10"/>
-        <location line="+40"/>
+        <location filename="../GUI/Helper/ContextMenu/ContextMenu.cpp" line="+33"/>
+        <location line="+41"/>
         <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-39"/>
-        <location line="+38"/>
+        <location line="-40"/>
+        <location line="+39"/>
         <source>New</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-37"/>
-        <location line="+42"/>
+        <location line="-38"/>
+        <location line="+43"/>
         <source>Undo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-41"/>
-        <location line="+38"/>
+        <location line="-42"/>
+        <location line="+39"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-37"/>
-        <location line="+38"/>
+        <location line="-38"/>
+        <location line="+39"/>
         <source>Save as</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-37"/>
-        <location line="+38"/>
+        <location line="-38"/>
+        <location line="+39"/>
         <source>Rename</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-37"/>
-        <location line="+39"/>
+        <location line="-38"/>
+        <location line="+40"/>
         <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
@@ -587,12 +587,7 @@
 <context>
     <name>GUI_ImportFolder</name>
     <message>
-        <location filename="../GUI/Library/ImportFolderDialog/GUI_ImportFolder.cpp" line="+40"/>
-        <source>Edit</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+56"/>
+        <location filename="../GUI/Library/ImportFolderDialog/GUI_ImportFolder.cpp" line="+96"/>
         <source>%1 tracks available</source>
         <translatorcomment>5 tracks available</translatorcomment>
         <translation type="unfinished"></translation>
@@ -956,27 +951,12 @@
 <context>
     <name>GUI_Player</name>
     <message>
-        <location filename="../GUI/Player/GUI_Player.cpp" line="+73"/>
-        <source>Sayonara Player</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Written by</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Copyright</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+79"/>
+        <location filename="../GUI/Player/GUI_Player.cpp" line="+155"/>
         <source>&amp;Library</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+481"/>
+        <location line="+492"/>
         <source>A new version is available!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1068,7 +1048,7 @@
 <context>
     <name>GUI_Playlist</name>
     <message>
-        <location filename="../GUI/Playlist/GUI_Playlist.cpp" line="+310"/>
+        <location filename="../GUI/Playlist/GUI_Playlist.cpp" line="+319"/>
         <source>Playlist empty</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1083,7 +1063,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../GUI/Playlist/GUI_PlaylistTabs.cpp" line="+188"/>
+        <location filename="../GUI/Playlist/GUI_PlaylistTabs.cpp" line="+189"/>
         <source>Playlist name already exists</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1098,7 +1078,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+104"/>
+        <location line="+106"/>
         <source>Cannot save playlist.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1133,7 +1113,7 @@
 <context>
     <name>GUI_PlaylistBottomBar</name>
     <message>
-        <location filename="../GUI/Playlist/BottomBar/GUI_PlaylistBottomBar.ui" line="+54"/>
+        <location filename="../GUI/Playlist/BottomBar/GUI_PlaylistBottomBar.ui" line="+66"/>
         <source>Repeat 1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1142,13 +1122,13 @@
         <location line="+42"/>
         <location line="+42"/>
         <location line="+42"/>
-        <location line="+42"/>
+        <location line="+41"/>
         <location line="+42"/>
         <source>Enter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-185"/>
+        <location line="-184"/>
         <source>Repeat All</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1159,7 +1139,7 @@
     </message>
     <message>
         <location line="+42"/>
-        <location filename="../GUI/Playlist/BottomBar/GUI_PlaylistBottomBar.cpp" line="+165"/>
+        <location filename="../GUI/Playlist/BottomBar/GUI_PlaylistBottomBar.cpp" line="+167"/>
         <source>Dynamic playing</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1169,7 +1149,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+42"/>
+        <location line="+41"/>
         <source>Gapless playback</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1267,12 +1247,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../GUI/PlayerPlugins/Stream/GUI_Podcasts.cpp" line="+30"/>
-        <source>Podcast</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+15"/>
+        <location filename="../GUI/PlayerPlugins/Stream/GUI_Podcasts.cpp" line="+45"/>
         <source>Podcasts</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1341,14 +1316,6 @@
     <message>
         <location line="+7"/>
         <source>minutes</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>GUI_SoundCloudLibrary</name>
-    <message>
-        <location filename="../3rdParty/Soundcloud/ui/GUI_SoundcloudLibrary.cpp" line="+36"/>
-        <source>Add artist</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1569,12 +1536,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../GUI/PlayerPlugins/Stream/GUI_Stream.cpp" line="+28"/>
-        <source>Radio Station</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+16"/>
+        <location filename="../GUI/PlayerPlugins/Stream/GUI_Stream.cpp" line="+44"/>
         <source>Webstreams</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2113,56 +2075,56 @@ Please choose another folder</source>
 <context>
     <name>LibraryContextMenu</name>
     <message>
-        <location filename="../GUI/Helper/ContextMenu/LibraryContextMenu.cpp" line="+31"/>
-        <location line="+54"/>
+        <location filename="../GUI/Helper/ContextMenu/LibraryContextMenu.cpp" line="+33"/>
+        <location line="+56"/>
         <source>Info</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-53"/>
-        <location line="+54"/>
+        <location line="-55"/>
+        <location line="+56"/>
         <source>Lyrics</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-53"/>
-        <location line="+54"/>
+        <location line="-55"/>
+        <location line="+56"/>
         <source>Edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-53"/>
-        <location line="+54"/>
+        <location line="-55"/>
+        <location line="+56"/>
         <source>Remove</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-53"/>
-        <location line="+54"/>
+        <location line="-55"/>
+        <location line="+56"/>
         <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-53"/>
-        <location line="+54"/>
+        <location line="-55"/>
+        <location line="+56"/>
         <source>Play next</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-53"/>
-        <location line="+54"/>
+        <location line="-55"/>
+        <location line="+56"/>
         <source>Append</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-53"/>
-        <location line="+54"/>
+        <location line="-55"/>
+        <location line="+56"/>
         <source>Refresh</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-53"/>
-        <location line="+54"/>
+        <location line="-55"/>
+        <location line="+56"/>
         <source>Clear</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2232,26 +2194,26 @@ Please choose another folder</source>
 <context>
     <name>LocalLibraryMenu</name>
     <message>
-        <location filename="../GUI/Library/LocalLibraryMenu.cpp" line="+34"/>
-        <location line="+44"/>
+        <location filename="../GUI/Library/LocalLibraryMenu.cpp" line="+35"/>
+        <location line="+25"/>
         <source>Reload library</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-43"/>
-        <location line="+44"/>
+        <location line="-24"/>
+        <location line="+25"/>
         <source>Import files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-43"/>
-        <location line="+44"/>
+        <location line="-24"/>
+        <location line="+25"/>
         <source>Import directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-43"/>
-        <location line="+44"/>
+        <location line="-24"/>
+        <location line="+25"/>
         <source>Info</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2472,50 +2434,50 @@ Please choose another folder</source>
 <context>
     <name>PlaylistTabMenu</name>
     <message>
-        <location filename="../GUI/Playlist/TabWidget/PlaylistTabMenu.cpp" line="+29"/>
-        <location line="+42"/>
+        <location filename="../GUI/Playlist/TabWidget/PlaylistTabMenu.cpp" line="+30"/>
+        <location line="+45"/>
         <source>Reset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-41"/>
-        <location line="+42"/>
+        <location line="-44"/>
+        <location line="+45"/>
         <source>Rename</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-41"/>
-        <location line="+42"/>
+        <location line="-44"/>
+        <location line="+45"/>
         <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-41"/>
-        <location line="+42"/>
+        <location line="-44"/>
+        <location line="+45"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-41"/>
-        <location line="+42"/>
+        <location line="-44"/>
+        <location line="+45"/>
         <source>Save as</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-41"/>
-        <location line="+42"/>
+        <location line="-44"/>
+        <location line="+45"/>
         <source>Clear</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-41"/>
-        <location line="+42"/>
+        <location line="-44"/>
+        <location line="+45"/>
         <source>Close</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-41"/>
-        <location line="+42"/>
+        <location line="-44"/>
+        <location line="+45"/>
         <source>Close others</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2539,7 +2501,7 @@ Please choose another folder</source>
     <name>Sayonara</name>
     <message>
         <location filename="../GUI/Player/GUI_Player.ui" line="+35"/>
-        <location line="+500"/>
+        <location line="+491"/>
         <source>Sayonara Player</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2559,7 +2521,7 @@ Please choose another folder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+342"/>
+        <location line="+333"/>
         <source>File</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2717,7 +2679,7 @@ Please choose another folder</source>
     <message>
         <location filename="../3rdParty/Soundcloud/src/SoundcloudLibraryContainer.cpp" line="+45"/>
         <location line="+5"/>
-        <location filename="../3rdParty/Soundcloud/ui/GUI_SoundcloudLibrary.cpp" line="+59"/>
+        <location filename="../3rdParty/Soundcloud/ui/GUI_SoundcloudLibrary.cpp" line="+95"/>
         <source>Soundcloud</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2729,6 +2691,44 @@ Please choose another folder</source>
         <source>%1 wants to listen to your music.
 OK?</source>
         <translatorcomment>%1 = IP address</translatorcomment>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Ui</name>
+    <message>
+        <location filename="../3rdParty/Soundcloud/ui/GUI_SoundcloudLibrary.cpp" line="-59"/>
+        <source>Add artist</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../GUI/Library/ImportFolderDialog/GUI_ImportFolder.cpp" line="-174"/>
+        <source>Edit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../GUI/Player/GUI_Player.cpp" line="-573"/>
+        <source>Sayonara Player</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Written by</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Copyright</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../GUI/PlayerPlugins/Stream/GUI_Podcasts.cpp" line="-15"/>
+        <source>Podcast</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../GUI/PlayerPlugins/Stream/GUI_Stream.cpp" line="-16"/>
+        <source>Radio Station</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
