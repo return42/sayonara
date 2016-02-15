@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="hu_HU">
+<TS version="2.0" language="hu_HU">
 <context>
     <name>AbstractLibrary</name>
     <message>
@@ -1020,7 +1020,7 @@
 <context>
     <name>GUI_Playlist</name>
     <message>
-        <location filename="../GUI/Playlist/GUI_Playlist.cpp" line="+319"/>
+        <location filename="../GUI/Playlist/GUI_Playlist.cpp" line="+318"/>
         <source>Playlist empty</source>
         <translation>Lejátszási lista üres</translation>
     </message>
@@ -2368,7 +2368,7 @@ Kérjük, válasszon egy másik mappát</translation>
     <message>
         <location line="+1"/>
         <source>Save as</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Speichern als</translation>
     </message>
     <message>
         <location line="+28"/>

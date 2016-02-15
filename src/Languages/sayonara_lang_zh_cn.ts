@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="zh_CN">
+<TS version="2.0" language="zh_CN">
 <context>
     <name>AbstractLibrary</name>
     <message>
@@ -1020,7 +1020,7 @@
 <context>
     <name>GUI_Playlist</name>
     <message>
-        <location filename="../GUI/Playlist/GUI_Playlist.cpp" line="+319"/>
+        <location filename="../GUI/Playlist/GUI_Playlist.cpp" line="+318"/>
         <source>Playlist empty</source>
         <translation>播放列表为空</translation>
     </message>

@@ -1048,7 +1048,7 @@
 <context>
     <name>GUI_Playlist</name>
     <message>
-        <location filename="../GUI/Playlist/GUI_Playlist.cpp" line="+319"/>
+        <location filename="../GUI/Playlist/GUI_Playlist.cpp" line="+318"/>
         <source>Playlist empty</source>
         <translation type="unfinished"></translation>
     </message>
