@@ -28,16 +28,14 @@
 
 #include "Helper/Parser/PodcastParser.h"
 #include "Helper/Parser/PlaylistParser.h"
+#include "Helper/UrlHelper.h"
 
 AbstractStreamHandler::AbstractStreamHandler(QObject *parent) :
 	QObject(parent)
 {
 	_blocked = false;
-	_awa = new AsyncWebAccess(this);
 	_db = DatabaseConnector::getInstance();
 	_playlist = PlaylistHandler::getInstance();
-
-	connect(_awa, &AsyncWebAccess::sig_finished, this, &AbstractStreamHandler::awa_finished);
 }
 
 void AbstractStreamHandler::clear(){
@@ -47,13 +45,21 @@ void AbstractStreamHandler::clear(){
 
 bool AbstractStreamHandler::parse_station(const QString& url, const QString& station_name){
 
-	if(_blocked) return false;
+	if(_blocked) {
+		return false;
+	}
+
+	sp_log(Log::Debug) << "Parse station: " << url;
+
+	AsyncWebAccess* awa = new AsyncWebAccess(this);
+	connect(awa, &AsyncWebAccess::sig_finished, this, &AbstractStreamHandler::awa_finished);
 
 	_blocked = true;
 
 	_url = url;
 	_station_name = station_name;
-	_awa->run(url, 2000);
+
+	awa->run(url, 2000);
 
 	return true;
 }
@@ -61,110 +67,64 @@ bool AbstractStreamHandler::parse_station(const QString& url, const QString& sta
 
 void AbstractStreamHandler::awa_finished(bool success){
 
+	AsyncWebAccess* awa = static_cast<AsyncWebAccess*>(sender());
+
 	if(!success){
-		emit sig_error();
+		sp_log(Log::Debug) << "Stream error: "<< awa->get_url();
+
 		_blocked = false;
+		awa->deleteLater();
+
+		if(!_stream_buffer.isEmpty()){
+			QString new_station = _stream_buffer.takeFirst();
+			sp_log(Log::Debug) << "Try out another one: "<< new_station;
+			parse_station(new_station, _station_name);
+		}
+
+		else {
+			emit sig_error();
+		}
+
 		return;
 	}
 
+	_stream_buffer.clear();
+
 	MetaDataList v_md;
-	QByteArray content = _awa->get_data();
 
-	bool check_md = false;
-	QString url = _awa->get_url();
+	QString url = awa->get_url();
+	QByteArray data = awa->get_data();
 
-	if(!content.isEmpty()){
-		PodcastParser::parse_podcast_xml_file_content(content, v_md);
+	_url = url;
 
+	awa->deleteLater();
+
+	if(!data.isEmpty()){
+
+		v_md = parse_content(data);
 		if(v_md.isEmpty()){
-
-			QString extension = FileHelper::get_file_extension(_awa->get_url());
-
-			QString filename = Helper::get_sayonara_path() + QDir::separator() + "tmp_playlist";
-			if(!extension.isEmpty()){
-				filename += "." + extension;
-			}
-
-			FileHelper::write_file(content, filename);
-
-			PlaylistParser::parse_playlist(filename, v_md);
-
-			QFile::remove(filename);
-		}
-
-		if(!v_md.isEmpty()){
-			check_md = true;
-		}
-
-		else{
-			QRegExp re("href=\"([^<]*\\.pls)\"");
-			re.setMinimal(true);
-			QString utf8_data = QString::fromUtf8(content);
-			int idx = re.indexIn(utf8_data);
-			if(idx > 0){
-				QString playlist = re.cap(1);
-				if(!playlist.startsWith("http")){
-					playlist =  _awa->get_url_wo_file() + "/" + playlist;
-				}
-
-				sp_log(Log::Debug) << playlist;
-
-				_blocked = false;
-				parse_station(playlist, _station_name);
-				return;
-			}
+			_blocked = false;
+			return;
 		}
 	}
 
 	else {
 		MetaData md;
-
-		if(_station_name.isEmpty()){
-			md.title = tr("Radio");
-			md.album = url;
-		}
-
-		else{
-			md.title = _station_name;
-			md.album = _station_name;
-		}
-
-		md.artist = url;
-		md.set_filepath(url);
-
 		v_md << md;
 	}
 
-	if(check_md){
-
-		for(MetaData& md : v_md) {
-
-			if(_station_name.isEmpty()){
-				md.album = _url;
-				if(md.title.isEmpty()){
-					md.title = tr("Radio");
-				}
-			}
-
-			else{
-				md.album = _station_name;
-				if(md.title.isEmpty()){
-					md.title = _station_name;
-				}
-			}
-
-			if(md.artist.isEmpty()){
-				md.artist = _url;
-			}
-		}
+	for(MetaData& md : v_md){
+		finalize_metadata(md, url);
 	}
 
 	_station_contents[_station_name] = v_md;
+
 	emit sig_data_available();
 
 	_playlist->create_playlist(v_md, _station_name, true, Playlist::Type::Stream);
 
 	_blocked = false;
+
 }
 
 
@@ -178,4 +138,106 @@ void AbstractStreamHandler::save(const QString& station_name, const QString& url
 	add_stream(station_name, url);
 }
 
+MetaDataList AbstractStreamHandler::parse_content(const QByteArray& data){
 
+	MetaDataList v_md;
+
+	/** 1. try if podcast file **/
+	PodcastParser::parse_podcast_xml_file_content(data, v_md);
+
+	/** 2. try if playlist file **/
+	if(v_md.isEmpty()){
+		QString filename = write_playlist_file(data);
+		PlaylistParser::parse_playlist(filename, v_md);
+		QFile::remove(filename);
+	}
+
+	/** 3. search for a playlist file on website **/
+	if(v_md.isEmpty()){
+
+		_stream_buffer = search_for_playlist_files(data);
+		if(_stream_buffer.isEmpty()){
+			return MetaDataList();
+		}
+
+		_blocked = false;
+
+		QString playlist_file = _stream_buffer.takeFirst();
+		sp_log(Log::Debug) << "try out " << playlist_file;
+		parse_station(playlist_file, _station_name);
+
+		return MetaDataList();
+	}
+
+	return v_md;
+}
+
+void AbstractStreamHandler::finalize_metadata(MetaData &md, const QString& stream_url){
+
+	if(_station_name.isEmpty()){
+		md.album = stream_url;
+		if(md.title.isEmpty()){
+			md.title = tr("Radio");
+		}
+	}
+
+	else{
+		md.album = _station_name;
+		if(md.title.isEmpty()){
+			md.title = _station_name;
+		}
+	}
+
+	if(md.artist.isEmpty()){
+		md.artist = stream_url;
+	}
+
+	if(md.filepath().isEmpty()){
+		md.set_filepath(stream_url);
+	}
+}
+
+
+QString AbstractStreamHandler::write_playlist_file(const QByteArray& data)
+{
+	QString filename, extension;
+
+	extension = Helper::File::get_file_extension(_url);
+	filename = Helper::get_sayonara_path() + QDir::separator() + "tmp_playlist";
+
+	if(!extension.isEmpty()){
+		filename += "." + extension;
+	}
+
+	Helper::File::write_file(data, filename);
+	return filename;
+}
+
+
+QStringList AbstractStreamHandler::search_for_playlist_files(const QByteArray& data){
+
+	QStringList playlist_strings;
+	QString base_url = Helper::Url::get_base_url(_url);
+
+	QRegExp re("href=\"([^<]+\\.(pls|m3u|asx))\"");
+	re.setMinimal(true);
+
+	QString utf8_data = QString::fromUtf8(data);
+	int idx = re.indexIn(utf8_data);
+
+	while(idx > 0){
+
+		QString playlist = re.cap(1);
+		if(!playlist.startsWith("http")){
+			playlist = base_url + "/" + playlist;
+		}
+
+		sp_log(Log::Debug) << "Found a playlist on website: " << playlist;
+		playlist_strings << playlist;
+
+		idx = re.indexIn(utf8_data, idx+1);
+	}
+
+	sp_log(Log::Debug) << "Found " << playlist_strings.size() << " playlists on website: ";
+	return playlist_strings;
+}

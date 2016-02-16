@@ -171,7 +171,7 @@ bool PlaybackEngine::set_uri(const QString& filepath) {
 		_uri = nullptr;
 	}
 
-	_playing_stream = FileHelper::is_www(filepath);
+	_playing_stream = Helper::File::is_www(filepath);
 
 	// stream, but don't wanna record
 	// stream is already uri
@@ -289,7 +289,7 @@ void PlaybackEngine::change_equalizer(int band, int val) {
 
 void PlaybackEngine::buffering(int progress)
 {
-	if(FileHelper::is_www(_md.filepath())){
+	if(Helper::File::is_www(_md.filepath())){
 		emit sig_buffering(progress);
 	}
 }
@@ -307,7 +307,7 @@ void PlaybackEngine::set_cur_position_ms(qint64 pos_ms) {
 		return;
 	}
 
-	if(pos_ms < 0 && FileHelper::is_www(_md.filepath())){
+	if(pos_ms < 0 && Helper::File::is_www(_md.filepath())){
 		return;
 	}
 
@@ -489,7 +489,7 @@ void PlaybackEngine::set_n_sound_receiver(int num_sound_receiver)
 
 void PlaybackEngine::update_md(const MetaData& md){
 
-	if(!FileHelper::is_www( _md.filepath() )) {
+	if(!Helper::File::is_www( _md.filepath() )) {
 		return;
 	}
 

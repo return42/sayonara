@@ -50,7 +50,7 @@ QIcon IconProvider::icon(const QFileInfo &info) const {
 		return _folder_icon;
 	}
 
-	if(info.isFile() && FileHelper::is_playlistfile(info.filePath())){
+	if(info.isFile() && Helper::File::is_playlistfile(info.filePath())){
 		return Helper::get_icon("playlistfile");
 	}
 

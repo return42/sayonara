@@ -55,7 +55,7 @@ QString _create_target_path( const QString& src_dir,    // dir chosen when "impo
 {
 	QString subfolders;
 
-	QString parent = FileHelper::get_parent_directory(src_dir);
+	QString parent = Helper::File::get_parent_directory(src_dir);
 	QString pure_src_dir = src_dir;
 	pure_src_dir.remove(parent);
 
@@ -65,7 +65,7 @@ QString _create_target_path( const QString& src_dir,    // dir chosen when "impo
 		QString pure_filename;
 		// extract folders between the files and src dir and create directories
 		// /home/user/dir/subfolder/subfolder2/bla.mp3 -> subfolder/subfolder2
-		FileHelper::split_filename(filename, subfolders, pure_filename);
+		Helper::File::split_filename(filename, subfolders, pure_filename);
 
 		subfolders.remove(src_dir);
 	}
@@ -117,11 +117,11 @@ void ImportCopyThread::copy() {
 
 		// copy file
 		QFile f(filename);
-		QString filename_wo_folder = FileHelper::get_filename_of_path(filename);
+		QString filename_wo_folder = Helper::File::get_filename_of_path(filename);
 		QString new_filename = target_path + QDir::separator() + filename_wo_folder;
 
-		filename = FileHelper::get_absolute_filename(filename);
-		new_filename = FileHelper::get_absolute_filename(new_filename);
+		filename = Helper::File::get_absolute_filename(filename);
+		new_filename = Helper::File::get_absolute_filename(new_filename);
 
 		bool copied = true;
 
@@ -137,7 +137,7 @@ void ImportCopyThread::copy() {
 			continue;
 		}
 
-		if(!FileHelper::is_soundfile(filename)){
+		if(!Helper::File::is_soundfile(filename)){
 			continue;
 		}
 

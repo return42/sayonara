@@ -26,6 +26,11 @@
  * @defgroup Helper Helper
  */
 
+/**
+ * @defgroup PlaylistParser PlaylistParser
+ * @ingroup Helper
+ */
+
 
 
 /**
@@ -45,4 +50,13 @@
 /**
  * @defgroup LibraryPlugins Library Plugins
  * @ingroup Plugins
+ */
+
+/**
+ * @defgroup GUI
+ */
+
+/**
+ * @defgroup GUIHelper GUI Helper
+ * @ingroup GUI
  */

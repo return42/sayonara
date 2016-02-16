@@ -125,7 +125,7 @@ bool Tagging::getMetaDataOfFile(MetaData& md, Tagging::Quality quality) {
 
 	if(md.title.length() == 0) {
 		QString dir, filename;
-		FileHelper::split_filename(md.filepath(), dir, filename);
+		Helper::File::split_filename(md.filepath(), dir, filename);
 
 		if(filename.size() > 4){
 			filename = filename.left(filename.length() - 4);

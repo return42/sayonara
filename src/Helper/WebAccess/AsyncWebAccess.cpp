@@ -43,8 +43,8 @@ void AsyncWebAccess::set_raw_header(const QMap<QByteArray, QByteArray>& header){
 }
 
 void AsyncWebAccess::run(const QString& url, int timeout){
+
 	_header.clear();
-	_img = QImage();
 	_data.clear();
 	_url = url;
 	_nam->clearAccessCache();
@@ -61,8 +61,8 @@ void AsyncWebAccess::run(const QString& url, int timeout){
 }
 
 void AsyncWebAccess::run_post(const QString &url, const QByteArray &post_data, int timeout){
+
 	_header.clear();
-	_img = QImage();
 	_data.clear();
 	_url = url;
 	_nam->clearAccessCache();
@@ -145,38 +145,3 @@ QString AsyncWebAccess::get_url() const
 {
 	return _url;
 }
-
-QString AsyncWebAccess::get_url_filename() const
-{
-	QUrl url(_url);
-	return url.fileName();
-}
-
-QString AsyncWebAccess::get_url_hostname() const
-{
-	QUrl url(_url);
-	return url.host();
-}
-
-QString AsyncWebAccess::get_url_protocol() const
-{
-	QString url_str = _url;
-	int idx = url_str.indexOf(get_url_hostname());
-	if(idx < 0){
-		return "";
-	}
-
-	return _url.left(idx);
-
-}
-
-QString AsyncWebAccess::get_url_wo_file() const{
-	QString url_str = _url;
-	int idx = url_str.lastIndexOf(get_url_filename());
-	if(idx < 0){
-		return "";
-	}
-
-	return _url.left(idx + 1);
-}
-

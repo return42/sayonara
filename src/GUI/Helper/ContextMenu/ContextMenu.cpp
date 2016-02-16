@@ -125,13 +125,10 @@ void ContextMenu::show_action(ContextMenu::Entry entry, bool visible)
 
 
 bool ContextMenu::has_actions() {
-	for(QAction* action: _actions){
-		if(action->isVisible()){
-			return true;
-		}
-	}
 
-	return false;
+	return std::any_of(_actions.begin(), _actions.end(), [](QAction* a){
+		return a->isVisible();
+	});
 }
 
 ContextMenuEntries ContextMenu::get_entries() const

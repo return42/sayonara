@@ -70,7 +70,7 @@ void MTP_Track::read_metadata(const MetaData &md){
 	_track->filesize = md.filesize;
 
 	QString dir, filename;
-	FileHelper::split_filename(md.filepath(), dir, filename);
+	Helper::File::split_filename(md.filepath(), dir, filename);
 	sp_log(Log::Debug) << "New filename : " << filename;
 
 	_track->filename = strndup(filename.toUtf8().data(), filename.size());

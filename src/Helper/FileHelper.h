@@ -26,112 +26,133 @@
 #include <QString>
 #include <QStringList>
 
-/**
- * @brief Filehelper functions
- * @ingroup Helper
- */
-namespace FileHelper
+namespace Helper
 {
-	/**
-	 * @brief calc_file_extension
-	 * @param filename
-	 * @return
-	 */
-	QString			calc_file_extension(const QString& filename);
 
 	/**
-	 * @brief Remove all files from directory
-	 * @param dir_name directory name
-	 * @param filters file name filters
+	 * @brief Filehelper functions
+	 * @ingroup Helper
 	 */
-	void			remove_files_in_directory(const QString& dir_name, const QStringList& filters);
+	namespace File
+	{
+		/**
+		 * @brief calc_file_extension
+		 * @param filename
+		 * @return
+		 */
+		QString			calc_file_extension(const QString& filename);
 
-	/**
-	 * @brief get parent directory of a filepath
-	 * @param path File- or directory path
-	 * @return
-	 */
-	QString			get_parent_directory(const QString& path);
+		/**
+		 * @brief Remove all files from directory
+		 * @param dir_name directory name
+		 * @param filters file name filters
+		 */
+		void			remove_files_in_directory(const QString& dir_name, const QStringList& filters);
 
-	/**
-	 * @brief extract pure filename from a complete file path
-	 * @param path complete file path
-	 * @return pure filename
-	 */
-	QString			get_filename_of_path(const QString& path);
+		/**
+		 * @brief get parent directory of a filepath
+		 * @param path File- or directory path
+		 * @return
+		 */
+		QString			get_parent_directory(const QString& path);
 
-	/**
-	 * @brief split filename into the dir and filename
-	 * @param src
-	 * @param path
-	 * @param filename
-	 */
-	void			split_filename(const QString& src, QString& dir, QString& filename);
+		/**
+		 * @brief extract pure filename from a complete file path
+		 * @param path complete file path
+		 * @return pure filename
+		 */
+		QString			get_filename_of_path(const QString& path);
 
-	/**
-	 * @brief get file extension
-	 * @param filename filename to get the extension for
-	 * @return extension string
-	 */
-	QString			get_file_extension(const QString& filename);
+		/**
+		 * @brief split filename into the dir and filename
+		 * @param src
+		 * @param path
+		 * @param filename
+		 */
+		void			split_filename(const QString& src, QString& dir, QString& filename);
 
-	/**
-	 * @brief extract parent folder of a file list (see also get_parent_directory(const QString& path)
-	 * @param list file list
-	 * @return List of parent folders
-	 */
-	QStringList		get_parent_directories(const QStringList& list);
+		/**
+		 * @brief get file extension
+		 * @param filename filename to get the extension for
+		 * @return extension string
+		 */
+		QString			get_file_extension(const QString& filename);
 
-	/**
-	 * @brief get absolute filename of file
-	 * @param filename
-	 * @return
-	 */
-	QString			get_absolute_filename(const QString& filename);
+		/**
+		 * @brief extract parent folder of a file list (see also get_parent_directory(const QString& path)
+		 * @param list file list
+		 * @return List of parent folders
+		 */
+		QStringList		get_parent_directories(const QStringList& list);
 
-	/**
-	 * @brief create all directories neccessary to access path
-	 * @param path full target path
-	 */
-	void			create_directories(const QString& path);
+		/**
+		 * @brief get absolute filename of file
+		 * @param filename
+		 * @return
+		 */
+		QString			get_absolute_filename(const QString& filename);
 
-
-	/**
-	 * @brief convert filesize to string
-	 * @param filesize in bytes
-	 * @return converted string
-	 */
-	QString			calc_filesize_str(quint64 filesize);
-
-
-	/**
-	 * @brief Tell whether filename is absolute
-	 * @param filename the filename to check
-	 * @return true if filename is absolute, false else
-	 */
-	bool			is_absolute(const QString& filename);
+		/**
+		 * @brief create all directories neccessary to access path
+		 * @param path full target path
+		 */
+		void			create_directories(const QString& path);
 
 
-	/**
-	 * @brief Write raw data to file
-	 * @param raw_data raw data
-	 * @param filename target_filename
-	 * @return true if successful, false else
-	 */
-	bool			write_file(const QByteArray& raw_data, const QString& filename);
+		/**
+		 * @brief convert filesize to string
+		 * @param filesize in bytes
+		 * @return converted string
+		 */
+		QString			calc_filesize_str(quint64 filesize);
+
+
+		/**
+		 * @brief Tell whether filename is absolute
+		 * @param filename the filename to check
+		 * @return true if filename is absolute, false else
+		 */
+		bool			is_absolute(const QString& filename);
+
+
+		/**
+		 * @brief Write raw data to file
+		 * @param raw_data raw data
+		 * @param filename target_filename
+		 * @return true if successful, false else
+		 */
+		bool			write_file(const QByteArray& raw_data, const QString& filename);
+
+		/**
+		 * @brief read a complete file into a string
+		 * @param filename filename
+		 * @param content target reference to content
+		 * @return true if file could be read, false else
+		 */
+		bool read_file_into_str(const QString& filename, QString& content);
+
+		/**
+		 * @brief read a complete file into a byte array
+		 * @param filename filename
+		 * @param content target reference to content
+		 * @return true if file could be read, false else
+		 */
+		bool read_file_into_byte_arr(const QString& filename, QByteArray& content);
 
 
 
 
 
-	// Everything clear
-	bool is_url(const QString& str);
-	bool is_www(const QString& str);
-	bool is_file(const QString& filename);
-	bool is_dir(const QString& filename);
-	bool is_soundfile(const QString& filename);
-	bool is_playlistfile(const QString& filename);
-	bool is_podcastfile(const QString& filename, const QByteArray& content);
+
+		// Everything clear
+		bool is_url(const QString& str);
+		bool is_www(const QString& str);
+		bool is_file(const QString& filename);
+		bool is_dir(const QString& filename);
+		bool is_soundfile(const QString& filename);
+		bool is_playlistfile(const QString& filename);
+		bool is_podcastfile(const QString& filename, const QByteArray& content);
+	}
 }
 
 #endif // FILEHELPER_H

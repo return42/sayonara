@@ -234,7 +234,7 @@ void GUI_InfoDialog::tab_index_changed(GUI_InfoDialog::TabIndex idx){
 			{
 
 				MetaDataList local_md = _v_md.extract_tracks( [](const MetaData& md){
-					return !FileHelper::is_www(md.filepath());
+					return !Helper::File::is_www(md.filepath());
 				});
 
 				if(local_md.size() > 0){
@@ -268,7 +268,7 @@ void GUI_InfoDialog::show(GUI_InfoDialog::TabIndex tab) {
 	cover_fetched(CoverLocation::getInvalidLocation());
 
 	bool tag_edit_enabled = std::any_of(_v_md.begin(), _v_md.end(), [](const MetaData& md){
-		return (!FileHelper::is_www(md.filepath()));
+		return (!Helper::File::is_www(md.filepath()));
 	});
 
 	tab_widget->setTabEnabled(GUI_InfoDialog::TabEdit, tag_edit_enabled);
@@ -284,7 +284,7 @@ void GUI_InfoDialog::show(GUI_InfoDialog::TabIndex tab) {
 	if(tab == TabEdit){
 
 		MetaDataList local_md = _v_md.extract_tracks([](const MetaData& md){
-			return (!FileHelper::is_www(md.filepath()));
+			return (!Helper::File::is_www(md.filepath()));
 		});
 
 		if(local_md.size() > 0){

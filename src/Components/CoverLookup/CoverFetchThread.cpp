@@ -150,7 +150,7 @@ void CoverFetchThread::multi_image_fetched(bool success){
 
 	if(!img.isNull()){
 		QString filename, dir;
-		FileHelper::split_filename(_target_file, dir, filename);
+		Helper::File::split_filename(_target_file, dir, filename);
 
 		QString cover_path = dir + "/" + QString::number(_covers_found) + "_" + filename;
 

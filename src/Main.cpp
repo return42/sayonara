@@ -260,7 +260,7 @@ int main(int argc, char *argv[]) {
 
 	/* Init files to play in argument list */
 	for(int i=1; i<argc; i++) {
-		files_to_play << FileHelper::get_absolute_filename(QString(argv[i]));
+		files_to_play << Helper::File::get_absolute_filename(QString(argv[i]));
 	}
 
 #ifdef Q_OS_LINUX

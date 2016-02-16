@@ -97,7 +97,7 @@ QString StreamRecorder::change_track(const MetaData& md) {
 
 	save();
 
-	if(!FileHelper::is_www(md.filepath())) {
+	if(!Helper::File::is_www(md.filepath())) {
 		_recording = false;
 		_sr_recording_dst = "";
 		return "";
@@ -115,7 +115,7 @@ QString StreamRecorder::change_track(const MetaData& md) {
 	sr_path = _settings->get(Set::Engine_SR_Path);
 	if(!QFile::exists(sr_path)){
 
-		FileHelper::create_directories(sr_path);
+		Helper::File::create_directories(sr_path);
 	}
 
 	session_path = check_session_path(sr_path);

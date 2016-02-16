@@ -4,3 +4,4 @@ resources/sayonara
 debian/files
 debian/sayonara/
 CMakeLists.txt.*
+doxygen/html*

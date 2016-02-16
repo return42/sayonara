@@ -81,7 +81,7 @@ void GUI_LanguageChooser::renew_combo() {
 	for(const QString file : files) {
 
 		QString filename, dirname;
-		FileHelper::split_filename(file, dirname, filename);
+		Helper::File::split_filename(file, dirname, filename);
 
 		filename = filename.left(filename.size() - 3);
 

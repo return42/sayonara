@@ -306,7 +306,7 @@ bool PlaylistItemModel::has_local_media(const IdxList& idxs) const
 	const  MetaDataList& tracks = _pl->get_playlist();
 
 	for(int idx : idxs){
-		if(!FileHelper::is_www(tracks[idx].filepath())){
+		if(!Helper::File::is_www(tracks[idx].filepath())){
 			return true;
 		}
 	}

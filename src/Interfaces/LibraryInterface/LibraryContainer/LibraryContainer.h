@@ -36,6 +36,7 @@ class LibraryPluginHandler;
 /**
  * @brief An interface class needed when implementing a library plugin
  * @ingroup LibraryPlugins
+ * @ingroup Interfaces
  */
 
 class LibraryContainerInterface :

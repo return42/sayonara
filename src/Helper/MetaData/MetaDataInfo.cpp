@@ -110,9 +110,9 @@ MetaDataInfo::MetaDataInfo(const MetaDataList* v_md) :
 		}
 
 		// paths
-		if(!FileHelper::is_www(md.filepath())){
+		if(!Helper::File::is_www(md.filepath())){
 			QString filename, dir;
-			FileHelper::split_filename(md.filepath(), dir, filename);
+			Helper::File::split_filename(md.filepath(), dir, filename);
 			if( !_paths.contains(dir)){
 				_paths << dir;
 			}
@@ -272,7 +272,7 @@ void MetaDataInfo::insert_genre(const QStringList& lst){
 }
 
 void MetaDataInfo::insert_filesize(quint64 filesize){
-	QString str = FileHelper::calc_filesize_str(filesize);
+	QString str = Helper::File::calc_filesize_str(filesize);
 	_info.insert(InfoStrings::Filesize, str);
 }
 

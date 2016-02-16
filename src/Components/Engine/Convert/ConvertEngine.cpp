@@ -61,7 +61,7 @@ bool ConvertEngine::set_uri(const MetaData& md) {
 		_target_uri = nullptr;
 	}
 
-	_playing_stream = FileHelper::is_www( md.filepath() );
+	_playing_stream = Helper::File::is_www( md.filepath() );
 
 	if (_playing_stream) {
 		url = QUrl(md.filepath());
@@ -80,7 +80,7 @@ bool ConvertEngine::set_uri(const MetaData& md) {
 		uri = md.filepath().toUtf8().data();
 	}
 
-	QString filename = FileHelper::get_filename_of_path(md.filepath());
+	QString filename = Helper::File::get_filename_of_path(md.filepath());
 	int idx = filename.lastIndexOf(".");
 	if(idx > 0) {
 		filename = filename.left(idx);

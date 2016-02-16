@@ -94,7 +94,7 @@ void GUI_LibraryInfoBox::psl_refresh() {
 	}
 
 	_duration_string = Helper::cvt_ms_to_string(_duration_ms, false);
-	_filesize_str = FileHelper::calc_filesize_str(_filesize);
+	_filesize_str = Helper::File::calc_filesize_str(_filesize);
 
 
 	lab_album_count->setText(QString::number(_n_albums));

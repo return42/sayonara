@@ -103,7 +103,7 @@ MetaDataList DirectoryReader::get_md_from_filelist(const QStringList& lst)
 			continue;
 		}
 
-		if(FileHelper::is_dir(str)) {
+		if(Helper::File::is_dir(str)) {
 
             QDir dir(str);
             dir.cd(str);
@@ -111,7 +111,7 @@ MetaDataList DirectoryReader::get_md_from_filelist(const QStringList& lst)
 			get_files_in_dir_rec(dir, files);
         }
 
-		else if(FileHelper::is_file(str)) {
+		else if(Helper::File::is_file(str)) {
 			files << str;
         }
     }
@@ -124,13 +124,13 @@ MetaDataList DirectoryReader::get_md_from_filelist(const QStringList& lst)
 
 		QString filepath = it->filepath();
 
-		if(FileHelper::is_playlistfile(filepath)) {
+		if(Helper::File::is_playlistfile(filepath)) {
 			playlist_paths << filepath;
 			it = v_md.erase(it);
             continue;
         }
 
-		if(FileHelper::is_soundfile(filepath)) {
+		if(Helper::File::is_soundfile(filepath)) {
 
 			if( it->id < 0 ) {
 				if(!Tagging::getMetaDataOfFile(*it)) {

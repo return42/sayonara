@@ -180,7 +180,7 @@ bool TagExpression::update_tag(const QString& tag_str, const QString& filepath){
 
 			if(i==0){
 				QString dir, filename;
-				FileHelper::split_filename(cap, dir, filename);
+				Helper::File::split_filename(cap, dir, filename);
 				cap = filename;
 			}
 

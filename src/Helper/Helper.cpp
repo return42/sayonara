@@ -308,51 +308,9 @@ QStringList Helper::get_podcast_extensions() {
 bool Helper::check_track(const MetaData& md) {
 
 	QString filepath = md.filepath();
-	if( FileHelper::is_www(filepath) ) return true;
+	if( Helper::File::is_www(filepath) ) return true;
 
 	return QFile::exists( filepath );
-}
-
-bool Helper::read_file_into_byte_arr(const QString& filename, QByteArray& content){
-	QFile file(filename);
-	content.clear();
-
-
-	if(!file.open(QIODevice::ReadOnly)){
-		return false;
-	}
-
-	while(!file.atEnd()){
-		QByteArray arr = file.read(4096);
-		content.append(arr);
-	}
-
-	file.close();
-
-	return (content.size() > 0);
-}
-
-
-bool Helper::read_file_into_str(const QString& filename, QString& content) {
-
-	QFile file(filename);
-	content.clear();
-	if(!file.open(QIODevice::ReadOnly)) {
-		return false;
-	}
-
-	while (!file.atEnd()) {
-		content.append(file.readLine());
-	}
-
-	file.close();
-
-	if(content.size() > 0 ) {
-		return true;
-	}
-
-	return false;
-
 }
 
 

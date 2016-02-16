@@ -37,7 +37,7 @@
 
 int PlaylistParser::parse_playlist(const QString& local_filename, MetaDataList& v_md) {
 
-	if(FileHelper::is_www(local_filename)){
+	if(Helper::File::is_www(local_filename)){
 		return 0;
 	}
 

@@ -32,6 +32,7 @@
 #include "Helper/globals.h"
 #include "Helper/MetaData/MetaData.h"
 #include "Helper/FileHelper.h"
+#include "Helper/UrlHelper.h"
 #include "Helper/Logger/Logger.h"
 #include "Helper/Random/RandomGenerator.h"
 #include "GUI/Helper/GlobalMessage/GlobalMessage.h"
@@ -181,21 +182,6 @@ namespace Helper {
 	 */
 	bool check_track(const MetaData& md);
 
-	/**
-	 * @brief read a complete file into a string
-	 * @param filename filename
-	 * @param content target reference to content
-	 * @return true if file could be read, false else
-	 */
-	bool read_file_into_str(const QString& filename, QString& content);
-
-	/**
-	 * @brief read a complete file into a byte array
-	 * @param filename filename
-	 * @param content target reference to content
-	 * @return true if file could be read, false else
-	 */
-	bool read_file_into_byte_arr(const QString& filename, QByteArray& content);
 
 	/**
 	 * @brief gets value out of tag

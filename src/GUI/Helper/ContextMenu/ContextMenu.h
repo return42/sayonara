@@ -31,8 +31,15 @@
 
 class IconLoader;
 
+/**
+ * @brief Combination of ContextMenu::Entry values
+ */
 typedef int ContextMenuEntries;
 
+/**
+ * @brief A context menu with some standard actions
+ * @ingroup GUIHelper
+ */
 class ContextMenu :
 		public QMenu,
 		protected SayonaraClass
@@ -40,6 +47,10 @@ class ContextMenu :
 	Q_OBJECT
 
 public:
+
+	/**
+	 * @brief The Entry enum
+	 */
 	enum Entry {
 		EntryNone	=0,
 		EntryNew	=(1<<0),
@@ -73,16 +84,35 @@ private:
 
 	QList<QAction*>		_actions;
 	QTimer*				_timer=nullptr;
-	IconLoader*		_icon_loader=nullptr;
+	IconLoader*			_icon_loader=nullptr;
 
+	/**
+	 * @brief show_action
+	 * @param b
+	 * @param action
+	 */
 	void show_action(bool b, QAction* action);
 
 
 public:
 	explicit ContextMenu(QWidget *parent=nullptr);
 
+	/**
+	 * @brief register a custom action
+	 * @param action the action. You have to set up the connection manually
+	 */
 	void register_action(QAction* action);
+
+	/**
+	 * @brief query, if there are visible actions
+	 * @return true, if at least one action is visible. false else
+	 */
 	bool has_actions();
+
+	/**
+	 * @brief get all visible entries
+	 * @return ContextMenuEntry mask
+	 */
 	ContextMenuEntries get_entries() const;
 
 
@@ -91,12 +121,29 @@ protected:
 
 
 public slots:
+	/**
+	 * @brief show actions defined by ContextMenuEntry mask. Hide other actions
+	 * @param mask of ContextMenu::Entry
+	 */
 	void show_actions(ContextMenuEntries entries);
+
+	/**
+	 * @brief show/hide specific action
+	 * @param entry the entry of interes
+	 * @param visible show/hide
+	 */
 	void show_action(ContextMenu::Entry entry, bool visible);
+
+	/**
+	 * @brief show all actions
+	 */
 	void show_all();
 
 
 private slots:
+	/**
+	 * @brief enable actions
+	 */
 	void timed_out();
 	void language_changed();
 	void skin_changed();

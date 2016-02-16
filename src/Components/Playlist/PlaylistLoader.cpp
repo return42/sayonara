@@ -36,7 +36,7 @@ PlaylistLoader::PlaylistLoader(QObject* parent) :
 
 	_playlist_db_connector = PlaylistDBConnector::getInstance();
 
-	bool success;
+	bool success=false;
 
 	bool load_playlists = (_settings->get(Set::PL_LoadSavedPlaylists) || _settings->get(Set::PL_LoadTemporaryPlaylists));
 	bool load_temporary_playlists = _settings->get(Set::PL_LoadTemporaryPlaylists);

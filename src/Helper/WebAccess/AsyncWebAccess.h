@@ -30,38 +30,82 @@
 #include <QImage>
 #include <QTimer>
 
-enum class AwaDataType : quint8
-{
-	String=0,
-	Image
-};
-
+/**
+ * @brief Asynchgronous web access class
+ * @ingroup Helper
+ */
 class AsyncWebAccess : public QObject{
 
 	Q_OBJECT
 
 signals:
+
 	void sig_finished(bool success);
 
 public:
+
+	/**
+	 * @brief AsyncWebAccess constructor
+	 * @param parent standard QObject parent
+	 * @param header a modified header, see set_raw_header(const QByteArray& header)
+	 */
 	AsyncWebAccess(QObject* parent=nullptr, const QByteArray& header=QByteArray());
 	virtual ~AsyncWebAccess();
 
+	/**
+	 * @brief get fetched data
+	 * @return fetched data
+	 */
 	QByteArray get_data() const;
-	QImage get_image() const;
-	QString	get_url() const;
-	QString get_url_filename() const;
-	QString get_url_hostname() const;
-	QString get_url_protocol() const;
-	QString get_url_wo_file() const;
 
+	/**
+	 * @brief get fetched data formatted as image
+	 * @return image
+	 */
+	QImage get_image() const;
+
+	/**
+	 * @brief get last called url. \n
+	 * This url may differ from the originally called url when request has been redirected.
+	 * @return url string
+	 */
+	QString	get_url() const;
+
+
+	/**
+	 * @brief starts a GET request
+	 * @param url url to call
+	 * @param timeout timeout until request is aborted and error is emitted
+	 */
 	void run(const QString& url, int timeout=4000);
+
+	/**
+	 * @brief starts a POST request
+	 * @param url url to call
+	 * @param post_data QByteArray formatted postdata containing ?, = and & characters
+	 * @param timeout timeout until request is aborted and error is emitted
+	 */
 	void run_post(const QString& url, const QByteArray& post_data, int timeout=4000);
+
+	/**
+	 * @brief modify header.
+	 * @param header new header field. e.g. "Content-Type" "text/css"
+	 */
 	void set_raw_header(const QMap<QByteArray, QByteArray>& header);
 
 
 private slots:
+
+	/**
+	 * @brief Called when request has finished. Emits sig_finished(bool success)
+	 * @param reply information about redirection, success or errors
+	 */
 	void finished(QNetworkReply* reply);
+
+	/**
+	 * @brief Request has timed out. Emits sig_finished(false);\n
+	 * finished(QNetworkReply *reply) is not called anymore
+	 */
 	void timeout();
 
 private:
@@ -69,10 +113,6 @@ private:
 	QNetworkAccessManager*	_nam=nullptr;
 	QString					_url;
 	QByteArray				_data;
-
-	QImage					_img;
-	int						_type;
-	int						_id;
 
 	QTimer*					_timer=nullptr;
 	QNetworkReply*			_reply=nullptr;

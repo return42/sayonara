@@ -38,14 +38,14 @@ void M3UParser::parse(){
 			continue;
 		}
 
-		if(FileHelper::is_playlistfile(line)){
+		if(Helper::File::is_playlistfile(line)){
 			MetaDataList v_md;
 			PlaylistParser::parse_playlist(line, v_md);
 			_v_md << v_md;
 			continue;
 		}
 
-		else if( !FileHelper::is_www(line)) {
+		else if( !Helper::File::is_www(line)) {
 			parse_local_file(line, md);
 		}
 

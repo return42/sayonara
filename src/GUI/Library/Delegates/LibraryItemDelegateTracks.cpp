@@ -63,7 +63,7 @@ void LibraryItemDelegateTracks::paint(QPainter *painter, const QStyleOptionViewI
     QString	text = index.data().toString();
 
     if(idx_col == COL_FILESIZE) {
-		text = FileHelper::calc_filesize_str(text.toInt());
+		text = Helper::File::calc_filesize_str(text.toInt());
         rect.translate(-2, 0);
         painter->drawText(rect, Qt::AlignRight | Qt::AlignVCenter, text);
     }

@@ -87,7 +87,7 @@ void ImportCachingThread::run() {
 		int percent = (i++ * 100000) / _filelist.size();
 
         emit sig_progress(percent / 1000);
-		if(!FileHelper::is_soundfile(filepath)) continue;
+		if(!Helper::File::is_soundfile(filepath)) continue;
 
 		MetaData md;
 		md.set_filepath( filepath );

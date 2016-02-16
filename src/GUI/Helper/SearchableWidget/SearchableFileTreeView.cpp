@@ -48,7 +48,7 @@ QModelIndex AbstractSearchFileTreeModel::getFirstRowIndexOf(QString substr)
 			str = it.filePath();
 
 			if(it.fileInfo().isFile()){
-				QString parent_folder = FileHelper::get_parent_directory(str);
+				QString parent_folder = Helper::File::get_parent_directory(str);
 				str = parent_folder;
 			}
 

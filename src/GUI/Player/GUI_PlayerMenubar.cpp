@@ -168,7 +168,7 @@ void GUI_Player::set_library_path_clicked() {
 
 	QString start_dir = QDir::homePath();
 	QString new_dir;
-	QString old_dir = FileHelper::get_absolute_filename(_settings->get(Set::Lib_Path));
+	QString old_dir = Helper::File::get_absolute_filename(_settings->get(Set::Lib_Path));
 
 	if(!_local_library){
 		_local_library = LocalLibrary::getInstance();

@@ -23,8 +23,10 @@ SET(HEADERS
 )
 
 SET(SOURCES
-	FileHelper.cpp
+
 	Helper.cpp
+	FileHelper.cpp
+	UrlHelper.cpp
 
     DirectoryReader/DirectoryReader.cpp
     Logger/Logger.cpp

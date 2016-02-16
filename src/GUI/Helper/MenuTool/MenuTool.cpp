@@ -55,7 +55,6 @@ void MenuToolButton::register_action(QAction *action)
 
 void MenuToolButton::show_menu(QPoint pos)
 {
-
 	MenuButton::show_menu(pos);
 
 	this->setDisabled(true);

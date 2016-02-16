@@ -28,6 +28,7 @@
 
 typedef QMap<QString, QString> StreamMap;
 
+
 class PlaylistHandler;
 class AsyncWebAccess;
 class DatabaseConnector;
@@ -60,13 +61,33 @@ public:
 protected:
 	DatabaseConnector*				_db=nullptr;
 	PlaylistHandler*				_playlist=nullptr;
-	AsyncWebAccess*					_awa=nullptr;
+
 
 	QMap<QString, MetaDataList>		_station_contents;
 	QString							_url;
 	QString							_station_name;
 	bool							_blocked;
 
+	QStringList						_stream_buffer;
+
+
+private:
+	QString write_playlist_file(const QByteArray& data);
+
+	/**
+	 * @brief Search for a playlist file in website data
+	 * @param data website data
+	 * @return
+	 */
+	QStringList search_for_playlist_files(const QByteArray& data);
+
+	/**
+	 * @brief Sset up missing fields in metadata: album, artist, title and filepath\n
+	 * @param md reference to a MetaData structure
+	 * @param stream_url url used to fill album/artist/filepath
+	 */
+	void finalize_metadata(MetaData& md, const QString& stream_url);
+	MetaDataList parse_content(const QByteArray& data);
 
 
 private slots:

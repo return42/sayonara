@@ -695,7 +695,7 @@ void GUI_Player::read_filelist(const QString& bla){
 
 
 
-	success = Helper::read_file_into_str(filename, content);
+	success = Helper::File::read_file_into_str(filename, content);
 	if(!success){
 		return;
 	}

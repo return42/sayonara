@@ -35,8 +35,6 @@
 namespace Style{
 
 	QString get_style(bool dark, QString font_family=QString(), int font_size=0);
-    QString get_tv_style(bool dark, QPalette* p=0);
-	QString get_v_slider_style(bool dark, int percent = -1);
 }
 
 

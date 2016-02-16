@@ -95,7 +95,7 @@ void Application::check_for_crash(){
 	QString info_text;
 	QString mail;
 
-	if(!Helper::read_file_into_str(error_file, mail)){
+	if(!Helper::File::read_file_into_str(error_file, mail)){
 		mail = "";
 		mail.prepend("mailto:luciocarreras@gmail.com?subject=Sayonara Crash&amp;body=Hi Lucio,\n\nhere is the trace for a Sayonara crash\n\n");
 	}

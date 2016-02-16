@@ -51,12 +51,12 @@ QString Style::get_style(bool dark, QString font_family, int font_size) {
 
 
 	if(!dark){
-		Helper::read_file_into_str(share_path + "standard.css", style);
+		Helper::File::read_file_into_str(share_path + "standard.css", style);
 
 	}
 
     else{
-		Helper::read_file_into_str(share_path + "dark.css", style);
+		Helper::File::read_file_into_str(share_path + "dark.css", style);
         style.replace("<<SHARE_PATH>>", share_path);
     }
 
@@ -66,74 +66,3 @@ QString Style::get_style(bool dark, QString font_family, int font_size) {
     return style;
 }
 
-
-QString Style::get_tv_style(bool dark, QPalette* p) {
-
-	Q_UNUSED(dark)
-	Q_UNUSED(p)
-    return  "";
-
-}
-
-
-QString Style::get_v_slider_style(bool dark, int percent) {
-	Q_UNUSED(percent)
-    if(!dark) return "";
-
-    QString darker_grey = "#2B2B2B";
-    QString dark_grey = "#555555";
-
-    QString orange = "#e8841a";
-    QString back_col = orange;
-
-    QString style =  QString("QSlider {") +
-            "border-radius: 4px; " +
-            "background: #383838; " +
-
-        "}" +
-
-        "QSlider::handle:vertical {" +
-       "     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, "+
-         "                                 stop: 0 #6B6B6B, stop: 0.4 " + dark_grey + ");" +
-        "    height: 10px;" +
-        "    margin-left: -5px; " +
-        "    margin-right: -5px; " +
-        "    min-width: 12px;" +
-        "    border: 1px solid #2C2C2C; " +
-        "    border-radius: 4px; " +
-        "}" +
-
-        "QSlider::handle:vertical:disabled {" +
-        "    background: transparent;"
-        "    height: 0px;"
-        "	 border-width: 0px;"
-        "}" +
-
-
-        "QSlider::groove:vertical { " +
-        "    background: #383838;" +
-        "    width: 6px; " +
-        "    left: 10px; right: 10px; " +
-        "}" +
-
-
-        "QSlider::add-page:vertical {"+
-        /*"    background-color: qlineargradient(x1:0, y1:0, x2:1, y2:0, "  +
-        "          stop:0 #E88417, stop: 0.3 #C46600, " +
-        "          stop: 0.7 #C46600, stop:1 #E88417); " +*/
-        //"      background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0 rgba(255, 0, 0, 255), stop:0.505051 rgba(255, 228, 0, 255), stop:1 rgba(55, 239, 78, 255)); "
-
-        "    background-color: " + back_col + "; "
-        "    border-radius: 2px;" +
-
-       "}"+
-
-        "QSlider::sub-page:vertical, QSlider::add-page:vertical:disabled {"+
-        "   background: " + darker_grey + ";"+
-        //     "    background-color: " + back_col + "; "
-        "   border-radius: 2px;" +
-
-        "}";
-
-    return style;
-}

@@ -42,7 +42,7 @@ void PlaylistDBConnector::apply_tags(MetaDataList& v_md){
 	for(MetaData& md : v_md){
 		if(md.is_extern){
 
-			if(FileHelper::is_file(md.filepath())){
+			if(Helper::File::is_file(md.filepath())){
 				Tagging::getMetaDataOfFile(md);
 			}
 		}
@@ -83,7 +83,7 @@ bool PlaylistDBConnector::extract_stream(CustomPlaylist& pl, QString name, QStri
 
 	pl.is_temporary = false;
 
-	if(FileHelper::is_playlistfile(url)) {
+	if(Helper::File::is_playlistfile(url)) {
 		if(PlaylistParser::parse_playlist(url, pl.tracks) > 0) {
 
 			for(MetaData& md : pl.tracks) {
