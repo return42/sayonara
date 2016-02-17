@@ -24,6 +24,7 @@
 
 #include "GUI_StreamRecorder.h"
 #include "Helper/Helper.h"
+#include "GUI/Helper/GlobalMessage/Message.h"
 #include "Database/DatabaseConnector.h"
 
 #include <QFileDialog>

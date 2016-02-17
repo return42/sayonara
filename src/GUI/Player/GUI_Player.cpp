@@ -24,6 +24,7 @@
 #include "GUI_TrayIcon.h"
 #include "GUI/AlternativeCovers/GUI_AlternativeCovers.h"
 #include "GUI/Playlist/GUI_Playlist.h"
+#include "GUI/Helper/GlobalMessage/Message.h"
 
 #include "Helper/globals.h"
 #include "Helper/Style/Style.h"
@@ -46,7 +47,7 @@
 
 GUI_Player::GUI_Player(QTranslator* translator, QWidget *parent) :
 	SayonaraMainWindow(parent),
-	GlobalMessageReceiver("Player Main Window"),
+	GlobalMessageReceiverInterface("Player Main Window"),
 	Ui::Sayonara()
 {
 	setupUi(this);

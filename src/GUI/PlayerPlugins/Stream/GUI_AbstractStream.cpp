@@ -19,11 +19,13 @@
  */
 
 #include "GUI_AbstractStream.h"
+#include "GUI/Helper/GlobalMessage/Message.h"
 
 #include "Helper/Helper.h"
 #include "Helper/MetaData/MetaData.h"
 #include "Helper/Parser/PlaylistParser.h"
 #include "Helper/Parser/PodcastParser.h"
+
 
 #include <QAbstractItemView>
 #include <QCompleter>

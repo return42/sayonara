@@ -25,7 +25,11 @@
 
 #include <QStyledItemDelegate>
 
-
+/**
+ * @brief The ComboBoxDelegate class\n
+ * Set this delegate to ComboBoxes if they should look nice
+ * @ingroup GUIHelper
+ */
 class ComboBoxDelegate : public QStyledItemDelegate
 {
 Q_OBJECT

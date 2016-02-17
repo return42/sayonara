@@ -29,14 +29,14 @@
 #include <QObject>
 
 
-class GlobalMessageReceiver;
+class GlobalMessageReceiverInterface;
 
 class GlobalMessage : public QObject
 {
 	Q_OBJECT
 	SINGLETON_QOBJECT(GlobalMessage)
 
-	GlobalMessageReceiver* _receiver;
+	GlobalMessageReceiverInterface* _receiver=nullptr;
 
 private slots:
 	void receiver_destroyed();
@@ -74,37 +74,13 @@ public:
 			const QString& sender_name=QString(),
 			QuestionType type=GlobalMessage::QuestionType::YesNo);
 
-	bool register_receiver(GlobalMessageReceiver* receiver);
+	/**
+	 * @brief register a receiver here, so it is called whenever a message has to be written
+	 * @param receiver the receiver class
+	 * @return false, if there's already another receiver. True else
+	 */
+	bool register_receiver(GlobalMessageReceiverInterface* receiver);
 };
-
-
-class GlobalMessageReceiver {
-
-private:
-	QString _name;
-
-public:
-	GlobalMessageReceiver(const QString& name);
-
-	QString get_name() const;
-
-
-	virtual GlobalMessage::Answer question_received(const QString& info, const QString& sender_name=QString(),GlobalMessage::QuestionType type=GlobalMessage::QuestionType::YesNo )=0;
-	virtual GlobalMessage::Answer info_received(const QString& info, const QString& sender_name=QString())=0;
-	virtual GlobalMessage::Answer warning_received(const QString& warning, const QString& sender_name=QString())=0;
-	virtual GlobalMessage::Answer error_received(const QString& error, const QString& sender_name=QString())=0;
-};
-
-
-namespace Message {
-
-	GlobalMessage::Answer info(const QString& warning, const QString& sender_name=QString());
-	GlobalMessage::Answer warning(const QString& warning, const QString& sender_name=QString());
-	GlobalMessage::Answer error(const QString& warning, const QString& sender_name=QString());
-	GlobalMessage::Answer question_yn(const QString& question, const QString& sender_name=QString());
-	GlobalMessage::Answer question_ok(const QString& question, const QString& sender_name=QString());
-
-}
 
 
 #endif // GLOBALMESSAGE_H

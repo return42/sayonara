@@ -22,6 +22,7 @@
 
 #include "GUI_Bookmarks.h"
 #include "Helper/Helper.h"
+#include "GUI/Helper/GlobalMessage/Message.h"
 
 #define TXT_NO_BOOKMARK "--:--"
 

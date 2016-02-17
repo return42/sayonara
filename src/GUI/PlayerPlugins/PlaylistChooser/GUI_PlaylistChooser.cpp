@@ -24,7 +24,7 @@
 #include "TargetPlaylistDialog/GUI_TargetPlaylistDialog.h"
 #include "Components/PlaylistChooser/PlaylistChooser.h"
 #include "GUI/Helper/ComboBoxDelegate/ComboBoxDelegate.h"
-#include "GUI/Helper/GlobalMessage/GlobalMessage.h"
+#include "GUI/Helper/GlobalMessage/Message.h"
 #include <QTimer>
 
 GUI_PlaylistChooser::GUI_PlaylistChooser(QWidget *parent) :

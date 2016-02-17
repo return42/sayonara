@@ -20,12 +20,13 @@
 
 #include "LibraryImporter.h"
 
-
 #include "Components/TagEdit/MetaDataChangeNotifier.h"
 #include "Database/DatabaseConnector.h"
 #include "Helper/MetaData/MetaData.h"
 #include "threads/ImportCachingThread.h"
 #include "threads/ImportCopyThread.h"
+
+#include "GUI/Helper/GlobalMessage/Message.h"
 
 #include <QMap>
 #include <QDir>

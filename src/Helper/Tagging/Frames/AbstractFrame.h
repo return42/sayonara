@@ -107,7 +107,12 @@ namespace ID3v2Frame
 			}
 
 
-			// sets the _data_model by reading from the frame
+			//
+			/**
+			 * @brief sets the _data_model by reading from the frame
+			 * @param data reference to data filled with _data_model
+			 * @return false, if frame cannot be accessed, true else
+			 */
 			virtual bool read(ModelType_t& data){
 				if(!_frame){
 					return false;
@@ -120,7 +125,12 @@ namespace ID3v2Frame
 			}
 
 
-			// insert the _data_model into the frame
+			//
+			/**
+			 * @brief insert the _data_model into the frame
+			 * @param data_model the data model
+			 * @return false if frame cannot be accessed
+			 */
 			virtual bool write(const ModelType_t& data_model){
 
 				bool created = false;
@@ -152,7 +162,10 @@ namespace ID3v2Frame
 			}
 
 
-			// if the frame was found when called read()
+			/**
+			 * @brief if the frame was found when called read()
+			 * @return true, if the frame was found
+			 */
 			bool is_frame_found() const {
 				return (_frame != nullptr);
 			}

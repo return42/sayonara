@@ -20,6 +20,7 @@
 
 #include "GUI_PlaylistBottomBar.h"
 #include "GUI/Helper/IconLoader/IconLoader.h"
+#include "GUI/Helper/GlobalMessage/Message.h"
 
 GUI_PlaylistBottomBar::GUI_PlaylistBottomBar(QWidget *parent) :
 	SayonaraWidget(parent),

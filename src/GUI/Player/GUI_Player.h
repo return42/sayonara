@@ -27,7 +27,7 @@
 #include "Components/PlayManager/PlayManager.h"
 
 #include "GUI/Player/GUI_TrayIcon.h"
-#include "GUI/Helper/GlobalMessage/GlobalMessage.h"
+#include "GUI/Helper/GlobalMessage/GlobalMessageReceiverInterface.h"
 
 #ifdef WITH_MTP
 	#include "GUI/MTP/GUI_MTP.h"
@@ -57,7 +57,7 @@ class IconLoader;
 
 class GUI_Player :
 		public SayonaraMainWindow,
-		public GlobalMessageReceiver,
+		public GlobalMessageReceiverInterface,
 		private Ui::Sayonara
 {
 

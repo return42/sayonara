@@ -25,6 +25,10 @@
 
 #include <QItemDelegate>
 #include <QStyledItemDelegate>
+/**
+ * @brief The TreeDelegate class
+ * @ingroup GUIHelper
+ */
 class TreeDelegate : public QItemDelegate
 {
 	Q_OBJECT

@@ -24,6 +24,7 @@
 #include "LFMGlobals.h"
 #include "LFMWebAccess.h"
 #include "Helper/Helper.h"
+#include "GUI/Helper/GlobalMessage/Message.h"
 
 LFMLoginStuff::LFMLoginStuff(){
 	logged_in = false;

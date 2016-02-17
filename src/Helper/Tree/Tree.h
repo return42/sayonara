@@ -38,11 +38,15 @@ template<typename T>
 class Tree {
 
 	public:
-		Tree* parent;
+		Tree* parent=nullptr;
 
 		QList<Tree*> children;
 		T data;
 
+		/**
+		 * @brief Tree constructor
+		 * @param data_ set the root element
+		 */
 		Tree(const T& data_){
 			data = data_;
 			parent = nullptr;
@@ -58,6 +62,9 @@ class Tree {
 			data = T();
 		}
 
+		/**
+		 * copy the entire tree. Has to be deleted afterwards
+		 */
 		Tree* copy(){
 			Tree* node = new Tree(this->data);
 
@@ -69,7 +76,11 @@ class Tree {
 		}
 
 
-
+		/**
+		 * @brief adds a child to the given node
+		 * @param node the parent node
+		 * @return pointer to inserted node
+		 */
 		Tree* add_child(Tree* node){
 
 			node->parent = this;
@@ -81,6 +92,11 @@ class Tree {
 		}
 
 
+		/**
+		 * @brief remove a node from the current node
+		 * @param deleted_node node to remove
+		 * @return pointer to deleted_node
+		 */
 		Tree* remove_child(Tree* deleted_node){
 
 			deleted_node->parent = nullptr;
@@ -90,7 +106,7 @@ class Tree {
 				Tree* node = children[i];
 
 				if(node == deleted_node){
-					deleted_node = this->children.takeAt(i);
+					deleted_node = children.takeAt(i);
 					i--;
 				}
 			}
@@ -98,33 +114,21 @@ class Tree {
 			return deleted_node;
 		}
 
-		Tree* remove_child(const QString& data){
 
-			Tree* deleted_node = nullptr;
-
-			for(int i=0; i < children.size(); i++){
-
-				Tree* node = children[i];
-
-				if(node->data == data){
-					deleted_node->parent = nullptr;
-					deleted_node = this->children.takeAt(i);
-					i--;
-				}
-			}
-
-			this->sort(false);
-
-			return deleted_node;
-		}
-
+		/**
+		 * @brief move current node to a new parent
+		 * @param new_parent new parent of node
+		 */
 		void move(Tree* new_parent){
 
 			parent->remove_child(data);
 			new_parent->add_child(this);
 		}
 
-
+		/**
+		 * @brief sort children of all nodes in ascending way according to their data
+		 * @param recursive if set to true, do it for all subnodes, too
+		 */
 		void sort(bool recursive){
 			int i;
 

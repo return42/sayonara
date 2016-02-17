@@ -19,6 +19,7 @@
  */
 
 #include "GlobalMessage.h"
+#include "GlobalMessageReceiverInterface.h"
 
 GlobalMessage::GlobalMessage(QObject* parent) :
 	QObject(parent)
@@ -31,7 +32,7 @@ GlobalMessage::~GlobalMessage()
 
 }
 
-bool GlobalMessage::register_receiver(GlobalMessageReceiver* receiver){
+bool GlobalMessage::register_receiver(GlobalMessageReceiverInterface* receiver){
 	if(_receiver != nullptr){
 		sp_log(Log::Warning) << "There's also another receiver: " << receiver->get_name();
 		return false;
@@ -83,39 +84,6 @@ GlobalMessage::question(const QString& question, const QString& sender_name, Glo
 	}
 
 	return _receiver->question_received(question, sender_name, type);
-}
-
-
-
-GlobalMessageReceiver::GlobalMessageReceiver(const QString &name)
-{
-	_name = name;
-}
-
-QString GlobalMessageReceiver::get_name() const{
-	return _name;
-}
-
-
-
-GlobalMessage::Answer Message::info(const QString& info, const QString& sender_name){
-	return GlobalMessage::getInstance()->info(info, sender_name);
-}
-
-GlobalMessage::Answer Message::warning(const QString& warning, const QString& sender_name){
-	return GlobalMessage::getInstance()->warning(warning, sender_name);
-}
-
-GlobalMessage::Answer Message::error(const QString& error, const QString& sender_name){
-	return GlobalMessage::getInstance()->error(error, sender_name);
-}
-
-GlobalMessage::Answer Message::question_yn(const QString& error, const QString& sender_name){
-	return GlobalMessage::getInstance()->question(error, sender_name, GlobalMessage::QuestionType::YesNo);
-}
-
-GlobalMessage::Answer Message::question_ok(const QString& error, const QString& sender_name){
-	return GlobalMessage::getInstance()->question(error, sender_name, GlobalMessage::QuestionType::OkCancel);
 }
 
 

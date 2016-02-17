@@ -35,6 +35,9 @@
 namespace Tagging
 {
 
+	/**
+	 * @brief The Quality enum
+	 */
 	enum class Quality : quint8 {
 
 		Fast=TagLib::AudioProperties::Fast,
@@ -43,7 +46,19 @@ namespace Tagging
 		Dirty
 	};
 
+	/**
+	 * @brief get metadata of file. Filepath should be given within the MetaData struct
+	 * @param md MetaData that will be filled
+	 * @param quality fast, normal, accurate
+	 * @return true, if metadata could be filled. false else
+	 */
 	bool getMetaDataOfFile(MetaData& md, Tagging::Quality quality=Tagging::Quality::Standard);
+
+	/**
+	 * @brief writes metadata into file specivied in MetaData::_filepath
+	 * @param md MetaData struct to write
+	 * @return true if metadata could be written. false else
+	 */
 	bool setMetaDataOfFile(const MetaData& md);
 }
 

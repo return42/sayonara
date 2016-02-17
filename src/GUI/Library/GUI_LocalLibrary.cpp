@@ -30,6 +30,7 @@
 #include "LocalLibraryMenu.h"
 #include "InfoBox/GUI_LibraryInfoBox.h"
 #include "ImportFolderDialog/GUI_ImportFolder.h"
+#include "GUI/Helper/GlobalMessage/Message.h"
 
 
 #include <QFileDialog>

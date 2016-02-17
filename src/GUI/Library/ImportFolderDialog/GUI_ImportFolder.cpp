@@ -20,8 +20,10 @@
 
 #include "GUI_ImportFolder.h"
 #include "GUI/TagEdit/GUI_TagEdit.h"
+#include "GUI/Helper/GlobalMessage/Message.h"
 
 #include "Helper/Helper.h"
+
 
 #include <QPixmap>
 #include <QScrollBar>

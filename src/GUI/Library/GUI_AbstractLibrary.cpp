@@ -20,6 +20,7 @@
 
 #include "GUI_AbstractLibrary.h"
 #include "GUI/InfoDialog/GUI_InfoDialog.h"
+#include "GUI/Helper/GlobalMessage/Message.h"
 
 GUI_AbstractLibrary::GUI_AbstractLibrary(AbstractLibrary* library, QWidget *parent) :
 	SayonaraWidget(parent)

@@ -37,6 +37,7 @@
 #include "Helper/MetaData/MetaData.h"
 #include "Database/DatabaseConnector.h"
 
+#include "GUI/Helper/GlobalMessage/Message.h"
 
 #include <QFile>
 #include <QDir>

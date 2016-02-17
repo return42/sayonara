@@ -22,6 +22,7 @@
 
 #include "GUI_StyleSettings.h"
 #include "Helper/Helper.h"
+#include "GUI/Helper/GlobalMessage/Message.h"
 #include <QColorDialog>
 
 GUI_StyleSettings::GUI_StyleSettings(QWidget *parent) :

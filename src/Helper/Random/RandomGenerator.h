@@ -41,7 +41,17 @@ public:
 	RandomGenerator();
 	~RandomGenerator();
 
+	/**
+	 * @brief create new seed
+	 */
 	void update_seed();
+
+	/**
+	 * @brief get a random number
+	 * @param min minimum
+	 * @param max maximum
+	 * @return number between [minimum, maximum]
+	 */
 	int get_number(int min, int max);
 };
 
