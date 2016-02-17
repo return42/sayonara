@@ -9,6 +9,9 @@ SET(SOURCES
 	Artist.cpp
 	Album.cpp
 	LibraryItem.cpp
+	MetaDataList.cpp
+	AlbumInfo.cpp
+	ArtistInfo.cpp
 )
 
 ADD_LIBRARY(${PROJECT_NAME} STATIC ${SOURCES})

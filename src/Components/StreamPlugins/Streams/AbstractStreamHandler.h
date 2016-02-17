@@ -24,7 +24,7 @@
 
 #include <QMap>
 #include <QString>
-#include "Helper/MetaData/MetaData.h"
+#include "Helper/MetaData/MetaDataList.h"
 
 typedef QMap<QString, QString> StreamMap;
 

@@ -25,7 +25,7 @@
 
 #include "Helper/MetaData/Album.h"
 #include "Helper/MetaData/Artist.h"
-#include "Helper/MetaData/MetaData.h"
+#include "Helper/MetaData/MetaDataList.h"
 
 class SoundcloudDataFetcher : public QObject
 {

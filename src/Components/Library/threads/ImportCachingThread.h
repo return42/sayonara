@@ -27,7 +27,7 @@
 #include <QMap>
 #include <QString>
 #include <QStringList>
-#include "Helper/MetaData/MetaData.h"
+#include "Helper/MetaData/MetaDataList.h"
 
 #define IMPORT_MODE_EXTRACT 0
 #define IMPORT_MODE_COPY 1

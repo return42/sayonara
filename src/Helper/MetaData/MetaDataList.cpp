@@ -1,4 +1,10 @@
 #include "MetaDataList.h"
+#include "MetaDataInfo.h"
+#include "AlbumInfo.h"
+#include "ArtistInfo.h"
+#include "Helper/Helper.h"
+
+#include <algorithm>
 
 MetaDataList::MetaDataList() :
 	QVector<MetaData>()

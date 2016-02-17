@@ -24,7 +24,7 @@
 
 
 #include <QByteArray>
-#include "Helper/MetaData/MetaData.h"
+#include "Helper/MetaData/MetaDataList.h"
 
 /**
  * @brief PlaylistParser namespace
