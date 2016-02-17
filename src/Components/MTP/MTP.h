@@ -35,7 +35,10 @@
 
 #include <QThread>
 
-
+/**
+ * @brief The MTP class
+ * @ingroup MTP
+ */
 class MTP : public QThread
 {
 	Q_OBJECT

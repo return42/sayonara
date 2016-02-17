@@ -31,27 +31,43 @@
 #include <QString>
 #include "Helper/Logger/Logger.h"
 
+/**
+ * @brief ID3v2Frame namespace
+ * @ingroup Tagging
+ */
 namespace ID3v2Frame
 {
-// for example
-// AbstractFrame<Discnumber, TagLib::ID3v2::TextIdentificationFrame>
 	template<typename ModelType_t, typename FrameType_t>
+	/**
+	 * @brief The AbstractFrame class\n
+	 * for example
+	 * AbstractFrame<Discnumber, TagLib::ID3v2::TextIdentificationFrame>
+	 * @ingroup Tagging
+	 */
 	class AbstractFrame {
 
 		protected:
-			const char*				_four;
-			TagLib::ID3v2::Tag*		_tag;
+			const char*				_four=nullptr;
+			TagLib::ID3v2::Tag*		_tag=nullptr;
 			ModelType_t				_data_model;
-			FrameType_t*			_frame;
+			FrameType_t*			_frame=nullptr;
 
 
 		protected:
-			// if there's no frame we have to create it manually
-			// every subclass has to implement this function
+
+			/**
+			 * @brief create_id3v2_frame creates new id3v2 frame
+			 * if there's no frame we have to create it manually
+			 * every subclass has to implement this function
+			 * @return pointer to newly created frame
+			 */
 			virtual TagLib::ID3v2::Frame* create_id3v2_frame()=0;
 
-			// maps the model to the frame and vice versa
-			// so the frame knows how to get/set data
+			/**
+			 * @brief map_model_to_frame\n
+			 * maps the model to the frame and vice versa
+			 * so the frame knows how to get/set data
+			 */
 			virtual void map_model_to_frame()=0;
 			virtual void map_frame_to_model()=0;
 

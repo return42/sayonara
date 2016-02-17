@@ -33,7 +33,10 @@
 #include "Helper/globals.h"
 
 
-
+/**
+ * @brief The SK namespace is used to access setting keys
+ * @ingroup Settings
+ */
 namespace SK {
 	enum SettingKey {
 
@@ -136,9 +139,18 @@ class SettingKey
  *
  */
 
+/**
+  * @brief MACRO INST use this macro to declare a setting:\n
+  * INST(boo, LFM_Active) is expanded to \n
+  * typedef SettingKey<bool, SK::LFM_Active> LFM_Active_t; const LFM_Active_t LFM_Active
+  * @ingroup Settings
+  */
 #define INST(type, settingkey) typedef SettingKey<type, SK:: settingkey> settingkey##_t; const settingkey##_t settingkey
 
-
+/**
+ * @brief Set namespace defines the setting: Which key and which type
+ * @ingroup Settings
+ */
 namespace Set {
 
 	//typedef SettingKey<bool, SK::LFM_Active> LFM_Active_t; const LFM_Active_t LFM_Active

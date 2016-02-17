@@ -27,7 +27,8 @@
 #include "Helper/MetaData/MetaData.h"
 
 /**
- * @ingroup Helper
+ * @brief PlaylistParser namespace
+ * @ingroup PlaylistParser
  */
 namespace PlaylistParser {
 

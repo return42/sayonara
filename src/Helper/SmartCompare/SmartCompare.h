@@ -42,6 +42,10 @@ struct Hash{
 	}
 };
 
+/**
+ * @brief The SmartCompare class
+ * @ingroup Helper
+ */
 class SmartCompare
 {
 

@@ -25,6 +25,10 @@
 
 #include "Playlist.h"
 
+/**
+ * @brief The StdPlaylist class
+ * @ingroup Playlists
+ */
 class StdPlaylist : public Playlist
 {
 	Q_OBJECT

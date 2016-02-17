@@ -26,6 +26,10 @@
 
 #include "Helper/Settings/Settings.h"
 
+/**
+ * @brief The SayonaraClass class provides access to Settings and notifications
+ * @ingroup Helper
+ */
 class SayonaraClass {
 
 	protected:

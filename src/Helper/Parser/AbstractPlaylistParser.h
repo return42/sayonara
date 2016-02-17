@@ -3,7 +3,7 @@
 
 
 #include <QString>
-#include "Helper/MetaData/MetaData.h"
+#include "Helper/MetaData/MetaDataList.h"
 
 /**
  * @brief The AbstractPlaylistParser class

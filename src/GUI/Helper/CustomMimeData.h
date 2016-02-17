@@ -23,7 +23,7 @@
 #ifndef _CUSTOMMIMEDATA_H
 #define _CUSTOMMIMEDATA_H
 
-#include "Helper/MetaData/MetaData.h"
+#include "Helper/MetaData/MetaDataList.h"
 #include <QMimeData>
 #include <QUrl>
 

@@ -34,7 +34,10 @@
 
 #include "Helper/Settings/Setting.h"
 
-
+/**
+ * @brief The Settings class
+ * @ingroup Settings
+ */
 class Settings : public QObject
 {
 

@@ -23,6 +23,10 @@
 #include "Helper/MetaData/MetaData.h"
 #include <QString>
 
+/**
+ * @brief Podcast Parser class
+ * @ingroup PlaylistParser
+ */
 namespace PodcastParser{
 
     bool parse_podcast_xml_file_content(const QString& content, MetaDataList& v_md);

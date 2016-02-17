@@ -23,9 +23,14 @@
 #ifndef CUSTOMPLAYLIST_H
 #define CUSTOMPLAYLIST_H
 
-#include "Helper/MetaData/MetaData.h"
+#include "Helper/MetaData/MetaDataList.h"
+
 #include <QVector>
 
+/**
+ * @brief The CustomPlaylistSkeleton class
+ * @ingroup PlaylistHelper
+ */
 class CustomPlaylistSkeleton {
 
 public:
@@ -38,7 +43,10 @@ public:
 	CustomPlaylistSkeleton(const CustomPlaylistSkeleton& s);
 };
 
-
+/**
+ * @brief The CustomPlaylist class
+ * @ingroup PlaylistHelper
+ */
 class CustomPlaylist : public CustomPlaylistSkeleton{
 
 public:

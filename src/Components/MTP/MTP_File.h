@@ -25,6 +25,10 @@
 
 #include "MTP_Typedefs.h"
 
+/**
+ * @brief The MTP_File class
+ * @ingroup MTP
+ */
 class MTP_File {
 
 private:

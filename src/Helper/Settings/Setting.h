@@ -30,9 +30,13 @@
 #include "Database/DatabaseSettings.h"
 #include "Helper/Logger/Logger.h"
 
-// Every setting needs a key and a value
-// The SK::SettingKey is only used inside the setting mechanism
 
+/**
+ * @brief The AbstrSetting class\n
+ * Every setting needs a key and a value
+ * The SK::SettingKey is only used inside the setting mechanism
+ * @ingroup Settings
+ */
 class AbstrSetting{
 
 	protected:
@@ -57,6 +61,11 @@ class AbstrSetting{
 
 template< typename T,
 		 template <typename Arg> class SC = SettingConverter >
+/**
+ * @brief The Setting class\n
+ * T is the pure value type e.g. QString
+ * @ingroup Settings
+ */
 class Setting : public AbstrSetting
 {
 

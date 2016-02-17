@@ -26,7 +26,10 @@
 #include "MTP_Typedefs.h"
 #include <QHash>
 
-
+/**
+ * @brief The MTP_Storage class
+ * @ingroup MTP
+ */
 class MTP_Storage
 {
 

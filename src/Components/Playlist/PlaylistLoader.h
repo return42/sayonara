@@ -32,6 +32,10 @@ class CustomPlaylist;
 class PlaylistDBConnector;
 class PlaylistHandler;
 
+/**
+ * @brief The PlaylistLoader class
+ * @ingroup Playlists
+ */
 class PlaylistLoader : public QObject, protected SayonaraClass
 {
 	Q_OBJECT

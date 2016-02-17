@@ -3,6 +3,10 @@
 
 #include "AbstractPlaylistParser.h"
 
+/**
+ * @brief The M3UParser class
+ * @ingroup PlaylistParser
+ */
 class M3UParser : public AbstractPlaylistParser
 {
 

@@ -3,10 +3,11 @@
 
 #include <QString>
 #include "AbstractPlaylistParser.h"
-#include <tuple>
 
-typedef std::tuple<QString, QString, int> PLSTuple;
-
+/**
+ * @brief The PLSParser class
+ * @ingroup PlaylistParser
+ */
 class PLSParser : public AbstractPlaylistParser
 {
 

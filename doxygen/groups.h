@@ -18,8 +18,24 @@
  */
 
 /**
+ * @defgroup PlaylistHelper Playlist Helpers
+ * @ingroup Playlists
+ * @ingroup Helper
+ */
+
+/**
  * @defgroup Tagging Tagging
  * @ingroup Components
+ */
+
+/**
+ * @defgroup MTP MTP Structures
+ * @ingroup Components
+ */
+
+/**
+ * @defgroup Lyrics Lyrics Classes
+ * @ingroup Lyrics
  */
 
 /**
@@ -27,7 +43,18 @@
  */
 
 /**
- * @defgroup PlaylistParser PlaylistParser
+ * @defgroup MetaDataHelper MetaData Helper
+ * @ingroup Helper
+ */
+
+/**
+ * @defgroup Settings Settings classes
+ * @ingroup Helper
+ */
+
+
+/**
+ * @defgroup PlaylistParser Playlist Parser
  * @ingroup Helper
  */
 

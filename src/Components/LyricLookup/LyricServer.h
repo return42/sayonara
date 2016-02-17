@@ -26,6 +26,10 @@
 #include <QMap>
 #include "Helper/Logger/Logger.h"
 
+/**
+ * @brief The ServerTemplate struct
+ * @ingroup Lyrics
+ */
 struct ServerTemplate {
 
 	QString display_str;

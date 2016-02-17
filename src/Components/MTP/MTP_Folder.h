@@ -25,7 +25,10 @@
 
 #include "MTP_Typedefs.h"
 
-
+/**
+ * @brief The MTP_Folder struct
+ * @ingroup MTP
+ */
 struct MTP_Folder {
 
 private:

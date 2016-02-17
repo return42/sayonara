@@ -38,6 +38,10 @@ class CustomPlaylistSkeleton;
 class PlaylistDBConnector;
 class PlaylistHandler;
 
+/**
+ * @brief The PlaylistChooser class
+ * @ingroup Components
+ */
 class PlaylistChooser : public QObject {
 	Q_OBJECT
 

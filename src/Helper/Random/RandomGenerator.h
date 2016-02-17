@@ -26,6 +26,10 @@
 #include <random>
 #include <chrono>
 
+/**
+ * @brief The RandomGenerator class
+ * @ingroup Helper
+ */
 class RandomGenerator
 {
 

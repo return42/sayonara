@@ -28,19 +28,23 @@
 #include "MTP_Folder.h"
 #include "MTP_Track.h"
 
+/**
+ * @brief The MTP_CopyFiles class
+ * @ingroup MTP
+ */
+
 class MTP_CopyFiles : public QThread
 {
 	Q_OBJECT
+
 public:
 	explicit MTP_CopyFiles(const MetaDataList& v_md, MTP_FolderPtr folder, QObject *parent = 0);
 	explicit MTP_CopyFiles(const QStringList& files, MTP_FolderPtr folder, QObject *parent = 0);
 
 private:
 
-
 	MetaDataList		_v_md;
 	MTP_FolderPtr		_folder;
-
 
 protected:
 	virtual void run() override;

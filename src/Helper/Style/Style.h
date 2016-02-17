@@ -32,6 +32,10 @@
 #include "Helper/Helper.h"
 #include <QPalette>
 
+/**
+ * @define the Style namespace
+ * @ingroup Helper
+ */
 namespace Style{
 
 	QString get_style(bool dark, QString font_family=QString(), int font_size=0);

@@ -24,7 +24,7 @@
 #define METADATACHANGENOTIFIER_H
 
 #include "Helper/globals.h"
-#include "Helper/MetaData/MetaData.h"
+#include "Helper/MetaData/MetaDataList.h"
 
 /**
  * @brief The MetaDataChangeNotifier class (Singleton)

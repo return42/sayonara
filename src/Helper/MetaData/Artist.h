@@ -29,6 +29,10 @@
 #include <QMetaType>
 #include <QVector>
 
+/**
+ * @brief The Artist class
+ * @ingroup MetaDataHelper
+ */
 class Artist : public LibraryItem {
 
 public:
@@ -53,6 +57,10 @@ public:
 
 Q_DECLARE_METATYPE(Artist)
 
+/**
+ * @brief ArtistList
+ * @ingroup MetaDataHelper
+ */
 typedef class QVector<Artist> ArtistList;
 
 #endif

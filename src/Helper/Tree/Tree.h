@@ -31,6 +31,10 @@
 #include "Helper/Logger/Logger.h"
 
 template<typename T>
+/**
+ * @brief The Tree class
+ * @ingroup Helper
+ */
 class Tree {
 
 	public:

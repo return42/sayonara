@@ -32,6 +32,7 @@ class DatabaseConnector;
  * @brief PlaylistDBConnector is responsible for fetching playlist data from database,
  * especially the handling between skeleton and the playlist itself
  * Most of the functions are wrappers for the DatabasePlaylist class
+ * @ingroup Playlists
  */
 class PlaylistDBConnector
 {

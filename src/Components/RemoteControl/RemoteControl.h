@@ -43,7 +43,7 @@ typedef std::function<void(int)> RemoteFunctionInt ;
 /**
  * @brief Remote control allows to control Sayonara from an external application via network.
  * Various commands are implemented. Sayonara also delivers information about state changes,
- *
+ * @ingroup Components
  *
  * The current implemented commands are:\n
  *

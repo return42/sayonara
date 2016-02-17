@@ -28,6 +28,10 @@
 #include <QByteArray>
 #include <QPoint>
 
+/**
+ * @brief The Log enum
+ * @ingroup Helper
+ */
 enum class Log : unsigned char
 {
 	Warning,

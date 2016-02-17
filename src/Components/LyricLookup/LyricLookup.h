@@ -40,6 +40,11 @@
 #include <QMap>
 
 class ServerTemplate;
+
+/**
+ * @brief The LyricLookupThread class
+ * @ingroup Lyrics
+ */
 class LyricLookupThread : public QObject {
 
 	Q_OBJECT

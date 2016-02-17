@@ -32,6 +32,10 @@
 
 namespace ID3v2Frame
 {
+	/**
+	 * @brief The Discnumber class
+	 * @ingroup Tagging
+	 */
 	class Discnumber
 	{
 		public:
@@ -45,6 +49,10 @@ namespace ID3v2Frame
 	};
 
 
+	/**
+	 * @brief The DiscnumberFrame class
+	 * @ingroup Tagging
+	 */
 	class DiscnumberFrame :
 			public AbstractFrame<Discnumber, TagLib::ID3v2::TextIdentificationFrame>
 	{

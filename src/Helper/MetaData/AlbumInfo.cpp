@@ -18,7 +18,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
+#include "AlbumInfo.h"
 #include "Helper/MetaData/MetaDataInfo.h"
 
 AlbumInfo::AlbumInfo(const MetaDataList* v_md) :

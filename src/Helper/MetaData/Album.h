@@ -34,6 +34,10 @@ class Album;
 
 Q_DECLARE_METATYPE(Album)
 
+/**
+ * @brief The Album class
+ * @ingroup MetaDataHelper
+ */
 class Album : public LibraryItem {
 
 public:
@@ -62,6 +66,10 @@ public:
 };
 
 
+/**
+ * @brief The AlbumList class
+ * @ingroup MetaDataHelper
+ */
 class AlbumList : public QVector<Album> {
 
 };

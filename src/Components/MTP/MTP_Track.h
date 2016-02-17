@@ -27,6 +27,10 @@
 
 #include "MTP_Typedefs.h"
 
+/**
+ * @brief The MTP_Track class
+ * @ingroup MTP
+ */
 class MTP_Track {
 
 	friend struct MTP_Folder;

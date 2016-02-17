@@ -31,6 +31,10 @@
 
 namespace ID3v2Frame
 {
+	/**
+	 * @brief The Popularimeter class
+	 * @ingroup Tagging
+	 */
 	class Popularimeter
 	{
 		public:
@@ -47,6 +51,10 @@ namespace ID3v2Frame
 	};
 
 
+	/**
+	 * @brief The PopularimeterFrame class
+	 * @ingroup Tagging
+	 */
 	class PopularimeterFrame :
 			public AbstractFrame<Popularimeter, TagLib::ID3v2::PopularimeterFrame>
 	{

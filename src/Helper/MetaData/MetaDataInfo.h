@@ -30,6 +30,10 @@
 
 #include <QMap>
 
+/**
+ * @brief The InfoStrings enum
+ * @ingroup MetaDataHelper
+ */
 enum class InfoStrings : quint8
 {
 	nTracks=0,		// set by MetaDataInfo
@@ -44,7 +48,11 @@ enum class InfoStrings : quint8
 };
 
 
-/** METADATA INFO **/
+
+/**
+ * @brief The MetaDataInfo class
+ * @ingroup MetaDataHelper
+ */
 class MetaDataInfo : public QObject, protected SayonaraClass
 {
 	Q_OBJECT
@@ -129,37 +137,5 @@ public:
 	virtual QString get_cover_album() const;
 };
 
-/** ALBUM INFO **/
-class AlbumInfo : public MetaDataInfo {
-
-	Q_OBJECT
-
-private:
-	void set_cover_location();
-	void set_subheader();
-	void set_header();
-
-public:
-	AlbumInfo(const MetaDataList*);
-	virtual ~AlbumInfo();
-};
-
-
-/** ARTIST INFO **/
-class ArtistInfo : public MetaDataInfo {
-
-	Q_OBJECT
-
-private:
-	void set_cover_location() override;
-	void set_subheader() override;
-	void set_header() override;
-
-public:
-	ArtistInfo(const MetaDataList*);
-	virtual ~ArtistInfo();
-
-	QString get_cover_album() const override;
-};
 
 #endif // METADATAINFO_H

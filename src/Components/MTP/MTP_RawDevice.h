@@ -26,6 +26,10 @@
 #include "MTP_Typedefs.h"
 #include <QThread>
 
+/**
+ * @brief The MTP_RawDevice class
+ * @ingroup MTP
+ */
 class MTP_RawDevice
 {
 

@@ -30,6 +30,8 @@
 #include "Components/LyricLookup/LyricLookup.h"
 
 #include "Helper/MetaData/MetaDataInfo.h"
+#include "Helper/MetaData/AlbumInfo.h"
+#include "Helper/MetaData/ArtistInfo.h"
 #include "GUI/Helper/IconLoader/IconLoader.h"
 
 #include <QPixmap>

@@ -33,6 +33,10 @@
 #include <QList>
 #include <memory>
 
+/**
+ * @brief The Playlist class
+ * @ingroup Playlists
+ */
 class Playlist :
 		public PlaylistDBInterface,
 		protected SayonaraClass

@@ -4,6 +4,10 @@
 #include "AbstractPlaylistParser.h"
 #include <QDomNode>
 
+/**
+ * @brief The ASXParser class
+ * @ingroup PlaylistParser
+ */
 class ASXParser : public AbstractPlaylistParser
 {
 public:

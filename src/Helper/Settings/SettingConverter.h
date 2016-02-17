@@ -31,6 +31,10 @@
 
 // generic
 template<typename T>
+/**
+ * @brief The SettingConverter class
+ * @ingroup Settings
+ */
 class SettingConverter{
 public:
 	static QString cvt_to_string(const T& val){
@@ -46,6 +50,10 @@ public:
 
 // from bool
 template<>
+/**
+ * @brief The SettingConverter<bool> class
+ * @ingroup Settings
+ */
 class SettingConverter<bool>{
 public:
 	static QString cvt_to_string(const bool& val){
@@ -77,6 +85,10 @@ public:
 
 // for int
 template<>
+/**
+ * @brief The SettingConverter<int> class
+ * @ingroup Settings
+ */
 class SettingConverter<int>{
 public:
 	static QString cvt_to_string(const int& val){
@@ -93,6 +105,10 @@ public:
 
 // for QStringList
 template<>
+/**
+ * @brief The SettingConverter<QStringList> class
+ * @ingroup Settings
+ */
 class SettingConverter<QStringList>{
 public:
 	static QString cvt_to_string(const QStringList& val){
@@ -107,6 +123,10 @@ public:
 
 // for QString
 template<>
+/**
+ * @brief The SettingConverter<QString> class
+ * @ingroup Settings
+ */
 class SettingConverter<QString>{
 public:
 	static QString cvt_to_string(const QString& val){
@@ -121,6 +141,10 @@ public:
 
 // for QSize
 template<>
+/**
+ * @brief The SettingConverter<QSize> class
+ * @ingroup Settings
+ */
 class SettingConverter<QSize>{
 public:
 	static QString cvt_to_string(const QSize& val){
@@ -151,6 +175,10 @@ public:
 
 // for QPoint
 template<>
+/**
+ * @brief The SettingConverter<QPoint> class
+ * @ingroup Settings
+ */
 class SettingConverter<QPoint>{
 public:
 	static QString cvt_to_string(const QPoint& val){
@@ -181,6 +209,10 @@ public:
 
 // for QPoint
 template<>
+/**
+ * @brief The SettingConverter<QByteArray> class
+ * @ingroup Settings
+ */
 class SettingConverter<QByteArray>{
 public:
 	static QString cvt_to_string(const QByteArray& arr){
@@ -206,6 +238,10 @@ public:
 
 // generic for lists
 template<typename T>
+/**
+ * @brief The SettingConverter<QList<T> > class
+ * @ingroup Settings
+ */
 class SettingConverter< QList<T> >{
 
 public:
@@ -240,6 +276,10 @@ public:
 };
 
 template<typename A, typename B>
+/**
+ * @brief The SettingConverter<QPair<A, B> > class
+ * @ingroup Settings
+ */
 class SettingConverter< QPair<A,B> >{
 public:
 	static QString cvt_to_string(const QPair<A,B>& val){

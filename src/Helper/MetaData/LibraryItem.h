@@ -28,9 +28,13 @@
 #include <QObject>
 
 
-// a CustomField is some additional entry than can be set for MetaData, Albums and Artists
-// and will be displayed on the Info Dialog
-// These custom fields are intendend for Plugins
+/**
+ * @brief The CustomField class
+ * a CustomField is some additional entry than can be set for MetaData, Albums and Artists
+ * and will be displayed on the Info Dialog
+ * These custom fields are intendend for Plugins
+ * @ingroup MetaDataHelper
+ */
 class CustomField {
 
 	QString _display_name;
@@ -48,7 +52,10 @@ public:
 };
 
 
-
+/**
+ * @brief The LibraryItem class
+ * @ingroup MetaDataHelper
+ */
 class LibraryItem {
 
 private:

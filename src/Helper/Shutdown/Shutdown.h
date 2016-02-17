@@ -44,6 +44,10 @@
 class PlayManager;
 class NotificationHandler;
 
+/**
+ * @brief The Shutdown class
+ * @ingroup Helper
+ */
 class Shutdown : public QObject, private SayonaraClass {
 
 	Q_OBJECT

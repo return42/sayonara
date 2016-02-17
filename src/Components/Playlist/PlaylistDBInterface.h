@@ -27,6 +27,10 @@
 #include "Helper/Playlist/CustomPlaylist.h"
 
 class PlaylistDBConnector;
+/**
+ * @brief The PlaylistDBInterface class
+ * @ingroup Playlists
+ */
 class PlaylistDBInterface : public QObject {
 
 	Q_OBJECT

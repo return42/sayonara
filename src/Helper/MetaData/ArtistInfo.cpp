@@ -19,8 +19,7 @@
  */
 
 
-
-#include "Helper/MetaData/MetaDataInfo.h"
+#include "ArtistInfo.h"
 #include "Database/DatabaseHandler.h"
 
 ArtistInfo::ArtistInfo(const MetaDataList* v_md) :

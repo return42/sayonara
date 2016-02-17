@@ -28,6 +28,10 @@
 #include <taglib/taglib.h>
 #include <taglib/fileref.h>
 
+/**
+ * @brief Tagging namespace
+ * @ingroup Tagging
+ */
 namespace Tagging
 {
 

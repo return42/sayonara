@@ -25,6 +25,10 @@
 
 #include "StdPlaylist.h"
 
+/**
+ * @brief The StreamPlaylist class
+ * @ingroup Playlists
+ */
 class StreamPlaylist : public StdPlaylist
 {
 public:
