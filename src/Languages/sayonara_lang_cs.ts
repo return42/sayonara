@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="cs_CZ" sourcelanguage="en_US">
+<TS version="2.1" language="cs_CZ" sourcelanguage="en_US">
 <context>
     <name>AbstractLibrary</name>
     <message>
@@ -600,7 +600,12 @@
         <translation>Dostupných %1 skladeb</translation>
     </message>
     <message>
-        <location line="+105"/>
+        <location line="-56"/>
+        <source>Edit</source>
+        <translation type="unfinished">Upravit</translation>
+    </message>
+    <message>
+        <location line="+161"/>
         <source>Choose target directory</source>
         <translation>Vybrat cílový adresář</translation>
     </message>
@@ -924,7 +929,22 @@
 <context>
     <name>GUI_Player</name>
     <message>
-        <location filename="../GUI/Player/GUI_Player.cpp" line="+155"/>
+        <location filename="../GUI/Player/GUI_Player.cpp" line="+74"/>
+        <source>Sayonara Player</source>
+        <translation type="unfinished">Přehrávač Sayonara</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Written by</source>
+        <translation type="unfinished">Od</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Copyright</source>
+        <translation type="unfinished">Autorské právo</translation>
+    </message>
+    <message>
+        <location line="+78"/>
         <source>&amp;Library</source>
         <translation>&amp;Sbírka</translation>
     </message>
@@ -1216,7 +1236,12 @@
         <translation>Spustit proud</translation>
     </message>
     <message>
-        <location filename="../GUI/PlayerPlugins/Stream/GUI_Podcasts.cpp" line="+45"/>
+        <location filename="../GUI/PlayerPlugins/Stream/GUI_Podcasts.cpp" line="+30"/>
+        <source>Podcast</source>
+        <translation type="unfinished">Zvukový záznam</translation>
+    </message>
+    <message>
+        <location line="+15"/>
         <source>Podcasts</source>
         <translation>Zvukové záznamy</translation>
     </message>
@@ -1286,6 +1311,14 @@
         <location line="-34"/>
         <source>Shutdown after playlist finished</source>
         <translation>Vypnout po dokončení seznamu skladeb</translation>
+    </message>
+</context>
+<context>
+    <name>GUI_SoundCloudLibrary</name>
+    <message>
+        <location filename="../3rdParty/Soundcloud/ui/GUI_SoundcloudLibrary.cpp" line="+36"/>
+        <source>Add artist</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1477,7 +1510,12 @@
         <translation>Poslech</translation>
     </message>
     <message>
-        <location filename="../GUI/PlayerPlugins/Stream/GUI_Stream.cpp" line="+44"/>
+        <location filename="../GUI/PlayerPlugins/Stream/GUI_Stream.cpp" line="+28"/>
+        <source>Radio Station</source>
+        <translation type="unfinished">Rádio</translation>
+    </message>
+    <message>
+        <location line="+16"/>
         <source>Webstreams</source>
         <translation>Internetové proudy</translation>
     </message>
@@ -2623,7 +2661,7 @@ Vyberte, prosím, jinou složku</translation>
     <message>
         <location filename="../3rdParty/Soundcloud/src/SoundcloudLibraryContainer.cpp" line="+45"/>
         <location line="+5"/>
-        <location filename="../3rdParty/Soundcloud/ui/GUI_SoundcloudLibrary.cpp" line="+95"/>
+        <location filename="../3rdParty/Soundcloud/ui/GUI_SoundcloudLibrary.cpp" line="+59"/>
         <source>Soundcloud</source>
         <translation>Soundcloud</translation>
     </message>
@@ -2636,44 +2674,6 @@ Vyberte, prosím, jinou složku</translation>
 OK?</source>
         <translation>%1 chce poslouchat vaši hudbu.
 OK?</translation>
-    </message>
-</context>
-<context>
-    <name>Ui</name>
-    <message>
-        <location filename="../3rdParty/Soundcloud/ui/GUI_SoundcloudLibrary.cpp" line="-59"/>
-        <source>Add artist</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../GUI/Library/ImportFolderDialog/GUI_ImportFolder.cpp" line="-112"/>
-        <source>Edit</source>
-        <translation>Upravit</translation>
-    </message>
-    <message>
-        <location filename="../GUI/Player/GUI_Player.cpp" line="-573"/>
-        <source>Sayonara Player</source>
-        <translation>Přehrávač Sayonara</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Written by</source>
-        <translation>Od</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Copyright</source>
-        <translation>Autorské právo</translation>
-    </message>
-    <message>
-        <location filename="../GUI/PlayerPlugins/Stream/GUI_Podcasts.cpp" line="-15"/>
-        <source>Podcast</source>
-        <translation>Zvukový záznam</translation>
-    </message>
-    <message>
-        <location filename="../GUI/PlayerPlugins/Stream/GUI_Stream.cpp" line="-16"/>
-        <source>Radio Station</source>
-        <translation>Rádio</translation>
     </message>
 </context>
 </TS>
