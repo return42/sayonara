@@ -18,12 +18,44 @@
  */
 
 /**
+ * @defgroup PlaylistHelper Playlist Helpers
+ * @ingroup Playlists
+ * @ingroup Helper
+ */
+
+/**
  * @defgroup Tagging Tagging
  * @ingroup Components
  */
 
 /**
+ * @defgroup MTP MTP Structures
+ * @ingroup Components
+ */
+
+/**
+ * @defgroup Lyrics Lyrics Classes
+ * @ingroup Components
+ */
+
+/**
  * @defgroup Helper Helper
+ */
+
+/**
+ * @defgroup MetaDataHelper MetaData Helper
+ * @ingroup Helper
+ */
+
+/**
+ * @defgroup Settings Settings classes
+ * @ingroup Helper
+ */
+
+
+/**
+ * @defgroup PlaylistParser Playlist Parser
+ * @ingroup Helper
  */
 
 
@@ -45,4 +77,13 @@
 /**
  * @defgroup LibraryPlugins Library Plugins
  * @ingroup Plugins
+ */
+
+/**
+ * @defgroup GUI
+ */
+
+/**
+ * @defgroup GUIHelper GUI Helper
+ * @ingroup GUI
  */
