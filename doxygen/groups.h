@@ -35,7 +35,7 @@
 
 /**
  * @defgroup Lyrics Lyrics Classes
- * @ingroup Lyrics
+ * @ingroup Components
  */
 
 /**
