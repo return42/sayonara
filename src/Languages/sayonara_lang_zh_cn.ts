@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="zh_CN">
+<TS version="2.1" language="zh_CN">
 <context>
     <name>AbstractLibrary</name>
     <message>
@@ -600,7 +600,12 @@
         <translation>%1 轨道可用</translation>
     </message>
     <message>
-        <location line="+105"/>
+        <location line="-56"/>
+        <source>Edit</source>
+        <translation type="unfinished">编辑</translation>
+    </message>
+    <message>
+        <location line="+161"/>
         <source>Choose target directory</source>
         <translation>选择目标目录</translation>
     </message>
@@ -924,7 +929,22 @@
 <context>
     <name>GUI_Player</name>
     <message>
-        <location filename="../GUI/Player/GUI_Player.cpp" line="+155"/>
+        <location filename="../GUI/Player/GUI_Player.cpp" line="+74"/>
+        <source>Sayonara Player</source>
+        <translation type="unfinished">再见播放器</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Written by</source>
+        <translation type="unfinished">编写由</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Copyright</source>
+        <translation type="unfinished">版权所有</translation>
+    </message>
+    <message>
+        <location line="+78"/>
         <source>&amp;Library</source>
         <translation>图文库&amp;L</translation>
     </message>
@@ -1216,7 +1236,12 @@
         <translation>开始流媒体</translation>
     </message>
     <message>
-        <location filename="../GUI/PlayerPlugins/Stream/GUI_Podcasts.cpp" line="+45"/>
+        <location filename="../GUI/PlayerPlugins/Stream/GUI_Podcasts.cpp" line="+30"/>
+        <source>Podcast</source>
+        <translation type="unfinished">播客</translation>
+    </message>
+    <message>
+        <location line="+15"/>
         <source>Podcasts</source>
         <translation>播客</translation>
     </message>
@@ -1286,6 +1311,14 @@
         <location line="-34"/>
         <source>Shutdown after playlist finished</source>
         <translation>播放结束后关机</translation>
+    </message>
+</context>
+<context>
+    <name>GUI_SoundCloudLibrary</name>
+    <message>
+        <location filename="../3rdParty/Soundcloud/ui/GUI_SoundcloudLibrary.cpp" line="+36"/>
+        <source>Add artist</source>
+        <translation type="unfinished">添加艺术家</translation>
     </message>
 </context>
 <context>
@@ -1477,7 +1510,12 @@
         <translation>倾听</translation>
     </message>
     <message>
-        <location filename="../GUI/PlayerPlugins/Stream/GUI_Stream.cpp" line="+44"/>
+        <location filename="../GUI/PlayerPlugins/Stream/GUI_Stream.cpp" line="+28"/>
+        <source>Radio Station</source>
+        <translation type="unfinished">广播电台</translation>
+    </message>
+    <message>
+        <location line="+16"/>
         <source>Webstreams</source>
         <translation>web流</translation>
     </message>
@@ -2620,7 +2658,7 @@ Please choose another folder</source>
     <message>
         <location filename="../3rdParty/Soundcloud/src/SoundcloudLibraryContainer.cpp" line="+45"/>
         <location line="+5"/>
-        <location filename="../3rdParty/Soundcloud/ui/GUI_SoundcloudLibrary.cpp" line="+95"/>
+        <location filename="../3rdParty/Soundcloud/ui/GUI_SoundcloudLibrary.cpp" line="+59"/>
         <source>Soundcloud</source>
         <translation>音乐云</translation>
     </message>
@@ -2633,44 +2671,6 @@ Please choose another folder</source>
 OK?</source>
         <translation>%1想要听你的音乐.
         ok?</translation>
-    </message>
-</context>
-<context>
-    <name>Ui</name>
-    <message>
-        <location filename="../3rdParty/Soundcloud/ui/GUI_SoundcloudLibrary.cpp" line="-59"/>
-        <source>Add artist</source>
-        <translation>添加艺术家</translation>
-    </message>
-    <message>
-        <location filename="../GUI/Library/ImportFolderDialog/GUI_ImportFolder.cpp" line="-112"/>
-        <source>Edit</source>
-        <translation>编辑</translation>
-    </message>
-    <message>
-        <location filename="../GUI/Player/GUI_Player.cpp" line="-573"/>
-        <source>Sayonara Player</source>
-        <translation>再见播放器</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Written by</source>
-        <translation>编写由</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Copyright</source>
-        <translation>版权所有</translation>
-    </message>
-    <message>
-        <location filename="../GUI/PlayerPlugins/Stream/GUI_Podcasts.cpp" line="-15"/>
-        <source>Podcast</source>
-        <translation>播客</translation>
-    </message>
-    <message>
-        <location filename="../GUI/PlayerPlugins/Stream/GUI_Stream.cpp" line="-16"/>
-        <source>Radio Station</source>
-        <translation>广播电台</translation>
     </message>
 </context>
 </TS>

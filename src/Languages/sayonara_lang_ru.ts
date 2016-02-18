@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="ru_RU">
+<TS version="2.1" language="ru_RU">
 <context>
     <name>AbstractLibrary</name>
     <message>
@@ -601,7 +601,12 @@
         <translation>%1 треков доступно</translation>
     </message>
     <message>
-        <location line="+105"/>
+        <location line="-56"/>
+        <source>Edit</source>
+        <translation type="unfinished">Изменить</translation>
+    </message>
+    <message>
+        <location line="+161"/>
         <source>Choose target directory</source>
         <translation>Выберите каталог</translation>
     </message>
@@ -925,7 +930,22 @@
 <context>
     <name>GUI_Player</name>
     <message>
-        <location filename="../GUI/Player/GUI_Player.cpp" line="+155"/>
+        <location filename="../GUI/Player/GUI_Player.cpp" line="+74"/>
+        <source>Sayonara Player</source>
+        <translation type="unfinished">Sayonara Player</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Written by</source>
+        <translation type="unfinished">Автор</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Copyright</source>
+        <translation type="unfinished">Copyright</translation>
+    </message>
+    <message>
+        <location line="+78"/>
         <source>&amp;Library</source>
         <translation>&amp;Библиотека</translation>
     </message>
@@ -1217,7 +1237,12 @@
         <translation>Начать стриминг</translation>
     </message>
     <message>
-        <location filename="../GUI/PlayerPlugins/Stream/GUI_Podcasts.cpp" line="+45"/>
+        <location filename="../GUI/PlayerPlugins/Stream/GUI_Podcasts.cpp" line="+30"/>
+        <source>Podcast</source>
+        <translation type="unfinished">Подкаст</translation>
+    </message>
+    <message>
+        <location line="+15"/>
         <source>Podcasts</source>
         <translation>Подкасты</translation>
     </message>
@@ -1287,6 +1312,14 @@
         <location line="-34"/>
         <source>Shutdown after playlist finished</source>
         <translation>После последней песни завершить работу</translation>
+    </message>
+</context>
+<context>
+    <name>GUI_SoundCloudLibrary</name>
+    <message>
+        <location filename="../3rdParty/Soundcloud/ui/GUI_SoundcloudLibrary.cpp" line="+36"/>
+        <source>Add artist</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1478,7 +1511,12 @@
         <translation>Слушать</translation>
     </message>
     <message>
-        <location filename="../GUI/PlayerPlugins/Stream/GUI_Stream.cpp" line="+44"/>
+        <location filename="../GUI/PlayerPlugins/Stream/GUI_Stream.cpp" line="+28"/>
+        <source>Radio Station</source>
+        <translation type="unfinished">Радио</translation>
+    </message>
+    <message>
+        <location line="+16"/>
         <source>Webstreams</source>
         <translation>Веб-поток</translation>
     </message>
@@ -2621,7 +2659,7 @@ Please choose another folder</source>
     <message>
         <location filename="../3rdParty/Soundcloud/src/SoundcloudLibraryContainer.cpp" line="+45"/>
         <location line="+5"/>
-        <location filename="../3rdParty/Soundcloud/ui/GUI_SoundcloudLibrary.cpp" line="+95"/>
+        <location filename="../3rdParty/Soundcloud/ui/GUI_SoundcloudLibrary.cpp" line="+59"/>
         <source>Soundcloud</source>
         <translation>Soundcloud</translation>
     </message>
@@ -2633,44 +2671,6 @@ Please choose another folder</source>
         <source>%1 wants to listen to your music.
 OK?</source>
         <translation>%1 хочет слушать вашу музыку\nOk?</translation>
-    </message>
-</context>
-<context>
-    <name>Ui</name>
-    <message>
-        <location filename="../3rdParty/Soundcloud/ui/GUI_SoundcloudLibrary.cpp" line="-59"/>
-        <source>Add artist</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../GUI/Library/ImportFolderDialog/GUI_ImportFolder.cpp" line="-112"/>
-        <source>Edit</source>
-        <translation>Изменить</translation>
-    </message>
-    <message>
-        <location filename="../GUI/Player/GUI_Player.cpp" line="-573"/>
-        <source>Sayonara Player</source>
-        <translation>Sayonara Player</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Written by</source>
-        <translation>Автор</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Copyright</source>
-        <translation>Copyright</translation>
-    </message>
-    <message>
-        <location filename="../GUI/PlayerPlugins/Stream/GUI_Podcasts.cpp" line="-15"/>
-        <source>Podcast</source>
-        <translation>Подкаст</translation>
-    </message>
-    <message>
-        <location filename="../GUI/PlayerPlugins/Stream/GUI_Stream.cpp" line="-16"/>
-        <source>Radio Station</source>
-        <translation>Радио</translation>
     </message>
 </context>
 </TS>
