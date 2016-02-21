@@ -9,12 +9,32 @@ Homepage: http://sayonara-player.com
 #Vcs-Browser: http://git.debian.org/?p=collab-maint/sayonara.git;a=summary
 
 Package: sayonara
-Architecture: all
+Architecture: any
 Section: sound
 Priority: optional
 Depends: ${shlibs:Depends}, ${misc:Depends}, gstreamer1.0-plugins-ugly, libqt5sql5-sqlite
-Description:Small and lightweight music player. 
- Its main focus is on managing libraries and playing sound out of it. 
- It contains a music library, custom playlists, dynamic playlists, 
- ID3 Tag Editor, LastFM scrobbling, LastFM radio, web streaming, equalizer, 
- lyrics, stream recorder and podcasts
+Description: Small and lightweight music player. 
+ Sayonara is as a lightweight and fast library manager and music player. 
+ It holds a lot of features like
+ Many supported music and playlist formats
+ Media library with search function
+ Directory view
+ External device support
+ Genre organization
+ Playlist view organized by tabs
+ (Dynamic) playback
+ Equalizer
+ Metadata editor (including tags from path)
+ Lyrics
+ Shutdown function
+ MP3 Converter
+ Customizable spectrum analyzer and level meter
+ Last.FM radio and scrobbling
+ Soundcloud support
+ Internet streams
+ Stream recorder
+ Podcasts
+ Radio Broadcasting
+ Multimedia key support 
+ Desktop integration (DBus Mpris2 compatible)
+ 2 skins
