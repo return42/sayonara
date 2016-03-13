@@ -522,11 +522,6 @@ QTabBar::close-button {
 	image: url(:/Icons/tool_dark_grey_small.svg.png);
 }
 
-QTabBar::close-button:disabled {
-
-	image: url(:/Icons/close_disabled.svg.png)
-}
-
 QTabBar::close-button:hover {
 	image: url(:/Icons/tool_grey_small.svg.png);
 	max-height: 12px;

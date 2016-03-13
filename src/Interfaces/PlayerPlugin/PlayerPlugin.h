@@ -242,4 +242,6 @@ public:
 	virtual void		show();
 };
 
+Q_DECLARE_INTERFACE(PlayerPluginInterface, "com.sayonara-player.playerplugin")
+
 #endif // PLAYERPLUGIN_H

@@ -54,7 +54,7 @@ void GUI_Player::show_plugin(PlayerPluginInterface* plugin) {
 
 	plugin_widget->show();
 
-    _pph->showPlugin(plugin);
+	_pph->show_plugin(plugin);
 
 	widget_size = plugin->get_size();
 	widget_size.setWidth( plugin_widget->width() );

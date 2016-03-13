@@ -38,28 +38,33 @@ class PlayerPluginHandler : public QObject, public SayonaraClass
 public:
     PlayerPluginHandler(QObject *parent=nullptr);
     ~PlayerPluginHandler();
-    
+
+
 signals:
 	void sig_show_plugin(PlayerPluginInterface*);
     void sig_hide_all_plugins();
-    
+
+
 public slots:
     void resize(QSize sz);
     void hide_all();
 
+
 private slots:
 	void plugin_action_triggered(PlayerPluginInterface*, bool);
 	void reload_plugin(PlayerPluginInterface* p);
-
 	void language_changed();
+
 
 private:
 	QList<PlayerPluginInterface*>	_plugins;
 	PlayerPluginInterface*			_cur_shown_plugin=nullptr;
 
+
 public:
-	void addPlugin(PlayerPluginInterface* plugin);
-	void showPlugin(PlayerPluginInterface* plugin);
+	void add_plugin(PlayerPluginInterface* plugin);
+	void show_plugin(PlayerPluginInterface* plugin);
+	void load_dynamic_plugins();
 
 	PlayerPluginInterface*        find_plugin(QString name);
 	QList<PlayerPluginInterface*> get_all_plugins() const;

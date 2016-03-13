@@ -27,6 +27,8 @@
 #include <QMap>
 #include <QString>
 #include <QAction>
+#include <QDir>
+#include <QPluginLoader>
 
 
 PlayerPluginHandler::PlayerPluginHandler(QObject *parent) :
@@ -54,9 +56,10 @@ PlayerPluginInterface* PlayerPluginHandler::find_plugin(QString name) {
     return nullptr;
 }
 
-void PlayerPluginHandler::addPlugin(PlayerPluginInterface* p) {
+void PlayerPluginHandler::add_plugin(PlayerPluginInterface* p) {
 
-    _plugins.push_back(p);
+	_plugins.push_back(p);
+
 	connect(p, &PlayerPluginInterface::sig_action_triggered, this, &PlayerPluginHandler::plugin_action_triggered);
 	connect(p, &PlayerPluginInterface::sig_reload, this,  &PlayerPluginHandler::reload_plugin);
 }
@@ -76,7 +79,7 @@ void PlayerPluginHandler::plugin_action_triggered(PlayerPluginInterface* p, bool
 }
 
 
-void PlayerPluginHandler::showPlugin(PlayerPluginInterface* p) {
+void PlayerPluginHandler::show_plugin(PlayerPluginInterface* p) {
 
      hide_all();
 
@@ -105,6 +108,40 @@ void PlayerPluginHandler::language_changed()
 	for(PlayerPluginInterface* p : _plugins) {
 		p->language_changed();
 		p->get_action()->setText(p->get_display_name());
+	}
+}
+
+void PlayerPluginHandler::load_dynamic_plugins()
+{
+	QString lib_dir;
+	QDir plugin_dir;
+	QStringList dll_filenames;
+	QString cur_plugin;
+
+	lib_dir = Helper::get_lib_path();
+	plugin_dir = QDir(lib_dir);
+	dll_filenames = plugin_dir.entryList(QDir::Files);
+	cur_plugin = _settings->get(Set::Lib_CurPlugin);
+
+	for(const QString& filename : dll_filenames) {
+
+		QObject* raw_plugin;
+		PlayerPluginInterface* plugin;
+
+		QPluginLoader loader(plugin_dir.absoluteFilePath(filename));
+
+		raw_plugin = loader.instance();
+		if(!raw_plugin) {
+			continue;
+		}
+
+		plugin = dynamic_cast<PlayerPluginInterface*>(raw_plugin);
+		if(!plugin) {
+			continue;
+		}
+
+		sp_log(Log::Info) << "Found player plugin " << plugin->get_display_name();
+		_plugins << plugin;
 	}
 }
 

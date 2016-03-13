@@ -166,16 +166,17 @@ bool Application::init(QTranslator* translator, const QStringList& files_to_play
 	sp_log(Log::Debug) << "Init plugins: " << _timer->elapsed() << "ms";
 	PlayerPluginHandler* pph = new PlayerPluginHandler(this);
 
-	pph->addPlugin( new GUI_LevelPainter());
-	pph->addPlugin(new GUI_Spectrum());
-	pph->addPlugin(new GUI_Equalizer());
-	pph->addPlugin(new GUI_Stream());
-	pph->addPlugin(new GUI_Podcasts());
-	pph->addPlugin(new GUI_PlaylistChooser());
-	pph->addPlugin(new GUI_AudioConverter());
-	pph->addPlugin(new GUI_Bookmarks());
-	pph->addPlugin(new GUI_Speed());
-	pph->addPlugin(new GUI_Broadcast());
+	pph->add_plugin(new GUI_LevelPainter());
+	pph->add_plugin(new GUI_Spectrum());
+	pph->add_plugin(new GUI_Equalizer());
+	pph->add_plugin(new GUI_Stream());
+	pph->add_plugin(new GUI_Podcasts());
+	pph->add_plugin(new GUI_PlaylistChooser());
+	pph->add_plugin(new GUI_AudioConverter());
+	pph->add_plugin(new GUI_Bookmarks());
+	pph->add_plugin(new GUI_Speed());
+	pph->add_plugin(new GUI_Broadcast());
+	pph->load_dynamic_plugins();
 
 	sp_log(Log::Debug) << "Plugins finsihed: " << _timer->elapsed() << "ms";
 
@@ -189,7 +190,6 @@ bool Application::init(QTranslator* translator, const QStringList& files_to_play
 	library_plugin_loader->init(library_containers);
 
 	sp_log(Log::Debug) << "Libraries loaded: " << _timer->elapsed() << "ms";
-
 
 	player->register_preference_dialog(new GUI_LanguageChooser(player));
 	player->register_preference_dialog(new GUI_FontConfig(player));
