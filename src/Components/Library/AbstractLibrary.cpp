@@ -154,6 +154,8 @@ void AbstractLibrary::psl_prepare_artist_for_playlist(int idx, bool new_playlist
 	else{
 		_playlist->create_playlist(_vec_md, _playlist->request_new_playlist_name());
 	}
+
+	set_playlist_action_after_double_click();
 }
 
 
@@ -167,6 +169,8 @@ void AbstractLibrary::psl_prepare_album_for_playlist(int idx, bool new_playlist)
 	else{
 		_playlist->create_playlist(_vec_md, _playlist->request_new_playlist_name());
 	}
+
+	set_playlist_action_after_double_click();
 }
 
 
@@ -184,6 +188,8 @@ void AbstractLibrary::psl_prepare_tracks_for_playlist(bool new_playlist){
 	else{
 		_playlist->create_playlist(_vec_md, _playlist->request_new_playlist_name());
 	}
+
+	set_playlist_action_after_double_click();
 }
 
 void AbstractLibrary::psl_prepare_tracks_for_playlist(const IdxList& idx_lst, bool new_playlist) {
@@ -201,6 +207,8 @@ void AbstractLibrary::psl_prepare_tracks_for_playlist(const IdxList& idx_lst, bo
 	else{
 		_playlist->create_playlist(v_md, _playlist->request_new_playlist_name());
 	}
+
+	set_playlist_action_after_double_click();
 }
 
 void AbstractLibrary::psl_prepare_tracks_for_playlist(const QStringList& paths, bool new_playlist) {
@@ -213,6 +221,29 @@ void AbstractLibrary::psl_prepare_tracks_for_playlist(const QStringList& paths, 
 		_playlist->create_playlist(paths, _playlist->request_new_playlist_name());
 	}
 
+	set_playlist_action_after_double_click();
+
+}
+
+
+void AbstractLibrary::set_playlist_action_after_double_click()
+{
+
+	PlayManager* play_manager = PlayManager::getInstance();
+
+	if(_settings->get(Set::Lib_DC_DoNothing)){
+		return;
+	}
+
+	else if(_settings->get(Set::Lib_DC_PlayIfStopped)){
+		if(play_manager->get_play_state() != PlayManager::PlayState::Playing){
+			_playlist->change_track(0, _playlist->get_current_idx());
+		}
+	}
+
+	else{
+		_playlist->change_track(0, _playlist->get_current_idx());
+	}
 }
 
 

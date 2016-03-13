@@ -29,9 +29,17 @@
 #include <QByteArray>
 #include <QShowEvent>
 #include <QCloseEvent>
+#include <QLabel>
 
 /**
- * @brief The PreferenceDialogInterface class
+ * @brief The PreferenceDialogInterface class\n
+ * If you wish to subclass reimplement\n
+ * \tvoid QString get_action_name() and\n
+ * \t void init_ui()\n\n
+ * In every function that makes use of the widgets call bool is_ui_initialized() first.\n
+ * Call setup_parent(this) in init_ui() first.\n
+ * If you wish to reimplement void language_changed(), call PreferenceDialogInterface::language_changed at the end\n
+ *
  * @ingroup Interfaces
  */
 class PreferenceDialogInterface : public SayonaraDialog
@@ -43,9 +51,14 @@ private:
 	bool		_is_initialized;
 	QByteArray	_geometry;
 
-	void set_ui_initialized();
 
 protected slots:
+	/**
+	 * @brief If this method is overridden, call the PreferenceDialogInterface::language_changed at the end.\n
+	 * It sets the title label, window title and the action name in the preferences menu\n
+	 * There's no need to call a listener to this function\n
+	 * Check for is_ui_initialized()
+	 */
 	void language_changed() override;
 
 
@@ -56,24 +69,45 @@ protected:
 	 * @return translated action name
 	 */
 	virtual QString get_action_name() const=0;
+	virtual QLabel* get_title_label()=0;
 
+	/**
+	 * @brief call setup_parent(this) here.\n
+	 * initialize compoenents and connections here.\n
+	 * After calling setup_parent(this), the preference Dialog is ready to use, language_changed() is called automatically
+	 */
 	virtual void init_ui()=0;
 
 	template<typename T>
-	void setup_parent(T* widget){
+	/**
+	 * @brief Sets up the Preference dialog. After this method, the dialog is "ready to use"\n
+	 * This method should be the first to be called when calling init_ui()
+	 * @param widget should always be "this"
+	 */
+	void setup_parent(T* widget) final {
 
 		widget->setupUi(widget);
 		widget->setModal(true);
+
+		QLabel* title_label = widget->get_title_label();
+		if(title_label){
+			title_label->setText(widget->get_action_name());
+		}
 
 		_is_initialized = true;
 
 		widget->language_changed();
 	}
 
+
 	void showEvent(QShowEvent* e) override;
 	void closeEvent(QCloseEvent* e) override;
 
-	bool is_ui_initialized() const;
+	/**
+	 * @brief checks if ui has already been initialized.
+	 * @return false, if the widget has never been activated before, true else
+	 */
+	virtual bool is_ui_initialized() const final;
 
 public:
 	/**

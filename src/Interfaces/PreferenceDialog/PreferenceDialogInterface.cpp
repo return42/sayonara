@@ -43,8 +43,14 @@ void PreferenceDialogInterface::language_changed()
 		return;
 	}
 
+	QLabel* label = get_title_label();
+	if(label){
+		label->setText(new_name);
+	}
+
 	this->setWindowTitle(new_name);
 }
+
 
 void PreferenceDialogInterface::showEvent(QShowEvent* e)
 {
@@ -82,9 +88,6 @@ QAction* PreferenceDialogInterface::get_action(){
 }
 
 
-void PreferenceDialogInterface::set_ui_initialized(){
-	_is_initialized = true;
-}
 
 bool PreferenceDialogInterface::is_ui_initialized() const
 {

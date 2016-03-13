@@ -139,16 +139,20 @@ void GUI_FontConfig::cancel_clicked()
 
 void GUI_FontConfig::language_changed()
 {
-	PreferenceDialogInterface::language_changed();
-
 	if(!is_ui_initialized()){
 		return;
 	}
 
 	retranslateUi(this);
+	PreferenceDialogInterface::language_changed();
 }
 
 void GUI_FontConfig::skin_changed()
 {
 
+}
+
+QLabel* GUI_FontConfig::get_title_label()
+{
+	return lab_title;
 }

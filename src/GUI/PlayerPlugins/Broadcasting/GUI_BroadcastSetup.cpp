@@ -67,13 +67,12 @@ void GUI_BroadcastSetup::accept(){
 
 void GUI_BroadcastSetup::language_changed(){
 
-	PreferenceDialogInterface::language_changed();
-
 	if(!is_ui_initialized()){
 		return;
 	}
 
 	retranslateUi(this);
+	PreferenceDialogInterface::language_changed();
 }
 
 void GUI_BroadcastSetup::skin_changed()
@@ -88,6 +87,11 @@ void GUI_BroadcastSetup::skin_changed()
 	else{
 		lab_icon->setPixmap(Helper::get_pixmap("broadcast_dark"));
 	}
+}
+
+QLabel* GUI_BroadcastSetup::get_title_label()
+{
+	return lab_title;
 }
 
 void GUI_BroadcastSetup::reject(){

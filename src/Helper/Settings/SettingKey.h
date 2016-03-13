@@ -62,6 +62,11 @@ namespace SK {
 		Lib_SplitterStateTrack,
 		Lib_SplitterStateGenre,
 		Lib_OldWidth,
+		Lib_DC_DoNothing,
+		Lib_DC_PlayIfStopped,
+		Lib_DC_PlayImmediately,
+		Lib_DD_DoNothing,
+		Lib_DD_PlayIfStoppedAndEmpty,
 
 		Player_Version,
 		Player_Language,
@@ -177,6 +182,13 @@ namespace Set {
 	INST(QByteArray,			Lib_SplitterStateTrack);		/* Splitter state between artists and tracks */
 	INST(QByteArray,			Lib_SplitterStateGenre);		/* Splitter state between tracks and genres */
 	INST(int,					Lib_OldWidth);					/* Old library width when hiding library */
+	INST(bool,					Lib_DC_DoNothing);				/* when double clicked, create playlist and do nothing*/
+	INST(bool,					Lib_DC_PlayIfStopped);			/* when double clicked, play if stopped */
+	INST(bool,					Lib_DC_PlayImmediately);		/* when double clicked, play immediately */
+	INST(bool,					Lib_DD_DoNothing);				/* when drag dropped, insert tracks and do nothing */
+	INST(bool,					Lib_DD_PlayIfStoppedAndEmpty);	/* when drag dropped, play if playlist is empty and stopped */
+
+
 
 	INST(QString,				Player_Version);				/* Version string of player */
 	INST(QString,				Player_Language);				/* language of player */

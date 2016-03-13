@@ -364,7 +364,19 @@ void PlaylistHandler::insert_tracks(const MetaDataList& v_md, int row, int pl_id
 		return;
 	}
 
-	_playlists[pl_idx]->insert_tracks(v_md, row);
+	PlaylistPtr pl = _playlists[pl_idx];
+
+	bool is_empty = pl->is_empty();
+	bool stopped = (_play_manager->get_play_state() == PlayManager::PlayState::Stopped);
+
+	pl->insert_tracks(v_md, row);
+
+	if( is_empty &&
+		stopped &&
+		_settings->get(Set::Lib_DD_PlayIfStoppedAndEmpty))
+	{
+		this->change_track(0, pl_idx);
+	}
 }
 
 

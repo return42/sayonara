@@ -64,13 +64,12 @@ void GUI_StartupDialog::init_ui()
 
 void GUI_StartupDialog::language_changed() {
 
-	PreferenceDialogInterface::language_changed();
-
 	if(!is_ui_initialized()){
 		return;
 	}
 
 	retranslateUi(this);
+	PreferenceDialogInterface::language_changed();
 }
 
 void GUI_StartupDialog::cb_toggled(bool b) {
@@ -101,4 +100,9 @@ void GUI_StartupDialog::ok_clicked() {
 QString GUI_StartupDialog::get_action_name() const
 {
 	return tr("Start up");
+}
+
+QLabel*GUI_StartupDialog::get_title_label()
+{
+	return lab_title;
 }

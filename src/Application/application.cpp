@@ -54,6 +54,7 @@
 #include "GUI/LanguageChooser/GUI_LanguageChooser.h"
 #include "GUI/StreamRecorder/GUI_StreamRecorder.h"
 #include "GUI/RemoteControl/GUI_RemoteControl.h"
+#include "GUI/LibraryPreferences/GUI_LibraryPreferences.h"
 #include <QByteArray>
 
 static InstanceMessage instance_message=InstanceMessageNone;
@@ -194,6 +195,7 @@ bool Application::init(QTranslator* translator, const QStringList& files_to_play
 	player->register_preference_dialog(new GUI_LanguageChooser(player));
 	player->register_preference_dialog(new GUI_FontConfig(player));
 	player->register_preference_dialog(new GUI_StartupDialog(player));
+	player->register_preference_dialog(new GUI_LibraryPreferences(player));
 	player->register_preference_dialog(new GUI_Notifications(player));
 	player->register_preference_dialog(new GUI_LastFM(player));
 	player->register_preference_dialog(new GUI_StreamRecorder(player));

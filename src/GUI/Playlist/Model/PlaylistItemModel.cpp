@@ -28,7 +28,6 @@
 
 #include "PlaylistItemModel.h"
 
-
 PlaylistItemModel::PlaylistItemModel(PlaylistPtr pl, QObject* parent) :
 	AbstractSearchListModel(parent),
 	_pl(pl)
@@ -112,6 +111,7 @@ void PlaylistItemModel::set_current_track(int row)
 }
 
 void PlaylistItemModel::insert_metadata(const MetaDataList& v_md, int target_index){
+
 	_pl->insert_tracks(v_md, target_index);
 }
 

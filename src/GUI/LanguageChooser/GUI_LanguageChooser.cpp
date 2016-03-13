@@ -39,13 +39,13 @@ GUI_LanguageChooser::~GUI_LanguageChooser() {
 
 void GUI_LanguageChooser::language_changed(){
 
-	PreferenceDialogInterface::language_changed();
-
 	if(!is_ui_initialized()){
 		return;
 	}
 
 	retranslateUi(this);
+
+	PreferenceDialogInterface::language_changed();
 }
 
 
@@ -146,4 +146,9 @@ void GUI_LanguageChooser::showEvent(QShowEvent* e) {
 QString GUI_LanguageChooser::get_action_name() const
 {
 	return tr("Language") + QString(" (Language)");
+}
+
+QLabel*GUI_LanguageChooser::get_title_label()
+{
+	return lab_title;
 }

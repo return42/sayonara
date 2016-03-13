@@ -165,6 +165,11 @@ bool register_settings(){
 	REGISTER_SETTING( Set::Lib_SplitterStateGenre ,"splitter_state_genre", QByteArray());
 	REGISTER_SETTING( Set::Lib_SplitterStateTrack ,"splitter_state_track", QByteArray());
 	REGISTER_SETTING( Set::Lib_OldWidth ,"lib_old_width", 0);
+	REGISTER_SETTING( Set::Lib_DC_DoNothing ,"lib_dc_do_nothing", true);
+	REGISTER_SETTING( Set::Lib_DC_PlayIfStopped ,"lib_dc_play_if_stopped", false);
+	REGISTER_SETTING( Set::Lib_DC_PlayImmediately ,"lib_dc_play_immediately", false);
+	REGISTER_SETTING( Set::Lib_DD_DoNothing ,"lib_dd_do_nothing", true);
+	REGISTER_SETTING( Set::Lib_DD_PlayIfStoppedAndEmpty ,"lib_dd_play_if_stopped_and_empty", false);
 
 	REGISTER_SETTING( Set::Player_Version, "player_version", QString(SAYONARA_VERSION));
 	REGISTER_SETTING( Set::Player_Language, "player_language", "sayonara_lang_en" );

@@ -99,7 +99,7 @@ void IconLoader::add_icon_names(const QStringList& icon_names){
 		QIcon icon = QIcon::fromTheme(icon_name);
 		if( !icon.isNull() ){
 			_icons[icon_name] = icon;
-			sp_log(Log::Debug) << "Could load icon from theme: " << icon_name;
+			//sp_log(Log::Debug) << "Could load icon from theme: " << icon_name;
 			continue;
 		}
 

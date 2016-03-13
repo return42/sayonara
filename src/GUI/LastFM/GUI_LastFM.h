@@ -57,6 +57,7 @@ private:
 	void language_changed() override;
 	QString get_action_name() const override;
 	void init_ui() override;
+	QLabel* get_title_label() override;
 
 
 private slots:

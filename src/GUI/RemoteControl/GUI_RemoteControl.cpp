@@ -51,13 +51,13 @@ void GUI_RemoteControl::init_ui()
 
 void GUI_RemoteControl::language_changed() {
 
-	PreferenceDialogInterface::language_changed();
-
 	if(!is_ui_initialized()){
 		return;
 	}
 
 	retranslateUi(this);
+
+	PreferenceDialogInterface::language_changed();
 }
 
 void GUI_RemoteControl::ok_clicked(){
@@ -78,3 +78,9 @@ QString GUI_RemoteControl::get_action_name() const
 	return tr("Remote control");
 }
 
+
+
+QLabel*GUI_RemoteControl::get_title_label()
+{
+	return lab_title;
+}

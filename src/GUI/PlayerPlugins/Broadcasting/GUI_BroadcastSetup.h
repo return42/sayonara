@@ -43,6 +43,8 @@ protected:
 	void language_changed() override;
 	void skin_changed() override;
 
+
+	QLabel* get_title_label() override;
 	QString get_action_name() const override;
 	void showEvent(QShowEvent* e);
 

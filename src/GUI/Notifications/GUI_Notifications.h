@@ -40,6 +40,7 @@ class GUI_Notifications :
 public:
     explicit GUI_Notifications(QWidget *parent=nullptr);
     virtual ~GUI_Notifications();
+	virtual QLabel* get_title_label() override;
 
     
 private slots:

@@ -45,6 +45,8 @@ protected:
 	void init_ui() override;
 	void language_changed() override;
 	QString get_action_name() const override;
+	QLabel* get_title_label() override;
+
 
 private slots:
     void cb_toggled(bool);

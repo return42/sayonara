@@ -57,6 +57,7 @@ private:
 	void showEvent(QShowEvent*) override;
 	void language_changed() override;
 	QString get_action_name() const override;
+	QLabel* get_title_label() override;
 
 
 

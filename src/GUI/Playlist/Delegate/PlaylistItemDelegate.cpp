@@ -38,6 +38,7 @@ PlaylistItemDelegate::PlaylistItemDelegate(QListView* parent) :
 	_drag_row = -1;
 	_show_numbers = _settings->get(Set::PL_ShowNumbers);
 	_row_height = 20;
+	_entry_template = "*%nr% %title%* %artist%";
 
 	REGISTER_LISTENER_NO_CALL(Set::PL_ShowNumbers, _sl_show_numbers_changed);
 }
@@ -88,61 +89,74 @@ void PlaylistItemDelegate::paint( QPainter *painter,
 
 
 	QFont font = painter->font();
-	int point_size = font.pointSize();
 
 	/** Time **/
 	QString time_string = Helper::cvt_ms_to_string(md.length_ms, true, true, false);
-	font.setBold(false);
-	font.setPointSize(point_size -1);
-	painter->setFont(font);
 
 	painter->translate(-4, 0);
 	painter->drawText(rect, Qt::AlignRight | Qt::AlignVCenter, time_string);
 	painter->translate(4, 0);
 
+	rect.setWidth(rect.width() - 50);
 
-	/** Title **/
+	QString str;
+	int offset_x = 4;
 
-	QString title_string;
-	if(_show_numbers){
-		title_string = QString::number(row + 1) + ". " + md.title;
+	for(int i=0; i<_entry_template.size(); i++){
+
+		bool print = (i == _entry_template.size() - 1);
+
+		QChar c = _entry_template.at(i);
+
+		if(c == '*'){
+			print = true;
+
+		}
+
+		else if(c == '\''){
+			print = true;
+		}
+
+		else {
+			str += c;
+		}
+
+		if(print){
+			QFontMetrics fm(font);
+			painter->translate(offset_x, 0);
+
+			str.replace("%title%", md.title);
+			if(_show_numbers){
+				str.replace(QRegExp("%nr%"), QString::number(md.track_num) + ".");
+			}
+
+			else{
+				str.replace(QRegExp("\\s*%nr%\\s*"), "");
+			}
+
+			str.replace("%artist%", md.artist);
+			str.replace("%album%", md.album);
+
+			painter->drawText(rect,
+							  (Qt::AlignLeft | Qt::AlignVCenter),
+							  fm.elidedText(str, Qt::ElideRight, rect.width()));
+
+			offset_x = fm.width(str);
+			rect.setWidth(rect.width() - offset_x);
+			str = "";
+		}
+
+		if(c == '*'){
+			font.setBold(!font.bold());
+			painter->setFont(font);
+		}
+
+		else if(c == '\''){
+			font.setItalic(!font.italic());
+			painter->setFont(font);
+		}
 	}
-	else{
-		title_string = md.title;
-	}
 
-	font.setBold(true);
-	font.setPointSize(point_size);
-	painter->setFont(font);
-
-	QFontMetrics fm(font);
-
-
-	if(!time_string.isEmpty()){
-		rect.setWidth(rect.width() - 50);
-	}
-
-	painter->translate(2, 0);
-	painter->drawText(rect,
-					  (Qt::AlignLeft | Qt::AlignVCenter),
-					  fm.elidedText(title_string, Qt::ElideRight, rect.width()) );
-
-
-	/** Artist **/
-	int x_offset = fm.width(title_string) + 5;
-
-	font.setBold(false);
-	font.setPointSize(point_size -1);
-	QFontMetrics fm2(font);
-
-	painter->setFont(font);
-
-	rect.setWidth(rect.width() - x_offset);
-
-	painter->translate(x_offset, 0);
-	painter->drawText(rect,
-					  (Qt::AlignLeft | Qt::AlignVCenter),
-					  fm2.elidedText(md.artist, Qt::ElideRight, rect.width()));
 
 	painter->restore();
 }
@@ -196,4 +210,3 @@ void PlaylistItemDelegate::_sl_show_numbers_changed()
 {
 	_show_numbers = _settings->get(Set::PL_ShowNumbers);
 }
-

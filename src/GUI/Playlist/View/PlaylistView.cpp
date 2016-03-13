@@ -560,7 +560,7 @@ void PlaylistView::handle_drop(QDropEvent* event, bool from_outside) {
 	else if(custom_mimedata != nullptr){
 
 		if(	custom_mimedata->hasText() &&
-				custom_mimedata->hasMetaData())
+			custom_mimedata->hasMetaData())
 		{
 			int sz = custom_mimedata->getMetaData(v_md);
 			if(sz == 0) {
@@ -569,7 +569,8 @@ void PlaylistView::handle_drop(QDropEvent* event, bool from_outside) {
 		}
 	}
 
-	_model->insert_metadata(v_md, row + 1);
+	PlaylistHandler* plh = PlaylistHandler::getInstance();
+	plh->insert_tracks(v_md, row+1, plh->get_current_idx());
 }
 
 

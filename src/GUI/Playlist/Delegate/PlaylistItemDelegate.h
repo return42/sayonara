@@ -69,6 +69,8 @@ private:
 	int					_max_width;
 	int					_drag_row;
 	bool				_show_numbers;
+	QString				_entry_template;
+
 
 
 private slots:

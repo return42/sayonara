@@ -33,13 +33,13 @@ GUI_Notifications::~GUI_Notifications() {
 
 void GUI_Notifications::language_changed(){
 
-	PreferenceDialogInterface::language_changed();
-
 	if(!is_ui_initialized()){
 		return;
 	}
 
 	retranslateUi(this);
+
+	PreferenceDialogInterface::language_changed();
 }
 
 
@@ -68,7 +68,6 @@ void GUI_Notifications::ok_clicked() {
 
 	_notification_handler->notificator_changed(cur_text);
 
-
     close();
 }
 
@@ -96,4 +95,10 @@ void GUI_Notifications::init_ui()
 	connect(btn_ok, &QPushButton::clicked, this, &GUI_Notifications::ok_clicked);
 	connect(_notification_handler,	&NotificationHandler::sig_notifications_changed,
 			this,					&GUI_Notifications::notifications_changed);
+}
+
+
+QLabel* GUI_Notifications::get_title_label()
+{
+	return lab_title;
 }

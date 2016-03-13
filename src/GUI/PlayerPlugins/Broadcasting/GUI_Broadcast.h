@@ -45,6 +45,7 @@ public:
 	QLabel* get_title_label() const override;
 	QPushButton* get_close_button() const override;
 
+
 public slots:
 
 	void new_connection(const QString& ip);

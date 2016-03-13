@@ -32,6 +32,7 @@ SET(APPLICATION_LIBRARIES
     say_gui_player
     say_gui_fontconfig
     say_gui_remote_control
+    say_gui_library_preferences
 
     say_interfaces_libraryinterface
     say_comp_remote_control

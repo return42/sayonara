@@ -56,6 +56,7 @@ protected slots:
 
 	void language_changed() override;
 	void skin_changed() override;
+	QLabel* get_title_label() override;
 
 private:
 	QFontDatabase*	_font_db=nullptr;

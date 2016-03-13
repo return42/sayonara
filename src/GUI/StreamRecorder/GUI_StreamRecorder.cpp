@@ -137,3 +137,9 @@ QString GUI_StreamRecorder::get_action_name() const
 {
 	return tr("Stream recorder");
 }
+
+
+QLabel* GUI_StreamRecorder::get_title_label()
+{
+	return lab_title;
+}
