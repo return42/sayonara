@@ -64,26 +64,25 @@ public:
 
 };
 
-#define LFMWebAccess_sig_response_doc static_cast<void (LFMWebAccess::*)(const QDomDocument&)>(&LFMWebAccess::sig_response)
-#define LFMWebAccess_sig_response_str static_cast<void (LFMWebAccess::*)(const QString&)>(&LFMWebAccess::sig_response)
+
 class LFMWebAccess : public QObject {
 
 	Q_OBJECT
 
 signals:
-	void sig_response(const QDomDocument& doc);
-	void sig_response(const QString& response);
+
+	void sig_response(const QByteArray& response);
 	void sig_error(const QString& error);
 
 public:
 	void call_url(const QString& url);
-	void call_url_xml(const QString& url);
+
 	void call_post_url(const QString& url, const QByteArray& post_data);
 	void call_post_url_https(const QString& url, const QByteArray& post_data);
 
 private slots:
 	void awa_finished(bool success);
-	void awa_finished_xml(bool success);
+
 
 private:
 	QString parse_error_message(const QString& response);

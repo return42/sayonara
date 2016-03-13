@@ -63,15 +63,6 @@ void LFMWebAccess::call_post_url_https(const QString& url, const QByteArray& pos
 }
 
 
-void LFMWebAccess::call_url_xml(const QString& url) {
-
-	AsyncWebAccess* awa = new AsyncWebAccess(this);
-	connect(awa, &AsyncWebAccess::sig_finished, this, &LFMWebAccess::awa_finished_xml);
-	awa->run(url, 10000);
-}
-
-
-
 void LFMWebAccess::awa_finished(bool success){
 
 	AsyncWebAccess* awa = static_cast<AsyncWebAccess*>(sender());
@@ -81,24 +72,9 @@ void LFMWebAccess::awa_finished(bool success){
 		return;
 	}
 
-	emit sig_response(QString::fromUtf8(data));
+	emit sig_response(data);
 }
 
-
-void LFMWebAccess::awa_finished_xml(bool success){
-
-	AsyncWebAccess* awa = static_cast<AsyncWebAccess*>(sender());
-	QByteArray data = awa->get_data();
-
-	if(check_error(data, success)){
-		return;
-	}
-
-	QDomDocument doc("LFMResponse");
-	doc.setContent(data);
-
-	emit sig_response(doc);
-}
 
 
 QString LFMWebAccess::parse_session_answer(const QString& content) {

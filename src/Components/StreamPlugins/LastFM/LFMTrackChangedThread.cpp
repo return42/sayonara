@@ -1,6 +1,6 @@
 /* LFMTrackChangedThread.cpp
 
- * Copyright (C) 2012  
+ * Copyright (C) 2012
  *
  * This file is part of sayonara-player
  *
@@ -17,14 +17,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * created by Lucio Carreras, 
- * Jul 18, 2012 
+ * created by Lucio Carreras,
+ * Jul 18, 2012
  *
  */
 
 #include "LFMTrackChangedThread.h"
 #include "LFMWebAccess.h"
 #include "LFMGlobals.h"
+#include "LFMSimArtistsParser.h"
 
 #include "Database/DatabaseHandler.h"
 
@@ -72,24 +73,24 @@ void LFMTrackChangedThread::update_now_playing(const MetaData& md) {
 
 	LFMWebAccess* lfm_wa = new LFMWebAccess();
 
-	connect(lfm_wa, LFMWebAccess_sig_response_str, this, &LFMTrackChangedThread::response_update);
+	connect(lfm_wa, &LFMWebAccess::sig_response, this, &LFMTrackChangedThread::response_update);
 	connect(lfm_wa, &LFMWebAccess::sig_error, this, &LFMTrackChangedThread::error_update);
 
 	QString artist = _md.artist;
 	QString title = _md.title;
 
-    if(artist.trimmed().size() == 0) artist = "Unknown";
-    artist.replace("&", "&amp;");
+	if(artist.trimmed().size() == 0) artist = "Unknown";
+	artist.replace("&", "&amp;");
 
 	UrlParams sig_data;
-		sig_data["api_key"] = LFM_API_KEY;
-		sig_data["artist"] = artist.toLocal8Bit();
-		sig_data["duration"] = QString::number(_md.length_ms / 1000).toLocal8Bit();
-		sig_data["method"] = QString("track.updatenowplaying").toLocal8Bit();
-		sig_data["sk"] = _session_key.toLocal8Bit();
-		sig_data["track"] =  title.toLocal8Bit();
+	sig_data["api_key"] = LFM_API_KEY;
+	sig_data["artist"] = artist.toLocal8Bit();
+	sig_data["duration"] = QString::number(_md.length_ms / 1000).toLocal8Bit();
+	sig_data["method"] = QString("track.updatenowplaying").toLocal8Bit();
+	sig_data["sk"] = _session_key.toLocal8Bit();
+	sig_data["track"] =  title.toLocal8Bit();
 
-		sig_data.append_signature();
+	sig_data.append_signature();
 
 
 	QByteArray post_data;
@@ -102,8 +103,8 @@ void LFMTrackChangedThread::update_now_playing(const MetaData& md) {
 }
 
 
-void LFMTrackChangedThread::response_update(const QString& response){
-	Q_UNUSED(response)
+void LFMTrackChangedThread::response_update(const QByteArray& data){
+	Q_UNUSED(data)
 	LFMWebAccess* lfm_wa = static_cast<LFMWebAccess*>(sender());
 	lfm_wa->deleteLater();
 }
@@ -119,103 +120,31 @@ void LFMTrackChangedThread::error_update(const QString& error){
 }
 
 
-ArtistMatch LFMTrackChangedThread::parse_similar_artists(const QDomDocument& doc){
-
-	ArtistMatch artist_match;
-	artist_match.artist = _md.artist;
-
-	QDomElement docElement = doc.documentElement();
-	QDomNode similarartists = docElement.firstChild();			// similarartists
-
-	QString dir_name = Helper::get_sayonara_path() + "/similar_artists";
-	QString file_name = dir_name + "/" +  _md.artist.toLower();
-
-	if(similarartists.hasChildNodes()) {
-
-		QDir dir;
-		QFile file;
-		dir.mkpath(dir_name);
-		file.setFileName(file_name);
-
-		if(!file.exists()){
-			file.open(QIODevice::WriteOnly);
-			file.write(doc.toByteArray());
-			file.close();
-		}
-
-
-		QString artist_name = "";
-		double match = -1.0;
-
-		for(int idx_artist=0; idx_artist < similarartists.childNodes().size(); idx_artist++) {
-			QDomNode artist = similarartists.childNodes().item(idx_artist);
-
-			if(artist.nodeName().toLower().compare("artist") != 0) continue;
-
-			if(!artist.hasChildNodes()) continue;
-
-			for(int idx_content = 0; idx_content <artist.childNodes().size(); idx_content++) {
-				QDomNode content = artist.childNodes().item(idx_content);
-				if(content.nodeName().toLower().contains("name")) {
-					QDomElement e = content.toElement();
-					if(!e.isNull()) {
-						artist_name = e.text();
-					}
-				}
-
-				if(content.nodeName().toLower().contains("match")) {
-					QDomElement e = content.toElement();
-					if(!e.isNull()) {
-						match = e.text().toDouble();
-					}
-				}
-
-				if(artist_name.size() > 0 && match > 0) {
-					artist_match.add(artist_name, match);
-					artist_name = "";
-					match = -1.0;
-					break;
-				}
-			}
-		}
-	}
-
-	else{
-		sp_log(Log::Warning) << "LastFM Similar artists: empty xml document";
-		return ArtistMatch();
-	}
-
-	_sim_artists_cache[_md.artist] = artist_match;
-	return artist_match;
-}
-
-
 
 
 void LFMTrackChangedThread::search_similar_artists(const MetaData& md) {
 
-	if(md.db_id != 0) return;
-
-	_md = md;
-
-	ArtistMatch artist_match;
-	artist_match.artist = _md.artist;
-
-	if(_md.artist.trimmed().size() == 0){
+	if(md.db_id != 0) {
 		return;
 	}
 
-    // check if already in cache
+	_md = md;
+
+	if(_md.artist.trimmed().isEmpty()){
+		return;
+	}
+
+	// check if already in cache
 	if(_sim_artists_cache.keys().contains(_md.artist)) {
-		artist_match = _sim_artists_cache.value(_md.artist);
+		const ArtistMatch& artist_match = _sim_artists_cache.value(_md.artist);
 		evaluate_artist_match(artist_match);
 		return;
-    }
+	}
 
 
 	LFMWebAccess* lfm_wa = new LFMWebAccess();
 
-	connect(lfm_wa, LFMWebAccess_sig_response_doc, this, &LFMTrackChangedThread::response_sim_artists);
+	connect(lfm_wa, &LFMWebAccess::sig_response, this, &LFMTrackChangedThread::response_sim_artists);
 	connect(lfm_wa, &LFMWebAccess::sig_error, this, &LFMTrackChangedThread::error_sim_artists);
 
 	QString url = 	QString("http://ws.audioscrobbler.com/2.0/?");
@@ -224,7 +153,7 @@ void LFMTrackChangedThread::search_similar_artists(const MetaData& md) {
 	url += QString("artist=") + encoded + QString("&");
 	url += QString("api_key=") + LFM_API_KEY;
 
-	lfm_wa->call_url_xml(url);
+	lfm_wa->call_url(url);
 	return;
 }
 
@@ -235,42 +164,39 @@ void LFMTrackChangedThread::evaluate_artist_match(const ArtistMatch& artist_matc
 		return;
 	}
 
-
-
 	// if we always take the best, it's boring
-	Quality quality, quality_org;
-	RandomGenerator rnd;
-	int rnd_number = rnd.get_number(1, 999);
+	ArtistMatch::Quality quality, quality_org;
+
+	int rnd_number = Helper::get_random_number(1, 999);
 
 	if(rnd_number > 350) {
-		quality = Quality::Very_Good;			// [250-999]
+		quality = ArtistMatch::Quality::Very_Good;	// [250-999]
 	}
 
 	else if(rnd_number > 75){
-		quality = Quality::Well;		// [50-250]
+		quality = ArtistMatch::Quality::Well;		// [50-250]
 	}
 
 	else {
-		quality = Quality::Poor;
+		quality = ArtistMatch::Quality::Poor;
 	}
 
 	quality_org = quality;
 	QMap<QString, int> possible_artists;
 
-	while(possible_artists.size() == 0) {
+	while(possible_artists.isEmpty()) {
 
-		QMap<QString, double> quality_map = artist_match.get(quality);
-		possible_artists = filter_available_artists(quality_map);
+		possible_artists = filter_available_artists(artist_match, quality);
 
 		switch(quality){
-			case Quality::Poor:
-				quality = Quality::Very_Good;
+			case ArtistMatch::Quality::Poor:
+				quality = ArtistMatch::Quality::Very_Good;
 				break;
-			case Quality::Well:
-				quality = Quality::Poor;
+			case ArtistMatch::Quality::Well:
+				quality = ArtistMatch::Quality::Poor;
 				break;
-			case Quality::Very_Good:
-				quality = Quality::Well;
+			case ArtistMatch::Quality::Very_Good:
+				quality = ArtistMatch::Quality::Well;
 				break;
 			default: // will never be executed
 				quality = quality_org;
@@ -282,56 +208,64 @@ void LFMTrackChangedThread::evaluate_artist_match(const ArtistMatch& artist_matc
 		}
 	}
 
-	if(possible_artists.size() == 0){
+	if(possible_artists.isEmpty()){
 		return;
 	}
 
-	_chosen_ids.clear();
+	IDList chosen_ids;
 	for(auto it = possible_artists.begin(); it != possible_artists.end(); it++) {
-		_chosen_ids.push_back(it.value());
+		chosen_ids << it.value();
 	}
 
-	if(!_chosen_ids.isEmpty()){
-		emit sig_similar_artists_available(_chosen_ids);
-	}
+	emit sig_similar_artists_available(chosen_ids);
 }
 
 
-QMap<QString, int> LFMTrackChangedThread::filter_available_artists(const QMap<QString, double>& artist_match) {
+QMap<QString, int> LFMTrackChangedThread::filter_available_artists(const ArtistMatch& artist_match, ArtistMatch::Quality quality) {
 
-		DatabaseConnector* db = DatabaseConnector::getInstance();
-        QMap<QString, int> possible_artists;
+	DatabaseConnector* db = DatabaseConnector::getInstance();
+	QMap<QString, double> bin = artist_match.get(quality);
+	QMap<QString, int> possible_artists;
 
-		for(const QString& key : artist_match.keys()) {
+	for(const QString& key : bin.keys()) {
 
 #if SMART_COMP
 
-            QMap<QString, float> sc_map = _smart_comparison->get_similar_strings(key);
-			for(const QString& sc_key : sc_map.keys() ){
-				int artist_id = db->getArtistID(sc_key);
-				if(artist_id >= 0 && sc_map[sc_key] > 5.0f){
+		QMap<QString, float> sc_map = _smart_comparison->get_similar_strings(key);
+		for(const QString& sc_key : sc_map.keys() ){
+			int artist_id = db->getArtistID(sc_key);
+			if(artist_id >= 0 && sc_map[sc_key] > 5.0f){
 
-					possible_artists[sc_key] = artist_id;
-				}
-
+				possible_artists[sc_key] = artist_id;
 			}
 
-#else
-                int artist_id = db->getArtistID(key);
-                if(artist_id >= 0 ){
+		}
 
-                    possible_artists[key] = artist_id;
-                }
+#else
+		int artist_id = db->getArtistID(key);
+		if(artist_id >= 0 ){
+
+			possible_artists[key] = artist_id;
+		}
 
 #endif
-        }
+	}
 
-        return possible_artists;
+	return possible_artists;
 }
 
-void LFMTrackChangedThread::response_sim_artists(const QDomDocument& doc){
 
-	ArtistMatch artist_match = parse_similar_artists(doc);
+void LFMTrackChangedThread::response_sim_artists(const QByteArray& data){
+
+	LFMSimArtistsParser parser("Myartist", data);
+
+	ArtistMatch artist_match = parser.get_artist_match();
+
+	if(artist_match.is_valid()){
+		QString artist_name = artist_match.get_artist_name();
+		_sim_artists_cache[artist_name] = artist_match;
+	}
+
 	evaluate_artist_match(artist_match);
 }
 

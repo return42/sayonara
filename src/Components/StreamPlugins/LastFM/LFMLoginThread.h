@@ -60,9 +60,9 @@ public:
     LFMLoginStuff getLoginStuff();
 
 private slots:
-	void wa_response(const QString& response);
+	void wa_response(const QByteArray& data);
 	void wa_error(const QString& response);
-	void wa_response_token(const QString& response);
+	void wa_response_token(const QByteArray& data);
 	void wa_error_token(const QString& error);
 
 

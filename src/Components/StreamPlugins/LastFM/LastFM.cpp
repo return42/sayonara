@@ -222,7 +222,7 @@ void LastFM::scrobble(const MetaData& metadata) {
 	}
 
 	LFMWebAccess* lfm_wa = new LFMWebAccess();
-	connect(lfm_wa, LFMWebAccess_sig_response_str, this, &LastFM::sl_scrobble_response);
+	connect(lfm_wa, &LFMWebAccess::sig_response, this, &LastFM::sl_scrobble_response);
 	connect(lfm_wa, &LFMWebAccess::sig_error, this, &LastFM::sl_scrobble_error);
 
 	time_t rawtime, started;
@@ -304,8 +304,8 @@ void LastFM::sl_similar_artists_available(IDList artist_ids) {
 	}
 }
 
-void LastFM::sl_scrobble_response(const QString& str){
-	Q_UNUSED(str)
+void LastFM::sl_scrobble_response(const QByteArray& data){
+	Q_UNUSED(data)
 }
 
 void LastFM::sl_scrobble_error(const QString& error){

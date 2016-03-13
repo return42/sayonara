@@ -61,7 +61,7 @@ class LastFM : public QObject, protected SayonaraClass{
 		void sl_similar_artists_available(IDList artist_ids);
 		void sl_track_changed(const MetaData&);
 		void sl_position_ms_changed(quint64);
-		void sl_scrobble_response(const QString& str);
+		void sl_scrobble_response(const QByteArray& data);
 		void sl_scrobble_error(const QString& str);
 
 

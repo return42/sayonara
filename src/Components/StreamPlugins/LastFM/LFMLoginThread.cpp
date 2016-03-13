@@ -43,7 +43,7 @@ LFMLoginThread::~LFMLoginThread() {}
 void LFMLoginThread::get_token() {
 
 	LFMWebAccess* lfm_wa = new LFMWebAccess();
-	connect(lfm_wa, LFMWebAccess_sig_response_str, this, &LFMLoginThread::wa_response_token);
+	connect(lfm_wa, &LFMWebAccess::sig_response, this, &LFMLoginThread::wa_response_token);
 	connect(lfm_wa, &LFMWebAccess::sig_error, this, &LFMLoginThread::wa_error_token);
 
     UrlParams signature_data;
@@ -59,10 +59,11 @@ void LFMLoginThread::get_token() {
 }
 
 
-void LFMLoginThread::wa_response_token(const QString& response){
+void LFMLoginThread::wa_response_token(const QByteArray& data){
 
+	QString str = QString::fromUtf8(data);
 	LFMWebAccess* lfm_wa = static_cast<LFMWebAccess*>(sender());
-	QString token = Helper::easy_tag_finder("lfm.token", response);
+	QString token = Helper::easy_tag_finder("lfm.token", str);
 
 	if(token.size() != 32) {
 		sp_log(Log::Warning) << "Last.fm: Invalid token = " << token;
@@ -117,7 +118,7 @@ bool LFMLoginThread::request_authorization() {
 void LFMLoginThread::login(const QString& username, const QString& password) {
 
 	LFMWebAccess* lfm_wa = new LFMWebAccess();
-	connect(lfm_wa, LFMWebAccess_sig_response_str, this, &LFMLoginThread::wa_response);
+	connect(lfm_wa, &LFMWebAccess::sig_response, this, &LFMLoginThread::wa_response);
 	connect(lfm_wa, &LFMWebAccess::sig_error, this, &LFMLoginThread::wa_error);
 
 	_login_info.logged_in = false;
@@ -140,17 +141,18 @@ void LFMLoginThread::login(const QString& username, const QString& password) {
 }
 
 
-void LFMLoginThread::wa_response(const QString& response){
+void LFMLoginThread::wa_response(const QByteArray& data){
 
 	LFMWebAccess* lfm_wa = static_cast<LFMWebAccess*>(sender());
+	QString str = QString::fromUtf8(data);
 
 	_login_info.logged_in = true;
-	_login_info.session_key = Helper::easy_tag_finder("lfm.session.key", response);
+	_login_info.session_key = Helper::easy_tag_finder("lfm.session.key", str);
 
 	sp_log(Log::Debug) << "Last.fm Got session key: " << _login_info.session_key;
 
-	_login_info.subscriber = (Helper::easy_tag_finder("lfm.session.subscriber", response).toInt() == 1);
-	_login_info.error = response;
+	_login_info.subscriber = (Helper::easy_tag_finder("lfm.session.subscriber", str).toInt() == 1);
+	_login_info.error = str;
 
 	if(_login_info.session_key.size() >= 32){
 		emit sig_logged_in(true);
