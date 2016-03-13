@@ -940,17 +940,17 @@ Biblioteca</translation>
     <message>
         <location filename="../GUI/Player/GUI_Player.cpp" line="+74"/>
         <source>Sayonara Player</source>
-        <translation type="unfinished">Reproductor Sayonara</translation>
+        <translation>Reproductor Sayonara</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Written by</source>
-        <translation type="unfinished">Escrito Por</translation>
+        <translation>Escrito Por</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Copyright</source>
-        <translation type="unfinished">Derechos de Autor</translation>
+        <translation>Derechos de Autor</translation>
     </message>
     <message>
         <location line="+78"/>

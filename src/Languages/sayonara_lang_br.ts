@@ -544,7 +544,7 @@
     <message>
         <location line="+25"/>
         <source>Cancel</source>
-        <translation type="unfinished">Cancelar</translation>
+        <translation>Cancelar</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -559,7 +559,7 @@
     <message>
         <location line="+7"/>
         <source>OK</source>
-        <translation type="unfinished">Aceitar</translation>
+        <translation>Aceitar</translation>
     </message>
 </context>
 <context>
@@ -934,17 +934,17 @@ Biblioteca</translation>
     <message>
         <location filename="../GUI/Player/GUI_Player.cpp" line="+74"/>
         <source>Sayonara Player</source>
-        <translation type="unfinished">Sayonara Player</translation>
+        <translation>Sayonara Player</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Written by</source>
-        <translation type="unfinished">Desenvolvido por</translation>
+        <translation>Desenvolvido por</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Copyright</source>
-        <translation type="unfinished">Copyright</translation>
+        <translation>Copyright</translation>
     </message>
     <message>
         <location line="+78"/>

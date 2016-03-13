@@ -602,7 +602,7 @@
     <message>
         <location line="-56"/>
         <source>Edit</source>
-        <translation type="unfinished">编辑</translation>
+        <translation>编辑</translation>
     </message>
     <message>
         <location line="+161"/>
@@ -931,17 +931,17 @@
     <message>
         <location filename="../GUI/Player/GUI_Player.cpp" line="+74"/>
         <source>Sayonara Player</source>
-        <translation type="unfinished">再见播放器</translation>
+        <translation>再见播放器</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Written by</source>
-        <translation type="unfinished">编写由</translation>
+        <translation>编写由</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Copyright</source>
-        <translation type="unfinished">版权所有</translation>
+        <translation>版权所有</translation>
     </message>
     <message>
         <location line="+78"/>
@@ -1238,7 +1238,7 @@
     <message>
         <location filename="../GUI/PlayerPlugins/Stream/GUI_Podcasts.cpp" line="+30"/>
         <source>Podcast</source>
-        <translation type="unfinished">播客</translation>
+        <translation>播客</translation>
     </message>
     <message>
         <location line="+15"/>
@@ -1318,7 +1318,7 @@
     <message>
         <location filename="../3rdParty/Soundcloud/ui/GUI_SoundcloudLibrary.cpp" line="+36"/>
         <source>Add artist</source>
-        <translation type="unfinished">添加艺术家</translation>
+        <translation>添加艺术家</translation>
     </message>
 </context>
 <context>
@@ -1512,7 +1512,7 @@
     <message>
         <location filename="../GUI/PlayerPlugins/Stream/GUI_Stream.cpp" line="+28"/>
         <source>Radio Station</source>
-        <translation type="unfinished">广播电台</translation>
+        <translation>广播电台</translation>
     </message>
     <message>
         <location line="+16"/>

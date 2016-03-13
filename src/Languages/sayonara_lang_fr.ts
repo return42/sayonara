@@ -931,17 +931,17 @@
     <message>
         <location filename="../GUI/Player/GUI_Player.cpp" line="+74"/>
         <source>Sayonara Player</source>
-        <translation type="unfinished">Sayonara Player</translation>
+        <translation>Sayonara Player</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Written by</source>
-        <translation type="unfinished">Écrit par</translation>
+        <translation>Écrit par</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Copyright</source>
-        <translation type="unfinished">Copyright</translation>
+        <translation>Copyright</translation>
     </message>
     <message>
         <location line="+78"/>
@@ -1238,7 +1238,7 @@
     <message>
         <location filename="../GUI/PlayerPlugins/Stream/GUI_Podcasts.cpp" line="+30"/>
         <source>Podcast</source>
-        <translation type="unfinished">Podcast</translation>
+        <translation>Podcast</translation>
     </message>
     <message>
         <location line="+15"/>
@@ -1318,7 +1318,7 @@
     <message>
         <location filename="../3rdParty/Soundcloud/ui/GUI_SoundcloudLibrary.cpp" line="+36"/>
         <source>Add artist</source>
-        <translation type="unfinished">Ajouter des artistes</translation>
+        <translation>Ajouter des artistes</translation>
     </message>
 </context>
 <context>
@@ -1512,7 +1512,7 @@
     <message>
         <location filename="../GUI/PlayerPlugins/Stream/GUI_Stream.cpp" line="+28"/>
         <source>Radio Station</source>
-        <translation type="unfinished">Radio</translation>
+        <translation>Radio</translation>
     </message>
     <message>
         <location line="+16"/>
@@ -2158,7 +2158,7 @@ Veuillez choisir un autre dossier</translation>
     <message>
         <location filename="../GUI/Library/Delegates/LibraryItemDelegateAlbums.cpp" line="+98"/>
         <source>None</source>
-        <translation type="unfinished"></translation>
+        <translation>Rien</translation>
     </message>
     <message>
         <location line="+8"/>

@@ -602,7 +602,7 @@
     <message>
         <location line="-56"/>
         <source>Edit</source>
-        <translation type="unfinished">Upravit</translation>
+        <translation>Upravit</translation>
     </message>
     <message>
         <location line="+161"/>
@@ -931,17 +931,17 @@
     <message>
         <location filename="../GUI/Player/GUI_Player.cpp" line="+74"/>
         <source>Sayonara Player</source>
-        <translation type="unfinished">Přehrávač Sayonara</translation>
+        <translation>Přehrávač Sayonara</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Written by</source>
-        <translation type="unfinished">Od</translation>
+        <translation>Od</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Copyright</source>
-        <translation type="unfinished">Autorské právo</translation>
+        <translation>Autorské právo</translation>
     </message>
     <message>
         <location line="+78"/>
@@ -1238,7 +1238,7 @@
     <message>
         <location filename="../GUI/PlayerPlugins/Stream/GUI_Podcasts.cpp" line="+30"/>
         <source>Podcast</source>
-        <translation type="unfinished">Zvukový záznam</translation>
+        <translation>Zvukový záznam</translation>
     </message>
     <message>
         <location line="+15"/>
@@ -1253,7 +1253,7 @@
         <location line="+67"/>
         <location filename="../GUI/RemoteControl/GUI_RemoteControl.cpp" line="+78"/>
         <source>Remote control</source>
-        <translation type="unfinished"></translation>
+        <translation>Dálkové ovládání</translation>
     </message>
     <message>
         <location line="-61"/>
@@ -1318,7 +1318,7 @@
     <message>
         <location filename="../3rdParty/Soundcloud/ui/GUI_SoundcloudLibrary.cpp" line="+36"/>
         <source>Add artist</source>
-        <translation type="unfinished"></translation>
+        <translation>Přidat umělce</translation>
     </message>
 </context>
 <context>
@@ -1512,7 +1512,7 @@
     <message>
         <location filename="../GUI/PlayerPlugins/Stream/GUI_Stream.cpp" line="+28"/>
         <source>Radio Station</source>
-        <translation type="unfinished">Rádio</translation>
+        <translation>Rádio</translation>
     </message>
     <message>
         <location line="+16"/>
@@ -1787,7 +1787,7 @@ Vyberte, prosím, jinou složku</translation>
         <location line="+10"/>
         <source>Tag from path</source>
         <translatorcomment>ID3 tag from filepath</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Značka z cesty</translation>
     </message>
     <message>
         <location line="+32"/>
@@ -1918,7 +1918,7 @@ Vyberte, prosím, jinou složku</translation>
         <location line="+65"/>
         <source>Current song</source>
         <translatorcomment>This should not be so long because it&apos;s in the tray icon context menu. When clicked, the current song will appear in a notification</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Nynější píseň</translation>
     </message>
     <message>
         <location line="-63"/>
@@ -2119,7 +2119,7 @@ Vyberte, prosím, jinou složku</translation>
         <location line="-55"/>
         <location line="+56"/>
         <source>Clear</source>
-        <translation type="unfinished"></translation>
+        <translation>Vyprázdnit</translation>
     </message>
 </context>
 <context>
@@ -2129,7 +2129,7 @@ Vyberte, prosím, jinou složku</translation>
         <location line="+27"/>
         <source>Updating genres</source>
         <translatorcomment>This is a status message</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Aktualizují se žánry</translation>
     </message>
 </context>
 <context>
@@ -2181,7 +2181,7 @@ Vyberte, prosím, jinou složku</translation>
     <message>
         <location filename="../GUI/Library/GUI_LocalLibrary.cpp" line="+50"/>
         <source>Local Library</source>
-        <translation>Místní sbírka</translation>
+        <translation>Sbírka</translation>
     </message>
 </context>
 <context>
@@ -2454,7 +2454,7 @@ Vyberte, prosím, jinou složku</translation>
         <location line="-44"/>
         <location line="+45"/>
         <source>Clear</source>
-        <translation type="unfinished"></translation>
+        <translation>Vyprázdnit</translation>
     </message>
     <message>
         <location line="-44"/>

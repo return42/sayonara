@@ -602,7 +602,7 @@
     <message>
         <location line="-56"/>
         <source>Edit</source>
-        <translation type="unfinished">Змінити</translation>
+        <translation>Змінити</translation>
     </message>
     <message>
         <location line="+161"/>
@@ -931,17 +931,17 @@
     <message>
         <location filename="../GUI/Player/GUI_Player.cpp" line="+74"/>
         <source>Sayonara Player</source>
-        <translation type="unfinished">Sayonara Player</translation>
+        <translation>Sayonara Player</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Written by</source>
-        <translation type="unfinished">Автор</translation>
+        <translation>Автор</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Copyright</source>
-        <translation type="unfinished">Copyright</translation>
+        <translation>Copyright</translation>
     </message>
     <message>
         <location line="+78"/>
@@ -1238,7 +1238,7 @@
     <message>
         <location filename="../GUI/PlayerPlugins/Stream/GUI_Podcasts.cpp" line="+30"/>
         <source>Podcast</source>
-        <translation type="unfinished">Подкаст</translation>
+        <translation>Подкаст</translation>
     </message>
     <message>
         <location line="+15"/>
@@ -1253,7 +1253,7 @@
         <location line="+67"/>
         <location filename="../GUI/RemoteControl/GUI_RemoteControl.cpp" line="+78"/>
         <source>Remote control</source>
-        <translation type="unfinished"></translation>
+        <translation>Дистанційне управління</translation>
     </message>
     <message>
         <location line="-61"/>
@@ -1318,7 +1318,7 @@
     <message>
         <location filename="../3rdParty/Soundcloud/ui/GUI_SoundcloudLibrary.cpp" line="+36"/>
         <source>Add artist</source>
-        <translation type="unfinished"></translation>
+        <translation>Додати виконавця</translation>
     </message>
 </context>
 <context>
@@ -1512,7 +1512,7 @@
     <message>
         <location filename="../GUI/PlayerPlugins/Stream/GUI_Stream.cpp" line="+28"/>
         <source>Radio Station</source>
-        <translation type="unfinished">Радіо</translation>
+        <translation>Радіостанція</translation>
     </message>
     <message>
         <location line="+16"/>
@@ -1781,7 +1781,7 @@ Please choose another folder</source>
     <message>
         <location line="+10"/>
         <source>Tag from path</source>
-        <translation type="unfinished"></translation>
+        <translation>ID3 тег добути зі шляху файла </translation>
     </message>
     <message>
         <location line="+32"/>
@@ -1916,7 +1916,7 @@ Please choose another folder</source>
         <location line="-206"/>
         <location line="+65"/>
         <source>Current song</source>
-        <translation type="unfinished"></translation>
+        <translation>Поточна пісня</translation>
     </message>
     <message>
         <location line="-63"/>
@@ -2117,7 +2117,7 @@ Please choose another folder</source>
         <location line="-55"/>
         <location line="+56"/>
         <source>Clear</source>
-        <translation type="unfinished"></translation>
+        <translation>Очистити</translation>
     </message>
 </context>
 <context>
@@ -2126,7 +2126,7 @@ Please choose another folder</source>
         <location filename="../GUI/Library/Views/LibraryGenreView.cpp" line="+185"/>
         <location line="+27"/>
         <source>Updating genres</source>
-        <translation type="unfinished"></translation>
+        <translation>Оновити жанри</translation>
     </message>
 </context>
 <context>
@@ -2157,7 +2157,7 @@ Please choose another folder</source>
     <message>
         <location filename="../GUI/Library/Delegates/LibraryItemDelegateAlbums.cpp" line="+98"/>
         <source>None</source>
-        <translation type="unfinished"></translation>
+        <translation>недост.</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -2451,7 +2451,7 @@ Please choose another folder</source>
         <location line="-44"/>
         <location line="+45"/>
         <source>Clear</source>
-        <translation type="unfinished"></translation>
+        <translation>Очистити</translation>
     </message>
     <message>
         <location line="-44"/>
