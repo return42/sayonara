@@ -32,14 +32,12 @@
 #include <QLabel>
 
 /**
- * @brief The PreferenceDialogInterface class\n
- * If you wish to subclass reimplement\n
- * \tvoid QString get_action_name() and\n
- * \t void init_ui()\n\n
+ * @brief Abstract Interface you should use when creating a preference dialog.
+ *
+ * If you wish to subclass, reimplement void get_action_name() and void init_ui().\n
  * In every function that makes use of the widgets call bool is_ui_initialized() first.\n
  * Call setup_parent(this) in init_ui() first.\n
- * If you wish to reimplement void language_changed(), call PreferenceDialogInterface::language_changed at the end\n
- *
+ * If you wish to reimplement void language_changed(), call PreferenceDialogInterface::language_changed at the end.
  * @ingroup Interfaces
  */
 class PreferenceDialogInterface : public SayonaraDialog
