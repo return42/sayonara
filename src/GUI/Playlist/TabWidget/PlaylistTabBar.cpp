@@ -23,12 +23,22 @@
 #include "PlaylistTabBar.h"
 #include "PlaylistTabMenu.h"
 
+#include <QShortcut>
+#include "Helper/MetaData/MetaData.h"
+#include "GUI/Helper/CustomMimeData.h"
 
 PlaylistTabBar::PlaylistTabBar(QWidget *parent) :
 	QTabBar(parent)
 {
 	_menu = new PlaylistTabMenu(this);
 	this->setDrawBase(false);
+	this->setAcceptDrops(true);
+
+	_tab_before_dd = -1;
+	_drag_origin_tab = -1;
+
+
+	init_shortcuts();
 
 	connect(_menu, &PlaylistTabMenu::sig_rename_clicked, this, &PlaylistTabBar::rename_pressed);
 	connect(_menu, &PlaylistTabMenu::sig_reset_clicked, this, &PlaylistTabBar::reset_pressed);
@@ -150,6 +160,11 @@ void PlaylistTabBar::wheelEvent(QWheelEvent* e)
 	}
 }
 
+void PlaylistTabBar::init_shortcuts()
+{
+	new QShortcut(QKeySequence("Ctrl+t"), this, SLOT(sig_add_tab_clicked()));
+}
+
 
 void PlaylistTabBar::show_menu_items(PlaylistMenuEntries entries){
 	_menu->show_menu_items(entries);
@@ -159,3 +174,96 @@ void PlaylistTabBar::setTabsClosable(bool b){
 	QTabBar::setTabsClosable(b);
 	_menu->show_close(b);
 }
+
+bool PlaylistTabBar::was_drag_from_playlist() const
+{
+	return _drag_from_playlist;
+}
+
+int PlaylistTabBar::get_drag_origin_tab() const
+{
+	return _drag_origin_tab;
+}
+
+
+
+void PlaylistTabBar::dragEnterEvent(QDragEnterEvent* e)
+{
+	QString object_name = e->source()->objectName();
+	sp_log(Log::Debug) << "Object name: " << object_name;
+
+	_drag_origin_tab = -1;
+	_drag_from_playlist = object_name.contains("playlist_view");
+
+	if(!_drag_from_playlist){
+		_tab_before_dd = -1;
+		sp_log(Log::Debug) << "1 Original tab = " << _tab_before_dd;
+	}
+
+	else if(_tab_before_dd < 0){
+		_tab_before_dd = currentIndex();
+		sp_log(Log::Debug) << "2 Original tab = " << _tab_before_dd;
+	}
+
+	else{
+		sp_log(Log::Debug) << "3 Original tab = " << _tab_before_dd;
+	}
+
+	e->accept();
+
+	int tab = tabAt(e->pos());
+	this->setCurrentIndex(tab);
+}
+
+void PlaylistTabBar::dragMoveEvent(QDragMoveEvent* e)
+{
+	e->accept();
+
+	int tab = tabAt(e->pos());
+	this->setCurrentIndex(tab);
+}
+
+void PlaylistTabBar::dragLeaveEvent(QDragLeaveEvent* e)
+{
+	if(_tab_before_dd >= 0 && currentIndex() == count() - 1){
+		this->setCurrentIndex(_tab_before_dd);
+		_tab_before_dd = -1;
+	}
+
+	e->accept();
+}
+
+void PlaylistTabBar::dropEvent(QDropEvent* e)
+{
+	e->accept();
+
+	_drag_origin_tab = _tab_before_dd;
+
+	if(_tab_before_dd >= 0 && currentIndex() == count() - 1){
+		this->setCurrentIndex(_tab_before_dd);
+	}
+
+	_tab_before_dd = -1;
+
+	const QMimeData* mime_data = e->mimeData();
+	if(!mime_data){
+		return;
+	}
+
+	const CustomMimeData* cmd = dynamic_cast<const CustomMimeData*>(mime_data);
+	if(!cmd){
+		return;
+	}
+
+	if(!cmd->hasMetaData()){
+		return;
+	}
+
+	MetaDataList v_md;
+	cmd->getMetaData(v_md);
+
+	emit sig_metadata_dropped(tabAt(e->pos()), v_md);
+}
+
+
+

@@ -36,6 +36,7 @@
 #include <QFileDialog>
 #include <QDir>
 #include <QTimer>
+#include <QShortcut>
 
 
 GUI_LocalLibrary::GUI_LocalLibrary(QWidget* parent) :
@@ -127,6 +128,13 @@ void GUI_LocalLibrary::showEvent(QShowEvent* e)
 	if(!genre_splitter_state.isEmpty()){
 		splitter_genre->restoreState(genre_splitter_state);
 	}
+}
+
+void GUI_LocalLibrary::init_shortcuts()
+{
+	le_search->setShortcutEnabled(QKeySequence::Find, true);
+	new QShortcut(QKeySequence("Esc"), this, SLOT(clear_button_pressed()));
+	new QShortcut(QKeySequence("Ctrl+f"), le_search, SLOT(setFocus()));
 }
 
 

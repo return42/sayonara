@@ -47,6 +47,7 @@ signals:
 	void sig_tab_delete(int tab_idx);
 	void sig_tab_clear(int tab_idx);
 	void sig_add_tab_clicked();
+	void sig_metadata_dropped(int tab_idx, const MetaDataList& v_md);
 
 
 public:
@@ -58,12 +59,14 @@ public:
 
 	void show_menu_items(PlaylistMenuEntries actions);
 
-
 	void removeTab(int index);
 	void addTab(QWidget *widget, const QIcon &icon, const QString &label);
 	void addTab(QWidget *widget, const QString &);
 	void insertTab(int index, QWidget *widget, const QString &);
 	void insertTab(int index, QWidget *widget, const QIcon &icon, const QString &label);
+
+	bool was_drag_from_playlist() const;
+	int get_drag_origin_tab() const;
 
 private:
 	PlaylistTabBar* _tab_bar=nullptr;

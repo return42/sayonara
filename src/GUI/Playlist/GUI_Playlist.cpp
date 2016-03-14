@@ -38,6 +38,7 @@
 #include <QAction>
 #include <QMenu>
 #include <QTimer>
+#include <QShortcut>
 
 GUI_Playlist::GUI_Playlist(QWidget *parent) :
 	SayonaraWidget(parent),
@@ -76,11 +77,23 @@ GUI_Playlist::GUI_Playlist(QWidget *parent) :
 	connect(tw_playlists, &PlaylistTabWidget::sig_tab_rename, this, &GUI_Playlist::tab_rename_clicked);
 	connect(tw_playlists, &PlaylistTabWidget::sig_tab_clear, this, &GUI_Playlist::clear_button_pressed);
 	connect(tw_playlists, &PlaylistTabWidget::sig_tab_reset, _playlist, &PlaylistHandler::reset_playlist);
+	connect(tw_playlists, &PlaylistTabWidget::sig_metadata_dropped, this, &GUI_Playlist::tab_metadata_dropped);
 
 	REGISTER_LISTENER(Set::Lib_Path, _sl_library_path_changed);
 	REGISTER_LISTENER(Set::PL_ShowNumbers, _sl_show_numbers_changed);
 
+	init_shortcuts();
 	load_old_playlists();
+
+	for(int i=0; i<tw_playlists->count(); i++){
+		PlaylistView* plv = get_view_by_idx(i);
+		if(!plv){
+			continue;
+		}
+
+		plv->setObjectName("playlist_view" + QString::number(i));
+	}
+
 }
 
 
@@ -165,6 +178,7 @@ void GUI_Playlist::playlist_fill(PlaylistPtr pl) {
 		return;
 	}
 
+	plv->setObjectName("playlist_view" + QString::number(pl_idx));
 	plv->fill( pl );
 
 	_total_time[pl_idx] = pl->get_running_time();
@@ -192,6 +206,36 @@ void GUI_Playlist::add_playlist_button_pressed(){
 	_playlist->create_empty_playlist(name);
 }
 
+void GUI_Playlist::tab_metadata_dropped(int pl_idx, const MetaDataList& v_md)
+{
+
+	if(pl_idx < 0){
+		return;
+	}
+
+	sp_log(Log::Debug) << "Was drag from playlist? " << tw_playlists->was_drag_from_playlist();
+	if(tw_playlists->was_drag_from_playlist()){
+
+		int origin_tab = tw_playlists->get_drag_origin_tab();
+		sp_log(Log::Debug) << "origin tab " <<origin_tab;
+		PlaylistView* plv = get_view_by_idx(origin_tab);
+
+		if(plv){
+			plv->remove_cur_selected_rows();
+		}
+	}
+
+	QString name = _playlist->request_new_playlist_name();
+
+	if(pl_idx == tw_playlists->count() - 1){
+		_playlist->create_playlist(v_md, name);
+	}
+
+	else{
+		_playlist->append_tracks(v_md, pl_idx);
+	}
+}
+
 
 void GUI_Playlist::double_clicked(int row) {
 
@@ -214,6 +258,11 @@ void GUI_Playlist::fill_info_dialog(){
 	MetaDataList v_md = pl->get_playlist().extract_tracks(selections);
 
 	_info_dialog->set_metadata(v_md, GUI_InfoDialog::Mode::Tracks );
+}
+
+void GUI_Playlist::init_shortcuts()
+{
+
 }
 
 

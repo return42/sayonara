@@ -22,6 +22,8 @@
 #include "GUI/InfoDialog/GUI_InfoDialog.h"
 #include "GUI/Helper/GlobalMessage/Message.h"
 
+#include <QKeySequence>
+
 GUI_AbstractLibrary::GUI_AbstractLibrary(AbstractLibrary* library, QWidget *parent) :
 	SayonaraWidget(parent)
 {
@@ -194,6 +196,11 @@ void GUI_AbstractLibrary::init_headers(){
 	_lv_album->setDragEnabled(true);
 	_lv_album->set_table_headers(_album_columns, so.so_albums);
 	_lv_album->rc_header_menu_init(_shown_cols_albums);
+
+}
+
+void GUI_AbstractLibrary::init_shortcuts()
+{
 
 }
 

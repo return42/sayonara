@@ -38,7 +38,7 @@ PlaylistItemDelegate::PlaylistItemDelegate(QListView* parent) :
 	_drag_row = -1;
 	_show_numbers = _settings->get(Set::PL_ShowNumbers);
 	_row_height = 20;
-	_entry_template = "*%nr% %title%* %artist%";
+	_entry_template = "*%title%* %artist%";
 
 	REGISTER_LISTENER_NO_CALL(Set::PL_ShowNumbers, _sl_show_numbers_changed);
 }
@@ -102,6 +102,10 @@ void PlaylistItemDelegate::paint( QPainter *painter,
 	QString str;
 	int offset_x = 4;
 
+	if(_show_numbers){
+		offset_x = draw_number(painter, row + 1, font, rect);
+	}
+
 	for(int i=0; i<_entry_template.size(); i++){
 
 		bool print = (i == _entry_template.size() - 1);
@@ -126,14 +130,7 @@ void PlaylistItemDelegate::paint( QPainter *painter,
 			painter->translate(offset_x, 0);
 
 			str.replace("%title%", md.title);
-			if(_show_numbers){
-				str.replace(QRegExp("%nr%"), QString::number(md.track_num) + ".");
-			}
-
-			else{
-				str.replace(QRegExp("\\s*%nr%\\s*"), "");
-			}
-
+			str.replace("%nr%", QString::number(md.track_num));
 			str.replace("%artist%", md.artist);
 			str.replace("%album%", md.album);
 
@@ -206,7 +203,32 @@ int PlaylistItemDelegate::get_drag_index() const
 	return _drag_row;
 }
 
+int PlaylistItemDelegate::draw_number(QPainter* painter, int number, QFont& font, QRect& rect) const
+{
+
+	font.setBold(true);
+
+	QString str;
+	QFontMetrics fm(font);
+
+	painter->translate(4, 0);
+	str = QString::number(number) + ". ";
+
+	painter->setFont(font);
+	painter->drawText(rect,
+					  (Qt::AlignLeft | Qt::AlignVCenter),
+					  str);
+
+
+	font.setBold(false);
+	painter->setFont(font);
+
+	return fm.width(str);
+}
+
 void PlaylistItemDelegate::_sl_show_numbers_changed()
 {
 	_show_numbers = _settings->get(Set::PL_ShowNumbers);
 }
+
+

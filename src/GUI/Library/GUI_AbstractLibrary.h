@@ -94,6 +94,7 @@ protected:
 	QList<ColumnHeader>	_artist_columns;
 
 	virtual void init_headers();
+	virtual void init_shortcuts();
 	virtual void language_changed() override;
 	virtual AbstractLibrary::TrackDeletionMode show_delete_dialog(int n_tracks)=0;
 
@@ -202,6 +203,7 @@ protected:
 		_combo_search->setIconSize(QSize(16, 16));
 		_combo_search->view()->setIconSize(QSize(16, 16));
 
+		init_shortcuts();
 		init_finished();
 
 	}

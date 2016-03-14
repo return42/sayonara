@@ -82,6 +82,7 @@ public:
 	void dropEventFromOutside(QDropEvent* event);
 	void set_current_track(int row);
 	int get_num_rows();
+	void remove_cur_selected_rows();
 
 
 public slots:
@@ -128,6 +129,8 @@ private:
 	void resizeEvent(QResizeEvent *e) override;
 	void selectionChanged ( const QItemSelection & selected, const QItemSelection & deselected ) override;
 
+	void init_shortcuts();
+
 
 private slots:
 	void row_pressed(const QModelIndex&);
@@ -135,7 +138,7 @@ private slots:
 	void row_released(const QModelIndex&);
 
 	void drag_deleted();
-	void remove_cur_selected_rows();
+
 };
 
 #endif /* PlaylistView_H_ */

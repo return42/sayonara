@@ -74,7 +74,7 @@ void GUI_Playlist::playlist_idx_changed(int pl_idx){
 
 	set_total_time_label();
 	check_playlist_menu(pl);
-	check_tab_icon();
+	//check_tab_icon();
 }
 
 
@@ -85,13 +85,14 @@ void GUI_Playlist::playlist_added(PlaylistPtr pl){
 	QString name;
 
 	pl_view = new PlaylistView(pl);
+	pl_view->setObjectName("playlist_view" + QString::number(pl->get_idx()));
+
 	idx = pl->get_idx();
 	name = pl->get_name();
 
 	_total_time.append(0);
 
 	tw_playlists->insertTab(tw_playlists->count() - 1, pl_view, name);
-
 	_playlist->set_current_idx(idx);
 
 	connect(pl_view, &PlaylistView::sig_double_clicked, this, &GUI_Playlist::double_clicked);

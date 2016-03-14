@@ -74,6 +74,7 @@ private:
 
 
 private slots:
+	int draw_number(QPainter* painter, int number, QFont& font, QRect& rect) const;
 	void _sl_show_numbers_changed();
 
 };

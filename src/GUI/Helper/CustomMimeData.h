@@ -27,40 +27,43 @@
 #include <QMimeData>
 #include <QUrl>
 
-
+/**
+ * @brief Mimedata class for drag and dropping metadata
+ * @ingroup GUIHelper
+ */
 class CustomMimeData : public QMimeData {
 
+
 private:
-	MetaDataList _v_md;
-    bool _has_meta_data;
+    MetaDataList    _v_md;
+    bool	    _has_meta_data;
 
 public:
-	CustomMimeData() : QMimeData(), _v_md(0){
-        _has_meta_data = false;
-    }
+    /**
+     * @brief Constructor
+     */
+    CustomMimeData();
 
-    virtual ~CustomMimeData(){
-    }
+    virtual ~CustomMimeData();
 
-    void setMetaData(const MetaDataList& v_md){
+    /**
+     * @brief Set metadata you want to drag and drop
+     * @param v_md metadata that should be sent
+     */
+    void setMetaData(const MetaDataList& v_md);
 
-		_v_md = v_md;
-        _has_meta_data = (v_md.size() > 0);
-	}
+    /**
+     * @brief get metadata from drag and drop
+     * @param v_md reference to metadata
+     * @return size of metadata
+     */
+    int getMetaData(MetaDataList& v_md) const;
 
-	int getMetaData(MetaDataList& v_md) const {
-
-        if(!_has_meta_data) return 0;
-        if(_v_md.size() == 0) return 0;
-		v_md = _v_md;
-        return _v_md.size();
-	}
-
-
-    bool hasMetaData() const {
-
-        return _has_meta_data;
-    }
+    /**
+     * @brief check, if the custom mimedata has metadata
+     * @return true if yes, false else
+     */
+    bool hasMetaData() const;
 };
 
 

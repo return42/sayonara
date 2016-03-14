@@ -24,11 +24,13 @@
 #define PLAYLISTTABBAR_H
 
 #include "PlaylistMenuEntry.h"
+#include "Helper/MetaData/MetaDataList.h"
 
 #include <QInputDialog>
 #include <QTabBar>
 #include <QMouseEvent>
 #include <QWheelEvent>
+
 
 
 class PlaylistTabMenu;
@@ -47,7 +49,39 @@ signals:
 	void sig_tab_delete(int tab_idx);
 	void sig_cur_idx_changed(int tab_idx);
 	void sig_add_tab_clicked();
+	void sig_metadata_dropped(int tab_idx, const MetaDataList& v_md);
 
+
+public:
+	PlaylistTabBar(QWidget *parent=nullptr);
+
+	virtual ~PlaylistTabBar();
+
+	void show_menu_items(PlaylistMenuEntries entries);
+	void setTabsClosable(bool b);
+
+	bool was_drag_from_playlist() const;
+	int get_drag_origin_tab() const;
+
+
+
+private:
+	PlaylistTabMenu*	_menu=nullptr;
+	int					_tab_before_dd;
+	bool				_drag_from_playlist;
+	int					_drag_origin_tab;
+
+
+
+private:
+	void mousePressEvent(QMouseEvent* e) override;
+	void wheelEvent(QWheelEvent* e) override;
+	void dragEnterEvent(QDragEnterEvent* e) override;
+	void dragMoveEvent(QDragMoveEvent* e) override;
+	void dragLeaveEvent(QDragLeaveEvent* e) override;
+	void dropEvent(QDropEvent* e) override;
+
+	void init_shortcuts();
 
 private slots:
 	void reset_pressed();
@@ -59,24 +93,8 @@ private slots:
 	void close_others_pressed();
 	void rename_pressed();
 
-private:
-	PlaylistTabMenu*	_menu=nullptr;
-
-	void mousePressEvent(QMouseEvent* e) override;
-	void wheelEvent(QWheelEvent* e) override;
-
-public:
-	PlaylistTabBar(QWidget *parent=nullptr);
-
-	virtual ~PlaylistTabBar();
-
-	void show_menu_items(PlaylistMenuEntries entries);
-	void setTabsClosable(bool b);
 
 
 };
-
-
-
 
 #endif // PLAYLISTTABBAR_H

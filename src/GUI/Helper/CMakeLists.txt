@@ -13,6 +13,7 @@ ADD_SUBDIRECTORY(Delegates)
 SET(SOURCES
 	SayonaraWidget.cpp
 	IconLoader/IconLoader.cpp
+	CustomMimeData.cpp
 )
 
 ADD_LIBRARY(${PROJECT_NAME} STATIC ${SOURCES})

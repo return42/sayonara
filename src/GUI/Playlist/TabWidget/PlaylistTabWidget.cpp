@@ -28,6 +28,7 @@ PlaylistTabWidget::PlaylistTabWidget(QWidget* parent) :
 	_tab_bar = new PlaylistTabBar(this);
 	this->setTabBar(_tab_bar);
 
+
 	connect(_tab_bar, &PlaylistTabBar::sig_tab_reset, this, &PlaylistTabWidget::sig_tab_reset);
 	connect(_tab_bar, &PlaylistTabBar::sig_tab_save, this, &PlaylistTabWidget::sig_tab_save);
 	connect(_tab_bar, &PlaylistTabBar::sig_tab_save_as, this, &PlaylistTabWidget::sig_tab_save_as);
@@ -36,6 +37,7 @@ PlaylistTabWidget::PlaylistTabWidget(QWidget* parent) :
 	connect(_tab_bar, &PlaylistTabBar::sig_tab_clear, this, &PlaylistTabWidget::sig_tab_clear);
 	connect(_tab_bar, &PlaylistTabBar::sig_cur_idx_changed, this, &PlaylistTabWidget::currentChanged);
 	connect(_tab_bar, &PlaylistTabBar::sig_add_tab_clicked, this, &PlaylistTabWidget::sig_add_tab_clicked);
+	connect(_tab_bar, &PlaylistTabBar::sig_metadata_dropped, this, &PlaylistTabWidget::sig_metadata_dropped);
 }
 
 PlaylistTabWidget::~PlaylistTabWidget(){
@@ -105,6 +107,16 @@ void PlaylistTabWidget::insertTab(int index, QWidget *widget, const QIcon &icon,
 	QTabWidget::insertTab(index, widget, icon, label);
 	this->setCurrentIndex(index);
 	check_last_tab();
+}
+
+bool PlaylistTabWidget::was_drag_from_playlist() const
+{
+	return _tab_bar->was_drag_from_playlist();
+}
+
+int PlaylistTabWidget::get_drag_origin_tab() const
+{
+	return _tab_bar->get_drag_origin_tab();
 }
 
 

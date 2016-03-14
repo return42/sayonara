@@ -209,7 +209,6 @@ void GUI_Player::track_changed(const MetaData & md) {
 
 void GUI_Player::set_title_label(){
 
-
 	QString text = elide_text(_md.title, lab_title, 2);
 	lab_title->setText(text);
 }
@@ -396,6 +395,7 @@ void GUI_Player::tray_icon_activated (QSystemTrayIcon::ActivationReason reason) 
 		break;
 	}
 }
+
 
 
 void GUI_Player::set_libraries(LibraryPluginHandler* plugin_loader) {

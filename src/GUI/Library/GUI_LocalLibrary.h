@@ -61,6 +61,7 @@ public:
 
 protected:
 	void showEvent(QShowEvent* e) override;
+	void init_shortcuts() override;
 
 
 protected slots:

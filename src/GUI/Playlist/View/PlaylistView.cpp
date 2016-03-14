@@ -35,7 +35,7 @@
 #include "Helper/DirectoryReader/DirectoryReader.h"
 #include "Components/Playlist/PlaylistHandler.h"
 
-
+#include <QShortcut>
 #include <QApplication>
 
 PlaylistView::PlaylistView(PlaylistPtr pl, QWidget* parent) :
@@ -300,6 +300,9 @@ void PlaylistView::init_rc_menu() {
 	connect(_rc_menu, &LibraryContextMenu::sig_remove_clicked, this, &PlaylistView::remove_cur_selected_rows);
 	connect(_rc_menu, &LibraryContextMenu::sig_clear_clicked, this, &PlaylistView::clear);
 }
+
+
+
 
 void PlaylistView::set_context_menu_actions(int actions) {
 	_rc_menu->show_actions(actions);

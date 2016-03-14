@@ -69,6 +69,7 @@ private:
 
 	void set_total_time_label();
 	void fill_info_dialog();
+	void init_shortcuts();
 
 
 	/** Overridden events **/
@@ -98,14 +99,13 @@ private slots:
 	void playlist_changed(int pl_idx);
 	void playlist_idx_changed(int pld_idx);
 
-
 	// triggered by GUI
-
 	void tab_close_playlist_clicked(int pl_idx); // GUI_PlaylistTabs.cpp
 	void tab_save_playlist_clicked(int pl_idx); // GUI_PlaylistTabs.cpp
 	void tab_save_playlist_as_clicked(int pl_idx, const QString& str); // GUI_PlaylistTabs.cpp
 	void tab_rename_clicked(int pl_idx, const QString& str);
 	void tab_delete_playlist_clicked(int pl_idx); // GUI_PlaylistTabs.cpp
+	void tab_metadata_dropped(int pl_idx, const MetaDataList& v_md);
 
 	void check_tab_icon();
 	void check_playlist_menu(PlaylistConstPtr pl);
@@ -132,6 +132,8 @@ private slots:
 	void _sl_show_numbers_changed();
 	void _sl_library_path_changed();
 };
+
+
 
 
 
