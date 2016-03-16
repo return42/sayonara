@@ -133,8 +133,8 @@ void GUI_LocalLibrary::showEvent(QShowEvent* e)
 void GUI_LocalLibrary::init_shortcuts()
 {
 	le_search->setShortcutEnabled(QKeySequence::Find, true);
-	new QShortcut(QKeySequence("Esc"), this, SLOT(clear_button_pressed()));
-	new QShortcut(QKeySequence("Ctrl+f"), le_search, SLOT(setFocus()));
+	new QShortcut(QKeySequence(Qt::Key_Escape), this, SLOT(clear_button_pressed()), nullptr, Qt::WidgetWithChildrenShortcut);
+	new QShortcut(QKeySequence::Find, le_search, SLOT(setFocus()), nullptr, Qt::WindowShortcut);
 }
 
 

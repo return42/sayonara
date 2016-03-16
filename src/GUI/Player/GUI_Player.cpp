@@ -105,6 +105,7 @@ GUI_Player::GUI_Player(QTranslator* translator, QWidget *parent) :
 	setup_connections();
 
 
+
 	plugin_widget->resize(plugin_widget->width(), 0);
 
 	REGISTER_LISTENER(Set::Engine_SR_Active, _sl_sr_active_changed);
@@ -153,11 +154,12 @@ void GUI_Player::init_gui() {
 
 	btn_mute->setIcon(Helper::get_icon("vol_1"));
 
-	action_viewLibrary->setText(tr("&Library"));
+	action_viewLibrary->setText(tr("Library"));
 	btn_rec->setVisible(false);
 
 	action_Fullscreen->setShortcut(QKeySequence("F11"));
 	action_Dark->setShortcut(QKeySequence("F10"));
+
 }
 
 

@@ -214,6 +214,9 @@
               <height>22</height>
              </size>
             </property>
+            <property name="focusPolicy">
+             <enum>Qt::TabFocus</enum>
+            </property>
             <property name="text">
              <string/>
             </property>
@@ -334,6 +337,9 @@
    </item>
    <item row="5" column="0">
     <widget class="QWidget" name="frame_tag_from_path" native="true">
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
+     </property>
      <layout class="QGridLayout" name="gridLayout_2">
       <property name="leftMargin">
        <number>0</number>
@@ -342,7 +348,11 @@
        <number>0</number>
       </property>
       <item row="0" column="1">
-       <widget class="TagLineEdit" name="le_tag"/>
+       <widget class="TagLineEdit" name="le_tag">
+        <property name="focusPolicy">
+         <enum>Qt::NoFocus</enum>
+        </property>
+       </widget>
       </item>
       <item row="0" column="0">
        <widget class="QLabel" name="label_8">
@@ -354,7 +364,7 @@
       <item row="1" column="0">
        <widget class="QPushButton" name="btn_tag_help">
         <property name="focusPolicy">
-         <enum>Qt::StrongFocus</enum>
+         <enum>Qt::NoFocus</enum>
         </property>
         <property name="text">
          <string>?</string>
@@ -369,7 +379,7 @@
         <item>
          <widget class="QPushButton" name="btn_title">
           <property name="focusPolicy">
-           <enum>Qt::StrongFocus</enum>
+           <enum>Qt::NoFocus</enum>
           </property>
           <property name="text">
            <string>Title</string>
@@ -382,7 +392,7 @@
         <item>
          <widget class="QPushButton" name="btn_album">
           <property name="focusPolicy">
-           <enum>Qt::StrongFocus</enum>
+           <enum>Qt::NoFocus</enum>
           </property>
           <property name="text">
            <string>Album</string>
@@ -395,7 +405,7 @@
         <item>
          <widget class="QPushButton" name="btn_artist">
           <property name="focusPolicy">
-           <enum>Qt::StrongFocus</enum>
+           <enum>Qt::NoFocus</enum>
           </property>
           <property name="text">
            <string>Artist</string>
@@ -408,7 +418,7 @@
         <item>
          <widget class="QPushButton" name="btn_year">
           <property name="focusPolicy">
-           <enum>Qt::StrongFocus</enum>
+           <enum>Qt::NoFocus</enum>
           </property>
           <property name="text">
            <string>Year</string>
@@ -421,7 +431,7 @@
         <item>
          <widget class="QPushButton" name="btn_disc_nr">
           <property name="focusPolicy">
-           <enum>Qt::StrongFocus</enum>
+           <enum>Qt::NoFocus</enum>
           </property>
           <property name="text">
            <string>Disc Nr</string>
@@ -434,7 +444,7 @@
         <item>
          <widget class="QPushButton" name="btn_track_nr">
           <property name="focusPolicy">
-           <enum>Qt::StrongFocus</enum>
+           <enum>Qt::NoFocus</enum>
           </property>
           <property name="text">
            <string># Track</string>
@@ -449,7 +459,7 @@
       <item row="0" column="2">
        <widget class="QPushButton" name="btn_apply_tag">
         <property name="focusPolicy">
-         <enum>Qt::StrongFocus</enum>
+         <enum>Qt::NoFocus</enum>
         </property>
         <property name="text">
          <string>Apply</string>
@@ -458,6 +468,9 @@
       </item>
       <item row="1" column="2">
        <widget class="QPushButton" name="btn_apply_tag_all">
+        <property name="focusPolicy">
+         <enum>Qt::NoFocus</enum>
+        </property>
         <property name="text">
          <string>Apply to all</string>
         </property>
@@ -468,6 +481,9 @@
    </item>
    <item row="4" column="0">
     <widget class="QCheckBox" name="cb_tag_from_path">
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
+     </property>
      <property name="text">
       <string>Tag from path</string>
      </property>
@@ -561,6 +577,28 @@
    <header>GUI/Helper/RatingLabel/RatingLabel.h</header>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>le_title</tabstop>
+  <tabstop>le_album</tabstop>
+  <tabstop>cb_album_all</tabstop>
+  <tabstop>le_artist</tabstop>
+  <tabstop>cb_artist_all</tabstop>
+  <tabstop>le_genre</tabstop>
+  <tabstop>cb_genre_all</tabstop>
+  <tabstop>sb_track_num</tabstop>
+  <tabstop>sb_year</tabstop>
+  <tabstop>cb_year_all</tabstop>
+  <tabstop>sb_discnumber</tabstop>
+  <tabstop>cb_discnumber_all</tabstop>
+  <tabstop>lab_rating</tabstop>
+  <tabstop>cb_rating_all</tabstop>
+  <tabstop>btn_prev</tabstop>
+  <tabstop>btn_next</tabstop>
+  <tabstop>btn_undo_all</tabstop>
+  <tabstop>btn_undo</tabstop>
+  <tabstop>btn_cancel</tabstop>
+  <tabstop>btn_ok</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>

@@ -62,6 +62,7 @@ private:
 	QStringList							_found_strings;
 
 	void showEvent(QShowEvent* e) override;
+	void init_shortcuts();
 
 private slots:
 	void search_button_clicked();

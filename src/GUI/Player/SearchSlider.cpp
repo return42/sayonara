@@ -75,48 +75,6 @@ bool SearchSlider::event(QEvent *e){
 			emit_new_val(value());
 			break;
 
-		case QEvent::KeyPress:
-			ke = (QKeyEvent*) e;
-
-			if(ke->modifiers() & Qt::ShiftModifier){
-				delta_val = 10;
-			}
-
-			else if(ke->modifiers() & Qt::AltModifier){
-				delta_val = 50;
-			}
-
-
-
-			if(ke->key() == Qt::Key_Right){
-
-				_searching = false;
-				setValue(value() + delta_val);
-				_searching = true;
-				emit_new_val(value());
-			}
-
-			else if(ke->key() == Qt::Key_Left){
-				_searching = false;
-				setValue(value() - delta_val);
-				_searching = true;
-				emit_new_val(value());
-			}
-			break;
-
-		case QEvent::KeyRelease:
-			ke = (QKeyEvent*) e;
-
-			if(ke->key() == Qt::Key_Right){
-				_searching = false;
-			}
-
-			else if(ke->key() == Qt::Key_Left){
-				_searching = false;
-			}
-
-			break;
-
 		default:
 			break;
 	}
@@ -180,6 +138,30 @@ void SearchSlider::decrement(int i){
 
 	emit_new_val(this->value());
 }
+
+
+void SearchSlider::increment_10()
+{
+	increment(10);
+}
+
+void SearchSlider::decrement_10()
+{
+	decrement(10);
+}
+
+void SearchSlider::increment_50()
+{
+	increment(50);
+}
+
+void SearchSlider::decrement_50()
+{
+	decrement(50);
+}
+
+
+
 
 
 

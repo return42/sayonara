@@ -105,6 +105,7 @@ void PlaylistTabBar::rename_pressed(){
 	emit sig_tab_rename(currentIndex(), name);
 }
 
+
 void PlaylistTabBar::close_others_pressed(){
 	int my_tab = currentIndex();
 	int i=0;
@@ -162,7 +163,8 @@ void PlaylistTabBar::wheelEvent(QWheelEvent* e)
 
 void PlaylistTabBar::init_shortcuts()
 {
-	new QShortcut(QKeySequence("Ctrl+t"), this, SLOT(sig_add_tab_clicked()));
+	new QShortcut(QKeySequence::AddTab, this, SIGNAL(sig_add_tab_clicked()), nullptr, Qt::WindowShortcut);
+	new QShortcut(QKeySequence(Qt::CTRL | Qt::Key_W), this, SLOT(close_pressed()), nullptr, Qt::WindowShortcut);
 }
 
 

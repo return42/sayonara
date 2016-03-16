@@ -93,54 +93,54 @@ void PlaylistView::mousePressEvent(QMouseEvent* event) {
 
 	switch (event->button()) {
 
-	case Qt::LeftButton:
+		case Qt::LeftButton:
 
-		SearchableListView::mousePressEvent(event);
+			SearchableListView::mousePressEvent(event);
 
-		if(!this->indexAt(event->pos()).isValid()){
-			_drag_pos = QPoint();
-		}
+			if(!this->indexAt(event->pos()).isValid()){
+				_drag_pos = QPoint();
+			}
 
-		else{
-			_drag_pos = event->pos();
-		}
-
-
-		break;
-
-	case Qt::RightButton:
-
-		LibraryContexMenuEntries entry_mask;
-		SearchableListView::mousePressEvent(event);
-
-		pos_org = event->pos();
-		pos = QWidget::mapToGlobal(pos_org);
-
-		pos.setY(pos.y());
-		pos.setX(pos.x() + 10);
-
-		entry_mask = (LibraryContextMenu::EntryInfo |
-				LibraryContextMenu::EntryRemove |
-				LibraryContextMenu::EntryClear);
+			else{
+				_drag_pos = event->pos();
+			}
 
 
-		selections = get_selections();
-		if(selections.size() == 1){
-			entry_mask |= LibraryContextMenu::EntryLyrics;
-		}
+			break;
 
-		if(_model->has_local_media(selections) ){
-			entry_mask |= LibraryContextMenu::EntryEdit;
-		}
+		case Qt::RightButton:
 
-		set_context_menu_actions(entry_mask);
+			LibraryContexMenuEntries entry_mask;
+			SearchableListView::mousePressEvent(event);
 
-		_rc_menu->exec(pos);
+			pos_org = event->pos();
+			pos = QWidget::mapToGlobal(pos_org);
 
-		break;
+			pos.setY(pos.y());
+			pos.setX(pos.x() + 10);
 
-	default:
-		break;
+			entry_mask = (LibraryContextMenu::EntryInfo |
+						  LibraryContextMenu::EntryRemove |
+						  LibraryContextMenu::EntryClear);
+
+
+			selections = get_selections();
+			if(selections.size() == 1){
+				entry_mask |= LibraryContextMenu::EntryLyrics;
+			}
+
+			if(_model->has_local_media(selections) ){
+				entry_mask |= LibraryContextMenu::EntryEdit;
+			}
+
+			set_context_menu_actions(entry_mask);
+
+			_rc_menu->exec(pos);
+
+			break;
+
+		default:
+			break;
 	}
 }
 
@@ -155,7 +155,7 @@ void PlaylistView::mouseMoveEvent(QMouseEvent* event) {
 	}
 
 	if( event->buttons() & Qt::LeftButton &&
-		distance >= QApplication::startDragDistance())
+			distance >= QApplication::startDragDistance())
 	{
 
 		CustomMimeData* mimedata;
@@ -202,15 +202,15 @@ void PlaylistView::mouseReleaseEvent(QMouseEvent* event) {
 
 	switch (event->button()) {
 
-	case Qt::LeftButton:
+		case Qt::LeftButton:
 
-		SearchableListView::mouseReleaseEvent(event);
-		event->accept();
+			SearchableListView::mouseReleaseEvent(event);
+			event->accept();
 
-		break;
+			break;
 
-	default:
-		break;
+		default:
+			break;
 	}
 }
 
@@ -240,42 +240,55 @@ void PlaylistView::keyPressEvent(QKeyEvent* event) {
 		}
 	}
 
-	Qt::KeyboardModifiers  modifiers = event->modifiers();
+	if(event->matches(QKeySequence::SelectAll)){
+		select_all();
+		return;
+	}
+
+	else if(event->matches(QKeySequence::Delete)){
+		this->remove_cur_selected_rows();
+		return;
+	}
+
 	SearchableListView::keyPressEvent(event);
 
-	if(!event->isAccepted() ) return;
+	if(!event->isAccepted() ) {
+		return;
+	}
 
 	int new_row = -1;
 	int min_row = get_min_selected();
 
 	switch(key) {
-	case Qt::Key_A:
-		if( modifiers & Qt::ControlModifier ) {
-			select_all();
-		}
-		break;
+		case Qt::Key_End:
+			new_row = _model->rowCount() - 1;
+			break;
 
-	case Qt::Key_Delete:
-		this->remove_cur_selected_rows();
-		break;
+		case Qt::Key_Home:
+			new_row = 0;
+			break;
 
-	case Qt::Key_End:
-		new_row = _model->rowCount() - 1;
-		break;
+		case Qt::Key_Left:
+			if(event->modifiers() & Qt::ControlModifier){
+				emit sig_left_clicked();
+			}
+			break;
 
-	case Qt::Key_Home:
-		new_row = 0;
-		break;
+		case Qt::Key_Right:
+			if(event->modifiers() & Qt::ControlModifier){
+				emit sig_right_clicked();
+			}
+			break;
 
-	case Qt::Key_Return:
-	case Qt::Key_Enter:
-		_model->set_current_track(min_row);
-		emit sig_double_clicked(min_row);
+		case Qt::Key_Return:
+		case Qt::Key_Enter:
+			_model->set_current_track(min_row);
+			emit sig_double_clicked(min_row);
 
-		break;
+			break;
 
-	default:
-		break;
+		default:
+			break;
 	}
 
 	if(new_row != -1) {
@@ -563,7 +576,7 @@ void PlaylistView::handle_drop(QDropEvent* event, bool from_outside) {
 	else if(custom_mimedata != nullptr){
 
 		if(	custom_mimedata->hasText() &&
-			custom_mimedata->hasMetaData())
+				custom_mimedata->hasMetaData())
 		{
 			int sz = custom_mimedata->getMetaData(v_md);
 			if(sz == 0) {

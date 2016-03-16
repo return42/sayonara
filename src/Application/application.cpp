@@ -56,6 +56,23 @@
 #include "GUI/RemoteControl/GUI_RemoteControl.h"
 #include "GUI/LibraryPreferences/GUI_LibraryPreferences.h"
 #include <QByteArray>
+#include <thread>
+#include <chrono>
+void my_thread(){
+	while(true){
+		QWidget* w = QApplication::focusWidget();
+		if(w){
+			sp_log(Log::Debug) << w->objectName();
+		}
+
+		else{
+			sp_log(Log::Debug) << "No widget";
+		}
+
+		std::this_thread::sleep_for(std::chrono::seconds(1));
+	}
+}
+
 
 static InstanceMessage instance_message=InstanceMessageNone;
 
@@ -85,6 +102,9 @@ Application::Application(int & argc, char ** argv) :
 	_timer = new QTime();
 	_timer->start();
 	instance_message = InstanceMessageNone;
+
+	//new std::thread(my_thread);
+
 }
 
 void Application::check_for_crash(){

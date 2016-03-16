@@ -30,6 +30,7 @@
 #include <QComboBox>
 #include <QPalette>
 #include <QColor>
+#include <QShortcut>
 
 
 #include "Helper/SayonaraClass.h"

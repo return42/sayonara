@@ -55,6 +55,7 @@ LibraryGenreView::LibraryGenreView(QWidget* parent) :
 
 	connect(this, &QTreeWidget::itemCollapsed, this, &LibraryGenreView::item_collapsed);
 	connect(this, &QTreeWidget::itemExpanded, this, &LibraryGenreView::item_expanded);
+
 	connect(mcn, &MetaDataChangeNotifier::sig_metadata_changed, this, &LibraryGenreView::metadata_changed);
 
 	connect(_tag_edit, &QThread::finished, this, &LibraryGenreView::update_genre_tags_finished);
@@ -218,6 +219,19 @@ void LibraryGenreView::metadata_changed(const MetaDataList& v_md_old, const Meta
 	Q_UNUSED(v_md_new)
 
 	reload_genres();
+}
+
+void LibraryGenreView::keyPressEvent(QKeyEvent* e)
+{
+
+	if( e->key() == Qt::Key_Enter ||
+		e->key() == Qt::Key_Return)
+	{
+		QTreeWidgetItem* item = this->currentItem();
+		item->setExpanded(true);
+	}
+
+	QTreeWidget::keyPressEvent(e);
 }
 
 

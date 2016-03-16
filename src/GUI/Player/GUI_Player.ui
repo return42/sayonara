@@ -68,14 +68,23 @@
         <enum>QFrame::Raised</enum>
        </property>
        <layout class="QGridLayout" name="gridLayout">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
         <property name="horizontalSpacing">
          <number>5</number>
         </property>
         <property name="verticalSpacing">
          <number>2</number>
-        </property>
-        <property name="margin">
-         <number>0</number>
         </property>
         <item row="2" column="2">
          <widget class="QPushButton" name="btn_stop">
@@ -890,7 +899,16 @@
              <number>0</number>
             </property>
             <layout class="QGridLayout" name="gridLayout_6">
-             <property name="margin">
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
               <number>0</number>
              </property>
              <property name="spacing">
@@ -1053,7 +1071,7 @@
      <x>0</x>
      <y>0</y>
      <width>1038</width>
-     <height>23</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFle">
@@ -1157,13 +1175,13 @@
    <property name="text">
     <string>Help</string>
    </property>
+   <property name="shortcut">
+    <string notr="true">F1</string>
+   </property>
   </action>
   <action name="action_about">
    <property name="text">
     <string>About</string>
-   </property>
-   <property name="shortcut">
-    <string notr="true">F1</string>
    </property>
   </action>
   <action name="action_viewLibrary">

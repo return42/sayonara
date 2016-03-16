@@ -45,8 +45,10 @@ public:
 	QComboBox*	get_libchooser() const;
 	QMenu*		get_menu() const;
 
+
 protected:
 	virtual AbstractLibrary::TrackDeletionMode show_delete_dialog(int n_tracks);
+	virtual void init_shortcuts() override;
 
 protected slots:
 	void btn_add_clicked();

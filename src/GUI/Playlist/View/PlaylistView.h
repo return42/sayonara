@@ -65,6 +65,8 @@ signals:
 
 	void sig_double_clicked(int);
 	void sig_no_focus();
+	void sig_left_clicked();
+	void sig_right_clicked();
 
 
 

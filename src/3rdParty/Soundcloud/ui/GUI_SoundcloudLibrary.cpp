@@ -22,6 +22,7 @@
 #include "ui/GUI_SoundcloudLibrary.h"
 #include "GUI/Helper/ContextMenu/LibraryContextMenu.h"
 
+#include <QShortcut>
 
 GUI_SoundCloudLibrary::GUI_SoundCloudLibrary(SoundcloudLibrary* library, QWidget *parent) :
 	GUI_AbstractLibrary(library, parent),
@@ -70,6 +71,12 @@ AbstractLibrary::TrackDeletionMode GUI_SoundCloudLibrary::show_delete_dialog(int
 
 	Q_UNUSED(n_tracks)
 	return AbstractLibrary::TrackDeletionMode::OnlyLibrary;
+}
+
+void GUI_SoundCloudLibrary::init_shortcuts()
+{
+	new QShortcut(QKeySequence("Ctrl+f"), le_search, SLOT(setFocus()), nullptr, Qt::WidgetWithChildrenShortcut);
+	new QShortcut(QKeySequence("Esc"), btn_clear, SLOT(clicked()), nullptr, Qt::WidgetWithChildrenShortcut);
 }
 
 void GUI_SoundCloudLibrary::btn_add_clicked(){

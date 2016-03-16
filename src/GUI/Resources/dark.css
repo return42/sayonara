@@ -91,6 +91,7 @@ QListView, QTableView, QTreeView {
 
 QListView:focus, QTableView:focus, QTreeView:focus {
 	border: 1px solid #424e72;
+	background-color: #2c2c2c;
 }
 
 QListView:!focus, QTableView:!focus, QTreeView:!focus {
@@ -496,6 +497,11 @@ QTabBar::tab:selected, QTabBar::tab:hover {
 	background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #555555, stop: 0.4 #484848, stop: 1.0 #383838);
 }
 
+QTabBar::tab:focus {
+	background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #555555, stop: 0.4 #484848, stop: 1.0 #383838);
+}
+
+
 QTabBar::tab:!selected {
 	border-bottom: 1px solid #2c2c2c;
 }
@@ -735,7 +741,9 @@ QCheckBox::indicator:unchecked {
 	image: url(:/Icons/tool_dark_grey.svg.png);
 }
 
-QCheckBox::indicator:unchecked:hover {
+QCheckBox::indicator:unchecked:hover,
+QCheckBox::indicator:unchecked:focus
+{
 	image: url(:/Icons/tool_grey.svg.png);
 }
 
@@ -749,6 +757,12 @@ QCheckBox::indicator:disabled {
 QCheckBox::indicator:checked:enabled {
 	image: url(:/Icons/tool_orange.svg.png);
 }
+
+QCheckBox::indicator:checked:focus
+{
+	image: url(:/Icons/tool_grey.svg.png);
+}
+
 
 QCheckBox::indicator:pressed {
 	image: url(:/Icons/tool_orange.svg.png);
@@ -792,7 +806,9 @@ QPushButton[flat=false]
 
 }
 
-QPushButton[flat=false]:hover {
+QPushButton[flat=false]:hover,
+QPushButton[flat=false]:focus
+{
 	border: 1px solid #e8841a;
 }
 

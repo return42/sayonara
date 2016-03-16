@@ -20,11 +20,20 @@
    <string/>
   </property>
   <layout class="QGridLayout" name="gridLayout">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
    <property name="horizontalSpacing">
     <number>10</number>
-   </property>
-   <property name="margin">
-    <number>0</number>
    </property>
    <item row="1" column="0">
     <widget class="QTreeView" name="tv_dirs">
@@ -115,6 +124,9 @@
          <height>25</height>
         </size>
        </property>
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
+       </property>
       </widget>
      </item>
      <item>
@@ -130,6 +142,9 @@
          <width>16777215</width>
          <height>25</height>
         </size>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
        </property>
        <property name="text">
         <string>Search</string>
@@ -157,6 +172,11 @@
    <header>GUI/Helper/SearchableWidget/SearchableListView.h</header>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>combo_libchooser</tabstop>
+  <tabstop>tv_dirs</tabstop>
+  <tabstop>lv_files</tabstop>
+ </tabstops>
  <resources>
   <include location="../Resources/Icons.qrc"/>
  </resources>

@@ -369,6 +369,7 @@ void GUI_InfoDialog::init() {
 	btn_image->setStyleSheet("QPushButton:hover {background-color: transparent;}");
 
 	tab_widget->setCurrentIndex(GUI_InfoDialog::TabInfo);
+	tab_widget->setFocusPolicy(Qt::NoFocus);
 
 	_is_initialized = true;
 

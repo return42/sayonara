@@ -389,7 +389,11 @@
       <number>4</number>
      </property>
      <item>
-      <widget class="QComboBox" name="combo_lib_chooser"/>
+      <widget class="QComboBox" name="combo_lib_chooser">
+       <property name="focusPolicy">
+        <enum>Qt::StrongFocus</enum>
+       </property>
+      </widget>
      </item>
      <item>
       <widget class="QPushButton" name="btn_info">
@@ -482,6 +486,7 @@
   </customwidget>
  </customwidgets>
  <tabstops>
+  <tabstop>combo_lib_chooser</tabstop>
   <tabstop>lv_artist</tabstop>
   <tabstop>lv_album</tabstop>
   <tabstop>tb_title</tabstop>

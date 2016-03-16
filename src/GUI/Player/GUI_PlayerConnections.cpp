@@ -90,13 +90,27 @@ void GUI_Player::setup_connections() {
 	connect(_cov_lookup, &CoverLookup::sig_cover_found, this, &GUI_Player::set_cover_image);
 	connect(_ui_alternative_covers, &GUI_AlternativeCovers::sig_cover_changed, this, &GUI_Player::set_cover_image);
 
-	//connect(_fsw, &QFileSystemWatcher::directoryChanged, this, &GUI_Player::read_filelist);
+	new QShortcut( QKeySequence(Qt::KeypadModifier | Qt::Key_Plus ), sli_volume, SLOT(increment_10()), nullptr, Qt::WindowShortcut);
+	new QShortcut( QKeySequence(Qt::KeypadModifier | Qt::Key_Minus), sli_volume, SLOT(decrement_10()), nullptr, Qt::WindowShortcut);
+	new QShortcut( QKeySequence(Qt::CTRL | Qt::Key_Plus ), sli_volume, SLOT(increment_10()), nullptr, Qt::WindowShortcut);
+	new QShortcut( QKeySequence(Qt::CTRL | Qt::Key_Minus), sli_volume, SLOT(decrement_10()), nullptr, Qt::WindowShortcut);
+
+	new QShortcut( QKeySequence(Qt::SHIFT | Qt::Key_Right), sli_progress, SLOT(increment_10()), nullptr, Qt::WindowShortcut);
+	new QShortcut( QKeySequence(Qt::SHIFT | Qt::Key_Left), sli_progress, SLOT(decrement_10()), nullptr, Qt::WindowShortcut);
+	new QShortcut( QKeySequence(Qt::ALT | Qt::Key_Right), sli_progress, SLOT(increment_50()), nullptr, Qt::WindowShortcut);
+	new QShortcut( QKeySequence(Qt::ALT | Qt::Key_Left), sli_progress, SLOT(decrement_50()), nullptr, Qt::WindowShortcut);
+	new QShortcut( QKeySequence(Qt::CTRL | Qt::Key_Right), this, SLOT(next_clicked()), nullptr, Qt::WindowShortcut);
+	new QShortcut( QKeySequence(Qt::CTRL | Qt::Key_Left), this, SLOT(prev_clicked()), nullptr, Qt::WindowShortcut);
+	new QShortcut( QKeySequence(Qt::Key_Space), this, SLOT(play_clicked()), nullptr, Qt::WindowShortcut);
+	new QShortcut( QKeySequence(Qt::CTRL | Qt::Key_Space), this, SLOT(stop_clicked()), nullptr, Qt::WindowShortcut);
+
+
 
     QList<QKeySequence> lst;
-	lst << QKeySequence(Qt::Key_Space);
+	/*lst << QKeySequence(Qt::Key_Space);
 
 	QAction* play_pause_action = create_actions(lst);
-	connect(play_pause_action, &QAction::triggered, btn_play, &QPushButton::click);
+	connect(play_pause_action, &QAction::triggered, btn_play, &QPushButton::click);*/
 
 	sp_log(Log::Debug) << "connections done";
 }

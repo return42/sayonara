@@ -28,6 +28,7 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QLayout>
+#include <QShortcut>
 
 #include "GUI/Helper/SayonaraWidget.h"
 #include "Components/PlayManager/PlayManager.h"
@@ -161,6 +162,8 @@ protected:
 		if(btn_close){
 			btn_close->resize(24, 24);
 		}
+
+		new QShortcut(QKeySequence(Qt::CTRL | Qt::Key_Escape), this, SLOT(close()), nullptr, Qt::WindowShortcut);
 
 		REGISTER_LISTENER(Set::Player_Language, _sl_lang_changed);
 		REGISTER_LISTENER(Set::Player_Style, skin_changed);

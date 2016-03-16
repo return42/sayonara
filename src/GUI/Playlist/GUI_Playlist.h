@@ -117,6 +117,9 @@ private slots:
 
 	void clear_button_pressed(int pl_idx);
 
+	void select_tab_left();
+	void select_tab_right();
+
 
 	// triggered from ContextMenu
 

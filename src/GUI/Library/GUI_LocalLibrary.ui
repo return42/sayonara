@@ -29,7 +29,11 @@
    <item row="0" column="0">
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QComboBox" name="combo_lib_chooser"/>
+      <widget class="QComboBox" name="combo_lib_chooser">
+       <property name="focusPolicy">
+        <enum>Qt::TabFocus</enum>
+       </property>
+      </widget>
      </item>
      <item>
       <spacer name="horizontalSpacer_2">
@@ -544,6 +548,9 @@
                </item>
                <item>
                 <widget class="QPushButton" name="btn_reload_library">
+                 <property name="focusPolicy">
+                  <enum>Qt::NoFocus</enum>
+                 </property>
                  <property name="text">
                   <string>Reload library</string>
                  </property>
@@ -631,7 +638,7 @@
           </size>
          </property>
          <property name="focusPolicy">
-          <enum>Qt::StrongFocus</enum>
+          <enum>Qt::NoFocus</enum>
          </property>
          <property name="text">
           <string>Set library path</string>
@@ -709,6 +716,13 @@
    <header>GUI/Library/Views/LibraryGenreView.h</header>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>combo_lib_chooser</tabstop>
+  <tabstop>lv_artist</tabstop>
+  <tabstop>lv_album</tabstop>
+  <tabstop>lv_genres</tabstop>
+  <tabstop>tb_title</tabstop>
+ </tabstops>
  <resources>
   <include location="../Resources/Icons.qrc"/>
  </resources>

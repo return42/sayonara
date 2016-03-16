@@ -49,8 +49,14 @@ void GUI_Playlist::playlist_name_changed(int idx){
 void GUI_Playlist::playlist_changed(int idx) {
 
 	PlaylistConstPtr pl = _playlist->get_playlist_at(idx);
+	PlaylistView* plv = get_view_by_idx(idx);
 
 	check_playlist_name(pl);
+
+	if(plv){
+		plv->setFocus();
+	}
+
 
 	if(idx != tw_playlists->currentIndex()){
 		return;
@@ -62,6 +68,22 @@ void GUI_Playlist::playlist_changed(int idx) {
 	check_playlist_menu(pl);
 }
 
+
+void GUI_Playlist::select_tab_left()
+{
+	int cur_idx = tw_playlists->currentIndex();
+	if(cur_idx > 0 ){
+		playlist_idx_changed(cur_idx - 1);
+	}
+}
+
+void GUI_Playlist::select_tab_right()
+{
+	int cur_idx = tw_playlists->currentIndex();
+	if(cur_idx < tw_playlists->count() - 1 ){
+		playlist_idx_changed(cur_idx + 1);
+	}
+}
 
 void GUI_Playlist::playlist_idx_changed(int pl_idx){
 
@@ -99,6 +121,8 @@ void GUI_Playlist::playlist_added(PlaylistPtr pl){
 	connect(pl_view, &PlaylistView::sig_info_clicked, this, &GUI_Playlist::menu_info_clicked);
 	connect(pl_view, &PlaylistView::sig_edit_clicked, this, &GUI_Playlist::menu_edit_clicked);
 	connect(pl_view, &PlaylistView::sig_lyrics_clicked, this, &GUI_Playlist::menu_lyrics_clicked);
+	connect(pl_view, &PlaylistView::sig_left_clicked, this, &GUI_Playlist::select_tab_left);
+	connect(pl_view, &PlaylistView::sig_right_clicked, this, &GUI_Playlist::select_tab_right);
 
 	connect(pl.get(), &Playlist::sig_data_changed, this, &GUI_Playlist::playlist_changed);
 }
@@ -122,6 +146,7 @@ void GUI_Playlist::playlist_finished(){
 void GUI_Playlist::tab_close_playlist_clicked(int idx){
 
 	QWidget* playlist_widget;
+	PlaylistView* plv;
 	int count = tw_playlists->count();
 
 	if( !between(idx, 0, count - 1)) {
@@ -133,6 +158,11 @@ void GUI_Playlist::tab_close_playlist_clicked(int idx){
 	_total_time.remove(idx);
 
 	tw_playlists->removeTab(idx);
+
+	plv = get_current_view();
+	if(plv){
+		plv->setFocus();
+	}
 
 	_playlist->close_playlist(idx);
 	_playlist->set_current_idx(tw_playlists->currentIndex());

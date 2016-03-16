@@ -93,8 +93,6 @@ private slots:
 	void close_others_pressed();
 	void rename_pressed();
 
-
-
 };
 
 #endif // PLAYLISTTABBAR_H

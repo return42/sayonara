@@ -50,6 +50,8 @@ GUI_DirectoryWidget::GUI_DirectoryWidget(QWidget *parent) :
 	connect(le_search, &QLineEdit::returnPressed, this, &GUI_DirectoryWidget::search_button_clicked);
 	connect(le_search, &QLineEdit::textChanged, this, &GUI_DirectoryWidget::search_term_changed);
 
+	init_shortcuts();
+
 	REGISTER_LISTENER(Set::Lib_Path, _sl_library_path_changed);
 
 }
@@ -271,6 +273,12 @@ void GUI_DirectoryWidget::showEvent(QShowEvent* e){
 	}
 
 	e->accept();
+}
+
+void GUI_DirectoryWidget::init_shortcuts()
+{
+	new QShortcut(QKeySequence("Ctrl+f"), le_search, SLOT(setFocus()), nullptr, Qt::WindowShortcut);
+	new QShortcut(QKeySequence("Esc"), le_search, SLOT(clear()), nullptr, Qt::WidgetShortcut);
 }
 
 

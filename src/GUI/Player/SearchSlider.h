@@ -43,6 +43,14 @@ public:
 	virtual void increment(int i);
 	virtual void decrement(int i);
 
+public slots:
+	virtual void increment_10();
+	virtual void decrement_10();
+	virtual void increment_50();
+	virtual void decrement_50();
+
+
+
 
 protected:
 
