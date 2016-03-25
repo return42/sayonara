@@ -31,7 +31,7 @@
 #include "Helper/EqualizerPresets.h"
 #include "Helper/PlaylistMode.h"
 #include "Helper/globals.h"
-
+#include "GUI/Helper/Shortcuts/RawShortcutMap.h"
 
 /**
  * @brief The SK namespace is used to access setting keys
@@ -82,6 +82,7 @@ namespace SK {
 		Player_Min2Tray,
 		Player_NotifyNewVersion,
 		Player_SplitterState,
+		Player_Shortcuts,
 
 		PL_Playlist,
 		PL_LoadSavedPlaylists,
@@ -204,6 +205,7 @@ namespace Set {
 	INST(bool,					Player_Min2Tray);				/* minimize Sayonara to tray */
 	INST(bool,					Player_NotifyNewVersion);		/* check for new version on startup */
 	INST(QByteArray,			Player_SplitterState);			/* spliter state between playlist and library */
+	INST(RawShortcutMap,		Player_Shortcuts);				/* player shortcuts */
 
 	INST(QStringList,			PL_Playlist);					/* old playlist: list of integers in case of library tracks, if no library track, filepath */
 	INST(bool,					PL_LoadSavedPlaylists);			/* load saved playlists on startup */
@@ -245,6 +247,7 @@ namespace Set {
 
 	INST(bool,					Remote_Active);					/* Remote control activated */
 	INST(int,					Remote_Port);					/* Remote control port */
+
 
 
 }

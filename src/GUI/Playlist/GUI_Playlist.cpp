@@ -38,7 +38,6 @@
 #include <QAction>
 #include <QMenu>
 #include <QTimer>
-#include <QShortcut>
 
 GUI_Playlist::GUI_Playlist(QWidget *parent) :
 	SayonaraWidget(parent),

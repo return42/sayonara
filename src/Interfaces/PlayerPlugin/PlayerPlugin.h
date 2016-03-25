@@ -28,10 +28,11 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QLayout>
-#include <QShortcut>
+
 
 #include "GUI/Helper/SayonaraWidget.h"
 #include "Components/PlayManager/PlayManager.h"
+#include "GUI/Helper/Shortcuts/ShortcutHandler.h"
 
 
 class PlayerPluginHandler;
@@ -163,7 +164,13 @@ protected:
 			btn_close->resize(24, 24);
 		}
 
-		new QShortcut(QKeySequence(Qt::CTRL | Qt::Key_Escape), this, SLOT(close()), nullptr, Qt::WindowShortcut);
+		ShortcutHandler* sch = ShortcutHandler::getInstance();
+		Shortcut sc = sch->get_shortcut("close_plugin");
+		if(!sc.is_valid()){
+			sc = sch->add(Shortcut("close_plugin", tr("Close plugin"), "Ctrl+Esc"));
+		}
+
+		sc.create_qt_shortcut(this, this, SLOT(close()));
 
 		REGISTER_LISTENER(Set::Player_Language, _sl_lang_changed);
 		REGISTER_LISTENER(Set::Player_Style, skin_changed);

@@ -26,6 +26,7 @@
 #include <QShortcut>
 #include "Helper/MetaData/MetaData.h"
 #include "GUI/Helper/CustomMimeData.h"
+#include "GUI/Helper/Shortcuts/ShortcutHandler.h"
 
 PlaylistTabBar::PlaylistTabBar(QWidget *parent) :
 	QTabBar(parent)
@@ -163,8 +164,12 @@ void PlaylistTabBar::wheelEvent(QWheelEvent* e)
 
 void PlaylistTabBar::init_shortcuts()
 {
-	new QShortcut(QKeySequence::AddTab, this, SIGNAL(sig_add_tab_clicked()), nullptr, Qt::WindowShortcut);
-	new QShortcut(QKeySequence(Qt::CTRL | Qt::Key_W), this, SLOT(close_pressed()), nullptr, Qt::WindowShortcut);
+	ShortcutHandler* sch = ShortcutHandler::getInstance();
+	Shortcut sc1 = sch->add(Shortcut("add_tab", tr("Add tab"), "Ctrl+t"));
+	Shortcut sc2 = sch->add(Shortcut("close_tab", tr("Close tab"), "Ctrl+w"));
+
+	sc1.create_qt_shortcut(this, this, SIGNAL(sig_add_tab_clicked()));
+	sc2.create_qt_shortcut(this, this, SLOT(close_pressed()));
 }
 
 

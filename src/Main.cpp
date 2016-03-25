@@ -37,6 +37,7 @@
 #include "Helper/Logger/Logger.h"
 #include "Helper/Helper.h"
 #include "Helper/Settings/Settings.h"
+#include "GUI/Helper/Shortcuts/ShortcutHandler.h"
 
 #include <QSharedMemory>
 #include <QDir>
@@ -185,6 +186,7 @@ bool register_settings(){
 	REGISTER_SETTING( Set::Player_Min2Tray, "min_to_tray", false );
 	REGISTER_SETTING( Set::Player_NotifyNewVersion, "notify_new_version", true );
 	REGISTER_SETTING( Set::Player_SplitterState ,"splitter_state_player", QByteArray());
+	REGISTER_SETTING( Set::Player_Shortcuts, "shortcuts", RawShortcutMap());
 
 	REGISTER_SETTING( Set::PL_Playlist, "playlist", QStringList() );
 	REGISTER_SETTING( Set::PL_LoadSavedPlaylists, "load_saved_playlists", false );
@@ -226,8 +228,12 @@ bool register_settings(){
 	REGISTER_SETTING( Set::Remote_Port, "remote_control_port", 54055);
 
 
+
+
 	REGISTER_SETTING_NO_DB( SetNoDB::MP3enc_found, true );
 	REGISTER_SETTING_NO_DB( SetNoDB::Player_Quit, false );
+
+
 
 	return set->check_settings();
 }

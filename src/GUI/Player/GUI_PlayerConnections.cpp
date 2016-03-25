@@ -25,6 +25,7 @@
 #include "Components/Engine/EngineHandler.h"
 
 #include "GUI/AlternativeCovers/GUI_AlternativeCovers.h"
+#include "GUI/Helper/Shortcuts/ShortcutHandler.h"
 
 void GUI_Player::setup_connections() {
 
@@ -90,28 +91,35 @@ void GUI_Player::setup_connections() {
 	connect(_cov_lookup, &CoverLookup::sig_cover_found, this, &GUI_Player::set_cover_image);
 	connect(_ui_alternative_covers, &GUI_AlternativeCovers::sig_cover_changed, this, &GUI_Player::set_cover_image);
 
-	new QShortcut( QKeySequence(Qt::KeypadModifier | Qt::Key_Plus ), sli_volume, SLOT(increment_10()), nullptr, Qt::WindowShortcut);
-	new QShortcut( QKeySequence(Qt::KeypadModifier | Qt::Key_Minus), sli_volume, SLOT(decrement_10()), nullptr, Qt::WindowShortcut);
-	new QShortcut( QKeySequence(Qt::CTRL | Qt::Key_Plus ), sli_volume, SLOT(increment_10()), nullptr, Qt::WindowShortcut);
-	new QShortcut( QKeySequence(Qt::CTRL | Qt::Key_Minus), sli_volume, SLOT(decrement_10()), nullptr, Qt::WindowShortcut);
+	ShortcutHandler* sch = ShortcutHandler::getInstance();
 
-	new QShortcut( QKeySequence(Qt::SHIFT | Qt::Key_Right), sli_progress, SLOT(increment_10()), nullptr, Qt::WindowShortcut);
-	new QShortcut( QKeySequence(Qt::SHIFT | Qt::Key_Left), sli_progress, SLOT(decrement_10()), nullptr, Qt::WindowShortcut);
-	new QShortcut( QKeySequence(Qt::ALT | Qt::Key_Right), sli_progress, SLOT(increment_50()), nullptr, Qt::WindowShortcut);
-	new QShortcut( QKeySequence(Qt::ALT | Qt::Key_Left), sli_progress, SLOT(decrement_50()), nullptr, Qt::WindowShortcut);
-	new QShortcut( QKeySequence(Qt::CTRL | Qt::Key_Right), this, SLOT(next_clicked()), nullptr, Qt::WindowShortcut);
-	new QShortcut( QKeySequence(Qt::CTRL | Qt::Key_Left), this, SLOT(prev_clicked()), nullptr, Qt::WindowShortcut);
-	new QShortcut( QKeySequence(Qt::Key_Space), this, SLOT(play_clicked()), nullptr, Qt::WindowShortcut);
-	new QShortcut( QKeySequence(Qt::CTRL | Qt::Key_Space), this, SLOT(stop_clicked()), nullptr, Qt::WindowShortcut);
+	Shortcut sc1 = sch->add(Shortcut("play_pause", tr("Play/Pause"), "Space"));
+	Shortcut sc2 = sch->add(Shortcut("stop", tr("Stop"), "Ctrl + Space"));
+	Shortcut sc3 = sch->add(Shortcut("next", tr("Next track"), "Ctrl + Right"));
+	Shortcut sc4 = sch->add(Shortcut("prev", tr("Previous track"), "Ctrl + Left"));
+	Shortcut sc5 = sch->add(Shortcut("vol_down", tr("Volume down"), "Ctrl + -"));
+	Shortcut sc6 = sch->add(Shortcut("vol_up", tr("Volume up"), "Ctrl++"));
+	Shortcut sc7 = sch->add(Shortcut("seek_fwd", tr("Seek forward"), "Alt+Right"));
+	Shortcut sc8 = sch->add(Shortcut("seek_bwd", tr("Seek backward"), "Alt+Left"));
+	Shortcut sc9 = sch->add(Shortcut("seek fwd_fast", tr("Seek forward (fast)"), "Shift+Right"));
+	Shortcut sc10 = sch->add(Shortcut("seek_bwd_fast", tr("Seek backward (fast)"), "Shift+Left"));
 
+	sc1.create_qt_shortcut(this, _play_manager, SLOT(play_pause()));
+	sc2.create_qt_shortcut(this, _play_manager, SLOT(stop()));
+	sc3.create_qt_shortcut(this, _play_manager, SLOT(next()));
+	sc4.create_qt_shortcut(this, _play_manager, SLOT(previous()));
+	sc5.create_qt_shortcut(this, _play_manager, SLOT(volume_down()));
+	sc6.create_qt_shortcut(this, _play_manager, SLOT(volume_up()));
+	sc7.create_qt_shortcut(this, [=](){_play_manager->seek_rel_ms(2000);});
+	sc8.create_qt_shortcut(this, [=](){_play_manager->seek_rel_ms(-2000);});
+	sc9.create_qt_shortcut(this, [=](){
+		qint64 ms = _play_manager->get_duration_ms() / 20;
+		_play_manager->seek_rel_ms(ms);
+	});
 
-
-    QList<QKeySequence> lst;
-	/*lst << QKeySequence(Qt::Key_Space);
-
-	QAction* play_pause_action = create_actions(lst);
-	connect(play_pause_action, &QAction::triggered, btn_play, &QPushButton::click);*/
-
-	sp_log(Log::Debug) << "connections done";
+	sc10.create_qt_shortcut(this, [=](){
+		qint64 ms = _play_manager->get_duration_ms() / 20;
+		_play_manager->seek_rel_ms(-ms);
+	});
 }
 

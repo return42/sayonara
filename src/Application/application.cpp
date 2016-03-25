@@ -47,6 +47,7 @@
 #include "GUI/PlayerPlugins/Broadcasting/GUI_Broadcast.h"
 #include "GUI/PlayerPlugins/Broadcasting/GUI_BroadcastSetup.h"
 
+
 #include "GUI/FontConfig/GUI_FontConfig.h"
 #include "GUI/Notifications/GUI_Notifications.h"
 #include "GUI/LastFM/GUI_LastFM.h"
@@ -55,6 +56,8 @@
 #include "GUI/StreamRecorder/GUI_StreamRecorder.h"
 #include "GUI/RemoteControl/GUI_RemoteControl.h"
 #include "GUI/LibraryPreferences/GUI_LibraryPreferences.h"
+#include "GUI/Shortcuts/GUI_Shortcuts.h"
+
 #include <QByteArray>
 #include <thread>
 #include <chrono>
@@ -221,6 +224,7 @@ bool Application::init(QTranslator* translator, const QStringList& files_to_play
 	player->register_preference_dialog(new GUI_StreamRecorder(player));
 	player->register_preference_dialog(new GUI_BroadcastSetup(player));
 	player->register_preference_dialog(new GUI_RemoteControl(player));
+	player->register_preference_dialog(new GUI_Shortcuts(player));
 
 	sp_log(Log::Debug) << "Preference dialogs loaded: " << _timer->elapsed() << "ms";
 

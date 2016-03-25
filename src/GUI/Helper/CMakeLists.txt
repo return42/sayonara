@@ -9,6 +9,7 @@ ADD_SUBDIRECTORY(MenuTool)
 ADD_SUBDIRECTORY(RatingLabel)
 ADD_SUBDIRECTORY(SearchableWidget)
 ADD_SUBDIRECTORY(Delegates)
+ADD_SUBDIRECTORY(Shortcuts)
 
 SET(SOURCES
 	SayonaraWidget.cpp

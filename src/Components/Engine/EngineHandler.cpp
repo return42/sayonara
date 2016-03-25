@@ -46,6 +46,9 @@ EngineHandler::EngineHandler(QObject* parent) : Engine(parent) {
 	connect(_play_manager, &PlayManager::sig_seeked_rel,
 			this, &EngineHandler::jump_rel);
 
+	connect(_play_manager, &PlayManager::sig_seeked_rel_ms,
+			this, &EngineHandler::jump_rel_ms);
+
 	connect(_play_manager, &PlayManager::sig_record,
 			this, &EngineHandler::sr_record_button_pressed);
 
