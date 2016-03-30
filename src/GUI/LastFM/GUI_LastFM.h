@@ -29,7 +29,7 @@
 #ifndef GUI_LASTFM_H_
 #define GUI_LASTFM_H_
 
-#include "GUI/LastFM/ui_GUI_LastFM_Dialog.h"
+#include "GUI/LastFM/ui_GUI_LastFM.h"
 
 #include "Components/StreamPlugins/LastFM/LastFM.h"
 #include "Interfaces/PreferenceDialog/PreferenceDialogInterface.h"
@@ -39,7 +39,8 @@
 
 class GUI_LastFM :
 		public PreferenceDialogInterface,
-		private Ui_GUI_LastFM_Dialog{
+		private Ui::GUI_LastFM
+{
 
 	Q_OBJECT
 
@@ -49,19 +50,23 @@ public:
 	GUI_LastFM(QWidget* parent=nullptr);
 	virtual ~GUI_LastFM();
 
+	void commit() override;
+	void revert() override;
+
+	QString get_action_name() const override;
+	QLabel* get_title_label() override;
+
+
+private:
+	void language_changed() override;
+	void init_ui() override;
 
 private:
 	LastFM*	_lfm=nullptr;
 
-private:
-	void language_changed() override;
-	QString get_action_name() const override;
-	void init_ui() override;
-	QLabel* get_title_label() override;
-
 
 private slots:
-	void btn_ok_clicked();
+
 	void btn_login_clicked();
 	void active_changed(bool active);
 	void logged_in(bool success);

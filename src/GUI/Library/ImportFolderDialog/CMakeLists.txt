@@ -14,4 +14,5 @@ TARGET_LINK_LIBRARIES(${PROJECT_NAME}
     say_helper
     say_gui_tagedit
     say_gui_helper
+    say_comp_library_importer
 )

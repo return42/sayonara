@@ -22,7 +22,7 @@
 #ifndef LocalLibrary_H
 #define LocalLibrary_H
 
-#include "LibraryImporter.h"
+#include "Importer/LibraryImporter.h"
 #include "Components/Library/AbstractLibrary.h"
 #include "Helper/MetaData/MetaData.h"
 #include "Helper/Filter.h"

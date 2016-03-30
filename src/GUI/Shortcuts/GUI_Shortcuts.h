@@ -27,24 +27,23 @@ public:
 	GUI_Shortcuts(QWidget* parent=nullptr);
 
 	QString get_action_name() const override;
-	void init_ui() override;
 	QLabel* get_title_label() override;
+
+	void revert() override;
+	void commit() override;
 
 
 private:
 	ShortcutHandler*			_sch = nullptr;
 	QList<GUI_ShortcutEntry*>	_entries;
 
-
-
 private:
 	void language_changed() override;
+	void init_ui() override;
 
 private slots:
+	void test_pressed(const QList<QKeySequence>& sequences);
 
-	void cancel_clicked();
-	void ok_clicked();
-	void test_pressed(const QKeySequence& sequence);
 
 };
 

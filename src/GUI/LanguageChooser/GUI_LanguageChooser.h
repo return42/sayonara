@@ -42,25 +42,24 @@ public:
     explicit GUI_LanguageChooser(QWidget *parent=nullptr);
     virtual ~GUI_LanguageChooser();
 
+	void commit() override;
+	void revert() override;
 
-private slots:
-    void ok_clicked();
+	QString get_action_name() const override;
+	QLabel* get_title_label() override;
+
+	void init_ui() override;
+
+	void showEvent(QShowEvent*) override;
+	void language_changed() override;
 
 
 private:
 	QMap<QString, QString> _map;
 
+
 private:
 	void renew_combo();
-
-	void init_ui() override;
-	void showEvent(QShowEvent*) override;
-	void language_changed() override;
-	QString get_action_name() const override;
-	QLabel* get_title_label() override;
-
-
-
 
 };
 

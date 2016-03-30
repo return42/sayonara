@@ -24,7 +24,7 @@
 
 GUI_StartupDialog::GUI_StartupDialog(QWidget *parent) :
 	PreferenceDialogInterface(parent),
-	Ui::GUI_StartupDialog()
+	Ui::GUI_StartupOptions()
 {
 
 }
@@ -36,6 +36,41 @@ GUI_StartupDialog::~GUI_StartupDialog() {
 void GUI_StartupDialog::init_ui()
 {
 	setup_parent(this);
+
+	revert();
+
+	cb_toggled(true);
+
+	connect(cb_load_last_track, &QCheckBox::toggled, this, &GUI_StartupDialog::cb_toggled);
+	connect(cb_load_saved_playlists, &QCheckBox::toggled, this, &GUI_StartupDialog::cb_toggled);
+	connect(cb_load_temporary_playlists, &QCheckBox::toggled, this, &GUI_StartupDialog::cb_toggled);
+	connect(cb_remember_time, &QCheckBox::toggled, this, &GUI_StartupDialog::cb_toggled);
+	connect(cb_start_playing, &QCheckBox::toggled, this, &GUI_StartupDialog::cb_toggled);
+}
+
+void GUI_StartupDialog::language_changed() {
+
+	translate_action();
+
+	if(!is_ui_initialized()){
+		return;
+	}
+
+	retranslateUi(this);
+	PreferenceDialogInterface::language_changed();
+}
+
+
+void GUI_StartupDialog::commit() {
+
+	_settings->set( Set::PL_LoadSavedPlaylists, cb_load_saved_playlists->isChecked() );
+	_settings->set( Set::PL_LoadTemporaryPlaylists, cb_load_temporary_playlists->isChecked() );
+	_settings->set( Set::PL_LoadLastTrack, (cb_load_last_track->isChecked() && cb_load_last_track->isEnabled()) );
+	_settings->set( Set::PL_RememberTime, (cb_remember_time->isChecked() && cb_remember_time->isEnabled()) );
+	_settings->set( Set::PL_StartPlaying, (cb_start_playing->isChecked() && cb_start_playing->isEnabled()) );
+}
+
+void GUI_StartupDialog::revert() {
 
 	bool load_saved_playlists, load_temporary_playlists, load_last_track, remember_time, start_playing;
 
@@ -51,29 +86,21 @@ void GUI_StartupDialog::init_ui()
 	cb_remember_time->setChecked(remember_time);
 	cb_start_playing->setChecked(start_playing);
 
-
-	cb_toggled(true);
-
-	connect(cb_load_last_track, &QCheckBox::toggled, this, &GUI_StartupDialog::cb_toggled);
-	connect(cb_load_saved_playlists, &QCheckBox::toggled, this, &GUI_StartupDialog::cb_toggled);
-	connect(cb_load_temporary_playlists, &QCheckBox::toggled, this, &GUI_StartupDialog::cb_toggled);
-	connect(cb_remember_time, &QCheckBox::toggled, this, &GUI_StartupDialog::cb_toggled);
-	connect(cb_start_playing, &QCheckBox::toggled, this, &GUI_StartupDialog::cb_toggled);
-	connect(btn_ok, &QPushButton::clicked, this, &GUI_StartupDialog::ok_clicked);
 }
 
-void GUI_StartupDialog::language_changed() {
-
-	if(!is_ui_initialized()){
-		return;
-	}
-
-	retranslateUi(this);
-	PreferenceDialogInterface::language_changed();
+QString GUI_StartupDialog::get_action_name() const
+{
+	return tr("Start up");
 }
+
+QLabel* GUI_StartupDialog::get_title_label()
+{
+	return lab_title;
+}
+
 
 void GUI_StartupDialog::cb_toggled(bool b) {
-    Q_UNUSED(b);
+	Q_UNUSED(b);
 
 	bool load = (cb_load_saved_playlists->isChecked() || cb_load_temporary_playlists->isChecked());
 
@@ -84,25 +111,4 @@ void GUI_StartupDialog::cb_toggled(bool b) {
 	bool cb_load_last_track_checked = cb_load_last_track->isChecked() && cb_load_last_track->isEnabled();
 	cb_remember_time->setEnabled(cb_load_last_track_checked);
 
-}
-
-void GUI_StartupDialog::ok_clicked() {
-
-	_settings->set( Set::PL_LoadSavedPlaylists, cb_load_saved_playlists->isChecked() );
-	_settings->set( Set::PL_LoadTemporaryPlaylists, cb_load_temporary_playlists->isChecked() );
-	_settings->set( Set::PL_LoadLastTrack, (cb_load_last_track->isChecked() && cb_load_last_track->isEnabled()) );
-	_settings->set( Set::PL_RememberTime, (cb_remember_time->isChecked() && cb_remember_time->isEnabled()) );
-	_settings->set( Set::PL_StartPlaying, (cb_start_playing->isChecked() && cb_start_playing->isEnabled()) );
-
-    close();
-}
-
-QString GUI_StartupDialog::get_action_name() const
-{
-	return tr("Start up");
-}
-
-QLabel*GUI_StartupDialog::get_title_label()
-{
-	return lab_title;
 }

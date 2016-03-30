@@ -1,6 +1,6 @@
 /* GUI_StreamRecorder.h
 
- * Copyright (C) 2012  
+ * Copyright (C) 2012
  *
  * This file is part of sayonara-player
  *
@@ -17,8 +17,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * created by Lucio Carreras, 
- * May 13, 2012 
+ * created by Lucio Carreras,
+ * May 13, 2012
  *
  */
 
@@ -37,32 +37,36 @@ class GUI_StreamRecorder :
 
 	friend class PreferenceDialogInterface;
 
+
+
+public slots:
+	void record_button_toggled(bool);
+
 public:
+	GUI_StreamRecorder(QWidget* parent=nullptr);
+	virtual ~GUI_StreamRecorder();
 
-	private slots:
-		void sl_cb_activate_toggled(bool);
-        void sl_cb_create_session_path_toggled(bool);
-		void sl_btn_path_clicked();
-		void sl_ok();
+	void commit() override;
+	void revert() override;
 
-	public slots:
-        void record_button_toggled(bool);
+protected:
+	void init_ui() override;
+	void language_changed() override;
+	QString get_action_name() const override;
+	QLabel* get_title_label() override;
 
-	public:
-		GUI_StreamRecorder(QWidget* parent=nullptr);
-		virtual ~GUI_StreamRecorder();
+private:
 
-	protected:
-		void init_ui() override;
-		void language_changed() override;
-		QString get_action_name() const override;
-		QLabel* get_title_label() override;
+	QString		_path;
+	bool		_is_active;
+	bool		_is_create_session_path;
 
-	private:
 
-		QString		_path;
-		bool		_is_active;
-		bool		_is_create_session_path;
+private slots:
+	void sl_cb_activate_toggled(bool);
+	void sl_cb_create_session_path_toggled(bool);
+	void sl_btn_path_clicked();
+
 
 };
 

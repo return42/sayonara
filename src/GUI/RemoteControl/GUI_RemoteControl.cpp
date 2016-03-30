@@ -41,15 +41,13 @@ void GUI_RemoteControl::init_ui()
 {
 	setup_parent(this);
 
-	cb_activate->setChecked(_settings->get(Set::Remote_Active));
-	sb_port->setValue(_settings->get(Set::Remote_Port));
-
-	connect(bb_ok_cancel, &QDialogButtonBox::accepted, this, &GUI_RemoteControl::ok_clicked);
-	connect(bb_ok_cancel, &QDialogButtonBox::rejected, this, &GUI_RemoteControl::cancel_clicked);
+	revert();
 }
 
 
 void GUI_RemoteControl::language_changed() {
+
+	translate_action();
 
 	if(!is_ui_initialized()){
 		return;
@@ -60,18 +58,17 @@ void GUI_RemoteControl::language_changed() {
 	PreferenceDialogInterface::language_changed();
 }
 
-void GUI_RemoteControl::ok_clicked(){
+void GUI_RemoteControl::commit(){
 
 	_settings->set(Set::Remote_Active, cb_activate->isChecked());
 	_settings->set(Set::Remote_Port, sb_port->value());
 }
 
-void GUI_RemoteControl::cancel_clicked()
-{
+void GUI_RemoteControl::revert(){
 	cb_activate->setChecked(_settings->get(Set::Remote_Active));
 	sb_port->setValue(_settings->get(Set::Remote_Port));
-	this->close();
 }
+
 
 QString GUI_RemoteControl::get_action_name() const
 {

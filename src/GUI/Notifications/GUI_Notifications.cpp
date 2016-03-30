@@ -23,7 +23,7 @@
 
 GUI_Notifications::GUI_Notifications(QWidget *parent) :
 	PreferenceDialogInterface(parent),
-	Ui_GUI_Notification()
+	Ui::GUI_Notifications()
 {
 
 }
@@ -32,6 +32,8 @@ GUI_Notifications::~GUI_Notifications() {
 }
 
 void GUI_Notifications::language_changed(){
+
+	translate_action();
 
 	if(!is_ui_initialized()){
 		return;
@@ -56,7 +58,7 @@ void GUI_Notifications::notifications_changed(){
 }
 
 
-void GUI_Notifications::ok_clicked() {
+void GUI_Notifications::commit() {
 
 	bool active =       cb_activate->isChecked();
 	int timeout =       sb_timeout->value();
@@ -69,6 +71,15 @@ void GUI_Notifications::ok_clicked() {
 	_notification_handler->notificator_changed(cur_text);
 
     close();
+}
+
+void GUI_Notifications::revert() {
+
+	int timeout = _settings->get(Set::Notification_Timeout);
+	int active = _settings->get(Set::Notification_Show);
+
+	sb_timeout->setValue(timeout);
+	cb_activate->setChecked(active);
 }
 
 
@@ -84,15 +95,10 @@ void GUI_Notifications::init_ui()
 	_notification_handler = NotificationHandler::getInstance();
 	combo_notification->setItemDelegate(new ComboBoxDelegate(combo_notification));
 
-	int timeout = _settings->get(Set::Notification_Timeout);
-	int active = _settings->get(Set::Notification_Show);
-
-	sb_timeout->setValue(timeout);
-	cb_activate->setChecked(active);
+	revert();
 
 	notifications_changed();
 
-	connect(btn_ok, &QPushButton::clicked, this, &GUI_Notifications::ok_clicked);
 	connect(_notification_handler,	&NotificationHandler::sig_notifications_changed,
 			this,					&GUI_Notifications::notifications_changed);
 }

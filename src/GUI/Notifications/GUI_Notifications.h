@@ -30,7 +30,7 @@
 
 class GUI_Notifications :
 		public PreferenceDialogInterface,
-		private Ui_GUI_Notification
+		private Ui::GUI_Notifications
 {
     Q_OBJECT
 
@@ -40,13 +40,15 @@ class GUI_Notifications :
 public:
     explicit GUI_Notifications(QWidget *parent=nullptr);
     virtual ~GUI_Notifications();
-	virtual QLabel* get_title_label() override;
+
+	void commit() override;
+	void revert() override;
+
+	QLabel* get_title_label() override;
 
     
 private slots:
 	void notifications_changed();
-    void ok_clicked();
-
 
 
 protected:

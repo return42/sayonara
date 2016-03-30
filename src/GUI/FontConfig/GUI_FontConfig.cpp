@@ -47,11 +47,9 @@ void GUI_FontConfig::init_ui()
 	QString cur_family;
 	QStringList families = _font_db->families();
 
-	connect(combo_fonts, &QComboBox::currentTextChanged, this, &GUI_FontConfig::combo_text_changed);
-	connect(btn_ok, &QPushButton::clicked, this, &GUI_FontConfig::ok_clicked);
+	connect(combo_fonts, &QComboBox::currentTextChanged, this, &GUI_FontConfig::combo_text_changed);	
 	connect(btn_default, &QPushButton::clicked, this, &GUI_FontConfig::default_clicked);
 	connect(btn_apply, &QPushButton::clicked, this, &GUI_FontConfig::apply_clicked);
-	connect(btn_cancel, &QPushButton::clicked, this, &GUI_FontConfig::cancel_clicked);
 
 	combo_fonts->addItems(families);
 
@@ -95,10 +93,13 @@ void GUI_FontConfig::combo_text_changed(const QString& font_name){
 	_is_default = false;
 }
 
-void GUI_FontConfig::ok_clicked()
+void GUI_FontConfig::commit()
 {
 	apply_clicked();
-	close();
+}
+
+void GUI_FontConfig::revert(){
+
 }
 
 void GUI_FontConfig::apply_clicked()
@@ -132,13 +133,10 @@ void GUI_FontConfig::default_clicked()
 }
 
 
-void GUI_FontConfig::cancel_clicked()
-{
-	close();
-}
-
 void GUI_FontConfig::language_changed()
 {
+	translate_action();
+
 	if(!is_ui_initialized()){
 		return;
 	}

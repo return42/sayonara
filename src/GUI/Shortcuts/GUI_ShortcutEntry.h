@@ -33,7 +33,7 @@ class GUI_ShortcutEntry :
 	Q_OBJECT
 
 signals:
-	void sig_test_pressed(const QKeySequence& sequence);
+	void sig_test_pressed(const QList<QKeySequence>& sequences);
 
 public:
 	GUI_ShortcutEntry(const Shortcut& shortcut, QWidget* parent=nullptr);

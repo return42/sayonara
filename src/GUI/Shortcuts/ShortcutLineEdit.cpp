@@ -2,11 +2,12 @@
 #include "Helper/Logger/Logger.h"
 
 bool is_modifier(int key){
-	return (key == Qt::Key_Control ||
-			key == Qt::Key_Alt ||
-			key == Qt::Key_AltGr ||
-			key == Qt::Key_Shift ||
-			key == Qt::Key_Meta);
+	return (key == Qt::Key_Control
+			|| key == Qt::Key_Alt
+			|| key == Qt::Key_AltGr
+			|| key == Qt::Key_Shift
+			|| key == Qt::Key_Meta
+			);
 }
 
 
@@ -18,6 +19,7 @@ ShortcutLineEdit::ShortcutLineEdit(QWidget*parent) :
 void ShortcutLineEdit::keyPressEvent(QKeyEvent* e)
 {
 	int key = e->key();
+
 
 	if(key == Qt::Key_Escape && e->modifiers() == Qt::NoModifier){
 		this->setText("");
@@ -32,7 +34,7 @@ void ShortcutLineEdit::keyPressEvent(QKeyEvent* e)
 		key = 0;
 	}
 
-	sp_log(Log::Debug) << "Key after = " << (int) key << " " << e->nativeVirtualKey() << " " << e->nativeScanCode();
+	bool meta_pressed=false;
 
 	if(e->modifiers() & Qt::ControlModifier){
 		key |= Qt::CTRL;
@@ -50,7 +52,10 @@ void ShortcutLineEdit::keyPressEvent(QKeyEvent* e)
 		key |= Qt::ALT;
 	}
 
-	QKeySequence ks(key);
+	if(e->modifiers() & Qt::KeypadModifier){
+		key |= Qt::KeypadModifier;
+	}
 
+	QKeySequence ks(key);
 	this->setText(ks.toString(QKeySequence::NativeText));
 }

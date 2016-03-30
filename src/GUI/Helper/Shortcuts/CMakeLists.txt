@@ -8,6 +8,7 @@ INCLUDE_DIRECTORIES(
 
 
 SET(SOURCES
+	./Shortcut.cpp
 	./ShortcutHandler.cpp
 	./RawShortcutMap.cpp
 )

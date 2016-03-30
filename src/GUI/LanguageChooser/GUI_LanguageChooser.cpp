@@ -39,6 +39,8 @@ GUI_LanguageChooser::~GUI_LanguageChooser() {
 
 void GUI_LanguageChooser::language_changed(){
 
+	translate_action();
+
 	if(!is_ui_initialized()){
 		return;
 	}
@@ -49,14 +51,16 @@ void GUI_LanguageChooser::language_changed(){
 }
 
 
-void GUI_LanguageChooser::ok_clicked() {
+void GUI_LanguageChooser::commit() {
 
 	int cur_idx = combo_lang->currentIndex();
 	QString cur_language = combo_lang->itemData(cur_idx).toString();
 
 	_settings->set(Set::Player_Language, cur_language);
+}
 
-	close();
+void GUI_LanguageChooser::revert() {
+
 }
 
 
@@ -129,10 +133,6 @@ void GUI_LanguageChooser::init_ui()
 	_map["zh_cn"] = QString::fromUtf8("中文");
 
 	combo_lang->setItemDelegate(new ComboBoxDelegate(combo_lang));
-
-	setModal(true);
-
-	connect(btn_ok, &QPushButton::clicked, this, &GUI_LanguageChooser::ok_clicked);
 }
 
 void GUI_LanguageChooser::showEvent(QShowEvent* e) {

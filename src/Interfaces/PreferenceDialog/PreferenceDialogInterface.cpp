@@ -24,7 +24,7 @@
 
 
 PreferenceDialogInterface::PreferenceDialogInterface(QWidget* parent) :
-	SayonaraDialog(parent)
+	SayonaraWidget(parent)
 {
 	_is_initialized = false;
 }
@@ -36,13 +36,13 @@ PreferenceDialogInterface::~PreferenceDialogInterface()
 
 void PreferenceDialogInterface::language_changed()
 {
-	QString new_name = this->get_action_name();
-	this->get_action()->setText(new_name + "...");
+	translate_action();
 
 	if(!is_ui_initialized()){
 		return;
 	}
 
+	QString new_name = get_action_name();
 	QLabel* label = get_title_label();
 	if(label){
 		label->setText(new_name);
@@ -52,13 +52,21 @@ void PreferenceDialogInterface::language_changed()
 }
 
 
+void PreferenceDialogInterface::translate_action()
+{
+	QString new_name = this->get_action_name();
+	this->get_action()->setText(new_name + "...");
+}
+
+
+
 void PreferenceDialogInterface::showEvent(QShowEvent* e)
 {
 	if(!is_ui_initialized()){
 		init_ui();
 	}
 
-	SayonaraDialog::showEvent(e);
+	SayonaraWidget::showEvent(e);
 
 	if(!_geometry.isEmpty()){
 		this->restoreGeometry(_geometry);
@@ -69,7 +77,7 @@ void PreferenceDialogInterface::closeEvent(QCloseEvent* e)
 {
 	_geometry = saveGeometry();
 
-	SayonaraDialog::closeEvent(e);
+	SayonaraWidget::closeEvent(e);
 }
 
 

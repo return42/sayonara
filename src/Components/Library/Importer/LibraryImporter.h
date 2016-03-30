@@ -26,10 +26,11 @@
 
 #include "Helper/Tagging/Tagging.h"
 #include "Helper/SayonaraClass.h"
+#include "ImportCache.h"
 
 class DatabaseConnector;
-class ImportCachingThread;
-class ImportCopyThread;
+class CachingThread;
+class CopyThread;
 
 class LibraryImporter : public QObject, protected SayonaraClass
 {
@@ -61,7 +62,7 @@ signals:
 
 
 public:
-	void import_files(const QStringList& filelist);
+	void import_files(const QStringList& files);
 	void import_dir(const QString& dirname);
 	void accept_import(const QString& target_dir);
 	void cancel_import();
@@ -70,24 +71,23 @@ public:
 
 private slots:
 
-	void start_copy_thread();
-	void copy_thread_finished();
-
-	void caching_thread_done();
 	void caching_thread_finished();
+	void copy_thread_finished();
 
 	void emit_status(LibraryImporter::ImportStatus status);
 
 	void metadata_changed(const MetaDataList& old_md, const MetaDataList& new_md);
 
 private:
-	ImportCachingThread*    _caching_thread=nullptr;
-	ImportCopyThread*       _copy_thread=nullptr;
+	CachingThread*			_cache_thread=nullptr;
+	CopyThread*				_copy_thread=nullptr;
+
+	ImportCache				_import_cache;
+
 	DatabaseConnector*		_db=nullptr;
 
 	ImportStatus			_status;
 
-	QString                 _import_to;
 	QString                 _lib_path;
 	QString					_src_dir;
 };

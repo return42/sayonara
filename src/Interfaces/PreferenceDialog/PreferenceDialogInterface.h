@@ -40,7 +40,7 @@
  * If you wish to reimplement void language_changed(), call PreferenceDialogInterface::language_changed at the end.
  * @ingroup Interfaces
  */
-class PreferenceDialogInterface : public SayonaraDialog
+class PreferenceDialogInterface : public SayonaraWidget
 {
 	Q_OBJECT
 
@@ -57,17 +57,17 @@ protected slots:
 	 * There's no need to call a listener to this function\n
 	 * Check for is_ui_initialized()
 	 */
-	void language_changed() override;
+	void language_changed();
+
+	/**
+	 * @brief translates the action visible in menu
+	 */
+	void translate_action();
 
 
 protected:
 
-	/**
-	 * @brief has to be implemented and should return the translated action text
-	 * @return translated action name
-	 */
-	virtual QString get_action_name() const=0;
-	virtual QLabel* get_title_label()=0;
+
 
 	/**
 	 * @brief call setup_parent(this) here.\n
@@ -85,7 +85,7 @@ protected:
 	void setup_parent(T* widget) final {
 
 		widget->setupUi(widget);
-		widget->setModal(true);
+		//widget->setModal(true);
 
 		QLabel* title_label = widget->get_title_label();
 		if(title_label){
@@ -101,11 +101,7 @@ protected:
 	void showEvent(QShowEvent* e) override;
 	void closeEvent(QCloseEvent* e) override;
 
-	/**
-	 * @brief checks if ui has already been initialized.
-	 * @return false, if the widget has never been activated before, true else
-	 */
-	virtual bool is_ui_initialized() const final;
+
 
 public:
 	/**
@@ -120,6 +116,22 @@ public:
 	 * @return
 	 */
 	virtual QAction* get_action() final;
+
+	/**
+	 * @brief has to be implemented and should return the translated action text
+	 * @return translated action name
+	 */
+	virtual QString get_action_name() const=0;
+	virtual QLabel* get_title_label()=0;
+
+	virtual void commit()=0;
+	virtual void revert()=0;
+
+	/**
+	 * @brief checks if ui has already been initialized.
+	 * @return false, if the widget has never been activated before, true else
+	 */
+	virtual bool is_ui_initialized() const final;
 };
 
 typedef QList<PreferenceDialogInterface*> PreferenceDialogList;

@@ -43,20 +43,23 @@ public:
 	virtual ~GUI_FontConfig();
 
 	QString get_action_name() const override;
+	QLabel* get_title_label() override;
+
+	void commit() override;
+	void revert() override;
 
 protected:
 	void init_ui() override;
 
 protected slots:
-	void ok_clicked();
-	void cancel_clicked();
+
 	void apply_clicked();
 	void default_clicked();
 	void combo_text_changed(const QString& font_name);
 
 	void language_changed() override;
 	void skin_changed() override;
-	QLabel* get_title_label() override;
+
 
 private:
 	QFontDatabase*	_font_db=nullptr;

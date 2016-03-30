@@ -55,7 +55,6 @@ public slots:
 private slots:
 	void dismiss_clicked();
 	void dismiss_all_clicked();
-	void option_clicked();
 	void combo_changed(int idx);
 	void retry();
 	void mp3_enc_found();

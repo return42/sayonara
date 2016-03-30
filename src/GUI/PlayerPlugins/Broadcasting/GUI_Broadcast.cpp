@@ -89,7 +89,6 @@ void GUI_Broadcast::init_ui()
 
 	connect(btn_dismiss, &QPushButton::clicked, this, &GUI_Broadcast::dismiss_clicked);
 	connect(btn_dismiss_all, &QPushButton::clicked, this, &GUI_Broadcast::dismiss_all_clicked);
-	connect(btn_options, &QPushButton::clicked, this, &GUI_Broadcast::option_clicked);
 	connect(combo_clients, combo_current_index_changed_int, this, &GUI_Broadcast::combo_changed);
 	connect(btn_retry, &QPushButton::clicked, this, &GUI_Broadcast::retry);
 
@@ -236,13 +235,6 @@ void GUI_Broadcast::combo_changed(int idx){
 }
 
 
-void GUI_Broadcast::option_clicked(){
-
-	GUI_BroadcastSetup* setup = new GUI_BroadcastSetup(this);
-	connect(setup, &GUI_BroadcastSetup::accepted, setup, &GUI_BroadcastSetup::deleteLater);
-	connect(setup, &GUI_BroadcastSetup::rejected, setup, &GUI_BroadcastSetup::deleteLater);
-	setup->show();
-}
 
 void GUI_Broadcast::mp3_enc_found(){
 

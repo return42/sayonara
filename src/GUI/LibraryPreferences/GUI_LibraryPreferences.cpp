@@ -15,9 +15,6 @@ void GUI_LibraryPreferences::init_ui(){
 	rb_dc_play_immediately->setChecked(_settings->get(Set::Lib_DC_PlayImmediately));
 	rb_dd_do_nothing->setChecked(_settings->get(Set::Lib_DD_DoNothing));
 	rb_dd_start_if_stopped_and_empty->setChecked(_settings->get(Set::Lib_DD_PlayIfStoppedAndEmpty));
-
-	connect(btn_ok, &QRadioButton::clicked, this, &GUI_LibraryPreferences::ok_clicked);
-	connect(btn_cancel, &QRadioButton::clicked, this, &GUI_LibraryPreferences::cancel_clicked);
 }
 
 QString GUI_LibraryPreferences::get_action_name() const
@@ -30,29 +27,27 @@ QLabel* GUI_LibraryPreferences::get_title_label()
 	return lab_title;
 }
 
-void GUI_LibraryPreferences::ok_clicked(){
+void GUI_LibraryPreferences::commit(){
 	_settings->set(Set::Lib_DC_DoNothing, rb_dc_do_nothing->isChecked());
 	_settings->set(Set::Lib_DC_PlayIfStopped, rb_dc_play_if_stopped->isChecked());
 	_settings->set(Set::Lib_DC_PlayImmediately, rb_dc_play_immediately->isChecked());
 	_settings->set(Set::Lib_DD_DoNothing, rb_dd_do_nothing->isChecked());
 	_settings->set(Set::Lib_DD_PlayIfStoppedAndEmpty, rb_dd_start_if_stopped_and_empty->isChecked());
-
-	close();
 }
 
-void GUI_LibraryPreferences::cancel_clicked(){
+void GUI_LibraryPreferences::revert(){
 
 	rb_dc_do_nothing->setChecked(_settings->get(Set::Lib_DC_DoNothing));
 	rb_dc_play_if_stopped->setChecked(_settings->get(Set::Lib_DC_PlayIfStopped));
 	rb_dc_play_immediately->setChecked(_settings->get(Set::Lib_DC_PlayImmediately));
 	rb_dd_do_nothing->setChecked(_settings->get(Set::Lib_DD_DoNothing));
 	rb_dd_start_if_stopped_and_empty->setChecked(_settings->get(Set::Lib_DD_PlayIfStoppedAndEmpty));
-
-	close();
 }
 
 void GUI_LibraryPreferences::language_changed()
 {
+	translate_action();
+
 	if(!is_ui_initialized()){
 		return;
 	}

@@ -54,6 +54,7 @@ private:
 	QAction* _action_gapless=nullptr;
 	QAction* _action_shutdown=nullptr;
 	QAction* _action_numbers=nullptr;
+	QAction* _action_look=nullptr;
 
 	QTimer*  _timer=nullptr;
 
@@ -67,6 +68,7 @@ private slots:
 	void timed_out();
 
 	void language_changed();
+	void change_look();
 
 
 

@@ -1,4 +1,4 @@
-/* GUI_StartupDialog.h */
+/* ImportFolderThread.h */
 
 /* Copyright (C) 2011-2016  Lucio Carreras
  *
@@ -20,44 +20,51 @@
 
 
 
-#ifndef GUI_StartupDialog_H
-#define GUI_StartupDialog_H
-
-#include "GUI/StartupDialog/ui_GUI_StartupDialog.h"
+#ifndef IMPORTFOLDERTHREAD_H
+#define IMPORTFOLDERTHREAD_H
 
 
-#include "Interfaces/PreferenceDialog/PreferenceDialogInterface.h"
+#include "ImportCache.h"
+#include "Helper/SayonaraClass.h"
 
-class GUI_StartupDialog :
-		public PreferenceDialogInterface,
-		private Ui::GUI_StartupOptions
+#include <QThread>
+
+
+class CachingThread :
+		public QThread,
+		private SayonaraClass
 {
+	Q_OBJECT
 
-    Q_OBJECT
+private:
 
-	friend class PreferenceDialogInterface;
+signals:
+	void			sig_progress(int);
+
 
 public:
-    GUI_StartupDialog(QWidget *parent=nullptr);
-    virtual ~GUI_StartupDialog();
-
-	void commit() override;
-	void revert() override;
-
-	QString get_action_name() const override;
-	QLabel* get_title_label() override;
-    
-
-protected:
-	void init_ui() override;
-	void language_changed() override;
+	CachingThread(const QStringList& file_list, QObject *parent=nullptr);
 
 
-private slots:
-    void cb_toggled(bool);
+	void			cancel();
+	bool			was_canelled() const;
+	ImportCache		get_cache() const;
+
+
+private:
+
+	QStringList		_file_list;
+	bool			_cancelled;
+
+	ImportCache		_cache;
+
+
+private:
+	void run() override;
+
+	void read_files();
+	void extract_soundfiles();
 
 };
 
-
-
-#endif // GUI_StartupDialog_H
+#endif // IMPORTFOLDERTHREAD_H

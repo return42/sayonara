@@ -1,4 +1,4 @@
-/* ImportCopyThread.h */
+/* CopyThread.h */
 
 /* Copyright (C) 2011-2016  Lucio Carreras
  *
@@ -29,11 +29,13 @@
 #include <QString>
 #include <QStringList>
 
-#include "Helper/MetaData/MetaData.h"
+#include "ImportCache.h"
 #include "Helper/SayonaraClass.h"
 
 
-class ImportCopyThread : public QThread, protected SayonaraClass
+class CopyThread :
+		public QThread,
+		protected SayonaraClass
 {
     Q_OBJECT
 
@@ -44,47 +46,35 @@ public:
 		Rollback
 	};
 
-    explicit ImportCopyThread(QObject *parent=nullptr);
+	CopyThread(const QString& target_dir, const ImportCache& cache, QObject *parent=nullptr);
 
+	int get_n_copied_files() const;
 
-	void set_vars(	const QString& target_dir,
-					const QStringList& files,
-					const QMap<QString, MetaData>& md_map,
-					const QMap<QString, QString>& pd_map
-				  );
+	bool was_cancelled() const;
+	void cancel();
 
-	int get_n_files() const;
-	int get_copied_files() const;
+	MetaDataList get_copied_metadata() const;
 
-	MetaDataList get_metadata() const;
-
-	bool get_cancelled() const;
-    void set_cancelled();
-
-	void set_mode(ImportCopyThread::Mode mode);
-	ImportCopyThread::Mode  get_mode() const;
+	void set_mode(CopyThread::Mode mode);
+	CopyThread::Mode  get_mode() const;
 
 
 private:
-	QString        _lib_dir;
-	QString        _chosen_dir;
-	QStringList    _files;
-
-	QMap<QString, MetaData> _md_map;
-	QMap<QString, QString> _pd_map;
 
 	MetaDataList	_v_md;
+	QString			_target_dir;
 	QStringList		_lst_copied_files;
-	QStringList		_created_dirs;
-	int				_n_files;
 	int				_copied_files;
 	Mode			_mode;
 	int				_percent;
 	bool			_cancelled;
 
+	ImportCache		_cache;
+
 
 private:
 
+	void clear();
 	void run();
 	void copy();
 	void rollback();

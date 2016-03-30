@@ -9,7 +9,7 @@
  * @brief The RawShortcutMap struct consisting of a specifier writable into database and a shortcut
  *
  */
-struct RawShortcutMap : public QMap<QString, QString> {
+struct RawShortcutMap : public QMap<QString, QStringList> {
 
 	QString toString() const;
 

@@ -7,19 +7,19 @@ QString RawShortcutMap::toString() const {
 
 	for(const QString& key : this->keys()){
 		QString shortcut_name = key;
-		QString shortcut = this->value(key);
+		QStringList shortcuts = this->value(key);
 
-		entries << shortcut_name + ":" + shortcut;
+		entries << shortcut_name + ":" + shortcuts.join(", ");
 	}
 
-	return entries.join(",");
+	return entries.join("---");
 }
 
 RawShortcutMap RawShortcutMap::fromString(const QString& setting){
 
 	RawShortcutMap rsc;
 
-	QStringList entries = setting.split(",");
+	QStringList entries = setting.split("---");
 	for(const QString& entry : entries){
 
 		QStringList sc_pair = entry.split(":");
@@ -29,7 +29,7 @@ RawShortcutMap RawShortcutMap::fromString(const QString& setting){
 			shortcut = sc_pair[1];
 		}
 
-		rsc.insert(key, shortcut);
+		rsc.insert(key, shortcut.split(", "));
 	}
 
 	return rsc;

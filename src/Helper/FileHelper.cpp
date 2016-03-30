@@ -62,14 +62,11 @@ void Helper::File::remove_files_in_directory(const QString& dir_name, const QStr
 QString Helper::File::get_parent_directory(const QString& filename) {
 
 	QString ret;
-	int last_idx;
+	QString re_str = QString("(.*)") + QDir::separator() + ".+";
+	QRegExp re(re_str);
 
-	ret = filename.left(filename.lastIndexOf(QDir::separator()) + 1);
-	last_idx = ret.lastIndexOf(QDir::separator());
-
-	while(last_idx == ret.size() - 1 && ret.size() > 0) {
-		ret = ret.left(ret.size() - 1);
-		last_idx = ret.lastIndexOf(QDir::separator());
+	if(re.indexIn(filename) >= 0){
+		ret = re.cap(1);
 	}
 
 	return ret;
@@ -233,25 +230,29 @@ bool Helper::File::is_playlistfile(const QString& filename) {
 
 void Helper::File::create_directories(const QString& path)
 {
-	int idx;
-	QDir dir;
 
-	idx = path.indexOf(QDir::separator());
+	if(QFile::exists(path)){
+		return;
+	}
 
-	while(idx >= 0){
+	QStringList paths = path.split(QDir::separator());
+	QDir dir = QDir::root();
 
-		int idx2;
-		QString subdir;
+	for(QString p : paths){
 
-		dir = QDir(path.left(idx));
-		idx2 = path.indexOf(QDir::separator());
-		if(idx2 < 0){
+		QString abs_path = dir.absoluteFilePath(p);
+
+		if(QFile::exists(abs_path)){
+			dir.cd(p);
+			continue;
+		}
+
+		bool success = dir.mkdir(p);
+		if(!success){
 			break;
 		}
 
-		subdir = path.mid(idx + 1, idx2 - (idx + 1));
-		dir.mkdir(subdir);
-		idx = idx2;
+		dir.cd(p);
 	}
 }
 

@@ -43,15 +43,17 @@ public:
 	GUI_RemoteControl(QWidget* parent=nullptr);
 	virtual ~GUI_RemoteControl();
 
-protected:
-	void init_ui() override;
-	void language_changed() override;
+	void commit() override;
+	void revert() override;
+
 	QString get_action_name() const override;
 	QLabel* get_title_label() override;
 
-private slots:
-	void ok_clicked();
-	void cancel_clicked();
+
+protected:
+
+	void init_ui() override;
+	void language_changed() override;
 
 };
 

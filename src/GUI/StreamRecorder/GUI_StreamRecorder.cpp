@@ -46,34 +46,25 @@ void GUI_StreamRecorder::init_ui()
 {
 	setup_parent(this);
 
-	_path = _settings->get(Set::Engine_SR_Path);
-	_is_active = _settings->get(Set::Engine_SR_Active);
-	_is_create_session_path = _settings->get(Set::Engine_SR_SessionPath);
-
-	le_path->setText(_path);
-	cb_activate->setChecked(_is_active);
-	cb_create_session_path->setChecked(_is_create_session_path);
-
-	cb_create_session_path->setEnabled(_is_active);
-	btn_path->setEnabled(_is_active);
-	le_path->setEnabled(_is_active);
+	revert();
 
 	connect(cb_activate, &QCheckBox::toggled, this, &GUI_StreamRecorder::sl_cb_activate_toggled);
 	connect(cb_create_session_path, &QCheckBox::toggled, this, &GUI_StreamRecorder::sl_cb_create_session_path_toggled);
 	connect(btn_path, &QPushButton::clicked, this, &GUI_StreamRecorder::sl_btn_path_clicked);
-	connect(btn_ok, &QPushButton::clicked, this, &GUI_StreamRecorder::sl_ok);
 }
 
 
 void GUI_StreamRecorder::language_changed() {
 
-	PreferenceDialogInterface::language_changed();
+	translate_action();
 
 	if(!is_ui_initialized()){
 		return;
 	}
 
 	retranslateUi(this);
+	PreferenceDialogInterface::language_changed();
+
 }
 
 
@@ -100,7 +91,7 @@ void GUI_StreamRecorder::sl_btn_path_clicked() {
 }
 
 
-void GUI_StreamRecorder::sl_ok() {
+void GUI_StreamRecorder::commit() {
 
 	QString str = le_path->text();
     if(!QFile::exists(str)) {
@@ -118,9 +109,21 @@ void GUI_StreamRecorder::sl_ok() {
 	_settings->set(Set::Engine_SR_Path, str);
 	_settings->set(Set::Engine_SR_Active, cb_activate->isChecked());
     _path = str;
+}
 
-    hide();
-    close();
+void GUI_StreamRecorder::revert(){
+
+	_path = _settings->get(Set::Engine_SR_Path);
+	_is_active = _settings->get(Set::Engine_SR_Active);
+	_is_create_session_path = _settings->get(Set::Engine_SR_SessionPath);
+
+	le_path->setText(_path);
+	cb_activate->setChecked(_is_active);
+	cb_create_session_path->setChecked(_is_create_session_path);
+
+	cb_create_session_path->setEnabled(_is_active);
+	btn_path->setEnabled(_is_active);
+	le_path->setEnabled(_is_active);
 }
 
 

@@ -23,14 +23,13 @@
 
 #include "GUI/Library/ImportFolderDialog/ui_GUI_ImportFolder.h"
 #include "GUI/Helper/SayonaraWidget.h"
-#include "Components/Library/LibraryImporter.h"
+#include "Components/Library/Importer/LibraryImporter.h"
 
 #include <QCloseEvent>
 #include <QShowEvent>
 #include <QStringList>
 
 class GUI_TagEdit;
-
 
 class GUI_ImportFolder :
 		public SayonaraDialog,

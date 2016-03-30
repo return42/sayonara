@@ -38,9 +38,11 @@ GUI_BroadcastSetup::~GUI_BroadcastSetup(){
 void GUI_BroadcastSetup::init_ui()
 {
 	setup_parent(this);
+
+	revert();
 }
 
-void GUI_BroadcastSetup::accept(){
+void GUI_BroadcastSetup::commit(){
 
 	bool new_active = cb_active->isChecked();
 	bool new_prompt = cb_prompt->isChecked();
@@ -61,9 +63,16 @@ void GUI_BroadcastSetup::accept(){
 	if(old_port != new_port){
 		_settings->set(Set::Broadcast_Port, new_port);
 	}
-
-	QDialog::accept();
 }
+
+
+void GUI_BroadcastSetup::revert(){
+
+	cb_active->setChecked( _settings->get(Set::Broadcast_Active) );
+	cb_prompt->setChecked( _settings->get(Set::Broadcast_Prompt) );
+	sb_port->setValue( _settings->get(Set::Broadcast_Port) );
+}
+
 
 void GUI_BroadcastSetup::language_changed(){
 
@@ -72,20 +81,15 @@ void GUI_BroadcastSetup::language_changed(){
 	}
 
 	retranslateUi(this);
+
 	PreferenceDialogInterface::language_changed();
 }
+
 
 void GUI_BroadcastSetup::skin_changed()
 {
 	if(!is_ui_initialized()){
 		return;
-	}
-
-	if(is_dark()){
-		lab_icon->setPixmap(Helper::get_pixmap("broadcast"));
-	}
-	else{
-		lab_icon->setPixmap(Helper::get_pixmap("broadcast_dark"));
 	}
 }
 
@@ -94,27 +98,6 @@ QLabel* GUI_BroadcastSetup::get_title_label()
 	return lab_title;
 }
 
-void GUI_BroadcastSetup::reject(){
-	QDialog::reject();
-}
-
-void GUI_BroadcastSetup::showEvent(QShowEvent* e){
-
-	PreferenceDialogInterface::showEvent(e);
-
-	if(is_dark()){
-		lab_icon->setPixmap(Helper::get_pixmap("broadcast"));
-	}
-	else{
-		lab_icon->setPixmap(Helper::get_pixmap("broadcast_dark"));
-	}
-
-	cb_active->setChecked( _settings->get(Set::Broadcast_Active) );
-	cb_prompt->setChecked( _settings->get(Set::Broadcast_Prompt) );
-	sb_port->setValue( _settings->get(Set::Broadcast_Port) );
-
-	PreferenceDialogInterface::showEvent(e);
-}
 
 QString GUI_BroadcastSetup::get_action_name() const
 {

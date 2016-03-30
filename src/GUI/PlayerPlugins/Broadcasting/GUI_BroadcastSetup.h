@@ -38,21 +38,17 @@ public:
 	explicit GUI_BroadcastSetup(QWidget *parent=nullptr);
 	virtual ~GUI_BroadcastSetup();
 
+	void commit() override;
+	void revert() override;
+
+	QLabel* get_title_label() override;
+	QString get_action_name() const override;
+
+
 protected:
 	void init_ui() override;
 	void language_changed() override;
 	void skin_changed() override;
-
-
-	QLabel* get_title_label() override;
-	QString get_action_name() const override;
-	void showEvent(QShowEvent* e);
-
-
-
-private slots:
-	void accept();
-	void reject();
 
 };
 

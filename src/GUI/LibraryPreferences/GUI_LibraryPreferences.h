@@ -13,20 +13,18 @@ class GUI_LibraryPreferences :
 	Q_OBJECT
 
 public:
-	GUI_LibraryPreferences(QWidget* parent);
+	GUI_LibraryPreferences(QWidget* parent=nullptr);
+	void commit() override;
+	void revert() override;
 
 
 private:
-	virtual void init_ui() override;
-	virtual QString get_action_name() const override;
-	virtual QLabel* get_title_label() override;
+	void init_ui() override;
+	QString get_action_name() const override;
+	QLabel* get_title_label() override;
 
 
 private slots:
-
-	void ok_clicked();
-	void cancel_clicked();
-
 	void language_changed() override;
 };
 

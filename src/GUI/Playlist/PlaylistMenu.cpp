@@ -37,6 +37,7 @@ PlaylistMenu::PlaylistMenu(QWidget* parent) :
 	_action_gapless = new QAction(tr("Gapless playback"), this);
 	_action_shutdown = new QAction(tr("Shutdown"), this);
 	_action_numbers = new QAction(tr("Numbers"), this);
+	_action_look = new QAction(tr("Playlist look"), this);
 
 	QList<QAction*> actions;
 	actions << _action_rep1
@@ -47,6 +48,7 @@ PlaylistMenu::PlaylistMenu(QWidget* parent) :
 			<< _action_gapless
 			<< addSeparator()
 			<< _action_numbers
+			<< _action_look
 			<< addSeparator()
 			<< _action_shutdown;
 
@@ -54,6 +56,8 @@ PlaylistMenu::PlaylistMenu(QWidget* parent) :
 		action->setCheckable(true);
 		action->setVisible(true);
 	}
+
+	_action_look->setCheckable(false);
 
 	this->addActions(actions);
 
@@ -78,6 +82,7 @@ PlaylistMenu::PlaylistMenu(QWidget* parent) :
 	connect(_action_shutdown, &QAction::triggered, this, &PlaylistMenu::change_plm);
 	connect(_action_numbers, &QAction::triggered, this, &PlaylistMenu::show_numbers);
 	connect(_action_shutdown, &QAction::triggered, this, &PlaylistMenu::sig_shutdown);
+	connect(_action_look, &QAction::triggered, this, &PlaylistMenu::change_look);
 
 	REGISTER_LISTENER(Set::PL_Mode, plm_changed);
 	REGISTER_LISTENER(Set::Player_Language, language_changed);
@@ -92,6 +97,12 @@ void PlaylistMenu::language_changed(){
 	_action_gapless->setText(tr("Gapless playback"));
 	_action_shutdown->setText(tr("Shutdown"));
 	_action_numbers->setText(tr("Numbers"));
+	_action_look->setText(tr("Playlist look"));
+}
+
+void PlaylistMenu::change_look()
+{
+
 }
 
 void PlaylistMenu::timed_out()

@@ -35,7 +35,7 @@ GUI_ShortcutEntry::GUI_ShortcutEntry(const Shortcut& shortcut, QWidget* parent) 
 	_sch = ShortcutHandler::getInstance();
 
 	lab_description->setText(_shortcut.get_name());
-	le_entry->setText(_shortcut.get_shortcut());
+	le_entry->setText(_shortcut.get_shortcuts().join(", "));
 
 	connect(btn_edit, &QPushButton::clicked, this, &GUI_ShortcutEntry::edit_clicked);
 	//connect(btn_clear, &QPushButton::clicked, this, &GUI_ShortcutEntry::clear);
@@ -47,7 +47,7 @@ void GUI_ShortcutEntry::commit()
 {
 	QString identifier = _shortcut.get_identifier();
 
-	_sch->set_shortcut(identifier, le_entry->text());
+	_sch->set_shortcut(identifier, le_entry->text().split(", "));
 	_shortcut = _sch->get_shortcut(identifier);
 }
 
@@ -56,17 +56,25 @@ void GUI_ShortcutEntry::clear(){
 }
 
 void GUI_ShortcutEntry::revert(){
-	le_entry->setText(_shortcut.get_shortcut());
+	le_entry->setText(_shortcut.get_shortcuts().join(", "));
 }
 
 
 void GUI_ShortcutEntry::default_clicked(){
-	le_entry->setText(_shortcut.get_default());
+	le_entry->setText(_shortcut.get_default().join(", "));
 }
 
 void GUI_ShortcutEntry::test_clicked()
 {	
-	emit sig_test_pressed(QKeySequence(le_entry->text()));
+	QStringList splitted = le_entry->text().split(", ");
+	QList<QKeySequence> sequences;
+
+	for(const QString& str : splitted){
+		sequences << QKeySequence::fromString(str, QKeySequence::NativeText);
+	}
+
+	emit sig_test_pressed(sequences);
+
 }
 
 

@@ -33,7 +33,7 @@
 
 GUI_LastFM::GUI_LastFM(QWidget* parent) :
 	PreferenceDialogInterface(parent),
-	Ui_GUI_LastFM_Dialog()
+	Ui::GUI_LastFM()
 {
 	_lfm = LastFM::getInstance();
 }
@@ -48,20 +48,8 @@ void GUI_LastFM::init_ui()
 {
 	setup_parent(this);
 
-	bool active = _settings->get(Set::LFM_Active);
+	revert();
 
-	cb_activate->setChecked(active);
-	active_changed(active);
-
-
-	logged_in(_lfm->is_logged_in());
-
-
-	StringPair user_pw = _settings->get(Set::LFM_Login);
-	tf_username->setText(user_pw.first);
-	tf_password->setText(user_pw.second);
-
-	connect(btn_ok, &QPushButton::clicked, this, &GUI_LastFM::btn_ok_clicked);
 	connect(btn_login, &QPushButton::clicked, this, &GUI_LastFM::btn_login_clicked);
 	connect(cb_activate, &QCheckBox::toggled, this, &GUI_LastFM::active_changed);
 	connect(_lfm, &LastFM::sig_last_fm_logged_in, this, &GUI_LastFM::logged_in);
@@ -74,7 +62,17 @@ QLabel* GUI_LastFM::get_title_label()
 
 
 
+QString GUI_LastFM::get_action_name() const
+{
+	return tr("Last.fm");
+}
+
+
+
+
 void GUI_LastFM::language_changed() {
+
+	translate_action();
 
 	if(!is_ui_initialized()){
 		return;
@@ -83,6 +81,41 @@ void GUI_LastFM::language_changed() {
 	retranslateUi(this);
 	PreferenceDialogInterface::language_changed();
 }
+
+
+void GUI_LastFM::commit() {
+
+	StringPair user_pw;
+	user_pw.first = tf_username->text();
+	user_pw.second = tf_password->text();
+
+	_settings->set(Set::LFM_Login, user_pw);
+
+	if( tf_username->text().length() >= 3 &&
+		tf_password->text().length() >= 3 )
+	{
+		_lfm->psl_login();
+
+		_settings->set( Set::LFM_Active, cb_activate->isChecked() );
+	}
+}
+
+
+void GUI_LastFM::revert(){
+	bool active = _settings->get(Set::LFM_Active);
+
+	cb_activate->setChecked(active);
+	active_changed(active);
+
+	logged_in(_lfm->is_logged_in());
+
+	StringPair user_pw = _settings->get(Set::LFM_Login);
+	tf_username->setText(user_pw.first);
+	tf_password->setText(user_pw.second);
+
+
+}
+
 
 void GUI_LastFM::btn_login_clicked(){
 
@@ -104,26 +137,6 @@ void GUI_LastFM::btn_login_clicked(){
 }
 
 
-void GUI_LastFM::btn_ok_clicked() {
-
-	StringPair user_pw;
-	user_pw.first = tf_username->text();
-	user_pw.second = tf_password->text();
-
-	_settings->set(Set::LFM_Login, user_pw);
-
-	if( tf_username->text().length() >= 3 &&
-		tf_password->text().length() >= 3 )
-	{
-		_lfm->psl_login();
-
-		_settings->set( Set::LFM_Active, cb_activate->isChecked() );
-	}
-
-	close();
-}
-
-
 void GUI_LastFM::active_changed(bool active) {
 
 	if(!is_ui_initialized()){
@@ -133,7 +146,6 @@ void GUI_LastFM::active_changed(bool active) {
 	tf_username->setEnabled(active);
 	tf_password->setEnabled(active);
 }
-
 
 
 void GUI_LastFM::logged_in(bool success){
@@ -149,11 +161,5 @@ void GUI_LastFM::logged_in(bool success){
 	else{
 		lab_status->setText(tr("Not logged in"));
 	}
-}
-
-
-QString GUI_LastFM::get_action_name() const
-{
-	return tr("Last.fm");
 }
 
