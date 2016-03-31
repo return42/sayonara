@@ -71,14 +71,21 @@ void CopyThread::copy() {
 
 	for(const QString& filename : files){
 
+
 		if(_cancelled){
 			return;
 		}
 
 		bool success;
-		QString target_filename = _cache.get_target_filename(filename, _target_dir);
+		QString target_filename, target_dir;
 
-		QString target_dir = Helper::File::get_parent_directory(target_filename);
+		target_filename = _cache.get_target_filename(filename, _target_dir);
+		if(target_filename.isEmpty()){
+			continue;
+		}
+
+		target_dir = Helper::File::get_parent_directory(target_filename);
+
 		Helper::File::create_directories(target_dir);
 
 		QFile f(filename);

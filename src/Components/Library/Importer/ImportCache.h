@@ -12,7 +12,6 @@ class ImportCache
 
 private:
 
-	QString					_src_directory;
 	QString					_library_path;
 	MetaDataList			_v_md;
 	QMap<QString, MetaData> _src_md_map;
@@ -21,7 +20,7 @@ private:
 
 public:
 
-	ImportCache(const QString& src_directory=QString());
+	ImportCache();
 
 
 	void			clear();

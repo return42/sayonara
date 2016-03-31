@@ -27,9 +27,7 @@
 
 QString Helper::File::calc_file_extension(const QString& filename) {
 
-	int last_point = filename.lastIndexOf(".") + 1;
-	return filename.right(filename.size() - last_point);
-
+	return get_file_extension(filename);
 }
 
 
@@ -66,7 +64,7 @@ QString Helper::File::get_parent_directory(const QString& filename) {
 	QRegExp re(re_str);
 
 	if(re.indexIn(filename) >= 0){
-		ret = re.cap(1);
+		ret = get_absolute_filename(re.cap(1));
 	}
 
 	return ret;
@@ -83,7 +81,7 @@ QString Helper::File::get_filename_of_path(const QString& path) {
 	ret.remove(Helper::File::get_parent_directory(path));
 	ret.remove(QDir::separator());
 
-	return ret;
+	return get_absolute_filename(ret);
 }
 
 void Helper::File::split_filename(const QString& src, QString& path, QString& filename) {
@@ -109,10 +107,18 @@ QStringList Helper::File::get_parent_directories(const QStringList& files) {
 
 
 QString Helper::File::get_absolute_filename(const QString& filename){
+
 	QString f, d;
-	Helper::File::split_filename(filename, d, f);
-	QDir dir(d);
-	return dir.absoluteFilePath(f);
+	QString re_str = QString("(.*)") + QDir::separator() + "(.+)";
+	QRegExp re(re_str);
+	if(re.indexIn(filename) >= 0){
+		d = re.cap(1);
+		f = re.cap(2);
+		QDir dir(d);
+		return dir.absoluteFilePath(f);
+	}
+
+	return filename;
 }
 
 
@@ -325,10 +331,11 @@ bool Helper::File::read_file_into_str(const QString& filename, QString& content)
 
 QString Helper::File::get_file_extension(const QString& filename)
 {
-	int idx = filename.lastIndexOf(".");
-	if(idx < 0){
-		return "";
+	QString ret;
+	QRegExp re(".*\\.(.+)");
+	if(re.indexIn(filename) >= 0){
+		ret = re.cap(0);
 	}
 
-	return filename.right(filename.size() - (idx + 1));
+	return ret;
 }

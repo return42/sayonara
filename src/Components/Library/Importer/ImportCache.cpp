@@ -1,9 +1,8 @@
 #include "ImportCache.h"
 #include "Helper/Settings/Settings.h"
 
-ImportCache::ImportCache(const QString& src_directory)
+ImportCache::ImportCache()
 {
-	_src_directory = src_directory;
 	_library_path = Settings::getInstance()->get(Set::Lib_Path);
 }
 
