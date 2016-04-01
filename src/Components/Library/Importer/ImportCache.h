@@ -26,12 +26,13 @@ public:
 	void			clear();
 
 	void			add_soundfile(const MetaData& md);
-	void			add_standard_file(const QString& filename, const QString& parent_dir);
+	void			add_standard_file(const QString& filename, const QString& parent_dir=QString());
 
 	QStringList		get_files() const;
 	MetaDataList	get_soundfiles() const;
 	QString			get_target_filename(const QString& src_filename, const QString& target_directory) const;
 	MetaData		get_metadata(const QString& filename) const;
+	void			change_metadata(const MetaDataList& v_md_old, const MetaDataList& v_md_new);
 
 };
 

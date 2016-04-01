@@ -31,13 +31,19 @@ void ImportCache::add_standard_file(const QString& filename, const QString& pare
 
 	_files << filename;
 
-	QString file_dir = Helper::File::get_parent_directory(filename);
-	QString sub_dir = file_dir.remove(Helper::File::get_absolute_filename(parent_dir));
-
 	QString pure_src_filename = Helper::File::get_filename_of_path(filename);
-	QString pure_src_dir = Helper::File::get_filename_of_path(parent_dir);
+	QString target_subdir;
 
-	_src_dst_map[filename] = pure_src_dir + "/" + sub_dir + "/" + pure_src_filename;
+	if(!parent_dir.isEmpty()){
+
+		QString file_dir = Helper::File::get_parent_directory(filename);
+		QString sub_dir = file_dir.remove(Helper::File::get_absolute_filename(parent_dir));
+		QString pure_srcdir = Helper::File::get_filename_of_path(parent_dir);
+
+		target_subdir = pure_srcdir + "/" + target_subdir + "/";
+	}
+
+	_src_dst_map[filename] = target_subdir + pure_src_filename;
 }
 
 QStringList ImportCache::get_files() const
@@ -58,4 +64,13 @@ QString ImportCache::get_target_filename(const QString &src_filename, const QStr
 MetaData ImportCache::get_metadata(const QString& filename) const
 {
 	return _src_md_map[filename];
+}
+
+
+void ImportCache::change_metadata(const MetaDataList& v_md_old, const MetaDataList& v_md_new)
+{
+	_v_md = v_md_new;
+	for(const MetaData& md : v_md_new){
+		_src_md_map[md.filepath()] = md;
+	}
 }

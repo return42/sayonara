@@ -58,9 +58,8 @@ private slots:
 	void set_metadata(const MetaDataList& v_md);
 	void set_status(LibraryImporter::ImportStatus status);
 	void set_progress(int);
-	void set_folderlist(const QStringList& lst);
 
-protected:
+private:
 	void closeEvent(QCloseEvent* e) override;
 	void showEvent(QShowEvent* e) override;
 	void language_changed() override;

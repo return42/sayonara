@@ -41,6 +41,9 @@ LibraryImporter::LibraryImporter(QObject* parent) :
 	_lib_path = _settings->get(Set::Lib_Path);
 	_status = ImportStatus::NoTracks;
 
+	_caching_thread = nullptr;
+	_copy_thread = nullptr;
+
 	MetaDataChangeNotifier* md_change_notifier = MetaDataChangeNotifier::getInstance();
 	connect(md_change_notifier, &MetaDataChangeNotifier::sig_metadata_changed,
 			this, &LibraryImporter::metadata_changed);
@@ -186,8 +189,10 @@ void LibraryImporter::copy_thread_finished() {
 
 
 void LibraryImporter::metadata_changed(const MetaDataList& old_md, const MetaDataList& new_md){
-
-
+	
+	if(_cache_thread){
+		_cache_thread->change_metadata(old_md, new_md);
+	}
 }
 
 

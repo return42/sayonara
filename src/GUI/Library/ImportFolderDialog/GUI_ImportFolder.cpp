@@ -85,11 +85,6 @@ void GUI_ImportFolder::set_import_files(const QStringList& filelist){
 }
 
 
-void GUI_ImportFolder::set_folderlist(const QStringList& lst) {
-	combo_folders->clear();
-	combo_folders->addItems(lst);
-}
-
 void GUI_ImportFolder::set_metadata(const MetaDataList& v_md){
 
 	_ui_tag_edit->get_tag_edit()->set_metadata(v_md);
@@ -202,10 +197,10 @@ void GUI_ImportFolder::choose_dir() {
 	QString lib_path = _settings->get(Set::Lib_Path);
 	QString dialog_title = tr("Choose target directory");
 	QString dir =
-		QFileDialog::getExistingDirectory(	this,
-											dialog_title,
-											lib_path,
-											QFileDialog::ShowDirsOnly
+	QFileDialog::getExistingDirectory(	this,
+										dialog_title,
+										lib_path,
+										QFileDialog::ShowDirsOnly
 	);
 
 	if(dir.isEmpty()){
@@ -217,15 +212,13 @@ void GUI_ImportFolder::choose_dir() {
 		return;
 	}
 
-	QString parent_folder = Helper::File::get_parent_directory(dir);
-	dir.remove(parent_folder);
-
-	while(dir.startsWith(QDir::separator())) {
-		dir=dir.remove(0, 1);
+	dir.replace(lib_path, "");
+	while(dir.startsWith(QDir::separator()){
+		dir.remove(0, 1);
 	}
 
-	while(dir.endsWith(QDir::separator())) {
-		dir = dir.remove(dir.size() - 1, 1);
+	while(dir.endsWith(QDir::separator()){
+		dir.remove( dir.size() - 1, 1);
 	}
 
 	combo_folders->setEditText(dir);

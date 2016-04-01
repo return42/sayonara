@@ -86,7 +86,10 @@ void CopyThread::copy() {
 
 		target_dir = Helper::File::get_parent_directory(target_filename);
 
-		Helper::File::create_directories(target_dir);
+		success = Helper::File::create_directories(target_dir);
+		if(!success){
+			continue;
+		}
 
 		QFile f(filename);
 		success = f.copy(target_filename);
@@ -96,7 +99,9 @@ void CopyThread::copy() {
 		}
 
 		MetaData md = _cache.get_metadata(filename);
+
 		if(!md.filepath().isEmpty()){
+			md.set_filepath(target_filename);
 			_v_md << md;
 		}
 

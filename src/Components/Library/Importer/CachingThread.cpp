@@ -64,7 +64,9 @@ void CachingThread::read_files()
 
 		if(Helper::File::is_dir(filename)){
 			QStringList dir_files;
-			dr.get_files_in_dir_rec(QDir(filename), dir_files);
+			QDir dir(filename);
+
+			dr.get_files_in_dir_rec(dir, dir_files);
 
 			for(const QString& dir_file : dir_files){
 				_cache.add_standard_file(dir_file, filename);
@@ -72,7 +74,7 @@ void CachingThread::read_files()
 		}
 
 		else{
-			_cache.add_standard_file(filename, filename);
+			_cache.add_standard_file(filename);
 		}
 	}
 }
@@ -96,6 +98,9 @@ void CachingThread::extract_soundfiles()
 	}
 }
 
+void change_metadata(const MetaDataList& v_md_old, const MetaDataList& v_md_new){
+	_cache.change_metadata(v_md_old, v_md_new);	
+}
 
 
 ImportCache CachingThread::get_cache() const
@@ -112,3 +117,4 @@ bool CachingThread::was_canelled() const
 {
 	return _cancelled;
 }
+
