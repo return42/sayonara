@@ -22,9 +22,10 @@
 #include <QApplication>
 
 GUI_FontConfig::GUI_FontConfig(QWidget* parent) :
-	PreferenceDialogInterface(parent),
+	PreferenceWidgetInterface(parent),
 	Ui::GUI_FontConfig()
 {
+	//REGISTER_LISTENER(Set::Player_Language, language_changed);
 }
 
 GUI_FontConfig::~GUI_FontConfig()
@@ -49,7 +50,6 @@ void GUI_FontConfig::init_ui()
 
 	connect(combo_fonts, &QComboBox::currentTextChanged, this, &GUI_FontConfig::combo_text_changed);	
 	connect(btn_default, &QPushButton::clicked, this, &GUI_FontConfig::default_clicked);
-	connect(btn_apply, &QPushButton::clicked, this, &GUI_FontConfig::apply_clicked);
 
 	combo_fonts->addItems(families);
 
@@ -95,15 +95,6 @@ void GUI_FontConfig::combo_text_changed(const QString& font_name){
 
 void GUI_FontConfig::commit()
 {
-	apply_clicked();
-}
-
-void GUI_FontConfig::revert(){
-
-}
-
-void GUI_FontConfig::apply_clicked()
-{
 	bool ok;
 	int font_size;
 
@@ -114,6 +105,11 @@ void GUI_FontConfig::apply_clicked()
 		_settings->set(Set::Player_FontSize, font_size);
 	}
 }
+
+void GUI_FontConfig::revert(){
+
+}
+
 
 void GUI_FontConfig::default_clicked()
 {
@@ -142,7 +138,7 @@ void GUI_FontConfig::language_changed()
 	}
 
 	retranslateUi(this);
-	PreferenceDialogInterface::language_changed();
+	PreferenceWidgetInterface::language_changed();
 }
 
 void GUI_FontConfig::skin_changed()

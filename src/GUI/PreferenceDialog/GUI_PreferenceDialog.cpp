@@ -1,4 +1,5 @@
 #include "GUI_PreferenceDialog.h"
+#include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
 #include <QLayout>
 
 GUI_PreferenceDialog::GUI_PreferenceDialog(QWidget *parent) :
@@ -7,10 +8,10 @@ GUI_PreferenceDialog::GUI_PreferenceDialog(QWidget *parent) :
 {
 	setup_parent(this);
 
-	widget_prefere->setLayout(new QVBoxLayout(widget_prefere));
-
 	connect(list_preferences, &QListWidget::currentRowChanged, this, &GUI_PreferenceDialog::row_changed);
-	connect(btn_ok, &QPushButton::clicked, this, &GUI_PreferenceDialog::commit);
+
+	connect(btn_apply, &QPushButton::clicked, this, &GUI_PreferenceDialog::commit);
+	connect(btn_ok, &QPushButton::clicked, this, &GUI_PreferenceDialog::commit_and_close);
 	connect(btn_cancel, &QPushButton::clicked, this, &GUI_PreferenceDialog::revert);
 }
 
@@ -19,7 +20,7 @@ GUI_PreferenceDialog::~GUI_PreferenceDialog()
 
 }
 
-void GUI_PreferenceDialog::register_preference_dialog(PreferenceDialogInterface* dialog)
+void GUI_PreferenceDialog::register_preference_dialog(PreferenceWidgetInterface* dialog)
 {
 	_dialogs << dialog;
 	list_preferences->addItem(dialog->get_action_name());
@@ -27,7 +28,22 @@ void GUI_PreferenceDialog::register_preference_dialog(PreferenceDialogInterface*
 
 void GUI_PreferenceDialog::language_changed()
 {
+	translate_action();
 
+	if(!is_ui_initialized()){
+		return;
+	}
+
+	retranslateUi(this);
+
+	int i=0;
+	for(PreferenceWidgetInterface* dialog : _dialogs){
+		QListWidgetItem* item = list_preferences->item(i);
+		item->setText(dialog->get_action_name());
+		i++;
+	}
+
+	PreferenceDialogInterface::language_changed();
 }
 
 
@@ -45,25 +61,25 @@ QLabel* GUI_PreferenceDialog::get_title_label()
 void GUI_PreferenceDialog::init_ui()
 {
 
+}
 
-
-	show();
+void GUI_PreferenceDialog::commit_and_close(){
+	commit();
+	close();
 }
 
 void GUI_PreferenceDialog::commit()
 {
-	for(PreferenceDialogInterface* iface : _dialogs){
+	for(PreferenceWidgetInterface* iface : _dialogs){
 		if(iface->is_ui_initialized()){
 			iface->commit();
 		}
 	}
-
-	close();
 }
 
 void GUI_PreferenceDialog::revert()
 {
-	for(PreferenceDialogInterface* iface : _dialogs){
+	for(PreferenceWidgetInterface* iface : _dialogs){
 		if(iface->is_ui_initialized()){
 			iface->revert();
 		}
@@ -80,10 +96,9 @@ void GUI_PreferenceDialog::row_changed(int row)
 
 	hide_all();
 	QWidget* widget = _dialogs[row];
-	widget_prefere->layout()->addWidget(widget);
-	widget_prefere->layout()->setAlignment(Qt::AlignTop);
 
-	widget->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
+	widget_preferences->layout()->addWidget(widget);
+	widget_preferences->layout()->setAlignment(Qt::AlignTop);
 
 	widget->show();
 
@@ -95,7 +110,7 @@ QWidget* GUI_PreferenceDialog::get_widget(){
 
 void GUI_PreferenceDialog::hide_all(){
 
-	for(PreferenceDialogInterface* iface : _dialogs){
+	for(PreferenceWidgetInterface* iface : _dialogs){
 		iface->setParent(nullptr);
 		iface->hide();
 

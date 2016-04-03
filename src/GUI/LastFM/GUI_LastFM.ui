@@ -6,11 +6,75 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>543</width>
-    <height>166</height>
+    <width>457</width>
+    <height>220</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout">
+   <property name="horizontalSpacing">
+    <number>10</number>
+   </property>
+   <item row="7" column="0">
+    <widget class="QLabel" name="label_3">
+     <property name="text">
+      <string>Password</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="2">
+    <widget class="QCheckBox" name="cb_activate">
+     <property name="focusPolicy">
+      <enum>Qt::StrongFocus</enum>
+     </property>
+     <property name="layoutDirection">
+      <enum>Qt::LeftToRight</enum>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="0" colspan="3">
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QLabel" name="lab_status">
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btn_login">
+       <property name="text">
+        <string>Login now</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="6" column="2">
+    <widget class="QLineEdit" name="tf_username"/>
+   </item>
+   <item row="5" column="0">
+    <widget class="QLabel" name="label_4">
+     <property name="text">
+      <string>Activate</string>
+     </property>
+    </widget>
+   </item>
    <item row="0" column="0" colspan="3">
     <widget class="QLabel" name="lab_title">
      <property name="font">
@@ -25,6 +89,13 @@
      </property>
     </widget>
    </item>
+   <item row="6" column="0">
+    <widget class="QLabel" name="label_2">
+     <property name="text">
+      <string>Username</string>
+     </property>
+    </widget>
+   </item>
    <item row="1" column="0" colspan="3">
     <widget class="Line" name="line">
      <property name="orientation">
@@ -32,7 +103,14 @@
      </property>
     </widget>
    </item>
-   <item row="2" column="0" rowspan="3">
+   <item row="7" column="2">
+    <widget class="QLineEdit" name="tf_password">
+     <property name="echoMode">
+      <enum>QLineEdit::Password</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0" rowspan="2" colspan="3">
     <widget class="QWidget" name="widget" native="true">
      <property name="styleSheet">
       <string notr="true">background-color: rgb(255, 255, 255);</string>
@@ -66,86 +144,11 @@
      </layout>
     </widget>
    </item>
-   <item row="2" column="1">
-    <widget class="QLabel" name="label_4">
-     <property name="text">
-      <string>Activate</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="2">
-    <widget class="QCheckBox" name="cb_activate">
-     <property name="focusPolicy">
-      <enum>Qt::StrongFocus</enum>
-     </property>
-     <property name="layoutDirection">
-      <enum>Qt::LeftToRight</enum>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="1">
-    <widget class="QLabel" name="label_2">
-     <property name="text">
-      <string>Username</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="2">
-    <widget class="QLineEdit" name="tf_username"/>
-   </item>
-   <item row="4" column="1">
-    <widget class="QLabel" name="label_3">
-     <property name="text">
-      <string>Password</string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="2">
-    <widget class="QLineEdit" name="tf_password">
-     <property name="echoMode">
-      <enum>QLineEdit::Password</enum>
-     </property>
-    </widget>
-   </item>
-   <item row="6" column="0" colspan="3">
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <widget class="QLabel" name="lab_status">
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QPushButton" name="btn_login">
-       <property name="text">
-        <string>Login now</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
   </layout>
  </widget>
  <resources>
   <include location="../Resources/Icons.qrc"/>
-  <include location="../../../../../../Resources/Icons.qrc"/>
+  <include location="../Resources/Icons.qrc"/>
  </resources>
  <connections/>
 </ui>

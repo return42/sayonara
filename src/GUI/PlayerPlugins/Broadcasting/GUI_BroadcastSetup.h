@@ -24,15 +24,16 @@
 #define GUI_BROADCASTSETUP_H
 
 #include "GUI/PlayerPlugins/Broadcasting/ui_GUI_BroadcastSetup.h"
-#include "Interfaces/PreferenceDialog/PreferenceDialogInterface.h"
+#include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
 
 class GUI_BroadcastSetup :
-		public PreferenceDialogInterface,
+		public PreferenceWidgetInterface,
 		private Ui::GUI_BroadcastSetup
 {
 	Q_OBJECT
 
-	friend class PreferenceDialogInterface;
+	friend class PreferenceWidgetInterface;
+	friend class PreferenceInterface<SayonaraWidget>;
 
 public:
 	explicit GUI_BroadcastSetup(QWidget *parent=nullptr);

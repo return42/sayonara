@@ -123,7 +123,6 @@ protected:
 
 	virtual void set_col_sizes();
 
-
 protected:
 
 	LibraryItemModel*			_model=nullptr;

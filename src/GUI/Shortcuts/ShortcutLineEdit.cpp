@@ -34,8 +34,6 @@ void ShortcutLineEdit::keyPressEvent(QKeyEvent* e)
 		key = 0;
 	}
 
-	bool meta_pressed=false;
-
 	if(e->modifiers() & Qt::ControlModifier){
 		key |= Qt::CTRL;
 	}

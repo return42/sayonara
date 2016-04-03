@@ -68,6 +68,7 @@ GUI_LocalLibrary::GUI_LocalLibrary(QWidget* parent) :
 	connect(_local_library_menu, &LocalLibraryMenu::sig_import_file, this, &GUI_LocalLibrary::import_files_requested);
 	connect(_local_library_menu, &LocalLibraryMenu::sig_import_folder, this, &GUI_LocalLibrary::import_dirs_requested);
 	connect(_local_library_menu, &LocalLibraryMenu::sig_info, this, &GUI_LocalLibrary::show_info_box);
+	connect(_local_library_menu, &LocalLibraryMenu::sig_libpath_clicked, this, &GUI_LocalLibrary::set_library_path_clicked);
 	connect(btn_reload_library, &QPushButton::clicked, this, &GUI_LocalLibrary::reload_library_requested);
 
 	connect(splitter_artist_album, &QSplitter::splitterMoved, this, &GUI_LocalLibrary::splitter_artist_moved);

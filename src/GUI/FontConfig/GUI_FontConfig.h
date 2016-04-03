@@ -23,7 +23,7 @@
 #ifndef GUI_FONTCONFIG_H
 #define GUI_FONTCONFIG_H
 
-#include "Interfaces/PreferenceDialog/PreferenceDialogInterface.h"
+#include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
 #include "GUI/FontConfig/ui_GUI_FontConfig.h"
 
 #include <QString>
@@ -31,12 +31,12 @@
 
 
 class GUI_FontConfig :
-		public PreferenceDialogInterface,
+		public PreferenceWidgetInterface,
 		protected Ui::GUI_FontConfig
 {
 	Q_OBJECT
 
-	friend class PreferenceDialogInterface;
+	friend class PreferenceInterface<SayonaraWidget>;
 
 public:
 	GUI_FontConfig(QWidget* parent=nullptr);
@@ -53,7 +53,6 @@ protected:
 
 protected slots:
 
-	void apply_clicked();
 	void default_clicked();
 	void combo_text_changed(const QString& font_name);
 

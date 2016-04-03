@@ -82,11 +82,8 @@ GUI_Player::GUI_Player(QTranslator* translator, QWidget *parent) :
 	_cov_lookup = new CoverLookup(this);
 	_ui_alternative_covers = new GUI_AlternativeCovers(this->centralWidget());
 
-	action_min2tray->setChecked(_settings->get(Set::Player_Min2Tray));
-
 	init_action(action_viewLibrary, Set::Lib_Show);
 	init_action(action_livesearch, Set::Lib_LiveSearch);
-	init_action(action_notifyNewVersion,Set::Player_NotifyNewVersion);
 	init_action(action_Dark, Set::Player_Style);
 
 	bool show_library = _settings->get(Set::Lib_Show);
@@ -371,8 +368,8 @@ void GUI_Player::tray_icon_activated (QSystemTrayIcon::ActivationReason reason) 
 	case QSystemTrayIcon::Trigger:
 
 		if( this->isMinimized() ||
-				!this->isVisible() ||
-				!this->isActiveWindow())
+			!this->isVisible() ||
+			!this->isActiveWindow())
 
 		{
 			raise();
@@ -497,12 +494,12 @@ void GUI_Player::set_player_plugin_handler(PlayerPluginHandler* pph) {
 
 void GUI_Player::register_preference_dialog(PreferenceDialogInterface* dialog){
 
-	for(QAction* action : menuPreferences->actions()){
-		if(action->isSeparator()){
-			menuPreferences->insertAction(action, dialog->get_action());
-			break;
-		}
-	}
+	QList<QAction*> actions = menuFle->actions();
+	QAction* sep = actions[actions.size() - 4];
+
+	dialog->setParent(this);
+	menuFle->insertAction(sep, dialog->get_action());
+
 }
 
 // prvt fct
@@ -619,6 +616,10 @@ void GUI_Player::ui_loaded() {
 
 		cur_library->show();
 		cur_library->resize(library_widget->size());
+	}
+
+	if(_settings->get(Set::Player_StartInTray)){
+		this->setHidden(true);
 	}
 }
 

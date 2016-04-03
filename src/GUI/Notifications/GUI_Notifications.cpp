@@ -22,7 +22,7 @@
 #include "GUI/Helper/ComboBoxDelegate/ComboBoxDelegate.h"
 
 GUI_Notifications::GUI_Notifications(QWidget *parent) :
-	PreferenceDialogInterface(parent),
+	PreferenceWidgetInterface(parent),
 	Ui::GUI_Notifications()
 {
 
@@ -41,7 +41,7 @@ void GUI_Notifications::language_changed(){
 
 	retranslateUi(this);
 
-	PreferenceDialogInterface::language_changed();
+	PreferenceWidgetInterface::language_changed();
 }
 
 

@@ -23,7 +23,7 @@
 #include "GUI_StartupDialog.h"
 
 GUI_StartupDialog::GUI_StartupDialog(QWidget *parent) :
-	PreferenceDialogInterface(parent),
+	PreferenceWidgetInterface(parent),
 	Ui::GUI_StartupOptions()
 {
 
@@ -57,7 +57,7 @@ void GUI_StartupDialog::language_changed() {
 	}
 
 	retranslateUi(this);
-	PreferenceDialogInterface::language_changed();
+	PreferenceWidgetInterface::language_changed();
 }
 
 

@@ -27,7 +27,7 @@
 #include <QDir>
 
 GUI_LanguageChooser::GUI_LanguageChooser(QWidget *parent) :
-	PreferenceDialogInterface(parent),
+	PreferenceWidgetInterface(parent),
 	Ui::GUI_LanguageChooser()
 {
 
@@ -46,8 +46,9 @@ void GUI_LanguageChooser::language_changed(){
 	}
 
 	retranslateUi(this);
+	renew_combo();
 
-	PreferenceDialogInterface::language_changed();
+	PreferenceWidgetInterface::language_changed();
 }
 
 
@@ -137,7 +138,7 @@ void GUI_LanguageChooser::init_ui()
 
 void GUI_LanguageChooser::showEvent(QShowEvent* e) {
 
-	PreferenceDialogInterface::showEvent(e);
+	PreferenceWidgetInterface::showEvent(e);
 
 	renew_combo();
 }

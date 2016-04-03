@@ -36,13 +36,30 @@ LocalLibraryMenu::LocalLibraryMenu(QWidget* parent) :
 	_import_file_action = new QAction(Helper::get_icon("open"), tr("Import files"), this);
 	_import_folder_action = new QAction(Helper::get_icon("open"), tr("Import directory"), this);
 	_info_action = new QAction(Helper::get_icon("info"), tr("Info"), this);
+	_library_path_action = new QAction(Helper::get_icon("folder"), tr("Library path"), this);
+
+	_realtime_search_action = new QAction(QIcon(), tr("Live search"), this);
+	_realtime_search_action->setCheckable(true);
+	_realtime_search_action->setChecked(_settings->get(Set::Lib_LiveSearch));
 
 	connect(_reload_library_action, &QAction::triggered, this, &LocalLibraryMenu::sig_reload_library);
 	connect(_import_file_action, &QAction::triggered, this, &LocalLibraryMenu::sig_import_file);
 	connect(_import_folder_action, &QAction::triggered, this, &LocalLibraryMenu::sig_import_folder);
 	connect(_info_action, &QAction::triggered, this, &LocalLibraryMenu::sig_info);
+	connect(_library_path_action, &QAction::triggered, this, &LocalLibraryMenu::sig_libpath_clicked);
+	connect(_realtime_search_action, &QAction::triggered, this, &LocalLibraryMenu::realtime_search_changed);
 
-	_actions << _info_action << this->addSeparator() << _import_file_action << _import_folder_action << _reload_library_action;
+
+	_actions <<_library_path_action <<
+				this->addSeparator() <<
+
+				_info_action <<
+				this->addSeparator() <<
+				_import_file_action <<
+				_import_folder_action <<
+				_reload_library_action <<
+				this->addSeparator() <<
+				_realtime_search_action;
 
 	this->addActions(_actions);
 
@@ -61,6 +78,8 @@ void LocalLibraryMenu::language_changed(){
 	_import_file_action->setText(tr("Import files"));
 	_import_folder_action->setText(tr("Import directory"));
 	_info_action->setText(tr("Info"));
+	_library_path_action->setText(tr("Library path"));
+	_realtime_search_action->setText(tr("Live search"));
 }
 
 void LocalLibraryMenu::skin_changed(){
@@ -68,5 +87,12 @@ void LocalLibraryMenu::skin_changed(){
 	_import_file_action->setIcon(_icon_loader->get_icon("document-open", "open"));
 	_import_folder_action->setIcon(_icon_loader->get_icon("document-open", "open"));
 	_info_action->setIcon(_icon_loader->get_icon("dialog-information", "info"));
+	_library_path_action->setIcon(_icon_loader->get_icon("folder", "folder"));
+}
+
+
+void LocalLibraryMenu::realtime_search_changed()
+{
+	_settings->set(Set::Lib_LiveSearch, _realtime_search_action->isChecked());
 }
 

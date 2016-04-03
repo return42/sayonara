@@ -5,7 +5,7 @@
 #include "GUI/Shortcuts/ui_GUI_Shortcuts.h"
 #include "GUI/Helper/Shortcuts/ShortcutHandler.h"
 
-#include "Interfaces/PreferenceDialog/PreferenceDialogInterface.h"
+#include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
 
 #include <QPushButton>
 #include <QLineEdit>
@@ -16,12 +16,13 @@
 
 class GUI_ShortcutEntry;
 class GUI_Shortcuts :
-		public PreferenceDialogInterface,
+		public PreferenceWidgetInterface,
 		private Ui::GUI_Shortcuts
 {
 	Q_OBJECT
 
-	friend class PreferenceDialogInterface;
+	friend class PreferenceWidgetInterface;
+	friend class PreferenceInterface<SayonaraWidget>;
 
 public:
 	GUI_Shortcuts(QWidget* parent=nullptr);

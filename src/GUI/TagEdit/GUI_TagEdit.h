@@ -56,6 +56,19 @@ public:
 	 */
 	TagEdit* get_tag_edit() const;
 
+	/**
+	 * @brief Commits changes to db/file
+	 */
+	void commit();
+
+	/**
+	 * @brief calls undo_all, and closes the entire dialog
+	 */
+	void cancel();
+
+	void show_button_commit(bool b);
+	void show_button_cancel(bool b);
+
 
 signals:
 	void sig_ok_clicked(const MetaDataList&);
@@ -236,11 +249,6 @@ private slots:
 	void set_tag_colors(bool valid);
 
 
-	/**
-	 * @brief Commits changes to db/file
-	 */
-	void ok_button_clicked();
-
 
 	/**
 	 * @brief Undo on current track
@@ -266,11 +274,6 @@ private slots:
 	 */
 	void metadata_changed(const MetaDataList&);
 
-
-	/**
-	 * @brief calls undo_all, and closes the entire dialog
-	 */
-	void btn_cancel_clicked();
 
 
 	/**

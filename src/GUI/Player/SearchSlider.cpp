@@ -46,7 +46,6 @@ SearchSlider::~SearchSlider() {
 bool SearchSlider::event(QEvent *e){
 
 	QWheelEvent* we;
-	QKeyEvent* ke;
 	int delta_val = 5;
 
 	switch(e->type()){

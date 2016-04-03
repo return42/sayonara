@@ -26,6 +26,11 @@
 #include "GUI/Helper/Shortcuts/ShortcutHandler.h"
 #include "GUI/Shortcuts/ui_GUI_ShortcutEntry.h"
 
+
+/**
+ * @brief The delegate class for displaying a shortcut.
+ * @ingroup Shortcuts
+ */
 class GUI_ShortcutEntry :
 		public SayonaraWidget,
 		private Ui::GUI_ShortcutEntry
@@ -33,6 +38,10 @@ class GUI_ShortcutEntry :
 	Q_OBJECT
 
 signals:
+	/**
+	 * @brief signal is emitted when the test button is pressed
+	 * @param sequences list of sequences mapped to a specific shortcut
+	 */
 	void sig_test_pressed(const QList<QKeySequence>& sequences);
 
 public:
@@ -48,6 +57,9 @@ private slots:
 	void edit_clicked();
 	void default_clicked();
 	void test_clicked();
+
+	void language_changed() override;
+	void skin_changed() override;
 
 
 

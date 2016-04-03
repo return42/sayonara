@@ -1,7 +1,7 @@
 #include "GUI_LibraryPreferences.h"
 
 GUI_LibraryPreferences::GUI_LibraryPreferences(QWidget* parent) :
-	PreferenceDialogInterface(parent),
+	PreferenceWidgetInterface(parent),
 	Ui::GUI_LibraryPreferences()
 {
 }
@@ -54,5 +54,5 @@ void GUI_LibraryPreferences::language_changed()
 
 	retranslateUi(this);
 
-	PreferenceDialogInterface::language_changed();
+	PreferenceWidgetInterface::language_changed();
 }

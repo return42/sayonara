@@ -24,9 +24,9 @@
 
 
 PreferenceDialogInterface::PreferenceDialogInterface(QWidget* parent) :
-	SayonaraWidget(parent)
+	PreferenceInterface<SayonaraDialog>(parent)
 {
-	_is_initialized = false;
+
 }
 
 PreferenceDialogInterface::~PreferenceDialogInterface()
@@ -34,71 +34,4 @@ PreferenceDialogInterface::~PreferenceDialogInterface()
 
 }
 
-void PreferenceDialogInterface::language_changed()
-{
-	translate_action();
-
-	if(!is_ui_initialized()){
-		return;
-	}
-
-	QString new_name = get_action_name();
-	QLabel* label = get_title_label();
-	if(label){
-		label->setText(new_name);
-	}
-
-	this->setWindowTitle(new_name);
-}
-
-
-void PreferenceDialogInterface::translate_action()
-{
-	QString new_name = this->get_action_name();
-	this->get_action()->setText(new_name + "...");
-}
-
-
-
-void PreferenceDialogInterface::showEvent(QShowEvent* e)
-{
-	if(!is_ui_initialized()){
-		init_ui();
-	}
-
-	SayonaraWidget::showEvent(e);
-
-	if(!_geometry.isEmpty()){
-		this->restoreGeometry(_geometry);
-	}
-}
-
-void PreferenceDialogInterface::closeEvent(QCloseEvent* e)
-{
-	_geometry = saveGeometry();
-
-	SayonaraWidget::closeEvent(e);
-}
-
-
-QAction* PreferenceDialogInterface::get_action(){
-
-	// action has to be initialized here, because pure
-	// virtual get_action_name should not be called from ctor
-	QString name = get_action_name();
-	if(!_action){
-		_action = new QAction(name + "...", nullptr);
-		connect(_action, &QAction::triggered, this, &PreferenceDialogInterface::show);
-	}
-
-	_action->setText(name + "...");
-	return _action;
-}
-
-
-
-bool PreferenceDialogInterface::is_ui_initialized() const
-{
-	return _is_initialized;
-}
 

@@ -26,16 +26,17 @@
 #include "GUI/StartupDialog/ui_GUI_StartupDialog.h"
 
 
-#include "Interfaces/PreferenceDialog/PreferenceDialogInterface.h"
+#include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
 
 class GUI_StartupDialog :
-		public PreferenceDialogInterface,
+		public PreferenceWidgetInterface,
 		private Ui::GUI_StartupOptions
 {
 
     Q_OBJECT
 
-	friend class PreferenceDialogInterface;
+	friend class PreferenceWidgetInterface;
+	friend class PreferenceInterface<SayonaraWidget>;
 
 public:
     GUI_StartupDialog(QWidget *parent=nullptr);

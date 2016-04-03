@@ -9,7 +9,7 @@
 
 
 GUI_Shortcuts::GUI_Shortcuts(QWidget* parent) :
-	PreferenceDialogInterface(parent)
+	PreferenceWidgetInterface(parent)
 {
 	_sch = ShortcutHandler::getInstance();
 }
@@ -98,6 +98,7 @@ void GUI_Shortcuts::language_changed()
 	}
 
 	retranslateUi(this);
-	PreferenceDialogInterface::language_changed();
+
+	PreferenceWidgetInterface::language_changed();
 }
 

@@ -57,6 +57,7 @@
 #include "GUI/RemoteControl/GUI_RemoteControl.h"
 #include "GUI/LibraryPreferences/GUI_LibraryPreferences.h"
 #include "GUI/Shortcuts/GUI_Shortcuts.h"
+#include "GUI/Player/Preferences/GUI_PlayerPreferences.h"
 #include "GUI/PreferenceDialog/GUI_PreferenceDialog.h"
 
 #include "Helper/Style/Style.h"
@@ -218,21 +219,23 @@ bool Application::init(QTranslator* translator, const QStringList& files_to_play
 
 	sp_log(Log::Debug) << "Libraries loaded: " << _timer->elapsed() << "ms";
 
-	GUI_PreferenceDialog* preferences = new GUI_PreferenceDialog(nullptr);
-	preferences->setStyleSheet(Style::get_style(true));
+	GUI_PreferenceDialog* preferences = new GUI_PreferenceDialog(player);
+	//preferences->setStyleSheet(Style::get_style(true));
 
 	player->register_preference_dialog(preferences);
 
 	preferences->register_preference_dialog(new GUI_LanguageChooser());
-	preferences->register_preference_dialog(new GUI_FontConfig());
-	preferences->register_preference_dialog(new GUI_StartupDialog());
+	preferences->register_preference_dialog(new GUI_PlayerPreferences());
 	preferences->register_preference_dialog(new GUI_LibraryPreferences());
+	preferences->register_preference_dialog(new GUI_StartupDialog());
+	preferences->register_preference_dialog(new GUI_FontConfig());
+	preferences->register_preference_dialog(new GUI_Shortcuts());
 	preferences->register_preference_dialog(new GUI_Notifications());
 	preferences->register_preference_dialog(new GUI_LastFM());
 	preferences->register_preference_dialog(new GUI_StreamRecorder());
 	preferences->register_preference_dialog(new GUI_BroadcastSetup());
 	preferences->register_preference_dialog(new GUI_RemoteControl());
-	preferences->register_preference_dialog(new GUI_Shortcuts());
+
 
 	sp_log(Log::Debug) << "Preference dialogs loaded: " << _timer->elapsed() << "ms";
 

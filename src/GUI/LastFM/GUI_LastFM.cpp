@@ -32,7 +32,7 @@
 
 
 GUI_LastFM::GUI_LastFM(QWidget* parent) :
-	PreferenceDialogInterface(parent),
+	PreferenceWidgetInterface(parent),
 	Ui::GUI_LastFM()
 {
 	_lfm = LastFM::getInstance();
@@ -79,7 +79,7 @@ void GUI_LastFM::language_changed() {
 	}
 
 	retranslateUi(this);
-	PreferenceDialogInterface::language_changed();
+	PreferenceWidgetInterface::language_changed();
 }
 
 

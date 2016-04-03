@@ -47,13 +47,7 @@ public:
 
 public:
 	void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
-	QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const;
 
-
-private:
-
-	QPen				_pen;
-	LibraryItemModel*	_model=nullptr;
 };
 
 #endif /* IBRARYITEMDELEGATETRACKS_H_ */

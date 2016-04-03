@@ -1,14 +1,16 @@
 #ifndef GUI_LIBRARYPREFERENCES_H
 #define GUI_LIBRARYPREFERENCES_H
 
-#include "Interfaces/PreferenceDialog/PreferenceDialogInterface.h"
+#include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
 #include "GUI/LibraryPreferences/ui_GUI_LibraryPreferences.h"
 
+
 class GUI_LibraryPreferences :
-		public PreferenceDialogInterface,
+		public PreferenceWidgetInterface,
 		protected Ui::GUI_LibraryPreferences
 {
-	friend class PreferenceDialogInterface;
+	friend class PreferenceWidgetInterface;
+	friend class PreferenceInterface<SayonaraWidget>;
 
 	Q_OBJECT
 

@@ -234,11 +234,11 @@ bool Helper::File::is_playlistfile(const QString& filename) {
 
 
 
-void Helper::File::create_directories(const QString& path)
+bool Helper::File::create_directories(const QString& path)
 {
 
 	if(QFile::exists(path)){
-		return;
+		return true;
 	}
 
 	QStringList paths = path.split(QDir::separator());
@@ -255,11 +255,13 @@ void Helper::File::create_directories(const QString& path)
 
 		bool success = dir.mkdir(p);
 		if(!success){
-			break;
+			return false;
 		}
 
 		dir.cd(p);
 	}
+
+	return true;
 }
 
 

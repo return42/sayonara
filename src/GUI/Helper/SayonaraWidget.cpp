@@ -20,6 +20,7 @@
 
 #include "SayonaraWidget.h"
 #include <QFontMetrics>
+#include <QFormLayout>
 
 SayonaraWidget::SayonaraWidget(QWidget* parent) :
 	SayonaraWidgetTemplate<QWidget>(parent)
@@ -29,6 +30,18 @@ SayonaraWidget::SayonaraWidget(QWidget* parent) :
 }
 
 SayonaraWidget::~SayonaraWidget(){}
+
+SayonaraDialog* SayonaraWidget::box_into_dialog()
+{
+	if(!_boxed_dialog){
+		_boxed_dialog = new SayonaraDialog(this->parentWidget());
+		QFormLayout* layout = new QFormLayout(_boxed_dialog);
+		layout->addWidget(this);
+		this->setParent(_boxed_dialog);
+	}
+
+	return _boxed_dialog;
+}
 
 void SayonaraWidget::language_changed(){}
 void SayonaraWidget::skin_changed(){}

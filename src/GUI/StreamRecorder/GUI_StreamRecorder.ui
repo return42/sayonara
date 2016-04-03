@@ -6,12 +6,21 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>150</height>
+    <width>443</width>
+    <height>165</height>
    </rect>
   </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="1" column="0" colspan="4">
+   <property name="horizontalSpacing">
+    <number>10</number>
+   </property>
+   <item row="1" column="0" colspan="2">
     <widget class="Line" name="line">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -25,13 +34,10 @@
      </property>
     </widget>
    </item>
-   <item row="2" column="1" colspan="3">
-    <widget class="QCheckBox" name="cb_activate">
-     <property name="focusPolicy">
-      <enum>Qt::StrongFocus</enum>
-     </property>
+   <item row="4" column="0">
+    <widget class="QLabel" name="label_2">
      <property name="text">
-      <string/>
+      <string>Target path:</string>
      </property>
     </widget>
    </item>
@@ -42,7 +48,17 @@
      </property>
     </widget>
    </item>
-   <item row="3" column="1" colspan="3">
+   <item row="2" column="1">
+    <widget class="QCheckBox" name="cb_activate">
+     <property name="focusPolicy">
+      <enum>Qt::StrongFocus</enum>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1">
     <widget class="QCheckBox" name="cb_create_session_path">
      <property name="enabled">
       <bool>true</bool>
@@ -58,90 +74,55 @@
      </property>
     </widget>
    </item>
-   <item row="4" column="0">
-    <widget class="QLabel" name="label_2">
-     <property name="text">
-      <string>Target path:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="1" colspan="2">
-    <widget class="QLineEdit" name="le_path">
-     <property name="readOnly">
-      <bool>false</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="3">
-    <widget class="QPushButton" name="btn_path">
-     <property name="maximumSize">
-      <size>
-       <width>30</width>
-       <height>30</height>
-      </size>
-     </property>
-     <property name="layoutDirection">
-      <enum>Qt::LeftToRight</enum>
-     </property>
-     <property name="text">
-      <string>...</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="0" colspan="4">
+   <item row="4" column="1">
     <layout class="QHBoxLayout" name="horizontalLayout">
-     <property name="spacing">
-      <number>8</number>
-     </property>
      <item>
-      <widget class="QLabel" name="lab_rec_icon">
-       <property name="minimumSize">
-        <size>
-         <width>35</width>
-         <height>35</height>
-        </size>
+      <widget class="QLineEdit" name="le_path">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
        </property>
+       <property name="readOnly">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btn_path">
        <property name="maximumSize">
         <size>
-         <width>35</width>
-         <height>35</height>
+         <width>30</width>
+         <height>30</height>
         </size>
        </property>
        <property name="layoutDirection">
         <enum>Qt::LeftToRight</enum>
        </property>
        <property name="text">
-        <string/>
-       </property>
-       <property name="pixmap">
-        <pixmap resource="../Resources/Icons.qrc">:/Icons/rec.svg.png</pixmap>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="lab_title">
-       <property name="font">
-        <font>
-         <pointsize>11</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="text">
-        <string>Stream Recorder</string>
+        <string>...</string>
        </property>
       </widget>
      </item>
     </layout>
    </item>
+   <item row="0" column="0" colspan="2">
+    <widget class="QLabel" name="lab_title">
+     <property name="font">
+      <font>
+       <pointsize>11</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
- <resources>
-  <include location="../Resources/Icons.qrc"/>
-  <include location="../../../../../../Resources/Icons.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

@@ -23,6 +23,8 @@
 #include <QKeySequence>
 #include <QShortcut>
 
+#include "GUI/Helper/IconLoader/IconLoader.h"
+
 GUI_ShortcutEntry::GUI_ShortcutEntry(const Shortcut& shortcut, QWidget* parent) :
 	SayonaraWidget(parent),
 	Ui::GUI_ShortcutEntry(),
@@ -31,16 +33,16 @@ GUI_ShortcutEntry::GUI_ShortcutEntry(const Shortcut& shortcut, QWidget* parent) 
 {
 	setupUi(this);
 
-
 	_sch = ShortcutHandler::getInstance();
 
 	lab_description->setText(_shortcut.get_name());
 	le_entry->setText(_shortcut.get_shortcuts().join(", "));
 
 	connect(btn_edit, &QPushButton::clicked, this, &GUI_ShortcutEntry::edit_clicked);
-	//connect(btn_clear, &QPushButton::clicked, this, &GUI_ShortcutEntry::clear);
 	connect(btn_default, &QPushButton::clicked, this, &GUI_ShortcutEntry::default_clicked);
 	connect(btn_test, &QPushButton::clicked, this, &GUI_ShortcutEntry::test_clicked);
+
+	skin_changed();
 }
 
 void GUI_ShortcutEntry::commit()
@@ -75,6 +77,25 @@ void GUI_ShortcutEntry::test_clicked()
 
 	emit sig_test_pressed(sequences);
 
+}
+
+void GUI_ShortcutEntry::language_changed()
+{
+	retranslateUi(this);
+
+	lab_description->setText(_shortcut.get_name());
+
+	btn_default->setToolTip(tr("Default"));
+	btn_edit->setToolTip(tr("Edit"));
+	btn_test->setToolTip(tr("Test"));
+}
+
+void GUI_ShortcutEntry::skin_changed()
+{
+	IconLoader* icon_loader = IconLoader::getInstance();
+	btn_default->setIcon(icon_loader->get_icon("undo", "undo"));
+	btn_edit->setIcon(icon_loader->get_icon("accessories-text-editor", "edit"));
+	btn_test->setIcon(icon_loader->get_icon("dialog-info", "info"));
 }
 
 

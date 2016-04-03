@@ -49,6 +49,7 @@ public:
 	void			cancel();
 	bool			was_canelled() const;
 	ImportCache		get_cache() const;
+	void			change_metadata(const MetaDataList& v_md_old, const MetaDataList& v_md_new);
 
 
 private:
@@ -64,7 +65,7 @@ private:
 
 	void read_files();
 	void extract_soundfiles();
-	void change_metadata(const MetaDataList& v_md_old, const MetaDataList& v_md_new);
+
 };
 
 #endif // IMPORTFOLDERTHREAD_H
