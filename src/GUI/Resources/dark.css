@@ -26,15 +26,16 @@ QMainWindow, QDialog {
 }
 
 QGroupBox  {
-	border: 1px solid #202020;
-	border-radius: 2px;
-	margin-top: 1ex;
+	border: none;
+	padding-top: 1em;
+	
 }
 
 QGroupBox::title  {
 	subcontrol-origin: margin;
 	subcontrol-position: top left;
 	padding: 0 3px;
+	font-weight: 800;
 }
 
 
@@ -92,7 +93,7 @@ QLabel, QScrollArea{
 
 
 
-QListView, QTableView, QTreeView {
+QListView, QTableView, QTreeView, QListWidget {
 	border: 1px solid #282828;
 	border-radius: 2px;
 	color: #D8D8D8;
@@ -124,6 +125,11 @@ QTreeView::branch:open:has-children:has-siblings  {
 	padding: 7px;
 	image: url(:/Icons/arrow_filled_down.svg.png);
 }
+
+QListWidget::item:selected {
+	background-color: #424e72;
+}
+
 
 QScrollBar::vertical {
 	margin: 15px 0px 15px 0px;
@@ -369,7 +375,7 @@ QComboBox {
 }
 
 QComboBox:!editable, QComboBox::drop-down:editable {
-	background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #555555, stop: 0.4 #383838);
+	background: qlineargradient(x1: 0, y0: 1, x2: 0, y2: 0.8, stop: 0 #555555, stop: 0.4 #4c4c4c);
 }
 
 
@@ -715,58 +721,54 @@ QSlider::sub-page:horizontal:disabled#volumeSlider {
 	border: 3px solid qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0.0 #161616, stop: 1.0 rgba(0,0,0,0) );
 }
 
-QRadioButton::indicator:checked {
-	image: url(:/Icons/tool_orange.svg.png);
-}
-
-QRadioButton::indicator:unchecked {
-	image: url(:/Icons/tool_dark_grey.svg.png);
-}
-
-QRadioButton::indicator:unchecked:hover {
-	image: url(:/Icons/tool_grey.svg.png);
-}
-
-QRadioButton::indicator:unchecked:pressed {
-	image: url(:/Icons/tool_orange.svg.png);
-}
-
-
-
-QCheckBox {
+QRadioButton,
+QCheckbox 
+{
 	border: none;
 }
 
-QCheckBox::disabled {
+QRadioButton:disabled,
+QCheckbox:disabled 
+{
 	color: #888888;
 }
 
-QCheckBox::indicator {
 
+QRadioButton::indicator,
+QCheckBox::indicator
+{
+	padding: 5px 1px;
+	width: 14px;
+	height: 14px;
 }
 
-QCheckBox::indicator:unchecked {
+QRadioButton::indicator:checked,
+QRadioButton::indicator:pressed,
+QCheckBox::indicator:checked:enabled,
+QCheckBox::indicator:pressed 
+{
+	image: url(:/Icons/tool_orange.svg.png);
+}
+
+QRadioButton::indicator:unchecked,
+QCheckBox::indicator:unchecked 
+{
 	image: url(:/Icons/tool_dark_grey.svg.png);
 }
 
-QCheckBox::indicator:unchecked:hover {
+QRadioButton::indicator:unchecked:hover,
+QCheckBox::indicator:unchecked:hover 
+{
 	image: url(:/Icons/tool_grey.svg.png);
 }
 
 
-QCheckBox::indicator:disabled {
+QRadioButton::indicator:disabled,
+QCheckBox::indicator:disabled
+{
 	image: url(:/Icons/tool_disabled.svg.png);
 }
 
-
-
-QCheckBox::indicator:checked:enabled {
-	image: url(:/Icons/tool_orange.svg.png);
-}
-
-QCheckBox::indicator:pressed {
-	image: url(:/Icons/tool_orange.svg.png);
-}
 
 
 QPushButton {
@@ -913,3 +915,14 @@ QStackedWidget {
 RatingLabel {
 	border: 1px solid #e8841a;
 }
+
+QListWidget {
+	border: 1px solid #282828;
+	border-radius: 2px;
+	color: #D8D8D8;
+	background-color: #282828;
+
+	alternate-background-color: #242424;
+	selection-background-color: #424e72;
+}
+

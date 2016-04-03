@@ -96,7 +96,7 @@ namespace Helper
 		 * @brief create all directories neccessary to access path
 		 * @param path full target path
 		 */
-		void			create_directories(const QString& path);
+		bool			create_directories(const QString& path);
 
 
 		/**

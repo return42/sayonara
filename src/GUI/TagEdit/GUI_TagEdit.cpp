@@ -38,7 +38,7 @@ GUI_TagEdit::GUI_TagEdit(QWidget* parent) :
 
 	connect(btn_next, &QPushButton::clicked, this, &GUI_TagEdit::next_button_clicked);
 	connect(btn_prev, &QPushButton::clicked, this, &GUI_TagEdit::prev_button_clicked);
-	connect(btn_ok, &QPushButton::clicked, this, &GUI_TagEdit::ok_button_clicked);
+	connect(btn_ok, &QPushButton::clicked, this, &GUI_TagEdit::commit);
 	connect(btn_apply_tag, &QPushButton::clicked, this, &GUI_TagEdit::apply_tag_clicked);
 	connect(btn_apply_tag_all, &QPushButton::clicked, this, &GUI_TagEdit::apply_tag_all_clicked);
 
@@ -62,7 +62,7 @@ GUI_TagEdit::GUI_TagEdit(QWidget* parent) :
 	connect(_tag_edit, &TagEdit::sig_progress, this, &GUI_TagEdit::progress_changed);
 	connect(_tag_edit, &TagEdit::sig_metadata_received, this, &GUI_TagEdit::metadata_changed);
 	connect(_tag_edit, &TagEdit::finished, this, &GUI_TagEdit::commit_finished);
-	connect(btn_cancel, &QPushButton::clicked, this, &GUI_TagEdit::btn_cancel_clicked);
+	connect(btn_cancel, &QPushButton::clicked, this, &GUI_TagEdit::cancel);
 
 	reset();
 }
@@ -87,7 +87,7 @@ TagEdit* GUI_TagEdit::get_tag_edit() const
 	return _tag_edit;
 }
 
-void GUI_TagEdit::btn_cancel_clicked(){
+void GUI_TagEdit::cancel(){
 
 	undo_all_clicked();
 
@@ -315,7 +315,7 @@ void GUI_TagEdit::write_changes(int idx){
 	_tag_edit->update_track(idx, md);
 }
 
-void GUI_TagEdit::ok_button_clicked(){
+void GUI_TagEdit::commit(){
 
 	if(!btn_ok->isEnabled()){
 		return;
@@ -561,4 +561,15 @@ void GUI_TagEdit::btn_year_checked(bool b){
 	if(!replace_selected_tag_text(TAG_YEAR, b)){
 		btn_year->setChecked(false);
 	}
+}
+
+
+void GUI_TagEdit::show_button_commit(bool b)
+{
+	btn_ok->setVisible(b);
+}
+
+void GUI_TagEdit::show_button_cancel(bool b)
+{
+	btn_cancel->setVisible(b);
 }

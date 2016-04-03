@@ -26,17 +26,17 @@
 #define GUI_STREAMRECORDER_H_
 
 #include "GUI/StreamRecorder/ui_GUI_StreamRecorder.h"
-#include "Interfaces/PreferenceDialog/PreferenceDialogInterface.h"
+#include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
 
 class GUI_StreamRecorder :
-		public PreferenceDialogInterface,
+		public PreferenceWidgetInterface,
 		private Ui::GUI_StreamRecorder
 {
 
 	Q_OBJECT
 
-	friend class PreferenceDialogInterface;
-
+	friend class PreferenceWidgetInterface;
+	friend class PreferenceInterface<SayonaraWidget>;
 
 
 public slots:

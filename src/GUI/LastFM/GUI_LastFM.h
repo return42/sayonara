@@ -32,19 +32,20 @@
 #include "GUI/LastFM/ui_GUI_LastFM.h"
 
 #include "Components/StreamPlugins/LastFM/LastFM.h"
-#include "Interfaces/PreferenceDialog/PreferenceDialogInterface.h"
+#include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
 
 
 #include <QString>
 
 class GUI_LastFM :
-		public PreferenceDialogInterface,
+		public PreferenceWidgetInterface,
 		private Ui::GUI_LastFM
 {
 
 	Q_OBJECT
 
-	friend class PreferenceDialogInterface;
+	friend class PreferenceWidgetInterface;
+	friend class PreferenceInterface<SayonaraWidget>;
 
 public:
 	GUI_LastFM(QWidget* parent=nullptr);

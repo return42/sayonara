@@ -1,13 +1,15 @@
-#ifndef GUI_PREFERENCEDIALOG_H
-#define GUI_PREFERENCEDIALOG_H
+#ifndef GUI_PreferenceDialog_H
+#define GUI_PreferenceDialog_H
 
 #include <QDialog>
 #include <QVector>
 #include "GUI/PreferenceDialog/ui_GUI_PreferenceDialog.h"
 #include "GUI/Helper/SayonaraWidget.h"
 #include "Interfaces/PreferenceDialog/PreferenceDialogInterface.h"
+
 #include <QSpacerItem>
-class PreferenceDialogInterface;
+
+class PreferenceWidgetInterface;
 
 class GUI_PreferenceDialog :
 		public PreferenceDialogInterface,
@@ -15,6 +17,7 @@ class GUI_PreferenceDialog :
 {
 
 	friend class PreferenceDialogInterface;
+	friend class PreferenceInterface<SayonaraDialog>;
 
 	Q_OBJECT
 
@@ -26,13 +29,15 @@ public:
 	QLabel* get_title_label() override;
 	void init_ui() override;
 
-	void register_preference_dialog(PreferenceDialogInterface* dialog);
+	void register_preference_dialog(PreferenceWidgetInterface* dialog);
 
 	QWidget* get_widget();
 
 
 protected slots:
 	void language_changed() override;
+
+	void commit_and_close();
 	void commit() override;
 	void revert() override;
 
@@ -42,7 +47,7 @@ protected:
 	void hide_all();
 
 private:
-	QVector<PreferenceDialogInterface*> _dialogs;
+	QVector<PreferenceWidgetInterface*> _dialogs;
 };
 
-#endif // GUI_PREFERENCEDIALOG_H
+#endif // GUI_PreferenceDialog_H

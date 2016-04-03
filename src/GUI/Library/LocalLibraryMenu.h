@@ -41,6 +41,8 @@ signals:
 	void sig_import_file();
 	void sig_import_folder();
 	void sig_info();
+	void sig_libpath_clicked();
+
 
 
 public:
@@ -52,6 +54,8 @@ private:
 	QAction* _import_file_action=nullptr;
 	QAction* _import_folder_action=nullptr;
 	QAction* _info_action=nullptr;
+	QAction* _library_path_action=nullptr;
+	QAction* _realtime_search_action=nullptr;
 
 	IconLoader* _icon_loader=nullptr;
 
@@ -61,6 +65,11 @@ private:
 private slots:
 	void language_changed();
 	void skin_changed();
+
+
+	void realtime_search_changed();
+
+
 
 };
 

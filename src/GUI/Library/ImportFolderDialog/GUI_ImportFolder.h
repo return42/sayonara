@@ -30,7 +30,6 @@
 #include <QStringList>
 
 class GUI_TagEdit;
-
 class GUI_ImportFolder :
 		public SayonaraDialog,
 		private Ui::ImportFolder
@@ -52,8 +51,8 @@ public:
 private slots:
 	void bb_accepted();
 	void bb_rejected();
-	void combo_box_changed(const QString&);
 	void choose_dir();
+	void edit_pressed();
 
 	void set_metadata(const MetaDataList& v_md);
 	void set_status(LibraryImporter::ImportStatus status);
@@ -67,8 +66,8 @@ private:
 
 private:
 
-	GUI_TagEdit*		_ui_tag_edit=nullptr;
 	LibraryImporter*	_importer=nullptr;
+	GUI_TagEdit*		tag_edit=nullptr;
 
 };
 

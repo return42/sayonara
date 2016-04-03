@@ -69,6 +69,8 @@ MetaData ImportCache::get_metadata(const QString& filename) const
 
 void ImportCache::change_metadata(const MetaDataList& v_md_old, const MetaDataList& v_md_new)
 {
+	Q_UNUSED(v_md_old)
+
 	_v_md = v_md_new;
 	for(const MetaData& md : v_md_new){
 		_src_md_map[md.filepath()] = md;

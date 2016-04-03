@@ -23,18 +23,19 @@
 #ifndef GUI_NOTIFICATIONS_H
 #define GUI_NOTIFICATIONS_H
 
-#include "Interfaces/PreferenceDialog/PreferenceDialogInterface.h"
+#include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
 #include "Interfaces/Notification/NotificationHandler.h"
 #include "GUI/Notifications/ui_GUI_Notifications.h"
 
 
 class GUI_Notifications :
-		public PreferenceDialogInterface,
+		public PreferenceWidgetInterface,
 		private Ui::GUI_Notifications
 {
     Q_OBJECT
 
-	friend class PreferenceDialogInterface;
+	friend class PreferenceWidgetInterface;
+	friend class PreferenceInterface<SayonaraWidget>;
 
 
 public:

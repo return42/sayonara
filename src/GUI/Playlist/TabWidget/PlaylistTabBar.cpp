@@ -196,7 +196,11 @@ int PlaylistTabBar::get_drag_origin_tab() const
 
 void PlaylistTabBar::dragEnterEvent(QDragEnterEvent* e)
 {
-	QString object_name = e->source()->objectName();
+	QString object_name;
+	if(e->source()){
+		object_name = e->source()->objectName();
+	}
+
 	sp_log(Log::Debug) << "Object name: " << object_name;
 
 	_drag_origin_tab = -1;

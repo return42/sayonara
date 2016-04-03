@@ -49,10 +49,6 @@ public:
 					   const QStyleOptionViewItem &option,
 					   const QModelIndex &index) const override;
 
-	virtual QSize sizeHint(const QStyleOptionViewItem &option,
-						   const QModelIndex &index) const override;
-
-
 private:
 	QPixmap _icon_single_album;
 	QPixmap _icon_multi_album;

@@ -41,7 +41,7 @@ LibraryImporter::LibraryImporter(QObject* parent) :
 	_lib_path = _settings->get(Set::Lib_Path);
 	_status = ImportStatus::NoTracks;
 
-	_caching_thread = nullptr;
+	_cache_thread = nullptr;
 	_copy_thread = nullptr;
 
 	MetaDataChangeNotifier* md_change_notifier = MetaDataChangeNotifier::getInstance();

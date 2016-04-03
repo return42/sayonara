@@ -39,10 +39,11 @@ void switch_sorters(T& srcdst, T src1, T src2) {
 void LibraryView::sort_by_column(int col) {
 
 
+	QHeaderView* header = this->horizontalHeader();
 	SortOrder asc_sortorder, desc_sortorder;
 	int idx_col;
 
-	idx_col = _model->calc_shown_col(col);
+	idx_col = header->visualIndex(col);
 	if(idx_col >= _table_headers.size()) {
 		return;
 	}
@@ -159,6 +160,7 @@ void LibraryView::rc_header_menu_init(const BoolList& shown_cols) {
 	header_view->setContextMenuPolicy(Qt::ActionsContextMenu);
 }
 
+
 void LibraryView::rc_header_menu_retranslate(){
 	QStringList header_names = _model->get_header_names();
 
@@ -212,6 +214,8 @@ void LibraryView::rc_header_menu_changed(bool b) {
 
 void LibraryView::set_col_sizes() {
 
+	QHeaderView* header = this->horizontalHeader();
+
 	int altogether_width = 0;
 	int desired_width = 0;
 	int tolerance = 30;
@@ -221,7 +225,8 @@ void LibraryView::set_col_sizes() {
 
 	for(int i=0; i<n_cols; i++) {
 
-		int col = _model->calc_shown_col(i);
+		int col = header->visualIndex(i);
+
 		int preferred_size = 0;
 
 		ColumnHeader h = _table_headers[col];
@@ -257,7 +262,7 @@ void LibraryView::set_col_sizes() {
 	// width for percentage stuff
 	for(int i=0; i<n_cols; i++) {
 
-		int col = _model->calc_shown_col(i);
+		int col = header->visualIndex(i);
 		int preferred_size = 0;
 
 		ColumnHeader h = _table_headers[col];
@@ -272,4 +277,5 @@ void LibraryView::set_col_sizes() {
 		this->setColumnWidth(i, preferred_size);
 	}
 }
+
 // header end

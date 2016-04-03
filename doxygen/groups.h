@@ -87,3 +87,9 @@
  * @defgroup GUIHelper GUI Helper
  * @ingroup GUI
  */
+
+/**
+ * @defgroup Shortcuts Shortcuts
+ * @brief some description. more
+ * @ingroup GUI
+ */

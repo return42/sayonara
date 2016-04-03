@@ -7,6 +7,7 @@ SET(SOURCES
     LibraryView.cpp
     LibraryViewEvents.cpp
     LibraryViewHeader.cpp
+	HeaderView.cpp
 )
 
 ADD_LIBRARY(${PROJECT_NAME} STATIC ${SOURCES})

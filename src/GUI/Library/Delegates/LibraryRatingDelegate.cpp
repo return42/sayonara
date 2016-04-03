@@ -24,6 +24,8 @@
 #include "GUI/Helper/RatingLabel/RatingLabel.h"
 #include "Helper/Logger/Logger.h"
 
+#include <QFontMetrics>
+
 LibraryRatingDelegate::LibraryRatingDelegate(LibraryView* parent, bool enabled) :
 	QItemDelegate(parent)
 {
@@ -79,7 +81,4 @@ void LibraryRatingDelegate::setModelData(QWidget *editor, QAbstractItemModel *mo
     if(!label) return;
     model->setData(index, label->get_rating().get_rating());
 }
-
-
-
 

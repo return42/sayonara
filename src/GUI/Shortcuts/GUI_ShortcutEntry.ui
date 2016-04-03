@@ -52,21 +52,21 @@
    <item>
     <widget class="QPushButton" name="btn_edit">
      <property name="text">
-      <string>Edit</string>
+      <string/>
      </property>
     </widget>
    </item>
    <item>
     <widget class="QPushButton" name="btn_default">
      <property name="text">
-      <string>Default</string>
+      <string/>
      </property>
     </widget>
    </item>
    <item>
     <widget class="QPushButton" name="btn_test">
      <property name="text">
-      <string>Test</string>
+      <string/>
      </property>
     </widget>
    </item>

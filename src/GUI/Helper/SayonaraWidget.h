@@ -127,6 +127,7 @@ protected:
 };
 
 
+class SayonaraDialog;
 class SayonaraWidget : public SayonaraWidgetTemplate<QWidget> {
 
 	Q_OBJECT
@@ -135,6 +136,10 @@ public:
 	SayonaraWidget(QWidget* parent=nullptr);
 	virtual ~SayonaraWidget();
 
+	SayonaraDialog* box_into_dialog();
+
+protected:
+	SayonaraDialog* _boxed_dialog=nullptr;
 
 protected slots:
 	virtual void language_changed();

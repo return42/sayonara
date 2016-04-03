@@ -27,11 +27,13 @@
  */
 
 #include "LibraryView.h"
+#include "HeaderView.h"
 
 #include "GUI/Library/Models/LibraryItemModel.h"
 #include "GUI/Helper/CustomMimeData.h"
 #include "GUI/Helper/ContextMenu/LibraryContextMenu.h"
 #include "GUI/Helper/SearchableWidget/MiniSearcher.h"
+
 
 
 LibraryView::LibraryView(QWidget* parent) : SearchableTableView(parent) {
@@ -41,9 +43,13 @@ LibraryView::LibraryView(QWidget* parent) : SearchableTableView(parent) {
 	_cur_filling = false;
 	_model = nullptr;
 
+	HeaderView* header = new HeaderView(Qt::Horizontal, this);
+
+	this->setHorizontalHeader(header);
+
 	rc_menu_init();
 
-	connect(this->horizontalHeader(), &QHeaderView::sectionClicked, this, &LibraryView::sort_by_column);
+	connect(header, &HeaderView::sectionClicked, this, &LibraryView::sort_by_column);
 
 	setAcceptDrops(true);
 	setSelectionBehavior(QAbstractItemView::SelectRows);

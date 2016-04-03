@@ -184,6 +184,7 @@ bool register_settings(){
 	REGISTER_SETTING( Set::Player_ShownPlugin, "shown_plugin", QString() );
 	REGISTER_SETTING( Set::Player_OneInstance, "only_one_instance", true );
 	REGISTER_SETTING( Set::Player_Min2Tray, "min_to_tray", false );
+	REGISTER_SETTING( Set::Player_StartInTray, "start_in_tray", false );
 	REGISTER_SETTING( Set::Player_NotifyNewVersion, "notify_new_version", true );
 	REGISTER_SETTING( Set::Player_SplitterState ,"splitter_state_player", QByteArray());
 	REGISTER_SETTING( Set::Player_Shortcuts, "shortcuts", RawShortcutMap());

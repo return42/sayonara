@@ -25,7 +25,7 @@
 
 
 GUI_BroadcastSetup::GUI_BroadcastSetup(QWidget *parent) :
-	PreferenceDialogInterface(parent),
+	PreferenceWidgetInterface(parent),
 	Ui::GUI_BroadcastSetup()
 {
 
@@ -82,7 +82,7 @@ void GUI_BroadcastSetup::language_changed(){
 
 	retranslateUi(this);
 
-	PreferenceDialogInterface::language_changed();
+	PreferenceWidgetInterface::language_changed();
 }
 
 

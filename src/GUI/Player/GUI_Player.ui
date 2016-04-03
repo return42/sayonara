@@ -1071,7 +1071,7 @@
      <x>0</x>
      <y>0</y>
      <width>1038</width>
-     <height>26</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFle">
@@ -1080,6 +1080,7 @@
     </property>
     <addaction name="action_OpenFile"/>
     <addaction name="action_OpenFolder"/>
+    <addaction name="separator"/>
     <addaction name="separator"/>
     <addaction name="action_devices"/>
     <addaction name="separator"/>
@@ -1098,18 +1099,6 @@
     <addaction name="action_Dark"/>
     <addaction name="action_Fullscreen"/>
    </widget>
-   <widget class="QMenu" name="menuPreferences">
-    <property name="title">
-     <string>Preferences</string>
-    </property>
-    <addaction name="separator"/>
-    <addaction name="action_setLibPath"/>
-    <addaction name="action_livesearch"/>
-    <addaction name="separator"/>
-    <addaction name="action_min2tray"/>
-    <addaction name="action_notifyNewVersion"/>
-    <addaction name="separator"/>
-   </widget>
    <widget class="QMenu" name="menuAbout">
     <property name="title">
      <string>Help</string>
@@ -1119,7 +1108,6 @@
    </widget>
    <addaction name="menuFle"/>
    <addaction name="menuView"/>
-   <addaction name="menuPreferences"/>
    <addaction name="menuAbout"/>
   </widget>
   <action name="action_OpenFile">

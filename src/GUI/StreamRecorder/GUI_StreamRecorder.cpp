@@ -31,7 +31,7 @@
 #include <QDir>
 
 GUI_StreamRecorder::GUI_StreamRecorder(QWidget* parent) :
-	PreferenceDialogInterface(parent),
+	PreferenceWidgetInterface(parent),
 	Ui::GUI_StreamRecorder()
 {
 
@@ -63,7 +63,7 @@ void GUI_StreamRecorder::language_changed() {
 	}
 
 	retranslateUi(this);
-	PreferenceDialogInterface::language_changed();
+	PreferenceWidgetInterface::language_changed();
 
 }
 

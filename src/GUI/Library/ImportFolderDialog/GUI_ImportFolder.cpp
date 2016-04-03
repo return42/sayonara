@@ -19,8 +19,8 @@
  */
 
 #include "GUI_ImportFolder.h"
-#include "GUI/TagEdit/GUI_TagEdit.h"
 #include "GUI/Helper/GlobalMessage/Message.h"
+#include "GUI/TagEdit/GUI_TagEdit.h"
 
 #include "Helper/Helper.h"
 
@@ -36,24 +36,23 @@ GUI_ImportFolder::GUI_ImportFolder(QWidget* parent, bool copy_enabled) :
 {
 	setupUi(this);
 
-	_ui_tag_edit = new GUI_TagEdit(this);
 	_importer = LibraryImporter::getInstance();
-
-	tw_tabs->addTab(_ui_tag_edit, tr("Edit"));
-
-	combo_folders->setAutoCompletionCaseSensitivity(Qt::CaseSensitive);
-	combo_folders->setVisible(copy_enabled);
 
 	lab_target_path->setVisible(copy_enabled);
 	lab_target_info->setVisible(copy_enabled);
+
+	tag_edit = new GUI_TagEdit(this);
+	tag_edit->hide();
+
+	btn_edit->setVisible(false);
 
 	QString libpath = _settings->get(Set::Lib_Path);
 	lab_target_path->setText( libpath );
 
 	connect(btn_ok, &QPushButton::clicked, this, &GUI_ImportFolder::bb_accepted);
-	connect(combo_folders, &QComboBox::editTextChanged, this, &GUI_ImportFolder::combo_box_changed);
 	connect(btn_choose_dir, &QPushButton::clicked, this, &GUI_ImportFolder::choose_dir);
 	connect(btn_cancel, &QPushButton::clicked, this, &GUI_ImportFolder::bb_rejected);
+	connect(btn_edit, &QPushButton::clicked, this, &GUI_ImportFolder::edit_pressed);
 
 	connect(_importer, &LibraryImporter::sig_got_metadata, this, &GUI_ImportFolder::set_metadata);
 	connect(_importer, &LibraryImporter::sig_status_changed, this, &GUI_ImportFolder::set_status);
@@ -87,13 +86,12 @@ void GUI_ImportFolder::set_import_files(const QStringList& filelist){
 
 void GUI_ImportFolder::set_metadata(const MetaDataList& v_md){
 
-	_ui_tag_edit->get_tag_edit()->set_metadata(v_md);
-
 	if(!v_md.isEmpty()){
 		lab_status->setText(tr("%1 tracks available").arg(v_md.size()));
-		tw_tabs->setTabEnabled(1, true);
 	}
 
+	tag_edit->get_tag_edit()->set_metadata(v_md);
+	btn_edit->setVisible( !v_md.isEmpty() );
 }
 
 void GUI_ImportFolder::set_status(LibraryImporter::ImportStatus status) {
@@ -101,8 +99,6 @@ void GUI_ImportFolder::set_status(LibraryImporter::ImportStatus status) {
 	pb_progress->hide();
 	lab_status->show();
 
-	tw_tabs->setCurrentIndex(0);
-	tw_tabs->setTabEnabled(1, false );
 
 	bool thread_active = false;
 
@@ -171,13 +167,16 @@ void GUI_ImportFolder::set_progress(int val) {
 
 void GUI_ImportFolder::bb_accepted() {
 
-	QString target_dir = combo_folders->currentText().trimmed();
+	//tag_edit->commit();
+
+	QString target_dir = le_directory->text();
 
 	_importer->accept_import(target_dir);
 }
 
 void GUI_ImportFolder::bb_rejected() {
 
+	//tag_edit->cancel();
 	LibraryImporter::ImportStatus status = _importer->get_status();
 
 	_importer->cancel_import();
@@ -193,7 +192,6 @@ void GUI_ImportFolder::bb_rejected() {
 
 void GUI_ImportFolder::choose_dir() {
 
-
 	QString lib_path = _settings->get(Set::Lib_Path);
 	QString dialog_title = tr("Choose target directory");
 	QString dir =
@@ -204,34 +202,38 @@ void GUI_ImportFolder::choose_dir() {
 	);
 
 	if(dir.isEmpty()){
+		le_directory->clear();
 		return;
 	}
 
 	if(!dir.contains(lib_path)) {
 		Message::warning(tr("%1<br />is no library directory").arg(dir));
+		le_directory->clear();
 		return;
 	}
 
 	dir.replace(lib_path, "");
-	while(dir.startsWith(QDir::separator()){
+	while(dir.startsWith(QDir::separator())){
 		dir.remove(0, 1);
 	}
 
-	while(dir.endsWith(QDir::separator()){
+	while(dir.endsWith(QDir::separator())){
 		dir.remove( dir.size() - 1, 1);
 	}
 
-	combo_folders->setEditText(dir);
+	le_directory->setText(dir);
 }
 
+void GUI_ImportFolder::edit_pressed()
+{
+	SayonaraDialog* dialog = tag_edit->box_into_dialog();
 
-void GUI_ImportFolder::combo_box_changed(const QString& text) {
+	connect(tag_edit, &GUI_TagEdit::sig_cancelled, dialog, &SayonaraDialog::reject);
+	connect(tag_edit, &GUI_TagEdit::sig_ok_clicked, dialog, &SayonaraDialog::accept);
 
-	QString lib_path = _settings->get(Set::Lib_Path);
-	lab_target_path->setText( lib_path + QDir::separator() + text );
+	tag_edit->show();
+	dialog->exec();
 }
-
-
 
 void GUI_ImportFolder::closeEvent(QCloseEvent* e) {
 	QDialog::closeEvent(e);

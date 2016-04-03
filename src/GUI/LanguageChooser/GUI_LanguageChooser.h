@@ -27,16 +27,17 @@
 #include <QShowEvent>
 
 #include "GUI/LanguageChooser/ui_GUI_LanguageChooser.h"
-#include "Interfaces/PreferenceDialog/PreferenceDialogInterface.h"
+#include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
 
 
 class GUI_LanguageChooser :
-		public PreferenceDialogInterface,
+		public PreferenceWidgetInterface,
 		private Ui::GUI_LanguageChooser
 {
     Q_OBJECT
 
-	friend class PreferenceDialogInterface;
+	friend class PreferenceWidgetInterface;
+	friend class PreferenceInterface<SayonaraWidget>;
 
 public:
     explicit GUI_LanguageChooser(QWidget *parent=nullptr);

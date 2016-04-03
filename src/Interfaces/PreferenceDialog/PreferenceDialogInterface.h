@@ -23,13 +23,9 @@
 #ifndef PREFERENCEDIALOG_H
 #define PREFERENCEDIALOG_H
 
-#include "GUI/Helper/SayonaraWidget.h"
+#include "PreferenceInterface.h"
 
-#include <QAction>
-#include <QByteArray>
-#include <QShowEvent>
-#include <QCloseEvent>
-#include <QLabel>
+#include <QList>
 
 /**
  * @brief Abstract Interface you should use when creating a preference dialog.
@@ -40,67 +36,11 @@
  * If you wish to reimplement void language_changed(), call PreferenceDialogInterface::language_changed at the end.
  * @ingroup Interfaces
  */
-class PreferenceDialogInterface : public SayonaraWidget
+class PreferenceDialogInterface : public PreferenceInterface<SayonaraDialog>
 {
 	Q_OBJECT
 
-private:
-	QAction*	_action=nullptr;
-	bool		_is_initialized;
-	QByteArray	_geometry;
-
-
-protected slots:
-	/**
-	 * @brief If this method is overridden, call the PreferenceDialogInterface::language_changed at the end.\n
-	 * It sets the title label, window title and the action name in the preferences menu\n
-	 * There's no need to call a listener to this function\n
-	 * Check for is_ui_initialized()
-	 */
-	void language_changed();
-
-	/**
-	 * @brief translates the action visible in menu
-	 */
-	void translate_action();
-
-
-protected:
-
-
-
-	/**
-	 * @brief call setup_parent(this) here.\n
-	 * initialize compoenents and connections here.\n
-	 * After calling setup_parent(this), the preference Dialog is ready to use, language_changed() is called automatically
-	 */
-	virtual void init_ui()=0;
-
-	template<typename T>
-	/**
-	 * @brief Sets up the Preference dialog. After this method, the dialog is "ready to use"\n
-	 * This method should be the first to be called when calling init_ui()
-	 * @param widget should always be "this"
-	 */
-	void setup_parent(T* widget) final {
-
-		widget->setupUi(widget);
-		//widget->setModal(true);
-
-		QLabel* title_label = widget->get_title_label();
-		if(title_label){
-			title_label->setText(widget->get_action_name());
-		}
-
-		_is_initialized = true;
-
-		widget->language_changed();
-	}
-
-
-	void showEvent(QShowEvent* e) override;
-	void closeEvent(QCloseEvent* e) override;
-
+	friend class PreferenceInterface<SayonaraDialog>;
 
 
 public:
@@ -110,30 +50,9 @@ public:
 	 */
 	PreferenceDialogInterface(QWidget* parent=nullptr);
 	virtual ~PreferenceDialogInterface();
-
-	/**
-	 * @brief get action with translated text
-	 * @return
-	 */
-	virtual QAction* get_action() final;
-
-	/**
-	 * @brief has to be implemented and should return the translated action text
-	 * @return translated action name
-	 */
-	virtual QString get_action_name() const=0;
-	virtual QLabel* get_title_label()=0;
-
-	virtual void commit()=0;
-	virtual void revert()=0;
-
-	/**
-	 * @brief checks if ui has already been initialized.
-	 * @return false, if the widget has never been activated before, true else
-	 */
-	virtual bool is_ui_initialized() const final;
 };
 
-typedef QList<PreferenceDialogInterface*> PreferenceDialogList;
+
+typedef QList<PreferenceDialogInterface*> PreferenceWidgetList;
 
 #endif // PREFERENCEDIALOG_H
