@@ -101,9 +101,11 @@ void CopyThread::copy() {
 		MetaData md = _cache.get_metadata(filename);
 
 		if(!md.filepath().isEmpty()){
+			sp_log(Log::Debug) << "Set new filename: " << target_filename;
 			md.set_filepath(target_filename);
 			_v_md << md;
 		}
+
 
 		_lst_copied_files << target_filename;
 		_copied_files++;
