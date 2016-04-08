@@ -128,7 +128,7 @@ void LibraryImporter::copy_thread_finished() {
 	CopyThread* copy_thread = static_cast<CopyThread*>(sender());
 
 
-	MetaDataList v_md = _import_cache.get_soundfiles();
+	MetaDataList v_md = copy_thread->get_copied_metadata();
 
 	emit_status(ImportStatus::Sleeping);
 
