@@ -41,6 +41,8 @@ bool Tagging::getMetaDataOfFile(MetaData& md, Tagging::Quality quality) {
 	md.filesize = fi.size();
 
 	TagLib::AudioProperties::ReadStyle read_style;
+	bool read_audio_props=true;
+
 	switch(quality){
 		case Tagging::Quality::Quality:
 			read_style = TagLib::AudioProperties::Accurate;
@@ -48,15 +50,20 @@ bool Tagging::getMetaDataOfFile(MetaData& md, Tagging::Quality quality) {
 		case Tagging::Quality::Standard:
 			read_style = TagLib::AudioProperties::Average;
 			break;
-		default:
+		case Tagging::Quality::Fast:
 			read_style = TagLib::AudioProperties::Fast;
 			break;
-
+		case Tagging::Quality::Dirty:
+			read_style = TagLib::AudioProperties::Fast;
+			read_audio_props = false;
+			break;
+		default:
+			read_style = TagLib::AudioProperties::Average;
 	};
 
 	TagLib::FileRef f(
 				TagLib::FileName(md.filepath().toUtf8()),
-				true,
+				read_audio_props,
 				read_style
 	);
 
@@ -96,9 +103,6 @@ bool Tagging::getMetaDataOfFile(MetaData& md, Tagging::Quality quality) {
 
 	if( quality != Tagging::Quality::Dirty ){
 		bitrate = f.audioProperties()->bitrate() * 1000;
-	}
-
-	if( quality != Tagging::Quality::Dirty ){
 		length = f.audioProperties()->length() * 1000;
 	}
 

@@ -104,8 +104,12 @@ void PlaylistMenu::language_changed(){
 
 void PlaylistMenu::change_look()
 {
-	GUI_PlaylistEntryLook* entry_look = new GUI_PlaylistEntryLook(this);
-	entry_look->exec();
+
+	if(!_entry_look_dialog){
+		_entry_look_dialog = new GUI_PlaylistEntryLook(this);
+	}
+
+	_entry_look_dialog->exec();
 }
 
 void PlaylistMenu::timed_out()

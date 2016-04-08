@@ -29,13 +29,8 @@
 #ifndef GUI_PLAYLIST_H_
 #define GUI_PLAYLIST_H_
 
-
-#include "TabWidget/PlaylistTabWidget.h"
-#include "PlaylistMenu.h"
-
 #include "GUI/Playlist/ui_GUI_Playlist.h"
 #include "Components/Playlist/PlaylistHandler.h"
-#include "Helper/PlaylistMode.h"
 
 #include <QTextEdit>
 #include <QFocusEvent>
@@ -57,7 +52,6 @@ private:
 	PlayManager*			_play_manager=nullptr;
 	PlaylistHandler*		_playlist=nullptr;
 	GUI_InfoDialog*			_info_dialog=nullptr;
-	PlaylistMode			_playlist_mode;
 	Playlist::Type			_playlist_type;
 
 	QVector<qint64>			_total_time;

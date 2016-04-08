@@ -23,18 +23,18 @@
 #ifndef PLAYLISTBOTTOMBAR_H
 #define PLAYLISTBOTTOMBAR_H
 
+#include "GUI/Helper/SayonaraWidget.h"
+#include "GUI/Playlist/ui_GUI_PlaylistBottomBar.h"
+
 #include "Helper/Shutdown/Shutdown.h"
 #include "Helper/PlaylistMode.h"
 
-#include "GUI/Helper/SayonaraWidget.h"
-#include "GUI/Playlist/PlaylistMenu.h"
-#include "GUI/Playlist/ui_GUI_PlaylistBottomBar.h"
-
-#ifdef WITH_SHUTDOWN
-	#include "GUI/ShutdownDialog/GUI_Shutdown.h"
-#endif
-
 #include "Components/Playlist/Playlist.h"
+
+class PlaylistMenu;
+#ifdef WITH_SHUTDOWN
+	class GUI_Shutdown;
+#endif
 
 class GUI_PlaylistBottomBar :
 		public SayonaraWidget,

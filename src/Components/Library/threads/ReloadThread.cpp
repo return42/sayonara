@@ -43,7 +43,6 @@ ReloadThread::ReloadThread(QObject *parent) :
 	_paused = false;
 	_running = false;
 
-	_quality = Tagging::Quality::Standard;
 	_library_path = _settings->get(Set::Lib_Path);
 }
 
@@ -53,29 +52,50 @@ ReloadThread::~ReloadThread() {
 }
 
 
-int ReloadThread::get_and_save_all_files() {
+int ReloadThread::get_and_save_all_files(const QMap<QString, MetaData>& md_map_lib) {
 
 	if(_library_path.size() == 0 || !QFile::exists(_library_path)) {
 		return 0;
 	}
 
 	QDir dir(_library_path);
-	MetaDataList v_md;
-	int n_files = 0;
+	MetaDataList v_md, v_md_to_store;
 
 	get_files_recursive (dir, v_md, &n_files);
+	int cur_idx_files=0;
+	int n_files = v_md.size();
 
-	n_files += v_md.size();
+	for(const MetaData& md : v_md){
+		QString filepath = md.filepath();
+		MetaData md_lib = md_map_lib[filepath];
+		cur_idx_files++;
 
-	if(v_md.size() >  0) {
-		_db->storeMetadata(v_md);
-		v_md.clear();
+		emit sig_reloading_library(tr("Reloading library"), (cur_idx_files * 100 / n_files));
+
+		if(md_lib.id >= 0){
+			continue;
+		}
+
+		sp_log(Log::Debug) << "Could not find: " << filepath;
+
+		MetaData md_full;
+		md_full.set_filepath(filepath);
+
+		if(Tagging::getMetaDataOfFile(md_full, Tagging::Quality::Standard)){
+			sp_log(Log::Debug) << "Insert metadata " << md.filepath() << ": " << md.bitrate;
+			v_md_to_store << md_full;
+		}
+
+		if(v_md_to_store.size() >= N_FILES_TO_STORE){
+			_db->storeMetadata(v_md_to_store);
+			v_md_to_store.clear();
+		}
 	}
 
 	_db->createIndexes();
 	_db->clean_up();
 
-	return n_files;
+	return v_md_to_store.size();
 }
 
 
@@ -118,10 +138,19 @@ void ReloadThread::get_files_recursive(QDir base_dir, MetaDataList& v_md, int* n
 
 	sub_files = base_dir.entryList(soundfile_exts, QDir::Files);
 
-	for(const QString& f : sub_files) {
+	v_md << process_sub_files(base_dir, sub_files);
+
+    *n_files = num_files;
+}
+
+
+MetaDataList process_sub_files(const QDir& base_dir, const QStringList& sub_files){
+
+	MetaDataList v_md;
+	for(const QString& filename : sub_files) {
 
 		MetaData md;
-		QString abs_path = base_dir.absoluteFilePath(f);
+		QString abs_path = base_dir.absoluteFilePath(filename);
 		QFileInfo info(abs_path);
 
 		if(!info.exists()){
@@ -136,31 +165,12 @@ void ReloadThread::get_files_recursive(QDir base_dir, MetaDataList& v_md, int* n
 
 		md.set_filepath( abs_path );
 
-		if( Tagging::getMetaDataOfFile(md, _quality) ) {
+		if( Tagging::getMetaDataOfFile(md, Tagging::Quality::Dirty)) {
 			v_md << std::move(md);
-			num_files ++;
-
-			if(num_files % 20 == 0) {
-
-				emit sig_reloading_library(tr("Reloading %1 tracks").arg(num_files), 0);
-			}
-		}
-
-		if(v_md.size() >= N_FILES_TO_STORE ) {
-
-			_db->storeMetadata(v_md);
-            while(_paused) {
-
-				Helper::sleep_ms(10);
-            }
-
-            emit sig_new_block_saved();
-
-			v_md.clear();
 		}
 	}
 
-    *n_files = num_files;
+	return v_md;
 }
 
 
@@ -187,25 +197,33 @@ void ReloadThread::run() {
 	_running = true;
     _paused = false;
 
-	MetaDataList v_metadata, v_to_delete;
+	MetaDataList v_md, v_to_delete;
+	QMap<QString, MetaData> v_md_map;
 
 	emit sig_reloading_library(tr("Delete orphaned tracks..."), 0);
 
 	_db->deleteInvalidTracks();
-	_db->getTracksFromDatabase(v_metadata);
-	sp_log(Log::Debug) << "Have " << v_metadata.size() << " tracks";
+	_db->getTracksFromDatabase(v_md);
+
+	sp_log(Log::Debug) << "Have " << v_md.size() << " tracks";
 
 	// find orphaned tracks in library && delete them
-	for(const MetaData& md : v_metadata){
+	for(const MetaData& md : v_md){
 
 		if(!Helper::check_track(md)) {
 			v_to_delete << std::move(md);
 		}
+
+		else{
+			v_md_map[md.filepath()] = md;
+		}
 	}
 
-	_db->deleteTracks(v_to_delete);
+	if(!v_to_delete.isEmpty()){
+		_db->deleteTracks(v_to_delete);
+	}
 
-	get_and_save_all_files();
+	get_and_save_all_files(v_md_map);
 
     _paused = false;
 	_running = false;
@@ -213,18 +231,9 @@ void ReloadThread::run() {
 }
 
 
-void ReloadThread::set_quality(Tagging::Quality quality){
-	_quality = quality;
-}
-
 void ReloadThread::set_lib_path(const QString& library_path) {
 	_library_path = library_path;
 }
 
-
-MetaDataList ReloadThread::get_metadata() const
-{
-	return _v_md;
-}
 
 

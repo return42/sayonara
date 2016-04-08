@@ -81,7 +81,7 @@ class PlayManager : public QObject, protected SayonaraClass
 					   Playing=0,
 					   Paused,
 					   Stopped
-};
+		};
 
 
 signals:

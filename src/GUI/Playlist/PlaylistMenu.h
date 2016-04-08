@@ -31,6 +31,8 @@
 #include <QTimer>
 #include <QShowEvent>
 
+class GUI_PlaylistEntryLook;
+
 class PlaylistMenu :
 		public QMenu,
 		protected SayonaraClass
@@ -57,6 +59,8 @@ private:
 	QAction* _action_look=nullptr;
 
 	QTimer*  _timer=nullptr;
+
+	GUI_PlaylistEntryLook* _entry_look_dialog=nullptr;
 
 	void showEvent(QShowEvent* e) override;
 

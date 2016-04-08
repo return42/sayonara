@@ -44,7 +44,6 @@ void LocalLibrary::psl_reload_library(bool clear_first, Tagging::Quality quality
 	init_reload_thread();
 
 	QString library_path = _settings->get(Set::Lib_Path);
-	_reload_thread->set_quality(quality);
 
 	if(library_path.isEmpty()) {
 

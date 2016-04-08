@@ -30,6 +30,7 @@
 #include "GUI/InfoDialog/GUI_InfoDialog.h"
 #include "View/PlaylistView.h"
 #include "GUI/Helper/IconLoader/IconLoader.h"
+#include "TabWidget/PlaylistTabWidget.h"
 
 #include <QKeyEvent>
 #include <QFileDialog>

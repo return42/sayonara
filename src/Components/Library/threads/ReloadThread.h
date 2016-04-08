@@ -31,6 +31,7 @@
 
 
 #include <QThread>
+#include <QMap>
 
 #include "Helper/Tagging/Tagging.h"
 #include "Helper/SayonaraClass.h"
@@ -52,9 +53,7 @@ public:
 
 	SINGLETON_QOBJECT(ReloadThread)
 
-	void set_quality(Tagging::Quality quality);
 	void set_lib_path(const QString& library_path);
-	MetaDataList get_metadata() const;
 
     void pause();
     void goon();
@@ -74,8 +73,9 @@ private:
 
 
 private:
-    int get_and_save_all_files();
+    int get_and_save_all_files(const QMap<QString, MetaData>& v_md_map);
 	void get_files_recursive (QDir base_dir, MetaDataList& v_md, int* n_files);
+	void process_sub_files(const QDir& dir, const QStringList& sub_files);
 
 };
 
