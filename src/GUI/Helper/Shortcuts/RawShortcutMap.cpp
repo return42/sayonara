@@ -12,14 +12,14 @@ QString RawShortcutMap::toString() const {
 		entries << shortcut_name + ":" + shortcuts.join(", ");
 	}
 
-	return entries.join("---");
+	return entries.join(";-;");
 }
 
 RawShortcutMap RawShortcutMap::fromString(const QString& setting){
 
 	RawShortcutMap rsc;
 
-	QStringList entries = setting.split("---");
+	QStringList entries = setting.split(";-;");
 	for(const QString& entry : entries){
 
 		QStringList sc_pair = entry.split(":");

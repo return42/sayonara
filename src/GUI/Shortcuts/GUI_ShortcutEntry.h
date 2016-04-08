@@ -44,8 +44,13 @@ signals:
 	 */
 	void sig_test_pressed(const QList<QKeySequence>& sequences);
 
+	void sig_sequence_entered();
+
 public:
 	GUI_ShortcutEntry(const Shortcut& shortcut, QWidget* parent=nullptr);
+
+	QList<QKeySequence> get_sequences() const;
+	void show_sequence_error();
 
 public slots:
 	void commit();

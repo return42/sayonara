@@ -69,10 +69,6 @@ private slots:
 
 	void language_changed();
 	void change_look();
-
-
-
-
 };
 
 

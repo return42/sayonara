@@ -21,6 +21,8 @@
 
 
 #include "PlaylistMenu.h"
+#include "GUI_PlaylistEntryLook.h"
+
 
 PlaylistMenu::PlaylistMenu(QWidget* parent) :
 	QMenu(parent),
@@ -102,7 +104,8 @@ void PlaylistMenu::language_changed(){
 
 void PlaylistMenu::change_look()
 {
-
+	GUI_PlaylistEntryLook* entry_look = new GUI_PlaylistEntryLook(this);
+	entry_look->exec();
 }
 
 void PlaylistMenu::timed_out()

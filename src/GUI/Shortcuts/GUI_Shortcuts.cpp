@@ -28,12 +28,18 @@ void GUI_Shortcuts::init_ui()
 	cb_test->setVisible(false);
 
 	QList<Shortcut> shortcuts = _sch->get_shortcuts();
+
 	for(const Shortcut& shortcut : shortcuts){
+
 		GUI_ShortcutEntry* entry = new GUI_ShortcutEntry(shortcut);
+
 		connect(entry, &GUI_ShortcutEntry::sig_test_pressed,
 				this, &GUI_Shortcuts::test_pressed);
+		connect(entry, &GUI_ShortcutEntry::sig_sequence_entered,
+				this, &GUI_Shortcuts::sequence_entered);
 
 		layout_entries->addWidget(entry);
+
 		_entries << entry;
 	}
 
@@ -87,6 +93,32 @@ void GUI_Shortcuts::test_pressed(const QList<QKeySequence>& sequences)
 
 	cb_test->setFocus();
 
+}
+
+void GUI_Shortcuts::sequence_entered()
+{
+	GUI_ShortcutEntry* entry = static_cast<GUI_ShortcutEntry*>(sender());
+	QList<QKeySequence> sequences = entry->get_sequences();
+
+	for(GUI_ShortcutEntry* lst_entry : _entries){
+		if(lst_entry == entry){
+			continue;
+		}
+
+		QList<QKeySequence> saved_sequences = lst_entry->get_sequences();
+		for(const QKeySequence& seq1 : sequences){
+			QString seq1_str = seq1.toString(QKeySequence::NativeText);
+
+			for(const QKeySequence& seq2 : saved_sequences){
+				QString seq2_str = seq2.toString(QKeySequence::NativeText);
+				if(seq1_str == seq2_str && !seq1_str.isEmpty()){
+
+					entry->show_sequence_error();
+					break;
+				}
+			}
+		}
+	}
 }
 
 void GUI_Shortcuts::language_changed()

@@ -22,7 +22,8 @@
 #include "GUI_ShortcutEntry.h"
 #include <QKeySequence>
 #include <QShortcut>
-
+#include <QMessageBox>
+#include "GUI/Shortcuts/ShortcutLineEdit.h"
 #include "GUI/Helper/IconLoader/IconLoader.h"
 
 GUI_ShortcutEntry::GUI_ShortcutEntry(const Shortcut& shortcut, QWidget* parent) :
@@ -41,8 +42,20 @@ GUI_ShortcutEntry::GUI_ShortcutEntry(const Shortcut& shortcut, QWidget* parent) 
 	connect(btn_edit, &QPushButton::clicked, this, &GUI_ShortcutEntry::edit_clicked);
 	connect(btn_default, &QPushButton::clicked, this, &GUI_ShortcutEntry::default_clicked);
 	connect(btn_test, &QPushButton::clicked, this, &GUI_ShortcutEntry::test_clicked);
+	connect(le_entry, &ShortcutLineEdit::sig_sequence_entered, this, &GUI_ShortcutEntry::sig_sequence_entered);
 
 	skin_changed();
+}
+
+QList<QKeySequence> GUI_ShortcutEntry::get_sequences() const
+{
+	return le_entry->get_sequences();
+}
+
+void GUI_ShortcutEntry::show_sequence_error()
+{
+	this->le_entry->setText("");
+	QMessageBox::warning(this, tr("Error"), tr("Shortcut already in use"));
 }
 
 void GUI_ShortcutEntry::commit()

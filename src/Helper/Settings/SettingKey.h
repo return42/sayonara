@@ -95,6 +95,7 @@ namespace SK {
 		PL_LastPlaylist,
 		PL_Mode,
 		PL_ShowNumbers,
+		PL_EntryLook,
 
 		Notification_Show,
 		Notification_Timeout,
@@ -217,6 +218,7 @@ namespace Set {
 	INST(bool,					PL_StartPlaying);				/* start playing immediatly when opening Sayonara */
 	INST(int,					PL_LastTrack);					/* last track idx in playlist */
 	INST(int,					PL_LastPlaylist);				/* last Playlist id, where LastTrack has been played */
+	INST(QString,				PL_EntryLook);					/* formatting of playlist entry */
 
 	INST(PlaylistMode,			PL_Mode);						/* playlist mode: rep1, repAll, shuffle... */
 	INST(bool,					PL_ShowNumbers);				/* show numbers in playlist */

@@ -1149,14 +1149,8 @@
 <context>
     <name>GUI_PlayerPreferences</name>
     <message>
-        <location filename="../GUI/Player/Preferences/GUI_PlayerPreferences.ui" line="+14"/>
-        <location filename="../../build/src/GUI/Player/Preferences/ui_GUI_PlayerPreferences.h" line="+82"/>
-        <source>Form</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+27"/>
-        <location filename="../../build/src/GUI/Player/Preferences/ui_GUI_PlayerPreferences.h" line="+2"/>
+        <location filename="../GUI/Player/Preferences/GUI_PlayerPreferences.ui" line="+38"/>
+        <location filename="../../build/src/GUI/Player/Preferences/ui_GUI_PlayerPreferences.h" line="+83"/>
         <source>Start in tray</source>
         <translation>Minimiert starten</translation>
     </message>
@@ -1346,34 +1340,71 @@
 <context>
     <name>GUI_PlaylistLook</name>
     <message>
-        <location filename="../GUI/Playlist/GUI_PlaylistEntryLook.ui" line="+24"/>
-        <source>Enter string here. For example</source>
-        <translation>Zeichenkette hier eingeben. Zum Beispiel</translation>
+        <location filename="../GUI/Playlist/GUI_PlaylistEntryLook.ui" line="+58"/>
+        <location filename="../../build/src/GUI/Playlist/ui_GUI_PlaylistEntryLook.h" line="+210"/>
+        <source>*bold text*</source>
+        <translation>*fetter Text*</translation>
+    </message>
+    <message>
+        <location line="-34"/>
+        <location filename="../../build/src/GUI/Playlist/ui_GUI_PlaylistEntryLook.h" line="-2"/>
+        <source>&apos;italic text&apos;</source>
+        <translation>&apos;kursiver Text&apos;</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>&lt;nr&gt; - &apos;&lt;title&gt;&apos; - &lt;artist&gt;</source>
-        <translation type="unfinished"></translation>
+        <location filename="../../build/src/GUI/Playlist/ui_GUI_PlaylistEntryLook.h" line="+1"/>
+        <source>Example</source>
+        <translation>Beispiel
+</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+48"/>
+        <location filename="../../build/src/GUI/Playlist/ui_GUI_PlaylistEntryLook.h" line="+2"/>
+        <source>track number</source>
+        <translation>Titelnummern</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <location filename="../../build/src/GUI/Playlist/ui_GUI_PlaylistEntryLook.h" line="+1"/>
+        <source>title</source>
+        <translation>Titel</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <location filename="../../build/src/GUI/Playlist/ui_GUI_PlaylistEntryLook.h" line="+1"/>
+        <source>artist</source>
+        <translation>Künstler</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <location filename="../../build/src/GUI/Playlist/ui_GUI_PlaylistEntryLook.h" line="+1"/>
+        <source>album</source>
+        <translation>Album</translation>
+    </message>
+    <message>
+        <location line="+41"/>
+        <location filename="../../build/src/GUI/Playlist/ui_GUI_PlaylistEntryLook.h" line="+1"/>
         <source>Default</source>
         <translation>Standard</translation>
     </message>
     <message>
         <location line="+7"/>
+        <location filename="../../build/src/GUI/Playlist/ui_GUI_PlaylistEntryLook.h" line="+1"/>
         <source>Cancel</source>
         <translation>Abbrechen</translation>
     </message>
     <message>
         <location line="+7"/>
+        <location filename="../../build/src/GUI/Playlist/ui_GUI_PlaylistEntryLook.h" line="+1"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location line="+26"/>
+        <location line="+23"/>
+        <location filename="../../build/src/GUI/Playlist/ui_GUI_PlaylistEntryLook.h" line="+1"/>
         <source>Playlist look</source>
-        <translation>Einträge in Wiedergabeliste</translation>
+        <translation>Textformatierung in Wiedergabeliste</translation>
     </message>
 </context>
 <context>
@@ -1497,19 +1528,13 @@
 <context>
     <name>GUI_ShortcutEntry</name>
     <message>
-        <location filename="../GUI/Shortcuts/GUI_ShortcutEntry.ui" line="+14"/>
-        <location filename="../../build/src/GUI/Shortcuts/ui_GUI_ShortcutEntry.h" line="+83"/>
-        <source>Form</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+31"/>
-        <location filename="../../build/src/GUI/Shortcuts/ui_GUI_ShortcutEntry.h" line="+2"/>
+        <location filename="../GUI/Shortcuts/GUI_ShortcutEntry.ui" line="+42"/>
+        <location filename="../../build/src/GUI/Shortcuts/ui_GUI_ShortcutEntry.h" line="+84"/>
         <source>Enter shortcut...</source>
         <translation>Shortcut eingeben...</translation>
     </message>
     <message>
-        <location filename="../GUI/Shortcuts/GUI_ShortcutEntry.cpp" line="+89"/>
+        <location filename="../GUI/Shortcuts/GUI_ShortcutEntry.cpp" line="+102"/>
         <source>Edit</source>
         <translation>Bearbeiten</translation>
     </message>
@@ -1519,7 +1544,17 @@
         <translation>Standard</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="-43"/>
+        <source>Error</source>
+        <translation>Fehler</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Shortcut already in use</source>
+        <translation>Shortcut wird schon verwendet</translation>
+    </message>
+    <message>
+        <location line="+45"/>
         <source>Test</source>
         <translation>Testen</translation>
     </message>
@@ -1529,7 +1564,7 @@
     <message>
         <location filename="../GUI/Shortcuts/GUI_Shortcuts.ui" line="+41"/>
         <location filename="../../build/src/GUI/Shortcuts/ui_GUI_Shortcuts.h" line="+108"/>
-        <location filename="../GUI/Shortcuts/GUI_Shortcuts.cpp" line="+82"/>
+        <location filename="../GUI/Shortcuts/GUI_Shortcuts.cpp" line="+88"/>
         <source>Press shortcut</source>
         <translation>Shortcut eingeben</translation>
     </message>
@@ -2709,7 +2744,7 @@ Bitte ein anderes Verzeichnis wählen</translation>
 <context>
     <name>PlaylistMenu</name>
     <message>
-        <location filename="../GUI/Playlist/PlaylistMenu.cpp" line="+32"/>
+        <location filename="../GUI/Playlist/PlaylistMenu.cpp" line="+34"/>
         <location line="+60"/>
         <source>Repeat 1</source>
         <translation>Wiederhole 1</translation>

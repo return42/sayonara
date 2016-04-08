@@ -649,25 +649,25 @@
         <location filename="../GUI/LastFM/GUI_LastFM.ui" line="+20"/>
         <location filename="../../build/src/GUI/LastFM/ui_GUI_LastFM.h" line="+152"/>
         <source>Password</source>
-        <translation type="unfinished">Heslo</translation>
+        <translation>Heslo</translation>
     </message>
     <message>
         <location line="+42"/>
         <location filename="../../build/src/GUI/LastFM/ui_GUI_LastFM.h" line="+3"/>
         <source>Login now</source>
-        <translation type="unfinished">Přihlášení nyní</translation>
+        <translation>Přihlášení nyní</translation>
     </message>
     <message>
         <location line="+12"/>
         <location filename="../../build/src/GUI/LastFM/ui_GUI_LastFM.h" line="+1"/>
         <source>Activate</source>
-        <translation type="unfinished"></translation>
+        <translation>Spustit</translation>
     </message>
     <message>
         <location line="+21"/>
         <location filename="../../build/src/GUI/LastFM/ui_GUI_LastFM.h" line="+2"/>
         <source>Username</source>
-        <translation type="unfinished">Uživatelské jméno</translation>
+        <translation>Uživatelské jméno</translation>
     </message>
 </context>
 <context>
@@ -969,19 +969,19 @@
         <location filename="../GUI/Notifications/GUI_Notifications.ui" line="+36"/>
         <location filename="../../build/src/GUI/Notifications/ui_GUI_Notifications.h" line="+97"/>
         <source>Timeout (ms)</source>
-        <translation type="unfinished">Zavřít po (ms)</translation>
+        <translation>Zavřít po (ms)</translation>
     </message>
     <message>
         <location line="+10"/>
         <location filename="../../build/src/GUI/Notifications/ui_GUI_Notifications.h" line="+1"/>
         <source>Activate</source>
-        <translation type="unfinished"></translation>
+        <translation>Spustit</translation>
     </message>
     <message>
         <location line="+18"/>
         <location filename="../../build/src/GUI/Notifications/ui_GUI_Notifications.h" line="+3"/>
         <source>Standard</source>
-        <translation type="unfinished">Standardní</translation>
+        <translation>Standardní</translation>
     </message>
 </context>
 <context>
@@ -1004,7 +1004,7 @@
     <message>
         <location line="+76"/>
         <source>Library</source>
-        <translation type="unfinished">Sbírka</translation>
+        <translation>Sbírka</translation>
     </message>
     <message>
         <location filename="../GUI/Player/GUI_PlayerMessages.cpp" line="+49"/>
@@ -1097,12 +1097,12 @@
     <message>
         <location filename="../GUI/Player/GUI_PlayerConnections.cpp" line="+96"/>
         <source>Play/Pause</source>
-        <translation type="unfinished"></translation>
+        <translation>Přehrát/Pozastavit</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Stop</source>
-        <translation type="unfinished">Zastavit</translation>
+        <translation>Zastavit</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -1112,7 +1112,7 @@
     <message>
         <location line="+1"/>
         <source>Previous track</source>
-        <translation type="unfinished"></translation>
+        <translation>Předchozí</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -1148,14 +1148,8 @@
 <context>
     <name>GUI_PlayerPreferences</name>
     <message>
-        <location filename="../GUI/Player/Preferences/GUI_PlayerPreferences.ui" line="+14"/>
-        <location filename="../../build/src/GUI/Player/Preferences/ui_GUI_PlayerPreferences.h" line="+82"/>
-        <source>Form</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+27"/>
-        <location filename="../../build/src/GUI/Player/Preferences/ui_GUI_PlayerPreferences.h" line="+2"/>
+        <location filename="../GUI/Player/Preferences/GUI_PlayerPreferences.ui" line="+38"/>
+        <location filename="../../build/src/GUI/Player/Preferences/ui_GUI_PlayerPreferences.h" line="+83"/>
         <source>Start in tray</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1163,13 +1157,13 @@
         <location line="+7"/>
         <location filename="../../build/src/GUI/Player/Preferences/ui_GUI_PlayerPreferences.h" line="+1"/>
         <source>Close to tray</source>
-        <translation type="unfinished">Zavřít do oznamovací oblasti panelu</translation>
+        <translation>Zavřít do oznamovací oblasti panelu</translation>
     </message>
     <message>
         <location line="+7"/>
         <location filename="../../build/src/GUI/Player/Preferences/ui_GUI_PlayerPreferences.h" line="+1"/>
         <source>Update notifications</source>
-        <translation type="unfinished"></translation>
+        <translation>Oznamovatel aktualizací</translation>
     </message>
     <message>
         <location filename="../GUI/Player/Preferences/GUI_PlayerPreferences.cpp" line="+27"/>
@@ -1345,32 +1339,68 @@
 <context>
     <name>GUI_PlaylistLook</name>
     <message>
-        <location filename="../GUI/Playlist/GUI_PlaylistEntryLook.ui" line="+24"/>
-        <source>Enter string here. For example</source>
+        <location filename="../GUI/Playlist/GUI_PlaylistEntryLook.ui" line="+58"/>
+        <location filename="../../build/src/GUI/Playlist/ui_GUI_PlaylistEntryLook.h" line="+210"/>
+        <source>*bold text*</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="-34"/>
+        <location filename="../../build/src/GUI/Playlist/ui_GUI_PlaylistEntryLook.h" line="-2"/>
+        <source>&apos;italic text&apos;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>&lt;nr&gt; - &apos;&lt;title&gt;&apos; - &lt;artist&gt;</source>
+        <location filename="../../build/src/GUI/Playlist/ui_GUI_PlaylistEntryLook.h" line="+1"/>
+        <source>Example</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+48"/>
+        <location filename="../../build/src/GUI/Playlist/ui_GUI_PlaylistEntryLook.h" line="+2"/>
+        <source>track number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <location filename="../../build/src/GUI/Playlist/ui_GUI_PlaylistEntryLook.h" line="+1"/>
+        <source>title</source>
+        <translation>Název</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <location filename="../../build/src/GUI/Playlist/ui_GUI_PlaylistEntryLook.h" line="+1"/>
+        <source>artist</source>
+        <translation>Umělec</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <location filename="../../build/src/GUI/Playlist/ui_GUI_PlaylistEntryLook.h" line="+1"/>
+        <source>album</source>
+        <translation>Album</translation>
+    </message>
+    <message>
+        <location line="+41"/>
+        <location filename="../../build/src/GUI/Playlist/ui_GUI_PlaylistEntryLook.h" line="+1"/>
         <source>Default</source>
-        <translation type="unfinished">Výchozí</translation>
+        <translation>Výchozí</translation>
     </message>
     <message>
         <location line="+7"/>
+        <location filename="../../build/src/GUI/Playlist/ui_GUI_PlaylistEntryLook.h" line="+1"/>
         <source>Cancel</source>
-        <translation type="unfinished">Zrušit</translation>
+        <translation>Zrušit</translation>
     </message>
     <message>
         <location line="+7"/>
+        <location filename="../../build/src/GUI/Playlist/ui_GUI_PlaylistEntryLook.h" line="+1"/>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation>OK</translation>
     </message>
     <message>
-        <location line="+26"/>
+        <location line="+23"/>
+        <location filename="../../build/src/GUI/Playlist/ui_GUI_PlaylistEntryLook.h" line="+1"/>
         <source>Playlist look</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1437,25 +1467,25 @@
         <location filename="../../build/src/GUI/PreferenceDialog/ui_GUI_PreferenceDialog.h" line="+143"/>
         <location filename="../GUI/PreferenceDialog/GUI_PreferenceDialog.cpp" line="+53"/>
         <source>Preferences</source>
-        <translation type="unfinished">Nastavení</translation>
+        <translation>Nastavení</translation>
     </message>
     <message>
         <location line="+82"/>
         <location filename="../../build/src/GUI/PreferenceDialog/ui_GUI_PreferenceDialog.h" line="+1"/>
         <source>Cancel</source>
-        <translation type="unfinished">Zrušit</translation>
+        <translation>Zrušit</translation>
     </message>
     <message>
         <location line="+7"/>
         <location filename="../../build/src/GUI/PreferenceDialog/ui_GUI_PreferenceDialog.h" line="+1"/>
         <source>Apply</source>
-        <translation type="unfinished">Použít</translation>
+        <translation>Použít</translation>
     </message>
     <message>
         <location line="+7"/>
         <location filename="../../build/src/GUI/PreferenceDialog/ui_GUI_PreferenceDialog.h" line="+1"/>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation>OK</translation>
     </message>
 </context>
 <context>
@@ -1496,29 +1526,33 @@
 <context>
     <name>GUI_ShortcutEntry</name>
     <message>
-        <location filename="../GUI/Shortcuts/GUI_ShortcutEntry.ui" line="+14"/>
-        <location filename="../../build/src/GUI/Shortcuts/ui_GUI_ShortcutEntry.h" line="+83"/>
-        <source>Form</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+31"/>
-        <location filename="../../build/src/GUI/Shortcuts/ui_GUI_ShortcutEntry.h" line="+2"/>
+        <location filename="../GUI/Shortcuts/GUI_ShortcutEntry.ui" line="+42"/>
+        <location filename="../../build/src/GUI/Shortcuts/ui_GUI_ShortcutEntry.h" line="+84"/>
         <source>Enter shortcut...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../GUI/Shortcuts/GUI_ShortcutEntry.cpp" line="+89"/>
+        <location filename="../GUI/Shortcuts/GUI_ShortcutEntry.cpp" line="+102"/>
         <source>Edit</source>
-        <translation type="unfinished">Upravit</translation>
+        <translation>Upravit</translation>
     </message>
     <message>
         <location line="-1"/>
         <source>Default</source>
-        <translation type="unfinished">Výchozí</translation>
+        <translation>Výchozí</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="-43"/>
+        <source>Error</source>
+        <translation>Chyba</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Shortcut already in use</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+45"/>
         <source>Test</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1528,7 +1562,7 @@
     <message>
         <location filename="../GUI/Shortcuts/GUI_Shortcuts.ui" line="+41"/>
         <location filename="../../build/src/GUI/Shortcuts/ui_GUI_Shortcuts.h" line="+108"/>
-        <location filename="../GUI/Shortcuts/GUI_Shortcuts.cpp" line="+82"/>
+        <location filename="../GUI/Shortcuts/GUI_Shortcuts.cpp" line="+88"/>
         <source>Press shortcut</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1739,37 +1773,37 @@
         <location filename="../GUI/StartupDialog/GUI_StartupDialog.ui" line="+17"/>
         <location filename="../../build/src/GUI/StartupDialog/ui_GUI_StartupDialog.h" line="+103"/>
         <source>Load temporary playlists</source>
-        <translation type="unfinished">Nahrát dočasné seznamy skladeb</translation>
+        <translation>Nahrát dočasné seznamy skladeb</translation>
     </message>
     <message>
         <location line="+14"/>
         <location filename="../../build/src/GUI/StartupDialog/ui_GUI_StartupDialog.h" line="+1"/>
         <source>Startup options</source>
-        <translation type="unfinished">Chování při spuštění</translation>
+        <translation>Chování při spuštění</translation>
     </message>
     <message>
         <location line="+7"/>
         <location filename="../../build/src/GUI/StartupDialog/ui_GUI_StartupDialog.h" line="+1"/>
         <source>Start playing</source>
-        <translation type="unfinished">Spustit přehrávání</translation>
+        <translation>Spustit přehrávání</translation>
     </message>
     <message>
         <location line="+7"/>
         <location filename="../../build/src/GUI/StartupDialog/ui_GUI_StartupDialog.h" line="+1"/>
         <source>Load last track on startup</source>
-        <translation type="unfinished">Nahrát poslední skladbu</translation>
+        <translation>Nahrát poslední skladbu</translation>
     </message>
     <message>
         <location line="+7"/>
         <location filename="../../build/src/GUI/StartupDialog/ui_GUI_StartupDialog.h" line="+1"/>
         <source>Load saved playlists</source>
-        <translation type="unfinished">Nahrát uložené seznamy skladeb</translation>
+        <translation>Nahrát uložené seznamy skladeb</translation>
     </message>
     <message>
         <location line="+24"/>
         <location filename="../../build/src/GUI/StartupDialog/ui_GUI_StartupDialog.h" line="+1"/>
         <source>Remember time of last track</source>
-        <translation type="unfinished">Nahrát poslední časovou polohu naposledy přehrávané skladby</translation>
+        <translation>Nahrát poslední časovou polohu naposledy přehrávané skladby</translation>
     </message>
 </context>
 <context>
@@ -2335,7 +2369,7 @@ Vyberte, prosím, jinou složku</translation>
         <location line="+43"/>
         <location filename="../../build/src/GUI/Library/ImportFolderDialog/ui_GUI_ImportFolder.h" line="+4"/>
         <source>Edit</source>
-        <translation type="unfinished">Upravit</translation>
+        <translation>Upravit</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -2554,13 +2588,13 @@ Vyberte, prosím, jinou složku</translation>
         <location line="-41"/>
         <location line="+42"/>
         <source>Library path</source>
-        <translation type="unfinished"></translation>
+        <translation>Cesta ke sbírce</translation>
     </message>
     <message>
         <location line="-40"/>
         <location line="+41"/>
         <source>Live search</source>
-        <translation type="unfinished"></translation>
+        <translation>Hledání ve skutečném čase</translation>
     </message>
 </context>
 <context>
@@ -2711,7 +2745,7 @@ Vyberte, prosím, jinou složku</translation>
 <context>
     <name>PlaylistMenu</name>
     <message>
-        <location filename="../GUI/Playlist/PlaylistMenu.cpp" line="+32"/>
+        <location filename="../GUI/Playlist/PlaylistMenu.cpp" line="+34"/>
         <location line="+60"/>
         <source>Repeat 1</source>
         <translation>Opakovat 1</translation>

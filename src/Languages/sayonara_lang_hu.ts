@@ -1148,14 +1148,8 @@
 <context>
     <name>GUI_PlayerPreferences</name>
     <message>
-        <location filename="../GUI/Player/Preferences/GUI_PlayerPreferences.ui" line="+14"/>
-        <location filename="../../build/src/GUI/Player/Preferences/ui_GUI_PlayerPreferences.h" line="+82"/>
-        <source>Form</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+27"/>
-        <location filename="../../build/src/GUI/Player/Preferences/ui_GUI_PlayerPreferences.h" line="+2"/>
+        <location filename="../GUI/Player/Preferences/GUI_PlayerPreferences.ui" line="+38"/>
+        <location filename="../../build/src/GUI/Player/Preferences/ui_GUI_PlayerPreferences.h" line="+83"/>
         <source>Start in tray</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1345,32 +1339,68 @@
 <context>
     <name>GUI_PlaylistLook</name>
     <message>
-        <location filename="../GUI/Playlist/GUI_PlaylistEntryLook.ui" line="+24"/>
-        <source>Enter string here. For example</source>
+        <location filename="../GUI/Playlist/GUI_PlaylistEntryLook.ui" line="+58"/>
+        <location filename="../../build/src/GUI/Playlist/ui_GUI_PlaylistEntryLook.h" line="+210"/>
+        <source>*bold text*</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="-34"/>
+        <location filename="../../build/src/GUI/Playlist/ui_GUI_PlaylistEntryLook.h" line="-2"/>
+        <source>&apos;italic text&apos;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>&lt;nr&gt; - &apos;&lt;title&gt;&apos; - &lt;artist&gt;</source>
+        <location filename="../../build/src/GUI/Playlist/ui_GUI_PlaylistEntryLook.h" line="+1"/>
+        <source>Example</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+48"/>
+        <location filename="../../build/src/GUI/Playlist/ui_GUI_PlaylistEntryLook.h" line="+2"/>
+        <source>track number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <location filename="../../build/src/GUI/Playlist/ui_GUI_PlaylistEntryLook.h" line="+1"/>
+        <source>title</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <location filename="../../build/src/GUI/Playlist/ui_GUI_PlaylistEntryLook.h" line="+1"/>
+        <source>artist</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <location filename="../../build/src/GUI/Playlist/ui_GUI_PlaylistEntryLook.h" line="+1"/>
+        <source>album</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+41"/>
+        <location filename="../../build/src/GUI/Playlist/ui_GUI_PlaylistEntryLook.h" line="+1"/>
         <source>Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+7"/>
+        <location filename="../../build/src/GUI/Playlist/ui_GUI_PlaylistEntryLook.h" line="+1"/>
         <source>Cancel</source>
         <translation type="unfinished">Mégse</translation>
     </message>
     <message>
         <location line="+7"/>
+        <location filename="../../build/src/GUI/Playlist/ui_GUI_PlaylistEntryLook.h" line="+1"/>
         <source>OK</source>
         <translation type="unfinished">OK</translation>
     </message>
     <message>
-        <location line="+26"/>
+        <location line="+23"/>
+        <location filename="../../build/src/GUI/Playlist/ui_GUI_PlaylistEntryLook.h" line="+1"/>
         <source>Playlist look</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1496,19 +1526,13 @@
 <context>
     <name>GUI_ShortcutEntry</name>
     <message>
-        <location filename="../GUI/Shortcuts/GUI_ShortcutEntry.ui" line="+14"/>
-        <location filename="../../build/src/GUI/Shortcuts/ui_GUI_ShortcutEntry.h" line="+83"/>
-        <source>Form</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+31"/>
-        <location filename="../../build/src/GUI/Shortcuts/ui_GUI_ShortcutEntry.h" line="+2"/>
+        <location filename="../GUI/Shortcuts/GUI_ShortcutEntry.ui" line="+42"/>
+        <location filename="../../build/src/GUI/Shortcuts/ui_GUI_ShortcutEntry.h" line="+84"/>
         <source>Enter shortcut...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../GUI/Shortcuts/GUI_ShortcutEntry.cpp" line="+89"/>
+        <location filename="../GUI/Shortcuts/GUI_ShortcutEntry.cpp" line="+102"/>
         <source>Edit</source>
         <translation type="unfinished">Szerkesztés</translation>
     </message>
@@ -1518,7 +1542,17 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="-43"/>
+        <source>Error</source>
+        <translation type="unfinished">Hiba</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Shortcut already in use</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+45"/>
         <source>Test</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1528,7 +1562,7 @@
     <message>
         <location filename="../GUI/Shortcuts/GUI_Shortcuts.ui" line="+41"/>
         <location filename="../../build/src/GUI/Shortcuts/ui_GUI_Shortcuts.h" line="+108"/>
-        <location filename="../GUI/Shortcuts/GUI_Shortcuts.cpp" line="+82"/>
+        <location filename="../GUI/Shortcuts/GUI_Shortcuts.cpp" line="+88"/>
         <source>Press shortcut</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2708,7 +2742,7 @@ Kérjük, válasszon egy másik mappát</translation>
 <context>
     <name>PlaylistMenu</name>
     <message>
-        <location filename="../GUI/Playlist/PlaylistMenu.cpp" line="+32"/>
+        <location filename="../GUI/Playlist/PlaylistMenu.cpp" line="+34"/>
         <location line="+60"/>
         <source>Repeat 1</source>
         <translation>1 ismétlése</translation>

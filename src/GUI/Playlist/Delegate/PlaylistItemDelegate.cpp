@@ -38,9 +38,10 @@ PlaylistItemDelegate::PlaylistItemDelegate(QListView* parent) :
 	_drag_row = -1;
 	_show_numbers = _settings->get(Set::PL_ShowNumbers);
 	_row_height = 20;
-	_entry_template = "*%title%* %artist%";
+	_entry_template = _settings->get(Set::PL_EntryLook);
 
 	REGISTER_LISTENER_NO_CALL(Set::PL_ShowNumbers, _sl_show_numbers_changed);
+	REGISTER_LISTENER_NO_CALL(Set::PL_EntryLook, _sl_look_changed);
 }
 
 PlaylistItemDelegate::~PlaylistItemDelegate() {
@@ -229,6 +230,11 @@ int PlaylistItemDelegate::draw_number(QPainter* painter, int number, QFont& font
 void PlaylistItemDelegate::_sl_show_numbers_changed()
 {
 	_show_numbers = _settings->get(Set::PL_ShowNumbers);
+}
+
+void PlaylistItemDelegate::_sl_look_changed()
+{
+	_entry_template = _settings->get(Set::PL_EntryLook);
 }
 
 

@@ -44,6 +44,7 @@ private:
 
 private slots:
 	void test_pressed(const QList<QKeySequence>& sequences);
+	void sequence_entered();
 
 
 };

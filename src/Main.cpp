@@ -199,6 +199,7 @@ bool register_settings(){
 	REGISTER_SETTING( Set::PL_LastPlaylist, "last_playlist", -1 );
 	REGISTER_SETTING( Set::PL_Mode, "playlist_mode", PlaylistMode() );
 	REGISTER_SETTING( Set::PL_ShowNumbers, "show_playlist_numbers", true );
+	REGISTER_SETTING( Set::PL_EntryLook, "playlist_look", QString("*%title%* - %artist%"));
 
 	REGISTER_SETTING( Set::Notification_Show, "show_notifications", true );
 	REGISTER_SETTING( Set::Notification_Timeout, "notification_timeout", 5000 );

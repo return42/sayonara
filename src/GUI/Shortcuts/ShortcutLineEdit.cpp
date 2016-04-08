@@ -16,10 +16,24 @@ ShortcutLineEdit::ShortcutLineEdit(QWidget*parent) :
 {
 }
 
+QList<QKeySequence> ShortcutLineEdit::get_sequences() const
+{
+	QStringList lst = this->text().split(",");
+	QList<QKeySequence> sequences;
+	for(const QString& str : lst){
+		if(str.isEmpty()){
+			continue;
+		}
+
+		sequences << QKeySequence::fromString(str, QKeySequence::NativeText);
+	}
+
+	return sequences;
+}
+
 void ShortcutLineEdit::keyPressEvent(QKeyEvent* e)
 {
 	int key = e->key();
-
 
 	if(key == Qt::Key_Escape && e->modifiers() == Qt::NoModifier){
 		this->setText("");
@@ -56,4 +70,6 @@ void ShortcutLineEdit::keyPressEvent(QKeyEvent* e)
 
 	QKeySequence ks(key);
 	this->setText(ks.toString(QKeySequence::NativeText));
+
+	emit sig_sequence_entered();
 }
