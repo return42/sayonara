@@ -44,6 +44,7 @@ ReloadThread::ReloadThread(QObject *parent) :
 	_running = false;
 
 	_library_path = _settings->get(Set::Lib_Path);
+	_quality = Library::ReloadQuality::Fast;
 }
 
 
@@ -51,45 +52,79 @@ ReloadThread::~ReloadThread() {
 
 }
 
+bool ReloadThread::compare_md(const MetaData& md1, const MetaData& md2){
 
-int ReloadThread::get_and_save_all_files(const QMap<QString, MetaData>& md_map_lib) {
+	QStringList genres1 = md1.genres;
+	QStringList genres2 = md2.genres;
+
+	genres1.removeAll("");
+	genres1.removeDuplicates();
+
+	genres2.removeAll("");
+	genres2.removeDuplicates();
+
+	return (md1.title == md2.title &&
+			md1.album == md2.album &&
+			md1.artist == md2.artist &&
+			md1.year == md2.year &&
+			md1.rating == md2.rating &&
+			genres1 == genres2 &&
+			md1.discnumber == md2.discnumber &&
+			md1.track_num == md2.track_num);
+}
+
+int ReloadThread::get_and_save_all_files(const QHash<QString, MetaData>& md_map_lib) {
 
 	if(_library_path.size() == 0 || !QFile::exists(_library_path)) {
 		return 0;
 	}
 
 	QDir dir(_library_path);
-	MetaDataList v_md, v_md_to_store;
+	MetaDataList v_md_to_store;
+	QStringList files = get_files_recursive (dir);
 
-	get_files_recursive (dir, v_md, &n_files);
+	int n_files = files.size();
 	int cur_idx_files=0;
-	int n_files = v_md.size();
 
-	for(const MetaData& md : v_md){
-		QString filepath = md.filepath();
-		MetaData md_lib = md_map_lib[filepath];
-		cur_idx_files++;
+	for(const QString& filepath : files){
 
-		emit sig_reloading_library(tr("Reloading library"), (cur_idx_files * 100 / n_files));
+		bool file_was_read = false;
+		MetaData md(filepath);
+		const MetaData& md_lib = md_map_lib[filepath];
+
+		int percent = (cur_idx_files++ * 100) / n_files;
+		emit sig_reloading_library(tr("Reloading library"), percent);
 
 		if(md_lib.id >= 0){
-			continue;
+
+			if(_quality == Library::ReloadQuality::Fast){
+				continue;
+			}
+
+			file_was_read = Tagging::getMetaDataOfFile(md, Tagging::Quality::Dirty);
+
+			if(!file_was_read || compare_md(md, md_lib)){
+				continue;
+			}
 		}
 
-		sp_log(Log::Debug) << "Could not find: " << filepath;
+		sp_log(Log::Debug) << "Have to reload " << filepath;
 
-		MetaData md_full;
-		md_full.set_filepath(filepath);
+		file_was_read = Tagging::getMetaDataOfFile(md, Tagging::Quality::Standard);
 
-		if(Tagging::getMetaDataOfFile(md_full, Tagging::Quality::Standard)){
-			sp_log(Log::Debug) << "Insert metadata " << md.filepath() << ": " << md.bitrate;
-			v_md_to_store << md_full;
+		if(file_was_read){
+			v_md_to_store << md;
+
+			if(v_md_to_store.size() >= N_FILES_TO_STORE){
+				_db->storeMetadata(v_md_to_store);
+				v_md_to_store.clear();
+			}
 		}
+	}
 
-		if(v_md_to_store.size() >= N_FILES_TO_STORE){
-			_db->storeMetadata(v_md_to_store);
-			v_md_to_store.clear();
-		}
+	if(!v_md_to_store.isEmpty()){
+		_db->storeMetadata(v_md_to_store);
+		v_md_to_store.clear();
 	}
 
 	_db->createIndexes();
@@ -99,57 +134,47 @@ int ReloadThread::get_and_save_all_files(const QMap<QString, MetaData>& md_map_l
 }
 
 
-void ReloadThread::get_files_recursive(QDir base_dir, MetaDataList& v_md, int* n_files) {
+QStringList ReloadThread::get_files_recursive(QDir base_dir) {
 
-	int num_files;
+	QStringList ret;
+	QString message = tr("Reading files from file system") + "... ";
+	emit sig_reloading_library(message, 0);
+
 	QStringList soundfile_exts = Helper::get_soundfile_extensions();
 	QStringList sub_dirs;
 	QStringList sub_files;
-
 
 	sub_dirs = base_dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
 
 	for(const QString& dir : sub_dirs) {
 
-		bool success;
-		QFileInfo info(base_dir.absoluteFilePath(dir));
-
-		if(!info.exists()){
-			sp_log(Log::Warning) << "File " << dir << " does not exist. Skipping...";
-			continue;
-		}
-
-		if(!info.isDir()){
-			sp_log(Log::Warning) << "File " << dir << " is not a directory. Skipping...";
-			continue;
-		}
-
-		success = base_dir.cd(dir);
+		bool success = base_dir.cd(dir);
 
 		if(!success){
 			continue;
 		}
 
-		get_files_recursive(base_dir, v_md, n_files);
+		ret << get_files_recursive(base_dir);
+
 		base_dir.cdUp();
     }
 
-	num_files = *n_files;
-
 	sub_files = base_dir.entryList(soundfile_exts, QDir::Files);
+	if(sub_files.isEmpty()){
+		return ret;
+	}
 
-	v_md << process_sub_files(base_dir, sub_files);
+	ret << process_sub_files(base_dir, sub_files);
 
-    *n_files = num_files;
+	return ret;
 }
 
 
-MetaDataList process_sub_files(const QDir& base_dir, const QStringList& sub_files){
+QStringList ReloadThread::process_sub_files(const QDir& base_dir, const QStringList& sub_files){
 
-	MetaDataList v_md;
+	QStringList lst;
 	for(const QString& filename : sub_files) {
 
-		MetaData md;
 		QString abs_path = base_dir.absoluteFilePath(filename);
 		QFileInfo info(abs_path);
 
@@ -163,14 +188,10 @@ MetaDataList process_sub_files(const QDir& base_dir, const QStringList& sub_file
 			continue;
 		}
 
-		md.set_filepath( abs_path );
-
-		if( Tagging::getMetaDataOfFile(md, Tagging::Quality::Dirty)) {
-			v_md << std::move(md);
-		}
+		lst << abs_path;
 	}
 
-	return v_md;
+	return lst;
 }
 
 
@@ -188,6 +209,11 @@ bool ReloadThread::is_running() const
 	return _running;
 }
 
+void ReloadThread::set_quality(Library::ReloadQuality quality)
+{
+	_quality = quality;
+}
+
 void ReloadThread::run() {
 
 	if(_running){
@@ -198,7 +224,7 @@ void ReloadThread::run() {
     _paused = false;
 
 	MetaDataList v_md, v_to_delete;
-	QMap<QString, MetaData> v_md_map;
+	QHash<QString, MetaData> v_md_map;
 
 	emit sig_reloading_library(tr("Delete orphaned tracks..."), 0);
 

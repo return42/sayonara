@@ -93,16 +93,16 @@ void GUI_Player::setup_connections() {
 
 	ShortcutHandler* sch = ShortcutHandler::getInstance();
 
-	Shortcut sc1 = sch->add(Shortcut("play_pause", tr("Play/Pause"), "Space"));
-	Shortcut sc2 = sch->add(Shortcut("stop", tr("Stop"), "Ctrl + Space"));
-	Shortcut sc3 = sch->add(Shortcut("next", tr("Next track"), "Ctrl + Right"));
-	Shortcut sc4 = sch->add(Shortcut("prev", tr("Previous track"), "Ctrl + Left"));
-	Shortcut sc5 = sch->add(Shortcut("vol_down", tr("Volume down"), "Ctrl + -"));
-	Shortcut sc6 = sch->add(Shortcut("vol_up", tr("Volume up"), "Ctrl++"));
-	Shortcut sc7 = sch->add(Shortcut("seek_fwd", tr("Seek forward"), "Alt+Right"));
-	Shortcut sc8 = sch->add(Shortcut("seek_bwd", tr("Seek backward"), "Alt+Left"));
-	Shortcut sc9 = sch->add(Shortcut("seek fwd_fast", tr("Seek forward (fast)"), "Shift+Right"));
-	Shortcut sc10 = sch->add(Shortcut("seek_bwd_fast", tr("Seek backward (fast)"), "Shift+Left"));
+	Shortcut sc1 = sch->add(Shortcut(this, "play_pause", tr("Play/Pause"), "Space"));
+	Shortcut sc2 = sch->add(Shortcut(this, "stop", tr("Stop"), "Ctrl + Space"));
+	Shortcut sc3 = sch->add(Shortcut(this, "next", tr("Next track"), "Ctrl + Right"));
+	Shortcut sc4 = sch->add(Shortcut(this, "prev", tr("Previous track"), "Ctrl + Left"));
+	Shortcut sc5 = sch->add(Shortcut(this, "vol_down", tr("Volume down"), "Ctrl + -"));
+	Shortcut sc6 = sch->add(Shortcut(this, "vol_up", tr("Volume up"), "Ctrl++"));
+	Shortcut sc7 = sch->add(Shortcut(this, "seek_fwd", tr("Seek forward"), "Alt+Right"));
+	Shortcut sc8 = sch->add(Shortcut(this, "seek_bwd", tr("Seek backward"), "Alt+Left"));
+	Shortcut sc9 = sch->add(Shortcut(this, "seek fwd_fast", tr("Seek forward (fast)"), "Shift+Right"));
+	Shortcut sc10 = sch->add(Shortcut(this, "seek_bwd_fast", tr("Seek backward (fast)"), "Shift+Left"));
 
 	sc1.create_qt_shortcut(this, _play_manager, SLOT(play_pause()));
 	sc2.create_qt_shortcut(this, _play_manager, SLOT(stop()));
@@ -122,4 +122,43 @@ void GUI_Player::setup_connections() {
 		_play_manager->seek_rel_ms(-ms);
 	});
 }
+
+QString GUI_Player::get_shortcut_text(const QString &shortcut_identifier) const
+{
+	if(shortcut_identifier == "play_pause"){
+		return tr("Play/Pause");
+	}
+	if(shortcut_identifier == "stop"){
+		return tr("Stop");
+	}
+	if(shortcut_identifier == "next"){
+		return tr("Next track");
+	}
+	if(shortcut_identifier == "prev"){
+		return tr("Previous track");
+	}
+	if(shortcut_identifier == "vol_down"){
+		return tr("Volume down");
+	}
+	if(shortcut_identifier == "vol_up"){
+		return tr("Volume up");
+	}
+	if(shortcut_identifier == "seek_fwd"){
+		return tr("Seek forward");
+	}
+	if(shortcut_identifier == "seek_bwd"){
+		return tr("Seek backward");
+	}
+	if(shortcut_identifier == "seek_fwd_fast"){
+		return tr("Seek forward (fast)");
+	}
+
+	if(shortcut_identifier == "seek_bwd_fast"){
+		return tr("Seek backward (fast)");
+	}
+
+	return "";
+}
+
+
 

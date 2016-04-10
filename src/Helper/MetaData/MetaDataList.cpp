@@ -341,3 +341,25 @@ ArtistInfo* MetaDataList::get_artist_info() const {
 	return info;
 }
 
+
+
+MetaDataList& MetaDataList::operator <<(const MetaDataList& v_md)
+{
+	int last_idx = this->size();
+	this->resize(this->size() + v_md.size());
+
+
+	for(const MetaData& md : v_md){
+		this->operator [](last_idx) = md;
+		last_idx++;
+	}
+
+	return *this;
+}
+
+
+MetaDataList& MetaDataList::operator <<(const MetaData& md)
+{
+	this->push_back(md);
+	return *this;
+}

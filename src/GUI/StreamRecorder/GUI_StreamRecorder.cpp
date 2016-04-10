@@ -93,6 +93,12 @@ void GUI_StreamRecorder::sl_btn_path_clicked() {
 
 void GUI_StreamRecorder::commit() {
 
+	_settings->set(Set::Engine_SR_Active, cb_activate->isChecked());
+
+	if(!le_path->isEnabled()){
+		return;
+	}
+
 	QString str = le_path->text();
     if(!QFile::exists(str)) {
         bool create_success = QDir::root().mkpath(str);
@@ -101,13 +107,11 @@ void GUI_StreamRecorder::commit() {
 			le_path->setText(sr_path);
 
 			Message::warning(str + tr(" could not be created\nPlease choose another folder"), tr("Stream recorder"));
-
-            return;
         }
     }
 
 	_settings->set(Set::Engine_SR_Path, str);
-	_settings->set(Set::Engine_SR_Active, cb_activate->isChecked());
+
     _path = str;
 }
 

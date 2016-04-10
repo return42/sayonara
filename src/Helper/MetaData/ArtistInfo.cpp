@@ -21,6 +21,7 @@
 
 #include "ArtistInfo.h"
 #include "Database/DatabaseHandler.h"
+#include "Helper/Compressor/Compressor.h"
 
 ArtistInfo::ArtistInfo(const MetaDataList* v_md) :
 	MetaDataInfo(v_md){
@@ -39,6 +40,7 @@ ArtistInfo::ArtistInfo(const MetaDataList* v_md) :
 
 		if(success){
 			_additional_info.clear();
+			calc_similar_artists(artist);
 			// custom fields
 			const QList<CustomField>& custom_fields = artist.get_custom_fields();
 			for(const CustomField& field : custom_fields){
@@ -72,6 +74,39 @@ void ArtistInfo::set_header(){
 
 }
 
+void ArtistInfo::calc_similar_artists(Artist& artist)
+{
+	QString sim_path = Helper::get_sayonara_path() + "/similar_artists/" + artist.name  + ".comp";
+	if(!QFile::exists(sim_path)){
+		return;
+	}
+
+	QByteArray content, decomp;
+	bool success = Helper::File::read_file_into_byte_arr(sim_path, content);
+	if(!success){
+		return;
+	}
+
+	decomp = Compressor::decompress(content);
+	if(decomp.isEmpty()){
+		return;
+	}
+
+	QStringList sim_artists  = QString::fromLocal8Bit(decomp).split("\n");
+	for(const QString& sim_artist : sim_artists){
+		int first_space = sim_artist.indexOf(" ");
+		if(first_space < 0){
+			continue;
+		}
+
+		QString match = sim_artist.left(first_space);
+		QString artist_name = sim_artist.right(sim_artist.size() - first_space - 1);
+		artist.add_custom_field("sim_artist_" + artist_name,
+								"sim_artist_" + match + " " + artist_name,
+								"sim_artist_" + match);
+	}
+}
+
 void ArtistInfo::set_subheader(){
 	_subheader = "";
 }
@@ -92,4 +127,66 @@ void ArtistInfo::set_cover_location(){
 QString ArtistInfo::get_cover_album() const
 {
 	return "";
+}
+
+
+QString ArtistInfo::get_sim_artist_string(QString key) const
+{
+
+	key.remove("sim_artist_");
+	int first_space = key.indexOf(" ");
+	if(first_space < 0){
+		return "";
+	}
+
+	//QString match = key.left(first_space);
+	QString artist_name = key.right(key.size() - first_space - 1);
+
+	int id = DatabaseConnector::getInstance()->getArtistID(artist_name);
+	if(id >= 0){
+		return BOLD(artist_name);
+	}
+
+	return artist_name;
+}
+
+
+QString ArtistInfo::get_additional_info_as_string() const
+{
+	QString str;
+	QStringList sim_artists;
+	for(const QString& key : _additional_info.keys()){
+
+		if(key.startsWith("sim_artist_")){
+			sim_artists << key;
+		}
+
+		else {
+			str += BOLD(key) + ": " + _additional_info[key] + CAR_RET;
+		}
+	}
+
+	std::sort(sim_artists.begin(), sim_artists.end(), [](const QString& artist1, const QString artist2){
+		return (artist1 > artist2);
+	});
+
+	if(!sim_artists.isEmpty()){
+		str = BOLD(tr("Similar artists:")) + CAR_RET + CAR_RET;
+	}
+
+
+	int i=0;
+	for(QString sim_artist : sim_artists){
+		if(i++ > 50){
+			break;
+		}
+
+		str += this->get_sim_artist_string(sim_artist) + ", ";
+	}
+
+	if(str.endsWith(", ")){
+		str.remove(str.size() - 2, 2);
+	}
+
+	return str;
 }

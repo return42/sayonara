@@ -30,29 +30,43 @@
 #include "Helper/Style/Style.h"
 #include <QApplication>
 #include <QFont>
+#include "Helper/Settings/Settings.h"
 
 
 #define NEWLINE "\n";
 
-QString Style::get_style(bool dark, QString font_family, int font_size) {
+QString Style::get_style(bool dark) {
 
-	QFont font = QApplication::font();
+	Settings* settings = Settings::getInstance();
+
+	QFont std_font = QApplication::font();
+	QString font_family = settings->get(Set::Player_FontName);
+	int font_size = settings->get(Set::Player_FontSize);
+	int font_size_lib = settings->get(Set::Lib_FontSize);
+	int font_size_pl = settings->get(Set::PL_FontSize);
+	bool lib_bold = settings->get(Set::Lib_FontBold);
 
 	if(font_family.isEmpty()){
-		font_family = font.family();
+		font_family = std_font.family();
 	}
 
 	if(font_size <= 0){
-		font_size = font.pointSize();
+		font_size = std_font.pointSize();
+	}
+
+	if(font_size_lib <= 0){
+		font_size_lib = font_size;
+	}
+
+	if(font_size_pl <= 0){
+		font_size_pl = font_size;
 	}
 
     QString style;
     QString share_path = Helper::get_share_path();
 
-
 	if(!dark){
 		Helper::File::read_file_into_str(share_path + "standard.css", style);
-
 	}
 
     else{
@@ -62,6 +76,9 @@ QString Style::get_style(bool dark, QString font_family, int font_size) {
 
 	style.replace("<<FONT_FAMILY>>", font_family);
 	style.replace("<<FONT_SIZE>>", QString::number(font_size));
+	style.replace("<<FONT_SIZE_LIB>>", QString::number(font_size_lib));
+	style.replace("<<FONT_SIZE_PL>>", QString::number(font_size_pl));
+	style.replace("<<FONT_WEIGHT_LIB>>", lib_bold ? "800" : "400");
 
     return style;
 }

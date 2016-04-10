@@ -51,7 +51,11 @@ public:
 	ArtistInfo* get_artist_info() const ;
 	AlbumInfo* get_album_info() const;
 
+	MetaDataList& operator <<(const MetaDataList& v_md);
+	MetaDataList& operator <<(const MetaData& md);
+
 
 };
+
 
 #endif // METADATALIST_H

@@ -139,6 +139,8 @@ QString LyricLookupThread::parse_webpage(const QByteArray& raw) {
 			continue;
 		}
 
+
+
 		QRegExp re_script;
 		re_script.setPattern("<script.+</script>");
 		re_script.setMinimal(true);
@@ -179,6 +181,7 @@ QString LyricLookupThread::parse_webpage(const QByteArray& raw) {
 		}
 
 		dst.replace("\n", "<br />");
+		dst.replace("\\n", "<br />");
 
 		if(dst.size() > 100){
 			break;
@@ -365,19 +368,22 @@ void LyricLookupThread::init_server_list() {
 	musixmatch.addReplacement("&", "-");
 	musixmatch.addReplacement("--", "-");
 	musixmatch.start_end_tag.insert("<div id=\"selectable-lyrics\"", "</span><span data-reactid");
+	musixmatch.start_end_tag.insert("<p class=.*content", "</p>");
+	musixmatch.start_end_tag.insert("\"body\":\"", "\",\"");
+
 	musixmatch.include_end_tag = false;
 	musixmatch.is_numeric = false;
 	musixmatch.to_lower = false;
 	musixmatch.error = "404 Not Found";
 
-
-	_server_list.push_back(musixmatch);
 	_server_list.push_back(wikia);
+	_server_list.push_back(musixmatch);
+	_server_list.push_back(metrolyrics);
 	_server_list.push_back(oldieLyrics);
 	_server_list.push_back(lyricskeeper);
-	_server_list.push_back(metrolyrics);
 	_server_list.push_back(elyrics);
 	_server_list.push_back(golyr);
+
 
 
 	/*sp_log(Log::Info) << "Servers: [";

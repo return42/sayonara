@@ -26,6 +26,7 @@
 
 #include "Helper/SayonaraClass.h"
 #include "Helper/Tagging/Tagging.h"
+#include "LibraryNamespaces.h"
 #include <QFile>
 
 
@@ -40,17 +41,8 @@ class AbstractLibrary : public QObject, protected SayonaraClass
 
 public:
 
-	enum class TrackDeletionMode : quint8 {
-		None=0,
-		OnlyLibrary,
-		AlsoFiles
-	};
-
 	explicit AbstractLibrary(QObject *parent=nullptr);
 	virtual ~AbstractLibrary();
-
-
-
 
 signals:
 	void sig_track_mime_data_available(const MetaDataList&);
@@ -70,7 +62,7 @@ public slots:
 
 	virtual void load();
 
-	virtual void psl_reload_library(bool clear_first, Tagging::Quality quality)=0;
+	virtual void psl_reload_library(bool clear_first, Library::ReloadQuality quality)=0;
 
 	/* Clears all filters and searchstrings and fetches everything again */
 	virtual void refetch();
@@ -131,11 +123,11 @@ public slots:
 	virtual void fetch_by_filter(const Filter& filter, bool force);
 
 
-	virtual void delete_tracks(const MetaDataList& v_md, TrackDeletionMode mode)=0;
+	virtual void delete_tracks(const MetaDataList& v_md, Library::TrackDeletionMode mode)=0;
 
-	virtual void delete_tracks_by_idx(const IdxList& idxs, TrackDeletionMode mode);
+	virtual void delete_tracks_by_idx(const IdxList& idxs, Library::TrackDeletionMode mode);
 	virtual void delete_all_tracks();
-	virtual void delete_current_tracks(TrackDeletionMode mode);
+	virtual void delete_current_tracks(Library::TrackDeletionMode mode);
 
 	virtual void insert_tracks(const MetaDataList& v_md);
 	virtual void import_files(const QStringList& files);

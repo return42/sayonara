@@ -66,7 +66,7 @@ protected:
 	void		update_track(const MetaData& md);
 	void		update_album(const Album& album);
 
-	void		delete_tracks(const MetaDataList& v_md, TrackDeletionMode mode);
+	void		delete_tracks(const MetaDataList& v_md, Library::TrackDeletionMode mode);
 	void		get_album_by_id(int album_id, Album& album);
 	void		get_artist_by_id(int artist_id, Artist& artist);
 
@@ -82,7 +82,7 @@ private slots:
 	void				cover_found(const CoverLocation& cl);
 
 public slots:
-	void		psl_reload_library(bool clear_first, Tagging::Quality quality);
+	void		psl_reload_library(bool clear_first, Library::ReloadQuality quality);
 	void		refresh_artist();
 	void		refresh_albums();
 	void		refresh_tracks();

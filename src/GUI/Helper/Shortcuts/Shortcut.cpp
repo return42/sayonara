@@ -1,12 +1,14 @@
 #include "Shortcut.h"
 #include "ShortcutHandler.h"
+#include "GUI/Helper/SayonaraWidget.h"
 
 
-Shortcut::Shortcut(const QString& identifier, const QString& name, const QStringList& default_shortcuts) :
+Shortcut::Shortcut(SayonaraShortcutWidget* parent, const QString& identifier, const QString& name, const QStringList& default_shortcuts) :
 	SayonaraClass()
 {
 	_name = name;
 	_identifier = identifier;
+	_parent=parent;
 
 	_default_shortcuts = default_shortcuts;
 	for(QString& str : _default_shortcuts){
@@ -27,14 +29,15 @@ Shortcut::Shortcut(const QString& identifier, const QString& name, const QString
 	}
 }
 
-Shortcut::Shortcut(const QString& identifier, const QString& name, const QString& default_shortcut) :
-	Shortcut(identifier, name, QStringList(default_shortcut))
+Shortcut::Shortcut(SayonaraShortcutWidget* parent, const QString& identifier, const QString& name, const QString& default_shortcut) :
+	Shortcut(parent, identifier, name, QStringList(default_shortcut))
 {
 
 }
 
 Shortcut::Shortcut(const Shortcut& other)
 {
+	_parent =				other._parent;
 	_name =					other._name;
 	_identifier =			other._identifier;
 	_default_shortcuts =	other._default_shortcuts;
@@ -48,6 +51,12 @@ Shortcut::Shortcut(){
 
 QString Shortcut::get_name() const
 {
+	if(_parent){
+		QString name = _parent->get_shortcut_text(_identifier);
+		if(!name.isEmpty()){
+			return name;
+		}
+	}
 	return _name;
 }
 

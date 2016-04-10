@@ -63,6 +63,8 @@ protected:
 	void showEvent(QShowEvent* e) override;
 	void init_shortcuts() override;
 
+	Library::ReloadQuality show_quality_dialog();
+
 
 protected slots:
 
@@ -93,7 +95,7 @@ protected slots:
 	void splitter_genre_moved(int pos, int idx);
 
 	// reimplemented from Abstract Library
-	AbstractLibrary::TrackDeletionMode show_delete_dialog(int n_tracks) override;
+	Library::TrackDeletionMode show_delete_dialog(int n_tracks) override;
 	void reload_finished();
 
 	void show_info_box();

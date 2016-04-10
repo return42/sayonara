@@ -105,13 +105,13 @@ void SoundcloudLibrary::update_album(const Album& album){
 	_scd->updateAlbum(album);
 }
 
-void SoundcloudLibrary::delete_tracks(const MetaDataList& v_md, TrackDeletionMode mode){
+void SoundcloudLibrary::delete_tracks(const MetaDataList& v_md, Library::TrackDeletionMode mode){
 	Q_UNUSED(mode)
 	_scd->deleteTracks(v_md);
 	refresh();
 }
 
-void SoundcloudLibrary::psl_reload_library(bool b, Tagging::Quality quality){
+void SoundcloudLibrary::psl_reload_library(bool b, Library::ReloadQuality quality){
 	Q_UNUSED(b)
 	Q_UNUSED(quality)
 }
@@ -130,7 +130,7 @@ void SoundcloudLibrary::refresh_artist(){
 
 	get_all_tracks_by_artist(artist_ids, v_md, Filter(), LibSortOrder());
 
-	delete_tracks(v_md, TrackDeletionMode::OnlyLibrary);
+	delete_tracks(v_md, Library::TrackDeletionMode::OnlyLibrary);
 	sp_log(Log::Debug) << "Deleted " << v_md.size() << " soundcloud tracks";
 
 	SoundcloudDataFetcher* fetcher = new SoundcloudDataFetcher(this);

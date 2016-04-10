@@ -47,7 +47,7 @@ public:
 
 
 protected:
-	virtual AbstractLibrary::TrackDeletionMode show_delete_dialog(int n_tracks);
+	virtual Library::TrackDeletionMode show_delete_dialog(int n_tracks);
 	virtual void init_shortcuts() override;
 
 protected slots:

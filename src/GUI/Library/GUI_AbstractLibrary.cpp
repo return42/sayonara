@@ -466,7 +466,7 @@ void GUI_AbstractLibrary::info_tracks() {
 void GUI_AbstractLibrary::delete_album() {
 
 	int n_tracks = _track_model->rowCount();
-	AbstractLibrary::TrackDeletionMode answer = show_delete_dialog(n_tracks);
+	Library::TrackDeletionMode answer = show_delete_dialog(n_tracks);
 
 	_library->delete_current_tracks(answer);
 
@@ -475,7 +475,7 @@ void GUI_AbstractLibrary::delete_album() {
 void GUI_AbstractLibrary::delete_artist() {
 
 	int n_tracks = _track_model->rowCount();
-	AbstractLibrary::TrackDeletionMode answer = show_delete_dialog(n_tracks);
+	Library::TrackDeletionMode answer = show_delete_dialog(n_tracks);
 
 	_library->delete_current_tracks(answer);
 }
@@ -489,9 +489,9 @@ void GUI_AbstractLibrary::delete_tracks(){
 		lst.push_back(idx.row());
 	}
 
-	AbstractLibrary::TrackDeletionMode answer = show_delete_dialog(lst.size());
+	Library::TrackDeletionMode answer = show_delete_dialog(lst.size());
 
-	if(answer != AbstractLibrary::TrackDeletionMode::None){
+	if(answer != Library::TrackDeletionMode::None){
 		_library->delete_tracks_by_idx(lst, answer);
 	}
 }

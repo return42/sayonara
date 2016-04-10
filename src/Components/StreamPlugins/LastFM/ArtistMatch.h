@@ -63,6 +63,12 @@ public:
 	 * @return artist name
 	 */
 	QString get_artist_name() const;
+
+	/**
+	 * @brief converts the artist match to string
+	 * @return string representation
+	 */
+	QString to_string() const;
 };
 
 

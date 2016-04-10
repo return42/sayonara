@@ -171,6 +171,8 @@ bool register_settings(){
 	REGISTER_SETTING( Set::Lib_DC_PlayImmediately ,"lib_dc_play_immediately", false);
 	REGISTER_SETTING( Set::Lib_DD_DoNothing ,"lib_dd_do_nothing", true);
 	REGISTER_SETTING( Set::Lib_DD_PlayIfStoppedAndEmpty ,"lib_dd_play_if_stopped_and_empty", false);
+	REGISTER_SETTING( Set::Lib_FontSize ,"lib_font_size", -1);
+	REGISTER_SETTING( Set::Lib_FontBold ,"lib_font_bold", true);
 
 	REGISTER_SETTING( Set::Player_Version, "player_version", QString(SAYONARA_VERSION));
 	REGISTER_SETTING( Set::Player_Language, "player_language", "sayonara_lang_en" );
@@ -200,6 +202,7 @@ bool register_settings(){
 	REGISTER_SETTING( Set::PL_Mode, "playlist_mode", PlaylistMode() );
 	REGISTER_SETTING( Set::PL_ShowNumbers, "show_playlist_numbers", true );
 	REGISTER_SETTING( Set::PL_EntryLook, "playlist_look", QString("*%title%* - %artist%"));
+	REGISTER_SETTING( Set::PL_FontSize, "playlist_font_size", -1);
 
 	REGISTER_SETTING( Set::Notification_Show, "show_notifications", true );
 	REGISTER_SETTING( Set::Notification_Timeout, "notification_timeout", 5000 );
@@ -279,7 +282,7 @@ int main(int argc, char *argv[]) {
 #ifdef Q_OS_LINUX
 
 	int pid = check_for_another_instance_unix();
-	if(pid > 0) {
+	if(pid > 0 && false) {
 		QSharedMemory memory("SayonaraMemory");
 
 		if(!files_to_play.isEmpty()){

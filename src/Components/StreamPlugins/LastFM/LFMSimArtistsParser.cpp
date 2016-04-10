@@ -38,7 +38,7 @@ void LFMSimArtistsParser::parse_document()
 	success = doc.setContent(_data);
 
 	if(!success){
-		_artist_match = ArtistMatch();
+		_artist_match = ArtistMatch("");
 		sp_log(Log::Warning) << "Cannot parse similar artists document";
 		return;
 	}
@@ -47,9 +47,6 @@ void LFMSimArtistsParser::parse_document()
 
 	QDomElement docElement = doc.documentElement();
 	QDomNode similar_artists = docElement.firstChild();			// similarartists
-
-	QString dir_name = Helper::get_sayonara_path() + "/similar_artists";
-	QString file_name = dir_name + "/" + _artist_name.toLower();
 
 	if(!similar_artists.hasChildNodes()) {
 		return;

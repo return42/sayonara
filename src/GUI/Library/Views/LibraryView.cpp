@@ -102,15 +102,12 @@ void LibraryView::do_drag(){
 
 	_drag = new QDrag(this);
 
-	connect(_drag, &QDrag::destroyed, this, &LibraryView::drag_deleted);
+	connect(_drag, &QDrag::destroyed, this, [=](){
+		_drag = nullptr;
+	});
 
 	_drag->setMimeData(mimedata);
-	_drag->exec();
-}
-
-
-void LibraryView::drag_deleted() {
-	_drag = nullptr;
+	_drag->exec(Qt::CopyAction);
 }
 
 

@@ -674,8 +674,8 @@ void AbstractLibrary::import_files(const QStringList &files){
 }
 
 
-void AbstractLibrary::delete_current_tracks(TrackDeletionMode mode){
-	if(mode == TrackDeletionMode::None) return;
+void AbstractLibrary::delete_current_tracks(Library::TrackDeletionMode mode){
+	if(mode == Library::TrackDeletionMode::None) return;
 	delete_tracks(_vec_md, mode);
 }
 
@@ -684,20 +684,20 @@ void AbstractLibrary::delete_all_tracks(){
 
 	MetaDataList v_md;
 	get_all_tracks(v_md, _sortorder);
-	delete_tracks(v_md, TrackDeletionMode::OnlyLibrary);
+	delete_tracks(v_md, Library::TrackDeletionMode::OnlyLibrary);
 }
 
 
 
-void AbstractLibrary::delete_tracks(const MetaDataList &v_md, TrackDeletionMode mode){
+void AbstractLibrary::delete_tracks(const MetaDataList &v_md, Library::TrackDeletionMode mode){
 
-	if(mode == TrackDeletionMode::None) return;
+	if(mode == Library::TrackDeletionMode::None) return;
 
 	QString file_entry = tr("entries");
 	QString answer_str;
 
 	int n_fails = 0;
-	if(mode == TrackDeletionMode::AlsoFiles){
+	if(mode == Library::TrackDeletionMode::AlsoFiles){
 		file_entry = tr("files");
 		for( const MetaData& md : v_md ){
 			QFile f(md.filepath());
@@ -721,9 +721,9 @@ void AbstractLibrary::delete_tracks(const MetaDataList &v_md, TrackDeletionMode 
 }
 
 
-void AbstractLibrary::delete_tracks_by_idx(const IdxList& idxs, TrackDeletionMode mode){
+void AbstractLibrary::delete_tracks_by_idx(const IdxList& idxs, Library::TrackDeletionMode mode){
 
-	if(mode == TrackDeletionMode::None) return;
+	if(mode == Library::TrackDeletionMode::None) return;
 
 	MetaDataList v_md;
 	for(int i : idxs){

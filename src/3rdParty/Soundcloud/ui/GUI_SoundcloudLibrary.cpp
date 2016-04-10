@@ -67,10 +67,10 @@ QMenu* GUI_SoundCloudLibrary::get_menu() const {
 	return _library_menu;
 }
 
-AbstractLibrary::TrackDeletionMode GUI_SoundCloudLibrary::show_delete_dialog(int n_tracks){
+Library::TrackDeletionMode GUI_SoundCloudLibrary::show_delete_dialog(int n_tracks){
 
 	Q_UNUSED(n_tracks)
-	return AbstractLibrary::TrackDeletionMode::OnlyLibrary;
+	return Library::TrackDeletionMode::OnlyLibrary;
 }
 
 void GUI_SoundCloudLibrary::init_shortcuts()

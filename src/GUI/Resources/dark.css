@@ -2,12 +2,9 @@
 QWidget {
 	border: none;
 	color: #D8D8D8;
-	/*font-family: "sans-serif";*/
 	selection-background-color: #6b7aaa;
-/*	font-size: 8pt;*/
         font-family: <<FONT_FAMILY>>;
         font-size: <<FONT_SIZE>>pt;
-
 }
 
 
@@ -28,7 +25,6 @@ QMainWindow, QDialog {
 QGroupBox  {
 	border: none;
 	padding-top: 1em;
-	
 }
 
 QGroupBox::title  {
@@ -93,7 +89,12 @@ QLabel, QScrollArea{
 
 
 
-QListView, QTableView, QTreeView, QListWidget {
+QListView, 
+QTableView, 
+QTreeView, 
+QListWidget,
+QTreeWidget
+{
 	border: 1px solid #282828;
 	border-radius: 2px;
 	color: #D8D8D8;
@@ -103,14 +104,27 @@ QListView, QTableView, QTreeView, QListWidget {
 	selection-background-color: #424e72;
 }
 
-QListView:focus, QTableView:focus, QTreeView:focus {
+LibraryView,
+GenreView
+{
+        font-size: <<FONT_SIZE_LIB>>pt;
+}
+
+PlaylistView
+{
+	font-size: <<FONT_SIZE_PL>>pt;
+}
+
+QListView:focus, 
+QTableView:focus, 
+QTreeView:focus, 
+QListWidget:focus, 
+QTreeWidget:focus
+{
 	border: 1px solid #424e72;
 }
 
-QListView:!focus, QTableView:!focus, QTreeView:!focus {
 
-	color: #D8D8D8;
-}
 
 QTreeView::branch:has-children:!has-siblings:closed,
 QTreeView::branch:closed:has-children:has-siblings {
@@ -124,6 +138,10 @@ QTreeView::branch:open:has-children:has-siblings  {
 	border-image: none;
 	padding: 7px;
 	image: url(:/Icons/arrow_filled_down.svg.png);
+}
+
+QListWidget::item {
+	padding: 2px 0;
 }
 
 QListWidget::item:selected {
@@ -296,7 +314,6 @@ QTableView QHeaderView::down-arrow {
 QMenuBar {
 	color: #D8D8D8;
 	background-color: transparent;
-	font: 400 8pt "DejaVu Sans"
 }
 
 QMenuBar::item {
@@ -315,7 +332,6 @@ QMenu {
 	background-color: #383838;
 	padding-left: 2px;
 	padding-right: 2px;
-	font: 400 8pt "DejaVu Sans"
 }
 
 QMenu::item {
@@ -785,15 +801,10 @@ QPushButton[flat=true]:hover{
 	background-color: qradialgradient(spread:pad, cx:0.5, cy:0.5, radius:0.54, fx:0.502, fy:0.500876, stop:0.45 rgba(243, 132, 26, 255), stop:1 rgba(255, 255, 255, 0));
 }
 
-QPushButton[flat=true]:hover:checked{
-	background-color: qradialgradient(spread:pad, cx:0.5, cy:0.5, radius:0.54, fx:0.502, fy:0.500876, stop:0.8 rgba(243, 132, 26, 255), stop:1 rgba(255, 255, 255, 0));
-}
-
-QPushButton[flat=true]:checked{
-	background-color: qradialgradient(spread:pad, cx:0.5, cy:0.5, radius:0.54, fx:0.502, fy:0.500876, stop:0.8 rgba(243, 132, 26, 255), stop:1 rgba(255, 255, 255, 0));
-}
-
-QPushButton[flat=true]:pressed{
+QPushButton[flat=true]:hover:checked,
+QPushButton[flat=true]:checked,
+QPushButton[flat=true]:pressed
+{
 	background-color: qradialgradient(spread:pad, cx:0.5, cy:0.5, radius:0.54, fx:0.502, fy:0.500876, stop:0.8 rgba(243, 132, 26, 255), stop:1 rgba(255, 255, 255, 0));
 }
 
@@ -841,7 +852,8 @@ QPushButton#btn_listen[flat=true]:hover
 }
 
 
-MenuToolButton:disabled, QPushButton#btn_listen:disabled {
+MenuToolButton:disabled, 
+QPushButton#btn_listen:disabled {
 	color: #888888;
 }
 
@@ -914,15 +926,5 @@ QStackedWidget {
 
 RatingLabel {
 	border: 1px solid #e8841a;
-}
-
-QListWidget {
-	border: 1px solid #282828;
-	border-radius: 2px;
-	color: #D8D8D8;
-	background-color: #282828;
-
-	alternate-background-color: #242424;
-	selection-background-color: #424e72;
 }
 

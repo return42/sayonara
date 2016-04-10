@@ -35,7 +35,7 @@ LocalLibrary::~LocalLibrary(){
 }
 
 
-void LocalLibrary::psl_reload_library(bool clear_first, Tagging::Quality quality) {
+void LocalLibrary::psl_reload_library(bool clear_first, Library::ReloadQuality quality) {
 
 	if(_reload_thread && _reload_thread->is_running()){
 		return;
@@ -55,6 +55,7 @@ void LocalLibrary::psl_reload_library(bool clear_first, Tagging::Quality quality
 		delete_all_tracks();
 	}
 
+	_reload_thread->set_quality(quality);
 	_reload_thread->set_lib_path(library_path);
 	_reload_thread->start();
 }
@@ -203,7 +204,7 @@ void LocalLibrary::init_reload_thread()
 			this, &LocalLibrary::reload_thread_finished);
 }
 
-void LocalLibrary::delete_tracks(const MetaDataList &v_md, TrackDeletionMode mode){
+void LocalLibrary::delete_tracks(const MetaDataList &v_md, Library::TrackDeletionMode mode){
 
 	_db->deleteTracks(v_md);
 

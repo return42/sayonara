@@ -57,6 +57,7 @@ class IconLoader;
 
 class GUI_Player :
 		public SayonaraMainWindow,
+		public SayonaraShortcutWidget,
 		public GlobalMessageReceiverInterface,
 		private Ui::Sayonara
 {
@@ -81,6 +82,7 @@ public:
 	void read_filelist(const QString& filename);
 
 	void ui_loaded();
+	QString get_shortcut_text(const QString &shortcut_identifier) const override;
 
 
 public slots:
@@ -147,9 +149,6 @@ private:
 	void set_radio_mode(RadioMode model);
 
 	bool check_library_path();
-
-	QAction* create_action(QKeySequence key_sequence);
-	QAction* create_actions(QList<QKeySequence>& key_sequences);
 
 	void closeEvent(QCloseEvent* e) override;
 	void keyPressEvent(QKeyEvent* e) override;

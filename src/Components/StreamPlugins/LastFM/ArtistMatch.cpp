@@ -1,5 +1,7 @@
 #include "ArtistMatch.h"
+#include <QStringList>
 
+#include <algorithm>
 ArtistMatch::ArtistMatch()
 {
 
@@ -14,6 +16,7 @@ ArtistMatch::ArtistMatch(const QString& artist_name)
 
 ArtistMatch::ArtistMatch(const ArtistMatch& other)
 {
+	_artist = other._artist;
 	_very_good = other._very_good;
 	_well = other._well;
 	_poor = other._poor;
@@ -64,4 +67,24 @@ QMap<QString, double> ArtistMatch::get(Quality q) const
 QString ArtistMatch::get_artist_name() const
 {
 	return _artist;
+}
+
+QString ArtistMatch::to_string() const
+{
+	QStringList lst;
+
+	for(const QString& key : _very_good.keys()){
+		lst << QString::number(_very_good[key]).left(5) + " " + key;
+	}
+
+	for(const QString& key : _well.keys()){
+		lst << QString::number(_well[key]).left(5) + " " + key;
+	}
+
+	for(const QString& key : _poor.keys()){
+		lst << QString::number(_poor[key]).left(5) + " " + key;
+	}
+
+	std::sort(lst.begin(), lst.end());
+	return lst.join("\n");
 }

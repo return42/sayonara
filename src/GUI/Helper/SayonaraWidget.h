@@ -39,6 +39,15 @@
 #define combo_activated_int	static_cast<void (QComboBox::*) (int)>(&QComboBox::activated)
 #define spinbox_value_changed_int	static_cast<void (QSpinBox::*) (int)>(&QSpinBox::valueChanged)
 
+class SayonaraShortcutWidget {
+
+public:
+	virtual QString get_shortcut_text(const QString& shortcut_identifier) const
+	{
+		Q_UNUSED(shortcut_identifier)
+		return "";
+	}
+};
 
 template<typename T>
 class SayonaraWidgetTemplate :
@@ -73,6 +82,8 @@ public:
 			return false;
 		}
 	}
+
+
 
 protected:
 
@@ -138,6 +149,7 @@ public:
 
 	SayonaraDialog* box_into_dialog();
 
+
 protected:
 	SayonaraDialog* _boxed_dialog=nullptr;
 
@@ -155,6 +167,7 @@ public:
 	SayonaraDialog(QWidget* parent=nullptr);
 	virtual ~SayonaraDialog();
 
+
 protected slots:
 	virtual void language_changed();
 	virtual void skin_changed();
@@ -168,6 +181,7 @@ class SayonaraMainWindow : public SayonaraWidgetTemplate<QMainWindow> {
 public:
 	SayonaraMainWindow(QWidget* parent=nullptr);
 	virtual ~SayonaraMainWindow();
+
 
 protected slots:
 	virtual void language_changed();

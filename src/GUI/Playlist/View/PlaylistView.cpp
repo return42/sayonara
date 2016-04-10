@@ -180,7 +180,9 @@ void PlaylistView::mouseMoveEvent(QMouseEvent* event) {
 
 		_drag = new QDrag(this);
 
-		connect(_drag, &QDrag::destroyed, this, &PlaylistView::drag_deleted);
+		connect(_drag, &QDrag::destroyed, [=](){
+			_drag = nullptr;
+		});
 
 		_drag->setMimeData(mimedata);
 		_drag->exec(Qt::CopyAction);
@@ -191,10 +193,6 @@ void PlaylistView::mouseMoveEvent(QMouseEvent* event) {
 		QString tooltip_string = "<b>" + md.title + "</b>\n" + md.artist;
 		this->setToolTip(tooltip_string);
 	}
-}
-
-void PlaylistView::drag_deleted(){
-	_drag = nullptr;
 }
 
 

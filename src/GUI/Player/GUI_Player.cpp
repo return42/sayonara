@@ -47,6 +47,7 @@
 
 GUI_Player::GUI_Player(QTranslator* translator, QWidget *parent) :
 	SayonaraMainWindow(parent),
+	SayonaraShortcutWidget(),
 	GlobalMessageReceiverInterface("Player Main Window"),
 	Ui::Sayonara()
 {
@@ -112,6 +113,9 @@ GUI_Player::GUI_Player(QTranslator* translator, QWidget *parent) :
 
 	REGISTER_LISTENER(Set::Player_FontName, skin_changed);
 	REGISTER_LISTENER(Set::Player_FontSize, skin_changed);
+	REGISTER_LISTENER(Set::PL_FontSize, skin_changed);
+	REGISTER_LISTENER(Set::Lib_FontSize, skin_changed);
+	REGISTER_LISTENER(Set::Lib_FontBold, skin_changed);
 }
 
 
@@ -127,23 +131,6 @@ void GUI_Player::language_changed() {
 	_translator->load(language, Helper::get_share_path() + "translations/");
 
 	retranslateUi(this);
-}
-
-
-QAction* GUI_Player::create_actions(QList<QKeySequence>& seq_list) {
-	QAction* action = new QAction(this);
-
-	action->setShortcuts(seq_list);
-	action->setShortcutContext(Qt::ApplicationShortcut);
-	this->addAction(action);
-
-	return action;
-}
-
-QAction* GUI_Player::create_action(QKeySequence seq) {
-	QList<QKeySequence> seq_list;
-	seq_list << seq;
-	return create_actions(seq_list);
 }
 
 
@@ -313,9 +300,7 @@ void GUI_Player::skin_changed() {
 
 	bool dark = (_settings->get(Set::Player_Style) == 1);
 
-	QString font_family = _settings->get(Set::Player_FontName);
-	int font_size = _settings->get(Set::Player_FontSize);
-	QString stylesheet = Style::get_style(dark, font_family, font_size);
+	QString stylesheet = Style::get_style(dark);
 
 	this->setStyleSheet(stylesheet);
 

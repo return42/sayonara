@@ -29,7 +29,8 @@
 #include "GUI/Helper/Shortcuts/ShortcutHandler.h"
 
 PlaylistTabBar::PlaylistTabBar(QWidget *parent) :
-	QTabBar(parent)
+	QTabBar(parent),
+	SayonaraShortcutWidget()
 {
 	_menu = new PlaylistTabMenu(this);
 	this->setDrawBase(false);
@@ -165,12 +166,27 @@ void PlaylistTabBar::wheelEvent(QWheelEvent* e)
 void PlaylistTabBar::init_shortcuts()
 {
 	ShortcutHandler* sch = ShortcutHandler::getInstance();
-	Shortcut sc1 = sch->add(Shortcut("add_tab", tr("Add tab"), "Ctrl+t"));
-	Shortcut sc2 = sch->add(Shortcut("close_tab", tr("Close tab"), "Ctrl+w"));
+	Shortcut sc1 = sch->add(Shortcut(this, "add_tab", tr("Add tab"), "Ctrl+t"));
+	Shortcut sc2 = sch->add(Shortcut(this, "close_tab", tr("Close tab"), "Ctrl+w"));
 
 	sc1.create_qt_shortcut(this, this, SIGNAL(sig_add_tab_clicked()));
 	sc2.create_qt_shortcut(this, this, SLOT(close_pressed()));
 }
+
+
+QString PlaylistTabBar::get_shortcut_text(const QString& shortcut_identifier) const
+{
+	if(shortcut_identifier == "add_tab"){
+		return tr("Add tab");
+	}
+
+	if(shortcut_identifier == "close_tab"){
+		return tr("Close tab");
+	}
+
+	return "";
+}
+
 
 
 void PlaylistTabBar::show_menu_items(PlaylistMenuEntries entries){

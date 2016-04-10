@@ -81,7 +81,6 @@ protected slots:
 	virtual void rc_header_menu_changed(bool b=true);
 	virtual void rc_menu_show(const QPoint&);
 	virtual void sort_by_column(int);
-	virtual void drag_deleted();
 
 
 public:

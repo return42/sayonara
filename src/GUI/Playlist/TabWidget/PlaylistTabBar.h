@@ -30,11 +30,14 @@
 #include <QTabBar>
 #include <QMouseEvent>
 #include <QWheelEvent>
-
+#include "GUI/Helper/SayonaraWidget.h"
 
 
 class PlaylistTabMenu;
-class PlaylistTabBar : public QTabBar {
+class PlaylistTabBar :
+		public QTabBar,
+		public SayonaraShortcutWidget
+{
 
 	Q_OBJECT
 
@@ -62,6 +65,8 @@ public:
 
 	bool was_drag_from_playlist() const;
 	int get_drag_origin_tab() const;
+
+	QString get_shortcut_text(const QString &shortcut_identifier) const override;
 
 
 

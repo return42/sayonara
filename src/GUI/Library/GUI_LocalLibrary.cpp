@@ -37,6 +37,7 @@
 #include <QDir>
 #include <QTimer>
 #include <QShortcut>
+#include <QInputDialog>
 
 
 GUI_LocalLibrary::GUI_LocalLibrary(QWidget* parent) :
@@ -138,6 +139,41 @@ void GUI_LocalLibrary::init_shortcuts()
 	new QShortcut(QKeySequence::Find, le_search, SLOT(setFocus()), nullptr, Qt::WindowShortcut);
 }
 
+Library::ReloadQuality GUI_LocalLibrary::show_quality_dialog()
+{
+	QStringList lst;
+	bool ok = false;
+
+	lst << tr("Check for changed files (fast)") + "\t";
+	lst << tr("Deep scan (slow)") + "\t";
+
+	QString str = QInputDialog::getItem(this,
+						  "Sayonara",
+						  tr("Select reload mode") + "\n",
+						  lst,
+						  0,
+						  false,
+						  &ok);
+
+	if(!ok){
+		return Library::ReloadQuality::Unknown;
+	}
+
+	if(str.isEmpty()){
+		return Library::ReloadQuality::Unknown;
+	}
+
+	if(str.compare(lst[0]) == 0){
+		return Library::ReloadQuality::Fast;
+	}
+
+	if(str.compare(lst[1]) == 0){
+		return Library::ReloadQuality::Accurate;
+	}
+
+	return Library::ReloadQuality::Unknown;
+}
+
 
 void GUI_LocalLibrary::language_changed() {
 
@@ -179,7 +215,7 @@ void GUI_LocalLibrary::genre_selection_changed(const QModelIndex& index){
 
 
 
-LocalLibrary::TrackDeletionMode GUI_LocalLibrary::show_delete_dialog(int n_tracks) {
+Library::TrackDeletionMode GUI_LocalLibrary::show_delete_dialog(int n_tracks) {
 
 	QMessageBox dialog(this);
 	QAbstractButton* clicked_button;
@@ -201,18 +237,18 @@ LocalLibrary::TrackDeletionMode GUI_LocalLibrary::show_delete_dialog(int n_track
 
 
 	if(answer == QMessageBox::No){
-		return LocalLibrary::TrackDeletionMode::None;
+		return Library::TrackDeletionMode::None;
 	}
 
 	if(answer == QMessageBox::Yes){
-		return LocalLibrary::TrackDeletionMode::AlsoFiles;
+		return Library::TrackDeletionMode::AlsoFiles;
 	}
 
 	if(clicked_button->text() == only_library_button->text()) {
-		return LocalLibrary::TrackDeletionMode::OnlyLibrary;
+		return Library::TrackDeletionMode::OnlyLibrary;
 	}
 
-	return LocalLibrary::TrackDeletionMode::None;
+	return Library::TrackDeletionMode::None;
 }
 
 
@@ -259,7 +295,13 @@ void GUI_LocalLibrary::progress_changed(const QString& type, int progress)
 
 void GUI_LocalLibrary::reload_library_requested()
 {
-	_library->psl_reload_library(false, Tagging::Quality::Standard);
+
+	Library::ReloadQuality quality = show_quality_dialog();
+	if(quality == Library::ReloadQuality::Unknown){
+		return;
+	}
+
+	_library->psl_reload_library(false, quality);
 	btn_reload_library->setEnabled(false);
 }
 
@@ -338,16 +380,28 @@ void GUI_LocalLibrary::set_library_path_clicked() {
 	QString dir = QFileDialog::getExistingDirectory(this, tr("Open Directory"),
 			old_dir, QFileDialog::ShowDirsOnly);
 
-	if (dir.size() > 0 && (old_dir.compare(dir) != 0)) {
-
-		_settings->set(Set::Lib_Path, dir);
-
-		GlobalMessage::Answer answer = Message::question_yn(tr("Do you want to reload the Library?"), "Library");
-
-		if(answer == GlobalMessage::Answer::Yes){
-			_library->psl_reload_library(false, Tagging::Quality::Standard);
-		}
+	if(dir.isEmpty()){
+		return;
 	}
+
+	if(old_dir.compare(dir) == 0) {
+		return;
+	}
+
+	_settings->set(Set::Lib_Path, dir);
+
+	GlobalMessage::Answer answer = Message::question_yn(tr("Do you want to reload the Library?"), "Library");
+
+	if(answer == GlobalMessage::Answer::No){
+		return;
+	}
+
+	Library::ReloadQuality quality = show_quality_dialog();
+	if(quality == Library::ReloadQuality::Unknown){
+		return;
+	}
+
+	_library->psl_reload_library(false, quality);
 }
 
 

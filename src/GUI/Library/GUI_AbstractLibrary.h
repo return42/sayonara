@@ -96,7 +96,7 @@ protected:
 	virtual void init_headers();
 	virtual void init_shortcuts();
 	virtual void language_changed() override;
-	virtual AbstractLibrary::TrackDeletionMode show_delete_dialog(int n_tracks)=0;
+	virtual Library::TrackDeletionMode show_delete_dialog(int n_tracks)=0;
 
 
 

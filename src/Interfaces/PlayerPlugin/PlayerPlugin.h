@@ -43,7 +43,9 @@ class PlayerPluginHandler;
  * @ingroup Interfaces
  */
 
-class PlayerPluginInterface : public SayonaraWidget
+class PlayerPluginInterface :
+		public SayonaraWidget,
+		public SayonaraShortcutWidget
 {
 
 	friend class PlayerPluginHandler;
@@ -167,7 +169,7 @@ protected:
 		ShortcutHandler* sch = ShortcutHandler::getInstance();
 		Shortcut sc = sch->get_shortcut("close_plugin");
 		if(!sc.is_valid()){
-			sc = sch->add(Shortcut("close_plugin", tr("Close plugin"), "Ctrl+Esc"));
+			sc = sch->add(Shortcut(this, "close_plugin", tr("Close plugin"), "Ctrl+Esc"));
 		}
 
 		sc.create_qt_shortcut(this, this, SLOT(close()));
@@ -250,6 +252,14 @@ public:
 	 * @brief show Plugin
 	 */
 	virtual void		show();
+
+
+	/**
+	 * @brief get translated text of shortcut (overridden)
+	 * @param shortcut_identifier shortcut id
+	 * @return translated shortcut text
+	 */
+	QString get_shortcut_text(const QString &shortcut_identifier) const override;
 };
 
 Q_DECLARE_INTERFACE(PlayerPluginInterface, "com.sayonara-player.playerplugin")

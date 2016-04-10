@@ -192,7 +192,7 @@ void GUI_Player::set_library_path_clicked() {
 		if(answer == GlobalMessage::Answer::Yes){
 			bool clear_first = (old_dir != new_dir);
 
-			_local_library->psl_reload_library(clear_first, Tagging::Quality::Standard);
+			_local_library->psl_reload_library(clear_first, Library::ReloadQuality::Fast);
 		}
 	}
 }

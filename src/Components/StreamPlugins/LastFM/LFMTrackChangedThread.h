@@ -67,6 +67,7 @@ public:
 private:
 
 	/* update track */
+	QString						_artist;
 	QString						_username;
 	QString						_session_key;
 	QMap<QString, ArtistMatch>  _sim_artists_cache;

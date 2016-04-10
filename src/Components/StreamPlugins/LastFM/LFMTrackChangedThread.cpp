@@ -26,6 +26,7 @@
 #include "LFMWebAccess.h"
 #include "LFMGlobals.h"
 #include "LFMSimArtistsParser.h"
+#include "Helper/Compressor/Compressor.h"
 
 #include "Database/DatabaseHandler.h"
 
@@ -141,6 +142,7 @@ void LFMTrackChangedThread::search_similar_artists(const MetaData& md) {
 		return;
 	}
 
+	_artist = md.artist;
 
 	LFMWebAccess* lfm_wa = new LFMWebAccess();
 
@@ -163,6 +165,10 @@ void LFMTrackChangedThread::evaluate_artist_match(const ArtistMatch& artist_matc
 	if(!artist_match.is_valid()){
 		return;
 	}
+
+	QByteArray arr = Compressor::compress(artist_match.to_string().toLocal8Bit());
+	Helper::File::create_directories(Helper::get_sayonara_path() + "/similar_artists/");
+	Helper::File::write_file(arr, Helper::get_sayonara_path() + "/similar_artists/" + artist_match.get_artist_name() + ".comp");
 
 	// if we always take the best, it's boring
 	ArtistMatch::Quality quality, quality_org;
@@ -257,7 +263,7 @@ QMap<QString, int> LFMTrackChangedThread::filter_available_artists(const ArtistM
 
 void LFMTrackChangedThread::response_sim_artists(const QByteArray& data){
 
-	LFMSimArtistsParser parser("Myartist", data);
+	LFMSimArtistsParser parser(_artist, data);
 
 	ArtistMatch artist_match = parser.get_artist_match();
 

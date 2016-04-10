@@ -128,7 +128,7 @@ public:
 	QString get_subheader() const;
 	QMap<InfoStrings, QString> get_info() const;
 	QString get_info_as_string() const;
-	QString get_additional_info_as_string() const;
+	virtual QString get_additional_info_as_string() const;
 	QStringList get_paths() const;
 	QString get_paths_as_string() const;
 	CoverLocation get_cover_location() const;

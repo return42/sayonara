@@ -26,7 +26,8 @@
 
 
 PlayerPluginInterface::PlayerPluginInterface(QWidget *parent) :
-	SayonaraWidget(parent)
+	SayonaraWidget(parent),
+	SayonaraShortcutWidget()
 {
 	_play_manager = PlayManager::getInstance();
 	_is_initialized = false;
@@ -52,6 +53,15 @@ void PlayerPluginInterface::show(){
 	QWidget::show();
 
 	init_ui();
+}
+
+QString PlayerPluginInterface::get_shortcut_text(const QString& shortcut_identifier) const
+{
+	if(shortcut_identifier == "close_plugin"){
+		return tr("Close plugin");
+	}
+
+	return "";
 }
 
 

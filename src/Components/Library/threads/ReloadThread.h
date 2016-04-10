@@ -31,10 +31,11 @@
 
 
 #include <QThread>
-#include <QMap>
+#include <QHash>
 
 #include "Helper/Tagging/Tagging.h"
 #include "Helper/SayonaraClass.h"
+#include "LibraryNamespaces.h"
 
 class DatabaseConnector;
 class ReloadThread :
@@ -51,6 +52,7 @@ signals:
 
 public:
 
+
 	SINGLETON_QOBJECT(ReloadThread)
 
 	void set_lib_path(const QString& library_path);
@@ -58,6 +60,8 @@ public:
     void pause();
     void goon();
 	bool is_running() const;
+
+	void set_quality(Library::ReloadQuality quality);
 
 
 protected:
@@ -68,14 +72,16 @@ private:
 	DatabaseConnector*		_db=nullptr;
 	QString					_library_path;
 	MetaDataList			_v_md;
-	Tagging::Quality		_quality;
+	Library::ReloadQuality	_quality;
 	bool					_paused, _running;
 
 
 private:
-    int get_and_save_all_files(const QMap<QString, MetaData>& v_md_map);
-	void get_files_recursive (QDir base_dir, MetaDataList& v_md, int* n_files);
-	void process_sub_files(const QDir& dir, const QStringList& sub_files);
+	int				get_and_save_all_files(const QHash<QString, MetaData>& v_md_map);
+	QStringList		get_files_recursive (QDir base_dir);
+	QStringList		process_sub_files(const QDir& dir, const QStringList& sub_files);
+
+	bool			compare_md(const MetaData& md1, const MetaData& md2);
 
 };
 

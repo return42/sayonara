@@ -67,6 +67,8 @@ namespace SK {
 		Lib_DC_PlayImmediately,
 		Lib_DD_DoNothing,
 		Lib_DD_PlayIfStoppedAndEmpty,
+		Lib_FontSize,
+		Lib_FontBold,
 
 		Player_Version,
 		Player_Language,
@@ -96,6 +98,7 @@ namespace SK {
 		PL_Mode,
 		PL_ShowNumbers,
 		PL_EntryLook,
+		PL_FontSize,
 
 		Notification_Show,
 		Notification_Timeout,
@@ -190,6 +193,8 @@ namespace Set {
 	INST(bool,					Lib_DC_PlayImmediately);		/* when double clicked, play immediately */
 	INST(bool,					Lib_DD_DoNothing);				/* when drag dropped, insert tracks and do nothing */
 	INST(bool,					Lib_DD_PlayIfStoppedAndEmpty);	/* when drag dropped, play if playlist is empty and stopped */
+	INST(int,					Lib_FontSize);					/* current library font size */
+	INST(bool,					Lib_FontBold);					/* current library font weight */
 
 
 
@@ -219,6 +224,7 @@ namespace Set {
 	INST(int,					PL_LastTrack);					/* last track idx in playlist */
 	INST(int,					PL_LastPlaylist);				/* last Playlist id, where LastTrack has been played */
 	INST(QString,				PL_EntryLook);					/* formatting of playlist entry */
+	INST(int,					PL_FontSize);					/* current playlist font size */
 
 	INST(PlaylistMode,			PL_Mode);						/* playlist mode: rep1, repAll, shuffle... */
 	INST(bool,					PL_ShowNumbers);				/* show numbers in playlist */
