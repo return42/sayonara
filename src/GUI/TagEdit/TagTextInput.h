@@ -1,4 +1,4 @@
-/* TagLineEdit.cpp */
+/* TagTextInput.h */
 
 /* Copyright (C) 2011-2016  Lucio Carreras
  *
@@ -20,39 +20,38 @@
 
 
 
-#include "TagLineEdit.h"
+#ifndef TAGTEXTINPUT_H
+#define TAGTEXTINPUT_H
 
-TagLineEdit::TagLineEdit(QWidget* parent) :
-	QLineEdit(parent)
-{
-	this->setReadOnly(true);
-}
+#include <QLineEdit>
+#include <QString>
+#include <QFocusEvent>
+#include <QMenu>
+#include <QAction>
+#include <QContextMenuEvent>
+
+class TagTextInput : public QLineEdit {
+
+	Q_OBJECT
+
+public:
+	TagTextInput(QWidget* parent=nullptr);
+
+private slots:
+	void cvt_to_first_upper();
+	void cvt_to_very_first_upper();
+
+protected:
+
+	QMenu*			_context_menu=nullptr;
+	QAction*		_action_cvt_to_first_upper=nullptr;
+	QAction*		_action_cvt_to_very_first_upper=nullptr;
+
+protected:
+
+	void contextMenuEvent(QContextMenuEvent* event) override;
+	void init_context_menu();
+};
 
 
-void TagLineEdit::focusInEvent(QFocusEvent* e){
-	_text_selection.reset();
-	QLineEdit::focusInEvent(e);
-}
-
-void TagLineEdit::focusOutEvent(QFocusEvent* e){
-
-	QString selected_text = this->selectedText();
-	if(selected_text.isEmpty()){
-		_text_selection.reset();
-	}
-
-	else{
-		_text_selection.selection_start = this->selectionStart();
-		_text_selection.selection_size = selected_text.size();
-	}
-
-	QLineEdit::focusOutEvent(e);
-}
-
-
-
-TextSelection TagLineEdit::get_text_selection() const
-{
-	return _text_selection;
-}
-
+#endif // TAGTEXTINPUT_H
