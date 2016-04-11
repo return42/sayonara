@@ -137,7 +137,7 @@ template<typename T, SK::SettingKey S>
 class SettingKey
 {
 	public:
-		T* p=nullptr;
+		T p;
 		SettingKey(){}
 };
 

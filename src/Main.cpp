@@ -128,8 +128,8 @@ void segfault_handler(int sig){
  * set->register_setting(new Setting<decltype(Lib_Path.p)>(Set::Lib_Path, "lib_path", "/home/") )
  *
  */
-#define REGISTER_SETTING(key, db_key, def) set->register_setting( new Setting<decltype(std::remove_pointer<key.p>::type)>(key, db_key, def) )
-#define REGISTER_SETTING_NO_DB(key, def) set->register_setting( new Setting<decltype(std::remove_pointer<key.p>::type)>(key, def) )
+#define REGISTER_SETTING(key, db_key, def) set->register_setting( new Setting<decltype(key.p)>(key, db_key, def) )
+#define REGISTER_SETTING_NO_DB(key, def) set->register_setting( new Setting<decltype(key.p)>(key, def) )
 #include "Helper/Settings/SettingKey.h"
 bool register_settings(){
 
