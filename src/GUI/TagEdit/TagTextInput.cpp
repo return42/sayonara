@@ -26,9 +26,12 @@
 
 
 TagTextInput::TagTextInput(QWidget* parent) :
-	QLineEdit(parent)
+	QLineEdit(parent),
+	SayonaraClass()
 {
 	init_context_menu();
+
+	REGISTER_LISTENER(Set::Player_Language, language_changed);
 }
 
 
@@ -69,4 +72,9 @@ void TagTextInput::cvt_to_very_first_upper(){
 	text = Helper::cvt_str_to_very_first_upper(text);
 	this->setText(text);
 
+}
+
+void TagTextInput::language_changed(){
+	_action_cvt_to_very_first_upper->setText(tr("Very first letter to upper case"));
+	_action_cvt_to_first_upper->setText(tr("First letters to upper case"));
 }

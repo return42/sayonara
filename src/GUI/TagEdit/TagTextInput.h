@@ -30,7 +30,16 @@
 #include <QAction>
 #include <QContextMenuEvent>
 
-class TagTextInput : public QLineEdit {
+#include "Helper/SayonaraClass.h"
+
+/**
+ * @brief GUI class for String fields meant to convert content to first upper case by a context menu
+ * @ingroup Tagging
+ **/
+class TagTextInput : 
+	public QLineEdit,
+	public SayonaraClass
+{
 
 	Q_OBJECT
 
@@ -40,6 +49,8 @@ public:
 private slots:
 	void cvt_to_first_upper();
 	void cvt_to_very_first_upper();
+
+	void language_changed();
 
 protected:
 

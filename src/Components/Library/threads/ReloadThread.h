@@ -75,7 +75,7 @@ private:
 private:
     int get_and_save_all_files(const QMap<QString, MetaData>& v_md_map);
 	void get_files_recursive (QDir base_dir, MetaDataList& v_md, int* n_files);
-	void process_sub_files(const QDir& dir, const QStringList& sub_files);
+	MetaDataList process_sub_files(const QDir& dir, const QStringList& sub_files);
 
 };
 

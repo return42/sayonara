@@ -23,7 +23,6 @@
 
 #include "Helper/SayonaraClass.h"
 
-
 SayonaraClass::SayonaraClass(){
 	_settings = Settings::getInstance();
 }

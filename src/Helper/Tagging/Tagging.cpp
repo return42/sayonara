@@ -44,7 +44,7 @@ bool Tagging::getMetaDataOfFile(MetaData& md, Tagging::Quality quality) {
 	bool read_audio_props=true;
 
 	switch(quality){
-		case Taggint::Quality::Quality:
+		case Tagging::Quality::Quality:
 			read_style = TagLib::AudioProperties::Accurate;
 			break;
 		case Tagging::Quality::Standard:

@@ -60,10 +60,10 @@ int ReloadThread::get_and_save_all_files(const QMap<QString, MetaData>& md_map_l
 
 	QDir dir(_library_path);
 	MetaDataList v_md, v_md_to_store;
-
+	int n_files;
 	get_files_recursive (dir, v_md, &n_files);
 	int cur_idx_files=0;
-	int n_files = v_md.size();
+	n_files = v_md.size();
 
 	for(const MetaData& md : v_md){
 		QString filepath = md.filepath();
@@ -138,13 +138,16 @@ void ReloadThread::get_files_recursive(QDir base_dir, MetaDataList& v_md, int* n
 
 	sub_files = base_dir.entryList(soundfile_exts, QDir::Files);
 
-	v_md << process_sub_files(base_dir, sub_files);
+	MetaDataList md_sub_files = process_sub_files(base_dir, sub_files);
+	for(const MetaData& md : md_sub_files){
+		v_md << md;
+	}
 
     *n_files = num_files;
 }
 
 
-MetaDataList process_sub_files(const QDir& base_dir, const QStringList& sub_files){
+MetaDataList ReloadThread::process_sub_files(const QDir& base_dir, const QStringList& sub_files){
 
 	MetaDataList v_md;
 	for(const QString& filename : sub_files) {
