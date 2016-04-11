@@ -80,19 +80,12 @@ int ReloadThread::get_and_save_all_files(const QHash<QString, MetaData>& md_map_
 	}
 
 	QDir dir(_library_path);
-<<<<<<< HEAD
+
 	MetaDataList v_md_to_store;
 	QStringList files = get_files_recursive (dir);
 
 	int n_files = files.size();
 	int cur_idx_files=0;
-=======
-	MetaDataList v_md, v_md_to_store;
-	int n_files;
-	get_files_recursive (dir, v_md, &n_files);
-	int cur_idx_files=0;
-	n_files = v_md.size();
->>>>>>> 965a83fb531c5002b1e87f8db9fca264bf7e8331
 
 	for(const QString& filepath : files){
 
@@ -172,24 +165,15 @@ QStringList ReloadThread::get_files_recursive(QDir base_dir) {
 		return ret;
 	}
 
-<<<<<<< HEAD
+
 	ret << process_sub_files(base_dir, sub_files);
-=======
-	MetaDataList md_sub_files = process_sub_files(base_dir, sub_files);
-	for(const MetaData& md : md_sub_files){
-		v_md << md;
-	}
->>>>>>> 965a83fb531c5002b1e87f8db9fca264bf7e8331
 
 	return ret;
 }
 
 
-<<<<<<< HEAD
+
 QStringList ReloadThread::process_sub_files(const QDir& base_dir, const QStringList& sub_files){
-=======
-MetaDataList ReloadThread::process_sub_files(const QDir& base_dir, const QStringList& sub_files){
->>>>>>> 965a83fb531c5002b1e87f8db9fca264bf7e8331
 
 	QStringList lst;
 	for(const QString& filename : sub_files) {

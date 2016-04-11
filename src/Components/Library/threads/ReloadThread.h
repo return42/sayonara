@@ -77,17 +77,12 @@ private:
 
 
 private:
-<<<<<<< HEAD
+
 	int				get_and_save_all_files(const QHash<QString, MetaData>& v_md_map);
 	QStringList		get_files_recursive (QDir base_dir);
 	QStringList		process_sub_files(const QDir& dir, const QStringList& sub_files);
 
 	bool			compare_md(const MetaData& md1, const MetaData& md2);
-=======
-    int get_and_save_all_files(const QMap<QString, MetaData>& v_md_map);
-	void get_files_recursive (QDir base_dir, MetaDataList& v_md, int* n_files);
-	MetaDataList process_sub_files(const QDir& dir, const QStringList& sub_files);
->>>>>>> 965a83fb531c5002b1e87f8db9fca264bf7e8331
 
 };
 
