@@ -26,7 +26,6 @@
 #include <QLineEdit>
 #include <QString>
 #include <QFocusEvent>
-
 /**
  * @brief Holds start and size of a selection
  * @ingroup Tagging
@@ -62,19 +61,20 @@ public:
 
 protected:
 
-	TextSelection _text_selection;
+	TextSelection 	_text_selection;
 
+protected:
 	/**
 	 * @brief resets the TextSelection
 	 * @param e
 	 */
-	void focusInEvent(QFocusEvent* e);
+	void focusInEvent(QFocusEvent* e) override;
 
 	/**
 	 * @brief if selectected_text is empty, TextSelection is resetted. Else the new TextSelection is set.
 	 * @param e
 	 */
-	void focusOutEvent(QFocusEvent* e);
+	void focusOutEvent(QFocusEvent* e) override;
 
 public:
 	/**

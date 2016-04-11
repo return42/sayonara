@@ -19,8 +19,6 @@ private:
 
 	void calc_similar_artists(Artist& artist);
 
-	QString get_sim_artist_string(QString key) const;
-
 public:
 	ArtistInfo(const MetaDataList*);
 	virtual ~ArtistInfo();

@@ -39,10 +39,10 @@
       <widget class="QWidget" name="widget" native="true">
        <layout class="QGridLayout" name="gridLayout_3">
         <item row="2" column="1">
-         <widget class="QLineEdit" name="le_artist"/>
+         <widget class="TagTextInput" name="le_artist"/>
         </item>
         <item row="0" column="1">
-         <widget class="QLineEdit" name="le_title"/>
+         <widget class="TagTextInput" name="le_title"/>
         </item>
         <item row="0" column="0">
          <widget class="QLabel" name="lab_track_title">
@@ -59,7 +59,7 @@
          </widget>
         </item>
         <item row="1" column="1">
-         <widget class="QLineEdit" name="le_album"/>
+         <widget class="TagTextInput" name="le_album"/>
         </item>
         <item row="2" column="0">
          <widget class="QLabel" name="label_2">
@@ -76,7 +76,7 @@
          </widget>
         </item>
         <item row="3" column="1">
-         <widget class="QLineEdit" name="le_genre"/>
+         <widget class="TagTextInput" name="le_genre"/>
         </item>
         <item row="3" column="2">
          <widget class="QCheckBox" name="cb_genre_all">
@@ -575,6 +575,11 @@
    <class>RatingLabel</class>
    <extends>QLabel</extends>
    <header>GUI/Helper/RatingLabel/RatingLabel.h</header>
+  </customwidget>
+  <customwidget>
+   <class>TagTextInput</class>
+   <extends>QLineEdit</extends>
+   <header>GUI/TagEdit/TagTextInput.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

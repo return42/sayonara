@@ -22,8 +22,6 @@
 
 #include "TagLineEdit.h"
 
-
-
 TagLineEdit::TagLineEdit(QWidget* parent) :
 	QLineEdit(parent)
 {
@@ -57,3 +55,4 @@ TextSelection TagLineEdit::get_text_selection() const
 {
 	return _text_selection;
 }
+

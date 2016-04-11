@@ -94,16 +94,17 @@ void ArtistInfo::calc_similar_artists(Artist& artist)
 
 	QStringList sim_artists  = QString::fromLocal8Bit(decomp).split("\n");
 	for(const QString& sim_artist : sim_artists){
-		int first_space = sim_artist.indexOf(" ");
-		if(first_space < 0){
+		QStringList lst = sim_artist.split("\t");
+		if(lst.size() < 3){
 			continue;
 		}
 
-		QString match = sim_artist.left(first_space);
-		QString artist_name = sim_artist.right(sim_artist.size() - first_space - 1);
+		QString match = lst[0];
+		QString artist_name = lst[2];
+
 		artist.add_custom_field("sim_artist_" + artist_name,
-								"sim_artist_" + match + " " + artist_name,
-								"sim_artist_" + match);
+								"sim_artist_" + match + artist_name,
+								artist_name);
 	}
 }
 
@@ -127,27 +128,6 @@ void ArtistInfo::set_cover_location(){
 QString ArtistInfo::get_cover_album() const
 {
 	return "";
-}
-
-
-QString ArtistInfo::get_sim_artist_string(QString key) const
-{
-
-	key.remove("sim_artist_");
-	int first_space = key.indexOf(" ");
-	if(first_space < 0){
-		return "";
-	}
-
-	//QString match = key.left(first_space);
-	QString artist_name = key.right(key.size() - first_space - 1);
-
-	int id = DatabaseConnector::getInstance()->getArtistID(artist_name);
-	if(id >= 0){
-		return BOLD(artist_name);
-	}
-
-	return artist_name;
 }
 
 
@@ -181,7 +161,7 @@ QString ArtistInfo::get_additional_info_as_string() const
 			break;
 		}
 
-		str += this->get_sim_artist_string(sim_artist) + ", ";
+		str += BOLD(_additional_info[sim_artist]);
 	}
 
 	if(str.endsWith(", ")){

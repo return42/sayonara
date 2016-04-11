@@ -8,15 +8,23 @@
 
 class ArtistMatch{
 
-private:
-	QMap<QString, double> _very_good;
-	QMap<QString, double> _well;
-	QMap<QString, double> _poor;
-
-	QString _artist;
 
 
 public:
+
+	struct ArtistDesc {
+		QString artist_name;
+		QString mbid;
+
+		ArtistDesc(const QString& artist_name, const QString& mbid);
+
+		bool operator ==(const ArtistDesc& other) const;
+		bool operator <(const ArtistDesc& other) const;
+		bool operator <=(const ArtistDesc& other) const;
+
+		QString to_string() const;
+	};
+
 	/**
 	 * @brief The Quality enum used to access the bin of interest. See ArtistMatch::get(Quality q)
 	 */
@@ -49,14 +57,14 @@ public:
 	 * @param artist artist string
 	 * @param match the match value
 	 */
-	void add(const QString& artist, double match);
+	void add(const ArtistDesc& artist, double match);
 
 	/**
 	 * @brief get bin by quality
 	 * @param q quality. See ArtistMatch::Quality
 	 * @return the desired bin
 	 */
-	QMap<QString, double> get(Quality q) const;
+	QMap<ArtistDesc, double> get(Quality q) const;
 
 	/**
 	 * @brief get the corresponding artist name of the ArtistMatch structure
@@ -69,6 +77,15 @@ public:
 	 * @return string representation
 	 */
 	QString to_string() const;
+
+
+private:
+	QMap<ArtistDesc, double> _very_good;
+	QMap<ArtistDesc, double> _well;
+	QMap<ArtistDesc, double> _poor;
+
+	QString _artist;
+
 };
 
 

@@ -54,20 +54,31 @@ QString cvtNum2String(T num, int digits) {
 }
 
 
+
 QString Helper::cvt_str_to_first_upper(const QString& str) {
 
 	QString ret_str = "";
 	QStringList lst = str.split(" ");
+	QStringList tgt_lst;
 
-	for(QString& word : lst) {
-		QString first = word.left(1);
-		word.remove(0,1);
-		word = first.toUpper() + word + " ";
-
-		ret_str += word;
+	for(QString word : lst) {
+		tgt_lst << cvt_str_to_very_first_upper(word);
 	}
 
-	return ret_str.left(ret_str.size() - 1);
+	return tgt_lst.join(" ");
+}
+
+QString Helper::cvt_str_to_very_first_upper(const QString& str) {
+
+	if(str.isEmpty()){
+		return str;
+	}
+	QString ret_str = str.toLower();;
+	QChar c = str.at(0).toUpper();
+
+	ret_str.remove(0, 1);
+	ret_str.prepend(c);
+	return ret_str;
 }
 
 

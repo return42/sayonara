@@ -43,6 +43,8 @@ void LFMSimArtistsParser::parse_document()
 		return;
 	}
 
+	sp_log(Log::Debug) << QString::fromLocal8Bit(_data);
+
 	_artist_match = ArtistMatch(_artist_name);
 
 	QDomElement docElement = doc.documentElement();
@@ -52,7 +54,7 @@ void LFMSimArtistsParser::parse_document()
 		return;
 	}
 
-	QString artist_name = "";
+	QString artist_name, mbid;
 	double match = -1.0;
 
 	QDomNodeList child_nodes = similar_artists.childNodes();
@@ -88,10 +90,19 @@ void LFMSimArtistsParser::parse_document()
 				}
 			}
 
-			if(artist_name.size() > 0 && match > 0) {
-				_artist_match.add(artist_name, match);
+			else if(node_name.compare("mbid") == 0){
+				QDomElement e = content.toElement();
+				if(!e.isNull()) {
+					mbid = e.text();
+				}
+			}
+
+			if(!artist_name.isEmpty() && match > 0 && !mbid.isEmpty()) {
+				ArtistMatch::ArtistDesc artist_desc(artist_name, mbid);
+				_artist_match.add(artist_desc, match);
 				artist_name = "";
 				match = -1.0;
+				mbid = "";
 				break;
 			}
 		}

@@ -84,6 +84,13 @@ namespace Helper {
 	QString cvt_str_to_first_upper(const QString& str);
 
 	/**
+	 * @brief Transform only first letter to upper case
+	 * @param str input string
+	 * @return result string
+	 */
+	QString cvt_str_to_very_first_upper(const QString& str);
+
+	/**
 	 * @brief Convert milliseconds to string
 	 * @param msec milliseconds
 	 * @param empty_zero if false, prepend a zero to numbers < 10

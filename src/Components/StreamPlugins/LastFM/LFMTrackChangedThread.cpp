@@ -230,10 +230,10 @@ void LFMTrackChangedThread::evaluate_artist_match(const ArtistMatch& artist_matc
 QMap<QString, int> LFMTrackChangedThread::filter_available_artists(const ArtistMatch& artist_match, ArtistMatch::Quality quality) {
 
 	DatabaseConnector* db = DatabaseConnector::getInstance();
-	QMap<QString, double> bin = artist_match.get(quality);
+	QMap<ArtistMatch::ArtistDesc, double> bin = artist_match.get(quality);
 	QMap<QString, int> possible_artists;
 
-	for(const QString& key : bin.keys()) {
+	for(const ArtistMatch::ArtistDesc& key : bin.keys()) {
 
 #if SMART_COMP
 
@@ -248,10 +248,10 @@ QMap<QString, int> LFMTrackChangedThread::filter_available_artists(const ArtistM
 		}
 
 #else
-		int artist_id = db->getArtistID(key);
+		int artist_id = db->getArtistID(key.artist_name);
 		if(artist_id >= 0 ){
 
-			possible_artists[key] = artist_id;
+			possible_artists[key.artist_name] = artist_id;
 		}
 
 #endif

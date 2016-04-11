@@ -36,7 +36,7 @@ bool ArtistMatch::operator ==(const ArtistMatch& am) const {
 	return (_artist == am._artist);
 }
 
-void ArtistMatch::add(const QString& artist, double match){
+void ArtistMatch::add(const ArtistDesc& artist, double match){
 	if(match > 0.15) {
 		_very_good[artist] = match;
 	}
@@ -50,7 +50,7 @@ void ArtistMatch::add(const QString& artist, double match){
 	}
 }
 
-QMap<QString, double> ArtistMatch::get(Quality q) const
+QMap<ArtistMatch::ArtistDesc, double> ArtistMatch::get(Quality q) const
 {
 	switch(q) {
 		case Quality::Poor:
@@ -73,18 +73,46 @@ QString ArtistMatch::to_string() const
 {
 	QStringList lst;
 
-	for(const QString& key : _very_good.keys()){
-		lst << QString::number(_very_good[key]).left(5) + " " + key;
+	for(const ArtistMatch::ArtistDesc& key : _very_good.keys()){
+		lst << QString::number(_very_good[key]).left(5) + "\t" + key.to_string();
 	}
 
-	for(const QString& key : _well.keys()){
-		lst << QString::number(_well[key]).left(5) + " " + key;
+	for(const ArtistMatch::ArtistDesc& key : _well.keys()){
+		lst << QString::number(_well[key]).left(5) + "\t" + key.to_string();
 	}
 
-	for(const QString& key : _poor.keys()){
-		lst << QString::number(_poor[key]).left(5) + " " + key;
+	for(const ArtistMatch::ArtistDesc& key : _poor.keys()){
+		//lst << QString::number(_poor[key]).left(5) + "\ŧ" + key.to_string();
 	}
 
 	std::sort(lst.begin(), lst.end());
 	return lst.join("\n");
+}
+
+
+ArtistMatch::ArtistDesc::ArtistDesc(const QString& artist_name, const QString& mbid)
+{
+	this->artist_name = artist_name;
+	this->mbid = mbid;
+}
+
+bool ArtistMatch::ArtistDesc::operator ==(const ArtistMatch::ArtistDesc& other) const
+{
+	return (artist_name == other.artist_name);
+}
+
+bool ArtistMatch::ArtistDesc::operator <(const ArtistMatch::ArtistDesc& other) const
+{
+	return (artist_name < other.artist_name);
+}
+
+bool ArtistMatch::ArtistDesc::operator <=(const ArtistMatch::ArtistDesc& other) const
+{
+	return (artist_name <= other.artist_name);
+}
+
+
+QString ArtistMatch::ArtistDesc::to_string() const
+{
+	return mbid + "\t" + artist_name;
 }
