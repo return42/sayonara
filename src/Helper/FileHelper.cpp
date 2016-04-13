@@ -333,11 +333,11 @@ bool Helper::File::read_file_into_str(const QString& filename, QString& content)
 
 QString Helper::File::get_file_extension(const QString& filename)
 {
-	QString ret;
-	QRegExp re(".*\\.(.+)");
-	if(re.indexIn(filename) >= 0){
-		ret = re.cap(0);
+
+	int last_idx = filename.lastIndexOf(".");
+	if(last_idx < 0){
+		return "";
 	}
 
-	return ret;
+	return filename.mid(last_idx + 1);
 }
