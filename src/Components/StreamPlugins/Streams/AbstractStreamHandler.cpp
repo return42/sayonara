@@ -85,6 +85,7 @@ void AbstractStreamHandler::awa_finished(bool success){
 			emit sig_error();
 		}
 
+		awa->deleteLater();
 		return;
 	}
 

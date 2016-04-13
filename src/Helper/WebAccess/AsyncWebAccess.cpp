@@ -74,7 +74,6 @@ void AsyncWebAccess::run_post(const QString &url, const QByteArray &post_data, i
 	if(!_header.isEmpty()){
 		for(const QByteArray& key : _header.keys()){
 			request.setRawHeader(key, _header[key]);
-
 		}
 	}
 
@@ -99,17 +98,25 @@ void AsyncWebAccess::finished(QNetworkReply *reply){
 
 		_url = redirect_url;
 		run(redirect_url);
+		reply->close();
 		return;
 	}
 
-	if(success){
+	if(success &&
+		reply->isReadable() &&
+		reply->bytesAvailable() > 0 &&
+		reply->canReadLine())
+	{
 		_data = reply->readAll();
 	}
 
 	else {
-		_data = reply->readAll();
+		success = false;
 		sp_log(Log::Warning) << reply->errorString();
+		_data.clear();
 	}
+
+	reply->close();
 
 	emit sig_finished(success);
 }
