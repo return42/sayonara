@@ -62,7 +62,7 @@ MTP_Storage::~MTP_Storage(){
 }
 
 void MTP_Storage::remove_id(quint32 id){
-	if(_files.keys().contains(id)){
+	if(_files.contains(id)){
 		_files.remove(id);
 	}
 

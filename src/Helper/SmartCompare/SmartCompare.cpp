@@ -260,7 +260,7 @@ void SmartCompare::equalize(QMap<QString, float>& map, float min, float max){
 QMap<QString, float> SmartCompare::get_similar_strings( const QString& str){
 
 	HashLevel level = HashLevel::zero;
-	if(_cache.keys().contains(str)){
+	if(_cache.contains(str)){
 		return _cache[str];
 	}
 

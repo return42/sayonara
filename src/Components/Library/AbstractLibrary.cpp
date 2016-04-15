@@ -25,6 +25,7 @@
 
 #include "Components/TagEdit/MetaDataChangeNotifier.h"
 #include "Helper/Tagging/Tagging.h"
+#include <QHash>
 
 AbstractLibrary::AbstractLibrary(QObject *parent) :
 	QObject(parent),
@@ -631,7 +632,7 @@ void AbstractLibrary::psl_dur_changed(const MetaData& md){
 void AbstractLibrary::psl_metadata_id3_changed(const MetaDataList& v_md_old, const MetaDataList& v_md_new){
 
 	// id -> idx
-	QMap<int, int> md_map;
+	QHash<int, int> md_map;
 	for(int i=0; i<_vec_md.size(); i++){
 		md_map[_vec_md[i].id] = i;
 	}
@@ -654,7 +655,7 @@ void AbstractLibrary::psl_metadata_id3_changed(const MetaDataList& v_md_old, con
 			}
 		}
 
-		if(md_map.keys().contains(id)){
+		if(md_map.contains(id)){
 			int val = md_map[id];
 			_vec_md[val] = v_md_new[i];
 		}

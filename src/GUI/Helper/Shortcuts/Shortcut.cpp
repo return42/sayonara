@@ -20,7 +20,7 @@ Shortcut::Shortcut(SayonaraShortcutWidget* parent, const QString& identifier, co
 
 	RawShortcutMap rsm = _settings->get(Set::Player_Shortcuts);
 
-	if(rsm.keys().contains(identifier)){
+	if(rsm.contains(identifier)){
 		_shortcuts = rsm[identifier];
 	}
 

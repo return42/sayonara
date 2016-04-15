@@ -113,7 +113,7 @@ void GUI_MTP::delete_clicked(){
 			continue;
 		}
 
-		if(!_files.keys().contains(id)){
+		if(!_files.contains(id)){
 			continue;
 		}
 
@@ -134,7 +134,7 @@ void GUI_MTP::delete_clicked(){
 			continue;
 		}
 
-		if(!_folders.keys().contains(id)){
+		if(!_folders.contains(id)){
 			continue;
 		}
 

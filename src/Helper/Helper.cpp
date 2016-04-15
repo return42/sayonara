@@ -379,7 +379,7 @@ QString Helper::get_major_artist(const ArtistList& artists) {
 
 QString Helper::get_major_artist(const QStringList& artists) {
 
-	QMap<QString, int> map;
+	QHash<QString, int> map;
 	if(artists.size() == 0) return "";
 	if(artists.size() == 1) return artists[0].toLower().trimmed();
 
@@ -390,7 +390,7 @@ QString Helper::get_major_artist(const QStringList& artists) {
 		QString alower = artist.toLower().trimmed();
 
 		// count appearance of artist
-		if( !map.keys().contains(alower) ) {
+		if( !map.contains(alower) ) {
 			map.insert(alower, 1);
 		}
 		else {

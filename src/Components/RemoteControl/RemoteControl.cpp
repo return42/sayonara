@@ -165,7 +165,7 @@ void RemoteControl::new_request(){
 	QByteArray arr = _socket->readAll();
 	arr = arr.left(arr.size() - 1);
 
-	if(_fn_call_map.keys().contains(arr)){
+	if(_fn_call_map.contains(arr)){
 		auto fn = _fn_call_map[arr];
 		fn();
 		write_volume();
@@ -180,7 +180,7 @@ void RemoteControl::new_request(){
 	}
 
 	QByteArray cmd = arr.left(idx);
-	if(_fn_int_call_map.keys().contains(cmd)){
+	if(_fn_int_call_map.contains(cmd)){
 		int val = extract_parameter_int(arr, cmd.size());
 		RemoteFunctionInt fn = _fn_int_call_map[cmd];
 		fn(val);

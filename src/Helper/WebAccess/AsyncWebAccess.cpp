@@ -104,8 +104,7 @@ void AsyncWebAccess::finished(QNetworkReply *reply){
 
 	if(success &&
 		reply->isReadable() &&
-		reply->bytesAvailable() > 0 &&
-		reply->canReadLine())
+		reply->bytesAvailable() > 0)
 	{
 		_data = reply->readAll();
 	}

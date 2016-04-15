@@ -58,7 +58,7 @@ LibraryDatabase* DB::get(quint8 db_id){
 		return get_std();
 	}
 
-	if(!_dbs.keys().contains(db_id)){
+	if(!_dbs.contains(db_id)){
 		sp_log(Log::Warning) << "Database " << (int) db_id << " is not available";
 		return get_std();
 	}

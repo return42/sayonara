@@ -28,6 +28,7 @@
 #include <QThread>
 #include <QList>
 #include <QMap>
+#include <QHash>
 #include <QDomDocument>
 
 #include "LFMGlobals.h"
@@ -70,7 +71,7 @@ private:
 	QString						_artist;
 	QString						_username;
 	QString						_session_key;
-	QMap<QString, ArtistMatch>  _sim_artists_cache;
+	QHash<QString, ArtistMatch>  _sim_artists_cache;
 	MetaData					_md;
 	SmartCompare*				_smart_comparison=nullptr;
 

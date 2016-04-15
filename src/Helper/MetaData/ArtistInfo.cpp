@@ -156,17 +156,28 @@ QString ArtistInfo::get_additional_info_as_string() const
 
 
 	int i=0;
-	for(QString sim_artist : sim_artists){
+	QStringList artist_list;
+	for(const QString& sim_artist : sim_artists){
 		if(i++ > 50){
 			break;
 		}
 
-		str += BOLD(_additional_info[sim_artist]);
+		QString artist_name = _additional_info[sim_artist];
+
+		int id = _db->getArtistID(artist_name);
+		
+		if( id >= 0 ){
+			artist_list << BOLD(artist_name);
+		}
+
+		else {
+			artist_list << artist_name;
+		}
+
 	}
 
-	if(str.endsWith(", ")){
-		str.remove(str.size() - 2, 2);
-	}
+	str += artist_list.join(", ");
+
 
 	return str;
 }

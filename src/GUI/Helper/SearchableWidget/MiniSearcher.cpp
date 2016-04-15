@@ -179,7 +179,7 @@ bool MiniSearcher::isInitiator(QKeyEvent* event) {
 		return true;
 	}
 
-	if(_triggers.keys().contains(text[0]) ){
+	if(_triggers.contains(text[0]) ){
 		return true;
 	}
 

@@ -171,5 +171,5 @@ QIcon IconLoader::get_icon(const QString& name, const QString& dark_name)
 
 bool IconLoader::has_std_icon(const QString& name) const
 {
-	return _icons.keys().contains(name);
+	return _icons.contains(name);
 }

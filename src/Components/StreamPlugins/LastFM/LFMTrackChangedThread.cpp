@@ -136,7 +136,7 @@ void LFMTrackChangedThread::search_similar_artists(const MetaData& md) {
 	}
 
 	// check if already in cache
-	if(_sim_artists_cache.keys().contains(_md.artist)) {
+	if(_sim_artists_cache.contains(_md.artist)) {
 		const ArtistMatch& artist_match = _sim_artists_cache.value(_md.artist);
 		evaluate_artist_match(artist_match);
 		return;

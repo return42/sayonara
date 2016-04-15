@@ -119,7 +119,7 @@ QString TagExpression::calc_regex_string(const QStringList& splitted_str) const
 		if(s.isEmpty()) continue;
 
 
-		if( _tag_regex_map.keys().contains(s) ){
+		if( _tag_regex_map.contains(s) ){
 			re_str += _tag_regex_map[s];
 		}
 
@@ -195,7 +195,7 @@ bool TagExpression::update_tag(const QString& tag_str, const QString& filepath){
 bool TagExpression::check_tag(const Tag& tag, const QString& str){
 
 
-	if(!_tag_regex_map.keys().contains(tag)) {
+	if(!_tag_regex_map.contains(tag)) {
 		return false;
 	}
 
