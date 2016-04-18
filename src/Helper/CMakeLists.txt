@@ -25,13 +25,14 @@ SET(HEADERS
 
 SET(SOURCES
 
-	Helper.cpp
-	FileHelper.cpp
-	UrlHelper.cpp
+    Helper.cpp
+    FileHelper.cpp
+    UrlHelper.cpp
+    Set.cpp
 
     DirectoryReader/DirectoryReader.cpp
     Logger/Logger.cpp
-	Random/RandomGenerator.cpp
+    Random/RandomGenerator.cpp
     SmartCompare/SmartCompare.cpp
     Style/Style.cpp
     SayonaraClass.cpp

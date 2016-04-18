@@ -77,16 +77,16 @@ void LibraryView::selectionChanged(const QItemSelection& selected, const QItemSe
 	}
 
 	SearchableTableView::selectionChanged(selected, deselected);
-	IdxList idx_list_int = get_selections();
+	SP::Set<int> indexes = get_selections();
 
-	emit sig_sel_changed(idx_list_int);
+	emit sig_sel_changed(indexes);
 }
 
 
 void LibraryView::save_selections()
 {
-	IdxList idx_list_int = get_selections();
-	_model->add_selections(idx_list_int);
+	SP::Set<int> indexes = get_selections();
+	_model->add_selections(indexes);
 }
 // selections end
 

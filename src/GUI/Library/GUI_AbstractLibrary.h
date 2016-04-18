@@ -128,9 +128,9 @@ protected slots:
 	virtual void lib_fill_artists(const ArtistList&);
 	virtual void track_info_available(const MetaDataList& v_md);
 
-	virtual void artist_sel_changed(const IdxList&);
-	virtual void album_sel_changed(const IdxList&);
-	virtual void track_sel_changed(const IdxList&);
+	virtual void artist_sel_changed(const SP::Set<int>&);
+	virtual void album_sel_changed(const SP::Set<int>&);
+	virtual void track_sel_changed(const SP::Set<int>&);
 
 	virtual void artist_middle_clicked(const QPoint& p);
 	virtual void album_middle_clicked(const QPoint& p);

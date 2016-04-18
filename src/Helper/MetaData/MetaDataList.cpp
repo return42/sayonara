@@ -81,9 +81,9 @@ MetaDataList& MetaDataList::insert_tracks(const MetaDataList& v_md, int tgt_idx)
 	return *this;
 }
 
-MetaDataList& MetaDataList::move_tracks(const IdxList& rows, int tgt_idx){
+MetaDataList& MetaDataList::move_tracks(const SP::Set<int>& indexes, int tgt_idx){
 
-	MetaDataList v_md_to_move(rows.size());
+	MetaDataList v_md_to_move(indexes.size());
 	MetaDataList v_md_before_tgt;
 	MetaDataList v_md_after_tgt;
 
@@ -94,21 +94,23 @@ MetaDataList& MetaDataList::move_tracks(const IdxList& rows, int tgt_idx){
 
 		const MetaData& md = *it;
 
-		if(!rows.contains(i) && i < tgt_idx){
+		bool contains_i = indexes.contains(i);
+
+		if(!contains_i && i < tgt_idx){
 			v_md_before_tgt << std::move( md );
 			if(md.pl_playing){
 				cur_track[0] = v_md_before_tgt.size() - 1;
 			}
 		}
 
-		else if(!rows.contains(i) && i >= tgt_idx){
+		else if(!contains_i && i >= tgt_idx){
 			v_md_after_tgt << std::move( md );
 			if(md.pl_playing){
 				cur_track[2] = v_md_after_tgt.size() - 1;
 			}
 		}
 
-		else if(rows.contains(i)){
+		else if(contains_i){
 			v_md_to_move[idx_to_move] = std::move( md );
 			if(md.pl_playing){
 				cur_track[1] = v_md_after_tgt.size() - 1;
@@ -179,6 +181,18 @@ MetaDataList MetaDataList::extract_tracks(std::function<bool (const MetaData &)>
 	return v_md;
 }
 
+MetaDataList MetaDataList::extract_tracks(const SP::Set<int>& indexes) const
+{
+	MetaDataList v_md;
+
+	std::for_each(indexes.begin(), indexes.end(), [this, &v_md](int row){
+		v_md << this->operator[](row);
+	});
+
+	return v_md;
+}
+
+
 MetaDataList MetaDataList::extract_tracks(const IdxList& idx_list) const
 {
 	MetaDataList v_md;
@@ -203,29 +217,20 @@ MetaDataList& MetaDataList::remove_track(int idx){
 	return *this;
 }
 
-MetaDataList& MetaDataList::remove_tracks(IdxList rows){
+MetaDataList& MetaDataList::remove_tracks(const SP::Set<int>& indexes){
 
-	if(this->isEmpty() || rows.isEmpty()){
+	if(this->isEmpty() || indexes.isEmpty()){
 		return *this;
 	}
-
-	// first, sort the idxs list
-	auto lambda = [](int i, int j) -> bool
-	{
-		return i<j;
-	};
-
-
-	std::sort(rows.begin(), rows.end(), lambda);
 
 	int row_writing_idx=0;
 	int deleted_rows=0;
 
-	auto it_idx = rows.begin();
+	auto it_idx = indexes.begin();
 
 	for(int i=0; i<this->size(); i++){
 
-		if(i == *it_idx && it_idx != rows.end()){
+		if(i == *it_idx && it_idx != indexes.end()){
 
 			deleted_rows++;
 			it_idx++;

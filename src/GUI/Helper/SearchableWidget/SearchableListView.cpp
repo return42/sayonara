@@ -110,9 +110,9 @@ void SearchableListView::edit_changed(const QString& str) {
 
 	this->scrollTo(idx);
 
-	IdxList idx_list_int;
-	idx_list_int << _cur_row;
-	this->select_rows(idx_list_int);
+	SP::Set<int> indexes;
+	indexes.insert(_cur_row);
+	this->select_rows(indexes);
 }
 
 void SearchableListView::fwd_clicked() {
@@ -125,10 +125,11 @@ void SearchableListView::fwd_clicked() {
 
 	_cur_row = idx.row();
 
-	IdxList rows;
-	rows << idx.row();
+	SP::Set<int> indexes;
+	indexes.insert(idx.row());
+
 	this->scrollTo(idx);
-	this->select_rows(rows);
+	this->select_rows(indexes);
 }
 
 void SearchableListView::bwd_clicked() {
@@ -142,8 +143,10 @@ void SearchableListView::bwd_clicked() {
 
 	_cur_row = idx.row();
 
-	IdxList rows;
-	rows << idx.row();
+
+	SP::Set<int> indexes;
+	indexes.insert(idx.row());
+
 	this->scrollTo(idx);
-	this->select_rows(rows);
+	this->select_rows(indexes);
 }

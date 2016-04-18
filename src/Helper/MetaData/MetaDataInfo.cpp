@@ -47,21 +47,10 @@ MetaDataInfo::MetaDataInfo(const MetaDataList* v_md) :
 
 	for(const MetaData& md : (*v_md) ){
 
-		if(!_artists.contains(md.artist)){
-			_artists << md.artist;
-		}
-
-		if(!_albums.contains(md.album)){
-			_albums << md.album;
-		}
-
-		if(!_album_ids.contains(md.album_id)){
-			_album_ids << md.album_id;
-		}
-
-		if(!_artist_ids.contains(md.artist_id)){
-			_artist_ids << md.artist_id;
-		}
+		_artists.insert(md.artist);
+		_albums.insert(md.album);
+		_album_ids.insert(md.album_id);
+		_artist_ids.insert(md.artist_id);
 
 		length += md.length_ms;
 		filesize += md.filesize;
@@ -187,18 +176,19 @@ void MetaDataInfo::set_cover_location(const MetaDataList& lst){
 	}
 
 	else if(_album_ids.size() == 1){
-		_cover_location = CoverLocation::get_cover_location(_album_ids[0], _db->get_id());
+		AlbumID album_id = _album_ids.first();
+		_cover_location = CoverLocation::get_cover_location(album_id, _db->get_id());
 	}
 
 	else if(_albums.size() == 1 && _artists.size() == 1){
-		QString album = _albums[0];
-		QString artist = _artists[0];
+		QString album = _albums.first();
+		QString artist = _artists.first();
 		_cover_location = CoverLocation::get_cover_location(album, artist);
 	}
 
 	else if(_albums.size() == 1){
-		QString album = _albums[0];
-		_cover_location = CoverLocation::get_cover_location(album, _artists);
+		QString album = _albums.first();
+		_cover_location = CoverLocation::get_cover_location(album, _artists.toList());
 	}
 
 	else {
@@ -212,7 +202,7 @@ QString MetaDataInfo::calc_artist_str(){
 	QString str;
 
 	if( _artists.size() == 1 ){
-		str = _artists[0];
+		str = _artists.first();
 	}
 
 	else{
@@ -228,7 +218,7 @@ QString MetaDataInfo::calc_album_str(){
 	QString str;
 
 	if( _albums.size() == 1){
-		str = _albums[0];
+		str = _albums.first();
 	}
 
 	else{
@@ -375,7 +365,7 @@ CoverLocation MetaDataInfo::get_cover_location() const
 QString MetaDataInfo::get_cover_artist() const
 {
 
-	if(_artists.size() == 0) {
+	if(_artists.isEmpty()) {
 		return "";
 	}
 
@@ -383,17 +373,17 @@ QString MetaDataInfo::get_cover_artist() const
 		return tr("Various artists");
 	}
 
-	return 	_artists[0];
+	return _artists.first();
 
 }
 
 QString MetaDataInfo::get_cover_album() const
 {
-	if(_albums.size() == 0) {
+	if(_albums.isEmpty()) {
 		return "";
 	}
 
-	return _albums[0];
+	return _albums.first();
 }
 
 

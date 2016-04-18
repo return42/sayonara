@@ -24,11 +24,13 @@
 #define METADATAINFO_H
 
 #include "Helper/Helper.h"
+#include "Helper/Set.h"
 #include "Helper/SayonaraClass.h"
 #include "Components/CoverLookup/CoverLookup.h"
 #include "Database/DatabaseHandler.h"
 
 #include <QMap>
+
 
 /**
  * @brief The InfoStrings enum
@@ -73,10 +75,10 @@ protected:
 	QStringList					_paths;
 	CoverLocation				_cover_location;
 
-	QStringList					_albums;
-	QStringList					_artists;
-	IDList						_album_ids;
-	IDList						_artist_ids;
+	SP::Set<QString>				_albums;
+	SP::Set<QString>				_artists;
+	SP::Set<AlbumID>				_album_ids;
+	SP::Set<ArtistID>				_artist_ids;
 
 	LibraryDatabase*			_db;
 

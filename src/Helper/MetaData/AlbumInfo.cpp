@@ -52,7 +52,8 @@ AlbumInfo::AlbumInfo(const MetaDataList* v_md) :
 			_info.insert(InfoStrings::Sampler, str_sampler);
 		}
 
-		success = _db->getAlbumByID(_album_ids[0], album);
+		int album_id = _album_ids.first();
+		success = _db->getAlbumByID(album_id, album);
 
 		if(success){
 			_additional_info.clear();
@@ -89,12 +90,15 @@ void AlbumInfo::set_subheader(){
 void AlbumInfo::set_cover_location(){
 
 
+
 	if(_album_ids.size() == 1){
-		_cover_location = CoverLocation::get_cover_location(_album_ids[0], _db->get_id());
+		int album_id = _album_ids.first();
+		_cover_location = CoverLocation::get_cover_location(album_id, _db->get_id());
 	}
 
 	else if( _albums.size() == 1){
-		_cover_location = CoverLocation::get_cover_location(_albums[0], _artists);
+		QString album = _albums.first();
+		_cover_location = CoverLocation::get_cover_location(album, _artists.toList());
 	}
 
 	else{

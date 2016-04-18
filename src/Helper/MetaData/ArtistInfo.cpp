@@ -36,7 +36,8 @@ ArtistInfo::ArtistInfo(const MetaDataList* v_md) :
 		Artist artist;
 		bool success;
 
-		success = _db->getArtistByID(_artist_ids[0], artist);
+		int artist_id = _artist_ids.first();
+		success = _db->getArtistByID(artist_id, artist);
 
 		if(success){
 			_additional_info.clear();
@@ -59,7 +60,6 @@ ArtistInfo::ArtistInfo(const MetaDataList* v_md) :
 	else if(_artists.size() > 1){
 		insert_number(InfoStrings::nArtists, _artists.size());
 	}
-
 
 
 	set_header();
@@ -115,7 +115,7 @@ void ArtistInfo::set_subheader(){
 void ArtistInfo::set_cover_location(){
 
 	if( _artists.size() == 1){
-		QString artist = _artists[0];
+		QString artist = _artists.first();
 		_cover_location = CoverLocation::get_cover_location(artist);
 	}
 

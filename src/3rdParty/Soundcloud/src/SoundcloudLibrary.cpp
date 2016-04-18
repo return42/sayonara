@@ -123,7 +123,7 @@ void SoundcloudLibrary::refresh_artist(){
 	}
 
 	MetaDataList v_md;
-	int artist_id = _selected_artists[0];
+	int artist_id = _selected_artists.first();
 
 	IDList artist_ids;
 	artist_ids << artist_id;

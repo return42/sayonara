@@ -35,8 +35,8 @@
 #include "Helper/DirectoryReader/DirectoryReader.h"
 #include "Components/Playlist/PlaylistHandler.h"
 
-#include <QShortcut>
 #include <QApplication>
+#include <QShortcut>
 
 PlaylistView::PlaylistView(PlaylistPtr pl, QWidget* parent) :
 	SearchableListView(parent)
@@ -63,7 +63,7 @@ PlaylistView::PlaylistView(PlaylistPtr pl, QWidget* parent) :
 	this->setMovement(QListView::Free);
 
 	this->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-	//this->setMouseTracking(true);
+	new QShortcut(QKeySequence(Qt::Key_Backspace), this, SLOT(clear()), nullptr, Qt::WidgetShortcut);
 
 	connect(this, &PlaylistView::pressed, this, &PlaylistView::row_pressed);
 	connect(this, &PlaylistView::doubleClicked, this, &PlaylistView::row_double_clicked);
@@ -89,7 +89,7 @@ void PlaylistView::mousePressEvent(QMouseEvent* event) {
 
 	QPoint pos_org;
 	QPoint pos;
-	IdxList selections;
+	SP::Set<int> selections;
 
 	switch (event->button()) {
 
@@ -129,7 +129,7 @@ void PlaylistView::mousePressEvent(QMouseEvent* event) {
 				entry_mask |= LibraryContextMenu::EntryLyrics;
 			}
 
-			if(_model->has_local_media(selections) ){
+			if(_model->has_local_media(selections.toList()) ){
 				entry_mask |= LibraryContextMenu::EntryEdit;
 			}
 
@@ -332,7 +332,7 @@ void PlaylistView::set_current_track(int row) {
 
 void PlaylistView::clear() {
 	_inner_drag_drop = false;
-	select_rows(IdxList());
+	select_rows(SP::Set<int>());
 	_model->clear();
 }
 
@@ -503,7 +503,7 @@ void PlaylistView::handle_drop(QDropEvent* event, bool from_outside) {
 
 	MetaDataList v_md;
 	QString text;
-	IdxList cur_selected_rows, new_selected_rows;
+	SP::Set<int> cur_selected_rows, new_selected_rows;
 
 	// where did i drop?
 	int row = _delegate->get_drag_index();
@@ -522,8 +522,11 @@ void PlaylistView::handle_drop(QDropEvent* event, bool from_outside) {
 			return;
 		}
 
-		for(int i=0; i<cur_selected_rows.size(); i++){
-			new_selected_rows << row + 1 + i - cur_selected_rows.size();
+
+		int i=0;
+		for(auto it = cur_selected_rows.begin(); it != cur_selected_rows.end(); it++, i++){
+			int row = *it;
+			new_selected_rows.insert(row + 1 + i - cur_selected_rows.size());
 		}
 
 		_model->move_rows(cur_selected_rows, row + 1);

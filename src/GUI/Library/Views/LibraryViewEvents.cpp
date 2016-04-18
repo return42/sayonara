@@ -125,7 +125,7 @@ void LibraryView::keyPressEvent(QKeyEvent* event) {
 	SearchableTableView::keyPressEvent(event);
 	if(!event->isAccepted()) return;
 
-	IdxList selections = get_selections();
+	SP::Set<int> selections = get_selections();
 
 	switch(key) {
 
@@ -144,7 +144,8 @@ void LibraryView::keyPressEvent(QKeyEvent* event) {
 
 			// standard enter
 			if(!shift_pressed && !alt_pressed){
-				emit doubleClicked( _model->index(selections[0], 0));
+				int first_idx = selections.first();
+				emit doubleClicked( _model->index(first_idx, 0));
 			}
 
 			// enter with shift
@@ -192,10 +193,8 @@ void LibraryView::dropEvent(QDropEvent *event) {
 
 	QStringList filelist;
 	for(const QUrl& url : mime_data->urls()) {
-		QString path;
-		QString url_str = url.toString();
-		path =  url_str.right(url_str.length() - 7).trimmed();
-		path = path.replace("%20", " ");
+
+		QString path = url.path();
 
 		if(QFile::exists(path)) {
 			filelist << path;

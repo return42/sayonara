@@ -27,8 +27,10 @@
 #include <QAbstractItemModel>
 
 #include "Helper/globals.h"
+#include "Helper/Set.h"
 
 #include <QList>
+
 
 class SayonaraSelectionView {
 
@@ -38,13 +40,13 @@ protected:
 	virtual void set_current_index(int idx)=0;
 
 	virtual void select_all();
-	virtual void select_rows(const IdxList& idx_list, int min_col=0, int max_col=0);
+	virtual void select_rows(const SP::Set<int>& indexes, int min_col=0, int max_col=0);
 	virtual void select_row(int row);
 	virtual void clear_selection();
 	virtual int get_min_selected() const;
 
 public:
-	IdxList get_selections() const;
+	SP::Set<int> get_selections() const;
 };
 
 

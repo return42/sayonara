@@ -193,6 +193,8 @@ void LibraryImporter::metadata_changed(const MetaDataList& old_md, const MetaDat
 	if(_cache_thread){
 		_cache_thread->change_metadata(old_md, new_md);
 	}
+
+	_import_cache.change_metadata(old_md, new_md);
 }
 
 

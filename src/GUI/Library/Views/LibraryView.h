@@ -73,8 +73,8 @@ signals:
 
 	void sig_no_disc_menu();
 	void sig_import_files(const QStringList&);
-	void sig_double_clicked(const IdxList&);
-	void sig_sel_changed(const IdxList&);
+	void sig_double_clicked(const SP::Set<int>&);
+	void sig_sel_changed(const SP::Set<int>&);
 
 
 protected slots:
@@ -144,7 +144,7 @@ public:
 	template < typename T, typename ModelType >
 	void fill(const T& input_data){
 
-		IdxList idx_list_int;
+		SP::Set<int> indexes;
 		int old_size, new_size;
 
 		clearSelection();
@@ -164,7 +164,7 @@ public:
 		for(int row=0; row < new_size; row++) {
 
 			if(_model->is_selected(input_data[row].id)){
-				idx_list_int << row;
+				indexes.insert(row);
 			}
 		}
 
@@ -175,7 +175,7 @@ public:
 
 		_model->clear_selections();
 
-		select_rows(idx_list_int, 0, _model->columnCount() - 1);
+		select_rows(indexes, 0, _model->columnCount() - 1);
 
 		_cur_filling = false;
 	}

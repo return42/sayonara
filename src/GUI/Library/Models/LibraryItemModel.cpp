@@ -206,10 +206,12 @@ bool LibraryItemModel::has_selections(){
 }
 
 
-void LibraryItemModel::add_selections(IdxList rows){
-	for(int row : rows){
+void LibraryItemModel::add_selections(const SP::Set<int>& rows){
+
+	std::for_each(rows.begin(), rows.end(), [=](int row){
 		_selections << get_id_by_row(row);
-	}
+	});
+
 	std::sort(_selections.begin(), _selections.end());
 }
 

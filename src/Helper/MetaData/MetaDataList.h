@@ -2,7 +2,9 @@
 #define METADATALIST_H
 
 #include <QVector>
+
 #include "MetaData.h"
+#include "Helper/Set.h"
 #include <functional>
 
 /**
@@ -33,14 +35,15 @@ public:
 
 	virtual bool contains(const MetaData& md) const;
 	MetaDataList& remove_track(int idx);
-	MetaDataList& remove_tracks(IdxList rows);
+	MetaDataList& remove_tracks(const SP::Set<int>& rows);
 
-	MetaDataList& move_tracks(const IdxList& rows, int tgt_idx);
+	MetaDataList& move_tracks(const SP::Set<int>& indexes, int tgt_idx);
 	MetaDataList& insert_tracks(const MetaDataList& v_md, int tgt_idx);
 	MetaDataList& randomize();
 
 	MetaDataList extract_tracks(std::function<bool (const MetaData& md)> func) const;
 	MetaDataList extract_tracks(const IdxList& idx_list) const;
+	MetaDataList extract_tracks(const SP::Set<int>& idx_list) const;
 
 	IdxList findTracks(int id) const;
 	IdxList findTracks(const QString&) const;

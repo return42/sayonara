@@ -254,7 +254,7 @@ void GUI_Playlist::fill_info_dialog(){
 		return;
 	}
 
-	IdxList selections = cur_view->get_selections();
+	SP::Set<int> selections = cur_view->get_selections();
 	MetaDataList v_md = pl->get_playlist().extract_tracks(selections);
 
 	_info_dialog->set_metadata(v_md, GUI_InfoDialog::Mode::Tracks );

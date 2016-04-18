@@ -134,14 +134,15 @@ public:
 	 * @param tgt_idx target index where rows should be moved
 	 * @param pl_idx playlist index
 	 */
-	void move_rows(const IdxList& idx_list, int tgt_idx, int pl_idx);
+	void move_rows(const SP::Set<int>& indexes, int tgt_idx, int pl_idx);
+
 
 	/**
 	 * @brief remove rows from playlist
-	 * @param idx_list list of row indices to be removed
+	 * @param indexes list of row indices to be removed
 	 * @param pl_idx playlist index
 	 */
-	void remove_rows(const IdxList& idx_list, int pl_idx);
+	void remove_rows(const SP::Set<int>& indexes, int pl_idx);
 
 
 	/**

@@ -69,7 +69,7 @@ void SayonaraSelectionView::select_all()
 	sel_model->select(sel, QItemSelectionModel::ClearAndSelect);
 }
 
-void SayonaraSelectionView::select_rows(const IdxList& idx_list, int min_col, int max_col){
+void SayonaraSelectionView::select_rows(const SP::Set<int>& indexes, int min_col, int max_col){
 
 	QAbstractItemModel* model;
 	QItemSelectionModel* sel_model;
@@ -81,8 +81,9 @@ void SayonaraSelectionView::select_rows(const IdxList& idx_list, int min_col, in
 		return;
 	}
 
-	if(idx_list.size() > 0){
-		this->set_current_index(idx_list[0]);
+	if(indexes.size() > 0){
+		int first_index = indexes.first();
+		this->set_current_index(first_index);
 	}
 
 
@@ -103,22 +104,33 @@ void SayonaraSelectionView::select_rows(const IdxList& idx_list, int min_col, in
 	// happen, is that j is as big as i again.
 	// i is increased in the next loop, so progress is
 	// guaranteed
-	for(int i=0; i<idx_list.size(); i++){
-		int j=i;
+
+	for(auto it=indexes.begin(); it!=indexes.end(); it++){
+
+		auto other_it=it;
+		auto other_predecessor=it;
 
 		do{
-			j++;
-			if(j == idx_list.size()){
+
+			other_predecessor = other_it;
+			other_it++;
+
+			if(other_it == indexes.end()){
 				break;
 			}
 
-		} while(idx_list[j] - 1 == idx_list[j-1]);
+		} while(*other_it - 1 == *other_predecessor);
 
 		// select the range
-		sel.select(model->index(idx_list[i], min_col),
-				   model->index(idx_list[j-1], max_col)
+		sel.select(model->index(*it, min_col),
+				   model->index(*other_predecessor, max_col)
 		);
-		i = j-1;
+
+		it = other_it;
+
+		if(it == indexes.end()){
+			break;
+		}
 	}
 
 	sel_model->select(sel, QItemSelectionModel::ClearAndSelect);
@@ -140,7 +152,9 @@ void SayonaraSelectionView::select_row(int row)
 
 	sel_model->setCurrentIndex(model->index(row, 0), QItemSelectionModel::Select);
 
-	select_rows(IdxList() << row, 0, 0);
+	SP::Set<int> indexes;
+	indexes.insert(row);
+	select_rows(indexes, 0, 0);
 }
 
 void SayonaraSelectionView::clear_selection()
@@ -155,22 +169,20 @@ void SayonaraSelectionView::clear_selection()
 	sel_model->clearSelection();
 }
 
-IdxList SayonaraSelectionView::get_selections() const {
+SP::Set<int> SayonaraSelectionView::get_selections() const {
 
-	IdxList idx_list_int;
-	QItemSelectionModel* sel_model;
-	QModelIndexList idx_list;
+	SP::Set<int> indexes;
 
-	sel_model = this->get_selection_model();
+	QItemSelectionModel* sel_model = this->get_selection_model();
 	if(!sel_model){
-		return IdxList();
+		return SP::Set<int>();
 	}
 
-	idx_list = sel_model->selectedRows();
+	QModelIndexList idx_list = sel_model->selectedRows();
 
 	for(const QModelIndex& model_idx : idx_list) {
-		idx_list_int << model_idx.row();
+		indexes.insert(model_idx.row());
 	}
 
-	return idx_list_int;
+	return indexes;
 }

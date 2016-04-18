@@ -55,7 +55,8 @@ public:
 
 	/**
 	 * @brief add a new shortcut instance to the handler. This is usually done
-	 * by the widget the shortcut is attached to
+	 * by the widget the shortcut is attached to. So you can use the same shortcut
+	 * on multiple widgets
 	 * @param shortcut a shortcut instance
 	 * @return an invalid shortcut, if source shortcut is invalid, too\n
 	 * if the shortcut already exists, the instance already known is returned\n

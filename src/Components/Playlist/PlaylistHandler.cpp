@@ -389,22 +389,23 @@ void PlaylistHandler::append_tracks(const MetaDataList& v_md, int pl_idx) {
 	_playlists[pl_idx]->append_tracks(v_md);
 }
 
-void PlaylistHandler::remove_rows(const IdxList& rows, int pl_idx) {
+void PlaylistHandler::remove_rows(const SP::Set<int>& indexes, int pl_idx) {
 
 	if(!between(pl_idx, 0, _playlists.size())){
 		return;
 	}
 
-	_playlists[pl_idx]->delete_tracks(rows);
+	_playlists[pl_idx]->delete_tracks(indexes);
 }
 
-void PlaylistHandler::move_rows(const IdxList& rows, int tgt_idx, int pl_idx) {
+
+void PlaylistHandler::move_rows(const SP::Set<int>& indexes, int tgt_idx, int pl_idx) {
 
 	if(!between(pl_idx, 0, _playlists.size())){
 		return;
 	}
 
-	_playlists[pl_idx]->move_tracks(rows, tgt_idx);
+	_playlists[pl_idx]->move_tracks(indexes, tgt_idx);
 }
 
 

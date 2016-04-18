@@ -101,8 +101,8 @@ void AbstractLibrary::refetch(){
 
 void AbstractLibrary::refresh() {
 
-	IDList sel_artists, sel_albums, sel_tracks;
-	IdxList sel_artists_idx, sel_albums_idx, sel_tracks_idx;
+	SP::Set<int> sel_artists, sel_albums, sel_tracks;
+	SP::Set<int> sel_artists_idx, sel_albums_idx, sel_tracks_idx;
 
 	sel_artists = _selected_artists;
 	sel_albums = _selected_albums;
@@ -112,7 +112,7 @@ void AbstractLibrary::refresh() {
 
 	for(int i=0; i<_vec_artists.size(); i++){
 		if(sel_artists.contains(_vec_artists[i].id)) {
-			sel_artists_idx << i;
+			sel_artists_idx.insert(i);
 		}
 	}
 
@@ -120,7 +120,7 @@ void AbstractLibrary::refresh() {
 
 	for(int i=0; i<_vec_albums.size(); i++){
 		if(sel_albums.contains(_vec_albums[i].id)) {
-			sel_albums_idx << i;
+			sel_albums_idx.insert(i);
 		}
 	}
 
@@ -128,7 +128,7 @@ void AbstractLibrary::refresh() {
 
 	for(int i=0; i<_vec_md.size(); i++){
 		if(sel_tracks.contains(_vec_md[i].id)) {
-			sel_tracks_idx << i;
+			sel_tracks_idx.insert(i);
 		}
 	}
 
@@ -176,9 +176,9 @@ void AbstractLibrary::psl_prepare_album_for_playlist(int idx, bool new_playlist)
 
 
 void AbstractLibrary::psl_prepare_track_for_playlist(int idx, bool new_playlist) {
-	IdxList lst;
-	lst << idx;
-	psl_prepare_tracks_for_playlist(lst, new_playlist);
+	SP::Set<int> indexes;
+	indexes.insert(idx);
+	psl_prepare_tracks_for_playlist(indexes, new_playlist);
 }
 
 void AbstractLibrary::psl_prepare_tracks_for_playlist(bool new_playlist){
@@ -193,10 +193,10 @@ void AbstractLibrary::psl_prepare_tracks_for_playlist(bool new_playlist){
 	set_playlist_action_after_double_click();
 }
 
-void AbstractLibrary::psl_prepare_tracks_for_playlist(const IdxList& idx_lst, bool new_playlist) {
+void AbstractLibrary::psl_prepare_tracks_for_playlist(const SP::Set<int>& indexes, bool new_playlist) {
 	MetaDataList v_md;
 
-	for(int idx : idx_lst) {
+	for(int idx : indexes) {
 		v_md.push_back(_vec_md[idx]);
 	}
 
@@ -254,9 +254,11 @@ void AbstractLibrary::psl_play_next_all_tracks() {
 
 }
 
-void AbstractLibrary::psl_play_next_tracks(const IdxList& idx_lst) {
+void AbstractLibrary::psl_play_next_tracks(const SP::Set<int>& indexes) {
 	MetaDataList v_md;
-	for(int idx : idx_lst) {
+
+	for(auto it=indexes.begin(); it != indexes.end(); it++){
+		int idx = *it;
 		v_md.push_back(_vec_md[idx]);
 	}
 
@@ -269,11 +271,12 @@ void AbstractLibrary::psl_append_all_tracks() {
 }
 
 
-void AbstractLibrary::psl_append_tracks(const IdxList& idx_lst) {
+void AbstractLibrary::psl_append_tracks(const SP::Set<int>& indexes) {
 	MetaDataList v_md;
 
-	for(int i : idx_lst) {
-		v_md.push_back(_vec_md[i]);
+	for(auto it=indexes.begin(); it != indexes.end(); it++){
+		int idx = *it;
+		v_md.push_back(_vec_md[idx]);
 	}
 
 	_playlist->append_tracks(v_md, _playlist->get_current_idx());
@@ -282,14 +285,14 @@ void AbstractLibrary::psl_append_tracks(const IdxList& idx_lst) {
 
 void AbstractLibrary::restore_artist_selection(){
 
-	IDList new_selected_artists;
+	SP::Set<ArtistID> new_selected_artists;
 
 	for(const Artist& artist : _vec_artists) {
 		if(!_selected_artists.contains( artist.id)) {
 			continue;
 		}
 
-		new_selected_artists << artist.id;
+		new_selected_artists.insert(artist.id);
 	}
 
 	_selected_artists = new_selected_artists;
@@ -298,14 +301,14 @@ void AbstractLibrary::restore_artist_selection(){
 
 void AbstractLibrary::restore_album_selection(){
 
-	IDList new_selected_albums;
+	SP::Set<AlbumID> new_selected_albums;
 	for(const Album& album : _vec_albums) {
 
 		if(!_selected_albums.contains(album.id)) {
 			continue;
 		}
 
-		new_selected_albums << album.id;
+		new_selected_albums.insert(album.id);
 	}
 
 	_selected_albums = new_selected_albums;
@@ -314,14 +317,14 @@ void AbstractLibrary::restore_album_selection(){
 
 void AbstractLibrary::restore_track_selection(){
 
-	IDList new_selected_tracks;
+	SP::Set<TrackID> new_selected_tracks;
 	for(const MetaData& md : _vec_md) {
 
 		if(!_selected_tracks.contains(md.id)) {
 			continue;
 		}
 
-		new_selected_tracks << md.id;
+		new_selected_tracks.insert(md.id);
 	}
 
 	_selected_tracks = new_selected_tracks;
@@ -330,16 +333,11 @@ void AbstractLibrary::restore_track_selection(){
 
 
 
-void AbstractLibrary::change_artist_selection(const IdxList& idx_list){
+void AbstractLibrary::change_artist_selection(const SP::Set<int>& indexes){
 
-	IDList selected_artists;
+	SP::Set<ArtistID> selected_artists;
 
-	for(int idx : idx_list) {
-		Artist artist = _vec_artists[idx];
-		selected_artists << artist.id;
-	}
-
-	if(selected_artists == _selected_artists && _selected_albums.size() == 0) {
+	if(indexes.isEmpty() && _selected_artists.isEmpty()){
 
 		restore_album_selection();
 		restore_track_selection();
@@ -349,14 +347,20 @@ void AbstractLibrary::change_artist_selection(const IdxList& idx_list){
 		return;
 	}
 
+	for(auto it=indexes.begin(); it!=indexes.end(); it++){
+		int idx = *it;
+		const Artist& artist = _vec_artists[idx];
+		selected_artists.insert(artist.id);
+	}
+
 	_vec_albums.clear();
 	_vec_md.clear();
 
 	_selected_artists = selected_artists;
 
 	if(_selected_artists.size() > 0) {
-		get_all_tracks_by_artist(_selected_artists, _vec_md, _filter, _sortorder);
-		get_all_albums_by_artist(_selected_artists, _vec_albums, _filter, _sortorder);
+		get_all_tracks_by_artist(_selected_artists.toList(), _vec_md, _filter, _sortorder);
+		get_all_albums_by_artist(_selected_artists.toList(), _vec_albums, _filter, _sortorder);
 	}
 
 	else if(!_filter.cleared) {
@@ -377,24 +381,28 @@ void AbstractLibrary::change_artist_selection(const IdxList& idx_list){
 
 
 
-void AbstractLibrary::psl_selected_artists_changed(const IdxList& idx_list) {
+void AbstractLibrary::psl_selected_artists_changed(const SP::Set<int>& indexes) {
 
-	change_artist_selection(idx_list);
+	change_artist_selection(indexes);
 
 	emit sig_all_albums_loaded(_vec_albums);
 	emit sig_all_tracks_loaded(_vec_md);
 }
 
 
-void AbstractLibrary::change_album_selection(const IdxList& idx_list){
+void AbstractLibrary::change_album_selection(const SP::Set<int>& indexes){
 
-	IDList selected_albums;
+	SP::Set<AlbumID> selected_albums;
 
-	for(int idx : idx_list) {
-		selected_albums << _vec_albums[idx].id;
+	for(auto it=indexes.begin(); it != indexes.end(); it++){
+		int idx = *it;
+		const Album& album = _vec_albums[idx];
+		selected_albums.insert(album.id);
 	}
 
-	if(selected_albums == _selected_albums) return;
+	if(selected_albums == _selected_albums) {
+		return;
+	}
 
 	_vec_md.clear();
 	_selected_albums = selected_albums;
@@ -406,7 +414,7 @@ void AbstractLibrary::change_album_selection(const IdxList& idx_list){
 
 			MetaDataList v_md;
 
-			get_all_tracks_by_album(_selected_albums, v_md, _filter, _sortorder);
+			get_all_tracks_by_album(_selected_albums.toList(), v_md, _filter, _sortorder);
 
 			// filter by artist
 
@@ -418,13 +426,13 @@ void AbstractLibrary::change_album_selection(const IdxList& idx_list){
 		}
 
 		else{
-			get_all_tracks_by_artist(_selected_artists, _vec_md, _filter, _sortorder);
+			get_all_tracks_by_artist(_selected_artists.toList(), _vec_md, _filter, _sortorder);
 		}
 	}
 
 	// only album is selected
 	else if(_selected_albums.size() > 0) {
-		get_all_tracks_by_album(_selected_albums, _vec_md, _filter, _sortorder);
+		get_all_tracks_by_album(_selected_albums.toList(), _vec_md, _filter, _sortorder);
 	}
 
 	// neither album nor artist, but searchstring
@@ -441,14 +449,14 @@ void AbstractLibrary::change_album_selection(const IdxList& idx_list){
 }
 
 
-void AbstractLibrary::psl_selected_albums_changed(const IdxList& idx_list) {
+void AbstractLibrary::psl_selected_albums_changed(const SP::Set<int>& idx_list) {
 
 	change_album_selection(idx_list);
 	emit sig_all_tracks_loaded(_vec_md);
 }
 
 
-MetaDataList AbstractLibrary::change_track_selection(const IdxList& idx_list){
+MetaDataList AbstractLibrary::change_track_selection(const SP::Set<int>& idx_list){
 
 	_selected_tracks.clear();
 
@@ -457,7 +465,8 @@ MetaDataList AbstractLibrary::change_track_selection(const IdxList& idx_list){
 	for(int idx : idx_list) {
 		const MetaData& md = _vec_md[idx];
 		v_md << md;
-		_selected_tracks << md.id;
+
+		_selected_tracks.insert(md.id);
 	}
 
 	return v_md;
@@ -465,7 +474,7 @@ MetaDataList AbstractLibrary::change_track_selection(const IdxList& idx_list){
 
 
 
-void AbstractLibrary::psl_selected_tracks_changed(const IdxList& idx_list) {
+void AbstractLibrary::psl_selected_tracks_changed(const SP::Set<int>& idx_list) {
 
 	MetaDataList v_md =	change_track_selection(idx_list);
 	if(v_md.size() > 0){
@@ -551,7 +560,7 @@ void AbstractLibrary::_sl_sortorder_changed() {
 
 		// selected artists and maybe filter
 		if (_selected_artists.size() > 0) {
-			get_all_albums_by_artist(_selected_artists, _vec_albums, _filter, _sortorder);
+			get_all_albums_by_artist(_selected_artists.toList(), _vec_albums, _filter, _sortorder);
 		}
 
 		// only filter
@@ -575,10 +584,10 @@ void AbstractLibrary::_sl_sortorder_changed() {
 		_vec_md.clear();
 
 		if(_selected_albums.size() > 0) {
-			get_all_tracks_by_album(_selected_albums, _vec_md, _filter, _sortorder);
+			get_all_tracks_by_album(_selected_albums.toList(), _vec_md, _filter, _sortorder);
 		}
 		else if(_selected_artists.size() > 0) {
-			get_all_tracks_by_artist(_selected_artists, _vec_md, _filter, _sortorder);
+			get_all_tracks_by_artist(_selected_artists.toList(), _vec_md, _filter, _sortorder);
 		}
 
 		else if(!_filter.cleared) {
@@ -645,13 +654,13 @@ void AbstractLibrary::psl_metadata_id3_changed(const MetaDataList& v_md_old, con
 
 		if( v_md_old[i].artist_id != new_artist_id ){
 			if( !_selected_artists.contains(new_artist_id) ){
-				_selected_artists << new_artist_id;
+				_selected_artists.insert(new_artist_id);
 			}
 		}
 
 		if( v_md_old[i].album_id != new_album_id){
 			if( !_selected_albums.contains(new_album_id) ){
-				_selected_albums << new_album_id;
+				_selected_albums.insert(new_album_id);
 			}
 		}
 
@@ -722,13 +731,14 @@ void AbstractLibrary::delete_tracks(const MetaDataList &v_md, Library::TrackDele
 }
 
 
-void AbstractLibrary::delete_tracks_by_idx(const IdxList& idxs, Library::TrackDeletionMode mode){
+void AbstractLibrary::delete_tracks_by_idx(const SP::Set<int>& indexes, Library::TrackDeletionMode mode){
 
 	if(mode == Library::TrackDeletionMode::None) return;
 
 	MetaDataList v_md;
-	for(int i : idxs){
-		v_md.push_back(_vec_md[i]);
+	for(auto it = indexes.begin(); it != indexes.end(); it++){
+		int idx = *it;
+		v_md.push_back(_vec_md[idx]);
 	}
 
 	delete_tracks(v_md, mode);

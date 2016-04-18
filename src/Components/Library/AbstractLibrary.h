@@ -26,12 +26,20 @@
 
 #include "Helper/SayonaraClass.h"
 #include "Helper/Tagging/Tagging.h"
+#include "Helper/Set.h"
 #include "LibraryNamespaces.h"
+
 #include <QFile>
+
 
 
 #define prepare_tracks_for_playlist_files static_cast<void (AbstractLibrary::*) (const QStringList&)>(&AbstractLibrary::psl_prepare_tracks_for_playlist)
 #define prepare_tracks_for_playlist_idxs static_cast<void (AbstractLibrary::*) (const IdxList&)>(&AbstractLibrary::psl_prepare_tracks_for_playlist)
+
+
+typedef int ArtistID;
+typedef int AlbumID;
+typedef int TrackID;
 
 class PlaylistHandler;
 class EngineHandler;
@@ -75,9 +83,9 @@ public slots:
 
 
 	/* selection changed */
-	virtual void psl_selected_artists_changed(const IdxList& idx_lst);
-	virtual void psl_selected_albums_changed(const IdxList& idx_lst);
-	virtual void psl_selected_tracks_changed(const IdxList& idx_lst);
+	virtual void psl_selected_artists_changed(const SP::Set<int>& idx_lst);
+	virtual void psl_selected_albums_changed(const SP::Set<int>& idx_lst);
+	virtual void psl_selected_tracks_changed(const SP::Set<int>& idx_lst);
 
 
 	// [albums|artist|track[s]] double clicked -> send tracks to playlist
@@ -88,18 +96,18 @@ public slots:
 	// Those two functions are identical (1) calls (2)
 	virtual void psl_prepare_track_for_playlist(int idx, bool new_playlist);
 	virtual void psl_prepare_tracks_for_playlist(bool new_playlist);
-	virtual void psl_prepare_tracks_for_playlist(const IdxList& idx_lst, bool new_playlist);
+	virtual void psl_prepare_tracks_for_playlist(const SP::Set<int>& indexes, bool new_playlist);
 	virtual void psl_prepare_tracks_for_playlist(const QStringList& file_paths, bool new_playlist);
 
 
 	/* append tracks after current played track in playlist */
 	virtual void psl_play_next_all_tracks();
-	virtual void psl_play_next_tracks(const IdxList& idx_lst);
+	virtual void psl_play_next_tracks(const SP::Set<int>& idx_lst);
 
 
 	/* append tracks after last track in playlist */
 	virtual void psl_append_all_tracks();
-	virtual void psl_append_tracks(const IdxList& idx_lst);
+	virtual void psl_append_tracks(const SP::Set<int>& idx_lst);
 
 
 	/* triggered from outside, when something important has been changed*/
@@ -125,7 +133,7 @@ public slots:
 
 	virtual void delete_tracks(const MetaDataList& v_md, Library::TrackDeletionMode mode)=0;
 
-	virtual void delete_tracks_by_idx(const IdxList& idxs, Library::TrackDeletionMode mode);
+	virtual void delete_tracks_by_idx(const SP::Set<int>& indexes, Library::TrackDeletionMode mode);
 	virtual void delete_all_tracks();
 	virtual void delete_current_tracks(Library::TrackDeletionMode mode);
 
@@ -154,9 +162,9 @@ protected:
 	ArtistList			_vec_artists;
 
 	// contains ID for artists, albums, tracks
-	IDList				_selected_artists;
-	IDList				_selected_albums;
-	IDList				_selected_tracks;
+	SP::Set<ArtistID>		_selected_artists;
+	SP::Set<AlbumID>		_selected_albums;
+	SP::Set<TrackID>		_selected_tracks;
 
 	Filter				_filter;
 	LibSortOrder		_sortorder;
@@ -195,9 +203,9 @@ private:
 	virtual void restore_track_selection();
 	virtual void restore_album_selection();
 
-	virtual MetaDataList change_track_selection(const IdxList& idx_list);
-	virtual void change_artist_selection(const IdxList& idx_list);
-	virtual void change_album_selection(const IdxList& idx_list);
+	virtual MetaDataList change_track_selection(const SP::Set<int>& idx_list);
+	virtual void change_artist_selection(const SP::Set<int>& idx_list);
+	virtual void change_album_selection(const SP::Set<int>& idx_list);
 
 };
 

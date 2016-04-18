@@ -95,15 +95,16 @@ void PlaylistItemModel::clear()
 }
 
 
-void PlaylistItemModel::remove_rows(const IdxList& rows){
+void PlaylistItemModel::remove_rows(const SP::Set<int>& indexes){
 
-	_pl->delete_tracks(rows);
+	_pl->delete_tracks(indexes);
 }
 
 
-void PlaylistItemModel::move_rows(const IdxList& rows, int target_index){
-	_pl->move_tracks(rows, target_index);
+void PlaylistItemModel::move_rows(const SP::Set<int>& indexes, int target_index){
+	_pl->move_tracks(indexes, target_index);
 }
+
 
 void PlaylistItemModel::set_current_track(int row)
 {

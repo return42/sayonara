@@ -183,7 +183,7 @@ void LibraryView::rc_header_menu_changed(bool b) {
 	Q_UNUSED(b);
 
 	int col_idx = 0;
-	IdxList sel_list = get_selections();
+	SP::Set<int> sel_indexes = get_selections();
 	BoolList lst;
 
 
@@ -206,9 +206,9 @@ void LibraryView::rc_header_menu_changed(bool b) {
 	emit sig_columns_changed(lst);
 	set_col_sizes();
 
-	for(int row : sel_list){
+	std::for_each(sel_indexes.begin(), sel_indexes.end(), [this](int row){
 		this->selectRow(row);
-	}
+	});
 }
 
 

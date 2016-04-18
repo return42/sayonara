@@ -321,16 +321,16 @@ void GUI_AbstractLibrary::track_info_available(const MetaDataList& v_md) {
 }
 
 
-void GUI_AbstractLibrary::artist_sel_changed(const IdxList& lst) {
+void GUI_AbstractLibrary::artist_sel_changed(const SP::Set<int>& lst) {
 	_library->psl_selected_artists_changed(lst);
 }
 
 
-void GUI_AbstractLibrary::album_sel_changed(const IdxList& lst) {
+void GUI_AbstractLibrary::album_sel_changed(const SP::Set<int>& lst) {
 	_library->psl_selected_albums_changed(lst);
 }
 
-void GUI_AbstractLibrary::track_sel_changed(const IdxList& lst) {
+void GUI_AbstractLibrary::track_sel_changed(const SP::Set<int>& lst) {
 	_library->psl_selected_tracks_changed(lst);
 }
 
@@ -362,13 +362,13 @@ void GUI_AbstractLibrary::artist_dbl_clicked(const QModelIndex & idx) {
 
 void GUI_AbstractLibrary::track_dbl_clicked(const QModelIndex& idx) {
 
-	IdxList lst = _lv_tracks->get_selections();
+	SP::Set<int> indexes = _lv_tracks->get_selections();
 
-	if(lst.size() ==0 ) {
-		lst << idx.row();
+	if( indexes.isEmpty() ) {
+		indexes.insert(idx.row());
 	}
 
-	_library->psl_prepare_tracks_for_playlist(lst, false);
+	_library->psl_prepare_tracks_for_playlist(indexes, false);
 }
 
 
@@ -483,34 +483,43 @@ void GUI_AbstractLibrary::delete_artist() {
 void GUI_AbstractLibrary::delete_tracks(){
 
 	QModelIndexList idx_list = _lv_tracks->selectionModel()->selectedRows(0);
-	IdxList lst;
+	SP::Set<int> indexes;
 
 	for(const QModelIndex& idx : idx_list) {
-		lst.push_back(idx.row());
+		indexes.insert(idx.row());
 	}
 
-	Library::TrackDeletionMode answer = show_delete_dialog(lst.size());
+	Library::TrackDeletionMode answer = show_delete_dialog(indexes.size());
 
 	if(answer != Library::TrackDeletionMode::None){
-		_library->delete_tracks_by_idx(lst, answer);
+		_library->delete_tracks_by_idx(indexes, answer);
 	}
 }
 
 
 void GUI_AbstractLibrary::album_rating_changed(int rating) {
-	IdxList idxs = _lv_album->get_selections();
-	if(idxs.isEmpty()) return;
 
-	_library->psl_album_rating_changed(idxs[0], rating);
+	SP::Set<int> indexes = _lv_album->get_selections();
+	if(indexes.isEmpty()) {
+		return;
+	}
+
+	int first = indexes.first();
+
+	_library->psl_album_rating_changed(first, rating);
 }
 
 
 void GUI_AbstractLibrary::title_rating_changed(int rating) {
 
-	IdxList idxs = _lv_tracks->get_selections();
-	if(idxs.isEmpty()) return;
+	SP::Set<int> indexes = _lv_album->get_selections();
+	if(indexes.isEmpty()) {
+		return;
+	}
 
-	_library->psl_track_rating_changed(idxs[0], rating);
+	int first = indexes.first();
+
+	_library->psl_track_rating_changed(first, rating);
 }
 
 void GUI_AbstractLibrary::append() {
@@ -520,12 +529,13 @@ void GUI_AbstractLibrary::append() {
 void GUI_AbstractLibrary::append_tracks() {
 
 	QModelIndexList idx_list = _lv_tracks->selectionModel()->selectedRows(0);
-	IdxList lst;
+
+	SP::Set<int> indexes;
 	for(const QModelIndex&  idx : idx_list) {
-		lst.push_back(idx.row());
+		indexes.insert(idx.row());
 	}
 
-	_library->psl_append_tracks(lst);
+	_library->psl_append_tracks(indexes);
 }
 
 
@@ -538,12 +548,13 @@ void GUI_AbstractLibrary::play_next() {
 void GUI_AbstractLibrary::play_next_tracks() {
 
 	QModelIndexList idx_list = _lv_tracks->selectionModel()->selectedRows(0);
-	IdxList lst;
-	for(const QModelIndex& idx : idx_list) {
-		lst.push_back(idx.row());
+
+	SP::Set<int> indexes;
+	for(const QModelIndex&  idx : idx_list) {
+		indexes.insert(idx.row());
 	}
 
-	_library->psl_play_next_tracks(lst);
+	_library->psl_play_next_tracks(indexes);
 }
 
 void GUI_AbstractLibrary::refresh_artist(){

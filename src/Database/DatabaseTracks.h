@@ -50,6 +50,7 @@ public:
 
 	virtual bool getAllTracksByArtist(int artist, MetaDataList& result, Filter filter=Filter(), SortOrder sortorder = SortOrder::TrackArtistAsc);
 	virtual bool getAllTracksByArtist(IDList artists, MetaDataList& result, Filter filter=Filter(), SortOrder sortorder =SortOrder::TrackArtistAsc);
+
 	virtual bool getAllTracksBySearchString(Filter filter, MetaDataList& result, SortOrder sortorder = SortOrder::TrackArtistAsc);
 
 	virtual bool insertTrackIntoDatabase (const MetaData& data,int artistID, int albumID);

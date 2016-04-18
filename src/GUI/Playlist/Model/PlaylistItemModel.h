@@ -58,8 +58,9 @@ public:
 	bool setData(const QModelIndex &index, const QVariant& var, int role=Qt::DisplayRole) override;
 
 	void clear();
-	void remove_rows(const IdxList& rows);
-	void move_rows(const IdxList& rows, int target_index);
+
+	void remove_rows(const SP::Set<int>& rows);
+	void move_rows(const SP::Set<int>& rows, int target_index);
 	void insert_metadata(const MetaDataList& v_md, int target_index);
 	void set_current_track(int row);
 

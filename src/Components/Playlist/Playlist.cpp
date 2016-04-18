@@ -63,16 +63,15 @@ void Playlist::clear() {
 
 void Playlist::move_track(const int idx, int tgt) {
 
-	IdxList lst;
-	lst << idx;
-	move_tracks(lst, tgt);
+	SP::Set<int> indexes(idx);
+	move_tracks(indexes, tgt);
 
 	set_changed(true);
 }
 
-void Playlist::move_tracks(const IdxList& lst, int tgt) {
+void Playlist::move_tracks(const SP::Set<int>& indexes, int tgt) {
 
-	_v_md.move_tracks(lst, tgt);
+	_v_md.move_tracks(indexes, tgt);
 
 	set_changed(true);
 }
@@ -83,8 +82,8 @@ void Playlist::delete_track(const int idx) {
 	set_changed(true);
 }
 
-void Playlist::delete_tracks(const IntList& lst) {
-	_v_md.remove_tracks(lst);
+void Playlist::delete_tracks(const SP::Set<int>& indexes) {
+	_v_md.remove_tracks(indexes);
 	set_changed(true);
 }
 

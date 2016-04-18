@@ -51,10 +51,12 @@
 #include "GUI/Helper/CustomMimeData.h"
 #include "GUI/Library/ColumnHeader.h"
 #include "GUI/Helper/SearchableWidget/AbstractSearchModel.h"
+#include "Helper/Set.h"
 
 #include <QAbstractTableModel>
 #include <QModelIndex>
 #include <QHash>
+
 
 
 
@@ -83,7 +85,7 @@ public:
 	bool		removeRows(int position, int rows, const QModelIndex& index=QModelIndex()) override;
 	bool		insertRows(int row, int count, const QModelIndex &parent=QModelIndex()) override;
 
-	virtual void			add_selections(IdxList rows) final;
+	virtual void			add_selections(const SP::Set<int>& rows) final;
 	virtual void			add_selection(int row) final;
 	virtual bool			is_selected(int id) final;
 	virtual bool			has_selections() final;
