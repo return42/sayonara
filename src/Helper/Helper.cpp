@@ -27,6 +27,8 @@
  */
 
 #include <QtGlobal>
+#include <QNetworkInterface>
+#include <QHostAddress>
 #include <thread>
 #include <chrono>
 #ifdef Q_OS_LINUX
@@ -472,4 +474,21 @@ QString Helper::StringDummy::discs(){
 int Helper::get_random_number(int min, int max)
 {
 	return RandomGenerator().get_number(min, max);
+}
+
+QStringList Helper::get_ip_addresses()
+{
+	QStringList ret;
+	QList<QHostAddress> host_list;
+	host_list = QNetworkInterface::allAddresses();
+	for(const QHostAddress& host : host_list){
+		QString address = host.toString();
+		if(!address.startsWith("127") && 
+			host.protocol() == QAbstractSocket::IPv4Protocol)
+		{
+			ret << host.toString();
+		}
+	}
+
+	return ret;
 }

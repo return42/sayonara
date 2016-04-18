@@ -231,6 +231,12 @@ namespace Helper {
 	 * @param ms milliseconds to sleep
 	 */
 	void sleep_ms(quint64 ms);
+
+	/**
+	 * @brief get all ip addresses of the host
+	 * @return list of ip addresses
+	 */
+	QStringList get_ip_addresses();
 }
 
 

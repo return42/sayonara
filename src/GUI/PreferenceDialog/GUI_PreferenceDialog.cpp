@@ -1,12 +1,21 @@
 #include "GUI_PreferenceDialog.h"
+#include "GUI/Helper/ComboBoxDelegate/ComboBoxDelegate.cpp"
 #include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
 #include <QLayout>
+#include "Helper/Helper.h"
 
 GUI_PreferenceDialog::GUI_PreferenceDialog(QWidget *parent) :
 	PreferenceDialogInterface(parent),
 	Ui::GUI_PreferenceDialog()
 {
 	setup_parent(this);
+
+	combo_ips->setItemDelegate(new ComboBoxDelegate(combo_ips));
+
+	QStringList ip_addresses = Helper::get_ip_addresses();
+	for(const QString& ip : ip_addresses){
+		combo_ips->addItem(ip);
+	}
 
 	connect(list_preferences, &QListWidget::currentRowChanged, this, &GUI_PreferenceDialog::row_changed);
 
