@@ -24,6 +24,7 @@
 #include <cstring>
 
 #include "Components/Engine/Playback/PlaybackEngine.h"
+#include "Components/Engine/EngineHandler.h"
 
 GUI_LevelPainter::GUI_LevelPainter(QWidget *parent) :
 	EnginePlugin(parent),

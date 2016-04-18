@@ -24,10 +24,11 @@
 #define DATABASETRACKS_H
 
 #include "Database/DatabaseModule.h"
+#include "Helper/globals.h"
 
 class MetaData;
 class MetaDataList;
-struct CustomPlaylist;
+class CustomPlaylist;
 class DatabaseTracks : private DatabaseModule
 {
 

@@ -24,6 +24,7 @@
 
 #include "Helper/Parser/PlaylistParser.h"
 #include "Helper/Helper.h"
+#include "Helper/FileHelper.h"
 
 #include "Database/DatabaseConnector.h"
 

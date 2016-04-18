@@ -22,7 +22,7 @@
 
 #include "ContextMenu.h"
 #include "GUI/Helper/IconLoader/IconLoader.h"
-
+#include "Helper/Helper.h"
 
 ContextMenu::ContextMenu(QWidget *parent) :
 	QMenu(parent)

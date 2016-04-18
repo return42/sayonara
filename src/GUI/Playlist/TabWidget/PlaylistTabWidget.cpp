@@ -20,6 +20,8 @@
 
 #include "PlaylistTabWidget.h"
 #include "PlaylistTabBar.h"
+#include "Helper/Helper.h"
+#include "Helper/MetaData/MetaDataList.h"
 
 
 PlaylistTabWidget::PlaylistTabWidget(QWidget* parent) :

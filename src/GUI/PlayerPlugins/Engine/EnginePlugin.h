@@ -26,7 +26,7 @@
 #include "GUI_StyleSettings.h"
 
 #include "Interfaces/PlayerPlugin/PlayerPlugin.h"
-#include "Components/Engine/EngineHandler.h"
+
 #include "EngineColorStyleChooser.h"
 
 #include <QAction>
@@ -38,7 +38,7 @@
 #include <QPaintEvent>
 #include <QShowEvent>
 	
-
+class EngineHandler;
 class EnginePlugin : public PlayerPluginInterface {
 
 	Q_OBJECT

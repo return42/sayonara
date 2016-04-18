@@ -23,7 +23,9 @@
 #include "MTP_Track.h"
 
 #include "Helper/Helper.h"
+#include "Helper/FileHelper.h"
 #include "Helper/Tagging/Tagging.h"
+
 
 
 MTP_Track::MTP_Track(const MetaData &md){

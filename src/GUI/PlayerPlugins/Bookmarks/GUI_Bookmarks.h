@@ -26,8 +26,9 @@
 
 #include "GUI/PlayerPlugins/Bookmarks/ui_GUI_Bookmarks.h"
 #include "Interfaces/PlayerPlugin/PlayerPlugin.h"
-#include "Components/Bookmarks/Bookmarks.h"
 
+class Bookmarks;
+class Bookmark;
 /**
  * @brief The GUI_Bookmarks class
  * @ingroup Bookmarks

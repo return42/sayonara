@@ -22,6 +22,7 @@
 
 #include "DirectoryIconProvider.h"
 #include "Helper/Helper.h"
+#include "Helper/FileHelper.h"
 
 
 IconProvider::IconProvider() :

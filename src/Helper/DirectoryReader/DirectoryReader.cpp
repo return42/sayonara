@@ -20,8 +20,10 @@
 
 #include "DirectoryReader.h"
 
+
 #include "Helper/Tagging/Tagging.h"
 #include "Helper/Parser/PlaylistParser.h"
+#include "Helper/FileHelper.h"
 #include "Database/DatabaseConnector.h"
 
 #include <QDirIterator>

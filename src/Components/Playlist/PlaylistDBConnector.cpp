@@ -21,6 +21,7 @@
 #include "PlaylistDBConnector.h"
 #include "Helper/Tagging/Tagging.h"
 #include "Helper/Helper.h"
+#include "Helper/FileHelper.h"
 #include "Helper/Parser/PlaylistParser.h"
 #include "Database/DatabaseConnector.h"
 

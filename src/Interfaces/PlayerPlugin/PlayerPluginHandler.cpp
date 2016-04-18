@@ -21,7 +21,7 @@
 
 #include "PlayerPlugin.h"
 #include "PlayerPluginHandler.h"
-#include "Helper/Logger/Logger.h"
+#include "Helper/Helper.h"
 
 
 #include <QMap>

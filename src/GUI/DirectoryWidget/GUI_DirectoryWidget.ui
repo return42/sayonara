@@ -36,7 +36,7 @@
     <number>10</number>
    </property>
    <item row="1" column="0">
-    <widget class="QTreeView" name="tv_dirs">
+    <widget class="DirectoryTreeView" name="tv_dirs">
      <property name="font">
       <font>
        <weight>75</weight>
@@ -58,7 +58,7 @@
     </widget>
    </item>
    <item row="1" column="1">
-    <widget class="SearchableListView" name="lv_files">
+    <widget class="FileListView" name="lv_files">
      <property name="font">
       <font>
        <weight>75</weight>
@@ -167,9 +167,14 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>SearchableListView</class>
+   <class>DirectoryTreeView</class>
+   <extends>QTreeView</extends>
+   <header>GUI/DirectoryWidget/DirectoryTreeView.h</header>
+  </customwidget>
+  <customwidget>
+   <class>FileListView</class>
    <extends>QListView</extends>
-   <header>GUI/Helper/SearchableWidget/SearchableListView.h</header>
+   <header>GUI/DirectoryWidget/FileListView.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

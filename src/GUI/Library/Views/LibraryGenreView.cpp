@@ -31,6 +31,7 @@
 
 #include "Helper/Tree/Tree.h"
 #include "Helper/MetaData/MetaData.h"
+#include "Helper/Helper.h"
 
 
 
@@ -175,7 +176,7 @@ void LibraryGenreView::dropEvent(QDropEvent *e)
 	this->setAcceptDrops(false);
 
 	genre = idx.data().toString();
-	cmd->getMetaData(v_md);
+	v_md = cmd->getMetaData();
 
 	sp_log(Log::Debug) << "Will apply " << genre << " to " << v_md.size() << " tracks";
 

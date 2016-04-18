@@ -21,7 +21,13 @@
 
 
 #include "Helper/MetaData/MetaDataInfo.h"
+#include "Helper/Helper.h"
 #include "Helper/FileHelper.h"
+
+#include "Components/CoverLookup/CoverLookup.h"
+#include "Components/CoverLookup/CoverLocation.h"
+#include "Database/DatabaseHandler.h"
+
 
 
 MetaDataInfo::MetaDataInfo(const MetaDataList* v_md) :

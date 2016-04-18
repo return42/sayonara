@@ -61,6 +61,28 @@ Q_DECLARE_METATYPE(Artist)
  * @brief ArtistList
  * @ingroup MetaDataHelper
  */
-typedef class QVector<Artist> ArtistList;
+class ArtistList :
+		public QVector<Artist>
+{
+
+
+public:
+
+	/**
+	 * @brief extract the main artist out of the artist list
+	 * @param artists artist list
+	 * @return the name that appears more than 2/3 of all available artists
+	 */
+	static QString get_major_artist(const QStringList& artists);
+
+	/**
+	 * @brief extract the main artist out of the artist list
+	 * @param artists artist list
+	 * @return the name that appears more than 2/3 of all available artists
+	 */
+	QString get_major_artist() const;
+
+};
+
 
 #endif

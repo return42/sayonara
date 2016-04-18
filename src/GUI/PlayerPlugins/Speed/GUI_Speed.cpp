@@ -22,6 +22,7 @@
 
 #include "GUI_Speed.h"
 #include "Helper/Helper.h"
+#include "Components/Engine/EngineHandler.h"
 
 GUI_Speed::GUI_Speed(QWidget *parent) :
 	PlayerPluginInterface(parent),

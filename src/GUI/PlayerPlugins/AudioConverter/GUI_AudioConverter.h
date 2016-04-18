@@ -25,13 +25,12 @@
 
 #include "Helper/globals.h"
 #include "GUI/PlayerPlugins/AudioConverter/ui_GUI_AudioConvert.h"
-#include "Components/Engine/EngineHandler.h"
 #include "Interfaces/PlayerPlugin/PlayerPlugin.h"
 
 #include <QAction>
 #include <QCloseEvent>
 
-
+class EngineHandler;
 class GUI_AudioConverter :
 		public PlayerPluginInterface,
 		private Ui::GUI_AudioConvert

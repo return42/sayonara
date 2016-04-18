@@ -30,12 +30,7 @@
 #define _HELPER_H
 
 #include "Helper/globals.h"
-#include "Helper/MetaData/MetaDataList.h"
-#include "Helper/FileHelper.h"
-#include "Helper/UrlHelper.h"
 #include "Helper/Logger/Logger.h"
-#include "Helper/Random/RandomGenerator.h"
-#include "GUI/Helper/GlobalMessage/GlobalMessage.h"
 
 #include <QWidget>
 #include <QImage>
@@ -50,6 +45,7 @@
 #include <QFileInfo>
 #include <QMap>
 
+class MetaData;
 /**
  * @brief Helper functions
  * @ingroup Helper
@@ -205,26 +201,7 @@ namespace Helper {
 	 */
 	QByteArray calc_hash(const QByteArray&  data);
 
-	/**
-	 * @brief get the main artist for a album
-	 * @param album_id album id
-	 * @return the name that appears more than 2/3 of all available album artists
-	 */
-    QString get_album_major_artist(int album_id);
 
-	/**
-	 * @brief extract the main artist out of the artist list
-	 * @param artists artist list
-	 * @return the name that appears more than 2/3 of all available artists
-	 */
-	QString get_major_artist(const QStringList& artists);
-
-	/**
-	 * @brief extract the main artist out of the artist list
-	 * @param artists artist list
-	 * @return the name that appears more than 2/3 of all available artists
-	 */
-	QString get_major_artist(const ArtistList& artists);
 
 	/**
 	 * @brief sleep

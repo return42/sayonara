@@ -24,6 +24,8 @@
 #include "GUI/Helper/ComboBoxDelegate/ComboBoxDelegate.h"
 #include "LibraryContainer/LibraryContainer.h"
 
+#include "Helper/Helper.h"
+
 #include <QLayout>
 
 LibraryPluginHandler::LibraryPluginHandler(QObject* parent) :

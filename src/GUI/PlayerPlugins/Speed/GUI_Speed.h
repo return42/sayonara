@@ -26,9 +26,9 @@
 #include "GUI/PlayerPlugins/Speed/ui_GUI_Speed.h"
 
 #include "Interfaces/PlayerPlugin/PlayerPlugin.h"
-#include "Components/Engine/EngineHandler.h"
 
 
+class EngineHandler;
 class GUI_Speed : public PlayerPluginInterface, private Ui::GUI_Speed
 {
 	Q_OBJECT

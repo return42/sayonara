@@ -37,11 +37,14 @@
 #endif
 #endif
 
-
-#include "Helper/Helper.h"
-#include "Helper/globals.h"
-#include "Database/DatabaseHandler.h"
 #include "Helper/Settings/Settings.h"
+#include "Helper/Helper.h"
+#include "Helper/FileHelper.h"
+#include "Helper/Random/RandomGenerator.h"
+#include "Helper/MetaData/MetaDataList.h"
+
+#include "Database/DatabaseHandler.h"
+
 
 #include "Components/StreamPlugins/LastFM/LFMGlobals.h"
 
@@ -366,73 +369,6 @@ QByteArray Helper::calc_hash(const QByteArray& data) {
 	return QCryptographicHash::hash(data, QCryptographicHash::Md5).toHex();
 }
 
-
-
-QString Helper::get_major_artist(const ArtistList& artists) {
-
-	QStringList lst;
-
-	for(const Artist& artist : artists) {
-		lst << artist.name;
-	}
-
-	return get_major_artist(lst);
-}
-
-QString Helper::get_major_artist(const QStringList& artists) {
-
-	QHash<QString, int> map;
-	if(artists.size() == 0) return "";
-	if(artists.size() == 1) return artists[0].toLower().trimmed();
-
-	int n_artists = artists.size();
-
-	for(const QString& artist : artists) {
-
-		QString alower = artist.toLower().trimmed();
-
-		// count appearance of artist
-		if( !map.contains(alower) ) {
-			map.insert(alower, 1);
-		}
-		else {
-			map[alower] = map.value(alower) + 1;
-		};
-	}
-
-	// n_appearances have to be at least 2/3 of all apperances
-	for(const QString& artist : map.keys()) {
-
-		int n_appearances = map.value(artist);
-		if(n_appearances * 3 > n_artists * 2) return artist;
-
-	}
-
-	return StringDummy().various();
-}
-
-QString Helper::get_album_major_artist(int album_id) {
-
-	if(album_id == -1) return "";
-
-	QStringList artists;
-	MetaDataList v_md(0);
-	IDList ids;
-
-	DatabaseConnector* db = DatabaseConnector::getInstance();
-
-	ids << album_id;
-	db->getAllTracksByAlbum(ids, v_md);
-
-	if(v_md.size() == 0) return "";
-	if(v_md.size() == 1) return v_md[0].artist;
-
-	for(const MetaData& md : v_md) {
-		artists << md.artist;
-	}
-
-	return get_major_artist(artists);
-}
 
 
 void Helper::sleep_ms(quint64 ms){

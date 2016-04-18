@@ -22,6 +22,7 @@
 #include "GUI_LanguageChooser.h"
 #include "GUI/Helper/ComboBoxDelegate/ComboBoxDelegate.h"
 #include "Helper/Helper.h"
+#include "Helper/FileHelper.h"
 
 #include <QFile>
 #include <QDir>

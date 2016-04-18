@@ -5,7 +5,7 @@
 #include <QString>
 #include <QStringList>
 #include "Helper/MetaData/MetaDataList.h"
-#include "Helper/FileHelper.h"
+
 
 class ImportCache
 {

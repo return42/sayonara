@@ -29,8 +29,6 @@
 #include "Components/Engine/Playback/SoundOutReceiver.h"
 
 #include <QString>
-#include <tuple>
-
 
 class GUI_LevelPainter :
 		public EnginePlugin,

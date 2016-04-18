@@ -23,6 +23,7 @@
 #include "StreamRecorder.h"
 
 #include "Helper/Tagging/Tagging.h"
+#include "Helper/FileHelper.h"
 
 #include <QUrl>
 

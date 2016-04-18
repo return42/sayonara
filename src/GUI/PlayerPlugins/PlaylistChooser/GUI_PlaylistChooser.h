@@ -26,7 +26,6 @@
 #include "Interfaces/PlayerPlugin/PlayerPlugin.h"
 #include "Helper/Playlist/CustomPlaylist.h"
 
-
 #include <QMap>
 #include <QDockWidget>
 #include <QInputDialog>

@@ -5,6 +5,8 @@ SET(SOURCES
 	GUI_DirectoryWidget.cpp
 	DirectoryIconProvider.cpp
 	DirectoryDelegate.cpp
+	FileListView.cpp
+	DirectoryTreeView.cpp
 )
 
 QT5_WRAP_UI(UI_HEADERS

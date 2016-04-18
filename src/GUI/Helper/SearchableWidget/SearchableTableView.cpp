@@ -21,6 +21,8 @@
 
 
 #include "SearchableTableView.h"
+#include "AbstractSearchModel.h"
+#include "GUI/Library/Models/LibraryItemModel.h"
 #include "MiniSearcher.h"
 
 

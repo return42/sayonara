@@ -31,12 +31,11 @@
 #include "Database/DatabaseHandler.h"
 
 #include "Helper/Helper.h"
+#include "Helper/FileHelper.h"
 
 #include <QMap>
 #include <QStringList>
 #include <QUrl>
-#include <QDir>
-#include <QFile>
 
 
 LFMTrackChangedThread::LFMTrackChangedThread(const QString& username, const QString& session_key, QObject* parent) :

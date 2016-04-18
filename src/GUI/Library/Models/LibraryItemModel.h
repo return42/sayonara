@@ -49,17 +49,11 @@
 #define COL_TRACK_RATING 8
 
 #include "GUI/Helper/CustomMimeData.h"
-#include "GUI/Library/ColumnHeader.h"
+
 #include "GUI/Helper/SearchableWidget/AbstractSearchModel.h"
 #include "Helper/Set.h"
 
-#include <QAbstractTableModel>
-#include <QModelIndex>
-#include <QHash>
-
-
-
-
+class ColumnHeader;
 class LibraryItemModel : public AbstractSearchTableModel{
 
 	Q_OBJECT
@@ -104,7 +98,7 @@ protected:
 	QStringList		_header_names;
 	QVector<bool>	_cols_active;
 	MetaDataList	_md_mimedata;
-	IDList			_selections;
+	SP::Set<int>	_selections;
 
 	int				_n_rows;
 	int				_n_all_cols;

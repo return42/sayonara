@@ -23,15 +23,6 @@
 #ifndef ABSTRACTDATABASE_H
 #define ABSTRACTDATABASE_H
 
-
-
-#include "Database/SayonaraQuery.h"
-#include "Components/Library/Sorting.h"
-#include "Helper/globals.h"
-#include "Helper/Helper.h"
-#include "Helper/Filter.h"
-#include "Helper/MetaData/MetaData.h"
-
 #include <QSqlDatabase>
 #include <QFile>
 #include <QDir>

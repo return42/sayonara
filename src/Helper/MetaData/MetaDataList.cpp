@@ -3,6 +3,8 @@
 #include "AlbumInfo.h"
 #include "ArtistInfo.h"
 #include "Helper/Helper.h"
+#include "Helper/Logger/Logger.h"
+#include "Helper/Random/RandomGenerator.h"
 
 #include <algorithm>
 
@@ -35,7 +37,7 @@ void MetaDataList::set_cur_play_track_idx_only(int idx) {
 void MetaDataList::set_cur_play_track(int idx) {
 
 	_cur_played_track = -1;
-	if(idx < 0 || idx >= this->size()) {
+	if( !between(idx, 0, this->size())) {
 		return;
 	}
 
@@ -193,14 +195,14 @@ MetaDataList MetaDataList::extract_tracks(const SP::Set<int>& indexes) const
 }
 
 
-MetaDataList MetaDataList::extract_tracks(const IdxList& idx_list) const
+/*MetaDataList MetaDataList::extract_tracks(const IdxList& idx_list) const
 {
 	MetaDataList v_md;
 	for(int idx : idx_list){
 		v_md << this->operator [](idx);
 	}
 	return v_md;
-}
+}*/
 
 MetaDataList& MetaDataList::remove_track(int idx){
 	if(!between(idx, 0, this->size())){

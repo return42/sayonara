@@ -19,7 +19,10 @@
  */
 
 #include "StreamRecorder.h"
-
+#include "Helper/Helper.h"
+#include "Helper/FileHelper.h"
+#include "Helper/Parser/PlaylistParser.h"
+#include "Helper/Tagging/Tagging.h"
 
 
 static QString get_time_str() {

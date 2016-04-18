@@ -23,10 +23,10 @@
 #define GUI_AbstractStream_H
 
 #include "GUI/Helper/MenuTool/MenuTool.h"
-#include "GUI/Helper/ComboBoxDelegate/ComboBoxDelegate.h"
 #include "Interfaces/PlayerPlugin/PlayerPlugin.h"
 #include "Components/StreamPlugins/Streams/AbstractStreamHandler.h"
-#include "Database/DatabaseConnector.h"
+#include "GUI/Helper/GlobalMessage/GlobalMessage.h"
+
 
 
 #include <QComboBox>
@@ -34,11 +34,11 @@
 #include <QLineEdit>
 #include <QLabel>
 #include <QPainter>
+#include <QModelIndex>
+#include <QVariant>
 
-class QModelIndex;
-class QWidget;
-class QVariant;
-
+class AbstractStreamHandler;
+class DatabaseConnector;
 
 class GUI_AbstractStream : public PlayerPluginInterface
 {

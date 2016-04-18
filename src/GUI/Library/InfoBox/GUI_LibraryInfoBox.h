@@ -28,8 +28,8 @@
 #include "GUI/Library/InfoBox/ui_GUI_LibraryInfoBox.h"
 #include "GUI/Helper/SayonaraWidget.h"
 
-#include "Database/DatabaseConnector.h"
 
+class DatabaseConnector;
 class GUI_LibraryInfoBox : public SayonaraDialog, private Ui::GUI_LibraryInfoBox {
 
 	Q_OBJECT

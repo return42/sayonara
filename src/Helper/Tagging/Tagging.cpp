@@ -25,7 +25,10 @@
 
 #include "Helper/Helper.h"
 #include "Helper/FileHelper.h"
+#include "Helper/MetaData/MetaData.h"
+
 #include "Database/DatabaseConnector.h"
+
 
 #include <QDir>
 #include <QFile>

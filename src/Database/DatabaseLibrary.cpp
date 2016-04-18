@@ -25,6 +25,8 @@
 #include "Database/DatabaseArtists.h"
 #include "Database/DatabaseTracks.h"
 
+#include "Helper/MetaData/MetaDataList.h"
+
 DatabaseLibrary::DatabaseLibrary(QSqlDatabase db, quint8 db_id) :
 	DatabaseModule(db, db_id)
 {

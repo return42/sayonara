@@ -29,17 +29,10 @@
 #ifndef METADATA_H_
 #define METADATA_H_
 
-#include "Helper/globals.h"
 #include "Helper/MetaData/LibraryItem.h"
-#include "Helper/MetaData/Artist.h"
-#include "Helper/MetaData/Album.h"
 #include "Helper/Logger/Logger.h"
-#include "Components/CoverLookup/CoverLocation.h"
 
-#include <QPair>
 #include <QMetaType>
-
-#include <functional>
 
 class AlbumInfo;
 class ArtistInfo;

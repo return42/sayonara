@@ -23,10 +23,8 @@
 #define LIBRARY_RATING_DELEGATE_H
 
 #include <QItemDelegate>
-#include "GUI/Library/Views/LibraryView.h"
-#include "GUI/Library/Models/LibraryItemModel.h"
 
-
+class LibraryView;
 class LibraryRatingDelegate : public QItemDelegate
 {
     Q_OBJECT

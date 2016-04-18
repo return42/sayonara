@@ -25,7 +25,8 @@
 #include "DBus/org_mpris_media_player2_adaptor.h"
 #include "DBus/org_mpris_media_player2_player_adaptor.h"
 #include "Components/CoverLookup/CoverLocation.h"
-#include "Helper/Logger/Logger.h"
+
+#include "Helper/Helper.h"
 
 #include <QDBusConnection>
 #include <QDBusMessage>

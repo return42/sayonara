@@ -23,7 +23,7 @@
 #ifndef PLAYLISTTABWIDGET_H
 #define PLAYLISTTABWIDGET_H
 
-#include "Helper/Helper.h"
+
 #include "Helper/SayonaraClass.h"
 #include "PlaylistMenuEntry.h"
 
@@ -35,6 +35,7 @@
 #include <QMouseEvent>
 
 class PlaylistTabBar;
+class MetaDataList;
 class PlaylistTabWidget : public QTabWidget
 {
 	Q_OBJECT

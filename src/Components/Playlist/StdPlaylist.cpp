@@ -21,6 +21,7 @@
 #include "StdPlaylist.h"
 #include "Helper/Helper.h"
 #include "Helper/Parser/PlaylistParser.h"
+#include "Helper/Random/RandomGenerator.h"
 
 StdPlaylist::StdPlaylist(int idx, QString name) :
 	Playlist(idx, name)

@@ -25,6 +25,7 @@
 #include "Components/Engine/Callbacks/PipelineCallbacks.h"
 #include "ConvertPipeline.h"
 #include "Helper/Tagging/Tagging.h"
+#include "Helper/FileHelper.h"
 
 #include <QUrl>
 

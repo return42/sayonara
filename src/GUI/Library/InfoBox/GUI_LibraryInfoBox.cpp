@@ -28,6 +28,9 @@
 
 #include "Helper/Helper.h"
 #include "Helper/FileHelper.h"
+#include "Helper/MetaData/MetaDataList.h"
+#include "Helper/MetaData/Album.h"
+#include "Helper/MetaData/Artist.h"
 #include "GUI/Helper/IconLoader/IconLoader.h"
 
 #include <QMap>

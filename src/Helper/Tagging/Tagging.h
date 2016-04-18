@@ -22,12 +22,13 @@
 #ifndef TAGGING_H_
 #define TAGGING_H_
 
-#include "Helper/MetaData/MetaData.h"
-
 #include <taglib/tag.h>
 #include <taglib/taglib.h>
 #include <taglib/fileref.h>
 
+#include <QtGlobal>
+
+class MetaData;
 /**
  * @brief Tagging namespace
  * @ingroup Tagging

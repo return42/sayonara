@@ -26,11 +26,12 @@
  *      Author: luke
  */
 
-
-#include "Helper/Style/Style.h"
 #include <QApplication>
 #include <QFont>
+
 #include "Helper/Settings/Settings.h"
+#include "Helper/FileHelper.h"
+#include "Helper/Style/Style.h"
 
 
 #define NEWLINE "\n";

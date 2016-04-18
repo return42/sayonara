@@ -2,9 +2,11 @@
 #define METADATALIST_H
 
 #include <QVector>
-
 #include "MetaData.h"
+
+#include "Helper/globals.h"
 #include "Helper/Set.h"
+
 #include <functional>
 
 /**
@@ -42,7 +44,7 @@ public:
 	MetaDataList& randomize();
 
 	MetaDataList extract_tracks(std::function<bool (const MetaData& md)> func) const;
-	MetaDataList extract_tracks(const IdxList& idx_list) const;
+	//MetaDataList extract_tracks(const IdxList& idx_list) const;
 	MetaDataList extract_tracks(const SP::Set<int>& idx_list) const;
 
 	IdxList findTracks(int id) const;

@@ -25,11 +25,13 @@
  */
 
 
-
+#include "Helper/Helper.h"
 #include "Helper/Shutdown/Shutdown.h"
 #include "Database/DatabaseConnector.h"
 #include "Components/PlayManager/PlayManager.h"
 #include "Interfaces/Notification/NotificationHandler.h"
+
+
 
 #ifdef WITH_SHUTDOWN
 

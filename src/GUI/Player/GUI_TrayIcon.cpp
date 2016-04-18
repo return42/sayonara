@@ -20,7 +20,9 @@
 
 #include "Helper/Helper.h"
 #include "Helper/Style/Style.h"
+#include "Helper/MetaData/MetaData.h"
 #include "GUI_TrayIcon.h"
+
 
 #include <QAction>
 #include <QMenu>

@@ -23,6 +23,9 @@
 #include "Database/DatabaseHandler.h"
 #include "Helper/Compressor/Compressor.h"
 
+#include "Helper/Helper.h"
+#include "Helper/FileHelper.h"
+
 ArtistInfo::ArtistInfo(const MetaDataList* v_md) :
 	MetaDataInfo(v_md){
 

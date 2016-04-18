@@ -24,6 +24,7 @@
 #define DATABASEARTISTS_H
 
 #include "Database/DatabaseModule.h"
+#include "Helper/MetaData/Artist.h"
 
 class DatabaseArtists : private DatabaseModule
 {

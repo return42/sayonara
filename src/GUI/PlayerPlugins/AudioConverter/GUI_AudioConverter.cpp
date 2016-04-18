@@ -21,8 +21,10 @@
 
 
 #include "GUI_AudioConverter.h"
-#include "Helper/Helper.h"
 #include "GUI/Helper/GlobalMessage/Message.h"
+
+#include "Helper/Helper.h"
+#include "Components/Engine/EngineHandler.h"
 
 #include <QFileDialog>
 

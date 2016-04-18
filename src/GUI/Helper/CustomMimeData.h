@@ -36,7 +36,6 @@ class CustomMimeData : public QMimeData {
 
 private:
     MetaDataList    _v_md;
-    bool	    _has_meta_data;
 
 public:
     /**
@@ -57,7 +56,7 @@ public:
      * @param v_md reference to metadata
      * @return size of metadata
      */
-    int getMetaData(MetaDataList& v_md) const;
+	MetaDataList getMetaData() const;
 
     /**
      * @brief check, if the custom mimedata has metadata

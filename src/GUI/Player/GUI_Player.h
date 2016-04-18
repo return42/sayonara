@@ -25,13 +25,12 @@
 #include "GUI/Player/ui_GUI_Player.h"
 
 #include "Components/PlayManager/PlayManager.h"
+#include "Components/CoverLookup/CoverLocation.h"
 
 #include "GUI/Player/GUI_TrayIcon.h"
 #include "GUI/Helper/GlobalMessage/GlobalMessageReceiverInterface.h"
 
-#ifdef WITH_MTP
-	#include "GUI/MTP/GUI_MTP.h"
-#endif
+
 
 #include <QMessageBox>
 #include <QMainWindow>
@@ -54,6 +53,10 @@ class PlayerPluginHandler;
 class LibraryPluginHandler;
 class PreferenceDialogInterface;
 class IconLoader;
+
+#ifdef WITH_MTP
+	class GUI_MTP;
+#endif
 
 class GUI_Player :
 		public SayonaraMainWindow,

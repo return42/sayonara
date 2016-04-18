@@ -24,8 +24,21 @@
 #define SOUNDCLOUDJSONPARSER_H
 
 
-#include "Helper/Helper.h"
+
 #include "SoundcloudGlobal.h"
+#include "Helper/Logger/Logger.h"
+
+#include <QList>
+#include <QString>
+#include <QByteArray>
+#include <QObject>
+
+class MetaData;
+class MetaDataList;
+class Artist;
+class Album;
+class ArtistList;
+class AlbumList;
 
 struct JsonItem {
 	enum class Type : quint8 {

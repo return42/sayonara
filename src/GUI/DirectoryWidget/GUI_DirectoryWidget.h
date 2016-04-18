@@ -37,6 +37,7 @@ class LocalLibrary;
 class IconProvider;
 class LocalLibrary;
 class AbstractSearchFileTreeModel;
+class LibraryContextMenu;
 
 class GUI_DirectoryWidget :
 		public SayonaraWidget,
@@ -57,10 +58,13 @@ private:
 	LocalLibrary*						_local_library=nullptr;
 	AbstractSearchFileTreeModel*		_dir_model=nullptr;
 
+
+
 	QModelIndex							_found_idx;
 	QString								_search_term;
 	QStringList							_found_strings;
 
+private:
 	void showEvent(QShowEvent* e) override;
 	void init_shortcuts();
 
@@ -74,8 +78,15 @@ private slots:
 	void dir_pressed(QModelIndex idx);
 	void file_dbl_clicked(QModelIndex idx);
 	void file_pressed(QModelIndex idx);
+	void dir_info_clicked();
+	void dir_append_clicked();
+	void dir_play_next_clicked();
+	void dir_delete_clicked();
 
-	void _sl_library_path_changed();
+	void file_info_clicked();
+	void file_append_clicked();
+	void file_play_next_clicked();
+	void file_delete_clicked();
 };
 
 

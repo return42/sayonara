@@ -25,6 +25,10 @@
 #include "CoverHelper.h"
 #include "LocalCoverSearcher.h"
 #include "Helper/Helper.h"
+#include "Helper/MetaData/MetaData.h"
+#include "Helper/MetaData/Album.h"
+#include "Helper/MetaData/Artist.h"
+
 #include "Database/DatabaseHandler.h"
 
 #include <QDir>
@@ -85,7 +89,7 @@ CoverLocation CoverLocation::get_cover_location(const QString& album_name, const
 
 CoverLocation CoverLocation::get_cover_location(const QString& album_name, const QStringList& artists) {
 
-	QString major_artist = Helper::get_major_artist(artists);
+	QString major_artist = ArtistList::get_major_artist(artists);
 	return get_cover_location(album_name, major_artist);
 }
 

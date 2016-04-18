@@ -61,6 +61,7 @@
 #include "GUI/PreferenceDialog/GUI_PreferenceDialog.h"
 
 #include "Helper/Style/Style.h"
+#include "Helper/FileHelper.h"
 
 #include <QByteArray>
 #include <thread>

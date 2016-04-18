@@ -24,6 +24,8 @@
 #define COVERLOOKUPALTERNATIVE_H
 
 #include "Components/CoverLookup/CoverLookup.h"
+#include "Helper/MetaData/Artist.h"
+#include "Helper/MetaData/Album.h"
 
 /**
  * @brief The CoverLookupAlternative class

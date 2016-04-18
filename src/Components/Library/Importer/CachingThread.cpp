@@ -25,6 +25,7 @@
 #include "Helper/DirectoryReader/DirectoryReader.h"
 #include "Helper/Tagging/Tagging.h"
 #include "Helper/Helper.h"
+#include "Helper/FileHelper.h"
 
 
 #include <QDir>

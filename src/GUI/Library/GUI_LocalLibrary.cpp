@@ -27,10 +27,13 @@
  */
 
 #include "GUI_LocalLibrary.h"
+#include "GUI/Helper/GlobalMessage/Message.h"
 #include "LocalLibraryMenu.h"
 #include "InfoBox/GUI_LibraryInfoBox.h"
 #include "ImportFolderDialog/GUI_ImportFolder.h"
-#include "GUI/Helper/GlobalMessage/Message.h"
+
+#include "Components/Library/LocalLibrary.h"
+#include "Helper/Helper.h"
 
 
 #include <QFileDialog>
@@ -38,6 +41,7 @@
 #include <QTimer>
 #include <QShortcut>
 #include <QInputDialog>
+#include <QMessageBox>
 
 
 GUI_LocalLibrary::GUI_LocalLibrary(QWidget* parent) :

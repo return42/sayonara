@@ -21,6 +21,7 @@
 
 
 #include "MetaDataChangeNotifier.h"
+#include "Helper/MetaData/MetaDataList.h"
 
 MetaDataChangeNotifier::MetaDataChangeNotifier(QObject *parent) :
 	QObject(parent)

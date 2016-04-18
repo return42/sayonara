@@ -18,8 +18,11 @@
  */
 
 
+
 #include "PlaylistTabMenu.h"
+#include "Helper/Helper.h"
 #include "GUI/Helper/IconLoader/IconLoader.h"
+
 
 
 PlaylistTabMenu::PlaylistTabMenu(QWidget* parent) :

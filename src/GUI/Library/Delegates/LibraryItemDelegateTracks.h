@@ -29,14 +29,7 @@
 #ifndef IBRARYITEMDELEGATETRACKS_H_
 #define IBRARYITEMDELEGATETRACKS_H_
 
-#include "GUI/Library/Views/LibraryView.h"
-#include "GUI/Library/Models/LibraryItemModelTracks.h"
 #include "GUI/Library/Delegates/LibraryRatingDelegate.h"
-
-#include <QTableView>
-#include <QLabel>
-#include <QPen>
-#include <QColor>
 
 
 class LibraryItemDelegateTracks : public LibraryRatingDelegate {

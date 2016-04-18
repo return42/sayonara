@@ -30,11 +30,7 @@
 #define LIBRARYITEMMODELARTISTS_H_
 
 #include "LibraryItemModel.h"
-
-#include "Helper/MetaData/MetaData.h"
-
-#include <QStringList>
-#include <QList>
+#include "Helper/MetaData/Artist.h"
 
 
 class LibraryItemModelArtists : public LibraryItemModel {

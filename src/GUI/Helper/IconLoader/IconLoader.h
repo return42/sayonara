@@ -24,7 +24,6 @@
 #define IconLoader_H_
 
 #include "Helper/globals.h"
-#include "Helper/SayonaraClass.h"
 
 #include <QString>
 #include <QMap>

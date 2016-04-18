@@ -21,7 +21,7 @@
 
 
 #include "Database/DatabaseAlbums.h"
-
+#include "Helper/MetaData/Album.h"
 
 DatabaseAlbums::DatabaseAlbums(QSqlDatabase db, quint8 db_id) :
 	DatabaseModule(db, db_id)

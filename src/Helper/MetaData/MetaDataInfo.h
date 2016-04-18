@@ -23,14 +23,15 @@
 #ifndef METADATAINFO_H
 #define METADATAINFO_H
 
-#include "Helper/Helper.h"
+
 #include "Helper/Set.h"
 #include "Helper/SayonaraClass.h"
-#include "Components/CoverLookup/CoverLookup.h"
-#include "Database/DatabaseHandler.h"
+#include "Components/CoverLookup/CoverLocation.h"
 
 #include <QMap>
 
+class MetaDataList;
+class LibraryDatabase;
 
 /**
  * @brief The InfoStrings enum

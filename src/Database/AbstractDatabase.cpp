@@ -22,6 +22,7 @@
 
 #include "Database/AbstractDatabase.h"
 #include "Database/DatabaseModule.h"
+#include "Helper/Helper.h"
 
 AbstractDatabase::AbstractDatabase(quint8 db_id, const QString& db_dir, const QString& db_name, QObject *parent) : QObject(parent)
 {

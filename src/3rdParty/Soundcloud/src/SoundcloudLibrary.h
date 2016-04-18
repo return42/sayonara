@@ -25,7 +25,7 @@
 #include "SoundcloudData.h"
 #include "Components/Library/AbstractLibrary.h"
 
-
+class CoverLocation;
 class SoundcloudLibrary : public AbstractLibrary
 {
 	Q_OBJECT
@@ -78,8 +78,8 @@ private slots:
 	void		tracks_fetched(const MetaDataList& v_md);
 	void		albums_fetched(const AlbumList& albums);
 
-	void				cover_lookup_finished(bool);
-	void				cover_found(const CoverLocation& cl);
+	void		cover_lookup_finished(bool);
+	void		cover_found(const CoverLocation& cl);
 
 public slots:
 	void		psl_reload_library(bool clear_first, Library::ReloadQuality quality);

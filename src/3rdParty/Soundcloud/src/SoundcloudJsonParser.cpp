@@ -21,7 +21,10 @@
 
 
 #include "SoundcloudJsonParser.h"
-
+#include "Helper/Helper.h"
+#include "Helper/MetaData/Artist.h"
+#include "Helper/MetaData/Album.h"
+#include "Helper/MetaData/MetaDataList.h"
 
 void remove_first_and_last(QByteArray& data, char first, char last){
 

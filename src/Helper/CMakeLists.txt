@@ -45,7 +45,7 @@ SET(HELPER_LIBRARIES
     say_comp_covers
     say_db
     say_gui_global_message
-	say_helper_metadata
+    say_helper_metadata
     say_helper_settings
 )
 

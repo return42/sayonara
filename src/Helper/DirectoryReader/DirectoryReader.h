@@ -23,6 +23,7 @@
 #define DIRECTORY_READER
 
 #include "Helper/Helper.h"
+#include "Helper/MetaData/MetaDataList.h"
 
 #include <QDir>
 #include <QFileInfo>

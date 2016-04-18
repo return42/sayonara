@@ -20,6 +20,7 @@
 
 
 #include "SoundcloudData.h"
+#include "Helper/MetaData/Album.h"
 
 SoundcloudData::SoundcloudData() :
 	LibraryDatabase(1, "", "soundcloud.db")

@@ -21,6 +21,7 @@
 
 
 #include "LibraryRatingDelegate.h"
+#include "GUI/Library/Views/LibraryView.h"
 #include "GUI/Helper/RatingLabel/RatingLabel.h"
 #include "Helper/Logger/Logger.h"
 

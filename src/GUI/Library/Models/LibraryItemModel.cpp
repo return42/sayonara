@@ -20,6 +20,7 @@
 
 
 #include "LibraryItemModel.h"
+#include "GUI/Library/ColumnHeader.h"
 
 #include <QList>
 #include <QString>
@@ -156,7 +157,7 @@ bool LibraryItemModel::removeRows(int row, int count, const QModelIndex& index){
 	beginRemoveRows(QModelIndex(), row, row + count - 1);
 	_n_rows -= count;
 	for(int i=row; i<row + count; i++){
-		_selections.removeOne( get_id_by_row(i) );
+		_selections.remove( get_id_by_row(i) );
 	}
 
 	endRemoveRows();
@@ -202,22 +203,19 @@ CustomMimeData* LibraryItemModel::get_mimedata(){
 
 
 bool LibraryItemModel::has_selections(){
-	return !_selections.isEmpty();
+	return !(_selections.isEmpty());
 }
 
 
 void LibraryItemModel::add_selections(const SP::Set<int>& rows){
 
 	std::for_each(rows.begin(), rows.end(), [=](int row){
-		_selections << get_id_by_row(row);
+		_selections.insert(get_id_by_row(row));
 	});
-
-	std::sort(_selections.begin(), _selections.end());
 }
 
 void LibraryItemModel::add_selection(int row){
-	_selections << get_id_by_row(row);
-	std::sort(_selections.begin(), _selections.end());
+	_selections.insert(get_id_by_row(row));
 }
 
 bool LibraryItemModel::is_selected(int id)
@@ -228,11 +226,11 @@ bool LibraryItemModel::is_selected(int id)
 
 void LibraryItemModel::remove_selection(int id){
 
-	auto lambda = [id](int tmp_id){
-		return tmp_id == id;
-	};
-	auto it=std::remove_if(_selections.begin(), _selections.end(), lambda);
-	_selections.erase(it);
+	auto it = _selections.find(id);
+
+	if(it != _selections.end()){
+		_selections.erase(it);
+	}
 }
 
 void LibraryItemModel::clear_selections(){

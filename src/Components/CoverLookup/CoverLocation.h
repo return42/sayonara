@@ -23,10 +23,12 @@
 #ifndef COVERLOCATION_H
 #define COVERLOCATION_H
 
-#include "Helper/MetaData/MetaData.h"
+#include <QString>
+#include <QStringList>
 
 class MetaData;
-
+class Album;
+class Artist;
 /**
  * @brief The CoverLocation class
  * @ingroup Covers

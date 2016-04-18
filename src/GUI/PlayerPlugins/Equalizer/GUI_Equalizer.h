@@ -30,11 +30,6 @@
 #define GUI_EQUALIZER_H_
 
 #include "GUI/PlayerPlugins/Equalizer/ui_GUI_Equalizer.h"
-#include "GUI/Helper/ComboBoxDelegate/ComboBoxDelegate.h"
-
-#include "Helper/Helper.h"
-#include "Helper/EqualizerPresets.h"
-
 #include "Interfaces/PlayerPlugin/PlayerPlugin.h"
 
 #include <QList>

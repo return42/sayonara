@@ -21,6 +21,7 @@
 
 
 #include "Bookmarks.h"
+#include "Helper/Helper.h"
 #include "Database/DatabaseConnector.h"
 
 #include <algorithm> // std::max

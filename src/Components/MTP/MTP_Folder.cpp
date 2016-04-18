@@ -22,6 +22,8 @@
 #include "MTP_Track.h"
 #include "Helper/Settings/Settings.h"
 
+#include <QDir>
+
 
 
 MTP_Folder::MTP_Folder(MTPIntern_Device* device, MTPIntern_Folder *folder){

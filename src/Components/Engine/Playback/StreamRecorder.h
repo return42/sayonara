@@ -25,8 +25,8 @@
 
 #include "Components/PlayManager/PlayManager.h"
 #include "Helper/SayonaraClass.h"
-#include "Helper/Parser/PlaylistParser.h"
-#include "Helper/Tagging/Tagging.h"
+#include "Helper/MetaData/MetaDataList.h"
+
 
 #include <QDateTime>
 

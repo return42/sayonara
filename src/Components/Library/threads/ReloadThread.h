@@ -32,10 +32,13 @@
 
 #include <QThread>
 #include <QHash>
+#include <QDir>
 
 #include "Helper/Tagging/Tagging.h"
 #include "Helper/SayonaraClass.h"
+#include "Helper/MetaData/MetaDataList.h"
 #include "LibraryNamespaces.h"
+
 
 class DatabaseConnector;
 class ReloadThread :

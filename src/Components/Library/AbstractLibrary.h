@@ -28,6 +28,9 @@
 #include "Helper/Tagging/Tagging.h"
 #include "Helper/Set.h"
 #include "LibraryNamespaces.h"
+#include "Helper/MetaData/Artist.h"
+#include "Helper/MetaData/Album.h"
+#include "Helper/MetaData/MetaDataList.h"
 
 #include <QFile>
 

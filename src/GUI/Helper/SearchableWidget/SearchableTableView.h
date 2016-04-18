@@ -24,8 +24,8 @@
 #define SEARCHABLETABLEVIEW_H
 
 
-#include "GUI/Library/Models/LibraryItemModel.h"
-#include "AbstractSearchModel.h"
+
+
 #include "SayonaraSelectionView.h"
 
 #include <QTableView>
@@ -33,6 +33,7 @@
 #include <QKeyEvent>
 
 
+class AbstractSearchTableModel;
 class MiniSearcher;
 class SearchableTableView : public QTableView, public SayonaraSelectionView {
 	Q_OBJECT

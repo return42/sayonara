@@ -19,6 +19,7 @@
  */
 
 #include "EnginePlugin.h"
+#include "Components/Engine/EngineHandler.h"
 
 EnginePlugin::EnginePlugin(QWidget* parent) :
 	PlayerPluginInterface(parent)

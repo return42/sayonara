@@ -23,7 +23,7 @@
 #define GUI_TRAYICON_H
 
 #include "Helper/SayonaraClass.h"
-#include "Helper/MetaData/MetaData.h"
+
 #include "Interfaces/Notification/NotificationHandler.h"
 #include "Components/PlayManager/PlayManager.h"
 
@@ -31,7 +31,7 @@
 #include <QAction>
 #include <QTimer>
 
-
+class MetaData;
 /**
   * Small class to be used as tray icon
   */

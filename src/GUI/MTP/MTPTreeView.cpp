@@ -40,8 +40,8 @@ bool MTPTreeView::dropMimeData(QTreeWidgetItem* parent, int index, const QMimeDa
 	}
 
 	sp_log(Log::Debug) << "Successfully dropped metadata";
-	MetaDataList v_md;
-	cmd->getMetaData(v_md);
+
+	MetaDataList v_md = cmd->getMetaData();
 	emit sig_metadata_dropped(v_md, index);
 
 	return true;

@@ -29,14 +29,11 @@
 #ifndef LIBRARYITEMMODELALBUMS_H_
 #define LIBRARYITEMMODELALBUMS_H_
 
-#include "Helper/MetaData/MetaData.h"
+#include "Helper/MetaData/Album.h"
 #include "GUI/Library/Models/LibraryItemModel.h"
 #include "GUI/Library/ColumnHeader.h"
 
 #include <QAbstractTableModel>
-#include <QVector>
-
-
 
 
 using namespace std;

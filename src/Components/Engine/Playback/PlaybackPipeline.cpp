@@ -19,9 +19,12 @@
  */
 
 #include "PlaybackPipeline.h"
-#include "gst/base/gstdataqueue.h"
+
 #include "Components/Engine/Callbacks/PipelineCallbacks.h"
 #include "PipelineProbes.h"
+#include "Helper/Helper.h"
+
+#include <gst/base/gstdataqueue.h>
 
 //http://gstreamer.freedesktop.org/data/doc/gstreamer/head/manual/html/chapter-dataaccess.html
 

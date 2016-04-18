@@ -19,8 +19,10 @@
  */
 
 
-
+#include "Helper/FileHelper.h"
 #include "Helper/MetaData/Artist.h"
+#include "Helper/Helper.h"
+#include <QHash>
 
 #define ARTIST_DO_COPY \
 	id = other.id;	\
@@ -82,4 +84,58 @@ void Artist::print() const {
 
 }
 
+
+
+
+QString ArtistList::get_major_artist(const QStringList& artists)
+{
+
+	QHash<QString, int> map;
+	int n_artists = artists.size();
+
+	if(artists.isEmpty()) {
+		return "";
+	}
+
+	if(n_artists == 1){
+		return artists.first().toLower().trimmed();
+	}
+
+	for(const QString& artist : artists) {
+
+		QString alower = artist.toLower().trimmed();
+
+		// count appearance of artist
+		if( !map.contains(alower) ) {
+			map.insert(alower, 1);
+		}
+		else {
+			map[alower] = map.value(alower) + 1;
+		};
+	}
+
+	// n_appearances have to be at least 2/3 of all apperances
+	for(const QString& artist : map.keys()) {
+
+		int n_appearances = map.value(artist);
+		if(n_appearances * 3 > n_artists * 2) {
+			return artist;
+		}
+
+	}
+
+	return Helper::StringDummy().various();
+}
+
+QString ArtistList::get_major_artist() const
+{
+
+	QStringList lst;
+
+	for(auto it=this->begin(); it!=this->end(); it++){
+		lst << it->name;
+	}
+
+	return get_major_artist(lst);
+}
 

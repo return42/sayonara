@@ -29,6 +29,7 @@
 #include "Helper/Parser/PodcastParser.h"
 #include "Helper/Parser/PlaylistParser.h"
 #include "Helper/UrlHelper.h"
+#include "Helper/FileHelper.h"
 
 AbstractStreamHandler::AbstractStreamHandler(QObject *parent) :
 	QObject(parent)

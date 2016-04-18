@@ -23,9 +23,6 @@
 #ifndef MINISEARCHER_H
 #define MINISEARCHER_H
 
-
-#include "SearchableFileTreeView.h"
-
 #include <QFrame>
 #include <QLineEdit>
 #include <QBoxLayout>
@@ -87,12 +84,12 @@ private slots:
 
 
 private:
-    QAbstractScrollArea*    _parent;
+	QAbstractScrollArea*    _parent=nullptr;
 	QMap<QChar, QString>    _triggers;
-	QPushButton*            _left_button;
-	QPushButton*            _right_button;
-	MiniSearcherLineEdit*   _line_edit;
-	QBoxLayout*             _layout;
+	QPushButton*            _left_button=nullptr;
+	QPushButton*            _right_button=nullptr;
+	MiniSearcherLineEdit*   _line_edit=nullptr;
+	QBoxLayout*             _layout=nullptr;
 
     bool isInitiator(QKeyEvent* event);
     void init(QString text);

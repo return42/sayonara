@@ -25,9 +25,12 @@
 #include "GUI/AlternativeCovers/GUI_AlternativeCovers.h"
 #include "GUI/Playlist/GUI_Playlist.h"
 #include "GUI/Helper/GlobalMessage/Message.h"
+#include "GUI/Helper/IconLoader/IconLoader.h"
+#include "GUI/MTP/GUI_MTP.h"
 
 #include "Helper/globals.h"
 #include "Helper/Style/Style.h"
+#include "Helper/FileHelper.h"
 #include "Helper/WebAccess/AsyncWebAccess.h"
 
 #include "Components/CoverLookup/CoverLookup.h"
@@ -40,7 +43,7 @@
 #include "Interfaces/PlayerPlugin/PlayerPlugin.h"
 #include "Interfaces/PreferenceDialog/PreferenceDialogInterface.h"
 
-#include "GUI/Helper/IconLoader/IconLoader.h"
+
 
 #include <QFileDialog>
 #include <QPalette>

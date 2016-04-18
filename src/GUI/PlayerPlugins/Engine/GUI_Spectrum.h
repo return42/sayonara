@@ -27,7 +27,7 @@
 #include "Components/Engine/Playback/SoundOutReceiver.h"
 
 #include "EnginePlugin.h"
-#include "EngineColorStyleChooser.h"
+
 
 #include <QVector>
 #include <QString>

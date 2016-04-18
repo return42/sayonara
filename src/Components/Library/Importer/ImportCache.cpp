@@ -1,5 +1,6 @@
 #include "ImportCache.h"
 #include "Helper/Settings/Settings.h"
+#include "Helper/FileHelper.h"
 
 ImportCache::ImportCache()
 {

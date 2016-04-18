@@ -22,5 +22,6 @@ TARGET_LINK_LIBRARIES(${PROJECT_NAME}
     say_comp_streamplugins_streams
     say_interfaces_player_plugin
     say_gui_menu_tool
+    say_gui_global_message
     say_gui_combobox_delegate
 )

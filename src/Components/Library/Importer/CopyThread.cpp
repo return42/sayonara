@@ -22,6 +22,7 @@
 
 #include "CopyThread.h"
 #include "Helper/Helper.h"
+#include "Helper/FileHelper.h"
 
 #include <QDir>
 #include <QFile>

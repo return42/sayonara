@@ -47,7 +47,7 @@ protected:
 	 * This method should be the first to be called when calling init_ui()
 	 * @param widget should always be "this"
 	 */
-	void setup_parent(W* widget) final {
+	void setup_parent(W* widget) {
 
 		widget->setupUi(widget);
 		//widget->setModal(true);

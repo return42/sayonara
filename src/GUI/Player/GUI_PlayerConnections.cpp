@@ -20,12 +20,14 @@
 
 #include "GUI_Player.h"
 
+
 #include "Components/CoverLookup/CoverLookup.h"
 #include "Components/TagEdit/MetaDataChangeNotifier.h"
 #include "Components/Engine/EngineHandler.h"
 
 #include "GUI/AlternativeCovers/GUI_AlternativeCovers.h"
 #include "GUI/Helper/Shortcuts/ShortcutHandler.h"
+#include "GUI/MTP/GUI_MTP.h"
 
 void GUI_Player::setup_connections() {
 

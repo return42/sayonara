@@ -24,7 +24,10 @@
 #define DATABASEALBUMS_H
 
 #include "Database/DatabaseModule.h"
+#include "Helper/globals.h"
 
+class Album;
+class AlbumList;
 class DatabaseAlbums : private DatabaseModule
 {
 

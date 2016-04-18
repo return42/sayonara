@@ -23,13 +23,11 @@
 #ifndef DATABASEMODULE_H
 #define DATABASEMODULE_H
 
-#include "Helper/MetaData/MetaData.h"
-#include "Helper/Helper.h"
+
+#include <QSqlDatabase>
 #include "Database/SayonaraQuery.h"
 #include "Components/Library/Sorting.h"
 #include "Helper/Filter.h"
-
-#include <QSqlDatabase>
 
 
 #define DB_TRY_OPEN(db)		if (!this -> db.isOpen()) \

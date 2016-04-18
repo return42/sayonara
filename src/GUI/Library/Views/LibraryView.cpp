@@ -28,8 +28,10 @@
 
 #include "LibraryView.h"
 #include "HeaderView.h"
+#include "Helper/globals.h"
+#include "Helper/Helper.h"
 
-#include "GUI/Library/Models/LibraryItemModel.h"
+
 #include "GUI/Helper/CustomMimeData.h"
 #include "GUI/Helper/ContextMenu/LibraryContextMenu.h"
 #include "GUI/Helper/SearchableWidget/MiniSearcher.h"
@@ -134,7 +136,7 @@ MetaDataList LibraryView::get_selected_metadata() const
 
 	mimedata = _model->get_mimedata();
 	if(mimedata){
-		mimedata->getMetaData(v_md);
+		v_md = mimedata->getMetaData();
 		delete mimedata;
 	}
 
@@ -160,4 +162,3 @@ void LibraryView::rc_menu_show(const QPoint& p) {
 	disconnect(_rc_menu, &LibraryContextMenu::sig_append_clicked, this, &LibraryView::sig_append_clicked);
 	disconnect(_rc_menu, &LibraryContextMenu::sig_refresh_clicked, this, &LibraryView::sig_refresh_clicked);
 }
-// right click stuff end

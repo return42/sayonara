@@ -34,14 +34,13 @@
 #include "Application/application.h"
 #include "Database/DatabaseConnector.h"
 
-#include "Helper/Logger/Logger.h"
 #include "Helper/Helper.h"
+#include "Helper/FileHelper.h"
 #include "Helper/Settings/Settings.h"
+
 #include "GUI/Helper/Shortcuts/ShortcutHandler.h"
 
 #include <QSharedMemory>
-#include <QDir>
-#include <QFile>
 #include <QTranslator>
 #include <QFontDatabase>
 #include <algorithm>

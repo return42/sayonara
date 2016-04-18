@@ -286,8 +286,7 @@ void PlaylistTabBar::dropEvent(QDropEvent* e)
 		return;
 	}
 
-	MetaDataList v_md;
-	cmd->getMetaData(v_md);
+	MetaDataList v_md = cmd->getMetaData();
 
 	emit sig_metadata_dropped(tabAt(e->pos()), v_md);
 }

@@ -34,10 +34,12 @@
 
 #include "Components/CoverLookup/CoverLookup.h"
 #include "Components/CoverLookup/CoverLookupAlternative.h"
-#include "Helper/MetaData/MetaData.h"
+
 #include "Database/DatabaseConnector.h"
 
 #include "GUI/Helper/GlobalMessage/Message.h"
+#include "Helper/Helper.h"
+#include "Helper/MetaData/MetaData.h"
 
 #include <QFile>
 #include <QDir>
@@ -133,7 +135,7 @@ void GUI_AlternativeCovers::start(int album_id, quint8 db_id, const CoverLocatio
 
 void GUI_AlternativeCovers::start(Album album, const CoverLocation& cl) {
 
-	le_search->setText(album.name + " " + Helper::get_major_artist(album.artists));
+	le_search->setText(album.name + " " + ArtistList::get_major_artist(album.artists));
 
 	if(!cl.valid){
 		_cover_location = CoverLocation::get_cover_location(album);

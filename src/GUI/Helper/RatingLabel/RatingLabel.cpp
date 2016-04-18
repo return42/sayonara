@@ -22,7 +22,7 @@
 
 #include "RatingLabel.h"
 #include "Helper/Helper.h"
-#include "Helper/Logger/Logger.h"
+#include "Helper/Random/RandomGenerator.h"
 
 #include <QPainter>
 #include <QRect>

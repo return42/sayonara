@@ -389,7 +389,7 @@ void GUI_MTP::dropEvent(QDropEvent* e)
 
 		enable_drag_drop(false);
 
-		cmd->getMetaData(v_md);
+		v_md = cmd->getMetaData();
 
 		if(v_md.isEmpty() && cmd->hasUrls()){
 			QList<QUrl> urls = mime_data->urls();

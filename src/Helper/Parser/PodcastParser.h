@@ -20,9 +20,10 @@
 
 
 
-#include "Helper/MetaData/MetaData.h"
+
 #include <QString>
 
+class MetaDataList;
 /**
  * @brief Podcast Parser class
  * @ingroup PlaylistParser

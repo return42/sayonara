@@ -54,6 +54,14 @@ namespace SP {
 			auto it = this->find(value);
 			return (it != this->end());
 		}
+
+		void remove(const T& value)
+		{
+			auto it = this->find(value);
+			if(it != this->end()){
+				this->erase(it);
+			}
+		}
 	};
 }
 

@@ -31,9 +31,9 @@
 
 #include "GUI/Library/ColumnHeader.h"
 #include "GUI/Helper/SearchableWidget/SearchableTableView.h"
+#include "GUI/Library/Models/LibraryItemModel.h"
 
-#include "Helper/globals.h"
-#include "Helper/Helper.h"
+#include "Helper/MetaData/MetaDataList.h"
 
 #include <QDropEvent>
 #include <QMouseEvent>
