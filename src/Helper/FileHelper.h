@@ -49,7 +49,13 @@ namespace Helper
 		 * @param dir_name directory name
 		 * @param filters file name filters
 		 */
-		void			remove_files_in_directory(const QString& dir_name, const QStringList& filters);
+		void			remove_files_in_directory(const QString& dir_name, const QStringList& filters=QStringList());
+
+		/**
+		 * @brief Remove all given files (also directories can be specified)
+		 * @param files list of files
+		 */
+		void			delete_files(const QStringList& files);
 
 		/**
 		 * @brief get parent directory of a filepath

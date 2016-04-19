@@ -28,6 +28,7 @@ public:
 	QModelIndexList get_selected_rows() const;
 	QFileSystemModel* get_model() const;
 	MetaDataList read_metadata() const;
+	QStringList get_filelist() const;
 
 private:
 	LibraryContextMenu*	_context_menu=nullptr;

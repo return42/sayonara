@@ -87,9 +87,15 @@ QFileSystemModel* FileListView::get_model() const
 MetaDataList FileListView::read_metadata() const
 {
 	DirectoryReader reader;
+	QStringList paths = get_filelist();
+	return reader.get_md_from_filelist(paths);
+}
+
+QStringList FileListView::get_filelist() const
+{
 	QModelIndexList idx_list = this->get_selected_rows();
 	if(idx_list.isEmpty()){
-		return MetaDataList();
+		return QStringList();
 	}
 
 	QStringList paths;
@@ -97,6 +103,6 @@ MetaDataList FileListView::read_metadata() const
 		paths << _model->fileInfo(idx).absoluteFilePath();
 	}
 
-	return reader.get_md_from_filelist(paths);
+	return paths;
 }
 

@@ -24,6 +24,7 @@
 #include "Helper.h"
 
 #include <QDir>
+#include <algorithm>
 
 QString Helper::File::calc_file_extension(const QString& filename) {
 
@@ -34,26 +35,65 @@ QString Helper::File::calc_file_extension(const QString& filename) {
 
 void Helper::File::remove_files_in_directory(const QString& dir_name, const QStringList& filters) {
 
+	bool success;
 	QStringList file_list;
 	QDir dir(dir_name);
-	dir.setFilter(QDir::Files);
 
-	if(filters.size() == 0) {
-		QStringList tmp_list;
-		tmp_list << "*";
-		dir.setNameFilters(tmp_list);
+	QFileInfoList info_lst = dir.entryInfoList((QDir::Filters)(QDir::Writable | QDir::NoDotAndDotDot));
+
+	for(const QFileInfo& info : info_lst){
+
+		QString path = info.absoluteFilePath();
+		sp_log(Log::Debug) << "Try to remove " << path;
+		if(info.isDir()){
+			remove_files_in_directory(path);
+		}
+
+		else{
+			QFile file(path);
+			success = file.remove();
+			if(!success){
+				sp_log(Log::Debug) << "Could not remove " << path; 
+			}
+		}
 	}
-
-	else {
-		dir.setNameFilters(filters);
+	
+	QDir d = QDir::root();
+	success = d.rmdir(dir_name);
+	if(!success){
+		sp_log(Log::Debug) << "Could not remove " << dir_name; 
 	}
+}
 
-	file_list = dir.entryList();
+void Helper::File::delete_files(const QStringList& paths){
 
-	for(const QString& filename : file_list) {
+	bool success;
 
-		QFile file(dir.absoluteFilePath(filename));
-		file.remove();
+	QStringList sorted_paths = paths;
+	std::sort(sorted_paths.begin(), sorted_paths.end(), [](const QString& str1, const QString& str2){
+			return (str1.size() > str2.size());
+	});
+
+	for(const QString& path : sorted_paths)
+	{
+		sp_log(Log::Debug) << "remove path " << path;
+		QFileInfo info(path);
+		if(!info.exists()){
+			sp_log(Log::Debug) << path << " does not exist";
+			continue;
+		}
+
+		if(info.isDir()){
+			remove_files_in_directory(path);
+		}
+
+		else {
+			success = QFile::remove(path);
+			if(!success){
+				sp_log(Log::Debug) << "Could not remove " << path; 
+			}
+
+		}
 	}
 }
 

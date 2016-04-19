@@ -97,9 +97,15 @@ QModelIndexList DirectoryTreeView::get_selected_rows() const
 MetaDataList DirectoryTreeView::read_metadata() const
 {
 	DirectoryReader reader;
+	QStringList paths = get_filelist();
+	return reader.get_md_from_filelist(paths);
+}
+
+QStringList DirectoryTreeView::get_filelist() const
+{
 	QModelIndexList idx_list = this->get_selected_rows();
 	if(idx_list.isEmpty()){
-		return MetaDataList();
+		return QStringList();
 	}
 
 	QStringList paths;
@@ -107,6 +113,7 @@ MetaDataList DirectoryTreeView::read_metadata() const
 		paths << _model->fileInfo(idx).absoluteFilePath();
 	}
 
-	return reader.get_md_from_filelist(paths);
+	return paths;
+
 }
 

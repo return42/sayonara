@@ -25,12 +25,15 @@
 #include "GUI/Helper/SearchableWidget/SearchableFileTreeView.h"
 #include "GUI/Helper/ContextMenu/LibraryContextMenu.h"
 #include "GUI/InfoDialog/GUI_InfoDialog.h"
+#include "GUI/Helper/GlobalMessage/GlobalMessage.h"
 
 #include "Components/Library/LocalLibrary.h"
+#include "Components/Library/LibraryNamespaces.h"
+#include "Components/Playlist/PlaylistHandler.h"
 
 #include "Helper/DirectoryReader/DirectoryReader.h"
+#include "Helper/FileHelper.h"
 #include "DirectoryDelegate.h"
-#include "Components/Playlist/PlaylistHandler.h"
 
 #include <QItemSelectionModel>
 #include <QApplication>
@@ -110,7 +113,18 @@ void GUI_DirectoryWidget::dir_play_next_clicked(){
 }
 
 void GUI_DirectoryWidget::dir_delete_clicked(){
+	GlobalMessage* gm = GlobalMessage::getInstance();
+	GlobalMessage::Answer answer = gm->question(tr("Really?"));
 
+	if(answer != GlobalMessage::Answer::Yes){
+		return;
+	}
+
+	QStringList files = tv_dirs->get_filelist();
+	MetaDataList v_md = tv_dirs->read_metadata();
+	_local_library->delete_tracks(v_md, Library::TrackDeletionMode::OnlyLibrary);
+	sp_log(Log::Debug) << "Delete clicked: " << files;
+	Helper::File::delete_files(files);
 }
 
 
@@ -138,8 +152,17 @@ void GUI_DirectoryWidget::file_play_next_clicked()
 
 void GUI_DirectoryWidget::file_delete_clicked()
 {
+	GlobalMessage* gm = GlobalMessage::getInstance();
+	GlobalMessage::Answer answer = gm->question(tr("Really?"));
+
+	if(answer != GlobalMessage::Answer::Yes){
+		return;
+	}
+
+	QStringList files = lv_files->get_filelist();
 	MetaDataList v_md = lv_files->read_metadata();
-	_local_library->delete_tracks(v_md);
+	_local_library->delete_tracks(v_md, Library::TrackDeletionMode::OnlyLibrary);
+	Helper::File::delete_files(files);
 }
 
 
@@ -151,21 +174,7 @@ void GUI_DirectoryWidget::dir_pressed(QModelIndex idx)
 	Qt::MouseButtons buttons = QApplication::mouseButtons();
 	if(buttons & Qt::MiddleButton){
 
-		QStringList paths;
-
-		QModelIndexList selected_rows = tv_dirs->get_selected_rows();
-
-		for(const QModelIndex& row_idx : selected_rows){
-
-			QString path;
-			QStringList tmp_paths;
-			DirectoryReader reader;
-
-			path = _dir_model->filePath(row_idx);
-			reader.get_files_in_dir_rec(QDir(path), tmp_paths);
-			paths << tmp_paths;
-		}
-
+		QStringList paths = tv_dirs->get_filelist();
 
 		if(!paths.isEmpty()){
 			_local_library->psl_prepare_tracks_for_playlist(paths, true);
@@ -182,13 +191,7 @@ void GUI_DirectoryWidget::file_pressed(QModelIndex idx)
 	Qt::MouseButtons buttons = QApplication::mouseButtons();
 	if(buttons & Qt::MiddleButton){
 
-		QStringList paths;
-
-		QModelIndexList selected_rows = lv_files->get_selected_rows();
-
-		for(const QModelIndex& row_idx : selected_rows){
-			paths << _file_model->filePath(row_idx);
-		}
+		QStringList paths = lv_files->get_filelist();
 
 		if(!paths.isEmpty()){
 			_local_library->psl_prepare_tracks_for_playlist(paths, true);
