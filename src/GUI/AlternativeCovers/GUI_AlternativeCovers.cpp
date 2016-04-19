@@ -384,5 +384,6 @@ void GUI_AlternativeCovers::delete_all_files() {
 void GUI_AlternativeCovers::closeEvent(QCloseEvent *e) {
 
 	delete_all_files();
-	QDialog::closeEvent(e);
+
+	SayonaraDialog::closeEvent(e);
 }

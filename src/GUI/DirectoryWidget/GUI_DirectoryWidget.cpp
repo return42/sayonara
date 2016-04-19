@@ -95,6 +95,8 @@ void GUI_DirectoryWidget::dir_clicked(QModelIndex idx){
 
 void GUI_DirectoryWidget::dir_info_clicked(){
 	GUI_InfoDialog* dialog = new GUI_InfoDialog(this);
+	connect(dialog, &SayonaraDialog::sig_closed, dialog, &SayonaraDialog::deleteLater);
+
 	MetaDataList v_md = tv_dirs->read_metadata();
 	dialog->set_metadata(v_md, GUI_InfoDialog::Mode::Tracks);
 	dialog->show(GUI_InfoDialog::TabInfo);
@@ -131,6 +133,8 @@ void GUI_DirectoryWidget::dir_delete_clicked(){
 void GUI_DirectoryWidget::file_info_clicked()
 {
 	GUI_InfoDialog* dialog = new GUI_InfoDialog(this);
+	connect(dialog, &SayonaraDialog::sig_closed, dialog, &SayonaraDialog::deleteLater);
+
 	MetaDataList v_md = lv_files->read_metadata();
 	dialog->set_metadata(v_md, GUI_InfoDialog::Mode::Tracks);
 	dialog->show(GUI_InfoDialog::TabInfo);

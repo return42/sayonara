@@ -36,15 +36,15 @@ QString Helper::File::calc_file_extension(const QString& filename) {
 void Helper::File::remove_files_in_directory(const QString& dir_name, const QStringList& filters) {
 
 	bool success;
-	QStringList file_list;
 	QDir dir(dir_name);
+	dir.setNameFilters(filters);
 
-	QFileInfoList info_lst = dir.entryInfoList((QDir::Filters)(QDir::Writable | QDir::NoDotAndDotDot));
+	QFileInfoList info_lst = dir.entryInfoList(
+				(QDir::Filters)(QDir::Files | QDir::Dirs | QDir::NoDotAndDotDot));
 
 	for(const QFileInfo& info : info_lst){
 
 		QString path = info.absoluteFilePath();
-		sp_log(Log::Debug) << "Try to remove " << path;
 		if(info.isDir()){
 			remove_files_in_directory(path);
 		}
@@ -53,7 +53,7 @@ void Helper::File::remove_files_in_directory(const QString& dir_name, const QStr
 			QFile file(path);
 			success = file.remove();
 			if(!success){
-				sp_log(Log::Debug) << "Could not remove " << path; 
+				sp_log(Log::Warning) << "Could not remove file " << path;
 			}
 		}
 	}
@@ -61,7 +61,7 @@ void Helper::File::remove_files_in_directory(const QString& dir_name, const QStr
 	QDir d = QDir::root();
 	success = d.rmdir(dir_name);
 	if(!success){
-		sp_log(Log::Debug) << "Could not remove " << dir_name; 
+		sp_log(Log::Warning) << "Could not remove dir " << dir_name;
 	}
 }
 
@@ -76,10 +76,8 @@ void Helper::File::delete_files(const QStringList& paths){
 
 	for(const QString& path : sorted_paths)
 	{
-		sp_log(Log::Debug) << "remove path " << path;
 		QFileInfo info(path);
 		if(!info.exists()){
-			sp_log(Log::Debug) << path << " does not exist";
 			continue;
 		}
 
@@ -90,9 +88,7 @@ void Helper::File::delete_files(const QStringList& paths){
 		else {
 			success = QFile::remove(path);
 			if(!success){
-				sp_log(Log::Debug) << "Could not remove " << path; 
 			}
-
 		}
 	}
 }

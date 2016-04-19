@@ -116,6 +116,9 @@ void GUI_AbstractStream::play(QString url, QString station_name){
 	bool success = _stream_handler->parse_station(url, station_name);
 	if(!success){
 		sp_log(Log::Info) << "Stream Handler busy";
+		_btn_play->setEnabled(true);
+		_lab_listen->setEnabled(true);
+		_lab_listen->setText(tr("Play"));
 	}
 }
 

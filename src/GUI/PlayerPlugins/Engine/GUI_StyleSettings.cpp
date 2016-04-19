@@ -395,9 +395,9 @@ void GUI_StyleSettings::closeEvent(QCloseEvent * e) {
             save_pressed();
 
         }
-
-        e->accept();
     }
+
+	SayonaraDialog::closeEvent(e);
 }
 
 void GUI_StyleSettings::spin_box_changed(int v) {

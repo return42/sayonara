@@ -31,14 +31,17 @@
 #include <QPalette>
 #include <QColor>
 #include <QShortcut>
+#include <QCloseEvent>
 
 
 #include "Helper/SayonaraClass.h"
+
 
 #define combo_current_index_changed_int	static_cast<void (QComboBox::*) (int)>(&QComboBox::currentIndexChanged)
 #define combo_activated_int	static_cast<void (QComboBox::*) (int)>(&QComboBox::activated)
 #define spinbox_value_changed_int	static_cast<void (QSpinBox::*) (int)>(&QSpinBox::valueChanged)
 
+class QCloseEvent;
 class SayonaraShortcutWidget {
 
 public:
@@ -163,14 +166,20 @@ class SayonaraDialog : public SayonaraWidgetTemplate<QDialog> {
 
 	Q_OBJECT
 
+signals:
+	void sig_closed();
+
 public:
 	SayonaraDialog(QWidget* parent=nullptr);
 	virtual ~SayonaraDialog();
 
+protected:
+	virtual void closeEvent(QCloseEvent* e) override;
 
 protected slots:
 	virtual void language_changed();
 	virtual void skin_changed();
+
 };
 
 

@@ -60,7 +60,7 @@ bool AbstractStreamHandler::parse_station(const QString& url, const QString& sta
 	_url = url;
 	_station_name = station_name;
 
-	awa->run(url, 2000);
+	awa->run(url, 3000);
 
 	return true;
 }
@@ -106,6 +106,7 @@ void AbstractStreamHandler::awa_finished(bool success){
 		v_md = parse_content(data);
 		if(v_md.isEmpty()){
 			_blocked = false;
+			emit sig_error();
 			return;
 		}
 	}

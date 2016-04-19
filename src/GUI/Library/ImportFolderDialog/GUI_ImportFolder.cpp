@@ -236,7 +236,7 @@ void GUI_ImportFolder::edit_pressed()
 }
 
 void GUI_ImportFolder::closeEvent(QCloseEvent* e) {
-	QDialog::closeEvent(e);
+	SayonaraDialog::closeEvent(e);
 	_importer->cancel_import();
 }
 
