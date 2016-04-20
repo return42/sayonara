@@ -33,14 +33,13 @@
 #include "GUI/Helper/SearchableWidget/AbstractSearchModel.h"
 
 #include "Helper/MetaData/MetaData.h"
-#include "GUI/Helper/CustomMimeData.h"
 
 #include <QUrl>
 #include <QLabel>
 #include <QAbstractListModel>
 #include <QStringList>
 
-
+class CustomMimeData;
 class PlaylistItemModel : public AbstractSearchListModel {
 	Q_OBJECT
 

@@ -23,9 +23,8 @@
 #define PLAYLISTPARSER_H_
 
 
-#include <QByteArray>
-#include "Helper/MetaData/MetaDataList.h"
-
+#include <QString>
+class MetaDataList;
 /**
  * @brief PlaylistParser namespace
  * @ingroup PlaylistParser

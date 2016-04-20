@@ -40,6 +40,8 @@
 #include "GUI/Helper/GlobalMessage/Message.h"
 #include "Helper/Helper.h"
 #include "Helper/MetaData/MetaData.h"
+#include "Helper/MetaData/Album.h"
+#include "Helper/MetaData/Artist.h"
 
 #include <QFile>
 #include <QDir>
@@ -133,7 +135,7 @@ void GUI_AlternativeCovers::start(int album_id, quint8 db_id, const CoverLocatio
 	start(album, cl);
 }
 
-void GUI_AlternativeCovers::start(Album album, const CoverLocation& cl) {
+void GUI_AlternativeCovers::start(const Album& album, const CoverLocation& cl) {
 
 	le_search->setText(album.name + " " + ArtistList::get_major_artist(album.artists));
 
@@ -169,7 +171,7 @@ void GUI_AlternativeCovers::start(QString album_name, QString artist_name, const
 	connect_and_start();
 }
 
-void GUI_AlternativeCovers::start(Artist artist, const CoverLocation& cl) {
+void GUI_AlternativeCovers::start(const Artist& artist, const CoverLocation& cl) {
 
 	le_search->setText(artist.name);
 

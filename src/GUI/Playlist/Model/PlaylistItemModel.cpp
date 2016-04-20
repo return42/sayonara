@@ -28,6 +28,7 @@
 
 #include "PlaylistItemModel.h"
 #include "Helper/FileHelper.h"
+#include "GUI/Helper/CustomMimeData.h"
 
 PlaylistItemModel::PlaylistItemModel(PlaylistPtr pl, QObject* parent) :
 	AbstractSearchListModel(parent),

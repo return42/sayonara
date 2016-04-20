@@ -33,14 +33,11 @@
 #include "GUI/Helper/SayonaraDialog.h"
 #include "Components/CoverLookup/CoverLocation.h"
 
-#include "Helper/MetaData/MetaData.h"
-#include "Helper/MetaData/Album.h"
-#include "Helper/MetaData/Artist.h"
-
 #include <QPixmap>
 #include <QList>
 #include <QModelIndex>
-
+class Album;
+class Artist;
 class CoverLookupAlternative;
 class AlternateCoverItemDelegate;
 class AlternateCoverItemModel;
@@ -56,10 +53,10 @@ signals:
 	void sig_cover_changed(const CoverLocation&);
 
 public slots:
-	void start(Album album, const CoverLocation& cl = CoverLocation());
+	void start(const Album& album, const CoverLocation& cl = CoverLocation());
 	void start(int album_id, quint8 db_id, const CoverLocation& cl = CoverLocation());
 	void start(QString album_name, QString artist_name, const CoverLocation& cl = CoverLocation());
-	void start(Artist artist, const CoverLocation& cl = CoverLocation());
+	void start(const Artist& artist, const CoverLocation& cl = CoverLocation());
 	void start(QString artist_name, const CoverLocation& cl = CoverLocation());
 
 private slots:
