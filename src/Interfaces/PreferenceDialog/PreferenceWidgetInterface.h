@@ -3,7 +3,7 @@
 
 
 #include "PreferenceInterface.h"
-
+class SayonaraWidget;
 
 /**
  * @brief Abstract Interface you should use when creating a preference dialog.

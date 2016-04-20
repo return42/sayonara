@@ -22,11 +22,12 @@
 #include <QLabel>
 #include <QListView>
 #include <QPainter>
+#include <QFontMetrics>
 
+#include "Helper/Helper.h"
 #include "PlaylistItemDelegate.h"
 #include "GUI/Playlist/Model/PlaylistItemModel.h"
 
-#include <QFontMetrics>
 
 PlaylistItemDelegate::PlaylistItemDelegate(QListView* parent) :
 	QStyledItemDelegate(parent),

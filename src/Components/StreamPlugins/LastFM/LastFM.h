@@ -29,12 +29,8 @@
 #ifndef LASTFM_H_
 #define LASTFM_H_
 
-#include "Helper/Helper.h"
 #include "Helper/SayonaraClass.h"
 #include "Helper/MetaData/MetaData.h"
-#include "Components/StreamPlugins/LastFM/LFMGlobals.h"
-#include "Components/StreamPlugins/LastFM/LFMTrackChangedThread.h"
-#include "Components/StreamPlugins/LastFM/LFMLoginThread.h"
 
 #include <QMap>
 #include <QtXml>
@@ -43,6 +39,8 @@
 // singleton base LastFM API class
 // signals and slots are handled by the adapter class
 class PlayManager;
+class LFMLoginThread;
+class LFMTrackChangedThread;
 class LastFM : public QObject, protected SayonaraClass{
 
 	Q_OBJECT

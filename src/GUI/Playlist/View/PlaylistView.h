@@ -30,11 +30,6 @@
 #define PLAYLISTVIEW_H_
 
 #include "Components/Playlist/Playlist.h"
-
-#include "Helper/Helper.h"
-
-
-
 #include "GUI/Helper/SearchableWidget/SearchableListView.h"
 
 #include <QPoint>

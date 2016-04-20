@@ -32,6 +32,7 @@
 #include "Components/Playlist/PlaylistHandler.h"
 
 #include "Helper/DirectoryReader/DirectoryReader.h"
+#include "Helper/Helper.h"
 #include "Helper/FileHelper.h"
 #include "DirectoryDelegate.h"
 

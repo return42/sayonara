@@ -24,6 +24,8 @@
 #include "SoundcloudWebAccess.h"
 #include "SoundcloudJsonParser.h"
 
+#include "Helper/MetaData/Album.h"
+#include "Helper/MetaData/Artist.h"
 #include "Helper/WebAccess/AsyncWebAccess.h"
 
 

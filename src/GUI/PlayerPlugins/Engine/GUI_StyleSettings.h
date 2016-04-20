@@ -26,14 +26,13 @@
 #include "StyleTypes.h"
 
 #include "GUI/PlayerPlugins/Engine/ui_GUI_Style.h"
-#include "GUI/Helper/SayonaraWidget.h"
+#include "GUI/Helper/SayonaraDialog.h"
 
-#include "Database/DatabaseConnector.h"
 
 #include <QList>
 #include <QCloseEvent>
 
-
+class DatabaseConnector;
 class GUI_StyleSettings : public SayonaraDialog, private Ui::GUI_Style
 {
     Q_OBJECT

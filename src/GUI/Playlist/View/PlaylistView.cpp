@@ -32,6 +32,7 @@
 #include "GUI/Helper/ContextMenu/LibraryContextMenu.h"
 #include "GUI/Helper/CustomMimeData.h"
 
+#include "Helper/Helper.cpp"
 #include "Helper/DirectoryReader/DirectoryReader.h"
 #include "Components/Playlist/PlaylistHandler.h"
 

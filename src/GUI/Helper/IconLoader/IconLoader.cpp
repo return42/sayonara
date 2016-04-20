@@ -21,6 +21,7 @@
 
 
 #include "IconLoader.h"
+#include "Helper/Helper.h"
 #include "Helper/Settings/Settings.h"
 #include "Helper/DirectoryReader/DirectoryReader.h"
 #include <QDir>

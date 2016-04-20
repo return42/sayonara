@@ -29,9 +29,6 @@
 #ifndef STYLE_H_
 #define STYLE_H_
 
-#include "Helper/Helper.h"
-#include <QPalette>
-
 /**
  * @define the Style namespace
  * @ingroup Helper

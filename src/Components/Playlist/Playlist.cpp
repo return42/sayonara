@@ -20,6 +20,7 @@
 
 
 #include "Playlist.h"
+#include "Helper/Helper.h"
 #include "Components/TagEdit/MetaDataChangeNotifier.h"
 #include "Components/Engine/EngineHandler.h"
 #include <QDir>

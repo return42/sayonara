@@ -23,10 +23,11 @@
 #ifndef SOUNDCLOUDDATAFETCHER_H
 #define SOUNDCLOUDDATAFETCHER_H
 
-#include "Helper/MetaData/Album.h"
-#include "Helper/MetaData/Artist.h"
+
 #include "Helper/MetaData/MetaDataList.h"
 
+class ArtistList;
+class AlbumList;
 class SoundcloudDataFetcher : public QObject
 {
 	Q_OBJECT

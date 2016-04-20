@@ -27,8 +27,12 @@
  */
 
 #include "LastFM.h"
+#include "LFMGlobals.h"
 #include "LFMTrackChangedThread.h"
+#include "LFMLoginThread.h"
 #include "LFMWebAccess.h"
+
+#include "Helper/Helper.h"
 
 #include "Components/PlayManager/PlayManager.h"
 #include "Components/Playlist/PlaylistHandler.h"

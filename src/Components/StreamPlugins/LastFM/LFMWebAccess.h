@@ -30,38 +30,16 @@
 #define LFMWEBACCESS_H_
 
 #include "LFMGlobals.h"
-
-#include "Helper/Helper.h"
-#include "Helper/Logger/Logger.h"
-
+#include <QObject>
 #include <QDomDocument>
-
+#include <QMap>
+#include <QByteArray>
 
 class UrlParams :  public QMap<QByteArray, QByteArray> {
 
 public:
-	UrlParams() :
-		QMap<QByteArray, QByteArray>()
-	{
-
-	}
-
-	void append_signature(){
-		QByteArray signature;
-
-		for(const QByteArray& key : this->keys()) {
-
-			signature += key;
-			signature += this->value(key);
-		}
-
-		signature += LFM_API_SECRET;
-
-		QByteArray hash = Helper::calc_hash(signature);
-
-		this->insert("api_sig", hash);
-	}
-
+	UrlParams();
+	void append_signature();
 };
 
 

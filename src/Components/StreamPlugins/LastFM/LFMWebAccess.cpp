@@ -166,3 +166,25 @@ QString LFMWebAccess::parse_error_message(const QString& response) {
 	return "";
 }
 
+
+UrlParams::UrlParams() : 
+	QMap<QByteArray, QByteArray>()
+{}
+
+void UrlParams::append_signature()
+{
+	QByteArray signature;
+
+    for(const QByteArray& key : this->keys()) {
+
+        signature += key;
+        signature += this->value(key);
+    }
+
+    signature += LFM_API_SECRET;
+
+    QByteArray hash = Helper::calc_hash(signature);
+
+    this->insert("api_sig", hash);
+
+}

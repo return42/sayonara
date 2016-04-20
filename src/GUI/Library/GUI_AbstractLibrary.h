@@ -49,6 +49,7 @@
 #include <QMap>
 #include <QIcon>
 #include <QComboBox>
+#include <QPushButton>
 
 class GUI_InfoDialog;
 class GUI_AbstractLibrary : public SayonaraWidget

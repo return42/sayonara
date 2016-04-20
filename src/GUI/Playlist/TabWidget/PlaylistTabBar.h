@@ -24,16 +24,18 @@
 #define PLAYLISTTABBAR_H
 
 #include "PlaylistMenuEntry.h"
-#include "Helper/MetaData/MetaDataList.h"
+#include "GUI/Helper/SayonaraShortcutWidget.h"
 
 #include <QInputDialog>
 #include <QTabBar>
 #include <QMouseEvent>
 #include <QWheelEvent>
-#include "GUI/Helper/SayonaraWidget.h"
+
 
 
 class PlaylistTabMenu;
+class MetaDataList;
+
 class PlaylistTabBar :
 		public QTabBar,
 		public SayonaraShortcutWidget

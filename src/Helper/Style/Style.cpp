@@ -28,7 +28,9 @@
 
 #include <QApplication>
 #include <QFont>
+#include <QStyle>
 
+#include "Helper/Helper.h"
 #include "Helper/Settings/Settings.h"
 #include "Helper/FileHelper.h"
 #include "Helper/Style/Style.h"

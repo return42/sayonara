@@ -8,6 +8,7 @@
 #include <QCloseEvent>
 #include <QString>
 
+#include "GUI/Helper/SayonaraDialog.h"
 #include "GUI/Helper/SayonaraWidget.h"
 
 class PreferenceAction : public QAction

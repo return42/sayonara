@@ -26,6 +26,8 @@
 #include "Components/PlayManager/PlayManager.h"
 
 #include <QBuffer>
+#include <QFile>
+#include <QImage>
 
 RemoteControl::RemoteControl(QObject *parent) :
 	QObject(parent),

@@ -62,6 +62,9 @@
 
 #include "Helper/Style/Style.h"
 #include "Helper/FileHelper.h"
+#include "Helper/Helper.h"
+
+#include "Database/DatabaseConnector.h"
 
 #include <QByteArray>
 #include <thread>

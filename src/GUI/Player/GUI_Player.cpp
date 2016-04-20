@@ -28,6 +28,7 @@
 #include "GUI/Helper/IconLoader/IconLoader.h"
 #include "GUI/MTP/GUI_MTP.h"
 
+#include "Helper/Helper.h"
 #include "Helper/globals.h"
 #include "Helper/Style/Style.h"
 #include "Helper/FileHelper.h"

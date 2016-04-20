@@ -22,7 +22,6 @@
 #ifndef ENGINE_H_
 #define ENGINE_H_
 
-#include "Helper/Helper.h"
 #include "Helper/SayonaraClass.h"
 
 #define PLAYBACK_ENGINE "playback_engine"

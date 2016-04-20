@@ -25,6 +25,7 @@
 
 #include "GUI_Player.h"
 #include "GUI/Helper/GlobalMessage/Message.h"
+#include "Helper/Helper.h"
 #include "Helper/FileHelper.h"
 
 #include "Components/CoverLookup/CoverLookupAll.h"

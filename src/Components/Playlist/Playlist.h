@@ -23,10 +23,8 @@
 #ifndef PLAYLIST_H
 #define PLAYLIST_H
 
-#include "Helper/Helper.h"
 #include "Helper/PlaylistMode.h"
 #include "Helper/SayonaraClass.h"
-
 #include "PlaylistDBInterface.h"
 
 #include <QString>

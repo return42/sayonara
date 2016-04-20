@@ -22,7 +22,7 @@
 #ifndef GUI_PLAYLISTENTRYLOOK_H
 #define GUI_PLAYLISTENTRYLOOK_H
 
-#include "GUI/Helper/SayonaraWidget.h"
+#include "GUI/Helper/SayonaraDialog.h"
 #include "GUI/Playlist/ui_GUI_PlaylistEntryLook.h"
 
 class GUI_PlaylistEntryLook :

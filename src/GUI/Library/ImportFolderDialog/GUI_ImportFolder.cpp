@@ -23,7 +23,7 @@
 #include "GUI/TagEdit/GUI_TagEdit.h"
 
 #include "Helper/Helper.h"
-
+#include "Helper/MetaData/MetaDataList.h"
 
 #include <QPixmap>
 #include <QScrollBar>

@@ -24,7 +24,7 @@
 #define GUI_SHUTDOWN_H
 
 #include "GUI/ShutdownDialog/ui_GUI_Shutdown.h"
-#include "GUI/Helper/SayonaraWidget.h"
+#include "GUI/Helper/SayonaraDialog.h"
 
 #include "Helper/Shutdown/Shutdown.h"
 

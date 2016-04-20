@@ -19,6 +19,7 @@
  */
 
 #include "SayonaraWidget.h"
+#include "SayonaraDialog.h"
 #include <QFontMetrics>
 #include <QFormLayout>
 
@@ -46,25 +47,6 @@ SayonaraDialog* SayonaraWidget::box_into_dialog()
 
 void SayonaraWidget::language_changed(){}
 void SayonaraWidget::skin_changed(){}
-
-
-
-SayonaraDialog::SayonaraDialog(QWidget* parent) :
-	SayonaraWidgetTemplate<QDialog>(parent)
-{
-	REGISTER_LISTENER(Set::Player_Language, language_changed);
-	REGISTER_LISTENER(Set::Player_Style, skin_changed);
-}
-
-SayonaraDialog::~SayonaraDialog(){}
-
-void SayonaraDialog::language_changed(){}
-void SayonaraDialog::skin_changed(){}
-void SayonaraDialog::closeEvent(QCloseEvent *e){
-	Q_UNUSED(e);
-	emit sig_closed();
-}
-
 
 SayonaraMainWindow::SayonaraMainWindow(QWidget* parent) :
 	SayonaraWidgetTemplate<QMainWindow>(parent)

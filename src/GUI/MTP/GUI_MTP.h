@@ -28,7 +28,7 @@
 #include "Components/MTP/MTP.h"
 #include "Components/MTP/MTP_CopyFiles.h"
 #include "GUI/Helper/CustomMimeData.h"
-#include "GUI/Helper/SayonaraWidget.h"
+#include "GUI/Helper/SayonaraDialog.h"
 
 #include <QDragEnterEvent>
 #include <QDragMoveEvent>

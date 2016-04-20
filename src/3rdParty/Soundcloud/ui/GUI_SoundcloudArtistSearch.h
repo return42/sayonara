@@ -25,7 +25,7 @@
 
 #include <QDialog>
 #include <QVector>
-#include "GUI/Helper/SayonaraWidget.h"
+#include "GUI/Helper/SayonaraDialog.h"
 #include "ui_GUI_SoundcloudArtistSearch.h"
 #include "3rdParty/Soundcloud/src/SoundcloudLibrary.h"
 #include "3rdParty/Soundcloud/src/SoundcloudDataFetcher.h"

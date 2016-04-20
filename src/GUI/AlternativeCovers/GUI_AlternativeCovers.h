@@ -30,7 +30,7 @@
 #define GUI_ALTERNATE_COVERS_H_
 
 #include "GUI/AlternativeCovers/ui_GUI_AlternativeCovers.h"
-#include "GUI/Helper/SayonaraWidget.h"
+#include "GUI/Helper/SayonaraDialog.h"
 #include "Components/CoverLookup/CoverLocation.h"
 
 #include "Helper/MetaData/MetaData.h"

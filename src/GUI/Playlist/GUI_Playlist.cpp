@@ -29,6 +29,7 @@
 #include "GUI_Playlist.h"
 #include "GUI/InfoDialog/GUI_InfoDialog.h"
 #include "View/PlaylistView.h"
+#include "Helper/Helper.h"
 #include "GUI/Helper/IconLoader/IconLoader.h"
 #include "TabWidget/PlaylistTabWidget.h"
 

@@ -22,11 +22,12 @@
 
 #include "PlaylistTabBar.h"
 #include "PlaylistTabMenu.h"
-
-#include <QShortcut>
-#include "Helper/MetaData/MetaData.h"
 #include "GUI/Helper/CustomMimeData.h"
 #include "GUI/Helper/Shortcuts/ShortcutHandler.h"
+#include "Helper/MetaData/MetaDataList.h"
+
+#include <QShortcut>
+
 
 PlaylistTabBar::PlaylistTabBar(QWidget *parent) :
 	QTabBar(parent),

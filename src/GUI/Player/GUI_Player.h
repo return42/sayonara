@@ -25,11 +25,12 @@
 #include "GUI/Player/ui_GUI_Player.h"
 
 #include "Components/PlayManager/PlayManager.h"
-#include "Components/CoverLookup/CoverLocation.h"
 
 #include "GUI/Player/GUI_TrayIcon.h"
 #include "GUI/Helper/GlobalMessage/GlobalMessageReceiverInterface.h"
 
+#include "GUI/Helper/SayonaraWidget.h"
+#include "GUI/Helper/SayonaraShortcutWidget.h"
 
 
 #include <QMessageBox>
@@ -42,6 +43,7 @@
 
 #include <QAction>
 
+class CoverLocation;
 class CoverLookup;
 class LocalLibrary;
 class GUI_AlternativeCovers;

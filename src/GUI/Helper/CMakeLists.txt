@@ -12,7 +12,10 @@ ADD_SUBDIRECTORY(Delegates)
 ADD_SUBDIRECTORY(Shortcuts)
 
 SET(SOURCES
+	SayonaraWidgetTemplate.cpp
 	SayonaraWidget.cpp
+	SayonaraDialog.cpp
+	SayonaraShortcutWidget.cpp
 	IconLoader/IconLoader.cpp
 	CustomMimeData.cpp
 )

@@ -24,7 +24,6 @@
 #define MTPCOPYFILES_H
 
 #include <QThread>
-#include "Helper/Helper.h"
 #include "Helper/MetaData/MetaDataList.h"
 #include "MTP_Folder.h"
 #include "MTP_Track.h"

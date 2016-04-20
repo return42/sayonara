@@ -29,10 +29,12 @@
 #include <QPushButton>
 #include <QLayout>
 
-
 #include "GUI/Helper/SayonaraWidget.h"
-#include "Components/PlayManager/PlayManager.h"
+#include "GUI/Helper/SayonaraShortcutWidget.h"
 #include "GUI/Helper/Shortcuts/ShortcutHandler.h"
+
+#include "Components/PlayManager/PlayManager.h"
+
 
 
 class PlayerPluginHandler;

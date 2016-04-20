@@ -27,7 +27,7 @@
 #include "GUI_Player.h"
 
 #include "GUI/AlternativeCovers/GUI_AlternativeCovers.h"
-
+#include "Helper/Helper.h"
 #include "Components/CoverLookup/CoverLookup.h"
 
 

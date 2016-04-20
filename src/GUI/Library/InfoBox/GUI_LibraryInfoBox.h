@@ -26,11 +26,14 @@
 #define GUILIBRARYINFOBOX_H_
 
 #include "GUI/Library/InfoBox/ui_GUI_LibraryInfoBox.h"
-#include "GUI/Helper/SayonaraWidget.h"
+#include "GUI/Helper/SayonaraDialog.h"
 
 
 class DatabaseConnector;
-class GUI_LibraryInfoBox : public SayonaraDialog, private Ui::GUI_LibraryInfoBox {
+class GUI_LibraryInfoBox :
+		public SayonaraDialog,
+		private Ui::GUI_LibraryInfoBox
+{
 
 	Q_OBJECT
 
