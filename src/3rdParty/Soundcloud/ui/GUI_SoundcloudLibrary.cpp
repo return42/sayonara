@@ -76,7 +76,7 @@ Library::TrackDeletionMode GUI_SoundCloudLibrary::show_delete_dialog(int n_track
 void GUI_SoundCloudLibrary::init_shortcuts()
 {
 	new QShortcut(QKeySequence("Ctrl+f"), le_search, SLOT(setFocus()), nullptr, Qt::WidgetWithChildrenShortcut);
-	new QShortcut(QKeySequence("Esc"), btn_clear, SLOT(clicked()), nullptr, Qt::WidgetWithChildrenShortcut);
+	new QShortcut(QKeySequence("Esc"), this, SLOT(clear_button_pressed()), nullptr, Qt::WidgetWithChildrenShortcut);
 }
 
 void GUI_SoundCloudLibrary::btn_add_clicked(){

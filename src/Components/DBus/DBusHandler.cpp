@@ -20,6 +20,7 @@
 
 
 #include "DBusHandler.h"
+#include "Components/DBus/DBusMPRIS.h"
 #include "Components/DBus/DBusMediaKeysInterfaceMate.h"
 #include "Components/DBus/DBusMediaKeysInterfaceGnome.h"
 #include "Components/DBus/DBusNotifications.h"

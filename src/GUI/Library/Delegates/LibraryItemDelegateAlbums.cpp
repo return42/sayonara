@@ -27,6 +27,8 @@
  */
 
 #include "LibraryItemDelegateAlbums.h"
+#include "GUI/Library/Views/LibraryView.h"
+#include "GUI/Library/Models/LibraryItemModelAlbums.h"
 #include "GUI/Helper/RatingLabel/RatingLabel.h"
 #include "Helper/Helper.h"
 

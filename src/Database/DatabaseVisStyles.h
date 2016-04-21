@@ -24,9 +24,9 @@
 #define DATABASEVISSTYLES_H
 
 #include "Database/DatabaseModule.h"
-#include "GUI/PlayerPlugins/Engine/StyleTypes.h"
 
 
+class RawColorStyle;
 class DatabaseVisStyles : private DatabaseModule
 {
 public:

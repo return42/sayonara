@@ -24,10 +24,14 @@
 #define DATABASEHANDLER_H
 
 #include "Helper/globals.h"
-#include "LibraryDatabase.h"
-#include "DatabaseConnector.h"
+#include "Database/LibraryDatabase.h"
+
 #include <QVector>
 #include <QMap>
+
+class Album;
+class MetaData;
+class Artist;
 
 class DB {
 	SINGLETON(DB)

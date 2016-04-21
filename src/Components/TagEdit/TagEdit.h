@@ -25,10 +25,12 @@
 
 #include "Helper/SayonaraClass.h"
 #include "Database/DatabaseHandler.h"
+#include "Helper/MetaData/MetaDataList.h"
 
 #include <QVector>
 #include <QThread>
 
+class MetaDataList;
 /**
  * @brief The TagEdit class
  * @ingroup Tagging

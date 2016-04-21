@@ -21,6 +21,7 @@
 
 
 #include "Database/DatabaseBookmarks.h"
+#include "Database/SayonaraQuery.h"
 
 DatabaseBookmarks::DatabaseBookmarks(QSqlDatabase db, quint8 db_id) :
 	DatabaseModule(db, db_id)

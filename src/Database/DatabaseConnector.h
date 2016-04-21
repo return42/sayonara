@@ -24,8 +24,6 @@
 #define DatabaseConnector_H
 
 #include "Database/LibraryDatabase.h"
-#include "Helper/EqualizerPresets.h"
-
 
 #include "Database/DatabaseBookmarks.h"
 #include "Database/DatabaseModule.h"

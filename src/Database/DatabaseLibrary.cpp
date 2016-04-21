@@ -19,7 +19,7 @@
  */
 
 
-
+#include "Database/SayonaraQuery.h"
 #include "Database/DatabaseLibrary.h"
 #include "Database/DatabaseAlbums.h"
 #include "Database/DatabaseArtists.h"

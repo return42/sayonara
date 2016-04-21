@@ -19,6 +19,7 @@
  */
 
 
+#include "Helper/globals.h"
 
 #include "RatingLabel.h"
 #include "Helper/Helper.h"

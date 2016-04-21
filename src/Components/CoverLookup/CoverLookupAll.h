@@ -26,6 +26,8 @@
 #include "CoverLookup.h"
 
 #include "Helper/MetaData/Album.h"
+
+class CoverLocation;
 /**
  * @brief The CoverLookupAll class. The complete work is done by the CoverLookupThread
  * @ingroup Covers

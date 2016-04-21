@@ -23,13 +23,13 @@
 #ifndef SAYONARASELECTIONVIEW_H
 #define SAYONARASELECTIONVIEW_H
 
-#include <QItemSelectionModel>
-#include <QAbstractItemModel>
-
 #include "Helper/globals.h"
 #include "Helper/Set.h"
 
 #include <QList>
+#include <QItemSelectionModel>
+#include <QAbstractItemModel>
+
 
 
 class SayonaraSelectionView {

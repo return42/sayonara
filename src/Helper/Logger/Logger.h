@@ -21,12 +21,13 @@
 #ifndef LOGGER_H
 #define LOGGER_H
 
-#include <ostream>
 
+#include <ostream>
 #include <QString>
 #include <QStringList>
 #include <QByteArray>
 #include <QPoint>
+
 
 /**
  * @brief The Log enum

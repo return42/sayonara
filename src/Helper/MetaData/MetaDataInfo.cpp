@@ -23,6 +23,7 @@
 #include "Helper/MetaData/MetaDataInfo.h"
 #include "Helper/Helper.h"
 #include "Helper/FileHelper.h"
+#include "Helper/MetaData/MetaDataList.h"
 
 #include "Components/CoverLookup/CoverLookup.h"
 #include "Components/CoverLookup/CoverLocation.h"

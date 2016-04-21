@@ -26,6 +26,8 @@
 #include "StreamDataSender.h"
 #include "Helper/Helper.h"
 #include "Helper/FileHelper.h"
+#include "Helper/Logger/Logger.h"
+
 #include <QByteArray>
 
 static char padding[256];

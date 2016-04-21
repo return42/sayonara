@@ -19,7 +19,7 @@
  */
 
 
-
+#include "Database/SayonaraQuery.h"
 #include "Database/DatabaseAlbums.h"
 #include "Helper/MetaData/Album.h"
 
@@ -96,7 +96,7 @@ void DatabaseAlbums::set_album_fetch_query(const QString &query){
 	_fetch_query = query;
 }
 
-static QString _create_order_string(SortOrder sortorder) {
+QString DatabaseAlbums::_create_order_string(SortOrder sortorder) {
 
 	switch(sortorder) {
 

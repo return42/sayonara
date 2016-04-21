@@ -29,7 +29,7 @@ SET(SOURCES
     FileHelper.cpp
     UrlHelper.cpp
     Set.cpp
-
+    EqualizerPresets.cpp
     DirectoryReader/DirectoryReader.cpp
     Logger/Logger.cpp
     Random/RandomGenerator.cpp

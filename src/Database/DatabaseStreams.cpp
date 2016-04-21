@@ -19,7 +19,7 @@
  */
 
 
-
+#include "Database/SayonaraQuery.h"
 #include "Database/DatabaseStreams.h"
 
 DatabaseStreams::DatabaseStreams(QSqlDatabase db, quint8 db_id) :

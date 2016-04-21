@@ -21,6 +21,7 @@
 
 #include "Playlist.h"
 #include "Helper/Helper.h"
+#include "Helper/Set.h"
 #include "Components/TagEdit/MetaDataChangeNotifier.h"
 #include "Components/Engine/EngineHandler.h"
 #include <QDir>

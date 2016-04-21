@@ -27,10 +27,13 @@
  */
 
 #include "LibraryItemModelArtists.h"
+#include "GUI/Library/ColumnHeader.h"
+#include "Helper/Logger/Logger.h"
+
 
 #include <QAbstractListModel>
 #include <QStringList>
-#include "Helper/Logger/Logger.h"
+
 
 LibraryItemModelArtists::LibraryItemModelArtists(QList<ColumnHeader>& headers) : LibraryItemModel(headers) {
 

@@ -23,7 +23,6 @@
 #ifndef SETTING_H
 #define SETTING_H
 
-#include <typeinfo>
 #include "Helper/Settings/SettingKey.h"
 #include "Helper/Settings/SettingConverter.h"
 #include "Helper/Settings/SettingNotifier.h"

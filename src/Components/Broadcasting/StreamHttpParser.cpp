@@ -24,6 +24,7 @@
 #include "Helper/Logger/Logger.h"
 
 #include <QRegExp>
+#include <QStringList>
 
 StreamHttpParser::StreamHttpParser()
 {

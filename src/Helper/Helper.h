@@ -28,10 +28,6 @@
 #ifndef _HELPER_H
 #define _HELPER_H
 
-
-#include "Helper/globals.h"
-#include "Helper/Logger/Logger.h"
-
 #include <QWidget>
 #include <QImage>
 #include <QPixmap>

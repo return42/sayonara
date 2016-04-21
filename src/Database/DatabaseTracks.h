@@ -23,9 +23,10 @@
 #ifndef DATABASETRACKS_H
 #define DATABASETRACKS_H
 
+#include "Components/Library/Sorting.h"
 #include "Database/DatabaseModule.h"
 #include "Helper/globals.h"
-
+#include "Helper/Filter.h"
 class MetaData;
 class MetaDataList;
 class CustomPlaylist;

@@ -25,9 +25,9 @@
 
 
 #include <QSqlDatabase>
-#include "Database/SayonaraQuery.h"
+/*#include "Database/SayonaraQuery.h"
 #include "Components/Library/Sorting.h"
-#include "Helper/Filter.h"
+#include "Helper/Filter.h"*/
 
 
 #define DB_TRY_OPEN(db)		if (!this -> db.isOpen()) \
@@ -49,7 +49,8 @@
 	if(!this->db.isOpen()) \
 	return ""
 
-
+class SayonaraQuery;
+class Filter;
 class DatabaseModule
 {
 

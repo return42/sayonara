@@ -22,16 +22,6 @@
 #ifndef Settings_H
 #define Settings_H
 
-#include <QString>
-#include <QThread>
-#include <QPair>
-#include <QSize>
-#include <QPoint>
-
-#include "Helper/EqualizerPresets.h"
-#include "Helper/PlaylistMode.h"
-#include "Helper/MetaData/MetaData.h"
-
 #include "Helper/Settings/Setting.h"
 
 /**

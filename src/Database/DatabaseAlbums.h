@@ -24,8 +24,9 @@
 #define DATABASEALBUMS_H
 
 #include "Database/DatabaseModule.h"
+#include "Components/Library/Sorting.h"
 #include "Helper/globals.h"
-
+#include "Helper/Filter.h"
 class Album;
 class AlbumList;
 class DatabaseAlbums : private DatabaseModule
@@ -33,6 +34,8 @@ class DatabaseAlbums : private DatabaseModule
 
 private:
 	QString _fetch_query;
+
+	QString _create_order_string(SortOrder order);
 
 protected:
 	void set_album_fetch_query(const QString& query);

@@ -19,8 +19,6 @@
  */
 
 
-#include "Components/DBus/DBusMPRIS.h"
-
 #include <QObject>
 #include <QMainWindow>
 #include <QList>
@@ -32,6 +30,10 @@
 class DBusMediaKeysInterfaceMate;
 class DBusMediaKeysInterfaceGnome;
 class DBusNotifications;
+
+namespace DBusMPRIS {
+	class MediaPlayer2;
+}
 
 class DBusHandler : private QObject
 {

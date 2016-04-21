@@ -29,14 +29,12 @@
 #ifndef LIBRARYITEMDELEGATEALBUMS_H_
 #define LIBRARYITEMDELEGATEALBUMS_H_
 
+
+#include "GUI/Library/Delegates/LibraryRatingDelegate.h"
 #include <QLabel>
 #include <QTableView>
 
-#include "GUI/Library/Delegates/LibraryRatingDelegate.h"
-#include "GUI/Library/Models/LibraryItemModelAlbums.h"
-#include "GUI/Library/Views/LibraryView.h"
-#include <QItemDelegate>
-
+class LibraryView;
 class LibraryItemDelegateAlbums : public LibraryRatingDelegate {
 
 	Q_OBJECT

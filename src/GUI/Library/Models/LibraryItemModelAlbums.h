@@ -31,13 +31,10 @@
 
 #include "Helper/MetaData/Album.h"
 #include "GUI/Library/Models/LibraryItemModel.h"
-#include "GUI/Library/ColumnHeader.h"
 
 #include <QAbstractTableModel>
 
-
-using namespace std;
-
+class ColumnHeader;
 class LibraryItemModelAlbums : public LibraryItemModel {
 
 Q_OBJECT

@@ -21,6 +21,11 @@
 
 
 #include "Helper/SmartCompare/SmartCompare.h"
+#include "Helper/Logger/Logger.h"
+#include "Helper/MetaData/Artist.h"
+
+#include "Database/DatabaseConnector.h"
+
 #include <QFile>
 
 using namespace std;
@@ -410,4 +415,9 @@ QString SmartCompare::sort_letters(const QString& str){
 	}
 
 	return ret;
+}
+
+
+void Hash::print() const{
+	sp_log(Log::Info) << org_str << " -> " << hash << ": " << penalty;
 }

@@ -1,10 +1,11 @@
 #ifndef DIRECTORYTREEVIEW_H
 #define DIRECTORYTREEVIEW_H
 
-#include <QTreeView>
-#include <QModelIndexList>
 #include "Helper/SayonaraClass.h"
 #include "Helper/MetaData/MetaDataList.h"
+
+#include <QTreeView>
+#include <QModelIndexList>
 
 class LibraryContextMenu;
 class AbstractSearchFileTreeModel;

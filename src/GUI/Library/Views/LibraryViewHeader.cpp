@@ -19,10 +19,10 @@
  */
 
 #include "GUI/Library/Views/LibraryView.h"
+#include "GUI/Library/ColumnHeader.h"
+
 #include <QHeaderView>
 #include <QMouseEvent>
-
-
 
 template <typename T>
 void switch_sorters(T& srcdst, T src1, T src2) {

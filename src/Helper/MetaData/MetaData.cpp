@@ -19,11 +19,11 @@
  */
 
 #include "Helper/MetaData/MetaData.h"
-#include "Helper/MetaData/MetaDataInfo.h"
+
 #include <QDir>
 #include <QUrl>
+#include <QVariant>
 
-#include <algorithm>
 
 #define MD_DO_COPY \
 	id = other.id; \

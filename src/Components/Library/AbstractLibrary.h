@@ -24,17 +24,19 @@
 #define ABSTRACTLIBRARY_H
 
 
+#include "LibraryNamespaces.h"
+#include "Helper/Filter.h"
 #include "Helper/SayonaraClass.h"
 #include "Helper/Tagging/Tagging.h"
 #include "Helper/Set.h"
-#include "LibraryNamespaces.h"
+
 #include "Helper/MetaData/Artist.h"
 #include "Helper/MetaData/Album.h"
 #include "Helper/MetaData/MetaDataList.h"
 
+#include "Components/Library/Sorting.h"
+
 #include <QFile>
-
-
 
 #define prepare_tracks_for_playlist_files static_cast<void (AbstractLibrary::*) (const QStringList&)>(&AbstractLibrary::psl_prepare_tracks_for_playlist)
 #define prepare_tracks_for_playlist_idxs static_cast<void (AbstractLibrary::*) (const IdxList&)>(&AbstractLibrary::psl_prepare_tracks_for_playlist)

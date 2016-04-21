@@ -20,6 +20,7 @@
 
 #include "Setting.h"
 
+
 AbstrSetting::AbstrSetting(){
 
 }

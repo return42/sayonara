@@ -26,12 +26,14 @@
 #include "LFMWebAccess.h"
 #include "LFMGlobals.h"
 #include "LFMSimArtistsParser.h"
-#include "Helper/Compressor/Compressor.h"
 
 #include "Database/DatabaseHandler.h"
+#include "Database/DatabaseConnector.h"
 
 #include "Helper/Helper.h"
 #include "Helper/FileHelper.h"
+#include "Helper/MetaData/Artist.h"
+#include "Helper/Compressor/Compressor.h"
 
 #include <QMap>
 #include <QStringList>

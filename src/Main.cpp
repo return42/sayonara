@@ -37,6 +37,7 @@
 #include "Helper/Helper.h"
 #include "Helper/FileHelper.h"
 #include "Helper/Settings/Settings.h"
+#include "Helper/EqualizerPresets.h"
 
 #include "GUI/Helper/Shortcuts/ShortcutHandler.h"
 
@@ -44,6 +45,7 @@
 #include <QTranslator>
 #include <QFontDatabase>
 #include <algorithm>
+#include <type_traits>
 
 #include <QtGlobal>
 #ifdef Q_OS_LINUX
@@ -127,8 +129,9 @@ void segfault_handler(int sig){
  * set->register_setting(new Setting<decltype(Lib_Path.p)>(Set::Lib_Path, "lib_path", "/home/") )
  *
  */
-#define REGISTER_SETTING(key, db_key, def) set->register_setting( new Setting<decltype(key.p)>(key, db_key, def) )
-#define REGISTER_SETTING_NO_DB(key, def) set->register_setting( new Setting<decltype(key.p)>(key, def) )
+
+#define REGISTER_SETTING(key, db_key, def) set->register_setting( new Setting<std::remove_pointer<decltype(key.p)>::type>(key, db_key, def) )
+#define REGISTER_SETTING_NO_DB(key, def) set->register_setting( new Setting<std::remove_pointer<decltype(key.p)>::type>(key, def) )
 #include "Helper/Settings/SettingKey.h"
 bool register_settings(){
 

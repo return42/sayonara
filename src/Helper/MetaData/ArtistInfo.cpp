@@ -20,9 +20,11 @@
 
 
 #include "ArtistInfo.h"
-#include "Database/DatabaseHandler.h"
+
+#include "Database/LibraryDatabase.h"
 #include "Helper/Compressor/Compressor.h"
 
+#include "Helper/MetaData/Artist.h"
 #include "Helper/Helper.h"
 #include "Helper/FileHelper.h"
 

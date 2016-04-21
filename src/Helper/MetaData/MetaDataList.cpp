@@ -5,6 +5,7 @@
 #include "Helper/Helper.h"
 #include "Helper/Logger/Logger.h"
 #include "Helper/Random/RandomGenerator.h"
+#include "Helper/Set.h"
 
 #include <algorithm>
 

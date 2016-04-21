@@ -24,13 +24,17 @@
 #define DATABASEARTISTS_H
 
 #include "Database/DatabaseModule.h"
-#include "Helper/MetaData/Artist.h"
+#include "Components/Library/Sorting.h"
 
+
+class Artist;
+class ArtistList;
 class DatabaseArtists : private DatabaseModule
 {
 
 private:
 	QString _fetch_query;
+	QString _create_order_string(SortOrder sort);
 
 protected:
 	void set_artist_fetch_query(const QString& query);

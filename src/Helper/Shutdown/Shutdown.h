@@ -33,8 +33,6 @@
 
 #include "Helper/globals.h"
 #include "Helper/SayonaraClass.h"
-#include "Helper/Logger/Logger.h"
-
 
 #include <QDBusInterface>
 #include <QDBusConnection>

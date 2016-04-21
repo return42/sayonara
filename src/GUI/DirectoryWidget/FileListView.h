@@ -1,11 +1,13 @@
 #ifndef FILELISTVIEW_H
 #define FILELISTVIEW_H
 
-#include "GUI/Helper/SearchableWidget/SearchableListView.h"
-#include <QModelIndexList>
-#include <QFileSystemModel>
 #include "Helper/SayonaraClass.h"
 #include "Helper/MetaData/MetaDataList.h"
+#include "GUI/Helper/SearchableWidget/SearchableListView.h"
+
+#include <QModelIndexList>
+#include <QFileSystemModel>
+
 
 class LibraryContextMenu;
 class FileListView :

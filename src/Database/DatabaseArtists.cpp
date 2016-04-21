@@ -19,11 +19,11 @@
  */
 
 
-
+#include "Database/SayonaraQuery.h"
 #include "Database/DatabaseArtists.h"
 #include "Helper/MetaData/MetaData.h"
-
-
+#include "Helper/MetaData/Artist.h"
+#include "Helper/Filter.h"
 
 DatabaseArtists::DatabaseArtists(QSqlDatabase db, quint8 db_id) :
 	DatabaseModule(db, db_id)
@@ -76,7 +76,7 @@ bool DatabaseArtists::db_fetch_artists(SayonaraQuery& q, ArtistList& result) {
 	return true;
 }
 
-static QString _create_order_string(SortOrder sort) {
+QString DatabaseArtists::_create_order_string(SortOrder sort) {
 
 	switch(sort) {
 		case SortOrder::ArtistNameAsc:

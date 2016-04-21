@@ -48,11 +48,11 @@
 #define COL_FILESIZE 7
 #define COL_TRACK_RATING 8
 
-#include "GUI/Helper/CustomMimeData.h"
-
 #include "GUI/Helper/SearchableWidget/AbstractSearchModel.h"
+#include "Helper/MetaData/MetaDataList.h"
 #include "Helper/Set.h"
 
+class CustomMimeData;
 class ColumnHeader;
 class LibraryItemModel : public AbstractSearchTableModel{
 

@@ -24,9 +24,8 @@
 #define ICONPROVIDER_H
 
 #include <QFileIconProvider>
-#include "Helper/Helper.h"
-#include "Helper/Settings/Settings.h"
 
+class Settings;
 class IconProvider : public QFileIconProvider
 {
 

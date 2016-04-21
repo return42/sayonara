@@ -24,6 +24,7 @@
 #define DATABASESTREAMS_H
 
 #include "Database/DatabaseModule.h"
+#include <QMap>
 
 class DatabaseStreams : private DatabaseModule
 {

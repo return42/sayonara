@@ -23,8 +23,12 @@
 #ifndef SmartCompare_H
 #define SmartCompare_H
 #include <QMap>
-#include "Database/DatabaseConnector.h"
+#include <QString>
+#include <QList>
+#include <QStringList>
 
+class ArtistList;
+class DatabaseConnector;
 enum class HashLevel : quint8
 {
 	zero=0,
@@ -37,9 +41,7 @@ struct Hash{
 	QString hash;
 	QString org_str;
 
-	void print() const{
-		sp_log(Log::Info) << org_str << " -> " << hash << ": " << penalty;
-	}
+	void print() const;
 };
 
 /**

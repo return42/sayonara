@@ -28,7 +28,6 @@
 #include <QVariant>
 #include <QSqlDatabase>
 #include <QSqlError>
-#include "Helper/Logger/Logger.h"
 
 class SayonaraQuery : public QSqlQuery {
 
@@ -49,9 +48,6 @@ public:
 
 	QString get_query_string() const;
 	void show_error(const QString& err_msg) const;
-
-
-
 };
 
 

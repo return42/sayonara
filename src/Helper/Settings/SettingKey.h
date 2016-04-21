@@ -23,15 +23,22 @@
 #ifndef SETTINGKEY_H
 #define SETTINGKEY_H
 
-#include <QString>
-#include <QPoint>
-#include <QSize>
-#include <QPair>
-#include "Components/Library/Sorting.h"
-#include "Helper/EqualizerPresets.h"
-#include "Helper/PlaylistMode.h"
 #include "Helper/globals.h"
-#include "GUI/Helper/Shortcuts/RawShortcutMap.h"
+//#include "Helper/EqualizerPresets.h"
+//#include "GUI/Helper/Shortcuts/RawShortcutMap.h"
+//#include "Helper/PlaylistMode.h"
+//#include "Components/Library/Sorting.h"
+//#include <QString>
+//#include <QPoint>
+//#include <QSize>
+class QString;
+class QPoint;
+class QSize;
+class LibSortOrder;
+struct EQ_Setting;
+struct PlaylistMode;
+struct RawShortcutMap;
+
 
 /**
  * @brief The SK namespace is used to access setting keys
@@ -40,7 +47,7 @@
 namespace SK {
 	enum SettingKey {
 
-		LFM_Active,
+		LFM_Active=0,
 		LFM_Login,
 		LFM_Corrections,
 		LFM_ShowErrors,
@@ -140,8 +147,9 @@ template<typename T, SK::SettingKey S>
 class SettingKey
 {
 	public:
-		T p;
+		T* p=nullptr;
 		SettingKey(){}
+		~SettingKey(){}
 };
 
 

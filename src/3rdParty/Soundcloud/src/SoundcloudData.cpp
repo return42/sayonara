@@ -21,6 +21,9 @@
 
 #include "SoundcloudData.h"
 #include "Helper/MetaData/Album.h"
+#include "Helper/MetaData/Artist.h"
+#include "Helper/MetaData/MetaDataList.h"
+#include "Database/SayonaraQuery.h"
 
 SoundcloudData::SoundcloudData() :
 	LibraryDatabase(1, "", "soundcloud.db")

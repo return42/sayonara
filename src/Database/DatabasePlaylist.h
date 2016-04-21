@@ -23,6 +23,7 @@
 #ifndef DATABASEPLAYLIST_H
 #define DATABASEPLAYLIST_H
 
+#include "Components/Library/Sorting.h"
 #include "Database/DatabaseModule.h"
 #include "Helper/Playlist/CustomPlaylist.h"
 

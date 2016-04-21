@@ -23,12 +23,12 @@
 #ifndef GUI_ABSTRACTLIBRARY_H
 #define GUI_ABSTRACTLIBRARY_H
 
+#include "Components/Library/LibraryNamespaces.h"
 #include "GUI/Helper/ComboBoxDelegate/ComboBoxDelegate.h"
 #include "GUI/Helper/SayonaraWidget.h"
-#include "GUI/Helper/CustomMimeData.h"
 
-#include "Components/Library/AbstractLibrary.h"
-#include "Helper/SayonaraClass.h"
+#include "Views/LibraryView.h"
+#include "Views/LibraryViewAlbum.h"
 
 #include "Models/LibraryItemModelAlbums.h"
 #include "Models/LibraryItemModelArtists.h"
@@ -38,10 +38,8 @@
 #include "Delegates/LibraryItemDelegateArtists.h"
 #include "Delegates/LibraryItemDelegateTracks.h"
 
-#include "Views/LibraryView.h"
-#include "Views/LibraryViewAlbum.h"
-
-#include "ColumnHeader.h"
+#include "Helper/SayonaraClass.h"
+#include "Helper/Filter.h"
 
 #include <QStringList>
 #include <QPoint>
@@ -51,8 +49,13 @@
 #include <QComboBox>
 #include <QPushButton>
 
+class ColumnHeader;
+
 class GUI_InfoDialog;
-class GUI_AbstractLibrary : public SayonaraWidget
+class AbstractLibrary;
+
+class GUI_AbstractLibrary :
+		public SayonaraWidget
 {
 	Q_OBJECT
 

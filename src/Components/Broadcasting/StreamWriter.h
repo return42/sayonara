@@ -21,18 +21,21 @@
 #ifndef STREAM_WRITER_H
 #define STREAM_WRITER_H
 
-#include "StreamDataSender.h"
-#include "StreamHttpParser.h"
-
-#include "Helper/MetaData/MetaData.h"
 #include "Helper/SayonaraClass.h"
 #include "Interfaces/RawSoundReceiver/RawSoundReceiverInterface.h"
+#include "StreamHttpParser.h"
 
 #include <QByteArray>
 #include <QHostAddress>
+#include <QTcpSocket>
+
 #include <memory>
 
+class StreamHttpParser;
+class StreamDataSender;
 class EngineHandler;
+class MetaData;
+
 class StreamWriter :
 		public QObject,
 		public RawSoundReceiverInterface,

@@ -105,7 +105,9 @@ QTreeWidget
 }
 
 LibraryView,
-LibraryGenreView
+LibraryGenreView,
+DirectoryTreeView,
+FileListView
 {
         font-size: <<FONT_SIZE_LIB>>pt;
 	font-weight: <<FONT_WEIGHT_LIB>>;

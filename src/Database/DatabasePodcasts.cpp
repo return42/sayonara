@@ -19,8 +19,9 @@
  */
 
 
-
+#include "Database/SayonaraQuery.h"
 #include "Database/DatabasePodcasts.h"
+#include "Helper/Logger/Logger.h"
 
 DatabasePodcasts::DatabasePodcasts(QSqlDatabase db, quint8 db_id) :
 	DatabaseModule(db, db_id)

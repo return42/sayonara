@@ -24,6 +24,7 @@
 #define DATABASEPODCASTS_H
 
 #include "Database/DatabaseModule.h"
+#include <QMap>
 
 class DatabasePodcasts : private DatabaseModule
 {

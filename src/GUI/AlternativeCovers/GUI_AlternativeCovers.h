@@ -36,13 +36,17 @@
 #include <QPixmap>
 #include <QList>
 #include <QModelIndex>
+
 class Album;
 class Artist;
 class CoverLookupAlternative;
 class AlternateCoverItemDelegate;
 class AlternateCoverItemModel;
 
-class GUI_AlternativeCovers : public SayonaraDialog, private Ui::AlternativeCovers{
+class GUI_AlternativeCovers :
+		public SayonaraDialog,
+		private Ui::AlternativeCovers
+{
 
 	Q_OBJECT
 public:

@@ -22,6 +22,7 @@
 
 
 #include "LibraryView.h"
+#include <QMimeData>
 
 // mouse events
 void LibraryView::mousePressEvent(QMouseEvent* event) {

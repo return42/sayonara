@@ -22,6 +22,7 @@
 
 #include "LibraryGenreView.h"
 #include "Database/DatabaseHandler.h"
+#include "Database/DatabaseConnector.h"
 
 #include "Components/TagEdit/TagEdit.h"
 #include "Components/TagEdit/MetaDataChangeNotifier.h"

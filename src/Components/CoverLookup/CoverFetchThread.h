@@ -29,10 +29,9 @@
 #ifndef COVERFETCHTHREAD_H_
 #define COVERFETCHTHREAD_H_
 
-#include "Helper/FileHelper.h"
-#include "Components/CoverLookup/CoverLocation.h"
-
 #include <QImage>
+#include <QStringList>
+#include "CoverLocation.h"
 
 class AsyncWebAccess;
 /**
@@ -41,7 +40,8 @@ class AsyncWebAccess;
  */
 class CoverFetchThread : public QObject {
 
-Q_OBJECT
+	Q_OBJECT
+
 
 signals:
 	/**

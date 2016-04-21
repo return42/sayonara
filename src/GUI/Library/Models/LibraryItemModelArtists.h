@@ -32,7 +32,7 @@
 #include "LibraryItemModel.h"
 #include "Helper/MetaData/Artist.h"
 
-
+class ColumnHeader;
 class LibraryItemModelArtists : public LibraryItemModel {
 
 Q_OBJECT

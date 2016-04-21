@@ -18,9 +18,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
+#include "Database/SayonaraQuery.h"
 #include "Database/DatabaseConnector.h"
 #include "Helper/MetaData/Album.h"
+#include "Helper/MetaData/Artist.h"
 
 DatabaseConnector::DatabaseConnector() :
 

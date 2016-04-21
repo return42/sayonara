@@ -23,6 +23,7 @@
 #include "Components/Engine/Callbacks/PipelineCallbacks.h"
 #include "PipelineProbes.h"
 #include "Helper/Helper.h"
+#include "Helper/EqualizerPresets.h"
 
 #include <gst/base/gstdataqueue.h>
 
@@ -121,6 +122,7 @@ bool PlaybackPipeline::create_elements(){
 		_sr_data->queue = _file_queue;
 		_sr_data->sink = _file_sink;
 	}
+
 
 	return true;
 }

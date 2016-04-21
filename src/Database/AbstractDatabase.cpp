@@ -22,7 +22,11 @@
 
 #include "Database/AbstractDatabase.h"
 #include "Database/DatabaseModule.h"
+#include "Database/SayonaraQuery.h"
+
 #include "Helper/Helper.h"
+#include "Helper/Logger/Logger.h"
+
 
 AbstractDatabase::AbstractDatabase(quint8 db_id, const QString& db_dir, const QString& db_name, QObject *parent) : QObject(parent)
 {

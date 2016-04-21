@@ -28,6 +28,7 @@
 
 #include "GUI/AlternativeCovers/AlternativeCoverItemDelegate.h"
 #include "Components/CoverLookup/CoverLookup.h"
+#include "Components/CoverLookup/CoverLocation.h"
 
 #include "Helper/Helper.h"
 #include "Helper/Logger/Logger.h"

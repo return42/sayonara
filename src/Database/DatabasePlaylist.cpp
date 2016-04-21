@@ -19,7 +19,7 @@
  */
 
 
-
+#include "Database/SayonaraQuery.h"
 #include "Database/DatabasePlaylist.h"
 
 DatabasePlaylist::DatabasePlaylist(QSqlDatabase db, quint8 db_id) :

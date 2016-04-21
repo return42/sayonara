@@ -25,14 +25,13 @@
 #include "CoverHelper.h"
 #include "LocalCoverSearcher.h"
 #include "Helper/Helper.h"
-#include "Helper/MetaData/MetaData.h"
+#include "Helper/MetaData/MetaDataList.h"
 #include "Helper/MetaData/Album.h"
 #include "Helper/MetaData/Artist.h"
 
 #include "Database/DatabaseHandler.h"
 
 #include <QDir>
-
 
 CoverLocation::CoverLocation() {
 	valid = false;

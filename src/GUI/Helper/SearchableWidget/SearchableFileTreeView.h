@@ -23,15 +23,15 @@
 #ifndef SEARCHABLEFileTreeView_H
 #define SEARCHABLEFileTreeView_H
 
+#include "AbstractSearchModel.h"
+
 #include <QTreeView>
 #include <QThread>
-#include "SayonaraSelectionView.h"
-#include "AbstractSearchModel.h"
 #include <QFileSystemModel>
 
-
-
-class AbstractSearchFileTreeModel : public QFileSystemModel, private AbstractSearchModelInterface
+class AbstractSearchFileTreeModel :
+		public QFileSystemModel,
+		private AbstractSearchModelInterface
 {
 
 	Q_OBJECT

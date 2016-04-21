@@ -19,7 +19,7 @@
  */
 
 
-
+#include "Database/SayonaraQuery.h"
 #include "Database/DatabaseSettings.h"
 #include "Helper/Settings/Settings.h"
 

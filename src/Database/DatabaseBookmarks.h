@@ -24,6 +24,7 @@
 #define DATABASEBOOKMARKS_H
 
 #include "Database/DatabaseModule.h"
+#include <QMap>
 
 class DatabaseBookmarks : private DatabaseModule
 {

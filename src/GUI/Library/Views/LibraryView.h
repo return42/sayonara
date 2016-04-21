@@ -29,11 +29,12 @@
 #ifndef MYTABLEVIEW_H_
 #define MYTABLEVIEW_H_
 
-#include "GUI/Library/ColumnHeader.h"
+
 #include "GUI/Helper/SearchableWidget/SearchableTableView.h"
 #include "GUI/Library/Models/LibraryItemModel.h"
 
 #include "Helper/MetaData/MetaDataList.h"
+#include "Components/Library/Sorting.h"
 
 #include <QDropEvent>
 #include <QMouseEvent>
@@ -52,7 +53,7 @@ class LibraryItemModel;
 class LibraryContextMenu;
 class MiniSearcher;
 class CustomMimeData;
-
+class ColumnHeader;
 class LibraryView : public SearchableTableView{
 
 	Q_OBJECT

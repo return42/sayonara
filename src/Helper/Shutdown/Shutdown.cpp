@@ -30,7 +30,7 @@
 #include "Database/DatabaseConnector.h"
 #include "Components/PlayManager/PlayManager.h"
 #include "Interfaces/Notification/NotificationHandler.h"
-
+#include "Helper/Logger/Logger.h"
 
 
 #ifdef WITH_SHUTDOWN

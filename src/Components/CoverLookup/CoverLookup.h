@@ -29,15 +29,15 @@
 #ifndef COVERLOOKUP_H_
 #define COVERLOOKUP_H_
 
-
-#include "Components/CoverLookup/CoverLocation.h"
-
 #include <QThread>
 #include <QPixmap>
 #include <QDir>
 
 #include <memory>
 
+class Album;
+class Artist;
+class CoverLocation;
 /**
  * @brief The CoverLookupInterface class
  * @ingroup Covers

@@ -21,7 +21,11 @@
 #include "GUI_AbstractLibrary.h"
 #include "GUI/InfoDialog/GUI_InfoDialog.h"
 #include "GUI/Helper/GlobalMessage/Message.h"
+#include "Components/Library/AbstractLibrary.h"
 
+
+
+#include "ColumnHeader.h"
 #include <QKeySequence>
 
 GUI_AbstractLibrary::GUI_AbstractLibrary(AbstractLibrary* library, QWidget *parent) :

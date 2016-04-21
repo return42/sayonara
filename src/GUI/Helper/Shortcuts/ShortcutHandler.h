@@ -12,9 +12,6 @@
 #include "Shortcut.h"
 #include "Helper/SayonaraClass.h"
 
-#include <functional>
-
-
 /**
  * @brief A singleton class for retrieving shortcuts
  * @ingroup Shortcuts

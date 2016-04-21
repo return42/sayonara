@@ -19,8 +19,10 @@
  */
 
 
-
+#include "Database/SayonaraQuery.h"
 #include "Database/DatabaseVisStyles.h"
+#include "GUI/PlayerPlugins/Engine/StyleTypes.h"
+
 #include <QColor>
 
 DatabaseVisStyles::DatabaseVisStyles(QSqlDatabase db, quint8 db_id) :

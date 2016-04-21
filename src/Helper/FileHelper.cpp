@@ -22,6 +22,7 @@
 
 #include "FileHelper.h"
 #include "Helper.h"
+#include "Helper/Logger/Logger.h"
 
 #include <QDir>
 #include <algorithm>

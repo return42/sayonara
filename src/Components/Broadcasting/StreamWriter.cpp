@@ -22,11 +22,11 @@
  */
 
 #include "StreamWriter.h"
-#include "StreamHttpParser.h"
 #include "StreamDataSender.h"
 
 #include "Helper/Helper.h"
 #include "Components/Engine/EngineHandler.h"
+#include "Helper/MetaData/MetaData.h"
 
 // socket is the client socket
 StreamWriter::StreamWriter(QTcpSocket* socket, const QString& ip, const MetaData& md) :

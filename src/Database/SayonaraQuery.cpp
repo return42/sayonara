@@ -21,6 +21,7 @@
 
 
 #include "Database/SayonaraQuery.h"
+#include "Helper/Logger/Logger.h"
 
 SayonaraQuery::SayonaraQuery(const QString& query, QSqlDatabase db) :
 	QSqlQuery(query, db)

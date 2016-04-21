@@ -23,9 +23,6 @@
 #ifndef SEARCHABLETABLEVIEW_H
 #define SEARCHABLETABLEVIEW_H
 
-
-
-
 #include "SayonaraSelectionView.h"
 
 #include <QTableView>

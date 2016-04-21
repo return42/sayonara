@@ -23,19 +23,19 @@
 #ifndef SEARCHABLELISTVIEW_H
 #define SEARCHABLELISTVIEW_H
 
-#include "SearchableListView.h"
 
-#include "AbstractSearchModel.h"
 #include "SayonaraSelectionView.h"
-
-#include "GUI/Library/Models/LibraryItemModel.h"
 
 #include <QListView>
 #include <QMouseEvent>
 #include <QKeyEvent>
 
 class MiniSearcher;
-class SearchableListView : public QListView, public SayonaraSelectionView {
+class AbstractSearchListModel;
+class SearchableListView :
+		public QListView,
+		public SayonaraSelectionView
+{
 	Q_OBJECT
 
 signals:

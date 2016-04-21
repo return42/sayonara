@@ -30,8 +30,13 @@
 #include "CoverLookup.h"
 #include "CoverHelper.h"
 #include "CoverFetchThread.h"
-#include "Helper/MetaData/MetaData.h"
+#include "CoverLocation.h"
+
 #include "Database/DatabaseConnector.h"
+
+#include "Helper/MetaData/MetaData.h"
+#include "Helper/MetaData/Album.h"
+#include "Helper/MetaData/Artist.h"
 
 
 #include <QFile>

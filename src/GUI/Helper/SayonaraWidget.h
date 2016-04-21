@@ -31,7 +31,9 @@
 
 
 class SayonaraDialog;
-class SayonaraWidget : public SayonaraWidgetTemplate<QWidget> {
+class SayonaraWidget :
+		public SayonaraWidgetTemplate<QWidget>
+{
 
 	Q_OBJECT
 

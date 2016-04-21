@@ -26,11 +26,11 @@
  *      Author: luke
  */
 
-#include "Helper/Helper.h"
+
+#include "LibraryItemModelTracks.h"
 #include "GUI/Library/ColumnHeader.h"
 
-#include "LibraryItemModel.h"
-#include "LibraryItemModelTracks.h"
+#include "Helper/Helper.h"
 
 
 

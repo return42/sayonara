@@ -18,7 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 /*
  * MetaData.h
  *
@@ -30,13 +29,10 @@
 #define METADATA_H_
 
 #include "Helper/MetaData/LibraryItem.h"
-#include "Helper/Logger/Logger.h"
 
 #include <QMetaType>
-
-class AlbumInfo;
-class ArtistInfo;
-class MetaDataInfo;
+#include <QStringList>
+#include <QString>
 
 
 /**

@@ -26,9 +26,8 @@
 #define GUI_INFODIALOG_H_
 
 #include "GUI/Helper/SayonaraDialog.h"
-#include "Helper/MetaData/MetaData.h"
+#include "Helper/MetaData/MetaDataList.h"
 #include "Components/CoverLookup/CoverLocation.h"
-#include "Database/DatabaseConnector.h"
 
 #include "GUI/InfoDialog/ui_GUI_InfoDialog.h"
 

@@ -27,9 +27,13 @@
  */
 
 #include "CoverFetchThread.h"
+#include "CoverLocation.h"
 
 #include "Helper/Logger/Logger.h"
 #include "Helper/WebAccess/AsyncWebAccess.h"
+#include "Helper/FileHelper.h"
+
+
 
 #include <QFile>
 #include <QDir>

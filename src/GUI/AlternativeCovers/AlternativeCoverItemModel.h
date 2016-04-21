@@ -29,13 +29,13 @@
 #ifndef ALTERNATECOVERITEMMODEL_H_
 #define ALTERNATECOVERITEMMODEL_H_
 
-#include "Components/CoverLookup/CoverLocation.h"
+
 #include <QList>
 #include <QPair>
 #include <QModelIndex>
 #include <QAbstractTableModel>
 
-
+class CoverLocation;
 struct RowColumn {
 	int row;
 	int col;

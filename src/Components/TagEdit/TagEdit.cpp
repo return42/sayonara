@@ -23,6 +23,8 @@
 #include "TagEdit.h"
 #include "MetaDataChangeNotifier.h"
 #include "Helper/Tagging/Tagging.h"
+#include "Database/DatabaseConnector.h"
+
 
 TagEdit::TagEdit(QObject *parent) :
 	QThread(parent),

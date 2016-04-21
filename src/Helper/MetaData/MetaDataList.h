@@ -3,9 +3,7 @@
 
 #include <QVector>
 #include "MetaData.h"
-
 #include "Helper/globals.h"
-#include "Helper/Set.h"
 
 #include <functional>
 
@@ -13,9 +11,15 @@
  * @brief The MetaDataList class
  * @ingroup MetaDataHelper
  */
+
 class MetaDataInfo;
 class AlbumInfo;
 class ArtistInfo;
+
+namespace SP {
+	template<typename T>
+	class Set;
+}
 
 class MetaDataList : public QVector<MetaData> {
 

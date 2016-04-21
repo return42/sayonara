@@ -1,6 +1,8 @@
 #ifndef LIBRARYNAMESPACES_H
 #define LIBRARYNAMESPACES_H
 
+#include <QtGlobal>
+
 namespace Library {
 
 	enum class TrackDeletionMode : quint8 {

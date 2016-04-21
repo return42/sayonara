@@ -19,6 +19,7 @@
  */
 
 #include "CoverLookupAll.h"
+#include "CoverLocation.h"
 #include "Helper/Helper.h"
 
 CoverLookupAll::CoverLookupAll(QObject* parent, const AlbumList& album_list) :

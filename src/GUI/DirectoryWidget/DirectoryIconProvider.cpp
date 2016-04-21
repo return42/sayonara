@@ -23,7 +23,7 @@
 #include "DirectoryIconProvider.h"
 #include "Helper/Helper.h"
 #include "Helper/FileHelper.h"
-
+#include "Helper/Settings/Settings.h"
 
 IconProvider::IconProvider() :
 	QFileIconProvider()

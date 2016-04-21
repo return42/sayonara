@@ -30,10 +30,9 @@
 #define LIBRARYITEMMODELTRACKS_H_
 
 #include "Helper/MetaData/MetaData.h"
-
 #include "GUI/Library/Models/LibraryItemModel.h"
-#include "GUI/Library/ColumnHeader.h"
 
+class ColumnHeader;
 class LibraryItemModelTracks : public LibraryItemModel {
 
 Q_OBJECT
