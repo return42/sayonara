@@ -25,6 +25,7 @@
 
 #include <QString>
 #include <QStringList>
+#include <QMetaType>
 
 class MetaData;
 class Album;
@@ -145,5 +146,4 @@ public:
 };
 
 Q_DECLARE_METATYPE(CoverLocation)
-
 #endif // COVERLOCATION_H

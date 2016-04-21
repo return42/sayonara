@@ -34,10 +34,13 @@
 #include <QDir>
 
 CoverLocation::CoverLocation() {
+	qRegisterMetaType<CoverLocation>("CoverLocation");
 	valid = false;
 }
 
-CoverLocation::CoverLocation(const CoverLocation& cl){
+CoverLocation::CoverLocation(const CoverLocation& cl) : 
+	CoverLocation()
+{
 	search_url = cl.search_url;
 	cover_path = cl.cover_path;
 	local_paths = cl.local_paths;
