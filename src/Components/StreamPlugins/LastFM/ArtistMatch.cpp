@@ -82,7 +82,7 @@ QString ArtistMatch::to_string() const
 	}
 
 	for(const ArtistMatch::ArtistDesc& key : _poor.keys()){
-		//lst << QString::number(_poor[key]).left(5) + "\ŧ" + key.to_string();
+		lst << QString::number(_poor[key]).left(5) + "\t" + key.to_string();
 	}
 
 	std::sort(lst.begin(), lst.end());

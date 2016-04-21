@@ -269,22 +269,35 @@ int main(int argc, char *argv[]) {
 	QString language;
 	QStringList files_to_play;
 
-
 #ifdef Q_OS_LINUX
 
 	signal(SIGSEGV, segfault_handler);
 
 #endif
 
+	bool single_instance=true;
 	/* Init files to play in argument list */
 	for(int i=1; i<argc; i++) {
-		files_to_play << Helper::File::get_absolute_filename(QString(argv[i]));
+		QString str(argv[i]);
+
+		if(str.compare("--multi-instances") == 0){
+			single_instance = false;
+		}
+
+		else
+		{
+			files_to_play << Helper::File::get_absolute_filename(QString(argv[i]));
+		}
 	}
 
 #ifdef Q_OS_LINUX
 
-	int pid = check_for_another_instance_unix();
-	if(pid > 0 && false) {
+	int pid=0;
+	if(single_instance){
+		pid = check_for_another_instance_unix();
+	}
+
+	if(pid > 0) {
 		QSharedMemory memory("SayonaraMemory");
 
 		if(!files_to_play.isEmpty()){

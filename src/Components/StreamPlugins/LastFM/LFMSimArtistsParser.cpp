@@ -43,8 +43,6 @@ void LFMSimArtistsParser::parse_document()
 		return;
 	}
 
-	sp_log(Log::Debug) << QString::fromLocal8Bit(_data);
-
 	_artist_match = ArtistMatch(_artist_name);
 
 	QDomElement docElement = doc.documentElement();
