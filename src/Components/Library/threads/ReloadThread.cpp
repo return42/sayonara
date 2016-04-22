@@ -70,7 +70,8 @@ bool ReloadThread::compare_md(const MetaData& md1, const MetaData& md2){
 			md1.rating == md2.rating &&
 			genres1 == genres2 &&
 			md1.discnumber == md2.discnumber &&
-			md1.track_num == md2.track_num);
+			md1.track_num == md2.track_num  
+			);
 }
 
 int ReloadThread::get_and_save_all_files(const QHash<QString, MetaData>& md_map_lib) {
@@ -104,14 +105,18 @@ int ReloadThread::get_and_save_all_files(const QHash<QString, MetaData>& md_map_
 
 			file_was_read = Tagging::getMetaDataOfFile(md, Tagging::Quality::Dirty);
 
-			if(!file_was_read || compare_md(md, md_lib)){
+			if(!file_was_read){		
+				continue;
+			}
+
+			if( md_lib.length_ms > 1000 && md_lib.length_ms < 3600000 && compare_md(md, md_lib)){
 				continue;
 			}
 		}
 
 		sp_log(Log::Debug) << "Have to reload " << filepath;
 
-		file_was_read = Tagging::getMetaDataOfFile(md, Tagging::Quality::Standard);
+		file_was_read = Tagging::getMetaDataOfFile(md, Tagging::Quality::Quality);
 
 		if(file_was_read){
 			v_md_to_store << md;
