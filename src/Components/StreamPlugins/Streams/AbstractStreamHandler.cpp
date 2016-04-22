@@ -54,7 +54,7 @@ bool AbstractStreamHandler::parse_station(const QString& url, const QString& sta
 	sp_log(Log::Debug) << "Parse station: " << url;
 
 	AsyncWebAccess* awa = new AsyncWebAccess(this);
-	//awa->set_behavior(AsyncWebAccess::Behavior::AsSayonara4);
+	awa->set_behavior(AsyncWebAccess::Behavior::AsSayonara);
 	connect(awa, &AsyncWebAccess::sig_finished, this, &AbstractStreamHandler::awa_finished);
 
 	_blocked = true;

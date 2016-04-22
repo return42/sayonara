@@ -91,7 +91,12 @@ void AsyncWebAccess::run_post(const QString &url, const QByteArray &post_data, i
 void AsyncWebAccess::finished(QNetworkReply *reply){
 
 	QNetworkReply::NetworkError error = reply->error();
+
 	bool success = (error == QNetworkReply::NoError);
+	if(!success){
+		sp_log(Log::Debug) << "Cannot open " << _url << ": " << reply->errorString();
+	}
+
 	QString redirect_url = reply->attribute(QNetworkRequest::RedirectionTargetAttribute).toString();
 
 	if(!redirect_url.isEmpty() && redirect_url != _url){
@@ -108,9 +113,12 @@ void AsyncWebAccess::finished(QNetworkReply *reply){
 		return;
 	}
 
+	bool is_readable = reply->isReadable();
+	qint64 bytes_available = reply->bytesAvailable();
+
 	if(success &&
-		reply->isReadable() &&
-		reply->bytesAvailable() > 0)
+			is_readable &&
+			bytes_available > 0)
 	{
 		_data = reply->readAll();
 	}
@@ -143,7 +151,7 @@ void AsyncWebAccess::timeout(){
 
 QByteArray AsyncWebAccess::get_data() const
 {
-    return _data;
+	return _data;
 }
 
 QImage AsyncWebAccess::get_image() const
