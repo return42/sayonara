@@ -22,16 +22,18 @@
 #include "Helper/Logger/Logger.h"
 #include <QRegExp>
 
-AsyncWebAccess::AsyncWebAccess(QObject* parent, const QByteArray& header) :
+AsyncWebAccess::AsyncWebAccess(QObject* parent, const QByteArray& header, AsyncWebAccess::Behavior behavior) :
 	QObject(parent)
 {
 	Q_UNUSED(header)
 	_nam = new QNetworkAccessManager(this);
 	_timer = new QTimer();
+	_behavior = behavior;
 
 	connect(_timer, &QTimer::timeout, this, &AsyncWebAccess::timeout);
 	connect(_nam, &QNetworkAccessManager::finished, this, &AsyncWebAccess::finished);
 }
+
 
 AsyncWebAccess::~AsyncWebAccess() {
 }
@@ -55,6 +57,10 @@ void AsyncWebAccess::run(const QString& url, int timeout){
 
 	QNetworkRequest request;
 	request.setUrl(_url);
+
+	if(_behavior == AsyncWebAccess::Behavior::AsSayonara){
+		request.setHeader(QNetworkRequest::UserAgentHeader, "sayonara");
+	}
 
 	_reply = _nam->get(request);
 	_timer->start(timeout);
@@ -150,4 +156,9 @@ QImage AsyncWebAccess::get_image() const
 QString AsyncWebAccess::get_url() const
 {
 	return _url;
+}
+
+void AsyncWebAccess::set_behavior(AsyncWebAccess::Behavior behavior)
+{
+	_behavior = behavior;
 }

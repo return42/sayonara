@@ -65,6 +65,8 @@ StreamHttpParser::HttpAnswer StreamHttpParser::parse(const QByteArray& data){
 
 	lst = qmsg.split("\r\n");
 
+	sp_log(Log::Debug) << qmsg;
+
 	for(const QString& str : lst){
 
 		QRegExp regex("(GET|HEAD)(\\s|/)*HTTP", Qt::CaseInsensitive);

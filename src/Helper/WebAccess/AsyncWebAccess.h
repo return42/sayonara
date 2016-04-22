@@ -44,12 +44,19 @@ signals:
 
 public:
 
+	enum class Behavior : quint8 {
+		AsBrowser=0,
+		AsSayonara
+	};
+
 	/**
 	 * @brief AsyncWebAccess constructor
 	 * @param parent standard QObject parent
 	 * @param header a modified header, see set_raw_header(const QByteArray& header)
 	 */
-	AsyncWebAccess(QObject* parent=nullptr, const QByteArray& header=QByteArray());
+	AsyncWebAccess(QObject* parent=nullptr, const QByteArray& header=QByteArray(),
+				   AsyncWebAccess::Behavior behavior=AsyncWebAccess::Behavior::AsBrowser);
+
 	virtual ~AsyncWebAccess();
 
 	/**
@@ -72,6 +79,7 @@ public:
 	QString	get_url() const;
 
 
+	void set_behavior(AsyncWebAccess::Behavior behavior);
 	/**
 	 * @brief starts a GET request
 	 * @param url url to call
@@ -113,6 +121,8 @@ private:
 	QNetworkAccessManager*	_nam=nullptr;
 	QString					_url;
 	QByteArray				_data;
+	AsyncWebAccess::Behavior _behavior;
+
 
 	QTimer*					_timer=nullptr;
 	QNetworkReply*			_reply=nullptr;
