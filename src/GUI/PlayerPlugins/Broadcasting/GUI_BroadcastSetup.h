@@ -51,6 +51,14 @@ protected:
 	void language_changed() override;
 	void skin_changed() override;
 
+private slots:
+	void active_toggled(bool b);
+	void port_changed(int new_val);
+
+private:
+	QString get_url_string();
+	void refresh_url();
+
 };
 
 #endif // GUI_BROADCASTSETUP_H

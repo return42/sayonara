@@ -134,6 +134,11 @@ StreamHttpParser::HttpAnswer StreamHttpParser::parse(const QByteArray& data){
 				{
 						is_browser = true;
 				}
+
+				if(_user_agent.contains("sayonara", Qt::CaseInsensitive)){
+					get_playlist = true;
+					continue;
+				}
 			}
 		}
 	}

@@ -71,6 +71,10 @@ void GUI_StreamRecorder::language_changed() {
 void GUI_StreamRecorder::sl_cb_activate_toggled(bool b) {
 	_is_active = b;
 	_settings->set(Set::Engine_SR_Active, b);
+
+	le_path->setEnabled(b);
+	btn_path->setEnabled(b);
+	cb_create_session_path->setEnabled(b);
 }
 
 

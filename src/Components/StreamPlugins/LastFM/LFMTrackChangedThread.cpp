@@ -130,6 +130,10 @@ void LFMTrackChangedThread::search_similar_artists(const MetaData& md) {
 		return;
 	}
 
+	if(md.radio_mode() == RadioMode::Station){
+		return;
+	}
+
 	_md = md;
 
 	if(_md.artist.trimmed().isEmpty()){

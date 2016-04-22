@@ -39,10 +39,6 @@ AsyncWebAccess::~AsyncWebAccess() {
 }
 
 
-void AsyncWebAccess::set_raw_header(const QMap<QByteArray, QByteArray>& header){
-
-	_header = header;
-}
 
 void AsyncWebAccess::run(const QString& url, int timeout){
 
@@ -162,3 +158,9 @@ void AsyncWebAccess::set_behavior(AsyncWebAccess::Behavior behavior)
 {
 	_behavior = behavior;
 }
+
+void AsyncWebAccess::set_raw_header(const QMap<QByteArray, QByteArray>& header){
+
+	_header = header;
+}
+

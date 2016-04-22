@@ -22,6 +22,7 @@
 
 #include "GUI_BroadcastSetup.h"
 #include "Helper/Helper.h"
+#include "GUI/Helper/SayonaraWidgetTemplate.h"
 
 
 GUI_BroadcastSetup::GUI_BroadcastSetup(QWidget *parent) :
@@ -40,6 +41,9 @@ void GUI_BroadcastSetup::init_ui()
 	setup_parent(this);
 
 	revert();
+
+	connect(cb_active, &QCheckBox::toggled, this, &GUI_BroadcastSetup::active_toggled);
+	connect(sb_port, spinbox_value_changed_int, this, &GUI_BroadcastSetup::port_changed);
 }
 
 void GUI_BroadcastSetup::commit(){
@@ -68,9 +72,13 @@ void GUI_BroadcastSetup::commit(){
 
 void GUI_BroadcastSetup::revert(){
 
-	cb_active->setChecked( _settings->get(Set::Broadcast_Active) );
+	bool active = _settings->get(Set::Broadcast_Active);
+	cb_active->setChecked( active );
 	cb_prompt->setChecked( _settings->get(Set::Broadcast_Prompt) );
 	sb_port->setValue( _settings->get(Set::Broadcast_Port) );
+	le_url->setVisible(active);
+	lab_url_title->setVisible(active);
+	refresh_url();
 }
 
 
@@ -102,4 +110,39 @@ QLabel* GUI_BroadcastSetup::get_title_label()
 QString GUI_BroadcastSetup::get_action_name() const
 {
 	return tr("Broadcast");
+}
+
+
+
+void GUI_BroadcastSetup::active_toggled(bool b)
+{
+	Q_UNUSED(b);
+	refresh_url();
+}
+
+void GUI_BroadcastSetup::port_changed(int new_val)
+{
+	Q_UNUSED(new_val);
+	refresh_url();
+}
+
+QString GUI_BroadcastSetup::get_url_string(){
+	int port = sb_port->value();
+	QStringList ips = Helper::get_ip_addresses();
+
+	QStringList ret;
+	for(const QString& ip : ips){
+		QString str = QString("http://") + ip + ":" + QString::number(port) + "/playlist.m3u";
+		ret << str;
+	}
+
+	return ret.join("\n");
+}
+
+void GUI_BroadcastSetup::refresh_url(){
+	bool active = cb_active->isChecked();
+
+	le_url->setVisible(active);
+	lab_url_title->setVisible(active);
+	le_url->setText(get_url_string());
 }
