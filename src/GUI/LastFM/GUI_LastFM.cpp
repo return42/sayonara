@@ -55,19 +55,11 @@ void GUI_LastFM::init_ui()
 	connect(_lfm, &LastFM::sig_last_fm_logged_in, this, &GUI_LastFM::logged_in);
 }
 
-QLabel* GUI_LastFM::get_title_label()
-{
-	return lab_title;
-}
-
-
 
 QString GUI_LastFM::get_action_name() const
 {
 	return tr("Last.fm");
 }
-
-
 
 
 void GUI_LastFM::language_changed() {

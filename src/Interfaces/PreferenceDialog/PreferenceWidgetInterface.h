@@ -28,13 +28,15 @@
 class SayonaraWidget;
 
 /**
- * @brief Abstract Interface you should use when creating a preference dialog.
+ * @brief Abstract Interface you should use when creating a preferences item.
  *
+ * For methods to be implemented see also PreferenceInterface.
  * If you wish to subclass, reimplement void get_action_name() and void init_ui().\n
  * In every function that makes use of the widgets call bool is_ui_initialized() first.\n
  * Call setup_parent(this) in init_ui() first.\n
- * If you wish to reimplement void language_changed(), call PreferenceDialogInterface::language_changed at the end.
+ * If you wish to reimplement void language_changed(), call PreferenceWidgetInterface::language_changed at the end.
  * @ingroup Interfaces
+ * @ingroup Preferences
  */
 class PreferenceWidgetInterface : public PreferenceInterface<SayonaraWidget>
 {

@@ -48,13 +48,21 @@ public:
 	void revert() override;
 
 	QString get_action_name() const override;
-	QLabel* get_title_label() override;
 
 
 protected:
 
 	void init_ui() override;
 	void language_changed() override;
+
+private slots:
+	void active_toggled(bool b);
+	void port_changed(int port);
+
+
+private:
+	QString get_url_string();
+	void refresh_url();
 
 };
 

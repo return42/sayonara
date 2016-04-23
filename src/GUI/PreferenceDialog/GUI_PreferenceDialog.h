@@ -33,6 +33,10 @@
 
 class PreferenceWidgetInterface;
 
+/**
+ * @brief The Preference Dialog. Register new Preference dialogs with the register_preference_dialog() method.
+ * @ingroup Preferences
+ */
 class GUI_PreferenceDialog :
 		public PreferenceDialogInterface,
 		private Ui::GUI_PreferenceDialog
@@ -48,12 +52,9 @@ public:
 	~GUI_PreferenceDialog();
 
 	QString get_action_name() const override;
-	QLabel* get_title_label() override;
 	void init_ui() override;
 
 	void register_preference_dialog(PreferenceWidgetInterface* dialog);
-
-	QWidget* get_widget();
 
 
 protected slots:

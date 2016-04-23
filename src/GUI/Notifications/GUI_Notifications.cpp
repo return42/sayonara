@@ -102,9 +102,3 @@ void GUI_Notifications::init_ui()
 	connect(_notification_handler,	&NotificationHandler::sig_notifications_changed,
 			this,					&GUI_Notifications::notifications_changed);
 }
-
-
-QLabel* GUI_Notifications::get_title_label()
-{
-	return lab_title;
-}

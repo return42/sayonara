@@ -11,45 +11,24 @@
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0">
-    <widget class="QLabel" name="lab_title">
-     <property name="font">
-      <font>
-       <pointsize>11</pointsize>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="0">
-    <widget class="Line" name="line">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
-   </item>
    <item row="2" column="0">
+    <widget class="QCheckBox" name="cb_update_notifications">
+     <property name="text">
+      <string>Update notifications</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0">
     <widget class="QCheckBox" name="cb_start_in_tray">
      <property name="text">
       <string>Start in tray</string>
      </property>
     </widget>
    </item>
-   <item row="3" column="0">
+   <item row="1" column="0">
     <widget class="QCheckBox" name="cb_close_to_tray">
      <property name="text">
       <string>Close to tray</string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="0">
-    <widget class="QCheckBox" name="cb_update_notifications">
-     <property name="text">
-      <string>Update notifications</string>
      </property>
     </widget>
    </item>

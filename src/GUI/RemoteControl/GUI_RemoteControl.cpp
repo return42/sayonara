@@ -24,6 +24,7 @@
 
 
 #include "GUI_RemoteControl.h"
+#include "Helper/Helper.h"
 
 
 GUI_RemoteControl::GUI_RemoteControl(QWidget* parent) :
@@ -42,6 +43,9 @@ void GUI_RemoteControl::init_ui()
 	setup_parent(this);
 
 	revert();
+
+	connect(cb_activate, &QCheckBox::toggled, this, &GUI_RemoteControl::active_toggled);
+	connect(sb_port, spinbox_value_changed_int, this, &GUI_RemoteControl::port_changed);
 }
 
 
@@ -67,6 +71,7 @@ void GUI_RemoteControl::commit(){
 void GUI_RemoteControl::revert(){
 	cb_activate->setChecked(_settings->get(Set::Remote_Active));
 	sb_port->setValue(_settings->get(Set::Remote_Port));
+	refresh_url();
 }
 
 
@@ -77,7 +82,41 @@ QString GUI_RemoteControl::get_action_name() const
 
 
 
-QLabel*GUI_RemoteControl::get_title_label()
+void GUI_RemoteControl::active_toggled(bool b)
 {
-	return lab_title;
+	Q_UNUSED(b)
+	refresh_url();
 }
+
+void GUI_RemoteControl::port_changed(int port)
+{
+	Q_UNUSED(port)
+	refresh_url();
+}
+
+
+QString GUI_RemoteControl::get_url_string()
+{
+	int port = sb_port->value();
+	QStringList ips = Helper::get_ip_addresses();
+
+	QStringList ret;
+	for(const QString& ip : ips){
+		QString str = QString("http://") + ip + ":" + QString::number(port);
+		ret << str;
+	}
+
+	return ret.join("; ");
+}
+
+void GUI_RemoteControl::refresh_url()
+{
+	bool active = cb_activate->isChecked();
+
+	le_url->setVisible(active);
+	lab_url->setVisible(active);
+	le_url->setText(get_url_string());
+}
+
+
+

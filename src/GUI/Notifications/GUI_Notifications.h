@@ -45,8 +45,6 @@ public:
 	void commit() override;
 	void revert() override;
 
-	QLabel* get_title_label() override;
-
     
 private slots:
 	void notifications_changed();

@@ -23,21 +23,15 @@
 #include "GUI_PreferenceDialog.h"
 #include "GUI/Helper/ComboBoxDelegate/ComboBoxDelegate.cpp"
 #include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
+
 #include <QLayout>
-#include "Helper/Helper.h"
+
 
 GUI_PreferenceDialog::GUI_PreferenceDialog(QWidget *parent) :
 	PreferenceDialogInterface(parent),
 	Ui::GUI_PreferenceDialog()
 {
 	setup_parent(this);
-
-	combo_ips->setItemDelegate(new ComboBoxDelegate(combo_ips));
-
-	QStringList ip_addresses = Helper::get_ip_addresses();
-	for(const QString& ip : ip_addresses){
-		combo_ips->addItem(ip);
-	}
 
 	connect(list_preferences, &QListWidget::currentRowChanged, this, &GUI_PreferenceDialog::row_changed);
 
@@ -84,10 +78,6 @@ QString GUI_PreferenceDialog::get_action_name() const
 	return tr("Preferences");
 }
 
-QLabel* GUI_PreferenceDialog::get_title_label()
-{
-	return lab_title;
-}
 
 void GUI_PreferenceDialog::init_ui()
 {
@@ -126,18 +116,19 @@ void GUI_PreferenceDialog::row_changed(int row)
 	}
 
 	hide_all();
-	QWidget* widget = _dialogs[row];
+	PreferenceWidgetInterface* widget = _dialogs[row];
+	QLayout* layout = widget_preferences->layout();
 
-	widget_preferences->layout()->addWidget(widget);
-	widget_preferences->layout()->setAlignment(Qt::AlignTop);
+	if(layout){
+		layout->addWidget(widget);
+		layout->setAlignment(Qt::AlignTop);
+	}
 
+	lab_pref_title->setText(widget->get_action_name());
 	widget->show();
 
 }
 
-QWidget* GUI_PreferenceDialog::get_widget(){
-	return widget_preferences;
-}
 
 void GUI_PreferenceDialog::hide_all(){
 

@@ -49,10 +49,10 @@ protected:
 
 
 public:
-	QString get_action_name() const;
-	QLabel*get_title_label();
-	void commit();
-	void revert();
+	QString get_action_name() const override;
+
+	void commit() override;
+	void revert() override;
 };
 
 #endif // GUI_PLAYERPREFERENCES_H

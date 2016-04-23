@@ -225,8 +225,3 @@ void GUI_FontConfig::skin_changed()
 {
 
 }
-
-QLabel* GUI_FontConfig::get_title_label()
-{
-	return lab_title;
-}

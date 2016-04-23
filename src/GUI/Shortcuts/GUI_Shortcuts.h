@@ -37,6 +37,11 @@
 #include <tuple>
 
 class GUI_ShortcutEntry;
+
+/**
+ * @brief The GUI_Shortcuts class
+ * @ingroup Shortcuts
+ */
 class GUI_Shortcuts :
 		public PreferenceWidgetInterface,
 		private Ui::GUI_Shortcuts
@@ -50,7 +55,6 @@ public:
 	GUI_Shortcuts(QWidget* parent=nullptr);
 
 	QString get_action_name() const override;
-	QLabel* get_title_label() override;
 
 	void revert() override;
 	void commit() override;

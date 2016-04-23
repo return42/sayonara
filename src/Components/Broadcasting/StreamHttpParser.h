@@ -26,10 +26,17 @@
 #include <QByteArray>
 #include <QString>
 
+/**
+ * @brief Parses requests out of the Client.
+ * @ingroup Broadcasting
+ */
 class StreamHttpParser
 {
 
 public:
+	/**
+	 * @brief The HttpAnswer enum
+	 */
 	enum class HttpAnswer : quint8 {
 		Fail=0,
 		OK,

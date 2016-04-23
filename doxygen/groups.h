@@ -8,6 +8,11 @@
  */
 
 /**
+ * @defgroup Broadcasting
+ * @ingroup Components
+ */
+
+/**
  * @defgroup Covers Covers
  * @ingroup Components
  */
@@ -18,10 +23,23 @@
  */
 
 /**
+ * @defgroup Streams
+ * @ingroup Components
+ */
+
+/**
  * @defgroup PlaylistHelper Playlist Helpers
  * @ingroup Playlists
  * @ingroup Helper
  */
+
+/**
+ * @defgroup PlaylistParser Playlist Parsers
+ * @ingroup Playlists
+ * @ingroup Helper
+ */
+
+
 
 /**
  * @defgroup Tagging Tagging
@@ -85,6 +103,11 @@
 
 /**
  * @defgroup GUIHelper GUI Helper
+ * @ingroup GUI
+ */
+
+/**
+ * @defgroup Preferences Preference Dialog
  * @ingroup GUI
  */
 

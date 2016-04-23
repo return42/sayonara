@@ -93,11 +93,6 @@ QString GUI_StartupDialog::get_action_name() const
 	return tr("Start up");
 }
 
-QLabel* GUI_StartupDialog::get_title_label()
-{
-	return lab_title;
-}
-
 
 void GUI_StartupDialog::cb_toggled(bool b) {
 	Q_UNUSED(b);

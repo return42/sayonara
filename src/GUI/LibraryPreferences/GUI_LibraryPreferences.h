@@ -45,7 +45,6 @@ public:
 private:
 	void init_ui() override;
 	QString get_action_name() const override;
-	QLabel* get_title_label() override;
 
 
 private slots:

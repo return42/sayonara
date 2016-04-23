@@ -35,6 +35,7 @@
  * Call setup_parent(this) in init_ui() first.\n
  * If you wish to reimplement void language_changed(), call PreferenceDialogInterface::language_changed at the end.
  * @ingroup Interfaces
+ * @ingroup Preferences
  */
 class PreferenceDialogInterface : public PreferenceInterface<SayonaraDialog>
 {

@@ -44,10 +44,6 @@ QString GUI_LibraryPreferences::get_action_name() const
 	return tr("Library-Playlist Interaction");
 }
 
-QLabel* GUI_LibraryPreferences::get_title_label()
-{
-	return lab_title;
-}
 
 void GUI_LibraryPreferences::commit(){
 	_settings->set(Set::Lib_DC_DoNothing, rb_dc_do_nothing->isChecked());

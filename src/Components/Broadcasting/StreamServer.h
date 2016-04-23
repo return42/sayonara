@@ -34,6 +34,10 @@
 
 
 class EngineHandler;
+/**
+ * @brief The StreamServer class. This class is listening for new connections and holds and administrates current connections.
+ * @ingroup Broadcasting
+ */
 class StreamServer :
 		public QThread,
 		protected SayonaraClass

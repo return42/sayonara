@@ -44,6 +44,9 @@ signals:
 
 public:
 
+	/**
+	 * @brief The Behavior enum. Responsible for the user-agent variable in the HTTP header
+	 */
 	enum class Behavior : quint8 {
 		AsBrowser=0,
 		AsSayonara
@@ -78,8 +81,14 @@ public:
 	 */
 	QString	get_url() const;
 
-
+	/**
+	 * @brief Set the behaviour how sayonara should be recognized by the server. This variable will set
+	 * the user-agent string in the http header
+	 * @param behavior
+	 */
 	void set_behavior(AsyncWebAccess::Behavior behavior);
+
+
 	/**
 	 * @brief starts a GET request
 	 * @param url url to call

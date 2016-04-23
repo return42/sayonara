@@ -45,7 +45,6 @@ public:
 	virtual ~GUI_FontConfig();
 
 	QString get_action_name() const override;
-	QLabel* get_title_label() override;
 
 	void commit() override;
 	void revert() override;

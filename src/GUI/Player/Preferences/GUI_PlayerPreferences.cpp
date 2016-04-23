@@ -49,10 +49,6 @@ QString GUI_PlayerPreferences::get_action_name() const
 	return tr("Player");
 }
 
-QLabel*GUI_PlayerPreferences::get_title_label()
-{
-	return lab_title;
-}
 
 void GUI_PlayerPreferences::commit()
 {

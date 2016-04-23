@@ -55,7 +55,6 @@ public:
 	void revert() override;
 
 	QString get_action_name() const override;
-	QLabel* get_title_label() override;
 
 
 private:

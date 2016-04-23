@@ -42,7 +42,6 @@ public:
 	void commit() override;
 	void revert() override;
 
-	QLabel* get_title_label() override;
 	QString get_action_name() const override;
 
 

@@ -101,10 +101,6 @@ void GUI_BroadcastSetup::skin_changed()
 	}
 }
 
-QLabel* GUI_BroadcastSetup::get_title_label()
-{
-	return lab_title;
-}
 
 
 QString GUI_BroadcastSetup::get_action_name() const
@@ -136,7 +132,7 @@ QString GUI_BroadcastSetup::get_url_string(){
 		ret << str;
 	}
 
-	return ret.join("\n");
+	return ret.join("; ");
 }
 
 void GUI_BroadcastSetup::refresh_url(){

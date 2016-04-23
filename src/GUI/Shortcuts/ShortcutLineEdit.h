@@ -26,6 +26,10 @@
 #include <QLineEdit>
 #include <QKeyEvent>
 
+/**
+ * @brief The ShortcutLineEdit class
+ * @ingroup Shortcuts
+ */
 class ShortcutLineEdit : public QLineEdit
 {
 	Q_OBJECT

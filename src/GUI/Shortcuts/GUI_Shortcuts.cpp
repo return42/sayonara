@@ -82,13 +82,6 @@ QString GUI_Shortcuts::get_action_name() const
 }
 
 
-QLabel* GUI_Shortcuts::get_title_label()
-{
-	return lab_title;
-}
-
-
-
 void GUI_Shortcuts::commit(){
 
 	for(GUI_ShortcutEntry* entry : _entries){

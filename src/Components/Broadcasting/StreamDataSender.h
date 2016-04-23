@@ -24,6 +24,10 @@
 
 #include <QTcpSocket>
 
+/**
+ * @brief The StreamDataSender class. This class is used for sending the raw bytes.
+ * @ingroup Broadcasting
+ */
 class StreamDataSender
 {
 

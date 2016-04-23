@@ -149,8 +149,3 @@ QString GUI_LanguageChooser::get_action_name() const
 {
 	return tr("Language") + QString(" (Language)");
 }
-
-QLabel*GUI_LanguageChooser::get_title_label()
-{
-	return lab_title;
-}
