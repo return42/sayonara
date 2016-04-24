@@ -24,4 +24,5 @@ ADD_LIBRARY(${PROJECT_NAME} STATIC ${SOURCES})
 TARGET_LINK_LIBRARIES(${PROJECT_NAME}
     say_interfaces_raw_sound_receiver
     say_gui_global_message
+    say_helper_settings
 )

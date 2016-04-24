@@ -21,7 +21,6 @@
 #include "AbstractLibrary.h"
 
 #include "Components/Playlist/PlaylistHandler.h"
-#include "Components/Engine/EngineHandler.h"
 
 #include "Components/TagEdit/MetaDataChangeNotifier.h"
 #include "Helper/Tagging/Tagging.h"
@@ -32,7 +31,6 @@ AbstractLibrary::AbstractLibrary(QObject *parent) :
 	SayonaraClass()
 {
 
-	_engine = EngineHandler::getInstance();
 	_playlist = PlaylistHandler::getInstance();
 	_sortorder = _settings->get(Set::Lib_Sorting);
 
@@ -42,9 +40,6 @@ AbstractLibrary::AbstractLibrary(QObject *parent) :
 	MetaDataChangeNotifier* md_change_notifier = MetaDataChangeNotifier::getInstance();
 	connect(md_change_notifier, &MetaDataChangeNotifier::sig_metadata_changed,
 			this,				&AbstractLibrary::psl_metadata_id3_changed);
-
-	connect(_engine,			&EngineHandler::sig_md_changed,
-			this,				&AbstractLibrary::psl_metadata_changed);
 }
 
 AbstractLibrary::~AbstractLibrary(){

@@ -30,7 +30,7 @@
 #include <QColor>
 #include <QShortcut>
 
-#include "Helper/SayonaraClass.h"
+#include "Helper/Settings/SayonaraClass.h"
 
 #define combo_current_index_changed_int	static_cast<void (QComboBox::*) (int)>(&QComboBox::currentIndexChanged)
 #define combo_activated_int	static_cast<void (QComboBox::*) (int)>(&QComboBox::activated)

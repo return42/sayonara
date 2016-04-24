@@ -24,11 +24,7 @@
 
 #include "Helper/DirectoryReader/DirectoryReader.h"
 #include "Helper/Tagging/Tagging.h"
-#include "Helper/Helper.h"
 #include "Helper/FileHelper.h"
-
-
-#include <QDir>
 
 
 CachingThread::CachingThread(const QStringList& file_list, QObject *parent) :
@@ -54,7 +50,7 @@ void CachingThread::run()
 void CachingThread::read_files()
 {
 	DirectoryReader dr;
-	ImportCache cache;
+	dr.set_filter("*");
 
 	for(const QString& filename : _file_list){
 
@@ -66,7 +62,7 @@ void CachingThread::read_files()
 		if(Helper::File::is_dir(filename)){
 			QStringList dir_files;
 			QDir dir(filename);
-			dr.set_filter("*");
+
 			dr.get_files_in_dir_rec(dir, dir_files);
 
 			for(const QString& dir_file : dir_files){

@@ -39,7 +39,9 @@
 #include "Helper/Settings/Settings.h"
 #include "Helper/EqualizerPresets.h"
 
+#include "GUI/Helper/GUI_Helper.h"
 #include "GUI/Helper/Shortcuts/ShortcutHandler.h"
+#include "Helper/PlaylistMode.h"
 
 #include <QSharedMemory>
 #include <QTranslator>
@@ -373,7 +375,7 @@ int main(int argc, char *argv[]) {
 	}
 
 	app.setApplicationName("Sayonara");
-	app.setWindowIcon(Helper::get_icon("logo"));
+	app.setWindowIcon(GUI::get_icon("logo"));
 
 	app.exec();
 

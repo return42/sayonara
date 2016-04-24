@@ -26,11 +26,13 @@
 #include "GUI/Playlist/GUI_Playlist.h"
 #include "GUI/Helper/GlobalMessage/Message.h"
 #include "GUI/Helper/IconLoader/IconLoader.h"
+#include "GUI/Helper/GUI_Helper.h"
+#include "GUI/Helper/Style/Style.h"
 #include "GUI/MTP/GUI_MTP.h"
 
 #include "Helper/Helper.h"
 #include "Helper/globals.h"
-#include "Helper/Style/Style.h"
+
 #include "Helper/FileHelper.h"
 #include "Helper/WebAccess/AsyncWebAccess.h"
 
@@ -140,7 +142,7 @@ void GUI_Player::language_changed() {
 
 void GUI_Player::init_gui() {
 
-	btn_mute->setIcon(Helper::get_icon("vol_1"));
+	btn_mute->setIcon(GUI::get_icon("vol_1"));
 
 	action_viewLibrary->setText(tr("Library"));
 	btn_rec->setVisible(false);

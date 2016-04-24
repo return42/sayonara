@@ -25,7 +25,7 @@
 
 
 #include "Helper/Set.h"
-#include "Helper/SayonaraClass.h"
+#include "Helper/Settings/SayonaraClass.h"
 #include "Components/CoverLookup/CoverLocation.h"
 
 #include <QMap>
@@ -76,10 +76,10 @@ protected:
 	QStringList					_paths;
 	CoverLocation				_cover_location;
 
-	SP::Set<QString>				_albums;
-	SP::Set<QString>				_artists;
-	SP::Set<AlbumID>				_album_ids;
-	SP::Set<ArtistID>				_artist_ids;
+	SP::Set<QString>			_albums;
+	SP::Set<QString>			_artists;
+	SP::Set<AlbumID>			_album_ids;
+	SP::Set<ArtistID>			_artist_ids;
 
 	LibraryDatabase*			_db;
 
@@ -123,7 +123,7 @@ protected:
 
 public:
 
-	MetaDataInfo(const MetaDataList*);
+	MetaDataInfo(const MetaDataList& v_md);
 
 	virtual ~MetaDataInfo();
 

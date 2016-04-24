@@ -23,7 +23,7 @@
 #ifndef PLAYLISTMENU_H
 #define PLAYLISTMENU_H
 
-#include "Helper/SayonaraClass.h"
+#include "Helper/Settings/SayonaraClass.h"
 
 #include <QMenu>
 #include <QAction>

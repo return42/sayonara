@@ -23,7 +23,6 @@
 
 #include "LFMSimArtistsParser.h"
 #include "Helper/Logger/Logger.h"
-#include "Helper/Helper.h"
 
 #include <QDomDocument>
 #include <QDomNode>

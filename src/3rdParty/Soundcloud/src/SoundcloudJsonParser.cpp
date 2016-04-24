@@ -25,6 +25,7 @@
 #include "Helper/MetaData/Artist.h"
 #include "Helper/MetaData/Album.h"
 #include "Helper/MetaData/MetaDataList.h"
+#include "Helper/Settings/Settings.h"
 
 void remove_first_and_last(QByteArray& data, char first, char last){
 
@@ -320,7 +321,7 @@ bool SoundcloudJsonParser::extract_track(const JsonItem& item, MetaData& md){
 		}
 
 		else if(track_info.key == "purchase_url" && !value.isEmpty()){
-			md.add_custom_field(track_info.key, tr("Purchase Url"), Helper::create_link(value));
+			md.add_custom_field(track_info.key, tr("Purchase Url"), create_link(value, value));
 		}
 
 		else if(track_info.key == "id" && !value.isEmpty()){
@@ -352,6 +353,8 @@ bool SoundcloudJsonParser::extract_artist(const JsonItem& item, Artist& artist){
 	int followers=0;
 	int following=0;
 
+
+
 	for(const JsonItem& artist_info : item.values){
 
 		QString value = QString::fromUtf8(artist_info.pure_value);
@@ -375,7 +378,7 @@ bool SoundcloudJsonParser::extract_artist(const JsonItem& item, Artist& artist){
 		}
 
 		else if(artist_info.key == "permalink_url" && !value.isEmpty()){
-			artist.add_custom_field(artist_info.key, tr("Permalink Url"), Helper::create_link("Soundcloud", value));
+			artist.add_custom_field(artist_info.key, tr("Permalink Url"), create_link("Soundcloud", value));
 		}
 
 		else if(artist_info.key == "description" && !value.isEmpty()){
@@ -462,11 +465,11 @@ bool SoundcloudJsonParser::extract_playlist(const JsonItem& item, Album& album, 
 		}
 
 		else if(album_info.key == "permalink" && !value.isEmpty()){
-			album.add_custom_field(album_info.key, tr("Permalink Url"), Helper::create_link("Soundcloud", value));
+			album.add_custom_field(album_info.key, tr("Permalink Url"), create_link("Soundcloud", value));
 		}
 
 		else if(album_info.key == "purchase_url" && !value.isEmpty()){
-			album.add_custom_field(album_info.key, tr("Purchase Url"), Helper::create_link(value));
+			album.add_custom_field(album_info.key, tr("Purchase Url"), create_link(value, value));
 		}
 
 		else if(album_info.key == "id" && !value.isEmpty()){
@@ -561,4 +564,12 @@ bool SoundcloudJsonParser::parse_playlists(AlbumList& albums, MetaDataList& v_md
 	}
 
 	return true;
+}
+
+
+
+QString SoundcloudJsonParser::create_link(const QString& name, const QString& target)
+{
+	bool dark = (Settings::getInstance()->get(Set::Player_Style) == 1);
+	return Helper::create_link(name, dark, target);
 }

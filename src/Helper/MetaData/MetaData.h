@@ -34,7 +34,6 @@
 #include <QStringList>
 #include <QString>
 
-
 /**
  * @brief The RadioMode enum
  * @ingroup MetaDataHelper

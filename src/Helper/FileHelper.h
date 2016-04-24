@@ -147,10 +147,12 @@ namespace Helper
 		 */
 		bool read_file_into_byte_arr(const QString& filename, QByteArray& content);
 
-
-
-
-
+		/**
+		 * @brief Check, if file is valid. Web URLs are always valid
+		 * @param filepath path to file or resource
+		 * @return true, if file exists or if Web URL. false else
+		 */
+		bool check_file(const QString& filepath);
 
 		// Everything clear
 		bool is_url(const QString& str);

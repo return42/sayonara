@@ -24,7 +24,7 @@
 #define PLAYLISTTABWIDGET_H
 
 
-#include "Helper/SayonaraClass.h"
+#include "Helper/Settings/SayonaraClass.h"
 #include "PlaylistMenuEntry.h"
 
 

@@ -30,7 +30,7 @@
 #include <QDBusObjectPath>
 #include <QMainWindow>
 
-#include "Helper/SayonaraClass.h"
+#include "Helper/Settings/SayonaraClass.h"
 #include "Components/PlayManager/PlayManager.h"
 
 class DBusAdaptor : public QObject {

@@ -23,7 +23,7 @@
 #ifndef FILELISTVIEW_H
 #define FILELISTVIEW_H
 
-#include "Helper/SayonaraClass.h"
+#include "Helper/Settings/SayonaraClass.h"
 #include "Helper/MetaData/MetaDataList.h"
 #include "GUI/Helper/SearchableWidget/SearchableListView.h"
 

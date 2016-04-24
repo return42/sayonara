@@ -27,7 +27,7 @@
 #include <QMenu>
 #include <QAction>
 
-#include "Helper/SayonaraClass.h"
+#include "Helper/Settings/SayonaraClass.h"
 
 class IconLoader;
 class LocalLibraryMenu :

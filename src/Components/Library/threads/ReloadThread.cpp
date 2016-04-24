@@ -30,6 +30,7 @@
 
 #include "ReloadThread.h"
 #include "Helper/Helper.h"
+#include "Helper/FileHelper.h"
 #include "Database/DatabaseConnector.h"
 #include "Helper/DirectoryReader/DirectoryReader.h"
 
@@ -244,7 +245,7 @@ void ReloadThread::run() {
 	// find orphaned tracks in library && delete them
 	for(const MetaData& md : v_md){
 
-		if(!Helper::check_track(md)) {
+		if(!Helper::File::check_file(md.filepath())) {
 			v_to_delete << std::move(md);
 		}
 

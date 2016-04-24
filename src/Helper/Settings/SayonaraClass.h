@@ -1,4 +1,4 @@
-/* AlbumInfo.h */
+/* Settings/SayonaraClass.h */
 
 /* Copyright (C) 2011-2016  Lucio Carreras
  *
@@ -20,29 +20,24 @@
 
 
 
-#ifndef ALBUMINFO_H
-#define ALBUMINFO_H
+#ifndef SAYONARACLASS_H
+#define SAYONARACLASS_H
 
-#include "MetaDataInfo.h"
-
+#include "Helper/Settings/Settings.h"
 /**
- * @brief The AlbumInfo class
- * @ingroup MetaDataHelper
+ * @brief The SayonaraClass class provides access to Settings and notifications
+ * @ingroup Helper
  */
-class AlbumInfo : public MetaDataInfo {
+class SayonaraClass {
 
-	Q_OBJECT
+	protected:
+		Settings* _settings=nullptr;
 
-private:
-	void set_cover_location();
-	void set_subheader();
-	void set_header();
+	public:
+		SayonaraClass();
 
-public:
-	AlbumInfo(const MetaDataList*);
-	virtual ~AlbumInfo();
+		virtual ~SayonaraClass();
 };
 
 
-#endif // ALBUMINFO_H
-
+#endif // SAYONARACLASS_H

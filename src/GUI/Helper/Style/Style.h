@@ -1,6 +1,6 @@
-/* SayonaraMessageBox.h */
+/* Style.h */
 
-/* Copyright (C) 2011-2015  Lucio Carreras
+/* Copyright (C) 2011-2016 Lucio Carreras
  *
  * This file is part of sayonara player
  *
@@ -19,4 +19,26 @@
  */
 
 
+/*
+ * Style.h
+ *
+ *  Created on: Oct 27, 2011
+ *      Author: luke
+ */
 
+#ifndef STYLE_H_
+#define STYLE_H_
+
+#include <QString>
+
+/**
+ * @define the Style namespace
+ * @ingroup Helper
+ */
+namespace Style{
+
+	QString get_style(bool dark);
+}
+
+
+#endif /* STYLE_H_ */

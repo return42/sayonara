@@ -29,7 +29,7 @@
 #ifndef LASTFM_H_
 #define LASTFM_H_
 
-#include "Helper/SayonaraClass.h"
+#include "Helper/Settings/SayonaraClass.h"
 #include "Helper/MetaData/MetaData.h"
 
 #include <QMap>
@@ -47,7 +47,7 @@ class LastFM : public QObject, protected SayonaraClass{
 	SINGLETON(LastFM)
 
 	signals:
-		void sig_last_fm_logged_in(bool);
+		void sig_logged_in(bool);
 
 	public slots:
 		void psl_login();

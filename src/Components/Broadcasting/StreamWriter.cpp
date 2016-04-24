@@ -23,8 +23,6 @@
 
 #include "StreamWriter.h"
 #include "StreamDataSender.h"
-
-#include "Helper/Helper.h"
 #include "Components/Engine/EngineHandler.h"
 #include "Helper/MetaData/MetaData.h"
 

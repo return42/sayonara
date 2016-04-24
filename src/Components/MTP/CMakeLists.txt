@@ -20,10 +20,10 @@ IF(${MTP_FOUND})
 
     ADD_LIBRARY(${PROJECT_NAME} STATIC ${SOURCES})
     TARGET_LINK_LIBRARIES(${PROJECT_NAME}
-	    mtp
-	    say_helper
-		say_helper_tagging
-		say_helper_directory_reader
+	mtp
+	say_helper_settings
+	say_helper_tagging
+	say_helper_directory_reader
     )
 
 ENDIF()

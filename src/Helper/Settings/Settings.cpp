@@ -19,11 +19,8 @@
  */
 
 
-//#include "Helper/Helper.h"
-//#include "Helper/PlaylistMode.h"
 #include "Helper/Logger/Logger.h"
 #include "Helper/Settings/Settings.h"
-#include "Database/DatabaseConnector.h"
 
 Settings::Settings(){
 	_db_file = "player.db";

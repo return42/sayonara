@@ -20,7 +20,7 @@
 
 
 
-#include "Helper/MetaData/MetaDataInfo.h"
+#include "MetaDataInfo.h"
 #include "Helper/Helper.h"
 #include "Helper/FileHelper.h"
 #include "Helper/MetaData/MetaDataList.h"
@@ -31,12 +31,14 @@
 
 
 
-MetaDataInfo::MetaDataInfo(const MetaDataList* v_md) :
+MetaDataInfo::MetaDataInfo(const MetaDataList& v_md) :
 	QObject(nullptr),
 	SayonaraClass()
 {
 
-	if(v_md->size() == 0 ) return;
+	if(v_md.isEmpty()) {
+		return;
+	}
 
 	quint64 length = 0;
 	quint64 filesize = 0;
@@ -45,14 +47,14 @@ MetaDataInfo::MetaDataInfo(const MetaDataList* v_md) :
 	quint32 bitrate_min = std::numeric_limits<quint32>::max();
 	quint32 bitrate_max = 0;
 	quint16 tracknum = 0;
-	bool calc_track_num = (v_md->size() == 1);
+	bool calc_track_num = (v_md.size() == 1);
 
 	QStringList genres;
 
 
-	_db = DB::getInstance(v_md->at(0));
+	_db = DB::getInstance(v_md[0]);
 
-	for(const MetaData& md : (*v_md) ){
+	for(const MetaData& md : v_md ){
 
 		_artists.insert(md.artist);
 		_albums.insert(md.album);
@@ -128,14 +130,14 @@ MetaDataInfo::MetaDataInfo(const MetaDataList* v_md) :
 		insert_interval(InfoStrings::Year, year_min, year_max);
 	}
 
-	insert_number(InfoStrings::nTracks, v_md->size());
+	insert_number(InfoStrings::nTracks, v_md.size());
 	insert_filesize(filesize);
 	insert_playing_time(length);
 	insert_genre(genres);
 
-	set_header(*v_md);
+	set_header(v_md);
 	set_subheader(tracknum);
-	set_cover_location(*v_md);
+	set_cover_location(v_md);
 }
 
 
@@ -351,13 +353,15 @@ QString MetaDataInfo::get_paths_as_string() const
 
 	QString str;
 	QString lib_path = _settings->get(Set::Lib_Path);
+	bool dark = (_settings->get(Set::Player_Style) == 1);
 
 	for(const QString& path : _paths){
 
 		QString name = path;
 		name.replace(lib_path, "...");
 
-		QString link = Helper::create_link(name, path, false);
+
+		QString link = Helper::create_link(name, dark, path, false);
 		str += link + CAR_RET;
 	}
 

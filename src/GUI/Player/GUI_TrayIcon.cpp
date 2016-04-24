@@ -18,8 +18,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "Helper/Helper.h"
-#include "Helper/Style/Style.h"
+#include "GUI/Helper/GUI_Helper.h"
+#include "GUI/Helper/Style/Style.h"
 #include "Helper/MetaData/MetaData.h"
 #include "GUI_TrayIcon.h"
 
@@ -44,20 +44,20 @@ GUI_TrayIcon::GUI_TrayIcon (QObject *parent) :
 	_play_manager = PlayManager::getInstance();
 
 	_play_action = new QAction(tr("Play"), this);
-	_play_action->setIcon(Helper::get_icon("play"));
+	_play_action->setIcon(GUI::get_icon("play"));
 	_stop_action = new QAction(tr("Stop"), this);
-	_stop_action->setIcon(Helper::get_icon("stop"));
+	_stop_action->setIcon(GUI::get_icon("stop"));
 	_bwd_action = new QAction(tr("Previous"), this);
-	_bwd_action->setIcon(Helper::get_icon("bwd"));
+	_bwd_action->setIcon(GUI::get_icon("bwd"));
 	_fwd_action = new QAction(tr("Next"), this);
-	_fwd_action->setIcon(Helper::get_icon("fwd"));
+	_fwd_action->setIcon(GUI::get_icon("fwd"));
 	_mute_action = new QAction(tr("Mute"), this);
-	_mute_action->setIcon(Helper::get_icon("vol_mute"));
+	_mute_action->setIcon(GUI::get_icon("vol_mute"));
 	_show_action = new QAction(tr("Show"), this);
 	_cur_song_action = new QAction(tr("Current song"), this);
-	_cur_song_action->setIcon(Helper::get_icon("info"));
+	_cur_song_action->setIcon(GUI::get_icon("info"));
 	_close_action = new QAction(tr("Close"), this);
-	_close_action->setIcon(Helper::get_icon("power_off"));
+	_close_action->setIcon(GUI::get_icon("power_off"));
 
 	_context_menu = new QMenu();
 	_context_menu->addAction(_play_action);
@@ -175,16 +175,16 @@ void GUI_TrayIcon::playstate_changed(PlayManager::PlayState state)
 	switch(state){
 		case PlayManager::PlayState::Playing:
 
-			setIcon(Helper::get_icon("play"));
+			setIcon(GUI::get_icon("play"));
 
-			_play_action->setIcon(Helper::get_icon("pause"));
+			_play_action->setIcon(GUI::get_icon("pause"));
 			_play_action->setText(tr("Pause"));
 			break;
 
 		default:
-			setIcon(Helper::get_icon("pause"));
+			setIcon(GUI::get_icon("pause"));
 
-			_play_action->setIcon(Helper::get_icon("play"));
+			_play_action->setIcon(GUI::get_icon("play"));
 			_play_action->setText(tr("Play"));
 			break;
 	}
@@ -259,12 +259,12 @@ void GUI_TrayIcon::mute_changed(bool muted) {
     }
 
 	if(!muted) {
-		_mute_action->setIcon(Helper::get_icon("vol_mute" + suffix));
+		_mute_action->setIcon(GUI::get_icon("vol_mute" + suffix));
 		_mute_action->setText(tr("Mute"));
 	}
 
 	else {
-		_mute_action->setIcon(Helper::get_icon("vol_3" + suffix));
+		_mute_action->setIcon(GUI::get_icon("vol_3" + suffix));
 		_mute_action->setText(tr("Unmute"));
 	}
 }

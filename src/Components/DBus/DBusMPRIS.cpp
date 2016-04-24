@@ -26,7 +26,7 @@
 #include "DBus/org_mpris_media_player2_player_adaptor.h"
 #include "Components/CoverLookup/CoverLocation.h"
 
-#include "Helper/Helper.h"
+#include "Helper/Random/RandomGenerator.h"
 
 #include <QDBusConnection>
 #include <QDBusMessage>
@@ -237,7 +237,7 @@ QVariantMap DBusMPRIS::MediaPlayer2::Metadata(){
 
 	int id = _md.id;
 	if(id == -1){
-		id = Helper::get_random_number(5000, 10000);
+		id = RandomGenerator::get_random_number(5000, 10000);
 	}
 	QDBusObjectPath object_path(QString("/org/sayonara/track") + QString::number(id));
 

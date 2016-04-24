@@ -24,7 +24,7 @@
 #define PLAYLIST_H
 
 #include "Helper/PlaylistMode.h"
-#include "Helper/SayonaraClass.h"
+#include "Helper/Settings/SayonaraClass.h"
 #include "PlaylistDBInterface.h"
 
 #include <QString>

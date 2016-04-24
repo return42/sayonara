@@ -22,9 +22,10 @@
 
 #include "GUI_MTP.h"
 
-#include "Helper/Helper.h"
 #include "GUI/Helper/GlobalMessage/Message.h"
 #include "GUI/Helper/Delegates/TreeDelegate.h"
+#include "GUI/Helper/GUI_Helper.h"
+
 #include <thread>
 #include <functional>
 
@@ -304,7 +305,7 @@ void GUI_MTP::folder_idx_changed(QTreeWidgetItem* item, int column){
 
 		child_item->setText(0, file->filename());
 		child_item->setData(1, 0, file->id());
-		child_item->setIcon(0, Helper::get_icon("undo"));
+		child_item->setIcon(0, GUI::get_icon("undo"));
 		child_item->setChildIndicatorPolicy(QTreeWidgetItem::DontShowIndicator);
 
 		item->addChild(child_item);

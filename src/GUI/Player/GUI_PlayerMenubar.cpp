@@ -25,6 +25,8 @@
 
 #include "GUI_Player.h"
 #include "GUI/Helper/GlobalMessage/Message.h"
+#include "GUI/Helper/GUI_Helper.h"
+
 #include "Helper/Helper.h"
 #include "Helper/FileHelper.h"
 
@@ -240,7 +242,7 @@ void GUI_Player::about() {
 	if(!_about_box){
 		_about_box = new QMessageBox(this);
 		_about_box->setParent(this);
-		_about_box->setIconPixmap(Helper::get_pixmap("logo.png", QSize(150, 150), true));
+		_about_box->setIconPixmap(GUI::get_pixmap("logo.png", QSize(150, 150), true));
 		_about_box->setWindowFlags(Qt::Dialog);
 		_about_box->setModal(true);
 		_about_box->setStandardButtons(QMessageBox::Ok);

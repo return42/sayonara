@@ -1,4 +1,4 @@
-/* ArtistInfo.h */
+/* AlbumInfo.h */
 
 /* Copyright (C) 2011-2016  Lucio Carreras
  *
@@ -20,34 +20,30 @@
 
 
 
-#ifndef ARTISTINFO_H
-#define ARTISTINFO_H
+#ifndef ALBUMINFO_H
+#define ALBUMINFO_H
 
 #include "MetaDataInfo.h"
 
+class MetaDataList;
 /**
- * @brief The ArtistInfo class
+ * @brief The AlbumInfo class
  * @ingroup MetaDataHelper
  */
-class MetaDataList;
-class ArtistInfo : public MetaDataInfo {
+class AlbumInfo : public MetaDataInfo {
 
 	Q_OBJECT
 
 private:
-	void set_cover_location() override;
-	void set_subheader() override;
-	void set_header() override;
-
-	void calc_similar_artists(Artist& artist);
+	void set_cover_location();
+	void set_subheader();
+	void set_header();
 
 public:
-	ArtistInfo(const MetaDataList*);
-	virtual ~ArtistInfo();
-
-	QString get_cover_album() const override;
-	QString get_additional_info_as_string() const override;
+	AlbumInfo(const MetaDataList& v_md);
+	virtual ~AlbumInfo();
 };
 
-#endif // ARTISTINFO_H
+
+#endif // ALBUMINFO_H
 

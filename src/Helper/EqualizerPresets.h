@@ -28,21 +28,20 @@
 
 struct EQ_Setting{
 		
-	QList<int> values;
-	QString name;
+	QList<int>		values;
+	QString			name;
 
 	EQ_Setting(QString n="");
 	EQ_Setting(const EQ_Setting& s);
 	virtual ~EQ_Setting();
 	
-	static EQ_Setting fromString(const QString& str);
-
-
-	QString toString() const;
-
 	bool operator==(const EQ_Setting& s);
 
 	static QList<EQ_Setting> get_defaults();
+
+	static EQ_Setting fromString(const QString& str);
+	QString toString() const;
+
 };
 
 

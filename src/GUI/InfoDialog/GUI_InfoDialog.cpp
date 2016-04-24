@@ -29,9 +29,9 @@
 #include "Components/CoverLookup/CoverLookup.h"
 #include "Components/LyricLookup/LyricLookup.h"
 
-#include "Helper/MetaData/MetaDataInfo.h"
-#include "Helper/MetaData/AlbumInfo.h"
-#include "Helper/MetaData/ArtistInfo.h"
+#include "Helper/MetaDataInfo/MetaDataInfo.h"
+#include "Helper/MetaDataInfo/AlbumInfo.h"
+#include "Helper/MetaDataInfo/ArtistInfo.h"
 #include "Helper/FileHelper.h"
 #include "GUI/Helper/IconLoader/IconLoader.h"
 
@@ -140,14 +140,14 @@ void GUI_InfoDialog::prepare_info(GUI_InfoDialog::Mode mode) {
 
 	switch (mode){
 		case GUI_InfoDialog::Mode::Artists:
-			info = _v_md.get_artist_info();
+			info = new MetaDataInfo(_v_md);
 			break;
 		case GUI_InfoDialog::Mode::Albums:
-			info = _v_md.get_album_info();
+			info = new AlbumInfo(_v_md);
 			break;
 
 		case GUI_InfoDialog::Mode::Tracks:
-			info = _v_md.get_info();
+			info = new ArtistInfo(_v_md);
 			break;
 
 		default:

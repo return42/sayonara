@@ -18,12 +18,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "MenuTool.h"
-#include "Helper/Style/Style.h"
-#include "Helper/Helper.h"
-
 
 MenuToolButton::MenuToolButton(QWidget *parent) :
 	MenuButton(parent)

@@ -26,13 +26,13 @@
 #include "GUI/Helper/ContextMenu/LibraryContextMenu.h"
 #include "GUI/InfoDialog/GUI_InfoDialog.h"
 #include "GUI/Helper/GlobalMessage/GlobalMessage.h"
+#include "GUI/Helper/GUI_Helper.h"
 
 #include "Components/Library/LocalLibrary.h"
 #include "Components/Library/LibraryNamespaces.h"
 #include "Components/Playlist/PlaylistHandler.h"
 
 #include "Helper/DirectoryReader/DirectoryReader.h"
-#include "Helper/Helper.h"
 #include "Helper/FileHelper.h"
 #include "DirectoryDelegate.h"
 
@@ -330,7 +330,7 @@ QString DirectoryLibraryContainer::get_display_name() const
 
 QIcon DirectoryLibraryContainer::get_icon() const
 {
-	return Helper::get_icon("dir_view");
+	return GUI::get_icon("dir_view");
 }
 
 QWidget* DirectoryLibraryContainer::get_ui() const

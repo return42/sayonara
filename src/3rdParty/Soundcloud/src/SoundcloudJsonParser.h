@@ -78,6 +78,8 @@ class SoundcloudJsonParser : public QObject
 private:
 	QByteArray			_content;
 
+private:
+
 	JsonItem			parse(QString key, const QByteArray& content);
 
 	JsonItem			parse_array(QString key, QByteArray content);
@@ -92,6 +94,8 @@ private:
 	bool				extract_artist(const JsonItem& item, Artist& artist);
 	bool				extract_playlist(const JsonItem& item, Album& album, MetaDataList& v_md);
 
+	QString				create_link(const QString& name, const QString& target);
+
 
 public:
 	SoundcloudJsonParser(const QByteArray& content);
@@ -102,5 +106,6 @@ public:
 	bool				parse_playlists(AlbumList& albums, MetaDataList& v_md);
 
 };
+
 
 #endif // SOUNDCLOUDJSONPARSER_H

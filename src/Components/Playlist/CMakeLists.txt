@@ -19,8 +19,8 @@ SET(SOURCES
 
 ADD_LIBRARY(${PROJECT_NAME} STATIC ${SOURCES})
 TARGET_LINK_LIBRARIES(${PROJECT_NAME}
-	say_helper
-	say_helper_playlist
+	say_helper_settings
 	say_helper_directory_reader
+	say_helper_playlist
 )
 

@@ -35,7 +35,7 @@
 #include <QDir>
 
 #include "Helper/Tagging/Tagging.h"
-#include "Helper/SayonaraClass.h"
+#include "Helper/Settings/SayonaraClass.h"
 #include "Helper/MetaData/MetaDataList.h"
 #include "LibraryNamespaces.h"
 

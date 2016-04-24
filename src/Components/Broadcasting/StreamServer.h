@@ -24,7 +24,7 @@
 #include "StreamWriter.h"
 
 #include "Components/PlayManager/PlayManager.h"
-#include "Helper/SayonaraClass.h"
+#include "Helper/Settings/SayonaraClass.h"
 
 #include <QThread>
 #include <QList>

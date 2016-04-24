@@ -21,6 +21,7 @@
 
 
 #include "NotificationHandler.h"
+#include "Helper/Settings/Settings.h"
 
 NotificationHandler::NotificationHandler(QObject* parent) :
 	QObject(parent)

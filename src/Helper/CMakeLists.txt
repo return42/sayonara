@@ -1,7 +1,7 @@
 PROJECT(say_helper)
 CMAKE_MINIMUM_REQUIRED(VERSION 2.7)
 
-ADD_SUBDIRECTORY(MetaData)
+ADD_SUBDIRECTORY(MetaDataInfo)
 ADD_SUBDIRECTORY(Parser)
 ADD_SUBDIRECTORY(Settings)
 ADD_SUBDIRECTORY(Tagging)
@@ -14,40 +14,27 @@ IF(NOT ${WIN32})
 ENDIF()
 
 
-SET(HEADERS
-
-    MetaData/MetaDataInfo.h
-    Shutdown/Shutdown.h
-    WebAccess/AsyncWebAccess.h
-    SayonaraClass.h
-    Settings/AbstrSettingNotifier.h
-)
-
 SET(SOURCES
 
-    Helper.cpp
+    EqualizerPresets.cpp
     FileHelper.cpp
+    Helper.cpp
     UrlHelper.cpp
     Set.cpp
-    EqualizerPresets.cpp
-    DirectoryReader/DirectoryReader.cpp
+    Tree.cpp
+
+    MetaData/LibraryItem.cpp
+    MetaData/MetaData.cpp
+    MetaData/MetaDataList.cpp
+    MetaData/Album.cpp
+    MetaData/Artist.cpp
+
     Logger/Logger.cpp
     Random/RandomGenerator.cpp
     SmartCompare/SmartCompare.cpp
-    Style/Style.cpp
-    SayonaraClass.cpp
-    Tree/Tree.cpp
     WebAccess/AsyncWebAccess.cpp
 )
 
-SET(HELPER_LIBRARIES
-
-    say_comp_covers
-    say_db
-    say_gui_global_message
-    say_helper_metadata
-    say_helper_settings
-)
 
 ADD_LIBRARY(${PROJECT_NAME} STATIC ${SOURCES})
 TARGET_LINK_LIBRARIES(${PROJECT_NAME}

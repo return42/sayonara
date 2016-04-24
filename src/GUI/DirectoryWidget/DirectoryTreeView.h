@@ -23,7 +23,7 @@
 #ifndef DIRECTORYTREEVIEW_H
 #define DIRECTORYTREEVIEW_H
 
-#include "Helper/SayonaraClass.h"
+#include "Helper/Settings/SayonaraClass.h"
 #include "Helper/MetaData/MetaDataList.h"
 
 #include <QTreeView>

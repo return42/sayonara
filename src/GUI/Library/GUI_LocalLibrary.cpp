@@ -28,6 +28,8 @@
 
 #include "GUI_LocalLibrary.h"
 #include "GUI/Helper/GlobalMessage/Message.h"
+#include "GUI/Helper/GUI_Helper.h"
+
 #include "LocalLibraryMenu.h"
 #include "InfoBox/GUI_LibraryInfoBox.h"
 #include "ImportFolderDialog/GUI_ImportFolder.h"
@@ -454,7 +456,7 @@ QString LocalLibraryContainer::get_display_name() const {
 }
 
 QIcon LocalLibraryContainer::get_icon() const {
-	return Helper::get_icon("append");
+	return GUI::get_icon("append");
 }
 
 QWidget* LocalLibraryContainer::get_ui() const {

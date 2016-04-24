@@ -32,7 +32,7 @@
 #include "Helper/globals.h"
 #include "RawShortcutMap.h"
 #include "Shortcut.h"
-#include "Helper/SayonaraClass.h"
+#include "Helper/Settings/SayonaraClass.h"
 
 /**
  * @brief A singleton class for retrieving shortcuts

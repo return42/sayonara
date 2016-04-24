@@ -21,7 +21,7 @@
 
 
 #include "MenuButton.h"
-#include "Helper/Helper.h"
+#include "GUI/Helper/GUI_Helper.h"
 
 MenuButton::MenuButton(QWidget* parent) :
 	QPushButton(parent),
@@ -75,12 +75,12 @@ void MenuButton::enterEvent(QEvent* e){
 	QIcon icon;
 
 	if(dark){
-		icon = Helper::get_icon("tool_grey");
+		icon = GUI::get_icon("tool_grey");
 
 	}
 
 	else{
-		icon = Helper::get_icon("tool");
+		icon = GUI::get_icon("tool");
 	}
 
 	if( this->isEnabled() ){
@@ -106,13 +106,13 @@ void MenuButton::set_std_icon(){
 
 	if(dark){
 
-		pixmap = Helper::get_pixmap("tool_dark_grey");
-		pixmap_disabled = Helper::get_pixmap("tool_disabled");
+		pixmap = GUI::get_pixmap("tool_dark_grey");
+		pixmap_disabled = GUI::get_pixmap("tool_disabled");
 	}
 
 	else{
-		pixmap = Helper::get_pixmap("tool");
-		pixmap_disabled = Helper::get_pixmap("tool");
+		pixmap = GUI::get_pixmap("tool");
+		pixmap_disabled = GUI::get_pixmap("tool");
 	}
 
 	icon.addPixmap(pixmap, QIcon::Normal, QIcon::On);

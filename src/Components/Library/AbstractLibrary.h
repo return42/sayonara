@@ -26,7 +26,7 @@
 
 #include "LibraryNamespaces.h"
 #include "Helper/Filter.h"
-#include "Helper/SayonaraClass.h"
+#include "Helper/Settings/SayonaraClass.h"
 #include "Helper/Tagging/Tagging.h"
 #include "Helper/Set.h"
 
@@ -47,7 +47,6 @@ typedef int AlbumID;
 typedef int TrackID;
 
 class PlaylistHandler;
-class EngineHandler;
 class AbstractLibrary : public QObject, protected SayonaraClass
 {
 	Q_OBJECT
@@ -159,7 +158,6 @@ protected slots:
 
 protected:
 
-	EngineHandler*		_engine=nullptr;
 	PlaylistHandler*	_playlist=nullptr;
 
 	MetaDataList        _vec_md;

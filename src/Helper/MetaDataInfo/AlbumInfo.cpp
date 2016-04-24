@@ -19,12 +19,12 @@
  */
 
 #include "AlbumInfo.h"
-#include "Helper/MetaData/MetaDataInfo.h"
+#include "MetaDataInfo.h"
 #include "Helper/MetaData/Album.h"
 #include "Database/LibraryDatabase.h"
 
 
-AlbumInfo::AlbumInfo(const MetaDataList* v_md) :
+AlbumInfo::AlbumInfo(const MetaDataList& v_md) :
 	MetaDataInfo(v_md){
 
 	QString str_sampler;

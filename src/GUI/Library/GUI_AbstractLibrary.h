@@ -38,7 +38,7 @@
 #include "Delegates/LibraryItemDelegateArtists.h"
 #include "Delegates/LibraryItemDelegateTracks.h"
 
-#include "Helper/SayonaraClass.h"
+#include "Helper/Settings/SayonaraClass.h"
 #include "Helper/Filter.h"
 
 #include <QStringList>

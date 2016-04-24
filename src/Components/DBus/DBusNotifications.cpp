@@ -21,7 +21,6 @@
 
 
 #include "DBusNotifications.h"
-#include "Helper/Helper.h"
 #include "Components/CoverLookup/CoverLocation.h"
 
 DBusNotifications::DBusNotifications(QObject* parent) :

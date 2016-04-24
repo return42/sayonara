@@ -30,7 +30,7 @@
 #include "Components/CoverLookup/CoverLookup.h"
 #include "Components/CoverLookup/CoverLocation.h"
 
-#include "Helper/Helper.h"
+#include "GUI/Helper/GUI_Helper.h"
 #include "Helper/Logger/Logger.h"
 
 #include <QPainter>
@@ -39,7 +39,7 @@
 
 AlternateCoverItemDelegate::AlternateCoverItemDelegate(QObject* parent) : QItemDelegate(parent) {
 
-	QPixmap pm = Helper::get_pixmap("logo.png");
+	QPixmap pm = GUI::get_pixmap("logo.png");
 
 	label = new QLabel();
 	label->setScaledContents(true);

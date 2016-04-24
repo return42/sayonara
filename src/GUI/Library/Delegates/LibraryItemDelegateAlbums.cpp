@@ -30,7 +30,7 @@
 #include "GUI/Library/Views/LibraryView.h"
 #include "GUI/Library/Models/LibraryItemModelAlbums.h"
 #include "GUI/Helper/RatingLabel/RatingLabel.h"
-#include "Helper/Helper.h"
+#include "GUI/Helper/GUI_Helper.h"
 
 #include <QLabel>
 #include <QItemDelegate>
@@ -42,8 +42,8 @@
 LibraryItemDelegateAlbums::LibraryItemDelegateAlbums(LibraryView* parent, bool enabled) :
 	LibraryRatingDelegate(parent, enabled)
 {
-	_icon_single_album = Helper::get_pixmap("play", QSize(16, 16), false);
-	_icon_multi_album = Helper::get_pixmap("sampler", QSize(16, 16), false);
+	_icon_single_album = GUI::get_pixmap("play", QSize(16, 16), false);
+	_icon_multi_album = GUI::get_pixmap("sampler", QSize(16, 16), false);
 }
 
 

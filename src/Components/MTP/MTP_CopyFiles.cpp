@@ -21,7 +21,7 @@
 
 
 #include "MTP_CopyFiles.h"
-#include "Helper/Helper.h"
+
 #include "Helper/DirectoryReader/DirectoryReader.h"
 #include <QFileInfo>
 

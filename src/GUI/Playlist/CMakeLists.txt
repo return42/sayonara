@@ -2,40 +2,39 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 PROJECT(say_gui_playlist)
 
 INCLUDE_DIRECTORIES(
-		${CMAKE_CURRENT_BINARY_DIR},
-		${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_BINARY_DIR},
+    ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 SET(SOURCES
-		PlaylistMenu.cpp
-		GUI_Playlist.cpp
-		GUI_PlaylistTabs.cpp
+    PlaylistMenu.cpp
+    GUI_Playlist.cpp
+    GUI_PlaylistTabs.cpp
 
-		BottomBar/GUI_PlaylistBottomBar.cpp
-		Delegate/PlaylistItemDelegate.cpp
-		Model/PlaylistItemModel.cpp
+    BottomBar/GUI_PlaylistBottomBar.cpp
+    Delegate/PlaylistItemDelegate.cpp
+    Model/PlaylistItemModel.cpp
 
-		TabWidget/PlaylistTabBar.cpp
-		TabWidget/PlaylistTabMenu.cpp
-		TabWidget/PlaylistTabWidget.cpp
-		View/PlaylistView.cpp
+    TabWidget/PlaylistTabBar.cpp
+    TabWidget/PlaylistTabMenu.cpp
+    TabWidget/PlaylistTabWidget.cpp
+    View/PlaylistView.cpp
 )
 
 QT5_WRAP_UI(FORMS_UIC
-		GUI_Playlist.ui
-		BottomBar/GUI_PlaylistBottomBar.ui
-		View/GUI_PlaylistView.ui
+    GUI_Playlist.ui
+    BottomBar/GUI_PlaylistBottomBar.ui
+    View/GUI_PlaylistView.ui
 )
 
 SET(LINK_LIBS
-	say_comp_playlist
-	say_gui_info_dialog
-	say_gui_shutdown_dialog
-	say_gui_searchable_widget
-	say_gui_context_menu
-	say_gui_helper_shortcuts
-	say_gui_global_message
-	say_helper_directory_reader
+    say_comp_playlist
+    say_gui_info_dialog
+    say_gui_shutdown_dialog
+    say_gui_searchable_widget
+    say_gui_context_menu
+    say_gui_helper_shortcuts
+    say_gui_global_message
 )
 
 IF(NOT ${WIN32})

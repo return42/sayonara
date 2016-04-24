@@ -30,7 +30,6 @@
 #include "GUI/Library/Models/LibraryItemModelTracks.h"
 #include "GUI/Helper/RatingLabel/RatingLabel.h"
 
-#include "Helper/Helper.h"
 #include "Helper/FileHelper.h"
 
 #include <QLabel>

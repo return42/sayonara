@@ -27,7 +27,7 @@
 #include <QListView>
 #include <QStyledItemDelegate>
 
-#include "Helper/SayonaraClass.h"
+#include "Helper/Settings/SayonaraClass.h"
 
 
 class PlaylistItemDelegate :

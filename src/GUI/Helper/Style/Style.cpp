@@ -26,15 +26,15 @@
  *      Author: luke
  */
 
-#include <QApplication>
-#include <QFont>
-#include <QStyle>
+#include "Style.h"
 
 #include "Helper/Helper.h"
 #include "Helper/Settings/Settings.h"
 #include "Helper/FileHelper.h"
-#include "Helper/Style/Style.h"
 
+#include <QApplication>
+#include <QFont>
+#include <QStyle>
 
 #define NEWLINE "\n";
 
@@ -43,11 +43,11 @@ QString Style::get_style(bool dark) {
 	Settings* settings = Settings::getInstance();
 
 	QFont std_font = QApplication::font();
-	QString font_family = settings->get(Set::Player_FontName);
-	int font_size = settings->get(Set::Player_FontSize);
-	int font_size_lib = settings->get(Set::Lib_FontSize);
-	int font_size_pl = settings->get(Set::PL_FontSize);
-	bool lib_bold = settings->get(Set::Lib_FontBold);
+	QString font_family =	settings->get(Set::Player_FontName);
+	int font_size =			settings->get(Set::Player_FontSize);
+	int font_size_lib =		settings->get(Set::Lib_FontSize);
+	int font_size_pl =		settings->get(Set::PL_FontSize);
+	bool lib_bold =			settings->get(Set::Lib_FontBold);
 
 	if(font_family.isEmpty()){
 		font_family = std_font.family();

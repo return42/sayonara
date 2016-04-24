@@ -21,7 +21,7 @@
 
 
 #include "PlaylistMenu.h"
-
+#include "Helper/PlaylistMode.h"
 
 PlaylistMenu::PlaylistMenu(QWidget* parent) :
 	QMenu(parent),

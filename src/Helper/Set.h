@@ -27,14 +27,23 @@
 
 #include <QList>
 
+
 namespace SP {
 	template<typename T>
+
+	/**
+	 * @brief A set structure. Inherited from std::set with some useful methods. For integer and String this set is ordered
+	 * @ingroup Helper
+	 */
 	class Set :
 			public std::set<T>
 	{
 
 	public:
 
+		/**
+		 * @brief Standard constructor
+		 */
 		Set() :
 			std::set<T>()
 		{
@@ -42,6 +51,10 @@ namespace SP {
 		}
 
 
+		/**
+		 * @brief Constructs a set with a single element
+		 * @param one_element the first element
+		 */
 		Set(const T& one_element) :
 			Set()
 		{
@@ -49,6 +62,10 @@ namespace SP {
 		}
 
 
+		/**
+		 * @brief converts the set to a list. The order is random
+		 * @return list
+		 */
 		QList<T> toList() const
 		{
 			QList<T> ret;
@@ -59,24 +76,40 @@ namespace SP {
 		}
 
 
+		/**
+		 * @brief
+		 * @return true, if set is empty
+		 */
 		bool isEmpty() const
 		{
 			return (this->size() == 0);
 		}
 
 
+		/**
+		 * @brief get copy of first element
+		 * @return first element
+		 */
 		T first() const
 		{
 			return *(this->begin());
 		}
 
-
+		/**
+		 * @brief check, if set contains a specific value
+		 * @param value
+		 * @return
+		 */
 		bool contains(const T& value) const
 		{
 			auto it = this->find(value);
 			return (it != this->end());
 		}
 
+		/**
+		 * @brief removes every item that matches value
+		 * @param value
+		 */
 		void remove(const T& value)
 		{
 			auto it = this->find(value);
@@ -86,5 +119,6 @@ namespace SP {
 		}
 	};
 }
+
 
 #endif // SET_H

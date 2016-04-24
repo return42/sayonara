@@ -21,24 +21,23 @@
 
 
 #include "LibraryContextMenu.h"
-#include "Helper/Helper.h"
 
-#include <QAction>
 #include "GUI/Helper/IconLoader/IconLoader.h"
+#include "GUI/Helper/GUI_Helper.h"
 
 LibraryContextMenu::LibraryContextMenu(QWidget* parent) :
 	QMenu(parent),
 	SayonaraClass()
 {
-	_info_action = new QAction(Helper::get_icon("info"), tr("Info"), this);
-	_lyrics_action  = new QAction(Helper::get_icon("lyrics"), tr("Lyrics"), this);
-	_edit_action = new QAction(Helper::get_icon("edit"), tr("Edit"), this);
-	_remove_action = new QAction(Helper::get_icon("delete"), tr("Remove"), this);
-	_delete_action = new QAction(Helper::get_icon("delete"), tr("Delete"), this);
-	_play_next_action = new QAction(Helper::get_icon("fwd_orange"), tr("Play next"), this);
-	_append_action = new QAction(Helper::get_icon("append"), tr("Append"), this);
-	_refresh_action = new QAction(Helper::get_icon("undo"), tr("Refresh"), this);
-	_clear_action = new QAction(Helper::get_icon("broom.png"), tr("Clear"), this);
+	_info_action = new QAction(GUI::get_icon("info"), tr("Info"), this);
+	_lyrics_action  = new QAction(GUI::get_icon("lyrics"), tr("Lyrics"), this);
+	_edit_action = new QAction(GUI::get_icon("edit"), tr("Edit"), this);
+	_remove_action = new QAction(GUI::get_icon("delete"), tr("Remove"), this);
+	_delete_action = new QAction(GUI::get_icon("delete"), tr("Delete"), this);
+	_play_next_action = new QAction(GUI::get_icon("fwd_orange"), tr("Play next"), this);
+	_append_action = new QAction(GUI::get_icon("append"), tr("Append"), this);
+	_refresh_action = new QAction(GUI::get_icon("undo"), tr("Refresh"), this);
+	_clear_action = new QAction(GUI::get_icon("broom.png"), tr("Clear"), this);
 
 	connect(_info_action, &QAction::triggered, this, &LibraryContextMenu::sig_info_clicked);
 	connect(_lyrics_action, &QAction::triggered, this, &LibraryContextMenu::sig_lyrics_clicked);

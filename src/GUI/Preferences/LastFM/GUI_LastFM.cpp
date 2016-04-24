@@ -27,7 +27,7 @@
  */
 
 #include "GUI_LastFM.h"
-#include "Helper/Helper.h"
+
 #include "Components/StreamPlugins/LastFM/LastFM.h"
 
 
@@ -52,7 +52,7 @@ void GUI_LastFM::init_ui()
 
 	connect(btn_login, &QPushButton::clicked, this, &GUI_LastFM::btn_login_clicked);
 	connect(cb_activate, &QCheckBox::toggled, this, &GUI_LastFM::active_changed);
-	connect(_lfm, &LastFM::sig_last_fm_logged_in, this, &GUI_LastFM::logged_in);
+	connect(_lfm, &LastFM::sig_logged_in, this, &GUI_LastFM::logged_in);
 }
 
 

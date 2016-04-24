@@ -36,7 +36,7 @@
 
 #include "Helper/SmartCompare/SmartCompare.h"
 #include "Helper/MetaData/MetaData.h"
-#include "Helper/SayonaraClass.h"
+#include "Helper/Settings/SayonaraClass.h"
 
 #define LFM_THREAD_TASK_UPDATE_TRACK 		1<<0
 #define LFM_THREAD_TASK_SIM_ARTISTS 		1<<1

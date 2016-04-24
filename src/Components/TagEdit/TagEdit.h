@@ -23,7 +23,7 @@
 #ifndef TAGEDIT_H
 #define TAGEDIT_H
 
-#include "Helper/SayonaraClass.h"
+#include "Helper/Settings/SayonaraClass.h"
 #include "Database/DatabaseHandler.h"
 #include "Helper/MetaData/MetaDataList.h"
 

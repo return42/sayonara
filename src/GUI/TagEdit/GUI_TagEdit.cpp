@@ -22,7 +22,6 @@
 #include "GUI_TagEdit.h"
 #include "TagLineEdit.h"
 #include "Components/TagEdit/TagExpression.h"
-#include "Helper/Helper.h"
 #include "GUI/Helper/GlobalMessage/Message.h"
 
 #include <QDir>

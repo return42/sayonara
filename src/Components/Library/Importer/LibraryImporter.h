@@ -25,7 +25,7 @@
 
 
 #include "Helper/Tagging/Tagging.h"
-#include "Helper/SayonaraClass.h"
+#include "Helper/Settings/SayonaraClass.h"
 #include "ImportCache.h"
 
 class DatabaseConnector;

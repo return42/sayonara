@@ -20,9 +20,11 @@
 
 
 #include "MiniSearcher.h"
-#include "Helper/Helper.h"
+
 #include "SearchableTableView.h"
 #include "SearchableListView.h"
+
+#include "GUI/Helper/GUI_Helper.h"
 
 #include <QScrollBar>
 
@@ -141,7 +143,7 @@ void MiniSearcher::initLayout(MiniSearcherButtons b) {
 
 	if(left) {
 		_left_button = new QPushButton(this);
-		_left_button->setIcon(Helper::get_icon("bwd"));
+		_left_button->setIcon(GUI::get_icon("bwd"));
 		_left_button->setVisible(true);
 		_left_button->setFlat(true);
 		_left_button->setFocusPolicy(Qt::ClickFocus);
@@ -152,7 +154,7 @@ void MiniSearcher::initLayout(MiniSearcherButtons b) {
 
 	if(right) {
 		_right_button = new QPushButton(this);
-		_right_button->setIcon(Helper::get_icon("fwd"));
+		_right_button->setIcon(GUI::get_icon("fwd"));
 		_right_button->setVisible(true);
 		_right_button->setFlat(true);
 		_right_button->setFocusPolicy(Qt::ClickFocus);

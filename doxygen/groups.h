@@ -29,16 +29,16 @@
 
 /**
  * @defgroup PlaylistHelper Playlist Helpers
+ * @brief Classes for handling playlist DB saving and loading
  * @ingroup Playlists
  * @ingroup Helper
  */
 
 /**
- * @defgroup PlaylistParser Playlist Parsers
- * @ingroup Playlists
+ * @defgroup PlaylistParser Playlist Parser
+ * @brief Parsers for pls, m3u and asx
  * @ingroup Helper
  */
-
 
 
 /**
@@ -67,14 +67,10 @@
 
 /**
  * @defgroup Settings Settings classes
+ * @brief the Settings framework
  * @ingroup Helper
  */
 
-
-/**
- * @defgroup PlaylistParser Playlist Parser
- * @ingroup Helper
- */
 
 
 
@@ -89,11 +85,13 @@
 
 /**
  * @defgroup PlayerPlugins Player Plugins
+ * @brief Those little plugins shown between player and playlist
  * @ingroup Plugins
  */
 
 /**
  * @defgroup LibraryPlugins Library Plugins
+ * @brief External library view handling
  * @ingroup Plugins
  */
 
@@ -113,6 +111,5 @@
 
 /**
  * @defgroup Shortcuts Shortcuts
- * @brief some description. more
  * @ingroup GUI
  */

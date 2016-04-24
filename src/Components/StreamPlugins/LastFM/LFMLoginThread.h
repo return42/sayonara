@@ -25,7 +25,7 @@
 
 #include <QObject>
 #include "Helper/globals.h"
-#include "Helper/SayonaraClass.h"
+#include "Helper/Settings/SayonaraClass.h"
 
 
 struct LFMLoginStuff{

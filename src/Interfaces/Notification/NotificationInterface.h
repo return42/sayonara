@@ -23,12 +23,12 @@
 #ifndef ABSTRACTNOTIFICATOR_H
 #define ABSTRACTNOTIFICATOR_H
 
-#include "Helper/MetaData/MetaData.h"
-
+#include <QString>
 /**
  * @brief The NotificationInterface class
  * @ingroup Interfaces
  */
+class MetaData;
 class NotificationInterface
 {
 

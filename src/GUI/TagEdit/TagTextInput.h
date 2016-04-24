@@ -30,7 +30,7 @@
 #include <QAction>
 #include <QContextMenuEvent>
 
-#include "Helper/SayonaraClass.h"
+#include "Helper/Settings/SayonaraClass.h"
 
 /**
  * @brief GUI class for String fields meant to convert content to first upper case by a context menu

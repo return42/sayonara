@@ -1,4 +1,4 @@
-/* SayonaraClass.cpp */
+/* ArtistInfo.h */
 
 /* Copyright (C) 2011-2016  Lucio Carreras
  *
@@ -20,15 +20,34 @@
 
 
 
+#ifndef ARTISTINFO_H
+#define ARTISTINFO_H
 
-#include "Helper/SayonaraClass.h"
+#include "MetaDataInfo.h"
 
+/**
+ * @brief The ArtistInfo class
+ * @ingroup MetaDataHelper
+ */
+class MetaDataList;
+class ArtistInfo : public MetaDataInfo {
 
-SayonaraClass::SayonaraClass(){
-	_settings = Settings::getInstance();
-}
+	Q_OBJECT
 
-SayonaraClass::~SayonaraClass(){
+private:
+	void set_cover_location() override;
+	void set_subheader() override;
+	void set_header() override;
 
-}
+	void calc_similar_artists(Artist& artist);
+
+public:
+	ArtistInfo(const MetaDataList& v_md);
+	virtual ~ArtistInfo();
+
+	QString get_cover_album() const override;
+	QString get_additional_info_as_string() const override;
+};
+
+#endif // ARTISTINFO_H
 

@@ -27,7 +27,6 @@
 #include <QSize>
 #include <QPoint>
 #include <QList>
-#include "Helper/PlaylistMode.h"
 
 // generic
 template<typename T>

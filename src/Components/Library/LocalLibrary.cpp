@@ -20,6 +20,7 @@
 
 
 #include "LocalLibrary.h"
+#include "Components/Library/Importer/LibraryImporter.h"
 #include "Components/Library/threads/ReloadThread.h"
 #include "Database/DatabaseConnector.h"
 
@@ -27,7 +28,6 @@ LocalLibrary::LocalLibrary(QObject *parent) :
 	AbstractLibrary(parent)
 {
     _db = DatabaseConnector::getInstance();
-
 }
 
 LocalLibrary::~LocalLibrary(){

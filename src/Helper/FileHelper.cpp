@@ -377,3 +377,13 @@ QString Helper::File::get_file_extension(const QString& filename)
 
 	return filename.mid(last_dot + 1);
 }
+
+
+bool Helper::File::check_file(const QString& filepath)
+{
+	if(is_www(filepath)){
+		return true;
+	}
+
+	return QFile::exists(filepath);
+}

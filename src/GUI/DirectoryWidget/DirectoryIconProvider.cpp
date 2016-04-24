@@ -25,6 +25,8 @@
 #include "Helper/FileHelper.h"
 #include "Helper/Settings/Settings.h"
 
+#include "GUI/Helper/GUI_Helper.h"
+
 IconProvider::IconProvider() :
 	QFileIconProvider()
 {
@@ -32,8 +34,8 @@ IconProvider::IconProvider() :
 	_soundfile_extensions = Helper::get_soundfile_extensions();
 	_playlist_extensions << Helper::get_playlistfile_extensions();
 
-	_folder_icon.addPixmap(Helper::get_pixmap("folder"), QIcon::Normal, QIcon::Off);
-	_folder_icon.addPixmap(Helper::get_pixmap("folder_open"), QIcon::Normal, QIcon::On);
+	_folder_icon.addPixmap(GUI::get_pixmap("folder"), QIcon::Normal, QIcon::Off);
+	_folder_icon.addPixmap(GUI::get_pixmap("folder_open"), QIcon::Normal, QIcon::On);
 }
 
 QIcon IconProvider::icon(IconType type) const {
@@ -52,7 +54,7 @@ QIcon IconProvider::icon(const QFileInfo &info) const {
 	}
 
 	if(info.isFile() && Helper::File::is_playlistfile(info.filePath())){
-		return Helper::get_icon("playlistfile");
+		return GUI::get_icon("playlistfile");
 	}
 
 	return QFileIconProvider::icon(info);

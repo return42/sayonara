@@ -22,7 +22,7 @@
 
 #include "ContextMenu.h"
 #include "GUI/Helper/IconLoader/IconLoader.h"
-#include "Helper/Helper.h"
+#include "GUI/Helper/GUI_Helper.h"
 
 ContextMenu::ContextMenu(QWidget *parent) :
 	QMenu(parent)
@@ -30,13 +30,13 @@ ContextMenu::ContextMenu(QWidget *parent) :
 	_timer = new QTimer(this);
 	_icon_loader = IconLoader::getInstance();
 
-	_action_open = new QAction(Helper::get_icon("open"), tr("Open"), this);
-	_action_new = new QAction(Helper::get_icon("new"), tr("New"), this);
-	_action_undo = new QAction(Helper::get_icon("undo"), tr("Undo"), this);
-	_action_save = new QAction(Helper::get_icon("save"), tr("Save"), this);
-	_action_save_as = new QAction(Helper::get_icon("save_as"), tr("Save as"), this);
-	_action_rename = new QAction(Helper::get_icon("edit"), tr("Rename"), this);
-	_action_delete = new QAction(Helper::get_icon("delete"), tr("Delete"), this);
+	_action_open = new QAction(GUI::get_icon("open"), tr("Open"), this);
+	_action_new = new QAction(GUI::get_icon("new"), tr("New"), this);
+	_action_undo = new QAction(GUI::get_icon("undo"), tr("Undo"), this);
+	_action_save = new QAction(GUI::get_icon("save"), tr("Save"), this);
+	_action_save_as = new QAction(GUI::get_icon("save_as"), tr("Save as"), this);
+	_action_rename = new QAction(GUI::get_icon("edit"), tr("Rename"), this);
+	_action_delete = new QAction(GUI::get_icon("delete"), tr("Delete"), this);
 
 
 	_actions << addSeparator()

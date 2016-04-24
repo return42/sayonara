@@ -27,7 +27,7 @@
 #include "GUI_Player.h"
 
 #include "GUI/AlternativeCovers/GUI_AlternativeCovers.h"
-#include "Helper/Helper.h"
+#include "GUI/Helper/GUI_Helper.h"
 #include "Components/CoverLookup/CoverLookup.h"
 
 
@@ -56,7 +56,7 @@ void GUI_Player::cover_clicked() {
 
 void GUI_Player::set_standard_cover() {
 
-	QIcon icon = Helper::get_icon("logo.png");
+	QIcon icon = GUI::get_icon("logo.png");
 
 	albumCover->icon().detach();
 	albumCover->setIcon(icon);

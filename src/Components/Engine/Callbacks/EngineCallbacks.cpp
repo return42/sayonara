@@ -25,6 +25,7 @@
 #include "Helper/globals.h"
 
 #include <algorithm>		// std::min
+#include <QVector>
 
 // check messages from bus
 gboolean EngineCallbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpointer data) {

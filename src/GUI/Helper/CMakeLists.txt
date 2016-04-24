@@ -18,11 +18,13 @@ SET(SOURCES
 	SayonaraShortcutWidget.cpp
 	IconLoader/IconLoader.cpp
 	CustomMimeData.cpp
+	GUI_Helper.cpp
+	Style/Style.cpp
 )
 
 ADD_LIBRARY(${PROJECT_NAME} STATIC ${SOURCES})
 TARGET_LINK_LIBRARIES(${PROJECT_NAME}
-	Qt5::Core
 	Qt5::Widgets
-	say_helper
+	say_helper_settings
+	say_helper_directory_reader
 )

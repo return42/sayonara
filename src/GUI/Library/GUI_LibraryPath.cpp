@@ -21,7 +21,7 @@
 
 
 #include "GUI_LibraryPath.h"
-#include "Helper/Helper.h"
+
 #include <QIcon>
 
 

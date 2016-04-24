@@ -21,7 +21,7 @@
 #ifndef STREAM_WRITER_H
 #define STREAM_WRITER_H
 
-#include "Helper/SayonaraClass.h"
+#include "Helper/Settings/SayonaraClass.h"
 #include "Interfaces/RawSoundReceiver/RawSoundReceiverInterface.h"
 #include "StreamHttpParser.h"
 

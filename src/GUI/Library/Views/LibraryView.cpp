@@ -30,10 +30,7 @@
 #include "HeaderView.h"
 #include "GUI/Library/ColumnHeader.h"
 
-
 #include "Helper/globals.h"
-#include "Helper/Helper.h"
-
 
 #include "GUI/Helper/CustomMimeData.h"
 #include "GUI/Helper/ContextMenu/LibraryContextMenu.h"

@@ -22,7 +22,7 @@
 #ifndef GUI_TRAYICON_H
 #define GUI_TRAYICON_H
 
-#include "Helper/SayonaraClass.h"
+#include "Helper/Settings/SayonaraClass.h"
 
 #include "Interfaces/Notification/NotificationHandler.h"
 #include "Components/PlayManager/PlayManager.h"

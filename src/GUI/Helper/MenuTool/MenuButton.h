@@ -28,7 +28,7 @@
 #include <QFocusEvent>
 #include <QMouseEvent>
 #include <QMenu>
-#include "Helper/SayonaraClass.h"
+#include "Helper/Settings/SayonaraClass.h"
 
 /**
  * @brief The MenuButton class.\n

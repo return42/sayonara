@@ -22,7 +22,7 @@
 #ifndef ENGINE_H_
 #define ENGINE_H_
 
-#include "Helper/SayonaraClass.h"
+#include "Helper/Settings/SayonaraClass.h"
 #include "Helper/MetaData/MetaData.h"
 
 #define PLAYBACK_ENGINE "playback_engine"

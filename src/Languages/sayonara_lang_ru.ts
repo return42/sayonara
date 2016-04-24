@@ -563,13 +563,13 @@
         <location line="-59"/>
         <location filename="../../build/src/GUI/Preferences/Fonts/ui_GUI_FontConfig.h" line="-5"/>
         <source>Playlist</source>
-        <translation type="unfinished"></translation>
+        <translation>Плейлист</translation>
     </message>
     <message>
         <location line="+14"/>
         <location filename="../../build/src/GUI/Preferences/Fonts/ui_GUI_FontConfig.h" line="+1"/>
         <source>Library</source>
-        <translation type="unfinished">Библиотека</translation>
+        <translation>Библиотека</translation>
     </message>
     <message>
         <location line="+52"/>
@@ -581,7 +581,7 @@
         <location line="-83"/>
         <location filename="../../build/src/GUI/Preferences/Fonts/ui_GUI_FontConfig.h" line="-7"/>
         <source>Bold</source>
-        <translation type="unfinished"></translation>
+        <translation>Bold</translation>
     </message>
     <message>
         <location line="+105"/>
@@ -593,7 +593,7 @@
         <location filename="../GUI/Preferences/Fonts/GUI_FontConfig.cpp" line="+66"/>
         <location line="+1"/>
         <source>Inherit</source>
-        <translation type="unfinished"></translation>
+        <translation>Запомнить</translation>
     </message>
 </context>
 <context>
@@ -839,7 +839,7 @@
         <location line="-43"/>
         <location filename="../../build/src/GUI/Preferences/LibraryPreferences/ui_GUI_LibraryPreferences.h" line="-6"/>
         <source>When drag and drop into playlist </source>
-        <translation>Drag und Drop: Вставить название в плейлист и</translation>
+        <translation>Drag and Drop: Вставить название в плейлист и</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -1194,7 +1194,8 @@
         <location line="-44"/>
         <location line="+47"/>
         <source>Seek backward</source>
-        <translation>Проиграть в обратном направлении</translation>
+        <translation>Проиграть в обратном 
+направлении</translation>
     </message>
     <message>
         <location line="-46"/>
@@ -1206,7 +1207,8 @@
         <location line="-48"/>
         <location line="+52"/>
         <source>Seek backward (fast)</source>
-        <translation>Проиграть в обратном направлении (быстро)</translation>
+        <translation>Проиграть в обратном 
+направлении (быстро)</translation>
     </message>
 </context>
 <context>
@@ -1215,7 +1217,7 @@
         <location filename="../GUI/Preferences/PlayerPreferences/GUI_PlayerPreferences.ui" line="+24"/>
         <location filename="../../build/src/GUI/Preferences/PlayerPreferences/ui_GUI_PlayerPreferences.h" line="+62"/>
         <source>Start in tray</source>
-        <translation>Начать в минимальном режиме</translation>
+        <translation>Открыть в минимальном режиме</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -1232,7 +1234,7 @@
     <message>
         <location filename="../GUI/Preferences/PlayerPreferences/GUI_PlayerPreferences.cpp" line="+49"/>
         <source>Player</source>
-        <translation>Игрок</translation>
+        <translation>Плеер</translation>
     </message>
 </context>
 <context>

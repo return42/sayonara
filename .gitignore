@@ -1,4 +1,5 @@
 build/
+build_*/
 debian/sayonara.*
 resources/sayonara
 debian/files

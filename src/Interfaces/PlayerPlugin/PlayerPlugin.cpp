@@ -21,8 +21,9 @@
 
 
 #include "PlayerPlugin.h"
-#include "Helper/Helper.h"
+
 #include "Components/PlayManager/PlayManager.h"
+#include "GUI/Helper/GUI_Helper.h"
 
 
 PlayerPluginInterface::PlayerPluginInterface(QWidget *parent) :
@@ -112,11 +113,11 @@ void PlayerPluginInterface::change_exit_icon(QPushButton* close_button)
 	if(this->is_dark()){
 		close_button->setMinimumWidth(20);
 		close_button->setMinimumHeight(20);
-		close_button->setIcon(Helper::get_icon("tool_dark_grey"));
+		close_button->setIcon(GUI::get_icon("tool_dark_grey"));
 	}
 
 	else{
-		QIcon close_icon = QIcon::fromTheme("window-close", Helper::get_icon("tool_dark_grey"));
+		QIcon close_icon = QIcon::fromTheme("window-close", GUI::get_icon("tool_dark_grey"));
 		close_button->setIcon(close_icon);
 	}
 }

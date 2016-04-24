@@ -32,7 +32,7 @@
 #include "LFMLoginThread.h"
 #include "LFMWebAccess.h"
 
-#include "Helper/Helper.h"
+#include "Helper/Random/RandomGenerator.h"
 
 #include "Components/PlayManager/PlayManager.h"
 #include "Components/Playlist/PlaylistHandler.h"
@@ -124,7 +124,7 @@ void LastFM::sl_login_thread_finished(bool success) {
 		sp_log(Log::Warning, "LastFM") << "Cannot login";
 	}
 
-	emit sig_last_fm_logged_in(_logged_in);
+	emit sig_logged_in(_logged_in);
 }
 
 void LastFM::sl_track_changed(const MetaData& md) {
@@ -288,7 +288,7 @@ void LastFM::sl_similar_artists_available(IDList artist_ids) {
 		// try all songs of artist
 		for(int rounds=0; rounds < artist_tracks.size(); rounds++) {
 
-			int rnd_track = Helper::get_random_number(0, artist_tracks.size()- 1);
+			int rnd_track = RandomGenerator::get_random_number(0, artist_tracks.size()- 1);
 
 			MetaData md = artist_tracks.takeAt(rnd_track);
 

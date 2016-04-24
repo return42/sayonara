@@ -26,7 +26,7 @@
 #include <QMenu>
 #include <QAction>
 #include <QEvent>
-#include "Helper/SayonaraClass.h"
+#include "Helper/Settings/SayonaraClass.h"
 
 typedef int LibraryContexMenuEntries;
 

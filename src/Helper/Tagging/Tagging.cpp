@@ -27,12 +27,6 @@
 #include "Helper/FileHelper.h"
 #include "Helper/MetaData/MetaData.h"
 
-#include "Database/DatabaseConnector.h"
-
-
-#include <QDir>
-#include <QFile>
-
 #include <taglib/tbytevector.h>
 #include <taglib/tbytevectorstream.h>
 

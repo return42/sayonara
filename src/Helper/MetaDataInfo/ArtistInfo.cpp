@@ -28,7 +28,7 @@
 #include "Helper/Helper.h"
 #include "Helper/FileHelper.h"
 
-ArtistInfo::ArtistInfo(const MetaDataList* v_md) :
+ArtistInfo::ArtistInfo(const MetaDataList& v_md) :
 	MetaDataInfo(v_md){
 
 	insert_number(InfoStrings::nAlbums, _albums.size());

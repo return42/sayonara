@@ -24,7 +24,7 @@
 #define GSTPIPELINE_H
 
 
-#include "Helper/SayonaraClass.h"
+#include "Helper/Settings/SayonaraClass.h"
 
 #include <QTimer>
 #include <gst/gst.h>

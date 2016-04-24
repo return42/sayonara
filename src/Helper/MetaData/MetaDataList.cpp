@@ -21,10 +21,7 @@
 
 
 #include "MetaDataList.h"
-#include "MetaDataInfo.h"
-#include "AlbumInfo.h"
-#include "ArtistInfo.h"
-#include "Helper/Helper.h"
+#include "Helper/FileHelper.h"
 #include "Helper/Logger/Logger.h"
 #include "Helper/Random/RandomGenerator.h"
 #include "Helper/Set.h"
@@ -93,8 +90,9 @@ MetaDataList& MetaDataList::insert_tracks(const MetaDataList& v_md, int tgt_idx)
 	std::move_backward( this->begin() + tgt_idx, this->begin() + end_point, this->end());
 
 	for(const MetaData& md : v_md) {
+		QString path = md.filepath();
 		this->operator[](tgt_idx) = std::move(md);
-		this->operator[](tgt_idx).is_disabled = !(Helper::check_track(md));
+		this->operator[](tgt_idx).is_disabled = !(Helper::File::check_file(path));
 
 		tgt_idx++;
 	}
@@ -217,15 +215,6 @@ MetaDataList MetaDataList::extract_tracks(const SP::Set<int>& indexes) const
 	return v_md;
 }
 
-
-/*MetaDataList MetaDataList::extract_tracks(const IdxList& idx_list) const
-{
-	MetaDataList v_md;
-	for(int idx : idx_list){
-		v_md << this->operator [](idx);
-	}
-	return v_md;
-}*/
 
 MetaDataList& MetaDataList::remove_track(int idx){
 	if(!between(idx, 0, this->size())){
@@ -351,26 +340,10 @@ QStringList MetaDataList::toStringList() const {
 		}
 	};
 
-	for_each(this->begin(), this->end(), lambda);
+	std::for_each(this->begin(), this->end(), lambda);
 
 	return lst;
 }
-
-MetaDataInfo* MetaDataList::get_info() const {
-	MetaDataInfo* info = new MetaDataInfo(this);
-	return info;
-}
-
-AlbumInfo* MetaDataList::get_album_info() const {
-	AlbumInfo* info = new AlbumInfo(this);
-	return info;
-}
-
-ArtistInfo* MetaDataList::get_artist_info() const {
-	ArtistInfo* info = new ArtistInfo(this);
-	return info;
-}
-
 
 
 MetaDataList& MetaDataList::operator <<(const MetaDataList& v_md)

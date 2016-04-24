@@ -21,11 +21,8 @@
 
 
 #include "CopyThread.h"
-#include "Helper/Helper.h"
 #include "Helper/FileHelper.h"
 
-#include <QDir>
-#include <QFile>
 
 CopyThread::CopyThread(const QString& target_dir, const ImportCache& cache, QObject *parent) :
 	QThread(parent),

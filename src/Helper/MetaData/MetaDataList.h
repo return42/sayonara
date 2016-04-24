@@ -78,10 +78,6 @@ public:
 
 	QStringList toStringList() const;
 
-	MetaDataInfo* get_info() const ;
-	ArtistInfo* get_artist_info() const ;
-	AlbumInfo* get_album_info() const;
-
 	MetaDataList& operator <<(const MetaDataList& v_md);
 	MetaDataList& operator <<(const MetaData& md);
 

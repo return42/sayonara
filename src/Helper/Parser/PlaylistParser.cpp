@@ -23,7 +23,6 @@
 #include "ASXParser.h"
 
 #include "Helper/Parser/PlaylistParser.h"
-#include "Helper/Helper.h"
 #include "Helper/FileHelper.h"
 #include "Helper/MetaData/MetaDataList.h"
 
@@ -83,7 +82,7 @@ int PlaylistParser::parse_playlist(const QString& local_filename, MetaDataList& 
 
 	for(const MetaData& md : v_md_tmp) {
 
-		if( Helper::check_track(md) ){
+		if( Helper::File::check_file(md.filepath()) ){
 			v_md << md;
 		}
 

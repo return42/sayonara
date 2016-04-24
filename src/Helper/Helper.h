@@ -25,14 +25,10 @@
  *      Author: luke
  */
 
+
 #ifndef _HELPER_H
 #define _HELPER_H
 
-#include <QWidget>
-#include <QImage>
-#include <QPixmap>
-#include <QIcon>
-#include <QThread>
 #include <QDir>
 #include <QUrl>
 #include <QCryptographicHash>
@@ -93,22 +89,6 @@ namespace Helper {
 	QString cvt_ms_to_string(quint64 msec, bool empty_zero = false, bool colon=true, bool show_days=true);
 
 
-	/**
-	 * @brief fetch a icon from resources
-	 * @param icon_name if icon_name ends with png the input string is not modified, else a .svg.png is appended
-	 * @return icon
-	 */
-	QIcon get_icon(const QString& icon_name);
-
-
-	/**
-	 * @brief fetch a pixmap from resources
-	 * @param icon_name if icon_name ends with png the input string is not modified, else a .svg.png is appended
-	 * @param sz target size of pixmap
-	 * @param keep_aspect if true, aspect ratio is kept
-	 * @return pixmap
-	 */
-	QPixmap get_pixmap(const QString& icon_name, QSize sz=QSize(0, 0), bool keep_aspect=true);
 
 	/**
 	 * @brief get error log file
@@ -142,8 +122,9 @@ namespace Helper {
 	 * @return link string
 	 */
 	QString create_link(const QString& name,
-					   const QString& target="",
-					   bool underline=true);
+						bool dark=true,
+						const QString& target="",
+						bool underline=true);
 
 
 	/**
@@ -172,14 +153,6 @@ namespace Helper {
 	 * @return random number
 	 */
 	int get_random_number(int min, int max);
-
-
-	/**
-	 * @brief checks if track exists
-	 * @param md track
-	 * @return true if www, else if file exists
-	 */
-	bool check_track(const MetaData& md);
 
 
 	/**

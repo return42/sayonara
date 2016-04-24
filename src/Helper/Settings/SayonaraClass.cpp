@@ -1,4 +1,4 @@
-/* SayonaraClass.h */
+/* SayonaraClass.cpp */
 
 /* Copyright (C) 2011-2016  Lucio Carreras
  *
@@ -20,24 +20,15 @@
 
 
 
-#ifndef SAYONARACLASS_H
-#define SAYONARACLASS_H
 
-#include "Helper/Settings/Settings.h"
-/**
- * @brief The SayonaraClass class provides access to Settings and notifications
- * @ingroup Helper
- */
-class SayonaraClass {
-
-	protected:
-		Settings* _settings=nullptr;
-
-	public:
-		SayonaraClass();
-
-		virtual ~SayonaraClass();
-};
+#include "Helper/Settings/SayonaraClass.h"
 
 
-#endif // SAYONARACLASS_H
+SayonaraClass::SayonaraClass(){
+	_settings = Settings::getInstance();
+}
+
+SayonaraClass::~SayonaraClass(){
+
+}
+

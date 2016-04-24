@@ -22,7 +22,6 @@
 #include "GUI/Helper/GlobalMessage/Message.h"
 #include "GUI/TagEdit/GUI_TagEdit.h"
 
-#include "Helper/Helper.h"
 #include "Helper/MetaData/MetaDataList.h"
 
 #include <QPixmap>

@@ -23,7 +23,7 @@
 #ifndef REMOTECONTROL_H
 #define REMOTECONTROL_H
 
-#include "Helper/SayonaraClass.h"
+#include "Helper/Settings/SayonaraClass.h"
 #include "Components/PlayManager/PlayManager.h"
 #include "Components/Playlist/Playlist.h"
 

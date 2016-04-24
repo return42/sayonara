@@ -33,7 +33,7 @@
 
 #include "Helper/globals.h"
 #include "Helper/PlaylistMode.h"
-#include "Helper/SayonaraClass.h"
+#include "Helper/Settings/SayonaraClass.h"
 
 #include "Components/PlayManager/PlayManager.h"
 

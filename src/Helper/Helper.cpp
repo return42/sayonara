@@ -37,16 +37,9 @@
 #endif
 #endif
 
-#include "Helper/Settings/Settings.h"
+#include "Helper/globals.h"
 #include "Helper/Helper.h"
-#include "Helper/FileHelper.h"
 #include "Helper/Random/RandomGenerator.h"
-#include "Helper/MetaData/MetaDataList.h"
-
-#include "Database/DatabaseHandler.h"
-
-
-#include "Components/StreamPlugins/LastFM/LFMGlobals.h"
 
 template<typename T>
 QString cvtNum2String(T num, int digits) {
@@ -135,68 +128,6 @@ QString Helper::cvt_ms_to_string(quint64 msec, bool empty_zero, bool colon, bool
 
 
 
-QIcon Helper::get_icon(const QString& icon_name){
-
-	QString path;
-
-	if(icon_name.endsWith(".png")){
-		path = icon_name;
-		// alles paletti
-	}
-
-	else if(!icon_name.endsWith(".svg.png")){
-
-		path = icon_name + ".svg.png";
-	}
-
-	path.prepend(":/Icons/");
-
-
-	QIcon icon = QIcon(path);
-	if(icon.isNull()){
-		sp_log(Log::Warning) << "Icon " << path << " does not exist";
-	}
-
-	return icon;
-}
-
-QPixmap Helper::get_pixmap(const QString& icon_name, QSize sz, bool keep_aspect){
-
-	QString path = QString(":/Icons/") + icon_name;
-	if(path.endsWith(".png")){
-		// alles paletti
-	}
-
-	else if(!path.endsWith(".svg.png")){
-		path += ".svg.png";
-	}
-
-	QPixmap pixmap(path);
-
-	if(pixmap.isNull()){
-		sp_log(Log::Warning) << "Pixmap " << path << " does not exist";
-	}
-
-	if(sz.width() == 0){
-		return pixmap;
-	}
-
-	else{
-		if(keep_aspect){
-			return pixmap.scaled(sz, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-		}
-
-		else{
-			return pixmap.scaled(sz, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-		}
-	}
-
-	return pixmap;
-}
-
-
-
-
 QString Helper::get_error_file(){
 	return get_sayonara_path() + "error_log";
 }
@@ -227,10 +158,8 @@ QString Helper::get_lib_path() {
 
 
 
-QString Helper::create_link(const QString& name, const QString& target, bool underline) {
+QString Helper::create_link(const QString& name, bool dark, const QString& target, bool underline) {
 	
-	bool dark = (Settings::getInstance()->get(Set::Player_Style) == 1);
-
 	QString new_target;
 	QString content;
 	QString style = "";
@@ -319,15 +248,6 @@ QStringList Helper::get_podcast_extensions() {
 	return filters_new;
 }
 
-
-
-bool Helper::check_track(const MetaData& md) {
-
-	QString filepath = md.filepath();
-	if( Helper::File::is_www(filepath) ) return true;
-
-	return QFile::exists( filepath );
-}
 
 
 QString Helper::easy_tag_finder(const QString& tag, const QString& xml_doc) {

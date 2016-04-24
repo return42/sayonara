@@ -20,9 +20,9 @@
 
 
 #include "PlaylistTabMenu.h"
-#include "Helper/Helper.h"
-#include "GUI/Helper/IconLoader/IconLoader.h"
 
+#include "GUI/Helper/IconLoader/IconLoader.h"
+#include "GUI/Helper/GUI_Helper.h"
 
 
 PlaylistTabMenu::PlaylistTabMenu(QWidget* parent) :
@@ -30,14 +30,14 @@ PlaylistTabMenu::PlaylistTabMenu(QWidget* parent) :
 	SayonaraClass()
 {
 
-	_action_reset = new QAction(Helper::get_icon("undo"), tr("Reset"), this);
-	_action_rename = new QAction(Helper::get_icon("edit"), tr("Rename"), this);
-	_action_delete = new QAction(Helper::get_icon("delete"), tr("Delete"), this);
-	_action_save = new QAction(Helper::get_icon("save"), tr("Save"), this);
-	_action_save_as = new QAction(Helper::get_icon("save_as"), tr("Save as"), this);
-	_action_clear = new QAction(Helper::get_icon("broom.png"), tr("Clear"), this);
-	_action_close = new QAction(Helper::get_icon("power_off"), tr("Close"), this);
-	_action_close_others = new QAction(Helper::get_icon("power_on"), tr("Close others"), this);
+	_action_reset = new QAction(GUI::get_icon("undo"), tr("Reset"), this);
+	_action_rename = new QAction(GUI::get_icon("edit"), tr("Rename"), this);
+	_action_delete = new QAction(GUI::get_icon("delete"), tr("Delete"), this);
+	_action_save = new QAction(GUI::get_icon("save"), tr("Save"), this);
+	_action_save_as = new QAction(GUI::get_icon("save_as"), tr("Save as"), this);
+	_action_clear = new QAction(GUI::get_icon("broom.png"), tr("Clear"), this);
+	_action_close = new QAction(GUI::get_icon("power_off"), tr("Close"), this);
+	_action_close_others = new QAction(GUI::get_icon("power_on"), tr("Close others"), this);
 
 	_icon_loader = IconLoader::getInstance();
 

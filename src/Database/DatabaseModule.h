@@ -50,7 +50,7 @@
 	return ""
 
 class SayonaraQuery;
-class Filter;
+struct Filter;
 class DatabaseModule
 {
 

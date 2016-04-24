@@ -28,7 +28,7 @@
 #include <QStringList>
 #include <QShortcut>
 #include <QKeySequence>
-#include "Helper/SayonaraClass.h"
+#include "Helper/Settings/SayonaraClass.h"
 
 class SayonaraShortcutWidget;
 /**
@@ -37,6 +37,7 @@ class SayonaraShortcutWidget;
  * the user defined shortcuts, a name attached to each shortcut
  * an identifier which is written into the database and a list
  * of the corresponding shortcuts in the Qt format
+ * @ingroup Shortcuts
  */
 class Shortcut : private SayonaraClass
 {

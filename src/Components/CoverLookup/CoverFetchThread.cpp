@@ -33,8 +33,6 @@
 #include "Helper/WebAccess/AsyncWebAccess.h"
 #include "Helper/FileHelper.h"
 
-
-
 #include <QFile>
 #include <QDir>
 

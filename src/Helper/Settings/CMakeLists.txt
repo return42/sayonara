@@ -6,9 +6,11 @@ SET(SOURCES
 	Settings.cpp
 	SettingConverter.cpp
 	AbstrSettingNotifier.cpp
+	SayonaraClass.cpp
 )
 
 ADD_LIBRARY(${PROJECT_NAME} STATIC ${SOURCES})
 TARGET_LINK_LIBRARIES(${PROJECT_NAME}
-	Qt5::Core
+	say_db
+	say_helper
 )

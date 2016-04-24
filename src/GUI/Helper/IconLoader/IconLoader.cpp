@@ -21,10 +21,12 @@
 
 
 #include "IconLoader.h"
-#include "Helper/Helper.h"
 #include "Helper/Settings/Settings.h"
 #include "Helper/DirectoryReader/DirectoryReader.h"
-#include <QDir>
+
+#include "GUI/Helper/GUI_Helper.h"
+
+
 #include <QFile>
 #include <QRegExp>
 
@@ -166,7 +168,7 @@ QIcon IconLoader::get_icon(const QString& name, const QString& dark_name)
 		}
 	}
 
-	return Helper::get_icon(dark_name);
+	return GUI::get_icon(dark_name);
 }
 
 

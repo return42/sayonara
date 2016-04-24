@@ -21,7 +21,7 @@
 
 
 #include "LocalLibraryMenu.h"
-#include "Helper/Helper.h"
+#include "GUI/Helper/GUI_Helper.h"
 #include "GUI/Helper/IconLoader/IconLoader.h"
 
 
@@ -32,11 +32,11 @@ LocalLibraryMenu::LocalLibraryMenu(QWidget* parent) :
 {
 	_icon_loader = IconLoader::getInstance();
 
-	_reload_library_action = new QAction(Helper::get_icon("undo"), tr("Reload library"), this);
-	_import_file_action = new QAction(Helper::get_icon("open"), tr("Import files"), this);
-	_import_folder_action = new QAction(Helper::get_icon("open"), tr("Import directory"), this);
-	_info_action = new QAction(Helper::get_icon("info"), tr("Info"), this);
-	_library_path_action = new QAction(Helper::get_icon("folder"), tr("Library path"), this);
+	_reload_library_action = new QAction(GUI::get_icon("undo"), tr("Reload library"), this);
+	_import_file_action = new QAction(GUI::get_icon("open"), tr("Import files"), this);
+	_import_folder_action = new QAction(GUI::get_icon("open"), tr("Import directory"), this);
+	_info_action = new QAction(GUI::get_icon("info"), tr("Info"), this);
+	_library_path_action = new QAction(GUI::get_icon("folder"), tr("Library path"), this);
 
 	_realtime_search_action = new QAction(QIcon(), tr("Live search"), this);
 	_realtime_search_action->setCheckable(true);

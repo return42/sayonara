@@ -36,7 +36,7 @@
  * */
 #include <QString>
 #include <QDomDocument>
-#include "Helper/Helper.h"
+
 #include "Helper/MetaData/MetaDataList.h"
 #include "Helper/Parser/PodcastParser.h"
 #include "Components/CoverLookup/CoverLocation.h"

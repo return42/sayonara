@@ -25,7 +25,7 @@
 
 
 #include "ImportCache.h"
-#include "Helper/SayonaraClass.h"
+#include "Helper/Settings/SayonaraClass.h"
 
 #include <QThread>
 

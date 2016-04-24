@@ -20,11 +20,11 @@
 
 
 #include "Playlist.h"
-#include "Helper/Helper.h"
+#include "Helper/FileHelper.h"
 #include "Helper/Set.h"
 #include "Components/TagEdit/MetaDataChangeNotifier.h"
 #include "Components/Engine/EngineHandler.h"
-#include <QDir>
+
 
 Playlist::Playlist(int idx, QString name) :
 	PlaylistDBInterface(name),
@@ -116,7 +116,7 @@ void Playlist::append_tracks(const MetaDataList& lst) {
 
 	for(const MetaData& md : lst){
 		_v_md << std::move(md);
-		_v_md.last().is_disabled = !(Helper::check_track(md));
+		_v_md.last().is_disabled = !(Helper::File::check_file(md.filepath()));
 	}
 
 	set_changed(true);
@@ -132,7 +132,7 @@ void Playlist::replace_track(int idx, const MetaData& md) {
 	bool is_playing = _v_md[idx].pl_playing;
 
 	_v_md[idx] = md;
-	_v_md[idx].is_disabled = !(Helper::check_track(md));
+	_v_md[idx].is_disabled = !(Helper::File::check_file(md.filepath()));
 	_v_md[idx].pl_playing = is_playing;
 
 	emit sig_data_changed(_playlist_idx);

@@ -22,7 +22,6 @@
 
 #include "PLSParser.h"
 #include "Helper/FileHelper.h"
-#include "Helper/Helper.h"
 
 #include <QRegExp>
 #include <QPair>

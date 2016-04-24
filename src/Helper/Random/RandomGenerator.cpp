@@ -43,3 +43,9 @@ int RandomGenerator::get_number(int min, int max){
 	std::uniform_int_distribution<int> d(min, max);
 	return d(_generator);
 }
+
+int RandomGenerator::get_random_number(int min, int max)
+{
+	RandomGenerator generator;
+	return generator.get_number(min, max);
+}

@@ -26,7 +26,7 @@
 #include <QTime>
 #include <QStringList>
 
-#include "Helper/SayonaraClass.h"
+#include "Helper/Settings/SayonaraClass.h"
 
 class InstanceThread;
 class DatabaseConnector;

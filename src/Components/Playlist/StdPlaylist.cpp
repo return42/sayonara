@@ -19,7 +19,7 @@
  */
 
 #include "StdPlaylist.h"
-#include "Helper/Helper.h"
+#include "Helper/FileHelper.h"
 #include "Helper/Parser/PlaylistParser.h"
 #include "Helper/Random/RandomGenerator.h"
 
@@ -44,7 +44,7 @@ bool StdPlaylist::change_track(int idx) {
 	_v_md[idx].played = true;
 
 	// ERROR: track not available in file system anymore
-	if( !Helper::check_track(_v_md[idx]) ) {
+	if( !Helper::File::check_file(_v_md[idx].filepath()) ) {
 
 		_v_md[idx].is_disabled = true;
 

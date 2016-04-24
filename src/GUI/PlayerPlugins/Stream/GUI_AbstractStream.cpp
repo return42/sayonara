@@ -22,7 +22,6 @@
 #include "GUI/Helper/GlobalMessage/Message.h"
 #include "GUI/Helper/ComboBoxDelegate/ComboBoxDelegate.h"
 
-#include "Helper/Helper.h"
 #include "Helper/MetaData/MetaData.h"
 #include "Helper/Parser/PlaylistParser.h"
 #include "Helper/Parser/PodcastParser.h"

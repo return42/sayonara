@@ -17,6 +17,7 @@ QT5_WRAP_UI(FORMS_UIC
 ADD_LIBRARY(${PROJECT_NAME} STATIC ${SOURCES} ${FORMS_UIC})
 TARGET_LINK_LIBRARIES(${PROJECT_NAME}
     say_comp_lyrics
+    say_helper_metadata_info
     say_gui_tagedit
     say_gui_alternative_covers
 )

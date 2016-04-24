@@ -8,7 +8,7 @@ INCLUDE_DIRECTORIES(
 
 SET(SOURCES
     Bookmarks.cpp
-	Bookmark.cpp
+    Bookmark.cpp
 )
 
 ADD_LIBRARY(${PROJECT_NAME} STATIC ${SOURCES})

@@ -24,7 +24,7 @@
 #define PLAYLISTLOADER_H
 
 #include "Helper/MetaData/MetaData.h"
-#include "Helper/SayonaraClass.h"
+#include "Helper/Settings/SayonaraClass.h"
 
 #include "Playlist.h"
 

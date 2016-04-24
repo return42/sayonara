@@ -21,10 +21,9 @@
 #ifndef PLAY_MANAGER_H
 #define PLAY_MANAGER_H
 
-#include <QObject>
 #include "Helper/globals.h"
 #include "Helper/MetaData/MetaData.h"
-#include "Helper/SayonaraClass.h"
+#include "Helper/Settings/SayonaraClass.h"
 
 template<typename T, int N_ITEMS>
 class RingBuffer {

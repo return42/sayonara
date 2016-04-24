@@ -31,6 +31,8 @@
 #include "Interfaces/LibraryInterface/LibraryPluginHandler.h"
 #include "Interfaces/PlayerPlugin/PlayerPluginHandler.h"
 
+#include "GUI/Helper/GUI_Helper.h"
+
 #include "GUI/Player/GUI_Player.h"
 #include "GUI/Library/GUI_LocalLibrary.h"
 #include "GUI/DirectoryWidget/GUI_DirectoryWidget.h"
@@ -46,8 +48,6 @@
 #include "GUI/PlayerPlugins/Speed/GUI_Speed.h"
 #include "GUI/PlayerPlugins/Broadcasting/GUI_Broadcast.h"
 
-
-
 #include "GUI/Preferences/Fonts/GUI_FontConfig.h"
 #include "GUI/Preferences/Notifications/GUI_Notifications.h"
 #include "GUI/Preferences/LastFM/GUI_LastFM.h"
@@ -62,7 +62,7 @@
 #include "GUI/Preferences/PlayerPreferences/GUI_PlayerPreferences.h"
 #include "GUI/Preferences/PreferenceDialog/GUI_PreferenceDialog.h"
 
-#include "Helper/Style/Style.h"
+
 #include "Helper/FileHelper.h"
 #include "Helper/Helper.h"
 
@@ -141,9 +141,9 @@ void Application::check_for_crash(){
 
 	info_text = QString("Sayonara seems to have crashed the last time<br />") +
 			"Please send " +
-			Helper::create_link(error_file, error_file) +
-			" in " + Helper::create_link(Helper::get_sayonara_path(), Helper::get_sayonara_path()) +
-			" to " + Helper::create_link("luciocarreras@gmail.com", mail);
+			Helper::create_link(error_file, false) +
+			" in " + Helper::create_link(Helper::get_sayonara_path(), false) +
+			" to " + Helper::create_link("luciocarreras@gmail.com", false, mail);
 
 	GlobalMessage::getInstance()->info(info_text);
 
@@ -226,7 +226,6 @@ bool Application::init(QTranslator* translator, const QStringList& files_to_play
 	sp_log(Log::Debug) << "Libraries loaded: " << _timer->elapsed() << "ms";
 
 	GUI_PreferenceDialog* preferences = new GUI_PreferenceDialog(player);
-	//preferences->setStyleSheet(Style::get_style(true));
 
 	player->register_preference_dialog(preferences);
 
@@ -247,7 +246,7 @@ bool Application::init(QTranslator* translator, const QStringList& files_to_play
 	sp_log(Log::Debug) << "Preference dialogs loaded: " << _timer->elapsed() << "ms";
 
 	player->setWindowTitle(QString("Sayonara ") + version);
-	player->setWindowIcon(Helper::get_icon("logo.png"));
+	player->setWindowIcon(GUI::get_icon("logo.png"));
 	player->set_libraries(library_plugin_loader);
 	player->set_player_plugin_handler(pph);
 	player->ui_loaded();

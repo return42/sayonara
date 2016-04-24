@@ -24,7 +24,7 @@
 #define STREAMRECORDER_H
 
 #include "Components/PlayManager/PlayManager.h"
-#include "Helper/SayonaraClass.h"
+#include "Helper/Settings/SayonaraClass.h"
 #include "Helper/MetaData/MetaDataList.h"
 
 

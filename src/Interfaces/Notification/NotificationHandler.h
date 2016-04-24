@@ -25,7 +25,6 @@
 
 #include "NotificationInterface.h"
 #include "Helper/globals.h"
-#include "Helper/SayonaraClass.h"
 
 
 class DummyNotificator : public NotificationInterface

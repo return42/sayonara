@@ -20,11 +20,9 @@
 
 
 #include "GUI_Broadcast.h"
+
 #include "GUI/Helper/GlobalMessage/Message.h"
-
-#include "Helper/Helper.h"
 #include "GUI/Helper/ComboBoxDelegate/ComboBoxDelegate.h"
-
 
 GUI_Broadcast::GUI_Broadcast(QWidget *parent) :
 	PlayerPluginInterface(parent),

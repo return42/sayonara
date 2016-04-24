@@ -53,6 +53,8 @@ public:
 	 * @return number between [minimum, maximum]
 	 */
 	int get_number(int min, int max);
+
+	static int get_random_number(int min, int max);
 };
 
 #endif // RANDOMGENERATOR_H
