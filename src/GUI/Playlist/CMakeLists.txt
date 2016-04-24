@@ -10,7 +10,6 @@ SET(SOURCES
 		PlaylistMenu.cpp
 		GUI_Playlist.cpp
 		GUI_PlaylistTabs.cpp
-		GUI_PlaylistEntryLook.cpp
 
 		BottomBar/GUI_PlaylistBottomBar.cpp
 		Delegate/PlaylistItemDelegate.cpp
@@ -24,7 +23,6 @@ SET(SOURCES
 
 QT5_WRAP_UI(FORMS_UIC
 		GUI_Playlist.ui
-		GUI_PlaylistEntryLook.ui
 		BottomBar/GUI_PlaylistBottomBar.ui
 		View/GUI_PlaylistView.ui
 )

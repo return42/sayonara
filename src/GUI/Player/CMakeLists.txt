@@ -1,8 +1,6 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.7)
 PROJECT(say_gui_player)
 
-ADD_SUBDIRECTORY(Preferences)
-
 SET(SOURCES
 	GUI_Player.cpp
 	GUI_PlayerEvents.cpp
@@ -25,7 +23,6 @@ SET(PLAYER_LIBRARIES
 
 	say_gui_playlist
 	say_gui_helper_shortcuts
-	say_gui_player_preferences
 	say_interfaces_player_plugin
 	say_interfaces_notifications
 	say_interfaces_preference_dialog

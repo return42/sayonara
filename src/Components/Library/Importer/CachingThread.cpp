@@ -66,7 +66,7 @@ void CachingThread::read_files()
 		if(Helper::File::is_dir(filename)){
 			QStringList dir_files;
 			QDir dir(filename);
-
+			dr.set_filter("*");
 			dr.get_files_in_dir_rec(dir, dir_files);
 
 			for(const QString& dir_file : dir_files){

@@ -24,16 +24,7 @@ SET(APPLICATION_LIBRARIES
     say_gui_plugin_speed
     say_gui_plugin_stream
 
-    say_gui_notifications
-    say_gui_lastfm
-    say_gui_stream_recorder
-    say_gui_startup_dialog
-    say_gui_language_chooser
     say_gui_player
-    say_gui_fontconfig
-    say_gui_remote_control
-    say_gui_library_preferences
-    say_gui_shortcuts
     say_gui_preferences
 
     say_interfaces_libraryinterface

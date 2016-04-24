@@ -20,7 +20,6 @@
 
 
 #include "GUI_Broadcast.h"
-#include "GUI_BroadcastSetup.h"
 #include "GUI/Helper/GlobalMessage/Message.h"
 
 #include "Helper/Helper.h"

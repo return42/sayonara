@@ -45,20 +45,22 @@
 #include "GUI/PlayerPlugins/Bookmarks/GUI_Bookmarks.h"
 #include "GUI/PlayerPlugins/Speed/GUI_Speed.h"
 #include "GUI/PlayerPlugins/Broadcasting/GUI_Broadcast.h"
-#include "GUI/PlayerPlugins/Broadcasting/GUI_BroadcastSetup.h"
 
 
-#include "GUI/FontConfig/GUI_FontConfig.h"
-#include "GUI/Notifications/GUI_Notifications.h"
-#include "GUI/LastFM/GUI_LastFM.h"
-#include "GUI/StartupDialog/GUI_StartupDialog.h"
-#include "GUI/LanguageChooser/GUI_LanguageChooser.h"
-#include "GUI/StreamRecorder/GUI_StreamRecorder.h"
-#include "GUI/RemoteControl/GUI_RemoteControl.h"
-#include "GUI/LibraryPreferences/GUI_LibraryPreferences.h"
-#include "GUI/Shortcuts/GUI_Shortcuts.h"
-#include "GUI/Player/Preferences/GUI_PlayerPreferences.h"
-#include "GUI/PreferenceDialog/GUI_PreferenceDialog.h"
+
+#include "GUI/Preferences/Fonts/GUI_FontConfig.h"
+#include "GUI/Preferences/Notifications/GUI_Notifications.h"
+#include "GUI/Preferences/LastFM/GUI_LastFM.h"
+#include "GUI/Preferences/Startup/GUI_StartupDialog.h"
+#include "GUI/Preferences/Language/GUI_LanguageChooser.h"
+#include "GUI/Preferences/Broadcast/GUI_BroadcastSetup.h"
+#include "GUI/Preferences/PlaylistPreferences/GUI_PlaylistPreferences.h"
+#include "GUI/Preferences/StreamRecorder/GUI_StreamRecorder.h"
+#include "GUI/Preferences/RemoteControl/GUI_RemoteControl.h"
+#include "GUI/Preferences/LibraryPreferences/GUI_LibraryPreferences.h"
+#include "GUI/Preferences/Shortcuts/GUI_Shortcuts.h"
+#include "GUI/Preferences/PlayerPreferences/GUI_PlayerPreferences.h"
+#include "GUI/Preferences/PreferenceDialog/GUI_PreferenceDialog.h"
 
 #include "Helper/Style/Style.h"
 #include "Helper/FileHelper.h"
@@ -229,10 +231,11 @@ bool Application::init(QTranslator* translator, const QStringList& files_to_play
 	player->register_preference_dialog(preferences);
 
 	preferences->register_preference_dialog(new GUI_LanguageChooser());
+	preferences->register_preference_dialog(new GUI_FontConfig());
 	preferences->register_preference_dialog(new GUI_PlayerPreferences());
+	preferences->register_preference_dialog(new GUI_PlaylistPreferences());
 	preferences->register_preference_dialog(new GUI_LibraryPreferences());
 	preferences->register_preference_dialog(new GUI_StartupDialog());
-	preferences->register_preference_dialog(new GUI_FontConfig());
 	preferences->register_preference_dialog(new GUI_Shortcuts());
 	preferences->register_preference_dialog(new GUI_Notifications());
 	preferences->register_preference_dialog(new GUI_LastFM());

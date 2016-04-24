@@ -21,7 +21,6 @@
 
 
 #include "PlaylistMenu.h"
-#include "GUI_PlaylistEntryLook.h"
 
 
 PlaylistMenu::PlaylistMenu(QWidget* parent) :
@@ -38,8 +37,6 @@ PlaylistMenu::PlaylistMenu(QWidget* parent) :
 	_action_dynamic = new QAction(tr("Dynamic playback"), this);
 	_action_gapless = new QAction(tr("Gapless playback"), this);
 	_action_shutdown = new QAction(tr("Shutdown"), this);
-	_action_numbers = new QAction(tr("Numbers"), this);
-	_action_look = new QAction(tr("Playlist look"), this);
 
 	QList<QAction*> actions;
 	actions << _action_rep1
@@ -49,9 +46,6 @@ PlaylistMenu::PlaylistMenu(QWidget* parent) :
 			<< _action_shuffle
 			<< _action_gapless
 			<< addSeparator()
-			<< _action_numbers
-			<< _action_look
-			<< addSeparator()
 			<< _action_shutdown;
 
 	for(QAction* action : actions){
@@ -59,10 +53,7 @@ PlaylistMenu::PlaylistMenu(QWidget* parent) :
 		action->setVisible(true);
 	}
 
-	_action_look->setCheckable(false);
-
 	this->addActions(actions);
-
 
 	PlaylistMode plm = _settings->get(Set::PL_Mode);
 
@@ -73,7 +64,6 @@ PlaylistMenu::PlaylistMenu(QWidget* parent) :
 	_action_shuffle->setChecked(plm.shuffle);
 	_action_gapless->setChecked(plm.gapless);
 	_action_shutdown->setChecked(false);
-	_action_numbers->setChecked(_settings->get(Set::PL_ShowNumbers));
 
 	connect(_timer, &QTimer::timeout, this, &PlaylistMenu::timed_out);
 	connect(_action_rep1, &QAction::triggered, this, &PlaylistMenu::change_plm);
@@ -82,9 +72,7 @@ PlaylistMenu::PlaylistMenu(QWidget* parent) :
 	connect(_action_dynamic, &QAction::triggered, this, &PlaylistMenu::change_plm);
 	connect(_action_gapless, &QAction::triggered, this, &PlaylistMenu::change_plm);
 	connect(_action_shutdown, &QAction::triggered, this, &PlaylistMenu::change_plm);
-	connect(_action_numbers, &QAction::triggered, this, &PlaylistMenu::show_numbers);
 	connect(_action_shutdown, &QAction::triggered, this, &PlaylistMenu::sig_shutdown);
-	connect(_action_look, &QAction::triggered, this, &PlaylistMenu::change_look);
 
 	REGISTER_LISTENER(Set::PL_Mode, plm_changed);
 	REGISTER_LISTENER(Set::Player_Language, language_changed);
@@ -98,19 +86,9 @@ void PlaylistMenu::language_changed(){
 	_action_dynamic->setText(tr("Dynamic playback"));
 	_action_gapless->setText(tr("Gapless playback"));
 	_action_shutdown->setText(tr("Shutdown"));
-	_action_numbers->setText(tr("Numbers"));
-	_action_look->setText(tr("Playlist look"));
+
 }
 
-void PlaylistMenu::change_look()
-{
-
-	if(!_entry_look_dialog){
-		_entry_look_dialog = new GUI_PlaylistEntryLook(this);
-	}
-
-	_entry_look_dialog->exec();
-}
 
 void PlaylistMenu::timed_out()
 {
@@ -119,9 +97,6 @@ void PlaylistMenu::timed_out()
 	}
 }
 
-void PlaylistMenu::show_numbers(){
-	_settings->set(Set::PL_ShowNumbers, _action_numbers->isChecked());
-}
 
 void PlaylistMenu::showEvent(QShowEvent* e)
 {
