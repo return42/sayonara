@@ -26,6 +26,7 @@ SET(APPLICATION_LIBRARIES
 
     say_gui_player
     say_gui_preferences
+    say_gui_global_message
 
     say_interfaces_libraryinterface
     say_comp_remote_control

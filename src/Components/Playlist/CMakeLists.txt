@@ -22,5 +22,7 @@ TARGET_LINK_LIBRARIES(${PROJECT_NAME}
 	say_helper_settings
 	say_helper_directory_reader
 	say_helper_playlist
+	say_comp_playmanager
+	say_comp_engine
 )
 

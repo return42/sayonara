@@ -27,4 +27,5 @@ TARGET_LINK_LIBRARIES(${PROJECT_NAME}
 	Qt5::Widgets
 	say_helper_settings
 	say_helper_directory_reader
+	say_gui_global_message
 )
