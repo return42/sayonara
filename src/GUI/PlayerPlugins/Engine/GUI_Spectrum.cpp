@@ -28,10 +28,10 @@
 
 #include <QPainter>
 #include <QList>
-#include <cmath>
 #include <QTimer>
 
 #include <cstring>
+#include <cmath>
 
 float log_lu[1100];
 
@@ -78,7 +78,7 @@ void GUI_Spectrum::init_ui()
 	}
 
 	for(int i=0; i<1100; i++) {
-		log_lu[i] = log( (i * 1.0f) / 10.0f ) * 0.60f;
+		log_lu[i] = std::log( (i * 1.0f) / 10.0f ) * 0.60f;
 	}
 
 	_steps = new int*[N_BINS];

@@ -22,6 +22,7 @@
 #include <QPainter>
 #include <QBrush>
 #include <cstring>
+#include <cmath>
 
 #include "Components/Engine/Playback/PlaybackEngine.h"
 #include "Components/Engine/EngineHandler.h"
@@ -69,7 +70,7 @@ void GUI_LevelPainter::init_ui()
 	int n_rects = _cur_style.n_rects;
 
 	for(float i=-6; i<=0; i+=0.01f){
-		_exp_lot[(int)(-i * 100)] = exp(i);
+		_exp_lot[(int)(-i * 100)] = std::exp(i);
 	}
 
 	_steps = new int*[2];
