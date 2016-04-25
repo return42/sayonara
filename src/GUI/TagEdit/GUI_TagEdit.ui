@@ -350,7 +350,7 @@
       <item row="0" column="1">
        <widget class="TagLineEdit" name="le_tag">
         <property name="focusPolicy">
-         <enum>Qt::NoFocus</enum>
+         <enum>Qt::ClickFocus</enum>
         </property>
        </widget>
       </item>
@@ -379,7 +379,7 @@
         <item>
          <widget class="QPushButton" name="btn_title">
           <property name="focusPolicy">
-           <enum>Qt::NoFocus</enum>
+           <enum>Qt::ClickFocus</enum>
           </property>
           <property name="text">
            <string>Title</string>
@@ -392,7 +392,7 @@
         <item>
          <widget class="QPushButton" name="btn_album">
           <property name="focusPolicy">
-           <enum>Qt::NoFocus</enum>
+           <enum>Qt::ClickFocus</enum>
           </property>
           <property name="text">
            <string>Album</string>
@@ -405,7 +405,7 @@
         <item>
          <widget class="QPushButton" name="btn_artist">
           <property name="focusPolicy">
-           <enum>Qt::NoFocus</enum>
+           <enum>Qt::ClickFocus</enum>
           </property>
           <property name="text">
            <string>Artist</string>
@@ -418,7 +418,7 @@
         <item>
          <widget class="QPushButton" name="btn_year">
           <property name="focusPolicy">
-           <enum>Qt::NoFocus</enum>
+           <enum>Qt::ClickFocus</enum>
           </property>
           <property name="text">
            <string>Year</string>
@@ -431,7 +431,7 @@
         <item>
          <widget class="QPushButton" name="btn_disc_nr">
           <property name="focusPolicy">
-           <enum>Qt::NoFocus</enum>
+           <enum>Qt::ClickFocus</enum>
           </property>
           <property name="text">
            <string>Disc Nr</string>
@@ -444,7 +444,7 @@
         <item>
          <widget class="QPushButton" name="btn_track_nr">
           <property name="focusPolicy">
-           <enum>Qt::NoFocus</enum>
+           <enum>Qt::ClickFocus</enum>
           </property>
           <property name="text">
            <string># Track</string>
