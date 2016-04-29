@@ -23,7 +23,7 @@
 
 #include "Helper/WebAccess/AsyncWebAccess.h"
 #include "Components/Engine/EngineHandler.h"
-#include "GUI/Helper/GlobalMessage/GlobalMessage.h"
+#include "GUI/Helper/Message/GlobalMessage.h"
 
 #include <QHostAddress>
 

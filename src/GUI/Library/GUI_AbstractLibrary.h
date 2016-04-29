@@ -24,8 +24,8 @@
 #define GUI_ABSTRACTLIBRARY_H
 
 #include "Components/Library/LibraryNamespaces.h"
-#include "GUI/Helper/ComboBoxDelegate/ComboBoxDelegate.h"
-#include "GUI/Helper/SayonaraWidget.h"
+#include "GUI/Helper/Delegates/ComboBoxDelegate.h"
+#include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
 
 #include "Views/LibraryView.h"
 #include "Views/LibraryViewAlbum.h"

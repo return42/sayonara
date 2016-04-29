@@ -22,7 +22,7 @@
 
 #include "GUI_MTP.h"
 
-#include "GUI/Helper/GlobalMessage/Message.h"
+#include "GUI/Helper/Message/Message.h"
 #include "GUI/Helper/Delegates/TreeDelegate.h"
 #include "GUI/Helper/GUI_Helper.h"
 

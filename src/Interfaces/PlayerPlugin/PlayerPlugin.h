@@ -29,8 +29,8 @@
 #include <QPushButton>
 #include <QLayout>
 
-#include "GUI/Helper/SayonaraWidget.h"
-#include "GUI/Helper/SayonaraShortcutWidget.h"
+#include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
+#include "GUI/Helper/SayonaraWidget/SayonaraShortcutWidget.h"
 #include "GUI/Helper/Shortcuts/ShortcutHandler.h"
 
 #include "Components/PlayManager/PlayManager.h"

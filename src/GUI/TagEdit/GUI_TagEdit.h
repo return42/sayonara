@@ -28,7 +28,7 @@
 #include <QRegExp>
 
 #include "GUI/TagEdit/ui_GUI_TagEdit.h"
-#include "GUI/Helper/SayonaraWidget.h"
+#include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
 #include "Components/TagEdit/TagExpression.h"
 #include "Components/TagEdit/TagEdit.h"
 

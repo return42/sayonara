@@ -27,10 +27,10 @@
 #include "Components/PlayManager/PlayManager.h"
 
 #include "GUI/Player/GUI_TrayIcon.h"
-#include "GUI/Helper/GlobalMessage/GlobalMessageReceiverInterface.h"
+#include "GUI/Helper/Message/GlobalMessageReceiverInterface.h"
 
-#include "GUI/Helper/SayonaraWidget.h"
-#include "GUI/Helper/SayonaraShortcutWidget.h"
+#include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
+#include "GUI/Helper/SayonaraWidget/SayonaraShortcutWidget.h"
 
 
 #include <QMessageBox>

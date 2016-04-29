@@ -21,7 +21,7 @@
 
 
 #include "GUI_PreferenceDialog.h"
-#include "GUI/Helper/ComboBoxDelegate/ComboBoxDelegate.cpp"
+#include "GUI/Helper/Delegates/ComboBoxDelegate.cpp"
 #include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
 
 #include <QLayout>

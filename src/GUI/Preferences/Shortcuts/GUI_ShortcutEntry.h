@@ -22,7 +22,7 @@
 #ifndef GUI_SHORTCUTENTRY_H
 #define GUI_SHORTCUTENTRY_H
 
-#include "GUI/Helper/SayonaraWidget.h"
+#include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
 #include "GUI/Helper/Shortcuts/ShortcutHandler.h"
 #include "GUI/Preferences/Shortcuts/ui_GUI_ShortcutEntry.h"
 

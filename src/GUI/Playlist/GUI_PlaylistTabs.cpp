@@ -21,7 +21,7 @@
 #include "View/PlaylistView.h"
 #include "TabWidget/PlaylistMenuEntry.h"
 #include "GUI/Helper/IconLoader/IconLoader.h"
-#include "GUI/Helper/GlobalMessage/Message.h"
+#include "GUI/Helper/Message/Message.h"
 
 
 void GUI_Playlist::playlist_name_changed(int idx){

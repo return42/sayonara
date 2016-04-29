@@ -22,7 +22,7 @@
 
 #include "GUI_BroadcastSetup.h"
 #include "Helper/Helper.h"
-#include "GUI/Helper/SayonaraWidgetTemplate.h"
+#include "GUI/Helper/SayonaraWidget/SayonaraWidgetTemplate.h"
 
 
 GUI_BroadcastSetup::GUI_BroadcastSetup(QWidget *parent) :

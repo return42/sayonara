@@ -28,10 +28,12 @@
 
 #include "GUI/AlternativeCovers/AlternativeCoverItemModel.h"
 #include "Components/CoverLookup/CoverLocation.h"
+#include "Helper/Logger/Logger.h"
+
 #include <QModelIndex>
 #include <QVariant>
 #include <QStringList>
-#include "Helper/Logger/Logger.h"
+
 
 
 AlternateCoverItemModel::AlternateCoverItemModel(QObject* parent) : QAbstractTableModel(parent) {

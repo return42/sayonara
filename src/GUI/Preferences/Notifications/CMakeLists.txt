@@ -17,5 +17,4 @@ QT5_WRAP_UI(FORMS_UIC
 ADD_LIBRARY(${PROJECT_NAME} STATIC ${SOURCES} ${FORMS_UIC})
 TARGET_LINK_LIBRARIES(${PROJECT_NAME}
 	say_interfaces_preference_dialog
-	say_gui_combobox_delegate
 )

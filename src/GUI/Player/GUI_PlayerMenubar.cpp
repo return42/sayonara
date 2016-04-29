@@ -24,7 +24,7 @@
  */
 
 #include "GUI_Player.h"
-#include "GUI/Helper/GlobalMessage/Message.h"
+#include "GUI/Helper/Message/Message.h"
 #include "GUI/Helper/GUI_Helper.h"
 
 #include "Helper/Helper.h"

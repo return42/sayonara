@@ -20,7 +20,7 @@
 
 #include "GUI_AbstractLibrary.h"
 #include "GUI/InfoDialog/GUI_InfoDialog.h"
-#include "GUI/Helper/GlobalMessage/Message.h"
+#include "GUI/Helper/Message/Message.h"
 #include "Components/Library/AbstractLibrary.h"
 
 

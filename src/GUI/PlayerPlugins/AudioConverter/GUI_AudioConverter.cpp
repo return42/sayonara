@@ -21,7 +21,7 @@
 
 
 #include "GUI_AudioConverter.h"
-#include "GUI/Helper/GlobalMessage/Message.h"
+#include "GUI/Helper/Message/Message.h"
 
 #include "Components/Engine/EngineHandler.h"
 

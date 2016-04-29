@@ -23,7 +23,7 @@
 #ifndef PLAYLISTBOTTOMBAR_H
 #define PLAYLISTBOTTOMBAR_H
 
-#include "GUI/Helper/SayonaraWidget.h"
+#include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
 #include "GUI/Playlist/ui_GUI_PlaylistBottomBar.h"
 
 #include "Helper/Shutdown/Shutdown.h"

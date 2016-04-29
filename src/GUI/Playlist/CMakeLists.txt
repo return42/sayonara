@@ -31,10 +31,7 @@ SET(LINK_LIBS
     say_comp_playlist
     say_gui_info_dialog
     say_gui_shutdown_dialog
-    say_gui_searchable_widget
-    say_gui_context_menu
-    say_gui_helper_shortcuts
-    say_gui_global_message
+    say_gui_helper
 )
 
 IF(NOT ${WIN32})

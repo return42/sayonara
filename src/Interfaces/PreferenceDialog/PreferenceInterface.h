@@ -30,8 +30,8 @@
 #include <QCloseEvent>
 #include <QString>
 
-#include "GUI/Helper/SayonaraDialog.h"
-#include "GUI/Helper/SayonaraWidget.h"
+#include "GUI/Helper/SayonaraWidget/SayonaraDialog.h"
+#include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
 
 
 /**

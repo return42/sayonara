@@ -18,5 +18,5 @@ SET(SOURCES
 ADD_LIBRARY(${PROJECT_NAME} STATIC ${SOURCES})
 TARGET_LINK_LIBRARIES(${PROJECT_NAME}
 	say_interfaces_library_container
-	say_gui_combobox_delegate
+	say_gui_helper
 )

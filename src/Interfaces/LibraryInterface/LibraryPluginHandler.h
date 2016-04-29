@@ -28,7 +28,7 @@
 #include <QPluginLoader>
 #include <QWidget>
 
-#include "GUI/Helper/SayonaraWidget.h"
+#include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
 
 class LibraryContainerInterface;
 /**

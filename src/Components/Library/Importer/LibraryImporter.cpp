@@ -25,7 +25,7 @@
 #include "CachingThread.h"
 #include "CopyThread.h"
 
-#include "GUI/Helper/GlobalMessage/Message.h"
+#include "GUI/Helper/Message/Message.h"
 
 #include <QMap>
 #include <QDir>

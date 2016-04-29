@@ -26,7 +26,7 @@
 #include <QDialog>
 #include <QVector>
 #include "GUI/Preferences/PreferenceDialog/ui_GUI_PreferenceDialog.h"
-#include "GUI/Helper/SayonaraWidget.h"
+#include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
 #include "Interfaces/PreferenceDialog/PreferenceDialogInterface.h"
 
 #include <QSpacerItem>

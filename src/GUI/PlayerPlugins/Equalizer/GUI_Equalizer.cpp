@@ -29,7 +29,7 @@
 
 #include "GUI_Equalizer.h"
 #include "Components/Engine/EngineHandler.h"
-#include "GUI/Helper/ComboBoxDelegate/ComboBoxDelegate.h"
+#include "GUI/Helper/Delegates/ComboBoxDelegate.h"
 #include "Helper/EqualizerPresets.h"
 
 QString calc_lab(int val) {

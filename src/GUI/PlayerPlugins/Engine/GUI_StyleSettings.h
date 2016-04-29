@@ -26,7 +26,7 @@
 #include "StyleTypes.h"
 
 #include "GUI/PlayerPlugins/Engine/ui_GUI_Style.h"
-#include "GUI/Helper/SayonaraDialog.h"
+#include "GUI/Helper/SayonaraWidget/SayonaraDialog.h"
 
 
 #include <QList>

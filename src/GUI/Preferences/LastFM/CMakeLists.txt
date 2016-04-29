@@ -17,5 +17,5 @@ QT5_WRAP_UI(FORMS_UIC
 ADD_LIBRARY(${PROJECT_NAME} STATIC ${SOURCES} ${FORMS_UIC})
 TARGET_LINK_LIBRARIES(${PROJECT_NAME}
     say_comp_streamplugins_lastfm
-	say_interfaces_preference_dialog
+    say_interfaces_preference_dialog
 )

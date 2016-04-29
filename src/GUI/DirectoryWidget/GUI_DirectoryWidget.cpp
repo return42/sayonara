@@ -21,11 +21,11 @@
 
 
 #include "GUI_DirectoryWidget.h"
+#include "GUI/InfoDialog/GUI_InfoDialog.h"
 
 #include "GUI/Helper/SearchableWidget/SearchableFileTreeView.h"
 #include "GUI/Helper/ContextMenu/LibraryContextMenu.h"
-#include "GUI/InfoDialog/GUI_InfoDialog.h"
-#include "GUI/Helper/GlobalMessage/GlobalMessage.h"
+#include "GUI/Helper/Message/GlobalMessage.h"
 #include "GUI/Helper/GUI_Helper.h"
 
 #include "Components/Library/LocalLibrary.h"

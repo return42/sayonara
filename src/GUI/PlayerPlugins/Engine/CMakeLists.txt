@@ -24,5 +24,4 @@ ADD_LIBRARY(${PROJECT_NAME} STATIC ${SOURCES} ${FORMS_UIC})
 TARGET_LINK_LIBRARIES(${PROJECT_NAME}
     say_comp_engine
     say_interfaces_player_plugin
-    say_gui_menu_tool
 )

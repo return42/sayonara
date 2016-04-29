@@ -21,7 +21,7 @@
 
 
 #include "LibraryPluginHandler.h"
-#include "GUI/Helper/ComboBoxDelegate/ComboBoxDelegate.h"
+#include "GUI/Helper/Delegates/ComboBoxDelegate.h"
 #include "LibraryContainer/LibraryContainer.h"
 
 #include "Helper/Helper.h"

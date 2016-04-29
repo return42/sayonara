@@ -19,7 +19,7 @@
  */
 
 #include "GUI_ImportFolder.h"
-#include "GUI/Helper/GlobalMessage/Message.h"
+#include "GUI/Helper/Message/Message.h"
 #include "GUI/TagEdit/GUI_TagEdit.h"
 
 #include "Helper/MetaData/MetaDataList.h"

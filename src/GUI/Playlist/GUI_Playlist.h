@@ -31,7 +31,7 @@
 
 #include "GUI/Playlist/ui_GUI_Playlist.h"
 #include "Components/Playlist/PlaylistHandler.h"
-#include "GUI/Helper/GlobalMessage/GlobalMessage.h"
+#include "GUI/Helper/Message/GlobalMessage.h"
 
 #include <QTextEdit>
 #include <QFocusEvent>

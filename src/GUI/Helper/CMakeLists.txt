@@ -1,25 +1,47 @@
 PROJECT(say_gui_helper)
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 
-
-ADD_SUBDIRECTORY(ComboBoxDelegate)
-ADD_SUBDIRECTORY(ContextMenu)
-ADD_SUBDIRECTORY(GlobalMessage)
-ADD_SUBDIRECTORY(MenuTool)
-ADD_SUBDIRECTORY(RatingLabel)
-ADD_SUBDIRECTORY(SearchableWidget)
-ADD_SUBDIRECTORY(Delegates)
-ADD_SUBDIRECTORY(Shortcuts)
-
 SET(SOURCES
-	SayonaraWidgetTemplate.cpp
-	SayonaraWidget.cpp
-	SayonaraDialog.cpp
-	SayonaraShortcutWidget.cpp
-	IconLoader/IconLoader.cpp
+
+
 	CustomMimeData.cpp
 	GUI_Helper.cpp
+
+
+	ContextMenu/ContextMenu.cpp
+	ContextMenu/LibraryContextMenu.cpp
+
+	Delegates/ComboBoxDelegate.cpp
+	Delegates/TreeDelegate.cpp
+
+	IconLoader/IconLoader.cpp
+
+	Message/Message.cpp
+	Message/GlobalMessage.cpp
+	Message/GlobalMessageReceiverInterface.cpp
+
+	MenuTool/MenuButton.cpp
+	MenuTool/MenuTool.cpp
+
+	RatingLabel/RatingLabel.cpp
+
+	SayonaraWidget/SayonaraWidgetTemplate.cpp
+	SayonaraWidget/SayonaraWidget.cpp
+	SayonaraWidget/SayonaraDialog.cpp
+	SayonaraWidget/SayonaraShortcutWidget.cpp
+
+	SearchableWidget/SearchableListView.cpp
+	SearchableWidget/SearchableTableView.cpp
+	SearchableWidget/SearchableFileTreeView.cpp
+	SearchableWidget/SayonaraSelectionView.cpp
+	SearchableWidget/MiniSearcher.cpp
+
+	Shortcuts/Shortcut.cpp
+	Shortcuts/ShortcutHandler.cpp
+	Shortcuts/RawShortcutMap.cpp
+
 	Style/Style.cpp
+
 )
 
 ADD_LIBRARY(${PROJECT_NAME} STATIC ${SOURCES})
@@ -27,5 +49,4 @@ TARGET_LINK_LIBRARIES(${PROJECT_NAME}
 	Qt5::Widgets
 	say_helper_settings
 	say_helper_directory_reader
-	say_gui_global_message
 )

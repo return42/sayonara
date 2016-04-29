@@ -21,5 +21,4 @@ TARGET_LINK_LIBRARIES(${PROJECT_NAME}
     say_gui_target_playlist_dialog
     say_comp_playlist_chooser
     say_interfaces_player_plugin
-    say_gui_menu_tool
 )

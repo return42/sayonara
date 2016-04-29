@@ -20,7 +20,7 @@
 
 
 #include "GUI_LanguageChooser.h"
-#include "GUI/Helper/ComboBoxDelegate/ComboBoxDelegate.h"
+#include "GUI/Helper/Delegates/ComboBoxDelegate.h"
 #include "Helper/Helper.h"
 #include "Helper/FileHelper.h"
 

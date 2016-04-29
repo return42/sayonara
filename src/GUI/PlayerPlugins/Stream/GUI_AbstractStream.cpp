@@ -19,8 +19,8 @@
  */
 
 #include "GUI_AbstractStream.h"
-#include "GUI/Helper/GlobalMessage/Message.h"
-#include "GUI/Helper/ComboBoxDelegate/ComboBoxDelegate.h"
+#include "GUI/Helper/Message/Message.h"
+#include "GUI/Helper/Delegates/ComboBoxDelegate.h"
 
 #include "Helper/MetaData/MetaData.h"
 #include "Helper/Parser/PlaylistParser.h"

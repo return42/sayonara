@@ -24,7 +24,7 @@
 #define GUI_DIRECTORYWIDGET_H
 
 #include "GUI/DirectoryWidget/ui_GUI_DirectoryWidget.h"
-#include "GUI/Helper/SayonaraWidget.h"
+#include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
 #include "Interfaces/LibraryInterface/LibraryContainer/LibraryContainer.h"
 
 

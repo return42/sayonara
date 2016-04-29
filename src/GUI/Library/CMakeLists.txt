@@ -28,9 +28,8 @@ ADD_LIBRARY(${PROJECT_NAME} STATIC ${SOURCES} ${FORMS_UIC})
 TARGET_LINK_LIBRARIES(${PROJECT_NAME}
 	say_comp_library
 
-	say_gui_context_menu
+	say_gui_helper
 	say_gui_info_dialog
-	say_gui_menu_tool
 
 	say_gui_library_delegates
 	say_gui_library_import_folder_dialog
@@ -38,7 +37,6 @@ TARGET_LINK_LIBRARIES(${PROJECT_NAME}
 	say_gui_library_models
 	say_gui_library_views
 
-	say_gui_searchable_widget
 	say_interfaces_library_container
 
 )

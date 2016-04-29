@@ -14,5 +14,6 @@ ADD_LIBRARY(${PROJECT_NAME} STATIC ${SOURCES} ${FORMS_UIC})
 
 TARGET_LINK_LIBRARIES(${PROJECT_NAME}
 	say_comp_mtp
+	say_gui_helper
 )
 

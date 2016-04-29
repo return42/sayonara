@@ -21,7 +21,7 @@
 
 
 #include "GUI_Bookmarks.h"
-#include "GUI/Helper/GlobalMessage/Message.h"
+#include "GUI/Helper/Message/Message.h"
 
 #include "Helper/Helper.h"
 #include "Components/Bookmarks/Bookmarks.h"

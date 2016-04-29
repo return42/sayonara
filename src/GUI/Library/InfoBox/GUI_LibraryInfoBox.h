@@ -26,7 +26,7 @@
 #define GUILIBRARYINFOBOX_H_
 
 #include "GUI/Library/InfoBox/ui_GUI_LibraryInfoBox.h"
-#include "GUI/Helper/SayonaraDialog.h"
+#include "GUI/Helper/SayonaraWidget/SayonaraDialog.h"
 
 
 class DatabaseConnector;

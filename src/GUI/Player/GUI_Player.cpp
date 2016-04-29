@@ -24,7 +24,7 @@
 #include "GUI_TrayIcon.h"
 #include "GUI/AlternativeCovers/GUI_AlternativeCovers.h"
 #include "GUI/Playlist/GUI_Playlist.h"
-#include "GUI/Helper/GlobalMessage/Message.h"
+#include "GUI/Helper/Message/Message.h"
 #include "GUI/Helper/IconLoader/IconLoader.h"
 #include "GUI/Helper/GUI_Helper.h"
 #include "GUI/Helper/Style/Style.h"

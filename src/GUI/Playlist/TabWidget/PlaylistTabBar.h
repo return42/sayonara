@@ -24,7 +24,7 @@
 #define PLAYLISTTABBAR_H
 
 #include "PlaylistMenuEntry.h"
-#include "GUI/Helper/SayonaraShortcutWidget.h"
+#include "GUI/Helper/SayonaraWidget/SayonaraShortcutWidget.h"
 
 #include <QInputDialog>
 #include <QTabBar>

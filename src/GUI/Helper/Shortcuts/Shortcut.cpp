@@ -22,8 +22,8 @@
 
 #include "Shortcut.h"
 #include "ShortcutHandler.h"
-#include "GUI/Helper/SayonaraWidget.h"
-#include "GUI/Helper/SayonaraShortcutWidget.h"
+#include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
+#include "GUI/Helper/SayonaraWidget/SayonaraShortcutWidget.h"
 
 
 Shortcut::Shortcut(SayonaraShortcutWidget* parent, const QString& identifier, const QString& name, const QStringList& default_shortcuts) :
