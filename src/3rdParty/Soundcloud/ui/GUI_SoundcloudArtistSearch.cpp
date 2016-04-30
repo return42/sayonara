@@ -40,6 +40,7 @@ GUI_SoundcloudArtistSearch::GUI_SoundcloudArtistSearch(SoundcloudLibrary* librar
 	connect(list_artists, &QListWidget::currentRowChanged, this, &GUI_SoundcloudArtistSearch::artist_selected);
 
 	connect(_fetcher, &SoundcloudDataFetcher::sig_artists_fetched, this, &GUI_SoundcloudArtistSearch::artists_fetched);
+	connect(_fetcher, &SoundcloudDataFetcher::sig_ext_artists_fetched, this, &GUI_SoundcloudArtistSearch::artists_ext_fetched);
 	connect(_fetcher, &SoundcloudDataFetcher::sig_playlists_fetched, this, &GUI_SoundcloudArtistSearch::albums_fetched);
 	connect(_fetcher, &SoundcloudDataFetcher::sig_tracks_fetched, this, &GUI_SoundcloudArtistSearch::tracks_fetched);
 
@@ -83,7 +84,8 @@ void GUI_SoundcloudArtistSearch::clear_clicked(){
 
 
 void GUI_SoundcloudArtistSearch::add_clicked(){
-	if(_v_md.size() > 0){
+
+	if(_v_md.size() > 0 && _artists.size() > 0 && _albums.size() > 0){
 		_library->insert_tracks(_v_md, _artists, _albums);
 		close();
 	}
@@ -102,10 +104,13 @@ void GUI_SoundcloudArtistSearch::artist_selected(int idx){
 	_v_md.clear();
 	_albums.clear();
 
-	if(idx < 0 || idx >= _artists.size()) return;
+	if(!between(idx, 0, _artists.size())) {
+		return;
+	}
 
 	_cur_artist_sc_id = _artists[idx].id;
 
+	_artists.clear();
 	_fetcher->get_tracks_by_artist(_cur_artist_sc_id);
 }
 
@@ -118,6 +123,7 @@ void GUI_SoundcloudArtistSearch::language_changed()
 void GUI_SoundcloudArtistSearch::artists_fetched(const ArtistList& artists){
 
 	list_artists->clear();
+
 
 	if(artists.size() == 0){
 		lab_status->setText(tr("No artists found"));
@@ -132,6 +138,10 @@ void GUI_SoundcloudArtistSearch::artists_fetched(const ArtistList& artists){
 
 		_artists = artists;
 	}
+}
+
+void GUI_SoundcloudArtistSearch::artists_ext_fetched(const ArtistList &artists){
+	_artists = artists;
 }
 
 

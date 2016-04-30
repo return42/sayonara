@@ -366,3 +366,14 @@ MetaDataList& MetaDataList::operator <<(const MetaData& md)
 	this->push_back(md);
 	return *this;
 }
+
+bool MetaDataList::contains(qint32 id) const
+{
+	for(auto it=this->begin(); it!=this->end(); it++){
+		if(it->id == id){
+			return true;
+		}
+	}
+
+	return false;
+}

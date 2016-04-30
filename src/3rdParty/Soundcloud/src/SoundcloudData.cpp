@@ -263,8 +263,10 @@ int SoundcloudData::insertArtistIntoDatabase (const Artist& artist){
 	SayonaraQuery q (_database);
 
 	Artist tmp_artist;
-	if(getArtistByID(artist.id, tmp_artist) && tmp_artist.id > 0){
-		return updateArtist(artist);
+	if(getArtistByID(artist.id, tmp_artist)){
+		if(tmp_artist.id > 0){
+			return updateArtist(artist);
+		}
 	}
 
 	QString query_text = QString("INSERT INTO artists") +

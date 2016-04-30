@@ -175,14 +175,16 @@ void SoundcloudLibrary::insert_tracks(const MetaDataList& v_md, const ArtistList
 
 	for(const Artist& artist : artists){
 		if(!_scd->getArtistByID(artist.id, artist_tmp) || artist.id != artist_tmp.id){
-			_scd->insertArtistIntoDatabase(artist);
+			int id = _scd->insertArtistIntoDatabase(artist);
+			sp_log(Log::Debug) << "Insert artist into database: " << id;
 		}
 	}
 
 	for(const Album& album : albums){
 		sp_log(Log::Debug) << "Try to fetch album " << album.id;
 		if(!_scd->getAlbumByID(album.id, album_tmp) || album.id != album_tmp.id){
-			_scd->insertAlbumIntoDatabase(album);
+			int id = _scd->insertAlbumIntoDatabase(album);
+			sp_log(Log::Debug) << "Insert album into database: " << id;
 		}
 
 		else{

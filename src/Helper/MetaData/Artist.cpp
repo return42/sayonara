@@ -139,3 +139,14 @@ QString ArtistList::get_major_artist() const
 	return get_major_artist(lst);
 }
 
+bool ArtistList::contains(int artist_id) const
+{
+	for(auto it=this->begin(); it!=this->end(); it++){
+		if(it->id == artist_id){
+			return true;
+		}
+	}
+
+	return false;
+}
+

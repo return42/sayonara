@@ -72,6 +72,8 @@ public:
  */
 class AlbumList : public QVector<Album> {
 
+public:
+	bool contains(qint32 album_id) const;
 };
 
 #endif

@@ -97,3 +97,15 @@ void Album::print() const{
 
 
 
+
+
+bool AlbumList::contains(qint32 album_id) const
+{
+	for(auto it=this->begin(); it!=this->end(); it++){
+		if(it->id == album_id){
+			return true;
+		}
+	}
+
+	return false;
+}
