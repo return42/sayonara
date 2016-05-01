@@ -32,13 +32,12 @@
 #include "Helper/MetaData/MetaData.h"
 #include "GUI/Library/Models/LibraryItemModel.h"
 
-class ColumnHeader;
 class LibraryItemModelTracks : public LibraryItemModel {
 
 Q_OBJECT
 
 public:
-	LibraryItemModelTracks(QList<ColumnHeader>& headers);
+	LibraryItemModelTracks();
 
 	virtual ~LibraryItemModelTracks();
 

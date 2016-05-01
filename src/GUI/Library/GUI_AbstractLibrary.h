@@ -80,11 +80,6 @@ protected:
 	BoolList	_shown_cols_tracks;
 
 
-	QStringList _header_names_albums;
-	QStringList _header_names_artists;
-	QStringList _header_names_tracks;
-
-
 	LibraryItemModelTracks* 	_track_model = nullptr;
 	LibraryItemModelAlbums* 	_album_model = nullptr;
 	LibraryItemModelArtists*	_artist_model = nullptr;
@@ -92,10 +87,6 @@ protected:
 	LibraryItemDelegateTracks* 		_track_delegate = nullptr;
 	LibraryItemDelegateAlbums* 		_album_delegate = nullptr;
 	LibraryItemDelegateArtists* 	_artist_delegate = nullptr;
-
-	QList<ColumnHeader>	_track_columns;
-	QList<ColumnHeader>	_album_columns;
-	QList<ColumnHeader>	_artist_columns;
 
 	virtual void init_headers();
 	virtual void init_shortcuts();

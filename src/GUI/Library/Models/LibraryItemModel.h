@@ -60,18 +60,15 @@ class LibraryItemModel : public AbstractSearchTableModel{
 
 public:
 
-	LibraryItemModel(QList<ColumnHeader>& headers);
+	LibraryItemModel();
 	virtual ~LibraryItemModel();
 
 	QStringList 	get_header_names() const;
-	int 			get_n_cols() const;
-	int 			calc_shown_col(int col) const;
-	bool			is_col_shown(int col) const;
-
-
 
 	/** Overloaded from QAbstractTableModel **/
 	QVariant 	headerData ( int section, Qt::Orientation orientation, int role=Qt::DisplayRole ) const override;
+	bool		setHeaderData(int section, Qt::Orientation orientation, const QVariant &value, int role) override;
+
 	int			rowCount(const QModelIndex &parent=QModelIndex()) const override;
 	int 		columnCount(const QModelIndex& parent=QModelIndex()) const override;
 	bool 		insertColumns(int position, int cols, const QModelIndex &index=QModelIndex()) override;
@@ -88,7 +85,6 @@ public:
 
 	virtual QMap<QChar, QString> getExtraTriggers();
 
-	void set_new_header_names(QStringList& lst);
 	void set_mimedata(const MetaDataList& v_md);
 
 	CustomMimeData* get_mimedata();
@@ -96,18 +92,15 @@ public:
 
 protected:
 	QStringList		_header_names;
-	QVector<bool>	_cols_active;
 	MetaDataList	_md_mimedata;
 	SP::Set<int>	_selections;
 
 	int				_n_rows;
-	int				_n_all_cols;
+	int				_n_cols;
 
 protected:
 	virtual int		get_id_by_row(int row)=0;
 
 };
-
-
 
 #endif /* LIBRARYITEMMODEL_H_ */

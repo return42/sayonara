@@ -29,45 +29,50 @@
 #include <QModelIndex>
 
 
-LibraryItemModel::LibraryItemModel(QList<ColumnHeader>& headers) {
+LibraryItemModel::LibraryItemModel() {
 
-		_n_all_cols = headers.size();
-		_n_rows = 0;
-
-		_cols_active = QVector<bool>(_n_all_cols);
-
-		int i=0;
-		for(const ColumnHeader& h : headers) {
-			_header_names.push_back(h.getTitle());
-			_cols_active[i] = true;
-		}
+	_n_cols = 0;
+	_n_rows = 0;
 }
 
 LibraryItemModel::~LibraryItemModel() {
 
 }
 
-void LibraryItemModel::set_new_header_names(QStringList& lst) {
-    _header_names = lst;
-}
-
 
 QVariant LibraryItemModel::headerData ( int section, Qt::Orientation orientation, int role ) const{
 
-	 if (role != Qt::DisplayRole)
-			 return QVariant();
+	if (role != Qt::DisplayRole){
+		return QVariant();
+	}
 
-	 int idx_col = calc_shown_col(section);
-	 if(idx_col >= _header_names.size()){
-		 return QVariant();
-	 }
+	if(!between(section, 0, _header_names.size())){
+		return QVariant();
+	}
 
-	 if (orientation == Qt::Horizontal){
-		 return _header_names[idx_col];
-	 }
-	 return QVariant();
+	if (orientation == Qt::Horizontal){
+		return _header_names[section];
+	}
 
+	return QVariant();
 }
+
+
+bool LibraryItemModel::setHeaderData(int section, Qt::Orientation orientation, const QVariant& value, int role)
+{
+	if(!between(section, 0, _header_names.size())){
+		return false;
+	}
+
+	if(orientation == Qt::Horizontal){
+		_header_names[section] = value.toString();
+		emit headerDataChanged(orientation, section, section);
+	}
+
+	return true;
+}
+
+
 
 int LibraryItemModel::rowCount(const QModelIndex& parent) const
 {
@@ -80,62 +85,24 @@ QStringList LibraryItemModel::get_header_names() const {
 	return _header_names;
 }
 
-
-int LibraryItemModel::get_n_cols() const {
-	return _n_all_cols;
-}
-
-// input: seen column
-// returns: real index of column
-int LibraryItemModel::calc_shown_col(int col) const {
-
-	int idx_col = 0;
-	int n_active = -1;
-
-	for(idx_col=0; idx_col<_n_all_cols; idx_col++) {
-
-		if(_cols_active[idx_col]) {
-			n_active++;
-		}
-
-		if(n_active == col) break;
-	}
-
-	return idx_col;
-}
-
-bool LibraryItemModel::is_col_shown(int col) const{
-	return _cols_active[col];
-}
-
-
 int LibraryItemModel::columnCount(const QModelIndex& parent) const{
 
 	Q_UNUSED(parent);
 
-	int n_active = 0;
-
-	for(int i=0; i<_n_all_cols; i++) {
-		if(_cols_active[i]) {
-			n_active++;
-		}
-	}
-
-	return n_active;
+	return _header_names.size();
 }
 
 
 bool LibraryItemModel::insertColumns(int position, int cols, const QModelIndex &index) {
 	Q_UNUSED(index)
 
-    beginInsertColumns(QModelIndex(), position, position+cols-1);
+	beginInsertColumns(QModelIndex(), position, position+cols-1);
 
 	for(int i=position; i<position+cols; i++) {
-
-		_cols_active[i] = true;
+		_header_names.insert(i, "");
 	}
 
-    endInsertColumns();
+	endInsertColumns();
 	return true;
 }
 
@@ -143,13 +110,14 @@ bool LibraryItemModel::insertColumns(int position, int cols, const QModelIndex &
 bool LibraryItemModel::removeColumns(int position, int cols, const QModelIndex &index) {
 	Q_UNUSED(index)
 
-    beginRemoveColumns(QModelIndex(), position, position+cols-1);
-	for(int i=0; i<_n_all_cols; i++) {
-        _cols_active[i] = false;
-    }
+	beginRemoveColumns(QModelIndex(), position, position+cols-1);
 
-    endRemoveColumns();
-    return true;
+	for(int i=position; i<position+cols; i++) {
+		_header_names.removeAt(position);
+	}
+
+	endRemoveColumns();
+	return true;
 }
 
 bool LibraryItemModel::removeRows(int row, int count, const QModelIndex& index){

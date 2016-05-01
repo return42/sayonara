@@ -24,17 +24,48 @@
 
 #include <QHeaderView>
 #include <QWidget>
+#include <QMenu>
+#include <QTableView>
+
+#include "GUI/Library/Helper/ColumnHeader.h"
+#include "Helper/Settings/SayonaraClass.h"
+#include "Components/Library/Sorting.h"
 
 
-class HeaderView : public QHeaderView
+class HeaderView :
+		public QHeaderView,
+		protected SayonaraClass
 {
 
 	Q_OBJECT
+
+signals:
+	void sig_columns_changed(const BoolList& shown_cols);
+
+private:
+	QMenu*				_context_menu=nullptr;
+	ColumnHeaderList	_column_headers;
+
+private:
+	void init_header_action(ColumnHeader* header, bool is_shown);
+
+private slots:
+	void action_triggered(bool b);
+	void language_changed();
 
 public:
 
 	HeaderView(Qt::Orientation orientation, QWidget* parent=nullptr);
 	QSize sizeHint() const override;
+
+	void set_column_headers(const ColumnHeaderList& column_headers, const BoolList& shown_columns, SortOrder sorting );
+	void refresh_sizes(QTableView* view);
+	BoolList refresh_active_columns();
+
+	ColumnHeader* get_column_header(int idx);
+
 };
+
+
 
 #endif // HEADERVIEW_H

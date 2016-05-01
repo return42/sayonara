@@ -57,7 +57,8 @@ void LibraryItemDelegateTracks::paint(QPainter *painter, const QStyleOptionViewI
 	const LibraryItemModelTracks* model = static_cast<const LibraryItemModelTracks*>(index.model());
 
     int col = index.column();
-    int idx_col = model->calc_shown_col(col);
+	//int idx_col = model->calc_shown_col(col);
+	int idx_col = col;
 
     QString	text = index.data().toString();
 

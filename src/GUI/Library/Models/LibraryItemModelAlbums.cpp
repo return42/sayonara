@@ -32,8 +32,8 @@
 #include "Helper/Helper.h"
 
 
-LibraryItemModelAlbums::LibraryItemModelAlbums(QList<ColumnHeader>& headers) :
-	LibraryItemModel(headers) {
+LibraryItemModelAlbums::LibraryItemModelAlbums() :
+	LibraryItemModel() {
 
 }
 
@@ -70,9 +70,7 @@ QVariant LibraryItemModelAlbums::data(const QModelIndex & index, int role) const
 
 		const Album& album = _albums[row];
 
-		int idx_col = calc_shown_col(col);
-
-		switch(idx_col) {
+		switch(col) {
 			case COL_ALBUM_SAMPLER:
 				return album.is_sampler;
 			case COL_ALBUM_N_SONGS:
@@ -105,9 +103,8 @@ bool LibraryItemModelAlbums::setData(const QModelIndex & index, const QVariant &
 
 		int row = index.row();
 		int col = index.column();
-		int col_idx = calc_shown_col(col);
 
-		if(col_idx == COL_ALBUM_RATING) {
+		if(col == COL_ALBUM_RATING) {
 			_albums[row].rating = value.toInt();
 		}
 
@@ -156,9 +153,7 @@ Qt::ItemFlags LibraryItemModelAlbums::flags(const QModelIndex & index) const
 	}
 
 	int col = index.column();
-	int idx_col = calc_shown_col(col);
-
-	if(idx_col == COL_ALBUM_RATING){
+	if(col == COL_ALBUM_RATING){
 		return (QAbstractItemModel::flags(index) | Qt::ItemIsEditable);
 	}
 

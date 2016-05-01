@@ -39,10 +39,12 @@
 
 
 
-LibraryView::LibraryView(QWidget* parent) : SearchableTableView(parent) {
+LibraryView::LibraryView(QWidget* parent) :
+	SearchableTableView(parent),
+	SayonaraClass()
+{
 
 	_drag = nullptr;
-	_rc_header_menu = nullptr;
 	_cur_filling = false;
 	_model = nullptr;
 
@@ -53,11 +55,14 @@ LibraryView::LibraryView(QWidget* parent) : SearchableTableView(parent) {
 	rc_menu_init();
 
 	connect(header, &HeaderView::sectionClicked, this, &LibraryView::sort_by_column);
+	connect(header, &HeaderView::sig_columns_changed, this, &LibraryView::header_actions_triggered);
 
 	setAcceptDrops(true);
 	setSelectionBehavior(QAbstractItemView::SelectRows);
 
 	clearSelection();
+
+	REGISTER_LISTENER_NO_CALL(Set::Player_Language, language_changed);
 }
 
 
@@ -70,6 +75,8 @@ void LibraryView::setModel(LibraryItemModel * model) {
 
 	SearchableTableView::setModel(model);
 	_model = model;
+
+	language_changed();
 }
 
 
@@ -163,3 +170,18 @@ void LibraryView::rc_menu_show(const QPoint& p) {
 	disconnect(_rc_menu, &LibraryContextMenu::sig_append_clicked, this, &LibraryView::sig_append_clicked);
 	disconnect(_rc_menu, &LibraryContextMenu::sig_refresh_clicked, this, &LibraryView::sig_refresh_clicked);
 }
+
+
+void LibraryView::language_changed()
+{
+	HeaderView* header_view = get_header_view();
+
+	for(int i=0; i<_model->columnCount(); i++){
+
+		ColumnHeader* header = header_view->get_column_header(i);
+		if(header){
+			_model->setHeaderData(i, Qt::Horizontal, header->get_title(), Qt::DisplayRole);
+		}
+	}
+}
+

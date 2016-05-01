@@ -62,7 +62,8 @@ void LibraryItemDelegateArtists::paint(QPainter *painter, const QStyleOptionView
 	const LibraryItemModelArtists* model = reinterpret_cast<const LibraryItemModelArtists*>(index.model());
 
     int col = index.column();
-	int idx_col = model->calc_shown_col(col);
+	//int idx_col = model->calc_shown_col(col);
+	int idx_col = col;
 
     if(idx_col == COL_ARTIST_N_ALBUMS) {
         int col_width = _parent->columnWidth(0)-4;

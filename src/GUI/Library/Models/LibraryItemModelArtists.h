@@ -37,7 +37,7 @@ class LibraryItemModelArtists : public LibraryItemModel {
 
 Q_OBJECT
 public:
-	LibraryItemModelArtists(QList<ColumnHeader>& headers);
+	LibraryItemModelArtists();
 	virtual ~LibraryItemModelArtists();
 
 	QVariant data(const QModelIndex &index, int role=Qt::DisplayRole) const;

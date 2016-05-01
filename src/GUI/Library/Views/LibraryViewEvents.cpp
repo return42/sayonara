@@ -22,6 +22,7 @@
 
 
 #include "LibraryView.h"
+#include "HeaderView.h"
 #include <QMimeData>
 
 // mouse events
@@ -217,5 +218,5 @@ void  LibraryView::dragMoveEvent(QDragMoveEvent *event) {
 void LibraryView::resizeEvent(QResizeEvent *event){
 
 	SearchableTableView::resizeEvent(event);
-	this->set_col_sizes();
+	get_header_view()->refresh_sizes(this);
 }

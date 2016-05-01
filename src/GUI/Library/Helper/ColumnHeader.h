@@ -34,43 +34,166 @@
 
 #include "Helper/globals.h"
 #include "Components/Library/Sorting.h"
+#include <QAction>
 
-enum ColHeaderSize {
-	ColHeaderSizeAbs=0,
-	ColHeaderSizeRel
+
+class ColumnHeader : public QObject {
+	Q_OBJECT
+
+public:
+	enum class SizeType : quint8
+	{
+		Abs=0,
+		Rel,
+		Undefined
+	};
+
+protected:
+	ColumnHeader(bool switchable, SortOrder sort_asc, SortOrder sort_desc);
+
+protected:
+	QAction*		_action=nullptr;
+	bool 			_switchable;
+
+	int 			_preferred_size_abs;
+	double			_preferred_size_rel;
+
+	SortOrder		_sort_asc;
+	SortOrder		_sort_desc;
+	SizeType		_size_type;
+
+public:
+	ColumnHeader(bool switchable, SortOrder sort_asc, SortOrder sort_desc, int preferred_size_abs);
+	ColumnHeader(bool switchable, SortOrder sort_asc, SortOrder sort_desc, double preferred_size_rel, int min_size);
+
+	void set_preferred_size_abs(int preferred_size);
+	void set_preferred_size_rel(double preferred_size);
+
+	int get_preferred_size_abs() const;
+	double get_preferred_size_rel() const;
+
+	SortOrder get_asc_sortorder() const;
+	SortOrder get_desc_sortorder() const;
+
+	ColumnHeader::SizeType get_size_type() const;
+
+	bool is_visible() const;
+	bool is_hidden() const;
+	bool is_switchable() const;
+
+	void retranslate();
+
+	QAction* get_action();
+	virtual QString get_title() const=0;
 };
 
-class ColumnHeader {
+class SharpHeader : public ColumnHeader {
+	Q_OBJECT
+public:
+	using ColumnHeader::ColumnHeader;
+	QString get_title() const override {
+		return "#";
+	}
+};
 
-	private:
-		QString 		_title;
+class ArtistHeader : public ColumnHeader {
+	Q_OBJECT
+public:
+	using ColumnHeader::ColumnHeader;
+	QString get_title() const override {
+		return tr("Artist");
+	}
+};
 
-		bool 			_switchable;
-		bool 			_abs_size;
+class AlbumHeader : public ColumnHeader {
+	Q_OBJECT
+public:
+	using ColumnHeader::ColumnHeader;
+	QString get_title() const override {
+		return tr("Album");
+	}
+};
 
-		int 			_preferred_size_abs;
-		double			_preferred_size_rel;
+class TitleHeader : public ColumnHeader {
+	Q_OBJECT
+public:
+	using ColumnHeader::ColumnHeader;
+	QString get_title() const override {
+		return tr("Title");
+	}
+};
 
-		SortOrder		_sort_asc;
-		SortOrder		_sort_desc;
+class NumTrackHeader : public ColumnHeader {
+	Q_OBJECT
+public:
+	using ColumnHeader::ColumnHeader;
+	QString get_title() const override {
+		return tr("#Tracks");
+	}
+};
+
+class DurationHeader : public ColumnHeader {
+	Q_OBJECT
+public:
+	using ColumnHeader::ColumnHeader;
+	QString get_title() const override {
+		return tr("Duration");
+	}
+};
+
+
+class DurationShortHeader : public ColumnHeader {
+	Q_OBJECT
+public:
+	using ColumnHeader::ColumnHeader;
+	QString get_title() const override {
+		return tr("Dur.");
+	}
+};
+
+class YearHeader : public ColumnHeader {
+	Q_OBJECT
+public:
+	using ColumnHeader::ColumnHeader;
+	QString get_title() const override {
+		return tr("Year");
+	}
+};
+
+class RatingHeader : public ColumnHeader {
+	Q_OBJECT
+public:
+	using ColumnHeader::ColumnHeader;
+	QString get_title() const override {
+		return tr("Rating");
+	}
+};
+
+class BitrateHeader : public ColumnHeader {
+	Q_OBJECT
+public:
+	using ColumnHeader::ColumnHeader;
+	QString get_title() const override {
+		return tr("Bitrate");
+	}
+};
+
+class FilesizeHeader : public ColumnHeader {
+	Q_OBJECT
+public:
+	using ColumnHeader::ColumnHeader;
+	QString get_title() const override {
+		return tr("Filesize");
+	}
+};
+
+
+class ColumnHeaderList :
+	public QList<ColumnHeader*> {
 
 	public:
-		ColumnHeader(QString title, bool switchable, SortOrder sort_asc, SortOrder sort_desc, int preferred_size_abs);
-		ColumnHeader(QString title, bool switchable, SortOrder sort_asc, SortOrder sort_desc, double preferred_size_rel, int min_size);
-
-		void set_preferred_size_abs(int preferred_size);
-
-		void set_preferred_size_rel(double preferred_size);
-		QString getTitle() const;
-		bool getSwitchable() const;
-		ColHeaderSize getSizeType() const;
-		int get_preferred_size_abs() const;
-		double get_preferred_size_rel() const;
-		SortOrder get_asc_sortorder() const;
-		SortOrder get_desc_sortorder() const;
-
+	   int get_shown_columns() const;
+	   int get_nth_shown_col(int n) const;
 };
 
-
-
-#endif /* MYCOLUMNHEADER_H_ */
+  #endif /* MYCOLUMNHEADER_H_ */

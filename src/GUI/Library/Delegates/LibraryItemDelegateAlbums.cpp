@@ -63,7 +63,8 @@ void LibraryItemDelegateAlbums::paint(QPainter *painter, const QStyleOptionViewI
 	const LibraryItemModelAlbums* model = reinterpret_cast<const LibraryItemModelAlbums*>(index.model());
 
 	int col = index.column();
-	int idx_col = model->calc_shown_col(col);
+//	int idx_col = model->calc_shown_col(col);
+	int idx_col = col;
 
 	if(idx_col == COL_ALBUM_SAMPLER) {
 		int col_width = _parent->columnWidth(0)-4;

@@ -1,13 +1,14 @@
 PROJECT(say_gui_library_views)
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 
+
 SET(SOURCES
     LibraryGenreView.cpp
     LibraryViewAlbum.cpp
     LibraryView.cpp
     LibraryViewEvents.cpp
     LibraryViewHeader.cpp
-	HeaderView.cpp
+    HeaderView.cpp
 )
 
 ADD_LIBRARY(${PROJECT_NAME} STATIC ${SOURCES})

@@ -29,8 +29,9 @@
 #ifndef MYTABLEVIEW_H_
 #define MYTABLEVIEW_H_
 
-
+#include "Helper/Settings/SayonaraClass.h"
 #include "GUI/Helper/SearchableWidget/SearchableTableView.h"
+#include "GUI/Library/Helper/ColumnHeader.h"
 #include "GUI/Library/Models/LibraryItemModel.h"
 
 #include "Helper/MetaData/MetaDataList.h"
@@ -39,7 +40,6 @@
 #include <QDropEvent>
 #include <QMouseEvent>
 #include <QStringList>
-#include <QHeaderView>
 #include <QAction>
 #include <QIcon>
 #include <QLineEdit>
@@ -48,13 +48,18 @@
 #include <QDrag>
 #include <QApplication>
 #include <QMenu>
+#include <QList>
 
 class LibraryItemModel;
 class LibraryContextMenu;
 class MiniSearcher;
 class CustomMimeData;
-class ColumnHeader;
-class LibraryView : public SearchableTableView{
+class HeaderView;
+
+class LibraryView :
+		public SearchableTableView,
+		public SayonaraClass
+{
 
 	Q_OBJECT
 
@@ -79,18 +84,17 @@ signals:
 
 
 protected slots:
-	virtual void rc_header_menu_changed(bool b=true);
+	virtual void header_actions_triggered(const BoolList& shown_cols);
 	virtual void rc_menu_show(const QPoint&);
 	virtual void sort_by_column(int);
+	void language_changed();
 
 
 public:
 	LibraryView(QWidget* parent=nullptr);
 	virtual ~LibraryView();
 
-	virtual void rc_header_menu_init(const BoolList& lst);
-	virtual void rc_header_menu_retranslate();
-	virtual void set_table_headers(const QList<ColumnHeader>& headers, SortOrder sorting);
+	virtual void set_table_headers(const ColumnHeaderList& headers, const BoolList& shown_cols, SortOrder sorting);
 
 	virtual void save_selections();
 
@@ -120,8 +124,8 @@ protected:
 
 	virtual void do_drag();
 
+	HeaderView*	get_header_view();
 
-	virtual void set_col_sizes();
 
 protected:
 
@@ -130,15 +134,13 @@ protected:
 	QDrag*						_drag=nullptr;
 	QPoint						_drag_pos;
 
-	QMenu*						_rc_header_menu=nullptr;
 	LibraryContextMenu*			_rc_menu=nullptr;
-
-	QList<ColumnHeader>			_table_headers;
-	QList<QAction*>				_header_rc_actions;
 
 	SortOrder					_sort_order;
 
 	bool						_cur_filling;
+
+
 
 
 public:

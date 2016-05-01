@@ -35,15 +35,15 @@
 #include <QStringList>
 
 
-LibraryItemModelArtists::LibraryItemModelArtists(QList<ColumnHeader>& headers) : LibraryItemModel(headers) {
+LibraryItemModelArtists::LibraryItemModelArtists() :
+	LibraryItemModel()
+{
 
 }
 
 LibraryItemModelArtists::~LibraryItemModelArtists() {
 
 }
-
-
 
 int LibraryItemModelArtists::get_id_by_row(int row)
 {
@@ -55,10 +55,6 @@ int LibraryItemModelArtists::get_id_by_row(int row)
 		return _artists[row].id;
 	}
 }
-
-
-
-
 
 
 QVariant LibraryItemModelArtists::data(const QModelIndex & index, int role) const
@@ -75,9 +71,8 @@ QVariant LibraryItemModelArtists::data(const QModelIndex & index, int role) cons
 		int col = index.column();
 
 		Artist artist = _artists[row];
-		int idx_col = calc_shown_col(col);
 
-		switch(idx_col) {
+		switch(col) {
 			case COL_ARTIST_NAME:
 				return artist.name;
 			case COL_ARTIST_N_ALBUMS:
@@ -91,7 +86,6 @@ QVariant LibraryItemModelArtists::data(const QModelIndex & index, int role) cons
 
 	return QVariant();
 }
-
 
 
 bool LibraryItemModelArtists::setData(const QModelIndex& index, const QVariant& value, int role)
@@ -200,6 +194,3 @@ QModelIndex	LibraryItemModelArtists::getPrevRowIndexOf(QString substr, int row, 
 
 	return this->index(-1, -1);
 }
-
-
-

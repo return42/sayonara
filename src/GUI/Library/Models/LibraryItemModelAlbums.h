@@ -39,7 +39,7 @@ class LibraryItemModelAlbums : public LibraryItemModel {
 
 Q_OBJECT
 public:
-	LibraryItemModelAlbums(QList<ColumnHeader>& list);
+	LibraryItemModelAlbums();
 	virtual ~LibraryItemModelAlbums();
 
 	Qt::ItemFlags flags(const QModelIndex &index) const;

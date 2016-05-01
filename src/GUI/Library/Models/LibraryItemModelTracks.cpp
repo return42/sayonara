@@ -34,7 +34,9 @@
 
 
 
-LibraryItemModelTracks::LibraryItemModelTracks(QList<ColumnHeader>& headers) : LibraryItemModel(headers) {
+LibraryItemModelTracks::LibraryItemModelTracks() :
+	LibraryItemModel()
+{
 
 }
 
@@ -55,7 +57,7 @@ QVariant LibraryItemModelTracks::data(const QModelIndex &index, int role) const{
 	if (row >= _tracks.size())
 		return QVariant();
 
-	int idx_col = calc_shown_col(col);
+	int idx_col = col;
 
 	if (role == Qt::DisplayRole || role==Qt::EditRole) {
 
@@ -114,7 +116,7 @@ Qt::ItemFlags LibraryItemModelTracks::flags(const QModelIndex &index = QModelInd
 		return Qt::ItemIsEnabled;
 
 	int idx_column = index.column();
-	int shown_col = calc_shown_col(idx_column);
+	int shown_col = idx_column;
 	if(shown_col == COL_TRACK_RATING) {
 
 		return QAbstractItemModel::flags(index) | Qt::ItemIsEditable;
@@ -133,9 +135,8 @@ bool LibraryItemModelTracks::setData(const QModelIndex &index, const QVariant &v
 
 		int row = index.row();
 		int col = index.column();
-		int col_idx = calc_shown_col(col);
 
-		if(col_idx == COL_TRACK_RATING) {
+		if(col == COL_TRACK_RATING) {
 			_tracks[row].rating = value.toInt();
 		}
 
@@ -233,6 +234,4 @@ QModelIndex LibraryItemModelTracks::getPrevRowIndexOf(QString substr, int row, c
 
 	return this->index(-1, -1);
 }
-
-
 
