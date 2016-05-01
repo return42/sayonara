@@ -138,4 +138,14 @@ void GUI_Player::closeEvent(QCloseEvent* e) {
 	_settings->set(Set::Player_Maximized, this->isMaximized());
 	_settings->set(Set::Player_Fullscreen, this->isFullScreen());
 	_settings->set(Set::Player_Pos, this->pos());
+
+	if(!min_to_tray){
+
+		this->hide();
+
+		_tray_icon->hide();
+		_tray_icon->deleteLater();
+
+		QMainWindow::closeEvent(e);
+	}
 }

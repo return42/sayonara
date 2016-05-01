@@ -736,6 +736,10 @@ void GUI_Player::raise(){
 
 void GUI_Player::really_close() {
 
+	_tray_icon->hide();
+	_tray_icon->deleteLater();
+
 	this->hide();
-	this->close();
+
+	QMainWindow::close();
 }
