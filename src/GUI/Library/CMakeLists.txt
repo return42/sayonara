@@ -6,6 +6,7 @@ ADD_SUBDIRECTORY(InfoBox)
 ADD_SUBDIRECTORY(ImportFolderDialog)
 ADD_SUBDIRECTORY(Models)
 ADD_SUBDIRECTORY(Views)
+ADD_SUBDIRECTORY(Helper)
 
 INCLUDE_DIRECTORIES(
 	${CMAKE_CURRENT_SOURCE_DIR},
@@ -13,11 +14,8 @@ INCLUDE_DIRECTORIES(
 )
 
 SET(SOURCES
-	ColumnHeader.cpp
-	DiscPopupMenu.cpp
 	GUI_AbstractLibrary.cpp
 	GUI_LocalLibrary.cpp
-	LocalLibraryMenu.cpp
 )
 
 QT5_WRAP_UI(FORMS_UIC
@@ -28,7 +26,7 @@ ADD_LIBRARY(${PROJECT_NAME} STATIC ${SOURCES} ${FORMS_UIC})
 TARGET_LINK_LIBRARIES(${PROJECT_NAME}
 	say_comp_library
 
-	say_gui_helper
+	say_gui_library_helper
 	say_gui_info_dialog
 
 	say_gui_library_delegates

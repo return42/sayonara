@@ -10,3 +10,7 @@ SET(SOURCES
 )
 
 ADD_LIBRARY(${PROJECT_NAME} STATIC ${SOURCES})
+TARGET_LINK_LIBRARIES(${PROJECT_NAME}
+    say_gui_helper
+    say_gui_library_helper
+)

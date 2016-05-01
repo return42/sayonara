@@ -25,7 +25,7 @@
 
 
 
-#include "ColumnHeader.h"
+#include "GUI/Library/Helper/ColumnHeader.h"
 #include <QKeySequence>
 
 GUI_AbstractLibrary::GUI_AbstractLibrary(AbstractLibrary* library, QWidget *parent) :

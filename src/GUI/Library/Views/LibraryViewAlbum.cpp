@@ -21,7 +21,7 @@
 
 
 #include "LibraryViewAlbum.h"
-#include "GUI/Library/DiscPopupMenu.h"
+#include "GUI/Library/Helper/DiscPopupMenu.h"
 
 #include <QHeaderView>
 

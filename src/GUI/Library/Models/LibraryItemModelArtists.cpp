@@ -27,7 +27,7 @@
  */
 
 #include "LibraryItemModelArtists.h"
-#include "GUI/Library/ColumnHeader.h"
+#include "GUI/Library/Helper/ColumnHeader.h"
 #include "Helper/Logger/Logger.h"
 
 

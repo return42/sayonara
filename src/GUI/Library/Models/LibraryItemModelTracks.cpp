@@ -28,7 +28,7 @@
 
 
 #include "LibraryItemModelTracks.h"
-#include "GUI/Library/ColumnHeader.h"
+#include "GUI/Library/Helper/ColumnHeader.h"
 
 #include "Helper/Helper.h"
 

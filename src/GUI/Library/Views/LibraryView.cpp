@@ -28,7 +28,7 @@
 
 #include "LibraryView.h"
 #include "HeaderView.h"
-#include "GUI/Library/ColumnHeader.h"
+#include "GUI/Library/Helper/ColumnHeader.h"
 
 #include "Helper/globals.h"
 

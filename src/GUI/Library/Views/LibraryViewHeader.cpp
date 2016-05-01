@@ -19,7 +19,7 @@
  */
 
 #include "GUI/Library/Views/LibraryView.h"
-#include "GUI/Library/ColumnHeader.h"
+#include "GUI/Library/Helper/ColumnHeader.h"
 
 #include <QHeaderView>
 #include <QMouseEvent>

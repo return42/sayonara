@@ -20,7 +20,7 @@
 
 
 #include "LibraryItemModel.h"
-#include "GUI/Library/ColumnHeader.h"
+#include "GUI/Library/Helper/ColumnHeader.h"
 #include "GUI/Helper/CustomMimeData.h"
 
 #include <QList>
