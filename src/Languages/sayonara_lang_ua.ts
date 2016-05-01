@@ -37,7 +37,7 @@
     <message>
         <location filename="../GUI/Library/Helper/ColumnHeader.h" line="+113"/>
         <source>Album</source>
-        <translation type="unfinished">Альбом</translation>
+        <translation>Альбом</translation>
     </message>
 </context>
 <context>
@@ -137,7 +137,7 @@
     <message>
         <location filename="../GUI/Library/Helper/ColumnHeader.h" line="-9"/>
         <source>Artist</source>
-        <translation type="unfinished">Виконавець</translation>
+        <translation>Виконавець</translation>
     </message>
 </context>
 <context>
@@ -151,9 +151,9 @@
 <context>
     <name>BitrateHeader</name>
     <message>
-        <location filename="../GUI/Library/Helper/ColumnHeader.h" line="+70"/>
+        <location filename="../GUI/Library/Helper/ColumnHeader.h" line="+73"/>
         <source>Bitrate</source>
-        <translation type="unfinished">Бітрейт</translation>
+        <translation>Бітрейт</translation>
     </message>
 </context>
 <context>
@@ -212,9 +212,9 @@
 <context>
     <name>DurationHeader</name>
     <message>
-        <location filename="../GUI/Library/Helper/ColumnHeader.h" line="-34"/>
+        <location filename="../GUI/Library/Helper/ColumnHeader.h" line="-37"/>
         <source>Duration</source>
-        <translation type="unfinished">Тривалість</translation>
+        <translation>Тривалість</translation>
     </message>
 </context>
 <context>
@@ -228,15 +228,15 @@
 <context>
     <name>FilesizeHeader</name>
     <message>
-        <location line="+32"/>
+        <location line="+36"/>
         <source>Filesize</source>
-        <translation type="unfinished">Розмір файла</translation>
+        <translation>Розмір файла</translation>
     </message>
 </context>
 <context>
     <name>GUI_AbstractLibrary</name>
     <message>
-        <location filename="../GUI/Library/GUI_AbstractLibrary.cpp" line="+568"/>
+        <location filename="../GUI/Library/GUI_AbstractLibrary.cpp" line="+561"/>
         <source>Library</source>
         <translation>Бібліотека</translation>
     </message>
@@ -2792,7 +2792,7 @@ Please choose another folder</source>
 <context>
     <name>LibraryItemDelegateAlbums</name>
     <message>
-        <location filename="../GUI/Library/Delegates/LibraryItemDelegateAlbums.cpp" line="+101"/>
+        <location filename="../GUI/Library/Delegates/LibraryItemDelegateAlbums.cpp" line="+96"/>
         <source>None</source>
         <translation>недост.</translation>
     </message>
@@ -2805,7 +2805,7 @@ Please choose another folder</source>
 <context>
     <name>LibraryItemDelegateArtists</name>
     <message>
-        <location filename="../GUI/Library/Delegates/LibraryItemDelegateArtists.cpp" line="+99"/>
+        <location filename="../GUI/Library/Delegates/LibraryItemDelegateArtists.cpp" line="+95"/>
         <source>tracks</source>
         <translation>Треки</translation>
     </message>
@@ -2971,9 +2971,9 @@ Please choose another folder</source>
 <context>
     <name>NumTrackHeader</name>
     <message>
-        <location filename="../GUI/Library/Helper/ColumnHeader.h" line="-51"/>
+        <location filename="../GUI/Library/Helper/ColumnHeader.h" line="-55"/>
         <source>#Tracks</source>
-        <translation type="unfinished">#Треків</translation>
+        <translation>#Треків</translation>
     </message>
 </context>
 <context>
@@ -3141,9 +3141,9 @@ Please choose another folder</source>
 <context>
     <name>RatingHeader</name>
     <message>
-        <location filename="../GUI/Library/Helper/ColumnHeader.h" line="+35"/>
+        <location filename="../GUI/Library/Helper/ColumnHeader.h" line="+37"/>
         <source>Rating</source>
-        <translation type="unfinished">Рейтинг</translation>
+        <translation>Рейтинг</translation>
     </message>
 </context>
 <context>
@@ -3352,24 +3352,24 @@ Please choose another folder</source>
 <context>
     <name>SoundcloudJsonParser</name>
     <message>
-        <location filename="../3rdParty/Soundcloud/src/SoundcloudJsonParser.cpp" line="+206"/>
+        <location filename="../3rdParty/Soundcloud/src/SoundcloudJsonParser.cpp" line="+205"/>
         <location line="+121"/>
         <source>Purchase Url</source>
         <translation>Придбати на</translation>
     </message>
     <message>
-        <location line="-220"/>
+        <location line="-219"/>
         <source>Website</source>
         <translation>Веб сторінка</translation>
     </message>
     <message>
         <location line="+4"/>
-        <location line="+212"/>
+        <location line="+211"/>
         <source>Permalink Url</source>
         <translation>Постійне посилання</translation>
     </message>
     <message>
-        <location line="-208"/>
+        <location line="-207"/>
         <source>About</source>
         <translation>Про Saoynara</translation>
     </message>
@@ -3379,9 +3379,9 @@ Please choose another folder</source>
         <translation>Followers</translation>
     </message>
     <message>
-        <location line="+93"/>
+        <location line="+92"/>
         <source>None</source>
-        <translation type="unfinished">недост.</translation>
+        <translation>недост.</translation>
     </message>
 </context>
 <context>
@@ -3419,17 +3419,17 @@ OK?</source>
 <context>
     <name>TitleHeader</name>
     <message>
-        <location filename="../GUI/Library/Helper/ColumnHeader.h" line="-44"/>
+        <location filename="../GUI/Library/Helper/ColumnHeader.h" line="-46"/>
         <source>Title</source>
-        <translation type="unfinished">Назва</translation>
+        <translation>Назва</translation>
     </message>
 </context>
 <context>
     <name>YearHeader</name>
     <message>
-        <location line="+36"/>
+        <location line="+37"/>
         <source>Year</source>
-        <translation type="unfinished">Рік</translation>
+        <translation>Рік</translation>
     </message>
 </context>
 </TS>

@@ -54,38 +54,34 @@ void LibraryItemDelegateTracks::paint(QPainter *painter, const QStyleOptionViewI
 	QRect 	rect(option.rect);
 	painter->save();
 
-	const LibraryItemModelTracks* model = static_cast<const LibraryItemModelTracks*>(index.model());
-
     int col = index.column();
-	//int idx_col = model->calc_shown_col(col);
-	int idx_col = col;
 
     QString	text = index.data().toString();
 
-    if(idx_col == COL_FILESIZE) {
+	if(col == COL_FILESIZE) {
 		text = Helper::File::calc_filesize_str(text.toInt());
         rect.translate(-2, 0);
         painter->drawText(rect, Qt::AlignRight | Qt::AlignVCenter, text);
     }
 
-    else if(idx_col == COL_BITRATE) {
+	else if(col == COL_BITRATE) {
         text = QString::number(text.toInt() / 1000) + " kbit/s";
         rect.translate(-2, 0);
         painter->drawText(rect, Qt::AlignRight | Qt::AlignVCenter, text);
     }
-    else if(idx_col == COL_YEAR) {
+	else if(col == COL_YEAR) {
             if(text == "0") text = "";
             painter->drawText(rect, Qt::AlignRight | Qt::AlignVCenter, text);
     }
-    else if(idx_col == COL_TRACK_NUM) {
+	else if(col == COL_TRACK_NUM) {
             painter->drawText(rect, Qt::AlignRight | Qt::AlignVCenter, text);
     }
-    else if(idx_col == COL_LENGTH) {
+	else if(col == COL_LENGTH) {
         rect.translate(-2, 0);
         painter->drawText(rect, Qt::AlignRight | Qt::AlignVCenter, text);
     }
 
-    else if(idx_col == COL_TRACK_RATING) {
+	else if(col == COL_TRACK_RATING) {
 		quint8 r = index.data().toInt();
         Rating rating(r);
 		rating.paint(painter, rect, option.palette, false);

@@ -40,7 +40,7 @@
     <message>
         <location filename="../GUI/Library/Helper/ColumnHeader.h" line="+113"/>
         <source>Album</source>
-        <translation type="unfinished">Album</translation>
+        <translation>Album</translation>
     </message>
 </context>
 <context>
@@ -142,7 +142,7 @@
     <message>
         <location filename="../GUI/Library/Helper/ColumnHeader.h" line="-9"/>
         <source>Artist</source>
-        <translation type="unfinished">Artista</translation>
+        <translation>Artista</translation>
     </message>
 </context>
 <context>
@@ -156,7 +156,7 @@
 <context>
     <name>BitrateHeader</name>
     <message>
-        <location filename="../GUI/Library/Helper/ColumnHeader.h" line="+70"/>
+        <location filename="../GUI/Library/Helper/ColumnHeader.h" line="+73"/>
         <source>Bitrate</source>
         <translation type="unfinished"></translation>
     </message>
@@ -218,9 +218,9 @@
 <context>
     <name>DurationHeader</name>
     <message>
-        <location filename="../GUI/Library/Helper/ColumnHeader.h" line="-34"/>
+        <location filename="../GUI/Library/Helper/ColumnHeader.h" line="-37"/>
         <source>Duration</source>
-        <translation type="unfinished">Durata</translation>
+        <translation>Durata</translation>
     </message>
 </context>
 <context>
@@ -228,21 +228,21 @@
     <message>
         <location line="+10"/>
         <source>Dur.</source>
-        <translation type="unfinished"></translation>
+        <translation>Durata</translation>
     </message>
 </context>
 <context>
     <name>FilesizeHeader</name>
     <message>
-        <location line="+32"/>
+        <location line="+36"/>
         <source>Filesize</source>
-        <translation type="unfinished">Grandezza del file</translation>
+        <translation>Grandezza del file</translation>
     </message>
 </context>
 <context>
     <name>GUI_AbstractLibrary</name>
     <message>
-        <location filename="../GUI/Library/GUI_AbstractLibrary.cpp" line="+568"/>
+        <location filename="../GUI/Library/GUI_AbstractLibrary.cpp" line="+561"/>
         <source>Library</source>
         <translation>Libreria</translation>
     </message>
@@ -599,7 +599,7 @@
         <location filename="../../build/src/GUI/Preferences/Fonts/ui_GUI_FontConfig.h" line="+1"/>
         <location filename="../../build_clang/src/GUI/Preferences/Fonts/ui_GUI_FontConfig.h" line="+1"/>
         <source>Library</source>
-        <translation type="unfinished">Libreria</translation>
+        <translation>Libreria</translation>
     </message>
     <message>
         <location line="+52"/>
@@ -1235,7 +1235,7 @@
         <location line="-32"/>
         <location line="+35"/>
         <source>Stop</source>
-        <translation type="unfinished">Stop</translation>
+        <translation>Stop</translation>
     </message>
     <message>
         <location line="-34"/>
@@ -1732,7 +1732,7 @@
     <message>
         <location line="-43"/>
         <source>Error</source>
-        <translation type="unfinished">Errore</translation>
+        <translation>Errore</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -2820,7 +2820,7 @@ Seleziona un&apos;altra cartella</translation>
 <context>
     <name>LibraryItemDelegateAlbums</name>
     <message>
-        <location filename="../GUI/Library/Delegates/LibraryItemDelegateAlbums.cpp" line="+101"/>
+        <location filename="../GUI/Library/Delegates/LibraryItemDelegateAlbums.cpp" line="+96"/>
         <source>None</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2833,7 +2833,7 @@ Seleziona un&apos;altra cartella</translation>
 <context>
     <name>LibraryItemDelegateArtists</name>
     <message>
-        <location filename="../GUI/Library/Delegates/LibraryItemDelegateArtists.cpp" line="+99"/>
+        <location filename="../GUI/Library/Delegates/LibraryItemDelegateArtists.cpp" line="+95"/>
         <source>tracks</source>
         <translation>tracce</translation>
     </message>
@@ -2882,7 +2882,7 @@ Seleziona un&apos;altra cartella</translation>
         <location line="-40"/>
         <location line="+41"/>
         <source>Live search</source>
-        <translation type="unfinished">Ricerca nella libreria in tempo reale</translation>
+        <translation>Ricerca nella libreria in tempo reale</translation>
     </message>
 </context>
 <context>
@@ -2999,9 +2999,9 @@ Seleziona un&apos;altra cartella</translation>
 <context>
     <name>NumTrackHeader</name>
     <message>
-        <location filename="../GUI/Library/Helper/ColumnHeader.h" line="-51"/>
+        <location filename="../GUI/Library/Helper/ColumnHeader.h" line="-55"/>
         <source>#Tracks</source>
-        <translation type="unfinished">#Tracce</translation>
+        <translation>#Tracce</translation>
     </message>
 </context>
 <context>
@@ -3169,7 +3169,7 @@ Seleziona un&apos;altra cartella</translation>
 <context>
     <name>RatingHeader</name>
     <message>
-        <location filename="../GUI/Library/Helper/ColumnHeader.h" line="+35"/>
+        <location filename="../GUI/Library/Helper/ColumnHeader.h" line="+37"/>
         <source>Rating</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3382,24 +3382,24 @@ Seleziona un&apos;altra cartella</translation>
 <context>
     <name>SoundcloudJsonParser</name>
     <message>
-        <location filename="../3rdParty/Soundcloud/src/SoundcloudJsonParser.cpp" line="+206"/>
+        <location filename="../3rdParty/Soundcloud/src/SoundcloudJsonParser.cpp" line="+205"/>
         <location line="+121"/>
         <source>Purchase Url</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-220"/>
+        <location line="-219"/>
         <source>Website</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+4"/>
-        <location line="+212"/>
+        <location line="+211"/>
         <source>Permalink Url</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-208"/>
+        <location line="-207"/>
         <source>About</source>
         <translation>Su</translation>
     </message>
@@ -3409,7 +3409,7 @@ Seleziona un&apos;altra cartella</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+93"/>
+        <location line="+92"/>
         <source>None</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3449,17 +3449,17 @@ OK?</source>
 <context>
     <name>TitleHeader</name>
     <message>
-        <location filename="../GUI/Library/Helper/ColumnHeader.h" line="-44"/>
+        <location filename="../GUI/Library/Helper/ColumnHeader.h" line="-46"/>
         <source>Title</source>
-        <translation type="unfinished">Titolo</translation>
+        <translation>Titolo</translation>
     </message>
 </context>
 <context>
     <name>YearHeader</name>
     <message>
-        <location line="+36"/>
+        <location line="+37"/>
         <source>Year</source>
-        <translation type="unfinished">Anno</translation>
+        <translation>Anno</translation>
     </message>
 </context>
 </TS>

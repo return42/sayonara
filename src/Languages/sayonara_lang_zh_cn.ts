@@ -37,7 +37,7 @@
     <message>
         <location filename="../GUI/Library/Helper/ColumnHeader.h" line="+113"/>
         <source>Album</source>
-        <translation type="unfinished">专辑</translation>
+        <translation>专辑</translation>
     </message>
 </context>
 <context>
@@ -137,7 +137,7 @@
     <message>
         <location filename="../GUI/Library/Helper/ColumnHeader.h" line="-9"/>
         <source>Artist</source>
-        <translation type="unfinished">艺术家</translation>
+        <translation>艺术家</translation>
     </message>
 </context>
 <context>
@@ -151,9 +151,9 @@
 <context>
     <name>BitrateHeader</name>
     <message>
-        <location filename="../GUI/Library/Helper/ColumnHeader.h" line="+70"/>
+        <location filename="../GUI/Library/Helper/ColumnHeader.h" line="+73"/>
         <source>Bitrate</source>
-        <translation type="unfinished">比特率</translation>
+        <translation>比特率</translation>
     </message>
 </context>
 <context>
@@ -212,9 +212,9 @@
 <context>
     <name>DurationHeader</name>
     <message>
-        <location filename="../GUI/Library/Helper/ColumnHeader.h" line="-34"/>
+        <location filename="../GUI/Library/Helper/ColumnHeader.h" line="-37"/>
         <source>Duration</source>
-        <translation type="unfinished">持续时间</translation>
+        <translation>持续时间</translation>
     </message>
 </context>
 <context>
@@ -222,21 +222,21 @@
     <message>
         <location line="+10"/>
         <source>Dur.</source>
-        <translation type="unfinished"></translation>
+        <translation>持续时间</translation>
     </message>
 </context>
 <context>
     <name>FilesizeHeader</name>
     <message>
-        <location line="+32"/>
+        <location line="+36"/>
         <source>Filesize</source>
-        <translation type="unfinished">文件大小</translation>
+        <translation>文件大小</translation>
     </message>
 </context>
 <context>
     <name>GUI_AbstractLibrary</name>
     <message>
-        <location filename="../GUI/Library/GUI_AbstractLibrary.cpp" line="+568"/>
+        <location filename="../GUI/Library/GUI_AbstractLibrary.cpp" line="+561"/>
         <source>Library</source>
         <translation>图文库</translation>
     </message>
@@ -257,7 +257,7 @@
     <message>
         <location line="+20"/>
         <source>Play</source>
-        <translation type="unfinished">播放</translation>
+        <translation>播放</translation>
     </message>
     <message>
         <location line="+23"/>
@@ -579,7 +579,7 @@
         <location filename="../../build/src/GUI/Preferences/Fonts/ui_GUI_FontConfig.h" line="+1"/>
         <location filename="../../build_clang/src/GUI/Preferences/Fonts/ui_GUI_FontConfig.h" line="+1"/>
         <source>Library</source>
-        <translation type="unfinished">图文库</translation>
+        <translation>图文库</translation>
     </message>
     <message>
         <location line="+52"/>
@@ -711,28 +711,28 @@
         <location filename="../../build/src/GUI/Preferences/LastFM/ui_GUI_LastFM.h" line="+138"/>
         <location filename="../../build_clang/src/GUI/Preferences/LastFM/ui_GUI_LastFM.h" line="+138"/>
         <source>Password</source>
-        <translation type="unfinished">密码</translation>
+        <translation>密码</translation>
     </message>
     <message>
         <location line="-43"/>
         <location filename="../../build/src/GUI/Preferences/LastFM/ui_GUI_LastFM.h" line="-2"/>
         <location filename="../../build_clang/src/GUI/Preferences/LastFM/ui_GUI_LastFM.h" line="-2"/>
         <source>Login now</source>
-        <translation type="unfinished">现在登陆</translation>
+        <translation>现在登陆</translation>
     </message>
     <message>
         <location line="-59"/>
         <location filename="../../build/src/GUI/Preferences/LastFM/ui_GUI_LastFM.h" line="-4"/>
         <location filename="../../build_clang/src/GUI/Preferences/LastFM/ui_GUI_LastFM.h" line="-4"/>
         <source>Activate</source>
-        <translation type="unfinished">激活</translation>
+        <translation>激活</translation>
     </message>
     <message>
         <location line="+7"/>
         <location filename="../../build/src/GUI/Preferences/LastFM/ui_GUI_LastFM.h" line="+1"/>
         <location filename="../../build_clang/src/GUI/Preferences/LastFM/ui_GUI_LastFM.h" line="+1"/>
         <source>Username</source>
-        <translation type="unfinished">用户名称</translation>
+        <translation>用户名称</translation>
     </message>
 </context>
 <context>
@@ -1072,21 +1072,21 @@
         <location filename="../../build/src/GUI/Preferences/Notifications/ui_GUI_Notifications.h" line="+77"/>
         <location filename="../../build_clang/src/GUI/Preferences/Notifications/ui_GUI_Notifications.h" line="+77"/>
         <source>Timeout (ms)</source>
-        <translation type="unfinished">超时 (ms)</translation>
+        <translation>超时 (ms)</translation>
     </message>
     <message>
         <location line="+10"/>
         <location filename="../../build/src/GUI/Preferences/Notifications/ui_GUI_Notifications.h" line="+1"/>
         <location filename="../../build_clang/src/GUI/Preferences/Notifications/ui_GUI_Notifications.h" line="+1"/>
         <source>Activate</source>
-        <translation type="unfinished">激活</translation>
+        <translation>激活</translation>
     </message>
     <message>
         <location line="+11"/>
         <location filename="../../build/src/GUI/Preferences/Notifications/ui_GUI_Notifications.h" line="+3"/>
         <location filename="../../build_clang/src/GUI/Preferences/Notifications/ui_GUI_Notifications.h" line="+3"/>
         <source>Standard</source>
-        <translation type="unfinished">标准</translation>
+        <translation>标准</translation>
     </message>
 </context>
 <context>
@@ -1109,7 +1109,7 @@
     <message>
         <location line="+62"/>
         <source>Library</source>
-        <translation type="unfinished">图文库</translation>
+        <translation>图文库</translation>
     </message>
     <message>
         <location filename="../GUI/Player/GUI_PlayerMessages.cpp" line="+49"/>
@@ -1209,7 +1209,7 @@
         <location line="-32"/>
         <location line="+35"/>
         <source>Stop</source>
-        <translation type="unfinished">停止</translation>
+        <translation>停止</translation>
     </message>
     <message>
         <location line="-34"/>
@@ -1274,7 +1274,7 @@
         <location filename="../../build/src/GUI/Preferences/PlayerPreferences/ui_GUI_PlayerPreferences.h" line="+1"/>
         <location filename="../../build_clang/src/GUI/Preferences/PlayerPreferences/ui_GUI_PlayerPreferences.h" line="+1"/>
         <source>Close to tray</source>
-        <translation type="unfinished">关闭到托盘</translation>
+        <translation>关闭到托盘</translation>
     </message>
     <message>
         <location line="-14"/>
@@ -1616,28 +1616,28 @@
         <location filename="../../build_clang/src/GUI/Preferences/PreferenceDialog/ui_GUI_PreferenceDialog.h" line="+179"/>
         <location filename="../GUI/Preferences/PreferenceDialog/GUI_PreferenceDialog.cpp" line="+78"/>
         <source>Preferences</source>
-        <translation type="unfinished">偏好</translation>
+        <translation>偏好</translation>
     </message>
     <message>
         <location line="+117"/>
         <location filename="../../build/src/GUI/Preferences/PreferenceDialog/ui_GUI_PreferenceDialog.h" line="+1"/>
         <location filename="../../build_clang/src/GUI/Preferences/PreferenceDialog/ui_GUI_PreferenceDialog.h" line="+1"/>
         <source>Cancel</source>
-        <translation type="unfinished">取消</translation>
+        <translation>取消</translation>
     </message>
     <message>
         <location line="+7"/>
         <location filename="../../build/src/GUI/Preferences/PreferenceDialog/ui_GUI_PreferenceDialog.h" line="+1"/>
         <location filename="../../build_clang/src/GUI/Preferences/PreferenceDialog/ui_GUI_PreferenceDialog.h" line="+1"/>
         <source>Apply</source>
-        <translation type="unfinished">应用</translation>
+        <translation>应用</translation>
     </message>
     <message>
         <location line="+7"/>
         <location filename="../../build/src/GUI/Preferences/PreferenceDialog/ui_GUI_PreferenceDialog.h" line="+1"/>
         <location filename="../../build_clang/src/GUI/Preferences/PreferenceDialog/ui_GUI_PreferenceDialog.h" line="+1"/>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation>OK</translation>
     </message>
 </context>
 <context>
@@ -1694,17 +1694,17 @@
     <message>
         <location filename="../GUI/Preferences/Shortcuts/GUI_ShortcutEntry.cpp" line="+102"/>
         <source>Edit</source>
-        <translation type="unfinished">编辑</translation>
+        <translation>编辑</translation>
     </message>
     <message>
         <location line="-1"/>
         <source>Default</source>
-        <translation type="unfinished">默认</translation>
+        <translation>默认</translation>
     </message>
     <message>
         <location line="-43"/>
         <source>Error</source>
-        <translation type="unfinished">错误</translation>
+        <translation>错误</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -1954,35 +1954,35 @@
         <location filename="../../build/src/GUI/Preferences/Startup/ui_GUI_StartupDialog.h" line="+84"/>
         <location filename="../../build_clang/src/GUI/Preferences/Startup/ui_GUI_StartupDialog.h" line="+84"/>
         <source>Load temporary playlists</source>
-        <translation type="unfinished">加载临时播放列表</translation>
+        <translation>加载临时播放列表</translation>
     </message>
     <message>
         <location line="+7"/>
         <location filename="../../build/src/GUI/Preferences/Startup/ui_GUI_StartupDialog.h" line="+1"/>
         <location filename="../../build_clang/src/GUI/Preferences/Startup/ui_GUI_StartupDialog.h" line="+1"/>
         <source>Start playing</source>
-        <translation type="unfinished">开始播放</translation>
+        <translation>开始播放</translation>
     </message>
     <message>
         <location line="-21"/>
         <location filename="../../build/src/GUI/Preferences/Startup/ui_GUI_StartupDialog.h" line="-2"/>
         <location filename="../../build_clang/src/GUI/Preferences/Startup/ui_GUI_StartupDialog.h" line="-2"/>
         <source>Load last track on startup</source>
-        <translation type="unfinished">启动时加载负载上最后一个音轨</translation>
+        <translation>启动时加载负载上最后一个音轨</translation>
     </message>
     <message>
         <location line="+28"/>
         <location filename="../../build/src/GUI/Preferences/Startup/ui_GUI_StartupDialog.h" line="+3"/>
         <location filename="../../build_clang/src/GUI/Preferences/Startup/ui_GUI_StartupDialog.h" line="+3"/>
         <source>Load saved playlists</source>
-        <translation type="unfinished">加载保存的播放列表</translation>
+        <translation>加载保存的播放列表</translation>
     </message>
     <message>
         <location line="+10"/>
         <location filename="../../build/src/GUI/Preferences/Startup/ui_GUI_StartupDialog.h" line="+1"/>
         <location filename="../../build_clang/src/GUI/Preferences/Startup/ui_GUI_StartupDialog.h" line="+1"/>
         <source>Remember time of last track</source>
-        <translation type="unfinished">记的上一次的时间</translation>
+        <translation>记的上一次的时间</translation>
     </message>
 </context>
 <context>
@@ -2616,7 +2616,7 @@ Please choose another folder</source>
         <location filename="../../build/src/GUI/Library/ImportFolderDialog/ui_GUI_ImportFolder.h" line="+4"/>
         <location filename="../../build_clang/src/GUI/Library/ImportFolderDialog/ui_GUI_ImportFolder.h" line="+4"/>
         <source>Edit</source>
-        <translation type="unfinished">编辑</translation>
+        <translation>编辑</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -2790,7 +2790,7 @@ Please choose another folder</source>
 <context>
     <name>LibraryItemDelegateAlbums</name>
     <message>
-        <location filename="../GUI/Library/Delegates/LibraryItemDelegateAlbums.cpp" line="+101"/>
+        <location filename="../GUI/Library/Delegates/LibraryItemDelegateAlbums.cpp" line="+96"/>
         <source>None</source>
         <translation>没有</translation>
     </message>
@@ -2803,7 +2803,7 @@ Please choose another folder</source>
 <context>
     <name>LibraryItemDelegateArtists</name>
     <message>
-        <location filename="../GUI/Library/Delegates/LibraryItemDelegateArtists.cpp" line="+99"/>
+        <location filename="../GUI/Library/Delegates/LibraryItemDelegateArtists.cpp" line="+95"/>
         <source>tracks</source>
         <translation>轨道</translation>
     </message>
@@ -2969,9 +2969,9 @@ Please choose another folder</source>
 <context>
     <name>NumTrackHeader</name>
     <message>
-        <location filename="../GUI/Library/Helper/ColumnHeader.h" line="-51"/>
+        <location filename="../GUI/Library/Helper/ColumnHeader.h" line="-55"/>
         <source>#Tracks</source>
-        <translation type="unfinished">#轨道</translation>
+        <translation>#轨道</translation>
     </message>
 </context>
 <context>
@@ -3139,9 +3139,9 @@ Please choose another folder</source>
 <context>
     <name>RatingHeader</name>
     <message>
-        <location filename="../GUI/Library/Helper/ColumnHeader.h" line="+35"/>
+        <location filename="../GUI/Library/Helper/ColumnHeader.h" line="+37"/>
         <source>Rating</source>
-        <translation type="unfinished">评级</translation>
+        <translation>评级</translation>
     </message>
 </context>
 <context>
@@ -3350,24 +3350,24 @@ Please choose another folder</source>
 <context>
     <name>SoundcloudJsonParser</name>
     <message>
-        <location filename="../3rdParty/Soundcloud/src/SoundcloudJsonParser.cpp" line="+206"/>
+        <location filename="../3rdParty/Soundcloud/src/SoundcloudJsonParser.cpp" line="+205"/>
         <location line="+121"/>
         <source>Purchase Url</source>
         <translation>购买网址</translation>
     </message>
     <message>
-        <location line="-220"/>
+        <location line="-219"/>
         <source>Website</source>
         <translation>网站</translation>
     </message>
     <message>
         <location line="+4"/>
-        <location line="+212"/>
+        <location line="+211"/>
         <source>Permalink Url</source>
         <translation>固定的连接网址</translation>
     </message>
     <message>
-        <location line="-208"/>
+        <location line="-207"/>
         <source>About</source>
         <translation>关于</translation>
     </message>
@@ -3377,9 +3377,9 @@ Please choose another folder</source>
         <translation>追随/粉丝</translation>
     </message>
     <message>
-        <location line="+93"/>
+        <location line="+92"/>
         <source>None</source>
-        <translation type="unfinished">没有</translation>
+        <translation>没有</translation>
     </message>
 </context>
 <context>
@@ -3418,17 +3418,17 @@ OK?</source>
 <context>
     <name>TitleHeader</name>
     <message>
-        <location filename="../GUI/Library/Helper/ColumnHeader.h" line="-44"/>
+        <location filename="../GUI/Library/Helper/ColumnHeader.h" line="-46"/>
         <source>Title</source>
-        <translation type="unfinished">标题</translation>
+        <translation>标题</translation>
     </message>
 </context>
 <context>
     <name>YearHeader</name>
     <message>
-        <location line="+36"/>
+        <location line="+37"/>
         <source>Year</source>
-        <translation type="unfinished">年份</translation>
+        <translation>年份</translation>
     </message>
 </context>
 </TS>

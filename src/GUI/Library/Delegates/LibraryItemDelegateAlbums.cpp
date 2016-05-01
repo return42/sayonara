@@ -60,13 +60,9 @@ void LibraryItemDelegateAlbums::paint(QPainter *painter, const QStyleOptionViewI
 
 	painter->save();
 
-	const LibraryItemModelAlbums* model = reinterpret_cast<const LibraryItemModelAlbums*>(index.model());
-
 	int col = index.column();
-//	int idx_col = model->calc_shown_col(col);
-	int idx_col = col;
 
-	if(idx_col == COL_ALBUM_SAMPLER) {
+	if(col == COL_ALBUM_SAMPLER) {
 		int col_width = _parent->columnWidth(0)-4;
 		int row_height = _parent->rowHeight(0)-4;
 		rect.translate(2, 2);
@@ -82,8 +78,7 @@ void LibraryItemDelegateAlbums::paint(QPainter *painter, const QStyleOptionViewI
 		}
 	}
 
-
-	else if(idx_col == COL_ALBUM_NAME) {
+	else if(col == COL_ALBUM_NAME) {
 
 		rect.translate(2, 0);
 
@@ -92,7 +87,7 @@ void LibraryItemDelegateAlbums::paint(QPainter *painter, const QStyleOptionViewI
 	}
 
 
-	else if(idx_col == COL_ALBUM_YEAR) {
+	else if(col == COL_ALBUM_YEAR) {
 
 		rect.translate(-2, 0);
 		int year = index.data().toInt();
@@ -103,21 +98,21 @@ void LibraryItemDelegateAlbums::paint(QPainter *painter, const QStyleOptionViewI
 
 	}
 
-	else if(idx_col == COL_ALBUM_N_SONGS) {
+	else if(col == COL_ALBUM_N_SONGS) {
 
 		rect.translate(-2, 0);
 		QString n_songs = index.data().toString() + " " + tr("tracks");
 		painter->drawText(rect, Qt::AlignRight | Qt::AlignVCenter, n_songs);
 	}
 
-	else if(idx_col == COL_ALBUM_DURATION) {
+	else if(col == COL_ALBUM_DURATION) {
 
 		rect.translate(-2, 0);
 		QString duration = index.data().toString();
 		painter->drawText(rect, Qt::AlignRight | Qt::AlignVCenter, duration);
 	}
 
-	else if(idx_col == COL_ALBUM_RATING) {
+	else if(col == COL_ALBUM_RATING) {
 
 		quint8 r = index.data().toInt();
 		Rating rating(r);

@@ -151,7 +151,7 @@
 <context>
     <name>BitrateHeader</name>
     <message>
-        <location filename="../GUI/Library/Helper/ColumnHeader.h" line="+70"/>
+        <location filename="../GUI/Library/Helper/ColumnHeader.h" line="+73"/>
         <source>Bitrate</source>
         <translation type="unfinished">Bitrate</translation>
     </message>
@@ -212,7 +212,7 @@
 <context>
     <name>DurationHeader</name>
     <message>
-        <location filename="../GUI/Library/Helper/ColumnHeader.h" line="-34"/>
+        <location filename="../GUI/Library/Helper/ColumnHeader.h" line="-37"/>
         <source>Duration</source>
         <translation type="unfinished">Időtartam</translation>
     </message>
@@ -228,7 +228,7 @@
 <context>
     <name>FilesizeHeader</name>
     <message>
-        <location line="+32"/>
+        <location line="+36"/>
         <source>Filesize</source>
         <translation type="unfinished">Fájlméret</translation>
     </message>
@@ -236,7 +236,7 @@
 <context>
     <name>GUI_AbstractLibrary</name>
     <message>
-        <location filename="../GUI/Library/GUI_AbstractLibrary.cpp" line="+568"/>
+        <location filename="../GUI/Library/GUI_AbstractLibrary.cpp" line="+561"/>
         <source>Library</source>
         <translation>Könyvtár</translation>
     </message>
@@ -2790,7 +2790,7 @@ Kérjük, válasszon egy másik mappát</translation>
 <context>
     <name>LibraryItemDelegateAlbums</name>
     <message>
-        <location filename="../GUI/Library/Delegates/LibraryItemDelegateAlbums.cpp" line="+101"/>
+        <location filename="../GUI/Library/Delegates/LibraryItemDelegateAlbums.cpp" line="+96"/>
         <source>None</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2803,7 +2803,7 @@ Kérjük, válasszon egy másik mappát</translation>
 <context>
     <name>LibraryItemDelegateArtists</name>
     <message>
-        <location filename="../GUI/Library/Delegates/LibraryItemDelegateArtists.cpp" line="+99"/>
+        <location filename="../GUI/Library/Delegates/LibraryItemDelegateArtists.cpp" line="+95"/>
         <source>tracks</source>
         <translation>Számok</translation>
     </message>
@@ -2969,7 +2969,7 @@ Kérjük, válasszon egy másik mappát</translation>
 <context>
     <name>NumTrackHeader</name>
     <message>
-        <location filename="../GUI/Library/Helper/ColumnHeader.h" line="-51"/>
+        <location filename="../GUI/Library/Helper/ColumnHeader.h" line="-55"/>
         <source>#Tracks</source>
         <translation type="unfinished">#Szám</translation>
     </message>
@@ -3139,7 +3139,7 @@ Kérjük, válasszon egy másik mappát</translation>
 <context>
     <name>RatingHeader</name>
     <message>
-        <location filename="../GUI/Library/Helper/ColumnHeader.h" line="+35"/>
+        <location filename="../GUI/Library/Helper/ColumnHeader.h" line="+37"/>
         <source>Rating</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3350,13 +3350,13 @@ Kérjük, válasszon egy másik mappát</translation>
 <context>
     <name>SoundcloudJsonParser</name>
     <message>
-        <location filename="../3rdParty/Soundcloud/src/SoundcloudJsonParser.cpp" line="+206"/>
+        <location filename="../3rdParty/Soundcloud/src/SoundcloudJsonParser.cpp" line="+205"/>
         <location line="+121"/>
         <source>Purchase Url</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-220"/>
+        <location line="-219"/>
         <source>Website</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3371,13 +3371,13 @@ Kérjük, válasszon egy másik mappát</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+93"/>
+        <location line="+92"/>
         <source>None</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-106"/>
-        <location line="+212"/>
+        <location line="-105"/>
+        <location line="+211"/>
         <source>Permalink Url</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3417,7 +3417,7 @@ OK?</source>
 <context>
     <name>TitleHeader</name>
     <message>
-        <location filename="../GUI/Library/Helper/ColumnHeader.h" line="-44"/>
+        <location filename="../GUI/Library/Helper/ColumnHeader.h" line="-46"/>
         <source>Title</source>
         <translation type="unfinished">Cím</translation>
     </message>
@@ -3425,7 +3425,7 @@ OK?</source>
 <context>
     <name>YearHeader</name>
     <message>
-        <location line="+36"/>
+        <location line="+37"/>
         <source>Year</source>
         <translation type="unfinished"></translation>
     </message>

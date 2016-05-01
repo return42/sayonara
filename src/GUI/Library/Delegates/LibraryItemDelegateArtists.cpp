@@ -59,13 +59,9 @@ void LibraryItemDelegateArtists::paint(QPainter *painter, const QStyleOptionView
     QRect rect(option.rect);
 	painter->save();
 
-	const LibraryItemModelArtists* model = reinterpret_cast<const LibraryItemModelArtists*>(index.model());
-
     int col = index.column();
-	//int idx_col = model->calc_shown_col(col);
-	int idx_col = col;
 
-    if(idx_col == COL_ARTIST_N_ALBUMS) {
+	if(col == COL_ARTIST_N_ALBUMS) {
         int col_width = _parent->columnWidth(0)-4;
         int row_height = _parent->rowHeight(0)-4;
         rect.translate(2, 2);
@@ -82,7 +78,7 @@ void LibraryItemDelegateArtists::paint(QPainter *painter, const QStyleOptionView
 
     }
 
-    else if(idx_col == COL_ARTIST_NAME) {
+	else if(col == COL_ARTIST_NAME) {
 
         rect.translate(2, 0);
 		QString name = index.data().toString();
@@ -91,7 +87,7 @@ void LibraryItemDelegateArtists::paint(QPainter *painter, const QStyleOptionView
 
     }
 
-    else if(idx_col == COL_ARTIST_TRACKS) {
+	else if(col == COL_ARTIST_TRACKS) {
 
         rect.translate(-2, 0);
 		int n_tracks = index.data().toInt();

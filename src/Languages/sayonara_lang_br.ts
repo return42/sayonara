@@ -37,7 +37,7 @@
     <message>
         <location filename="../GUI/Library/Helper/ColumnHeader.h" line="+113"/>
         <source>Album</source>
-        <translation type="unfinished">Álbum</translation>
+        <translation>Álbum</translation>
     </message>
 </context>
 <context>
@@ -137,7 +137,7 @@
     <message>
         <location filename="../GUI/Library/Helper/ColumnHeader.h" line="-9"/>
         <source>Artist</source>
-        <translation type="unfinished">Artista</translation>
+        <translation>Artista</translation>
     </message>
 </context>
 <context>
@@ -151,9 +151,9 @@
 <context>
     <name>BitrateHeader</name>
     <message>
-        <location filename="../GUI/Library/Helper/ColumnHeader.h" line="+70"/>
+        <location filename="../GUI/Library/Helper/ColumnHeader.h" line="+73"/>
         <source>Bitrate</source>
-        <translation type="unfinished">Taxa de Amostragem</translation>
+        <translation>Taxa de Amostragem</translation>
     </message>
 </context>
 <context>
@@ -212,9 +212,9 @@
 <context>
     <name>DurationHeader</name>
     <message>
-        <location filename="../GUI/Library/Helper/ColumnHeader.h" line="-34"/>
+        <location filename="../GUI/Library/Helper/ColumnHeader.h" line="-37"/>
         <source>Duration</source>
-        <translation type="unfinished">Duração</translation>
+        <translation>Duração</translation>
     </message>
 </context>
 <context>
@@ -222,21 +222,21 @@
     <message>
         <location line="+10"/>
         <source>Dur.</source>
-        <translation type="unfinished"></translation>
+        <translation>Duração</translation>
     </message>
 </context>
 <context>
     <name>FilesizeHeader</name>
     <message>
-        <location line="+32"/>
+        <location line="+36"/>
         <source>Filesize</source>
-        <translation type="unfinished">Tam do Aquivo</translation>
+        <translation>Tam do Aquivo</translation>
     </message>
 </context>
 <context>
     <name>GUI_AbstractLibrary</name>
     <message>
-        <location filename="../GUI/Library/GUI_AbstractLibrary.cpp" line="+568"/>
+        <location filename="../GUI/Library/GUI_AbstractLibrary.cpp" line="+561"/>
         <source>Library</source>
         <translation>Biblioteca</translation>
     </message>
@@ -257,7 +257,7 @@
     <message>
         <location line="+20"/>
         <source>Play</source>
-        <translation type="unfinished">Reproduzir</translation>
+        <translation>Reproduzir</translation>
     </message>
     <message>
         <location line="+23"/>
@@ -579,7 +579,7 @@
         <location filename="../../build/src/GUI/Preferences/Fonts/ui_GUI_FontConfig.h" line="+1"/>
         <location filename="../../build_clang/src/GUI/Preferences/Fonts/ui_GUI_FontConfig.h" line="+1"/>
         <source>Library</source>
-        <translation type="unfinished">Biblioteca</translation>
+        <translation>Biblioteca</translation>
     </message>
     <message>
         <location line="+52"/>
@@ -711,7 +711,7 @@
         <location filename="../../build/src/GUI/Preferences/LastFM/ui_GUI_LastFM.h" line="+138"/>
         <location filename="../../build_clang/src/GUI/Preferences/LastFM/ui_GUI_LastFM.h" line="+138"/>
         <source>Password</source>
-        <translation type="unfinished">Senha</translation>
+        <translation>Senha</translation>
     </message>
     <message>
         <location line="-43"/>
@@ -725,14 +725,14 @@
         <location filename="../../build/src/GUI/Preferences/LastFM/ui_GUI_LastFM.h" line="-4"/>
         <location filename="../../build_clang/src/GUI/Preferences/LastFM/ui_GUI_LastFM.h" line="-4"/>
         <source>Activate</source>
-        <translation type="unfinished">Ativar</translation>
+        <translation>Ativar</translation>
     </message>
     <message>
         <location line="+7"/>
         <location filename="../../build/src/GUI/Preferences/LastFM/ui_GUI_LastFM.h" line="+1"/>
         <location filename="../../build_clang/src/GUI/Preferences/LastFM/ui_GUI_LastFM.h" line="+1"/>
         <source>Username</source>
-        <translation type="unfinished">Usuário</translation>
+        <translation>Usuário</translation>
     </message>
 </context>
 <context>
@@ -1075,21 +1075,21 @@ Biblioteca</translation>
         <location filename="../../build/src/GUI/Preferences/Notifications/ui_GUI_Notifications.h" line="+77"/>
         <location filename="../../build_clang/src/GUI/Preferences/Notifications/ui_GUI_Notifications.h" line="+77"/>
         <source>Timeout (ms)</source>
-        <translation type="unfinished">Tempo de Espera</translation>
+        <translation>Tempo de Espera</translation>
     </message>
     <message>
         <location line="+10"/>
         <location filename="../../build/src/GUI/Preferences/Notifications/ui_GUI_Notifications.h" line="+1"/>
         <location filename="../../build_clang/src/GUI/Preferences/Notifications/ui_GUI_Notifications.h" line="+1"/>
         <source>Activate</source>
-        <translation type="unfinished">Ativar</translation>
+        <translation>Ativar</translation>
     </message>
     <message>
         <location line="+11"/>
         <location filename="../../build/src/GUI/Preferences/Notifications/ui_GUI_Notifications.h" line="+3"/>
         <location filename="../../build_clang/src/GUI/Preferences/Notifications/ui_GUI_Notifications.h" line="+3"/>
         <source>Standard</source>
-        <translation type="unfinished">Padrão</translation>
+        <translation>Padrão</translation>
     </message>
 </context>
 <context>
@@ -1112,7 +1112,7 @@ Biblioteca</translation>
     <message>
         <location line="+62"/>
         <source>Library</source>
-        <translation type="unfinished">Biblioteca</translation>
+        <translation>Biblioteca</translation>
     </message>
     <message>
         <location filename="../GUI/Player/GUI_PlayerMessages.cpp" line="+49"/>
@@ -1212,7 +1212,7 @@ Biblioteca</translation>
         <location line="-32"/>
         <location line="+35"/>
         <source>Stop</source>
-        <translation type="unfinished">Parar</translation>
+        <translation>Parar</translation>
     </message>
     <message>
         <location line="-34"/>
@@ -1277,7 +1277,7 @@ Biblioteca</translation>
         <location filename="../../build/src/GUI/Preferences/PlayerPreferences/ui_GUI_PlayerPreferences.h" line="+1"/>
         <location filename="../../build_clang/src/GUI/Preferences/PlayerPreferences/ui_GUI_PlayerPreferences.h" line="+1"/>
         <source>Close to tray</source>
-        <translation type="unfinished">Minimizar</translation>
+        <translation>Minimizar</translation>
     </message>
     <message>
         <location line="-14"/>
@@ -1619,14 +1619,14 @@ Biblioteca</translation>
         <location filename="../../build_clang/src/GUI/Preferences/PreferenceDialog/ui_GUI_PreferenceDialog.h" line="+179"/>
         <location filename="../GUI/Preferences/PreferenceDialog/GUI_PreferenceDialog.cpp" line="+78"/>
         <source>Preferences</source>
-        <translation type="unfinished">Preferências</translation>
+        <translation>Preferências</translation>
     </message>
     <message>
         <location line="+117"/>
         <location filename="../../build/src/GUI/Preferences/PreferenceDialog/ui_GUI_PreferenceDialog.h" line="+1"/>
         <location filename="../../build_clang/src/GUI/Preferences/PreferenceDialog/ui_GUI_PreferenceDialog.h" line="+1"/>
         <source>Cancel</source>
-        <translation type="unfinished">Cancelar</translation>
+        <translation>Cancelar</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -1640,7 +1640,7 @@ Biblioteca</translation>
         <location filename="../../build/src/GUI/Preferences/PreferenceDialog/ui_GUI_PreferenceDialog.h" line="+1"/>
         <location filename="../../build_clang/src/GUI/Preferences/PreferenceDialog/ui_GUI_PreferenceDialog.h" line="+1"/>
         <source>OK</source>
-        <translation type="unfinished">Aceitar</translation>
+        <translation>Aceitar</translation>
     </message>
 </context>
 <context>
@@ -1700,7 +1700,7 @@ Biblioteca</translation>
     <message>
         <location filename="../GUI/Preferences/Shortcuts/GUI_ShortcutEntry.cpp" line="+102"/>
         <source>Edit</source>
-        <translation type="unfinished">Editar</translation>
+        <translation>Editar</translation>
     </message>
     <message>
         <location line="-1"/>
@@ -1710,7 +1710,7 @@ Biblioteca</translation>
     <message>
         <location line="-43"/>
         <source>Error</source>
-        <translation type="unfinished">Erro</translation>
+        <translation>Erro</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -1967,14 +1967,14 @@ Biblioteca</translation>
         <location filename="../../build/src/GUI/Preferences/Startup/ui_GUI_StartupDialog.h" line="+1"/>
         <location filename="../../build_clang/src/GUI/Preferences/Startup/ui_GUI_StartupDialog.h" line="+1"/>
         <source>Start playing</source>
-        <translation type="unfinished">Iniciar Reprodução</translation>
+        <translation>Iniciar Reprodução</translation>
     </message>
     <message>
         <location line="-21"/>
         <location filename="../../build/src/GUI/Preferences/Startup/ui_GUI_StartupDialog.h" line="-2"/>
         <location filename="../../build_clang/src/GUI/Preferences/Startup/ui_GUI_StartupDialog.h" line="-2"/>
         <source>Load last track on startup</source>
-        <translation type="unfinished">Carregar Última faixa na Inicialização</translation>
+        <translation>Carregar Última faixa na Inicialização</translation>
     </message>
     <message>
         <location line="+28"/>
@@ -1988,7 +1988,7 @@ Biblioteca</translation>
         <location filename="../../build/src/GUI/Preferences/Startup/ui_GUI_StartupDialog.h" line="+1"/>
         <location filename="../../build_clang/src/GUI/Preferences/Startup/ui_GUI_StartupDialog.h" line="+1"/>
         <source>Remember time of last track</source>
-        <translation type="unfinished">Gravar tempo da Ultima Faixa</translation>
+        <translation>Gravar tempo da Ultima Faixa</translation>
     </message>
 </context>
 <context>
@@ -2624,7 +2624,7 @@ arquivos relativos</translation>
         <location filename="../../build/src/GUI/Library/ImportFolderDialog/ui_GUI_ImportFolder.h" line="+4"/>
         <location filename="../../build_clang/src/GUI/Library/ImportFolderDialog/ui_GUI_ImportFolder.h" line="+4"/>
         <source>Edit</source>
-        <translation type="unfinished">Editar</translation>
+        <translation>Editar</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -2798,7 +2798,7 @@ arquivos relativos</translation>
 <context>
     <name>LibraryItemDelegateAlbums</name>
     <message>
-        <location filename="../GUI/Library/Delegates/LibraryItemDelegateAlbums.cpp" line="+101"/>
+        <location filename="../GUI/Library/Delegates/LibraryItemDelegateAlbums.cpp" line="+96"/>
         <source>None</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2811,7 +2811,7 @@ arquivos relativos</translation>
 <context>
     <name>LibraryItemDelegateArtists</name>
     <message>
-        <location filename="../GUI/Library/Delegates/LibraryItemDelegateArtists.cpp" line="+99"/>
+        <location filename="../GUI/Library/Delegates/LibraryItemDelegateArtists.cpp" line="+95"/>
         <source>tracks</source>
         <translation>Faixas</translation>
     </message>
@@ -2977,9 +2977,9 @@ arquivos relativos</translation>
 <context>
     <name>NumTrackHeader</name>
     <message>
-        <location filename="../GUI/Library/Helper/ColumnHeader.h" line="-51"/>
+        <location filename="../GUI/Library/Helper/ColumnHeader.h" line="-55"/>
         <source>#Tracks</source>
-        <translation type="unfinished">#Faixas</translation>
+        <translation>#Faixas</translation>
     </message>
 </context>
 <context>
@@ -3147,7 +3147,7 @@ arquivos relativos</translation>
 <context>
     <name>RatingHeader</name>
     <message>
-        <location filename="../GUI/Library/Helper/ColumnHeader.h" line="+35"/>
+        <location filename="../GUI/Library/Helper/ColumnHeader.h" line="+37"/>
         <source>Rating</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3358,24 +3358,24 @@ arquivos relativos</translation>
 <context>
     <name>SoundcloudJsonParser</name>
     <message>
-        <location filename="../3rdParty/Soundcloud/src/SoundcloudJsonParser.cpp" line="+206"/>
+        <location filename="../3rdParty/Soundcloud/src/SoundcloudJsonParser.cpp" line="+205"/>
         <location line="+121"/>
         <source>Purchase Url</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-220"/>
+        <location line="-219"/>
         <source>Website</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+4"/>
-        <location line="+212"/>
+        <location line="+211"/>
         <source>Permalink Url</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-208"/>
+        <location line="-207"/>
         <source>About</source>
         <translation>Sobre</translation>
     </message>
@@ -3385,7 +3385,7 @@ arquivos relativos</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+93"/>
+        <location line="+92"/>
         <source>None</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3425,17 +3425,17 @@ OK?</source>
 <context>
     <name>TitleHeader</name>
     <message>
-        <location filename="../GUI/Library/Helper/ColumnHeader.h" line="-44"/>
+        <location filename="../GUI/Library/Helper/ColumnHeader.h" line="-46"/>
         <source>Title</source>
-        <translation type="unfinished">Título</translation>
+        <translation>Título</translation>
     </message>
 </context>
 <context>
     <name>YearHeader</name>
     <message>
-        <location line="+36"/>
+        <location line="+37"/>
         <source>Year</source>
-        <translation type="unfinished">Ano</translation>
+        <translation>Ano</translation>
     </message>
 </context>
 </TS>

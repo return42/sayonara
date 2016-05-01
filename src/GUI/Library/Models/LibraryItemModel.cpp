@@ -60,6 +60,8 @@ QVariant LibraryItemModel::headerData ( int section, Qt::Orientation orientation
 
 bool LibraryItemModel::setHeaderData(int section, Qt::Orientation orientation, const QVariant& value, int role)
 {
+	Q_UNUSED(role)
+
 	if(!between(section, 0, _header_names.size())){
 		return false;
 	}
