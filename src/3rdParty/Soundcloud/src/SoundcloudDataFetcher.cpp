@@ -58,23 +58,6 @@ void SoundcloudDataFetcher::get_artist(int artist_id){
 }
 
 
-void SoundcloudDataFetcher::get_playlist(int playlist_id){
-	Q_UNUSED(playlist_id)
-	// Not implemented
-}
-
-
-void SoundcloudDataFetcher::get_track(int track_id){
-
-	AsyncWebAccess* awa = new AsyncWebAccess(this);
-
-	connect(awa, &AsyncWebAccess::sig_finished,
-			this, &SoundcloudDataFetcher::tracks_fetched);
-
-	awa->run( SoundcloudWebAccess::create_dl_get_track(track_id) );
-}
-
-
 void SoundcloudDataFetcher::get_playlists_by_artist(int artist_id){
 	return get_tracks_by_artist(artist_id);
 }
@@ -82,7 +65,9 @@ void SoundcloudDataFetcher::get_playlists_by_artist(int artist_id){
 
 void SoundcloudDataFetcher::get_tracks_by_artist(int artist_id){
 
-	_album_tracks.clear();
+	_playlist_tracks.clear();
+	_playlists.clear();
+	_artists.clear();
 	_artist_id = artist_id;
 
 	AsyncWebAccess* awa = new AsyncWebAccess(this);
@@ -113,11 +98,8 @@ void SoundcloudDataFetcher::artists_fetched(bool success){
 
 void SoundcloudDataFetcher::playlist_tracks_fetched(bool success){
 
-	MetaDataList v_md;
-	AlbumList playlists;
+
 	AsyncWebAccess* awa = static_cast<AsyncWebAccess*>(sender());
-	AsyncWebAccess* awa2 = nullptr;
-	int artist_id = -1;
 
 	if(!success){
 		awa->deleteLater();
@@ -126,40 +108,23 @@ void SoundcloudDataFetcher::playlist_tracks_fetched(bool success){
 
 	QByteArray data = awa->get_data();
 	SoundcloudJsonParser parser(data);
-	parser.parse_playlists(playlists, v_md);
+	parser.parse_playlists(_artists, _playlists, _playlist_tracks);
 
-	_album_tracks = v_md;
-	emit sig_playlists_fetched(playlists);
-
-	if(!v_md.isEmpty()){
-		artist_id = v_md[0].artist_id;
-	}
-
-	else {
-		artist_id = _artist_id;
-	}
-
-	if(artist_id == -1){
-		emit sig_tracks_fetched(v_md);
-		awa->deleteLater();
-		return;
-	}
-
-	awa2 = new AsyncWebAccess(this);
-
-	connect(awa2, &AsyncWebAccess::sig_finished,
+	AsyncWebAccess* awa_new = new AsyncWebAccess(this);
+	connect(awa_new, &AsyncWebAccess::sig_finished,
 			this, &SoundcloudDataFetcher::tracks_fetched);
 
-	awa2->run( SoundcloudWebAccess::create_dl_get_tracks(artist_id) );
+	awa_new->run( SoundcloudWebAccess::create_dl_get_tracks(_artist_id) );
 
 	awa->deleteLater();
 }
-
 
 void SoundcloudDataFetcher::tracks_fetched(bool success){
 
 	MetaDataList v_md;
+	ArtistList artists;
 	AsyncWebAccess* awa = static_cast<AsyncWebAccess*>(sender());
+
 	if(!success){
 		awa->deleteLater();
 		return;
@@ -167,29 +132,24 @@ void SoundcloudDataFetcher::tracks_fetched(bool success){
 
 	QByteArray data = awa->get_data();
 	SoundcloudJsonParser parser(data);
+	parser.parse_tracks(artists, v_md);
 
-	parser.parse_tracks(v_md);
-
-
-	// v_md are tracks fetched without
-	// album connection
-	for(MetaData& md : v_md){
-		for(const MetaData& album_md : _album_tracks){
-			if(album_md.id == md.id){
-				md.album_id = album_md.album_id;
-				md.album = album_md.album;
-				md.track_num = album_md.track_num;
-				break;
-			}
-		}
-
-		if(md.album.isEmpty() || md.album_id == -1){
-			md.album = "None";
-			md.album_id = 0;
+	for(const MetaData& md : v_md){
+		if(!_playlist_tracks.contains(md.id)){
+			_playlist_tracks << md;
 		}
 	}
 
-	emit sig_tracks_fetched(v_md);
+	for(const Artist& artist : artists){
+		if(!_artists.contains(artist.id)){
+			_artists << artist;
+		}
+	}
+
+	emit sig_playlists_fetched(_playlists);
+	emit sig_tracks_fetched(_playlist_tracks);
+	emit sig_ext_artists_fetched(_artists);
 
 	awa->deleteLater();
 }
+

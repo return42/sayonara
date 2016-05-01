@@ -45,6 +45,7 @@ private slots:
 	void close_clicked();
 
 	void artists_fetched(const ArtistList& artists);
+	void artists_ext_fetched(const ArtistList& artists);
 	void albums_fetched(const AlbumList& albums);
 	void tracks_fetched(const MetaDataList& tracks);
 

@@ -82,6 +82,9 @@ public:
 	 */
 	QString get_major_artist() const;
 
+
+	bool contains(int artist_id) const;
+
 };
 
 

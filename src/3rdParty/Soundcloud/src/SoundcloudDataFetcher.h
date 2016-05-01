@@ -25,14 +25,18 @@
 
 
 #include "Helper/MetaData/MetaDataList.h"
+#include "Helper/MetaData/Album.h"
+#include "Helper/MetaData/Artist.h"
 
-class ArtistList;
-class AlbumList;
+
+
+
 class SoundcloudDataFetcher : public QObject
 {
 	Q_OBJECT
 
 signals:
+	void sig_ext_artists_fetched(const ArtistList& artists);
 	void sig_artists_fetched(const ArtistList& artists);
 	void sig_playlists_fetched(const AlbumList& albums);
 	void sig_tracks_fetched(const MetaDataList& v_md);
@@ -43,8 +47,6 @@ public:
 
 	void search_artists(const QString& artist_name);
 	void get_artist(int artist_id);
-	void get_playlist(int playlist_id);
-	void get_track(int track_id);
 
 	void get_playlists_by_artist(int artist_id);
 	void get_tracks_by_artist(int artist_id);
@@ -56,7 +58,9 @@ private slots:
 	void tracks_fetched(bool success);
 
 private:
-	MetaDataList	_album_tracks;
+	MetaDataList	_playlist_tracks;
+	AlbumList		_playlists;
+	ArtistList		_artists;
 	int				_artist_id;
 
 };
