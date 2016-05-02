@@ -134,16 +134,14 @@ void LibraryPluginHandler::init_library(int idx)
 	libchooser->setIconSize(QSize(16,16));
 	libchooser->setMinimumWidth(200);
 	libchooser->setMaximumWidth(200);
-
 	libchooser->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
-
-	libchooser->setItemDelegate(new ComboBoxDelegate(ui));
 
 	for(LibraryContainerInterface* other_library : _libraries){
 		libchooser->addItem(other_library->get_icon(), other_library->get_display_name());
 	}
 
 	libchooser->setCurrentIndex(idx);
+	libchooser->setItemDelegate(new ComboBoxDelegate(ui));
 
 	connect(libchooser, combo_activated_int, this, &LibraryPluginHandler::index_changed);
 }
