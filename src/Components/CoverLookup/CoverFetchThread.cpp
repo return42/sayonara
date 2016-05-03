@@ -56,8 +56,8 @@ bool CoverFetchThread::start(){
 	_covers_found = 0;
 
 	if(!_url.contains("google", Qt::CaseInsensitive))
-
 	{
+		_addresses.clear();
 		_addresses << _url;
 		more();
 		return true;

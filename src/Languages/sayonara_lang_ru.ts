@@ -222,7 +222,7 @@
     <message>
         <location line="+10"/>
         <source>Dur.</source>
-        <translation type="unfinished"></translation>
+        <translation>Длител.</translation>
     </message>
 </context>
 <context>
@@ -230,7 +230,7 @@
     <message>
         <location line="+36"/>
         <source>Filesize</source>
-        <translation>Размер файла</translation>
+        <translation>Разм-р фай-а</translation>
     </message>
 </context>
 <context>
