@@ -30,7 +30,7 @@
 #include "GUI/Helper/Message/GlobalMessageReceiverInterface.h"
 
 #include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
-#include "GUI/Helper/SayonaraWidget/SayonaraShortcutWidget.h"
+#include "GUI/Helper/Shortcuts/ShortcutWidget.h"
 
 
 #include <QMessageBox>
@@ -62,13 +62,12 @@ class IconLoader;
 
 class GUI_Player :
 		public SayonaraMainWindow,
-		public SayonaraShortcutWidget,
+		public ShortcutWidget,
 		public GlobalMessageReceiverInterface,
 		private Ui::Sayonara
 {
 
 	Q_OBJECT
-
 
 public:
 

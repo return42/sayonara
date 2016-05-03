@@ -30,12 +30,19 @@
 
 
 
-
+/**
+ * @brief Dialog with Settings connection. Also contains triggers for language_changed() and skin_changed(). Emits sig_closed() when closed.
+ * @ingroup GUIHelper
+ * @ingroup Interfaces
+ */
 class SayonaraDialog : public SayonaraWidgetTemplate<QDialog> {
 
 	Q_OBJECT
 
 signals:
+	/**
+	 * @brief emitted when closed
+	 */
 	void sig_closed();
 
 public:

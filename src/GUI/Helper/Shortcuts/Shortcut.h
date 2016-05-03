@@ -30,7 +30,7 @@
 #include <QKeySequence>
 #include "Helper/Settings/SayonaraClass.h"
 
-class SayonaraShortcutWidget;
+class ShortcutWidget;
 /**
  * @brief A single shortcut managed by ShortcutHandler.
  * This class holds information about the default shortcuts,
@@ -48,7 +48,7 @@ private:
 	QString				_name;
 	QString				_identifier;
 	QList<QShortcut*>	_qt_shortcuts;
-	SayonaraShortcutWidget* _parent=nullptr;
+	ShortcutWidget* _parent=nullptr;
 
 private:
 	Shortcut();
@@ -69,7 +69,7 @@ public:
 	 * @param name the name displayed in the Shortcut configuration dialog
 	 * @param default_shortcut one default shortcut
 	 */
-	Shortcut(SayonaraShortcutWidget* parent, const QString& identifier, const QString& name, const QString& default_shortcut);
+	Shortcut(ShortcutWidget* parent, const QString& identifier, const QString& name, const QString& default_shortcut);
 
 	/**
 	 * @brief Shortcut
@@ -77,7 +77,7 @@ public:
 	 * @param name the name displayed in the Shortcut configuration dialog
 	 * @param default_shortcuts a list of default shortcuts
 	 */
-	Shortcut(SayonaraShortcutWidget* parent, const QString& identifier, const QString& name, const QStringList& default_shortcuts);
+	Shortcut(ShortcutWidget* parent, const QString& identifier, const QString& name, const QStringList& default_shortcuts);
 
 	/**
 	 * @brief Copy constructor
@@ -154,10 +154,6 @@ public:
 	 * @param the slot which is triggered when pressing that shortcut
 	 */
 	void create_qt_shortcut(QWidget* parent, QObject* receiver, const char* slot);
-
-
-
 };
-
 
 #endif // SHORTCUT_H

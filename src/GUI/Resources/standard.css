@@ -9,6 +9,21 @@ QWidget {
 	font-size: <<FONT_SIZE>>pt;
 }
 
+
+LibraryView,
+LibraryGenreView,
+DirectoryTreeView,
+FileListView
+{
+	      font-size: <<FONT_SIZE_LIB>>pt;
+		  font-weight: <<FONT_WEIGHT_LIB>>;
+}
+
+PlaylistView
+{
+    font-size: <<FONT_SIZE_PL>>pt;
+}
+
 QFrame#player_frame, 
 	QFrame#genre_frame
 	QFrame#my_frame, 

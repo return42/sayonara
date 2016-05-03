@@ -81,7 +81,7 @@ QString Style::get_style(bool dark) {
 	style.replace("<<FONT_SIZE>>", QString::number(font_size));
 	style.replace("<<FONT_SIZE_LIB>>", QString::number(font_size_lib));
 	style.replace("<<FONT_SIZE_PL>>", QString::number(font_size_pl));
-	style.replace("<<FONT_WEIGHT_LIB>>", lib_bold ? "800" : "400");
+	style.replace("<<FONT_WEIGHT_LIB>>", lib_bold ? "600" : "normal");
 
     return style;
 }

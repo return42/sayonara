@@ -53,7 +53,7 @@
 
 GUI_Player::GUI_Player(QTranslator* translator, QWidget *parent) :
 	SayonaraMainWindow(parent),
-	SayonaraShortcutWidget(),
+	ShortcutWidget(),
 	GlobalMessageReceiverInterface("Player Main Window"),
 	Ui::Sayonara()
 {

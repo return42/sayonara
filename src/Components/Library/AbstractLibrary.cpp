@@ -665,6 +665,7 @@ void AbstractLibrary::psl_metadata_id3_changed(const MetaDataList& v_md_old, con
 		}
 	}
 
+	refresh();
 	emit_stuff();
 }
 

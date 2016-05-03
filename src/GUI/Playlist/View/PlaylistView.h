@@ -133,6 +133,7 @@ private slots:
 	void row_pressed(const QModelIndex&);
 	void row_double_clicked(const QModelIndex&);
 	void row_released(const QModelIndex&);
+	void _sl_look_changed();
 };
 
 #endif /* PlaylistView_H_ */

@@ -37,6 +37,12 @@
 #define spinbox_value_changed_int	static_cast<void (QSpinBox::*) (int)>(&QSpinBox::valueChanged)
 
 template<typename T>
+/**
+ * @brief Template for Sayonara Widgets. This template is responsible for holding a reference to the settings and so, the
+ * REGISTER_LISTENER and REGISTER_LISTENER_NO_CALL macros are available
+ * @ingroup GUIHelper
+ * @ingroup Interfaces
+ */
 class SayonaraWidgetTemplate :
 		public T,
 		protected SayonaraClass
@@ -54,6 +60,10 @@ public:
 
 	}
 
+	/**
+	 * @brief Returns, if the current skin is dark 
+	 * @return true, if dark. false else
+	 */
 	bool is_dark() const
 	{
 		bool dark = (_settings->get(Set::Player_Style) == 1);

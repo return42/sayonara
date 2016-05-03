@@ -361,8 +361,6 @@ void PlaybackEngine::set_about_to_finish(qint64 time2go) {
 
 void PlaybackEngine::set_track_finished() {
 
-	sp_log(Log::Debug) << "Track finished: " << (int) _gapless_state;
-
 	// fetch new track
 	if( _gapless_state == GaplessState::NoGapless ||
 		_gapless_state == GaplessState::Playing)

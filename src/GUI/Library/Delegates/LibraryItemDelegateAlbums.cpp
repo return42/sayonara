@@ -80,7 +80,7 @@ void LibraryItemDelegateAlbums::paint(QPainter *painter, const QStyleOptionViewI
 
 	else if(col == COL_ALBUM_NAME) {
 
-		rect.translate(2, 0);
+		rect.translate(3, 0);
 
 		QString name = index.data().toString();
 		painter->drawText(rect, Qt::AlignLeft | Qt::AlignVCenter, name);

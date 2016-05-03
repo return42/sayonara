@@ -24,7 +24,7 @@
 #define PLAYLISTTABBAR_H
 
 #include "PlaylistMenuEntry.h"
-#include "GUI/Helper/SayonaraWidget/SayonaraShortcutWidget.h"
+#include "GUI/Helper/Shortcuts/ShortcutWidget.h"
 
 #include <QInputDialog>
 #include <QTabBar>
@@ -38,7 +38,7 @@ class MetaDataList;
 
 class PlaylistTabBar :
 		public QTabBar,
-		public SayonaraShortcutWidget
+		public ShortcutWidget
 {
 
 	Q_OBJECT

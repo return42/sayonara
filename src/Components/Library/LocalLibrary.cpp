@@ -229,3 +229,4 @@ void LocalLibrary::import_files(const QStringList& files){
 	LibraryImporter::getInstance()->import_files(files);
 	emit sig_import_dialog_requested();
 }
+

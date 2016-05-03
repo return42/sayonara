@@ -103,7 +103,6 @@ protected slots:
 	void _sl_libpath_changed();
 
 
-
 private:
 	GUI_LibraryInfoBox*		_library_info_box=nullptr;
 	GUI_ImportFolder*		_ui_importer=nullptr;

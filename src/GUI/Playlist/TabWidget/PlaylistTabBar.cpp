@@ -31,7 +31,7 @@
 
 PlaylistTabBar::PlaylistTabBar(QWidget *parent) :
 	QTabBar(parent),
-	SayonaraShortcutWidget()
+	ShortcutWidget()
 {
 	_menu = new PlaylistTabMenu(this);
 	this->setDrawBase(false);

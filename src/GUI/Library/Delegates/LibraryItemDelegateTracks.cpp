@@ -87,6 +87,11 @@ void LibraryItemDelegateTracks::paint(QPainter *painter, const QStyleOptionViewI
 		rating.paint(painter, rect, option.palette, false);
     }
 
+	else if(col == COL_TITLE){
+	    rect.translate(3, 0);
+        painter->drawText(rect, Qt::AlignLeft | Qt::AlignVCenter, text);
+	}
+
     else{
         rect.translate(2, 0);
         painter->drawText(rect, Qt::AlignLeft | Qt::AlignVCenter, text);

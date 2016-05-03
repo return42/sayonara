@@ -30,7 +30,7 @@
 #include <QLayout>
 
 #include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
-#include "GUI/Helper/SayonaraWidget/SayonaraShortcutWidget.h"
+#include "GUI/Helper/Shortcuts/ShortcutWidget.h"
 #include "GUI/Helper/Shortcuts/ShortcutHandler.h"
 
 #include "Components/PlayManager/PlayManager.h"
@@ -47,7 +47,7 @@ class PlayerPluginHandler;
 
 class PlayerPluginInterface :
 		public SayonaraWidget,
-		public SayonaraShortcutWidget
+		public ShortcutWidget
 {
 
 	friend class PlayerPluginHandler;
