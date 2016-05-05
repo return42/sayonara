@@ -23,7 +23,7 @@
  * GUI_Equalizer.cpp
  *
  *  Created on: May 18, 2011
- *      Author: luke
+ *      Author: Lucio Carreras
  */
 
 

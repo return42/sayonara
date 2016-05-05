@@ -23,7 +23,7 @@
  * AlternateCoverItemDelegate.h
  *
  *  Created on: Jul 1, 2011
- *      Author: luke
+ *      Author: Lucio Carreras
  */
 
 #ifndef ALTERNATECOVERITEMDELEGATE_H_

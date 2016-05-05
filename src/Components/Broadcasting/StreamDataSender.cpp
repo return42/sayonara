@@ -83,11 +83,10 @@ StreamDataSender::~StreamDataSender()
 
 
 bool StreamDataSender::send_trash(){
-	char single_byte[1];
+	char single_byte = 0x00;
 	qint64 n_bytes;
 
-	single_byte[0] = 0x00;
-	n_bytes = _socket->write(single_byte, 1);
+	n_bytes = _socket->write(&single_byte, 1);
 
 	_socket->disconnectFromHost();
 	_socket->close();

@@ -23,7 +23,7 @@
  * LastFM.h
  *
  *  Created on: Apr 19, 2011
- *      Author: luke
+ *      Author: Lucio Carreras
  */
 
 #ifndef LASTFM_H_

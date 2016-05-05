@@ -23,7 +23,7 @@
 * PlaylistItemModel.cpp
  *
  *  Created on: Apr 8, 2011
- *      Author: luke
+ *      Author: Lucio Carreras
  */
 
 #include "PlaylistItemModel.h"

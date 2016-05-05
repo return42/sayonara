@@ -16,7 +16,6 @@
    version="1.1"
    inkscape:version="0.48.4 r9939"
    sodipodi:docname="plus.svg"
-   inkscape:export-filename="/home/luke/sayonara/branches/experimental/src/GUI/Resources/Icons/plus.svg.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
   <defs
@@ -232,7 +231,6 @@
        x="0"
        y="0"
        ry="5.0795155"
-       inkscape:export-filename="/home/luke/Desktop/sayonara_new.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <rect
@@ -244,20 +242,17 @@
        height="55"
        width="55"
        rx="4.9045024"
-       inkscape:export-filename="/home/luke/Desktop/sayonara_new.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <g
        id="g6050"
        transform="matrix(0.39950461,0,0,0.39950461,-191.67113,-608.47246)"
-       inkscape:export-filename="/home/luke/sayonara-player/branches/sayonara-885/src/GUI/icons/plus.png"
        inkscape:export-xdpi="18.540001"
        inkscape:export-ydpi="18.540001"
        style="filter:url(#filter6200)">
       <rect
          inkscape:export-ydpi="25.41"
          inkscape:export-xdpi="25.41"
-         inkscape:export-filename="/home/luke/sayonara-player/branches/sayonara-885/src/GUI/icons/plus.png"
          y="1546.4995"
          x="545.70441"
          height="113.33426"
@@ -267,7 +262,6 @@
       <rect
          inkscape:export-ydpi="25.41"
          inkscape:export-xdpi="25.41"
-         inkscape:export-filename="/home/luke/sayonara-player/branches/sayonara-885/src/GUI/icons/plus.png"
          transform="matrix(0,-1,1,0,0,0)"
          y="503.20407"
          x="-1617.3334"

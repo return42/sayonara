@@ -23,7 +23,7 @@
  * LibraryView.cpp
  *
  *  Created on: Jun 26, 2011
- *      Author: luke
+ *      Author: Lucio Carreras
  */
 
 #include "LibraryView.h"

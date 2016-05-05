@@ -405,7 +405,7 @@
         <location filename="../../build/src/GUI/PlayerPlugins/Bookmarks/ui_GUI_Bookmarks.h" line="+214"/>
         <location filename="../../build_clang/src/GUI/PlayerPlugins/Bookmarks/ui_GUI_Bookmarks.h" line="+214"/>
         <source>Loop</source>
-        <translatorcomment>We wanna play that selection in a loop</translatorcomment>
+        <translatorcomment>We want to play that selection in a loop</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1579,7 +1579,7 @@
         <location filename="../GUI/PlayerPlugins/Stream/GUI_Podcasts.ui" line="+156"/>
         <location filename="../../build/src/GUI/PlayerPlugins/Stream/ui_GUI_Podcasts.h" line="+179"/>
         <location filename="../../build_clang/src/GUI/PlayerPlugins/Stream/ui_GUI_Podcasts.h" line="+179"/>
-        <source>Type name you wanna save the stream as</source>
+        <source>Type name you want to save the stream as</source>
         <translation>Inserire nom </translation>
     </message>
     <message>
@@ -2050,7 +2050,7 @@
         <location filename="../GUI/PlayerPlugins/Stream/GUI_Stream.ui" line="-144"/>
         <location filename="../../build/src/GUI/PlayerPlugins/Stream/ui_GUI_Stream.h" line="-10"/>
         <location filename="../../build_clang/src/GUI/PlayerPlugins/Stream/ui_GUI_Stream.h" line="-10"/>
-        <source>Type name you wanna save the stream as</source>
+        <source>Type name you want to save the stream as</source>
         <translatorcomment>ich bin mir nicht so sicher ob du sowas meint..dies habe ich als &quot;save as&quot; übersetzt..</translatorcomment>
         <translation>Salva con.nome</translation>
     </message>

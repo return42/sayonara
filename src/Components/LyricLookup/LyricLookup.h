@@ -23,7 +23,7 @@
  * LyricLookup.h
  *
  *  Created on: May 21, 2011
- *      Author: luke
+ *      Author: Lucio Carreras
  */
 
 #ifndef LYRICLOOKUP_H_

@@ -23,7 +23,7 @@
  * AlternateCoverItemModel.cpp
  *
  *  Created on: Jul 1, 2011
- *      Author: luke
+ *      Author: Lucio Carreras
  */
 
 #include "GUI/AlternativeCovers/AlternativeCoverItemModel.h"

@@ -11,12 +11,9 @@ Build-Depends: cmake,
                libtag1-dev,
                pkg-config,
                qtbase5-dev,
-#               qtbase5-dev-tools, -- required by qtbase5-dev
-#               qtchooser,  -- required by qtbase5-dev
-#               qttools5-dev,
-#               qttools5-dev-tools,
+               qttools5-dev-tools,
                zlib1g-dev
-Standards-Version: 3.9.6
+Standards-Version: 3.9.7
 Homepage: http://sayonara-player.com
 
 Package: sayonara

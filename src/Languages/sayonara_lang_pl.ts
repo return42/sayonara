@@ -396,7 +396,7 @@
         <location filename="../../build/src/GUI/PlayerPlugins/Bookmarks/ui_GUI_Bookmarks.h" line="+214"/>
         <location filename="../../build_clang/src/GUI/PlayerPlugins/Bookmarks/ui_GUI_Bookmarks.h" line="+214"/>
         <source>Loop</source>
-        <translatorcomment>We wanna play that selection in a loop</translatorcomment>
+        <translatorcomment>We want to play that selection in a loop</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1599,7 +1599,7 @@
         <location line="+12"/>
         <location filename="../../build/src/GUI/PlayerPlugins/Stream/ui_GUI_Podcasts.h" line="+2"/>
         <location filename="../../build_clang/src/GUI/PlayerPlugins/Stream/ui_GUI_Podcasts.h" line="+2"/>
-        <source>Type name you wanna save the stream as</source>
+        <source>Type name you want to save the stream as</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2025,7 +2025,7 @@
         <location line="+10"/>
         <location filename="../../build/src/GUI/PlayerPlugins/Stream/ui_GUI_Stream.h" line="+2"/>
         <location filename="../../build_clang/src/GUI/PlayerPlugins/Stream/ui_GUI_Stream.h" line="+2"/>
-        <source>Type name you wanna save the stream as</source>
+        <source>Type name you want to save the stream as</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

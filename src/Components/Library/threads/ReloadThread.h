@@ -23,7 +23,7 @@
  * ReloadThread.h
  *
  *  Created on: Jun 19, 2011
- *      Author: luke
+ *      Author: Lucio Carreras
  */
 
 #ifndef RELOADTHREAD_H_

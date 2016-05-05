@@ -23,7 +23,7 @@
  * GUI_LastFM.cpp
  *
  *  Created on: Apr 21, 2011
- *      Author: luke
+ *      Author: Lucio Carreras
  */
 
 #include "GUI_LastFM.h"

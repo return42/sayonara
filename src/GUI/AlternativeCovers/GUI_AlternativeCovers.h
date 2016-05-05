@@ -23,7 +23,7 @@
  * GUI_AlternativeCovers.h
  *
  *  Created on: Jul 1, 2011
- *      Author: luke
+ *      Author: Lucio Carreras
  */
 
 #ifndef GUI_ALTERNATE_COVERS_H_

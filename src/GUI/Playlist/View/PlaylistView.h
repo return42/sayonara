@@ -23,7 +23,7 @@
  * PlaylistView.h
  *
  *  Created on: Jun 27, 2011
- *      Author: luke
+ *      Author: Lucio Carreras
  */
 
 #ifndef PLAYLISTVIEW_H_

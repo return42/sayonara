@@ -23,7 +23,7 @@
  * LibraryItemDelegateArtists.h
  *
  *  Created on: Jun 3, 2011
- *      Author: luke
+ *      Author: Lucio Carreras
  */
 
 #ifndef LIBRARYITEMDELEGATEARTISTS_H_

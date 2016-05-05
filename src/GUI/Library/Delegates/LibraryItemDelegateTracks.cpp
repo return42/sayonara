@@ -23,7 +23,7 @@
  * LibraryItemDelegateTracks.cpp
  *
  *  Created on: Oct 28, 2011
- *      Author: luke
+ *      Author: Lucio Carreras
  */
 
 #include "LibraryItemDelegateTracks.h"

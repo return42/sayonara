@@ -23,7 +23,7 @@
  * CoverLookup.h
  *
  *  Created on: Apr 4, 2011
- *      Author: luke
+ *      Author: Lucio Carreras
  */
 
 #ifndef COVERLOOKUP_H_
