@@ -1,3 +1,3 @@
 version=3
 
-opts=pasv ftp://sayonara-player.com/debian sayonara-player_(.+).tar.gz
+opts=pasv ftp://sayonara-player.com/debian sayonara_(.+).orig.tar.gz
