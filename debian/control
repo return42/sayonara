@@ -13,7 +13,7 @@ Build-Depends: cmake,
                qtbase5-dev,
                qttools5-dev-tools,
                zlib1g-dev
-Standards-Version: 3.9.7
+Standards-Version: 3.9.8
 Homepage: http://sayonara-player.com
 
 Package: sayonara
