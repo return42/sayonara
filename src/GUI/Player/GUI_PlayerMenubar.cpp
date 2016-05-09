@@ -2,7 +2,7 @@
  * GUI_PlayerMenubar.cpp
  *
  *  Created on: 10.10.2012
- *      Author: luke
+ *      Author: Lucio Carreras
  */
 
 /* Copyright (C) 2011-2016  Lucio Carreras
@@ -149,7 +149,7 @@ void GUI_Player::_sl_fullscreen_toggled(){
 }
 
 void GUI_Player::show_fullscreen_toggled(bool b) {
-	// may happend because of F11 too
+	// may happened because of F11 too
 	action_Fullscreen->setChecked(b);
 	if(b){
 		showFullScreen();

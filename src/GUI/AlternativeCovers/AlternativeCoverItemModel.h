@@ -23,7 +23,7 @@
  * AlternateCoverItemModel.h
  *
  *  Created on: Jul 1, 2011
- *      Author: luke
+ *      Author: Lucio Carreras
  */
 
 #ifndef ALTERNATECOVERITEMMODEL_H_

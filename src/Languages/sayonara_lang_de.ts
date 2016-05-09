@@ -1554,7 +1554,7 @@
         <location filename="../GUI/PlayerPlugins/Stream/GUI_Podcasts.ui" line="+156"/>
         <location filename="../../build/src/GUI/PlayerPlugins/Stream/ui_GUI_Podcasts.h" line="+179"/>
         <location filename="../../build_clang/src/GUI/PlayerPlugins/Stream/ui_GUI_Podcasts.h" line="+179"/>
-        <source>Type name you wanna save the stream as</source>
+        <source>Type name you want to save the stream as</source>
         <translation>Speichern als</translation>
     </message>
     <message>
@@ -2024,7 +2024,7 @@
         <location filename="../GUI/PlayerPlugins/Stream/GUI_Stream.ui" line="-144"/>
         <location filename="../../build/src/GUI/PlayerPlugins/Stream/ui_GUI_Stream.h" line="-10"/>
         <location filename="../../build_clang/src/GUI/PlayerPlugins/Stream/ui_GUI_Stream.h" line="-10"/>
-        <source>Type name you wanna save the stream as</source>
+        <source>Type name you want to save the stream as</source>
         <translation>Speichern als</translation>
     </message>
     <message>

@@ -26,7 +26,7 @@
 #include <QObject>
 #include "Helper/Settings/AbstrSettingNotifier.h"
 
-/*	Connect a Setting to a private slot in a class that wanna be notified
+/*	Connect a Setting to a private slot in a class that want to be notified
 	whenever the setting changed:
 
 	call: REGISTER_LISTENER(Set::LFM_Active, lfm_active_changed);

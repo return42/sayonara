@@ -23,7 +23,7 @@
  * LibraryItemModelTracks.cpp
  *
  *  Created on: Apr 24, 2011
- *      Author: luke
+ *      Author: Lucio Carreras
  */
 
 

@@ -23,7 +23,7 @@
  * GUI_Playlist.cpp
  *
  *  Created on: Apr 6, 2011
- *      Author: luke
+ *      Author: Lucio Carreras
  */
 
 #include "GUI_Playlist.h"

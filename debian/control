@@ -2,17 +2,28 @@ Source: sayonara
 Section: sound
 Priority: optional
 Maintainer: Lucio Carreras <luciocarreras@gmail.com>
-Build-Depends: debhelper (>= 9), cmake, pkg-config, qtchooser, qtbase5-dev, qtbase5-dev-tools, qttools5-dev, qttools5-dev-tools, libqt5core5a, libqt5dbus5, libqt5network5, libqt5sql5, libqt5sql5-sqlite, libqt5xml5, libtag1-dev, libgstreamer1.0-dev, libgstreamer-plugins-base1.0-dev, libgstreamer-plugins-bad1.0-dev, libsqlite3-0, libmtp-dev, zlib1g-dev
-Standards-Version: 3.9.6
+Build-Depends: cmake,
+               debhelper (>= 9),
+               libgstreamer-plugins-bad1.0-dev,
+               libgstreamer-plugins-base1.0-dev,
+               libgstreamer1.0-dev,
+               libmtp-dev,
+               libtag1-dev,
+               pkg-config,
+               qtbase5-dev,
+               qttools5-dev-tools,
+               zlib1g-dev
+Standards-Version: 3.9.8
 Homepage: http://sayonara-player.com
-#Vcs-Git: git://git.debian.org/collab-maint/sayonara.git
-#Vcs-Browser: http://git.debian.org/?p=collab-maint/sayonara.git;a=summary
 
 Package: sayonara
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, gstreamer1.0-plugins-ugly, libqt5sql5-sqlite
-Description: Small and lightweight music player. 
- Sayonara is as a lightweight and fast library manager and music player. 
+Depends: gstreamer1.0-plugins-ugly,
+         libqt5sql5-sqlite,
+         ${misc:Depends},
+         ${shlibs:Depends}
+Description: Small and lightweight music player.
+ Sayonara is as a lightweight and fast library manager and music player.
  It holds a lot of features like
  Many supported music and playlist formats
  Media library with search function
@@ -33,6 +44,6 @@ Description: Small and lightweight music player.
  Stream recorder
  Podcasts
  Radio Broadcasting
- Multimedia key support 
+ Multimedia key support
  Desktop integration (DBus Mpris2 compatible)
  2 skins

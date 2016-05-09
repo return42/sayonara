@@ -23,7 +23,7 @@
  * MyListView.h
  *
  *  Created on: Jun 26, 2011
- *      Author: luke
+ *      Author: Lucio Carreras
  */
 
 #ifndef MYTABLEVIEW_H_

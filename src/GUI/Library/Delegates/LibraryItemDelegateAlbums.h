@@ -23,7 +23,7 @@
  * LibraryItemDelegateAlbums.h
  *
  *  Created on: Apr 28, 2011
- *      Author: luke
+ *      Author: Lucio Carreras
  */
 
 #ifndef LIBRARYITEMDELEGATEALBUMS_H_

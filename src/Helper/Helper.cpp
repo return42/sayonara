@@ -23,7 +23,7 @@
  * Helper.cpp
  *
  *  Created on: Apr 4, 2011
- *      Author: luke
+ *      Author: Lucio Carreras
  */
 
 #include <QtGlobal>

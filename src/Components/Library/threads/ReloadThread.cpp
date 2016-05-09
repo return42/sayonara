@@ -23,7 +23,7 @@
  * ReloadThread.cpp
  *
  *  Created on: Jun 19, 2011
- *      Author: luke
+ *      Author: Lucio Carreras
  */
 
 #define N_FILES_TO_STORE 500

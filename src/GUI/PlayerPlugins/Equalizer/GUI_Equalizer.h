@@ -23,7 +23,7 @@
  * GUI_Equalizer.h
  *
  *  Created on: May 18, 2011
- *      Author: luke
+ *      Author: Lucio Carreras
  */
 
 #ifndef GUI_EQUALIZER_H_

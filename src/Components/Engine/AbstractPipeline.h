@@ -65,7 +65,7 @@ class AbstractPipeline : public QObject, protected SayonaraClass {
 		qint64		_position_ms;
 
 
-		virtual bool create_element(GstElement** elem, const gchar* elem_name, const gchar* name="");
+		virtual bool create_element(GstElement** elem, const QString& elem_name, const QString& name=QString());
 		virtual bool create_elements()=0;
 		virtual bool add_and_link_elements()=0;
 		virtual bool configure_elements()=0;

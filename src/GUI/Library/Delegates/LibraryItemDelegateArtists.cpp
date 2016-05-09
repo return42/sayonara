@@ -23,7 +23,7 @@
  * LibraryItemDelegateArtists.cpp
  *
  *  Created on: Apr 28, 2011
- *      Author: luke
+ *      Author: Lucio Carreras
  */
 
 #include "LibraryItemDelegateArtists.h"

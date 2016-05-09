@@ -39,7 +39,7 @@ PlaybackEngine::PlaybackEngine(QObject* parent) :
 	_playing_stream = false;
 
 	_sr_active = false;
-	_sr_wanna_record = false;
+
 	_stream_recorder = new StreamRecorder(this);
 
 	_gapless_state = GaplessState::NoGapless;
@@ -174,7 +174,7 @@ bool PlaybackEngine::set_uri(const QString& filepath) {
 
 	_playing_stream = Helper::File::is_www(filepath);
 
-	// stream, but don't wanna record
+	// stream, but don't want to record
 	// stream is already uri
 	if (_playing_stream) {
 

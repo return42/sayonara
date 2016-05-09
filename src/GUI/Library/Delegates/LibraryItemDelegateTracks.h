@@ -23,7 +23,7 @@
  * ibraryItemDelegateTracks.h
  *
  *  Created on: Oct 28, 2011
- *      Author: luke
+ *      Author: Lucio Carreras
  */
 
 #ifndef IBRARYITEMDELEGATETRACKS_H_

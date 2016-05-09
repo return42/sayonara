@@ -23,7 +23,7 @@
  * CoverFetchThread.cpp
  *
  *  Created on: Jun 28, 2011
- *      Author: luke
+ *      Author: Lucio Carreras
  */
 
 #include "CoverFetchThread.h"

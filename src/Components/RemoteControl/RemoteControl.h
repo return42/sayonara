@@ -59,8 +59,8 @@ typedef std::function<void(int)> RemoteFunctionInt ;
  * <B>setvol <int></B>\t change volume \n
  * <B>pl</B> \t fetch the active playlist \n
  * <B>curSong</B> \t fetch the current song index \n
- * <B>seekrel <int></B> \t seek withing song in percent \n
- * <B>seekrelms <int></B> \t seek withing song in relative to current position in seconds \n
+ * <B>seekrel <int></B> \t seek within song in percent \n
+ * <B>seekrelms <int></B> \t seek within song in relative to current position in seconds \n
  * <B>chtrk <int></B> \t change track \n
  * <B>state</B> \t request state: every answer except playlists are returned \n
  * \n\n

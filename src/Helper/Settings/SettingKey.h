@@ -228,7 +228,7 @@ namespace Set {
 	INST(bool,					PL_LoadTemporaryPlaylists);		/* load temporary playlists on startup */
 	INST(bool,					PL_LoadLastTrack);				/* load last track on startup */
 	INST(bool,					PL_RememberTime);				/* remember time of last track */
-	INST(bool,					PL_StartPlaying);				/* start playing immediatly when opening Sayonara */
+	INST(bool,					PL_StartPlaying);				/* start playing immediately when opening Sayonara */
 	INST(int,					PL_LastTrack);					/* last track idx in playlist */
 	INST(int,					PL_LastPlaylist);				/* last Playlist id, where LastTrack has been played */
 	INST(QString,				PL_EntryLook);					/* formatting of playlist entry */

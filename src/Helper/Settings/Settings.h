@@ -47,7 +47,7 @@ public:
 	AbstrSetting**	get_settings();
 
 
-	/* before you wanna access a setting you have to register it */
+	/* before you want to access a setting you have to register it */
 	void register_setting(AbstrSetting* s);
 
 
