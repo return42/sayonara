@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="cs_CZ" sourcelanguage="en_US">
+<TS version="2.0" language="cs_CZ" sourcelanguage="en_US">
 <context>
     <name>AbstractLibrary</name>
     <message>
@@ -145,7 +145,7 @@
     <message>
         <location filename="../Helper/MetaDataInfo/ArtistInfo.cpp" line="+159"/>
         <source>Similar artists:</source>
-        <translation type="unfinished"></translation>
+        <translation>Podobní umělci:</translation>
     </message>
 </context>
 <context>
@@ -488,7 +488,7 @@
         <location filename="../../build/src/GUI/Preferences/Broadcast/ui_GUI_BroadcastSetup.h" line="+3"/>
         <location filename="../../build_clang/src/GUI/Preferences/Broadcast/ui_GUI_BroadcastSetup.h" line="+3"/>
         <source>Stream URL:</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresa (URL) proudu:</translation>
     </message>
     <message>
         <location line="-68"/>
@@ -517,7 +517,7 @@
         <location filename="../GUI/DirectoryWidget/GUI_DirectoryWidget.cpp" line="-162"/>
         <location line="+41"/>
         <source>Really?</source>
-        <translation type="unfinished"></translation>
+        <translation>Skutečně?</translation>
     </message>
     <message>
         <location line="+102"/>
@@ -572,7 +572,7 @@
         <location filename="../../build/src/GUI/Preferences/Fonts/ui_GUI_FontConfig.h" line="-5"/>
         <location filename="../../build_clang/src/GUI/Preferences/Fonts/ui_GUI_FontConfig.h" line="-5"/>
         <source>Playlist</source>
-        <translation type="unfinished"></translation>
+        <translation>Seznam skladeb</translation>
     </message>
     <message>
         <location line="+14"/>
@@ -593,7 +593,7 @@
         <location filename="../../build/src/GUI/Preferences/Fonts/ui_GUI_FontConfig.h" line="-7"/>
         <location filename="../../build_clang/src/GUI/Preferences/Fonts/ui_GUI_FontConfig.h" line="-7"/>
         <source>Bold</source>
-        <translation type="unfinished"></translation>
+        <translation>Tučné</translation>
     </message>
     <message>
         <location line="+105"/>
@@ -606,7 +606,7 @@
         <location filename="../GUI/Preferences/Fonts/GUI_FontConfig.cpp" line="+66"/>
         <location line="+1"/>
         <source>Inherit</source>
-        <translation type="unfinished"></translation>
+        <translation>Zdědit</translation>
     </message>
 </context>
 <context>
@@ -840,7 +840,7 @@
         <location filename="../../build/src/GUI/Preferences/LibraryPreferences/ui_GUI_LibraryPreferences.h" line="+97"/>
         <location filename="../../build_clang/src/GUI/Preferences/LibraryPreferences/ui_GUI_LibraryPreferences.h" line="+97"/>
         <source>On double click, create playlist and</source>
-        <translation type="unfinished"></translation>
+        <translation>Při dvojitém poklepání vytvořit seznam skladeb a </translation>
     </message>
     <message>
         <location line="-17"/>
@@ -850,40 +850,40 @@
         <location filename="../../build_clang/src/GUI/Preferences/LibraryPreferences/ui_GUI_LibraryPreferences.h" line="-2"/>
         <location line="+3"/>
         <source>do nothing (default)</source>
-        <translation type="unfinished"></translation>
+        <translation>nedělat nic (výchozí)</translation>
     </message>
     <message>
         <location line="+7"/>
         <location filename="../../build/src/GUI/Preferences/LibraryPreferences/ui_GUI_LibraryPreferences.h" line="+1"/>
         <location filename="../../build_clang/src/GUI/Preferences/LibraryPreferences/ui_GUI_LibraryPreferences.h" line="+1"/>
         <source>start playback if stopped</source>
-        <translation type="unfinished"></translation>
+        <translation>začít s přehráváním, je-li zastaveno</translation>
     </message>
     <message>
         <location line="+7"/>
         <location filename="../../build/src/GUI/Preferences/LibraryPreferences/ui_GUI_LibraryPreferences.h" line="+1"/>
         <location filename="../../build_clang/src/GUI/Preferences/LibraryPreferences/ui_GUI_LibraryPreferences.h" line="+1"/>
         <source>start playback immediately</source>
-        <translation type="unfinished"></translation>
+        <translation>začít okamžitě s přehráváním</translation>
     </message>
     <message>
         <location line="-43"/>
         <location filename="../../build/src/GUI/Preferences/LibraryPreferences/ui_GUI_LibraryPreferences.h" line="-6"/>
         <location filename="../../build_clang/src/GUI/Preferences/LibraryPreferences/ui_GUI_LibraryPreferences.h" line="-6"/>
         <source>When drag and drop into playlist </source>
-        <translation type="unfinished"></translation>
+        <translation>Při tažení a upuštění na seznam skladeb </translation>
     </message>
     <message>
         <location line="+13"/>
         <location filename="../../build/src/GUI/Preferences/LibraryPreferences/ui_GUI_LibraryPreferences.h" line="+2"/>
         <location filename="../../build_clang/src/GUI/Preferences/LibraryPreferences/ui_GUI_LibraryPreferences.h" line="+2"/>
         <source>start if stopped and playlist is empty</source>
-        <translation type="unfinished"></translation>
+        <translation>začít s přehráváním, je-li zastaveno a seznam skladeb je prázdný</translation>
     </message>
     <message>
         <location filename="../GUI/Preferences/LibraryPreferences/GUI_LibraryPreferences.cpp" line="+44"/>
         <source>Library-Playlist Interaction</source>
-        <translation type="unfinished"></translation>
+        <translation>Spolupráce mezi sbírkou a seznamem skladeb</translation>
     </message>
 </context>
 <context>
@@ -975,17 +975,17 @@
     <message>
         <location filename="../GUI/Library/GUI_LocalLibrary.cpp" line="+153"/>
         <source>Check for changed files (fast)</source>
-        <translation type="unfinished"></translation>
+        <translation>Podívat se po změněných souborech (rychlé)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Deep scan (slow)</source>
-        <translation type="unfinished"></translation>
+        <translation>Důkladné prohledání (pomalé)</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Select reload mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Vyberte znovunahrávací režim</translation>
     </message>
     <message>
         <location line="+74"/>
@@ -1215,7 +1215,7 @@
         <location line="-34"/>
         <location line="+37"/>
         <source>Next track</source>
-        <translation type="unfinished"></translation>
+        <translation>Další skladba</translation>
     </message>
     <message>
         <location line="-36"/>
@@ -1227,37 +1227,37 @@
         <location line="-38"/>
         <location line="+41"/>
         <source>Volume down</source>
-        <translation type="unfinished"></translation>
+        <translation>Snížit hlasitost</translation>
     </message>
     <message>
         <location line="-40"/>
         <location line="+43"/>
         <source>Volume up</source>
-        <translation type="unfinished"></translation>
+        <translation>Zvýšit hlasitost</translation>
     </message>
     <message>
         <location line="-42"/>
         <location line="+45"/>
         <source>Seek forward</source>
-        <translation type="unfinished"></translation>
+        <translation>Přetočit vpřed</translation>
     </message>
     <message>
         <location line="-44"/>
         <location line="+47"/>
         <source>Seek backward</source>
-        <translation type="unfinished"></translation>
+        <translation>Přetočit zpět</translation>
     </message>
     <message>
         <location line="-46"/>
         <location line="+49"/>
         <source>Seek forward (fast)</source>
-        <translation type="unfinished"></translation>
+        <translation>Přetočit vpřed (rychle)</translation>
     </message>
     <message>
         <location line="-48"/>
         <location line="+52"/>
         <source>Seek backward (fast)</source>
-        <translation type="unfinished"></translation>
+        <translation>Přetočit zpět (rychle)</translation>
     </message>
 </context>
 <context>
@@ -1267,7 +1267,7 @@
         <location filename="../../build/src/GUI/Preferences/PlayerPreferences/ui_GUI_PlayerPreferences.h" line="+62"/>
         <location filename="../../build_clang/src/GUI/Preferences/PlayerPreferences/ui_GUI_PlayerPreferences.h" line="+62"/>
         <source>Start in tray</source>
-        <translation type="unfinished"></translation>
+        <translation>Spustit v oznamovací oblasti panelu</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -1286,7 +1286,7 @@
     <message>
         <location filename="../GUI/Preferences/PlayerPreferences/GUI_PlayerPreferences.cpp" line="+49"/>
         <source>Player</source>
-        <translation type="unfinished"></translation>
+        <translation>Přehrávač</translation>
     </message>
 </context>
 <context>
@@ -1475,42 +1475,42 @@
         <location filename="../../build/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+211"/>
         <location filename="../../build_clang/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+211"/>
         <source>Show numbers</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukázat čísla</translation>
     </message>
     <message>
         <location line="+17"/>
         <location filename="../../build/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
         <location filename="../../build_clang/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
         <source>Look</source>
-        <translation type="unfinished"></translation>
+        <translation>Vzhled</translation>
     </message>
     <message>
         <location line="+20"/>
         <location filename="../../build/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
         <location filename="../../build_clang/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
         <source>&apos;italic text&apos;</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;kurzivní text&apos;</translation>
     </message>
     <message>
         <location line="+7"/>
         <location filename="../../build/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
         <location filename="../../build_clang/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
         <source>Example</source>
-        <translation type="unfinished"></translation>
+        <translation>Příklad</translation>
     </message>
     <message>
         <location line="+27"/>
         <location filename="../../build/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
         <location filename="../../build_clang/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
         <source>*bold text*</source>
-        <translation type="unfinished"></translation>
+        <translation>*tučný text*</translation>
     </message>
     <message>
         <location line="+7"/>
         <location filename="../../build/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
         <location filename="../../build_clang/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
         <source>track number</source>
-        <translation type="unfinished"></translation>
+        <translation>Číslo skladby</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -1543,7 +1543,7 @@
     <message>
         <location filename="../GUI/Preferences/PlaylistPreferences/GUI_PlaylistPreferences.cpp" line="+47"/>
         <source>Playlist</source>
-        <translation type="unfinished"></translation>
+        <translation>Seznam skladeb</translation>
     </message>
 </context>
 <context>
@@ -1659,7 +1659,7 @@
         <location filename="../../build/src/GUI/Preferences/RemoteControl/ui_GUI_RemoteControl.h" line="+1"/>
         <location filename="../../build_clang/src/GUI/Preferences/RemoteControl/ui_GUI_RemoteControl.h" line="+1"/>
         <source>Remote control URL</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresa (URL) dálkového ovládání</translation>
     </message>
     <message>
         <location line="-17"/>
@@ -1689,7 +1689,7 @@
         <location filename="../../build/src/GUI/Preferences/Shortcuts/ui_GUI_ShortcutEntry.h" line="+96"/>
         <location filename="../../build_clang/src/GUI/Preferences/Shortcuts/ui_GUI_ShortcutEntry.h" line="+96"/>
         <source>Enter shortcut...</source>
-        <translation type="unfinished"></translation>
+        <translation>Zadat klávesovou zkratku...</translation>
     </message>
     <message>
         <location filename="../GUI/Preferences/Shortcuts/GUI_ShortcutEntry.cpp" line="+102"/>
@@ -1709,12 +1709,12 @@
     <message>
         <location line="+0"/>
         <source>Shortcut already in use</source>
-        <translation type="unfinished"></translation>
+        <translation>Zkratka se již používá</translation>
     </message>
     <message>
         <location line="+45"/>
         <source>Test</source>
-        <translation type="unfinished"></translation>
+        <translation>Vyzkoušet</translation>
     </message>
 </context>
 <context>
@@ -1725,17 +1725,17 @@
         <location filename="../../build_clang/src/GUI/Preferences/Shortcuts/ui_GUI_Shortcuts.h" line="+85"/>
         <location filename="../GUI/Preferences/Shortcuts/GUI_Shortcuts.cpp" line="+103"/>
         <source>Press shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation>Stiskněte klávesovou zkratku</translation>
     </message>
     <message>
         <location filename="../GUI/Preferences/Shortcuts/GUI_Shortcuts.cpp" line="-22"/>
         <source>Shortcuts</source>
-        <translation type="unfinished"></translation>
+        <translation>Klávesové zkratky</translation>
     </message>
     <message>
         <location line="-10"/>
         <source>Success</source>
-        <translation type="unfinished"></translation>
+        <translation>Úspěch</translation>
     </message>
 </context>
 <context>
@@ -2787,7 +2787,7 @@ Vyberte, prosím, jinou složku</translation>
     <message>
         <location line="+2"/>
         <source>Please use the import function of the file menu&lt;br /&gt; or move tracks to library and use &apos;Reload library&apos;</source>
-        <translation>Použijte, prosím, zavedení v nabídce Soubor,&lt;br /&gt;nebo skladby přesuňte (zkopírujte) do sbírky a tuto nahrajte znovu</translation>
+        <translation>Použijte, prosím, funkci pro zavedení v nabídce Soubor,&lt;br /&gt;nebo skladby přesuňte (zkopírujte) do sbírky a tuto nahrajte znovu</translation>
     </message>
 </context>
 <context>
@@ -2983,7 +2983,7 @@ Vyberte, prosím, jinou složku</translation>
         <location filename="../Interfaces/PlayerPlugin/PlayerPlugin.cpp" line="+62"/>
         <location filename="../Interfaces/PlayerPlugin/PlayerPlugin.h" line="+174"/>
         <source>Close plugin</source>
-        <translation type="unfinished"></translation>
+        <translation>Zavřít přídavný modul</translation>
     </message>
 </context>
 <context>
@@ -3079,13 +3079,13 @@ Vyberte, prosím, jinou složku</translation>
         <location line="+68"/>
         <location line="+11"/>
         <source>Add tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Přidat kartu</translation>
     </message>
     <message>
         <location line="-10"/>
         <location line="+14"/>
         <source>Close tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Zavřít kartu</translation>
     </message>
 </context>
 <context>
@@ -3152,12 +3152,12 @@ Vyberte, prosím, jinou složku</translation>
     <message>
         <location filename="../Components/Library/threads/ReloadThread.cpp" line="+99"/>
         <source>Reloading library</source>
-        <translation type="unfinished"></translation>
+        <translation>Hudební sbírka se nahrává znovu</translation>
     </message>
     <message>
         <location line="+48"/>
         <source>Reading files from file system</source>
-        <translation type="unfinished"></translation>
+        <translation>Čtou se soubory ze souborového systému</translation>
     </message>
     <message>
         <location line="+91"/>
@@ -3410,12 +3410,12 @@ OK?</translation>
     <message>
         <location filename="../GUI/TagEdit/TagTextInput.cpp" line="+78"/>
         <source>Very first letter to upper case</source>
-        <translation type="unfinished"></translation>
+        <translation>Úplně první písmeno na velké písmeno</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>First letters to upper case</source>
-        <translation type="unfinished"></translation>
+        <translation>První písmena na velká písmena</translation>
     </message>
 </context>
 <context>
