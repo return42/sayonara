@@ -247,18 +247,19 @@ gchar* AbstractPipeline::get_uri() {
 }
 
 
-bool AbstractPipeline::create_element(GstElement** elem, const QString& elem_name, const QString& name){
+
+bool AbstractPipeline::create_element(GstElement** elem, const gchar* elem_name, const gchar* name){
 
 	QString error_msg;
-	gchar* g_elem_name = elem_name.toLocal8Bit().data();
-	gchar* g_name = g_elem_name;
-
-	if( !name.isEmpty() ){
-		g_name = name.toLocal8Bit().data();
+	if(strlen(name) > 0){
+		*elem = gst_element_factory_make(elem_name, name);
+		error_msg = QString("Engine: ") + name + " creation failed";
 	}
 
-	*elem = gst_element_factory_make(g_elem_name, g_name);
-	error_msg = QString("Engine: ") + elem_name + " creation failed";
+	else{
+		*elem = gst_element_factory_make(elem_name, elem_name);
+		error_msg = QString("Engine: ") + elem_name + " creation failed";
+	}
 
 	return _test_and_error(*elem, error_msg);
 }
