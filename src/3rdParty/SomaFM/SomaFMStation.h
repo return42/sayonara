@@ -11,7 +11,8 @@ public:
 	enum class UrlType : quint8
 	{
 		AAC=0,
-		MP3
+		MP3,
+		Undefined
 	};
 
 	SomaFMStation();

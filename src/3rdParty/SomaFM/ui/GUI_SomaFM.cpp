@@ -13,14 +13,14 @@ GUI_SomaFM::GUI_SomaFM(QWidget *parent) :
 
 {
 	setupUi(this);
-	splitter->setStretchFactor(0, 0);
-	splitter->setStretchFactor(1, 1);
+
 	_library = new SomaFMLibrary(this);
 
 	QStringListModel* model_stations = new QStringListModel();
 
 	lv_stations->setModel(model_stations);
 	lv_playlists->setModel(new QStringListModel());
+
 
 	lv_stations->setItemDelegate(new ListDelegate(lv_stations));
 	lv_playlists->setItemDelegate(new ListDelegate(lv_playlists));
@@ -29,12 +29,21 @@ GUI_SomaFM::GUI_SomaFM(QWidget *parent) :
 	lv_playlists->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
 	model_stations->setStringList( { tr("Initializing...") } );
+
+	QPixmap logo = QPixmap(":/soma_icons/soma_logo.png").scaled(QSize(200, 200), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+
+	lab_image->setPixmap(logo);
+
 	lv_stations->setEnabled(false);
 
 	connect(_library, &SomaFMLibrary::sig_stations_loaded, this, &GUI_SomaFM::stations_loaded);
 
+	connect(lv_stations, &QListView::activated, this, &GUI_SomaFM::station_index_changed);
 	connect(lv_stations, &QListView::clicked, this, &GUI_SomaFM::station_index_changed);
+	connect(lv_stations, &QListView::entered, this, &GUI_SomaFM::station_index_changed);
 	connect(lv_playlists, &QListView::doubleClicked, this, &GUI_SomaFM::playlist_double_clicked);
+	connect(lv_playlists, &QListView::activated, this, &GUI_SomaFM::playlist_double_clicked);
+
 
 	_library->search_stations();
 }
@@ -69,18 +78,23 @@ void GUI_SomaFM::station_index_changed(const QModelIndex& idx){
 	SomaFMStation station = _library->get_station(station_name);
 
 	QStringList urls = station.get_urls();
+	QStringList texts;
 	for(QString& url : urls){
 		SomaFMStation::UrlType type = station.get_url_type(url);
 		if(type == SomaFMStation::UrlType::MP3){
-			url += " (mp3)";
+			texts << "MP3" + tr(" stream");
 		}
 
 		else if(type == SomaFMStation::UrlType::AAC){
-			url += " (aac)";
+			texts << "AAC" + tr(" stream");
+		}
+
+		else{
+			texts << url;
 		}
 	}
 
-	pl_model->setStringList(urls);
+	pl_model->setStringList(texts);
 
 	lab_description->setText(station.get_description());
 
@@ -102,7 +116,11 @@ void GUI_SomaFM::cover_found(const CoverLocation &cover_location){
 		return;
 	}
 
-	QPixmap pixmap(cover_location.cover_path);
+	QPixmap pixmap = QPixmap(cover_location.cover_path).scaled(QSize(200, 200), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+	if(pixmap.isNull()){
+		pixmap = QPixmap(":/soma_icons/soma_logo.png").scaled(QSize(200, 200), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+	}
+
 	lab_image->setPixmap(pixmap);
 
 	if(cl){
