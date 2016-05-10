@@ -1,9 +1,8 @@
-#include "GUI_SomaFM.h"
-#include "SomaFMLibrary.h"
-#include "SomaFMLinkListModel.h"
+#include "ui/GUI_SomaFM.h"
 
 #include "Components/CoverLookup/CoverLookup.h"
-
+#include "GUI/Helper/Delegates/ListDelegate.h"
+#include "GUI/Helper/GUI_Helper.h"
 
 #include <QStringListModel>
 #include <QPixmap>
@@ -14,19 +13,30 @@ GUI_SomaFM::GUI_SomaFM(QWidget *parent) :
 
 {
 	setupUi(this);
+	splitter->setStretchFactor(0, 0);
+	splitter->setStretchFactor(1, 1);
 	_library = new SomaFMLibrary(this);
 
 	QStringListModel* model_stations = new QStringListModel();
-	SomaFMLinkListModel* model_links = new SomaFMLinkListModel();
 
 	lv_stations->setModel(model_stations);
-	lv_links->setModel(model_links);
+	lv_playlists->setModel(new QStringListModel());
+
+	lv_stations->setItemDelegate(new ListDelegate(lv_stations));
+	lv_playlists->setItemDelegate(new ListDelegate(lv_playlists));
+
+	lv_stations->setEditTriggers(QAbstractItemView::NoEditTriggers);
+	lv_playlists->setEditTriggers(QAbstractItemView::NoEditTriggers);
+
+	model_stations->setStringList( { tr("Initializing...") } );
+	lv_stations->setEnabled(false);
 
 	connect(_library, &SomaFMLibrary::sig_stations_loaded, this, &GUI_SomaFM::stations_loaded);
-	connect(_library, &SomaFMLibrary::sig_station_loaded, this, &GUI_SomaFM::station_loaded);
-	connect(lv_stations, &QListView::clicked, this, &GUI_SomaFM::station_index_changed);
 
-	_library->init_stations();
+	connect(lv_stations, &QListView::clicked, this, &GUI_SomaFM::station_index_changed);
+	connect(lv_playlists, &QListView::doubleClicked, this, &GUI_SomaFM::playlist_double_clicked);
+
+	_library->search_stations();
 }
 
 GUI_SomaFM::~GUI_SomaFM()
@@ -44,21 +54,7 @@ void GUI_SomaFM::stations_loaded(const QStringList& stations)
 
 	QStringListModel* model = static_cast<QStringListModel*>(lv_stations->model());
 	model->setStringList(stations);
-}
-
-void GUI_SomaFM::station_loaded(const SomaFMStation& station)
-{
-	SomaFMLinkListModel* model = static_cast<SomaFMLinkListModel*>(lv_links->model());
-
-	model->set_metadata(station.get_metadata());
-
-	lab_description->setText(station.get_description());
-
-	CoverLookup* cl = new CoverLookup(this);
-
-	connect(cl, &CoverLookup::sig_cover_found, this, &GUI_SomaFM::cover_found);
-	cl->fetch_cover(station.get_cover_location());
-
+	lv_stations->setEnabled(true);
 }
 
 void GUI_SomaFM::station_index_changed(const QModelIndex& idx){
@@ -67,9 +63,36 @@ void GUI_SomaFM::station_index_changed(const QModelIndex& idx){
 		return;
 	}
 
-	QString data = lv_stations->model()->data(idx).toString();
-	_library->request_station(data);
+	QStringListModel* pl_model = static_cast<QStringListModel*>(lv_playlists->model());
 
+	QString station_name = lv_stations->model()->data(idx).toString();
+	SomaFMStation station = _library->get_station(station_name);
+
+	QStringList urls = station.get_urls();
+	for(QString& url : urls){
+		SomaFMStation::UrlType type = station.get_url_type(url);
+		if(type == SomaFMStation::UrlType::MP3){
+			url += " (mp3)";
+		}
+
+		else if(type == SomaFMStation::UrlType::AAC){
+			url += " (aac)";
+		}
+	}
+
+	pl_model->setStringList(urls);
+
+	lab_description->setText(station.get_description());
+
+	CoverLookup* cl = new CoverLookup(this);
+
+	connect(cl, &CoverLookup::sig_cover_found, this, &GUI_SomaFM::cover_found);
+	cl->fetch_cover(station.get_cover_location());
+}
+
+void GUI_SomaFM::playlist_double_clicked(const QModelIndex& idx)
+{
+	_library->create_playlist_from_playlist(idx.row());
 }
 
 void GUI_SomaFM::cover_found(const CoverLocation &cover_location){

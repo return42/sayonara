@@ -3,25 +3,26 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 
 
 SET(SOURCES
-    ./GUI_SomaFM.cpp
     SomaFMLibrary.cpp
-    SomaFMLinkListModel.cpp
+	SomaFMStation.cpp
+
+    ui/GUI_SomaFM.cpp
 )
 
 QT5_WRAP_UI(UI_FILES
-    ./GUI_SomaFM.ui
+    ui/GUI_SomaFM.ui
 )
 
 QT5_ADD_RESOURCES(RESOURCES
-    SomaFMIcons.qrc
+    ui/SomaFMIcons.qrc
 )
 
 ADD_LIBRARY(${PROJECT_NAME} SHARED ${SOURCES} ${UI_FILES} ${RESOURCES})
 TARGET_LINK_LIBRARIES(${PROJECT_NAME}
-	Qt5::Widgets
-	Qt5::Core
 	say_gui_library
 	say_interfaces_library_container
+	say_comp_covers
+	say_comp_playlist
 )
 
 

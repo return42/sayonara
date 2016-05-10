@@ -174,7 +174,9 @@ int PlaylistHandler::create_playlist(const MetaDataList& v_md, const QString& na
 	pl = _playlists[idx];
 
 	pl->create_playlist(v_md);
-	pl->set_temporary( pl->is_temporary() && temporary ) ;
+	pl->set_temporary( pl->is_temporary() && temporary );
+
+	set_current_idx(idx);
 
 	return idx;
 }

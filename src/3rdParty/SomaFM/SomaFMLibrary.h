@@ -7,45 +7,8 @@
 #include <QList>
 #include <QMap>
 
-#include "Helper/MetaData/MetaDataList.h"
+#include "SomaFMStation.h"
 #include "Helper/WebAccess/AsyncWebAccess.h"
-#include "Components/CoverLookup/CoverLocation.h"
-
-
-class SomaFMStation
-{
-public:
-	SomaFMStation();
-	SomaFMStation(const QString& content);
-
-	QString get_station_name() const;
-	QStringList get_urls() const;
-	QString get_description() const;
-	CoverLocation get_cover_location() const;
-	bool is_valid() const;
-	MetaDataList get_metadata() const;
-	void set_metadata(const MetaDataList& v_md);
-
-
-private:
-
-	QString			_content;
-
-	QString			_station_name;
-	QStringList		_urls;
-	QString			_description;
-	CoverLocation	_cover;
-	MetaDataList	_v_md;
-
-private:
-	void parse_station_name();
-	void parse_urls();
-	void parse_description();
-	void parse_image();
-};
-
-
-
 
 class SomaFMLibrary : public QObject
 {
@@ -54,14 +17,14 @@ class SomaFMLibrary : public QObject
 
 signals:
 	void sig_stations_loaded(const QStringList& station_names);
-	void sig_station_loaded(const SomaFMStation& station);
 
 
 public:
 	SomaFMLibrary(QObject* parent=nullptr);
 
-	void init_stations();
-	void request_station(const QString& name);
+	SomaFMStation get_station(const QString& name);
+	void create_playlist_from_playlist(int idx);
+	void search_stations();
 
 
 private slots:
@@ -69,12 +32,9 @@ private slots:
 	void soma_playlist_content_fetched(bool success);
 
 
-
 private:
-	QMap<QString, SomaFMStation> _station_map;
-	QString _requested_station;
-
-
+	QMap<QString, SomaFMStation> 	_station_map;
+	QString 						_requested_station;
 };
 
 

@@ -2,10 +2,10 @@
 #define GUI_SOMAFM_H
 
 #include <QWidget>
-#include "ui_GUI_SomaFM.h"
+#include "SomaFMLibrary.h"
+#include "3rdParty/SomaFM/ui_GUI_SomaFM.h"
 #include "Components/CoverLookup/CoverLocation.h"
 #include "Helper/MetaData/MetaDataList.h"
-#include "SomaFMLibrary.h"
 
 #include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
 #include "Interfaces/LibraryInterface/LibraryContainer/LibraryContainer.h"
@@ -33,6 +33,7 @@ private slots:
 	void station_loaded(const SomaFMStation& station);
 
 	void station_index_changed(const QModelIndex& idx);
+	void playlist_double_clicked(const QModelIndex& idx);
 	void cover_found(const CoverLocation& cover_location);
 };
 
