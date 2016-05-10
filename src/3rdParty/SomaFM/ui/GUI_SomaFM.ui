@@ -14,7 +14,7 @@
    <property name="verticalSpacing">
     <number>8</number>
    </property>
-   <item row="8" column="2">
+   <item row="9" column="2">
     <widget class="QListView" name="lv_playlists">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -30,6 +30,19 @@
      </property>
      <property name="alternatingRowColors">
       <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="2">
+    <widget class="Line" name="line_3">
+     <property name="maximumSize">
+      <size>
+       <width>200</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
      </property>
     </widget>
    </item>
@@ -63,32 +76,6 @@
      </property>
     </widget>
    </item>
-   <item row="5" column="2">
-    <widget class="Line" name="line_2">
-     <property name="maximumSize">
-      <size>
-       <width>200</width>
-       <height>16777215</height>
-      </size>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="2">
-    <widget class="Line" name="line_3">
-     <property name="maximumSize">
-      <size>
-       <width>200</width>
-       <height>16777215</height>
-      </size>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
-   </item>
    <item row="4" column="2">
     <widget class="QLabel" name="lab_image">
      <property name="sizePolicy">
@@ -117,29 +104,21 @@
      </property>
     </widget>
    </item>
-   <item row="3" column="0">
-    <widget class="QLabel" name="label">
-     <property name="font">
-      <font>
-       <pointsize>11</pointsize>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>Stations</string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="0" rowspan="5">
+   <item row="4" column="0" rowspan="6">
     <widget class="QListView" name="lv_stations">
      <property name="alternatingRowColors">
       <bool>true</bool>
      </property>
     </widget>
    </item>
-   <item row="1" column="0" rowspan="2" colspan="3">
-    <widget class="Line" name="line">
+   <item row="5" column="2">
+    <widget class="Line" name="line_2">
+     <property name="maximumSize">
+      <size>
+       <width>200</width>
+       <height>16777215</height>
+      </size>
+     </property>
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
@@ -167,6 +146,41 @@
       </spacer>
      </item>
     </layout>
+   </item>
+   <item row="1" column="0" rowspan="2" colspan="3">
+    <widget class="Line" name="line">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0">
+    <widget class="QLabel" name="label">
+     <property name="font">
+      <font>
+       <pointsize>11</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Stations</string>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="2">
+    <widget class="QLabel" name="label_2">
+     <property name="font">
+      <font>
+       <pointsize>11</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Streams</string>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>
