@@ -554,6 +554,7 @@ void PlaylistView::handle_drop(QDropEvent* event, bool from_outside) {
 		DirectoryReader reader;
 
 		for(const QUrl& url : mimedata->urls()) {
+
 			QString url_str = url.toLocalFile();
 			url_str.remove("file://");
 			filelist << url_str;

@@ -58,10 +58,14 @@ void GUI_SoundcloudArtistSearch::search_clicked(){
 		lab_status->setText(tr("Query to short"));
 	}
 
+	set_playlist_label(-1);
+	set_tracks_label(-1);
+
 	_fetcher->search_artists(text);
 }
 
 void GUI_SoundcloudArtistSearch::clear_clicked(){
+
 
 	list_artists->clear();
 	list_playlists->clear();
@@ -69,15 +73,16 @@ void GUI_SoundcloudArtistSearch::clear_clicked(){
 
 	le_search->clear();
 
+	_searched_artists.clear();
+	_chosen_artists.clear();
 	_v_md.clear();
-	_artists.clear();
 	_albums.clear();
 
 	lab_status->clear();
 
 	lab_n_artists->clear();
-	lab_n_playlists->clear();
-	lab_n_tracks->clear();
+	set_playlist_label(-1);
+	set_tracks_label(-1);
 
 	btn_add->setEnabled(false);
 }
@@ -85,8 +90,8 @@ void GUI_SoundcloudArtistSearch::clear_clicked(){
 
 void GUI_SoundcloudArtistSearch::add_clicked(){
 
-	if(_v_md.size() > 0 && _artists.size() > 0 && _albums.size() > 0){
-		_library->insert_tracks(_v_md, _artists, _albums);
+	if(_v_md.size() > 0 && _chosen_artists.size() > 0 && _albums.size() > 0){
+		_library->insert_tracks(_v_md, _chosen_artists, _albums);
 		close();
 	}
 }
@@ -101,16 +106,20 @@ void GUI_SoundcloudArtistSearch::artist_selected(int idx){
 	list_playlists->clear();
 	list_tracks->clear();
 
+	set_playlist_label(-1);
+	set_tracks_label(-1);
+
 	_v_md.clear();
 	_albums.clear();
 
-	if(!between(idx, 0, _artists.size())) {
+	if(!between(idx, 0, _searched_artists.size())) {
 		return;
 	}
 
-	_cur_artist_sc_id = _artists[idx].id;
+	_cur_artist_sc_id = _searched_artists[idx].id;
 
-	_artists.clear();
+	_chosen_artists.clear();
+
 	_fetcher->get_tracks_by_artist(_cur_artist_sc_id);
 }
 
@@ -123,7 +132,7 @@ void GUI_SoundcloudArtistSearch::language_changed()
 void GUI_SoundcloudArtistSearch::artists_fetched(const ArtistList& artists){
 
 	list_artists->clear();
-
+	_searched_artists.clear();
 
 	if(artists.size() == 0){
 		lab_status->setText(tr("No artists found"));
@@ -136,12 +145,12 @@ void GUI_SoundcloudArtistSearch::artists_fetched(const ArtistList& artists){
 			list_artists->addItem(artist.name);
 		}
 
-		_artists = artists;
+		_searched_artists = artists;
 	}
 }
 
 void GUI_SoundcloudArtistSearch::artists_ext_fetched(const ArtistList &artists){
-	_artists = artists;
+	_chosen_artists = artists;
 }
 
 
@@ -155,7 +164,7 @@ void GUI_SoundcloudArtistSearch::albums_fetched(const AlbumList& albums){
 
 	_albums = albums;
 
-	lab_n_playlists->setText( tr("%1 playlists found").arg(albums.size()) );
+	set_playlist_label(albums.size());
 }
 
 
@@ -167,8 +176,29 @@ void GUI_SoundcloudArtistSearch::tracks_fetched(const MetaDataList& v_md){
 		list_tracks->addItem(md.title);
 	}
 
-	lab_n_tracks->setText( tr("%1 tracks found").arg(v_md.size()) );
 	_v_md = v_md;
 
 	btn_add->setEnabled(v_md.size() > 0);
+
+	set_tracks_label(v_md.size());
 }
+
+
+void GUI_SoundcloudArtistSearch::set_tracks_label(int n_tracks)
+{
+	if(n_tracks >= 0){
+		lab_n_tracks->setText( tr("%1 tracks found").arg(n_tracks) );
+	}
+
+	lab_n_tracks->setVisible(n_tracks >= 0);
+}
+
+void GUI_SoundcloudArtistSearch::set_playlist_label(int n_playlists)
+{
+	if(n_playlists >= 0){
+		lab_n_playlists->setText( tr("%1 playlists found").arg(n_playlists) );
+	}
+
+	lab_n_playlists->setVisible(n_playlists >= 0);
+}
+

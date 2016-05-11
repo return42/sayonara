@@ -1,0 +1,30 @@
+PROJECT( sayonara_somafm )
+CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
+
+
+SET(SOURCES
+    SomaFMLibrary.cpp
+	SomaFMStation.cpp
+
+    ui/GUI_SomaFM.cpp
+	ui/SomaFMLibraryContainer.cpp
+)
+
+QT5_WRAP_UI(UI_FILES
+    ui/GUI_SomaFM.ui
+)
+
+QT5_ADD_RESOURCES(RESOURCES
+    ui/SomaFMIcons.qrc
+)
+
+ADD_LIBRARY(${PROJECT_NAME} SHARED ${SOURCES} ${UI_FILES} ${RESOURCES})
+TARGET_LINK_LIBRARIES(${PROJECT_NAME}
+	say_gui_library
+	say_interfaces_library_container
+	say_comp_covers
+	say_comp_playlist
+)
+
+
+INSTALL(TARGETS ${PROJECT_NAME} DESTINATION lib${LIB_SUFFIX}/sayonara)

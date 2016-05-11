@@ -3,8 +3,8 @@ QWidget {
 	border: none;
 	color: #D8D8D8;
 	selection-background-color: #6b7aaa;
-        font-family: <<FONT_FAMILY>>;
-        font-size: <<FONT_SIZE>>pt;
+	font-family: <<FONT_FAMILY>>;
+    font-size: <<FONT_SIZE>>pt;
 }
 
 
@@ -104,12 +104,13 @@ QTreeWidget
 	selection-background-color: #424e72;
 }
 
+QListView,
 LibraryView,
 LibraryGenreView,
 DirectoryTreeView,
 FileListView
 {
-        font-size: <<FONT_SIZE_LIB>>pt;
+    font-size: <<FONT_SIZE_LIB>>pt;
 	font-weight: <<FONT_WEIGHT_LIB>>;
 }
 
