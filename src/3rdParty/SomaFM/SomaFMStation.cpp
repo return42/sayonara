@@ -12,12 +12,6 @@ SomaFMStation::SomaFMStation(const QString& content) :
 {
 	_content = content;
 
-	sp_log(Log::Debug) << "---------------------------------------------------------------";
-	sp_log(Log::Debug) << "";
-	sp_log(Log::Debug) << content;
-	sp_log(Log::Debug) << "";
-	sp_log(Log::Debug) << "---------------------------------------------------------------";
-
 	parse_description();
 	parse_station_name();
 	parse_image();

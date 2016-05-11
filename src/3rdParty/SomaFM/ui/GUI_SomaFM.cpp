@@ -3,6 +3,7 @@
 #include "Components/CoverLookup/CoverLookup.h"
 #include "GUI/Helper/Delegates/ListDelegate.h"
 #include "GUI/Helper/GUI_Helper.h"
+#include "Helper/Helper.h"
 
 #include <QStringListModel>
 #include <QPixmap>
@@ -19,28 +20,34 @@ GUI_SomaFM::GUI_SomaFM(QWidget *parent) :
 	QStringListModel* model_stations = new QStringListModel();
 
 	lv_stations->setModel(model_stations);
-	lv_playlists->setModel(new QStringListModel());
-
-
 	lv_stations->setItemDelegate(new ListDelegate(lv_stations));
-	lv_playlists->setItemDelegate(new ListDelegate(lv_playlists));
-
 	lv_stations->setEditTriggers(QAbstractItemView::NoEditTriggers);
+	lv_stations->setEnabled(false);
+
+	lv_playlists->setModel(new QStringListModel());
+	lv_playlists->setItemDelegate(new ListDelegate(lv_playlists));
 	lv_playlists->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
 	model_stations->setStringList( { tr("Initializing...") } );
 
-	QPixmap logo = QPixmap(":/soma_icons/soma_logo.png").scaled(QSize(200, 200), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+	QPixmap logo = QPixmap(":/soma_icons/soma_logo.png")
+		.scaled(QSize(200, 200), Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
 	lab_image->setPixmap(logo);
 
-	lv_stations->setEnabled(false);
+	QString description = 
+		"Listener-supported, commercial-free, underground/alternative radio<br /><br />" +
+		Helper::create_link("https://somafm.com", this->is_dark(), "https://somafm.com");
+
+	lab_description->setTextFormat(Qt::RichText);
+	lab_description->setText(description);
 
 	connect(_library, &SomaFMLibrary::sig_stations_loaded, this, &GUI_SomaFM::stations_loaded);
 
 	connect(lv_stations, &QListView::activated, this, &GUI_SomaFM::station_index_changed);
 	connect(lv_stations, &QListView::clicked, this, &GUI_SomaFM::station_index_changed);
 	connect(lv_stations, &QListView::entered, this, &GUI_SomaFM::station_index_changed);
+
 	connect(lv_playlists, &QListView::doubleClicked, this, &GUI_SomaFM::playlist_double_clicked);
 	connect(lv_playlists, &QListView::activated, this, &GUI_SomaFM::playlist_double_clicked);
 
@@ -82,11 +89,11 @@ void GUI_SomaFM::station_index_changed(const QModelIndex& idx){
 	for(QString& url : urls){
 		SomaFMStation::UrlType type = station.get_url_type(url);
 		if(type == SomaFMStation::UrlType::MP3){
-			texts << "MP3" + tr(" stream");
+			texts << station_name + " (mp3)";		
 		}
 
 		else if(type == SomaFMStation::UrlType::AAC){
-			texts << "AAC" + tr(" stream");
+			texts << station_name + " (aac)";
 		}
 
 		else{
@@ -128,45 +135,4 @@ void GUI_SomaFM::cover_found(const CoverLocation &cover_location){
 	}
 }
 
-
-SomaFMLibraryContainer::SomaFMLibraryContainer(QObject* parent) :
-	LibraryContainerInterface(parent)
-{
-	Q_INIT_RESOURCE(SomaFMIcons);
-}
-
-QString SomaFMLibraryContainer::get_name() const
-{
-	return "SomaFM";
-}
-
-QString SomaFMLibraryContainer::get_display_name() const
-{
-	return "SomaFM";
-}
-
-QIcon SomaFMLibraryContainer::get_icon() const
-{
-	return QIcon(":/soma_icons/soma.png");
-}
-
-QWidget* SomaFMLibraryContainer::get_ui() const
-{
-	return ui;
-}
-
-QComboBox* SomaFMLibraryContainer::get_libchooser()
-{
-	return ui->get_libchooser();
-}
-
-QMenu* SomaFMLibraryContainer::get_menu()
-{
-	return nullptr;
-}
-
-void SomaFMLibraryContainer::init_ui()
-{
-	ui = new GUI_SomaFM(nullptr);
-}
 
