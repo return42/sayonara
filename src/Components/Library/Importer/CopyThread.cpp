@@ -56,7 +56,7 @@ void CopyThread::emit_percent(int i, int n) {
 
 
 // example
-// i wanna import /home/user/dir
+// i want to import /home/user/dir
 // my music library is in /home/user/Music
 // i will type "chosen" into entry field
 // i expect a directory /home/user/Music/chosen/dir in my music library

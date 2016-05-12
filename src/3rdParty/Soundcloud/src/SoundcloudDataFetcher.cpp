@@ -32,7 +32,7 @@
 SoundcloudDataFetcher::SoundcloudDataFetcher(QObject* parent) :
 	QObject(parent)
 {
-	_artist_id = -1;
+	clear();
 }
 
 SoundcloudDataFetcher::~SoundcloudDataFetcher()
@@ -43,6 +43,8 @@ SoundcloudDataFetcher::~SoundcloudDataFetcher()
 
 void SoundcloudDataFetcher::search_artists(const QString& artist_name){
 
+	clear();
+
 	AsyncWebAccess* awa = new AsyncWebAccess(this);
 	connect(awa, &AsyncWebAccess::sig_finished,
 			this, &SoundcloudDataFetcher::artists_fetched);
@@ -50,6 +52,9 @@ void SoundcloudDataFetcher::search_artists(const QString& artist_name){
 }
 
 void SoundcloudDataFetcher::get_artist(int artist_id){
+
+	clear();
+
 	AsyncWebAccess* awa = new AsyncWebAccess(this);
 	connect(awa, &AsyncWebAccess::sig_finished,
 			this, &SoundcloudDataFetcher::artists_fetched);
@@ -65,9 +70,8 @@ void SoundcloudDataFetcher::get_playlists_by_artist(int artist_id){
 
 void SoundcloudDataFetcher::get_tracks_by_artist(int artist_id){
 
-	_playlist_tracks.clear();
-	_playlists.clear();
-	_artists.clear();
+	clear();
+
 	_artist_id = artist_id;
 
 	AsyncWebAccess* awa = new AsyncWebAccess(this);
@@ -151,5 +155,12 @@ void SoundcloudDataFetcher::tracks_fetched(bool success){
 	emit sig_ext_artists_fetched(_artists);
 
 	awa->deleteLater();
+}
+
+void SoundcloudDataFetcher::clear(){
+	_playlist_tracks.clear();
+	_playlists.clear();
+	_artists.clear();
+	_artist_id = -1;
 }
 

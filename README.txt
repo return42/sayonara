@@ -6,15 +6,17 @@ Libraries
     - Qt >= 5.3: Core, Widgets, Network, Xml, Sql, Sqlite http://qt.nokia.com/products/
     - Taglib http://developer.kde.org/~wheeler/taglib.html
     - Gstreamer development files, GStreamer plugins 
+    - zlib
 
 1. Linux
 
 	You need 
 	* g++ >= 4.8 (important due to C++x11 standard)
 	* cmake
-	* Qt >= 5.0 + development files 
+	* Qt >= 5.3 + development files 
 	* libtaglib
 	* Gstreamer 1.0 + development files (libgstreamer1.0, libgstreamer-plugins-base1.0)
+        * zlib development files
 
 	= Build =
 

@@ -23,7 +23,7 @@
  * GUI_Playlist.h
  *
  *  Created on: Apr 6, 2011
- *      Author: luke
+ *      Author: Lucio Carreras
  */
 
 #ifndef GUI_PLAYLIST_H_

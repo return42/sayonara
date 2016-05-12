@@ -23,7 +23,7 @@
  * GUI_LocalLibrary.h
  *
  *  Created on: Apr 24, 2011
- *      Author: luke
+ *      Author: Lucio Carreras
  */
 
 #ifndef GUI_LOCAL_LIBRARY_H_

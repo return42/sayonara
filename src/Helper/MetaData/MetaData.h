@@ -22,7 +22,7 @@
  * MetaData.h
  *
  *  Created on: Mar 10, 2011
- *      Author: luke
+ *      Author: Lucio Carreras
  */
 
 #ifndef METADATA_H_

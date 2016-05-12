@@ -1,6 +1,6 @@
 /* GUI_TrayIcon.h */
 
-/* Copyright (C) 2012  gleugner
+/* Copyright (C) 2012-2016 Lucio Carreras  gleugner
  *
  * This file is part of sayonara player
  *

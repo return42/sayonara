@@ -1,6 +1,6 @@
 /* SearchSlider.h
 
- * Copyright (C) 2012  
+ * Copyright (C) 2012-2016 Lucio Carreras  
  *
  * This file is part of sayonara-player
  *

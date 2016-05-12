@@ -23,7 +23,7 @@
  * GUI_LocalLibrary.cpp
  *
  *  Created on: Apr 24, 2011
- *      Author: luke
+ *      Author: Lucio Carreras
  */
 
 #include "GUI_LocalLibrary.h"

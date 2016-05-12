@@ -60,9 +60,14 @@ private:
 
 	MetaDataList		_v_md;
 	AlbumList			_albums;
-	ArtistList			_artists;
+	ArtistList			_searched_artists;
+	ArtistList			_chosen_artists;
 
 	quint64				_cur_artist_sc_id;
+
+private:
+	void set_tracks_label(int n_tracks);
+	void set_playlist_label(int n_playlists);
 
 };
 

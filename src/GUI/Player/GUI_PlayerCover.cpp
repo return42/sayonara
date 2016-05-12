@@ -2,7 +2,7 @@
  * GUI_PlayerCover.cpp
  *
  *  Created on: 07.12.2012
- *      Author: luke
+ *      Author: Lucio Carreras
  */
 
 /* Copyright (C) 2011-2016  Lucio Carreras

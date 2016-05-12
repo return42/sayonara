@@ -23,7 +23,7 @@
  * LibraryItemModelAlbums.cpp
  *
  *  Created on: Apr 26, 2011
- *      Author: luke
+ *      Author: Lucio Carreras
  */
 
 #include "LibraryItemModel.h"

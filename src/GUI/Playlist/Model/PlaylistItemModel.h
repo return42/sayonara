@@ -23,7 +23,7 @@
  * PlaylistItemModel.h
  *
  *  Created on: Apr 8, 2011
- *      Author: luke
+ *      Author: Lucio Carreras
  */
 
 #ifndef PLAYLISTITEMMODEL_H_

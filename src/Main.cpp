@@ -22,7 +22,7 @@
  * Main.cpp
  *
  *  Created on: Mar 2, 2011
- *      Author: luke
+ *      Author: Lucio Carreras
  */
 #include <cstdlib>
 #include <unistd.h>
@@ -342,7 +342,7 @@ int main(int argc, char *argv[]) {
 
 #endif
 
-	/* Tell the settings manager which settings are neccessary */
+	/* Tell the settings manager which settings are necessary */
 	if(!register_settings()){
 		sp_log(Log::Error) << "Cannot initialize settings";
 		return 1;

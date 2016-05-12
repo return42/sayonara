@@ -23,7 +23,7 @@
  * LyricLookupThread.cpp
  *
  *  Created on: May 21, 2011
- *      Author: luke
+ *      Author: Lucio Carreras
  */
 
 #include "LyricLookup.h"

@@ -23,7 +23,7 @@
  * PlaylistView.cpp
  *
  *  Created on: Jun 26, 2011
- *      Author: luke
+ *      Author: Lucio Carreras
  */
 
 #include "PlaylistView.h"
@@ -556,6 +556,7 @@ void PlaylistView::handle_drop(QDropEvent* event, bool from_outside) {
 		DirectoryReader reader;
 
 		for(const QUrl& url : mimedata->urls()) {
+
 			QString url_str = url.toLocalFile();
 			url_str.remove("file://");
 			filelist << url_str;

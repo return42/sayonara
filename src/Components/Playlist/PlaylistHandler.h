@@ -23,7 +23,7 @@
  * Playlist.h
  *
  *  Created on: Apr 6, 2011
- *      Author: luke
+ *      Author: Lucio Carreras
  */
 
 #ifndef PLAYLISTHANDLER_H_

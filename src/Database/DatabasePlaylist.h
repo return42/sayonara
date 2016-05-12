@@ -51,7 +51,7 @@ public:
 	int getPlaylistIdByName(const QString& name);
 	bool getPlaylistById(CustomPlaylist& pl);
 
-	// checks if playlist is already there and inserts it, if neccessary
+	// checks if playlist is already there and inserts it, if necessary
 	bool storePlaylist(const MetaDataList& vec_md, QString playlist_name, bool temporary);
 	bool storePlaylist(const MetaDataList& vec_md, int playlist_id, bool temporary);
 

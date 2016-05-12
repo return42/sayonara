@@ -23,7 +23,7 @@
  * LFMWebAccess.cpp
  *
  *  Created on: Oct 22, 2011
- *      Author: luke
+ *      Author: Lucio Carreras
  */
 
 #include "LFMWebAccess.h"

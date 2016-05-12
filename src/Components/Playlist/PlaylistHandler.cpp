@@ -18,7 +18,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *  Created on: Apr 6, 2011
- *      Author: luke
+ *      Author: Lucio Carreras
  */
 
 #include "PlaylistHandler.h"
@@ -174,7 +174,9 @@ int PlaylistHandler::create_playlist(const MetaDataList& v_md, const QString& na
 	pl = _playlists[idx];
 
 	pl->create_playlist(v_md);
-	pl->set_temporary( pl->is_temporary() && temporary ) ;
+	pl->set_temporary( pl->is_temporary() && temporary );
+
+	set_current_idx(idx);
 
 	return idx;
 }
@@ -649,7 +651,7 @@ PlaylistDBInterface::SaveAsAnswer PlaylistHandler::rename_playlist(int pl_idx, c
 		return PlaylistDBInterface::SaveAsAnswer::Error;
 	}
 
-	// get playlist we wanna save
+	// get playlist we want to save
 	PlaylistPtr pl = _playlists[pl_idx];
 
 	PlaylistDBInterface::SaveAsAnswer ret = pl->rename(name);

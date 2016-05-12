@@ -101,7 +101,7 @@ namespace Helper
 		QString			get_absolute_filename(const QString& filename);
 
 		/**
-		 * @brief create all directories neccessary to access path
+		 * @brief create all directories necessary to access path
 		 * @param path full target path
 		 */
 		bool			create_directories(const QString& path);

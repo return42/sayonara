@@ -51,6 +51,8 @@ public:
 	void get_playlists_by_artist(int artist_id);
 	void get_tracks_by_artist(int artist_id);
 
+	void clear();
+
 private slots:
 
 	void artists_fetched(bool success);

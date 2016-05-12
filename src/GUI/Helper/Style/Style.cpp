@@ -23,7 +23,7 @@
  * Style.cpp
  *
  *  Created on: Oct 27, 2011
- *      Author: luke
+ *      Author: Lucio Carreras
  */
 
 #include "Style.h"

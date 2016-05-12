@@ -42,7 +42,7 @@
       <enum>Qt::ClickFocus</enum>
      </property>
      <property name="toolTip">
-      <string>Type name you wanna save the stream as</string>
+      <string>Type name you want to save the stream as</string>
      </property>
      <property name="editable">
       <bool>true</bool>

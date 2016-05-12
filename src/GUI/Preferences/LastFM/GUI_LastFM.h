@@ -23,7 +23,7 @@
  * GUI_LastFM.h
  *
  *  Created on: Apr 21, 2011
- *      Author: luke
+ *      Author: Lucio Carreras
  */
 
 #ifndef GUI_LASTFM_H_

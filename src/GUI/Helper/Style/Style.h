@@ -23,7 +23,7 @@
  * Style.h
  *
  *  Created on: Oct 27, 2011
- *      Author: luke
+ *      Author: Lucio Carreras
  */
 
 #ifndef STYLE_H_

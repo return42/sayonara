@@ -23,7 +23,7 @@
  * LFMWebAccess.h
  *
  *  Created on: Oct 22, 2011
- *      Author: luke
+ *      Author: Lucio Carreras
  */
 
 #ifndef LFMWEBACCESS_H_

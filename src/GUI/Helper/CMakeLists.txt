@@ -13,6 +13,7 @@ SET(SOURCES
 
 	Delegates/ComboBoxDelegate.cpp
 	Delegates/TreeDelegate.cpp
+	Delegates/ListDelegate.cpp
 
 	IconLoader/IconLoader.cpp
 

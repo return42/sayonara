@@ -247,6 +247,7 @@ gchar* AbstractPipeline::get_uri() {
 }
 
 
+
 bool AbstractPipeline::create_element(GstElement** elem, const gchar* elem_name, const gchar* name){
 
 	QString error_msg;

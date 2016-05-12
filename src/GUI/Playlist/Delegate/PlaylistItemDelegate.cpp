@@ -93,20 +93,27 @@ void PlaylistItemDelegate::paint( QPainter *painter,
 	QFont font = painter->font();
 
 	/** Time **/
+	QString str;
+	int offset_x = 4;
+
+	bool bold = font.bold();
 	QString time_string = Helper::cvt_ms_to_string(md.length_ms, true, true, false);
 
 	painter->translate(-4, 0);
+	font.setBold(false);
+	painter->setFont(font);
 	painter->drawText(rect, Qt::AlignRight | Qt::AlignVCenter, time_string);
+	font.setBold(bold);
+	painter->setFont(font);
 	painter->translate(4, 0);
 
-	rect.setWidth(rect.width() - 50);
-
-	QString str;
-	int offset_x = 4;
 
 	if(_show_numbers){
 		offset_x = draw_number(painter, row + 1, font, rect);
 	}
+
+
+	rect.setWidth(rect.width() - 50);
 
 	for(int i=0; i<_entry_template.size(); i++){
 
@@ -162,7 +169,6 @@ void PlaylistItemDelegate::paint( QPainter *painter,
 			painter->setFont(font);
 		}
 	}
-
 
 	painter->restore();
 }

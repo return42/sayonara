@@ -39,36 +39,6 @@ QT5_ADD_DBUS_INTERFACE(SOURCES
     Notifications
 )
 
-#QT5_ADD_DBUS_INTERFACE(SOURCES
-#	resources/org.libmtp.mtpd.device.xml
-#	Device
-#)
-
-#QT5_ADD_DBUS_INTERFACE(SOURCES
-#	resources/org.libmtp.mtpd.folder.xml
-#	Folder
-#)
-
-#QT5_ADD_DBUS_ADAPTOR(SOURCES
-#   resources/org.libmtp.mtpd.file.xml
-#	DBusMTPFile.h
-#	DBusMTP::File
-#	org_libmtp_mtpd_file_adaptor
-#	OrgLibMTPMtpdFileAdaptor
-#)
-
-QT5_ADD_DBUS_INTERFACE(SOURCES
-	resources/org.libmtp.mtpd.file.xml
-	File
-)
-
-
-#QT5_ADD_DBUS_INTERFACE(SOURCES
-	#resources/org.libmtp.mptd.object.xml
-	#Object
-#)
-
-
 QT5_ADD_DBUS_INTERFACE(SOURCES
 	resources/org.mate.SettingsDaemon.MediaKeys.xml
 	mate_settings_daemon
