@@ -159,8 +159,6 @@ void PlaylistItemDelegate::paint( QPainter *painter,
 			else{
 				font.setWeight(70);
 			}
-//			font.setWeight(QFont::DemiBold);
-//			font.setBold(!font.bold());
 			painter->setFont(font);
 		}
 
