@@ -204,7 +204,7 @@
     <message>
         <location line="+10"/>
         <source>Dur.</source>
-        <translation type="unfinished"></translation>
+        <translation>Тривал.</translation>
     </message>
 </context>
 <context>
@@ -212,7 +212,7 @@
     <message>
         <location line="+36"/>
         <source>Filesize</source>
-        <translation>Розмір файла</translation>
+        <translation>Розм-р фай-а</translation>
     </message>
 </context>
 <context>
