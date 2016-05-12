@@ -116,15 +116,18 @@ QString StreamRecorder::change_track(const MetaData& md) {
 	title.replace("\\", "_");
 
 	sr_path = _settings->get(Set::Engine_SR_Path);
-	if(!QFile::exists(sr_path)){
-
-		Helper::File::create_directories(sr_path);
-	}
-
 	session_path = check_session_path(sr_path);
 
-	_session_playlist_name = session_path + "/playlist.m3u";
-	_sr_recording_dst = session_path + "/" + title + ".mp3";
+	if(session_path.isEmpty()){
+		_sr_recording_dst = "";
+		_session_playlist_name = "";
+		_recording = false;
+	}
+
+	else{
+		_session_playlist_name = session_path + "/playlist.m3u";
+		_sr_recording_dst = session_path + "/" + title + ".mp3";
+	}
 
 	_idx++;
 
@@ -159,13 +162,19 @@ QString StreamRecorder::check_session_path(const QString& sr_path) {
 		return sr_path;
 	}
 
-    if(!QFile::exists(sr_path + QDir::separator() + _session_path)) {
+	QString recording_dst = sr_path + QDir::separator() + _session_path;
+    if(!QFile::exists(recording_dst)) {
 
-        QDir dir(sr_path);
-        dir.mkdir(_session_path);
+		Helper::File::create_directories(recording_dst);
     }
 
-    return sr_path + QDir::separator() + _session_path;
+	QFileInfo fi(recording_dst);
+	
+	if(!fi.isWritable()){
+		return "";
+	}
+
+    return recording_dst;
 }
 
 

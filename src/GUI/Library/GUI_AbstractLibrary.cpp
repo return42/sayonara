@@ -494,7 +494,7 @@ void GUI_AbstractLibrary::album_rating_changed(int rating) {
 
 void GUI_AbstractLibrary::title_rating_changed(int rating) {
 
-	SP::Set<int> indexes = _lv_album->get_selections();
+	SP::Set<int> indexes = _lv_tracks->get_selections();
 	if(indexes.isEmpty()) {
 		return;
 	}

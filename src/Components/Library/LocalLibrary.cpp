@@ -117,6 +117,7 @@ void LocalLibrary::psl_disc_pressed(int disc) {
 }
 
 void LocalLibrary::psl_track_rating_changed(int idx, int rating){
+	sp_log(Log::Debug) << "Change rating for track at idx " << idx << "(" << _vec_md[idx].title << ") : " << rating;
 	_vec_md[idx].rating = rating;
 	update_track(_vec_md[idx]);
 
