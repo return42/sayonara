@@ -110,7 +110,10 @@ void SomaFMLibrary::soma_playlist_content_fetched(bool success)
 	_station_map[_requested_station] = station;
 
 	PlaylistHandler* plh = PlaylistHandler::getInstance();
-	plh->create_playlist(v_md, station.get_station_name());
+	plh->create_playlist(v_md,
+						 station.get_station_name(),
+						 true,
+						 Playlist::Type::Stream);
 
 	QFile::remove(filename);
 	awa->deleteLater();

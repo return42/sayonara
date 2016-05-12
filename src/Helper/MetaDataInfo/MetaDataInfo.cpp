@@ -50,7 +50,7 @@ MetaDataInfo::MetaDataInfo(const MetaDataList& v_md) :
 	bool calc_track_num = (v_md.size() == 1);
 
 	QStringList genres;
-
+	QMap<QString, QStringList> values;
 
 	_db = DB::getInstance(v_md[0]);
 
@@ -85,6 +85,7 @@ MetaDataInfo::MetaDataInfo(const MetaDataList& v_md) :
 		// custom fields
 		const QList<CustomField>& custom_fields = md.get_custom_fields();
 
+
 		for(const CustomField& field : custom_fields){
 
 			QString name = field.get_display_name();
@@ -93,8 +94,13 @@ MetaDataInfo::MetaDataInfo(const MetaDataList& v_md) :
 				continue;
 			}
 
-			_additional_info[name] += field.get_value();
+			if(!values[name].contains(value)){
+				values[name] << value;
+			}
 		}
+
+
+
 
 		// genre
 		for(const QString& genre : md.genres){
@@ -121,6 +127,10 @@ MetaDataInfo::MetaDataInfo(const MetaDataList& v_md) :
 		}
 	}
 
+
+	for(const QString& name : values.keys()){
+		_additional_info[name] = values[name].join("<br />");
+	}
 
 	if(bitrate_max > 0){
 		insert_interval(InfoStrings::Bitrate, bitrate_min / 1000, bitrate_max / 1000);

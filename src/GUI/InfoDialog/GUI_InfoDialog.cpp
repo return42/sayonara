@@ -299,6 +299,8 @@ void GUI_InfoDialog::show(GUI_InfoDialog::TabIndex tab) {
 	tab_widget->setCurrentIndex(tab);
 	tab_index_changed(tab);
 
+	_is_initialized = true;
+
 	SayonaraDialog::show();
 }
 
