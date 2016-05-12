@@ -33,10 +33,14 @@
 
 /**
  * @define the Style namespace
- * @ingroup Helper
+ * @ingroup GUIHelper
  */
 namespace Style{
 
+	/**
+	 * @brief fetch the stylesheet file formatted as string
+	 * @return string formatted stylesheet file
+	 */
 	QString get_style(bool dark);
 }
 

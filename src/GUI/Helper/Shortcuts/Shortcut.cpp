@@ -22,11 +22,10 @@
 
 #include "Shortcut.h"
 #include "ShortcutHandler.h"
+#include "ShortcutWidget.h"
 #include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
-#include "GUI/Helper/SayonaraWidget/SayonaraShortcutWidget.h"
 
-
-Shortcut::Shortcut(SayonaraShortcutWidget* parent, const QString& identifier, const QString& name, const QStringList& default_shortcuts) :
+Shortcut::Shortcut(ShortcutWidget* parent, const QString& identifier, const QString& name, const QStringList& default_shortcuts) :
 	SayonaraClass()
 {
 	_name = name;
@@ -52,7 +51,7 @@ Shortcut::Shortcut(SayonaraShortcutWidget* parent, const QString& identifier, co
 	}
 }
 
-Shortcut::Shortcut(SayonaraShortcutWidget* parent, const QString& identifier, const QString& name, const QString& default_shortcut) :
+Shortcut::Shortcut(ShortcutWidget* parent, const QString& identifier, const QString& name, const QString& default_shortcut) :
 	Shortcut(parent, identifier, name, QStringList(default_shortcut))
 {
 

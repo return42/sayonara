@@ -69,6 +69,8 @@ PlaylistView::PlaylistView(PlaylistPtr pl, QWidget* parent) :
 	connect(this, &PlaylistView::pressed, this, &PlaylistView::row_pressed);
 	connect(this, &PlaylistView::doubleClicked, this, &PlaylistView::row_double_clicked);
 	connect(this, &PlaylistView::clicked, this, &PlaylistView::row_released);
+
+	REGISTER_LISTENER(Set::PL_EntryLook, _sl_look_changed);
 }
 
 PlaylistView::~PlaylistView() {
@@ -605,4 +607,9 @@ void PlaylistView::fill(PlaylistPtr pl) {
 			return;
 		}
 	}
+}
+
+void PlaylistView::_sl_look_changed(){
+	this->update();
+	this->repaint();
 }

@@ -31,6 +31,7 @@
 #include <QPixmap>
 
 class Settings;
+
 class IconLoader
 {
 

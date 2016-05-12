@@ -29,7 +29,6 @@ SET(SOURCES
 	SayonaraWidget/SayonaraWidgetTemplate.cpp
 	SayonaraWidget/SayonaraWidget.cpp
 	SayonaraWidget/SayonaraDialog.cpp
-	SayonaraWidget/SayonaraShortcutWidget.cpp
 
 	SearchableWidget/SearchableListView.cpp
 	SearchableWidget/SearchableTableView.cpp
@@ -39,6 +38,7 @@ SET(SOURCES
 
 	Shortcuts/Shortcut.cpp
 	Shortcuts/ShortcutHandler.cpp
+	Shortcuts/ShortcutWidget.cpp
 	Shortcuts/RawShortcutMap.cpp
 
 	Style/Style.cpp

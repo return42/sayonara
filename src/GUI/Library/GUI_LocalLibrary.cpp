@@ -481,3 +481,4 @@ void LocalLibraryContainer::init_ui()
 	_ui = new GUI_LocalLibrary();
 }
 
+

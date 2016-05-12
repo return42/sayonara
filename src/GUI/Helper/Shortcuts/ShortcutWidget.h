@@ -1,4 +1,4 @@
-/* SayonaraShortcutWidget.cpp */
+/* ShortcutWidget.h */
 
 /* Copyright (C) 2011-2016  Lucio Carreras
  *
@@ -20,6 +20,21 @@
 
 
 
-#include "SayonaraShortcutWidget.h"
+#ifndef SAYONARASHORTCUTWIDGET_H
+#define SAYONARASHORTCUTWIDGET_H
 
-/* Nothing in here */
+#include <QString>
+
+/**
+ * @brief Interface that should be implemented when using configurable shortcuts.
+ * @ingroup GUIHelper
+ * @ingroup Interfaces
+ */
+class ShortcutWidget {
+
+public:
+	virtual QString get_shortcut_text(const QString& shortcut_identifier) const=0;
+};
+
+
+#endif // SAYONARASHORTCUTWIDGET_H

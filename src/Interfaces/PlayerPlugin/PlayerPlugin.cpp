@@ -28,7 +28,7 @@
 
 PlayerPluginInterface::PlayerPluginInterface(QWidget *parent) :
 	SayonaraWidget(parent),
-	SayonaraShortcutWidget()
+	ShortcutWidget()
 {
 	_play_manager = PlayManager::getInstance();
 	_is_initialized = false;
