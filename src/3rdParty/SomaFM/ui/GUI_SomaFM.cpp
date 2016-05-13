@@ -1,9 +1,11 @@
 #include "ui/GUI_SomaFM.h"
+#include "ui/SomaFMStationModel.h"
 
 #include "Components/CoverLookup/CoverLookup.h"
 #include "GUI/Helper/Delegates/ListDelegate.h"
 #include "GUI/Helper/GUI_Helper.h"
 #include "Helper/Helper.h"
+
 
 #include <QStringListModel>
 #include <QPixmap>
@@ -17,9 +19,10 @@ GUI_SomaFM::GUI_SomaFM(QWidget *parent) :
 
 	_library = new SomaFMLibrary(this);
 
-	QStringListModel* model_stations = new QStringListModel();
+	SomaFMStationModel* model_stations = new SomaFMStationModel(this);
 
 	lv_stations->setModel(model_stations);
+	lv_stations->setAbstractModel(model_stations);
 	lv_stations->setItemDelegate(new ListDelegate(lv_stations));
 	lv_stations->setEditTriggers(QAbstractItemView::NoEditTriggers);
 	lv_stations->setEnabled(false);
@@ -39,8 +42,8 @@ GUI_SomaFM::GUI_SomaFM(QWidget *parent) :
 		"Listener-supported, commercial-free, underground/alternative radio<br /><br />" +
 		Helper::create_link("https://somafm.com", this->is_dark(), "https://somafm.com");
 
-	lab_description->setTextFormat(Qt::RichText);
 	lab_description->setText(description);
+	lab_donate->setText(Helper::create_link("https://somafm.com/support/", is_dark()));
 
 	connect(_library, &SomaFMLibrary::sig_stations_loaded, this, &GUI_SomaFM::stations_loaded);
 
@@ -67,7 +70,7 @@ QComboBox* GUI_SomaFM::get_libchooser() const
 
 void GUI_SomaFM::stations_loaded(const QStringList& stations)
 {
-	QStringListModel* model = static_cast<QStringListModel*>(lv_stations->model());
+	SomaFMStationModel* model = static_cast<SomaFMStationModel*>(lv_stations->model());
 	model->setStringList(stations);
 	lv_stations->setEnabled(true);
 }

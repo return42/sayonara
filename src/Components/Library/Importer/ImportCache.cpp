@@ -63,7 +63,7 @@ void ImportCache::add_standard_file(const QString& filename, const QString& pare
 		QString sub_dir = file_dir.remove(Helper::File::get_absolute_filename(parent_dir));
 		QString pure_srcdir = Helper::File::get_filename_of_path(parent_dir);
 
-		target_subdir = pure_srcdir + "/" + target_subdir + "/";
+		target_subdir = pure_srcdir + "/" + sub_dir + "/";
 	}
 
 	_src_dst_map[filename] = target_subdir + pure_src_filename;

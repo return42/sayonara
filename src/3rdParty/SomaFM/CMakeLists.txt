@@ -4,10 +4,11 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 
 SET(SOURCES
     SomaFMLibrary.cpp
-	SomaFMStation.cpp
+    SomaFMStation.cpp
 
     ui/GUI_SomaFM.cpp
-	ui/SomaFMLibraryContainer.cpp
+    ui/SomaFMLibraryContainer.cpp
+    ui/SomaFMStationModel.cpp
 )
 
 QT5_WRAP_UI(UI_FILES

@@ -69,7 +69,6 @@ void CopyThread::copy() {
 
 	for(const QString& filename : files){
 
-
 		if(_cancelled){
 			return;
 		}
@@ -89,6 +88,8 @@ void CopyThread::copy() {
 			continue;
 		}
 
+		sp_log(Log::Debug) << "copy " << filename << " to \n\t" << target_filename;
+
 		QFile f(filename);
 		success = f.copy(target_filename);
 
@@ -103,7 +104,6 @@ void CopyThread::copy() {
 			md.set_filepath(target_filename);
 			_v_md << md;
 		}
-
 
 		_lst_copied_files << target_filename;
 		_copied_files++;

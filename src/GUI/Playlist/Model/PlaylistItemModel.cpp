@@ -156,7 +156,7 @@ QModelIndex PlaylistItemModel::getPrevRowIndexOf(QString substr, int row, const 
 			if(row - i < 0) row = len - 1;
 			int row_idx = (row - i) % len;
 			QString album = _pl->at_const_ref(row_idx).album;
-			if(album.startsWith(substr, Qt::CaseInsensitive)) {
+			if(album.contains(substr, Qt::CaseInsensitive)) {
 				return this->index(row_idx, 0);
 			}
 		}
@@ -170,7 +170,7 @@ QModelIndex PlaylistItemModel::getPrevRowIndexOf(QString substr, int row, const 
 			if(row - i < 0) row = len - 1;
 			int row_idx = (row - i) % len;
 			QString artist = _pl->at_const_ref(row_idx).artist;
-			if(artist.startsWith(substr, Qt::CaseInsensitive)) {
+			if(artist.contains(substr, Qt::CaseInsensitive)) {
 				return this->index(row_idx, 0);
 			}
 		}
@@ -193,7 +193,7 @@ QModelIndex PlaylistItemModel::getPrevRowIndexOf(QString substr, int row, const 
 			if(row - i < 0) row = len - 1;
 			int row_idx = (row - i) % len;
 			QString title = _pl->at_const_ref(row_idx).title;
-			if(title.startsWith(substr, Qt::CaseInsensitive)) {
+			if(title.contains(substr, Qt::CaseInsensitive)) {
 				return this->index(row_idx, 0);
 			}
 		}
@@ -215,7 +215,7 @@ QModelIndex PlaylistItemModel::getNextRowIndexOf(QString substr, int row, const 
 		for(int i=0; i< len; i++) {
 			int row_idx = (i + row) % len;
 			QString album = _pl->at_const_ref(row_idx).album;
-			if(album.startsWith(substr, Qt::CaseInsensitive)) {
+			if(album.contains(substr, Qt::CaseInsensitive)) {
 				return this->index(row_idx, 0);
 			}
 		}
@@ -229,7 +229,7 @@ QModelIndex PlaylistItemModel::getNextRowIndexOf(QString substr, int row, const 
 		for(int i=0; i< len; i++) {
 			int row_idx = (i + row) % len;
 			QString artist = _pl->at_const_ref(row_idx).artist;
-			if(artist.startsWith(substr, Qt::CaseInsensitive)) {
+			if(artist.contains(substr, Qt::CaseInsensitive)) {
 				return this->index(row_idx, 0);
 			}
 		}
@@ -253,7 +253,7 @@ QModelIndex PlaylistItemModel::getNextRowIndexOf(QString substr, int row, const 
 		for(int i=0; i< len; i++) {
 			int row_idx = (i + row) % len;
 			QString title = _pl->at_const_ref(row_idx).title;
-			if(title.startsWith(substr, Qt::CaseInsensitive)) {
+			if(title.contains(substr, Qt::CaseInsensitive)) {
 				return this->index(row_idx, 0);
 			}
 		}

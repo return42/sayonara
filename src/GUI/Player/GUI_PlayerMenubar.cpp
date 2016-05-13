@@ -225,8 +225,13 @@ void GUI_Player::live_search_toggled(bool b) {
 
 void GUI_Player::help() {
 
-	QString link = Helper::create_link("http://sayonara-player.com/forum");
-	Message::info(tr("Please visit the forum at") + "<br />" + link);
+	Message::info(tr("Please visit the forum at") + "<br />" +
+				  Helper::create_link("http://sayonara-player.com/forum", is_dark()) +
+				  "<br /><br />" +
+				  tr("Donate") + ": <br />" + Helper::create_link("http://sayonara-player.com", is_dark()) +
+				  "<br /><br />" +
+				  tr("Thank you!") + " :-)"
+				  );
 }
 
 // private slot

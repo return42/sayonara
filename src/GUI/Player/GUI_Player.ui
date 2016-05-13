@@ -413,7 +413,7 @@
              <string/>
             </property>
             <property name="icon">
-             <iconset resource="../Resources/Icons.qrc">
+             <iconset>
               <normaloff>:/Icons/vol_mute.svg.png</normaloff>:/Icons/vol_mute.svg.png</iconset>
             </property>
             <property name="iconSize">
@@ -1071,7 +1071,7 @@
      <x>0</x>
      <y>0</y>
      <width>1038</width>
-     <height>22</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFle">
@@ -1252,6 +1252,11 @@
      <weight>75</weight>
      <bold>true</bold>
     </font>
+   </property>
+  </action>
+  <action name="action_donate">
+   <property name="text">
+    <string>Donate</string>
    </property>
   </action>
  </widget>

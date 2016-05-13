@@ -7,34 +7,15 @@
     <x>0</x>
     <y>0</y>
     <width>929</width>
-    <height>674</height>
+    <height>542</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <property name="verticalSpacing">
     <number>8</number>
    </property>
-   <item row="9" column="2">
-    <widget class="QListView" name="lv_playlists">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-       <horstretch>1</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>200</width>
-       <height>16777215</height>
-      </size>
-     </property>
-     <property name="alternatingRowColors">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="2">
-    <widget class="Line" name="line_3">
+   <item row="5" column="2">
+    <widget class="Line" name="line_2">
      <property name="maximumSize">
       <size>
        <width>200</width>
@@ -71,8 +52,68 @@
      <property name="text">
       <string notr="true"/>
      </property>
+     <property name="textFormat">
+      <enum>Qt::RichText</enum>
+     </property>
      <property name="wordWrap">
       <bool>true</bool>
+     </property>
+     <property name="openExternalLinks">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="0" rowspan="10">
+    <widget class="SearchableListView" name="lv_stations">
+     <property name="alternatingRowColors">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="11" column="2">
+    <widget class="QLabel" name="label_3">
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Donate to Soma.fm</string>
+     </property>
+    </widget>
+   </item>
+   <item row="10" column="2">
+    <widget class="Line" name="line_4">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="2">
+    <widget class="Line" name="line_3">
+     <property name="maximumSize">
+      <size>
+       <width>200</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0">
+    <widget class="QLabel" name="label">
+     <property name="font">
+      <font>
+       <pointsize>11</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Stations</string>
      </property>
     </widget>
    </item>
@@ -110,26 +151,6 @@ border: 2px solid #202020;
      </property>
     </widget>
    </item>
-   <item row="4" column="0" rowspan="6">
-    <widget class="QListView" name="lv_stations">
-     <property name="alternatingRowColors">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="2">
-    <widget class="Line" name="line_2">
-     <property name="maximumSize">
-      <size>
-       <width>200</width>
-       <height>16777215</height>
-      </size>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
-   </item>
    <item row="0" column="0" colspan="3">
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
@@ -153,27 +174,6 @@ border: 2px solid #202020;
      </item>
     </layout>
    </item>
-   <item row="1" column="0" rowspan="2" colspan="3">
-    <widget class="Line" name="line">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="0">
-    <widget class="QLabel" name="label">
-     <property name="font">
-      <font>
-       <pointsize>11</pointsize>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>Stations</string>
-     </property>
-    </widget>
-   </item>
    <item row="8" column="2">
     <widget class="QLabel" name="label_2">
      <property name="font">
@@ -188,8 +188,51 @@ border: 2px solid #202020;
      </property>
     </widget>
    </item>
+   <item row="1" column="0" rowspan="2" colspan="3">
+    <widget class="Line" name="line">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="2">
+    <widget class="QListView" name="lv_playlists">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>1</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>200</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="alternatingRowColors">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="12" column="2">
+    <widget class="QLabel" name="lab_donate">
+     <property name="text">
+      <string/>
+     </property>
+     <property name="openExternalLinks">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>SearchableListView</class>
+   <extends>QListView</extends>
+   <header>GUI/Helper/SearchableWidget/SearchableListView.h</header>
+  </customwidget>
+ </customwidgets>
  <tabstops>
   <tabstop>combo_lib_chooser</tabstop>
  </tabstops>

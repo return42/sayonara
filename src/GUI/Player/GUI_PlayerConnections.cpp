@@ -82,6 +82,7 @@ void GUI_Player::setup_connections() {
 	// about
 	connect(action_about, &QAction::triggered, this, &GUI_Player::about);
 	connect(action_help, &QAction::triggered, this, &GUI_Player::help);
+
 	connect(sli_volume, &SearchSlider::sig_slider_moved, this, &GUI_Player::volume_slider_moved);
 	connect(sli_progress, &SearchSlider::sig_slider_moved, this, &GUI_Player::seek);
 
