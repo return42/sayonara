@@ -190,8 +190,6 @@ public:
 	PlaylistConstPtr get_playlist_at(int pl_idx) const;
 
 
-
-
 	/**
 	 * @brief delete the given playlist from database
 	 * @param pl_idx playlist index
@@ -259,8 +257,6 @@ public:
 
 
 
-
-
 public slots:
 
 	/**
@@ -309,6 +305,7 @@ public slots:
 	 * @return new playlist index
 	 */
 	int create_playlist(const CustomPlaylist& pl);
+
 
 	/**
 	 * @brief create a new empty playlist

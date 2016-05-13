@@ -169,13 +169,21 @@ void CoverFetchThread::save_and_emit_image(const QString& filepath,
 										   const QString& url)
 {
 
-	bool success = img.save(filepath);
+	QString filename = filepath;
+	QString ext = Helper::File::calc_file_extension(filepath);
+	if(ext.compare("gif", Qt::CaseInsensitive) == 0){
+		filename = filename.left(filename.size() - 3);
+		filename += "png";
+	}
+
+
+	bool success = img.save(filename);
 	if(!success){
-		sp_log(Log::Warning) << "Cannot save image to " << filepath;
+		sp_log(Log::Warning) << "Cannot save image to " << filename;
 	}
 
 	CoverLocation cl;
-	cl.cover_path = filepath;
+	cl.cover_path = filename;
 	cl.search_url = url;
 	cl.valid = true;
 

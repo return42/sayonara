@@ -67,7 +67,6 @@ QComboBox* GUI_SomaFM::get_libchooser() const
 
 void GUI_SomaFM::stations_loaded(const QStringList& stations)
 {
-
 	QStringListModel* model = static_cast<QStringListModel*>(lv_stations->model());
 	model->setStringList(stations);
 	lv_stations->setEnabled(true);
@@ -82,10 +81,13 @@ void GUI_SomaFM::station_index_changed(const QModelIndex& idx){
 	QStringListModel* pl_model = static_cast<QStringListModel*>(lv_playlists->model());
 
 	QString station_name = lv_stations->model()->data(idx).toString();
+
 	SomaFMStation station = _library->get_station(station_name);
+
 
 	QStringList urls = station.get_urls();
 	QStringList texts;
+
 	for(QString& url : urls){
 		SomaFMStation::UrlType type = station.get_url_type(url);
 		if(type == SomaFMStation::UrlType::MP3){

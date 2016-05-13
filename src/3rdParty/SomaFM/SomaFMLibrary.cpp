@@ -1,11 +1,7 @@
 #include "SomaFMLibrary.h"
-#include <QRegExp>
-
 #include "Helper/Logger/Logger.h"
-#include "Helper/Helper.h"
-#include "Helper/FileHelper.h"
-#include "Helper/Parser/PlaylistParser.h"
-
+#include "Helper/WebAccess/AsyncWebAccess.h"
+#include "Helper/Parser/StreamParser.h"
 #include "Components/Playlist/PlaylistHandler.h"
 
 SomaFMLibrary::SomaFMLibrary(QObject* parent) :
@@ -22,7 +18,6 @@ void SomaFMLibrary::search_stations()
 	awa->run("https://somafm.com/listen/");
 }
 	
-
 
 SomaFMStation SomaFMLibrary::get_station(const QString& name)
 {
@@ -66,42 +61,29 @@ void SomaFMLibrary::create_playlist_from_playlist(int idx)
 		return;		
 	}
 
-	AsyncWebAccess* awa = new AsyncWebAccess(this);
+	QString url = urls[idx];
+	StreamParser* stream_parser = new StreamParser(station.get_station_name(), this);
+	connect(stream_parser, &StreamParser::sig_finished, this, &SomaFMLibrary::soma_playlist_content_fetched);
 
-	connect(awa, &AsyncWebAccess::sig_finished, this, &SomaFMLibrary::soma_playlist_content_fetched);
-
-	awa->run(urls[idx]);
+	stream_parser->parse_stream(url);
 }
+
 
 void SomaFMLibrary::soma_playlist_content_fetched(bool success)
 {
-	AsyncWebAccess* awa = static_cast<AsyncWebAccess*>(sender());
+	StreamParser* parser = static_cast<StreamParser*>(sender());
 
 	if(!success){
-		awa->deleteLater();
+		parser->deleteLater();
 		return;
 	}
 
-	MetaDataList v_md;
-	QByteArray data = awa->get_data();
-	QString extension = Helper::File::get_file_extension(awa->get_url());
-	QString filename = Helper::get_sayonara_path() + "/soma_playlist." + extension;
-
-	success = Helper::File::write_file(data, filename);
-	if(!success){
-		awa->deleteLater();
-		return;
-	}
+	MetaDataList v_md = parser->get_metadata();
 
 	SomaFMStation station = _station_map[_requested_station];
-	QString station_name = station.get_station_name();
 	QString cover_url = station.get_cover_location().search_url;
-	PlaylistParser::parse_playlist(filename, v_md);
 
 	for(MetaData& md : v_md){
-		md.title = station_name;
-		md.artist = "SomaFM";
-		md.album = station_name;
 		md.cover_download_url = cover_url;
 	}
 
@@ -115,8 +97,7 @@ void SomaFMLibrary::soma_playlist_content_fetched(bool success)
 						 true,
 						 Playlist::Type::Stream);
 
-	QFile::remove(filename);
-	awa->deleteLater();
+	parser->deleteLater();
 }
 
 

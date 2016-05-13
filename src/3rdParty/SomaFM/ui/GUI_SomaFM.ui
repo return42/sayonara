@@ -96,6 +96,12 @@
        <height>200</height>
       </size>
      </property>
+     <property name="styleSheet">
+      <string notr="true">background: black;
+border: 2px solid #202020;
+
+</string>
+     </property>
      <property name="text">
       <string notr="true"/>
      </property>

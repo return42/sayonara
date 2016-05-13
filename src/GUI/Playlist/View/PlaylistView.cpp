@@ -581,7 +581,7 @@ void PlaylistView::handle_drop(QDropEvent* event, bool from_outside) {
 	else if(custom_mimedata != nullptr){
 
 		if(	custom_mimedata->hasText() &&
-				custom_mimedata->hasMetaData())
+			custom_mimedata->hasMetaData())
 		{
 			v_md = custom_mimedata->getMetaData();
 			if(v_md.isEmpty()) {

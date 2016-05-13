@@ -8,7 +8,6 @@
 #include <QMap>
 
 #include "SomaFMStation.h"
-#include "Helper/WebAccess/AsyncWebAccess.h"
 
 class SomaFMLibrary : public QObject
 {

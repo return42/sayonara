@@ -22,8 +22,9 @@ ADD_LIBRARY(${PROJECT_NAME} SHARED ${SOURCES} ${UI_FILES} ${RESOURCES})
 TARGET_LINK_LIBRARIES(${PROJECT_NAME}
 	say_gui_library
 	say_interfaces_library_container
-	say_comp_covers
+	say_helper_parser
 	say_comp_playlist
+	say_comp_covers
 )
 
 
