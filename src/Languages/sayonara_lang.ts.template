@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="ln">
+<TS version="2.0" language="ln">
 <context>
     <name>AbstractLibrary</name>
     <message>
@@ -60,6 +60,7 @@
         <location filename="../GUI/AlternativeCovers/GUI_AlternativeCovers.ui" line="+14"/>
         <location filename="../../build/src/GUI/AlternativeCovers/ui_GUI_AlternativeCovers.h" line="+203"/>
         <source>Search alternative image</source>
+        <translatorcomment>search an alternative cover</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -78,6 +79,7 @@
         <location line="+81"/>
         <location filename="../../build/src/GUI/AlternativeCovers/ui_GUI_AlternativeCovers.h" line="+1"/>
         <source>Local search</source>
+        <translatorcomment>search for local files on hard disk</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -96,6 +98,7 @@
         <location line="+19"/>
         <location filename="../../build/src/GUI/AlternativeCovers/ui_GUI_AlternativeCovers.h" line="+1"/>
         <source>Select and preview multiple covers</source>
+        <translatorcomment>this is just a label which tells you what this point is good for</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -242,6 +245,7 @@
     <message>
         <location line="-7"/>
         <source>Cannot open stream</source>
+        <translatorcomment>player is unable to open a stream</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -353,6 +357,7 @@
     <message>
         <location filename="../GUI/PlayerPlugins/AudioConverter/GUI_AudioConverter.cpp" line="+47"/>
         <source>Audio Converter</source>
+        <translatorcomment>Header for the plugin to convert files to mp3 files</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -368,6 +373,7 @@
     <message>
         <location line="+67"/>
         <source>Cannot find lame mp3 encoder</source>
+        <translatorcomment>You don&apos;t nee to translate lame mp3 encoder</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -389,6 +395,7 @@
     <message>
         <location line="-1"/>
         <source>Sorry, bookmarks can only be set for library tracks at the moment.</source>
+        <translatorcomment>This means, that for external tracks which are not stored in the library, it&apos;s impossible to add a bookmark</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -405,6 +412,7 @@
         <location line="+13"/>
         <location filename="../../build/src/GUI/PlayerPlugins/Broadcasting/ui_GUI_Broadcast.h" line="+1"/>
         <source>Cannot Broadcast</source>
+        <translatorcomment>Unable to broadcast. You can translate broadcast like a radio station where others can listen to your music</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -417,45 +425,50 @@
         <location line="+147"/>
         <location filename="../../build/src/GUI/PlayerPlugins/Broadcasting/ui_GUI_Broadcast.h" line="+3"/>
         <source>Dismiss</source>
-        <translatorcomment>Throw people out of your broadcasting stream. They should not listen to your sound</translatorcomment>
+        <translatorcomment>Throw specific people out of your broadcasting stream. They should not listen to your sound</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+20"/>
         <location filename="../../build/src/GUI/PlayerPlugins/Broadcasting/ui_GUI_Broadcast.h" line="+1"/>
         <source>Dismiss all</source>
+        <translatorcomment>Throw all people out</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../GUI/PlayerPlugins/Broadcasting/GUI_Broadcast.cpp" line="+53"/>
         <source>Broadcast</source>
+        <translatorcomment>You can translate broadcast like a radio station where others can listen to your music</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+54"/>
         <source>%1 listener</source>
-        <translatorcomment>1 listener</translatorcomment>
+        <translatorcomment>exactly 1 listener</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+4"/>
         <source>%1 listeners</source>
-        <translatorcomment>5 listeners</translatorcomment>
+        <translatorcomment>e.g. 5 listeners</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+63"/>
         <source>Cannot broadcast on port %1</source>
+        <translatorcomment>e.g. Cannot broadcast on port 45846</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Maybe another application is using this port?</source>
+        <translatorcomment>This port is occupied by an other application</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+73"/>
         <source>Cannot find lame mp3 encoder</source>
+        <translatorcomment>see GUI_AudioConverter</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -471,6 +484,7 @@
         <location line="+7"/>
         <location filename="../../build/src/GUI/Preferences/Broadcast/ui_GUI_BroadcastSetup.h" line="+1"/>
         <source>Ask for permission</source>
+        <translatorcomment>If some user wants to listen to your sound, he should ask for permission first</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -504,6 +518,7 @@
         <location filename="../GUI/DirectoryWidget/GUI_DirectoryWidget.cpp" line="-162"/>
         <location line="+41"/>
         <source>Really?</source>
+        <translatorcomment>Do you really want to delete some stuff?</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -585,6 +600,7 @@
         <location filename="../GUI/Preferences/Fonts/GUI_FontConfig.cpp" line="+66"/>
         <location line="+1"/>
         <source>Inherit</source>
+        <translatorcomment>Font is not explicitley set, it is the same as the global player font. Feel free to translate it like &quot;player font size&quot;</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -645,7 +661,7 @@
     <message>
         <location line="+14"/>
         <source>%1&lt;br /&gt;is no library directory</source>
-        <translatorcomment>&lt;br /&gt; is a &quot;new line&quot;</translatorcomment>
+        <translatorcomment>&lt;br /&gt; is a &quot;new line&quot;. for example /home/user/fake is no library directory</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -808,6 +824,7 @@
         <location filename="../GUI/Preferences/LibraryPreferences/GUI_LibraryPreferences.ui" line="+43"/>
         <location filename="../../build/src/GUI/Preferences/LibraryPreferences/ui_GUI_LibraryPreferences.h" line="+97"/>
         <source>On double click, create playlist and</source>
+        <translatorcomment>when you double click some artist, album, track in library, the create a playlist and</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -816,35 +833,41 @@
         <location filename="../../build/src/GUI/Preferences/LibraryPreferences/ui_GUI_LibraryPreferences.h" line="-2"/>
         <location line="+3"/>
         <source>do nothing (default)</source>
+        <translatorcomment>the player does nothing except creating a new playlist</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+7"/>
         <location filename="../../build/src/GUI/Preferences/LibraryPreferences/ui_GUI_LibraryPreferences.h" line="+1"/>
         <source>start playback if stopped</source>
+        <translatorcomment>the player starts, if current playstate is stopped</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+7"/>
         <location filename="../../build/src/GUI/Preferences/LibraryPreferences/ui_GUI_LibraryPreferences.h" line="+1"/>
         <source>start playback immediately</source>
+        <translatorcomment>the player will stop the current song and start playing the new playlist</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="-43"/>
         <location filename="../../build/src/GUI/Preferences/LibraryPreferences/ui_GUI_LibraryPreferences.h" line="-6"/>
         <source>When drag and drop into playlist </source>
+        <translatorcomment>when you drag and drop some artist/album/title to the playlist</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+13"/>
         <location filename="../../build/src/GUI/Preferences/LibraryPreferences/ui_GUI_LibraryPreferences.h" line="+2"/>
         <source>start if stopped and playlist is empty</source>
+        <translatorcomment>start playing if the current playstate is stopped and the playlist was empty before</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../GUI/Preferences/LibraryPreferences/GUI_LibraryPreferences.cpp" line="+44"/>
         <source>Library-Playlist Interaction</source>
+        <translatorcomment>The header for this options dialog. Be creative :)</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -866,6 +889,7 @@
         <location line="+100"/>
         <location filename="../../build/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+1"/>
         <source>No genres found</source>
+        <translatorcomment>Player could not find any genres</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -878,6 +902,7 @@
         <location line="+51"/>
         <location filename="../../build/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+1"/>
         <source>You haven&apos;t specified a library path yet</source>
+        <translatorcomment>The player cannot find any tracks because there&apos;s no library path given</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -926,16 +951,19 @@
     <message>
         <location filename="../GUI/Library/GUI_LocalLibrary.cpp" line="+153"/>
         <source>Check for changed files (fast)</source>
+        <translatorcomment>Check, if some files were deleted or added</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Deep scan (slow)</source>
+        <translatorcomment>do the same as in fast, but read all other files carefully, too</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Select reload mode</source>
+        <translatorcomment>The header for these two options. The two reload modes are fast and slow</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -946,11 +974,13 @@
     <message>
         <location line="+2"/>
         <source>Only from library</source>
+        <translatorcomment>Delete tracks only from library</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+2"/>
         <source>You are about to delete %1 files</source>
+        <translatorcomment>If you are pressing OK, you will delete %1 files</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -961,6 +991,7 @@
     <message>
         <location line="+31"/>
         <source>Please select your library path first and reload again.</source>
+        <translatorcomment>You first have to specify the library path and reload your library in order to have fun with the player</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1045,6 +1076,7 @@
     <message>
         <location line="+2"/>
         <source>Written by</source>
+        <translatorcomment>Sayonara Player was written by</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1223,18 +1255,21 @@
         <location filename="../GUI/Preferences/PlayerPreferences/GUI_PlayerPreferences.ui" line="+24"/>
         <location filename="../../build/src/GUI/Preferences/PlayerPreferences/ui_GUI_PlayerPreferences.h" line="+62"/>
         <source>Start in tray</source>
+        <translatorcomment>start sayonara so that it is not visible except in the little bar, where for example skype or pidgin are located</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+7"/>
         <location filename="../../build/src/GUI/Preferences/PlayerPreferences/ui_GUI_PlayerPreferences.h" line="+1"/>
         <source>Close to tray</source>
+        <translatorcomment>when you close sayonara, it&apos;s not completely closed. It&apos;s just minimized to the system tray and stays there as an icon</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="-14"/>
         <location filename="../../build/src/GUI/Preferences/PlayerPreferences/ui_GUI_PlayerPreferences.h" line="-2"/>
         <source>Update notifications</source>
+        <translatorcomment>Show, if there&apos;s a new update available</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1263,11 +1298,13 @@
     <message>
         <location filename="../GUI/Playlist/GUI_PlaylistTabs.cpp" line="+221"/>
         <source>Playlist name already exists</source>
+        <translatorcomment>Playlist cannot be saved, because a playlist with that name already exists</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Really</source>
+        <translatorcomment>do you really want to delete that playlist</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1278,6 +1315,7 @@
     <message>
         <location line="+106"/>
         <source>Cannot save playlist.</source>
+        <translatorcomment>Impossible to save the playlist</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1289,6 +1327,7 @@
     <message>
         <location line="+0"/>
         <source>Playlist exists</source>
+        <translatorcomment>same as playlist name already exists</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1349,18 +1388,21 @@
         <location filename="../../build/src/GUI/Playlist/ui_GUI_PlaylistBottomBar.h" line="+5"/>
         <location filename="../GUI/Playlist/BottomBar/GUI_PlaylistBottomBar.cpp" line="+173"/>
         <source>Dynamic playing</source>
+        <translatorcomment>a new track is automatically added to playlist when listening, so the playlist will never stop</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+42"/>
         <location filename="../../build/src/GUI/Playlist/ui_GUI_PlaylistBottomBar.h" line="+5"/>
         <source>Append when adding new tracks</source>
+        <translatorcomment>when double clicking in library, append new tracks instead of creating a new playlist</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+41"/>
         <location filename="../../build/src/GUI/Playlist/ui_GUI_PlaylistBottomBar.h" line="+5"/>
         <source>Gapless playback</source>
+        <translatorcomment>no pause between the tracks</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1387,6 +1429,7 @@
         <location line="+33"/>
         <location filename="../../build/src/GUI/PlayerPlugins/PlaylistChooser/ui_GUI_PlaylistChooser.h" line="+2"/>
         <source>Playlist file</source>
+        <translatorcomment>a playlist file. For exampe a m3u or pls file</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1416,6 +1459,7 @@
         <location filename="../GUI/Preferences/PlaylistPreferences/GUI_PlaylistPreferences.ui" line="+20"/>
         <location filename="../../build/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+211"/>
         <source>Show numbers</source>
+        <translatorcomment>show numbers in playlist</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1490,6 +1534,7 @@
         <location line="+26"/>
         <location filename="../../build/src/GUI/PlayerPlugins/Stream/ui_GUI_Podcasts.h" line="+2"/>
         <source>Start stream</source>
+        <translatorcomment>start an audio stream</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1502,6 +1547,7 @@
         <location line="+12"/>
         <location filename="../../build/src/GUI/PlayerPlugins/Stream/ui_GUI_Podcasts.h" line="+2"/>
         <source>Type name you want to save the stream as</source>
+        <translatorcomment>give your stream a name so you can save it</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1520,6 +1566,7 @@
         <location line="+10"/>
         <location filename="../../build/src/GUI/PlayerPlugins/Stream/ui_GUI_Podcasts.h" line="+2"/>
         <source>Enter stream url</source>
+        <translatorcomment>enter a url for the stream</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1592,6 +1639,7 @@
     <message>
         <location filename="../GUI/Library/GUI_LibraryPath.ui" line="+48"/>
         <source>You haven&apos;t specified a library path yet</source>
+        <translatorcomment>We&apos;ve had this already somewhere</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1606,6 +1654,7 @@
         <location filename="../GUI/Preferences/Shortcuts/GUI_ShortcutEntry.ui" line="+42"/>
         <location filename="../../build/src/GUI/Preferences/Shortcuts/ui_GUI_ShortcutEntry.h" line="+96"/>
         <source>Enter shortcut...</source>
+        <translatorcomment>press the shortcut you want to use</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1626,6 +1675,7 @@
     <message>
         <location line="+0"/>
         <source>Shortcut already in use</source>
+        <translatorcomment>This shortcut is used elsewhere already</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1641,6 +1691,7 @@
         <location filename="../../build/src/GUI/Preferences/Shortcuts/ui_GUI_Shortcuts.h" line="+85"/>
         <location filename="../GUI/Preferences/Shortcuts/GUI_Shortcuts.cpp" line="+103"/>
         <source>Press shortcut</source>
+        <translatorcomment>same es enter shortcut</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1668,6 +1719,7 @@
         <location line="-86"/>
         <location filename="../../build/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="-6"/>
         <source>Shutdown after playlist finished</source>
+        <translatorcomment>shutdown the computer after the playlist has finished</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1686,6 +1738,7 @@
         <location line="+17"/>
         <location filename="../../build/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="+1"/>
         <source>Shutdown after</source>
+        <translatorcomment>e.g. shutdown after 5 minutes</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1701,18 +1754,21 @@
         <location filename="../3rdParty/SomaFM/ui/GUI_SomaFM.ui" line="+82"/>
         <location filename="../../build/src/3rdParty/SomaFM/ui_GUI_SomaFM.h" line="+191"/>
         <source>Donate to Soma.fm</source>
+        <translatorcomment>Give some money to soma.fm</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+34"/>
         <location filename="../../build/src/3rdParty/SomaFM/ui_GUI_SomaFM.h" line="+1"/>
         <source>Stations</source>
+        <translatorcomment>the soma.fm stations</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+71"/>
         <location filename="../../build/src/3rdParty/SomaFM/ui_GUI_SomaFM.h" line="+1"/>
         <source>Streams</source>
+        <translatorcomment>every station has several stream</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1726,6 +1782,7 @@
     <message>
         <location filename="../3rdParty/Soundcloud/ui/GUI_SoundcloudLibrary.cpp" line="+37"/>
         <source>Add artist</source>
+        <translatorcomment>add some artist to your collection</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1735,6 +1792,7 @@
         <location filename="../3rdParty/Soundcloud/ui/GUI_SoundcloudArtistSearch.ui" line="+14"/>
         <location filename="../../build/src/3rdParty/Soundcloud/ui_GUI_SoundcloudArtistSearch.h" line="+169"/>
         <source>Search Soundcloud</source>
+        <translatorcomment>search some artists in the soundcloud</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1753,6 +1811,7 @@
         <location line="+17"/>
         <location filename="../../build/src/3rdParty/Soundcloud/ui_GUI_SoundcloudArtistSearch.h" line="+1"/>
         <source>Search artist</source>
+        <translatorcomment>same as above. I will rename this once</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1794,6 +1853,7 @@
         <location line="+279"/>
         <location filename="../../build/src/3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h" line="+8"/>
         <source>Shortcuts: &lt;br /&gt;Search &lt;span style=&quot; font-weight:600;&quot;&gt;s: &lt;br /&gt; &lt;/span&gt;Genre &lt;span style=&quot; font-weight:600;&quot;&gt;g: &lt;br /&gt;&lt;/span&gt;Path &lt;span style=&quot; font-weight:600;&quot;&gt;p:&lt;br/&gt;</source>
+        <translatorcomment>a mess again</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1818,12 +1878,14 @@
         <location line="+23"/>
         <location filename="../../build/src/3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h" line="+6"/>
         <source>Search for title, interprets and albums</source>
+        <translatorcomment>just a tooltip</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+22"/>
         <location filename="../../build/src/3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h" line="+3"/>
         <source>Show all interprets, albums, tracks</source>
+        <translatorcomment>just a tooltip</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1866,6 +1928,7 @@
     <message>
         <location filename="../GUI/Preferences/Startup/GUI_StartupDialog.cpp" line="+93"/>
         <source>Start up</source>
+        <translatorcomment>This is the header for the startup options. That means when starting sayonara, some behaviour is defined</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1875,6 +1938,7 @@
         <location filename="../GUI/Preferences/Startup/GUI_StartupDialog.ui" line="+31"/>
         <location filename="../../build/src/GUI/Preferences/Startup/ui_GUI_StartupDialog.h" line="+84"/>
         <source>Load temporary playlists</source>
+        <translatorcomment>load playlists at startup which were not saved</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1887,18 +1951,21 @@
         <location line="-21"/>
         <location filename="../../build/src/GUI/Preferences/Startup/ui_GUI_StartupDialog.h" line="-2"/>
         <source>Load last track on startup</source>
+        <translatorcomment>load the last track at startup which you listened before</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+28"/>
         <location filename="../../build/src/GUI/Preferences/Startup/ui_GUI_StartupDialog.h" line="+3"/>
         <source>Load saved playlists</source>
+        <translatorcomment>load saved playlists</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+10"/>
         <location filename="../../build/src/GUI/Preferences/Startup/ui_GUI_StartupDialog.h" line="+1"/>
         <source>Remember time of last track</source>
+        <translatorcomment>start playing at the exact same position when sayonara has stopped the last time</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1914,6 +1981,7 @@
         <location line="+10"/>
         <location filename="../../build/src/GUI/PlayerPlugins/Stream/ui_GUI_Stream.h" line="+2"/>
         <source>Type name you want to save the stream as</source>
+        <translatorcomment>We already had this</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1982,17 +2050,20 @@
         <location line="-23"/>
         <location filename="../../build/src/GUI/Preferences/StreamRecorder/ui_GUI_StreamRecorder.h" line="-2"/>
         <source>Create session folder</source>
+        <translatorcomment>create a special directory where the streamripper will save your recorded data</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../GUI/Preferences/StreamRecorder/GUI_StreamRecorder.cpp" line="+88"/>
         <source>Choose target directory</source>
+        <translatorcomment>choose a target directory. within this directory the session folder will also be placed</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+24"/>
         <source> could not be created
 Please choose another folder</source>
+        <translatorcomment>This is ugly. /home/user/some/folder could not be created\nPlease choose another one</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2195,6 +2266,7 @@ Please choose another folder</source>
         <location line="+64"/>
         <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+5"/>
         <source>Apply to all</source>
+        <translatorcomment>apply changes to all tracks</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2229,12 +2301,14 @@ Please choose another folder</source>
         <location line="+51"/>
         <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+4"/>
         <source>Tag from path</source>
+        <translatorcomment>create the metadata from the file path</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+32"/>
         <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+1"/>
         <source>Undo all</source>
+        <translatorcomment>undo changes for all tracks</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2282,11 +2356,13 @@ Please choose another folder</source>
     <message>
         <location line="+220"/>
         <source>Cannot apply tag for</source>
+        <translatorcomment>The tag could not be extracted from the file path for a specific track. Cannot apply tag for /home/user/track.mp3</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+15"/>
         <source>by</source>
+        <translatorcomment>Battery by Metallica</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2301,12 +2377,14 @@ Please choose another folder</source>
         <location filename="../GUI/PlayerPlugins/PlaylistChooser/TargetPlaylistDialog/GUI_TargetPlaylistDialog.ui" line="+14"/>
         <location filename="../../build/src/GUI/PlayerPlugins/PlaylistChooser/TargetPlaylistDialog/ui_GUI_TargetPlaylistDialog.h" line="+109"/>
         <source>Choose target playlist</source>
+        <translatorcomment>choose the playlist file which you want to save</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+25"/>
         <location filename="../../build/src/GUI/PlayerPlugins/PlaylistChooser/TargetPlaylistDialog/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
         <source>relative filepaths</source>
+        <translatorcomment>write relative filepaths into the playlists</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2336,6 +2414,7 @@ Please choose another folder</source>
     <message>
         <location filename="../GUI/PlayerPlugins/PlaylistChooser/TargetPlaylistDialog/GUI_TargetPlaylistDialog.cpp" line="+52"/>
         <source>Choose target file</source>
+        <translatorcomment>same as above</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2383,6 +2462,7 @@ Please choose another folder</source>
         <location line="-64"/>
         <location line="+65"/>
         <source>Current song</source>
+        <translatorcomment>current song which is playing at the moment</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2608,6 +2688,7 @@ Please choose another folder</source>
         <location filename="../GUI/Library/Views/LibraryGenreView.cpp" line="+188"/>
         <location line="+27"/>
         <source>Updating genres</source>
+        <translatorcomment>current song which is playing at the moment</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2621,16 +2702,19 @@ Please choose another folder</source>
     <message>
         <location line="+4"/>
         <source>%1 of %2 files could be imported</source>
+        <translatorcomment>5 of 10 files could be imported</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Sorry, but tracks could not be imported</source>
+        <translatorcomment>None of the tracks could be imported</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Please use the import function of the file menu&lt;br /&gt; or move tracks to library and use &apos;Reload library&apos;</source>
+        <translatorcomment>This is the content of a warning message</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2670,6 +2754,7 @@ Please choose another folder</source>
         <location filename="../GUI/Library/Helper/LocalLibraryMenu.cpp" line="+35"/>
         <location line="+42"/>
         <source>Reload library</source>
+        <translatorcomment>I have the feeling we had that so often already...</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2700,6 +2785,7 @@ Please choose another folder</source>
         <location line="-40"/>
         <location line="+41"/>
         <source>Live search</source>
+        <translatorcomment>the library shows the results of your search immediatly. Like google instant search</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2708,6 +2794,7 @@ Please choose another folder</source>
     <message>
         <location filename="../Components/LyricLookup/LyricLookup.cpp" line="+223"/>
         <source>Sorry, could not fetch lyrics from %1</source>
+        <translatorcomment>Could not fetch lyrics from www.lyrics.com</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2726,6 +2813,7 @@ Please choose another folder</source>
     <message>
         <location line="+11"/>
         <source>track on</source>
+        <translatorcomment>5th track on &quot;master of puppets&quot;</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2736,6 +2824,7 @@ Please choose another folder</source>
     <message>
         <location line="+45"/>
         <source>%1 various artists</source>
+        <translatorcomment>5 various artists</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2790,6 +2879,7 @@ Please choose another folder</source>
     <message>
         <location line="+2"/>
         <source>Playing time</source>
+        <translatorcomment>sum of length for multiple tracks</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2833,6 +2923,7 @@ Please choose another folder</source>
         <location filename="../Interfaces/PlayerPlugin/PlayerPlugin.cpp" line="+62"/>
         <location filename="../Interfaces/PlayerPlugin/PlayerPlugin.h" line="+174"/>
         <source>Close plugin</source>
+        <translatorcomment>Close some player plugin</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2893,12 +2984,14 @@ Please choose another folder</source>
         <location line="-48"/>
         <location line="+49"/>
         <source>Dynamic playback</source>
+        <translatorcomment>We had that already</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="-48"/>
         <location line="+49"/>
         <source>Gapless playback</source>
+        <translatorcomment>this too</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2987,6 +3080,7 @@ Please choose another folder</source>
         <location line="-44"/>
         <location line="+45"/>
         <source>Close others</source>
+        <translatorcomment>close all except the current tab in the playlist</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3008,6 +3102,7 @@ Please choose another folder</source>
     <message>
         <location line="+48"/>
         <source>Reading files from file system</source>
+        <translatorcomment>player is currently reading/loading files from filesystem</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3075,6 +3170,7 @@ Please choose another folder</source>
         <location line="+12"/>
         <location filename="../../build/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
         <source>Open Folder</source>
+        <translatorcomment>or open directory</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3256,11 +3352,13 @@ OK?</source>
     <message>
         <location filename="../GUI/TagEdit/TagTextInput.cpp" line="+78"/>
         <source>Very first letter to upper case</source>
+        <translatorcomment>we want to convert some sentence so that only the first letter will be a capital letter</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+1"/>
         <source>First letters to upper case</source>
+        <translatorcomment>we want to convert some sentence so that the first letter of every word will be a capital letter</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
 </context>
