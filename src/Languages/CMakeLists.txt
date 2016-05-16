@@ -10,7 +10,7 @@ QT5_ADD_TRANSLATION(QM_FILES
 	sayonara_lang_hu.ts
 	sayonara_lang_it.ts
 	sayonara_lang_mx.ts
-#	sayonara_lang_pl.ts
+	sayonara_lang_pl.ts
 	sayonara_lang_pt.ts
 	sayonara_lang_ro.ts
 	sayonara_lang_ru.ts
