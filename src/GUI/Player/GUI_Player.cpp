@@ -28,7 +28,10 @@
 #include "GUI/Helper/IconLoader/IconLoader.h"
 #include "GUI/Helper/GUI_Helper.h"
 #include "GUI/Helper/Style/Style.h"
-#include "GUI/MTP/GUI_MTP.h"
+
+#ifdef WITH_MTP
+	#include "GUI/MTP/GUI_MTP.h"
+#endif
 
 #include "Helper/Helper.h"
 #include "Helper/globals.h"

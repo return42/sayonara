@@ -27,7 +27,10 @@
 
 #include "GUI/AlternativeCovers/GUI_AlternativeCovers.h"
 #include "GUI/Helper/Shortcuts/ShortcutHandler.h"
-#include "GUI/MTP/GUI_MTP.h"
+
+#ifdef WITH_MTP
+	#include "GUI/MTP/GUI_MTP.h"
+#endif
 
 void GUI_Player::setup_connections() {
 
