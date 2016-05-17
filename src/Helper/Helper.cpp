@@ -37,6 +37,10 @@
 #endif
 #endif
 
+#ifdef Q_OS_WIN
+	#include <windows.h>
+#endif
+
 #include "Helper/globals.h"
 #include "Helper/Helper.h"
 #include "Helper/Random/RandomGenerator.h"
@@ -292,7 +296,11 @@ QByteArray Helper::calc_hash(const QByteArray& data) {
 
 
 void Helper::sleep_ms(quint64 ms){
+#ifdef Q_OS_WIN
+	Sleep(ms);
+#else
 	std::this_thread::sleep_for(std::chrono::milliseconds(ms));
+#endif
 }
 
 

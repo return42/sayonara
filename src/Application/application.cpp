@@ -25,6 +25,10 @@
 	#include "Components/DBus/DBusHandler.h"
 #endif
 
+#ifdef Q_OS_WIN
+	#include <windows.h>
+#endif
+
 #include "Components/Playlist/PlaylistHandler.h"
 #include "Components/RemoteControl/RemoteControl.h"
 
@@ -82,7 +86,11 @@ void my_thread(){
 			sp_log(Log::Debug) << "No widget";
 		}
 
-		std::this_thread::sleep_for(std::chrono::seconds(1));
+#ifdef Q_OS_WIN
+	Sleep(1);
+#else
+	std::this_thread::sleep_for(std::chrono::seconds(1));
+#endif
 	}
 }
 

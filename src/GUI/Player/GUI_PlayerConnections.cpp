@@ -27,7 +27,6 @@
 
 #include "GUI/AlternativeCovers/GUI_AlternativeCovers.h"
 #include "GUI/Helper/Shortcuts/ShortcutHandler.h"
-
 #ifdef WITH_MTP
 	#include "GUI/MTP/GUI_MTP.h"
 #endif
