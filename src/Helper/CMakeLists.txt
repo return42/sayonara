@@ -41,6 +41,7 @@ TARGET_LINK_LIBRARIES(${PROJECT_NAME}
     Qt5::Network
     Qt5::Xml
     Qt5::DBus
+    Qt5::Gui
 
     ${HELPER_LIBRARIES}
 )
