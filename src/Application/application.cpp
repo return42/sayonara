@@ -31,6 +31,7 @@
 
 #include "Components/Playlist/PlaylistHandler.h"
 #include "Components/RemoteControl/RemoteControl.h"
+#include "Components/Engine/EngineHandler.h"
 
 #include "Interfaces/LibraryInterface/LibraryPluginHandler.h"
 #include "Interfaces/PlayerPlugin/PlayerPluginHandler.h"
@@ -75,7 +76,7 @@
 #include <QByteArray>
 #include <thread>
 #include <chrono>
-void my_thread(){
+void* my_thread(void* data){
 	while(true){
 		QWidget* w = QApplication::focusWidget();
 		if(w){
@@ -92,6 +93,8 @@ void my_thread(){
 	std::this_thread::sleep_for(std::chrono::seconds(1));
 #endif
 	}
+
+return NULL;
 }
 
 
@@ -125,7 +128,6 @@ Application::Application(int & argc, char ** argv) :
 	instance_message = InstanceMessageNone;
 
 	//new std::thread(my_thread);
-
 }
 
 void Application::check_for_crash(){
@@ -249,6 +251,8 @@ bool Application::init(QTranslator* translator, const QStringList& files_to_play
 	preferences->register_preference_dialog(new GUI_StreamRecorder());
 	preferences->register_preference_dialog(new GUI_BroadcastSetup());
 	preferences->register_preference_dialog(new GUI_RemoteControl());
+
+	EngineHandler::getInstance()->init();
 
 
 	sp_log(Log::Debug) << "Preference dialogs loaded: " << _timer->elapsed() << "ms";

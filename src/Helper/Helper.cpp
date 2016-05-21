@@ -144,7 +144,7 @@ QString Helper::get_sayonara_path() {
 QString Helper::get_share_path() {
 
 #ifdef Q_OS_WIN
-	return QString("./share");
+	return QString("./share/");
 #endif
 
 	return SAYONARA_INSTALL_SHARE_PATH;
@@ -153,7 +153,7 @@ QString Helper::get_share_path() {
 QString Helper::get_lib_path() {
 
 #ifdef Q_OS_WIN
-	return QString("./lib");
+	return QString("./lib/sayonara/");
 #endif
 
 	return SAYONARA_INSTALL_LIB_PATH;

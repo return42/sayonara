@@ -74,16 +74,16 @@ void GUI_LanguageChooser::renew_combo() {
 
 	QString lang_setting = _settings->get(Set::Player_Language);
 	sp_log(Log::Info) << "Language setting = " << lang_setting;
-    QDir dir(Helper::get_share_path() + "translations/");
+	QDir dir(Helper::get_share_path() + "/translations/");
 
 	QStringList filters;
-		filters << "*.qm";
-    QStringList files = dir.entryList(filters);
+	filters << "*.qm";
+	QStringList files = dir.entryList(filters);
 
 	combo_lang->clear();
 	//combo_lang->addItem(tr("Default"), "default");
 
-    int i=0;
+	int i=0;
 	for(const QString file : files) {
 
 		QString filename, dirname;
@@ -95,8 +95,8 @@ void GUI_LanguageChooser::renew_combo() {
 		QString two = filename;
 		two.replace("sayonara_lang_", "");
 
-        QString title = _map.value(two);
-		QString flag = Helper::get_share_path() + "translations/icons/" + two + ".png";
+		QString title = _map.value(two);
+		QString flag = Helper::get_share_path() + "/translations/icons/" + two + ".png";
 
 		if(title.size() > 0){
 			combo_lang->addItem(QIcon(flag), title, filename);

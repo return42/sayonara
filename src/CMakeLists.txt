@@ -47,8 +47,9 @@ SET(COMMON_FLAGS_TEST
 		"-Wunreachable-code" 
 		"-Wextra" 
 		"-Wpedantic" 
+		"-Wno-dev"
 		"-pthread" 
-		"-fPIC" 
+#		"-fPIC" 
 )
 
 FOREACH(FLAG ${COMMON_FLAGS_TEST})
@@ -58,13 +59,6 @@ FOREACH(FLAG ${COMMON_FLAGS_TEST})
 			SET(COMMON_FLAGS "${COMMON_FLAGS} ${FLAG}")
 		ENDIF()
 ENDFOREACH()
-
-IF (${WIN32})
-	SET(COMMON_FLAGS
-		${COMMON_FLAGS}
-		#-fno-exceptions
-	)
-ENDIF()
 
 SET(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} ${COMMON_FLAGS}")
 SET(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} ${COMMON_FLAGS}")
@@ -148,6 +142,9 @@ TARGET_LINK_LIBRARIES(${PROJECT_NAME}
     say_application
     say_gui_resources
     say_lang
+    api-ms-win-core-winrt-l1-1-0
+    api-ms-win-core-winrt-string-l1-1-0
 )
 
 INSTALL(TARGETS ${PROJECT_NAME} DESTINATION bin)
+INSTALL(TARGETS ${PROJECT_NAME} DESTINATION .)
