@@ -23,13 +23,13 @@
 #ifndef GUI_SOUNDCLOUDLIBRARY_H
 #define GUI_SOUNDCLOUDLIBRARY_H
 
-#include "ui_GUI_SoundcloudLibrary.h"
+#include "3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h"
 
 #include "GUI/Library/GUI_AbstractLibrary.h"
 #include "Interfaces/LibraryInterface/LibraryContainer/LibraryContainer.h"
 
-#include "src/SoundcloudLibrary.h"
-#include "ui/GUI_SoundcloudArtistSearch.h"
+#include "3rdParty/Soundcloud/src/SoundcloudLibrary.h"
+#include "3rdParty/Soundcloud/ui/GUI_SoundcloudArtistSearch.h"
 
 class GUI_SoundCloudLibrary :
 		public GUI_AbstractLibrary,
@@ -66,8 +66,11 @@ class SoundcloudLibraryContainer :
 {
 
 	Q_OBJECT
+
+#ifndef Q_OS_WIN
 	Q_PLUGIN_METADATA(IID "com.sayonara-player.soundcloud_library")
 	Q_INTERFACES(LibraryContainerInterface)
+#endif
 
 
 private:

@@ -36,6 +36,12 @@ IF(NOT ${WIN32})
 	${APPLICATION_LIBRARIES}
 	say_comp_dbus
     )
+ELSE()
+	SET(APPLICATION_LIBRARIES
+		${APPLICATION_LIBRARIES}
+		sayonara_somafm
+#		sayonara_soundcloud
+	)
 ENDIF()
 
 ADD_LIBRARY(${PROJECT_NAME} STATIC ${SOURCES})

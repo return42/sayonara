@@ -10,8 +10,10 @@ class SomaFMLibraryContainer :
 {
 
 	Q_OBJECT
+#ifndef Q_OS_WIN
 	Q_PLUGIN_METADATA(IID "com.sayonara-player.somafm_library")
 	Q_INTERFACES(LibraryContainerInterface)
+#endif
 
 
 private:

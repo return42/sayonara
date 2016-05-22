@@ -31,8 +31,10 @@ class SoundcloudLibraryContainer :
 {
 	Q_OBJECT
 
+#ifndef Q_OS_WIN
 	Q_PLUGIN_METADATA(IID "com.sayonara-player.soundcloud_library")
 	Q_INTERFACES(LibraryContainer)
+#endif
 
 public:
 	SoundcloudLibraryContainer(QObject* parent=nullptr);

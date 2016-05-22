@@ -176,7 +176,7 @@ void CoverFetchThread::save_and_emit_image(const QString& filepath,
 		filename += "png";
 	}
 
-
+	filename = Helper::File::get_absolute_filename(filename);
 	bool success = img.save(filename);
 	if(!success){
 		sp_log(Log::Warning) << "Cannot save image to " << filename;
