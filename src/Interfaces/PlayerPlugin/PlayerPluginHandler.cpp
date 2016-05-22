@@ -35,7 +35,7 @@ PlayerPluginHandler::PlayerPluginHandler(QObject *parent) :
 	QObject(parent),
 	SayonaraClass()
 {
-    _cur_shown_plugin = nullptr;
+	_cur_shown_plugin = nullptr;
 
 	REGISTER_LISTENER(Set::Player_Language, language_changed);
 }
@@ -53,7 +53,7 @@ PlayerPluginInterface* PlayerPluginHandler::find_plugin(QString name) {
 		}
 	}	
 
-    return nullptr;
+	return nullptr;
 }
 
 void PlayerPluginHandler::add_plugin(PlayerPluginInterface* p) {
@@ -67,33 +67,33 @@ void PlayerPluginHandler::add_plugin(PlayerPluginInterface* p) {
 
 void PlayerPluginHandler::plugin_action_triggered(PlayerPluginInterface* p, bool b) {
 
-    if(b) {
-        emit sig_show_plugin(p);
-    }
+	if(b) {
+		emit sig_show_plugin(p);
+	}
 
-    else{
-	
-        hide_all();
-        _cur_shown_plugin = nullptr;
-    }
+	else{
+
+		hide_all();
+		_cur_shown_plugin = nullptr;
+	}
 }
 
 
 void PlayerPluginHandler::show_plugin(PlayerPluginInterface* p) {
 
-     hide_all();
+	hide_all();
 
-	 QAction* action;
+	QAction* action;
 
-	 action = p->get_action();
+	action = p->get_action();
 
-	 if(action){
-		 action->setChecked(true);
-	 }
+	if(action){
+		action->setChecked(true);
+	}
 
-	 p->show();
+	p->show();
 
-     _cur_shown_plugin = p;
+	_cur_shown_plugin = p;
 }
 
 
@@ -147,22 +147,22 @@ void PlayerPluginHandler::load_dynamic_plugins()
 
 void PlayerPluginHandler::hide_all() {
 
-   _cur_shown_plugin = nullptr;
+	_cur_shown_plugin = nullptr;
 
-   for(PlayerPluginInterface* p : _plugins) {
-	   if(!p->isHidden()){
+	for(PlayerPluginInterface* p : _plugins) {
+		if(!p->isHidden()){
 			p->close();
-	   }
-   }
+		}
+	}
 
-   emit sig_hide_all_plugins();
+	emit sig_hide_all_plugins();
 }
 
 
 void PlayerPluginHandler::resize(QSize sz) {
 
-    if(!_cur_shown_plugin) return;
-    _cur_shown_plugin->resize(sz);
+	if(!_cur_shown_plugin) return;
+	_cur_shown_plugin->resize(sz);
 }
 
 QList<PlayerPluginInterface*> PlayerPluginHandler::get_all_plugins() const {

@@ -80,7 +80,22 @@ bool AbstractPipeline::init(GstState state){
 	configure_elements();
 
 	gst_element_set_state(_pipeline, state);
+
+#ifdef Q_OS_WIN
+	gst_bus_set_sync_handler(_bus, EngineCallbacks::bus_message_received, _engine, EngineCallbacks::destroy_notify);
+#else
 	gst_bus_add_watch(_bus, EngineCallbacks::bus_state_changed, _engine);
+#endif
+
+	_progress_timer = new QTimer(this);
+        _progress_timer->setInterval(200);
+        connect(_progress_timer, &QTimer::timeout, this, [=](){
+		if(this->get_state() != GST_STATE_NULL){
+	                PipelineCallbacks::position_changed(this); 
+		}
+        });
+
+        _progress_timer->start();
 
 	_initialized = true;
 	return true;

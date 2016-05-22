@@ -36,6 +36,10 @@ GUI_PlaylistBottomBar::GUI_PlaylistBottomBar(QWidget *parent) :
 	_playlist_menu = new PlaylistMenu(this);
 	btn_menu->setFlat(true);
 
+#ifdef Q_OS_WIN
+	btn_menu->setVisible(false);
+#endif
+
 #ifdef WITH_SHUTDOWN
 	_ui_shutdown = new GUI_Shutdown(this);
 #endif

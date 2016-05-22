@@ -27,6 +27,23 @@
 #include <algorithm>		// std::min
 #include <QVector>
 
+
+
+#ifdef Q_OS_WIN
+	void EngineCallbacks::destroy_notify(gpointer data){}
+
+	GstBusSyncReply
+	EngineCallbacks::bus_message_received(GstBus* bus, GstMessage* msg, gpointer data) {
+
+		if(bus_state_changed(bus, msg, data)){
+			return GST_BUS_PASS;
+		}
+
+		return GST_BUS_DROP;
+	}
+#endif
+
+
 // check messages from bus
 gboolean EngineCallbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpointer data) {
 

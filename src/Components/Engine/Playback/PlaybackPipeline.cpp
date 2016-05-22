@@ -289,7 +289,7 @@ bool PlaybackPipeline::configure_elements(){
 					 nullptr);
 
 		g_object_set(G_OBJECT(_file_sink),
-					 "buffer-mode", 1,
+//					 "buffer-mode", 1,
 					 "buffer-size", 8192,
 					 "location", (Helper::get_sayonara_path() + "bla.mp3").toLocal8Bit().data(),
 					 nullptr);
@@ -315,8 +315,6 @@ bool PlaybackPipeline::configure_elements(){
 	if(_lame){
 		g_signal_connect (_lame_app_sink, "new-sample", G_CALLBACK(PipelineCallbacks::new_buffer), this);
 	}
-
-	g_timeout_add(200, (GSourceFunc) PipelineCallbacks::position_changed, this);
 
 	return true;
 }

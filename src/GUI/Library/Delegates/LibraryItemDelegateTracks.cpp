@@ -51,51 +51,22 @@ void LibraryItemDelegateTracks::paint(QPainter *painter, const QStyleOptionViewI
 {
 	if(!index.isValid()) return;
 
-	QRect 	rect(option.rect);
-	painter->save();
+	int col = index.column();
 
-    int col = index.column();
 
-    QString	text = index.data().toString();
+	if(col == COL_TRACK_RATING) {
+		QRect rect(option.rect);
+		painter->save();
 
-	if(col == COL_FILESIZE) {
-		text = Helper::File::calc_filesize_str(text.toInt());
-        rect.translate(-2, 0);
-        painter->drawText(rect, Qt::AlignRight | Qt::AlignVCenter, text);
-    }
-
-	else if(col == COL_BITRATE) {
-        text = QString::number(text.toInt() / 1000) + " kbit/s";
-        rect.translate(-2, 0);
-        painter->drawText(rect, Qt::AlignRight | Qt::AlignVCenter, text);
-    }
-	else if(col == COL_YEAR) {
-            if(text == "0") text = "";
-            painter->drawText(rect, Qt::AlignRight | Qt::AlignVCenter, text);
-    }
-	else if(col == COL_TRACK_NUM) {
-            painter->drawText(rect, Qt::AlignRight | Qt::AlignVCenter, text);
-    }
-	else if(col == COL_LENGTH) {
-        rect.translate(-2, 0);
-        painter->drawText(rect, Qt::AlignRight | Qt::AlignVCenter, text);
-    }
-
-	else if(col == COL_TRACK_RATING) {
 		quint8 r = index.data().toInt();
-        Rating rating(r);
+		Rating rating(r);
 		rating.paint(painter, rect, option.palette, false);
-    }
 
-	else if(col == COL_TITLE){
-	    rect.translate(3, 0);
-        painter->drawText(rect, Qt::AlignLeft | Qt::AlignVCenter, text);
+		painter->restore();
 	}
 
-    else{
-        rect.translate(2, 0);
-        painter->drawText(rect, Qt::AlignLeft | Qt::AlignVCenter, text);
-    }
+	else{
+		LibraryRatingDelegate::paint(painter, option, index);
+	}
 
-    painter->restore();
 }

@@ -31,6 +31,7 @@
 #include "GUI/Library/Helper/ColumnHeader.h"
 
 #include "Helper/Helper.h"
+#include "Helper/FileHelper.h"
 
 
 
@@ -59,11 +60,27 @@ QVariant LibraryItemModelTracks::data(const QModelIndex &index, int role) const{
 
 	int idx_col = col;
 
-	if (role == Qt::DisplayRole || role==Qt::EditRole) {
+	if( role == Qt::TextAlignmentRole ){
+		int alignment = Qt::AlignVCenter;
+		switch(col)
+		{
+			case COL_TITLE:
+			case COL_ALBUM:
+			case COL_ARTIST:
+				alignment |= Qt::AlignLeft;
+				break;
+			default:
+				alignment |= Qt::AlignRight;
+		}
+
+		return alignment;
+	}
+
+	else if (role == Qt::DisplayRole || role==Qt::EditRole) {
 
 		const MetaData& md = _tracks.at(row);
 
-		switch(idx_col) {
+		switch(col) {
 			case COL_TRACK_NUM:
 				return QVariant( md.track_num );
 
@@ -80,13 +97,18 @@ QVariant LibraryItemModelTracks::data(const QModelIndex &index, int role) const{
 				return QVariant(md.album);
 
 			case COL_YEAR:
-				return QVariant(md.year);
+				if(md.year == 0){
+					return tr("None");
+				}
+				
+				return md.year;
 
 			case COL_BITRATE:
-				return QVariant(md.bitrate);
+				return QString::number(md.bitrate / 1000) + " kbit/s";
 
 			case COL_FILESIZE:
-				return QVariant(md.filesize);
+				return Helper::File::calc_filesize_str(md.filesize);
+
 			case COL_TRACK_RATING:
 				return QVariant(md.rating);
 			default:

@@ -32,6 +32,12 @@
 
 namespace EngineCallbacks {
 
+#ifdef Q_OS_WIN
+	void destroy_notify(gpointer data);
+
+	GstBusSyncReply
+	bus_message_received(GstBus* bus, GstMessage* msg, gpointer data);
+#endif
 	gboolean
 	bus_state_changed(GstBus* bus, GstMessage* msg, gpointer data);
 

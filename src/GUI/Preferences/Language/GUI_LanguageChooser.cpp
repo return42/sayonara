@@ -26,6 +26,7 @@
 
 #include <QFile>
 #include <QDir>
+#include <QRegExp>
 
 GUI_LanguageChooser::GUI_LanguageChooser(QWidget *parent) :
 	PreferenceWidgetInterface(parent),
@@ -65,7 +66,7 @@ void GUI_LanguageChooser::revert() {
 
 }
 
-
+// typically a qm file looks like sayonara_lang_lc.qm
 void GUI_LanguageChooser::renew_combo() {
 
 	if(!is_ui_initialized()){
@@ -74,7 +75,7 @@ void GUI_LanguageChooser::renew_combo() {
 
 	QString lang_setting = _settings->get(Set::Player_Language);
 	sp_log(Log::Info) << "Language setting = " << lang_setting;
-	QDir dir(Helper::get_share_path() + "/translations/");
+	QDir dir(Helper::get_share_path() + "translations");
 
 	QStringList filters;
 	filters << "*.qm";
@@ -83,30 +84,36 @@ void GUI_LanguageChooser::renew_combo() {
 	combo_lang->clear();
 	//combo_lang->addItem(tr("Default"), "default");
 
+	sp_log(Log::Debug) << "Found language files in " << Helper::get_share_path() + "translations : " << files;
+
 	int i=0;
-	for(const QString file : files) {
+	for(const QString& file : files) {
 
-		QString filename, dirname;
-		Helper::File::split_filename(file, dirname, filename);
+		QRegExp re(".*lang_(.*)\\.qm");
+		re.setMinimal(true);
 
-		filename = filename.left(filename.size() - 3);
-
-
-		QString two = filename;
-		two.replace("sayonara_lang_", "");
-
-		QString title = _map.value(two);
-		QString flag = Helper::get_share_path() + "/translations/icons/" + two + ".png";
-
-		if(title.size() > 0){
-			combo_lang->addItem(QIcon(flag), title, filename);
+		QString country_code;
+		if(re.indexIn(file) >= 0){
+			country_code = re.cap(1).toLower();
 		}
 
 		else{
-			combo_lang->addItem(filename, filename);
+			continue;
 		}
 
-		if(filename.compare(lang_setting, Qt::CaseInsensitive) == 0){
+		QString icon_path = Helper::get_share_path() + "translations/icons/" + country_code + ".png";
+
+		QString language_name = _map.value(country_code);
+
+		if(language_name.size() > 0){
+			combo_lang->addItem(QIcon(icon_path), language_name, file);
+		}
+
+		else{
+			combo_lang->addItem(file, file);
+		}
+
+		if(file.compare(lang_setting, Qt::CaseInsensitive) == 0){
 			combo_lang->setCurrentIndex(i);
 		}
 

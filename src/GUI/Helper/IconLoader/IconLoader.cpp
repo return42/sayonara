@@ -26,7 +26,7 @@
 
 #include "GUI/Helper/GUI_Helper.h"
 
-
+#include <QObject>
 #include <QFile>
 #include <QRegExp>
 
@@ -36,6 +36,7 @@ IconLoader::IconLoader(){
 	_theme_paths = QIcon::themeSearchPaths();
 	_settings = Settings::getInstance();
 
+#ifndef Q_OS_WIN
 	for(const QString& theme_path : _theme_paths){
 
 		QString full_theme_path = theme_path + "/" + _theme;
@@ -46,6 +47,7 @@ IconLoader::IconLoader(){
 
 		_theme_paths += load_ancestors(index_path);
 	}
+#endif
 
 	sp_log(Log::Debug) << "Theme paths " << _theme_paths;
 
@@ -93,6 +95,10 @@ QStringList IconLoader::load_ancestors(const QString &index_theme_file){
 
 
 void IconLoader::add_icon_names(const QStringList& icon_names){
+
+	#ifdef Q_OS_WIN
+		return;
+	#endif
 
 	DirectoryReader dir_reader;
 	dir_reader.set_filter("*.png");

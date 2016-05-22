@@ -361,12 +361,6 @@ int main(int argc, char *argv[]) {
 	}
 
 	language = Settings::getInstance()->get(Set::Player_Language);
-	/*if(language.compare("default") == 0){
-		language = get_current_locale_string();
-		if(language.isEmpty()){
-			language = "sayonara_lang_en.qm";
-		}
-	}*/
 
 	translator.load(language, Helper::get_share_path() + "translations");
 

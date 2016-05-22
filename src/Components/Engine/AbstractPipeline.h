@@ -29,6 +29,7 @@
 #include <QTimer>
 #include <gst/gst.h>
 #include <gst/gstbuffer.h>
+#include <QTimer>
 
 
 enum class GSTFileMode : quint8 {
@@ -51,6 +52,7 @@ class AbstractPipeline : public QObject, protected SayonaraClass {
 		bool		_about_to_finish;
 		bool		_initialized;
 		Engine*		_engine=nullptr;
+		QTimer*		_progress_timer=nullptr;
 
 
 	protected:

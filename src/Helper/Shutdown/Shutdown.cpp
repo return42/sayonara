@@ -125,9 +125,15 @@ void Shutdown::countdown_timeout(){
 
 void Shutdown::timeout()
 {
+	
 	_is_running = false;
 	DatabaseConnector::getInstance()->store_settings();
 
+
+#ifdef Q_OS_WIN
+	//ExitWindowsEx(	
+
+#else
 
 	QDBusMessage response;
 
@@ -229,6 +235,8 @@ void Shutdown::timeout()
 	}
 
 	sp_log(Log::Warning) << "Sorry, power off is not possible";
+
+#endif
 }
 
 

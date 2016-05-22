@@ -65,10 +65,21 @@ QVariant LibraryItemModelArtists::data(const QModelIndex & index, int role) cons
 	if (index.row() >= _artists.size())
 		return QVariant();
 
-	if(role == Qt::DisplayRole) {
+	int row = index.row();
+	int col = index.column();
 
-		int row = index.row();
-		int col = index.column();
+
+	if(role == Qt::TextAlignmentRole){
+		
+		switch(col) {
+			case COL_ARTIST_NAME:
+				return (int) (Qt::AlignLeft | Qt::AlignVCenter);
+			default:
+				return (int) (Qt::AlignRight | Qt::AlignVCenter);
+		}
+	}
+
+	else if(role == Qt::DisplayRole) {
 
 		Artist artist = _artists[row];
 
@@ -76,9 +87,9 @@ QVariant LibraryItemModelArtists::data(const QModelIndex & index, int role) cons
 			case COL_ARTIST_NAME:
 				return artist.name;
 			case COL_ARTIST_N_ALBUMS:
-				return artist.num_albums;
+				return QString::number(artist.num_albums) + " " + tr("albums");
 			case COL_ARTIST_TRACKS:
-				return artist.num_songs;
+				return QString::number(artist.num_songs) + " " + tr("tracks");
 
 			default: return "";
 		}

@@ -63,10 +63,25 @@ QVariant LibraryItemModelAlbums::data(const QModelIndex & index, int role) const
 	if (index.row() >= _albums.size())
 		return QVariant();
 
-	if(role == Qt::DisplayRole || role==Qt::EditRole) {
+	int row = index.row();
+	int col = index.column();
 
-		int row = index.row();
-		int col = index.column();
+	if(role == Qt::TextAlignmentRole ){
+		int alignment = Qt::AlignVCenter;
+		switch(col)
+		{
+			case COL_ALBUM_NAME:
+				alignment |= Qt::AlignLeft;
+				break;
+			default:
+				alignment |= Qt::AlignRight;
+
+		}
+
+		return alignment;
+	}
+
+	else if(role == Qt::DisplayRole || role==Qt::EditRole) {
 
 		const Album& album = _albums[row];
 
@@ -74,8 +89,11 @@ QVariant LibraryItemModelAlbums::data(const QModelIndex & index, int role) const
 			case COL_ALBUM_SAMPLER:
 				return album.is_sampler;
 			case COL_ALBUM_N_SONGS:
-				return album.num_songs;
+				return QString::number(album.num_songs) + " " + tr("tracks");
 			case COL_ALBUM_YEAR:
+				if(album.year == 0){
+					return tr("None");
+				}
 				return album.year;
 			case COL_ALBUM_NAME:
 				return album.name;
