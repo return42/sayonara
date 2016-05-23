@@ -148,8 +148,6 @@ TARGET_LINK_LIBRARIES(${PROJECT_NAME}
     say_application
     say_gui_resources
     say_lang
-    api-ms-win-core-winrt-l1-1-0
-    api-ms-win-core-winrt-string-l1-1-0
 )
 
 INSTALL(TARGETS ${PROJECT_NAME} DESTINATION bin)

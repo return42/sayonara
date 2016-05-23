@@ -20,7 +20,6 @@ QString SomaFMLibraryContainer::get_display_name() const
 
 QIcon SomaFMLibraryContainer::get_icon() const
 {
-	sp_log(Log::Debug) << "Get icon";
 	return QIcon(":/soma_icons/soma.png");
 }
 
@@ -41,8 +40,6 @@ QMenu* SomaFMLibraryContainer::get_menu()
 
 void SomaFMLibraryContainer::init_ui()
 {
-
-	sp_log(Log::Debug) << "Init ui";
 	ui = new GUI_SomaFM(nullptr);
 }
 

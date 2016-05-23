@@ -27,6 +27,7 @@
 #include "GUI/Helper/ContextMenu/LibraryContextMenu.h"
 #include "GUI/Helper/Message/GlobalMessage.h"
 #include "GUI/Helper/GUI_Helper.h"
+#include "GUI/Helper/IconLoader/IconLoader.h"
 
 #include "Components/Library/LocalLibrary.h"
 #include "Components/Library/LibraryNamespaces.h"
@@ -330,7 +331,7 @@ QString DirectoryLibraryContainer::get_display_name() const
 
 QIcon DirectoryLibraryContainer::get_icon() const
 {
-	return GUI::get_icon("dir_view");
+	return IconLoader::getInstance()->get_icon("folder", "folder");
 }
 
 QWidget* DirectoryLibraryContainer::get_ui() const

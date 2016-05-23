@@ -100,10 +100,13 @@ void PlaylistItemDelegate::paint( QPainter *painter,
 	QString time_string = Helper::cvt_ms_to_string(md.length_ms, true, true, false);
 
 	painter->translate(-4, 0);
-	font.setBold(false);
+	font.setWeight(QFont::Normal);
 	painter->setFont(font);
 	painter->drawText(rect, Qt::AlignRight | Qt::AlignVCenter, time_string);
-	font.setBold(bold);
+	if(bold){
+		font.setWeight(QFont::DemiBold);
+	}
+
 	painter->setFont(font);
 	painter->translate(4, 0);
 
@@ -153,11 +156,11 @@ void PlaylistItemDelegate::paint( QPainter *painter,
 		}
 
 		if(c == '*'){
-			if(font.weight() == 70){
+			if(font.weight() == QFont::DemiBold){
 				font.setWeight(QFont::Normal);
 			}
 			else{
-				font.setWeight(70);
+				font.setWeight(QFont::DemiBold);
 			}
 			painter->setFont(font);
 		}
@@ -219,7 +222,8 @@ int PlaylistItemDelegate::get_drag_index() const
 int PlaylistItemDelegate::draw_number(QPainter* painter, int number, QFont& font, QRect& rect) const
 {
 
-	font.setBold(true);
+	
+	font.setWeight(QFont::DemiBold);
 
 	QString str;
 	QFontMetrics fm(font);
@@ -233,7 +237,7 @@ int PlaylistItemDelegate::draw_number(QPainter* painter, int number, QFont& font
 					  str);
 
 
-	font.setBold(false);
+	font.setWeight(QFont::Normal);
 	painter->setFont(font);
 
 	return fm.width(str);

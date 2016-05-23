@@ -157,22 +157,26 @@ void LibraryPluginHandler::index_changed(int idx){
 	int i=0;
 	for(LibraryContainerInterface* container : _libraries){
 
+
 		if(!container->is_initialized()){
 			i++;
 			continue;
 		}
 
+	
 		QWidget* ui, *parent;
 		QString name;
+
+		QComboBox* libchooser = container->get_libchooser();
+		libchooser->setItemIcon(i, container->get_icon());
 
 		ui = container->get_ui();
 		parent = ui->parentWidget();
 		name = container->get_display_name();
-
 		if(i == idx){
 			ui->setVisible(true);
 
-			container->get_libchooser()->setCurrentIndex(i);
+			libchooser->setCurrentIndex(i);
 
 			if(parent){
 				ui->resize(parent->size());
