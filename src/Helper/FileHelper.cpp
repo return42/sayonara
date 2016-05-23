@@ -32,6 +32,24 @@ QString Helper::File::calc_file_extension(const QString& filename) {
 	return get_file_extension(filename);
 }
 
+QString clean_filename(const QString& path)
+{
+	QString ret = path;
+	while(ret.contains("//") || ret.contains("\\\\")){
+		ret.replace("//", QDir::separator());
+		ret.replace("\\\\", QDir::separator());
+	}
+
+	ret.replace("/", QDir::separator());
+	ret.replace("\\", QDir::separator());
+
+	if(ret.right(1) == QDir::separator()){
+		ret.remove(ret.size() - 1, 1);
+	}
+
+	return ret;
+}
+
 
 
 void Helper::File::remove_files_in_directory(const QString& dir_name, const QStringList& filters) {
@@ -96,12 +114,21 @@ void Helper::File::delete_files(const QStringList& paths){
 
 QString Helper::File::get_parent_directory(const QString& filename) {
 
-	QString ret;
+	QString ret = clean_filename(filename);
+	int last_idx = ret.lastIndexOf(QDir::separator());
+
+	if(last_idx >= 0){
+		return ret.left(last_idx);
+	}
+
+	return ret;
+
 	QString re_str = QString("(.*)") + QDir::separator() + ".+";
 	QRegExp re(re_str);
 
-	if(re.indexIn(filename) >= 0){
-		ret = get_absolute_filename(re.cap(1));
+	if(re.indexIn(ret) >= 0){
+		QString parent_dir = re.cap(1);
+		ret = get_absolute_filename(parent_dir);
 	}
 
 	return ret;
@@ -109,19 +136,20 @@ QString Helper::File::get_parent_directory(const QString& filename) {
 
 QString Helper::File::get_filename_of_path(const QString& path) {
 
-	QString ret = path;
+	QString ret = clean_filename(path);
+	int last_idx = ret.lastIndexOf(QDir::separator());
 
-	while(ret.endsWith(QDir::separator())){
-		ret.remove(path.size() - 1, 1);
+	if(last_idx >= 0){
+		return ret.mid(last_idx + 1);
 	}
 
-	ret.remove(Helper::File::get_parent_directory(path));
-	ret.remove(QDir::separator());
-
-	return get_absolute_filename(ret);
+	return "";
 }
 
 void Helper::File::split_filename(const QString& src, QString& path, QString& filename) {
+
+
+	QString tmp = clean_filename(src);
 
 	path = Helper::File::get_parent_directory(src);
 	filename = Helper::File::get_filename_of_path(src);
@@ -155,7 +183,7 @@ QString Helper::File::get_absolute_filename(const QString& filename){
 		return dir.absoluteFilePath(f);
 	}
 
-	return filename;
+	return clean_filename(filename);
 }
 
 
