@@ -49,8 +49,14 @@ SET(COMMON_FLAGS_TEST
 		"-Wpedantic" 
 		"-Wno-dev"
 		"-pthread" 
-#		"-fPIC" 
 )
+
+IF(NOT WIN32 OR NOT DEFINED WIN32)
+	SET(COMMON_FLAGS_TEST
+		${COMMON_FLAGS_TEST}
+		"-fPIC"
+	)
+ENDIF()
 
 FOREACH(FLAG ${COMMON_FLAGS_TEST})
 		CHECK_CXX_COMPILER_FLAG(${FLAG} CXX_COMPILER_FLAG_AVAILABLE)
@@ -97,7 +103,7 @@ ADD_DEFINITIONS(${QT_DEFINITIONS})
 ADD_DEFINITIONS(-DLIB_INSTALL_DIR="${CMAKE_INSTALL_PREFIX}/lib/sayonara")
 
 
-IF(${WIN32})
+IF(WIN32)
     MESSAGE("Windows: host Will compile without dbus and shutdown support")
 
 ELSE()

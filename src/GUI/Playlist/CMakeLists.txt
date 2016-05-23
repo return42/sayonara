@@ -34,7 +34,7 @@ SET(LINK_LIBS
     say_gui_helper
 )
 
-IF(NOT ${WIN32})
+IF(NOT WIN32 OR NOT DEFINED WIN32)
 	SET(LINK_LIBS
 		${LINK_LIBS}
 		say_helper_shutdown
