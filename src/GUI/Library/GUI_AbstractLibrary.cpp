@@ -23,8 +23,6 @@
 #include "GUI/Helper/Message/Message.h"
 #include "Components/Library/AbstractLibrary.h"
 
-
-
 #include "GUI/Library/Helper/ColumnHeader.h"
 #include <QKeySequence>
 
@@ -43,7 +41,6 @@ GUI_AbstractLibrary::~GUI_AbstractLibrary(){
 	delete _album_model;
 	delete _album_delegate;
 	delete _artist_model;
-	delete _artist_delegate;
 	delete _track_model;
 	delete _track_delegate;
 }
@@ -153,7 +150,6 @@ void GUI_AbstractLibrary::init_headers(){
 	_track_model = new LibraryItemModelTracks();
 
 	_album_delegate = new LibraryItemDelegateAlbums(_lv_album, true);
-	_artist_delegate = new LibraryItemDelegateArtists(_lv_artist);
 	_track_delegate = new LibraryItemDelegateTracks(_lv_tracks, true);
 
 	connect(_album_delegate, &LibraryRatingDelegate::sig_rating_changed, this, &GUI_AbstractLibrary::album_rating_changed);
@@ -168,7 +164,6 @@ void GUI_AbstractLibrary::init_headers(){
 
 	_lv_artist->setModel(_artist_model);
 	_lv_artist->setAbstractModel(_artist_model);
-	_lv_artist->setItemDelegate(_artist_delegate);
 	_lv_artist->setAlternatingRowColors(true);
 	_lv_artist->setDragEnabled(true);
 	_lv_artist->set_table_headers(artist_columns, _shown_cols_artist, so.so_artists);

@@ -51,8 +51,13 @@
 
 #include <QtGlobal>
 #ifdef Q_OS_LINUX
-	#include <execinfo.h>
+#include <execinfo.h>
 #endif
+
+#include <cstdlib>
+#include <glib-2.0/glib.h>
+#undef signals
+#include <gio/gio.h>
 
 
 int check_for_another_instance_unix() {
@@ -103,6 +108,19 @@ int check_for_another_instance_unix() {
 	return 0;
 }
 
+void set_environment(const QString& key, const QString& value)
+{
+
+#ifdef Q_OS_WIN
+	QString str = key + "=" + value;
+	putenv(str.toLocal8Bit().constData());
+	sp_log(Log::Info) << "Windows: Set environment variable " << str;
+#else
+
+	setenv(key.toLocal8Bit().constData(), value.toLocal8Bit().constData(), 1);
+#endif
+}
+
 
 void printHelp() {
 	sp_log(Log::Info) << "sayonara <list>";
@@ -116,7 +134,7 @@ void segfault_handler(int sig){
 
 #ifdef Q_OS_LINUX
 
-	void* array[10];
+		void* array[10];
 	size_t size;
 
 	// get void*'s for all entries on the stack
@@ -175,8 +193,14 @@ bool register_settings(){
 	REGISTER_SETTING( Set::Lib_DC_PlayImmediately ,"lib_dc_play_immediately", false);
 	REGISTER_SETTING( Set::Lib_DD_DoNothing ,"lib_dd_do_nothing", true);
 	REGISTER_SETTING( Set::Lib_DD_PlayIfStoppedAndEmpty ,"lib_dd_play_if_stopped_and_empty", false);
-	REGISTER_SETTING( Set::Lib_FontSize ,"lib_font_size", -1);
+
+#ifdef Q_OS_WIN
+	REGISTER_SETTING( Set::Lib_FontBold ,"lib_font_bold", false);
+	REGISTER_SETTING( Set::Lib_FontSize ,"lib_font_size", 8);
+#else
 	REGISTER_SETTING( Set::Lib_FontBold ,"lib_font_bold", true);
+	REGISTER_SETTING( Set::Lib_FontSize ,"lib_font_size", -1);
+#endif
 
 	REGISTER_SETTING( Set::Player_Version, "player_version", QString(SAYONARA_VERSION));
 	REGISTER_SETTING( Set::Player_Language, "player_language", "sayonara_lang_en" );
@@ -271,6 +295,21 @@ int main(int argc, char *argv[]) {
 	QString language;
 	QStringList files_to_play;
 
+#ifdef Q_OS_WIN
+	QString gio_path = Helper::File::clean_filename(QApplication::applicationDirPath()) + QDir::separator() + "gio-modules";
+	QString gst_plugin_path = Helper::File::clean_filename(QApplication::applicationDirPath()) + QDir::separator() + "gstreamer-1.0/";
+
+	set_environment("GST_PLUGIN_PATH", gst_plugin_path);
+	set_environment("GST_PLUGIN_SYSTEM_PATH", gst_plugin_path);
+
+	g_io_extension_point_register("gio-tls-backend");
+	g_io_modules_load_all_in_directory(gio_path.toLocal8Bit().data());
+
+	sp_log(Log::Debug) << "Done " << gio_path;
+
+#endif
+
+
 #ifdef Q_OS_LINUX
 
 	signal(SIGSEGV, segfault_handler);
@@ -316,8 +355,8 @@ int main(int argc, char *argv[]) {
 				int size = std::min(memory.size(), arr.size());
 
 				memcpy(ptr,
-					   arr.data(),
-					   size);
+						arr.data(),
+						size);
 
 				memory.unlock();
 			}
@@ -340,13 +379,16 @@ int main(int argc, char *argv[]) {
 		return 0;
 	}
 
+#else
+	Q_UNUSED(single_instance)
+
 #endif
 
-	/* Tell the settings manager which settings are necessary */
-	if(!register_settings()){
-		sp_log(Log::Error) << "Cannot initialize settings";
-		return 1;
-	}
+		/* Tell the settings manager which settings are necessary */
+		if(!register_settings()){
+			sp_log(Log::Error) << "Cannot initialize settings";
+			return 1;
+		}
 
 	success = DatabaseConnector::getInstance()->load_settings();
 	if(!success) {
@@ -356,8 +398,12 @@ int main(int argc, char *argv[]) {
 
 	Q_INIT_RESOURCE(Icons);
 
+#ifdef Q_OS_WIN
+	Q_INIT_RESOURCE(IconsWindows);
+#endif
+
 	if(!QFile::exists(QDir::homePath() + QDir::separator() + ".Sayonara")) {
-		QDir().mkdir(QDir::homePath() + QDir::separator() +  "/.Sayonara");
+		QDir().mkdir(QDir::homePath() + QDir::separator() +  ".Sayonara");
 	}
 
 	language = Settings::getInstance()->get(Set::Player_Language);

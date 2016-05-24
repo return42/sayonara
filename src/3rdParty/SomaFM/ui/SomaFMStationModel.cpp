@@ -20,7 +20,20 @@ QVariant SomaFMStationModel::data(const QModelIndex& index, int role) const
 		return QVariant();
 	}
 
-	return _stations[index.row()];
+	int row = index.row();
+	if(row < 0 || row >= _stations.size()) {
+		return QVariant();
+	}
+
+	if(role == Qt::TextAlignmentRole) {
+		return (int)(Qt::AlignVCenter| Qt::AlignLeft);
+	}
+
+	if(role == Qt::DisplayRole) {
+		return _stations[row];
+	}
+
+	return QVariant();
 
 }
 

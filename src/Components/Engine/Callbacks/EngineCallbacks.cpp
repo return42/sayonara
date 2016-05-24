@@ -36,9 +36,11 @@
 	EngineCallbacks::bus_message_received(GstBus* bus, GstMessage* msg, gpointer data) {
 
 		if(bus_state_changed(bus, msg, data)){
-			return GST_BUS_PASS;
+			gst_message_unref(msg);
+			return GST_BUS_DROP;
 		}
 
+		gst_message_unref(msg);
 		return GST_BUS_DROP;
 	}
 #endif

@@ -478,8 +478,6 @@ void GUI_Player::set_player_plugin_handler(PlayerPluginHandler* pph) {
 	menuView->insertActions(action_Dark, actions);
 	menuView->insertSeparator(action_Dark);
 
-	connect(_pph, &PlayerPluginHandler::sig_show_plugin, this, &GUI_Player::show_plugin);
-	connect(_pph, &PlayerPluginHandler::sig_hide_all_plugins, this, &GUI_Player::hide_all_plugins);
 }
 
 
@@ -576,12 +574,6 @@ void GUI_Player::ui_loaded() {
 	}
 
 
-	QString shown_plugin = _settings->get(Set::Player_ShownPlugin);
-	if(!shown_plugin.isEmpty()){
-		PlayerPluginInterface* p  = _pph->find_plugin(shown_plugin);
-		show_plugin(p);
-	}
-
 	if(_play_manager->get_play_state() != PlayManager::PlayState::Stopped){
 		MetaData md = _play_manager->get_cur_track();
 		track_changed(md);
@@ -614,6 +606,15 @@ void GUI_Player::ui_loaded() {
 
 	if(_settings->get(Set::Player_StartInTray)){
 		this->setHidden(true);
+	}
+
+	connect(_pph, &PlayerPluginHandler::sig_show_plugin, this, &GUI_Player::show_plugin);
+	connect(_pph, &PlayerPluginHandler::sig_hide_all_plugins, this, &GUI_Player::hide_all_plugins);
+
+	QString shown_plugin = _settings->get(Set::Player_ShownPlugin);
+	if(!shown_plugin.isEmpty()){
+		PlayerPluginInterface* p  = _pph->find_plugin(shown_plugin);
+		show_plugin(p);
 	}
 }
 

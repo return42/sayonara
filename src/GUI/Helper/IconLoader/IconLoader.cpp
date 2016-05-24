@@ -30,6 +30,14 @@
 #include <QFile>
 #include <QRegExp>
 
+#ifdef Q_OS_WIN
+	QString get_win_icon_name(const QString& name)
+	{
+		QString icon_name = QString(":/IconsWindows/") + name + ".png";
+		return icon_name;
+	}
+#endif
+
 IconLoader::IconLoader(){
 
 	_theme = QIcon::themeName();
@@ -165,12 +173,22 @@ QIcon IconLoader::get_icon(const QString& name, const QString& dark_name)
 			add_icon_names(lst);
 
 			if(has_std_icon(name)){
+
+#ifdef Q_OS_WIN
+				return QIcon(get_win_icon_name(name));
+#else
 				return _icons[name];
+#endif
 			}
 		}
 
 		else{
+
+#ifdef Q_OS_WIN
+			return QIcon(get_win_icon_name(name));
+#else
 			return _icons[name];
+#endif
 		}
 	}
 
@@ -180,5 +198,16 @@ QIcon IconLoader::get_icon(const QString& name, const QString& dark_name)
 
 bool IconLoader::has_std_icon(const QString& name) const
 {
+#ifdef Q_OS_WIN
+	QIcon icon = QIcon( get_win_icon_name(name) );
+	if(icon.isNull())
+	{
+		return false;
+	}
+
+	return true;
+
+#endif
+
 	return _icons.contains(name);
 }

@@ -40,7 +40,7 @@ ELSE()
 	SET(APPLICATION_LIBRARIES
 		${APPLICATION_LIBRARIES}
 		sayonara_somafm
-#		sayonara_soundcloud
+		sayonara_soundcloud
 	)
 ENDIF()
 

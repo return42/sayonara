@@ -108,10 +108,7 @@ public:
 
 	QAction*					get_menu_action() const;
 
-
-
-
-
+	
 	/**
 	 * @brief Should initialize the ui. The ui constructor should be called within this function
 	 */
@@ -125,7 +122,6 @@ public:
 	bool						is_initialized() const;
 
 };
-
 
 Q_DECLARE_INTERFACE(LibraryContainerInterface, "com.sayonara-player.library")
 

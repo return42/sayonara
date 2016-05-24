@@ -31,6 +31,8 @@
 #include "3rdParty/Soundcloud/src/SoundcloudLibrary.h"
 #include "3rdParty/Soundcloud/ui/GUI_SoundcloudArtistSearch.h"
 
+#include <QtGlobal>
+
 class GUI_SoundCloudLibrary :
 		public GUI_AbstractLibrary,
 		protected Ui::GUI_SoundcloudLibrary
@@ -67,9 +69,17 @@ class SoundcloudLibraryContainer :
 
 	Q_OBJECT
 
-#ifndef Q_OS_WIN
+#ifdef Q_OS_WIN
+
+#undef Q_PLUGIN_METADATA
+#undef Q_INTERFACES
+#undef IID
+
+#else
+
 	Q_PLUGIN_METADATA(IID "com.sayonara-player.soundcloud_library")
 	Q_INTERFACES(LibraryContainerInterface)
+	
 #endif
 
 

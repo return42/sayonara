@@ -31,37 +31,6 @@ DirectoryDelegate::DirectoryDelegate(QObject* parent) :
 DirectoryDelegate::~DirectoryDelegate()
 {}
 
-void DirectoryDelegate::paint(QPainter *painter, const QStyleOptionViewItem & option, const QModelIndex & index) const
-{
-	QIcon::State icon_state;
-
-	if(option.state & QStyle::State_Open){
-		icon_state = QIcon::On;
-	}
-	else{
-		icon_state = QIcon::Off;
-	}
-	QIcon icon = qvariant_cast<QIcon>(index.data(Qt::DecorationRole));
-	QPixmap pm = icon.pixmap(16, 16, QIcon::Normal, icon_state);
-
-
-	QItemDelegate::drawBackground(painter, option, index);
-	QItemDelegate::drawDecoration(painter, option, QRect(option.rect.left() + 2, option.rect.top(), 16, 16), pm);
-
-
-	if(!index.isValid()) return;
-
-	QRect rect(option.rect);
-	painter->save();
-	QString text = index.data().toString();
-	rect.translate(24, 0);
-
-
-	painter->drawText(rect, Qt::AlignLeft | Qt::AlignVCenter, text);
-	painter->restore();
-
-}
-
 QSize DirectoryDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
 	Q_UNUSED(option)

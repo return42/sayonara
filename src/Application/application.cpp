@@ -28,7 +28,7 @@
 #ifdef Q_OS_WIN
 	#include <windows.h>
 	#include "3rdParty/SomaFM/ui/SomaFMLibraryContainer.h"
-//	#include "3rdParty/Soundcloud/ui/GUI_SoundcloudLibrary.h"
+	#include "3rdParty/Soundcloud/ui/GUI_SoundcloudLibrary.h"
 #endif
 
 #include "Components/Playlist/PlaylistHandler.h"
@@ -235,9 +235,9 @@ bool Application::init(QTranslator* translator, const QStringList& files_to_play
 	library_containers << static_cast<LibraryContainerInterface*>(directory_container);
 
 #ifdef Q_OS_WIN
-//	SoundcloudLibraryContainer* soundcloud_container = new SoundcloudLibraryContainer(this);
+	SoundcloudLibraryContainer* soundcloud_container = new SoundcloudLibraryContainer(this);
 	SomaFMLibraryContainer* somafm_container = new SomaFMLibraryContainer(this);
-//	library_containers << static_cast<LibraryContainerInterface*>(soundcloud_container);
+	library_containers << static_cast<LibraryContainerInterface*>(soundcloud_container);
 	library_containers << static_cast<LibraryContainerInterface*>(somafm_container);
 #endif
 	library_plugin_loader->init(library_containers);

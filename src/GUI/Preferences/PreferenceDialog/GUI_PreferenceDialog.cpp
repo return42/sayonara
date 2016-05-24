@@ -25,6 +25,7 @@
 #include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
 
 #include <QLayout>
+#include <QItemDelegate>
 
 
 GUI_PreferenceDialog::GUI_PreferenceDialog(QWidget *parent) :
@@ -48,7 +49,10 @@ GUI_PreferenceDialog::~GUI_PreferenceDialog()
 void GUI_PreferenceDialog::register_preference_dialog(PreferenceWidgetInterface* dialog)
 {
 	_dialogs << dialog;
-	list_preferences->addItem(dialog->get_action_name());
+
+	QListWidgetItem* item = new QListWidgetItem(dialog->get_action_name());
+	item->setSizeHint(QSize(item->sizeHint().width(), 20));
+	list_preferences->addItem(item);
 }
 
 void GUI_PreferenceDialog::language_changed()
@@ -60,6 +64,8 @@ void GUI_PreferenceDialog::language_changed()
 	}
 
 	retranslateUi(this);
+	list_preferences->setMouseTracking(false);
+	list_preferences->setItemDelegate(new QItemDelegate(list_preferences));
 
 	int i=0;
 	for(PreferenceWidgetInterface* dialog : _dialogs){

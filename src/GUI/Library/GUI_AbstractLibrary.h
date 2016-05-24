@@ -35,7 +35,6 @@
 #include "Models/LibraryItemModelTracks.h"
 
 #include "Delegates/LibraryItemDelegateAlbums.h"
-#include "Delegates/LibraryItemDelegateArtists.h"
 #include "Delegates/LibraryItemDelegateTracks.h"
 
 #include "Helper/Settings/SayonaraClass.h"
@@ -86,7 +85,7 @@ protected:
 
 	LibraryItemDelegateTracks* 		_track_delegate = nullptr;
 	LibraryItemDelegateAlbums* 		_album_delegate = nullptr;
-	LibraryItemDelegateArtists* 	_artist_delegate = nullptr;
+	QItemDelegate*					_artist_delegate = nullptr;
 
 	virtual void init_headers();
 	virtual void init_shortcuts();

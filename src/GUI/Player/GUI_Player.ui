@@ -22,12 +22,6 @@
     <height>350</height>
    </size>
   </property>
-  <property name="maximumSize">
-   <size>
-    <width>4000</width>
-    <height>2000</height>
-   </size>
-  </property>
   <property name="focusPolicy">
    <enum>Qt::ClickFocus</enum>
   </property>
@@ -68,23 +62,14 @@
         <enum>QFrame::Raised</enum>
        </property>
        <layout class="QGridLayout" name="gridLayout">
-        <property name="leftMargin">
-         <number>0</number>
-        </property>
-        <property name="topMargin">
-         <number>0</number>
-        </property>
-        <property name="rightMargin">
-         <number>0</number>
-        </property>
-        <property name="bottomMargin">
-         <number>0</number>
-        </property>
         <property name="horizontalSpacing">
          <number>5</number>
         </property>
         <property name="verticalSpacing">
          <number>2</number>
+        </property>
+        <property name="margin">
+         <number>0</number>
         </property>
         <item row="2" column="2">
          <widget class="QPushButton" name="btn_stop">
@@ -899,16 +884,7 @@
              <number>0</number>
             </property>
             <layout class="QGridLayout" name="gridLayout_6">
-             <property name="leftMargin">
-              <number>0</number>
-             </property>
-             <property name="topMargin">
-              <number>0</number>
-             </property>
-             <property name="rightMargin">
-              <number>0</number>
-             </property>
-             <property name="bottomMargin">
+             <property name="margin">
               <number>0</number>
              </property>
              <property name="spacing">
@@ -1071,7 +1047,7 @@
      <x>0</x>
      <y>0</y>
      <width>1038</width>
-     <height>26</height>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFle">

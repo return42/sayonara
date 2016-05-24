@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>986</width>
-    <height>807</height>
+    <height>813</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -155,16 +155,7 @@
      </property>
      <widget class="QWidget" name="page_library">
       <layout class="QGridLayout" name="gridLayout_3">
-       <property name="leftMargin">
-        <number>0</number>
-       </property>
-       <property name="topMargin">
-        <number>0</number>
-       </property>
-       <property name="rightMargin">
-        <number>0</number>
-       </property>
-       <property name="bottomMargin">
+       <property name="margin">
         <number>0</number>
        </property>
        <item row="1" column="0" colspan="2">
@@ -206,7 +197,7 @@
              <bool>true</bool>
             </property>
             <property name="editTriggers">
-             <set>QAbstractItemView::CurrentChanged|QAbstractItemView::SelectedClicked</set>
+             <set>QAbstractItemView::NoEditTriggers</set>
             </property>
             <property name="tabKeyNavigation">
              <bool>false</bool>
@@ -227,7 +218,7 @@
              <bool>false</bool>
             </property>
             <property name="gridStyle">
-             <enum>Qt::DotLine</enum>
+             <enum>Qt::NoPen</enum>
             </property>
             <property name="sortingEnabled">
              <bool>true</bool>
@@ -412,20 +403,11 @@
            <enum>QFrame::Raised</enum>
           </property>
           <layout class="QGridLayout" name="gridLayout">
-           <property name="leftMargin">
-            <number>0</number>
-           </property>
-           <property name="topMargin">
-            <number>0</number>
-           </property>
-           <property name="rightMargin">
-            <number>0</number>
-           </property>
-           <property name="bottomMargin">
-            <number>0</number>
-           </property>
            <property name="verticalSpacing">
             <number>5</number>
+           </property>
+           <property name="margin">
+            <number>0</number>
            </property>
            <item row="0" column="0">
             <widget class="QLabel" name="lab_genre">
@@ -447,23 +429,14 @@
              </property>
              <widget class="QWidget" name="page">
               <layout class="QGridLayout" name="gridLayout_5">
-               <property name="leftMargin">
-                <number>0</number>
-               </property>
-               <property name="topMargin">
-                <number>0</number>
-               </property>
-               <property name="rightMargin">
-                <number>0</number>
-               </property>
-               <property name="bottomMargin">
-                <number>0</number>
-               </property>
                <property name="horizontalSpacing">
                 <number>0</number>
                </property>
                <property name="verticalSpacing">
                 <number>3</number>
+               </property>
+               <property name="margin">
+                <number>0</number>
                </property>
                <item row="0" column="0">
                 <widget class="LibraryGenreView" name="lv_genres">
@@ -505,16 +478,7 @@
                <property name="spacing">
                 <number>6</number>
                </property>
-               <property name="leftMargin">
-                <number>0</number>
-               </property>
-               <property name="topMargin">
-                <number>0</number>
-               </property>
-               <property name="rightMargin">
-                <number>0</number>
-               </property>
-               <property name="bottomMargin">
+               <property name="margin">
                 <number>0</number>
                </property>
                <item>

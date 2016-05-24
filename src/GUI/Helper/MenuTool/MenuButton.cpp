@@ -22,6 +22,7 @@
 
 #include "MenuButton.h"
 #include "GUI/Helper/GUI_Helper.h"
+#include "GUI/Helper/IconLoader/IconLoader.h"
 
 MenuButton::MenuButton(QWidget* parent) :
 	QPushButton(parent),
@@ -80,7 +81,7 @@ void MenuButton::enterEvent(QEvent* e){
 	}
 
 	else{
-		icon = GUI::get_icon("tool");
+		icon = IconLoader::getInstance()->get_icon("system-run", "tool");
 	}
 
 	if( this->isEnabled() ){
@@ -108,21 +109,19 @@ void MenuButton::set_std_icon(){
 
 		pixmap = GUI::get_pixmap("tool_dark_grey");
 		pixmap_disabled = GUI::get_pixmap("tool_disabled");
+		icon.addPixmap(pixmap, QIcon::Normal, QIcon::On);
+		icon.addPixmap(pixmap, QIcon::Normal, QIcon::Off);
+		icon.addPixmap(pixmap_disabled, QIcon::Disabled, QIcon::On);
+		icon.addPixmap(pixmap_disabled, QIcon::Disabled, QIcon::Off);
+		icon.addPixmap(pixmap, QIcon::Active, QIcon::On);
+		icon.addPixmap(pixmap, QIcon::Active, QIcon::Off);
+		icon.addPixmap(pixmap, QIcon::Selected, QIcon::On);
+		icon.addPixmap(pixmap, QIcon::Selected, QIcon::Off);
 	}
 
 	else{
-		pixmap = GUI::get_pixmap("tool");
-		pixmap_disabled = GUI::get_pixmap("tool");
+		icon = IconLoader::getInstance()->get_icon("system-run", "tool");
 	}
-
-	icon.addPixmap(pixmap, QIcon::Normal, QIcon::On);
-	icon.addPixmap(pixmap, QIcon::Normal, QIcon::Off);
-	icon.addPixmap(pixmap_disabled, QIcon::Disabled, QIcon::On);
-	icon.addPixmap(pixmap_disabled, QIcon::Disabled, QIcon::Off);
-	icon.addPixmap(pixmap, QIcon::Active, QIcon::On);
-	icon.addPixmap(pixmap, QIcon::Active, QIcon::Off);
-	icon.addPixmap(pixmap, QIcon::Selected, QIcon::On);
-	icon.addPixmap(pixmap, QIcon::Selected, QIcon::Off);
 
 
 	this->setIcon(icon);

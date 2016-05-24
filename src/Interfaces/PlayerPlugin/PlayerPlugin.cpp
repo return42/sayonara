@@ -54,6 +54,8 @@ void PlayerPluginInterface::show(){
 	QWidget::show();
 
 	init_ui();
+
+	change_exit_icon( this->get_close_button() );
 }
 
 QString PlayerPluginInterface::get_shortcut_text(const QString& shortcut_identifier) const
@@ -110,16 +112,18 @@ void PlayerPluginInterface::change_exit_icon(QPushButton* close_button)
 		return;
 	}
 
+	QIcon close_icon;
 	if(this->is_dark()){
 		close_button->setMinimumWidth(20);
 		close_button->setMinimumHeight(20);
-		close_button->setIcon(GUI::get_icon("tool_dark_grey"));
+		close_icon = GUI::get_icon("tool_dark_grey");
 	}
 
 	else{
-		QIcon close_icon = QIcon::fromTheme("window-close", GUI::get_icon("tool_dark_grey"));
-		close_button->setIcon(close_icon);
+		close_icon = IconLoader::getInstance()->get_icon("stock_close", "tool_dark_grey");
 	}
+		
+	close_button->setIcon(close_icon);
 }
 
 

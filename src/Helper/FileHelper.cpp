@@ -27,12 +27,7 @@
 #include <QDir>
 #include <algorithm>
 
-QString Helper::File::calc_file_extension(const QString& filename) {
-
-	return get_file_extension(filename);
-}
-
-QString clean_filename(const QString& path)
+QString Helper::File::clean_filename(const QString& path)
 {
 	QString ret = path;
 	while(ret.contains("//") || ret.contains("\\\\")){
@@ -48,6 +43,12 @@ QString clean_filename(const QString& path)
 	}
 
 	return ret;
+}
+
+
+QString Helper::File::calc_file_extension(const QString& filename) {
+
+	return get_file_extension(filename);
 }
 
 

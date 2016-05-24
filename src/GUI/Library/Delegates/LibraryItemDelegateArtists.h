@@ -31,21 +31,18 @@
 #include <QObject>
 #include <QLabel>
 #include <QTableView>
-#include <QItemDelegate>
+#include <QStyledItemDelegate>
 #include <QPen>
 #include <QColor>
 
 #include "GUI/Library/Models/LibraryItemModelArtists.h"
 
 
-class LibraryItemDelegateArtists : public QItemDelegate {
+class LibraryItemDelegateArtists : public QStyledItemDelegate {
 	Q_OBJECT
 public:
 	LibraryItemDelegateArtists(QTableView* parent=nullptr);
 	virtual ~LibraryItemDelegateArtists();
-
-public:
-	void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 
 
 private:

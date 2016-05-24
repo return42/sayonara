@@ -58,7 +58,6 @@ void LibraryItemDelegateAlbums::paint(QPainter *painter, const QStyleOptionViewI
 
 	int col = index.column();
 
-
 	if(col != COL_ALBUM_RATING) {
 		LibraryRatingDelegate::paint(painter, option, index);		
 		return;

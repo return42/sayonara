@@ -15,16 +15,12 @@ GUI_SomaFM::GUI_SomaFM(QWidget *parent) :
 	Ui::GUI_SomaFM()
 
 {
-	sp_log(Log::Debug) << "Setup ui";
 	setupUi(this);
 
-	sp_log(Log::Debug) << "Create library";
 	_library = new SomaFMLibrary(this);
 
-	sp_log(Log::Debug) << "1";
 	SomaFMStationModel* model_stations = new SomaFMStationModel(this);
 
-	sp_log(Log::Debug) << "2";
 	lv_stations->setModel(model_stations);
 	lv_stations->setAbstractModel(model_stations);
 	lv_stations->setItemDelegate(new ListDelegate(lv_stations));
@@ -35,7 +31,6 @@ GUI_SomaFM::GUI_SomaFM(QWidget *parent) :
 	lv_playlists->setItemDelegate(new ListDelegate(lv_playlists));
 	lv_playlists->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
-	sp_log(Log::Debug) << "3";
 	model_stations->setStringList( { tr("Initializing...") } );
 
 	QPixmap logo = QPixmap(":/soma_icons/soma_logo.png")
@@ -43,15 +38,13 @@ GUI_SomaFM::GUI_SomaFM(QWidget *parent) :
 
 	lab_image->setPixmap(logo);
 
-	sp_log(Log::Debug) << "4";
-	/*QString description = 
+	QString description = 
 		"Listener-supported, commercial-free, underground/alternative radio<br /><br />" +
 		Helper::create_link("https://somafm.com", this->is_dark(), "https://somafm.com");
 
 	lab_description->setText(description);
 	lab_donate->setText(Helper::create_link("https://somafm.com/support/", is_dark()));
-*/
-	sp_log(Log::Debug) << "5";
+
 	connect(_library, &SomaFMLibrary::sig_stations_loaded, this, &GUI_SomaFM::stations_loaded);
 
 	connect(lv_stations, &QListView::activated, this, &GUI_SomaFM::station_index_changed);
@@ -61,8 +54,6 @@ GUI_SomaFM::GUI_SomaFM(QWidget *parent) :
 	connect(lv_playlists, &QListView::doubleClicked, this, &GUI_SomaFM::playlist_double_clicked);
 	connect(lv_playlists, &QListView::activated, this, &GUI_SomaFM::playlist_double_clicked);
 
-
-	sp_log(Log::Debug) << "6";
 	_library->search_stations();
 }
 

@@ -25,13 +25,13 @@
 
 #include <QLabel>
 #include <QListView>
-#include <QStyledItemDelegate>
+#include <QItemDelegate>
 
 #include "Helper/Settings/SayonaraClass.h"
 
 
 class PlaylistItemDelegate :
-		public QStyledItemDelegate,
+		public QItemDelegate,
 		protected SayonaraClass
 {
 

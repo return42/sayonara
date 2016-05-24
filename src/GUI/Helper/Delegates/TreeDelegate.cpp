@@ -30,23 +30,6 @@ TreeDelegate::TreeDelegate(QObject* parent) :
 TreeDelegate::~TreeDelegate()
 {}
 
-void TreeDelegate::paint(QPainter *painter, const QStyleOptionViewItem & option, const QModelIndex & index) const
-{
-
-	QItemDelegate::drawBackground(painter, option, index);
-
-	if(!index.isValid()) return;
-
-	QRect rect(option.rect);
-	painter->save();
-	QString text = index.data().toString();
-	rect.translate(2, 0);
-
-	painter->drawText(rect, Qt::AlignLeft | Qt::AlignVCenter, text);
-	painter->restore();
-
-}
-
 QSize TreeDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
 	Q_UNUSED(option)

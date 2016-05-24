@@ -1,7 +1,7 @@
 #ifndef LISTDELEGATE_H_
 #define LISTDELEGATE_H_
 
-#include <QStyledItemDelegate>
+#include <QItemDelegate>
 #include <QSize>
 #include <QStyleOptionViewItem>
 #include <QModelIndex>
@@ -10,7 +10,7 @@
 #include "Helper/Settings/SayonaraClass.h"
 
 class ListDelegate : 
-	public QStyledItemDelegate,
+	public QItemDelegate,
 	protected SayonaraClass
 {
 	Q_OBJECT
@@ -24,10 +24,6 @@ public:
 
 	virtual QSize sizeHint(const QStyleOptionViewItem &option,
 			       const QModelIndex &index) const override;
-
-	virtual void paint( QPainter *painter,  
-			const QStyleOptionViewItem &option, 
-			const QModelIndex &index) const override;
 
 };
 

@@ -36,7 +36,7 @@
 
 
 LibraryItemDelegateArtists::LibraryItemDelegateArtists(QTableView* parent) :
-	QItemDelegate(parent)
+	QStyledItemDelegate(parent)
 {
 
 	_parent = parent;
@@ -51,52 +51,4 @@ LibraryItemDelegateArtists::~LibraryItemDelegateArtists() {
 }
 
 
-void LibraryItemDelegateArtists::paint(QPainter *painter, const QStyleOptionViewItem & option, const QModelIndex & index) const
-{
-	QItemDelegate::paint(painter, option, index);
-	return;
 
-	if(!index.isValid()) return;
-
-	QRect rect(option.rect);
-	painter->save();
-
-	int col = index.column();
-
-	if(col == COL_ARTIST_N_ALBUMS) {
-		int col_width = _parent->columnWidth(0)-4;
-		int row_height = _parent->rowHeight(0)-4;
-		rect.translate(2, 2);
-
-		int num_albums = index.data().toInt();
-
-		if(num_albums <= 1){
-			painter->drawPixmap(rect.x(), rect.y(), col_width, row_height, _icon_single_album);
-		}
-
-		else{
-			painter->drawPixmap(rect.x(), rect.y(), col_width, row_height, _icon_multi_album);
-		}
-
-	}
-
-	else if(col == COL_ARTIST_NAME) {
-
-		rect.translate(3, 0);
-		QString name = index.data().toString();
-
-		painter->drawText(rect, Qt::AlignLeft | Qt::AlignVCenter, name);
-
-	}
-
-	else if(col == COL_ARTIST_TRACKS) {
-
-		rect.translate(-2, 0);
-		int n_tracks = index.data().toInt();
-
-		painter->drawText(rect, Qt::AlignRight | Qt::AlignVCenter, QString::number(n_tracks) + " " + tr("tracks"));
-
-	}
-
-	painter->restore();
-}

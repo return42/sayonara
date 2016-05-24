@@ -2,6 +2,7 @@
 #define GUI_SOMAFMLIBRARY_CONTAINER_H
 
 #include "Interfaces/LibraryInterface/LibraryContainer/LibraryContainer.h"
+#include <QtGlobal>
 
 class GUI_SomaFM;
 
@@ -10,9 +11,18 @@ class SomaFMLibraryContainer :
 {
 
 	Q_OBJECT
-#ifndef Q_OS_WIN
-	Q_PLUGIN_METADATA(IID "com.sayonara-player.somafm_library")
-	Q_INTERFACES(LibraryContainerInterface)
+
+#ifdef Q_OS_WIN
+
+#undef Q_PLUGIN_METADATA
+#undef Q_INTERFACES
+#undef IID
+
+#else
+
+/*	Q_PLUGIN_METADATA(IID "com.sayonara-player.somafm_library")
+	Q_INTERFACES(LibraryContainerInterface)*/
+
 #endif
 
 

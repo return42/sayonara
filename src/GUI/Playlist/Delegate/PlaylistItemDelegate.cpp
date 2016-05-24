@@ -23,14 +23,16 @@
 #include <QListView>
 #include <QPainter>
 #include <QFontMetrics>
+#include <QApplication>
 
 #include "Helper/Helper.h"
 #include "PlaylistItemDelegate.h"
 #include "GUI/Playlist/Model/PlaylistItemModel.h"
 
+#define PLAYLIST_BOLD 70
 
 PlaylistItemDelegate::PlaylistItemDelegate(QListView* parent) :
-	QStyledItemDelegate(parent),
+	QItemDelegate(parent),
 	SayonaraClass()
 {
 
@@ -55,6 +57,8 @@ void PlaylistItemDelegate::paint( QPainter *painter,
 						const QModelIndex &index) const
 {
 
+	QItemDelegate::drawBackground(painter, option, index);
+
 	if(!index.isValid()) return;
 
 	painter->save();
@@ -71,9 +75,21 @@ void PlaylistItemDelegate::paint( QPainter *painter,
 	if(option.state & QStyle::State_Selected){
 
 		QPalette palette = _parent->palette();
-		QColor col_highlight = palette.color(QPalette::Active, QPalette::Highlight);
 
-		painter->fillRect(rect, col_highlight);
+		QPalette::ColorGroup color_group;
+
+		if(option.state & QStyle::State_Active){
+			color_group = QPalette::Active;
+		}
+		else{
+			color_group = QPalette::Inactive;
+		}
+		
+		QColor col_foreground = palette.color(color_group, QPalette::HighlightedText);
+
+		QPen pen = painter->pen();
+		pen.setColor(col_foreground);
+		painter->setPen(pen);
 	}
 
 	else if(md.pl_playing){
@@ -90,7 +106,7 @@ void PlaylistItemDelegate::paint( QPainter *painter,
 	}
 
 
-	QFont font = painter->font();
+	QFont font = QApplication::font();
 
 	/** Time **/
 	QString str;
@@ -104,7 +120,7 @@ void PlaylistItemDelegate::paint( QPainter *painter,
 	painter->setFont(font);
 	painter->drawText(rect, Qt::AlignRight | Qt::AlignVCenter, time_string);
 	if(bold){
-		font.setWeight(QFont::DemiBold);
+		font.setWeight(PLAYLIST_BOLD);
 	}
 
 	painter->setFont(font);
@@ -116,7 +132,7 @@ void PlaylistItemDelegate::paint( QPainter *painter,
 	}
 
 
-	rect.setWidth(rect.width() - 50);
+	rect.setWidth(rect.width() - 60);
 
 	for(int i=0; i<_entry_template.size(); i++){
 
@@ -156,11 +172,11 @@ void PlaylistItemDelegate::paint( QPainter *painter,
 		}
 
 		if(c == '*'){
-			if(font.weight() == QFont::DemiBold){
+			if(font.weight() == PLAYLIST_BOLD){
 				font.setWeight(QFont::Normal);
 			}
 			else{
-				font.setWeight(QFont::DemiBold);
+				font.setWeight(PLAYLIST_BOLD);
 			}
 			painter->setFont(font);
 		}
@@ -221,9 +237,7 @@ int PlaylistItemDelegate::get_drag_index() const
 
 int PlaylistItemDelegate::draw_number(QPainter* painter, int number, QFont& font, QRect& rect) const
 {
-
-	
-	font.setWeight(QFont::DemiBold);
+	font.setWeight(PLAYLIST_BOLD);
 
 	QString str;
 	QFontMetrics fm(font);

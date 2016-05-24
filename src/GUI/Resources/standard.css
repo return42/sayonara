@@ -60,3 +60,7 @@ PlaylistView
     font-size: <<FONT_SIZE_PL>>pt;
 }
 
+QComboBox
+{
+	padding-left: 2px;
+}

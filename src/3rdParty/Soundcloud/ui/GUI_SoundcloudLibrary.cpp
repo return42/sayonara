@@ -89,7 +89,7 @@ void GUI_SoundCloudLibrary::btn_add_clicked(){
 SoundcloudLibraryContainer::SoundcloudLibraryContainer(QObject *parent) :
 	LibraryContainerInterface(parent)
 {
-
+	Q_INIT_RESOURCE(SoundcloudIcons);
 }
 
 QString SoundcloudLibraryContainer::get_name() const

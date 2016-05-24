@@ -32,6 +32,7 @@
 #include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
 #include "GUI/Helper/Shortcuts/ShortcutWidget.h"
 #include "GUI/Helper/Shortcuts/ShortcutHandler.h"
+#include "GUI/Helper/IconLoader/IconLoader.h"
 
 #include "Components/PlayManager/PlayManager.h"
 

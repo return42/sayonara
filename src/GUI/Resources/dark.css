@@ -93,14 +93,15 @@ QListView,
 QTableView, 
 QTreeView, 
 QListWidget,
-QTreeWidget
+QTreeWidget,
+LibraryGenreView
 {
 	border: 1px solid #282828;
 	border-radius: 2px;
 	color: #D8D8D8;
 	background-color: #282828;
-
 	alternate-background-color: #242424;
+	selection-color: #D8D8D8;
 	selection-background-color: #424e72;
 }
 
@@ -931,4 +932,5 @@ QStackedWidget {
 RatingLabel {
 	border: 1px solid #e8841a;
 }
+
 

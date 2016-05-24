@@ -34,9 +34,7 @@ public:
 	~DirectoryDelegate();
 
 public:
-	// override QItemDelegate
 	QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const override;
-	void paint(QPainter *painter, const QStyleOptionViewItem & option, const QModelIndex & index) const override;
 
 };
 

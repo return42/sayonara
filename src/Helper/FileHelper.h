@@ -38,6 +38,13 @@ namespace Helper
 	namespace File
 	{
 		/**
+		 * @brief formatter for filepaths. Removes double separators and replaces them with os specific separators.
+		 * @param filename input filename
+		 * @return nicely formatted filename
+		 */
+		QString			clean_filename(const QString& filename);
+
+		/**
 		 * @brief calc_file_extension
 		 * @param filename
 		 * @return

@@ -59,6 +59,9 @@
       <property name="alternatingRowColors">
        <bool>true</bool>
       </property>
+      <property name="uniformItemSizes">
+       <bool>true</bool>
+      </property>
      </widget>
      <widget class="QWidget" name="widget" native="true">
       <property name="sizePolicy">

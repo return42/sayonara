@@ -552,6 +552,16 @@ bool PlaybackPipeline::set_uri(gchar* uri) {
 	stop();
 
 	g_object_set(G_OBJECT(_audio_src), "uri", uri, nullptr);
+
+	GstElement* soup_source;
+	g_object_get(G_OBJECT(_audio_src), "source", &soup_source, nullptr);
+	if(soup_source != nullptr)
+	{
+		g_object_set(G_OBJECT(soup_source), 
+				"ssl_strict", false, 
+				NULL);		
+	}
+
 	gst_element_set_state(_pipeline, GST_STATE_PAUSED);
 
 
