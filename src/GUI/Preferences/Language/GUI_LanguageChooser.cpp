@@ -113,7 +113,7 @@ void GUI_LanguageChooser::renew_combo() {
 			combo_lang->addItem(file, file);
 		}
 
-		if(file.compare(lang_setting, Qt::CaseInsensitive) == 0){
+		if(file.contains(lang_setting, Qt::CaseInsensitive)){
 			combo_lang->setCurrentIndex(i);
 		}
 

@@ -37,7 +37,7 @@ static QString get_time_str() {
     QString hr = QString("%1").arg(cur.time().hour(), 2, 10, QLatin1Char('0'));
     QString min = QString("%1").arg(cur.time().minute(), 2, 10, QLatin1Char('0'));
 
-    time_str = weekday + "_" + year + "-" + month + "-" + day + "_" + hr + ":" + min;
+    time_str = weekday + "_" + year + "-" + month + "-" + day + "_" + hr + "h" + min;
     return time_str;
 }
 
