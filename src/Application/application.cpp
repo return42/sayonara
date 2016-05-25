@@ -78,6 +78,8 @@
 #include <QByteArray>
 #include <thread>
 #include <chrono>
+
+/*
 void* my_thread(void* data){
 	while(true){
 		QWidget* w = QApplication::focusWidget();
@@ -98,7 +100,7 @@ void* my_thread(void* data){
 
 return NULL;
 }
-
+*/
 
 static InstanceMessage instance_message=InstanceMessageNone;
 

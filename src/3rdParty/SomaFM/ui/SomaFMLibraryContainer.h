@@ -20,7 +20,6 @@ class SomaFMLibraryContainer :
 private:
 	GUI_SomaFM*	ui=nullptr;
 
-
 public:
 
 	SomaFMLibraryContainer(QObject* parent=nullptr);
