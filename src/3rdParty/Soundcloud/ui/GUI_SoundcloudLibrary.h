@@ -26,7 +26,6 @@
 #include "3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h"
 
 #include "GUI/Library/GUI_AbstractLibrary.h"
-#include "Interfaces/LibraryInterface/LibraryContainer/LibraryContainer.h"
 
 #include "3rdParty/Soundcloud/src/SoundcloudLibrary.h"
 #include "3rdParty/Soundcloud/ui/GUI_SoundcloudArtistSearch.h"
@@ -62,44 +61,6 @@ private:
 
 };
 
-
-class SoundcloudLibraryContainer :
-	public LibraryContainerInterface
-{
-
-	Q_OBJECT
-
-#ifdef Q_OS_WIN
-
-#undef Q_PLUGIN_METADATA
-#undef Q_INTERFACES
-#undef IID
-
-#else
-
-	Q_PLUGIN_METADATA(IID "com.sayonara-player.soundcloud_library")
-	Q_INTERFACES(LibraryContainerInterface)
-	
-#endif
-
-
-private:
-	GUI_SoundCloudLibrary*	ui=nullptr;
-
-public:
-
-	SoundcloudLibraryContainer(QObject* parent=nullptr);
-
-	// override from LibraryViewInterface
-	QString			get_name() const override;
-	QString			get_display_name() const override;
-	QIcon			get_icon() const override;
-	QWidget*		get_ui() const override;
-	QComboBox*		get_libchooser() override;
-	QMenu*			get_menu() override;
-	void			init_ui() override;
-
-};
 
 
 #endif // GUI_SOUNDCLOUDLIBRARY_H

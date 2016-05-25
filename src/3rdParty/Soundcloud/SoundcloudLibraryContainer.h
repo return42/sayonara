@@ -1,29 +1,27 @@
-#ifndef GUI_SOMAFMLIBRARY_CONTAINER_H
-#define GUI_SOMAFMLIBRARY_CONTAINER_H
+#ifndef SOUNDCLOUD_LIBRARY_CONTAINER
+#define SOUNDCLOUD_LIBRARY_CONTAINER
 
-#include "Interfaces/LibraryInterface/LibraryContainer/LibraryContainer.h"
 #include <QtGlobal>
-#include <QtPlugin>
+#include "Interfaces/LibraryInterface/LibraryContainer/LibraryContainer.h"
 
+class GUI_SoundCloudLibrary;
 
-class GUI_SomaFM;
-
-class SomaFMLibraryContainer :
+class SoundcloudLibraryContainer :
 	public LibraryContainerInterface
 {
 
 	Q_OBJECT
 
-	Q_PLUGIN_METADATA(IID "com.sayonara-player.somafm_library")
+	Q_PLUGIN_METADATA(IID "com.sayonara-player.soundcloud_library")
 	Q_INTERFACES(LibraryContainerInterface)
+	
 
 private:
-	GUI_SomaFM*	ui=nullptr;
-
+	GUI_SoundCloudLibrary*	ui=nullptr;
 
 public:
 
-	SomaFMLibraryContainer(QObject* parent=nullptr);
+	SoundcloudLibraryContainer(QObject* parent=nullptr);
 
 	// override from LibraryViewInterface
 	QString			get_name() const override;

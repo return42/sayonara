@@ -91,10 +91,7 @@ void SomaFMLibrary::soma_playlist_content_fetched(bool success)
 
 	_station_map[_requested_station] = station;
 
-	sp_log(Log::Debug) << "plcf " << "1";
-	sp_log(Log::Debug) << "plcf " << (quint64)  PlaylistHandler::getInstance();
 	PlaylistHandler* plh = PlaylistHandler::getInstance();
-	sp_log(Log::Debug) << "plcf " << "1";
 	plh->create_playlist(v_md,
 						 station.get_station_name(),
 						 true,

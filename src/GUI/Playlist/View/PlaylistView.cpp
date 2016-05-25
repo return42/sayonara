@@ -613,3 +613,4 @@ void PlaylistView::_sl_look_changed(){
 	this->update();
 	this->repaint();
 }
+

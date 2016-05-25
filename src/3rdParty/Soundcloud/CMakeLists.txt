@@ -2,12 +2,6 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 
 PROJECT(sayonara_soundcloud)
 
-INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR})
-INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/src)
-INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/ui)
-
-INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
-
 SET(SOURCES
 	src/SoundcloudData.cpp
 	src/SoundcloudWebAccess.cpp
@@ -16,6 +10,8 @@ SET(SOURCES
 	src/SoundcloudDataFetcher.cpp
 	ui/GUI_SoundcloudLibrary.cpp
 	ui/GUI_SoundcloudArtistSearch.cpp
+
+	SoundcloudLibraryContainer.cpp
 )
 
 SET(FORMS

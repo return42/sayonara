@@ -382,7 +382,7 @@ bool Helper::File::read_file_into_str(const QString& filename, QString& content)
 	}
 
 	while (!file.atEnd()) {
-		content.append(file.readLine());
+		content.append(QString::fromUtf8(file.readLine()));
 	}
 
 	file.close();

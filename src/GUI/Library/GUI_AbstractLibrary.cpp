@@ -165,6 +165,7 @@ void GUI_AbstractLibrary::init_headers(){
 	_lv_artist->setModel(_artist_model);
 	_lv_artist->setAbstractModel(_artist_model);
 	_lv_artist->setAlternatingRowColors(true);
+	_lv_artist->setItemDelegate(new QItemDelegate(_lv_artist));
 	_lv_artist->setDragEnabled(true);
 	_lv_artist->set_table_headers(artist_columns, _shown_cols_artist, so.so_artists);
 

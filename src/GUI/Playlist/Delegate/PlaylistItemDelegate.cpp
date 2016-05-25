@@ -106,7 +106,7 @@ void PlaylistItemDelegate::paint( QPainter *painter,
 	}
 
 
-	QFont font = QApplication::font();
+	QFont font = painter->font();
 
 	/** Time **/
 	QString str;

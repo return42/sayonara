@@ -114,6 +114,12 @@
      </item>
      <item>
       <widget class="QPushButton" name="btn_play">
+       <property name="maximumSize">
+        <size>
+         <width>20</width>
+         <height>16777215</height>
+        </size>
+       </property>
        <property name="focusPolicy">
         <enum>Qt::StrongFocus</enum>
        </property>
