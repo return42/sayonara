@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="pl_PL">
+<TS version="2.0" language="pl_PL">
 <context>
     <name>AbstractLibrary</name>
     <message>
@@ -183,7 +183,7 @@
         <location line="-38"/>
         <location line="+39"/>
         <source>Rename</source>
-        <translation></translation>
+        <translation>Zmień nazwę</translation>
     </message>
     <message>
         <location line="-38"/>
@@ -197,7 +197,7 @@
     <message>
         <location filename="../GUI/DirectoryWidget/GUI_DirectoryWidget.cpp" line="+328"/>
         <source>Directories</source>
-        <translation type="unfinished"></translation>
+        <translation>Katalogi</translation>
     </message>
 </context>
 <context>
@@ -244,7 +244,7 @@
         <location line="-7"/>
         <source>Cannot open stream</source>
         <translatorcomment>player is unable to open a stream</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Nie mogę otworzyć strumienia</translation>
     </message>
     <message>
         <location line="+20"/>
@@ -265,7 +265,7 @@
         <location line="-68"/>
         <source>Do you really want to delete %1</source>
         <translatorcomment>e.g. Do you really want to delete &quot;Radio Europe&quot;</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Czy na pewno chcesz usunąć %1</translation>
     </message>
 </context>
 <context>
@@ -280,7 +280,7 @@
         <location line="+19"/>
         <source>for album</source>
         <translatorcomment>Context: Alternative cover for album &quot;Blood sugar sex magic&quot;</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>dla albumu</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -292,7 +292,7 @@
         <location line="+18"/>
         <source>for artist</source>
         <translatorcomment>Same as &quot;for album&quot;</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>dla artysty</translation>
     </message>
     <message>
         <location line="+18"/>
@@ -319,7 +319,7 @@
     <message>
         <location line="+56"/>
         <source>Open image files</source>
-        <translation type="unfinished"></translation>
+        <translation>Otwórz pliki graficzne</translation>
     </message>
 </context>
 <context>
@@ -355,7 +355,7 @@
         <location filename="../GUI/PlayerPlugins/AudioConverter/GUI_AudioConverter.cpp" line="+47"/>
         <source>Audio Converter</source>
         <translatorcomment>Header for the plugin to convert files to mp3 files</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Konwerter audio</translation>
     </message>
     <message>
         <location line="+96"/>
@@ -371,7 +371,7 @@
         <location line="+67"/>
         <source>Cannot find lame mp3 encoder</source>
         <translatorcomment>You don&apos;t nee to translate lame mp3 encoder </translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Nie można znaleźć kodek lame mp3</translation>
     </message>
 </context>
 <context>
@@ -393,7 +393,7 @@
         <location line="-1"/>
         <source>Sorry, bookmarks can only be set for library tracks at the moment.</source>
         <translatorcomment>This means, that for external tracks which are not stored in the library, it&apos;s impossible to add a bookmark</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Niestety, w tej chwili, zakładki można ustawić tylko na torach bibliotecznych.</translation>
     </message>
 </context>
 <context>
@@ -579,7 +579,7 @@
         <location line="+52"/>
         <location filename="../../build/src/GUI/Preferences/Fonts/ui_GUI_FontConfig.h" line="+5"/>
         <source>Font name</source>
-        <translation></translation>
+        <translation>Nazwa czcionki</translation>
     </message>
     <message>
         <location line="-83"/>
@@ -607,7 +607,7 @@
         <location filename="../GUI/Library/ImportFolderDialog/GUI_ImportFolder.cpp" line="+89"/>
         <source>%1 tracks available</source>
         <translatorcomment>5 tracks available</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>%1 Zaimportuj folder</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -637,8 +637,8 @@
     <message>
         <location line="+4"/>
         <source>Rollback</source>
-        <translatorcomment>Sayonara slowly reverts your changes. Then, rollback is displayed</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translatorcomment>Sayonara slowly reverts your changes. Then, rollback is displayed--</translatorcomment>
+        <translation>Cofnij zmiany</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -653,7 +653,7 @@
     <message>
         <location line="+51"/>
         <source>Choose target directory</source>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz katalog docelowy</translation>
     </message>
     <message>
         <location line="+14"/>
@@ -887,33 +887,33 @@
         <location filename="../../build/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+1"/>
         <source>No genres found</source>
         <translatorcomment>Player could not find any genres</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location line="+16"/>
         <location filename="../../build/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+1"/>
         <source>Reload library</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location line="+51"/>
         <location filename="../../build/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+1"/>
         <source>You haven&apos;t specified a library path yet</source>
         <translatorcomment>The player cannot find any tracks because there&apos;s no library path given</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Nie podano jeszcze ścieżkę do biblioteki</translation>
     </message>
     <message>
         <location line="+38"/>
         <location filename="../../build/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+1"/>
         <source>Set library path</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustaw ścieżkę biblioteki</translation>
     </message>
     <message>
         <location line="-568"/>
         <location filename="../../build/src/GUI/Library/ui_GUI_LocalLibrary.h" line="-13"/>
         <source>Shortcuts: &lt;br /&gt;Search &lt;span style=&quot; font-weight:600;&quot;&gt;s: &lt;br /&gt; &lt;/span&gt;Genre &lt;span style=&quot; font-weight:600;&quot;&gt;g: &lt;br /&gt;&lt;/span&gt;Path &lt;span style=&quot; font-weight:600;&quot;&gt;p:&lt;br/&gt;</source>
         <translatorcomment>this is a tooltip. Sorry for the mess.</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location line="+13"/>
@@ -937,31 +937,32 @@
         <location line="+17"/>
         <location filename="../../build/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+6"/>
         <source>Search for title, interprets and albums</source>
-        <translation type="unfinished"></translation>
+        <translation>Szukaj tytuł i albumy</translation>
     </message>
     <message>
         <location line="+16"/>
         <location filename="../../build/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+3"/>
         <source>Show all interprets, albums, tracks</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>Pokaż wszystkie interpretuje utwory, albumy,</translatorcomment>
+        <translation>Pokaż wszystkie utwory, albumy,</translation>
     </message>
     <message>
         <location filename="../GUI/Library/GUI_LocalLibrary.cpp" line="+153"/>
         <source>Check for changed files (fast)</source>
         <translatorcomment>Check, if some files were deleted or added</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Sprawdź zmienione pliki (szybo)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Deep scan (slow)</source>
         <translatorcomment>do the same as in fast, but read all other files carefully, too</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Głębokie skanowanie (wolno)</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Select reload mode</source>
         <translatorcomment>The header for these two options. The two reload modes are fast and slow</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz tryb ładowania</translation>
     </message>
     <message>
         <location line="+74"/>
@@ -972,31 +973,31 @@
         <location line="+2"/>
         <source>Only from library</source>
         <translatorcomment>Delete tracks only from library</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Tylko z biblioteki</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>You are about to delete %1 files</source>
         <translatorcomment>If you are pressing OK, you will delete %1 files</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Zamierzasz usunąć%1 plików</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Continue?</source>
-        <translation type="unfinished"></translation>
+        <translation>Kontynuować?</translation>
     </message>
     <message>
         <location line="+31"/>
         <source>Please select your library path first and reload again.</source>
         <translatorcomment>You first have to specify the library path and reload your library in order to have fun with the player</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Proszę wybrać ścieżkę biblioteki w pierwszej kolejności i załadować ją ponownie.</translation>
     </message>
     <message>
         <location line="+2"/>
         <location line="+69"/>
         <location line="+46"/>
         <source>Open Directory</source>
-        <translation>Open Directory - katalog stron WWW</translation>
+        <translation>Otwórz informator WWW</translation>
     </message>
     <message>
         <location line="-33"/>
@@ -1006,7 +1007,7 @@
     <message>
         <location line="+46"/>
         <source>Do you want to reload the Library?</source>
-        <translation type="unfinished"></translation>
+        <translation>Chcesz odświeżyć bibliotekę?</translation>
     </message>
 </context>
 <context>
@@ -1089,17 +1090,17 @@
     <message>
         <location line="+495"/>
         <source>A new version is available!</source>
-        <translation type="unfinished"></translation>
+        <translation>Nowa wersja programu, jest dostępna!</translation>
     </message>
     <message>
         <location filename="../GUI/Player/GUI_PlayerMenubar.cpp" line="+51"/>
         <source>Media files</source>
-        <translation type="unfinished"></translation>
+        <translation>Pliki multimedialne</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Open Media files</source>
-        <translation type="unfinished"></translation>
+        <translation>Otwórz pliki multimedialne</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -1110,17 +1111,17 @@
     <message>
         <location line="-94"/>
         <source>Please select library path first</source>
-        <translation type="unfinished"></translation>
+        <translation>Proszę najpierw wybrać ścieżkę biblioteki</translation>
     </message>
     <message>
         <location line="+102"/>
         <source>Do you want to reload the Library?</source>
-        <translation type="unfinished"></translation>
+        <translation>Chcesz odświeżyć bibliotekę?</translation>
     </message>
     <message>
         <location line="+34"/>
         <source>Please visit the forum at</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapraszamy na forum</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -1213,13 +1214,14 @@
         <location line="-38"/>
         <location line="+41"/>
         <source>Volume down</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>Zwiększ głośność</translatorcomment>
+        <translation>Zmniejsz głośność</translation>
     </message>
     <message>
         <location line="-40"/>
         <location line="+43"/>
         <source>Volume up</source>
-        <translation type="unfinished"></translation>
+        <translation>Zwiększ głośność</translation>
     </message>
     <message>
         <location line="-42"/>
@@ -1237,13 +1239,13 @@
         <location line="-46"/>
         <location line="+49"/>
         <source>Seek forward (fast)</source>
-        <translation type="unfinished"></translation>
+        <translation>Przewiń w przód (szybko)</translation>
     </message>
     <message>
         <location line="-48"/>
         <location line="+52"/>
         <source>Seek backward (fast)</source>
-        <translation type="unfinished"></translation>
+        <translation>Przewiń wstecz (szybko)</translation>
     </message>
 </context>
 <context>
@@ -1253,26 +1255,26 @@
         <location filename="../../build/src/GUI/Preferences/PlayerPreferences/ui_GUI_PlayerPreferences.h" line="+62"/>
         <source>Start in tray</source>
         <translatorcomment>start sayonara so that it is not visible except in the little bar, where for example skype or pidgin are located</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Po uruchomieniu minimalizuj do paska</translation>
     </message>
     <message>
         <location line="+7"/>
         <location filename="../../build/src/GUI/Preferences/PlayerPreferences/ui_GUI_PlayerPreferences.h" line="+1"/>
         <source>Close to tray</source>
         <translatorcomment>when you close sayonara, it&apos;s not completely closed. It&apos;s just minimized to the system tray and stays there as an icon</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Po zamknięciu minimalizuj do paska</translation>
     </message>
     <message>
         <location line="-14"/>
         <location filename="../../build/src/GUI/Preferences/PlayerPreferences/ui_GUI_PlayerPreferences.h" line="-2"/>
         <source>Update notifications</source>
         <translatorcomment>Show, if there&apos;s a new update available</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Aktualizuj powiadomienia</translation>
     </message>
     <message>
         <location filename="../GUI/Preferences/PlayerPreferences/GUI_PlayerPreferences.cpp" line="+49"/>
         <source>Player</source>
-        <translation>Gracz</translation>
+        <translation>Odtwarzacz</translation>
     </message>
 </context>
 <context>
@@ -1280,7 +1282,7 @@
     <message>
         <location filename="../GUI/Playlist/GUI_Playlist.cpp" line="+368"/>
         <source>Playlist empty</source>
-        <translation type="unfinished"></translation>
+        <translation>Pleylista jest pusta</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -1296,13 +1298,13 @@
         <location filename="../GUI/Playlist/GUI_PlaylistTabs.cpp" line="+221"/>
         <source>Playlist name already exists</source>
         <translatorcomment>Playlist cannot be saved, because a playlist with that name already exists</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Playlista o podobnej nazwie, już istnieje</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Really</source>
         <translatorcomment>do you really want to delete that playlist</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Naprawdę</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -1313,7 +1315,7 @@
         <location line="+106"/>
         <source>Cannot save playlist.</source>
         <translatorcomment>Impossible to save the playlist</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Nie można zapisać playlistę.</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -1325,7 +1327,7 @@
         <location line="+0"/>
         <source>Playlist exists</source>
         <translatorcomment>same as playlist name already exists</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Lista odtwarzania istnieje</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -1336,7 +1338,7 @@
         <location line="+3"/>
         <source>Playlists are currently only supported for library tracks.</source>
         <translatorcomment>It&apos;s only allowed to create a playlist for tracks in your music library</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Listy są obecnie obsługiwane tylko w przypadku torów bibliotecznych.</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -1350,7 +1352,7 @@
         <location filename="../GUI/Playlist/BottomBar/GUI_PlaylistBottomBar.ui" line="+69"/>
         <location filename="../../build/src/GUI/Playlist/ui_GUI_PlaylistBottomBar.h" line="+165"/>
         <source>Repeat 1</source>
-        <translation>Powtarzaj 1</translation>
+        <translation>Powtórz utwór</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -1372,7 +1374,7 @@
         <location line="-184"/>
         <location filename="../../build/src/GUI/Playlist/ui_GUI_PlaylistBottomBar.h" line="-23"/>
         <source>Repeat All</source>
-        <translation type="unfinished"></translation>
+        <translation>Powtarzaj wszystko</translation>
     </message>
     <message>
         <location line="+42"/>
@@ -1386,32 +1388,33 @@
         <location filename="../GUI/Playlist/BottomBar/GUI_PlaylistBottomBar.cpp" line="+173"/>
         <source>Dynamic playing</source>
         <translatorcomment>a new track is automatically added to playlist when listening, so the playlist will never stop</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Proszę ustawić ścieżkę biblioteki pierwszą</translation>
     </message>
     <message>
         <location line="+42"/>
         <location filename="../../build/src/GUI/Playlist/ui_GUI_PlaylistBottomBar.h" line="+5"/>
         <source>Append when adding new tracks</source>
         <translatorcomment>when double clicking in library, append new tracks instead of creating a new playlist</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Pozwól na dodawanie nowych utworów,
+podczas odtwarzania listy</translation>
     </message>
     <message>
         <location line="+41"/>
         <location filename="../../build/src/GUI/Playlist/ui_GUI_PlaylistBottomBar.h" line="+5"/>
         <source>Gapless playback</source>
         <translatorcomment>no pause between the tracks</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Odtwarzanie bez przerw</translation>
     </message>
     <message>
         <location filename="../GUI/Playlist/BottomBar/GUI_PlaylistBottomBar.cpp" line="-4"/>
         <source>Please set library path first</source>
-        <translation type="unfinished"></translation>
+        <translation>Proszę ustawić ścieżkę biblioteki pierwsza</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>Cancel shutdown?</source>
         <translatorcomment>Cancel computer shutdown</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Anuluj zamknięcie?</translation>
     </message>
 </context>
 <context>
@@ -1447,7 +1450,7 @@
     <message>
         <location line="+29"/>
         <source>Open Playlist files</source>
-        <translation type="unfinished"></translation>
+        <translation>Otwórz pliki z playlistą</translation>
     </message>
 </context>
 <context>
@@ -1584,7 +1587,7 @@
         <location filename="../../build/src/GUI/Preferences/PreferenceDialog/ui_GUI_PreferenceDialog.h" line="+179"/>
         <location filename="../GUI/Preferences/PreferenceDialog/GUI_PreferenceDialog.cpp" line="+78"/>
         <source>Preferences</source>
-        <translation>Wyróżnienia</translation>
+        <translation>Ustawienia</translation>
     </message>
     <message>
         <location line="+117"/>
@@ -1637,12 +1640,12 @@
         <location filename="../GUI/Library/GUI_LibraryPath.ui" line="+48"/>
         <source>You haven&apos;t specified a library path yet</source>
         <translatorcomment>We&apos;ve had this already somewhere</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Nie podano jeszcze ścieżkę do biblioteki</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>Set library path</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustaw ścieżkę biblioteki</translation>
     </message>
 </context>
 <context>
@@ -1652,7 +1655,7 @@
         <location filename="../../build/src/GUI/Preferences/Shortcuts/ui_GUI_ShortcutEntry.h" line="+96"/>
         <source>Enter shortcut...</source>
         <translatorcomment>press the shortcut you want to use</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Wpisz skrót ...</translation>
     </message>
     <message>
         <location filename="../GUI/Preferences/Shortcuts/GUI_ShortcutEntry.cpp" line="+102"/>
@@ -1673,7 +1676,7 @@
         <location line="+0"/>
         <source>Shortcut already in use</source>
         <translatorcomment>This shortcut is used elsewhere already</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Skrót, jest już w użyciu</translation>
     </message>
     <message>
         <location line="+45"/>
@@ -1689,12 +1692,12 @@
         <location filename="../GUI/Preferences/Shortcuts/GUI_Shortcuts.cpp" line="+103"/>
         <source>Press shortcut</source>
         <translatorcomment>same es enter shortcut</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Wpisz skrót</translation>
     </message>
     <message>
         <location filename="../GUI/Preferences/Shortcuts/GUI_Shortcuts.cpp" line="-22"/>
         <source>Shortcuts</source>
-        <translation>Skróty</translation>
+        <translation>Skróty klawiszowe</translation>
     </message>
     <message>
         <location line="-10"/>
@@ -1717,7 +1720,7 @@
         <location filename="../../build/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="-6"/>
         <source>Shutdown after playlist finished</source>
         <translatorcomment>shutdown the computer after the playlist has finished</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Wyłącz po zakończeniu odtwarzania listy</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -1736,13 +1739,13 @@
         <location filename="../../build/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="+1"/>
         <source>Shutdown after</source>
         <translatorcomment>e.g. shutdown after 5 minutes</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Wyłączanie po</translation>
     </message>
     <message>
         <location line="+7"/>
         <location filename="../../build/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="+1"/>
         <source>minutes</source>
-        <translation>minuty</translation>
+        <translation>minutach</translation>
     </message>
 </context>
 <context>
@@ -1809,33 +1812,33 @@
         <location filename="../../build/src/3rdParty/Soundcloud/ui_GUI_SoundcloudArtistSearch.h" line="+1"/>
         <source>Search artist</source>
         <translatorcomment>same as above. I will rename this once</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Szukaj artysty</translation>
     </message>
     <message>
         <location filename="../3rdParty/Soundcloud/ui/GUI_SoundcloudArtistSearch.cpp" line="+58"/>
         <source>Query to short</source>
         <translatorcomment>Searchstring has to be longer</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Zapytanie do krótkich</translation>
     </message>
     <message>
         <location line="+80"/>
         <source>No artists found</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie znaleziono artystów</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Found %1 artists</source>
-        <translation type="unfinished"></translation>
+        <translation>Znaleziono %1 artystów</translation>
     </message>
     <message>
         <location line="+56"/>
         <source>%1 playlists found</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 znaleziono playlisty</translation>
     </message>
     <message>
         <location line="-9"/>
         <source>%1 tracks found</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 znaleziono utworów</translation>
     </message>
 </context>
 <context>
@@ -1926,7 +1929,7 @@
         <location filename="../GUI/Preferences/Startup/GUI_StartupDialog.cpp" line="+93"/>
         <source>Start up</source>
         <translatorcomment>This is the header for the startup options. That means when starting sayonara, some behaviour is defined</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Po uruchomieniu programu</translation>
     </message>
 </context>
 <context>
@@ -1936,7 +1939,7 @@
         <location filename="../../build/src/GUI/Preferences/Startup/ui_GUI_StartupDialog.h" line="+84"/>
         <source>Load temporary playlists</source>
         <translatorcomment>load playlists at startup which were not saved</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Załaduj tymczasowe playlisty</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -1949,21 +1952,21 @@
         <location filename="../../build/src/GUI/Preferences/Startup/ui_GUI_StartupDialog.h" line="-2"/>
         <source>Load last track on startup</source>
         <translatorcomment>load the last track at startup which you listened before</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Załaduj ostatni utwór</translation>
     </message>
     <message>
         <location line="+28"/>
         <location filename="../../build/src/GUI/Preferences/Startup/ui_GUI_StartupDialog.h" line="+3"/>
         <source>Load saved playlists</source>
         <translatorcomment>load saved playlists</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Załaduj zapisane listy odtwarzania</translation>
     </message>
     <message>
         <location line="+10"/>
         <location filename="../../build/src/GUI/Preferences/Startup/ui_GUI_StartupDialog.h" line="+1"/>
         <source>Remember time of last track</source>
         <translatorcomment>start playing at the exact same position when sayonara has stopped the last time</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Zapamiętaj ostatni utwór i czas jego zatrzymania</translation>
     </message>
 </context>
 <context>
@@ -2019,7 +2022,7 @@
     <message>
         <location line="+17"/>
         <source>Webstreams</source>
-        <translation type="unfinished"></translation>
+        <translation>Strumień internetowy</translation>
     </message>
 </context>
 <context>
@@ -2029,7 +2032,7 @@
         <location filename="../../build/src/GUI/Preferences/StreamRecorder/ui_GUI_StreamRecorder.h" line="+109"/>
         <source>Target path:</source>
         <translatorcomment>target path to save something</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Ścieżka docelowa:</translation>
     </message>
     <message>
         <location line="+23"/>
@@ -2048,26 +2051,27 @@
         <location filename="../../build/src/GUI/Preferences/StreamRecorder/ui_GUI_StreamRecorder.h" line="-2"/>
         <source>Create session folder</source>
         <translatorcomment>create a special directory where the streamripper will save your recorded data</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Utwórz folder sesji</translation>
     </message>
     <message>
         <location filename="../GUI/Preferences/StreamRecorder/GUI_StreamRecorder.cpp" line="+88"/>
         <source>Choose target directory</source>
         <translatorcomment>choose a target directory. within this directory the session folder will also be placed</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Wybierz katalog docelowy</translation>
     </message>
     <message>
         <location line="+24"/>
         <source> could not be created
 Please choose another folder</source>
         <translatorcomment>This is ugly. /home/user/some/folder could not be created\nPlease choose another one</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Nie można utworzyć
+Proszę wybrać inny folder</translation>
     </message>
     <message>
         <location line="+0"/>
         <location line="+36"/>
         <source>Stream recorder</source>
-        <translation type="unfinished"></translation>
+        <translation>Nagrywanie strumienia</translation>
     </message>
 </context>
 <context>
@@ -2147,7 +2151,8 @@ Please choose another folder</source>
         <location line="+54"/>
         <location filename="../../build/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+2"/>
         <source>Style settings</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>lub motywu</translatorcomment>
+        <translation>Ustawienia stylu</translation>
     </message>
     <message>
         <location line="+129"/>
@@ -2264,7 +2269,7 @@ Please choose another folder</source>
         <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+5"/>
         <source>Apply to all</source>
         <translatorcomment>apply changes to all tracks</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Stosuje się do wszystkich</translation>
     </message>
     <message>
         <location line="-10"/>
@@ -2292,21 +2297,21 @@ Please choose another folder</source>
         <location line="+13"/>
         <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+1"/>
         <source>Disc Nr</source>
-        <translation type="unfinished"></translation>
+        <translation>Numer płyty</translation>
     </message>
     <message>
         <location line="+51"/>
         <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+4"/>
         <source>Tag from path</source>
         <translatorcomment>create the metadata from the file path</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Tag ze ścieżki</translation>
     </message>
     <message>
         <location line="+32"/>
         <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+1"/>
         <source>Undo all</source>
         <translatorcomment>undo changes for all tracks</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Cofnij wszystko</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -2330,7 +2335,7 @@ Please choose another folder</source>
         <location line="-357"/>
         <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-20"/>
         <source>Discnumber</source>
-        <translation type="unfinished"></translation>
+        <translation>Numer płyty</translation>
     </message>
     <message>
         <location line="+96"/>
@@ -2354,18 +2359,18 @@ Please choose another folder</source>
         <location line="+220"/>
         <source>Cannot apply tag for</source>
         <translatorcomment>The tag could not be extracted from the file path for a specific track. Cannot apply tag for /home/user/track.mp3</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Nie można zastosować znacznika do</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>by</source>
         <translatorcomment>Battery by Metallica</translatorcomment>
-        <translation type="unfinished">przez</translation>
+        <translation>przez</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Ignore these tracks?</source>
-        <translation type="unfinished"></translation>
+        <translation>Zignoruj te utwory?</translation>
     </message>
 </context>
 <context>
@@ -2460,7 +2465,7 @@ Please choose another folder</source>
         <location line="+65"/>
         <source>Current song</source>
         <translatorcomment>current song which is playing at the moment</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Informacje o utworze</translation>
     </message>
     <message>
         <location line="-63"/>
@@ -2664,7 +2669,8 @@ Please choose another folder</source>
         <location line="-55"/>
         <location line="+56"/>
         <source>Append</source>
-        <translation>Dołącz</translation>
+        <translation>Pozwól na dodawanie nowych utworów,
+podczas odtwarzania listy</translation>
     </message>
     <message>
         <location line="-55"/>
@@ -2694,7 +2700,7 @@ Please choose another folder</source>
     <message>
         <location filename="../Components/Library/Importer/LibraryImporter.cpp" line="+165"/>
         <source>All files could be imported</source>
-        <translation type="unfinished"></translation>
+        <translation>Wszystkie pliki mogą być importowane</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -2752,7 +2758,7 @@ Please choose another folder</source>
         <location line="+42"/>
         <source>Reload library</source>
         <translatorcomment>I have the feeling we had that so often already...</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Odśwież bibliotekę</translation>
     </message>
     <message>
         <location line="-41"/>
@@ -2764,7 +2770,7 @@ Please choose another folder</source>
         <location line="-41"/>
         <location line="+42"/>
         <source>Import directory</source>
-        <translation type="unfinished"></translation>
+        <translation>Importuj katalog</translation>
     </message>
     <message>
         <location line="-41"/>
@@ -2776,14 +2782,14 @@ Please choose another folder</source>
         <location line="-41"/>
         <location line="+42"/>
         <source>Library path</source>
-        <translation type="unfinished"></translation>
+        <translation>Ścieżka biblioteki</translation>
     </message>
     <message>
         <location line="-40"/>
         <location line="+41"/>
         <source>Live search</source>
-        <translatorcomment>the library shows the results of your search immediatly. Like google instant search</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translatorcomment>biblioteka przedstawia wyniki wyszukiwania natychmiast. Podobnie jak google błyskawiczne wyszukiwanie</translatorcomment>
+        <translation>Szukaj na żywo</translation>
     </message>
 </context>
 <context>
@@ -2792,12 +2798,12 @@ Please choose another folder</source>
         <location filename="../Components/LyricLookup/LyricLookup.cpp" line="+223"/>
         <source>Sorry, could not fetch lyrics from %1</source>
         <translatorcomment>Could not fetch lyrics from www.lyrics.com</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Niestety, nie można pobierać tekstu z %1</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Sorry, no lyrics found</source>
-        <translation type="unfinished"></translation>
+        <translation>Niestety, nie znaleziono tekstu</translation>
     </message>
 </context>
 <context>
@@ -2921,7 +2927,7 @@ Please choose another folder</source>
         <location filename="../Interfaces/PlayerPlugin/PlayerPlugin.h" line="+174"/>
         <source>Close plugin</source>
         <translatorcomment>Close some player plugin</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Wyłąc wtyczki</translation>
     </message>
 </context>
 <context>
@@ -2929,7 +2935,7 @@ Please choose another folder</source>
     <message>
         <location filename="../Components/Playlist/PlaylistDBInterface.cpp" line="+276"/>
         <source>New %1</source>
-        <translation>Nowy %1</translation>
+        <translation>Lista nr  %1</translation>
     </message>
 </context>
 <context>
@@ -2957,19 +2963,20 @@ Please choose another folder</source>
         <location filename="../GUI/Playlist/PlaylistMenu.cpp" line="+33"/>
         <location line="+49"/>
         <source>Repeat 1</source>
-        <translation>Powtarzaj 1</translation>
+        <translation>Powtórz utwór</translation>
     </message>
     <message>
         <location line="-48"/>
         <location line="+49"/>
         <source>Repeat all</source>
-        <translation>Powtórz</translation>
+        <translation>Powtórz wszystko</translation>
     </message>
     <message>
         <location line="-48"/>
         <location line="+49"/>
         <source>Append</source>
-        <translation>Dołącz</translation>
+        <translation>Pozwól na dodawanie nowych 
+utworów, podczas odtwarzania listy </translation>
     </message>
     <message>
         <location line="-48"/>
@@ -2982,14 +2989,14 @@ Please choose another folder</source>
         <location line="+49"/>
         <source>Dynamic playback</source>
         <translatorcomment>We had that already</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Proszę ustawić ścieżkę biblioteki pierwszą</translation>
     </message>
     <message>
         <location line="-48"/>
         <location line="+49"/>
         <source>Gapless playback</source>
         <translatorcomment>this too</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Odtwarzanie bez przerw</translation>
     </message>
     <message>
         <location line="-48"/>
@@ -3078,7 +3085,7 @@ Please choose another folder</source>
         <location line="+45"/>
         <source>Close others</source>
         <translatorcomment>close all except the current tab in the playlist</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Zamknij wszystko</translation>
     </message>
 </context>
 <context>
@@ -3168,7 +3175,7 @@ Please choose another folder</source>
         <location filename="../../build/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
         <source>Open Folder</source>
         <translatorcomment>or open directory</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Otwórz folder</translation>
     </message>
     <message>
         <location line="+12"/>
@@ -3180,13 +3187,13 @@ Please choose another folder</source>
         <location line="+11"/>
         <location filename="../../build/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
         <source>Dark</source>
-        <translation>Ciemno</translation>
+        <translation>Ciemny motyw</translation>
     </message>
     <message>
         <location line="+5"/>
         <location filename="../../build/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
         <source>Library Path</source>
-        <translation type="unfinished"></translation>
+        <translation>Ścieżka biblioteki</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -3216,19 +3223,20 @@ Please choose another folder</source>
         <location line="+8"/>
         <location filename="../../build/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
         <source>Fullscreen </source>
-        <translation type="unfinished"></translation>
+        <translation>Pełny ekran</translation>
     </message>
     <message>
         <location line="+11"/>
         <location filename="../../build/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
         <source>Library live search</source>
+        <translatorcomment>Biblioteka wyszukiwania żywo</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+11"/>
         <location filename="../../build/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
         <source>Update notifier</source>
-        <translation type="unfinished"></translation>
+        <translation>Powiadamiaj o aktualizacjach</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -3262,13 +3270,13 @@ Please choose another folder</source>
     <message>
         <location line="-49"/>
         <source>Computer will shutdown after playlist has finished</source>
-        <translation type="unfinished"></translation>
+        <translation>Komputer będzie wyłączony, po zakończeniu odtwarzania</translation>
     </message>
     <message>
         <location line="+25"/>
         <location line="+25"/>
         <source>Computer will shutdown in %1 minutes</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyłączenie komputera z a%1 min</translation>
     </message>
 </context>
 <context>
@@ -3286,7 +3294,7 @@ Please choose another folder</source>
         <location filename="../3rdParty/Soundcloud/src/SoundcloudJsonParser.cpp" line="+205"/>
         <location line="+121"/>
         <source>Purchase Url</source>
-        <translation type="unfinished">Kupno Url</translation>
+        <translation>Zakup Url</translation>
     </message>
     <message>
         <location line="-219"/>
@@ -3297,7 +3305,7 @@ Please choose another folder</source>
         <location line="+4"/>
         <location line="+211"/>
         <source>Permalink Url</source>
-        <translation type="unfinished"></translation>
+        <translation>Link URL</translation>
     </message>
     <message>
         <location line="-207"/>
@@ -3308,7 +3316,7 @@ Please choose another folder</source>
         <location line="+9"/>
         <source>Followers/Following</source>
         <translatorcomment>like twitter followers/following</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Śledzący/Śledzenie</translation>
     </message>
     <message>
         <location line="+92"/>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="cs_CZ" sourcelanguage="en_US">
+<TS version="2.0" language="cs_CZ" sourcelanguage="en_US">
 <context>
     <name>AbstractLibrary</name>
     <message>
@@ -1102,12 +1102,12 @@
     <message>
         <location line="+3"/>
         <source>Donate</source>
-        <translation type="unfinished"></translation>
+        <translation>Darovat</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Thank you!</source>
-        <translation type="unfinished"></translation>
+        <translation>Děkuji!</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -1672,24 +1672,24 @@
         <location filename="../3rdParty/SomaFM/ui/GUI_SomaFM.ui" line="+82"/>
         <location filename="../../build/src/3rdParty/SomaFM/ui_GUI_SomaFM.h" line="+191"/>
         <source>Donate to Soma.fm</source>
-        <translation type="unfinished"></translation>
+        <translation>Darovat Soma.fm</translation>
     </message>
     <message>
         <location line="+34"/>
         <location filename="../../build/src/3rdParty/SomaFM/ui_GUI_SomaFM.h" line="+1"/>
         <source>Stations</source>
-        <translation type="unfinished"></translation>
+        <translation>Stanice</translation>
     </message>
     <message>
         <location line="+71"/>
         <location filename="../../build/src/3rdParty/SomaFM/ui_GUI_SomaFM.h" line="+1"/>
         <source>Streams</source>
-        <translation type="unfinished"></translation>
+        <translation>Proudy</translation>
     </message>
     <message>
         <location filename="../3rdParty/SomaFM/ui/GUI_SomaFM.cpp" line="+34"/>
         <source>Initializing...</source>
-        <translation type="unfinished"></translation>
+        <translation>Spouští se...</translation>
     </message>
 </context>
 <context>
@@ -3070,7 +3070,7 @@ Vyberte, prosím, jinou složku</translation>
         <location line="+11"/>
         <location filename="../../build/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
         <source>Donate</source>
-        <translation type="unfinished"></translation>
+        <translation>Dary</translation>
     </message>
     <message>
         <location line="-62"/>
