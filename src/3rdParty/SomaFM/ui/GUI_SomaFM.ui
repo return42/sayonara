@@ -147,7 +147,11 @@ border: 2px solid #202020;
    <item row="0" column="0" colspan="3">
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QComboBox" name="combo_lib_chooser"/>
+      <widget class="QComboBox" name="combo_lib_chooser">
+       <property name="focusPolicy">
+        <enum>Qt::StrongFocus</enum>
+       </property>
+      </widget>
      </item>
      <item>
       <spacer name="horizontalSpacer">
@@ -202,6 +206,9 @@ border: 2px solid #202020;
        <height>16777215</height>
       </size>
      </property>
+     <property name="focusPolicy">
+      <enum>Qt::StrongFocus</enum>
+     </property>
      <property name="alternatingRowColors">
       <bool>true</bool>
      </property>
@@ -219,8 +226,8 @@ border: 2px solid #202020;
    </item>
    <item row="4" column="0" rowspan="9">
     <widget class="SearchableTableView" name="tv_stations">
-     <property name="editTriggers">
-      <set>QAbstractItemView::NoEditTriggers</set>
+     <property name="focusPolicy">
+      <enum>Qt::StrongFocus</enum>
      </property>
      <property name="alternatingRowColors">
       <bool>true</bool>
@@ -246,6 +253,12 @@ border: 2px solid #202020;
      <attribute name="verticalHeaderVisible">
       <bool>false</bool>
      </attribute>
+     <attribute name="verticalHeaderDefaultSectionSize">
+      <number>20</number>
+     </attribute>
+     <attribute name="verticalHeaderMinimumSectionSize">
+      <number>20</number>
+     </attribute>
     </widget>
    </item>
   </layout>
@@ -258,6 +271,8 @@ border: 2px solid #202020;
   </customwidget>
  </customwidgets>
  <tabstops>
+  <tabstop>tv_stations</tabstop>
+  <tabstop>lv_playlists</tabstop>
   <tabstop>combo_lib_chooser</tabstop>
  </tabstops>
  <resources/>

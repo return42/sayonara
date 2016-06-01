@@ -19,7 +19,7 @@ private:
 public:
 	int rowCount(const QModelIndex& parent=QModelIndex()) const;
 	int columnCount(const QModelIndex& parent=QModelIndex()) const;
-	QVariant data(const QModelIndex& index, int role) const;
+	QVariant data(const QModelIndex& index, int role=Qt::DisplayRole) const;
 
 	// AbstractSearchModelInterface interface
 public:
@@ -30,6 +30,7 @@ public:
 
 
 	void set_stations(const QList<SomaFMStation>& stations);
+	void replace_station(const SomaFMStation& station);
 };
 
 #endif // SomaFMStationModel_H

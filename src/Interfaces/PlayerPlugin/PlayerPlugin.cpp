@@ -149,6 +149,11 @@ void PlayerPluginInterface::_sl_lang_changed()
 		lab->setText(this->get_display_name());
 		_pp_action->setText(this->get_display_name());
 	}
+
+	QPushButton* close_button = this->get_close_button();
+	if(close_button){
+		close_button->setToolTip(tr("Close"));
+	}
 }
 
 bool PlayerPluginInterface::is_closed() const

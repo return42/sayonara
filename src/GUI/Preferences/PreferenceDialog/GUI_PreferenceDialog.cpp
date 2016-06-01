@@ -51,6 +51,7 @@ void GUI_PreferenceDialog::register_preference_dialog(PreferenceWidgetInterface*
 	_dialogs << dialog;
 
 	QListWidgetItem* item = new QListWidgetItem(dialog->get_action_name());
+
 	item->setSizeHint(QSize(item->sizeHint().width(), 20));
 	list_preferences->addItem(item);
 }
@@ -124,6 +125,7 @@ void GUI_PreferenceDialog::row_changed(int row)
 	hide_all();
 	PreferenceWidgetInterface* widget = _dialogs[row];
 	QLayout* layout = widget_preferences->layout();
+	layout->setContentsMargins(0,0,0,0);
 
 	if(layout){
 		layout->addWidget(widget);

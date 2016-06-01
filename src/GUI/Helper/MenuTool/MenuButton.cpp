@@ -31,6 +31,9 @@ MenuButton::MenuButton(QWidget* parent) :
 	this->setFlat(true);
 	this->setIconSize(QSize(16,16));
 
+	this->setStyleSheet("margin-left: 2px; margin-right: 2px; padding-left: 0px; padding-right: 0px;");
+	this->setToolTip(tr("Actions"));
+
 	REGISTER_LISTENER(Set::Player_Style, _sl_skin_changed);
 }
 

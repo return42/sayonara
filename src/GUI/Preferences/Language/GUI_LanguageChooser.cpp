@@ -82,9 +82,6 @@ void GUI_LanguageChooser::renew_combo() {
 	QStringList files = dir.entryList(filters);
 
 	combo_lang->clear();
-	//combo_lang->addItem(tr("Default"), "default");
-
-	sp_log(Log::Debug) << "Found language files in " << Helper::get_share_path() + "translations : " << files;
 
 	int i=0;
 	for(const QString& file : files) {

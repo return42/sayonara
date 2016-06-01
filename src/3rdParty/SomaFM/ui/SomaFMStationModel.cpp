@@ -20,6 +20,7 @@ int SomaFMStationModel::rowCount(const QModelIndex& parent) const
 
 int SomaFMStationModel::columnCount(const QModelIndex& parent) const
 {
+	Q_UNUSED(parent)
 	return 2;
 }
 
@@ -42,12 +43,6 @@ QVariant SomaFMStationModel::data(const QModelIndex& index, int role) const
 		return QVariant();
 	}
 
-	if(role == Qt::SizeHintRole) {
-		if(col == 0){
-			return QSize(20, 20);
-		}
-	}
-
 	if(role == Qt::DecorationRole) {
 		if(_stations.isEmpty()){
 			return QVariant();
@@ -57,9 +52,12 @@ QVariant SomaFMStationModel::data(const QModelIndex& index, int role) const
 			return QVariant();
 		}
 
-		SomaFMStation station = _stations[row];
-		if(station.is_loved()){
+		bool loved = _stations[row].is_loved();
+		if(loved){
 			return GUI::get_icon("star.png");
+		}
+		else{
+			return GUI::get_icon("star_disabled.png");
 		}
 	}
 
@@ -68,8 +66,7 @@ QVariant SomaFMStationModel::data(const QModelIndex& index, int role) const
 			return tr("Initializing") + "...";
 		}
 
-		SomaFMStation station = _stations[row];
-		return station.get_station_name();
+		return _stations[row].get_name();
 	}
 
 	if(role == Qt::WhatsThisRole) {
@@ -77,8 +74,7 @@ QVariant SomaFMStationModel::data(const QModelIndex& index, int role) const
 			return "";
 		}
 
-		SomaFMStation station = _stations[row];
-		return station.get_station_name();
+		return _stations[row].get_name();
 	}
 
 
@@ -97,7 +93,7 @@ QModelIndex SomaFMStationModel::getNextRowIndexOf(QString substr, int cur_row, c
 	Q_UNUSED(parent)
 	for(int i=cur_row + 1; i<_stations.size(); i++){
 
-		QString name = _stations[i].get_station_name();
+		QString name = _stations[i].get_name();
 		QString desc = _stations[i].get_description();
 
 		QString str = name + desc;
@@ -116,7 +112,7 @@ QModelIndex SomaFMStationModel::getPrevRowIndexOf(QString substr, int cur_row, c
 	Q_UNUSED(parent)
 	for(int i=cur_row - 1; i>=0; i--){
 
-		QString name = _stations[i].get_station_name();
+		QString name = _stations[i].get_name();
 		QString desc = _stations[i].get_description();
 
 		QString str = name + desc;
@@ -141,10 +137,25 @@ void SomaFMStationModel::set_stations(const QList<SomaFMStation>& stations)
 	this->removeRows(0, this->rowCount());
 	this->insertRows(0, n_stations);
 
-
 	beginInsertRows(QModelIndex(), 0, n_stations - 1);
 	_stations = stations;
 	endInsertRows();
 
 	emit dataChanged(this->index(0, 0), this->index(n_stations - 1, 1));
 }
+
+void SomaFMStationModel::replace_station(const SomaFMStation& station)
+{
+	for(int i=0; i<_stations.size(); i++){
+
+		if(station.get_name() == _stations[i].get_name()){
+
+			_stations[i] = station;
+
+			emit dataChanged(this->index(i, 0), this->index(i, 1));
+			return;
+		}
+	}
+}
+
+

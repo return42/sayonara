@@ -47,6 +47,7 @@ signals:
 	void sig_key_pressed(QKeyEvent*);
 	void sig_selection_changed(const QModelIndexList& idxs);
 
+
 private slots:
 	void edit_changed(const QString& str);
 	void fwd_clicked();
@@ -54,8 +55,8 @@ private slots:
 
 private:
 
-	MiniSearcher*               _mini_searcher;
-	AbstractSearchListModel*	_abstr_model;
+	MiniSearcher*               _mini_searcher=nullptr;
+	AbstractSearchListModel*	_abstr_model=nullptr;
 	int							_cur_row;
 
 	virtual void set_current_index(int idx) override;
@@ -68,11 +69,11 @@ public:
 	void setAbstractModel(AbstractSearchListModel* model);
 
 protected:
-	virtual void mouseMoveEvent(QMouseEvent *) override;
-	virtual void mousePressEvent(QMouseEvent *) override;
-	virtual void mouseReleaseEvent(QMouseEvent *) override;
-	virtual void keyPressEvent(QKeyEvent *) override;
-	virtual void selectionChanged(const QItemSelection& selected, const QItemSelection& deselected) override;
+	void mouseMoveEvent(QMouseEvent *) override;
+	void mousePressEvent(QMouseEvent *) override;
+	void mouseReleaseEvent(QMouseEvent *) override;
+	void keyPressEvent(QKeyEvent *) override;
+	void selectionChanged(const QItemSelection& selected, const QItemSelection& deselected) override;
 };
 
 

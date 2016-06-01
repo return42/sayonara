@@ -41,6 +41,7 @@ signals:
 	void sig_mouse_released();
 	void sig_focus_out();
 	void sig_key_pressed(QKeyEvent*);
+	void sig_selection_changed(const QModelIndexList& idxs);
 
 
 private slots:
@@ -64,13 +65,11 @@ public:
 	void setAbstractModel(AbstractSearchTableModel* model);
 
 protected:
-
 	void mouseMoveEvent(QMouseEvent *) override;
 	void mousePressEvent(QMouseEvent *) override;
 	void mouseReleaseEvent(QMouseEvent *) override;
 	void keyPressEvent(QKeyEvent *) override;
-
-
+	void selectionChanged(const QItemSelection& selected, const QItemSelection& deselected) override;
 };
 
 #endif

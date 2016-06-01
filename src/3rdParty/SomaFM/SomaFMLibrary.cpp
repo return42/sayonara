@@ -12,9 +12,7 @@ SomaFMLibrary::SomaFMLibrary(QObject* parent) :
 	QString path = Helper::File::clean_filename(Helper::get_sayonara_path() + "/somafm.ini");
 
 	_qsettings = new QSettings(path, QSettings::IniFormat, this);
-	_qsettings->setValue("Secret Agent", true);
-	_qsettings->setValue("Lush", true);
-	_qsettings->setValue("Deep Space One", true);
+
 }
 
 
@@ -49,15 +47,20 @@ void SomaFMLibrary::soma_website_fetched(bool success)
 	QList<SomaFMStation> stations;
 
 	for(const QString& station_content : station_contents){
-		SomaFMStation station(station_content);
-		if(station.is_valid()){
-			QString station_name = station.get_station_name();
-			
-			station.set_loved( (bool) _qsettings->value(station_name, false).toInt() );
 
-			_station_map[station_name] = station;
-			stations << station;
+		SomaFMStation station(station_content);
+		if(!station.is_valid()){
+			continue;
 		}
+
+		QString station_name = station.get_name();
+
+		bool loved = _qsettings->value(station_name, false).toBool();
+			
+		station.set_loved( loved );
+
+		_station_map[station_name] = station;
+		stations << station;
 	}
 
 	emit sig_stations_loaded(stations);
@@ -76,7 +79,7 @@ void SomaFMLibrary::create_playlist_from_playlist(int idx)
 	}
 
 	QString url = urls[idx];
-	StreamParser* stream_parser = new StreamParser(station.get_station_name(), this);
+	StreamParser* stream_parser = new StreamParser(station.get_name(), this);
 	connect(stream_parser, &StreamParser::sig_finished, this, &SomaFMLibrary::soma_playlist_content_fetched);
 
 	stream_parser->parse_stream(url);
@@ -107,7 +110,7 @@ void SomaFMLibrary::soma_playlist_content_fetched(bool success)
 
 	PlaylistHandler* plh = PlaylistHandler::getInstance();
 	plh->create_playlist(v_md,
-						 station.get_station_name(),
+						 station.get_name(),
 						 true,
 						 Playlist::Type::Stream);
 
@@ -115,3 +118,10 @@ void SomaFMLibrary::soma_playlist_content_fetched(bool success)
 }
 
 
+void SomaFMLibrary::set_station_loved(const QString& station_name, bool loved){
+
+	_station_map[station_name].set_loved(loved);
+	_qsettings->setValue(station_name, loved);
+
+	emit sig_station_changed(_station_map[station_name]);
+}

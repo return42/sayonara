@@ -28,6 +28,7 @@ private:
 
 private slots:
 	void language_changed() override;
+	void cb_toggled(bool b);
 
 };
 

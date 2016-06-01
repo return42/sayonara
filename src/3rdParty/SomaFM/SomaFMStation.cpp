@@ -23,7 +23,7 @@ SomaFMStation::SomaFMStation(const QString& content) :
 			_station_name + "." + Helper::File::get_file_extension(_cover.search_url);
 }
 
-QString SomaFMStation::get_station_name() const
+QString SomaFMStation::get_name() const
 {
 	return _station_name;
 }

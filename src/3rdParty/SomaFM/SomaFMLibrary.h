@@ -17,6 +17,7 @@ class SomaFMLibrary : public QObject
 
 signals:
 	void sig_stations_loaded(const QList<SomaFMStation>& stations);
+	void sig_station_changed(const SomaFMStation& station);
 
 
 public:
@@ -25,6 +26,7 @@ public:
 	SomaFMStation get_station(const QString& name);
 	void create_playlist_from_playlist(int idx);
 	void search_stations();
+	void set_station_loved(const QString& station_name, bool loved);
 
 
 private slots:

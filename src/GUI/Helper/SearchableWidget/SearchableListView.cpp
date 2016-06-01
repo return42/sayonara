@@ -155,6 +155,7 @@ void SearchableListView::bwd_clicked() {
 
 void SearchableListView::selectionChanged(const QItemSelection& selected, const QItemSelection& deselected)
 {
-	QModelIndexList indexes = selected.indexes();
-	emit sig_selection_changed(indexes);
+	QListView::selectionChanged(selected, deselected);
+
+	emit sig_selection_changed(selected.indexes());
 }

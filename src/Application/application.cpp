@@ -58,7 +58,7 @@
 #include "GUI/Preferences/Fonts/GUI_FontConfig.h"
 #include "GUI/Preferences/Notifications/GUI_Notifications.h"
 #include "GUI/Preferences/LastFM/GUI_LastFM.h"
-#include "GUI/Preferences/Startup/GUI_StartupDialog.h"
+//#include "GUI/Preferences/Startup/GUI_StartupDialog.h"
 #include "GUI/Preferences/Language/GUI_LanguageChooser.h"
 #include "GUI/Preferences/Broadcast/GUI_BroadcastSetup.h"
 #include "GUI/Preferences/PlaylistPreferences/GUI_PlaylistPreferences.h"
@@ -255,7 +255,7 @@ bool Application::init(QTranslator* translator, const QStringList& files_to_play
 	preferences->register_preference_dialog(new GUI_PlayerPreferences());
 	preferences->register_preference_dialog(new GUI_PlaylistPreferences());
 	preferences->register_preference_dialog(new GUI_LibraryPreferences());
-	preferences->register_preference_dialog(new GUI_StartupDialog());
+	//preferences->register_preference_dialog(new GUI_StartupDialog());
 	preferences->register_preference_dialog(new GUI_Shortcuts());
 	preferences->register_preference_dialog(new GUI_Notifications());
 	preferences->register_preference_dialog(new GUI_LastFM());

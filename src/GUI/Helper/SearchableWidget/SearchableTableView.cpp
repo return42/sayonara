@@ -86,6 +86,7 @@ void SearchableTableView::keyPressEvent(QKeyEvent *e) {
 	bool initialized = _mini_searcher->check_and_init(e);
 
 	if(e->key() == Qt::Key_Tab && !was_initialized) {
+		QWidget::keyPressEvent(e);
 		return;
 	}
 
@@ -146,3 +147,9 @@ void SearchableTableView::bwd_clicked() {
 }
 
 
+void SearchableTableView::selectionChanged(const QItemSelection& selected, const QItemSelection& deselected)
+{
+	QTableView::selectionChanged(selected, deselected);
+
+	emit sig_selection_changed(selected.indexes());
+}

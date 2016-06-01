@@ -18,7 +18,7 @@ public:
 	SomaFMStation();
 	SomaFMStation(const QString& content);
 
-	QString get_station_name() const;
+	QString get_name() const;
 	QStringList get_urls() const;
 	QString get_description() const;
 	UrlType get_url_type(const QString& url) const;
