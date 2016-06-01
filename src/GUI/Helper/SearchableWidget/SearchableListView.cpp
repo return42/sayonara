@@ -110,6 +110,7 @@ void SearchableListView::edit_changed(const QString& str) {
 	_cur_row = idx.row();
 
 	this->scrollTo(idx);
+	this->setCurrentIndex(idx);
 
 	SP::Set<int> indexes;
 	indexes.insert(_cur_row);
@@ -150,4 +151,10 @@ void SearchableListView::bwd_clicked() {
 
 	this->scrollTo(idx);
 	this->select_rows(indexes);
+}
+
+void SearchableListView::selectionChanged(const QItemSelection& selected, const QItemSelection& deselected)
+{
+	QModelIndexList indexes = selected.indexes();
+	emit sig_selection_changed(indexes);
 }

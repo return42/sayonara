@@ -84,5 +84,7 @@
         <file>Icons/arrow_filled_down.svg.png</file>
         <file>Icons/arrow_filled_right.svg.png</file>
         <file>Icons/arrow_filled_left.svg.png</file>
+        <file>Icons/star.png</file>
+
     </qresource>
 </RCC>

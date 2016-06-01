@@ -21,17 +21,16 @@ GUI_SomaFM::GUI_SomaFM(QWidget *parent) :
 
 	SomaFMStationModel* model_stations = new SomaFMStationModel(this);
 
-	lv_stations->setModel(model_stations);
-	lv_stations->setAbstractModel(model_stations);
-	lv_stations->setItemDelegate(new ListDelegate(lv_stations));
-	lv_stations->setEditTriggers(QAbstractItemView::NoEditTriggers);
-	lv_stations->setEnabled(false);
+	tv_stations->setModel(model_stations);
+	tv_stations->setAbstractModel(model_stations);
+//	tv_stations->setItemDelegate(new ListDelegate(tv_stations));
+	tv_stations->setEditTriggers(QAbstractItemView::NoEditTriggers);
+	tv_stations->setEnabled(false);
+	tv_stations->setColumnWidth(0, 20);
 
 	lv_playlists->setModel(new QStringListModel());
 	lv_playlists->setItemDelegate(new ListDelegate(lv_playlists));
 	lv_playlists->setEditTriggers(QAbstractItemView::NoEditTriggers);
-
-	model_stations->setStringList( { tr("Initializing...") } );
 
 	QPixmap logo = QPixmap(":/soma_icons/soma_logo.png")
 		.scaled(QSize(200, 200), Qt::KeepAspectRatio, Qt::SmoothTransformation);
@@ -47,9 +46,8 @@ GUI_SomaFM::GUI_SomaFM(QWidget *parent) :
 
 	connect(_library, &SomaFMLibrary::sig_stations_loaded, this, &GUI_SomaFM::stations_loaded);
 
-	connect(lv_stations, &QListView::activated, this, &GUI_SomaFM::station_index_changed);
-	connect(lv_stations, &QListView::clicked, this, &GUI_SomaFM::station_index_changed);
-	connect(lv_stations, &QListView::entered, this, &GUI_SomaFM::station_index_changed);
+	connect(tv_stations, &QListView::activated, this, &GUI_SomaFM::station_index_changed);
+//	connect(tv_stations, &SearchableTableView::sig_selection_changed, this, &GUI_SomaFM::selection_changed);
 
 	connect(lv_playlists, &QListView::doubleClicked, this, &GUI_SomaFM::playlist_double_clicked);
 	connect(lv_playlists, &QListView::activated, this, &GUI_SomaFM::playlist_double_clicked);
@@ -67,12 +65,22 @@ QComboBox* GUI_SomaFM::get_libchooser() const
 	return combo_lib_chooser;
 }
 
-void GUI_SomaFM::stations_loaded(const QStringList& stations)
+void GUI_SomaFM::stations_loaded(const QList<SomaFMStation>& stations)
 {
-	SomaFMStationModel* model = static_cast<SomaFMStationModel*>(lv_stations->model());
-	model->setStringList(stations);
-	lv_stations->setEnabled(true);
+	SomaFMStationModel* model = static_cast<SomaFMStationModel*>(tv_stations->model());
+	model->set_stations(stations);
+	tv_stations->setEnabled(true);
 }
+
+void GUI_SomaFM::selection_changed(const QModelIndexList& indexes){
+
+	if(indexes.isEmpty()){
+		return;
+	}
+
+	station_index_changed(indexes[0]);
+}
+
 
 void GUI_SomaFM::station_index_changed(const QModelIndex& idx){
 
@@ -82,7 +90,7 @@ void GUI_SomaFM::station_index_changed(const QModelIndex& idx){
 
 	QStringListModel* pl_model = static_cast<QStringListModel*>(lv_playlists->model());
 
-	QString station_name = lv_stations->model()->data(idx).toString();
+	QString station_name = tv_stations->model()->data(idx, Qt::WhatsThisRole).toString();
 
 	SomaFMStation station = _library->get_station(station_name);
 

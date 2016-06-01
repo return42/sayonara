@@ -29,6 +29,7 @@
 #include <QListView>
 #include <QMouseEvent>
 #include <QKeyEvent>
+#include <QModelIndexList>
 
 class MiniSearcher;
 class AbstractSearchListModel;
@@ -44,6 +45,7 @@ signals:
 	void sig_mouse_released();
 	void sig_focus_out();
 	void sig_key_pressed(QKeyEvent*);
+	void sig_selection_changed(const QModelIndexList& idxs);
 
 private slots:
 	void edit_changed(const QString& str);
@@ -70,6 +72,7 @@ protected:
 	virtual void mousePressEvent(QMouseEvent *) override;
 	virtual void mouseReleaseEvent(QMouseEvent *) override;
 	virtual void keyPressEvent(QKeyEvent *) override;
+	virtual void selectionChanged(const QItemSelection& selected, const QItemSelection& deselected) override;
 };
 
 

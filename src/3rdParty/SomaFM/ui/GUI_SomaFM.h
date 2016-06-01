@@ -9,6 +9,9 @@
 
 #include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
 
+#include <QItemSelection>
+
+class SomaFMStation;
 
 class GUI_SomaFM :
 		public SayonaraWidget,
@@ -28,11 +31,13 @@ public:
 
 
 private slots:
-	void stations_loaded(const QStringList& stations);
+	void stations_loaded(const QList<SomaFMStation>& stations);
 
 	void station_index_changed(const QModelIndex& idx);
 	void playlist_double_clicked(const QModelIndex& idx);
 	void cover_found(const CoverLocation& cover_location);
+
+	void selection_changed(const QModelIndexList& selected);
 };
 
 #endif // GUI_SOMAFM_H

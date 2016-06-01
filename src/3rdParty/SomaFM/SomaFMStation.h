@@ -27,6 +27,9 @@ public:
 	MetaDataList get_metadata() const;
 	void set_metadata(const MetaDataList& v_md);
 
+	void set_loved(bool loved);
+	bool is_loved() const;
+
 
 private:
 
@@ -37,6 +40,7 @@ private:
 	QString			_description;
 	CoverLocation	_cover;
 	MetaDataList	_v_md;
+	bool			_loved;
 
 private:
 	void parse_station_name();

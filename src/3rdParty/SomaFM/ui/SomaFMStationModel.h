@@ -2,20 +2,23 @@
 #define SomaFMStationModel_H
 
 #include "GUI/Helper/SearchableWidget/AbstractSearchModel.h"
+#include "3rdParty/SomaFM/SomaFMStation.h"
 #include <QMap>
+#include <QList>
 
-class SomaFMStationModel : public AbstractSearchListModel
+class SomaFMStationModel : public AbstractSearchTableModel
 {
 	Q_OBJECT
 public:
 	explicit SomaFMStationModel(QObject *parent = 0);
 
 private:
-	QStringList _stations;
+	QList<SomaFMStation> _stations;
 
 	// QAbstractItemModel interface
 public:
 	int rowCount(const QModelIndex& parent=QModelIndex()) const;
+	int columnCount(const QModelIndex& parent=QModelIndex()) const;
 	QVariant data(const QModelIndex& index, int role) const;
 
 	// AbstractSearchModelInterface interface
@@ -26,7 +29,7 @@ public:
 	QMap<QChar, QString> getExtraTriggers();
 
 
-	void setStringList(const QStringList& stations);
+	void set_stations(const QList<SomaFMStation>& stations);
 };
 
 #endif // SomaFMStationModel_H

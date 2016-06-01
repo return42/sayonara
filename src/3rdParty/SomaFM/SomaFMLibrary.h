@@ -6,6 +6,7 @@
 #include <QImage>
 #include <QList>
 #include <QMap>
+#include <QSettings>
 
 #include "SomaFMStation.h"
 
@@ -15,7 +16,7 @@ class SomaFMLibrary : public QObject
 	Q_OBJECT
 
 signals:
-	void sig_stations_loaded(const QStringList& station_names);
+	void sig_stations_loaded(const QList<SomaFMStation>& stations);
 
 
 public:
@@ -34,6 +35,7 @@ private slots:
 private:
 	QMap<QString, SomaFMStation> 	_station_map;
 	QString 						_requested_station;
+	QSettings*						_qsettings=nullptr;
 };
 
 

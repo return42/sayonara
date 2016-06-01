@@ -5,6 +5,7 @@
 SomaFMStation::SomaFMStation()
 {
 	_cover = CoverLocation::getInvalidLocation();
+	_loved = false;
 }
 
 SomaFMStation::SomaFMStation(const QString& content) :
@@ -133,4 +134,13 @@ void SomaFMStation::parse_image()
 		_cover.search_url = QString("https://somafm.com/") + re.cap(1);
 		_cover.valid = true;
 	}
+}
+
+void SomaFMStation::set_loved(bool loved){
+	_loved = loved;
+}
+
+bool SomaFMStation::is_loved() const
+{
+	return _loved;
 }
