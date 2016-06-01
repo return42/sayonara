@@ -1,4 +1,6 @@
 #include "SomaFMLibrary.h"
+#include "Helper/Helper.h"
+#include "Helper/FileHelper.h"
 #include "Helper/Logger/Logger.h"
 #include "Helper/WebAccess/AsyncWebAccess.h"
 #include "Helper/Parser/StreamParser.h"
@@ -7,6 +9,12 @@
 SomaFMLibrary::SomaFMLibrary(QObject* parent) :
 	QObject(parent)
 {
+	QString path = Helper::File::clean_filename(Helper::get_sayonara_path() + "/somafm.ini");
+
+	_qsettings = new QSettings(path, QSettings::IniFormat, this);
+	_qsettings->setValue("Secret Agent", true);
+	_qsettings->setValue("Lush", true);
+	_qsettings->setValue("Deep Space One", true);
 }
 
 
@@ -38,15 +46,21 @@ void SomaFMLibrary::soma_website_fetched(bool success)
 
 	QString content = QString::fromUtf8(awa->get_data());
 	QStringList station_contents = content.split("<li");
+	QList<SomaFMStation> stations;
 
 	for(const QString& station_content : station_contents){
 		SomaFMStation station(station_content);
 		if(station.is_valid()){
-			_station_map[station.get_station_name()] = station;
+			QString station_name = station.get_station_name();
+			
+			station.set_loved( (bool) _qsettings->value(station_name, false).toInt() );
+
+			_station_map[station_name] = station;
+			stations << station;
 		}
 	}
 
-	emit sig_stations_loaded(_station_map.keys());
+	emit sig_stations_loaded(stations);
 
 	awa->deleteLater();
 }

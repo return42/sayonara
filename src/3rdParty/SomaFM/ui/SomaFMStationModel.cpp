@@ -1,7 +1,8 @@
 #include "SomaFMStationModel.h"
+#include "GUI/Helper/GUI_Helper.h"
 
 SomaFMStationModel::SomaFMStationModel(QObject *parent) :
-	AbstractSearchListModel(parent)
+	AbstractSearchTableModel(parent)
 {
 }
 
@@ -9,19 +10,27 @@ SomaFMStationModel::SomaFMStationModel(QObject *parent) :
 int SomaFMStationModel::rowCount(const QModelIndex& parent) const
 {
 	Q_UNUSED(parent)
+
+	if(_stations.isEmpty()){
+		return 1;
+	}
+
 	return _stations.size();
+}
+
+int SomaFMStationModel::columnCount(const QModelIndex& parent) const
+{
+	return 2;
 }
 
 QVariant SomaFMStationModel::data(const QModelIndex& index, int role) const
 {
-	Q_UNUSED(role)
+	int row = index.row();
+	int col = index.column();
+
 
 	if(!index.isValid()){
-		return QVariant();
-	}
-
-	int row = index.row();
-	if(row < 0 || row >= _stations.size()) {
+		sp_log(Log::Debug) << "Index not valid";
 		return QVariant();
 	}
 
@@ -29,13 +38,54 @@ QVariant SomaFMStationModel::data(const QModelIndex& index, int role) const
 		return (int)(Qt::AlignVCenter| Qt::AlignLeft);
 	}
 
-	if(role == Qt::DisplayRole) {
-		return _stations[row];
+	if(row < 0 || row >= rowCount()) {
+		return QVariant();
 	}
 
-	return QVariant();
+	if(role == Qt::SizeHintRole) {
+		if(col == 0){
+			return QSize(20, 20);
+		}
+	}
 
+	if(role == Qt::DecorationRole) {
+		if(_stations.isEmpty()){
+			return QVariant();
+		}
+
+		if(col == 1){
+			return QVariant();
+		}
+
+		SomaFMStation station = _stations[row];
+		if(station.is_loved()){
+			return GUI::get_icon("star.png");
+		}
+	}
+
+	if(role == Qt::DisplayRole && col == 1) {
+		if(_stations.isEmpty()){
+			return tr("Initializing") + "...";
+		}
+
+		SomaFMStation station = _stations[row];
+		return station.get_station_name();
+	}
+
+	if(role == Qt::WhatsThisRole) {
+		if(_stations.isEmpty()){
+			return "";
+		}
+
+		SomaFMStation station = _stations[row];
+		return station.get_station_name();
+	}
+
+
+	return QVariant();
 }
+
+
 
 QModelIndex SomaFMStationModel::getFirstRowIndexOf(QString substr)
 {
@@ -46,7 +96,13 @@ QModelIndex SomaFMStationModel::getNextRowIndexOf(QString substr, int cur_row, c
 {
 	Q_UNUSED(parent)
 	for(int i=cur_row + 1; i<_stations.size(); i++){
-		if(_stations[i].contains(substr, Qt::CaseInsensitive)){
+
+		QString name = _stations[i].get_station_name();
+		QString desc = _stations[i].get_description();
+
+		QString str = name + desc;
+
+		if(str.contains(substr, Qt::CaseInsensitive)){
 			return this->index(i, 0);
 		}
 	}
@@ -59,7 +115,13 @@ QModelIndex SomaFMStationModel::getPrevRowIndexOf(QString substr, int cur_row, c
 {
 	Q_UNUSED(parent)
 	for(int i=cur_row - 1; i>=0; i--){
-		if(_stations[i].contains(substr, Qt::CaseInsensitive)){
+
+		QString name = _stations[i].get_station_name();
+		QString desc = _stations[i].get_description();
+
+		QString str = name + desc;
+
+		if(str.contains(substr, Qt::CaseInsensitive)){
 			return this->index(i, 0);
 		}
 	}
@@ -72,14 +134,17 @@ QMap<QChar, QString> SomaFMStationModel::getExtraTriggers()
 	return QMap<QChar, QString>();
 }
 
-void SomaFMStationModel::setStringList(const QStringList& list)
+void SomaFMStationModel::set_stations(const QList<SomaFMStation>& stations)
 {
-	this->removeRows(0, this->rowCount());
-	this->insertRows(0, list.size());
+	int n_stations = stations.size();
 
-	beginInsertRows(QModelIndex(), 0, list.size() - 1);
-	_stations = list;
+	this->removeRows(0, this->rowCount());
+	this->insertRows(0, n_stations);
+
+
+	beginInsertRows(QModelIndex(), 0, n_stations - 1);
+	_stations = stations;
 	endInsertRows();
 
-	emit dataChanged(this->index(0), this->index(list.size() - 1));
+	emit dataChanged(this->index(0, 0), this->index(n_stations - 1, 1));
 }
