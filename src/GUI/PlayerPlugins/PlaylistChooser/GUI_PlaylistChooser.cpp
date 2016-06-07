@@ -213,8 +213,9 @@ void GUI_PlaylistChooser::load_button_pressed() {
         lab_text += trimmed_filename + ", ";
     }
 
-    if(lab_text.size() > 2)
+	if(lab_text.size() > 2){
         lab_text = lab_text.left(lab_text.size() - 2);
+	}
 
 	le_playlist_file->setText(lab_text);
 
