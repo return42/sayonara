@@ -591,8 +591,13 @@ void GUI_Player::ui_loaded() {
 	LibraryContainerInterface* cur_interface;
 	cur_interface = _lph->get_cur_library();
 
+	QLayout* layout;
 	splitter->restoreState(_settings->get(Set::Player_SplitterState));
-	splitter->layout()->update();
+	layout = splitter->layout();
+	if(layout){
+		layout->update();
+	}
+
 	splitter->update();
 
 	if(cur_interface){
