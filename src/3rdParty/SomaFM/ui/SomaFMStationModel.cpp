@@ -91,7 +91,7 @@ QModelIndex SomaFMStationModel::getFirstRowIndexOf(QString substr)
 QModelIndex SomaFMStationModel::getNextRowIndexOf(QString substr, int cur_row, const QModelIndex& parent)
 {
 	Q_UNUSED(parent)
-	for(int i=cur_row + 1; i<_stations.size(); i++){
+	for(int i=cur_row; i<_stations.size(); i++){
 
 		QString name = _stations[i].get_name();
 		QString desc = _stations[i].get_description();
@@ -110,7 +110,7 @@ QModelIndex SomaFMStationModel::getNextRowIndexOf(QString substr, int cur_row, c
 QModelIndex SomaFMStationModel::getPrevRowIndexOf(QString substr, int cur_row, const QModelIndex& parent)
 {
 	Q_UNUSED(parent)
-	for(int i=cur_row - 1; i>=0; i--){
+	for(int i=cur_row; i>=0; i--){
 
 		QString name = _stations[i].get_name();
 		QString desc = _stations[i].get_description();
