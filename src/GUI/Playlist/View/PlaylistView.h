@@ -31,6 +31,7 @@
 
 #include "Components/Playlist/Playlist.h"
 #include "GUI/Helper/SearchableWidget/SearchableListView.h"
+#include "Helper/Set.h"
 
 #include <QPoint>
 #include <QDrag>
@@ -42,7 +43,7 @@
 #include <QScrollBar>
 
 
-class LibraryContextMenu;
+class PlaylistContextMenu;
 class PlaylistItemModel;
 class PlaylistItemDelegate;
 class PlaylistView : public SearchableListView
@@ -62,6 +63,8 @@ signals:
 	void sig_no_focus();
 	void sig_left_clicked();
 	void sig_right_clicked();
+	void sig_play_next_copy_clicked(const SP::Set<int>& idxs);
+	void sig_play_next_move_clicked(const SP::Set<int>& idxs);
 
 
 
@@ -92,7 +95,7 @@ private:
 
 	bool					_inner_drag_drop;
 
-	LibraryContextMenu*		_rc_menu=nullptr;
+	PlaylistContextMenu*	_rc_menu=nullptr;
 
 	PlaylistItemModel*		_model=nullptr;
 	PlaylistItemDelegate*	_delegate=nullptr;
@@ -134,6 +137,9 @@ private slots:
 	void row_double_clicked(const QModelIndex&);
 	void row_released(const QModelIndex&);
 	void _sl_look_changed();
+	void play_next_copy_clicked();
+	void play_next_move_clicked();
 };
+
 
 #endif /* PlaylistView_H_ */

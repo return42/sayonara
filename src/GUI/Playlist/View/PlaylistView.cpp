@@ -29,7 +29,7 @@
 #include "PlaylistView.h"
 #include "GUI/Playlist/Model/PlaylistItemModel.h"
 #include "GUI/Playlist/Delegate/PlaylistItemDelegate.h"
-#include "GUI/Helper/ContextMenu/LibraryContextMenu.h"
+#include "GUI/Playlist/PlaylistContextMenu.h"
 #include "GUI/Helper/CustomMimeData.h"
 
 #include "Helper/Helper.cpp"
@@ -306,13 +306,15 @@ void PlaylistView::resizeEvent(QResizeEvent *e) {
 
 void PlaylistView::init_rc_menu() {
 
-	_rc_menu = new LibraryContextMenu(this);
+	_rc_menu = new PlaylistContextMenu(this);
 
-	connect(_rc_menu, &LibraryContextMenu::sig_info_clicked, this, &PlaylistView::sig_info_clicked);
-	connect(_rc_menu, &LibraryContextMenu::sig_lyrics_clicked, this, &PlaylistView::sig_lyrics_clicked);
-	connect(_rc_menu, &LibraryContextMenu::sig_edit_clicked, this, &PlaylistView::sig_edit_clicked);
-	connect(_rc_menu, &LibraryContextMenu::sig_remove_clicked, this, &PlaylistView::remove_cur_selected_rows);
-	connect(_rc_menu, &LibraryContextMenu::sig_clear_clicked, this, &PlaylistView::clear);
+	connect(_rc_menu, &PlaylistContextMenu::sig_info_clicked, this, &PlaylistView::sig_info_clicked);
+	connect(_rc_menu, &PlaylistContextMenu::sig_lyrics_clicked, this, &PlaylistView::sig_lyrics_clicked);
+	connect(_rc_menu, &PlaylistContextMenu::sig_edit_clicked, this, &PlaylistView::sig_edit_clicked);
+	connect(_rc_menu, &PlaylistContextMenu::sig_remove_clicked, this, &PlaylistView::remove_cur_selected_rows);
+	connect(_rc_menu, &PlaylistContextMenu::sig_clear_clicked, this, &PlaylistView::clear);
+	connect(_rc_menu, &PlaylistContextMenu::sig_play_next_copy_clicked, this, &PlaylistView::play_next_copy_clicked);
+	connect(_rc_menu, &PlaylistContextMenu::sig_play_next_move_clicked, this, &PlaylistView::play_next_move_clicked);
 }
 
 
@@ -416,6 +418,19 @@ void PlaylistView::remove_cur_selected_rows() {
 			select_row(min_row);
 		}
 	}
+}
+
+
+void PlaylistView::play_next_copy_clicked()
+{
+	SP::Set<int> selected_rows = this->get_selections();
+	emit sig_play_next_copy_clicked(selected_rows);
+}
+
+void PlaylistView::play_next_move_clicked()
+{
+	SP::Set<int> selected_rows = this->get_selections();
+	emit sig_play_next_move_clicked(selected_rows);
 }
 
 

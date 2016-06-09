@@ -30,7 +30,9 @@
 
 typedef int LibraryContexMenuEntries;
 
-class LibraryContextMenu : public QMenu, private SayonaraClass
+class LibraryContextMenu :
+		public QMenu,
+		protected SayonaraClass
 {
     Q_OBJECT
 
@@ -50,13 +52,14 @@ public:
 		EntryPlayNext=(1<<5),
 		EntryAppend=(1<<6),
 		EntryRefresh=(1<<7),
-		EntryClear=(1<<8)
+		EntryClear=(1<<8),
+		EntryLast=(1<<9)
 	};
 
-	LibraryContexMenuEntries get_entries() const;
-	void show_actions(LibraryContexMenuEntries entries);
-	void show_action(Entry entry, bool visible);
-	void show_all();
+	virtual LibraryContexMenuEntries get_entries() const;
+	virtual void show_actions(LibraryContexMenuEntries entries);
+	virtual void show_action(Entry entry, bool visible);
+	virtual void show_all();
 
     
 signals:
@@ -65,7 +68,7 @@ signals:
 	void sig_lyrics_clicked();
     void sig_remove_clicked();
     void sig_delete_clicked();
-    void sig_play_next_clicked();
+	void sig_play_next_clicked();
     void sig_append_clicked();
 	void sig_refresh_clicked();
 	void sig_clear_clicked();
@@ -82,13 +85,11 @@ private:
 	QAction*            _refresh_action=nullptr;
 	QAction*			_clear_action=nullptr;
 
-
-
 protected:
-    void changeEvent(QEvent* e);
+	virtual void changeEvent(QEvent* e);
 
 private slots:
-	void skin_changed();
+	virtual void skin_changed();
 
 };
 
