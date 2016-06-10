@@ -31,6 +31,7 @@
 
 #include "Components/Playlist/Playlist.h"
 #include "GUI/Helper/SearchableWidget/SearchableListView.h"
+#include "Helper/Set.h"
 
 #include <QPoint>
 #include <QDrag>
@@ -62,8 +63,6 @@ signals:
 	void sig_no_focus();
 	void sig_left_clicked();
 	void sig_right_clicked();
-
-
 
 public:
 	PlaylistView(PlaylistPtr pl, QWidget* parent=nullptr);
@@ -110,7 +109,7 @@ private:
 	// d & d
 	void clear_drag_drop_lines(int row);
 	int calc_drag_drop_line(QPoint pos);
-	void handle_drop(QDropEvent* event, bool from_outside=false);
+		void handle_drop(QDropEvent* event, bool from_outside=false);
 
 	// overloaded stuff
 	void dragLeaveEvent(QDragLeaveEvent* event) override;
@@ -135,5 +134,6 @@ private slots:
 	void row_released(const QModelIndex&);
 	void _sl_look_changed();
 };
+
 
 #endif /* PlaylistView_H_ */

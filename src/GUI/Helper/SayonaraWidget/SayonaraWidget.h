@@ -67,6 +67,8 @@ public:
 	SayonaraMainWindow(QWidget* parent=nullptr);
 	virtual ~SayonaraMainWindow();
 
+	void raise();
+
 
 protected slots:
 	virtual void language_changed();

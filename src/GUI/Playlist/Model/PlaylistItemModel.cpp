@@ -105,6 +105,17 @@ void PlaylistItemModel::remove_rows(const SP::Set<int>& indexes){
 
 void PlaylistItemModel::move_rows(const SP::Set<int>& indexes, int target_index){
 	_pl->move_tracks(indexes, target_index);
+	playlist_changed(0);
+}
+
+void PlaylistItemModel::copy_rows(const SP::Set<int>& indexes, int target_index){
+	_pl->copy_tracks(indexes, target_index);
+	playlist_changed(0);
+}
+
+
+int PlaylistItemModel::get_current_track() const {
+	return _pl->get_cur_track_idx();
 }
 
 

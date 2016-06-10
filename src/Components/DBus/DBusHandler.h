@@ -20,7 +20,6 @@
 
 
 #include <QObject>
-#include <QMainWindow>
 #include <QList>
 
 
@@ -30,6 +29,7 @@
 class DBusMediaKeysInterfaceMate;
 class DBusMediaKeysInterfaceGnome;
 class DBusNotifications;
+class SayonaraMainWindow;
 
 namespace DBusMPRIS {
 	class MediaPlayer2;
@@ -39,7 +39,7 @@ class DBusHandler : private QObject
 {
 
 public:
-	DBusHandler(QMainWindow* player, QObject* parent=nullptr);
+	DBusHandler(SayonaraMainWindow* player, QObject* parent=nullptr);
 	virtual ~DBusHandler();
 
 

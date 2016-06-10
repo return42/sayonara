@@ -235,8 +235,51 @@ void PlaylistView::keyPressEvent(QKeyEvent* event) {
 	int key = event->key();
 
 	if((key == Qt::Key_Up || key == Qt::Key_Down)) {
-		if(this->selectionModel()->selection().isEmpty()) {
-			if(_model->rowCount() > 0) select_row(0);
+
+		SP::Set<int> selections = this->get_selections();
+
+		if( (event->modifiers() & Qt::ControlModifier) && 
+			(selections.size() > 0) )  
+		{
+			SP::Set<int> new_selections;
+			
+			int min_row = *selections.begin();
+			int max_row = *selections.rbegin();
+
+			if(key == Qt::Key_Up){
+				if(min_row == 0){
+					return;
+				}
+				_model->move_rows(selections, min_row - 1);
+				for(int i=min_row - 1; i<selections.size() + min_row - 1; i++){
+					new_selections.insert(i);
+				}
+			}
+
+			else{
+				if(max_row >= _model->rowCount() - 1){
+					return;
+				}
+				_model->move_rows(selections, max_row + 2);
+				for(int i=min_row + 1; i<selections.size() + min_row + 1; i++){
+					new_selections.insert(i);
+				}
+			}
+
+			if(new_selections.size() > 0){
+				this->select_rows(new_selections);
+			}
+		}
+
+		else if(selections.size() == 0) {
+			if(_model->rowCount() > 0) {
+				if(key == Qt::Key_Up){
+					select_row(_model->rowCount() - 1);
+				}
+				else{
+					select_row(0);
+				}
+			}
 			return;
 		}
 	}
@@ -419,7 +462,6 @@ void PlaylistView::remove_cur_selected_rows() {
 }
 
 
-
 void PlaylistView::set_delegate_max_width(int n_items) {
 
 	int row_height = _delegate->get_row_height();
@@ -517,6 +559,7 @@ void PlaylistView::handle_drop(QDropEvent* event, bool from_outside) {
 	}
 
 	if(_inner_drag_drop) {
+		
 		_inner_drag_drop = false;
 		cur_selected_rows = get_selections();
 
@@ -525,14 +568,16 @@ void PlaylistView::handle_drop(QDropEvent* event, bool from_outside) {
 			return;
 		}
 
-
-		int i=0;
-		for(auto it = cur_selected_rows.begin(); it != cur_selected_rows.end(); it++, i++){
-			int row = *it;
-			new_selected_rows.insert(row + 1 + i - cur_selected_rows.size());
+		if(event->keyboardModifiers() & Qt::ControlModifier){
+			_model->copy_rows(cur_selected_rows, row + 1);
+		}
+		else {
+			_model->move_rows(cur_selected_rows, row + 1);
 		}
 
-		_model->move_rows(cur_selected_rows, row + 1);
+		for(int i=row + 1; i<row + cur_selected_rows.size() + 1; i++){
+			new_selected_rows.insert(i);
+		}
 
 		this->select_rows( new_selected_rows );
 

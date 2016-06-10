@@ -1,4 +1,4 @@
-/* MetaDataList.h */
+	/* MetaDataList.h */
 
 /* Copyright (C) 2011-2016  Lucio Carreras
  *
@@ -66,6 +66,7 @@ public:
 	MetaDataList& remove_tracks(const SP::Set<int>& rows);
 
 	MetaDataList& move_tracks(const SP::Set<int>& indexes, int tgt_idx);
+	MetaDataList& copy_tracks(const SP::Set<int>& indexes, int tgt_idx);
 	MetaDataList& insert_tracks(const MetaDataList& v_md, int tgt_idx);
 	MetaDataList& randomize();
 

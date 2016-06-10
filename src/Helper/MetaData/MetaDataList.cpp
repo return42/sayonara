@@ -104,6 +104,17 @@ MetaDataList& MetaDataList::insert_tracks(const MetaDataList& v_md, int tgt_idx)
 	return *this;
 }
 
+MetaDataList& MetaDataList::copy_tracks(const SP::Set<int>& indexes, int tgt_idx){
+
+	MetaDataList v_md;
+	for(int idx : indexes){
+		v_md << this->operator[](idx);
+	}
+
+	return insert_tracks(v_md, tgt_idx);
+}
+
+
 MetaDataList& MetaDataList::move_tracks(const SP::Set<int>& indexes, int tgt_idx){
 
 	MetaDataList v_md_to_move(indexes.size());
