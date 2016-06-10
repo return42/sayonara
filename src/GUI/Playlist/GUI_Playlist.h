@@ -126,9 +126,6 @@ private slots:
 	void playstate_changed(PlayManager::PlayState state);
 	void playlist_finished();
 
-	void play_next_move(const QList<int>&);
-	void play_next_copy(const QList<int>&);
-
 	void _sl_show_numbers_changed();
 	void _sl_library_path_changed();
 };

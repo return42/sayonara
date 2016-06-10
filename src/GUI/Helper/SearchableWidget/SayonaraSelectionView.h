@@ -44,6 +44,7 @@ protected:
 	virtual void select_row(int row);
 	virtual void clear_selection();
 	virtual int get_min_selected() const;
+	virtual int get_max_selected() const;
 
 public:
 	SP::Set<int> get_selections() const;

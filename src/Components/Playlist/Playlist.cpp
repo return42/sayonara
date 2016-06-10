@@ -67,8 +67,6 @@ void Playlist::move_track(const int idx, int tgt) {
 
 	SP::Set<int> indexes(idx);
 	move_tracks(indexes, tgt);
-
-	set_changed(true);
 }
 
 void Playlist::move_tracks(const SP::Set<int>& indexes, int tgt) {
@@ -77,6 +75,18 @@ void Playlist::move_tracks(const SP::Set<int>& indexes, int tgt) {
 
 	set_changed(true);
 }
+
+void Playlist::copy_track(int idx, int tgt) {
+
+	SP::Set<int> indexes(idx);
+	copy_tracks(indexes, tgt);
+}
+
+void Playlist::copy_tracks(const SP::Set<int>& indexes, int tgt) {
+
+	_v_md.copy_tracks(indexes, tgt);
+}
+
 
 
 void Playlist::delete_track(const int idx) {

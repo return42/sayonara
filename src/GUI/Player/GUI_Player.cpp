@@ -724,25 +724,6 @@ void GUI_Player::read_filelist(const QString& bla){
 									  );
 }
 
-void GUI_Player::raise(){
-
-	QMainWindow::raise();
-
-	if(this->isHidden())
-	{
-		this->setHidden(false);
-	}
-
-	if(!this->isVisible()){
-		this->setVisible(true);
-	}
-
-	this->setWindowFlags((Qt::WindowFlags) (windowFlags() & ~Qt::WindowMinimized));
-	this->activateWindow();
-	this->show();
-	//this->raise();
-}
-
 void GUI_Player::really_close() {
 
 	_tray_icon->hide();

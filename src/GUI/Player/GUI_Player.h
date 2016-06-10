@@ -98,7 +98,6 @@ public slots:
 	void dur_changed(const MetaData&);
 	void br_changed(const MetaData&);
 
-	void raise();
 	void really_close();
 	void reload_skin();
 

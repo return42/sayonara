@@ -129,6 +129,9 @@ public:
 	virtual void move_track(const int idx, int tgt);
 	virtual void move_tracks(const SP::Set<int>& indexes, int tgt);
 
+	virtual void copy_track(const int idx, int tgt);
+	virtual void copy_tracks(const SP::Set<int>& indexes, int tgt);
+
 	virtual void delete_track(const int idx);
 	virtual void delete_tracks(const SP::Set<int>& indexes);
 

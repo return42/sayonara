@@ -43,7 +43,7 @@
 #include <QScrollBar>
 
 
-class PlaylistContextMenu;
+class LibraryContextMenu;
 class PlaylistItemModel;
 class PlaylistItemDelegate;
 class PlaylistView : public SearchableListView
@@ -63,10 +63,6 @@ signals:
 	void sig_no_focus();
 	void sig_left_clicked();
 	void sig_right_clicked();
-	void sig_play_next_copy_clicked(const SP::Set<int>& idxs);
-	void sig_play_next_move_clicked(const SP::Set<int>& idxs);
-
-
 
 public:
 	PlaylistView(PlaylistPtr pl, QWidget* parent=nullptr);
@@ -95,7 +91,7 @@ private:
 
 	bool					_inner_drag_drop;
 
-	PlaylistContextMenu*	_rc_menu=nullptr;
+	LibraryContextMenu*		_rc_menu=nullptr;
 
 	PlaylistItemModel*		_model=nullptr;
 	PlaylistItemDelegate*	_delegate=nullptr;
@@ -113,7 +109,7 @@ private:
 	// d & d
 	void clear_drag_drop_lines(int row);
 	int calc_drag_drop_line(QPoint pos);
-	void handle_drop(QDropEvent* event, bool from_outside=false);
+		void handle_drop(QDropEvent* event, bool from_outside=false);
 
 	// overloaded stuff
 	void dragLeaveEvent(QDragLeaveEvent* event) override;
@@ -137,8 +133,6 @@ private slots:
 	void row_double_clicked(const QModelIndex&);
 	void row_released(const QModelIndex&);
 	void _sl_look_changed();
-	void play_next_copy_clicked();
-	void play_next_move_clicked();
 };
 
 

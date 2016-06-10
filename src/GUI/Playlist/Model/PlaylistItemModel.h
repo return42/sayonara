@@ -60,8 +60,11 @@ public:
 
 	void remove_rows(const SP::Set<int>& rows);
 	void move_rows(const SP::Set<int>& rows, int target_index);
+	void copy_rows(const SP::Set<int>& rows, int target_index);
 	void insert_metadata(const MetaDataList& v_md, int target_index);
+
 	void set_current_track(int row);
+	int get_current_track() const;
 
 	QModelIndex getFirstRowIndexOf(QString substr) override;
 	QModelIndex getPrevRowIndexOf(QString substr, int row, const QModelIndex &parent=QModelIndex()) override;
