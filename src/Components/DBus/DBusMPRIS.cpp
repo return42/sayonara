@@ -25,6 +25,7 @@
 #include "DBus/org_mpris_media_player2_adaptor.h"
 #include "DBus/org_mpris_media_player2_player_adaptor.h"
 #include "Components/CoverLookup/CoverLocation.h"
+#include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
 
 #include "Helper/Random/RandomGenerator.h"
 
@@ -70,7 +71,7 @@ void DBusAdaptor::create_message(QString name, QVariant val){
 
 
 
-DBusMPRIS::MediaPlayer2::MediaPlayer2(QMainWindow* player, QObject *parent) :
+DBusMPRIS::MediaPlayer2::MediaPlayer2(SayonaraMainWindow* player, QObject *parent) :
 	DBusAdaptor(parent),
 	SayonaraClass()
 {
@@ -202,7 +203,12 @@ void DBusMPRIS::MediaPlayer2::Quit(){
 }
 
 void DBusMPRIS::MediaPlayer2::Raise(){
+	sp_log(Log::Debug) << "Raise";
+	_player->show();
 	_player->raise();
+	_player->show();
+	_player->raise();
+
 }
 
 

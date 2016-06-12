@@ -59,3 +59,21 @@ SayonaraMainWindow::~SayonaraMainWindow(){}
 
 void SayonaraMainWindow::language_changed(){}
 void SayonaraMainWindow::skin_changed(){}
+
+void SayonaraMainWindow::raise(){
+    QMainWindow::raise();
+
+    if(this->isHidden())
+    {   
+        this->setHidden(false);
+    }   
+
+    if(!this->isVisible()){
+        this->setVisible(true);
+    }   
+
+    this->setWindowFlags((Qt::WindowFlags) (windowFlags() & ~Qt::WindowMinimized));
+    this->activateWindow();
+    this->show();
+
+}

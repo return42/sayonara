@@ -218,23 +218,15 @@ void PlaylistTabBar::dragEnterEvent(QDragEnterEvent* e)
 		object_name = e->source()->objectName();
 	}
 
-	sp_log(Log::Debug) << "Object name: " << object_name;
-
 	_drag_origin_tab = -1;
 	_drag_from_playlist = object_name.contains("playlist_view");
 
 	if(!_drag_from_playlist){
 		_tab_before_dd = -1;
-		sp_log(Log::Debug) << "1 Original tab = " << _tab_before_dd;
 	}
 
 	else if(_tab_before_dd < 0){
 		_tab_before_dd = currentIndex();
-		sp_log(Log::Debug) << "2 Original tab = " << _tab_before_dd;
-	}
-
-	else{
-		sp_log(Log::Debug) << "3 Original tab = " << _tab_before_dd;
 	}
 
 	e->accept();

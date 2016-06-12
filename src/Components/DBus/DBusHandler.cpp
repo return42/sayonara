@@ -25,7 +25,9 @@
 #include "Components/DBus/DBusMediaKeysInterfaceGnome.h"
 #include "Components/DBus/DBusNotifications.h"
 
-DBusHandler::DBusHandler(QMainWindow* player, QObject* parent) :
+#include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
+
+DBusHandler::DBusHandler(SayonaraMainWindow* player, QObject* parent) :
 	QObject(parent)
 {
 

@@ -28,11 +28,11 @@
 #include <QStringList>
 #include <QVariant>
 #include <QDBusObjectPath>
-#include <QMainWindow>
 
 #include "Helper/Settings/SayonaraClass.h"
 #include "Components/PlayManager/PlayManager.h"
 
+class SayonaraMainWindow;
 class DBusAdaptor : public QObject {
 
 	Q_OBJECT
@@ -70,7 +70,7 @@ class MediaPlayer2 : public DBusAdaptor, protected SayonaraClass
 
 	public:
 
-		explicit MediaPlayer2(QMainWindow* player, QObject *parent=nullptr);
+		explicit MediaPlayer2(SayonaraMainWindow* player, QObject *parent=nullptr);
 		virtual ~MediaPlayer2();
 
 		Q_PROPERTY(bool			CanQuit				READ CanQuit)
@@ -81,6 +81,7 @@ class MediaPlayer2 : public DBusAdaptor, protected SayonaraClass
 
 		Q_PROPERTY(bool			HasTrackList		READ HasTrackList)
 		bool					HasTrackList();
+
 
 		Q_PROPERTY(QString		Identity			READ Identity)
 		QString					Identity();
@@ -109,7 +110,7 @@ class MediaPlayer2 : public DBusAdaptor, protected SayonaraClass
 
 	private:
 
-		QMainWindow*	_player=nullptr;
+		SayonaraMainWindow*	_player=nullptr;
 		int				_len_playlist;
 		int				_cur_idx;
 

@@ -214,11 +214,9 @@ void GUI_Playlist::tab_metadata_dropped(int pl_idx, const MetaDataList& v_md)
 		return;
 	}
 
-	sp_log(Log::Debug) << "Was drag from playlist? " << tw_playlists->was_drag_from_playlist();
 	if(tw_playlists->was_drag_from_playlist()){
 
 		int origin_tab = tw_playlists->get_drag_origin_tab();
-		sp_log(Log::Debug) << "origin tab " <<origin_tab;
 		PlaylistView* plv = get_view_by_idx(origin_tab);
 
 		if(plv){
