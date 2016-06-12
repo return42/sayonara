@@ -313,7 +313,9 @@ void GUI_Playlist::dragMoveEvent(QDragMoveEvent* event) {
 
 	int y = event->pos().y();
 
-	if( y < cur_view->y()){
+	int offset_view = tw_playlists->y() + tw_playlists->tabBar()->height();
+
+	if( y < offset_view){
 		cur_view->scroll_up();
 	}
 

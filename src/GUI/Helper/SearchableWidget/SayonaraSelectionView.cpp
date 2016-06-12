@@ -25,57 +25,6 @@
 
 #include <algorithm>
 
-int SayonaraSelectionView::get_max_selected() const
-{
-	QItemSelectionModel* sel_model;
-	QModelIndexList idx_list;
-
-	sel_model = this->get_selection_model();
-	if(!sel_model){
-		return 0;
-	}
-
-	idx_list = sel_model->selectedRows();
-	if(idx_list.isEmpty()) {
-		return 0;
-	}
-
-	auto lambda_compare = [](const QModelIndex& idx1, const QModelIndex& idx2)
-	{
-		return idx1.row() < idx2.row();
-	};
-
-	auto it = std::max_element( idx_list.begin(), idx_list.end(), lambda_compare );
-
-	return it->row();
-
-}
-
-
-int SayonaraSelectionView::get_min_selected() const
-{
-	QItemSelectionModel* sel_model;
-	QModelIndexList idx_list;
-
-	sel_model = this->get_selection_model();
-	if(!sel_model){
-		return 0;
-	}
-
-	idx_list = sel_model->selectedRows();
-	if(idx_list.isEmpty()) {
-		return 0;
-	}
-
-	auto lambda_compare = [](const QModelIndex& idx1, const QModelIndex& idx2)
-	{
-		return idx1.row() < idx2.row();
-	};
-
-	auto it = std::min_element( idx_list.begin(), idx_list.end(), lambda_compare );
-
-	return it->row();
-}
 
 void SayonaraSelectionView::select_all()
 {
@@ -211,4 +160,28 @@ SP::Set<int> SayonaraSelectionView::get_selections() const {
 	}
 
 	return indexes;
+}
+
+
+int SayonaraSelectionView::get_max_selected() const
+{
+	SP::Set<int> selected = this->get_selections();
+	auto it = std::max_element(selected.begin(), selected.end());
+	if(it != selected.end()){
+		return *it;
+	}
+
+	return -1;
+}
+
+
+int SayonaraSelectionView::get_min_selected() const
+{
+	SP::Set<int> selected = this->get_selections();
+	auto it = std::min_element(selected.begin(), selected.end());
+	if(it != selected.end()){
+		return *it;
+	}
+
+	return -1;
 }

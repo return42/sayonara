@@ -105,7 +105,6 @@ void PlaylistItemDelegate::paint( QPainter *painter,
 		painter->drawLine(QLine(0, y, _max_width, y));
 	}
 
-
 	QFont font = painter->font();
 
 	/** Time **/
