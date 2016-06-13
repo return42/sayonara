@@ -62,8 +62,6 @@ void GUI_Playlist::playlist_changed(int idx) {
 		return;
 	}
 
-	_total_time[idx] = pl->get_running_time();
-
 	set_total_time_label();
 	check_playlist_menu(pl);
 }
@@ -96,7 +94,6 @@ void GUI_Playlist::playlist_idx_changed(int pl_idx){
 
 	set_total_time_label();
 	check_playlist_menu(pl);
-	//check_tab_icon();
 }
 
 
@@ -112,8 +109,6 @@ void GUI_Playlist::playlist_added(PlaylistPtr pl){
 	idx = pl->get_idx();
 	name = pl->get_name();
 
-	_total_time.append(0);
-
 	tw_playlists->insertTab(tw_playlists->count() - 1, pl_view, name);
 	_playlist->set_current_idx(idx);
 
@@ -123,6 +118,7 @@ void GUI_Playlist::playlist_added(PlaylistPtr pl){
 	connect(pl_view, &PlaylistView::sig_lyrics_clicked, this, &GUI_Playlist::menu_lyrics_clicked);
 	connect(pl_view, &PlaylistView::sig_left_clicked, this, &GUI_Playlist::select_tab_left);
 	connect(pl_view, &PlaylistView::sig_right_clicked, this, &GUI_Playlist::select_tab_right);
+	connect(pl_view, &PlaylistView::sig_time_changed, this, &GUI_Playlist::playlist_time_changed);
 
 	connect(pl.get(), &Playlist::sig_data_changed, this, &GUI_Playlist::playlist_changed);
 }
@@ -140,6 +136,7 @@ void GUI_Playlist::playlist_finished(){
 }
 
 
+
 /** GUI SLOTS **/
 
 
@@ -154,8 +151,6 @@ void GUI_Playlist::tab_close_playlist_clicked(int idx){
 	}
 
 	playlist_widget = tw_playlists->widget(idx);
-
-	_total_time.remove(idx);
 
 	tw_playlists->removeTab(idx);
 
