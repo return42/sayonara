@@ -203,14 +203,13 @@ void GUI_Playlist::add_playlist_button_pressed(){
 
 void GUI_Playlist::tab_metadata_dropped(int pl_idx, const MetaDataList& v_md)
 {
-
 	if(pl_idx < 0){
 		return;
 	}
 
+	int origin_tab = tw_playlists->get_drag_origin_tab();
 	if(tw_playlists->was_drag_from_playlist()){
 
-		int origin_tab = tw_playlists->get_drag_origin_tab();
 		PlaylistView* plv = get_view_by_idx(origin_tab);
 
 		if(plv){
@@ -218,9 +217,12 @@ void GUI_Playlist::tab_metadata_dropped(int pl_idx, const MetaDataList& v_md)
 		}
 	}
 
-	QString name = _playlist->request_new_playlist_name();
+	if(origin_tab == pl_idx){
+		_playlist->insert_tracks(v_md, 0, pl_idx);
+	}
 
-	if(pl_idx == tw_playlists->count() - 1){
+	else if(pl_idx == tw_playlists->count() - 1){
+		QString name = _playlist->request_new_playlist_name();
 		_playlist->create_playlist(v_md, name);
 	}
 

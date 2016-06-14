@@ -138,6 +138,11 @@ protected:
 	void set_ui_initialized();
 
 
+	/** 
+	 * @brief show a new close icon. This method is mainly used when skin has
+	 * changed
+	 * @param close_button new close button with skin dependent icon
+	 */
 	void change_exit_icon(QPushButton* close_button);
 
 
