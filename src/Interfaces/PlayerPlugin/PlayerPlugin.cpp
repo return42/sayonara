@@ -113,15 +113,25 @@ void PlayerPluginInterface::change_exit_icon(QPushButton* close_button)
 	}
 
 	QIcon close_icon;
+	int sz = 16;
 	if(this->is_dark()){
-		close_button->setMinimumWidth(20);
-		close_button->setMinimumHeight(20);
-		close_icon = GUI::get_icon("tool_dark_grey");
+		sz = 14;
+		close_button->setIconSize(QSize(14,14));
+
+		close_icon.addPixmap( GUI::get_pixmap("tool_dark_grey"), QIcon::Normal, QIcon::Off);
+		close_icon.addPixmap( GUI::get_pixmap("tool_grey"), QIcon::Active, QIcon::Off);
+		close_icon.addPixmap( GUI::get_pixmap("tool_grey"), QIcon::Selected, QIcon::Off);
 	}
 
 	else{
 		close_icon = IconLoader::getInstance()->get_icon("stock_close", "tool_dark_grey");
+		close_button->setIconSize(QSize(16,16));
 	}
+
+	close_button->setMinimumWidth(sz);
+	close_button->setMinimumHeight(sz);
+	close_button->setMaximumWidth(sz);
+	close_button->setMaximumHeight(sz);
 		
 	close_button->setIcon(close_icon);
 }
@@ -196,5 +206,7 @@ void PlayerPluginInterface::stopped(){
 
 void PlayerPluginInterface::skin_changed(){
 
-	change_exit_icon( this->get_close_button() );
+	QPushButton* btn_close = this->get_close_button();
+	change_exit_icon( btn_close );
+
 }

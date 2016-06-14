@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>520</width>
+    <width>517</width>
     <height>250</height>
    </rect>
   </property>
@@ -120,6 +120,9 @@
    </item>
    <item row="2" column="0">
     <layout class="QVBoxLayout" name="verticalLayout">
+     <property name="spacing">
+      <number>5</number>
+     </property>
      <item>
       <widget class="QLabel" name="label">
        <property name="sizePolicy">
@@ -170,20 +173,8 @@
        <property name="focusPolicy">
         <enum>Qt::StrongFocus</enum>
        </property>
-       <property name="minimum">
-        <number>-24</number>
-       </property>
-       <property name="maximum">
-        <number>24</number>
-       </property>
-       <property name="sliderPosition">
-        <number>0</number>
-       </property>
        <property name="orientation">
         <enum>Qt::Vertical</enum>
-       </property>
-       <property name="invertedAppearance">
-        <bool>false</bool>
        </property>
       </widget>
      </item>
@@ -215,6 +206,9 @@
    </item>
    <item row="2" column="9">
     <layout class="QVBoxLayout" name="verticalLayout_10">
+     <property name="spacing">
+      <number>5</number>
+     </property>
      <item>
       <widget class="QLabel" name="label_10">
        <property name="sizePolicy">
@@ -274,23 +268,8 @@
        <property name="layoutDirection">
         <enum>Qt::LeftToRight</enum>
        </property>
-       <property name="minimum">
-        <number>-24</number>
-       </property>
-       <property name="maximum">
-        <number>24</number>
-       </property>
-       <property name="sliderPosition">
-        <number>0</number>
-       </property>
        <property name="orientation">
         <enum>Qt::Vertical</enum>
-       </property>
-       <property name="invertedAppearance">
-        <bool>false</bool>
-       </property>
-       <property name="tickPosition">
-        <enum>QSlider::NoTicks</enum>
        </property>
       </widget>
      </item>
@@ -322,6 +301,9 @@
    </item>
    <item row="2" column="3">
     <layout class="QVBoxLayout" name="verticalLayout_4">
+     <property name="spacing">
+      <number>5</number>
+     </property>
      <item>
       <widget class="QLabel" name="label_4">
        <property name="sizePolicy">
@@ -372,20 +354,8 @@
        <property name="focusPolicy">
         <enum>Qt::StrongFocus</enum>
        </property>
-       <property name="minimum">
-        <number>-24</number>
-       </property>
-       <property name="maximum">
-        <number>24</number>
-       </property>
-       <property name="sliderPosition">
-        <number>0</number>
-       </property>
        <property name="orientation">
         <enum>Qt::Vertical</enum>
-       </property>
-       <property name="invertedAppearance">
-        <bool>false</bool>
        </property>
       </widget>
      </item>
@@ -417,6 +387,9 @@
    </item>
    <item row="2" column="4">
     <layout class="QVBoxLayout" name="verticalLayout_5">
+     <property name="spacing">
+      <number>5</number>
+     </property>
      <item>
       <widget class="QLabel" name="label_5">
        <property name="sizePolicy">
@@ -467,20 +440,8 @@
        <property name="focusPolicy">
         <enum>Qt::StrongFocus</enum>
        </property>
-       <property name="minimum">
-        <number>-24</number>
-       </property>
-       <property name="maximum">
-        <number>24</number>
-       </property>
-       <property name="sliderPosition">
-        <number>0</number>
-       </property>
        <property name="orientation">
         <enum>Qt::Vertical</enum>
-       </property>
-       <property name="invertedAppearance">
-        <bool>false</bool>
        </property>
       </widget>
      </item>
@@ -512,6 +473,9 @@
    </item>
    <item row="2" column="8">
     <layout class="QVBoxLayout" name="verticalLayout_9">
+     <property name="spacing">
+      <number>5</number>
+     </property>
      <item>
       <widget class="QLabel" name="label_9">
        <property name="sizePolicy">
@@ -562,20 +526,8 @@
        <property name="focusPolicy">
         <enum>Qt::ClickFocus</enum>
        </property>
-       <property name="minimum">
-        <number>-24</number>
-       </property>
-       <property name="maximum">
-        <number>24</number>
-       </property>
-       <property name="sliderPosition">
-        <number>0</number>
-       </property>
        <property name="orientation">
         <enum>Qt::Vertical</enum>
-       </property>
-       <property name="invertedAppearance">
-        <bool>false</bool>
        </property>
       </widget>
      </item>
@@ -607,6 +559,9 @@
    </item>
    <item row="2" column="1">
     <layout class="QVBoxLayout" name="verticalLayout_2">
+     <property name="spacing">
+      <number>5</number>
+     </property>
      <item>
       <widget class="QLabel" name="label_2">
        <property name="sizePolicy">
@@ -657,20 +612,11 @@
        <property name="focusPolicy">
         <enum>Qt::StrongFocus</enum>
        </property>
-       <property name="minimum">
-        <number>-24</number>
-       </property>
-       <property name="maximum">
-        <number>24</number>
-       </property>
-       <property name="sliderPosition">
-        <number>0</number>
+       <property name="pageStep">
+        <number>1</number>
        </property>
        <property name="orientation">
         <enum>Qt::Vertical</enum>
-       </property>
-       <property name="invertedAppearance">
-        <bool>false</bool>
        </property>
       </widget>
      </item>
@@ -702,6 +648,9 @@
    </item>
    <item row="2" column="6">
     <layout class="QVBoxLayout" name="verticalLayout_7">
+     <property name="spacing">
+      <number>5</number>
+     </property>
      <item>
       <widget class="QLabel" name="label_7">
        <property name="sizePolicy">
@@ -752,20 +701,8 @@
        <property name="focusPolicy">
         <enum>Qt::StrongFocus</enum>
        </property>
-       <property name="minimum">
-        <number>-24</number>
-       </property>
-       <property name="maximum">
-        <number>24</number>
-       </property>
-       <property name="sliderPosition">
-        <number>0</number>
-       </property>
        <property name="orientation">
         <enum>Qt::Vertical</enum>
-       </property>
-       <property name="invertedAppearance">
-        <bool>false</bool>
        </property>
       </widget>
      </item>
@@ -797,6 +734,9 @@
    </item>
    <item row="2" column="7">
     <layout class="QVBoxLayout" name="verticalLayout_8">
+     <property name="spacing">
+      <number>5</number>
+     </property>
      <item>
       <widget class="QLabel" name="label_8">
        <property name="sizePolicy">
@@ -847,20 +787,8 @@
        <property name="focusPolicy">
         <enum>Qt::StrongFocus</enum>
        </property>
-       <property name="minimum">
-        <number>-24</number>
-       </property>
-       <property name="maximum">
-        <number>24</number>
-       </property>
-       <property name="sliderPosition">
-        <number>0</number>
-       </property>
        <property name="orientation">
         <enum>Qt::Vertical</enum>
-       </property>
-       <property name="invertedAppearance">
-        <bool>false</bool>
        </property>
       </widget>
      </item>
@@ -892,6 +820,9 @@
    </item>
    <item row="2" column="2">
     <layout class="QVBoxLayout" name="verticalLayout_3">
+     <property name="spacing">
+      <number>5</number>
+     </property>
      <item>
       <widget class="QLabel" name="label_3">
        <property name="sizePolicy">
@@ -942,20 +873,8 @@
        <property name="focusPolicy">
         <enum>Qt::StrongFocus</enum>
        </property>
-       <property name="minimum">
-        <number>-24</number>
-       </property>
-       <property name="maximum">
-        <number>24</number>
-       </property>
-       <property name="sliderPosition">
-        <number>0</number>
-       </property>
        <property name="orientation">
         <enum>Qt::Vertical</enum>
-       </property>
-       <property name="invertedAppearance">
-        <bool>false</bool>
        </property>
       </widget>
      </item>
@@ -987,6 +906,9 @@
    </item>
    <item row="2" column="5">
     <layout class="QVBoxLayout" name="verticalLayout_6">
+     <property name="spacing">
+      <number>5</number>
+     </property>
      <item>
       <widget class="QLabel" name="label_6">
        <property name="sizePolicy">
@@ -1037,20 +959,8 @@
        <property name="focusPolicy">
         <enum>Qt::StrongFocus</enum>
        </property>
-       <property name="minimum">
-        <number>-24</number>
-       </property>
-       <property name="maximum">
-        <number>24</number>
-       </property>
-       <property name="sliderPosition">
-        <number>0</number>
-       </property>
        <property name="orientation">
         <enum>Qt::Vertical</enum>
-       </property>
-       <property name="invertedAppearance">
-        <bool>false</bool>
        </property>
       </widget>
      </item>
@@ -1092,6 +1002,9 @@
    </item>
    <item row="3" column="0" colspan="10">
     <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <property name="spacing">
+      <number>5</number>
+     </property>
      <item>
       <spacer name="horizontalSpacer_2">
        <property name="orientation">

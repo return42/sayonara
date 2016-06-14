@@ -26,6 +26,8 @@
 #include <QSlider>
 #include <QLabel>
 #include <QEvent>
+#include <QFocusEvent>
+#include <QMouseEvent>
 
 class EqSlider : public QSlider {
 	Q_OBJECT
@@ -45,17 +47,25 @@ class EqSlider : public QSlider {
 		int getIndex() const;
 		void setIndex(int idx);
 
+		double get_eq_value() const;
+		void set_eq_value(double val);
+
 
 	protected:
-		virtual void sliderChange(SliderChange change);
+		void sliderChange(SliderChange change) override;
 
 	private:
 		QLabel* _label=nullptr;
 		int		_idx;
 
-		virtual void focusInEvent(QFocusEvent* e) override;
-		virtual void focusOutEvent(QFocusEvent* e) override;
-		virtual bool event(QEvent *e) override;
+		int get_val_from_pos(const QPoint& pos) const;
+
+		void focusInEvent(QFocusEvent* e) override;
+		void focusOutEvent(QFocusEvent* e) override;
+		void mousePressEvent(QMouseEvent* e) override;
+		void mouseMoveEvent(QMouseEvent* e) override;
+		void mouseReleaseEvent(QMouseEvent* e) override;
 };
+
 
 #endif // EQSLIDER_H

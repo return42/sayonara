@@ -172,7 +172,7 @@ void PlaylistView::keyPressEvent(QKeyEvent* event) {
 			}
 		}
 
-		else if(selections.size() == 0) {
+		else if(selections.isEmpty()) {
 			if(_model->rowCount() > 0) {
 				if(key == Qt::Key_Up){
 					select_row(_model->rowCount() - 1);

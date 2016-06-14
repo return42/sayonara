@@ -37,9 +37,9 @@ QString calc_lab(int val) {
 	if(val > 0) {
         double v = val / 2.0;
         if(val % 2 == 0)
-            return QString("+") + QString::number(v) + ".0";
+			return QString::number(v) + ".0";
         else
-            return QString("+") + QString::number(v);
+			return QString::number(v);
     }
 
     return QString::number(val) + ".0";
@@ -156,6 +156,7 @@ int GUI_Equalizer::find_combo_text(QString text){
 
 
 void GUI_Equalizer::sli_pressed(int idx){
+
 	_active_idx= idx;
 
 	int i=0;
@@ -167,6 +168,7 @@ void GUI_Equalizer::sli_pressed(int idx){
 
 
 void GUI_Equalizer::sli_released(int idx){
+
 	Q_UNUSED(idx)
 	_active_idx = -1;
 }
