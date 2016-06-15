@@ -24,7 +24,8 @@
 #include "PlaylistTabMenu.h"
 #include "GUI/Helper/CustomMimeData.h"
 #include "GUI/Helper/Shortcuts/ShortcutHandler.h"
-#include "Helper/MetaData/MetaDataList.h"
+
+#include "Helper/DirectoryReader/DirectoryReader.h"
 
 #include <QShortcut>
 
@@ -256,6 +257,7 @@ void PlaylistTabBar::dragLeaveEvent(QDragLeaveEvent* e)
 void PlaylistTabBar::dropEvent(QDropEvent* e)
 {
 	e->accept();
+	int tab = this->tabAt(e->pos());
 
 	_drag_origin_tab = _tab_before_dd;
 
@@ -272,6 +274,20 @@ void PlaylistTabBar::dropEvent(QDropEvent* e)
 
 	const CustomMimeData* cmd = dynamic_cast<const CustomMimeData*>(mime_data);
 	if(!cmd){
+		if(!mime_data->hasUrls()){
+			return;
+		}
+
+		MetaDataList v_md;
+		DirectoryReader dir_reader;
+		QList<QUrl> urls = mime_data->urls();
+		QStringList files;
+		for(const QUrl& url : urls){
+			files << url.toLocalFile();
+		}
+
+		v_md = dir_reader.get_md_from_filelist(files);
+		emit sig_metadata_dropped(tab, v_md);
 		return;
 	}
 
@@ -281,7 +297,7 @@ void PlaylistTabBar::dropEvent(QDropEvent* e)
 
 	MetaDataList v_md = cmd->getMetaData();
 
-	emit sig_metadata_dropped(tabAt(e->pos()), v_md);
+	emit sig_metadata_dropped(tab, v_md);
 }
 
 

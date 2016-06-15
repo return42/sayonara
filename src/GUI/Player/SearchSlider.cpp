@@ -23,19 +23,13 @@
  */
 #include "SearchSlider.h"
 #include "Helper/Logger/Logger.h"
-#include <QEvent>
-#include <QMouseEvent>
-#include <QWheelEvent>
-#include <QAbstractSlider>
-
 
 #include <cmath>
 
 
 SearchSlider::SearchSlider(QWidget* parent) :
-	QSlider(parent)
+	SayonaraSlider(parent)
 {
-	_searching = false;
 }
 
 SearchSlider::~SearchSlider() {
@@ -78,64 +72,37 @@ bool SearchSlider::event(QEvent *e){
 			break;
 	}
 
-	return QSlider::event(e);
+	return SayonaraSlider::event(e);
 }
 
 void SearchSlider::mousePressEvent(QMouseEvent* e){
-	QSlider::mousePressEvent(e);
-
-	int percent = (e->pos().x() * 100) / geometry().width();
-	int new_val =  (this->maximum() * percent) / 100;
-	setValue(new_val);
-
-	_searching = true;
+	SayonaraSlider::mousePressEvent(e);
+	emit_new_val(this->value());
 }
 
 void SearchSlider::mouseReleaseEvent(QMouseEvent* e){
 
-	QSlider::mouseReleaseEvent(e);
-
-	_searching = false;
-
-	int percent = (e->pos().x() * 100) / geometry().width();
-	int new_val =  (this->maximum() * percent) / 100;
-
-	emit_new_val( new_val );
+	SayonaraSlider::mouseReleaseEvent(e);
+	emit_new_val(this->value());
 }
+
 
 void SearchSlider::mouseMoveEvent(QMouseEvent *e){
 
-	QSlider::mouseMoveEvent(e);
-
-	if(_searching){
-		int percent = (e->pos().x() * 100) / geometry().width();
-		int new_val =  (this->maximum() * percent) / 100;
-		QSlider::setValue(new_val);
+	SayonaraSlider::mouseMoveEvent(e);
+	if(this->isSliderDown()){
+		emit_new_val(this->value());
 	}
-
-	emit_new_val(this->value());
 }
 
-
-void SearchSlider::setValue(int i){
-
-	if(_searching) return;
-
-	QSlider::setValue(i);
-}
-
-void SearchSlider::increment(int i){
-
+void SearchSlider::increment(int i)
+{
 	setValue( value() + i );
-
-	emit_new_val(this->value());
 }
 
-void SearchSlider::decrement(int i){
-
+void SearchSlider::decrement(int i)
+{
 	setValue( value() - i );
-
-	emit_new_val(this->value());
 }
 
 
@@ -159,15 +126,15 @@ void SearchSlider::decrement_50()
 	decrement(50);
 }
 
-
-
-
-
-
 void SearchSlider::emit_new_val(int value)
 {
-	if(value < 0) value = 0;
-	if(value > maximum()) value = maximum();
+	value = std::max(value, 0);
+	value = std::min(value, maximum());
 
 	emit sig_slider_moved(value);
+}
+
+bool SearchSlider::is_busy() const
+{
+	return this->isSliderDown();
 }

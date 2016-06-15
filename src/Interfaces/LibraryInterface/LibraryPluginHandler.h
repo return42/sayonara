@@ -90,6 +90,11 @@ public:
 	 */
 	LibraryContainerInterface* get_cur_library() const;
 
+	/**
+	 * @brief Get the current index of the library (indicated by current index
+	 * in dropdown
+	 * @return current library index
+	 */
 	int get_cur_library_idx() const;
 
 

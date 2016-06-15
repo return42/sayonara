@@ -105,7 +105,6 @@ void PlaylistItemDelegate::paint( QPainter *painter,
 		painter->drawLine(QLine(0, y, _max_width, y));
 	}
 
-
 	QFont font = painter->font();
 
 	/** Time **/
@@ -132,7 +131,13 @@ void PlaylistItemDelegate::paint( QPainter *painter,
 	}
 
 
-	rect.setWidth(rect.width() - 60);
+	if(!time_string.isEmpty()){
+		rect.setWidth(rect.width() - 60);
+	}
+    else {
+		rect.setWidth(rect.width() - 20);
+	}
+
 
 	for(int i=0; i<_entry_template.size(); i++){
 

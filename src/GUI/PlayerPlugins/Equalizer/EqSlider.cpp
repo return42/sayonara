@@ -19,13 +19,15 @@
  */
 
 
-
 #include "EqSlider.h"
 
 EqSlider::EqSlider(QWidget *parent) :
-	QSlider(parent)
+	SayonaraSlider(parent)
 {
 	_idx = -1;
+
+	this->setMaximum(24);
+	this->setMinimum(-24);
 }
 
 void  EqSlider::setData(int idx, QLabel* label){
@@ -36,41 +38,6 @@ void  EqSlider::setData(int idx, QLabel* label){
 QLabel* EqSlider::getLabel() const
 {
 	return _label;
-}
-
-bool EqSlider::event(QEvent *e){
-
-	switch(e->type()){
-
-		case QEvent::HoverEnter:
-			emit sig_slider_got_focus(_idx);
-			break;
-
-
-		case QEvent::HoverLeave:
-
-			if(!this->hasFocus()){
-				emit sig_slider_lost_focus(_idx);
-			}
-
-			break;
-
-		default: break;
-	}
-
-	return QSlider::event(e);
-
-}
-
-void EqSlider::focusInEvent(QFocusEvent* e){
-	QSlider::focusInEvent(e);
-	emit sig_slider_got_focus(_idx);
-}
-
-void EqSlider::focusOutEvent(QFocusEvent* e){
-	QSlider::focusOutEvent(e);
-
-	emit sig_slider_lost_focus(_idx);
 }
 
 int EqSlider::getIndex() const
@@ -87,6 +54,30 @@ void EqSlider::sliderChange(SliderChange change){
 
 	if(change == QAbstractSlider::SliderValueChange){
 
-		emit sig_value_changed(_idx, this->value());
+		emit sig_value_changed(_idx, this->get_eq_value());
+	}
+}
+
+
+double EqSlider::get_eq_value() const
+{
+	int val = this->value();
+	if( val > 0 ){
+		return (val) / 1.0;
+	}
+
+	else {
+		return (val / 2.0);
+	}
+}
+
+void EqSlider::set_eq_value(double val)
+{
+	if(val > 0){
+		this->setValue(val);
+	}
+
+	else {
+		this->setValue(val * 2);
 	}
 }

@@ -297,3 +297,7 @@ QList<Bookmark> Bookmarks::get_all_bookmarks() const
 	return _bookmarks;
 }
 
+int Bookmarks::get_size() const
+{
+	return _bookmarks.size();
+}

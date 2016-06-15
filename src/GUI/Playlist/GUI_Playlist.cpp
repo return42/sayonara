@@ -158,7 +158,7 @@ void GUI_Playlist::playlist_track_changed(int row, int playlist_idx) {
 		return;
 	}
 
-	plv->set_current_track(row);
+	plv->goto_row(row);
 	n_rows = plv->get_num_rows();
 
 	if(n_rows > 0){
@@ -182,8 +182,6 @@ void GUI_Playlist::playlist_fill(PlaylistPtr pl) {
 	plv->setObjectName("playlist_view" + QString::number(pl_idx));
 	plv->fill( pl );
 
-	_total_time[pl_idx] = pl->get_running_time();
-
 	set_total_time_label();
 	check_playlist_name(pl);
 }
@@ -192,10 +190,6 @@ void GUI_Playlist::playlist_fill(PlaylistPtr pl) {
 void GUI_Playlist::clear_button_pressed(int pl_idx) {
 
 	_playlist->clear_playlist(pl_idx);
-
-	if(between(pl_idx, 0, _total_time.size())){
-		_total_time[pl_idx] = 0;
-	}
 
 	set_total_time_label();
 }
@@ -209,14 +203,13 @@ void GUI_Playlist::add_playlist_button_pressed(){
 
 void GUI_Playlist::tab_metadata_dropped(int pl_idx, const MetaDataList& v_md)
 {
-
 	if(pl_idx < 0){
 		return;
 	}
 
+	int origin_tab = tw_playlists->get_drag_origin_tab();
 	if(tw_playlists->was_drag_from_playlist()){
 
-		int origin_tab = tw_playlists->get_drag_origin_tab();
 		PlaylistView* plv = get_view_by_idx(origin_tab);
 
 		if(plv){
@@ -224,9 +217,12 @@ void GUI_Playlist::tab_metadata_dropped(int pl_idx, const MetaDataList& v_md)
 		}
 	}
 
-	QString name = _playlist->request_new_playlist_name();
+	if(origin_tab == pl_idx){
+		_playlist->insert_tracks(v_md, 0, pl_idx);
+	}
 
-	if(pl_idx == tw_playlists->count() - 1){
+	else if(pl_idx == tw_playlists->count() - 1){
+		QString name = _playlist->request_new_playlist_name();
 		_playlist->create_playlist(v_md, name);
 	}
 
@@ -313,7 +309,9 @@ void GUI_Playlist::dragMoveEvent(QDragMoveEvent* event) {
 
 	int y = event->pos().y();
 
-	if( y < cur_view->y()){
+	int offset_view = tw_playlists->y() + tw_playlists->tabBar()->height();
+
+	if( y < offset_view){
 		cur_view->scroll_up();
 	}
 
@@ -330,6 +328,12 @@ void GUI_Playlist::dropEvent(QDropEvent* event) {
 	}
 }
 
+void GUI_Playlist::playlist_time_changed()
+{
+	set_total_time_label();
+}
+
+
 void GUI_Playlist::set_total_time_label() {
 
 	PlaylistView* cur_view;
@@ -339,15 +343,13 @@ void GUI_Playlist::set_total_time_label() {
 	QString time_str;
 	QString playlist_string;
 	int idx;
-	qint64 dur_ms;
+	qint64 dur_ms = 0;
+
 
 	idx = tw_playlists->currentIndex();
-	if(!between(idx, 0, _total_time.size())){
-		dur_ms = 0;
-	}
-
-	else{
-		dur_ms = _total_time[idx];
+	PlaylistConstPtr pl = _playlist->get_playlist_at(idx);
+	if(pl){
+		dur_ms = pl->get_running_time();
 	}
 
 	if(dur_ms > 0){

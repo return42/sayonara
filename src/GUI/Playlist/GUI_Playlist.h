@@ -55,17 +55,15 @@ private:
 	GUI_InfoDialog*			_info_dialog=nullptr;
 	Playlist::Type			_playlist_type;
 
-	QVector<qint64>			_total_time;
-
 
 private:
 	PlaylistView* get_view_by_idx(int idx);
 	PlaylistView* get_current_view();
 
-	void set_total_time_label();
+
 	void fill_info_dialog();
 	void init_shortcuts();
-
+	void set_total_time_label();
 
 	/** Overridden events **/
 	void resizeEvent(QResizeEvent *e) override;
@@ -125,6 +123,8 @@ private slots:
 	// called by playmanager
 	void playstate_changed(PlayManager::PlayState state);
 	void playlist_finished();
+	void playlist_time_changed();
+
 
 	void _sl_show_numbers_changed();
 	void _sl_library_path_changed();

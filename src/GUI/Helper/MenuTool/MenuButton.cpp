@@ -29,7 +29,7 @@ MenuButton::MenuButton(QWidget* parent) :
 	SayonaraClass()
 {
 	this->setFlat(true);
-	this->setIconSize(QSize(16,16));
+	this->setIconSize(QSize(14,14));
 
 	this->setStyleSheet("margin-left: 2px; margin-right: 2px; padding-left: 0px; padding-right: 0px;");
 	this->setToolTip(tr("Actions"));

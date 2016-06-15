@@ -103,9 +103,17 @@ public:
 	virtual QMenu*				get_menu();
 
 
-
+	/**
+	 * @brief sets the action member field used in the player menu bar. This is
+	 * called by the player if the language has changed
+	 * @param action the new translated action
+	 */
 	void						set_menu_action(QAction* action);
 
+	/**
+	 * @brief get the action in the player menubar.
+	 * @return pointer to action field
+	 */
 	QAction*					get_menu_action() const;
 
 	

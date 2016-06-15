@@ -112,6 +112,14 @@ void GUI_Bookmarks::bookmarks_changed(const QList<Bookmark>& bookmarks){
 	btn_tool->show_action(ContextMenu::EntryNew, (md.id >= 0) );
 	btn_tool->show_action(ContextMenu::EntryDelete, !bookmarks.isEmpty() );
 
+	if(md.id >= 0 && bookmarks.size() > 0){
+		stackedWidget->setCurrentIndex(0);
+	}
+
+	else{
+		stackedWidget->setCurrentIndex(1);
+	}
+
 	connect(cb_bookmarks, combo_current_index_changed_int, this, &GUI_Bookmarks::combo_changed);
 }
 
@@ -220,8 +228,15 @@ void GUI_Bookmarks::del_clicked() {
 	}
 
 	_bookmarks->remove(idx);
+	if(_bookmarks->get_size() == 0){
+		stackedWidget->setCurrentIndex(1);
+	}
 }
 
 void GUI_Bookmarks::del_all_clicked() {
 	_bookmarks->remove_all();
+
+	if(_bookmarks->get_size() == 0){
+		stackedWidget->setCurrentIndex(1);
+	}
 }

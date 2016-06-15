@@ -147,15 +147,20 @@ MetaDataList& MetaDataList::move_tracks(const SP::Set<int>& indexes, int tgt_idx
 		else if(contains_i){
 			v_md_to_move[idx_to_move] = std::move( md );
 			if(md.pl_playing){
-				cur_track[1] = v_md_after_tgt.size() - 1;
+				cur_track[1] = v_md_to_move.size() - 1;
 			}
 
 			idx_to_move++;
 		}
 	}
 
-	cur_track[1] += v_md_before_tgt.size();
-	cur_track[2] += v_md_before_tgt.size() + v_md_to_move.size();
+	if( cur_track[1] >= 0 ){
+		cur_track[1] += v_md_before_tgt.size();
+	}
+
+	if( cur_track[2] >= 0 ){
+		cur_track[2] += v_md_before_tgt.size() + v_md_to_move.size();
+	}
 
 	int start_idx = 0;
 

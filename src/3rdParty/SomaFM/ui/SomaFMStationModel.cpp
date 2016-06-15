@@ -134,7 +134,10 @@ void SomaFMStationModel::set_stations(const QList<SomaFMStation>& stations)
 {
 	int n_stations = stations.size();
 
+	beginRemoveRows(QModelIndex(), 0, rowCount() - 1);
 	this->removeRows(0, this->rowCount());
+	endRemoveRows();
+
 	this->insertRows(0, n_stations);
 
 	beginInsertRows(QModelIndex(), 0, n_stations - 1);

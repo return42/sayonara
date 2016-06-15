@@ -75,7 +75,7 @@ void SomaFMStation::parse_station_name()
 
 	int idx = re.indexIn(_content);
 	if(idx > 0){
-		_station_name = re.cap(1);
+		_station_name = Helper::cvt_str_to_first_upper(re.cap(1));
 	}
 }
 

@@ -64,6 +64,8 @@ signals:
 	void sig_left_clicked();
 	void sig_right_clicked();
 
+	void sig_time_changed();
+
 public:
 	PlaylistView(PlaylistPtr pl, QWidget* parent=nullptr);
 	virtual ~PlaylistView();
@@ -72,11 +74,11 @@ public:
 
 	void fill(PlaylistPtr pl);
 
+	void goto_row(int row);
 	void scroll_up();
 	void scroll_down();
 
 	void dropEventFromOutside(QDropEvent* event);
-	void set_current_track(int row);
 	int get_num_rows();
 	void remove_cur_selected_rows();
 
@@ -88,8 +90,6 @@ public slots:
 private:
 	QDrag*					_drag=nullptr;
 	QPoint					_drag_pos;
-
-	bool					_inner_drag_drop;
 
 	LibraryContextMenu*		_rc_menu=nullptr;
 
@@ -103,13 +103,14 @@ private:
 	void init_rc_menu();
 
 	// Selections
-	void goto_row(int row);
+
 
 
 	// d & d
 	void clear_drag_drop_lines(int row);
 	int calc_drag_drop_line(QPoint pos);
-		void handle_drop(QDropEvent* event, bool from_outside=false);
+	void handle_drop(QDropEvent* event);
+	void handle_inner_drag_drop(int row, bool copy);
 
 	// overloaded stuff
 	void dragLeaveEvent(QDragLeaveEvent* event) override;
@@ -118,8 +119,8 @@ private:
 	void dropEvent(QDropEvent* event) override;
 
 	void mousePressEvent(QMouseEvent* event) override;
-	void mouseReleaseEvent(QMouseEvent* event) override;
 	void mouseMoveEvent(QMouseEvent* event) override;
+	void mouseDoubleClickEvent(QMouseEvent* event) override;
 
 	void keyPressEvent(QKeyEvent *event) override;
 	void resizeEvent(QResizeEvent *e) override;
@@ -129,9 +130,6 @@ private:
 
 
 private slots:
-	void row_pressed(const QModelIndex&);
-	void row_double_clicked(const QModelIndex&);
-	void row_released(const QModelIndex&);
 	void _sl_look_changed();
 };
 
