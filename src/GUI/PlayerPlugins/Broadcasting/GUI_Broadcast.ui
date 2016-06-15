@@ -26,20 +26,11 @@
    <string/>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <property name="leftMargin">
-    <number>0</number>
-   </property>
-   <property name="topMargin">
-    <number>0</number>
-   </property>
-   <property name="rightMargin">
-    <number>0</number>
-   </property>
-   <property name="bottomMargin">
-    <number>0</number>
-   </property>
    <property name="verticalSpacing">
     <number>5</number>
+   </property>
+   <property name="margin">
+    <number>0</number>
    </property>
    <item row="2" column="0" colspan="2">
     <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -189,23 +180,6 @@
      <property name="spacing">
       <number>5</number>
      </property>
-     <item>
-      <widget class="QPushButton" name="btn_options">
-       <property name="text">
-        <string/>
-       </property>
-       <property name="icon">
-        <iconset resource="../../Resources/Icons.qrc">
-         <normaloff>:/Icons/tool.svg.png</normaloff>:/Icons/tool.svg.png</iconset>
-       </property>
-       <property name="iconSize">
-        <size>
-         <width>18</width>
-         <height>18</height>
-        </size>
-       </property>
-      </widget>
-     </item>
      <item>
       <spacer name="horizontalSpacer_2">
        <property name="orientation">

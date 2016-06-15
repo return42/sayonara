@@ -6,6 +6,8 @@
 #include "Helper/Parser/StreamParser.h"
 #include "Components/Playlist/PlaylistHandler.h"
 
+#include <algorithm>
+
 SomaFMLibrary::SomaFMLibrary(QObject* parent) :
 	QObject(parent)
 {
@@ -63,6 +65,7 @@ void SomaFMLibrary::soma_website_fetched(bool success)
 		stations << station;
 	}
 
+	sort_stations(stations);
 	emit sig_stations_loaded(stations);
 
 	awa->deleteLater();
@@ -123,5 +126,32 @@ void SomaFMLibrary::set_station_loved(const QString& station_name, bool loved){
 	_station_map[station_name].set_loved(loved);
 	_qsettings->setValue(station_name, loved);
 
-	emit sig_station_changed(_station_map[station_name]);
+	QList<SomaFMStation> stations;
+	for(const QString& key : _station_map.keys()){
+		if(key.isEmpty()){
+			continue;
+		}
+
+		stations << _station_map[key];
+	}
+
+	sort_stations(stations);
+	emit sig_stations_loaded(stations);
+}
+
+void SomaFMLibrary::sort_stations(QList<SomaFMStation>& stations){
+
+	auto lambda = [](const SomaFMStation& s1, const SomaFMStation& s2){
+		if(s1.is_loved() && !s2.is_loved()){
+			return true;
+		}
+
+		else if(!s1.is_loved() && s2.is_loved()){
+			return false;
+		}
+
+		return s1.get_name() < s2.get_name();
+	};
+
+	std::sort(stations.begin(), stations.end(), lambda);
 }

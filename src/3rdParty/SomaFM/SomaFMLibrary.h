@@ -38,8 +38,10 @@ private:
 	QMap<QString, SomaFMStation> 	_station_map;
 	QString 						_requested_station;
 	QSettings*						_qsettings=nullptr;
-};
 
+private:
+	void sort_stations(QList<SomaFMStation>& stations);
+};
 
 
 #endif // SOMAFMLIBRARY_H

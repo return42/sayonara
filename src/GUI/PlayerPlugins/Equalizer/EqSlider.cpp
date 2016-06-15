@@ -19,18 +19,13 @@
  */
 
 
-
 #include "EqSlider.h"
 
 EqSlider::EqSlider(QWidget *parent) :
-	QSlider(parent)
+	SayonaraSlider(parent)
 {
 	_idx = -1;
 
-	this->setTracking(true);
-	this->setMouseTracking(true);
-	this->setSingleStep(1);
-	this->setPageStep(1);
 	this->setMaximum(24);
 	this->setMinimum(-24);
 }
@@ -43,40 +38,6 @@ void  EqSlider::setData(int idx, QLabel* label){
 QLabel* EqSlider::getLabel() const
 {
 	return _label;
-}
-
-void EqSlider::focusInEvent(QFocusEvent* e){
-	QSlider::focusInEvent(e);
-	emit sig_slider_got_focus(_idx);
-}
-
-void EqSlider::focusOutEvent(QFocusEvent* e){
-	QSlider::focusOutEvent(e);
-	emit sig_slider_lost_focus(_idx);
-}
-
-void EqSlider::mousePressEvent(QMouseEvent* e)
-{
-	this->setSliderDown(true);
-
-	int new_val = get_val_from_pos(e->pos());
-	setValue(new_val);
-}
-
-void EqSlider::mouseReleaseEvent(QMouseEvent* e)
-{
-	int new_val = get_val_from_pos(e->pos());
-	setValue(new_val);
-
-	this->setSliderDown(false);
-}
-
-void EqSlider::mouseMoveEvent(QMouseEvent* e) {
-
-	if(this->isSliderDown()){
-		int new_val = get_val_from_pos(e->pos());
-		setValue(new_val);
-	}
 }
 
 int EqSlider::getIndex() const
@@ -95,12 +56,6 @@ void EqSlider::sliderChange(SliderChange change){
 
 		emit sig_value_changed(_idx, this->get_eq_value());
 	}
-}
-
-int EqSlider::get_val_from_pos(const QPoint& pos) const
-{
-	int percent = 100 - (pos.y() * 100) / geometry().height();
-	return  (this->maximum() * 2 * percent) / 100 - 24;
 }
 
 

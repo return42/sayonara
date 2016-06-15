@@ -1,4 +1,4 @@
-/* EqSlider.h */
+/* SayonaraSlider.h */
 
 /* Copyright (C) 2011-2016  Lucio Carreras
  *
@@ -20,39 +20,38 @@
 
 
 
-#ifndef EQSLIDER_H
-#define EQSLIDER_H
-#include "GUI/Helper/SayonaraWidget/SayonaraSlider.h"
+#ifndef SAYONARASLIDER_H
+#define SAYONARASLIDER_H
 
-class EqSlider : 
-	public SayonaraSlider 
-{
+#include <QSlider>
+#include <QLabel>
+#include <QEvent>
+#include <QFocusEvent>
+#include <QMouseEvent>
+
+class SayonaraSlider : public QSlider {
+
 	Q_OBJECT
 
 	signals:
-		void sig_value_changed(int idx, int val);
+		void sig_slider_got_focus();
+		void sig_slider_lost_focus();
 
 	public:
-		EqSlider(QWidget* parent);
-		virtual ~EqSlider() {}
-
-		void setData(int idx, QLabel* label);
-		QLabel* getLabel() const;
-
-		int getIndex() const;
-		void setIndex(int idx);
-
-		double get_eq_value() const;
-		void set_eq_value(double val);
-
+		SayonaraSlider(QWidget* parent=nullptr);
+		virtual ~SayonaraSlider() {}
 
 	protected:
 		void sliderChange(SliderChange change) override;
+		int get_val_from_pos(const QPoint& pos) const;
 
-	private:
-		QLabel* _label=nullptr;
-		int		_idx;
+		virtual void focusInEvent(QFocusEvent* e) override;
+		virtual void focusOutEvent(QFocusEvent* e) override;
+		virtual void mousePressEvent(QMouseEvent* e) override;
+		virtual void mouseMoveEvent(QMouseEvent* e) override;
+		virtual void mouseReleaseEvent(QMouseEvent* e) override;
+		virtual bool event(QEvent* e) override;
 };
 
 
-#endif // EQSLIDER_H
+#endif // SAYONARASLIDER_H

@@ -193,10 +193,12 @@ void GUI_Player::set_cur_pos_ms(quint64 pos_ms) {
 		return;
 	}
 
-	sli_progress->setValue(new_val);
+	if(!sli_progress->is_busy()){
+		QString cur_pos_string = Helper::cvt_ms_to_string(pos_ms);
+		curTime->setText(cur_pos_string);
+		sli_progress->setValue(new_val);
+	}
 
-	QString cur_pos_string = Helper::cvt_ms_to_string(pos_ms);
-	curTime->setText(cur_pos_string);
 }
 
 /** PROGRESS BAR END **/

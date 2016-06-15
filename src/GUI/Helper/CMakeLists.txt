@@ -29,6 +29,7 @@ SET(SOURCES
 	SayonaraWidget/SayonaraWidgetTemplate.cpp
 	SayonaraWidget/SayonaraWidget.cpp
 	SayonaraWidget/SayonaraDialog.cpp
+	SayonaraWidget/SayonaraSlider.cpp
 
 	SearchableWidget/SearchableListView.cpp
 	SearchableWidget/SearchableTableView.cpp

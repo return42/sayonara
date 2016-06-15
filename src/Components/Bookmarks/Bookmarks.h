@@ -122,6 +122,9 @@ public:
 	MetaData get_cur_track() const;
 
 
+	int get_size() const;
+
+
 
 private slots:
 	/**

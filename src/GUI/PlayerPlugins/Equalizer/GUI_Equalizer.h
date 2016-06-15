@@ -56,9 +56,9 @@ public:
 	QPushButton* get_close_button() const override;
 
 private slots:
-	void sli_changed(int, int);
-	void sli_pressed(int);
-	void sli_released(int);
+	void sli_changed(int idx, int value);
+	void sli_pressed();
+	void sli_released();
 
 	void preset_changed(int);
 	void cb_gauss_toggled(bool);

@@ -46,7 +46,7 @@ void GUI_Speed::init_ui()
 
 	_engine = EngineHandler::getInstance();
 
-	connect(sli_speed, &QSlider::sliderMoved, this, &GUI_Speed::slider_changed);
+	connect(sli_speed, &QSlider::valueChanged, this, &GUI_Speed::slider_changed);
 	connect(cb_active, &QCheckBox::toggled, this, &GUI_Speed::active_changed);
 }
 

@@ -25,9 +25,9 @@
 #ifndef SEARCHSLIDER_H_
 #define SEARCHSLIDER_H_
 
-#include <QSlider>
+#include "GUI/Helper/SayonaraWidget/SayonaraSlider.h"
 
-class SearchSlider: public QSlider {
+class SearchSlider: public SayonaraSlider {
 
 	Q_OBJECT
 
@@ -39,21 +39,19 @@ public:
 	SearchSlider(QWidget* parent=nullptr);
 	virtual ~SearchSlider();
 
-	virtual void setValue(int i);
-	virtual void increment(int i);
-	virtual void decrement(int i);
+	bool is_busy() const;
 
 public slots:
-	virtual void increment_10();
-	virtual void decrement_10();
-	virtual void increment_50();
-	virtual void decrement_50();
-
-
+	void increment_10();
+	void decrement_10();
+	void increment_50();
+	void decrement_50();
+	void increment(int i);
+	void decrement(int i);
 
 
 protected:
-
+	
 	void mousePressEvent(QMouseEvent* e) override;
 	void mouseReleaseEvent(QMouseEvent* e) override;
 	void mouseMoveEvent(QMouseEvent* e) override;
