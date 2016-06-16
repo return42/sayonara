@@ -59,7 +59,7 @@ void LibraryRatingDelegate::destroy_editor(bool save) {
 	disconnect(label, &RatingLabel::sig_finished, this, &LibraryRatingDelegate::destroy_editor);
 
 	emit commitData(label);
-	emit sig_rating_changed(label->get_rating().get_rating());
+	emit sig_rating_changed(label->get_rating());
     emit closeEditor(label);
 }
 
@@ -80,6 +80,6 @@ void LibraryRatingDelegate::setModelData(QWidget *editor, QAbstractItemModel *mo
 
     RatingLabel* label = qobject_cast<RatingLabel *>(editor);
     if(!label) return;
-    model->setData(index, label->get_rating().get_rating());
+    model->setData(index, label->get_rating());
 }
 

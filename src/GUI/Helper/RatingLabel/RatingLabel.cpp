@@ -23,117 +23,67 @@
 
 #include "RatingLabel.h"
 #include "Helper/Random/RandomGenerator.h"
+#include "GUI/Helper/GUI_Helper.h"
 
-#include <QPainter>
-#include <QRect>
-#include <QColor>
+#include <algorithm>
 
 const int Offset_X = 3;
 
-Rating::Rating() {
-    _rating = 0;
-
-}
-Rating::Rating(quint8 rating) {
-    _rating = rating;
-
-}
-
-quint8 Rating::get_rating() const {
-
-    return _rating;
-}
-
-void Rating::set_rating(quint8 rating) {
-    _rating = rating;
-}
-
-
-void Rating::paint(QPainter *painter, const QRect &rect,
-			   const QPalette &palette, bool has_focus) const
-{
-
-	Q_UNUSED(palette)
-
-	painter->save();
-	painter->translate(rect.x() + Offset_X, rect.y() + (rect.height() * 25) / 100);
-
-	QRect rating_rect;
-    QColor col;
-	int wrect = (rect.width() - (2 * Offset_X)) / 5 + 1;
-	int hrect = (rect.height() * 50) / 100;
-
-    for(int rating = 0; rating < _rating; rating++) {
-
-		rating_rect.setRect(0, 0, wrect - Offset_X, hrect);
-
-		if(has_focus){
-			col = SAYONARA_ORANGE_COL.light(130);
-		}
-		else{
-			col = SAYONARA_ORANGE_COL.dark(110);
-		}
-
-		painter->fillRect(rating_rect, col);
-		painter->translate(wrect, 0);
-    }
-
-    for(int rating= _rating; rating < 5; rating ++) {
-
-		rating_rect.setRect(0, 0, wrect - Offset_X, hrect);
-		col = QColor(0, 0, 0, 50);
-
-		painter->fillRect(rating_rect, col);
-		painter->translate(wrect, 0);
-	}
-
-	painter->restore();
-}
-
-
 
 RatingLabel::RatingLabel(QWidget *parent, bool enabled) :
-	QLabel(parent),
-	_rating(0)
+	QLabel(parent)
 {
 	RandomGenerator rnd;
 
+	_rating = 0;
 	_enabled = enabled;
 	_parent = parent;
-	_id = rnd.get_number(0, 1000000);
+	_icon_size = 14;
+	_pm_active = GUI::get_pixmap("star.png");
+	_pm_inactive = GUI::get_pixmap("star_disabled.png");
 
     QSizePolicy p(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
 
     this->setSizePolicy(p);
 	this->setMouseTracking(true);
+	this->setStyleSheet("background: transparent;");
 }
 
 RatingLabel::~RatingLabel() {
-    _id = 0;
-}
-
-int RatingLabel::get_id() const{
-
-    return _id;
 }
 
 
 int RatingLabel::calc_rating(QPoint pos) const{
 
-	double drating = (double) ((pos.x() * 6.0) / width()) + 0.25;
+	double drating = (double) ((pos.x() * 1.0) / (_icon_size + 2.0)) + 0.5; 
 	int rating = (int) (drating);
 
-    if(rating > 5) rating = 5;
+	rating=std::min(rating, 5);
+	rating=std::max(rating, 0);
 
     return rating;
 }
 
-
 void RatingLabel::paintEvent(QPaintEvent *e) {
 	QLabel::paintEvent(e);
+
     QPainter painter(this);
 
-	_rating.paint(&painter, rect(), palette(), this->hasFocus());
+	painter.save(); 
+	int offset_y = (this->height() - _icon_size) / 2;
+
+ 	painter.translate(rect().x() + Offset_X, rect().y() + offset_y );
+    for(int rating = 0; rating < _rating; rating++) { 
+		painter.drawPixmap(0, 0, _icon_size, _icon_size, _pm_active);
+		painter.translate(_icon_size + 2, 0);
+	}
+
+	for(int rating = _rating; rating < 5; rating++) { 
+		painter.drawPixmap(0, 0, _icon_size, _icon_size, _pm_inactive);
+		painter.translate(_icon_size + 2, 0);
+	}
+
+	painter.restore();
 }
 
 
@@ -190,33 +140,31 @@ void RatingLabel::focusOutEvent(QFocusEvent* e) {
 }
 
 void RatingLabel::update_rating(int rating) {
-    _rating.set_rating(rating);
+    _rating = rating;
     update();
 }
 
 void RatingLabel::increase() {
-    int rating = _rating.get_rating();
 
-	rating = std::min(5, rating + 1);
+	_rating = std::min(5, _rating + 1);
 
-    update_rating(rating);
+    update_rating(_rating);
 }
 
 void RatingLabel::decrease() {
-    int rating = _rating.get_rating();
 
-	rating = std::max(rating - 1, 0);
+	_rating = std::max(_rating - 1, 0);
 
-    update_rating(rating);
+    update_rating(_rating);
 }
 
-void RatingLabel::set_rating(Rating rating) {
+void RatingLabel::set_rating(int rating) {
 
     _rating = rating;
     update();
 }
 
-Rating RatingLabel::get_rating() const{
+int RatingLabel::get_rating() const{
 
     return _rating;
 }

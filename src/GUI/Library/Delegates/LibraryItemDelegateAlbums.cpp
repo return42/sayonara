@@ -63,13 +63,15 @@ void LibraryItemDelegateAlbums::paint(QPainter *painter, const QStyleOptionViewI
 		return;
 	}
 
-	QRect rect(option.rect);
+	else if(col == COL_ALBUM_RATING) {
+		RatingLabel label((QWidget*)_parent, true);
+		label.set_rating(index.data().toInt());
+		painter->save();
+		painter->translate(option.rect.left(), option.rect.top());
+		label.render(painter);
+		painter->restore();
+	}   
 
-	painter->save();
 
-	quint8 r = index.data().toInt();
-	Rating rating(r);
-	rating.paint(painter, rect, option.palette, false);
 
-	painter->restore();
 }
