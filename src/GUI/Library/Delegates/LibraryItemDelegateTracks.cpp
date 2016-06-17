@@ -53,16 +53,18 @@ void LibraryItemDelegateTracks::paint(QPainter *painter, const QStyleOptionViewI
 
 	int col = index.column();
 
-/*	if(col == COL_TRACK_RATING) {
-		RatingLabel label((QWidget*)_parent, true);
+	if(col == COL_TRACK_RATING) {
+		RatingLabel label((QWidget*) _parent, true);
 		label.set_rating(index.data().toInt());
+		label.setGeometry(option.rect);
+
 		painter->save();
 		painter->translate(option.rect.left(), option.rect.top() );
 		label.render(painter);
 		painter->restore();
 	}
 
-	else{*/
+	else{
 		LibraryRatingDelegate::paint(painter, option, index);
-//	}
+	}
 }

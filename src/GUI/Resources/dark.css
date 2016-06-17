@@ -99,7 +99,6 @@ QTreeWidget,
 LibraryGenreView
 {
 	border: 1px solid #282828;
-/*	border-radius: 2px;*/
 	color: #D8D8D8;
 	background-color: #282828;
 	alternate-background-color: #242424;
@@ -387,7 +386,6 @@ QMenu::separator {
 }
 
 QComboBox {
-	
 	height: 22px;
 	border: 1px solid #2B2B2B;
 	border-radius: 2px;
@@ -404,7 +402,6 @@ QComboBox::drop-down:editable {
 QComboBox:!editable:off {
 	background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #f1b42a, stop: 0.4 #e8841a, stop: 0.5 #e8841a, stop: 1.0 #e8841a);
 }
-
 
 QComboBox::drop-down {
 	width: 18px;
@@ -447,10 +444,7 @@ QComboBox QAbstractItemView::item:focus {
 
 QComboBox QAbstractItemView:focus {
 	border: 1px solid #282828;
-
 }
-
-
 
 
 QLineEdit {
@@ -486,31 +480,19 @@ GUI_TagEdit QLabel {
 	border-bottom: none;
 }
 
-GUI_TagEdit RatingLabel {
-	border: 1px solid #2B2B2B;
-	background: #525252;
-}
-
 QTabBar::tab {
-	/* background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #525252, stop: 0.4 #383838, stop: 0.5 #383838, stop: 1.0 #383838); */
 	background: rgba(255,255,255,10);
 	border: 1px solid #2c2c2c;
 	border-bottom: none;
 	border-top-left-radius: 2px;
 	border-top-right-radius: 2px;
 	min-width: 8ex;
-	padding-bottom: 2px;
-	padding-left: 5px;
-	padding-right: 5px;
-	padding-top: 3px;
-	padding-bottom: 3px;
+	padding: 3px 5px 3px 5px;
 	max-height: 16px;
 	min-height: 16px;
 }
 
 PlaylistTabBar::tab:last {
-
-	/* background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #484848, stop: 0.4 #383838, stop: 0.5 #383838, stop: 1.0 #383838); */
 
 	min-width: 1.5ex;
 	max-width: 1.5ex;
@@ -518,24 +500,14 @@ PlaylistTabBar::tab:last {
 	border-left: none;
 }
 
-QTabBar::tear {
-	width: 0px;
-}
-
-
 
 QTabBar::tab:disabled {
 	background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #525252, stop: 0.4 #383838, stop: 0.5 #383838, stop: 1.0 #424242);
 	color: #525252;
 }
 
-
 QTabBar::tab:selected, QTabBar::tab:hover {
 	background: rgba(255,255,255,20);
-}
-
-QTabBar::tab:hover {
-	/* border-top: 1px solid #e8841a; */ 
 }
 
 
@@ -593,6 +565,11 @@ QTabBar QToolButton::right-arrow:disabled { /* the arrow mark in the tool button
 QTabBar QToolButton::left-arrow:disabled {
 	image: url(:/Icons/arrow_left_disabled.svg.png);
 }
+
+QTabBar::tear {
+	width: 0px;
+}
+
 
 QSpinBox {
 	height: 22px;
@@ -800,6 +777,7 @@ QPushButton[flat=false]:pressed
 MenuButton,
 MenuButton[flat=true]:hover,
 QPushButton#btn_listen[flat=true]:hover
+QPushButton#btn_close[flat=true]:hover
 {
 	margin-left: 0px;
 	margin-top: 0px;
@@ -880,4 +858,6 @@ QStackedWidget {
 	border: none;
 }
 
-
+RatingLabel:focus {
+	border: 1px solid #e8841a;
+}
