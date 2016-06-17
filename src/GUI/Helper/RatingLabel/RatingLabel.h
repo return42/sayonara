@@ -31,25 +31,7 @@
 #include <QPainter>
 #include <QRect>
 #include <QPoint>
-
-class Rating {
-
-public:
-	Rating();
-	Rating(quint8 rating);
-
-	void paint(QPainter *painter, const QRect &rect,
-			   const QPalette &palette, bool has_focus) const;
-
-	void set_rating(quint8 rating);
-	quint8 get_rating() const;
-
-private:
-	quint8 _rating;
-};
-
-
-Q_DECLARE_METATYPE(Rating)
+#include <QPixmap>
 
 class RatingLabel : public QLabel
 {
@@ -63,17 +45,8 @@ public:
 	RatingLabel(QWidget *parent, bool enabled=true);
 	virtual ~RatingLabel();
 
-	virtual void paintEvent(QPaintEvent *e) override;
-	virtual void focusInEvent(QFocusEvent* e) override;
-	virtual void focusOutEvent(QFocusEvent* e) override;
-	virtual void mousePressEvent(QMouseEvent *ev) override;
-	virtual void mouseReleaseEvent(QMouseEvent* ev) override;
-	virtual void mouseMoveEvent(QMouseEvent *ev) override;
-
-	void set_rating(Rating rating);
-	Rating get_rating() const;
-
-	int get_id() const;
+	void set_rating(int rating);
+	int get_rating() const;
 
 	void kill_yourself();
 
@@ -81,17 +54,26 @@ public:
 	void decrease();
 
 
+protected:
+	void paintEvent(QPaintEvent *e) override;
+	void focusInEvent(QFocusEvent* e) override;
+	void focusOutEvent(QFocusEvent* e) override;
+	void mousePressEvent(QMouseEvent *ev) override;
+	void mouseReleaseEvent(QMouseEvent* ev) override;
+	void mouseMoveEvent(QMouseEvent *ev) override;
+
 
 private:
-
 	QWidget*	_parent=nullptr;
 	bool		_enabled;
-	int			_id;
-	Rating		_rating;
+	int			_rating;
+	quint8 		_icon_size;
+	QPixmap 	_pm_active;
+	QPixmap 	_pm_inactive;
 
+private:
 	void update_rating(int rating);
 	int calc_rating(QPoint pos) const;
-
 };
 
 

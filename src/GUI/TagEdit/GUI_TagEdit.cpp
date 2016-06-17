@@ -201,7 +201,7 @@ void GUI_TagEdit::track_idx_changed(){
 	}
 
 	if(!cb_rating_all->isChecked()){
-		lab_rating->set_rating(Rating(md.rating));
+		lab_rating->set_rating(md.rating);
 	}
 
 	sb_track_num->setValue(md.track_num);
@@ -236,7 +236,7 @@ void GUI_TagEdit::reset(){
 	le_tag->clear();
 	sb_year->setValue(0);
 	sb_discnumber->setValue(0);
-	lab_rating->set_rating(Rating(0));
+	lab_rating->set_rating(0);
 	sb_track_num->setValue(0);
 
 	le_album->setEnabled(true);
@@ -309,7 +309,7 @@ void GUI_TagEdit::write_changes(int idx){
 	md.discnumber = sb_discnumber->value();
 	md.year = sb_year->value();
 	md.track_num = sb_track_num->value();
-	md.rating = lab_rating->get_rating().get_rating();
+	md.rating = lab_rating->get_rating();
 
 	_tag_edit->update_track(idx, md);
 }
@@ -346,7 +346,7 @@ void GUI_TagEdit::commit(){
 		}
 
 		if( cb_rating_all->isChecked()){
-			md.rating = lab_rating->get_rating().get_rating();
+			md.rating = lab_rating->get_rating();
 		}
 
 		if( cb_year_all->isChecked()){
