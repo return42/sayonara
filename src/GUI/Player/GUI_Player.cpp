@@ -111,9 +111,8 @@ GUI_Player::GUI_Player(QTranslator* translator, QWidget *parent) :
 	// signals and slots
 	setup_connections();
 
-
-
 	plugin_widget->resize(plugin_widget->width(), 0);
+	plugin_widget->hide();
 
 	REGISTER_LISTENER(Set::Engine_SR_Active, _sl_sr_active_changed);
 
@@ -469,15 +468,13 @@ void GUI_Player::set_player_plugin_handler(PlayerPluginHandler* pph) {
 		QKeySequence ks("Ctrl+F" + QString::number(i));
 		action->setShortcut(ks);
 		action->setData(p->get_name());
-		// action is connected in Plugin itself
-		p->setParent(plugin_widget);
 		actions << action;
+
 		i++;
 	}
 
 	menuView->insertActions(action_Dark, actions);
 	menuView->insertSeparator(action_Dark);
-
 }
 
 

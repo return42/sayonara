@@ -45,15 +45,6 @@ QString GUI_Stream::get_display_name() const
 	return tr("Webstreams");
 }
 
-QLabel *GUI_Stream::get_title_label() const
-{
-	return lab_title;
-}
-
-QPushButton* GUI_Stream::get_close_button() const
-{
-	return btn_close;
-}
 
 void GUI_Stream::language_changed() {
 	retranslateUi(this);

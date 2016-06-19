@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>479</width>
+    <width>287</width>
     <height>150</height>
    </rect>
   </property>
@@ -16,17 +16,17 @@
     <height>150</height>
    </size>
   </property>
-  <property name="maximumSize">
-   <size>
-    <width>16777215</width>
-    <height>150</height>
-   </size>
-  </property>
   <layout class="QGridLayout" name="gridLayout">
    <property name="leftMargin">
     <number>0</number>
    </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
    <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
     <number>0</number>
    </property>
    <item row="0" column="0">

@@ -43,6 +43,7 @@ GUI_AbstractStream::GUI_AbstractStream(AbstractStreamHandler* stream_handler, QW
 
 	connect(_stream_handler, &AbstractStreamHandler::sig_error, this, &GUI_AbstractStream::error);
 	connect(_stream_handler, &AbstractStreamHandler::sig_data_available, this, &GUI_AbstractStream::data_available);
+
 }
 
 GUI_AbstractStream::~GUI_AbstractStream(){
@@ -89,7 +90,11 @@ void GUI_AbstractStream::language_changed(){
 
 void GUI_AbstractStream::init_ui()
 {
+	int icon_size = 24;
+	_btn_play->setMinimumSize(QSize(24,24));
+	_btn_play->setMaximumSize(QSize(24,24));
 
+	REGISTER_LISTENER(Set::Player_Style, _sl_skin_changed);
 }
 
 void GUI_AbstractStream::error(){
@@ -105,6 +110,12 @@ void GUI_AbstractStream::data_available(){
 
 	_btn_play->setDisabled(false);
 	_lab_listen->setText(tr("Listen"));
+}
+
+void GUI_AbstractStream::_sl_skin_changed()
+{
+	_btn_play->setIcon( IconLoader::getInstance()->get_icon("media-playback-start", "play"));
+
 }
 
 

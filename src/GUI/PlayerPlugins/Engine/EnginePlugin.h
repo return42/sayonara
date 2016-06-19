@@ -67,9 +67,6 @@ protected:
 	virtual void mousePressEvent(QMouseEvent* e) override;
 	virtual void enterEvent(QEvent* e) override;
 	virtual void leaveEvent(QEvent* e) override;
-	virtual QLabel* get_title_label() const override;
-	virtual QPushButton* get_close_button() const override;
-
 
 
 protected slots:
@@ -95,7 +92,10 @@ public:
 	EnginePlugin(QWidget* parent=nullptr);
     virtual ~EnginePlugin();
 
+	virtual bool is_title_shown() const override;
+
 };
+
 
 #endif // ENGINEPLUGIN_H
 

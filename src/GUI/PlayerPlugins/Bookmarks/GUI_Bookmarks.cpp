@@ -45,15 +45,6 @@ QString GUI_Bookmarks::get_display_name() const
 	return tr("Bookmarks");
 }
 
-QLabel* GUI_Bookmarks::get_title_label() const
-{
-	return lab_title;
-}
-
-QPushButton* GUI_Bookmarks::get_close_button() const
-{
-	return btn_close;
-}
 
 void GUI_Bookmarks::language_changed(){
 

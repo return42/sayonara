@@ -200,16 +200,6 @@ void EnginePlugin::leaveEvent(QEvent* e){
 	_btn_close->hide();
 }
 
-QLabel* EnginePlugin::get_title_label() const
-{
-	return nullptr;
-}
-
-QPushButton* EnginePlugin::get_close_button() const
-{
-	return nullptr;
-}
-
 
 void EnginePlugin::update()
 {
@@ -251,4 +241,10 @@ void EnginePlugin::stopped(){
 
 	_timer->start();
 	_timer_stopped = false;
+}
+
+
+bool EnginePlugin::is_title_shown() const
+{
+	return false;
 }

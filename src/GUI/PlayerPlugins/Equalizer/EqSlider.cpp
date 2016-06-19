@@ -28,6 +28,7 @@ EqSlider::EqSlider(QWidget *parent) :
 
 	this->setMaximum(24);
 	this->setMinimum(-24);
+	this->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 }
 
 void  EqSlider::setData(int idx, QLabel* label){

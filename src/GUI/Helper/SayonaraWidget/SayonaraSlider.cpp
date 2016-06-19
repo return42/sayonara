@@ -1,4 +1,4 @@
-/* SayonaraSlider.cpp *
+/* SayonaraSlider.cpp */
 
 /* Copyright (C) 2011-2016  Lucio Carreras
  *

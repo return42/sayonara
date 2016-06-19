@@ -91,6 +91,7 @@ protected slots:
 
 	void error();
 	void data_available();
+	void _sl_skin_changed();
 
 public:
 	virtual void setup_stations(const QMap<QString, QString>&);

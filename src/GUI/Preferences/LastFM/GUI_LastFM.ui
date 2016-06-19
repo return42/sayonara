@@ -7,51 +7,45 @@
     <x>0</x>
     <y>0</y>
     <width>457</width>
-    <height>203</height>
+    <height>147</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <property name="spacing">
     <number>10</number>
    </property>
-   <item row="3" column="0">
+   <item row="2" column="1">
+    <widget class="QLineEdit" name="tf_username"/>
+   </item>
+   <item row="1" column="0">
     <widget class="QLabel" name="label_4">
      <property name="text">
       <string>Activate</string>
      </property>
     </widget>
    </item>
-   <item row="4" column="0">
+   <item row="2" column="0">
     <widget class="QLabel" name="label_2">
      <property name="text">
       <string>Username</string>
      </property>
     </widget>
    </item>
-   <item row="5" column="1">
+   <item row="3" column="1">
     <widget class="QLineEdit" name="tf_password">
      <property name="echoMode">
       <enum>QLineEdit::Password</enum>
      </property>
     </widget>
    </item>
-   <item row="4" column="1">
-    <widget class="QLineEdit" name="tf_username"/>
-   </item>
-   <item row="3" column="1">
-    <widget class="QCheckBox" name="cb_activate">
-     <property name="focusPolicy">
-      <enum>Qt::StrongFocus</enum>
-     </property>
-     <property name="layoutDirection">
-      <enum>Qt::LeftToRight</enum>
-     </property>
+   <item row="3" column="0">
+    <widget class="QLabel" name="label_3">
      <property name="text">
-      <string/>
+      <string>Password</string>
      </property>
     </widget>
    </item>
-   <item row="6" column="0" colspan="2">
+   <item row="4" column="0" colspan="2">
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QLabel" name="lab_status">
@@ -82,51 +76,21 @@
      </item>
     </layout>
    </item>
-   <item row="0" column="0" rowspan="2" colspan="2">
-    <widget class="QWidget" name="widget" native="true">
-     <property name="styleSheet">
-      <string notr="true">background-color: rgb(255, 255, 255);</string>
+   <item row="1" column="1">
+    <widget class="QCheckBox" name="cb_activate">
+     <property name="focusPolicy">
+      <enum>Qt::StrongFocus</enum>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout">
-      <item>
-       <widget class="QLabel" name="lab_image">
-        <property name="minimumSize">
-         <size>
-          <width>100</width>
-          <height>30</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>30</height>
-         </size>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="pixmap">
-         <pixmap resource="../Resources/Icons.qrc">:/Icons/lastfm_logo.jpg</pixmap>
-        </property>
-        <property name="scaledContents">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="5" column="0">
-    <widget class="QLabel" name="label_3">
+     <property name="layoutDirection">
+      <enum>Qt::LeftToRight</enum>
+     </property>
      <property name="text">
-      <string>Password</string>
+      <string/>
      </property>
     </widget>
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="../Resources/Icons.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

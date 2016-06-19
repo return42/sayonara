@@ -26,6 +26,7 @@ SET(PLAYER_LIBRARIES
 	say_interfaces_player_plugin
 	say_interfaces_notifications
 	say_interfaces_preference_dialog
+	say_gui_player_plugins
 )
 
 IF(${MTP_FOUND})

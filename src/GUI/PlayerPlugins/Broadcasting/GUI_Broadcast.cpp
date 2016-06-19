@@ -53,15 +53,6 @@ QString GUI_Broadcast::get_display_name() const
 	return tr("Broadcast");
 }
 
-QLabel* GUI_Broadcast::get_title_label() const
-{
-	return lab_title;
-}
-
-QPushButton* GUI_Broadcast::get_close_button() const
-{
-	return btn_close;
-}
 
 void GUI_Broadcast::language_changed(){
 

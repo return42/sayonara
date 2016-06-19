@@ -43,7 +43,7 @@ PlayerPluginHandler::PlayerPluginHandler(QObject *parent) :
 PlayerPluginHandler::~PlayerPluginHandler() {}
 
 
-PlayerPluginInterface* PlayerPluginHandler::find_plugin(QString name) {
+PlayerPluginInterface* PlayerPluginHandler::find_plugin(const QString& name) {
 
 	sp_log(Log::Debug) << "Search for plugin " << name;
 
@@ -91,9 +91,20 @@ void PlayerPluginHandler::show_plugin(PlayerPluginInterface* p) {
 		action->setChecked(true);
 	}
 
-	p->show();
-
 	_cur_shown_plugin = p;
+
+
+}
+
+void PlayerPluginHandler::hide_all() {
+
+	_cur_shown_plugin = nullptr;
+
+	for(PlayerPluginInterface* p : _plugins){
+		p->get_action()->setChecked(false);
+	}
+
+	emit sig_hide_all_plugins();
 }
 
 
@@ -145,27 +156,13 @@ void PlayerPluginHandler::load_dynamic_plugins()
 	}
 }
 
-void PlayerPluginHandler::hide_all() {
-
-	_cur_shown_plugin = nullptr;
-
-	for(PlayerPluginInterface* p : _plugins) {
-		if(!p->isHidden()){
-			p->close();
-		}
-	}
-
-	emit sig_hide_all_plugins();
-}
-
-
-void PlayerPluginHandler::resize(QSize sz) {
-
-	if(!_cur_shown_plugin) return;
-	_cur_shown_plugin->resize(sz);
-}
 
 QList<PlayerPluginInterface*> PlayerPluginHandler::get_all_plugins() const {
 	return _plugins;
 }
 
+
+void PlayerPluginHandler::set_container(QWidget *parent){
+
+	_parent = parent;
+}

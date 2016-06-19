@@ -46,9 +46,6 @@ public:
 
 	QString get_name() const override;
 	QString get_display_name() const override;
-	QLabel* get_title_label() const override;
-	QPushButton* get_close_button() const override;
-
 	
 
 private slots:

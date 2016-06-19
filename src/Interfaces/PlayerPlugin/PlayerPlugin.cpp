@@ -54,8 +54,11 @@ void PlayerPluginInterface::show(){
 	QWidget::show();
 
 	init_ui();
+}
 
-	change_exit_icon( this->get_close_button() );
+bool PlayerPluginInterface::is_title_shown() const
+{
+	return true;
 }
 
 QString PlayerPluginInterface::get_shortcut_text(const QString& shortcut_identifier) const
@@ -102,41 +105,6 @@ void PlayerPluginInterface::set_ui_initialized()
 	_is_initialized = true;
 }
 
-void PlayerPluginInterface::change_exit_icon(QPushButton* close_button)
-{
-	if(!is_ui_initialized()){
-		return;
-	}
-
-	if(!close_button){
-		return;
-	}
-
-	QIcon close_icon;
-	int sz = 16;
-	if(this->is_dark()){
-		sz = 14;
-		close_button->setIconSize(QSize(14,14));
-
-		close_icon.addPixmap( GUI::get_pixmap("tool_dark_grey"), QIcon::Normal, QIcon::Off);
-		close_icon.addPixmap( GUI::get_pixmap("tool_grey"), QIcon::Active, QIcon::Off);
-		close_icon.addPixmap( GUI::get_pixmap("tool_grey"), QIcon::Selected, QIcon::Off);
-	}
-
-	else{
-		close_icon = IconLoader::getInstance()->get_icon("stock_close", "tool_dark_grey");
-		close_button->setIconSize(QSize(16,16));
-	}
-
-	close_button->setMinimumWidth(sz);
-	close_button->setMinimumHeight(sz);
-	close_button->setMaximumWidth(sz);
-	close_button->setMaximumHeight(sz);
-		
-	close_button->setIcon(close_icon);
-}
-
-
 
 void PlayerPluginInterface::action_triggered(bool b) {
 
@@ -152,17 +120,6 @@ void PlayerPluginInterface::_sl_lang_changed()
 {
 	if(!is_ui_initialized()){
 		return;
-	}
-
-	QLabel* lab = this->get_title_label();
-	if(lab){
-		lab->setText(this->get_display_name());
-		_pp_action->setText(this->get_display_name());
-	}
-
-	QPushButton* close_button = this->get_close_button();
-	if(close_button){
-		close_button->setToolTip(tr("Close"));
 	}
 }
 
@@ -201,12 +158,5 @@ void PlayerPluginInterface::paused(){
 }
 
 void PlayerPluginInterface::stopped(){
-
-}
-
-void PlayerPluginInterface::skin_changed(){
-
-	QPushButton* btn_close = this->get_close_button();
-	change_exit_icon( btn_close );
 
 }

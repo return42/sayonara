@@ -58,10 +58,6 @@ void GUI_Player::resizeEvent(QResizeEvent* e) {
 
 	set_info_labels();
 
-	if(_pph){
-		_pph->resize(plugin_widget->size());
-	}
-
 	if( !is_maximized &&
 		!this->isMaximized() &&
 		!is_fullscreen &&
@@ -86,11 +82,6 @@ void GUI_Player::main_splitter_moved(int pos, int idx){
 		if(container){
 			container->get_ui()->resize(library_widget->size());
 		}
-	}
-
-
-	if(_pph){
-		_pph->resize(plugin_widget->size());
 	}
 
 	QByteArray splitter_state = splitter->saveState();

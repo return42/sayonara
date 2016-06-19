@@ -45,16 +45,6 @@ QString GUI_Podcasts::get_display_name() const
 	return tr("Podcasts");
 }
 
-QLabel* GUI_Podcasts::get_title_label() const
-{
-	return lab_title;
-}
-
-QPushButton* GUI_Podcasts::get_close_button() const
-{
-	return btn_close;
-}
-
 void GUI_Podcasts::language_changed() {
 	retranslateUi(this);
 }

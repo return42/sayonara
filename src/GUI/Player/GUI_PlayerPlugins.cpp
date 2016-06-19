@@ -26,50 +26,22 @@
 /** PLUGINS **/
 void GUI_Player::hide_all_plugins() {
 
-	_settings->set(Set::Player_ShownPlugin, QString(""));
+	_settings->set(Set::Player_ShownPlugin, QString());
 
 	if(plugin_widget->isHidden()) {
 		return;
 	}
 
-	int old_height;
-	QSize pl_size;
-
-	old_height = plugin_widget->minimumHeight();
-	pl_size = ui_playlist->size();
-	pl_size.setHeight(pl_size.height() + old_height);
-
-	plugin_widget->setMinimumHeight(0);
+	plugin_widget->hide();
 }
 
 
 void GUI_Player::show_plugin(PlayerPluginInterface* plugin) {
 
-	hide_all_plugins();
-
-    if(!plugin) return;
-
-	int old_height;
-	QSize pl_size, widget_size;
-
-	plugin_widget->show();
-
 	_pph->show_plugin(plugin);
-
-	widget_size = plugin->get_size();
-	widget_size.setWidth( plugin_widget->width() );
-
-	pl_size = ui_playlist->size();
-	old_height = this->plugin_widget->minimumHeight();
-	pl_size.setHeight(pl_size.height() - widget_size.height() + old_height);
-
-	plugin_widget->setMinimumHeight(plugin->get_size().height());
-
-	_pph->resize(plugin_widget->size());
+	plugin_widget->show(plugin);
 
 	_settings->set(Set::Player_ShownPlugin, plugin->get_name());
 }
-
-
 
 /** PLUGINS **/

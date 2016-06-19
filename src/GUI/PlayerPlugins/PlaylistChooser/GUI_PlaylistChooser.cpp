@@ -53,15 +53,6 @@ QString GUI_PlaylistChooser::get_display_name() const
 	return tr("Playlists");
 }
 
-QLabel* GUI_PlaylistChooser::get_title_label() const
-{
-	return lab_title;
-}
-
-QPushButton* GUI_PlaylistChooser::get_close_button() const
-{
-	return btn_close;
-}
 
 void GUI_PlaylistChooser::edit_text_changed(const QString& name)
 {

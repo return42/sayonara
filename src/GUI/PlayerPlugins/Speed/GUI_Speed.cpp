@@ -61,15 +61,6 @@ QString GUI_Speed::get_display_name() const
 	return tr("Speed");
 }
 
-QLabel* GUI_Speed::get_title_label() const
-{
-	return lab_title;
-}
-
-QPushButton* GUI_Speed::get_close_button() const
-{
-	return btn_close;
-}
 
 void GUI_Speed::slider_changed(int val) {
 

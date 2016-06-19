@@ -138,40 +138,21 @@ protected:
 	void set_ui_initialized();
 
 
-	/** 
-	 * @brief show a new close icon. This method is mainly used when skin has
-	 * changed
-	 * @param close_button new close button with skin dependent icon
-	 */
-	void change_exit_icon(QPushButton* close_button);
-
-
-
 	template<typename T>
 	void setup_parent(T* widget){
 
+		if(is_ui_initialized()){
+			return;
+		}
+
 		QLayout* widget_layout;
-		QLabel* lab_title;
-		QPushButton* btn_close;
 
 		widget->setupUi(widget);
 		this->set_ui_initialized();
 
-		lab_title = get_title_label();
-		if(lab_title){
-			lab_title->setText(widget->get_display_name());
-			lab_title->setMaximumHeight(24);
-			lab_title->setMinimumHeight(24);
-		}
-
 		widget_layout = layout();
 		if(widget_layout){
 			widget_layout->setContentsMargins(3, 3, 3, 0);
-		}
-
-		btn_close = get_close_button();
-		if(btn_close){
-			btn_close->resize(24, 24);
 		}
 
 		ShortcutHandler* sch = ShortcutHandler::getInstance();
@@ -188,7 +169,6 @@ protected:
 
 protected slots:
 
-	virtual void skin_changed();
 	/**
 	 * @brief Playstate has changed, this does nothing in default implementation
 	 * @param the new State
@@ -243,23 +223,14 @@ public:
 	 */
 	virtual QString		get_display_name() const=0;
 
-	/**
-	 * @brief must be overwritten
-	 * @return get label where the title is located. May be nullptr
-	 */
-	virtual QLabel*		get_title_label() const=0;
-
-	/**
-	 * @brief must be overwritten
-	 * @return get close button. May be nullptr
-	 */
-	virtual QPushButton* get_close_button() const=0;
-
 
 	/**
 	 * @brief show Plugin
 	 */
 	virtual void		show();
+
+
+	virtual bool		is_title_shown() const;
 
 
 	/**

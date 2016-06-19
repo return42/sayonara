@@ -47,17 +47,6 @@ QString GUI_AudioConverter::get_display_name() const
 	return tr("Audio Converter");
 }
 
-QLabel* GUI_AudioConverter::get_title_label() const
-{
-	return lab_title;
-}
-
-QPushButton* GUI_AudioConverter::get_close_button() const
-{
-	return btn_close;
-}
-
-
 void GUI_AudioConverter::language_changed(){
 
 	if(!is_ui_initialized()){

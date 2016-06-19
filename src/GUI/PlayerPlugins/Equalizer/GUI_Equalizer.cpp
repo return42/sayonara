@@ -71,15 +71,6 @@ QString GUI_Equalizer::get_display_name() const
 	return tr("Equalizer");
 }
 
-QLabel* GUI_Equalizer::get_title_label() const
-{
-	return nullptr;
-}
-
-QPushButton* GUI_Equalizer::get_close_button() const
-{
-	return btn_close;
-}
 
 void GUI_Equalizer::language_changed() {
 	if(!is_ui_initialized()){
@@ -128,6 +119,7 @@ void GUI_Equalizer::init_ui()
 	cb_gauss->setChecked( _settings->get(Set::Eq_Gauss));
 
 	for(EqSlider* s : _sliders) {
+
 		connect(s, &EqSlider::sig_value_changed, this, &GUI_Equalizer::sli_changed);
 		connect(s, &EqSlider::sig_slider_got_focus, this, &GUI_Equalizer::sli_pressed);
 		connect(s, &EqSlider::sig_slider_lost_focus, this, &GUI_Equalizer::sli_released);
