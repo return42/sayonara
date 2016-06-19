@@ -32,6 +32,8 @@
 #include "LibraryItemModel.h"
 #include "Helper/MetaData/Artist.h"
 
+#include <QPixmap>
+
 class ColumnHeader;
 class LibraryItemModelArtists : public LibraryItemModel {
 
@@ -55,7 +57,9 @@ public:
 
 
 private:
-	ArtistList _artists;
+	ArtistList	_artists;
+	QPixmap		_pm_multi;
+	QPixmap		_pm_single;
 };
 
 

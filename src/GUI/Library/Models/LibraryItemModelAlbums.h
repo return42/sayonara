@@ -32,7 +32,7 @@
 #include "Helper/MetaData/Album.h"
 #include "GUI/Library/Models/LibraryItemModel.h"
 
-#include <QAbstractTableModel>
+#include <QPixmap>
 
 class ColumnHeader;
 class LibraryItemModelAlbums : public LibraryItemModel {
@@ -57,7 +57,9 @@ public:
 	virtual int	get_id_by_row(int row) override;
 
 private:
-	AlbumList 			_albums;
+	AlbumList 	_albums;
+	QPixmap		_pm_multi;
+	QPixmap		_pm_single;
 
 };
 

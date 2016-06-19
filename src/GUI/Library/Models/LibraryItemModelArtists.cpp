@@ -28,8 +28,7 @@
 
 #include "LibraryItemModelArtists.h"
 #include "GUI/Library/Helper/ColumnHeader.h"
-#include "Helper/Logger/Logger.h"
-
+#include "GUI/Helper/GUI_Helper.h"
 
 #include <QAbstractListModel>
 #include <QStringList>
@@ -38,7 +37,8 @@
 LibraryItemModelArtists::LibraryItemModelArtists() :
 	LibraryItemModel()
 {
-
+	_pm_single = GUI::get_pixmap("play", QSize(16, 16));
+	_pm_multi = GUI::get_pixmap("sampler", QSize(16, 16));
 }
 
 LibraryItemModelArtists::~LibraryItemModelArtists() {
@@ -67,6 +67,7 @@ QVariant LibraryItemModelArtists::data(const QModelIndex & index, int role) cons
 
 	int row = index.row();
 	int col = index.column();
+	const Artist& artist = _artists[row];
 
 
 	if(role == Qt::TextAlignmentRole){
@@ -79,19 +80,26 @@ QVariant LibraryItemModelArtists::data(const QModelIndex & index, int role) cons
 		}
 	}
 
-	else if(role == Qt::DisplayRole) {
+	else if(role == Qt::DecorationRole){
+		if(col == COL_ARTIST_N_ALBUMS){
+			if(artist.num_albums > 1){
+				return _pm_multi;
+			}
+			return _pm_single;
+		}
+	}
 
-		Artist artist = _artists[row];
+	else if(role == Qt::DisplayRole) {
 
 		switch(col) {
 			case COL_ARTIST_NAME:
 				return artist.name;
-			case COL_ARTIST_N_ALBUMS:
-				return QString::number(artist.num_albums) + " " + tr("albums");
+
 			case COL_ARTIST_TRACKS:
 				return QString::number(artist.num_songs) + " " + tr("tracks");
 
-			default: return "";
+			default:
+				return QVariant();
 		}
 	}
 

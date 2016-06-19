@@ -29,12 +29,16 @@
 #include "LibraryItemModel.h"
 #include "LibraryItemModelAlbums.h"
 #include "GUI/Library/Helper/ColumnHeader.h"
+#include "GUI/Helper/GUI_Helper.h"
 #include "Helper/Helper.h"
 
 
-LibraryItemModelAlbums::LibraryItemModelAlbums() :
-	LibraryItemModel() {
 
+LibraryItemModelAlbums::LibraryItemModelAlbums() :
+	LibraryItemModel()
+{
+	_pm_single = GUI::get_pixmap("play", QSize(16, 16));
+	_pm_multi = GUI::get_pixmap("sampler", QSize(16, 16));
 }
 
 LibraryItemModelAlbums::~LibraryItemModelAlbums() {
@@ -66,6 +70,8 @@ QVariant LibraryItemModelAlbums::data(const QModelIndex & index, int role) const
 	int row = index.row();
 	int col = index.column();
 
+	const Album& album = _albums[row];
+
 	if(role == Qt::TextAlignmentRole ){
 		int alignment = Qt::AlignVCenter;
 		switch(col)
@@ -81,13 +87,19 @@ QVariant LibraryItemModelAlbums::data(const QModelIndex & index, int role) const
 		return alignment;
 	}
 
+	else if(role == Qt::DecorationRole){
+		if(col == COL_ALBUM_SAMPLER){
+			if(album.artists.size() > 1){
+				return _pm_multi;
+			}
+			return _pm_single;
+		}
+	}
+
 	else if(role == Qt::DisplayRole || role==Qt::EditRole) {
 
-		const Album& album = _albums[row];
-
 		switch(col) {
-			case COL_ALBUM_SAMPLER:
-				return album.is_sampler;
+
 			case COL_ALBUM_N_SONGS:
 				return QString::number(album.num_songs) + " " + tr("tracks");
 			case COL_ALBUM_YEAR:
@@ -102,8 +114,7 @@ QVariant LibraryItemModelAlbums::data(const QModelIndex & index, int role) const
 			case COL_ALBUM_RATING:
 				return album.rating;
 
-
-			default: return "";
+			default: return QVariant();
 		}
 	}
 
