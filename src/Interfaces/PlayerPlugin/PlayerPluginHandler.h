@@ -45,10 +45,6 @@ signals:
     void sig_hide_all_plugins();
 
 
-public slots:
-    void hide_all();
-
-
 private slots:
 	void plugin_action_triggered(PlayerPluginInterface*, bool);
 	void reload_plugin(PlayerPluginInterface* p);
@@ -57,18 +53,14 @@ private slots:
 
 private:
 	QList<PlayerPluginInterface*>	_plugins;
-	PlayerPluginInterface*			_cur_shown_plugin=nullptr;
-	QWidget*						_parent;
 
 
 public:
 	void add_plugin(PlayerPluginInterface* plugin);
-	void show_plugin(PlayerPluginInterface* plugin);
 	void load_dynamic_plugins();
 
 	PlayerPluginInterface*        find_plugin(const QString& name);
 	QList<PlayerPluginInterface*> get_all_plugins() const;
-	void						  set_container(QWidget* parent);
 
 };
 

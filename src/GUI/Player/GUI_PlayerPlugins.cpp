@@ -23,25 +23,30 @@
 #include "Interfaces/PlayerPlugin/PlayerPlugin.h"
 #include "Interfaces/PlayerPlugin/PlayerPluginHandler.h"
 
-/** PLUGINS **/
 void GUI_Player::hide_all_plugins() {
 
-	_settings->set(Set::Player_ShownPlugin, QString());
+	QList<PlayerPluginInterface*> plugins = _pph->get_all_plugins();
 
-	if(plugin_widget->isHidden()) {
-		return;
+	for(PlayerPluginInterface* p : plugins){
+		QAction* action = p->get_action();
+		action->setChecked(false);
 	}
 
-	plugin_widget->hide();
+	plugin_widget->close();
+	_settings->set(Set::Player_ShownPlugin, QString());
 }
 
 
 void GUI_Player::show_plugin(PlayerPluginInterface* plugin) {
 
-	_pph->show_plugin(plugin);
+	hide_all_plugins();
+
+	QAction* action = plugin->get_action();
+	if(action){
+		action->setChecked(true);
+	}
+
 	plugin_widget->show(plugin);
 
 	_settings->set(Set::Player_ShownPlugin, plugin->get_name());
 }
-
-/** PLUGINS **/

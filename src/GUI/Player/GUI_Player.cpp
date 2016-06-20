@@ -111,6 +111,9 @@ GUI_Player::GUI_Player(QTranslator* translator, QWidget *parent) :
 	// signals and slots
 	setup_connections();
 
+	setWindowTitle(QString("Sayonara %1").arg(SAYONARA_VERSION));
+	setWindowIcon(GUI::get_icon("logo.png"));
+
 	plugin_widget->resize(plugin_widget->width(), 0);
 	plugin_widget->hide();
 
@@ -380,14 +383,10 @@ void GUI_Player::tray_icon_activated (QSystemTrayIcon::ActivationReason reason) 
 
 		break;
 
-	case QSystemTrayIcon::MiddleClick:
-		break;
-
 	default:
 		break;
 	}
 }
-
 
 
 void GUI_Player::set_libraries(LibraryPluginHandler* plugin_loader) {
@@ -459,7 +458,7 @@ void GUI_Player::set_player_plugin_handler(PlayerPluginHandler* pph) {
 
 	_pph = pph;
 
-	QList<PlayerPluginInterface*> lst = _pph->get_all_plugins();
+	QList<PlayerPluginInterface*> lst = pph->get_all_plugins();
 	QList<QAction*> actions;
 
 	int i=1;
@@ -491,31 +490,14 @@ void GUI_Player::register_preference_dialog(PreferenceDialogInterface* dialog){
 
 }
 
-// prvt fct
+
 void GUI_Player::set_radio_mode(RadioMode radio) {
 
 	bool stream_ripper = _settings->get(Set::Engine_SR_Active);
+	bool btn_rec_visible = (radio != RadioMode::Off) && stream_ripper;
 
-	if(stream_ripper) {
-
-		bool btn_rec_visible = (radio != RadioMode::Off);
-
-		if(btn_rec_visible) {
-			btn_play->setVisible(radio == RadioMode::Off);
-			btn_rec->setVisible(radio != RadioMode::Off);
-		}
-
-		else {
-			btn_rec->setVisible(radio != RadioMode::Off);
-			btn_play->setVisible(radio == RadioMode::Off);
-		}
-	}
-
-	else{
-
-		btn_rec->setVisible(false);
-		btn_play->setVisible(true);
-	}
+	btn_play->setVisible(!btn_rec_visible);
+	btn_rec->setVisible(btn_rec_visible);
 
 	_tray_icon->set_enable_fwd(true);
 	sli_progress->setEnabled( (_md.length_ms / 1000) > 0 );
@@ -525,7 +507,6 @@ void GUI_Player::set_radio_mode(RadioMode radio) {
 }
 
 
-// public slot
 void GUI_Player::_sl_sr_active_changed() {
 
 	bool active = _settings->get(Set::Engine_SR_Active);
@@ -584,10 +565,6 @@ void GUI_Player::ui_loaded() {
 		connect(awa, &AsyncWebAccess::sig_finished, this, &GUI_Player::awa_version_finished);
 	}
 
-	QWidget* cur_library=nullptr;
-	LibraryContainerInterface* cur_interface;
-	cur_interface = _lph->get_cur_library();
-
 	QLayout* layout;
 	splitter->restoreState(_settings->get(Set::Player_SplitterState));
 	layout = splitter->layout();
@@ -597,8 +574,9 @@ void GUI_Player::ui_loaded() {
 
 	splitter->update();
 
+	LibraryContainerInterface* cur_interface = _lph->get_cur_library();
 	if(cur_interface){
-		cur_library = cur_interface->get_ui();
+		QWidget* cur_library = cur_interface->get_ui();
 
 		if(cur_library == nullptr) return;
 
@@ -676,50 +654,6 @@ void GUI_Player::notify_new_version_toggled(bool b) {
 	_settings->set(Set::Player_NotifyNewVersion, b);
 }
 
-void GUI_Player::read_filelist(const QString& bla){
-
-	Q_UNUSED(bla)
-
-	sp_log(Log::Debug) << "Something happened in sayonara dir";
-
-	QString filename = Helper::get_sayonara_path() + "sayonara_files";
-	if(!QFile::exists(filename)){
-		return;
-	}
-
-
-	bool success;
-	QStringList files_to_play;
-	QString content;
-	PlaylistHandler* playlist_handler;
-	QString playlist_name;
-
-
-
-	success = Helper::File::read_file_into_str(filename, content);
-	if(!success){
-		return;
-	}
-
-	sp_log(Log::Debug) << "Read files...";
-	files_to_play = content.split("\n");
-	if(files_to_play.isEmpty()){
-		return;
-	}
-
-
-	QFile f(filename);
-	f.remove();
-
-	playlist_handler = PlaylistHandler::getInstance();
-	playlist_name = playlist_handler->request_new_playlist_name();
-	sp_log(Log::Debug) << "Create new playlist: " << playlist_name;
-	playlist_handler->create_playlist(files_to_play,
-									  playlist_name,
-									  true,
-									  Playlist::Type::Std
-									  );
-}
 
 void GUI_Player::really_close() {
 

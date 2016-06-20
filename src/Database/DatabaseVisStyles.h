@@ -26,7 +26,7 @@
 #include "Database/DatabaseModule.h"
 
 
-class RawColorStyle;
+struct RawColorStyle;
 class DatabaseVisStyles : private DatabaseModule
 {
 public:

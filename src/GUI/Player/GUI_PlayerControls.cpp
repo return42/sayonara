@@ -89,7 +89,7 @@ void GUI_Player::stopped() {
 	sli_progress->setEnabled(false);
 
 	curTime->setText("00:00");
-	maxTime->setText("00:00");
+	maxTime->setText("");
 
 	set_standard_cover();
 
@@ -139,9 +139,9 @@ void GUI_Player::set_cur_pos_label(int val){
 
 void GUI_Player::set_total_time_label(qint64 total_time) {
 
-	QString length_str = Helper::cvt_ms_to_string(total_time, true);
-	if(total_time == 0){
-		length_str = "";
+	QString length_str;
+	if(total_time > 0){
+		length_str = Helper::cvt_ms_to_string(total_time, true);
 	}
 
 	maxTime->setText(length_str);
@@ -169,7 +169,8 @@ void GUI_Player::jump_backward() {
 
 void GUI_Player::seek(int val) {
 
-	if(val < 0) return;
+	val = std::max(val, 0);
+
 	set_cur_pos_label(val);
 
 	double percent = (val * 1.0) / sli_progress->maximum();

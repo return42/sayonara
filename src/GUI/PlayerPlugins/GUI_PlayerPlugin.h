@@ -1,8 +1,8 @@
 #ifndef GUI_PLAYERPLUGIN_H
 #define GUI_PLAYERPLUGIN_H
 
-#include <QWidget>
-#include <QResizeEvent>
+#include <QHideEvent>
+#include <QCloseEvent>
 
 #include "GUI/PlayerPlugins/ui_GUI_PlayerPlugin.h"
 #include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
@@ -23,8 +23,12 @@ public:
 private:
 	PlayerPluginInterface* _current_plugin=nullptr;
 
+private:
+	void close_cur_plugin();
+	void hideEvent(QHideEvent* e) override;
+	void closeEvent(QCloseEvent *e) override;
+
 private slots:
-	void close_clicked();
 	void language_changed() override;
 };
 

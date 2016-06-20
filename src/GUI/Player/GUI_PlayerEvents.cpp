@@ -23,8 +23,6 @@
 #include "GUI_Player.h"
 #include "Interfaces/LibraryInterface/LibraryPluginHandler.h"
 #include "Interfaces/LibraryInterface/LibraryContainer/LibraryContainer.h"
-#include "Interfaces/PlayerPlugin/PlayerPluginHandler.h"
-
 
 void GUI_Player::moveEvent(QMoveEvent *e) {
 
@@ -96,13 +94,6 @@ void GUI_Player::keyPressEvent(QKeyEvent* e) {
 	e->accept();
 
 	switch (e->key()) {
-
-		case (Qt::Key_F9):
-
-		if(!isMaximized())
-			this->showMaximized();
-		else this->showNormal();
-			break;
 
 		case (Qt::Key_F10):
 			action_Dark->setChecked(!action_Dark->isChecked());

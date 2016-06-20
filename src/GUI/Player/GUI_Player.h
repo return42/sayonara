@@ -81,10 +81,6 @@ public:
 	void set_player_plugin_handler(PlayerPluginHandler* pph);
 	void register_preference_dialog(PreferenceDialogInterface* dialog);
 
-	// called from signal handler
-	// show if there are files to play
-	void read_filelist(const QString& filename);
-
 	void ui_loaded();
 	QString get_shortcut_text(const QString &shortcut_identifier) const override;
 

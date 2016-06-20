@@ -48,14 +48,7 @@ void GUI_Player::open_files_clicked() {
 	filetypes << Helper::get_soundfile_extensions();
 	filetypes << Helper::get_playlistfile_extensions();
 
-	QString filetypes_str = QString(tr("Media files") + " (");
-	for(const QString& filetype : filetypes) {
-		filetypes_str += filetype;
-		if(filetype != filetypes.last()) {
-			filetypes_str += " ";
-		}
-	}
-	filetypes_str += ")";
+	QString filetypes_str = tr("Media files") + " (" + filetypes.join(" ") + ")";
 
 	QStringList list =
 			QFileDialog::getOpenFileNames(
@@ -64,10 +57,12 @@ void GUI_Player::open_files_clicked() {
 					QDir::homePath(),
 					filetypes_str);
 
-	if (list.size() > 0){
-		PlaylistHandler* plh = PlaylistHandler::getInstance();
-		plh->create_playlist(list);
+	if(list.isEmpty()){
+		return;
 	}
+
+	PlaylistHandler* plh = PlaylistHandler::getInstance();
+	plh->create_playlist(list);
 }
 
 void GUI_Player::open_dir_clicked() {
@@ -77,10 +72,12 @@ void GUI_Player::open_dir_clicked() {
 			QDir::homePath(),
 			QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
 
-	if (dir != ""){
-		PlaylistHandler* plh = PlaylistHandler::getInstance();
-		plh->create_playlist(dir);
+	if (dir.isEmpty()){
+		return;
 	}
+
+	PlaylistHandler* plh = PlaylistHandler::getInstance();
+	plh->create_playlist(dir);
 }
 
 bool GUI_Player::check_library_path(){

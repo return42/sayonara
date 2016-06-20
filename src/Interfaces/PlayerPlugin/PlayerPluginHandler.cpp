@@ -23,11 +23,7 @@
 #include "PlayerPluginHandler.h"
 #include "Helper/Helper.h"
 
-
-#include <QMap>
-#include <QString>
 #include <QAction>
-#include <QDir>
 #include <QPluginLoader>
 
 
@@ -35,8 +31,6 @@ PlayerPluginHandler::PlayerPluginHandler(QObject *parent) :
 	QObject(parent),
 	SayonaraClass()
 {
-	_cur_shown_plugin = nullptr;
-
 	REGISTER_LISTENER(Set::Player_Language, language_changed);
 }
 
@@ -67,50 +61,31 @@ void PlayerPluginHandler::add_plugin(PlayerPluginInterface* p) {
 
 void PlayerPluginHandler::plugin_action_triggered(PlayerPluginInterface* p, bool b) {
 
+	if(!p){
+		return;
+	}
+
+	if(!p->get_action()){
+		return;
+	}
+
+	/*if(b == p->get_action()->isChecked()){
+		return;
+	}*/
+
 	if(b) {
 		emit sig_show_plugin(p);
 	}
 
 	else{
-
-		hide_all();
-		_cur_shown_plugin = nullptr;
+		emit sig_hide_all_plugins();
 	}
-}
-
-
-void PlayerPluginHandler::show_plugin(PlayerPluginInterface* p) {
-
-	hide_all();
-
-	QAction* action;
-
-	action = p->get_action();
-
-	if(action){
-		action->setChecked(true);
-	}
-
-	_cur_shown_plugin = p;
-
-
-}
-
-void PlayerPluginHandler::hide_all() {
-
-	_cur_shown_plugin = nullptr;
-
-	for(PlayerPluginInterface* p : _plugins){
-		p->get_action()->setChecked(false);
-	}
-
-	emit sig_hide_all_plugins();
 }
 
 
 void PlayerPluginHandler::reload_plugin(PlayerPluginInterface* p) {
 	if(p) {
-		plugin_action_triggered(p, true);
+		emit sig_show_plugin(p);
 	}
 }
 
@@ -159,10 +134,4 @@ void PlayerPluginHandler::load_dynamic_plugins()
 
 QList<PlayerPluginInterface*> PlayerPluginHandler::get_all_plugins() const {
 	return _plugins;
-}
-
-
-void PlayerPluginHandler::set_container(QWidget *parent){
-
-	_parent = parent;
 }

@@ -140,14 +140,14 @@ void GUI_InfoDialog::prepare_info(GUI_InfoDialog::Mode mode) {
 
 	switch (mode){
 		case GUI_InfoDialog::Mode::Artists:
-			info = new MetaDataInfo(_v_md);
+			info = new ArtistInfo(_v_md);
 			break;
 		case GUI_InfoDialog::Mode::Albums:
 			info = new AlbumInfo(_v_md);
 			break;
 
 		case GUI_InfoDialog::Mode::Tracks:
-			info = new ArtistInfo(_v_md);
+			info = new MetaDataInfo(_v_md);
 			break;
 
 		default:

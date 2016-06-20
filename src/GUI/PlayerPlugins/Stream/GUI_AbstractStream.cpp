@@ -90,7 +90,6 @@ void GUI_AbstractStream::language_changed(){
 
 void GUI_AbstractStream::init_ui()
 {
-	int icon_size = 24;
 	_btn_play->setMinimumSize(QSize(24,24));
 	_btn_play->setMaximumSize(QSize(24,24));
 

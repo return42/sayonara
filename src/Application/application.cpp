@@ -255,7 +255,6 @@ bool Application::init(QTranslator* translator, const QStringList& files_to_play
 	preferences->register_preference_dialog(new GUI_PlayerPreferences());
 	preferences->register_preference_dialog(new GUI_PlaylistPreferences());
 	preferences->register_preference_dialog(new GUI_LibraryPreferences());
-	//preferences->register_preference_dialog(new GUI_StartupDialog());
 	preferences->register_preference_dialog(new GUI_Shortcuts());
 	preferences->register_preference_dialog(new GUI_Notifications());
 	preferences->register_preference_dialog(new GUI_LastFM());
@@ -265,11 +264,8 @@ bool Application::init(QTranslator* translator, const QStringList& files_to_play
 
 	EngineHandler::getInstance()->init();
 
-
 	sp_log(Log::Debug) << "Preference dialogs loaded: " << _timer->elapsed() << "ms";
 
-	player->setWindowTitle(QString("Sayonara ") + version);
-	player->setWindowIcon(GUI::get_icon("logo.png"));
 	player->set_libraries(library_plugin_loader);
 	player->set_player_plugin_handler(pph);
 	player->ui_loaded();
@@ -291,13 +287,14 @@ Application::~Application() {
 
 	if(_instance_thread){
 		_instance_thread->stop();
+		while(_instance_thread->isRunning()){
+			Helper::sleep_ms(100);
+		}
 	}
 
 	if(player){
 		delete player;
 	}
-
-	delete _timer;
 
 	if(_plh){
 		_plh->save_all_playlists();
