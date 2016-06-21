@@ -1,4 +1,4 @@
-/* PlaylistItemDelegateInterface.cpp */
+/* PlaylistItemDelegate.h */
 
 /* Copyright (C) 2011-2016  Lucio Carreras
  *
@@ -19,8 +19,8 @@
  */
 
 
-#ifndef PLAYLISTITEMDELEGATEINTERFACE_H_
-#define PLAYLISTITEMDELEGATEINTERFACE_H_
+#ifndef PLAYLISTITEMDELEGATE_H_
+#define PLAYLISTITEMDELEGATE_H_
 
 
 #include <QLabel>

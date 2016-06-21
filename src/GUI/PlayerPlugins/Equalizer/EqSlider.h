@@ -22,7 +22,9 @@
 
 #ifndef EQSLIDER_H
 #define EQSLIDER_H
+
 #include "GUI/Helper/SayonaraWidget/SayonaraSlider.h"
+#include <QKeyEvent>
 
 class EqSlider : 
 	public SayonaraSlider 
@@ -45,9 +47,12 @@ class EqSlider :
 		double get_eq_value() const;
 		void set_eq_value(double val);
 
+	
+
 
 	protected:
 		void sliderChange(SliderChange change) override;
+		void keyPressEvent(QKeyEvent* e) override;
 
 	private:
 		QLabel* _label=nullptr;

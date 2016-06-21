@@ -82,3 +82,16 @@ void EqSlider::set_eq_value(double val)
 		this->setValue(val * 2);
 	}
 }
+
+void EqSlider::keyPressEvent(QKeyEvent* e)
+{
+	if(e->key() == Qt::Key_0){
+		this->setValue(0);
+		emit sig_value_changed(_idx, this->get_eq_value());
+	}
+
+	else{
+		SayonaraSlider::keyPressEvent(e);
+	}
+
+}
