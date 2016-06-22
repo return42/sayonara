@@ -11,6 +11,13 @@ SET(SOURCES
     InstanceThread.cpp
 )
 
+IF(WIN32)
+    SET(SOURCES
+	${SOURCES}
+	WindowsKeyHandler.cpp
+    )
+ENDIF()
+
 SET(APPLICATION_LIBRARIES
     say_gui_library
     say_gui_directory_widget

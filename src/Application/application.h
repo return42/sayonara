@@ -33,6 +33,10 @@ class DatabaseConnector;
 class PlaylistHandler;
 class GUI_Player;
 
+#ifdef Q_OS_WIN
+	class WindowsKeyHandler;
+#endif
+
 class Application : public QApplication, private SayonaraClass
 {
     Q_OBJECT
@@ -46,7 +50,13 @@ public:
 
 private:
 	void check_for_crash();
+
+#ifdef Q_OS_UNIX
 	void init_single_instance_thread();
+#else
+	WindowsKeyHandler* _win_key_handler=nullptr;
+	void init_global_key_handler();
+#endif
 
 	GUI_Player* player=nullptr;
 	QTime*		_timer=nullptr;

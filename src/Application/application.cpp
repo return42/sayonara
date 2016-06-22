@@ -79,28 +79,6 @@
 #include <thread>
 #include <chrono>
 
-/*
-void* my_thread(void* data){
-	while(true){
-		QWidget* w = QApplication::focusWidget();
-		if(w){
-			sp_log(Log::Debug) << w->objectName();
-		}
-
-		else{
-			sp_log(Log::Debug) << "No widget";
-		}
-
-#ifdef Q_OS_WIN
-	Sleep(1);
-#else
-	std::this_thread::sleep_for(std::chrono::seconds(1));
-#endif
-	}
-
-return NULL;
-}
-*/
 
 static InstanceMessage instance_message=InstanceMessageNone;
 
@@ -123,22 +101,21 @@ static InstanceMessage instance_message=InstanceMessageNone;
 	}
 
 #else
-	void global_key_handler(){
 
-		if(!RegisterHotKey(NULL, 1, MOD_NOREPEAT, VK_MEDIA_PLAY_PAUSE){
-			return false;
-		}
 
-		MSG msg = {0};
-		while (GetMessage(&msg, NULL, 0, 0) != 0)
-	    {
-    	    if (msg.message == WM_HOTKEY)
-	        {
-	        	UINT modifiers = msg.lParam;
-				UINT key = msg.wParam;
-	        }
-	    } 
+	#include "WindowsKeyHandler.h"
+
+	void Application::init_global_key_handler()
+	{
+		_win_key_handler = new WindowsKeyHandler(this);
+		connect(_win_key_handler, &QObject::destroyed, this; [=](){
+			_win_key_handler = nullptr;
+		});
+
+		_win_key_handler->run();
 	}
+
+
 #endif
 
 Application::Application(int & argc, char ** argv) :
@@ -147,9 +124,8 @@ Application::Application(int & argc, char ** argv) :
 {
 	_timer = new QTime();
 	_timer->start();
-	instance_message = InstanceMessageNone;
 
-	//new std::thread(my_thread);
+	instance_message = InstanceMessageNone;
 }
 
 void Application::check_for_crash(){
@@ -294,7 +270,11 @@ bool Application::init(QTranslator* translator, const QStringList& files_to_play
 		_plh->create_playlist(files_to_play, playlist_name);
 	}
 
+#ifdef Q_OS_UNIX
 	init_single_instance_thread();
+#else
+	init_global_key_handler();
+#endif
 
 	sp_log(Log::Debug) << "Time to start: " << _timer->elapsed() << "ms";
 
@@ -310,6 +290,15 @@ Application::~Application() {
 		}
 	}
 
+#ifdef Q_OS_WIN
+	if(_win_key_handler && _win_key_handler->isRunning()){
+		_win_key_handler->stop();
+		while(_win_key_handler->isRunning()){
+			Helper::sleep_ms(100)
+		}
+	}
+#endif
+
 	if(player){
 		delete player;
 	}
@@ -324,20 +313,27 @@ Application::~Application() {
 	}
 }
 
-void Application::init_single_instance_thread(){
 
 #ifdef Q_OS_UNIX
-	signal(SIGUSR1, new_instance_handler);
-	signal(SIGUSR2, new_instance_handler);
+	void Application::init_single_instance_thread(){
+
+
+		signal(SIGUSR1, new_instance_handler);
+		signal(SIGUSR2, new_instance_handler);
+
+
+		_instance_thread = new InstanceThread(&instance_message, this);
+
+		connect(_instance_thread, &InstanceThread::sig_player_raise, player, &GUI_Player::raise);
+		connect(_instance_thread, SIGNAL(sig_create_playlist(const QStringList&, const QString&, bool)),
+				_plh, SLOT(create_playlist(const QStringList&, const QString&, bool)));
+
+		_instance_thread->start();
+	}
+
+#else
+
 #endif
 
-	_instance_thread = new InstanceThread(&instance_message, this);
 
-	connect(_instance_thread, &InstanceThread::sig_player_raise, player, &GUI_Player::raise);
-	connect(_instance_thread, SIGNAL(sig_create_playlist(const QStringList&, const QString&, bool)),
-			_plh, SLOT(create_playlist(const QStringList&, const QString&, bool)));
-
-	_instance_thread->start();
-
-}
 
