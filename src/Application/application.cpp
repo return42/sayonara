@@ -121,6 +121,24 @@ static InstanceMessage instance_message=InstanceMessageNone;
 				break;
 		}
 	}
+
+#else
+	void global_key_handler(){
+
+		if(!RegisterHotKey(NULL, 1, MOD_NOREPEAT, VK_MEDIA_PLAY_PAUSE){
+			return false;
+		}
+
+		MSG msg = {0};
+		while (GetMessage(&msg, NULL, 0, 0) != 0)
+	    {
+    	    if (msg.message == WM_HOTKEY)
+	        {
+	        	UINT modifiers = msg.lParam;
+				UINT key = msg.wParam;
+	        }
+	    } 
+	}
 #endif
 
 Application::Application(int & argc, char ** argv) :
