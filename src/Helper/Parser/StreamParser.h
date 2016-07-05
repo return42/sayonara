@@ -38,6 +38,8 @@ class StreamParser : public QObject
 		StreamParser(const QString& station_name=QString(), QObject* parent=nullptr);
 
 		void parse_stream(const QString& url);
+		void parse_streams(const QStringList& urls);
+
 		MetaDataList get_metadata() const;
 
 	private slots:
@@ -45,7 +47,8 @@ class StreamParser : public QObject
 
 
 	private:
-		QString 		_url;
+		QStringList 	_urls;
+		QString			_last_url;
 		QStringList		_stream_buffer;
 		QString			_station_name;
 		MetaDataList	_v_md;
@@ -84,6 +87,8 @@ class StreamParser : public QObject
 		 * @param stream_url url used to fill album/artist/filepath
 		 */
 		void tag_metadata(MetaData& md, const QString& stream_url) const;
+
+		bool parse_next();
 
 };
 

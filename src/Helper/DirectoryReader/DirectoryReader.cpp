@@ -85,6 +85,7 @@ QStringList DirectoryReader::get_files_in_dir(const QDir& base_dir) const
 	return files;
 }
 
+
 MetaDataList DirectoryReader::get_md_from_filelist(const QStringList& lst)
 {
 

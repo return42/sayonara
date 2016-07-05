@@ -5,6 +5,7 @@
 #include "Helper/WebAccess/AsyncWebAccess.h"
 #include "Helper/Parser/StreamParser.h"
 #include "Components/Playlist/PlaylistHandler.h"
+#include "Helper/Parser/WWWPlaylistParser.h"
 
 #include <algorithm>
 
@@ -71,6 +72,45 @@ void SomaFMLibrary::soma_website_fetched(bool success)
 	awa->deleteLater();
 }
 
+void SomaFMLibrary::create_playlist_from_station(int row){
+
+	Q_UNUSED(row)
+
+	SomaFMStation station = _station_map[_requested_station];
+	WWWPlaylistParser* parser = new WWWPlaylistParser(this);
+	connect(parser, &WWWPlaylistParser::sig_playlist_parsed, this, &SomaFMLibrary::soma_station_playlists_fetched);
+	parser->start(station.get_urls());
+}
+
+void SomaFMLibrary::soma_station_playlists_fetched(bool success){
+	WWWPlaylistParser* parser = dynamic_cast<WWWPlaylistParser*>(sender());
+
+	if(!success){
+		parser->deleteLater();
+		return;
+	}
+
+	MetaDataList v_md  = parser->get_metadata();
+	SomaFMStation station = _station_map[_requested_station];
+	QString cover_url = station.get_cover_location().search_url;
+
+	for(MetaData& md : v_md){
+		md.cover_download_url = cover_url;
+	}
+
+	station.set_metadata(v_md);
+
+	_station_map[_requested_station] = station;
+
+	PlaylistHandler* plh = PlaylistHandler::getInstance();
+	plh->create_playlist(v_md,
+						 station.get_name(),
+						 true,
+						 Playlist::Type::Stream);
+
+	parser->deleteLater();
+
+}
 
 void SomaFMLibrary::create_playlist_from_playlist(int idx)
 {

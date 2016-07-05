@@ -33,7 +33,9 @@
 #include "GUI/Helper/ContextMenu/LibraryContextMenu.h"
 #include "GUI/Helper/CustomMimeData.h"
 
-#include "Helper/Helper.cpp"
+#include "Helper/Helper.h"
+#include "Helper/FileHelper.h"
+#include "Helper/Parser/StreamParser.h"
 #include "Helper/DirectoryReader/DirectoryReader.h"
 #include "Components/Playlist/PlaylistHandler.h"
 
@@ -203,13 +205,14 @@ int PlaylistView::calc_drag_drop_line(QPoint pos) {
 	return row;
 }
 
-
 void PlaylistView::handle_drop(QDropEvent* event) {
 
 	const QMimeData* mimedata = event->mimeData();
+	PlaylistHandler* plh = PlaylistHandler::getInstance();
 
 	MetaDataList v_md;
-	QString text, src;
+	QStringList www_playlists;
+	QString src;
 
 	int row = _delegate->get_drag_index();
 	clear_drag_drop_lines(row);
@@ -227,32 +230,7 @@ void PlaylistView::handle_drop(QDropEvent* event) {
 	}
 
 	const CustomMimeData* custom_mimedata = dynamic_cast<const CustomMimeData*>(mimedata);
-
-	if(mimedata->hasText()) {
-		text = mimedata->text();
-	}
-
-	// extern
-	bool from_library = (text.compare("tracks", Qt::CaseInsensitive) == 0);
-	if( mimedata->hasUrls() && !from_library) {
-
-		QStringList filelist;
-		DirectoryReader reader;
-
-		for(const QUrl& url : mimedata->urls()) {
-
-			QString url_str = url.toLocalFile();
-			url_str.remove("file://");
-			filelist << url_str;
-		}
-
-		reader.set_filter(Helper::get_soundfile_extensions());
-
-		v_md = reader.get_md_from_filelist(filelist);
-	}
-
-	else if(custom_mimedata){
-
+	if(custom_mimedata){
 		if(	custom_mimedata->hasText() &&
 			custom_mimedata->hasMetaData())
 		{
@@ -260,13 +238,65 @@ void PlaylistView::handle_drop(QDropEvent* event) {
 		}
 	}
 
+	else if( mimedata->hasUrls()) {
 
-	if(v_md.isEmpty()) {
-		return;
+
+		DirectoryReader reader;
+		reader.set_filter(Helper::get_soundfile_extensions());
+
+		for(const QUrl& url : mimedata->urls()) {
+			if(url.isLocalFile()){
+				QStringList file_list;
+				MetaDataList v_md_tmp;
+				file_list << url.toLocalFile();
+				v_md_tmp = reader.get_md_from_filelist(file_list);
+				v_md << v_md_tmp;
+			}
+
+			else if(Helper::File::is_playlistfile(url.toString())){
+				www_playlists << url.toString();
+			}
+		}
 	}
 
+	if(!v_md.isEmpty()) {
+		plh->insert_tracks(v_md, row+1, plh->get_current_idx());
+	}
+
+	if(!www_playlists.isEmpty()){
+
+		this->setEnabled(false);
+		if(!_progress){
+			_progress = new QProgressBar(this);
+			_progress->setObjectName("playlist_progress");
+		}
+
+		_progress->setGeometry(0, 0, this->width(), 10);
+		_progress->setMinimum(0);
+		_progress->setMaximum(0);
+		_progress->show();
+		this->setEnabled(false);
+
+		_async_drop_index = row;
+		StreamParser* stream_parser = new StreamParser();
+		connect(stream_parser, &StreamParser::sig_finished, this, &PlaylistView::handle_async_drop);
+		stream_parser->parse_streams(www_playlists);
+	}
+}
+
+void PlaylistView::handle_async_drop(bool success){
 	PlaylistHandler* plh = PlaylistHandler::getInstance();
-	plh->insert_tracks(v_md, row+1, plh->get_current_idx());
+	StreamParser* stream_parser = dynamic_cast<StreamParser*>(sender());
+	this->setEnabled(true);
+
+	_progress->hide();
+
+	if(success){
+		MetaDataList v_md = stream_parser->get_metadata();
+		plh->insert_tracks(v_md, _async_drop_index+1, plh->get_current_idx());
+	}
+
+	stream_parser->deleteLater();
 }
 
 void PlaylistView::handle_inner_drag_drop(int row, bool copy)
@@ -288,7 +318,7 @@ void PlaylistView::handle_inner_drag_drop(int row, bool copy)
 	else {
 		_model->move_rows(cur_selected_rows, row + 1);
 		n_lines_before_tgt = std::count_if(cur_selected_rows.begin(), cur_selected_rows.end(), [&row](int sel){
-		   return sel < row;
+			return sel < row;
 		});
 	}
 

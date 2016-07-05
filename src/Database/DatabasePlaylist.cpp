@@ -216,7 +216,7 @@ bool DatabasePlaylist::getPlaylistById(CustomPlaylist& pl) {
 			data.is_extern = false;
 			data.db_id = _module_db_id;
 
-			if(q.value(15).toInt() == 0 || q.value(15).isNull()){
+			if(q.value(16).toInt() == 0 || q.value(16).isNull()){
 				pl.tracks.push_back(data);
 			}
 		}
@@ -247,10 +247,13 @@ bool DatabasePlaylist::getPlaylistById(CustomPlaylist& pl) {
 		int position = q2.value(1).toInt();
 
 		MetaData data;
-		data.set_filepath( q2.value(0).toString() );
+		QString filepath = q2.value(0).toString();
+		data.set_filepath( filepath );
 		data.id = -1;
 		data.is_extern = true;
 		data.db_id = _module_db_id;
+		data.title = filepath;
+		data.artist = filepath;
 
 		for(int row=0; row<=pl.tracks.size(); row++) {
 			if( row >= position) {

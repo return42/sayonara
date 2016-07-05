@@ -97,7 +97,7 @@ public:
 	void			set_idx(int idx);	
 	PlaylistMode	get_playlist_mode() const;
 	void			set_playlist_mode(const PlaylistMode& mode);	
-	qint64			get_running_time() const;
+	quint64			get_running_time() const;
 
 
 	// from PlaylistDBInterface

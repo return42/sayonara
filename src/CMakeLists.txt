@@ -167,6 +167,7 @@ TARGET_LINK_LIBRARIES(${PROJECT_NAME}
     say_gui_resources
     say_lang
 	${OS_LIBRARIES}
+	tag
 )
 
 

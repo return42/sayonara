@@ -172,9 +172,10 @@ void Playlist::set_playlist_mode(const PlaylistMode& mode) {
 	_playlist_mode = mode;
 }
 
-qint64 Playlist::get_running_time() const
+quint64 Playlist::get_running_time() const
 {
-	qint64 dur_ms = std::accumulate(_v_md.begin(), _v_md.end(), 0, [](qint64 time, const MetaData& md){
+	quint64 dur_ms = 0;
+	dur_ms = std::accumulate(_v_md.begin(), _v_md.end(), dur_ms, [](quint64 time, const MetaData& md){
 		return time + md.length_ms;
 	});
 

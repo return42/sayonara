@@ -343,7 +343,7 @@ void GUI_Playlist::set_total_time_label() {
 	QString time_str;
 	QString playlist_string;
 	int idx;
-	qint64 dur_ms = 0;
+	quint64 dur_ms = 0;
 
 
 	idx = tw_playlists->currentIndex();

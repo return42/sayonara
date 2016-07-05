@@ -9,6 +9,7 @@ SET(SOURCES
     ui/GUI_SomaFM.cpp
     ui/SomaFMLibraryContainer.cpp
     ui/SomaFMStationModel.cpp
+    ui/SomaFMPlaylistModel.cpp
 )
 
 QT5_WRAP_UI(UI_FILES

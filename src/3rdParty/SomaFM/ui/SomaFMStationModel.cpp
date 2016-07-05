@@ -1,5 +1,7 @@
 #include "SomaFMStationModel.h"
 #include "GUI/Helper/GUI_Helper.h"
+#include <QMimeData>
+#include <QUrl>
 
 SomaFMStationModel::SomaFMStationModel(QObject *parent) :
 	AbstractSearchTableModel(parent)
@@ -162,3 +164,34 @@ void SomaFMStationModel::replace_station(const SomaFMStation& station)
 }
 
 
+QMimeData* SomaFMStationModel::mimeData(const QModelIndexList& indexes) const
+{
+	QList<QUrl> urls;
+	for(const QModelIndex& idx : indexes){
+		if(idx.column() == 0){
+			continue;
+		}
+
+		int row = idx.row();
+		if(!between(row, 0, _stations.size())){
+			continue;
+		}
+
+		QStringList str_urls = _stations[row].get_urls();
+
+		for(const QString& str_url : str_urls){
+			urls << QUrl(str_url);
+		}
+	}
+
+	QMimeData* mime_data = new QMimeData();
+	mime_data->setUrls(urls);
+	return mime_data;
+}
+
+
+
+Qt::ItemFlags SomaFMStationModel::flags(const QModelIndex& index) const
+{
+	return (Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled);
+}

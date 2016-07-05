@@ -33,17 +33,32 @@ StreamParser::StreamParser(const QString& station_name, QObject* parent) :
 	_station_name = station_name;
 }
 
+void StreamParser::parse_streams(const QStringList& urls)
+{
+	_v_md.clear();
+	_urls = urls;
+	parse_next();
+}
 
 void StreamParser::parse_stream(const QString& url)
 {
-	sp_log(Log::Debug) << "Parse station: " << url;
+	parse_streams( {url} );
+}
 
+bool StreamParser::parse_next(){
+
+	if(_urls.isEmpty()){
+		emit sig_finished(_v_md.size() > 0);
+		return false;
+	}
+
+	QString url = _urls.takeFirst();
 	AsyncWebAccess* awa = new AsyncWebAccess(this);
 	awa->set_behavior(AsyncWebAccess::Behavior::AsSayonara);
 	connect(awa, &AsyncWebAccess::sig_finished, this, &StreamParser::awa_finished);
-
-	_url = url;
 	awa->run(url, 3000);
+
+	return true;
 }
 
 
@@ -63,29 +78,26 @@ void StreamParser::awa_finished(bool success)
 		}
 
 		else {
-			emit sig_finished(false);
+			parse_next();
 		}
 
-		awa->deleteLater();
 		return;
 	}
 
 	_stream_buffer.clear();
-	_v_md.clear();
+	_last_url = awa->get_url();
 
-	QString url = awa->get_url();
 	QByteArray data = awa->get_data();
-
-	_url = url;
+	MetaDataList v_md;
 
 	awa->deleteLater();
 
 	/** Let's look what's inside data **/
 	if(!data.isEmpty()){
 
-		_v_md = parse_content(data);
-		if(_v_md.isEmpty()){
-			emit sig_finished(false);
+		v_md = parse_content(data);
+		if(v_md.isEmpty()){
+			parse_next();
 			return;
 		}
 	}
@@ -93,14 +105,16 @@ void StreamParser::awa_finished(bool success)
 	/** This is an ordianry stream and is tagged lateri **/
 	else {
 		MetaData md;
-		_v_md << md;
+		v_md << md;
 	}
 
-	for(MetaData& md : _v_md){
-		tag_metadata(md, url);
+	for(MetaData& md : v_md){
+		tag_metadata(md, _last_url);
 	}
 
-	emit sig_finished(true);
+	_v_md << v_md;
+
+	parse_next();
 }
 
 
@@ -167,7 +181,7 @@ QString StreamParser::write_playlist_file(const QByteArray& data) const
 {
 	QString filename, extension;
 
-	extension = Helper::File::get_file_extension(_url);
+	extension = Helper::File::get_file_extension(_last_url);
 	filename = Helper::get_sayonara_path() + QDir::separator() + "tmp_playlist";
 
 	if(!extension.isEmpty()){
@@ -183,7 +197,7 @@ QStringList StreamParser::search_for_playlist_files(const QByteArray& data) cons
 {
 
 	QStringList playlist_strings;
-	QString base_url = Helper::Url::get_base_url(_url);
+	QString base_url = Helper::Url::get_base_url(_last_url);
 
 	QRegExp re("href=\"([^<]+\\.(pls|m3u|asx))\"");
 	re.setMinimal(true);

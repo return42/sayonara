@@ -41,6 +41,7 @@
 #include <QModelIndex>
 #include <QMouseEvent>
 #include <QScrollBar>
+#include <QProgressBar>
 
 
 class LibraryContextMenu;
@@ -95,6 +96,9 @@ private:
 
 	PlaylistItemModel*		_model=nullptr;
 	PlaylistItemDelegate*	_delegate=nullptr;
+	QProgressBar*			_progress=nullptr;
+
+	int						_async_drop_index;
 
 
 private:
@@ -111,6 +115,7 @@ private:
 	int calc_drag_drop_line(QPoint pos);
 	void handle_drop(QDropEvent* event);
 	void handle_inner_drag_drop(int row, bool copy);
+
 
 	// overloaded stuff
 	void dragLeaveEvent(QDragLeaveEvent* event) override;
@@ -131,6 +136,7 @@ private:
 
 private slots:
 	void _sl_look_changed();
+	void handle_async_drop(bool success);
 };
 
 

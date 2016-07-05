@@ -35,6 +35,7 @@ private slots:
 	void stations_loaded(const QList<SomaFMStation>& stations);
 	void station_changed(const SomaFMStation& station);
 
+	void station_double_clicked(const QModelIndex& idx);
 	void station_clicked(const QModelIndex& idx);
 	void station_index_changed(const QModelIndex& idx);
 	void playlist_double_clicked(const QModelIndex& idx);

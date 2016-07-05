@@ -64,6 +64,7 @@ class DirectoryReader
 		 */
 		QStringList get_files_in_dir (const QDir& base_dir) const;
 
+
 		/**
 		 * @brief extracts MetaData structures from a list of files
 		 * @param paths List of filepaths

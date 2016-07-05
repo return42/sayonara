@@ -24,6 +24,7 @@ public:
 	SomaFMLibrary(QObject* parent=nullptr);
 
 	SomaFMStation get_station(const QString& name);
+	void create_playlist_from_station(int idx);
 	void create_playlist_from_playlist(int idx);
 	void search_stations();
 	void set_station_loved(const QString& station_name, bool loved);
@@ -32,6 +33,7 @@ public:
 private slots:
 	void soma_website_fetched(bool success);
 	void soma_playlist_content_fetched(bool success);
+	void soma_station_playlists_fetched(bool success);
 
 
 private:

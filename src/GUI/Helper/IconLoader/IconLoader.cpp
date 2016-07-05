@@ -127,11 +127,11 @@ void IconLoader::add_icon_names(const QStringList& icon_names){
 
 
 			QDir full_theme_dir(full_theme_path);
-			sp_log(Log::Debug) << full_theme_dir.canonicalPath();
+			//sp_log(Log::Debug) << full_theme_dir.canonicalPath();
 
 
 			QStringList files = dir_reader.find_files_rec(full_theme_dir, icon_name);
-			sp_log(Log::Debug) << "Search for " << icon_name << " in " << full_theme_path << ": " << files;
+			//sp_log(Log::Debug) << "Search for " << icon_name << " in " << full_theme_path << ": " << files;
 
 			for(const QString& file : files){
 
@@ -149,7 +149,7 @@ void IconLoader::add_icon_names(const QStringList& icon_names){
 				}
 
 				if(found){
-					sp_log(Log::Debug) << "Found icon " << icon_name << " in " << file;
+					//sp_log(Log::Debug) << "Found icon " << icon_name << " in " << file;
 					_icons[icon_name] = QIcon(file);
 					break;
 				}

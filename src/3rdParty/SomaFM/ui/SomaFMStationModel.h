@@ -5,7 +5,7 @@
 #include "3rdParty/SomaFM/SomaFMStation.h"
 #include <QMap>
 #include <QList>
-
+class QMimeData;
 class SomaFMStationModel : public AbstractSearchTableModel
 {
 	Q_OBJECT
@@ -17,9 +17,11 @@ private:
 
 	// QAbstractItemModel interface
 public:
-	int rowCount(const QModelIndex& parent=QModelIndex()) const;
-	int columnCount(const QModelIndex& parent=QModelIndex()) const;
-	QVariant data(const QModelIndex& index, int role=Qt::DisplayRole) const;
+	int rowCount(const QModelIndex& parent=QModelIndex()) const override;
+	int columnCount(const QModelIndex& parent=QModelIndex()) const override;
+	QVariant data(const QModelIndex& index, int role=Qt::DisplayRole) const override;
+	QMimeData* mimeData(const QModelIndexList &indexes) const override;
+	Qt::ItemFlags flags(const QModelIndex &index) const override;
 
 	// AbstractSearchModelInterface interface
 public:
@@ -32,5 +34,6 @@ public:
 	void set_stations(const QList<SomaFMStation>& stations);
 	void replace_station(const SomaFMStation& station);
 };
+
 
 #endif // SomaFMStationModel_H

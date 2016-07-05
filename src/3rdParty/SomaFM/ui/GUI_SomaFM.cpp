@@ -1,12 +1,13 @@
 #include "ui/GUI_SomaFM.h"
 #include "ui/SomaFMStationModel.h"
+#include "ui/SomaFMPlaylistModel.h"
 
 #include "Helper/Helper.h"
 #include "GUI/Helper/GUI_Helper.h"
 #include "GUI/Helper/Delegates/ListDelegate.h"
 #include "Components/CoverLookup/CoverLookup.h"
 
-#include <QStringListModel>
+
 #include <QPixmap>
 #include <QItemDelegate>
 
@@ -28,9 +29,10 @@ GUI_SomaFM::GUI_SomaFM(QWidget *parent) :
 	tv_stations->setEnabled(false);
 	tv_stations->setColumnWidth(0, 20);
 
-	lv_playlists->setModel(new QStringListModel());
+	lv_playlists->setModel(new SomaFMPlaylistModel());
 	lv_playlists->setItemDelegate(new ListDelegate(lv_playlists));
 	lv_playlists->setEditTriggers(QAbstractItemView::NoEditTriggers);
+
 
 	QPixmap logo = QPixmap(":/soma_icons/soma_logo.png")
 		.scaled(QSize(200, 200), Qt::KeepAspectRatio, Qt::SmoothTransformation);
@@ -49,6 +51,7 @@ GUI_SomaFM::GUI_SomaFM(QWidget *parent) :
 
 	connect(tv_stations, &QListView::activated, this, &GUI_SomaFM::station_index_changed);
 	connect(tv_stations, &QListView::clicked, this, &GUI_SomaFM::station_clicked);
+	connect(tv_stations, &QListView::doubleClicked, this, &GUI_SomaFM::station_double_clicked);
 	connect(tv_stations, &SearchableTableView::sig_selection_changed, this, &GUI_SomaFM::selection_changed);
 
 	connect(lv_playlists, &QListView::doubleClicked, this, &GUI_SomaFM::playlist_double_clicked);
@@ -71,13 +74,21 @@ void GUI_SomaFM::stations_loaded(const QList<SomaFMStation>& stations)
 {
 	SomaFMStationModel* model = static_cast<SomaFMStationModel*>(tv_stations->model());
 	model->set_stations(stations);
+
 	tv_stations->setEnabled(true);
+	tv_stations->setDragEnabled(true);
+	tv_stations->setDragDropMode(QAbstractItemView::DragDrop);
 }
 
 void GUI_SomaFM::station_changed(const SomaFMStation& station)
 {
 	SomaFMStationModel* model = static_cast<SomaFMStationModel*>(tv_stations->model());
 	model->replace_station(station);
+}
+
+void GUI_SomaFM::station_double_clicked(const QModelIndex& idx)
+{
+	_library->create_playlist_from_station(idx.row());
 }
 
 void GUI_SomaFM::selection_changed(const QModelIndexList& indexes){
@@ -119,29 +130,11 @@ void GUI_SomaFM::station_index_changed(const QModelIndex& idx){
 		return;
 	}
 
-	QStringListModel* pl_model;
+	SomaFMPlaylistModel* pl_model;
 	SomaFMStation station = get_station(idx.row());
 
-	QStringList entries;
-	QStringList urls = station.get_urls();
-
-	for(QString& url : urls){
-		SomaFMStation::UrlType type = station.get_url_type(url);
-		if(type == SomaFMStation::UrlType::MP3){
-			entries << station.get_name() + " (mp3)";
-		}
-
-		else if(type == SomaFMStation::UrlType::AAC){
-			entries << station.get_name() + " (aac)";
-		}
-
-		else{
-			entries << url;
-		}
-	}
-
-	pl_model = static_cast<QStringListModel*>(lv_playlists->model());
-	pl_model->setStringList(entries);
+	pl_model = static_cast<SomaFMPlaylistModel*>(lv_playlists->model());
+	pl_model->setStation(station);
 
 	lab_description->setText(station.get_description());
 
