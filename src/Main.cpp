@@ -29,7 +29,6 @@
 #include <csignal>
 #include <cstdio>
 #include <fcntl.h>
-#include <stdio.h>
 
 #include "Application/application.h"
 #include "Database/DatabaseConnector.h"
@@ -51,14 +50,14 @@
 
 #include <QtGlobal>
 #ifdef Q_OS_LINUX
-#include <execinfo.h>
+	#include <execinfo.h>
+#else
+
+	#include <glib-2.0/glib.h>
+	#undef signals
+	#include <gio/gio.h>
+	
 #endif
-
-#include <cstdlib>
-#include <glib-2.0/glib.h>
-#undef signals
-#include <gio/gio.h>
-
 
 int check_for_another_instance_unix() {
 

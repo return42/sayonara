@@ -14,14 +14,14 @@ SET(SOURCES
     PlaylistHandler.cpp
     PlaylistLoader.cpp
     PlaylistDBInterface.cpp
-    PlaylistDBConnector.cpp
+    PlaylistDBWrapper.cpp
 )
 
 ADD_LIBRARY(${PROJECT_NAME} STATIC ${SOURCES})
 TARGET_LINK_LIBRARIES(${PROJECT_NAME}
 	say_helper_settings
 	say_helper_directory_reader
-	say_helper_playlist
+	say_helper
 	say_comp_playmanager
 	say_comp_engine
 )

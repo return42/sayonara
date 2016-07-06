@@ -34,7 +34,6 @@
  *
  *
  * */
-#include <QString>
 #include <QDomDocument>
 
 #include "Helper/MetaData/MetaDataList.h"

@@ -5,7 +5,7 @@
 #include "Helper/WebAccess/AsyncWebAccess.h"
 #include "Helper/Parser/StreamParser.h"
 #include "Components/Playlist/PlaylistHandler.h"
-#include "Helper/Parser/WWWPlaylistParser.h"
+#include "Helper/Parser/StreamParser.h"
 
 #include <algorithm>
 
@@ -77,13 +77,13 @@ void SomaFMLibrary::create_playlist_from_station(int row){
 	Q_UNUSED(row)
 
 	SomaFMStation station = _station_map[_requested_station];
-	WWWPlaylistParser* parser = new WWWPlaylistParser(this);
-	connect(parser, &WWWPlaylistParser::sig_playlist_parsed, this, &SomaFMLibrary::soma_station_playlists_fetched);
-	parser->start(station.get_urls());
+	StreamParser* parser = new StreamParser(station.get_name(), this);
+	connect(parser, &StreamParser::sig_finished, this, &SomaFMLibrary::soma_station_playlists_fetched);
+	parser->parse_streams(station.get_urls());
 }
 
 void SomaFMLibrary::soma_station_playlists_fetched(bool success){
-	WWWPlaylistParser* parser = dynamic_cast<WWWPlaylistParser*>(sender());
+	StreamParser* parser = dynamic_cast<StreamParser*>(sender());
 
 	if(!success){
 		parser->deleteLater();
