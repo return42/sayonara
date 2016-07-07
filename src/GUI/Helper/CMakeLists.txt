@@ -3,10 +3,8 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 
 SET(SOURCES
 
-
 	CustomMimeData.cpp
 	GUI_Helper.cpp
-
 
 	ContextMenu/ContextMenu.cpp
 	ContextMenu/LibraryContextMenu.cpp
