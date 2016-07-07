@@ -23,7 +23,7 @@
 #include "PlaylistLoader.h"
 #include "PlaylistHandler.h"
 #include "Helper/MetaData/MetaData.h"
-#include "PlaylistDBConnector.h"
+#include "PlaylistDBWrapper.h"
 #include "Helper/Playlist/CustomPlaylist.h"
 
 
@@ -34,7 +34,7 @@ PlaylistLoader::PlaylistLoader(QObject* parent) :
 	SayonaraClass()
 {
 
-	_playlist_db_connector = PlaylistDBConnector::getInstance();
+	_playlist_db_connector = PlaylistDBWrapper::getInstance();
 
 	bool success=false;
 

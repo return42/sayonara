@@ -81,14 +81,7 @@ PlaybackEngine::~PlaybackEngine() {
 
 bool PlaybackEngine::init() {
 
-/*	QString gio_path = Helper::File::clean_filename(QApplication::applicationDirPath()) + QDir::separator() + "gio-modules/";
-
-	g_io_modules_scan_all_in_directory(gio_path.toLocal8Bit().data());*/
-
 	gst_init(0, 0);
-
-
-
 
 	_pipeline = new PlaybackPipeline(this);
 	if(!_pipeline->init()){

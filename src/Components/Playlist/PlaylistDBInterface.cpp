@@ -19,13 +19,13 @@
  */
 
 
-#include "PlaylistDBConnector.h"
+#include "PlaylistDBWrapper.h"
 #include "PlaylistDBInterface.h"
 
 
 PlaylistDBInterface::PlaylistDBInterface(const QString& name)
 {
-	_playlist_db_connector = PlaylistDBConnector::getInstance();
+	_playlist_db_connector = PlaylistDBWrapper::getInstance();
 
 	_name = name;
 	_id = _playlist_db_connector->get_playlist_by_name(name).id;
@@ -266,7 +266,7 @@ bool PlaylistDBInterface::is_save_enabled() const
 QString PlaylistDBInterface::request_new_db_name()
 {
 	CustomPlaylistSkeletons skeletons;
-	PlaylistDBConnector::getInstance()->get_all_skeletons(skeletons);
+	PlaylistDBWrapper::getInstance()->get_all_skeletons(skeletons);
 
 	QString target_name;
 

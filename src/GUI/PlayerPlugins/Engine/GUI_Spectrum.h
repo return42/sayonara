@@ -28,9 +28,7 @@
 
 #include "EnginePlugin.h"
 
-
 #include <QVector>
-#include <QString>
 
 class GUI_Spectrum :
 		public EnginePlugin,

@@ -1,4 +1,4 @@
-/* PlaylistDBConnector.h */
+/* PlaylistDBWrapper.h */
 
 /* Copyright (C) 2011-2016  Lucio Carreras
  *
@@ -20,8 +20,8 @@
 
 
 
-#ifndef PLAYLISTDBCONNECTOR_H
-#define PLAYLISTDBCONNECTOR_H
+#ifndef PLAYLISTDB_WRAPPER_H
+#define PLAYLISTDB_WRAPPER_H
 
 #include "Helper/MetaData/MetaData.h"
 #include "Database/DatabasePlaylist.h"
@@ -29,15 +29,15 @@
 class DatabaseConnector;
 
 /**
- * @brief PlaylistDBConnector is responsible for fetching playlist data from database,
+ * @brief PlaylistDBWrapper is responsible for fetching playlist data from database,
  * especially the handling between skeleton and the playlist itself
  * Most of the functions are wrappers for the DatabasePlaylist class
  * @ingroup Playlists
  */
-class PlaylistDBConnector
+class PlaylistDBWrapper
 {
 
-	SINGLETON(PlaylistDBConnector)
+	SINGLETON(PlaylistDBWrapper)
 
 private:
 	DatabaseConnector* _db=nullptr;

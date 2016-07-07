@@ -25,7 +25,7 @@
 #include "StdPlaylist.h"
 #include "StreamPlaylist.h"
 #include "PlaylistLoader.h"
-#include "PlaylistDBConnector.h"
+#include "PlaylistDBWrapper.h"
 
 #include "Database/DatabaseConnector.h"
 
@@ -587,7 +587,7 @@ void PlaylistHandler::reset_playlist(int pl_idx){
 		return;
 	}
 
-	PlaylistDBConnector* db_connector = PlaylistDBConnector::getInstance();
+	PlaylistDBWrapper* db_connector = PlaylistDBWrapper::getInstance();
 	int id = _playlists[pl_idx]->get_id();
 
 	CustomPlaylist cpl = db_connector->get_playlist_by_id(id);

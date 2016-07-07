@@ -34,9 +34,6 @@
 #include "Components/StreamPlugins/LastFM/LastFM.h"
 #include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
 
-
-#include <QString>
-
 class GUI_LastFM :
 		public PreferenceWidgetInterface,
 		private Ui::GUI_LastFM

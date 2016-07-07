@@ -23,13 +23,13 @@
 #include "Helper/MetaData/MetaData.h"
 #include "Helper/Playlist/CustomPlaylist.h"
 #include "Components/Playlist/PlaylistHandler.h"
-#include "Components/Playlist/PlaylistDBConnector.h"
+#include "Components/Playlist/PlaylistDBWrapper.h"
 
 PlaylistChooser::PlaylistChooser() {
 
 	_playlist_handler = PlaylistHandler::getInstance();
 
-	_playlist_db_connector = PlaylistDBConnector::getInstance();
+	_playlist_db_connector = PlaylistDBWrapper::getInstance();
 
 	connect(_playlist_handler, &PlaylistHandler::sig_saved_playlists_changed,
 			this, &PlaylistChooser::load_all_playlists);

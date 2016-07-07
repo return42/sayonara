@@ -30,12 +30,11 @@
 #include "Helper/MetaData/MetaData.h"
 #include "Helper/Playlist/CustomPlaylist.h"
 
-
 #include <QMap>
 
 class CustomPlaylist;
 class CustomPlaylistSkeleton;
-class PlaylistDBConnector;
+class PlaylistDBWrapper;
 class PlaylistHandler;
 
 /**
@@ -73,7 +72,7 @@ private:
 	int						_import_state;
 
 	PlaylistHandler*		_playlist_handler=nullptr;
-	PlaylistDBConnector*	_playlist_db_connector=nullptr;
+	PlaylistDBWrapper*	_playlist_db_connector=nullptr;
 	CustomPlaylist			find_custom_playlist(int id);
 
 

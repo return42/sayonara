@@ -26,7 +26,6 @@
 #include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
 #include "GUI/Preferences/Fonts/ui_GUI_FontConfig.h"
 
-#include <QString>
 #include <QFontDatabase>
 #include <QFont>
 #include <QList>
@@ -73,9 +72,5 @@ private:
 
 	void fill_sizes(const QStringList& sizes);
 };
-
-
-
-
 
 #endif // FONTCONFIG_H

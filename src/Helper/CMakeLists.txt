@@ -5,7 +5,6 @@ ADD_SUBDIRECTORY(MetaDataInfo)
 ADD_SUBDIRECTORY(Parser)
 ADD_SUBDIRECTORY(Settings)
 ADD_SUBDIRECTORY(Tagging)
-ADD_SUBDIRECTORY(Playlist)
 ADD_SUBDIRECTORY(Compressor)
 ADD_SUBDIRECTORY(DirectoryReader)
 
@@ -22,6 +21,8 @@ SET(SOURCES
     UrlHelper.cpp
     Set.cpp
     Tree.cpp
+
+	Playlist/CustomPlaylist.cpp
 
     MetaData/LibraryItem.cpp
     MetaData/MetaData.cpp

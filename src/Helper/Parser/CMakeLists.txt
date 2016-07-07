@@ -11,8 +11,6 @@ SET(SOURCES
 	PlaylistParser.cpp
 	PodcastParser.cpp
 	StreamParser.cpp
-
-	WWWPlaylistParser.cpp
 )
 
 ADD_LIBRARY(${PROJECT_NAME} STATIC ${SOURCES})
