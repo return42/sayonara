@@ -65,6 +65,7 @@ GUI_Player::GUI_Player(QTranslator* translator, QWidget *parent) :
 	GlobalMessage::getInstance()->register_receiver(this);
 
 	init_gui();
+	_cover_from_tag = false;
 
 	_translator = translator;
 	_engine = EngineHandler::getInstance();
@@ -162,6 +163,7 @@ void GUI_Player::init_gui() {
 void GUI_Player::track_changed(const MetaData & md) {
 
 	_md = md;
+	_cover_from_tag = false;
 
 	lab_sayonara->hide();
 	lab_title->show();

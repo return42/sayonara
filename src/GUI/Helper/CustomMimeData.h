@@ -36,6 +36,7 @@ class CustomMimeData : public QMimeData {
 
 private:
     MetaDataList    _v_md;
+	QString			_cover_url;
 
 public:
     /**
@@ -63,6 +64,10 @@ public:
      * @return true if yes, false else
      */
     bool hasMetaData() const;
+
+	void setCoverUrl(const QString& path);
+	QString getCoverUrl() const;
+	bool hasCoverUrl() const;
 };
 
 

@@ -230,6 +230,7 @@ void PlaylistView::handle_drop(QDropEvent* event) {
 	}
 
 	const CustomMimeData* custom_mimedata = dynamic_cast<const CustomMimeData*>(mimedata);
+
 	if(custom_mimedata){
 		if(	custom_mimedata->hasText() &&
 			custom_mimedata->hasMetaData())
@@ -279,6 +280,10 @@ void PlaylistView::handle_drop(QDropEvent* event) {
 
 		_async_drop_index = row;
 		StreamParser* stream_parser = new StreamParser();
+		if(mimedata->hasText()){
+			stream_parser->set_cover_url(mimedata->text());
+		}
+
 		connect(stream_parser, &StreamParser::sig_finished, this, &PlaylistView::handle_async_drop);
 		stream_parser->parse_streams(www_playlists);
 	}

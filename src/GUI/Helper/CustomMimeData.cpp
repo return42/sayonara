@@ -46,3 +46,17 @@ bool CustomMimeData::hasMetaData() const {
 
 	return (_v_md.size() > 0);
 }
+
+void CustomMimeData::setCoverUrl(const QString& url){
+	_cover_url = url;
+}
+
+QString CustomMimeData::getCoverUrl() const 
+{
+	return _cover_url;
+}
+
+bool CustomMimeData::hasCoverUrl() const
+{
+	return (!_cover_url.isEmpty());
+}

@@ -1,4 +1,5 @@
 #include "SomaFMPlaylistModel.h"
+#include "GUI/Helper/CustomMimeData.h"
 
 SomaFMPlaylistModel::SomaFMPlaylistModel(QObject* parent) :
     QStringListModel(parent)
@@ -48,6 +49,10 @@ QMimeData* SomaFMPlaylistModel::mimeData(const QModelIndexList& indexes) const
     QUrl url( urls[row] );
 
     QMimeData* mime_data = new QMimeData();
+	CoverLocation location = _station.get_cover_location();
+
     mime_data->setUrls({url});
+	mime_data->setText(location.search_url);
+
     return mime_data;
 }

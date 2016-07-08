@@ -97,6 +97,7 @@ public slots:
 	void jump_rel_ms(quint64 pos_ms) override;
 	void jump_rel(double percent) override;
 	void update_md(const MetaData&) override;
+	void update_cover(const QImage& img) override;
 	void change_track(const MetaData&) override;
 	void change_track(const QString&) override;
 

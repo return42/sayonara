@@ -234,6 +234,7 @@ bool EngineHandler::configure_connections(Engine* old_engine, Engine* new_engine
 		disconnect(old_engine, &Engine::sig_br_changed, this, &Engine::sig_br_changed);
 		disconnect(old_engine, &Engine::sig_track_finished, this, &EngineHandler::sl_track_finished);
 		disconnect(old_engine, &Engine::sig_buffering, this, &EngineHandler::buffering);
+		disconnect(old_engine, &Engine::sig_cover_changed, this, &EngineHandler::sig_cover_changed);
 	}
 
 	if(new_engine) {
@@ -245,6 +246,7 @@ bool EngineHandler::configure_connections(Engine* old_engine, Engine* new_engine
 		connect(new_engine, &Engine::sig_br_changed, this, &Engine::sig_br_changed);
 		connect(new_engine, &Engine::sig_track_finished, this, &EngineHandler::sl_track_finished);
 		connect(new_engine, &Engine::sig_buffering, this, &EngineHandler::buffering);
+		connect(new_engine, &Engine::sig_cover_changed, this, &EngineHandler::sig_cover_changed);
 	}
 
 	return true;
