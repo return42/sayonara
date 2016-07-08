@@ -1,6 +1,6 @@
 #include "SomaFMStationModel.h"
 #include "GUI/Helper/GUI_Helper.h"
-#include <QMimeData>
+#include "GUI/Helper/CustomMimeData.h"
 #include <QUrl>
 
 SomaFMStationModel::SomaFMStationModel(QObject *parent) :
@@ -167,6 +167,8 @@ void SomaFMStationModel::replace_station(const SomaFMStation& station)
 QMimeData* SomaFMStationModel::mimeData(const QModelIndexList& indexes) const
 {
 	QList<QUrl> urls;
+	QString cover_url;
+
 	for(const QModelIndex& idx : indexes){
 		if(idx.column() == 0){
 			continue;
@@ -181,14 +183,16 @@ QMimeData* SomaFMStationModel::mimeData(const QModelIndexList& indexes) const
 
 		for(const QString& str_url : str_urls){
 			urls << QUrl(str_url);
+			cover_url = _stations[row].get_cover_location().search_url;
 		}
 	}
 
 	QMimeData* mime_data = new QMimeData();
+	mime_data->setText(cover_url);
 	mime_data->setUrls(urls);
+
 	return mime_data;
 }
-
 
 
 Qt::ItemFlags SomaFMStationModel::flags(const QModelIndex& index) const

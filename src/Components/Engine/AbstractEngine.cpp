@@ -46,6 +46,10 @@ void Engine::update_md(const MetaData& md){
 	Q_UNUSED(md)
 }
 
+void Engine::update_cover(const QImage& img){
+	Q_UNUSED(img);
+}
+
 void Engine::update_duration(){
 
 }

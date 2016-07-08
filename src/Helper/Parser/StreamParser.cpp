@@ -110,6 +110,9 @@ void StreamParser::awa_finished(bool success)
 
 	for(MetaData& md : v_md){
 		tag_metadata(md, _last_url);
+		if(!_cover_url.isEmpty()){
+			md.cover_download_url = _cover_url;
+		}
 	}
 
 	_v_md << v_md;
@@ -225,4 +228,16 @@ QStringList StreamParser::search_for_playlist_files(const QByteArray& data) cons
 MetaDataList StreamParser::get_metadata() const
 {
 	return _v_md;
+}
+
+void StreamParser::set_cover_url(const QString& url)
+{
+	_cover_url = url;
+
+	if(!_v_md.isEmpty()){
+	
+		for(MetaData& md : _v_md){
+			md.cover_download_url = url;
+		}
+	}
 }

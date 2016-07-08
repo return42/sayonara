@@ -54,6 +54,7 @@ void GUI_Player::setup_connections() {
 	connect(_engine, &EngineHandler::sig_md_changed,	this, &GUI_Player::md_changed);
 	connect(_engine, &EngineHandler::sig_dur_changed, this, &GUI_Player::dur_changed);
 	connect(_engine, &EngineHandler::sig_br_changed,	this, &GUI_Player::br_changed);
+	connect(_engine, &EngineHandler::sig_cover_changed, this, &GUI_Player::cover_changed);
 
 	// file
 	connect(action_OpenFile, &QAction::triggered, this, &GUI_Player::open_files_clicked);

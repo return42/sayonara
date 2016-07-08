@@ -491,6 +491,11 @@ void PlaybackEngine::set_n_sound_receiver(int num_sound_receiver)
 	}
 }
 
+void PlaybackEngine::update_cover(const QImage& img)
+{
+	emit sig_cover_changed(img);	
+}
+
 
 void PlaybackEngine::update_md(const MetaData& md){
 

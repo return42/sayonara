@@ -24,6 +24,7 @@
 
 #include "Helper/Settings/SayonaraClass.h"
 #include "Helper/MetaData/MetaData.h"
+#include <QImage>
 
 #define PLAYBACK_ENGINE "playback_engine"
 #define CONVERT_ENGINE "convert_engine"
@@ -54,6 +55,7 @@ public:
 
 	virtual void		async_done();
 	virtual void		update_md(const MetaData&);
+	virtual void		update_cover(const QImage& img);
 	virtual void		update_duration();
 	virtual void		update_bitrate(quint32 br);
 	virtual void		update_time(qint32 time);
@@ -75,6 +77,7 @@ signals:
 	void sig_track_finished();
 
     void sig_download_progress(int);
+	void sig_cover_changed(const QImage& img);
 
 
 protected slots:
