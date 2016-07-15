@@ -12,13 +12,17 @@ class SomaFMPlaylistModel : public QStringListModel
 {
     Q_OBJECT
 
+private:
+	SomaFMStation _station;
+
 public:
     SomaFMPlaylistModel(QObject* parent=nullptr);
     QMimeData* mimeData(const QModelIndexList &indexes) const override;
 
     void setStation(const SomaFMStation& station);
 
-    SomaFMStation _station;
+
+
 };
 
 

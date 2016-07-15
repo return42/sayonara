@@ -2,12 +2,20 @@
 <ui version="4.0">
  <class>GUI_Podcasts</class>
  <widget class="PlayerPluginInterface" name="GUI_Podcasts">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>320</width>
+    <height>100</height>
+   </rect>
+  </property>
   <layout class="QGridLayout" name="gridLayout">
    <property name="topMargin">
     <number>5</number>
    </property>
    <property name="bottomMargin">
-    <number>0</number>
+    <number>5</number>
    </property>
    <property name="verticalSpacing">
     <number>6</number>

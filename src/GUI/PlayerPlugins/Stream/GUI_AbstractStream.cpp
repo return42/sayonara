@@ -32,8 +32,6 @@
 #include <QAbstractItemView>
 #include <QCompleter>
 
-
-
 GUI_AbstractStream::GUI_AbstractStream(AbstractStreamHandler* stream_handler, QWidget* parent) :
 	PlayerPluginInterface(parent)
 {
@@ -43,7 +41,6 @@ GUI_AbstractStream::GUI_AbstractStream(AbstractStreamHandler* stream_handler, QW
 
 	connect(_stream_handler, &AbstractStreamHandler::sig_error, this, &GUI_AbstractStream::error);
 	connect(_stream_handler, &AbstractStreamHandler::sig_data_available, this, &GUI_AbstractStream::data_available);
-
 }
 
 GUI_AbstractStream::~GUI_AbstractStream(){
@@ -97,6 +94,7 @@ void GUI_AbstractStream::init_ui()
 }
 
 void GUI_AbstractStream::error(){
+
 	_btn_play->setDisabled(false);
 	_lab_listen->setText(tr("Listen"));
 
@@ -114,14 +112,11 @@ void GUI_AbstractStream::data_available(){
 void GUI_AbstractStream::_sl_skin_changed()
 {
 	_btn_play->setIcon( IconLoader::getInstance()->get_icon("media-playback-start", "play"));
-
 }
-
 
 
 void GUI_AbstractStream::play(QString url, QString station_name){
 
-	sp_log(Log::Info) << "Play stream: " << station_name;
 	bool success = _stream_handler->parse_station(url, station_name);
 	if(!success){
 		sp_log(Log::Info) << "Stream Handler busy";
@@ -175,7 +170,6 @@ void GUI_AbstractStream::combo_idx_changed(int idx){
 	_btn_play->setEnabled(listen_enabled);
 	_lab_listen->setEnabled(listen_enabled);
 	_combo_stream->setToolTip(address);
-
 }
 
 
@@ -270,8 +264,6 @@ void GUI_AbstractStream::save_clicked(){
 }
 
 void GUI_AbstractStream::setup_stations(const StreamMap& stations){
-
-
 
 	QString old_name = _combo_stream->currentText();
 	QString old_url = _le_url->text();

@@ -32,6 +32,7 @@
 
 #include "GUI/Helper/ContextMenu/LibraryContextMenu.h"
 #include "GUI/Helper/CustomMimeData.h"
+#include "GUI/Helper/SayonaraWidget/SayonaraLoadingBar.h"
 
 #include "Helper/Helper.h"
 #include "Helper/FileHelper.h"
@@ -268,15 +269,10 @@ void PlaylistView::handle_drop(QDropEvent* event) {
 
 		this->setEnabled(false);
 		if(!_progress){
-			_progress = new QProgressBar(this);
-			_progress->setObjectName("playlist_progress");
+			_progress = new SayonaraLoadingBar(this);
 		}
 
-		_progress->setGeometry(0, 0, this->width(), 10);
-		_progress->setMinimum(0);
-		_progress->setMaximum(0);
 		_progress->show();
-		this->setEnabled(false);
 
 		_async_drop_index = row;
 		StreamParser* stream_parser = new StreamParser();

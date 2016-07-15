@@ -39,15 +39,17 @@ SomaFMStation SomaFMLibrary::get_station(const QString& name)
 void SomaFMLibrary::soma_website_fetched(bool success)
 {
 	AsyncWebAccess* awa = static_cast<AsyncWebAccess*>(sender());
+	QList<SomaFMStation> stations;
 
 	if(!success){
 		awa->deleteLater();
+		emit sig_stations_loaded(stations);
 		return;
 	}
 
 	QString content = QString::fromUtf8(awa->get_data());
 	QStringList station_contents = content.split("<li");
-	QList<SomaFMStation> stations;
+
 
 	for(const QString& station_content : station_contents){
 

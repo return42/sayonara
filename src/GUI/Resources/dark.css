@@ -815,7 +815,8 @@ QProgressBar::chunk {
 	margin: 0.5px;
 }
 
-QProgressBar#playlist_progress{
+QProgressBar#loading_bar
+{
 	border: 1px solid #202020;
 	background: #282828;
 	color: transparent;
@@ -823,7 +824,7 @@ QProgressBar#playlist_progress{
 	padding-bottom: 2px;
 }
 
-QProgressBar#playlist_progress::chunk
+QProgressBar#loading_bar::chunk
 {
 	width: 8px;
 	background: #e8841a; 

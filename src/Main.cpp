@@ -122,8 +122,12 @@ void set_environment(const QString& key, const QString& value)
 
 
 void printHelp() {
-	sp_log(Log::Info) << "sayonara <list>";
+	sp_log(Log::Info) << "sayonara [options] <list>";
 	sp_log(Log::Info) << "<list> can consist of either files or directories or both";
+	sp_log(Log::Info) << "Options:";
+	sp_log(Log::Info) << "\t--multi-instances  Run more than one instance";
+	sp_log(Log::Info) << "\t--help             Print this help dialog";
+	sp_log(Log::Info) << "Bye.";
 }
 
 
@@ -319,6 +323,11 @@ int main(int argc, char *argv[]) {
 	/* Init files to play in argument list */
 	for(int i=1; i<argc; i++) {
 		QString str(argv[i]);
+
+		if(str.compare("--help") == 0){
+			printHelp();
+			return 0;
+		}
 
 		if(str.compare("--multi-instances") == 0){
 			single_instance = false;

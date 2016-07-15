@@ -1,7 +1,7 @@
 #ifndef GUI_SOMAFM_H
 #define GUI_SOMAFM_H
 
-#include <QWidget>
+
 #include "SomaFMLibrary.h"
 #include "SomaFMStation.h"
 
@@ -10,7 +10,6 @@
 #include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
 
 #include <QItemSelection>
-
 
 class SomaFMStationModel;
 
@@ -23,6 +22,7 @@ class GUI_SomaFM :
 
 private:
 	SomaFMLibrary*	_library=nullptr;
+
 
 public:
 	explicit GUI_SomaFM(QWidget *parent = 0);

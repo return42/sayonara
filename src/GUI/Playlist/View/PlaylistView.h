@@ -31,6 +31,7 @@
 
 #include "Components/Playlist/Playlist.h"
 #include "GUI/Helper/SearchableWidget/SearchableListView.h"
+
 #include "Helper/Set.h"
 
 #include <QPoint>
@@ -43,7 +44,7 @@
 #include <QScrollBar>
 #include <QProgressBar>
 
-
+class SayonaraLoadingBar;
 class LibraryContextMenu;
 class PlaylistItemModel;
 class PlaylistItemDelegate;
@@ -96,7 +97,7 @@ private:
 
 	PlaylistItemModel*		_model=nullptr;
 	PlaylistItemDelegate*	_delegate=nullptr;
-	QProgressBar*			_progress=nullptr;
+	SayonaraLoadingBar*		_progress=nullptr;
 
 	int						_async_drop_index;
 

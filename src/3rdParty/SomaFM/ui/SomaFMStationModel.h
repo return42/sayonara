@@ -15,6 +15,14 @@ public:
 private:
 	QList<SomaFMStation> _stations;
 
+	enum class Status {
+		Waiting,
+		Error,
+		OK
+	};
+
+	Status _status;
+
 	// QAbstractItemModel interface
 public:
 	int rowCount(const QModelIndex& parent=QModelIndex()) const override;
@@ -23,6 +31,7 @@ public:
 	QMimeData* mimeData(const QModelIndexList &indexes) const override;
 	Qt::ItemFlags flags(const QModelIndex &index) const override;
 
+
 	// AbstractSearchModelInterface interface
 public:
 	QModelIndex getFirstRowIndexOf(QString substr);
@@ -30,9 +39,10 @@ public:
 	QModelIndex getPrevRowIndexOf(QString substr, int cur_row, const QModelIndex& parent);
 	QMap<QChar, QString> getExtraTriggers();
 
-
 	void set_stations(const QList<SomaFMStation>& stations);
 	void replace_station(const SomaFMStation& station);
+	bool has_stations() const;
+	void set_waiting();
 };
 
 

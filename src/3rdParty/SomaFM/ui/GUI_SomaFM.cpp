@@ -7,14 +7,12 @@
 #include "GUI/Helper/Delegates/ListDelegate.h"
 #include "Components/CoverLookup/CoverLookup.h"
 
-
 #include <QPixmap>
 #include <QItemDelegate>
 
 GUI_SomaFM::GUI_SomaFM(QWidget *parent) :
 	SayonaraWidget(parent),
 	Ui::GUI_SomaFM()
-
 {
 	setupUi(this);
 
@@ -32,7 +30,6 @@ GUI_SomaFM::GUI_SomaFM(QWidget *parent) :
 	lv_playlists->setModel(new SomaFMPlaylistModel());
 	lv_playlists->setItemDelegate(new ListDelegate(lv_playlists));
 	lv_playlists->setEditTriggers(QAbstractItemView::NoEditTriggers);
-
 
 	QPixmap logo = QPixmap(":/soma_icons/soma_logo.png")
 		.scaled(QSize(200, 200), Qt::KeepAspectRatio, Qt::SmoothTransformation);
@@ -72,6 +69,7 @@ QComboBox* GUI_SomaFM::get_libchooser() const
 
 void GUI_SomaFM::stations_loaded(const QList<SomaFMStation>& stations)
 {
+	sp_log(Log::Debug) << "Stations loaded";
 	SomaFMStationModel* model = static_cast<SomaFMStationModel*>(tv_stations->model());
 	model->set_stations(stations);
 
@@ -112,6 +110,14 @@ SomaFMStation GUI_SomaFM::get_station(int row) const
 
 void GUI_SomaFM::station_clicked(const QModelIndex &idx){
 	if(!idx.isValid()){
+		return;
+	}
+
+	SomaFMStationModel* station_model = static_cast<SomaFMStationModel*>(tv_stations->model());
+	if(!station_model->has_stations() && idx.column() == 0){
+		station_model->set_waiting();
+		_library->search_stations();
+
 		return;
 	}
 
