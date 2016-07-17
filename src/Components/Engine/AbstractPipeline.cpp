@@ -26,8 +26,6 @@
 
 #include <gst/app/gstappsink.h>
 
-#define GAPLESS_TRANSITION_MS 300
-
 AbstractPipeline::AbstractPipeline(QString name, Engine* engine, QObject* parent) :
 	QObject(parent),
 	SayonaraClass()
@@ -88,14 +86,14 @@ bool AbstractPipeline::init(GstState state){
 #endif
 
 	_progress_timer = new QTimer(this);
-        _progress_timer->setInterval(200);
-        connect(_progress_timer, &QTimer::timeout, this, [=](){
+	_progress_timer->setInterval(200);
+	connect(_progress_timer, &QTimer::timeout, this, [=](){
 		if(this->get_state() != GST_STATE_NULL){
-	                PipelineCallbacks::position_changed(this); 
+					PipelineCallbacks::position_changed(this);
 		}
-        });
+	});
 
-        _progress_timer->start();
+	_progress_timer->start();
 
 	_initialized = true;
 	return true;
@@ -184,14 +182,16 @@ void AbstractPipeline::check_about_to_finish(){
 
 	//show_time_info(_position_ms, _duration_ms);
 
+	quint64 about_to_finish_time = get_about_to_finish_time();
 
-	if(difference < GAPLESS_TRANSITION_MS && !_about_to_finish) {
+
+	if(difference < about_to_finish_time && !_about_to_finish) {
 
 		_about_to_finish = true;
 		emit sig_about_to_finish(difference);
 	}
 
-	else if(difference > GAPLESS_TRANSITION_MS){
+	else if(difference > about_to_finish_time){
 		_about_to_finish = false;
 	}
 }
@@ -277,6 +277,11 @@ bool AbstractPipeline::create_element(GstElement** elem, const gchar* elem_name,
 	}
 
 	return _test_and_error(*elem, error_msg);
+}
+
+quint64 AbstractPipeline::get_about_to_finish_time() const
+{
+	return 2000;
 }
 
 

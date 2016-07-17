@@ -105,9 +105,12 @@ void PlaybackEngine::change_track_gapless(const MetaData& md) {
 	_md = md;
 
 	qint64 time_to_go = _other_pipeline->get_time_to_go();
+	bool crossfader = true;
 
-	if(time_to_go <= 0){
+	if(time_to_go <= 0 || crossfader){
 		_pipeline->play();
+		_pipeline->fade_in();
+		//change_gapless_state(GaplessState::Playing);
 	}
 
 	else{
@@ -307,11 +310,13 @@ void PlaybackEngine::set_cur_position_ms(qint64 pos_ms) {
 	// the new track is requested so we won't display the position
 	// of the old track, because probably the new track is already
 	// displayed and active in playlist
-	if( (_gapless_state == GaplessState::AboutToFinish) ||
-		(_gapless_state == GaplessState::TrackFetched) )
-	{
-		emit sig_pos_changed_s(0);
-		return;
+	if(sender() != _pipeline){
+		if( (_gapless_state == GaplessState::AboutToFinish) ||
+			(_gapless_state == GaplessState::TrackFetched) )
+		{
+			//emit sig_pos_changed_s(0);
+			return;
+		}
 	}
 
 	if(pos_ms < 0 && Helper::File::is_www(_md.filepath())){
@@ -354,8 +359,10 @@ void PlaybackEngine::set_about_to_finish(qint64 time2go) {
 		return;
 	}
 
-	sp_log(Log::Debug) << "About to finish: " << (int) _gapless_state;
+	sp_log(Log::Debug) << "About to finish: " << (int) _gapless_state << " (" << time2go << "ms)";
 	change_gapless_state(GaplessState::AboutToFinish);
+
+	_pipeline->fade_out();
 
 	// switch pipelines
 	std::swap(_pipeline, _other_pipeline);
@@ -393,7 +400,11 @@ void PlaybackEngine::set_track_finished() {
 void PlaybackEngine::gapless_timed_out() {
 
 	sp_log(Log::Debug) << "Timer timed out";
+
 	_pipeline->play();
+	_pipeline->fade_in();
+
+	//change_gapless_state(GaplessState::Playing);
 }
 
 

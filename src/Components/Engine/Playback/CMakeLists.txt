@@ -6,7 +6,7 @@ SET(SOURCES
 	PlaybackEngine.cpp
 	PlaybackPipeline.cpp
 	StreamRecorder.cpp
-
+	CrossFader.cpp
 )
 
 

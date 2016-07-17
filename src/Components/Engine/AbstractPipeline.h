@@ -72,6 +72,8 @@ class AbstractPipeline : public QObject, protected SayonaraClass {
 		virtual bool add_and_link_elements()=0;
 		virtual bool configure_elements()=0;
 
+		virtual quint64 get_about_to_finish_time() const;
+
 	signals:
 		void sig_finished();
 		void sig_about_to_finish(qint64);

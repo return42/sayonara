@@ -115,11 +115,11 @@ private:
 
 	LevelReceiver*			_level_receiver=nullptr;
 	SpectrumReceiver*		_spectrum_receiver=nullptr;
-	QTimer*				_timer=nullptr;
+	QTimer*					_timer=nullptr;
 
 	GaplessState			_gapless_state;
 
-	bool				_sr_active;
+	bool					_sr_active;
 
 	StreamRecorder*			_stream_recorder=nullptr;
 

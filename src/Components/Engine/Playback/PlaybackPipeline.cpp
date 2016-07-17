@@ -26,11 +26,13 @@
 #include "Helper/EqualizerPresets.h"
 
 #include <gst/base/gstdataqueue.h>
+#include <algorithm>
 
 //http://gstreamer.freedesktop.org/data/doc/gstreamer/head/manual/html/chapter-dataaccess.html
 
 PlaybackPipeline::PlaybackPipeline(Engine* engine, QObject *parent) :
-	AbstractPipeline("Playback Pipeline", engine, parent)
+	AbstractPipeline("Playback Pipeline", engine, parent),
+	CrossFader()
 {
 	_speed_val = 1.0f;
 	_speed_active = false;
@@ -319,6 +321,11 @@ bool PlaybackPipeline::configure_elements(){
 	return true;
 }
 
+quint64 PlaybackPipeline::get_about_to_finish_time() const
+{
+	return std::max<quint64>(this->get_fading_time(), 2000);
+}
+
 
 void PlaybackPipeline::init_equalizer()
 {
@@ -386,6 +393,7 @@ bool PlaybackPipeline::tee_connect(GstPadTemplate* tee_src_pad_template, GstElem
 void PlaybackPipeline::play() {
 
 	gst_element_set_state(_pipeline, GST_STATE_PLAYING);
+	_sl_vol_changed();
 
 	if(_speed_active){
 		set_speed(_speed_val);
@@ -405,6 +413,7 @@ void PlaybackPipeline::stop() {
 	_uri = nullptr;
 
 	gst_element_set_state(_pipeline	, GST_STATE_NULL);
+	abort_fader();
 }
 
 void PlaybackPipeline::_sl_vol_changed() {
@@ -415,6 +424,7 @@ void PlaybackPipeline::_sl_vol_changed() {
 
 	g_object_set(G_OBJECT(_volume), "volume", vol_val, nullptr);
 }
+
 
 
 void PlaybackPipeline::_sl_mute_changed() {
@@ -443,6 +453,7 @@ bool PlaybackPipeline::_seek(gint64 ns){
 									 GST_SEEK_TYPE_SET,
 									 ns,
 									 GST_SEEK_TYPE_NONE, 0);
+
 	success = gst_element_send_event(_audio_src, seek_event);
 
 	return success;
@@ -507,6 +518,7 @@ void PlaybackPipeline::set_speed(float f) {
 		_seek(_position_ms * GST_MSECOND);
 	}
 }
+
 
 
 void PlaybackPipeline::_sl_show_level_changed() {
@@ -605,4 +617,16 @@ void PlaybackPipeline::set_streamrecorder_path(const QString& path){
 	_sr_data->active = _run_sr;
 
 	Probing::handle_stream_recorder_probe(_sr_data, Probing::stream_recorder_probed);
+}
+
+void PlaybackPipeline::set_current_volume(double volume)
+{
+	g_object_set(_volume, "volume", volume, nullptr);
+}
+
+double PlaybackPipeline::get_current_volume() const
+{
+	double volume;
+	g_object_get(_volume, "volume", &volume, nullptr);
+	return volume;
 }
