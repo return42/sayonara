@@ -22,10 +22,13 @@
 #include "Tagging.h"
 #include "Frames/Popularimeter.h"
 #include "Frames/Discnumber.h"
+#include "Frames/Cover.h"
 
 #include "Helper/Helper.h"
 #include "Helper/FileHelper.h"
 #include "Helper/MetaData/MetaData.h"
+
+#include "Components/CoverLookup/CoverLocation.h"
 
 #include <taglib/tbytevector.h>
 #include <taglib/tbytevectorstream.h>
@@ -59,10 +62,10 @@ bool Tagging::getMetaDataOfFile(MetaData& md, Tagging::Quality quality) {
 	};
 
 	TagLib::FileRef f(
-				TagLib::FileName(md.filepath().toUtf8()),
-				read_audio_props,
-				read_style
-	);
+			TagLib::FileName(md.filepath().toUtf8()),
+			read_audio_props,
+			read_style
+			);
 
 	if(f.isNull() || !f.tag() || !f.file()->isValid() || !f.file()->isReadable(md.filepath().toUtf8()) ) {
 		sp_log(Log::Info) << md.filepath() << ": Something's wrong with this file";
@@ -104,12 +107,12 @@ bool Tagging::getMetaDataOfFile(MetaData& md, Tagging::Quality quality) {
 	}
 
 
-    QStringList genres;
+	QStringList genres;
 	QString genre_str = Helper::cvt_str_to_first_upper(genre);
-    genres = genre_str.split(QRegExp(",|/|;|\\."));
-    for(int i=0; i<genres.size(); i++) {
-        genres[i] = genres[i].trimmed();
-    }
+	genres = genre_str.split(QRegExp(",|/|;|\\."));
+	for(int i=0; i<genres.size(); i++) {
+		genres[i] = genres[i].trimmed();
+	}
 
 	genres.removeDuplicates();
 	genres.removeAll("");
@@ -121,7 +124,7 @@ bool Tagging::getMetaDataOfFile(MetaData& md, Tagging::Quality quality) {
 	md.year = year;
 	md.track_num = track;
 	md.bitrate = bitrate;
-    md.genres = genres;
+	md.genres = genres;
 	md.discnumber = discnumber.disc;
 	md.n_discs = discnumber.n_discs;
 	md.comment = comment;
@@ -147,14 +150,14 @@ bool Tagging::setMetaDataOfFile(const MetaData& md) {
 	QString filepath = md.filepath();
 	TagLib::FileRef f(TagLib::FileName(filepath.toUtf8()));
 	if(f.isNull() || !f.tag() || !f.file()->isValid() || !f.file()->isWritable(filepath.toUtf8()) ) {
-        sp_log(Log::Info) << "ID3 cannot save";
+		sp_log(Log::Info) << "ID3 cannot save";
 		return false;
 	}
 
 	TagLib::String album(md.album.toUtf8().data(), TagLib::String::UTF8);
 	TagLib::String artist(md.artist.toUtf8().data(), TagLib::String::UTF8);
 	TagLib::String title(md.title.toUtf8().data(), TagLib::String::UTF8);
-    TagLib::String genre(md.genres.join(",").toUtf8().data(), TagLib::String::UTF8);
+	TagLib::String genre(md.genres.join(",").toUtf8().data(), TagLib::String::UTF8);
 
 	f.tag()->setAlbum(album);
 	f.tag()->setArtist(artist);
@@ -175,4 +178,38 @@ bool Tagging::setMetaDataOfFile(const MetaData& md) {
 	f.save();
 
 	return true;
+}
+
+
+
+bool Tagging::write_cover(const MetaData& md, const QString& cover_image_path){
+
+	TagLib::FileRef f(TagLib::FileName(filepath.toUtf8()));
+	if(f.isNull() || !f.tag() || !f.file()->isValid() ||
+			!f.file()->isWritable(filepath.toUtf8()) 
+	{
+		sp_log(Log::Info) << "ID3 cannot save";
+		return false;
+	}
+
+
+	QByteArray data;
+	Helper::File::read_file_into_byte_arr(cover_image_path, data);
+	if(data.isEmpty()){
+		return false;
+	}
+
+	ID3v2Frame::Cover cover(data, "image/png");
+	ID3v2Frame::CoverFrame cover_frame(&f);
+	cover_frame.write(cover);
+}
+
+bool Tagging::write_cover(const MetaData& md){
+	CoverLocation cl = CoverLocation::get_cover_location(md);
+
+	if(!cl.cover_path.isEmpty()){
+		return write_cover(md, cl.cover_path);
+	}
+
+	return false;
 }

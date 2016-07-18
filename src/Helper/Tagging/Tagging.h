@@ -61,6 +61,9 @@ namespace Tagging
 	 * @return true if metadata could be written. false else
 	 */
 	bool setMetaDataOfFile(const MetaData& md);
+
+	bool write_cover(const MetaData& md);
+	bool write_cover(const MetaData& md, const QString& image_path);
 }
 
 
