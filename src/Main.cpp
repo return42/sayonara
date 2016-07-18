@@ -252,6 +252,8 @@ bool register_settings(){
 	REGISTER_SETTING( Set::Engine_SR_Warning, "streamripper_warning", true );
 	REGISTER_SETTING( Set::Engine_SR_Path, "streamripper_path", QDir::homePath() );
 	REGISTER_SETTING( Set::Engine_SR_SessionPath, "streamripper_session_path", true );
+	REGISTER_SETTING( Set::Engine_CrossFaderActive, "crossfader_active", false);
+	REGISTER_SETTING( Set::Engine_CrossFaderTime, "crossfader_time", 5000);
 
 	REGISTER_SETTING( Set::Spectrum_Style, "spectrum_style", 0 );
 	REGISTER_SETTING( Set::Level_Style, "level_style", 0 );

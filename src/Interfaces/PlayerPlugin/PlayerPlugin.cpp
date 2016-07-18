@@ -92,7 +92,6 @@ void PlayerPluginInterface::closeEvent(QCloseEvent* e) {
 	SayonaraWidget::closeEvent(e);
 
     _pp_action->setChecked(false);
-	action_triggered(false);
 }
 
 bool PlayerPluginInterface::is_ui_initialized() const

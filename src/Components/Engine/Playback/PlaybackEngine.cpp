@@ -53,7 +53,6 @@ PlaybackEngine::PlaybackEngine(QObject* parent) :
 	_level_receiver = nullptr;
 	_spectrum_receiver = nullptr;
 
-
 	_timer = new QTimer();
 	_timer->setTimerType(Qt::PreciseTimer);
 	_timer->setSingleShot(true);
@@ -104,20 +103,26 @@ void PlaybackEngine::change_track_gapless(const MetaData& md) {
 	set_uri(md.filepath());
 	_md = md;
 
-	qint64 time_to_go = _other_pipeline->get_time_to_go();
-	bool crossfader = true;
+	bool crossfade = _settings->get(Set::Engine_CrossFaderActive);
 
-	if(time_to_go <= 0 || crossfader){
+	if(crossfade){
 		_pipeline->play();
 		_pipeline->fade_in();
-		//change_gapless_state(GaplessState::Playing);
 	}
 
 	else{
-		_timer->setInterval(time_to_go);
-		_timer->start();
+		qint64 time_to_go = _other_pipeline->get_time_to_go();
 
-		sp_log(Log::Debug) << "Will start playing in " << time_to_go << "msec";
+		 if(time_to_go <= 0){
+			_pipeline->play();
+		 }
+
+		 else{
+			 _timer->setInterval(time_to_go);
+			 _timer->start();
+
+			 sp_log(Log::Debug) << "Will start playing in " << time_to_go << "msec";
+		 }
 	}
 
 	change_gapless_state(GaplessState::TrackFetched);
@@ -227,7 +232,6 @@ void PlaybackEngine::play() {
 	if(_sr_active && _stream_recorder->is_recording()){
 		set_streamrecorder_recording(true);
 	}
-
 }
 
 
@@ -352,6 +356,9 @@ void PlaybackEngine::set_about_to_finish(qint64 time2go) {
 
 	Q_UNUSED(time2go)
 
+	if(sender() != _pipeline){
+		return;
+	}
 
 	if( _gapless_state == GaplessState::NoGapless ||
 		_gapless_state == GaplessState::AboutToFinish )
@@ -362,7 +369,10 @@ void PlaybackEngine::set_about_to_finish(qint64 time2go) {
 	sp_log(Log::Debug) << "About to finish: " << (int) _gapless_state << " (" << time2go << "ms)";
 	change_gapless_state(GaplessState::AboutToFinish);
 
-	_pipeline->fade_out();
+	bool crossfade = _settings->get(Set::Engine_CrossFaderActive);
+	if(crossfade){
+		_pipeline->fade_out();
+	}
 
 	// switch pipelines
 	std::swap(_pipeline, _other_pipeline);
@@ -402,15 +412,13 @@ void PlaybackEngine::gapless_timed_out() {
 	sp_log(Log::Debug) << "Timer timed out";
 
 	_pipeline->play();
-	_pipeline->fade_in();
-
-	//change_gapless_state(GaplessState::Playing);
 }
 
 
 void PlaybackEngine::_gapless_changed() {
 
-	bool gapless = _settings->get(Set::Engine_Gapless);
+	bool gapless =	(_settings->get(Set::Engine_Gapless) ||
+					_settings->get(Set::Engine_CrossFaderActive));
 
 	if(gapless) {
 
@@ -438,7 +446,9 @@ void PlaybackEngine::_gapless_changed() {
 
 void PlaybackEngine::change_gapless_state(GaplessState state)
 {
-	if( !_settings->get(Set::Engine_Gapless) ){
+	if( !_settings->get(Set::Engine_Gapless) &&
+		!_settings->get(Set::Engine_CrossFaderActive))
+	{
 		_gapless_state = GaplessState::NoGapless;
 	}
 
@@ -446,8 +456,6 @@ void PlaybackEngine::change_gapless_state(GaplessState state)
 		_gapless_state = state;
 	}
 }
-
-
 
 
 void PlaybackEngine::set_speed(float f) {

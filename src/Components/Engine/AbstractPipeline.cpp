@@ -281,10 +281,8 @@ bool AbstractPipeline::create_element(GstElement** elem, const gchar* elem_name,
 
 quint64 AbstractPipeline::get_about_to_finish_time() const
 {
-	return 2000;
+	return 300;
 }
-
-
 
 bool
 _test_and_error(void* element, QString errorstr) {

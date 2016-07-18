@@ -24,13 +24,7 @@
 #define SETTINGKEY_H
 
 #include "Helper/globals.h"
-//#include "Helper/EqualizerPresets.h"
-//#include "GUI/Helper/Shortcuts/RawShortcutMap.h"
-//#include "Helper/PlaylistMode.h"
-//#include "Components/Library/Sorting.h"
-//#include <QString>
-//#include <QPoint>
-//#include <QSize>
+
 class QString;
 class QPoint;
 class QSize;
@@ -120,6 +114,8 @@ namespace SK {
 		Engine_ShowSpectrum,
 		Engine_ShowLevel,
         Engine_CurTrackPos_s,
+		Engine_CrossFaderActive,
+		Engine_CrossFaderTime,
 
 		Engine_SR_Active,
 		Engine_SR_Warning,
@@ -204,8 +200,6 @@ namespace Set {
 	INST(int,					Lib_FontSize);					/* current library font size */
 	INST(bool,					Lib_FontBold);					/* current library font weight */
 
-
-
 	INST(QString,				Player_Version);				/* Version string of player */
 	INST(QString,				Player_Language);				/* language of player */
 	INST(int,					Player_Style);					/* dark or native: native = 0, dark = 1 */
@@ -250,6 +244,8 @@ namespace Set {
 	INST(bool,					Engine_Gapless);				/* gapless playback */
 	INST(bool,					Engine_ShowSpectrum);			/* show spectrum */
 	INST(bool,					Engine_ShowLevel);				/* show level */
+	INST(bool,					Engine_CrossFaderActive);
+	INST(int,					Engine_CrossFaderTime);
 
 
 	INST(bool,					Engine_SR_Active);				/* Streamripper active */

@@ -33,7 +33,6 @@ void GUI_Player::hide_all_plugins() {
 	}
 
 	plugin_widget->close();
-	_settings->set(Set::Player_ShownPlugin, QString());
 }
 
 
@@ -47,6 +46,4 @@ void GUI_Player::show_plugin(PlayerPluginInterface* plugin) {
 	}
 
 	plugin_widget->show(plugin);
-
-	_settings->set(Set::Player_ShownPlugin, plugin->get_name());
 }
