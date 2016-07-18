@@ -59,16 +59,13 @@
 	
 #endif
 
-int check_for_another_instance_unix() {
+int check_for_another_instance_unix(qint64 pid) {
 
 #ifdef Q_OS_LINUX
-
-	int pid = -1;
 
 	QDir dir("/proc");
 	dir.cd(".");
 	QStringList lst = dir.entryList(QDir::Dirs);
-	int n_instances = 0;
 
 	for(const QString& dirname : lst) {
 		bool ok;
@@ -88,15 +85,8 @@ int check_for_another_instance_unix() {
 		f.close();
 
 		if(str.contains("sayonara", Qt::CaseInsensitive)) {
-
-			n_instances++;
-
-			if(pid == -1 || tmp_pid < pid) {
-				pid = tmp_pid;
-			}
-
-			if(n_instances > 1) {
-				return pid;
+			if(pid != tmp_pid){
+				return tmp_pid;
 			}
 		}
 
@@ -345,7 +335,7 @@ int main(int argc, char *argv[]) {
 
 	int pid=0;
 	if(single_instance){
-		pid = check_for_another_instance_unix();
+		pid = check_for_another_instance_unix(QCoreApplication::applicationPid());
 	}
 
 	if(pid > 0) {
