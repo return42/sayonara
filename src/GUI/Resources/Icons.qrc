@@ -85,6 +85,5 @@
         <file>Icons/star.png</file>
         <file>Icons/star_disabled.png</file>
         <file>Icons/waiting.gif</file>
-        <file>Icons/crossfade.svg.png</file>
     </qresource>
 </RCC>
