@@ -28,8 +28,6 @@
 #include "Helper/FileHelper.h"
 #include "Helper/MetaData/MetaData.h"
 
-#include "Components/CoverLookup/CoverLocation.h"
-
 #include <taglib/tbytevector.h>
 #include <taglib/tbytevectorstream.h>
 
@@ -184,32 +182,72 @@ bool Tagging::setMetaDataOfFile(const MetaData& md) {
 
 bool Tagging::write_cover(const MetaData& md, const QString& cover_image_path){
 
+	QString error_msg = "Cannot save cover. ";
+	QString filepath = md.filepath();
 	TagLib::FileRef f(TagLib::FileName(filepath.toUtf8()));
-	if(f.isNull() || !f.tag() || !f.file()->isValid() ||
-			!f.file()->isWritable(filepath.toUtf8()) 
+	if( f.isNull() ||
+		!f.tag() ||
+		!f.file()->isValid() ||
+		!f.file()->isWritable(filepath.toUtf8()) )
 	{
-		sp_log(Log::Info) << "ID3 cannot save";
+		sp_log(Log::Info) << error_msg << "Cannot open id3 tag";
 		return false;
 	}
-
 
 	QByteArray data;
-	Helper::File::read_file_into_byte_arr(cover_image_path, data);
-	if(data.isEmpty()){
+	bool success = Helper::File::read_file_into_byte_arr(cover_image_path, data);
+	if(data.isEmpty() || !success){
+		sp_log(Log::Warning) << error_msg << "No image data available: " << cover_image_path;
 		return false;
 	}
 
-	ID3v2Frame::Cover cover(data, "image/png");
-	ID3v2Frame::CoverFrame cover_frame(&f);
-	cover_frame.write(cover);
-}
-
-bool Tagging::write_cover(const MetaData& md){
-	CoverLocation cl = CoverLocation::get_cover_location(md);
-
-	if(!cl.cover_path.isEmpty()){
-		return write_cover(md, cl.cover_path);
+	QString mime_type = "image/";
+	QString ext = Helper::File::get_file_extension(cover_image_path);
+	if(ext.compare("jpg", Qt::CaseInsensitive) == 0){
+		mime_type += "jpeg";
 	}
 
-	return false;
+	else if(ext.compare("png", Qt::CaseInsensitive) == 0){
+		mime_type += "png";
+	}
+
+	else{
+		sp_log(Log::Warning) << error_msg << "Unknown mimetype: '" << ext << "'";
+		return false;
+	}
+
+	ID3v2Frame::Cover cover(mime_type, data);
+	ID3v2Frame::CoverFrame cover_frame(&f);
+
+	cover_frame.write(cover);
+	return f.save();
+}
+
+bool Tagging::extract_cover(const MetaData &md, QByteArray& cover_data, QString& mime_type){
+
+	QString error_msg = "Cannot fetch cover. ";
+	QString filepath = md.filepath();
+	TagLib::FileRef f(TagLib::FileName(filepath.toUtf8()));
+	if( f.isNull() ||
+		!f.tag() ||
+		!f.file()->isValid() ||
+		!f.file()->isWritable(filepath.toUtf8()) )
+	{
+		sp_log(Log::Info) << error_msg << "Cannot open id3 tag";
+		return false;
+	}
+
+
+	ID3v2Frame::Cover cover;
+	ID3v2Frame::CoverFrame cover_frame(&f);
+
+	if(!cover_frame.is_frame_found()){
+		return false;
+	}
+
+	cover_frame.read(cover);
+	cover_data = cover.image_data;
+	mime_type = cover.mime_type;
+
+	return !(cover_data.isEmpty());
 }

@@ -22,7 +22,11 @@
 #include "GUI_TagEdit.h"
 #include "TagLineEdit.h"
 #include "Components/TagEdit/TagExpression.h"
+#include "Components/CoverLookup/CoverLocation.h"
+#include "Components/CoverLookup/CoverLookup.h"
 #include "GUI/Helper/Message/Message.h"
+
+#include "Components/TagEdit/TagEdit.h"
 
 #include <QDir>
 
@@ -32,6 +36,7 @@ GUI_TagEdit::GUI_TagEdit(QWidget* parent) :
 	setupUi(this);
 
 	_tag_edit = new TagEdit(this);
+	_cover_lookup = new CoverLookup(this);
 
 	frame_tag_from_path->setVisible(cb_tag_from_path->isChecked());
 
@@ -41,12 +46,14 @@ GUI_TagEdit::GUI_TagEdit(QWidget* parent) :
 	connect(btn_apply_tag, &QPushButton::clicked, this, &GUI_TagEdit::apply_tag_clicked);
 	connect(btn_apply_tag_all, &QPushButton::clicked, this, &GUI_TagEdit::apply_tag_all_clicked);
 
+
 	connect(cb_album_all, &QCheckBox::toggled, this, &GUI_TagEdit::album_all_changed);
 	connect(cb_artist_all, &QCheckBox::toggled, this, &GUI_TagEdit::artist_all_changed);
 	connect(cb_genre_all, &QCheckBox::toggled, this, &GUI_TagEdit::genre_all_changed);
 	connect(cb_year_all, &QCheckBox::toggled, this, &GUI_TagEdit::year_all_changed);
 	connect(cb_discnumber_all, &QCheckBox::toggled, this, &GUI_TagEdit::discnumber_all_changed);
 	connect(cb_rating_all, &QCheckBox::toggled, this, &GUI_TagEdit::rating_all_changed);
+	connect(cb_cover_all, &QCheckBox::toggled, this, &GUI_TagEdit::cover_all_changed);
 	connect(le_tag, &QLineEdit::textChanged, this, &GUI_TagEdit::tag_text_changed);
 	connect(btn_undo, &QPushButton::clicked, this, &GUI_TagEdit::undo_clicked);
 	connect(btn_undo_all, &QPushButton::clicked, this, &GUI_TagEdit::undo_all_clicked);
@@ -62,6 +69,8 @@ GUI_TagEdit::GUI_TagEdit(QWidget* parent) :
 	connect(_tag_edit, &TagEdit::sig_metadata_received, this, &GUI_TagEdit::metadata_changed);
 	connect(_tag_edit, &TagEdit::finished, this, &GUI_TagEdit::commit_finished);
 	connect(btn_cancel, &QPushButton::clicked, this, &GUI_TagEdit::cancel);
+
+	connect(_cover_lookup, &CoverLookup::sig_cover_found, this, &GUI_TagEdit::cover_found);
 
 	reset();
 }
@@ -204,6 +213,10 @@ void GUI_TagEdit::track_idx_changed(){
 		lab_rating->set_rating(md.rating);
 	}
 
+	if(!cb_cover_all->isChecked()){
+		set_cover(md);
+	}
+
 	sb_track_num->setValue(md.track_num);
 
 	lab_filepath->clear();
@@ -224,6 +237,7 @@ void GUI_TagEdit::reset(){
 	cb_discnumber_all->setChecked(false);
 	cb_rating_all->setChecked(false);
 	cb_year_all->setChecked(false);
+	cb_cover_all->setChecked(false);
 
 	lab_track_num ->setText(tr("Track ") + "0/0");
 	btn_prev->setEnabled(false);
@@ -246,6 +260,9 @@ void GUI_TagEdit::reset(){
 	sb_year->setEnabled(true);
 	sb_discnumber->setEnabled(true);
 	lab_rating->setEnabled(true);
+	btn_cover->setEnabled(true);
+	QIcon icon(CoverLocation::getInvalidLocation().cover_path);
+	btn_cover->setIcon( icon );
 
 
 	lab_filepath->clear();
@@ -284,6 +301,14 @@ void GUI_TagEdit::rating_all_changed(bool b){
 	lab_rating->setEnabled(!b);
 }
 
+void GUI_TagEdit::cover_all_changed(bool b){
+	if(!b){
+		set_cover(_tag_edit->get_metadata(_cur_idx));
+	}
+
+	btn_cover->setEnabled(!b);
+}
+
 void GUI_TagEdit::undo_clicked(){
 
 	_tag_edit->undo(_cur_idx);
@@ -298,7 +323,9 @@ void GUI_TagEdit::undo_all_clicked(){
 
 void GUI_TagEdit::write_changes(int idx){
 
-	if( !check_idx(idx) ) return;
+	if( !check_idx(idx) ) {
+		return;
+	}
 
 	MetaData md = _tag_edit->get_metadata(idx);
 
@@ -357,6 +384,37 @@ void GUI_TagEdit::commit(){
 	}
 
 	_tag_edit->commit();
+}
+
+void GUI_TagEdit::set_cover(const MetaData& md){
+
+	CoverLocation cl = CoverLocation::get_cover_location(md);
+	QString cover_path = cl.cover_path;
+
+	bool exists = QFile::exists(cl.cover_path);
+	bool valid = (cl.valid && exists);
+
+	if(!exists){
+		cover_path = CoverLocation::getInvalidLocation().cover_path;
+	}
+
+	cb_cover_all->setEnabled(valid);
+	btn_cover->setEnabled(valid && !cb_cover_all->isChecked());
+
+	QIcon icon(cover_path);
+	btn_cover->setIcon( icon );
+
+	if(!valid){
+		_cover_lookup->fetch_cover(CoverLocation::get_cover_location(md));
+	}
+}
+
+void GUI_TagEdit::cover_found(const CoverLocation& cl){
+	QIcon icon(cl.cover_path);
+	btn_cover->setIcon( icon );
+
+	cb_cover_all->setEnabled(cl.valid);
+	btn_cover->setEnabled(cl.valid && !cb_cover_all->isChecked());
 }
 
 

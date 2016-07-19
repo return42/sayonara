@@ -30,8 +30,6 @@
 #include "GUI/TagEdit/ui_GUI_TagEdit.h"
 #include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
 #include "Components/TagEdit/TagExpression.h"
-#include "Components/TagEdit/TagEdit.h"
-
 
 
 
@@ -39,6 +37,12 @@
  * @brief The GUI_TagEdit class
  * @ingroup Tagging
  */
+class TagEdit;
+class CoverLookup;
+class CoverLocation;
+class MetaDataList;
+class MetaData;
+
 class GUI_TagEdit :
 		public SayonaraWidget,
 		private Ui::GUI_TagEdit
@@ -77,8 +81,10 @@ signals:
 	void sig_cancelled();
 
 
+
 private:
 	TagEdit*		_tag_edit=nullptr;
+	CoverLookup*	_cover_lookup=nullptr;
 	TagExpression	_tag_expression;
 
 	int				_cur_idx;
@@ -136,7 +142,7 @@ private:
 	bool check_idx(int idx) const;
 
 
-
+	void set_cover(const MetaData& md);
 
 private slots:
 	/**
@@ -192,6 +198,11 @@ private slots:
 	 * @brief (un)sets _rating_all
 	 */
 	void rating_all_changed(bool b);
+
+	/**
+	 * @brief (un)sets _cover_all
+	 */
+	void cover_all_changed(bool b);
 
 
 	/**
@@ -285,6 +296,9 @@ private slots:
 	 * @brief private slot for notifying the MetaDataChangeNotifier
 	 */
 	void commit_finished();
+
+
+	void cover_found(const CoverLocation& cl);
 
 };
 

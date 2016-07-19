@@ -60,6 +60,7 @@ bool parse_image(GstTagList* tags, QImage& img)
 
 
 	gchar* mime_type = gst_caps_to_string(gst_sample_get_caps(sample));
+	//sp_log(Log::Debug) << "Mime type: " << mime_type;
 	QRegExp re(".*(image/[a-z|A-Z]+).*");
 	QString mime(mime_type);
 	if(re.indexIn(mime) >= 0){
@@ -181,7 +182,6 @@ gboolean EngineCallbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpoint
 
 			success = parse_image(tags, img);
 			if(success){
-				sp_log(Log::Debug) << "Found cover!";
 				engine->update_cover(img);
 			}
 			

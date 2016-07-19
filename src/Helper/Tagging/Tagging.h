@@ -62,8 +62,9 @@ namespace Tagging
 	 */
 	bool setMetaDataOfFile(const MetaData& md);
 
-	bool write_cover(const MetaData& md);
 	bool write_cover(const MetaData& md, const QString& image_path);
+
+	bool extract_cover(const MetaData& md, QByteArray& cover_data, QString& mime_type);
 }
 
 

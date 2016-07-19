@@ -33,14 +33,26 @@ void  ID3v2Frame::CoverFrame::map_model_to_frame(){
 
 	taglib_image_data.setData(image_data.data(), image_data.size());
 
+	TagLib::ByteVector vec, vec_header;
+	vec_header = TagLib::ByteVector("APIC", 4);
+
 	_frame->setDescription(description);
 	_frame->setTextEncoding(encoding);
 	_frame->setMimeType(mime_type);
 	_frame->setType(type);
 	_frame->setPicture(taglib_image_data);
+
+	vec = _frame->render();
+
+	if( !vec.startsWith(vec_header) ){
+		vec = vec_header + vec;
+	}
+
+	_frame->setData(vec);
 }
 
 void ID3v2Frame::CoverFrame::map_frame_to_model(){
+
 
 	TagLib::ByteVector taglib_image_data = _frame->picture();
 	TagLib::String mime_type = _frame->mimeType();
@@ -50,7 +62,8 @@ void ID3v2Frame::CoverFrame::map_frame_to_model(){
 }
 
 TagLib::ID3v2::Frame* ID3v2Frame::CoverFrame::create_id3v2_frame(){
-	return new TagLib::ID3v2::AttachedPictureFrame();
+
+	return new TagLib::ID3v2::AttachedPictureFrame(TagLib::ByteVector());
 }
 
 
