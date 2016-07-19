@@ -37,7 +37,6 @@
 #include "GUI/Helper/IconLoader/IconLoader.h"
 
 #include <QPixmap>
-#include <QScrollBar>
 #include <QCloseEvent>
 #include <QPainter>
 #include <QDateTime>
@@ -181,22 +180,8 @@ void GUI_InfoDialog::prepare_info(GUI_InfoDialog::Mode mode) {
 	delete info;
 }
 
-#include "Helper/Tagging/Tagging.h"
 
 void GUI_InfoDialog::alternative_cover_fetched(const CoverLocation& cl){
-
-	if(_cur_mode == GUI_InfoDialog::Mode::Tracks){
-
-		for(const MetaData& md : _v_md){
-			CoverLocation cl = CoverLocation::get_cover_location(md);
-			if(!cl.valid  || cl.cover_path.isEmpty()){
-				continue;
-			}
-
-			Tagging::write_cover(md, cl.cover_path);
-		}
-	}
-
 	cover_fetched(cl);
 }
 

@@ -21,7 +21,6 @@
 #include "CoverLookupAlternative.h"
 #include "CoverLocation.h"
 #include "Database/DatabaseHandler.h"
-#include "Helper/Tagging/Tagging.h"
 
 CoverLookupAlternative::CoverLookupAlternative(QObject* parent, int n_covers) :
     CoverLookupInterface(parent)

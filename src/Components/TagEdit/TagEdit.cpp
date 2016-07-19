@@ -46,6 +46,19 @@ TagEdit::~TagEdit(){
 
 }
 
+void TagEdit::update_cover(int idx, const QImage& cover){
+	_cover_map[idx] = cover;
+}
+
+void TagEdit::remove_cover(int idx){
+	_cover_map.remove(idx);
+}
+
+bool TagEdit::has_cover_replacement(int idx) const
+{
+	return _cover_map.contains(idx);
+}
+
 void TagEdit::update_track(int idx, const MetaData& md){
 
 	_changed_md[idx] = !( md.is_equal_deep(_v_md_orig[idx]) );
@@ -116,6 +129,7 @@ void TagEdit::set_metadata(const MetaDataList& v_md){
 	_v_md = v_md;
 	_v_md_orig = v_md;
 
+	_cover_map.clear();
 	_changed_md.clear();
 
 	if(v_md.size() > 0){
@@ -240,6 +254,13 @@ void TagEdit::run()
 			v_md << std::move(md);
 			v_md_orig.push_back(_v_md_orig[i]);
 		}
+	}
+
+	for(int i : _cover_map.keys()){
+		
+		sp_log(Log::Debug) << "Dry run: Update cover for " << i << "/" << _v_md.size();
+		sp_log(Log::Debug) <<  _v_md[i].filepath();
+		Tagging::write_cover(_v_md[i], _cover_map[i]);
 	}
 
 	db = DatabaseConnector::getInstance();

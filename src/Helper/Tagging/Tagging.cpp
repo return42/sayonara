@@ -31,6 +31,8 @@
 #include <taglib/tbytevector.h>
 #include <taglib/tbytevectorstream.h>
 
+#include <QFile>
+
 bool Tagging::getMetaDataOfFile(MetaData& md, Tagging::Quality quality) {
 
 	bool success;
@@ -180,6 +182,24 @@ bool Tagging::setMetaDataOfFile(const MetaData& md) {
 
 
 
+bool Tagging::write_cover(const MetaData& md, const QImage& cover){
+	bool success;
+	QString filepath = Helper::get_sayonara_path() + "tmp.png";
+
+	success = cover.save(filepath);
+	if(!success){
+		sp_log(Log::Warning) << "Can not save temporary cover: " << filepath;
+		sp_log(Log::Warning) << "Is image valid? " << !cover.isNull();
+		return false;
+	}
+
+	success = write_cover(md, filepath);
+	QFile::remove(filepath);
+
+	return success;
+}
+
+
 bool Tagging::write_cover(const MetaData& md, const QString& cover_image_path){
 
 	QString error_msg = "Cannot save cover. ";
@@ -250,4 +270,19 @@ bool Tagging::extract_cover(const MetaData &md, QByteArray& cover_data, QString&
 	mime_type = cover.mime_type;
 
 	return !(cover_data.isEmpty());
+}
+
+bool Tagging::is_id3_tag(const MetaData& md){
+	QString filepath = md.filepath();
+	TagLib::FileRef f(TagLib::FileName(filepath.toUtf8()));
+	if( f.isNull() ||
+		!f.tag() ||
+		!f.file()->isValid() ||
+		!f.file()->isWritable(filepath.toUtf8()) )
+	{
+		sp_log(Log::Info) << "Cannot determine tag type";
+		return false;
+	}
+
+	return true;
 }

@@ -27,6 +27,7 @@
 #include <taglib/fileref.h>
 
 #include <QtGlobal>
+#include <QImage>
 
 class MetaData;
 /**
@@ -47,6 +48,12 @@ namespace Tagging
 		Dirty
 	};
 
+	enum class TagType : quint8 {
+		ID3=0,
+		Other,
+		NoClue
+	};
+
 	/**
 	 * @brief get metadata of file. Filepath should be given within the MetaData struct
 	 * @param md MetaData that will be filled
@@ -62,9 +69,12 @@ namespace Tagging
 	 */
 	bool setMetaDataOfFile(const MetaData& md);
 
+	bool write_cover(const MetaData& md, const QImage& image);
 	bool write_cover(const MetaData& md, const QString& image_path);
 
 	bool extract_cover(const MetaData& md, QByteArray& cover_data, QString& mime_type);
+
+	bool is_id3_tag(const MetaData& md);
 }
 
 

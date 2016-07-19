@@ -25,6 +25,7 @@
 #include "Components/CoverLookup/CoverLocation.h"
 #include "Components/CoverLookup/CoverLookup.h"
 #include "GUI/Helper/Message/Message.h"
+#include "Helper/Tagging/Tagging.h"
 
 #include "Components/TagEdit/TagEdit.h"
 
@@ -45,7 +46,8 @@ GUI_TagEdit::GUI_TagEdit(QWidget* parent) :
 	connect(btn_ok, &QPushButton::clicked, this, &GUI_TagEdit::commit);
 	connect(btn_apply_tag, &QPushButton::clicked, this, &GUI_TagEdit::apply_tag_clicked);
 	connect(btn_apply_tag_all, &QPushButton::clicked, this, &GUI_TagEdit::apply_tag_all_clicked);
-
+	connect(rb_dont_replace, &QRadioButton::toggled, this, &GUI_TagEdit::rb_dont_replace_toggled);
+//	connect(btn_cover_replacement, &QPushButton::toggled, this, &GUI_TagEdit::btn_cover_replacement_clicked);
 
 	connect(cb_album_all, &QCheckBox::toggled, this, &GUI_TagEdit::album_all_changed);
 	connect(cb_artist_all, &QCheckBox::toggled, this, &GUI_TagEdit::artist_all_changed);
@@ -215,6 +217,14 @@ void GUI_TagEdit::track_idx_changed(){
 
 	if(!cb_cover_all->isChecked()){
 		set_cover(md);
+
+		if(_tag_edit->has_cover_replacement(_cur_idx)){
+			rb_replace->setChecked(true);
+		}
+	
+		else{
+			rb_dont_replace->setChecked(true);
+		}
 	}
 
 	sb_track_num->setValue(md.track_num);
@@ -260,10 +270,13 @@ void GUI_TagEdit::reset(){
 	sb_year->setEnabled(true);
 	sb_discnumber->setEnabled(true);
 	lab_rating->setEnabled(true);
-	btn_cover->setEnabled(true);
-	QIcon icon(CoverLocation::getInvalidLocation().cover_path);
-	btn_cover->setIcon( icon );
 
+	rb_dont_replace->setChecked(true);
+	frame_replacement->setVisible(false);
+	btn_cover_replacement->setEnabled(true);
+
+	QIcon icon(CoverLocation::getInvalidLocation().cover_path);
+	btn_cover_replacement->setIcon( icon );
 
 	lab_filepath->clear();
 	pb_progress->setVisible(false);
@@ -274,6 +287,8 @@ void GUI_TagEdit::reset(){
 	btn_year->setChecked(false);
 	btn_disc_nr->setChecked(false);
 	btn_track_nr->setChecked(false);
+
+	_cover_path_map.clear();
 
 }
 
@@ -302,11 +317,14 @@ void GUI_TagEdit::rating_all_changed(bool b){
 }
 
 void GUI_TagEdit::cover_all_changed(bool b){
+
 	if(!b){
 		set_cover(_tag_edit->get_metadata(_cur_idx));
 	}
 
-	btn_cover->setEnabled(!b);
+	rb_dont_replace->setEnabled(!b);
+
+	btn_cover_replacement->setEnabled(!b);
 }
 
 void GUI_TagEdit::undo_clicked(){
@@ -339,6 +357,11 @@ void GUI_TagEdit::write_changes(int idx){
 	md.rating = lab_rating->get_rating();
 
 	_tag_edit->update_track(idx, md);
+
+	if(is_cover_replacement_active()){
+		QImage img(_cover_path_map[idx]);
+		_tag_edit->update_cover(idx, img);
+	}
 }
 
 void GUI_TagEdit::commit(){
@@ -380,13 +403,41 @@ void GUI_TagEdit::commit(){
 			md.year = sb_year->value();
 		}
 
+		if( cb_cover_all->isChecked() ){
+			QImage img(_cover_path_map[_cur_idx]);
+			_tag_edit->update_cover(i, img);
+		}
+
 		_tag_edit->update_track(i, md);
 	}
 
 	_tag_edit->commit();
 }
 
+bool GUI_TagEdit::is_cover_replacement_active() const
+{
+	return (rb_replace->isChecked() && frame_replacement->isVisible());
+}
+
 void GUI_TagEdit::set_cover(const MetaData& md){
+
+	QByteArray img_data;
+	QString mime_type;
+	bool has_cover = Tagging::extract_cover(md, img_data, mime_type);
+
+	if(!has_cover){
+		btn_cover_original->setIcon(QIcon());
+		btn_cover_original->setText(tr("None"));
+	}
+
+	else{
+		QImage img = QImage::fromData(img_data, mime_type.toLocal8Bit().data());
+		QPixmap pm = QPixmap::fromImage(img);
+		QIcon icon;
+		icon.addPixmap(pm);
+		btn_cover_original->setIcon(icon);
+		btn_cover_original->setText(QString());
+	}
 
 	CoverLocation cl = CoverLocation::get_cover_location(md);
 	QString cover_path = cl.cover_path;
@@ -399,22 +450,34 @@ void GUI_TagEdit::set_cover(const MetaData& md){
 	}
 
 	cb_cover_all->setEnabled(valid);
-	btn_cover->setEnabled(valid && !cb_cover_all->isChecked());
+	btn_cover_replacement->setEnabled(valid && !cb_cover_all->isChecked());
 
 	QIcon icon(cover_path);
-	btn_cover->setIcon( icon );
+	btn_cover_replacement->setIcon( icon );
 
 	if(!valid){
 		_cover_lookup->fetch_cover(CoverLocation::get_cover_location(md));
+	}
+	else{
+		_cover_path_map[_cur_idx] = cl.cover_path;
 	}
 }
 
 void GUI_TagEdit::cover_found(const CoverLocation& cl){
 	QIcon icon(cl.cover_path);
-	btn_cover->setIcon( icon );
+	_cover_path_map[_cur_idx] = cl.cover_path;
+
+	btn_cover_replacement->setIcon( icon );
 
 	cb_cover_all->setEnabled(cl.valid);
-	btn_cover->setEnabled(cl.valid && !cb_cover_all->isChecked());
+	btn_cover_replacement->setEnabled(cl.valid && !cb_cover_all->isChecked());
+}
+
+void GUI_TagEdit::rb_dont_replace_toggled(bool b){
+	frame_replacement->setVisible(!b);
+	if(!b){
+		cb_cover_all->setChecked(false);
+	}
 }
 
 

@@ -86,6 +86,7 @@ private:
 	TagEdit*		_tag_edit=nullptr;
 	CoverLookup*	_cover_lookup=nullptr;
 	TagExpression	_tag_expression;
+	QMap<int, QString> _cover_path_map;
 
 	int				_cur_idx;
 
@@ -98,6 +99,8 @@ private:
 
 
 private:
+
+	bool is_cover_replacement_active() const;
 
 	/**
 	 * @brief replaces text with tag or vice versa
@@ -298,6 +301,7 @@ private slots:
 	void commit_finished();
 
 
+	void rb_dont_replace_toggled(bool b);
 	void cover_found(const CoverLocation& cl);
 
 };
