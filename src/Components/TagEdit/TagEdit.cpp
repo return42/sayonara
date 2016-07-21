@@ -46,18 +46,8 @@ TagEdit::~TagEdit(){
 
 }
 
-void TagEdit::update_cover(int idx, const QImage& cover){
-	_cover_map[idx] = cover;
-}
 
-void TagEdit::remove_cover(int idx){
-	_cover_map.remove(idx);
-}
 
-bool TagEdit::has_cover_replacement(int idx) const
-{
-	return _cover_map.contains(idx);
-}
 
 void TagEdit::update_track(int idx, const MetaData& md){
 
@@ -215,6 +205,45 @@ void TagEdit::apply_artists_and_albums_to_md(){
 	}
 }
 
+
+void TagEdit::update_cover(int idx, const QImage& cover){
+
+	if(!between(idx, 0, _v_md.size())){
+		return;
+	}
+
+	Tagging::TagType t = Tagging::get_tag_type(_v_md[idx]);
+	if(t != Tagging::TagType::ID3v2) {
+		return;
+	}
+
+	if(!is_id3v2_tag(idx)){
+		return;
+	}
+
+	_cover_map[idx] = cover;
+}
+
+void TagEdit::remove_cover(int idx){
+	_cover_map.remove(idx);
+}
+
+bool TagEdit::has_cover_replacement(int idx) const
+{
+	return _cover_map.contains(idx);
+}
+
+bool TagEdit::is_id3v2_tag(int idx) const
+{
+	if(!between(idx, 0, _v_md.size())){
+		return false;
+	}
+
+	Tagging::TagType t = Tagging::get_tag_type(_v_md[idx]);
+
+	return (t == Tagging::TagType::ID3v2);
+}
+
 void TagEdit::run()
 {
 
@@ -230,10 +259,12 @@ void TagEdit::run()
 
 	apply_artists_and_albums_to_md();
 
-	for(int i=0; i<_v_md.size(); i++){
+	int i=0;
+	int n_operations = _v_md.size() + _cover_map.size();
+	for(i=0; i<_v_md.size(); i++){
 
 		MetaData md = _v_md[i];
-		emit sig_progress( (i * 100) / _v_md.size());
+		emit sig_progress( (i * 100) / n_operations);
 
 		if( _changed_md[i] == false ) continue;
 
@@ -256,22 +287,21 @@ void TagEdit::run()
 		}
 	}
 
-	for(int i : _cover_map.keys()){
+	for(int idx : _cover_map.keys()){
 		
-		sp_log(Log::Debug) << "Dry run: Update cover for " << i << "/" << _v_md.size();
-		sp_log(Log::Debug) <<  _v_md[i].filepath();
-		Tagging::write_cover(_v_md[i], _cover_map[i]);
+		Tagging::write_cover(_v_md[idx], _cover_map[idx]);
+		emit sig_progress( (i++ * 100) / n_operations);
 	}
 
-	db = DatabaseConnector::getInstance();
-
 	_ldb->createIndexes();
-	db->clean_up();
 
-	emit sig_progress(-1);
+	db = DatabaseConnector::getInstance();
+	db->clean_up();
 
 	_v_md = v_md;
 	_v_md_orig = v_md_orig;
+
+	emit sig_progress(-1);
 }
 
 void TagEdit::thread_finished(){
@@ -283,4 +313,5 @@ void TagEdit::thread_finished(){
 void TagEdit::commit(){
 	this->start();
 }
+
 

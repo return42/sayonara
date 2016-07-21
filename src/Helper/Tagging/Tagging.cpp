@@ -30,8 +30,23 @@
 
 #include <taglib/tbytevector.h>
 #include <taglib/tbytevectorstream.h>
+#include <taglib/id3v1tag.h>
+#include <taglib/id3v2tag.h>
 
 #include <QFile>
+
+bool Tagging::is_valid_file(const TagLib::FileRef& f)
+{
+	if( f.isNull() ||
+		!f.tag() ||
+		!f.file() ||
+		!f.file()->isValid() )
+	{
+		return false;
+	}
+
+	return true;
+}
 
 bool Tagging::getMetaDataOfFile(MetaData& md, Tagging::Quality quality) {
 
@@ -65,10 +80,10 @@ bool Tagging::getMetaDataOfFile(MetaData& md, Tagging::Quality quality) {
 			TagLib::FileName(md.filepath().toUtf8()),
 			read_audio_props,
 			read_style
-			);
+	);
 
-	if(f.isNull() || !f.tag() || !f.file()->isValid() || !f.file()->isReadable(md.filepath().toUtf8()) ) {
-		sp_log(Log::Info) << md.filepath() << ": Something's wrong with this file";
+	if(!is_valid_file(f)){
+		sp_log(Log::Warning) << "Cannot open tags for " << md.filepath();
 		return false;
 	}
 
@@ -149,10 +164,11 @@ bool Tagging::setMetaDataOfFile(const MetaData& md) {
 
 	QString filepath = md.filepath();
 	TagLib::FileRef f(TagLib::FileName(filepath.toUtf8()));
-	if(f.isNull() || !f.tag() || !f.file()->isValid() || !f.file()->isWritable(filepath.toUtf8()) ) {
-		sp_log(Log::Info) << "ID3 cannot save";
+	if(!is_valid_file(f)){
+		sp_log(Log::Warning) << "Cannot open tags for " << md.filepath();
 		return false;
 	}
+
 
 	TagLib::String album(md.album.toUtf8().data(), TagLib::String::UTF8);
 	TagLib::String artist(md.artist.toUtf8().data(), TagLib::String::UTF8);
@@ -205,14 +221,11 @@ bool Tagging::write_cover(const MetaData& md, const QString& cover_image_path){
 	QString error_msg = "Cannot save cover. ";
 	QString filepath = md.filepath();
 	TagLib::FileRef f(TagLib::FileName(filepath.toUtf8()));
-	if( f.isNull() ||
-		!f.tag() ||
-		!f.file()->isValid() ||
-		!f.file()->isWritable(filepath.toUtf8()) )
-	{
-		sp_log(Log::Info) << error_msg << "Cannot open id3 tag";
+	if(!is_valid_file(f)){
+		sp_log(Log::Warning) << "Cannot open tags for " << md.filepath();
 		return false;
 	}
+
 
 	QByteArray data;
 	bool success = Helper::File::read_file_into_byte_arr(cover_image_path, data);
@@ -248,15 +261,11 @@ bool Tagging::extract_cover(const MetaData &md, QByteArray& cover_data, QString&
 	QString error_msg = "Cannot fetch cover. ";
 	QString filepath = md.filepath();
 	TagLib::FileRef f(TagLib::FileName(filepath.toUtf8()));
-	if( f.isNull() ||
-		!f.tag() ||
-		!f.file()->isValid() ||
-		!f.file()->isWritable(filepath.toUtf8()) )
-	{
-		sp_log(Log::Info) << error_msg << "Cannot open id3 tag";
+
+	if(!is_valid_file(f)){
+		sp_log(Log::Warning) << "Cannot open tags for " << md.filepath();
 		return false;
 	}
-
 
 	ID3v2Frame::Cover cover;
 	ID3v2Frame::CoverFrame cover_frame(&f);
@@ -272,17 +281,38 @@ bool Tagging::extract_cover(const MetaData &md, QByteArray& cover_data, QString&
 	return !(cover_data.isEmpty());
 }
 
-bool Tagging::is_id3_tag(const MetaData& md){
-	QString filepath = md.filepath();
+
+Tagging::TagType Tagging::get_tag_type(const QString& filepath){
 	TagLib::FileRef f(TagLib::FileName(filepath.toUtf8()));
-	if( f.isNull() ||
-		!f.tag() ||
-		!f.file()->isValid() ||
-		!f.file()->isWritable(filepath.toUtf8()) )
-	{
-		sp_log(Log::Info) << "Cannot determine tag type";
-		return false;
+	if(!is_valid_file(f)){
+		sp_log(Log::Warning) << "Cannot open tags for " << filepath;
+		return Tagging::TagType::Unknown;
 	}
 
-	return true;
+	TagLib::MPEG::File* mpeg_file;
+	mpeg_file = dynamic_cast<TagLib::MPEG::File*>(f.file());
+	if(!mpeg_file){
+		return Tagging::TagType::Other;
+	}
+
+	if(mpeg_file->hasID3v2Tag()){
+		return Tagging::TagType::ID3v2;
+	}
+
+	if(mpeg_file->hasID3v1Tag()){
+		return Tagging::TagType::ID3v1;
+	}
+
+	if(mpeg_file->hasAPETag()){
+		return Tagging::TagType::APE;
+	}
+
+	return Tagging::TagType::Other;
+}
+
+
+Tagging::TagType Tagging::get_tag_type(const MetaData& md){
+
+	QString filepath = md.filepath();
+	return get_tag_type(filepath);
 }

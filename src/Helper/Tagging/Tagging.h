@@ -49,9 +49,11 @@ namespace Tagging
 	};
 
 	enum class TagType : quint8 {
-		ID3=0,
+		ID3v1=0,
+		ID3v2,
+		APE,
 		Other,
-		NoClue
+		Unknown
 	};
 
 	/**
@@ -74,7 +76,10 @@ namespace Tagging
 
 	bool extract_cover(const MetaData& md, QByteArray& cover_data, QString& mime_type);
 
-	bool is_id3_tag(const MetaData& md);
+	Tagging::TagType get_tag_type(const MetaData& md);
+	Tagging::TagType get_tag_type(const QString& filepath);
+
+	bool is_valid_file(const TagLib::FileRef& f);
 }
 
 

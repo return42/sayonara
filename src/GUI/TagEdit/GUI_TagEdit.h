@@ -101,6 +101,10 @@ private:
 private:
 
 	bool is_cover_replacement_active() const;
+	void update_cover(int idx, const QString& cover_path);
+	void set_cover(const MetaData& md);
+	void show_replacement_field(bool b);
+
 
 	/**
 	 * @brief replaces text with tag or vice versa
@@ -145,7 +149,7 @@ private:
 	bool check_idx(int idx) const;
 
 
-	void set_cover(const MetaData& md);
+
 
 private slots:
 	/**

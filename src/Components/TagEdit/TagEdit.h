@@ -110,6 +110,7 @@ public:
 	void update_cover(int idx, const QImage& cover);
 	void remove_cover(int idx);
 	bool has_cover_replacement(int idx) const;
+	bool is_id3v2_tag(int idx) const;
 
 
 	/**
