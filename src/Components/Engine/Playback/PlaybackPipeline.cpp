@@ -193,30 +193,30 @@ bool PlaybackPipeline::add_and_link_elements(){
 	}
 
 	/* connect branches with tee */
-	success = tee_connect(tee_src_pad_template, _level_queue, "Level");
+	success = tee_connect(_tee, tee_src_pad_template, _level_queue, "Level");
 	if(!_test_and_error_bool(success, "Engine: Cannot link level queue with tee")){
 		return false;
 	}
 
-	tee_connect(tee_src_pad_template, _spectrum_queue, "Spectrum");
+	tee_connect(_tee, tee_src_pad_template, _spectrum_queue, "Spectrum");
 	if(!_test_and_error_bool(success, "Engine: Cannot link spectrum queue with tee")){
 		return false;
 	}
 
-	tee_connect(tee_src_pad_template, _eq_queue, "Equalizer");
+	tee_connect(_tee, tee_src_pad_template, _eq_queue, "Equalizer");
 	if(!_test_and_error_bool(success, "Engine: Cannot link eq queue with tee")){
 		return false;
 	}
 
 	if(_lame){
-		success = tee_connect(tee_src_pad_template, _lame_queue, "Lame");
+		success = tee_connect(_tee, tee_src_pad_template, _lame_queue, "Lame");
 		if(!_test_and_error_bool(success, "Engine: Cannot link lame queue with tee")){
 			_settings->set(SetNoDB::MP3enc_found, false);
 		}
 	}
 
 	if(_file_sink){
-		success = tee_connect(tee_src_pad_template, _file_queue, "Streamripper");
+		success = tee_connect(_tee, tee_src_pad_template, _file_queue, "Streamripper");
 		if(!_test_and_error_bool(success, "Engine: Cannot link streamripper stuff")){
 			_settings->set(Set::Engine_SR_Active, false);
 		}
@@ -360,35 +360,6 @@ void PlaybackPipeline::init_equalizer()
 	}
 }
 
-bool PlaybackPipeline::tee_connect(GstPadTemplate* tee_src_pad_template, GstElement* queue, const QString& queue_name){
-
-	GstPadLinkReturn s;
-	GstPad* tee_queue_pad;
-	GstPad* queue_pad;
-
-	QString error_1 = QString("Engine: Tee-") + queue_name + " pad is nullptr";
-	QString error_2 = QString("Engine: ") + queue_name + " pad is nullptr";
-	QString error_3 = QString("Engine: Cannot link tee with ") + queue_name;
-
-	tee_queue_pad = gst_element_request_pad(_tee, tee_src_pad_template, nullptr, nullptr);
-	if(!_test_and_error(tee_queue_pad, error_1)){
-		return false;
-	}
-
-	queue_pad = gst_element_get_static_pad(queue, "sink");
-	if(!_test_and_error(queue_pad, error_2)) {
-		return false;
-	}
-
-	s = gst_pad_link (tee_queue_pad, queue_pad);
-	if(!_test_and_error_bool((s == GST_PAD_LINK_OK), error_3)) {
-		return false;
-	}
-
-	g_object_set (queue, "silent", TRUE, nullptr);
-
-	return true;
-}
 
 
 void PlaybackPipeline::play() {
@@ -425,7 +396,6 @@ void PlaybackPipeline::_sl_vol_changed() {
 
 	g_object_set(G_OBJECT(_volume), "volume", vol_val, nullptr);
 }
-
 
 
 void PlaybackPipeline::_sl_mute_changed() {
@@ -521,14 +491,12 @@ void PlaybackPipeline::set_speed(float f) {
 }
 
 
-
 void PlaybackPipeline::_sl_show_level_changed() {
 
 	_show_level = _settings->get(Set::Engine_ShowLevel);
 
 	Probing::handle_probe(&_show_level, _level_queue, &_level_probe, Probing::level_probed);
 }
-
 
 
 void PlaybackPipeline::_sl_show_spectrum_changed() {
@@ -555,9 +523,6 @@ GstElement* PlaybackPipeline::get_source() const
 	return _audio_src;
 }
 
-
-
-
 bool PlaybackPipeline::set_uri(gchar* uri) {
 
 	if(!uri) return false;
@@ -576,7 +541,6 @@ bool PlaybackPipeline::set_uri(gchar* uri) {
 	}
 
 	gst_element_set_state(_pipeline, GST_STATE_PAUSED);
-
 
 	return true;
 }

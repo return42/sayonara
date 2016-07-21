@@ -71,8 +71,13 @@ class AbstractPipeline :
 		qint64		_duration_ms;
 		qint64		_position_ms;
 
+		bool tee_connect(GstElement* tee,
+						GstPadTemplate* tee_src_pad_template,
+						 GstElement* queue,
+						 const QString& queue_name
+		);
+		bool create_element(GstElement** elem, const gchar* elem_name, const gchar* name="");
 
-		virtual bool create_element(GstElement** elem, const gchar* elem_name, const gchar* name="");
 		virtual bool create_elements()=0;
 		virtual bool add_and_link_elements()=0;
 		virtual bool configure_elements()=0;

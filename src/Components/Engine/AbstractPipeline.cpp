@@ -184,8 +184,7 @@ void AbstractPipeline::check_about_to_finish(){
 
 	//show_time_info(_position_ms, _duration_ms);
 
-	quint64 about_to_finish_time = get_about_to_finish_time();
-
+	qint64 about_to_finish_time = (qint64) get_about_to_finish_time();
 
 	if(difference < about_to_finish_time && !_about_to_finish) {
 
@@ -264,7 +263,6 @@ gchar* AbstractPipeline::get_uri() {
 }
 
 
-
 bool AbstractPipeline::create_element(GstElement** elem, const gchar* elem_name, const gchar* name){
 
 	QString error_msg;
@@ -285,6 +283,49 @@ bool AbstractPipeline::create_element(GstElement** elem, const gchar* elem_name,
 
 	return success;
 }
+
+bool AbstractPipeline::tee_connect(GstElement* tee, GstPadTemplate* tee_src_pad_template, GstElement* queue, const QString& queue_name){
+
+	GstPadLinkReturn s;
+	GstPad* tee_queue_pad;
+	GstPad* queue_pad;
+
+	QString error_1 = QString("Engine: Tee-") + queue_name + " pad is nullptr";
+	QString error_2 = QString("Engine: ") + queue_name + " pad is nullptr";
+	QString error_3 = QString("Engine: Cannot link tee with ") + queue_name;
+
+	tee_queue_pad = gst_element_request_pad(tee, tee_src_pad_template, nullptr, nullptr);
+	if(!_test_and_error(tee_queue_pad, error_1)){
+		return false;
+	}
+
+	queue_pad = gst_element_get_static_pad(queue, "sink");
+	if(!_test_and_error(queue_pad, error_2)) {
+		return false;
+	}
+
+	s = gst_pad_link (tee_queue_pad, queue_pad);
+	if(!_test_and_error_bool((s == GST_PAD_LINK_OK), error_3)) {
+		return false;
+	}
+
+	g_object_set (queue, "silent", TRUE, nullptr);
+
+	return true;
+}
+
+
+
+bool
+AbstractPipeline::has_element(GstElement* e) const
+{
+	if(!e){
+		return true;
+	}
+
+	return (_elements.contains(e));
+}
+
 
 quint64 AbstractPipeline::get_about_to_finish_time() const
 {
@@ -310,14 +351,4 @@ _test_and_error_bool(bool b, QString errorstr) {
 	}
 
 	return true;
-}
-
-bool
-AbstractPipeline::has_element(GstElement* e) const
-{
-	if(!e){
-		return true;
-	}
-
-	return (_elements.contains(e));
 }

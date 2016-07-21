@@ -126,7 +126,6 @@ void CrossFader::fader_timed_out(){
 }
 
 
-
 void CrossFader::increase_volume()
 {
 	double max_volume = Settings::getInstance()->get(Set::Engine_Vol) / 100.0;
@@ -139,8 +138,6 @@ void CrossFader::increase_volume()
 
 		return;
 	}
-
-	//sp_log(Log::Debug) << "Increase vol: " << volume;
 
 	set_current_volume(volume);
 }
@@ -156,9 +153,6 @@ void CrossFader::decrease_volume()
 		abort_fader();
 		return;
 	}
-
-	sp_log(Log::Debug) << "Decrease vol: " << volume;
-
 
 	set_current_volume(volume);
 }

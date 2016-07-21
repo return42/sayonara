@@ -77,6 +77,9 @@ private slots:
 
 	void sl_track_finished();
 
+	void sl_track_ready_changed();
+	void sl_buffer_state_changed(int progress);
+
 	void sr_record_button_pressed(bool);
 	void playstate_changed(PlayManager::PlayState);
 
@@ -86,8 +89,6 @@ private slots:
 	void stop() override;
 	void pause() override;
 
-	void set_track_ready() override;
-	void buffering(int progress) override;
 
 
 private:

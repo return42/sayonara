@@ -112,10 +112,7 @@ private:
 	bool				_show_level, _show_spectrum, _run_broadcast, _run_sr;
 
     bool _seek(gint64 ns);
-	bool tee_connect(GstPadTemplate* tee_src_pad_template,
-					 GstElement* queue,
-					 const QString& queue_name
-	);
+
 
 	bool create_elements() override;
 	bool add_and_link_elements() override;

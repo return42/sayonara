@@ -228,7 +228,7 @@ gboolean EngineCallbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpoint
 			if( new_state == GST_STATE_PLAYING ||
 				new_state == GST_STATE_PAUSED)
 			{
-				engine->set_track_ready();
+				engine->set_track_ready(src);
 			}
 
 			break;
@@ -238,7 +238,7 @@ gboolean EngineCallbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpoint
 			gint percent;
 			gst_message_parse_buffering(msg, &percent);
 			//sp_log(Log::Debug) << "Buffering " << percent;
-			engine->buffering(percent);
+			engine->set_buffer_state(percent, src);
 			break;
 
 		case GST_MESSAGE_DURATION_CHANGED:

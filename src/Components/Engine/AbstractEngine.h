@@ -61,6 +61,9 @@ public:
 	virtual void		update_bitrate(quint32 br, GstElement* src);
 	virtual void		update_time(qint32 time, GstElement* src);
 
+	virtual void		set_track_ready(GstElement* src);
+	virtual void		set_buffer_state(int percent, GstElement* src);
+
 	void				set_level(float right, float left);
 	void				set_spectrum(QVector<float>& lst );
 
@@ -100,8 +103,7 @@ public slots:
 	virtual void change_track(const MetaData&)=0;
 	virtual void change_track(const QString&)=0;
 
-	virtual void set_track_ready();
-	virtual void buffering(int percent);
+
 
 
 protected:

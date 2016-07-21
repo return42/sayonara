@@ -69,8 +69,8 @@ void Engine::update_bitrate(quint32 br, GstElement* src){
 	Q_UNUSED(br)
 }
 
-void Engine::set_track_ready(){
-
+void Engine::set_track_ready(GstElement* src){
+	Q_UNUSED(src)
 }
 
 void Engine::set_about_to_finish(qint64 ms){
@@ -83,7 +83,8 @@ void Engine::set_cur_position_ms(qint64 ms){
 }
 
 
-void Engine::buffering(int progress)
+void Engine::set_buffer_state(int progress, GstElement* src)
 {
-	Q_UNUSED(progress);
+	Q_UNUSED(progress)
+	Q_UNUSED(src)
 }

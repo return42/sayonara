@@ -299,26 +299,24 @@ void PlaybackEngine::change_equalizer(int band, int val) {
 }
 
 
-void PlaybackEngine::buffering(int progress)
+void PlaybackEngine::set_buffer_state(int progress, GstElement* src)
 {
-	if(Helper::File::is_www(_md.filepath())){
-		emit sig_buffering(progress);
+	if(!Helper::File::is_www(_md.filepath())){
+		return;
 	}
+
+	if(!_pipeline->has_element(src)){
+		return;
+	}
+
+	emit sig_buffering(progress);
 }
 
 
 void PlaybackEngine::set_cur_position_ms(qint64 pos_ms) {
 
-	// the new track is requested so we won't display the position
-	// of the old track, because probably the new track is already
-	// displayed and active in playlist
 	if(sender() != _pipeline){
-		if( (_gapless_state == GaplessState::AboutToFinish) ||
-			(_gapless_state == GaplessState::TrackFetched) )
-		{
-			//emit sig_pos_changed_s(0);
-			return;
-		}
+		return;
 	}
 
 	if(pos_ms < 0 && Helper::File::is_www(_md.filepath())){
@@ -341,13 +339,13 @@ void PlaybackEngine::set_cur_position_ms(qint64 pos_ms) {
 }
 
 
-void PlaybackEngine::set_track_ready(){
-	update_duration(_pipeline->get_pipeline());
+void PlaybackEngine::set_track_ready(GstElement* src){
+	update_duration(src);
 
-	emit sig_track_ready();
+	if(_pipeline->has_element(src)){
+		emit sig_track_ready();
+	}
 }
-
-
 
 
 void PlaybackEngine::set_about_to_finish(qint64 time2go) {
@@ -538,7 +536,6 @@ void PlaybackEngine::update_md(const MetaData& md, GstElement* src){
 void PlaybackEngine::update_duration(GstElement* src) {
 
 	if(! _pipeline->has_element(src)){
-		sp_log(Log::Debug) << "Cannot find " << gst_element_get_name(src) << " in pipeline";
 		return;
 	}
 

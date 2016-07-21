@@ -199,16 +199,15 @@ void EngineHandler::sl_pos_changed_s(quint32 sec) {
 	_play_manager->set_position_ms( (quint64) (sec * 1000) );
 }
 
+void EngineHandler::sl_track_ready_changed(){
+	_play_manager->set_track_ready();
+}
 
 void EngineHandler::sl_track_finished() {
 	_play_manager->next();
 }
 
-void EngineHandler::set_track_ready(){
-	_play_manager->set_track_ready();
-}
-
-void EngineHandler::buffering(int progress){
+void EngineHandler::sl_buffer_state_changed(int progress){
 	_play_manager->buffering(progress);
 }
 
@@ -226,26 +225,26 @@ bool EngineHandler::configure_connections(Engine* old_engine, Engine* new_engine
 	if(old_engine == new_engine) return false;
 
 	if(old_engine) {
-		disconnect(old_engine, &Engine::sig_track_ready, this, &EngineHandler::set_track_ready);
+		disconnect(old_engine, &Engine::sig_track_ready, this, &EngineHandler::sl_track_ready_changed);
 		disconnect(old_engine, &Engine::sig_md_changed, this, &EngineHandler::sl_md_changed);
 		disconnect(old_engine, &Engine::sig_pos_changed_ms, this, &EngineHandler::sl_pos_changed_ms);
 		disconnect(old_engine, &Engine::sig_pos_changed_s, this, &EngineHandler::sl_pos_changed_s);
 		disconnect(old_engine, &Engine::sig_dur_changed, this, &EngineHandler::sl_dur_changed);
 		disconnect(old_engine, &Engine::sig_br_changed, this, &Engine::sig_br_changed);
 		disconnect(old_engine, &Engine::sig_track_finished, this, &EngineHandler::sl_track_finished);
-		disconnect(old_engine, &Engine::sig_buffering, this, &EngineHandler::buffering);
+		disconnect(old_engine, &Engine::sig_buffering, this, &EngineHandler::sl_buffer_state_changed);
 		disconnect(old_engine, &Engine::sig_cover_changed, this, &EngineHandler::sig_cover_changed);
 	}
 
 	if(new_engine) {
-		connect(new_engine, &Engine::sig_track_ready, this, &EngineHandler::set_track_ready);
+		connect(new_engine, &Engine::sig_track_ready, this, &EngineHandler::sl_track_ready_changed);
 		connect(new_engine, &Engine::sig_md_changed, this, &EngineHandler::sl_md_changed);
 		connect(new_engine, &Engine::sig_pos_changed_ms, this, &EngineHandler::sl_pos_changed_ms);
 		connect(new_engine, &Engine::sig_pos_changed_s, this, &EngineHandler::sl_pos_changed_s);
 		connect(new_engine, &Engine::sig_dur_changed, this, &EngineHandler::sl_dur_changed);
 		connect(new_engine, &Engine::sig_br_changed, this, &Engine::sig_br_changed);
 		connect(new_engine, &Engine::sig_track_finished, this, &EngineHandler::sl_track_finished);
-		connect(new_engine, &Engine::sig_buffering, this, &EngineHandler::buffering);
+		connect(new_engine, &Engine::sig_buffering, this, &EngineHandler::sl_buffer_state_changed);
 		connect(new_engine, &Engine::sig_cover_changed, this, &EngineHandler::sig_cover_changed);
 	}
 
