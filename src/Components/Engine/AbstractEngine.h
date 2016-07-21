@@ -24,6 +24,7 @@
 
 #include "Helper/Settings/SayonaraClass.h"
 #include "Helper/MetaData/MetaData.h"
+#include <gst/gst.h>
 #include <QImage>
 
 #define PLAYBACK_ENGINE "playback_engine"
@@ -51,14 +52,14 @@ public:
 
 	virtual bool		init()=0;
 
-	virtual void		set_track_finished();
+	virtual void		set_track_finished(GstElement* src);
 
-	virtual void		async_done();
-	virtual void		update_md(const MetaData&);
-	virtual void		update_cover(const QImage& img);
-	virtual void		update_duration();
-	virtual void		update_bitrate(quint32 br);
-	virtual void		update_time(qint32 time);
+	virtual void		async_done(GstElement* src);
+	virtual void		update_md(const MetaData& md, GstElement* src);
+	virtual void		update_cover(const QImage& img, GstElement* src);
+	virtual void		update_duration(GstElement* src);
+	virtual void		update_bitrate(quint32 br, GstElement* src);
+	virtual void		update_time(qint32 time, GstElement* src);
 
 	void				set_level(float right, float left);
 	void				set_spectrum(QVector<float>& lst );
@@ -100,7 +101,7 @@ public slots:
 	virtual void change_track(const QString&)=0;
 
 	virtual void set_track_ready();
-	virtual void buffering(int);
+	virtual void buffering(int percent);
 
 
 protected:

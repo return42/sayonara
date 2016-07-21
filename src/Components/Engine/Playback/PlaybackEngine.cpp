@@ -110,7 +110,7 @@ void PlaybackEngine::change_track_gapless(const MetaData& md) {
 		_pipeline->fade_in();
 	}
 
-	else{
+	else {
 		qint64 time_to_go = _other_pipeline->get_time_to_go();
 
 		 if(time_to_go <= 0){
@@ -254,7 +254,6 @@ void PlaybackEngine::stop() {
 		set_streamrecorder_recording(false);
 	}
 
-
 	emit sig_pos_changed_s(0);
 }
 
@@ -300,7 +299,6 @@ void PlaybackEngine::change_equalizer(int band, int val) {
 }
 
 
-
 void PlaybackEngine::buffering(int progress)
 {
 	if(Helper::File::is_www(_md.filepath())){
@@ -344,7 +342,7 @@ void PlaybackEngine::set_cur_position_ms(qint64 pos_ms) {
 
 
 void PlaybackEngine::set_track_ready(){
-	update_duration();
+	update_duration(_pipeline->get_pipeline());
 
 	emit sig_track_ready();
 }
@@ -382,35 +380,24 @@ void PlaybackEngine::set_about_to_finish(qint64 time2go) {
 }
 
 
-void PlaybackEngine::set_track_finished() {
-
-	// fetch new track
-	if( _gapless_state == GaplessState::NoGapless ||
-		_gapless_state == GaplessState::Playing)
-	{
+void PlaybackEngine::set_track_finished(GstElement* src)
+{
+	if(_pipeline->has_element(src)){
 		emit sig_track_finished();
+		emit sig_pos_changed_ms(0);
 	}
 
-	// track already fetched, stop the pipeline
-	// new pipeline will be activated automatically
-	// by timer
-	else if(_gapless_state == GaplessState::AboutToFinish ||
-			_gapless_state == GaplessState::TrackFetched)
-	{
+	if(_other_pipeline && _other_pipeline->has_element(src)){
 		sp_log(Log::Debug) << "Old track finished";
 
 		_other_pipeline->stop();
 		_cur_pos_ms = 0;
 		change_gapless_state(GaplessState::Playing);
 	}
-
-	emit sig_pos_changed_ms(0);
 }
 
-void PlaybackEngine::gapless_timed_out() {
-
-	sp_log(Log::Debug) << "Timer timed out";
-
+void PlaybackEngine::gapless_timed_out()
+{
 	_pipeline->play();
 }
 
@@ -510,13 +497,20 @@ void PlaybackEngine::set_n_sound_receiver(int num_sound_receiver)
 	}
 }
 
-void PlaybackEngine::update_cover(const QImage& img)
+void PlaybackEngine::update_cover(const QImage& img, GstElement* src)
 {
-	emit sig_cover_changed(img);	
+	if( _pipeline->has_element(src) )
+	{
+		emit sig_cover_changed(img);
+	}
 }
 
 
-void PlaybackEngine::update_md(const MetaData& md){
+void PlaybackEngine::update_md(const MetaData& md, GstElement* src){
+
+	if(!_pipeline->has_element(src)){
+		return;
+	}
 
 	if(!Helper::File::is_www( _md.filepath() )) {
 		return;
@@ -541,15 +535,14 @@ void PlaybackEngine::update_md(const MetaData& md){
 }
 
 
-void PlaybackEngine::update_duration() {
+void PlaybackEngine::update_duration(GstElement* src) {
 
-	_pipeline->refresh_duration();
-
-	if( _gapless_state == GaplessState::AboutToFinish ||
-		_gapless_state == GaplessState::TrackFetched )
-	{
+	if(! _pipeline->has_element(src)){
+		sp_log(Log::Debug) << "Cannot find " << gst_element_get_name(src) << " in pipeline";
 		return;
 	}
+
+	_pipeline->refresh_duration();
 
 	qint64 duration_ms = _pipeline->get_duration_ms();
 	quint32 duration_s = duration_ms / 1000;
@@ -569,7 +562,11 @@ void PlaybackEngine::update_duration() {
 }
 
 
-void PlaybackEngine::update_bitrate(quint32 br){
+void PlaybackEngine::update_bitrate(quint32 br, GstElement* src){
+
+	if(!_pipeline->has_element(src)){
+		return;
+	}
 
 	if( br / 1000 <= 0) {
 		return;

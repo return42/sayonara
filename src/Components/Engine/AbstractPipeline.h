@@ -25,6 +25,7 @@
 
 
 #include "Helper/Settings/SayonaraClass.h"
+#include "Helper/Set.h"
 
 #include <QTimer>
 #include <gst/gst.h>
@@ -44,7 +45,10 @@ bool
 _test_and_error_bool(bool b, QString errorstr);
 
 class Engine;
-class AbstractPipeline : public QObject, protected SayonaraClass {
+class AbstractPipeline : 
+	public QObject, 
+	protected SayonaraClass 
+{
 
 	Q_OBJECT
 
@@ -54,6 +58,7 @@ class AbstractPipeline : public QObject, protected SayonaraClass {
 		Engine*		_engine=nullptr;
 		QTimer*		_progress_timer=nullptr;
 
+		SP::Set<GstElement*>	_elements;
 
 	protected:
 
@@ -109,6 +114,8 @@ class AbstractPipeline : public QObject, protected SayonaraClass {
 
 		virtual bool		set_uri(gchar* uri);
 		virtual gchar*		get_uri();
+
+		bool 				has_element(GstElement* e) const;
 };
 
 

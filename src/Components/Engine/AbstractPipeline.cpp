@@ -63,6 +63,8 @@ bool AbstractPipeline::init(GstState state){
 		return false;
 	}
 
+	_elements.insert(_pipeline);
+
 	_bus = gst_pipeline_get_bus(GST_PIPELINE(_pipeline));
 
 	success = create_elements();
@@ -276,7 +278,12 @@ bool AbstractPipeline::create_element(GstElement** elem, const gchar* elem_name,
 		error_msg = QString("Engine: ") + elem_name + " creation failed";
 	}
 
-	return _test_and_error(*elem, error_msg);
+	bool success = _test_and_error(*elem, error_msg);
+	if(success){
+		_elements.insert(*elem);
+	}
+
+	return success;
 }
 
 quint64 AbstractPipeline::get_about_to_finish_time() const
@@ -303,4 +310,14 @@ _test_and_error_bool(bool b, QString errorstr) {
 	}
 
 	return true;
+}
+
+bool
+AbstractPipeline::has_element(GstElement* e) const
+{
+	if(!e){
+		return true;
+	}
+
+	return (_elements.contains(e));
 }

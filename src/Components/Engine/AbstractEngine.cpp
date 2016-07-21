@@ -34,31 +34,38 @@ EngineName Engine::get_name() const {
 	return _name;
 }
 
-void Engine::set_track_finished(){
+void Engine::set_track_finished(GstElement* src){
+	Q_UNUSED(src)
 
 }
 
-void Engine::async_done(){
+void Engine::async_done(GstElement* src){
+	Q_UNUSED(src)
 
 }
 
-void Engine::update_md(const MetaData& md){
+void Engine::update_md(const MetaData& md, GstElement* src){
+	Q_UNUSED(src)
 	Q_UNUSED(md)
 }
 
-void Engine::update_cover(const QImage& img){
+void Engine::update_cover(const QImage& img, GstElement* src){
+	Q_UNUSED(src)
 	Q_UNUSED(img);
 }
 
-void Engine::update_duration(){
+void Engine::update_duration(GstElement* src){
+	Q_UNUSED(src)
 
 }
 
-void Engine::update_time(qint32 time){
+void Engine::update_time(qint32 time, GstElement* src){
+	Q_UNUSED(src)
 	Q_UNUSED(time)
 }
 
-void Engine::update_bitrate(quint32 br){
+void Engine::update_bitrate(quint32 br, GstElement* src){
+	Q_UNUSED(src)
 	Q_UNUSED(br)
 }
 

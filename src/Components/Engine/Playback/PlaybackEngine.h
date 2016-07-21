@@ -64,9 +64,9 @@ public:
 
 	bool init() override;
 
-	void set_track_finished() override;
-	void update_duration() override;
-	void update_bitrate(quint32 br) override;
+	void set_track_finished(GstElement* src) override;
+	void update_duration(GstElement* src) override;
+	void update_bitrate(quint32 br, GstElement* src) override;
 	void set_about_to_finish(qint64 time2go) override;
 	void set_cur_position_ms(qint64 pos_ms) override;
 
@@ -85,8 +85,6 @@ public:
 
 	void emit_buffer(float inv_array_elements, float scale);
 
-
-
 public slots:
 
 	void play() override;
@@ -96,10 +94,10 @@ public slots:
 	void jump_abs_ms(quint64 pos_ms) override;
 	void jump_rel_ms(quint64 pos_ms) override;
 	void jump_rel(double percent) override;
-	void update_md(const MetaData&) override;
-	void update_cover(const QImage& img) override;
-	void change_track(const MetaData&) override;
-	void change_track(const QString&) override;
+	void update_md(const MetaData& md, GstElement* src) override;
+	void update_cover(const QImage& img, GstElement* src) override;
+	void change_track(const MetaData& md) override;
+	void change_track(const QString& filepath) override;
 
 	void set_track_ready() override;
 	void buffering(int progress) override;

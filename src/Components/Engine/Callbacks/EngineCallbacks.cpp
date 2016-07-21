@@ -105,6 +105,7 @@ gboolean EngineCallbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpoint
 
 	Engine*			engine;
 	GError*			err;
+	GstElement*		src;
 
 	GstMessageType	msg_type;
 	quint32			bitrate;
@@ -119,6 +120,8 @@ gboolean EngineCallbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpoint
 
 	msg_type = GST_MESSAGE_TYPE(msg);
 	msg_src_name = QString(GST_MESSAGE_SRC_NAME(msg)).toLower();
+	src = reinterpret_cast<GstElement*>(msg->src);
+
 	switch (msg_type) {
 
 		case GST_MESSAGE_EOS:
@@ -136,7 +139,7 @@ gboolean EngineCallbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpoint
 				break;
 			}
 
-			engine->set_track_finished();
+			engine->set_track_finished(src);
 
 			break;
 
@@ -182,20 +185,22 @@ gboolean EngineCallbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpoint
 
 			success = parse_image(tags, img);
 			if(success){
-				engine->update_cover(img);
+
+				sp_log(Log::Debug) << "New Covoer by " << msg_src_name;
+				engine->update_cover(img, src);
 			}
 			
 
 			success = gst_tag_list_get_uint(tags, GST_TAG_BITRATE, &bitrate);
 			if(success){
-				engine->update_bitrate((bitrate / 1000) * 1000);
+				engine->update_bitrate((bitrate / 1000) * 1000, src);
 			}
 
 			success = gst_tag_list_get_string(tags, GST_TAG_TITLE, (gchar**) &title);
 			if(success){
 				md.title = title;
 				g_free(title);
-				engine->update_md(md);
+				engine->update_md(md, src);
 			}
 
 
@@ -205,8 +210,6 @@ gboolean EngineCallbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpoint
 
 		case GST_MESSAGE_STATE_CHANGED:
 			GstState old_state, new_state, pending_state;
-
-
 
 			gst_message_parse_state_changed(msg, &old_state, &new_state, &pending_state);
 			/*sp_log(Log::Debug) << GST_MESSAGE_SRC_NAME(msg) << ": "
@@ -239,7 +242,7 @@ gboolean EngineCallbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpoint
 			break;
 
 		case GST_MESSAGE_DURATION_CHANGED:
-			engine->update_duration();
+			engine->update_duration(src);
 			break;
 
 		case GST_MESSAGE_INFO:
@@ -260,7 +263,7 @@ gboolean EngineCallbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpoint
 			sp_log(Log::Error) << "Engine " << (int) engine->get_name() << ": GST_MESSAGE_ERROR: " << err->message << ": "
 					 << GST_MESSAGE_SRC_NAME(msg);
 
-			engine->set_track_finished();
+			engine->set_track_finished(src);
 			engine->stop();
 			g_error_free(err);
 

@@ -139,12 +139,12 @@ void ConvertEngine::stop() {
 }
 
 // public from Gstreamer Callbacks
-void ConvertEngine::set_track_finished() {
+void ConvertEngine::set_track_finished(GstElement* src) {
+	Q_UNUSED(src)
 	emit sig_track_finished();
 }
 
 void ConvertEngine::set_cur_position_ms(qint64 v) {
-
 	emit sig_pos_changed_s((quint32) v / 1000);
 }
 
