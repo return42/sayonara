@@ -341,10 +341,10 @@ void EngineHandler::unregister_raw_sound_receiver(RawSoundReceiverInterface* rec
 }
 
 
-void EngineHandler::change_equalizer(int band, int value){
+void EngineHandler::set_equalizer(int band, int value){
 	PlaybackEngine* engine = get_playback_engine();
 
 	if(engine){
-		engine->change_equalizer(band, value);
+		engine->set_equalizer(band, value);
 	}
 }

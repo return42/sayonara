@@ -44,7 +44,6 @@ class Engine :
 
 	Q_OBJECT
 
-
 public:
 
 	Engine(QObject* parent=nullptr);
@@ -104,13 +103,10 @@ public slots:
 	virtual void change_track(const QString&)=0;
 
 
-
-
 protected:
 
-	char*		_uri=nullptr;
-
 	EngineName	_name;
+	char*		_uri=nullptr;
 
 	MetaData	_md;
 	qint64		_cur_pos_ms;

@@ -177,7 +177,7 @@ void GUI_Equalizer::sli_changed(int idx, int new_val) {
 	EqSlider* s = _sliders[idx];
 	s->getLabel()->setText(calc_lab(new_val));
 
-	_engine->change_equalizer(idx, new_val);
+	_engine->set_equalizer(idx, new_val);
 
 	// this slider has been changed actively
     if( idx == _active_idx && cb_gauss->isChecked() ){

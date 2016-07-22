@@ -124,7 +124,7 @@ void AbstractPipeline::refresh_position() {
 
 	success = gst_element_query_position(element, GST_FORMAT_TIME, &pos_source);
 
-	if(success && (pos_source / 1000) > 0){
+	if(success && (pos_source >> 10) > 0){
 		_position_ms = GST_TIME_AS_MSECONDS(pos_source);
 	}
 	else {

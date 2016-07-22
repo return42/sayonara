@@ -22,10 +22,6 @@
 #ifndef GSTPLAYBACKENGINE_H_
 #define GSTPLAYBACKENGINE_H_
 
-
-
-#include "SoundOutReceiver.h"
-
 #include "Components/Engine/AbstractEngine.h"
 
 #include "Helper/EqualizerPresets.h"
@@ -35,10 +31,12 @@
 #include <gst/gstbuffer.h>
 
 #include <QTimer>
+#include <QList>
 
 class PlaybackPipeline;
 class StreamRecorder;
-
+class SpectrumReceiver;
+class LevelReceiver;
 
 enum class GaplessState : quint8 {
 	NoGapless=0,		// no gapless enabled at all
@@ -73,14 +71,14 @@ public:
 	void set_streamrecorder_recording(bool b);
 
 	void set_spectrum(const QVector<float>& vals);
-	void set_spectrum_receiver(SpectrumReceiver* receiver);
+	void add_spectrum_receiver(SpectrumReceiver* receiver);
 
 	void set_level(float left, float right);
-	void set_level_receiver(LevelReceiver* receiver);
+	void add_level_receiver(LevelReceiver* receiver);
 
 	void set_n_sound_receiver(int num_sound_receiver);
 
-	void change_equalizer(int band, int value);
+	void set_equalizer(int band, int value);
 	void set_speed(float f);
 
 	void emit_buffer(float inv_array_elements, float scale);
@@ -104,22 +102,20 @@ public slots:
 
 	void gapless_timed_out();
 
-
-
 private:
 	
-	PlaybackPipeline*		_pipeline=nullptr;
-	PlaybackPipeline*		_other_pipeline=nullptr;
+	PlaybackPipeline*			_pipeline=nullptr;
+	PlaybackPipeline*			_other_pipeline=nullptr;
 
-	LevelReceiver*			_level_receiver=nullptr;
-	SpectrumReceiver*		_spectrum_receiver=nullptr;
-	QTimer*					_timer=nullptr;
+	QList<LevelReceiver*>		_level_receiver;
+	QList<SpectrumReceiver*>	_spectrum_receiver;
 
-	GaplessState			_gapless_state;
+	QTimer*						_gapless_timer=nullptr;
+	GaplessState				_gapless_state;
 
-	bool					_sr_active;
+	bool						_sr_active;
 
-	StreamRecorder*			_stream_recorder=nullptr;
+	StreamRecorder*				_stream_recorder=nullptr;
 
 private:
 

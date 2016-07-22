@@ -98,6 +98,7 @@ bool parse_image(GstTagList* tags, QImage& img)
 	return (!img.isNull());
 }
 
+
 // check messages from bus
 gboolean EngineCallbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpointer data) {
 
@@ -109,7 +110,7 @@ gboolean EngineCallbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpoint
 
 	GstMessageType	msg_type;
 	quint32			bitrate;
-	MetaData		md;
+
 	QString			msg_src_name;
 	QImage 			img;
 
@@ -169,8 +170,8 @@ gboolean EngineCallbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpoint
 			gchar*			title;
 			bool			success;
 
-			if(msg_src_name.compare("sr_filesink") == 0 ||
-				msg_src_name.compare("level_sink") ==0 ||
+			if( msg_src_name.compare("sr_filesink") == 0 ||
+				msg_src_name.compare("level_sink") == 0 ||
 				msg_src_name.compare("spectrum_sink") == 0)
 			{
 				break;
@@ -185,12 +186,9 @@ gboolean EngineCallbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpoint
 
 			success = parse_image(tags, img);
 			if(success){
-
-				sp_log(Log::Debug) << "New Covoer by " << msg_src_name;
 				engine->update_cover(img, src);
 			}
 			
-
 			success = gst_tag_list_get_uint(tags, GST_TAG_BITRATE, &bitrate);
 			if(success){
 				engine->update_bitrate((bitrate / 1000) * 1000, src);
@@ -198,11 +196,11 @@ gboolean EngineCallbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpoint
 
 			success = gst_tag_list_get_string(tags, GST_TAG_TITLE, (gchar**) &title);
 			if(success){
+				MetaData md;
 				md.title = title;
 				g_free(title);
 				engine->update_md(md, src);
 			}
-
 
 			gst_tag_list_unref(tags);
 

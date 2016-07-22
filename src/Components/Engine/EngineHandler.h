@@ -49,12 +49,11 @@ public:
 	void register_raw_sound_receiver(RawSoundReceiverInterface* receiver);
 	void unregister_raw_sound_receiver(RawSoundReceiverInterface* receiver);
 
-	void change_equalizer(int band, int value);
-
 	void start_convert();
 	void end_convert();
 
 	void set_speed(float f);
+	void set_equalizer(int band, int value);
 
 
 public slots:
@@ -65,7 +64,6 @@ public slots:
 
 	void change_track(const MetaData&) override;
 	void change_track(const QString&) override;
-
 
 
 private slots:
