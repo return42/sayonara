@@ -24,18 +24,23 @@
 #define GSTPLAYBACKPIPELINE_H_
 
 #include "Components/Engine/AbstractPipeline.h"
+#include "CrossFader.h"
 
 #include <gst/app/gstappsink.h>
+#include <QTimer>
 
 struct StreamRecorderData;
 class Engine;
 
-class PlaybackPipeline : public AbstractPipeline
+class PlaybackPipeline :
+		public AbstractPipeline,
+		public CrossFader
 {
 	Q_OBJECT
 
 
 public:
+
 	PlaybackPipeline(Engine* engine, QObject *parent=nullptr);
 	virtual ~PlaybackPipeline();
 
@@ -44,9 +49,10 @@ public:
 
 	void set_n_sound_receiver(int num_sound_receiver);
 
+	void set_current_volume(double volume) override;
+	double get_current_volume() const override;
+
 	GstElement* get_source() const override;
-
-
 
 
 public slots:
@@ -56,9 +62,7 @@ public slots:
 	void stop() override;
 
 	void set_eq_band(const QString& band_name, double val);
-
 	void set_speed(float f);
-
 	void set_streamrecorder_path(const QString& session_path);
 
 	gint64 seek_rel(double percent, gint64 ref_ns);
@@ -104,20 +108,16 @@ private:
 	GstElement*			_file_resampler=nullptr;
 	GstElement*			_file_lame=nullptr;
 
-	GstState			_saved_state;
-
 	gulong				_level_probe, _spectrum_probe, _lame_probe, _file_probe;
 	bool				_show_level, _show_spectrum, _run_broadcast, _run_sr;
 
     bool _seek(gint64 ns);
-	bool tee_connect(GstPadTemplate* tee_src_pad_template,
-					 GstElement* queue,
-					 const QString& queue_name
-	);
+
 
 	bool create_elements() override;
 	bool add_and_link_elements() override;
 	bool configure_elements() override;
+	quint64 get_about_to_finish_time() const override;
 
 	void init_equalizer();
 
@@ -128,7 +128,7 @@ protected slots:
 	void _sl_show_level_changed();
 	void _sl_show_spectrum_changed();
 	void _sl_mute_changed();
-
 };
+
 
 #endif

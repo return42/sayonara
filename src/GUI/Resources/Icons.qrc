@@ -84,6 +84,6 @@
         <file>Icons/arrow_filled_left.svg.png</file>
         <file>Icons/star.png</file>
         <file>Icons/star_disabled.png</file>
-
+        <file>Icons/waiting.gif</file>
     </qresource>
 </RCC>

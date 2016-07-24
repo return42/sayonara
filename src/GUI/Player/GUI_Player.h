@@ -130,6 +130,7 @@ private:
 	QMessageBox*				_about_box=nullptr;
 
 	MetaData					_md;
+	bool						_cover_from_tag;
 	IconLoader*				_icon_loader=nullptr;
 
 
@@ -237,6 +238,7 @@ private slots:
 
 	void set_standard_cover();
 	void set_cover_image(const CoverLocation&);
+	void cover_changed(const QImage& cover);
 	void fetch_cover();
 
 	void awa_version_finished(bool success);

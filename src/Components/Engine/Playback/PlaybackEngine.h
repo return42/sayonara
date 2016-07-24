@@ -22,10 +22,6 @@
 #ifndef GSTPLAYBACKENGINE_H_
 #define GSTPLAYBACKENGINE_H_
 
-
-
-#include "SoundOutReceiver.h"
-
 #include "Components/Engine/AbstractEngine.h"
 
 #include "Helper/EqualizerPresets.h"
@@ -35,10 +31,12 @@
 #include <gst/gstbuffer.h>
 
 #include <QTimer>
+#include <QList>
 
 class PlaybackPipeline;
 class StreamRecorder;
-
+class SpectrumReceiver;
+class LevelReceiver;
 
 enum class GaplessState : quint8 {
 	NoGapless=0,		// no gapless enabled at all
@@ -64,28 +62,26 @@ public:
 
 	bool init() override;
 
-	void set_track_finished() override;
-	void update_duration() override;
-	void update_bitrate(quint32 br) override;
+	void set_track_finished(GstElement* src) override;
+	void update_duration(GstElement* src) override;
+	void update_bitrate(quint32 br, GstElement* src) override;
 	void set_about_to_finish(qint64 time2go) override;
 	void set_cur_position_ms(qint64 pos_ms) override;
 
 	void set_streamrecorder_recording(bool b);
 
 	void set_spectrum(const QVector<float>& vals);
-	void set_spectrum_receiver(SpectrumReceiver* receiver);
+	void add_spectrum_receiver(SpectrumReceiver* receiver);
 
 	void set_level(float left, float right);
-	void set_level_receiver(LevelReceiver* receiver);
+	void add_level_receiver(LevelReceiver* receiver);
 
 	void set_n_sound_receiver(int num_sound_receiver);
 
-	void change_equalizer(int band, int value);
+	void set_equalizer(int band, int value);
 	void set_speed(float f);
 
 	void emit_buffer(float inv_array_elements, float scale);
-
-
 
 public slots:
 
@@ -96,31 +92,30 @@ public slots:
 	void jump_abs_ms(quint64 pos_ms) override;
 	void jump_rel_ms(quint64 pos_ms) override;
 	void jump_rel(double percent) override;
-	void update_md(const MetaData&) override;
-	void change_track(const MetaData&) override;
-	void change_track(const QString&) override;
+	void update_md(const MetaData& md, GstElement* src) override;
+	void update_cover(const QImage& img, GstElement* src) override;
+	void change_track(const MetaData& md) override;
+	void change_track(const QString& filepath) override;
 
-	void set_track_ready() override;
-	void buffering(int progress) override;
+	void set_track_ready(GstElement* src) override;
+	void set_buffer_state(int progress, GstElement* src) override;
 
 	void gapless_timed_out();
 
-
-
 private:
 	
-	PlaybackPipeline*		_pipeline=nullptr;
-	PlaybackPipeline*		_other_pipeline=nullptr;
+	PlaybackPipeline*			_pipeline=nullptr;
+	PlaybackPipeline*			_other_pipeline=nullptr;
 
-	LevelReceiver*			_level_receiver=nullptr;
-	SpectrumReceiver*		_spectrum_receiver=nullptr;
-	QTimer*				_timer=nullptr;
+	QList<LevelReceiver*>		_level_receiver;
+	QList<SpectrumReceiver*>	_spectrum_receiver;
 
-	GaplessState			_gapless_state;
+	QTimer*						_gapless_timer=nullptr;
+	GaplessState				_gapless_state;
 
-	bool				_sr_active;
+	bool						_sr_active;
 
-	StreamRecorder*			_stream_recorder=nullptr;
+	StreamRecorder*				_stream_recorder=nullptr;
 
 private:
 

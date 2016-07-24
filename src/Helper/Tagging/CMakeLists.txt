@@ -3,11 +3,12 @@ PROJECT(say_helper_tagging)
 
 SET(SOURCES
 
-        Tagging.cpp
+	Tagging.cpp
 
-        Frames/AbstractFrame.cpp
-        Frames/Discnumber.cpp
-        Frames/Popularimeter.cpp
+	Frames/AbstractFrame.cpp
+	Frames/Discnumber.cpp
+	Frames/Popularimeter.cpp
+	Frames/Cover.cpp
 )
 
 ADD_LIBRARY(${PROJECT_NAME} STATIC ${SOURCES})

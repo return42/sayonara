@@ -92,7 +92,10 @@ void GUI_LevelPainter::init_ui()
 
 	init_buttons(true);
 
-	_engine->get_playback_engine()->set_level_receiver(this);
+	PlaybackEngine* playback_engine = _engine->get_playback_engine();
+	if(playback_engine){
+		playback_engine->add_level_receiver(this);
+	}
 }
 
 

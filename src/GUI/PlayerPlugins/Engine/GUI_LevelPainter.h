@@ -18,17 +18,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef GUI_LEVELPAINTER_H
 #define GUI_LEVELPAINTER_H
-
 
 #include "EnginePlugin.h"
 #include "GUI/PlayerPlugins/Engine/ui_GUI_LevelPainter.h"
 #include "Components/Engine/Playback/SoundOutReceiver.h"
-
-#include <QString>
 
 class GUI_LevelPainter :
 		public EnginePlugin,

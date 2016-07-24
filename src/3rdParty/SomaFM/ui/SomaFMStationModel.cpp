@@ -1,9 +1,15 @@
 #include "SomaFMStationModel.h"
 #include "GUI/Helper/GUI_Helper.h"
+#include "GUI/Helper/CustomMimeData.h"
+#include "GUI/Helper/IconLoader/IconLoader.h"
+
+
+#include <QUrl>
 
 SomaFMStationModel::SomaFMStationModel(QObject *parent) :
 	AbstractSearchTableModel(parent)
 {
+	_status = Status::Waiting;
 }
 
 
@@ -24,11 +30,11 @@ int SomaFMStationModel::columnCount(const QModelIndex& parent) const
 	return 2;
 }
 
+
 QVariant SomaFMStationModel::data(const QModelIndex& index, int role) const
 {
 	int row = index.row();
 	int col = index.column();
-
 
 	if(!index.isValid()){
 		sp_log(Log::Debug) << "Index not valid";
@@ -44,7 +50,7 @@ QVariant SomaFMStationModel::data(const QModelIndex& index, int role) const
 	}
 
 	if(role == Qt::DecorationRole) {
-		if(_stations.isEmpty()){
+		if(_status == Status::Waiting){
 			return QVariant();
 		}
 
@@ -52,31 +58,43 @@ QVariant SomaFMStationModel::data(const QModelIndex& index, int role) const
 			return QVariant();
 		}
 
+		if(_status == Status::Error){
+			return IconLoader::getInstance()->get_icon("view-refresh", "undo");
+		}
+
 		bool loved = _stations[row].is_loved();
 		if(loved){
 			return GUI::get_icon("star.png");
 		}
+
 		else{
 			return GUI::get_icon("star_disabled.png");
 		}
 	}
 
-	if(role == Qt::DisplayRole && col == 1) {
+	else if(role == Qt::DisplayRole && col == 1) {
 		if(_stations.isEmpty()){
-			return tr("Initializing") + "...";
+			if(_status == Status::Waiting){
+				return tr("Initializing") + "...";
+			}
+
+			else if(_status == Status::Error){
+				return tr("Cannot fetch stations");
+			}
+
+			return QVariant();
 		}
 
 		return _stations[row].get_name();
 	}
 
-	if(role == Qt::WhatsThisRole) {
+	else if(role == Qt::WhatsThisRole) {
 		if(_stations.isEmpty()){
-			return "";
+			return QVariant();
 		}
 
 		return _stations[row].get_name();
 	}
-
 
 	return QVariant();
 }
@@ -134,6 +152,14 @@ void SomaFMStationModel::set_stations(const QList<SomaFMStation>& stations)
 {
 	int n_stations = stations.size();
 
+	if(n_stations == 0){
+		_status = Status::Error;
+		emit dataChanged( index(0,0), index(0, 1) );
+		return;
+	}
+
+	_status = Status::OK;
+
 	beginRemoveRows(QModelIndex(), 0, rowCount() - 1);
 	this->removeRows(0, this->rowCount());
 	endRemoveRows();
@@ -144,7 +170,7 @@ void SomaFMStationModel::set_stations(const QList<SomaFMStation>& stations)
 	_stations = stations;
 	endInsertRows();
 
-	emit dataChanged(this->index(0, 0), this->index(n_stations - 1, 1));
+	emit dataChanged( index(0, 0), index(n_stations - 1, 1));
 }
 
 void SomaFMStationModel::replace_station(const SomaFMStation& station)
@@ -161,4 +187,60 @@ void SomaFMStationModel::replace_station(const SomaFMStation& station)
 	}
 }
 
+bool SomaFMStationModel::has_stations() const
+{
+	return (_stations.size() > 0);
+}
 
+void SomaFMStationModel::set_waiting(){
+	_status = Status::Waiting;
+	emit dataChanged( index(0,0), index(0, 1) );
+}
+
+
+QMimeData* SomaFMStationModel::mimeData(const QModelIndexList& indexes) const
+{
+	QList<QUrl> urls;
+	QString cover_url;
+
+	for(const QModelIndex& idx : indexes){
+		if(idx.column() == 0){
+			continue;
+		}
+
+		int row = idx.row();
+		if(!between(row, 0, _stations.size())){
+			continue;
+		}
+
+		QStringList str_urls = _stations[row].get_urls();
+
+		for(const QString& str_url : str_urls){
+			urls << QUrl(str_url);
+			cover_url = _stations[row].get_cover_location().search_url;
+		}
+	}
+
+	QMimeData* mime_data = new QMimeData();
+	mime_data->setText(cover_url);
+	mime_data->setUrls(urls);
+
+	return mime_data;
+}
+
+
+Qt::ItemFlags SomaFMStationModel::flags(const QModelIndex& index) const
+{
+
+	switch(_status){
+		case Status::Waiting:
+			return (Qt::NoItemFlags);
+		case Status::Error:
+			if(index.column() == 0){
+				return Qt::ItemIsEnabled;
+			}
+			return (Qt::NoItemFlags);
+		default:
+			return (Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled);
+	}
+}

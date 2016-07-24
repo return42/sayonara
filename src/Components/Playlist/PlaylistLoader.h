@@ -29,7 +29,7 @@
 #include "Playlist.h"
 
 class CustomPlaylist;
-class PlaylistDBConnector;
+class PlaylistDBWrapper;
 class PlaylistHandler;
 
 /**
@@ -44,7 +44,7 @@ private:
 
 	CustomPlaylists	_playlists;
 
-	PlaylistDBConnector*	_playlist_db_connector=nullptr;
+	PlaylistDBWrapper*	_playlist_db_connector=nullptr;
 
 	int						_last_playlist_idx;
 	int						_last_track_idx;

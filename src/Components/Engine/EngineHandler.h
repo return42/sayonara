@@ -49,12 +49,11 @@ public:
 	void register_raw_sound_receiver(RawSoundReceiverInterface* receiver);
 	void unregister_raw_sound_receiver(RawSoundReceiverInterface* receiver);
 
-	void change_equalizer(int band, int value);
-
 	void start_convert();
 	void end_convert();
 
 	void set_speed(float f);
+	void set_equalizer(int band, int value);
 
 
 public slots:
@@ -67,7 +66,6 @@ public slots:
 	void change_track(const QString&) override;
 
 
-
 private slots:
 
 	void sl_md_changed(const MetaData&);
@@ -76,6 +74,9 @@ private slots:
 	void sl_pos_changed_s(quint32 s);
 
 	void sl_track_finished();
+
+	void sl_track_ready_changed();
+	void sl_buffer_state_changed(int progress);
 
 	void sr_record_button_pressed(bool);
 	void playstate_changed(PlayManager::PlayState);
@@ -86,8 +87,6 @@ private slots:
 	void stop() override;
 	void pause() override;
 
-	void set_track_ready() override;
-	void buffering(int progress) override;
 
 
 private:

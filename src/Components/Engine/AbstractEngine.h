@@ -24,6 +24,8 @@
 
 #include "Helper/Settings/SayonaraClass.h"
 #include "Helper/MetaData/MetaData.h"
+#include <gst/gst.h>
+#include <QImage>
 
 #define PLAYBACK_ENGINE "playback_engine"
 #define CONVERT_ENGINE "convert_engine"
@@ -42,7 +44,6 @@ class Engine :
 
 	Q_OBJECT
 
-
 public:
 
 	Engine(QObject* parent=nullptr);
@@ -50,13 +51,17 @@ public:
 
 	virtual bool		init()=0;
 
-	virtual void		set_track_finished();
+	virtual void		set_track_finished(GstElement* src);
 
-	virtual void		async_done();
-	virtual void		update_md(const MetaData&);
-	virtual void		update_duration();
-	virtual void		update_bitrate(quint32 br);
-	virtual void		update_time(qint32 time);
+	virtual void		async_done(GstElement* src);
+	virtual void		update_md(const MetaData& md, GstElement* src);
+	virtual void		update_cover(const QImage& img, GstElement* src);
+	virtual void		update_duration(GstElement* src);
+	virtual void		update_bitrate(quint32 br, GstElement* src);
+	virtual void		update_time(qint32 time, GstElement* src);
+
+	virtual void		set_track_ready(GstElement* src);
+	virtual void		set_buffer_state(int percent, GstElement* src);
 
 	void				set_level(float right, float left);
 	void				set_spectrum(QVector<float>& lst );
@@ -75,6 +80,7 @@ signals:
 	void sig_track_finished();
 
     void sig_download_progress(int);
+	void sig_cover_changed(const QImage& img);
 
 
 protected slots:
@@ -96,15 +102,11 @@ public slots:
 	virtual void change_track(const MetaData&)=0;
 	virtual void change_track(const QString&)=0;
 
-	virtual void set_track_ready();
-	virtual void buffering(int);
-
 
 protected:
 
-	char*		_uri=nullptr;
-
 	EngineName	_name;
+	char*		_uri=nullptr;
 
 	MetaData	_md;
 	qint64		_cur_pos_ms;

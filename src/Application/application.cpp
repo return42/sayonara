@@ -54,6 +54,7 @@
 #include "GUI/PlayerPlugins/Bookmarks/GUI_Bookmarks.h"
 #include "GUI/PlayerPlugins/Speed/GUI_Speed.h"
 #include "GUI/PlayerPlugins/Broadcasting/GUI_Broadcast.h"
+#include "GUI/PlayerPlugins/Crossfader/GUI_Crossfader.h"
 
 #include "GUI/Preferences/Fonts/GUI_FontConfig.h"
 #include "GUI/Preferences/Notifications/GUI_Notifications.h"
@@ -218,6 +219,7 @@ bool Application::init(QTranslator* translator, const QStringList& files_to_play
 	pph->add_plugin(new GUI_Bookmarks());
 	pph->add_plugin(new GUI_Speed());
 	pph->add_plugin(new GUI_Broadcast());
+	pph->add_plugin(new GUI_Crossfader());
 	pph->load_dynamic_plugins();
 
 	sp_log(Log::Debug) << "Plugins finsihed: " << _timer->elapsed() << "ms";

@@ -29,6 +29,8 @@
 
 #include <QVector>
 #include <QThread>
+#include <QImage>
+#include <QMap>
 
 class MetaDataList;
 /**
@@ -105,6 +107,11 @@ public:
 	 */
 	void update_track(int idx, const MetaData& md);
 
+	void update_cover(int idx, const QImage& cover);
+	void remove_cover(int idx);
+	bool has_cover_replacement(int idx) const;
+	bool is_id3v2_tag(int idx) const;
+
 
 	/**
 	 * @brief initializes the TagEdit object with a MetaDataList
@@ -132,6 +139,7 @@ private:
 	MetaDataList			_v_md;			// the current metadata
 	MetaDataList			_v_md_orig;		// the original metadata
 	QVector<bool>			_changed_md;	// indicates if metadata at idx was changed
+	QMap<int, QImage>		_cover_map;
 
 	LibraryDatabase*		_ldb=nullptr;	// database of LocalLibrary
 	bool					_notify;

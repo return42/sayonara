@@ -30,8 +30,6 @@
 #include "GUI/TagEdit/ui_GUI_TagEdit.h"
 #include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
 #include "Components/TagEdit/TagExpression.h"
-#include "Components/TagEdit/TagEdit.h"
-
 
 
 
@@ -39,6 +37,12 @@
  * @brief The GUI_TagEdit class
  * @ingroup Tagging
  */
+class TagEdit;
+class CoverLookup;
+class CoverLocation;
+class MetaDataList;
+class MetaData;
+
 class GUI_TagEdit :
 		public SayonaraWidget,
 		private Ui::GUI_TagEdit
@@ -77,9 +81,12 @@ signals:
 	void sig_cancelled();
 
 
+
 private:
 	TagEdit*		_tag_edit=nullptr;
+	CoverLookup*	_cover_lookup=nullptr;
 	TagExpression	_tag_expression;
+	QMap<int, QString> _cover_path_map;
 
 	int				_cur_idx;
 
@@ -92,6 +99,12 @@ private:
 
 
 private:
+
+	bool is_cover_replacement_active() const;
+	void update_cover(int idx, const QString& cover_path);
+	void set_cover(const MetaData& md);
+	void show_replacement_field(bool b);
+
 
 	/**
 	 * @brief replaces text with tag or vice versa
@@ -193,6 +206,11 @@ private slots:
 	 */
 	void rating_all_changed(bool b);
 
+	/**
+	 * @brief (un)sets _cover_all
+	 */
+	void cover_all_changed(bool b);
+
 
 	/**
 	 * @brief calls replace_selected_tag_text with TAG_TITLE
@@ -285,6 +303,10 @@ private slots:
 	 * @brief private slot for notifying the MetaDataChangeNotifier
 	 */
 	void commit_finished();
+
+
+	void rb_dont_replace_toggled(bool b);
+	void cover_found(const CoverLocation& cl);
 
 };
 

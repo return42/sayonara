@@ -35,10 +35,8 @@ class ConvertEngine : public Engine
 public:
 	explicit ConvertEngine(QObject *parent=nullptr);
 	
-	void set_track_finished() override;
+	void set_track_finished(GstElement* src) override;
 	bool init() override;
-
-
 
 protected slots:
 	void set_cur_position_ms(qint64 ms) override;

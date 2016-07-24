@@ -31,6 +31,7 @@
 
 #include "Components/Playlist/Playlist.h"
 #include "GUI/Helper/SearchableWidget/SearchableListView.h"
+
 #include "Helper/Set.h"
 
 #include <QPoint>
@@ -41,8 +42,9 @@
 #include <QModelIndex>
 #include <QMouseEvent>
 #include <QScrollBar>
+#include <QProgressBar>
 
-
+class SayonaraLoadingBar;
 class LibraryContextMenu;
 class PlaylistItemModel;
 class PlaylistItemDelegate;
@@ -95,6 +97,9 @@ private:
 
 	PlaylistItemModel*		_model=nullptr;
 	PlaylistItemDelegate*	_delegate=nullptr;
+	SayonaraLoadingBar*		_progress=nullptr;
+
+	int						_async_drop_index;
 
 
 private:
@@ -111,6 +116,7 @@ private:
 	int calc_drag_drop_line(QPoint pos);
 	void handle_drop(QDropEvent* event);
 	void handle_inner_drag_drop(int row, bool copy);
+
 
 	// overloaded stuff
 	void dragLeaveEvent(QDragLeaveEvent* event) override;
@@ -131,6 +137,7 @@ private:
 
 private slots:
 	void _sl_look_changed();
+	void handle_async_drop(bool success);
 };
 
 

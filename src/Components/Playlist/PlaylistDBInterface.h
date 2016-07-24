@@ -26,7 +26,7 @@
 #include "Helper/MetaData/MetaData.h"
 #include "Helper/Playlist/CustomPlaylist.h"
 
-class PlaylistDBConnector;
+class PlaylistDBWrapper;
 /**
  * @brief The PlaylistDBInterface class
  * @ingroup Playlists
@@ -37,7 +37,7 @@ class PlaylistDBInterface : public QObject {
 
 private:
 
-	PlaylistDBConnector*	_playlist_db_connector=nullptr;
+	PlaylistDBWrapper*	_playlist_db_connector=nullptr;
 	QString					_name;
 	bool					_is_temporary;
 	int						_id;

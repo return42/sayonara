@@ -96,7 +96,10 @@ void GUI_Spectrum::init_ui()
 
 	update();
 
-	_engine->get_playback_engine()->set_spectrum_receiver(this);
+	PlaybackEngine* playback_engine = _engine->get_playback_engine();
+	if(playback_engine){
+		playback_engine->add_spectrum_receiver(this);
+	}
 }
 
 

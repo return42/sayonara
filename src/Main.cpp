@@ -29,7 +29,6 @@
 #include <csignal>
 #include <cstdio>
 #include <fcntl.h>
-#include <stdio.h>
 
 #include "Application/application.h"
 #include "Database/DatabaseConnector.h"
@@ -51,25 +50,22 @@
 
 #include <QtGlobal>
 #ifdef Q_OS_LINUX
-#include <execinfo.h>
+	#include <execinfo.h>
+#else
+
+	#include <glib-2.0/glib.h>
+	#undef signals
+	#include <gio/gio.h>
+	
 #endif
 
-#include <cstdlib>
-#include <glib-2.0/glib.h>
-#undef signals
-#include <gio/gio.h>
-
-
-int check_for_another_instance_unix() {
+int check_for_another_instance_unix(qint64 pid) {
 
 #ifdef Q_OS_LINUX
-
-	int pid = -1;
 
 	QDir dir("/proc");
 	dir.cd(".");
 	QStringList lst = dir.entryList(QDir::Dirs);
-	int n_instances = 0;
 
 	for(const QString& dirname : lst) {
 		bool ok;
@@ -89,15 +85,8 @@ int check_for_another_instance_unix() {
 		f.close();
 
 		if(str.contains("sayonara", Qt::CaseInsensitive)) {
-
-			n_instances++;
-
-			if(pid == -1 || tmp_pid < pid) {
-				pid = tmp_pid;
-			}
-
-			if(n_instances > 1) {
-				return pid;
+			if(pid != tmp_pid){
+				return tmp_pid;
 			}
 		}
 
@@ -123,8 +112,12 @@ void set_environment(const QString& key, const QString& value)
 
 
 void printHelp() {
-	sp_log(Log::Info) << "sayonara <list>";
+	sp_log(Log::Info) << "sayonara [options] <list>";
 	sp_log(Log::Info) << "<list> can consist of either files or directories or both";
+	sp_log(Log::Info) << "Options:";
+	sp_log(Log::Info) << "\t--multi-instances  Run more than one instance";
+	sp_log(Log::Info) << "\t--help             Print this help dialog";
+	sp_log(Log::Info) << "Bye.";
 }
 
 
@@ -249,6 +242,8 @@ bool register_settings(){
 	REGISTER_SETTING( Set::Engine_SR_Warning, "streamripper_warning", true );
 	REGISTER_SETTING( Set::Engine_SR_Path, "streamripper_path", QDir::homePath() );
 	REGISTER_SETTING( Set::Engine_SR_SessionPath, "streamripper_session_path", true );
+	REGISTER_SETTING( Set::Engine_CrossFaderActive, "crossfader_active", false);
+	REGISTER_SETTING( Set::Engine_CrossFaderTime, "crossfader_time", 5000);
 
 	REGISTER_SETTING( Set::Spectrum_Style, "spectrum_style", 0 );
 	REGISTER_SETTING( Set::Level_Style, "level_style", 0 );
@@ -321,6 +316,11 @@ int main(int argc, char *argv[]) {
 	for(int i=1; i<argc; i++) {
 		QString str(argv[i]);
 
+		if(str.compare("--help") == 0){
+			printHelp();
+			return 0;
+		}
+
 		if(str.compare("--multi-instances") == 0){
 			single_instance = false;
 		}
@@ -335,7 +335,7 @@ int main(int argc, char *argv[]) {
 
 	int pid=0;
 	if(single_instance){
-		pid = check_for_another_instance_unix();
+		pid = check_for_another_instance_unix(QCoreApplication::applicationPid());
 	}
 
 	if(pid > 0) {

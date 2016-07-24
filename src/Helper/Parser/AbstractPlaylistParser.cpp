@@ -48,7 +48,6 @@ MetaDataList AbstractPlaylistParser::get_md(bool force_parse) {
 	if(!_parsed){
 		_v_md.clear();
 		parse();
-		sp_log(Log::Debug) << "Found " << _v_md.size() << " entries";
 	}
 
 	_parsed = true;

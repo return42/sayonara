@@ -209,6 +209,9 @@ border: 2px solid #202020;
      <property name="focusPolicy">
       <enum>Qt::StrongFocus</enum>
      </property>
+     <property name="dragDropMode">
+      <enum>QAbstractItemView::DragOnly</enum>
+     </property>
      <property name="alternatingRowColors">
       <bool>true</bool>
      </property>
@@ -228,6 +231,12 @@ border: 2px solid #202020;
     <widget class="SearchableTableView" name="tv_stations">
      <property name="focusPolicy">
       <enum>Qt::StrongFocus</enum>
+     </property>
+     <property name="dragEnabled">
+      <bool>true</bool>
+     </property>
+     <property name="dragDropMode">
+      <enum>QAbstractItemView::DragOnly</enum>
      </property>
      <property name="alternatingRowColors">
       <bool>true</bool>

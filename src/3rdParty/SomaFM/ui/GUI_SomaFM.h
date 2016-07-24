@@ -1,7 +1,7 @@
 #ifndef GUI_SOMAFM_H
 #define GUI_SOMAFM_H
 
-#include <QWidget>
+
 #include "SomaFMLibrary.h"
 #include "SomaFMStation.h"
 
@@ -10,7 +10,6 @@
 #include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
 
 #include <QItemSelection>
-
 
 class SomaFMStationModel;
 
@@ -24,6 +23,7 @@ class GUI_SomaFM :
 private:
 	SomaFMLibrary*	_library=nullptr;
 
+
 public:
 	explicit GUI_SomaFM(QWidget *parent = 0);
 	~GUI_SomaFM();
@@ -35,6 +35,7 @@ private slots:
 	void stations_loaded(const QList<SomaFMStation>& stations);
 	void station_changed(const SomaFMStation& station);
 
+	void station_double_clicked(const QModelIndex& idx);
 	void station_clicked(const QModelIndex& idx);
 	void station_index_changed(const QModelIndex& idx);
 	void playlist_double_clicked(const QModelIndex& idx);

@@ -26,11 +26,13 @@
 #include "Helper/EqualizerPresets.h"
 
 #include <gst/base/gstdataqueue.h>
+#include <algorithm>
 
 //http://gstreamer.freedesktop.org/data/doc/gstreamer/head/manual/html/chapter-dataaccess.html
 
 PlaybackPipeline::PlaybackPipeline(Engine* engine, QObject *parent) :
-	AbstractPipeline("Playback Pipeline", engine, parent)
+	AbstractPipeline("Playback Pipeline", engine, parent),
+	CrossFader()
 {
 	_speed_val = 1.0f;
 	_speed_active = false;
@@ -191,30 +193,30 @@ bool PlaybackPipeline::add_and_link_elements(){
 	}
 
 	/* connect branches with tee */
-	success = tee_connect(tee_src_pad_template, _level_queue, "Level");
+	success = tee_connect(_tee, tee_src_pad_template, _level_queue, "Level");
 	if(!_test_and_error_bool(success, "Engine: Cannot link level queue with tee")){
 		return false;
 	}
 
-	tee_connect(tee_src_pad_template, _spectrum_queue, "Spectrum");
+	tee_connect(_tee, tee_src_pad_template, _spectrum_queue, "Spectrum");
 	if(!_test_and_error_bool(success, "Engine: Cannot link spectrum queue with tee")){
 		return false;
 	}
 
-	tee_connect(tee_src_pad_template, _eq_queue, "Equalizer");
+	tee_connect(_tee, tee_src_pad_template, _eq_queue, "Equalizer");
 	if(!_test_and_error_bool(success, "Engine: Cannot link eq queue with tee")){
 		return false;
 	}
 
 	if(_lame){
-		success = tee_connect(tee_src_pad_template, _lame_queue, "Lame");
+		success = tee_connect(_tee, tee_src_pad_template, _lame_queue, "Lame");
 		if(!_test_and_error_bool(success, "Engine: Cannot link lame queue with tee")){
 			_settings->set(SetNoDB::MP3enc_found, false);
 		}
 	}
 
 	if(_file_sink){
-		success = tee_connect(tee_src_pad_template, _file_queue, "Streamripper");
+		success = tee_connect(_tee, tee_src_pad_template, _file_queue, "Streamripper");
 		if(!_test_and_error_bool(success, "Engine: Cannot link streamripper stuff")){
 			_settings->set(Set::Engine_SR_Active, false);
 		}
@@ -319,6 +321,12 @@ bool PlaybackPipeline::configure_elements(){
 	return true;
 }
 
+quint64 PlaybackPipeline::get_about_to_finish_time() const
+{
+	return std::max<quint64>(this->get_fading_time(),
+							 AbstractPipeline::get_about_to_finish_time());
+}
+
 
 void PlaybackPipeline::init_equalizer()
 {
@@ -352,40 +360,12 @@ void PlaybackPipeline::init_equalizer()
 	}
 }
 
-bool PlaybackPipeline::tee_connect(GstPadTemplate* tee_src_pad_template, GstElement* queue, const QString& queue_name){
-
-	GstPadLinkReturn s;
-	GstPad* tee_queue_pad;
-	GstPad* queue_pad;
-
-	QString error_1 = QString("Engine: Tee-") + queue_name + " pad is nullptr";
-	QString error_2 = QString("Engine: ") + queue_name + " pad is nullptr";
-	QString error_3 = QString("Engine: Cannot link tee with ") + queue_name;
-
-	tee_queue_pad = gst_element_request_pad(_tee, tee_src_pad_template, nullptr, nullptr);
-	if(!_test_and_error(tee_queue_pad, error_1)){
-		return false;
-	}
-
-	queue_pad = gst_element_get_static_pad(queue, "sink");
-	if(!_test_and_error(queue_pad, error_2)) {
-		return false;
-	}
-
-	s = gst_pad_link (tee_queue_pad, queue_pad);
-	if(!_test_and_error_bool((s == GST_PAD_LINK_OK), error_3)) {
-		return false;
-	}
-
-	g_object_set (queue, "silent", TRUE, nullptr);
-
-	return true;
-}
 
 
 void PlaybackPipeline::play() {
 
 	gst_element_set_state(_pipeline, GST_STATE_PLAYING);
+	_sl_vol_changed();
 
 	if(_speed_active){
 		set_speed(_speed_val);
@@ -405,6 +385,7 @@ void PlaybackPipeline::stop() {
 	_uri = nullptr;
 
 	gst_element_set_state(_pipeline	, GST_STATE_NULL);
+	abort_fader();
 }
 
 void PlaybackPipeline::_sl_vol_changed() {
@@ -443,6 +424,7 @@ bool PlaybackPipeline::_seek(gint64 ns){
 									 GST_SEEK_TYPE_SET,
 									 ns,
 									 GST_SEEK_TYPE_NONE, 0);
+
 	success = gst_element_send_event(_audio_src, seek_event);
 
 	return success;
@@ -517,7 +499,6 @@ void PlaybackPipeline::_sl_show_level_changed() {
 }
 
 
-
 void PlaybackPipeline::_sl_show_spectrum_changed() {
 
 	_show_spectrum = _settings->get(Set::Engine_ShowSpectrum);
@@ -542,9 +523,6 @@ GstElement* PlaybackPipeline::get_source() const
 	return _audio_src;
 }
 
-
-
-
 bool PlaybackPipeline::set_uri(gchar* uri) {
 
 	if(!uri) return false;
@@ -563,7 +541,6 @@ bool PlaybackPipeline::set_uri(gchar* uri) {
 	}
 
 	gst_element_set_state(_pipeline, GST_STATE_PAUSED);
-
 
 	return true;
 }
@@ -605,4 +582,16 @@ void PlaybackPipeline::set_streamrecorder_path(const QString& path){
 	_sr_data->active = _run_sr;
 
 	Probing::handle_stream_recorder_probe(_sr_data, Probing::stream_recorder_probed);
+}
+
+void PlaybackPipeline::set_current_volume(double volume)
+{
+	g_object_set(_volume, "volume", volume, nullptr);
+}
+
+double PlaybackPipeline::get_current_volume() const
+{
+	double volume;
+	g_object_get(_volume, "volume", &volume, nullptr);
+	return volume;
 }

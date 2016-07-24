@@ -28,6 +28,7 @@
 
 #include "Components/CoverLookup/CoverLookup.h"
 #include "Components/LyricLookup/LyricLookup.h"
+#include "Components/TagEdit/TagEdit.h"
 
 #include "Helper/MetaDataInfo/MetaDataInfo.h"
 #include "Helper/MetaDataInfo/AlbumInfo.h"
@@ -36,7 +37,6 @@
 #include "GUI/Helper/IconLoader/IconLoader.h"
 
 #include <QPixmap>
-#include <QScrollBar>
 #include <QCloseEvent>
 #include <QPainter>
 #include <QDateTime>
@@ -180,6 +180,11 @@ void GUI_InfoDialog::prepare_info(GUI_InfoDialog::Mode mode) {
 	delete info;
 }
 
+
+void GUI_InfoDialog::alternative_cover_fetched(const CoverLocation& cl){
+	cover_fetched(cl);
+}
+
 void GUI_InfoDialog::cover_fetched(const CoverLocation& cl) {
 
 	if(!_is_initialized){
@@ -295,7 +300,6 @@ void GUI_InfoDialog::show(GUI_InfoDialog::TabIndex tab) {
 		}
 	}
 
-
 	tab_widget->setCurrentIndex(tab);
 	tab_index_changed(tab);
 
@@ -358,7 +362,7 @@ void GUI_InfoDialog::init() {
 
 	connect(_cover_lookup, &CoverLookup::sig_cover_found, this, &GUI_InfoDialog::cover_fetched);
 
-	connect(_ui_alternative_covers, &GUI_AlternativeCovers::sig_cover_changed, this, &GUI_InfoDialog::cover_fetched);
+	connect(_ui_alternative_covers, &GUI_AlternativeCovers::sig_cover_changed, this, &GUI_InfoDialog::alternative_cover_fetched);
 
 	connect(_lyric_thread, &LyricLookupThread::sig_finished, this, &GUI_InfoDialog::lyrics_fetched);
 	connect(tab_widget, &QTabWidget::currentChanged, this, &GUI_InfoDialog::tab_index_changed_int);

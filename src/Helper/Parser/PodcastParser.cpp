@@ -34,7 +34,6 @@
  *
  *
  * */
-#include <QString>
 #include <QDomDocument>
 
 #include "Helper/MetaData/MetaDataList.h"
@@ -70,12 +69,14 @@ bool  PodcastParser::parse_podcast_xml_file_content(const QString& content, Meta
     QString album;
 	QImage img;
 	QString fallback_url;
+	QString cover_url;
 
     for(int c = 0; c<entry.childNodes().size(); c++) {
 
         QDomNode channel_child = entry.childNodes().at(c);
         QString nodename = channel_child.nodeName();
         QDomElement e = channel_child.toElement();
+		sp_log(Log::Debug) << nodename;
 
         if(!nodename.compare("title", Qt::CaseInsensitive)) {
             album = e.text();
@@ -103,24 +104,17 @@ bool  PodcastParser::parse_podcast_xml_file_content(const QString& content, Meta
                 QString ic_nodename = item_child.nodeName();
                 QDomElement ic_e = item_child.toElement();
                 if(!ic_nodename.compare("url", Qt::CaseInsensitive)) {
-					CoverLocation cl = CoverLocation::get_cover_location(album, author);
-                    QString img_url = ic_e.text();
-					cl.search_url = img_url;
-					CoverLookup* cover = new CoverLookup();
-					cover->fetch_cover(cl);
-					continue;
+					if(!ic_e.text().isEmpty()){
+	                    cover_url = ic_e.text();
+					}
+					break;
                 }
             }
 		}
 
-		/*else if(!nodename.compare("itunes:image", Qt::CaseInsensitive)) {
-			CoverLocation cl = CoverLocation::get_cover_location(album, author);
-			QString img_url = ic_e.text();
-			cl.search_url = img_url;
-			CoverLookup* cover = new CoverLookup();
-			cover->fetch_cover(cl);
-			continue;
-		}*/
+		else if(!nodename.compare("itunes:image", Qt::CaseInsensitive)) {
+			cover_url = e.attribute("href");
+		}
 
         // item
         else if(!nodename.compare("item", Qt::CaseInsensitive)) {
@@ -206,6 +200,10 @@ bool  PodcastParser::parse_podcast_xml_file_content(const QString& content, Meta
 			if(md.filepath().isEmpty()){
 				md.set_filepath(fallback_url);
 			}
+
+			sp_log(Log::Debug) << "Podcast Cover: " << cover_url;
+
+			md.cover_download_url = cover_url;
 
 			if( !md.filepath().isEmpty() ){
 				v_md << std::move(md);

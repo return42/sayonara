@@ -27,8 +27,6 @@
 #include "Components/StreamPlugins/Streams/AbstractStreamHandler.h"
 #include "GUI/Helper/Message/GlobalMessage.h"
 
-
-
 #include <QComboBox>
 #include <QPushButton>
 #include <QLineEdit>

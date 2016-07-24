@@ -25,8 +25,6 @@
 CoverLookupAlternative::CoverLookupAlternative(QObject* parent, int n_covers) :
     CoverLookupInterface(parent)
 {
-	_album_id = -1;
-	_db_id = 0;
 	_run = true;
     _n_covers = n_covers;
 }
@@ -52,14 +50,6 @@ CoverLookupAlternative::CoverLookupAlternative(QObject* parent, const Album& alb
 {
 	_album = album;
 	_search_type = SearchType::ByAlbum;
-}
-
-CoverLookupAlternative::CoverLookupAlternative(QObject* parent, int album_id, quint8 db_id, int n_covers) :
-    CoverLookupAlternative(parent, n_covers)
-{
-	_db_id = db_id;
-    _album_id = album_id;
-	_search_type = SearchType::ByID;
 }
 
 
@@ -102,10 +92,6 @@ void CoverLookupAlternative::start() {
             _cl->fetch_album_cover_standard(_artist_name, _album_name);
             break;
 
-		case SearchType::ByID:
-			_cl->fetch_album_cover_by_id(_album_id, _db_id);
-            break;
-
 		case SearchType::Sampler:
             _cl->fetch_album_cover_sampler(_artists_name, _album_name);
             break;
@@ -128,10 +114,14 @@ void CoverLookupAlternative::start() {
     }
 }
 
-void CoverLookupAlternative::cover_found(const CoverLocation& cover_path) {
+void CoverLookupAlternative::cover_found(const CoverLocation& cover_path)
+{
     emit sig_cover_found(cover_path);
 }
 
-void CoverLookupAlternative::finished(bool success) {
+void CoverLookupAlternative::finished(bool success)
+{
     emit sig_finished(success);
 }
+
+

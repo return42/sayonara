@@ -3,10 +3,8 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 
 SET(SOURCES
 
-
 	CustomMimeData.cpp
 	GUI_Helper.cpp
-
 
 	ContextMenu/ContextMenu.cpp
 	ContextMenu/LibraryContextMenu.cpp
@@ -30,6 +28,7 @@ SET(SOURCES
 	SayonaraWidget/SayonaraWidget.cpp
 	SayonaraWidget/SayonaraDialog.cpp
 	SayonaraWidget/SayonaraSlider.cpp
+	SayonaraWidget/SayonaraLoadingBar.cpp
 
 	SearchableWidget/SearchableListView.cpp
 	SearchableWidget/SearchableTableView.cpp

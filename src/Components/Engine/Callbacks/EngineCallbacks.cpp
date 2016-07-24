@@ -23,11 +23,12 @@
 #include "Components/Engine/Playback/PlaybackEngine.h"
 
 #include "Helper/globals.h"
+#include "Helper/FileHelper.h"
 
 #include <algorithm>		// std::min
 #include <QVector>
-
-
+#include <QImage>
+#include <QRegExp>
 
 #ifdef Q_OS_WIN
 	void EngineCallbacks::destroy_notify(gpointer data){}
@@ -45,6 +46,58 @@
 	}
 #endif
 
+bool parse_image(GstTagList* tags, QImage& img)
+{
+	GstSample* sample;
+
+	bool success = gst_tag_list_get_sample(tags, GST_TAG_IMAGE, &sample);
+	if(!success){
+		success = gst_tag_list_get_sample(tags, GST_TAG_PREVIEW_IMAGE, &sample);
+		if(!success){
+			return false;
+		}
+	}
+
+
+	gchar* mime_type = gst_caps_to_string(gst_sample_get_caps(sample));
+	//sp_log(Log::Debug) << "Mime type: " << mime_type;
+	QRegExp re(".*(image/[a-z|A-Z]+).*");
+	QString mime(mime_type);
+	if(re.indexIn(mime) >= 0){
+		mime = re.cap(1);
+		mime_type = strdup(mime.toLocal8Bit().data());
+	}
+
+	GstBuffer* buffer = gst_sample_get_buffer( sample );
+	if(!buffer){
+		gst_sample_unref(sample);
+		return false;
+	}
+
+	gsize size = gst_buffer_get_size(buffer);
+	if(size == 0){
+		gst_sample_unref(sample);
+		return false;
+	}
+
+	gchar* data = new gchar[size];
+	size = gst_buffer_extract(buffer, 0, data, size);
+
+	if(size == 0){
+		delete data;
+		gst_sample_unref(sample);
+	
+		return false;
+	}
+
+	img = QImage::fromData((const uchar*) data, size, mime_type);
+	
+	delete data;
+	gst_sample_unref(sample);
+
+	return (!img.isNull());
+}
+
 
 // check messages from bus
 gboolean EngineCallbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpointer data) {
@@ -53,11 +106,13 @@ gboolean EngineCallbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpoint
 
 	Engine*			engine;
 	GError*			err;
+	GstElement*		src;
 
 	GstMessageType	msg_type;
 	quint32			bitrate;
-	MetaData		md;
+
 	QString			msg_src_name;
+	QImage 			img;
 
 	engine = static_cast<Engine*>(data);
 	if(!engine){
@@ -66,6 +121,8 @@ gboolean EngineCallbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpoint
 
 	msg_type = GST_MESSAGE_TYPE(msg);
 	msg_src_name = QString(GST_MESSAGE_SRC_NAME(msg)).toLower();
+	src = reinterpret_cast<GstElement*>(msg->src);
+
 	switch (msg_type) {
 
 		case GST_MESSAGE_EOS:
@@ -73,8 +130,6 @@ gboolean EngineCallbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpoint
 			if (!engine) {
 				break;
 			}
-
-
 
 			if(  !msg_src_name.contains("sr_filesink") &&
 				 !msg_src_name.contains("level_sink") &&
@@ -85,9 +140,7 @@ gboolean EngineCallbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpoint
 				break;
 			}
 
-
-
-			engine->set_track_finished();
+			engine->set_track_finished(src);
 
 			break;
 
@@ -117,13 +170,12 @@ gboolean EngineCallbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpoint
 			gchar*			title;
 			bool			success;
 
-			if(msg_src_name.compare("sr_filesink") == 0 ||
-				msg_src_name.compare("level_sink") ==0 ||
+			if( msg_src_name.compare("sr_filesink") == 0 ||
+				msg_src_name.compare("level_sink") == 0 ||
 				msg_src_name.compare("spectrum_sink") == 0)
 			{
 				break;
 			}
-
 
 			tags = nullptr;
 			gst_message_parse_tag(msg, &tags);
@@ -132,16 +184,22 @@ gboolean EngineCallbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpoint
 				break;
 			}
 
+			success = parse_image(tags, img);
+			if(success){
+				engine->update_cover(img, src);
+			}
+			
 			success = gst_tag_list_get_uint(tags, GST_TAG_BITRATE, &bitrate);
 			if(success){
-				engine->update_bitrate((bitrate / 1000) * 1000);
+				engine->update_bitrate((bitrate / 1000) * 1000, src);
 			}
 
 			success = gst_tag_list_get_string(tags, GST_TAG_TITLE, (gchar**) &title);
 			if(success){
+				MetaData md;
 				md.title = title;
 				g_free(title);
-				engine->update_md(md);
+				engine->update_md(md, src);
 			}
 
 			gst_tag_list_unref(tags);
@@ -150,8 +208,6 @@ gboolean EngineCallbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpoint
 
 		case GST_MESSAGE_STATE_CHANGED:
 			GstState old_state, new_state, pending_state;
-
-
 
 			gst_message_parse_state_changed(msg, &old_state, &new_state, &pending_state);
 			/*sp_log(Log::Debug) << GST_MESSAGE_SRC_NAME(msg) << ": "
@@ -170,7 +226,7 @@ gboolean EngineCallbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpoint
 			if( new_state == GST_STATE_PLAYING ||
 				new_state == GST_STATE_PAUSED)
 			{
-				engine->set_track_ready();
+				engine->set_track_ready(src);
 			}
 
 			break;
@@ -180,11 +236,11 @@ gboolean EngineCallbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpoint
 			gint percent;
 			gst_message_parse_buffering(msg, &percent);
 			//sp_log(Log::Debug) << "Buffering " << percent;
-			engine->buffering(percent);
+			engine->set_buffer_state(percent, src);
 			break;
 
 		case GST_MESSAGE_DURATION_CHANGED:
-			engine->update_duration();
+			engine->update_duration(src);
 			break;
 
 		case GST_MESSAGE_INFO:
@@ -205,7 +261,7 @@ gboolean EngineCallbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpoint
 			sp_log(Log::Error) << "Engine " << (int) engine->get_name() << ": GST_MESSAGE_ERROR: " << err->message << ": "
 					 << GST_MESSAGE_SRC_NAME(msg);
 
-			engine->set_track_finished();
+			engine->set_track_finished(src);
 			engine->stop();
 			g_error_free(err);
 

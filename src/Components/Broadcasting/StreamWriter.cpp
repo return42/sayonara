@@ -78,6 +78,8 @@ StreamHttpParser::HttpAnswer StreamWriter::parse_message(){
 	StreamHttpParser::HttpAnswer status;
 	status = _parser->parse(_socket->readAll());
 
+	sp_log(Log::Debug) << "Parse message " << (int) status;
+
 	return status;
 }
 

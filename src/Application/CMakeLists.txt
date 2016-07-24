@@ -30,6 +30,7 @@ SET(APPLICATION_LIBRARIES
     say_gui_plugin_playlist_chooser
     say_gui_plugin_speed
     say_gui_plugin_stream
+	say_gui_plugin_crossfader
 
     say_gui_player
     say_gui_preferences

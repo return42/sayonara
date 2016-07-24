@@ -22,6 +22,7 @@
 #include "Tagging.h"
 #include "Frames/Popularimeter.h"
 #include "Frames/Discnumber.h"
+#include "Frames/Cover.h"
 
 #include "Helper/Helper.h"
 #include "Helper/FileHelper.h"
@@ -29,6 +30,23 @@
 
 #include <taglib/tbytevector.h>
 #include <taglib/tbytevectorstream.h>
+#include <taglib/id3v1tag.h>
+#include <taglib/id3v2tag.h>
+
+#include <QFile>
+
+bool Tagging::is_valid_file(const TagLib::FileRef& f)
+{
+	if( f.isNull() ||
+		!f.tag() ||
+		!f.file() ||
+		!f.file()->isValid() )
+	{
+		return false;
+	}
+
+	return true;
+}
 
 bool Tagging::getMetaDataOfFile(MetaData& md, Tagging::Quality quality) {
 
@@ -59,13 +77,13 @@ bool Tagging::getMetaDataOfFile(MetaData& md, Tagging::Quality quality) {
 	};
 
 	TagLib::FileRef f(
-				TagLib::FileName(md.filepath().toUtf8()),
-				read_audio_props,
-				read_style
+			TagLib::FileName(md.filepath().toUtf8()),
+			read_audio_props,
+			read_style
 	);
 
-	if(f.isNull() || !f.tag() || !f.file()->isValid() || !f.file()->isReadable(md.filepath().toUtf8()) ) {
-		sp_log(Log::Info) << md.filepath() << ": Something's wrong with this file";
+	if(!is_valid_file(f)){
+		sp_log(Log::Warning) << "Cannot open tags for " << md.filepath();
 		return false;
 	}
 
@@ -104,12 +122,12 @@ bool Tagging::getMetaDataOfFile(MetaData& md, Tagging::Quality quality) {
 	}
 
 
-    QStringList genres;
+	QStringList genres;
 	QString genre_str = Helper::cvt_str_to_first_upper(genre);
-    genres = genre_str.split(QRegExp(",|/|;|\\."));
-    for(int i=0; i<genres.size(); i++) {
-        genres[i] = genres[i].trimmed();
-    }
+	genres = genre_str.split(QRegExp(",|/|;|\\."));
+	for(int i=0; i<genres.size(); i++) {
+		genres[i] = genres[i].trimmed();
+	}
 
 	genres.removeDuplicates();
 	genres.removeAll("");
@@ -121,7 +139,7 @@ bool Tagging::getMetaDataOfFile(MetaData& md, Tagging::Quality quality) {
 	md.year = year;
 	md.track_num = track;
 	md.bitrate = bitrate;
-    md.genres = genres;
+	md.genres = genres;
 	md.discnumber = discnumber.disc;
 	md.n_discs = discnumber.n_discs;
 	md.comment = comment;
@@ -146,15 +164,16 @@ bool Tagging::setMetaDataOfFile(const MetaData& md) {
 
 	QString filepath = md.filepath();
 	TagLib::FileRef f(TagLib::FileName(filepath.toUtf8()));
-	if(f.isNull() || !f.tag() || !f.file()->isValid() || !f.file()->isWritable(filepath.toUtf8()) ) {
-        sp_log(Log::Info) << "ID3 cannot save";
+	if(!is_valid_file(f)){
+		sp_log(Log::Warning) << "Cannot open tags for " << md.filepath();
 		return false;
 	}
+
 
 	TagLib::String album(md.album.toUtf8().data(), TagLib::String::UTF8);
 	TagLib::String artist(md.artist.toUtf8().data(), TagLib::String::UTF8);
 	TagLib::String title(md.title.toUtf8().data(), TagLib::String::UTF8);
-    TagLib::String genre(md.genres.join(",").toUtf8().data(), TagLib::String::UTF8);
+	TagLib::String genre(md.genres.join(",").toUtf8().data(), TagLib::String::UTF8);
 
 	f.tag()->setAlbum(album);
 	f.tag()->setArtist(artist);
@@ -175,4 +194,125 @@ bool Tagging::setMetaDataOfFile(const MetaData& md) {
 	f.save();
 
 	return true;
+}
+
+
+
+bool Tagging::write_cover(const MetaData& md, const QImage& cover){
+	bool success;
+	QString filepath = Helper::get_sayonara_path() + "tmp.png";
+
+	success = cover.save(filepath);
+	if(!success){
+		sp_log(Log::Warning) << "Can not save temporary cover: " << filepath;
+		sp_log(Log::Warning) << "Is image valid? " << !cover.isNull();
+		return false;
+	}
+
+	success = write_cover(md, filepath);
+	QFile::remove(filepath);
+
+	return success;
+}
+
+
+bool Tagging::write_cover(const MetaData& md, const QString& cover_image_path){
+
+	QString error_msg = "Cannot save cover. ";
+	QString filepath = md.filepath();
+	TagLib::FileRef f(TagLib::FileName(filepath.toUtf8()));
+	if(!is_valid_file(f)){
+		sp_log(Log::Warning) << "Cannot open tags for " << md.filepath();
+		return false;
+	}
+
+
+	QByteArray data;
+	bool success = Helper::File::read_file_into_byte_arr(cover_image_path, data);
+	if(data.isEmpty() || !success){
+		sp_log(Log::Warning) << error_msg << "No image data available: " << cover_image_path;
+		return false;
+	}
+
+	QString mime_type = "image/";
+	QString ext = Helper::File::get_file_extension(cover_image_path);
+	if(ext.compare("jpg", Qt::CaseInsensitive) == 0){
+		mime_type += "jpeg";
+	}
+
+	else if(ext.compare("png", Qt::CaseInsensitive) == 0){
+		mime_type += "png";
+	}
+
+	else{
+		sp_log(Log::Warning) << error_msg << "Unknown mimetype: '" << ext << "'";
+		return false;
+	}
+
+	ID3v2Frame::Cover cover(mime_type, data);
+	ID3v2Frame::CoverFrame cover_frame(&f);
+
+	cover_frame.write(cover);
+	return f.save();
+}
+
+bool Tagging::extract_cover(const MetaData &md, QByteArray& cover_data, QString& mime_type){
+
+	QString error_msg = "Cannot fetch cover. ";
+	QString filepath = md.filepath();
+	TagLib::FileRef f(TagLib::FileName(filepath.toUtf8()));
+
+	if(!is_valid_file(f)){
+		sp_log(Log::Warning) << "Cannot open tags for " << md.filepath();
+		return false;
+	}
+
+	ID3v2Frame::Cover cover;
+	ID3v2Frame::CoverFrame cover_frame(&f);
+
+	if(!cover_frame.is_frame_found()){
+		return false;
+	}
+
+	cover_frame.read(cover);
+	cover_data = cover.image_data;
+	mime_type = cover.mime_type;
+
+	return !(cover_data.isEmpty());
+}
+
+
+Tagging::TagType Tagging::get_tag_type(const QString& filepath){
+	TagLib::FileRef f(TagLib::FileName(filepath.toUtf8()));
+	if(!is_valid_file(f)){
+		sp_log(Log::Warning) << "Cannot open tags for " << filepath;
+		return Tagging::TagType::Unknown;
+	}
+
+	TagLib::MPEG::File* mpeg_file;
+	mpeg_file = dynamic_cast<TagLib::MPEG::File*>(f.file());
+	if(!mpeg_file){
+		return Tagging::TagType::Other;
+	}
+
+	if(mpeg_file->hasID3v2Tag()){
+		return Tagging::TagType::ID3v2;
+	}
+
+	if(mpeg_file->hasID3v1Tag()){
+		return Tagging::TagType::ID3v1;
+	}
+
+	if(mpeg_file->hasAPETag()){
+		return Tagging::TagType::APE;
+	}
+
+	return Tagging::TagType::Other;
+}
+
+
+Tagging::TagType Tagging::get_tag_type(const MetaData& md){
+
+	QString filepath = md.filepath();
+	return get_tag_type(filepath);
 }

@@ -30,10 +30,15 @@
 #include "GUI/Helper/GUI_Helper.h"
 #include "Components/CoverLookup/CoverLookup.h"
 
+#include <QImage>
+
 
 /** COVERS **/
 
 void GUI_Player::fetch_cover() {
+	if(_cover_from_tag){
+		return;
+	}
 
 	CoverLocation cover_location = CoverLocation::get_cover_location(_md);
 	_cov_lookup->fetch_cover(cover_location);
@@ -65,8 +70,19 @@ void GUI_Player::set_standard_cover() {
 
 
 void GUI_Player::set_cover_image(const CoverLocation& cl) {
+	if(_cover_from_tag){
+		return;
+	}
 
 	QIcon icon(cl.cover_path);
+	albumCover->setIcon(icon);
+}
+
+void GUI_Player::cover_changed(const QImage& img)
+{
+	_cover_from_tag = true;
+	QPixmap pm = QPixmap::fromImage(img);
+	QIcon icon(pm);
 	albumCover->setIcon(icon);
 }
 

@@ -56,6 +56,12 @@ void PlayerPluginHandler::add_plugin(PlayerPluginInterface* p) {
 
 	connect(p, &PlayerPluginInterface::sig_action_triggered, this, &PlayerPluginHandler::plugin_action_triggered);
 	connect(p, &PlayerPluginInterface::sig_reload, this,  &PlayerPluginHandler::reload_plugin);
+
+	QString last_plugin = _settings->get(Set::Player_ShownPlugin);
+	if(p->get_name() == last_plugin){
+		p->get_action()->setChecked(true);
+		plugin_action_triggered(p, true);
+	}
 }
 
 
@@ -75,10 +81,12 @@ void PlayerPluginHandler::plugin_action_triggered(PlayerPluginInterface* p, bool
 
 	if(b) {
 		emit sig_show_plugin(p);
+		_settings->set(Set::Player_ShownPlugin, p->get_name());
 	}
 
 	else{
 		emit sig_hide_all_plugins();
+		_settings->set(Set::Player_ShownPlugin, QString());
 	}
 }
 
