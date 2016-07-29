@@ -233,7 +233,7 @@ bool PlaybackPipeline::configure_elements(){
 
 	g_object_set (G_OBJECT (_audio_src),
 				  "use-buffering", true,
-				  "buffer-size", 30000, // 30kB
+//				  "buffer-size", 30000, // 30kB
 				  nullptr);
 
 

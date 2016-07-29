@@ -63,8 +63,6 @@ bool AbstractPipeline::init(GstState state){
 		return false;
 	}
 
-	_elements.insert(_pipeline);
-
 	_bus = gst_pipeline_get_bus(GST_PIPELINE(_pipeline));
 
 	success = create_elements();
@@ -277,9 +275,6 @@ bool AbstractPipeline::create_element(GstElement** elem, const gchar* elem_name,
 	}
 
 	bool success = _test_and_error(*elem, error_msg);
-	if(success){
-		_elements.insert(*elem);
-	}
 
 	return success;
 }
@@ -323,7 +318,28 @@ AbstractPipeline::has_element(GstElement* e) const
 		return true;
 	}
 
-	return (_elements.contains(e));
+	GstObject* o = (GstObject*) e;
+	GstObject* parent = nullptr;
+
+	while(o){
+		if( o == (GstObject*) _pipeline ){
+			if( (GstObject*) e != o ){
+				gst_object_unref(o);
+			}
+
+			return true;
+		}
+
+		parent = gst_object_get_parent(o);
+		if( (GstObject*) e != o ){
+			gst_object_unref(o);
+		}
+
+		o = parent;
+	}
+
+	return false;
+
 }
 
 

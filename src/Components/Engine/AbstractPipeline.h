@@ -23,9 +23,7 @@
 #ifndef GSTPIPELINE_H
 #define GSTPIPELINE_H
 
-
 #include "Helper/Settings/SayonaraClass.h"
-#include "Helper/Set.h"
 
 #include <QTimer>
 #include <gst/gst.h>
@@ -57,8 +55,6 @@ class AbstractPipeline :
 		bool		_initialized;
 		Engine*		_engine=nullptr;
 		QTimer*		_progress_timer=nullptr;
-
-		SP::Set<GstElement*>	_elements;
 
 	protected:
 
