@@ -81,4 +81,8 @@ void GUI_Crossfader::active_changed(bool b) {
 
 	sli_crossfader->setEnabled(b);
 	_settings->set(Set::Engine_CrossFaderActive, b);
+
+	PlaylistMode plm = _settings->get(Set::PL_Mode);
+	plm.gapless = false;
+	_settings->set(Set::PL_Mode, plm);
 }

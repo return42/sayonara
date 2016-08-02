@@ -124,6 +124,7 @@ void GUI_TrayIcon::language_changed() {
         
 
 void GUI_TrayIcon::skin_changed() {
+	
 	bool dark = (_settings->get(Set::Player_Style) == 1);
 	QString stylesheet = Style::get_style(dark);
 	_context_menu->setStyleSheet(stylesheet);

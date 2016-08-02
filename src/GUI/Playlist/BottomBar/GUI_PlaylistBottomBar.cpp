@@ -52,6 +52,7 @@ GUI_PlaylistBottomBar::GUI_PlaylistBottomBar(QWidget *parent) :
 	btn_dynamic->setChecked(_plm.dynamic);
 	btn_shuffle->setChecked(_plm.shuffle);
 	btn_gapless->setChecked(_plm.gapless);
+	
 
 #ifdef WITH_SHUTDOWN
 	btn_shutdown->setVisible(Shutdown::getInstance()->is_running());
@@ -122,12 +123,12 @@ void GUI_PlaylistBottomBar::playlist_mode_changed() {
 
 	PlaylistMode plm;
 
-	plm.append = btn_append->isChecked();
-	plm.rep1 = btn_rep1->isChecked();
-	plm.repAll = btn_repAll->isChecked();
-	plm.shuffle = btn_shuffle->isChecked();
-	plm.dynamic = btn_dynamic->isChecked();
-	plm.gapless = btn_gapless->isChecked();
+	plm.append = 	(btn_append->isChecked() && btn_append->isChecked());
+	plm.rep1 = 		(btn_rep1->isChecked() && btn_rep1->isEnabled());
+	plm.repAll = 	(btn_repAll->isChecked() && btn_repAll->isEnabled());
+	plm.shuffle = 	(btn_shuffle->isChecked() && btn_shuffle->isEnabled());
+	plm.dynamic = 	(btn_dynamic->isChecked() && btn_dynamic->isEnabled());
+	plm.gapless = 	(btn_gapless->isChecked() && btn_gapless->isEnabled());
 
 	if(plm == _plm){
 		return;
@@ -153,7 +154,10 @@ void GUI_PlaylistBottomBar::_sl_playlist_mode_changed(){
 	btn_repAll->setChecked(_plm.repAll);
 	btn_shuffle->setChecked(_plm.shuffle);
 	btn_dynamic->setChecked(_plm.dynamic);
-	btn_gapless->setChecked(_plm.gapless);
+
+	if(btn_gapless->isEnabled()){
+		btn_gapless->setChecked(_plm.gapless);
+	}
 
 	btn_rep1->setVisible(_plm.ui_rep1);
 	btn_append->setVisible(_plm.ui_append);
@@ -162,7 +166,6 @@ void GUI_PlaylistBottomBar::_sl_playlist_mode_changed(){
 	btn_shuffle->setVisible(_plm.ui_shuffle);
 	btn_gapless->setVisible(_plm.ui_gapless);
 }
-
 
 
 void GUI_PlaylistBottomBar::check_dynamic_play_button() {
@@ -227,8 +230,4 @@ void GUI_PlaylistBottomBar::set_playlist_type(Playlist::Type playlist_type){
 	btn_rep1->setVisible(playlist_type == Playlist::Type::Std);
 	btn_gapless->setVisible(playlist_type == Playlist::Type::Std);
 }
-
-
-
-
 
