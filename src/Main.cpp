@@ -40,7 +40,7 @@
 
 #include "GUI/Helper/GUI_Helper.h"
 #include "GUI/Helper/Shortcuts/ShortcutHandler.h"
-#include "Helper/PlaylistMode.h"
+#include "Helper/Playlist/PlaylistMode.h"
 
 #include <QSharedMemory>
 #include <QTranslator>
@@ -235,7 +235,6 @@ bool register_settings(){
 	REGISTER_SETTING( Set::Engine_Mute, "mute", false );
 	REGISTER_SETTING( Set::Engine_ConvertQuality, "convert_quality", 0 );
 	REGISTER_SETTING( Set::Engine_CovertTargetPath, "convert_target_path", QDir::homePath() );
-	REGISTER_SETTING( Set::Engine_Gapless, "gapless_playback", false);
 	REGISTER_SETTING( Set::Engine_ShowLevel, "show_level", false);
 	REGISTER_SETTING( Set::Engine_ShowSpectrum, "show_spectrum", false);
 	REGISTER_SETTING( Set::Engine_SR_Active, "streamripper", false );

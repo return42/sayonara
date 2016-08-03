@@ -574,14 +574,16 @@ void PlaybackPipeline::set_streamrecorder_path(const QString& path){
 	_sr_path = path;
 	_run_sr = !(path.isEmpty());
 
-	if(_sr_data->filename){
-		delete _sr_data->filename;
-	}
+	gchar* old_filename = _sr_data->filename;
 
 	_sr_data->filename = strdup(_sr_path.toUtf8().data());
 	_sr_data->active = _run_sr;
 
 	Probing::handle_stream_recorder_probe(_sr_data, Probing::stream_recorder_probed);
+
+	if(old_filename){
+		free(old_filename);
+	}
 }
 
 void PlaybackPipeline::set_current_volume(double volume)

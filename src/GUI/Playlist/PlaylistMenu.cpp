@@ -21,7 +21,7 @@
 
 
 #include "PlaylistMenu.h"
-#include "Helper/PlaylistMode.h"
+#include "Helper/Playlist/PlaylistMode.h"
 
 PlaylistMenu::PlaylistMenu(QWidget* parent) :
 	QMenu(parent),
@@ -57,12 +57,12 @@ PlaylistMenu::PlaylistMenu(QWidget* parent) :
 
 	PlaylistMode plm = _settings->get(Set::PL_Mode);
 
-	_action_rep1->setChecked(plm.rep1);
-	_action_append->setChecked(plm.append);
-	_action_repAll->setChecked(plm.repAll);
-	_action_dynamic->setChecked(plm.dynamic);
-	_action_shuffle->setChecked(plm.shuffle);
-	_action_gapless->setChecked(plm.gapless);
+	_action_rep1->setChecked(PlaylistMode::isActive(plm.rep1()));
+	_action_append->setChecked(PlaylistMode::isActive(plm.append()));
+	_action_repAll->setChecked(PlaylistMode::isActive(plm.repAll()));
+	_action_dynamic->setChecked(PlaylistMode::isActive(plm.dynamic()));
+	_action_shuffle->setChecked(PlaylistMode::isActive(plm.shuffle()));
+	_action_gapless->setChecked(PlaylistMode::isActive(plm.gapless()));
 	_action_shutdown->setChecked(false);
 
 	connect(_timer, &QTimer::timeout, this, &PlaylistMenu::timed_out);
@@ -115,30 +115,31 @@ void PlaylistMenu::plm_changed(){
 
 	PlaylistMode plm = _settings->get(Set::PL_Mode);
 
-	_action_append->setChecked(plm.append);
-	_action_rep1->setChecked(plm.rep1);
-	_action_repAll->setChecked(plm.repAll);
-	_action_shuffle->setChecked(plm.shuffle);
-	_action_dynamic->setChecked(plm.dynamic);
-	_action_gapless->setChecked(plm.gapless);
+	_action_append->setChecked(plm.append() == PlaylistMode::On);
+	_action_rep1->setChecked(plm.rep1() == PlaylistMode::On);
+	_action_repAll->setChecked(plm.repAll() == PlaylistMode::On);
+	_action_shuffle->setChecked(plm.shuffle() == PlaylistMode::On);
+	_action_dynamic->setChecked(plm.dynamic() == PlaylistMode::On);
+	_action_gapless->setChecked(plm.gapless() == PlaylistMode::On);
 
-	_action_rep1->setVisible(plm.ui_rep1);
-	_action_append->setVisible(plm.ui_append);
-	_action_repAll->setVisible(plm.ui_repAll);
-	_action_dynamic->setVisible(plm.ui_dynamic);
-	_action_shuffle->setVisible(plm.ui_shuffle);
-	_action_gapless->setVisible(plm.ui_gapless);
+	_action_append->setVisible(plm.append() != PlaylistMode::Disabled);
+	_action_rep1->setVisible(plm.rep1() != PlaylistMode::Disabled);
+	_action_repAll->setVisible(plm.repAll() != PlaylistMode::Disabled);
+	_action_shuffle->setVisible(plm.shuffle() != PlaylistMode::Disabled);
+	_action_dynamic->setVisible(plm.dynamic() != PlaylistMode::Disabled);
+	_action_gapless->setVisible(plm.gapless() != PlaylistMode::Disabled);
+
 }
 
 void PlaylistMenu::change_plm(){
 
 	PlaylistMode plm = _settings->get(Set::PL_Mode);
-	plm.rep1 = _action_rep1->isChecked();
-	plm.repAll = _action_repAll->isChecked();
-	plm.shuffle = _action_shuffle->isChecked();
-	plm.append = _action_append->isChecked();
-	plm.dynamic = _action_dynamic->isChecked();
-	plm.gapless = _action_gapless->isChecked();
+	plm.setRep1(_action_rep1->isChecked());
+	plm.setRepAll(_action_repAll->isChecked());
+	plm.setShuffle(_action_shuffle->isChecked());
+	plm.setAppend(_action_append->isChecked());
+	plm.setDynamic(_action_dynamic->isChecked());
+	plm.setGapless(_action_gapless->isChecked());
 
 	_settings->set(Set::PL_Mode, plm);
 

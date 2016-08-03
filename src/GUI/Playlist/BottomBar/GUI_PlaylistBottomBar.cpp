@@ -46,14 +46,20 @@ GUI_PlaylistBottomBar::GUI_PlaylistBottomBar(QWidget *parent) :
 
 	_plm = _settings->get(Set::PL_Mode);
 
-	btn_rep1->setChecked(_plm.rep1);
-	btn_append->setChecked(_plm.append);
-	btn_repAll->setChecked(_plm.repAll);
-	btn_dynamic->setChecked(_plm.dynamic);
-	btn_shuffle->setChecked(_plm.shuffle);
-	btn_gapless->setChecked(_plm.gapless);
+	btn_rep1->setChecked(PlaylistMode::isActive(_plm.rep1()));
+	btn_append->setChecked(PlaylistMode::isActive(_plm.append()));
+	btn_repAll->setChecked(PlaylistMode::isActive(_plm.repAll()));
+	btn_dynamic->setChecked(PlaylistMode::isActive(_plm.dynamic()));
+	btn_shuffle->setChecked(PlaylistMode::isActive(_plm.shuffle()));
+	btn_gapless->setChecked(PlaylistMode::isActive(_plm.gapless())) ;
 	
-
+	btn_rep1->setEnabled(PlaylistMode::isEnabled(_plm.rep1()));
+	btn_append->setEnabled(PlaylistMode::isEnabled(_plm.append()));
+	btn_repAll->setEnabled(PlaylistMode::isEnabled(_plm.repAll()));
+	btn_dynamic->setEnabled(PlaylistMode::isEnabled(_plm.dynamic()));
+	btn_shuffle->setEnabled(PlaylistMode::isEnabled(_plm.shuffle()));
+	btn_gapless->setEnabled(PlaylistMode::isEnabled(_plm.gapless())) ;
+	
 #ifdef WITH_SHUTDOWN
 	btn_shutdown->setVisible(Shutdown::getInstance()->is_running());
 #else
@@ -123,12 +129,12 @@ void GUI_PlaylistBottomBar::playlist_mode_changed() {
 
 	PlaylistMode plm;
 
-	plm.append = 	(btn_append->isChecked() && btn_append->isChecked());
-	plm.rep1 = 		(btn_rep1->isChecked() && btn_rep1->isEnabled());
-	plm.repAll = 	(btn_repAll->isChecked() && btn_repAll->isEnabled());
-	plm.shuffle = 	(btn_shuffle->isChecked() && btn_shuffle->isEnabled());
-	plm.dynamic = 	(btn_dynamic->isChecked() && btn_dynamic->isEnabled());
-	plm.gapless = 	(btn_gapless->isChecked() && btn_gapless->isEnabled());
+	plm.setAppend(btn_append->isChecked(), btn_append->isEnabled());
+	plm.setRep1(btn_rep1->isChecked(), btn_rep1->isEnabled());
+	plm.setRepAll(btn_repAll->isChecked(), btn_repAll->isEnabled());
+	plm.setShuffle(btn_shuffle->isChecked(), btn_shuffle->isEnabled());
+	plm.setDynamic(btn_dynamic->isChecked(), btn_dynamic->isEnabled());
+	plm.setGapless(btn_gapless->isChecked(), btn_gapless->isEnabled());
 
 	if(plm == _plm){
 		return;
@@ -137,7 +143,6 @@ void GUI_PlaylistBottomBar::playlist_mode_changed() {
 	_plm = plm;
 
 	_settings->set(Set::PL_Mode, _plm);
-	_settings->set(Set::Engine_Gapless, _plm.gapless);
 }
 
 // setting slot
@@ -149,22 +154,19 @@ void GUI_PlaylistBottomBar::_sl_playlist_mode_changed(){
 
 	_plm = plm;
 
-	btn_append->setChecked(_plm.append);
-	btn_rep1->setChecked(_plm.rep1);
-	btn_repAll->setChecked(_plm.repAll);
-	btn_shuffle->setChecked(_plm.shuffle);
-	btn_dynamic->setChecked(_plm.dynamic);
+	btn_append->setChecked( PlaylistMode::isActive(_plm.append()));
+	btn_rep1->setChecked(PlaylistMode::isActive(_plm.rep1()));
+	btn_repAll->setChecked(PlaylistMode::isActive(_plm.repAll()));
+	btn_shuffle->setChecked(PlaylistMode::isActive(_plm.shuffle()));
+	btn_dynamic->setChecked(PlaylistMode::isActive(_plm.dynamic()));
+	btn_gapless->setChecked(PlaylistMode::isActive(_plm.gapless()));
 
-	if(btn_gapless->isEnabled()){
-		btn_gapless->setChecked(_plm.gapless);
-	}
-
-	btn_rep1->setVisible(_plm.ui_rep1);
-	btn_append->setVisible(_plm.ui_append);
-	btn_repAll->setVisible(_plm.ui_repAll);
-	btn_dynamic->setVisible(_plm.ui_dynamic);
-	btn_shuffle->setVisible(_plm.ui_shuffle);
-	btn_gapless->setVisible(_plm.ui_gapless);
+	btn_rep1->setEnabled(PlaylistMode::isEnabled(_plm.rep1()));
+	btn_append->setEnabled(PlaylistMode::isEnabled(_plm.append()));
+	btn_repAll->setEnabled(PlaylistMode::isEnabled(_plm.repAll()));
+	btn_dynamic->setEnabled(PlaylistMode::isEnabled(_plm.dynamic()));
+	btn_shuffle->setEnabled(PlaylistMode::isEnabled(_plm.shuffle()));
+	btn_gapless->setEnabled(PlaylistMode::isEnabled(_plm.gapless()));
 }
 
 

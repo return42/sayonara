@@ -59,7 +59,7 @@ int StdPlaylist::create_playlist(const MetaDataList& v_md) {
 
 	bool was_changed = (!_v_md.isEmpty() || this->was_changed());
 
-	if(_playlist_mode.append){
+	if(PlaylistMode::isActiveAndEnabled(_playlist_mode.append())){
 		_v_md << v_md;
 	}
 
@@ -102,12 +102,12 @@ void StdPlaylist::stop() {
 
 void StdPlaylist::fwd() {
 
-	bool rep1 = _playlist_mode.rep1;
-	_playlist_mode.rep1 = false;
+	PlaylistMode::PlaylistModeState rep1 = _playlist_mode.rep1();
+	_playlist_mode.setRep1(false);
 
 	next();
 
-	_playlist_mode.rep1 = rep1;
+	_playlist_mode.setRep1(rep1);
 
 }
 
@@ -135,12 +135,12 @@ void StdPlaylist::next() {
 		track_num = 0;
 	}
 
-	if(_playlist_mode.rep1){
+	if(PlaylistMode::isActiveAndEnabled(_playlist_mode.rep1())){
 		track_num = cur_track;
 	}
 
 	// shuffle mode
-	else if(_playlist_mode.shuffle) {
+	else if(PlaylistMode::isActiveAndEnabled(_playlist_mode.shuffle())) {
 		track_num = calc_shuffle_track();
 		if(track_num == -1){
 			stop();
@@ -154,7 +154,7 @@ void StdPlaylist::next() {
 		// last track
 		if(cur_track == _v_md.size() - 1){
 
-			if(_playlist_mode.repAll){
+			if(PlaylistMode::isActiveAndEnabled(_playlist_mode.repAll())){
 				track_num = 0;
 			}
 
@@ -196,7 +196,7 @@ int StdPlaylist::calc_shuffle_track(){
 	// no random track to play
 	if(left_tracks.isEmpty()){
 
-		if(_playlist_mode.repAll){
+		if(PlaylistMode::isActiveAndEnabled(_playlist_mode.repAll())){
 			return rnd.get_number(0, _v_md.size() -1);
 		}
 

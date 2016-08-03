@@ -184,12 +184,12 @@ void GUI_AudioConverter::pl_mode_backup(){
 	_pl_mode = _settings->get(Set::PL_Mode);
 
 	PlaylistMode new_mode;
-		new_mode.append = false;
-		new_mode.rep1 = false;
-		new_mode.repAll = false;
-		new_mode.shuffle = false;
-		new_mode.gapless = false;
-		new_mode.dynamic = false;
+		new_mode.setAppend(false, false);
+		new_mode.setRep1(false, false);
+		new_mode.setRepAll(false, false);
+		new_mode.setShuffle(false, false);
+		new_mode.setGapless(false, false);
+		new_mode.setDynamic(false, false);
 
 	_settings->set(Set::PL_Mode, new_mode);
 }

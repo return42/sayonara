@@ -125,7 +125,7 @@ private:
 
 
 private slots:
-	void _gapless_changed();
+	void _playlist_mode_changed();
 	void _streamrecorder_active_changed();
 
 };

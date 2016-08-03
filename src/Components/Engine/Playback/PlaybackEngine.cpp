@@ -25,6 +25,7 @@
 
 #include "Helper/Tagging/Tagging.h"
 #include "Helper/FileHelper.h"
+#include "Helper/Playlist/PlaylistMode.h"
 
 #include <QUrl>
 
@@ -77,7 +78,7 @@ bool PlaybackEngine::init() {
 	connect(_pipeline, &PlaybackPipeline::sig_pos_changed_ms, this, &PlaybackEngine::set_cur_position_ms);
 	connect(_pipeline, &PlaybackPipeline::sig_data, this, &PlaybackEngine::sig_data);
 
-	REGISTER_LISTENER(Set::Engine_Gapless, _gapless_changed);
+	REGISTER_LISTENER(Set::PL_Mode, _playlist_mode_changed);
 	return true;
 }
 
@@ -379,10 +380,11 @@ void PlaybackEngine::gapless_timed_out()
 }
 
 
-void PlaybackEngine::_gapless_changed() {
+void PlaybackEngine::_playlist_mode_changed() {
 
-	bool gapless =	(_settings->get(Set::Engine_Gapless) ||
-					_settings->get(Set::Engine_CrossFaderActive));
+	PlaylistMode plm = _settings->get(Set::PL_Mode);
+	bool gapless =	PlaylistMode::isActiveAndEnabled(plm.gapless()) ||
+					_settings->get(Set::Engine_CrossFaderActive);
 
 	if(gapless) {
 
@@ -410,14 +412,15 @@ void PlaybackEngine::_gapless_changed() {
 
 void PlaybackEngine::change_gapless_state(GaplessState state)
 {
-	if( !_settings->get(Set::Engine_Gapless) &&
-		!_settings->get(Set::Engine_CrossFaderActive))
-	{
-		_gapless_state = GaplessState::NoGapless;
-	}
+	PlaylistMode plm = _settings->get(Set::PL_Mode);
 
-	else{
-		_gapless_state = state;
+	bool gapless = PlaylistMode::isActiveAndEnabled(plm.gapless());
+	bool crossfader = _settings->get(Set::Engine_CrossFaderActive);
+
+	_gapless_state = state;
+
+	if(!gapless && !crossfader) {
+		_gapless_state = GaplessState::NoGapless;
 	}
 }
 

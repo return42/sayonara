@@ -20,6 +20,7 @@
 
 
 #include "GUI_Crossfader.h"
+#include "Helper/Playlist/PlaylistMode.h"
 
 GUI_Crossfader::GUI_Crossfader(QWidget *parent) :
 	PlayerPluginInterface(parent),
@@ -80,9 +81,10 @@ void GUI_Crossfader::slider_changed(int val) {
 void GUI_Crossfader::active_changed(bool b) {
 
 	sli_crossfader->setEnabled(b);
-	_settings->set(Set::Engine_CrossFaderActive, b);
 
 	PlaylistMode plm = _settings->get(Set::PL_Mode);
-	plm.gapless = false;
+	plm.setGapless(PlaylistMode::isActive(plm.gapless()), !b);
+	
 	_settings->set(Set::PL_Mode, plm);
+	_settings->set(Set::Engine_CrossFaderActive, b);
 }

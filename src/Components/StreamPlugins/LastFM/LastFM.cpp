@@ -130,7 +130,7 @@ void LastFM::sl_login_thread_finished(bool success) {
 void LastFM::sl_track_changed(const MetaData& md) {
 
 	PlaylistMode pl_mode = _settings->get(Set::PL_Mode);
-	if( pl_mode.dynamic) {
+	if( PlaylistMode::isActiveAndEnabled(pl_mode.dynamic())) {
 		_track_changed_thread->search_similar_artists(md);
 	}
 

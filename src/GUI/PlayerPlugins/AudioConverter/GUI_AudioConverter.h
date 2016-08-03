@@ -27,7 +27,7 @@
 #include "GUI/PlayerPlugins/AudioConverter/ui_GUI_AudioConvert.h"
 #include "Interfaces/PlayerPlugin/PlayerPlugin.h"
 
-#include "Helper/PlaylistMode.h"
+#include "Helper/Playlist/PlaylistMode.h"
 
 #include <QAction>
 #include <QCloseEvent>

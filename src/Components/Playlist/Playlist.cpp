@@ -163,7 +163,7 @@ void Playlist::set_idx(int idx){
 
 void Playlist::set_playlist_mode(const PlaylistMode& mode) {
 
-	if(_playlist_mode.shuffle != mode.shuffle){
+	if(_playlist_mode.shuffle() != mode.shuffle()){
 		for(MetaData& md : _v_md){
 			md.played = false;
 		}

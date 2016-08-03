@@ -110,7 +110,6 @@ namespace SK {
 		Engine_Mute,
 		Engine_ConvertQuality,
 		Engine_CovertTargetPath,
-		Engine_Gapless,
 		Engine_ShowSpectrum,
 		Engine_ShowLevel,
         Engine_CurTrackPos_s,
@@ -241,7 +240,6 @@ namespace Set {
 	INST(int,					Engine_CurTrackPos_s);			/* position of track (used to load old position) */
 	INST(int,					Engine_ConvertQuality);			/* Convert quality, 1-10 for variable, > 64 for fixed bitrate */
 	INST(QString,				Engine_CovertTargetPath);		/* last convert path */
-	INST(bool,					Engine_Gapless);				/* gapless playback */
 	INST(bool,					Engine_ShowSpectrum);			/* show spectrum */
 	INST(bool,					Engine_ShowLevel);				/* show level */
 	INST(bool,					Engine_CrossFaderActive);

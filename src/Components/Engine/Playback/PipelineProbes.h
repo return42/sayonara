@@ -32,6 +32,7 @@ struct StreamRecorderData
 	GstElement* queue=nullptr;
 	GstElement* sink=nullptr;
 	gchar* filename=nullptr;
+
 	bool active;
 	int probe_id;
 	bool busy;
@@ -46,7 +47,7 @@ struct StreamRecorderData
 
 	~StreamRecorderData(){
 		if(filename){
-			delete filename;
+			free(filename);
 			filename = nullptr;
 		}
 	}
