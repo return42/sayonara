@@ -34,7 +34,7 @@ LibraryContextMenu::LibraryContextMenu(QWidget* parent) :
 	_edit_action = new QAction(GUI::get_icon("edit"), tr("Edit"), this);
 	_remove_action = new QAction(GUI::get_icon("delete"), tr("Remove"), this);
 	_delete_action = new QAction(GUI::get_icon("delete"), tr("Delete"), this);
-	_play_next_action = new QAction(GUI::get_icon("fwd_orange"), tr("Play next"), this);
+	_play_next_action = new QAction(GUI::get_icon("play_small"), tr("Play next"), this);
 	_append_action = new QAction(GUI::get_icon("append"), tr("Append"), this);
 	_refresh_action = new QAction(GUI::get_icon("undo"), tr("Refresh"), this);
 	_clear_action = new QAction(GUI::get_icon("broom.png"), tr("Clear"), this);
@@ -181,7 +181,7 @@ void LibraryContextMenu::skin_changed()
 	_edit_action->setIcon(icon_loader->get_icon("accessories-text-editor", "edit"));
 	_remove_action->setIcon(icon_loader->get_icon("list-remove", "delete"));
 	_delete_action->setIcon(icon_loader->get_icon("edit-delete", "delete"));
-	_play_next_action->setIcon(icon_loader->get_icon("media-playback-start", "play"));
+	_play_next_action->setIcon(icon_loader->get_icon("media-playback-start", "play_small"));
 	_append_action->setIcon(icon_loader->get_icon("list-add", "append"));
 	_refresh_action->setIcon(icon_loader->get_icon("edit-undo", "undo"));
 	_clear_action->setIcon(icon_loader->get_icon("edit-clear", "broom"));

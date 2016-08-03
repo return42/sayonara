@@ -14,7 +14,16 @@
    <property name="spacing">
     <number>4</number>
    </property>
-   <property name="margin">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
     <number>0</number>
    </property>
    <item>
@@ -274,6 +283,8 @@
      <property name="icon">
       <iconset resource="../../Resources/Icons.qrc">
        <normaloff>:/Icons/gapless.svg.png</normaloff>
+       <disabledoff>:/Icons/gapless_disabled.svg</disabledoff>
+       <disabledon>:/Icons/gapless_disabled.svg</disabledon>
        <activeon>:/Icons/gapless_active.svg.png</activeon>:/Icons/gapless.svg.png</iconset>
      </property>
      <property name="iconSize">
