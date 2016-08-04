@@ -85,5 +85,7 @@
         <file>Icons/star.png</file>
         <file>Icons/star_disabled.png</file>
         <file>Icons/waiting.gif</file>
+        <file>Icons/gapless_disabled.svg</file>
+        <file>Icons/play_small.svg.png</file>
     </qresource>
 </RCC>
