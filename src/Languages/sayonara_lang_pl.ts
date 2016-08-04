@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="pl_PL">
+<TS version="2.1" language="pl_PL">
 <context>
     <name>AbstractLibrary</name>
     <message>
@@ -59,6 +59,10 @@
     <message>
         <location filename="../GUI/AlternativeCovers/GUI_AlternativeCovers.ui" line="+14"/>
         <location filename="../../build/src/GUI/AlternativeCovers/ui_GUI_AlternativeCovers.h" line="+203"/>
+        <location filename="../../build_ccache/src/GUI/AlternativeCovers/ui_GUI_AlternativeCovers.h" line="+203"/>
+        <location filename="../../build_make/src/GUI/AlternativeCovers/ui_GUI_AlternativeCovers.h" line="+203"/>
+        <location filename="../../build_ninja/src/GUI/AlternativeCovers/ui_GUI_AlternativeCovers.h" line="+203"/>
+        <location filename="../../build_release/src/GUI/AlternativeCovers/ui_GUI_AlternativeCovers.h" line="+203"/>
         <source>Search alternative image</source>
         <translatorcomment>search an alternative cover</translatorcomment>
         <translation type="unfinished"></translation>
@@ -66,18 +70,30 @@
     <message>
         <location line="+52"/>
         <location filename="../../build/src/GUI/AlternativeCovers/ui_GUI_AlternativeCovers.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/AlternativeCovers/ui_GUI_AlternativeCovers.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/AlternativeCovers/ui_GUI_AlternativeCovers.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/AlternativeCovers/ui_GUI_AlternativeCovers.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/AlternativeCovers/ui_GUI_AlternativeCovers.h" line="+1"/>
         <source>Search</source>
         <translation>Znajdź</translation>
     </message>
     <message>
         <location line="+10"/>
         <location filename="../../build/src/GUI/AlternativeCovers/ui_GUI_AlternativeCovers.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/AlternativeCovers/ui_GUI_AlternativeCovers.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/AlternativeCovers/ui_GUI_AlternativeCovers.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/AlternativeCovers/ui_GUI_AlternativeCovers.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/AlternativeCovers/ui_GUI_AlternativeCovers.h" line="+1"/>
         <source>Online search</source>
         <translation>Wyszukiwane w sieci</translation>
     </message>
     <message>
         <location line="+81"/>
         <location filename="../../build/src/GUI/AlternativeCovers/ui_GUI_AlternativeCovers.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/AlternativeCovers/ui_GUI_AlternativeCovers.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/AlternativeCovers/ui_GUI_AlternativeCovers.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/AlternativeCovers/ui_GUI_AlternativeCovers.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/AlternativeCovers/ui_GUI_AlternativeCovers.h" line="+1"/>
         <source>Local search</source>
         <translatorcomment>search for local files on hard disk</translatorcomment>
         <translation type="unfinished"></translation>
@@ -85,18 +101,30 @@
     <message>
         <location line="+47"/>
         <location filename="../../build/src/GUI/AlternativeCovers/ui_GUI_AlternativeCovers.h" line="+2"/>
+        <location filename="../../build_ccache/src/GUI/AlternativeCovers/ui_GUI_AlternativeCovers.h" line="+2"/>
+        <location filename="../../build_make/src/GUI/AlternativeCovers/ui_GUI_AlternativeCovers.h" line="+2"/>
+        <location filename="../../build_ninja/src/GUI/AlternativeCovers/ui_GUI_AlternativeCovers.h" line="+2"/>
+        <location filename="../../build_release/src/GUI/AlternativeCovers/ui_GUI_AlternativeCovers.h" line="+2"/>
         <source>Close</source>
         <translation>Zamknij</translation>
     </message>
     <message>
         <location line="+22"/>
         <location filename="../../build/src/GUI/AlternativeCovers/ui_GUI_AlternativeCovers.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/AlternativeCovers/ui_GUI_AlternativeCovers.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/AlternativeCovers/ui_GUI_AlternativeCovers.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/AlternativeCovers/ui_GUI_AlternativeCovers.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/AlternativeCovers/ui_GUI_AlternativeCovers.h" line="+1"/>
         <source>Save</source>
         <translation>Zapisz</translation>
     </message>
     <message>
         <location line="+19"/>
         <location filename="../../build/src/GUI/AlternativeCovers/ui_GUI_AlternativeCovers.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/AlternativeCovers/ui_GUI_AlternativeCovers.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/AlternativeCovers/ui_GUI_AlternativeCovers.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/AlternativeCovers/ui_GUI_AlternativeCovers.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/AlternativeCovers/ui_GUI_AlternativeCovers.h" line="+1"/>
         <source>Select and preview multiple covers</source>
         <translatorcomment>this is just a label which tells you what this point is good for</translatorcomment>
         <translation type="unfinished"></translation>
@@ -104,12 +132,20 @@
     <message>
         <location line="+22"/>
         <location filename="../../build/src/GUI/AlternativeCovers/ui_GUI_AlternativeCovers.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/AlternativeCovers/ui_GUI_AlternativeCovers.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/AlternativeCovers/ui_GUI_AlternativeCovers.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/AlternativeCovers/ui_GUI_AlternativeCovers.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/AlternativeCovers/ui_GUI_AlternativeCovers.h" line="+1"/>
         <source>...</source>
         <translation>...</translation>
     </message>
     <message>
         <location line="+14"/>
         <location filename="../../build/src/GUI/AlternativeCovers/ui_GUI_AlternativeCovers.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/AlternativeCovers/ui_GUI_AlternativeCovers.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/AlternativeCovers/ui_GUI_AlternativeCovers.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/AlternativeCovers/ui_GUI_AlternativeCovers.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/AlternativeCovers/ui_GUI_AlternativeCovers.h" line="+1"/>
         <source>Alternative Cover</source>
         <translation type="unfinished"></translation>
     </message>
@@ -117,7 +153,7 @@
 <context>
     <name>Application</name>
     <message>
-        <location filename="../Application/application.cpp" line="+196"/>
+        <location filename="../Application/application.cpp" line="+229"/>
         <source>Version </source>
         <translatorcomment>watch out for the space at the end</translatorcomment>
         <translation>Wersja</translation>
@@ -195,7 +231,7 @@
 <context>
     <name>DirectoryLibraryContainer</name>
     <message>
-        <location filename="../GUI/DirectoryWidget/GUI_DirectoryWidget.cpp" line="+328"/>
+        <location filename="../GUI/DirectoryWidget/GUI_DirectoryWidget.cpp" line="+329"/>
         <source>Directories</source>
         <translation>Katalogi</translation>
     </message>
@@ -227,7 +263,7 @@
 <context>
     <name>GUI_AbstractLibrary</name>
     <message>
-        <location filename="../GUI/Library/GUI_AbstractLibrary.cpp" line="+561"/>
+        <location filename="../GUI/Library/GUI_AbstractLibrary.cpp" line="+557"/>
         <source>Library</source>
         <translation>Biblioteka</translation>
     </message>
@@ -235,7 +271,7 @@
 <context>
     <name>GUI_AbstractStream</name>
     <message>
-        <location filename="../GUI/PlayerPlugins/Stream/GUI_AbstractStream.cpp" line="+97"/>
+        <location filename="../GUI/PlayerPlugins/Stream/GUI_AbstractStream.cpp" line="+99"/>
         <location line="+10"/>
         <source>Listen</source>
         <translation>Słuchaj</translation>
@@ -247,7 +283,7 @@
         <translation>Nie mogę otworzyć strumienia</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+23"/>
         <source>Play</source>
         <translation>Odtwarzaj</translation>
     </message>
@@ -257,7 +293,7 @@
         <translation>Zajęty...</translation>
     </message>
     <message>
-        <location line="+100"/>
+        <location line="+99"/>
         <source>Overwrite?</source>
         <translation>Czy zastąpić?</translation>
     </message>
@@ -325,26 +361,42 @@
 <context>
     <name>GUI_AudioConvert</name>
     <message>
-        <location filename="../GUI/PlayerPlugins/AudioConverter/GUI_AudioConvert.ui" line="+73"/>
-        <location filename="../../build/src/GUI/PlayerPlugins/AudioConverter/ui_GUI_AudioConvert.h" line="+153"/>
+        <location filename="../GUI/PlayerPlugins/AudioConverter/GUI_AudioConvert.ui" line="+77"/>
+        <location filename="../../build/src/GUI/PlayerPlugins/AudioConverter/ui_GUI_AudioConvert.h" line="+92"/>
+        <location filename="../../build_ccache/src/GUI/PlayerPlugins/AudioConverter/ui_GUI_AudioConvert.h" line="+92"/>
+        <location filename="../../build_make/src/GUI/PlayerPlugins/AudioConverter/ui_GUI_AudioConvert.h" line="+92"/>
+        <location filename="../../build_ninja/src/GUI/PlayerPlugins/AudioConverter/ui_GUI_AudioConvert.h" line="+92"/>
+        <location filename="../../build_release/src/GUI/PlayerPlugins/AudioConverter/ui_GUI_AudioConvert.h" line="+153"/>
         <source>Quality</source>
         <translation>Jakość</translation>
     </message>
     <message>
         <location line="+10"/>
         <location filename="../../build/src/GUI/PlayerPlugins/AudioConverter/ui_GUI_AudioConvert.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/PlayerPlugins/AudioConverter/ui_GUI_AudioConvert.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/PlayerPlugins/AudioConverter/ui_GUI_AudioConvert.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/PlayerPlugins/AudioConverter/ui_GUI_AudioConvert.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/PlayerPlugins/AudioConverter/ui_GUI_AudioConvert.h" line="+1"/>
         <source>Constant Bitrate</source>
         <translation>Stały bitrate</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <location filename="../../build/src/GUI/PlayerPlugins/AudioConverter/ui_GUI_AudioConvert.h" line="+1"/>
+        <location line="-26"/>
+        <location filename="../../build/src/GUI/PlayerPlugins/AudioConverter/ui_GUI_AudioConvert.h" line="-2"/>
+        <location filename="../../build_ccache/src/GUI/PlayerPlugins/AudioConverter/ui_GUI_AudioConvert.h" line="-2"/>
+        <location filename="../../build_make/src/GUI/PlayerPlugins/AudioConverter/ui_GUI_AudioConvert.h" line="-2"/>
+        <location filename="../../build_ninja/src/GUI/PlayerPlugins/AudioConverter/ui_GUI_AudioConvert.h" line="-2"/>
+        <location filename="../../build_release/src/GUI/PlayerPlugins/AudioConverter/ui_GUI_AudioConvert.h" line="+1"/>
         <source>Variable Bitrate</source>
         <translation>Zmienna szybkość transmisji</translation>
     </message>
     <message>
-        <location line="+91"/>
-        <location filename="../../build/src/GUI/PlayerPlugins/AudioConverter/ui_GUI_AudioConvert.h" line="+3"/>
+        <location line="-29"/>
+        <location filename="../../build/src/GUI/PlayerPlugins/AudioConverter/ui_GUI_AudioConvert.h" line="-1"/>
+        <location filename="../../build_ccache/src/GUI/PlayerPlugins/AudioConverter/ui_GUI_AudioConvert.h" line="-1"/>
+        <location filename="../../build_make/src/GUI/PlayerPlugins/AudioConverter/ui_GUI_AudioConvert.h" line="-1"/>
+        <location filename="../../build_ninja/src/GUI/PlayerPlugins/AudioConverter/ui_GUI_AudioConvert.h" line="-1"/>
+        <location filename="../../build_release/src/GUI/PlayerPlugins/AudioConverter/ui_GUI_AudioConvert.h" line="+3"/>
         <source>Activate</source>
         <translation>Uaktywnij</translation>
     </message>
@@ -358,7 +410,7 @@
         <translation>Konwerter audio</translation>
     </message>
     <message>
-        <location line="+96"/>
+        <location line="+85"/>
         <source>0 (Best)</source>
         <translation>0 (Najlepsza)</translation>
     </message>
@@ -377,15 +429,28 @@
 <context>
     <name>GUI_Bookmarks</name>
     <message>
-        <location filename="../GUI/PlayerPlugins/Bookmarks/GUI_Bookmarks.ui" line="+209"/>
-        <location filename="../../build/src/GUI/PlayerPlugins/Bookmarks/ui_GUI_Bookmarks.h" line="+214"/>
+        <location filename="../GUI/PlayerPlugins/Bookmarks/GUI_Bookmarks.ui" line="+145"/>
+        <location filename="../../build/src/GUI/PlayerPlugins/Bookmarks/ui_GUI_Bookmarks.h" line="+176"/>
+        <location filename="../../build_ccache/src/GUI/PlayerPlugins/Bookmarks/ui_GUI_Bookmarks.h" line="+176"/>
+        <location filename="../../build_make/src/GUI/PlayerPlugins/Bookmarks/ui_GUI_Bookmarks.h" line="+176"/>
+        <location filename="../../build_ninja/src/GUI/PlayerPlugins/Bookmarks/ui_GUI_Bookmarks.h" line="+176"/>
+        <location filename="../../build_release/src/GUI/PlayerPlugins/Bookmarks/ui_GUI_Bookmarks.h" line="+214"/>
         <source>Loop</source>
         <translatorcomment>We want to play that selection in a loop</translatorcomment>
         <translation>Powtarzanie</translation>
     </message>
     <message>
+        <location line="+75"/>
+        <location filename="../../build/src/GUI/PlayerPlugins/Bookmarks/ui_GUI_Bookmarks.h" line="+3"/>
+        <location filename="../../build_ccache/src/GUI/PlayerPlugins/Bookmarks/ui_GUI_Bookmarks.h" line="+3"/>
+        <location filename="../../build_make/src/GUI/PlayerPlugins/Bookmarks/ui_GUI_Bookmarks.h" line="+3"/>
+        <location filename="../../build_ninja/src/GUI/PlayerPlugins/Bookmarks/ui_GUI_Bookmarks.h" line="+3"/>
+        <source>No Bookmarks found</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../GUI/PlayerPlugins/Bookmarks/GUI_Bookmarks.cpp" line="+45"/>
-        <location line="+161"/>
+        <location line="+160"/>
         <source>Bookmarks</source>
         <translation>Zakładki</translation>
     </message>
@@ -399,8 +464,12 @@
 <context>
     <name>GUI_Broadcast</name>
     <message>
-        <location filename="../GUI/PlayerPlugins/Broadcasting/GUI_Broadcast.ui" line="+61"/>
-        <location filename="../../build/src/GUI/PlayerPlugins/Broadcasting/ui_GUI_Broadcast.h" line="+198"/>
+        <location filename="../GUI/PlayerPlugins/Broadcasting/GUI_Broadcast.ui" line="+49"/>
+        <location filename="../../build/src/GUI/PlayerPlugins/Broadcasting/ui_GUI_Broadcast.h" line="+128"/>
+        <location filename="../../build_ccache/src/GUI/PlayerPlugins/Broadcasting/ui_GUI_Broadcast.h" line="+128"/>
+        <location filename="../../build_make/src/GUI/PlayerPlugins/Broadcasting/ui_GUI_Broadcast.h" line="+128"/>
+        <location filename="../../build_ninja/src/GUI/PlayerPlugins/Broadcasting/ui_GUI_Broadcast.h" line="+128"/>
+        <location filename="../../build_release/src/GUI/PlayerPlugins/Broadcasting/ui_GUI_Broadcast.h" line="+198"/>
         <source>3 users listening</source>
         <translatorcomment>Ignore</translatorcomment>
         <translation></translation>
@@ -408,6 +477,10 @@
     <message>
         <location line="+13"/>
         <location filename="../../build/src/GUI/PlayerPlugins/Broadcasting/ui_GUI_Broadcast.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/PlayerPlugins/Broadcasting/ui_GUI_Broadcast.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/PlayerPlugins/Broadcasting/ui_GUI_Broadcast.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/PlayerPlugins/Broadcasting/ui_GUI_Broadcast.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/PlayerPlugins/Broadcasting/ui_GUI_Broadcast.h" line="+1"/>
         <source>Cannot Broadcast</source>
         <translatorcomment>Unable to broadcast. You can translate broadcast like a radio station where others can listen to your music</translatorcomment>
         <translation type="unfinished"></translation>
@@ -415,12 +488,20 @@
     <message>
         <location line="+7"/>
         <location filename="../../build/src/GUI/PlayerPlugins/Broadcasting/ui_GUI_Broadcast.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/PlayerPlugins/Broadcasting/ui_GUI_Broadcast.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/PlayerPlugins/Broadcasting/ui_GUI_Broadcast.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/PlayerPlugins/Broadcasting/ui_GUI_Broadcast.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/PlayerPlugins/Broadcasting/ui_GUI_Broadcast.h" line="+1"/>
         <source>Retry</source>
         <translation>Ponów</translation>
     </message>
     <message>
-        <location line="+147"/>
-        <location filename="../../build/src/GUI/PlayerPlugins/Broadcasting/ui_GUI_Broadcast.h" line="+3"/>
+        <location line="+40"/>
+        <location filename="../../build/src/GUI/PlayerPlugins/Broadcasting/ui_GUI_Broadcast.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/PlayerPlugins/Broadcasting/ui_GUI_Broadcast.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/PlayerPlugins/Broadcasting/ui_GUI_Broadcast.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/PlayerPlugins/Broadcasting/ui_GUI_Broadcast.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/PlayerPlugins/Broadcasting/ui_GUI_Broadcast.h" line="+3"/>
         <source>Dismiss</source>
         <translatorcomment>Throw specific people out of your broadcasting stream. They should not listen to your sound</translatorcomment>
         <translation type="unfinished"></translation>
@@ -428,6 +509,10 @@
     <message>
         <location line="+20"/>
         <location filename="../../build/src/GUI/PlayerPlugins/Broadcasting/ui_GUI_Broadcast.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/PlayerPlugins/Broadcasting/ui_GUI_Broadcast.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/PlayerPlugins/Broadcasting/ui_GUI_Broadcast.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/PlayerPlugins/Broadcasting/ui_GUI_Broadcast.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/PlayerPlugins/Broadcasting/ui_GUI_Broadcast.h" line="+1"/>
         <source>Dismiss all</source>
         <translatorcomment>Throw all people out</translatorcomment>
         <translation type="unfinished"></translation>
@@ -439,7 +524,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+54"/>
+        <location line="+45"/>
         <source>%1 listener</source>
         <translatorcomment>exactly 1 listener</translatorcomment>
         <translation type="unfinished"></translation>
@@ -466,7 +551,7 @@
         <location line="+73"/>
         <source>Cannot find lame mp3 encoder</source>
         <translatorcomment>see GUI_AudioConverter</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Nie można znaleźć kodek lame mp3</translation>
     </message>
 </context>
 <context>
@@ -474,12 +559,20 @@
     <message>
         <location filename="../GUI/Preferences/Broadcast/GUI_BroadcastSetup.ui" line="+27"/>
         <location filename="../../build/src/GUI/Preferences/Broadcast/ui_GUI_BroadcastSetup.h" line="+114"/>
+        <location filename="../../build_ccache/src/GUI/Preferences/Broadcast/ui_GUI_BroadcastSetup.h" line="+114"/>
+        <location filename="../../build_make/src/GUI/Preferences/Broadcast/ui_GUI_BroadcastSetup.h" line="+114"/>
+        <location filename="../../build_ninja/src/GUI/Preferences/Broadcast/ui_GUI_BroadcastSetup.h" line="+114"/>
+        <location filename="../../build_release/src/GUI/Preferences/Broadcast/ui_GUI_BroadcastSetup.h" line="+114"/>
         <source>Activate</source>
         <translation>Uaktywnij</translation>
     </message>
     <message>
         <location line="+7"/>
         <location filename="../../build/src/GUI/Preferences/Broadcast/ui_GUI_BroadcastSetup.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/Preferences/Broadcast/ui_GUI_BroadcastSetup.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/Preferences/Broadcast/ui_GUI_BroadcastSetup.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/Preferences/Broadcast/ui_GUI_BroadcastSetup.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/Preferences/Broadcast/ui_GUI_BroadcastSetup.h" line="+1"/>
         <source>Ask for permission</source>
         <translatorcomment>If some user wants to listen to your sound, he should ask for permission first</translatorcomment>
         <translation type="unfinished"></translation>
@@ -487,12 +580,20 @@
     <message>
         <location line="+54"/>
         <location filename="../../build/src/GUI/Preferences/Broadcast/ui_GUI_BroadcastSetup.h" line="+3"/>
+        <location filename="../../build_ccache/src/GUI/Preferences/Broadcast/ui_GUI_BroadcastSetup.h" line="+3"/>
+        <location filename="../../build_make/src/GUI/Preferences/Broadcast/ui_GUI_BroadcastSetup.h" line="+3"/>
+        <location filename="../../build_ninja/src/GUI/Preferences/Broadcast/ui_GUI_BroadcastSetup.h" line="+3"/>
+        <location filename="../../build_release/src/GUI/Preferences/Broadcast/ui_GUI_BroadcastSetup.h" line="+3"/>
         <source>Stream URL:</source>
         <translation>Strumień url:</translation>
     </message>
     <message>
         <location line="-68"/>
         <location filename="../../build/src/GUI/Preferences/Broadcast/ui_GUI_BroadcastSetup.h" line="-5"/>
+        <location filename="../../build_ccache/src/GUI/Preferences/Broadcast/ui_GUI_BroadcastSetup.h" line="-5"/>
+        <location filename="../../build_make/src/GUI/Preferences/Broadcast/ui_GUI_BroadcastSetup.h" line="-5"/>
+        <location filename="../../build_ninja/src/GUI/Preferences/Broadcast/ui_GUI_BroadcastSetup.h" line="-5"/>
+        <location filename="../../build_release/src/GUI/Preferences/Broadcast/ui_GUI_BroadcastSetup.h" line="-5"/>
         <source>Port</source>
         <translation>Port</translation>
     </message>
@@ -503,10 +604,28 @@
     </message>
 </context>
 <context>
+    <name>GUI_Crossfader</name>
+    <message>
+        <location filename="../GUI/PlayerPlugins/Crossfader/GUI_Crossfader.ui" line="+20"/>
+        <location filename="../../build/src/GUI/PlayerPlugins/Crossfader/ui_GUI_Crossfader.h" line="+73"/>
+        <source>Active</source>
+        <translation>Aktywna</translation>
+    </message>
+    <message>
+        <location filename="../GUI/PlayerPlugins/Crossfader/GUI_Crossfader.cpp" line="+70"/>
+        <source>Crossfader</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>GUI_DirectoryWidget</name>
     <message>
         <location filename="../GUI/DirectoryWidget/GUI_DirectoryWidget.ui" line="+150"/>
         <location filename="../../build/src/GUI/DirectoryWidget/ui_GUI_DirectoryWidget.h" line="+140"/>
+        <location filename="../../build_ccache/src/GUI/DirectoryWidget/ui_GUI_DirectoryWidget.h" line="+140"/>
+        <location filename="../../build_make/src/GUI/DirectoryWidget/ui_GUI_DirectoryWidget.h" line="+140"/>
+        <location filename="../../build_ninja/src/GUI/DirectoryWidget/ui_GUI_DirectoryWidget.h" line="+140"/>
+        <location filename="../../build_release/src/GUI/DirectoryWidget/ui_GUI_DirectoryWidget.h" line="+140"/>
         <location filename="../GUI/DirectoryWidget/GUI_DirectoryWidget.cpp" line="-46"/>
         <source>Search</source>
         <translation>Znajdź</translation>
@@ -528,14 +647,22 @@
 <context>
     <name>GUI_Equalizer</name>
     <message>
-        <location filename="../GUI/PlayerPlugins/Equalizer/GUI_Equalizer.ui" line="+65"/>
-        <location filename="../../build/src/GUI/PlayerPlugins/Equalizer/ui_GUI_Equalizer.h" line="+627"/>
+        <location filename="../GUI/PlayerPlugins/Equalizer/GUI_Equalizer.ui" line="+756"/>
+        <location filename="../../build/src/GUI/PlayerPlugins/Equalizer/ui_GUI_Equalizer.h" line="+544"/>
+        <location filename="../../build_ccache/src/GUI/PlayerPlugins/Equalizer/ui_GUI_Equalizer.h" line="+523"/>
+        <location filename="../../build_make/src/GUI/PlayerPlugins/Equalizer/ui_GUI_Equalizer.h" line="+544"/>
+        <location filename="../../build_ninja/src/GUI/PlayerPlugins/Equalizer/ui_GUI_Equalizer.h" line="+523"/>
+        <location filename="../../build_release/src/GUI/PlayerPlugins/Equalizer/ui_GUI_Equalizer.h" line="+627"/>
         <source>Actions</source>
         <translation>Działania</translation>
     </message>
     <message>
-        <location line="+1046"/>
-        <location filename="../../build/src/GUI/PlayerPlugins/Equalizer/ui_GUI_Equalizer.h" line="+2"/>
+        <location line="-378"/>
+        <location filename="../../build/src/GUI/PlayerPlugins/Equalizer/ui_GUI_Equalizer.h" line="-1"/>
+        <location filename="../../build_ccache/src/GUI/PlayerPlugins/Equalizer/ui_GUI_Equalizer.h" line="-1"/>
+        <location filename="../../build_make/src/GUI/PlayerPlugins/Equalizer/ui_GUI_Equalizer.h" line="-1"/>
+        <location filename="../../build_ninja/src/GUI/PlayerPlugins/Equalizer/ui_GUI_Equalizer.h" line="-1"/>
+        <location filename="../../build_release/src/GUI/PlayerPlugins/Equalizer/ui_GUI_Equalizer.h" line="+2"/>
         <source>curve</source>
         <translatorcomment>If you adjust the equalizer it should be adjusted smooth. Just try it out and you know what I mean</translatorcomment>
         <translation type="unfinished"></translation>
@@ -560,36 +687,68 @@
         <location filename="../../build/src/GUI/Preferences/Fonts/ui_GUI_FontConfig.h" line="+172"/>
         <location line="+1"/>
         <location line="+2"/>
+        <location filename="../../build_ccache/src/GUI/Preferences/Fonts/ui_GUI_FontConfig.h" line="+172"/>
+        <location line="+1"/>
+        <location line="+2"/>
+        <location filename="../../build_make/src/GUI/Preferences/Fonts/ui_GUI_FontConfig.h" line="+172"/>
+        <location line="+1"/>
+        <location line="+2"/>
+        <location filename="../../build_ninja/src/GUI/Preferences/Fonts/ui_GUI_FontConfig.h" line="+172"/>
+        <location line="+1"/>
+        <location line="+2"/>
+        <location filename="../../build_release/src/GUI/Preferences/Fonts/ui_GUI_FontConfig.h" line="+172"/>
+        <location line="+1"/>
+        <location line="+2"/>
         <source>Font size</source>
         <translation>Rozmiar czcionki</translation>
     </message>
     <message>
         <location line="-59"/>
         <location filename="../../build/src/GUI/Preferences/Fonts/ui_GUI_FontConfig.h" line="-5"/>
+        <location filename="../../build_ccache/src/GUI/Preferences/Fonts/ui_GUI_FontConfig.h" line="-5"/>
+        <location filename="../../build_make/src/GUI/Preferences/Fonts/ui_GUI_FontConfig.h" line="-5"/>
+        <location filename="../../build_ninja/src/GUI/Preferences/Fonts/ui_GUI_FontConfig.h" line="-5"/>
+        <location filename="../../build_release/src/GUI/Preferences/Fonts/ui_GUI_FontConfig.h" line="-5"/>
         <source>Playlist</source>
         <translation>Lista odtwarzania</translation>
     </message>
     <message>
         <location line="+14"/>
         <location filename="../../build/src/GUI/Preferences/Fonts/ui_GUI_FontConfig.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/Preferences/Fonts/ui_GUI_FontConfig.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/Preferences/Fonts/ui_GUI_FontConfig.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/Preferences/Fonts/ui_GUI_FontConfig.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/Preferences/Fonts/ui_GUI_FontConfig.h" line="+1"/>
         <source>Library</source>
         <translation>Biblioteka</translation>
     </message>
     <message>
         <location line="+52"/>
         <location filename="../../build/src/GUI/Preferences/Fonts/ui_GUI_FontConfig.h" line="+5"/>
+        <location filename="../../build_ccache/src/GUI/Preferences/Fonts/ui_GUI_FontConfig.h" line="+5"/>
+        <location filename="../../build_make/src/GUI/Preferences/Fonts/ui_GUI_FontConfig.h" line="+5"/>
+        <location filename="../../build_ninja/src/GUI/Preferences/Fonts/ui_GUI_FontConfig.h" line="+5"/>
+        <location filename="../../build_release/src/GUI/Preferences/Fonts/ui_GUI_FontConfig.h" line="+5"/>
         <source>Font name</source>
         <translation>Nazwa czcionki</translation>
     </message>
     <message>
         <location line="-83"/>
         <location filename="../../build/src/GUI/Preferences/Fonts/ui_GUI_FontConfig.h" line="-7"/>
+        <location filename="../../build_ccache/src/GUI/Preferences/Fonts/ui_GUI_FontConfig.h" line="-7"/>
+        <location filename="../../build_make/src/GUI/Preferences/Fonts/ui_GUI_FontConfig.h" line="-7"/>
+        <location filename="../../build_ninja/src/GUI/Preferences/Fonts/ui_GUI_FontConfig.h" line="-7"/>
+        <location filename="../../build_release/src/GUI/Preferences/Fonts/ui_GUI_FontConfig.h" line="-7"/>
         <source>Bold</source>
         <translation>Pogrubienie</translation>
     </message>
     <message>
         <location line="+105"/>
         <location filename="../../build/src/GUI/Preferences/Fonts/ui_GUI_FontConfig.h" line="+8"/>
+        <location filename="../../build_ccache/src/GUI/Preferences/Fonts/ui_GUI_FontConfig.h" line="+8"/>
+        <location filename="../../build_make/src/GUI/Preferences/Fonts/ui_GUI_FontConfig.h" line="+8"/>
+        <location filename="../../build_ninja/src/GUI/Preferences/Fonts/ui_GUI_FontConfig.h" line="+8"/>
+        <location filename="../../build_release/src/GUI/Preferences/Fonts/ui_GUI_FontConfig.h" line="+8"/>
         <source>Default</source>
         <translation>Domyślny</translation>
     </message>
@@ -604,7 +763,7 @@
 <context>
     <name>GUI_ImportFolder</name>
     <message>
-        <location filename="../GUI/Library/ImportFolderDialog/GUI_ImportFolder.cpp" line="+89"/>
+        <location filename="../GUI/Library/ImportFolderDialog/GUI_ImportFolder.cpp" line="+90"/>
         <source>%1 tracks available</source>
         <translatorcomment>5 tracks available</translatorcomment>
         <translation>%1 Zaimportuj folder</translation>
@@ -665,19 +824,27 @@
 <context>
     <name>GUI_LanguageChooser</name>
     <message>
-        <location filename="../GUI/Preferences/Language/GUI_LanguageChooser.cpp" line="+150"/>
+        <location filename="../GUI/Preferences/Language/GUI_LanguageChooser.cpp" line="+154"/>
         <source>Language</source>
         <translation>Język</translation>
     </message>
     <message>
         <location filename="../GUI/Preferences/Language/GUI_LanguageChooser.ui" line="+28"/>
         <location filename="../../build/src/GUI/Preferences/Language/ui_GUI_LanguageChooser.h" line="+60"/>
+        <location filename="../../build_ccache/src/GUI/Preferences/Language/ui_GUI_LanguageChooser.h" line="+60"/>
+        <location filename="../../build_make/src/GUI/Preferences/Language/ui_GUI_LanguageChooser.h" line="+60"/>
+        <location filename="../../build_ninja/src/GUI/Preferences/Language/ui_GUI_LanguageChooser.h" line="+60"/>
+        <location filename="../../build_release/src/GUI/Preferences/Language/ui_GUI_LanguageChooser.h" line="+60"/>
         <source>English</source>
         <translation>English</translation>
     </message>
     <message>
         <location line="-11"/>
         <location filename="../../build/src/GUI/Preferences/Language/ui_GUI_LanguageChooser.h" line="-3"/>
+        <location filename="../../build_ccache/src/GUI/Preferences/Language/ui_GUI_LanguageChooser.h" line="-3"/>
+        <location filename="../../build_make/src/GUI/Preferences/Language/ui_GUI_LanguageChooser.h" line="-3"/>
+        <location filename="../../build_ninja/src/GUI/Preferences/Language/ui_GUI_LanguageChooser.h" line="-3"/>
+        <location filename="../../build_release/src/GUI/Preferences/Language/ui_GUI_LanguageChooser.h" line="-3"/>
         <source>For new languages I am always looking for translators</source>
         <translation type="unfinished"></translation>
     </message>
@@ -700,26 +867,42 @@
         <translation>Last.fm</translation>
     </message>
     <message>
-        <location filename="../GUI/Preferences/LastFM/GUI_LastFM.ui" line="+122"/>
-        <location filename="../../build/src/GUI/Preferences/LastFM/ui_GUI_LastFM.h" line="+138"/>
+        <location filename="../GUI/Preferences/LastFM/GUI_LastFM.ui" line="+44"/>
+        <location filename="../../build/src/GUI/Preferences/LastFM/ui_GUI_LastFM.h" line="+113"/>
+        <location filename="../../build_ccache/src/GUI/Preferences/LastFM/ui_GUI_LastFM.h" line="+113"/>
+        <location filename="../../build_make/src/GUI/Preferences/LastFM/ui_GUI_LastFM.h" line="+113"/>
+        <location filename="../../build_ninja/src/GUI/Preferences/LastFM/ui_GUI_LastFM.h" line="+113"/>
+        <location filename="../../build_release/src/GUI/Preferences/LastFM/ui_GUI_LastFM.h" line="+138"/>
         <source>Password</source>
         <translation>Hasło</translation>
     </message>
     <message>
-        <location line="-43"/>
-        <location filename="../../build/src/GUI/Preferences/LastFM/ui_GUI_LastFM.h" line="-2"/>
+        <location line="+29"/>
+        <location filename="../../build/src/GUI/Preferences/LastFM/ui_GUI_LastFM.h" line="+2"/>
+        <location filename="../../build_ccache/src/GUI/Preferences/LastFM/ui_GUI_LastFM.h" line="+2"/>
+        <location filename="../../build_make/src/GUI/Preferences/LastFM/ui_GUI_LastFM.h" line="+2"/>
+        <location filename="../../build_ninja/src/GUI/Preferences/LastFM/ui_GUI_LastFM.h" line="+2"/>
+        <location filename="../../build_release/src/GUI/Preferences/LastFM/ui_GUI_LastFM.h" line="-2"/>
         <source>Login now</source>
         <translation>Zaloguj się</translation>
     </message>
     <message>
-        <location line="-59"/>
+        <location line="-50"/>
         <location filename="../../build/src/GUI/Preferences/LastFM/ui_GUI_LastFM.h" line="-4"/>
+        <location filename="../../build_ccache/src/GUI/Preferences/LastFM/ui_GUI_LastFM.h" line="-4"/>
+        <location filename="../../build_make/src/GUI/Preferences/LastFM/ui_GUI_LastFM.h" line="-4"/>
+        <location filename="../../build_ninja/src/GUI/Preferences/LastFM/ui_GUI_LastFM.h" line="-4"/>
+        <location filename="../../build_release/src/GUI/Preferences/LastFM/ui_GUI_LastFM.h" line="-4"/>
         <source>Activate</source>
         <translation>Uaktywnij</translation>
     </message>
     <message>
         <location line="+7"/>
         <location filename="../../build/src/GUI/Preferences/LastFM/ui_GUI_LastFM.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/Preferences/LastFM/ui_GUI_LastFM.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/Preferences/LastFM/ui_GUI_LastFM.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/Preferences/LastFM/ui_GUI_LastFM.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/Preferences/LastFM/ui_GUI_LastFM.h" line="+1"/>
         <source>Username</source>
         <translation>Nazwa użytkownika</translation>
     </message>
@@ -775,42 +958,70 @@
     <message>
         <location filename="../GUI/Library/InfoBox/GUI_LibraryInfoBox.ui" line="+14"/>
         <location filename="../../build/src/GUI/Library/InfoBox/ui_GUI_LibraryInfoBox.h" line="+146"/>
+        <location filename="../../build_ccache/src/GUI/Library/InfoBox/ui_GUI_LibraryInfoBox.h" line="+146"/>
+        <location filename="../../build_make/src/GUI/Library/InfoBox/ui_GUI_LibraryInfoBox.h" line="+146"/>
+        <location filename="../../build_ninja/src/GUI/Library/InfoBox/ui_GUI_LibraryInfoBox.h" line="+146"/>
+        <location filename="../../build_release/src/GUI/Library/InfoBox/ui_GUI_LibraryInfoBox.h" line="+146"/>
         <source>Info</source>
         <translation>Informacje</translation>
     </message>
     <message>
         <location line="+19"/>
         <location filename="../../build/src/GUI/Library/InfoBox/ui_GUI_LibraryInfoBox.h" line="+2"/>
+        <location filename="../../build_ccache/src/GUI/Library/InfoBox/ui_GUI_LibraryInfoBox.h" line="+2"/>
+        <location filename="../../build_make/src/GUI/Library/InfoBox/ui_GUI_LibraryInfoBox.h" line="+2"/>
+        <location filename="../../build_ninja/src/GUI/Library/InfoBox/ui_GUI_LibraryInfoBox.h" line="+2"/>
+        <location filename="../../build_release/src/GUI/Library/InfoBox/ui_GUI_LibraryInfoBox.h" line="+2"/>
         <source>Artists</source>
         <translation>Wykonawcy</translation>
     </message>
     <message>
         <location line="+13"/>
         <location filename="../../build/src/GUI/Library/InfoBox/ui_GUI_LibraryInfoBox.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/Library/InfoBox/ui_GUI_LibraryInfoBox.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/Library/InfoBox/ui_GUI_LibraryInfoBox.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/Library/InfoBox/ui_GUI_LibraryInfoBox.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/Library/InfoBox/ui_GUI_LibraryInfoBox.h" line="+1"/>
         <source>Tracks</source>
         <translation>Utwory</translation>
     </message>
     <message>
         <location line="+34"/>
         <location filename="../../build/src/GUI/Library/InfoBox/ui_GUI_LibraryInfoBox.h" line="+4"/>
+        <location filename="../../build_ccache/src/GUI/Library/InfoBox/ui_GUI_LibraryInfoBox.h" line="+4"/>
+        <location filename="../../build_make/src/GUI/Library/InfoBox/ui_GUI_LibraryInfoBox.h" line="+4"/>
+        <location filename="../../build_ninja/src/GUI/Library/InfoBox/ui_GUI_LibraryInfoBox.h" line="+4"/>
+        <location filename="../../build_release/src/GUI/Library/InfoBox/ui_GUI_LibraryInfoBox.h" line="+4"/>
         <source>Duration</source>
         <translation>Czas</translation>
     </message>
     <message>
         <location line="+20"/>
         <location filename="../../build/src/GUI/Library/InfoBox/ui_GUI_LibraryInfoBox.h" line="+2"/>
+        <location filename="../../build_ccache/src/GUI/Library/InfoBox/ui_GUI_LibraryInfoBox.h" line="+2"/>
+        <location filename="../../build_make/src/GUI/Library/InfoBox/ui_GUI_LibraryInfoBox.h" line="+2"/>
+        <location filename="../../build_ninja/src/GUI/Library/InfoBox/ui_GUI_LibraryInfoBox.h" line="+2"/>
+        <location filename="../../build_release/src/GUI/Library/InfoBox/ui_GUI_LibraryInfoBox.h" line="+2"/>
         <source>Filesize</source>
         <translation></translation>
     </message>
     <message>
         <location line="+34"/>
         <location filename="../../build/src/GUI/Library/InfoBox/ui_GUI_LibraryInfoBox.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/Library/InfoBox/ui_GUI_LibraryInfoBox.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/Library/InfoBox/ui_GUI_LibraryInfoBox.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/Library/InfoBox/ui_GUI_LibraryInfoBox.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/Library/InfoBox/ui_GUI_LibraryInfoBox.h" line="+1"/>
         <source>Close</source>
         <translation>Zamknij</translation>
     </message>
     <message>
         <location line="+15"/>
         <location filename="../../build/src/GUI/Library/InfoBox/ui_GUI_LibraryInfoBox.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/Library/InfoBox/ui_GUI_LibraryInfoBox.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/Library/InfoBox/ui_GUI_LibraryInfoBox.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/Library/InfoBox/ui_GUI_LibraryInfoBox.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/Library/InfoBox/ui_GUI_LibraryInfoBox.h" line="+1"/>
         <source>Albums</source>
         <translation>Albumy</translation>
     </message>
@@ -820,6 +1031,10 @@
     <message>
         <location filename="../GUI/Preferences/LibraryPreferences/GUI_LibraryPreferences.ui" line="+43"/>
         <location filename="../../build/src/GUI/Preferences/LibraryPreferences/ui_GUI_LibraryPreferences.h" line="+97"/>
+        <location filename="../../build_ccache/src/GUI/Preferences/LibraryPreferences/ui_GUI_LibraryPreferences.h" line="+97"/>
+        <location filename="../../build_make/src/GUI/Preferences/LibraryPreferences/ui_GUI_LibraryPreferences.h" line="+97"/>
+        <location filename="../../build_ninja/src/GUI/Preferences/LibraryPreferences/ui_GUI_LibraryPreferences.h" line="+97"/>
+        <location filename="../../build_release/src/GUI/Preferences/LibraryPreferences/ui_GUI_LibraryPreferences.h" line="+97"/>
         <source>On double click, create playlist and</source>
         <translatorcomment>when you double click some artist, album, track in library, the create a playlist and</translatorcomment>
         <translation type="unfinished"></translation>
@@ -829,6 +1044,14 @@
         <location line="+23"/>
         <location filename="../../build/src/GUI/Preferences/LibraryPreferences/ui_GUI_LibraryPreferences.h" line="-2"/>
         <location line="+3"/>
+        <location filename="../../build_ccache/src/GUI/Preferences/LibraryPreferences/ui_GUI_LibraryPreferences.h" line="-2"/>
+        <location line="+3"/>
+        <location filename="../../build_make/src/GUI/Preferences/LibraryPreferences/ui_GUI_LibraryPreferences.h" line="-2"/>
+        <location line="+3"/>
+        <location filename="../../build_ninja/src/GUI/Preferences/LibraryPreferences/ui_GUI_LibraryPreferences.h" line="-2"/>
+        <location line="+3"/>
+        <location filename="../../build_release/src/GUI/Preferences/LibraryPreferences/ui_GUI_LibraryPreferences.h" line="-2"/>
+        <location line="+3"/>
         <source>do nothing (default)</source>
         <translatorcomment>the player does nothing except creating a new playlist</translatorcomment>
         <translation type="unfinished"></translation>
@@ -836,6 +1059,10 @@
     <message>
         <location line="+7"/>
         <location filename="../../build/src/GUI/Preferences/LibraryPreferences/ui_GUI_LibraryPreferences.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/Preferences/LibraryPreferences/ui_GUI_LibraryPreferences.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/Preferences/LibraryPreferences/ui_GUI_LibraryPreferences.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/Preferences/LibraryPreferences/ui_GUI_LibraryPreferences.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/Preferences/LibraryPreferences/ui_GUI_LibraryPreferences.h" line="+1"/>
         <source>start playback if stopped</source>
         <translatorcomment>the player starts, if current playstate is stopped</translatorcomment>
         <translation type="unfinished"></translation>
@@ -843,6 +1070,10 @@
     <message>
         <location line="+7"/>
         <location filename="../../build/src/GUI/Preferences/LibraryPreferences/ui_GUI_LibraryPreferences.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/Preferences/LibraryPreferences/ui_GUI_LibraryPreferences.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/Preferences/LibraryPreferences/ui_GUI_LibraryPreferences.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/Preferences/LibraryPreferences/ui_GUI_LibraryPreferences.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/Preferences/LibraryPreferences/ui_GUI_LibraryPreferences.h" line="+1"/>
         <source>start playback immediately</source>
         <translatorcomment>the player will stop the current song and start playing the new playlist</translatorcomment>
         <translation type="unfinished"></translation>
@@ -850,6 +1081,10 @@
     <message>
         <location line="-43"/>
         <location filename="../../build/src/GUI/Preferences/LibraryPreferences/ui_GUI_LibraryPreferences.h" line="-6"/>
+        <location filename="../../build_ccache/src/GUI/Preferences/LibraryPreferences/ui_GUI_LibraryPreferences.h" line="-6"/>
+        <location filename="../../build_make/src/GUI/Preferences/LibraryPreferences/ui_GUI_LibraryPreferences.h" line="-6"/>
+        <location filename="../../build_ninja/src/GUI/Preferences/LibraryPreferences/ui_GUI_LibraryPreferences.h" line="-6"/>
+        <location filename="../../build_release/src/GUI/Preferences/LibraryPreferences/ui_GUI_LibraryPreferences.h" line="-6"/>
         <source>When drag and drop into playlist </source>
         <translatorcomment>when you drag and drop some artist/album/title to the playlist</translatorcomment>
         <translation type="unfinished"></translation>
@@ -857,6 +1092,10 @@
     <message>
         <location line="+13"/>
         <location filename="../../build/src/GUI/Preferences/LibraryPreferences/ui_GUI_LibraryPreferences.h" line="+2"/>
+        <location filename="../../build_ccache/src/GUI/Preferences/LibraryPreferences/ui_GUI_LibraryPreferences.h" line="+2"/>
+        <location filename="../../build_make/src/GUI/Preferences/LibraryPreferences/ui_GUI_LibraryPreferences.h" line="+2"/>
+        <location filename="../../build_ninja/src/GUI/Preferences/LibraryPreferences/ui_GUI_LibraryPreferences.h" line="+2"/>
+        <location filename="../../build_release/src/GUI/Preferences/LibraryPreferences/ui_GUI_LibraryPreferences.h" line="+2"/>
         <source>start if stopped and playlist is empty</source>
         <translatorcomment>start playing if the current playstate is stopped and the playlist was empty before</translatorcomment>
         <translation type="unfinished"></translation>
@@ -872,19 +1111,31 @@
     <name>GUI_LocalLibrary</name>
     <message>
         <location filename="../GUI/Library/GUI_LocalLibrary.ui" line="+26"/>
-        <location filename="../../build/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+422"/>
+        <location filename="../../build/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+421"/>
+        <location filename="../../build_ccache/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+421"/>
+        <location filename="../../build_make/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+421"/>
+        <location filename="../../build_ninja/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+421"/>
+        <location filename="../../build_release/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+422"/>
         <source>Library</source>
         <translation>Biblioteka</translation>
     </message>
     <message>
-        <location line="+413"/>
+        <location line="+377"/>
         <location filename="../../build/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+17"/>
+        <location filename="../../build_ccache/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+17"/>
+        <location filename="../../build_make/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+17"/>
+        <location filename="../../build_ninja/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+17"/>
+        <location filename="../../build_release/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+17"/>
         <source>Genres</source>
         <translation>Gatunki</translation>
     </message>
     <message>
-        <location line="+100"/>
+        <location line="+82"/>
         <location filename="../../build/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+1"/>
         <source>No genres found</source>
         <translatorcomment>Player could not find any genres</translatorcomment>
         <translation></translation>
@@ -892,12 +1143,20 @@
     <message>
         <location line="+16"/>
         <location filename="../../build/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+1"/>
         <source>Reload library</source>
         <translation></translation>
     </message>
     <message>
         <location line="+51"/>
         <location filename="../../build/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+1"/>
         <source>You haven&apos;t specified a library path yet</source>
         <translatorcomment>The player cannot find any tracks because there&apos;s no library path given</translatorcomment>
         <translation>Nie podano jeszcze ścieżkę do biblioteki</translation>
@@ -905,12 +1164,20 @@
     <message>
         <location line="+38"/>
         <location filename="../../build/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+1"/>
         <source>Set library path</source>
         <translation>Ustaw ścieżkę biblioteki</translation>
     </message>
     <message>
-        <location line="-568"/>
+        <location line="-514"/>
         <location filename="../../build/src/GUI/Library/ui_GUI_LocalLibrary.h" line="-13"/>
+        <location filename="../../build_ccache/src/GUI/Library/ui_GUI_LocalLibrary.h" line="-13"/>
+        <location filename="../../build_make/src/GUI/Library/ui_GUI_LocalLibrary.h" line="-13"/>
+        <location filename="../../build_ninja/src/GUI/Library/ui_GUI_LocalLibrary.h" line="-13"/>
+        <location filename="../../build_release/src/GUI/Library/ui_GUI_LocalLibrary.h" line="-13"/>
         <source>Shortcuts: &lt;br /&gt;Search &lt;span style=&quot; font-weight:600;&quot;&gt;s: &lt;br /&gt; &lt;/span&gt;Genre &lt;span style=&quot; font-weight:600;&quot;&gt;g: &lt;br /&gt;&lt;/span&gt;Path &lt;span style=&quot; font-weight:600;&quot;&gt;p:&lt;br/&gt;</source>
         <translatorcomment>this is a tooltip. Sorry for the mess.</translatorcomment>
         <translation></translation>
@@ -918,30 +1185,50 @@
     <message>
         <location line="+13"/>
         <location filename="../../build/src/GUI/Library/ui_GUI_LocalLibrary.h" line="-5"/>
+        <location filename="../../build_ccache/src/GUI/Library/ui_GUI_LocalLibrary.h" line="-5"/>
+        <location filename="../../build_make/src/GUI/Library/ui_GUI_LocalLibrary.h" line="-5"/>
+        <location filename="../../build_ninja/src/GUI/Library/ui_GUI_LocalLibrary.h" line="-5"/>
+        <location filename="../../build_release/src/GUI/Library/ui_GUI_LocalLibrary.h" line="-5"/>
         <source>Search</source>
         <translation>Znajdź</translation>
     </message>
     <message>
         <location line="+5"/>
         <location filename="../../build/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+1"/>
         <source>Genre</source>
         <translation>Gatunek</translation>
     </message>
     <message>
         <location line="+5"/>
         <location filename="../../build/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+1"/>
         <source>Path</source>
         <translation>Ścieżka</translation>
     </message>
     <message>
         <location line="+17"/>
         <location filename="../../build/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+6"/>
+        <location filename="../../build_ccache/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+6"/>
+        <location filename="../../build_make/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+6"/>
+        <location filename="../../build_ninja/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+6"/>
+        <location filename="../../build_release/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+6"/>
         <source>Search for title, interprets and albums</source>
         <translation>Szukaj tytuł i albumy</translation>
     </message>
     <message>
         <location line="+16"/>
         <location filename="../../build/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+3"/>
+        <location filename="../../build_ccache/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+3"/>
+        <location filename="../../build_make/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+3"/>
+        <location filename="../../build_ninja/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+3"/>
+        <location filename="../../build_release/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+3"/>
         <source>Show all interprets, albums, tracks</source>
         <translatorcomment>Pokaż wszystkie interpretuje utwory, albumy,</translatorcomment>
         <translation>Pokaż wszystkie utwory, albumy,</translation>
@@ -1015,6 +1302,10 @@
     <message>
         <location filename="../GUI/MTP/GUI_MTP.ui" line="+14"/>
         <location filename="../../build/src/GUI/MTP/ui_GUI_MTP.h" line="+101"/>
+        <location filename="../../build_ccache/src/GUI/MTP/ui_GUI_MTP.h" line="+101"/>
+        <location filename="../../build_make/src/GUI/MTP/ui_GUI_MTP.h" line="+101"/>
+        <location filename="../../build_ninja/src/GUI/MTP/ui_GUI_MTP.h" line="+101"/>
+        <location filename="../../build_release/src/GUI/MTP/ui_GUI_MTP.h" line="+101"/>
         <source>Devices</source>
         <translatorcomment>External devices like MP3 player or Smartphone</translatorcomment>
         <translation>Urządzenia</translation>
@@ -1022,12 +1313,20 @@
     <message>
         <location line="+37"/>
         <location filename="../../build/src/GUI/MTP/ui_GUI_MTP.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/MTP/ui_GUI_MTP.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/MTP/ui_GUI_MTP.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/MTP/ui_GUI_MTP.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/MTP/ui_GUI_MTP.h" line="+1"/>
         <source>Delete</source>
         <translation>Usuń</translation>
     </message>
     <message>
         <location line="+7"/>
         <location filename="../../build/src/GUI/MTP/ui_GUI_MTP.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/MTP/ui_GUI_MTP.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/MTP/ui_GUI_MTP.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/MTP/ui_GUI_MTP.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/MTP/ui_GUI_MTP.h" line="+1"/>
         <location filename="../GUI/MTP/GUI_MTP.cpp" line="+203"/>
         <source>Refresh</source>
         <translation>Odśwież</translation>
@@ -1048,18 +1347,30 @@
     <message>
         <location filename="../GUI/Preferences/Notifications/GUI_Notifications.ui" line="+17"/>
         <location filename="../../build/src/GUI/Preferences/Notifications/ui_GUI_Notifications.h" line="+77"/>
+        <location filename="../../build_ccache/src/GUI/Preferences/Notifications/ui_GUI_Notifications.h" line="+77"/>
+        <location filename="../../build_make/src/GUI/Preferences/Notifications/ui_GUI_Notifications.h" line="+77"/>
+        <location filename="../../build_ninja/src/GUI/Preferences/Notifications/ui_GUI_Notifications.h" line="+77"/>
+        <location filename="../../build_release/src/GUI/Preferences/Notifications/ui_GUI_Notifications.h" line="+77"/>
         <source>Timeout (ms)</source>
         <translation>Limit czasu (ms)</translation>
     </message>
     <message>
         <location line="+10"/>
         <location filename="../../build/src/GUI/Preferences/Notifications/ui_GUI_Notifications.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/Preferences/Notifications/ui_GUI_Notifications.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/Preferences/Notifications/ui_GUI_Notifications.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/Preferences/Notifications/ui_GUI_Notifications.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/Preferences/Notifications/ui_GUI_Notifications.h" line="+1"/>
         <source>Activate</source>
         <translation>Uaktywnij</translation>
     </message>
     <message>
         <location line="+11"/>
         <location filename="../../build/src/GUI/Preferences/Notifications/ui_GUI_Notifications.h" line="+3"/>
+        <location filename="../../build_ccache/src/GUI/Preferences/Notifications/ui_GUI_Notifications.h" line="+3"/>
+        <location filename="../../build_make/src/GUI/Preferences/Notifications/ui_GUI_Notifications.h" line="+3"/>
+        <location filename="../../build_ninja/src/GUI/Preferences/Notifications/ui_GUI_Notifications.h" line="+3"/>
+        <location filename="../../build_release/src/GUI/Preferences/Notifications/ui_GUI_Notifications.h" line="+3"/>
         <source>Standard</source>
         <translation>Standardowe</translation>
     </message>
@@ -1067,28 +1378,12 @@
 <context>
     <name>GUI_Player</name>
     <message>
-        <location filename="../GUI/Player/GUI_Player.cpp" line="+82"/>
-        <source>Sayonara Player</source>
-        <translation>Sayonara Player</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Written by</source>
-        <translatorcomment>Sayonara Player was written by</translatorcomment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Copyright</source>
-        <translation>Prawa autorskie</translation>
-    </message>
-    <message>
-        <location line="+62"/>
+        <location filename="../GUI/Player/GUI_Player.cpp" line="+153"/>
         <source>Library</source>
         <translation>Biblioteka</translation>
     </message>
     <message>
-        <location line="+495"/>
+        <location line="+475"/>
         <source>A new version is available!</source>
         <translation>Nowa wersja programu, jest dostępna!</translation>
     </message>
@@ -1098,13 +1393,13 @@
         <translation>Pliki multimedialne</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+5"/>
         <source>Open Media files</source>
         <translation>Otwórz pliki multimedialne</translation>
     </message>
     <message>
-        <location line="+13"/>
-        <location line="+110"/>
+        <location line="+15"/>
+        <location line="+112"/>
         <source>Open Directory</source>
         <translation>Open Directory - katalog stron WWW</translation>
     </message>
@@ -1187,7 +1482,7 @@
         <translation>Informacja</translation>
     </message>
     <message>
-        <location filename="../GUI/Player/GUI_PlayerConnections.cpp" line="+99"/>
+        <location filename="../GUI/Player/GUI_PlayerConnections.cpp" line="+102"/>
         <location line="+33"/>
         <source>Play/Pause</source>
         <translation>Odtwarzaj/Wstrzymaj</translation>
@@ -1253,6 +1548,10 @@
     <message>
         <location filename="../GUI/Preferences/PlayerPreferences/GUI_PlayerPreferences.ui" line="+24"/>
         <location filename="../../build/src/GUI/Preferences/PlayerPreferences/ui_GUI_PlayerPreferences.h" line="+62"/>
+        <location filename="../../build_ccache/src/GUI/Preferences/PlayerPreferences/ui_GUI_PlayerPreferences.h" line="+62"/>
+        <location filename="../../build_make/src/GUI/Preferences/PlayerPreferences/ui_GUI_PlayerPreferences.h" line="+62"/>
+        <location filename="../../build_ninja/src/GUI/Preferences/PlayerPreferences/ui_GUI_PlayerPreferences.h" line="+62"/>
+        <location filename="../../build_release/src/GUI/Preferences/PlayerPreferences/ui_GUI_PlayerPreferences.h" line="+62"/>
         <source>Start in tray</source>
         <translatorcomment>start sayonara so that it is not visible except in the little bar, where for example skype or pidgin are located</translatorcomment>
         <translation>Po uruchomieniu minimalizuj do paska</translation>
@@ -1260,6 +1559,10 @@
     <message>
         <location line="+7"/>
         <location filename="../../build/src/GUI/Preferences/PlayerPreferences/ui_GUI_PlayerPreferences.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/Preferences/PlayerPreferences/ui_GUI_PlayerPreferences.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/Preferences/PlayerPreferences/ui_GUI_PlayerPreferences.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/Preferences/PlayerPreferences/ui_GUI_PlayerPreferences.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/Preferences/PlayerPreferences/ui_GUI_PlayerPreferences.h" line="+1"/>
         <source>Close to tray</source>
         <translatorcomment>when you close sayonara, it&apos;s not completely closed. It&apos;s just minimized to the system tray and stays there as an icon</translatorcomment>
         <translation>Po zamknięciu minimalizuj do paska</translation>
@@ -1267,6 +1570,10 @@
     <message>
         <location line="-14"/>
         <location filename="../../build/src/GUI/Preferences/PlayerPreferences/ui_GUI_PlayerPreferences.h" line="-2"/>
+        <location filename="../../build_ccache/src/GUI/Preferences/PlayerPreferences/ui_GUI_PlayerPreferences.h" line="-2"/>
+        <location filename="../../build_make/src/GUI/Preferences/PlayerPreferences/ui_GUI_PlayerPreferences.h" line="-2"/>
+        <location filename="../../build_ninja/src/GUI/Preferences/PlayerPreferences/ui_GUI_PlayerPreferences.h" line="-2"/>
+        <location filename="../../build_release/src/GUI/Preferences/PlayerPreferences/ui_GUI_PlayerPreferences.h" line="-2"/>
         <source>Update notifications</source>
         <translatorcomment>Show, if there&apos;s a new update available</translatorcomment>
         <translation>Aktualizuj powiadomienia</translation>
@@ -1295,7 +1602,7 @@
         <translation>Utwory</translation>
     </message>
     <message>
-        <location filename="../GUI/Playlist/GUI_PlaylistTabs.cpp" line="+221"/>
+        <location filename="../GUI/Playlist/GUI_PlaylistTabs.cpp" line="+216"/>
         <source>Playlist name already exists</source>
         <translatorcomment>Playlist cannot be saved, because a playlist with that name already exists</translatorcomment>
         <translation>Playlista o podobnej nazwie, już istnieje</translation>
@@ -1349,8 +1656,12 @@
 <context>
     <name>GUI_PlaylistBottomBar</name>
     <message>
-        <location filename="../GUI/Playlist/BottomBar/GUI_PlaylistBottomBar.ui" line="+69"/>
+        <location filename="../GUI/Playlist/BottomBar/GUI_PlaylistBottomBar.ui" line="+60"/>
         <location filename="../../build/src/GUI/Playlist/ui_GUI_PlaylistBottomBar.h" line="+165"/>
+        <location filename="../../build_ccache/src/GUI/Playlist/ui_GUI_PlaylistBottomBar.h" line="+165"/>
+        <location filename="../../build_make/src/GUI/Playlist/ui_GUI_PlaylistBottomBar.h" line="+165"/>
+        <location filename="../../build_ninja/src/GUI/Playlist/ui_GUI_PlaylistBottomBar.h" line="+165"/>
+        <location filename="../../build_release/src/GUI/Playlist/ui_GUI_PlaylistBottomBar.h" line="+165"/>
         <source>Repeat 1</source>
         <translation>Powtórz utwór</translation>
     </message>
@@ -1367,25 +1678,61 @@
         <location line="+5"/>
         <location line="+5"/>
         <location line="+5"/>
+        <location filename="../../build_ccache/src/GUI/Playlist/ui_GUI_PlaylistBottomBar.h" line="+3"/>
+        <location line="+5"/>
+        <location line="+5"/>
+        <location line="+5"/>
+        <location line="+5"/>
+        <location line="+5"/>
+        <location filename="../../build_make/src/GUI/Playlist/ui_GUI_PlaylistBottomBar.h" line="+3"/>
+        <location line="+5"/>
+        <location line="+5"/>
+        <location line="+5"/>
+        <location line="+5"/>
+        <location line="+5"/>
+        <location filename="../../build_ninja/src/GUI/Playlist/ui_GUI_PlaylistBottomBar.h" line="+3"/>
+        <location line="+5"/>
+        <location line="+5"/>
+        <location line="+5"/>
+        <location line="+5"/>
+        <location line="+5"/>
+        <location filename="../../build_release/src/GUI/Playlist/ui_GUI_PlaylistBottomBar.h" line="+3"/>
+        <location line="+5"/>
+        <location line="+5"/>
+        <location line="+5"/>
+        <location line="+5"/>
+        <location line="+5"/>
         <source>Enter</source>
         <translation>Enter</translation>
     </message>
     <message>
         <location line="-184"/>
         <location filename="../../build/src/GUI/Playlist/ui_GUI_PlaylistBottomBar.h" line="-23"/>
+        <location filename="../../build_ccache/src/GUI/Playlist/ui_GUI_PlaylistBottomBar.h" line="-23"/>
+        <location filename="../../build_make/src/GUI/Playlist/ui_GUI_PlaylistBottomBar.h" line="-23"/>
+        <location filename="../../build_ninja/src/GUI/Playlist/ui_GUI_PlaylistBottomBar.h" line="-23"/>
+        <location filename="../../build_release/src/GUI/Playlist/ui_GUI_PlaylistBottomBar.h" line="-23"/>
         <source>Repeat All</source>
         <translation>Powtarzaj wszystko</translation>
     </message>
     <message>
         <location line="+42"/>
         <location filename="../../build/src/GUI/Playlist/ui_GUI_PlaylistBottomBar.h" line="+5"/>
+        <location filename="../../build_ccache/src/GUI/Playlist/ui_GUI_PlaylistBottomBar.h" line="+5"/>
+        <location filename="../../build_make/src/GUI/Playlist/ui_GUI_PlaylistBottomBar.h" line="+5"/>
+        <location filename="../../build_ninja/src/GUI/Playlist/ui_GUI_PlaylistBottomBar.h" line="+5"/>
+        <location filename="../../build_release/src/GUI/Playlist/ui_GUI_PlaylistBottomBar.h" line="+5"/>
         <source>Shuffle</source>
         <translation>Kolejność losowa</translation>
     </message>
     <message>
         <location line="+42"/>
         <location filename="../../build/src/GUI/Playlist/ui_GUI_PlaylistBottomBar.h" line="+5"/>
-        <location filename="../GUI/Playlist/BottomBar/GUI_PlaylistBottomBar.cpp" line="+173"/>
+        <location filename="../../build_ccache/src/GUI/Playlist/ui_GUI_PlaylistBottomBar.h" line="+5"/>
+        <location filename="../../build_make/src/GUI/Playlist/ui_GUI_PlaylistBottomBar.h" line="+5"/>
+        <location filename="../../build_ninja/src/GUI/Playlist/ui_GUI_PlaylistBottomBar.h" line="+5"/>
+        <location filename="../../build_release/src/GUI/Playlist/ui_GUI_PlaylistBottomBar.h" line="+5"/>
+        <location filename="../GUI/Playlist/BottomBar/GUI_PlaylistBottomBar.cpp" line="+182"/>
         <source>Dynamic playing</source>
         <translatorcomment>a new track is automatically added to playlist when listening, so the playlist will never stop</translatorcomment>
         <translation>Proszę ustawić ścieżkę biblioteki pierwszą</translation>
@@ -1393,6 +1740,10 @@
     <message>
         <location line="+42"/>
         <location filename="../../build/src/GUI/Playlist/ui_GUI_PlaylistBottomBar.h" line="+5"/>
+        <location filename="../../build_ccache/src/GUI/Playlist/ui_GUI_PlaylistBottomBar.h" line="+5"/>
+        <location filename="../../build_make/src/GUI/Playlist/ui_GUI_PlaylistBottomBar.h" line="+5"/>
+        <location filename="../../build_ninja/src/GUI/Playlist/ui_GUI_PlaylistBottomBar.h" line="+5"/>
+        <location filename="../../build_release/src/GUI/Playlist/ui_GUI_PlaylistBottomBar.h" line="+5"/>
         <source>Append when adding new tracks</source>
         <translatorcomment>when double clicking in library, append new tracks instead of creating a new playlist</translatorcomment>
         <translation>Pozwól na dodawanie nowych utworów,
@@ -1401,6 +1752,10 @@ podczas odtwarzania listy</translation>
     <message>
         <location line="+41"/>
         <location filename="../../build/src/GUI/Playlist/ui_GUI_PlaylistBottomBar.h" line="+5"/>
+        <location filename="../../build_ccache/src/GUI/Playlist/ui_GUI_PlaylistBottomBar.h" line="+5"/>
+        <location filename="../../build_make/src/GUI/Playlist/ui_GUI_PlaylistBottomBar.h" line="+5"/>
+        <location filename="../../build_ninja/src/GUI/Playlist/ui_GUI_PlaylistBottomBar.h" line="+5"/>
+        <location filename="../../build_release/src/GUI/Playlist/ui_GUI_PlaylistBottomBar.h" line="+5"/>
         <source>Gapless playback</source>
         <translatorcomment>no pause between the tracks</translatorcomment>
         <translation>Odtwarzanie bez przerw</translation>
@@ -1421,13 +1776,21 @@ podczas odtwarzania listy</translation>
     <name>GUI_PlaylistChooser</name>
     <message>
         <location filename="../GUI/PlayerPlugins/PlaylistChooser/GUI_PlaylistChooser.ui" line="+42"/>
-        <location filename="../../build/src/GUI/PlayerPlugins/PlaylistChooser/ui_GUI_PlaylistChooser.h" line="+175"/>
+        <location filename="../../build/src/GUI/PlayerPlugins/PlaylistChooser/ui_GUI_PlaylistChooser.h" line="+124"/>
+        <location filename="../../build_ccache/src/GUI/PlayerPlugins/PlaylistChooser/ui_GUI_PlaylistChooser.h" line="+124"/>
+        <location filename="../../build_make/src/GUI/PlayerPlugins/PlaylistChooser/ui_GUI_PlaylistChooser.h" line="+124"/>
+        <location filename="../../build_ninja/src/GUI/PlayerPlugins/PlaylistChooser/ui_GUI_PlaylistChooser.h" line="+124"/>
+        <location filename="../../build_release/src/GUI/PlayerPlugins/PlaylistChooser/ui_GUI_PlaylistChooser.h" line="+175"/>
         <source>Saved Playlists</source>
         <translation>Zapisane listy odtwarzania</translation>
     </message>
     <message>
-        <location line="+33"/>
+        <location line="+39"/>
         <location filename="../../build/src/GUI/PlayerPlugins/PlaylistChooser/ui_GUI_PlaylistChooser.h" line="+2"/>
+        <location filename="../../build_ccache/src/GUI/PlayerPlugins/PlaylistChooser/ui_GUI_PlaylistChooser.h" line="+2"/>
+        <location filename="../../build_make/src/GUI/PlayerPlugins/PlaylistChooser/ui_GUI_PlaylistChooser.h" line="+2"/>
+        <location filename="../../build_ninja/src/GUI/PlayerPlugins/PlaylistChooser/ui_GUI_PlaylistChooser.h" line="+2"/>
+        <location filename="../../build_release/src/GUI/PlayerPlugins/PlaylistChooser/ui_GUI_PlaylistChooser.h" line="+2"/>
         <source>Playlist file</source>
         <translatorcomment>a playlist file. For exampe a m3u or pls file</translatorcomment>
         <translation type="unfinished"></translation>
@@ -1438,7 +1801,7 @@ podczas odtwarzania listy</translation>
         <translation>Listy odtwarzania</translation>
     </message>
     <message>
-        <location line="+98"/>
+        <location line="+89"/>
         <source>Overwrite?</source>
         <translation>Czy zastąpić?</translation>
     </message>
@@ -1456,68 +1819,162 @@ podczas odtwarzania listy</translation>
 <context>
     <name>GUI_PlaylistPreferences</name>
     <message>
-        <location filename="../GUI/Preferences/PlaylistPreferences/GUI_PlaylistPreferences.ui" line="+20"/>
-        <location filename="../../build/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+211"/>
+        <location filename="../GUI/Preferences/PlaylistPreferences/GUI_PlaylistPreferences.ui" line="+237"/>
+        <location filename="../../build/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+267"/>
+        <location filename="../../build_ccache/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+267"/>
+        <location filename="../../build_make/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+267"/>
+        <location filename="../../build_ninja/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+267"/>
+        <location filename="../../build_release/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+211"/>
         <source>Show numbers</source>
         <translatorcomment>show numbers in playlist</translatorcomment>
         <translation>Pokaż numer</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="-148"/>
         <location filename="../../build/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
         <source>Look</source>
         <translation>Wygląd</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="-65"/>
+        <location filename="../../build/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="-10"/>
+        <location filename="../../build_ccache/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="-10"/>
+        <location filename="../../build_make/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="-10"/>
+        <location filename="../../build_ninja/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="-10"/>
+        <source>Start up</source>
+        <translation>Po uruchomieniu programu</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <location filename="../../build/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="-5"/>
+        <location filename="../../build_ccache/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="-5"/>
+        <location filename="../../build_make/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="-5"/>
+        <location filename="../../build_ninja/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="-5"/>
+        <source>Load temporary playlists</source>
+        <translation>Załaduj tymczasowe playlisty</translation>
+    </message>
+    <message>
+        <location line="+7"/>
         <location filename="../../build/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
+        <source>Remember time of last track</source>
+        <translation>Zapamiętaj ostatni utwór i czas jego zatrzymania</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <location filename="../../build/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
+        <source>Load saved playlists</source>
+        <translation>Załaduj zapisane listy odtwarzania</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <location filename="../../build/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
+        <source>Load last track on startup</source>
+        <translation>Załaduj ostatni utwór</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <location filename="../../build/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
+        <source>Start playing</source>
+        <translation>Odtwarzaj</translation>
+    </message>
+    <message>
+        <location line="+50"/>
+        <location filename="../../build/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+3"/>
+        <location filename="../../build_ccache/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+3"/>
+        <location filename="../../build_make/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+3"/>
+        <location filename="../../build_ninja/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+3"/>
+        <location filename="../../build_release/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
         <source>&apos;italic text&apos;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+7"/>
         <location filename="../../build/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
         <source>Example</source>
         <translation></translation>
     </message>
     <message>
         <location line="+27"/>
         <location filename="../../build/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
         <source>*bold text*</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+7"/>
         <location filename="../../build/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
         <source>track number</source>
         <translation>numer ścieżki</translation>
     </message>
     <message>
         <location line="+21"/>
         <location filename="../../build/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
         <source>title</source>
         <translation>tytuł</translation>
     </message>
     <message>
         <location line="+7"/>
         <location filename="../../build/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
         <source>artist</source>
         <translation>wykonawca</translation>
     </message>
     <message>
         <location line="+7"/>
         <location filename="../../build/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
         <source>album</source>
         <translation>album</translation>
     </message>
     <message>
-        <location line="+52"/>
-        <location filename="../../build/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
+        <location line="-99"/>
+        <location filename="../../build/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="-7"/>
+        <location filename="../../build_ccache/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="-7"/>
+        <location filename="../../build_make/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="-7"/>
+        <location filename="../../build_ninja/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="-7"/>
+        <location filename="../../build_release/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
         <source>Default</source>
         <translation>Domyślny</translation>
     </message>
     <message>
-        <location filename="../GUI/Preferences/PlaylistPreferences/GUI_PlaylistPreferences.cpp" line="+47"/>
+        <location filename="../GUI/Preferences/PlaylistPreferences/GUI_PlaylistPreferences.cpp" line="+75"/>
         <source>Playlist</source>
         <translation>Lista odtwarzania</translation>
     </message>
@@ -1525,14 +1982,22 @@ podczas odtwarzania listy</translation>
 <context>
     <name>GUI_Podcasts</name>
     <message>
-        <location filename="../GUI/PlayerPlugins/Stream/GUI_Podcasts.ui" line="+95"/>
-        <location filename="../../build/src/GUI/PlayerPlugins/Stream/ui_GUI_Podcasts.h" line="+172"/>
+        <location filename="../GUI/PlayerPlugins/Stream/GUI_Podcasts.ui" line="+64"/>
+        <location filename="../../build/src/GUI/PlayerPlugins/Stream/ui_GUI_Podcasts.h" line="+124"/>
+        <location filename="../../build_ccache/src/GUI/PlayerPlugins/Stream/ui_GUI_Podcasts.h" line="+123"/>
+        <location filename="../../build_make/src/GUI/PlayerPlugins/Stream/ui_GUI_Podcasts.h" line="+123"/>
+        <location filename="../../build_ninja/src/GUI/PlayerPlugins/Stream/ui_GUI_Podcasts.h" line="+123"/>
+        <location filename="../../build_release/src/GUI/PlayerPlugins/Stream/ui_GUI_Podcasts.h" line="+172"/>
         <source>Actions</source>
         <translation>Działania</translation>
     </message>
     <message>
-        <location line="+26"/>
+        <location line="+32"/>
         <location filename="../../build/src/GUI/PlayerPlugins/Stream/ui_GUI_Podcasts.h" line="+2"/>
+        <location filename="../../build_ccache/src/GUI/PlayerPlugins/Stream/ui_GUI_Podcasts.h" line="+2"/>
+        <location filename="../../build_make/src/GUI/PlayerPlugins/Stream/ui_GUI_Podcasts.h" line="+2"/>
+        <location filename="../../build_ninja/src/GUI/PlayerPlugins/Stream/ui_GUI_Podcasts.h" line="+2"/>
+        <location filename="../../build_release/src/GUI/PlayerPlugins/Stream/ui_GUI_Podcasts.h" line="+2"/>
         <source>Start stream</source>
         <translatorcomment>start an audio stream</translatorcomment>
         <translation type="unfinished"></translation>
@@ -1540,12 +2005,20 @@ podczas odtwarzania listy</translation>
     <message>
         <location line="+23"/>
         <location filename="../../build/src/GUI/PlayerPlugins/Stream/ui_GUI_Podcasts.h" line="+3"/>
+        <location filename="../../build_ccache/src/GUI/PlayerPlugins/Stream/ui_GUI_Podcasts.h" line="+3"/>
+        <location filename="../../build_make/src/GUI/PlayerPlugins/Stream/ui_GUI_Podcasts.h" line="+3"/>
+        <location filename="../../build_ninja/src/GUI/PlayerPlugins/Stream/ui_GUI_Podcasts.h" line="+3"/>
+        <location filename="../../build_release/src/GUI/PlayerPlugins/Stream/ui_GUI_Podcasts.h" line="+3"/>
         <source>Listen</source>
         <translation>Słuchaj</translation>
     </message>
     <message>
-        <location line="+12"/>
-        <location filename="../../build/src/GUI/PlayerPlugins/Stream/ui_GUI_Podcasts.h" line="+2"/>
+        <location line="-90"/>
+        <location filename="../../build/src/GUI/PlayerPlugins/Stream/ui_GUI_Podcasts.h" line="-11"/>
+        <location filename="../../build_ccache/src/GUI/PlayerPlugins/Stream/ui_GUI_Podcasts.h" line="-11"/>
+        <location filename="../../build_make/src/GUI/PlayerPlugins/Stream/ui_GUI_Podcasts.h" line="-11"/>
+        <location filename="../../build_ninja/src/GUI/PlayerPlugins/Stream/ui_GUI_Podcasts.h" line="-11"/>
+        <location filename="../../build_release/src/GUI/PlayerPlugins/Stream/ui_GUI_Podcasts.h" line="+2"/>
         <source>Type name you want to save the stream as</source>
         <translatorcomment>give your stream a name so you can save it</translatorcomment>
         <translation type="unfinished"></translation>
@@ -1553,29 +2026,36 @@ podczas odtwarzania listy</translation>
     <message>
         <location line="+13"/>
         <location filename="../../build/src/GUI/PlayerPlugins/Stream/ui_GUI_Podcasts.h" line="+2"/>
+        <location filename="../../build_ccache/src/GUI/PlayerPlugins/Stream/ui_GUI_Podcasts.h" line="+2"/>
+        <location filename="../../build_make/src/GUI/PlayerPlugins/Stream/ui_GUI_Podcasts.h" line="+2"/>
+        <location filename="../../build_ninja/src/GUI/PlayerPlugins/Stream/ui_GUI_Podcasts.h" line="+2"/>
+        <location filename="../../build_release/src/GUI/PlayerPlugins/Stream/ui_GUI_Podcasts.h" line="+2"/>
         <source>Url</source>
         <translation>Url</translation>
     </message>
     <message>
-        <location line="+20"/>
-        <location filename="../../build/src/GUI/PlayerPlugins/Stream/ui_GUI_Podcasts.h" line="+1"/>
+        <location line="+89"/>
+        <location filename="../../build/src/GUI/PlayerPlugins/Stream/ui_GUI_Podcasts.h" line="+10"/>
+        <location filename="../../build_ccache/src/GUI/PlayerPlugins/Stream/ui_GUI_Podcasts.h" line="+10"/>
+        <location filename="../../build_make/src/GUI/PlayerPlugins/Stream/ui_GUI_Podcasts.h" line="+10"/>
+        <location filename="../../build_ninja/src/GUI/PlayerPlugins/Stream/ui_GUI_Podcasts.h" line="+10"/>
+        <location filename="../../build_release/src/GUI/PlayerPlugins/Stream/ui_GUI_Podcasts.h" line="+1"/>
         <source>Name</source>
         <translation>Nazwa</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <location filename="../../build/src/GUI/PlayerPlugins/Stream/ui_GUI_Podcasts.h" line="+2"/>
+        <location line="-79"/>
+        <location filename="../../build/src/GUI/PlayerPlugins/Stream/ui_GUI_Podcasts.h" line="-8"/>
+        <location filename="../../build_ccache/src/GUI/PlayerPlugins/Stream/ui_GUI_Podcasts.h" line="-8"/>
+        <location filename="../../build_make/src/GUI/PlayerPlugins/Stream/ui_GUI_Podcasts.h" line="-8"/>
+        <location filename="../../build_ninja/src/GUI/PlayerPlugins/Stream/ui_GUI_Podcasts.h" line="-8"/>
+        <location filename="../../build_release/src/GUI/PlayerPlugins/Stream/ui_GUI_Podcasts.h" line="+2"/>
         <source>Enter stream url</source>
         <translatorcomment>enter a url for the stream</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../GUI/PlayerPlugins/Stream/GUI_Podcasts.cpp" line="+30"/>
-        <source>Podcast</source>
-        <translation>Podcast</translation>
-    </message>
-    <message>
-        <location line="+15"/>
+        <location filename="../GUI/PlayerPlugins/Stream/GUI_Podcasts.cpp" line="+45"/>
         <source>Podcasts</source>
         <translation>Podcasty</translation>
     </message>
@@ -1584,26 +2064,42 @@ podczas odtwarzania listy</translation>
     <name>GUI_PreferenceDialog</name>
     <message>
         <location filename="../GUI/Preferences/PreferenceDialog/GUI_PreferenceDialog.ui" line="+30"/>
-        <location filename="../../build/src/GUI/Preferences/PreferenceDialog/ui_GUI_PreferenceDialog.h" line="+179"/>
-        <location filename="../GUI/Preferences/PreferenceDialog/GUI_PreferenceDialog.cpp" line="+78"/>
+        <location filename="../../build/src/GUI/Preferences/PreferenceDialog/ui_GUI_PreferenceDialog.h" line="+181"/>
+        <location filename="../../build_ccache/src/GUI/Preferences/PreferenceDialog/ui_GUI_PreferenceDialog.h" line="+181"/>
+        <location filename="../../build_make/src/GUI/Preferences/PreferenceDialog/ui_GUI_PreferenceDialog.h" line="+181"/>
+        <location filename="../../build_ninja/src/GUI/Preferences/PreferenceDialog/ui_GUI_PreferenceDialog.h" line="+181"/>
+        <location filename="../../build_release/src/GUI/Preferences/PreferenceDialog/ui_GUI_PreferenceDialog.h" line="+179"/>
+        <location filename="../GUI/Preferences/PreferenceDialog/GUI_PreferenceDialog.cpp" line="+85"/>
         <source>Preferences</source>
         <translation>Ustawienia</translation>
     </message>
     <message>
-        <location line="+117"/>
+        <location line="+139"/>
         <location filename="../../build/src/GUI/Preferences/PreferenceDialog/ui_GUI_PreferenceDialog.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/Preferences/PreferenceDialog/ui_GUI_PreferenceDialog.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/Preferences/PreferenceDialog/ui_GUI_PreferenceDialog.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/Preferences/PreferenceDialog/ui_GUI_PreferenceDialog.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/Preferences/PreferenceDialog/ui_GUI_PreferenceDialog.h" line="+1"/>
         <source>Cancel</source>
         <translation>Anuluj</translation>
     </message>
     <message>
         <location line="+7"/>
         <location filename="../../build/src/GUI/Preferences/PreferenceDialog/ui_GUI_PreferenceDialog.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/Preferences/PreferenceDialog/ui_GUI_PreferenceDialog.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/Preferences/PreferenceDialog/ui_GUI_PreferenceDialog.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/Preferences/PreferenceDialog/ui_GUI_PreferenceDialog.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/Preferences/PreferenceDialog/ui_GUI_PreferenceDialog.h" line="+1"/>
         <source>Apply</source>
         <translation>Zastosuj</translation>
     </message>
     <message>
         <location line="+7"/>
         <location filename="../../build/src/GUI/Preferences/PreferenceDialog/ui_GUI_PreferenceDialog.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/Preferences/PreferenceDialog/ui_GUI_PreferenceDialog.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/Preferences/PreferenceDialog/ui_GUI_PreferenceDialog.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/Preferences/PreferenceDialog/ui_GUI_PreferenceDialog.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/Preferences/PreferenceDialog/ui_GUI_PreferenceDialog.h" line="+1"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
@@ -1618,18 +2114,30 @@ podczas odtwarzania listy</translation>
     <message>
         <location filename="../GUI/Preferences/RemoteControl/GUI_RemoteControl.ui" line="+47"/>
         <location filename="../../build/src/GUI/Preferences/RemoteControl/ui_GUI_RemoteControl.h" line="+97"/>
+        <location filename="../../build_ccache/src/GUI/Preferences/RemoteControl/ui_GUI_RemoteControl.h" line="+97"/>
+        <location filename="../../build_make/src/GUI/Preferences/RemoteControl/ui_GUI_RemoteControl.h" line="+97"/>
+        <location filename="../../build_ninja/src/GUI/Preferences/RemoteControl/ui_GUI_RemoteControl.h" line="+97"/>
+        <location filename="../../build_release/src/GUI/Preferences/RemoteControl/ui_GUI_RemoteControl.h" line="+97"/>
         <source>Activate</source>
         <translation>Uaktywnij</translation>
     </message>
     <message>
         <location line="+7"/>
         <location filename="../../build/src/GUI/Preferences/RemoteControl/ui_GUI_RemoteControl.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/Preferences/RemoteControl/ui_GUI_RemoteControl.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/Preferences/RemoteControl/ui_GUI_RemoteControl.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/Preferences/RemoteControl/ui_GUI_RemoteControl.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/Preferences/RemoteControl/ui_GUI_RemoteControl.h" line="+1"/>
         <source>Remote control URL</source>
         <translation>Pilot Url</translation>
     </message>
     <message>
         <location line="-17"/>
         <location filename="../../build/src/GUI/Preferences/RemoteControl/ui_GUI_RemoteControl.h" line="-2"/>
+        <location filename="../../build_ccache/src/GUI/Preferences/RemoteControl/ui_GUI_RemoteControl.h" line="-2"/>
+        <location filename="../../build_make/src/GUI/Preferences/RemoteControl/ui_GUI_RemoteControl.h" line="-2"/>
+        <location filename="../../build_ninja/src/GUI/Preferences/RemoteControl/ui_GUI_RemoteControl.h" line="-2"/>
+        <location filename="../../build_release/src/GUI/Preferences/RemoteControl/ui_GUI_RemoteControl.h" line="-2"/>
         <source>Port</source>
         <translation>Port</translation>
     </message>
@@ -1653,6 +2161,10 @@ podczas odtwarzania listy</translation>
     <message>
         <location filename="../GUI/Preferences/Shortcuts/GUI_ShortcutEntry.ui" line="+42"/>
         <location filename="../../build/src/GUI/Preferences/Shortcuts/ui_GUI_ShortcutEntry.h" line="+96"/>
+        <location filename="../../build_ccache/src/GUI/Preferences/Shortcuts/ui_GUI_ShortcutEntry.h" line="+96"/>
+        <location filename="../../build_make/src/GUI/Preferences/Shortcuts/ui_GUI_ShortcutEntry.h" line="+96"/>
+        <location filename="../../build_ninja/src/GUI/Preferences/Shortcuts/ui_GUI_ShortcutEntry.h" line="+96"/>
+        <location filename="../../build_release/src/GUI/Preferences/Shortcuts/ui_GUI_ShortcutEntry.h" line="+96"/>
         <source>Enter shortcut...</source>
         <translatorcomment>press the shortcut you want to use</translatorcomment>
         <translation>Wpisz skrót ...</translation>
@@ -1689,6 +2201,10 @@ podczas odtwarzania listy</translation>
     <message>
         <location filename="../GUI/Preferences/Shortcuts/GUI_Shortcuts.ui" line="+41"/>
         <location filename="../../build/src/GUI/Preferences/Shortcuts/ui_GUI_Shortcuts.h" line="+85"/>
+        <location filename="../../build_ccache/src/GUI/Preferences/Shortcuts/ui_GUI_Shortcuts.h" line="+85"/>
+        <location filename="../../build_make/src/GUI/Preferences/Shortcuts/ui_GUI_Shortcuts.h" line="+85"/>
+        <location filename="../../build_ninja/src/GUI/Preferences/Shortcuts/ui_GUI_Shortcuts.h" line="+85"/>
+        <location filename="../../build_release/src/GUI/Preferences/Shortcuts/ui_GUI_Shortcuts.h" line="+85"/>
         <location filename="../GUI/Preferences/Shortcuts/GUI_Shortcuts.cpp" line="+103"/>
         <source>Press shortcut</source>
         <translatorcomment>same es enter shortcut</translatorcomment>
@@ -1712,12 +2228,24 @@ podczas odtwarzania listy</translation>
         <location line="+92"/>
         <location filename="../../build/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="+122"/>
         <location line="+7"/>
+        <location filename="../../build_ccache/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="+122"/>
+        <location line="+7"/>
+        <location filename="../../build_make/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="+122"/>
+        <location line="+7"/>
+        <location filename="../../build_ninja/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="+122"/>
+        <location line="+7"/>
+        <location filename="../../build_release/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="+122"/>
+        <location line="+7"/>
         <source>Shutdown</source>
         <translation>Wyłącz</translation>
     </message>
     <message>
         <location line="-86"/>
         <location filename="../../build/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="-6"/>
+        <location filename="../../build_ccache/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="-6"/>
+        <location filename="../../build_make/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="-6"/>
+        <location filename="../../build_ninja/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="-6"/>
+        <location filename="../../build_release/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="-6"/>
         <source>Shutdown after playlist finished</source>
         <translatorcomment>shutdown the computer after the playlist has finished</translatorcomment>
         <translation>Wyłącz po zakończeniu odtwarzania listy</translation>
@@ -1725,18 +2253,30 @@ podczas odtwarzania listy</translation>
     <message>
         <location line="+10"/>
         <location filename="../../build/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="+1"/>
         <source>Cancel</source>
         <translation>Anuluj</translation>
     </message>
     <message>
         <location line="+7"/>
         <location filename="../../build/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="+1"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
         <location line="+17"/>
         <location filename="../../build/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="+1"/>
         <source>Shutdown after</source>
         <translatorcomment>e.g. shutdown after 5 minutes</translatorcomment>
         <translation>Wyłączanie po</translation>
@@ -1744,6 +2284,10 @@ podczas odtwarzania listy</translation>
     <message>
         <location line="+7"/>
         <location filename="../../build/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="+1"/>
         <source>minutes</source>
         <translation>minutach</translation>
     </message>
@@ -1751,8 +2295,12 @@ podczas odtwarzania listy</translation>
 <context>
     <name>GUI_SomaFM</name>
     <message>
-        <location filename="../3rdParty/SomaFM/ui/GUI_SomaFM.ui" line="+82"/>
-        <location filename="../../build/src/3rdParty/SomaFM/ui_GUI_SomaFM.h" line="+191"/>
+        <location filename="../3rdParty/SomaFM/ui/GUI_SomaFM.ui" line="+75"/>
+        <location filename="../../build/src/3rdParty/SomaFM/ui_GUI_SomaFM.h" line="+208"/>
+        <location filename="../../build_ccache/src/3rdParty/SomaFM/ui_GUI_SomaFM.h" line="+205"/>
+        <location filename="../../build_make/src/3rdParty/SomaFM/ui_GUI_SomaFM.h" line="+208"/>
+        <location filename="../../build_ninja/src/3rdParty/SomaFM/ui_GUI_SomaFM.h" line="+205"/>
+        <location filename="../../build_release/src/3rdParty/SomaFM/ui_GUI_SomaFM.h" line="+191"/>
         <source>Donate to Soma.fm</source>
         <translatorcomment>Give some money to soma.fm</translatorcomment>
         <translation type="unfinished"></translation>
@@ -1760,29 +2308,23 @@ podczas odtwarzania listy</translation>
     <message>
         <location line="+34"/>
         <location filename="../../build/src/3rdParty/SomaFM/ui_GUI_SomaFM.h" line="+1"/>
+        <location filename="../../build_ccache/src/3rdParty/SomaFM/ui_GUI_SomaFM.h" line="+1"/>
+        <location filename="../../build_make/src/3rdParty/SomaFM/ui_GUI_SomaFM.h" line="+1"/>
+        <location filename="../../build_ninja/src/3rdParty/SomaFM/ui_GUI_SomaFM.h" line="+1"/>
+        <location filename="../../build_release/src/3rdParty/SomaFM/ui_GUI_SomaFM.h" line="+1"/>
         <source>Stations</source>
         <translatorcomment>the soma.fm stations</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+71"/>
+        <location line="+75"/>
         <location filename="../../build/src/3rdParty/SomaFM/ui_GUI_SomaFM.h" line="+1"/>
+        <location filename="../../build_ccache/src/3rdParty/SomaFM/ui_GUI_SomaFM.h" line="+1"/>
+        <location filename="../../build_make/src/3rdParty/SomaFM/ui_GUI_SomaFM.h" line="+1"/>
+        <location filename="../../build_ninja/src/3rdParty/SomaFM/ui_GUI_SomaFM.h" line="+1"/>
+        <location filename="../../build_release/src/3rdParty/SomaFM/ui_GUI_SomaFM.h" line="+1"/>
         <source>Streams</source>
         <translatorcomment>every station has several stream</translatorcomment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../3rdParty/SomaFM/ui/GUI_SomaFM.cpp" line="+34"/>
-        <source>Initializing...</source>
-        <translation>Zapoczątkowywanie...</translation>
-    </message>
-</context>
-<context>
-    <name>GUI_SoundCloudLibrary</name>
-    <message>
-        <location filename="../3rdParty/Soundcloud/ui/GUI_SoundcloudLibrary.cpp" line="+37"/>
-        <source>Add artist</source>
-        <translatorcomment>add some artist to your collection</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1791,6 +2333,10 @@ podczas odtwarzania listy</translation>
     <message>
         <location filename="../3rdParty/Soundcloud/ui/GUI_SoundcloudArtistSearch.ui" line="+14"/>
         <location filename="../../build/src/3rdParty/Soundcloud/ui_GUI_SoundcloudArtistSearch.h" line="+169"/>
+        <location filename="../../build_ccache/src/3rdParty/Soundcloud/ui_GUI_SoundcloudArtistSearch.h" line="+169"/>
+        <location filename="../../build_make/src/3rdParty/Soundcloud/ui_GUI_SoundcloudArtistSearch.h" line="+169"/>
+        <location filename="../../build_ninja/src/3rdParty/Soundcloud/ui_GUI_SoundcloudArtistSearch.h" line="+169"/>
+        <location filename="../../build_release/src/3rdParty/Soundcloud/ui_GUI_SoundcloudArtistSearch.h" line="+169"/>
         <source>Search Soundcloud</source>
         <translatorcomment>search some artists in the soundcloud</translatorcomment>
         <translation type="unfinished"></translation>
@@ -1798,18 +2344,30 @@ podczas odtwarzania listy</translation>
     <message>
         <location line="+31"/>
         <location filename="../../build/src/3rdParty/Soundcloud/ui_GUI_SoundcloudArtistSearch.h" line="+2"/>
+        <location filename="../../build_ccache/src/3rdParty/Soundcloud/ui_GUI_SoundcloudArtistSearch.h" line="+2"/>
+        <location filename="../../build_make/src/3rdParty/Soundcloud/ui_GUI_SoundcloudArtistSearch.h" line="+2"/>
+        <location filename="../../build_ninja/src/3rdParty/Soundcloud/ui_GUI_SoundcloudArtistSearch.h" line="+2"/>
+        <location filename="../../build_release/src/3rdParty/Soundcloud/ui_GUI_SoundcloudArtistSearch.h" line="+2"/>
         <source>Cancel</source>
         <translation>Anuluj</translation>
     </message>
     <message>
         <location line="+7"/>
         <location filename="../../build/src/3rdParty/Soundcloud/ui_GUI_SoundcloudArtistSearch.h" line="+1"/>
+        <location filename="../../build_ccache/src/3rdParty/Soundcloud/ui_GUI_SoundcloudArtistSearch.h" line="+1"/>
+        <location filename="../../build_make/src/3rdParty/Soundcloud/ui_GUI_SoundcloudArtistSearch.h" line="+1"/>
+        <location filename="../../build_ninja/src/3rdParty/Soundcloud/ui_GUI_SoundcloudArtistSearch.h" line="+1"/>
+        <location filename="../../build_release/src/3rdParty/Soundcloud/ui_GUI_SoundcloudArtistSearch.h" line="+1"/>
         <source>Add</source>
         <translation>Dodaj</translation>
     </message>
     <message>
         <location line="+17"/>
         <location filename="../../build/src/3rdParty/Soundcloud/ui_GUI_SoundcloudArtistSearch.h" line="+1"/>
+        <location filename="../../build_ccache/src/3rdParty/Soundcloud/ui_GUI_SoundcloudArtistSearch.h" line="+1"/>
+        <location filename="../../build_make/src/3rdParty/Soundcloud/ui_GUI_SoundcloudArtistSearch.h" line="+1"/>
+        <location filename="../../build_ninja/src/3rdParty/Soundcloud/ui_GUI_SoundcloudArtistSearch.h" line="+1"/>
+        <location filename="../../build_release/src/3rdParty/Soundcloud/ui_GUI_SoundcloudArtistSearch.h" line="+1"/>
         <source>Search artist</source>
         <translatorcomment>same as above. I will rename this once</translatorcomment>
         <translation>Szukaj artysty</translation>
@@ -1846,12 +2404,20 @@ podczas odtwarzania listy</translation>
     <message>
         <location filename="../3rdParty/Soundcloud/ui/GUI_SoundcloudLibrary.ui" line="+26"/>
         <location filename="../../build/src/3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h" line="+256"/>
+        <location filename="../../build_ccache/src/3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h" line="+256"/>
+        <location filename="../../build_make/src/3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h" line="+256"/>
+        <location filename="../../build_ninja/src/3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h" line="+256"/>
+        <location filename="../../build_release/src/3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h" line="+256"/>
         <source>Library</source>
         <translation>Biblioteka</translation>
     </message>
     <message>
         <location line="+279"/>
         <location filename="../../build/src/3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h" line="+8"/>
+        <location filename="../../build_ccache/src/3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h" line="+8"/>
+        <location filename="../../build_make/src/3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h" line="+8"/>
+        <location filename="../../build_ninja/src/3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h" line="+8"/>
+        <location filename="../../build_release/src/3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h" line="+8"/>
         <source>Shortcuts: &lt;br /&gt;Search &lt;span style=&quot; font-weight:600;&quot;&gt;s: &lt;br /&gt; &lt;/span&gt;Genre &lt;span style=&quot; font-weight:600;&quot;&gt;g: &lt;br /&gt;&lt;/span&gt;Path &lt;span style=&quot; font-weight:600;&quot;&gt;p:&lt;br/&gt;</source>
         <translatorcomment>a mess again</translatorcomment>
         <translation type="unfinished"></translation>
@@ -1859,38 +2425,62 @@ podczas odtwarzania listy</translation>
     <message>
         <location line="+13"/>
         <location filename="../../build/src/3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h" line="-5"/>
+        <location filename="../../build_ccache/src/3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h" line="-5"/>
+        <location filename="../../build_make/src/3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h" line="-5"/>
+        <location filename="../../build_ninja/src/3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h" line="-5"/>
+        <location filename="../../build_release/src/3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h" line="-5"/>
         <source>Search</source>
         <translation>Znajdź</translation>
     </message>
     <message>
         <location line="+5"/>
         <location filename="../../build/src/3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h" line="+1"/>
+        <location filename="../../build_ccache/src/3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h" line="+1"/>
+        <location filename="../../build_make/src/3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h" line="+1"/>
+        <location filename="../../build_ninja/src/3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h" line="+1"/>
+        <location filename="../../build_release/src/3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h" line="+1"/>
         <source>Genre</source>
         <translation>Gatunek</translation>
     </message>
     <message>
         <location line="+5"/>
         <location filename="../../build/src/3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h" line="+1"/>
+        <location filename="../../build_ccache/src/3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h" line="+1"/>
+        <location filename="../../build_make/src/3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h" line="+1"/>
+        <location filename="../../build_ninja/src/3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h" line="+1"/>
+        <location filename="../../build_release/src/3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h" line="+1"/>
         <source>Path</source>
         <translation>Ścieżka</translation>
     </message>
     <message>
         <location line="+23"/>
         <location filename="../../build/src/3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h" line="+6"/>
+        <location filename="../../build_ccache/src/3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h" line="+6"/>
+        <location filename="../../build_make/src/3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h" line="+6"/>
+        <location filename="../../build_ninja/src/3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h" line="+6"/>
+        <location filename="../../build_release/src/3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h" line="+6"/>
         <source>Search for title, interprets and albums</source>
         <translatorcomment>just a tooltip</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Szukaj tytuł i albumy</translation>
     </message>
     <message>
         <location line="+22"/>
         <location filename="../../build/src/3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h" line="+3"/>
+        <location filename="../../build_ccache/src/3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h" line="+3"/>
+        <location filename="../../build_make/src/3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h" line="+3"/>
+        <location filename="../../build_ninja/src/3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h" line="+3"/>
+        <location filename="../../build_release/src/3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h" line="+3"/>
         <source>Show all interprets, albums, tracks</source>
         <translatorcomment>just a tooltip</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Pokaż wszystkie utwory, albumy,</translation>
     </message>
     <message>
         <location line="+43"/>
         <location filename="../../build/src/3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h" line="+4"/>
+        <location filename="../../build_ccache/src/3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h" line="+4"/>
+        <location filename="../../build_make/src/3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h" line="+4"/>
+        <location filename="../../build_ninja/src/3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h" line="+4"/>
+        <location filename="../../build_release/src/3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h" line="+4"/>
         <source>Information</source>
         <translation>Informacje</translation>
     </message>
@@ -1906,14 +2496,22 @@ podczas odtwarzania listy</translation>
 <context>
     <name>GUI_Speed</name>
     <message>
-        <location filename="../GUI/PlayerPlugins/Speed/GUI_Speed.ui" line="+76"/>
-        <location filename="../../build/src/GUI/PlayerPlugins/Speed/ui_GUI_Speed.h" line="+131"/>
+        <location filename="../GUI/PlayerPlugins/Speed/GUI_Speed.ui" line="+39"/>
+        <location filename="../../build/src/GUI/PlayerPlugins/Speed/ui_GUI_Speed.h" line="+74"/>
+        <location filename="../../build_ccache/src/GUI/PlayerPlugins/Speed/ui_GUI_Speed.h" line="+74"/>
+        <location filename="../../build_make/src/GUI/PlayerPlugins/Speed/ui_GUI_Speed.h" line="+74"/>
+        <location filename="../../build_ninja/src/GUI/PlayerPlugins/Speed/ui_GUI_Speed.h" line="+74"/>
+        <location filename="../../build_release/src/GUI/PlayerPlugins/Speed/ui_GUI_Speed.h" line="+131"/>
         <source>1.0</source>
         <translation>1.0</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <location filename="../../build/src/GUI/PlayerPlugins/Speed/ui_GUI_Speed.h" line="+1"/>
+        <location line="-19"/>
+        <location filename="../../build/src/GUI/PlayerPlugins/Speed/ui_GUI_Speed.h" line="-1"/>
+        <location filename="../../build_ccache/src/GUI/PlayerPlugins/Speed/ui_GUI_Speed.h" line="-1"/>
+        <location filename="../../build_make/src/GUI/PlayerPlugins/Speed/ui_GUI_Speed.h" line="-1"/>
+        <location filename="../../build_ninja/src/GUI/PlayerPlugins/Speed/ui_GUI_Speed.h" line="-1"/>
+        <location filename="../../build_release/src/GUI/PlayerPlugins/Speed/ui_GUI_Speed.h" line="+1"/>
         <source>Active</source>
         <translation>Aktywna</translation>
     </message>
@@ -1926,7 +2524,7 @@ podczas odtwarzania listy</translation>
 <context>
     <name>GUI_StartupDialog</name>
     <message>
-        <location filename="../GUI/Preferences/Startup/GUI_StartupDialog.cpp" line="+93"/>
+        <location filename="../GUI/Preferences/Startup/GUI_StartupDialog.cpp" line="+70"/>
         <source>Start up</source>
         <translatorcomment>This is the header for the startup options. That means when starting sayonara, some behaviour is defined</translatorcomment>
         <translation>Po uruchomieniu programu</translation>
@@ -1936,34 +2534,34 @@ podczas odtwarzania listy</translation>
     <name>GUI_StartupOptions</name>
     <message>
         <location filename="../GUI/Preferences/Startup/GUI_StartupDialog.ui" line="+31"/>
-        <location filename="../../build/src/GUI/Preferences/Startup/ui_GUI_StartupDialog.h" line="+84"/>
+        <location filename="../../build_release/src/GUI/Preferences/Startup/ui_GUI_StartupDialog.h" line="+84"/>
         <source>Load temporary playlists</source>
         <translatorcomment>load playlists at startup which were not saved</translatorcomment>
         <translation>Załaduj tymczasowe playlisty</translation>
     </message>
     <message>
         <location line="+7"/>
-        <location filename="../../build/src/GUI/Preferences/Startup/ui_GUI_StartupDialog.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/Preferences/Startup/ui_GUI_StartupDialog.h" line="+1"/>
         <source>Start playing</source>
         <translation>Odtwarzaj</translation>
     </message>
     <message>
         <location line="-21"/>
-        <location filename="../../build/src/GUI/Preferences/Startup/ui_GUI_StartupDialog.h" line="-2"/>
+        <location filename="../../build_release/src/GUI/Preferences/Startup/ui_GUI_StartupDialog.h" line="-2"/>
         <source>Load last track on startup</source>
         <translatorcomment>load the last track at startup which you listened before</translatorcomment>
         <translation>Załaduj ostatni utwór</translation>
     </message>
     <message>
         <location line="+28"/>
-        <location filename="../../build/src/GUI/Preferences/Startup/ui_GUI_StartupDialog.h" line="+3"/>
+        <location filename="../../build_release/src/GUI/Preferences/Startup/ui_GUI_StartupDialog.h" line="+3"/>
         <source>Load saved playlists</source>
         <translatorcomment>load saved playlists</translatorcomment>
         <translation>Załaduj zapisane listy odtwarzania</translation>
     </message>
     <message>
         <location line="+10"/>
-        <location filename="../../build/src/GUI/Preferences/Startup/ui_GUI_StartupDialog.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/Preferences/Startup/ui_GUI_StartupDialog.h" line="+1"/>
         <source>Remember time of last track</source>
         <translatorcomment>start playing at the exact same position when sayonara has stopped the last time</translatorcomment>
         <translation>Zapamiętaj ostatni utwór i czas jego zatrzymania</translation>
@@ -1972,55 +2570,78 @@ podczas odtwarzania listy</translation>
 <context>
     <name>GUI_Stream</name>
     <message>
-        <location filename="../GUI/PlayerPlugins/Stream/GUI_Stream.ui" line="+35"/>
-        <location filename="../../build/src/GUI/PlayerPlugins/Stream/ui_GUI_Stream.h" line="+173"/>
+        <location filename="../GUI/PlayerPlugins/Stream/GUI_Stream.ui" line="+108"/>
+        <location filename="../../build/src/GUI/PlayerPlugins/Stream/ui_GUI_Stream.h" line="+126"/>
+        <location filename="../../build_ccache/src/GUI/PlayerPlugins/Stream/ui_GUI_Stream.h" line="+125"/>
+        <location filename="../../build_make/src/GUI/PlayerPlugins/Stream/ui_GUI_Stream.h" line="+125"/>
+        <location filename="../../build_ninja/src/GUI/PlayerPlugins/Stream/ui_GUI_Stream.h" line="+125"/>
+        <location filename="../../build_release/src/GUI/PlayerPlugins/Stream/ui_GUI_Stream.h" line="+173"/>
         <source>Url</source>
         <translation>Url</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <location filename="../../build/src/GUI/PlayerPlugins/Stream/ui_GUI_Stream.h" line="+2"/>
+        <location line="+20"/>
+        <location filename="../../build/src/GUI/PlayerPlugins/Stream/ui_GUI_Stream.h" line="+3"/>
+        <location filename="../../build_ccache/src/GUI/PlayerPlugins/Stream/ui_GUI_Stream.h" line="+3"/>
+        <location filename="../../build_make/src/GUI/PlayerPlugins/Stream/ui_GUI_Stream.h" line="+3"/>
+        <location filename="../../build_ninja/src/GUI/PlayerPlugins/Stream/ui_GUI_Stream.h" line="+3"/>
+        <location filename="../../build_release/src/GUI/PlayerPlugins/Stream/ui_GUI_Stream.h" line="+2"/>
         <source>Type name you want to save the stream as</source>
         <translatorcomment>We already had this</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+83"/>
-        <location filename="../../build/src/GUI/PlayerPlugins/Stream/ui_GUI_Stream.h" line="+4"/>
+        <location line="-10"/>
+        <location filename="../../build/src/GUI/PlayerPlugins/Stream/ui_GUI_Stream.h" line="-2"/>
+        <location filename="../../build_ccache/src/GUI/PlayerPlugins/Stream/ui_GUI_Stream.h" line="-2"/>
+        <location filename="../../build_make/src/GUI/PlayerPlugins/Stream/ui_GUI_Stream.h" line="-2"/>
+        <location filename="../../build_ninja/src/GUI/PlayerPlugins/Stream/ui_GUI_Stream.h" line="-2"/>
+        <location filename="../../build_release/src/GUI/PlayerPlugins/Stream/ui_GUI_Stream.h" line="+4"/>
         <source>Name</source>
         <translation>Nazwa</translation>
     </message>
     <message>
-        <location line="+12"/>
-        <location filename="../../build/src/GUI/PlayerPlugins/Stream/ui_GUI_Stream.h" line="+1"/>
+        <location line="-87"/>
+        <location filename="../../build/src/GUI/PlayerPlugins/Stream/ui_GUI_Stream.h" line="-10"/>
+        <location filename="../../build_ccache/src/GUI/PlayerPlugins/Stream/ui_GUI_Stream.h" line="-10"/>
+        <location filename="../../build_make/src/GUI/PlayerPlugins/Stream/ui_GUI_Stream.h" line="-10"/>
+        <location filename="../../build_ninja/src/GUI/PlayerPlugins/Stream/ui_GUI_Stream.h" line="-10"/>
+        <location filename="../../build_release/src/GUI/PlayerPlugins/Stream/ui_GUI_Stream.h" line="+1"/>
         <source>Actions</source>
         <translation>Działania</translation>
     </message>
     <message>
-        <location line="+26"/>
+        <location line="+32"/>
         <location filename="../../build/src/GUI/PlayerPlugins/Stream/ui_GUI_Stream.h" line="+2"/>
+        <location filename="../../build_ccache/src/GUI/PlayerPlugins/Stream/ui_GUI_Stream.h" line="+2"/>
+        <location filename="../../build_make/src/GUI/PlayerPlugins/Stream/ui_GUI_Stream.h" line="+2"/>
+        <location filename="../../build_ninja/src/GUI/PlayerPlugins/Stream/ui_GUI_Stream.h" line="+2"/>
+        <location filename="../../build_release/src/GUI/PlayerPlugins/Stream/ui_GUI_Stream.h" line="+2"/>
         <source>Start stream</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+23"/>
         <location filename="../../build/src/GUI/PlayerPlugins/Stream/ui_GUI_Stream.h" line="+3"/>
+        <location filename="../../build_ccache/src/GUI/PlayerPlugins/Stream/ui_GUI_Stream.h" line="+3"/>
+        <location filename="../../build_make/src/GUI/PlayerPlugins/Stream/ui_GUI_Stream.h" line="+3"/>
+        <location filename="../../build_ninja/src/GUI/PlayerPlugins/Stream/ui_GUI_Stream.h" line="+3"/>
+        <location filename="../../build_release/src/GUI/PlayerPlugins/Stream/ui_GUI_Stream.h" line="+3"/>
         <source>Listen</source>
         <translation>Słuchaj</translation>
     </message>
     <message>
         <location line="+12"/>
         <location filename="../../build/src/GUI/PlayerPlugins/Stream/ui_GUI_Stream.h" line="+2"/>
+        <location filename="../../build_ccache/src/GUI/PlayerPlugins/Stream/ui_GUI_Stream.h" line="+2"/>
+        <location filename="../../build_make/src/GUI/PlayerPlugins/Stream/ui_GUI_Stream.h" line="+2"/>
+        <location filename="../../build_ninja/src/GUI/PlayerPlugins/Stream/ui_GUI_Stream.h" line="+2"/>
+        <location filename="../../build_release/src/GUI/PlayerPlugins/Stream/ui_GUI_Stream.h" line="+2"/>
         <source>Enter stream url</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../GUI/PlayerPlugins/Stream/GUI_Stream.cpp" line="+28"/>
-        <source>Radio Station</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+17"/>
+        <location filename="../GUI/PlayerPlugins/Stream/GUI_Stream.cpp" line="+45"/>
         <source>Webstreams</source>
         <translation>Strumień internetowy</translation>
     </message>
@@ -2030,6 +2651,10 @@ podczas odtwarzania listy</translation>
     <message>
         <location filename="../GUI/Preferences/StreamRecorder/GUI_StreamRecorder.ui" line="+72"/>
         <location filename="../../build/src/GUI/Preferences/StreamRecorder/ui_GUI_StreamRecorder.h" line="+109"/>
+        <location filename="../../build_ccache/src/GUI/Preferences/StreamRecorder/ui_GUI_StreamRecorder.h" line="+109"/>
+        <location filename="../../build_make/src/GUI/Preferences/StreamRecorder/ui_GUI_StreamRecorder.h" line="+109"/>
+        <location filename="../../build_ninja/src/GUI/Preferences/StreamRecorder/ui_GUI_StreamRecorder.h" line="+109"/>
+        <location filename="../../build_release/src/GUI/Preferences/StreamRecorder/ui_GUI_StreamRecorder.h" line="+109"/>
         <source>Target path:</source>
         <translatorcomment>target path to save something</translatorcomment>
         <translation>Ścieżka docelowa:</translation>
@@ -2037,18 +2662,30 @@ podczas odtwarzania listy</translation>
     <message>
         <location line="+23"/>
         <location filename="../../build/src/GUI/Preferences/StreamRecorder/ui_GUI_StreamRecorder.h" line="+2"/>
+        <location filename="../../build_ccache/src/GUI/Preferences/StreamRecorder/ui_GUI_StreamRecorder.h" line="+2"/>
+        <location filename="../../build_make/src/GUI/Preferences/StreamRecorder/ui_GUI_StreamRecorder.h" line="+2"/>
+        <location filename="../../build_ninja/src/GUI/Preferences/StreamRecorder/ui_GUI_StreamRecorder.h" line="+2"/>
+        <location filename="../../build_release/src/GUI/Preferences/StreamRecorder/ui_GUI_StreamRecorder.h" line="+2"/>
         <source>Activate</source>
         <translation>Uaktywnij</translation>
     </message>
     <message>
         <location line="-7"/>
         <location filename="../../build/src/GUI/Preferences/StreamRecorder/ui_GUI_StreamRecorder.h" line="-1"/>
+        <location filename="../../build_ccache/src/GUI/Preferences/StreamRecorder/ui_GUI_StreamRecorder.h" line="-1"/>
+        <location filename="../../build_make/src/GUI/Preferences/StreamRecorder/ui_GUI_StreamRecorder.h" line="-1"/>
+        <location filename="../../build_ninja/src/GUI/Preferences/StreamRecorder/ui_GUI_StreamRecorder.h" line="-1"/>
+        <location filename="../../build_release/src/GUI/Preferences/StreamRecorder/ui_GUI_StreamRecorder.h" line="-1"/>
         <source>...</source>
         <translation>...</translation>
     </message>
     <message>
         <location line="-23"/>
         <location filename="../../build/src/GUI/Preferences/StreamRecorder/ui_GUI_StreamRecorder.h" line="-2"/>
+        <location filename="../../build_ccache/src/GUI/Preferences/StreamRecorder/ui_GUI_StreamRecorder.h" line="-2"/>
+        <location filename="../../build_make/src/GUI/Preferences/StreamRecorder/ui_GUI_StreamRecorder.h" line="-2"/>
+        <location filename="../../build_ninja/src/GUI/Preferences/StreamRecorder/ui_GUI_StreamRecorder.h" line="-2"/>
+        <location filename="../../build_release/src/GUI/Preferences/StreamRecorder/ui_GUI_StreamRecorder.h" line="-2"/>
         <source>Create session folder</source>
         <translatorcomment>create a special directory where the streamripper will save your recorded data</translatorcomment>
         <translation>Utwórz folder sesji</translation>
@@ -2079,24 +2716,40 @@ Proszę wybrać inny folder</translation>
     <message>
         <location filename="../GUI/PlayerPlugins/Engine/GUI_Style.ui" line="+14"/>
         <location filename="../../build/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+423"/>
+        <location filename="../../build_ccache/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+423"/>
+        <location filename="../../build_make/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+423"/>
+        <location filename="../../build_ninja/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+423"/>
+        <location filename="../../build_release/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+423"/>
         <source>Style</source>
         <translation>Styl</translation>
     </message>
     <message>
         <location line="+38"/>
         <location filename="../../build/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+1"/>
         <source>Close</source>
         <translation>Zamknij</translation>
     </message>
     <message>
         <location line="+11"/>
         <location filename="../../build/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+1"/>
         <source>Spectrum</source>
         <translation>Widmo</translation>
     </message>
     <message>
         <location line="+16"/>
         <location filename="../../build/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+1"/>
         <source>Vert. spacing</source>
         <translatorcomment>vertical spacing between rectangles</translatorcomment>
         <translation type="unfinished"></translation>
@@ -2105,6 +2758,14 @@ Proszę wybrać inny folder</translation>
         <location line="+7"/>
         <location line="+88"/>
         <location filename="../../build/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+1"/>
+        <location line="+7"/>
+        <location filename="../../build_ccache/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+1"/>
+        <location line="+7"/>
+        <location filename="../../build_make/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+1"/>
+        <location line="+7"/>
+        <location filename="../../build_ninja/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+1"/>
+        <location line="+7"/>
+        <location filename="../../build_release/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+1"/>
         <location line="+7"/>
         <source>Rect height</source>
         <translatorcomment>rectangle height</translatorcomment>
@@ -2115,6 +2776,14 @@ Proszę wybrać inny folder</translation>
         <location line="+44"/>
         <location filename="../../build/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="-6"/>
         <location line="+4"/>
+        <location filename="../../build_ccache/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="-6"/>
+        <location line="+4"/>
+        <location filename="../../build_make/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="-6"/>
+        <location line="+4"/>
+        <location filename="../../build_ninja/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="-6"/>
+        <location line="+4"/>
+        <location filename="../../build_release/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="-6"/>
+        <location line="+4"/>
         <source>Hor. spacing</source>
         <translatorcomment>horizontal spacing of rectangles</translatorcomment>
         <translation>Odstępy w poz.</translation>
@@ -2124,6 +2793,14 @@ Proszę wybrać inny folder</translation>
         <location line="+75"/>
         <location filename="../../build/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="-3"/>
         <location line="+7"/>
+        <location filename="../../build_ccache/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="-3"/>
+        <location line="+7"/>
+        <location filename="../../build_make/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="-3"/>
+        <location line="+7"/>
+        <location filename="../../build_ninja/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="-3"/>
+        <location line="+7"/>
+        <location filename="../../build_release/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="-3"/>
+        <location line="+7"/>
         <source>Fading steps</source>
         <translatorcomment>fade out steps</translatorcomment>
         <translation type="unfinished"></translation>
@@ -2131,18 +2808,30 @@ Proszę wybrać inny folder</translation>
     <message>
         <location line="-51"/>
         <location filename="../../build/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="-5"/>
+        <location filename="../../build_ccache/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="-5"/>
+        <location filename="../../build_make/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="-5"/>
+        <location filename="../../build_ninja/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="-5"/>
+        <location filename="../../build_release/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="-5"/>
         <source>Level</source>
         <translation>Poziom</translation>
     </message>
     <message>
         <location line="+23"/>
         <location filename="../../build/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+2"/>
+        <location filename="../../build_ccache/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+2"/>
+        <location filename="../../build_make/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+2"/>
+        <location filename="../../build_ninja/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+2"/>
+        <location filename="../../build_release/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+2"/>
         <source>Rect width</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+14"/>
         <location filename="../../build/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+2"/>
+        <location filename="../../build_ccache/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+2"/>
+        <location filename="../../build_make/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+2"/>
+        <location filename="../../build_ninja/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+2"/>
+        <location filename="../../build_release/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+2"/>
         <source>Ver. spacing</source>
         <translatorcomment>also vertical spacing</translatorcomment>
         <translation>Odstępy w pio.</translation>
@@ -2150,6 +2839,10 @@ Proszę wybrać inny folder</translation>
     <message>
         <location line="+54"/>
         <location filename="../../build/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+2"/>
+        <location filename="../../build_ccache/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+2"/>
+        <location filename="../../build_make/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+2"/>
+        <location filename="../../build_ninja/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+2"/>
+        <location filename="../../build_release/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+2"/>
         <source>Style settings</source>
         <translatorcomment>lub motywu</translatorcomment>
         <translation>Ustawienia stylu</translation>
@@ -2157,24 +2850,40 @@ Proszę wybrać inny folder</translation>
     <message>
         <location line="+129"/>
         <location filename="../../build/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+4"/>
+        <location filename="../../build_ccache/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+4"/>
+        <location filename="../../build_make/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+4"/>
+        <location filename="../../build_ninja/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+4"/>
+        <location filename="../../build_release/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+4"/>
         <source>Color 2</source>
         <translation>Kolor 2</translation>
     </message>
     <message>
         <location line="+7"/>
         <location filename="../../build/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+1"/>
         <source>Color 1</source>
         <translation>Kolor 1</translation>
     </message>
     <message>
         <location line="+32"/>
         <location filename="../../build/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+2"/>
+        <location filename="../../build_ccache/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+2"/>
+        <location filename="../../build_make/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+2"/>
+        <location filename="../../build_ninja/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+2"/>
+        <location filename="../../build_release/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+2"/>
         <source>Color 3</source>
         <translation>Kolor 3</translation>
     </message>
     <message>
         <location line="+7"/>
         <location filename="../../build/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+1"/>
         <source>Color 4</source>
         <translation>Kolor 4</translation>
     </message>
@@ -2201,41 +2910,91 @@ Proszę wybrać inny folder</translation>
 <context>
     <name>GUI_TagEdit</name>
     <message>
-        <location filename="../GUI/TagEdit/GUI_TagEdit.ui" line="+57"/>
-        <location line="+341"/>
-        <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+493"/>
+        <location filename="../GUI/TagEdit/GUI_TagEdit.ui" line="+199"/>
+        <location line="+252"/>
+        <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+586"/>
+        <location line="+15"/>
+        <location filename="../../build_ccache/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+493"/>
+        <location line="+20"/>
+        <location filename="../../build_make/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+493"/>
+        <location line="+20"/>
+        <location filename="../../build_ninja/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+493"/>
+        <location line="+20"/>
+        <location filename="../../build_release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+493"/>
         <location line="+20"/>
         <source>Album</source>
         <translation>Album</translation>
     </message>
     <message>
-        <location line="-278"/>
-        <location line="+330"/>
-        <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-14"/>
+        <location line="-345"/>
+        <location line="+397"/>
+        <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-23"/>
+        <location line="+27"/>
+        <location filename="../../build_ccache/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-14"/>
+        <location line="+18"/>
+        <location filename="../../build_make/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-14"/>
+        <location line="+18"/>
+        <location filename="../../build_ninja/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-14"/>
+        <location line="+18"/>
+        <location filename="../../build_release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-14"/>
         <location line="+18"/>
         <source># Track</source>
         <translation># Ścieżka</translation>
     </message>
     <message>
-        <location line="-253"/>
-        <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-12"/>
+        <location line="-350"/>
+        <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-23"/>
+        <location filename="../../build_ccache/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-12"/>
+        <location filename="../../build_make/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-12"/>
+        <location filename="../../build_ninja/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-12"/>
+        <location filename="../../build_release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-12"/>
         <source>Rating</source>
         <translation>Ocena</translation>
     </message>
     <message>
-        <location line="+163"/>
-        <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+5"/>
+        <location line="+260"/>
+        <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+16"/>
+        <location filename="../../build_ccache/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+5"/>
+        <location filename="../../build_make/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+5"/>
+        <location filename="../../build_ninja/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+5"/>
+        <location filename="../../build_release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+5"/>
         <source>Expression</source>
         <translation>Wyrażenie</translation>
     </message>
     <message>
-        <location line="-273"/>
-        <location line="+10"/>
-        <location line="+10"/>
+        <location line="-376"/>
+        <location line="+89"/>
         <location line="+20"/>
-        <location line="+30"/>
-        <location line="+26"/>
-        <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-14"/>
+        <location line="+39"/>
+        <location line="+24"/>
+        <location line="+29"/>
+        <location line="+123"/>
+        <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-23"/>
+        <location line="+4"/>
+        <location line="+2"/>
+        <location line="+3"/>
+        <location line="+3"/>
+        <location line="+2"/>
+        <location line="+6"/>
+        <location filename="../../build_ccache/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-14"/>
+        <location line="+1"/>
+        <location line="+1"/>
+        <location line="+2"/>
+        <location line="+2"/>
+        <location line="+1"/>
+        <location filename="../../build_make/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-14"/>
+        <location line="+1"/>
+        <location line="+1"/>
+        <location line="+2"/>
+        <location line="+2"/>
+        <location line="+1"/>
+        <location filename="../../build_ninja/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-14"/>
+        <location line="+1"/>
+        <location line="+1"/>
+        <location line="+2"/>
+        <location line="+2"/>
+        <location line="+1"/>
+        <location filename="../../build_release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-14"/>
         <location line="+1"/>
         <location line="+1"/>
         <location line="+2"/>
@@ -2245,21 +3004,37 @@ Proszę wybrać inny folder</translation>
         <translation>Wszystkie</translation>
     </message>
     <message>
-        <location line="-109"/>
-        <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-8"/>
+        <location line="-133"/>
+        <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-7"/>
+        <location filename="../../build_ccache/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-8"/>
+        <location filename="../../build_make/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-8"/>
+        <location filename="../../build_ninja/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-8"/>
+        <location filename="../../build_release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-8"/>
         <source>Genres</source>
         <translation>Gatunki</translation>
     </message>
     <message>
-        <location line="+296"/>
-        <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+16"/>
+        <location line="+195"/>
+        <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+11"/>
+        <location filename="../../build_ccache/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+16"/>
+        <location filename="../../build_make/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+16"/>
+        <location filename="../../build_ninja/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+16"/>
+        <location filename="../../build_release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+16"/>
         <source>?</source>
         <translation>?</translation>
     </message>
     <message>
-        <location line="-303"/>
-        <location line="+344"/>
-        <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-17"/>
+        <location line="-231"/>
+        <location line="+272"/>
+        <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-14"/>
+        <location line="+17"/>
+        <location filename="../../build_ccache/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-17"/>
+        <location line="+20"/>
+        <location filename="../../build_make/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-17"/>
+        <location line="+20"/>
+        <location filename="../../build_ninja/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-17"/>
+        <location line="+20"/>
+        <location filename="../../build_release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-17"/>
         <location line="+20"/>
         <source>Artist</source>
         <translation>Wykonawca</translation>
@@ -2267,6 +3042,10 @@ Proszę wybrać inny folder</translation>
     <message>
         <location line="+64"/>
         <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+5"/>
+        <location filename="../../build_ccache/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+5"/>
+        <location filename="../../build_make/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+5"/>
+        <location filename="../../build_ninja/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+5"/>
+        <location filename="../../build_release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+5"/>
         <source>Apply to all</source>
         <translatorcomment>apply changes to all tracks</translatorcomment>
         <translation>Stosuje się do wszystkich</translation>
@@ -2274,41 +3053,103 @@ Proszę wybrać inny folder</translation>
     <message>
         <location line="-10"/>
         <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-1"/>
+        <location filename="../../build_ccache/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-1"/>
+        <location filename="../../build_make/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-1"/>
+        <location filename="../../build_ninja/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-1"/>
+        <location filename="../../build_release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-1"/>
         <source>Apply</source>
         <translation>Zastosuj</translation>
     </message>
     <message>
-        <location line="-415"/>
-        <location line="+335"/>
-        <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-26"/>
+        <location line="-343"/>
+        <location line="+263"/>
+        <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-23"/>
+        <location line="+17"/>
+        <location filename="../../build_ccache/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-26"/>
+        <location line="+20"/>
+        <location filename="../../build_make/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-26"/>
+        <location line="+20"/>
+        <location filename="../../build_ninja/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-26"/>
+        <location line="+20"/>
+        <location filename="../../build_release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-26"/>
         <location line="+20"/>
         <source>Title</source>
         <translation>Tytuł</translation>
     </message>
     <message>
-        <location line="-241"/>
-        <location line="+280"/>
-        <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-11"/>
+        <location line="-339"/>
+        <location line="+378"/>
+        <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-23"/>
+        <location line="+26"/>
+        <location filename="../../build_ccache/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-11"/>
+        <location line="+14"/>
+        <location filename="../../build_make/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-11"/>
+        <location line="+14"/>
+        <location filename="../../build_ninja/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-11"/>
+        <location line="+14"/>
+        <location filename="../../build_release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-11"/>
         <location line="+14"/>
         <source>Year</source>
         <translation>Rok</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="-188"/>
+        <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-12"/>
+        <source>Original</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+20"/>
         <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+1"/>
+        <source>ID3v2 Cover</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+20"/>
+        <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+1"/>
+        <source>Replace with</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+41"/>
+        <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+3"/>
+        <source>Don&apos;t replace</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+1"/>
+        <source>Replace</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+110"/>
+        <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+7"/>
+        <location filename="../../build_ccache/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+1"/>
         <source>Disc Nr</source>
         <translation>Numer płyty</translation>
     </message>
     <message>
         <location line="+51"/>
         <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+4"/>
+        <location filename="../../build_ccache/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+4"/>
+        <location filename="../../build_make/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+4"/>
+        <location filename="../../build_ninja/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+4"/>
+        <location filename="../../build_release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+4"/>
         <source>Tag from path</source>
         <translatorcomment>create the metadata from the file path</translatorcomment>
         <translation>Tag ze ścieżki</translation>
     </message>
     <message>
-        <location line="+32"/>
-        <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+1"/>
+        <location line="+131"/>
+        <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+5"/>
+        <location filename="../../build_ccache/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+1"/>
         <source>Undo all</source>
         <translatorcomment>undo changes for all tracks</translatorcomment>
         <translation>Cofnij wszystko</translation>
@@ -2316,47 +3157,76 @@ Proszę wybrać inny folder</translation>
     <message>
         <location line="+7"/>
         <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+1"/>
         <source>Undo</source>
         <translation>Cofnij</translation>
     </message>
     <message>
         <location line="+10"/>
         <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+1"/>
         <source>Cancel</source>
         <translation>Anuluj</translation>
     </message>
     <message>
         <location line="+10"/>
         <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+1"/>
         <source>Save</source>
         <translation>Zapisz</translation>
     </message>
     <message>
-        <location line="-357"/>
-        <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-20"/>
+        <location line="-566"/>
+        <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-36"/>
+        <location filename="../../build_ccache/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-20"/>
+        <location filename="../../build_make/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-20"/>
+        <location filename="../../build_ninja/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-20"/>
+        <location filename="../../build_release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-20"/>
         <source>Discnumber</source>
         <translation>Numer płyty</translation>
     </message>
     <message>
-        <location line="+96"/>
-        <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+3"/>
+        <location line="+459"/>
+        <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+30"/>
+        <location filename="../../build_ccache/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+3"/>
+        <location filename="../../build_make/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+3"/>
+        <location filename="../../build_ninja/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+3"/>
+        <location filename="../../build_release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+3"/>
         <source>&lt;</source>
         <translation>&lt;</translation>
     </message>
     <message>
         <location line="+32"/>
         <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+2"/>
+        <location filename="../../build_ccache/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+2"/>
+        <location filename="../../build_make/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+2"/>
+        <location filename="../../build_ninja/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+2"/>
+        <location filename="../../build_release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+2"/>
         <source>&gt;</source>
         <translation>&gt;</translation>
     </message>
     <message>
-        <location filename="../GUI/TagEdit/GUI_TagEdit.cpp" line="+212"/>
-        <location line="+16"/>
+        <location filename="../GUI/TagEdit/GUI_TagEdit.cpp" line="+236"/>
+        <location line="+17"/>
         <source>Track </source>
         <translation>Utwór</translation>
     </message>
     <message>
-        <location line="+220"/>
+        <location line="+189"/>
+        <source>None</source>
+        <translation>Brak</translation>
+    </message>
+    <message>
+        <location line="+147"/>
         <source>Cannot apply tag for</source>
         <translatorcomment>The tag could not be extracted from the file path for a specific track. Cannot apply tag for /home/user/track.mp3</translatorcomment>
         <translation>Nie można zastosować znacznika do</translation>
@@ -2378,6 +3248,10 @@ Proszę wybrać inny folder</translation>
     <message>
         <location filename="../GUI/PlayerPlugins/PlaylistChooser/TargetPlaylistDialog/GUI_TargetPlaylistDialog.ui" line="+14"/>
         <location filename="../../build/src/GUI/PlayerPlugins/PlaylistChooser/TargetPlaylistDialog/ui_GUI_TargetPlaylistDialog.h" line="+109"/>
+        <location filename="../../build_ccache/src/GUI/PlayerPlugins/PlaylistChooser/TargetPlaylistDialog/ui_GUI_TargetPlaylistDialog.h" line="+109"/>
+        <location filename="../../build_make/src/GUI/PlayerPlugins/PlaylistChooser/TargetPlaylistDialog/ui_GUI_TargetPlaylistDialog.h" line="+109"/>
+        <location filename="../../build_ninja/src/GUI/PlayerPlugins/PlaylistChooser/TargetPlaylistDialog/ui_GUI_TargetPlaylistDialog.h" line="+109"/>
+        <location filename="../../build_release/src/GUI/PlayerPlugins/PlaylistChooser/TargetPlaylistDialog/ui_GUI_TargetPlaylistDialog.h" line="+109"/>
         <source>Choose target playlist</source>
         <translatorcomment>choose the playlist file which you want to save</translatorcomment>
         <translation type="unfinished"></translation>
@@ -2385,6 +3259,10 @@ Proszę wybrać inny folder</translation>
     <message>
         <location line="+25"/>
         <location filename="../../build/src/GUI/PlayerPlugins/PlaylistChooser/TargetPlaylistDialog/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/PlayerPlugins/PlaylistChooser/TargetPlaylistDialog/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/PlayerPlugins/PlaylistChooser/TargetPlaylistDialog/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/PlayerPlugins/PlaylistChooser/TargetPlaylistDialog/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/PlayerPlugins/PlaylistChooser/TargetPlaylistDialog/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
         <source>relative filepaths</source>
         <translatorcomment>write relative filepaths into the playlists</translatorcomment>
         <translation type="unfinished"></translation>
@@ -2392,24 +3270,40 @@ Proszę wybrać inny folder</translation>
     <message>
         <location line="+19"/>
         <location filename="../../build/src/GUI/PlayerPlugins/PlaylistChooser/TargetPlaylistDialog/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/PlayerPlugins/PlaylistChooser/TargetPlaylistDialog/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/PlayerPlugins/PlaylistChooser/TargetPlaylistDialog/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/PlayerPlugins/PlaylistChooser/TargetPlaylistDialog/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/PlayerPlugins/PlaylistChooser/TargetPlaylistDialog/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
         <source>...</source>
         <translation>...</translation>
     </message>
     <message>
         <location line="+15"/>
         <location filename="../../build/src/GUI/PlayerPlugins/PlaylistChooser/TargetPlaylistDialog/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/PlayerPlugins/PlaylistChooser/TargetPlaylistDialog/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/PlayerPlugins/PlaylistChooser/TargetPlaylistDialog/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/PlayerPlugins/PlaylistChooser/TargetPlaylistDialog/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/PlayerPlugins/PlaylistChooser/TargetPlaylistDialog/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
         <source>Close</source>
         <translation>Zamknij</translation>
     </message>
     <message>
         <location line="+13"/>
         <location filename="../../build/src/GUI/PlayerPlugins/PlaylistChooser/TargetPlaylistDialog/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/PlayerPlugins/PlaylistChooser/TargetPlaylistDialog/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/PlayerPlugins/PlaylistChooser/TargetPlaylistDialog/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/PlayerPlugins/PlaylistChooser/TargetPlaylistDialog/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/PlayerPlugins/PlaylistChooser/TargetPlaylistDialog/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
         <source>Save</source>
         <translation>Zapisz</translation>
     </message>
     <message>
         <location line="+13"/>
         <location filename="../../build/src/GUI/PlayerPlugins/PlaylistChooser/TargetPlaylistDialog/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/PlayerPlugins/PlaylistChooser/TargetPlaylistDialog/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/PlayerPlugins/PlaylistChooser/TargetPlaylistDialog/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/PlayerPlugins/PlaylistChooser/TargetPlaylistDialog/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/PlayerPlugins/PlaylistChooser/TargetPlaylistDialog/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
         <source>Save playlist as...</source>
         <translation>Zapisz listę odtwarzania...</translation>
     </message>
@@ -2425,12 +3319,12 @@ Proszę wybrać inny folder</translation>
     <message>
         <location filename="../GUI/Player/GUI_TrayIcon.cpp" line="+46"/>
         <location line="+69"/>
-        <location line="+73"/>
+        <location line="+74"/>
         <source>Play</source>
         <translation>Odtwarzaj</translation>
     </message>
     <message>
-        <location line="-140"/>
+        <location line="-141"/>
         <location line="+70"/>
         <source>Stop</source>
         <translation>Zatrzymaj</translation>
@@ -2450,12 +3344,12 @@ Proszę wybrać inny folder</translation>
     <message>
         <location line="-62"/>
         <location line="+65"/>
-        <location line="+144"/>
+        <location line="+145"/>
         <source>Mute</source>
         <translation>Wycisz</translation>
     </message>
     <message>
-        <location line="-207"/>
+        <location line="-208"/>
         <location line="+65"/>
         <source>Show</source>
         <translation>Pokaż</translation>
@@ -2474,7 +3368,7 @@ Proszę wybrać inny folder</translation>
         <translation>Zamknij</translation>
     </message>
     <message>
-        <location line="+33"/>
+        <location line="+34"/>
         <source> by </source>
         <translatorcomment>Enter sandman by Metallica</translatorcomment>
         <translation> przez </translation>
@@ -2493,7 +3387,7 @@ Proszę wybrać inny folder</translation>
 <context>
     <name>Helper::StringDummy</name>
     <message>
-        <location filename="../Helper/Helper.cpp" line="+302"/>
+        <location filename="../Helper/Helper.cpp" line="+310"/>
         <source>Various</source>
         <translatorcomment>Various tracks/albums/artists</translatorcomment>
         <translation></translation>
@@ -2538,42 +3432,70 @@ Proszę wybrać inny folder</translation>
     <message>
         <location filename="../GUI/Library/ImportFolderDialog/GUI_ImportFolder.ui" line="+14"/>
         <location filename="../../build/src/GUI/Library/ImportFolderDialog/ui_GUI_ImportFolder.h" line="+149"/>
+        <location filename="../../build_ccache/src/GUI/Library/ImportFolderDialog/ui_GUI_ImportFolder.h" line="+149"/>
+        <location filename="../../build_make/src/GUI/Library/ImportFolderDialog/ui_GUI_ImportFolder.h" line="+149"/>
+        <location filename="../../build_ninja/src/GUI/Library/ImportFolderDialog/ui_GUI_ImportFolder.h" line="+149"/>
+        <location filename="../../build_release/src/GUI/Library/ImportFolderDialog/ui_GUI_ImportFolder.h" line="+149"/>
         <source>Import</source>
         <translation></translation>
     </message>
     <message>
         <location line="+20"/>
         <location filename="../../build/src/GUI/Library/ImportFolderDialog/ui_GUI_ImportFolder.h" line="+2"/>
+        <location filename="../../build_ccache/src/GUI/Library/ImportFolderDialog/ui_GUI_ImportFolder.h" line="+2"/>
+        <location filename="../../build_make/src/GUI/Library/ImportFolderDialog/ui_GUI_ImportFolder.h" line="+2"/>
+        <location filename="../../build_ninja/src/GUI/Library/ImportFolderDialog/ui_GUI_ImportFolder.h" line="+2"/>
+        <location filename="../../build_release/src/GUI/Library/ImportFolderDialog/ui_GUI_ImportFolder.h" line="+2"/>
         <source>Select target folder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="-7"/>
         <location filename="../../build/src/GUI/Library/ImportFolderDialog/ui_GUI_ImportFolder.h" line="-1"/>
+        <location filename="../../build_ccache/src/GUI/Library/ImportFolderDialog/ui_GUI_ImportFolder.h" line="-1"/>
+        <location filename="../../build_make/src/GUI/Library/ImportFolderDialog/ui_GUI_ImportFolder.h" line="-1"/>
+        <location filename="../../build_ninja/src/GUI/Library/ImportFolderDialog/ui_GUI_ImportFolder.h" line="-1"/>
+        <location filename="../../build_release/src/GUI/Library/ImportFolderDialog/ui_GUI_ImportFolder.h" line="-1"/>
         <source>Import tracks to library</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+30"/>
         <location filename="../../build/src/GUI/Library/ImportFolderDialog/ui_GUI_ImportFolder.h" line="+3"/>
+        <location filename="../../build_ccache/src/GUI/Library/ImportFolderDialog/ui_GUI_ImportFolder.h" line="+3"/>
+        <location filename="../../build_make/src/GUI/Library/ImportFolderDialog/ui_GUI_ImportFolder.h" line="+3"/>
+        <location filename="../../build_ninja/src/GUI/Library/ImportFolderDialog/ui_GUI_ImportFolder.h" line="+3"/>
+        <location filename="../../build_release/src/GUI/Library/ImportFolderDialog/ui_GUI_ImportFolder.h" line="+3"/>
         <source>Edit</source>
         <translation>Edycja</translation>
     </message>
     <message>
         <location line="+60"/>
         <location filename="../../build/src/GUI/Library/ImportFolderDialog/ui_GUI_ImportFolder.h" line="+3"/>
+        <location filename="../../build_ccache/src/GUI/Library/ImportFolderDialog/ui_GUI_ImportFolder.h" line="+3"/>
+        <location filename="../../build_make/src/GUI/Library/ImportFolderDialog/ui_GUI_ImportFolder.h" line="+3"/>
+        <location filename="../../build_ninja/src/GUI/Library/ImportFolderDialog/ui_GUI_ImportFolder.h" line="+3"/>
+        <location filename="../../build_release/src/GUI/Library/ImportFolderDialog/ui_GUI_ImportFolder.h" line="+3"/>
         <source>...</source>
         <translation>...</translation>
     </message>
     <message>
         <location line="-40"/>
         <location filename="../../build/src/GUI/Library/ImportFolderDialog/ui_GUI_ImportFolder.h" line="-1"/>
+        <location filename="../../build_ccache/src/GUI/Library/ImportFolderDialog/ui_GUI_ImportFolder.h" line="-1"/>
+        <location filename="../../build_make/src/GUI/Library/ImportFolderDialog/ui_GUI_ImportFolder.h" line="-1"/>
+        <location filename="../../build_ninja/src/GUI/Library/ImportFolderDialog/ui_GUI_ImportFolder.h" line="-1"/>
+        <location filename="../../build_release/src/GUI/Library/ImportFolderDialog/ui_GUI_ImportFolder.h" line="-1"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
         <location line="-10"/>
         <location filename="../../build/src/GUI/Library/ImportFolderDialog/ui_GUI_ImportFolder.h" line="-1"/>
+        <location filename="../../build_ccache/src/GUI/Library/ImportFolderDialog/ui_GUI_ImportFolder.h" line="-1"/>
+        <location filename="../../build_make/src/GUI/Library/ImportFolderDialog/ui_GUI_ImportFolder.h" line="-1"/>
+        <location filename="../../build_ninja/src/GUI/Library/ImportFolderDialog/ui_GUI_ImportFolder.h" line="-1"/>
+        <location filename="../../build_release/src/GUI/Library/ImportFolderDialog/ui_GUI_ImportFolder.h" line="-1"/>
         <source>Cancel</source>
         <translation>Anuluj</translation>
     </message>
@@ -2583,6 +3505,10 @@ Proszę wybrać inny folder</translation>
     <message>
         <location filename="../GUI/InfoDialog/GUI_InfoDialog.ui" line="+14"/>
         <location filename="../../build/src/GUI/InfoDialog/ui_GUI_InfoDialog.h" line="+323"/>
+        <location filename="../../build_ccache/src/GUI/InfoDialog/ui_GUI_InfoDialog.h" line="+323"/>
+        <location filename="../../build_make/src/GUI/InfoDialog/ui_GUI_InfoDialog.h" line="+323"/>
+        <location filename="../../build_ninja/src/GUI/InfoDialog/ui_GUI_InfoDialog.h" line="+323"/>
+        <location filename="../../build_release/src/GUI/InfoDialog/ui_GUI_InfoDialog.h" line="+323"/>
         <source>Info / Edit</source>
         <translation>Informacja / Edytuj</translation>
     </message>
@@ -2590,6 +3516,14 @@ Proszę wybrać inny folder</translation>
         <location line="+29"/>
         <location line="+236"/>
         <location filename="../../build/src/GUI/InfoDialog/ui_GUI_InfoDialog.h" line="+5"/>
+        <location line="+2"/>
+        <location filename="../../build_ccache/src/GUI/InfoDialog/ui_GUI_InfoDialog.h" line="+5"/>
+        <location line="+2"/>
+        <location filename="../../build_make/src/GUI/InfoDialog/ui_GUI_InfoDialog.h" line="+5"/>
+        <location line="+2"/>
+        <location filename="../../build_ninja/src/GUI/InfoDialog/ui_GUI_InfoDialog.h" line="+5"/>
+        <location line="+2"/>
+        <location filename="../../build_release/src/GUI/InfoDialog/ui_GUI_InfoDialog.h" line="+5"/>
         <location line="+2"/>
         <source>Info</source>
         <translation>Informacje</translation>
@@ -2599,30 +3533,54 @@ Proszę wybrać inny folder</translation>
         <location line="+270"/>
         <location filename="../../build/src/GUI/InfoDialog/ui_GUI_InfoDialog.h" line="-4"/>
         <location line="+5"/>
+        <location filename="../../build_ccache/src/GUI/InfoDialog/ui_GUI_InfoDialog.h" line="-4"/>
+        <location line="+5"/>
+        <location filename="../../build_make/src/GUI/InfoDialog/ui_GUI_InfoDialog.h" line="-4"/>
+        <location line="+5"/>
+        <location filename="../../build_ninja/src/GUI/InfoDialog/ui_GUI_InfoDialog.h" line="-4"/>
+        <location line="+5"/>
+        <location filename="../../build_release/src/GUI/InfoDialog/ui_GUI_InfoDialog.h" line="-4"/>
+        <location line="+5"/>
         <source>Close</source>
         <translation>Zamknij</translation>
     </message>
     <message>
         <location line="-214"/>
         <location filename="../../build/src/GUI/InfoDialog/ui_GUI_InfoDialog.h" line="-4"/>
+        <location filename="../../build_ccache/src/GUI/InfoDialog/ui_GUI_InfoDialog.h" line="-4"/>
+        <location filename="../../build_make/src/GUI/InfoDialog/ui_GUI_InfoDialog.h" line="-4"/>
+        <location filename="../../build_ninja/src/GUI/InfoDialog/ui_GUI_InfoDialog.h" line="-4"/>
+        <location filename="../../build_release/src/GUI/InfoDialog/ui_GUI_InfoDialog.h" line="-4"/>
         <source>Paths</source>
         <translation>Ścieżki</translation>
     </message>
     <message>
         <location line="+102"/>
         <location filename="../../build/src/GUI/InfoDialog/ui_GUI_InfoDialog.h" line="+2"/>
+        <location filename="../../build_ccache/src/GUI/InfoDialog/ui_GUI_InfoDialog.h" line="+2"/>
+        <location filename="../../build_make/src/GUI/InfoDialog/ui_GUI_InfoDialog.h" line="+2"/>
+        <location filename="../../build_ninja/src/GUI/InfoDialog/ui_GUI_InfoDialog.h" line="+2"/>
+        <location filename="../../build_release/src/GUI/InfoDialog/ui_GUI_InfoDialog.h" line="+2"/>
         <source>Title</source>
         <translation>Tytuł</translation>
     </message>
     <message>
         <location line="+31"/>
         <location filename="../../build/src/GUI/InfoDialog/ui_GUI_InfoDialog.h" line="+3"/>
+        <location filename="../../build_ccache/src/GUI/InfoDialog/ui_GUI_InfoDialog.h" line="+3"/>
+        <location filename="../../build_make/src/GUI/InfoDialog/ui_GUI_InfoDialog.h" line="+3"/>
+        <location filename="../../build_ninja/src/GUI/InfoDialog/ui_GUI_InfoDialog.h" line="+3"/>
+        <location filename="../../build_release/src/GUI/InfoDialog/ui_GUI_InfoDialog.h" line="+3"/>
         <source>Lyrics</source>
         <translation>Słowa</translation>
     </message>
     <message>
         <location line="+98"/>
         <location filename="../../build/src/GUI/InfoDialog/ui_GUI_InfoDialog.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/InfoDialog/ui_GUI_InfoDialog.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/InfoDialog/ui_GUI_InfoDialog.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/InfoDialog/ui_GUI_InfoDialog.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/InfoDialog/ui_GUI_InfoDialog.h" line="+1"/>
         <source>Edit</source>
         <translation>Edycja</translation>
     </message>
@@ -2722,25 +3680,32 @@ podczas odtwarzania listy</translation>
     </message>
 </context>
 <context>
-    <name>LibraryItemDelegateAlbums</name>
+    <name>LibraryItemModelAlbums</name>
     <message>
-        <location filename="../GUI/Library/Delegates/LibraryItemDelegateAlbums.cpp" line="+96"/>
-        <source>None</source>
-        <translatorcomment>No year given</translatorcomment>
-        <translation>Brak</translation>
+        <location filename="../GUI/Library/Models/LibraryItemModelAlbums.cpp" line="+104"/>
+        <source>tracks</source>
+        <translation>utworów</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+3"/>
+        <source>None</source>
+        <translation>Brak</translation>
+    </message>
+</context>
+<context>
+    <name>LibraryItemModelArtists</name>
+    <message>
+        <location filename="../GUI/Library/Models/LibraryItemModelArtists.cpp" line="+99"/>
         <source>tracks</source>
         <translation>utworów</translation>
     </message>
 </context>
 <context>
-    <name>LibraryItemDelegateArtists</name>
+    <name>LibraryItemModelTracks</name>
     <message>
-        <location filename="../GUI/Library/Delegates/LibraryItemDelegateArtists.cpp" line="+95"/>
-        <source>tracks</source>
-        <translation>utworów</translation>
+        <location filename="../GUI/Library/Models/LibraryItemModelTracks.cpp" line="+101"/>
+        <source>None</source>
+        <translation>Brak</translation>
     </message>
 </context>
 <context>
@@ -2804,6 +3769,14 @@ podczas odtwarzania listy</translation>
         <location line="+8"/>
         <source>Sorry, no lyrics found</source>
         <translation>Niestety, nie znaleziono tekstu</translation>
+    </message>
+</context>
+<context>
+    <name>MenuButton</name>
+    <message>
+        <location filename="../GUI/Helper/MenuTool/MenuButton.cpp" line="+35"/>
+        <source>Actions</source>
+        <translation>Działania</translation>
     </message>
 </context>
 <context>
@@ -2923,8 +3896,8 @@ podczas odtwarzania listy</translation>
 <context>
     <name>PlayerPluginInterface</name>
     <message>
-        <location filename="../Interfaces/PlayerPlugin/PlayerPlugin.cpp" line="+62"/>
-        <location filename="../Interfaces/PlayerPlugin/PlayerPlugin.h" line="+174"/>
+        <location filename="../Interfaces/PlayerPlugin/PlayerPlugin.cpp" line="+67"/>
+        <location filename="../Interfaces/PlayerPlugin/PlayerPlugin.h" line="+161"/>
         <source>Close plugin</source>
         <translatorcomment>Close some player plugin</translatorcomment>
         <translation>Wyłąc wtyczki</translation>
@@ -2941,7 +3914,7 @@ podczas odtwarzania listy</translation>
 <context>
     <name>PlaylistItemModel</name>
     <message>
-        <location filename="../GUI/Playlist/Model/PlaylistItemModel.cpp" line="+268"/>
+        <location filename="../GUI/Playlist/Model/PlaylistItemModel.cpp" line="+279"/>
         <source>Artist</source>
         <translation>Wykonawca</translation>
     </message>
@@ -3008,7 +3981,7 @@ utworów, podczas odtwarzania listy </translation>
 <context>
     <name>PlaylistTabBar</name>
     <message>
-        <location filename="../GUI/Playlist/TabWidget/PlaylistTabBar.cpp" line="+72"/>
+        <location filename="../GUI/Playlist/TabWidget/PlaylistTabBar.cpp" line="+73"/>
         <source>Save as...</source>
         <translation>Zapisz jako...</translation>
     </message>
@@ -3089,6 +4062,14 @@ utworów, podczas odtwarzania listy </translation>
     </message>
 </context>
 <context>
+    <name>PluginCloseButton</name>
+    <message>
+        <location filename="../GUI/PlayerPlugins/PluginCloseButton.cpp" line="+12"/>
+        <source>Close</source>
+        <translation>Zamknij</translation>
+    </message>
+</context>
+<context>
     <name>RatingHeader</name>
     <message>
         <location filename="../GUI/Library/Helper/ColumnHeader.h" line="+37"/>
@@ -3119,9 +4100,17 @@ utworów, podczas odtwarzania listy </translation>
 <context>
     <name>Sayonara</name>
     <message>
-        <location filename="../GUI/Player/GUI_Player.ui" line="+35"/>
-        <location line="+500"/>
-        <location filename="../../build/src/GUI/Player/ui_GUI_Player.h" line="+667"/>
+        <location filename="../GUI/Player/GUI_Player.ui" line="+29"/>
+        <location line="+480"/>
+        <location filename="../../build/src/GUI/Player/ui_GUI_Player.h" line="+661"/>
+        <location line="+24"/>
+        <location filename="../../build_ccache/src/GUI/Player/ui_GUI_Player.h" line="+661"/>
+        <location line="+24"/>
+        <location filename="../../build_make/src/GUI/Player/ui_GUI_Player.h" line="+661"/>
+        <location line="+24"/>
+        <location filename="../../build_ninja/src/GUI/Player/ui_GUI_Player.h" line="+661"/>
+        <location line="+24"/>
+        <location filename="../../build_release/src/GUI/Player/ui_GUI_Player.h" line="+667"/>
         <location line="+24"/>
         <source>Sayonara Player</source>
         <translation>Sayonara Player</translation>
@@ -3129,30 +4118,50 @@ utworów, podczas odtwarzania listy </translation>
     <message>
         <location line="-216"/>
         <location filename="../../build/src/GUI/Player/ui_GUI_Player.h" line="-3"/>
+        <location filename="../../build_ccache/src/GUI/Player/ui_GUI_Player.h" line="-3"/>
+        <location filename="../../build_make/src/GUI/Player/ui_GUI_Player.h" line="-3"/>
+        <location filename="../../build_ninja/src/GUI/Player/ui_GUI_Player.h" line="-3"/>
+        <location filename="../../build_release/src/GUI/Player/ui_GUI_Player.h" line="-3"/>
         <source>Ctrl+S</source>
         <translation>Ctrl+S</translation>
     </message>
     <message>
         <location line="+355"/>
         <location filename="../../build/src/GUI/Player/ui_GUI_Player.h" line="+5"/>
+        <location filename="../../build_ccache/src/GUI/Player/ui_GUI_Player.h" line="+5"/>
+        <location filename="../../build_make/src/GUI/Player/ui_GUI_Player.h" line="+5"/>
+        <location filename="../../build_ninja/src/GUI/Player/ui_GUI_Player.h" line="+5"/>
+        <location filename="../../build_release/src/GUI/Player/ui_GUI_Player.h" line="+5"/>
         <source>Written by Lucio Carreras</source>
         <translation>Przez Lucio Carreras</translation>
     </message>
     <message>
         <location line="+63"/>
         <location filename="../../build/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
         <source>Copyright 2011-2016</source>
         <translation>Prawa autorskie 2011-2016</translation>
     </message>
     <message>
         <location line="+342"/>
         <location filename="../../build/src/GUI/Player/ui_GUI_Player.h" line="+2"/>
+        <location filename="../../build_ccache/src/GUI/Player/ui_GUI_Player.h" line="+2"/>
+        <location filename="../../build_make/src/GUI/Player/ui_GUI_Player.h" line="+2"/>
+        <location filename="../../build_ninja/src/GUI/Player/ui_GUI_Player.h" line="+2"/>
+        <location filename="../../build_release/src/GUI/Player/ui_GUI_Player.h" line="+2"/>
         <source>File</source>
         <translation>Plik</translation>
     </message>
     <message>
         <location line="+15"/>
         <location filename="../../build/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
         <source>View</source>
         <translation>Pokaż</translation>
     </message>
@@ -3161,18 +4170,34 @@ utworów, podczas odtwarzania listy </translation>
         <location line="+60"/>
         <location filename="../../build/src/GUI/Player/ui_GUI_Player.h" line="-24"/>
         <location line="+25"/>
+        <location filename="../../build_ccache/src/GUI/Player/ui_GUI_Player.h" line="-24"/>
+        <location line="+25"/>
+        <location filename="../../build_make/src/GUI/Player/ui_GUI_Player.h" line="-24"/>
+        <location line="+25"/>
+        <location filename="../../build_ninja/src/GUI/Player/ui_GUI_Player.h" line="-24"/>
+        <location line="+25"/>
+        <location filename="../../build_release/src/GUI/Player/ui_GUI_Player.h" line="-24"/>
+        <location line="+25"/>
         <source>Help</source>
         <translation>Pomoc</translation>
     </message>
     <message>
         <location line="-45"/>
         <location filename="../../build/src/GUI/Player/ui_GUI_Player.h" line="-30"/>
+        <location filename="../../build_ccache/src/GUI/Player/ui_GUI_Player.h" line="-30"/>
+        <location filename="../../build_make/src/GUI/Player/ui_GUI_Player.h" line="-30"/>
+        <location filename="../../build_ninja/src/GUI/Player/ui_GUI_Player.h" line="-30"/>
+        <location filename="../../build_release/src/GUI/Player/ui_GUI_Player.h" line="-30"/>
         <source>Open File</source>
         <translation>Otwórz plik</translation>
     </message>
     <message>
         <location line="+12"/>
         <location filename="../../build/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
         <source>Open Folder</source>
         <translatorcomment>or open directory</translatorcomment>
         <translation>Otwórz folder</translation>
@@ -3180,54 +4205,90 @@ utworów, podczas odtwarzania listy </translation>
     <message>
         <location line="+12"/>
         <location filename="../../build/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
         <source>Close</source>
         <translation>Zamknij</translation>
     </message>
     <message>
         <location line="+11"/>
         <location filename="../../build/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
         <source>Dark</source>
         <translation>Ciemny motyw</translation>
     </message>
     <message>
         <location line="+5"/>
         <location filename="../../build/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
         <source>Library Path</source>
         <translation>Ścieżka biblioteki</translation>
     </message>
     <message>
         <location line="+13"/>
         <location filename="../../build/src/GUI/Player/ui_GUI_Player.h" line="+2"/>
+        <location filename="../../build_ccache/src/GUI/Player/ui_GUI_Player.h" line="+2"/>
+        <location filename="../../build_make/src/GUI/Player/ui_GUI_Player.h" line="+2"/>
+        <location filename="../../build_ninja/src/GUI/Player/ui_GUI_Player.h" line="+2"/>
+        <location filename="../../build_release/src/GUI/Player/ui_GUI_Player.h" line="+2"/>
         <source>About</source>
         <translation>Informacje o</translation>
     </message>
     <message>
         <location line="+11"/>
         <location filename="../../build/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
         <source>Library</source>
         <translation>Biblioteka</translation>
     </message>
     <message>
         <location line="+14"/>
         <location filename="../../build/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
         <source>Close to tray</source>
-        <translation type="unfinished"></translation>
+        <translation>Po zamknięciu minimalizuj do paska</translation>
     </message>
     <message>
         <location line="+8"/>
         <location filename="../../build/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
         <source>Only one instance</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+8"/>
         <location filename="../../build/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
         <source>Fullscreen </source>
         <translation>Pełny ekran</translation>
     </message>
     <message>
         <location line="+11"/>
         <location filename="../../build/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
         <source>Library live search</source>
         <translatorcomment>Biblioteka wyszukiwania żywo</translatorcomment>
         <translation type="unfinished"></translation>
@@ -3235,24 +4296,40 @@ utworów, podczas odtwarzania listy </translation>
     <message>
         <location line="+11"/>
         <location filename="../../build/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
         <source>Update notifier</source>
         <translation>Powiadamiaj o aktualizacjach</translation>
     </message>
     <message>
         <location line="+5"/>
         <location filename="../../build/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
         <source>Devices</source>
         <translation>Urządzenia</translation>
     </message>
     <message>
         <location line="+8"/>
         <location filename="../../build/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
         <source>Plugins</source>
         <translation>Wtyczki</translation>
     </message>
     <message>
         <location line="+11"/>
         <location filename="../../build/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
+        <location filename="../../build_ccache/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
+        <location filename="../../build_make/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
+        <location filename="../../build_ninja/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
         <source>Donate</source>
         <translation>Wpłać darowiznę</translation>
     </message>
@@ -3277,6 +4354,19 @@ utworów, podczas odtwarzania listy </translation>
         <location line="+25"/>
         <source>Computer will shutdown in %1 minutes</source>
         <translation>Wyłączenie komputera z a%1 min</translation>
+    </message>
+</context>
+<context>
+    <name>SomaFMStationModel</name>
+    <message>
+        <location filename="../3rdParty/SomaFM/ui/SomaFMStationModel.cpp" line="+78"/>
+        <source>Initializing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Cannot fetch stations</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3327,9 +4417,7 @@ utworów, podczas odtwarzania listy </translation>
 <context>
     <name>SoundcloudLibraryContainer</name>
     <message>
-        <location filename="../3rdParty/Soundcloud/src/SoundcloudLibraryContainer.cpp" line="+45"/>
-        <location line="+5"/>
-        <location filename="../3rdParty/Soundcloud/ui/GUI_SoundcloudLibrary.cpp" line="+65"/>
+        <location filename="../3rdParty/Soundcloud/SoundcloudLibraryContainer.cpp" line="+19"/>
         <source>Soundcloud</source>
         <translation>Soundcloud</translation>
     </message>
@@ -3337,7 +4425,7 @@ utworów, podczas odtwarzania listy </translation>
 <context>
     <name>StreamParser</name>
     <message>
-        <location filename="../Helper/Parser/StreamParser.cpp" line="+145"/>
+        <location filename="../Helper/Parser/StreamParser.cpp" line="+162"/>
         <source>Radio</source>
         <translation>Radio</translation>
     </message>
@@ -3376,9 +4464,42 @@ OK?</source>
     </message>
 </context>
 <context>
+    <name>Ui</name>
+    <message>
+        <location filename="../3rdParty/Soundcloud/ui/GUI_SoundcloudLibrary.cpp" line="+37"/>
+        <source>Add artist</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../GUI/Player/GUI_Player.cpp" line="-542"/>
+        <source>Sayonara Player</source>
+        <translation>Sayonara Player</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Written by</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Copyright</source>
+        <translation>Prawa autorskie</translation>
+    </message>
+    <message>
+        <location filename="../GUI/PlayerPlugins/Stream/GUI_Podcasts.cpp" line="-15"/>
+        <source>Podcast</source>
+        <translation>Podcast</translation>
+    </message>
+    <message>
+        <location filename="../GUI/PlayerPlugins/Stream/GUI_Stream.cpp" line="-17"/>
+        <source>Radio Station</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>YearHeader</name>
     <message>
-        <location line="+37"/>
+        <location filename="../GUI/Library/Helper/ColumnHeader.h" line="+37"/>
         <source>Year</source>
         <translation>Rok</translation>
     </message>
