@@ -52,7 +52,7 @@ public slots:
 	void refresh_albums() override;
 	void refresh_tracks() override;
 
-	void import_files(const QStringList& files);
+	void import_files(const QStringList& files) override;
 
 
 protected slots:

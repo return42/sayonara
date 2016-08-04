@@ -39,6 +39,7 @@
 #include <QShowEvent>
 	
 class EngineHandler;
+class GUI_PlayerPlugin;
 class EnginePlugin : public PlayerPluginInterface {
 
 	Q_OBJECT
@@ -77,9 +78,9 @@ protected slots:
 
 	virtual void timed_out()=0;
 
-	virtual void played();
-	virtual void paused();
-	virtual void stopped();
+	virtual void played() override;
+	virtual void paused() override;
+	virtual void stopped() override;
 
 
 public slots:

@@ -107,6 +107,7 @@ void ID3v2Frame::PopularimeterFrame::map_model_to_frame(){
 
 void ID3v2Frame::PopularimeterFrame::map_frame_to_model(){
 	_data_model.playcount = _frame->counter();
-	_data_model.email = QString::fromLatin1(_frame->email().to8Bit().c_str());
+
+	_data_model.email = QString::fromLatin1(_frame->email().toCString());
 	_data_model.rating_byte = (quint8) _frame->rating();
 }

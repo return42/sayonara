@@ -65,11 +65,11 @@ bool colFromString(QString str, QColor& c) {
 
 }
 
-QList<RawColorStyle> DatabaseVisStyles::get_raw_color_styles() {
+QVector<RawColorStyle> DatabaseVisStyles::get_raw_color_styles() {
 
 	DB_TRY_OPEN(_db);
 
-	QList<RawColorStyle> ret_val;
+	QVector<RawColorStyle> ret_val;
 
 	SayonaraQuery q (_db);
 	q.prepare("SELECT * FROM VisualStyles;" );

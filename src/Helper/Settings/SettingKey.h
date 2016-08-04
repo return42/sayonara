@@ -30,9 +30,9 @@ class QPoint;
 class QSize;
 class LibSortOrder;
 struct EQ_Setting;
-struct PlaylistMode;
 struct RawShortcutMap;
 
+class PlaylistMode;
 
 /**
  * @brief The SK namespace is used to access setting keys

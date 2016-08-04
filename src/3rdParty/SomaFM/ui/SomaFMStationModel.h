@@ -34,10 +34,10 @@ public:
 
 	// AbstractSearchModelInterface interface
 public:
-	QModelIndex getFirstRowIndexOf(QString substr);
-	QModelIndex getNextRowIndexOf(QString substr, int cur_row, const QModelIndex& parent);
-	QModelIndex getPrevRowIndexOf(QString substr, int cur_row, const QModelIndex& parent);
-	QMap<QChar, QString> getExtraTriggers();
+	QModelIndex getFirstRowIndexOf(QString substr) override;
+	QModelIndex getNextRowIndexOf(QString substr, int cur_row, const QModelIndex& parent) override;
+	QModelIndex getPrevRowIndexOf(QString substr, int cur_row, const QModelIndex& parent) override;
+	QMap<QChar, QString> getExtraTriggers() override;
 
 	void set_stations(const QList<SomaFMStation>& stations);
 	void replace_station(const SomaFMStation& station);

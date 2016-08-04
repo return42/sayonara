@@ -25,7 +25,6 @@ private:
 
 private:
 	void close_cur_plugin();
-	void hideEvent(QHideEvent* e) override;
 	void closeEvent(QCloseEvent *e) override;
 
 private slots:

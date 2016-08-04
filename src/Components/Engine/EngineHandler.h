@@ -41,7 +41,7 @@ class EngineHandler : public Engine
 public:
 
 	void fill_engines(const QVector<Engine*>& engines);
-	virtual bool init();
+	virtual bool init() override;
 
 	PlaybackEngine* get_playback_engine();
 	ConvertEngine* get_convert_engine();

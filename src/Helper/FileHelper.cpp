@@ -123,16 +123,6 @@ QString Helper::File::get_parent_directory(const QString& filename) {
 	}
 
 	return ret;
-
-	QString re_str = QString("(.*)") + QDir::separator() + ".+";
-	QRegExp re(re_str);
-
-	if(re.indexIn(ret) >= 0){
-		QString parent_dir = re.cap(1);
-		ret = get_absolute_filename(parent_dir);
-	}
-
-	return ret;
 }
 
 QString Helper::File::get_filename_of_path(const QString& path) {

@@ -33,7 +33,7 @@
 
 class MTP_Device;
 class MTP_File;
-class MTP_Folder;
+struct MTP_Folder;
 class MTP_RawDevice;
 class MTP_Storage;
 class MTP_Track;

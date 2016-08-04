@@ -43,8 +43,8 @@ public:
 
 
 protected:
-	void init_ui();
-	void language_changed();
+	void init_ui() override;
+	void language_changed() override;
 
 
 

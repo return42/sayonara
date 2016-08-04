@@ -62,7 +62,7 @@ public slots:
 	void stop() override;
 
 	void set_eq_band(const QString& band_name, double val);
-	void set_speed(float f);
+	void set_speed(float f) override;
 	void set_streamrecorder_path(const QString& session_path);
 
 	gint64 seek_rel(double percent, gint64 ref_ns);

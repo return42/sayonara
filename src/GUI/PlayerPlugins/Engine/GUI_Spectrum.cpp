@@ -156,7 +156,7 @@ GUI_Spectrum::paintEvent(QPaintEvent *e) {
         int h =  f * widget_height;
 
         // how many colored rectangles would fit into this bar?
-        int colored_rects = h / (h_rect + border_y)  -1 ;
+		int colored_rects = h / (h_rect + border_y) - 1 ;
 
 		colored_rects = std::max(colored_rects, 0);
 
@@ -165,9 +165,9 @@ GUI_Spectrum::paintEvent(QPaintEvent *e) {
 
         // run vertical
 
+		QRect rect(x, y, w_bin, h_rect);
+		QColor col;
 		for(int r=0; r<n_rects; r++) {
-
-            QColor col;
 
             // 100%
             if( r < colored_rects) {
@@ -188,10 +188,9 @@ GUI_Spectrum::paintEvent(QPaintEvent *e) {
 				}
             }
 
-			QRect rect(x, y, w_bin, h_rect);
 			painter.fillRect(rect, col);
 
-            y -= (h_rect + border_y);
+			rect.translate(0, -(h_rect + border_y));
         }
 
         x += w_bin + border_x;

@@ -60,8 +60,8 @@ protected slots:
 
 private:
 
-    float _level[2];
-	float _exp_lot[600];
+	float	_level[2];
+	float	_exp_lot[600];
 
 	int** _steps=nullptr;
 

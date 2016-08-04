@@ -119,7 +119,7 @@ protected:
 	virtual void dragMoveEvent(QDragMoveEvent *event) override;
 	virtual void resizeEvent(QResizeEvent *event) override;
 
-	virtual void selectionChanged ( const QItemSelection & selected, const QItemSelection & deselected );
+	virtual void selectionChanged ( const QItemSelection & selected, const QItemSelection & deselected ) override;
 	virtual void rc_menu_init();
 
 	virtual void do_drag();

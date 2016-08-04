@@ -83,7 +83,7 @@ public:
 	virtual void			remove_selection(int row) final;
 	virtual void			clear_selections() final ;
 
-	virtual QMap<QChar, QString> getExtraTriggers();
+	virtual QMap<QChar, QString> getExtraTriggers() override;
 
 	void set_mimedata(const MetaDataList& v_md);
 

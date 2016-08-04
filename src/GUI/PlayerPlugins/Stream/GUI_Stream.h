@@ -34,7 +34,7 @@ class GUI_Stream : public GUI_AbstractStream, public Ui::GUI_Stream {
 	Q_OBJECT
 
 protected:
-	virtual void language_changed();
+	virtual void language_changed() override;
 
 public:
 	GUI_Stream(QWidget *parent=nullptr);

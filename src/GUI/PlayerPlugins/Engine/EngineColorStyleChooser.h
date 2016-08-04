@@ -25,7 +25,7 @@
 
 #include <QObject>
 #include <QList>
-#include <QMap>
+#include <QHash>
 #include <QColor>
 #include "Helper/Logger/Logger.h"
 #include "StyleTypes.h"
@@ -49,13 +49,13 @@ public:
 
 
 private:
-    void insertColorOfRect(int bin, int n_bins, const ColorList& colors, QMap<int, QColor>& map);
+	void insertColorOfRect(int bin, int n_bins, const ColorList& colors, QHash<int, QColor>& map);
     void create_colorstyle(ColorStyle &style, const ColorList &colors_active, int n_rects, int n_fading_steps);
     void init();
 
 
-    QList< ColorStyle > _styles_spectrum;
-    QList< ColorStyle > _styles_level;
+	QVector< ColorStyle > _styles_spectrum;
+	QVector< ColorStyle > _styles_level;
 
 };
 

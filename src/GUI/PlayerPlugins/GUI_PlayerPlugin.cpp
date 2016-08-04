@@ -36,14 +36,6 @@ void GUI_PlayerPlugin::language_changed() {
 	}
 }
 
-
-void GUI_PlayerPlugin::hideEvent(QHideEvent* e)
-{
-	close_cur_plugin();
-
-	SayonaraWidget::hideEvent(e);
-}
-
 void GUI_PlayerPlugin::closeEvent(QCloseEvent* e)
 {
 	close_cur_plugin();
@@ -58,4 +50,5 @@ void GUI_PlayerPlugin::close_cur_plugin(){
 	}
 
 	_current_plugin = nullptr;
+	_settings->set(Set::Player_ShownPlugin, QString());
 }

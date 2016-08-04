@@ -24,19 +24,22 @@
 #define STYLETYPES_H
 
 #include <QColor>
-#include <QList>
+#include <QVector>
 #include <QString>
-#include <QMap>
+#include <QHash>
 
 struct ColorList {
     QString name;
-    QList<QColor> colors;
+    QVector<QColor> colors;
 };
 
 struct ColorStyle {
 
     QString name;
-    QList< QMap<int, QColor> > style;
+
+    // list size is number or rectangles
+    // int is the step index
+    QVector< QHash<int, QColor> > style;
     ColorList col_list;
 
     int rect_height;

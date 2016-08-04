@@ -84,7 +84,7 @@ bool parse_image(GstTagList* tags, QImage& img)
 	size = gst_buffer_extract(buffer, 0, data, size);
 
 	if(size == 0){
-		delete data;
+		delete[] data;
 		gst_sample_unref(sample);
 	
 		return false;
@@ -92,7 +92,7 @@ bool parse_image(GstTagList* tags, QImage& img)
 
 	img = QImage::fromData((const uchar*) data, size, mime_type);
 	
-	delete data;
+	delete[] data;
 	gst_sample_unref(sample);
 
 	return (!img.isNull());

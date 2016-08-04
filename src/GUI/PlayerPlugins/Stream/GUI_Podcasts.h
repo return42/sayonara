@@ -35,7 +35,7 @@ class GUI_Podcasts : public GUI_AbstractStream, public Ui::GUI_Podcasts
     Q_OBJECT
 
 protected:
-	virtual void language_changed();
+	virtual void language_changed() override;
 
 public:
 	GUI_Podcasts(QWidget *parent=nullptr);

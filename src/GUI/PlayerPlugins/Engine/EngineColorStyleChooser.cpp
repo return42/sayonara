@@ -25,7 +25,7 @@
 #include "Helper/Logger/Logger.h"
 
 
-QList<float> borders_4, borders_3, borders_2;
+QVector<float> borders_4, borders_3, borders_2;
 
 EngineColorStyleChooser::EngineColorStyleChooser(int widget_width, int widget_height)
 {
@@ -46,7 +46,7 @@ create_colorstyle(ColorStyle &style, const ColorList &clist_active, int n_rects,
 
     style.style.clear();
 
-        QMap<int, QColor> map_col_active;
+		QHash<int, QColor> map_col_active;
 
         // compute color of each rect
         for(int i=0; i<n_rects; i++) {
@@ -54,7 +54,7 @@ create_colorstyle(ColorStyle &style, const ColorList &clist_active, int n_rects,
         }
 
         // compute active to inactive color
-        QList<float> borders;
+		QVector<float> borders;
         borders << 0.0 << 1.0;
 
         // run through rect
@@ -63,14 +63,14 @@ create_colorstyle(ColorStyle &style, const ColorList &clist_active, int n_rects,
             QColor col_active = map_col_active.value(idx_rect);
 
             // fadeout
-            QMap<int, QColor> fading_map;
+			QHash<int, QColor> fading_map;
 
             ColorList col_list;
 			col_list.colors << QColor(0,0,0,50) << col_active.darker();
 
             // run through step
 			for(int idx_step=0; idx_step<=n_fading_steps; idx_step++){
-				insertColorOfRect(idx_step, n_fading_steps, col_list, fading_map);
+				insertColorOfRect(idx_step, n_fading_steps + 1, col_list, fading_map);
 			}
 
             fading_map[-1] = col_active;
@@ -82,10 +82,10 @@ create_colorstyle(ColorStyle &style, const ColorList &clist_active, int n_rects,
 }
 
 
-void EngineColorStyleChooser::insertColorOfRect(int bin, int n_bins, const ColorList& colorlist, QMap<int, QColor>& map) {
+void EngineColorStyleChooser::insertColorOfRect(int bin, int n_bins, const ColorList& colorlist, QHash<int, QColor>& map) {
 
 	QColor col;
-    QList<float> borders;
+	QVector<float> borders;
 
 	if(colorlist.colors.size() == 4) {
 		borders = borders_4;
@@ -162,7 +162,7 @@ int EngineColorStyleChooser::get_num_color_schemes() {
 
 void EngineColorStyleChooser::reload(int widget_width, int widget_height) {
 
-	QList< RawColorStyle > colors_active = DatabaseConnector::getInstance()->get_raw_color_styles();
+	QVector< RawColorStyle > colors_active = DatabaseConnector::getInstance()->get_raw_color_styles();
 
     _styles_spectrum.clear();
     _styles_level.clear();

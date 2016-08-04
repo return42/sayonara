@@ -42,13 +42,13 @@ public:
 	LibraryItemModelAlbums();
 	virtual ~LibraryItemModelAlbums();
 
-	Qt::ItemFlags flags(const QModelIndex &index) const;
+	Qt::ItemFlags flags(const QModelIndex &index) const override;
 
-	QVariant data(const QModelIndex &index, int role) const;
-	bool setData(const QModelIndex &index, const QVariant &value, int role=Qt::DisplayRole);
-	bool setData(const QModelIndex &index, const AlbumList& albums, int role=Qt::DisplayRole);
+	QVariant data(const QModelIndex& index, int role) const override;
+	bool setData(const QModelIndex& index, const QVariant& value, int role=Qt::DisplayRole) override;
+	bool setData(const QModelIndex& index, const AlbumList& albums, int role=Qt::DisplayRole);
 
-  	void sort(int column, Qt::SortOrder order);
+	void sort(int column, Qt::SortOrder order) override;
 
 	virtual QModelIndex	getFirstRowIndexOf(QString substr) override;
 	virtual QModelIndex	getNextRowIndexOf(QString substr, int row, const QModelIndex& parent=QModelIndex()) override;

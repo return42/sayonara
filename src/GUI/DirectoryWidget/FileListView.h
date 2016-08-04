@@ -50,7 +50,7 @@ public:
 	FileListView(QWidget* parent=nullptr);
 
 	QModelIndexList get_selected_rows() const;
-	QFileSystemModel* get_model() const;
+	QFileSystemModel* get_model() const override;
 	MetaDataList read_metadata() const;
 	QStringList get_filelist() const;
 

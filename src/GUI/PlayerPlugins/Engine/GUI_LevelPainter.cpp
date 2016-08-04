@@ -130,29 +130,44 @@ void GUI_LevelPainter::paintEvent(QPaintEvent* e) {
 
 	int y = 10;
 	int num_zero = 0;
+	int x_init = (w_rect + border_x);
+
 	for(int c=0; c<2; c++) {
 
-		//float level = exp(0.15 * _level[c]);//(_level[c] + 20.0f) / 20.0f; // scaled from 0 - 1
-		float level= -std::max(_level[c], -39.9f) * 0.15f;
-		int idx = std::max(0, std::min(599, (int)(level * 100)));
+		float level= -std::max(_level[c], -39.9f) * 15.0f;
+		int idx = std::max(0, std::min(599, (int) level));
 
 		level = _exp_lot[idx];
 
 		int n_colored_rects = n_rects * level;
 
+		QRect rect(0, y, w_rect, h_rect);
 		for(int r=0; r<n_rects; r++) {
-			int x = r * (w_rect + border_x);
-			QRect rect(x, y, w_rect, h_rect);
+
 			if(r < n_colored_rects) {
+				if(!_cur_style.style[r].contains(-1)){
+					sp_log(Log::Debug) << "Style does not contain -1";
+				}
 				painter.fillRect(rect, _cur_style.style[r].value(-1) );
 				_steps[c][r] = n_fading_steps - 1;
 			}
-			else{
-				painter.fillRect(rect, _cur_style.style[r].value(_steps[c][r]) );
-				if(_steps[c][r] > 0) _steps[c][r] -= 1;
-				if(_steps[c][r] == 0) num_zero ++;
 
+			else{
+				if(!_cur_style.style[r].contains(_steps[c][r])){
+					sp_log(Log::Debug) << "2 Style does not contain " << _steps[c][r] << ", " << c << ", " << r;
+				}
+
+				painter.fillRect(rect, _cur_style.style[r].value(_steps[c][r]) );
+				if(_steps[c][r] > 0) {
+					_steps[c][r] -= 1;
+				}
+
+				if(_steps[c][r] == 0) {
+					num_zero ++;
+				}
 			}
+
+			rect.translate(x_init, 0);
 		}
 
 		if(num_zero == 2 * n_rects) {
@@ -160,7 +175,7 @@ void GUI_LevelPainter::paintEvent(QPaintEvent* e) {
 			_timer_stopped = true;
 		}
 
-		y+= h_rect + border_y;
+		y += h_rect + border_y;
 	}
 }
 
@@ -193,16 +208,12 @@ void GUI_LevelPainter::resize_steps(int n_rects) {
 		memset(_steps, 0, sizeof(int*) * 2);
 	}
 
-	for(int i=0; i<2; i++) {
-
-		if(_steps[0]){
-			delete[] _steps[0];
-			delete[] _steps[1];
+	for(int i=0; i<2; i++){
+		if(_steps[i]){
+			delete[] _steps[i];
 		}
 
-		_steps[0] = new int[n_rects];
-		_steps[1] = new int[n_rects];
-
+		_steps[i] = new int[n_rects];
 		memset(_steps[i], 0, n_rects * sizeof(int));
 	}
 }

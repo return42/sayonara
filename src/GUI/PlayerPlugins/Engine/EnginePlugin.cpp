@@ -20,6 +20,7 @@
 
 #include "EnginePlugin.h"
 #include "Components/Engine/EngineHandler.h"
+#include "GUI/PlayerPlugins/GUI_PlayerPlugin.h"
 
 EnginePlugin::EnginePlugin(QWidget* parent) :
 	PlayerPluginInterface(parent)
@@ -33,10 +34,10 @@ EnginePlugin::~EnginePlugin(){
 		return;
 	}
 
+
 	disconnect(_btn_config, &QPushButton::clicked, this, &EnginePlugin::config_clicked);
 	disconnect(_btn_prev, &QPushButton::clicked, this, &EnginePlugin::prev_clicked);
 	disconnect(_btn_next, &QPushButton::clicked, this, &EnginePlugin::next_clicked);
-	disconnect(_btn_close, &QPushButton::clicked, this, &EnginePlugin::close);
 
     delete _btn_config;
     delete _btn_prev;
@@ -53,8 +54,6 @@ void EnginePlugin::init_buttons(bool small){
 	int x = 10;
 	int y;
 	int width;
-
-
 
 	if(small){
 		width = 15;
@@ -78,6 +77,8 @@ void EnginePlugin::init_buttons(bool small){
 	connect(_btn_prev, &QPushButton::clicked, this, &EnginePlugin::prev_clicked);
 	connect(_btn_next, &QPushButton::clicked, this, &EnginePlugin::next_clicked);
 	connect(_btn_close, &QPushButton::clicked, this, &EnginePlugin::close);
+	connect(_btn_close, &QPushButton::clicked, this->parentWidget(), &QWidget::close);
+
 
     _btn_config->hide();
     _btn_prev->hide();

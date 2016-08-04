@@ -113,7 +113,7 @@ protected:
 	 *		PreferenceWidgetInterface::language_changed();\n
 	 *  }\n
 	 */
-	void language_changed()
+	void language_changed() override
 	{
 		translate_action();
 
