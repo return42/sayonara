@@ -19,7 +19,6 @@
  */
 
 
-
 #include "Popularimeter.h"
 
 ID3v2Frame::Popularimeter::Popularimeter(){

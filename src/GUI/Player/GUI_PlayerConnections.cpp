@@ -20,20 +20,15 @@
 
 #include "GUI_Player.h"
 
-
-#include "Components/CoverLookup/CoverLookup.h"
 #include "Components/TagEdit/MetaDataChangeNotifier.h"
 #include "Components/Engine/EngineHandler.h"
 
-#include "GUI/AlternativeCovers/GUI_AlternativeCovers.h"
 #include "GUI/Helper/Shortcuts/ShortcutHandler.h"
 #ifdef WITH_MTP
 	#include "GUI/MTP/GUI_MTP.h"
 #endif
 
 void GUI_Player::setup_connections() {
-
-	qRegisterMetaType<CoverLocation>("CoverLocation");
 
 	connect(btn_play,	&QPushButton::clicked,	this, &GUI_Player::play_clicked);
 	connect(btn_fw,		&QPushButton::clicked,	this, &GUI_Player::next_clicked);
@@ -51,10 +46,11 @@ void GUI_Player::setup_connections() {
 	connect(_play_manager, &PlayManager::sig_mute_changed, this, &GUI_Player::mute_changed);
 
 	// engine
-	connect(_engine, &EngineHandler::sig_md_changed,	this, &GUI_Player::md_changed);
-	connect(_engine, &EngineHandler::sig_dur_changed, this, &GUI_Player::dur_changed);
-	connect(_engine, &EngineHandler::sig_br_changed,	this, &GUI_Player::br_changed);
-	connect(_engine, &EngineHandler::sig_cover_changed, this, &GUI_Player::cover_changed);
+	EngineHandler* engine = EngineHandler::getInstance();
+	connect(engine, &EngineHandler::sig_md_changed,	this, &GUI_Player::md_changed);
+	connect(engine, &EngineHandler::sig_dur_changed, this, &GUI_Player::dur_changed);
+	connect(engine, &EngineHandler::sig_br_changed,	this, &GUI_Player::br_changed);
+	connect(engine, &EngineHandler::sig_cover_changed, this, &GUI_Player::cover_changed);
 
 	// file
 	connect(action_OpenFile, &QAction::triggered, this, &GUI_Player::open_files_clicked);
@@ -92,10 +88,6 @@ void GUI_Player::setup_connections() {
 
 	MetaDataChangeNotifier* md_change_notifier = MetaDataChangeNotifier::getInstance();
 	connect(md_change_notifier, &MetaDataChangeNotifier::sig_metadata_changed, this, &GUI_Player::id3_tags_changed);
-
-	// cover lookup
-	connect(_cov_lookup, &CoverLookup::sig_cover_found, this, &GUI_Player::set_cover_image);
-	connect(_ui_alternative_covers, &GUI_AlternativeCovers::sig_cover_changed, this, &GUI_Player::set_cover_image);
 
 	ShortcutHandler* sch = ShortcutHandler::getInstance();
 

@@ -32,12 +32,16 @@
 
 #include <QImage>
 
-
 /** COVERS **/
 
 void GUI_Player::fetch_cover() {
 	if(_cover_from_tag){
 		return;
+	}
+
+	if(!_cov_lookup){
+		_cov_lookup = new CoverLookup(this);
+		connect(_cov_lookup, &CoverLookup::sig_cover_found, this, &GUI_Player::set_cover_image);
 	}
 
 	CoverLocation cover_location = CoverLocation::get_cover_location(_md);
@@ -46,6 +50,12 @@ void GUI_Player::fetch_cover() {
 
 
 void GUI_Player::cover_clicked() {
+
+	if(!_ui_alternative_covers){
+		qRegisterMetaType<CoverLocation>("CoverLocation");
+		_ui_alternative_covers = new GUI_AlternativeCovers(this->centralWidget());
+		connect(_ui_alternative_covers, &GUI_AlternativeCovers::sig_cover_changed, this, &GUI_Player::set_cover_image);
+	}	
 
 	if(_md.album_id >= 0) {
 	   _ui_alternative_covers->start(_md.album_id, _md.db_id);

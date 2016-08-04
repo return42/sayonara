@@ -38,8 +38,6 @@
 
 #include "Helper/MetaData/MetaDataList.h"
 #include "Helper/Parser/PodcastParser.h"
-#include "Components/CoverLookup/CoverLocation.h"
-#include "Components/CoverLookup/CoverLookup.h"
 
 int find_year(QString str) {
 
@@ -67,7 +65,6 @@ bool  PodcastParser::parse_podcast_xml_file_content(const QString& content, Meta
     QString author;
     QStringList categories;
     QString album;
-	QImage img;
 	QString fallback_url;
 	QString cover_url;
 
@@ -96,7 +93,7 @@ bool  PodcastParser::parse_podcast_xml_file_content(const QString& content, Meta
             categories.append(genres);
         }
 
-		else if(!nodename.compare("image", Qt::CaseInsensitive) && img.isNull()) {
+		else if(!nodename.compare("image", Qt::CaseInsensitive)) {
             if(!channel_child.hasChildNodes()) continue;
 
             for(int i=0; i<channel_child.childNodes().size(); i++) {
@@ -201,8 +198,6 @@ bool  PodcastParser::parse_podcast_xml_file_content(const QString& content, Meta
 				md.set_filepath(fallback_url);
 			}
 
-			sp_log(Log::Debug) << "Podcast Cover: " << cover_url;
-
 			md.cover_download_url = cover_url;
 
 			if( !md.filepath().isEmpty() ){
@@ -210,11 +205,6 @@ bool  PodcastParser::parse_podcast_xml_file_content(const QString& content, Meta
 			}
         } // item
     }
-
-	if( !img.isNull() ){
-		QString cover_path = CoverLocation::get_cover_location(album, author).cover_path;
-		img.save( cover_path );
-	}
 
     return (v_md.size() > 0);
 }

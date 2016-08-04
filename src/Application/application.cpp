@@ -150,6 +150,8 @@ Application::Application(int & argc, char ** argv) :
 	_timer->start();
 	instance_message = InstanceMessageNone;
 
+	this->setQuitOnLastWindowClosed(false);
+
 	//new std::thread(my_thread);
 }
 
@@ -211,7 +213,8 @@ bool Application::init(QTranslator* translator, const QStringList& files_to_play
 	_settings->set(Set::Player_Version, version);
 
 	sp_log(Log::Debug) << "Start player: " << _timer->elapsed() << "ms";
-	player	= new GUI_Player(translator);
+	player = new GUI_Player(translator);
+	connect(player, &GUI_Player::sig_player_closed, this, &QCoreApplication::quit);
 
 	sp_log(Log::Debug) << "Init player: " << _timer->elapsed() << "ms";
 

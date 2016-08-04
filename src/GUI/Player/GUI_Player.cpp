@@ -22,7 +22,6 @@
 
 #include "GUI_Player.h"
 #include "GUI_TrayIcon.h"
-#include "GUI/AlternativeCovers/GUI_AlternativeCovers.h"
 #include "GUI/Playlist/GUI_Playlist.h"
 #include "GUI/Helper/Message/Message.h"
 #include "GUI/Helper/IconLoader/IconLoader.h"
@@ -36,20 +35,13 @@
 #include "Helper/Helper.h"
 #include "Helper/globals.h"
 
-#include "Helper/FileHelper.h"
 #include "Helper/WebAccess/AsyncWebAccess.h"
-
-#include "Components/CoverLookup/CoverLookup.h"
-#include "Components/Library/LocalLibrary.h"
-#include "Components/Engine/EngineHandler.h"
 
 #include "Interfaces/LibraryInterface/LibraryPluginHandler.h"
 #include "Interfaces/LibraryInterface/LibraryContainer/LibraryContainer.h"
 #include "Interfaces/PlayerPlugin/PlayerPluginHandler.h"
 #include "Interfaces/PlayerPlugin/PlayerPlugin.h"
 #include "Interfaces/PreferenceDialog/PreferenceDialogInterface.h"
-
-
 
 #include <QFileDialog>
 #include <QPalette>
@@ -68,7 +60,7 @@ GUI_Player::GUI_Player(QTranslator* translator, QWidget *parent) :
 	_cover_from_tag = false;
 
 	_translator = translator;
-	_engine = EngineHandler::getInstance();
+
 	_play_manager = PlayManager::getInstance();
 	_icon_loader = IconLoader::getInstance();
 
@@ -90,8 +82,8 @@ GUI_Player::GUI_Player(QTranslator* translator, QWidget *parent) :
 
 	progress_widget->setCurrentIndex(0);
 
-	_cov_lookup = new CoverLookup(this);
-	_ui_alternative_covers = new GUI_AlternativeCovers(this->centralWidget());
+	_cov_lookup = nullptr;
+	_ui_alternative_covers = nullptr;
 
 	init_action(action_viewLibrary, Set::Lib_Show);
 	init_action(action_livesearch, Set::Lib_LiveSearch);
@@ -114,6 +106,7 @@ GUI_Player::GUI_Player(QTranslator* translator, QWidget *parent) :
 
 	setWindowTitle(QString("Sayonara %1").arg(SAYONARA_VERSION));
 	setWindowIcon(GUI::get_icon("logo.png"));
+	setAttribute(Qt::WA_DeleteOnClose, false);
 
 	plugin_widget->resize(plugin_widget->width(), 0);
 	plugin_widget->hide();
@@ -658,11 +651,11 @@ void GUI_Player::notify_new_version_toggled(bool b) {
 
 
 void GUI_Player::really_close() {
-
+	
 	_tray_icon->hide();
 	_tray_icon->deleteLater();
 
-	this->hide();
-
 	QMainWindow::close();
+	
+	emit sig_player_closed();
 }

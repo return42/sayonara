@@ -47,7 +47,6 @@ class CoverLocation;
 class CoverLookup;
 class LocalLibrary;
 class GUI_AlternativeCovers;
-class EngineHandler;
 class GUI_Playlist;
 class AsyncWebAccess;
 class PlayerPluginInterface;
@@ -68,6 +67,10 @@ class GUI_Player :
 {
 
 	Q_OBJECT
+
+signals:
+	void sig_player_closed();
+
 
 public:
 
@@ -111,7 +114,6 @@ private:
 
 	GUI_AlternativeCovers*		_ui_alternative_covers=nullptr;
 
-	EngineHandler*				_engine=nullptr;
 	CoverLookup*				_cov_lookup=nullptr;
 	PlayerPluginHandler*		_pph=nullptr;
 	LibraryPluginHandler*		_lph=nullptr;

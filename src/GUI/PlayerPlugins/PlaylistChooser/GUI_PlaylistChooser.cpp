@@ -20,8 +20,8 @@
 
 
 #include "GUI_PlaylistChooser.h"
+#include "GUI_TargetPlaylistDialog.h"
 
-#include "TargetPlaylistDialog/GUI_TargetPlaylistDialog.h"
 #include "Components/PlaylistChooser/PlaylistChooser.h"
 
 #include "GUI/Helper/Delegates/ComboBoxDelegate.h"

@@ -111,9 +111,9 @@ void GUI_Player::keyPressEvent(QKeyEvent* e) {
 void GUI_Player::closeEvent(QCloseEvent* e) {
 
 	bool min_to_tray = _settings->get(Set::Player_Min2Tray);
+	e->ignore();
 
 	if(min_to_tray && !this->isHidden()) {
-		e->ignore();
 		this->hide();
 	}
 
@@ -130,4 +130,6 @@ void GUI_Player::closeEvent(QCloseEvent* e) {
 
 		QMainWindow::closeEvent(e);
 	}
+
+
 }
