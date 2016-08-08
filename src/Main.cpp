@@ -413,6 +413,8 @@ int main(int argc, char *argv[]) {
 		return 1;
 	}
 
+	sp_log(Log::Debug) << "Size of metadata: " << sizeof(MetaData);
+
 	app.setApplicationName("Sayonara");
 	app.setWindowIcon(GUI::get_icon("logo"));
 

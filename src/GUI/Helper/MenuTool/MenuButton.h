@@ -76,6 +76,7 @@ public:
 
 protected slots:
 	void _sl_skin_changed();
+	void _sl_language_changed();
 };
 
 #endif // MENUBUTTON_H

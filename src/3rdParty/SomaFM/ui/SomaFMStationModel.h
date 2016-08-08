@@ -1,3 +1,5 @@
+/* SomaFMStationModel.h */
+
 #ifndef SomaFMStationModel_H
 #define SomaFMStationModel_H
 

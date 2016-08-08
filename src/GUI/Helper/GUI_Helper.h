@@ -1,3 +1,5 @@
+/* GUI_Helper.h */
+
 #ifndef GUI_HELPER_H
 #define GUI_HELPER_H
 

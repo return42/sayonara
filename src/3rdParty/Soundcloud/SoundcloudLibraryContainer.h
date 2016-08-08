@@ -1,3 +1,5 @@
+/* SoundcloudLibraryContainer.h */
+
 #ifndef SOUNDCLOUD_LIBRARY_CONTAINER
 #define SOUNDCLOUD_LIBRARY_CONTAINER
 

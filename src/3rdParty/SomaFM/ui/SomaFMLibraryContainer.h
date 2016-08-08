@@ -1,3 +1,5 @@
+/* SomaFMLibraryContainer.h */
+
 #ifndef GUI_SOMAFMLIBRARY_CONTAINER_H
 #define GUI_SOMAFMLIBRARY_CONTAINER_H
 
@@ -23,6 +25,7 @@ private:
 public:
 
 	SomaFMLibraryContainer(QObject* parent=nullptr);
+	//virtual ~SomaFMLibraryContainer();
 
 	// override from LibraryViewInterface
 	QString			get_name() const override;

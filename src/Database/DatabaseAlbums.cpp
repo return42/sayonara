@@ -52,8 +52,8 @@ bool DatabaseAlbums::db_fetch_albums(SayonaraQuery& q, AlbumList& result) {
 		return true;
 	}
 
-	int i=0;
-	int n_rows = q.at() + 1;
+	quint32 i=0;
+	quint32 n_rows = q.at() + 1;
 
 	result.resize(n_rows);
 

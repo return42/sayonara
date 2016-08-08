@@ -1,3 +1,5 @@
+/* PluginCloseButton.h */
+
 #ifndef PLUGINCLOSEBUTTON_H
 #define PLUGINCLOSEBUTTON_H
 

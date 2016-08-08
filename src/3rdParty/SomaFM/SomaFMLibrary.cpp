@@ -1,3 +1,5 @@
+/* SomaFMLibrary.cpp */
+
 #include "SomaFMLibrary.h"
 #include "Helper/Helper.h"
 #include "Helper/FileHelper.h"
@@ -15,7 +17,10 @@ SomaFMLibrary::SomaFMLibrary(QObject* parent) :
 	QString path = Helper::File::clean_filename(Helper::get_sayonara_path() + "/somafm.ini");
 
 	_qsettings = new QSettings(path, QSettings::IniFormat, this);
+}
 
+SomaFMLibrary::~SomaFMLibrary(){
+	_qsettings->deleteLater();
 }
 
 

@@ -42,7 +42,7 @@ Q_OBJECT
 		void disc_hover();
 
 	public:
-		DiscAction(QWidget* parent);
+		DiscAction(QWidget* parent, const QIcon& icon);
 };
 
 

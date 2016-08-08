@@ -1,3 +1,5 @@
+/* CrossFader.cpp */
+
 #include "CrossFader.h"
 #include "Helper/Settings/Settings.h"
 #include "Helper/Helper.h"

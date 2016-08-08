@@ -1,3 +1,5 @@
+/* GUI_SomaFM.cpp */
+
 #include "ui/GUI_SomaFM.h"
 #include "ui/SomaFMStationModel.h"
 #include "ui/SomaFMPlaylistModel.h"

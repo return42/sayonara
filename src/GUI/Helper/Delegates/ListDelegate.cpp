@@ -1,3 +1,5 @@
+/* ListDelegate.cpp */
+
 #include "ListDelegate.h"
 #include <QPalette>
 #include <QColor>

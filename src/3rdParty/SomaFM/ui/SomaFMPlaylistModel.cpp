@@ -1,3 +1,5 @@
+/* SomaFMPlaylistModel.cpp */
+
 #include "SomaFMPlaylistModel.h"
 #include "GUI/Helper/CustomMimeData.h"
 
@@ -43,7 +45,7 @@ QMimeData* SomaFMPlaylistModel::mimeData(const QModelIndexList& indexes) const
 
     QStringList urls = _station.get_urls();
     if(!between(row, 0, urls.size())){
-	return nullptr;
+		return nullptr;
     }
 
     QUrl url( urls[row] );

@@ -69,8 +69,6 @@ void GUI_Notifications::commit() {
 	_settings->set(Set::Notification_Show, active);
 
 	_notification_handler->notificator_changed(cur_text);
-
-    close();
 }
 
 void GUI_Notifications::revert() {

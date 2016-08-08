@@ -1,3 +1,5 @@
+/* SayonaraLoadingBar.cpp */
+
 #include "SayonaraLoadingBar.h"
 
 SayonaraLoadingBar::SayonaraLoadingBar(QWidget* parent) :

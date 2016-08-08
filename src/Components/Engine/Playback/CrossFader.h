@@ -1,3 +1,5 @@
+/* CrossFader.h */
+
 #ifndef CROSSFADER_H
 #define CROSSFADER_H
 

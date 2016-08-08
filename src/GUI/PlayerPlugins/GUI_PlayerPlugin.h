@@ -1,3 +1,5 @@
+/* GUI_PlayerPlugin.h */
+
 #ifndef GUI_PLAYERPLUGIN_H
 #define GUI_PLAYERPLUGIN_H
 

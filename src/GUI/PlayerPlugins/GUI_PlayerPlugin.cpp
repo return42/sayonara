@@ -1,3 +1,6 @@
+/* GUI_PlayerPlugin.cpp */
+
+
 #include "GUI_PlayerPlugin.h"
 #include "Interfaces/PlayerPlugin/PlayerPlugin.h"
 

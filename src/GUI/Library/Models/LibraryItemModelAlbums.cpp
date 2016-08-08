@@ -32,19 +32,16 @@
 #include "GUI/Helper/GUI_Helper.h"
 #include "Helper/Helper.h"
 
-
-
 LibraryItemModelAlbums::LibraryItemModelAlbums() :
 	LibraryItemModel()
 {
-	_pm_single = GUI::get_pixmap("play", QSize(16, 16));
-	_pm_multi = GUI::get_pixmap("sampler", QSize(16, 16));
+	_pm_single = GUI::get_pixmap("cd.png", QSize(14, 14));
+	_pm_multi = GUI::get_pixmap("cds.png", QSize(16, 16));
 }
 
 LibraryItemModelAlbums::~LibraryItemModelAlbums() {
 
 }
-
 
 int LibraryItemModelAlbums::get_id_by_row(int row)
 {
@@ -87,9 +84,15 @@ QVariant LibraryItemModelAlbums::data(const QModelIndex & index, int role) const
 		return alignment;
 	}
 
+	else if(role == Qt::TextColorRole){
+		if(col == COL_ALBUM_MULTI_DISC){
+			return QColor(0, 0, 0);
+		}
+	}
+
 	else if(role == Qt::DecorationRole){
-		if(col == COL_ALBUM_SAMPLER){
-			if(album.artists.size() > 1){
+		if(col == COL_ALBUM_MULTI_DISC){
+			if(album.discnumbers.size() > 1){
 				return _pm_multi;
 			}
 			return _pm_single;

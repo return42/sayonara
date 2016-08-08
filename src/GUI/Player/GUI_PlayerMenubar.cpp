@@ -106,14 +106,11 @@ bool GUI_Player::check_library_path(){
 
 void GUI_Player::show_library(bool b) {
 
-	QSize player_size;
-	int library_width;
-
-	player_size = this->size();
+	QSize player_size = this->size();
 
 	_settings->set(Set::Lib_Show, b);
 
-	library_width = library_widget->width();
+	int library_width = library_widget->width();
 	library_widget->setVisible(b);
 
 	if(!b){
@@ -138,7 +135,9 @@ void GUI_Player::show_library(bool b) {
 
 	check_library_menu_action();
 
-	this->resize(player_size);
+	if(!this->isMaximized() && !this->isFullScreen()){
+		this->resize(player_size);
+	}
 }
 
 void GUI_Player::_sl_fullscreen_toggled(){

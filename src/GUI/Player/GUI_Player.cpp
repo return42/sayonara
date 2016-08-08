@@ -620,6 +620,8 @@ void GUI_Player::awa_version_finished(bool success) {
 	if(new_version > cur_version && notify_new_version) {
 		Message::info(tr("A new version is available!") + "<br />" +  link);
 	}
+
+	awa->deleteLater();
 }
 
 void GUI_Player::awa_translators_finished(bool success) {
@@ -642,7 +644,9 @@ void GUI_Player::awa_translators_finished(bool success) {
 		}
 	}
 
+	awa->deleteLater();
 	about();
+
 }
 
 void GUI_Player::notify_new_version_toggled(bool b) {

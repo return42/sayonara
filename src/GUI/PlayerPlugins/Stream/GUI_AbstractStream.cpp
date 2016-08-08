@@ -89,6 +89,8 @@ void GUI_AbstractStream::init_ui()
 {
 	_btn_play->setMinimumSize(QSize(24,24));
 	_btn_play->setMaximumSize(QSize(24,24));
+	_btn_tool->setToolTip(tr("Menu"));
+	_btn_tool->setText(tr("Menu"));
 
 	REGISTER_LISTENER(Set::Player_Style, _sl_skin_changed);
 }

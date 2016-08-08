@@ -1,3 +1,5 @@
+/* PluginCloseButton.cpp */
+
 #include "PluginCloseButton.h"
 #include "GUI/Helper/GUI_Helper.h"
 #include "GUI/Helper/IconLoader/IconLoader.h"

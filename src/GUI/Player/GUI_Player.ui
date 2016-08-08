@@ -193,7 +193,8 @@
             </property>
             <property name="icon">
              <iconset resource="../Resources/Icons.qrc">
-              <normaloff>:/Icons/bwd.svg.png</normaloff>:/Icons/bwd.svg.png</iconset>
+              <normaloff>:/Icons/bwd.svg.png</normaloff>
+              <disabledoff>:/Icons/bwd_disabled.svg</disabledoff>:/Icons/bwd.svg.png</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -331,7 +332,8 @@
             </property>
             <property name="icon">
              <iconset resource="../Resources/Icons.qrc">
-              <normaloff>:/Icons/fwd.svg.png</normaloff>:/Icons/fwd.svg.png</iconset>
+              <normaloff>:/Icons/fwd.svg.png</normaloff>
+              <disabledoff>:/Icons/fwd_disabled.svg.png</disabledoff>:/Icons/fwd.svg.png</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -1045,7 +1047,7 @@
      <x>0</x>
      <y>0</y>
      <width>1038</width>
-     <height>26</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFle">

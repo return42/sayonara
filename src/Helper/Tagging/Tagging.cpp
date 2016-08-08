@@ -142,7 +142,7 @@ bool Tagging::getMetaDataOfFile(MetaData& md, Tagging::Quality quality) {
 	md.genres = genres;
 	md.discnumber = discnumber.disc;
 	md.n_discs = discnumber.n_discs;
-	md.comment = comment;
+	//md.comment = comment;
 	md.rating = popularimeter.get_sayonara_rating();
 
 	if(md.title.length() == 0) {

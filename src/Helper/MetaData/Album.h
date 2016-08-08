@@ -50,7 +50,7 @@ public:
     QList<quint8> discnumbers;
     quint8 n_discs;
     quint8 rating;
-	QString mb_id;
+	//QString mb_id;
 
     bool is_sampler;
 

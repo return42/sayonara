@@ -1,3 +1,5 @@
+/* SayonaraLoadingBar.h */
+
 #ifndef SAYONARALOADINGBAR_H
 #define SAYONARALOADINGBAR_H
 

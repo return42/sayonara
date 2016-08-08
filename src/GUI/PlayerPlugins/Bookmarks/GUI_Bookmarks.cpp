@@ -22,8 +22,10 @@
 
 #include "GUI_Bookmarks.h"
 #include "GUI/Helper/Message/Message.h"
+#include "GUI/Helper/Delegates/ComboBoxDelegate.h"
 
 #include "Helper/Helper.h"
+
 #include "Components/Bookmarks/Bookmarks.h"
 
 #define TXT_NO_BOOKMARK "--:--"
@@ -63,6 +65,8 @@ void GUI_Bookmarks::init_ui()
 	}
 
 	setup_parent(this);
+
+	this->cb_bookmarks->setItemDelegate(new ComboBoxDelegate(this));
 
 	connect(_bookmarks, &Bookmarks::sig_bookmarks_changed, this, &GUI_Bookmarks::bookmarks_changed);
 	connect(_bookmarks, &Bookmarks::sig_next_changed, this, &GUI_Bookmarks::next_changed);

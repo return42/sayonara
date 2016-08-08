@@ -753,7 +753,7 @@
      <item>
       <widget class="MenuToolButton" name="btn_tool">
        <property name="text">
-        <string>Actions</string>
+        <string>Menu</string>
        </property>
       </widget>
      </item>

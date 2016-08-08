@@ -21,9 +21,10 @@
 
 
 #include "DiscPopupMenu.h"
+#include "GUI/Helper/GUI_Helper.h"
 
-DiscAction::DiscAction(QWidget* parent) :
-	QAction(parent)
+DiscAction::DiscAction(QWidget* parent, const QIcon& icon) :
+	QAction(icon, QString(), parent)
 {
 	connect(this, &QAction::triggered, this, &DiscAction::disc_hover);
 }
@@ -40,22 +41,29 @@ void DiscAction::disc_hover(){
 
 DiscPopupMenu::DiscPopupMenu(QWidget* parent, QList<quint8> discs): QMenu(parent){
 
+	std::sort(discs.begin(), discs.end(), [](quint8 disc1, quint8 disc2){
+		return disc1 < disc2;
+	});
+
 	for(int i= -1; i<discs.size(); i++){
+		QIcon icon;
 		QString text;
 		int data;
 
 		if(i == -1) {
 			text = "All";
 			data = -1;
+			icon = GUI::get_icon("cds.png");
 		}
 
 		else{
 			quint8 disc = discs[i];
 			text = QString("Disc ") + QString::number(disc);
 			data = disc;
+			icon = GUI::get_icon("cd.png");
 		}
 
-		DiscAction* action = new DiscAction(this);
+		DiscAction* action = new DiscAction(this, icon);
 		connect(action, &DiscAction::sig_disc_pressed, this, &DiscPopupMenu::disc_pressed);
 
 		action->setText(text);
@@ -63,8 +71,6 @@ DiscPopupMenu::DiscPopupMenu(QWidget* parent, QList<quint8> discs): QMenu(parent
 
 		addAction(action);
 		_actions << action;
-
-
 	}
 }
 

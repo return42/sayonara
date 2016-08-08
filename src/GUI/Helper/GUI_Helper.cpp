@@ -1,3 +1,5 @@
+/* GUI_Helper.cpp */
+
 #include "GUI_Helper.h"
 #include "Helper/Logger/Logger.h"
 

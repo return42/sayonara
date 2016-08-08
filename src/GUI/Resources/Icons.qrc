@@ -87,5 +87,9 @@
         <file>Icons/waiting.gif</file>
         <file>Icons/gapless_disabled.svg</file>
         <file>Icons/play_small.svg.png</file>
+        <file>Icons/bwd_disabled.svg</file>
+        <file>Icons/fwd_disabled.svg.png</file>
+        <file>Icons/cd.png</file>
+        <file>Icons/cds.png</file>
     </qresource>
 </RCC>

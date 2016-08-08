@@ -41,7 +41,7 @@ public:
     QString name;                                                                                                                                                      
     quint16 num_songs;                                                                                                           
 	quint16 num_albums;
-	QString mb_id;
+	//QString mb_id;
 
 	Artist();
 	Artist(const Artist& other);

@@ -28,10 +28,7 @@
 LibraryViewAlbum::LibraryViewAlbum(QWidget *parent) :
 	LibraryView(parent)
 {
-	_discmenu = nullptr;
-
-	_timer = new QTimer(this);
-	connect(_timer, &QTimer::timeout, this, &LibraryViewAlbum::timer_timed_out);
+	connect(this, &QTableView::clicked, this, &LibraryViewAlbum::index_clicked);
 }
 
 
@@ -41,42 +38,18 @@ void LibraryViewAlbum::rc_menu_show(const QPoint & p){
 	LibraryView::rc_menu_show(p);
 }
 
-void LibraryViewAlbum::mousePressEvent(QMouseEvent *e){
 
-	LibraryView::mousePressEvent(e);
+void LibraryViewAlbum::index_clicked(const QModelIndex &idx){
 
-	if( _timer->isActive() ) {
+	if(idx.column() != COL_ALBUM_MULTI_DISC){
 		return;
 	}
 
 	QModelIndexList selections = this->selectionModel()->selectedRows();
 	if(selections.size() == 1){
-
-		init_discmenu( this->indexAt(e->pos()) );
-
+		init_discmenu(idx);
+		show_discmenu();
 	}
-}
-
-void LibraryViewAlbum::mouseMoveEvent(QMouseEvent* event){
-
-	int distance = (event->pos() - _drag_pos).manhattanLength();
-
-	if( event->buttons() & Qt::LeftButton &&
-		distance > QApplication::startDragDistance())
-	{
-		do_drag();
-		_timer->stop();
-	}
-}
-
-
-void LibraryViewAlbum::selectionChanged ( const QItemSelection & selected, const QItemSelection & deselected ){
-
-	if(_cur_filling) return;
-
-	LibraryView::selectionChanged(selected, deselected);
-
-	_timer->stop();
 }
 
 
@@ -102,7 +75,6 @@ void LibraryViewAlbum::calc_discmenu_point(QModelIndex idx){
 	}
 }
 
-/* starts timer, after 500ms the popup is displayed */
 void LibraryViewAlbum::init_discmenu(QModelIndex idx){
 
 	int row = idx.row();
@@ -124,7 +96,6 @@ void LibraryViewAlbum::init_discmenu(QModelIndex idx){
 	delete_discmenu();
 
 	_discmenu = new DiscPopupMenu(this, discnumbers);
-	_timer->start(500);
 
 	connect(_discmenu, &DiscPopupMenu::sig_disc_pressed, this, &LibraryViewAlbum::disc_pressed);
 }
@@ -144,13 +115,8 @@ void LibraryViewAlbum::delete_discmenu(){
 	_discmenu = nullptr;
 }
 
-void LibraryViewAlbum::timer_timed_out() {
-	show_discmenu();
-}
-
 
 void LibraryViewAlbum::show_discmenu(){
-	_timer->stop();
 
 	if(!_discmenu) return;
 
@@ -159,5 +125,7 @@ void LibraryViewAlbum::show_discmenu(){
 
 /* index in popup selected */
 void LibraryViewAlbum::disc_pressed(int idx){
+
 	emit sig_disc_pressed(idx);
+
 }

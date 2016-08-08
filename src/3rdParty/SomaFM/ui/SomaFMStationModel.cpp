@@ -1,3 +1,5 @@
+/* SomaFMStationModel.cpp */
+
 #include "SomaFMStationModel.h"
 #include "GUI/Helper/GUI_Helper.h"
 #include "GUI/Helper/CustomMimeData.h"

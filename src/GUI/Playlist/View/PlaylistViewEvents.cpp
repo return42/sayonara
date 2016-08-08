@@ -1,3 +1,5 @@
+/* PlaylistViewEvents.cpp */
+
 #include "PlaylistView.h"
 #include "GUI/Playlist/Delegate/PlaylistItemDelegate.h"
 #include "GUI/Playlist/Model/PlaylistItemModel.h"

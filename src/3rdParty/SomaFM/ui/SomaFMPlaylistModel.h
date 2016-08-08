@@ -1,3 +1,5 @@
+/* SomaFMPlaylistModel.h */
+
 #ifndef SOMAFMPLAYLISTMODEL_H
 #define SOMAFMPLAYLISTMODEL_H
 

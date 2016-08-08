@@ -94,13 +94,13 @@ void LocalLibrary::psl_disc_pressed(int disc) {
 	MetaDataList v_metadata;
 
 
-	/*if(disc < 0){
-		_db->getAllTracksByAlbum(_selected_albums[0], _vec_md, _filter, _sortorder.so_tracks);
+	if(disc < 0){
+		_db->getAllTracksByAlbum(_selected_albums.first(), _vec_md, _filter, _sortorder.so_tracks);
 		emit sig_all_tracks_loaded(_vec_md);
 		return;
 	}
 
-	_db->getAllTracksByAlbum(_selected_albums[0], v_metadata, _filter, _sortorder.so_tracks);*/
+	_db->getAllTracksByAlbum(_selected_albums.first(), v_metadata, _filter, _sortorder.so_tracks);
 
 	_vec_md.clear();
 

@@ -1,3 +1,5 @@
+/* GUI_PlaylistPreferences.cpp */
+
 #include "GUI_PlaylistPreferences.h"
 #include "ui_GUI_PlaylistPreferences.h"
 

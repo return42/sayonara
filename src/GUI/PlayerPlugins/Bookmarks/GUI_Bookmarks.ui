@@ -43,14 +43,8 @@
      </item>
      <item>
       <widget class="MenuToolButton" name="btn_tool">
-       <property name="maximumSize">
-        <size>
-         <width>24</width>
-         <height>24</height>
-        </size>
-       </property>
        <property name="text">
-        <string/>
+        <string>Menu</string>
        </property>
       </widget>
      </item>
@@ -65,7 +59,7 @@
       </sizepolicy>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="page">
       <property name="sizePolicy">
@@ -100,7 +94,8 @@
          </property>
          <property name="icon">
           <iconset resource="../../Resources/Icons.qrc">
-           <normaloff>:/Icons/bwd.svg.png</normaloff>:/Icons/bwd.svg.png</iconset>
+           <normaloff>:/Icons/bwd.svg.png</normaloff>
+           <disabledoff>:/Icons/bwd_disabled.svg</disabledoff>:/Icons/bwd.svg.png</iconset>
          </property>
          <property name="iconSize">
           <size>
@@ -179,7 +174,8 @@
          </property>
          <property name="icon">
           <iconset resource="../../Resources/Icons.qrc">
-           <normaloff>:/Icons/fwd.svg.png</normaloff>:/Icons/fwd.svg.png</iconset>
+           <normaloff>:/Icons/fwd.svg.png</normaloff>
+           <disabledoff>:/Icons/fwd_disabled.svg.png</disabledoff>:/Icons/fwd.svg.png</iconset>
          </property>
          <property name="iconSize">
           <size>

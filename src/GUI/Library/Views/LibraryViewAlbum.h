@@ -27,6 +27,7 @@
 
 #include "Helper/MetaData/Album.h"
 #include "GUI/Library/Views/LibraryView.h"
+#include <QModelIndex>
 
 class DiscPopupMenu;
 class LibraryViewAlbum : public LibraryView
@@ -37,8 +38,8 @@ signals:
 	void sig_disc_pressed(int);
 
 protected slots:
-	virtual void disc_pressed(int);
-	virtual void timer_timed_out();
+	void disc_pressed(int);
+	void index_clicked(const QModelIndex& idx);
 
 public:
 	explicit LibraryViewAlbum(QWidget *parent=nullptr);
@@ -46,12 +47,8 @@ public:
 
 protected:
 	QVector< QList<quint8> >	_discnumbers;
-	DiscPopupMenu*				_discmenu;
+	DiscPopupMenu*				_discmenu=nullptr;
 	QPoint						_discmenu_point;
-	QTimer*						_timer;
-
-
-	virtual void selectionChanged(const QItemSelection& selected, const QItemSelection& deselected );
 
 	virtual void calc_discmenu_point(QModelIndex idx);
 	virtual void delete_discmenu();
@@ -59,8 +56,6 @@ protected:
 	virtual void show_discmenu();
 
 	virtual void rc_menu_show(const QPoint& p);
-	virtual void mousePressEvent(QMouseEvent* e);
-	virtual void mouseMoveEvent(QMouseEvent* e);
 
 public:
 	template <typename T, typename ModelType>

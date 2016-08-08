@@ -1,3 +1,5 @@
+/* GUI_SomaFM.h */
+
 #ifndef GUI_SOMAFM_H
 #define GUI_SOMAFM_H
 

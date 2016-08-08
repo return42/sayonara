@@ -137,9 +137,7 @@ Qt::ItemFlags LibraryItemModelTracks::flags(const QModelIndex &index = QModelInd
 	if (!index.isValid())
 		return Qt::ItemIsEnabled;
 
-	int idx_column = index.column();
-	int shown_col = idx_column;
-	if(shown_col == COL_TRACK_RATING) {
+	if(index.column() == COL_TRACK_RATING) {
 
 		return QAbstractItemModel::flags(index) | Qt::ItemIsEditable;
 	}
@@ -200,7 +198,7 @@ bool LibraryItemModelTracks::setData(const QModelIndex&index, const MetaDataList
 
 int LibraryItemModelTracks::get_id_by_row(int row)
 {
-	if(row < 0 || row >= _tracks.size()){
+	if(!between(row, 0, _tracks.size())){
 		return -1;
 	}
 

@@ -1,3 +1,5 @@
+/* SomaFMLibrary.h */
+
 #ifndef SOMAFMLIBRARY_H
 #define SOMAFMLIBRARY_H
 
@@ -22,6 +24,7 @@ signals:
 
 public:
 	SomaFMLibrary(QObject* parent=nullptr);
+	virtual ~SomaFMLibrary();
 
 	SomaFMStation get_station(const QString& name);
 	void create_playlist_from_station(int idx);
