@@ -34,7 +34,6 @@ Playlist::Playlist(int idx, QString name) :
 	EngineHandler* engine = EngineHandler::getInstance();
 
 	_playlist_changed = false;
-	_cur_play_idx = -1;
 	_playlist_idx = idx;
 	_playlist_type = Playlist::Type::Std;
 	_playlist_mode = _settings->get(Set::PL_Mode);
@@ -109,7 +108,11 @@ void Playlist::insert_track(const MetaData& md, int tgt) {
 
 void Playlist::insert_tracks(const MetaDataList& lst, int tgt) {
 
+	sp_log(Log::Debug) << "cur track = " << _v_md.get_cur_play_track();
 	_v_md.insert_tracks(lst, tgt);
+
+	sp_log(Log::Debug) << "cur track = " << _v_md.get_cur_play_track();
+	
 
 	set_changed(true);
 }

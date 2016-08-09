@@ -34,7 +34,6 @@ EnginePlugin::~EnginePlugin(){
 		return;
 	}
 
-
 	disconnect(_btn_config, &QPushButton::clicked, this, &EnginePlugin::config_clicked);
 	disconnect(_btn_prev, &QPushButton::clicked, this, &EnginePlugin::prev_clicked);
 	disconnect(_btn_next, &QPushButton::clicked, this, &EnginePlugin::next_clicked);
@@ -79,13 +78,11 @@ void EnginePlugin::init_buttons(bool small){
 	connect(_btn_close, &QPushButton::clicked, this, &EnginePlugin::close);
 	connect(_btn_close, &QPushButton::clicked, this->parentWidget(), &QWidget::close);
 
-
     _btn_config->hide();
     _btn_prev->hide();
     _btn_next->hide();
     _btn_close->hide();
 }
-
 
 
 void EnginePlugin::config_clicked(){
@@ -169,7 +166,9 @@ void EnginePlugin::mousePressEvent(QMouseEvent *e) {
             next_clicked();
             break;
         case Qt::MidButton:
-            close();
+			if(this->parentWidget()){
+				this->parentWidget()->close();
+			}
             break;
         case Qt::RightButton:
 			_ui_style_settings->show(_cur_style_idx);

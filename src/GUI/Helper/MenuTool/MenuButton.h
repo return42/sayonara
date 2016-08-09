@@ -74,6 +74,8 @@ public:
 	MenuButton(QWidget* parent=nullptr);
 	virtual ~MenuButton();
 
+	void set_show_title(bool show_title);
+
 protected slots:
 	void _sl_skin_changed();
 	void _sl_language_changed();

@@ -79,6 +79,7 @@ void LibraryViewAlbum::init_discmenu(QModelIndex idx){
 
 	int row = idx.row();
 	QList<quint8> discnumbers;
+	delete_discmenu();
 
 	if( !idx.isValid() ||
 		(row > _discnumbers.size()) ||
@@ -93,15 +94,15 @@ void LibraryViewAlbum::init_discmenu(QModelIndex idx){
 	}
 
 	calc_discmenu_point(idx);
-	delete_discmenu();
 
 	_discmenu = new DiscPopupMenu(this, discnumbers);
 
-	connect(_discmenu, &DiscPopupMenu::sig_disc_pressed, this, &LibraryViewAlbum::disc_pressed);
+	connect(_discmenu, &DiscPopupMenu::sig_disc_pressed, this, &LibraryViewAlbum::sig_disc_pressed);
 }
 
 
 void LibraryViewAlbum::delete_discmenu(){
+
 	if(!_discmenu) {
 		return;
 	}
@@ -109,7 +110,7 @@ void LibraryViewAlbum::delete_discmenu(){
 	_discmenu->hide();
 	_discmenu->close();
 
-	disconnect(_discmenu, &DiscPopupMenu::sig_disc_pressed, this, &LibraryViewAlbum::disc_pressed);
+	disconnect(_discmenu, &DiscPopupMenu::sig_disc_pressed, this, &LibraryViewAlbum::sig_disc_pressed);
 
 	delete _discmenu;
 	_discmenu = nullptr;
@@ -123,9 +124,3 @@ void LibraryViewAlbum::show_discmenu(){
 	_discmenu->popup(_discmenu_point);
 }
 
-/* index in popup selected */
-void LibraryViewAlbum::disc_pressed(int idx){
-
-	emit sig_disc_pressed(idx);
-
-}

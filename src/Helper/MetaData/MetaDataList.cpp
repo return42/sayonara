@@ -78,6 +78,7 @@ MetaDataList& MetaDataList::insert_tracks(const MetaDataList& v_md, int tgt_idx)
 
 	int end_point;
 	int cur_track;
+	int old_tgt_idx = tgt_idx;
 
 	tgt_idx = std::max(0, tgt_idx);
 	tgt_idx = std::min(this->size(), tgt_idx);
@@ -97,8 +98,8 @@ MetaDataList& MetaDataList::insert_tracks(const MetaDataList& v_md, int tgt_idx)
 		tgt_idx++;
 	}
 
-	if(cur_track >= tgt_idx){
-		_cur_played_track = cur_track;
+	if(cur_track >= old_tgt_idx){
+		_cur_played_track = cur_track + v_md.size();
 	}
 
 	return *this;
@@ -233,49 +234,37 @@ MetaDataList MetaDataList::extract_tracks(const SP::Set<int>& indexes) const
 
 
 MetaDataList& MetaDataList::remove_track(int idx){
-	if(!between(idx, 0, this->size())){
+	return remove_tracks(idx, idx);
+}
+
+MetaDataList& MetaDataList::remove_tracks(int first, int last){
+	if(!between(first, 0, this->size())){
 		return *this;
 	}
 
-	for(auto it=this->begin() + idx; it!=this->end(); it++){
-
-		auto it_next = it + 1;
-		*it = std::move(*it_next);
+	if(!between(last, 0, this->size())){
+		return *this;
 	}
 
-	this->removeLast();
+	std::move(this->begin() + last + 1, this->end(), this->begin() + first);
+
+	if(_cur_played_track >= first && _cur_played_track <= last){
+		_cur_played_track = -1;
+	}
+
+	if(_cur_played_track > last){
+		_cur_played_track -= (last - first + 1);
+	}
+
+	this->resize(this->size() - (last - first + 1));
 	return *this;
+
 }
 
 MetaDataList& MetaDataList::remove_tracks(const SP::Set<int>& indexes){
 
-	if(this->isEmpty() || indexes.isEmpty()){
-		return *this;
-	}
-
-	int row_writing_idx=0;
-	int deleted_rows=0;
-
-	auto it_idx = indexes.begin();
-
-	for(int i=0; i<this->size(); i++){
-
-		if(i == *it_idx && it_idx != indexes.end()){
-
-			deleted_rows++;
-			it_idx++;
-		}
-
-		else{
-
-			if(i != row_writing_idx){
-				this->operator [](row_writing_idx) = std::move(this->operator [](i));
-			}
-
-			row_writing_idx++;
-		}
-	}
-	this->resize(this->size() - deleted_rows);
+	move_tracks(indexes, this->size() - 1);
+	this->resize(this->size() - indexes.size());
 	return *this;
 }
 

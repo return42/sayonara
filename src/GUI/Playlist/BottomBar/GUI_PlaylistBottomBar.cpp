@@ -35,6 +35,7 @@ GUI_PlaylistBottomBar::GUI_PlaylistBottomBar(QWidget *parent) :
 
 	_playlist_menu = new PlaylistMenu(this);
 	btn_menu->setFlat(true);
+	btn_menu->set_show_title(false);
 
 #ifdef Q_OS_WIN
 	btn_menu->setVisible(false);
@@ -232,4 +233,5 @@ void GUI_PlaylistBottomBar::set_playlist_type(Playlist::Type playlist_type){
 	btn_rep1->setVisible(playlist_type == Playlist::Type::Std);
 	btn_gapless->setVisible(playlist_type == Playlist::Type::Std);
 }
+
 

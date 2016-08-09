@@ -140,8 +140,20 @@ void MenuButton::_sl_skin_changed(){
 
 void MenuButton::_sl_language_changed(){
 	this->setToolTip(tr("Menu"));
-	this->setText(tr("Menu"));
+
+	if(!this->text().isEmpty()){
+		this->setText(tr("Menu"));
+	}
 }
 
 
+void MenuButton::set_show_title(bool show_title){
+	if(show_title){
+		this->setText(tr("Menu"));
+	}
 
+	else
+	{
+		this->setText(QString());
+	}
+}

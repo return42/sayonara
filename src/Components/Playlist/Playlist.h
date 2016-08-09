@@ -62,7 +62,6 @@ private:
 protected:
 
 	bool			_is_storable;
-	int             _cur_play_idx;
 	int				_playlist_idx;
 
 	MetaDataList    _v_md;

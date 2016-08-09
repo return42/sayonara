@@ -38,7 +38,6 @@ signals:
 	void sig_disc_pressed(int);
 
 protected slots:
-	void disc_pressed(int);
 	void index_clicked(const QModelIndex& idx);
 
 public:
@@ -68,7 +67,6 @@ public:
 
 		LibraryView::fill<T, ModelType>(input_data);
 	}
-
 };
 
 #endif // LIBRARYVIEWALBUM_H
