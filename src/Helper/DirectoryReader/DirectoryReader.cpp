@@ -30,8 +30,6 @@
 #include <QDirIterator>
 #include <QFileInfo>
 
-
-
 DirectoryReader::DirectoryReader () {
 
 	_name_filters = Helper::get_soundfile_extensions();
@@ -56,7 +54,7 @@ void DirectoryReader::set_filter(const QString& filter){
 void DirectoryReader::get_files_in_dir_rec(QDir base_dir, QStringList& files) const
 {
 	QStringList tmp_files = base_dir.entryList(_name_filters,
-					   (QDir::Filters)(QDir::Files | QDir::NoDotAndDotDot));
+											   (QDir::Filters)(QDir::Files | QDir::NoDotAndDotDot));
 
 	QStringList dirs = base_dir.entryList((QDir::Filters)(QDir::Dirs | QDir::NoDotAndDotDot));
 
@@ -80,7 +78,7 @@ QStringList DirectoryReader::get_files_in_dir(const QDir& base_dir) const
 
 	for(const QString& file : entries) {
 		files << base_dir.absoluteFilePath(file);
-    }
+	}
 
 	return files;
 }
@@ -90,8 +88,8 @@ MetaDataList DirectoryReader::get_md_from_filelist(const QStringList& lst)
 {
 
 	MetaDataList v_md;
-	QStringList files;
-	QStringList playlist_paths;
+	QStringList sound_files, playlist_files;
+
 	DatabaseConnector* db;
 
 	// fetch sound and playlist files
@@ -109,63 +107,50 @@ MetaDataList DirectoryReader::get_md_from_filelist(const QStringList& lst)
 
 		if(Helper::File::is_dir(str)) {
 
-            QDir dir(str);
-            dir.cd(str);
+			QStringList files;
+			QDir dir(str);
+			dir.cd(str);
 
 			get_files_in_dir_rec(dir, files);
-        }
+			for(const QString& file : files){
+				if(Helper::File::is_soundfile(file)){
+					sound_files << file;
+				}
+			}
+		}
 
-		else if(Helper::File::is_file(str)) {
-			files << str;
-        }
-    }
+		else if(Helper::File::is_soundfile(str)){
+			sound_files << str;
+		}
+
+		else if(Helper::File::is_playlistfile(str)) {
+			playlist_files << str;
+		}
+	}
 
 	db = DatabaseConnector::getInstance();
-	db->getMultipleTracksByPath(files, v_md);
+	db->getMultipleTracksByPath(sound_files, v_md);
 
-	auto it = v_md.begin();
+	auto it=v_md.begin();
 	while(it != v_md.end()){
 
-		QString filepath = it->filepath();
+		if( it->id < 0 ) {
+			if(!Tagging::getMetaDataOfFile(*it)) {
+				it = v_md.erase(it);
+				continue;
+			}
 
-		if(Helper::File::is_playlistfile(filepath)) {
-			playlist_paths << filepath;
-			it = v_md.erase(it);
-            continue;
-        }
-
-		if(Helper::File::is_soundfile(filepath)) {
-
-			if( it->id < 0 ) {
-				if(!Tagging::getMetaDataOfFile(*it)) {
-					it = v_md.erase(it);
-                    continue;
-                }
-
-				it->is_extern = true;
-            }
-        }
+			it->is_extern = true;
+		}
 
 		it++;
-    }
+	}
 
+	for(const QString& playlist_file : playlist_files){
+		MetaDataList v_md_tmp;
+		PlaylistParser::parse_playlist(playlist_file, v_md_tmp);
 
-    // TODO: look for playlists if paths could be read from database
-	// extract media files out of playlist files
-	for(const QString& path : playlist_paths) {
-
-		sp_log(Log::Debug) << "parse playlist file " << path;
-
-        MetaDataList v_md_pl;
-        PlaylistParser::parse_playlist(path, v_md_pl);
-
-        // check, that metadata is not already available
-		for(const MetaData& md_pl : v_md_pl) {
-
-            if(!v_md.contains(md_pl)) {
-				v_md << std::move(md_pl);
-            }
-        }
+		v_md << v_md_tmp;
 	}
 
 	return v_md;

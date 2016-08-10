@@ -28,13 +28,7 @@
 
 #include "Database/DatabaseConnector.h"
 
-#include <QFile>
-#include <QDir>
 #include <QUrl>
-#include <QDomDocument>
-#include <QDomNode>
-#include <QDomElement>
-
 
 int PlaylistParser::parse_playlist(const QString& local_filename, MetaDataList& v_md) {
 
