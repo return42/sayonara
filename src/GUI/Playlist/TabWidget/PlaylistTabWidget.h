@@ -41,6 +41,8 @@ class PlaylistTabWidget : public QTabWidget
 	Q_OBJECT
 
 signals:
+	void sig_open_file(int tab_idx);
+	void sig_open_dir(int tab_idx);
 	void sig_tab_reset(int tab_idx);
 	void sig_tab_save(int tab_idx);
 	void sig_tab_save_as(int tab_idx, const QString& name);

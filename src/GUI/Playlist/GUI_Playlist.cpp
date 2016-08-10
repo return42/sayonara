@@ -79,6 +79,8 @@ GUI_Playlist::GUI_Playlist(QWidget *parent) :
 	connect(tw_playlists, &PlaylistTabWidget::sig_tab_clear, this, &GUI_Playlist::clear_button_pressed);
 	connect(tw_playlists, &PlaylistTabWidget::sig_tab_reset, _playlist, &PlaylistHandler::reset_playlist);
 	connect(tw_playlists, &PlaylistTabWidget::sig_metadata_dropped, this, &GUI_Playlist::tab_metadata_dropped);
+	connect(tw_playlists, &PlaylistTabWidget::sig_open_file, this, &GUI_Playlist::open_file_clicked);
+	connect(tw_playlists, &PlaylistTabWidget::sig_open_dir, this, &GUI_Playlist::open_dir_clicked);
 
 	REGISTER_LISTENER(Set::Lib_Path, _sl_library_path_changed);
 	REGISTER_LISTENER(Set::PL_ShowNumbers, _sl_show_numbers_changed);
@@ -384,6 +386,45 @@ void GUI_Playlist::set_total_time_label() {
 	lab_totalTime->setContentsMargins(0, 2, 0, 2);
 }
 
+void GUI_Playlist::open_file_clicked(int tgt_idx) {
+
+	QStringList filetypes;
+
+	filetypes << Helper::get_soundfile_extensions();
+	filetypes << Helper::get_playlistfile_extensions();
+
+	QString filetypes_str = tr("Media files") + " (" + filetypes.join(" ") + ")";
+
+	QStringList list =
+			QFileDialog::getOpenFileNames(
+					this,
+					tr("Open Media files"),
+					QDir::homePath(),
+					filetypes_str);
+
+	if(list.isEmpty()){
+		return;
+	}
+
+	PlaylistHandler* plh = PlaylistHandler::getInstance();
+	plh->create_playlist(list);
+}
+
+void GUI_Playlist::open_dir_clicked(int tgt_idx) {
+
+	QString dir = QFileDialog::getExistingDirectory(this,
+			tr("Open Directory"),
+			QDir::homePath(),
+			QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+
+	if (dir.isEmpty()){
+		return;
+	}
+
+	PlaylistHandler* plh = PlaylistHandler::getInstance();
+	plh->create_playlist(dir);
+}
+
 
 
 void GUI_Playlist::_sl_show_numbers_changed(){
@@ -407,3 +448,4 @@ void GUI_Playlist::load_old_playlists()
 {
 	_playlist->load_old_playlists();
 }
+

@@ -27,6 +27,7 @@
 #include "Helper/Helper.h"
 #include <glib.h>
 #include <functional>
+#include <QThread>
 
 class FaderThreadData
 {
@@ -74,13 +75,24 @@ public:
 	}
 };
 
+class FaderThread : public QThread
+{
+private:
+	FaderThreadData* _ftd;
 
-void timer_thread(FaderThreadData* data){
-
-	while(data->is_active()){
-		data->wait();
+public:
+	FaderThread(FaderThreadData* data) : QThread(nullptr){
+		_ftd = data;
 	}
-}
+
+protected:
+	void run() override {
+		while(_ftd->is_active()){
+			_ftd->wait();
+		}
+	}
+};
+
 
 CrossFader::CrossFader()
 {
@@ -100,17 +112,16 @@ void CrossFader::init_fader(){
 
 	if(_fader && _fader_data->is_active()){
 		_fader_data->abort();
-		_fader->join();
 
 		delete _fader;
 	}
-
 
 	int fading_time = Settings::getInstance()->get(Set::Engine_CrossFaderTime);
 
 	_fader_data->reset();
 	_fader_data->set_fading_time(fading_time);
-	_fader = new std::thread(timer_thread, _fader_data);
+	_fader = new FaderThread(_fader_data);
+	_fader->start();
 }
 
 

@@ -255,6 +255,11 @@ private slots:
 
 
 	/**
+	 * @brief calls webpage with help
+	 */
+	void btn_tag_help_clicked();
+
+	/**
 	 * @brief tries to apply the tag
 	 */
 	void tag_text_changed(const QString&);

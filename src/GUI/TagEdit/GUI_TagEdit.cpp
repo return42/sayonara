@@ -30,6 +30,7 @@
 #include "Components/TagEdit/TagEdit.h"
 
 #include <QDir>
+#include <QDesktopServices>
 
 GUI_TagEdit::GUI_TagEdit(QWidget* parent) :
 	SayonaraWidget(parent)
@@ -66,6 +67,7 @@ GUI_TagEdit::GUI_TagEdit(QWidget* parent) :
 	connect(btn_track_nr, &QPushButton::toggled, this, &GUI_TagEdit::btn_track_nr_checked);
 	connect(btn_year, &QPushButton::toggled, this, &GUI_TagEdit::btn_year_checked);
 	connect(btn_disc_nr, &QPushButton::toggled, this, &GUI_TagEdit::btn_disc_nr_checked);
+	connect(btn_tag_help, &QPushButton::clicked, this, &GUI_TagEdit::btn_tag_help_clicked);
 
 	connect(_tag_edit, &TagEdit::sig_progress, this, &GUI_TagEdit::progress_changed);
 	connect(_tag_edit, &TagEdit::sig_metadata_received, this, &GUI_TagEdit::metadata_changed);
@@ -701,6 +703,12 @@ void GUI_TagEdit::btn_year_checked(bool b){
 	if(!replace_selected_tag_text(TAG_YEAR, b)){
 		btn_year->setChecked(false);
 	}
+}
+
+void GUI_TagEdit::btn_tag_help_clicked()
+{
+	QUrl url(QString("http://sayonara-player.com/faq.php#tag-edit"));
+	QDesktopServices::openUrl(url);
 }
 
 

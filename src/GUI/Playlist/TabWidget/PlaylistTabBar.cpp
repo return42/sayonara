@@ -44,6 +44,8 @@ PlaylistTabBar::PlaylistTabBar(QWidget *parent) :
 
 	init_shortcuts();
 
+	connect(_menu, &PlaylistTabMenu::sig_open_file_clicked, this, &PlaylistTabBar::open_file_pressed);
+	connect(_menu, &PlaylistTabMenu::sig_open_dir_clicked, this, &PlaylistTabBar::open_dir_pressed);
 	connect(_menu, &PlaylistTabMenu::sig_rename_clicked, this, &PlaylistTabBar::rename_pressed);
 	connect(_menu, &PlaylistTabMenu::sig_reset_clicked, this, &PlaylistTabBar::reset_pressed);
 	connect(_menu, &PlaylistTabMenu::sig_save_clicked, this, &PlaylistTabBar::save_pressed);
@@ -74,6 +76,14 @@ void PlaylistTabBar::save_as_pressed(){
 				cur_text + ": " + tr("Save as"));
 
 	emit sig_tab_save_as(currentIndex(), name);
+}
+
+void PlaylistTabBar::open_file_pressed(){
+	emit sig_open_file(currentIndex());
+}
+
+void PlaylistTabBar::open_dir_pressed(){
+	emit sig_open_dir(currentIndex());
 }
 
 void PlaylistTabBar::clear_pressed()

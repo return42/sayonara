@@ -184,5 +184,5 @@ void LibraryContextMenu::skin_changed()
 	_play_next_action->setIcon(icon_loader->get_icon("media-playback-start", "play_small"));
 	_append_action->setIcon(icon_loader->get_icon("list-add", "append"));
 	_refresh_action->setIcon(icon_loader->get_icon("edit-undo", "undo"));
-	_clear_action->setIcon(icon_loader->get_icon("edit-clear", "broom"));
+	_clear_action->setIcon(icon_loader->get_icon("edit-clear", "broom.png"));
 }

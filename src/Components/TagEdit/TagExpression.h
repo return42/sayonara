@@ -37,10 +37,8 @@
 #define TAG_DISC QString("<d>")
 #define TAG_IGNORE QString("<ign>")
 
-
 typedef QString Tag;
 typedef QString ReplacedString;
-
 
 /**
  * @brief The TagExpression class

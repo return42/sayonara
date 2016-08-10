@@ -46,8 +46,12 @@ signals:
 	void sig_reset_clicked();
 	void sig_rename_clicked();
 	void sig_clear_clicked();
+	void sig_open_file_clicked();
+	void sig_open_dir_clicked();
 
 private:
+	QAction*	_action_open_file=nullptr;
+	QAction*	_action_open_dir=nullptr;
 	QAction*	_action_delete=nullptr;
 	QAction*	_action_save=nullptr;
 	QAction*	_action_save_as=nullptr;

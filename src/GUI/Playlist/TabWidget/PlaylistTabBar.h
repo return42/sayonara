@@ -45,6 +45,10 @@ class PlaylistTabBar :
 
 
 signals:
+
+	void sig_open_file(int tab_idx);
+	void sig_open_dir(int tab_idx);
+
 	void sig_tab_reset(int tab_idx);
 	void sig_tab_save(int tab_idx);
 	void sig_tab_save_as(int tab_idx, const QString& name);
@@ -71,13 +75,11 @@ public:
 	QString get_shortcut_text(const QString &shortcut_identifier) const override;
 
 
-
 private:
 	PlaylistTabMenu*	_menu=nullptr;
 	int					_tab_before_dd;
 	bool				_drag_from_playlist;
 	int					_drag_origin_tab;
-
 
 
 private:
@@ -91,6 +93,8 @@ private:
 	void init_shortcuts();
 
 private slots:
+	void open_file_pressed();
+	void open_dir_pressed();
 	void reset_pressed();
 	void save_pressed();
 	void save_as_pressed();

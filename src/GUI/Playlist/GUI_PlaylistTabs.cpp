@@ -283,6 +283,9 @@ void GUI_Playlist::check_playlist_menu(PlaylistConstPtr pl){
 	bool rename_enabled =	(storable);
 	bool clear_enabled =	(!pl->is_empty());
 
+	entries |= PlaylistMenuEntry::OpenFile;
+	entries |= PlaylistMenuEntry::OpenDir;
+
 	if(save_enabled){
 		entries |= PlaylistMenuEntry::Save;
 	}

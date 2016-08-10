@@ -59,7 +59,12 @@ GUI_PlaylistBottomBar::GUI_PlaylistBottomBar(QWidget *parent) :
 	btn_repAll->setEnabled(PlaylistMode::isEnabled(_plm.repAll()));
 	btn_dynamic->setEnabled(PlaylistMode::isEnabled(_plm.dynamic()));
 	btn_shuffle->setEnabled(PlaylistMode::isEnabled(_plm.shuffle()));
-	btn_gapless->setEnabled(PlaylistMode::isEnabled(_plm.gapless())) ;
+
+	bool gapless_enabled =
+			PlaylistMode::isEnabled(_plm.gapless()) &&
+			!_settings->get(Set::Engine_CrossFaderActive);
+
+	btn_gapless->setEnabled(gapless_enabled) ;
 	
 #ifdef WITH_SHUTDOWN
 	btn_shutdown->setVisible(Shutdown::getInstance()->is_running());

@@ -47,8 +47,6 @@ TagEdit::~TagEdit(){
 }
 
 
-
-
 void TagEdit::update_track(int idx, const MetaData& md){
 
 	_changed_md[idx] = !( md.is_equal_deep(_v_md_orig[idx]) );

@@ -28,7 +28,7 @@
         <file>Icons/lyrics.svg.png</file>
         <file>Icons/pause.svg.png</file>
         <file>Icons/play.svg.png</file>
-        <file alias="broadcast">Icons/power_off.svg.png</file>
+        <file>Icons/power_off.svg.png</file>
         <file>Icons/power_on.svg.png</file>
         <file>Icons/rb_checked_disabled.svg.png</file>
         <file>Icons/rb_checked.svg.png</file>

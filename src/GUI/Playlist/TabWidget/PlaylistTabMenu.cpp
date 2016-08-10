@@ -30,6 +30,8 @@ PlaylistTabMenu::PlaylistTabMenu(QWidget* parent) :
 	SayonaraClass()
 {
 
+	_action_open_file = new QAction(GUI::get_icon("play"), tr("Open File"), this);
+	_action_open_dir = new QAction(GUI::get_icon("play"), tr("Open Folder"), this);
 	_action_reset = new QAction(GUI::get_icon("undo"), tr("Reset"), this);
 	_action_rename = new QAction(GUI::get_icon("edit"), tr("Rename"), this);
 	_action_delete = new QAction(GUI::get_icon("delete"), tr("Delete"), this);
@@ -43,7 +45,10 @@ PlaylistTabMenu::PlaylistTabMenu(QWidget* parent) :
 
 
 	QList<QAction*> actions;
-	actions << _action_reset
+	actions << _action_open_file
+			<< _action_open_dir
+			<< this->addSeparator()
+			<< _action_reset
 			<< this->addSeparator()
 			<< _action_rename
 			<< _action_save
@@ -57,6 +62,8 @@ PlaylistTabMenu::PlaylistTabMenu(QWidget* parent) :
 
 	this->addActions(actions);
 
+	connect(_action_open_file, &QAction::triggered, this, &PlaylistTabMenu::sig_open_file_clicked);
+	connect(_action_open_dir, &QAction::triggered, this, &PlaylistTabMenu::sig_open_dir_clicked);
 	connect(_action_reset, &QAction::triggered, this, &PlaylistTabMenu::sig_reset_clicked);
 	connect(_action_rename, &QAction::triggered, this, &PlaylistTabMenu::sig_rename_clicked);
 	connect(_action_delete, &QAction::triggered, this, &PlaylistTabMenu::sig_delete_clicked);
@@ -75,6 +82,8 @@ PlaylistTabMenu::~PlaylistTabMenu(){
 }
 
 void PlaylistTabMenu::language_changed(){
+	_action_open_file->setText(tr("Open File"));
+	_action_open_dir->setText(tr("Open Folder"));
 	_action_reset->setText(tr("Reset"));
 	_action_rename->setText(tr("Rename"));
 	_action_delete->setText(tr("Delete"));
@@ -86,6 +95,8 @@ void PlaylistTabMenu::language_changed(){
 }
 
 void PlaylistTabMenu::skin_changed(){
+	_action_open_file->setIcon(_icon_loader->get_icon( "document-open", "play_small") );
+	_action_open_dir->setIcon(_icon_loader->get_icon( "document-open", "play_small") );
 
 	_action_reset->setIcon(_icon_loader->get_icon( "edit-undo", "undo") );
 	_action_rename->setIcon(_icon_loader->get_icon( "accessories-text-editor", "edit") );
@@ -93,13 +104,16 @@ void PlaylistTabMenu::skin_changed(){
 	_action_save->setIcon(_icon_loader->get_icon( "document-save", "save") );
 	_action_save_as->setIcon(_icon_loader->get_icon( "document-save-as", "save_as") );
 
-	_action_clear->setIcon(_icon_loader->get_icon( "edit-clear", "broom") );
+	_action_clear->setIcon(_icon_loader->get_icon( "edit-clear", "broom.png") );
 	_action_close->setIcon(_icon_loader->get_icon( "window-close", "power_off") );
+
 	_action_close_others->setIcon(_icon_loader->get_icon( "window-close", "power_on") );
 
 }
 
 void PlaylistTabMenu::show_menu_items(PlaylistMenuEntries entries){
+	_action_open_file->setVisible(entries & PlaylistMenuEntry::OpenFile);
+	_action_open_dir->setVisible(entries & PlaylistMenuEntry::OpenDir);
 	_action_reset->setVisible(entries & PlaylistMenuEntry::Reset);
 	_action_rename->setVisible(entries & PlaylistMenuEntry::Rename);
 	_action_delete->setVisible(entries & PlaylistMenuEntry::Delete);
@@ -108,6 +122,7 @@ void PlaylistTabMenu::show_menu_items(PlaylistMenuEntries entries){
 	_action_clear->setVisible(entries & PlaylistMenuEntry::Clear);
 	_action_close->setVisible(entries & PlaylistMenuEntry::Close);
 	_action_close_others->setVisible(entries & PlaylistMenuEntry::CloseOthers);
+
 }
 
 

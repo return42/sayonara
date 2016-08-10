@@ -29,15 +29,16 @@
 #include <thread>
 
 class FaderThreadData;
+class FaderThread;
 class CrossFader
 {
 
 public:
 
     enum class FadeMode : quint8 {
-	NoFading=0,
-	FadeIn,
-	FadeOut
+		NoFading=0,
+		FadeIn,
+		FadeOut
     };
 
     CrossFader();
@@ -46,7 +47,6 @@ public:
     virtual void set_current_volume(double vol)=0;
 
     quint64 get_fading_time() const;
-
 
     void fade_in();
     void fade_out();
@@ -57,9 +57,9 @@ public:
 private:
     FadeMode	    _fade_mode;
 	double			_fade_step;
-    std::thread*    _fader=nullptr;
+	FaderThread*    _fader=nullptr;
 
-    FaderThreadData * _fader_data=nullptr;
+	FaderThreadData* _fader_data=nullptr;
 
 
 private:
@@ -72,9 +72,6 @@ private:
 protected:
 
     void	    abort_fader();
-
-
-
 
 };
 

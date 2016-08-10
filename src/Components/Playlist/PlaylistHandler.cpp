@@ -591,6 +591,8 @@ void PlaylistHandler::reset_playlist(int pl_idx){
 	int id = _playlists[pl_idx]->get_id();
 
 	CustomPlaylist cpl = db_connector->get_playlist_by_id(id);
+
+	clear_playlist(pl_idx);
 	create_playlist(cpl);
 }
 
