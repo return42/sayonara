@@ -198,7 +198,7 @@ bool LibraryItemModelTracks::setData(const QModelIndex&index, const MetaDataList
 
 int LibraryItemModelTracks::get_id_by_row(int row)
 {
-	if(!between(row, 0, _tracks.size())){
+	if(!between(row, _tracks)){
 		return -1;
 	}
 

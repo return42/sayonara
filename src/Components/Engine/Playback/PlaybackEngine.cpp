@@ -523,7 +523,7 @@ void PlaybackEngine::update_duration(GstElement* src) {
 	quint32 duration_s = (duration_ms >> 10);
 	quint32 md_duration_s = (_md.length_ms >> 10);
 
-	if(!between(duration_s, 1, 1500000)){
+	if(duration_s == 0 || duration_s > 1500000){
 		return;
 	}
 
@@ -560,7 +560,7 @@ void PlaybackEngine::add_spectrum_receiver(SpectrumReceiver* receiver){
 	_spectrum_receiver << receiver;
 }
 
-void PlaybackEngine::set_spectrum(const QVector<float>& vals){
+void PlaybackEngine::set_spectrum(const QList<float>& vals){
 	for(SpectrumReceiver* rcv : _spectrum_receiver){
 		if(rcv){
 			rcv->set_spectrum(vals);

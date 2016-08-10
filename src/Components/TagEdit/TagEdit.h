@@ -27,7 +27,7 @@
 #include "Database/DatabaseHandler.h"
 #include "Helper/MetaData/MetaDataList.h"
 
-#include <QVector>
+#include <QList>
 #include <QThread>
 #include <QImage>
 #include <QMap>
@@ -138,7 +138,7 @@ public slots:
 private:
 	MetaDataList			_v_md;			// the current metadata
 	MetaDataList			_v_md_orig;		// the original metadata
-	QVector<bool>			_changed_md;	// indicates if metadata at idx was changed
+	QList<bool>				_changed_md;	// indicates if metadata at idx was changed
 	QMap<int, QImage>		_cover_map;
 
 	LibraryDatabase*		_ldb=nullptr;	// database of LocalLibrary

@@ -134,7 +134,3 @@ void PlaylistParser::save_playlist(QString filename, const MetaDataList& v_md, b
 
 	file.close();
 }
-
-
-
-

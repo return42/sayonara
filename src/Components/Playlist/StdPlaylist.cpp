@@ -36,7 +36,7 @@ bool StdPlaylist::change_track(int idx) {
 	_v_md.set_cur_play_track(idx);
 
 	// ERROR: invalid idx
-	if( !between(idx, 0, _v_md.size()) ) {
+	if( !between(idx, _v_md) ) {
 		stop();
 		return false;
 	}

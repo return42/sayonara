@@ -31,9 +31,7 @@
 #include <QFileInfo>
 
 DirectoryReader::DirectoryReader () {
-
 	_name_filters = Helper::get_soundfile_extensions();
-
 }
 
 DirectoryReader::~DirectoryReader () {

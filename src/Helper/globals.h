@@ -124,6 +124,33 @@ enum LameBitrate {
 						} \
 						qDebug() << "Time: " << myTimer.elapsed();
 
-#define between(idx, start, size) ( idx >= start && idx < size)
+//#define between(idx, start, size) ( idx >= start && idx < size)
+
+
+template<typename TINT, typename T>
+typename std::enable_if<std::is_pointer<T>::value, bool>::type
+between( TINT idx, const T& cont){
+	return (idx >= 0 && idx < cont->size());
+}
+
+template<typename TINT, typename T>
+typename std::enable_if<std::is_class<T>::value, bool>::type
+between( TINT idx, const T cont){
+	return (idx >= 0 && idx < cont.size());
+}
+
+template<typename TINT>
+typename std::enable_if<std::is_integral<TINT>::value, bool>::type
+between( TINT idx, TINT max){
+	return (idx >= 0 && idx < max);
+}
+
+
+
+/*template<typename TINT>
+between(const TINT num1, const TINT num2, const TINT num3){
+	return (num1 >= num2 && num1 < num3);
+}*/
+
 
 #endif /* GLOBALS_H_ */

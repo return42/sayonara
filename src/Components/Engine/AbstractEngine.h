@@ -64,7 +64,7 @@ public:
 	virtual void		set_buffer_state(int percent, GstElement* src);
 
 	void				set_level(float right, float left);
-	void				set_spectrum(QVector<float>& lst );
+	void				set_spectrum(QList<float>& lst );
 
 signals:
 	void sig_md_changed(const MetaData&);

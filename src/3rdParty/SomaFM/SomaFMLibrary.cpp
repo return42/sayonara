@@ -146,7 +146,7 @@ void SomaFMLibrary::create_playlist_from_playlist(int idx)
 	SomaFMStation station = _station_map[_requested_station];
 	QStringList urls = station.get_urls();
 
-	if( !between(idx, 0, urls.size())) {
+	if( !between(idx, urls)) {
 		return;		
 	}
 

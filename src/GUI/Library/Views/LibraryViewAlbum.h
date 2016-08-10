@@ -45,7 +45,7 @@ public:
 
 
 protected:
-	QVector< QList<quint8> >	_discnumbers;
+	QList< QList<quint8> >		_discnumbers;
 	DiscPopupMenu*				_discmenu=nullptr;
 	QPoint						_discmenu_point;
 

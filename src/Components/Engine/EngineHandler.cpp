@@ -105,7 +105,7 @@ void EngineHandler::set_speed(float f) {
 	}
 }
 
-void EngineHandler::fill_engines(const QVector<Engine*>& engines) {
+void EngineHandler::fill_engines(const QList<Engine*>& engines) {
 	_engines = engines;
 
 	switch_engine(EngineName::PlaybackEngine);

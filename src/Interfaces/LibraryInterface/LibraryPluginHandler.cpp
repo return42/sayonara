@@ -198,7 +198,7 @@ void LibraryPluginHandler::index_changed(int idx){
 }
 
 LibraryContainerInterface* LibraryPluginHandler::get_cur_library() const {
-	if(!between(_cur_idx, 0, _libraries.size())) {
+	if(!between(_cur_idx, _libraries)) {
 		return nullptr;
 	}
 

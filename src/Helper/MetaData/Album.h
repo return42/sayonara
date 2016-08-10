@@ -28,7 +28,6 @@
 #include <QStringList>
 #include <QVariant>
 #include <QMetaType>
-#include <QVector>
 
 class Album;
 
@@ -70,7 +69,7 @@ public:
  * @brief The AlbumList class
  * @ingroup MetaDataHelper
  */
-class AlbumList : public QVector<Album> {
+class AlbumList : public QList<Album> {
 
 public:
 	bool contains(qint32 album_id) const;

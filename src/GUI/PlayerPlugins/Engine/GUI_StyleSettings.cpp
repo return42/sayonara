@@ -204,7 +204,7 @@ void GUI_StyleSettings::combo_styles_changed(int idx) {
 	cb_col3->setChecked(style.col_list.colors.size() > 2 && style.col_list.colors[2].isValid());
 	cb_col4->setChecked(style.col_list.colors.size() > 3 && style.col_list.colors[3].isValid());
 
-	QVector<QColor> col_list = style.col_list.colors;
+	QList<QColor> col_list = style.col_list.colors;
 	btn_col1->setIcon(col2Icon(col_list[0]));
 	btn_col2->setIcon(col2Icon(col_list[1]));
 
@@ -366,7 +366,7 @@ void GUI_StyleSettings::undo_pressed() {
 	cb_col3->setChecked(_cur_style.col_list.colors.size() > 2 && _cur_style.col_list.colors[2].isValid());
 	cb_col4->setChecked(_cur_style.col_list.colors.size() > 3 && _cur_style.col_list.colors[3].isValid());
 
-	QVector<QColor> col_list = _cur_style.col_list.colors;
+	QList<QColor> col_list = _cur_style.col_list.colors;
 	btn_col1->setIcon(col2Icon(col_list[0]));
 	btn_col2->setIcon(col2Icon(col_list[1]));
 

@@ -53,7 +53,7 @@ QVariant PlaylistItemModel::data(const QModelIndex &index, int role) const{
 		return QVariant();
 	}
 
-	if ( !between(index.row(), 0, _pl->get_count())) {
+	if ( !between(index.row(), _pl->get_count())) {
 		return QVariant();
 	}
 

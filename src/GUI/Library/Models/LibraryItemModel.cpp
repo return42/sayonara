@@ -46,7 +46,7 @@ QVariant LibraryItemModel::headerData ( int section, Qt::Orientation orientation
 		return QVariant();
 	}
 
-	if(!between(section, 0, _header_names.size())){
+	if(!between(section, _header_names)){
 		return QVariant();
 	}
 
@@ -62,7 +62,7 @@ bool LibraryItemModel::setHeaderData(int section, Qt::Orientation orientation, c
 {
 	Q_UNUSED(role)
 
-	if(!between(section, 0, _header_names.size())){
+	if(!between(section, _header_names)){
 		return false;
 	}
 

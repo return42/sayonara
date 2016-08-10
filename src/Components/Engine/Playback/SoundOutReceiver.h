@@ -32,7 +32,7 @@ public:
 
 class SpectrumReceiver {
 public:
-	virtual void set_spectrum(const QVector<float>& spectrum)=0;
+	virtual void set_spectrum(const QList<float>& spectrum)=0;
 };
 
 #endif // LEVELRECEIVER_H

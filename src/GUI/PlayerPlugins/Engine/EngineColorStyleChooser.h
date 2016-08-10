@@ -53,10 +53,8 @@ private:
     void create_colorstyle(ColorStyle &style, const ColorList &colors_active, int n_rects, int n_fading_steps);
     void init();
 
-
-	QVector< ColorStyle > _styles_spectrum;
-	QVector< ColorStyle > _styles_level;
-
+	QList< ColorStyle > _styles_spectrum;
+	QList< ColorStyle > _styles_level;
 };
 
 #endif // ENGINECOLORSTYLECHOOSER_H

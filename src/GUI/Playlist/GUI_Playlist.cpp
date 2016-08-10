@@ -388,6 +388,8 @@ void GUI_Playlist::set_total_time_label() {
 
 void GUI_Playlist::open_file_clicked(int tgt_idx) {
 
+	Q_UNUSED(tgt_idx)
+
 	QStringList filetypes;
 
 	filetypes << Helper::get_soundfile_extensions();
@@ -411,6 +413,8 @@ void GUI_Playlist::open_file_clicked(int tgt_idx) {
 }
 
 void GUI_Playlist::open_dir_clicked(int tgt_idx) {
+
+	Q_UNUSED(tgt_idx)
 
 	QString dir = QFileDialog::getExistingDirectory(this,
 			tr("Open Directory"),

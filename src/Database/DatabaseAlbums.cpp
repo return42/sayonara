@@ -52,14 +52,9 @@ bool DatabaseAlbums::db_fetch_albums(SayonaraQuery& q, AlbumList& result) {
 		return true;
 	}
 
-	quint32 i=0;
-	quint32 n_rows = q.at() + 1;
+	for(bool is_element=q.first(); is_element; is_element = q.next()){
 
-	result.resize(n_rows);
-
-	for(bool is_element=q.first(); is_element; is_element = q.next(), i++){
-
-		Album& album = result[i];
+		Album album;
 
 		album.id = q.value(0).toInt();
 		album.name = q.value(1).toString().trimmed();
@@ -87,6 +82,8 @@ bool DatabaseAlbums::db_fetch_albums(SayonaraQuery& q, AlbumList& result) {
 		album.n_discs = album.discnumbers.size();
 		album.is_sampler = (artistList.size() > 1);
 		album.db_id = _module_db_id;
+
+		result << album;
 	};
 
 	return true;

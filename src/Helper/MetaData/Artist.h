@@ -27,7 +27,7 @@
 
 #include <QVariant>
 #include <QMetaType>
-#include <QVector>
+#include <QList>
 
 /**
  * @brief The Artist class
@@ -62,7 +62,7 @@ Q_DECLARE_METATYPE(Artist)
  * @ingroup MetaDataHelper
  */
 class ArtistList :
-		public QVector<Artist>
+		public QList<Artist>
 {
 
 

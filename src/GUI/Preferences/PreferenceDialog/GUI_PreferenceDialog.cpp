@@ -118,7 +118,7 @@ void GUI_PreferenceDialog::revert()
 
 void GUI_PreferenceDialog::row_changed(int row)
 {
-	if(!between(row, 0, _dialogs.size())){
+	if(!between(row, _dialogs)){
 		return;
 	}
 

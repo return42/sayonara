@@ -18,12 +18,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef METADATALIST_H
 #define METADATALIST_H
 
-#include <QVector>
+#include <QList>
 #include "MetaData.h"
 #include "Helper/globals.h"
 
@@ -43,7 +41,7 @@ namespace SP {
 	class Set;
 }
 
-class MetaDataList : public QVector<MetaData> {
+class MetaDataList : public QList<MetaData> {
 
 private:
 	int _cur_played_track;
@@ -52,7 +50,6 @@ public:
 
 	MetaDataList();
 	MetaDataList(const MetaDataList&);
-	MetaDataList(int n_elems);
 
 	virtual ~MetaDataList();
 

@@ -183,7 +183,7 @@ void GUI_MTP::device_idx_changed(int idx){
 	_storages.clear();
 	combo_storages->clear();
 
-	if( !between(idx, 0, _raw_devices.size()) ){
+	if( !between(idx, _raw_devices) ){
 		return;
 	}
 
@@ -228,7 +228,7 @@ void GUI_MTP::device_opened(MTP_DevicePtr device){
 
 void GUI_MTP::storage_idx_changed(int idx){
 
-	if( !between(idx, 0, _storages.size()) ){
+	if( !between(idx, _storages) ){
 		return;
 	}
 

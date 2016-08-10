@@ -65,9 +65,9 @@ private:
 	MTP*						_mtp=nullptr;
 	MTP_CopyFiles*				_mtp_copy_files=nullptr;
 
-	QVector<MTP_RawDevicePtr>	_raw_devices;
-	QVector<MTP_DevicePtr>		_open_devices;
-	QVector<MTP_StoragePtr>		_storages;
+	QList<MTP_RawDevicePtr>		_raw_devices;
+	QList<MTP_DevicePtr>		_open_devices;
+	QList<MTP_StoragePtr>		_storages;
 
 	QHash<quint32, MTP_FolderPtr> _folders;
 	QHash<quint32, MTP_FilePtr>	  _files;

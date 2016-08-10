@@ -70,7 +70,7 @@ public:
 
 	void set_streamrecorder_recording(bool b);
 
-	void set_spectrum(const QVector<float>& vals);
+	void set_spectrum(const QList<float>& vals);
 	void add_spectrum_receiver(SpectrumReceiver* receiver);
 
 	void set_level(float left, float right);

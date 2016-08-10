@@ -66,7 +66,7 @@ QMimeData* SomaFMPlaylistModel::mimeData(const QModelIndexList& indexes) const
     int row = indexes[0].row();
 
     QStringList urls = _station.get_urls();
-    if(!between(row, 0, urls.size())){
+	if(!between(row, urls)){
 		return nullptr;
     }
 

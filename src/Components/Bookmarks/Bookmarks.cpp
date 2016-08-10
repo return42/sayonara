@@ -141,7 +141,7 @@ bool Bookmarks::jump_to(int idx){
 }
 
 bool Bookmarks::jump_next(){
-	if( !between(_next_idx, 0, _bookmarks.size()) ){
+	if( !between(_next_idx, _bookmarks) ){
 		emit sig_next_changed(Bookmark());
 		return false;
 	}
@@ -212,14 +212,14 @@ void Bookmarks::pos_changed_ms(quint64 pos_ms){
 		i++;
 	}
 
-	if( between(_prev_idx, 0, _bookmarks.size()) ){
+	if( between(_prev_idx, _bookmarks) ){
 		emit sig_prev_changed(_bookmarks[_prev_idx]);
 	}
 	else{
 		emit sig_prev_changed(Bookmark());
 	}
 
-	if( between(_next_idx, 0, _bookmarks.size()) ){
+	if( between(_next_idx, _bookmarks) ){
 		emit sig_next_changed(_bookmarks[_next_idx]);
 	}
 	else{
@@ -275,8 +275,8 @@ bool Bookmarks::set_loop(bool b){
 	_loop_end = 0;
 
 	if(b){
-		if( between(_prev_idx, 0, _bookmarks.size()) &&
-			between(_next_idx, 0, _bookmarks.size()) )
+		if( between(_prev_idx, _bookmarks) &&
+			between(_next_idx, _bookmarks) )
 		{
 			_loop_start = _bookmarks[_prev_idx].get_time();
 			_loop_end = _bookmarks[_next_idx].get_time();

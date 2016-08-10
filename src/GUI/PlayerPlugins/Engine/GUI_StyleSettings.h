@@ -63,8 +63,8 @@ private slots:
 private:
 	DatabaseConnector*		_db=nullptr;
 
-	QVector<RawColorStyle>	_styles;
-	QVector<RawColorStyle>	_styles_old;
+	QList<RawColorStyle>	_styles;
+	QList<RawColorStyle>	_styles_old;
 
 	RawColorStyle			_cur_style;
 	QColor					_colors[4];

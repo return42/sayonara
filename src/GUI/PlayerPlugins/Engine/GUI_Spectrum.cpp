@@ -71,10 +71,8 @@ void GUI_Spectrum::init_ui()
 	_cur_style_idx = _settings->get(Set::Spectrum_Style);
 	_cur_style = _ecsc->get_color_scheme_spectrum(_cur_style_idx);
 
-	_spec = QVector<float>(N_BINS);
-
-	for(auto it=_spec.begin(); it != _spec.end(); it++){
-		*it = 0.0f;
+	for(int i=0; i<N_BINS; i++){
+		_spec << 0.0f;
 	}
 
 	for(int i=0; i<1100; i++) {
@@ -104,7 +102,7 @@ void GUI_Spectrum::init_ui()
 
 
 void
-GUI_Spectrum::set_spectrum(const QVector<float>& lst) {
+GUI_Spectrum::set_spectrum(const QList<float>& lst) {
 
 	if(!is_ui_initialized() || !isVisible()){
 		return;

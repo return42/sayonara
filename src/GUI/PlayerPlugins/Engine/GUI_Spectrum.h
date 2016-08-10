@@ -28,7 +28,7 @@
 
 #include "EnginePlugin.h"
 
-#include <QVector>
+#include <QList>
 
 class GUI_Spectrum :
 		public EnginePlugin,
@@ -57,12 +57,12 @@ protected slots:
 
 
 public slots:
-	void set_spectrum(const QVector<float>&) override;
+	void set_spectrum(const QList<float>&) override;
 	void sl_update_style() override;
 
 private:
 
-	QVector<float> _spec;
+	QList<float> _spec;
 	int** _steps=nullptr;
 
     void resize_steps(int bins, int rects);

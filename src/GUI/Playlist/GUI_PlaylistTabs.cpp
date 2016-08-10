@@ -85,7 +85,7 @@ void GUI_Playlist::select_tab_right()
 
 void GUI_Playlist::playlist_idx_changed(int pl_idx){
 
-	if(!between(pl_idx, 0, tw_playlists->count() - 1)){
+	if(!between(pl_idx, tw_playlists->count() - 1)){
 		return;
 	}
 
@@ -146,7 +146,7 @@ void GUI_Playlist::tab_close_playlist_clicked(int idx){
 	PlaylistView* plv;
 	int count = tw_playlists->count();
 
-	if( !between(idx, 0, count - 1)) {
+	if( !between(idx, count - 1)) {
 		return;
 	}
 
@@ -352,7 +352,7 @@ GlobalMessage::Answer GUI_Playlist::show_save_message_box(PlaylistDBInterface::S
 
 PlaylistView* GUI_Playlist::get_view_by_idx(int idx){
 
-	if(!between(idx, 0, tw_playlists->count() - 1)){
+	if(!between(idx, tw_playlists->count() - 1)){
 		return nullptr;
 	}
 
@@ -364,7 +364,7 @@ PlaylistView* GUI_Playlist::get_view_by_idx(int idx){
 PlaylistView* GUI_Playlist::get_current_view(){
 
 	int idx = tw_playlists->currentIndex();
-	if(!between(idx, 0, tw_playlists->count() - 1)){
+	if(!between(idx, tw_playlists->count() - 1)){
 		return nullptr;
 	}
 

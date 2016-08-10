@@ -93,7 +93,6 @@ bool SoundcloudData::db_fetch_tracks(SayonaraQuery& q, MetaDataList& result){
 
 	result.clear();
 
-	//sp_log(Log::Debug) << q.get_query_string();
 	if (!q.exec()) {
 		q.show_error("Cannot fetch tracks from database");
 		return false;
@@ -103,14 +102,9 @@ bool SoundcloudData::db_fetch_tracks(SayonaraQuery& q, MetaDataList& result){
 		return true;
 	}
 
-	int i=0;
-	int n_rows = q.at() + 1;
+	for(bool is_element = q.first(); is_element; is_element = q.next()){
 
-	result.resize(n_rows);
-
-	for(bool is_element = q.first(); is_element; is_element = q.next(), i++){
-
-		MetaData& data = result[i];
+		MetaData data;
 
 		data.id = 		 q.value(0).toInt();
 		data.title = 	 q.value(1).toString();
@@ -130,6 +124,8 @@ bool SoundcloudData::db_fetch_tracks(SayonaraQuery& q, MetaDataList& result){
 		data.cover_download_url = q.value(15).toString();
 		data.rating = q.value(16).toInt();
 		data.db_id = this->get_id();
+
+		result << data;
 	}
 
 	return true;
@@ -171,7 +167,7 @@ bool SoundcloudData::db_fetch_albums(SayonaraQuery& q, AlbumList& result){
 			album.discnumbers << d;
 		}
 
-		if(album.discnumbers.size() == 0) {
+		if(album.discnumbers.isEmpty()) {
 			album.discnumbers << 1;
 		}
 
@@ -197,14 +193,9 @@ bool SoundcloudData::db_fetch_artists(SayonaraQuery& q, ArtistList& result){
 		return true;
 	}
 
-	int i=0;
-	int n_rows = q.at() + 1;
+	for(bool is_element=q.first(); is_element; is_element = q.next()){
 
-	result.resize(n_rows);
-
-	for(bool is_element=q.first(); is_element; is_element = q.next(), i++){
-
-		Artist& artist = result[i];
+		Artist artist;
 
 		artist.id =						q.value(0).toInt();
 		artist.name =					q.value(1).toString().trimmed();
@@ -219,7 +210,7 @@ bool SoundcloudData::db_fetch_artists(SayonaraQuery& q, ArtistList& result){
 		artist.num_albums =				list.size();
 		artist.db_id =					this->get_id();
 
-		result[i] = artist;
+		result << artist;
 	}
 
 	return true;

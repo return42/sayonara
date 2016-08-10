@@ -24,7 +24,7 @@
 #define DATABASEVISSTYLES_H
 
 #include "Database/DatabaseModule.h"
-#include <QVector>
+#include <QList>
 
 struct RawColorStyle;
 class DatabaseVisStyles : private DatabaseModule
@@ -32,7 +32,7 @@ class DatabaseVisStyles : private DatabaseModule
 public:
 	DatabaseVisStyles(QSqlDatabase db, quint8 db_id);
 
-	QVector<RawColorStyle> get_raw_color_styles();
+	QList<RawColorStyle> get_raw_color_styles();
 	bool insert_raw_color_style_to_db(const RawColorStyle& rcs);
 	bool update_raw_color_style(const RawColorStyle& rcs);
 	bool raw_color_style_exists(QString name);

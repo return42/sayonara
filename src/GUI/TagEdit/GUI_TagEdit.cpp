@@ -128,7 +128,7 @@ void GUI_TagEdit::metadata_changed(const MetaDataList& md){
 
 bool GUI_TagEdit::check_idx(int idx) const
 {
-	return between(idx, 0, _tag_edit->get_n_tracks());
+	return between(idx, _tag_edit->get_n_tracks());
 }
 
 
@@ -323,7 +323,7 @@ void GUI_TagEdit::rating_all_changed(bool b){
 void GUI_TagEdit::cover_all_changed(bool b){
 
 	if(!b){
-		if(between(_cur_idx, 0, _tag_edit->get_n_tracks())){
+		if(between(_cur_idx, _tag_edit->get_n_tracks()) ){
 			set_cover(_tag_edit->get_metadata(_cur_idx));
 		}
 	}

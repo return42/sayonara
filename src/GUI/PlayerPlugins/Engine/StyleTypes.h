@@ -30,7 +30,7 @@
 
 struct ColorList {
     QString name;
-    QVector<QColor> colors;
+	QList<QColor> colors;
 };
 
 struct ColorStyle {

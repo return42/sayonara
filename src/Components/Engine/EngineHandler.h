@@ -24,7 +24,7 @@
 #include "AbstractEngine.h"
 #include "Components/PlayManager/PlayManager.h"
 
-#include <QVector>
+#include <QList>
 
 #define EngineHandler_change_track_md static_cast<void (EngineHandler::*) (const MetaData& md)>(&EngineHandler::change_track)
 
@@ -40,7 +40,7 @@ class EngineHandler : public Engine
 
 public:
 
-	void fill_engines(const QVector<Engine*>& engines);
+	void fill_engines(const QList<Engine*>& engines);
 	virtual bool init() override;
 
 	PlaybackEngine* get_playback_engine();
@@ -93,7 +93,7 @@ private:
 
 	PlayManager*						_play_manager=nullptr;
 	Engine*								_cur_engine=nullptr;
-	QVector<Engine*>					_engines;
+	QList<Engine*>						_engines;
 	QList<RawSoundReceiverInterface*>	_raw_sound_receiver;
 
 	Engine* get_engine(EngineName name);

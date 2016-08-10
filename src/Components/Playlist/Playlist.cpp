@@ -138,7 +138,7 @@ void Playlist::append_tracks(const MetaDataList& lst) {
 
 void Playlist::replace_track(int idx, const MetaData& md) {
 
-	if( !between(idx, 0, _v_md.size()) ) {
+	if( !between(idx, _v_md) ) {
 		return;
 	}
 

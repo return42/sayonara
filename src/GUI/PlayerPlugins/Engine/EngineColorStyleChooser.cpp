@@ -25,7 +25,7 @@
 #include "Helper/Logger/Logger.h"
 
 
-QVector<float> borders_4, borders_3, borders_2;
+QList<float> borders_4, borders_3, borders_2;
 
 EngineColorStyleChooser::EngineColorStyleChooser(int widget_width, int widget_height)
 {
@@ -54,7 +54,7 @@ create_colorstyle(ColorStyle &style, const ColorList &clist_active, int n_rects,
         }
 
         // compute active to inactive color
-		QVector<float> borders;
+		QList<float> borders;
         borders << 0.0 << 1.0;
 
         // run through rect
@@ -85,7 +85,7 @@ create_colorstyle(ColorStyle &style, const ColorList &clist_active, int n_rects,
 void EngineColorStyleChooser::insertColorOfRect(int bin, int n_bins, const ColorList& colorlist, QHash<int, QColor>& map) {
 
 	QColor col;
-	QVector<float> borders;
+	QList<float> borders;
 
 	if(colorlist.colors.size() == 4) {
 		borders = borders_4;
@@ -162,7 +162,7 @@ int EngineColorStyleChooser::get_num_color_schemes() {
 
 void EngineColorStyleChooser::reload(int widget_width, int widget_height) {
 
-	QVector< RawColorStyle > colors_active = DatabaseConnector::getInstance()->get_raw_color_styles();
+	QList< RawColorStyle > colors_active = DatabaseConnector::getInstance()->get_raw_color_styles();
 
     _styles_spectrum.clear();
     _styles_level.clear();

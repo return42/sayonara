@@ -237,7 +237,7 @@ int PlaylistHandler::create_empty_playlist(const QString& name){
 
 void PlaylistHandler::clear_playlist(int pl_idx) {
 
-	if( !between(pl_idx, 0, _playlists.size())){
+	if( !between(pl_idx, _playlists)){
 		return;
 	}
 
@@ -302,7 +302,7 @@ void PlaylistHandler::change_track(int track_idx, int playlist_idx) {
 	bool track_changed;
 	PlaylistPtr pl;
 
-	if( !between(playlist_idx, 0, _playlists.size())) {
+	if( !between(playlist_idx, _playlists) ) {
 		playlist_idx = get_active()->get_idx();
 	}
 
@@ -329,7 +329,7 @@ void PlaylistHandler::change_track(int track_idx, int playlist_idx) {
 
 void PlaylistHandler::set_active_idx(int idx){
 
-	if(between(idx, 0, _playlists.size())){
+	if(between(idx, _playlists)){
 		_active_playlist_idx = idx;
 	}
 
@@ -362,7 +362,7 @@ void PlaylistHandler::play_next(const MetaDataList& v_md) {
 
 void PlaylistHandler::insert_tracks(const MetaDataList& v_md, int row, int pl_idx) {
 
-	if(!between(pl_idx, 0, _playlists.size())){
+	if(!between(pl_idx, _playlists)){
 		return;
 	}
 
@@ -384,7 +384,7 @@ void PlaylistHandler::insert_tracks(const MetaDataList& v_md, int row, int pl_id
 
 void PlaylistHandler::append_tracks(const MetaDataList& v_md, int pl_idx) {
 
-	if(!between(pl_idx, 0, _playlists.size())){
+	if(!between(pl_idx, _playlists)){
 		return;
 	}
 
@@ -393,7 +393,7 @@ void PlaylistHandler::append_tracks(const MetaDataList& v_md, int pl_idx) {
 
 void PlaylistHandler::remove_rows(const SP::Set<int>& indexes, int pl_idx) {
 
-	if(!between(pl_idx, 0, _playlists.size())){
+	if(!between(pl_idx, _playlists)){
 		return;
 	}
 
@@ -403,7 +403,7 @@ void PlaylistHandler::remove_rows(const SP::Set<int>& indexes, int pl_idx) {
 
 void PlaylistHandler::move_rows(const SP::Set<int>& indexes, int tgt_idx, int pl_idx) {
 
-	if(!between(pl_idx, 0, _playlists.size())){
+	if(!between(pl_idx, _playlists)){
 		return;
 	}
 
@@ -445,7 +445,7 @@ int PlaylistHandler::get_active_idx_of_cur_track() const
 
 void PlaylistHandler::close_playlist(int idx){
 
-	if(!between(idx, 0, _playlists.size())){
+	if(!between(idx, _playlists)){
 		return;
 	}
 
@@ -482,7 +482,7 @@ void PlaylistHandler::close_playlist(int idx){
 
 PlaylistConstPtr PlaylistHandler::get_playlist_at(int idx) const {
 
-	if(! between(idx, 0, _playlists.size()) ){
+	if(! between(idx, _playlists) ){
 		return nullptr;
 	}
 
@@ -491,7 +491,7 @@ PlaylistConstPtr PlaylistHandler::get_playlist_at(int idx) const {
 
 PlaylistPtr PlaylistHandler::get_playlist(int idx, PlaylistPtr fallback) const
 {
-	if(! between(idx, 0, _playlists.size())){
+	if(! between(idx, _playlists)){
 		return fallback;
 	}
 
@@ -510,9 +510,9 @@ PlaylistPtr PlaylistHandler::get_active()
 	}
 
 	// assure valid idx
-	if( !between(_active_playlist_idx, 0,_playlists.size()) )
+	if( !between(_active_playlist_idx, _playlists) )
 	{
-		if(between(_current_playlist_idx, 0,_playlists.size())){
+		if(between(_current_playlist_idx, _playlists)){
 			_active_playlist_idx = _current_playlist_idx;
 		}
 
@@ -553,7 +553,7 @@ QStringList PlaylistHandler::get_playlist_names() const
 int PlaylistHandler::exists(const QString& name) const
 {
 	if( name.isEmpty() &&
-			between(_current_playlist_idx, 0, _playlists.size()))
+			between(_current_playlist_idx, _playlists))
 	{
 		return _current_playlist_idx;
 	}
@@ -572,7 +572,7 @@ int PlaylistHandler::exists(const QString& name) const
 
 void PlaylistHandler::save_playlist_to_file(const QString& filename, bool relative) {
 
-	if(!between(_current_playlist_idx, 0, _playlists.size())){
+	if(!between(_current_playlist_idx, _playlists)){
 		return;
 	}
 
@@ -583,7 +583,7 @@ void PlaylistHandler::save_playlist_to_file(const QString& filename, bool relati
 
 void PlaylistHandler::reset_playlist(int pl_idx){
 
-	if(!between(pl_idx, 0, _playlists.size())){
+	if(!between(pl_idx, _playlists)){
 		return;
 	}
 
@@ -601,7 +601,7 @@ PlaylistDBInterface::SaveAsAnswer PlaylistHandler::save_playlist(int idx){
 
 	PlaylistDBInterface::SaveAsAnswer ret;
 
-	if( !between(idx, 0, _playlists.size()) ){
+	if( !between(idx, _playlists) ){
 		return PlaylistDBInterface::SaveAsAnswer::Error;
 	}
 

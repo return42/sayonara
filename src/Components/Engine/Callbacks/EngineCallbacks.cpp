@@ -26,7 +26,7 @@
 #include "Helper/FileHelper.h"
 
 #include <algorithm>		// std::min
-#include <QVector>
+#include <QList>
 #include <QImage>
 #include <QRegExp>
 
@@ -374,7 +374,7 @@ EngineCallbacks::spectrum_handler(GstBus* bus, GstMessage* message, gpointer dat
 	const GstStructure*		structure;
 	const gchar*			structure_name;
 	const GValue*			magnitudes;
-	static QVector<float>	spectrum_vals(N_BINS);
+	static QList<float>		spectrum_vals;
 
 	engine = static_cast<PlaybackEngine*>(data);
 	if(!engine) {

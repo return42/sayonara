@@ -206,7 +206,7 @@ void TagEdit::apply_artists_and_albums_to_md(){
 
 void TagEdit::update_cover(int idx, const QImage& cover){
 
-	if(!between(idx, 0, _v_md.size())){
+	if(!between(idx, _v_md) ){
 		return;
 	}
 
@@ -233,7 +233,7 @@ bool TagEdit::has_cover_replacement(int idx) const
 
 bool TagEdit::is_id3v2_tag(int idx) const
 {
-	if(!between(idx, 0, _v_md.size())){
+	if(!between(idx, _v_md)){
 		return false;
 	}
 

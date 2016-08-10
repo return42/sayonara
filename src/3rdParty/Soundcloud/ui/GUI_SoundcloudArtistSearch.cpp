@@ -90,7 +90,10 @@ void GUI_SoundcloudArtistSearch::clear_clicked(){
 
 void GUI_SoundcloudArtistSearch::add_clicked(){
 
-	if(_v_md.size() > 0 && _chosen_artists.size() > 0 && _albums.size() > 0){
+	if( _v_md.size() > 0 &&
+		_chosen_artists.size() > 0 &&
+		_albums.size() > 0)
+	{
 		_library->insert_tracks(_v_md, _chosen_artists, _albums);
 		close();
 	}
@@ -112,7 +115,7 @@ void GUI_SoundcloudArtistSearch::artist_selected(int idx){
 	_v_md.clear();
 	_albums.clear();
 
-	if(!between(idx, 0, _searched_artists.size())) {
+	if(!between(idx, _searched_artists)) {
 		return;
 	}
 

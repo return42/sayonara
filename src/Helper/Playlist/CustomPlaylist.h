@@ -25,7 +25,7 @@
 
 #include "Helper/MetaData/MetaDataList.h"
 
-#include <QVector>
+#include <QList>
 
 /**
  * @brief The CustomPlaylistSkeleton class
@@ -57,8 +57,8 @@ public:
 	CustomPlaylist(const CustomPlaylistSkeleton& skeleton);
 };
 
-typedef QVector<CustomPlaylist> CustomPlaylists;
-typedef QVector<CustomPlaylistSkeleton> CustomPlaylistSkeletons;
+typedef QList<CustomPlaylist> CustomPlaylists;
+typedef QList<CustomPlaylistSkeleton> CustomPlaylistSkeletons;
 
 
 #endif // CUSTOMPLAYLIST_H

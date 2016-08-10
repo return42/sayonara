@@ -23,8 +23,7 @@
 #include "CustomMimeData.h"
 
 CustomMimeData::CustomMimeData() :
-	QMimeData(),
-	_v_md(0)
+	QMimeData()
 {
 
 }

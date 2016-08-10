@@ -334,7 +334,7 @@ void PlaybackPipeline::init_equalizer()
 	QList<EQ_Setting> presets = _settings->get(Set::Eq_List);
 	presets.push_front(EQ_Setting());
 
-	if( !between(last_idx, 0, presets.size())){
+	if( !between(last_idx, presets)){
 		last_idx = 0;
 	}
 
