@@ -31,7 +31,6 @@
 #include "Helper/EqualizerPresets.h"
 
 #include <glib.h>
-#include <gst/gst.h>
 #include <gst/gstbuffer.h>
 
 #include <QTimer>
@@ -101,8 +100,8 @@ public slots:
 	void change_track(const MetaData&) override;
 	void change_track(const QString&) override;
 
-	void set_track_ready() override;
-	void buffering(int progress) override;
+	void set_track_ready(GstElement* src) override;
+	void set_buffer_state(int progress, GstElement* src) override;
 
 	void gapless_timed_out();
 
