@@ -122,11 +122,13 @@ void PlayerPluginHandler::load_dynamic_plugins()
 
 		raw_plugin = loader.instance();
 		if(!raw_plugin) {
+			loader.unload();
 			continue;
 		}
 
 		plugin = dynamic_cast<PlayerPluginInterface*>(raw_plugin);
 		if(!plugin) {
+			loader.unload();
 			continue;
 		}
 

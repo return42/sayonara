@@ -52,10 +52,7 @@ GUI_InfoDialog::GUI_InfoDialog(QWidget* parent) :
 }
 
 GUI_InfoDialog::~GUI_InfoDialog() {
-
 }
-
-
 
 void GUI_InfoDialog::language_changed() {
 
@@ -97,6 +94,17 @@ void GUI_InfoDialog::prepare_lyrics() {
 
 	if(_v_md.size() != 1){
 		return;
+	}
+
+	if(!_lyric_thread){
+		_lyric_thread = new LyricLookupThread(this);
+
+		QStringList lyric_server_list = _lyric_thread->get_servers();
+		for(const QString& server : lyric_server_list) {
+			combo_servers->addItem(server);
+		}
+
+		connect(_lyric_thread, &LyricLookupThread::sig_finished, this, &GUI_InfoDialog::lyrics_fetched);
 	}
 
 	te_lyrics->setText("");
@@ -254,6 +262,8 @@ void GUI_InfoDialog::tab_index_changed(GUI_InfoDialog::TabIndex idx){
 			break;
 
 		case GUI_InfoDialog::TabLyrics:
+
+
 			tab_widget->setCurrentWidget(ui_lyric_widget);
 			ui_lyric_widget->show();
 			prepare_lyrics();
@@ -323,6 +333,11 @@ void GUI_InfoDialog::cover_clicked() {
 
 	setFocus();
 
+	if(!_ui_alternative_covers){
+		_ui_alternative_covers = new GUI_AlternativeCovers(this);
+		connect(_ui_alternative_covers, &GUI_AlternativeCovers::sig_cover_changed, this, &GUI_InfoDialog::alternative_cover_fetched);
+	}
+
 	if(_cover_artist.size() > 0 && _cover_album.size() > 0){
 		_ui_alternative_covers->start(_cover_album, _cover_artist, _cl);
 	}
@@ -341,11 +356,8 @@ void GUI_InfoDialog::init() {
 	setupUi(this);
 
 	QLayout* tab3_layout;
-	QStringList lyric_server_list;
 
-	_lyric_thread = new LyricLookupThread(this);
 	_cover_lookup = new CoverLookup(this);
-	_ui_alternative_covers = new GUI_AlternativeCovers(this);
 
 	tab3_layout = tab_3->layout();
 	if(tab3_layout){
@@ -353,22 +365,11 @@ void GUI_InfoDialog::init() {
 		tab3_layout->addWidget(_ui_tag_edit);
 	}
 
-	lyric_server_list = _lyric_thread->get_servers();
-	for(const QString& server : lyric_server_list) {
-		combo_servers->addItem(server);
-	}
-
 	combo_servers->setCurrentIndex(0);
 
 	connect(_cover_lookup, &CoverLookup::sig_cover_found, this, &GUI_InfoDialog::cover_fetched);
-
-	connect(_ui_alternative_covers, &GUI_AlternativeCovers::sig_cover_changed, this, &GUI_InfoDialog::alternative_cover_fetched);
-
-	connect(_lyric_thread, &LyricLookupThread::sig_finished, this, &GUI_InfoDialog::lyrics_fetched);
 	connect(tab_widget, &QTabWidget::currentChanged, this, &GUI_InfoDialog::tab_index_changed_int);
-
 	connect(_ui_tag_edit, &GUI_TagEdit::sig_cancelled, this, &GUI_InfoDialog::close);
-
 	connect(combo_servers, combo_current_index_changed_int, this, &GUI_InfoDialog::lyric_server_changed);
 
 	connect(btn_image, &QPushButton::clicked, this, &GUI_InfoDialog::cover_clicked);

@@ -79,11 +79,13 @@ void LibraryPluginHandler::init(const QList<LibraryContainerInterface*>& contain
 		raw_plugin = loader.instance();
 		if(!raw_plugin) {
 			sp_log(Log::Warning) << "Cannot load plugin: " << filename << ": " << loader.errorString();
+			loader.unload();
 			continue;
 		}
 
 		container = dynamic_cast<LibraryContainerInterface*>(raw_plugin);
 		if(!container) {
+			loader.unload();
 			continue;
 		}
 

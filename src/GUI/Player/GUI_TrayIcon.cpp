@@ -43,6 +43,51 @@ GUI_TrayIcon::GUI_TrayIcon (QObject *parent) :
 {
 	_play_manager = PlayManager::getInstance();
 
+	connect(_play_manager, &PlayManager::sig_playstate_changed, this, &GUI_TrayIcon::playstate_changed);
+	connect(_play_manager, &PlayManager::sig_mute_changed, this, &GUI_TrayIcon::mute_changed);
+
+	init_context_menu();
+
+	playstate_changed(_play_manager->get_play_state());
+
+	bool muted = _play_manager->get_mute();
+	mute_changed(muted);
+
+	NotificationHandler::getInstance()->register_notificator(this);
+
+
+}
+
+
+GUI_TrayIcon::~GUI_TrayIcon() {
+	delete _play_action;
+	delete _stop_action;
+	delete _bwd_action;
+	delete _fwd_action;
+	delete _mute_action;
+	delete _close_action;
+	delete _show_action;
+}
+
+
+void GUI_TrayIcon::language_changed() {
+  
+	_play_action->setText(tr("Play"));
+	_fwd_action->setText(tr("Next"));
+	_bwd_action->setText(tr("Previous"));
+	_stop_action->setText(tr("Stop"));
+	_mute_action->setText(tr("Mute"));
+	_close_action->setText(tr("Close"));
+	_show_action->setText(tr("Show"));
+	_cur_song_action->setText(tr("Current song"));
+}
+
+void GUI_TrayIcon::init_context_menu(){
+
+	if(_context_menu){
+		return;
+	}
+
 	_play_action = new QAction(tr("Play"), this);
 	_play_action->setIcon(GUI::get_icon("play"));
 	_stop_action = new QAction(tr("Stop"), this);
@@ -73,7 +118,6 @@ GUI_TrayIcon::GUI_TrayIcon (QObject *parent) :
 	_context_menu->addAction(_show_action);
 	_context_menu->addAction(_close_action);
 
-
 	this->setContextMenu(_context_menu);
 
 	connect(_play_action, &QAction::triggered, this, &GUI_TrayIcon::play_clicked);
@@ -85,48 +129,15 @@ GUI_TrayIcon::GUI_TrayIcon (QObject *parent) :
 	connect(_cur_song_action, &QAction::triggered, this, &GUI_TrayIcon::cur_song_clicked);
 	connect(_show_action, &QAction::triggered, this, &GUI_TrayIcon::show_clicked);
 
-	connect(_play_manager, &PlayManager::sig_playstate_changed, this, &GUI_TrayIcon::playstate_changed);
-	connect(_play_manager, &PlayManager::sig_mute_changed, this, &GUI_TrayIcon::mute_changed);
-
-	playstate_changed(_play_manager->get_play_state());
-
-	bool muted = _play_manager->get_mute();
-	mute_changed(muted);
-
-	NotificationHandler::getInstance()->register_notificator(this);
-
 	REGISTER_LISTENER(Set::Player_Style, skin_changed);
+
 }
-
-
-GUI_TrayIcon::~GUI_TrayIcon() {
-	delete _play_action;
-	delete _stop_action;
-	delete _bwd_action;
-	delete _fwd_action;
-	delete _mute_action;
-	delete _close_action;
-	delete _show_action;
-}
-
-
-void GUI_TrayIcon::language_changed() {
-  
-	_play_action->setText(tr("Play"));
-	_fwd_action->setText(tr("Next"));
-	_bwd_action->setText(tr("Previous"));
-	_stop_action->setText(tr("Stop"));
-	_mute_action->setText(tr("Mute"));
-	_close_action->setText(tr("Close"));
-	_show_action->setText(tr("Show"));
-	_cur_song_action->setText(tr("Current song"));
-}
-        
 
 void GUI_TrayIcon::skin_changed() {
-	
+
 	bool dark = (_settings->get(Set::Player_Style) == 1);
 	QString stylesheet = Style::get_style(dark);
+
 	_context_menu->setStyleSheet(stylesheet);
 
 	mute_changed( _settings->get(Set::Engine_Mute) );
@@ -178,27 +189,35 @@ void GUI_TrayIcon::playstate_changed(PlayManager::PlayState state)
 
 			setIcon(GUI::get_icon("play"));
 
-			_play_action->setIcon(GUI::get_icon("pause"));
-			_play_action->setText(tr("Pause"));
+			if(_play_action){
+				_play_action->setIcon(GUI::get_icon("pause"));
+				_play_action->setText(tr("Pause"));
+			}
+
 			break;
 
 		default:
 			setIcon(GUI::get_icon("pause"));
+			if(_play_action){
+				_play_action->setIcon(GUI::get_icon("play"));
+				_play_action->setText(tr("Play"));
+			}
 
-			_play_action->setIcon(GUI::get_icon("play"));
-			_play_action->setText(tr("Play"));
 			break;
 	}
-
 }
 
 
 void GUI_TrayIcon::set_enable_play(bool b) {
-	_play_action->setEnabled(b);
+	if(_play_action){
+		_play_action->setEnabled(b);
+	}
 }
 
 void GUI_TrayIcon::set_enable_stop(bool b) {
-	_stop_action->setEnabled(b);
+	if(_stop_action){
+		_stop_action->setEnabled(b);
+	}
 }
 
 void GUI_TrayIcon::set_enable_mute(bool b) {
@@ -206,11 +225,15 @@ void GUI_TrayIcon::set_enable_mute(bool b) {
 }
 
 void GUI_TrayIcon::set_enable_fwd(bool b) {
-	_fwd_action->setEnabled(b);
+	if(_fwd_action){
+		_fwd_action->setEnabled(b);
+	}
 }
 
 void GUI_TrayIcon::set_enable_bwd(bool b) {
-	_bwd_action->setEnabled(b);
+	if(_bwd_action){
+		_bwd_action->setEnabled(b);
+	}
 }
 
 void GUI_TrayIcon::play_clicked() {
@@ -259,13 +282,15 @@ void GUI_TrayIcon::mute_changed(bool muted) {
         suffix = "_dark";
     }
 
-	if(!muted) {
-		_mute_action->setIcon(GUI::get_icon("vol_mute" + suffix));
-		_mute_action->setText(tr("Mute"));
-	}
+	if(_mute_action){
+		if(!muted) {
+			_mute_action->setIcon(GUI::get_icon("vol_mute" + suffix));
+			_mute_action->setText(tr("Mute"));
+		}
 
-	else {
-		_mute_action->setIcon(GUI::get_icon("vol_3" + suffix));
-		_mute_action->setText(tr("Unmute"));
+		else {
+			_mute_action->setIcon(GUI::get_icon("vol_3" + suffix));
+			_mute_action->setText(tr("Unmute"));
+		}
 	}
 }

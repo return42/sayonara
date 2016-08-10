@@ -393,6 +393,12 @@ EngineCallbacks::spectrum_handler(GstBus* bus, GstMessage* message, gpointer dat
 
 	magnitudes = gst_structure_get_value (structure, "magnitude");
 
+	if(spectrum_vals.isEmpty()){
+		for (guint i = 0; i < N_BINS; ++i) {
+			spectrum_vals << 0;
+		}
+	}
+
 	for (guint i = 0; i < N_BINS; ++i) {
 
         float f;
@@ -404,6 +410,7 @@ EngineCallbacks::spectrum_handler(GstBus* bus, GstMessage* message, gpointer dat
 		}
 
 		f = (g_value_get_float(mag) + 75) / (75.0f);
+
 		spectrum_vals[i] = f;
     }
 

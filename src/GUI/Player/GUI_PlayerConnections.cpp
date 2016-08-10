@@ -58,9 +58,15 @@ void GUI_Player::setup_connections() {
 	connect(action_Close, &QAction::triggered, this, &GUI_Player::really_close);
 
 #ifdef WITH_MTP
-	connect(action_devices, &QAction::triggered, _mtp, &GUI_MTP::show);
-#endif
+	connect(action_devices, &QAction::triggered, this, [=](){
 
+		if(!_mtp){
+			_mtp = new GUI_MTP(this);
+		}
+
+		_mtp->show();
+	});
+#endif
 
 	// view
 	connect(action_viewLibrary, &QAction::toggled, this, &GUI_Player::show_library);

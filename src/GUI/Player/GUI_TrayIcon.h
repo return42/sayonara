@@ -92,6 +92,7 @@ private slots:
 	void mute_changed(bool muted);
 
 
+
 protected:
 	virtual void  language_changed();
 
@@ -110,6 +111,9 @@ private:
 
 	QMenu*		_context_menu=nullptr;
 	QTimer*		_timer=nullptr;
+
+private:
+	void init_context_menu();
 
 };
 

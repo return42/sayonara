@@ -62,6 +62,9 @@ private slots:
 	void copy_thread_finished();
 
 private:
+
+	bool						_initialized;
+
 	MTP*						_mtp=nullptr;
 	MTP_CopyFiles*				_mtp_copy_files=nullptr;
 
@@ -80,6 +83,8 @@ private:
 	void dragMoveEvent(QDragMoveEvent* e) override;
 	void dragLeaveEvent(QDragLeaveEvent* e) override;
 	void dropEvent(QDropEvent* e) override;
+
+	void showEvent(QShowEvent* e) override;
 
 };
 

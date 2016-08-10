@@ -22,7 +22,6 @@
         <file>Icons/fwd.svg.png</file>
         <file>Icons/gapless.svg.png</file>
         <file>Icons/id3.svg.png</file>
-        <file>Icons/import.svg.png</file>
         <file>Icons/info.svg.png</file>
         <file>Icons/logo.png</file>
         <file>Icons/lyrics.svg.png</file>
@@ -84,7 +83,6 @@
         <file>Icons/arrow_filled_left.svg.png</file>
         <file>Icons/star.png</file>
         <file>Icons/star_disabled.png</file>
-        <file>Icons/waiting.gif</file>
         <file>Icons/gapless_disabled.svg</file>
         <file>Icons/play_small.svg.png</file>
         <file>Icons/bwd_disabled.svg</file>

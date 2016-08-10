@@ -69,7 +69,7 @@ GUI_Player::GUI_Player(QTranslator* translator, QWidget *parent) :
 	QString version = _settings->get(Set::Player_Version);
 
 #ifdef WITH_MTP
-	_mtp = new GUI_MTP(this);
+
 	action_devices->setVisible(true);
 #else
 	action_devices->setVisible(false);
