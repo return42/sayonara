@@ -194,18 +194,19 @@ void GUI_AlternativeCovers::cancel_button_pressed() {
 
 void GUI_AlternativeCovers::cl_new_cover(const QString& cover_path) {
 
-	QModelIndex model_idx;
-
 	_filelist << cover_path;
 
-    RowColumn rc = _model->cvt_2_row_col( _filelist.size() - 1 );
-    RowColumn cur_idx_rc = _model->cvt_2_row_col( _cur_idx );
-    btn_save->setEnabled( _model->is_valid(cur_idx_rc.row, cur_idx_rc.col) );
+	int n_files = _filelist.size();
 
-	model_idx = _model->index(rc.row, rc.col);
+	RowColumn rc_last =     _model->cvt_2_row_col( n_files - 1 );
+	RowColumn rc_cur_idx =  _model->cvt_2_row_col( _cur_idx );
+	QModelIndex model_idx = _model->index(rc_last.row, rc_last.col);
+	bool is_valid =         _model->is_valid(rc_cur_idx.row, rc_cur_idx.col);
 
 	_model->setData(model_idx, cover_path);
-	lab_status->setText( tr("%1 covers found").arg(QString::number(_filelist.size())) ) ;
+
+	btn_save->setEnabled( is_valid );
+	lab_status->setText( tr("%1 covers found").arg(n_files) ) ;
 }
 
 

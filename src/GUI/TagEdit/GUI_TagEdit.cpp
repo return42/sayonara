@@ -109,6 +109,10 @@ void GUI_TagEdit::progress_changed(int val){
 	if(val >= 0){
 		pb_progress->setValue(val);
 	}
+
+	if(val < 0){
+		metadata_changed( _tag_edit->get_all_metadata() );
+	}
 }
 
 void GUI_TagEdit::metadata_changed(const MetaDataList& md){
@@ -156,7 +160,6 @@ void GUI_TagEdit::track_idx_changed(){
 	btn_prev->setEnabled(_cur_idx > 0 && _cur_idx < n_tracks);
 
 	if(!check_idx(_cur_idx)) return;
-
 
 	MetaData md = _tag_edit->get_metadata(_cur_idx);
 
@@ -376,6 +379,8 @@ void GUI_TagEdit::commit(){
 
 	btn_ok->setEnabled(false);
 	btn_cancel->setEnabled(false);
+	btn_undo->setEnabled(false);
+	btn_undo_all->setEnabled(false);
 
 	write_changes(_cur_idx);
 

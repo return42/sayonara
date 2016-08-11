@@ -118,7 +118,6 @@ void Probing::handle_stream_recorder_probe(StreamRecorderData* data, GstPadProbe
 }
 
 
-
 GstPadProbeReturn
 Probing::stream_recorder_probed(GstPad *pad, GstPadProbeInfo *info, gpointer user_data){
 
@@ -168,8 +167,3 @@ Probing::stream_recorder_probed(GstPad *pad, GstPadProbeInfo *info, gpointer use
 		return GST_PAD_PROBE_DROP;
 	}
 }
-
-
-
-
-

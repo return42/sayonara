@@ -264,7 +264,9 @@ void TagEdit::run()
 		MetaData md = _v_md[i];
 		emit sig_progress( (i * 100) / n_operations);
 
-		if( _changed_md[i] == false ) continue;
+		if( _changed_md[i] == false ) {
+			continue;
+		}
 
 		bool success = Tagging::setMetaDataOfFile(md);
 		sp_log(Log::Debug) << "Write track "<< md.title
@@ -296,15 +298,16 @@ void TagEdit::run()
 	db = DatabaseConnector::getInstance();
 	db->clean_up();
 
-	_v_md = v_md;
-	_v_md_orig = v_md_orig;
+	_v_md_after_change = v_md;
+	_v_md_before_change = v_md_orig;
+	_v_md_orig = _v_md;
 
 	emit sig_progress(-1);
 }
 
 void TagEdit::thread_finished(){
 	if(_notify){
-		MetaDataChangeNotifier::getInstance()->change_metadata(_v_md_orig, _v_md);
+		MetaDataChangeNotifier::getInstance()->change_metadata(_v_md_before_change, _v_md_after_change);
 	}
 }
 

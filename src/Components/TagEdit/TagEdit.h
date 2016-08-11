@@ -138,6 +138,9 @@ public slots:
 private:
 	MetaDataList			_v_md;			// the current metadata
 	MetaDataList			_v_md_orig;		// the original metadata
+
+	MetaDataList			_v_md_before_change;
+	MetaDataList			_v_md_after_change;
 	QList<bool>				_changed_md;	// indicates if metadata at idx was changed
 	QMap<int, QImage>		_cover_map;
 
