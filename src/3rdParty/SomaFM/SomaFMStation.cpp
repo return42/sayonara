@@ -41,10 +41,6 @@ SomaFMStation::SomaFMStation(const QString& content) :
 	parse_station_name();
 	parse_image();
 	parse_urls();
-
-	_cover.cover_path = Helper::get_sayonara_path() +
-			"/covers/" +
-			_station_name + "." + Helper::File::get_file_extension(_cover.search_url);
 }
 
 QString SomaFMStation::get_name() const
@@ -77,7 +73,7 @@ bool SomaFMStation::is_valid() const
 	return (!_station_name.isEmpty() &&
 			!_urls.isEmpty() &&
 			!_description.isEmpty() &&
-			_cover.valid);
+			_cover.valid());
 }
 
 MetaDataList SomaFMStation::get_metadata() const
@@ -154,9 +150,12 @@ void SomaFMStation::parse_image()
 
 	int idx = re.indexIn(_content);
 	if(idx > 0){
-		_cover.cover_path = "";
-		_cover.search_url = QString("https://somafm.com/") + re.cap(1);
-		_cover.valid = true;
+		QString url = QString("https://somafm.com/") + re.cap(1);
+		QString cover_path = Helper::get_sayonara_path() +
+				"/covers/" +
+				_station_name + "." + Helper::File::get_file_extension(url);
+
+		_cover = CoverLocation::get_cover_location(QUrl(url), cover_path);
 	}
 }
 

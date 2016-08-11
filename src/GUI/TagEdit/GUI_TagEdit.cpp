@@ -42,7 +42,6 @@ GUI_TagEdit::GUI_TagEdit(QWidget* parent) :
 
 	connect(btn_next, &QPushButton::clicked, this, &GUI_TagEdit::next_button_clicked);
 	connect(btn_prev, &QPushButton::clicked, this, &GUI_TagEdit::prev_button_clicked);
-	connect(btn_ok, &QPushButton::clicked, this, &GUI_TagEdit::commit);
 	connect(btn_apply_tag, &QPushButton::clicked, this, &GUI_TagEdit::apply_tag_clicked);
 	connect(btn_apply_tag_all, &QPushButton::clicked, this, &GUI_TagEdit::apply_tag_all_clicked);
 	connect(rb_dont_replace, &QRadioButton::toggled, this, &GUI_TagEdit::rb_dont_replace_toggled);
@@ -55,8 +54,6 @@ GUI_TagEdit::GUI_TagEdit(QWidget* parent) :
 	connect(cb_rating_all, &QCheckBox::toggled, this, &GUI_TagEdit::rating_all_changed);
 	connect(cb_cover_all, &QCheckBox::toggled, this, &GUI_TagEdit::cover_all_changed);
 	connect(le_tag, &QLineEdit::textChanged, this, &GUI_TagEdit::tag_text_changed);
-	connect(btn_undo, &QPushButton::clicked, this, &GUI_TagEdit::undo_clicked);
-	connect(btn_undo_all, &QPushButton::clicked, this, &GUI_TagEdit::undo_all_clicked);
 
 	connect(btn_title, &QPushButton::toggled, this, &GUI_TagEdit::btn_title_checked);
 	connect(btn_artist, &QPushButton::toggled, this, &GUI_TagEdit::btn_artist_checked);
@@ -69,6 +66,10 @@ GUI_TagEdit::GUI_TagEdit(QWidget* parent) :
 	connect(_tag_edit, &TagEdit::sig_progress, this, &GUI_TagEdit::progress_changed);
 	connect(_tag_edit, &TagEdit::sig_metadata_received, this, &GUI_TagEdit::metadata_changed);
 	connect(_tag_edit, &TagEdit::finished, this, &GUI_TagEdit::commit_finished);
+
+	connect(btn_ok, &QPushButton::clicked, this, &GUI_TagEdit::commit);
+	connect(btn_undo, &QPushButton::clicked, this, &GUI_TagEdit::undo_clicked);
+	connect(btn_undo_all, &QPushButton::clicked, this, &GUI_TagEdit::undo_all_clicked);
 	connect(btn_cancel, &QPushButton::clicked, this, &GUI_TagEdit::cancel);
 
 	reset();
@@ -277,7 +278,7 @@ void GUI_TagEdit::reset(){
 	btn_cover_replacement->setEnabled(true);
 	show_replacement_field(false);
 
-	QIcon icon(CoverLocation::getInvalidLocation().cover_path);
+	QIcon icon(CoverLocation::getInvalidLocation().cover_path());
 	btn_cover_replacement->setIcon( icon );
 
 	lab_filepath->clear();
@@ -454,11 +455,11 @@ void GUI_TagEdit::set_cover(const MetaData& md){
 	CoverLocation cl = CoverLocation::get_cover_location(md);
 	btn_cover_replacement->set_cover_location(cl);
 
-	cb_cover_all->setEnabled(cl.valid);
-	btn_cover_replacement->setEnabled(cl.valid && !cb_cover_all->isChecked());
+	cb_cover_all->setEnabled(cl.valid());
+	btn_cover_replacement->setEnabled(cl.valid() && !cb_cover_all->isChecked());
 
-	if(cl.valid){
-		_cover_path_map[_cur_idx] = cl.cover_path;
+	if(cl.valid()){
+		_cover_path_map[_cur_idx] = cl.cover_path();
 	}
 }
 

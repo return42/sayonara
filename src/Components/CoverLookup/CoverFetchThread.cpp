@@ -41,9 +41,9 @@ CoverFetchThread::CoverFetchThread(QObject* parent, const CoverLocation& cl, con
 {
 	_covers_found = 0;
 	_n_covers = n_covers;
-	_url = cl.search_url;
+	_url = cl.search_url();
 
-	_target_file = cl.cover_path;
+	_target_file = cl.cover_path();
 }
 
 
@@ -132,11 +132,11 @@ void CoverFetchThread::single_image_fetched(bool success){
 	QImage img  = awa->get_image();
 
 	if(!img.isNull()){
-
 		_covers_found++;
-		save_and_emit_image(_target_file, img, awa->get_url());
-
+		save_and_emit_image(_target_file, img);
 	}
+
+	awa->deleteLater();
 }
 
 
@@ -156,17 +156,18 @@ void CoverFetchThread::multi_image_fetched(bool success){
 
 		QString cover_path = dir + "/" + QString::number(_covers_found) + "_" + filename;
 
-		save_and_emit_image(cover_path, img, awa->get_url());
+		save_and_emit_image(cover_path, img);
 
 		_covers_found++;
 	}
+
+	awa->deleteLater();
 }
 
 
 
 void CoverFetchThread::save_and_emit_image(const QString& filepath,
-										   const QImage& img,
-										   const QString& url)
+										   const QImage& img)
 {
 
 	QString filename = filepath;
@@ -183,12 +184,9 @@ void CoverFetchThread::save_and_emit_image(const QString& filepath,
 		sp_log(Log::Warning) << "Cannot save image to " << filename;
 	}
 
-	CoverLocation cl;
-	cl.cover_path = filename;
-	cl.search_url = url;
-	cl.valid = true;
-
-	emit sig_cover_found(cl);
+	else{
+		emit sig_cover_found(filename);
+	}
 }
 
 

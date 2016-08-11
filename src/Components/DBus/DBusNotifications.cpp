@@ -92,13 +92,13 @@ void DBusNotifications::track_changed(const MetaData& md){
 	}
 
 	CoverLocation cl = CoverLocation::get_cover_location(md);
-	QString cover_path = cl.cover_path;
+	QString cover_path = cl.cover_path();
 	if(!QFile::exists(cover_path)){
-		if(cl.local_paths.isEmpty()){
-			cover_path = CoverLocation::getInvalidLocation().cover_path;
+		if(cl.local_paths().isEmpty()){
+			cover_path = CoverLocation::getInvalidLocation().cover_path();
 		}
 		else{
-			cover_path = cl.local_paths[0];
+			cover_path = cl.local_path(0);
 		}
 	}
 

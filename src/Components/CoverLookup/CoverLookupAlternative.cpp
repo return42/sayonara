@@ -56,7 +56,7 @@ void CoverLookupAlternative::start() {
 	_cl->fetch_cover(_cover_location);
 }
 
-void CoverLookupAlternative::cover_found(const CoverLocation& cover_path)
+void CoverLookupAlternative::cover_found(const QString& cover_path)
 {
     emit sig_cover_found(cover_path);
 }

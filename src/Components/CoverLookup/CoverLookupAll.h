@@ -48,7 +48,7 @@ private slots:
 	 * @brief Triggered, when CoverFetchThread found a cover
 	 * @param cl CoverLocation object
 	 */
-	void cover_found(const CoverLocation& cl);
+	void cover_found(const QString& cl);
 
 	/**
 	 * @brief Triggered, when CoverFetchThread has finished

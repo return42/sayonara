@@ -71,7 +71,7 @@ GUI_AlternativeCovers::GUI_AlternativeCovers(QWidget* parent) :
 	_cur_idx = -1;
 
     _model = new AlternateCoverItemModel(this);
-    _delegate = new AlternateCoverItemDelegate(this);
+	_delegate = new AlternateCoverItemDelegate(this);
 
 	_is_searching = false;
 
@@ -114,8 +114,8 @@ void GUI_AlternativeCovers::connect_and_start() {
 
 	btn_search->setText(tr("Stop"));
     btn_save->setEnabled(false);
-	le_search->setText(_cover_location.search_term);
-	lab_info->setText(_cover_location.search_term);
+	le_search->setText(_cover_location.search_term());
+	lab_info->setText(_cover_location.search_term());
 
 	_cl_alternative->start();
 
@@ -123,7 +123,7 @@ void GUI_AlternativeCovers::connect_and_start() {
 }
 
 void GUI_AlternativeCovers::start(const CoverLocation& cl){
-	if(!cl.valid){
+	if(!cl.valid()){
 		return;
 	}
 
@@ -159,21 +159,20 @@ void GUI_AlternativeCovers::save_button_pressed() {
 		return;
 	}
 
-	QVariant var = _model->data(idx);
-	CoverLocation cl = var.value<CoverLocation>();
-	QFile file(cl.cover_path);
+	QString cover_path = _model->data(idx, Qt::UserRole).toString();
+	QFile file(cover_path);
 
 	if(!file.exists()) {
 		Message::warning(tr("This cover does not exist"));
 		return;
 	}
 
-	QImage img(cl.cover_path);
+	QImage img(cover_path);
 	if(img.isNull()){
 		return;
 	}
 
-	img.save(_cover_location.cover_path);
+	img.save(_cover_location.cover_path());
 
 	emit sig_cover_changed(_cover_location);
 }
@@ -193,21 +192,19 @@ void GUI_AlternativeCovers::cancel_button_pressed() {
 
 
 
-void GUI_AlternativeCovers::cl_new_cover(const CoverLocation& cl) {
+void GUI_AlternativeCovers::cl_new_cover(const QString& cover_path) {
 
 	QModelIndex model_idx;
-	QVariant var;
 
-	_filelist << cl;
+	_filelist << cover_path;
 
     RowColumn rc = _model->cvt_2_row_col( _filelist.size() - 1 );
     RowColumn cur_idx_rc = _model->cvt_2_row_col( _cur_idx );
     btn_save->setEnabled( _model->is_valid(cur_idx_rc.row, cur_idx_rc.col) );
 
 	model_idx = _model->index(rc.row, rc.col);
-	var.setValue(cl);
 
-	_model->setData(model_idx, var);
+	_model->setData(model_idx, cover_path);
 	lab_status->setText( tr("%1 covers found").arg(QString::number(_filelist.size())) ) ;
 }
 
@@ -222,7 +219,6 @@ void GUI_AlternativeCovers::cl_finished(bool b) {
 }
 
 
-
 void GUI_AlternativeCovers::cover_pressed(const QModelIndex& idx) {
 
 	_cur_idx = _model->cvt_2_idx(idx.row(), idx.column());
@@ -230,7 +226,6 @@ void GUI_AlternativeCovers::cover_pressed(const QModelIndex& idx) {
 	bool valid = _model->is_valid(idx.row(), idx.column());
 
 	btn_save->setEnabled(valid);
-
 }
 
 
@@ -250,8 +245,6 @@ void GUI_AlternativeCovers::reset_model() {
 
     lab_status->setText("");
 }
-
-
 
 
 void GUI_AlternativeCovers::open_file_dialog() {
@@ -298,9 +291,12 @@ void GUI_AlternativeCovers::open_file_dialog() {
 
 void GUI_AlternativeCovers::delete_all_files() {
 
-	for(const CoverLocation& cl : _filelist) {
-		if(!cl.valid) continue;
-		QFile f(cl.cover_path);
+	for(const QString& cover_path : _filelist) {
+		if(CoverLocation::isInvalidLocation(cover_path)){
+			continue;
+		}
+
+		QFile f(cover_path);
 		f.remove();
 	}
 

@@ -76,7 +76,7 @@ QMimeData* SomaFMPlaylistModel::mimeData(const QModelIndexList& indexes) const
 	CoverLocation location = _station.get_cover_location();
 
     mime_data->setUrls({url});
-	mime_data->setText(location.search_url);
+	mime_data->setText(location.search_url());
 
     return mime_data;
 }

@@ -324,12 +324,12 @@ void RemoteControl::write_cover(const MetaData& md){
 	CoverLocation cl = CoverLocation::get_cover_location(md);
 	QByteArray img_data;
 	QStringList cover_paths;
-	if(!cl.cover_path.isEmpty() && QFile::exists(cl.cover_path) ){
-		cover_paths << cl.cover_path;
+	if(!cl.cover_path().isEmpty() && QFile::exists(cl.cover_path()) ){
+		cover_paths << cl.cover_path();
 	}
 
-	if(!cl.local_paths.isEmpty() && QFile::exists(cl.local_paths[0])){
-		cover_paths << cl.local_paths[0];
+	if(!cl.local_paths().isEmpty() && QFile::exists(cl.local_path(0))){
+		cover_paths << cl.local_path(0);
 	}
 
 	for(const QString& cover_path : cover_paths){

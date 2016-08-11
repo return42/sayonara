@@ -59,7 +59,7 @@ public:
 
 
 private slots:
-	void cover_found(const CoverLocation& );
+	void cover_found(const QString& cover_path);
     void finished(bool);
 };
 

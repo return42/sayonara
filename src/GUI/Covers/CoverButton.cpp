@@ -48,35 +48,35 @@ void CoverButton::alternative_cover_fetched(const CoverLocation& cl){
 
 	_found_cover_location = cl;
 
-	if(cl.valid){
+	if(cl.valid()){
 		emit sig_cover_replaced();
 	}
 
-	set_cover_image(cl);
+	set_cover_image(cl.cover_path());
 }
 
 
 void CoverButton::cover_found(const CoverLocation &cl){
 	_found_cover_location = cl;
 
-	if(cl.valid){
+	if(cl.valid()){
 		emit sig_cover_found();
 	}
 
-	set_cover_image(cl);
+	set_cover_image(cl.cover_path());
 }
 
 
-void CoverButton::set_cover_image(const CoverLocation &cl){
+void CoverButton::set_cover_image(const QString& cover_path){
 
-	QIcon icon(cl.cover_path);
+	QIcon icon(cover_path);
 	this->setIcon(icon);
 }
 
 
 bool CoverButton::has_valid_cover() const
 {
-	return _found_cover_location.valid;
+	return _found_cover_location.valid();
 }
 
 CoverLocation CoverButton::get_found_cover() const

@@ -181,14 +181,14 @@ void GUI_SomaFM::playlist_double_clicked(const QModelIndex& idx)
 }
 
 
-void GUI_SomaFM::cover_found(const CoverLocation &cover_location){
+void GUI_SomaFM::cover_found(const QString &cover_path){
 
 	CoverLookup* cl = static_cast<CoverLookup*>(sender());
-	if(!cover_location.valid){
+	if(CoverLocation::isInvalidLocation(cover_path)){
 		return;
 	}
 
-	QPixmap pixmap = QPixmap(cover_location.cover_path).scaled(QSize(200, 200), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+	QPixmap pixmap = QPixmap(cover_path).scaled(QSize(200, 200), Qt::KeepAspectRatio, Qt::SmoothTransformation);
 	if(pixmap.isNull()){
 		pixmap = QPixmap(":/soma_icons/soma_logo.png").scaled(QSize(200, 200), Qt::KeepAspectRatio, Qt::SmoothTransformation);
 	}

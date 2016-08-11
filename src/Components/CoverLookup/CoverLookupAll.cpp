@@ -52,10 +52,10 @@ void CoverLookupAll::stop() {
 }
 
 
-void CoverLookupAll::cover_found(const CoverLocation& cl) {
+void CoverLookupAll::cover_found(const QString& cover_path) {
 
     _album_list.pop_back();
-	emit sig_cover_found(cl);
+	emit sig_cover_found(cover_path);
 
 	if(!_run) {
 		return;

@@ -27,15 +27,11 @@
  */
 
 #include "AlternativeCoverItemDelegate.h"
-#include "Components/CoverLookup/CoverLookup.h"
 #include "Components/CoverLookup/CoverLocation.h"
-
 #include "GUI/Helper/GUI_Helper.h"
 #include "Helper/Logger/Logger.h"
 
 #include <QPainter>
-
-
 
 AlternateCoverItemDelegate::AlternateCoverItemDelegate(QObject* parent) : QItemDelegate(parent) {
 
@@ -63,21 +59,16 @@ void AlternateCoverItemDelegate::paint(QPainter *painter, const QStyleOptionView
 	painter->save();
 	painter->translate(2, 0);
 
-	QVariant var = index.model()->data(index);
-	CoverLocation cl = CoverLocation::getInvalidLocation();
+	QString cover_path = index.data(Qt::UserRole).toString();
 
-	if( var.canConvert<CoverLocation>()){
-		cl = var.value<CoverLocation>();
-	}
-
-	label->setEnabled(cl.valid);
+	label->setDisabled( CoverLocation::isInvalidLocation(cover_path) );
 	label->setMinimumHeight(100);
 	label->setMinimumWidth(100);
     label->resize(100, 100);
 
 	label->setContentsMargins(10, 10, 10, 10);
 
-	QPixmap pixmap( cl.cover_path );
+	QPixmap pixmap( cover_path );
 
 	if(!pixmap.isNull()) {
 
@@ -87,7 +78,6 @@ void AlternateCoverItemDelegate::paint(QPainter *painter, const QStyleOptionView
 	label->render(painter, rect.topLeft() );
 
     painter->restore();
-
 }
 
 

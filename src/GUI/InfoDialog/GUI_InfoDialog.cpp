@@ -173,7 +173,7 @@ void GUI_InfoDialog::prepare_info(GUI_InfoDialog::Mode mode) {
 
 	_cl = info->get_cover_location();
 
-	if(_cl.valid){
+	if(_cl.valid()){
 		_cover_artist = info->get_cover_artist();
 		_cover_album = info->get_cover_album();
 	}

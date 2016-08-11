@@ -43,23 +43,20 @@
 #include <QImage>
 
 CoverLookupInterface::CoverLookupInterface(QObject* parent):
-	QObject(parent) {
-
+	QObject(parent)
+{
 }
 
 
 CoverLookup::CoverLookup(QObject* parent, int n_covers) :
-	CoverLookupInterface(parent),
-	_n_covers(n_covers)
-
+	CoverLookupInterface(parent)
 {
-
+	_n_covers = n_covers;
 }
 
 CoverLookup::~CoverLookup() {
 
 }
-
 
 
 void CoverLookup::start_new_thread(const CoverLocation& cl ) {
@@ -71,26 +68,20 @@ void CoverLookup::start_new_thread(const CoverLocation& cl ) {
 	cft->start();
 }
 
-void CoverLookup::stop() {
-
-}
 
 bool CoverLookup::fetch_cover(const CoverLocation& cl) {
 
 	// Look, if cover exists in .Sayonara/covers
-	if( QFile::exists(cl.cover_path) && _n_covers == 1 ) {
+	if( QFile::exists(cl.cover_path()) && _n_covers == 1 ) {
 
-		emit sig_cover_found(cl);
+		emit sig_cover_found(cl.cover_path());
 		return true;
 	}
 
 	// For one cover, we also can use the local cover path
-	if(!cl.local_paths.isEmpty() && _n_covers == 1){
+	if(!cl.local_paths().isEmpty() && _n_covers == 1){
 
-		CoverLocation cl_new = cl;
-		cl_new.cover_path = cl.local_paths[0];
-
-		emit sig_cover_found(cl_new);
+		emit sig_cover_found(cl.local_path(0));
 		return true;
 	}
 
@@ -146,9 +137,8 @@ bool CoverLookup::fetch_artist_cover(const Artist& artist) {
 
 bool CoverLookup::fetch_cover_by_searchstring(const QString& searchstring, const QString& target_name) {
 
-	CoverLocation cl;
-	cl.cover_path = target_name;
-	cl.search_url = CoverHelper::calc_google_image_search_address(searchstring);
+	CoverLocation cl =
+			CoverLocation::get_cover_location_by_searchstring(searchstring, target_name);
 
 	start_new_thread( cl );
 	return true;
@@ -160,7 +150,7 @@ void CoverLookup::finished(bool success) {
     emit sig_finished(success);
 }
 
-void CoverLookup::cover_found(const CoverLocation& file_path) {
+void CoverLookup::cover_found(const QString& file_path) {
 
 	CoverFetchThread* cft = static_cast<CoverFetchThread*>(sender());
     emit sig_cover_found(file_path);
@@ -173,7 +163,12 @@ void CoverLookup::cover_found(const CoverLocation& file_path) {
 void CoverLookup::emit_standard_cover() {
 
 	CoverLocation cl = CoverLocation::getInvalidLocation();
-	emit sig_cover_found(cl);
+	emit sig_cover_found(cl.cover_path());
+}
+
+void CoverLookup::stop()
+{
+
 }
 
 

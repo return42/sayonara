@@ -40,8 +40,8 @@
 class Album;
 class Artist;
 class CoverLookupAlternative;
-class AlternateCoverItemDelegate;
 class AlternateCoverItemModel;
+class AlternateCoverItemDelegate;
 
 class GUI_AlternativeCovers :
 		public SayonaraDialog,
@@ -66,7 +66,7 @@ private slots:
 	void search_button_pressed();
 	void cover_pressed(const QModelIndex& idx);
 	void open_file_dialog();
-	void cl_new_cover(const CoverLocation& path);
+	void cl_new_cover(const QString& cover_path);
 	void cl_finished(bool);
 
 private:
@@ -74,11 +74,11 @@ private:
 	int						_cur_idx;
 	QString					_last_path;
 	CoverLocation			_cover_location;
-	QList<CoverLocation>	_filelist;
+	QStringList				_filelist;
 	bool					_is_searching;
 
-	AlternateCoverItemDelegate*		_delegate=nullptr;
 	AlternateCoverItemModel*		_model=nullptr;
+	AlternateCoverItemDelegate*	_delegate=nullptr;
 
 	CoverLookupAlternative*			_cl_alternative=nullptr;
 

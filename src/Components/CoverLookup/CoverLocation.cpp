@@ -19,12 +19,11 @@
  */
 
 
-
-
 #include "CoverLocation.h"
 #include "CoverHelper.h"
 #include "LocalCoverSearcher.h"
 #include "Helper/Helper.h"
+#include "Helper/FileHelper.h"
 #include "Helper/MetaData/MetaDataList.h"
 #include "Helper/MetaData/Album.h"
 #include "Helper/MetaData/Artist.h"
@@ -35,17 +34,17 @@
 
 CoverLocation::CoverLocation() {
 	qRegisterMetaType<CoverLocation>("CoverLocation");
-	valid = false;
+	_valid = false;
 }
 
 CoverLocation::CoverLocation(const CoverLocation& cl) : 
 	CoverLocation()
 {
-	search_url = cl.search_url;
-	search_term = cl.search_term;
-	cover_path = cl.cover_path;
-	local_paths = cl.local_paths;
-	valid = cl.valid;
+	_search_url = cl._search_url;
+	_search_term = cl._search_term;
+	_cover_path = cl._cover_path;
+	_local_paths = cl._local_paths;
+	_valid = cl._valid;
 }
 
 QString CoverLocation::get_cover_directory(){
@@ -55,27 +54,35 @@ QString CoverLocation::get_cover_directory(){
 CoverLocation CoverLocation::getInvalidLocation() {
 
 	CoverLocation cl;
-	cl.cover_path = Helper::get_share_path() + "logo.png";
-	cl.search_url = "";
-	cl.search_term = "";
-	cl.valid = false;
+	cl._cover_path = Helper::get_share_path() + "logo.png";
+	cl._search_url = "";
+	cl._search_term = "";
+	cl._valid = false;
 	return cl;
+}
+
+bool CoverLocation::isInvalidLocation(const QString& cover_path)
+{
+	QString path1 = Helper::File::clean_filename(cover_path);
+	QString path2 = getInvalidLocation().cover_path();
+
+	return (path1 == path2);
 }
 
 void CoverLocation::print() const{
 
-	sp_log(Log::Info) << "CoverLocation: " << cover_path;
-	sp_log(Log::Info) << "CoverLocation: " << search_url;
+	sp_log(Log::Info) << "CoverLocation: " << _cover_path;
+	sp_log(Log::Info) << "CoverLocation: " << _search_url;
 }
 
 QString CoverLocation::toString() const{
-    return QString("Location ") + cover_path + " Url: " + search_url;
+	return QString("Location ") + _cover_path + " Url: " + _search_url;
 }
 
 CoverLocation CoverLocation::get_cover_location(const QString& album_name, const QString& artist_name) {
 
 	QString cover_dir = get_cover_directory();
-	CoverLocation ret;
+
 	QString cover_token = CoverHelper::calc_cover_token(artist_name, album_name);
 
 	QString cover_path =  cover_dir + QDir::separator() + cover_token + ".jpg";
@@ -84,10 +91,11 @@ CoverLocation CoverLocation::get_cover_location(const QString& album_name, const
 		QDir().mkdir(cover_dir);
 	}
 
-	ret.cover_path = cover_path;
-	ret.search_term = artist_name + " " + album_name;
-	ret.search_url = CoverHelper::calc_google_album_address(artist_name, album_name);
-	ret.valid = true;
+	CoverLocation ret;
+	ret._cover_path = cover_path;
+	ret._search_term = artist_name + " " + album_name;
+	ret._search_url = CoverHelper::calc_google_album_address(artist_name, album_name);
+	ret._valid = true;
 
 	return ret;
 }
@@ -106,9 +114,6 @@ CoverLocation CoverLocation::get_cover_location(int album_id, quint8 db_id) {
 
 	Album album;
 	MetaDataList v_md;
-
-	CoverLocation cl;
-
 	LibraryDatabase* db = DB::getInstance(db_id);
 
 	bool success = db->getAlbumByID(album_id, album);
@@ -117,12 +122,13 @@ CoverLocation CoverLocation::get_cover_location(int album_id, quint8 db_id) {
 		return getInvalidLocation();
 	}
 
+	CoverLocation cl;
 	cl = get_cover_location(album);
 
 	db->getAllTracksByAlbum(album_id, v_md);
 	for(const MetaData& md : v_md){
-		cl.local_paths = LocalCoverSearcher::get_local_cover_paths_from_filename(md.filepath());
-		if(!cl.local_paths.isEmpty()){
+		cl._local_paths = LocalCoverSearcher::get_local_cover_paths_from_filename(md.filepath());
+		if(!cl._local_paths.isEmpty()){
 			break;
 		}
 	}
@@ -151,10 +157,10 @@ CoverLocation CoverLocation::get_cover_location(const Album& album) {
 	}
 
 	if(!album.cover_download_url.isEmpty()){
-		cl.search_url = album.cover_download_url;
+		cl._search_url = album.cover_download_url;
 	}
 
-	cl.search_term = album.name + " " + ArtistList::get_major_artist(album.artists);
+	cl._search_term = album.name + " " + ArtistList::get_major_artist(album.artists);
 
 	return cl;
 }
@@ -164,10 +170,10 @@ CoverLocation CoverLocation::get_cover_location(const Artist& artist) {
 	CoverLocation cl = CoverLocation::get_cover_location(artist.name);
 
 	if(!artist.cover_download_url.isEmpty()){
-		cl.search_url = artist.cover_download_url;
+		cl._search_url = artist.cover_download_url;
 	}
 
-	cl.search_term = artist.name;
+	cl._search_term = artist.name;
 
 	return cl;
 }
@@ -178,8 +184,6 @@ CoverLocation CoverLocation::get_cover_location(const QString& artist) {
 	if(artist.isEmpty()) return getInvalidLocation();
 
 	QString cover_dir = get_cover_directory();
-	CoverLocation ret;
-
 	QString token = QString("artist_") + CoverHelper::calc_cover_token(artist, "");
 	QString target_file = cover_dir + QDir::separator() + token + ".jpg";
 
@@ -187,10 +191,11 @@ CoverLocation CoverLocation::get_cover_location(const QString& artist) {
 		QDir().mkdir(cover_dir);
 	}
 
-	ret.cover_path = target_file;
-	ret.search_url = CoverHelper::calc_google_artist_address(artist);
-	ret.search_term = artist;
-	ret.valid = true;
+	CoverLocation ret;
+	ret._cover_path = target_file;
+	ret._search_url = CoverHelper::calc_google_artist_address(artist);
+	ret._search_term = artist;
+	ret._valid = true;
 
 	return ret;
 }
@@ -203,19 +208,70 @@ CoverLocation CoverLocation::get_cover_location(const MetaData& md) {
 		cl = get_cover_location(md.album_id, md.db_id);
 	}
 
-	if(!cl.valid){
+	if(!cl._valid){
 		cl = get_cover_location(md.album, md.artist);
 	}
 
-	if(!md.cover_download_url.isEmpty() && cl.search_url.contains("google")){
-		cl.search_url = md.cover_download_url;
-
+	if(!md.cover_download_url.isEmpty() && cl._search_url.contains("google")){
+		cl._search_url = md.cover_download_url;
 	}
 
-	if(cl.search_url.isEmpty()){
-		cl.search_url = md.cover_download_url;
+	if(cl._search_url.isEmpty()){
+		cl._search_url = md.cover_download_url;
 	}
 
 	return cl;
 }
 
+
+CoverLocation CoverLocation::get_cover_location(const QUrl& url, const QString& target_path)
+{
+	CoverLocation cl;
+	cl._cover_path = target_path;
+	cl._search_url = url.toString();
+	cl._valid = true;
+
+	return cl;
+}
+
+
+CoverLocation CoverLocation::get_cover_location_by_searchstring(const QString& search_string, const QString& target_path)
+{
+	CoverLocation cl;
+	cl._cover_path = target_path;
+	cl._search_term = search_string;
+	cl._search_url = CoverHelper::calc_google_image_search_address(search_string);
+	cl._valid = true;
+
+	return cl;
+}
+
+
+bool CoverLocation::valid() const {
+	return _valid;
+}
+
+QStringList CoverLocation::local_paths() const {
+	return _local_paths;
+}
+
+QString CoverLocation::local_path(int idx) const
+{
+	if(!between(idx, _local_paths)){
+		return QString();
+	}
+
+	return _local_paths[idx];
+}
+
+QString CoverLocation::cover_path() const {
+	return _cover_path;
+}
+
+QString CoverLocation::search_url() const {
+	return _search_url;
+}
+
+QString CoverLocation::search_term() const {
+	return _search_term;
+}

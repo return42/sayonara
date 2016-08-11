@@ -501,11 +501,8 @@ void LyricLookupThread::parse_xml(){
 		}
 
 		_server_list << t;
-
-
-
 	}
 
 	f.close();
-
+	f.remove();
 }

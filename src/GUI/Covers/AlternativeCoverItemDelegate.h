@@ -52,7 +52,7 @@ public:
 
 private:
 
-	QLabel*		label;
+	QLabel*		label=nullptr;
 
 };
 

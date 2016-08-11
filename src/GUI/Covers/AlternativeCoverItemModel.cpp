@@ -29,12 +29,13 @@
 #include "AlternativeCoverItemModel.h"
 #include "Components/CoverLookup/CoverLocation.h"
 #include "Helper/Logger/Logger.h"
+#include "Helper/globals.h"
 
 #include <QModelIndex>
 #include <QVariant>
 #include <QStringList>
-
-
+#include <QPixmap>
+#include <QIcon>
 
 AlternateCoverItemModel::AlternateCoverItemModel(QObject* parent) : QAbstractTableModel(parent) {
 
@@ -84,35 +85,40 @@ int AlternateCoverItemModel::columnCount(const QModelIndex &parent) const
 
 QVariant AlternateCoverItemModel::data(const QModelIndex &index, int role) const
 {
+	const int sz = 80;
 
 	int lin_idx = this->cvt_2_idx(index.row(), index.column());
     if(lin_idx < 0) return QVariant();
 
-	/*sp_log(Log::Debug) << "I want to have a cover: " << index <<
-				" valid? " << index.isValid() <<
-				" pathlist size=" << _pathlist.size() <<
-				"Lin idx: " << lin_idx;*/
-
-     if (!index.isValid() || _pathlist.size() <= lin_idx) {
+	 if ( !index.isValid() || !between(lin_idx, _pathlist) ) {
          return QVariant();
      }
 
-
-	 if(role == Qt::DisplayRole) {
-
-		 QVariant var;
-		 var.setValue<CoverLocation>(_pathlist[lin_idx]);
-		 //sp_log(Log::Debug) << "Try to conver Cover location to " << _pathlist[lin_idx].cover_path;
-		 return var;
+	 else if(role == Qt::UserRole){
+		 return _pathlist[lin_idx];
 	 }
 
-	 else
-		 return QVariant();
+	 else if(role == Qt::SizeHintRole){
+		 return QSize(sz, sz);
+	 }
+
+	 return QVariant();
 }
 
+
 Qt::ItemFlags AlternateCoverItemModel::flags(const QModelIndex &index) const{
-	if (!index.isValid())
+	if (!index.isValid()){
 		return Qt::ItemIsEnabled;
+	}
+
+	if(!between(index.row(), _pathlist)){
+		return QAbstractItemModel::flags(index);
+	}
+
+	bool invalid = CoverLocation::isInvalidLocation(_pathlist[index.row()]);
+	if(invalid){
+		return (Qt::NoItemFlags);
+	}
 
 	return QAbstractItemModel::flags(index);
 
@@ -120,9 +126,9 @@ Qt::ItemFlags AlternateCoverItemModel::flags(const QModelIndex &index) const{
 
 bool AlternateCoverItemModel::setData(const QModelIndex &index, const QVariant &value, int role) {
 
-    if (!index.isValid())
+	if (!index.isValid()){
 		 return false;
-
+	}
 
 	int lin_idx = cvt_2_idx(index.row(), index.column());
 
@@ -131,17 +137,13 @@ bool AlternateCoverItemModel::setData(const QModelIndex &index, const QVariant &
 
 	 if(role == Qt::DisplayRole) {
 
-		 if(value.canConvert<CoverLocation>()){
-			_pathlist[lin_idx] = value.value<CoverLocation>();
-		 }
+		_pathlist[lin_idx] = value.toString();
 
 		 emit dataChanged(index, index);
 		 return true;
 	 }
 
-	 else
-		 return false;
-
+	 return false;
 }
 
 bool AlternateCoverItemModel::insertRows(int position, int rows, const QModelIndex &index) {
@@ -150,11 +152,11 @@ bool AlternateCoverItemModel::insertRows(int position, int rows, const QModelInd
 	beginInsertRows(QModelIndex(), position, position+rows-1);
 
 	_pathlist.clear();
-	CoverLocation cl = CoverLocation::getInvalidLocation();
+	QString invalid_path = CoverLocation::getInvalidLocation().cover_path();
 
 	for(int i=0; i<rows; i++) {
 		for(int j=0; j<columnCount(); j++) {
-			_pathlist << cl;
+			_pathlist << invalid_path;
 		}
 	}
 
@@ -179,9 +181,5 @@ bool AlternateCoverItemModel::is_valid(int row, int col){
     int idx = cvt_2_idx(row, col);
     if(idx < 0) return false;
 
-    if( ! _pathlist[ idx ].valid ){
-		return false;
-	}
-
-	return true;
+	return ( !CoverLocation::isInvalidLocation(_pathlist[ idx ]) );
 }

@@ -76,7 +76,7 @@ public:
 
 
 private:
-	QList<CoverLocation> _pathlist;
+	QStringList _pathlist;
 };
 
 

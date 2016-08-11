@@ -47,8 +47,8 @@ class CoverLookupInterface : public QObject{
 	Q_OBJECT
 
 signals:
-	void sig_cover_found(const CoverLocation&);
-	void sig_finished(bool);
+	void sig_cover_found(const QString& file_path);
+	void sig_finished(bool success);
 
 public slots:
 	virtual void stop()=0;
@@ -72,7 +72,7 @@ private slots:
 	 * @brief called when CoverFetchThread has found cover
 	 * @param cl
 	 */
-	void cover_found(const CoverLocation& cl);
+	void cover_found(const QString& cover_path);
 
 	/**
 	 * @brief called when CoverFetchThread has finished
@@ -155,9 +155,8 @@ public:
 	 */
 	void emit_standard_cover();
 
-
 	/**
-	 * @brief Not implemented.
+	 * @brief not implemented
 	 */
 	void stop() override;
 

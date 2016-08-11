@@ -54,7 +54,7 @@ signals:
 	 * @brief emitted, when covers has been found
 	 * @param cl CoverLocation including the local cover path
 	 */
-	void sig_cover_found(const CoverLocation& cl);
+	void sig_cover_found(const QString& cover_path);
 
 
 public:
@@ -120,11 +120,9 @@ private:
 	 * @brief save_and_emit_image saves the image to disc, creates CoverLocation object and emits the sig_cover_found signal
 	 * @param filepath where to save the image on disc
 	 * @param img the cover image
-	 * @param url the url where the cover image has been fetched from
 	 */
 	void save_and_emit_image(const QString& filepath,
-							 const QImage& img,
-							 const QString& url);
+							 const QImage& img);
 
 
 private slots:

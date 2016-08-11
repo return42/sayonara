@@ -26,6 +26,7 @@
 #include <QString>
 #include <QStringList>
 #include <QMetaType>
+#include <QUrl>
 
 class MetaData;
 class Album;
@@ -37,38 +38,49 @@ class Artist;
 class CoverLocation
 {
 
-public:
+private:
 
 	/**
 	 * @brief The search engine term what to search
 	 */
-	QString			search_term;
+	QString			_search_term;
 
 	/**
 	 * @brief search_url url where to fetch covers
 	 */
-	QString			search_url;
+	QString			_search_url;
 
 	/**
 	 * @brief cover_path path, in .Sayonara, where cover is stored. Ignored if local_paths are not empty
 	 */
-	QString			cover_path;
+	QString			_cover_path;
 
 	/**
 	 * @brief local_paths paths where images can be fetched from if they should not be fetched from the .Sayonara directory
 	 */
-	QStringList		local_paths;
+	QStringList		_local_paths;
 
 	/**
 	 * @brief valid if CoverLocation object contains a valid download url
 	 */
-	bool			valid;
+	bool			_valid;
 
+
+public:
 	CoverLocation();
 	CoverLocation(const CoverLocation&);
 
 	void print() const;
     QString toString() const;
+
+
+	bool valid() const;
+	QStringList local_paths() const;
+	QString local_path(int idx) const;
+	QString cover_path() const;
+	QString search_url() const;
+	QString search_term() const;
+
 
 	/**
 	 * @brief creates CoverLocation by taking the md5 sum between album_name and artist_name
@@ -135,11 +147,37 @@ public:
 	 */
 	static CoverLocation get_cover_location(const MetaData& md);
 
+
+	/**
+	 * @brief fetch a cover from a specific url
+	 * @param url url, the cover has to be fetched from
+	 * @param target_path path where the found image has to be saved
+	 * @return CoverLocation object
+	 */
+	static CoverLocation get_cover_location(const QUrl& url, const QString& target_path);
+
+
+	/**
+	 * @brief fetch a cover for a specific search string
+	 * @param search_string the string where the cover has to be fetched for
+	 * @param target_path path where the found image has to be saved
+	 * @return CoverLocation object
+	 */
+	static CoverLocation get_cover_location_by_searchstring(const QString& search_string, const QString& target_path);
+
+
 	/**
 	 * @brief returns an invalid location
 	 * @return  CoverLocation object
 	 */
 	static CoverLocation getInvalidLocation();
+
+	/**
+	 * @brief returns if path is the same as the invalid location path
+	 * @param cover_path the path to be compared
+	 * @return
+	 */
+	static bool isInvalidLocation(const QString& cover_path);
 
 
 	/**

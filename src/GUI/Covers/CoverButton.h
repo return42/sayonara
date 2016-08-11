@@ -35,7 +35,7 @@ class CoverButton : public QPushButton
 	void cover_button_clicked();
 	void alternative_cover_fetched(const CoverLocation& cl);
 	void cover_found(const CoverLocation& cl);
-	void set_cover_image(const CoverLocation& cl);
+	void set_cover_image(const QString& cover_path);
 };
 
 

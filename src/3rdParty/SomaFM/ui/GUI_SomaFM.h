@@ -63,7 +63,7 @@ private slots:
 	void station_clicked(const QModelIndex& idx);
 	void station_index_changed(const QModelIndex& idx);
 	void playlist_double_clicked(const QModelIndex& idx);
-	void cover_found(const CoverLocation& cover_location);
+	void cover_found(const QString& cover_path);
 
 	void selection_changed(const QModelIndexList& selected);
 
