@@ -57,7 +57,6 @@ public:
 
 
 public slots:
-
 	void jump_abs_ms(quint64 ms) override;
 	void jump_rel_ms(quint64 ms) override;
 	void jump_rel(double where) override;
@@ -67,6 +66,9 @@ public slots:
 
 
 private slots:
+
+	void sl_track_ready();
+	void sl_buffer_state_changed(int progress);
 
 	void sl_md_changed(const MetaData&);
 	void sl_dur_changed(const MetaData&);
@@ -86,7 +88,6 @@ private slots:
 	void play() override;
 	void stop() override;
 	void pause() override;
-
 
 
 private:

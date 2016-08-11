@@ -207,6 +207,10 @@ void EngineHandler::sl_track_finished() {
 	_play_manager->next();
 }
 
+void EngineHandler::sl_track_ready(){
+	_play_manager->set_track_ready();
+}
+
 void EngineHandler::sl_buffer_state_changed(int progress){
 	_play_manager->buffering(progress);
 }
@@ -225,7 +229,11 @@ bool EngineHandler::configure_connections(Engine* old_engine, Engine* new_engine
 	if(old_engine == new_engine) return false;
 
 	if(old_engine) {
+<<<<<<< HEAD
 		disconnect(old_engine, &Engine::sig_track_ready, this, &EngineHandler::sl_track_ready_changed);
+=======
+		disconnect(old_engine, &Engine::sig_track_ready, this, &EngineHandler::sl_track_ready);
+>>>>>>> crossfader
 		disconnect(old_engine, &Engine::sig_md_changed, this, &EngineHandler::sl_md_changed);
 		disconnect(old_engine, &Engine::sig_pos_changed_ms, this, &EngineHandler::sl_pos_changed_ms);
 		disconnect(old_engine, &Engine::sig_pos_changed_s, this, &EngineHandler::sl_pos_changed_s);
@@ -237,7 +245,11 @@ bool EngineHandler::configure_connections(Engine* old_engine, Engine* new_engine
 	}
 
 	if(new_engine) {
+<<<<<<< HEAD
 		connect(new_engine, &Engine::sig_track_ready, this, &EngineHandler::sl_track_ready_changed);
+=======
+		connect(new_engine, &Engine::sig_track_ready, this, &EngineHandler::sl_track_ready);
+>>>>>>> crossfader
 		connect(new_engine, &Engine::sig_md_changed, this, &EngineHandler::sl_md_changed);
 		connect(new_engine, &Engine::sig_pos_changed_ms, this, &EngineHandler::sl_pos_changed_ms);
 		connect(new_engine, &Engine::sig_pos_changed_s, this, &EngineHandler::sl_pos_changed_s);

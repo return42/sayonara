@@ -27,7 +27,6 @@
 #include "Helper/EqualizerPresets.h"
 
 #include <glib.h>
-#include <gst/gst.h>
 #include <gst/gstbuffer.h>
 
 #include <QTimer>
