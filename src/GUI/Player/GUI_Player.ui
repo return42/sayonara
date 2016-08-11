@@ -1251,7 +1251,7 @@
   <customwidget>
    <class>GUI_PlayerPlugin</class>
    <extends>QWidget</extends>
-   <header>GUI/PlayerPlugins/GUI_PlayerPlugin.h</header>
+   <header>GUI/Plugins/GUI_PlayerPlugin.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>

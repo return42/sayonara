@@ -29,7 +29,7 @@
 #ifndef GUI_LASTFM_H_
 #define GUI_LASTFM_H_
 
-#include "GUI/Preferences/LastFM/ui_GUI_LastFM.h"
+#include "GUI/Preferences/ui_GUI_LastFM.h"
 
 #include "Components/StreamPlugins/LastFM/LastFM.h"
 #include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"

@@ -23,7 +23,7 @@
 #include "Helper/FileHelper.h"
 #include "Helper/MetaData/MetaDataList.h"
 
-#include "Components/CoverLookup/CoverLocation.h"
+#include "Components/Covers/CoverLocation.h"
 #include "Database/DatabaseHandler.h"
 
 
@@ -94,8 +94,6 @@ MetaDataInfo::MetaDataInfo(const MetaDataList& v_md) :
 				values[name] << value;
 			}
 		}
-
-
 
 
 		// genre
@@ -391,7 +389,6 @@ QString MetaDataInfo::get_cover_artist() const
 	}
 
 	return _artists.first();
-
 }
 
 QString MetaDataInfo::get_cover_album() const

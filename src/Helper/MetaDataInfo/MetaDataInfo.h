@@ -23,7 +23,7 @@
 
 #include "Helper/Set.h"
 #include "Helper/Settings/SayonaraClass.h"
-#include "Components/CoverLookup/CoverLocation.h"
+#include "Components/Covers/CoverLocation.h"
 
 #include <QMap>
 

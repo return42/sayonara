@@ -21,7 +21,7 @@
 
 
 #include "RemoteControl.h"
-#include "Components/CoverLookup/CoverLocation.h"
+#include "Components/Covers/CoverLocation.h"
 #include "Components/Playlist/PlaylistHandler.h"
 #include "Components/PlayManager/PlayManager.h"
 

@@ -17,7 +17,7 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "Frames/Cover.h"
+#include "Cover.h"
 
 ID3v2Frame::Cover::Cover(){
 	description = "Cover by Sayonara Player";

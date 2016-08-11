@@ -29,7 +29,7 @@
 #include "Helper/Helper.h"
 #include "GUI/Helper/GUI_Helper.h"
 #include "GUI/Helper/Delegates/ListDelegate.h"
-#include "Components/CoverLookup/CoverLookup.h"
+#include "Components/Covers/CoverLookup.h"
 
 #include <QPixmap>
 #include <QItemDelegate>

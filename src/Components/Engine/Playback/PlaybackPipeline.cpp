@@ -541,6 +541,7 @@ bool PlaybackPipeline::set_uri(gchar* uri) {
 	}
 
 	gst_element_set_state(_pipeline, GST_STATE_PAUSED);
+	//gst_object_unref(soup_source);
 
 	return true;
 }

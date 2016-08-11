@@ -24,7 +24,7 @@
 
 #include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
 #include "GUI/Helper/Shortcuts/ShortcutHandler.h"
-#include "GUI/Preferences/Shortcuts/ui_GUI_ShortcutEntry.h"
+#include "GUI/Preferences/ui_GUI_ShortcutEntry.h"
 
 
 /**

@@ -1,4 +1,4 @@
-/* AlternateCoverItemDelegate.h */
+/* AlternativeCoverItemDelegate.h */
 
 /* Copyright (C) 2011-2016 Lucio Carreras
  *
@@ -20,27 +20,27 @@
 
 
 /*
- * AlternateCoverItemDelegate.h
+ * AlternativeCoverItemDelegate.h
  *
  *  Created on: Jul 1, 2011
  *      Author: Lucio Carreras
  */
 
-#ifndef ALTERNATECOVERITEMDELEGATE_H_
-#define ALTERNATECOVERITEMDELEGATE_H_
+#ifndef ALTERNATIVECOVERITEMDELEGATE_H_
+#define ALTERNATIVECOVERITEMDELEGATE_H_
 
 #include <QWidget>
 #include <QTableView>
 #include <QItemDelegate>
 #include <QLabel>
 
-class AlternateCoverItemDelegate : public QItemDelegate{
+class AlternativeCoverItemDelegate : public QItemDelegate{
 
 	Q_OBJECT
 
 public:
-	AlternateCoverItemDelegate(QObject* parent=nullptr);
-	virtual ~AlternateCoverItemDelegate();
+	AlternativeCoverItemDelegate(QObject* parent=nullptr);
+	virtual ~AlternativeCoverItemDelegate();
 
 
 public:

@@ -28,7 +28,7 @@
 
 
 #include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
-#include "GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h"
+#include "GUI/Preferences/ui_GUI_PlaylistPreferences.h"
 
 
 class GUI_PlaylistPreferences :

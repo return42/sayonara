@@ -1,4 +1,4 @@
-/* AlternateCoverItemModel.cpp */
+/* AlternativeCoverItemModel.cpp */
 
 /* Copyright (C) 2011-2016 Lucio Carreras
  *
@@ -20,14 +20,14 @@
 
 
 /*
- * AlternateCoverItemModel.cpp
+ * AlternativeCoverItemModel.cpp
  *
  *  Created on: Jul 1, 2011
  *      Author: Lucio Carreras
  */
 
 #include "AlternativeCoverItemModel.h"
-#include "Components/CoverLookup/CoverLocation.h"
+#include "Components/Covers/CoverLocation.h"
 #include "Helper/Logger/Logger.h"
 #include "Helper/globals.h"
 
@@ -37,16 +37,16 @@
 #include <QPixmap>
 #include <QIcon>
 
-AlternateCoverItemModel::AlternateCoverItemModel(QObject* parent) : QAbstractTableModel(parent) {
+AlternativeCoverItemModel::AlternativeCoverItemModel(QObject* parent) : QAbstractTableModel(parent) {
 
 	_pathlist.reserve(10);
 }
 
-AlternateCoverItemModel::~AlternateCoverItemModel() {
+AlternativeCoverItemModel::~AlternativeCoverItemModel() {
 
 }
 
-RowColumn AlternateCoverItemModel::cvt_2_row_col(int idx) const {
+RowColumn AlternativeCoverItemModel::cvt_2_row_col(int idx) const {
 
 
 	RowColumn p;
@@ -64,26 +64,26 @@ RowColumn AlternateCoverItemModel::cvt_2_row_col(int idx) const {
 	return p;
 }
 
-int AlternateCoverItemModel::cvt_2_idx(int row, int col) const {
+int AlternativeCoverItemModel::cvt_2_idx(int row, int col) const {
     if(row < 0 || col < 0) return -1;
 
 	return row * columnCount() + col;
 }
 
 
-int AlternateCoverItemModel::rowCount(const QModelIndex &parent) const
+int AlternativeCoverItemModel::rowCount(const QModelIndex &parent) const
 {
 	Q_UNUSED(parent)
 	return 2;
 
 }
-int AlternateCoverItemModel::columnCount(const QModelIndex &parent) const
+int AlternativeCoverItemModel::columnCount(const QModelIndex &parent) const
 {
 	Q_UNUSED(parent)
 	return 5;
 }
 
-QVariant AlternateCoverItemModel::data(const QModelIndex &index, int role) const
+QVariant AlternativeCoverItemModel::data(const QModelIndex &index, int role) const
 {
 	const int sz = 80;
 
@@ -106,7 +106,7 @@ QVariant AlternateCoverItemModel::data(const QModelIndex &index, int role) const
 }
 
 
-Qt::ItemFlags AlternateCoverItemModel::flags(const QModelIndex &index) const{
+Qt::ItemFlags AlternativeCoverItemModel::flags(const QModelIndex &index) const{
 	if (!index.isValid()){
 		return Qt::ItemIsEnabled;
 	}
@@ -124,7 +124,7 @@ Qt::ItemFlags AlternateCoverItemModel::flags(const QModelIndex &index) const{
 
 }
 
-bool AlternateCoverItemModel::setData(const QModelIndex &index, const QVariant &value, int role) {
+bool AlternativeCoverItemModel::setData(const QModelIndex &index, const QVariant &value, int role) {
 
 	if (!index.isValid()){
 		 return false;
@@ -146,7 +146,7 @@ bool AlternateCoverItemModel::setData(const QModelIndex &index, const QVariant &
 	 return false;
 }
 
-bool AlternateCoverItemModel::insertRows(int position, int rows, const QModelIndex &index) {
+bool AlternativeCoverItemModel::insertRows(int position, int rows, const QModelIndex &index) {
 	Q_UNUSED(index);
 
 	beginInsertRows(QModelIndex(), position, position+rows-1);
@@ -164,7 +164,7 @@ bool AlternateCoverItemModel::insertRows(int position, int rows, const QModelInd
 	return true;
 
 }
-bool AlternateCoverItemModel::removeRows(int position, int rows, const QModelIndex &index) {
+bool AlternativeCoverItemModel::removeRows(int position, int rows, const QModelIndex &index) {
 	Q_UNUSED(index);
 
 	 beginRemoveRows(QModelIndex(), position, position+rows-1);
@@ -176,7 +176,7 @@ bool AlternateCoverItemModel::removeRows(int position, int rows, const QModelInd
 
 }
 
-bool AlternateCoverItemModel::is_valid(int row, int col){
+bool AlternativeCoverItemModel::is_valid(int row, int col){
 
     int idx = cvt_2_idx(row, col);
     if(idx < 0) return false;

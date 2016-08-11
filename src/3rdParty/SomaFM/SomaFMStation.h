@@ -26,7 +26,7 @@
 #define SOMAFMSTATION_H
 
 #include "Helper/MetaData/MetaDataList.h"
-#include "Components/CoverLookup/CoverLocation.h"
+#include "Components/Covers/CoverLocation.h"
 
 class SomaFMStation
 {

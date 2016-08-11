@@ -29,9 +29,9 @@
 #ifndef GUI_ALTERNATE_COVERS_H_
 #define GUI_ALTERNATE_COVERS_H_
 
-#include "GUI/AlternativeCovers/ui_GUI_AlternativeCovers.h"
+#include "GUI/Covers/ui_GUI_AlternativeCovers.h"
 #include "GUI/Helper/SayonaraWidget/SayonaraDialog.h"
-#include "Components/CoverLookup/CoverLocation.h"
+#include "Components/Covers/CoverLocation.h"
 
 #include <QPixmap>
 #include <QList>
@@ -40,8 +40,8 @@
 class Album;
 class Artist;
 class CoverLookupAlternative;
-class AlternateCoverItemModel;
-class AlternateCoverItemDelegate;
+class AlternativeCoverItemModel;
+class AlternativeCoverItemDelegate;
 
 class GUI_AlternativeCovers :
 		public SayonaraDialog,
@@ -77,8 +77,8 @@ private:
 	QStringList				_filelist;
 	bool					_is_searching;
 
-	AlternateCoverItemModel*		_model=nullptr;
-	AlternateCoverItemDelegate*	_delegate=nullptr;
+	AlternativeCoverItemModel*		_model=nullptr;
+	AlternativeCoverItemDelegate*	_delegate=nullptr;
 
 	CoverLookupAlternative*			_cl_alternative=nullptr;
 

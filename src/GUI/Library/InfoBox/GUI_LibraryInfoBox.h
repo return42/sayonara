@@ -25,7 +25,7 @@
 #ifndef GUILIBRARYINFOBOX_H_
 #define GUILIBRARYINFOBOX_H_
 
-#include "GUI/Library/InfoBox/ui_GUI_LibraryInfoBox.h"
+#include "GUI/Library/ui_GUI_LibraryInfoBox.h"
 #include "GUI/Helper/SayonaraWidget/SayonaraDialog.h"
 
 

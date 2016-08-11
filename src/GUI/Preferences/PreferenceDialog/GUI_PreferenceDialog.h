@@ -25,7 +25,7 @@
 
 #include <QDialog>
 #include <QList>
-#include "GUI/Preferences/PreferenceDialog/ui_GUI_PreferenceDialog.h"
+#include "GUI/Preferences/ui_GUI_PreferenceDialog.h"
 #include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
 #include "Interfaces/PreferenceDialog/PreferenceDialogInterface.h"
 

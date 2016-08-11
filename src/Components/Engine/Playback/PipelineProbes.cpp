@@ -94,6 +94,10 @@ void Probing::handle_probe(bool* active, GstElement* queue, gulong* probe_id, Gs
 					NULL
 					);
 	}
+
+	if(pad != nullptr){
+		gst_object_unref(pad);
+	}
 }
 
 
@@ -114,6 +118,10 @@ void Probing::handle_stream_recorder_probe(StreamRecorderData* data, GstPadProbe
 		);
 
 		gst_element_send_event(data->sink, gst_event_new_eos());
+	}
+
+	if(pad != nullptr){
+		gst_object_unref(pad);
 	}
 }
 

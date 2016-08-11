@@ -21,7 +21,7 @@
 #ifndef GUIIMPORTFOLDER_H_
 #define GUIIMPORTFOLDER_H_
 
-#include "GUI/Library/ImportFolderDialog/ui_GUI_ImportFolder.h"
+#include "GUI/Library/ui_GUI_ImportFolder.h"
 #include "GUI/Helper/SayonaraWidget/SayonaraDialog.h"
 #include "Components/Library/Importer/LibraryImporter.h"
 

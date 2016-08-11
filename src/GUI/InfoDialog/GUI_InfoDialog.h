@@ -27,7 +27,7 @@
 
 #include "GUI/Helper/SayonaraWidget/SayonaraDialog.h"
 #include "Helper/MetaData/MetaDataList.h"
-#include "Components/CoverLookup/CoverLocation.h"
+#include "Components/Covers/CoverLocation.h"
 
 #include "GUI/InfoDialog/ui_GUI_InfoDialog.h"
 

@@ -1,6 +1,6 @@
 #include "CoverButton.h"
 #include "GUI_AlternativeCovers.h"
-#include "Components/CoverLookup/CoverLookup.h"
+#include "Components/Covers/CoverLookup.h"
 
 
 CoverButton::CoverButton(QWidget* parent) : 

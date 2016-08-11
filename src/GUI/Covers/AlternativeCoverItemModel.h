@@ -1,4 +1,4 @@
-/* AlternateCoverItemModel.h */
+/* AlternativeCoverItemModel.h */
 
 /* Copyright (C) 2011-2016 Lucio Carreras
  *
@@ -20,14 +20,14 @@
 
 
 /*
- * AlternateCoverItemModel.h
+ * AlternativeCoverItemModel.h
  *
  *  Created on: Jul 1, 2011
  *      Author: Lucio Carreras
  */
 
-#ifndef ALTERNATECOVERITEMMODEL_H_
-#define ALTERNATECOVERITEMMODEL_H_
+#ifndef ALTERNATIVECOVERITEMMODEL_H_
+#define ALTERNATIVECOVERITEMMODEL_H_
 
 
 #include <QList>
@@ -48,13 +48,13 @@ struct RowColumn {
     }
 };
 
-class AlternateCoverItemModel : public QAbstractTableModel {
+class AlternativeCoverItemModel : public QAbstractTableModel {
 
 Q_OBJECT
 
 public:
-    AlternateCoverItemModel(QObject* parent);
-    virtual ~AlternateCoverItemModel();
+	AlternativeCoverItemModel(QObject* parent);
+	virtual ~AlternativeCoverItemModel();
 
 	int rowCount(const QModelIndex &parent = QModelIndex()) const override;
 	int columnCount(const QModelIndex &parent = QModelIndex()) const override;

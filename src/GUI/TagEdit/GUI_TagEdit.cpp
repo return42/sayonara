@@ -22,7 +22,7 @@
 #include "GUI_TagEdit.h"
 #include "TagLineEdit.h"
 #include "Components/TagEdit/TagExpression.h"
-#include "Components/CoverLookup/CoverLocation.h"
+#include "Components/Covers/CoverLocation.h"
 #include "GUI/Helper/Message/Message.h"
 #include "Helper/Tagging/Tagging.h"
 

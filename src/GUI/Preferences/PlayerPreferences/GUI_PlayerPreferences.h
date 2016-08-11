@@ -24,7 +24,7 @@
 #define GUI_PLAYERPREFERENCES_H
 
 #include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
-#include "GUI/Preferences/PlayerPreferences/ui_GUI_PlayerPreferences.h"
+#include "GUI/Preferences/ui_GUI_PlayerPreferences.h"
 
 
 class GUI_PlayerPreferences :

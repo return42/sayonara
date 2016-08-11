@@ -41,12 +41,12 @@ ELSE()
 ENDIF()
 
 TARGET_LINK_LIBRARIES(${PROJECT_NAME}
-	say_db
-	say_helper
 	say_gui_helper
 	say_gui_library
 	say_interfaces_library_container
 )
+
+cotire(${PROJECT_NAME})
 
 IF(NOT WIN32 OR NOT DEFINED WIN32)
 	INSTALL(TARGETS ${PROJECT_NAME} DESTINATION lib${LIB_SUFFIX}/sayonara)

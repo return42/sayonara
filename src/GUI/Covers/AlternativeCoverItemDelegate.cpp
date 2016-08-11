@@ -1,4 +1,4 @@
-/* AlternateCoverItemDelegate.cpp */
+/* AlternativeCoverItemDelegate.cpp */
 
 /* Copyright (C) 2011-2016 Lucio Carreras
  *
@@ -20,20 +20,20 @@
 
 
 /*
- * AlternateCoverItemDelegate.cpp
+ * AlternativeCoverItemDelegate.cpp
  *
  *  Created on: Jul 1, 2011
  *      Author: Lucio Carreras
  */
 
 #include "AlternativeCoverItemDelegate.h"
-#include "Components/CoverLookup/CoverLocation.h"
+#include "Components/Covers/CoverLocation.h"
 #include "GUI/Helper/GUI_Helper.h"
 #include "Helper/Logger/Logger.h"
 
 #include <QPainter>
 
-AlternateCoverItemDelegate::AlternateCoverItemDelegate(QObject* parent) : QItemDelegate(parent) {
+AlternativeCoverItemDelegate::AlternativeCoverItemDelegate(QObject* parent) : QItemDelegate(parent) {
 
 	QPixmap pm = GUI::get_pixmap("logo.png");
 
@@ -44,12 +44,12 @@ AlternateCoverItemDelegate::AlternateCoverItemDelegate(QObject* parent) : QItemD
 	label->setPixmap(pm);
 }
 
-AlternateCoverItemDelegate::~AlternateCoverItemDelegate() {
+AlternativeCoverItemDelegate::~AlternativeCoverItemDelegate() {
 
 }
 
 
-void AlternateCoverItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const{
+void AlternativeCoverItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const{
 	QItemDelegate::paint(painter, option, index);
 
     if(!index.isValid()) return;
@@ -81,7 +81,7 @@ void AlternateCoverItemDelegate::paint(QPainter *painter, const QStyleOptionView
 }
 
 
-QSize AlternateCoverItemDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const{
+QSize AlternativeCoverItemDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const{
 	Q_UNUSED(option)
 	Q_UNUSED(index)
 	return QSize(100, 100);

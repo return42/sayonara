@@ -22,8 +22,8 @@ IF(${MTP_FOUND})
     TARGET_LINK_LIBRARIES(${PROJECT_NAME}
 	mtp
 	say_helper_settings
-	say_helper_tagging
-	say_helper_directory_reader
     )
+
+    cotire(${PROJECT_NAME})
 
 ENDIF()

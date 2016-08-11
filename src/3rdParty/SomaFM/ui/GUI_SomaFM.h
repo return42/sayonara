@@ -30,7 +30,7 @@
 #include "SomaFMStation.h"
 
 #include "3rdParty/SomaFM/ui_GUI_SomaFM.h"
-#include "Components/CoverLookup/CoverLocation.h"
+#include "Components/Covers/CoverLocation.h"
 #include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
 
 #include <QItemSelection>

@@ -30,7 +30,7 @@
 #include "Helper/Helper.h"
 #include "Helper/FileHelper.h"
 
-#include "Components/CoverLookup/CoverLookupAll.h"
+#include "Components/Covers/CoverLookupAll.h"
 #include "Components/Library/LocalLibrary.h"
 #include "Components/Playlist/PlaylistHandler.h"
 #include "Helper/WebAccess/AsyncWebAccess.h"

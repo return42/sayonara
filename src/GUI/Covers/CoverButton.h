@@ -2,7 +2,7 @@
 #define COVER_BUTTON_H
 
 #include <QPushButton>
-#include "Components/CoverLookup/CoverLocation.h"
+#include "Components/Covers/CoverLocation.h"
 
 class GUI_AlternativeCovers;
 class CoverLookup;

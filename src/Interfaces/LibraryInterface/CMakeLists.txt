@@ -1,22 +1,15 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 PROJECT(say_interfaces_libraryinterface)
 
-INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR})
-INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
-
 ADD_SUBDIRECTORY(LibraryContainer)
 
-INCLUDE_DIRECTORIES(
-	${CMAKE_CURRENT_BINARY_DIR}
-	${CMAKE_CURRENT_SOURCE_DIR}
-)
-
 SET(SOURCES
-	LibraryPluginHandler.cpp
+    LibraryPluginHandler.cpp
 )
 
 ADD_LIBRARY(${PROJECT_NAME} STATIC ${SOURCES})
 TARGET_LINK_LIBRARIES(${PROJECT_NAME}
-	say_interfaces_library_container
-	say_gui_helper
+    say_gui_helper
 )
+
+

@@ -26,14 +26,12 @@
  *      Author: Lucio Carreras
  */
 
-#include "GUI/AlternativeCovers/ui_GUI_AlternativeCovers.h"
-
 #include "GUI_AlternativeCovers.h"
 #include "AlternativeCoverItemDelegate.h"
 #include "AlternativeCoverItemModel.h"
 
-#include "Components/CoverLookup/CoverLookup.h"
-#include "Components/CoverLookup/CoverLookupAlternative.h"
+#include "Components/Covers/CoverLookup.h"
+#include "Components/Covers/CoverLookupAlternative.h"
 
 #include "Database/DatabaseConnector.h"
 
@@ -70,8 +68,8 @@ GUI_AlternativeCovers::GUI_AlternativeCovers(QWidget* parent) :
 
 	_cur_idx = -1;
 
-    _model = new AlternateCoverItemModel(this);
-	_delegate = new AlternateCoverItemDelegate(this);
+	_model = new AlternativeCoverItemModel(this);
+	_delegate = new AlternativeCoverItemDelegate(this);
 
 	_is_searching = false;
 

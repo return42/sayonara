@@ -11,6 +11,5 @@ SET(SOURCES
 
 ADD_LIBRARY(${PROJECT_NAME} STATIC ${SOURCES})
 TARGET_LINK_LIBRARIES(${PROJECT_NAME}
-	say_helper_directory_reader
-	say_gui_helper
+    say_gui_helper
 )

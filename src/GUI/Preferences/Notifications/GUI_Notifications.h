@@ -25,7 +25,7 @@
 
 #include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
 #include "Interfaces/Notification/NotificationHandler.h"
-#include "GUI/Preferences/Notifications/ui_GUI_Notifications.h"
+#include "GUI/Preferences/ui_GUI_Notifications.h"
 
 
 class GUI_Notifications :

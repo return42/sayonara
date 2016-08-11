@@ -21,7 +21,7 @@
 
 #include "Database/SayonaraQuery.h"
 #include "Database/DatabaseVisStyles.h"
-#include "GUI/PlayerPlugins/Engine/StyleTypes.h"
+#include "GUI/Plugins/Engine/StyleTypes.h"
 
 #include <QColor>
 

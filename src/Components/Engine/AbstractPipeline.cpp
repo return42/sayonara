@@ -306,6 +306,8 @@ bool AbstractPipeline::tee_connect(GstElement* tee, GstPadTemplate* tee_src_pad_
 
 	g_object_set (queue, "silent", TRUE, nullptr);
 
+	gst_object_unref(tee_queue_pad);
+	gst_object_unref(queue_pad);
 	return true;
 }
 

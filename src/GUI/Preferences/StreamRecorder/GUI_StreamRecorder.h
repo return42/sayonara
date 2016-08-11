@@ -25,7 +25,7 @@
 #ifndef GUI_STREAMRECORDER_H_
 #define GUI_STREAMRECORDER_H_
 
-#include "GUI/Preferences/StreamRecorder/ui_GUI_StreamRecorder.h"
+#include "GUI/Preferences/ui_GUI_StreamRecorder.h"
 #include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
 
 class GUI_StreamRecorder :
