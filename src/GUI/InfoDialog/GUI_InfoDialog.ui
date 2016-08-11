@@ -28,6 +28,9 @@
      <property name="focusPolicy">
       <enum>Qt::StrongFocus</enum>
      </property>
+     <property name="currentIndex">
+      <number>1</number>
+     </property>
      <property name="usesScrollButtons">
       <bool>false</bool>
      </property>
@@ -193,8 +196,8 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>397</width>
-               <height>73</height>
+               <width>98</width>
+               <height>32</height>
               </rect>
              </property>
              <layout class="QGridLayout" name="gridLayout_7">
@@ -262,8 +265,8 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>397</width>
-               <height>273</height>
+               <width>98</width>
+               <height>32</height>
               </rect>
              </property>
              <layout class="QGridLayout" name="gridLayout_4">
@@ -381,11 +384,14 @@
            <layout class="QHBoxLayout" name="horizontalLayout">
             <item>
              <widget class="QComboBox" name="combo_servers">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="currentIndex">
                <number>-1</number>
-              </property>
-              <property name="sizeAdjustPolicy">
-               <enum>QComboBox::AdjustToContents</enum>
               </property>
               <property name="frame">
                <bool>false</bool>
