@@ -67,9 +67,6 @@ public slots:
 
 private slots:
 
-	void sl_track_ready();
-	void sl_buffer_state_changed(int progress);
-
 	void sl_md_changed(const MetaData&);
 	void sl_dur_changed(const MetaData&);
 	void sl_pos_changed_ms(quint64 ms);
