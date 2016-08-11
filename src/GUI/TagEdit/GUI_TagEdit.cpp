@@ -215,10 +215,12 @@ void GUI_TagEdit::track_idx_changed(){
 
 		if(_tag_edit->has_cover_replacement(_cur_idx)){
 			rb_replace->setChecked(true);
+			rb_dont_replace->setChecked(false);
 		}
 	
 		else{
 			rb_dont_replace->setChecked(true);
+			rb_replace->setChecked(false);
 		}
 	}
 
@@ -270,6 +272,7 @@ void GUI_TagEdit::reset(){
 	lab_rating->setEnabled(true);
 
 	rb_dont_replace->setChecked(true);
+	rb_replace->setChecked(false);
 
 	btn_cover_replacement->setEnabled(true);
 	show_replacement_field(false);

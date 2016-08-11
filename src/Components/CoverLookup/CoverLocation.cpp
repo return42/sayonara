@@ -42,6 +42,7 @@ CoverLocation::CoverLocation(const CoverLocation& cl) :
 	CoverLocation()
 {
 	search_url = cl.search_url;
+	search_term = cl.search_term;
 	cover_path = cl.cover_path;
 	local_paths = cl.local_paths;
 	valid = cl.valid;

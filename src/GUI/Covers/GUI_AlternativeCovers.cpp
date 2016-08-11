@@ -68,9 +68,6 @@ GUI_AlternativeCovers::GUI_AlternativeCovers(QWidget* parent) :
 		_last_path = QDir::homePath();
 	}
 
-	_cl_alternative = 0;
-
-
 	_cur_idx = -1;
 
     _model = new AlternateCoverItemModel(this);
@@ -117,105 +114,22 @@ void GUI_AlternativeCovers::connect_and_start() {
 
 	btn_search->setText(tr("Stop"));
     btn_save->setEnabled(false);
+	le_search->setText(_cover_location.search_term);
+	lab_info->setText(_cover_location.search_term);
 
 	_cl_alternative->start();
 
 	show();
 }
 
-void GUI_AlternativeCovers::start(int album_id, quint8 db_id, const CoverLocation& cl) {
-
-    if(album_id < 0) return;
-
-    Album album;
-	LibraryDatabase* db = DB::getInstance(db_id);
-
-    if( !db->getAlbumByID(album_id, album) ) return;
-
-	start(album, cl);
-}
-
-void GUI_AlternativeCovers::start(const Album& album, const CoverLocation& cl) {
-
-	le_search->setText(album.name + " " + ArtistList::get_major_artist(album.artists));
-
-	if(!cl.valid){
-		_cover_location = CoverLocation::get_cover_location(album);
-	}
-	else {
-		_cover_location = cl;
-	}
-
-    _cl_alternative = new CoverLookupAlternative(this, album, 10);
-    lab_info->setText(tr("for album") + " \"" + album.name + "\"");
-
-	connect_and_start();
-}
-
-
-void GUI_AlternativeCovers::start(QString album_name, QString artist_name, const CoverLocation& cl) {
-
-	le_search->setText(album_name + " " + artist_name);
-
-	if(!cl.valid){
-		_cover_location = CoverLocation::get_cover_location(album_name, artist_name);
-	}
-
-	else {
-		_cover_location = cl;
-	}
-
-	_cl_alternative = new CoverLookupAlternative(this, album_name, artist_name, 10);
-	lab_info->setText(tr("for album") + QString(" \"") + album_name + "\" " + tr("by") + " \"" + artist_name + "\"");
-
-	connect_and_start();
-}
-
-void GUI_AlternativeCovers::start(const Artist& artist, const CoverLocation& cl) {
-
-	le_search->setText(artist.name);
-
-	if(!cl.valid){
-		_cover_location = CoverLocation::get_cover_location(artist);
-	}
-
-	else {
-		_cover_location = cl;
-	}
-
-    _cl_alternative = new CoverLookupAlternative(this, artist, 10);
-    lab_info->setText(tr("for artist") + " \"" + artist.name + "\"");
-
-	connect_and_start();
-
-}
-
-
-void GUI_AlternativeCovers::start(QString artist_name, const CoverLocation& cl) {
-
-	le_search->setText(artist_name);
-	if(!cl.valid){
-		_cover_location = CoverLocation::get_cover_location(artist_name);
-	}
-	else {
-		_cover_location = cl;
-	}
-
-	_cl_alternative = new CoverLookupAlternative(this, artist_name, 10);
-    lab_info->setText(tr("for") + " \"" + artist_name + "\"");
-
-	connect_and_start();
-}
-
-void GUI_AlternativeCovers::activate(const CoverLocation& cl){
+void GUI_AlternativeCovers::start(const CoverLocation& cl){
 	if(!cl.valid){
 		return;
 	}
 
 	_cover_location = cl;
-	lab_info->setText(cl.search_term);
 
-    _cl_alternative = new CoverLookupAlternative(this, cl, 10);
+	_cl_alternative = new CoverLookupAlternative(this, _cover_location, 10);
 	connect_and_start();
 }
 
@@ -227,10 +141,9 @@ void GUI_AlternativeCovers::search_button_pressed() {
 		return;
 	}
 
-	_cl_alternative = new CoverLookupAlternative(this, le_search->text(), 10);
+	_cl_alternative = new CoverLookupAlternative(this, _cover_location, 10);
 
 	connect_and_start();
-
 }
 
 

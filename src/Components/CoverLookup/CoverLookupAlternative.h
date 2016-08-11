@@ -43,36 +43,13 @@ private:
 
 	CoverLookupPtr      _cl;
 
-	Artist              _artist;
-    QString             _artist_name;
-    QStringList         _artists_name;
-
-	QString             _album_name;
-    Album               _album;
-
-    int					_n_covers;
+	int					_n_covers;
     bool				_run;
 
 	CoverLocation		_cover_location;
 
-	enum class SearchType : quint8 {
-
-		Standard=0,
-		Sampler,
-		ByAlbum,
-		ByArtistName,
-		ByArtist,
-		ByLocation
-    } _search_type;
-
-
 public:
 
-    CoverLookupAlternative(QObject* parent, const QString& album_name, const QString& artist_name, int n_covers);
-    CoverLookupAlternative(QObject* parent, const QString& album_name, const QStringList& artists_name, int n_covers);
-    CoverLookupAlternative(QObject* parent, const Album& album, int n_covers);
-    CoverLookupAlternative(QObject* parent, const QString& artist, int n_covers);
-    CoverLookupAlternative(QObject* parent, const Artist& artist, int n_covers);
 	CoverLookupAlternative(QObject* parent, const CoverLocation& cl, int n_covers);
 
     ~CoverLookupAlternative();

@@ -27,7 +27,7 @@ void CoverButton::cover_button_clicked(){
 				this, &CoverButton::alternative_cover_fetched );
 	}
 
-	_alternative_covers->activate(_search_cover_location);
+	_alternative_covers->start(_search_cover_location);
 }
 
 

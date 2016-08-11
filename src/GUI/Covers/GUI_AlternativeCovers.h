@@ -57,12 +57,8 @@ signals:
 	void sig_cover_changed(const CoverLocation&);
 
 public slots:
-	void start(const Album& album, const CoverLocation& cl = CoverLocation());
-	void start(int album_id, quint8 db_id, const CoverLocation& cl = CoverLocation());
-	void start(QString album_name, QString artist_name, const CoverLocation& cl = CoverLocation());
-	void start(const Artist& artist, const CoverLocation& cl = CoverLocation());
-	void start(QString artist_name, const CoverLocation& cl = CoverLocation());
-	void activate(const CoverLocation& cl);
+
+	void start(const CoverLocation& cl);
 
 private slots:
 	void save_button_pressed();
