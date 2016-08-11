@@ -207,6 +207,18 @@ void GUI_AlternativeCovers::start(QString artist_name, const CoverLocation& cl) 
 	connect_and_start();
 }
 
+void GUI_AlternativeCovers::activate(const CoverLocation& cl){
+	if(!cl.valid){
+		return;
+	}
+
+	_cover_location = cl;
+	lab_info->setText(cl.search_term);
+
+    _cl_alternative = new CoverLookupAlternative(this, cl, 10);
+	connect_and_start();
+}
+
 
 void GUI_AlternativeCovers::search_button_pressed() {
 

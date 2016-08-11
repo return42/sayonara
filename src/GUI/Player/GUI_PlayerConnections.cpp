@@ -36,7 +36,6 @@ void GUI_Player::setup_connections() {
 	connect(btn_stop,	&QPushButton::clicked,	this, &GUI_Player::stop_clicked);
 	connect(btn_mute,	&QPushButton::released,	this, &GUI_Player::mute_button_clicked);
 	connect(btn_rec,	&QPushButton::toggled, this, &GUI_Player::rec_clicked);
-	connect(albumCover, &QPushButton::clicked, this, &GUI_Player::cover_clicked);
 
 	connect(_play_manager, &PlayManager::sig_playstate_changed, this, &GUI_Player::playstate_changed);
 	connect(_play_manager, &PlayManager::sig_track_changed, this, &GUI_Player::track_changed);

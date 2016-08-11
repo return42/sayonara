@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>938</width>
-    <height>560</height>
+    <height>562</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout">
@@ -335,7 +335,7 @@
          </widget>
         </item>
         <item row="3" column="3">
-         <widget class="QPushButton" name="btn_cover_replacement">
+         <widget class="CoverButton" name="btn_cover_replacement">
           <property name="minimumSize">
            <size>
             <width>80</width>
@@ -709,6 +709,11 @@
   </layout>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>CoverButton</class>
+   <extends>QPushButton</extends>
+   <header>GUI/Covers/CoverButton.h</header>
+  </customwidget>
   <customwidget>
    <class>TagLineEdit</class>
    <extends>QLineEdit</extends>

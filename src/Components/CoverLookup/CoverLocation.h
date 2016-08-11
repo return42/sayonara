@@ -40,6 +40,11 @@ class CoverLocation
 public:
 
 	/**
+	 * @brief The search engine term what to search
+	 */
+	QString			search_term;
+
+	/**
 	 * @brief search_url url where to fetch covers
 	 */
 	QString			search_url;

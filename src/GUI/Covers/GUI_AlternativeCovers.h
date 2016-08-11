@@ -62,6 +62,7 @@ public slots:
 	void start(QString album_name, QString artist_name, const CoverLocation& cl = CoverLocation());
 	void start(const Artist& artist, const CoverLocation& cl = CoverLocation());
 	void start(QString artist_name, const CoverLocation& cl = CoverLocation());
+	void activate(const CoverLocation& cl);
 
 private slots:
 	void save_button_pressed();

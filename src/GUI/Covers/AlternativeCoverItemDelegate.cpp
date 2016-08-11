@@ -26,7 +26,7 @@
  *      Author: Lucio Carreras
  */
 
-#include "GUI/AlternativeCovers/AlternativeCoverItemDelegate.h"
+#include "AlternativeCoverItemDelegate.h"
 #include "Components/CoverLookup/CoverLookup.h"
 #include "Components/CoverLookup/CoverLocation.h"
 

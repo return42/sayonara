@@ -753,7 +753,7 @@
          </layout>
         </item>
         <item row="0" column="0">
-         <widget class="QPushButton" name="albumCover">
+         <widget class="CoverButton" name="albumCover">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -1047,7 +1047,7 @@
      <x>0</x>
      <y>0</y>
      <width>1038</width>
-     <height>20</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFle">
@@ -1253,6 +1253,11 @@
    <extends>QWidget</extends>
    <header>GUI/PlayerPlugins/GUI_PlayerPlugin.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>CoverButton</class>
+   <extends>QPushButton</extends>
+   <header>GUI/Covers/CoverButton.h</header>
   </customwidget>
  </customwidgets>
  <resources>

@@ -1,5 +1,5 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
-PROJECT(say_gui_alternative_covers)
+PROJECT(say_gui_covers)
 
 INCLUDE_DIRECTORIES(
 	${CMAKE_CURRENT_BINARY_DIR},
@@ -7,6 +7,7 @@ INCLUDE_DIRECTORIES(
 )
 
 SET(SOURCES
+	CoverButton.cpp
 	AlternativeCoverItemDelegate.cpp
 	AlternativeCoverItemModel.cpp
 	GUI_AlternativeCovers.cpp

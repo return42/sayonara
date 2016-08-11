@@ -56,6 +56,7 @@ CoverLocation CoverLocation::getInvalidLocation() {
 	CoverLocation cl;
 	cl.cover_path = Helper::get_share_path() + "logo.png";
 	cl.search_url = "";
+	cl.search_term = "";
 	cl.valid = false;
 	return cl;
 }
@@ -83,6 +84,7 @@ CoverLocation CoverLocation::get_cover_location(const QString& album_name, const
 	}
 
 	ret.cover_path = cover_path;
+	ret.search_term = artist_name + " " + album_name;
 	ret.search_url = CoverHelper::calc_google_album_address(artist_name, album_name);
 	ret.valid = true;
 
@@ -151,6 +153,8 @@ CoverLocation CoverLocation::get_cover_location(const Album& album) {
 		cl.search_url = album.cover_download_url;
 	}
 
+	cl.search_term = album.name + " " + ArtistList::get_major_artist(album.artists);
+
 	return cl;
 }
 
@@ -161,6 +165,8 @@ CoverLocation CoverLocation::get_cover_location(const Artist& artist) {
 	if(!artist.cover_download_url.isEmpty()){
 		cl.search_url = artist.cover_download_url;
 	}
+
+	cl.search_term = artist.name;
 
 	return cl;
 }
@@ -182,6 +188,7 @@ CoverLocation CoverLocation::get_cover_location(const QString& artist) {
 
 	ret.cover_path = target_file;
 	ret.search_url = CoverHelper::calc_google_artist_address(artist);
+	ret.search_term = artist;
 	ret.valid = true;
 
 	return ret;
@@ -201,6 +208,7 @@ CoverLocation CoverLocation::get_cover_location(const MetaData& md) {
 
 	if(!md.cover_download_url.isEmpty() && cl.search_url.contains("google")){
 		cl.search_url = md.cover_download_url;
+
 	}
 
 	if(cl.search_url.isEmpty()){

@@ -34,8 +34,6 @@
 #include <QCloseEvent>
 
 class GUI_TagEdit;
-class GUI_AlternativeCovers;
-class CoverLookup;
 class LyricLookupThread;
 
 class GUI_InfoDialog :
@@ -75,10 +73,6 @@ private slots:
 	void tab_index_changed_int(int idx);
 	void tab_index_changed(GUI_InfoDialog::TabIndex idx);
 
-	void cover_clicked();
-	void cover_fetched(const CoverLocation&);
-	void alternative_cover_fetched(const CoverLocation&);
-
 	void skin_changed() override;
 	void language_changed() override;
 
@@ -86,10 +80,6 @@ private slots:
 private:
 
 	GUI_TagEdit*			_ui_tag_edit=nullptr;
-	GUI_AlternativeCovers*	_ui_alternative_covers=nullptr;
-
-	CoverLookup* 			_cover_lookup=nullptr;
-
 	LyricLookupThread*		_lyric_thread=nullptr;
 
 	GUI_InfoDialog::Mode	_cur_mode;

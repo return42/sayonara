@@ -44,9 +44,7 @@
 #include <QAction>
 
 class CoverLocation;
-class CoverLookup;
 class LocalLibrary;
-class GUI_AlternativeCovers;
 class GUI_Playlist;
 class AsyncWebAccess;
 class PlayerPluginInterface;
@@ -112,9 +110,6 @@ private:
 	QWidget*					_cur_library=nullptr;
 	LocalLibrary*				_local_library=nullptr;
 
-	GUI_AlternativeCovers*		_ui_alternative_covers=nullptr;
-
-	CoverLookup*				_cov_lookup=nullptr;
 	PlayerPluginHandler*		_pph=nullptr;
 	LibraryPluginHandler*		_lph=nullptr;
 
@@ -123,7 +118,6 @@ private:
 #endif
 
 	GUI_TrayIcon*				_tray_icon=nullptr;
-
 
 	QTranslator*				_translator=nullptr;
 	QStringList					_translators;
@@ -162,6 +156,7 @@ private:
 
 	void set_total_time_label(qint64 length_ms);
 	void set_cur_pos_label(int val);
+	void set_cover_location();
 
 	template<typename T>
 	void init_action(QAction* action, T setting_key){
@@ -195,7 +190,6 @@ private slots:
 
 	void track_changed(const MetaData& md);
 
-	void cover_clicked();
 	void seek(int);
 	void jump_forward();
 	void jump_backward();
@@ -239,9 +233,7 @@ private slots:
 	void help();
 
 	void set_standard_cover();
-	void set_cover_image(const CoverLocation&);
 	void cover_changed(const QImage& cover);
-	void fetch_cover();
 
 	void awa_version_finished(bool success);
 	void awa_translators_finished(bool success);

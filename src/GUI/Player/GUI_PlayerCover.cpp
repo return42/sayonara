@@ -23,74 +23,37 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #include "GUI_Player.h"
 
-#include "GUI/AlternativeCovers/GUI_AlternativeCovers.h"
 #include "GUI/Helper/GUI_Helper.h"
-#include "Components/CoverLookup/CoverLookup.h"
 
 #include <QImage>
 
 /** COVERS **/
 
-void GUI_Player::fetch_cover() {
-	if(_cover_from_tag){
-		return;
-	}
+void GUI_Player::set_cover_location(){
 
-	if(!_cov_lookup){
-		_cov_lookup = new CoverLookup(this);
-		connect(_cov_lookup, &CoverLookup::sig_cover_found, this, &GUI_Player::set_cover_image);
-	}
-
-	CoverLocation cover_location = CoverLocation::get_cover_location(_md);
-	_cov_lookup->fetch_cover(cover_location);
-}
-
-
-void GUI_Player::cover_clicked() {
-
-	if(!_ui_alternative_covers){
-		qRegisterMetaType<CoverLocation>("CoverLocation");
-		_ui_alternative_covers = new GUI_AlternativeCovers(this->centralWidget());
-		connect(_ui_alternative_covers, &GUI_AlternativeCovers::sig_cover_changed, this, &GUI_Player::set_cover_image);
-	}	
-
+	CoverLocation cl;
 	if(_md.album_id >= 0) {
-	   _ui_alternative_covers->start(_md.album_id, _md.db_id);
-    }
+		cl = CoverLocation::get_cover_location(_md.album_id, _md.db_id);
+	}
 
-    else {
-		_ui_alternative_covers->start( _md.album, _md.artist);
-    }
+	else {
+		cl = CoverLocation::get_cover_location( _md.album, _md.artist);
+	}
 
-    this->setFocus();
+	albumCover->set_cover_location(cl);
 }
-
 
 void GUI_Player::set_standard_cover() {
 
-	QIcon icon = GUI::get_icon("logo.png");
-
-	albumCover->icon().detach();
-	albumCover->setIcon(icon);
-	albumCover->repaint();
-}
-
-
-void GUI_Player::set_cover_image(const CoverLocation& cl) {
-	if(_cover_from_tag){
-		return;
-	}
-
-	QIcon icon(cl.cover_path);
-	albumCover->setIcon(icon);
+	albumCover->set_cover_location(CoverLocation::getInvalidLocation());
 }
 
 void GUI_Player::cover_changed(const QImage& img)
 {
 	_cover_from_tag = true;
+
 	QPixmap pm = QPixmap::fromImage(img);
 	QIcon icon(pm);
 	albumCover->setIcon(icon);

@@ -19,7 +19,7 @@ TARGET_LINK_LIBRARIES(${PROJECT_NAME}
     say_comp_lyrics
     say_helper_metadata_info
     say_gui_tagedit
-    say_gui_alternative_covers
+	say_gui_covers
 )
 
 

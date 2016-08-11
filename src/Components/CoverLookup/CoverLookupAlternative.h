@@ -23,7 +23,8 @@
 #ifndef COVERLOOKUPALTERNATIVE_H
 #define COVERLOOKUPALTERNATIVE_H
 
-#include "Components/CoverLookup/CoverLookup.h"
+#include "CoverLocation.h"
+#include "CoverLookup.h"
 #include "Helper/MetaData/Artist.h"
 #include "Helper/MetaData/Album.h"
 
@@ -52,13 +53,16 @@ private:
     int					_n_covers;
     bool				_run;
 
+	CoverLocation		_cover_location;
+
 	enum class SearchType : quint8 {
 
 		Standard=0,
 		Sampler,
 		ByAlbum,
 		ByArtistName,
-		ByArtist
+		ByArtist,
+		ByLocation
     } _search_type;
 
 
@@ -69,6 +73,7 @@ public:
     CoverLookupAlternative(QObject* parent, const Album& album, int n_covers);
     CoverLookupAlternative(QObject* parent, const QString& artist, int n_covers);
     CoverLookupAlternative(QObject* parent, const Artist& artist, int n_covers);
+	CoverLookupAlternative(QObject* parent, const CoverLocation& cl, int n_covers);
 
     ~CoverLookupAlternative();
 

@@ -38,7 +38,6 @@
  * @ingroup Tagging
  */
 class TagEdit;
-class CoverLookup;
 class CoverLocation;
 class MetaDataList;
 class MetaData;
@@ -84,7 +83,6 @@ signals:
 
 private:
 	TagEdit*		_tag_edit=nullptr;
-	CoverLookup*	_cover_lookup=nullptr;
 	TagExpression	_tag_expression;
 	QMap<int, QString> _cover_path_map;
 
@@ -311,7 +309,6 @@ private slots:
 
 
 	void rb_dont_replace_toggled(bool b);
-	void cover_found(const CoverLocation& cl);
 
 };
 

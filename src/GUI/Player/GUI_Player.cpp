@@ -82,9 +82,6 @@ GUI_Player::GUI_Player(QTranslator* translator, QWidget *parent) :
 
 	progress_widget->setCurrentIndex(0);
 
-	_cov_lookup = nullptr;
-	_ui_alternative_covers = nullptr;
-
 	init_action(action_viewLibrary, Set::Lib_Show);
 	init_action(action_livesearch, Set::Lib_LiveSearch);
 	init_action(action_Dark, Set::Player_Style);
@@ -191,12 +188,12 @@ void GUI_Player::track_changed(const MetaData & md) {
 	lab_rating->setText(rating_text);
 	lab_rating->setToolTip(rating_text);
 
+	set_cover_location();
+
 	set_radio_mode( _md.radio_mode() );
 
 	this->setWindowTitle(QString("Sayonara - ") + md.title);
 	this->repaint();
-
-	fetch_cover();
 }
 
 void GUI_Player::set_title_label(){
@@ -293,7 +290,9 @@ void GUI_Player::id3_tags_changed(const MetaDataList& v_md_old, const MetaDataLi
 	set_info_labels();
 
 	setWindowTitle(QString("Sayonara - ") + _md.title);
-	fetch_cover();
+
+	set_cover_location();
+
 }
 
 

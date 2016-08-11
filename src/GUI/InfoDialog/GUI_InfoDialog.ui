@@ -97,7 +97,7 @@
              </spacer>
             </item>
             <item>
-             <widget class="QPushButton" name="btn_image">
+             <widget class="CoverButton" name="btn_image">
               <property name="minimumSize">
                <size>
                 <width>300</width>
@@ -193,8 +193,8 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>400</width>
-               <height>76</height>
+               <width>397</width>
+               <height>73</height>
               </rect>
              </property>
              <layout class="QGridLayout" name="gridLayout_7">
@@ -262,8 +262,8 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>400</width>
-               <height>283</height>
+               <width>397</width>
+               <height>273</height>
               </rect>
              </property>
              <layout class="QGridLayout" name="gridLayout_4">
@@ -446,6 +446,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>CoverButton</class>
+   <extends>QPushButton</extends>
+   <header>GUI/Covers/CoverButton.h</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="../Resources/Icons.qrc"/>
  </resources>

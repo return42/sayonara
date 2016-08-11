@@ -24,9 +24,7 @@
 
 #include "GUI/InfoDialog/GUI_InfoDialog.h"
 #include "GUI/TagEdit/GUI_TagEdit.h"
-#include "GUI/AlternativeCovers/GUI_AlternativeCovers.h"
 
-#include "Components/CoverLookup/CoverLookup.h"
 #include "Components/LyricLookup/LyricLookup.h"
 #include "Components/TagEdit/TagEdit.h"
 
@@ -185,26 +183,9 @@ void GUI_InfoDialog::prepare_info(GUI_InfoDialog::Mode mode) {
 		_cover_album.clear();
 	}
 
+	prepare_cover(_cl);
+
 	delete info;
-}
-
-
-void GUI_InfoDialog::alternative_cover_fetched(const CoverLocation& cl){
-	cover_fetched(cl);
-}
-
-void GUI_InfoDialog::cover_fetched(const CoverLocation& cl) {
-
-	if(!_is_initialized){
-		return;
-	}
-
-	QIcon icon(cl.cover_path);
-	if(icon.isNull()) return;
-
-	btn_image->setIcon(icon);
-	btn_image->update();
-	btn_image->repaint();
 }
 
 
@@ -283,7 +264,7 @@ void GUI_InfoDialog::show(GUI_InfoDialog::TabIndex tab) {
 		init();
 	}
 
-	cover_fetched(CoverLocation::getInvalidLocation());
+	prepare_cover(CoverLocation::getInvalidLocation());
 
 	bool tag_edit_enabled = std::any_of(_v_md.begin(), _v_md.end(), [](const MetaData& md){
 		return (!Helper::File::is_www(md.filepath()));
@@ -319,45 +300,17 @@ void GUI_InfoDialog::show(GUI_InfoDialog::TabIndex tab) {
 }
 
 
-void GUI_InfoDialog::prepare_cover(const CoverLocation& cover_location) {
+void GUI_InfoDialog::prepare_cover(const CoverLocation& cl) {
 
-	if(!cover_location.valid) {
-		return;
-	}
-
-	_cover_lookup->fetch_cover(cover_location);
+	btn_image->set_cover_location(cl);
 }
 
-
-void GUI_InfoDialog::cover_clicked() {
-
-	setFocus();
-
-	if(!_ui_alternative_covers){
-		_ui_alternative_covers = new GUI_AlternativeCovers(this);
-		connect(_ui_alternative_covers, &GUI_AlternativeCovers::sig_cover_changed, this, &GUI_InfoDialog::alternative_cover_fetched);
-	}
-
-	if(_cover_artist.size() > 0 && _cover_album.size() > 0){
-		_ui_alternative_covers->start(_cover_album, _cover_artist, _cl);
-	}
-
-	else if(_cover_artist.size() > 0){
-		_ui_alternative_covers->start(_cover_artist, _cl);
-	}
-
-	else if(_cover_album.size() > 0){
-		_ui_alternative_covers->start(_cover_album, "Various artists", _cl);
-	}
-}
 
 void GUI_InfoDialog::init() {
 
 	setupUi(this);
 
 	QLayout* tab3_layout;
-
-	_cover_lookup = new CoverLookup(this);
 
 	tab3_layout = tab_3->layout();
 	if(tab3_layout){
@@ -367,12 +320,9 @@ void GUI_InfoDialog::init() {
 
 	combo_servers->setCurrentIndex(0);
 
-	connect(_cover_lookup, &CoverLookup::sig_cover_found, this, &GUI_InfoDialog::cover_fetched);
 	connect(tab_widget, &QTabWidget::currentChanged, this, &GUI_InfoDialog::tab_index_changed_int);
 	connect(_ui_tag_edit, &GUI_TagEdit::sig_cancelled, this, &GUI_InfoDialog::close);
 	connect(combo_servers, combo_current_index_changed_int, this, &GUI_InfoDialog::lyric_server_changed);
-
-	connect(btn_image, &QPushButton::clicked, this, &GUI_InfoDialog::cover_clicked);
 
 	btn_image->setStyleSheet("QPushButton:hover {background-color: transparent;}");
 

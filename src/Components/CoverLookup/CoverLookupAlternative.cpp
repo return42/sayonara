@@ -68,6 +68,13 @@ CoverLookupAlternative::CoverLookupAlternative(QObject* parent, const Artist& ar
 	_search_type = SearchType::ByArtist;
 }
 
+CoverLookupAlternative::CoverLookupAlternative(QObject* parent, const CoverLocation& cl, int n_covers) : 
+	CoverLookupAlternative(parent, n_covers)
+{
+	_cover_location = cl;
+	_search_type = SearchType::ByLocation;
+}
+
 
 CoverLookupAlternative::~CoverLookupAlternative() {
 	_cl->stop();
@@ -87,6 +94,10 @@ void CoverLookupAlternative::start() {
 	connect(_cl.get(), &CoverLookup::sig_finished, this, &CoverLookupAlternative::finished);
 
     switch(_search_type) {
+
+		case SearchType::ByLocation:
+			_cl->fetch_cover(_cover_location);
+			break;
 
 		case SearchType::Standard:
             _cl->fetch_album_cover_standard(_artist_name, _album_name);
