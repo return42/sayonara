@@ -19,6 +19,6 @@ TARGET_LINK_LIBRARIES(${PROJECT_NAME}
 	say_gui_helper
 )
 
-cotire(${PROJECT_NAME})
+#cotire(${PROJECT_NAME})
 
 

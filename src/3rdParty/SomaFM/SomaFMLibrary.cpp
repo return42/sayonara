@@ -123,8 +123,8 @@ void SomaFMLibrary::soma_station_playlists_fetched(bool success){
 	SomaFMStation station = _station_map[_requested_station];
 	QString cover_url = station.get_cover_location().search_url();
 
-	for(MetaData& md : v_md){
-		md.cover_download_url = cover_url;
+	for(auto it = v_md.begin(); it != v_md.end(); it++){
+		it->cover_download_url = cover_url;
 	}
 
 	station.set_metadata(v_md);
@@ -172,8 +172,8 @@ void SomaFMLibrary::soma_playlist_content_fetched(bool success)
 	SomaFMStation station = _station_map[_requested_station];
 	QString cover_url = station.get_cover_location().search_url();
 
-	for(MetaData& md : v_md){
-		md.cover_download_url = cover_url;
+	for(auto it = v_md.begin(); it != v_md.end(); it++){
+		it->cover_download_url = cover_url;
 	}
 
 	station.set_metadata(v_md);

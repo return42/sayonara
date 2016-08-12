@@ -2,6 +2,7 @@
 #define COVER_BUTTON_H
 
 #include <QPushButton>
+#include <QIcon>
 #include "Components/Covers/CoverLocation.h"
 
 class GUI_AlternativeCovers;
@@ -11,27 +12,28 @@ class CoverButton : public QPushButton
 {
 	Q_OBJECT
 
-	signals:
+signals:
 	void sig_cover_replaced();
 	void sig_cover_found();
 
-	public:
+public:
 	CoverButton(QWidget* parent=nullptr);
 	virtual ~CoverButton();
-
 
 	bool has_valid_cover() const;
 	CoverLocation get_found_cover() const;
 	void set_cover_location(const CoverLocation& cl);
+	void force_icon(const QIcon& icon);
 
-	private:
+private:
 	GUI_AlternativeCovers* 	_alternative_covers=nullptr;
 	CoverLookup*			_cover_lookup=nullptr;
 	CoverLocation 			_found_cover_location;
 	CoverLocation 			_search_cover_location;
 	QString					_text;
+	bool 					_cover_forced;
 
-	private slots:
+private slots:
 	void cover_button_clicked();
 	void alternative_cover_fetched(const CoverLocation& cl);
 	void cover_found(const CoverLocation& cl);

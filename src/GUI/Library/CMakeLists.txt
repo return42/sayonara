@@ -49,4 +49,4 @@ TARGET_LINK_LIBRARIES(${PROJECT_NAME}
     say_comp_library_importer
 )
 
-cotire(${PROJECT_NAME})
+#cotire(${PROJECT_NAME})

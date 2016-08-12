@@ -6,6 +6,7 @@
 CoverButton::CoverButton(QWidget* parent) : 
 	QPushButton(parent)
 {
+	_cover_forced = false;
 	_found_cover_location = CoverLocation::getInvalidLocation();
 	_search_cover_location = CoverLocation::getInvalidLocation();
 
@@ -40,7 +41,16 @@ void CoverButton::set_cover_location(const CoverLocation& cl){
 		connect(_cover_lookup, &CoverLookup::sig_cover_found, this, &CoverButton::set_cover_image);
 	}
 
+	_cover_forced = false;
 	_cover_lookup->fetch_cover(cl);
+}
+
+void CoverButton::force_icon(const QIcon& icon){
+
+	_cover_forced = true;
+	this->setIcon(icon);
+
+	this->setToolTip("MP3 Tag");
 }
 
 
@@ -57,6 +67,7 @@ void CoverButton::alternative_cover_fetched(const CoverLocation& cl){
 
 
 void CoverButton::cover_found(const CoverLocation &cl){
+
 	_found_cover_location = cl;
 
 	if(cl.valid()){
@@ -69,8 +80,14 @@ void CoverButton::cover_found(const CoverLocation &cl){
 
 void CoverButton::set_cover_image(const QString& cover_path){
 
+	if(_cover_forced && sender() == _cover_lookup){
+		return;
+	}
+
 	QIcon icon(cover_path);
 	this->setIcon(icon);
+
+	this->setToolTip("");
 }
 
 

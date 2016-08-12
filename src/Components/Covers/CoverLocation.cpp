@@ -212,8 +212,14 @@ CoverLocation CoverLocation::get_cover_location(const MetaData& md) {
 		cl = get_cover_location(md.album, md.artist);
 	}
 
-	if(!md.cover_download_url.isEmpty() && cl._search_url.contains("google")){
-		cl._search_url = md.cover_download_url;
+	if(!md.cover_download_url.isEmpty())
+	{
+		QString extension = Helper::File::get_file_extension(md.cover_download_url);
+		QString cover_dir = get_cover_directory();
+		QString cover_token = CoverHelper::calc_cover_token(md.artist, md.album);
+		QString cover_path =  cover_dir + QDir::separator() + cover_token + "." + extension;
+
+		cl = get_cover_location(QUrl(md.cover_download_url), cover_path);
 	}
 
 	if(cl._search_url.isEmpty()){

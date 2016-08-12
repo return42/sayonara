@@ -34,10 +34,10 @@ QT5_WRAP_UI(UI_FILES
     StreamRecorder/GUI_StreamRecorder.ui
 )
 
-ADD_LIBRARY(${PROJECT_NAME} STATIC ${SOURCES})
+ADD_LIBRARY(${PROJECT_NAME} STATIC ${SOURCES} ${UI_FILES})
 TARGET_LINK_LIBRARIES(${PROJECT_NAME}
     say_comp_streamplugins_lastfm
     say_interfaces_preference_dialog
 )
 
-cotire(${PROJECT_NAME})
+#cotire(${PROJECT_NAME})

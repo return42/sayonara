@@ -18,4 +18,4 @@ TARGET_LINK_LIBRARIES(${PROJECT_NAME}
 	say_helper_compressor
 )
 
-cotire(${PROJECT_NAME})
+#cotire(${PROJECT_NAME})

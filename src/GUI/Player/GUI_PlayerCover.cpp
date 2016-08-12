@@ -28,19 +28,14 @@
 #include "GUI/Helper/GUI_Helper.h"
 
 #include <QImage>
+#include <QPixmap>
+#include <QIcon>
 
 /** COVERS **/
 
 void GUI_Player::set_cover_location(){
 
-	CoverLocation cl;
-	if(_md.album_id >= 0) {
-		cl = CoverLocation::get_cover_location(_md.album_id, _md.db_id);
-	}
-
-	else {
-		cl = CoverLocation::get_cover_location( _md.album, _md.artist);
-	}
+	CoverLocation cl = CoverLocation::get_cover_location(_md);
 
 	albumCover->set_cover_location(cl);
 }
@@ -52,13 +47,10 @@ void GUI_Player::set_standard_cover() {
 
 void GUI_Player::cover_changed(const QImage& img)
 {
-	_cover_from_tag = true;
-
 	QPixmap pm = QPixmap::fromImage(img);
 	QIcon icon(pm);
-	albumCover->setIcon(icon);
+	albumCover->force_icon(icon);
 }
-
 
 /** COVER END **/
 

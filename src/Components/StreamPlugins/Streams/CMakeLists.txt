@@ -12,4 +12,4 @@ TARGET_LINK_LIBRARIES(${PROJECT_NAME}
     say_comp_playlist
 )
 
-cotire(${PROJECT_NAME})
+#cotire(${PROJECT_NAME})

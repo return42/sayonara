@@ -61,4 +61,4 @@ TARGET_LINK_LIBRARIES(${PROJECT_NAME}
     Qt5::Gui
     tag
 )
-cotire(${PROJECT_NAME})
+#cotire(${PROJECT_NAME})

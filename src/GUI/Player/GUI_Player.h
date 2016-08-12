@@ -126,7 +126,6 @@ private:
 	QMessageBox*				_about_box=nullptr;
 
 	MetaData					_md;
-	bool						_cover_from_tag;
 	IconLoader*				_icon_loader=nullptr;
 
 

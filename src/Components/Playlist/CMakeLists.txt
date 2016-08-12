@@ -16,5 +16,5 @@ TARGET_LINK_LIBRARIES(${PROJECT_NAME}
 	say_comp_playmanager
 	say_comp_engine
 )
-cotire(${PROJECT_NAME})
+#cotire(${PROJECT_NAME})
 

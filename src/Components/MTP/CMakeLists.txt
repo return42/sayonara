@@ -24,6 +24,6 @@ IF(${MTP_FOUND})
 	say_helper_settings
     )
 
-    cotire(${PROJECT_NAME})
+    #cotire(${PROJECT_NAME})
 
 ENDIF()

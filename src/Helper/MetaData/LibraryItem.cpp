@@ -55,7 +55,6 @@ QString CustomField::get_value() const
 
 
 LibraryItem::LibraryItem()  {
-	//cover_download_url = QString();
 	db_id = -1;
 }
 
