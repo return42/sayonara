@@ -58,6 +58,16 @@ class RingBuffer {
 
 			return false;
 		}
+
+		int count() const
+		{
+			return _n_items;
+		}
+
+		bool is_empty() const
+		{
+			return (_n_items == 0);
+		}
 };
 
 /**
@@ -84,6 +94,9 @@ class PlayManager : public QObject, protected SayonaraClass
 
 
 signals:
+
+		// todo comment me
+	void sig_www_track_finished(const MetaData& old_md);
 
 	/**
 	 * @brief emitted, when PlayManager::PlayState was changed

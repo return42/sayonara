@@ -35,8 +35,6 @@ PlaylistItemDelegate::PlaylistItemDelegate(QListView* parent) :
 	QItemDelegate(parent),
 	SayonaraClass()
 {
-
-	_parent = parent;
 	_max_width = parent->width();
 	_drag_row = -1;
 	_show_numbers = _settings->get(Set::PL_ShowNumbers);
@@ -63,6 +61,7 @@ void PlaylistItemDelegate::paint( QPainter *painter,
 
 	painter->save();
 
+	QPalette palette = option.palette;
 	QRect rect(option.rect);
 	rect.setWidth(_max_width);
 
@@ -72,29 +71,20 @@ void PlaylistItemDelegate::paint( QPainter *painter,
 	const PlaylistItemModel* model = static_cast<const PlaylistItemModel*>(index.model());
 	const MetaData& md = model->get_md(row);
 
-	if(option.state & QStyle::State_Selected){
-
-		QPalette palette = _parent->palette();
-
-		QPalette::ColorGroup color_group;
-
-		if(option.state & QStyle::State_Active){
-			color_group = QPalette::Active;
+	if(md.is_disabled)
+	{
+		QColor col_text = palette.color(QPalette::Disabled, QPalette::Foreground);
+		if(_settings->get(Set::Player_Style) == 1){
+			col_text.setAlpha(196);
 		}
-		else{
-			color_group = QPalette::Inactive;
-		}
-		
-		QColor col_foreground = palette.color(color_group, QPalette::HighlightedText);
-
 		QPen pen = painter->pen();
-		pen.setColor(col_foreground);
+		pen.setColor(col_text);
 		painter->setPen(pen);
 	}
 
-	else if(md.pl_playing){
+	if(md.pl_playing)
+	{
 
-		QPalette palette = _parent->palette();
 		QColor col_highlight = palette.color(QPalette::Active, QPalette::Highlight);
 		col_highlight.setAlpha(160);
 
@@ -105,7 +95,7 @@ void PlaylistItemDelegate::paint( QPainter *painter,
 		painter->drawLine(QLine(0, y, _max_width, y));
 	}
 
-	QFont font = painter->font();
+	QFont font = option.font;
 
 	/** Time **/
 	QString str;
@@ -125,11 +115,9 @@ void PlaylistItemDelegate::paint( QPainter *painter,
 	painter->setFont(font);
 	painter->translate(4, 0);
 
-
 	if(_show_numbers){
 		offset_x = draw_number(painter, row + 1, font, rect);
 	}
-
 
 	if(!time_string.isEmpty()){
 		rect.setWidth(rect.width() - 60);

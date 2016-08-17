@@ -75,8 +75,17 @@ const MetaData& PlaylistItemModel::get_md(int row) const
 
 Qt::ItemFlags PlaylistItemModel::flags(const QModelIndex &index = QModelIndex()) const{
 
-	if (!index.isValid())
+	int row = index.row();
+	if (!index.isValid()){
 		return Qt::ItemIsEnabled;
+	}
+
+	if( row >= 0 && row < _pl->get_count()){
+		const MetaData& md = get_md(row);
+		if(md.is_disabled){
+			return Qt::NoItemFlags;
+		}
+	}
 
 	return QAbstractItemModel::flags(index) | Qt::ItemIsEditable;
 }

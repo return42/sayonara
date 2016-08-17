@@ -19,10 +19,11 @@
  */
 
 
-
 #include "PlayManager.h"
 #include "Interfaces/Notification/NotificationHandler.h"
 
+#include <QDateTime>
+#include <QTime>
 
 PlayManager::PlayManager(QObject* parent) :
 	QObject(parent),
@@ -270,16 +271,32 @@ void PlayManager::change_duration(qint64 ms){
 
 void PlayManager::change_metadata(const MetaData& md)
 {
+	MetaData md_old = _md;
 	_md = md;
+
 	QString str = md.title + md.artist;
 	bool has_data = _ring_buffer.has_item(str);
 
 	if(!has_data){
-		_ring_buffer.insert(md.title + md.artist);
 
 		if(_settings->get(Set::Notification_Show)){
 			NotificationHandler::getInstance()->notify(_md);
 		}
+
+		if( _ring_buffer.count() > 0 ){
+			md_old.album = "";
+			md_old.artist = "";
+			md_old.is_disabled = true;
+			md_old.set_filepath("");
+
+			QDateTime date = QDateTime::currentDateTime();
+			QTime time = date.time();
+			md_old.length_ms = (time.hour() * 60 + time.minute()) * 1000;
+
+			emit sig_www_track_finished(md_old);
+		}
+
+		_ring_buffer.insert(str);
 	}
 
 	emit sig_md_changed(md);

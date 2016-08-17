@@ -83,7 +83,7 @@ MetaDataList& MetaDataList::insert_tracks(const MetaDataList& v_md, int tgt_idx)
 	}
 
 	if(cur_track >= old_tgt_idx){
-		_cur_played_track = cur_track + v_md.size();
+		set_cur_play_track(cur_track + v_md.size());
 	}
 
 	return *this;
@@ -161,7 +161,7 @@ MetaDataList& MetaDataList::move_tracks(const SP::Set<int>& indexes, int tgt_idx
 
 	for(int i=0; i<2; i++){
 		if(cur_track[i] >= 0){
-			_cur_played_track = cur_track[i];
+			set_cur_play_track(cur_track[i]);
 			break;
 		}
 	}
@@ -235,11 +235,11 @@ MetaDataList& MetaDataList::remove_tracks(int first, int last){
 	}
 
 	if(_cur_played_track >= first && _cur_played_track <= last){
-		_cur_played_track = -1;
+		set_cur_play_track(-1);
 	}
 
 	if(_cur_played_track > last){
-		_cur_played_track -= (last - first + 1);
+		set_cur_play_track( _cur_played_track - (last - first + 1) );
 	}
 
 	return *this;

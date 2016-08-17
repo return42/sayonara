@@ -63,8 +63,6 @@ public:
 
 private:
 
-	QListView*			_parent=nullptr;
-
 	int					_row_height;
 	int					_max_width;
 	int					_drag_row;

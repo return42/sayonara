@@ -348,6 +348,8 @@ private slots:
 	 */
 	void playstate_changed(PlayManager::PlayState);
 
+	void www_track_finished(const MetaData& md);
+
 private:
 
 	DatabaseConnector*		_db=nullptr;

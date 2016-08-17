@@ -49,6 +49,7 @@ PlaylistHandler::PlaylistHandler(QObject * parent) :
 	connect(_play_manager,	&PlayManager::sig_playstate_changed, this, &PlaylistHandler::playstate_changed);
 	connect(_play_manager, &PlayManager::sig_next, this, &PlaylistHandler::next);
 	connect(_play_manager, &PlayManager::sig_previous, this, &PlaylistHandler::previous);
+	connect(_play_manager, &PlayManager::sig_www_track_finished, this, &PlaylistHandler::www_track_finished);
 }
 
 PlaylistHandler::~PlaylistHandler() {
@@ -681,4 +682,13 @@ void PlaylistHandler::delete_playlist(int idx){
 	if(success && !was_temporary){
 		emit sig_saved_playlists_changed();
 	}
+}
+
+void PlaylistHandler::www_track_finished(const MetaData& md){
+	PlaylistPtr active_pl = this->get_active();
+	if(!active_pl){
+		return;
+	}
+
+	active_pl->insert_track(md, active_pl->get_cur_track_idx());
 }
