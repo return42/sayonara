@@ -41,7 +41,7 @@
 #include "GUI/Helper/GUI_Helper.h"
 
 #include "GUI/Player/GUI_Player.h"
-#include "GUI/Library/GUI_LocalLibrary.h"
+#include "GUI/Library/LocalLibraryContainer.h"
 #include "GUI/DirectoryWidget/GUI_DirectoryWidget.h"
 
 #include "GUI/Plugins/PlaylistChooser/GUI_PlaylistChooser.h"

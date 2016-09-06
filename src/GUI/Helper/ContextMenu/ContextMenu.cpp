@@ -33,6 +33,7 @@ ContextMenu::ContextMenu(QWidget *parent) :
 	_action_open = new QAction(GUI::get_icon("open"), tr("Open"), this);
 	_action_new = new QAction(GUI::get_icon("new"), tr("New"), this);
 	_action_undo = new QAction(GUI::get_icon("undo"), tr("Undo"), this);
+	_action_default = new QAction(GUI::get_icon("undo"), tr("Default"), this);
 	_action_save = new QAction(GUI::get_icon("save"), tr("Save"), this);
 	_action_save_as = new QAction(GUI::get_icon("save_as"), tr("Save as"), this);
 	_action_rename = new QAction(GUI::get_icon("edit"), tr("Rename"), this);
@@ -47,6 +48,7 @@ ContextMenu::ContextMenu(QWidget *parent) :
 			<< _action_rename
 			<< addSeparator()
 			<< _action_undo
+			<< _action_default
 			<< addSeparator()
 			<< _action_delete
 			<< addSeparator();
@@ -60,6 +62,7 @@ ContextMenu::ContextMenu(QWidget *parent) :
 	connect(_action_open, &QAction::triggered, this, &ContextMenu::sig_open);
 	connect(_action_new, &QAction::triggered, this, &ContextMenu::sig_new);
 	connect(_action_undo, &QAction::triggered, this, &ContextMenu::sig_undo);
+	connect(_action_default, &QAction::triggered, this, &ContextMenu::sig_default);
 	connect(_action_save, &QAction::triggered, this, &ContextMenu::sig_save);
 	connect(_action_save_as, &QAction::triggered, this, &ContextMenu::sig_save_as);
 	connect(_action_rename, &QAction::triggered, this, &ContextMenu::sig_rename);
@@ -76,6 +79,7 @@ void ContextMenu::language_changed(){
 	 _action_save_as->setText(tr("Save as"));
 	 _action_rename->setText(tr("Rename"));
 	 _action_undo->setText(tr("Undo"));
+	 _action_default->setText(tr("Default"));
 	 _action_delete->setText(tr("Delete"));
 }
 
@@ -84,6 +88,7 @@ void ContextMenu::skin_changed()
 	_action_open->setIcon(_icon_loader->get_icon( "document-open", "open") );
 	_action_new->setIcon(_icon_loader->get_icon( "document-new", "new") );
 	_action_undo->setIcon(_icon_loader->get_icon( "edit-undo", "undo") );
+	_action_default->setIcon(_icon_loader->get_icon( "edit-undo", "undo") );
 	_action_save->setIcon(_icon_loader->get_icon( "document-save", "save") );
 	_action_save_as->setIcon(_icon_loader->get_icon( "document-save-as", "save_as") );
 	_action_rename->setIcon(_icon_loader->get_icon( "accessories-text-editor", "edit") );
@@ -102,6 +107,7 @@ void ContextMenu::show_actions(ContextMenuEntries entries){
 	_action_new->setVisible(entries & ContextMenu::EntryNew);
 	_action_open->setVisible(entries & ContextMenu::EntryOpen);
 	_action_undo->setVisible(entries & ContextMenu::EntryUndo);
+	_action_default->setVisible(entries & ContextMenu::EntryDefault);
 	_action_save->setVisible(entries & ContextMenu::EntrySave);
 	_action_save_as->setVisible(entries & ContextMenu::EntrySaveAs);
 	_action_rename->setVisible(entries & ContextMenu::EntryRename);
@@ -156,6 +162,9 @@ ContextMenuEntries ContextMenu::get_entries() const
 	}
 	if(_action_undo->isVisible()){
 		entries |= ContextMenu::EntryUndo;
+	}
+	if(_action_default->isVisible()){
+		entries |= ContextMenu::EntryDefault;
 	}
 
 	return entries;

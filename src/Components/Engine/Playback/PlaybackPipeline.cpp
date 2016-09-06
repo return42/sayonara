@@ -339,7 +339,7 @@ void PlaybackPipeline::init_equalizer()
 	}
 
 	EQ_Setting last_preset = presets[last_idx];
-	QList<int> values = last_preset.values;
+	QList<int> values = last_preset.values();
 
 	int i=0;
 

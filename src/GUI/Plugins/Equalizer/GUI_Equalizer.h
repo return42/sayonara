@@ -61,9 +61,12 @@ private slots:
 
 	void preset_changed(int);
 	void cb_gauss_toggled(bool);
+
+	void btn_default_clicked();
 	void btn_save_clicked();
 	void btn_delete_clicked();
-	void btn_reset_clicked();
+	void btn_undo_clicked();
+
 	void text_changed(const QString&);
 
 public slots:

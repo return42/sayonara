@@ -127,7 +127,9 @@ void GUI_Equalizer::init_ui()
 
 	connect(btn_tool, &MenuToolButton::sig_save, this, &GUI_Equalizer::btn_save_clicked);
 	connect(btn_tool, &MenuToolButton::sig_delete, this, &GUI_Equalizer::btn_delete_clicked);
-	connect(btn_tool, &MenuToolButton::sig_undo, this, &GUI_Equalizer::btn_reset_clicked);
+	connect(btn_tool, &MenuToolButton::sig_undo, this, &GUI_Equalizer::btn_undo_clicked);
+	connect(btn_tool, &MenuToolButton::sig_default, this, &GUI_Equalizer::btn_default_clicked);
+
 	connect(cb_gauss, &QCheckBox::toggled, this, &GUI_Equalizer::cb_gauss_toggled);
 	connect(combo_presets, &QComboBox::editTextChanged, this, &GUI_Equalizer::text_changed);
 
@@ -143,6 +145,7 @@ int GUI_Equalizer::find_combo_text(QString text){
 			ret = i;
 		}
 	}
+
 	return ret;
 }
 
@@ -208,20 +211,17 @@ void GUI_Equalizer::fill_eq_presets() {
 	}
 
 	QStringList items;
-	int last_idx;
 
-	last_idx = _settings->get(Set::Eq_Last);
+	int last_idx = _settings->get(Set::Eq_Last);
     _presets = _settings->get(Set::Eq_List);
 	_presets.prepend(EQ_Setting());
 
 	for(const EQ_Setting& s : _presets) {
-		items << s.name;
+
+		items << s.name();
 	}
 
 	combo_presets->insertItems(0, items);
-
-	btn_tool->show_action(ContextMenu::EntrySave, combo_presets->currentText().size() > 0);
-	btn_tool->show_action(ContextMenu::EntryDelete, combo_presets->currentIndex() > 0);
 
 	connect(combo_presets, combo_current_index_changed_int, this, &GUI_Equalizer::preset_changed);
 
@@ -229,43 +229,68 @@ void GUI_Equalizer::fill_eq_presets() {
 		combo_presets->setCurrentIndex(last_idx);
 	}
 
+	else{
+		last_idx = 0;
+	}
+
+	preset_changed(last_idx);
 }
 
 
 void GUI_Equalizer::preset_changed(int index) {
 
-	btn_tool->show_action(ContextMenu::EntryDelete, index > 0);
-
 	if(index >= _presets.size()) {
+		btn_tool->show_actions(ContextMenu::EntryNone);
 		return;
 	}
 
+	EQ_Setting setting = _presets[index];
+
 	btn_tool->show_action(ContextMenu::EntryUndo, false);
 
-	QList<int> values = _presets[index].values;
+	bool is_default = setting.is_default();
+	btn_tool->show_action(ContextMenu::EntryDefault, !is_default);
 
-	int i=0;
-	for(int value : values) {
+	bool is_default_name = setting.is_default_name();
+	btn_tool->show_action(ContextMenu::EntryDelete, ((index > 0) && !is_default_name));
+
+	QList<int> values = setting.values();
+
+	for(int i=0; i<values.size(); i++){
 
 		if(i >= _sliders.size()){
 			break;
 		}
 
-		_sliders[i]->setValue( value );
-		_old_val[i] = value;
+		int value = values[i];
 
-		i++;
+		_sliders[i]->setValue(value);
+		_old_val[i] = value;
 	}
 
     _settings->set(Set::Eq_Last, index);
 }
 
 
-
 void GUI_Equalizer::cb_gauss_toggled(bool b){
-    _settings->set(Set::Eq_Gauss, b);
+	_settings->set(Set::Eq_Gauss, b);
 }
 
+void GUI_Equalizer::btn_default_clicked()
+{
+	int cur_idx = combo_presets->currentIndex();
+	QString cur_text = combo_presets->currentText();
+	if(cur_text.trimmed().isEmpty()){
+		return;
+	}
+
+	if( !EQ_Setting::is_default_name(cur_text) ){
+		return;
+	}
+
+	_presets[cur_idx].set_values( EQ_Setting::get_default_values(cur_text) );
+	preset_changed(cur_idx);
+}
 
 
 void GUI_Equalizer::btn_save_clicked() {
@@ -285,7 +310,7 @@ void GUI_Equalizer::btn_save_clicked() {
 	}
 
 	for(int i=0; i<_sliders.size(); i++){
-		_presets[found_idx].values[i] = _sliders[i]->value();
+		_presets[found_idx].set_value(i, _sliders[i]->value());
 	}
 
 	_presets.removeFirst();
@@ -293,6 +318,7 @@ void GUI_Equalizer::btn_save_clicked() {
 	_presets.prepend(EQ_Setting());
 
 	combo_presets->setCurrentIndex(found_idx);
+	preset_changed(found_idx);
 }
 
 void GUI_Equalizer::btn_delete_clicked(){
@@ -310,7 +336,7 @@ void GUI_Equalizer::btn_delete_clicked(){
 	_presets.prepend(EQ_Setting());
 }
 
-void GUI_Equalizer::btn_reset_clicked(){
+void GUI_Equalizer::btn_undo_clicked(){
 
 	btn_tool->show_action(ContextMenu::EntryUndo, false);
 	QString text = combo_presets->currentText();
@@ -325,11 +351,10 @@ void GUI_Equalizer::btn_reset_clicked(){
 
 	else{
 		for(int i=0; i<_sliders.size(); i++){
-			_sliders[i]->setValue( _presets[found_idx].values[i] );
+			_sliders[i]->setValue( _presets[found_idx].value(i) );
 		}
 	}
 }
-
 
 void GUI_Equalizer::text_changed(const QString& str){
 	btn_tool->show_action(ContextMenu::EntrySave, str.size() > 0);

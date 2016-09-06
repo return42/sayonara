@@ -4,6 +4,7 @@ PROJECT(say_gui_library)
 SET(SOURCES
     GUI_AbstractLibrary.cpp
     GUI_LocalLibrary.cpp
+    LocalLibraryContainer.cpp
 
     Models/LibraryItemModelAlbums.cpp
     Models/LibraryItemModelArtists.cpp

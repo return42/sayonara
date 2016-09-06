@@ -60,7 +60,8 @@ public:
 		EntrySaveAs	=(1<<3),
 		EntryRename	=(1<<4),
 		EntryDelete	=(1<<5),
-		EntryOpen	=(1<<6)
+		EntryOpen	=(1<<6),
+		EntryDefault=(1<<7)
 	};
 
 signals:
@@ -71,6 +72,7 @@ signals:
 	void sig_rename();
 	void sig_delete();
 	void sig_open();
+	void sig_default();
 
 
 private:
@@ -81,6 +83,7 @@ private:
 	QAction*	_action_save_as=nullptr;
 	QAction*	_action_rename=nullptr;
 	QAction*	_action_delete=nullptr;
+	QAction*	_action_default=nullptr;
 
 
 	QList<QAction*>		_actions;

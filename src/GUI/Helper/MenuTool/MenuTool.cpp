@@ -28,6 +28,7 @@ MenuToolButton::MenuToolButton(QWidget *parent) :
 	connect(_menu, &ContextMenu::sig_open, this,  &MenuToolButton::sig_open);
 	connect(_menu, &ContextMenu::sig_new, this, &MenuToolButton::sig_new);
 	connect(_menu, &ContextMenu::sig_undo, this, &MenuToolButton::sig_undo);
+	connect(_menu, &ContextMenu::sig_default, this, &MenuToolButton::sig_default);
 	connect(_menu, &ContextMenu::sig_save, this, &MenuToolButton::sig_save);
 	connect(_menu, &ContextMenu::sig_save_as, this, &MenuToolButton::sig_save_as);
 	connect(_menu, &ContextMenu::sig_rename, this, &MenuToolButton::sig_rename);
