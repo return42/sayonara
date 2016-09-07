@@ -2914,7 +2914,7 @@ Veuillez choisir un autre dossier</translation>
         <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+1"/>
         <location filename="../../build_release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+1"/>
         <source>Replace with</source>
-        <translation type="unfinished"></translation>
+        <translation>Remplacer par</translation>
     </message>
     <message>
         <location line="+41"/>
@@ -2928,7 +2928,7 @@ Veuillez choisir un autre dossier</translation>
         <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+1"/>
         <location filename="../../build_release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+1"/>
         <source>Replace</source>
-        <translation type="unfinished"></translation>
+        <translation>Remplacer par</translation>
     </message>
     <message>
         <location line="+138"/>
@@ -4051,7 +4051,7 @@ Veuillez choisir un autre dossier</translation>
     <message>
         <location filename="../3rdParty/SomaFM/ui/SomaFMStationModel.cpp" line="+102"/>
         <source>Initializing</source>
-        <translation type="unfinished"></translation>
+        <translation>Initialisation</translation>
     </message>
     <message>
         <location line="+4"/>
