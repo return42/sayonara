@@ -659,15 +659,9 @@ void AbstractLibrary::psl_metadata_id3_changed(const MetaDataList& v_md_old, con
 			}
 		}
 
-		sp_log(Log::Debug) << "Looking for " << id;
 		if(md_map.contains(id)){
-			sp_log(Log::Debug) << "Found id " << id;
 			int val = md_map[id];
 			_vec_md[val] = v_md_new[i];
-		}
-
-		else{
-			sp_log(Log::Debug) << "Could not find " << id;
 		}
 	}
 
