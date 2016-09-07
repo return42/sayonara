@@ -81,6 +81,13 @@ void PlaylistView::mousePressEvent(QMouseEvent* event) {
 
 			if(_model->has_local_media(selections.toList()) ){
 				entry_mask |= LibraryContextMenu::EntryEdit;
+
+				if(selections.size() == 1){
+
+					MetaData md = _model->get_md(selections.first());
+					_rc_menu->set_rating( md.rating );
+					entry_mask |= LibraryContextMenu::EntryRating;
+				}
 			}
 
 			set_context_menu_actions(entry_mask);

@@ -39,7 +39,6 @@ SET(SOURCES
 	Shortcuts/Shortcut.cpp
 	Shortcuts/ShortcutHandler.cpp
 	Shortcuts/ShortcutWidget.cpp
-	Shortcuts/RawShortcutMap.cpp
 
 	Style/Style.cpp
 

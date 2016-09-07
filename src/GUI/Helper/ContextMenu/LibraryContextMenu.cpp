@@ -24,6 +24,7 @@
 
 #include "GUI/Helper/IconLoader/IconLoader.h"
 #include "GUI/Helper/GUI_Helper.h"
+#include "GUI/Helper/RatingLabel/RatingLabel.h"
 
 LibraryContextMenu::LibraryContextMenu(QWidget* parent) :
 	QMenu(parent),
@@ -38,6 +39,15 @@ LibraryContextMenu::LibraryContextMenu(QWidget* parent) :
 	_append_action = new QAction(GUI::get_icon("append"), tr("Append"), this);
 	_refresh_action = new QAction(GUI::get_icon("undo"), tr("Refresh"), this);
 	_clear_action = new QAction(GUI::get_icon("broom.png"), tr("Clear"), this);
+
+	QList<QAction*> rating_actions;
+	for(int i=0; i<=5; i++)
+	{
+		rating_actions << init_rating_action(i);
+	}
+
+	_rating_menu = new QMenu(this);
+	_rating_menu->addActions(rating_actions);
 
 	connect(_info_action, &QAction::triggered, this, &LibraryContextMenu::sig_info_clicked);
 	connect(_lyrics_action, &QAction::triggered, this, &LibraryContextMenu::sig_lyrics_clicked);
@@ -58,9 +68,14 @@ LibraryContextMenu::LibraryContextMenu(QWidget* parent) :
 			<< _play_next_action
 			<< _append_action
 			<< _refresh_action
-			<< _clear_action;
+			<< _clear_action
+			;
 
 	this->addActions(actions);
+
+	_rating_action = this->insertMenu(_remove_action, _rating_menu);
+	_rating_action->setIcon(GUI::get_icon("star.png"));
+	_rating_action->setText(tr("Rating"));
 
 	for(QAction* action : actions){
 		action->setVisible(false);
@@ -94,6 +109,7 @@ void LibraryContextMenu::changeEvent(QEvent* e) {
 		_append_action->setText(tr("Append"));
 		_refresh_action->setText(tr("Refresh"));
 		_clear_action->setText(tr("Clear"));
+		_rating_action->setText(tr("Rating"));
 
 		return;
 	}
@@ -133,6 +149,9 @@ LibraryContexMenuEntries LibraryContextMenu::get_entries() const
 	if(_clear_action->isVisible()){
 		entries |= EntryClear;
 	}
+	if(_rating_action->isVisible()){
+		entries |= EntryRating;
+	}
 
 	return entries;
 }
@@ -149,6 +168,7 @@ void LibraryContextMenu::show_actions(LibraryContexMenuEntries entries) {
 	_append_action->setVisible(entries & EntryAppend);
 	_refresh_action->setVisible(entries & EntryRefresh);
 	_clear_action->setVisible(entries & EntryClear);
+	_rating_action->setVisible(entries & EntryRating);
 
 }
 
@@ -185,4 +205,27 @@ void LibraryContextMenu::skin_changed()
 	_append_action->setIcon(icon_loader->get_icon("list-add", "append"));
 	_refresh_action->setIcon(icon_loader->get_icon("edit-undo", "undo"));
 	_clear_action->setIcon(icon_loader->get_icon("edit-clear", "broom.png"));
+	_rating_action->setIcon(GUI::get_icon("star.png"));
+}
+
+QAction* LibraryContextMenu::init_rating_action(int rating)
+{
+	QAction* action = new QAction(QString::number(rating), nullptr);
+	action->setData(rating);
+	action->setCheckable(true);
+
+	connect(action, &QAction::triggered, this, [=](){
+		emit sig_rating_changed(rating);		
+	});
+
+	return action;
+}
+
+void LibraryContextMenu::set_rating(int rating)
+{
+	QList<QAction*> actions = _rating_menu->actions();
+	for(QAction* action : actions){
+		int data = action->data().toInt(); 
+		action->setChecked(data == rating);
+	}
 }

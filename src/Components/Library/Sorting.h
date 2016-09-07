@@ -71,7 +71,7 @@ enum class SortOrderPlaylists : quint8{
 
 
 
-
+// This class has to be inline because of setting registry
 class LibSortOrder {
 
 public:

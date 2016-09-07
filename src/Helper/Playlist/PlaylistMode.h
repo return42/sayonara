@@ -18,19 +18,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #ifndef PLAYLISTMODE_H_
 #define PLAYLISTMODE_H_
-
 
 #include <iostream>
 #include <QList>
 #include <QVariant>
 #include <QStringList>
-#include <QDebug>
 
 using namespace std;
 
+// this class has to be inline because of the settings registry
 class PlaylistMode {
 
 public:

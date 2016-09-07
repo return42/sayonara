@@ -53,13 +53,16 @@ public:
 		EntryAppend=(1<<6),
 		EntryRefresh=(1<<7),
 		EntryClear=(1<<8),
-		EntryLast=(1<<9)
+		EntryRating=(1<<9),
+		EntryLast=(1<<10)
 	};
 
 	virtual LibraryContexMenuEntries get_entries() const;
 	virtual void show_actions(LibraryContexMenuEntries entries);
 	virtual void show_action(Entry entry, bool visible);
 	virtual void show_all();
+
+	void set_rating(int rating);
 
     
 signals:
@@ -72,6 +75,7 @@ signals:
     void sig_append_clicked();
 	void sig_refresh_clicked();
 	void sig_clear_clicked();
+	void sig_rating_changed(int rating);
 
 
 private:
@@ -85,12 +89,23 @@ private:
 	QAction*            _refresh_action=nullptr;
 	QAction*			_clear_action=nullptr;
 
+	QAction*			_rating_action=nullptr;
+	QMenu*				_rating_menu=nullptr;
+
+	QAction*			_rating_0=nullptr;
+	QAction*			_rating_1=nullptr;
+	QAction*			_rating_2=nullptr;
+	QAction*			_rating_3=nullptr;
+	QAction*			_rating_4=nullptr;
+	QAction*			_rating_5=nullptr;
+	
+
 protected:
-	virtual void changeEvent(QEvent* e);
+	void changeEvent(QEvent* e) override;
+	QAction* init_rating_action(int rating);
 
 private slots:
-	virtual void skin_changed();
-
+	void skin_changed();
 };
 
 

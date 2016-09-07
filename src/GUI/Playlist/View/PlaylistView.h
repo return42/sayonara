@@ -138,6 +138,7 @@ private:
 private slots:
 	void _sl_look_changed();
 	void handle_async_drop(bool success);
+	void rating_changed(int rating);
 };
 
 

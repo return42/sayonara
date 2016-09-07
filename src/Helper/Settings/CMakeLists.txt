@@ -5,6 +5,7 @@ SET(SOURCES
 	Setting.cpp
 	Settings.cpp
 	SettingConverter.cpp
+	SettingRegistry.cpp
 	AbstrSettingNotifier.cpp
 	SayonaraClass.cpp
 )

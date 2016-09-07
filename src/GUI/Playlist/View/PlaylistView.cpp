@@ -38,7 +38,9 @@
 #include "Helper/FileHelper.h"
 #include "Helper/Parser/StreamParser.h"
 #include "Helper/DirectoryReader/DirectoryReader.h"
+
 #include "Components/Playlist/PlaylistHandler.h"
+#include "Components/TagEdit/TagEdit.h"
 
 #include <QShortcut>
 
@@ -89,6 +91,7 @@ void PlaylistView::init_rc_menu() {
 	connect(_rc_menu, &LibraryContextMenu::sig_edit_clicked, this, &PlaylistView::sig_edit_clicked);
 	connect(_rc_menu, &LibraryContextMenu::sig_remove_clicked, this, &PlaylistView::remove_cur_selected_rows);
 	connect(_rc_menu, &LibraryContextMenu::sig_clear_clicked, this, &PlaylistView::clear);
+	connect(_rc_menu, &LibraryContextMenu::sig_rating_changed, this, &PlaylistView::rating_changed);
 }
 
 void PlaylistView::set_context_menu_actions(int actions) {
@@ -350,3 +353,23 @@ void PlaylistView::_sl_look_changed(){
 	this->repaint();
 }
 
+
+void PlaylistView::rating_changed(int rating)
+{
+	SP::Set<int> selections = get_selections();
+	if(selections.isEmpty()){
+		return;
+	}
+
+	int row = selections.first();
+	MetaData md = _model->get_md(row);
+	MetaDataList v_md_old, v_md_new;
+	v_md_old << md;
+
+
+	TagEdit* te = new TagEdit(v_md_old);
+	md.rating = rating;
+	te->update_track(0, md);
+	te->commit();
+	connect(te, &QThread::finished, te, &TagEdit::deleteLater);
+}

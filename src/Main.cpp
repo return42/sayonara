@@ -31,16 +31,12 @@
 #include <fcntl.h>
 
 #include "Application/application.h"
-#include "Database/DatabaseConnector.h"
 
 #include "Helper/Helper.h"
 #include "Helper/FileHelper.h"
-#include "Helper/Settings/Settings.h"
-#include "Helper/EqualizerPresets.h"
+#include "Helper/Settings/SettingRegistry.h"
 
 #include "GUI/Helper/GUI_Helper.h"
-#include "GUI/Helper/Shortcuts/ShortcutHandler.h"
-#include "Helper/Playlist/PlaylistMode.h"
 
 #include <QSharedMemory>
 #include <QTranslator>
@@ -59,7 +55,7 @@
 	
 #endif
 
-int check_for_another_instance_unix(qint64 pid) {
+int check_for_another_instance(qint64 pid) {
 
 #ifdef Q_OS_LINUX
 
@@ -138,132 +134,6 @@ void segfault_handler(int sig){
 
 }
 
-/*
- * set->register_setting(new Setting<decltype(Lib_Path.p)>(Set::Lib_Path, "lib_path", "/home/") )
- *
- */
-
-#define REGISTER_SETTING(key, db_key, def) set->register_setting( new Setting<std::remove_pointer<decltype(key.p)>::type>(key, db_key, def) )
-#define REGISTER_SETTING_NO_DB(key, def) set->register_setting( new Setting<std::remove_pointer<decltype(key.p)>::type>(key, def) )
-#include "Helper/Settings/SettingKey.h"
-bool register_settings(){
-
-	if(!DatabaseConnector::getInstance()->is_initialized()){
-		return false;
-	}
-
-	BoolList shown_cols;
-	for(int i=0; i<10; i++){
-		shown_cols << true;
-	}
-
-	Settings* set = Settings::getInstance();
-
-	REGISTER_SETTING( Set::LFM_Login, "LastFM_login", StringPair("None", "None"));
-	REGISTER_SETTING( Set::LFM_Active, "LastFM_active", false );
-	REGISTER_SETTING( Set::LFM_Corrections, "lfm_corrections", false );
-	REGISTER_SETTING( Set::LFM_ShowErrors, "lfm_q.show_errors", false );
-	REGISTER_SETTING( Set::LFM_SessionKey, "lfm_session_key", QString() );
-
-	REGISTER_SETTING( Set::Eq_Last, "eq_last", 0);
-	REGISTER_SETTING( Set::Eq_List, "EQ_list", EQ_Setting::get_defaults() );
-	REGISTER_SETTING( Set::Eq_Gauss, "EQ_Gauss", true );
-
-	REGISTER_SETTING( Set::Lib_ColsTitle, "lib_shown_cols_title", shown_cols );
-	REGISTER_SETTING( Set::Lib_ColsArtist, "lib_shown_cols_artist", shown_cols );
-	REGISTER_SETTING( Set::Lib_ColsAlbum, "lib_shown_cols_album", shown_cols );
-	REGISTER_SETTING( Set::Lib_LiveSearch, "lib_live_search", true );
-	REGISTER_SETTING( Set::Lib_Sorting, "lib_sortings", LibSortOrder() );
-	REGISTER_SETTING( Set::Lib_Path, "library_path", QString() );
-	REGISTER_SETTING( Set::Lib_Show, "show_library", true );
-	REGISTER_SETTING( Set::Lib_CurPlugin ,"last_lib_plugin", "local_library");
-	REGISTER_SETTING( Set::Lib_SplitterStateArtist ,"splitter_state_artist", QByteArray());
-	REGISTER_SETTING( Set::Lib_SplitterStateGenre ,"splitter_state_genre", QByteArray());
-	REGISTER_SETTING( Set::Lib_SplitterStateTrack ,"splitter_state_track", QByteArray());
-	REGISTER_SETTING( Set::Lib_OldWidth ,"lib_old_width", 0);
-	REGISTER_SETTING( Set::Lib_DC_DoNothing ,"lib_dc_do_nothing", true);
-	REGISTER_SETTING( Set::Lib_DC_PlayIfStopped ,"lib_dc_play_if_stopped", false);
-	REGISTER_SETTING( Set::Lib_DC_PlayImmediately ,"lib_dc_play_immediately", false);
-	REGISTER_SETTING( Set::Lib_DD_DoNothing ,"lib_dd_do_nothing", true);
-	REGISTER_SETTING( Set::Lib_DD_PlayIfStoppedAndEmpty ,"lib_dd_play_if_stopped_and_empty", false);
-
-#ifdef Q_OS_WIN
-	REGISTER_SETTING( Set::Lib_FontBold ,"lib_font_bold", false);
-	REGISTER_SETTING( Set::Lib_FontSize ,"lib_font_size", 8);
-#else
-	REGISTER_SETTING( Set::Lib_FontBold ,"lib_font_bold", true);
-	REGISTER_SETTING( Set::Lib_FontSize ,"lib_font_size", -1);
-#endif
-
-	REGISTER_SETTING( Set::Player_Version, "player_version", QString(SAYONARA_VERSION));
-	REGISTER_SETTING( Set::Player_Language, "player_language", "sayonara_lang_en" );
-	REGISTER_SETTING( Set::Player_Style, "player_style", 0 );
-	REGISTER_SETTING( Set::Player_FontName, "player_font", QString() );
-	REGISTER_SETTING( Set::Player_FontSize, "player_font_size", 10 );
-	REGISTER_SETTING( Set::Player_Size, "player_size", QSize(800,600) );
-	REGISTER_SETTING( Set::Player_Pos, "player_pos", QPoint(50,50) );
-	REGISTER_SETTING( Set::Player_Fullscreen, "player_fullscreen", false );
-	REGISTER_SETTING( Set::Player_Maximized, "player_maximized", false );
-	REGISTER_SETTING( Set::Player_ShownPlugin, "shown_plugin", QString() );
-	REGISTER_SETTING( Set::Player_OneInstance, "only_one_instance", true );
-	REGISTER_SETTING( Set::Player_Min2Tray, "min_to_tray", false );
-	REGISTER_SETTING( Set::Player_StartInTray, "start_in_tray", false );
-	REGISTER_SETTING( Set::Player_NotifyNewVersion, "notify_new_version", true );
-	REGISTER_SETTING( Set::Player_SplitterState ,"splitter_state_player", QByteArray());
-	REGISTER_SETTING( Set::Player_Shortcuts, "shortcuts", RawShortcutMap());
-
-	REGISTER_SETTING( Set::PL_Playlist, "playlist", QStringList() );
-	REGISTER_SETTING( Set::PL_LoadSavedPlaylists, "load_saved_playlists", false );
-	REGISTER_SETTING( Set::PL_LoadTemporaryPlaylists, "load_temporary_playlists", false );
-	REGISTER_SETTING( Set::PL_LoadLastTrack, "load_last_track", false );
-	REGISTER_SETTING( Set::PL_RememberTime, "remember_time", false );
-	REGISTER_SETTING( Set::PL_StartPlaying, "start_playing", false );
-	REGISTER_SETTING( Set::PL_LastTrack, "last_track", -1 );
-	REGISTER_SETTING( Set::PL_LastPlaylist, "last_playlist", -1 );
-	REGISTER_SETTING( Set::PL_Mode, "playlist_mode", PlaylistMode() );
-	REGISTER_SETTING( Set::PL_ShowNumbers, "show_playlist_numbers", true );
-	REGISTER_SETTING( Set::PL_EntryLook, "playlist_look", QString("*%title%* - %artist%"));
-	REGISTER_SETTING( Set::PL_FontSize, "playlist_font_size", -1);
-
-	REGISTER_SETTING( Set::Notification_Show, "show_notifications", true );
-	REGISTER_SETTING( Set::Notification_Timeout, "notification_timeout", 5000 );
-	REGISTER_SETTING( Set::Notification_Name, "notification_name", "DBus" );
-
-	REGISTER_SETTING( Set::Engine_Name, "sound_engine", QString() );
-	REGISTER_SETTING( Set::Engine_CurTrackPos_s, "last_track_pos", 0 );
-	REGISTER_SETTING( Set::Engine_Vol, "volume", 50 );
-	REGISTER_SETTING( Set::Engine_Mute, "mute", false );
-	REGISTER_SETTING( Set::Engine_ConvertQuality, "convert_quality", 0 );
-	REGISTER_SETTING( Set::Engine_CovertTargetPath, "convert_target_path", QDir::homePath() );
-	REGISTER_SETTING( Set::Engine_ShowLevel, "show_level", false);
-	REGISTER_SETTING( Set::Engine_ShowSpectrum, "show_spectrum", false);
-	REGISTER_SETTING( Set::Engine_SR_Active, "streamripper", false );
-	REGISTER_SETTING( Set::Engine_SR_Warning, "streamripper_warning", true );
-	REGISTER_SETTING( Set::Engine_SR_Path, "streamripper_path", QDir::homePath() );
-	REGISTER_SETTING( Set::Engine_SR_SessionPath, "streamripper_session_path", true );
-	REGISTER_SETTING( Set::Engine_CrossFaderActive, "crossfader_active", false);
-	REGISTER_SETTING( Set::Engine_CrossFaderTime, "crossfader_time", 5000);
-
-	REGISTER_SETTING( Set::Spectrum_Style, "spectrum_style", 0 );
-	REGISTER_SETTING( Set::Level_Style, "level_style", 0 );
-
-	REGISTER_SETTING( Set::Broadcast_Active, "broadcast_active", false );
-	REGISTER_SETTING( Set::Broadcast_Prompt, "broadcast_prompt", false );
-	REGISTER_SETTING( Set::Broadcast_Port, "broadcast_port", 54054 );
-
-	REGISTER_SETTING( Set::Remote_Active, "remote_control_active", false);
-	REGISTER_SETTING( Set::Remote_Port, "remote_control_port", 54055);
-
-
-
-
-	REGISTER_SETTING_NO_DB( SetNoDB::MP3enc_found, true );
-	REGISTER_SETTING_NO_DB( SetNoDB::Player_Quit, false );
-
-
-
-	return set->check_settings();
-}
 
 QString get_current_locale_string(){
 	QString lang_two = QString("sayonara_lang_") + QLocale::system().name().left(2).toLower() + ".qm";
@@ -284,7 +154,6 @@ int main(int argc, char *argv[]) {
 
 	Application app(argc, argv);
 
-	bool success;
 	QTranslator translator;
 	QString language;
 	QStringList files_to_play;
@@ -334,7 +203,7 @@ int main(int argc, char *argv[]) {
 
 	int pid=0;
 	if(single_instance){
-		pid = check_for_another_instance_unix(QCoreApplication::applicationPid());
+		pid = check_for_another_instance(QCoreApplication::applicationPid());
 	}
 
 	if(pid > 0) {
@@ -383,15 +252,9 @@ int main(int argc, char *argv[]) {
 
 #endif
 
-		/* Tell the settings manager which settings are necessary */
-		if(!register_settings()){
-			sp_log(Log::Error) << "Cannot initialize settings";
-			return 1;
-		}
-
-	success = DatabaseConnector::getInstance()->load_settings();
-	if(!success) {
-		sp_log(Log::Error) << "Database: Could not load settings";
+	/* Tell the settings manager which settings are necessary */
+	if(! SettingRegistry::getInstance()->init() ){
+		sp_log(Log::Error) << "Cannot initialize settings";
 		return 1;
 	}
 
@@ -412,8 +275,6 @@ int main(int argc, char *argv[]) {
 	if(!app.init(&translator, files_to_play)) {
 		return 1;
 	}
-
-	sp_log(Log::Debug) << "Size of metadata: " << sizeof(MetaData);
 
 	app.setApplicationName("Sayonara");
 	app.setWindowIcon(GUI::get_icon("logo"));
