@@ -42,6 +42,8 @@ SET(SOURCES
     Parser/PodcastParser.cpp
     Parser/StreamParser.cpp
 
+	Parser/CommandLineParser.cpp
+
     Tagging/Tagging.cpp
 
     Tagging/Frames/AbstractFrame.cpp

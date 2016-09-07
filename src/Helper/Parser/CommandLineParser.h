@@ -1,4 +1,4 @@
-/* LocalLibraryContainer.h */
+/* CommandLineParser.h */
 
 /* Copyright (C) 2011-2015  Lucio Carreras
  *
@@ -20,34 +20,27 @@
 
 
 
-#ifndef LOCALLIBRARYCONTAINER_H
-#define LOCALLIBRARYCONTAINER_H
+#ifndef COMMANDLINEPARSER_H
+#define COMMANDLINEPARSER_H
 
-#include "Interfaces/LibraryInterface/LibraryContainer/LibraryContainer.h"
+#include <QStringList>
 
-class GUI_LocalLibrary;
-
-class LocalLibraryContainer :
-	public LibraryContainerInterface
+struct CommandLineData
 {
-	Q_OBJECT
+    QStringList	files_to_play;
+    bool multiple_instances;
+    bool abort;
 
-private:
-	GUI_LocalLibrary*   _ui=nullptr;
+    CommandLineData();
+};
+
+class CommandLineParser
+{
 
 public:
 
-	LocalLibraryContainer(QObject* parent=nullptr);
-
-	// override from LibraryViewInterface
-	QString     get_name() const override;
-	QString     get_display_name() const override;
-	QIcon       get_icon() const override;
-	QWidget*    get_ui() const override;
-	QComboBox*  get_libchooser() override;
-	QMenu*      get_menu() override;
-	void        init_ui() override;
+    static CommandLineData parse(int argc, char** argv);
+    static void help();
 };
 
-
-#endif // LOCALLIBRARYCONTAINER_H
+#endif // COMMANDLINEPARSER_H

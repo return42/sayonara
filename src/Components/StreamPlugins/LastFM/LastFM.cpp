@@ -62,8 +62,6 @@ LastFM::LastFM() :
 	REGISTER_LISTENER(Set::LFM_Active, psl_login);
 }
 
-
-
 LastFM::~LastFM() {
 
 }
@@ -74,7 +72,6 @@ void LastFM::get_login(QString& user, QString& pw){
 	user = user_pw.first;
 	pw = user_pw.second;
 }
-
 
 
 bool LastFM::is_logged_in() {
@@ -198,14 +195,15 @@ bool LastFM::check_scrobble(quint64 pos_ms){
 
 		else{
 
+			quint64 scrobble_time_ms = (quint64) (_settings->get(Set::LFM_ScrobbleTimeSec) * 1000);
+
 			_old_pos_difference += (pos_ms - _old_pos);
 			_old_pos = pos_ms;
 
-			if( _old_pos_difference > 10000 ||
-					(_old_pos_difference >= (_md.length_ms * 5) / 10 && _md.length_ms >= 1000))
+			if( (_old_pos_difference > scrobble_time_ms) ||
+				(_old_pos_difference >= ((_md.length_ms  * 3) / 4) && _md.length_ms >= 1000))
 			{
 				scrobble(_md);
-				_scrobbled = true;
 			}
 		}
 	}

@@ -356,3 +356,17 @@ QStringList Helper::get_ip_addresses()
 
 	return ret;
 }
+
+#include <cstdlib>
+
+void Helper::set_environment(const QString& key, const QString& value)
+{
+
+#ifdef Q_OS_WIN
+	QString str = key + "=" + value;
+	_putenv(str.toLocal8Bit().constData());
+	sp_log(Log::Info) << "Windows: Set environment variable " << str;
+#else
+	setenv(key.toLocal8Bit().constData(), value.toLocal8Bit().constData(), 1);
+#endif
+}

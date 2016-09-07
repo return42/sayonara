@@ -24,16 +24,10 @@
  *  Created on: Mar 2, 2011
  *      Author: Lucio Carreras
  */
-#include <cstdlib>
-#include <unistd.h>
-#include <csignal>
-#include <cstdio>
-#include <fcntl.h>
 
 #include "Application/application.h"
-
 #include "Helper/Helper.h"
-#include "Helper/FileHelper.h"
+#include "Helper/Parser/CommandLineParser.h"
 #include "Helper/Settings/SettingRegistry.h"
 
 #include "GUI/Helper/GUI_Helper.h"
@@ -41,12 +35,14 @@
 #include <QSharedMemory>
 #include <QTranslator>
 #include <QFontDatabase>
-#include <algorithm>
-#include <type_traits>
-
 #include <QtGlobal>
+
 #ifdef Q_OS_LINUX
-	#include <execinfo.h>
+	#include <execinfo.h>		// backtrace
+	#include <csignal>			// kill/signal
+	#include <sys/types.h>		// kill
+	#include <cstring>			// memcpy
+	#include <unistd.h>			// STDERR_FILENO
 #else
 
 	#include <glib-2.0/glib.h>
@@ -55,7 +51,7 @@
 	
 #endif
 
-int check_for_another_instance(qint64 pid) {
+int check_for_another_instance(qint64 own_pid) {
 
 #ifdef Q_OS_LINUX
 
@@ -81,7 +77,7 @@ int check_for_another_instance(qint64 pid) {
 		f.close();
 
 		if(str.contains("sayonara", Qt::CaseInsensitive)) {
-			if(pid != tmp_pid){
+			if(own_pid != tmp_pid){
 				return tmp_pid;
 			}
 		}
@@ -93,28 +89,60 @@ int check_for_another_instance(qint64 pid) {
 	return 0;
 }
 
-void set_environment(const QString& key, const QString& value)
-{
+
+void notify_old_instance(const QStringList& files_to_play, int pid){
+
+	QSharedMemory memory("SayonaraMemory");
+
+	if(!files_to_play.isEmpty()){
+
+		QString filename = files_to_play[0] + "\n";
+		QByteArray arr = filename.toUtf8();
+
+		memory.attach(QSharedMemory::ReadWrite);
+
+		if(memory.create(arr.size())){
+			memory.lock();
+			char* ptr = (char*) memory.data();
+			int size = std::min(memory.size(), arr.size());
+
+			memcpy(ptr,
+					arr.data(),
+					size);
+
+			memory.unlock();
+		}
+
+		kill(pid, SIGUSR1);
+	}
+
+	else{
+		kill(pid, SIGUSR2);
+	}
+
+	Helper::sleep_ms(500);
+
+	if(memory.isAttached()){
+		memory.detach();
+	}
+
+	sp_log(Log::Info) << "Another instance is already running";
+}
 
 #ifdef Q_OS_WIN
-	QString str = key + "=" + value;
-	putenv(str.toLocal8Bit().constData());
-	sp_log(Log::Info) << "Windows: Set environment variable " << str;
-#else
+void init_gio(){
+	QString gio_path = Helper::File::clean_filename(QApplication::applicationDirPath()) + QDir::separator() + "gio-modules";
+	QString gst_plugin_path = Helper::File::clean_filename(QApplication::applicationDirPath()) + QDir::separator() + "gstreamer-1.0/";
 
-	setenv(key.toLocal8Bit().constData(), value.toLocal8Bit().constData(), 1);
+	Helper::set_environment("GST_PLUGIN_PATH", gst_plugin_path);
+	Helper::set_environment("GST_PLUGIN_SYSTEM_PATH", gst_plugin_path);
+
+	g_io_extension_point_register("gio-tls-backend");
+	g_io_modules_load_all_in_directory(gio_path.toLocal8Bit().data());
+
+	sp_log(Log::Debug) << "Done " << gio_path;
+}
 #endif
-}
-
-
-void printHelp() {
-	sp_log(Log::Info) << "sayonara [options] <list>";
-	sp_log(Log::Info) << "<list> can consist of either files or directories or both";
-	sp_log(Log::Info) << "Options:";
-	sp_log(Log::Info) << "\t--multi-instances  Run more than one instance";
-	sp_log(Log::Info) << "\t--help             Print this help dialog";
-	sp_log(Log::Info) << "Bye.";
-}
 
 
 void segfault_handler(int sig){
@@ -123,7 +151,7 @@ void segfault_handler(int sig){
 
 #ifdef Q_OS_LINUX
 
-		void* array[10];
+	void* array[10];
 	size_t size;
 
 	// get void*'s for all entries on the stack
@@ -135,21 +163,6 @@ void segfault_handler(int sig){
 }
 
 
-QString get_current_locale_string(){
-	QString lang_two = QString("sayonara_lang_") + QLocale::system().name().left(2).toLower() + ".qm";
-	QString lang_four = QString("sayonara_lang_") + QLocale::system().name().toLower() + ".qm";
-
-	if(QFile::exists(Helper::get_share_path() + lang_two)){
-		return lang_two;
-	}
-
-	if(QFile::exists(Helper::get_share_path() + lang_four)){
-		return lang_four;
-	}
-
-	return QString();
-}
-
 int main(int argc, char *argv[]) {
 
 	Application app(argc, argv);
@@ -159,17 +172,7 @@ int main(int argc, char *argv[]) {
 	QStringList files_to_play;
 
 #ifdef Q_OS_WIN
-	QString gio_path = Helper::File::clean_filename(QApplication::applicationDirPath()) + QDir::separator() + "gio-modules";
-	QString gst_plugin_path = Helper::File::clean_filename(QApplication::applicationDirPath()) + QDir::separator() + "gstreamer-1.0/";
-
-	set_environment("GST_PLUGIN_PATH", gst_plugin_path);
-	set_environment("GST_PLUGIN_SYSTEM_PATH", gst_plugin_path);
-
-	g_io_extension_point_register("gio-tls-backend");
-	g_io_modules_load_all_in_directory(gio_path.toLocal8Bit().data());
-
-	sp_log(Log::Debug) << "Done " << gio_path;
-
+	init_gio();
 #endif
 
 
@@ -179,81 +182,30 @@ int main(int argc, char *argv[]) {
 
 #endif
 
-	bool single_instance=true;
-	/* Init files to play in argument list */
-	for(int i=1; i<argc; i++) {
-		QString str(argv[i]);
-
-		if(str.compare("--help") == 0){
-			printHelp();
-			return 0;
-		}
-
-		if(str.compare("--multi-instances") == 0){
-			single_instance = false;
-		}
-
-		else
-		{
-			files_to_play << Helper::File::get_absolute_filename(QString(argv[i]));
-		}
+	CommandLineData cmd_data = CommandLineParser::parse(argc, argv);
+	if(cmd_data.abort){
+		return 0;
 	}
 
 #ifdef Q_OS_LINUX
 
 	int pid=0;
-	if(single_instance){
+	if( !cmd_data.multiple_instances ){
 		pid = check_for_another_instance(QCoreApplication::applicationPid());
 	}
 
 	if(pid > 0) {
-		QSharedMemory memory("SayonaraMemory");
-
-		if(!files_to_play.isEmpty()){
-
-			QString filename = files_to_play[0] + "\n";
-			QByteArray arr = filename.toUtf8();
-
-
-			memory.attach(QSharedMemory::ReadWrite);
-
-			if(memory.create(arr.size())){
-				memory.lock();
-				char* ptr = (char*) memory.data();
-				int size = std::min(memory.size(), arr.size());
-
-				memcpy(ptr,
-						arr.data(),
-						size);
-
-				memory.unlock();
-			}
-
-			kill(pid, SIGUSR1);
-		}
-
-		else{
-			kill(pid, SIGUSR2);
-		}
-
-		Helper::sleep_ms(500);
-
-		if(memory.isAttached()){
-			memory.detach();
-		}
-
-		sp_log(Log::Info) << "another instance is already running";
-
+		notify_old_instance(cmd_data.files_to_play, pid);
 		return 0;
 	}
 
 #else
 	Q_UNUSED(single_instance)
-
 #endif
 
+
 	/* Tell the settings manager which settings are necessary */
-	if(! SettingRegistry::getInstance()->init() ){
+	if( !SettingRegistry::getInstance()->init() ){
 		sp_log(Log::Error) << "Cannot initialize settings";
 		return 1;
 	}
@@ -264,15 +216,15 @@ int main(int argc, char *argv[]) {
 	Q_INIT_RESOURCE(IconsWindows);
 #endif
 
-	if(!QFile::exists(QDir::homePath() + QDir::separator() + ".Sayonara")) {
-		QDir().mkdir(QDir::homePath() + QDir::separator() +  ".Sayonara");
+	if(!QFile::exists( Helper::get_sayonara_path() )) {
+		QDir().mkdir( Helper::get_sayonara_path() );
 	}
 
 	language = Settings::getInstance()->get(Set::Player_Language);
 
 	translator.load(language, Helper::get_share_path() + "translations");
 
-	if(!app.init(&translator, files_to_play)) {
+	if(!app.init(&translator, cmd_data.files_to_play)) {
 		return 1;
 	}
 

@@ -52,7 +52,6 @@ SET(COMMON_FLAGS_TEST
 		"-Wunreachable-code" 
 		"-Wextra" 
 		"-Wpedantic" 
-		"-Wno-dev"
 		"-pthread" 
 )
 

@@ -183,6 +183,10 @@ namespace Helper {
 	 * @return list of ip addresses
 	 */
 	QStringList get_ip_addresses();
+
+
+	// Todo: Comment me
+	void set_environment(const QString& key, const QString& value);
 }
 
 
