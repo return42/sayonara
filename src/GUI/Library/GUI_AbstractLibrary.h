@@ -49,8 +49,6 @@
 #include <QPushButton>
 
 class ColumnHeader;
-
-class GUI_InfoDialog;
 class AbstractLibrary;
 
 class GUI_AbstractLibrary :
@@ -70,7 +68,6 @@ public:
 
 protected:
 	AbstractLibrary*	_library = nullptr;
-	GUI_InfoDialog*		_info_dialog = nullptr;
 
 	Filter				_cur_searchfilter;
 
@@ -92,8 +89,6 @@ protected:
 	virtual void language_changed() override;
 	virtual Library::TrackDeletionMode show_delete_dialog(int n_tracks)=0;
 
-
-
 private:
 	QComboBox*			_combo_libchooser = nullptr;
 	LibraryView*		_lv_artist = nullptr;
@@ -107,7 +102,6 @@ private:
 
 
 	void init_finished();
-
 
 
 protected slots:
@@ -147,14 +141,6 @@ protected slots:
 	virtual void combo_search_changed(int idx);
 	virtual void return_pressed();
 
-	virtual void info_artist();
-	virtual void info_album();
-	virtual void info_tracks();
-
-	virtual void edit_artist();
-	virtual void edit_album();
-	virtual void edit_tracks();
-
 	virtual void delete_artist();
 	virtual void delete_album();
 	virtual void delete_tracks();
@@ -162,7 +148,6 @@ protected slots:
 	virtual void refresh_artist();
 	virtual void refresh_album();
 	virtual void refresh_tracks();
-
 
 	virtual void album_rating_changed(int);
 	virtual void title_rating_changed(int);

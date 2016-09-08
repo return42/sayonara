@@ -22,7 +22,9 @@
  *
  */
 
-#include "GUI/InfoDialog/GUI_InfoDialog.h"
+#include "GUI_InfoDialog.h"
+#include "InfoDialogContainer.h"
+
 #include "GUI/TagEdit/GUI_TagEdit.h"
 
 #include "Components/LyricLookup/LyricLookup.h"
@@ -41,15 +43,17 @@
 #include <QTabBar>
 
 
-GUI_InfoDialog::GUI_InfoDialog(QWidget* parent) :
+GUI_InfoDialog::GUI_InfoDialog(InfoDialogContainer* container, QWidget* parent) :
 	SayonaraDialog(parent),
 	Ui::InfoDialog()
 {
+	_info_dialog_container = container;
 	_is_initialized = false;
-	_cur_mode = Mode::Invalid;
+	_md_interpretation = MetaDataList::Interpretation::None;
 }
 
-GUI_InfoDialog::~GUI_InfoDialog() {
+GUI_InfoDialog::~GUI_InfoDialog()
+{
 }
 
 void GUI_InfoDialog::language_changed() {
@@ -60,7 +64,7 @@ void GUI_InfoDialog::language_changed() {
 
 	retranslateUi(this);
 
-	prepare_info(_cur_mode);
+	prepare_info(_md_interpretation);
 }
 
 void GUI_InfoDialog::skin_changed(){
@@ -115,6 +119,7 @@ void GUI_InfoDialog::prepare_lyrics() {
 void GUI_InfoDialog::lyrics_fetched() {
 
 	if(!_is_initialized){
+		sender()->deleteLater();
 		return;
 	}
 
@@ -133,10 +138,12 @@ void GUI_InfoDialog::lyrics_fetched() {
 	te_lyrics->setLineWrapMode(QTextEdit::FixedPixelWidth);
 	te_lyrics->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 	te_lyrics->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+
+	sender()->deleteLater();
 }
 
 
-void GUI_InfoDialog::prepare_info(GUI_InfoDialog::Mode mode) {
+void GUI_InfoDialog::prepare_info(MetaDataList::Interpretation md_interpretation) {
 
 	if(!_is_initialized){
 		return;
@@ -144,15 +151,15 @@ void GUI_InfoDialog::prepare_info(GUI_InfoDialog::Mode mode) {
 
 	MetaDataInfo* info;
 
-	switch (mode){
-		case GUI_InfoDialog::Mode::Artists:
+	switch (md_interpretation){
+		case MetaDataList::Interpretation::Artists:
 			info = new ArtistInfo(_v_md);
 			break;
-		case GUI_InfoDialog::Mode::Albums:
+		case MetaDataList::Interpretation::Albums:
 			info = new AlbumInfo(_v_md);
 			break;
 
-		case GUI_InfoDialog::Mode::Tracks:
+		case MetaDataList::Interpretation::Tracks:
 			info = new MetaDataInfo(_v_md);
 			break;
 
@@ -189,12 +196,17 @@ void GUI_InfoDialog::prepare_info(GUI_InfoDialog::Mode mode) {
 }
 
 
-void GUI_InfoDialog::set_metadata(const MetaDataList& v_md, GUI_InfoDialog::Mode mode) {
+void GUI_InfoDialog::set_metadata(const MetaDataList& v_md, MetaDataList::Interpretation md_interpretation) {
 
-	_cur_mode = mode;
+	_md_interpretation = md_interpretation;
 	_v_md = v_md;
 
-	prepare_info(mode);
+	prepare_info(md_interpretation);
+}
+
+bool GUI_InfoDialog::has_metadata() const
+{
+	return (_v_md.size() > 0);
 }
 
 void GUI_InfoDialog::tab_index_changed_int(int idx){
@@ -334,12 +346,14 @@ void GUI_InfoDialog::init() {
 	language_changed();
 	skin_changed();
 
-	prepare_info(_cur_mode);
+	prepare_info(_md_interpretation);
 }
 
 
 void GUI_InfoDialog::closeEvent(QCloseEvent* e) {
 	SayonaraDialog::closeEvent(e);
+
+	_info_dialog_container->info_dialog_closed();
 }
 
 void GUI_InfoDialog::showEvent(QShowEvent *e)

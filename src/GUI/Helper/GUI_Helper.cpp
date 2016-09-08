@@ -86,4 +86,12 @@ QPixmap GUI::get_pixmap(const QString& icon_name, QSize sz, bool keep_aspect){
 }
 
 
+static QMainWindow* main_window=nullptr;
 
+QMainWindow* GUI::get_main_window(){
+	return main_window;
+}
+
+void GUI::set_main_window(QMainWindow* window){
+	main_window = window;
+}

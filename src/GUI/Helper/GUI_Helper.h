@@ -31,7 +31,13 @@
 #include <QSize>
 #include <QImage>
 #include <QWidget>
+#include <QMainWindow>
 
+/**
+ * @ingroup GUI
+ * @ingroup Helper
+ * @ingroup GUIHelper
+ */
 namespace GUI
 {
 	/**
@@ -51,6 +57,17 @@ namespace GUI
 	 */
 	QPixmap get_pixmap(const QString& icon_name, QSize sz=QSize(0, 0), bool keep_aspect=true);
 
+	/**
+	 * @brief set the applications' main window
+	 * @param window the new main window
+	 */
+	void set_main_window(QMainWindow* window);
+
+	/**
+	 * @brief get the applications' main window
+	 * @return main window of application
+	 */
+	QMainWindow* get_main_window();
 }
 
 #endif // GUI_HELPER_H

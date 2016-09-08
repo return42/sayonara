@@ -95,7 +95,10 @@ class PlayManager : public QObject, protected SayonaraClass
 
 signals:
 
-		// todo comment me
+	/**
+	 * @brief emitted when a streamed track has finished
+	 * @param old_md the last played track
+	 */
 	void sig_www_track_finished(const MetaData& old_md);
 
 	/**

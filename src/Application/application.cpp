@@ -214,6 +214,8 @@ bool Application::init(QTranslator* translator, const QStringList& files_to_play
 
 	sp_log(Log::Debug) << "Start player: " << _timer->elapsed() << "ms";
 	player = new GUI_Player(translator);
+	GUI::set_main_window(player);
+
 	connect(player, &GUI_Player::sig_player_closed, this, &QCoreApplication::quit);
 
 	sp_log(Log::Debug) << "Init player: " << _timer->elapsed() << "ms";

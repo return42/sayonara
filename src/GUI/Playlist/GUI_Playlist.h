@@ -37,7 +37,7 @@
 #include <QFocusEvent>
 #include <QKeyEvent>
 
-class GUI_InfoDialog;
+
 class PlaylistView;
 class GUI_Playlist : public SayonaraWidget, private Ui::Playlist_Window
 {
@@ -47,21 +47,15 @@ public:
 	GUI_Playlist(QWidget *parent=nullptr);
 	~GUI_Playlist();
 
-
 private:
-
 	PlayManager*			_play_manager=nullptr;
 	PlaylistHandler*		_playlist=nullptr;
-	GUI_InfoDialog*			_info_dialog=nullptr;
 	Playlist::Type			_playlist_type;
-
 
 private:
 	PlaylistView* get_view_by_idx(int idx);
 	PlaylistView* get_current_view();
 
-
-	void fill_info_dialog();
 	void init_shortcuts();
 	void set_total_time_label();
 
@@ -76,9 +70,7 @@ private:
 	void dragMoveEvent(QDragMoveEvent* event) override;
 	void changeEvent(QEvent* e) override;
 
-
 	GlobalMessage::Answer show_save_message_box(PlaylistDBInterface::SaveAsAnswer answer);
-
 
 private slots:
 
@@ -115,12 +107,6 @@ private slots:
 	void select_tab_left();
 	void select_tab_right();
 
-
-	// triggered from ContextMenu
-
-	void menu_info_clicked();
-	void menu_edit_clicked();
-	void menu_lyrics_clicked();
 
 	// called by playmanager
 	void playstate_changed(PlayManager::PlayState state);

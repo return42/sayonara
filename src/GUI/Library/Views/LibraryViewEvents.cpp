@@ -19,11 +19,31 @@
  */
 
 
-
-
 #include "LibraryView.h"
 #include "HeaderView.h"
+#include "GUI/Helper/ContextMenu/LibraryContextMenu.h"
 #include <QMimeData>
+
+bool LibraryView::event(QEvent* e)
+{
+	if(e->type() == QEvent::ContextMenu){
+
+		QContextMenuEvent* cme = dynamic_cast<QContextMenuEvent*>(e);
+		QPoint pos = cme->globalPos();
+
+		if(_type == MetaDataList::Interpretation::Tracks && get_selections().size() == 1)
+		{
+			_rc_menu->show_action(LibraryContextMenu::EntryLyrics, true);
+		}
+		else{
+			_rc_menu->show_action(LibraryContextMenu::EntryLyrics, false);
+		}
+
+		rc_menu_show(pos);
+	}
+
+	return SearchableTableView::event(e);
+}
 
 // mouse events
 void LibraryView::mousePressEvent(QMouseEvent* event) {
@@ -47,16 +67,9 @@ void LibraryView::mousePressEvent(QMouseEvent* event) {
 
 		case Qt::RightButton:
 
-			SearchableTableView::mousePressEvent(event);
-			pos.setY(pos.y() + 35);
-			pos.setX(pos.x() + 10);
-			rc_menu_show(pos);
-
-			break;
+						break;
 
 		case Qt::MidButton:
-			SearchableTableView::mousePressEvent(event);
-
 			emit sig_middle_button_clicked(pos);
 			break;
 
@@ -64,7 +77,10 @@ void LibraryView::mousePressEvent(QMouseEvent* event) {
 			break;
 	}
 
+
+	SearchableTableView::mousePressEvent(event);
 }
+
 
 void LibraryView::mouseMoveEvent(QMouseEvent* event) {
 

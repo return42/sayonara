@@ -35,7 +35,12 @@
 
 class GUI_TagEdit;
 class LyricLookupThread;
+class InfoDialogContainer;
 
+/**
+ * @brief The GUI_InfoDialog class
+ * @ingroup GUI
+ */
 class GUI_InfoDialog :
 		public SayonaraDialog,
 		private Ui::InfoDialog
@@ -45,24 +50,17 @@ class GUI_InfoDialog :
 
 public:
 
-	enum class Mode : quint8 {
-		Tracks=0,
-		Albums,
-		Artists,
-		Invalid
-
-	};
-
 	enum TabIndex {
 		TabInfo=0,
 		TabLyrics=1,
 		TabEdit=2
 	};
 
-	GUI_InfoDialog(QWidget* parent=nullptr);
+	GUI_InfoDialog(InfoDialogContainer* container, QWidget* parent=nullptr);
 	virtual ~GUI_InfoDialog();
 
-	void set_metadata(const MetaDataList& vd, GUI_InfoDialog::Mode mode);
+	void set_metadata(const MetaDataList& vd, MetaDataList::Interpretation interpretation);
+	bool has_metadata() const;
 	void show(GUI_InfoDialog::TabIndex tab);
 
 
@@ -79,10 +77,11 @@ private slots:
 
 private:
 
+	InfoDialogContainer*	_info_dialog_container=nullptr;
 	GUI_TagEdit*			_ui_tag_edit=nullptr;
 	LyricLookupThread*		_lyric_thread=nullptr;
 
-	GUI_InfoDialog::Mode	_cur_mode;
+	MetaDataList::Interpretation	_md_interpretation;
 
 	QString 				_cover_artist;
 	QString					_cover_album;
@@ -98,7 +97,7 @@ private:
 
 	void prepare_cover(const CoverLocation& cover_path);
 	void prepare_lyrics();
-	void prepare_info(GUI_InfoDialog::Mode mode);
+	void prepare_info(MetaDataList::Interpretation mode);
 
 	void closeEvent(QCloseEvent *e) override;
 	void showEvent(QShowEvent *e) override;

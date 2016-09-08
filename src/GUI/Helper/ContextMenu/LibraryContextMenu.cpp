@@ -65,9 +65,11 @@ LibraryContextMenu::LibraryContextMenu(QWidget* parent) :
 			<< _edit_action
 			<< _remove_action
 			<< _delete_action
+			<< addSeparator()
 			<< _play_next_action
 			<< _append_action
 			<< _refresh_action
+			<< addSeparator()
 			<< _clear_action
 			;
 
@@ -75,10 +77,10 @@ LibraryContextMenu::LibraryContextMenu(QWidget* parent) :
 
 	_rating_action = this->insertMenu(_remove_action, _rating_menu);
 	_rating_action->setIcon(GUI::get_icon("star.png"));
-	_rating_action->setText(tr("Rating"));
+	_rating_action->setText(rating_text());
 
 	for(QAction* action : actions){
-		action->setVisible(false);
+		action->setVisible(action->isSeparator());
 	}
 
 	REGISTER_LISTENER(Set::Player_Style, skin_changed);
@@ -109,7 +111,7 @@ void LibraryContextMenu::changeEvent(QEvent* e) {
 		_append_action->setText(tr("Append"));
 		_refresh_action->setText(tr("Refresh"));
 		_clear_action->setText(tr("Clear"));
-		_rating_action->setText(tr("Rating"));
+		_rating_action->setText(rating_text());
 
 		return;
 	}
@@ -228,4 +230,17 @@ void LibraryContextMenu::set_rating(int rating)
 		int data = action->data().toInt(); 
 		action->setChecked(data == rating);
 	}
+
+	if(rating > 0){
+		_rating_action->setText(rating_text() + " (" + QString::number(rating) + ")");
+	}
+
+	else{
+		_rating_action->setText(rating_text());
+	}
+}
+
+QString LibraryContextMenu::rating_text()
+{
+	return tr("Rating");
 }

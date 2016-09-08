@@ -3,6 +3,7 @@ PROJECT(say_gui_info_dialog)
 
 SET(SOURCES
     GUI_InfoDialog.cpp
+	InfoDialogContainer.cpp
 )
 
 QT5_WRAP_UI(FORMS_UIC

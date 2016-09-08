@@ -169,7 +169,6 @@ int main(int argc, char *argv[]) {
 
 	QTranslator translator;
 	QString language;
-	QStringList files_to_play;
 
 #ifdef Q_OS_WIN
 	init_gio();

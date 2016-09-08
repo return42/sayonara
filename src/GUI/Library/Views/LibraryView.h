@@ -33,10 +33,12 @@
 #include "GUI/Helper/SearchableWidget/SearchableTableView.h"
 #include "GUI/Library/Helper/ColumnHeader.h"
 #include "GUI/Library/Models/LibraryItemModel.h"
+#include "GUI/InfoDialog/InfoDialogContainer.h"
 
 #include "Helper/MetaData/MetaDataList.h"
 #include "Components/Library/Sorting.h"
 
+#include <QEvent>
 #include <QDropEvent>
 #include <QMouseEvent>
 #include <QStringList>
@@ -58,7 +60,8 @@ class HeaderView;
 
 class LibraryView :
 		public SearchableTableView,
-		public SayonaraClass
+		public SayonaraClass,
+		public InfoDialogContainer
 {
 
 	Q_OBJECT
@@ -68,8 +71,6 @@ signals:
 	void sig_columns_changed(const BoolList&);
 
 	void sig_middle_button_clicked(const QPoint&);
-	void sig_info_clicked();
-	void sig_edit_clicked();
 	void sig_all_selected();
 	void sig_delete_clicked();
 	void sig_play_next_clicked();
@@ -87,7 +88,10 @@ protected slots:
 	virtual void header_actions_triggered(const BoolList& shown_cols);
 	virtual void rc_menu_show(const QPoint&);
 	virtual void sort_by_column(int);
+
 	void language_changed();
+	MetaDataList::Interpretation get_metadata_interpretation() const override;
+	MetaDataList get_data_for_info_dialog() const override;
 
 
 public:
@@ -106,9 +110,12 @@ public:
 
 	virtual MetaDataList get_selected_metadata() const;
 
+	MetaDataList::Interpretation get_type() const;
+	void set_type(MetaDataList::Interpretation type);
 
 protected:
 	// Events implemented in LibraryViewEvents.cpp
+	virtual bool event(QEvent* event) override;
 	virtual void mousePressEvent(QMouseEvent* event) override;
 	virtual void mouseReleaseEvent(QMouseEvent* event) override;
 	virtual void mouseMoveEvent(QMouseEvent* event) override;
@@ -123,6 +130,7 @@ protected:
 	virtual void rc_menu_init();
 
 	virtual void do_drag();
+
 
 	HeaderView*	get_header_view();
 
@@ -139,8 +147,7 @@ protected:
 	SortOrder					_sort_order;
 
 	bool						_cur_filling;
-
-
+	MetaDataList::Interpretation	_type;
 
 
 public:

@@ -31,6 +31,7 @@
 
 #include "Components/Playlist/Playlist.h"
 #include "GUI/Helper/SearchableWidget/SearchableListView.h"
+#include "GUI/InfoDialog/InfoDialogContainer.h"
 
 #include "Helper/Set.h"
 
@@ -48,18 +49,16 @@ class SayonaraLoadingBar;
 class LibraryContextMenu;
 class PlaylistItemModel;
 class PlaylistItemDelegate;
-class PlaylistView : public SearchableListView
+class PlaylistView :
+		public SearchableListView,
+		public InfoDialogContainer
 {
-
 	Q_OBJECT
 
 signals:
 	void context_menu_emitted(const QPoint&);
 
-	void sig_info_clicked();
 	void sig_remove_clicked();
-	void sig_edit_clicked();
-	void sig_lyrics_clicked();
 
 	void sig_double_clicked(int);
 	void sig_no_focus();
@@ -133,6 +132,9 @@ private:
 	void selectionChanged ( const QItemSelection & selected, const QItemSelection & deselected ) override;
 
 	void init_shortcuts();
+
+	MetaDataList::Interpretation get_metadata_interpretation() const override;
+	MetaDataList get_data_for_info_dialog() const override;
 
 
 private slots:

@@ -26,7 +26,7 @@
 #include "GUI/DirectoryWidget/ui_GUI_DirectoryWidget.h"
 #include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
 #include "Interfaces/LibraryInterface/LibraryContainer/LibraryContainer.h"
-
+#include "GUI/InfoDialog/InfoDialogContainer.h"
 
 #include <QWidget>
 #include <QFileSystemModel>
@@ -41,6 +41,7 @@ class LibraryContextMenu;
 
 class GUI_DirectoryWidget :
 		public SayonaraWidget,
+		public InfoDialogContainer,
 		private Ui::GUI_DirectoryWidget
 {
 	Q_OBJECT
@@ -53,16 +54,23 @@ public:
 
 
 private:
+
+	enum SelectedWidget
+	{
+		None=0,
+		Dirs,
+		Files
+	} _selected_widget;
+
 	IconProvider*						_icon_provider=nullptr;
 	QFileSystemModel*					_file_model=nullptr;
 	LocalLibrary*						_local_library=nullptr;
 	AbstractSearchFileTreeModel*		_dir_model=nullptr;
 
-
-
 	QModelIndex							_found_idx;
 	QString								_search_term;
 	QStringList							_found_strings;
+
 
 private:
 	void showEvent(QShowEvent* e) override;
@@ -78,16 +86,21 @@ private slots:
 	void dir_pressed(QModelIndex idx);
 	void file_dbl_clicked(QModelIndex idx);
 	void file_pressed(QModelIndex idx);
-	void dir_info_clicked();
+
 	void dir_append_clicked();
 	void dir_play_next_clicked();
 	void dir_delete_clicked();
 
-	void file_info_clicked();
 	void file_append_clicked();
 	void file_play_next_clicked();
 	void file_delete_clicked();
+
+	// InfoDialogContainer interface
+protected:
+	MetaDataList::Interpretation get_metadata_interpretation() const;
+	MetaDataList get_data_for_info_dialog() const;
 };
+
 
 
 // for showing up in library tree

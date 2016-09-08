@@ -30,6 +30,10 @@
 
 typedef int LibraryContexMenuEntries;
 
+/**
+ * @brief Context menu used for Library and playlist windows
+ * @ingroup GUIHelper
+ */
 class LibraryContextMenu :
 		public QMenu,
 		protected SayonaraClass
@@ -42,6 +46,9 @@ public:
 	virtual ~LibraryContextMenu();
 
 
+	/**
+	 * @brief This enum indicates which entries should be visible
+	 */
 	enum Entry {
 		EntryNone=0,
 		EntryInfo=(1<<0),
@@ -57,11 +64,34 @@ public:
 		EntryLast=(1<<10)
 	};
 
+	/**
+	 * @brief get all visible entries
+	 * @return all visible entries
+	 */
 	virtual LibraryContexMenuEntries get_entries() const;
+
+	/**
+	 * @brief show a specific amount of Entries
+	 * @param entries bitwise combination of Entry
+	 */
 	virtual void show_actions(LibraryContexMenuEntries entries);
+
+	/**
+	 * @brief show/hide a specific Entry
+	 * @param The entry of interest
+	 * @param visible
+	 */
 	virtual void show_action(Entry entry, bool visible);
+
+	/**
+	 * @brief show all possible entries
+	 */
 	virtual void show_all();
 
+	/**
+	 * @brief set rating for the rating entry
+	 * @param rating from 0 to 5
+	 */
 	void set_rating(int rating);
 
     
@@ -92,17 +122,12 @@ private:
 	QAction*			_rating_action=nullptr;
 	QMenu*				_rating_menu=nullptr;
 
-	QAction*			_rating_0=nullptr;
-	QAction*			_rating_1=nullptr;
-	QAction*			_rating_2=nullptr;
-	QAction*			_rating_3=nullptr;
-	QAction*			_rating_4=nullptr;
-	QAction*			_rating_5=nullptr;
-	
 
 protected:
 	void changeEvent(QEvent* e) override;
 	QAction* init_rating_action(int rating);
+
+	QString rating_text();
 
 private slots:
 	void skin_changed();

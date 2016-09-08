@@ -185,7 +185,11 @@ namespace Helper {
 	QStringList get_ip_addresses();
 
 
-	// Todo: Comment me
+	/**
+	 * @brief set an environment variable. This function is platform independent
+	 * @param key variable name
+	 * @param value variable value
+	 */
 	void set_environment(const QString& key, const QString& value);
 }
 

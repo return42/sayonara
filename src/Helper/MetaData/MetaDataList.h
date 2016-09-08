@@ -48,6 +48,14 @@ private:
 
 public:
 
+	enum class Interpretation : quint8
+	{
+		None=0,
+		Artists,
+		Albums,
+		Tracks
+	};
+
 	MetaDataList();
 	MetaDataList(const MetaDataList&);
 

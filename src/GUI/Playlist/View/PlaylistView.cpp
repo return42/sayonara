@@ -45,7 +45,8 @@
 #include <QShortcut>
 
 PlaylistView::PlaylistView(PlaylistPtr pl, QWidget* parent) :
-	SearchableListView(parent)
+	SearchableListView(parent),
+	InfoDialogContainer()
 {
 	_model = new PlaylistItemModel(pl, this);
 	_delegate = new PlaylistItemDelegate(this);
@@ -86,9 +87,9 @@ void PlaylistView::init_rc_menu() {
 
 	_rc_menu = new LibraryContextMenu(this);
 
-	connect(_rc_menu, &LibraryContextMenu::sig_info_clicked, this, &PlaylistView::sig_info_clicked);
-	connect(_rc_menu, &LibraryContextMenu::sig_lyrics_clicked, this, &PlaylistView::sig_lyrics_clicked);
-	connect(_rc_menu, &LibraryContextMenu::sig_edit_clicked, this, &PlaylistView::sig_edit_clicked);
+	connect(_rc_menu, &LibraryContextMenu::sig_info_clicked, this, [=](){show_info();});
+	connect(_rc_menu, &LibraryContextMenu::sig_edit_clicked, this, [=](){show_edit();});
+	connect(_rc_menu, &LibraryContextMenu::sig_lyrics_clicked, this, [=](){show_lyrics();});
 	connect(_rc_menu, &LibraryContextMenu::sig_remove_clicked, this, &PlaylistView::remove_cur_selected_rows);
 	connect(_rc_menu, &LibraryContextMenu::sig_clear_clicked, this, &PlaylistView::clear);
 	connect(_rc_menu, &LibraryContextMenu::sig_rating_changed, this, &PlaylistView::rating_changed);
@@ -372,4 +373,18 @@ void PlaylistView::rating_changed(int rating)
 	te->update_track(0, md);
 	te->commit();
 	connect(te, &QThread::finished, te, &TagEdit::deleteLater);
+}
+
+
+
+MetaDataList::Interpretation PlaylistView::get_metadata_interpretation() const
+{
+	return MetaDataList::Interpretation::Tracks;
+}
+
+MetaDataList PlaylistView::get_data_for_info_dialog() const
+{
+	MetaDataList v_md;
+	_model->get_metadata(this->get_selections().toList(), v_md);
+	return v_md;
 }

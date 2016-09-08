@@ -27,7 +27,6 @@
  */
 
 #include "GUI_Playlist.h"
-#include "GUI/InfoDialog/GUI_InfoDialog.h"
 #include "View/PlaylistView.h"
 #include "Helper/Helper.h"
 #include "GUI/Helper/IconLoader/IconLoader.h"
@@ -49,7 +48,6 @@ GUI_Playlist::GUI_Playlist(QWidget *parent) :
 
 	_playlist = PlaylistHandler::getInstance();
 	_play_manager = PlayManager::getInstance();
-	_info_dialog = new GUI_InfoDialog(this);
 
 	bottom_bar->check_dynamic_play_button();
 
@@ -115,8 +113,6 @@ GUI_Playlist::~GUI_Playlist() {
 			delete widget;
 		}
 	}
-
-	delete _info_dialog;
 }
 
 void GUI_Playlist::changeEvent(QEvent* e) {
@@ -240,54 +236,10 @@ void GUI_Playlist::double_clicked(int row) {
 	_playlist->change_track(row, cur_idx);
 }
 
-void GUI_Playlist::fill_info_dialog(){
-
-	int cur_idx = _playlist->get_current_idx();
-
-	PlaylistConstPtr pl = _playlist->get_playlist_at(cur_idx);
-	PlaylistView* cur_view = get_view_by_idx(cur_idx);
-
-	if(pl == nullptr || cur_view == nullptr){
-		return;
-	}
-
-	SP::Set<int> selections = cur_view->get_selections();
-	MetaDataList v_md = pl->get_playlist().extract_tracks(selections);
-
-	_info_dialog->set_metadata(v_md, GUI_InfoDialog::Mode::Tracks );
-}
 
 void GUI_Playlist::init_shortcuts()
 {
 
-}
-
-
-void GUI_Playlist::menu_info_clicked() {
-
-    if(!_info_dialog) return;
-
-	fill_info_dialog();
-
-	_info_dialog->show(GUI_InfoDialog::TabInfo);
-}
-
-
-void GUI_Playlist::menu_edit_clicked() {
-    if(!_info_dialog) return;
-
-	fill_info_dialog();
-
-	_info_dialog->show(GUI_InfoDialog::TabEdit);
-}
-
-void GUI_Playlist::menu_lyrics_clicked()
-{
-	if(!_info_dialog) return;
-
-	fill_info_dialog();
-
-	_info_dialog->show(GUI_InfoDialog::TabLyrics);
 }
 
 
