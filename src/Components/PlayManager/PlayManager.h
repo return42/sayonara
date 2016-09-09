@@ -266,7 +266,9 @@ public slots:
 
 	/**
 	 * @brief set current position of track
-	 * @param ms position in milliseconds
+	 * This method does not seek.
+	 * Just tells the playmanager where the current position is
+	 * @param ms position in milliseconds. 	 
 	 */
 	void set_position_ms(quint64 ms);
 

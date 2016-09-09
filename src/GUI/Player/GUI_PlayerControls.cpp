@@ -24,6 +24,7 @@
 #include "GUI/Helper/IconLoader/IconLoader.h"
 #include "Helper/Helper.h"
 #include <QFileDialog>
+#include <QToolTip>
 
 /** PLAYER BUTTONS **/
 void GUI_Player::playstate_changed(PlayManager::PlayState state){
@@ -123,6 +124,20 @@ void GUI_Player::buffering(int progress){
 	}
 }
 
+void GUI_Player::set_progress_tooltip(int val)
+{
+	int max = sli_progress->maximum();
+
+	val = std::max(val, 0);
+	val = std::min(max, val);
+
+	double percent = (val * 1.0) / max;
+	quint64 cur_pos_ms =  (quint64) (percent * _md.length_ms);
+	QString cur_pos_string = Helper::cvt_ms_to_string(cur_pos_ms);
+
+	QToolTip::showText( QCursor::pos(), cur_pos_string );
+}
+
 void GUI_Player::set_cur_pos_label(int val){
 
 	int max = sli_progress->maximum();
@@ -201,14 +216,6 @@ void GUI_Player::set_cur_pos_ms(quint64 pos_ms) {
 	}
 
 }
-
-/** PROGRESS BAR END **/
-
-/** PLAYER BUTTONS END **/
-
-
-
-/** VOLUME **/
 
 void GUI_Player::volume_slider_moved(int val){
 	_play_manager->set_volume(val);

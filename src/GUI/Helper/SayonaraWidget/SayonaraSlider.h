@@ -40,6 +40,7 @@ class SayonaraSlider : public QSlider {
 	signals:
 		void sig_slider_got_focus();
 		void sig_slider_lost_focus();
+		void sig_slider_hovered(int);
 
 	public:
 		SayonaraSlider(QWidget* parent=nullptr);
