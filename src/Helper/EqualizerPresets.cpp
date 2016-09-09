@@ -84,7 +84,7 @@ bool EQ_Setting::operator==(const EQ_Setting& s) const
 {
 	QString str = toString();
 	QString other = s.toString();
-	return ( str.compare(other) == 0 );
+	return ( str.compare(other, Qt::CaseInsensitive) == 0 );
 }
 
 
@@ -153,10 +153,28 @@ void EQ_Setting::set_value(int idx, int val)
 void EQ_Setting::set_values(const QList<int> values)
 {
 	_values = values;
+
+	if(_values.size() != 10){
+		sp_log(Log::Warning) << "EQ Preset " << _name << " should have 10 values. But it has " << _values.size();
+	}
+
+	while(_values.size() < 10){
+		_values << 0;
+	}
+
+	while(_values.size() > 10)
+	{
+		_values.pop_back();
+	}
 }
 
 void EQ_Setting::append_value(int val)
 {
+	if(_values.size() == 10){
+		sp_log(Log::Warning) << "EQ Preset " << _name << " already has 10 values";
+		return;
+	}
+
 	_values << val;
 }
 

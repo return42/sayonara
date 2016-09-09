@@ -40,7 +40,7 @@ template<typename T>
 /**
  * @brief Template for Sayonara Widgets. This template is responsible for holding a reference to the settings and so, the
  * REGISTER_LISTENER and REGISTER_LISTENER_NO_CALL macros are available
- * @ingroup GUIHelper
+ * @ingroup Widgets
  * @ingroup Interfaces
  */
 class SayonaraWidgetTemplate :

@@ -34,6 +34,11 @@
 #include <QItemDelegate>
 #include <QLabel>
 
+
+/**
+ * @brief The AlternativeCoverItemDelegate class
+ * @ingroup GUICovers
+ */
 class AlternativeCoverItemDelegate : public QItemDelegate{
 
 	Q_OBJECT

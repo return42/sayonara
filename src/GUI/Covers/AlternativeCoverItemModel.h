@@ -48,6 +48,11 @@ struct RowColumn {
     }
 };
 
+
+/**
+ * @brief The AlternativeCoverItemModel class
+ * @ingroup GUICovers
+ */
 class AlternativeCoverItemModel : public QAbstractTableModel {
 
 Q_OBJECT

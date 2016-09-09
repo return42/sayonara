@@ -37,6 +37,10 @@
 #include <QAction>
 
 class EngineHandler;
+/**
+ * @brief The GUI_Equalizer class
+ * @ingroup Equalizer
+ */
 class GUI_Equalizer :
 		public PlayerPluginInterface,
 		private Ui::GUI_Equalizer

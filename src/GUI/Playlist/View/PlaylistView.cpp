@@ -50,10 +50,7 @@ PlaylistView::PlaylistView(PlaylistPtr pl, QWidget* parent) :
 {
 	_model = new PlaylistItemModel(pl, this);
 	_delegate = new PlaylistItemDelegate(this);
-
-	_drag = nullptr;
-
-	init_rc_menu();
+	_rc_menu = new LibraryContextMenu(this);
 
 	this->setModel(_model);
 	this->setAbstractModel(_model);
@@ -70,23 +67,6 @@ PlaylistView::PlaylistView(PlaylistPtr pl, QWidget* parent) :
 
 	new QShortcut(QKeySequence(Qt::Key_Backspace), this, SLOT(clear()), nullptr, Qt::WidgetShortcut);
 
-	REGISTER_LISTENER(Set::PL_EntryLook, _sl_look_changed);
-}
-
-PlaylistView::~PlaylistView() {
-
-	if(_rc_menu){
-		delete _rc_menu;
-	}
-
-	delete _model;
-	delete _delegate;
-}
-
-void PlaylistView::init_rc_menu() {
-
-	_rc_menu = new LibraryContextMenu(this);
-
 	connect(_rc_menu, &LibraryContextMenu::sig_info_clicked, this, [=](){show_info();});
 	connect(_rc_menu, &LibraryContextMenu::sig_edit_clicked, this, [=](){show_edit();});
 	connect(_rc_menu, &LibraryContextMenu::sig_lyrics_clicked, this, [=](){show_lyrics();});
@@ -95,23 +75,26 @@ void PlaylistView::init_rc_menu() {
 	connect(_rc_menu, &LibraryContextMenu::sig_rating_changed, this, &PlaylistView::rating_changed);
 }
 
-void PlaylistView::set_context_menu_actions(int actions) {
-	_rc_menu->show_actions(actions);
+PlaylistView::~PlaylistView()
+{
+	if(_rc_menu){
+		delete _rc_menu;
+	}
+
+	delete _model;
+	delete _delegate;
 }
 
 
-int PlaylistView::get_num_rows() {
+int PlaylistView::get_num_rows()
+{
 	return _model->rowCount();
 }
 
-void PlaylistView::goto_row(int row) {
-
-	row = std::max(row, 0);
+void PlaylistView::goto_row(int row)
+{
 	row = std::min(row, _model->rowCount() - 1);
-
-	if(row == -1){
-		return;
-	}
+	row = std::max(row, 0);
 
 	QModelIndex idx = _model->index(row, 0);
 
@@ -119,15 +102,15 @@ void PlaylistView::goto_row(int row) {
 }
 
 
-void PlaylistView::clear() {
-
+void PlaylistView::clear()
+{
 	clear_selection();
 	_model->clear();
 }
 
 
-void PlaylistView::selectionChanged ( const QItemSelection& selected, const QItemSelection & deselected ) {
-
+void PlaylistView::selectionChanged ( const QItemSelection& selected, const QItemSelection & deselected )
+{
 	SearchableListView::selectionChanged(selected, deselected);
 	if(selected.indexes().isEmpty()){
 		return;
@@ -136,7 +119,8 @@ void PlaylistView::selectionChanged ( const QItemSelection& selected, const QIte
 	goto_row(selected.indexes().first().row());
 }
 
-void PlaylistView::scroll_up() {
+void PlaylistView::scroll_up()
+{
 	QPoint p(5, 5);
 
 	QModelIndex idx = this->indexAt(p);
@@ -144,7 +128,8 @@ void PlaylistView::scroll_up() {
 	goto_row(idx.row() - 1);
 }
 
-void PlaylistView::scroll_down() {
+void PlaylistView::scroll_down()
+{
 	QPoint p(5, this->y() + this->height() - 5);
 
 	QModelIndex idx = this->indexAt(p);
@@ -152,8 +137,8 @@ void PlaylistView::scroll_down() {
 	goto_row(idx.row() + 1);
 }
 
-void PlaylistView::remove_cur_selected_rows() {
-
+void PlaylistView::remove_cur_selected_rows()
+{
 	int min_row = get_min_selected();
 
 	_model->remove_rows(get_selections());
@@ -162,18 +147,14 @@ void PlaylistView::remove_cur_selected_rows() {
 	int row_count = _model->rowCount();
 
 	if(row_count > 0){
-		if(min_row >= row_count	){
-			select_row(row_count - 1);
-		}
-		else{
-			select_row(min_row);
-		}
+		min_row = std::min(min_row, row_count - 1);
+		select_row(min_row);
 	}
 }
 
 
-void PlaylistView::set_delegate_max_width(int n_items) {
-
+void PlaylistView::set_delegate_max_width(int n_items)
+{
 	int row_height = _delegate->get_row_height();
 	bool scrollbar_visible = (( n_items * row_height ) >= this->height());
 
@@ -188,15 +169,15 @@ void PlaylistView::set_delegate_max_width(int n_items) {
 
 
 // remove the black line under the titles
-void  PlaylistView::clear_drag_drop_lines(int row) {
-
+void  PlaylistView::clear_drag_drop_lines(int row)
+{
 	_delegate->set_drag_index(-1);
 	this->update(_model->index(row));
 }
 
 
-int PlaylistView::calc_drag_drop_line(QPoint pos) {
-
+int PlaylistView::calc_drag_drop_line(QPoint pos)
+{
 	if(pos.y() < 0) {
 		return -1;
 	}
@@ -210,8 +191,8 @@ int PlaylistView::calc_drag_drop_line(QPoint pos) {
 	return row;
 }
 
-void PlaylistView::handle_drop(QDropEvent* event) {
-
+void PlaylistView::handle_drop(QDropEvent* event)
+{
 	const QMimeData* mimedata = event->mimeData();
 	PlaylistHandler* plh = PlaylistHandler::getInstance();
 
@@ -289,7 +270,8 @@ void PlaylistView::handle_drop(QDropEvent* event) {
 	}
 }
 
-void PlaylistView::handle_async_drop(bool success){
+void PlaylistView::handle_async_drop(bool success)
+{
 	PlaylistHandler* plh = PlaylistHandler::getInstance();
 	StreamParser* stream_parser = dynamic_cast<StreamParser*>(sender());
 	this->setEnabled(true);
@@ -335,23 +317,13 @@ void PlaylistView::handle_inner_drag_drop(int row, bool copy)
 }
 
 
-void PlaylistView::fill(PlaylistPtr pl) {
-
+void PlaylistView::fill(PlaylistPtr pl)
+{
 	int n_tracks = pl->get_count();
 	set_delegate_max_width(n_tracks);
 
-	for(int i=0; i<n_tracks; i++){
-
-		if(pl->at_const_ref(i).pl_playing) {
-			this->scrollTo(_model->index(i), SearchableListView::EnsureVisible);
-			return;
-		}
-	}
-}
-
-void PlaylistView::_sl_look_changed(){
-	this->update();
-	this->repaint();
+	int cur_track = pl->get_cur_track_idx();
+	this->scrollTo(_model->index(cur_track), SearchableListView::EnsureVisible);
 }
 
 
@@ -364,7 +336,7 @@ void PlaylistView::rating_changed(int rating)
 
 	int row = selections.first();
 	MetaData md = _model->get_md(row);
-	MetaDataList v_md_old, v_md_new;
+	MetaDataList v_md_old;
 	v_md_old << md;
 
 
@@ -372,6 +344,7 @@ void PlaylistView::rating_changed(int rating)
 	md.rating = rating;
 	te->update_track(0, md);
 	te->commit();
+
 	connect(te, &QThread::finished, te, &TagEdit::deleteLater);
 }
 

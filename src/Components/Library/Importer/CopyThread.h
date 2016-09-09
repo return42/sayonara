@@ -76,6 +76,14 @@ private:
 
 	void clear();
 	void run();
+
+	/**
+	 * @brief Copies tracks to file system.
+	 * Example: i want to import /home/user/dir\n
+	 * my music library is in /home/user/Music\n
+	 * i will type "chosen" into entry field\n
+	 * i expect a directory /home/user/Music/chosen/dir in my music library
+	 */
 	void copy();
 	void rollback();
     void emit_percent(int i, int n);

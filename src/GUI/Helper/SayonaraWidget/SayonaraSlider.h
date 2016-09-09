@@ -29,6 +29,10 @@
 #include <QFocusEvent>
 #include <QMouseEvent>
 
+/**
+ * @brief The SayonaraSlider class
+ * @ingroup Widgets
+ */
 class SayonaraSlider : public QSlider {
 
 	Q_OBJECT

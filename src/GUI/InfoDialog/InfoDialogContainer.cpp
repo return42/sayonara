@@ -23,19 +23,19 @@ void InfoDialogContainer::info_dialog_closed()
 
 void InfoDialogContainer::show_info(){
 	if(init_dialog()){
-		_info_dialog->show(GUI_InfoDialog::TabInfo);
+		_info_dialog->show(GUI_InfoDialog::Tab::Info);
 	}
 }
 
 void InfoDialogContainer::show_lyrics(){
 	if(init_dialog()){
-		_info_dialog->show(GUI_InfoDialog::TabLyrics);
+		_info_dialog->show(GUI_InfoDialog::Tab::Lyrics);
 	}
 }
 
 void InfoDialogContainer::show_edit(){
 	if(init_dialog()){
-		_info_dialog->show(GUI_InfoDialog::TabEdit);
+		_info_dialog->show(GUI_InfoDialog::Tab::Edit);
 	}
 }
 

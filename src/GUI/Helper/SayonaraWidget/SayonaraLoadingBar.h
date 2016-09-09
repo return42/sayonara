@@ -28,6 +28,10 @@
 #include <QProgressBar>
 #include <QShowEvent>
 
+/**
+ * @brief The SayonaraLoadingBar class
+ * @ingroup Widgets
+ */
 class SayonaraLoadingBar : public QProgressBar
 {
 

@@ -26,6 +26,10 @@
 #include "GUI/Helper/SayonaraWidget/SayonaraSlider.h"
 #include <QKeyEvent>
 
+/**
+ * @brief The EqSlider class
+ * @ingroup Equalizer
+ */
 class EqSlider : 
 	public SayonaraSlider 
 {
@@ -38,17 +42,42 @@ class EqSlider :
 		EqSlider(QWidget* parent);
 		virtual ~EqSlider() {}
 
+		/**
+		 * @brief sets everything the slider has to be aware about
+		 * @param idx the index of the slider
+		 * @param label the value label of the slider
+		 */
 		void setData(int idx, QLabel* label);
+
+		/**
+		 * @brief get the value label
+		 * @return
+		 */
 		QLabel* getLabel() const;
 
+		/**
+		 * @brief get the index of the slider
+		 * @return
+		 */
 		int getIndex() const;
+
+		/**
+		 * @brief set the index of the slider
+		 * @param idx new index
+		 */
 		void setIndex(int idx);
 
+		/**
+		 * @brief get the gstreamer compatible value
+		 * @return
+		 */
 		double get_eq_value() const;
+
+		/**
+		 * @brief set the gstreamer compatible value
+		 * @param val
+		 */
 		void set_eq_value(double val);
-
-	
-
 
 	protected:
 		void sliderChange(SliderChange change) override;
