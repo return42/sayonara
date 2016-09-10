@@ -181,6 +181,7 @@ private slots:
 	void next_clicked();
 	void rec_clicked(bool);
 	void buffering(int progress);
+	void set_progress_tooltip(int val);
 
 	void played();
 	void paused();

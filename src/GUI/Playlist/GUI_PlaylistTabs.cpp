@@ -113,8 +113,8 @@ void GUI_Playlist::playlist_added(PlaylistPtr pl){
 	_playlist->set_current_idx(idx);
 
 	connect(pl_view, &PlaylistView::sig_double_clicked, this, &GUI_Playlist::double_clicked);
-	connect(pl_view, &PlaylistView::sig_left_clicked, this, &GUI_Playlist::select_tab_left);
-	connect(pl_view, &PlaylistView::sig_right_clicked, this, &GUI_Playlist::select_tab_right);
+	connect(pl_view, &PlaylistView::sig_left_tab_clicked, this, &GUI_Playlist::select_tab_left);
+	connect(pl_view, &PlaylistView::sig_right_tab_clicked, this, &GUI_Playlist::select_tab_right);
 	connect(pl_view, &PlaylistView::sig_time_changed, this, &GUI_Playlist::playlist_time_changed);
 
 	connect(pl.get(), &Playlist::sig_data_changed, this, &GUI_Playlist::playlist_changed);

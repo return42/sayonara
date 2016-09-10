@@ -292,6 +292,12 @@ void PlaylistHandler::next() {
 
 
 void PlaylistHandler::previous() {
+	if( _play_manager->get_cur_position_ms() > 2000)
+	{
+		_play_manager->seek_abs_ms(0);
+		return;
+	}
+
 	get_active()->bwd();
 	emit_cur_track_changed();
 }

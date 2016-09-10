@@ -84,9 +84,14 @@ void SayonaraSlider::mouseReleaseEvent(QMouseEvent* e)
 
 void SayonaraSlider::mouseMoveEvent(QMouseEvent* e) {
 
+	int new_val = get_val_from_pos(e->pos());
+
 	if(this->isSliderDown()){
-		int new_val = get_val_from_pos(e->pos());
 		setValue(new_val);
+	}
+
+	else{
+		emit sig_slider_hovered(new_val);
 	}
 }
 

@@ -30,6 +30,7 @@
 SearchSlider::SearchSlider(QWidget* parent) :
 	SayonaraSlider(parent)
 {
+	this->setMouseTracking(true);
 }
 
 SearchSlider::~SearchSlider() {

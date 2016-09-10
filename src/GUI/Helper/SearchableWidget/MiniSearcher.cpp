@@ -297,7 +297,6 @@ bool MiniSearcher::check_and_init(QKeyEvent *event) {
     }
 
 	return false;
-
 }
 
 void MiniSearcher::setExtraTriggers(QMap<QChar, QString> triggers) {

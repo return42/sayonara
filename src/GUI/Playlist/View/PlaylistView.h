@@ -44,6 +44,7 @@
 #include <QMouseEvent>
 #include <QScrollBar>
 #include <QProgressBar>
+#include <QContextMenuEvent>
 
 class SayonaraLoadingBar;
 class LibraryContextMenu;
@@ -56,22 +57,14 @@ class PlaylistView :
 	Q_OBJECT
 
 signals:
-	void context_menu_emitted(const QPoint&);
-
-	void sig_remove_clicked();
-
-	void sig_double_clicked(int);
-	void sig_no_focus();
-	void sig_left_clicked();
-	void sig_right_clicked();
-
+	void sig_double_clicked(int row);
+	void sig_left_tab_clicked();
+	void sig_right_tab_clicked();
 	void sig_time_changed();
 
 public:
 	PlaylistView(PlaylistPtr pl, QWidget* parent=nullptr);
 	virtual ~PlaylistView();
-
-	void set_context_menu_actions(int actions);
 
 	void fill(PlaylistPtr pl);
 
@@ -79,9 +72,15 @@ public:
 	void scroll_up();
 	void scroll_down();
 
-	void dropEventFromOutside(QDropEvent* event);
 	int get_num_rows();
 	void remove_cur_selected_rows();
+
+	/**
+	 * @brief called from GUI_Playlist when data has not been dropped
+	 * directly into the view widget. Insert on first row then
+	 * @param event
+	 */
+	void dropEventFromOutside(QDropEvent* event);
 
 
 public slots:
@@ -104,11 +103,6 @@ private:
 private:
 
 	void set_delegate_max_width(int n_items);
-	void init_rc_menu();
-
-	// Selections
-
-
 
 	// d & d
 	void clear_drag_drop_lines(int row);
@@ -118,8 +112,12 @@ private:
 
 
 	// overloaded stuff
-	bool event(QEvent* event) override;
+	void contextMenuEvent(QContextMenuEvent* e) override;
 
+	/**
+	 * @brief we start the drag action, all lines has to be cleared
+	 * @param the event
+	 */
 	void dragLeaveEvent(QDragLeaveEvent* event) override;
 	void dragEnterEvent(QDragEnterEvent* event) override;
 	void dragMoveEvent(QDragMoveEvent* event) override;
@@ -133,19 +131,14 @@ private:
 	void resizeEvent(QResizeEvent *e) override;
 	void selectionChanged ( const QItemSelection & selected, const QItemSelection & deselected ) override;
 
-	void init_shortcuts();
-
 	MetaDataList::Interpretation get_metadata_interpretation() const override;
 	MetaDataList get_data_for_info_dialog() const override;
 
 
 private slots:
-	void _sl_look_changed();
 	void handle_async_drop(bool success);
 	void rating_changed(int rating);
 };
-
-
 
 
 #endif /* PlaylistView_H_ */

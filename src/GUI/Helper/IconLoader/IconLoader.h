@@ -32,6 +32,10 @@
 
 class Settings;
 
+/**
+ * @brief The IconLoader class
+ * @ingroup GUIHelper
+ */
 class IconLoader
 {
 

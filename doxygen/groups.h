@@ -4,6 +4,10 @@
  */
 
 /**
+ * @defgroup Equalizer 
+ * @ingroup PlayerPlugins
+ */
+/**
  * @defgroup Components Basic Components
  */
 
@@ -14,7 +18,15 @@
 
 /**
  * @defgroup Covers Covers
+ * @brief Contains everythin about cover management. Logic and UI
  * @ingroup Components
+ */
+
+/**
+ * @defgroup GUICovers
+ * @brief UI side of cover management
+ * @ingroup Covers
+ * @ingroup GUI
  */
 
 /** 
@@ -58,6 +70,7 @@
 
 /**
  * @defgroup Helper Helper
+ * @brief everything what's highly reusable
  */
 
 /**
@@ -81,6 +94,7 @@
 
 /**
  * @defgroup Plugins
+ * @brief Library and player plugins
  */
 
 /**
@@ -97,12 +111,22 @@
 
 /**
  * @defgroup GUI
+ * @brief everything that belongs to the GUI
  */
 
 /**
  * @defgroup GUIHelper GUI Helper
+ * @brief highly reusable classes used by the GUI
  * @ingroup GUI
  */
+
+/**
+ * @defgroup Widgets
+ * @brief Sayonara widgets
+ * @ingroup GUIHelper
+ */
+
+
 
 /**
  * @defgroup Preferences Preference Dialog
@@ -111,5 +135,8 @@
 
 /**
  * @defgroup Shortcuts Shortcuts
+ * @brief Shortcut handling
  * @ingroup GUI
  */
+
+

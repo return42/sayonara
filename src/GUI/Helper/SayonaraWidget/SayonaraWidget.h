@@ -35,7 +35,7 @@ class SayonaraDialog;
 /**
  * @brief Widget with Settings connection. Also contains triggers for language_changed() and skin_changed()
  * \nThe widget's content can be exported to a SayonaraDialog via the box_into_dialog() method.
- * @ingroup GUIHelper
+ * @ingroup Widgets
  * @ingroup Interfaces
  */
 class SayonaraWidget :
@@ -59,6 +59,10 @@ protected slots:
 	virtual void skin_changed();
 };
 
+/**
+ * @brief The SayonaraMainWindow class
+ * @ingroup Widgets
+ */
 class SayonaraMainWindow : public SayonaraWidgetTemplate<QMainWindow> {
 
 	Q_OBJECT

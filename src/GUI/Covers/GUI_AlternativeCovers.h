@@ -43,6 +43,10 @@ class CoverLookupAlternative;
 class AlternativeCoverItemModel;
 class AlternativeCoverItemDelegate;
 
+/**
+ * @brief The GUI_AlternativeCovers class
+ * @ingroup GUICovers
+ */
 class GUI_AlternativeCovers :
 		public SayonaraDialog,
 		private Ui::AlternativeCovers

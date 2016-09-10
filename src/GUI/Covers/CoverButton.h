@@ -30,6 +30,10 @@
 class GUI_AlternativeCovers;
 class CoverLookup;
 
+/**
+ * @brief The CoverButton class
+ * @ingroup GUICovers
+ */
 class CoverButton : public QPushButton
 {
 	Q_OBJECT

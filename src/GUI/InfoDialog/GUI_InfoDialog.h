@@ -50,10 +50,10 @@ class GUI_InfoDialog :
 
 public:
 
-	enum TabIndex {
-		TabInfo=0,
-		TabLyrics=1,
-		TabEdit=2
+	enum class Tab : quint8 {
+		Info=0,
+		Lyrics=1,
+		Edit=2
 	};
 
 	GUI_InfoDialog(InfoDialogContainer* container, QWidget* parent=nullptr);
@@ -61,7 +61,7 @@ public:
 
 	void set_metadata(const MetaDataList& vd, MetaDataList::Interpretation interpretation);
 	bool has_metadata() const;
-	void show(GUI_InfoDialog::TabIndex tab);
+	void show(GUI_InfoDialog::Tab tab);
 
 
 private slots:
@@ -69,7 +69,7 @@ private slots:
 	void lyric_server_changed(int idx);
 
 	void tab_index_changed_int(int idx);
-	void tab_index_changed(GUI_InfoDialog::TabIndex idx);
+	void tab_index_changed(GUI_InfoDialog::Tab idx);
 
 	void skin_changed() override;
 	void language_changed() override;

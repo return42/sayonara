@@ -26,7 +26,7 @@
 #include <QItemDelegate>
 #include <QItemDelegate>
 /**
- * @brief The TreeDelegate class
+ * @brief The TreeDelegate class. Only used for size hinting
  * @ingroup GUIHelper
  */
 class TreeDelegate : public QItemDelegate

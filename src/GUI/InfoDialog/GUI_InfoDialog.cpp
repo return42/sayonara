@@ -36,7 +36,6 @@
 #include "Helper/FileHelper.h"
 #include "GUI/Helper/IconLoader/IconLoader.h"
 
-#include <QPixmap>
 #include <QCloseEvent>
 #include <QPainter>
 #include <QDateTime>
@@ -52,12 +51,10 @@ GUI_InfoDialog::GUI_InfoDialog(InfoDialogContainer* container, QWidget* parent) 
 	_md_interpretation = MetaDataList::Interpretation::None;
 }
 
-GUI_InfoDialog::~GUI_InfoDialog()
+GUI_InfoDialog::~GUI_InfoDialog() {}
+
+void GUI_InfoDialog::language_changed()
 {
-}
-
-void GUI_InfoDialog::language_changed() {
-
 	if(!_is_initialized){
 		return;
 	}
@@ -67,13 +64,15 @@ void GUI_InfoDialog::language_changed() {
 	prepare_info(_md_interpretation);
 }
 
-void GUI_InfoDialog::skin_changed(){
+void GUI_InfoDialog::skin_changed()
+{
 	if(!_is_initialized){
 		return;
 	}
 
 	QTabBar* tab_bar = tab_widget->tabBar();
-	if(tab_bar){
+	if(tab_bar)
+	{
 		IconLoader* icon_loader = IconLoader::getInstance();
 		tab_bar->setTabIcon(0, icon_loader->get_icon("dialog-info", "info"));
 		tab_bar->setTabIcon(1, icon_loader->get_icon("document-properties", "lyrics"));
@@ -82,14 +81,15 @@ void GUI_InfoDialog::skin_changed(){
 }
 
 
-void GUI_InfoDialog::lyric_server_changed(int idx) {
+void GUI_InfoDialog::lyric_server_changed(int idx)
+{
 	Q_UNUSED(idx)
 	prepare_lyrics();
 }
 
 
-void GUI_InfoDialog::prepare_lyrics() {
-
+void GUI_InfoDialog::prepare_lyrics()
+{
 	if(!_is_initialized){
 		return;
 	}
@@ -98,26 +98,30 @@ void GUI_InfoDialog::prepare_lyrics() {
 		return;
 	}
 
-	if(!_lyric_thread){
+	if(!_lyric_thread)
+	{
 		_lyric_thread = new LyricLookupThread(this);
 
 		QStringList lyric_server_list = _lyric_thread->get_servers();
+
+		combo_servers->clear();
 		for(const QString& server : lyric_server_list) {
 			combo_servers->addItem(server);
 		}
 
 		connect(_lyric_thread, &LyricLookupThread::sig_finished, this, &GUI_InfoDialog::lyrics_fetched);
+		connect(_lyric_thread, &QObject::destroyed, this, [=](){_lyric_thread = nullptr;});
 	}
 
 	te_lyrics->setText("");
 	pb_loading->setVisible(true);
 
-	_lyric_thread->run(_v_md[0].artist, _v_md[0].title, combo_servers->currentIndex());
+	_lyric_thread->run(_v_md.first().artist, _v_md.first().title, combo_servers->currentIndex());
 }
 
 
-void GUI_InfoDialog::lyrics_fetched() {
-
+void GUI_InfoDialog::lyrics_fetched()
+{
 	if(!_is_initialized){
 		sender()->deleteLater();
 		return;
@@ -143,15 +147,16 @@ void GUI_InfoDialog::lyrics_fetched() {
 }
 
 
-void GUI_InfoDialog::prepare_info(MetaDataList::Interpretation md_interpretation) {
-
+void GUI_InfoDialog::prepare_info(MetaDataList::Interpretation md_interpretation)
+{
 	if(!_is_initialized){
 		return;
 	}
 
 	MetaDataInfo* info;
 
-	switch (md_interpretation){
+	switch (md_interpretation)
+	{
 		case MetaDataList::Interpretation::Artists:
 			info = new ArtistInfo(_v_md);
 			break;
@@ -165,7 +170,6 @@ void GUI_InfoDialog::prepare_info(MetaDataList::Interpretation md_interpretation
 
 		default:
 			return;
-
 	}
 
 	QString info_text = info->get_info_as_string() + CAR_RET + CAR_RET +
@@ -196,8 +200,8 @@ void GUI_InfoDialog::prepare_info(MetaDataList::Interpretation md_interpretation
 }
 
 
-void GUI_InfoDialog::set_metadata(const MetaDataList& v_md, MetaDataList::Interpretation md_interpretation) {
-
+void GUI_InfoDialog::set_metadata(const MetaDataList& v_md, MetaDataList::Interpretation md_interpretation)
+{
 	_md_interpretation = md_interpretation;
 	_v_md = v_md;
 
@@ -209,24 +213,16 @@ bool GUI_InfoDialog::has_metadata() const
 	return (_v_md.size() > 0);
 }
 
-void GUI_InfoDialog::tab_index_changed_int(int idx){
-	GUI_InfoDialog::TabIndex tab;
-	if( idx != GUI_InfoDialog::TabIndex::TabInfo &&
-		idx != GUI_InfoDialog::TabIndex::TabLyrics &&
-		idx != GUI_InfoDialog::TabIndex::TabEdit)
-	{
-		tab = GUI_InfoDialog::TabIndex::TabInfo;
-	}
+void GUI_InfoDialog::tab_index_changed_int(int idx)
+{
+	idx = std::min( (int) GUI_InfoDialog::Tab::Edit, idx);
+	idx = std::max( (int) GUI_InfoDialog::Tab::Info, idx);
 
-	else{
-		tab = (GUI_InfoDialog::TabIndex) (idx);
-	}
-
-	tab_index_changed(tab);
+	tab_index_changed( (GUI_InfoDialog::Tab) idx );
 }
 
-void GUI_InfoDialog::tab_index_changed(GUI_InfoDialog::TabIndex idx){
-
+void GUI_InfoDialog::tab_index_changed(GUI_InfoDialog::Tab idx)
+{
 	if(!_is_initialized){
 		return;
 	}
@@ -235,13 +231,12 @@ void GUI_InfoDialog::tab_index_changed(GUI_InfoDialog::TabIndex idx){
 	ui_lyric_widget->hide();
 	_ui_tag_edit->hide();
 
-	switch(idx){
-
-		case GUI_InfoDialog::TabEdit:
+	switch(idx)
+	{
+		case GUI_InfoDialog::Tab::Edit:
 
 			tab_widget->setCurrentWidget(_ui_tag_edit);
 			{
-
 				MetaDataList local_md = _v_md.extract_tracks( [](const MetaData& md){
 					return !Helper::File::is_www(md.filepath());
 				});
@@ -254,8 +249,7 @@ void GUI_InfoDialog::tab_index_changed(GUI_InfoDialog::TabIndex idx){
 			_ui_tag_edit->show();
 			break;
 
-		case GUI_InfoDialog::TabLyrics:
-
+		case GUI_InfoDialog::Tab::Lyrics:
 
 			tab_widget->setCurrentWidget(ui_lyric_widget);
 			ui_lyric_widget->show();
@@ -270,30 +264,29 @@ void GUI_InfoDialog::tab_index_changed(GUI_InfoDialog::TabIndex idx){
 	}
 }
 
-void GUI_InfoDialog::show(GUI_InfoDialog::TabIndex tab) {
-
+void GUI_InfoDialog::show(GUI_InfoDialog::Tab tab)
+{
 	if(!_is_initialized){
 		init();
 	}
 
 	prepare_cover(CoverLocation::getInvalidLocation());
 
+	bool lyric_enabled = (_v_md.size() == 1);
 	bool tag_edit_enabled = std::any_of(_v_md.begin(), _v_md.end(), [](const MetaData& md){
 		return (!Helper::File::is_www(md.filepath()));
 	});
 
-	tab_widget->setTabEnabled(GUI_InfoDialog::TabEdit, tag_edit_enabled);
+	tab_widget->setTabEnabled((int) GUI_InfoDialog::Tab::Edit, tag_edit_enabled);
+	tab_widget->setTabEnabled((int) GUI_InfoDialog::Tab::Lyrics, lyric_enabled);
 
-	bool lyric_enabled = (_v_md.size() == 1);
-	tab_widget->setTabEnabled(GUI_InfoDialog::TabLyrics, lyric_enabled);
-
-	if( !tab_widget->isTabEnabled(tab) )
+	if( !tab_widget->isTabEnabled((int) tab) )
 	{
-		tab = GUI_InfoDialog::TabInfo;
+		tab = GUI_InfoDialog::Tab::Info;
 	}
 
-	if(tab == TabEdit){
-
+	if(tab == GUI_InfoDialog::Tab::Edit)
+	{
 		MetaDataList local_md = _v_md.extract_tracks([](const MetaData& md){
 			return (!Helper::File::is_www(md.filepath()));
 		});
@@ -303,7 +296,7 @@ void GUI_InfoDialog::show(GUI_InfoDialog::TabIndex tab) {
 		}
 	}
 
-	tab_widget->setCurrentIndex(tab);
+	tab_widget->setCurrentIndex((int) tab);
 	tab_index_changed(tab);
 
 	_is_initialized = true;
@@ -312,14 +305,14 @@ void GUI_InfoDialog::show(GUI_InfoDialog::TabIndex tab) {
 }
 
 
-void GUI_InfoDialog::prepare_cover(const CoverLocation& cl) {
-
+void GUI_InfoDialog::prepare_cover(const CoverLocation& cl)
+{
 	btn_image->set_cover_location(cl);
 }
 
 
-void GUI_InfoDialog::init() {
-
+void GUI_InfoDialog::init()
+{
 	setupUi(this);
 
 	QLayout* tab3_layout;
@@ -338,7 +331,7 @@ void GUI_InfoDialog::init() {
 
 	btn_image->setStyleSheet("QPushButton:hover {background-color: transparent;}");
 
-	tab_widget->setCurrentIndex(GUI_InfoDialog::TabInfo);
+	tab_widget->setCurrentIndex((int) GUI_InfoDialog::Tab::Info);
 	tab_widget->setFocusPolicy(Qt::NoFocus);
 
 	_is_initialized = true;
@@ -350,7 +343,8 @@ void GUI_InfoDialog::init() {
 }
 
 
-void GUI_InfoDialog::closeEvent(QCloseEvent* e) {
+void GUI_InfoDialog::closeEvent(QCloseEvent* e)
+{
 	SayonaraDialog::closeEvent(e);
 
 	_info_dialog_container->info_dialog_closed();

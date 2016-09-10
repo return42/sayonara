@@ -27,7 +27,8 @@
 #include <QString>
 
 /**
- * Message namespace. The instance of GlobalMessage is called
+ * @brief Message namespace. The instance of GlobalMessage is called
+ * @ingroup GUIHelper
  */
 namespace Message {
 

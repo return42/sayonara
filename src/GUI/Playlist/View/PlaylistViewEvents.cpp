@@ -30,59 +30,49 @@
 #include "GUI/Helper/CustomMimeData.h"
 
 #include <QApplication>
-#include <QDrag>
-#include <QContextMenuEvent>
 
-bool PlaylistView::event(QEvent* event)
+
+void PlaylistView::contextMenuEvent(QContextMenuEvent* e)
 {
-	if(event->type() == QEvent::ContextMenu)
-	{
-		QContextMenuEvent* cme = dynamic_cast<QContextMenuEvent*>(event);
-		QPoint pos = cme->globalPos();
+	QPoint pos = e->globalPos();
 
-		LibraryContexMenuEntries entry_mask;
+	LibraryContexMenuEntries entry_mask;
 
-		entry_mask = (LibraryContextMenu::EntryInfo |
-					  LibraryContextMenu::EntryRemove |
-					  LibraryContextMenu::EntryClear);
+	entry_mask = (LibraryContextMenu::EntryInfo |
+				  LibraryContextMenu::EntryRemove |
+				  LibraryContextMenu::EntryClear);
 
-		SP::Set<int> selections = get_selections();
-
-		if(selections.size() == 1){
-			entry_mask |= LibraryContextMenu::EntryLyrics;
-
-
-		}
-
-		if(_model->has_local_media(selections.toList()) ){
-			entry_mask |= LibraryContextMenu::EntryEdit;
-
-			if(selections.size() == 1){
-
-				MetaData md = _model->get_md(selections.first());
-				entry_mask |= LibraryContextMenu::EntryRating;
-
-				_rc_menu->set_rating( md.rating );
-			}
-		}
-
-		set_context_menu_actions(entry_mask);
-
-		_rc_menu->exec(pos);
+	SP::Set<int> selections = get_selections();
+	if(selections.size() == 1){
+		entry_mask |= LibraryContextMenu::EntryLyrics;
 	}
 
-	return SearchableListView::event(event);
+	if(_model->has_local_media(selections.toList()) ){
+		entry_mask |= LibraryContextMenu::EntryEdit;
+
+		if(selections.size() == 1){
+
+			MetaData md = _model->get_md(selections.first());
+			_rc_menu->set_rating( md.rating );
+			entry_mask |= LibraryContextMenu::EntryRating;
+		}
+	}
+
+	_rc_menu->show_actions(entry_mask);
+	_rc_menu->exec(pos);
+
+	SearchableListView::contextMenuEvent(e);
 }
 
-void PlaylistView::mousePressEvent(QMouseEvent* event) {
-
+void PlaylistView::mousePressEvent(QMouseEvent* event)
+{
 	if(_model->rowCount() == 0){
 		return;
 	}
 
-	SearchableListView::mousePressEvent(event);
-
 	QModelIndex idx = this->indexAt(event->pos());
+
+	SearchableListView::mousePressEvent(event);
 
 	switch (event->button()) {
 
@@ -103,8 +93,8 @@ void PlaylistView::mousePressEvent(QMouseEvent* event) {
 }
 
 
-void PlaylistView::mouseMoveEvent(QMouseEvent* event) {
-
+void PlaylistView::mouseMoveEvent(QMouseEvent* event)
+{
 	int distance = (event->pos() - _drag_pos).manhattanLength();
 	QModelIndex idx = this->indexAt(event->pos());
 
@@ -163,8 +153,8 @@ void PlaylistView::mouseDoubleClickEvent(QMouseEvent* event)
 
 }
 
-void PlaylistView::keyPressEvent(QKeyEvent* event) {
-
+void PlaylistView::keyPressEvent(QKeyEvent* event)
+{
 	int key = event->key();
 
 	if((key == Qt::Key_Up || key == Qt::Key_Down)) {
@@ -247,13 +237,13 @@ void PlaylistView::keyPressEvent(QKeyEvent* event) {
 
 		case Qt::Key_Left:
 			if(event->modifiers() & Qt::ControlModifier){
-				emit sig_left_clicked();
+				emit sig_left_tab_clicked();
 			}
 			break;
 
 		case Qt::Key_Right:
 			if(event->modifiers() & Qt::ControlModifier){
-				emit sig_right_clicked();
+				emit sig_right_tab_clicked();
 			}
 			break;
 
@@ -276,14 +266,13 @@ void PlaylistView::keyPressEvent(QKeyEvent* event) {
 }
 
 
-
-// the drag comes, if there's data --> accept it
-void PlaylistView::dragEnterEvent(QDragEnterEvent* event) {
+void PlaylistView::dragEnterEvent(QDragEnterEvent* event)
+{
 	event->accept();
 }
 
-void PlaylistView::dragMoveEvent(QDragMoveEvent* event) {
-
+void PlaylistView::dragMoveEvent(QDragMoveEvent* event)
+{
 	event->accept();
 
 	int first_row = this->indexAt(QPoint(5, 5)).row();
@@ -306,27 +295,21 @@ void PlaylistView::dragMoveEvent(QDragMoveEvent* event) {
 	}
 }
 
-
-// we start the drag action, all lines has to be cleared
-void PlaylistView::dragLeaveEvent(QDragLeaveEvent* event) {
-
+void PlaylistView::dragLeaveEvent(QDragLeaveEvent* event)
+{
 	event->accept();
 	clear_drag_drop_lines(_delegate->get_drag_index());
 }
 
-
-
-// called from GUI_Playlist when data has not been dropped
-// directly into the view widget. Insert on first row then
-void PlaylistView::dropEventFromOutside(QDropEvent* event) {
-
+void PlaylistView::dropEventFromOutside(QDropEvent* event)
+{
 	event->accept();
 	handle_drop(event);
 }
 
 
-void PlaylistView::dropEvent(QDropEvent* event) {
-
+void PlaylistView::dropEvent(QDropEvent* event)
+{
 	event->accept();
 	handle_drop(event);
 }

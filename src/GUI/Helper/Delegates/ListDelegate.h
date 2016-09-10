@@ -33,6 +33,10 @@
 
 #include "Helper/Settings/SayonaraClass.h"
 
+/**
+ * @brief The ListDelegate class. Only used for size hinting
+ * @ingroup GUIHelper
+ */
 class ListDelegate : 
 	public QItemDelegate,
 	protected SayonaraClass

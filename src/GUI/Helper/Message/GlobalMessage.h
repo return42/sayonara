@@ -31,6 +31,10 @@
 
 class GlobalMessageReceiverInterface;
 
+/**
+ * @brief The GlobalMessage class
+ * @ingroup GUIHelper
+ */
 class GlobalMessage : public QObject
 {
 	Q_OBJECT

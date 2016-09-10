@@ -89,6 +89,7 @@ void GUI_Player::setup_connections() {
 
 	connect(sli_volume, &SearchSlider::sig_slider_moved, this, &GUI_Player::volume_slider_moved);
 	connect(sli_progress, &SearchSlider::sig_slider_moved, this, &GUI_Player::seek);
+	connect(sli_progress, &SearchSlider::sig_slider_hovered, this, &GUI_Player::set_progress_tooltip);
 
 
 	MetaDataChangeNotifier* md_change_notifier = MetaDataChangeNotifier::getInstance();
