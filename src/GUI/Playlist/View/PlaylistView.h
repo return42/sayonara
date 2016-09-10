@@ -118,6 +118,8 @@ private:
 
 
 	// overloaded stuff
+	bool event(QEvent* event) override;
+
 	void dragLeaveEvent(QDragLeaveEvent* event) override;
 	void dragEnterEvent(QDragEnterEvent* event) override;
 	void dragMoveEvent(QDragMoveEvent* event) override;
@@ -142,6 +144,8 @@ private slots:
 	void handle_async_drop(bool success);
 	void rating_changed(int rating);
 };
+
+
 
 
 #endif /* PlaylistView_H_ */

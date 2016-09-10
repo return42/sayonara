@@ -31,6 +31,48 @@
 
 #include <QApplication>
 #include <QDrag>
+#include <QContextMenuEvent>
+
+bool PlaylistView::event(QEvent* event)
+{
+	if(event->type() == QEvent::ContextMenu)
+	{
+		QContextMenuEvent* cme = dynamic_cast<QContextMenuEvent*>(event);
+		QPoint pos = cme->globalPos();
+
+		LibraryContexMenuEntries entry_mask;
+
+		entry_mask = (LibraryContextMenu::EntryInfo |
+					  LibraryContextMenu::EntryRemove |
+					  LibraryContextMenu::EntryClear);
+
+		SP::Set<int> selections = get_selections();
+
+		if(selections.size() == 1){
+			entry_mask |= LibraryContextMenu::EntryLyrics;
+
+
+		}
+
+		if(_model->has_local_media(selections.toList()) ){
+			entry_mask |= LibraryContextMenu::EntryEdit;
+
+			if(selections.size() == 1){
+
+				MetaData md = _model->get_md(selections.first());
+				entry_mask |= LibraryContextMenu::EntryRating;
+
+				_rc_menu->set_rating( md.rating );
+			}
+		}
+
+		set_context_menu_actions(entry_mask);
+
+		_rc_menu->exec(pos);
+	}
+
+	return SearchableListView::event(event);
+}
 
 void PlaylistView::mousePressEvent(QMouseEvent* event) {
 
@@ -38,61 +80,20 @@ void PlaylistView::mousePressEvent(QMouseEvent* event) {
 		return;
 	}
 
-	QPoint pos_org;
-	QPoint pos = event->pos();
-	QModelIndex idx = this->indexAt(event->pos());
+	SearchableListView::mousePressEvent(event);
 
-	SP::Set<int> selections;
+	QModelIndex idx = this->indexAt(event->pos());
 
 	switch (event->button()) {
 
 		case Qt::LeftButton:
 
-			SearchableListView::mousePressEvent(event);
 			if(!idx.isValid()){
 				clear_selection();
 				return;
 			}
 
 			_drag_pos = event->pos();
-
-			break;
-
-		case Qt::RightButton:
-
-			LibraryContexMenuEntries entry_mask;
-			SearchableListView::mousePressEvent(event);
-
-			pos_org = event->pos();
-			pos = QWidget::mapToGlobal(pos_org);
-
-			pos.setY(pos.y());
-			pos.setX(pos.x() + 10);
-
-			entry_mask = (LibraryContextMenu::EntryInfo |
-						  LibraryContextMenu::EntryRemove |
-						  LibraryContextMenu::EntryClear);
-
-
-			selections = get_selections();
-			if(selections.size() == 1){
-				entry_mask |= LibraryContextMenu::EntryLyrics;
-			}
-
-			if(_model->has_local_media(selections.toList()) ){
-				entry_mask |= LibraryContextMenu::EntryEdit;
-
-				if(selections.size() == 1){
-
-					MetaData md = _model->get_md(selections.first());
-					_rc_menu->set_rating( md.rating );
-					entry_mask |= LibraryContextMenu::EntryRating;
-				}
-			}
-
-			set_context_menu_actions(entry_mask);
-
-			_rc_menu->exec(pos);
 
 			break;
 
