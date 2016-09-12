@@ -90,7 +90,7 @@ void AsyncWebAccess::finished(QNetworkReply *reply){
 
 	bool success = (error == QNetworkReply::NoError);
 	if(!success){
-		sp_log(Log::Debug) << "Cannot open " << _url << ": " << reply->errorString();
+		sp_log(Log::Warning) << "Cannot open " << _url << ": " << reply->errorString();
 	}
 
 	QString redirect_url = reply->attribute(QNetworkRequest::RedirectionTargetAttribute).toString();
@@ -119,9 +119,14 @@ void AsyncWebAccess::finished(QNetworkReply *reply){
 		_data = reply->readAll();
 	}
 
+	else if(is_readable)
+	{
+		success = true;
+		_data.clear();
+	}
+
 	else {
 		success = false;
-		sp_log(Log::Warning) << reply->errorString();
 		_data.clear();
 	}
 

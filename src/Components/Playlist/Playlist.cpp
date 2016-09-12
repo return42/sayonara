@@ -108,11 +108,7 @@ void Playlist::insert_track(const MetaData& md, int tgt) {
 
 void Playlist::insert_tracks(const MetaDataList& lst, int tgt) {
 
-	sp_log(Log::Debug) << "cur track = " << _v_md.get_cur_play_track();
 	_v_md.insert_tracks(lst, tgt);
-
-	sp_log(Log::Debug) << "cur track = " << _v_md.get_cur_play_track();
-	
 
 	set_changed(true);
 }

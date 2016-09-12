@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "MenuButton.h"
 #include "GUI/Helper/GUI_Helper.h"
 #include "GUI/Helper/IconLoader/IconLoader.h"
@@ -82,7 +80,6 @@ void MenuButton::enterEvent(QEvent* e){
 
 	if(dark){
 		icon = GUI::get_icon("tool_grey");
-
 	}
 
 	else{

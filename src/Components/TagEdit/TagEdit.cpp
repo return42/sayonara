@@ -269,9 +269,6 @@ void TagEdit::run()
 		}
 
 		bool success = Tagging::setMetaDataOfFile(md);
-		sp_log(Log::Debug) << "Write track "<< md.title
-				 << " (" << md.album << ") by " << md.artist
-				 << ": " << success;
 
 		if( !success ) {
 			continue;

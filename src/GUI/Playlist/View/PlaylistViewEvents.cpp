@@ -149,8 +149,12 @@ void PlaylistView::mouseDoubleClickEvent(QMouseEvent* event)
 		_model->set_current_track(idx.row());
 	}
 
-	emit sig_double_clicked(idx.row());
-
+	if( (idx.flags() & Qt::ItemIsEnabled) && 
+		(idx.flags() & Qt::ItemIsSelectable))
+	{
+		emit sig_double_clicked(idx.row());
+	}
+	
 }
 
 void PlaylistView::keyPressEvent(QKeyEvent* event)
