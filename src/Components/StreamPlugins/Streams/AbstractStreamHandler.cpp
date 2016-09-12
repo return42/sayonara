@@ -57,10 +57,6 @@ bool AbstractStreamHandler::parse_station(const QString& url, const QString& sta
 void AbstractStreamHandler::stream_parser_finished(bool success){
 
 	if(!success){
-		MetaDataList v_md;
-		MetaData md;
-		md.title =
-		_station_contents[_station_name] =
 		emit sig_error();
 		_blocked = false;
 		return;
