@@ -112,9 +112,9 @@ void AsyncWebAccess::finished(QNetworkReply *reply){
 	bool is_readable = reply->isReadable();
 	qint64 bytes_available = reply->bytesAvailable();
 
-	if(success &&
-			is_readable &&
-			bytes_available > 0)
+	if( success &&
+		is_readable &&
+		bytes_available > 0)
 	{
 		_data = reply->readAll();
 	}
