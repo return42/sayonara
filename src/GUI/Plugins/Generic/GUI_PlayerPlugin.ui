@@ -99,7 +99,7 @@
   <customwidget>
    <class>PluginCloseButton</class>
    <extends>QPushButton</extends>
-   <header>GUI/Plugins/PluginCloseButton.h</header>
+   <header>GUI/Plugins/Generic/PluginCloseButton.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

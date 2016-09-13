@@ -28,7 +28,7 @@
 #include <QHideEvent>
 #include <QCloseEvent>
 
-#include "GUI/Plugins/ui_GUI_PlayerPlugin.h"
+#include "GUI/Plugins/Generic/ui_GUI_PlayerPlugin.h"
 #include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
 
 class PlayerPluginInterface;

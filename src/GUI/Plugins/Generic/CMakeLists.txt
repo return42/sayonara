@@ -1,16 +1,17 @@
+PROJECT(say_gui_plugins)
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
-PROJECT(say_gui_plugin_broadcasting)
 
 SET(SOURCES
-	GUI_Broadcast.cpp
+    GUI_PlayerPlugin.cpp
+    PluginCloseButton.cpp
 )
 
 QT5_WRAP_UI(FORMS_UIC
-	GUI_Broadcast.ui
+    GUI_PlayerPlugin.ui
 )
 
 ADD_LIBRARY(${PROJECT_NAME} STATIC ${SOURCES} ${FORMS_UIC})
 TARGET_LINK_LIBRARIES(${PROJECT_NAME}
-    say_comp_broadcasting
-    say_gui_plugins
+    say_interfaces_player_plugin
+    say_gui_helper
 )
