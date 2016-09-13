@@ -23,7 +23,7 @@
 #ifndef GUI_CROSSFADER_H
 #define GUI_CROSSFADER_H
 
-#include "GUI/Plugins/Crossfader//ui_GUI_Crossfader.h"
+#include "GUI/Plugins/Crossfader/ui_GUI_Crossfader.h"
 
 #include "Interfaces/PlayerPlugin/PlayerPlugin.h"
 
