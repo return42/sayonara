@@ -73,7 +73,6 @@ bool  PodcastParser::parse_podcast_xml_file_content(const QString& content, Meta
         QDomNode channel_child = entry.childNodes().at(c);
         QString nodename = channel_child.nodeName();
         QDomElement e = channel_child.toElement();
-		sp_log(Log::Debug) << nodename;
 
         if(!nodename.compare("title", Qt::CaseInsensitive)) {
             album = e.text();
