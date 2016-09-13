@@ -4,7 +4,7 @@
 <context>
     <name>AbstractLibrary</name>
     <message>
-        <location filename="../Components/Library/AbstractLibrary.cpp" line="+708"/>
+        <location filename="../Components/Library/AbstractLibrary.cpp" line="+702"/>
         <source>entries</source>
         <translation>Einträge</translation>
     </message>
@@ -54,7 +54,6 @@
     <name>AlternativeCovers</name>
     <message>
         <location filename="../GUI/Covers/GUI_AlternativeCovers.ui" line="+14"/>
-        <location filename="../../build/src/GUI/AlternativeCovers/ui_GUI_AlternativeCovers.h" line="+203"/>
         <location filename="../../build/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="+204"/>
         <location filename="../../build_release/src/GUI/AlternativeCovers/ui_GUI_AlternativeCovers.h" line="+203"/>
         <location filename="../../build_release/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="+204"/>
@@ -64,7 +63,6 @@
     </message>
     <message>
         <location line="+52"/>
-        <location filename="../../build/src/GUI/AlternativeCovers/ui_GUI_AlternativeCovers.h" line="+1"/>
         <location filename="../../build/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="+1"/>
         <location filename="../../build_release/src/GUI/AlternativeCovers/ui_GUI_AlternativeCovers.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="+1"/>
@@ -74,7 +72,6 @@
     </message>
     <message>
         <location line="+204"/>
-        <location filename="../../build/src/GUI/AlternativeCovers/ui_GUI_AlternativeCovers.h" line="+7"/>
         <location filename="../../build/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="+7"/>
         <location filename="../../build_release/src/GUI/AlternativeCovers/ui_GUI_AlternativeCovers.h" line="+7"/>
         <location filename="../../build_release/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="+7"/>
@@ -84,7 +81,6 @@
     </message>
     <message>
         <location line="-194"/>
-        <location filename="../../build/src/GUI/AlternativeCovers/ui_GUI_AlternativeCovers.h" line="-6"/>
         <location filename="../../build/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="-6"/>
         <location filename="../../build_release/src/GUI/AlternativeCovers/ui_GUI_AlternativeCovers.h" line="-6"/>
         <location filename="../../build_release/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="-6"/>
@@ -94,7 +90,6 @@
     </message>
     <message>
         <location line="+84"/>
-        <location filename="../../build/src/GUI/AlternativeCovers/ui_GUI_AlternativeCovers.h" line="+1"/>
         <location filename="../../build/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="+1"/>
         <location filename="../../build_release/src/GUI/AlternativeCovers/ui_GUI_AlternativeCovers.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="+1"/>
@@ -104,7 +99,6 @@
     </message>
     <message>
         <location line="+88"/>
-        <location filename="../../build/src/GUI/AlternativeCovers/ui_GUI_AlternativeCovers.h" line="+4"/>
         <location filename="../../build/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="+4"/>
         <location filename="../../build_release/src/GUI/AlternativeCovers/ui_GUI_AlternativeCovers.h" line="+4"/>
         <location filename="../../build_release/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="+4"/>
@@ -114,7 +108,6 @@
     </message>
     <message>
         <location line="-41"/>
-        <location filename="../../build/src/GUI/AlternativeCovers/ui_GUI_AlternativeCovers.h" line="-2"/>
         <location filename="../../build/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="-2"/>
         <location filename="../../build_release/src/GUI/AlternativeCovers/ui_GUI_AlternativeCovers.h" line="-2"/>
         <location filename="../../build_release/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="-2"/>
@@ -124,7 +117,6 @@
     </message>
     <message>
         <location line="+22"/>
-        <location filename="../../build/src/GUI/AlternativeCovers/ui_GUI_AlternativeCovers.h" line="+1"/>
         <location filename="../../build/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="+1"/>
         <location filename="../../build_release/src/GUI/AlternativeCovers/ui_GUI_AlternativeCovers.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="+1"/>
@@ -134,7 +126,6 @@
     </message>
     <message>
         <location line="+55"/>
-        <location filename="../../build/src/GUI/AlternativeCovers/ui_GUI_AlternativeCovers.h" line="+3"/>
         <location filename="../../build/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="+3"/>
         <location filename="../../build_release/src/GUI/AlternativeCovers/ui_GUI_AlternativeCovers.h" line="+3"/>
         <location filename="../../build_release/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="+3"/>
@@ -146,7 +137,7 @@
 <context>
     <name>Application</name>
     <message>
-        <location filename="../Application/application.cpp" line="+232"/>
+        <location filename="../Application/application.cpp" line="+234"/>
         <source>Version </source>
         <translation>Version </translation>
     </message>
@@ -229,7 +220,7 @@
 <context>
     <name>DirectoryLibraryContainer</name>
     <message>
-        <location filename="../GUI/DirectoryWidget/GUI_DirectoryWidget.cpp" line="+329"/>
+        <location filename="../GUI/DirectoryWidget/GUI_DirectoryWidget.cpp" line="+337"/>
         <source>Directories</source>
         <translation>Verzeichnisse</translation>
     </message>
@@ -261,7 +252,7 @@
 <context>
     <name>GUI_AbstractLibrary</name>
     <message>
-        <location filename="../GUI/Library/GUI_AbstractLibrary.cpp" line="+557"/>
+        <location filename="../GUI/Library/GUI_AbstractLibrary.cpp" line="+513"/>
         <source>Library</source>
         <translation>Musiksammlung</translation>
     </message>
@@ -314,7 +305,7 @@
         <translation>Stop</translation>
     </message>
     <message>
-        <location line="+51"/>
+        <location line="+60"/>
         <source>This cover does not exist</source>
         <translation>Dieses Bild existiert nicht</translation>
     </message>
@@ -338,7 +329,6 @@
     <name>GUI_AudioConvert</name>
     <message>
         <location filename="../GUI/Plugins/AudioConverter/GUI_AudioConvert.ui" line="+77"/>
-        <location filename="../../build/src/GUI/PlayerPlugins/AudioConverter/ui_GUI_AudioConvert.h" line="+153"/>
         <location filename="../../build/src/GUI/Plugins/AudioConverter/ui_GUI_AudioConvert.h" line="+92"/>
         <location filename="../../build_release/src/GUI/PlayerPlugins/AudioConverter/ui_GUI_AudioConvert.h" line="+92"/>
         <location filename="../../build_release/src/GUI/Plugins/AudioConverter/ui_GUI_AudioConvert.h" line="+92"/>
@@ -348,7 +338,6 @@
     </message>
     <message>
         <location line="+10"/>
-        <location filename="../../build/src/GUI/PlayerPlugins/AudioConverter/ui_GUI_AudioConvert.h" line="+1"/>
         <location filename="../../build/src/GUI/Plugins/AudioConverter/ui_GUI_AudioConvert.h" line="+1"/>
         <location filename="../../build_release/src/GUI/PlayerPlugins/AudioConverter/ui_GUI_AudioConvert.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Plugins/AudioConverter/ui_GUI_AudioConvert.h" line="+1"/>
@@ -358,7 +347,6 @@
     </message>
     <message>
         <location line="-26"/>
-        <location filename="../../build/src/GUI/PlayerPlugins/AudioConverter/ui_GUI_AudioConvert.h" line="+1"/>
         <location filename="../../build/src/GUI/Plugins/AudioConverter/ui_GUI_AudioConvert.h" line="-2"/>
         <location filename="../../build_release/src/GUI/PlayerPlugins/AudioConverter/ui_GUI_AudioConvert.h" line="-2"/>
         <location filename="../../build_release/src/GUI/Plugins/AudioConverter/ui_GUI_AudioConvert.h" line="-2"/>
@@ -368,7 +356,6 @@
     </message>
     <message>
         <location line="-29"/>
-        <location filename="../../build/src/GUI/PlayerPlugins/AudioConverter/ui_GUI_AudioConvert.h" line="+3"/>
         <location filename="../../build/src/GUI/Plugins/AudioConverter/ui_GUI_AudioConvert.h" line="-1"/>
         <location filename="../../build_release/src/GUI/PlayerPlugins/AudioConverter/ui_GUI_AudioConvert.h" line="-1"/>
         <location filename="../../build_release/src/GUI/Plugins/AudioConverter/ui_GUI_AudioConvert.h" line="-1"/>
@@ -418,7 +405,6 @@
     </message>
     <message>
         <location line="+93"/>
-        <location filename="../../build/src/GUI/PlayerPlugins/Bookmarks/ui_GUI_Bookmarks.h" line="+214"/>
         <location filename="../../build/src/GUI/Plugins/Bookmarks/ui_GUI_Bookmarks.h" line="+3"/>
         <location filename="../../build_release/src/GUI/PlayerPlugins/Bookmarks/ui_GUI_Bookmarks.h" line="+3"/>
         <location filename="../../build_release/src/GUI/Plugins/Bookmarks/ui_GUI_Bookmarks.h" line="+3"/>
@@ -444,7 +430,6 @@
     <name>GUI_Broadcast</name>
     <message>
         <location filename="../GUI/Plugins/Broadcasting/GUI_Broadcast.ui" line="+62"/>
-        <location filename="../../build/src/GUI/PlayerPlugins/Broadcasting/ui_GUI_Broadcast.h" line="+199"/>
         <location filename="../../build/src/GUI/Plugins/Broadcasting/ui_GUI_Broadcast.h" line="+129"/>
         <location filename="../../build_release/src/GUI/PlayerPlugins/Broadcasting/ui_GUI_Broadcast.h" line="+129"/>
         <location filename="../../build_release/src/GUI/Plugins/Broadcasting/ui_GUI_Broadcast.h" line="+129"/>
@@ -454,7 +439,6 @@
     </message>
     <message>
         <location line="+7"/>
-        <location filename="../../build/src/GUI/PlayerPlugins/Broadcasting/ui_GUI_Broadcast.h" line="+1"/>
         <location filename="../../build/src/GUI/Plugins/Broadcasting/ui_GUI_Broadcast.h" line="+1"/>
         <location filename="../../build_release/src/GUI/PlayerPlugins/Broadcasting/ui_GUI_Broadcast.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Plugins/Broadcasting/ui_GUI_Broadcast.h" line="+1"/>
@@ -464,7 +448,6 @@
     </message>
     <message>
         <location line="-20"/>
-        <location filename="../../build/src/GUI/PlayerPlugins/Broadcasting/ui_GUI_Broadcast.h" line="-2"/>
         <location filename="../../build/src/GUI/Plugins/Broadcasting/ui_GUI_Broadcast.h" line="-2"/>
         <location filename="../../build_release/src/GUI/PlayerPlugins/Broadcasting/ui_GUI_Broadcast.h" line="-2"/>
         <location filename="../../build_release/src/GUI/Plugins/Broadcasting/ui_GUI_Broadcast.h" line="-2"/>
@@ -475,7 +458,6 @@
     </message>
     <message>
         <location line="+60"/>
-        <location filename="../../build/src/GUI/PlayerPlugins/Broadcasting/ui_GUI_Broadcast.h" line="+5"/>
         <location filename="../../build/src/GUI/Plugins/Broadcasting/ui_GUI_Broadcast.h" line="+3"/>
         <location filename="../../build_release/src/GUI/PlayerPlugins/Broadcasting/ui_GUI_Broadcast.h" line="+3"/>
         <location filename="../../build_release/src/GUI/Plugins/Broadcasting/ui_GUI_Broadcast.h" line="+3"/>
@@ -485,7 +467,6 @@
     </message>
     <message>
         <location line="+20"/>
-        <location filename="../../build/src/GUI/PlayerPlugins/Broadcasting/ui_GUI_Broadcast.h" line="+1"/>
         <location filename="../../build/src/GUI/Plugins/Broadcasting/ui_GUI_Broadcast.h" line="+1"/>
         <location filename="../../build_release/src/GUI/PlayerPlugins/Broadcasting/ui_GUI_Broadcast.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Plugins/Broadcasting/ui_GUI_Broadcast.h" line="+1"/>
@@ -528,7 +509,6 @@
     <name>GUI_BroadcastSetup</name>
     <message>
         <location filename="../GUI/Preferences/Broadcast/GUI_BroadcastSetup.ui" line="+27"/>
-        <location filename="../../build/src/GUI/Preferences/Broadcast/ui_GUI_BroadcastSetup.h" line="+114"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_BroadcastSetup.h" line="+114"/>
         <location filename="../../build_release/src/GUI/Preferences/Broadcast/ui_GUI_BroadcastSetup.h" line="+114"/>
         <location filename="../../build_release/src/GUI/Preferences/ui_GUI_BroadcastSetup.h" line="+114"/>
@@ -538,7 +518,6 @@
     </message>
     <message>
         <location line="+7"/>
-        <location filename="../../build/src/GUI/Preferences/Broadcast/ui_GUI_BroadcastSetup.h" line="+1"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_BroadcastSetup.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Preferences/Broadcast/ui_GUI_BroadcastSetup.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Preferences/ui_GUI_BroadcastSetup.h" line="+1"/>
@@ -548,7 +527,6 @@
     </message>
     <message>
         <location line="+54"/>
-        <location filename="../../build/src/GUI/Preferences/Broadcast/ui_GUI_BroadcastSetup.h" line="+3"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_BroadcastSetup.h" line="+3"/>
         <location filename="../../build_release/src/GUI/Preferences/Broadcast/ui_GUI_BroadcastSetup.h" line="+3"/>
         <location filename="../../build_release/src/GUI/Preferences/ui_GUI_BroadcastSetup.h" line="+3"/>
@@ -558,7 +536,6 @@
     </message>
     <message>
         <location line="-68"/>
-        <location filename="../../build/src/GUI/Preferences/Broadcast/ui_GUI_BroadcastSetup.h" line="-5"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_BroadcastSetup.h" line="-5"/>
         <location filename="../../build_release/src/GUI/Preferences/Broadcast/ui_GUI_BroadcastSetup.h" line="-5"/>
         <location filename="../../build_release/src/GUI/Preferences/ui_GUI_BroadcastSetup.h" line="-5"/>
@@ -592,16 +569,16 @@
     <name>GUI_DirectoryWidget</name>
     <message>
         <location filename="../GUI/DirectoryWidget/GUI_DirectoryWidget.ui" line="+150"/>
-        <location filename="../GUI/DirectoryWidget/GUI_DirectoryWidget.cpp" line="-46"/>
         <location filename="../../build/src/GUI/DirectoryWidget/ui_GUI_DirectoryWidget.h" line="+140"/>
+        <location filename="../GUI/DirectoryWidget/GUI_DirectoryWidget.cpp" line="-46"/>
         <location filename="../../build_release/src/GUI/DirectoryWidget/ui_GUI_DirectoryWidget.h" line="+140"/>
         <location filename="../../build_test/src/GUI/DirectoryWidget/ui_GUI_DirectoryWidget.h" line="+140"/>
         <source>Search</source>
         <translation>Suchen</translation>
     </message>
     <message>
-        <location filename="../GUI/DirectoryWidget/GUI_DirectoryWidget.cpp" line="-162"/>
-        <location line="+41"/>
+        <location filename="../GUI/DirectoryWidget/GUI_DirectoryWidget.cpp" line="-152"/>
+        <location line="+31"/>
         <source>Really?</source>
         <translation>Sicher?</translation>
     </message>
@@ -615,7 +592,6 @@
     <name>GUI_Equalizer</name>
     <message>
         <location filename="../GUI/Plugins/Equalizer/GUI_Equalizer.ui" line="+378"/>
-        <location filename="../../build/src/GUI/PlayerPlugins/Equalizer/ui_GUI_Equalizer.h" line="+629"/>
         <location filename="../../build/src/GUI/Plugins/Equalizer/ui_GUI_Equalizer.h" line="+543"/>
         <location filename="../../build_release/src/GUI/PlayerPlugins/Equalizer/ui_GUI_Equalizer.h" line="+543"/>
         <location filename="../../build_release/src/GUI/Plugins/Equalizer/ui_GUI_Equalizer.h" line="+543"/>
@@ -637,7 +613,6 @@
         <translation>Equalizer</translation>
     </message>
     <message>
-        <location filename="../../build/src/GUI/PlayerPlugins/Equalizer/ui_GUI_Equalizer.h" line="-2"/>
         <location filename="../../build_test/src/GUI/PlayerPlugins/Equalizer/ui_GUI_Equalizer.h" line="-2"/>
         <source>Actions</source>
         <translation>Aktionen</translation>
@@ -654,9 +629,6 @@
         <location filename="../GUI/Preferences/Fonts/GUI_FontConfig.ui" line="+58"/>
         <location line="+7"/>
         <location line="+28"/>
-        <location filename="../../build/src/GUI/Preferences/Fonts/ui_GUI_FontConfig.h" line="+172"/>
-        <location line="+1"/>
-        <location line="+2"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_FontConfig.h" line="+172"/>
         <location line="+1"/>
         <location line="+2"/>
@@ -674,7 +646,6 @@
     </message>
     <message>
         <location line="-59"/>
-        <location filename="../../build/src/GUI/Preferences/Fonts/ui_GUI_FontConfig.h" line="-5"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_FontConfig.h" line="-5"/>
         <location filename="../../build_release/src/GUI/Preferences/Fonts/ui_GUI_FontConfig.h" line="-5"/>
         <location filename="../../build_release/src/GUI/Preferences/ui_GUI_FontConfig.h" line="-5"/>
@@ -684,7 +655,6 @@
     </message>
     <message>
         <location line="+14"/>
-        <location filename="../../build/src/GUI/Preferences/Fonts/ui_GUI_FontConfig.h" line="+1"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_FontConfig.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Preferences/Fonts/ui_GUI_FontConfig.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Preferences/ui_GUI_FontConfig.h" line="+1"/>
@@ -694,7 +664,6 @@
     </message>
     <message>
         <location line="+52"/>
-        <location filename="../../build/src/GUI/Preferences/Fonts/ui_GUI_FontConfig.h" line="+5"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_FontConfig.h" line="+5"/>
         <location filename="../../build_release/src/GUI/Preferences/Fonts/ui_GUI_FontConfig.h" line="+5"/>
         <location filename="../../build_release/src/GUI/Preferences/ui_GUI_FontConfig.h" line="+5"/>
@@ -704,7 +673,6 @@
     </message>
     <message>
         <location line="-83"/>
-        <location filename="../../build/src/GUI/Preferences/Fonts/ui_GUI_FontConfig.h" line="-7"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_FontConfig.h" line="-7"/>
         <location filename="../../build_release/src/GUI/Preferences/Fonts/ui_GUI_FontConfig.h" line="-7"/>
         <location filename="../../build_release/src/GUI/Preferences/ui_GUI_FontConfig.h" line="-7"/>
@@ -714,7 +682,6 @@
     </message>
     <message>
         <location line="+105"/>
-        <location filename="../../build/src/GUI/Preferences/Fonts/ui_GUI_FontConfig.h" line="+8"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_FontConfig.h" line="+8"/>
         <location filename="../../build_release/src/GUI/Preferences/Fonts/ui_GUI_FontConfig.h" line="+8"/>
         <location filename="../../build_release/src/GUI/Preferences/ui_GUI_FontConfig.h" line="+8"/>
@@ -790,13 +757,12 @@
 <context>
     <name>GUI_LanguageChooser</name>
     <message>
-        <location filename="../GUI/Preferences/Language/GUI_LanguageChooser.cpp" line="+154"/>
+        <location filename="../GUI/Preferences/Language/GUI_LanguageChooser.cpp" line="+155"/>
         <source>Language</source>
         <translation>Sprache</translation>
     </message>
     <message>
         <location filename="../GUI/Preferences/Language/GUI_LanguageChooser.ui" line="+28"/>
-        <location filename="../../build/src/GUI/Preferences/Language/ui_GUI_LanguageChooser.h" line="+60"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_LanguageChooser.h" line="+60"/>
         <location filename="../../build_release/src/GUI/Preferences/Language/ui_GUI_LanguageChooser.h" line="+60"/>
         <location filename="../../build_release/src/GUI/Preferences/ui_GUI_LanguageChooser.h" line="+60"/>
@@ -806,7 +772,6 @@
     </message>
     <message>
         <location line="-11"/>
-        <location filename="../../build/src/GUI/Preferences/Language/ui_GUI_LanguageChooser.h" line="-3"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_LanguageChooser.h" line="-3"/>
         <location filename="../../build_release/src/GUI/Preferences/Language/ui_GUI_LanguageChooser.h" line="-3"/>
         <location filename="../../build_release/src/GUI/Preferences/ui_GUI_LanguageChooser.h" line="-3"/>
@@ -834,7 +799,6 @@
     </message>
     <message>
         <location filename="../GUI/Preferences/LastFM/GUI_LastFM.ui" line="+34"/>
-        <location filename="../../build/src/GUI/Preferences/LastFM/ui_GUI_LastFM.h" line="+138"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_LastFM.h" line="+134"/>
         <location filename="../../build_release/src/GUI/Preferences/LastFM/ui_GUI_LastFM.h" line="+113"/>
         <location filename="../../build_release/src/GUI/Preferences/ui_GUI_LastFM.h" line="+113"/>
@@ -856,7 +820,6 @@
     </message>
     <message>
         <location line="+29"/>
-        <location filename="../../build/src/GUI/Preferences/LastFM/ui_GUI_LastFM.h" line="-2"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_LastFM.h" line="+2"/>
         <location filename="../../build_release/src/GUI/Preferences/LastFM/ui_GUI_LastFM.h" line="+2"/>
         <location filename="../../build_release/src/GUI/Preferences/ui_GUI_LastFM.h" line="+2"/>
@@ -866,7 +829,6 @@
     </message>
     <message>
         <location line="-80"/>
-        <location filename="../../build/src/GUI/Preferences/LastFM/ui_GUI_LastFM.h" line="-4"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_LastFM.h" line="-7"/>
         <location filename="../../build_release/src/GUI/Preferences/LastFM/ui_GUI_LastFM.h" line="-4"/>
         <location filename="../../build_release/src/GUI/Preferences/ui_GUI_LastFM.h" line="-4"/>
@@ -876,7 +838,6 @@
     </message>
     <message>
         <location line="+7"/>
-        <location filename="../../build/src/GUI/Preferences/LastFM/ui_GUI_LastFM.h" line="+1"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_LastFM.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Preferences/LastFM/ui_GUI_LastFM.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Preferences/ui_GUI_LastFM.h" line="+1"/>
@@ -935,7 +896,6 @@
     <name>GUI_LibraryInfoBox</name>
     <message>
         <location filename="../GUI/Library/InfoBox/GUI_LibraryInfoBox.ui" line="+14"/>
-        <location filename="../../build/src/GUI/Library/InfoBox/ui_GUI_LibraryInfoBox.h" line="+146"/>
         <location filename="../../build/src/GUI/Library/ui_GUI_LibraryInfoBox.h" line="+146"/>
         <location filename="../../build_release/src/GUI/Library/InfoBox/ui_GUI_LibraryInfoBox.h" line="+146"/>
         <location filename="../../build_release/src/GUI/Library/ui_GUI_LibraryInfoBox.h" line="+146"/>
@@ -945,7 +905,6 @@
     </message>
     <message>
         <location line="+19"/>
-        <location filename="../../build/src/GUI/Library/InfoBox/ui_GUI_LibraryInfoBox.h" line="+2"/>
         <location filename="../../build/src/GUI/Library/ui_GUI_LibraryInfoBox.h" line="+2"/>
         <location filename="../../build_release/src/GUI/Library/InfoBox/ui_GUI_LibraryInfoBox.h" line="+2"/>
         <location filename="../../build_release/src/GUI/Library/ui_GUI_LibraryInfoBox.h" line="+2"/>
@@ -955,7 +914,6 @@
     </message>
     <message>
         <location line="+13"/>
-        <location filename="../../build/src/GUI/Library/InfoBox/ui_GUI_LibraryInfoBox.h" line="+1"/>
         <location filename="../../build/src/GUI/Library/ui_GUI_LibraryInfoBox.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Library/InfoBox/ui_GUI_LibraryInfoBox.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Library/ui_GUI_LibraryInfoBox.h" line="+1"/>
@@ -965,7 +923,6 @@
     </message>
     <message>
         <location line="+34"/>
-        <location filename="../../build/src/GUI/Library/InfoBox/ui_GUI_LibraryInfoBox.h" line="+4"/>
         <location filename="../../build/src/GUI/Library/ui_GUI_LibraryInfoBox.h" line="+4"/>
         <location filename="../../build_release/src/GUI/Library/InfoBox/ui_GUI_LibraryInfoBox.h" line="+4"/>
         <location filename="../../build_release/src/GUI/Library/ui_GUI_LibraryInfoBox.h" line="+4"/>
@@ -975,7 +932,6 @@
     </message>
     <message>
         <location line="+69"/>
-        <location filename="../../build/src/GUI/Library/InfoBox/ui_GUI_LibraryInfoBox.h" line="+4"/>
         <location filename="../../build/src/GUI/Library/ui_GUI_LibraryInfoBox.h" line="+4"/>
         <location filename="../../build_release/src/GUI/Library/InfoBox/ui_GUI_LibraryInfoBox.h" line="+4"/>
         <location filename="../../build_release/src/GUI/Library/ui_GUI_LibraryInfoBox.h" line="+4"/>
@@ -985,7 +941,6 @@
     </message>
     <message>
         <location line="-49"/>
-        <location filename="../../build/src/GUI/Library/InfoBox/ui_GUI_LibraryInfoBox.h" line="-2"/>
         <location filename="../../build/src/GUI/Library/ui_GUI_LibraryInfoBox.h" line="-2"/>
         <location filename="../../build_release/src/GUI/Library/InfoBox/ui_GUI_LibraryInfoBox.h" line="-2"/>
         <location filename="../../build_release/src/GUI/Library/ui_GUI_LibraryInfoBox.h" line="-2"/>
@@ -995,7 +950,6 @@
     </message>
     <message>
         <location line="+34"/>
-        <location filename="../../build/src/GUI/Library/InfoBox/ui_GUI_LibraryInfoBox.h" line="+1"/>
         <location filename="../../build/src/GUI/Library/ui_GUI_LibraryInfoBox.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Library/InfoBox/ui_GUI_LibraryInfoBox.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Library/ui_GUI_LibraryInfoBox.h" line="+1"/>
@@ -1008,7 +962,6 @@
     <name>GUI_LibraryPreferences</name>
     <message>
         <location filename="../GUI/Preferences/LibraryPreferences/GUI_LibraryPreferences.ui" line="+43"/>
-        <location filename="../../build/src/GUI/Preferences/LibraryPreferences/ui_GUI_LibraryPreferences.h" line="+97"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+97"/>
         <location filename="../../build_release/src/GUI/Preferences/LibraryPreferences/ui_GUI_LibraryPreferences.h" line="+97"/>
         <location filename="../../build_release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+97"/>
@@ -1019,8 +972,6 @@
     <message>
         <location line="-17"/>
         <location line="+23"/>
-        <location filename="../../build/src/GUI/Preferences/LibraryPreferences/ui_GUI_LibraryPreferences.h" line="-2"/>
-        <location line="+3"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="-2"/>
         <location line="+3"/>
         <location filename="../../build_release/src/GUI/Preferences/LibraryPreferences/ui_GUI_LibraryPreferences.h" line="-2"/>
@@ -1034,7 +985,6 @@
     </message>
     <message>
         <location line="+7"/>
-        <location filename="../../build/src/GUI/Preferences/LibraryPreferences/ui_GUI_LibraryPreferences.h" line="+1"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Preferences/LibraryPreferences/ui_GUI_LibraryPreferences.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
@@ -1044,7 +994,6 @@
     </message>
     <message>
         <location line="+7"/>
-        <location filename="../../build/src/GUI/Preferences/LibraryPreferences/ui_GUI_LibraryPreferences.h" line="+1"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Preferences/LibraryPreferences/ui_GUI_LibraryPreferences.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
@@ -1054,7 +1003,6 @@
     </message>
     <message>
         <location line="-43"/>
-        <location filename="../../build/src/GUI/Preferences/LibraryPreferences/ui_GUI_LibraryPreferences.h" line="-6"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="-6"/>
         <location filename="../../build_release/src/GUI/Preferences/LibraryPreferences/ui_GUI_LibraryPreferences.h" line="-6"/>
         <location filename="../../build_release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="-6"/>
@@ -1064,7 +1012,6 @@
     </message>
     <message>
         <location line="+13"/>
-        <location filename="../../build/src/GUI/Preferences/LibraryPreferences/ui_GUI_LibraryPreferences.h" line="+2"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+2"/>
         <location filename="../../build_release/src/GUI/Preferences/LibraryPreferences/ui_GUI_LibraryPreferences.h" line="+2"/>
         <location filename="../../build_release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+2"/>
@@ -1276,7 +1223,6 @@
     </message>
     <message>
         <location filename="../GUI/Preferences/Notifications/GUI_Notifications.ui" line="+17"/>
-        <location filename="../../build/src/GUI/Preferences/Notifications/ui_GUI_Notifications.h" line="+77"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_Notifications.h" line="+77"/>
         <location filename="../../build_release/src/GUI/Preferences/Notifications/ui_GUI_Notifications.h" line="+77"/>
         <location filename="../../build_release/src/GUI/Preferences/ui_GUI_Notifications.h" line="+77"/>
@@ -1286,7 +1232,6 @@
     </message>
     <message>
         <location line="+10"/>
-        <location filename="../../build/src/GUI/Preferences/Notifications/ui_GUI_Notifications.h" line="+1"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_Notifications.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Preferences/Notifications/ui_GUI_Notifications.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Preferences/ui_GUI_Notifications.h" line="+1"/>
@@ -1296,7 +1241,6 @@
     </message>
     <message>
         <location line="+11"/>
-        <location filename="../../build/src/GUI/Preferences/Notifications/ui_GUI_Notifications.h" line="+3"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_Notifications.h" line="+3"/>
         <location filename="../../build_release/src/GUI/Preferences/Notifications/ui_GUI_Notifications.h" line="+3"/>
         <location filename="../../build_release/src/GUI/Preferences/ui_GUI_Notifications.h" line="+3"/>
@@ -1411,7 +1355,7 @@
         <translation>Vielen Dank an %1 und %2 fürs Übersetzen</translation>
     </message>
     <message>
-        <location filename="../GUI/Player/GUI_PlayerConnections.cpp" line="+99"/>
+        <location filename="../GUI/Player/GUI_PlayerConnections.cpp" line="+100"/>
         <location line="+33"/>
         <source>Play/Pause</source>
         <translation>Play/Pause</translation>
@@ -1475,7 +1419,6 @@
     <name>GUI_PlayerPreferences</name>
     <message>
         <location filename="../GUI/Preferences/PlayerPreferences/GUI_PlayerPreferences.ui" line="+24"/>
-        <location filename="../../build/src/GUI/Preferences/PlayerPreferences/ui_GUI_PlayerPreferences.h" line="+62"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_PlayerPreferences.h" line="+62"/>
         <location filename="../../build_release/src/GUI/Preferences/PlayerPreferences/ui_GUI_PlayerPreferences.h" line="+62"/>
         <location filename="../../build_release/src/GUI/Preferences/ui_GUI_PlayerPreferences.h" line="+62"/>
@@ -1485,7 +1428,6 @@
     </message>
     <message>
         <location line="+7"/>
-        <location filename="../../build/src/GUI/Preferences/PlayerPreferences/ui_GUI_PlayerPreferences.h" line="+1"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_PlayerPreferences.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Preferences/PlayerPreferences/ui_GUI_PlayerPreferences.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Preferences/ui_GUI_PlayerPreferences.h" line="+1"/>
@@ -1495,7 +1437,6 @@
     </message>
     <message>
         <location line="-14"/>
-        <location filename="../../build/src/GUI/Preferences/PlayerPreferences/ui_GUI_PlayerPreferences.h" line="-2"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_PlayerPreferences.h" line="-2"/>
         <location filename="../../build_release/src/GUI/Preferences/PlayerPreferences/ui_GUI_PlayerPreferences.h" line="-2"/>
         <location filename="../../build_release/src/GUI/Preferences/ui_GUI_PlayerPreferences.h" line="-2"/>
@@ -1512,7 +1453,7 @@
 <context>
     <name>GUI_Playlist</name>
     <message>
-        <location filename="../GUI/Playlist/GUI_Playlist.cpp" line="+370"/>
+        <location filename="../GUI/Playlist/GUI_Playlist.cpp" line="+322"/>
         <source>Playlist empty</source>
         <translation>Wiedergabeliste ist leer</translation>
     </message>
@@ -1542,7 +1483,7 @@
         <translation>Öffne Verzeichnis</translation>
     </message>
     <message>
-        <location filename="../GUI/Playlist/GUI_PlaylistTabs.cpp" line="+216"/>
+        <location filename="../GUI/Playlist/GUI_PlaylistTabs.cpp" line="+213"/>
         <source>Playlist name already exists</source>
         <translation>Name existiert bereits</translation>
     </message>
@@ -1644,8 +1585,8 @@
     </message>
     <message>
         <location line="+42"/>
-        <location filename="../GUI/Playlist/BottomBar/GUI_PlaylistBottomBar.cpp" line="+188"/>
         <location filename="../../build/src/GUI/Playlist/ui_GUI_PlaylistBottomBar.h" line="+5"/>
+        <location filename="../GUI/Playlist/BottomBar/GUI_PlaylistBottomBar.cpp" line="+188"/>
         <location filename="../../build_release/src/GUI/Playlist/ui_GUI_PlaylistBottomBar.h" line="+5"/>
         <location filename="../../build_test/src/GUI/Playlist/ui_GUI_PlaylistBottomBar.h" line="+5"/>
         <source>Dynamic playing</source>
@@ -1682,7 +1623,6 @@
     <name>GUI_PlaylistChooser</name>
     <message>
         <location filename="../GUI/Plugins/PlaylistChooser/GUI_PlaylistChooser.ui" line="+42"/>
-        <location filename="../../build/src/GUI/PlayerPlugins/PlaylistChooser/ui_GUI_PlaylistChooser.h" line="+175"/>
         <location filename="../../build/src/GUI/Plugins/PlaylistChooser/ui_GUI_PlaylistChooser.h" line="+124"/>
         <location filename="../../build_release/src/GUI/PlayerPlugins/PlaylistChooser/ui_GUI_PlaylistChooser.h" line="+124"/>
         <location filename="../../build_release/src/GUI/Plugins/PlaylistChooser/ui_GUI_PlaylistChooser.h" line="+124"/>
@@ -1692,7 +1632,6 @@
     </message>
     <message>
         <location line="+39"/>
-        <location filename="../../build/src/GUI/PlayerPlugins/PlaylistChooser/ui_GUI_PlaylistChooser.h" line="+2"/>
         <location filename="../../build/src/GUI/Plugins/PlaylistChooser/ui_GUI_PlaylistChooser.h" line="+2"/>
         <location filename="../../build_release/src/GUI/PlayerPlugins/PlaylistChooser/ui_GUI_PlaylistChooser.h" line="+2"/>
         <location filename="../../build_release/src/GUI/Plugins/PlaylistChooser/ui_GUI_PlaylistChooser.h" line="+2"/>
@@ -1725,7 +1664,6 @@
     <name>GUI_PlaylistPreferences</name>
     <message>
         <location filename="../GUI/Preferences/PlaylistPreferences/GUI_PlaylistPreferences.ui" line="+237"/>
-        <location filename="../../build/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+211"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+267"/>
         <location filename="../../build_release/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+267"/>
         <location filename="../../build_release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+267"/>
@@ -1735,7 +1673,6 @@
     </message>
     <message>
         <location line="-148"/>
-        <location filename="../../build/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
@@ -1793,7 +1730,6 @@
     </message>
     <message>
         <location line="+50"/>
-        <location filename="../../build/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+3"/>
         <location filename="../../build_release/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+3"/>
         <location filename="../../build_release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+3"/>
@@ -1803,7 +1739,6 @@
     </message>
     <message>
         <location line="+7"/>
-        <location filename="../../build/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
@@ -1814,7 +1749,6 @@
     </message>
     <message>
         <location line="+27"/>
-        <location filename="../../build/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
@@ -1824,7 +1758,6 @@
     </message>
     <message>
         <location line="+7"/>
-        <location filename="../../build/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
@@ -1834,7 +1767,6 @@
     </message>
     <message>
         <location line="+21"/>
-        <location filename="../../build/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
@@ -1844,7 +1776,6 @@
     </message>
     <message>
         <location line="+7"/>
-        <location filename="../../build/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
@@ -1854,7 +1785,6 @@
     </message>
     <message>
         <location line="+7"/>
-        <location filename="../../build/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
@@ -1864,7 +1794,6 @@
     </message>
     <message>
         <location line="-99"/>
-        <location filename="../../build/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="-7"/>
         <location filename="../../build_release/src/GUI/Preferences/PlaylistPreferences/ui_GUI_PlaylistPreferences.h" line="-7"/>
         <location filename="../../build_release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="-7"/>
@@ -1882,7 +1811,6 @@
     <name>GUI_Podcasts</name>
     <message>
         <location filename="../GUI/Plugins/Stream/GUI_Podcasts.ui" line="+29"/>
-        <location filename="../../build/src/GUI/PlayerPlugins/Stream/ui_GUI_Podcasts.h" line="+179"/>
         <location filename="../../build/src/GUI/Plugins/Stream/ui_GUI_Podcasts.h" line="+118"/>
         <location filename="../../build_release/src/GUI/PlayerPlugins/Stream/ui_GUI_Podcasts.h" line="+118"/>
         <location filename="../../build_release/src/GUI/Plugins/Stream/ui_GUI_Podcasts.h" line="+118"/>
@@ -1900,7 +1828,6 @@
     </message>
     <message>
         <location line="+67"/>
-        <location filename="../../build/src/GUI/PlayerPlugins/Stream/ui_GUI_Podcasts.h" line="+3"/>
         <location filename="../../build/src/GUI/Plugins/Stream/ui_GUI_Podcasts.h" line="+6"/>
         <location filename="../../build_release/src/GUI/PlayerPlugins/Stream/ui_GUI_Podcasts.h" line="+6"/>
         <location filename="../../build_release/src/GUI/Plugins/Stream/ui_GUI_Podcasts.h" line="+6"/>
@@ -1910,7 +1837,6 @@
     </message>
     <message>
         <location line="-89"/>
-        <location filename="../../build/src/GUI/PlayerPlugins/Stream/ui_GUI_Podcasts.h" line="-1"/>
         <location filename="../../build/src/GUI/Plugins/Stream/ui_GUI_Podcasts.h" line="-10"/>
         <location filename="../../build_release/src/GUI/PlayerPlugins/Stream/ui_GUI_Podcasts.h" line="-10"/>
         <location filename="../../build_release/src/GUI/Plugins/Stream/ui_GUI_Podcasts.h" line="-10"/>
@@ -1920,7 +1846,6 @@
     </message>
     <message>
         <location line="+10"/>
-        <location filename="../../build/src/GUI/PlayerPlugins/Stream/ui_GUI_Podcasts.h" line="+3"/>
         <location filename="../../build/src/GUI/Plugins/Stream/ui_GUI_Podcasts.h" line="+2"/>
         <location filename="../../build_release/src/GUI/PlayerPlugins/Stream/ui_GUI_Podcasts.h" line="+2"/>
         <location filename="../../build_release/src/GUI/Plugins/Stream/ui_GUI_Podcasts.h" line="+2"/>
@@ -1930,7 +1855,6 @@
     </message>
     <message>
         <location line="+67"/>
-        <location filename="../../build/src/GUI/PlayerPlugins/Stream/ui_GUI_Podcasts.h" line="-7"/>
         <location filename="../../build/src/GUI/Plugins/Stream/ui_GUI_Podcasts.h" line="+7"/>
         <location filename="../../build_release/src/GUI/PlayerPlugins/Stream/ui_GUI_Podcasts.h" line="+7"/>
         <location filename="../../build_release/src/GUI/Plugins/Stream/ui_GUI_Podcasts.h" line="+7"/>
@@ -1940,7 +1864,6 @@
     </message>
     <message>
         <location line="-23"/>
-        <location filename="../../build/src/GUI/PlayerPlugins/Stream/ui_GUI_Podcasts.h" line="-3"/>
         <location filename="../../build/src/GUI/Plugins/Stream/ui_GUI_Podcasts.h" line="-3"/>
         <location filename="../../build_release/src/GUI/PlayerPlugins/Stream/ui_GUI_Podcasts.h" line="-3"/>
         <location filename="../../build_release/src/GUI/Plugins/Stream/ui_GUI_Podcasts.h" line="-3"/>
@@ -1954,7 +1877,6 @@
         <translation>Podcasts</translation>
     </message>
     <message>
-        <location filename="../../build/src/GUI/PlayerPlugins/Stream/ui_GUI_Podcasts.h" line="-2"/>
         <location filename="../../build_test/src/GUI/PlayerPlugins/Stream/ui_GUI_Podcasts.h" line="-2"/>
         <source>Actions</source>
         <translation>Aktionen</translation>
@@ -1964,9 +1886,8 @@
     <name>GUI_PreferenceDialog</name>
     <message>
         <location filename="../GUI/Preferences/PreferenceDialog/GUI_PreferenceDialog.ui" line="+30"/>
-        <location filename="../GUI/Preferences/PreferenceDialog/GUI_PreferenceDialog.cpp" line="+85"/>
-        <location filename="../../build/src/GUI/Preferences/PreferenceDialog/ui_GUI_PreferenceDialog.h" line="+179"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_PreferenceDialog.h" line="+181"/>
+        <location filename="../GUI/Preferences/PreferenceDialog/GUI_PreferenceDialog.cpp" line="+85"/>
         <location filename="../../build_release/src/GUI/Preferences/PreferenceDialog/ui_GUI_PreferenceDialog.h" line="+181"/>
         <location filename="../../build_release/src/GUI/Preferences/ui_GUI_PreferenceDialog.h" line="+181"/>
         <location filename="../../build_test/src/GUI/Preferences/PreferenceDialog/ui_GUI_PreferenceDialog.h" line="+179"/>
@@ -1975,7 +1896,6 @@
     </message>
     <message>
         <location line="+139"/>
-        <location filename="../../build/src/GUI/Preferences/PreferenceDialog/ui_GUI_PreferenceDialog.h" line="+1"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_PreferenceDialog.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Preferences/PreferenceDialog/ui_GUI_PreferenceDialog.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Preferences/ui_GUI_PreferenceDialog.h" line="+1"/>
@@ -1985,7 +1905,6 @@
     </message>
     <message>
         <location line="+7"/>
-        <location filename="../../build/src/GUI/Preferences/PreferenceDialog/ui_GUI_PreferenceDialog.h" line="+1"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_PreferenceDialog.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Preferences/PreferenceDialog/ui_GUI_PreferenceDialog.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Preferences/ui_GUI_PreferenceDialog.h" line="+1"/>
@@ -1995,7 +1914,6 @@
     </message>
     <message>
         <location line="+7"/>
-        <location filename="../../build/src/GUI/Preferences/PreferenceDialog/ui_GUI_PreferenceDialog.h" line="+1"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_PreferenceDialog.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Preferences/PreferenceDialog/ui_GUI_PreferenceDialog.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Preferences/ui_GUI_PreferenceDialog.h" line="+1"/>
@@ -2013,7 +1931,6 @@
     </message>
     <message>
         <location filename="../GUI/Preferences/RemoteControl/GUI_RemoteControl.ui" line="+47"/>
-        <location filename="../../build/src/GUI/Preferences/RemoteControl/ui_GUI_RemoteControl.h" line="+97"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_RemoteControl.h" line="+97"/>
         <location filename="../../build_release/src/GUI/Preferences/RemoteControl/ui_GUI_RemoteControl.h" line="+97"/>
         <location filename="../../build_release/src/GUI/Preferences/ui_GUI_RemoteControl.h" line="+97"/>
@@ -2023,7 +1940,6 @@
     </message>
     <message>
         <location line="+7"/>
-        <location filename="../../build/src/GUI/Preferences/RemoteControl/ui_GUI_RemoteControl.h" line="+1"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_RemoteControl.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Preferences/RemoteControl/ui_GUI_RemoteControl.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Preferences/ui_GUI_RemoteControl.h" line="+1"/>
@@ -2033,7 +1949,6 @@
     </message>
     <message>
         <location line="-17"/>
-        <location filename="../../build/src/GUI/Preferences/RemoteControl/ui_GUI_RemoteControl.h" line="-2"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_RemoteControl.h" line="-2"/>
         <location filename="../../build_release/src/GUI/Preferences/RemoteControl/ui_GUI_RemoteControl.h" line="-2"/>
         <location filename="../../build_release/src/GUI/Preferences/ui_GUI_RemoteControl.h" line="-2"/>
@@ -2059,7 +1974,6 @@
     <name>GUI_ShortcutEntry</name>
     <message>
         <location filename="../GUI/Preferences/Shortcuts/GUI_ShortcutEntry.ui" line="+42"/>
-        <location filename="../../build/src/GUI/Preferences/Shortcuts/ui_GUI_ShortcutEntry.h" line="+96"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_ShortcutEntry.h" line="+96"/>
         <location filename="../../build_release/src/GUI/Preferences/Shortcuts/ui_GUI_ShortcutEntry.h" line="+96"/>
         <location filename="../../build_release/src/GUI/Preferences/ui_GUI_ShortcutEntry.h" line="+96"/>
@@ -2097,9 +2011,8 @@
     <name>GUI_Shortcuts</name>
     <message>
         <location filename="../GUI/Preferences/Shortcuts/GUI_Shortcuts.ui" line="+41"/>
-        <location filename="../GUI/Preferences/Shortcuts/GUI_Shortcuts.cpp" line="+103"/>
-        <location filename="../../build/src/GUI/Preferences/Shortcuts/ui_GUI_Shortcuts.h" line="+85"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_Shortcuts.h" line="+85"/>
+        <location filename="../GUI/Preferences/Shortcuts/GUI_Shortcuts.cpp" line="+103"/>
         <location filename="../../build_release/src/GUI/Preferences/Shortcuts/ui_GUI_Shortcuts.h" line="+85"/>
         <location filename="../../build_release/src/GUI/Preferences/ui_GUI_Shortcuts.h" line="+85"/>
         <location filename="../../build_test/src/GUI/Preferences/Shortcuts/ui_GUI_Shortcuts.h" line="+85"/>
@@ -2338,7 +2251,6 @@
     <name>GUI_Speed</name>
     <message>
         <location filename="../GUI/Plugins/Speed/GUI_Speed.ui" line="+39"/>
-        <location filename="../../build/src/GUI/PlayerPlugins/Speed/ui_GUI_Speed.h" line="+131"/>
         <location filename="../../build/src/GUI/Plugins/Speed/ui_GUI_Speed.h" line="+74"/>
         <location filename="../../build_release/src/GUI/PlayerPlugins/Speed/ui_GUI_Speed.h" line="+74"/>
         <location filename="../../build_release/src/GUI/Plugins/Speed/ui_GUI_Speed.h" line="+74"/>
@@ -2353,7 +2265,6 @@
     </message>
     <message>
         <location filename="../GUI/Plugins/Speed/GUI_Speed.ui" line="-19"/>
-        <location filename="../../build/src/GUI/PlayerPlugins/Speed/ui_GUI_Speed.h" line="+1"/>
         <location filename="../../build/src/GUI/Plugins/Speed/ui_GUI_Speed.h" line="-1"/>
         <location filename="../../build_release/src/GUI/PlayerPlugins/Speed/ui_GUI_Speed.h" line="-1"/>
         <location filename="../../build_release/src/GUI/Plugins/Speed/ui_GUI_Speed.h" line="-1"/>
@@ -2374,35 +2285,30 @@
     <name>GUI_StartupOptions</name>
     <message>
         <location filename="../GUI/Preferences/Startup/GUI_StartupDialog.ui" line="+31"/>
-        <location filename="../../build/src/GUI/Preferences/Startup/ui_GUI_StartupDialog.h" line="+84"/>
         <location filename="../../build_test/src/GUI/Preferences/Startup/ui_GUI_StartupDialog.h" line="+84"/>
         <source>Load temporary playlists</source>
         <translation>Lade temporäre Wiedergabelisten</translation>
     </message>
     <message>
         <location line="+7"/>
-        <location filename="../../build/src/GUI/Preferences/Startup/ui_GUI_StartupDialog.h" line="+1"/>
         <location filename="../../build_test/src/GUI/Preferences/Startup/ui_GUI_StartupDialog.h" line="+1"/>
         <source>Start playing</source>
         <translation>Starte Abspielen</translation>
     </message>
     <message>
         <location line="-21"/>
-        <location filename="../../build/src/GUI/Preferences/Startup/ui_GUI_StartupDialog.h" line="-2"/>
         <location filename="../../build_test/src/GUI/Preferences/Startup/ui_GUI_StartupDialog.h" line="-2"/>
         <source>Load last track on startup</source>
         <translation>Lade letzten Titel</translation>
     </message>
     <message>
         <location line="+28"/>
-        <location filename="../../build/src/GUI/Preferences/Startup/ui_GUI_StartupDialog.h" line="+3"/>
         <location filename="../../build_test/src/GUI/Preferences/Startup/ui_GUI_StartupDialog.h" line="+3"/>
         <source>Load saved playlists</source>
         <translation>Lade gespeicherte Wiedergabelisten</translation>
     </message>
     <message>
         <location line="+10"/>
-        <location filename="../../build/src/GUI/Preferences/Startup/ui_GUI_StartupDialog.h" line="+1"/>
         <location filename="../../build_test/src/GUI/Preferences/Startup/ui_GUI_StartupDialog.h" line="+1"/>
         <source>Remember time of last track</source>
         <translation>Lade letzte Zeitposition</translation>
@@ -2412,7 +2318,6 @@
     <name>GUI_Stream</name>
     <message>
         <location filename="../GUI/Plugins/Stream/GUI_Stream.ui" line="+118"/>
-        <location filename="../../build/src/GUI/PlayerPlugins/Stream/ui_GUI_Stream.h" line="+179"/>
         <location filename="../../build/src/GUI/Plugins/Stream/ui_GUI_Stream.h" line="+127"/>
         <location filename="../../build_release/src/GUI/PlayerPlugins/Stream/ui_GUI_Stream.h" line="+127"/>
         <location filename="../../build_release/src/GUI/Plugins/Stream/ui_GUI_Stream.h" line="+127"/>
@@ -2422,7 +2327,6 @@
     </message>
     <message>
         <location line="-32"/>
-        <location filename="../../build/src/GUI/PlayerPlugins/Stream/ui_GUI_Stream.h" line="+6"/>
         <location filename="../../build/src/GUI/Plugins/Stream/ui_GUI_Stream.h" line="-5"/>
         <location filename="../../build_release/src/GUI/PlayerPlugins/Stream/ui_GUI_Stream.h" line="-5"/>
         <location filename="../../build_release/src/GUI/Plugins/Stream/ui_GUI_Stream.h" line="-5"/>
@@ -2437,7 +2341,6 @@
     </message>
     <message>
         <location filename="../GUI/Plugins/Stream/GUI_Stream.ui" line="+42"/>
-        <location filename="../../build/src/GUI/PlayerPlugins/Stream/ui_GUI_Stream.h" line="-10"/>
         <location filename="../../build/src/GUI/Plugins/Stream/ui_GUI_Stream.h" line="+7"/>
         <location filename="../../build_release/src/GUI/PlayerPlugins/Stream/ui_GUI_Stream.h" line="+7"/>
         <location filename="../../build_release/src/GUI/Plugins/Stream/ui_GUI_Stream.h" line="+7"/>
@@ -2447,7 +2350,6 @@
     </message>
     <message>
         <location line="-20"/>
-        <location filename="../../build/src/GUI/PlayerPlugins/Stream/ui_GUI_Stream.h" line="-2"/>
         <location filename="../../build/src/GUI/Plugins/Stream/ui_GUI_Stream.h" line="-3"/>
         <location filename="../../build_release/src/GUI/PlayerPlugins/Stream/ui_GUI_Stream.h" line="-3"/>
         <location filename="../../build_release/src/GUI/Plugins/Stream/ui_GUI_Stream.h" line="-3"/>
@@ -2465,7 +2367,6 @@
     </message>
     <message>
         <location line="+67"/>
-        <location filename="../../build/src/GUI/PlayerPlugins/Stream/ui_GUI_Stream.h" line="+14"/>
         <location filename="../../build/src/GUI/Plugins/Stream/ui_GUI_Stream.h" line="+7"/>
         <location filename="../../build_release/src/GUI/PlayerPlugins/Stream/ui_GUI_Stream.h" line="+7"/>
         <location filename="../../build_release/src/GUI/Plugins/Stream/ui_GUI_Stream.h" line="+7"/>
@@ -2475,7 +2376,6 @@
     </message>
     <message>
         <location line="-35"/>
-        <location filename="../../build/src/GUI/PlayerPlugins/Stream/ui_GUI_Stream.h" line="-5"/>
         <location filename="../../build/src/GUI/Plugins/Stream/ui_GUI_Stream.h" line="-5"/>
         <location filename="../../build_release/src/GUI/PlayerPlugins/Stream/ui_GUI_Stream.h" line="-5"/>
         <location filename="../../build_release/src/GUI/Plugins/Stream/ui_GUI_Stream.h" line="-5"/>
@@ -2484,7 +2384,6 @@
         <translation>Starte Stream</translation>
     </message>
     <message>
-        <location filename="../../build/src/GUI/PlayerPlugins/Stream/ui_GUI_Stream.h" line="-2"/>
         <location filename="../../build_test/src/GUI/PlayerPlugins/Stream/ui_GUI_Stream.h" line="-2"/>
         <source>Actions</source>
         <translation>Aktionen</translation>
@@ -2494,7 +2393,6 @@
     <name>GUI_StreamRecorder</name>
     <message>
         <location filename="../GUI/Preferences/StreamRecorder/GUI_StreamRecorder.ui" line="+72"/>
-        <location filename="../../build/src/GUI/Preferences/StreamRecorder/ui_GUI_StreamRecorder.h" line="+109"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="+109"/>
         <location filename="../../build_release/src/GUI/Preferences/StreamRecorder/ui_GUI_StreamRecorder.h" line="+109"/>
         <location filename="../../build_release/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="+109"/>
@@ -2504,7 +2402,6 @@
     </message>
     <message>
         <location line="+23"/>
-        <location filename="../../build/src/GUI/Preferences/StreamRecorder/ui_GUI_StreamRecorder.h" line="+2"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="+2"/>
         <location filename="../../build_release/src/GUI/Preferences/StreamRecorder/ui_GUI_StreamRecorder.h" line="+2"/>
         <location filename="../../build_release/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="+2"/>
@@ -2514,7 +2411,6 @@
     </message>
     <message>
         <location line="-7"/>
-        <location filename="../../build/src/GUI/Preferences/StreamRecorder/ui_GUI_StreamRecorder.h" line="-1"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="-1"/>
         <location filename="../../build_release/src/GUI/Preferences/StreamRecorder/ui_GUI_StreamRecorder.h" line="-1"/>
         <location filename="../../build_release/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="-1"/>
@@ -2524,7 +2420,6 @@
     </message>
     <message>
         <location line="-23"/>
-        <location filename="../../build/src/GUI/Preferences/StreamRecorder/ui_GUI_StreamRecorder.h" line="-2"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="-2"/>
         <location filename="../../build_release/src/GUI/Preferences/StreamRecorder/ui_GUI_StreamRecorder.h" line="-2"/>
         <location filename="../../build_release/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="-2"/>
@@ -2555,7 +2450,6 @@ Bitte ein anderes Verzeichnis wählen</translation>
     <name>GUI_Style</name>
     <message>
         <location filename="../GUI/Plugins/Engine/GUI_Style.ui" line="+14"/>
-        <location filename="../../build/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+423"/>
         <location filename="../../build/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+423"/>
         <location filename="../../build_release/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+423"/>
         <location filename="../../build_release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+423"/>
@@ -2565,7 +2459,6 @@ Bitte ein anderes Verzeichnis wählen</translation>
     </message>
     <message>
         <location line="+38"/>
-        <location filename="../../build/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+1"/>
         <location filename="../../build/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+1"/>
         <location filename="../../build_release/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+1"/>
@@ -2575,7 +2468,6 @@ Bitte ein anderes Verzeichnis wählen</translation>
     </message>
     <message>
         <location line="+11"/>
-        <location filename="../../build/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+1"/>
         <location filename="../../build/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+1"/>
         <location filename="../../build_release/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+1"/>
@@ -2585,7 +2477,6 @@ Bitte ein anderes Verzeichnis wählen</translation>
     </message>
     <message>
         <location line="+16"/>
-        <location filename="../../build/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+1"/>
         <location filename="../../build/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+1"/>
         <location filename="../../build_release/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+1"/>
@@ -2596,8 +2487,6 @@ Bitte ein anderes Verzeichnis wählen</translation>
     <message>
         <location line="+41"/>
         <location line="+75"/>
-        <location filename="../../build/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+3"/>
-        <location line="+7"/>
         <location filename="../../build/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+3"/>
         <location line="+7"/>
         <location filename="../../build_release/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+3"/>
@@ -2612,8 +2501,6 @@ Bitte ein anderes Verzeichnis wählen</translation>
     <message>
         <location line="-89"/>
         <location line="+44"/>
-        <location filename="../../build/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="-8"/>
-        <location line="+4"/>
         <location filename="../../build/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="-8"/>
         <location line="+4"/>
         <location filename="../../build_release/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="-8"/>
@@ -2628,8 +2515,6 @@ Bitte ein anderes Verzeichnis wählen</translation>
     <message>
         <location line="-64"/>
         <location line="+88"/>
-        <location filename="../../build/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="-5"/>
-        <location line="+7"/>
         <location filename="../../build/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="-5"/>
         <location line="+7"/>
         <location filename="../../build_release/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="-5"/>
@@ -2643,7 +2528,6 @@ Bitte ein anderes Verzeichnis wählen</translation>
     </message>
     <message>
         <location line="-30"/>
-        <location filename="../../build/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="-3"/>
         <location filename="../../build/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="-3"/>
         <location filename="../../build_release/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="-3"/>
         <location filename="../../build_release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="-3"/>
@@ -2653,7 +2537,6 @@ Bitte ein anderes Verzeichnis wählen</translation>
     </message>
     <message>
         <location line="+23"/>
-        <location filename="../../build/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+2"/>
         <location filename="../../build/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+2"/>
         <location filename="../../build_release/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+2"/>
         <location filename="../../build_release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+2"/>
@@ -2663,7 +2546,6 @@ Bitte ein anderes Verzeichnis wählen</translation>
     </message>
     <message>
         <location line="+14"/>
-        <location filename="../../build/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+2"/>
         <location filename="../../build/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+2"/>
         <location filename="../../build_release/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+2"/>
         <location filename="../../build_release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+2"/>
@@ -2673,7 +2555,6 @@ Bitte ein anderes Verzeichnis wählen</translation>
     </message>
     <message>
         <location line="+54"/>
-        <location filename="../../build/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+2"/>
         <location filename="../../build/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+2"/>
         <location filename="../../build_release/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+2"/>
         <location filename="../../build_release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+2"/>
@@ -2683,7 +2564,6 @@ Bitte ein anderes Verzeichnis wählen</translation>
     </message>
     <message>
         <location line="+129"/>
-        <location filename="../../build/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+4"/>
         <location filename="../../build/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+4"/>
         <location filename="../../build_release/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+4"/>
         <location filename="../../build_release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+4"/>
@@ -2693,7 +2573,6 @@ Bitte ein anderes Verzeichnis wählen</translation>
     </message>
     <message>
         <location line="+7"/>
-        <location filename="../../build/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+1"/>
         <location filename="../../build/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+1"/>
         <location filename="../../build_release/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+1"/>
@@ -2703,7 +2582,6 @@ Bitte ein anderes Verzeichnis wählen</translation>
     </message>
     <message>
         <location line="+32"/>
-        <location filename="../../build/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+2"/>
         <location filename="../../build/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+2"/>
         <location filename="../../build_release/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+2"/>
         <location filename="../../build_release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+2"/>
@@ -2713,7 +2591,6 @@ Bitte ein anderes Verzeichnis wählen</translation>
     </message>
     <message>
         <location line="+7"/>
-        <location filename="../../build/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+1"/>
         <location filename="../../build/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+1"/>
         <location filename="../../build_release/src/GUI/PlayerPlugins/Engine/ui_GUI_Style.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+1"/>
@@ -2959,13 +2836,17 @@ Bitte ein anderes Verzeichnis wählen</translation>
     <message>
         <location line="+10"/>
         <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+1"/>
+        <source>Close</source>
+        <translation type="unfinished">Schließen</translation>
+    </message>
+    <message>
         <location filename="../../build_release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+1"/>
         <location filename="../../build_test/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+1"/>
         <source>Cancel</source>
         <translation>Abbrechen</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location filename="../GUI/TagEdit/GUI_TagEdit.ui" line="+10"/>
         <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+1"/>
         <location filename="../../build_release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+1"/>
         <location filename="../../build_test/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+1"/>
@@ -3019,7 +2900,6 @@ Bitte ein anderes Verzeichnis wählen</translation>
     <name>GUI_TargetPlaylistDialog</name>
     <message>
         <location filename="../GUI/Plugins/PlaylistChooser/GUI_TargetPlaylistDialog.ui" line="+14"/>
-        <location filename="../../build/src/GUI/PlayerPlugins/PlaylistChooser/TargetPlaylistDialog/ui_GUI_TargetPlaylistDialog.h" line="+109"/>
         <location filename="../../build/src/GUI/Plugins/PlaylistChooser/ui_GUI_TargetPlaylistDialog.h" line="+109"/>
         <location filename="../../build_release/src/GUI/PlayerPlugins/PlaylistChooser/ui_GUI_TargetPlaylistDialog.h" line="+109"/>
         <location filename="../../build_release/src/GUI/Plugins/PlaylistChooser/ui_GUI_TargetPlaylistDialog.h" line="+109"/>
@@ -3029,7 +2909,6 @@ Bitte ein anderes Verzeichnis wählen</translation>
     </message>
     <message>
         <location line="+25"/>
-        <location filename="../../build/src/GUI/PlayerPlugins/PlaylistChooser/TargetPlaylistDialog/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
         <location filename="../../build/src/GUI/Plugins/PlaylistChooser/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
         <location filename="../../build_release/src/GUI/PlayerPlugins/PlaylistChooser/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Plugins/PlaylistChooser/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
@@ -3039,7 +2918,6 @@ Bitte ein anderes Verzeichnis wählen</translation>
     </message>
     <message>
         <location line="+19"/>
-        <location filename="../../build/src/GUI/PlayerPlugins/PlaylistChooser/TargetPlaylistDialog/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
         <location filename="../../build/src/GUI/Plugins/PlaylistChooser/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
         <location filename="../../build_release/src/GUI/PlayerPlugins/PlaylistChooser/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Plugins/PlaylistChooser/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
@@ -3049,7 +2927,6 @@ Bitte ein anderes Verzeichnis wählen</translation>
     </message>
     <message>
         <location line="+15"/>
-        <location filename="../../build/src/GUI/PlayerPlugins/PlaylistChooser/TargetPlaylistDialog/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
         <location filename="../../build/src/GUI/Plugins/PlaylistChooser/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
         <location filename="../../build_release/src/GUI/PlayerPlugins/PlaylistChooser/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Plugins/PlaylistChooser/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
@@ -3059,7 +2936,6 @@ Bitte ein anderes Verzeichnis wählen</translation>
     </message>
     <message>
         <location line="+13"/>
-        <location filename="../../build/src/GUI/PlayerPlugins/PlaylistChooser/TargetPlaylistDialog/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
         <location filename="../../build/src/GUI/Plugins/PlaylistChooser/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
         <location filename="../../build_release/src/GUI/PlayerPlugins/PlaylistChooser/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Plugins/PlaylistChooser/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
@@ -3069,7 +2945,6 @@ Bitte ein anderes Verzeichnis wählen</translation>
     </message>
     <message>
         <location line="+13"/>
-        <location filename="../../build/src/GUI/PlayerPlugins/PlaylistChooser/TargetPlaylistDialog/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
         <location filename="../../build/src/GUI/Plugins/PlaylistChooser/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
         <location filename="../../build_release/src/GUI/PlayerPlugins/PlaylistChooser/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Plugins/PlaylistChooser/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
@@ -3193,7 +3068,6 @@ Bitte ein anderes Verzeichnis wählen</translation>
     <name>ImportFolder</name>
     <message>
         <location filename="../GUI/Library/ImportFolderDialog/GUI_ImportFolder.ui" line="+27"/>
-        <location filename="../../build/src/GUI/Library/ImportFolderDialog/ui_GUI_ImportFolder.h" line="+150"/>
         <location filename="../../build/src/GUI/Library/ui_GUI_ImportFolder.h" line="+150"/>
         <location filename="../../build_release/src/GUI/Library/ImportFolderDialog/ui_GUI_ImportFolder.h" line="+150"/>
         <location filename="../../build_release/src/GUI/Library/ui_GUI_ImportFolder.h" line="+150"/>
@@ -3203,7 +3077,6 @@ Bitte ein anderes Verzeichnis wählen</translation>
     </message>
     <message>
         <location line="+7"/>
-        <location filename="../../build/src/GUI/Library/ImportFolderDialog/ui_GUI_ImportFolder.h" line="+1"/>
         <location filename="../../build/src/GUI/Library/ui_GUI_ImportFolder.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Library/ImportFolderDialog/ui_GUI_ImportFolder.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Library/ui_GUI_ImportFolder.h" line="+1"/>
@@ -3213,7 +3086,6 @@ Bitte ein anderes Verzeichnis wählen</translation>
     </message>
     <message>
         <location line="-20"/>
-        <location filename="../../build/src/GUI/Library/ImportFolderDialog/ui_GUI_ImportFolder.h" line="-2"/>
         <location filename="../../build/src/GUI/Library/ui_GUI_ImportFolder.h" line="-2"/>
         <location filename="../../build_release/src/GUI/Library/ImportFolderDialog/ui_GUI_ImportFolder.h" line="-2"/>
         <location filename="../../build_release/src/GUI/Library/ui_GUI_ImportFolder.h" line="-2"/>
@@ -3223,7 +3095,6 @@ Bitte ein anderes Verzeichnis wählen</translation>
     </message>
     <message>
         <location line="+43"/>
-        <location filename="../../build/src/GUI/Library/ImportFolderDialog/ui_GUI_ImportFolder.h" line="+4"/>
         <location filename="../../build/src/GUI/Library/ui_GUI_ImportFolder.h" line="+4"/>
         <location filename="../../build_release/src/GUI/Library/ImportFolderDialog/ui_GUI_ImportFolder.h" line="+4"/>
         <location filename="../../build_release/src/GUI/Library/ui_GUI_ImportFolder.h" line="+4"/>
@@ -3233,7 +3104,6 @@ Bitte ein anderes Verzeichnis wählen</translation>
     </message>
     <message>
         <location line="+10"/>
-        <location filename="../../build/src/GUI/Library/ImportFolderDialog/ui_GUI_ImportFolder.h" line="+1"/>
         <location filename="../../build/src/GUI/Library/ui_GUI_ImportFolder.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Library/ImportFolderDialog/ui_GUI_ImportFolder.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Library/ui_GUI_ImportFolder.h" line="+1"/>
@@ -3243,7 +3113,6 @@ Bitte ein anderes Verzeichnis wählen</translation>
     </message>
     <message>
         <location line="+10"/>
-        <location filename="../../build/src/GUI/Library/ImportFolderDialog/ui_GUI_ImportFolder.h" line="+1"/>
         <location filename="../../build/src/GUI/Library/ui_GUI_ImportFolder.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Library/ImportFolderDialog/ui_GUI_ImportFolder.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Library/ui_GUI_ImportFolder.h" line="+1"/>
@@ -3253,7 +3122,6 @@ Bitte ein anderes Verzeichnis wählen</translation>
     </message>
     <message>
         <location line="+40"/>
-        <location filename="../../build/src/GUI/Library/ImportFolderDialog/ui_GUI_ImportFolder.h" line="+1"/>
         <location filename="../../build/src/GUI/Library/ui_GUI_ImportFolder.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Library/ImportFolderDialog/ui_GUI_ImportFolder.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Library/ui_GUI_ImportFolder.h" line="+1"/>
@@ -3333,61 +3201,60 @@ Bitte ein anderes Verzeichnis wählen</translation>
     <name>LibraryContextMenu</name>
     <message>
         <location filename="../GUI/Helper/ContextMenu/LibraryContextMenu.cpp" line="+33"/>
-        <location line="+70"/>
+        <location line="+72"/>
         <source>Info</source>
         <translation>Info</translation>
     </message>
     <message>
-        <location line="-69"/>
-        <location line="+70"/>
+        <location line="-71"/>
+        <location line="+72"/>
         <source>Lyrics</source>
         <translation>Texte</translation>
     </message>
     <message>
-        <location line="-69"/>
-        <location line="+70"/>
+        <location line="-71"/>
+        <location line="+72"/>
         <source>Edit</source>
         <translation>Bearbeiten</translation>
     </message>
     <message>
-        <location line="-69"/>
-        <location line="+70"/>
+        <location line="-71"/>
+        <location line="+72"/>
         <source>Remove</source>
         <translation>Entfernen</translation>
     </message>
     <message>
-        <location line="-69"/>
-        <location line="+70"/>
+        <location line="-71"/>
+        <location line="+72"/>
         <source>Delete</source>
         <translation>Löschen</translation>
     </message>
     <message>
-        <location line="-69"/>
-        <location line="+70"/>
+        <location line="-71"/>
+        <location line="+72"/>
         <source>Play next</source>
         <translation>Als nächstes spielen</translation>
     </message>
     <message>
-        <location line="-69"/>
-        <location line="+70"/>
+        <location line="-71"/>
+        <location line="+72"/>
         <source>Append</source>
         <translation>Anfügen</translation>
     </message>
     <message>
-        <location line="-69"/>
-        <location line="+70"/>
+        <location line="-71"/>
+        <location line="+72"/>
         <source>Refresh</source>
         <translation>Aktualisieren</translation>
     </message>
     <message>
-        <location line="-69"/>
-        <location line="+70"/>
+        <location line="-71"/>
+        <location line="+72"/>
         <source>Clear</source>
         <translation>Leeren</translation>
     </message>
     <message>
-        <location line="-33"/>
-        <location line="+34"/>
+        <location line="+132"/>
         <source>Rating</source>
         <translation>Bewertung</translation>
     </message>
@@ -3516,9 +3383,9 @@ Bitte ein anderes Verzeichnis wählen</translation>
 <context>
     <name>MenuButton</name>
     <message>
-        <location filename="../GUI/Helper/MenuTool/MenuButton.cpp" line="+35"/>
+        <location filename="../GUI/Helper/MenuTool/MenuButton.cpp" line="+33"/>
         <location line="+1"/>
-        <location line="+106"/>
+        <location line="+105"/>
         <location line="+3"/>
         <location line="+7"/>
         <source>Menu</source>
