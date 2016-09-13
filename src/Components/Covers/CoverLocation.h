@@ -80,6 +80,7 @@ public:
 	QString cover_path() const;
 	QString search_url() const;
 	QString search_term() const;
+	void set_search_term(const QString& search_term);
 
 
 	/**

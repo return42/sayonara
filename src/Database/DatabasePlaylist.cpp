@@ -295,6 +295,10 @@ int DatabasePlaylist::getPlaylistIdByName(const QString& name) {
 bool DatabasePlaylist::insertTrackIntoPlaylist(const MetaData& md, int playlist_id, int pos) {
 
 	DB_RETURN_NOT_OPEN_BOOL(_db);
+	if(md.is_disabled)
+	{
+		return false;
+	}
 
 	SayonaraQuery q (_db);
 
@@ -332,7 +336,6 @@ int DatabasePlaylist::createPlaylist(QString playlist_name, bool temporary) {
 	QString query_string = "INSERT INTO playlists (playlist, temporary) VALUES (:playlist_name, :temporary);";
 
 	SayonaraQuery q(_db);
-
 
 	q.prepare(query_string);
 	q.bindValue(":playlist_name", QVariant(playlist_name));
@@ -455,7 +458,6 @@ bool DatabasePlaylist::storePlaylist(const MetaDataList& vec_md, int playlist_id
 
 	// fill playlist
 	for(int i=0; i<vec_md.size(); i++) {
-
 		bool success = insertTrackIntoPlaylist(vec_md[i], playlist_id, i);
 
 		if( !success ) {

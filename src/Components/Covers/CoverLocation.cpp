@@ -281,3 +281,10 @@ QString CoverLocation::search_url() const {
 QString CoverLocation::search_term() const {
 	return _search_term;
 }
+
+void CoverLocation::set_search_term(const QString& search_term)
+{
+	_search_term = search_term;
+	_search_url = CoverHelper::calc_google_image_search_address(search_term);
+
+}
