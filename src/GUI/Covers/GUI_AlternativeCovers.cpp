@@ -126,6 +126,7 @@ void GUI_AlternativeCovers::start(const CoverLocation& cl){
 	}
 
 	_cover_location = cl;
+	_cover_location.set_search_term(le_search->text());
 
 	_cl_alternative = new CoverLookupAlternative(this, _cover_location, 10);
 	connect_and_start();
@@ -139,6 +140,7 @@ void GUI_AlternativeCovers::search_button_pressed() {
 		return;
 	}
 
+	_cover_location.set_search_term(le_search->text());
 	_cl_alternative = new CoverLookupAlternative(this, _cover_location, 10);
 
 	connect_and_start();

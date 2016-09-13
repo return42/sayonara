@@ -28,18 +28,15 @@
 PlaylistDBWrapper::PlaylistDBWrapper()
 {
 	_db = DatabaseConnector::getInstance();
-
-
-
 }
 
 
-PlaylistDBWrapper::~PlaylistDBWrapper(){
+PlaylistDBWrapper::~PlaylistDBWrapper()
+{}
 
-}
 
-
-void PlaylistDBWrapper::apply_tags(MetaDataList& v_md){
+void PlaylistDBWrapper::apply_tags(MetaDataList& v_md)
+{
 	for(MetaData& md : v_md){
 		if(md.is_extern){
 
@@ -84,9 +81,10 @@ bool PlaylistDBWrapper::extract_stream(CustomPlaylist& pl, QString name, QString
 
 	pl.is_temporary = false;
 
-	if(Helper::File::is_playlistfile(url)) {
-		if(PlaylistParser::parse_playlist(url, pl.tracks) > 0) {
-
+	if(Helper::File::is_playlistfile(url)) 
+	{
+		if(PlaylistParser::parse_playlist(url, pl.tracks) > 0) 
+		{
 			for(MetaData& md : pl.tracks) {
 
 				md.album = name;
@@ -105,8 +103,8 @@ bool PlaylistDBWrapper::extract_stream(CustomPlaylist& pl, QString name, QString
 	}
 
 	// real stream
-	else{
-
+	else
+	{
 		MetaData md;
 
 		md.title = name;
