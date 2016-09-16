@@ -64,6 +64,7 @@ public slots:
 	void set_eq_band(const QString& band_name, double val);
 	void set_speed(float f) override;
 	void set_streamrecorder_path(const QString& session_path);
+	void change_pitch(int a_frequency);
 
 	gint64 seek_rel(double percent, gint64 ref_ns);
 	gint64 seek_abs(gint64 ns );
@@ -86,6 +87,7 @@ private:
 	GstElement*			_equalizer=nullptr;
 	GstElement*			_speed=nullptr;
 	GstElement*			_volume=nullptr;
+	GstElement*			_pitch=nullptr;
 
 	GstElement*			_audio_sink=nullptr;
 
@@ -104,6 +106,7 @@ private:
 	GstElement*			_lame_app_sink=nullptr;
 
 	GstElement*			_file_queue=nullptr;
+	GstElement*			_file_converter=nullptr;
 	GstElement*			_file_sink=nullptr;
 	GstElement*			_file_resampler=nullptr;
 	GstElement*			_file_lame=nullptr;
@@ -128,6 +131,7 @@ protected slots:
 	void _sl_show_level_changed();
 	void _sl_show_spectrum_changed();
 	void _sl_mute_changed();
+	void _sl_pitch_changed();
 };
 
 

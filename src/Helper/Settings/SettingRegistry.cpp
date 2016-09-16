@@ -134,6 +134,7 @@ bool SettingRegistry::init(){
 	register_setting( Set::Engine_SR_SessionPath, "streamripper_session_path", true );
 	register_setting( Set::Engine_CrossFaderActive, "crossfader_active", false);
 	register_setting( Set::Engine_CrossFaderTime, "crossfader_time", 5000);
+	register_setting( Set::Engine_Pitch, "engine_pitch", 440);
 
 	register_setting( Set::Spectrum_Style, "spectrum_style", 0 );
 	register_setting( Set::Level_Style, "level_style", 0 );

@@ -103,6 +103,20 @@ void GUI_Player::keyPressEvent(QKeyEvent* e) {
 			show_fullscreen_toggled(!this->isFullScreen());
 			break;
 
+		case (Qt::Key_F12):
+			int pitch;
+			pitch = _settings->get(Set::Engine_Pitch);
+			if(pitch == 440){
+				pitch = 432;
+			}
+			else{
+				pitch = 440;
+			}
+			_settings->set(Set::Engine_Pitch, pitch);
+			sp_log(Log::Debug) << "Set pitch to " << pitch;
+			break;
+
+
 		default:
 			break;
 	}

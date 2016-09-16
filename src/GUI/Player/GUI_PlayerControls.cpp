@@ -164,6 +164,37 @@ void GUI_Player::set_total_time_label(qint64 total_time) {
 	sli_progress->setEnabled(total_time > 0);
 }
 
+void GUI_Player::set_file_info_label()
+{
+		QString rating_text;
+
+
+	if(_md.bitrate / 1000 > 0){
+		rating_text = QString::number(_md.bitrate / 1000) + " kBit/s";
+	}
+
+	if(_md.filesize > 0){
+		if(!rating_text.isEmpty()){
+			rating_text += ", ";
+		}
+
+		rating_text += QString::number( (double) (_md.filesize / 1024) / 1024.0, 'f', 2) + " MB";
+	}
+
+	if(_settings->get(Set::Engine_Pitch) != 440){
+		if(!rating_text.isEmpty()){
+			rating_text += ", ";
+		}
+
+		rating_text += QString::number(_settings->get(Set::Engine_Pitch)) + "Hz";
+	}
+
+	lab_rating->setText(rating_text);
+	lab_rating->setToolTip(rating_text);
+
+
+}
+
 
 void GUI_Player::jump_forward_ms(){
 	_play_manager->seek_rel_ms(10000);
