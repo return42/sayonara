@@ -117,6 +117,7 @@ GUI_Player::GUI_Player(QTranslator* translator, QWidget *parent) :
 	REGISTER_LISTENER(Set::PL_FontSize, skin_changed);
 	REGISTER_LISTENER(Set::Lib_FontSize, skin_changed);
 	REGISTER_LISTENER(Set::Lib_FontBold, skin_changed);
+	REGISTER_LISTENER(Set::Engine_Pitch, set_file_info_label);
 }
 
 
@@ -168,26 +169,8 @@ void GUI_Player::track_changed(const MetaData & md) {
 	set_info_labels();
 	set_cur_pos_label(0);
 	set_total_time_label(_md.length_ms);
-
-	QString rating_text;
-
-
-	if(_md.bitrate / 1000 > 0){
-		rating_text = QString::number(_md.bitrate / 1000) + " kBit/s";
-	}
-
-	if(_md.filesize > 0){
-		if(_md.bitrate / 1000 > 0){
-			rating_text += ", ";
-		}
-		rating_text += QString::number( (double) (_md.filesize / 1024) / 1024.0, 'f', 2) + " MB";
-	}
-
-	lab_rating->setText(rating_text);
-	lab_rating->setToolTip(rating_text);
-
+	set_file_info_label();
 	set_cover_location();
-
 	set_radio_mode( _md.radio_mode() );
 
 	this->setWindowTitle(QString("Sayonara - ") + md.title);

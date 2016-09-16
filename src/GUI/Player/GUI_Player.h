@@ -89,6 +89,7 @@ public:
 public slots:
 
 	void set_cur_pos_ms(quint64 pos_ms);
+	void set_file_info_label();
 	void id3_tags_changed(const MetaDataList& v_md_old, const MetaDataList& v_md_new);
 
 	void md_changed(const MetaData&);

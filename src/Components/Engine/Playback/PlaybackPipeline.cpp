@@ -70,6 +70,7 @@ bool PlaybackPipeline::init(GstState state){
 	// set by gui, initialized directly in pipeline
 	REGISTER_LISTENER(Set::Engine_ShowLevel, _sl_show_level_changed);
 	REGISTER_LISTENER(Set::Engine_ShowSpectrum, _sl_show_spectrum_changed);
+	REGISTER_LISTENER(Set::Engine_Pitch, _sl_pitch_changed);
 	set_n_sound_receiver(false);
 
 	set_streamrecorder_path("");
@@ -90,6 +91,7 @@ bool PlaybackPipeline::create_elements(){
 	//if(!create_element(&_speed, "scaletempo")) return false;
 	if(!create_element(&_volume, "volume")) return false;
 	if(!create_element(&_audio_sink, "autoaudiosink")) return false;
+	create_element(&_pitch, "pitch");
 
 	// level branch
 	if(!create_element(&_level_queue, "queue", "level_queue")) return false;
@@ -113,6 +115,7 @@ bool PlaybackPipeline::create_elements(){
 
 	// stream recorder branch
 	if(	!create_element(&_file_queue, "queue", "sr_queue") ||
+			!create_element(&_file_converter, "audioconvert", "sr_converter") ||
 			!create_element(&_file_resampler, "audioresample", "sr_resample") ||
 			!create_element(&_file_lame, "lamemp3enc", "sr_lame")  ||
 			!create_element(&_file_sink, "filesink", "sr_filesink"))
@@ -137,18 +140,24 @@ bool PlaybackPipeline::add_and_link_elements(){
 	gst_bin_add_many(GST_BIN(_pipeline),
 					 _audio_src, _audio_convert, _equalizer, _tee,
 
-					 _eq_queue, _volume, /*_speed,*/ _audio_sink,
+					 _eq_queue, _volume, _pitch, _audio_sink,
 					 _level_queue, _level, _level_sink,
 					 _spectrum_queue, _spectrum, _spectrum_sink,
 
 					 nullptr);
 
 	/* before tee */
-	success = gst_element_link_many(_audio_convert, _equalizer, _tee, nullptr);
+	if(_pitch){
+		success = gst_element_link_many(_audio_convert, _equalizer, _pitch, _tee,  nullptr);
+	}
+
+	else{
+		success = gst_element_link_many(_audio_convert, _equalizer, _tee,  nullptr);
+	}
+
 	if(!_test_and_error_bool(success, "Engine: Cannot link audio convert with tee")){
 		return false;
 	}
-
 
 	/* standard output branch */
 	success = gst_element_link_many(_eq_queue, _volume, /*_speed,*/ _audio_sink, nullptr);
@@ -181,8 +190,8 @@ bool PlaybackPipeline::add_and_link_elements(){
 
 	/* stream rippper branch (optional) */
 	if(_file_sink){
-		gst_bin_add_many(GST_BIN(_pipeline), _file_queue, _file_resampler, _file_lame, _file_sink, nullptr);
-		success = gst_element_link_many( _file_queue, _file_resampler, _file_lame, _file_sink, nullptr);
+		gst_bin_add_many(GST_BIN(_pipeline), _file_queue, _file_converter, _file_resampler, _file_lame, _file_sink, nullptr);
+		success = gst_element_link_many( _file_queue, _file_converter, _file_resampler, _file_lame, _file_sink, nullptr);
 		_test_and_error_bool(success, "Engine: Cannot link streamripper stuff");
 	}
 
@@ -235,6 +244,13 @@ bool PlaybackPipeline::configure_elements(){
 				  "use-buffering", true,
 //				  "buffer-size", 30000, // 30kB
 				  nullptr);
+
+	if(_pitch)
+	{
+		g_object_set(G_OBJECT(_pitch),
+				"pitch", (432.0 / 440.0),
+				nullptr);
+	}
 
 
 	g_object_set (G_OBJECT (_level),
@@ -597,4 +613,24 @@ double PlaybackPipeline::get_current_volume() const
 	double volume;
 	g_object_get(_volume, "volume", &volume, nullptr);
 	return volume;
+}
+
+void PlaybackPipeline::change_pitch(int a_frequency)
+{
+	double freq = a_frequency * 1.0;
+	double scale = freq / 440.0;
+	if(a_frequency == 440)
+	{
+		scale = 1.0;
+	}
+
+	g_object_set(G_OBJECT(_pitch),
+		"pitch", scale,
+		nullptr);
+}
+
+void PlaybackPipeline::_sl_pitch_changed()
+{
+	int a_frequency = _settings->get(Set::Engine_Pitch);
+	change_pitch(a_frequency);
 }

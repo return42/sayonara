@@ -116,6 +116,7 @@ namespace SK {
 	Engine_CurTrackPos_s,
 	Engine_CrossFaderActive,
 	Engine_CrossFaderTime,
+	Engine_Pitch,
 
 	Engine_SR_Active,
 	Engine_SR_Warning,
@@ -243,8 +244,9 @@ namespace Set {
     INST(QString,			Engine_CovertTargetPath);		/* last convert path */
     INST(bool,				Engine_ShowSpectrum);			/* show spectrum */
     INST(bool,				Engine_ShowLevel);			/* show level */
-    INST(bool,				Engine_CrossFaderActive);
-    INST(int,				Engine_CrossFaderTime);
+    INST(bool,				Engine_CrossFaderActive);	/* crossfader active */
+    INST(int,				Engine_CrossFaderTime);		/* crossfader overlap time */
+	INST(int, 				Engine_Pitch);				/* hertz of a */
 
     INST(bool,				Engine_SR_Active);			/* Streamripper active */
     INST(bool,				Engine_SR_Warning);			/* streamripper warnings */
