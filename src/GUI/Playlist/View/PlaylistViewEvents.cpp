@@ -35,6 +35,14 @@
 void PlaylistView::contextMenuEvent(QContextMenuEvent* e)
 {
 	QPoint pos = e->globalPos();
+	QModelIndex idx = indexAt(e->pos());
+
+	//todo: if now bookmarks, don't show
+	//if bookmarks are updated in bookmarks plugin, update menu
+	
+	_bookmarks_action->setVisible(
+			idx.row() == _model->get_current_track() && 
+			idx.row() >= 0);
 
 	LibraryContexMenuEntries entry_mask;
 

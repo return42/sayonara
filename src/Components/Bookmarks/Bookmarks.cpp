@@ -234,7 +234,29 @@ void Bookmarks::track_changed(const MetaData& md)
 	_loop_start = 0;
 	_loop_end = 0;
 
-	if(md.id < 0){
+	if(!_md.get_custom_field("Chapter1").isEmpty())
+	{
+		int chapter_idx = 1;
+		QString entry;
+		_bookmarks.clear();
+
+		do{
+			QString custom_field_name = QString("Chapter") + QString::number(chapter_idx);
+
+			entry = _md.get_custom_field(custom_field_name);
+
+			QStringList lst = entry.split(":");
+			quint32 length = lst.takeFirst().toInt();
+			QString name = lst.join(":");
+
+			_bookmarks << Bookmark(length, name, true);
+			chapter_idx++;
+
+		} while( !entry.isEmpty() );
+
+	}
+
+	else if(md.id < 0){
 		init_members();
 	}
 
@@ -246,9 +268,9 @@ void Bookmarks::track_changed(const MetaData& md)
 		for(quint32 key : bookmarks.keys()){
 			_bookmarks << Bookmark(key, bookmarks[key], true);
 		}
-
-		sort_bookmarks();
 	}
+
+	sort_bookmarks();
 
 	emit sig_bookmarks_changed(_bookmarks);
 	emit sig_prev_changed(Bookmark());

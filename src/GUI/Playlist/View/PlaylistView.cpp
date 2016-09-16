@@ -27,6 +27,7 @@
  */
 
 #include "PlaylistView.h"
+#include "GUI/Playlist/BookmarksAction.h"
 #include "GUI/Playlist/Model/PlaylistItemModel.h"
 #include "GUI/Playlist/Delegate/PlaylistItemDelegate.h"
 
@@ -40,6 +41,7 @@
 #include "Helper/DirectoryReader/DirectoryReader.h"
 
 #include "Components/Playlist/PlaylistHandler.h"
+#include "Components/PlayManager/PlayManager.h"
 #include "Components/TagEdit/TagEdit.h"
 
 #include <QShortcut>
@@ -50,7 +52,14 @@ PlaylistView::PlaylistView(PlaylistPtr pl, QWidget* parent) :
 {
 	_model = new PlaylistItemModel(pl, this);
 	_delegate = new PlaylistItemDelegate(this);
+
 	_rc_menu = new LibraryContextMenu(this);
+	BookmarksAction* bookmarks_menu = new BookmarksAction(this);
+	connect(bookmarks_menu, &BookmarksAction::sig_bookmark_pressed, this, [](quint32 time){
+			PlayManager::getInstance()->seek_abs_ms(time * 1000);
+	});
+
+	_bookmarks_action = _rc_menu->addMenu(bookmarks_menu);
 
 	this->setModel(_model);
 	this->setAbstractModel(_model);

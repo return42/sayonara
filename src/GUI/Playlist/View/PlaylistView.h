@@ -96,6 +96,7 @@ private:
 	PlaylistItemModel*		_model=nullptr;
 	PlaylistItemDelegate*	_delegate=nullptr;
 	SayonaraLoadingBar*		_progress=nullptr;
+	QAction*				_bookmarks_action=nullptr;
 
 	int						_async_drop_index;
 
