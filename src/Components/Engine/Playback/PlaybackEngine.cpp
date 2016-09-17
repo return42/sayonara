@@ -425,15 +425,6 @@ void PlaybackEngine::change_gapless_state(GaplessState state)
 }
 
 
-void PlaybackEngine::set_speed(float f) {
-	_pipeline->set_speed(f);
-
-	if(_other_pipeline){
-		_other_pipeline->set_speed(f);
-	}
-}
-
-
 void PlaybackEngine::_streamrecorder_active_changed(){
 
 	_sr_active = _settings->get(Set::Engine_SR_Active);

@@ -41,8 +41,10 @@ public:
 	QString get_display_name() const override;
 
 private slots:
-	void slider_changed(int);
-	void active_changed(bool);
+	void slider_changed(int value);
+	void active_changed(bool enabled);
+	void preserve_pitch_changed(bool enabled);
+	void pitch_changed(int value);
 	
 
 protected:

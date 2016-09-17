@@ -25,6 +25,7 @@
 
 #include "Components/Engine/AbstractPipeline.h"
 #include "CrossFader.h"
+#include "ChangeablePlaylist.h"
 
 #include <gst/app/gstappsink.h>
 #include <QTimer>
@@ -34,7 +35,8 @@ class Engine;
 
 class PlaybackPipeline :
 		public AbstractPipeline,
-		public CrossFader
+		public CrossFader,
+		public ChangeablePlaylist
 {
 	Q_OBJECT
 
@@ -53,6 +55,7 @@ public:
 	double get_current_volume() const override;
 
 	GstElement* get_source() const override;
+	GstElement* get_pipeline() const override;
 
 
 public slots:
@@ -61,8 +64,9 @@ public slots:
 	void pause() override;
 	void stop() override;
 
+
 	void set_eq_band(const QString& band_name, double val);
-	void set_speed(float f) override;
+	void set_speed(float f, bool preserve_pitch);
 	void set_streamrecorder_path(const QString& session_path);
 	void change_pitch(int a_frequency);
 
@@ -131,7 +135,11 @@ protected slots:
 	void _sl_show_level_changed();
 	void _sl_show_spectrum_changed();
 	void _sl_mute_changed();
+
 	void _sl_pitch_changed();
+	void _sl_speed_active_changed();
+	void _sl_speed_changed();
+	void _sl_preserve_pitch_changed();
 };
 
 

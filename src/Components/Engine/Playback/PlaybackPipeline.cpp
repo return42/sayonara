@@ -32,7 +32,8 @@
 
 PlaybackPipeline::PlaybackPipeline(Engine* engine, QObject *parent) :
 	AbstractPipeline("Playback Pipeline", engine, parent),
-	CrossFader()
+	CrossFader(),
+	ChangeablePlaylist()
 {
 	_speed_val = 1.0f;
 	_speed_active = false;
@@ -71,6 +72,9 @@ bool PlaybackPipeline::init(GstState state){
 	REGISTER_LISTENER(Set::Engine_ShowLevel, _sl_show_level_changed);
 	REGISTER_LISTENER(Set::Engine_ShowSpectrum, _sl_show_spectrum_changed);
 	REGISTER_LISTENER(Set::Engine_Pitch, _sl_pitch_changed);
+	REGISTER_LISTENER(Set::Engine_Speed, _sl_speed_changed);
+	REGISTER_LISTENER(Set::Engine_PreservePitch, _sl_speed_changed);
+	REGISTER_LISTENER(Set::Engine_SpeedActive, _sl_speed_active_changed);
 	set_n_sound_receiver(false);
 
 	set_streamrecorder_path("");
@@ -84,6 +88,8 @@ bool PlaybackPipeline::create_elements(){
 	if(!create_element(&_audio_src, "uridecodebin", "src")) return false;
 	if(!create_element(&_audio_convert, "audioconvert")) return false;
 	if(!create_element(&_equalizer, "equalizer-10bands")) return false;
+
+	create_element(&_pitch, "pitch");
 	if(!create_element(&_tee, "tee")) return false;
 
 	// standard output branch
@@ -91,7 +97,6 @@ bool PlaybackPipeline::create_elements(){
 	//if(!create_element(&_speed, "scaletempo")) return false;
 	if(!create_element(&_volume, "volume")) return false;
 	if(!create_element(&_audio_sink, "autoaudiosink")) return false;
-	create_element(&_pitch, "pitch");
 
 	// level branch
 	if(!create_element(&_level_queue, "queue", "level_queue")) return false;
@@ -140,21 +145,14 @@ bool PlaybackPipeline::add_and_link_elements(){
 	gst_bin_add_many(GST_BIN(_pipeline),
 					 _audio_src, _audio_convert, _equalizer, _tee,
 
-					 _eq_queue, _volume, _pitch, _audio_sink,
+					 _eq_queue, _volume, _audio_sink,
 					 _level_queue, _level, _level_sink,
 					 _spectrum_queue, _spectrum, _spectrum_sink,
 
 					 nullptr);
 
 	/* before tee */
-	if(_pitch){
-		success = gst_element_link_many(_audio_convert, _equalizer, _pitch, _tee,  nullptr);
-	}
-
-	else{
-		success = gst_element_link_many(_audio_convert, _equalizer, _tee,  nullptr);
-	}
-
+	success = gst_element_link_many(_audio_convert, _equalizer, _tee,  nullptr);
 	if(!_test_and_error_bool(success, "Engine: Cannot link audio convert with tee")){
 		return false;
 	}
@@ -242,16 +240,7 @@ bool PlaybackPipeline::configure_elements(){
 
 	g_object_set (G_OBJECT (_audio_src),
 				  "use-buffering", true,
-//				  "buffer-size", 30000, // 30kB
 				  nullptr);
-
-	if(_pitch)
-	{
-		g_object_set(G_OBJECT(_pitch),
-				"pitch", (432.0 / 440.0),
-				nullptr);
-	}
-
 
 	g_object_set (G_OBJECT (_level),
 				  "post-messages", true,
@@ -278,7 +267,6 @@ bool PlaybackPipeline::configure_elements(){
 				 nullptr);
 
 	if(_lame){
-
 
 		g_object_set(G_OBJECT (_lame),
 					 "perfect-timestamp", true,
@@ -378,24 +366,21 @@ void PlaybackPipeline::init_equalizer()
 
 
 
-void PlaybackPipeline::play() {
-
+void PlaybackPipeline::play()
+{
 	gst_element_set_state(_pipeline, GST_STATE_PLAYING);
 	_sl_vol_changed();
-
-	if(_speed_active){
-		set_speed(_speed_val);
-	}
 }
 
 
-void PlaybackPipeline::pause() {
+void PlaybackPipeline::pause()
+{
 	gst_element_set_state(_pipeline, GST_STATE_PAUSED);
 }
 
 
-void PlaybackPipeline::stop() {
-
+void PlaybackPipeline::stop()
+{
 	_position_ms = 0;
 	_duration_ms = 0;
 	_uri = nullptr;
@@ -404,8 +389,8 @@ void PlaybackPipeline::stop() {
 	abort_fader();
 }
 
-void PlaybackPipeline::_sl_vol_changed() {
-
+void PlaybackPipeline::_sl_vol_changed()
+{
 	_vol = _settings->get(Set::Engine_Vol);
 
 	float vol_val = (float) ((_vol * 1.0f) / 100.0f);
@@ -414,27 +399,19 @@ void PlaybackPipeline::_sl_vol_changed() {
 }
 
 
-void PlaybackPipeline::_sl_mute_changed() {
-
+void PlaybackPipeline::_sl_mute_changed()
+{
 	bool muted = _settings->get(Set::Engine_Mute);
 	g_object_set(G_OBJECT(_volume), "mute", muted, nullptr);
 }
 
 
-bool PlaybackPipeline::_seek(gint64 ns){
-
+bool PlaybackPipeline::_seek(gint64 ns)
+{
 	bool success;
 	GstEvent* seek_event;
 
-	float speed_val = 1.0f;
-
-	if(_speed_active)
-	{
-		speed_val = _speed_val;
-	}
-
-
-	seek_event = gst_event_new_seek (speed_val,
+	seek_event = gst_event_new_seek (1.0f,
 									 GST_FORMAT_TIME,
 									 (GstSeekFlags)(GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_SNAP_NEAREST),
 									 GST_SEEK_TYPE_SET,
@@ -446,8 +423,8 @@ bool PlaybackPipeline::_seek(gint64 ns){
 	return success;
 }
 
-gint64 PlaybackPipeline::seek_rel(double percent, gint64 ref_ns) {
-
+gint64 PlaybackPipeline::seek_rel(double percent, gint64 ref_ns)
+{
 	gint64 new_time_ns;
 
 	if (percent > 1.0){
@@ -471,8 +448,8 @@ gint64 PlaybackPipeline::seek_rel(double percent, gint64 ref_ns) {
 }
 
 
-gint64 PlaybackPipeline::seek_abs(gint64 ns) {
-
+gint64 PlaybackPipeline::seek_abs(gint64 ns)
+{
 	ns = std::max((gint64) 0, ns);
 
 	if( _seek(ns) ) {
@@ -482,49 +459,68 @@ gint64 PlaybackPipeline::seek_abs(gint64 ns) {
 	return 0;
 }
 
-void PlaybackPipeline::set_speed(float f) {
 
-	if(f < 0 && _speed_active) {
-
-		_speed_active = false;
-		_speed_val = 1.0f;
+void PlaybackPipeline::set_speed(float f, bool preserve_pitch)
+{
+	if(!_pitch) {
+		return;
 	}
 
-	else if(f > 0 && !_speed_active) {
-
-		_speed_active = true;
-		_speed_val = f;
-		//g_object_set(_speed, "rate", 1, NULL);
-		_seek(_position_ms * GST_MSECOND);
+	if(preserve_pitch){
+		g_object_set(_pitch,
+					 "tempo", f,
+					 "rate", 1.0,
+					 "pitch", 1.0,
+					 nullptr);
 	}
 
-	else if(f > 0 && _speed_active ) {
-
-		_speed_val = f;
-		//g_object_set(_speed, "rate", f, NULL);
-		_seek(_position_ms * GST_MSECOND);
+	else{
+		g_object_set(_pitch,
+					 "tempo", 1.0,
+					 "rate", f,
+					 "pitch", 1.0,
+					 nullptr);
 	}
 }
 
 
-void PlaybackPipeline::_sl_show_level_changed() {
+void PlaybackPipeline::change_pitch(int a_frequency)
+{
+	if(!_pitch){
+		return;
+	}
 
+	double freq = a_frequency * 1.0;
+	double scale = freq / 440.0;
+	if(a_frequency == 440)
+	{
+		scale = 1.0;
+	}
+
+	g_object_set(G_OBJECT(_pitch),
+		"pitch", scale,
+		nullptr);
+}
+
+
+void PlaybackPipeline::_sl_show_level_changed()
+{
 	_show_level = _settings->get(Set::Engine_ShowLevel);
 
 	Probing::handle_probe(&_show_level, _level_queue, &_level_probe, Probing::level_probed);
 }
 
 
-void PlaybackPipeline::_sl_show_spectrum_changed() {
-
+void PlaybackPipeline::_sl_show_spectrum_changed()
+{
 	_show_spectrum = _settings->get(Set::Engine_ShowSpectrum);
 
 	Probing::handle_probe(&_show_spectrum, _spectrum_queue, &_spectrum_probe, Probing::spectrum_probed);
 }
 
 
-void PlaybackPipeline::set_n_sound_receiver(int num_sound_receiver){
-
+void PlaybackPipeline::set_n_sound_receiver(int num_sound_receiver)
+{
 	if(!_lame){
 		return;
 	}
@@ -539,8 +535,13 @@ GstElement* PlaybackPipeline::get_source() const
 	return _audio_src;
 }
 
-bool PlaybackPipeline::set_uri(gchar* uri) {
+GstElement* PlaybackPipeline::get_pipeline() const
+{
+	return _pipeline;
+}
 
+bool PlaybackPipeline::set_uri(gchar* uri)
+{
 	if(!uri) return false;
 
 	stop();
@@ -557,25 +558,24 @@ bool PlaybackPipeline::set_uri(gchar* uri) {
 	}
 
 	gst_element_set_state(_pipeline, GST_STATE_PAUSED);
-	//gst_object_unref(soup_source);
 
 	return true;
 }
 
 
-void PlaybackPipeline::set_eq_band(const QString& band_name, double val) {
-
+void PlaybackPipeline::set_eq_band(const QString& band_name, double val)
+{
 	g_object_set( G_OBJECT(_equalizer),
 				  band_name.toUtf8().data(),
 				  val,
 				  nullptr
-				  );
+	);
 }
 
 
 
-void PlaybackPipeline::set_streamrecorder_path(const QString& path){
-
+void PlaybackPipeline::set_streamrecorder_path(const QString& path)
+{
 	if(!_file_sink) {
 		return;
 	}
@@ -603,10 +603,12 @@ void PlaybackPipeline::set_streamrecorder_path(const QString& path){
 	}
 }
 
+
 void PlaybackPipeline::set_current_volume(double volume)
 {
 	g_object_set(_volume, "volume", volume, nullptr);
 }
+
 
 double PlaybackPipeline::get_current_volume() const
 {
@@ -615,22 +617,53 @@ double PlaybackPipeline::get_current_volume() const
 	return volume;
 }
 
-void PlaybackPipeline::change_pitch(int a_frequency)
-{
-	double freq = a_frequency * 1.0;
-	double scale = freq / 440.0;
-	if(a_frequency == 440)
-	{
-		scale = 1.0;
-	}
-
-	g_object_set(G_OBJECT(_pitch),
-		"pitch", scale,
-		nullptr);
-}
 
 void PlaybackPipeline::_sl_pitch_changed()
 {
+	if(_settings->get(Set::Engine_SpeedActive)){
+		return;
+	}
+
 	int a_frequency = _settings->get(Set::Engine_Pitch);
+
 	change_pitch(a_frequency);
+}
+
+
+void PlaybackPipeline::_sl_speed_active_changed()
+{
+	bool active = _settings->get(Set::Engine_SpeedActive);
+	if(active){
+
+		add_element(_pitch, _audio_convert, _equalizer);
+
+		this->set_speed(
+			_settings->get(Set::Engine_Speed),
+			_settings->get(Set::Engine_PreservePitch)
+		);
+	}
+
+	else{
+		if(_pitch){
+			remove_element(_pitch, _audio_convert, _equalizer);
+		}
+	}
+}
+
+
+void PlaybackPipeline::_sl_speed_changed()
+{
+	this->set_speed(
+		_settings->get(Set::Engine_Speed),
+		_settings->get(Set::Engine_PreservePitch)
+	);
+}
+
+
+void PlaybackPipeline::_sl_preserve_pitch_changed()
+{
+	this->set_speed(
+		_settings->get(Set::Engine_Speed),
+		_settings->get(Set::Engine_PreservePitch)
+	);
 }

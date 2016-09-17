@@ -46,8 +46,21 @@ void GUI_Speed::init_ui()
 
 	_engine = EngineHandler::getInstance();
 
+	cb_active->setChecked( _settings->get(Set::Engine_SpeedActive));
+	cb_preserve_pitch->setEnabled( _settings->get(Set::Engine_SpeedActive));
+	cb_preserve_pitch->setChecked( _settings->get(Set::Engine_PreservePitch));
+
+	sli_speed->setEnabled( _settings->get(Set::Engine_SpeedActive));
+	sli_speed->setValue(_settings->get(Set::Engine_Speed) * 100);
+	lab_speed->setText( QString::number(_settings->get(Set::Engine_Speed)));
+
+	sb_concert_pitch->setEnabled( !_settings->get(Set::Engine_SpeedActive));
+	sb_concert_pitch->setValue( _settings->get(Set::Engine_Pitch));
+
 	connect(sli_speed, &QSlider::valueChanged, this, &GUI_Speed::slider_changed);
 	connect(cb_active, &QCheckBox::toggled, this, &GUI_Speed::active_changed);
+	connect(cb_preserve_pitch, &QCheckBox::toggled, this, &GUI_Speed::preserve_pitch_changed);
+	connect(sb_concert_pitch, SIGNAL(valueChanged(int)), this, SLOT(pitch_changed(int)));
 }
 
 
@@ -69,17 +82,32 @@ void GUI_Speed::slider_changed(int val) {
 
 	if( !cb_active->isChecked() ) return;
 
-	_engine->set_speed(val_f);
+	_settings->set(Set::Engine_Speed, sli_speed->value() / 100.0f);
 }
 
 
 void GUI_Speed::active_changed(bool b) {
 
+	sli_speed->setEnabled(b);
+	cb_preserve_pitch->setEnabled(b);
+	sb_concert_pitch->setDisabled(b);
+	_settings->set(Set::Engine_SpeedActive, b);
+
 	if(!b) {
-		_engine->set_speed(1.0f);
+		_settings->set(Set::Engine_Speed, 1.0f);
 	}
 
 	else {
-		_engine->set_speed( sli_speed->value() / 100.0f );
+		_settings->set(Set::Engine_Speed, sli_speed->value() / 100.0f );
 	}
+}
+
+void GUI_Speed::preserve_pitch_changed(bool enabled)
+{
+	_settings->set(Set::Engine_PreservePitch, enabled);
+}
+
+void GUI_Speed::pitch_changed(int value)
+{
+	_settings->set(Set::Engine_Pitch, value);
 }

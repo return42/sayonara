@@ -50,6 +50,9 @@ class AbstractPipeline :
 
 	Q_OBJECT
 
+	signals:
+		void sig_duration_changed();
+
 	private:
 		bool		_about_to_finish;
 		bool		_initialized;
@@ -92,9 +95,6 @@ class AbstractPipeline :
 		virtual void pause()=0;
 		virtual void stop()=0;
 
-        virtual qint64 get_duration_ms() final;
-        virtual qint64 get_position_ms() final;
-		virtual void set_speed(float f);
 
 
 	public:
@@ -115,6 +115,9 @@ class AbstractPipeline :
 
 		virtual bool		set_uri(gchar* uri);
 		virtual gchar*		get_uri();
+
+		virtual qint64		get_duration_ms() final;
+		virtual qint64		get_position_ms() final;
 
 		bool 				has_element(GstElement* e) const;
 };

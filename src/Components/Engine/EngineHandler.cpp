@@ -96,14 +96,7 @@ void EngineHandler::end_convert() {
 	_cur_engine->stop();
 }
 
-void EngineHandler::set_speed(float f) {
 
-	PlaybackEngine* engine = get_playback_engine();
-
-	if(engine){
-		engine->set_speed(f);
-	}
-}
 
 void EngineHandler::fill_engines(const QList<Engine*>& engines) {
 	_engines = engines;

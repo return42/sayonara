@@ -111,25 +111,25 @@ void AbstractPipeline::refresh_position() {
 		element = GST_ELEMENT(_pipeline);
 	}
 
-	success = gst_element_query_position(GST_ELEMENT(_pipeline), GST_FORMAT_TIME, &pos_pipeline);
-	if(!success){
-		pos_pipeline = 0;
-	}
-
-	if(_duration_ms >= 0){
-		emit sig_pos_changed_ms( GST_TIME_AS_MSECONDS(pos_pipeline));
-	}
-
 	success = gst_element_query_position(element, GST_FORMAT_TIME, &pos_source);
 
 	if(success && (pos_source >> 10) > 0){
 		_position_ms = GST_TIME_AS_MSECONDS(pos_source);
 	}
-	else {
+
+	else if(success){
 		_position_ms = GST_TIME_AS_MSECONDS(pos_pipeline);
 	}
 
+	else{
+		_position_ms = 0;
+	}
+
+	if(_duration_ms >= 0){
+		emit sig_pos_changed_ms( _position_ms);
+	}
 }
+
 
 void AbstractPipeline::refresh_duration(){
 
@@ -172,6 +172,7 @@ void AbstractPipeline::check_about_to_finish(){
 
 	if(difference <= 0 && !_about_to_finish){
 		refresh_duration();
+
 
 		if(_duration_ms <= 0){
 			return;
@@ -223,10 +224,6 @@ qint64 AbstractPipeline::get_position_ms(){
     return _position_ms;
 }
 
-
-void AbstractPipeline::set_speed(float f) {
-	Q_UNUSED(f);
-}
 
 void AbstractPipeline::finished() {
 

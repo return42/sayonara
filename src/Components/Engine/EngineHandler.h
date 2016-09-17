@@ -52,7 +52,6 @@ public:
 	void start_convert();
 	void end_convert();
 
-	void set_speed(float f);
 	void set_equalizer(int band, int value);
 
 
