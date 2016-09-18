@@ -82,6 +82,9 @@ QString LyricLookupThread::convert_to_regex(const QString& str){
 
 QString LyricLookupThread::calc_url(QString artist, QString song) {
 
+	if(_cur_server < 0 || _cur_server >= _server_list.size()){
+		return "";
+	}
 
 	QMap<QString, QString> replacements = _server_list[_cur_server].replacements;
 

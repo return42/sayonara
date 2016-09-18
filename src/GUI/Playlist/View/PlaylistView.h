@@ -50,6 +50,8 @@ class SayonaraLoadingBar;
 class LibraryContextMenu;
 class PlaylistItemModel;
 class PlaylistItemDelegate;
+class BookmarksMenu;
+
 class PlaylistView :
 		public SearchableListView,
 		public InfoDialogContainer
@@ -96,6 +98,7 @@ private:
 	PlaylistItemModel*		_model=nullptr;
 	PlaylistItemDelegate*	_delegate=nullptr;
 	SayonaraLoadingBar*		_progress=nullptr;
+	BookmarksMenu*			_bookmarks_menu=nullptr;
 	QAction*				_bookmarks_action=nullptr;
 
 	int						_async_drop_index;

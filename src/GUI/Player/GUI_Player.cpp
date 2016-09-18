@@ -118,6 +118,7 @@ GUI_Player::GUI_Player(QTranslator* translator, QWidget *parent) :
 	REGISTER_LISTENER(Set::Lib_FontSize, skin_changed);
 	REGISTER_LISTENER(Set::Lib_FontBold, skin_changed);
 	REGISTER_LISTENER(Set::Engine_Pitch, set_file_info_label);
+	REGISTER_LISTENER(Set::Engine_SpeedActive, set_file_info_label);
 }
 
 
@@ -244,7 +245,9 @@ void GUI_Player::br_changed(const MetaData& md) {
 
 void GUI_Player::md_changed(const MetaData& md) {
 
-	if(_md != md && md.title == _md.title){
+	if(_md != md &&
+		md.title == _md.title)
+	{
 		return;
 	}
 
@@ -253,7 +256,7 @@ void GUI_Player::md_changed(const MetaData& md) {
 	_md = md;
 	_md.title = md.title;
 
-	lab_title->setText( md.title );
+	lab_title->setText(md.title);
 }
 
 

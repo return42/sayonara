@@ -33,7 +33,7 @@
 PlaybackPipeline::PlaybackPipeline(Engine* engine, QObject *parent) :
 	AbstractPipeline("Playback Pipeline", engine, parent),
 	CrossFader(),
-	ChangeablePlaylist()
+	ChangeablePipeline()
 {
 	_speed_val = 1.0f;
 	_speed_active = false;
@@ -71,7 +71,7 @@ bool PlaybackPipeline::init(GstState state){
 	// set by gui, initialized directly in pipeline
 	REGISTER_LISTENER(Set::Engine_ShowLevel, _sl_show_level_changed);
 	REGISTER_LISTENER(Set::Engine_ShowSpectrum, _sl_show_spectrum_changed);
-	REGISTER_LISTENER(Set::Engine_Pitch, _sl_pitch_changed);
+	REGISTER_LISTENER(Set::Engine_Pitch, _sl_speed_changed);
 	REGISTER_LISTENER(Set::Engine_Speed, _sl_speed_changed);
 	REGISTER_LISTENER(Set::Engine_PreservePitch, _sl_speed_changed);
 	REGISTER_LISTENER(Set::Engine_SpeedActive, _sl_speed_active_changed);
@@ -408,19 +408,10 @@ void PlaybackPipeline::_sl_mute_changed()
 
 bool PlaybackPipeline::_seek(gint64 ns)
 {
-	bool success;
-	GstEvent* seek_event;
-
-	seek_event = gst_event_new_seek (1.0f,
-									 GST_FORMAT_TIME,
-									 (GstSeekFlags)(GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_SNAP_NEAREST),
-									 GST_SEEK_TYPE_SET,
-									 ns,
-									 GST_SEEK_TYPE_NONE, 0);
-
-	success = gst_element_send_event(_audio_src, seek_event);
-
-	return success;
+	return gst_element_seek_simple(_audio_src,
+							GST_FORMAT_TIME,
+							(GstSeekFlags)(GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_SNAP_NEAREST),
+							ns);
 }
 
 gint64 PlaybackPipeline::seek_rel(double percent, gint64 ref_ns)
@@ -460,25 +451,25 @@ gint64 PlaybackPipeline::seek_abs(gint64 ns)
 }
 
 
-void PlaybackPipeline::set_speed(float f, bool preserve_pitch)
+void PlaybackPipeline::set_speed(float speed, double pitch, bool preserve_pitch)
 {
-	if(!_pitch) {
+	if(!_settings->get(Set::Engine_SpeedActive)) {
 		return;
 	}
 
 	if(preserve_pitch){
 		g_object_set(_pitch,
-					 "tempo", f,
+					 "tempo", speed,
 					 "rate", 1.0,
-					 "pitch", 1.0,
+					 "pitch", pitch,
 					 nullptr);
 	}
 
 	else{
 		g_object_set(_pitch,
 					 "tempo", 1.0,
-					 "rate", f,
-					 "pitch", 1.0,
+					 "rate", speed,
+					 "pitch", pitch,
 					 nullptr);
 	}
 }
@@ -486,8 +477,11 @@ void PlaybackPipeline::set_speed(float f, bool preserve_pitch)
 
 void PlaybackPipeline::change_pitch(int a_frequency)
 {
-	if(!_pitch){
-		return;
+	if(a_frequency == 440){
+		remove_element(_pitch, _audio_convert, _equalizer);
+	}
+	else{
+		add_element(_pitch, _audio_convert, _equalizer);
 	}
 
 	double freq = a_frequency * 1.0;
@@ -618,35 +612,25 @@ double PlaybackPipeline::get_current_volume() const
 }
 
 
-void PlaybackPipeline::_sl_pitch_changed()
-{
-	if(_settings->get(Set::Engine_SpeedActive)){
-		return;
-	}
-
-	int a_frequency = _settings->get(Set::Engine_Pitch);
-
-	change_pitch(a_frequency);
-}
-
 
 void PlaybackPipeline::_sl_speed_active_changed()
 {
 	bool active = _settings->get(Set::Engine_SpeedActive);
+
+	gint64 pos;
+	gst_element_query_position(_pipeline, GST_FORMAT_TIME, &pos);
+
 	if(active){
-
 		add_element(_pitch, _audio_convert, _equalizer);
-
-		this->set_speed(
-			_settings->get(Set::Engine_Speed),
-			_settings->get(Set::Engine_PreservePitch)
-		);
+		_sl_speed_changed();
 	}
 
 	else{
-		if(_pitch){
-			remove_element(_pitch, _audio_convert, _equalizer);
-		}
+		remove_element(_pitch, _audio_convert, _equalizer);
+	}
+
+	if(this->get_state() == GST_STATE_PLAYING){
+		this->_seek(pos);
 	}
 }
 
@@ -655,15 +639,8 @@ void PlaybackPipeline::_sl_speed_changed()
 {
 	this->set_speed(
 		_settings->get(Set::Engine_Speed),
+		_settings->get(Set::Engine_Pitch) / 440.0,
 		_settings->get(Set::Engine_PreservePitch)
-	);
-}
 
-
-void PlaybackPipeline::_sl_preserve_pitch_changed()
-{
-	this->set_speed(
-		_settings->get(Set::Engine_Speed),
-		_settings->get(Set::Engine_PreservePitch)
 	);
 }

@@ -27,7 +27,7 @@
  */
 
 #include "PlaylistView.h"
-#include "GUI/Playlist/BookmarksAction.h"
+#include "GUI/Playlist/BookmarksMenu.h"
 #include "GUI/Playlist/Model/PlaylistItemModel.h"
 #include "GUI/Playlist/Delegate/PlaylistItemDelegate.h"
 
@@ -54,12 +54,12 @@ PlaylistView::PlaylistView(PlaylistPtr pl, QWidget* parent) :
 	_delegate = new PlaylistItemDelegate(this);
 
 	_rc_menu = new LibraryContextMenu(this);
-	BookmarksAction* bookmarks_menu = new BookmarksAction(this);
-	connect(bookmarks_menu, &BookmarksAction::sig_bookmark_pressed, this, [](quint32 time){
+	_bookmarks_menu = new BookmarksMenu(this);
+	connect(_bookmarks_menu, &BookmarksMenu::sig_bookmark_pressed, this, [](quint32 time){
 			PlayManager::getInstance()->seek_abs_ms(time * 1000);
 	});
 
-	_bookmarks_action = _rc_menu->addMenu(bookmarks_menu);
+	_bookmarks_action = _rc_menu->addMenu(_bookmarks_menu);
 
 	this->setModel(_model);
 	this->setAbstractModel(_model);

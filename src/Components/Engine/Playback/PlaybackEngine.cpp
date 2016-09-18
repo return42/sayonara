@@ -487,7 +487,8 @@ void PlaybackEngine::update_md(const MetaData& md, GstElement* src){
 		return;
 	}
 
-	if(md.title == _md.title) {
+	if(	md.title == _md.title)
+	{
 		return;
 	}
 

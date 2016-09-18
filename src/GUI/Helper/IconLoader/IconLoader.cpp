@@ -195,6 +195,41 @@ QIcon IconLoader::get_icon(const QString& name, const QString& dark_name)
 	return GUI::get_icon(dark_name);
 }
 
+QIcon IconLoader::get_icon(const QStringList& names, const QString& dark_name){
+
+	bool dark = (_settings->get(Set::Player_Style) == 1);
+
+	if(!dark){
+		for(const QString& name : names){
+			sp_log(Log::Debug) << "Has icon " << name << " for " << QIcon::themeName() << "? " << (!QIcon::fromTheme(name).isNull());
+			if(!has_std_icon(name)){
+				QStringList lst; lst << name;
+				add_icon_names(lst);
+
+				if(has_std_icon(name)){
+
+	#ifdef Q_OS_WIN
+					return QIcon(get_win_icon_name(name));
+	#else
+					return _icons[name];
+	#endif
+				}
+			}
+
+			else{
+
+	#ifdef Q_OS_WIN
+				return QIcon(get_win_icon_name(name));
+	#else
+				return _icons[name];
+	#endif
+			}
+		}
+	}
+
+	return GUI::get_icon(dark_name);
+}
+
 
 bool IconLoader::has_std_icon(const QString& name) const
 {

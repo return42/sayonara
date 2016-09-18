@@ -10,7 +10,7 @@ class Bookmark;
 #include <QList>
 
 
-class BookmarksAction : 
+class BookmarksMenu :
 	public QMenu
 {
 	Q_OBJECT
@@ -19,13 +19,14 @@ signals:
 	void sig_bookmark_pressed(quint32 time_sec);
 
 private:
-	Bookmarks* _bookmarks=nullptr;
+	Bookmarks*	_bookmarks=nullptr;
 
 public:
-	BookmarksAction(QWidget* parent);
-	virtual ~BookmarksAction();
+	BookmarksMenu(QWidget* parent);
+	virtual ~BookmarksMenu();
 
 	void set_metadata(const MetaData& md);
+	bool has_bookmarks() const;
 
 private slots:
 	void action_pressed();

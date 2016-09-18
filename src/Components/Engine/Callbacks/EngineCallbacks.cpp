@@ -168,6 +168,7 @@ gboolean EngineCallbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpoint
 
 			GstTagList*		tags;
 			gchar*			title;
+			gchar*			artist;
 			bool			success;
 
 			if( msg_src_name.compare("sr_filesink") == 0 ||

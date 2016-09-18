@@ -25,6 +25,7 @@
 #include "PlaylistView.h"
 #include "GUI/Playlist/Delegate/PlaylistItemDelegate.h"
 #include "GUI/Playlist/Model/PlaylistItemModel.h"
+#include "GUI/Playlist/BookmarksMenu.h"
 
 #include "GUI/Helper/ContextMenu/LibraryContextMenu.h"
 #include "GUI/Helper/CustomMimeData.h"
@@ -37,12 +38,10 @@ void PlaylistView::contextMenuEvent(QContextMenuEvent* e)
 	QPoint pos = e->globalPos();
 	QModelIndex idx = indexAt(e->pos());
 
-	//todo: if now bookmarks, don't show
-	//if bookmarks are updated in bookmarks plugin, update menu
-	
 	_bookmarks_action->setVisible(
 			idx.row() == _model->get_current_track() && 
-			idx.row() >= 0);
+			idx.row() >= 0 &&
+			_bookmarks_menu->has_bookmarks());
 
 	LibraryContexMenuEntries entry_mask;
 

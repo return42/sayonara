@@ -56,11 +56,12 @@ void PluginCloseButton::enterEvent(QEvent* e){
 
 	if(dark){
 		icon = GUI::get_icon("tool_grey");
-
 	}
 
 	else{
-		icon = IconLoader::getInstance()->get_icon("window-close", "tool");
+		QStringList names;
+		names << "window-close" << "application-exit";
+		icon = IconLoader::getInstance()->get_icon(names, "close");
 	}
 
 	if( this->isEnabled() ){
@@ -99,7 +100,9 @@ void PluginCloseButton::set_std_icon(){
 	}
 
 	else{
-		icon = IconLoader::getInstance()->get_icon("window-close", "tool");
+		QStringList names;
+		names << "window-close" << "application-exit";
+		icon = IconLoader::getInstance()->get_icon(names, "close");
 	}
 
 

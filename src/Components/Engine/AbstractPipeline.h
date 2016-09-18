@@ -103,7 +103,7 @@ class AbstractPipeline :
 
 		virtual GstElement* get_source() const=0;
 		virtual bool		init(GstState state=GST_STATE_READY);
-		virtual GstElement* get_pipeline();
+		virtual GstElement* get_pipeline() const;
 		virtual GstBus*		get_bus();
 		virtual GstState	get_state();
 		virtual void		refresh_position();

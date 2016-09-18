@@ -118,6 +118,7 @@ void AbstractPipeline::refresh_position() {
 	}
 
 	else if(success){
+		success = gst_element_query_position(_pipeline, GST_FORMAT_TIME, &pos_pipeline);
 		_position_ms = GST_TIME_AS_MSECONDS(pos_pipeline);
 	}
 
@@ -244,7 +245,7 @@ GstState AbstractPipeline::get_state() {
 
 
 
-GstElement* AbstractPipeline::get_pipeline() {
+GstElement* AbstractPipeline::get_pipeline() const {
 	return _pipeline;
 }
 

@@ -7,12 +7,12 @@
     <x>0</x>
     <y>0</y>
     <width>709</width>
-    <height>54</height>
+    <height>43</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="spacing">
-    <number>3</number>
+    <number>0</number>
    </property>
    <property name="leftMargin">
     <number>4</number>
@@ -24,7 +24,7 @@
     <number>4</number>
    </property>
    <property name="bottomMargin">
-    <number>0</number>
+    <number>3</number>
    </property>
    <item>
     <widget class="QWidget" name="header_widget" native="true">
@@ -34,6 +34,12 @@
       </property>
       <property name="rightMargin">
        <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>3</number>
+      </property>
+      <property name="verticalSpacing">
+       <number>3</number>
       </property>
       <item row="0" column="1">
        <widget class="PluginCloseButton" name="btn_close">

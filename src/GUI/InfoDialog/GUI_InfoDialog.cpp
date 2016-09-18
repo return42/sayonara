@@ -98,25 +98,26 @@ void GUI_InfoDialog::prepare_lyrics()
 		return;
 	}
 
-	if(!_lyric_thread)
-	{
+	int cur_idx = combo_servers->currentIndex();
+
+	if(!_lyric_thread){
 		_lyric_thread = new LyricLookupThread(this);
+		connect(_lyric_thread, &LyricLookupThread::sig_finished, this, &GUI_InfoDialog::lyrics_fetched);
+		connect(_lyric_thread, &QObject::destroyed, this, [=](){_lyric_thread = nullptr;});
+	}
 
+	if(combo_servers->count() == 0){
 		QStringList lyric_server_list = _lyric_thread->get_servers();
-
-		combo_servers->clear();
 		for(const QString& server : lyric_server_list) {
 			combo_servers->addItem(server);
 		}
-
-		connect(_lyric_thread, &LyricLookupThread::sig_finished, this, &GUI_InfoDialog::lyrics_fetched);
-		connect(_lyric_thread, &QObject::destroyed, this, [=](){_lyric_thread = nullptr;});
+		cur_idx = 0;
 	}
 
 	te_lyrics->setText("");
 	pb_loading->setVisible(true);
 
-	_lyric_thread->run(_v_md.first().artist, _v_md.first().title, combo_servers->currentIndex());
+	_lyric_thread->run(_v_md.first().artist, _v_md.first().title, cur_idx);
 }
 
 

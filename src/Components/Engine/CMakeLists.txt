@@ -11,7 +11,7 @@ SET(SOURCES
     Playback/PlaybackPipeline.cpp
     Playback/StreamRecorder.cpp
     Playback/CrossFader.cpp
-    Playback/ChangeablePlaylist.cpp
+    Playback/ChangeablePipeline.cpp
 
     Convert/ConvertEngine.cpp
     Convert/ConvertPipeline.cpp

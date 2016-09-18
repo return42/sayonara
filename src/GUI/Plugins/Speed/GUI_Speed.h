@@ -27,8 +27,6 @@
 
 #include "Interfaces/PlayerPlugin/PlayerPlugin.h"
 
-
-class EngineHandler;
 class GUI_Speed : public PlayerPluginInterface, private Ui::GUI_Speed
 {
 	Q_OBJECT
@@ -41,18 +39,20 @@ public:
 	QString get_display_name() const override;
 
 private slots:
-	void slider_changed(int value);
+	void speed_changed(int value);
 	void active_changed(bool enabled);
 	void preserve_pitch_changed(bool enabled);
-	void pitch_changed(int value);
+	void pitch_changed(int pitch);
 	
+	void revert_speed_clicked();
+	void revert_pitch_clicked();
+
+	void pitch_hovered(int val);
+	void speed_hovered(int val);
 
 protected:
 	void language_changed() override;
 	void init_ui() override;
-
-	EngineHandler*	_engine=nullptr;
-
 };
 
 

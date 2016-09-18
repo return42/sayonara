@@ -23,9 +23,10 @@
 #ifndef GSTPLAYBACKPIPELINE_H_
 #define GSTPLAYBACKPIPELINE_H_
 
-#include "Components/Engine/AbstractPipeline.h"
+#include "AbstractPipeline.h"
+#include "ChangeablePipeline.h"
 #include "CrossFader.h"
-#include "ChangeablePlaylist.h"
+
 
 #include <gst/app/gstappsink.h>
 #include <QTimer>
@@ -36,7 +37,7 @@ class Engine;
 class PlaybackPipeline :
 		public AbstractPipeline,
 		public CrossFader,
-		public ChangeablePlaylist
+		public ChangeablePipeline
 {
 	Q_OBJECT
 
@@ -66,7 +67,7 @@ public slots:
 
 
 	void set_eq_band(const QString& band_name, double val);
-	void set_speed(float f, bool preserve_pitch);
+	void set_speed(float speed, double pitch, bool preserve_pitch);
 	void set_streamrecorder_path(const QString& session_path);
 	void change_pitch(int a_frequency);
 
@@ -136,10 +137,8 @@ protected slots:
 	void _sl_show_spectrum_changed();
 	void _sl_mute_changed();
 
-	void _sl_pitch_changed();
 	void _sl_speed_active_changed();
 	void _sl_speed_changed();
-	void _sl_preserve_pitch_changed();
 };
 
 

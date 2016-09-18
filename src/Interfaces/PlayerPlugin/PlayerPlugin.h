@@ -152,7 +152,7 @@ protected:
 
 		widget_layout = layout();
 		if(widget_layout){
-			widget_layout->setContentsMargins(3, 3, 3, 0);
+			widget_layout->setContentsMargins(3, 3, 3, 3);
 		}
 
 		ShortcutHandler* sch = ShortcutHandler::getInstance();

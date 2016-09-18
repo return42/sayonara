@@ -6,100 +6,157 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>332</width>
-    <height>133</height>
+    <width>537</width>
+    <height>132</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="grid_layout">
-   <property name="horizontalSpacing">
-    <number>20</number>
+   <property name="leftMargin">
+    <number>0</number>
    </property>
-   <item row="4" column="1">
-    <widget class="QSpinBox" name="sb_concert_pitch">
-     <property name="minimum">
-      <number>400</number>
-     </property>
-     <property name="maximum">
-      <number>480</number>
-     </property>
-     <property name="value">
-      <number>440</number>
-     </property>
-    </widget>
-   </item>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>10</number>
+   </property>
+   <property name="horizontalSpacing">
+    <number>10</number>
+   </property>
+   <property name="verticalSpacing">
+    <number>4</number>
+   </property>
    <item row="4" column="0">
-    <widget class="QLabel" name="lab_concert_pitch">
-     <property name="text">
-      <string>Concert pitch</string>
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
      </property>
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <widget class="QWidget" name="tab">
+      <attribute name="title">
+       <string>Speed</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout">
+       <property name="horizontalSpacing">
+        <number>8</number>
+       </property>
+       <property name="verticalSpacing">
+        <number>3</number>
+       </property>
+       <item row="1" column="1">
+        <widget class="QLabel" name="lab_speed">
+         <property name="text">
+          <string>1.0</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="2">
+        <widget class="QPushButton" name="btn_revert_speed">
+         <property name="text">
+          <string>Revert</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="SayonaraSlider" name="sli_speed">
+         <property name="minimum">
+          <number>50</number>
+         </property>
+         <property name="maximum">
+          <number>150</number>
+         </property>
+         <property name="pageStep">
+          <number>1</number>
+         </property>
+         <property name="value">
+          <number>100</number>
+         </property>
+         <property name="sliderPosition">
+          <number>100</number>
+         </property>
+         <property name="tracking">
+          <bool>true</bool>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QCheckBox" name="cb_preserve_pitch">
+         <property name="text">
+          <string>Preserve pitch</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_2">
+      <attribute name="title">
+       <string>Pitch</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <property name="horizontalSpacing">
+        <number>8</number>
+       </property>
+       <item row="0" column="0">
+        <widget class="SayonaraSlider" name="sli_pitch">
+         <property name="minimum">
+          <number>4000</number>
+         </property>
+         <property name="maximum">
+          <number>4800</number>
+         </property>
+         <property name="singleStep">
+          <number>1</number>
+         </property>
+         <property name="pageStep">
+          <number>10</number>
+         </property>
+         <property name="value">
+          <number>4400</number>
+         </property>
+         <property name="tracking">
+          <bool>true</bool>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLabel" name="lab_pitch">
+         <property name="text">
+          <string notr="true">Hz</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2">
+        <widget class="QPushButton" name="btn_revert_pitch">
+         <property name="text">
+          <string>Revert</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
     </widget>
    </item>
-   <item row="4" column="2">
-    <widget class="QLabel" name="label">
-     <property name="text">
-      <string>Hz</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="0" colspan="3">
-    <widget class="Line" name="line">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="2">
-    <widget class="QLabel" name="lab_speed">
-     <property name="minimumSize">
-      <size>
-       <width>30</width>
-       <height>0</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>30</width>
-       <height>16777215</height>
-      </size>
-     </property>
-     <property name="text">
-      <string>1.0</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="0" colspan="2">
-    <widget class="SayonaraSlider" name="sli_speed">
-     <property name="minimum">
-      <number>50</number>
-     </property>
-     <property name="maximum">
-      <number>150</number>
-     </property>
-     <property name="pageStep">
-      <number>1</number>
-     </property>
-     <property name="value">
-      <number>100</number>
-     </property>
-     <property name="sliderPosition">
-      <number>100</number>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="0" colspan="2">
-    <widget class="QCheckBox" name="cb_preserve_pitch">
-     <property name="text">
-      <string>Preserve pitch</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="0" colspan="2">
+   <item row="0" column="0">
     <widget class="QCheckBox" name="cb_active">
      <property name="text">
       <string>Active</string>
@@ -116,22 +173,5 @@
   </customwidget>
  </customwidgets>
  <resources/>
- <connections>
-  <connection>
-   <sender>cb_active</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>sb_concert_pitch</receiver>
-   <slot>setDisabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>129</x>
-     <y>19</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>212</x>
-     <y>107</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

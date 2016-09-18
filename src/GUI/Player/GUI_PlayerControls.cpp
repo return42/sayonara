@@ -181,7 +181,9 @@ void GUI_Player::set_file_info_label()
 		rating_text += QString::number( (double) (_md.filesize / 1024) / 1024.0, 'f', 2) + " MB";
 	}
 
-	if(_settings->get(Set::Engine_Pitch) != 440){
+	if( (_settings->get(Set::Engine_Pitch) != 440) &&
+		 _settings->get(Set::Engine_SpeedActive))
+	{
 		if(!rating_text.isEmpty()){
 			rating_text += ", ";
 		}
