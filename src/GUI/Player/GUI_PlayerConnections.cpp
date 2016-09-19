@@ -75,14 +75,6 @@ void GUI_Player::setup_connections() {
 	connect(splitter, &QSplitter::splitterMoved, this, &GUI_Player::main_splitter_moved);
 
 
-	// preferencesF
-	connect(action_setLibPath, &QAction::triggered, this, &GUI_Player::set_library_path_clicked);
-	connect(action_min2tray, &QAction::toggled,	this, &GUI_Player::min2tray_toggled);
-	connect(action_only_one_instance, &QAction::toggled, this, &GUI_Player::only_one_instance_toggled);
-	connect(action_livesearch, &QAction::triggered, this, &GUI_Player::live_search_toggled);
-	connect(action_notifyNewVersion, &QAction::triggered, this,	&GUI_Player::notify_new_version_toggled);
-
-
 	// about
 	connect(action_about, &QAction::triggered, this, &GUI_Player::about);
 	connect(action_help, &QAction::triggered, this, &GUI_Player::help);

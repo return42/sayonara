@@ -85,6 +85,7 @@ namespace SK {
 	Player_OneInstance,
 	Player_Min2Tray,
 	Player_StartInTray,
+	Player_ShowTrayIcon,
 	Player_NotifyNewVersion,
 	Player_SplitterState,
 	Player_Shortcuts,
@@ -217,6 +218,7 @@ namespace Set {
     INST(QString,			Player_ShownPlugin);			/* current shown plugin in player, empty if none */
     INST(bool,				Player_OneInstance);			/* only one Sayonara instance is allowed */
     INST(bool,				Player_Min2Tray);			/* minimize Sayonara to tray */
+    INST(bool,				Player_ShowTrayIcon);			/* Show/hide the tray icon */
     INST(bool,				Player_StartInTray);			/* start in tray */
     INST(bool,				Player_NotifyNewVersion);		/* check for new version on startup */
     INST(QByteArray,			Player_SplitterState);			/* spliter state between playlist and library */

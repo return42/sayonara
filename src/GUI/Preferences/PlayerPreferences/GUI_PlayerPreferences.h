@@ -41,11 +41,9 @@ public:
 	~GUI_PlayerPreferences();
 
 
-
 protected:
 	void init_ui() override;
 	void language_changed() override;
-
 
 
 public:
@@ -53,6 +51,9 @@ public:
 
 	void commit() override;
 	void revert() override;
+
+private slots:
+	void show_tray_icon_toggled(bool b);
 };
 
 #endif // GUI_PLAYERPREFERENCES_H

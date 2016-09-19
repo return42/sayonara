@@ -68,7 +68,6 @@ GUI_Player::GUI_Player(QTranslator* translator, QWidget *parent) :
 	QString version = _settings->get(Set::Player_Version);
 
 #ifdef WITH_MTP
-
 	action_devices->setVisible(true);
 #else
 	action_devices->setVisible(false);
@@ -82,7 +81,6 @@ GUI_Player::GUI_Player(QTranslator* translator, QWidget *parent) :
 	progress_widget->setCurrentIndex(0);
 
 	init_action(action_viewLibrary, Set::Lib_Show);
-	init_action(action_livesearch, Set::Lib_LiveSearch);
 	init_action(action_Dark, Set::Player_Style);
 
 	bool show_library = _settings->get(Set::Lib_Show);
@@ -108,8 +106,6 @@ GUI_Player::GUI_Player(QTranslator* translator, QWidget *parent) :
 	plugin_widget->hide();
 
 	REGISTER_LISTENER(Set::Engine_SR_Active, _sl_sr_active_changed);
-
-	REGISTER_LISTENER_NO_CALL(Set::Player_Fullscreen, _sl_fullscreen_toggled);
 	REGISTER_LISTENER_NO_CALL(SetNoDB::Player_Quit, really_close);
 
 	REGISTER_LISTENER(Set::Player_FontName, skin_changed);
@@ -146,7 +142,6 @@ void GUI_Player::init_gui() {
 
 	action_Fullscreen->setShortcut(QKeySequence("F11"));
 	action_Dark->setShortcut(QKeySequence("F10"));
-
 }
 
 
@@ -629,11 +624,6 @@ void GUI_Player::awa_translators_finished(bool success) {
 
 	awa->deleteLater();
 	about();
-
-}
-
-void GUI_Player::notify_new_version_toggled(bool b) {
-	_settings->set(Set::Player_NotifyNewVersion, b);
 }
 
 

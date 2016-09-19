@@ -90,6 +90,7 @@ private slots:
 	void playstate_changed(PlayManager::PlayState state);
 
 	void mute_changed(bool muted);
+	void _sl_show_tray_icon();
 
 
 

@@ -55,6 +55,8 @@ GUI_TrayIcon::GUI_TrayIcon (QObject *parent) :
 
 	NotificationHandler::getInstance()->register_notificator(this);
 
+	REGISTER_LISTENER(Set::Player_ShowTrayIcon, _sl_show_tray_icon);
+
 
 }
 
@@ -293,4 +295,10 @@ void GUI_TrayIcon::mute_changed(bool muted) {
 			_mute_action->setText(tr("Unmute"));
 		}
 	}
+}
+
+void GUI_TrayIcon::_sl_show_tray_icon()
+{
+	bool show_tray_icon = _settings->get(Set::Player_ShowTrayIcon);
+	this->setVisible(show_tray_icon);
 }

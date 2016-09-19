@@ -1047,7 +1047,7 @@
      <x>0</x>
      <y>0</y>
      <width>1038</width>
-     <height>21</height>
+     <height>24</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFle">
@@ -1071,7 +1071,6 @@
     </property>
     <addaction name="action_viewLibrary"/>
     <addaction name="separator"/>
-    <addaction name="actionPlugins"/>
     <addaction name="action_Dark"/>
     <addaction name="action_Fullscreen"/>
    </widget>
@@ -1130,11 +1129,6 @@
     <string>Dark</string>
    </property>
   </action>
-  <action name="action_setLibPath">
-   <property name="text">
-    <string>Library Path</string>
-   </property>
-  </action>
   <action name="action_help">
    <property name="text">
     <string>Help</string>
@@ -1165,22 +1159,6 @@
     <enum>Qt::ApplicationShortcut</enum>
    </property>
   </action>
-  <action name="action_min2tray">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="text">
-    <string>Close to tray</string>
-   </property>
-  </action>
-  <action name="action_only_one_instance">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="text">
-    <string>Only one instance</string>
-   </property>
-  </action>
   <action name="action_Fullscreen">
    <property name="checkable">
     <bool>true</bool>
@@ -1189,45 +1167,9 @@
     <string>Fullscreen </string>
    </property>
   </action>
-  <action name="action_livesearch">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="checked">
-    <bool>true</bool>
-   </property>
-   <property name="text">
-    <string>Library live search</string>
-   </property>
-  </action>
-  <action name="action_notifyNewVersion">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="checked">
-    <bool>true</bool>
-   </property>
-   <property name="text">
-    <string>Update notifier</string>
-   </property>
-  </action>
   <action name="action_devices">
    <property name="text">
     <string>Devices</string>
-   </property>
-  </action>
-  <action name="actionPlugins">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="text">
-    <string>Plugins</string>
-   </property>
-   <property name="font">
-    <font>
-     <weight>75</weight>
-     <bold>true</bold>
-    </font>
    </property>
   </action>
   <action name="action_donate">

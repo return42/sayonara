@@ -42,6 +42,8 @@ void GUI_PlayerPreferences::init_ui()
 	setup_parent(this);
 
 	revert();
+
+	connect(cb_show_tray_icon, &QCheckBox::toggled, this, &GUI_PlayerPreferences::show_tray_icon_toggled);
 }
 
 QString GUI_PlayerPreferences::get_action_name() const
@@ -52,16 +54,35 @@ QString GUI_PlayerPreferences::get_action_name() const
 
 void GUI_PlayerPreferences::commit()
 {
-	_settings->set(Set::Player_Min2Tray, cb_close_to_tray->isChecked());
-	_settings->set(Set::Player_StartInTray, cb_start_in_tray->isChecked());
+	bool show_tray_icon = _settings->get(Set::Player_ShowTrayIcon);
+
+	_settings->set(Set::Player_Min2Tray, cb_close_to_tray->isChecked() && show_tray_icon);
+	_settings->set(Set::Player_StartInTray, cb_start_in_tray->isChecked() && show_tray_icon);
+
+	_settings->set(Set::Player_ShowTrayIcon, cb_show_tray_icon->isChecked());
 	_settings->set(Set::Player_NotifyNewVersion, cb_update_notifications->isChecked());
 }
 
 void GUI_PlayerPreferences::revert()
 {
+	bool show_tray_icon = _settings->get(Set::Player_ShowTrayIcon);
+
 	cb_start_in_tray->setChecked(_settings->get(Set::Player_StartInTray));
 	cb_close_to_tray->setChecked(_settings->get(Set::Player_Min2Tray));
 	cb_update_notifications->setChecked(_settings->get(Set::Player_NotifyNewVersion));
+	cb_show_tray_icon->setChecked(_settings->get(Set::Player_ShowTrayIcon));
+
+	show_tray_icon_toggled(show_tray_icon);
+}
+
+void GUI_PlayerPreferences::show_tray_icon_toggled(bool b)
+{
+	cb_start_in_tray->setEnabled(b);
+	cb_close_to_tray->setEnabled(b);
+
+	if(!b){
+		_settings->set(Set::Player_Min2Tray, false);
+	}
 }
 
 void GUI_PlayerPreferences::language_changed(){

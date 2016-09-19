@@ -44,7 +44,6 @@
 #include <QAction>
 
 class CoverLocation;
-class LocalLibrary;
 class GUI_Playlist;
 class AsyncWebAccess;
 class PlayerPluginInterface;
@@ -74,8 +73,6 @@ public:
 
 	GUI_Player(QTranslator* translator, QWidget *parent=nullptr);
     ~GUI_Player();
-
-	// set the playlist ui
 
 	void set_libraries(LibraryPluginHandler* plugin_loader);
 
@@ -109,7 +106,6 @@ public slots:
 private:
 
 	QWidget*					_cur_library=nullptr;
-	LocalLibrary*				_local_library=nullptr;
 
 	PlayerPluginHandler*		_pph=nullptr;
 	LibraryPluginHandler*		_lph=nullptr;
@@ -127,7 +123,7 @@ private:
 	QMessageBox*				_about_box=nullptr;
 
 	MetaData					_md;
-	IconLoader*				_icon_loader=nullptr;
+	IconLoader*					_icon_loader=nullptr;
 
 
 private:
@@ -143,8 +139,6 @@ private:
 	void set_info_labels();
 
 	void set_radio_mode(RadioMode model);
-
-	bool check_library_path();
 
 	void closeEvent(QCloseEvent* e) override;
 	void keyPressEvent(QKeyEvent* e) override;
@@ -164,14 +158,11 @@ private:
 		action->setChecked(b);
 	}
 
-
 	// Methods for other mudules to display info/warning/error
 	GlobalMessage::Answer error_received(const QString &error, const QString &sender_name=QString()) override;
 	GlobalMessage::Answer warning_received(const QString &error, const QString &sender_name=QString()) override;
 	GlobalMessage::Answer info_received(const QString &error, const QString &sender_name=QString()) override;
 	GlobalMessage::Answer question_received(const QString &info, const QString &sender_name=QString(), GlobalMessage::QuestionType type=GlobalMessage::QuestionType::YesNo) override;
-
-
 
 
 private slots:
@@ -212,17 +203,8 @@ private slots:
 
 	/* View */
 	void show_library(bool);
-	void show_notification_toggled(bool);
 	void show_fullscreen_toggled(bool);
-	void _sl_fullscreen_toggled();
 	void skin_toggled(bool);
-
-	void set_library_path_clicked();
-
-	void min2tray_toggled(bool);
-	void only_one_instance_toggled(bool);
-	void live_search_toggled(bool);
-	void notify_new_version_toggled(bool);
 
 	void main_splitter_moved(int pos, int idx);
 
