@@ -78,7 +78,7 @@ public:
 class FaderThread : public QThread
 {
 private:
-	FaderThreadData* _ftd;
+	FaderThreadData* _ftd=nullptr;
 
 public:
 	FaderThread(FaderThreadData* data) : QThread(nullptr){
@@ -87,7 +87,9 @@ public:
 
 protected:
 	void run() override {
-		while(_ftd->is_active()){
+
+		while(_ftd && _ftd->is_active())
+		{
 			_ftd->wait();
 		}
 	}
@@ -105,13 +107,18 @@ CrossFader::CrossFader()
 }
 
 
-void CrossFader::init_fader(){
+void CrossFader::init_fader()
+{
 	if(_fade_mode == CrossFader::FadeMode::NoFading){
 		return;
 	}
 
 	if(_fader && _fader_data->is_active()){
 		_fader_data->abort();
+
+		while(_fader->isRunning()){
+			Helper::sleep_ms(10);
+		}
 
 		delete _fader;
 	}
@@ -125,8 +132,8 @@ void CrossFader::init_fader(){
 }
 
 
-void CrossFader::fade_in(){
-
+void CrossFader::fade_in()
+{
 	double volume = Settings::getInstance()->get(Set::Engine_Vol) / 100.0;
 
 	_fade_mode = CrossFader::FadeMode::FadeIn;
@@ -138,7 +145,8 @@ void CrossFader::fade_in(){
 	init_fader();
 }
 
-void CrossFader::fade_out(){
+void CrossFader::fade_out()
+{
 	double volume = Settings::getInstance()->get(Set::Engine_Vol) / 100.0;
 
 	_fade_mode = CrossFader::FadeMode::FadeOut;
@@ -150,7 +158,8 @@ void CrossFader::fade_out(){
 }
 
 
-void CrossFader::fader_timed_out(){
+void CrossFader::fader_timed_out()
+{
 	if(_fade_mode == CrossFader::FadeMode::FadeIn){
 		increase_volume();
 	}

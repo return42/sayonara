@@ -6,8 +6,6 @@ Build-Depends: cmake,
                debhelper (>= 9),
                libgstreamer-plugins-bad1.0-dev,
                libgstreamer-plugins-base1.0-dev,
-               gstreamer1.0-plugins-bad,
-               libgstreamer-plugins-bad1.0-0,
                libgstreamer1.0-dev,
                libmtp-dev,
                libtag1-dev,
@@ -21,6 +19,8 @@ Homepage: http://sayonara-player.com
 Package: sayonara
 Architecture: any
 Depends: gstreamer1.0-plugins-ugly,
+         gstreamer1.0-plugins-bad,
+         libgstreamer-plugins-bad1.0-0,
          libqt5sql5-sqlite,
          ${misc:Depends},
          ${shlibs:Depends}

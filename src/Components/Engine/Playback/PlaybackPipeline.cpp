@@ -616,9 +616,10 @@ double PlaybackPipeline::get_current_volume() const
 void PlaybackPipeline::_sl_speed_active_changed()
 {
 	bool active = _settings->get(Set::Engine_SpeedActive);
+	GstElement* element = get_source();
 
 	gint64 pos;
-	gst_element_query_position(_pipeline, GST_FORMAT_TIME, &pos);
+	gst_element_query_position(element, GST_FORMAT_TIME, &pos);
 
 	if(active){
 		add_element(_pitch, _audio_convert, _equalizer);
@@ -630,7 +631,11 @@ void PlaybackPipeline::_sl_speed_active_changed()
 	}
 
 	if(this->get_state() == GST_STATE_PLAYING){
-		this->_seek(pos);
+		gst_element_seek_simple(element,
+							GST_FORMAT_TIME,
+							(GstSeekFlags)(GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_SNAP_NEAREST),
+							pos);
+
 	}
 }
 
@@ -641,6 +646,5 @@ void PlaybackPipeline::_sl_speed_changed()
 		_settings->get(Set::Engine_Speed),
 		_settings->get(Set::Engine_Pitch) / 440.0,
 		_settings->get(Set::Engine_PreservePitch)
-
 	);
 }
