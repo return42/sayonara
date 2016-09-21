@@ -207,6 +207,17 @@ int LibraryItemModelTracks::get_id_by_row(int row)
 	}
 }
 
+QString LibraryItemModelTracks::get_string(int row) const
+{
+	if(!between(row, _tracks)){
+		return QString();
+	}
+
+	else {
+		return _tracks[row].title;
+	}
+}
+
 
 
 QModelIndex	LibraryItemModelTracks::getFirstRowIndexOf(QString substr) {

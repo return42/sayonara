@@ -18,7 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #include "LocalLibrary.h"
 #include "Components/Library/Importer/LibraryImporter.h"
 #include "Components/Library/threads/ReloadThread.h"
@@ -231,3 +230,54 @@ void LocalLibrary::import_files(const QStringList& files){
 	emit sig_import_dialog_requested();
 }
 
+void LocalLibrary::merge_artists(int target_artist)
+{
+	if(_selected_artists.isEmpty())	{
+		return;
+	}
+
+	bool success;
+
+	Artist artist;
+	success =_db->getArtistByID(target_artist, artist);
+	if(!success){
+		return;
+	}
+
+	MetaDataList v_md;
+	get_all_tracks_by_artist(_selected_artists.toList(), v_md, _filter, _sortorder);
+	for(MetaData& md : v_md){
+		md.artist_id = artist.id;
+		md.artist = artist.name;
+	}
+
+	_db->updateTracks(v_md);
+	refresh();
+}
+
+void LocalLibrary::merge_albums(int target_album)
+{
+
+	if(_selected_albums.isEmpty())	{
+		return;
+	}
+
+	bool success;
+
+	Album album;
+	success =_db->getAlbumByID(target_album, album);
+	if(!success){
+		return;
+	}
+
+	MetaDataList v_md;
+	get_all_tracks_by_album(_selected_albums.toList(), v_md, _filter, _sortorder);
+	for(MetaData& md : v_md){
+		md.album_id = album.id;
+		md.album = album.name;
+	}
+
+	_db->updateTracks(v_md);
+	refresh();
+
+}

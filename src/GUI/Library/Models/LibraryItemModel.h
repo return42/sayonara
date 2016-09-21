@@ -81,7 +81,10 @@ public:
 	virtual bool			is_selected(int id) final;
 	virtual bool			has_selections() final;
 	virtual void			remove_selection(int row) final;
-	virtual void			clear_selections() final ;
+	virtual void			clear_selections() final;
+
+	virtual QString			get_string(int row) const=0;
+	virtual int				get_id_by_row(int row)=0;
 
 	virtual QMap<QChar, QString> getExtraTriggers() override;
 
@@ -99,7 +102,6 @@ protected:
 	int				_n_cols;
 
 protected:
-	virtual int		get_id_by_row(int row)=0;
 
 };
 

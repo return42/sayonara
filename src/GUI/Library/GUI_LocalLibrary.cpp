@@ -65,11 +65,15 @@ GUI_LocalLibrary::GUI_LocalLibrary(QWidget* parent) :
 
 	connect(lv_album, &LibraryViewAlbum::sig_disc_pressed, this, &GUI_LocalLibrary::disc_pressed);
 	connect(lv_album, &LibraryViewAlbum::sig_import_files, this, &GUI_LocalLibrary::import_files);
+	connect(lv_album, &LibraryView::sig_merge, library, &LocalLibrary::merge_albums);
+
 	connect(lv_artist, &LibraryView::sig_import_files, this, &GUI_LocalLibrary::import_files);
+	connect(lv_artist, &LibraryView::sig_merge, library, &LocalLibrary::merge_artists);
 	connect(tb_title, &LibraryView::sig_import_files, this, &GUI_LocalLibrary::import_files);
 	connect(lv_genres, &QAbstractItemView::clicked, this, &GUI_LocalLibrary::genre_selection_changed);
 	connect(lv_genres, &QAbstractItemView::activated, this, &GUI_LocalLibrary::genre_selection_changed);
 	connect(lv_genres, &LibraryGenreView::sig_progress, this, &GUI_LocalLibrary::progress_changed);
+
 
 	connect(_local_library_menu, &LocalLibraryMenu::sig_reload_library, this, &GUI_LocalLibrary::reload_library_requested);
 	connect(_local_library_menu, &LocalLibraryMenu::sig_import_file, this, &GUI_LocalLibrary::import_files_requested);

@@ -54,6 +54,17 @@ int LibraryItemModelAlbums::get_id_by_row(int row)
 	}
 }
 
+QString LibraryItemModelAlbums::get_string(int row) const
+{
+	if(row < 0 || row >= _albums.size()){
+		return QString();
+	}
+
+	else {
+		return _albums[row].name;
+	}
+}
+
 
 
 QVariant LibraryItemModelAlbums::data(const QModelIndex & index, int role) const

@@ -130,6 +130,10 @@ void LibraryView::rc_menu_init() {
 				LibraryContextMenu::EntryEdit |
 				LibraryContextMenu::EntryAppend);
 
+	_merge_menu = new QMenu(tr("Merge"), _rc_menu);
+	_merge_action = _rc_menu->addMenu(_merge_menu);
+	_merge_action->setVisible(false);
+
 	connect(_rc_menu, &LibraryContextMenu::sig_edit_clicked, this, [=](){show_edit();});
 	connect(_rc_menu, &LibraryContextMenu::sig_info_clicked, this, [=](){show_info();});
 	connect(_rc_menu, &LibraryContextMenu::sig_lyrics_clicked, this, [=](){show_lyrics();});
@@ -137,8 +141,6 @@ void LibraryView::rc_menu_init() {
 	connect(_rc_menu, &LibraryContextMenu::sig_play_next_clicked, this, &LibraryView::sig_play_next_clicked);
 	connect(_rc_menu, &LibraryContextMenu::sig_append_clicked, this, &LibraryView::sig_append_clicked);
 	connect(_rc_menu, &LibraryContextMenu::sig_refresh_clicked, this, &LibraryView::sig_refresh_clicked);
-
-
 }
 
 void LibraryView::set_rc_menu(int entries){
@@ -198,4 +200,12 @@ MetaDataList LibraryView::get_data_for_info_dialog() const
 MetaDataList::Interpretation LibraryView::get_metadata_interpretation() const
 {
 	return _type;
+}
+
+void LibraryView::merge_action_triggered()
+{
+	QAction* action = dynamic_cast<QAction*>(sender());
+	int id = action->data().toInt();
+
+	emit sig_merge(id);
 }

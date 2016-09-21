@@ -27,16 +27,43 @@
 bool LibraryView::event(QEvent* e)
 {
 	if(e->type() == QEvent::ContextMenu){
+		SP::Set<int> selections = get_selections();
 
 		QContextMenuEvent* cme = dynamic_cast<QContextMenuEvent*>(e);
 		QPoint pos = cme->globalPos();
 
-		if(_type == MetaDataList::Interpretation::Tracks && get_selections().size() == 1)
+		if(_type == MetaDataList::Interpretation::Tracks && selections.size() == 1)
 		{
 			_rc_menu->show_action(LibraryContextMenu::EntryLyrics, true);
 		}
 		else{
 			_rc_menu->show_action(LibraryContextMenu::EntryLyrics, false);
+		}
+
+		bool is_right_type = 
+			(_type == MetaDataList::Interpretation::Artists ||
+			_type == MetaDataList::Interpretation::Albums);
+
+		if(is_right_type){
+
+			bool has_selections = (selections.size() > 1);
+
+			_merge_action->setVisible(has_selections);
+
+			if(has_selections){
+				_merge_menu->clear();
+
+				for(int i : selections)
+				{
+					QString name = _model->get_string(i);
+					int id = _model->get_id_by_row(i);
+					QAction* action = new QAction(name, _merge_menu);
+					action->setData(id);
+
+					_merge_menu->addAction(action);
+					connect(action, &QAction::triggered, this, &LibraryView::merge_action_triggered);
+				}
+			}
 		}
 
 		rc_menu_show(pos);
@@ -46,8 +73,8 @@ bool LibraryView::event(QEvent* e)
 }
 
 // mouse events
-void LibraryView::mousePressEvent(QMouseEvent* event) {
-
+void LibraryView::mousePressEvent(QMouseEvent* event) 
+{
 	QPoint pos_org = event->pos();
 	QPoint pos = QWidget::mapToGlobal(pos_org);
 
@@ -58,16 +85,8 @@ void LibraryView::mousePressEvent(QMouseEvent* event) {
 	switch(event->button()) {
 
 		case Qt::LeftButton:
-
-			SearchableTableView::mousePressEvent(event);
-
 			_drag_pos = pos_org;
-
 			break;
-
-		case Qt::RightButton:
-
-						break;
 
 		case Qt::MidButton:
 			emit sig_middle_button_clicked(pos);
@@ -77,13 +96,12 @@ void LibraryView::mousePressEvent(QMouseEvent* event) {
 			break;
 	}
 
-
 	SearchableTableView::mousePressEvent(event);
 }
 
 
-void LibraryView::mouseMoveEvent(QMouseEvent* event) {
-
+void LibraryView::mouseMoveEvent(QMouseEvent* event) 
+{
 	int distance = (event->pos() - _drag_pos).manhattanLength();
 
 	if( event->buttons() & Qt::LeftButton &&
@@ -93,14 +111,14 @@ void LibraryView::mouseMoveEvent(QMouseEvent* event) {
 	}
 }
 
-void LibraryView::mouseDoubleClickEvent(QMouseEvent *event) {
-
+void LibraryView::mouseDoubleClickEvent(QMouseEvent *event) 
+{
 	event->setModifiers(Qt::NoModifier);
 	QTableView::mouseDoubleClickEvent(event);
 }
 
-void LibraryView::mouseReleaseEvent(QMouseEvent* event) {
-
+void LibraryView::mouseReleaseEvent(QMouseEvent* event) 
+{
 	switch (event->button()) {
 
 		case Qt::LeftButton:
@@ -118,8 +136,8 @@ void LibraryView::mouseReleaseEvent(QMouseEvent* event) {
 
 
 // keyboard events
-void LibraryView::keyPressEvent(QKeyEvent* event) {
-
+void LibraryView::keyPressEvent(QKeyEvent* event) 
+{
 	int key = event->key();
 
 	Qt::KeyboardModifiers  modifiers = event->modifiers();
@@ -191,8 +209,8 @@ void LibraryView::keyPressEvent(QKeyEvent* event) {
 }
 // keyboard end
 
-void LibraryView::dropEvent(QDropEvent *event) {
-
+void LibraryView::dropEvent(QDropEvent *event) 
+{
 	event->accept();
 	const QMimeData* mime_data = event->mimeData();
 
@@ -220,19 +238,20 @@ void LibraryView::dropEvent(QDropEvent *event) {
 	}
 
 	emit sig_import_files(filelist);
-
 }
 
-void LibraryView::dragEnterEvent(QDragEnterEvent *event) {
+void LibraryView::dragEnterEvent(QDragEnterEvent *event) 
+{
 	event->accept();
 }
 
-void  LibraryView::dragMoveEvent(QDragMoveEvent *event) {
+void  LibraryView::dragMoveEvent(QDragMoveEvent *event) 
+{
 	event->accept();
 }
 
-void LibraryView::resizeEvent(QResizeEvent *event){
-
+void LibraryView::resizeEvent(QResizeEvent *event)
+{
 	SearchableTableView::resizeEvent(event);
 	get_header_view()->refresh_sizes(this);
 }

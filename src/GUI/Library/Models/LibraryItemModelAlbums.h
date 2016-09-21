@@ -55,6 +55,7 @@ public:
 	virtual QModelIndex	getPrevRowIndexOf(QString substr, int row, const QModelIndex& parent=QModelIndex()) override;
 
 	virtual int	get_id_by_row(int row) override;
+	virtual QString get_string(int row) const override;
 
 private:
 	AlbumList 	_albums;

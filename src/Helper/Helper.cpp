@@ -212,7 +212,8 @@ QStringList Helper::get_soundfile_extensions() {
 			<< "*.wav"
 			<< "*.flac"
 			<< "*.aac"
-			<< "*.wma";
+			<< "*.wma"
+			<< "*.mpc";
 
 	return filters;
 }

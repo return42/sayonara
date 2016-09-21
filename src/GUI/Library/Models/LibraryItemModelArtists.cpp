@@ -56,6 +56,17 @@ int LibraryItemModelArtists::get_id_by_row(int row)
 	}
 }
 
+QString LibraryItemModelArtists::get_string(int row) const
+{
+	if(row < 0 || row >= _artists.size()){
+		return QString();
+	}
+
+	else {
+		return _artists[row].name;
+	}
+}
+
 
 QVariant LibraryItemModelArtists::data(const QModelIndex & index, int role) const
 {

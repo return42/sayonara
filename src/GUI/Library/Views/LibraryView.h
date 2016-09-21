@@ -38,19 +38,19 @@
 #include "Helper/MetaData/MetaDataList.h"
 #include "Components/Library/Sorting.h"
 
-#include <QEvent>
-#include <QDropEvent>
-#include <QMouseEvent>
-#include <QStringList>
 #include <QAction>
+#include <QApplication>
+#include <QDrag>
+#include <QDropEvent>
+#include <QEvent>
+#include <QFont>
 #include <QIcon>
 #include <QLineEdit>
-#include <QScrollBar>
-#include <QFont>
-#include <QDrag>
-#include <QApplication>
-#include <QMenu>
 #include <QList>
+#include <QMenu>
+#include <QMouseEvent>
+#include <QScrollBar>
+#include <QStringList>
 
 class LibraryItemModel;
 class LibraryContextMenu;
@@ -82,12 +82,15 @@ signals:
 	void sig_import_files(const QStringList&);
 	void sig_double_clicked(const SP::Set<int>&);
 	void sig_sel_changed(const SP::Set<int>&);
+	void sig_merge(int target_id);
 
 
 protected slots:
 	virtual void header_actions_triggered(const BoolList& shown_cols);
 	virtual void rc_menu_show(const QPoint&);
 	virtual void sort_by_column(int);
+
+	void merge_action_triggered();
 
 	void language_changed();
 	MetaDataList::Interpretation get_metadata_interpretation() const override;
@@ -141,6 +144,9 @@ protected:
 
 	QDrag*						_drag=nullptr;
 	QPoint						_drag_pos;
+
+	QAction*					_merge_action=nullptr;
+	QMenu*						_merge_menu=nullptr;
 
 	LibraryContextMenu*			_rc_menu=nullptr;
 

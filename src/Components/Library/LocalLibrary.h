@@ -53,6 +53,8 @@ public slots:
 	void refresh_tracks() override;
 
 	void import_files(const QStringList& files) override;
+	void merge_artists(int target_artist_id);
+	void merge_albums(int target_album_id);
 
 
 protected slots:
