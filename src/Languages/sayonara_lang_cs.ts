@@ -364,7 +364,7 @@
     <message>
         <location line="+76"/>
         <source>No Bookmarks found</source>
-        <translation type="unfinished"></translation>
+        <translation>Nenalezeny žádné záložky</translation>
     </message>
     <message>
         <location filename="../GUI/Plugins/Bookmarks/GUI_Bookmarks.cpp" line="-1"/>
@@ -468,7 +468,7 @@
     <message>
         <location filename="../GUI/Plugins/Crossfader/GUI_Crossfader.cpp" line="+70"/>
         <source>Crossfader</source>
-        <translation type="unfinished"></translation>
+        <translation>Prolínač</translation>
     </message>
 </context>
 <context>
@@ -656,7 +656,7 @@
     <message>
         <location line="+20"/>
         <source>Scrobble after</source>
-        <translation type="unfinished"></translation>
+        <translation>Odesílat údaje po</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -1734,13 +1734,13 @@
     <message>
         <location line="-52"/>
         <source>Preserve pitch</source>
-        <translation type="unfinished"></translation>
+        <translation>Zachovat výšku tónu</translation>
     </message>
     <message>
         <location line="+8"/>
         <location filename="../GUI/Plugins/Speed/GUI_Speed.cpp" line="+0"/>
         <source>Pitch</source>
-        <translation type="unfinished"></translation>
+        <translation>Výška tónu</translation>
     </message>
     <message>
         <location line="+55"/>
@@ -2048,7 +2048,7 @@ Vyberte, prosím, jinou složku</translation>
     <message>
         <location line="+20"/>
         <source>ID3v2 Cover</source>
-        <translation type="unfinished"></translation>
+        <translation>Obal ID3v2</translation>
     </message>
     <message>
         <location line="+20"/>
@@ -2058,7 +2058,7 @@ Vyberte, prosím, jinou složku</translation>
     <message>
         <location line="+41"/>
         <source>Don&apos;t replace</source>
-        <translation type="unfinished"></translation>
+        <translation>Nenahrazovat</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -2987,7 +2987,7 @@ Vyberte, prosím, jinou složku</translation>
     <message>
         <location line="+4"/>
         <source>Cannot fetch stations</source>
-        <translation type="unfinished"></translation>
+        <translation>Nelze natáhnout stanice</translation>
     </message>
 </context>
 <context>

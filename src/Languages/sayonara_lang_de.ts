@@ -2121,7 +2121,7 @@ Bitte ein anderes Verzeichnis wählen</translation>
     <message>
         <location line="+192"/>
         <source>None</source>
-        <translation type="unfinished">n.v.</translation>
+        <translation>n.v.</translation>
     </message>
     <message>
         <location line="+125"/>
@@ -2465,7 +2465,7 @@ Bitte ein anderes Verzeichnis wählen</translation>
     <message>
         <location line="+3"/>
         <source>None</source>
-        <translation type="unfinished">n.v.</translation>
+        <translation>n.v.</translation>
     </message>
 </context>
 <context>
@@ -2481,7 +2481,7 @@ Bitte ein anderes Verzeichnis wählen</translation>
     <message>
         <location filename="../GUI/Library/Models/LibraryItemModelTracks.cpp" line="+101"/>
         <source>None</source>
-        <translation type="unfinished">n.v.</translation>
+        <translation>n.v.</translation>
     </message>
 </context>
 <context>
