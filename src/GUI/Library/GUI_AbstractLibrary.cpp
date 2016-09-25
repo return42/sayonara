@@ -21,6 +21,7 @@
 #include "GUI_AbstractLibrary.h"
 #include "GUI/Helper/Message/Message.h"
 #include "Components/Library/AbstractLibrary.h"
+#include "Helper/LibrarySearchMode.h"
 
 #include "GUI/Library/Helper/ColumnHeader.h"
 #include <QKeySequence>
@@ -217,7 +218,8 @@ void GUI_AbstractLibrary::text_line_edited(const QString &search){
 	}
 
 	else{
-		filter.filtertext = QString("%") + search + QString("%");
+		LibraryHelper::SearchModeMask mask = _settings->get(Set::Lib_SearchMode);
+		filter.filtertext = QString("%") + LibraryHelper::convert_search_string(search, mask) + QString("%");
 		filter.cleared = false;
 	}
 

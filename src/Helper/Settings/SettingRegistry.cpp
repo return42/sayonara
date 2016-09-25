@@ -24,6 +24,7 @@
 #include "Database/DatabaseConnector.h"
 #include "Helper/Playlist/PlaylistMode.h"
 #include "Helper/EqualizerPresets.h"
+#include "Helper/LibrarySearchMode.h"
 #include "GUI/Helper/Shortcuts/RawShortcutMap.h"
 
 SettingRegistry::SettingRegistry()
@@ -77,6 +78,7 @@ bool SettingRegistry::init(){
 	register_setting( Set::Lib_DC_PlayImmediately ,"lib_dc_play_immediately", false);
 	register_setting( Set::Lib_DD_DoNothing ,"lib_dd_do_nothing", true);
 	register_setting( Set::Lib_DD_PlayIfStoppedAndEmpty ,"lib_dd_play_if_stopped_and_empty", false);
+	register_setting( Set::Lib_SearchMode, "lib_search_mode", LibraryHelper::CaseInsensitve);
 
 #ifdef Q_OS_WIN
 	register_setting( Set::Lib_FontBold ,"lib_font_bold", false);
@@ -152,6 +154,7 @@ bool SettingRegistry::init(){
 	register_setting( Set::Remote_Port, "remote_control_port", 54055);
 
 	register_setting( SetNoDB::MP3enc_found, true );
+	register_setting( SetNoDB::Pitch_found, true );
 	register_setting( SetNoDB::Player_Quit, false );
 
 	bool success = _settings->check_settings();

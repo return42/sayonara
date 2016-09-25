@@ -410,6 +410,27 @@ int DatabaseAlbums::updateAlbum (const Album & album) {
 	return getAlbumID (album.name);
 }
 
+void DatabaseAlbums::updateAlbumCissearch(LibraryHelper::SearchModeMask mode)
+{
+	AlbumList albums;
+	getAllAlbums(albums);
+
+	_db.transaction();
+	for(const Album& album : albums) {
+		QString str = "UPDATE albums SET cissearch=:cissearch WHERE albumID=:id;";
+		SayonaraQuery q(_db);
+		q.prepare(str);
+		q.bindValue(":cissearch", LibraryHelper::convert_search_string(album.name, mode));
+		q.bindValue(":id", album.id);
+
+		if(!q.exec()){
+			q.show_error("Cannot update album cissearch");
+		}
+	}
+
+	_db.commit();
+}
+
 int DatabaseAlbums::insertAlbumIntoDatabase (const QString& album) {
 
 	SayonaraQuery q (_db);

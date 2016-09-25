@@ -61,6 +61,7 @@ protected slots:
 
 	void library_reloading_state_new_block();
 	void reload_thread_finished();
+	void _sl_search_mode_changed();
 
 
 protected:

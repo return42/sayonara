@@ -18,6 +18,7 @@ SET(SOURCES
     UrlHelper.cpp
     Set.cpp
     Tree.cpp
+    LibrarySearchMode.cpp
 
     Playlist/CustomPlaylist.cpp
 
@@ -42,7 +43,7 @@ SET(SOURCES
     Parser/PodcastParser.cpp
     Parser/StreamParser.cpp
 
-	Parser/CommandLineParser.cpp
+    Parser/CommandLineParser.cpp
 
     Tagging/Tagging.cpp
 

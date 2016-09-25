@@ -69,6 +69,8 @@ void GUI_Speed::init_ui()
 	connect(btn_revert_pitch, &QPushButton::clicked, this, &GUI_Speed::revert_pitch_clicked);
 	connect(sli_speed, &SayonaraSlider::sig_slider_hovered, this, &GUI_Speed::speed_hovered);
 	connect(sli_pitch, &SayonaraSlider::sig_slider_hovered, this, &GUI_Speed::pitch_hovered);
+
+	REGISTER_LISTENER(SetNoDB::Pitch_found, _sl_pitch_found_changed);
 }
 
 
@@ -137,4 +139,15 @@ void GUI_Speed::pitch_hovered(int val)
 void GUI_Speed::speed_hovered(int val)
 {
 	QToolTip::showText( QCursor::pos(), QString::number((float) (val / 100.0f)));
+}
+
+void GUI_Speed::_sl_pitch_found_changed()
+{
+	bool pitch_found = _settings->get(SetNoDB::Pitch_found);
+	if(!pitch_found){
+		cb_active->setChecked(false);
+		active_changed(false);
+	}
+
+	cb_active->setEnabled(pitch_found);
 }

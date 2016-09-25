@@ -22,11 +22,14 @@
 #include "Components/Library/Importer/LibraryImporter.h"
 #include "Components/Library/threads/ReloadThread.h"
 #include "Database/DatabaseConnector.h"
+#include "Helper/LibrarySearchMode.h"
 
 LocalLibrary::LocalLibrary(QObject *parent) :
 	AbstractLibrary(parent)
 {
     _db = DatabaseConnector::getInstance();
+
+	REGISTER_LISTENER_NO_CALL(Set::Lib_SearchMode, _sl_search_mode_changed);
 }
 
 LocalLibrary::~LocalLibrary(){
@@ -66,6 +69,18 @@ void LocalLibrary::reload_thread_finished() {
 
 	emit sig_reloading_library("", -1);
 	emit sig_reloading_library_finished();
+}
+
+void LocalLibrary::_sl_search_mode_changed()
+{
+	sp_log(Log::Debug) << "Updating cissearch...";
+
+	LibraryHelper::SearchModeMask mode = _settings->get(Set::Lib_SearchMode);
+	_db->updateArtistCissearch(mode);
+	_db->updateAlbumCissearch(mode);
+	_db->updateTrackCissearch(mode);
+
+	sp_log(Log::Debug) << "Updating cissearch finished";
 }
 
 void LocalLibrary::library_reloading_state_new_block() {

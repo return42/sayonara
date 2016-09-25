@@ -50,6 +50,8 @@ private slots:
 	void pitch_hovered(int val);
 	void speed_hovered(int val);
 
+	void _sl_pitch_found_changed();
+
 protected:
 	void language_changed() override;
 	void init_ui() override;

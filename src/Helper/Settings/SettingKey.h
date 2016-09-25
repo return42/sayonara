@@ -71,6 +71,7 @@ namespace SK {
 	Lib_DD_PlayIfStoppedAndEmpty,
 	Lib_FontSize,
 	Lib_FontBold,
+	Lib_SearchMode,
 
 	Player_Version,
 	Player_Language,
@@ -135,6 +136,7 @@ namespace SK {
 	Broadcast_Port,
 
 	MP3enc_found,
+	Pitch_found,
 	Player_Quit,
 
 	Remote_Active,
@@ -205,6 +207,7 @@ namespace Set {
     INST(bool,				Lib_DD_PlayIfStoppedAndEmpty);		/* when drag dropped, play if playlist is empty and stopped */
     INST(int,				Lib_FontSize);				/* current library font size */
     INST(bool,				Lib_FontBold);				/* current library font weight */
+    INST(int,				Lib_SearchMode);			/* Search mode in library. See */
 
     INST(QString,			Player_Version);			/* Version string of player */
     INST(QString,			Player_Language);			/* language of player */
@@ -277,6 +280,7 @@ namespace Set {
 namespace SetNoDB{
 
     INST(bool,				MP3enc_found);
+    INST(bool,				Pitch_found);
     INST(bool,				Player_Quit);
 
 }

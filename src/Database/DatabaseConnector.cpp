@@ -41,7 +41,7 @@ DatabaseConnector::~DatabaseConnector() {
 
 }
 
-bool DatabaseConnector::updateAlbumCissearch() {
+bool DatabaseConnector::updateAlbumCissearchFix() {
 
 #ifdef DEBUG_DB
 	sp_log(Log::Debug) << Q_FUNC_INFO;
@@ -65,7 +65,7 @@ bool DatabaseConnector::updateAlbumCissearch() {
 }
 
 
-bool DatabaseConnector::updateArtistCissearch() {
+bool DatabaseConnector::updateArtistCissearchFix() {
 
 	ArtistList artists;
 	getAllArtists(artists);
@@ -84,7 +84,7 @@ bool DatabaseConnector::updateArtistCissearch() {
 	return true;
 }
 
-bool DatabaseConnector::updateTrackCissearch() {
+bool DatabaseConnector::updateTrackCissearchFix() {
 
 	MetaDataList v_md;
 	getTracksFromDatabase(v_md);
@@ -102,12 +102,13 @@ bool DatabaseConnector::apply_fixes() {
 	QString str_version;
 	int version;
 	bool success;
+	const int LatestVersion = 11;
 
 	success = load_setting("version", str_version);
 	version = str_version.toInt(&success);
 	sp_log(Log::Info) << "Database Version " << version;
 
-	if(version == 10) {
+	if(version == LatestVersion) {
 		sp_log(Log::Warning) << "No need to update db";
 		return true;
 	}
@@ -150,9 +151,9 @@ bool DatabaseConnector::apply_fixes() {
 		success &= check_and_insert_column("albums", "cissearch", "VARCHAR(512)");
 		success &= check_and_insert_column("artists", "cissearch", "VARCHAR(512)");
 
-		updateAlbumCissearch();
-		updateArtistCissearch();
-		updateTrackCissearch();
+		updateAlbumCissearchFix();
+		updateArtistCissearchFix();
+		updateTrackCissearchFix();
 
 		_database.commit();
 	}
