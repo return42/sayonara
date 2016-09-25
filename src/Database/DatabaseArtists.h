@@ -25,6 +25,7 @@
 
 #include "Database/DatabaseModule.h"
 #include "Components/Library/Sorting.h"
+#include "Helper/LibrarySearchMode.h"
 
 
 class Artist;
@@ -58,6 +59,8 @@ public:
 	virtual int insertArtistIntoDatabase (const QString& artist);
 	virtual int insertArtistIntoDatabase (const Artist& artist);
 	virtual int updateArtist(const Artist& artist);
+
+	virtual void updateArtistCissearch(LibraryHelper::SearchModeMask mode);
 
 };
 

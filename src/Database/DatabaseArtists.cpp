@@ -320,3 +320,23 @@ int DatabaseArtists::updateArtist(const Artist &artist){
 	return artist.id;
 }
 
+void DatabaseArtists::updateArtistCissearch(LibraryHelper::SearchModeMask mode)
+{
+	ArtistList artists;
+	getAllArtists(artists);
+
+	_db.transaction();
+	for(const Artist& artist : artists) {
+		QString str = "UPDATE artists SET cissearch=:cissearch WHERE artistID=:id;";
+		SayonaraQuery q(_db);
+		q.prepare(str);
+		q.bindValue(":cissearch", LibraryHelper::convert_search_string(artist.name, mode));
+		q.bindValue(":id", artist.id);
+
+		if(!q.exec()){
+			q.show_error("Cannot update artist cissearch");
+		}
+	}
+	_db.commit();
+}
+

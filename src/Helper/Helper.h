@@ -64,6 +64,8 @@ namespace Helper {
 		QString discs();
 	};
 
+
+
 	/**
 	 * @brief Transform all letters after a space to upper case
 	 * @param str input string
@@ -191,6 +193,7 @@ namespace Helper {
 	 * @param value variable value
 	 */
 	void set_environment(const QString& key, const QString& value);
+
 }
 
 

@@ -199,7 +199,6 @@ protected:
 
 
 private:
-
 	void set_playlist_action_after_double_click();
 
 	virtual void restore_artist_selection();

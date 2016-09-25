@@ -51,9 +51,9 @@ class DatabaseConnector :
 
 
 protected:
-	bool updateAlbumCissearch();
-	bool updateArtistCissearch();
-	bool updateTrackCissearch();
+	bool updateAlbumCissearchFix();
+	bool updateArtistCissearchFix();
+	bool updateTrackCissearchFix();
 
 	virtual bool apply_fixes();
 

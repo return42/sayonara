@@ -29,6 +29,8 @@
 #include "LibraryItemModelArtists.h"
 #include "GUI/Library/Helper/ColumnHeader.h"
 #include "GUI/Helper/GUI_Helper.h"
+#include "Helper/Settings/Settings.h"
+#include "Helper/LibrarySearchMode.h"
 
 #include <QAbstractListModel>
 #include <QStringList>
@@ -178,6 +180,10 @@ QModelIndex	LibraryItemModelArtists::getNextRowIndexOf(QString substr, int row, 
 
 	Q_UNUSED(parent)
 
+	Settings* settings = Settings::getInstance();
+	LibraryHelper::SearchModeMask mask = settings->get(Set::Lib_SearchMode);
+	substr = LibraryHelper::convert_search_string(substr, mask);
+
 	int len = _artists.size();
 	if( len == 0 ) return this->index(-1, -1);
 
@@ -185,12 +191,10 @@ QModelIndex	LibraryItemModelArtists::getNextRowIndexOf(QString substr, int row, 
 		int row_idx = (i + row) % len;
 
 		QString artist_name = _artists[row_idx].name;
-		if( artist_name.startsWith("the ", Qt::CaseInsensitive) ||
-				artist_name.startsWith("die ", Qt::CaseInsensitive) ) {
-			artist_name = artist_name.right(artist_name.size() -4);
-		}
+		artist_name = LibraryHelper::convert_search_string(artist_name, mask);
 
-		if(artist_name.startsWith(substr, Qt::CaseInsensitive) || artist_name.startsWith(substr, Qt::CaseInsensitive)) {
+		if(artist_name.contains(substr))
+		{
 			return this->index(row_idx, 0);
 		}
 	}
@@ -203,21 +207,26 @@ QModelIndex	LibraryItemModelArtists::getPrevRowIndexOf(QString substr, int row, 
 
 	Q_UNUSED(parent)
 
+	Settings* settings = Settings::getInstance();
+	LibraryHelper::SearchModeMask mask = settings->get(Set::Lib_SearchMode);
+	substr = LibraryHelper::convert_search_string(substr, mask);
+
 	int len = _artists.size();
 	if( len < row) row = len - 1;
 
 	for(int i=0; i<len; i++) {
 
-		if(row - i < 0) row = len - 1;
+		if(row - i < 0) {
+			row = len - 1;
+		}
+
 		int row_idx = (row-i) % len;
 
 		QString artist_name = _artists[row_idx].name;
-		if( artist_name.startsWith("the ", Qt::CaseInsensitive) ||
-				artist_name.startsWith("die ", Qt::CaseInsensitive) ) {
-			artist_name = artist_name.right(artist_name.size() -4);
-		}
+		artist_name = LibraryHelper::convert_search_string(artist_name, mask);
 
-		if(artist_name.startsWith(substr, Qt::CaseInsensitive) || artist_name.startsWith(substr, Qt::CaseInsensitive)) {
+		if(artist_name.contains(substr))
+		{
 			return this->index(row_idx, 0);
 		}
 	}

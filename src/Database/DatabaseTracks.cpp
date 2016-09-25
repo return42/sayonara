@@ -629,6 +629,28 @@ QStringList DatabaseTracks::getAllGenres(){
 	return QStringList(hash.keys());
 }
 
+
+void DatabaseTracks::updateTrackCissearch(LibraryHelper::SearchModeMask mode)
+{
+	MetaDataList v_md;
+	getTracksFromDatabase(v_md);
+
+	_db.transaction();
+	for(const MetaData& md : v_md) {
+		QString str = "UPDATE tracks SET cissearch=:cissearch WHERE trackID=:id;";
+		SayonaraQuery q(_db);
+		q.prepare(str);
+		q.bindValue(":cissearch", LibraryHelper::convert_search_string(md.title, mode));
+		q.bindValue(":id", md.id);
+
+		if(!q.exec()){
+			q.show_error("Cannot update album cissearch");
+		}
+	}
+	_db.commit();
+}
+
+
 bool DatabaseTracks::updateTrack(const MetaData& md) {
 
 	if(md.id == -1) return false;

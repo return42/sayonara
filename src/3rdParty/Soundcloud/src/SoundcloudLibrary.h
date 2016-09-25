@@ -48,7 +48,7 @@ public:
 	void				insert_tracks(const MetaDataList& v_md, const ArtistList& artists, const AlbumList& albums);
 protected:
 
-	SoundcloudData*		_scd;
+	SoundcloudData*		_scd=nullptr;
 
 	void		get_all_artists(ArtistList& artists, LibSortOrder so=LibSortOrder()) override;
 	void		get_all_artists_by_searchstring(Filter filter, ArtistList& artists, LibSortOrder so) override;

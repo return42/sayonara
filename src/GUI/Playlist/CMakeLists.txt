@@ -30,7 +30,7 @@ SET(LINK_LIBS
     say_gui_info_dialog
     say_gui_shutdown_dialog
     say_gui_helper
-	say_comp_bookmarks
+    say_comp_bookmarks
 )
 
 IF(NOT WIN32 OR NOT DEFINED WIN32)

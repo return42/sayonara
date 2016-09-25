@@ -33,6 +33,8 @@
 #include "Helper/Helper.h"
 #include "Helper/FileHelper.h"
 
+#include "Helper/Settings/Settings.h"
+#include "Helper/LibrarySearchMode.h"
 
 
 LibraryItemModelTracks::LibraryItemModelTracks() :
@@ -237,10 +239,18 @@ QModelIndex LibraryItemModelTracks::getNextRowIndexOf(QString substr, int row, c
 		return this->index(-1, -1);
 	}
 
-	for(int i=0; i< len; i++) {
+	Settings* settings = Settings::getInstance();
+	LibraryHelper::SearchModeMask mask = settings->get(Set::Lib_SearchMode);
+	substr = LibraryHelper::convert_search_string(substr, mask);
+
+	for(int i=0; i< len; i++)
+	{
 		int row_idx = (i + row) % len;
+
 		QString title = _tracks[row_idx].title;
-		if(title.startsWith(substr, Qt::CaseInsensitive)) {
+		title = LibraryHelper::convert_search_string(title, mask);
+
+		if(title.contains(substr)) {
 			return this->index(row_idx, 0);
 		}
 	}
@@ -252,13 +262,25 @@ QModelIndex LibraryItemModelTracks::getPrevRowIndexOf(QString substr, int row, c
 
 	Q_UNUSED(parent)
 
+	Settings* settings = Settings::getInstance();
+	LibraryHelper::SearchModeMask mask = settings->get(Set::Lib_SearchMode);
+	substr = LibraryHelper::convert_search_string(substr, mask);
+
 	int len = _tracks.size();
 	if(len < row) row = len - 1;
-	for(int i=0; i< len; i++) {
-		if(row - i < 0) row = len - 1;
+	for(int i=0; i< len; i++)
+	{
+		if(row - i < 0) {
+			row = len - 1;
+		}
+
 		int row_idx = (row - i) % len;
+
 		QString title = _tracks[row_idx].title;
-		if(title.startsWith(substr, Qt::CaseInsensitive)) {
+		title = LibraryHelper::convert_search_string(title, mask);
+
+		if(title.contains(substr))
+		{
 			return this->index(row_idx, 0);
 		}
 	}

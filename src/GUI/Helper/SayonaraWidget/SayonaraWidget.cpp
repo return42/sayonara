@@ -72,8 +72,8 @@ void SayonaraMainWindow::raise(){
         this->setVisible(true);
     }   
 
+
     this->setWindowFlags((Qt::WindowFlags) (windowFlags() & ~Qt::WindowMinimized));
     this->activateWindow();
-    this->show();
-
+	this->showNormal();
 }

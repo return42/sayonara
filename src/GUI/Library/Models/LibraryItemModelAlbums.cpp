@@ -31,6 +31,8 @@
 #include "GUI/Library/Helper/ColumnHeader.h"
 #include "GUI/Helper/GUI_Helper.h"
 #include "Helper/Helper.h"
+#include "Helper/Settings/Settings.h"
+#include "Helper/LibrarySearchMode.h"
 
 LibraryItemModelAlbums::LibraryItemModelAlbums() :
 	LibraryItemModel()
@@ -230,17 +232,18 @@ QModelIndex LibraryItemModelAlbums::getNextRowIndexOf(QString substr, int row, c
 		return this->index(-1, -1);
 	}
 
+	Settings* settings = Settings::getInstance();
+	LibraryHelper::SearchModeMask mask = settings->get(Set::Lib_SearchMode);
+	substr = LibraryHelper::convert_search_string(substr, mask);
 
 	for(int i=0; i<len; i++) {
 		int row_idx = (i + row) % len;
 
 		QString album_name = _albums[row_idx].name;
-		if( album_name.startsWith("the ", Qt::CaseInsensitive) ||
-				album_name.startsWith("die ", Qt::CaseInsensitive) ) {
-			album_name = album_name.right(album_name.size() -4);
-		}
-		if( album_name.startsWith(substr, Qt::CaseInsensitive ) ||
-				album_name.startsWith(substr, Qt::CaseInsensitive )){
+		album_name = LibraryHelper::convert_search_string(album_name, mask);
+
+		if( album_name.contains(substr))
+		{
 			return this->index(row_idx, 0);
 		}
 	}
@@ -252,6 +255,10 @@ QModelIndex LibraryItemModelAlbums::getPrevRowIndexOf(QString substr, int row, c
 
 	Q_UNUSED(parent)
 
+	Settings* settings = Settings::getInstance();
+	LibraryHelper::SearchModeMask mask = settings->get(Set::Lib_SearchMode);
+	substr = LibraryHelper::convert_search_string(substr, mask);
+
 	int len = _albums.size();
 	if(len < row){
 		row = len - 1;
@@ -259,22 +266,18 @@ QModelIndex LibraryItemModelAlbums::getPrevRowIndexOf(QString substr, int row, c
 
 	for(int i=0; i<len; i++) {
 		int row_idx;
-		QString album_name;
 
 		if(row - i < 0){
 			row = len - 1;
 		}
 
 		row_idx = (row-i) % len;
-		album_name = _albums[row_idx].name;
 
-		if( album_name.startsWith("the ", Qt::CaseInsensitive) ||
-				album_name.startsWith("die ", Qt::CaseInsensitive) ) {
-			album_name = album_name.right(album_name.size() -4);
-		}
+		QString album_name = _albums[row_idx].name;
+		album_name = LibraryHelper::convert_search_string(album_name, mask);
 
-		if( album_name.startsWith(substr, Qt::CaseInsensitive) ||
-				album_name.startsWith(substr, Qt::CaseInsensitive)){
+		if( album_name.contains(substr))
+		{
 			return this->index(row_idx, 0);
 		}
 	}

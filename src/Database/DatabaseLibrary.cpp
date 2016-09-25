@@ -122,4 +122,3 @@ void DatabaseLibrary::createIndexes(){
 
 	q.exec();
 }
-

@@ -27,6 +27,8 @@
 #include "Database/DatabaseModule.h"
 #include "Helper/globals.h"
 #include "Helper/Filter.h"
+#include "Helper/LibrarySearchMode.h"
+
 class MetaData;
 class MetaDataList;
 class CustomPlaylist;
@@ -70,6 +72,7 @@ public:
 	virtual bool deleteInvalidTracks();
 
 	virtual QStringList getAllGenres();
+	virtual void updateTrackCissearch(LibraryHelper::SearchModeMask mode);
 
 };
 

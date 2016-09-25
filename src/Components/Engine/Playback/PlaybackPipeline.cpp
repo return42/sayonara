@@ -89,7 +89,10 @@ bool PlaybackPipeline::create_elements(){
 	if(!create_element(&_audio_convert, "audioconvert")) return false;
 	if(!create_element(&_equalizer, "equalizer-10bands")) return false;
 
-	create_element(&_pitch, "pitch");
+	if(!create_element(&_pitch, "pitch")){
+		_pitch = nullptr;
+	}
+
 	if(!create_element(&_tee, "tee")) return false;
 
 	// standard output branch
@@ -457,6 +460,10 @@ void PlaybackPipeline::set_speed(float speed, double pitch, bool preserve_pitch)
 		return;
 	}
 
+	if(!_pitch){
+		return;
+	}
+
 	if(preserve_pitch){
 		g_object_set(_pitch,
 					 "tempo", speed,
@@ -477,6 +484,10 @@ void PlaybackPipeline::set_speed(float speed, double pitch, bool preserve_pitch)
 
 void PlaybackPipeline::change_pitch(int a_frequency)
 {
+	if(!_pitch){
+		return;
+	}
+
 	if(a_frequency == 440){
 		remove_element(_pitch, _audio_convert, _equalizer);
 	}
@@ -615,6 +626,10 @@ double PlaybackPipeline::get_current_volume() const
 
 void PlaybackPipeline::_sl_speed_active_changed()
 {
+	if(!_pitch){
+		return;
+	}
+
 	bool active = _settings->get(Set::Engine_SpeedActive);
 	GstElement* element = get_source();
 

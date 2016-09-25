@@ -124,7 +124,7 @@ bool Tagging::getMetaDataOfFile(MetaData& md, Tagging::Quality quality) {
 
 	QStringList genres;
 	QString genre_str = Helper::cvt_str_to_first_upper(genre);
-	genres = genre_str.split(QRegExp(",|/|;|\\."));
+	genres = genre_str.split(QRegExp(",|/|;"));
 	for(int i=0; i<genres.size(); i++) {
 		genres[i] = genres[i].trimmed();
 	}
