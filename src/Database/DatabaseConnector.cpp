@@ -102,7 +102,7 @@ bool DatabaseConnector::apply_fixes() {
 	QString str_version;
 	int version;
 	bool success;
-	const int LatestVersion = 11;
+	const int LatestVersion = 10;
 
 	success = load_setting("version", str_version);
 	version = str_version.toInt(&success);
