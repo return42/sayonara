@@ -49,12 +49,12 @@ void GUI_LibraryPreferences::commit(){
 		mask |= LibraryHelper::CaseInsensitve;
 	}
 
-	if(cb_no_accents->isChecked()){
-		mask |= LibraryHelper::NoDiacriticChars;
-	}
-
 	if(cb_no_special_chars->isChecked()){
 		mask |= LibraryHelper::NoSpecialChars;
+	}
+
+	if(cb_no_accents->isChecked()){
+		mask |= LibraryHelper::NoDiacriticChars;
 	}
 
 	_settings->set(Set::Lib_DC_DoNothing, rb_dc_do_nothing->isChecked());

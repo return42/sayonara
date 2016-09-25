@@ -55,7 +55,7 @@ void GUI_SoundcloudArtistSearch::search_clicked(){
 	le_search->setText(text);
 
 	if(text.size() <= 3){
-		lab_status->setText(tr("Query to short"));
+		lab_status->setText(tr("Query too short"));
 	}
 
 	set_playlist_label(-1);
