@@ -246,7 +246,6 @@ void LastFM::scrobble(const MetaData& metadata) {
 
 	sig_data.append_signature();
 
-
 	QByteArray post_data;
 	QString url = lfm_wa->create_std_url_post("http://ws.audioscrobbler.com/2.0/", sig_data, post_data);
 

@@ -18,13 +18,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "LocalLibraryMenu.h"
 #include "GUI/Helper/GUI_Helper.h"
 #include "GUI/Helper/IconLoader/IconLoader.h"
-
-
 
 LocalLibraryMenu::LocalLibraryMenu(QWidget* parent) :
 	QMenu(parent),
@@ -38,9 +34,13 @@ LocalLibraryMenu::LocalLibraryMenu(QWidget* parent) :
 	_info_action = new QAction(GUI::get_icon("info"), tr("Info"), this);
 	_library_path_action = new QAction(GUI::get_icon("folder"), tr("Library path"), this);
 
+
 	_realtime_search_action = new QAction(QIcon(), tr("Live search"), this);
 	_realtime_search_action->setCheckable(true);
 	_realtime_search_action->setChecked(_settings->get(Set::Lib_LiveSearch));
+	_auto_update = new QAction(QIcon(), tr("Auto update"), this);
+	_auto_update->setCheckable(true);
+	_auto_update->setChecked(_settings->get(Set::Lib_AutoUpdate));
 
 	connect(_reload_library_action, &QAction::triggered, this, &LocalLibraryMenu::sig_reload_library);
 	connect(_import_file_action, &QAction::triggered, this, &LocalLibraryMenu::sig_import_file);
@@ -48,7 +48,7 @@ LocalLibraryMenu::LocalLibraryMenu(QWidget* parent) :
 	connect(_info_action, &QAction::triggered, this, &LocalLibraryMenu::sig_info);
 	connect(_library_path_action, &QAction::triggered, this, &LocalLibraryMenu::sig_libpath_clicked);
 	connect(_realtime_search_action, &QAction::triggered, this, &LocalLibraryMenu::realtime_search_changed);
-
+	connect(_auto_update, &QAction::triggered, this, &LocalLibraryMenu::auto_update_changed);
 
 	_actions <<_library_path_action <<
 				this->addSeparator() <<
@@ -59,7 +59,8 @@ LocalLibraryMenu::LocalLibraryMenu(QWidget* parent) :
 				_import_folder_action <<
 				_reload_library_action <<
 				this->addSeparator() <<
-				_realtime_search_action;
+				_realtime_search_action <<
+				_auto_update;
 
 	this->addActions(_actions);
 
@@ -73,16 +74,19 @@ LocalLibraryMenu::~LocalLibraryMenu()
 
 }
 
-void LocalLibraryMenu::language_changed(){
+void LocalLibraryMenu::language_changed()
+{
 	_reload_library_action->setText(tr("Reload library"));
 	_import_file_action->setText(tr("Import files"));
 	_import_folder_action->setText(tr("Import directory"));
 	_info_action->setText(tr("Info"));
 	_library_path_action->setText(tr("Library path"));
 	_realtime_search_action->setText(tr("Live search"));
+	_auto_update->setText(tr("Auto update"));
 }
 
-void LocalLibraryMenu::skin_changed(){
+void LocalLibraryMenu::skin_changed()
+{
 	_reload_library_action->setIcon(_icon_loader->get_icon("view-refresh", "undo"));
 	_import_file_action->setIcon(_icon_loader->get_icon("document-open", "open"));
 	_import_folder_action->setIcon(_icon_loader->get_icon("document-open", "open"));
@@ -94,5 +98,10 @@ void LocalLibraryMenu::skin_changed(){
 void LocalLibraryMenu::realtime_search_changed()
 {
 	_settings->set(Set::Lib_LiveSearch, _realtime_search_action->isChecked());
+}
+
+void LocalLibraryMenu::auto_update_changed()
+{
+	_settings->set(Set::Lib_AutoUpdate, _auto_update->isChecked());
 }
 

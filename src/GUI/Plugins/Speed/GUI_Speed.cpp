@@ -147,6 +147,12 @@ void GUI_Speed::_sl_pitch_found_changed()
 	if(!pitch_found){
 		cb_active->setChecked(false);
 		active_changed(false);
+		cb_active->setToolTip(tr("%1 not found").arg("gstreamer bad plugins") + "<br />" +
+							  tr("%1 not found").arg("libsoundtouch"));
+	}
+
+	else{
+		cb_active->setToolTip("");
 	}
 
 	cb_active->setEnabled(pitch_found);

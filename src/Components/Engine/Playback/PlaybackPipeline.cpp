@@ -64,6 +64,7 @@ bool PlaybackPipeline::init(GstState state){
 	}
 
 	_settings->set(SetNoDB::MP3enc_found, _lame != nullptr);
+	_settings->set(SetNoDB::Pitch_found, _pitch != nullptr);
 
 	REGISTER_LISTENER(Set::Engine_Vol, _sl_vol_changed);
 	REGISTER_LISTENER(Set::Engine_Mute, _sl_mute_changed);

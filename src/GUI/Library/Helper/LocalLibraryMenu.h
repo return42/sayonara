@@ -43,8 +43,6 @@ signals:
 	void sig_info();
 	void sig_libpath_clicked();
 
-
-
 public:
 	LocalLibraryMenu(QWidget* parent=nullptr);
 	~LocalLibraryMenu();
@@ -56,6 +54,7 @@ private:
 	QAction* _info_action=nullptr;
 	QAction* _library_path_action=nullptr;
 	QAction* _realtime_search_action=nullptr;
+	QAction* _auto_update=nullptr;
 
 	IconLoader* _icon_loader=nullptr;
 
@@ -66,11 +65,8 @@ private slots:
 	void language_changed();
 	void skin_changed();
 
-
 	void realtime_search_changed();
-
-
-
+	void auto_update_changed();
 };
 
 #endif // LOCALLIBRARYMENU_H

@@ -7,6 +7,8 @@ SET(SOURCES
     AbstractLibrary.cpp
     LocalLibrary.cpp
     threads/ReloadThread.cpp
+	threads/IndexDirectoriesThread.cpp
+	threads/FileSystemWatcher.cpp
 )
 
 

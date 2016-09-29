@@ -19,9 +19,12 @@
  */
 
 #include "LocalLibrary.h"
-#include "Components/Library/Importer/LibraryImporter.h"
-#include "Components/Library/threads/ReloadThread.h"
+#include "Importer/LibraryImporter.h"
+#include "threads/ReloadThread.h"
+#include "threads/IndexDirectoriesThread.h"
+#include "threads/FileSystemWatcher.h"
 #include "Database/DatabaseConnector.h"
+
 #include "Helper/LibrarySearchMode.h"
 
 LocalLibrary::LocalLibrary(QObject *parent) :
@@ -30,6 +33,7 @@ LocalLibrary::LocalLibrary(QObject *parent) :
     _db = DatabaseConnector::getInstance();
 
 	REGISTER_LISTENER_NO_CALL(Set::Lib_SearchMode, _sl_search_mode_changed);
+	REGISTER_LISTENER(Set::Lib_AutoUpdate, _sl_auto_update_changed);
 }
 
 LocalLibrary::~LocalLibrary(){
@@ -69,6 +73,10 @@ void LocalLibrary::reload_thread_finished() {
 
 	emit sig_reloading_library("", -1);
 	emit sig_reloading_library_finished();
+
+	if(_fsw){
+		_fsw->refresh();
+	}
 }
 
 void LocalLibrary::_sl_search_mode_changed()
@@ -81,6 +89,50 @@ void LocalLibrary::_sl_search_mode_changed()
 	_db->updateTrackCissearch(mode);
 
 	sp_log(Log::Debug) << "Updating cissearch finished";
+}
+
+void LocalLibrary::_sl_auto_update_changed()
+{
+	bool active = _settings->get(Set::Lib_AutoUpdate);
+	if(active){
+		MetaDataList v_md;
+		get_all_tracks(v_md, LibSortOrder());
+		IndexDirectoriesThread* thread = new IndexDirectoriesThread(v_md);
+		connect(thread, &QThread::finished, this, &LocalLibrary::indexing_finished);
+		thread->start();
+	}
+
+	else{
+		if(_fsw){
+			_fsw->stop();
+
+			sp_log(Log::Debug) << "Removed filesystem watcher";
+		}
+	}
+}
+
+void LocalLibrary::indexing_finished()
+{
+	IndexDirectoriesThread* thread = dynamic_cast<IndexDirectoriesThread*>(sender());
+
+	_fsw = new FileSystemWatcher(_settings->get(Set::Lib_Path), this);
+
+	connect(_fsw, &QThread::finished, _fsw, &QObject::deleteLater);
+	connect(_fsw, &QThread::destroyed, this, [=](){
+		_fsw = nullptr;
+	});
+
+	connect(_fsw, &FileSystemWatcher::sig_changed, this, [=](){
+		if(!_reload_thread || (_reload_thread && !_reload_thread->is_running())){
+			this->psl_reload_library(false, Library::ReloadQuality::Fast);
+		}
+	});
+
+	_fsw->start();
+
+	thread->deleteLater();
+	sp_log(Log::Debug) << "Added filesystem watcher";
+
 }
 
 void LocalLibrary::library_reloading_state_new_block() {
