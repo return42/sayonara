@@ -237,7 +237,9 @@ void GUI_AbstractLibrary::clear_button_pressed() {
 	_le_search->setText("");
 	_library->refetch();
 
-	connect(_le_search, &QLineEdit::textEdited, this, &GUI_AbstractLibrary::text_line_edited);
+	if(_settings->get(Set::Lib_LiveSearch)){
+		connect(_le_search, &QLineEdit::textEdited, this, &GUI_AbstractLibrary::text_line_edited);
+	}
 }
 
 
