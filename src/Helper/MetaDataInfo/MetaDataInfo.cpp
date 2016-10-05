@@ -26,6 +26,7 @@
 #include "Components/Covers/CoverLocation.h"
 #include "Database/DatabaseHandler.h"
 
+#include <limits>
 
 MetaDataInfo::MetaDataInfo(const MetaDataList& v_md) :
 	QObject(nullptr),

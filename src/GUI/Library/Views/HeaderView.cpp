@@ -18,12 +18,11 @@
  */
 
 
-
 #include "HeaderView.h"
 #include <QFontMetrics>
 #include <QTableView>
 
-
+#include <algorithm>
 
 HeaderView::HeaderView(Qt::Orientation orientation, QWidget* parent) :
 	QHeaderView(orientation, parent),

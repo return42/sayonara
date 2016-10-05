@@ -23,6 +23,8 @@
 #include "Helper/Parser/PlaylistParser.h"
 #include "Helper/Random/RandomGenerator.h"
 
+#include <algorithm>
+
 StdPlaylist::StdPlaylist(int idx, QString name) :
 	Playlist(idx, name)
 {

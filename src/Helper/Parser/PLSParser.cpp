@@ -18,13 +18,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "PLSParser.h"
 #include "Helper/FileHelper.h"
 
 #include <QRegExp>
-#include <QPair>
+
+#include <algorithm>
 
 PLSParser::PLSParser(const QString& filename) :
 	AbstractPlaylistParser(filename)

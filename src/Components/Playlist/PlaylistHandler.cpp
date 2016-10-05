@@ -32,6 +32,9 @@
 #include "Helper/DirectoryReader/DirectoryReader.h"
 #include "Helper/Parser/PlaylistParser.h"
 
+#include <algorithm>
+#include <memory>
+
 PlaylistHandler::PlaylistHandler(QObject * parent) :
 	QObject (parent),
 	SayonaraClass()

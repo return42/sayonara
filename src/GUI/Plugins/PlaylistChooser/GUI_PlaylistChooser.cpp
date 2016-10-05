@@ -31,6 +31,7 @@
 #include "Helper/Playlist/CustomPlaylist.h"
 
 #include <QTimer>
+#include <algorithm>
 
 GUI_PlaylistChooser::GUI_PlaylistChooser(QWidget *parent) :
 	PlayerPluginInterface(parent),

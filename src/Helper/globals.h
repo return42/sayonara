@@ -27,6 +27,8 @@
 #include <QTranslator>
 #include "Helper/Logger/Logger.h"
 
+#include <type_traits>
+
 #define SINGLETON_QOBJECT(class_name) protected: \
 						class_name (QObject* object=0); \
 						public: \

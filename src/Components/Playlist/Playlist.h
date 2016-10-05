@@ -29,6 +29,7 @@
 
 #include <QString>
 #include <QList>
+
 #include <memory>
 
 /**

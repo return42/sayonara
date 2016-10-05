@@ -110,7 +110,7 @@
 <context>
     <name>Application</name>
     <message>
-        <location filename="../Application/application.cpp" line="+234"/>
+        <location filename="../Application/application.cpp" line="+235"/>
         <source>Version </source>
         <translation>版本</translation>
     </message>
@@ -233,7 +233,7 @@
 <context>
     <name>GUI_AbstractLibrary</name>
     <message>
-        <location filename="../GUI/Library/GUI_AbstractLibrary.cpp" line="+515"/>
+        <location filename="../GUI/Library/GUI_AbstractLibrary.cpp" line="+517"/>
         <source>Library</source>
         <translation>图文库</translation>
     </message>
@@ -653,7 +653,7 @@
 <context>
     <name>GUI_LanguageChooser</name>
     <message>
-        <location filename="../GUI/Preferences/Language/GUI_LanguageChooser.cpp" line="+154"/>
+        <location filename="../GUI/Preferences/Language/GUI_LanguageChooser.cpp" line="+158"/>
         <source>Language</source>
         <translation>语言</translation>
     </message>
@@ -1638,9 +1638,14 @@
         <translation>开始流媒体</translation>
     </message>
     <message>
-        <location filename="../GUI/Plugins/Stream/GUI_Podcasts.cpp" line="+45"/>
+        <location filename="../GUI/Plugins/Stream/GUI_Podcasts.cpp" line="+41"/>
         <source>Podcasts</source>
         <translation>播客</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Podcast</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1979,6 +1984,12 @@
         <source>Active</source>
         <translation>有效</translation>
     </message>
+    <message>
+        <location filename="../GUI/Plugins/Speed/GUI_Speed.cpp" line="+66"/>
+        <location line="+1"/>
+        <source>%1 not found</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>GUI_StartupDialog</name>
@@ -2031,9 +2042,14 @@
         <translation>倾听</translation>
     </message>
     <message>
-        <location filename="../GUI/Plugins/Stream/GUI_Stream.cpp" line="+45"/>
+        <location filename="../GUI/Plugins/Stream/GUI_Stream.cpp" line="+40"/>
         <source>Webstreams</source>
         <translation>web流</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Radio Station</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../GUI/Plugins/Stream/GUI_Stream.ui" line="+42"/>
@@ -2821,39 +2837,45 @@ Please choose another folder</source>
 <context>
     <name>LocalLibraryMenu</name>
     <message>
-        <location filename="../GUI/Library/Helper/LocalLibraryMenu.cpp" line="+35"/>
-        <location line="+42"/>
+        <location filename="../GUI/Library/Helper/LocalLibraryMenu.cpp" line="+31"/>
+        <location line="+48"/>
         <source>Reload library</source>
         <translation>重新载入库</translation>
     </message>
     <message>
-        <location line="-41"/>
-        <location line="+42"/>
+        <location line="-47"/>
+        <location line="+48"/>
         <source>Import files</source>
         <translation>导入文件</translation>
     </message>
     <message>
-        <location line="-41"/>
-        <location line="+42"/>
+        <location line="-47"/>
+        <location line="+48"/>
         <source>Import directory</source>
         <translation>导入目录</translation>
     </message>
     <message>
-        <location line="-41"/>
-        <location line="+42"/>
+        <location line="-47"/>
+        <location line="+48"/>
         <source>Info</source>
         <translation>信息</translation>
     </message>
     <message>
-        <location line="-41"/>
-        <location line="+42"/>
+        <location line="-47"/>
+        <location line="+48"/>
         <source>Library path</source>
         <translation>档案库路径</translation>
     </message>
     <message>
-        <location line="-40"/>
-        <location line="+41"/>
+        <location line="-45"/>
+        <location line="+46"/>
         <source>Live search</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="-43"/>
+        <location line="+44"/>
+        <source>Auto update</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3444,16 +3466,6 @@ OK?</source>
         <location line="+1"/>
         <source>Copyright</source>
         <translation>版权所有</translation>
-    </message>
-    <message>
-        <location filename="../GUI/Plugins/Stream/GUI_Podcasts.cpp" line="-15"/>
-        <source>Podcast</source>
-        <translation>播客</translation>
-    </message>
-    <message>
-        <location filename="../GUI/Plugins/Stream/GUI_Stream.cpp" line="-17"/>
-        <source>Radio Station</source>
-        <translation>广播电台</translation>
     </message>
 </context>
 <context>

@@ -24,6 +24,8 @@
 #include "Helper/Settings/SettingKey.h"
 #include "Helper/globals.h"
 
+#include <type_traits>
+
 class SettingRegistry
 {
 	SINGLETON(SettingRegistry)

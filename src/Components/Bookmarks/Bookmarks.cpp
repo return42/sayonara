@@ -24,7 +24,7 @@
 #include "Helper/Helper.h"
 #include "Database/DatabaseConnector.h"
 
-#include <algorithm> // std::max
+#include <algorithm>
 
 Bookmarks::Bookmarks(QObject *parent) :
 	QObject(parent)

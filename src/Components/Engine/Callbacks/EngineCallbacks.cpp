@@ -25,7 +25,7 @@
 #include "Helper/globals.h"
 #include "Helper/FileHelper.h"
 
-#include <algorithm>		// std::min
+#include <algorithm>
 #include <QList>
 #include <QImage>
 #include <QRegExp>

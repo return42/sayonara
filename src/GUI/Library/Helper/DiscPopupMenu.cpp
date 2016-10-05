@@ -23,6 +23,8 @@
 #include "DiscPopupMenu.h"
 #include "GUI/Helper/GUI_Helper.h"
 
+#include <algorithm>
+
 DiscAction::DiscAction(QWidget* parent, const QIcon& icon) :
 	QAction(icon, QString(), parent)
 {
@@ -36,7 +38,6 @@ void DiscAction::disc_hover(){
 		emit sig_disc_pressed(discnumber);
 	}
 }
-
 
 
 DiscPopupMenu::DiscPopupMenu(QWidget* parent, QList<quint8> discs): QMenu(parent){

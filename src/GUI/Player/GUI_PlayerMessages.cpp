@@ -18,12 +18,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "GUI_Player.h"
 #include <QMessageBox>
 
-GlobalMessage::Answer convert_answer(QMessageBox::StandardButton answer){
+GlobalMessage::Answer convert_answer(QMessageBox::StandardButton answer)
+{
 	switch(answer){
 
 		case QMessageBox::Ok:
@@ -44,24 +43,27 @@ GlobalMessage::Answer convert_answer(QMessageBox::StandardButton answer){
 	}
 }
 
-GlobalMessage::Answer GUI_Player::error_received(const QString &error, const QString &sender_name){
-
+GlobalMessage::Answer GUI_Player::error_received(const QString &error, const QString &sender_name)
+{
 	QString title = sender_name.isEmpty() ? tr("Error") + ":" : sender_name + " " + tr("error") + ":";
 	return convert_answer (QMessageBox::critical(this, title, error));
 }
 
-GlobalMessage::Answer GUI_Player::warning_received(const QString &warning, const QString &sender_name){
+GlobalMessage::Answer GUI_Player::warning_received(const QString &warning, const QString &sender_name)
+{
 	QString title = sender_name.isEmpty() ? tr("Warning") + ":" : sender_name + " " + tr("warning") + ":";
 	return convert_answer (QMessageBox::warning(this, title, warning));
 }
 
-GlobalMessage::Answer GUI_Player::info_received(const QString &info, const QString &sender_name){
+GlobalMessage::Answer GUI_Player::info_received(const QString &info, const QString &sender_name)
+{
 	QString title = sender_name.isEmpty() ? tr("Info") + ":" : sender_name + " " + tr("info") + ":";
 
 	return convert_answer (QMessageBox::information(this, title, info));
 }
 
-GlobalMessage::Answer GUI_Player::question_received(const QString &question, const QString &sender_name, GlobalMessage::QuestionType type){
+GlobalMessage::Answer GUI_Player::question_received(const QString &question, const QString &sender_name, GlobalMessage::QuestionType type)
+{
 	QString title = sender_name.isEmpty() ? tr("Info") + ":" : sender_name + " " + tr("info") + ":";
 
 	if(type == GlobalMessage::QuestionType::YesNo){
@@ -71,6 +73,4 @@ GlobalMessage::Answer GUI_Player::question_received(const QString &question, con
 	else {
 		return convert_answer(QMessageBox::information(this, title, question, QMessageBox::Ok, QMessageBox::Cancel));
 	}
-
-
 }

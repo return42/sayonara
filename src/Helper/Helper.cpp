@@ -305,8 +305,6 @@ void Helper::sleep_ms(quint64 ms){
 }
 
 
-
-
 QString Helper::StringDummy::various(){
 	return tr("Various");
 }

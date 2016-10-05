@@ -21,11 +21,10 @@
  * Sep 14, 2012 
  *
  */
+
 #include "SearchSlider.h"
-#include "Helper/Logger/Logger.h"
 
-#include <cmath>
-
+#include <algorithm>
 
 SearchSlider::SearchSlider(QWidget* parent) :
 	SayonaraSlider(parent)
@@ -33,13 +32,11 @@ SearchSlider::SearchSlider(QWidget* parent) :
 	this->setMouseTracking(true);
 }
 
-SearchSlider::~SearchSlider() {
-
-}
+SearchSlider::~SearchSlider() {}
 
 
-bool SearchSlider::event(QEvent *e){
-
+bool SearchSlider::event(QEvent *e)
+{
 	QWheelEvent* we;
 	int delta_val = 5;
 
@@ -47,7 +44,9 @@ bool SearchSlider::event(QEvent *e){
 
 		case QEvent::Wheel:
 
-			if(!this->isEnabled()) break;
+			if(!this->isEnabled()) {
+				break;
+			}
 
 			we = (QWheelEvent*) e;
 			if(we->modifiers() & Qt::ShiftModifier){
@@ -76,30 +75,36 @@ bool SearchSlider::event(QEvent *e){
 	return SayonaraSlider::event(e);
 }
 
-void SearchSlider::mousePressEvent(QMouseEvent* e){
+
+void SearchSlider::mousePressEvent(QMouseEvent* e)
+{
 	SayonaraSlider::mousePressEvent(e);
 	emit_new_val(this->value());
 }
 
-void SearchSlider::mouseReleaseEvent(QMouseEvent* e){
+
+void SearchSlider::mouseReleaseEvent(QMouseEvent* e)
+{
 
 	SayonaraSlider::mouseReleaseEvent(e);
 	emit_new_val(this->value());
 }
 
 
-void SearchSlider::mouseMoveEvent(QMouseEvent *e){
-
+void SearchSlider::mouseMoveEvent(QMouseEvent *e)
+{
 	SayonaraSlider::mouseMoveEvent(e);
 	if(this->isSliderDown()){
 		emit_new_val(this->value());
 	}
 }
 
+
 void SearchSlider::increment(int i)
 {
 	setValue( value() + i );
 }
+
 
 void SearchSlider::decrement(int i)
 {
@@ -112,20 +117,24 @@ void SearchSlider::increment_10()
 	increment(10);
 }
 
+
 void SearchSlider::decrement_10()
 {
 	decrement(10);
 }
+
 
 void SearchSlider::increment_50()
 {
 	increment(50);
 }
 
+
 void SearchSlider::decrement_50()
 {
 	decrement(50);
 }
+
 
 void SearchSlider::emit_new_val(int value)
 {
@@ -134,6 +143,7 @@ void SearchSlider::emit_new_val(int value)
 
 	emit sig_slider_moved(value);
 }
+
 
 bool SearchSlider::is_busy() const
 {

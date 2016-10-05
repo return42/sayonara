@@ -28,7 +28,6 @@
 #include "GUI/Helper/GUI_Helper.h"
 
 #include "Helper/Helper.h"
-#include "Helper/FileHelper.h"
 
 #include "Components/Playlist/PlaylistHandler.h"
 #include "Helper/WebAccess/AsyncWebAccess.h"
@@ -37,9 +36,8 @@
 #include <QFileDialog>
 #include <QMessageBox>
 
-/** FILE **/
-void GUI_Player::open_files_clicked() {
-
+void GUI_Player::open_files_clicked()
+{
 	QStringList filetypes;
 
 	filetypes << Helper::get_soundfile_extensions();
@@ -62,8 +60,8 @@ void GUI_Player::open_files_clicked() {
 	plh->create_playlist(list);
 }
 
-void GUI_Player::open_dir_clicked() {
-
+void GUI_Player::open_dir_clicked()
+{
 	QString dir = QFileDialog::getExistingDirectory(this,
 			tr("Open Directory"),
 			QDir::homePath(),
@@ -77,13 +75,9 @@ void GUI_Player::open_dir_clicked() {
 	plh->create_playlist(dir);
 }
 
-/** FILE END **/
 
-
-/** VIEW **/
-
-void GUI_Player::show_library(bool b) {
-
+void GUI_Player::show_library(bool b)
+{
 	QSize player_size = this->size();
 
 	_settings->set(Set::Lib_Show, b);
@@ -119,8 +113,8 @@ void GUI_Player::show_library(bool b) {
 }
 
 
-void GUI_Player::show_fullscreen_toggled(bool b) {
-
+void GUI_Player::show_fullscreen_toggled(bool b)
+{
 	// may happened because of F11 too
 	action_Fullscreen->setChecked(b);
 
@@ -134,10 +128,10 @@ void GUI_Player::show_fullscreen_toggled(bool b) {
 
 	_settings->set(Set::Player_Fullscreen, b);
 }
-/** VIEW END **/
 
-void GUI_Player::help() {
 
+void GUI_Player::help()
+{
 	Message::info(tr("Please visit the forum at") + "<br />" +
 				  Helper::create_link("http://sayonara-player.com/forum", is_dark()) +
 				  "<br /><br />" +
@@ -148,8 +142,8 @@ void GUI_Player::help() {
 }
 
 // private slot
-void GUI_Player::about() {
-
+void GUI_Player::about()
+{
 	QString first_translators;
 	QString last_translator;
 	QString translator_str = "";

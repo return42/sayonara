@@ -36,6 +36,7 @@
 #include <QTranslator>
 #include <QFontDatabase>
 #include <QtGlobal>
+#include <algorithm>
 
 #ifdef Q_OS_LINUX
 	#include <execinfo.h>		// backtrace

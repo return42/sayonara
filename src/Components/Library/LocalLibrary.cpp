@@ -26,6 +26,7 @@
 #include "Database/DatabaseConnector.h"
 
 #include "Helper/LibrarySearchMode.h"
+#include <utility>
 
 LocalLibrary::LocalLibrary(QObject *parent) :
 	AbstractLibrary(parent)

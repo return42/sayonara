@@ -24,6 +24,7 @@
 #include "Database/DatabaseLibrary.h"
 #include "Helper/MetaData/MetaDataList.h"
 
+#include <utility>
 
 DatabaseTracks::DatabaseTracks(QSqlDatabase db, quint8 db_id) :
 	DatabaseModule(db, db_id)
@@ -135,8 +136,7 @@ bool DatabaseTracks::getMultipleTracksByPath(const QStringList& paths, MetaDataL
 	_db.transaction();
 
 	for(const QString& path : paths) {
-		MetaData md = getTrackByPath(path);
-		v_md << std::move(md);
+		v_md << getTrackByPath(path);
 	}
 
 	_db.commit();

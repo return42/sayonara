@@ -25,9 +25,11 @@
 #include "CrossFader.h"
 #include "Helper/Settings/Settings.h"
 #include "Helper/Helper.h"
+
+#include <QThread>
+
 #include <glib.h>
 #include <functional>
-#include <QThread>
 
 class FaderThreadData
 {

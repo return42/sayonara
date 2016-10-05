@@ -27,6 +27,7 @@
 #include "Database/DatabaseConnector.h"
 
 #include <QFile>
+#include <limits>
 
 using namespace std;
 

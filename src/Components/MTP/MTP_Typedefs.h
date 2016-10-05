@@ -129,11 +129,4 @@ typedef LIBMTP_track_t					MTPIntern_Track;
 typedef std::shared_ptr<MTP_Track>		MTP_TrackPtr;
 
 
-
-
-
-
-
-
-
 #endif // MTP_TYPEDEFS_H

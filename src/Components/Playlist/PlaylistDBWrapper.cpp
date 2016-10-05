@@ -25,6 +25,8 @@
 #include "Helper/Parser/PlaylistParser.h"
 #include "Database/DatabaseConnector.h"
 
+#include <utility>
+
 PlaylistDBWrapper::PlaylistDBWrapper()
 {
 	_db = DatabaseConnector::getInstance();

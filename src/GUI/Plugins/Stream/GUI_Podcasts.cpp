@@ -27,13 +27,9 @@ GUI_Podcasts::GUI_Podcasts(QWidget *parent) :
 	Ui::GUI_Podcasts()
 {
 	setup_parent(this);
-	_title_fallback_name = tr("Podcast");
 }
 
-
-GUI_Podcasts::~GUI_Podcasts() {
-
-}
+GUI_Podcasts::~GUI_Podcasts() {}
 
 QString GUI_Podcasts::get_name() const
 {
@@ -45,6 +41,12 @@ QString GUI_Podcasts::get_display_name() const
 	return tr("Podcasts");
 }
 
-void GUI_Podcasts::language_changed() {
+void GUI_Podcasts::language_changed()
+{
 	retranslateUi(this);
+}
+
+QString GUI_Podcasts::get_title_fallback_name() const
+{
+	return tr("Podcast");
 }

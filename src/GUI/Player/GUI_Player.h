@@ -32,7 +32,6 @@
 #include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
 #include "GUI/Helper/Shortcuts/ShortcutWidget.h"
 
-
 #include <QMessageBox>
 #include <QMainWindow>
 #include <QShowEvent>

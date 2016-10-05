@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 /* SomaFMLibrary.cpp */
 
 #include "SomaFMLibrary.h"
@@ -41,7 +39,8 @@ SomaFMLibrary::SomaFMLibrary(QObject* parent) :
 	_qsettings = new QSettings(path, QSettings::IniFormat, this);
 }
 
-SomaFMLibrary::~SomaFMLibrary(){
+SomaFMLibrary::~SomaFMLibrary()
+{
 	_qsettings->deleteLater();
 }
 
@@ -101,8 +100,8 @@ void SomaFMLibrary::soma_website_fetched(bool success)
 	awa->deleteLater();
 }
 
-void SomaFMLibrary::create_playlist_from_station(int row){
-
+void SomaFMLibrary::create_playlist_from_station(int row)
+{
 	Q_UNUSED(row)
 
 	SomaFMStation station = _station_map[_requested_station];
@@ -111,7 +110,8 @@ void SomaFMLibrary::create_playlist_from_station(int row){
 	parser->parse_streams(station.get_urls());
 }
 
-void SomaFMLibrary::soma_station_playlists_fetched(bool success){
+void SomaFMLibrary::soma_station_playlists_fetched(bool success)
+{
 	StreamParser* parser = dynamic_cast<StreamParser*>(sender());
 
 	if(!success){
@@ -138,8 +138,8 @@ void SomaFMLibrary::soma_station_playlists_fetched(bool success){
 						 Playlist::Type::Stream);
 
 	parser->deleteLater();
-
 }
+
 
 void SomaFMLibrary::create_playlist_from_playlist(int idx)
 {
@@ -190,8 +190,8 @@ void SomaFMLibrary::soma_playlist_content_fetched(bool success)
 }
 
 
-void SomaFMLibrary::set_station_loved(const QString& station_name, bool loved){
-
+void SomaFMLibrary::set_station_loved(const QString& station_name, bool loved)
+{
 	_station_map[station_name].set_loved(loved);
 	_qsettings->setValue(station_name, loved);
 
@@ -208,8 +208,9 @@ void SomaFMLibrary::set_station_loved(const QString& station_name, bool loved){
 	emit sig_stations_loaded(stations);
 }
 
-void SomaFMLibrary::sort_stations(QList<SomaFMStation>& stations){
 
+void SomaFMLibrary::sort_stations(QList<SomaFMStation>& stations)
+{
 	auto lambda = [](const SomaFMStation& s1, const SomaFMStation& s2){
 		if(s1.is_loved() && !s2.is_loved()){
 			return true;

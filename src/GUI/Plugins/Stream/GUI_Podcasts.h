@@ -30,12 +30,15 @@
 
 #include <QMap>
 
-class GUI_Podcasts : public GUI_AbstractStream, public Ui::GUI_Podcasts
+class GUI_Podcasts :
+		public GUI_AbstractStream,
+		public Ui::GUI_Podcasts
 {
     Q_OBJECT
 
 protected:
-	virtual void language_changed() override;
+	void language_changed() override;
+	QString get_title_fallback_name() const override;
 
 public:
 	GUI_Podcasts(QWidget *parent=nullptr);
@@ -44,6 +47,8 @@ public:
 
 	QString get_name() const override;
 	QString get_display_name() const override;
+
+
 };
 
 #endif // GUI_PODCASTS_H

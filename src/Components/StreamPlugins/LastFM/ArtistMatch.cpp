@@ -19,11 +19,11 @@
  */
 
 
-
 #include "ArtistMatch.h"
 #include <QStringList>
 
 #include <algorithm>
+
 ArtistMatch::ArtistMatch()
 {
 

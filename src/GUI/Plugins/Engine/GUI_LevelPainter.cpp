@@ -19,13 +19,16 @@
  */
 
 #include "GUI_LevelPainter.h"
-#include <QPainter>
-#include <QBrush>
-#include <cstring>
-#include <cmath>
-
 #include "Components/Engine/Playback/PlaybackEngine.h"
 #include "Components/Engine/EngineHandler.h"
+
+#include <QPainter>
+#include <QBrush>
+
+#include <cstring>
+#include <cmath>
+#include <algorithm>
+
 
 GUI_LevelPainter::GUI_LevelPainter(QWidget *parent) :
 	EnginePlugin(parent),

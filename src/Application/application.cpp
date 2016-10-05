@@ -76,33 +76,6 @@
 
 #include "Database/DatabaseConnector.h"
 
-#include <QByteArray>
-#include <thread>
-#include <chrono>
-
-/*
-void* my_thread(void* data){
-	while(true){
-		QWidget* w = QApplication::focusWidget();
-		if(w){
-			sp_log(Log::Debug) << w->objectName();
-		}
-
-		else{
-			sp_log(Log::Debug) << "No widget";
-		}
-
-#ifdef Q_OS_WIN
-	Sleep(1);
-#else
-	std::this_thread::sleep_for(std::chrono::seconds(1));
-#endif
-	}
-
-return NULL;
-}
-*/
-
 static InstanceMessage instance_message=InstanceMessageNone;
 
 #ifdef Q_OS_UNIX
@@ -111,7 +84,8 @@ static InstanceMessage instance_message=InstanceMessageNone;
 
 	void new_instance_handler(int sig_num)
 	{
-		switch(sig_num){
+		switch(sig_num)
+		{
 			case SIGUSR1:
 				instance_message = InstanceMessageWithFiles;
 				break;
@@ -126,7 +100,7 @@ static InstanceMessage instance_message=InstanceMessageNone;
 #else
 	void global_key_handler(){
 
-		if(!RegisterHotKey(NULL, 1, MOD_NOREPEAT, VK_MEDIA_PLAY_PAUSE){
+		if(!RegisterHotKey(NULL, 1, MOD_NOREPEAT, VK_MEDIA_PLAY_PAUSE)){
 			return false;
 		}
 
@@ -151,12 +125,10 @@ Application::Application(int & argc, char ** argv) :
 	instance_message = InstanceMessageNone;
 
 	this->setQuitOnLastWindowClosed(false);
-
-	//new std::thread(my_thread);
 }
 
-void Application::check_for_crash(){
-
+void Application::check_for_crash()
+{
 	QString error_file = Helper::get_error_file();
 
 	if(!QFile::exists(error_file)) return;
@@ -195,8 +167,9 @@ void Application::check_for_crash(){
 	return;
 }
 
-bool Application::init(QTranslator* translator, const QStringList& files_to_play) {
 
+bool Application::init(QTranslator* translator, const QStringList& files_to_play)
+{
 	_plh = PlaylistHandler::getInstance();
 	_db = DatabaseConnector::getInstance();
 
@@ -308,8 +281,9 @@ bool Application::init(QTranslator* translator, const QStringList& files_to_play
 	return true;
 }
 
-Application::~Application() {
 
+Application::~Application()
+{
 	if(_instance_thread){
 		_instance_thread->stop();
 		while(_instance_thread->isRunning()){
@@ -331,7 +305,9 @@ Application::~Application() {
 	}
 }
 
-void Application::init_single_instance_thread(){
+
+void Application::init_single_instance_thread()
+{
 
 #ifdef Q_OS_UNIX
 	signal(SIGUSR1, new_instance_handler);
@@ -345,6 +321,5 @@ void Application::init_single_instance_thread(){
 			_plh, SLOT(create_playlist(const QStringList&, const QString&, bool)));
 
 	_instance_thread->start();
-
 }
 

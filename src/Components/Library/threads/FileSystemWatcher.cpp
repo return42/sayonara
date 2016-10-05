@@ -3,6 +3,8 @@
 #include "Helper/Helper.h"
 #include "Helper/DirectoryReader/DirectoryReader.h"
 
+#include <algorithm>
+
 const int SleepingTimeSec = 15;
 
 FileSystemWatcher::FileSystemWatcher(const QString& library_path, QObject* parent) :

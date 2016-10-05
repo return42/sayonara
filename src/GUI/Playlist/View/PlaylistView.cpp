@@ -45,6 +45,7 @@
 #include "Components/TagEdit/TagEdit.h"
 
 #include <QShortcut>
+#include <algorithm>
 
 PlaylistView::PlaylistView(PlaylistPtr pl, QWidget* parent) :
 	SearchableListView(parent),

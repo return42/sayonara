@@ -25,6 +25,7 @@
 #include "Helper/Logger/Logger.h"
 
 #include <QDir>
+
 #include <algorithm>
 
 QString Helper::File::clean_filename(const QString& path)

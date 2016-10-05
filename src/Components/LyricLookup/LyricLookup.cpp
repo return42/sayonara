@@ -32,9 +32,9 @@
 #include "Helper/Helper.h"
 #include "Helper/WebAccess/AsyncWebAccess.h"
 
-
 #include <QRegExp>
 #include <QThread>
+#include <algorithm>
 
 size_t first_appearance = -1;
 size_t last_appearance = -1;

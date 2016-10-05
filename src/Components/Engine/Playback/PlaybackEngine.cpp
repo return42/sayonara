@@ -28,6 +28,7 @@
 #include "Helper/Playlist/PlaylistMode.h"
 
 #include <QUrl>
+#include <algorithm>
 
 PlaybackEngine::PlaybackEngine(QObject* parent) :
 	Engine(parent)

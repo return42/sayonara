@@ -32,6 +32,8 @@
 #include "GUI/InfoDialog/ui_GUI_InfoDialog.h"
 
 #include <QCloseEvent>
+#include <QDateTime>
+#include <QTabBar>
 
 class GUI_TagEdit;
 class LyricLookupThread;

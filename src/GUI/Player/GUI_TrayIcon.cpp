@@ -56,12 +56,11 @@ GUI_TrayIcon::GUI_TrayIcon (QObject *parent) :
 	NotificationHandler::getInstance()->register_notificator(this);
 
 	REGISTER_LISTENER(Set::Player_ShowTrayIcon, _sl_show_tray_icon);
-
-
 }
 
 
-GUI_TrayIcon::~GUI_TrayIcon() {
+GUI_TrayIcon::~GUI_TrayIcon()
+{
 	delete _play_action;
 	delete _stop_action;
 	delete _bwd_action;
@@ -72,8 +71,8 @@ GUI_TrayIcon::~GUI_TrayIcon() {
 }
 
 
-void GUI_TrayIcon::language_changed() {
-  
+void GUI_TrayIcon::language_changed()
+{
 	_play_action->setText(tr("Play"));
 	_fwd_action->setText(tr("Next"));
 	_bwd_action->setText(tr("Previous"));
@@ -84,8 +83,8 @@ void GUI_TrayIcon::language_changed() {
 	_cur_song_action->setText(tr("Current song"));
 }
 
-void GUI_TrayIcon::init_context_menu(){
-
+void GUI_TrayIcon::init_context_menu()
+{
 	if(_context_menu){
 		return;
 	}
@@ -135,58 +134,63 @@ void GUI_TrayIcon::init_context_menu(){
 
 }
 
-void GUI_TrayIcon::skin_changed() {
-
+void GUI_TrayIcon::skin_changed()
+{
 	bool dark = (_settings->get(Set::Player_Style) == 1);
-	QString stylesheet = Style::get_style(dark);
 
+	QString stylesheet = Style::get_style(dark);
 	_context_menu->setStyleSheet(stylesheet);
 
 	mute_changed( _settings->get(Set::Engine_Mute) );
 }
 
-bool GUI_TrayIcon::event ( QEvent * e ) {
 
-    if (e->type() == QEvent::Wheel) {
+bool GUI_TrayIcon::event ( QEvent * e )
+{
+	if (e->type() == QEvent::Wheel) {
 
 		QWheelEvent* wheel_event = static_cast<QWheelEvent*>(e);
 
 		if(wheel_event){
 			emit sig_wheel_changed( wheel_event->delta() );
 		}
-    }
-
-    return true;
-}
-
-
-void GUI_TrayIcon::notify(const MetaData& md) {
-
-	if ( isSystemTrayAvailable() ) {
-
-		QString msg = md.title + tr(" by ") + md.artist;
-		int timeout = _settings->get(Set::Notification_Timeout);
-
-		showMessage("Sayonara", msg, QSystemTrayIcon::Information, timeout);
 	}
+
+	return true;
 }
+
+
+void GUI_TrayIcon::notify(const MetaData& md)
+{
+	if ( !isSystemTrayAvailable() ) {
+		return;
+	}
+
+	QString msg = md.title + tr(" by ") + md.artist;
+	int timeout = _settings->get(Set::Notification_Timeout);
+
+	showMessage("Sayonara", msg, QSystemTrayIcon::Information, timeout);
+}
+
 
 void GUI_TrayIcon::notify(const QString &title, const QString &message, const QString &image_path) {
 
 	Q_UNUSED(image_path)
 
-	if ( isSystemTrayAvailable() ) {
-
-		int timeout = _settings->get(Set::Notification_Timeout);
-
-		showMessage(title, message, QSystemTrayIcon::Information, timeout);
+	if(!isSystemTrayAvailable()){
+		return;
 	}
+
+	int timeout = _settings->get(Set::Notification_Timeout);
+
+	showMessage(title, message, QSystemTrayIcon::Information, timeout);
 }
+
 
 void GUI_TrayIcon::playstate_changed(PlayManager::PlayState state)
 {
-
-	switch(state){
+	switch(state)
+	{
 		case PlayManager::PlayState::Playing:
 
 			setIcon(GUI::get_icon("play"));
@@ -210,64 +214,87 @@ void GUI_TrayIcon::playstate_changed(PlayManager::PlayState state)
 }
 
 
-void GUI_TrayIcon::set_enable_play(bool b) {
+void GUI_TrayIcon::set_enable_play(bool b)
+{
 	if(_play_action){
 		_play_action->setEnabled(b);
 	}
 }
 
-void GUI_TrayIcon::set_enable_stop(bool b) {
+
+void GUI_TrayIcon::set_enable_stop(bool b)
+{
 	if(_stop_action){
 		_stop_action->setEnabled(b);
 	}
 }
 
-void GUI_TrayIcon::set_enable_mute(bool b) {
+
+void GUI_TrayIcon::set_enable_mute(bool b)
+{
 	Q_UNUSED(b)
 }
 
-void GUI_TrayIcon::set_enable_fwd(bool b) {
+
+void GUI_TrayIcon::set_enable_fwd(bool b)
+{
 	if(_fwd_action){
 		_fwd_action->setEnabled(b);
 	}
 }
 
-void GUI_TrayIcon::set_enable_bwd(bool b) {
+
+void GUI_TrayIcon::set_enable_bwd(bool b)
+{
 	if(_bwd_action){
 		_bwd_action->setEnabled(b);
 	}
 }
 
-void GUI_TrayIcon::play_clicked() {
+
+void GUI_TrayIcon::play_clicked()
+{
 	_play_manager->play_pause();
 }
 
-void GUI_TrayIcon::stop_clicked() {
+
+void GUI_TrayIcon::stop_clicked()
+{
 	_play_manager->stop();
 }
 
-void GUI_TrayIcon::fwd_clicked() {
+
+void GUI_TrayIcon::fwd_clicked()
+{
 	_play_manager->next();
 }
 
-void GUI_TrayIcon::bwd_clicked() {
+
+void GUI_TrayIcon::bwd_clicked()
+{
 	_play_manager->previous();
 }
 
-void GUI_TrayIcon::show_clicked(){
+
+void GUI_TrayIcon::show_clicked()
+{
 	emit sig_show_clicked();
 }
 
-void GUI_TrayIcon::close_clicked() {
+
+void GUI_TrayIcon::close_clicked()
+{
 	emit sig_close_clicked();
 }
 
-void GUI_TrayIcon::mute_clicked() {
 
+void GUI_TrayIcon::mute_clicked()
+{
 	bool mute = _settings->get(Set::Engine_Mute);
 
 	_play_manager->set_mute(!mute);
 }
+
 
 void GUI_TrayIcon::cur_song_clicked()
 {
@@ -275,14 +302,14 @@ void GUI_TrayIcon::cur_song_clicked()
 }
 
 
-void GUI_TrayIcon::mute_changed(bool muted) {
-
-    QString suffix = "";
+void GUI_TrayIcon::mute_changed(bool muted)
+{
+	QString suffix = "";
 	int style = _settings->get(Set::Player_Style);
 
-    if(style == 1) {
-        suffix = "_dark";
-    }
+	if(style == 1) {
+		suffix = "_dark";
+	}
 
 	if(_mute_action){
 		if(!muted) {
@@ -296,6 +323,7 @@ void GUI_TrayIcon::mute_changed(bool muted) {
 		}
 	}
 }
+
 
 void GUI_TrayIcon::_sl_show_tray_icon()
 {

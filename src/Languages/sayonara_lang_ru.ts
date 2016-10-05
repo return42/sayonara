@@ -110,7 +110,7 @@
 <context>
     <name>Application</name>
     <message>
-        <location filename="../Application/application.cpp" line="+234"/>
+        <location filename="../Application/application.cpp" line="+235"/>
         <source>Version </source>
         <translation>Версия</translation>
     </message>
@@ -233,7 +233,7 @@
 <context>
     <name>GUI_AbstractLibrary</name>
     <message>
-        <location filename="../GUI/Library/GUI_AbstractLibrary.cpp" line="+515"/>
+        <location filename="../GUI/Library/GUI_AbstractLibrary.cpp" line="+517"/>
         <source>Library</source>
         <translation>Библиотека</translation>
     </message>
@@ -654,7 +654,7 @@
 <context>
     <name>GUI_LanguageChooser</name>
     <message>
-        <location filename="../GUI/Preferences/Language/GUI_LanguageChooser.cpp" line="+154"/>
+        <location filename="../GUI/Preferences/Language/GUI_LanguageChooser.cpp" line="+158"/>
         <source>Language</source>
         <translation>Язык</translation>
     </message>
@@ -1639,9 +1639,14 @@
         <translation>Начать стриминг</translation>
     </message>
     <message>
-        <location filename="../GUI/Plugins/Stream/GUI_Podcasts.cpp" line="+45"/>
+        <location filename="../GUI/Plugins/Stream/GUI_Podcasts.cpp" line="+41"/>
         <source>Podcasts</source>
         <translation>Подкасты</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Podcast</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1980,6 +1985,12 @@
         <source>Active</source>
         <translation>Активировать</translation>
     </message>
+    <message>
+        <location filename="../GUI/Plugins/Speed/GUI_Speed.cpp" line="+66"/>
+        <location line="+1"/>
+        <source>%1 not found</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>GUI_StartupDialog</name>
@@ -2032,9 +2043,14 @@
         <translation>Слушать</translation>
     </message>
     <message>
-        <location filename="../GUI/Plugins/Stream/GUI_Stream.cpp" line="+45"/>
+        <location filename="../GUI/Plugins/Stream/GUI_Stream.cpp" line="+40"/>
         <source>Webstreams</source>
         <translation>Веб-поток</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Radio Station</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../GUI/Plugins/Stream/GUI_Stream.ui" line="+42"/>
@@ -2822,40 +2838,46 @@ Please choose another folder</source>
 <context>
     <name>LocalLibraryMenu</name>
     <message>
-        <location filename="../GUI/Library/Helper/LocalLibraryMenu.cpp" line="+35"/>
-        <location line="+42"/>
+        <location filename="../GUI/Library/Helper/LocalLibraryMenu.cpp" line="+31"/>
+        <location line="+48"/>
         <source>Reload library</source>
         <translation>Перезагрузить библиотеку</translation>
     </message>
     <message>
-        <location line="-41"/>
-        <location line="+42"/>
+        <location line="-47"/>
+        <location line="+48"/>
         <source>Import files</source>
         <translation>Импорт файлов</translation>
     </message>
     <message>
-        <location line="-41"/>
-        <location line="+42"/>
+        <location line="-47"/>
+        <location line="+48"/>
         <source>Import directory</source>
         <translation>Испорт каталога</translation>
     </message>
     <message>
-        <location line="-41"/>
-        <location line="+42"/>
+        <location line="-47"/>
+        <location line="+48"/>
         <source>Info</source>
         <translation>Информация</translation>
     </message>
     <message>
-        <location line="-41"/>
-        <location line="+42"/>
+        <location line="-47"/>
+        <location line="+48"/>
         <source>Library path</source>
         <translation>Путь к библиотеке</translation>
     </message>
     <message>
-        <location line="-40"/>
-        <location line="+41"/>
+        <location line="-45"/>
+        <location line="+46"/>
         <source>Live search</source>
         <translation>Live поиск</translation>
+    </message>
+    <message>
+        <location line="-43"/>
+        <location line="+44"/>
+        <source>Auto update</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3444,16 +3466,6 @@ OK?</source>
         <location line="+1"/>
         <source>Copyright</source>
         <translation>Copyright</translation>
-    </message>
-    <message>
-        <location filename="../GUI/Plugins/Stream/GUI_Podcasts.cpp" line="-15"/>
-        <source>Podcast</source>
-        <translation>Подкаст</translation>
-    </message>
-    <message>
-        <location filename="../GUI/Plugins/Stream/GUI_Stream.cpp" line="-17"/>
-        <source>Radio Station</source>
-        <translation>Радиостанция</translation>
     </message>
 </context>
 <context>

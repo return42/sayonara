@@ -25,6 +25,9 @@
 #include "Components/TagEdit/MetaDataChangeNotifier.h"
 #include "Components/Engine/EngineHandler.h"
 
+#include <utility>
+#include <algorithm>
+
 
 Playlist::Playlist(int idx, QString name) :
 	PlaylistDBInterface(name),

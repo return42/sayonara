@@ -36,11 +36,7 @@
 #include "Helper/FileHelper.h"
 #include "GUI/Helper/IconLoader/IconLoader.h"
 
-#include <QCloseEvent>
-#include <QPainter>
-#include <QDateTime>
-#include <QTabBar>
-
+#include <algorithm>
 
 GUI_InfoDialog::GUI_InfoDialog(InfoDialogContainer* container, QWidget* parent) :
 	SayonaraDialog(parent),

@@ -25,6 +25,7 @@
 #include "Helper/Tagging/Tagging.h"
 #include "Database/DatabaseConnector.h"
 
+#include <algorithm>
 
 TagEdit::TagEdit(QObject *parent) :
 	QThread(parent),

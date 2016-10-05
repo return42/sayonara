@@ -23,12 +23,15 @@
 #include "GUI_TrayIcon.h"
 #include "GUI/Helper/IconLoader/IconLoader.h"
 #include "Helper/Helper.h"
+
 #include <QFileDialog>
 #include <QToolTip>
 
-/** PLAYER BUTTONS **/
-void GUI_Player::playstate_changed(PlayManager::PlayState state){
+#include <algorithm>
 
+/** PLAYER BUTTONS **/
+void GUI_Player::playstate_changed(PlayManager::PlayState state)
+{
 	switch(state){
 		case PlayManager::PlayState::Playing:
 			played();
@@ -48,26 +51,32 @@ void GUI_Player::playstate_changed(PlayManager::PlayState state){
 }
 
 
-void GUI_Player::play_clicked(){
+void GUI_Player::play_clicked()
+{
 	_play_manager->play_pause();
 }
 
-void GUI_Player::played() {
+
+void GUI_Player::played()
+{
 	btn_play->setIcon(_icon_loader->get_icon("media-playback-pause", "pause"));
 }
 
-void GUI_Player::paused() {
+
+void GUI_Player::paused()
+{
 	btn_play->setIcon(_icon_loader->get_icon("media-playback-start", "play"));
 }
 
 
-void GUI_Player::stop_clicked(){
+void GUI_Player::stop_clicked()
+{
 	_play_manager->stop();
 }
 
 
-void GUI_Player::stopped() {
-
+void GUI_Player::stopped()
+{
 	setWindowTitle("Sayonara");
 
 	btn_play->setIcon(_icon_loader->get_icon("media-playback-start", "play"));
@@ -99,30 +108,38 @@ void GUI_Player::stopped() {
 	}
 }
 
-void GUI_Player::prev_clicked() {
+
+void GUI_Player::prev_clicked()
+{
 	_play_manager->previous();
 }
 
-void GUI_Player::next_clicked() {
+
+void GUI_Player::next_clicked()
+{
 	_play_manager->next();
 }
 
-void GUI_Player::rec_clicked(bool b){
+
+void GUI_Player::rec_clicked(bool b)
+{
     _play_manager->record(b);
 }
 
-/** PROGRESS BAR **/
 
-void GUI_Player::buffering(int progress){
 
+void GUI_Player::buffering(int progress)
+{
 	if(progress >= 0 && progress < 100){
 		progress_widget->setCurrentIndex(1);
 		sli_buffer->setValue(progress);
 	}
+
 	else{
 		progress_widget->setCurrentIndex(0);
 	}
 }
+
 
 void GUI_Player::set_progress_tooltip(int val)
 {
@@ -138,6 +155,7 @@ void GUI_Player::set_progress_tooltip(int val)
 	QToolTip::showText( QCursor::pos(), cur_pos_string );
 }
 
+
 void GUI_Player::set_cur_pos_label(int val){
 
 	int max = sli_progress->maximum();
@@ -152,7 +170,10 @@ void GUI_Player::set_cur_pos_label(int val){
 	curTime->setText(cur_pos_string);
 }
 
+
 void GUI_Player::set_total_time_label(qint64 total_time) {
+
+	_md.length_ms = total_time;
 
 	QString length_str;
 	if(total_time > 0){
@@ -160,9 +181,9 @@ void GUI_Player::set_total_time_label(qint64 total_time) {
 	}
 
 	maxTime->setText(length_str);
-	_md.length_ms = total_time;
 	sli_progress->setEnabled(total_time > 0);
 }
+
 
 void GUI_Player::set_file_info_label()
 {
@@ -193,30 +214,35 @@ void GUI_Player::set_file_info_label()
 
 	lab_rating->setText(rating_text);
 	lab_rating->setToolTip(rating_text);
-
-
 }
 
 
-void GUI_Player::jump_forward_ms(){
+void GUI_Player::jump_forward_ms()
+{
 	_play_manager->seek_rel_ms(10000);
 }
 
-void GUI_Player::jump_backward_ms(){
+
+void GUI_Player::jump_backward_ms()
+{
 	_play_manager->seek_rel_ms(-10000);
 }
 
 
-void GUI_Player::jump_forward() {
+void GUI_Player::jump_forward()
+{
 	sli_progress->increment(50);
 }
 
-void GUI_Player::jump_backward() {
+
+void GUI_Player::jump_backward()
+{
 	sli_progress->increment(-50);
 }
 
-void GUI_Player::seek(int val) {
 
+void GUI_Player::seek(int val)
+{
 	val = std::max(val, 0);
 
 	set_cur_pos_label(val);
@@ -225,8 +251,9 @@ void GUI_Player::seek(int val) {
 	_play_manager->seek_rel(percent);
 }
 
-void GUI_Player::set_cur_pos_ms(quint64 pos_ms) {
 
+void GUI_Player::set_cur_pos_ms(quint64 pos_ms)
+{
 	int max = sli_progress->maximum();
 	int new_val;
 
@@ -247,20 +274,24 @@ void GUI_Player::set_cur_pos_ms(quint64 pos_ms) {
 		curTime->setText(cur_pos_string);
 		sli_progress->setValue(new_val);
 	}
-
 }
 
-void GUI_Player::volume_slider_moved(int val){
+
+void GUI_Player::volume_slider_moved(int val)
+{
 	_play_manager->set_volume(val);
 }
 
-void GUI_Player::volume_changed(int val) {
+
+void GUI_Player::volume_changed(int val)
+{
 	setup_volume_button(val);
 	sli_volume->setValue(val);
 }
 
-void GUI_Player::change_volume_by_tick(int val) {
 
+void GUI_Player::change_volume_by_tick(int val)
+{
 	if(val > 0){
 		increase_volume();
 	}
@@ -270,16 +301,20 @@ void GUI_Player::change_volume_by_tick(int val) {
 }
 
 
-void GUI_Player::increase_volume() {
+void GUI_Player::increase_volume()
+{
 	_play_manager->volume_up();
 }
 
-void GUI_Player::decrease_volume() {
+
+void GUI_Player::decrease_volume()
+{
 	_play_manager->volume_down();
 }
 
-void GUI_Player::setup_volume_button(int percent) {
 
+void GUI_Player::setup_volume_button(int percent)
+{
 	QString but_name = "vol_";
 	QString but_std_name = "vol_";
 
@@ -306,8 +341,9 @@ void GUI_Player::setup_volume_button(int percent) {
 	btn_mute->setIcon( _icon_loader->get_icon(but_std_name, but_name));
 }
 
-void GUI_Player::mute_button_clicked() {
 
+void GUI_Player::mute_button_clicked()
+{
 	bool muted = _settings->get(Set::Engine_Mute);
 	_play_manager->set_mute(!muted);
 }
@@ -329,7 +365,3 @@ void GUI_Player::mute_changed(bool muted)
 	sli_volume->setValue(val);
 	setup_volume_button(val);
 }
-
-/** VOLUME END **/
-
-

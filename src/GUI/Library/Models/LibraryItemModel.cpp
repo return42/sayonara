@@ -23,10 +23,7 @@
 #include "GUI/Library/Helper/ColumnHeader.h"
 #include "GUI/Helper/CustomMimeData.h"
 
-#include <QList>
-#include <QString>
-#include <QStringList>
-#include <QModelIndex>
+#include <algorithm>
 
 
 LibraryItemModel::LibraryItemModel() {

@@ -29,12 +29,17 @@
 #include "GUI_AbstractStream.h"
 
 
-class GUI_Stream : public GUI_AbstractStream, public Ui::GUI_Stream {
-
+class GUI_Stream :
+		public GUI_AbstractStream,
+		public Ui::GUI_Stream
+{
 	Q_OBJECT
 
+
 protected:
-	virtual void language_changed() override;
+	void language_changed() override;
+	QString get_title_fallback_name() const override;
+
 
 public:
 	GUI_Stream(QWidget *parent=nullptr);
@@ -42,7 +47,6 @@ public:
 
 	QString get_name() const override;
 	QString get_display_name() const override;
-
 };
 
 #endif /* GUI_STREAM_H_ */

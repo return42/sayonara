@@ -38,9 +38,6 @@ GUI_AbstractStream::GUI_AbstractStream(AbstractStreamHandler* stream_handler, QW
 	_db = DatabaseConnector::getInstance();
 
 	_stream_handler = stream_handler;
-
-	connect(_stream_handler, &AbstractStreamHandler::sig_error, this, &GUI_AbstractStream::error);
-	connect(_stream_handler, &AbstractStreamHandler::sig_data_available, this, &GUI_AbstractStream::data_available);
 }
 
 GUI_AbstractStream::~GUI_AbstractStream(){
@@ -69,6 +66,9 @@ void GUI_AbstractStream::init_connections(){
 	connect(_combo_stream, &QComboBox::editTextChanged, this, &GUI_AbstractStream::text_changed);
 
 	connect(_le_url, &QLineEdit::textChanged, this, &GUI_AbstractStream::text_changed);
+
+	connect(_stream_handler, &AbstractStreamHandler::sig_error, this, &GUI_AbstractStream::error);
+	connect(_stream_handler, &AbstractStreamHandler::sig_data_available, this, &GUI_AbstractStream::data_available);
 }
 
 void GUI_AbstractStream::init_streams(){
@@ -134,7 +134,7 @@ void GUI_AbstractStream::listen_clicked(){
 
 	if( _combo_stream->currentIndex() <= 0) {
 		url = _le_url->text();
-		name = _title_fallback_name;
+		name = get_title_fallback_name();
 	}
 
 	else{

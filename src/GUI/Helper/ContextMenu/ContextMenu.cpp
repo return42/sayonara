@@ -18,11 +18,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "ContextMenu.h"
 #include "GUI/Helper/IconLoader/IconLoader.h"
 #include "GUI/Helper/GUI_Helper.h"
+
+#include <algorithm>
 
 ContextMenu::ContextMenu(QWidget *parent) :
 	QMenu(parent)

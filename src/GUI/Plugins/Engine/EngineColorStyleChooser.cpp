@@ -22,8 +22,8 @@
 
 #include "EngineColorStyleChooser.h"
 #include "Database/DatabaseConnector.h"
-#include "Helper/Logger/Logger.h"
 
+#include <algorithm>
 
 QList<float> borders_4, borders_3, borders_2;
 

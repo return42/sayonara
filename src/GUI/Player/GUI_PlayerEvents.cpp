@@ -24,8 +24,8 @@
 #include "Interfaces/LibraryInterface/LibraryPluginHandler.h"
 #include "Interfaces/LibraryInterface/LibraryContainer/LibraryContainer.h"
 
-void GUI_Player::moveEvent(QMoveEvent *e) {
-
+void GUI_Player::moveEvent(QMoveEvent *e)
+{
 	QMainWindow::moveEvent(e);
 
 	QPoint p= this->pos();
@@ -33,8 +33,8 @@ void GUI_Player::moveEvent(QMoveEvent *e) {
 }
 
 
-void GUI_Player::resizeEvent(QResizeEvent* e) {
-
+void GUI_Player::resizeEvent(QResizeEvent* e)
+{
 	QMainWindow::resizeEvent(e);
 
 	bool is_maximized = _settings->get(Set::Player_Maximized);
@@ -68,8 +68,8 @@ void GUI_Player::resizeEvent(QResizeEvent* e) {
 }
 
 
-void GUI_Player::main_splitter_moved(int pos, int idx){
-
+void GUI_Player::main_splitter_moved(int pos, int idx)
+{
 	Q_UNUSED(pos)
 	Q_UNUSED(idx)
 
@@ -89,8 +89,8 @@ void GUI_Player::main_splitter_moved(int pos, int idx){
 }
 
 
-void GUI_Player::keyPressEvent(QKeyEvent* e) {
-
+void GUI_Player::keyPressEvent(QKeyEvent* e)
+{
 	e->accept();
 
 	switch (e->key()) {
@@ -108,10 +108,12 @@ void GUI_Player::keyPressEvent(QKeyEvent* e) {
 	}
 }
 
-void GUI_Player::closeEvent(QCloseEvent* e) {
+
+void GUI_Player::closeEvent(QCloseEvent* e)
+{
+	e->ignore();
 
 	bool min_to_tray = _settings->get(Set::Player_Min2Tray);
-	e->ignore();
 
 	if(min_to_tray && !this->isHidden()) {
 		this->hide();

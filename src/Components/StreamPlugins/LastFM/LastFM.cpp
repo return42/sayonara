@@ -41,6 +41,8 @@
 #include <QDomDocument>
 #include <QUrl>
 
+#include <algorithm>
+
 LastFM::LastFM() :
 	QObject(),
 	SayonaraClass()

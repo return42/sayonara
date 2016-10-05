@@ -32,6 +32,7 @@
 
 #include <cstring>
 #include <cmath>
+#include <algorithm>
 
 float log_lu[1100];
 

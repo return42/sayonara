@@ -65,8 +65,6 @@ protected:
 	DatabaseConnector*		_db=nullptr;	// used to fetch entries from DB
 	AbstractStreamHandler*	_stream_handler=nullptr;
 
-	QString					_title_fallback_name;
-
 	// url, name
 	QMap<QString, QString>	_stations;
 
@@ -76,6 +74,8 @@ protected:
 
 	virtual void						play(QString url, QString station_name);
 	virtual GlobalMessage::Answer		show_delete_confirm_dialog();
+
+	virtual QString						get_title_fallback_name() const=0;
 
 
 

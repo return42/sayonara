@@ -18,12 +18,11 @@
  */
 
 
-
-
 #include "MTP_Storage.h"
 #include "MTP_File.h"
 #include "MTP_Folder.h"
 
+#include <algorithm>
 
 MTP_Storage::MTP_Storage(MTPIntern_Device* device, MTPIntern_Storage* storage){
 

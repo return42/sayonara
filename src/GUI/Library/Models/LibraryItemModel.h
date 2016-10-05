@@ -54,7 +54,9 @@
 
 class CustomMimeData;
 class ColumnHeader;
-class LibraryItemModel : public AbstractSearchTableModel{
+class LibraryItemModel :
+		public AbstractSearchTableModel
+{
 
 	Q_OBJECT
 

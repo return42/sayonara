@@ -25,7 +25,6 @@
 
 
 #include <QList>
-#include <QString>
 #include <algorithm>
 
 #include "Helper/Logger/Logger.h"

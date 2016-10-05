@@ -27,7 +27,7 @@
 #include "Helper/LibrarySearchMode.h"
 
 #include <QDirIterator>
-
+#include <algorithm>
 
 AbstractSearchFileTreeModel::AbstractSearchFileTreeModel(QObject* parent) :
 	QFileSystemModel(parent)

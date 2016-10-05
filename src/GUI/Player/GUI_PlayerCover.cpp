@@ -25,23 +25,19 @@
 
 #include "GUI_Player.h"
 
-#include "GUI/Helper/GUI_Helper.h"
-
 #include <QImage>
 #include <QPixmap>
 #include <QIcon>
 
-/** COVERS **/
-
-void GUI_Player::set_cover_location(){
-
+void GUI_Player::set_cover_location()
+{
 	CoverLocation cl = CoverLocation::get_cover_location(_md);
 
 	albumCover->set_cover_location(cl);
 }
 
-void GUI_Player::set_standard_cover() {
-
+void GUI_Player::set_standard_cover()
+{
 	albumCover->set_cover_location(CoverLocation::getInvalidLocation());
 }
 
@@ -51,6 +47,3 @@ void GUI_Player::cover_changed(const QImage& img)
 	QIcon icon(pm);
 	albumCover->force_icon(icon);
 }
-
-/** COVER END **/
-

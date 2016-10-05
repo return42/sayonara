@@ -26,8 +26,7 @@
 #include "PlaylistDBWrapper.h"
 #include "Helper/Playlist/CustomPlaylist.h"
 
-
-#include <QDir>
+#include <algorithm>
 
 PlaylistLoader::PlaylistLoader(QObject* parent) :
 	QObject(parent),

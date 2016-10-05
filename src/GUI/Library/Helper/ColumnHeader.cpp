@@ -19,6 +19,7 @@
 
 
 #include "ColumnHeader.h"
+#include <algorithm>
 
 ColumnHeader::ColumnHeader(bool switchable, SortOrder sort_asc, SortOrder sort_desc){
 	_action = new QAction(this);

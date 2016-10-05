@@ -25,15 +25,10 @@ GUI_Stream::GUI_Stream(QWidget *parent) :
 	GUI_AbstractStream(new StreamHandlerStreams(), parent),
 	Ui::GUI_Stream()
 {
-	_title_fallback_name = tr("Radio Station");
-
 	setup_parent(this);
 }
 
-
-GUI_Stream::~GUI_Stream() {
-
-}
+GUI_Stream::~GUI_Stream() {}
 
 QString GUI_Stream::get_name() const
 {
@@ -45,8 +40,12 @@ QString GUI_Stream::get_display_name() const
 	return tr("Webstreams");
 }
 
-
-void GUI_Stream::language_changed() {
+void GUI_Stream::language_changed()
+{
 	retranslateUi(this);
 }
 
+QString GUI_Stream::get_title_fallback_name() const
+{
+	return tr("Radio Station");
+}

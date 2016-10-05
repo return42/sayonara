@@ -25,6 +25,8 @@
 #include "Helper/MetaData/MetaData.h"
 #include "Helper/Settings/SayonaraClass.h"
 
+#include <algorithm>
+
 template<typename T, int N_ITEMS>
 class RingBuffer {
 
