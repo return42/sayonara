@@ -24,29 +24,35 @@
 #include "Components/Playlist/Playlist.h"
 
 CustomPlaylist::CustomPlaylist() :
-	CustomPlaylistSkeleton()
+	CustomPlaylistSkeleton(),
+	MetaDataList()
 {
-	is_valid = false;
+
 }
 
 CustomPlaylist::CustomPlaylist(const CustomPlaylistSkeleton& skeleton) :
-	CustomPlaylistSkeleton(skeleton)
+	CustomPlaylistSkeleton(skeleton),
+	MetaDataList()
 {
-	is_valid = false;
 
 }
 
+CustomPlaylist::~CustomPlaylist(){}
 
-CustomPlaylistSkeleton::CustomPlaylistSkeleton(){
-	name = "";
-	id = -1;
-	n_tracks = 0;
-	is_temporary = false;
+void CustomPlaylist::set_num_tracks(int num_tracks)
+{
+	Q_UNUSED(num_tracks)
 }
 
-CustomPlaylistSkeleton::CustomPlaylistSkeleton(const CustomPlaylistSkeleton& s){
-	id = s.id;
-	name = s.name;
-	is_temporary = s.is_temporary;
-	n_tracks = s.n_tracks;
+bool CustomPlaylist::valid() const
+{
+	return (this->size() > 0);
 }
+
+int CustomPlaylist::num_tracks() const
+{
+	return this->size();
+}
+
+
+

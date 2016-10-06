@@ -28,6 +28,7 @@
 #include "GUI/Helper/SearchableWidget/SearchableFileTreeView.h"
 
 #include "Helper/DirectoryReader/DirectoryReader.h"
+#include "Helper/MetaData/MetaDataList.h"
 
 #include <QDir>
 #include <QMouseEvent>

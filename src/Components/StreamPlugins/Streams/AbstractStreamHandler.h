@@ -26,9 +26,7 @@
 #include <QString>
 #include "Helper/MetaData/MetaDataList.h"
 
-
 typedef QMap<QString, QString> StreamMap;
-
 
 class PlaylistHandler;
 class AsyncWebAccess;

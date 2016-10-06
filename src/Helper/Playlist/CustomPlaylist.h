@@ -23,42 +23,33 @@
 #ifndef CUSTOMPLAYLIST_H
 #define CUSTOMPLAYLIST_H
 
+#include "CustomPlaylistSkeleton.h"
 #include "Helper/MetaData/MetaDataList.h"
-
-#include <QList>
-
-/**
- * @brief The CustomPlaylistSkeleton class
- * @ingroup PlaylistHelper
- */
-class CustomPlaylistSkeleton {
-
-public:
-	int				id;
-	QString			name;
-	bool			is_temporary;
-	int				n_tracks;
-
-	CustomPlaylistSkeleton();
-	CustomPlaylistSkeleton(const CustomPlaylistSkeleton& s);
-};
 
 /**
  * @brief The CustomPlaylist class
  * @ingroup PlaylistHelper
  */
-class CustomPlaylist : public CustomPlaylistSkeleton{
+class CustomPlaylist :
+		public CustomPlaylistSkeleton,
+		public MetaDataList
+{
 
 public:
-	MetaDataList	tracks;
-	bool			is_valid;
+
+	bool valid() const;
+
+	int num_tracks() const override;
 
 	CustomPlaylist();
 	CustomPlaylist(const CustomPlaylistSkeleton& skeleton);
+	virtual ~CustomPlaylist();
+
+private:
+	void set_num_tracks(int num_tracks) override;
 };
 
 typedef QList<CustomPlaylist> CustomPlaylists;
-typedef QList<CustomPlaylistSkeleton> CustomPlaylistSkeletons;
 
 
 #endif // CUSTOMPLAYLIST_H

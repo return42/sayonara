@@ -32,7 +32,6 @@
 #include <QImage>
 #include <QMap>
 
-class MetaDataList;
 /**
  * @brief The TagEdit class
  * Metadata has to be added using the set_metadata(const MetaDataList&) method.

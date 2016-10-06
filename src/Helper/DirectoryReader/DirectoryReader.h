@@ -22,10 +22,9 @@
 #ifndef DIRECTORY_READER
 #define DIRECTORY_READER
 
-#include "Helper/MetaData/MetaDataList.h"
-
 #include <QDir>
-#include <QFileInfo>
+
+class MetaDataList;
 
 /**
  * @brief Directory reader functions

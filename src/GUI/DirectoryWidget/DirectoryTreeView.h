@@ -24,13 +24,14 @@
 #define DIRECTORYTREEVIEW_H
 
 #include "Helper/Settings/SayonaraClass.h"
-#include "Helper/MetaData/MetaDataList.h"
 
 #include <QTreeView>
 #include <QModelIndexList>
 
 class LibraryContextMenu;
 class AbstractSearchFileTreeModel;
+class MetaDataList;
+
 class DirectoryTreeView :
 		public QTreeView,
 		private SayonaraClass

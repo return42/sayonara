@@ -207,7 +207,7 @@ int PlaylistHandler::create_playlist(const QString& dir, const QString& name, bo
 
 int PlaylistHandler::create_playlist(const CustomPlaylist& cpl){
 
-	int id = cpl.id;
+	int id = cpl.id();
 	int idx;
 	PlaylistPtr pl;
 
@@ -216,7 +216,7 @@ int PlaylistHandler::create_playlist(const CustomPlaylist& cpl){
 	});
 
 	if(it == _playlists.end()){
-		idx = add_new_playlist(cpl.name, cpl.is_temporary, Playlist::Type::Std);
+		idx = add_new_playlist(cpl.name(), cpl.temporary(), Playlist::Type::Std);
 	}
 
 	else{
@@ -224,7 +224,7 @@ int PlaylistHandler::create_playlist(const CustomPlaylist& cpl){
 	}
 
 	pl = _playlists[idx];
-	pl->create_playlist(cpl.tracks);
+	pl->create_playlist(cpl);
 	pl->set_changed(false);
 
 	return pl->get_idx();

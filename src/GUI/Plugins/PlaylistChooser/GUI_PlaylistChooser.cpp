@@ -121,7 +121,7 @@ void GUI_PlaylistChooser::all_playlists_fetched(const CustomPlaylistSkeletons& s
 
 	for(const CustomPlaylistSkeleton& skeleton : skeletons)
 	{
-		combo_playlistchooser->addItem(skeleton.name, skeleton.id);
+		combo_playlistchooser->addItem(skeleton.name(), skeleton.id());
 	}
 
 	int cur_idx = std::max(combo_playlistchooser->findText(old_text), 0);

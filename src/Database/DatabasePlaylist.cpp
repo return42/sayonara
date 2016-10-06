@@ -28,8 +28,8 @@ DatabasePlaylist::DatabasePlaylist(QSqlDatabase db, quint8 db_id) :
 }
 
 
-bool DatabasePlaylist::getAllPlaylistSkeletons(CustomPlaylistSkeletons& skeletons, DatabasePlaylist::PlaylistChooserType type, SortOrderPlaylists sortorder) {
-
+bool DatabasePlaylist::getAllPlaylistSkeletons(CustomPlaylistSkeletons& skeletons, DatabasePlaylist::PlaylistChooserType type, SortOrderPlaylists sortorder)
+{
 	skeletons.clear();
 
 	QString sortorder_str;
@@ -94,20 +94,24 @@ bool DatabasePlaylist::getAllPlaylistSkeletons(CustomPlaylistSkeletons& skeleton
 			continue;
 		}
 
-		skeleton.id = q.value(0).toInt();
-		skeleton.name =	q.value(1).toString();
-		skeleton.is_temporary =	(q.value(2).toInt() == 1) ? true : false;
-		skeleton.n_tracks = q.value(3).toInt();
+		skeleton.set_id(q.value(0).toInt());
+		skeleton.set_name(q.value(1).toString());
+
+		bool temporary = (q.value(2) == 1);
+		skeleton.set_temporary(temporary);
+		skeleton.set_num_tracks(q.value(3).toInt());
+
 		skeletons << skeleton;
 	}
 
 	return true;
 }
 
-bool DatabasePlaylist::getPlaylistSkeletonById(CustomPlaylistSkeleton& skeleton){
+bool DatabasePlaylist::getPlaylistSkeletonById(CustomPlaylistSkeleton& skeleton)
+{
 	DB_RETURN_NOT_OPEN_BOOL(_db);
 
-	if(skeleton.id < 0){
+	if(skeleton.id() < 0){
 		sp_log(Log::Warning) << "Cannot fetch playlist -1";
 		return false;
 	}
@@ -127,7 +131,7 @@ bool DatabasePlaylist::getPlaylistSkeletonById(CustomPlaylistSkeleton& skeleton)
 			"GROUP BY playlists.playlistID;";
 
 	q.prepare(querytext);
-	q.bindValue(":playlist_id", skeleton.id);
+	q.bindValue(":playlist_id", skeleton.id());
 
 	if(!q.exec()) {
 		q.show_error("Cannot fetch all playlists");
@@ -135,26 +139,30 @@ bool DatabasePlaylist::getPlaylistSkeletonById(CustomPlaylistSkeleton& skeleton)
 	}
 
 	if(q.next()) {
-		skeleton.id = q.value(0).toInt();
-		skeleton.name =	q.value(1).toString();
-		skeleton.is_temporary =	(q.value(2).toInt() == 1) ? true : false;
-		skeleton.n_tracks = q.value(3).toInt();
+
+		skeleton.set_id(q.value(0).toInt());
+		skeleton.set_name(q.value(1).toString());
+
+		bool temporary = (q.value(2) == 1);
+		skeleton.set_temporary(temporary);
+		skeleton.set_num_tracks(q.value(3).toInt());
+
 		return true;
 	}
 
 	return false;
 }
 
-bool DatabasePlaylist::getPlaylistById(CustomPlaylist& pl) {
-
+bool DatabasePlaylist::getPlaylistById(CustomPlaylist& pl)
+{
 	if(!getPlaylistSkeletonById(pl)){
-		sp_log(Log::Warning) << "Get playlist by id: cannot fetch skeleton id " << pl.id;
+		sp_log(Log::Warning) << "Get playlist by id: cannot fetch skeleton id " << pl.id();
 		return false;
 	}
 
 	DB_RETURN_NOT_OPEN_BOOL(_db);
 
-	pl.tracks.clear();
+	pl.clear();
 
 	SayonaraQuery q(_db);
 
@@ -187,10 +195,10 @@ bool DatabasePlaylist::getPlaylistById(CustomPlaylist& pl) {
 			"ORDER BY playlistToTracks.position ASC; ";
 
 	q.prepare(querytext);
-	q.bindValue(":playlist_id", pl.id);
+	q.bindValue(":playlist_id", pl.id());
 
 	if (!q.exec()) {
-		q.show_error(QString("Cannot get tracks for playlist ") + QString::number(pl.id));
+		q.show_error( QString("Cannot get tracks for playlist %1").arg(pl.id()) );
 	}
 
 	else{
@@ -217,7 +225,7 @@ bool DatabasePlaylist::getPlaylistById(CustomPlaylist& pl) {
 			data.db_id = _module_db_id;
 
 			if(q.value(16).toInt() == 0 || q.value(16).isNull()){
-				pl.tracks.push_back(data);
+				pl.push_back(data);
 			}
 		}
 	}
@@ -235,10 +243,10 @@ bool DatabasePlaylist::getPlaylistById(CustomPlaylist& pl) {
 
 	SayonaraQuery q2(_db);
 	q2.prepare(querytext2);
-	q2.bindValue(":playlist_id", pl.id);
+	q2.bindValue(":playlist_id", pl.id());
 
 	if(!q2.exec()) {
-		q2.show_error(QString("Playlist by id: Cannot fetch playlist ") + QString::number(pl.id));
+		q2.show_error(QString("Playlist by id: Cannot fetch playlist %1").arg(pl.id()));
 		return false;
 	}
 
@@ -255,9 +263,9 @@ bool DatabasePlaylist::getPlaylistById(CustomPlaylist& pl) {
 		data.title = filepath;
 		data.artist = filepath;
 
-		for(int row=0; row<=pl.tracks.size(); row++) {
+		for(int row=0; row<=pl.size(); row++) {
 			if( row >= position) {
-				pl.tracks.insert(row, data);
+				pl.insert(row, data);
 				break;
 			}
 		}
@@ -268,8 +276,8 @@ bool DatabasePlaylist::getPlaylistById(CustomPlaylist& pl) {
 
 // negative, if error
 // nonnegative else
-int DatabasePlaylist::getPlaylistIdByName(const QString& name) {
-
+int DatabasePlaylist::getPlaylistIdByName(const QString& name)
+{
 	DB_RETURN_NOT_OPEN_INT(_db);
 
 	SayonaraQuery q(_db);
@@ -292,9 +300,10 @@ int DatabasePlaylist::getPlaylistIdByName(const QString& name) {
 }
 
 
-bool DatabasePlaylist::insertTrackIntoPlaylist(const MetaData& md, int playlist_id, int pos) {
-
+bool DatabasePlaylist::insertTrackIntoPlaylist(const MetaData& md, int playlist_id, int pos)
+{
 	DB_RETURN_NOT_OPEN_BOOL(_db);
+
 	if(md.is_disabled)
 	{
 		return false;
@@ -326,8 +335,8 @@ bool DatabasePlaylist::insertTrackIntoPlaylist(const MetaData& md, int playlist_
 
 // returns id if everything ok
 // negative otherwise
-int DatabasePlaylist::createPlaylist(QString playlist_name, bool temporary) {
-
+int DatabasePlaylist::createPlaylist(QString playlist_name, bool temporary)
+{
 	DB_RETURN_NOT_OPEN_INT(_db);
 
 
@@ -347,10 +356,11 @@ int DatabasePlaylist::createPlaylist(QString playlist_name, bool temporary) {
 	}
 
 	return q.lastInsertId().toInt();
-
 }
 
-bool DatabasePlaylist::renamePlaylist(int id, const QString& new_name){
+
+bool DatabasePlaylist::renamePlaylist(int id, const QString& new_name)
+{
 	DB_RETURN_NOT_OPEN_BOOL(_db);
 
 	QString query_string = "UPDATE playlists SET playlist=:playlist_name WHERE playlistId=:id;";
@@ -369,8 +379,8 @@ bool DatabasePlaylist::renamePlaylist(int id, const QString& new_name){
 	return true;
 }
 
-bool DatabasePlaylist::updatePlaylistTempState(int playlist_id, bool temporary){
-
+bool DatabasePlaylist::updatePlaylistTempState(int playlist_id, bool temporary)
+{
 	DB_RETURN_NOT_OPEN_BOOL(_db);
 
 	int temporary_int = (temporary) ? 1 : 0;
@@ -389,8 +399,8 @@ bool DatabasePlaylist::updatePlaylistTempState(int playlist_id, bool temporary){
 	return true;
 }
 
-bool DatabasePlaylist::storePlaylist(const MetaDataList& vec_md, QString playlist_name, bool temporary) {
-
+bool DatabasePlaylist::storePlaylist(const MetaDataList& vec_md, QString playlist_name, bool temporary)
+{
 	DB_RETURN_NOT_OPEN_BOOL(_db);
 
 	int playlist_id;
@@ -431,25 +441,25 @@ bool DatabasePlaylist::storePlaylist(const MetaDataList& vec_md, QString playlis
 
 
 
-bool DatabasePlaylist::storePlaylist(const MetaDataList& vec_md, int playlist_id, bool temporary) {
-
+bool DatabasePlaylist::storePlaylist(const MetaDataList& vec_md, int playlist_id, bool temporary)
+{
 	DB_RETURN_NOT_OPEN_BOOL(_db);
 
 	CustomPlaylist pl;
-	pl.id = playlist_id;
+	pl.set_id(playlist_id);
 
 	bool success = getPlaylistById(pl);
 	if(!success){
-		sp_log(Log::Warning) << "Store: Cannot fetch playlist: " << pl.id;
+		sp_log(Log::Warning) << "Store: Cannot fetch playlist: " << pl.id();
 		return false;
 	}
 
-	if(pl.name.isEmpty()){
+	if(pl.name().isEmpty()){
 		return false;
 	}
 
 	if( playlist_id < 0) {
-		playlist_id = createPlaylist(pl.name, temporary);
+		playlist_id = createPlaylist(pl.name(), temporary);
 	}
 
 	else{
@@ -468,8 +478,8 @@ bool DatabasePlaylist::storePlaylist(const MetaDataList& vec_md, int playlist_id
 	return true;
 }
 
-bool DatabasePlaylist::emptyPlaylist(int playlist_id) {
-
+bool DatabasePlaylist::emptyPlaylist(int playlist_id)
+{
 	DB_RETURN_NOT_OPEN_BOOL(_db);
 
 	SayonaraQuery q(_db);
@@ -486,8 +496,8 @@ bool DatabasePlaylist::emptyPlaylist(int playlist_id) {
 }
 
 
-bool DatabasePlaylist::deletePlaylist(int playlist_id) {
-
+bool DatabasePlaylist::deletePlaylist(int playlist_id)
+{
 	DB_RETURN_NOT_OPEN_BOOL(_db);
 
 	emptyPlaylist(playlist_id);
@@ -507,8 +517,8 @@ bool DatabasePlaylist::deletePlaylist(int playlist_id) {
 }
 
 
-bool DatabasePlaylist::deleteTrackFromPlaylists(int track_id) {
-
+bool DatabasePlaylist::deleteTrackFromPlaylists(int track_id)
+{
 	DB_TRY_OPEN(_db);
 	DB_RETURN_NOT_OPEN_BOOL(_db);
 

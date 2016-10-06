@@ -21,6 +21,7 @@ SET(SOURCES
     LibrarySearchMode.cpp
 
     Playlist/CustomPlaylist.cpp
+	Playlist/CustomPlaylistSkeleton.cpp
 
     MetaData/LibraryItem.cpp
     MetaData/MetaData.cpp
@@ -34,15 +35,12 @@ SET(SOURCES
     WebAccess/AsyncWebAccess.cpp
 
     Parser/AbstractPlaylistParser.cpp
-
     Parser/M3UParser.cpp
     Parser/PLSParser.cpp
     Parser/ASXParser.cpp
-
     Parser/PlaylistParser.cpp
     Parser/PodcastParser.cpp
     Parser/StreamParser.cpp
-
     Parser/CommandLineParser.cpp
 
     Tagging/Tagging.cpp

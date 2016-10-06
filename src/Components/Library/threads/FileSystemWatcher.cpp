@@ -2,6 +2,7 @@
 #include "Helper/FileHelper.h"
 #include "Helper/Helper.h"
 #include "Helper/DirectoryReader/DirectoryReader.h"
+#include "Helper/Logger/Logger.h"
 
 #include <algorithm>
 

@@ -28,7 +28,7 @@ PlaylistDBInterface::PlaylistDBInterface(const QString& name)
 	_playlist_db_connector = PlaylistDBWrapper::getInstance();
 
 	_name = name;
-	_id = _playlist_db_connector->get_playlist_by_name(name).id;
+	_id = _playlist_db_connector->get_playlist_by_name(name).id();
 
 	_is_temporary = true;
 	_save_enabled = true;
@@ -61,9 +61,9 @@ void PlaylistDBInterface::set_temporary(bool b){
 
 
 void PlaylistDBInterface::set_skeleton(const CustomPlaylistSkeleton& skeleton){
-	_name = skeleton.name;
-	_id = skeleton.id;
-	_is_temporary = skeleton.is_temporary;
+	_name = skeleton.name();
+	_id = skeleton.id();
+	_is_temporary = skeleton.temporary();
 }
 
 
@@ -118,7 +118,7 @@ bool PlaylistDBInterface::insert_temporary_into_db(){
 		return false;
 	}
 
-	_id = _playlist_db_connector->get_playlist_by_name(_name).id;
+	_id = _playlist_db_connector->get_playlist_by_name(_name).id();
 
 	return true;
 }
@@ -144,11 +144,11 @@ PlaylistDBInterface::SaveAsAnswer PlaylistDBInterface::save_as(const QString& na
 	// check if name already exists
 	for(const CustomPlaylistSkeleton& skeleton : skeletons){
 
-		QString tmp_name = skeleton.name;
+		QString tmp_name = skeleton.name();
 
 		if( tmp_name.compare(name, Qt::CaseInsensitive) == 0 ){
 
-			tgt_id = skeleton.id;
+			tgt_id = skeleton.id();
 
 			if(!force_override){
 				return SaveAsAnswer::AlreadyThere;
@@ -180,7 +180,7 @@ PlaylistDBInterface::SaveAsAnswer PlaylistDBInterface::save_as(const QString& na
 
 	if(success){
 
-		int id = _playlist_db_connector->get_playlist_by_name(name).id;
+		int id = _playlist_db_connector->get_playlist_by_name(name).id();
 		if(id >= 0){
 			this->set_id(id);
 		}
@@ -210,7 +210,7 @@ PlaylistDBInterface::SaveAsAnswer PlaylistDBInterface::rename(const QString& nam
 	// check if name already exists
 	for(const CustomPlaylistSkeleton& skeleton : skeletons){
 
-		QString tmp_name = skeleton.name;
+		QString tmp_name = skeleton.name();
 
 		if( tmp_name.compare(name, Qt::CaseInsensitive) == 0 ){
 			return SaveAsAnswer::AlreadyThere;
@@ -276,7 +276,7 @@ QString PlaylistDBInterface::request_new_db_name()
 		target_name = tr("New %1").arg(idx);
 		for(const CustomPlaylistSkeleton& skeleton : skeletons){
 
-			QString name = skeleton.name;
+			QString name = skeleton.name();
 
 			if(name.compare(target_name, Qt::CaseInsensitive) == 0){
 				found = true;

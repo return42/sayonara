@@ -25,6 +25,7 @@
 #include "DirectoryIconProvider.h"
 #include "DirectoryDelegate.h"
 #include "Helper/Helper.h"
+#include "Helper/MetaData/MetaDataList.h"
 #include "Helper/DirectoryReader/DirectoryReader.h"
 
 

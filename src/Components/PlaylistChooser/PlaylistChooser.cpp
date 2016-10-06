@@ -66,7 +66,7 @@ void PlaylistChooser::load_single_playlist(int id) {
 	}
 
 	CustomPlaylist pl = find_custom_playlist(id);
-	if(!pl.is_valid) {
+	if(!pl.valid()) {
 		return;
 	}
 
@@ -91,7 +91,7 @@ void PlaylistChooser::delete_playlist(int id) {
 void PlaylistChooser::save_playlist(int id)
 {
 	CustomPlaylist pl = find_custom_playlist(id);
-	if(pl.is_valid){
+	if(pl.valid()){
 		int cur_idx = _playlist_handler->get_current_idx();
 		_playlist_handler->save_playlist(cur_idx);
 	}
@@ -120,8 +120,8 @@ void PlaylistChooser::playlist_files_selected(const QStringList& lst){
 int PlaylistChooser::find_playlist(const QString& name) const
 {
 	for(const CustomPlaylistSkeleton& skeleton : _skeletons){
-		if(skeleton.name.compare(name) == 0){
-			return skeleton.id;
+		if(skeleton.name().compare(name) == 0){
+			return skeleton.id();
 		}
 	}
 

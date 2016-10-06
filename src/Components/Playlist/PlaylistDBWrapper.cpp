@@ -81,13 +81,13 @@ bool PlaylistDBWrapper:: get_non_temporary_skeletons(CustomPlaylistSkeletons& sk
 
 bool PlaylistDBWrapper::extract_stream(CustomPlaylist& pl, QString name, QString url){
 
-	pl.is_temporary = false;
+	pl.set_temporary(false);
 
 	if(Helper::File::is_playlistfile(url)) 
 	{
-		if(PlaylistParser::parse_playlist(url, pl.tracks) > 0) 
+		if(PlaylistParser::parse_playlist(url, pl) > 0)
 		{
-			for(MetaData& md : pl.tracks) {
+			for(MetaData& md : pl) {
 
 				md.album = name;
 				if(md.title.isEmpty()){
@@ -117,12 +117,10 @@ bool PlaylistDBWrapper::extract_stream(CustomPlaylist& pl, QString name, QString
 		md.is_extern = true;
 		md.id = -1;
 
-		pl.tracks << std::move(md);
+		pl << std::move(md);
 	}
 
-	pl.is_valid = (pl.tracks.size() > 0);
-
-	return pl.is_valid;
+	return pl.valid();
 }
 
 
@@ -141,7 +139,7 @@ bool PlaylistDBWrapper::get_playlists(CustomPlaylists& playlists, DatabasePlayli
 	for(const CustomPlaylistSkeleton& skeleton : skeletons){
 
 		CustomPlaylist pl(skeleton);
-		if(pl.id < 0){
+		if(pl.id() < 0){
 			continue;
 		}
 
@@ -151,7 +149,7 @@ bool PlaylistDBWrapper::get_playlists(CustomPlaylists& playlists, DatabasePlayli
 			continue;
 		}
 
-		apply_tags(pl.tracks);
+		apply_tags(pl);
 
 		playlists.push_back(pl);
 	}
@@ -185,11 +183,9 @@ CustomPlaylist PlaylistDBWrapper::get_playlist_by_id(int id){
 
 	bool success;
 	CustomPlaylist pl;
-	pl.id = id;
+	pl.set_id(id);
 
 	success = _db->getPlaylistById(pl);
-	pl.is_valid = success;
-
 	if(!success){
 		return pl;
 	}
@@ -205,8 +201,7 @@ CustomPlaylist PlaylistDBWrapper::get_playlist_by_name(const QString& name){
 
 	if(id < 0){
 		CustomPlaylist pl;
-		pl.id = -1;
-		pl.is_valid = false;
+		pl.set_id(-1);
 		return pl;
 	}
 
@@ -232,6 +227,7 @@ bool PlaylistDBWrapper::save_playlist_temporary(const MetaDataList& v_md, const 
 	bool success;
 
 	_db->transaction();
+
 	success = _db->storePlaylist(v_md, name, true);
 	_db->commit();
 
@@ -243,7 +239,8 @@ bool PlaylistDBWrapper::save_playlist(const CustomPlaylist& pl){
 	bool success;
 
 	_db->transaction();
-	success = _db->storePlaylist(pl.tracks, pl.id, pl.is_temporary);
+	// TODO! we dont need the two other parameters
+	success = _db->storePlaylist(pl, pl.id(), pl.temporary());
 	_db->commit();
 
 	return success;
@@ -254,6 +251,7 @@ bool PlaylistDBWrapper::save_playlist(const MetaDataList& v_md, int id, bool is_
 	bool success;
 
 	_db->transaction();
+	// TODO: see above
 	success = _db->storePlaylist(v_md, id, is_temporary);
 	_db->commit();
 

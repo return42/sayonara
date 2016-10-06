@@ -24,14 +24,14 @@
 #define FILELISTVIEW_H
 
 #include "Helper/Settings/SayonaraClass.h"
-#include "Helper/MetaData/MetaDataList.h"
 #include "GUI/Helper/SearchableWidget/SearchableListView.h"
 
 #include <QModelIndexList>
 #include <QFileSystemModel>
 
-
+class MetaDataList;
 class LibraryContextMenu;
+
 class FileListView :
 		public SearchableListView,
 		private SayonaraClass
