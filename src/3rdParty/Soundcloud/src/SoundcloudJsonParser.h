@@ -18,15 +18,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef SOUNDCLOUDJSONPARSER_H
 #define SOUNDCLOUDJSONPARSER_H
 
-
-
 #include "SoundcloudGlobal.h"
-#include "Helper/Logger/Logger.h"
+
 
 #include <QList>
 #include <QString>

@@ -27,6 +27,7 @@
 #include "Helper/Helper.h"
 #include "Helper/FileHelper.h"
 #include "Helper/MetaData/MetaData.h"
+#include "Helper/Logger/Logger.h"
 
 #include <taglib/tbytevector.h>
 #include <taglib/tbytevectorstream.h>

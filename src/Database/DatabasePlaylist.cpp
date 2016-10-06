@@ -21,6 +21,8 @@
 
 #include "Database/SayonaraQuery.h"
 #include "Database/DatabasePlaylist.h"
+#include "Helper/Logger/Logger.h"
+#include "Helper/MetaData/MetaData.h"
 
 DatabasePlaylist::DatabasePlaylist(QSqlDatabase db, quint8 db_id) :
 	DatabaseModule(db, db_id)

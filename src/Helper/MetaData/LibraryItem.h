@@ -23,10 +23,8 @@
 #ifndef _LIBRARY_ITEM_H_
 #define _LIBRARY_ITEM_H_
 
-#include "Helper/Logger/Logger.h"
 #include <QMap>
 #include <QObject>
-
 
 /**
  * @brief The CustomField class

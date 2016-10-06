@@ -27,7 +27,7 @@
 #include <QList>
 #include <QHash>
 #include <QColor>
-#include "Helper/Logger/Logger.h"
+
 #include "StyleTypes.h"
 
 

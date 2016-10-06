@@ -24,6 +24,7 @@
 
 #include "Helper/Parser/PlaylistParser.h"
 #include "Helper/FileHelper.h"
+#include "Helper/MetaData/MetaData.h"
 #include "Helper/MetaData/MetaDataList.h"
 
 #include "Database/DatabaseConnector.h"

@@ -23,6 +23,7 @@
 
 #include "Helper/MetaData/MetaDataList.h"
 #include "Helper/Parser/PodcastParser.h"
+#include "Helper/MetaData/MetaData.h"
 
 #include <algorithm>
 

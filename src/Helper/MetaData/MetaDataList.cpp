@@ -25,6 +25,8 @@
 #include "Helper/Logger/Logger.h"
 #include "Helper/Random/RandomGenerator.h"
 #include "Helper/Set.h"
+#include "Helper/MetaData/MetaData.h"
+#include "Helper/globals.h"
 
 #include <algorithm>
 
@@ -268,7 +270,7 @@ bool MetaDataList::contains(const MetaData& md) const {
 	return (it != this->end());
 }
 
-IdxList MetaDataList::findTracks(int id) const {
+QList<int> MetaDataList::findTracks(int id) const {
 
 	IdxList ret;
 	int idx=0;
@@ -290,7 +292,7 @@ IdxList MetaDataList::findTracks(int id) const {
 	return ret;
 }
 
-IdxList MetaDataList::findTracks(const QString& path) const {
+QList<int> MetaDataList::findTracks(const QString& path) const {
 
 	IdxList ret;
 	int idx=0;

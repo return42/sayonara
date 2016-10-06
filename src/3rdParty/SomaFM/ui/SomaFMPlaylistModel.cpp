@@ -18,12 +18,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 /* SomaFMPlaylistModel.cpp */
 
 #include "SomaFMPlaylistModel.h"
 #include "GUI/Helper/CustomMimeData.h"
+#include "Helper/globals.h"
 
 SomaFMPlaylistModel::SomaFMPlaylistModel(QObject* parent) :
     QStringListModel(parent)

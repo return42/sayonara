@@ -24,9 +24,9 @@
 #define MTPTREEVIEW_H
 
 #include <QTreeWidget>
-#include "GUI/Helper/CustomMimeData.h"
-#include "Helper/Logger/Logger.h"
+#include <QMimeData>
 
+class MetaDataList;
 class MTPTreeView : public QTreeWidget
 {
 	Q_OBJECT
@@ -39,7 +39,7 @@ public:
 
 
 protected:
-	virtual bool dropMimeData(QTreeWidgetItem* parent, int index, const QMimeData * data, Qt::DropAction action) override;
+	virtual bool dropMimeData(QTreeWidgetItem* parent, int index, const QMimeData* data, Qt::DropAction action) override;
 
 
 };

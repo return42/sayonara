@@ -18,13 +18,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
-
 #include "PlaylistParser.h"
 #include "M3UParser.h"
 #include "Helper/FileHelper.h"
 #include "Helper/Tagging/Tagging.h"
+#include "Helper/MetaData/MetaData.h"
 #include "Database/DatabaseConnector.h"
 
 #include <QRegExp>

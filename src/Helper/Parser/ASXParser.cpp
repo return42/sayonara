@@ -21,6 +21,7 @@
 
 
 #include "ASXParser.h"
+#include "Helper/MetaData/MetaData.h"
 
 #include <QDomDocument>
 #include <QDomElement>

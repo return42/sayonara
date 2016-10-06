@@ -29,7 +29,6 @@
 #include <taglib/id3v2frame.h>
 
 #include <QString>
-#include "Helper/Logger/Logger.h"
 
 /**
  * @brief ID3v2Frame namespace

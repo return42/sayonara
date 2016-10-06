@@ -21,12 +21,9 @@
 #ifndef METADATALIST_H
 #define METADATALIST_H
 
-#include <QList>
-#include "MetaData.h"
-#include "Helper/globals.h"
-
+#include <QStringList>
 #include <functional>
-
+#include "MetaData.h"
 /**
  * @brief The MetaDataList class
  * @ingroup MetaDataHelper
@@ -41,6 +38,7 @@ namespace SP {
 	class Set;
 }
 
+typedef QList<int> IdxList;
 class MetaDataList : public QList<MetaData> {
 
 private:

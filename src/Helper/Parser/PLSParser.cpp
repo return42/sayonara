@@ -20,6 +20,7 @@
 
 #include "PLSParser.h"
 #include "Helper/FileHelper.h"
+#include "Helper/MetaData/MetaData.h"
 
 #include <QRegExp>
 

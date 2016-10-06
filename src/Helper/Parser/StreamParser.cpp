@@ -21,11 +21,13 @@
 
 #include "StreamParser.h"
 #include "Helper/Helper.h"
+#include "Helper/MetaData/MetaData.h"
 #include "Helper/FileHelper.h"
 #include "Helper/WebAccess/AsyncWebAccess.h"
 #include "Helper/Parser/PlaylistParser.h"
 #include "Helper/Parser/PodcastParser.h"
 #include "Helper/UrlHelper.h"
+#include "Helper/Logger/Logger.h"
 
 StreamParser::StreamParser(const QString& station_name, QObject* parent) : 
 	QObject(parent)
@@ -66,7 +68,8 @@ void StreamParser::awa_finished(bool success)
 {
 	AsyncWebAccess* awa = static_cast<AsyncWebAccess*>(sender());
 
-	if(!success){
+	if(!success)
+	{
 		sp_log(Log::Warning) << "Stream error: "<< awa->get_url();
 
 		awa->deleteLater();

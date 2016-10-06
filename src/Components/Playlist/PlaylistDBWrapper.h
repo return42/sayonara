@@ -25,6 +25,7 @@
 
 #include "Helper/MetaData/MetaData.h"
 #include "Database/DatabasePlaylist.h"
+#include "Helper/globals.h"
 
 class DatabaseConnector;
 

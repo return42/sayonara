@@ -147,12 +147,4 @@ between( TINT idx, TINT max){
 	return (idx >= 0 && idx < max);
 }
 
-
-
-/*template<typename TINT>
-between(const TINT num1, const TINT num2, const TINT num3){
-	return (num1 >= num2 && num1 < num3);
-}*/
-
-
 #endif /* GLOBALS_H_ */

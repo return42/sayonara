@@ -22,6 +22,8 @@
 #include "Helper/FileHelper.h"
 #include "Helper/MetaData/Artist.h"
 #include "Helper/Helper.h"
+#include "Helper/Logger/Logger.h"
+
 #include <QHash>
 
 #define ARTIST_DO_COPY \

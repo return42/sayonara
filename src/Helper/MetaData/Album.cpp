@@ -19,9 +19,9 @@
  */
 
 
-
 #include "Helper/MetaData/Album.h"
 #include <QStringList>
+
 #define ALBUM_DO_COPY \
 	name = other.name; \
 	id = other.id; \
@@ -64,18 +64,13 @@ Album& Album::operator=(const Album& other){
 }
 
 
+Album::~Album() {}
 
-Album::~Album() {
-	
-}
-
-
-QVariant Album::toVariant(const Album& album) {
-
+QVariant Album::toVariant(const Album& album)
+{
 	QVariant var; 
 	var.setValue(album);
 	return var;
-
 }
 
 
@@ -85,18 +80,6 @@ bool Album::fromVariant(const QVariant& v, Album& album) {
 	album =	v.value<Album>();
 	return true;
 }
-
-void Album::print() const{
-
-	sp_log(Log::Info) << id << ": "
-			 << name << " by "
-			 << artists.size() << " Artists ("
-			 << length_sec << "), "
-			 << year;
-}
-
-
-
 
 
 bool AlbumList::contains(qint32 album_id) const

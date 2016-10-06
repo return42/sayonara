@@ -23,7 +23,6 @@
 #ifndef PIPELINECALLBACKS_H
 #define PIPELINECALLBACKS_H
 
-#include "Helper/Logger/Logger.h"
 #include <gst/gst.h>
 
 namespace PipelineCallbacks {

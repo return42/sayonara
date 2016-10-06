@@ -25,6 +25,7 @@
 #include "Helper/Helper.h"
 #include "Helper/Tagging/Tagging.h"
 #include "Helper/Parser/PlaylistParser.h"
+#include "Helper/MetaData/MetaData.h"
 #include "Helper/MetaData/MetaDataList.h"
 #include "Database/DatabaseConnector.h"
 

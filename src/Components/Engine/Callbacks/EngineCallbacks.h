@@ -23,7 +23,6 @@
 #ifndef ENGINECALLBACKS_H
 #define ENGINECALLBACKS_H
 
-#include "Helper/Logger/Logger.h"
 #include <gst/gst.h>
 #include <gst/gsturi.h>
 #include <gst/app/gstappsink.h>

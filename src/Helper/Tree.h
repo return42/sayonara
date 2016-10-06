@@ -17,17 +17,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
-
 #ifndef TREE_H
 #define TREE_H
 
-
 #include <QList>
 #include <algorithm>
-
-#include "Helper/Logger/Logger.h"
 
 template<typename T>
 /**
@@ -166,7 +160,6 @@ class Tree {
 				child->print(lvl+1);
 			}
 		}
-
 };
 
 

@@ -23,9 +23,6 @@
 #ifndef MTP_H
 #define MTP_H
 
-#include "Helper/globals.h"
-#include "Helper/Logger/Logger.h"
-
 #include "MTP_Device.h"
 #include "MTP_File.h"
 #include "MTP_Folder.h"
@@ -34,6 +31,7 @@
 #include "MTP_Track.h"
 
 #include <QThread>
+#include <QList>
 
 /**
  * @brief The MTP class

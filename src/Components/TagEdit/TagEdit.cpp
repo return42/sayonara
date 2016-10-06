@@ -23,6 +23,7 @@
 #include "TagEdit.h"
 #include "MetaDataChangeNotifier.h"
 #include "Helper/Tagging/Tagging.h"
+#include "Helper/MetaData/MetaData.h"
 #include "Database/DatabaseConnector.h"
 
 #include <algorithm>

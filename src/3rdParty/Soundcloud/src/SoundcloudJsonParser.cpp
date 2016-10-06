@@ -27,6 +27,7 @@
 #include "Helper/MetaData/Album.h"
 #include "Helper/MetaData/MetaDataList.h"
 #include "Helper/Settings/Settings.h"
+#include "Helper/Logger/Logger.h"
 
 void remove_first_and_last(QByteArray& data, char first, char last){
 

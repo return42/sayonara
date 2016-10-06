@@ -22,6 +22,7 @@
 #include "Database/DatabaseConnector.h"
 #include "Helper/MetaData/Album.h"
 #include "Helper/MetaData/Artist.h"
+#include "Helper/MetaData/MetaData.h"
 
 DatabaseConnector::DatabaseConnector() :
 

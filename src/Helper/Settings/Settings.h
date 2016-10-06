@@ -40,7 +40,6 @@ private:
 
 	AbstrSetting* _settings[SK::Num_Setting_Keys + 1];
 
-
 public:
 
 	/* get all settings (used by database) */
@@ -57,16 +56,17 @@ public:
 
 	/* get a setting, defined by a unique, REGISTERED key */
 	template<typename T, SK::SettingKey S>
-	const T& get(const SettingKey<T,S> k){
+	const T& get(const SettingKey<T,S> k)
+	{
 		Q_UNUSED(k);
 		Setting<T>* s = (Setting<T>*) _settings[(int) S];
 		return s->getValue();
 	}
 
-
 	/* set a setting, define by a unique, REGISTERED key */
 	template<typename T, SK::SettingKey S>
-	void set(SettingKey<T,S> key, const T& val){
+	void set(SettingKey<T,S> key, const T& val)
+	{
 		Q_UNUSED(key)
 		Setting<T>* s = (Setting<T>*) _settings[(int) S];
 
@@ -78,7 +78,8 @@ public:
 
 	/* get a setting, defined by a unique, REGISTERED key */
 	template<typename T, SK::SettingKey S>
-	void shout(const SettingKey<T,S>& k){
+	void shout(const SettingKey<T,S>& k)
+	{
 		Q_UNUSED(k);
 		SettingNotifier< SettingKey<T, S> >* sn = SettingNotifier< SettingKey<T, S> >::getInstance();
 		sn->val_changed();

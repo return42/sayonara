@@ -17,8 +17,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #include "MTPTreeView.h"
+#include "Helper/Logger/Logger.h"
+#include "GUI/Helper/CustomMimeData.h"
 
 MTPTreeView::MTPTreeView(QWidget *parent) :
 	QTreeWidget(parent)

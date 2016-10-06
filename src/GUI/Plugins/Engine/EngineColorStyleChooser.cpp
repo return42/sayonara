@@ -22,6 +22,7 @@
 
 #include "EngineColorStyleChooser.h"
 #include "Database/DatabaseConnector.h"
+#include "Helper/Logger/Logger.h"
 
 #include <algorithm>
 
