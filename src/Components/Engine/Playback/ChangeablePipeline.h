@@ -24,6 +24,7 @@
 #define CHANGEABLEPIPELINE_H
 
 #include "gst/gst.h"
+
 class ChangeablePipeline
 {
 public:

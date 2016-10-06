@@ -27,11 +27,8 @@
 #include <QString>
 #include <QRegExp>
 
-#include "GUI/TagEdit/ui_GUI_TagEdit.h"
 #include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
 #include "Components/TagEdit/TagExpression.h"
-
-
 
 /**
  * @brief The GUI_TagEdit class
@@ -42,9 +39,13 @@ class CoverLocation;
 class MetaDataList;
 class MetaData;
 
+namespace Ui
+{
+	class GUI_TagEdit;
+}
+
 class GUI_TagEdit :
-		public SayonaraWidget,
-		private Ui::GUI_TagEdit
+		public SayonaraWidget
 {
 
 	Q_OBJECT
@@ -82,6 +83,7 @@ signals:
 
 
 private:
+	Ui::GUI_TagEdit* ui=nullptr;
 	TagEdit*		_tag_edit=nullptr;
 	TagExpression	_tag_expression;
 	QMap<int, QString> _cover_path_map;
@@ -93,7 +95,6 @@ private:
 	 * @brief _tag_str_map, key = tag, val = replaced string
 	 */
 	QMap<Tag, ReplacedString> _tag_str_map;
-
 
 
 private:

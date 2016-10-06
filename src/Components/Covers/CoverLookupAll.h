@@ -25,21 +25,21 @@
 
 #include "CoverLookup.h"
 
-#include "Helper/MetaData/Album.h"
-
+struct _CoverLookupAllMembers;
 class CoverLocation;
+class AlbumList;
+
 /**
  * @brief The CoverLookupAll class. The complete work is done by the CoverLookupThread
  * @ingroup Covers
  */
+
 class CoverLookupAll : public CoverLookupInterface
 {
     Q_OBJECT
 
 private:
-	CoverLookup*	_cl=nullptr;
-	AlbumList		_album_list;
-	bool			_run;
+	_CoverLookupAllMembers* _m=nullptr;
 
 
 private slots:

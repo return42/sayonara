@@ -33,9 +33,11 @@
 #include "LFMWebAccess.h"
 
 #include "Helper/Random/RandomGenerator.h"
+#include "Helper/Playlist/PlaylistMode.h"
 
 #include "Components/PlayManager/PlayManager.h"
 #include "Components/Playlist/PlaylistHandler.h"
+#include "Components/Playlist/Playlist.h"
 #include "Database/DatabaseConnector.h"
 
 #include <QDomDocument>
@@ -268,7 +270,6 @@ void LastFM::sl_similar_artists_available(IDList artist_ids) {
 	PlaylistConstPtr active_playlist;
 
 	int active_idx;
-
 
 	active_idx = plh->get_active_idx();
 	active_playlist = plh->get_playlist_at(active_idx);

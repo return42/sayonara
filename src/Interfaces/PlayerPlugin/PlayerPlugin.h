@@ -32,13 +32,12 @@
 #include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
 #include "GUI/Helper/Shortcuts/ShortcutWidget.h"
 #include "GUI/Helper/Shortcuts/ShortcutHandler.h"
-#include "GUI/Helper/IconLoader/IconLoader.h"
 
-#include "Components/PlayManager/PlayManager.h"
-
+#include "Components/PlayManager/PlayState.h"
 
 
 class PlayerPluginHandler;
+class PlayManager;
 
 /**
  * @brief Interface for PlayerPlugin classes.
@@ -173,7 +172,7 @@ protected slots:
 	 * @brief Playstate has changed, this does nothing in default implementation
 	 * @param the new State
 	 */
-	virtual void playstate_changed(PlayManager::PlayState state);
+	virtual void playstate_changed(PlayState state);
 
 	/**
 	 * @brief Playstate has changed to playing

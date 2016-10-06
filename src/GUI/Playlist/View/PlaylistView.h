@@ -29,11 +29,9 @@
 #ifndef PLAYLISTVIEW_H_
 #define PLAYLISTVIEW_H_
 
-#include "Components/Playlist/Playlist.h"
+#include "Components/Playlist/PlaylistTypedefs.h"
 #include "GUI/Helper/SearchableWidget/SearchableListView.h"
 #include "GUI/InfoDialog/InfoDialogContainer.h"
-
-#include "Helper/Set.h"
 
 #include <QPoint>
 #include <QDrag>

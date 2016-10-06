@@ -29,9 +29,12 @@
 #include <QVariant>
 #include <QDBusObjectPath>
 
+#include "Helper/MetaData/MetaData.h"
 #include "Helper/Settings/SayonaraClass.h"
-#include "Components/PlayManager/PlayManager.h"
+#include "Components/PlayManager/PlayState.h"
 
+
+class PlayManager;
 class SayonaraMainWindow;
 class DBusAdaptor : public QObject {
 
@@ -212,7 +215,7 @@ class MediaPlayer2 : public DBusAdaptor, protected SayonaraClass
 		void					track_idx_changed(int idx);
 		void					playlist_len_changed(int len);
 		void					track_changed(const MetaData& md);
-		void					playstate_changed(PlayManager::PlayState);
+		void					playstate_changed(PlayState state);
 
 	signals:
 		void					Seeked(qint64 position);

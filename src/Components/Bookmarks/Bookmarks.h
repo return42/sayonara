@@ -24,13 +24,16 @@
 #define BOOKMARKS_H
 
 #include "Bookmark.h"
+#include "Components/PlayManager/PlayState.h"
 
-#include "Components/PlayManager/PlayManager.h"
-
+#include <QObject>
 #include <QPair>
 #include <QList>
 
+class MetaData;
+class PlayManager;
 class DatabaseConnector;
+struct _BookmarksMembers;
 /**
  * @brief The Bookmarks logic class
  * @ingroup Bookmarks
@@ -143,22 +146,11 @@ private slots:
 	 * @brief current playstate has changed
 	 * @param state new playstate
 	 */
-	void playstate_changed(PlayManager::PlayState state);
+	void playstate_changed(PlayState state);
 
 
 private:
-	DatabaseConnector*		_db=nullptr;
-	PlayManager*			_play_manager=nullptr;
-
-	QList<Bookmark>			_bookmarks;
-	MetaData				_md;
-
-	quint32					_cur_time;
-	int						_prev_idx;
-	int						_next_idx;
-
-	quint32					_loop_start;
-	quint32					_loop_end;
+	_BookmarksMembers*		_m=nullptr;
 
 
 private:

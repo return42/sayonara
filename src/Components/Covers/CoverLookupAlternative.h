@@ -25,14 +25,13 @@
 
 #include "CoverLocation.h"
 #include "CoverLookup.h"
-#include "Helper/MetaData/Artist.h"
-#include "Helper/MetaData/Album.h"
 
 /**
  * @brief The CoverLookupAlternative class
  * @ingroup Covers
  */
-class CoverLookupAlternative : public CoverLookupInterface
+class CoverLookupAlternative :
+		public CoverLookupInterface
 {
 
     Q_OBJECT
@@ -42,11 +41,11 @@ private:
     CoverLookupAlternative(QObject* parent, int n_covers);
 
 	CoverLookupPtr      _cl;
+	CoverLocation		_cover_location;
 
 	int					_n_covers;
     bool				_run;
 
-	CoverLocation		_cover_location;
 
 public:
 

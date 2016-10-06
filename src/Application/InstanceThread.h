@@ -26,7 +26,6 @@
 #include <QThread>
 #include <QSharedMemory>
 #include <QMainWindow>
-#include "Components/Playlist/Playlist.h"
 
 enum InstanceMessage {
 	InstanceMessageNone,

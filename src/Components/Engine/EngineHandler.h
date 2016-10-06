@@ -22,7 +22,7 @@
 #define ENGINEHANDLER_H_
 
 #include "AbstractEngine.h"
-#include "Components/PlayManager/PlayManager.h"
+#include "Components/PlayManager/PlayState.h"
 
 #include <QList>
 
@@ -32,6 +32,7 @@
 class RawSoundReceiverInterface;
 class PlaybackEngine;
 class ConvertEngine;
+class PlayManager;
 
 class EngineHandler : public Engine
 {
@@ -77,7 +78,7 @@ private slots:
 	void sl_buffer_state_changed(int progress);
 
 	void sr_record_button_pressed(bool);
-	void playstate_changed(PlayManager::PlayState);
+	void playstate_changed(PlayState state);
 
 	void new_data(const uchar* data, quint64 n_bytes);
 

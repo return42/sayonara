@@ -23,14 +23,16 @@
 #ifndef STREAMRECORDER_H
 #define STREAMRECORDER_H
 
-#include "Components/PlayManager/PlayManager.h"
+#include "Components/PlayManager/PlayState.h"
 #include "Helper/Settings/SayonaraClass.h"
 #include "Helper/MetaData/MetaDataList.h"
 
-
 #include <QDateTime>
 
-class StreamRecorder : public QObject, protected SayonaraClass
+class PlayManager;
+class StreamRecorder :
+		public QObject,
+		protected SayonaraClass
 {
 
 private:
@@ -73,7 +75,7 @@ public:
 	bool is_recording() const;
 
 private slots:
-	void playstate_changed(PlayManager::PlayState state);
+	void playstate_changed(PlayState state);
 
 
 };

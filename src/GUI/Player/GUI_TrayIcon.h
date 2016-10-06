@@ -25,12 +25,13 @@
 #include "Helper/Settings/SayonaraClass.h"
 
 #include "Interfaces/Notification/NotificationHandler.h"
-#include "Components/PlayManager/PlayManager.h"
+#include "Components/PlayManager/PlayState.h"
 
 #include <QSystemTrayIcon>
 #include <QAction>
 #include <QTimer>
 
+class PlayManager;
 class MetaData;
 /**
   * Small class to be used as tray icon
@@ -87,7 +88,7 @@ private slots:
 	void mute_clicked();
 	void cur_song_clicked();
 
-	void playstate_changed(PlayManager::PlayState state);
+	void playstate_changed(PlayState state);
 
 	void mute_changed(bool muted);
 	void _sl_show_tray_icon();

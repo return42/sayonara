@@ -21,6 +21,7 @@
 
 #include "MTP_RawDevice.h"
 #include "MTP_Device.h"
+#include "Helper/Logger/Logger.h"
 
 
 MTP_RawDevice::MTP_RawDevice(MTPIntern_RawDevice* raw_device) :

@@ -23,10 +23,9 @@
 #ifndef MTP_TRACK_H
 #define MTP_TRACK_H
 
-#include "Helper/MetaData/MetaData.h"
-
 #include "MTP_Typedefs.h"
 
+class MetaData;
 /**
  * @brief The MTP_Track class
  * @ingroup MTP

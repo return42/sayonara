@@ -24,9 +24,8 @@
 
 #include "GUI/Player/ui_GUI_Player.h"
 
-#include "Components/PlayManager/PlayManager.h"
-
-#include "GUI/Player/GUI_TrayIcon.h"
+#include "Components/PlayManager/PlayState.h"
+#include "Helper/MetaData/MetaData.h"
 #include "GUI/Helper/Message/GlobalMessageReceiverInterface.h"
 
 #include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
@@ -41,7 +40,10 @@
 #include <QFileSystemWatcher>
 
 #include <QAction>
+#include <QSystemTrayIcon>
 
+class GUI_TrayIcon;
+class PlayManager;
 class CoverLocation;
 class GUI_Playlist;
 class AsyncWebAccess;
@@ -88,9 +90,9 @@ public slots:
 	void set_file_info_label();
 	void id3_tags_changed(const MetaDataList& v_md_old, const MetaDataList& v_md_new);
 
-	void md_changed(const MetaData&);
-	void dur_changed(const MetaData&);
-	void br_changed(const MetaData&);
+	void md_changed(const MetaData& md);
+	void dur_changed(const MetaData& md);
+	void br_changed(const MetaData& md);
 
 	void really_close();
 	void reload_skin();
@@ -177,7 +179,7 @@ private slots:
 	void played();
 	void paused();
 	void stopped();
-	void playstate_changed(PlayManager::PlayState);
+	void playstate_changed(PlayState state);
 
 	void track_changed(const MetaData& md);
 

@@ -25,10 +25,10 @@
 
 #include <memory>
 
-#include <libmtp.h>
 #include <QString>
 #include <QList>
-#include "Helper/Logger/Logger.h"
+
+#include <libmtp.h>
 
 
 class MTP_Device;
@@ -42,61 +42,61 @@ class MTP_Track;
  * @brief MTPIntern_DeviceEntry
  * @ingroup MTP
  */
-typedef LIBMTP_device_entry_t			MTPIntern_DeviceEntry;
+typedef LIBMTP_device_entry_t		MTPIntern_DeviceEntry;
 
 /**
  * @brief MTPIntern_ErrorNumber
  * @ingroup MTP
  */
-typedef LIBMTP_error_number_t			MTPIntern_ErrorNumber;
+typedef LIBMTP_error_number_t		MTPIntern_ErrorNumber;
 
 /**
  * @brief MTPIntern_Error
  * @ingroup MTP
  */
-typedef LIBMTP_error_t					MTPIntern_Error;
+typedef LIBMTP_error_t			MTPIntern_Error;
 
 /**
  * @brief MTPIntern_Device
  * @ingroup MTP
  */
-typedef LIBMTP_mtpdevice_t				MTPIntern_Device;
+typedef LIBMTP_mtpdevice_t		MTPIntern_Device;
 
 /**
  * @brief MTP_DevicePtr
  * @ingroup MTP
  */
-typedef std::shared_ptr<MTP_Device>		MTP_DevicePtr;
+typedef std::shared_ptr<MTP_Device>	MTP_DevicePtr;
 
 /**
  * @brief MTPIntern_File
  * @ingroup MTP
  */
-typedef LIBMTP_file_t					MTPIntern_File;
+typedef LIBMTP_file_t			MTPIntern_File;
 
 /**
  * @brief MTP_FilePtr
  * @ingroup MTP
  */
-typedef std::shared_ptr<MTP_File>		MTP_FilePtr;
+typedef std::shared_ptr<MTP_File>	MTP_FilePtr;
 
 /**
  * @brief MTPIntern_Folder
  * @ingroup MTP
  */
-typedef LIBMTP_folder_t					MTPIntern_Folder;
+typedef LIBMTP_folder_t			MTPIntern_Folder;
 
 /**
  * @brief MTP_FolderPtr
  * @ingroup MTP
  */
-typedef std::shared_ptr<MTP_Folder>		MTP_FolderPtr;
+typedef std::shared_ptr<MTP_Folder>	MTP_FolderPtr;
 
 /**
  * @brief MTPIntern_RawDevice
  * @ingroup MTP
  */
-typedef LIBMTP_raw_device_t				MTPIntern_RawDevice;
+typedef LIBMTP_raw_device_t		MTPIntern_RawDevice;
 
 /**
  * @brief MTP_RawDevicePtr
@@ -108,7 +108,7 @@ typedef std::shared_ptr<MTP_RawDevice>	MTP_RawDevicePtr;
  * @brief MTPIntern_Storage
  * @ingroup MTP
  */
-typedef LIBMTP_devicestorage_t			MTPIntern_Storage;
+typedef LIBMTP_devicestorage_t		MTPIntern_Storage;
 
 /**
  * @brief MTP_StoragePtr
@@ -120,13 +120,13 @@ typedef std::shared_ptr<MTP_Storage>	MTP_StoragePtr;
  * @brief MTPIntern_Track
  * @ingroup MTP
  */
-typedef LIBMTP_track_t					MTPIntern_Track;
+typedef LIBMTP_track_t			MTPIntern_Track;
 
 /**
  * @brief MTP_TrackPtr
  * @ingroup MTP
  */
-typedef std::shared_ptr<MTP_Track>		MTP_TrackPtr;
+typedef std::shared_ptr<MTP_Track>	MTP_TrackPtr;
 
 
 #endif // MTP_TYPEDEFS_H

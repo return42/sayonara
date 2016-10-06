@@ -20,52 +20,66 @@
 
 #include "CoverLookupAll.h"
 #include "CoverLocation.h"
+#include "Helper/MetaData/Album.h"
 #include "Helper/Helper.h"
 
-CoverLookupAll::CoverLookupAll(QObject* parent, const AlbumList& album_list) :
-    CoverLookupInterface(parent),
-    _album_list(album_list),
-    _run(true)
+struct _CoverLookupAllMembers
 {
-    _cl = new CoverLookup(this);
-	connect(_cl, &CoverLookup::sig_cover_found, this, &CoverLookupAll::cover_found);
-	connect(_cl, &CoverLookup::sig_finished, this, &CoverLookupAll::finished);
+	CoverLookup*	cl=nullptr;
+	AlbumList		album_list;
+	bool			run;
+};
+
+
+CoverLookupAll::CoverLookupAll(QObject* parent, const AlbumList& album_list) :
+	CoverLookupInterface(parent)
+{
+	_m = new _CoverLookupAllMembers();
+
+	_m->album_list = album_list;
+	_m->run = true;
+	_m->cl = new CoverLookup(this);
+
+	connect(_m->cl, &CoverLookup::sig_cover_found, this, &CoverLookupAll::cover_found);
+	connect(_m->cl, &CoverLookup::sig_finished, this, &CoverLookupAll::finished);
 }
 
 
-CoverLookupAll::~CoverLookupAll() {
+CoverLookupAll::~CoverLookupAll()
+{
+	_m->cl->stop();
 
-    _cl->stop();
+	delete _m; _m = nullptr;
 }
 
 
 void CoverLookupAll::start() {
 
-    Album album = _album_list.back();
-    _cl->fetch_album_cover(album);
+	Album album = _m->album_list.back();
+	_m->cl->fetch_album_cover(album);
 }
 
 
 void CoverLookupAll::stop() {
-    _run = false;
-    _cl->stop();
+	_m->run = false;
+	_m->cl->stop();
 }
 
 
 void CoverLookupAll::cover_found(const QString& cover_path) {
 
-    _album_list.pop_back();
+	_m->album_list.pop_back();
 	emit sig_cover_found(cover_path);
 
-	if(!_run) {
+	if(!_m->run) {
 		return;
 	}
 
     // Google and other webservices block, if looking too fast
 	Helper::sleep_ms(1000);
 
-    Album album = _album_list.back();
-    _cl->fetch_album_cover(album);
+	Album album = _m->album_list.back();
+	_m->cl->fetch_album_cover(album);
 }
 
 void CoverLookupAll::finished(bool success) {

@@ -31,8 +31,8 @@
 
 #include <QImage>
 #include <QStringList>
-#include "CoverLocation.h"
 
+class CoverLocation;
 class AsyncWebAccess;
 /**
  * @brief The CoverFetchThread class, This is not a real QThread class, but behaves like one because of AsyncWebAccess

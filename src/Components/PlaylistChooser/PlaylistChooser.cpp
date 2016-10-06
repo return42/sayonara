@@ -97,12 +97,12 @@ void PlaylistChooser::save_playlist(int id)
 	}
 }
 
-void PlaylistChooser::save_playlist(QString name){
+void PlaylistChooser::save_playlist(const QString& name){
 	int cur_idx = _playlist_handler->get_current_idx();
 	_playlist_handler->save_playlist_as(cur_idx, name, true);
 }
 
-void PlaylistChooser::save_playlist_file(QString filename, bool relative_paths){
+void PlaylistChooser::save_playlist_file(const QString& filename, bool relative_paths){
 	_playlist_handler->save_playlist_to_file(filename, relative_paths);
 }
 

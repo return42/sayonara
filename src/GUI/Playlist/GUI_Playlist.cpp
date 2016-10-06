@@ -31,6 +31,8 @@
 #include "Helper/Helper.h"
 #include "GUI/Helper/IconLoader/IconLoader.h"
 #include "TabWidget/PlaylistTabWidget.h"
+#include "Components/PlayManager/PlayManager.h"
+#include "Components/Playlist/Playlist.h"
 
 #include <QKeyEvent>
 #include <QFileDialog>

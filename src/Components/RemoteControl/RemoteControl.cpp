@@ -198,7 +198,7 @@ int RemoteControl::extract_parameter_int(const QByteArray& data, int cmd_len){
 
 
 
-void RemoteControl::playstate_changed(PlayManager::PlayState playstate)
+void RemoteControl::playstate_changed(PlayState playstate)
 {
 	Q_UNUSED(playstate)
 	write_playstate();
@@ -287,11 +287,11 @@ void RemoteControl::write_volume(){
 
 void RemoteControl::write_cur_track(){
 
-	PlayManager::PlayState playstate = _play_manager->get_play_state();
+	PlayState playstate = _play_manager->get_play_state();
 
 	playstate_changed(playstate);
 
-	if(playstate == PlayManager::PlayState::Stopped){
+	if(playstate == PlayState::Stopped){
 		return;
 	}
 	
@@ -355,17 +355,17 @@ void RemoteControl::write_cover(const MetaData& md){
 
 void RemoteControl::write_playstate()
 {
-	PlayManager::PlayState playstate = _play_manager->get_play_state();
+	PlayState playstate = _play_manager->get_play_state();
 	QByteArray playstate_str = "playstate:";
 
 	switch(playstate){
-		case PlayManager::PlayState::Playing:
+		case PlayState::Playing:
 			playstate_str += "playing";
 			break;
-		case PlayManager::PlayState::Paused:
+		case PlayState::Paused:
 			playstate_str += "paused";
 			break;
-		case PlayManager::PlayState::Stopped:
+		case PlayState::Stopped:
 		default:
 			playstate_str += "stopped";
 			break;

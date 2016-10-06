@@ -25,11 +25,10 @@
 
 #include "Helper/Settings/SayonaraClass.h"
 
-#include <QTimer>
 #include <gst/gst.h>
 #include <gst/gstbuffer.h>
-#include <QTimer>
 
+#include <QTimer>
 
 enum class GSTFileMode : quint8 {
 	File,
@@ -37,10 +36,10 @@ enum class GSTFileMode : quint8 {
 };
 
 bool
-_test_and_error(void* element, QString errorstr);
+_test_and_error(void* element, const QString& errorstr);
 
 bool
-_test_and_error_bool(bool b, QString errorstr);
+_test_and_error_bool(bool b, const QString& errorstr);
 
 class Engine;
 class AbstractPipeline : 

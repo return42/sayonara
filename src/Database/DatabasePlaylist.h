@@ -25,7 +25,10 @@
 
 #include "Components/Library/Sorting.h"
 #include "Database/DatabaseModule.h"
-#include "Helper/Playlist/CustomPlaylist.h"
+#include "Helper/Playlist/CustomPlaylistTypedefs.h"
+
+class MetaData;
+class MetaDataList;
 
 class DatabasePlaylist : private DatabaseModule
 {

@@ -22,6 +22,7 @@
 #include "GUI_Player.h"
 #include "GUI_TrayIcon.h"
 #include "GUI/Helper/IconLoader/IconLoader.h"
+#include "Components/PlayManager/PlayManager.h"
 #include "Helper/Helper.h"
 
 #include <QFileDialog>
@@ -30,16 +31,16 @@
 #include <algorithm>
 
 /** PLAYER BUTTONS **/
-void GUI_Player::playstate_changed(PlayManager::PlayState state)
+void GUI_Player::playstate_changed(PlayState state)
 {
 	switch(state){
-		case PlayManager::PlayState::Playing:
+		case PlayState::Playing:
 			played();
 			break;
-		case PlayManager::PlayState::Paused:
+		case PlayState::Paused:
 			paused();
 			break;
-		case PlayManager::PlayState::Stopped:
+		case PlayState::Stopped:
 			stopped();
 			break;
 

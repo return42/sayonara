@@ -18,8 +18,6 @@
  */
 
 
-
-
 #include "MTP_CopyFiles.h"
 
 #include "Helper/DirectoryReader/DirectoryReader.h"

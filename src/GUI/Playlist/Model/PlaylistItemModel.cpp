@@ -27,11 +27,16 @@
  */
 
 #include "PlaylistItemModel.h"
-#include "Helper/FileHelper.h"
+#include "Components/Playlist/Playlist.h"
+
 #include "GUI/Helper/CustomMimeData.h"
 
+#include "Helper/MetaData/MetaDataList.h"
 #include "Helper/Settings/Settings.h"
 #include "Helper/LibrarySearchMode.h"
+#include "Helper/FileHelper.h"
+#include "Helper/Set.h"
+
 
 PlaylistItemModel::PlaylistItemModel(PlaylistPtr pl, QObject* parent) :
 	AbstractSearchListModel(parent),

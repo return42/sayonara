@@ -34,6 +34,7 @@
 #include "Helper/globals.h"
 
 #include "Helper/WebAccess/AsyncWebAccess.h"
+#include "Components/PlayManager/PlayManager.h"
 
 #include "Interfaces/LibraryInterface/LibraryPluginHandler.h"
 #include "Interfaces/LibraryInterface/LibraryContainer/LibraryContainer.h"
@@ -286,7 +287,7 @@ void GUI_Player::skin_changed()
 	btn_fw->setIcon(_icon_loader->get_icon("media-skip-forward", "fwd"));
 	btn_bw->setIcon(_icon_loader->get_icon("media-skip-backward", "bwd"));
 
-	if(_play_manager->get_play_state() == PlayManager::PlayState::Playing){
+	if(_play_manager->get_play_state() == PlayState::Playing){
 		btn_play->setIcon(_icon_loader->get_icon("media-playback-pause", "pause"));
 	}
 
@@ -526,7 +527,7 @@ void GUI_Player::ui_loaded()
 	}
 
 
-	if(_play_manager->get_play_state() != PlayManager::PlayState::Stopped){
+	if(_play_manager->get_play_state() != PlayState::Stopped){
 		MetaData md = _play_manager->get_cur_track();
 		track_changed(md);
 	}

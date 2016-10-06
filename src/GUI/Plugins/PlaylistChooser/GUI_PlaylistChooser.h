@@ -24,7 +24,7 @@
 
 #include "GUI/Plugins/PlaylistChooser/ui_GUI_PlaylistChooser.h"
 #include "Interfaces/PlayerPlugin/PlayerPlugin.h"
-#include "Helper/Playlist/CustomPlaylist.h"
+#include "Helper/Playlist/CustomPlaylistTypedefs.h"
 
 #include <QMap>
 #include <QDockWidget>
@@ -38,7 +38,8 @@ class GUI_TargetPlaylistDialog;
 
 class GUI_PlaylistChooser :
 		public PlayerPluginInterface,
-		private Ui::GUI_PlaylistChooser {
+		private Ui::GUI_PlaylistChooser
+{
 
 	Q_OBJECT
 

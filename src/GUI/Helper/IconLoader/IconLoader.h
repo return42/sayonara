@@ -19,9 +19,8 @@
  */
 
 
-
-#ifndef IconLoader_H_
-#define IconLoader_H_
+#ifndef ICON_LOADER_H_
+#define ICON_LOADER_H_
 
 #include "Helper/globals.h"
 

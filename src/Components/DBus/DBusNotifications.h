@@ -25,8 +25,7 @@
 
 #include "Interfaces/Notification/NotificationHandler.h"
 #include "Components/DBus/Notifications.h"
-#include "Components/PlayManager/PlayManager.h"
-#include "Helper/globals.h"
+#include "Helper/Settings/SayonaraClass.h"
 
 class DBusNotifications :
 		public QObject,

@@ -27,7 +27,6 @@
 #include "ChangeablePipeline.h"
 #include "CrossFader.h"
 
-
 #include <gst/app/gstappsink.h>
 #include <QTimer>
 

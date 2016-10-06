@@ -22,6 +22,8 @@
 #include "TabWidget/PlaylistMenuEntry.h"
 #include "GUI/Helper/IconLoader/IconLoader.h"
 #include "GUI/Helper/Message/Message.h"
+#include "Components/PlayManager/PlayManager.h"
+#include "Components/Playlist/Playlist.h"
 
 
 void GUI_Playlist::playlist_name_changed(int idx){
@@ -121,8 +123,8 @@ void GUI_Playlist::playlist_added(PlaylistPtr pl){
 }
 
 
-void GUI_Playlist::playstate_changed(PlayManager::PlayState state){
-	if(state == PlayManager::PlayState::Stopped){
+void GUI_Playlist::playstate_changed(PlayState state){
+	if(state == PlayState::Stopped){
 		check_tab_icon();
 	}
 }
@@ -248,8 +250,8 @@ void GUI_Playlist::check_tab_icon(){
 		return;
 	}
 
-	PlayManager::PlayState state = PlayManager::getInstance()->get_play_state();
-	if(state == PlayManager::PlayState::Stopped){
+	PlayState state = PlayManager::getInstance()->get_play_state();
+	if(state == PlayState::Stopped){
 		return;
 	}
 

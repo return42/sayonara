@@ -21,6 +21,7 @@
 
 #include "PlaylistDBWrapper.h"
 #include "PlaylistDBInterface.h"
+#include "Helper/Playlist/CustomPlaylist.h"
 
 
 PlaylistDBInterface::PlaylistDBInterface(const QString& name)
@@ -33,6 +34,8 @@ PlaylistDBInterface::PlaylistDBInterface(const QString& name)
 	_is_temporary = true;
 	_save_enabled = true;
 }
+
+PlaylistDBInterface::~PlaylistDBInterface(){}
 
 int PlaylistDBInterface::get_id() const {
 	return _id;

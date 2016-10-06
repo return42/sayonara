@@ -18,10 +18,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "GUI_TrayIcon.h"
+
 #include "GUI/Helper/GUI_Helper.h"
 #include "GUI/Helper/Style/Style.h"
 #include "Helper/MetaData/MetaData.h"
-#include "GUI_TrayIcon.h"
+
+#include "Components/PlayManager/PlayManager.h"
 
 
 #include <QAction>
@@ -187,11 +190,11 @@ void GUI_TrayIcon::notify(const QString &title, const QString &message, const QS
 }
 
 
-void GUI_TrayIcon::playstate_changed(PlayManager::PlayState state)
+void GUI_TrayIcon::playstate_changed(PlayState state)
 {
 	switch(state)
 	{
-		case PlayManager::PlayState::Playing:
+		case PlayState::Playing:
 
 			setIcon(GUI::get_icon("play"));
 

@@ -25,9 +25,7 @@
 
 #include <QDBusPendingCallWatcher>
 
-#include "Components/PlayManager/PlayManager.h"
-
-
+class PlayManager;
 class DBusMediaKeysInterface : public QObject
 {
 	Q_OBJECT

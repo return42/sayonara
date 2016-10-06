@@ -25,6 +25,7 @@
 #include "GUI/Helper/Delegates/ComboBoxDelegate.h"
 
 #include "Helper/Helper.h"
+#include "Helper/MetaData/MetaData.h"
 
 #include "Components/Bookmarks/Bookmarks.h"
 

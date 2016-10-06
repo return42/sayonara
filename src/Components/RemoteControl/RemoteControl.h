@@ -24,7 +24,7 @@
 #define REMOTECONTROL_H
 
 #include "Helper/Settings/SayonaraClass.h"
-#include "Components/PlayManager/PlayManager.h"
+#include "Components/PlayManager/PlayState.h"
 #include "Components/Playlist/Playlist.h"
 
 #include <QObject>
@@ -36,6 +36,7 @@
 #include <functional>
 
 class PlaylistHandler;
+class PlayManager;
 
 typedef std::function<void()> RemoteFunction ;
 typedef std::function<void(int)> RemoteFunctionInt ;
@@ -100,7 +101,7 @@ private slots:
 	void pos_changed_ms(const quint64 pos);
 	void track_changed(const MetaData& md);
 	void volume_changed(int vol);
-	void playstate_changed(PlayManager::PlayState playstate);
+	void playstate_changed(PlayState playstate);
 	void playlist_changed(PlaylistConstPtr pl);
 
 	void _sl_active_changed();

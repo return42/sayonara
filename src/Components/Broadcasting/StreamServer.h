@@ -22,8 +22,6 @@
 #define STREAM_SERVER_H
 
 #include "StreamWriter.h"
-
-#include "Components/PlayManager/PlayManager.h"
 #include "Helper/Settings/SayonaraClass.h"
 
 #include <QThread>
@@ -32,7 +30,7 @@
 #include <QTcpSocket>
 #include <QTcpServer>
 
-
+struct _StreamServerMembers;
 class EngineHandler;
 /**
  * @brief The StreamServer class. This class is listening for new connections and holds and administrates current connections.
@@ -52,20 +50,10 @@ class StreamServer :
 
 	public:
 		StreamServer(QObject* parent=nullptr);
-		~StreamServer();
+		virtual ~StreamServer();
 
 	private:
-		QTcpServer*							_server=nullptr;		// the server
-
-		MetaData							_cur_track;				// cur played track
-		bool								_mp3_enc_available;		// is encoder available
-
-		QList<QPair<QTcpSocket*, QString>>	_pending;				// pending requests queue
-		bool								_asking;				// set if currently any requests are being processed
-
-		QList<StreamWriterPtr>				_lst_sw;				// all open streams
-		QStringList							_allowed_ips;			// IPs without prompt
-		QStringList							_discmissed_ips;		// dismissed IPs
+		_StreamServerMembers*				_m = nullptr;
 
 		// create new server and listen
 		void create_server();

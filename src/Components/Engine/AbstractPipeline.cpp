@@ -349,7 +349,7 @@ quint64 AbstractPipeline::get_about_to_finish_time() const
 }
 
 bool
-_test_and_error(void* element, QString errorstr) {
+_test_and_error(void* element, const QString& errorstr) {
 
 	if(!element) {
 		sp_log(Log::Error) << errorstr;
@@ -360,7 +360,7 @@ _test_and_error(void* element, QString errorstr) {
 }
 
 bool
-_test_and_error_bool(bool b, QString errorstr) {
+_test_and_error_bool(bool b, const QString& errorstr) {
 	if(!b) {
 		sp_log(Log::Error) << errorstr;
 		return false;

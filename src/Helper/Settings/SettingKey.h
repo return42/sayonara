@@ -29,7 +29,7 @@ class QString;
 class QPoint;
 class QSize;
 class LibSortOrder;
-struct EQ_Setting;
+class EQ_Setting;
 struct RawShortcutMap;
 
 class PlaylistMode;

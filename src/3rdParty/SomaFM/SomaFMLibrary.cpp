@@ -135,7 +135,7 @@ void SomaFMLibrary::soma_station_playlists_fetched(bool success)
 	plh->create_playlist(v_md,
 						 station.get_name(),
 						 true,
-						 Playlist::Type::Stream);
+						 PlaylistType::Stream);
 
 	parser->deleteLater();
 }
@@ -184,7 +184,7 @@ void SomaFMLibrary::soma_playlist_content_fetched(bool success)
 	plh->create_playlist(v_md,
 						 station.get_name(),
 						 true,
-						 Playlist::Type::Stream);
+						 PlaylistType::Stream);
 
 	parser->deleteLater();
 }

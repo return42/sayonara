@@ -18,15 +18,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 /* CrossFader.h */
 
 #ifndef CROSSFADER_H
 #define CROSSFADER_H
 
 #include <QtGlobal>
-#include <thread>
 
 class FaderThreadData;
 class FaderThread;
@@ -57,8 +54,8 @@ public:
 private:
     FadeMode	    _fade_mode;
 	double			_fade_step;
-	FaderThread*    _fader=nullptr;
 
+	FaderThread*    _fader=nullptr;
 	FaderThreadData* _fader_data=nullptr;
 
 

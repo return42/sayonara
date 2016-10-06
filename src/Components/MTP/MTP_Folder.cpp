@@ -21,6 +21,7 @@
 #include "MTP_Folder.h"
 #include "MTP_Track.h"
 #include "Helper/Settings/Settings.h"
+#include "Helper/Logger/Logger.h"
 
 #include <QDir>
 

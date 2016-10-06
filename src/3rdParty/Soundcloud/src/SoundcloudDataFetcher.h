@@ -19,17 +19,16 @@
  */
 
 
-
 #ifndef SOUNDCLOUDDATAFETCHER_H
 #define SOUNDCLOUDDATAFETCHER_H
 
+#include <QObject>
+#include <QString>
 
-#include "Helper/MetaData/MetaDataList.h"
-#include "Helper/MetaData/Album.h"
-#include "Helper/MetaData/Artist.h"
-
-
-
+class ArtistList;
+class AlbumList;
+class MetaDataList;
+struct _SoundcloudDataFetcherMembers;
 
 class SoundcloudDataFetcher : public QObject
 {
@@ -60,11 +59,8 @@ private slots:
 	void tracks_fetched(bool success);
 
 private:
-	MetaDataList	_playlist_tracks;
-	AlbumList		_playlists;
-	ArtistList		_artists;
-	int				_artist_id;
 
+	_SoundcloudDataFetcherMembers*	_m=nullptr;
 };
 
 #endif // SOUNDCLOUDDataFetcher_H

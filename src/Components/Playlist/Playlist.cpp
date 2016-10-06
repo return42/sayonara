@@ -38,7 +38,7 @@ Playlist::Playlist(int idx, QString name) :
 
 	_playlist_changed = false;
 	_playlist_idx = idx;
-	_playlist_type = Playlist::Type::Std;
+	_playlist_type = PlaylistType::Std;
 	_playlist_mode = _settings->get(Set::PL_Mode);
 
 	_is_storable = false;
@@ -151,7 +151,7 @@ void Playlist::replace_track(int idx, const MetaData& md) {
 }
 
 
-Playlist::Type Playlist::get_type() const {
+PlaylistType Playlist::get_type() const {
 	return _playlist_type;
 }
 

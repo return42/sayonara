@@ -29,7 +29,7 @@
 #include "Helper/Shutdown/Shutdown.h"
 #include "Helper/Playlist/PlaylistMode.h"
 
-#include "Components/Playlist/Playlist.h"
+#include "Components/Playlist/PlaylistTypedefs.h"
 
 class PlaylistMenu;
 #ifdef WITH_SHUTDOWN
@@ -51,7 +51,7 @@ public:
 	virtual ~GUI_PlaylistBottomBar();
 
 	void check_dynamic_play_button();
-	void set_playlist_type(Playlist::Type playlist_type);
+	void set_playlist_type(PlaylistType playlist_type);
 
 private slots:
 

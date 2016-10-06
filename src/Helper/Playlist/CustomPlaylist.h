@@ -19,7 +19,6 @@
  */
 
 
-
 #ifndef CUSTOMPLAYLIST_H
 #define CUSTOMPLAYLIST_H
 
@@ -48,8 +47,6 @@ public:
 private:
 	void set_num_tracks(int num_tracks) override;
 };
-
-typedef QList<CustomPlaylist> CustomPlaylists;
 
 
 #endif // CUSTOMPLAYLIST_H

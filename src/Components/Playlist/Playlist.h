@@ -23,14 +23,16 @@
 #ifndef PLAYLIST_H
 #define PLAYLIST_H
 
+#include "PlaylistTypedefs.h"
 #include "Helper/Playlist/PlaylistMode.h"
 #include "Helper/Settings/SayonaraClass.h"
+#include "Helper/MetaData/MetaDataList.h"
+
 #include "PlaylistDBInterface.h"
 
 #include <QString>
 #include <QList>
 
-#include <memory>
 
 /**
  * @brief The Playlist class
@@ -48,14 +50,6 @@ class Playlist :
 signals:
 	void sig_data_changed(int idx);
 
-public:
-
-	enum class Type : quint8
-	{
-		Std=0,
-		Stream
-	};
-
 private:
 	bool            _playlist_changed;
 
@@ -66,7 +60,7 @@ protected:
 	int				_playlist_idx;
 
 	MetaDataList    _v_md;
-	Type			_playlist_type;
+	PlaylistType	_playlist_type;
 	PlaylistMode	_playlist_mode;
 
 	Playlist(int idx, QString name="");
@@ -90,7 +84,7 @@ public:
 	IdxList			find_tracks(int id) const;
 	IdxList			find_tracks(const QString& filepath) const;
 
-	Type			get_type() const;
+	PlaylistType	get_type() const;
 	int				get_cur_track_idx() const;
 	bool			get_cur_track(MetaData& md) const;
 	int				get_idx() const;
@@ -150,19 +144,6 @@ public:
 private slots:
 	void			_sl_playlist_mode_changed();
 };
-
-
-/**
- * @brief PlaylistPtr Playlist Pointer (only used internally)
- */
-typedef std::shared_ptr<Playlist> PlaylistPtr;
-
-/**
- * @brief PlaylistConstPtr read only Playlist Pointer
- */
-typedef std::shared_ptr<const Playlist> PlaylistConstPtr;
-
-
 
 
 #endif // PLAYLIST_H

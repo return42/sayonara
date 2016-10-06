@@ -21,6 +21,7 @@
 #include "AbstractLibrary.h"
 
 #include "Components/Playlist/PlaylistHandler.h"
+#include "Components/PlayManager/PlayManager.h"
 
 #include "Components/TagEdit/MetaDataChangeNotifier.h"
 #include "Helper/Tagging/Tagging.h"
@@ -232,7 +233,7 @@ void AbstractLibrary::set_playlist_action_after_double_click()
 	}
 
 	else if(_settings->get(Set::Lib_DC_PlayIfStopped)){
-		if(play_manager->get_play_state() != PlayManager::PlayState::Playing){
+		if(play_manager->get_play_state() != PlayState::Playing){
 			_playlist->change_track(0, _playlist->get_current_idx());
 		}
 	}

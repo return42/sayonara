@@ -19,7 +19,6 @@
  */
 
 
-
 #include "PlayerPlugin.h"
 
 #include "Components/PlayManager/PlayManager.h"
@@ -128,18 +127,18 @@ bool PlayerPluginInterface::is_closed() const
 }
 
 
-void PlayerPluginInterface::playstate_changed(PlayManager::PlayState state){
+void PlayerPluginInterface::playstate_changed(PlayState state){
 
 	switch(state){
-		case PlayManager::PlayState::Playing:
+		case PlayState::Playing:
 			played();
 			break;
 
-		case PlayManager::PlayState::Paused:
+		case PlayState::Paused:
 			paused();
 			break;
 
-		case PlayManager::PlayState::Stopped:
+		case PlayState::Stopped:
 			stopped();
 			break;
 

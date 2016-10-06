@@ -22,6 +22,7 @@
 
 #include "DBusMediaKeysInterface.h"
 #include "Helper/Logger/Logger.h"
+#include "Components/PlayManager/PlayManager.h"
 
 #include <QKeyEvent>
 #include <QCoreApplication>

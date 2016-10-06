@@ -20,10 +20,12 @@
 
 #include "PlaylistDBWrapper.h"
 #include "Helper/Tagging/Tagging.h"
-
 #include "Helper/FileHelper.h"
 #include "Helper/Parser/PlaylistParser.h"
+#include "Helper/MetaData/MetaDataList.h"
+#include "Helper/Playlist/CustomPlaylist.h"
 #include "Database/DatabaseConnector.h"
+
 
 #include <utility>
 

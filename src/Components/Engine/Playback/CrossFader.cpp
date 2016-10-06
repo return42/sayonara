@@ -105,7 +105,6 @@ CrossFader::CrossFader()
 	_fader_data = new FaderThreadData(
 				std::bind(&CrossFader::fader_timed_out, this)
 	);
-
 }
 
 

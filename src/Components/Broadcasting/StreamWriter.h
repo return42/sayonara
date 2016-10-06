@@ -21,9 +21,9 @@
 #ifndef STREAM_WRITER_H
 #define STREAM_WRITER_H
 
+#include "StreamHttpParser.h"
 #include "Helper/Settings/SayonaraClass.h"
 #include "Interfaces/RawSoundReceiver/RawSoundReceiverInterface.h"
-#include "StreamHttpParser.h"
 
 #include <QByteArray>
 #include <QHostAddress>
@@ -31,7 +31,6 @@
 
 #include <memory>
 
-class StreamHttpParser;
 class StreamDataSender;
 class EngineHandler;
 class MetaData;

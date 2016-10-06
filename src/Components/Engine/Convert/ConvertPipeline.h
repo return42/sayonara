@@ -24,7 +24,6 @@
 #define ConvertPipeline_H
 
 #include "Components/Engine/AbstractPipeline.h"
-#include "Helper/globals.h"
 
 class ConvertPipeline : public AbstractPipeline
 {

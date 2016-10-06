@@ -69,7 +69,7 @@ void AbstractStreamHandler::stream_parser_finished(bool success){
 
 	emit sig_data_available();
 
-	_playlist->create_playlist(v_md, _station_name, true, Playlist::Type::Stream);
+	_playlist->create_playlist(v_md, _station_name, true, PlaylistType::Stream);
 
 	_blocked = false;
 

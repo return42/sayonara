@@ -21,6 +21,7 @@
 #include "GUI_AbstractStream.h"
 #include "GUI/Helper/Message/Message.h"
 #include "GUI/Helper/Delegates/ComboBoxDelegate.h"
+#include "GUI/Helper/IconLoader/IconLoader.h"
 
 #include "Helper/MetaData/MetaData.h"
 #include "Helper/Parser/PlaylistParser.h"

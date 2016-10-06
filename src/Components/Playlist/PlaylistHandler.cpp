@@ -27,10 +27,12 @@
 #include "PlaylistLoader.h"
 #include "PlaylistDBWrapper.h"
 
+#include "Components/PlayManager/PlayManager.h"
 #include "Database/DatabaseConnector.h"
 
 #include "Helper/DirectoryReader/DirectoryReader.h"
 #include "Helper/Parser/PlaylistParser.h"
+#include "Helper/Playlist/CustomPlaylist.h"
 
 #include <algorithm>
 #include <memory>
@@ -125,14 +127,14 @@ int PlaylistHandler::load_old_playlists(){
 }
 
 
-PlaylistPtr PlaylistHandler::new_playlist(Playlist::Type type, int playlist_idx, QString name) {
+PlaylistPtr PlaylistHandler::new_playlist(PlaylistType type, int playlist_idx, QString name) {
 
 	switch(type) {
 
-	case Playlist::Type::Stream:
+	case PlaylistType::Stream:
 		return PlaylistPtr(new StreamPlaylist(playlist_idx, name));
 
-	case Playlist::Type::Std:
+	case PlaylistType::Std:
 	default:
 		return PlaylistPtr(new StdPlaylist(playlist_idx, name));
 	}
@@ -141,7 +143,7 @@ PlaylistPtr PlaylistHandler::new_playlist(Playlist::Type type, int playlist_idx,
 }
 
 
-int PlaylistHandler::add_new_playlist(const QString& name, bool temporary, Playlist::Type type){
+int PlaylistHandler::add_new_playlist(const QString& name, bool temporary, PlaylistType type){
 
 	PlaylistPtr pl;
 	int idx = exists(name);
@@ -162,7 +164,7 @@ int PlaylistHandler::add_new_playlist(const QString& name, bool temporary, Playl
 
 
 // create a playlist, where metadata is already available
-int PlaylistHandler::create_playlist(const MetaDataList& v_md, const QString& name, bool temporary, Playlist::Type type) {
+int PlaylistHandler::create_playlist(const MetaDataList& v_md, const QString& name, bool temporary, PlaylistType type) {
 
 	int idx;
 	PlaylistPtr pl;
@@ -188,7 +190,7 @@ int PlaylistHandler::create_playlist(const MetaDataList& v_md, const QString& na
 
 // create a new playlist, where only filepaths are given
 // Load Folder, Load File...
-int PlaylistHandler::create_playlist(const QStringList& pathlist, const QString& name, bool temporary, Playlist::Type type) {
+int PlaylistHandler::create_playlist(const QStringList& pathlist, const QString& name, bool temporary, PlaylistType type) {
 
 	DirectoryReader reader;
 	MetaDataList v_md = reader.get_md_from_filelist(pathlist);
@@ -196,7 +198,7 @@ int PlaylistHandler::create_playlist(const QStringList& pathlist, const QString&
 }
 
 
-int PlaylistHandler::create_playlist(const QString& dir, const QString& name, bool temporary, Playlist::Type type) {
+int PlaylistHandler::create_playlist(const QString& dir, const QString& name, bool temporary, PlaylistType type) {
 
 	QStringList lst;
 	lst << dir;
@@ -216,7 +218,7 @@ int PlaylistHandler::create_playlist(const CustomPlaylist& cpl){
 	});
 
 	if(it == _playlists.end()){
-		idx = add_new_playlist(cpl.name(), cpl.temporary(), Playlist::Type::Std);
+		idx = add_new_playlist(cpl.name(), cpl.temporary(), PlaylistType::Std);
 	}
 
 	else{
@@ -249,16 +251,16 @@ void PlaylistHandler::clear_playlist(int pl_idx) {
 }
 
 
-void PlaylistHandler::playstate_changed(PlayManager::PlayState state){
+void PlaylistHandler::playstate_changed(PlayState state){
 
 	switch(state){
-		case PlayManager::PlayState::Playing:
+		case PlayState::Playing:
 			played();
 			break;
-		case PlayManager::PlayState::Paused:
+		case PlayState::Paused:
 			paused();
 			break;
-		case PlayManager::PlayState::Stopped:
+		case PlayState::Stopped:
 			stopped();
 			break;
 
@@ -379,7 +381,7 @@ void PlaylistHandler::insert_tracks(const MetaDataList& v_md, int row, int pl_id
 	PlaylistPtr pl = _playlists[pl_idx];
 
 	bool is_empty = pl->is_empty();
-	bool stopped = (_play_manager->get_play_state() == PlayManager::PlayState::Stopped);
+	bool stopped = (_play_manager->get_play_state() == PlayState::Stopped);
 
 	pl->insert_tracks(v_md, row);
 
@@ -510,13 +512,13 @@ PlaylistPtr PlaylistHandler::get_playlist(int idx, PlaylistPtr fallback) const
 
 PlaylistPtr PlaylistHandler::get_active()
 {
-	if(_play_manager->get_play_state() == PlayManager::PlayState::Stopped){
+	if(_play_manager->get_play_state() == PlayState::Stopped){
 		_active_playlist_idx = -1;
 	}
 
 	// assure we have at least one playlist
 	if(_playlists.size() == 0){
-		_active_playlist_idx = add_new_playlist(request_new_playlist_name(), true, Playlist::Type::Std);
+		_active_playlist_idx = add_new_playlist(request_new_playlist_name(), true, PlaylistType::Std);
 	}
 
 	// assure valid idx

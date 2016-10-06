@@ -24,13 +24,12 @@
 
 #include "Components/Engine/AbstractEngine.h"
 
-#include "Helper/EqualizerPresets.h"
-
 #include <glib.h>
 #include <gst/gstbuffer.h>
 
 #include <QTimer>
 #include <QList>
+#include <QtGlobal>
 
 class PlaybackPipeline;
 class StreamRecorder;
@@ -44,7 +43,9 @@ enum class GaplessState : quint8 {
 	Playing				// currently playing
 };
 
-class PlaybackEngine : public Engine {
+class PlaybackEngine :
+		public Engine
+{
 
 	Q_OBJECT
 

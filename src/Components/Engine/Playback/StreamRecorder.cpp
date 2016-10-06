@@ -24,6 +24,7 @@
 #include "Helper/Parser/PlaylistParser.h"
 #include "Helper/Tagging/Tagging.h"
 
+#include "Components/PlayManager/PlayManager.h"
 
 static QString get_time_str() {
 
@@ -216,9 +217,9 @@ bool StreamRecorder::is_recording() const
 }
 
 
-void StreamRecorder::playstate_changed(PlayManager::PlayState state){
+void StreamRecorder::playstate_changed(PlayState state){
 
-	if(state == PlayManager::PlayState::Stopped){
+	if(state == PlayState::Stopped){
 
 		if(_recording){
 			save();

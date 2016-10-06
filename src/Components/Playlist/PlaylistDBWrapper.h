@@ -23,11 +23,11 @@
 #ifndef PLAYLISTDB_WRAPPER_H
 #define PLAYLISTDB_WRAPPER_H
 
-#include "Helper/MetaData/MetaData.h"
 #include "Database/DatabasePlaylist.h"
 #include "Helper/globals.h"
 
 class DatabaseConnector;
+class MetaDataList;
 
 /**
  * @brief PlaylistDBWrapper is responsible for fetching playlist data from database,

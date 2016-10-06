@@ -19,8 +19,8 @@
  */
 
 
-
 #include "MTP.h"
+#include "Helper/Logger/Logger.h"
 
 MTP::MTP(QObject* parent) :
 	QThread(parent)

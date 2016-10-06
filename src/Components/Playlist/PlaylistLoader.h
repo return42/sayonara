@@ -18,33 +18,31 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef PLAYLISTLOADER_H
 #define PLAYLISTLOADER_H
 
-#include "Helper/MetaData/MetaData.h"
 #include "Helper/Settings/SayonaraClass.h"
+#include "Helper/Playlist/CustomPlaylistTypedefs.h"
 
-#include "Playlist.h"
-
-class CustomPlaylist;
 class PlaylistDBWrapper;
 class PlaylistHandler;
+
 
 /**
  * @brief The PlaylistLoader class
  * @ingroup Playlists
  */
-class PlaylistLoader : public QObject, protected SayonaraClass
+class PlaylistLoader :
+		public QObject,
+		protected SayonaraClass
 {
 	Q_OBJECT
 
 private:
 
-	CustomPlaylists	_playlists;
+	CustomPlaylists			_playlists;
 
-	PlaylistDBWrapper*	_playlist_db_connector=nullptr;
+	PlaylistDBWrapper*		_playlist_db_connector=nullptr;
 
 	int						_last_playlist_idx;
 	int						_last_track_idx;
@@ -52,9 +50,10 @@ private:
 
 public:
 	explicit PlaylistLoader(QObject* parent=nullptr);
+	virtual ~PlaylistLoader();
 
 
-	CustomPlaylists	get_playlists() const;
+	CustomPlaylists			get_playlists() const;
 	int						get_playlist_count() const;
 
 	int						get_last_playlist_idx() const;
@@ -62,7 +61,6 @@ public:
 
 	int						get_last_track_idx() const;
 	bool					was_last_track_found() const;
-
 
 	int						create_playlists();
 

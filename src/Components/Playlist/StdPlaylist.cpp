@@ -28,7 +28,7 @@
 StdPlaylist::StdPlaylist(int idx, QString name) :
 	Playlist(idx, name)
 {
-	_playlist_type = Playlist::Type::Std;
+	_playlist_type = PlaylistType::Std;
 	_is_storable = true;
 }
 

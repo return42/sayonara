@@ -23,7 +23,7 @@
 #include "InfoDialogContainer.h"
 #include "GUI_InfoDialog.h"
 #include "GUI/Helper/GUI_Helper.h"
-
+#include "Helper/MetaData/MetaDataList.h"
 
 InfoDialogContainer::InfoDialogContainer(){
 

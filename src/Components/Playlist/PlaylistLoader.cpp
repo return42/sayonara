@@ -22,8 +22,9 @@
 
 #include "PlaylistLoader.h"
 #include "PlaylistHandler.h"
-#include "Helper/MetaData/MetaData.h"
 #include "PlaylistDBWrapper.h"
+
+#include "Helper/MetaData/MetaData.h"
 #include "Helper/Playlist/CustomPlaylist.h"
 
 #include <algorithm>
@@ -147,6 +148,8 @@ PlaylistLoader::PlaylistLoader(QObject* parent) :
 		}
 	}
 }
+
+PlaylistLoader::~PlaylistLoader() {}
 
 
 CustomPlaylists PlaylistLoader::get_playlists() const

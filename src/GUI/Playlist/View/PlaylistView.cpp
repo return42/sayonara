@@ -35,11 +35,13 @@
 #include "GUI/Helper/CustomMimeData.h"
 #include "GUI/Helper/SayonaraWidget/SayonaraLoadingBar.h"
 
+#include "Helper/Set.h"
 #include "Helper/Helper.h"
 #include "Helper/FileHelper.h"
 #include "Helper/Parser/StreamParser.h"
 #include "Helper/DirectoryReader/DirectoryReader.h"
 
+#include "Components/Playlist/Playlist.h"
 #include "Components/Playlist/PlaylistHandler.h"
 #include "Components/PlayManager/PlayManager.h"
 #include "Components/TagEdit/TagEdit.h"

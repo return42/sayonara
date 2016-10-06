@@ -105,20 +105,20 @@ void EngineHandler::fill_engines(const QList<Engine*>& engines) {
 }
 
 
-void EngineHandler::playstate_changed(PlayManager::PlayState state){
+void EngineHandler::playstate_changed(PlayState state){
 
 	if(!_cur_engine) return;
 
 	switch(state){
-		case PlayManager::PlayState::Playing:
+		case PlayState::Playing:
 			play();
 			break;
 
-		case PlayManager::PlayState::Paused:
+		case PlayState::Paused:
 			pause();
 			break;
 
-		case PlayManager::PlayState::Stopped:
+		case PlayState::Stopped:
 			stop();
 			break;
 

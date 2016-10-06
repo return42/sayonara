@@ -27,25 +27,30 @@
 
 #include "GUI/Helper/SayonaraWidget/SayonaraDialog.h"
 #include "Helper/MetaData/MetaDataList.h"
-#include "Components/Covers/CoverLocation.h"
-
-#include "GUI/InfoDialog/ui_GUI_InfoDialog.h"
 
 #include <QCloseEvent>
 #include <QDateTime>
 #include <QTabBar>
+#include <QWidget>
 
 class GUI_TagEdit;
 class LyricLookupThread;
 class InfoDialogContainer;
+class MetaDataList;
+class CoverLocation;
+
+struct _GUI_InfoDialogMembers;
+namespace Ui
+{
+	class InfoDialog;
+}
 
 /**
  * @brief The GUI_InfoDialog class
  * @ingroup GUI
  */
 class GUI_InfoDialog :
-		public SayonaraDialog,
-		private Ui::InfoDialog
+		public SayonaraDialog
 {
 
 	Q_OBJECT
@@ -76,23 +81,6 @@ private slots:
 	void skin_changed() override;
 	void language_changed() override;
 
-
-private:
-
-	InfoDialogContainer*	_info_dialog_container=nullptr;
-	GUI_TagEdit*			_ui_tag_edit=nullptr;
-	LyricLookupThread*		_lyric_thread=nullptr;
-
-	MetaDataList::Interpretation	_md_interpretation;
-
-	QString 				_cover_artist;
-	QString					_cover_album;
-	CoverLocation			_cl;
-
-	MetaDataList			_v_md;
-	bool					_is_initialized;
-
-
 private:
 
 	void init();
@@ -103,6 +91,12 @@ private:
 
 	void closeEvent(QCloseEvent *e) override;
 	void showEvent(QShowEvent *e) override;
+
+
+private:
+
+	_GUI_InfoDialogMembers*	_m=nullptr;
+	Ui::InfoDialog*			ui=nullptr;
 
 };
 

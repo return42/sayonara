@@ -29,17 +29,24 @@
 #ifndef PLAYLISTITEMMODEL_H_
 #define PLAYLISTITEMMODEL_H_
 
-#include "Components/Playlist/Playlist.h"
+#include "Helper/globals.h"
+#include "Components/Playlist/PlaylistTypedefs.h"
 #include "GUI/Helper/SearchableWidget/AbstractSearchModel.h"
-
-#include "Helper/MetaData/MetaData.h"
 
 #include <QUrl>
 #include <QLabel>
 #include <QAbstractListModel>
 #include <QStringList>
 
+class MetaData;
+class MetaDataList;
 class CustomMimeData;
+namespace SP
+{
+	template<typename T>
+	class Set;
+}
+
 class PlaylistItemModel : public AbstractSearchListModel {
 	Q_OBJECT
 

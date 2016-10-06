@@ -18,10 +18,9 @@
  */
 
 
-
-
 #include "MTP_Device.h"
 #include "MTP_Storage.h"
+#include "Helper/Logger/Logger.h"
 
 
 MTP_Device::MTP_Device(MTPIntern_Device* device){

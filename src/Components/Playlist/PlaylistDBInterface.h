@@ -23,21 +23,26 @@
 #ifndef PLAYLISTDBINTERFACE_H
 #define PLAYLISTDBINTERFACE_H
 
-#include "Helper/MetaData/MetaData.h"
-#include "Helper/Playlist/CustomPlaylist.h"
+#include <QObject>
+#include <QString>
 
+class MetaDataList;
+class CustomPlaylistSkeleton;
 class PlaylistDBWrapper;
+
 /**
  * @brief The PlaylistDBInterface class
  * @ingroup Playlists
  */
-class PlaylistDBInterface : public QObject {
+class PlaylistDBInterface :
+		public QObject
+{
 
 	Q_OBJECT
 
 private:
 
-	PlaylistDBWrapper*	_playlist_db_connector=nullptr;
+	PlaylistDBWrapper*		_playlist_db_connector=nullptr;
 	QString					_name;
 	bool					_is_temporary;
 	int						_id;
@@ -53,6 +58,7 @@ public:
 	};
 
 	PlaylistDBInterface(const QString& name);
+	virtual ~PlaylistDBInterface();
 
 	int get_id() const;
 	void set_id(int db_id);

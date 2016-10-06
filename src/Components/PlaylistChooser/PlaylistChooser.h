@@ -18,22 +18,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef PLAYLISTCHOOSER_H_
 #define PLAYLISTCHOOSER_H_
 
-#define STATE_WAIT 0
-#define STATE_IMPORT_SUCCESS 1
-#define STATE_IMPORT_FAIL 2
-
-#include "Helper/MetaData/MetaData.h"
-#include "Helper/Playlist/CustomPlaylist.h"
+#include "Helper/Playlist/CustomPlaylistTypedefs.h"
 
 #include <QMap>
+#include <QObject>
 
-class CustomPlaylist;
-class CustomPlaylistSkeleton;
 class PlaylistDBWrapper;
 class PlaylistHandler;
 
@@ -53,8 +45,8 @@ public:
 	void load_single_playlist(int id);
 
 	void save_playlist(int id);
-	void save_playlist(QString playlist_name);
-	void save_playlist_file(QString filename, bool);
+	void save_playlist(const QString& playlist_name);
+	void save_playlist_file(const QString& filename, bool);
 	void clear_playlist();
 	void playlist_files_selected(const QStringList& lst);
 	int find_playlist(const QString& name) const;
@@ -72,10 +64,9 @@ private:
 	int						_import_state;
 
 	PlaylistHandler*		_playlist_handler=nullptr;
-	PlaylistDBWrapper*	_playlist_db_connector=nullptr;
+	PlaylistDBWrapper*		_playlist_db_connector=nullptr;
+
 	CustomPlaylist			find_custom_playlist(int id);
-
-
 };
 
 #endif /* PLAYLISTS_H_ */

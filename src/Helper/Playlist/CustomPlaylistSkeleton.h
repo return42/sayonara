@@ -1,4 +1,8 @@
+#ifndef CUSTOM_PLAYLIST_SKELETON_H
+#define CUSTOM_PLAYLIST_SKELETON_H
+
 #include <QString>
+
 
 /**
  * @brief The CustomPlaylistSkeleton class
@@ -31,6 +35,5 @@ public:
 	virtual ~CustomPlaylistSkeleton();
 };
 
-typedef QList<CustomPlaylistSkeleton> CustomPlaylistSkeletons;
-
+#endif
 

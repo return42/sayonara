@@ -26,6 +26,7 @@
 #include <QApplication>
 
 #include "Helper/Helper.h"
+#include "Helper/MetaData/MetaData.h"
 #include "PlaylistItemDelegate.h"
 #include "GUI/Playlist/Model/PlaylistItemModel.h"
 

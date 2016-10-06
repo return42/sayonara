@@ -18,10 +18,9 @@
  */
 
 
-
-
 #include "DBusNotifications.h"
 #include "Components/Covers/CoverLocation.h"
+#include "Helper/MetaData/MetaData.h"
 
 DBusNotifications::DBusNotifications(QObject* parent) :
 	QObject(parent),

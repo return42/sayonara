@@ -29,17 +29,28 @@
 #ifndef PLAYLISTHANDLER_H_
 #define PLAYLISTHANDLER_H_
 
-#include "Playlist.h"
+#include "PlaylistTypedefs.h"
+#include "PlaylistDBInterface.h"
 
 #include "Helper/globals.h"
 #include "Helper/Settings/SayonaraClass.h"
-
-#include "Components/PlayManager/PlayManager.h"
+#include "Components/PlayManager/PlayState.h"
 
 #include <QTimer>
 #include <memory>
 
+class PlayManager;
 class DatabaseConnector;
+class CustomPlaylist;
+class MetaData;
+class MetaDataList;
+
+namespace SP
+{
+	template<typename T>
+	class Set;
+}
+
 /**
  * @brief Global handler for playlists
  * @ingroup Playlists
@@ -274,7 +285,7 @@ public slots:
 	 * @param type deprecated
 	 * @return new playlist index
 	 */
-	int create_playlist(const MetaDataList& v_md, const QString& name=QString(), bool temporary=true, Playlist::Type type=Playlist::Type::Std);
+	int create_playlist(const MetaDataList& v_md, const QString& name=QString(), bool temporary=true, PlaylistType type=PlaylistType::Std);
 
 	/**
 	 * @brief create a new playlist (overloaded)
@@ -285,7 +296,7 @@ public slots:
 	 * @return new playlist index
 	 */
 
-	int create_playlist(const QStringList& path_list, const QString& name=QString(), bool temporary=true, Playlist::Type type=Playlist::Type::Std);
+	int create_playlist(const QStringList& path_list, const QString& name=QString(), bool temporary=true, PlaylistType type=PlaylistType::Std);
 
 	/**
 	 * @brief create a new playlist (overloaded)
@@ -296,7 +307,7 @@ public slots:
 	 * @return new playlist index
 	 */
 
-	int create_playlist(const QString& dir, const QString& name=QString(), bool temporary=true, Playlist::Type type=Playlist::Type::Std);
+	int create_playlist(const QString& dir, const QString& name=QString(), bool temporary=true, PlaylistType type=PlaylistType::Std);
 
 	/**
 	 * @brief create a new playlist (overloaded)
@@ -346,7 +357,7 @@ private slots:
 	/**
 	 * @brief PlayManager's playstate has changed
 	 */
-	void playstate_changed(PlayManager::PlayState);
+	void playstate_changed(PlayState state);
 
 	void www_track_finished(const MetaData& md);
 
@@ -362,10 +373,10 @@ private:
 
 	// adds a new playlist, creates it, if name is not in the list of playlists. If name already exists,
 	// this function returns the index
-	int	add_new_playlist(const QString& name, bool editable, Playlist::Type type=Playlist::Type::Std);
+	int	add_new_playlist(const QString& name, bool editable, PlaylistType type=PlaylistType::Std);
 
 	// raw creation of playlists
-	PlaylistPtr new_playlist(Playlist::Type type, int idx, QString name="");
+	PlaylistPtr new_playlist(PlaylistType type, int idx, QString name="");
 
 
 	/**

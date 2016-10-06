@@ -19,13 +19,11 @@
  */
 
 
-
-
 #include "StreamPlaylist.h"
 
 StreamPlaylist::StreamPlaylist(int idx, QString name) :
 	StdPlaylist(idx, name)
 {
-	_playlist_type = Playlist::Type::Stream;
+	_playlist_type = PlaylistType::Stream;
 	_is_storable = false;
 }

@@ -230,13 +230,13 @@ void GUI_PlaylistBottomBar::check_dynamic_play_button() {
 
 #endif
 
-void GUI_PlaylistBottomBar::set_playlist_type(Playlist::Type playlist_type){
-	btn_append->setVisible(playlist_type == Playlist::Type::Std);
-	btn_dynamic->setVisible(playlist_type == Playlist::Type::Std);
-	btn_repAll->setVisible(playlist_type == Playlist::Type::Std);
-	btn_shuffle->setVisible(playlist_type == Playlist::Type::Std);
-	btn_rep1->setVisible(playlist_type == Playlist::Type::Std);
-	btn_gapless->setVisible(playlist_type == Playlist::Type::Std);
+void GUI_PlaylistBottomBar::set_playlist_type(PlaylistType playlist_type){
+	btn_append->setVisible(playlist_type == PlaylistType::Std);
+	btn_dynamic->setVisible(playlist_type == PlaylistType::Std);
+	btn_repAll->setVisible(playlist_type == PlaylistType::Std);
+	btn_shuffle->setVisible(playlist_type == PlaylistType::Std);
+	btn_rep1->setVisible(playlist_type == PlaylistType::Std);
+	btn_gapless->setVisible(playlist_type == PlaylistType::Std);
 }
 
 

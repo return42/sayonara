@@ -18,13 +18,12 @@
  */
 
 
-
-
 #include "MTP_Track.h"
 
 #include "Helper/FileHelper.h"
 #include "Helper/Tagging/Tagging.h"
-
+#include "Helper/MetaData/MetaData.h"
+#include "Helper/Logger/Logger.h"
 
 
 MTP_Track::MTP_Track(const MetaData &md){

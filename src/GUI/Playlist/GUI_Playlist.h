@@ -30,16 +30,19 @@
 #define GUI_PLAYLIST_H_
 
 #include "GUI/Playlist/ui_GUI_Playlist.h"
-#include "Components/Playlist/PlaylistHandler.h"
 #include "GUI/Helper/Message/GlobalMessage.h"
+#include "Components/Playlist/PlaylistHandler.h"
+#include "Components/PlayManager/PlayState.h"
 
 #include <QTextEdit>
 #include <QFocusEvent>
 #include <QKeyEvent>
 
-
+class PlayManager;
 class PlaylistView;
-class GUI_Playlist : public SayonaraWidget, private Ui::Playlist_Window
+class GUI_Playlist :
+		public SayonaraWidget,
+		private Ui::Playlist_Window
 {
 	Q_OBJECT
 
@@ -50,7 +53,7 @@ public:
 private:
 	PlayManager*			_play_manager=nullptr;
 	PlaylistHandler*		_playlist=nullptr;
-	Playlist::Type			_playlist_type;
+	PlaylistType			_playlist_type;
 
 private:
 	PlaylistView* get_view_by_idx(int idx);
@@ -109,7 +112,7 @@ private slots:
 
 
 	// called by playmanager
-	void playstate_changed(PlayManager::PlayState state);
+	void playstate_changed(PlayState state);
 	void playlist_finished();
 	void playlist_time_changed();
 

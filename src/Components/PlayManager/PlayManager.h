@@ -21,57 +21,13 @@
 #ifndef PLAY_MANAGER_H
 #define PLAY_MANAGER_H
 
+#include "PlayState.h"
 #include "Helper/globals.h"
-#include "Helper/MetaData/MetaData.h"
 #include "Helper/Settings/SayonaraClass.h"
 
-#include <algorithm>
 
-template<typename T, int N_ITEMS>
-class RingBuffer {
-
-	private:
-		int _cur_idx;
-		int _n_items;
-		T _data[N_ITEMS];
-
-	public:
-		RingBuffer(){
-			clear();
-		}
-
-		void clear(){
-			_cur_idx = 0;
-			_n_items = 0;
-		}
-
-		void insert(const T& item){
-			_data[_cur_idx] = item;
-			_cur_idx = (_cur_idx + 1) % N_ITEMS;
-			_n_items = std::min(N_ITEMS, _n_items + 1);
-		}
-
-		bool has_item(const T& item) const {
-			for(int i=0; i<_n_items; i++){
-				if(_data[i] == item){
-					return true;
-				}
-			}
-
-			return false;
-		}
-
-		int count() const
-		{
-			return _n_items;
-		}
-
-		bool is_empty() const
-		{
-			return (_n_items == 0);
-		}
-};
-
+class MetaData;
+struct _PlayManagerMembers;
 /**
  * @brief Global handler for current playback state (Singleton)
  * @ingroup Components
@@ -83,17 +39,6 @@ class PlayManager : public QObject, protected SayonaraClass
 
 	SINGLETON_QOBJECT(PlayManager)
 
-	public:
-
-		/**
-		 * @brief Current Playing state
-		 */
-		enum class PlayState : quint8 {
-					   Playing=0,
-					   Paused,
-					   Stopped
-		};
-
 
 signals:
 
@@ -104,9 +49,9 @@ signals:
 	void sig_www_track_finished(const MetaData& old_md);
 
 	/**
-	 * @brief emitted, when PlayManager::PlayState was changed
+	 * @brief emitted, when PlayState was changed
 	 */
-	void sig_playstate_changed(PlayManager::PlayState);
+	void sig_playstate_changed(PlayState);
 
 	/**
 	 * @brief next track was triggered
@@ -373,13 +318,8 @@ public:
 
 
 private:
-	RingBuffer<QString, 3>	_ring_buffer;
-	quint64					_position_ms;
-	int						_cur_idx;
-	quint64					_initial_position_ms;
-	PlayState				_playstate;
-	MetaData				_md;
 
+	_PlayManagerMembers*	_m=nullptr;
 };
 
 

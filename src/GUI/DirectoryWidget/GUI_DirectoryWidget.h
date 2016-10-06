@@ -97,8 +97,8 @@ private slots:
 
 	// InfoDialogContainer interface
 protected:
-	MetaDataList::Interpretation get_metadata_interpretation() const;
-	MetaDataList get_data_for_info_dialog() const;
+	MetaDataList::Interpretation get_metadata_interpretation() const override;
+	MetaDataList get_data_for_info_dialog() const override;
 };
 
 

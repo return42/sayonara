@@ -25,6 +25,8 @@
 #include "Components/DBus/org_mpris_media_player2_adaptor.h"
 #include "Components/DBus/org_mpris_media_player2_player_adaptor.h"
 #include "Components/Covers/CoverLocation.h"
+#include "Components/PlayManager/PlayManager.h"
+
 #include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
 
 #include "Helper/Random/RandomGenerator.h"
@@ -38,7 +40,7 @@
 DBusAdaptor::DBusAdaptor(QObject* parent) :
 	QObject(parent)
 {
-		_play_manager = PlayManager::getInstance();
+	_play_manager = PlayManager::getInstance();
 }
 
 DBusAdaptor::~DBusAdaptor(){
@@ -101,8 +103,8 @@ DBusMPRIS::MediaPlayer2::MediaPlayer2(SayonaraMainWindow* player, QObject *paren
 	connect(_play_manager, &PlayManager::sig_volume_changed,
 			this, &DBusMPRIS::MediaPlayer2::volume_changed);
 
-	if( _play_manager->get_play_state() == PlayManager::PlayState::Playing ||
-		_play_manager->get_play_state() == PlayManager::PlayState::Paused)
+	if( _play_manager->get_play_state() == PlayState::Playing ||
+			_play_manager->get_play_state() == PlayState::Paused)
 	{
 		track_changed(_play_manager->get_cur_track());
 	}
@@ -437,7 +439,7 @@ void DBusMPRIS::MediaPlayer2::track_changed(const MetaData& md){
 	create_message("Metadata", map);
 }
 
-void DBusMPRIS::MediaPlayer2::playstate_changed(PlayManager::PlayState state){
+void DBusMPRIS::MediaPlayer2::playstate_changed(PlayState state){
 
 	QString playback_status;
 	if(!_initialized){
@@ -445,13 +447,13 @@ void DBusMPRIS::MediaPlayer2::playstate_changed(PlayManager::PlayState state){
 	}
 
 	switch(state){
-		case PlayManager::PlayState::Stopped:
+		case PlayState::Stopped:
 			playback_status = "Stopped";
 			break;
-		case PlayManager::PlayState::Playing:
+		case PlayState::Playing:
 			playback_status = "Playing";
 			break;
-		case PlayManager::PlayState::Paused:
+		case PlayState::Paused:
 			playback_status = "Paused";
 			break;
 		default:
