@@ -24,6 +24,7 @@
 #include "GUI/Helper/Delegates/ComboBoxDelegate.h"
 #include "LibraryContainer/LibraryContainer.h"
 
+#include "Helper/globals.h"
 #include "Helper/Helper.h"
 
 #include <QLayout>

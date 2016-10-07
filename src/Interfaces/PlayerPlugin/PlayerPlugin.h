@@ -28,8 +28,8 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QLayout>
-
 #include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
+#include "GUI/Helper/Shortcuts/Shortcut.h"
 #include "GUI/Helper/Shortcuts/ShortcutWidget.h"
 #include "GUI/Helper/Shortcuts/ShortcutHandler.h"
 

@@ -23,6 +23,7 @@
 #ifndef ConvertPipeline_H
 #define ConvertPipeline_H
 
+#include "LameBitrate.h"
 #include "Components/Engine/AbstractPipeline.h"
 
 class ConvertPipeline : public AbstractPipeline

@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "SettingRegistry.h"
 #include "Database/DatabaseConnector.h"
 #include "Helper/Playlist/PlaylistMode.h"
@@ -131,6 +129,7 @@ bool SettingRegistry::init(){
 	register_setting( Set::Engine_ConvertQuality, "convert_quality", 0 );
 	register_setting( Set::Engine_CovertTargetPath, "convert_target_path", QDir::homePath() );
 	register_setting( Set::Engine_ShowLevel, "show_level", false);
+	register_setting( Set::Engine_SpectrumBins, "spectrum_bins", 70);
 	register_setting( Set::Engine_ShowSpectrum, "show_spectrum", false);
 	register_setting( Set::Engine_SR_Active, "streamripper", false );
 	register_setting( Set::Engine_SR_Warning, "streamripper_warning", true );

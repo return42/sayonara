@@ -22,7 +22,7 @@
 #ifndef ICON_LOADER_H_
 #define ICON_LOADER_H_
 
-#include "Helper/globals.h"
+#include "Helper/singleton.h"
 
 #include <QString>
 #include <QMap>

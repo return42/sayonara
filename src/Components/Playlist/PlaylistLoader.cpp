@@ -24,7 +24,7 @@
 #include "PlaylistHandler.h"
 #include "PlaylistDBWrapper.h"
 
-#include "Helper/MetaData/MetaData.h"
+#include "Helper/globals.h"
 #include "Helper/Playlist/CustomPlaylist.h"
 
 #include <algorithm>

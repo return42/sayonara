@@ -71,6 +71,7 @@ public:
 
 	void set_streamrecorder_recording(bool b);
 
+	int get_spectrum_bins() const;
 	void set_spectrum(const QList<float>& vals);
 	void add_spectrum_receiver(SpectrumReceiver* receiver);
 

@@ -25,7 +25,7 @@
 
 #include "Database/DatabaseModule.h"
 #include "Components/Library/Sorting.h"
-#include "Helper/globals.h"
+#include "Helper/typedefs.h"
 #include "Helper/Filter.h"
 #include "Helper/LibrarySearchMode.h"
 

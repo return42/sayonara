@@ -24,9 +24,6 @@
 
 #include "AbstractLibrary.h"
 
-#include "Helper/MetaData/MetaData.h"
-#include "Helper/Filter.h"
-
 class ReloadThread;
 class DatabaseConnector;
 class FileSystemWatcher;

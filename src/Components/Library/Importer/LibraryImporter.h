@@ -18,11 +18,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef LIBRARYIMPORTER_H
 #define LIBRARYIMPORTER_H
-
 
 #include "Helper/Tagging/Tagging.h"
 #include "Helper/Settings/SayonaraClass.h"

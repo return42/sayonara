@@ -21,9 +21,11 @@
 #ifndef METADATALIST_H
 #define METADATALIST_H
 
+#include "MetaData.h"
+#include "Helper/typedefs.h"
 #include <QStringList>
 #include <functional>
-#include "MetaData.h"
+
 /**
  * @brief The MetaDataList class
  * @ingroup MetaDataHelper

@@ -29,18 +29,15 @@
 #ifndef RELOADTHREAD_H_
 #define RELOADTHREAD_H_
 
-
 #include <QThread>
 #include <QHash>
 #include <QDir>
 
-#include "Helper/Tagging/Tagging.h"
 #include "Helper/Settings/SayonaraClass.h"
-#include "Helper/MetaData/MetaDataList.h"
 #include "LibraryNamespaces.h"
 
-
-class DatabaseConnector;
+class MetaData;
+struct _ReloadThreadMembers;
 class ReloadThread :
 		public QThread,
 		protected SayonaraClass
@@ -54,7 +51,6 @@ signals:
 
 
 public:
-
 
 	SINGLETON_QOBJECT(ReloadThread)
 
@@ -72,12 +68,7 @@ protected:
 
 
 private:
-	DatabaseConnector*		_db=nullptr;
-	QString					_library_path;
-	MetaDataList			_v_md;
-	Library::ReloadQuality	_quality;
-	bool					_paused, _running;
-
+	_ReloadThreadMembers*	_m=nullptr;
 
 private:
 

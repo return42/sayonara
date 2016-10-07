@@ -19,6 +19,7 @@
  */
 
 #include "StdPlaylist.h"
+#include "Helper/globals.h"
 #include "Helper/FileHelper.h"
 #include "Helper/Parser/PlaylistParser.h"
 #include "Helper/Random/RandomGenerator.h"

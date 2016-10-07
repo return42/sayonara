@@ -21,6 +21,7 @@
 
 #include "Bookmarks.h"
 #include "Helper/Helper.h"
+#include "Helper/globals.h"
 #include "Helper/MetaData/MetaData.h"
 #include "Database/DatabaseConnector.h"
 #include "Components/PlayManager/PlayManager.h"

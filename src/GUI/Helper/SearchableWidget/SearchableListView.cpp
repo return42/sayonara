@@ -23,6 +23,7 @@
 #include "SearchableListView.h"
 #include "AbstractSearchModel.h"
 #include "MiniSearcher.h"
+#include "Helper/Set.h"
 
 SearchableListView::SearchableListView(QWidget* parent) :
 	QListView(parent)

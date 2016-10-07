@@ -38,6 +38,7 @@
 #include "Helper/MetaDataInfo/AlbumInfo.h"
 #include "Helper/MetaDataInfo/ArtistInfo.h"
 #include "Helper/FileHelper.h"
+#include "Helper/globals.h"
 
 #include <algorithm>
 

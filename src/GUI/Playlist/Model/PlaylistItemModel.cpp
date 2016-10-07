@@ -36,6 +36,7 @@
 #include "Helper/LibrarySearchMode.h"
 #include "Helper/FileHelper.h"
 #include "Helper/Set.h"
+#include "Helper/globals.h"
 
 
 PlaylistItemModel::PlaylistItemModel(PlaylistPtr pl, QObject* parent) :

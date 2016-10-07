@@ -20,11 +20,14 @@
 
 
 #include "GUI_ShortcutEntry.h"
+#include "GUI/Preferences/Shortcuts/ShortcutLineEdit.h"
+#include "GUI/Helper/IconLoader/IconLoader.h"
+#include "GUI/Helper/Shortcuts/ShortcutHandler.h"
+
 #include <QKeySequence>
 #include <QShortcut>
 #include <QMessageBox>
-#include "GUI/Preferences/Shortcuts/ShortcutLineEdit.h"
-#include "GUI/Helper/IconLoader/IconLoader.h"
+
 
 GUI_ShortcutEntry::GUI_ShortcutEntry(const Shortcut& shortcut, QWidget* parent) :
 	SayonaraWidget(parent),

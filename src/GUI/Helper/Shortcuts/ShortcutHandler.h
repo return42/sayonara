@@ -29,11 +29,10 @@
 #include <QKeySequence>
 #include <QShortcut>
 
-#include "Helper/globals.h"
-#include "RawShortcutMap.h"
-#include "Shortcut.h"
+#include "Helper/singleton.h"
 #include "Helper/Settings/SayonaraClass.h"
 
+class Shortcut;
 /**
  * @brief A singleton class for retrieving shortcuts
  * @ingroup Shortcuts

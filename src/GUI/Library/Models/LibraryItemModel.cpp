@@ -23,6 +23,8 @@
 #include "GUI/Library/Helper/ColumnHeader.h"
 #include "GUI/Helper/CustomMimeData.h"
 
+#include "Helper/globals.h"
+
 #include <algorithm>
 
 

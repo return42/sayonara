@@ -23,12 +23,15 @@
 
 #include "Helper/Set.h"
 #include "Helper/Settings/SayonaraClass.h"
+#include "Helper/typedefs.h"
+
 #include "Components/Covers/CoverLocation.h"
 
 #include <QMap>
 
 class MetaDataList;
 class LibraryDatabase;
+
 
 /**
  * @brief The InfoStrings enum

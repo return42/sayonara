@@ -26,8 +26,8 @@
 #include "GUI/Helper/GUI_Helper.h"
 #include "GUI/Helper/CustomMimeData.h"
 #include "GUI/Helper/IconLoader/IconLoader.h"
-
-
+#include "Helper/globals.h"
+#include "Helper/Logger/Logger.h"
 
 #include <QUrl>
 

@@ -18,21 +18,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef SETTINGKEY_H
 #define SETTINGKEY_H
 
-#include "Helper/globals.h"
+#include "Helper/typedefs.h"
 
 class QString;
+class QStringList;
 class QPoint;
 class QSize;
 class LibSortOrder;
 class EQ_Setting;
+class PlaylistMode;
 struct RawShortcutMap;
 
-class PlaylistMode;
 
 /**
  * @brief The SK namespace is used to access setting keys
@@ -114,6 +113,7 @@ enum SettingKey {
 	Engine_Mute,
 	Engine_ConvertQuality,
 	Engine_CovertTargetPath,
+	Engine_SpectrumBins,
 	Engine_ShowSpectrum,
 	Engine_ShowLevel,
 	Engine_CurTrackPos_s,
@@ -128,6 +128,7 @@ enum SettingKey {
 	Engine_SR_Warning,
 	Engine_SR_Path,
 	Engine_SR_SessionPath,
+
 
 	Spectrum_Style,
 	Level_Style,
@@ -195,11 +196,11 @@ INST(BoolList,			Lib_ColsTitle);				/* shown columns tracks */
 INST(BoolList,			Lib_ColsArtist);			/* shown columns artist */
 INST(BoolList,			Lib_ColsAlbum);				/* shown columns albums */
 INST(bool,				Lib_LiveSearch);			/* library live search */
-INST(LibSortOrder,			Lib_Sorting);				/* how to sort in lib */
+INST(LibSortOrder,		Lib_Sorting);				/* how to sort in lib */
 INST(QString,			Lib_CurPlugin);				/* Current shown library plugin */
-INST(QByteArray,			Lib_SplitterStateArtist);		/* Splitter state between artists and albums */
-INST(QByteArray,			Lib_SplitterStateTrack);		/* Splitter state between artists and tracks */
-INST(QByteArray,			Lib_SplitterStateGenre);		/* Splitter state between tracks and genres */
+INST(QByteArray,		Lib_SplitterStateArtist);		/* Splitter state between artists and albums */
+INST(QByteArray,		Lib_SplitterStateTrack);		/* Splitter state between artists and tracks */
+INST(QByteArray,		Lib_SplitterStateGenre);		/* Splitter state between tracks and genres */
 INST(int,				Lib_OldWidth);				/* Old library width when hiding library */
 INST(bool,				Lib_DC_DoNothing);			/* when double clicked, create playlist and do nothing*/
 INST(bool,				Lib_DC_PlayIfStopped);			/* when double clicked, play if stopped */
@@ -226,10 +227,10 @@ INST(bool,				Player_Min2Tray);			/* minimize Sayonara to tray */
 INST(bool,				Player_ShowTrayIcon);			/* Show/hide the tray icon */
 INST(bool,				Player_StartInTray);			/* start in tray */
 INST(bool,				Player_NotifyNewVersion);		/* check for new version on startup */
-INST(QByteArray,			Player_SplitterState);			/* spliter state between playlist and library */
-INST(RawShortcutMap,		Player_Shortcuts);			/* player shortcuts */
+INST(QByteArray,		Player_SplitterState);			/* spliter state between playlist and library */
+INST(RawShortcutMap,	Player_Shortcuts);			/* player shortcuts */
 
-INST(QStringList,			PL_Playlist);				/* old playlist: list of integers in case of library tracks, if no library track, filepath */
+INST(QStringList,		PL_Playlist);				/* old playlist: list of integers in case of library tracks, if no library track, filepath */
 INST(bool,				PL_LoadSavedPlaylists);			/* load saved playlists on startup */
 INST(bool,				PL_LoadTemporaryPlaylists);		/* load temporary playlists on startup */
 INST(bool,				PL_LoadLastTrack);			/* load last track on startup */
@@ -240,7 +241,7 @@ INST(int,				PL_LastPlaylist);			/* last Playlist id, where LastTrack has been p
 INST(QString,			PL_EntryLook);				/* formatting of playlist entry */
 INST(int,				PL_FontSize);				/* current playlist font size */
 
-INST(PlaylistMode,			PL_Mode);				/* playlist mode: rep1, repAll, shuffle... */
+INST(PlaylistMode,		PL_Mode);				/* playlist mode: rep1, repAll, shuffle... */
 INST(bool,				PL_ShowNumbers);			/* show numbers in playlist */
 INST(bool,				Notification_Show);			/* show notifications */
 INST(int,				Notification_Timeout);			/* notification timeout */
@@ -252,6 +253,7 @@ INST(bool,				Engine_Mute);				/* Muted/unmuted */
 INST(int,				Engine_CurTrackPos_s);			/* position of track (used to load old position) */
 INST(int,				Engine_ConvertQuality);			/* Convert quality, 1-10 for variable, > 64 for fixed bitrate */
 INST(QString,			Engine_CovertTargetPath);		/* last convert path */
+INST(int,				Engine_SpectrumBins);			/* number of spectrum bins */
 INST(bool,				Engine_ShowSpectrum);			/* show spectrum */
 INST(bool,				Engine_ShowLevel);			/* show level */
 INST(bool,				Engine_CrossFaderActive);		/* crossfader active */

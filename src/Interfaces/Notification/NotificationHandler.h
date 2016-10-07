@@ -24,7 +24,7 @@
 #define NOTIFICATIONHANDLER_H
 
 #include "NotificationInterface.h"
-#include "Helper/globals.h"
+#include "Helper/singleton.h"
 
 
 class DummyNotificator : public NotificationInterface

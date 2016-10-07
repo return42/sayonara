@@ -23,6 +23,7 @@
 /* PlaylistViewEvents.cpp */
 
 #include "PlaylistView.h"
+#include "Helper/Set.h"
 #include "GUI/Playlist/Delegate/PlaylistItemDelegate.h"
 #include "GUI/Playlist/Model/PlaylistItemModel.h"
 #include "GUI/Playlist/BookmarksMenu.h"

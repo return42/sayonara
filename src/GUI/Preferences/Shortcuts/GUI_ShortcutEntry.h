@@ -22,15 +22,16 @@
 #ifndef GUI_SHORTCUTENTRY_H
 #define GUI_SHORTCUTENTRY_H
 
+#include "GUI/Helper/Shortcuts/Shortcut.h"
 #include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
-#include "GUI/Helper/Shortcuts/ShortcutHandler.h"
 #include "GUI/Preferences/ui_GUI_ShortcutEntry.h"
-
 
 /**
  * @brief The delegate class for displaying a shortcut.
  * @ingroup Shortcuts
  */
+class ShortcutHandler;
+class Shortcut;
 class GUI_ShortcutEntry :
 		public SayonaraWidget,
 		private Ui::GUI_ShortcutEntry

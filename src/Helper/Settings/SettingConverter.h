@@ -24,6 +24,7 @@
 #define SETTINGCONVERTER_H
 
 #include <QString>
+#include <QStringList>
 #include <QSize>
 #include <QPoint>
 #include <QList>

@@ -24,6 +24,7 @@
 #include "MetaDataChangeNotifier.h"
 #include "Helper/Tagging/Tagging.h"
 #include "Helper/MetaData/MetaData.h"
+#include "Helper/globals.h"
 #include "Database/DatabaseConnector.h"
 
 #include <algorithm>

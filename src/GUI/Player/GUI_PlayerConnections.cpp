@@ -23,7 +23,7 @@
 #include "Components/TagEdit/MetaDataChangeNotifier.h"
 #include "Components/Engine/EngineHandler.h"
 #include "Components/PlayManager/PlayManager.h"
-
+#include "GUI/Helper/Shortcuts/Shortcut.h"
 #include "GUI/Helper/Shortcuts/ShortcutHandler.h"
 #ifdef WITH_MTP
 	#include "GUI/MTP/GUI_MTP.h"

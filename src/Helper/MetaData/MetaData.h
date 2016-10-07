@@ -40,11 +40,11 @@
  */
 enum class RadioMode : quint8
 {
-
 	Off = 0,
 	Station,
 	Soundcloud
 };
+
 
 class MetaData :
 		public LibraryItem
@@ -104,8 +104,6 @@ public:
 };
 
 Q_DECLARE_METATYPE(MetaData)
-
-
 
 
 #endif /* METADATA_H_ */

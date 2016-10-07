@@ -29,6 +29,7 @@
 #include "Helper/Settings/SayonaraClass.h"
 #include "Helper/Tagging/Tagging.h"
 #include "Helper/Set.h"
+#include "Helper/typedefs.h"
 
 #include "Helper/MetaData/Artist.h"
 #include "Helper/MetaData/Album.h"
@@ -41,10 +42,6 @@
 #define prepare_tracks_for_playlist_files static_cast<void (AbstractLibrary::*) (const QStringList&)>(&AbstractLibrary::psl_prepare_tracks_for_playlist)
 #define prepare_tracks_for_playlist_idxs static_cast<void (AbstractLibrary::*) (const IdxList&)>(&AbstractLibrary::psl_prepare_tracks_for_playlist)
 
-
-typedef int ArtistID;
-typedef int AlbumID;
-typedef int TrackID;
 
 class PlaylistHandler;
 class AbstractLibrary : public QObject, protected SayonaraClass

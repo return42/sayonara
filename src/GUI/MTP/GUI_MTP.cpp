@@ -18,13 +18,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "GUI_MTP.h"
 
 #include "GUI/Helper/Message/Message.h"
 #include "GUI/Helper/Delegates/TreeDelegate.h"
 #include "GUI/Helper/GUI_Helper.h"
+#include "Helper/globals.h"
 
 #include <thread>
 #include <functional>

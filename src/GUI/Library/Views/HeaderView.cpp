@@ -19,6 +19,8 @@
 
 
 #include "HeaderView.h"
+#include "Helper/globals.h"
+
 #include <QFontMetrics>
 #include <QTableView>
 

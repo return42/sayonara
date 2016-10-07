@@ -23,11 +23,13 @@
 #ifndef DATABASETRACKS_H
 #define DATABASETRACKS_H
 
-#include "Components/Library/Sorting.h"
 #include "Database/DatabaseModule.h"
-#include "Helper/globals.h"
+#include "Helper/typedefs.h"
 #include "Helper/Filter.h"
 #include "Helper/LibrarySearchMode.h"
+#include "Components/Library/Sorting.h"
+
+#include <QString>
 
 class MetaData;
 class MetaDataList;

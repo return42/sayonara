@@ -20,10 +20,13 @@
 
 
 #include "SoundcloudData.h"
+#include "SoundcloudWebAccess.h"
 #include "Helper/MetaData/Album.h"
 #include "Helper/MetaData/Artist.h"
 #include "Helper/MetaData/MetaDataList.h"
+#include "Helper/globals.h"
 #include "Database/SayonaraQuery.h"
+#include "Helper/Logger/Logger.h"
 
 SoundcloudData::SoundcloudData() :
 	LibraryDatabase(1, "", "soundcloud.db")

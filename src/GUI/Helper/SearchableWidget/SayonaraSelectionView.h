@@ -23,14 +23,15 @@
 #ifndef SAYONARASELECTIONVIEW_H
 #define SAYONARASELECTIONVIEW_H
 
-#include "Helper/globals.h"
-#include "Helper/Set.h"
-
 #include <QList>
 #include <QItemSelectionModel>
 #include <QAbstractItemModel>
 
-
+namespace SP
+{
+	template<typename T>
+	class Set;
+}
 
 class SayonaraSelectionView {
 

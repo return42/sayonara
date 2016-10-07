@@ -20,6 +20,7 @@
 
 #include "GlobalMessage.h"
 #include "GlobalMessageReceiverInterface.h"
+#include "Helper/Logger/Logger.h"
 
 GlobalMessage::GlobalMessage(QObject* parent) :
 	QObject(parent)

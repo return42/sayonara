@@ -22,7 +22,6 @@
 #include "PlaylistTabBar.h"
 #include "Helper/MetaData/MetaDataList.h"
 
-
 PlaylistTabWidget::PlaylistTabWidget(QWidget* parent) :
 	QTabWidget(parent)
 {

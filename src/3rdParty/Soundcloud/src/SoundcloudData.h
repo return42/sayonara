@@ -23,17 +23,18 @@
 #ifndef SOUNDCLOUDDATA_H
 #define SOUNDCLOUDDATA_H
 
-#include "Helper/globals.h"
-#include "SoundcloudJsonParser.h"
-#include "SoundcloudWebAccess.h"
+#include "Helper/singleton.h"
 #include "Database/LibraryDatabase.h"
-
 
 /* this is the database interface
  * TODO: make database connector my parent
  * TODO: create real (new) database
  */
-
+class MetaData;
+class MetaDataList;
+class Artist;
+class AlbumList;
+class SayonaraQuery;
 class SoundcloudData :
 		public LibraryDatabase
 {

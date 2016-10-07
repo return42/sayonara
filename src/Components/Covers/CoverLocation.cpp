@@ -27,6 +27,8 @@
 #include "Helper/MetaData/MetaDataList.h"
 #include "Helper/MetaData/Album.h"
 #include "Helper/MetaData/Artist.h"
+#include "Helper/Logger/Logger.h"
+#include "Helper/globals.h"
 
 #include "Database/DatabaseHandler.h"
 

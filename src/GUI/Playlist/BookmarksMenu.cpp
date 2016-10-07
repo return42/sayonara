@@ -24,7 +24,6 @@
 
 #include "Components/Bookmarks/Bookmarks.h"
 #include "Components/Bookmarks/Bookmark.h"
-#include "Helper/MetaData/MetaData.h"
 
 BookmarksMenu::BookmarksMenu(QWidget* parent) :
 	QMenu(parent)

@@ -28,8 +28,6 @@
 #include <QCloseEvent>
 #include "SayonaraWidgetTemplate.h"
 
-
-
 /**
  * @brief Dialog with Settings connection. Also contains triggers for language_changed() and skin_changed(). Emits sig_closed() when closed.
  * @ingroup Widgets

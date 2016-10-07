@@ -22,7 +22,7 @@
 #define PLAY_MANAGER_H
 
 #include "PlayState.h"
-#include "Helper/globals.h"
+#include "Helper/singleton.h"
 #include "Helper/Settings/SayonaraClass.h"
 
 

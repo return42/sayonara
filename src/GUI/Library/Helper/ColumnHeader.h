@@ -30,12 +30,10 @@
 #ifndef MYCOLUMNHEADER_H_
 #define MYCOLUMNHEADER_H_
 
-#include <QString>
-
-#include "Helper/globals.h"
 #include "Components/Library/Sorting.h"
-#include <QAction>
 
+#include <QAction>
+#include <QString>
 
 class ColumnHeader : public QObject {
 	Q_OBJECT

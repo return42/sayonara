@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "GUI_Spectrum.h"
 #include "Helper/globals.h"
 #include "Helper/Logger/Logger.h"
@@ -65,6 +63,8 @@ void GUI_Spectrum::init_ui()
 		return;
 	}
 
+	int bins = _settings->get(Set::Engine_SpectrumBins);
+
 	EnginePlugin::init_ui();
 
 	setup_parent(this);
@@ -72,7 +72,7 @@ void GUI_Spectrum::init_ui()
 	_cur_style_idx = _settings->get(Set::Spectrum_Style);
 	_cur_style = _ecsc->get_color_scheme_spectrum(_cur_style_idx);
 
-	for(int i=0; i<N_BINS; i++){
+	for(int i=0; i<bins; i++){
 		_spec << 0.0f;
 	}
 
@@ -80,8 +80,8 @@ void GUI_Spectrum::init_ui()
 		log_lu[i] = std::log( (i * 1.0f) / 10.0f ) * 0.60f;
 	}
 
-	_steps = new int*[N_BINS];
-	for(int i=0; i<N_BINS; i++) {
+	_steps = new int*[bins];
+	for(int i=0; i<bins; i++) {
 		_steps[i] = new int[_cur_style.n_rects];
 		std::memset(_steps[i], 0, (_cur_style.n_rects * sizeof(int)) );
 	}
@@ -246,7 +246,8 @@ void GUI_Spectrum::sl_update_style() {
    _cur_style = _ecsc->get_color_scheme_spectrum(_cur_style_idx);
    _settings->set(Set::Spectrum_Style, _cur_style_idx);
 
-   resize_steps(N_BINS, _cur_style.n_rects);
+   int bins = _settings->get(Set::Engine_SpectrumBins);
+   resize_steps(bins, _cur_style.n_rects);
 
    update();
 }

@@ -19,9 +19,10 @@
  */
 
 #include "PlaybackPipeline.h"
+#include "PipelineProbes.h"
 
 #include "Components/Engine/Callbacks/PipelineCallbacks.h"
-#include "PipelineProbes.h"
+#include "Helper/globals.h"
 #include "Helper/Helper.h"
 #include "Helper/EqualizerPresets.h"
 
@@ -251,11 +252,11 @@ bool PlaybackPipeline::configure_elements(){
 				  "interval", interval,
 				  nullptr);
 
-
+	int bins = _settings->get(Set::Engine_SpectrumBins);
 	g_object_set (G_OBJECT (_spectrum),
 				  "post-messages", true,
 				  "interval", interval,
-				  "bands", N_BINS,
+				  "bands", bins,
 				  "threshold", threshold,
 				  "message-phase", false,
 				  "message-magnitude", true,

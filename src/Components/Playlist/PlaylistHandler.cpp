@@ -30,6 +30,7 @@
 #include "Components/PlayManager/PlayManager.h"
 #include "Database/DatabaseConnector.h"
 
+#include "Helper/globals.h"
 #include "Helper/DirectoryReader/DirectoryReader.h"
 #include "Helper/Parser/PlaylistParser.h"
 #include "Helper/Playlist/CustomPlaylist.h"

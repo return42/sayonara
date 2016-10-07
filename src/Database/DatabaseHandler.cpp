@@ -26,6 +26,7 @@
 #include "Helper/MetaData/Album.h"
 #include "Helper/MetaData/MetaData.h"
 #include "Helper/MetaData/Artist.h"
+#include "Helper/Logger/Logger.h"
 
 
 DB::DB()

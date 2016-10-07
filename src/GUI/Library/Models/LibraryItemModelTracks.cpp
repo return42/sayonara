@@ -30,9 +30,9 @@
 #include "LibraryItemModelTracks.h"
 #include "GUI/Library/Helper/ColumnHeader.h"
 
+#include "Helper/globals.h"
 #include "Helper/Helper.h"
 #include "Helper/FileHelper.h"
-
 #include "Helper/Settings/Settings.h"
 #include "Helper/LibrarySearchMode.h"
 

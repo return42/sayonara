@@ -22,8 +22,6 @@
 #include "PlayerPlugin.h"
 
 #include "Components/PlayManager/PlayManager.h"
-#include "GUI/Helper/GUI_Helper.h"
-
 
 PlayerPluginInterface::PlayerPluginInterface(QWidget *parent) :
 	SayonaraWidget(parent),

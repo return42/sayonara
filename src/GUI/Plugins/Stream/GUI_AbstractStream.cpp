@@ -23,7 +23,6 @@
 #include "GUI/Helper/Delegates/ComboBoxDelegate.h"
 #include "GUI/Helper/IconLoader/IconLoader.h"
 
-#include "Helper/MetaData/MetaData.h"
 #include "Helper/Parser/PlaylistParser.h"
 #include "Helper/Parser/PodcastParser.h"
 

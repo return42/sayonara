@@ -23,7 +23,7 @@
 #ifndef METADATACHANGENOTIFIER_H
 #define METADATACHANGENOTIFIER_H
 
-#include "Helper/globals.h"
+#include "Helper/singleton.h"
 
 class MetaDataList;
 /**

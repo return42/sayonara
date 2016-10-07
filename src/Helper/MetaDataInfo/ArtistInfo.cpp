@@ -26,6 +26,7 @@
 
 #include "Helper/MetaData/Artist.h"
 #include "Helper/Helper.h"
+#include "Helper/globals.h"
 #include "Helper/FileHelper.h"
 
 ArtistInfo::ArtistInfo(const MetaDataList& v_md) :

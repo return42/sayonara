@@ -23,8 +23,11 @@
 #ifndef DATABASEHANDLER_H
 #define DATABASEHANDLER_H
 
-#include "Helper/globals.h"
+#include "Helper/singleton.h"
 #include "Database/LibraryDatabase.h"
+
+#include <QMap>
+#include <QtGlobal>
 
 class Album;
 class MetaData;

@@ -18,13 +18,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "ShortcutHandler.h"
+#include "Shortcut.h"
+#include "RawShortcutMap.h"
 #include "Helper/Settings/Settings.h"
 
 #include <functional>
-
 
 ShortcutHandler::ShortcutHandler() :
 	SayonaraClass()

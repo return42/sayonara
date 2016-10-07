@@ -553,6 +553,11 @@ void PlaybackEngine::add_spectrum_receiver(SpectrumReceiver* receiver){
 	_spectrum_receiver << receiver;
 }
 
+int PlaybackEngine::get_spectrum_bins() const
+{
+	return _settings->get(Set::Engine_SpectrumBins);
+}
+
 void PlaybackEngine::set_spectrum(const QList<float>& vals){
 	for(SpectrumReceiver* rcv : _spectrum_receiver){
 		if(rcv){

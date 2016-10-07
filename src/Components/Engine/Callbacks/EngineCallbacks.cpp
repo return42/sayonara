@@ -59,7 +59,6 @@ bool parse_image(GstTagList* tags, QImage& img)
 		}
 	}
 
-
 	gchar* mime_type = gst_caps_to_string(gst_sample_get_caps(sample));
 	//sp_log(Log::Debug) << "Mime type: " << mime_type;
 	QRegExp re(".*(image/[a-z|A-Z]+).*");
@@ -394,13 +393,14 @@ EngineCallbacks::spectrum_handler(GstBus* bus, GstMessage* message, gpointer dat
 
 	magnitudes = gst_structure_get_value (structure, "magnitude");
 
+	int bins = engine->get_spectrum_bins();
 	if(spectrum_vals.isEmpty()){
-		for (guint i = 0; i < N_BINS; ++i) {
+		for (int i=0; i<bins; ++i) {
 			spectrum_vals << 0;
 		}
 	}
 
-	for (guint i = 0; i < N_BINS; ++i) {
+	for (int i=0; i<bins; ++i) {
 
         float f;
 		const GValue* mag;

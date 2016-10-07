@@ -21,6 +21,7 @@
 
 #include "Helper/Logger/Logger.h"
 #include "Helper/Settings/Settings.h"
+#include "Helper/typedefs.h"
 
 Settings::Settings(){
 	_db_file = "player.db";

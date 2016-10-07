@@ -32,7 +32,7 @@
 #include "PlaylistTypedefs.h"
 #include "PlaylistDBInterface.h"
 
-#include "Helper/globals.h"
+#include "Helper/singleton.h"
 #include "Helper/Settings/SayonaraClass.h"
 #include "Components/PlayManager/PlayState.h"
 

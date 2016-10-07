@@ -22,6 +22,8 @@
 #include "Playlist.h"
 #include "Helper/FileHelper.h"
 #include "Helper/Set.h"
+#include "Helper/globals.h"
+
 #include "Components/TagEdit/MetaDataChangeNotifier.h"
 #include "Components/Engine/EngineHandler.h"
 

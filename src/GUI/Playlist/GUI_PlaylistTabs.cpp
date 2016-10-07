@@ -24,6 +24,7 @@
 #include "GUI/Helper/Message/Message.h"
 #include "Components/PlayManager/PlayManager.h"
 #include "Components/Playlist/Playlist.h"
+#include "Helper/globals.h"
 
 
 void GUI_Playlist::playlist_name_changed(int idx){

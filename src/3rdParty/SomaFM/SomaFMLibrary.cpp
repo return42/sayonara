@@ -26,9 +26,10 @@
 #include "Helper/Logger/Logger.h"
 #include "Helper/WebAccess/AsyncWebAccess.h"
 #include "Helper/Parser/StreamParser.h"
-#include "Components/Playlist/PlaylistHandler.h"
 #include "Helper/Parser/StreamParser.h"
+#include "Helper/globals.h"
 
+#include "Components/Playlist/PlaylistHandler.h"
 #include <algorithm>
 
 SomaFMLibrary::SomaFMLibrary(QObject* parent) :

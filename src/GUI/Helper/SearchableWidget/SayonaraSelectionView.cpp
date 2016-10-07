@@ -21,6 +21,7 @@
 
 
 #include "SayonaraSelectionView.h"
+#include "Helper/Set.h"
 #include "GUI/Helper/Delegates/ComboBoxDelegate.h"
 
 #include <algorithm>

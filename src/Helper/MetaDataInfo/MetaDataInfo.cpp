@@ -20,6 +20,7 @@
 
 #include "MetaDataInfo.h"
 #include "Helper/Helper.h"
+#include "Helper/globals.h"
 #include "Helper/FileHelper.h"
 #include "Helper/MetaData/MetaDataList.h"
 

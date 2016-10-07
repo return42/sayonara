@@ -29,34 +29,48 @@
 #define N_FILES_TO_STORE 500
 
 #include "ReloadThread.h"
+#include "Helper/Tagging/Tagging.h"
 #include "Helper/Helper.h"
 #include "Helper/FileHelper.h"
-#include "Database/DatabaseConnector.h"
 #include "Helper/DirectoryReader/DirectoryReader.h"
+#include "Helper/MetaData/MetaDataList.h"
 
+#include "Database/DatabaseConnector.h"
 #include <utility>
+
+struct _ReloadThreadMembers
+{
+	DatabaseConnector*		db=nullptr;
+	QString					library_path;
+	MetaDataList			v_md;
+	Library::ReloadQuality	quality;
+	bool					paused;
+	bool					running;
+};
 
 ReloadThread::ReloadThread(QObject *parent) :
 	QThread(parent),
 	SayonaraClass()
 {
 
-	_db = DatabaseConnector::getInstance();
+	_m = new _ReloadThreadMembers();
+	_m->db = DatabaseConnector::getInstance();
 
-	_paused = false;
-	_running = false;
+	_m->paused = false;
+	_m->running = false;
 
-	_library_path = _settings->get(Set::Lib_Path);
-	_quality = Library::ReloadQuality::Fast;
+	_m->library_path = _settings->get(Set::Lib_Path);
+	_m->quality = Library::ReloadQuality::Fast;
 }
 
 
-ReloadThread::~ReloadThread() {
-
+ReloadThread::~ReloadThread() 
+{
+	delete _m; _m = nullptr;
 }
 
-bool ReloadThread::compare_md(const MetaData& md1, const MetaData& md2){
-
+bool ReloadThread::compare_md(const MetaData& md1, const MetaData& md2)
+{
 	QStringList genres1 = md1.genres;
 	QStringList genres2 = md2.genres;
 
@@ -77,13 +91,16 @@ bool ReloadThread::compare_md(const MetaData& md1, const MetaData& md2){
 			);
 }
 
-int ReloadThread::get_and_save_all_files(const QHash<QString, MetaData>& md_map_lib) {
+int ReloadThread::get_and_save_all_files(const QHash<QString, MetaData>& md_map_lib) 
+{
+	QString library_path = _m->library_path;
 
-	if(_library_path.size() == 0 || !QFile::exists(_library_path)) {
+	if(library_path.isEmpty() || !QFile::exists(library_path)) {
 		return 0;
 	}
 
-	QDir dir(_library_path);
+	DatabaseConnector* db = _m->db;
+	QDir dir(library_path);
 
 	MetaDataList v_md_to_store;
 	QStringList files = get_files_recursive (dir);
@@ -102,7 +119,7 @@ int ReloadThread::get_and_save_all_files(const QHash<QString, MetaData>& md_map_
 
 		if(md_lib.id >= 0){
 
-			if(_quality == Library::ReloadQuality::Fast){
+			if(_m->quality == Library::ReloadQuality::Fast){
 				continue;
 			}
 
@@ -125,26 +142,26 @@ int ReloadThread::get_and_save_all_files(const QHash<QString, MetaData>& md_map_
 			v_md_to_store << md;
 
 			if(v_md_to_store.size() >= N_FILES_TO_STORE){
-				_db->storeMetadata(v_md_to_store);
+				db->storeMetadata(v_md_to_store);
 				v_md_to_store.clear();
 			}
 		}
 	}
 
 	if(!v_md_to_store.isEmpty()){
-		_db->storeMetadata(v_md_to_store);
+		db->storeMetadata(v_md_to_store);
 		v_md_to_store.clear();
 	}
 
-	_db->createIndexes();
-	_db->clean_up();
+	db->createIndexes();
+	db->clean_up();
 
 	return v_md_to_store.size();
 }
 
 
-QStringList ReloadThread::get_files_recursive(QDir base_dir) {
-
+QStringList ReloadThread::get_files_recursive(QDir base_dir) 
+{
 	QStringList ret;
 	QString message = tr("Reading files from file system") + "... ";
 	emit sig_reloading_library(message, 0);
@@ -181,8 +198,8 @@ QStringList ReloadThread::get_files_recursive(QDir base_dir) {
 
 
 
-QStringList ReloadThread::process_sub_files(const QDir& base_dir, const QStringList& sub_files){
-
+QStringList ReloadThread::process_sub_files(const QDir& base_dir, const QStringList& sub_files)
+{
 	QStringList lst;
 	for(const QString& filename : sub_files) {
 
@@ -206,41 +223,45 @@ QStringList ReloadThread::process_sub_files(const QDir& base_dir, const QStringL
 }
 
 
-
-void ReloadThread::pause() {
-    _paused = true;
+void ReloadThread::pause() 
+{
+    _m->paused = true;
 }
 
-void ReloadThread::goon() {
-	_paused = false;
+void ReloadThread::goon() 
+{
+	_m->paused = false;
 }
 
 bool ReloadThread::is_running() const
 {
-	return _running;
+	return _m->running;
 }
 
 void ReloadThread::set_quality(Library::ReloadQuality quality)
 {
-	_quality = quality;
+	_m->quality = quality;
 }
 
-void ReloadThread::run() {
+void ReloadThread::run() 
+{
 
-	if(_running){
+	if(_m->running){
 		return;
 	}
 
-	_running = true;
-    _paused = false;
+	DatabaseConnector* db = _m->db;
+
+	_m->running = true;
+    _m->paused = false;
 
 	MetaDataList v_md, v_to_delete;
 	QHash<QString, MetaData> v_md_map;
 
 	emit sig_reloading_library(tr("Delete orphaned tracks..."), 0);
 
-	_db->deleteInvalidTracks();
-	_db->getTracksFromDatabase(v_md);
+	db->deleteInvalidTracks();
+	db->getTracksFromDatabase(v_md);
 
 	sp_log(Log::Debug) << "Have " << v_md.size() << " tracks";
 
@@ -257,20 +278,17 @@ void ReloadThread::run() {
 	}
 
 	if(!v_to_delete.isEmpty()){
-		_db->deleteTracks(v_to_delete);
+		db->deleteTracks(v_to_delete);
 	}
 
 	get_and_save_all_files(v_md_map);
 
-    _paused = false;
-	_running = false;
-
+    _m->paused = false;
+	_m->running = false;
 }
 
-
-void ReloadThread::set_lib_path(const QString& library_path) {
-	_library_path = library_path;
+void ReloadThread::set_lib_path(const QString& library_path) 
+{
+	_m->library_path = library_path;
 }
-
-
 

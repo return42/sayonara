@@ -28,7 +28,6 @@
 
 #include "GUI_LocalLibrary.h"
 #include "GUI/Helper/Message/Message.h"
-#include "GUI/Helper/GUI_Helper.h"
 
 #include "GUI/Library/Helper/LocalLibraryMenu.h"
 #include "InfoBox/GUI_LibraryInfoBox.h"

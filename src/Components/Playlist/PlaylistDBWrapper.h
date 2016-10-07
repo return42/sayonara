@@ -24,7 +24,7 @@
 #define PLAYLISTDB_WRAPPER_H
 
 #include "Database/DatabasePlaylist.h"
-#include "Helper/globals.h"
+#include "Helper/singleton.h"
 
 class DatabaseConnector;
 class MetaDataList;

@@ -23,7 +23,6 @@
 #include "GUI/Helper/SearchableWidget/SearchableFileTreeView.h"
 #include "GUI/Helper/ContextMenu/LibraryContextMenu.h"
 #include "GUI/Helper/Message/GlobalMessage.h"
-#include "GUI/Helper/GUI_Helper.h"
 #include "GUI/Helper/IconLoader/IconLoader.h"
 
 #include "Components/Library/LocalLibrary.h"

@@ -23,11 +23,9 @@
 #ifndef GLOBALMESSAGE_H
 #define GLOBALMESSAGE_H
 
-#include "Helper/globals.h"
+#include "Helper/singleton.h"
 
 #include <QString>
-#include <QObject>
-
 
 class GlobalMessageReceiverInterface;
 

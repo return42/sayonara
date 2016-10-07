@@ -21,6 +21,7 @@
 
 
 #include "GUI_SoundcloudArtistSearch.h"
+#include "Helper/globals.h"
 
 
 GUI_SoundcloudArtistSearch::GUI_SoundcloudArtistSearch(SoundcloudLibrary* library, QWidget *parent) :

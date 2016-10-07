@@ -27,7 +27,6 @@
 #include "ui/SomaFMPlaylistModel.h"
 
 #include "Helper/Helper.h"
-#include "GUI/Helper/GUI_Helper.h"
 #include "GUI/Helper/Delegates/ListDelegate.h"
 #include "Components/Covers/CoverLookup.h"
 

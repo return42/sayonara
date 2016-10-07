@@ -43,7 +43,7 @@ public:
 	SayonaraLoadingBar(QWidget* parent);
 
 protected:
-	void showEvent(QShowEvent* e);
+	void showEvent(QShowEvent* e) override;
 };
 
 

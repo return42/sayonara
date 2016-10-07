@@ -24,6 +24,7 @@
 #include "Database/DatabaseLibrary.h"
 #include "Helper/MetaData/MetaData.h"
 #include "Helper/MetaData/MetaDataList.h"
+#include "Helper/Logger/Logger.h"
 
 #include <utility>
 

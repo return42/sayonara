@@ -27,6 +27,7 @@
 
 #include "Helper/MetaData/MetaData.h"
 #include "Helper/MetaData/MetaDataList.h"
+#include "Helper/Logger/Logger.h"
 
 DatabaseLibrary::DatabaseLibrary(QSqlDatabase db, quint8 db_id) :
 	DatabaseModule(db, db_id)

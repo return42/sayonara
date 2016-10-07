@@ -19,7 +19,6 @@
  */
 
 
-
 #include "Helper/Settings/Settings.h"
 #include "Helper/Settings/SettingKey.h"
 #include "Helper/globals.h"

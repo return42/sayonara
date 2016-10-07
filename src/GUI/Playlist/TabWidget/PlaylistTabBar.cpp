@@ -24,6 +24,7 @@
 #include "PlaylistTabMenu.h"
 #include "GUI/Helper/CustomMimeData.h"
 #include "GUI/Helper/Shortcuts/ShortcutHandler.h"
+#include "GUI/Helper/Shortcuts/Shortcut.h"
 
 #include "Helper/DirectoryReader/DirectoryReader.h"
 

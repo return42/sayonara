@@ -20,7 +20,6 @@
 
 
 #include "PlaylistChooser.h"
-#include "Helper/MetaData/MetaData.h"
 #include "Helper/Playlist/CustomPlaylist.h"
 #include "Components/Playlist/PlaylistHandler.h"
 #include "Components/Playlist/PlaylistDBWrapper.h"

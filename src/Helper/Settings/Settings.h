@@ -23,6 +23,7 @@
 #define Settings_H
 
 #include "Helper/Settings/Setting.h"
+#include "Helper/singleton.h"
 
 /**
  * @brief The Settings class

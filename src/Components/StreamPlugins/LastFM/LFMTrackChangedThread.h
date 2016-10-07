@@ -34,6 +34,7 @@
 #include "LFMGlobals.h"
 #include "ArtistMatch.h"
 
+#include "Helper/typedefs.h"
 #include "Helper/SmartCompare/SmartCompare.h"
 #include "Helper/MetaData/MetaData.h"
 #include "Helper/Settings/SayonaraClass.h"
