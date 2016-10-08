@@ -21,6 +21,7 @@
 #include "LocalLibraryMenu.h"
 #include "GUI/Helper/GUI_Helper.h"
 #include "GUI/Helper/IconLoader/IconLoader.h"
+#include "Helper/Settings/Settings.h"
 
 LocalLibraryMenu::LocalLibraryMenu(QWidget* parent) :
 	QMenu(parent),

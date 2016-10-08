@@ -19,10 +19,11 @@
  */
 
 
-
 #include "GUI_BroadcastSetup.h"
-#include "Helper/Helper.h"
 #include "GUI/Helper/SayonaraWidget/SayonaraWidgetTemplate.h"
+
+#include "Helper/Helper.h"
+#include "Helper/Settings/Settings.h"
 
 
 GUI_BroadcastSetup::GUI_BroadcastSetup(QWidget *parent) :

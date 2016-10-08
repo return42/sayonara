@@ -20,12 +20,15 @@
 #include "GUI_Playlist.h"
 #include "View/PlaylistView.h"
 #include "TabWidget/PlaylistMenuEntry.h"
+
 #include "GUI/Helper/IconLoader/IconLoader.h"
-#include "GUI/Helper/Message/Message.h"
+#include "Helper/Message/Message.h"
+
 #include "Components/PlayManager/PlayManager.h"
 #include "Components/Playlist/Playlist.h"
-#include "Helper/globals.h"
+#include "Components/Playlist/PlaylistHandler.h"
 
+#include "Helper/globals.h"
 
 void GUI_Playlist::playlist_name_changed(int idx){
 

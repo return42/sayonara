@@ -18,18 +18,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifndef DBUSHANDLER_H
+#define DBUSHANDLER_H
 
 #include <QObject>
 #include <QList>
-
-
-#ifndef DBUSHANDLER_H
-#define DBUSHANDLER_H
+#include <QMainWindow>
 
 class DBusMediaKeysInterfaceMate;
 class DBusMediaKeysInterfaceGnome;
 class DBusNotifications;
-class SayonaraMainWindow;
+
 
 namespace DBusMPRIS {
 	class MediaPlayer2;
@@ -39,7 +38,7 @@ class DBusHandler : private QObject
 {
 
 public:
-	DBusHandler(SayonaraMainWindow* player, QObject* parent=nullptr);
+	DBusHandler(QMainWindow* player, QObject* parent=nullptr);
 	virtual ~DBusHandler();
 
 

@@ -27,9 +27,8 @@
 #include "LibraryNamespaces.h"
 #include "Helper/Filter.h"
 #include "Helper/Settings/SayonaraClass.h"
-#include "Helper/Tagging/Tagging.h"
-#include "Helper/Set.h"
 #include "Helper/typedefs.h"
+#include "Helper/Set.h"
 
 #include "Helper/MetaData/Artist.h"
 #include "Helper/MetaData/Album.h"
@@ -162,9 +161,9 @@ protected:
 	ArtistList			_vec_artists;
 
 	// contains ID for artists, albums, tracks
-	SP::Set<ArtistID>		_selected_artists;
-	SP::Set<AlbumID>		_selected_albums;
-	SP::Set<TrackID>		_selected_tracks;
+	SP::Set<ArtistID>	_selected_artists;
+	SP::Set<AlbumID>	_selected_albums;
+	SP::Set<TrackID>	_selected_tracks;
 
 	Filter				_filter;
 	LibSortOrder		_sortorder;

@@ -28,6 +28,9 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QLayout>
+
+#include "Helper/Settings/Settings.h"
+
 #include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
 #include "GUI/Helper/Shortcuts/Shortcut.h"
 #include "GUI/Helper/Shortcuts/ShortcutWidget.h"

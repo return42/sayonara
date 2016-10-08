@@ -24,7 +24,6 @@
 
 #include <QItemDelegate>
 
-class LibraryView;
 class LibraryRatingDelegate : public QItemDelegate
 {
     Q_OBJECT
@@ -33,7 +32,7 @@ signals:
     void sig_rating_changed(int);
 
 public:
-	LibraryRatingDelegate(LibraryView* parent, bool enabled);
+	LibraryRatingDelegate(QObject* parent, bool enabled);
 
 	QWidget* createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 	void setEditorData(QWidget *editor, const QModelIndex &index) const override;
@@ -44,7 +43,6 @@ private slots:
 
 
 protected:
-	LibraryView*	_parent=nullptr;
 	bool			_enabled;
     
 };

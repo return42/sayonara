@@ -22,7 +22,6 @@
 #include "Helper/globals.h"
 
 #include "RatingLabel.h"
-#include "Helper/Random/RandomGenerator.h"
 #include "GUI/Helper/GUI_Helper.h"
 
 #include <algorithm>
@@ -33,8 +32,6 @@ const int Offset_X = 3;
 RatingLabel::RatingLabel(QWidget *parent, bool enabled) :
 	QLabel(parent)
 {
-	RandomGenerator rnd;
-
 	_rating = 0;
 	_enabled = enabled;
 	_parent = parent;

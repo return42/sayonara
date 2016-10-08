@@ -18,23 +18,36 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "TagEdit.h"
 #include "MetaDataChangeNotifier.h"
 #include "Helper/Tagging/Tagging.h"
-#include "Helper/MetaData/MetaData.h"
+#include "Helper/MetaData/MetaDataList.h"
 #include "Helper/globals.h"
+#include "Database/LibraryDatabase.h"
 #include "Database/DatabaseConnector.h"
 
 #include <algorithm>
 
-TagEdit::TagEdit(QObject *parent) :
-	QThread(parent),
-	SayonaraClass()
+struct TagEdit::TagEditPrivate
 {
-	_ldb = DB::getInstance()->get_std();
-	_notify = true;
+	MetaDataList			v_md;			// the current metadata
+	MetaDataList			v_md_orig;		// the original metadata
+
+	MetaDataList			v_md_before_change;
+	MetaDataList			v_md_after_change;
+	QList<bool>				changed_md;	// indicates if metadata at idx was changed
+	QMap<int, QImage>		cover_map;
+
+	LibraryDatabase*		ldb=nullptr;	// database of LocalLibrary
+	bool					notify;
+};
+
+TagEdit::TagEdit(QObject *parent) :
+	QThread(parent)
+{
+	_m = new TagEdit::TagEditPrivate();
+	_m->ldb = DB::getInstance()->get_std();
+	_m->notify = true;
 
 	connect(this, &QThread::finished, this, &TagEdit::thread_finished);
 }
@@ -45,46 +58,47 @@ TagEdit::TagEdit(const MetaDataList& v_md, QObject* parent) :
 	set_metadata(v_md);
 }
 
-TagEdit::~TagEdit(){
-
+TagEdit::~TagEdit()
+{
+	delete _m; _m = nullptr;
 }
 
 
 void TagEdit::update_track(int idx, const MetaData& md){
 
-	_changed_md[idx] = !( md.is_equal_deep(_v_md_orig[idx]) );
-	_v_md[idx] = md;
+	_m->changed_md[idx] = !( md.is_equal_deep( _m->v_md_orig[idx]) );
+	_m->v_md[idx] = md;
 }
 
 void TagEdit::undo(int idx){
-	_v_md[idx] = _v_md_orig[idx];
+	_m->v_md[idx] = _m->v_md_orig[idx];
 }
 
 
 void TagEdit::undo_all(){
-	_v_md = _v_md_orig;
+	_m->v_md = _m->v_md_orig;
 }
 
 const MetaData& TagEdit::get_metadata(int idx) const
 {
-	return _v_md[idx];
+	return _m->v_md[idx];
 }
 
 const MetaDataList& TagEdit::get_all_metadata() const
 {
-	return _v_md;
+	return _m->v_md;
 }
 
 
 int TagEdit::get_n_tracks() const
 {
-	return _v_md.size();
+	return _m->v_md.size();
 }
 
 void TagEdit::add_genre_to_metadata(const QString &genre)
 {
 	int i=0;
-	for(MetaData& md : _v_md) {
+	for(MetaData& md : _m->v_md) {
 
 		bool already_there;
 
@@ -95,7 +109,7 @@ void TagEdit::add_genre_to_metadata(const QString &genre)
 
 		if(!already_there){
 			md.genres << genre;
-			_changed_md[i] = true;
+			_m->changed_md[i] = true;
 		}
 
 		i++;
@@ -104,39 +118,40 @@ void TagEdit::add_genre_to_metadata(const QString &genre)
 
 void TagEdit::remove_genre_from_metadata(const QString& genre){
 
-	for(int i=0; i<_v_md.size(); i++){
+	for(int i=0; i<_m->v_md.size(); i++){
 
 		int entries_removed;
-		entries_removed = _v_md[i].genres.removeAll(genre);
+		entries_removed = _m->v_md[i].genres.removeAll(genre);
 
 		if(entries_removed > 0){
-			_changed_md[i] = true;
+			_m->changed_md[i] = true;
 		}
 	}
 }
 
 
 void TagEdit::set_metadata(const MetaDataList& v_md){
-	_v_md = v_md;
-	_v_md_orig = v_md;
 
-	_cover_map.clear();
-	_changed_md.clear();
+	_m->v_md = v_md;
+	_m->v_md_orig = v_md;
+
+	_m->cover_map.clear();
+	_m->changed_md.clear();
 
 	if(v_md.size() > 0){
-		_ldb = DB::getInstance()->get(v_md[0]);
+		_m->ldb = DB::getInstance()->get(v_md.first());
 	}
 
 	for(int i=0; i<v_md.size(); i++){
-		_changed_md << false;
+		_m->changed_md << false;
 	}
 
-	emit sig_metadata_received(_v_md);
+	emit sig_metadata_received(_m->v_md);
 }
 
 void TagEdit::set_auto_notify(bool b)
 {
-	_notify = b;
+	_m->notify = b;
 }
 
 void TagEdit::check_for_new_artists_and_albums(QStringList& new_artists, QStringList& new_albums){
@@ -145,7 +160,7 @@ void TagEdit::check_for_new_artists_and_albums(QStringList& new_artists, QString
 	QStringList albums;
 
 	// first gather all artists and albums
-	for(const MetaData& md : _v_md){
+	for(const MetaData& md : _m->v_md){
 
 		if(md.is_extern) continue;
 
@@ -159,15 +174,15 @@ void TagEdit::check_for_new_artists_and_albums(QStringList& new_artists, QString
 	}
 
 	for(const QString& album_name : albums){
-		int id = _ldb->getAlbumID(album_name);
-		//sp_log(Log::Debug) << "Album: " << album_name << ": " << id;
+		int id = _m->ldb->getAlbumID(album_name);
+
 		if(id < 0) {
 			new_albums << album_name;
 		}
 	}
 
 	for(const QString& artist_name : artists){
-		int id = _ldb->getArtistID(artist_name);
+		int id = _m->ldb->getArtistID(artist_name);
 		if(id < 0) {
 			new_artists << artist_name;
 		}
@@ -178,42 +193,42 @@ void TagEdit::check_for_new_artists_and_albums(QStringList& new_artists, QString
 void TagEdit::insert_new_artists(const QStringList& artists){
 
 	for(const QString& a : artists){
-		_ldb->insertArtistIntoDatabase(a);
+		_m->ldb->insertArtistIntoDatabase(a);
 	}
 }
 
 void TagEdit::insert_new_albums(const QStringList& albums){
 
 	for(const QString& a : albums){
-		_ldb->insertAlbumIntoDatabase(a);
+		_m->ldb->insertAlbumIntoDatabase(a);
 	}
 }
 
 void TagEdit::apply_artists_and_albums_to_md(){
 
-	for(int i=0; i<_v_md.size(); i++){
+	for(int i=0; i<_m->v_md.size(); i++){
 
-		if( _changed_md[i] == false ) {
+		if( _m->changed_md[i] == false ) {
 			continue;
 		}
 
 		int artist_id, album_id;
-		artist_id = _ldb->getArtistID(_v_md[i].artist);
-		album_id = _ldb->getAlbumID(_v_md[i].album);
+		artist_id = _m->ldb->getArtistID(_m->v_md[i].artist);
+		album_id = _m->ldb->getAlbumID(_m->v_md[i].album);
 
-		_v_md[i].album_id = album_id;
-		_v_md[i].artist_id = artist_id;
+		_m->v_md[i].album_id = album_id;
+		_m->v_md[i].artist_id = artist_id;
 	}
 }
 
 
 void TagEdit::update_cover(int idx, const QImage& cover){
 
-	if(!between(idx, _v_md) ){
+	if(!between(idx, _m->v_md) ){
 		return;
 	}
 
-	Tagging::TagType t = Tagging::get_tag_type(_v_md[idx]);
+	Tagging::TagType t = Tagging::get_tag_type(_m->v_md[idx]);
 	if(t != Tagging::TagType::ID3v2) {
 		return;
 	}
@@ -222,25 +237,25 @@ void TagEdit::update_cover(int idx, const QImage& cover){
 		return;
 	}
 
-	_cover_map[idx] = cover;
+	_m->cover_map[idx] = cover;
 }
 
 void TagEdit::remove_cover(int idx){
-	_cover_map.remove(idx);
+	_m->cover_map.remove(idx);
 }
 
 bool TagEdit::has_cover_replacement(int idx) const
 {
-	return _cover_map.contains(idx);
+	return _m->cover_map.contains(idx);
 }
 
 bool TagEdit::is_id3v2_tag(int idx) const
 {
-	if(!between(idx, _v_md)){
+	if(!between(idx, _m->v_md)){
 		return false;
 	}
 
-	Tagging::TagType t = Tagging::get_tag_type(_v_md[idx]);
+	Tagging::TagType t = Tagging::get_tag_type(_m->v_md[idx]);
 
 	return (t == Tagging::TagType::ID3v2);
 }
@@ -261,13 +276,13 @@ void TagEdit::run()
 	apply_artists_and_albums_to_md();
 
 	int i=0;
-	int n_operations = _v_md.size() + _cover_map.size();
-	for(i=0; i<_v_md.size(); i++){
+	int n_operations = _m->v_md.size() + _m->cover_map.size();
+	for(i=0; i<_m->v_md.size(); i++){
 
-		MetaData md = _v_md[i];
+		MetaData md = _m->v_md[i];
 		emit sig_progress( (i * 100) / n_operations);
 
-		if( _changed_md[i] == false ) {
+		if( _m->changed_md[i] == false ) {
 			continue;
 		}
 
@@ -278,36 +293,36 @@ void TagEdit::run()
 		}
 
 		if( !md.is_extern && md.id >= 0 ){
-			success = _ldb->updateTrack(md);
+			success = _m->ldb->updateTrack(md);
 		}
 
 		if(success){
 			v_md << std::move(md);
-			v_md_orig.push_back(_v_md_orig[i]);
+			v_md_orig.push_back(_m->v_md_orig[i]);
 		}
 	}
 
-	for(int idx : _cover_map.keys()){
+	for(int idx : _m->cover_map.keys()){
 		
-		Tagging::write_cover(_v_md[idx], _cover_map[idx]);
+		Tagging::write_cover(_m->v_md[idx], _m->cover_map[idx]);
 		emit sig_progress( (i++ * 100) / n_operations);
 	}
 
-	_ldb->createIndexes();
+	_m->ldb->createIndexes();
 
 	db = DatabaseConnector::getInstance();
 	db->clean_up();
 
-	_v_md_after_change = v_md;
-	_v_md_before_change = v_md_orig;
-	_v_md_orig = _v_md;
+	_m->v_md_after_change = v_md;
+	_m->v_md_before_change = v_md_orig;
+	_m->v_md_orig = _m->v_md;
 
 	emit sig_progress(-1);
 }
 
 void TagEdit::thread_finished(){
-	if(_notify){
-		MetaDataChangeNotifier::getInstance()->change_metadata(_v_md_before_change, _v_md_after_change);
+	if(_m->notify){
+		MetaDataChangeNotifier::getInstance()->change_metadata(_m->v_md_before_change, _m->v_md_after_change);
 	}
 }
 

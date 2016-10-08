@@ -20,6 +20,7 @@
 
 #include "GUI_Notifications.h"
 #include "GUI/Helper/Delegates/ComboBoxDelegate.h"
+#include "Helper/Settings/Settings.h"
 
 GUI_Notifications::GUI_Notifications(QWidget *parent) :
 	PreferenceWidgetInterface(parent),

@@ -29,8 +29,7 @@
 #include <QPainter>
 
 ListDelegate::ListDelegate(QListView* parent) :
-	QItemDelegate(parent),
-	SayonaraClass()
+	QItemDelegate(parent)
 {
 	_parent = parent;
 }

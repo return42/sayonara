@@ -27,9 +27,9 @@
 #include "Components/Covers/CoverLocation.h"
 #include "Components/PlayManager/PlayManager.h"
 
-#include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
-
 #include "Helper/Random/RandomGenerator.h"
+#include "Helper/Logger/Logger.h"
+#include "Helper/Settings/Settings.h"
 
 #include <QDBusConnection>
 #include <QDBusMessage>
@@ -73,7 +73,7 @@ void DBusAdaptor::create_message(QString name, QVariant val){
 
 
 
-DBusMPRIS::MediaPlayer2::MediaPlayer2(SayonaraMainWindow* player, QObject *parent) :
+DBusMPRIS::MediaPlayer2::MediaPlayer2(QMainWindow* player, QObject *parent) :
 	DBusAdaptor(parent),
 	SayonaraClass()
 {

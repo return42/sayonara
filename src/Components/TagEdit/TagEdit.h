@@ -19,19 +19,16 @@
  */
 
 
-
 #ifndef TAGEDIT_H
 #define TAGEDIT_H
-
-#include "Helper/Settings/SayonaraClass.h"
-#include "Database/DatabaseHandler.h"
-#include "Helper/MetaData/MetaDataList.h"
 
 #include <QList>
 #include <QThread>
 #include <QImage>
 #include <QMap>
 
+class MetaDataList;
+class MetaData;
 /**
  * @brief The TagEdit class
  * Metadata has to be added using the set_metadata(const MetaDataList&) method.
@@ -40,14 +37,15 @@
  * database. When finished the finished() signal is emitted.
  * @ingroup Tagging
  */
-class TagEdit : public QThread,
-		private SayonaraClass
+
+class TagEdit :
+		public QThread
 {
 	Q_OBJECT
 
 signals:
 	void sig_progress(int);
-	void sig_metadata_received(const MetaDataList&);
+	void sig_metadata_received(const MetaDataList& v_md);
 
 
 public:
@@ -158,19 +156,9 @@ public slots:
 	 */
 	void commit();
 
-
-
 private:
-	MetaDataList			_v_md;			// the current metadata
-	MetaDataList			_v_md_orig;		// the original metadata
-
-	MetaDataList			_v_md_before_change;
-	MetaDataList			_v_md_after_change;
-	QList<bool>				_changed_md;	// indicates if metadata at idx was changed
-	QMap<int, QImage>		_cover_map;
-
-	LibraryDatabase*		_ldb=nullptr;	// database of LocalLibrary
-	bool					_notify;
+	struct TagEditPrivate;
+	TagEditPrivate*			_m=nullptr;
 
 private:
 

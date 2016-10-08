@@ -21,7 +21,11 @@ SET(SOURCES
     LibrarySearchMode.cpp
 
     Playlist/CustomPlaylist.cpp
-	Playlist/CustomPlaylistSkeleton.cpp
+    Playlist/CustomPlaylistSkeleton.cpp
+
+    Message/Message.cpp
+    Message/GlobalMessage.cpp
+    Message/GlobalMessageReceiverInterface.cpp
 
     MetaData/LibraryItem.cpp
     MetaData/MetaData.cpp
@@ -31,7 +35,7 @@ SET(SOURCES
 
     Logger/Logger.cpp
     Random/RandomGenerator.cpp
-    SmartCompare/SmartCompare.cpp
+    #SmartCompare/SmartCompare.cpp
     WebAccess/AsyncWebAccess.cpp
 
     Parser/AbstractPlaylistParser.cpp
@@ -53,6 +57,8 @@ SET(SOURCES
     DirectoryReader/DirectoryReader.cpp
 )
 
+#ADD_DEFINITIONS( -DSMART_COMPARE" )
+
 
 ADD_LIBRARY(${PROJECT_NAME} STATIC ${SOURCES})
 TARGET_LINK_LIBRARIES(${PROJECT_NAME}
@@ -62,4 +68,8 @@ TARGET_LINK_LIBRARIES(${PROJECT_NAME}
     Qt5::Gui
     tag
 )
-#cotire(${PROJECT_NAME})
+
+IF( WITH_COTIRE )
+    cotire(${PROJECT_NAME})
+ENDIF()
+

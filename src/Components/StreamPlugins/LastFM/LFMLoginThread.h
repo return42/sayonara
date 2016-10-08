@@ -25,21 +25,25 @@
 
 #include <QObject>
 #include "Helper/globals.h"
-#include "Helper/Settings/SayonaraClass.h"
 
 
 struct LFMLoginStuff{
 
-    QString token;
-    QString session_key;
-    bool logged_in;
-    bool subscriber;
-    QString error;
+	QString token;
+	QString session_key;
+	bool logged_in;
+	bool subscriber;
+	QString error;
 
-	LFMLoginStuff();
+	LFMLoginStuff(){
+		logged_in = false;
+		subscriber = false;
+	}
 };
 
-class LFMLoginThread : public QObject, SayonaraClass
+
+class LFMLoginThread :
+		public QObject
 {
 
 	Q_OBJECT
@@ -68,7 +72,7 @@ private slots:
 
 private:
 
-    LFMLoginStuff _login_info;
+	LFMLoginStuff _login_info;
 
 };
 

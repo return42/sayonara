@@ -29,7 +29,6 @@
 #ifndef LFMWEBACCESS_H_
 #define LFMWEBACCESS_H_
 
-#include "LFMGlobals.h"
 #include <QObject>
 #include <QDomDocument>
 #include <QMap>

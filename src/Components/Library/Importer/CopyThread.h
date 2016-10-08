@@ -24,15 +24,15 @@
 #define IMPORT_COPY_THREAD_H
 
 #include <QThread>
-#include <QString>
 #include <QMap>
 #include <QString>
 #include <QStringList>
 
-#include "ImportCache.h"
+
 #include "Helper/Settings/SayonaraClass.h"
 
-
+class ImportCache;
+class MetaDataList;
 class CopyThread :
 		public QThread,
 		protected SayonaraClass
@@ -47,6 +47,7 @@ public:
 	};
 
 	CopyThread(const QString& target_dir, const ImportCache& cache, QObject *parent=nullptr);
+	virtual ~CopyThread();
 
 	int get_n_copied_files() const;
 
@@ -60,16 +61,9 @@ public:
 
 
 private:
+class CopyThreadPrivate;
+	CopyThreadPrivate*		_m=nullptr;
 
-	MetaDataList	_v_md;
-	QString			_target_dir;
-	QStringList		_lst_copied_files;
-	int				_copied_files;
-	Mode			_mode;
-	int				_percent;
-	bool			_cancelled;
-
-	ImportCache		_cache;
 
 
 private:

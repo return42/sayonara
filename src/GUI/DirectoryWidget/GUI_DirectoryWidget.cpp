@@ -19,10 +19,11 @@
  */
 
 #include "GUI_DirectoryWidget.h"
+#include "GUI/DirectoryWidget/ui_GUI_DirectoryWidget.h"
 
 #include "GUI/Helper/SearchableWidget/SearchableFileTreeView.h"
 #include "GUI/Helper/ContextMenu/LibraryContextMenu.h"
-#include "GUI/Helper/Message/GlobalMessage.h"
+#include "Helper/Message/GlobalMessage.h"
 #include "GUI/Helper/IconLoader/IconLoader.h"
 
 #include "Components/Library/LocalLibrary.h"
@@ -31,6 +32,7 @@
 
 #include "Helper/DirectoryReader/DirectoryReader.h"
 #include "Helper/FileHelper.h"
+#include "Helper/Logger/Logger.h"
 #include "DirectoryDelegate.h"
 
 #include <QItemSelectionModel>
@@ -41,56 +43,56 @@
 
 GUI_DirectoryWidget::GUI_DirectoryWidget(QWidget *parent) :
 	SayonaraWidget(parent),
-	InfoDialogContainer(),
-	Ui::GUI_DirectoryWidget()
+	InfoDialogContainer()
 {
-	setupUi(this);
+	ui = new Ui::GUI_DirectoryWidget();
+	ui->setupUi(this);
 
 	_selected_widget = SelectedWidget::None;
 
 	_local_library = LocalLibrary::getInstance();
-	_dir_model = tv_dirs->get_model();
-	_file_model = lv_files->get_model();
+	_dir_model = ui->tv_dirs->get_model();
+	_file_model = ui->lv_files->get_model();
 
-	connect(tv_dirs, &QTreeView::clicked, this, &GUI_DirectoryWidget::dir_clicked);
-	connect(tv_dirs, &QTreeView::pressed, this, &GUI_DirectoryWidget::dir_pressed);
-	connect(tv_dirs, &QTreeView::doubleClicked, this, &GUI_DirectoryWidget::dir_clicked);
+	connect(ui->tv_dirs, &QTreeView::clicked, this, &GUI_DirectoryWidget::dir_clicked);
+	connect(ui->tv_dirs, &QTreeView::pressed, this, &GUI_DirectoryWidget::dir_pressed);
+	connect(ui->tv_dirs, &QTreeView::doubleClicked, this, &GUI_DirectoryWidget::dir_clicked);
 
-	connect(lv_files, &QListView::doubleClicked, this, &GUI_DirectoryWidget::file_dbl_clicked);
-	connect(lv_files, &QListView::pressed, this, &GUI_DirectoryWidget::file_pressed);
+	connect(ui->lv_files, &QListView::doubleClicked, this, &GUI_DirectoryWidget::file_dbl_clicked);
+	connect(ui->lv_files, &QListView::pressed, this, &GUI_DirectoryWidget::file_pressed);
 
-	connect(btn_search, &QPushButton::clicked, this, &GUI_DirectoryWidget::search_button_clicked);
-	connect(le_search, &QLineEdit::returnPressed, this, &GUI_DirectoryWidget::search_button_clicked);
-	connect(le_search, &QLineEdit::textChanged, this, &GUI_DirectoryWidget::search_term_changed);
+	connect(ui->btn_search, &QPushButton::clicked, this, &GUI_DirectoryWidget::search_button_clicked);
+	connect(ui->le_search, &QLineEdit::returnPressed, this, &GUI_DirectoryWidget::search_button_clicked);
+	connect(ui->le_search, &QLineEdit::textChanged, this, &GUI_DirectoryWidget::search_term_changed);
 
-	connect(tv_dirs, &DirectoryTreeView::sig_info_clicked, this, [=](){
+	connect(ui->tv_dirs, &DirectoryTreeView::sig_info_clicked, this, [=](){
 		_selected_widget = SelectedWidget::Dirs;
 		show_info();
 	});
 
-	connect(tv_dirs, &DirectoryTreeView::sig_append_clicked, this, &GUI_DirectoryWidget::dir_append_clicked);
-	connect(tv_dirs, &DirectoryTreeView::sig_play_next_clicked, this, &GUI_DirectoryWidget::dir_play_next_clicked);
-	connect(tv_dirs, &DirectoryTreeView::sig_delete_clicked, this, &GUI_DirectoryWidget::dir_delete_clicked);
+	connect(ui->tv_dirs, &DirectoryTreeView::sig_append_clicked, this, &GUI_DirectoryWidget::dir_append_clicked);
+	connect(ui->tv_dirs, &DirectoryTreeView::sig_play_next_clicked, this, &GUI_DirectoryWidget::dir_play_next_clicked);
+	connect(ui->tv_dirs, &DirectoryTreeView::sig_delete_clicked, this, &GUI_DirectoryWidget::dir_delete_clicked);
 
-	connect(lv_files, &FileListView::sig_info_clicked, this, [=](){
+	connect(ui->lv_files, &FileListView::sig_info_clicked, this, [=](){
 		_selected_widget = SelectedWidget::Files;
 		show_info();
 	});
 
-	connect(lv_files, &FileListView::sig_append_clicked, this, &GUI_DirectoryWidget::file_append_clicked);
-	connect(lv_files, &FileListView::sig_play_next_clicked, this, &GUI_DirectoryWidget::file_play_next_clicked);
-	connect(lv_files, &FileListView::sig_delete_clicked, this, &GUI_DirectoryWidget::file_delete_clicked);
+	connect(ui->lv_files, &FileListView::sig_append_clicked, this, &GUI_DirectoryWidget::file_append_clicked);
+	connect(ui->lv_files, &FileListView::sig_play_next_clicked, this, &GUI_DirectoryWidget::file_play_next_clicked);
+	connect(ui->lv_files, &FileListView::sig_delete_clicked, this, &GUI_DirectoryWidget::file_delete_clicked);
 
 	init_shortcuts();
 }
 
 GUI_DirectoryWidget::~GUI_DirectoryWidget()
 {
-
+	delete ui;
 }
 
 QComboBox* GUI_DirectoryWidget::get_libchooser(){
-	return combo_libchooser;
+	return ui->combo_libchooser;
 }
 
 MetaDataList::Interpretation GUI_DirectoryWidget::get_metadata_interpretation() const
@@ -105,9 +107,9 @@ MetaDataList GUI_DirectoryWidget::get_data_for_info_dialog() const
 	switch(_selected_widget)
 	{
 		case SelectedWidget::Dirs:
-			return tv_dirs->read_metadata();
+			return ui->tv_dirs->read_metadata();
 		case SelectedWidget::Files:
-			return lv_files->read_metadata();
+			return ui->lv_files->read_metadata();
 		default:
 			return v_md;
 	}
@@ -118,17 +120,17 @@ void GUI_DirectoryWidget::dir_clicked(QModelIndex idx){
 
 	QString dir = _dir_model->fileInfo(idx).absoluteFilePath();
 	QModelIndex tgt_idx = _file_model->setRootPath(dir);
-	lv_files->setRootIndex(tgt_idx);
+	ui->lv_files->setRootIndex(tgt_idx);
 }
 
 void GUI_DirectoryWidget::dir_append_clicked(){
-	MetaDataList v_md = tv_dirs->read_metadata();
+	MetaDataList v_md = ui->tv_dirs->read_metadata();
 	PlaylistHandler* plh = PlaylistHandler::getInstance();
 	plh->append_tracks(v_md, plh->get_current_idx());
 }
 
 void GUI_DirectoryWidget::dir_play_next_clicked(){
-	MetaDataList v_md = tv_dirs->read_metadata();
+	MetaDataList v_md = ui->tv_dirs->read_metadata();
 	PlaylistHandler* plh = PlaylistHandler::getInstance();
 	plh->play_next(v_md);
 }
@@ -141,24 +143,26 @@ void GUI_DirectoryWidget::dir_delete_clicked(){
 		return;
 	}
 
-	QStringList files = tv_dirs->get_filelist();
-	MetaDataList v_md = tv_dirs->read_metadata();
+	QStringList files = ui->tv_dirs->get_filelist();
+	MetaDataList v_md = ui->tv_dirs->read_metadata();
 	_local_library->delete_tracks(v_md, Library::TrackDeletionMode::OnlyLibrary);
+
 	sp_log(Log::Debug) << "Delete clicked: " << files;
+
 	Helper::File::delete_files(files);
 }
 
 
 void GUI_DirectoryWidget::file_append_clicked()
 {
-	MetaDataList v_md = lv_files->read_metadata();
+	MetaDataList v_md = ui->lv_files->read_metadata();
 	PlaylistHandler* plh = PlaylistHandler::getInstance();
 	plh->append_tracks(v_md, plh->get_current_idx());
 }
 
 void GUI_DirectoryWidget::file_play_next_clicked()
 {
-	MetaDataList v_md = lv_files->read_metadata();
+	MetaDataList v_md = ui->lv_files->read_metadata();
 	PlaylistHandler* plh = PlaylistHandler::getInstance();
 	plh->play_next(v_md);
 }
@@ -172,9 +176,11 @@ void GUI_DirectoryWidget::file_delete_clicked()
 		return;
 	}
 
-	QStringList files = lv_files->get_filelist();
-	MetaDataList v_md = lv_files->read_metadata();
+	QStringList files = ui->lv_files->get_filelist();
+	MetaDataList v_md = ui->lv_files->read_metadata();
+
 	_local_library->delete_tracks(v_md, Library::TrackDeletionMode::OnlyLibrary);
+
 	Helper::File::delete_files(files);
 }
 
@@ -187,7 +193,7 @@ void GUI_DirectoryWidget::dir_pressed(QModelIndex idx)
 	Qt::MouseButtons buttons = QApplication::mouseButtons();
 	if(buttons & Qt::MiddleButton){
 
-		QStringList paths = tv_dirs->get_filelist();
+		QStringList paths = ui->tv_dirs->get_filelist();
 
 		if(!paths.isEmpty()){
 			_local_library->psl_prepare_tracks_for_playlist(paths, true);
@@ -204,7 +210,7 @@ void GUI_DirectoryWidget::file_pressed(QModelIndex idx)
 	Qt::MouseButtons buttons = QApplication::mouseButtons();
 	if(buttons & Qt::MiddleButton){
 
-		QStringList paths = lv_files->get_filelist();
+		QStringList paths = ui->lv_files->get_filelist();
 
 		if(!paths.isEmpty()){
 			_local_library->psl_prepare_tracks_for_playlist(paths, true);
@@ -230,19 +236,21 @@ void GUI_DirectoryWidget::directory_loaded(const QString& path){
 		return;
 	}
 
-	tv_dirs->scrollTo(_found_idx, QAbstractItemView::PositionAtCenter);
-	tv_dirs->selectionModel()->select(_found_idx, QItemSelectionModel::ClearAndSelect);
+	ui->tv_dirs->scrollTo(_found_idx, QAbstractItemView::PositionAtCenter);
+	ui->tv_dirs->selectionModel()->select(_found_idx, QItemSelectionModel::ClearAndSelect);
+
 	dir_clicked(_found_idx);
 }
 
 void GUI_DirectoryWidget::files_loaded(const QString& path){
 
-	QString searchstring = le_search->text();
-	lv_files->clearSelection();
+	QString searchstring = ui->le_search->text();
+	ui->lv_files->clearSelection();
 
 	if(searchstring.isEmpty()){
 		return;
 	}
+
 	QModelIndex parent_idx = _file_model->index(path);
 	int row_count = _file_model->rowCount(parent_idx);
 
@@ -250,25 +258,25 @@ void GUI_DirectoryWidget::files_loaded(const QString& path){
 		QModelIndex idx = _file_model->index(row, 0, parent_idx);
 		QString text = idx.data().toString();
 		if(text.contains(searchstring, Qt::CaseInsensitive)){
-			lv_files->scrollTo(idx, QAbstractItemView::EnsureVisible);
-			lv_files->selectionModel()->select(idx, QItemSelectionModel::Select);
+			ui->lv_files->scrollTo(idx, QAbstractItemView::EnsureVisible);
+			ui->lv_files->selectionModel()->select(idx, QItemSelectionModel::Select);
 		}
 	}
 }
 
 void GUI_DirectoryWidget::search_button_clicked(){
 
-	if(le_search->text().isEmpty()){
+	if(ui->le_search->text().isEmpty()){
 		return;
 	}
 
-	if(_search_term == le_search->text()){
+	if(_search_term == ui->le_search->text()){
 		_found_idx = _dir_model->getNextRowIndexOf(_search_term, 0, QModelIndex());
 	}
 	else{
-		_search_term = le_search->text();
+		_search_term = ui->le_search->text();
 		_found_idx = _dir_model->getFirstRowIndexOf(_search_term);
-		btn_search->setText(tr("Search next"));
+		ui->btn_search->setText(tr("Search next"));
 	}
 
 	if(!_found_idx.isValid()){
@@ -279,27 +287,26 @@ void GUI_DirectoryWidget::search_button_clicked(){
 		_dir_model->fetchMore(_found_idx);
 	}
 
-	tv_dirs->scrollTo(_found_idx, QAbstractItemView::PositionAtCenter);
-	tv_dirs->selectionModel()->select(_found_idx, QItemSelectionModel::ClearAndSelect);
+	ui->tv_dirs->scrollTo(_found_idx, QAbstractItemView::PositionAtCenter);
+	ui->tv_dirs->selectionModel()->select(_found_idx, QItemSelectionModel::ClearAndSelect);
 	dir_clicked(_found_idx);
 }
 
 void GUI_DirectoryWidget::search_term_changed(const QString& term)
 {
 	if(term != _search_term && !term.isEmpty()){
-		btn_search->setText(tr("Search"));
+		ui->btn_search->setText(tr("Search"));
 	}
 }
 
 
-void GUI_DirectoryWidget::init_dir_view(){
-
+void GUI_DirectoryWidget::init_dir_view()
+{
 	connect(_dir_model, &AbstractSearchFileTreeModel::directoryLoaded,
 			this, &GUI_DirectoryWidget::directory_loaded);
 
 	connect(_file_model, &QFileSystemModel::directoryLoaded,
 			this, &GUI_DirectoryWidget::files_loaded);
-
 }
 
 
@@ -315,43 +322,6 @@ void GUI_DirectoryWidget::showEvent(QShowEvent* e){
 
 void GUI_DirectoryWidget::init_shortcuts()
 {
-	new QShortcut(QKeySequence("Ctrl+f"), le_search, SLOT(setFocus()), nullptr, Qt::WindowShortcut);
-	new QShortcut(QKeySequence("Esc"), le_search, SLOT(clear()), nullptr, Qt::WidgetShortcut);
-}
-
-
-DirectoryLibraryContainer::DirectoryLibraryContainer(QObject* parent) :
-	LibraryContainerInterface(parent)
-{
-
-}
-
-QString DirectoryLibraryContainer::get_name() const
-{
-	return "directories";
-}
-
-QString DirectoryLibraryContainer::get_display_name() const
-{
-	return tr("Directories");
-}
-
-QIcon DirectoryLibraryContainer::get_icon() const
-{
-	return IconLoader::getInstance()->get_icon("folder", "folder");
-}
-
-QWidget* DirectoryLibraryContainer::get_ui() const
-{
-	return static_cast<QWidget*>(ui);
-}
-
-QComboBox*DirectoryLibraryContainer::get_libchooser()
-{
-	return ui->get_libchooser();
-}
-
-void DirectoryLibraryContainer::init_ui()
-{
-	ui = new GUI_DirectoryWidget(nullptr);
+	new QShortcut(QKeySequence("Ctrl+f"), ui->le_search, SLOT(setFocus()), nullptr, Qt::WindowShortcut);
+	new QShortcut(QKeySequence("Esc"), ui->le_search, SLOT(clear()), nullptr, Qt::WidgetShortcut);
 }

@@ -23,6 +23,7 @@
 #include "GUI/Helper/Delegates/ComboBoxDelegate.h"
 #include "Helper/Helper.h"
 #include "Helper/FileHelper.h"
+#include "Helper/Settings/Settings.h"
 
 #include <QFile>
 #include <QDir>

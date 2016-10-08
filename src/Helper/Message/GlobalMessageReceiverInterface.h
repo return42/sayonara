@@ -39,6 +39,7 @@ private:
 
 public:
         GlobalMessageReceiverInterface(const QString& name);
+		virtual ~GlobalMessageReceiverInterface();
 
         QString get_name() const;
 

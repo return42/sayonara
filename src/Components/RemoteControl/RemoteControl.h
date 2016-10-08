@@ -25,7 +25,7 @@
 
 #include "Helper/Settings/SayonaraClass.h"
 #include "Components/PlayManager/PlayState.h"
-#include "Components/Playlist/Playlist.h"
+#include "Components/Playlist/PlaylistTypedefs.h"
 
 #include <QObject>
 #include <QTcpServer>
@@ -37,6 +37,7 @@
 
 class PlaylistHandler;
 class PlayManager;
+class MetaData;
 
 typedef std::function<void()> RemoteFunction ;
 typedef std::function<void(int)> RemoteFunctionInt ;

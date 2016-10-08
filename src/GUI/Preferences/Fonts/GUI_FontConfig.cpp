@@ -19,6 +19,8 @@
 
 
 #include "GUI_FontConfig.h"
+#include "Helper/Settings/Settings.h"
+
 #include <QApplication>
 #include <QFont>
 

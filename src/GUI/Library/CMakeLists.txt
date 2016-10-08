@@ -46,8 +46,9 @@ TARGET_LINK_LIBRARIES(${PROJECT_NAME}
     say_gui_info_dialog
 
     say_interfaces_library_container
-
-    say_comp_library_importer
 )
 
-#cotire(${PROJECT_NAME})
+IF( WITH_COTIRE )
+    cotire(${PROJECT_NAME})
+ENDIF()
+

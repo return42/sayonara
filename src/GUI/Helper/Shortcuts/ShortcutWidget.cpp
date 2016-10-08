@@ -23,3 +23,9 @@
 #include "ShortcutWidget.h"
 
 /* Nothing in here */
+
+ShortcutWidget::ShortcutWidget()
+{}
+
+ShortcutWidget::~ShortcutWidget()
+{}

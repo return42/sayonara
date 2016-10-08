@@ -35,12 +35,13 @@
 #include <QTableView>
 
 class LibraryView;
-class LibraryItemDelegateAlbums : public LibraryRatingDelegate {
+class LibraryItemDelegateAlbums :
+		public LibraryRatingDelegate
+{
 
-	Q_OBJECT
 
 public:
-	LibraryItemDelegateAlbums(LibraryView* parent, bool enabled);
+	LibraryItemDelegateAlbums(QObject* parent, bool enabled);
 	virtual ~LibraryItemDelegateAlbums();
 
 	virtual void paint(QPainter *painter,

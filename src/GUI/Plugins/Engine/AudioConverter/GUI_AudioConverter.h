@@ -23,7 +23,7 @@
 #ifndef GUI_AUDIOCONVERTER_H
 #define GUI_AUDIOCONVERTER_H
 
-#include "GUI/Plugins/AudioConverter/ui_GUI_AudioConvert.h"
+#include "GUI/Plugins/Engine/ui_GUI_AudioConvert.h"
 #include "Interfaces/PlayerPlugin/PlayerPlugin.h"
 
 #include "Helper/Playlist/PlaylistMode.h"

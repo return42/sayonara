@@ -33,6 +33,7 @@
 #include "Helper/MetaData/MetaData.h"
 #include "Helper/Helper.h"
 #include "Helper/Tree.h"
+#include "Helper/Logger/Logger.h"
 
 
 

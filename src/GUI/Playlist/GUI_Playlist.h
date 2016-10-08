@@ -30,9 +30,9 @@
 #define GUI_PLAYLIST_H_
 
 #include "GUI/Playlist/ui_GUI_Playlist.h"
-#include "GUI/Helper/Message/GlobalMessage.h"
-#include "Components/Playlist/PlaylistHandler.h"
+#include "Helper/Message/GlobalMessage.h"
 #include "Components/PlayManager/PlayState.h"
+#include "Components/Playlist/PlaylistDBInterface.h"
 
 #include <QTextEdit>
 #include <QFocusEvent>
@@ -40,6 +40,7 @@
 
 class PlayManager;
 class PlaylistView;
+class PlaylistHandler;
 class GUI_Playlist :
 		public SayonaraWidget,
 		private Ui::Playlist_Window

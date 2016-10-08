@@ -22,6 +22,7 @@
  *
  */
 
+
 #include "LFMTrackChangedThread.h"
 #include "LFMWebAccess.h"
 #include "LFMGlobals.h"
@@ -34,6 +35,11 @@
 #include "Helper/FileHelper.h"
 #include "Helper/MetaData/Artist.h"
 #include "Helper/Compressor/Compressor.h"
+#include "Helper/Logger/Logger.h"
+
+#ifdef SMART_COMPARE
+	#include "Helper/SmartCompare/SmartCompare.h"
+#endif
 
 #include <QMap>
 #include <QStringList>
@@ -41,8 +47,7 @@
 
 
 LFMTrackChangedThread::LFMTrackChangedThread(const QString& username, const QString& session_key, QObject* parent) :
-	QObject(parent),
-	SayonaraClass()
+	QObject(parent)
 {
 
 	_username = username;
@@ -51,12 +56,17 @@ LFMTrackChangedThread::LFMTrackChangedThread(const QString& username, const QStr
 	ArtistList artists;
 	DatabaseConnector::getInstance()->getAllArtists(artists);
 
+#ifdef SMART_COMPARE
 	_smart_comparison = new SmartCompare(artists);
+#endif
+
 }
 
 
 LFMTrackChangedThread::~LFMTrackChangedThread() {
+#ifdef SMART_COMPARE
 	delete _smart_comparison;
+#endif
 }
 
 void LFMTrackChangedThread::set_session_key(const QString& session_key) {
@@ -240,7 +250,7 @@ QMap<QString, int> LFMTrackChangedThread::filter_available_artists(const ArtistM
 
 	for(const ArtistMatch::ArtistDesc& key : bin.keys()) {
 
-#if SMART_COMP
+#if SMART_COMPARE
 
 		QMap<QString, float> sc_map = _smart_comparison->get_similar_strings(key);
 		for(const QString& sc_key : sc_map.keys() ){

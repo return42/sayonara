@@ -42,24 +42,24 @@
 
 #include "GUI/Player/GUI_Player.h"
 #include "GUI/Library/LocalLibraryContainer.h"
-#include "GUI/DirectoryWidget/GUI_DirectoryWidget.h"
+#include "GUI/DirectoryWidget/DirectoryWidgetContainer.h"
 
 #include "GUI/Plugins/PlaylistChooser/GUI_PlaylistChooser.h"
-#include "GUI/Plugins/AudioConverter/GUI_AudioConverter.h"
+#include "GUI/Plugins/Engine/AudioConverter/GUI_AudioConverter.h"
 #include "GUI/Plugins/Engine/GUI_LevelPainter.h"
 #include "GUI/Plugins/Engine/GUI_Spectrum.h"
+#include "GUI/Plugins/Engine/Equalizer/GUI_Equalizer.h"
+#include "GUI/Plugins/Engine/Speed/GUI_Speed.h"
+#include "GUI/Plugins/Engine/Crossfader/GUI_Crossfader.h"
 #include "GUI/Plugins/Stream/GUI_Stream.h"
 #include "GUI/Plugins/Stream/GUI_Podcasts.h"
-#include "GUI/Plugins/Equalizer/GUI_Equalizer.h"
 #include "GUI/Plugins/Bookmarks/GUI_Bookmarks.h"
-#include "GUI/Plugins/Speed/GUI_Speed.h"
 #include "GUI/Plugins/Broadcasting/GUI_Broadcast.h"
-#include "GUI/Plugins/Crossfader/GUI_Crossfader.h"
+
 
 #include "GUI/Preferences/Fonts/GUI_FontConfig.h"
 #include "GUI/Preferences/Notifications/GUI_Notifications.h"
 #include "GUI/Preferences/LastFM/GUI_LastFM.h"
-//#include "GUI/Preferences/Startup/GUI_StartupDialog.h"
 #include "GUI/Preferences/Language/GUI_LanguageChooser.h"
 #include "GUI/Preferences/Broadcast/GUI_BroadcastSetup.h"
 #include "GUI/Preferences/PlaylistPreferences/GUI_PlaylistPreferences.h"
@@ -265,7 +265,7 @@ bool Application::init(QTranslator* translator, const QStringList& files_to_play
 	sp_log(Log::Debug) << "Preference dialogs loaded: " << _timer->elapsed() << "ms";
 
 	player->set_libraries(library_plugin_loader);
-	player->set_player_plugin_handler(pph);
+	player->register_player_plugin_handler(pph);
 	player->ui_loaded();
 
 	if(files_to_play.size() > 0) {

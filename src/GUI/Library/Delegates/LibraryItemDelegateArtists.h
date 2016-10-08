@@ -28,20 +28,18 @@
 
 #ifndef LIBRARYITEMDELEGATEARTISTS_H_
 #define LIBRARYITEMDELEGATEARTISTS_H_
+
 #include <QObject>
-#include <QLabel>
 #include <QTableView>
 #include <QStyledItemDelegate>
-#include <QPen>
-#include <QColor>
-
-#include "GUI/Library/Models/LibraryItemModelArtists.h"
 
 
-class LibraryItemDelegateArtists : public QStyledItemDelegate {
-	Q_OBJECT
+class LibraryItemDelegateArtists :
+		public QStyledItemDelegate
+{
+
 public:
-	LibraryItemDelegateArtists(QTableView* parent=nullptr);
+	LibraryItemDelegateArtists(QObject* parent=nullptr);
 	virtual ~LibraryItemDelegateArtists();
 
 

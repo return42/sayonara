@@ -24,6 +24,8 @@
 
 #include "GUI_PlaylistPreferences.h"
 #include "ui_GUI_PlaylistPreferences.h"
+#include "Helper/Settings/Settings.h"
+
 
 GUI_PlaylistPreferences::GUI_PlaylistPreferences(QWidget *parent) :
 	PreferenceWidgetInterface(parent),

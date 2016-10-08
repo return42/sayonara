@@ -18,7 +18,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
+#include "Bookmark.h"
 #include "Bookmarks.h"
 #include "Helper/Helper.h"
 #include "Helper/globals.h"
@@ -28,7 +28,7 @@
 
 #include <algorithm>
 
-struct _BookmarksMembers
+struct BookmarksPrivate
 {
 	DatabaseConnector*		db=nullptr;
 	PlayManager*			play_manager=nullptr;
@@ -48,7 +48,7 @@ Bookmarks::Bookmarks(QObject *parent) :
 	QObject(parent)
 {
 
-	_m = new _BookmarksMembers();
+	_m = new BookmarksPrivate();
 	_m->play_manager = PlayManager::getInstance();
 	_m->db = DatabaseConnector::getInstance();
 

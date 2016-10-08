@@ -12,6 +12,7 @@ SET(SOURCES
     Playback/StreamRecorder.cpp
     Playback/CrossFader.cpp
     Playback/ChangeablePipeline.cpp
+	Playback/SoundOutReceiver.cpp
 
     Convert/ConvertEngine.cpp
     Convert/ConvertPipeline.cpp
@@ -29,4 +30,6 @@ TARGET_LINK_LIBRARIES(${PROJECT_NAME}
     say_comp_playmanager
 )
 
-#cotire(${PROJECT_NAME})
+IF( WITH_COTIRE )
+    cotire(${PROJECT_NAME})
+ENDIF()

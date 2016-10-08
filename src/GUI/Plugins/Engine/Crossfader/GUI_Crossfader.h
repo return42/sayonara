@@ -1,4 +1,4 @@
-/* GlobalMessageReceiverInterface.cpp */
+/* GUI_Crossfader.h */
 
 /* Copyright (C) 2011-2016  Lucio Carreras
  *
@@ -20,14 +20,35 @@
 
 
 
-#include "GlobalMessageReceiverInterface.h"
+#ifndef GUI_CROSSFADER_H
+#define GUI_CROSSFADER_H
 
-GlobalMessageReceiverInterface::GlobalMessageReceiverInterface(const QString &name)
+#include "GUI/Plugins/Engine/ui_GUI_Crossfader.h"
+
+#include "Interfaces/PlayerPlugin/PlayerPlugin.h"
+
+
+class GUI_Crossfader : public PlayerPluginInterface, private Ui::GUI_Crossfader
 {
-		_name = name;
-}
+	Q_OBJECT
 
-QString GlobalMessageReceiverInterface::get_name() const{
-		return _name;
-}
+	friend class PlayerPluginInterface;
 
+public:
+	explicit GUI_Crossfader(QWidget *parent=nullptr);
+	QString get_name() const override;
+	QString get_display_name() const override;
+
+private slots:
+	void slider_changed(int);
+	void active_changed(bool);
+	
+
+protected:
+	void language_changed() override;
+	void init_ui() override;
+};
+
+
+
+#endif // GUI_CROSSFADER_H

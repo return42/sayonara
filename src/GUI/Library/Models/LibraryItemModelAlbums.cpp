@@ -28,6 +28,7 @@
 
 #include "LibraryItemModel.h"
 #include "LibraryItemModelAlbums.h"
+#include "GUI/Library/Helper/ColumnIndex.h"
 #include "GUI/Library/Helper/ColumnHeader.h"
 #include "GUI/Helper/GUI_Helper.h"
 #include "Helper/Helper.h"
@@ -78,7 +79,8 @@ QVariant LibraryItemModelAlbums::data(const QModelIndex & index, int role) const
 		return QVariant();
 
 	int row = index.row();
-	int col = index.column();
+	int column = index.column();
+	ColumnIndex::Album col = (ColumnIndex::Album) column;
 
 	const Album& album = _albums[row];
 
@@ -86,7 +88,7 @@ QVariant LibraryItemModelAlbums::data(const QModelIndex & index, int role) const
 		int alignment = Qt::AlignVCenter;
 		switch(col)
 		{
-			case COL_ALBUM_NAME:
+			case ColumnIndex::Album::Name:
 				alignment |= Qt::AlignLeft;
 				break;
 			default:
@@ -98,13 +100,13 @@ QVariant LibraryItemModelAlbums::data(const QModelIndex & index, int role) const
 	}
 
 	else if(role == Qt::TextColorRole){
-		if(col == COL_ALBUM_MULTI_DISC){
+		if(col == ColumnIndex::Album::MultiDisc){
 			return QColor(0, 0, 0);
 		}
 	}
 
 	else if(role == Qt::DecorationRole){
-		if(col == COL_ALBUM_MULTI_DISC){
+		if(col == ColumnIndex::Album::MultiDisc){
 			if(album.discnumbers.size() > 1){
 				return _pm_multi;
 			}
@@ -116,18 +118,22 @@ QVariant LibraryItemModelAlbums::data(const QModelIndex & index, int role) const
 
 		switch(col) {
 
-			case COL_ALBUM_N_SONGS:
+			case ColumnIndex::Album::NumSongs:
 				return QString::number(album.num_songs) + " " + tr("tracks");
-			case COL_ALBUM_YEAR:
+
+			case ColumnIndex::Album::Year:
 				if(album.year == 0){
 					return tr("None");
 				}
 				return album.year;
-			case COL_ALBUM_NAME:
+
+			case ColumnIndex::Album::Name:
 				return album.name;
-			case COL_ALBUM_DURATION:
+
+			case ColumnIndex::Album::Duration:
 				return Helper::cvt_ms_to_string(album.length_sec * 1000, true, false);
-			case COL_ALBUM_RATING:
+
+			case ColumnIndex::Album::Rating:
 				return album.rating;
 
 			default: return QVariant();
@@ -149,7 +155,7 @@ bool LibraryItemModelAlbums::setData(const QModelIndex & index, const QVariant &
 		int row = index.row();
 		int col = index.column();
 
-		if(col == COL_ALBUM_RATING) {
+		if(col == (int) ColumnIndex::Album::Rating) {
 			_albums[row].rating = value.toInt();
 		}
 
@@ -198,7 +204,8 @@ Qt::ItemFlags LibraryItemModelAlbums::flags(const QModelIndex & index) const
 	}
 
 	int col = index.column();
-	if(col == COL_ALBUM_RATING){
+
+	if(col == (int) ColumnIndex::Album::Rating){
 		return (QAbstractItemModel::flags(index) | Qt::ItemIsEditable);
 	}
 

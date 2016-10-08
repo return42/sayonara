@@ -29,7 +29,7 @@
 #ifndef GUI_EQUALIZER_H_
 #define GUI_EQUALIZER_H_
 
-#include "GUI/Plugins/Equalizer/ui_GUI_Equalizer.h"
+#include "GUI/Plugins/Engine/ui_GUI_Equalizer.h"
 #include "Interfaces/PlayerPlugin/PlayerPlugin.h"
 
 #include <QList>

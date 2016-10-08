@@ -27,10 +27,9 @@
  */
 
 #include "LibraryItemDelegateAlbums.h"
-#include "GUI/Library/Views/LibraryView.h"
-#include "GUI/Library/Models/LibraryItemModelAlbums.h"
 #include "GUI/Helper/RatingLabel/RatingLabel.h"
 #include "GUI/Helper/GUI_Helper.h"
+#include "GUI/Library/Helper/ColumnIndex.h"
 
 #include <QLabel>
 #include <QItemDelegate>
@@ -39,7 +38,7 @@
 #include <QStyleOptionViewItem>
 
 
-LibraryItemDelegateAlbums::LibraryItemDelegateAlbums(LibraryView* parent, bool enabled) :
+LibraryItemDelegateAlbums::LibraryItemDelegateAlbums(QObject* parent, bool enabled) :
 	LibraryRatingDelegate(parent, enabled)
 {
 	_icon_single_album = GUI::get_pixmap("play", QSize(16, 16), false);
@@ -58,23 +57,18 @@ void LibraryItemDelegateAlbums::paint(QPainter *painter, const QStyleOptionViewI
 
 	int col = index.column();
 
-	if(col != COL_ALBUM_RATING) {
+	if(col != (int) ColumnIndex::Album::Rating) {
 		LibraryRatingDelegate::paint(painter, option, index);		
 		return;
 	}
 
-	else if(col == COL_ALBUM_RATING) {
-		RatingLabel label((QWidget*)_parent, true);
-		label.set_rating(index.data().toInt());
-		label.setGeometry(option.rect);
+	//TODO
+	RatingLabel label(nullptr, true);
+	label.set_rating(index.data().toInt());
+	label.setGeometry(option.rect);
 
-		painter->save();
-		painter->translate(option.rect.left(), option.rect.top());
-		label.render(painter);
-		painter->restore();
-
-	}   
-
-
-
+	painter->save();
+	painter->translate(option.rect.left(), option.rect.top());
+	label.render(painter);
+	painter->restore();
 }

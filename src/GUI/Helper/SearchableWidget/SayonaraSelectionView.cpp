@@ -26,6 +26,9 @@
 
 #include <algorithm>
 
+SayonaraSelectionView::SayonaraSelectionView(){}
+
+SayonaraSelectionView::~SayonaraSelectionView(){}
 
 void SayonaraSelectionView::select_all()
 {

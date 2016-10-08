@@ -98,7 +98,7 @@ PlaylistView::~PlaylistView()
 }
 
 
-int PlaylistView::get_num_rows()
+int PlaylistView::get_num_rows() const
 {
 	return _model->rowCount();
 }

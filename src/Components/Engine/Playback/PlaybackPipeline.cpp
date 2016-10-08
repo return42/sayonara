@@ -24,6 +24,7 @@
 #include "Components/Engine/Callbacks/PipelineCallbacks.h"
 #include "Helper/globals.h"
 #include "Helper/Helper.h"
+#include "Helper/Settings/Settings.h"
 #include "Helper/EqualizerPresets.h"
 
 #include <gst/base/gstdataqueue.h>

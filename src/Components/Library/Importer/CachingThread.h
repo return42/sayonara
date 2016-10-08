@@ -19,20 +19,17 @@
  */
 
 
-
 #ifndef IMPORTFOLDERTHREAD_H
 #define IMPORTFOLDERTHREAD_H
 
-
-#include "ImportCache.h"
-#include "Helper/Settings/SayonaraClass.h"
-
 #include <QThread>
 
+class ImportCache;
+class CachingThreadPrivate;
+class MetaDataList;
 
 class CachingThread :
-		public QThread,
-		private SayonaraClass
+		public QThread
 {
 	Q_OBJECT
 
@@ -44,6 +41,7 @@ signals:
 
 public:
 	CachingThread(const QStringList& file_list, QObject *parent=nullptr);
+	virtual ~CachingThread();
 
 
 	void			cancel();
@@ -54,11 +52,7 @@ public:
 
 private:
 
-	QStringList		_file_list;
-	bool			_cancelled;
-
-	ImportCache		_cache;
-
+	CachingThreadPrivate* _m=nullptr;
 
 private:
 	void run() override;

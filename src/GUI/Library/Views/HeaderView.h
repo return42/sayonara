@@ -29,8 +29,8 @@
 
 #include "GUI/Library/Helper/ColumnHeader.h"
 #include "Helper/Settings/SayonaraClass.h"
+#include "Helper/typedefs.h"
 #include "Components/Library/Sorting.h"
-
 
 class HeaderView :
 		public QHeaderView,

@@ -23,6 +23,7 @@
 
 #include "AbstractEngine.h"
 #include "Components/PlayManager/PlayState.h"
+#include "Helper/singleton.h"
 
 #include <QList>
 

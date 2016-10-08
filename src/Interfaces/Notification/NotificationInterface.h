@@ -42,6 +42,8 @@ public:
 	 */
 	NotificationInterface(const QString& name);
 
+	virtual ~NotificationInterface();
+
 	/**
 	 * @brief notify when Metadata has been changed
 	 * @param md

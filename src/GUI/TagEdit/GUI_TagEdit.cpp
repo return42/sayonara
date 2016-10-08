@@ -25,9 +25,11 @@
 
 #include "Components/TagEdit/TagExpression.h"
 #include "Components/Covers/CoverLocation.h"
-#include "GUI/Helper/Message/Message.h"
+#include "Helper/Message/Message.h"
 #include "Helper/Tagging/Tagging.h"
 #include "Helper/globals.h"
+#include "Helper/Logger/Logger.h"
+#include "Helper/MetaData/MetaDataList.h"
 
 #include "Components/TagEdit/TagEdit.h"
 

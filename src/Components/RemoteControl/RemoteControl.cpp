@@ -23,11 +23,17 @@
 #include "RemoteControl.h"
 #include "Components/Covers/CoverLocation.h"
 #include "Components/Playlist/PlaylistHandler.h"
+#include "Components/Playlist/Playlist.h"
 #include "Components/PlayManager/PlayManager.h"
+#include "Helper/Settings/Settings.h"
+#include "Helper/MetaData/MetaData.h"
 
 #include <QBuffer>
 #include <QFile>
 #include <QImage>
+
+#include <functional>
+#include <algorithm>
 
 RemoteControl::RemoteControl(QObject *parent) :
 	QObject(parent),

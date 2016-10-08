@@ -26,6 +26,7 @@
 
 #include "Helper/globals.h"
 #include "Helper/Playlist/CustomPlaylist.h"
+#include "Helper/Settings/Settings.h"
 
 #include <algorithm>
 

@@ -21,6 +21,7 @@
 #include "ContextMenu.h"
 #include "GUI/Helper/IconLoader/IconLoader.h"
 #include "GUI/Helper/GUI_Helper.h"
+#include "Helper/Settings/Settings.h"
 
 #include <algorithm>
 

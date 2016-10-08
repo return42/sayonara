@@ -27,7 +27,7 @@
 
 #include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
 
-DBusHandler::DBusHandler(SayonaraMainWindow* player, QObject* parent) :
+DBusHandler::DBusHandler(QMainWindow* player, QObject* parent) :
 	QObject(parent)
 {
 

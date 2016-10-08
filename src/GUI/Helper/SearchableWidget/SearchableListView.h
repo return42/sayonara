@@ -18,11 +18,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef SEARCHABLELISTVIEW_H
 #define SEARCHABLELISTVIEW_H
-
 
 #include "SayonaraSelectionView.h"
 

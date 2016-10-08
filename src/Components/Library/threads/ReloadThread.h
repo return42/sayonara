@@ -34,10 +34,11 @@
 #include <QDir>
 
 #include "Helper/Settings/SayonaraClass.h"
-#include "LibraryNamespaces.h"
+#include "Helper/singleton.h"
+#include "Components/Library/LibraryNamespaces.h"
 
 class MetaData;
-struct _ReloadThreadMembers;
+
 class ReloadThread :
 		public QThread,
 		protected SayonaraClass
@@ -68,7 +69,8 @@ protected:
 
 
 private:
-	_ReloadThreadMembers*	_m=nullptr;
+	struct ReloadThreadPrivate;
+	ReloadThreadPrivate*	_m=nullptr;
 
 private:
 

@@ -29,6 +29,7 @@
 
 #include "LibraryItemModelTracks.h"
 #include "GUI/Library/Helper/ColumnHeader.h"
+#include "GUI/Library/Helper/ColumnIndex.h"
 
 #include "Helper/globals.h"
 #include "Helper/Helper.h"
@@ -60,15 +61,15 @@ QVariant LibraryItemModelTracks::data(const QModelIndex &index, int role) const{
 	if (row >= _tracks.size())
 		return QVariant();
 
-	int idx_col = col;
+	ColumnIndex::Track idx_col = (ColumnIndex::Track) col;
 
 	if( role == Qt::TextAlignmentRole ){
 		int alignment = Qt::AlignVCenter;
-		switch(col)
+		switch(idx_col)
 		{
-			case COL_TITLE:
-			case COL_ALBUM:
-			case COL_ARTIST:
+			case ColumnIndex::Track::Title:
+			case ColumnIndex::Track::Album:
+			case ColumnIndex::Track::Artist:
 				alignment |= Qt::AlignLeft;
 				break;
 			default:
@@ -82,36 +83,36 @@ QVariant LibraryItemModelTracks::data(const QModelIndex &index, int role) const{
 
 		const MetaData& md = _tracks.at(row);
 
-		switch(col) {
-			case COL_TRACK_NUM:
+		switch(idx_col) {
+			case ColumnIndex::Track::TrackNumber:
 				return QVariant( md.track_num );
 
-			case COL_TITLE:
+			case ColumnIndex::Track::Title:
 				return QVariant( md.title );
 
-			case COL_ARTIST:
+			case ColumnIndex::Track::Artist:
 				return QVariant( md.artist );
 
-			case COL_LENGTH:
+			case ColumnIndex::Track::Length:
 				return QVariant( Helper::cvt_ms_to_string(md.length_ms) );
 
-			case COL_ALBUM:
+			case ColumnIndex::Track::Album:
 				return QVariant(md.album);
 
-			case COL_YEAR:
+			case ColumnIndex::Track::Year:
 				if(md.year == 0){
 					return tr("None");
 				}
 				
 				return md.year;
 
-			case COL_BITRATE:
+			case ColumnIndex::Track::Bitrate:
 				return QString::number(md.bitrate / 1000) + " kbit/s";
 
-			case COL_FILESIZE:
+			case ColumnIndex::Track::Filesize:
 				return Helper::File::calc_filesize_str(md.filesize);
 
-			case COL_TRACK_RATING:
+			case ColumnIndex::Track::Rating:
 				return QVariant(md.rating);
 			default:
 				return QVariant();
@@ -120,7 +121,11 @@ QVariant LibraryItemModelTracks::data(const QModelIndex &index, int role) const{
 
 	else if (role == Qt::TextAlignmentRole) {
 
-		if (idx_col == COL_TRACK_NUM || idx_col == COL_BITRATE || idx_col == COL_LENGTH || idx_col == COL_YEAR || idx_col == COL_FILESIZE /*|| idx_col == COL_DISCNUMBER*/)
+		if (idx_col == ColumnIndex::Track::TrackNumber ||
+			idx_col == ColumnIndex::Track::Bitrate ||
+			idx_col == ColumnIndex::Track::Length ||
+			idx_col == ColumnIndex::Track::Year ||
+			idx_col == ColumnIndex::Track::Filesize)
 		{
 			return Qt::AlignRight + Qt::AlignVCenter;
 		}
@@ -128,9 +133,8 @@ QVariant LibraryItemModelTracks::data(const QModelIndex &index, int role) const{
 		else return Qt::AlignLeft + Qt::AlignVCenter;
 	}
 
-	else{
-		return QVariant();
-	}
+
+	return QVariant();
 }
 
 
@@ -139,7 +143,7 @@ Qt::ItemFlags LibraryItemModelTracks::flags(const QModelIndex &index = QModelInd
 	if (!index.isValid())
 		return Qt::ItemIsEnabled;
 
-	if(index.column() == COL_TRACK_RATING) {
+	if(index.column() == (int) ColumnIndex::Track::Rating) {
 
 		return QAbstractItemModel::flags(index) | Qt::ItemIsEditable;
 	}
@@ -158,7 +162,7 @@ bool LibraryItemModelTracks::setData(const QModelIndex &index, const QVariant &v
 		int row = index.row();
 		int col = index.column();
 
-		if(col == COL_TRACK_RATING) {
+		if(col == (int) ColumnIndex::Track::Rating) {
 			_tracks[row].rating = value.toInt();
 		}
 

@@ -29,6 +29,7 @@ class ChangeablePipeline
 {
 public:
     ChangeablePipeline();
+	virtual ~ChangeablePipeline();
 
     void add_element(GstElement* element, GstElement* first_element, GstElement* second_element);
     void remove_element(GstElement* element, GstElement* first_element, GstElement* second_element);

@@ -29,21 +29,11 @@
 #include "LibraryItemDelegateArtists.h"
 #include "GUI/Helper/GUI_Helper.h"
 
-#include <QLabel>
-#include <QTableView>
-#include <QItemDelegate>
-#include <QPainter>
-
-
-LibraryItemDelegateArtists::LibraryItemDelegateArtists(QTableView* parent) :
+LibraryItemDelegateArtists::LibraryItemDelegateArtists(QObject* parent) :
 	QStyledItemDelegate(parent)
 {
-
-	_parent = parent;
-
 	_icon_single_album = GUI::get_pixmap("play", QSize(16, 16), false);
 	_icon_multi_album = GUI::get_pixmap("sampler", QSize(16, 16), false);
-
 }
 
 LibraryItemDelegateArtists::~LibraryItemDelegateArtists() {

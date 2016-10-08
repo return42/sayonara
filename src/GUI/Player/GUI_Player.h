@@ -26,8 +26,8 @@
 
 #include "Components/PlayManager/PlayState.h"
 #include "Helper/MetaData/MetaData.h"
-#include "GUI/Helper/Message/GlobalMessageReceiverInterface.h"
 
+#include "Helper/Message/GlobalMessageReceiverInterface.h"
 #include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
 #include "GUI/Helper/Shortcuts/ShortcutWidget.h"
 
@@ -77,36 +77,14 @@ public:
 
 	void set_libraries(LibraryPluginHandler* plugin_loader);
 
-	void set_player_plugin_handler(PlayerPluginHandler* pph);
+	void register_player_plugin_handler(PlayerPluginHandler* pph);
 	void register_preference_dialog(PreferenceDialogInterface* dialog);
 
 	void ui_loaded();
 	QString get_shortcut_text(const QString &shortcut_identifier) const override;
 
 
-public slots:
-
-	void set_cur_pos_ms(quint64 pos_ms);
-	void set_file_info_label();
-	void id3_tags_changed(const MetaDataList& v_md_old, const MetaDataList& v_md_new);
-
-	void md_changed(const MetaData& md);
-	void dur_changed(const MetaData& md);
-	void br_changed(const MetaData& md);
-
-	void really_close();
-	void reload_skin();
-
-	void tray_icon_activated(QSystemTrayIcon::ActivationReason reason);
-
-    /* Plugins */
-	void show_plugin(PlayerPluginInterface* plugin);
-	void hide_all_plugins();
-
-
 private:
-
-	QWidget*					_cur_library=nullptr;
 
 	PlayerPluginHandler*		_pph=nullptr;
 	LibraryPluginHandler*		_lph=nullptr;
@@ -152,12 +130,7 @@ private:
 	void set_total_time_label(qint64 length_ms);
 	void set_cur_pos_label(int val);
 	void set_cover_location();
-
-	template<typename T>
-	void init_action(QAction* action, T setting_key){
-		bool b = _settings->get(setting_key);
-		action->setChecked(b);
-	}
+	void set_standard_cover();
 
 	// Methods for other mudules to display info/warning/error
 	GlobalMessage::Answer error_received(const QString &error, const QString &sender_name=QString()) override;
@@ -212,19 +185,32 @@ private slots:
 	void library_idx_changed(int idx);
 	void check_library_menu_action();
 
-
 	void about();
 	void help();
 
-	void set_standard_cover();
 	void cover_changed(const QImage& cover);
 
 	void awa_version_finished(bool success);
 	void awa_translators_finished(bool success);
 
+	void id3_tags_changed(const MetaDataList& v_md_old, const MetaDataList& v_md_new);
+
+	void cur_pos_changed(quint64 pos_ms);
+	void file_info_changed();
+
+	void md_changed(const MetaData& md);
+	void dur_changed(const MetaData& md);
+	void br_changed(const MetaData& md);
+
+	void really_close();
+
+	void tray_icon_activated(QSystemTrayIcon::ActivationReason reason);
+
+	/* Plugins */
+	void show_plugin(PlayerPluginInterface* plugin);
+	void hide_all_plugins();
+
 	void _sl_sr_active_changed();
-
-
 };
 
 

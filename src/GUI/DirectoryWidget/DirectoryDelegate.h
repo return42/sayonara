@@ -25,6 +25,7 @@
 
 #include <QItemDelegate>
 #include <QStyledItemDelegate>
+
 class DirectoryDelegate : public QItemDelegate
 {
 	Q_OBJECT

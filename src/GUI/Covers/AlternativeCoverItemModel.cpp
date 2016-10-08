@@ -30,6 +30,7 @@
 #include "Components/Covers/CoverLocation.h"
 #include "Helper/Logger/Logger.h"
 #include "Helper/globals.h"
+#include "Helper/Helper.h"
 
 #include <QModelIndex>
 #include <QVariant>
@@ -144,6 +145,18 @@ bool AlternativeCoverItemModel::setData(const QModelIndex &index, const QVariant
 	 }
 
 	 return false;
+}
+
+void AlternativeCoverItemModel::reset()
+{
+	int rows = rowCount();
+	int cols = columnCount();
+
+	QString sayonara_logo = Helper::get_share_path() + "logo.png";
+	_pathlist.clear();
+	for(int i=0; i<rows*cols; i++){
+		_pathlist << sayonara_logo;
+	}
 }
 
 bool AlternativeCoverItemModel::insertRows(int position, int rows, const QModelIndex &index) {

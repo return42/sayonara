@@ -31,6 +31,7 @@
 #include "GUI/Library/Helper/ColumnHeader.h"
 
 #include "Helper/globals.h"
+#include "Helper/Settings/Settings.h"
 
 #include "GUI/Helper/CustomMimeData.h"
 #include "GUI/Helper/ContextMenu/LibraryContextMenu.h"

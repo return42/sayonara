@@ -21,6 +21,7 @@
 #include "MenuButton.h"
 #include "GUI/Helper/GUI_Helper.h"
 #include "GUI/Helper/IconLoader/IconLoader.h"
+#include "Helper/Settings/Settings.h"
 
 MenuButton::MenuButton(QWidget* parent) :
 	QPushButton(parent),

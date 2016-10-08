@@ -31,10 +31,6 @@
  * @ingroup MetaDataHelper
  */
 
-class MetaDataInfo;
-class AlbumInfo;
-class ArtistInfo;
-
 namespace SP {
 	template<typename T>
 	class Set;

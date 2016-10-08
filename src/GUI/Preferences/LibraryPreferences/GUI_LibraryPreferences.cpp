@@ -18,10 +18,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "GUI_LibraryPreferences.h"
 #include "Helper/LibrarySearchMode.h"
+#include "Helper/Settings/Settings.h"
 
 GUI_LibraryPreferences::GUI_LibraryPreferences(QWidget* parent) :
 	PreferenceWidgetInterface(parent),

@@ -19,9 +19,10 @@
  */
 
 #include "GUI_AbstractLibrary.h"
-#include "GUI/Helper/Message/Message.h"
+#include "Helper/Message/Message.h"
 #include "Components/Library/AbstractLibrary.h"
 #include "Helper/LibrarySearchMode.h"
+#include "Helper/Settings/Settings.h"
 
 #include "GUI/Library/Helper/ColumnHeader.h"
 #include <QKeySequence>

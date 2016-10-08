@@ -19,11 +19,10 @@
  */
 
 
-
 #ifndef SAYONARACLASS_H
 #define SAYONARACLASS_H
 
-#include "Helper/Settings/Settings.h"
+class Settings;
 /**
  * @brief The SayonaraClass class provides access to Settings and notifications
  * @ingroup Helper

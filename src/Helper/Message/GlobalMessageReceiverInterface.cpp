@@ -1,4 +1,4 @@
-/* AllDatabase.cpp */
+/* GlobalMessageReceiverInterface.cpp */
 
 /* Copyright (C) 2011-2016  Lucio Carreras
  *
@@ -20,19 +20,19 @@
 
 
 
-#include "./DatabaseStreams.cpp"
-#include "./DatabaseArtists.cpp"
-#include "./DatabasePlaylist.cpp"
-#include "./SayonaraQuery.cpp"
-#include "./DatabaseAlbums.cpp"
-#include "./LibraryDatabase.cpp"
-#include "./DatabaseSettings.cpp"
-#include "./DatabasePodcasts.cpp"
-#include "./DatabaseVisStyles.cpp"
-#include "./DatabaseLibrary.cpp"
-#include "./DatabaseTracks.cpp"
-#include "./DatabaseConnector.cpp"
-#include "./AbstractDatabase.cpp"
-#include "./DatabaseBookmarks.cpp"
-#include "./DatabaseHandler.cpp"
-#include "./DatabaseModule.cpp"
+#include "GlobalMessageReceiverInterface.h"
+
+GlobalMessageReceiverInterface::GlobalMessageReceiverInterface(const QString &name)
+{
+	_name = name;
+}
+
+GlobalMessageReceiverInterface::~GlobalMessageReceiverInterface()
+{
+
+}
+
+QString GlobalMessageReceiverInterface::get_name() const{
+		return _name;
+}
+

@@ -20,8 +20,10 @@
 
 #include "GUI_PlaylistBottomBar.h"
 #include "GUI/Helper/IconLoader/IconLoader.h"
-#include "GUI/Helper/Message/Message.h"
+#include "Helper/Message/Message.h"
 #include "GUI/Playlist/PlaylistMenu.h"
+#include "Helper/Settings/Settings.h"
+
 #ifdef WITH_SHUTDOWN
 	#include "GUI/ShutdownDialog/GUI_Shutdown.h"
 #endif

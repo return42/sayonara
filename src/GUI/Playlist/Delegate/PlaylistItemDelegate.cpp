@@ -27,6 +27,8 @@
 
 #include "Helper/Helper.h"
 #include "Helper/MetaData/MetaData.h"
+#include "Helper/Settings/Settings.h"
+
 #include "PlaylistItemDelegate.h"
 #include "GUI/Playlist/Model/PlaylistItemModel.h"
 

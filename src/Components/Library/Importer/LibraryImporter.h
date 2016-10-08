@@ -24,6 +24,7 @@
 #include "Helper/Tagging/Tagging.h"
 #include "Helper/Settings/SayonaraClass.h"
 #include "ImportCache.h"
+#include "Helper/singleton.h"
 
 class DatabaseConnector;
 class CachingThread;
@@ -52,9 +53,7 @@ signals:
 	void sig_got_metadata(const MetaDataList&);
 	void sig_status_changed(LibraryImporter::ImportStatus);
 	void sig_got_library_dirs(const QStringList& library_dirs);
-	void sig_progress(int);
-
-	void sig_imported();
+	void sig_progress(int percent);
 	void sig_triggered();
 
 

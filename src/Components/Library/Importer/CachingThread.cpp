@@ -21,24 +21,36 @@
 
 
 #include "CachingThread.h"
+#include "ImportCache.h"
 
 #include "Helper/DirectoryReader/DirectoryReader.h"
 #include "Helper/Tagging/Tagging.h"
 #include "Helper/FileHelper.h"
+#include "Helper/MetaData/MetaDataList.h"
 
+struct CachingThreadPrivate {
+	ImportCache		cache;
+	QStringList		file_list;
+	bool			cancelled;
+};
 
 CachingThread::CachingThread(const QStringList& file_list, QObject *parent) :
-	QThread(parent),
-	SayonaraClass()
+	QThread(parent)
 {
-	_file_list = file_list;
-	_cancelled = false;
+	_m = new CachingThreadPrivate;
+
+	_m->file_list = file_list;
+	_m->cancelled = false;
+}
+
+CachingThread::~CachingThread()
+{
+	delete _m;
 }
 
 void CachingThread::run()
 {
-
-	_cache.clear();
+	_m->cache.clear();
 
 	read_files();
 	extract_soundfiles();
@@ -52,10 +64,10 @@ void CachingThread::read_files()
 	DirectoryReader dr;
 	dr.set_filter("*");
 
-	for(const QString& filename : _file_list){
+	for(const QString& filename : _m->file_list){
 
-		if(_cancelled){
-			_cache.clear();
+		if(_m->cancelled){
+			_m->cache.clear();
 			return;
 		}
 
@@ -66,12 +78,12 @@ void CachingThread::read_files()
 			dr.get_files_in_dir_rec(dir, dir_files);
 
 			for(const QString& dir_file : dir_files){
-				_cache.add_standard_file(dir_file, filename);
+				_m->cache.add_standard_file(dir_file, filename);
 			}
 		}
 
 		else{
-			_cache.add_standard_file(filename);
+			_m->cache.add_standard_file(filename);
 		}
 	}
 }
@@ -79,7 +91,7 @@ void CachingThread::read_files()
 void CachingThread::extract_soundfiles()
 {
 
-	for(const QString& filename : _cache.get_files()){
+	for(const QString& filename : _m->cache.get_files()){
 
 		if(Helper::File::is_soundfile(filename)){
 
@@ -89,29 +101,29 @@ void CachingThread::extract_soundfiles()
 			success = Tagging::getMetaDataOfFile(md);
 
 			if(success){
-				_cache.add_soundfile(md);
+				_m->cache.add_soundfile(md);
 			}
 		}
 	}
 }
 
 void CachingThread::change_metadata(const MetaDataList& v_md_old, const MetaDataList& v_md_new){
-	_cache.change_metadata(v_md_old, v_md_new);	
+	_m->cache.change_metadata(v_md_old, v_md_new);
 }
 
 
 ImportCache CachingThread::get_cache() const
 {
-	return _cache;
+	return _m->cache;
 }
 
 void CachingThread::cancel()
 {
-	_cancelled = true;
+	_m->cancelled = true;
 }
 
 bool CachingThread::was_canelled() const
 {
-	return _cancelled;
+	return _m->cancelled;
 }
 

@@ -26,6 +26,7 @@
 
 #include "Playback/PlaybackEngine.h"
 #include "Convert/ConvertEngine.h"
+#include "Helper/Logger/Logger.h"
 
 
 EngineHandler::EngineHandler(QObject* parent) : Engine(parent) {

@@ -25,8 +25,6 @@
 
 #include "CoverLookup.h"
 
-struct _CoverLookupAllMembers;
-class CoverLocation;
 class AlbumList;
 
 /**
@@ -39,7 +37,8 @@ class CoverLookupAll : public CoverLookupInterface
     Q_OBJECT
 
 private:
-	_CoverLookupAllMembers* _m=nullptr;
+	struct CoverLookupAllPrivate;
+	CoverLookupAllPrivate* _m=nullptr;
 
 
 private slots:

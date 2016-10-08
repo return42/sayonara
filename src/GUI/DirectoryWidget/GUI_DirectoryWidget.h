@@ -25,7 +25,6 @@
 
 #include "GUI/DirectoryWidget/ui_GUI_DirectoryWidget.h"
 #include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
-#include "Interfaces/LibraryInterface/LibraryContainer/LibraryContainer.h"
 #include "GUI/InfoDialog/InfoDialogContainer.h"
 
 #include <QWidget>
@@ -37,12 +36,15 @@ class LocalLibrary;
 class IconProvider;
 class LocalLibrary;
 class AbstractSearchFileTreeModel;
-class LibraryContextMenu;
+
+namespace Ui
+{
+	class GUI_DirectoryWidget;
+}
 
 class GUI_DirectoryWidget :
 		public SayonaraWidget,
-		public InfoDialogContainer,
-		private Ui::GUI_DirectoryWidget
+		public InfoDialogContainer
 {
 	Q_OBJECT
 
@@ -70,6 +72,9 @@ private:
 	QModelIndex							_found_idx;
 	QString								_search_term;
 	QStringList							_found_strings;
+	Ui::GUI_DirectoryWidget*			ui;
+
+
 
 
 private:
@@ -100,32 +105,6 @@ protected:
 	MetaDataList::Interpretation get_metadata_interpretation() const override;
 	MetaDataList get_data_for_info_dialog() const override;
 };
-
-
-
-// for showing up in library tree
-class DirectoryLibraryContainer :
-		public LibraryContainerInterface
-{
-
-	Q_OBJECT
-
-private:
-	GUI_DirectoryWidget*		ui=nullptr;
-
-public:
-
-	DirectoryLibraryContainer(QObject* parent=nullptr);
-
-	QIcon				get_icon() const override;
-	QString				get_display_name() const override;
-	QString				get_name() const override;
-	QWidget*			get_ui() const override;
-	QComboBox*			get_libchooser() override;
-	void				init_ui() override;
-
-};
-
 
 
 #endif // GUI_DIRECTORYWIDGET_H

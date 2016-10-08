@@ -28,12 +28,12 @@ ENDIF()
 
 TARGET_LINK_LIBRARIES(${PROJECT_NAME}
     say_gui_library
-    say_interfaces_library_container
     say_comp_playlist
-    say_comp_covers
 )
 
-#cotire(${PROJECT_NAME})
+IF( WITH_COTIRE )
+    cotire(${PROJECT_NAME})
+ENDIF()
 
 IF(NOT WIN32 OR NOT DEFINED WIN32)
     INSTALL(TARGETS ${PROJECT_NAME} DESTINATION lib${LIB_SUFFIX}/sayonara)

@@ -23,6 +23,11 @@ NotificationInterface::NotificationInterface(const QString& name){
 	_name = name;
 }
 
+NotificationInterface::~NotificationInterface()
+{
+
+}
+
 
 QString NotificationInterface::get_name() const{
 	return _name;

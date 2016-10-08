@@ -27,6 +27,7 @@
 #include "ui/SomaFMPlaylistModel.h"
 
 #include "Helper/Helper.h"
+#include "Helper/Settings/Settings.h"
 #include "GUI/Helper/Delegates/ListDelegate.h"
 #include "Components/Covers/CoverLookup.h"
 
@@ -59,12 +60,13 @@ GUI_SomaFM::GUI_SomaFM(QWidget *parent) :
 
 	lab_image->setPixmap(logo);
 
+	bool dark = (_settings->get(Set::Player_Style) == 1);
 	QString description = 
 		"Listener-supported, commercial-free, underground/alternative radio<br /><br />" +
-		Helper::create_link("https://somafm.com", this->is_dark(), "https://somafm.com");
+		Helper::create_link("https://somafm.com", dark, "https://somafm.com");
 
 	lab_description->setText(description);
-	lab_donate->setText(Helper::create_link("https://somafm.com/support/", is_dark()));
+	lab_donate->setText(Helper::create_link("https://somafm.com/support/", dark));
 
 	connect(_library, &SomaFMLibrary::sig_stations_loaded, this, &GUI_SomaFM::stations_loaded);
 	connect(_library, &SomaFMLibrary::sig_station_changed, this, &GUI_SomaFM::station_changed);

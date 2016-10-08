@@ -22,8 +22,9 @@
 
 #include "Helper/Helper.h"
 #include "TagTextInput.h"
-#include <QCursor>
+#include "Helper/Settings/Settings.h"
 
+#include <QCursor>
 
 TagTextInput::TagTextInput(QWidget* parent) :
 	QLineEdit(parent),

@@ -29,7 +29,7 @@
 #include "Helper/MetaData/Artist.h"
 
 
-struct _SoundcloudDataFetcherMembers{
+struct SoundcloudDataFetcherPrivate{
 	MetaDataList	playlist_tracks;
 	AlbumList		playlists;
 	ArtistList		artists;
@@ -40,7 +40,7 @@ struct _SoundcloudDataFetcherMembers{
 SoundcloudDataFetcher::SoundcloudDataFetcher(QObject* parent) :
 	QObject(parent)
 {
-	_m = new _SoundcloudDataFetcherMembers();
+	_m = new SoundcloudDataFetcherPrivate();
 	clear();
 }
 

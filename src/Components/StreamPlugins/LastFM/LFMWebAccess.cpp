@@ -26,6 +26,7 @@
  *      Author: Lucio Carreras
  */
 
+#include "LFMGlobals.h"
 #include "LFMWebAccess.h"
 #include "Helper/WebAccess/AsyncWebAccess.h"
 #include "Helper/Helper.h"

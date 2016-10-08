@@ -23,13 +23,14 @@
 
 #include "StreamWriter.h"
 #include "StreamDataSender.h"
+#include "StreamHttpParser.h"
 #include "Components/Engine/EngineHandler.h"
 #include "Helper/MetaData/MetaData.h"
+#include "Helper/Logger/Logger.h"
 
 // socket is the client socket
 StreamWriter::StreamWriter(QTcpSocket* socket, const QString& ip, const MetaData& md) :
-	RawSoundReceiverInterface(),
-	SayonaraClass()
+	RawSoundReceiverInterface()
 {
 	_sender = new StreamDataSender(socket);
 	_parser = new StreamHttpParser();

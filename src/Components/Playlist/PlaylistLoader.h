@@ -24,9 +24,9 @@
 #include "Helper/Settings/SayonaraClass.h"
 #include "Helper/Playlist/CustomPlaylistTypedefs.h"
 
-class PlaylistDBWrapper;
-class PlaylistHandler;
+#include <QObject>
 
+class PlaylistDBWrapper;
 
 /**
  * @brief The PlaylistLoader class

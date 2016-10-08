@@ -34,6 +34,7 @@
 #include "Helper/DirectoryReader/DirectoryReader.h"
 #include "Helper/Parser/PlaylistParser.h"
 #include "Helper/Playlist/CustomPlaylist.h"
+#include "Helper/Settings/Settings.h"
 
 #include <algorithm>
 #include <memory>

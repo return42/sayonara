@@ -19,6 +19,7 @@
  */
 
 #include "SayonaraDialog.h"
+#include "Helper/Settings/Settings.h"
 
 SayonaraDialog::SayonaraDialog(QWidget* parent) :
 	SayonaraWidgetTemplate<QDialog>(parent)

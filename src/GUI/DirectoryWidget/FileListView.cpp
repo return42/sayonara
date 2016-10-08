@@ -27,6 +27,7 @@
 #include "Helper/Helper.h"
 #include "Helper/MetaData/MetaDataList.h"
 #include "Helper/DirectoryReader/DirectoryReader.h"
+#include "Helper/Settings/Settings.h"
 
 
 FileListView::FileListView(QWidget* parent) :

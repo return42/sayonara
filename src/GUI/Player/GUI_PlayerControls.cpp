@@ -24,6 +24,7 @@
 #include "GUI/Helper/IconLoader/IconLoader.h"
 #include "Components/PlayManager/PlayManager.h"
 #include "Helper/Helper.h"
+#include "Helper/Settings/Settings.h"
 
 #include <QFileDialog>
 #include <QToolTip>
@@ -186,7 +187,7 @@ void GUI_Player::set_total_time_label(qint64 total_time) {
 }
 
 
-void GUI_Player::set_file_info_label()
+void GUI_Player::file_info_changed()
 {
 		QString rating_text;
 
@@ -253,7 +254,7 @@ void GUI_Player::seek(int val)
 }
 
 
-void GUI_Player::set_cur_pos_ms(quint64 pos_ms)
+void GUI_Player::cur_pos_changed(quint64 pos_ms)
 {
 	int max = sli_progress->maximum();
 	int new_val;

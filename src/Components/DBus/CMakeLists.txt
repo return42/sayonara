@@ -59,7 +59,7 @@ QT5_ADD_DBUS_INTERFACE(SOURCES
 
 ADD_LIBRARY(${PROJECT_NAME} STATIC ${SOURCES})
 TARGET_LINK_LIBRARIES(${PROJECT_NAME}
-    say_gui_helper
+    Qt5::Gui
     say_interfaces_notifications
     )
 

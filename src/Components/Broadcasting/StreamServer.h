@@ -30,8 +30,7 @@
 #include <QTcpSocket>
 #include <QTcpServer>
 
-struct _StreamServerMembers;
-class EngineHandler;
+struct StreamServerPrivate;
 /**
  * @brief The StreamServer class. This class is listening for new connections and holds and administrates current connections.
  * @ingroup Broadcasting
@@ -53,7 +52,7 @@ class StreamServer :
 		virtual ~StreamServer();
 
 	private:
-		_StreamServerMembers*				_m = nullptr;
+		StreamServerPrivate*				_m = nullptr;
 
 		// create new server and listen
 		void create_server();

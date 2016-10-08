@@ -25,7 +25,7 @@
 #include "GUI/Helper/MenuTool/MenuTool.h"
 #include "Interfaces/PlayerPlugin/PlayerPlugin.h"
 #include "Components/StreamPlugins/Streams/AbstractStreamHandler.h"
-#include "GUI/Helper/Message/GlobalMessage.h"
+#include "Helper/Message/GlobalMessage.h"
 
 #include <QComboBox>
 #include <QPushButton>

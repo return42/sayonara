@@ -24,7 +24,7 @@
 #define TREE_DELEGATE_H
 
 #include <QItemDelegate>
-#include <QItemDelegate>
+
 /**
  * @brief The TreeDelegate class. Only used for size hinting
  * @ingroup GUIHelper

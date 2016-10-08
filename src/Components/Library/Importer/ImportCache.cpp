@@ -19,21 +19,36 @@
  */
 
 
-
 #include "ImportCache.h"
 #include "Helper/Settings/Settings.h"
 #include "Helper/FileHelper.h"
+#include "Helper/MetaData/MetaDataList.h"
+
+struct ImportCachePrivate
+{
+	QString					library_path;
+	MetaDataList			v_md;
+	QMap<QString, MetaData> src_md_map;
+	QMap<QString, QString>	src_dst_map;
+	QStringList				files;
+};
 
 ImportCache::ImportCache()
 {
-	_library_path = Settings::getInstance()->get(Set::Lib_Path);
+	_m = new ImportCachePrivate();
+	_m->library_path = Settings::getInstance()->get(Set::Lib_Path);
+}
+
+ImportCache::~ImportCache()
+{
+	delete _m;
 }
 
 void ImportCache::clear()
 {
-	_files.clear();
-	_v_md.clear();
-	_src_dst_map.clear();
+	_m->files.clear();
+	_m->v_md.clear();
+	_m->src_dst_map.clear();
 }
 
 void ImportCache::add_soundfile(const MetaData& md)
@@ -42,8 +57,8 @@ void ImportCache::add_soundfile(const MetaData& md)
 		return;
 	}
 
-	_v_md << md;
-	_src_md_map[md.filepath()] = md;
+	_m->v_md << md;
+	_m->src_md_map[md.filepath()] = md;
 }
 
 void ImportCache::add_standard_file(const QString& filename, const QString& parent_dir)
@@ -52,7 +67,7 @@ void ImportCache::add_standard_file(const QString& filename, const QString& pare
 		return;
 	}
 
-	_files << filename;
+	_m->files << filename;
 
 	QString pure_src_filename = Helper::File::get_filename_of_path(filename);
 	QString target_subdir;
@@ -66,27 +81,27 @@ void ImportCache::add_standard_file(const QString& filename, const QString& pare
 		target_subdir = pure_srcdir + "/" + sub_dir + "/";
 	}
 
-	_src_dst_map[filename] = target_subdir + pure_src_filename;
+	_m->src_dst_map[filename] = target_subdir + pure_src_filename;
 }
 
 QStringList ImportCache::get_files() const
 {
-	return _files;
+	return _m->files;
 }
 
 MetaDataList ImportCache::get_soundfiles() const
 {
-	return _v_md;
+	return _m->v_md;
 }
 
 QString ImportCache::get_target_filename(const QString &src_filename, const QString& target_directory) const
 {
-	return _library_path + "/" + target_directory + "/" + _src_dst_map[src_filename];
+	return _m->library_path + "/" + target_directory + "/" + _m->src_dst_map[src_filename];
 }
 
 MetaData ImportCache::get_metadata(const QString& filename) const
 {
-	return _src_md_map[filename];
+	return _m->src_md_map[filename];
 }
 
 
@@ -94,8 +109,8 @@ void ImportCache::change_metadata(const MetaDataList& v_md_old, const MetaDataLi
 {
 	Q_UNUSED(v_md_old)
 
-	_v_md = v_md_new;
+	_m->v_md = v_md_new;
 	for(const MetaData& md : v_md_new){
-		_src_md_map[md.filepath()] = md;
+		_m->src_md_map[md.filepath()] = md;
 	}
 }

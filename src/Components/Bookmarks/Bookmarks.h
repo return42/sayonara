@@ -23,17 +23,15 @@
 #ifndef BOOKMARKS_H
 #define BOOKMARKS_H
 
-#include "Bookmark.h"
 #include "Components/PlayManager/PlayState.h"
 
 #include <QObject>
 #include <QPair>
 #include <QList>
 
+class Bookmark;
 class MetaData;
-class PlayManager;
-class DatabaseConnector;
-struct _BookmarksMembers;
+struct BookmarksPrivate;
 /**
  * @brief The Bookmarks logic class
  * @ingroup Bookmarks
@@ -150,7 +148,7 @@ private slots:
 
 
 private:
-	_BookmarksMembers*		_m=nullptr;
+	BookmarksPrivate*		_m=nullptr;
 
 
 private:

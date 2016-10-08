@@ -21,7 +21,7 @@
 #include "GUI_Player.h"
 #include "GUI_TrayIcon.h"
 #include "GUI/Playlist/GUI_Playlist.h"
-#include "GUI/Helper/Message/Message.h"
+#include "Helper/Message/Message.h"
 #include "GUI/Helper/IconLoader/IconLoader.h"
 #include "GUI/Helper/GUI_Helper.h"
 #include "GUI/Helper/Style/Style.h"
@@ -32,8 +32,9 @@
 
 #include "Helper/Helper.h"
 #include "Helper/globals.h"
-
 #include "Helper/WebAccess/AsyncWebAccess.h"
+#include "Helper/Settings/Settings.h"
+
 #include "Components/PlayManager/PlayManager.h"
 
 #include "Interfaces/LibraryInterface/LibraryPluginHandler.h"
@@ -60,7 +61,6 @@ GUI_Player::GUI_Player(QTranslator* translator, QWidget *parent) :
 	init_gui();
 
 	setup_tray_actions();
-
 	setup_connections();
 
 	REGISTER_LISTENER(Set::Engine_SR_Active, _sl_sr_active_changed);
@@ -71,8 +71,8 @@ GUI_Player::GUI_Player(QTranslator* translator, QWidget *parent) :
 	REGISTER_LISTENER(Set::PL_FontSize, skin_changed);
 	REGISTER_LISTENER(Set::Lib_FontSize, skin_changed);
 	REGISTER_LISTENER(Set::Lib_FontBold, skin_changed);
-	REGISTER_LISTENER(Set::Engine_Pitch, set_file_info_label);
-	REGISTER_LISTENER(Set::Engine_SpeedActive, set_file_info_label);
+	REGISTER_LISTENER(Set::Engine_Pitch, file_info_changed);
+	REGISTER_LISTENER(Set::Engine_SpeedActive, file_info_changed);
 }
 
 
@@ -102,11 +102,12 @@ void GUI_Player::init_gui()
 	lab_writtenby->setText(tr("Written by") + " Lucio Carreras");
 	lab_copyright->setText(tr("Copyright") + " 2011-" + QString::number(QDateTime::currentDateTime().date().year()));
 
-	init_action(action_viewLibrary, Set::Lib_Show);
+	action_viewLibrary->setChecked(_settings->get(Set::Lib_Show));
 	action_viewLibrary->setText(tr("Library"));
 
-	init_action(action_Dark, Set::Player_Style);
+	action_Dark->setChecked(_settings->get(Set::Player_Style));
 	action_Dark->setShortcut(QKeySequence("F10"));
+
 	action_Fullscreen->setShortcut(QKeySequence("F11"));
 
 #ifdef WITH_MTP
@@ -117,7 +118,7 @@ void GUI_Player::init_gui()
 
 	btn_rec->setVisible(false);
 
-	set_cur_pos_ms(_play_manager->get_init_position_ms());
+	cur_pos_changed(_play_manager->get_init_position_ms());
 
 	bool library_visible = _settings->get(Set::Lib_Show);
 	show_library(library_visible);
@@ -157,7 +158,7 @@ void GUI_Player::track_changed(const MetaData & md)
 	set_info_labels();
 	set_cur_pos_label(0);
 	set_total_time_label(_md.length_ms);
-	set_file_info_label();
+	file_info_changed();
 	set_cover_location();
 	set_radio_mode( _md.radio_mode() );
 
@@ -311,10 +312,6 @@ void GUI_Player::skin_toggled(bool on)
 	_settings->set(Set::Player_Style, (on ? 1 : 0) );
 }
 
-void GUI_Player::reload_skin()
-{
-	skin_changed();
-}
 
 /** TRAY ICON **/
 void GUI_Player::setup_tray_actions()
@@ -431,7 +428,7 @@ void GUI_Player::check_library_menu_action()
 	}
 }
 
-void GUI_Player::set_player_plugin_handler(PlayerPluginHandler* pph)
+void GUI_Player::register_player_plugin_handler(PlayerPluginHandler* pph)
 {
 	_pph = pph;
 

@@ -23,13 +23,14 @@
 #include "Helper/Helper.h"
 #include "Helper/MetaData/MetaData.h"
 #include "Helper/WebAccess/AsyncWebAccess.h"
+#include "Helper/Settings/Settings.h"
 #include "Components/Engine/EngineHandler.h"
 #include "Components/PlayManager/PlayManager.h"
-#include "GUI/Helper/Message/GlobalMessage.h"
+#include "Helper/Message/GlobalMessage.h"
 
 #include <QHostAddress>
 
-struct _StreamServerMembers{
+struct StreamServerPrivate{
 	QTcpServer*							server=nullptr;		// the server
 
 	MetaData							cur_track;				// cur played track
@@ -42,12 +43,12 @@ struct _StreamServerMembers{
 	QStringList							allowed_ips;			// IPs without prompt
 	QStringList							discmissed_ips;		// dismissed IPs
 
-	_StreamServerMembers(){
+	StreamServerPrivate(){
 		asking = false;
 		mp3_enc_available = false;
 	}
 
-	virtual ~_StreamServerMembers(){
+	virtual ~StreamServerPrivate(){
 		if(server){
 			delete server;
 			server = nullptr;
@@ -63,7 +64,7 @@ StreamServer::StreamServer(QObject* parent) :
 	PlayManager* play_manager;
 	EngineHandler* engine;
 
-	_m = new _StreamServerMembers();
+	_m = new StreamServerPrivate();
 
 	create_server();
 

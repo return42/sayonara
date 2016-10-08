@@ -29,8 +29,6 @@
 #include <QMap>
 #include <QString>
 
-
-
 // We need this for eventual disambiguation between the
 // table itself and this interface
 // in the Searchable View class
@@ -41,22 +39,30 @@ public:
     virtual QModelIndex getNextRowIndexOf(QString substr, int cur_row, const QModelIndex& parent=QModelIndex())=0;
     virtual QModelIndex getPrevRowIndexOf(QString substr, int cur_row, const QModelIndex& parent=QModelIndex())=0;
     virtual QMap<QChar, QString> getExtraTriggers()=0;
+
+protected:
+    AbstractSearchModelInterface();
+    virtual ~AbstractSearchModelInterface();
 };
 
 
 // Searchable Model for tables
-class AbstractSearchTableModel : public QAbstractTableModel, public AbstractSearchModelInterface {
+class AbstractSearchTableModel :
+	public QAbstractTableModel,
+	public AbstractSearchModelInterface {
 
-public:
-    AbstractSearchTableModel(QObject* parent=0) : QAbstractTableModel(parent){}
+protected:
+    AbstractSearchTableModel(QObject* parent=nullptr);
+    virtual ~AbstractSearchTableModel();
 };
 
 
 // Searchable Model for lists
 class AbstractSearchListModel : public QAbstractListModel, public AbstractSearchModelInterface {
 
-public:
-     AbstractSearchListModel(QObject* parent=0) : QAbstractListModel(parent){}
+protected:
+     AbstractSearchListModel(QObject* parent=nullptr);
+     virtual ~AbstractSearchListModel();
 };
 
 

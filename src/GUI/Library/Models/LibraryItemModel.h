@@ -24,29 +24,6 @@
 
 
 
-#define COL_ALBUM_MACROS
-#define COL_ALBUM_MULTI_DISC 0
-#define COL_ALBUM_NAME 1
-#define COL_ALBUM_DURATION 2
-#define COL_ALBUM_N_SONGS 3
-#define COL_ALBUM_YEAR 4
-#define COL_ALBUM_RATING 5
-
-#define COL_ARTIST_MACROS
-#define COL_ARTIST_N_ALBUMS 0
-#define COL_ARTIST_NAME 1
-#define COL_ARTIST_TRACKS 2
-
-#define COL_TRACK_NUM 0
-#define COL_TITLE 1
-#define COL_ARTIST 2
-#define COL_ALBUM 3
-//#define COL_DISCNUMBER 4
-#define COL_YEAR 4
-#define COL_LENGTH 5
-#define COL_BITRATE 6
-#define COL_FILESIZE 7
-#define COL_TRACK_RATING 8
 
 #include "GUI/Helper/SearchableWidget/AbstractSearchModel.h"
 #include "Helper/MetaData/MetaDataList.h"

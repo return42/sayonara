@@ -24,10 +24,11 @@
  */
 
 #include "GUI_Player.h"
-#include "GUI/Helper/Message/Message.h"
+#include "Helper/Message/Message.h"
 #include "GUI/Helper/GUI_Helper.h"
 
 #include "Helper/Helper.h"
+#include "Helper/Settings/Settings.h"
 
 #include "Components/Playlist/PlaylistHandler.h"
 #include "Helper/WebAccess/AsyncWebAccess.h"
@@ -133,9 +134,9 @@ void GUI_Player::show_fullscreen_toggled(bool b)
 void GUI_Player::help()
 {
 	Message::info(tr("Please visit the forum at") + "<br />" +
-				  Helper::create_link("http://sayonara-player.com/forum", is_dark()) +
+				  Helper::create_link("http://sayonara-player.com/forum", _settings->get(Set::Player_Style) == 1) +
 				  "<br /><br />" +
-				  tr("Donate") + ": <br />" + Helper::create_link("http://sayonara-player.com", is_dark()) +
+				  tr("Donate") + ": <br />" + Helper::create_link("http://sayonara-player.com", _settings->get(Set::Player_Style) == 1) +
 				  "<br /><br />" +
 				  tr("Thank you!") + " :-)"
 				  );

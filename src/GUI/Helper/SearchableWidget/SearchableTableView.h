@@ -32,7 +32,10 @@
 
 class AbstractSearchTableModel;
 class MiniSearcher;
-class SearchableTableView : public QTableView, public SayonaraSelectionView {
+class SearchableTableView :
+		public QTableView,
+		public SayonaraSelectionView
+{
 	Q_OBJECT
 
 signals:
@@ -54,6 +57,7 @@ private:
 	AbstractSearchTableModel*   _abstr_model=nullptr;
 	int							_cur_row;
 
+private:
 	virtual QAbstractItemModel* get_model() const override;
 	virtual QItemSelectionModel* get_selection_model() const override;
 	virtual void set_current_index(int idx) override;

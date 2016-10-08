@@ -1,6 +1,6 @@
 /* Filter.h
 
- * Copyright (C) 2012-2016 Lucio Carreras  
+ * Copyright (C) 2012-2016 Lucio Carreras
  *
  * This file is part of sayonara-player
  *
@@ -17,8 +17,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * created by Lucio Carreras, 
- * Jul 9, 2012 
+ * created by Lucio Carreras,
+ * Jul 9, 2012
  *
  */
 
@@ -30,22 +30,22 @@
 
 struct Filter {
 
-	enum class Mode : quint8
-	{
-		Fulltext=0,
-		Filename,
-		Genre
-	};
+    enum class Mode : quint8
+    {
+	Fulltext=0,
+	Filename,
+	Genre
+    };
 
-	QString		filtertext;
-	Mode		mode;
-	bool		cleared;
+    QString		filtertext;
+    Mode		mode;
+    bool		cleared;
 
-	Filter(){
-		filtertext = "";
-		mode = Mode::Fulltext;
-		cleared = true;
-	}
+    Filter(){
+	filtertext = "";
+	mode = Mode::Fulltext;
+	cleared = true;
+    }
 };
 
 

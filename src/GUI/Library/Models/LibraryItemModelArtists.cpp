@@ -28,6 +28,8 @@
 
 #include "LibraryItemModelArtists.h"
 #include "GUI/Library/Helper/ColumnHeader.h"
+#include "GUI/Library/Helper/ColumnIndex.h"
+
 #include "GUI/Helper/GUI_Helper.h"
 #include "Helper/Settings/Settings.h"
 #include "Helper/LibrarySearchMode.h"
@@ -80,13 +82,15 @@ QVariant LibraryItemModelArtists::data(const QModelIndex & index, int role) cons
 
 	int row = index.row();
 	int col = index.column();
+
+	ColumnIndex::Artist idx_col = (ColumnIndex::Artist) col;
 	const Artist& artist = _artists[row];
 
 
 	if(role == Qt::TextAlignmentRole){
-		
-		switch(col) {
-			case COL_ARTIST_NAME:
+
+		switch(idx_col) {
+			case ColumnIndex::Artist::Name:
 				return (int) (Qt::AlignLeft | Qt::AlignVCenter);
 			default:
 				return (int) (Qt::AlignRight | Qt::AlignVCenter);
@@ -94,7 +98,7 @@ QVariant LibraryItemModelArtists::data(const QModelIndex & index, int role) cons
 	}
 
 	else if(role == Qt::DecorationRole){
-		if(col == COL_ARTIST_N_ALBUMS){
+		if(idx_col == ColumnIndex::Artist::NumAlbums){
 			if(artist.num_albums > 1){
 				return _pm_multi;
 			}
@@ -104,11 +108,11 @@ QVariant LibraryItemModelArtists::data(const QModelIndex & index, int role) cons
 
 	else if(role == Qt::DisplayRole) {
 
-		switch(col) {
-			case COL_ARTIST_NAME:
+		switch(idx_col) {
+			case ColumnIndex::Artist::Name:
 				return artist.name;
 
-			case COL_ARTIST_TRACKS:
+			case ColumnIndex::Artist::Tracks:
 				return QString::number(artist.num_songs) + " " + tr("tracks");
 
 			default:

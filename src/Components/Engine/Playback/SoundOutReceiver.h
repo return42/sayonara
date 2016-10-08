@@ -26,13 +26,19 @@
 #include <QList>
 
 class LevelReceiver {
-public:
+    public:
 	virtual void set_level(float left, float right)=0;
+
+    LevelReceiver();
+    virtual ~LevelReceiver();
 };
 
 class SpectrumReceiver {
 public:
-	virtual void set_spectrum(const QList<float>& spectrum)=0;
+    virtual void set_spectrum(const QList<float>& spectrum)=0;
+
+    SpectrumReceiver();
+    virtual ~SpectrumReceiver();
 };
 
 #endif // LEVELRECEIVER_H

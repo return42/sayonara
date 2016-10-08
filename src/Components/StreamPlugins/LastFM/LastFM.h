@@ -32,6 +32,7 @@
 #include "Helper/Settings/SayonaraClass.h"
 #include "Helper/MetaData/MetaData.h"
 #include "Helper/typedefs.h"
+#include "Helper/singleton.h"
 
 #include <QMap>
 #include <QtXml>

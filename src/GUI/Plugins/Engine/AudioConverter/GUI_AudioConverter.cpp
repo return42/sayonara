@@ -21,7 +21,7 @@
 
 
 #include "GUI_AudioConverter.h"
-#include "GUI/Helper/Message/Message.h"
+#include "Helper/Message/Message.h"
 
 #include "Components/Engine/EngineHandler.h"
 #include "Components/Engine/Convert/LameBitrate.h"

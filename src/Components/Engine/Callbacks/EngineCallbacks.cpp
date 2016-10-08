@@ -47,7 +47,7 @@
 	}
 #endif
 
-bool parse_image(GstTagList* tags, QImage& img)
+static bool parse_image(GstTagList* tags, QImage& img)
 {
 	GstSample* sample;
 
@@ -296,7 +296,7 @@ EngineCallbacks::level_handler(GstBus * bus, GstMessage * message, gpointer data
 
 	Q_UNUSED(bus);
 
-	static double			channel_values[2];
+	double					channel_values[2];
 
 	PlaybackEngine*			engine;
 	GValueArray*			rms_arr;

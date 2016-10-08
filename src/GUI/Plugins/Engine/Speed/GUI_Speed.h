@@ -23,7 +23,7 @@
 #ifndef GUI_SPEED_H
 #define GUI_SPEED_H
 
-#include "GUI/Plugins/Speed/ui_GUI_Speed.h"
+#include "GUI/Plugins/Engine/ui_GUI_Speed.h"
 
 #include "Interfaces/PlayerPlugin/PlayerPlugin.h"
 

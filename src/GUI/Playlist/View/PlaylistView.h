@@ -72,7 +72,7 @@ public:
 	void scroll_up();
 	void scroll_down();
 
-	int get_num_rows();
+	int get_num_rows() const;
 	void remove_cur_selected_rows();
 
 	/**

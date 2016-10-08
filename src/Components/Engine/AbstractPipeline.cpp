@@ -23,6 +23,7 @@
 
 #include "Callbacks/EngineCallbacks.h"
 #include "Callbacks/PipelineCallbacks.h"
+#include "Helper/Logger/Logger.h"
 
 #include <gst/app/gstappsink.h>
 
@@ -156,7 +157,7 @@ void AbstractPipeline::set_data(uchar* data, quint64 size){
 	emit sig_data(data, size);
 }
 
-void show_time_info(gint64 pos, gint64 dur){
+static void show_time_info(gint64 pos, gint64 dur){
 
 	sp_log(Log::Debug) << "Difference: "
 					   << dur - pos << ": "

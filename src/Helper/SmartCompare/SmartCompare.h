@@ -18,10 +18,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifndef SMART_COMPARE_H
+#define SMART_COMPARE_H
 
-
-#ifndef SmartCompare_H
-#define SmartCompare_H
 #include <QMap>
 #include <QString>
 #include <QList>

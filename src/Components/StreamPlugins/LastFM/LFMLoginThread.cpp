@@ -18,27 +18,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "LFMLoginThread.h"
 #include "LFMGlobals.h"
 #include "LFMWebAccess.h"
 #include "Helper/Helper.h"
-#include "GUI/Helper/Message/Message.h"
+#include "Helper/Message/Message.h"
+#include "Helper/Logger/Logger.h"
 
-LFMLoginStuff::LFMLoginStuff(){
-	logged_in = false;
-	subscriber = false;
-}
 
 LFMLoginThread::LFMLoginThread(QObject *parent) :
-	QObject(parent),
-	SayonaraClass()
+	QObject(parent)
 {
 
 }
 
-LFMLoginThread::~LFMLoginThread() {}
+LFMLoginThread::~LFMLoginThread()
+{
+
+}
 
 void LFMLoginThread::get_token() {
 
@@ -180,6 +177,6 @@ void LFMLoginThread::wa_error(const QString& error){
 
 
 LFMLoginStuff LFMLoginThread::getLoginStuff() {
-    return _login_info;
+	return _login_info;
 }
 

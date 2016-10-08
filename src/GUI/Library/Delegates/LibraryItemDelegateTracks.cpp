@@ -27,17 +27,12 @@
  */
 
 #include "LibraryItemDelegateTracks.h"
-#include "GUI/Library/Models/LibraryItemModelTracks.h"
+#include "GUI/Library/Helper/ColumnIndex.h"
 #include "GUI/Helper/RatingLabel/RatingLabel.h"
 
-#include "Helper/FileHelper.h"
-
-#include <QLabel>
-#include <QTableView>
-#include <QItemDelegate>
 #include <QPainter>
 
-LibraryItemDelegateTracks::LibraryItemDelegateTracks(LibraryView* parent, bool enabled) :
+LibraryItemDelegateTracks::LibraryItemDelegateTracks(QObject* parent, bool enabled) :
 	LibraryRatingDelegate(parent, enabled)
 {
 
@@ -53,8 +48,9 @@ void LibraryItemDelegateTracks::paint(QPainter *painter, const QStyleOptionViewI
 
 	int col = index.column();
 
-	if(col == COL_TRACK_RATING) {
-		RatingLabel label((QWidget*) _parent, true);
+	if(col == (int) ColumnIndex::Track::Rating) {
+		//TODO
+		RatingLabel label(nullptr, true);
 		label.set_rating(index.data().toInt());
 		label.setGeometry(option.rect);
 

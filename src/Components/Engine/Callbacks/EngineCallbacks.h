@@ -45,9 +45,6 @@ namespace EngineCallbacks {
 
 	gboolean
 	spectrum_handler(GstBus* bus, GstMessage* message, gpointer data);
-
-	gboolean
-	show_position(GstElement* pipeline);
 }
 
 #endif // ENGINECALLBACKS_H

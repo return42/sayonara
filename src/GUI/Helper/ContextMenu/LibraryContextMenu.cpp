@@ -18,13 +18,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "LibraryContextMenu.h"
 
 #include "GUI/Helper/IconLoader/IconLoader.h"
 #include "GUI/Helper/GUI_Helper.h"
 #include "GUI/Helper/RatingLabel/RatingLabel.h"
+
+#include "Helper/Settings/Settings.h"
 
 LibraryContextMenu::LibraryContextMenu(QWidget* parent) :
 	QMenu(parent),

@@ -23,6 +23,7 @@
 #include "Helper/globals.h"
 #include "Helper/FileHelper.h"
 #include "Helper/MetaData/MetaDataList.h"
+#include "Helper/Settings/Settings.h"
 
 #include "Components/Covers/CoverLocation.h"
 #include "Database/DatabaseHandler.h"

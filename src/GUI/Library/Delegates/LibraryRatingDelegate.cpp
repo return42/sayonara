@@ -21,16 +21,14 @@
 
 
 #include "LibraryRatingDelegate.h"
-#include "GUI/Library/Views/LibraryView.h"
 #include "GUI/Helper/RatingLabel/RatingLabel.h"
 #include "Helper/Logger/Logger.h"
 
 #include <QFontMetrics>
 
-LibraryRatingDelegate::LibraryRatingDelegate(LibraryView* parent, bool enabled) :
+LibraryRatingDelegate::LibraryRatingDelegate(QObject* parent, bool enabled) :
 	QItemDelegate(parent)
 {
-    _parent = parent;
 	_enabled = enabled;
 }
 

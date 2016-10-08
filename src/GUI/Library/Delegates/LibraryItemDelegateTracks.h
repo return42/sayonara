@@ -31,11 +31,12 @@
 
 #include "GUI/Library/Delegates/LibraryRatingDelegate.h"
 
-
-class LibraryItemDelegateTracks : public LibraryRatingDelegate {
+class LibraryItemDelegateTracks :
+		public LibraryRatingDelegate
+{
 
 public:
-	LibraryItemDelegateTracks(LibraryView* parent, bool enabled);
+	LibraryItemDelegateTracks(QObject* parent, bool enabled);
 	virtual ~LibraryItemDelegateTracks();
 
 public:

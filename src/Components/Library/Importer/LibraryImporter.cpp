@@ -20,17 +20,17 @@
 
 #include "LibraryImporter.h"
 
+#include "Helper/Settings/Settings.h"
+#include "Helper/MetaData/MetaDataList.h"
+#include "Helper/Message/Message.h"
+
 #include "Components/TagEdit/MetaDataChangeNotifier.h"
 #include "Database/DatabaseConnector.h"
 #include "CachingThread.h"
 #include "CopyThread.h"
 
-#include "GUI/Helper/Message/Message.h"
-
 #include <QMap>
 #include <QDir>
-
-
 
 LibraryImporter::LibraryImporter(QObject* parent) :
 	QObject(parent),
@@ -177,11 +177,11 @@ void LibraryImporter::copy_thread_finished() {
 	}
 
 	else{
-		Message::warning(
-					tr("Sorry, but tracks could not be imported") +
+		QString warning = tr("Sorry, but tracks could not be imported") +
 					"<br />" +
-					tr("Please use the import function of the file menu<br /> or move tracks to library and use 'Reload library'")
-					);
+					tr("Please use the import function of the file menu<br /> or move tracks to library and use 'Reload library'");
+
+		Message::warning(warning);
 	}
 
 	copy_thread->deleteLater();

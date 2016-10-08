@@ -21,12 +21,13 @@
 
 
 #include "GUI_Bookmarks.h"
-#include "GUI/Helper/Message/Message.h"
+#include "Helper/Message/Message.h"
 #include "GUI/Helper/Delegates/ComboBoxDelegate.h"
 
 #include "Helper/Helper.h"
 #include "Helper/MetaData/MetaData.h"
 
+#include "Components/Bookmarks/Bookmark.h"
 #include "Components/Bookmarks/Bookmarks.h"
 
 #define TXT_NO_BOOKMARK "--:--"

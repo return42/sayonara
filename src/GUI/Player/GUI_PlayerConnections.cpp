@@ -40,7 +40,7 @@ void GUI_Player::setup_connections() {
 
 	connect(_play_manager, &PlayManager::sig_playstate_changed, this, &GUI_Player::playstate_changed);
 	connect(_play_manager, &PlayManager::sig_track_changed, this, &GUI_Player::track_changed);
-	connect(_play_manager, &PlayManager::sig_position_changed_ms, this,	&GUI_Player::set_cur_pos_ms);
+	connect(_play_manager, &PlayManager::sig_position_changed_ms, this,	&GUI_Player::cur_pos_changed);
 	connect(_play_manager, &PlayManager::sig_buffer, this, &GUI_Player::buffering);
 	connect(_play_manager, &PlayManager::sig_volume_changed, this, &GUI_Player::volume_changed);
 	connect(_play_manager, &PlayManager::sig_mute_changed, this, &GUI_Player::mute_changed);

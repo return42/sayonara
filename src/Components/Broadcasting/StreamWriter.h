@@ -22,7 +22,6 @@
 #define STREAM_WRITER_H
 
 #include "StreamHttpParser.h"
-#include "Helper/Settings/SayonaraClass.h"
 #include "Interfaces/RawSoundReceiver/RawSoundReceiverInterface.h"
 
 #include <QByteArray>
@@ -42,8 +41,7 @@ class MetaData;
  */
 class StreamWriter :
 		public QObject,
-		public RawSoundReceiverInterface,
-		protected SayonaraClass
+		public RawSoundReceiverInterface
 
 {
 	Q_OBJECT

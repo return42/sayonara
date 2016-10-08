@@ -49,6 +49,10 @@ protected:
 
 public:
 	SP::Set<int> get_selections() const;
+
+protected:
+	SayonaraSelectionView();
+	virtual ~SayonaraSelectionView();
 };
 
 

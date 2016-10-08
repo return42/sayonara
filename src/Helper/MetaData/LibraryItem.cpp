@@ -39,6 +39,11 @@ CustomField::CustomField(const CustomField &copy){
 	_value = copy._value;
 }
 
+CustomField::~CustomField()
+{
+
+}
+
 QString CustomField::get_id() const {
 	return _id;
 }

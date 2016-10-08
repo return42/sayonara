@@ -48,13 +48,11 @@ public:
 	void set_import_dir(const QString& dir);
 	void set_import_files(const QStringList& filelist);
 
-
 private slots:
 	void bb_accepted();
 	void bb_rejected();
 	void choose_dir();
 	void edit_pressed();
-
 	void set_metadata(const MetaDataList& v_md);
 	void set_status(LibraryImporter::ImportStatus status);
 	void set_progress(int);

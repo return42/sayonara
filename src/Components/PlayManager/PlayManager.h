@@ -27,7 +27,7 @@
 
 
 class MetaData;
-struct _PlayManagerMembers;
+
 /**
  * @brief Global handler for current playback state (Singleton)
  * @ingroup Components
@@ -319,7 +319,8 @@ public:
 
 private:
 
-	_PlayManagerMembers*	_m=nullptr;
+	struct PlayManagerPrivate;
+	PlayManagerPrivate*	_m=nullptr;
 };
 
 

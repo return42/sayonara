@@ -789,7 +789,7 @@
   <customwidget>
    <class>EqSlider</class>
    <extends>QSlider</extends>
-   <header>GUI/Plugins/Equalizer/EqSlider.h</header>
+   <header>GUI/Plugins/Engine/Equalizer/EqSlider.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

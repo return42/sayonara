@@ -31,22 +31,15 @@
 #include <QHash>
 #include <QDomDocument>
 
-#include "LFMGlobals.h"
 #include "ArtistMatch.h"
-
 #include "Helper/typedefs.h"
-#include "Helper/SmartCompare/SmartCompare.h"
 #include "Helper/MetaData/MetaData.h"
-#include "Helper/Settings/SayonaraClass.h"
 
-#define LFM_THREAD_TASK_UPDATE_TRACK 		1<<0
-#define LFM_THREAD_TASK_SIM_ARTISTS 		1<<1
-
-
-class LFMTrackChangedThread : public QObject, protected SayonaraClass {
-
+class SmartCompare;
+class LFMTrackChangedThread :
+		public QObject
+{
 	Q_OBJECT
-
 
 signals:
 
@@ -74,8 +67,10 @@ private:
 	QString						_session_key;
 	QHash<QString, ArtistMatch>  _sim_artists_cache;
 	MetaData					_md;
-	SmartCompare*				_smart_comparison=nullptr;
 
+#ifdef SMART_COMPARE
+	SmartCompare*				_smart_comparison=nullptr;
+#endif
 
 
 private:

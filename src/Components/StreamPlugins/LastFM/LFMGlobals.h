@@ -25,23 +25,8 @@
 #ifndef LFMGLOBALS_H_
 #define LFMGLOBALS_H_
 
-#define LFM_RADIO_MODE_ARTIST 0
-#define LFM_RADIO_MODE_TAG 1
-#define LFM_RADIO_MODE_RECOMMENDED 2
-#define LFM_RADIO_MODE_USER_LIBRARY 3
-
-
-#define LFM_TAG_TRACK_TITLE "track.name"
-#define LFM_TAG_TRACK_ALBUM "track.album.title"
-#define LFM_TAG_TRACK_ARTIST "track.artist.name"
-#define LFM_TAG_TRACK_DURATION "track.duration"
-#define LFM_TAG_TRACK_LOVED "track.userloved"
-#define LFM_TAG_TRACK_USERPLAYCOUNT "track.userplaycount"
-
-
 #define LFM_API_KEY 	QByteArray("51d6f9eaef806f603f346844bef326ba")
 #define LFM_API_SECRET	QByteArray("1093d769e54858cb0d21d42b35a8f603")
-
 
 #include <QMap>
 #include <QByteArray>

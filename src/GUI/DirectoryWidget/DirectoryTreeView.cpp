@@ -29,6 +29,7 @@
 
 #include "Helper/DirectoryReader/DirectoryReader.h"
 #include "Helper/MetaData/MetaDataList.h"
+#include "Helper/Settings/Settings.h"
 
 #include <QDir>
 #include <QMouseEvent>

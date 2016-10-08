@@ -212,6 +212,7 @@ INST(bool,				Lib_FontBold);				/* current library font weight */
 INST(int,				Lib_SearchMode);			/* Search mode in library. See */
 INST(bool,				Lib_AutoUpdate);			/* Automatic update of library */
 
+
 INST(QString,			Player_Version);			/* Version string of player */
 INST(QString,			Player_Language);			/* language of player */
 INST(int,				Player_Style);				/* dark or native: native = 0, dark = 1 */

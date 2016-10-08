@@ -23,9 +23,9 @@
 #include "GUI/Helper/GUI_Helper.h"
 #include "GUI/Helper/Style/Style.h"
 #include "Helper/MetaData/MetaData.h"
+#include "Helper/Settings/Settings.h"
 
 #include "Components/PlayManager/PlayManager.h"
-
 
 #include <QAction>
 #include <QMenu>

@@ -27,7 +27,7 @@
  */
 
 #include "GUI_LocalLibrary.h"
-#include "GUI/Helper/Message/Message.h"
+#include "Helper/Message/Message.h"
 
 #include "GUI/Library/Helper/LocalLibraryMenu.h"
 #include "InfoBox/GUI_LibraryInfoBox.h"
@@ -35,7 +35,7 @@
 
 #include "Components/Library/LocalLibrary.h"
 #include "Helper/Helper.h"
-
+#include "Helper/Settings/Settings.h"
 
 #include <QFileDialog>
 #include <QDir>

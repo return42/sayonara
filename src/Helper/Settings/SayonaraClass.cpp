@@ -19,10 +19,8 @@
  */
 
 
-
-
 #include "Helper/Settings/SayonaraClass.h"
-
+#include "Helper/Settings/Settings.h"
 
 SayonaraClass::SayonaraClass(){
 	_settings = Settings::getInstance();

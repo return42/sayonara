@@ -26,23 +26,21 @@
 #include <QMap>
 #include <QString>
 #include <QStringList>
-#include "Helper/MetaData/MetaDataList.h"
 
-
+class MetaData;
+class MetaDataList;
+class ImportCachePrivate;
 class ImportCache
 {
 
 private:
 
-	QString					_library_path;
-	MetaDataList			_v_md;
-	QMap<QString, MetaData> _src_md_map;
-	QMap<QString, QString>	_src_dst_map;
-	QStringList				_files;
+	ImportCachePrivate*		_m=nullptr;
 
 public:
 
 	ImportCache();
+	virtual ~ImportCache();
 
 
 	void			clear();

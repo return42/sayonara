@@ -25,6 +25,7 @@
 #include "ShortcutWidget.h"
 #include "RawShortcutMap.h"
 #include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
+#include "Helper/Settings/Settings.h"
 
 Shortcut::Shortcut(ShortcutWidget* parent, const QString& identifier, const QString& name, const QStringList& default_shortcuts) :
 	SayonaraClass()

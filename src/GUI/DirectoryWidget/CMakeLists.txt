@@ -7,6 +7,7 @@ SET(SOURCES
 	DirectoryDelegate.cpp
 	FileListView.cpp
 	DirectoryTreeView.cpp
+	DirectoryWidgetContainer.cpp
 )
 
 QT5_WRAP_UI(UI_HEADERS
@@ -19,6 +20,9 @@ TARGET_LINK_LIBRARIES(${PROJECT_NAME}
 	say_gui_helper
 )
 
-#cotire(${PROJECT_NAME})
+IF( WITH_COTIRE )
+    cotire(${PROJECT_NAME})
+ENDIF()
+
 
 

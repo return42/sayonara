@@ -19,9 +19,9 @@
  */
 
 
-
 #include "LibraryViewAlbum.h"
 #include "GUI/Library/Helper/DiscPopupMenu.h"
+#include "GUI/Library/Helper/ColumnIndex.h"
 
 #include <QHeaderView>
 
@@ -41,7 +41,7 @@ void LibraryViewAlbum::rc_menu_show(const QPoint & p){
 
 void LibraryViewAlbum::index_clicked(const QModelIndex &idx){
 
-	if(idx.column() != COL_ALBUM_MULTI_DISC){
+	if(idx.column() != (int) ColumnIndex::Album::MultiDisc){
 		return;
 	}
 

@@ -23,6 +23,8 @@
 #include <QFontMetrics>
 #include <QFormLayout>
 
+#include "Helper/Settings/Settings.h"
+
 
 SayonaraWidget::SayonaraWidget(QWidget* parent) :
 	SayonaraWidgetTemplate<QWidget>(parent)

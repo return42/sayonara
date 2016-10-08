@@ -15,10 +15,6 @@ SET(SOURCES
 
 	IconLoader/IconLoader.cpp
 
-	Message/Message.cpp
-	Message/GlobalMessage.cpp
-	Message/GlobalMessageReceiverInterface.cpp
-
 	MenuTool/MenuButton.cpp
 	MenuTool/MenuTool.cpp
 
@@ -30,6 +26,7 @@ SET(SOURCES
 	SayonaraWidget/SayonaraSlider.cpp
 	SayonaraWidget/SayonaraLoadingBar.cpp
 
+	SearchableWidget/AbstractSearchModel.cpp
 	SearchableWidget/SearchableListView.cpp
 	SearchableWidget/SearchableTableView.cpp
 	SearchableWidget/SearchableFileTreeView.cpp
@@ -50,4 +47,7 @@ TARGET_LINK_LIBRARIES(${PROJECT_NAME}
 	say_helper_settings
 )
 
-#cotire(${PROJECT_NAME})
+IF( WITH_COTIRE )
+    cotire(${PROJECT_NAME})
+ENDIF()
+

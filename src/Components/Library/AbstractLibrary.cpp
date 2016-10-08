@@ -24,7 +24,8 @@
 #include "Components/PlayManager/PlayManager.h"
 
 #include "Components/TagEdit/MetaDataChangeNotifier.h"
-#include "Helper/Tagging/Tagging.h"
+#include "Helper/Settings/Settings.h"
+
 #include <QHash>
 
 AbstractLibrary::AbstractLibrary(QObject *parent) :

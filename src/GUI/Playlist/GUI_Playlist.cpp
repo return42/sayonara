@@ -28,11 +28,15 @@
 
 #include "GUI_Playlist.h"
 #include "View/PlaylistView.h"
-#include "Helper/Helper.h"
 #include "GUI/Helper/IconLoader/IconLoader.h"
 #include "TabWidget/PlaylistTabWidget.h"
+
+#include "Helper/Helper.h"
+#include "Helper/Settings/Settings.h"
+
 #include "Components/PlayManager/PlayManager.h"
 #include "Components/Playlist/Playlist.h"
+#include "Components/Playlist/PlaylistHandler.h"
 
 #include <QKeyEvent>
 #include <QFileDialog>

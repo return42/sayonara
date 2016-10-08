@@ -24,6 +24,8 @@
 #include "Helper/Set.h"
 #include "Helper/globals.h"
 
+#include "Helper/Settings/Settings.h"
+
 #include "Components/TagEdit/MetaDataChangeNotifier.h"
 #include "Components/Engine/EngineHandler.h"
 

@@ -3,7 +3,6 @@
 
 #include <QThread>
 #include <QStringList>
-#include "Helper/Set.h"
 
 class FileSystemWatcher : public QThread
 {

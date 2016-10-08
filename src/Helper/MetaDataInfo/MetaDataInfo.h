@@ -28,6 +28,7 @@
 #include "Components/Covers/CoverLocation.h"
 
 #include <QMap>
+#include <QObject>
 
 class MetaDataList;
 class LibraryDatabase;

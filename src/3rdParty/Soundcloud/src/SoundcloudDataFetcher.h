@@ -28,7 +28,7 @@
 class ArtistList;
 class AlbumList;
 class MetaDataList;
-struct _SoundcloudDataFetcherMembers;
+struct SoundcloudDataFetcherPrivate;
 
 class SoundcloudDataFetcher : public QObject
 {
@@ -60,7 +60,7 @@ private slots:
 
 private:
 
-	_SoundcloudDataFetcherMembers*	_m=nullptr;
+	SoundcloudDataFetcherPrivate*	_m=nullptr;
 };
 
 #endif // SOUNDCLOUDDataFetcher_H

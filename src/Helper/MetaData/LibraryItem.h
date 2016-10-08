@@ -43,6 +43,7 @@ public:
 
 	CustomField(const QString& id, const QString& display_name, const QString& value);
 	CustomField(const CustomField& copy);
+	virtual ~CustomField();
 
 	QString get_id() const;
 	QString get_display_name() const;
@@ -69,7 +70,7 @@ public:
 	LibraryItem(const LibraryItem& other);
 	LibraryItem(LibraryItem&& other);
 	LibraryItem& operator=(const LibraryItem& other);
-	~LibraryItem();
+	virtual ~LibraryItem();
 
 	void add_custom_field(const CustomField& field);
 	void add_custom_field(const QString& id, const QString& display_name, const QString& value);

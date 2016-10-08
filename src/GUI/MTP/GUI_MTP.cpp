@@ -20,10 +20,11 @@
 
 #include "GUI_MTP.h"
 
-#include "GUI/Helper/Message/Message.h"
+#include "Helper/Message/Message.h"
 #include "GUI/Helper/Delegates/TreeDelegate.h"
 #include "GUI/Helper/GUI_Helper.h"
 #include "Helper/globals.h"
+#include "Helper/Logger/Logger.h"
 
 #include <thread>
 #include <functional>

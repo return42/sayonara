@@ -60,27 +60,6 @@ public:
 
 	}
 
-	/**
-	 * @brief Returns, if the current skin is dark 
-	 * @return true, if dark. false else
-	 */
-	bool is_dark() const
-	{
-		bool dark = (_settings->get(Set::Player_Style) == 1);
-
-		QPalette palette = this->palette();
-		QColor color = palette.color(QPalette::Normal, QPalette::Background);
-
-		if(color.lightness() < 128 || dark){
-			return true;
-		}
-
-		else{
-			return false;
-		}
-	}
-
-
 
 protected:
 

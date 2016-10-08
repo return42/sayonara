@@ -22,9 +22,9 @@
 
 #include "SearchableTableView.h"
 #include "AbstractSearchModel.h"
-#include "GUI/Library/Models/LibraryItemModel.h"
 #include "MiniSearcher.h"
 
+#include "GUI/Library/Models/LibraryItemModel.h"
 
 
 SearchableTableView::SearchableTableView(QWidget* parent) :

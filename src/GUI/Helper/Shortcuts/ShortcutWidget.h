@@ -34,6 +34,10 @@ class ShortcutWidget {
 
 public:
 	virtual QString get_shortcut_text(const QString& shortcut_identifier) const=0;
+
+protected:
+	ShortcutWidget();
+	virtual ~ShortcutWidget();
 };
 
 

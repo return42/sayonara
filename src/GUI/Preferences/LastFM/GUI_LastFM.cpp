@@ -27,6 +27,7 @@
  */
 
 #include "GUI_LastFM.h"
+#include "Helper/Settings/Settings.h"
 
 #include "Components/StreamPlugins/LastFM/LastFM.h"
 

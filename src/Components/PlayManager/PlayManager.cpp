@@ -22,6 +22,7 @@
 #include "PlayManager.h"
 #include "Interfaces/Notification/NotificationHandler.h"
 #include "Helper/MetaData/MetaData.h"
+#include "Helper/Settings/Settings.h"
 
 #include <QDateTime>
 #include <QTime>
@@ -74,7 +75,7 @@ class RingBuffer {
 };
 
 
-struct _PlayManagerMembers
+struct PlayManager::PlayManagerPrivate
 {
 	MetaData				md;
 	RingBuffer<QString, 3>	ring_buffer;
@@ -89,7 +90,7 @@ PlayManager::PlayManager(QObject* parent) :
 	QObject(parent),
 	SayonaraClass()
 {
-	_m = new _PlayManagerMembers();
+	_m = new PlayManager::PlayManagerPrivate();
 	_m->position_ms = 0;
 	_m->cur_idx = -1;
 	_m->playstate = PlayState::Stopped;

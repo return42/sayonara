@@ -19,11 +19,12 @@
  */
 
 #include "GUI_ImportFolder.h"
-#include "GUI/Helper/Message/Message.h"
+#include "Helper/Message/Message.h"
 #include "GUI/TagEdit/GUI_TagEdit.h"
 #include "Components/TagEdit/TagEdit.h"
 
 #include "Helper/MetaData/MetaDataList.h"
+#include "Helper/Settings/Settings.h"
 
 #include <QPixmap>
 #include <QScrollBar>

@@ -26,6 +26,7 @@
 #include "Helper/Tagging/Tagging.h"
 #include "Helper/FileHelper.h"
 #include "Helper/Playlist/PlaylistMode.h"
+#include "Helper/Settings/Settings.h"
 
 #include <QUrl>
 #include <algorithm>

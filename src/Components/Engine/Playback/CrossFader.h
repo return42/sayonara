@@ -39,6 +39,7 @@ public:
     };
 
     CrossFader();
+	virtual ~CrossFader();
 
     virtual double get_current_volume() const =0;
     virtual void set_current_volume(double vol)=0;

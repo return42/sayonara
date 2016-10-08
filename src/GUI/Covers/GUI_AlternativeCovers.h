@@ -29,44 +29,35 @@
 #ifndef GUI_ALTERNATE_COVERS_H_
 #define GUI_ALTERNATE_COVERS_H_
 
-#include "GUI/Covers/ui_GUI_AlternativeCovers.h"
 #include "GUI/Helper/SayonaraWidget/SayonaraDialog.h"
-#include "Components/Covers/CoverLocation.h"
 
-#include <QPixmap>
-#include <QList>
-#include <QModelIndex>
-
-class Album;
-class Artist;
-class CoverLookupAlternative;
-class AlternativeCoverItemModel;
-class AlternativeCoverItemDelegate;
+namespace Ui {
+	class AlternativeCovers;
+}
 
 /**
  * @brief The GUI_AlternativeCovers class
  * @ingroup GUICovers
  */
-class GUI_AlternativeCovers :
-		public SayonaraDialog,
-		private Ui::AlternativeCovers
-{
+class CoverLocation;
 
+class GUI_AlternativeCovers :
+		public SayonaraDialog
+{
 	Q_OBJECT
+
 public:
 	GUI_AlternativeCovers(QWidget* parent=nullptr);
 	virtual ~GUI_AlternativeCovers();
 
 signals:
-	void sig_cover_changed(const CoverLocation&);
+	void sig_cover_changed(const CoverLocation& cl);
 
 public slots:
-
 	void start(const CoverLocation& cl);
 
 private slots:
 	void save_button_pressed();
-	void cancel_button_pressed();
 	void search_button_pressed();
 	void cover_pressed(const QModelIndex& idx);
 	void open_file_dialog();
@@ -75,19 +66,14 @@ private slots:
 
 private:
 
-	int						_cur_idx;
-	QString					_last_path;
-	CoverLocation			_cover_location;
-	QStringList				_filelist;
-	bool					_is_searching;
+	struct GUI_AlternativeCoversPrivate;
+	GUI_AlternativeCoversPrivate*	_m=nullptr;
+	Ui::AlternativeCovers*			ui=nullptr;
 
-	AlternativeCoverItemModel*		_model=nullptr;
-	AlternativeCoverItemDelegate*	_delegate=nullptr;
 
-	CoverLookupAlternative*			_cl_alternative=nullptr;
-
+private:
 	void reset_model();
-	void connect_and_start();
+	void connect_and_start(const CoverLocation& cl);
 	void delete_all_files();
 
 protected:

@@ -23,6 +23,8 @@
 #include "Helper/FileHelper.h"
 #include "Helper/Parser/PlaylistParser.h"
 #include "Helper/Tagging/Tagging.h"
+#include "Helper/Logger/Logger.h"
+#include "Helper/Settings/Settings.h"
 
 #include "Components/PlayManager/PlayManager.h"
 

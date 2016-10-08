@@ -26,6 +26,7 @@
 
 #include "Helper/globals.h"
 #include "Helper/Helper.h"
+#include "Helper/Settings/Settings.h"
 
 #include <QLayout>
 

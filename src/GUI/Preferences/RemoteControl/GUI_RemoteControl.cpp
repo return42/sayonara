@@ -25,6 +25,7 @@
 
 #include "GUI_RemoteControl.h"
 #include "Helper/Helper.h"
+#include "Helper/Settings/Settings.h"
 
 
 GUI_RemoteControl::GUI_RemoteControl(QWidget* parent) :

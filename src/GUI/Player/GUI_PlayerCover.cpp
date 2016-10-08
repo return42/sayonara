@@ -24,6 +24,7 @@
  */
 
 #include "GUI_Player.h"
+#include "Components/Covers/CoverLocation.h"
 
 #include <QImage>
 #include <QPixmap>

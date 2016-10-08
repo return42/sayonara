@@ -24,6 +24,8 @@
 #include "Components/Playlist/PlaylistHandler.h"
 #include "Components/Playlist/PlaylistDBWrapper.h"
 
+#include "Helper/Logger/Logger.h"
+
 PlaylistChooser::PlaylistChooser() {
 
 	_playlist_handler = PlaylistHandler::getInstance();

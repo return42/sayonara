@@ -47,6 +47,11 @@ ChangeablePipeline::ChangeablePipeline()
 
 }
 
+ChangeablePipeline::~ChangeablePipeline()
+{
+
+}
+
 
 static GstPadProbeReturn
 src_blocked_add(GstPad* pad, GstPadProbeInfo* info, gpointer data)
