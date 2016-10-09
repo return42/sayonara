@@ -23,7 +23,7 @@
 #ifndef RAWSOUNDRECEIVER_H
 #define RAWSOUNDRECEIVER_H
 
-#include <QObject>
+#include <QtGlobal>
 
 /**
  * @brief The RawSoundReceiver interface

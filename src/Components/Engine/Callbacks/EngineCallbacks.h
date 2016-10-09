@@ -18,16 +18,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef ENGINECALLBACKS_H
 #define ENGINECALLBACKS_H
 
 #include <gst/gst.h>
-#include <gst/gsturi.h>
-#include <gst/app/gstappsink.h>
-#include <gst/gstbuffer.h>
-#include <gst/gstelement.h>
 
 namespace EngineCallbacks {
 

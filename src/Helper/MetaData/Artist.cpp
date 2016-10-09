@@ -25,6 +25,7 @@
 #include "Helper/Logger/Logger.h"
 
 #include <QHash>
+#include <QVariant>
 
 #define ARTIST_DO_COPY \
 	id = other.id;	\

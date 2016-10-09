@@ -26,9 +26,9 @@
 #include "Helper/MetaData/LibraryItem.h"
 
 #include <QStringList>
-#include <QVariant>
 #include <QMetaType>
 
+class QVariant;
 class Album;
 
 Q_DECLARE_METATYPE(Album)

@@ -24,27 +24,44 @@
 #include "Components/Playlist/PlaylistHandler.h"
 #include "Helper/WebAccess/AsyncWebAccess.h"
 #include "Helper/Parser/StreamParser.h"
+#include "Helper/MetaData/MetaDataList.h"
+
+struct AbstractStreamHandler::Private
+{
+	PlaylistHandler*				playlist=nullptr;
+	QMap<QString, MetaDataList>		station_contents;
+	QString							station_name;
+	bool							blocked;
+};
+
 
 AbstractStreamHandler::AbstractStreamHandler(QObject *parent) :
 	QObject(parent)
 {
-	_blocked = false;
+	_m = new AbstractStreamHandler::Private();
+	_m->playlist = PlaylistHandler::getInstance();
+	_m->blocked = false;
+
 	_db = DatabaseConnector::getInstance();
-	_playlist = PlaylistHandler::getInstance();
+}
+
+AbstractStreamHandler::~AbstractStreamHandler()
+{
+	delete _m; _m = nullptr;
 }
 
 void AbstractStreamHandler::clear(){
-	_station_contents.clear();
+	_m->station_contents.clear();
 }
 
 
 bool AbstractStreamHandler::parse_station(const QString& url, const QString& station_name){
 
-	if(_blocked) {
+	if(_m->blocked) {
 		return false;
 	}
 
-	_blocked = true;
+	_m->blocked = true;
 
 	StreamParser* stream_parser = new StreamParser(station_name, this);
 	connect(stream_parser, &StreamParser::sig_finished, this, &AbstractStreamHandler::stream_parser_finished);
@@ -58,25 +75,23 @@ void AbstractStreamHandler::stream_parser_finished(bool success){
 
 	if(!success){
 		emit sig_error();
-		_blocked = false;
+		_m->blocked = false;
 		return;
 	}
 
 	StreamParser* stream_parser = static_cast<StreamParser*>(sender());
 	MetaDataList v_md = stream_parser->get_metadata();
 
-	_station_contents[_station_name] = v_md;
+	_m->station_contents[_m->station_name] = v_md;
 
 	emit sig_data_available();
 
-	_playlist->create_playlist(v_md, _station_name, true, PlaylistType::Stream);
-
-	_blocked = false;
-
+	_m->playlist->create_playlist(v_md, _m->station_name, true, PlaylistType::Stream);
+	_m->blocked = false;
 }
 
 MetaDataList AbstractStreamHandler::get_tracks(const QString& station_name){
-	return _station_contents[station_name];
+	return _m->station_contents[station_name];
 }
 
 

@@ -23,8 +23,6 @@
 
 #include "MetaData.h"
 #include "Helper/typedefs.h"
-#include <QStringList>
-#include <functional>
 
 /**
  * @brief The MetaDataList class
@@ -71,10 +69,6 @@ public:
 	MetaDataList& copy_tracks(const SP::Set<int>& indexes, int tgt_idx);
 	MetaDataList& insert_tracks(const MetaDataList& v_md, int tgt_idx);
 	MetaDataList& randomize();
-
-	MetaDataList extract_tracks(std::function<bool (const MetaData& md)> func) const;
-	//MetaDataList extract_tracks(const IdxList& idx_list) const;
-	MetaDataList extract_tracks(const SP::Set<int>& idx_list) const;
 
 	IdxList findTracks(int id) const;
 	IdxList findTracks(const QString&) const;

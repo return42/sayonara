@@ -18,13 +18,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #include "Playlist.h"
 #include "Helper/FileHelper.h"
 #include "Helper/Set.h"
 #include "Helper/globals.h"
-
 #include "Helper/Settings/Settings.h"
+#include "Helper/MetaData/MetaDataList.h"
 
 #include "Components/TagEdit/MetaDataChangeNotifier.h"
 #include "Components/Engine/EngineHandler.h"
@@ -32,17 +31,22 @@
 #include <utility>
 #include <algorithm>
 
+struct Playlist::Private
+{
+	MetaDataList    v_md;
+	bool			playlist_changed;
+};
 
-Playlist::Playlist(int idx, QString name) :
+Playlist::Playlist(int idx, const QString& name) :
 	PlaylistDBInterface(name),
 	SayonaraClass()
 {
 	MetaDataChangeNotifier* md_change_notifier = MetaDataChangeNotifier::getInstance();
 	EngineHandler* engine = EngineHandler::getInstance();
 
-	_playlist_changed = false;
+	_m = new Playlist::Private();
+	_m->playlist_changed = false;
 	_playlist_idx = idx;
-	_playlist_type = PlaylistType::Std;
 	_playlist_mode = _settings->get(Set::PL_Mode);
 
 	_is_storable = false;
@@ -56,15 +60,15 @@ Playlist::Playlist(int idx, QString name) :
 }
 
 Playlist::~Playlist(){
-
+	delete _m; _m = nullptr;
 }
 
 void Playlist::clear() {
-	if(_v_md.isEmpty()){
+	if(_m->v_md.isEmpty()){
 		return;
 	}
 
-	_v_md.clear();
+	_m->v_md.clear();
 
 	set_changed(true);
 }
@@ -77,7 +81,7 @@ void Playlist::move_track(const int idx, int tgt) {
 
 void Playlist::move_tracks(const SP::Set<int>& indexes, int tgt) {
 
-	_v_md.move_tracks(indexes, tgt);
+	_m->v_md.move_tracks(indexes, tgt);
 
 	set_changed(true);
 }
@@ -90,18 +94,18 @@ void Playlist::copy_track(int idx, int tgt) {
 
 void Playlist::copy_tracks(const SP::Set<int>& indexes, int tgt) {
 
-	_v_md.copy_tracks(indexes, tgt);
+	_m->v_md.copy_tracks(indexes, tgt);
 }
 
 
 
 void Playlist::delete_track(const int idx) {
-	_v_md.remove_track(idx);
+	_m->v_md.remove_track(idx);
 	set_changed(true);
 }
 
 void Playlist::delete_tracks(const SP::Set<int>& indexes) {
-	_v_md.remove_tracks(indexes);
+	_m->v_md.remove_tracks(indexes);
 	set_changed(true);
 }
 
@@ -115,7 +119,7 @@ void Playlist::insert_track(const MetaData& md, int tgt) {
 
 void Playlist::insert_tracks(const MetaDataList& lst, int tgt) {
 
-	_v_md.insert_tracks(lst, tgt);
+	_m->v_md.insert_tracks(lst, tgt);
 
 	set_changed(true);
 }
@@ -131,8 +135,8 @@ void Playlist::append_track(const MetaData& md) {
 void Playlist::append_tracks(const MetaDataList& lst) {
 
 	for(const MetaData& md : lst){
-		_v_md << std::move(md);
-		_v_md.last().is_disabled = !(Helper::File::check_file(md.filepath()));
+		_m->v_md << std::move(md);
+		_m->v_md.last().is_disabled = !(Helper::File::check_file(md.filepath()));
 	}
 
 	set_changed(true);
@@ -141,22 +145,27 @@ void Playlist::append_tracks(const MetaDataList& lst) {
 
 void Playlist::replace_track(int idx, const MetaData& md) {
 
-	if( !between(idx, _v_md) ) {
+	if( !between(idx, _m->v_md) ) {
 		return;
 	}
 
-	bool is_playing = _v_md[idx].pl_playing;
+	bool is_playing = _m->v_md[idx].pl_playing;
 
-	_v_md[idx] = md;
-	_v_md[idx].is_disabled = !(Helper::File::check_file(md.filepath()));
-	_v_md[idx].pl_playing = is_playing;
+	_m->v_md[idx] = md;
+	_m->v_md[idx].is_disabled = !(Helper::File::check_file(md.filepath()));
+	_m->v_md[idx].pl_playing = is_playing;
 
 	emit sig_data_changed(_playlist_idx);
 }
 
+MetaDataList& Playlist::metadata()
+{
+	return _m->v_md;
+}
 
-PlaylistType Playlist::get_type() const {
-	return _playlist_type;
+MetaData& Playlist::metadata(int i)
+{
+	return _m->v_md[i];
 }
 
 int Playlist::get_idx() const {
@@ -170,7 +179,7 @@ void Playlist::set_idx(int idx){
 void Playlist::set_playlist_mode(const PlaylistMode& mode) {
 
 	if(_playlist_mode.shuffle() != mode.shuffle()){
-		for(MetaData& md : _v_md){
+		for(MetaData& md : _m->v_md){
 			md.played = false;
 		}
 	}
@@ -181,7 +190,7 @@ void Playlist::set_playlist_mode(const PlaylistMode& mode) {
 quint64 Playlist::get_running_time() const
 {
 	quint64 dur_ms = 0;
-	dur_ms = std::accumulate(_v_md.begin(), _v_md.end(), dur_ms, [](quint64 time, const MetaData& md){
+	dur_ms = std::accumulate(_m->v_md.begin(), _m->v_md.end(), dur_ms, [](quint64 time, const MetaData& md){
 		return time + md.length_ms;
 	});
 
@@ -193,56 +202,56 @@ PlaylistMode Playlist::get_playlist_mode() const {
 }
 
 int Playlist::get_cur_track_idx() const {
-	return _v_md.get_cur_play_track();
+	return _m->v_md.get_cur_play_track();
 }
 
 bool Playlist::get_cur_track(MetaData &md) const {
-	int cur_play_idx = _v_md.get_cur_play_track();
+	int cur_play_idx = _m->v_md.get_cur_play_track();
 
 	if(cur_play_idx < 0){
 		return false;
 	}
 
-	md = _v_md[cur_play_idx];
+	md = _m->v_md[cur_play_idx];
 	return true;
 }
 
 QStringList Playlist::toStringList() const {
-	return _v_md.toStringList();
+	return _m->v_md.toStringList();
 }
 
 IdxList Playlist::find_tracks(int idx) const {
-	return _v_md.findTracks(idx);
+	return _m->v_md.findTracks(idx);
 }
 
 IdxList Playlist::find_tracks(const QString& filepath) const {
-	return _v_md.findTracks(filepath);
+	return _m->v_md.findTracks(filepath);
 }
 
 int Playlist::get_count() const {
-	return _v_md.size();
+	return _m->v_md.size();
 }
 
 bool Playlist::is_empty() const {
-	return _v_md.isEmpty();
+	return _m->v_md.isEmpty();
 }
 
 const MetaDataList& Playlist::get_playlist() const
 {
-	return _v_md;
+	return _m->v_md;
 }
 
 
 void Playlist::set_changed(bool b){
 
-	_playlist_changed = b;
+	_m->playlist_changed = b;
 
 	emit sig_data_changed(_playlist_idx);
 }
 
 bool Playlist::was_changed() const
 {
-	return _playlist_changed;
+	return _m->playlist_changed;
 }
 
 bool Playlist::is_storable() const
@@ -256,4 +265,16 @@ void Playlist::_sl_playlist_mode_changed(){
 	set_playlist_mode(mode);
 }
 
+
+const MetaData& Playlist::operator[](int idx) const{
+	return _m->v_md[idx];
+}
+
+const MetaData& Playlist::at_const_ref(int idx) const {
+	return _m->v_md[idx];
+}
+
+MetaData& Playlist::at_ref(int idx) {
+	return _m->v_md[idx];
+}
 

@@ -26,7 +26,6 @@
 #include "Helper/Playlist/CustomPlaylist.h"
 #include "Database/DatabaseConnector.h"
 
-
 #include <utility>
 
 PlaylistDBWrapper::PlaylistDBWrapper()

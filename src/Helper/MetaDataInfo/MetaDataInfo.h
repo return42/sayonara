@@ -82,7 +82,7 @@ protected:
 	SP::Set<AlbumID>			_album_ids;
 	SP::Set<ArtistID>			_artist_ids;
 
-	LibraryDatabase*			_db;
+	LibraryDatabase*			_db=nullptr;
 
 
 	QString calc_tracknum_str( quint16 tracknum );

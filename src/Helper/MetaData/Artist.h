@@ -25,10 +25,10 @@
 
 #include "Helper/MetaData/LibraryItem.h"
 
-#include <QVariant>
+#include <QStringList>
 #include <QMetaType>
-#include <QList>
 
+class QVarint;
 /**
  * @brief The Artist class
  * @ingroup MetaDataHelper

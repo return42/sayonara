@@ -20,3 +20,7 @@ TARGET_LINK_LIBRARIES(${PROJECT_NAME}
 	say_comp_playlist
 )
 
+IF( WITH_COTIRE )
+    cotire(${PROJECT_NAME})
+ENDIF()
+

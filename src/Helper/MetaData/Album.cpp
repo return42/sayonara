@@ -20,7 +20,8 @@
 
 
 #include "Helper/MetaData/Album.h"
-#include <QStringList>
+
+#include <QVariant>
 
 #define ALBUM_DO_COPY \
 	name = other.name; \

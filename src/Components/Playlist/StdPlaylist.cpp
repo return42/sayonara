@@ -23,33 +23,36 @@
 #include "Helper/FileHelper.h"
 #include "Helper/Parser/PlaylistParser.h"
 #include "Helper/Random/RandomGenerator.h"
+#include "Helper/MetaData/MetaDataList.h"
 
 #include <algorithm>
 
 StdPlaylist::StdPlaylist(int idx, QString name) :
 	Playlist(idx, name)
 {
-	_playlist_type = PlaylistType::Std;
 	_is_storable = true;
 }
+
+StdPlaylist::~StdPlaylist()
+{}
 
 
 bool StdPlaylist::change_track(int idx) {
 
-	_v_md.set_cur_play_track(idx);
+	metadata().set_cur_play_track(idx);
 
 	// ERROR: invalid idx
-	if( !between(idx, _v_md) ) {
+	if( !between(idx, metadata()) ) {
 		stop();
 		return false;
 	}
 
-	_v_md[idx].played = true;
+	metadata(idx).played = true;
 
 	// ERROR: track not available in file system anymore
-	if( !Helper::File::check_file(_v_md[idx].filepath()) ) {
+	if( !Helper::File::check_file(metadata(idx).filepath()) ) {
 
-		_v_md[idx].is_disabled = true;
+		metadata(idx).is_disabled = true;
 
 		return change_track(idx + 1);
 	}
@@ -57,34 +60,39 @@ bool StdPlaylist::change_track(int idx) {
 	return true;
 }
 
+PlaylistType StdPlaylist::get_type() const
+{
+	return PlaylistType::Std;
+}
+
 
 int StdPlaylist::create_playlist(const MetaDataList& v_md) {
 
-	bool was_changed = (!_v_md.isEmpty() || this->was_changed());
+	bool was_changed = (!metadata().isEmpty() || this->was_changed());
 
 	if(PlaylistMode::isActiveAndEnabled(_playlist_mode.append())){
-		_v_md << v_md;
+		metadata() << v_md;
 	}
 
 	else{
-		_v_md = v_md;
+		metadata() = v_md;
 	}
 
 	set_changed(was_changed);
 
-	return _v_md.size();
+	return metadata().size();
 }
 
 
 void StdPlaylist::play() {
 
-	if( _v_md.isEmpty() ) {
+	if( metadata().isEmpty() ) {
 		stop();
 		return;
 	}
 
-	if(_v_md.get_cur_play_track() == -1) {
-		_v_md.set_cur_play_track(0);
+	if(metadata().get_cur_play_track() == -1) {
+		metadata().set_cur_play_track(0);
 	}
 }
 
@@ -95,9 +103,9 @@ void StdPlaylist::pause() {
 
 
 void StdPlaylist::stop() {
-	_v_md.set_cur_play_track(-1);
+	metadata().set_cur_play_track(-1);
 
-	for(MetaData& md : _v_md){
+	for(MetaData& md : metadata()){
 		md.played = false;
 	}
 }
@@ -117,18 +125,18 @@ void StdPlaylist::fwd() {
 
 void StdPlaylist::bwd() {
 
-	int cur_idx = _v_md.get_cur_play_track();
+	int cur_idx = metadata().get_cur_play_track();
 	change_track( cur_idx - 1 );
 }
 
 
 void StdPlaylist::next() {
 
-	int cur_track = _v_md.get_cur_play_track();
+	int cur_track = metadata().get_cur_play_track();
 	int track_num = -1;
 
 	// no track
-	if(_v_md.isEmpty() ) {
+	if(metadata().isEmpty() ) {
 		stop();
 		return;
 	}
@@ -155,7 +163,7 @@ void StdPlaylist::next() {
 	else {
 
 		// last track
-		if(cur_track == _v_md.size() - 1){
+		if(cur_track == metadata().size() - 1){
 
 			if(PlaylistMode::isActiveAndEnabled(_playlist_mode.repAll())){
 				track_num = 0;
@@ -178,7 +186,7 @@ void StdPlaylist::next() {
 
 int StdPlaylist::calc_shuffle_track(){
 
-	if(_v_md.size() <= 1){
+	if(metadata().size() <= 1){
 		return -1;
 	}
 
@@ -188,7 +196,7 @@ int StdPlaylist::calc_shuffle_track(){
 
 	// check all tracks played
 	i=0;
-	for(MetaData& md : _v_md){
+	for(MetaData& md : metadata()){
 		if(!md.played){
 			left_tracks << i;
 		}
@@ -200,7 +208,7 @@ int StdPlaylist::calc_shuffle_track(){
 	if(left_tracks.isEmpty()){
 
 		if(PlaylistMode::isActiveAndEnabled(_playlist_mode.repAll())){
-			return rnd.get_number(0, _v_md.size() -1);
+			return rnd.get_number(0, metadata().size() -1);
 		}
 
 		else{
@@ -218,7 +226,7 @@ void StdPlaylist::metadata_changed(const MetaDataList& v_md_old, const MetaDataL
 
 	Q_UNUSED(v_md_old)
 
-	for(auto it=_v_md.begin(); it !=_v_md.end(); it++){
+	for(auto it=metadata().begin(); it !=metadata().end(); it++){
 
 		auto lambda = [it](const MetaData& md) -> bool{
 			return it->is_equal(md);

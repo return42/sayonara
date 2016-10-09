@@ -61,7 +61,11 @@ ADD_LIBRARY(${PROJECT_NAME} STATIC ${SOURCES})
 TARGET_LINK_LIBRARIES(${PROJECT_NAME}
     Qt5::Gui
     say_interfaces_notifications
-    )
+)
+
+IF( WITH_COTIRE )
+    cotire(${PROJECT_NAME})
+ENDIF()
 
 
 

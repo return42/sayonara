@@ -25,6 +25,7 @@
 
 #include "Helper/singleton.h"
 #include "Database/LibraryDatabase.h"
+#include <QObject>
 
 /* this is the database interface
  * TODO: make database connector my parent
@@ -41,7 +42,6 @@ class SoundcloudData :
 
 	Q_OBJECT
 	SINGLETON(SoundcloudData)
-
 
 public:
 	bool db_fetch_tracks(SayonaraQuery& q, MetaDataList& result) override;

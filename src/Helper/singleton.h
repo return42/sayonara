@@ -1,8 +1,6 @@
 #ifndef SINGLETON_H
 #define SINGLETON_H
 
-#include <QObject>
-
 #define SINGLETON_QOBJECT(class_name) protected: \
 						class_name (QObject* object=0); \
 						public: \

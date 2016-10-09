@@ -24,6 +24,13 @@
 StreamPlaylist::StreamPlaylist(int idx, QString name) :
 	StdPlaylist(idx, name)
 {
-	_playlist_type = PlaylistType::Stream;
 	_is_storable = false;
+}
+
+StreamPlaylist::~StreamPlaylist()
+{}
+
+PlaylistType StreamPlaylist::get_type() const
+{
+	return PlaylistType::Stream;
 }

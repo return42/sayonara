@@ -35,7 +35,7 @@
 #include "Helper/Random/RandomGenerator.h"
 #include "Helper/Playlist/PlaylistMode.h"
 #include "Helper/Settings/Settings.h"
-#include "Helper/MetaData/MetaData.h"
+#include "Helper/MetaData/MetaDataList.h"
 #include "Helper/Logger/Logger.h"
 
 #include "Components/PlayManager/PlayManager.h"

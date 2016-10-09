@@ -23,6 +23,8 @@
 #include "GUI/Helper/IconLoader/IconLoader.h"
 #include "Helper/Settings/Settings.h"
 
+#include <QMouseEvent>
+
 MenuButton::MenuButton(QWidget* parent) :
 	QPushButton(parent),
 	SayonaraClass()

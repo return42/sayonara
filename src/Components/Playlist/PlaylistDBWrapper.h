@@ -18,13 +18,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef PLAYLISTDB_WRAPPER_H
 #define PLAYLISTDB_WRAPPER_H
 
-#include "Database/DatabasePlaylist.h"
 #include "Helper/singleton.h"
+#include "Database/DatabasePlaylist.h"
 
 class DatabaseConnector;
 class MetaDataList;
@@ -52,8 +50,6 @@ private:
 
 
 public:
-
-
 
 	bool get_skeletons(CustomPlaylistSkeletons& skeletons,
 						   DatabasePlaylist::PlaylistChooserType type,

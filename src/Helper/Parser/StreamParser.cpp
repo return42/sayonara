@@ -24,21 +24,37 @@
 #include "Helper/MetaData/MetaData.h"
 #include "Helper/FileHelper.h"
 #include "Helper/WebAccess/AsyncWebAccess.h"
+#include "Helper/MetaData/MetaDataList.h"
 #include "Helper/Parser/PlaylistParser.h"
 #include "Helper/Parser/PodcastParser.h"
 #include "Helper/UrlHelper.h"
 #include "Helper/Logger/Logger.h"
 
+struct StreamParser::Private{
+	QStringList 	urls;
+	QString			last_url;
+	QStringList		stream_buffer;
+	QString			station_name;
+	QString			cover_url;
+	MetaDataList	v_md;
+};
+
 StreamParser::StreamParser(const QString& station_name, QObject* parent) : 
 	QObject(parent)
 {
-	_station_name = station_name;
+	_m = new StreamParser::Private();
+	_m->station_name = station_name;
+}
+
+StreamParser::~StreamParser()
+{
+	delete _m; _m=nullptr;
 }
 
 void StreamParser::parse_streams(const QStringList& urls)
 {
-	_v_md.clear();
-	_urls = urls;
+	_m->v_md.clear();
+	_m->urls = urls;
 	parse_next();
 }
 
@@ -49,12 +65,12 @@ void StreamParser::parse_stream(const QString& url)
 
 bool StreamParser::parse_next(){
 
-	if(_urls.isEmpty()){
-		emit sig_finished(_v_md.size() > 0);
+	if(_m->urls.isEmpty()){
+		emit sig_finished( _m->v_md.size() > 0);
 		return false;
 	}
 
-	QString url = _urls.takeFirst();
+	QString url = _m->urls.takeFirst();
 	AsyncWebAccess* awa = new AsyncWebAccess(this);
 	awa->set_behavior(AsyncWebAccess::Behavior::AsSayonara);
 	connect(awa, &AsyncWebAccess::sig_finished, this, &StreamParser::awa_finished);
@@ -74,8 +90,8 @@ void StreamParser::awa_finished(bool success)
 
 		awa->deleteLater();
 
-		if(!_stream_buffer.isEmpty()){
-			QString new_station = _stream_buffer.takeFirst();
+		if(!_m->stream_buffer.isEmpty()){
+			QString new_station = _m->stream_buffer.takeFirst();
 			sp_log(Log::Debug) << "Try out another one: "<< new_station;
 			parse_stream(new_station);
 		}
@@ -87,8 +103,8 @@ void StreamParser::awa_finished(bool success)
 		return;
 	}
 
-	_stream_buffer.clear();
-	_last_url = awa->get_url();
+	_m->stream_buffer.clear();
+	_m->last_url = awa->get_url();
 
 	QByteArray data = awa->get_data();
 	MetaDataList v_md;
@@ -112,13 +128,13 @@ void StreamParser::awa_finished(bool success)
 	}
 
 	for(MetaData& md : v_md){
-		tag_metadata(md, _last_url);
-		if(!_cover_url.isEmpty()){
-			md.cover_download_url = _cover_url;
+		tag_metadata(md, _m->last_url);
+		if(!_m->cover_url.isEmpty()){
+			md.cover_download_url = _m->cover_url;
 		}
 	}
 
-	_v_md << v_md;
+	_m->v_md << v_md;
 
 	parse_next();
 }
@@ -141,12 +157,12 @@ MetaDataList StreamParser::parse_content(const QByteArray& data){
 	/** 3. search for a playlist file on website **/
 	if(v_md.isEmpty()){
 
-		_stream_buffer = search_for_playlist_files(data);
-		if(_stream_buffer.isEmpty()){
+		_m->stream_buffer = search_for_playlist_files(data);
+		if(_m->stream_buffer.isEmpty()){
 			return MetaDataList();
 		}
 
-		QString playlist_file = _stream_buffer.takeFirst();
+		QString playlist_file = _m->stream_buffer.takeFirst();
 		sp_log(Log::Debug) << "try out " << playlist_file;
 		parse_stream(playlist_file);
 
@@ -159,7 +175,7 @@ MetaDataList StreamParser::parse_content(const QByteArray& data){
 void StreamParser::tag_metadata(MetaData &md, const QString& stream_url) const
 {
 
-	if(_station_name.isEmpty()){
+	if(_m->station_name.isEmpty()){
 		md.album = stream_url;
 		if(md.title.isEmpty()){
 			md.title = tr("Radio");
@@ -167,9 +183,9 @@ void StreamParser::tag_metadata(MetaData &md, const QString& stream_url) const
 	}
 
 	else{
-		md.album = _station_name;
+		md.album = _m->station_name;
 		if(md.title.isEmpty()){
-			md.title = _station_name;
+			md.title = _m->station_name;
 		}
 	}
 
@@ -187,7 +203,7 @@ QString StreamParser::write_playlist_file(const QByteArray& data) const
 {
 	QString filename, extension;
 
-	extension = Helper::File::get_file_extension(_last_url);
+	extension = Helper::File::get_file_extension(_m->last_url);
 	filename = Helper::get_sayonara_path() + QDir::separator() + "tmp_playlist";
 
 	if(!extension.isEmpty()){
@@ -203,7 +219,7 @@ QStringList StreamParser::search_for_playlist_files(const QByteArray& data) cons
 {
 
 	QStringList playlist_strings;
-	QString base_url = Helper::Url::get_base_url(_last_url);
+	QString base_url = Helper::Url::get_base_url(_m->last_url);
 
 	QRegExp re("href=\"([^<]+\\.(pls|m3u|asx))\"");
 	re.setMinimal(true);
@@ -230,16 +246,16 @@ QStringList StreamParser::search_for_playlist_files(const QByteArray& data) cons
 
 MetaDataList StreamParser::get_metadata() const
 {
-	return _v_md;
+	return _m->v_md;
 }
 
 void StreamParser::set_cover_url(const QString& url)
 {
-	_cover_url = url;
+	_m->cover_url = url;
 
-	if(!_v_md.isEmpty()){
+	if(!_m->v_md.isEmpty()){
 	
-		for(MetaData& md : _v_md){
+		for(MetaData& md : _m->v_md){
 			md.cover_download_url = url;
 		}
 	}

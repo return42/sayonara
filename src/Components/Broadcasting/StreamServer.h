@@ -50,7 +50,7 @@ class StreamServer :
 		virtual ~StreamServer();
 
 	private:
-		class Private;
+		struct Private;
 		StreamServer::Private*				_m = nullptr;
 
 		// create new server and listen

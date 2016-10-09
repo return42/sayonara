@@ -23,9 +23,9 @@
 #ifndef NOTIFICATIONHANDLER_H
 #define NOTIFICATIONHANDLER_H
 
+#include <QObject>
 #include "NotificationInterface.h"
 #include "Helper/singleton.h"
-
 
 class DummyNotificator : public NotificationInterface
 {

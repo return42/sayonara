@@ -20,6 +20,7 @@
 
 #include "application.h"
 #include "InstanceThread.h"
+#include "Helper/Macros.h"
 
 #ifdef WITH_DBUS
 	#include "Components/DBus/DBusHandler.h"

@@ -20,10 +20,14 @@
 
 #include "SettingRegistry.h"
 #include "Database/DatabaseConnector.h"
+
 #include "Helper/Playlist/PlaylistMode.h"
 #include "Helper/EqualizerPresets.h"
 #include "Helper/LibrarySearchMode.h"
+#include "Helper/Macros.h"
+
 #include "GUI/Helper/Shortcuts/RawShortcutMap.h"
+#include <QDir>
 
 SettingRegistry::SettingRegistry()
 {

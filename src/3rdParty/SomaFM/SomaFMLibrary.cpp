@@ -29,6 +29,7 @@
 #include "Helper/WebAccess/AsyncWebAccess.h"
 #include "Helper/Parser/StreamParser.h"
 #include "Helper/globals.h"
+#include "Helper/MetaData/MetaDataList.h"
 
 #include "Components/Playlist/PlaylistHandler.h"
 #include "Components/Covers/CoverLocation.h"

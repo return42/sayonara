@@ -21,6 +21,7 @@
 #ifndef PLAY_MANAGER_H
 #define PLAY_MANAGER_H
 
+#include <QObject>
 #include "PlayState.h"
 #include "Helper/singleton.h"
 #include "Helper/Settings/SayonaraClass.h"

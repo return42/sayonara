@@ -23,7 +23,6 @@
 #ifndef COVERLOCATION_H
 #define COVERLOCATION_H
 
-#include <QString>
 #include <QStringList>
 #include <QMetaType>
 #include <QUrl>

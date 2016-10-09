@@ -24,13 +24,17 @@
 
 #include <QMap>
 #include <QString>
+#include <QObject>
+
 #include "Helper/MetaData/MetaDataList.h"
 
 typedef QMap<QString, QString> StreamMap;
 
+class MetaDataList;
 class PlaylistHandler;
 class AsyncWebAccess;
 class DatabaseConnector;
+class MetaDataList;
 
 /**
  * @brief Used to interprete website data as streams. Some methods have to be overridden,
@@ -44,6 +48,7 @@ class AbstractStreamHandler : public QObject
 	Q_OBJECT
 	public:
 		explicit AbstractStreamHandler(QObject *parent=nullptr);
+		virtual ~AbstractStreamHandler();
 
 signals:
 		void sig_error();
@@ -116,15 +121,13 @@ signals:
 		 */
 		void clear();
 
+	private:
+		struct Private;
+		AbstractStreamHandler::Private*	_m=nullptr;
+
 
 	protected:
 		DatabaseConnector*				_db=nullptr;
-		PlaylistHandler*				_playlist=nullptr;
-
-
-		QMap<QString, MetaDataList>		_station_contents;
-		QString							_station_name;
-		bool							_blocked;
 
 
 	private slots:

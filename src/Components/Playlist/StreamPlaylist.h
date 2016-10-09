@@ -33,6 +33,9 @@ class StreamPlaylist : public StdPlaylist
 {
 public:
 	explicit StreamPlaylist(int idx, QString name="");
+	virtual ~StreamPlaylist();
+
+	PlaylistType get_type() const override;
 };
 
 #endif // STREAMPLAYLIST_H

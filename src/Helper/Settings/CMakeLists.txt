@@ -15,3 +15,7 @@ TARGET_LINK_LIBRARIES(${PROJECT_NAME}
 	say_db
 	say_helper
 )
+
+IF( WITH_COTIRE )
+    cotire(${PROJECT_NAME})
+ENDIF()

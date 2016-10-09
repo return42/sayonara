@@ -24,9 +24,6 @@
 #define MENUBUTTON_H
 
 #include <QPushButton>
-#include <QShowEvent>
-#include <QFocusEvent>
-#include <QMouseEvent>
 #include <QMenu>
 #include "Helper/Settings/SayonaraClass.h"
 

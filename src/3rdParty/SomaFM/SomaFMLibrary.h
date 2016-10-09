@@ -26,12 +26,9 @@
 #define SOMAFMLIBRARY_H
 
 #include <QObject>
-#include <QStringList>
-#include <QImage>
 #include <QList>
 #include <QMap>
 #include <QSettings>
-
 
 class SomaFMStation;
 class SomaFMLibrary : public QObject

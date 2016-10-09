@@ -157,6 +157,7 @@ void AbstractPipeline::set_data(uchar* data, quint64 size){
 	emit sig_data(data, size);
 }
 
+/*
 static void show_time_info(gint64 pos, gint64 dur){
 
 	sp_log(Log::Debug) << "Difference: "
@@ -165,7 +166,7 @@ static void show_time_info(gint64 pos, gint64 dur){
 					   << dur;
 
 }
-
+*/
 void AbstractPipeline::check_about_to_finish(){
 
 

@@ -22,10 +22,9 @@
 #ifndef TAGEDIT_H
 #define TAGEDIT_H
 
-#include <QList>
 #include <QThread>
 #include <QImage>
-#include <QMap>
+#include <QStringList>
 
 class MetaDataList;
 class MetaData;

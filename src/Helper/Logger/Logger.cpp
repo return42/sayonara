@@ -20,6 +20,11 @@
 
 #include "Helper/Logger/Logger.h"
 
+#include <QString>
+#include <QStringList>
+#include <QByteArray>
+#include <QPoint>
+
 #include <ostream>
 #include <iostream>
 
@@ -142,5 +147,10 @@ Logger& Logger::operator << (const QByteArray& arr){
 		_out << "\t" << line_str.toLocal8Bit().constData() << std::endl;
 	}
 
+	return *this;
+}
+
+Logger& Logger::operator << (const char* str){
+	_out << str;
 	return *this;
 }

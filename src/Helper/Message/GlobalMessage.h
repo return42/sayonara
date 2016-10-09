@@ -26,6 +26,7 @@
 #include "Helper/singleton.h"
 
 #include <QString>
+#include <QObject>
 
 class GlobalMessageReceiverInterface;
 

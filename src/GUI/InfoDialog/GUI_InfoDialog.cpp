@@ -243,9 +243,12 @@ void GUI_InfoDialog::tab_index_changed(GUI_InfoDialog::Tab idx)
 
 			ui->tab_widget->setCurrentWidget(_m->ui_tag_edit);
 			{
-				MetaDataList local_md = _m->v_md.extract_tracks( [](const MetaData& md){
-					return !Helper::File::is_www(md.filepath());
-				});
+				MetaDataList local_md;
+				for(const MetaData& md : _m->v_md){
+					if(!Helper::File::is_www(md.filepath())){
+						local_md << md;
+					}
+				}
 
 				if(local_md.size() > 0){
 					_m->ui_tag_edit->get_tag_edit()->set_metadata(local_md);
@@ -295,9 +298,12 @@ void GUI_InfoDialog::show(GUI_InfoDialog::Tab tab)
 
 	if(tab == GUI_InfoDialog::Tab::Edit)
 	{
-		MetaDataList local_md = _m->v_md.extract_tracks([](const MetaData& md){
-			return (!Helper::File::is_www(md.filepath()));
-		});
+		MetaDataList local_md;
+		for(const MetaData& md : _m->v_md){
+			if(!Helper::File::is_www(md.filepath())){
+				local_md << md;
+			}
+		}
 
 		if(local_md.size() > 0){
 			_m->ui_tag_edit->get_tag_edit()->set_metadata(local_md);

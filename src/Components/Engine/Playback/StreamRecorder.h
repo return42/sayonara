@@ -25,10 +25,11 @@
 
 #include "Components/PlayManager/PlayState.h"
 #include "Helper/Settings/SayonaraClass.h"
-#include "Helper/MetaData/MetaDataList.h"
 
-#include <QDateTime>
+#include <QObject>
+#include <QString>
 
+class MetaData;
 class PlayManager;
 class StreamRecorder :
 		public QObject,
@@ -37,18 +38,14 @@ class StreamRecorder :
 
 private:
 
-	PlayManager*	_play_manager;
-	QString			_sr_recording_dst;				// recording destination
-	QString			_session_path;					// where to store the mp3 files of the session
-	QString			_session_playlist_name;			// playlist name
-	MetaDataList	_session_collector;				// gather all tracks of a session
-	MetaData		_md;							// current track
+	struct Private;
+	StreamRecorder::Private* _m=nullptr;
 
-	bool            _recording;						// is in a session currently
-	int				_idx;							// index of track (used for filename)
-
+private:
 	// set metadata, add to session collector
     bool save();
+
+	void clear();
 
 	// saves session collector into playlist, creates new session,
 	void new_session();

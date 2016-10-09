@@ -38,6 +38,7 @@ private:
 
 public:
 	explicit StdPlaylist(int idx, QString name);
+	virtual ~StdPlaylist();
     
 	void play() override;
 	void pause() override;
@@ -47,10 +48,13 @@ public:
 	void next() override;
 	bool change_track(int idx) override;
 
+
 	int create_playlist(const MetaDataList& v_md) override;
 
 	void metadata_changed(const MetaDataList& old_md, const MetaDataList& new_md) override;
-	void metadata_changed_single(const MetaData& md) override;
+	void metadata_changed_single(const MetaData& metadata) override;
+
+	virtual PlaylistType get_type() const override;
 
 };
 

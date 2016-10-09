@@ -18,14 +18,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef PIPELINEPROBES_H
 #define PIPELINEPROBES_H
 
 #include <gst/gst.h>
-#include <QString>
-
 
 struct StreamRecorderData
 {
@@ -47,7 +43,7 @@ struct StreamRecorderData
 
 	~StreamRecorderData(){
 		if(filename){
-			free(filename);
+			g_free(filename);
 			filename = nullptr;
 		}
 	}

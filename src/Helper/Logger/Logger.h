@@ -21,19 +21,17 @@
 #ifndef LOGGER_H
 #define LOGGER_H
 
-
-#include <QString>
-#include <QStringList>
-#include <QByteArray>
-#include <QPoint>
-
 #include <iosfwd>
 
 /**
  * @brief The Log enum
  * @ingroup Helper
  */
-
+class QString;
+class QStringList;
+class QByteArray;
+class QPoint;
+class QChar;
 enum class Log : unsigned char
 {
 	Warning,
@@ -63,6 +61,7 @@ public:
 	Logger& operator << (const QStringList& lst);
 	Logger& operator << (const QByteArray& arr);
 	Logger& operator << (const QPoint& point);
+	Logger& operator << (const char* str);
 
 	template <typename T>
 	Logger& operator << (const T& msg){

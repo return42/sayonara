@@ -23,17 +23,23 @@
 #ifndef PLAYLIST_H
 #define PLAYLIST_H
 
+#include "PlaylistDBInterface.h"
 #include "PlaylistTypedefs.h"
+#include "Helper/typedefs.h"
 #include "Helper/Playlist/PlaylistMode.h"
 #include "Helper/Settings/SayonaraClass.h"
-#include "Helper/MetaData/MetaDataList.h"
-
-#include "PlaylistDBInterface.h"
 
 #include <QString>
 #include <QList>
 
+namespace SP
+{
+	template<typename T>
+	class Set;
+}
 
+class MetaDataList;
+class MetaData;
 /**
  * @brief The Playlist class
  * @ingroup Playlists
@@ -51,20 +57,16 @@ signals:
 	void sig_data_changed(int idx);
 
 private:
-	bool            _playlist_changed;
+	struct Private;
+	Playlist::Private*	_m=nullptr;
 
 
 protected:
 
-	bool			_is_storable;
-	int				_playlist_idx;
+	bool _is_storable;
+	int	 _playlist_idx;
 
-	MetaDataList    _v_md;
-	PlaylistType	_playlist_type;
 	PlaylistMode	_playlist_mode;
-
-	Playlist(int idx, QString name="");
-	virtual ~Playlist();
 
 	virtual void play()=0;
 	virtual void pause()=0;
@@ -74,24 +76,28 @@ protected:
     virtual void next()=0;
 
 	virtual int create_playlist(const MetaDataList& v_md)=0;
+	virtual void replace_track(int idx, const MetaData& metadata);
 
-    virtual void replace_track(int idx, const MetaData& md);
+	MetaDataList& metadata();
+	MetaData& metadata(int idx);
 
 public:
+	Playlist(int idx, const QString& name="");
+	virtual ~Playlist();
 
 	QStringList		toStringList() const;
 
 	IdxList			find_tracks(int id) const;
 	IdxList			find_tracks(const QString& filepath) const;
-
-	PlaylistType	get_type() const;
 	int				get_cur_track_idx() const;
-	bool			get_cur_track(MetaData& md) const;
+	bool			get_cur_track(MetaData& metadata) const;
 	int				get_idx() const;
 	void			set_idx(int idx);	
 	PlaylistMode	get_playlist_mode() const;
 	void			set_playlist_mode(const PlaylistMode& mode);	
 	quint64			get_running_time() const;
+
+	virtual PlaylistType	get_type() const = 0;
 
 
 	// from PlaylistDBInterface
@@ -104,18 +110,9 @@ public:
 	virtual bool			is_storable() const override;
 
 
-
-	const MetaData& operator[](int idx) const{
-		return _v_md[idx];
-	}
-
-	const MetaData& at_const_ref(int idx) const {
-		return _v_md[idx];
-	}
-
-	MetaData& at_ref(int idx) {
-		return _v_md[idx];
-	}
+	const MetaData& operator[](int idx) const;
+	const MetaData& at_const_ref(int idx) const;
+	MetaData& at_ref(int idx);
 
 
 	virtual void clear();
@@ -129,16 +126,16 @@ public:
 	virtual void delete_track(const int idx);
 	virtual void delete_tracks(const SP::Set<int>& indexes);
 
-	virtual void insert_track(const MetaData& md, int tgt);
+	virtual void insert_track(const MetaData& metadata, int tgt);
 	virtual void insert_tracks(const MetaDataList& lst, int tgt);
 
-	virtual void append_track(const MetaData& md);
+	virtual void append_track(const MetaData& metadata);
 	virtual void append_tracks(const MetaDataList& lst);
 
 	virtual bool change_track(int idx)=0;
 
 	virtual void metadata_changed(const MetaDataList& v_md_old, const MetaDataList& v_md_new)=0;
-	virtual void metadata_changed_single(const MetaData& md)=0;
+	virtual void metadata_changed_single(const MetaData& metadata)=0;
 
 
 private slots:

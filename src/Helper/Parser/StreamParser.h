@@ -23,10 +23,10 @@
 #define STREAMPARSER_H
 
 #include <QObject>
-#include <QString>
 #include <QStringList>
-#include "Helper/MetaData/MetaDataList.h"
 
+class MetaDataList;
+class MetaData;
 class StreamParser : public QObject
 {
 	Q_OBJECT
@@ -36,6 +36,7 @@ class StreamParser : public QObject
 
 	public:
 		StreamParser(const QString& station_name=QString(), QObject* parent=nullptr);
+		virtual ~StreamParser();
 
 		void parse_stream(const QString& url);
 		void parse_streams(const QStringList& urls);
@@ -48,12 +49,8 @@ class StreamParser : public QObject
 
 
 	private:
-		QStringList 	_urls;
-		QString			_last_url;
-		QStringList		_stream_buffer;
-		QString			_station_name;
-		QString			_cover_url;
-		MetaDataList	_v_md;
+		struct Private;
+		StreamParser::Private*	_m = nullptr;
 
 	private:
 		/**

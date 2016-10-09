@@ -23,13 +23,9 @@
 #ifndef ABSTRACTDATABASE_H
 #define ABSTRACTDATABASE_H
 
+#include <QObject>
 #include <QSqlDatabase>
-#include <QFile>
-#include <QDir>
-#include <QSqlError>
-#include <QMap>
-#include <QList>
-
+#include <QString>
 
 class AbstractDatabase : public QObject
 {

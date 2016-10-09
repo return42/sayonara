@@ -29,10 +29,8 @@
 #ifndef COVERLOOKUP_H_
 #define COVERLOOKUP_H_
 
-#include <QThread>
-#include <QPixmap>
-#include <QDir>
-
+#include <QObject>
+#include <QStringList>
 #include <memory>
 
 class Album;

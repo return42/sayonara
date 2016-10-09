@@ -29,9 +29,6 @@
 #include "Database/DatabaseTracks.h"
 #include "Database/DatabaseLibrary.h"
 
-
-
-
 class LibraryDatabase : public AbstractDatabase,
 		 public DatabaseAlbums,
 		 public DatabaseArtists,

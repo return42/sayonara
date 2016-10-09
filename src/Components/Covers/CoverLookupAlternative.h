@@ -36,7 +36,7 @@ class CoverLookupAlternative :
 private:
     CoverLookupAlternative(QObject* parent, int n_covers);
 
-	class Private;
+	struct Private;
 	CoverLookupAlternative::Private* _m=nullptr;
 
 

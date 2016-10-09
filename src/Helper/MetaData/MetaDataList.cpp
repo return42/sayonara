@@ -180,42 +180,6 @@ MetaDataList& MetaDataList::randomize(){
 	return *this;
 }
 
-MetaDataList MetaDataList::extract_tracks(std::function<bool (const MetaData &)> func) const
-{
-	if(this->isEmpty()){
-		return MetaDataList();
-	}
-
-	MetaDataList v_md;
-	auto it = this->begin();
-
-	while(it != this->end()){
-
-		it = std::find_if(it, this->end(), func);
-		if(it == this->end()){
-			break;
-		}
-
-		else{
-			v_md << *it;
-			it++;
-		}
-	}
-
-	return v_md;
-}
-
-MetaDataList MetaDataList::extract_tracks(const SP::Set<int>& indexes) const
-{
-	MetaDataList v_md;
-
-	std::for_each(indexes.begin(), indexes.end(), [this, &v_md](int row){
-		v_md << this->operator[](row);
-	});
-
-	return v_md;
-}
-
 
 MetaDataList& MetaDataList::remove_track(int idx){
 	return remove_tracks(idx, idx);

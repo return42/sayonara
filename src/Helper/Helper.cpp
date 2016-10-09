@@ -44,6 +44,7 @@
 #include "Helper/globals.h"
 #include "Helper/Helper.h"
 #include "Helper/Random/RandomGenerator.h"
+#include "Helper/Macros.h"
 
 template<typename T>
 QString cvtNum2String(T num, int digits) {

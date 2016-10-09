@@ -30,6 +30,7 @@
 #include <QTimer>
 #include <QList>
 #include <QtGlobal>
+#include <QString>
 
 class PlaybackPipeline;
 class StreamRecorder;
