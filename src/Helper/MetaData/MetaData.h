@@ -31,6 +31,7 @@
 #include "Helper/MetaData/LibraryItem.h"
 
 #include <QMetaType>
+#include <QStringList>
 
 /**
  * @brief The RadioMode enum
