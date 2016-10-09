@@ -26,10 +26,11 @@
 #define SomaFMStationModel_H
 
 #include "GUI/Helper/SearchableWidget/AbstractSearchModel.h"
-#include "3rdParty/SomaFM/SomaFMStation.h"
+
 #include <QMap>
 #include <QList>
-class QMimeData;
+#include <QMimeData>
+class SomaFMStation;
 class SomaFMStationModel : public AbstractSearchTableModel
 {
 	Q_OBJECT

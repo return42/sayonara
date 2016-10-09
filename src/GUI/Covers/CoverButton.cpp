@@ -24,7 +24,7 @@
 #include "Components/Covers/CoverLookup.h"
 #include "Components/Covers/CoverLocation.h"
 
-struct CoverButton::CoverButtonPrivate
+struct CoverButton::Private
 {
 	GUI_AlternativeCovers* 	alternative_covers=nullptr;
 	CoverLookup*			cover_lookup=nullptr;
@@ -38,7 +38,7 @@ struct CoverButton::CoverButtonPrivate
 CoverButton::CoverButton(QWidget* parent) : 
 	QPushButton(parent)
 {
-	_m = new CoverButton::CoverButtonPrivate();
+	_m = new CoverButton::Private();
 
 	_m->cover_forced = false;
 	_m->found_cover_location = CoverLocation::getInvalidLocation();

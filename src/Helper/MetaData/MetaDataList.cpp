@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "MetaDataList.h"
 #include "Helper/FileHelper.h"
 #include "Helper/Logger/Logger.h"

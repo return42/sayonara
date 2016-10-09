@@ -28,7 +28,7 @@
 
 #include <algorithm>
 
-struct BookmarksPrivate
+struct Bookmarks::Private
 {
 	DatabaseConnector*		db=nullptr;
 	PlayManager*			play_manager=nullptr;
@@ -48,7 +48,7 @@ Bookmarks::Bookmarks(QObject *parent) :
 	QObject(parent)
 {
 
-	_m = new BookmarksPrivate();
+	_m = new Bookmarks::Private();
 	_m->play_manager = PlayManager::getInstance();
 	_m->db = DatabaseConnector::getInstance();
 

@@ -24,6 +24,7 @@
 #include "Helper/Helper.h"
 #include "Helper/FileHelper.h"
 #include "Helper/Settings/Settings.h"
+#include "Helper/Logger/Logger.h"
 
 #include <QFile>
 #include <QDir>

@@ -22,17 +22,18 @@
 #define LOGGER_H
 
 
-#include <ostream>
 #include <QString>
 #include <QStringList>
 #include <QByteArray>
 #include <QPoint>
 
+#include <iosfwd>
 
 /**
  * @brief The Log enum
  * @ingroup Helper
  */
+
 enum class Log : unsigned char
 {
 	Warning,
@@ -82,4 +83,5 @@ public:
 
 Logger sp_log(Log type);
 Logger sp_log(Log type, const QString& module);
+
 #endif // LOGGER_H

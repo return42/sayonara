@@ -23,7 +23,7 @@
 #include "Helper/MetaData/Album.h"
 #include "Helper/Helper.h"
 
-struct CoverLookupAll::CoverLookupAllPrivate
+struct CoverLookupAll::Private
 {
 	CoverLookup*	cl=nullptr;
 	AlbumList		album_list;
@@ -34,7 +34,7 @@ struct CoverLookupAll::CoverLookupAllPrivate
 CoverLookupAll::CoverLookupAll(QObject* parent, const AlbumList& album_list) :
 	CoverLookupInterface(parent)
 {
-	_m = new CoverLookupAll::CoverLookupAllPrivate();
+	_m = new CoverLookupAll::Private();
 
 	_m->album_list = album_list;
 	_m->run = true;

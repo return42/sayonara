@@ -21,6 +21,7 @@
 #include "GUI_LevelPainter.h"
 #include "Components/Engine/Playback/PlaybackEngine.h"
 #include "Components/Engine/EngineHandler.h"
+#include "Helper/Logger/Logger.h"
 
 #include <QPainter>
 #include <QBrush>

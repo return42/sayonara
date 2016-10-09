@@ -36,8 +36,8 @@ namespace SP {
 	class Set;
 }
 
-typedef QList<int> IdxList;
-class MetaDataList : public QList<MetaData> {
+class MetaDataList : public QList<MetaData>
+{
 
 private:
 	int _cur_played_track;

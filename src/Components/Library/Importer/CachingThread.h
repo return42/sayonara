@@ -25,7 +25,6 @@
 #include <QThread>
 
 class ImportCache;
-class CachingThreadPrivate;
 class MetaDataList;
 
 class CachingThread :
@@ -52,7 +51,8 @@ public:
 
 private:
 
-	CachingThreadPrivate* _m=nullptr;
+	struct Private;
+	CachingThread::Private* _m=nullptr;
 
 private:
 	void run() override;

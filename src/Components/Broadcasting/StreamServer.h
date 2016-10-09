@@ -30,7 +30,6 @@
 #include <QTcpSocket>
 #include <QTcpServer>
 
-struct StreamServerPrivate;
 /**
  * @brief The StreamServer class. This class is listening for new connections and holds and administrates current connections.
  * @ingroup Broadcasting
@@ -39,7 +38,6 @@ class StreamServer :
 		public QThread,
 		protected SayonaraClass
 {
-
 	Q_OBJECT
 
 	signals:
@@ -52,7 +50,8 @@ class StreamServer :
 		virtual ~StreamServer();
 
 	private:
-		StreamServerPrivate*				_m = nullptr;
+		class Private;
+		StreamServer::Private*				_m = nullptr;
 
 		// create new server and listen
 		void create_server();

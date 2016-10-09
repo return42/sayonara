@@ -21,7 +21,7 @@
 
 #include "InstanceThread.h"
 #include "Helper/Helper.h"
-#include "Helper/Settings/Settings.h"
+#include "Helper/Logger/Logger.h"
 #include "Components/Playlist/PlaylistHandler.h"
 
 InstanceThread::InstanceThread(InstanceMessage* instance_message, QObject* parent) :

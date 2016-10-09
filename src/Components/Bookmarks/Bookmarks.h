@@ -31,7 +31,7 @@
 
 class Bookmark;
 class MetaData;
-struct BookmarksPrivate;
+
 /**
  * @brief The Bookmarks logic class
  * @ingroup Bookmarks
@@ -148,7 +148,8 @@ private slots:
 
 
 private:
-	BookmarksPrivate*		_m=nullptr;
+	struct Private;
+	Bookmarks::Private*		_m=nullptr;
 
 
 private:

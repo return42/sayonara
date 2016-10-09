@@ -70,9 +70,9 @@
 #include "GUI/Preferences/PlayerPreferences/GUI_PlayerPreferences.h"
 #include "GUI/Preferences/PreferenceDialog/GUI_PreferenceDialog.h"
 
-
 #include "Helper/FileHelper.h"
 #include "Helper/Helper.h"
+#include "Helper/Logger/Logger.h"
 
 #include "Database/DatabaseConnector.h"
 

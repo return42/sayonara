@@ -29,6 +29,7 @@
 #include "Helper/Helper.h"
 #include "Helper/Parser/CommandLineParser.h"
 #include "Helper/Settings/SettingRegistry.h"
+#include "Helper/Logger/Logger.h"
 
 #include "GUI/Helper/GUI_Helper.h"
 

@@ -28,7 +28,7 @@
 #include "Helper/FileHelper.h"
 #include "Helper/MetaData/MetaDataList.h"
 
-struct CachingThreadPrivate {
+struct CachingThread::Private {
 	ImportCache		cache;
 	QStringList		file_list;
 	bool			cancelled;
@@ -37,7 +37,7 @@ struct CachingThreadPrivate {
 CachingThread::CachingThread(const QStringList& file_list, QObject *parent) :
 	QThread(parent)
 {
-	_m = new CachingThreadPrivate;
+	_m = new CachingThread::Private;
 
 	_m->file_list = file_list;
 	_m->cancelled = false;

@@ -69,8 +69,8 @@ protected:
 
 
 private:
-	struct ReloadThreadPrivate;
-	ReloadThreadPrivate*	_m=nullptr;
+	struct Private;
+	ReloadThread::Private*	_m=nullptr;
 
 private:
 

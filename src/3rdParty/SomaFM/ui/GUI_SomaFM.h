@@ -18,29 +18,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 /* GUI_SomaFM.h */
 
 #ifndef GUI_SOMAFM_H
 #define GUI_SOMAFM_H
 
-
-#include "SomaFMLibrary.h"
-#include "SomaFMStation.h"
-
 #include "3rdParty/SomaFM/ui_GUI_SomaFM.h"
-#include "Components/Covers/CoverLocation.h"
 #include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
 
 #include <QItemSelection>
 
 class SomaFMStationModel;
+class SomaFMStation;
+class SomaFMLibrary;
 
 class GUI_SomaFM :
 		public SayonaraWidget,
 		protected Ui::GUI_SomaFM
-
 {
 	Q_OBJECT
 

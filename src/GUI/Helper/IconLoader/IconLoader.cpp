@@ -23,6 +23,7 @@
 #include "IconLoader.h"
 #include "Helper/Settings/Settings.h"
 #include "Helper/DirectoryReader/DirectoryReader.h"
+#include "Helper/Logger/Logger.h"
 
 #include "GUI/Helper/GUI_Helper.h"
 

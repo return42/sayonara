@@ -157,8 +157,8 @@ public slots:
 	void commit();
 
 private:
-	struct TagEditPrivate;
-	TagEditPrivate*			_m=nullptr;
+	struct Private;
+	TagEdit::Private*			_m=nullptr;
 
 private:
 

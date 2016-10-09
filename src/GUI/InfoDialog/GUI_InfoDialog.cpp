@@ -42,7 +42,7 @@
 
 #include <algorithm>
 
-struct GUI_InfoDialog::GUI_InfoDialogMembersPrivate
+struct GUI_InfoDialog::Private
 {
 	InfoDialogContainer*	info_dialog_container=nullptr;
 	GUI_TagEdit*			ui_tag_edit=nullptr;
@@ -56,7 +56,7 @@ GUI_InfoDialog::GUI_InfoDialog(InfoDialogContainer* container, QWidget* parent) 
 	SayonaraDialog(parent)
 {
 	ui = nullptr;
-	_m = new GUI_InfoDialog::GUI_InfoDialogMembersPrivate();
+	_m = new GUI_InfoDialog::Private();
 
 	_m->info_dialog_container = container;
 	_m->md_interpretation = MetaDataList::Interpretation::None;

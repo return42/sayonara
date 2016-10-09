@@ -20,8 +20,8 @@
 
 #include "Helper/Logger/Logger.h"
 
+#include <ostream>
 #include <iostream>
-
 
 Logger sp_log(Log type, const QString& module){
 

@@ -18,15 +18,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef COVERHELPER_H
 #define COVERHELPER_H
 
 #include <QString>
+
 namespace CoverHelper
 {
-
 	QString calc_cover_token(const QString& artist, const QString& album);
 
 	QString calc_google_image_search_address(const QString& searchstring);

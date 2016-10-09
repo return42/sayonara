@@ -22,9 +22,10 @@
 
 #include "Components/Playlist/PlaylistHandler.h"
 #include "Components/PlayManager/PlayManager.h"
-
 #include "Components/TagEdit/MetaDataChangeNotifier.h"
+
 #include "Helper/Settings/Settings.h"
+#include "Helper/Logger/Logger.h"
 
 #include <QHash>
 

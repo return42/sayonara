@@ -27,6 +27,7 @@
 #include "Components/PlayManager/PlayManager.h"
 #include "Helper/Settings/Settings.h"
 #include "Helper/MetaData/MetaData.h"
+#include "Helper/Logger/Logger.h"
 
 #include <QBuffer>
 #include <QFile>

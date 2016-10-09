@@ -21,7 +21,9 @@
 
 #include "ConvertPipeline.h"
 #include "Components/Engine/Callbacks/PipelineCallbacks.h"
+
 #include "Helper/Settings/Settings.h"
+#include "Helper/Logger/Logger.h"
 
 
 ConvertPipeline::ConvertPipeline(Engine* engine, QObject *parent) :

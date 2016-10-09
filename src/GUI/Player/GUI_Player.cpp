@@ -21,10 +21,12 @@
 #include "GUI_Player.h"
 #include "GUI_TrayIcon.h"
 #include "GUI/Playlist/GUI_Playlist.h"
-#include "Helper/Message/Message.h"
 #include "GUI/Helper/IconLoader/IconLoader.h"
 #include "GUI/Helper/GUI_Helper.h"
 #include "GUI/Helper/Style/Style.h"
+
+#include "Helper/Message/Message.h"
+#include "Helper/Logger/Logger.h"
 
 #ifdef WITH_MTP
 	#include "GUI/MTP/GUI_MTP.h"

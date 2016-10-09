@@ -32,8 +32,8 @@
 #include <QMap>
 #include <QSettings>
 
-#include "SomaFMStation.h"
 
+class SomaFMStation;
 class SomaFMLibrary : public QObject
 {
 

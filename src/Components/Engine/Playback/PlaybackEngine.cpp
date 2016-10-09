@@ -27,6 +27,7 @@
 #include "Helper/FileHelper.h"
 #include "Helper/Playlist/PlaylistMode.h"
 #include "Helper/Settings/Settings.h"
+#include "Helper/Logger/Logger.h"
 
 #include <QUrl>
 #include <algorithm>

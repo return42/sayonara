@@ -22,13 +22,18 @@
 
 /* GUI_SomaFM.cpp */
 
-#include "ui/GUI_SomaFM.h"
-#include "ui/SomaFMStationModel.h"
-#include "ui/SomaFMPlaylistModel.h"
+#include "3rdParty/SomaFM/ui/GUI_SomaFM.h"
+#include "3rdParty/SomaFM/ui/SomaFMStationModel.h"
+#include "3rdParty/SomaFM/ui/SomaFMPlaylistModel.h"
+#include "3rdParty/SomaFM/SomaFMLibrary.h"
+#include "3rdParty/SomaFM/SomaFMStation.h"
 
 #include "Helper/Helper.h"
 #include "Helper/Settings/Settings.h"
+#include "Helper/Logger/Logger.h"
+
 #include "GUI/Helper/Delegates/ListDelegate.h"
+#include "Components/Covers/CoverLocation.h"
 #include "Components/Covers/CoverLookup.h"
 
 #include <QPixmap>

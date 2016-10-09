@@ -18,24 +18,39 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 /* SomaFMStation.cpp */
 
 #include "SomaFMStation.h"
+
+#include "Helper/MetaData/MetaDataList.h"
 #include "Helper/Helper.h"
 #include "Helper/FileHelper.h"
 
+#include "Components/Covers/CoverLocation.h"
+
+struct SomaFMStation::Private
+{
+	QString			content;
+	QString			station_name;
+	QMap<QString, SomaFMStation::UrlType> urls;
+	QString			description;
+	CoverLocation	cover;
+	MetaDataList	v_md;
+	bool			loved;
+
+};
+
 SomaFMStation::SomaFMStation()
 {
-	_cover = CoverLocation::getInvalidLocation();
-	_loved = false;
+	_m = new SomaFMStation::Private;
+	_m->cover = CoverLocation::getInvalidLocation();
+	_m->loved = false;
 }
 
 SomaFMStation::SomaFMStation(const QString& content) :
 	SomaFMStation()
 {
-	_content = content;
+	_m->content = content;
 
 	parse_description();
 	parse_station_name();
@@ -45,45 +60,45 @@ SomaFMStation::SomaFMStation(const QString& content) :
 
 QString SomaFMStation::get_name() const
 {
-	return _station_name;
+	return _m->station_name;
 }
 
 QStringList SomaFMStation::get_urls() const
 {
-	return _urls.keys();
+	return _m->urls.keys();
 }
 
 SomaFMStation::UrlType SomaFMStation::get_url_type(const QString& url) const
 {
-	return _urls[url];
+	return _m->urls[url];
 }
 
 QString SomaFMStation::get_description() const
 {
-	return _description;
+	return _m->description;
 }
 
 CoverLocation SomaFMStation::get_cover_location() const
 {
-	return _cover;
+	return _m->cover;
 }
 
 bool SomaFMStation::is_valid() const
 {
-	return (!_station_name.isEmpty() &&
-			!_urls.isEmpty() &&
-			!_description.isEmpty() &&
-			_cover.valid());
+	return (!_m->station_name.isEmpty() &&
+			!_m->urls.isEmpty() &&
+			!_m->description.isEmpty() &&
+			_m->cover.valid());
 }
 
 MetaDataList SomaFMStation::get_metadata() const
 {
-	return _v_md;
+	return _m->v_md;
 }
 
 void SomaFMStation::set_metadata(const MetaDataList& v_md)
 {
-	_v_md = v_md;
+	_m->v_md = v_md;
 }
 
 
@@ -93,9 +108,9 @@ void SomaFMStation::parse_station_name()
 	QRegExp re(pattern);
 	re.setMinimal(true);
 
-	int idx = re.indexIn(_content);
+	int idx = re.indexIn(_m->content);
 	if(idx > 0){
-		_station_name = Helper::cvt_str_to_first_upper(re.cap(1));
+		_m->station_name = Helper::cvt_str_to_first_upper(re.cap(1));
 	}
 }
 
@@ -111,19 +126,19 @@ void SomaFMStation::parse_urls()
 
 	int idx=-1;
 	do{
-		idx = re_mp3.indexIn(_content, idx+1);
+		idx = re_mp3.indexIn(_m->content, idx+1);
 		if(idx > 0){
 			QString url = re_mp3.cap(1);
-			_urls[url] = SomaFMStation::UrlType::MP3;
+			_m->urls[url] = SomaFMStation::UrlType::MP3;
 		}
 	} while(idx > 0);
 
 	idx=-1;
 	do{
-		idx = re_aac.indexIn(_content, idx+1);
+		idx = re_aac.indexIn(_m->content, idx+1);
 		if(idx > 0){
 			QString url = re_aac.cap(1);
-			_urls[url] = SomaFMStation::UrlType::AAC;
+			_m->urls[url] = SomaFMStation::UrlType::AAC;
 		}
 
 	} while(idx > 0);
@@ -135,9 +150,9 @@ void SomaFMStation::parse_description()
 	QRegExp re(pattern);
 	re.setMinimal(true);
 
-	int idx = re.indexIn(_content);
+	int idx = re.indexIn(_m->content);
 	if(idx > 0){
-		_description = re.cap(1);
+		_m->description = re.cap(1);
 	}
 }
 
@@ -148,22 +163,22 @@ void SomaFMStation::parse_image()
 
 	re.setMinimal(true);
 
-	int idx = re.indexIn(_content);
+	int idx = re.indexIn(_m->content);
 	if(idx > 0){
 		QString url = QString("https://somafm.com/") + re.cap(1);
 		QString cover_path = Helper::get_sayonara_path() +
 				"/covers/" +
-				_station_name + "." + Helper::File::get_file_extension(url);
+				_m->station_name + "." + Helper::File::get_file_extension(url);
 
-		_cover = CoverLocation::get_cover_location(QUrl(url), cover_path);
+		_m->cover = CoverLocation::get_cover_location(QUrl(url), cover_path);
 	}
 }
 
 void SomaFMStation::set_loved(bool loved){
-	_loved = loved;
+	_m->loved = loved;
 }
 
 bool SomaFMStation::is_loved() const
 {
-	return _loved;
+	return _m->loved;
 }

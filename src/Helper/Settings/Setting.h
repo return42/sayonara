@@ -27,7 +27,6 @@
 #include "Helper/Settings/SettingConverter.h"
 #include "Helper/Settings/SettingNotifier.h"
 #include "Database/DatabaseSettings.h"
-#include "Helper/Logger/Logger.h"
 
 
 /**
@@ -45,6 +44,9 @@ class AbstrSetting{
 		AbstrSetting();
 		AbstrSetting(const AbstrSetting&);
 		AbstrSetting(SK::SettingKey key, const char* db_key);
+
+		void print_info(const QString& str) const;
+		void print_warning(const QString& str) const;
 
 	public:
 		virtual ~AbstrSetting();
@@ -115,19 +117,17 @@ class Setting : public AbstrSetting
 			bool success = db->load_setting(_db_key, s);
 
 			if(!success){
-				sp_log(Log::Warning) << "Setting " << _db_key << ": Not found. Use default value...";
+				print_info("Setting " + _db_key + ": Not found. Use default value...");
 				_val = _default_val;
-				sp_log(Log::Info) << "Load Setting " << _db_key << ": " << SC<T>::cvt_to_string(_val);
+				print_info("Load Setting " + _db_key + ": " + SC<T>::cvt_to_string(_val));
 				return;
 			}
 
 			success = SC<T>::cvt_from_string(s, _val);
 			if(!success){
-				sp_log(Log::Warning) << "Setting " << _db_key << ": Cannot convert. Use default value...";
+				print_warning("Setting " + _db_key + ": Cannot convert. Use default value...");
 				_val = _default_val;
 			}
-
-			//sp_log(Log::Info) << "Load Setting " << _db_key << ": " << SC<T>::cvt_to_string(_val);
 		}
 
 		/* Save setting to DB */
@@ -137,7 +137,6 @@ class Setting : public AbstrSetting
 
             QString s = SC<T>::cvt_to_string(_val);
 			db->store_setting(_db_key, s);
-			//sp_log(Log::Info) << "Store Setting " << _db_key << ": " << s;
 		}
 
 		/* ... */

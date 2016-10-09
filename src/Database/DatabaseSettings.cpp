@@ -22,6 +22,7 @@
 #include "Database/SayonaraQuery.h"
 #include "Database/DatabaseSettings.h"
 #include "Helper/Settings/Settings.h"
+#include "Helper/Logger/Logger.h"
 
 DatabaseSettings::DatabaseSettings(QSqlDatabase db, quint8 db_id) :
 	DatabaseModule(db, db_id)

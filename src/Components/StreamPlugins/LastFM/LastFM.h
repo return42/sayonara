@@ -30,16 +30,15 @@
 #define LASTFM_H_
 
 #include "Helper/Settings/SayonaraClass.h"
-#include "Helper/MetaData/MetaData.h"
 #include "Helper/typedefs.h"
 #include "Helper/singleton.h"
 
 #include <QMap>
 #include <QtXml>
 
-
 // singleton base LastFM API class
 // signals and slots are handled by the adapter class
+class MetaData;
 class PlayManager;
 class LFMLoginThread;
 class LFMTrackChangedThread;
@@ -75,27 +74,8 @@ class LastFM : public QObject, protected SayonaraClass{
 		LastFM(const LastFM&);
 		LastFM& operator=(const LastFM&);
 
-
-		bool						_logged_in;
-		bool						_active;
-		bool						_scrobbled;
-
-		QString						_username;
-
-		QString						_auth_token;
-		QString						_session_key;
-
-		LFMTrackChangedThread*		_track_changed_thread;
-		LFMLoginThread*				_login_thread;
-
-		PlayManager*				_play_manager;
-
-		quint64						_old_pos;
-		quint64						_old_pos_difference;
-
-		MetaData					_md;
-
-
+		struct Private;
+		LastFM::Private* _m=nullptr;
 
 
 		bool init_track_changed_thread();

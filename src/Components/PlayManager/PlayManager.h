@@ -32,7 +32,9 @@ class MetaData;
  * @brief Global handler for current playback state (Singleton)
  * @ingroup Components
  */
-class PlayManager : public QObject, protected SayonaraClass
+class PlayManager :
+		public QObject,
+		protected SayonaraClass
 {
 
 	Q_OBJECT
@@ -319,8 +321,8 @@ public:
 
 private:
 
-	struct PlayManagerPrivate;
-	PlayManagerPrivate*	_m=nullptr;
+	struct Private;
+	PlayManager::Private*	_m=nullptr;
 };
 
 

@@ -28,7 +28,6 @@
 #include <QString>
 #include <QStringList>
 
-
 #include "Helper/Settings/SayonaraClass.h"
 
 class ImportCache;
@@ -61,10 +60,8 @@ public:
 
 
 private:
-class CopyThreadPrivate;
-	CopyThreadPrivate*		_m=nullptr;
-
-
+	struct Private;
+	CopyThread::Private*		_m=nullptr;
 
 private:
 

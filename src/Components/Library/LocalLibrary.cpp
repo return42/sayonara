@@ -27,6 +27,7 @@
 
 #include "Helper/Settings/Settings.h"
 #include "Helper/LibrarySearchMode.h"
+#include "Helper/Logger/Logger.h"
 
 #include <utility>
 

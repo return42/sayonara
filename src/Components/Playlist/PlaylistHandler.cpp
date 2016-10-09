@@ -35,6 +35,7 @@
 #include "Helper/Parser/PlaylistParser.h"
 #include "Helper/Playlist/CustomPlaylist.h"
 #include "Helper/Settings/Settings.h"
+#include "Helper/Logger/Logger.h"
 
 #include <algorithm>
 #include <memory>

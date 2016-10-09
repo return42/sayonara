@@ -24,7 +24,7 @@
 #include "Helper/FileHelper.h"
 #include "Helper/MetaData/MetaDataList.h"
 
-struct ImportCachePrivate
+struct ImportCache::Private
 {
 	QString					library_path;
 	MetaDataList			v_md;
@@ -35,7 +35,7 @@ struct ImportCachePrivate
 
 ImportCache::ImportCache()
 {
-	_m = new ImportCachePrivate();
+	_m = new ImportCache::Private();
 	_m->library_path = Settings::getInstance()->get(Set::Lib_Path);
 }
 

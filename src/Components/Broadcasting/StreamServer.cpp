@@ -20,17 +20,21 @@
 
 
 #include "StreamServer.h"
+
 #include "Helper/Helper.h"
 #include "Helper/MetaData/MetaData.h"
 #include "Helper/WebAccess/AsyncWebAccess.h"
 #include "Helper/Settings/Settings.h"
+#include "Helper/Logger/Logger.h"
+#include "Helper/Message/GlobalMessage.h"
+
 #include "Components/Engine/EngineHandler.h"
 #include "Components/PlayManager/PlayManager.h"
-#include "Helper/Message/GlobalMessage.h"
+
 
 #include <QHostAddress>
 
-struct StreamServerPrivate{
+struct StreamServer::Private{
 	QTcpServer*							server=nullptr;		// the server
 
 	MetaData							cur_track;				// cur played track
@@ -42,18 +46,6 @@ struct StreamServerPrivate{
 	QList<StreamWriterPtr>				lst_sw;				// all open streams
 	QStringList							allowed_ips;			// IPs without prompt
 	QStringList							discmissed_ips;		// dismissed IPs
-
-	StreamServerPrivate(){
-		asking = false;
-		mp3_enc_available = false;
-	}
-
-	virtual ~StreamServerPrivate(){
-		if(server){
-			delete server;
-			server = nullptr;
-		}
-	}
 };
 
 
@@ -64,7 +56,9 @@ StreamServer::StreamServer(QObject* parent) :
 	PlayManager* play_manager;
 	EngineHandler* engine;
 
-	_m = new StreamServerPrivate();
+	_m = new StreamServer::Private();
+	_m->asking = false;
+	_m->mp3_enc_available = false;
 
 	create_server();
 
@@ -86,6 +80,10 @@ StreamServer::~StreamServer(){
 	server_close();
 	disconnect_all();
 
+	if(_m->server){
+		delete _m->server;
+		_m->server = nullptr;
+	}
 	delete _m; _m = nullptr;
 
 	Helper::sleep_ms(500);

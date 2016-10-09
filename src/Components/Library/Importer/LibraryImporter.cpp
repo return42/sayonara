@@ -23,6 +23,7 @@
 #include "Helper/Settings/Settings.h"
 #include "Helper/MetaData/MetaDataList.h"
 #include "Helper/Message/Message.h"
+#include "Helper/Logger/Logger.h"
 
 #include "Components/TagEdit/MetaDataChangeNotifier.h"
 #include "Database/DatabaseConnector.h"

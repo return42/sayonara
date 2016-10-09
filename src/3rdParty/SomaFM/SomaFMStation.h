@@ -25,9 +25,11 @@
 #ifndef SOMAFMSTATION_H
 #define SOMAFMSTATION_H
 
-#include "Helper/MetaData/MetaDataList.h"
-#include "Components/Covers/CoverLocation.h"
+#include <QtGlobal>
+#include <QString>
 
+class CoverLocation;
+class MetaDataList;
 class SomaFMStation
 {
 public:
@@ -57,14 +59,8 @@ public:
 
 private:
 
-	QString			_content;
-
-	QString			_station_name;
-	QMap<QString, UrlType> _urls;
-	QString			_description;
-	CoverLocation	_cover;
-	MetaDataList	_v_md;
-	bool			_loved;
+	struct Private;
+	SomaFMStation::Private* _m=nullptr;
 
 private:
 	void parse_station_name();

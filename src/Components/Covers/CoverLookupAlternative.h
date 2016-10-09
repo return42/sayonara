@@ -18,12 +18,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef COVERLOOKUPALTERNATIVE_H
 #define COVERLOOKUPALTERNATIVE_H
 
-#include "CoverLocation.h"
 #include "CoverLookup.h"
 
 /**
@@ -37,21 +34,15 @@ class CoverLookupAlternative :
     Q_OBJECT
 
 private:
-
     CoverLookupAlternative(QObject* parent, int n_covers);
 
-	CoverLookupPtr      _cl;
-	CoverLocation		_cover_location;
-
-	int					_n_covers;
-    bool				_run;
+	class Private;
+	CoverLookupAlternative::Private* _m=nullptr;
 
 
 public:
-
 	CoverLookupAlternative(QObject* parent, const CoverLocation& cl, int n_covers);
-
-    ~CoverLookupAlternative();
+	virtual ~CoverLookupAlternative();
 
 	void stop() override;
     void start();

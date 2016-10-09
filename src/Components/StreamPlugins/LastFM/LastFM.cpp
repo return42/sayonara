@@ -35,6 +35,8 @@
 #include "Helper/Random/RandomGenerator.h"
 #include "Helper/Playlist/PlaylistMode.h"
 #include "Helper/Settings/Settings.h"
+#include "Helper/MetaData/MetaData.h"
+#include "Helper/Logger/Logger.h"
 
 #include "Components/PlayManager/PlayManager.h"
 #include "Components/Playlist/PlaylistHandler.h"
@@ -46,21 +48,43 @@
 
 #include <algorithm>
 
+struct LastFM::Private
+{
+
+	bool						logged_in;
+	bool						active;
+	bool						scrobbled;
+
+	QString						username;
+	QString						auth_token;
+	QString						session_key;
+
+	LFMTrackChangedThread*		track_changed_thread=nullptr;
+	LFMLoginThread*				login_thread=nullptr;
+
+	PlayManager*				play_manager=nullptr;
+
+	quint64						old_pos;
+	quint64						old_pos_difference;
+
+	MetaData					md;
+};
+
 LastFM::LastFM() :
 	QObject(),
 	SayonaraClass()
 {
+	_m = new LastFM::Private();
+	_m->play_manager = PlayManager::getInstance();
 
-	_play_manager = PlayManager::getInstance();
+	_m->logged_in = false;
+	_m->track_changed_thread = new LFMTrackChangedThread("", "", this);
+	_m->login_thread = new LFMLoginThread(this);
 
-	_logged_in = false;
-	_track_changed_thread = new LFMTrackChangedThread("", "", this);
-	_login_thread = new LFMLoginThread(this);
-
-	connect(_login_thread, &LFMLoginThread::sig_logged_in, this, &LastFM::sl_login_thread_finished);
-	connect(_play_manager, &PlayManager::sig_track_changed,	this, &LastFM::sl_track_changed);
-	connect(_play_manager, &PlayManager::sig_position_changed_ms, this, &LastFM::sl_position_ms_changed);
-	connect(_track_changed_thread, &LFMTrackChangedThread::sig_similar_artists_available,
+	connect(_m->login_thread, &LFMLoginThread::sig_logged_in, this, &LastFM::sl_login_thread_finished);
+	connect(_m->play_manager, &PlayManager::sig_track_changed,	this, &LastFM::sl_track_changed);
+	connect(_m->play_manager, &PlayManager::sig_position_changed_ms, this, &LastFM::sl_position_ms_changed);
+	connect(_m->track_changed_thread, &LFMTrackChangedThread::sig_similar_artists_available,
 			this, &LastFM::sl_similar_artists_available);
 
 	REGISTER_LISTENER_NO_CALL(Set::LFM_Login, psl_login);
@@ -68,7 +92,7 @@ LastFM::LastFM() :
 }
 
 LastFM::~LastFM() {
-
+	delete _m; _m = nullptr;
 }
 
 void LastFM::get_login(QString& user, QString& pw){
@@ -80,29 +104,28 @@ void LastFM::get_login(QString& user, QString& pw){
 
 
 bool LastFM::is_logged_in() {
-	return _logged_in;
+	return _m->logged_in;
 }
 
 
 void LastFM::psl_login() {
 
-	_active = _settings->get(Set::LFM_Active);
+	_m->active = _settings->get(Set::LFM_Active);
 
-	if(!_active){
+	if(!_m->active){
 		return;
 	}
 
 	QString password;
-	get_login(_username, password);
+	get_login(_m->username, password);
 
-	_logged_in = false;
-
-	_login_thread->login(_username, password);
+	_m->logged_in = false;
+	_m->login_thread->login(_m->username, password);
 }
 
 
 void LastFM::psl_logout(){
-	_logged_in = false;
+	_m->logged_in = false;
 }
 
 
@@ -112,49 +135,47 @@ void LastFM::sl_login_thread_finished(bool success) {
 		return;
 	}
 
-	LFMLoginStuff login_info = _login_thread->getLoginStuff();
+	LFMLoginStuff login_info = _m->login_thread->getLoginStuff();
 
-	_logged_in = login_info.logged_in;
-	_auth_token = login_info.token;
-	_session_key = login_info.session_key;
+	_m->logged_in = login_info.logged_in;
+	_m->auth_token = login_info.token;
+	_m->session_key = login_info.session_key;
 
-	_settings->set(Set::LFM_SessionKey, _session_key);
+	_settings->set(Set::LFM_SessionKey, _m->session_key);
 
 	sp_log(Log::Debug, "LastFM") << "Got session key";
 
-	if(!_logged_in){
+	if(!_m->logged_in){
 		sp_log(Log::Warning, "LastFM") << "Cannot login";
 	}
 
-	emit sig_logged_in(_logged_in);
+	emit sig_logged_in(_m->logged_in);
 }
 
 void LastFM::sl_track_changed(const MetaData& md) {
 
 	PlaylistMode pl_mode = _settings->get(Set::PL_Mode);
 	if( PlaylistMode::isActiveAndEnabled(pl_mode.dynamic())) {
-		_track_changed_thread->search_similar_artists(md);
+		_m->track_changed_thread->search_similar_artists(md);
 	}
 
-	if(! _active ) return;
-	if(!_logged_in ) return;
+	if(!_m->active ) return;
+	if(!_m->logged_in ) return;
 
-	_md = md;
+	_m->md = md;
 
-
-	_track_changed_thread->set_username(_username);
-	_track_changed_thread->set_session_key(_session_key);
-
+	_m->track_changed_thread->set_username(_m->username);
+	_m->track_changed_thread->set_session_key(_m->session_key);
 
 	reset_scrobble();
 
-	_track_changed_thread->update_now_playing(md);
+	_m->track_changed_thread->update_now_playing(md);
 }
 
 
-void LastFM::sl_position_ms_changed(quint64 pos_ms){
-
-	if(!_active){
+void LastFM::sl_position_ms_changed(quint64 pos_ms)
+{
+	if(!_m->active){
 		return;
 	}
 
@@ -162,69 +183,70 @@ void LastFM::sl_position_ms_changed(quint64 pos_ms){
 }
 
 
-void LastFM::reset_scrobble(){
-	_scrobbled = false;
-	_old_pos = 0;
-	_old_pos_difference = 0;
+void LastFM::reset_scrobble()
+{
+	_m->scrobbled = false;
+	_m->old_pos = 0;
+	_m->old_pos_difference = 0;
 }
 
 
-bool LastFM::check_scrobble(quint64 pos_ms){
-
-	if(!_logged_in){
+bool LastFM::check_scrobble(quint64 pos_ms)
+{
+	if(!_m->logged_in){
 		return false;
 	}
 
-	if(_scrobbled){
+	if(_m->scrobbled){
 		return false;
 	}
 
-	if(_md.length_ms <= 0){
+	if(_m->md.length_ms <= 0){
 		return false;
 	}
 
-	if(_old_pos == 0){
-		_old_pos = pos_ms;
-		_old_pos_difference = 0;
+	if(_m->old_pos == 0){
+		_m->old_pos = pos_ms;
+		_m->old_pos_difference = 0;
 		return false;
 	}
 
 	else{
-		if(_old_pos > pos_ms){
-			_old_pos = 0;
+		if(_m->old_pos > pos_ms){
+			_m->old_pos = 0;
 		}
 
-		else if(pos_ms > _old_pos + 2000){
-			_old_pos = 0;
+		else if(pos_ms > _m->old_pos + 2000){
+			_m->old_pos = 0;
 		}
 
 		else{
 
 			quint64 scrobble_time_ms = (quint64) (_settings->get(Set::LFM_ScrobbleTimeSec) * 1000);
 
-			_old_pos_difference += (pos_ms - _old_pos);
-			_old_pos = pos_ms;
+			_m->old_pos_difference += (pos_ms - _m->old_pos);
+			_m->old_pos = pos_ms;
 
-			if( (_old_pos_difference > scrobble_time_ms) ||
-				(_old_pos_difference >= ((_md.length_ms  * 3) / 4) && _md.length_ms >= 1000))
+			if( (_m->old_pos_difference > scrobble_time_ms) ||
+				(_m->old_pos_difference >= ((_m->md.length_ms  * 3) / 4) && _m->md.length_ms >= 1000))
 			{
-				scrobble(_md);
+				scrobble(_m->md);
 			}
 		}
 	}
 
-	return _scrobbled;
+	return _m->scrobbled;
 }
 
 void LastFM::scrobble(const MetaData& metadata) {
 
-	_scrobbled = true;
+	_m->scrobbled = true;
 
-	if(!_active) {
+	if(!_m->active) {
 		return;
 	}
 
-	if(!_logged_in){
+	if(!_m->logged_in){
 		return;
 	}
 
@@ -245,7 +267,7 @@ void LastFM::scrobble(const MetaData& metadata) {
 	sig_data["artist"] = artist.toLocal8Bit();
 	sig_data["duration"] = QString::number(metadata.length_ms / 1000).toLocal8Bit();
 	sig_data["method"] = "track.scrobble";
-	sig_data["sk"] = _session_key.toLocal8Bit();
+	sig_data["sk"] = _m->session_key.toLocal8Bit();
 	sig_data["timestamp"] = QString::number(started).toLocal8Bit();
 	sig_data["track"] = title.toLocal8Bit();
 

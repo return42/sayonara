@@ -21,6 +21,7 @@
 /* SomaFMPlaylistModel.cpp */
 
 #include "SomaFMPlaylistModel.h"
+#include "Components/Covers/CoverLocation.h"
 #include "GUI/Helper/CustomMimeData.h"
 #include "Helper/globals.h"
 

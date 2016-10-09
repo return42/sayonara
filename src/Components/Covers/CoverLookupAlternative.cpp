@@ -19,40 +19,54 @@
  */
 
 #include "CoverLookupAlternative.h"
+#include "CoverLocation.h"
 #include "Database/DatabaseHandler.h"
+
+struct CoverLookupAlternative::Private
+{
+	CoverLookupPtr      cl;
+	CoverLocation		cover_location;
+
+	int					n_covers;
+	bool				run;
+};
 
 CoverLookupAlternative::CoverLookupAlternative(QObject* parent, int n_covers) :
     CoverLookupInterface(parent)
 {
-	_run = true;
-    _n_covers = n_covers;
+	_m = new CoverLookupAlternative::Private();
+	_m->run = true;
+	_m->n_covers = n_covers;
 }
 
 CoverLookupAlternative::CoverLookupAlternative(QObject* parent, const CoverLocation& cl, int n_covers) : 
 	CoverLookupAlternative(parent, n_covers)
 {
-	_cover_location = cl;
+	_m->cover_location = cl;
 }
 
 
 CoverLookupAlternative::~CoverLookupAlternative() {
-	_cl->stop();
+
+	_m->cl->stop();
+
+	delete _m; _m = nullptr;
 }
 
 void CoverLookupAlternative::stop() {
-    _cl->stop();
+	_m->cl->stop();
 }
 
 void CoverLookupAlternative::start() {
 
-    _run = true;
+	_m->run = true;
 
-	_cl = CoverLookupPtr(new CoverLookup(this, _n_covers));
+	_m->cl = CoverLookupPtr(new CoverLookup(this, _m->n_covers));
 
-	connect(_cl.get(), &CoverLookup::sig_cover_found, this, &CoverLookupAlternative::cover_found);
-	connect(_cl.get(), &CoverLookup::sig_finished, this, &CoverLookupAlternative::finished);
+	connect(_m->cl.get(), &CoverLookup::sig_cover_found, this, &CoverLookupAlternative::cover_found);
+	connect(_m->cl.get(), &CoverLookup::sig_finished, this, &CoverLookupAlternative::finished);
 
-	_cl->fetch_cover(_cover_location);
+	_m->cl->fetch_cover(_m->cover_location);
 }
 
 void CoverLookupAlternative::cover_found(const QString& cover_path)

@@ -28,7 +28,7 @@
 
 #include <algorithm>
 
-struct TagEdit::TagEditPrivate
+struct TagEdit::Private
 {
 	MetaDataList			v_md;			// the current metadata
 	MetaDataList			v_md_orig;		// the original metadata
@@ -45,7 +45,7 @@ struct TagEdit::TagEditPrivate
 TagEdit::TagEdit(QObject *parent) :
 	QThread(parent)
 {
-	_m = new TagEdit::TagEditPrivate();
+	_m = new TagEdit::Private();
 	_m->ldb = DB::getInstance()->get_std();
 	_m->notify = true;
 

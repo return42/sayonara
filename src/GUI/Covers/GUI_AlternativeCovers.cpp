@@ -48,7 +48,8 @@
 #include <QList>
 #include <QModelIndex>
 
-struct GUI_AlternativeCovers::GUI_AlternativeCoversPrivate{
+struct GUI_AlternativeCovers::Private
+{
 	int						cur_idx;
 	QString					last_path;
 	CoverLocation			cover_location;
@@ -66,7 +67,7 @@ GUI_AlternativeCovers::GUI_AlternativeCovers(QWidget* parent) :
 	SayonaraDialog(parent)
 {
 	ui = new Ui::AlternativeCovers();
-	_m = new GUI_AlternativeCovers::GUI_AlternativeCoversPrivate();
+	_m = new GUI_AlternativeCovers::Private();
 
 	ui->setupUi(this);
 

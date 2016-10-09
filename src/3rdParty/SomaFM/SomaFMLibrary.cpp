@@ -21,15 +21,18 @@
 /* SomaFMLibrary.cpp */
 
 #include "SomaFMLibrary.h"
+#include "SomaFMStation.h"
+
 #include "Helper/Helper.h"
 #include "Helper/FileHelper.h"
 #include "Helper/Logger/Logger.h"
 #include "Helper/WebAccess/AsyncWebAccess.h"
 #include "Helper/Parser/StreamParser.h"
-#include "Helper/Parser/StreamParser.h"
 #include "Helper/globals.h"
 
 #include "Components/Playlist/PlaylistHandler.h"
+#include "Components/Covers/CoverLocation.h"
+
 #include <algorithm>
 
 SomaFMLibrary::SomaFMLibrary(QObject* parent) :

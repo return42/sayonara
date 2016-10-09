@@ -69,11 +69,9 @@ private slots:
 	void wa_response_token(const QByteArray& data);
 	void wa_error_token(const QString& error);
 
-
 private:
 
 	LFMLoginStuff _login_info;
-
 };
 
 

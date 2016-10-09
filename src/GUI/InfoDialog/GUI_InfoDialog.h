@@ -39,7 +39,6 @@ class InfoDialogContainer;
 class MetaDataList;
 class CoverLocation;
 
-
 namespace Ui
 {
 	class InfoDialog;
@@ -95,8 +94,8 @@ private:
 
 private:
 
-	struct GUI_InfoDialogMembersPrivate;
-	GUI_InfoDialogMembersPrivate*	_m=nullptr;
+	struct Private;
+	GUI_InfoDialog::Private*	_m=nullptr;
 	Ui::InfoDialog*			ui=nullptr;
 
 };

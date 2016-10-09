@@ -19,7 +19,7 @@
  */
 
 #include "Setting.h"
-
+#include "Helper/Logger/Logger.h"
 
 AbstrSetting::AbstrSetting(){
 
@@ -47,6 +47,16 @@ QString AbstrSetting::get_db_key() const
 SK::SettingKey AbstrSetting::get_key() const
 {
 	return _key;
+}
+
+void AbstrSetting::print_info(const QString &str) const
+{
+	sp_log(Log::Info) << str;
+}
+
+void AbstrSetting::print_warning(const QString& str) const
+{
+	sp_log(Log::Warning) << str;
 }
 
 

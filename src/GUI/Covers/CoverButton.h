@@ -56,8 +56,8 @@ public:
 
 private:
 
-	struct CoverButtonPrivate;
-	CoverButtonPrivate*	_m=nullptr;
+	struct Private;
+	CoverButton::Private*	_m=nullptr;
 
 
 private slots:

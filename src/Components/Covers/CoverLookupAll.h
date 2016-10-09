@@ -37,8 +37,8 @@ class CoverLookupAll : public CoverLookupInterface
     Q_OBJECT
 
 private:
-	struct CoverLookupAllPrivate;
-	CoverLookupAllPrivate* _m=nullptr;
+	struct Private;
+	CoverLookupAll::Private* _m=nullptr;
 
 
 private slots:

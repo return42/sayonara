@@ -26,7 +26,7 @@
 #include "Helper/Logger/Logger.h"
 #include "Helper/Settings/Settings.h"
 
-struct CopyThread::CopyThreadPrivate
+struct CopyThread::Private
 {
 	MetaDataList	v_md;
 	QString			target_dir;
@@ -45,7 +45,7 @@ CopyThread::CopyThread(const QString& target_dir, const ImportCache& cache, QObj
 	QThread(parent),
 	SayonaraClass()
 {
-	_m = new CopyThread::CopyThreadPrivate();
+	_m = new CopyThread::Private();
 	_m->cache = cache;
 	_m->target_dir = target_dir;
 
@@ -54,7 +54,7 @@ CopyThread::CopyThread(const QString& target_dir, const ImportCache& cache, QObj
 
 CopyThread::~CopyThread()
 {
-	delete _m;
+	delete _m; _m = nullptr;
 }
 
 

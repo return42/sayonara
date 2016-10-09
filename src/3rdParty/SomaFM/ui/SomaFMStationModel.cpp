@@ -23,6 +23,8 @@
 /* SomaFMStationModel.cpp */
 
 #include "SomaFMStationModel.h"
+#include "3rdParty/SomaFM/SomaFMStation.h"
+#include "Components/Covers/CoverLocation.h"
 #include "GUI/Helper/GUI_Helper.h"
 #include "GUI/Helper/CustomMimeData.h"
 #include "GUI/Helper/IconLoader/IconLoader.h"

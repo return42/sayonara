@@ -22,7 +22,9 @@
 #include "GUI_Broadcast.h"
 
 #include "Helper/Message/Message.h"
+#include "Helper/Logger/Logger.h"
 #include "GUI/Helper/Delegates/ComboBoxDelegate.h"
+
 
 GUI_Broadcast::GUI_Broadcast(QWidget *parent) :
 	PlayerPluginInterface(parent),

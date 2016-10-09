@@ -29,13 +29,13 @@
 
 class MetaData;
 class MetaDataList;
-class ImportCachePrivate;
+
 class ImportCache
 {
 
 private:
-
-	ImportCachePrivate*		_m=nullptr;
+	struct Private;
+	ImportCache::Private*		_m=nullptr;
 
 public:
 

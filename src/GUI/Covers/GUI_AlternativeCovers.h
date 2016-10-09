@@ -66,8 +66,8 @@ private slots:
 
 private:
 
-	struct GUI_AlternativeCoversPrivate;
-	GUI_AlternativeCoversPrivate*	_m=nullptr;
+	struct Private;
+	GUI_AlternativeCovers::Private*	_m=nullptr;
 	Ui::AlternativeCovers*			ui=nullptr;
 
 

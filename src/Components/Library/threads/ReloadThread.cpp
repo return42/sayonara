@@ -35,11 +35,12 @@
 #include "Helper/DirectoryReader/DirectoryReader.h"
 #include "Helper/MetaData/MetaDataList.h"
 #include "Helper/Settings/Settings.h"
-
+#include "Helper/Logger/Logger.h"
 #include "Database/DatabaseConnector.h"
+
 #include <utility>
 
-struct ReloadThread::ReloadThreadPrivate
+struct ReloadThread::Private
 {
 	DatabaseConnector*		db=nullptr;
 	QString					library_path;
@@ -54,7 +55,7 @@ ReloadThread::ReloadThread(QObject *parent) :
 	SayonaraClass()
 {
 
-	_m = new ReloadThread::ReloadThreadPrivate();
+	_m = new ReloadThread::Private();
 	_m->db = DatabaseConnector::getInstance();
 
 	_m->paused = false;
