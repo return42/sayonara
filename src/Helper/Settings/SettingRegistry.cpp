@@ -18,14 +18,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "SettingRegistry.h"
 #include "Database/DatabaseConnector.h"
+
 #include "Helper/Playlist/PlaylistMode.h"
 #include "Helper/EqualizerPresets.h"
 #include "Helper/LibrarySearchMode.h"
+#include "Helper/Macros.h"
+
 #include "GUI/Helper/Shortcuts/RawShortcutMap.h"
+#include <QDir>
 
 SettingRegistry::SettingRegistry()
 {
@@ -51,7 +53,7 @@ bool SettingRegistry::init(){
 	}
 
 	register_setting( Set::LFM_Login, "LastFM_login", StringPair("None", "None"));
-	register_setting( Set::LFM_ScrobbleTimeSec, "LastFM_login", 10);
+	register_setting( Set::LFM_ScrobbleTimeSec, "lfm_scrobble_time", 10);
 	register_setting( Set::LFM_Active, "LastFM_active", false );
 	register_setting( Set::LFM_Corrections, "lfm_corrections", false );
 	register_setting( Set::LFM_ShowErrors, "lfm_q.show_errors", false );
@@ -131,6 +133,7 @@ bool SettingRegistry::init(){
 	register_setting( Set::Engine_ConvertQuality, "convert_quality", 0 );
 	register_setting( Set::Engine_CovertTargetPath, "convert_target_path", QDir::homePath() );
 	register_setting( Set::Engine_ShowLevel, "show_level", false);
+	register_setting( Set::Engine_SpectrumBins, "spectrum_bins", 70);
 	register_setting( Set::Engine_ShowSpectrum, "show_spectrum", false);
 	register_setting( Set::Engine_SR_Active, "streamripper", false );
 	register_setting( Set::Engine_SR_Warning, "streamripper_warning", true );
