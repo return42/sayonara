@@ -20,13 +20,13 @@
 
 #include "LocalLibrary.h"
 #include "Importer/LibraryImporter.h"
-#include "threads/ReloadThread.h"
-#include "threads/IndexDirectoriesThread.h"
-#include "threads/FileSystemWatcher.h"
+#include "Threads/ReloadThread.h"
+#include "Threads/IndexDirectoriesThread.h"
+#include "Threads/FileSystemWatcher.h"
 #include "Database/DatabaseConnector.h"
 
 #include "Helper/Settings/Settings.h"
-#include "Helper/LibrarySearchMode.h"
+#include "Helper/Library/SearchMode.h"
 #include "Helper/Logger/Logger.h"
 
 #include <utility>

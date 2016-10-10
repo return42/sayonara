@@ -30,7 +30,7 @@ StreamPlaylist::StreamPlaylist(int idx, QString name) :
 StreamPlaylist::~StreamPlaylist()
 {}
 
-PlaylistType StreamPlaylist::get_type() const
+Playlist::Type StreamPlaylist::get_type() const
 {
-	return PlaylistType::Stream;
+	return Playlist::Type::Stream;
 }

@@ -25,10 +25,11 @@
 #include "Helper/Logger/Logger.h"
 #include "GUI/Helper/Delegates/ComboBoxDelegate.h"
 
+#include "GUI/Plugins/Broadcasting/ui_GUI_Broadcast.h"
+
 
 GUI_Broadcast::GUI_Broadcast(QWidget *parent) :
-	PlayerPluginInterface(parent),
-	Ui::GUI_Broadcast()
+	PlayerPluginInterface(parent)
 {
 	_server = new StreamServer(this);
 
@@ -37,12 +38,14 @@ GUI_Broadcast::GUI_Broadcast(QWidget *parent) :
 	connect(_server, &StreamServer::sig_can_listen, this, &GUI_Broadcast::can_listen);
 
 	_server->retry();
-
 }
 
 
 GUI_Broadcast::~GUI_Broadcast(){
-
+	if(ui)
+	{
+		delete ui; ui = nullptr;
+	}
 }
 
 QString GUI_Broadcast::get_name() const
@@ -59,7 +62,7 @@ QString GUI_Broadcast::get_display_name() const
 void GUI_Broadcast::language_changed(){
 
 	if(is_ui_initialized()){
-		retranslateUi(this);
+		ui->retranslateUi(this);
 		set_status_label();
 	}
 }
@@ -70,17 +73,17 @@ void GUI_Broadcast::init_ui()
 		return;
 	}
 
-	setup_parent(this);
+	setup_parent(this, &ui);
 
-	combo_clients->setItemDelegate(new ComboBoxDelegate(combo_clients));
+	ui->combo_clients->setItemDelegate(new ComboBoxDelegate(ui->combo_clients));
 
-	btn_dismiss->setEnabled(false);
-	btn_dismiss_all->setEnabled(false);
+	ui->btn_dismiss->setEnabled(false);
+	ui->btn_dismiss_all->setEnabled(false);
 
-	connect(btn_dismiss, &QPushButton::clicked, this, &GUI_Broadcast::dismiss_clicked);
-	connect(btn_dismiss_all, &QPushButton::clicked, this, &GUI_Broadcast::dismiss_all_clicked);
-	connect(combo_clients, combo_current_index_changed_int, this, &GUI_Broadcast::combo_changed);
-	connect(btn_retry, &QPushButton::clicked, this, &GUI_Broadcast::retry);
+	connect(ui->btn_dismiss, &QPushButton::clicked, this, &GUI_Broadcast::dismiss_clicked);
+	connect(ui->btn_dismiss_all, &QPushButton::clicked, this, &GUI_Broadcast::dismiss_all_clicked);
+	connect(ui->combo_clients, combo_current_index_changed_int, this, &GUI_Broadcast::combo_changed);
+	connect(ui->btn_retry, &QPushButton::clicked, this, &GUI_Broadcast::retry);
 
 	set_status_label();
 
@@ -93,7 +96,7 @@ void GUI_Broadcast::set_status_label(){
 		return;
 	}
 
-	int n_listeners = combo_clients->count();
+	int n_listeners = ui->combo_clients->count();
 	QString str_listeners;
 
 	if(n_listeners == 1){
@@ -104,7 +107,7 @@ void GUI_Broadcast::set_status_label(){
 		str_listeners = tr("%1 listeners").arg(n_listeners);
 	}
 
-	lab_status->setText(str_listeners);
+	ui->lab_status->setText(str_listeners);
 }
 
 // finally connection is established
@@ -115,10 +118,10 @@ void GUI_Broadcast::new_connection(const QString& ip){
 	}
 
 	//sp_log(Log::Debug) << "Add item " << ip;
-	combo_clients->addItem(ip);
+	ui->combo_clients->addItem(ip);
 	set_status_label();
-	combo_clients->setCurrentIndex(combo_clients->count() -1);
-	btn_dismiss_all->setEnabled(true);
+	ui->combo_clients->setCurrentIndex(ui->combo_clients->count() -1);
+	ui->btn_dismiss_all->setEnabled(true);
 }
 
 
@@ -133,21 +136,21 @@ void GUI_Broadcast::connection_closed(const QString& ip){
 	if(ip.isEmpty()) return;
 	sp_log(Log::Info) << "Connection closed: " << ip;
 
-	for(idx=0; idx<combo_clients->count(); idx++){
-		if(combo_clients->itemText(idx).contains(ip)){
+	for(idx=0; idx<ui->combo_clients->count(); idx++){
+		if(ui->combo_clients->itemText(idx).contains(ip)){
 			break;
 		}
 	}
 
-	if(idx >= combo_clients->count()){
+	if(idx >= ui->combo_clients->count()){
 		return;
 	}
 
-	combo_clients->removeItem(idx);
+	ui->combo_clients->removeItem(idx);
 
-	if(combo_clients->count() == 0){
-		btn_dismiss->setEnabled(false);
-		btn_dismiss_all->setEnabled(false);
+	if(ui->combo_clients->count() == 0){
+		ui->btn_dismiss->setEnabled(false);
+		ui->btn_dismiss_all->setEnabled(false);
 	}
 
 	set_status_label();
@@ -159,9 +162,9 @@ void GUI_Broadcast::can_listen(bool success){
 		return;
 	}
 
-	lab_status->setVisible(success);
-	lab_error->setVisible(!success);
-	btn_retry->setVisible(!success);
+	ui->lab_status->setVisible(success);
+	ui->lab_error->setVisible(!success);
+	ui->btn_retry->setVisible(!success);
 
 	if(!success){
 		QString msg = tr("Cannot broadcast on port %1").arg(_settings->get(Set::Broadcast_Port));
@@ -182,11 +185,11 @@ void GUI_Broadcast::dismiss_at(int idx){
 		return;
 	}
 
-	QString ip = combo_clients->itemText(idx);
+	QString ip = ui->combo_clients->itemText(idx);
 
 	if(ip.startsWith("(d)")) return;
 
-	combo_clients->setItemText(idx, QString("(d) ") + ip);
+	ui->combo_clients->setItemText(idx, QString("(d) ") + ip);
 
 	_server->dismiss(idx);
 }
@@ -194,37 +197,35 @@ void GUI_Broadcast::dismiss_at(int idx){
 
 void GUI_Broadcast::dismiss_clicked(){
 
-	int idx = combo_clients->currentIndex();
+	int idx = ui->combo_clients->currentIndex();
 	dismiss_at(idx);
-	btn_dismiss->setEnabled(false);
+	ui->btn_dismiss->setEnabled(false);
 
 }
 
 
 void GUI_Broadcast::dismiss_all_clicked(){
 
-	for(int idx = 0; idx <combo_clients->count(); idx++){
+	for(int idx = 0; idx <ui->combo_clients->count(); idx++){
 		dismiss_at(idx);
 	}
 
-	btn_dismiss_all->setEnabled(false);
-	btn_dismiss->setEnabled(false);
+	ui->btn_dismiss_all->setEnabled(false);
+	ui->btn_dismiss->setEnabled(false);
 }
 
 void GUI_Broadcast::combo_changed(int idx){
 
 	Q_UNUSED(idx)
-	QString text = combo_clients->currentText();
+	QString text = ui->combo_clients->currentText();
 
 	if(text.startsWith("(d)")){
-		btn_dismiss->setEnabled(false);
+		ui->btn_dismiss->setEnabled(false);
 	}
 	else{
-		btn_dismiss->setEnabled(true);
+		ui->btn_dismiss->setEnabled(true);
 	}
 }
-
-
 
 void GUI_Broadcast::mp3_enc_found(){
 
@@ -234,15 +235,15 @@ void GUI_Broadcast::mp3_enc_found(){
 
 	bool active = _settings->get(SetNoDB::MP3enc_found);
 	if(!active){
-		combo_clients->hide();
-		btn_dismiss->hide();
-		btn_dismiss_all->hide();
-		lab_status->hide();
-		lab_error->setText(tr("Cannot find lame mp3 encoder"));
+		ui->combo_clients->hide();
+		ui->btn_dismiss->hide();
+		ui->btn_dismiss_all->hide();
+		ui->lab_status->hide();
+		ui->lab_error->setText(tr("Cannot find lame mp3 encoder"));
 	}
 
 	else{
-		lab_error->hide();
-		btn_retry->hide();
+		ui->lab_error->hide();
+		ui->btn_retry->hide();
 	}
 }

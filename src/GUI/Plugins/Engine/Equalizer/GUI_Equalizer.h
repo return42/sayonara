@@ -29,21 +29,27 @@
 #ifndef GUI_EQUALIZER_H_
 #define GUI_EQUALIZER_H_
 
-#include "GUI/Plugins/Engine/ui_GUI_Equalizer.h"
 #include "Interfaces/PlayerPlugin/PlayerPlugin.h"
 
 #include <QList>
 #include <QMenu>
 #include <QAction>
 
+namespace Ui
+{
+	class GUI_Equalizer;
+}
+
+class EqSlider;
 class EngineHandler;
+
+
 /**
  * @brief The GUI_Equalizer class
  * @ingroup Equalizer
  */
 class GUI_Equalizer :
-		public PlayerPluginInterface,
-		private Ui::GUI_Equalizer
+		public PlayerPluginInterface
 {
 
 	Q_OBJECT
@@ -83,6 +89,7 @@ protected:
 
 private:
 
+	Ui::GUI_Equalizer*	ui=nullptr;
 	EngineHandler*		_engine=nullptr;
 	QList<EQ_Setting>	_presets;
 	QList<EqSlider*>	_sliders;

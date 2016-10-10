@@ -23,6 +23,8 @@
  */
 
 #include "GUI_StreamRecorder.h"
+#include "GUI/Preferences/ui_GUI_StreamRecorder.h"
+
 #include "Helper/Message/Message.h"
 #include "Database/DatabaseConnector.h"
 #include "Helper/Settings/Settings.h"
@@ -31,84 +33,91 @@
 #include <QDir>
 
 GUI_StreamRecorder::GUI_StreamRecorder(QWidget* parent) :
-	PreferenceWidgetInterface(parent),
-	Ui::GUI_StreamRecorder()
+	PreferenceWidgetInterface(parent)
 {
 
 }
 
 
-GUI_StreamRecorder::~GUI_StreamRecorder() {
-
+GUI_StreamRecorder::~GUI_StreamRecorder()
+{
+	if(ui)
+	{
+		delete ui; ui=nullptr;
+	}
 }
 
 void GUI_StreamRecorder::init_ui()
 {
-	setup_parent(this);
+	setup_parent(this, &ui);
 
 	revert();
 
-	connect(cb_activate, &QCheckBox::toggled, this, &GUI_StreamRecorder::sl_cb_activate_toggled);
-	connect(cb_create_session_path, &QCheckBox::toggled, this, &GUI_StreamRecorder::sl_cb_create_session_path_toggled);
-	connect(btn_path, &QPushButton::clicked, this, &GUI_StreamRecorder::sl_btn_path_clicked);
+	connect(ui->cb_activate, &QCheckBox::toggled, this, &GUI_StreamRecorder::sl_cb_activate_toggled);
+	connect(ui->cb_create_session_path, &QCheckBox::toggled, this, &GUI_StreamRecorder::sl_cb_create_session_path_toggled);
+	connect(ui->btn_path, &QPushButton::clicked, this, &GUI_StreamRecorder::sl_btn_path_clicked);
 }
 
 
-void GUI_StreamRecorder::language_changed() {
-
+void GUI_StreamRecorder::language_changed()
+{
 	translate_action();
 
 	if(!is_ui_initialized()){
 		return;
 	}
 
-	retranslateUi(this);
+	ui->retranslateUi(this);
 	PreferenceWidgetInterface::language_changed();
 
 }
 
 
-void GUI_StreamRecorder::sl_cb_activate_toggled(bool b) {
+void GUI_StreamRecorder::sl_cb_activate_toggled(bool b)
+{
 	_is_active = b;
 	_settings->set(Set::Engine_SR_Active, b);
 
-	le_path->setEnabled(b);
-	btn_path->setEnabled(b);
-	cb_create_session_path->setEnabled(b);
+	ui->le_path->setEnabled(b);
+	ui->btn_path->setEnabled(b);
+	ui->cb_create_session_path->setEnabled(b);
 }
 
 
-void GUI_StreamRecorder::sl_cb_create_session_path_toggled(bool b) {
+void GUI_StreamRecorder::sl_cb_create_session_path_toggled(bool b)
+{
     _is_create_session_path = b;
 	_settings->set(Set::Engine_SR_SessionPath, b);
 }
 
 
-void GUI_StreamRecorder::sl_btn_path_clicked() {
-
+void GUI_StreamRecorder::sl_btn_path_clicked()
+{
 	QString dir = QFileDialog::getExistingDirectory(this, tr("Choose target directory"), _path, QFileDialog::ShowDirsOnly);
 	if(dir.size() > 0) {
 		_path = dir;
 		_settings->set(Set::Engine_SR_Path, _path);
-		le_path->setText(_path);
+		ui->le_path->setText(_path);
 	}
 }
 
 
-void GUI_StreamRecorder::commit() {
+void GUI_StreamRecorder::commit()
+{
+	_settings->set(Set::Engine_SR_Active, ui->cb_activate->isChecked());
 
-	_settings->set(Set::Engine_SR_Active, cb_activate->isChecked());
-
-	if(!le_path->isEnabled()){
+	if(!ui->le_path->isEnabled()){
 		return;
 	}
 
-	QString str = le_path->text();
-    if(!QFile::exists(str)) {
+	QString str = ui->le_path->text();
+	if(!QFile::exists(str))
+	{
         bool create_success = QDir::root().mkpath(str);
-        if(!create_success) {
+		if(!create_success)
+		{
 			QString sr_path = _settings->get(Set::Engine_SR_Path);
-			le_path->setText(sr_path);
+			ui->le_path->setText(sr_path);
 
 			Message::warning(str + tr(" could not be created\nPlease choose another folder"), tr("Stream recorder"));
         }
@@ -125,22 +134,22 @@ void GUI_StreamRecorder::revert(){
 	_is_active = _settings->get(Set::Engine_SR_Active);
 	_is_create_session_path = _settings->get(Set::Engine_SR_SessionPath);
 
-	le_path->setText(_path);
-	cb_activate->setChecked(_is_active);
-	cb_create_session_path->setChecked(_is_create_session_path);
+	ui->le_path->setText(_path);
+	ui->cb_activate->setChecked(_is_active);
+	ui->cb_create_session_path->setChecked(_is_create_session_path);
 
-	cb_create_session_path->setEnabled(_is_active);
-	btn_path->setEnabled(_is_active);
-	le_path->setEnabled(_is_active);
+	ui->cb_create_session_path->setEnabled(_is_active);
+	ui->btn_path->setEnabled(_is_active);
+	ui->le_path->setEnabled(_is_active);
 }
 
 
 void GUI_StreamRecorder::record_button_toggled(bool b) {
 
-	btn_path->setEnabled(!b);
-	cb_activate->setEnabled(!b);
-	cb_create_session_path->setEnabled(!b);
-	le_path->setEnabled(!b);
+	ui->btn_path->setEnabled(!b);
+	ui->cb_activate->setEnabled(!b);
+	ui->cb_create_session_path->setEnabled(!b);
+	ui->le_path->setEnabled(!b);
 }
 
 

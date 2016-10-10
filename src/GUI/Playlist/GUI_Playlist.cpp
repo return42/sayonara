@@ -35,7 +35,7 @@
 #include "Helper/Settings/Settings.h"
 
 #include "Components/PlayManager/PlayManager.h"
-#include "Components/Playlist/Playlist.h"
+#include "Components/Playlist/AbstractPlaylist.h"
 #include "Components/Playlist/PlaylistHandler.h"
 
 #include <QKeyEvent>

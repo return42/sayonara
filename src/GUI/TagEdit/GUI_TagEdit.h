@@ -81,15 +81,13 @@ signals:
 	void sig_cancelled();
 
 
-
 private:
-	Ui::GUI_TagEdit* ui=nullptr;
-	TagEdit*		_tag_edit=nullptr;
-	TagExpression	_tag_expression;
-	QMap<int, QString> _cover_path_map;
+	Ui::GUI_TagEdit*	ui=nullptr;
 
-	int				_cur_idx;
-
+	TagEdit*			_tag_edit=nullptr;
+	TagExpression		_tag_expression;
+	QMap<int, QString>	_cover_path_map;
+	int					_cur_idx;
 
 	/**
 	 * @brief _tag_str_map, key = tag, val = replaced string

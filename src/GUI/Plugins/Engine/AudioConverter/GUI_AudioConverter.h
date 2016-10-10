@@ -23,19 +23,17 @@
 #ifndef GUI_AUDIOCONVERTER_H
 #define GUI_AUDIOCONVERTER_H
 
-#include "GUI/Plugins/Engine/ui_GUI_AudioConvert.h"
 #include "Interfaces/PlayerPlugin/PlayerPlugin.h"
-
 #include "Helper/Playlist/PlaylistMode.h"
-#include "Components/Engine/Convert/LameBitrate.h"
 
-#include <QAction>
-#include <QCloseEvent>
+namespace Ui
+{
+	class GUI_AudioConvert;
+}
 
 class EngineHandler;
 class GUI_AudioConverter :
-		public PlayerPluginInterface,
-		private Ui::GUI_AudioConvert
+		public PlayerPluginInterface
 {
 	Q_OBJECT
 
@@ -43,6 +41,7 @@ class GUI_AudioConverter :
 
 public:
 	explicit GUI_AudioConverter(QWidget *parent=nullptr);
+	virtual ~GUI_AudioConverter();
 
 	QString	get_name() const override;
 	QString	get_display_name() const override;
@@ -67,10 +66,9 @@ protected slots:
 	
 private:
 
+	Ui::GUI_AudioConvert*	ui=nullptr;
 	EngineHandler*		_engine=nullptr;
-
-	PlaylistMode		_pl_mode;
-	LameBitrate			_bitrate;
+	Playlist::Mode		_pl_mode;
 	bool				_mp3_enc_available;
 
 	void fill_cbr();

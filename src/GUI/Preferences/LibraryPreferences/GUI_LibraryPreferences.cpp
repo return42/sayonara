@@ -19,18 +19,27 @@
  */
 
 #include "GUI_LibraryPreferences.h"
-#include "Helper/LibrarySearchMode.h"
+#include "GUI/Preferences/ui_GUI_LibraryPreferences.h"
+
+#include "Helper/Library/SearchMode.h"
 #include "Helper/Settings/Settings.h"
 
 GUI_LibraryPreferences::GUI_LibraryPreferences(QWidget* parent) :
-	PreferenceWidgetInterface(parent),
-	Ui::GUI_LibraryPreferences()
+	PreferenceWidgetInterface(parent)
 {
+}
+
+GUI_LibraryPreferences::~GUI_LibraryPreferences()
+{
+	if(ui)
+	{
+		delete ui; ui=nullptr;
+	}
 }
 
 void GUI_LibraryPreferences::init_ui(){
 
-	setup_parent(this);
+	setup_parent(this, &ui);
 
 	revert();
 }
@@ -44,51 +53,51 @@ QString GUI_LibraryPreferences::get_action_name() const
 void GUI_LibraryPreferences::commit(){
 
 	Library::SearchModeMask mask = 0;
-	if(cb_case_insensitive->isChecked()){
+	if(ui->cb_case_insensitive->isChecked()){
 		mask |= Library::CaseInsensitve;
 	}
 
-	if(cb_no_special_chars->isChecked()){
+	if(ui->cb_no_special_chars->isChecked()){
 		mask |= Library::NoSpecialChars;
 	}
 
-	if(cb_no_accents->isChecked()){
+	if(ui->cb_no_accents->isChecked()){
 		mask |= Library::NoDiacriticChars;
 	}
 
-	_settings->set(Set::Lib_DC_DoNothing, rb_dc_do_nothing->isChecked());
-	_settings->set(Set::Lib_DC_PlayIfStopped, rb_dc_play_if_stopped->isChecked());
-	_settings->set(Set::Lib_DC_PlayImmediately, rb_dc_play_immediately->isChecked());
-	_settings->set(Set::Lib_DD_DoNothing, rb_dd_do_nothing->isChecked());
-	_settings->set(Set::Lib_DD_PlayIfStoppedAndEmpty, rb_dd_start_if_stopped_and_empty->isChecked());
+	_settings->set(Set::Lib_DC_DoNothing, ui->rb_dc_do_nothing->isChecked());
+	_settings->set(Set::Lib_DC_PlayIfStopped, ui->rb_dc_play_if_stopped->isChecked());
+	_settings->set(Set::Lib_DC_PlayImmediately, ui->rb_dc_play_immediately->isChecked());
+	_settings->set(Set::Lib_DD_DoNothing, ui->rb_dd_do_nothing->isChecked());
+	_settings->set(Set::Lib_DD_PlayIfStoppedAndEmpty, ui->rb_dd_start_if_stopped_and_empty->isChecked());
 	_settings->set(Set::Lib_SearchMode, mask);
 }
 
 void GUI_LibraryPreferences::revert(){
 
-	cb_case_insensitive->setChecked(false);
-	cb_no_special_chars->setChecked(false);
-	cb_no_accents->setChecked(false);
+	ui->cb_case_insensitive->setChecked(false);
+	ui->cb_no_special_chars->setChecked(false);
+	ui->cb_no_accents->setChecked(false);
 
 	Library::SearchModeMask mask = _settings->get(Set::Lib_SearchMode);
 
 	if(mask & Library::CaseInsensitve){
-		cb_case_insensitive->setChecked(true);
+		ui->cb_case_insensitive->setChecked(true);
 	}
 
 	if(mask & Library::NoSpecialChars){
-		cb_no_special_chars->setChecked(true);
+		ui->cb_no_special_chars->setChecked(true);
 	}
 
 	if(mask & Library::NoDiacriticChars){
-		cb_no_accents->setCheckable(true);
+		ui->cb_no_accents->setCheckable(true);
 	}
 
-	rb_dc_do_nothing->setChecked(_settings->get(Set::Lib_DC_DoNothing));
-	rb_dc_play_if_stopped->setChecked(_settings->get(Set::Lib_DC_PlayIfStopped));
-	rb_dc_play_immediately->setChecked(_settings->get(Set::Lib_DC_PlayImmediately));
-	rb_dd_do_nothing->setChecked(_settings->get(Set::Lib_DD_DoNothing));
-	rb_dd_start_if_stopped_and_empty->setChecked(_settings->get(Set::Lib_DD_PlayIfStoppedAndEmpty));
+	ui->rb_dc_do_nothing->setChecked(_settings->get(Set::Lib_DC_DoNothing));
+	ui->rb_dc_play_if_stopped->setChecked(_settings->get(Set::Lib_DC_PlayIfStopped));
+	ui->rb_dc_play_immediately->setChecked(_settings->get(Set::Lib_DC_PlayImmediately));
+	ui->rb_dd_do_nothing->setChecked(_settings->get(Set::Lib_DD_DoNothing));
+	ui->rb_dd_start_if_stopped_and_empty->setChecked(_settings->get(Set::Lib_DD_PlayIfStoppedAndEmpty));
 }
 
 void GUI_LibraryPreferences::language_changed()
@@ -99,7 +108,7 @@ void GUI_LibraryPreferences::language_changed()
 		return;
 	}
 
-	retranslateUi(this);
+	ui->retranslateUi(this);
 
 	PreferenceWidgetInterface::language_changed();
 }

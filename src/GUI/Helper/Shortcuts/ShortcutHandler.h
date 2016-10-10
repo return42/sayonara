@@ -23,15 +23,12 @@
 #ifndef SHORTCUTHANDLER_H
 #define SHORTCUTHANDLER_H
 
-#include <QMap>
-#include <QString>
-#include <QStringList>
-#include <QKeySequence>
-#include <QShortcut>
+#include <QList>
 
 #include "Helper/singleton.h"
 #include "Helper/Settings/SayonaraClass.h"
 
+class QStringList;
 class Shortcut;
 /**
  * @brief A singleton class for retrieving shortcuts

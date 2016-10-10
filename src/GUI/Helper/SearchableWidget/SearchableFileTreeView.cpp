@@ -24,7 +24,7 @@
 #include "GUI/Helper/SearchableWidget/MiniSearcher.h"
 
 #include "Helper/Settings/Settings.h"
-#include "Helper/LibrarySearchMode.h"
+#include "Helper/Library/SearchMode.h"
 
 #include <QDirIterator>
 #include <algorithm>

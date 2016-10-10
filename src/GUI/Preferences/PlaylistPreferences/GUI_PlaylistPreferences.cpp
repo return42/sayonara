@@ -19,37 +19,41 @@
  */
 
 
-
 /* GUI_PlaylistPreferences.cpp */
 
 #include "GUI_PlaylistPreferences.h"
+#include "GUI/Preferences/ui_GUI_PlaylistPreferences.h"
+
 #include "ui_GUI_PlaylistPreferences.h"
 #include "Helper/Settings/Settings.h"
 
 
 GUI_PlaylistPreferences::GUI_PlaylistPreferences(QWidget *parent) :
-	PreferenceWidgetInterface(parent),
-	Ui::GUI_PlaylistPreferences()
+	PreferenceWidgetInterface(parent)
 {
 
 }
 
 GUI_PlaylistPreferences::~GUI_PlaylistPreferences()
 {
+	if(ui)
+	{
+		delete ui; ui=nullptr;
+	}
 }
 
 
 
 void GUI_PlaylistPreferences::commit()
 {
-	_settings->set( Set::PL_LoadSavedPlaylists, cb_load_saved_playlists->isChecked() );
-	_settings->set( Set::PL_LoadTemporaryPlaylists, cb_load_temporary_playlists->isChecked() );
-	_settings->set( Set::PL_LoadLastTrack, (cb_load_last_track->isChecked() && cb_load_last_track->isEnabled()) );
-	_settings->set( Set::PL_RememberTime, (cb_remember_time->isChecked() && cb_remember_time->isEnabled()) );
-	_settings->set( Set::PL_StartPlaying, (cb_start_playing->isChecked() && cb_start_playing->isEnabled()) );
+	_settings->set( Set::PL_LoadSavedPlaylists, ui->cb_load_saved_playlists->isChecked() );
+	_settings->set( Set::PL_LoadTemporaryPlaylists, ui->cb_load_temporary_playlists->isChecked() );
+	_settings->set( Set::PL_LoadLastTrack, (ui->cb_load_last_track->isChecked() && ui->cb_load_last_track->isEnabled()) );
+	_settings->set( Set::PL_RememberTime, (ui->cb_remember_time->isChecked() && ui->cb_remember_time->isEnabled()) );
+	_settings->set( Set::PL_StartPlaying, (ui->cb_start_playing->isChecked() && ui->cb_start_playing->isEnabled()) );
 
-	_settings->set(Set::PL_ShowNumbers, cb_show_numbers->isChecked());
-	_settings->set(Set::PL_EntryLook, le_expression->text());
+	_settings->set(Set::PL_ShowNumbers, ui->cb_show_numbers->isChecked());
+	_settings->set(Set::PL_EntryLook, ui->le_expression->text());
 }
 
 void GUI_PlaylistPreferences::revert()
@@ -62,14 +66,14 @@ void GUI_PlaylistPreferences::revert()
 	remember_time = _settings->get(Set::PL_RememberTime);
 	start_playing = _settings->get(Set::PL_StartPlaying);
 
-	cb_load_saved_playlists->setChecked(load_saved_playlists);
-	cb_load_temporary_playlists->setChecked(load_temporary_playlists);
-	cb_load_last_track->setChecked(load_last_track);
-	cb_remember_time->setChecked(remember_time);
-	cb_start_playing->setChecked(start_playing);
+	ui->cb_load_saved_playlists->setChecked(load_saved_playlists);
+	ui->cb_load_temporary_playlists->setChecked(load_temporary_playlists);
+	ui->cb_load_last_track->setChecked(load_last_track);
+	ui->cb_remember_time->setChecked(remember_time);
+	ui->cb_start_playing->setChecked(start_playing);
 
-	le_expression->setText(_settings->get(Set::PL_EntryLook));
-	cb_show_numbers->setChecked(_settings->get(Set::PL_ShowNumbers));
+	ui->le_expression->setText(_settings->get(Set::PL_EntryLook));
+	ui->cb_show_numbers->setChecked(_settings->get(Set::PL_ShowNumbers));
 }
 
 void GUI_PlaylistPreferences::init_ui()
@@ -79,20 +83,20 @@ void GUI_PlaylistPreferences::init_ui()
 		return;
 	}
 
-	setup_parent(this);
+	setup_parent(this, &ui);
 
 	revert();
 
 	cb_toggled(true);
 
-	connect(cb_load_last_track, &QCheckBox::toggled, this, &GUI_PlaylistPreferences::cb_toggled);
-	connect(cb_load_saved_playlists, &QCheckBox::toggled, this, &GUI_PlaylistPreferences::cb_toggled);
-	connect(cb_load_temporary_playlists, &QCheckBox::toggled, this, &GUI_PlaylistPreferences::cb_toggled);
-	connect(cb_remember_time, &QCheckBox::toggled, this, &GUI_PlaylistPreferences::cb_toggled);
-	connect(cb_start_playing, &QCheckBox::toggled, this, &GUI_PlaylistPreferences::cb_toggled);
+	connect(ui->cb_load_last_track, &QCheckBox::toggled, this, &GUI_PlaylistPreferences::cb_toggled);
+	connect(ui->cb_load_saved_playlists, &QCheckBox::toggled, this, &GUI_PlaylistPreferences::cb_toggled);
+	connect(ui->cb_load_temporary_playlists, &QCheckBox::toggled, this, &GUI_PlaylistPreferences::cb_toggled);
+	connect(ui->cb_remember_time, &QCheckBox::toggled, this, &GUI_PlaylistPreferences::cb_toggled);
+	connect(ui->cb_start_playing, &QCheckBox::toggled, this, &GUI_PlaylistPreferences::cb_toggled);
 
-	connect(btn_default, &QPushButton::clicked, [=](){
-		le_expression->setText("*%title%* - %artist%");
+	connect(ui->btn_default, &QPushButton::clicked, [=](){
+		ui->le_expression->setText("*%title%* - %artist%");
 	});
 }
 
@@ -109,7 +113,7 @@ void GUI_PlaylistPreferences::language_changed()
 		return;
 	}
 
-	retranslateUi(this);
+	ui->retranslateUi(this);
 
 	PreferenceWidgetInterface::language_changed();
 }
@@ -117,13 +121,13 @@ void GUI_PlaylistPreferences::language_changed()
 void GUI_PlaylistPreferences::cb_toggled(bool b) {
 	Q_UNUSED(b);
 
-	bool load = (cb_load_saved_playlists->isChecked() || cb_load_temporary_playlists->isChecked());
+	bool load = (ui->cb_load_saved_playlists->isChecked() || ui->cb_load_temporary_playlists->isChecked());
 
-	cb_load_last_track->setEnabled(load);
-	cb_remember_time->setEnabled(load);
-	cb_start_playing->setEnabled(load);
+	ui->cb_load_last_track->setEnabled(load);
+	ui->cb_remember_time->setEnabled(load);
+	ui->cb_start_playing->setEnabled(load);
 
-	bool cb_load_last_track_checked = cb_load_last_track->isChecked() && cb_load_last_track->isEnabled();
-	cb_remember_time->setEnabled(cb_load_last_track_checked);
+	bool cb_load_last_track_checked = ui->cb_load_last_track->isChecked() && ui->cb_load_last_track->isEnabled();
+	ui->cb_remember_time->setEnabled(cb_load_last_track_checked);
 
 }

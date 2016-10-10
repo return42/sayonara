@@ -25,8 +25,8 @@
 
 #include "Database/DatabaseModule.h"
 #include "Helper/typedefs.h"
-#include "Helper/Filter.h"
-#include "Helper/LibrarySearchMode.h"
+#include "Helper/Library/Filter.h"
+#include "Helper/Library/SearchMode.h"
 #include "Components/Library/Sorting.h"
 
 #include <QString>

@@ -4,13 +4,15 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.7)
 SET(SOURCES
     AbstractLibrary.cpp
     LocalLibrary.cpp
-    threads/ReloadThread.cpp
-    threads/IndexDirectoriesThread.cpp
-    threads/FileSystemWatcher.cpp
+
     Importer/ImportCache.cpp
     Importer/CachingThread.cpp
     Importer/CopyThread.cpp
     Importer/LibraryImporter.cpp
+
+    Threads/ReloadThread.cpp
+    Threads/IndexDirectoriesThread.cpp
+    Threads/FileSystemWatcher.cpp
 )
 
 

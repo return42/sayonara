@@ -19,17 +19,20 @@
  */
 
 
-
 #ifndef GUI_BROADCASTSETUP_H
 #define GUI_BROADCASTSETUP_H
 
-#include "GUI/Preferences/ui_GUI_BroadcastSetup.h"
 #include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
 
-class GUI_BroadcastSetup :
-		public PreferenceWidgetInterface,
-		private Ui::GUI_BroadcastSetup
+namespace Ui
 {
+	class GUI_BroadcastSetup;
+}
+
+class GUI_BroadcastSetup :
+		public PreferenceWidgetInterface
+{
+
 	Q_OBJECT
 
 	friend class PreferenceWidgetInterface;
@@ -55,6 +58,9 @@ private slots:
 	void port_changed(int new_val);
 
 private:
+	Ui::GUI_BroadcastSetup* ui=nullptr;
+
+
 	QString get_url_string();
 	void refresh_url();
 

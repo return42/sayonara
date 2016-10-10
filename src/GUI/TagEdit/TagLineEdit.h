@@ -30,8 +30,8 @@
  * @brief Holds start and size of a selection
  * @ingroup Tagging
  */
-struct TextSelection{
-
+struct TextSelection
+{
 	int selection_start;
 	int selection_size;
 
@@ -52,7 +52,9 @@ struct TextSelection{
  * @brief The TagLineEdit class
  * @ingroup Tagging
  */
-class TagLineEdit : public QLineEdit {
+class TagLineEdit :
+		public QLineEdit
+{
 
 	Q_OBJECT
 

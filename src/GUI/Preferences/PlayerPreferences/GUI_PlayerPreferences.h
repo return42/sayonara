@@ -18,18 +18,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef GUI_PLAYERPREFERENCES_H
 #define GUI_PLAYERPREFERENCES_H
 
 #include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
-#include "GUI/Preferences/ui_GUI_PlayerPreferences.h"
 
+namespace Ui
+{
+	class GUI_PlayerPreferences;
+}
 
 class GUI_PlayerPreferences :
-		public PreferenceWidgetInterface,
-		private Ui::GUI_PlayerPreferences
+		public PreferenceWidgetInterface
 {
 	Q_OBJECT
 
@@ -38,7 +38,7 @@ class GUI_PlayerPreferences :
 
 public:
 	explicit GUI_PlayerPreferences(QWidget *parent = 0);
-	~GUI_PlayerPreferences();
+	virtual ~GUI_PlayerPreferences();
 
 
 protected:
@@ -51,6 +51,9 @@ public:
 
 	void commit() override;
 	void revert() override;
+
+private:
+	 Ui::GUI_PlayerPreferences*	ui=nullptr;
 
 private slots:
 	void show_tray_icon_toggled(bool b);

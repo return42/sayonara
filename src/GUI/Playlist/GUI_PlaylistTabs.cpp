@@ -25,7 +25,7 @@
 #include "Helper/Message/Message.h"
 
 #include "Components/PlayManager/PlayManager.h"
-#include "Components/Playlist/Playlist.h"
+#include "Components/Playlist/AbstractPlaylist.h"
 #include "Components/Playlist/PlaylistHandler.h"
 
 #include "Helper/globals.h"
@@ -123,7 +123,7 @@ void GUI_Playlist::playlist_added(PlaylistPtr pl){
 	connect(pl_view, &PlaylistView::sig_right_tab_clicked, this, &GUI_Playlist::select_tab_right);
 	connect(pl_view, &PlaylistView::sig_time_changed, this, &GUI_Playlist::playlist_time_changed);
 
-	connect(pl.get(), &Playlist::sig_data_changed, this, &GUI_Playlist::playlist_changed);
+	connect(pl.get(), &AbstractPlaylist::sig_data_changed, this, &GUI_Playlist::playlist_changed);
 }
 
 

@@ -23,9 +23,9 @@
 #ifndef DATABASEPLAYLIST_H
 #define DATABASEPLAYLIST_H
 
-#include "Components/Library/Sorting.h"
 #include "Database/DatabaseModule.h"
-#include "Helper/Playlist/CustomPlaylistTypedefs.h"
+#include "Helper/Playlist/CustomPlaylistFwd.h"
+#include "Helper/Playlist/Sorting.h"
 
 class MetaData;
 class MetaDataList;
@@ -44,7 +44,7 @@ public:
 
 	DatabasePlaylist(QSqlDatabase db, quint8 db_id);
 
-	bool getAllPlaylistSkeletons(CustomPlaylistSkeletons& skeletons, DatabasePlaylist::PlaylistChooserType type, SortOrderPlaylists sortorder=SortOrderPlaylists::NameAsc);
+	bool getAllPlaylistSkeletons(CustomPlaylistSkeletons& skeletons, DatabasePlaylist::PlaylistChooserType type, Playlist::SortOrder sortorder=Playlist::SortOrder::NameAsc);
 	bool getPlaylistSkeletonById(CustomPlaylistSkeleton& skeleton);
 
 	int createPlaylist(QString playlist_name, bool temporary);

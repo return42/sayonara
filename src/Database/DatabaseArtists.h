@@ -25,8 +25,8 @@
 
 #include "Database/DatabaseModule.h"
 #include "Components/Library/Sorting.h"
-#include "Helper/LibrarySearchMode.h"
-#include "Helper/Filter.h"
+#include "Helper/Library/SearchMode.h"
+#include "Helper/Library/Filter.h"
 
 
 class Artist;

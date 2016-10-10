@@ -18,20 +18,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #ifndef GUI_STREAM_H_
 #define GUI_STREAM_H_
 
-
-#include "GUI/Plugins/Stream/ui_GUI_Stream.h"
 #include "Components/StreamPlugins/Streams/StreamHandlerStreams.h"
 
 #include "GUI_AbstractStream.h"
 
-
+namespace Ui
+{
+	class GUI_Stream;
+}
 class GUI_Stream :
-		public GUI_AbstractStream,
-		public Ui::GUI_Stream
+		public GUI_AbstractStream
 {
 	Q_OBJECT
 
@@ -47,6 +46,9 @@ public:
 
 	QString get_name() const override;
 	QString get_display_name() const override;
+
+private:
+	Ui::GUI_Stream* ui=nullptr;
 };
 
 #endif /* GUI_STREAM_H_ */

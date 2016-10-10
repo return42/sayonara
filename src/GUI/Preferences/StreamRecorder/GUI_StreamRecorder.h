@@ -25,12 +25,15 @@
 #ifndef GUI_STREAMRECORDER_H_
 #define GUI_STREAMRECORDER_H_
 
-#include "GUI/Preferences/ui_GUI_StreamRecorder.h"
 #include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
 
+namespace Ui
+{
+	class GUI_StreamRecorder;
+}
+
 class GUI_StreamRecorder :
-		public PreferenceWidgetInterface,
-		private Ui::GUI_StreamRecorder
+		public PreferenceWidgetInterface
 {
 
 	Q_OBJECT
@@ -56,6 +59,7 @@ protected:
 
 private:
 
+	Ui::GUI_StreamRecorder*	ui=nullptr;
 	QString		_path;
 	bool		_is_active;
 	bool		_is_create_session_path;

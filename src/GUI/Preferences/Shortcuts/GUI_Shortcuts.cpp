@@ -21,11 +21,12 @@
 
 
 #include "GUI_Shortcuts.h"
+#include "GUI_ShortcutEntry.h"
+#include "GUI/Preferences/ui_GUI_Shortcuts.h"
+
 #include <QLineEdit>
 #include <QPushButton>
 #include <QTimer>
-
-#include "GUI_ShortcutEntry.h"
 
 #define ADD_TO_MAP(x) _btn_le_map[btn_##x] = le_##x
 
@@ -36,6 +37,14 @@ GUI_Shortcuts::GUI_Shortcuts(QWidget* parent) :
 	_sch = ShortcutHandler::getInstance();
 }
 
+GUI_Shortcuts::~GUI_Shortcuts()
+{
+	if(ui)
+	{
+		delete ui; ui=nullptr;
+	}
+}
+
 
 void GUI_Shortcuts::init_ui()
 {
@@ -43,11 +52,11 @@ void GUI_Shortcuts::init_ui()
 		return;
 	}
 
-	setup_parent(this);
+	setup_parent(this, &ui);
 
 	this->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
 
-	cb_test->setVisible(false);
+	ui->cb_test->setVisible(false);
 
 	QList<Shortcut> shortcuts = _sch->get_shortcuts();
 
@@ -60,16 +69,16 @@ void GUI_Shortcuts::init_ui()
 		connect(entry, &GUI_ShortcutEntry::sig_sequence_entered,
 				this, &GUI_Shortcuts::sequence_entered);
 
-		layout_entries->addWidget(entry);
+		ui->layout_entries->addWidget(entry);
 
 		_entries << entry;
 	}
 
-	connect(cb_test, &QCheckBox::toggled, cb_test, [=]()
+	connect(ui->cb_test, &QCheckBox::toggled, ui->cb_test, [=]()
 	{
-		if(cb_test->isChecked()){
-			cb_test->setText(tr("Success"));
-			QTimer::singleShot(2500, cb_test, SLOT(hide()));
+		if(ui->cb_test->isChecked()){
+			ui->cb_test->setText(tr("Success"));
+			QTimer::singleShot(2500, ui->cb_test, SLOT(hide()));
 		}
 	});
 }
@@ -99,15 +108,15 @@ void GUI_Shortcuts::revert()
 
 void GUI_Shortcuts::test_pressed(const QList<QKeySequence>& sequences)
 {
-	cb_test->setVisible(true);
-	cb_test->setText(tr("Press shortcut") + ": " + sequences[0].toString(QKeySequence::NativeText));
-	cb_test->setChecked(false);
+	ui->cb_test->setVisible(true);
+	ui->cb_test->setText(tr("Press shortcut") + ": " + sequences[0].toString(QKeySequence::NativeText));
+	ui->cb_test->setChecked(false);
+
 	for(const QKeySequence& sequence : sequences){
-		cb_test->setShortcut(sequence);
+		ui->cb_test->setShortcut(sequence);
 	}
 
-	cb_test->setFocus();
-
+	ui->cb_test->setFocus();
 }
 
 void GUI_Shortcuts::sequence_entered()
@@ -115,16 +124,19 @@ void GUI_Shortcuts::sequence_entered()
 	GUI_ShortcutEntry* entry = static_cast<GUI_ShortcutEntry*>(sender());
 	QList<QKeySequence> sequences = entry->get_sequences();
 
-	for(GUI_ShortcutEntry* lst_entry : _entries){
+	for(GUI_ShortcutEntry* lst_entry : _entries)
+	{
 		if(lst_entry == entry){
 			continue;
 		}
 
 		QList<QKeySequence> saved_sequences = lst_entry->get_sequences();
-		for(const QKeySequence& seq1 : sequences){
+		for(const QKeySequence& seq1 : sequences)
+		{
 			QString seq1_str = seq1.toString(QKeySequence::NativeText);
 
-			for(const QKeySequence& seq2 : saved_sequences){
+			for(const QKeySequence& seq2 : saved_sequences)
+			{
 				QString seq2_str = seq2.toString(QKeySequence::NativeText);
 				if(seq1_str == seq2_str && !seq1_str.isEmpty()){
 
@@ -144,7 +156,7 @@ void GUI_Shortcuts::language_changed()
 		return;
 	}
 
-	retranslateUi(this);
+	ui->retranslateUi(this);
 
 	PreferenceWidgetInterface::language_changed();
 }

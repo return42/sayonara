@@ -18,10 +18,11 @@ SET(SOURCES
     UrlHelper.cpp
     Set.cpp
     Tree.cpp
-    LibrarySearchMode.cpp
 
-    Playlist/CustomPlaylist.cpp
-    Playlist/CustomPlaylistSkeleton.cpp
+    DirectoryReader/DirectoryReader.cpp
+
+    Library/SearchMode.cpp
+    Logger/Logger.cpp
 
     Message/Message.cpp
     Message/GlobalMessage.cpp
@@ -33,11 +34,6 @@ SET(SOURCES
     MetaData/Album.cpp
     MetaData/Artist.cpp
 
-    Logger/Logger.cpp
-    Random/RandomGenerator.cpp
-    #SmartCompare/SmartCompare.cpp
-    WebAccess/AsyncWebAccess.cpp
-
     Parser/AbstractPlaylistParser.cpp
     Parser/M3UParser.cpp
     Parser/PLSParser.cpp
@@ -47,6 +43,13 @@ SET(SOURCES
     Parser/StreamParser.cpp
     Parser/CommandLineParser.cpp
 
+    Playlist/CustomPlaylist.cpp
+    Playlist/CustomPlaylistSkeleton.cpp
+    Playlist/PlaylistMode.cpp
+
+    Random/RandomGenerator.cpp
+    #SmartCompare/SmartCompare.cpp
+
     Tagging/Tagging.cpp
 
     Tagging/Frames/AbstractFrame.cpp
@@ -54,7 +57,7 @@ SET(SOURCES
     Tagging/Frames/Popularimeter.cpp
     Tagging/Frames/Cover.cpp
 
-    DirectoryReader/DirectoryReader.cpp
+    WebAccess/AsyncWebAccess.cpp
 )
 
 #ADD_DEFINITIONS( -DSMART_COMPARE" )

@@ -41,11 +41,12 @@
 #include "Helper/Parser/StreamParser.h"
 #include "Helper/DirectoryReader/DirectoryReader.h"
 
-#include "Components/Playlist/Playlist.h"
+#include "Components/Playlist/AbstractPlaylist.h"
 #include "Components/Playlist/PlaylistHandler.h"
 #include "Components/PlayManager/PlayManager.h"
 #include "Components/TagEdit/TagEdit.h"
 
+#include <QScrollBar>
 #include <QShortcut>
 #include <algorithm>
 

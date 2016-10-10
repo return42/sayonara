@@ -51,12 +51,12 @@ void PlaylistDBWrapper::apply_tags(MetaDataList& v_md)
 }
 
 
-bool PlaylistDBWrapper::get_skeletons(CustomPlaylistSkeletons& skeletons, DatabasePlaylist::PlaylistChooserType type, SortOrderPlaylists so){
+bool PlaylistDBWrapper::get_skeletons(CustomPlaylistSkeletons& skeletons, DatabasePlaylist::PlaylistChooserType type, Playlist::SortOrder so){
 	return _db->getAllPlaylistSkeletons(skeletons, type, so);
 }
 
 bool PlaylistDBWrapper::get_all_skeletons(CustomPlaylistSkeletons& skeletons,
-					   SortOrderPlaylists so)
+					   Playlist::SortOrder so)
 {
 	return get_skeletons(skeletons,
 						 DatabaseConnector::PlaylistChooserType::TemporaryAndNoTemporary,
@@ -64,7 +64,7 @@ bool PlaylistDBWrapper::get_all_skeletons(CustomPlaylistSkeletons& skeletons,
 }
 
 bool PlaylistDBWrapper::get_temporary_skeletons(CustomPlaylistSkeletons& skeletons,
-					   SortOrderPlaylists so)
+					   Playlist::SortOrder so)
 {
 	return get_skeletons(skeletons,
 						 DatabaseConnector::PlaylistChooserType::OnlyTemporary,
@@ -72,7 +72,7 @@ bool PlaylistDBWrapper::get_temporary_skeletons(CustomPlaylistSkeletons& skeleto
 }
 
 bool PlaylistDBWrapper:: get_non_temporary_skeletons(CustomPlaylistSkeletons& skeletons,
-					   SortOrderPlaylists so)
+					   Playlist::SortOrder so)
 {
 	return get_skeletons(skeletons,
 						 DatabaseConnector::PlaylistChooserType::OnlyNoTemporary,
@@ -125,7 +125,7 @@ bool PlaylistDBWrapper::extract_stream(CustomPlaylist& pl, QString name, QString
 }
 
 
-bool PlaylistDBWrapper::get_playlists(CustomPlaylists& playlists, DatabasePlaylist::PlaylistChooserType type, SortOrderPlaylists so){
+bool PlaylistDBWrapper::get_playlists(CustomPlaylists& playlists, DatabasePlaylist::PlaylistChooserType type, Playlist::SortOrder so){
 
 	Q_UNUSED(type)
 
@@ -159,21 +159,21 @@ bool PlaylistDBWrapper::get_playlists(CustomPlaylists& playlists, DatabasePlayli
 }
 
 
-bool PlaylistDBWrapper::get_all_playlists(CustomPlaylists& playlists, SortOrderPlaylists so){
+bool PlaylistDBWrapper::get_all_playlists(CustomPlaylists& playlists, Playlist::SortOrder so){
 	return get_playlists(playlists,
 						 DatabaseConnector::PlaylistChooserType::TemporaryAndNoTemporary,
 						 so);
 }
 
 
-bool PlaylistDBWrapper::get_temporary_playlists(CustomPlaylists& playlists, SortOrderPlaylists so){
+bool PlaylistDBWrapper::get_temporary_playlists(CustomPlaylists& playlists, Playlist::SortOrder so){
 	return get_playlists(playlists,
 						 DatabaseConnector::PlaylistChooserType::OnlyTemporary,
 						 so);
 }
 
 
-bool PlaylistDBWrapper::get_non_temporary_playlists(CustomPlaylists& playlists, SortOrderPlaylists so){
+bool PlaylistDBWrapper::get_non_temporary_playlists(CustomPlaylists& playlists, Playlist::SortOrder so){
 	return get_playlists(playlists,
 						 DatabaseConnector::PlaylistChooserType::OnlyNoTemporary,
 						 so);

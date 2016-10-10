@@ -31,22 +31,22 @@ DatabasePlaylist::DatabasePlaylist(QSqlDatabase db, quint8 db_id) :
 }
 
 
-bool DatabasePlaylist::getAllPlaylistSkeletons(CustomPlaylistSkeletons& skeletons, DatabasePlaylist::PlaylistChooserType type, SortOrderPlaylists sortorder)
+bool DatabasePlaylist::getAllPlaylistSkeletons(CustomPlaylistSkeletons& skeletons, DatabasePlaylist::PlaylistChooserType type, Playlist::SortOrder sortorder)
 {
 	skeletons.clear();
 
 	QString sortorder_str;
 	switch(sortorder){
-		case SortOrderPlaylists::IDAsc:
+		case Playlist::SortOrder::IDAsc:
 			sortorder_str = " ORDER BY playlists.playlistID ASC ";
 			break;
-		case SortOrderPlaylists::IDDesc:
+		case Playlist::SortOrder::IDDesc:
 			sortorder_str = " ORDER BY playlists.playlistID DESC ";
 			break;
-		case SortOrderPlaylists::NameAsc:
+		case Playlist::SortOrder::NameAsc:
 			sortorder_str = " ORDER BY playlists.playlist ASC ";
 			break;
-		case SortOrderPlaylists::NameDesc:
+		case Playlist::SortOrder::NameDesc:
 			sortorder_str = " ORDER BY playlists.playlist DESC ";
 			break;
 		default:

@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef PLAYERPLUGIN_H
 #define PLAYERPLUGIN_H
 
@@ -30,12 +28,8 @@
 #include <QLayout>
 
 #include "Helper/Settings/Settings.h"
-
 #include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
-#include "GUI/Helper/Shortcuts/Shortcut.h"
 #include "GUI/Helper/Shortcuts/ShortcutWidget.h"
-#include "GUI/Helper/Shortcuts/ShortcutHandler.h"
-
 #include "Components/PlayManager/PlayState.h"
 
 
@@ -92,6 +86,12 @@ private:
 	bool		_is_initialized;
 
 	void		set_size(QSize size);
+	void		finalize_initialization();
+
+	/**
+	 * @brief mark ui as initialized
+	 */
+	void set_ui_initialized();
 
 
 protected:
@@ -105,8 +105,6 @@ protected:
 	 * @brief _pp_action already allocated, displays name of the plugin by calling get_name()
 	 */
 	QAction*    _pp_action=nullptr;
-
-
 
 
 protected:
@@ -134,39 +132,18 @@ protected:
 	 */
 	bool is_ui_initialized() const;
 
-	/**
-	 * @brief mark ui as initialized
-	 */
-	void set_ui_initialized();
 
-
-	template<typename T>
-	void setup_parent(T* widget){
+	template<typename T, typename UiClass>
+	void setup_parent(T* widget, UiClass** ui){
 
 		if(is_ui_initialized()){
 			return;
 		}
 
-		QLayout* widget_layout;
+		*ui = new UiClass();
+		(*ui)->setupUi(widget);
 
-		widget->setupUi(widget);
-		this->set_ui_initialized();
-
-		widget_layout = layout();
-		if(widget_layout){
-			widget_layout->setContentsMargins(3, 3, 3, 3);
-		}
-
-		ShortcutHandler* sch = ShortcutHandler::getInstance();
-		Shortcut sc = sch->get_shortcut("close_plugin");
-		if(!sc.is_valid()){
-			sc = sch->add(Shortcut(this, "close_plugin", tr("Close plugin"), "Ctrl+Esc"));
-		}
-
-		sc.create_qt_shortcut(this, this, SLOT(close()));
-
-		REGISTER_LISTENER(Set::Player_Language, _sl_lang_changed);
-		REGISTER_LISTENER(Set::Player_Style, skin_changed);
+		finalize_initialization();
 	}
 
 protected slots:

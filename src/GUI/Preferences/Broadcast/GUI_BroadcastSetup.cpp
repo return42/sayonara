@@ -20,6 +20,8 @@
 
 
 #include "GUI_BroadcastSetup.h"
+#include "GUI/Preferences/ui_GUI_BroadcastSetup.h"
+
 #include "GUI/Helper/SayonaraWidget/SayonaraWidgetTemplate.h"
 
 #include "Helper/Helper.h"
@@ -27,31 +29,34 @@
 
 
 GUI_BroadcastSetup::GUI_BroadcastSetup(QWidget *parent) :
-	PreferenceWidgetInterface(parent),
-	Ui::GUI_BroadcastSetup()
+	PreferenceWidgetInterface(parent)
 {
 
 }
 
-GUI_BroadcastSetup::~GUI_BroadcastSetup(){
-
+GUI_BroadcastSetup::~GUI_BroadcastSetup()
+{
+	if(ui)
+	{
+		delete ui; ui=nullptr;
+	}
 }
 
 void GUI_BroadcastSetup::init_ui()
 {
-	setup_parent(this);
+	setup_parent(this, &ui);
 
 	revert();
 
-	connect(cb_active, &QCheckBox::toggled, this, &GUI_BroadcastSetup::active_toggled);
-	connect(sb_port, spinbox_value_changed_int, this, &GUI_BroadcastSetup::port_changed);
+	connect(ui->cb_active, &QCheckBox::toggled, this, &GUI_BroadcastSetup::active_toggled);
+	connect(ui->sb_port, spinbox_value_changed_int, this, &GUI_BroadcastSetup::port_changed);
 }
 
 void GUI_BroadcastSetup::commit(){
 
-	bool new_active = cb_active->isChecked();
-	bool new_prompt = cb_prompt->isChecked();
-	int new_port = sb_port->value();
+	bool new_active = ui->cb_active->isChecked();
+	bool new_prompt = ui->cb_prompt->isChecked();
+	int new_port = ui->sb_port->value();
 
 	bool old_active = _settings->get(Set::Broadcast_Active);
 	bool old_prompt = _settings->get(Set::Broadcast_Prompt);
@@ -74,11 +79,13 @@ void GUI_BroadcastSetup::commit(){
 void GUI_BroadcastSetup::revert(){
 
 	bool active = _settings->get(Set::Broadcast_Active);
-	cb_active->setChecked( active );
-	cb_prompt->setChecked( _settings->get(Set::Broadcast_Prompt) );
-	sb_port->setValue( _settings->get(Set::Broadcast_Port) );
-	le_url->setVisible(active);
-	lab_url_title->setVisible(active);
+
+	ui->cb_active->setChecked( active );
+	ui->cb_prompt->setChecked( _settings->get(Set::Broadcast_Prompt) );
+	ui->sb_port->setValue( _settings->get(Set::Broadcast_Port) );
+	ui->le_url->setVisible(active);
+	ui->lab_url_title->setVisible(active);
+
 	refresh_url();
 }
 
@@ -89,7 +96,7 @@ void GUI_BroadcastSetup::language_changed(){
 		return;
 	}
 
-	retranslateUi(this);
+	ui->retranslateUi(this);
 
 	PreferenceWidgetInterface::language_changed();
 }
@@ -124,7 +131,7 @@ void GUI_BroadcastSetup::port_changed(int new_val)
 }
 
 QString GUI_BroadcastSetup::get_url_string(){
-	int port = sb_port->value();
+	int port = ui->sb_port->value();
 	QStringList ips = Helper::get_ip_addresses();
 
 	QStringList ret;
@@ -137,9 +144,9 @@ QString GUI_BroadcastSetup::get_url_string(){
 }
 
 void GUI_BroadcastSetup::refresh_url(){
-	bool active = cb_active->isChecked();
+	bool active = ui->cb_active->isChecked();
 
-	le_url->setVisible(active);
-	lab_url_title->setVisible(active);
-	le_url->setText(get_url_string());
+	ui->le_url->setVisible(active);
+	ui->lab_url_title->setVisible(active);
+	ui->le_url->setText(get_url_string());
 }

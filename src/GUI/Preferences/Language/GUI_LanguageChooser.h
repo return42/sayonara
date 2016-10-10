@@ -18,21 +18,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef GUI_LANGUAGECHOOSER_H
 #define GUI_LANGUAGECHOOSER_H
 
-#include <QMap>
-#include <QShowEvent>
-
-#include "GUI/Preferences/ui_GUI_LanguageChooser.h"
 #include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
 
+#include <QMap>
+
+namespace Ui
+{
+	class GUI_LanguageChooser;
+}
 
 class GUI_LanguageChooser :
-		public PreferenceWidgetInterface,
-		private Ui::GUI_LanguageChooser
+		public PreferenceWidgetInterface
 {
     Q_OBJECT
 
@@ -55,6 +54,7 @@ public:
 
 
 private:
+	Ui::GUI_LanguageChooser*	ui=nullptr;
 	QMap<QString, QString> _map;
 
 

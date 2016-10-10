@@ -18,12 +18,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef SHORTCUT_H
 #define SHORTCUT_H
 
-#include <QString>
 #include <QWidget>
 #include <QStringList>
 #include <QShortcut>

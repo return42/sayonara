@@ -27,7 +27,7 @@
 #include <QSqlDatabase>
 /*#include "Database/SayonaraQuery.h"
 #include "Components/Library/Sorting.h"
-#include "Helper/Filter.h"*/
+#include "Helper/Library/Filter.h"*/
 
 
 #define DB_TRY_OPEN(db)		if (!this -> db.isOpen()) \

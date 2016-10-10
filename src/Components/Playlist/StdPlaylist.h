@@ -23,13 +23,13 @@
 #ifndef STDPLAYLIST_H
 #define STDPLAYLIST_H
 
-#include "Playlist.h"
+#include "AbstractPlaylist.h"
 
 /**
  * @brief The StdPlaylist class
  * @ingroup Playlists
  */
-class StdPlaylist : public Playlist
+class StdPlaylist : public AbstractPlaylist
 {
 	Q_OBJECT
 
@@ -54,7 +54,7 @@ public:
 	void metadata_changed(const MetaDataList& old_md, const MetaDataList& new_md) override;
 	void metadata_changed_single(const MetaData& metadata) override;
 
-	virtual PlaylistType get_type() const override;
+	virtual Playlist::Type get_type() const override;
 
 };
 

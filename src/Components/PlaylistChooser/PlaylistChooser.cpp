@@ -45,7 +45,7 @@ void PlaylistChooser::load_all_playlists() {
 	bool success;
 
 	_skeletons.clear();
-	success = _playlist_db_connector->get_non_temporary_skeletons(_skeletons, SortOrderPlaylists::NameAsc);
+	success = _playlist_db_connector->get_non_temporary_skeletons(_skeletons, Playlist::SortOrder::NameAsc);
 
 	if(success) {
 		emit sig_all_playlists_loaded(_skeletons);

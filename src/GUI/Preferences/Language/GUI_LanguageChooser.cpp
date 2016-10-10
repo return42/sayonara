@@ -20,6 +20,8 @@
 
 
 #include "GUI_LanguageChooser.h"
+#include "GUI/Preferences/ui_GUI_LanguageChooser.h"
+
 #include "GUI/Helper/Delegates/ComboBoxDelegate.h"
 #include "Helper/Helper.h"
 #include "Helper/FileHelper.h"
@@ -31,14 +33,17 @@
 #include <QRegExp>
 
 GUI_LanguageChooser::GUI_LanguageChooser(QWidget *parent) :
-	PreferenceWidgetInterface(parent),
-	Ui::GUI_LanguageChooser()
+	PreferenceWidgetInterface(parent)
 {
 
 }
 
-GUI_LanguageChooser::~GUI_LanguageChooser() {
-
+GUI_LanguageChooser::~GUI_LanguageChooser()
+{
+	if(ui)
+	{
+		delete ui; ui=nullptr;
+	}
 }
 
 void GUI_LanguageChooser::language_changed(){
@@ -49,7 +54,7 @@ void GUI_LanguageChooser::language_changed(){
 		return;
 	}
 
-	retranslateUi(this);
+	ui->retranslateUi(this);
 	renew_combo();
 
 	PreferenceWidgetInterface::language_changed();
@@ -58,8 +63,8 @@ void GUI_LanguageChooser::language_changed(){
 
 void GUI_LanguageChooser::commit() {
 
-	int cur_idx = combo_lang->currentIndex();
-	QString cur_language = combo_lang->itemData(cur_idx).toString();
+	int cur_idx = ui->combo_lang->currentIndex();
+	QString cur_language = ui->combo_lang->itemData(cur_idx).toString();
 
 	_settings->set(Set::Player_Language, cur_language);
 }
@@ -83,7 +88,7 @@ void GUI_LanguageChooser::renew_combo() {
 	filters << "*.qm";
 	QStringList files = dir.entryList(filters);
 
-	combo_lang->clear();
+	ui->combo_lang->clear();
 
 	int i=0;
 	for(const QString& file : files) {
@@ -109,15 +114,15 @@ void GUI_LanguageChooser::renew_combo() {
 		QString language_name = _map.value(country_code);
 
 		if(language_name.size() > 0){
-			combo_lang->addItem(QIcon(icon_path), language_name, file);
+			ui->combo_lang->addItem(QIcon(icon_path), language_name, file);
 		}
 
 		else{
-			combo_lang->addItem(file, file);
+			ui->combo_lang->addItem(file, file);
 		}
 
 		if(file.contains(lang_setting, Qt::CaseInsensitive)){
-			combo_lang->setCurrentIndex(i);
+			ui->combo_lang->setCurrentIndex(i);
 		}
 
 		i++;
@@ -126,7 +131,7 @@ void GUI_LanguageChooser::renew_combo() {
 
 void GUI_LanguageChooser::init_ui()
 {
-	setup_parent(this);
+	setup_parent(this, &ui);
 
 	_map["br"] = QString::fromUtf8("Português (Brasil)");
 	_map["cs"] = QString::fromUtf8("Český");
@@ -144,7 +149,7 @@ void GUI_LanguageChooser::init_ui()
 	_map["ua"] = QString::fromUtf8("Українська");
 	_map["zh_cn"] = QString::fromUtf8("中文");
 
-	combo_lang->setItemDelegate(new ComboBoxDelegate(combo_lang));
+	ui->combo_lang->setItemDelegate(new ComboBoxDelegate(ui->combo_lang));
 }
 
 void GUI_LanguageChooser::showEvent(QShowEvent* e) {

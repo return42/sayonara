@@ -24,8 +24,8 @@
 #define PLAYLIST_H
 
 #include "PlaylistDBInterface.h"
-#include "PlaylistTypedefs.h"
 #include "Helper/typedefs.h"
+#include "Helper/Playlist/PlaylistFwd.h"
 #include "Helper/Playlist/PlaylistMode.h"
 #include "Helper/Settings/SayonaraClass.h"
 
@@ -44,7 +44,7 @@ class MetaData;
  * @brief The Playlist class
  * @ingroup Playlists
  */
-class Playlist :
+class AbstractPlaylist :
 		public PlaylistDBInterface,
 		protected SayonaraClass
 {
@@ -58,7 +58,7 @@ signals:
 
 private:
 	struct Private;
-	Playlist::Private*	_m=nullptr;
+	AbstractPlaylist::Private*	_m=nullptr;
 
 
 protected:
@@ -66,7 +66,7 @@ protected:
 	bool _is_storable;
 	int	 _playlist_idx;
 
-	PlaylistMode	_playlist_mode;
+	Playlist::Mode	_playlist_mode;
 
 	virtual void play()=0;
 	virtual void pause()=0;
@@ -82,8 +82,8 @@ protected:
 	MetaData& metadata(int idx);
 
 public:
-	Playlist(int idx, const QString& name="");
-	virtual ~Playlist();
+	AbstractPlaylist(int idx, const QString& name="");
+	virtual ~AbstractPlaylist();
 
 	QStringList		toStringList() const;
 
@@ -93,11 +93,11 @@ public:
 	bool			get_cur_track(MetaData& metadata) const;
 	int				get_idx() const;
 	void			set_idx(int idx);	
-	PlaylistMode	get_playlist_mode() const;
-	void			set_playlist_mode(const PlaylistMode& mode);	
+	Playlist::Mode	get_playlist_mode() const;
+	void			set_playlist_mode(const Playlist::Mode& mode);
 	quint64			get_running_time() const;
 
-	virtual PlaylistType	get_type() const = 0;
+	virtual Playlist::Type	get_type() const = 0;
 
 
 	// from PlaylistDBInterface

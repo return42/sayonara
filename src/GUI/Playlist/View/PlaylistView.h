@@ -29,20 +29,13 @@
 #ifndef PLAYLISTVIEW_H_
 #define PLAYLISTVIEW_H_
 
-#include "Components/Playlist/PlaylistTypedefs.h"
 #include "GUI/Helper/SearchableWidget/SearchableListView.h"
 #include "GUI/InfoDialog/InfoDialogContainer.h"
+#include "Helper/Playlist/PlaylistFwd.h"
 
 #include <QPoint>
 #include <QDrag>
 #include <QList>
-#include <QMenu>
-#include <QPainter>
-#include <QModelIndex>
-#include <QMouseEvent>
-#include <QScrollBar>
-#include <QProgressBar>
-#include <QContextMenuEvent>
 
 class SayonaraLoadingBar;
 class LibraryContextMenu;

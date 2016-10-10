@@ -24,7 +24,7 @@
 #define DATABASELIBRARY_H
 
 #include "Database/DatabaseModule.h"
-#include "Helper/LibrarySearchMode.h"
+#include "Helper/Library/SearchMode.h"
 
 class MetaDataList;
 

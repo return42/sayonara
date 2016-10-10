@@ -77,8 +77,6 @@ protected:
 
 	virtual QString						get_title_fallback_name() const=0;
 
-
-
 protected slots:
 	virtual void listen_clicked();
 	virtual void combo_idx_changed(int idx);
@@ -94,16 +92,16 @@ protected slots:
 public:
 	virtual void setup_stations(const QMap<QString, QString>&);
 
-	template<typename T>
-	void setup_parent(T* subclass){
+	template<typename T, typename UiType>
+	void setup_parent(T* subclass, UiType** ui){
 
-		PlayerPluginInterface::setup_parent(subclass);
+		PlayerPluginInterface::setup_parent(subclass, ui);
 
-		_le_url =			subclass->le_url;
-		_combo_stream =		subclass->combo_stream;
-		_btn_play =			subclass->btn_play;
-		_btn_tool =			subclass->btn_tool;
-		_lab_listen =		subclass->lab_listen;
+		_le_url =			(*ui)->le_url;
+		_combo_stream =		(*ui)->combo_stream;
+		_btn_play =			(*ui)->btn_play;
+		_btn_tool =			(*ui)->btn_tool;
+		_lab_listen =		(*ui)->lab_listen;
 
 		init_connections();
 		init_streams();

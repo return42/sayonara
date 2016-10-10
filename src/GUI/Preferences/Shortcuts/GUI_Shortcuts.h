@@ -23,8 +23,6 @@
 #ifndef GUI_SHORTCUTS_H
 #define GUI_SHORTCUTS_H
 
-
-#include "GUI/Preferences/ui_GUI_Shortcuts.h"
 #include "GUI/Helper/Shortcuts/ShortcutHandler.h"
 
 #include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
@@ -36,6 +34,11 @@
 
 #include <tuple>
 
+namespace Ui
+{
+	class GUI_Shortcuts;
+}
+
 class GUI_ShortcutEntry;
 
 /**
@@ -43,8 +46,7 @@ class GUI_ShortcutEntry;
  * @ingroup Shortcuts
  */
 class GUI_Shortcuts :
-		public PreferenceWidgetInterface,
-		private Ui::GUI_Shortcuts
+		public PreferenceWidgetInterface
 {
 	Q_OBJECT
 
@@ -53,6 +55,7 @@ class GUI_Shortcuts :
 
 public:
 	GUI_Shortcuts(QWidget* parent=nullptr);
+	virtual ~GUI_Shortcuts();
 
 	QString get_action_name() const override;
 
@@ -61,6 +64,8 @@ public:
 
 
 private:
+	Ui::GUI_Shortcuts*			ui=nullptr;
+
 	ShortcutHandler*			_sch = nullptr;
 	QList<GUI_ShortcutEntry*>	_entries;
 

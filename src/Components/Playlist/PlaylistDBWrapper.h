@@ -44,7 +44,7 @@ private:
 	void apply_tags(MetaDataList& v_md);
 	bool get_playlists(CustomPlaylists& playlists,
 					   DatabasePlaylist::PlaylistChooserType type,
-					   SortOrderPlaylists sortorder);
+					   Playlist::SortOrder sortorder);
 
 	bool extract_stream(CustomPlaylist& pl, QString name, QString url);
 
@@ -53,25 +53,25 @@ public:
 
 	bool get_skeletons(CustomPlaylistSkeletons& skeletons,
 						   DatabasePlaylist::PlaylistChooserType type,
-						   SortOrderPlaylists so=SortOrderPlaylists::IDAsc);
+						   Playlist::SortOrder so=Playlist::SortOrder::IDAsc);
 
 	bool get_all_skeletons(CustomPlaylistSkeletons& skeletons,
-						   SortOrderPlaylists so=SortOrderPlaylists::IDAsc);
+						   Playlist::SortOrder so=Playlist::SortOrder::IDAsc);
 
 	bool get_temporary_skeletons(CustomPlaylistSkeletons& skeletons,
-						   SortOrderPlaylists so=SortOrderPlaylists::IDAsc);
+						   Playlist::SortOrder so=Playlist::SortOrder::IDAsc);
 
 	bool get_non_temporary_skeletons(CustomPlaylistSkeletons& skeletons,
-						   SortOrderPlaylists so=SortOrderPlaylists::IDAsc);
+						   Playlist::SortOrder so=Playlist::SortOrder::IDAsc);
 
 	bool get_all_playlists(CustomPlaylists& playlists,
-						   SortOrderPlaylists so=SortOrderPlaylists::IDAsc);
+						   Playlist::SortOrder so=Playlist::SortOrder::IDAsc);
 
 	bool get_temporary_playlists(CustomPlaylists& playlists,
-								 SortOrderPlaylists so=SortOrderPlaylists::IDAsc);
+								 Playlist::SortOrder so=Playlist::SortOrder::IDAsc);
 
 	bool get_non_temporary_playlists(CustomPlaylists& playlists,
-									 SortOrderPlaylists so=SortOrderPlaylists::IDAsc);
+									 Playlist::SortOrder so=Playlist::SortOrder::IDAsc);
 
 	CustomPlaylist get_playlist_by_id(int id);
 	CustomPlaylist get_playlist_by_name(const QString& name);

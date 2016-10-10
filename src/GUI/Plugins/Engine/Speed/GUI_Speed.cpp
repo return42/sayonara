@@ -19,14 +19,22 @@
  */
 
 #include "GUI_Speed.h"
+#include "GUI/Plugins/Engine/ui_GUI_Speed.h"
+
 #include <QToolTip>
 #include <QCursor>
 
 GUI_Speed::GUI_Speed(QWidget *parent) :
-	PlayerPluginInterface(parent),
-	Ui::GUI_Speed()
+	PlayerPluginInterface(parent)
 {
 
+}
+
+GUI_Speed::~GUI_Speed()
+{
+	if(ui){
+		delete ui; ui=nullptr;
+	}
 }
 
 void GUI_Speed::language_changed(){
@@ -35,13 +43,12 @@ void GUI_Speed::language_changed(){
 		return;
 	}
 
-	retranslateUi(this);
+	ui->retranslateUi(this);
 }
 
 void GUI_Speed::init_ui()
 {
-	setup_parent(this);
-
+	setup_parent(this, &ui);
 
 	bool active = _settings->get(Set::Engine_SpeedActive);
 	float speed = _settings->get(Set::Engine_Speed) * 1.0f;
@@ -49,26 +56,26 @@ void GUI_Speed::init_ui()
 
 	active_changed(active);
 
-	sli_speed->setValue(speed * 100);
-	sli_speed->setMouseTracking(true);
+	ui->sli_speed->setValue(speed * 100);
+	ui->sli_speed->setMouseTracking(true);
 
 	speed_changed(speed * 100);
 
-	cb_preserve_pitch->setChecked( _settings->get(Set::Engine_PreservePitch));
+	ui->cb_preserve_pitch->setChecked( _settings->get(Set::Engine_PreservePitch));
 
-	sli_pitch->setValue(pitch);
-	sli_pitch->setMouseTracking(true);
+	ui->sli_pitch->setValue(pitch);
+	ui->sli_pitch->setMouseTracking(true);
 	pitch_changed(pitch);
 
 
-	connect(sli_speed, &QSlider::valueChanged, this, &GUI_Speed::speed_changed);
-	connect(cb_active, &QCheckBox::toggled, this, &GUI_Speed::active_changed);
-	connect(cb_preserve_pitch, &QCheckBox::toggled, this, &GUI_Speed::preserve_pitch_changed);
-	connect(sli_pitch, &QSlider::valueChanged, this, &GUI_Speed::pitch_changed);
-	connect(btn_revert_speed, &QPushButton::clicked, this, &GUI_Speed::revert_speed_clicked);
-	connect(btn_revert_pitch, &QPushButton::clicked, this, &GUI_Speed::revert_pitch_clicked);
-	connect(sli_speed, &SayonaraSlider::sig_slider_hovered, this, &GUI_Speed::speed_hovered);
-	connect(sli_pitch, &SayonaraSlider::sig_slider_hovered, this, &GUI_Speed::pitch_hovered);
+	connect(ui->sli_speed, &QSlider::valueChanged, this, &GUI_Speed::speed_changed);
+	connect(ui->cb_active, &QCheckBox::toggled, this, &GUI_Speed::active_changed);
+	connect(ui->cb_preserve_pitch, &QCheckBox::toggled, this, &GUI_Speed::preserve_pitch_changed);
+	connect(ui->sli_pitch, &QSlider::valueChanged, this, &GUI_Speed::pitch_changed);
+	connect(ui->btn_revert_speed, &QPushButton::clicked, this, &GUI_Speed::revert_speed_clicked);
+	connect(ui->btn_revert_pitch, &QPushButton::clicked, this, &GUI_Speed::revert_pitch_clicked);
+	connect(ui->sli_speed, &SayonaraSlider::sig_slider_hovered, this, &GUI_Speed::speed_hovered);
+	connect(ui->sli_pitch, &SayonaraSlider::sig_slider_hovered, this, &GUI_Speed::pitch_hovered);
 
 	REGISTER_LISTENER(SetNoDB::Pitch_found, _sl_pitch_found_changed);
 }
@@ -89,20 +96,20 @@ void GUI_Speed::speed_changed(int val) {
 
 	float val_f = val / 100.0f;
 
-	lab_speed->setText(QString::number(val_f, 'f', 2));
-	_settings->set(Set::Engine_Speed, sli_speed->value() / 100.0f);
+	ui->lab_speed->setText(QString::number(val_f, 'f', 2));
+	_settings->set(Set::Engine_Speed, ui->sli_speed->value() / 100.0f);
 }
 
 
 void GUI_Speed::active_changed(bool active) {
 
-	cb_active->setChecked(active);
+	ui->cb_active->setChecked(active);
 
-	sli_speed->setEnabled( active);
-	btn_revert_speed->setEnabled(active);
-	sli_pitch->setEnabled(active);
-	cb_preserve_pitch->setEnabled(active);
-	btn_revert_pitch->setEnabled(active);
+	ui->sli_speed->setEnabled( active);
+	ui->btn_revert_speed->setEnabled(active);
+	ui->sli_pitch->setEnabled(active);
+	ui->cb_preserve_pitch->setEnabled(active);
+	ui->btn_revert_pitch->setEnabled(active);
 
 	_settings->set(Set::Engine_SpeedActive, active);
 }
@@ -116,19 +123,17 @@ void GUI_Speed::pitch_changed(int pitch)
 {
 	pitch = pitch / 10;
 	_settings->set(Set::Engine_Pitch, pitch);
-	lab_pitch->setText(QString::number(pitch) + " Hz");
+	ui->lab_pitch->setText(QString::number(pitch) + " Hz");
 }
 
 void GUI_Speed::revert_speed_clicked()
 {
-	sli_speed->setValue(100);
-	//speed_changed(100);
+	ui->sli_speed->setValue(100);
 }
 
 void GUI_Speed::revert_pitch_clicked()
 {
-	sli_pitch->setValue(4400);
-	//pitch_changed(440);
+	ui->sli_pitch->setValue(4400);
 }
 
 void GUI_Speed::pitch_hovered(int val)
@@ -143,17 +148,18 @@ void GUI_Speed::speed_hovered(int val)
 
 void GUI_Speed::_sl_pitch_found_changed()
 {
+
 	bool pitch_found = _settings->get(SetNoDB::Pitch_found);
 	if(!pitch_found){
-		cb_active->setChecked(false);
+		ui->cb_active->setChecked(false);
 		active_changed(false);
-		cb_active->setToolTip(tr("%1 not found").arg("gstreamer bad plugins") + "<br />" +
+		ui->cb_active->setToolTip(tr("%1 not found").arg("gstreamer bad plugins") + "<br />" +
 							  tr("%1 not found").arg("libsoundtouch"));
 	}
 
 	else{
-		cb_active->setToolTip("");
+		ui->cb_active->setToolTip("");
 	}
 
-	cb_active->setEnabled(pitch_found);
+	ui->cb_active->setEnabled(pitch_found);
 }

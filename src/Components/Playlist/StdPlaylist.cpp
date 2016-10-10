@@ -28,7 +28,7 @@
 #include <algorithm>
 
 StdPlaylist::StdPlaylist(int idx, QString name) :
-	Playlist(idx, name)
+	AbstractPlaylist(idx, name)
 {
 	_is_storable = true;
 }
@@ -60,9 +60,9 @@ bool StdPlaylist::change_track(int idx) {
 	return true;
 }
 
-PlaylistType StdPlaylist::get_type() const
+Playlist::Type StdPlaylist::get_type() const
 {
-	return PlaylistType::Std;
+	return Playlist::Type::Std;
 }
 
 
@@ -70,7 +70,7 @@ int StdPlaylist::create_playlist(const MetaDataList& v_md) {
 
 	bool was_changed = (!metadata().isEmpty() || this->was_changed());
 
-	if(PlaylistMode::isActiveAndEnabled(_playlist_mode.append())){
+	if(Playlist::Mode::isActiveAndEnabled(_playlist_mode.append())){
 		metadata() << v_md;
 	}
 
@@ -113,7 +113,7 @@ void StdPlaylist::stop() {
 
 void StdPlaylist::fwd() {
 
-	PlaylistMode::PlaylistModeState rep1 = _playlist_mode.rep1();
+	Playlist::Mode::State rep1 = _playlist_mode.rep1();
 	_playlist_mode.setRep1(false);
 
 	next();
@@ -146,12 +146,12 @@ void StdPlaylist::next() {
 		track_num = 0;
 	}
 
-	if(PlaylistMode::isActiveAndEnabled(_playlist_mode.rep1())){
+	if(Playlist::Mode::isActiveAndEnabled(_playlist_mode.rep1())){
 		track_num = cur_track;
 	}
 
 	// shuffle mode
-	else if(PlaylistMode::isActiveAndEnabled(_playlist_mode.shuffle())) {
+	else if(Playlist::Mode::isActiveAndEnabled(_playlist_mode.shuffle())) {
 		track_num = calc_shuffle_track();
 		if(track_num == -1){
 			stop();
@@ -165,7 +165,7 @@ void StdPlaylist::next() {
 		// last track
 		if(cur_track == metadata().size() - 1){
 
-			if(PlaylistMode::isActiveAndEnabled(_playlist_mode.repAll())){
+			if(Playlist::Mode::isActiveAndEnabled(_playlist_mode.repAll())){
 				track_num = 0;
 			}
 
@@ -207,7 +207,7 @@ int StdPlaylist::calc_shuffle_track(){
 	// no random track to play
 	if(left_tracks.isEmpty()){
 
-		if(PlaylistMode::isActiveAndEnabled(_playlist_mode.repAll())){
+		if(Playlist::Mode::isActiveAndEnabled(_playlist_mode.repAll())){
 			return rnd.get_number(0, metadata().size() -1);
 		}
 

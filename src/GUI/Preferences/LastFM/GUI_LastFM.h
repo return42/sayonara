@@ -29,14 +29,17 @@
 #ifndef GUI_LASTFM_H_
 #define GUI_LASTFM_H_
 
-#include "GUI/Preferences/ui_GUI_LastFM.h"
-
-#include "Components/StreamPlugins/LastFM/LastFM.h"
 #include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
 
+namespace Ui
+{
+	class GUI_LastFM;
+}
+
+class LastFM;
+
 class GUI_LastFM :
-		public PreferenceWidgetInterface,
-		private Ui::GUI_LastFM
+		public PreferenceWidgetInterface
 {
 
 	Q_OBJECT
@@ -59,7 +62,8 @@ private:
 	void init_ui() override;
 
 private:
-	LastFM*	_lfm=nullptr;
+	Ui::GUI_LastFM*		ui=nullptr;
+	LastFM*				_lfm=nullptr;
 
 
 private slots:

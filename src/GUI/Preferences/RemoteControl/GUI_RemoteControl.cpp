@@ -24,29 +24,34 @@
 
 
 #include "GUI_RemoteControl.h"
+#include "GUI/Preferences/ui_GUI_RemoteControl.h"
+
 #include "Helper/Helper.h"
 #include "Helper/Settings/Settings.h"
 
 
 GUI_RemoteControl::GUI_RemoteControl(QWidget* parent) :
-	PreferenceWidgetInterface(parent),
-	Ui::GUI_RemoteControl()
+	PreferenceWidgetInterface(parent)
 {
 
 }
 
-GUI_RemoteControl::~GUI_RemoteControl() {
-
+GUI_RemoteControl::~GUI_RemoteControl()
+{
+	if(ui)
+	{
+		delete ui; ui=nullptr;
+	}
 }
 
 void GUI_RemoteControl::init_ui()
 {
-	setup_parent(this);
+	setup_parent(this, &ui);
 
 	revert();
 
-	connect(cb_activate, &QCheckBox::toggled, this, &GUI_RemoteControl::active_toggled);
-	connect(sb_port, spinbox_value_changed_int, this, &GUI_RemoteControl::port_changed);
+	connect(ui->cb_activate, &QCheckBox::toggled, this, &GUI_RemoteControl::active_toggled);
+	connect(ui->sb_port, spinbox_value_changed_int, this, &GUI_RemoteControl::port_changed);
 }
 
 
@@ -58,20 +63,22 @@ void GUI_RemoteControl::language_changed() {
 		return;
 	}
 
-	retranslateUi(this);
+	ui->retranslateUi(this);
 
 	PreferenceWidgetInterface::language_changed();
 }
 
-void GUI_RemoteControl::commit(){
-
-	_settings->set(Set::Remote_Active, cb_activate->isChecked());
-	_settings->set(Set::Remote_Port, sb_port->value());
+void GUI_RemoteControl::commit()
+{
+	_settings->set(Set::Remote_Active, ui->cb_activate->isChecked());
+	_settings->set(Set::Remote_Port, ui->sb_port->value());
 }
 
-void GUI_RemoteControl::revert(){
-	cb_activate->setChecked(_settings->get(Set::Remote_Active));
-	sb_port->setValue(_settings->get(Set::Remote_Port));
+void GUI_RemoteControl::revert()
+{
+	ui->cb_activate->setChecked(_settings->get(Set::Remote_Active));
+	ui->sb_port->setValue(_settings->get(Set::Remote_Port));
+
 	refresh_url();
 }
 
@@ -98,7 +105,7 @@ void GUI_RemoteControl::port_changed(int port)
 
 QString GUI_RemoteControl::get_url_string()
 {
-	int port = sb_port->value();
+	int port = ui->sb_port->value();
 	QStringList ips = Helper::get_ip_addresses();
 
 	QStringList ret;
@@ -112,11 +119,11 @@ QString GUI_RemoteControl::get_url_string()
 
 void GUI_RemoteControl::refresh_url()
 {
-	bool active = cb_activate->isChecked();
+	bool active = ui->cb_activate->isChecked();
 
-	le_url->setVisible(active);
-	lab_url->setVisible(active);
-	le_url->setText(get_url_string());
+	ui->le_url->setVisible(active);
+	ui->lab_url->setVisible(active);
+	ui->le_url->setText(get_url_string());
 }
 
 

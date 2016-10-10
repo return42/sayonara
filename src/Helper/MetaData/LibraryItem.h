@@ -23,9 +23,8 @@
 #ifndef _LIBRARY_ITEM_H_
 #define _LIBRARY_ITEM_H_
 
+#include <QList>
 #include <QString>
-#include <QMap>
-#include <QtGlobal>
 
 /**
  * @brief The CustomField class

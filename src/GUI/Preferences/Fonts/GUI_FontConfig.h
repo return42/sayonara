@@ -24,16 +24,17 @@
 #define GUI_FONTCONFIG_H
 
 #include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
-#include "GUI/Preferences/ui_GUI_FontConfig.h"
 
-#include <QFontDatabase>
-#include <QFont>
-#include <QList>
+namespace Ui
+{
+	class GUI_FontConfig;
+}
 
+class QFont;
+class QFontDatabase;
 
 class GUI_FontConfig :
-		public PreferenceWidgetInterface,
-		protected Ui::GUI_FontConfig
+		public PreferenceWidgetInterface
 {
 	Q_OBJECT
 
@@ -61,6 +62,8 @@ protected slots:
 
 
 private:
+	Ui::GUI_FontConfig*	ui=nullptr;
+
 	QFontDatabase*	_font_db=nullptr;
 	int				_cur_font_size;
 	int				_cur_font_weight;

@@ -27,32 +27,34 @@
  */
 
 #include "GUI_LastFM.h"
-#include "Helper/Settings/Settings.h"
+#include "GUI/Preferences/ui_GUI_LastFM.h"
 
+#include "Helper/Settings/Settings.h"
 #include "Components/StreamPlugins/LastFM/LastFM.h"
 
-
 GUI_LastFM::GUI_LastFM(QWidget* parent) :
-	PreferenceWidgetInterface(parent),
-	Ui::GUI_LastFM()
+	PreferenceWidgetInterface(parent)
 {
 	_lfm = LastFM::getInstance();
 }
 
 
 GUI_LastFM::~GUI_LastFM() {
-
+	if(ui)
+	{
+		delete ui; ui=nullptr;
+	}
 }
 
 
 void GUI_LastFM::init_ui()
 {
-	setup_parent(this);
+	setup_parent(this, &ui);
 
 	revert();
 
-	connect(btn_login, &QPushButton::clicked, this, &GUI_LastFM::btn_login_clicked);
-	connect(cb_activate, &QCheckBox::toggled, this, &GUI_LastFM::active_changed);
+	connect(ui->btn_login, &QPushButton::clicked, this, &GUI_LastFM::btn_login_clicked);
+	connect(ui->cb_activate, &QCheckBox::toggled, this, &GUI_LastFM::active_changed);
 	connect(_lfm, &LastFM::sig_logged_in, this, &GUI_LastFM::logged_in);
 }
 
@@ -71,59 +73,59 @@ void GUI_LastFM::language_changed() {
 		return;
 	}
 
-	retranslateUi(this);
+	ui->retranslateUi(this);
 	PreferenceWidgetInterface::language_changed();
 }
 
 
-void GUI_LastFM::commit() {
-
+void GUI_LastFM::commit()
+{
 	StringPair user_pw;
-	user_pw.first = tf_username->text();
-	user_pw.second = tf_password->text();
+	user_pw.first = ui->tf_username->text();
+	user_pw.second = ui->tf_password->text();
 
 	_settings->set(Set::LFM_Login, user_pw);
 
-	if( tf_username->text().length() >= 3 &&
-		tf_password->text().length() >= 3 )
+	if( ui->tf_username->text().length() >= 3 &&
+		ui->tf_password->text().length() >= 3 )
 	{
 		_lfm->psl_login();
 
-		_settings->set( Set::LFM_Active, cb_activate->isChecked() );
+		_settings->set( Set::LFM_Active, ui->cb_activate->isChecked() );
 	}
 
-	_settings->set(Set::LFM_ScrobbleTimeSec, sb_scrobble_time->value());
+	_settings->set(Set::LFM_ScrobbleTimeSec, ui->sb_scrobble_time->value());
 }
 
 
 void GUI_LastFM::revert(){
 	bool active = _settings->get(Set::LFM_Active);
 
-	cb_activate->setChecked(active);
+	ui->cb_activate->setChecked(active);
 	active_changed(active);
 
 	logged_in(_lfm->is_logged_in());
 
 	StringPair user_pw = _settings->get(Set::LFM_Login);
-	tf_username->setText(user_pw.first);
-	tf_password->setText(user_pw.second);
-	sb_scrobble_time->setValue( _settings->get(Set::LFM_ScrobbleTimeSec) );
+	ui->tf_username->setText(user_pw.first);
+	ui->tf_password->setText(user_pw.second);
+	ui->sb_scrobble_time->setValue( _settings->get(Set::LFM_ScrobbleTimeSec) );
 }
 
 
 void GUI_LastFM::btn_login_clicked(){
 
-	if(tf_username->text().length() < 3) {
+	if(ui->tf_username->text().length() < 3) {
 		return;
 	}
 
-	if(tf_password->text().length() < 3) {
+	if(ui->tf_password->text().length() < 3) {
 		return;
 	}
 
 	StringPair user_pw;
-	user_pw.first = tf_username->text();
-	user_pw.second = tf_password->text();
+	user_pw.first = ui->tf_username->text();
+	user_pw.second = ui->tf_password->text();
 
 	_settings->set(Set::LFM_Login, user_pw);
 
@@ -137,8 +139,8 @@ void GUI_LastFM::active_changed(bool active) {
 		return;
 	}
 
-	tf_username->setEnabled(active);
-	tf_password->setEnabled(active);
+	ui->tf_username->setEnabled(active);
+	ui->tf_password->setEnabled(active);
 }
 
 
@@ -149,11 +151,11 @@ void GUI_LastFM::logged_in(bool success){
 	}
 
 	if(success){
-		lab_status->setText(tr("Logged in"));
+		ui->lab_status->setText(tr("Logged in"));
 	}
 
 	else{
-		lab_status->setText(tr("Not logged in"));
+		ui->lab_status->setText(tr("Not logged in"));
 	}
 }
 

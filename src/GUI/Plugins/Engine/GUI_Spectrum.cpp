@@ -19,6 +19,8 @@
  */
 
 #include "GUI_Spectrum.h"
+#include "GUI/Plugins/Engine/ui_GUI_Spectrum.h"
+
 #include "Helper/globals.h"
 #include "Helper/Logger/Logger.h"
 #include "Components/Engine/Playback/PlaybackEngine.h"
@@ -36,10 +38,17 @@ float log_lu[1100];
 
 
 GUI_Spectrum::GUI_Spectrum(QWidget *parent) :
-	EnginePlugin(parent),
-	Ui::GUI_Spectrum()
+	EnginePlugin(parent)
 {
 	_settings->set(Set::Engine_ShowSpectrum, false);
+}
+
+GUI_Spectrum::~GUI_Spectrum()
+{
+	if(ui)
+	{
+		delete ui; ui=nullptr;
+	}
 }
 
 QString GUI_Spectrum::get_name() const
@@ -67,7 +76,7 @@ void GUI_Spectrum::init_ui()
 
 	EnginePlugin::init_ui();
 
-	setup_parent(this);
+	setup_parent(this, &ui);
 
 	_cur_style_idx = _settings->get(Set::Spectrum_Style);
 	_cur_style = _ecsc->get_color_scheme_spectrum(_cur_style_idx);

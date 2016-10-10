@@ -40,7 +40,7 @@
 
 #include "Components/PlayManager/PlayManager.h"
 #include "Components/Playlist/PlaylistHandler.h"
-#include "Components/Playlist/Playlist.h"
+#include "Components/Playlist/AbstractPlaylist.h"
 #include "Database/DatabaseConnector.h"
 
 #include <QDomDocument>
@@ -154,8 +154,8 @@ void LastFM::sl_login_thread_finished(bool success) {
 
 void LastFM::sl_track_changed(const MetaData& md) {
 
-	PlaylistMode pl_mode = _settings->get(Set::PL_Mode);
-	if( PlaylistMode::isActiveAndEnabled(pl_mode.dynamic())) {
+	Playlist::Mode pl_mode = _settings->get(Set::PL_Mode);
+	if( Playlist::Mode::isActiveAndEnabled(pl_mode.dynamic())) {
 		_m->track_changed_thread->search_similar_artists(md);
 	}
 

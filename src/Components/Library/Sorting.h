@@ -62,20 +62,8 @@ namespace Library
 	    TrackRatingAsc,
 	    TrackRatingDesc
     };
-}
-
-enum class SortOrderPlaylists : quint8{
-	IDAsc=0,
-	IDDesc,
-	NameAsc,
-	NameDesc
-};
 
 
-
-// This class has to be inline because of setting registry
-namespace Library
-{
     class Sortings {
 
     public:

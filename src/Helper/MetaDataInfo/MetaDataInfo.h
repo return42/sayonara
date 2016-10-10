@@ -33,7 +33,6 @@
 class MetaDataList;
 class LibraryDatabase;
 
-
 /**
  * @brief The InfoStrings enum
  * @ingroup MetaDataHelper

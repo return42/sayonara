@@ -20,15 +20,21 @@
 
 
 #include "GUI_Stream.h"
+#include "GUI/Plugins/Stream/ui_GUI_Stream.h"
 
 GUI_Stream::GUI_Stream(QWidget *parent) :
-	GUI_AbstractStream(new StreamHandlerStreams(), parent),
-	Ui::GUI_Stream()
+	GUI_AbstractStream(new StreamHandlerStreams(), parent)
 {
-	setup_parent(this);
+	setup_parent(this, &ui);
 }
 
-GUI_Stream::~GUI_Stream() {}
+GUI_Stream::~GUI_Stream()
+{
+	if(ui)
+	{
+		delete ui; ui=nullptr;
+	}
+}
 
 QString GUI_Stream::get_name() const
 {
@@ -42,7 +48,7 @@ QString GUI_Stream::get_display_name() const
 
 void GUI_Stream::language_changed()
 {
-	retranslateUi(this);
+	ui->retranslateUi(this);
 }
 
 QString GUI_Stream::get_title_fallback_name() const

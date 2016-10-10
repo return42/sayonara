@@ -31,7 +31,6 @@
  */
 class Settings : public QObject
 {
-
 	SINGLETON(Settings)
 
 private:
@@ -57,7 +56,7 @@ public:
 
 	/* get a setting, defined by a unique, REGISTERED key */
 	template<typename T, SK::SettingKey S>
-	const T& get(const SettingKey<T,S> k)
+	const T& get(const SettingKey<T,S> k) const
 	{
 		Q_UNUSED(k);
 		Setting<T>* s = (Setting<T>*) _settings[(int) S];
@@ -79,7 +78,7 @@ public:
 
 	/* get a setting, defined by a unique, REGISTERED key */
 	template<typename T, SK::SettingKey S>
-	void shout(const SettingKey<T,S>& k)
+	void shout(const SettingKey<T,S>& k) const
 	{
 		Q_UNUSED(k);
 		SettingNotifier< SettingKey<T, S> >* sn = SettingNotifier< SettingKey<T, S> >::getInstance();

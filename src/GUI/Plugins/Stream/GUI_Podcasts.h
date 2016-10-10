@@ -19,20 +19,22 @@
  */
 
 
-
 #ifndef GUI_PODCASTS_H
 #define GUI_PODCASTS_H
 
-
-#include "GUI/Plugins/Stream/ui_GUI_Podcasts.h"
 #include "Components/StreamPlugins/Streams/StreamHandlerPodcasts.h"
 #include "GUI_AbstractStream.h"
 
 #include <QMap>
 
+namespace Ui
+{
+	class GUI_Podcasts;
+}
+
 class GUI_Podcasts :
-		public GUI_AbstractStream,
-		public Ui::GUI_Podcasts
+		public GUI_AbstractStream
+
 {
     Q_OBJECT
 
@@ -47,6 +49,9 @@ public:
 
 	QString get_name() const override;
 	QString get_display_name() const override;
+
+private:
+	Ui::GUI_Podcasts*	ui=nullptr;
 
 
 };

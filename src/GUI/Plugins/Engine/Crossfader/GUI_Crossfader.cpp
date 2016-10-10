@@ -20,13 +20,22 @@
 
 
 #include "GUI_Crossfader.h"
+#include "GUI/Plugins/Engine/ui_GUI_Crossfader.h"
 #include "Helper/Playlist/PlaylistMode.h"
 
+
 GUI_Crossfader::GUI_Crossfader(QWidget *parent) :
-	PlayerPluginInterface(parent),
-	Ui::GUI_Crossfader()
+	PlayerPluginInterface(parent)
 {
 
+}
+
+GUI_Crossfader::~GUI_Crossfader()
+{
+	if(ui)
+	{
+		delete ui; ui = nullptr;
+	}
 }
 
 void GUI_Crossfader::language_changed(){
@@ -35,7 +44,7 @@ void GUI_Crossfader::language_changed(){
 		return;
 	}
 
-	retranslateUi(this);
+	ui->retranslateUi(this);
 }
 
 void GUI_Crossfader::init_ui()
@@ -44,19 +53,19 @@ void GUI_Crossfader::init_ui()
 		return;
 	}
 
-	setup_parent(this);
+	setup_parent(this, &ui);
 
 	int val = _settings->get(Set::Engine_CrossFaderTime);
 	bool enabled = _settings->get(Set::Engine_CrossFaderActive);
 
-	cb_active->setChecked(enabled);
-	sli_crossfader->setEnabled(enabled);
-	sli_crossfader->setValue(val);
+	ui->cb_active->setChecked(enabled);
+	ui->sli_crossfader->setEnabled(enabled);
+	ui->sli_crossfader->setValue(val);
 
-	lab_crossfader->setText(QString::number(val) + " ms");
+	ui->lab_crossfader->setText(QString::number(val) + " ms");
 
-	connect(sli_crossfader, &QSlider::valueChanged, this, &GUI_Crossfader::slider_changed);
-	connect(cb_active, &QCheckBox::toggled, this, &GUI_Crossfader::active_changed);
+	connect(ui->sli_crossfader, &QSlider::valueChanged, this, &GUI_Crossfader::slider_changed);
+	connect(ui->cb_active, &QCheckBox::toggled, this, &GUI_Crossfader::active_changed);
 }
 
 
@@ -73,17 +82,17 @@ QString GUI_Crossfader::get_display_name() const
 
 void GUI_Crossfader::slider_changed(int val) {
 
-	lab_crossfader->setText(QString::number(val) + "ms");
+	ui->lab_crossfader->setText(QString::number(val) + "ms");
 	_settings->set(Set::Engine_CrossFaderTime, val);
 }
 
 
 void GUI_Crossfader::active_changed(bool b) {
 
-	sli_crossfader->setEnabled(b);
+	ui->sli_crossfader->setEnabled(b);
 
-	PlaylistMode plm = _settings->get(Set::PL_Mode);
-	plm.setGapless(PlaylistMode::isActive(plm.gapless()), !b);
+	Playlist::Mode plm = _settings->get(Set::PL_Mode);
+	plm.setGapless(Playlist::Mode::isActive(plm.gapless()), !b);
 	
 	_settings->set(Set::PL_Mode, plm);
 	_settings->set(Set::Engine_CrossFaderActive, b);

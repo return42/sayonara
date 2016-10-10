@@ -19,6 +19,8 @@
  */
 
 #include "GUI_LevelPainter.h"
+#include "GUI/Plugins/Engine/ui_GUI_LevelPainter.h"
+
 #include "Components/Engine/Playback/PlaybackEngine.h"
 #include "Components/Engine/EngineHandler.h"
 #include "Helper/Logger/Logger.h"
@@ -32,11 +34,18 @@
 
 
 GUI_LevelPainter::GUI_LevelPainter(QWidget *parent) :
-	EnginePlugin(parent),
-	Ui::GUI_LevelPainter()
+	EnginePlugin(parent)
 {
 	_settings->set(Set::Engine_ShowLevel, false);
 
+}
+
+GUI_LevelPainter::~GUI_LevelPainter()
+{
+	if(ui)
+	{
+		delete ui; ui=nullptr;
+	}
 }
 
 QString GUI_LevelPainter::get_name() const
@@ -49,12 +58,13 @@ QString GUI_LevelPainter::get_display_name() const
 	return tr("Level");
 }
 
-void GUI_LevelPainter::language_changed(){
+void GUI_LevelPainter::language_changed()
+{
 	if(!is_ui_initialized()){
 		return;
 	}
 
-	retranslateUi(this);
+	ui->retranslateUi(this);
 }
 
 
@@ -65,10 +75,11 @@ void GUI_LevelPainter::init_ui()
 	}
 
 	EnginePlugin::init_ui();
-	setup_parent(this);
+	setup_parent(this, &ui);
 
 	_cur_style_idx = _settings->get(Set::Level_Style);
 	_cur_style = _ecsc->get_color_scheme_level(_cur_style_idx);
+
 	reload();
 
 	int n_rects = _cur_style.n_rects;
@@ -152,7 +163,9 @@ void GUI_LevelPainter::paintEvent(QPaintEvent* e) {
 				if(!_cur_style.style[r].contains(-1)){
 					sp_log(Log::Debug) << "Style does not contain -1";
 				}
+
 				painter.fillRect(rect, _cur_style.style[r].value(-1) );
+
 				_steps[c][r] = n_fading_steps - 1;
 			}
 
@@ -162,6 +175,7 @@ void GUI_LevelPainter::paintEvent(QPaintEvent* e) {
 				}
 
 				painter.fillRect(rect, _cur_style.style[r].value(_steps[c][r]) );
+
 				if(_steps[c][r] > 0) {
 					_steps[c][r] -= 1;
 				}

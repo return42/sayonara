@@ -50,8 +50,8 @@ class MetaData :
 {
 
 private:
-	QString _filepath;
-	RadioMode _radio_mode;
+	QString		_filepath;
+	RadioMode	_radio_mode;
 
 public:
 	qint32 id;
@@ -75,7 +75,6 @@ public:
 	bool played;
 	bool is_extern;
 	bool pl_playing;
-
 	bool is_disabled;
 
 	MetaData ();

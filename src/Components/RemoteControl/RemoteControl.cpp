@@ -23,7 +23,7 @@
 #include "RemoteControl.h"
 #include "Components/Covers/CoverLocation.h"
 #include "Components/Playlist/PlaylistHandler.h"
-#include "Components/Playlist/Playlist.h"
+#include "Components/Playlist/AbstractPlaylist.h"
 #include "Components/PlayManager/PlayManager.h"
 #include "Helper/Settings/Settings.h"
 #include "Helper/MetaData/MetaDataList.h"
@@ -81,10 +81,10 @@ void RemoteControl::init()
    _fn_call_map["curSong"] =	std::bind(&RemoteControl::write_cur_track, this);
    _fn_call_map["help"] =		std::bind(&RemoteControl::show_api, this);
 
-   _fn_int_call_map["setvol"] =		std::bind(&RemoteControl::set_volume, this, placeholders::_1);
-   _fn_int_call_map["seekrel"] =	std::bind(&RemoteControl::seek_rel, this, placeholders::_1);
-   _fn_int_call_map["seekrels"] =	std::bind(&RemoteControl::seek_rel_ms, this, placeholders::_1);
-   _fn_int_call_map["chtrk"] =		std::bind(&RemoteControl::change_track, this, placeholders::_1);
+   _fn_int_call_map["setvol"] =		std::bind(&RemoteControl::set_volume, this, std::placeholders::_1);
+   _fn_int_call_map["seekrel"] =	std::bind(&RemoteControl::seek_rel, this, std::placeholders::_1);
+   _fn_int_call_map["seekrels"] =	std::bind(&RemoteControl::seek_rel_ms, this, std::placeholders::_1);
+   _fn_int_call_map["chtrk"] =		std::bind(&RemoteControl::change_track, this, std::placeholders::_1);
 
    REGISTER_LISTENER_NO_CALL(Set::Remote_Active, _sl_active_changed);
    REGISTER_LISTENER_NO_CALL(Set::Remote_Port, _sl_port_changed);

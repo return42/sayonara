@@ -23,7 +23,7 @@
 #include "Database/DatabaseArtists.h"
 #include "Helper/MetaData/MetaData.h"
 #include "Helper/MetaData/Artist.h"
-#include "Helper/Filter.h"
+#include "Helper/Library/Filter.h"
 
 DatabaseArtists::DatabaseArtists(QSqlDatabase db, quint8 db_id) :
 	DatabaseModule(db, db_id)

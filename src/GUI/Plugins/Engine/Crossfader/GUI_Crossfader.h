@@ -23,12 +23,15 @@
 #ifndef GUI_CROSSFADER_H
 #define GUI_CROSSFADER_H
 
-#include "GUI/Plugins/Engine/ui_GUI_Crossfader.h"
-
 #include "Interfaces/PlayerPlugin/PlayerPlugin.h"
 
+namespace Ui
+{
+	class GUI_Crossfader;
+}
 
-class GUI_Crossfader : public PlayerPluginInterface, private Ui::GUI_Crossfader
+class GUI_Crossfader :
+		public PlayerPluginInterface
 {
 	Q_OBJECT
 
@@ -36,8 +39,13 @@ class GUI_Crossfader : public PlayerPluginInterface, private Ui::GUI_Crossfader
 
 public:
 	explicit GUI_Crossfader(QWidget *parent=nullptr);
+	virtual ~GUI_Crossfader();
+
 	QString get_name() const override;
 	QString get_display_name() const override;
+
+private:
+	Ui::GUI_Crossfader*	ui=nullptr;
 
 private slots:
 	void slider_changed(int);

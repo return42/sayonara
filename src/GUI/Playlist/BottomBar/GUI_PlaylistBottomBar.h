@@ -28,8 +28,7 @@
 
 #include "Helper/Shutdown/Shutdown.h"
 #include "Helper/Playlist/PlaylistMode.h"
-
-#include "Components/Playlist/PlaylistTypedefs.h"
+#include "Helper/Playlist/PlaylistFwd.h"
 
 class PlaylistMenu;
 #ifdef WITH_SHUTDOWN
@@ -44,14 +43,14 @@ class GUI_PlaylistBottomBar :
 
 signals:
 	void sig_show_numbers_changed(bool active);
-	void sig_playlist_mode_changed(const PlaylistMode& mode);
+	void sig_playlist_mode_changed(const Playlist::Mode& mode);
 
 public:
 	explicit GUI_PlaylistBottomBar(QWidget *parent=nullptr);
 	virtual ~GUI_PlaylistBottomBar();
 
 	void check_dynamic_play_button();
-	void set_playlist_type(PlaylistType playlist_type);
+	void set_playlist_type(Playlist::Type playlist_type);
 
 private slots:
 
@@ -71,7 +70,7 @@ private slots:
 
 
 private:
-	PlaylistMode		_plm;
+	Playlist::Mode		_plm;
 	PlaylistMenu*		_playlist_menu=nullptr;
 
 #ifdef WITH_SHUTDOWN

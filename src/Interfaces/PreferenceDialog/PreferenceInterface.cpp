@@ -22,6 +22,9 @@
 
 #include "PreferenceInterface.h"
 
-/**
- * Nothing to do here
- */
+PreferenceAction::PreferenceAction(const QString &text, QWidget *preference_interface) :
+	QAction(nullptr)
+{
+	this->setText(text + "...");
+	connect(this, &QAction::triggered, preference_interface, &QWidget::show);
+}

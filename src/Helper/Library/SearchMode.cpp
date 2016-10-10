@@ -1,4 +1,4 @@
-#include "LibrarySearchMode.h"
+#include "SearchMode.h"
 #include <QRegExp>
 #include <QStringList>
 

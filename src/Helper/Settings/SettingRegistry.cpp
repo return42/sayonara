@@ -19,19 +19,48 @@
  */
 
 #include "SettingRegistry.h"
+#include "Settings.h"
+
 #include "Database/DatabaseConnector.h"
 
 #include "Helper/Playlist/PlaylistMode.h"
 #include "Helper/EqualizerPresets.h"
-#include "Helper/LibrarySearchMode.h"
+#include "Helper/Library/SearchMode.h"
 #include "Helper/Macros.h"
 
 #include "GUI/Helper/Shortcuts/RawShortcutMap.h"
+
 #include <QDir>
+#include <QSize>
+#include <QPoint>
+#include <type_traits>
+
+static Settings* settings=Settings::getInstance();
+
+template<typename KEY, typename T>
+void register_setting(const KEY& key, const char* db_key, const T& default_value){
+
+	typedef decltype(key.p) ValueTypePtr;
+	typedef typename std::remove_pointer<ValueTypePtr>::type ValueType;
+	auto setting = new Setting<ValueType>(key, db_key, default_value);
+
+	settings->register_setting( setting );
+}
+
+template<typename KEY, typename T>
+void register_setting(const KEY& key, const T& default_value){
+
+	typedef decltype(key.p) ValueTypePtr;
+	typedef typename std::remove_pointer<ValueTypePtr>::type ValueType;
+	auto setting = new Setting<ValueType>(key, default_value);
+
+	settings->register_setting( setting );
+}
+
 
 SettingRegistry::SettingRegistry()
 {
-	_settings = Settings::getInstance();
+
 }
 
 SettingRegistry::~SettingRegistry()
@@ -117,7 +146,7 @@ bool SettingRegistry::init(){
 	register_setting( Set::PL_StartPlaying, "start_playing", false );
 	register_setting( Set::PL_LastTrack, "last_track", -1 );
 	register_setting( Set::PL_LastPlaylist, "last_playlist", -1 );
-	register_setting( Set::PL_Mode, "playlist_mode", PlaylistMode() );
+	register_setting( Set::PL_Mode, "playlist_mode", Playlist::Mode() );
 	register_setting( Set::PL_ShowNumbers, "show_playlist_numbers", true );
 	register_setting( Set::PL_EntryLook, "playlist_look", QString("*%title%* - %artist%"));
 	register_setting( Set::PL_FontSize, "playlist_font_size", -1);
@@ -161,7 +190,7 @@ bool SettingRegistry::init(){
 	register_setting( SetNoDB::Pitch_found, true );
 	register_setting( SetNoDB::Player_Quit, false );
 
-	bool success = _settings->check_settings();
+	bool success = settings->check_settings();
 	if (!success){
 		return false;
 	}

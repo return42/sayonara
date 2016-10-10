@@ -22,13 +22,16 @@
 #define GUI_LEVELPAINTER_H
 
 #include "EnginePlugin.h"
-#include "GUI/Plugins/Engine/ui_GUI_LevelPainter.h"
 #include "Components/Engine/Playback/SoundOutReceiver.h"
+
+namespace Ui
+{
+	class GUI_LevelPainter;
+}
 
 class GUI_LevelPainter :
 		public EnginePlugin,
-		public LevelReceiver,
-		private Ui::GUI_LevelPainter
+		public LevelReceiver
 {
     Q_OBJECT
 
@@ -36,6 +39,7 @@ class GUI_LevelPainter :
 
 public:
 	explicit GUI_LevelPainter(QWidget *parent=nullptr);
+	virtual ~GUI_LevelPainter();
 
 	QString get_name() const override;
 	QString get_display_name() const override;
@@ -59,6 +63,8 @@ protected slots:
 
 
 private:
+
+	Ui::GUI_LevelPainter*	ui=nullptr;
 
 	float	_level[2];
 	float	_exp_lot[600];

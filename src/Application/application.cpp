@@ -38,6 +38,7 @@
 
 #include "Interfaces/LibraryInterface/LibraryPluginHandler.h"
 #include "Interfaces/PlayerPlugin/PlayerPluginHandler.h"
+#include "Interfaces/Notification/NotificationHandler.h"
 
 #include "GUI/Helper/GUI_Helper.h"
 
@@ -56,7 +57,6 @@
 #include "GUI/Plugins/Stream/GUI_Podcasts.h"
 #include "GUI/Plugins/Bookmarks/GUI_Bookmarks.h"
 #include "GUI/Plugins/Broadcasting/GUI_Broadcast.h"
-
 
 #include "GUI/Preferences/Fonts/GUI_FontConfig.h"
 #include "GUI/Preferences/Notifications/GUI_Notifications.h"

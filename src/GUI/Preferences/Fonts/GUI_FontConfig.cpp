@@ -19,21 +19,26 @@
 
 
 #include "GUI_FontConfig.h"
+#include "GUI/Preferences/ui_GUI_FontConfig.h"
+
 #include "Helper/Settings/Settings.h"
 
 #include <QApplication>
 #include <QFont>
+#include <QFontDatabase>
 
 GUI_FontConfig::GUI_FontConfig(QWidget* parent) :
-	PreferenceWidgetInterface(parent),
-	Ui::GUI_FontConfig()
+	PreferenceWidgetInterface(parent)
 {
-	//REGISTER_LISTENER(Set::Player_Language, language_changed);
+
 }
 
 GUI_FontConfig::~GUI_FontConfig()
 {
-
+	if(ui)
+	{
+		delete ui; ui=nullptr;
+	}
 }
 
 QString GUI_FontConfig::get_action_name() const
@@ -43,15 +48,15 @@ QString GUI_FontConfig::get_action_name() const
 
 void GUI_FontConfig::init_ui()
 {
-	setup_parent(this);
+	setup_parent(this, &ui);
 
 	_font_db = new QFontDatabase();
 
-	connect(combo_fonts, &QFontComboBox::currentFontChanged, this, &GUI_FontConfig::combo_fonts_changed);
-	connect(btn_default, &QPushButton::clicked, this, &GUI_FontConfig::default_clicked);
+	connect(ui->combo_fonts, &QFontComboBox::currentFontChanged, this, &GUI_FontConfig::combo_fonts_changed);
+	connect(ui->btn_default, &QPushButton::clicked, this, &GUI_FontConfig::default_clicked);
 
-	combo_fonts->setEditable(false);
-	combo_fonts->setFontFilters(QFontComboBox::ScalableFonts);
+	ui->combo_fonts->setEditable(false);
+	ui->combo_fonts->setFontFilters(QFontComboBox::ScalableFonts);
 
 	revert();
 }
@@ -59,7 +64,7 @@ void GUI_FontConfig::init_ui()
 
 void GUI_FontConfig::combo_fonts_changed(const QFont& font){
 
-	_cur_font_size = combo_sizes->currentText().toInt();
+	_cur_font_size = ui->combo_sizes->currentText().toInt();
 
 	QStringList sizes = get_available_font_sizes(font);
 	fill_sizes(sizes);
@@ -69,14 +74,14 @@ void GUI_FontConfig::combo_fonts_changed(const QFont& font){
 		font_size = QApplication::font().pointSize();
 	}
 
-	int cur_font_size_idx = combo_sizes->findText(QString::number(font_size));
+	int cur_font_size_idx = ui->combo_sizes->findText(QString::number(font_size));
 
 	if(cur_font_size_idx >= 0){
-		combo_sizes->setCurrentIndex(cur_font_size_idx);
+		ui->combo_sizes->setCurrentIndex(cur_font_size_idx);
 	}
 
-	combo_lib_size->setCurrentIndex(0);
-	combo_pl_size->setCurrentIndex(0);
+	ui->combo_lib_size->setCurrentIndex(0);
+	ui->combo_pl_size->setCurrentIndex(0);
 
 	_is_default = false;
 }
@@ -100,12 +105,12 @@ QStringList GUI_FontConfig::get_available_font_sizes(const QFont& font)
 
 void GUI_FontConfig::fill_sizes(const QStringList& sizes)
 {
-	combo_sizes->clear();
-	combo_lib_size->clear();
-	combo_pl_size->clear();
+	ui->combo_sizes->clear();
+	ui->combo_lib_size->clear();
+	ui->combo_pl_size->clear();
 
-	combo_lib_size->addItem(tr("Inherit"));
-	combo_pl_size->addItem(tr("Inherit"));
+	ui->combo_lib_size->addItem(tr("Inherit"));
+	ui->combo_pl_size->addItem(tr("Inherit"));
 
 	for(QString sz : sizes){
 		int isz = sz.toInt();
@@ -113,9 +118,9 @@ void GUI_FontConfig::fill_sizes(const QStringList& sizes)
 			continue;
 		}
 
-		combo_sizes->addItem(sz);
-		combo_lib_size->addItem(sz);
-		combo_pl_size->addItem(sz);
+		ui->combo_sizes->addItem(sz);
+		ui->combo_lib_size->addItem(sz);
+		ui->combo_pl_size->addItem(sz);
 	}
 }
 
@@ -125,26 +130,26 @@ void GUI_FontConfig::commit()
 	bool ok;
 	int font_size;
 
-	font_size = combo_sizes->currentText().toInt(&ok);
-	_settings->set(Set::Player_FontName, combo_fonts->currentText());
+	font_size = ui->combo_sizes->currentText().toInt(&ok);
+	_settings->set(Set::Player_FontName, ui->combo_fonts->currentText());
 
 	if(ok){
 		_settings->set(Set::Player_FontSize, font_size);
 	}
 
-	font_size = combo_lib_size->currentText().toInt(&ok);
+	font_size = ui->combo_lib_size->currentText().toInt(&ok);
 	if(!ok){
 		font_size = -1;
 	}
 	_settings->set(Set::Lib_FontSize, font_size);
 
-	font_size = combo_pl_size->currentText().toInt(&ok);
+	font_size = ui->combo_pl_size->currentText().toInt(&ok);
 	if(!ok){
 		font_size = -1;
 	}
 	_settings->set(Set::PL_FontSize, font_size);
 
-	_settings->set(Set::Lib_FontBold, cb_lib_bold->isChecked());
+	_settings->set(Set::Lib_FontBold, ui->cb_lib_bold->isChecked());
 
 	_cur_font_size = font_size;
 }
@@ -157,35 +162,35 @@ void GUI_FontConfig::revert(){
 	int cur_lib_font_size = _settings->get(Set::Lib_FontSize);
 	bool bold = _settings->get(Set::Lib_FontBold);
 
-	int idx = combo_fonts->findText(cur_family);
+	int idx = ui->combo_fonts->findText(cur_family);
 	if(idx >= 0){
-		combo_fonts->setCurrentIndex(idx);
+		ui->combo_fonts->setCurrentIndex(idx);
 	}
 
-	fill_sizes( get_available_font_sizes(combo_fonts->currentFont()) );
+	fill_sizes( get_available_font_sizes(ui->combo_fonts->currentFont()) );
 
-	idx = combo_sizes->findText(QString::number(cur_font_size));
+	idx = ui->combo_sizes->findText(QString::number(cur_font_size));
 	if(idx >= 0){
-		combo_sizes->setCurrentIndex(idx);
+		ui->combo_sizes->setCurrentIndex(idx);
 	}
 
-	idx = combo_lib_size->findText(QString::number(cur_lib_font_size));
+	idx = ui->combo_lib_size->findText(QString::number(cur_lib_font_size));
 	if(idx >= 0){
-		combo_lib_size->setCurrentIndex(idx);
+		ui->combo_lib_size->setCurrentIndex(idx);
 	}
 	else{
-		combo_lib_size->setCurrentIndex(0);
+		ui->combo_lib_size->setCurrentIndex(0);
 	}
 
-	idx = combo_pl_size->findText(QString::number(cur_pl_font_size));
+	idx = ui->combo_pl_size->findText(QString::number(cur_pl_font_size));
 	if(idx >= 0){
-		combo_pl_size->setCurrentIndex(idx);
+		ui->combo_pl_size->setCurrentIndex(idx);
 	}
 	else{
-		combo_pl_size->setCurrentIndex(0);
+		ui->combo_pl_size->setCurrentIndex(0);
 	}
 
-	cb_lib_bold->setChecked(bold);
+	ui->cb_lib_bold->setChecked(bold);
 }
 
 
@@ -193,18 +198,18 @@ void GUI_FontConfig::default_clicked()
 {
 	QFont font = QApplication::font();
 
-	int cur_font_idx = combo_fonts->findText(font.family());
+	int cur_font_idx = ui->combo_fonts->findText(font.family());
 	if(cur_font_idx >= 0){
-		combo_fonts->setCurrentIndex(cur_font_idx);
+		ui->combo_fonts->setCurrentIndex(cur_font_idx);
 	}
 
-	combo_lib_size->setCurrentIndex(0);
-	combo_pl_size->setCurrentIndex(0);
-	cb_lib_bold->setChecked(true);
+	ui->combo_lib_size->setCurrentIndex(0);
+	ui->combo_pl_size->setCurrentIndex(0);
+	ui->cb_lib_bold->setChecked(true);
 
-	int cur_font_size_idx = combo_sizes->findText(QString::number(font.pointSize()));
+	int cur_font_size_idx = ui->combo_sizes->findText(QString::number(font.pointSize()));
 	if(cur_font_size_idx >= 0){
-		combo_sizes->setCurrentIndex(cur_font_size_idx);
+		ui->combo_sizes->setCurrentIndex(cur_font_size_idx);
 	}
 
 	_is_default = true;
@@ -219,7 +224,7 @@ void GUI_FontConfig::language_changed()
 		return;
 	}
 
-	retranslateUi(this);
+	ui->retranslateUi(this);
 	PreferenceWidgetInterface::language_changed();
 }
 

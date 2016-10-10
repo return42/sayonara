@@ -24,13 +24,16 @@
 #define GUI_NOTIFICATIONS_H
 
 #include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
-#include "Interfaces/Notification/NotificationHandler.h"
-#include "GUI/Preferences/ui_GUI_Notifications.h"
 
+namespace Ui
+{
+	class GUI_Notifications;
+}
+
+class NotificationHandler;
 
 class GUI_Notifications :
-		public PreferenceWidgetInterface,
-		private Ui::GUI_Notifications
+		public PreferenceWidgetInterface
 {
     Q_OBJECT
 
@@ -59,6 +62,8 @@ private:
 	NotificationHandler* _notification_handler=nullptr;
 
 private:
+	Ui::GUI_Notifications*	ui=nullptr;
+
 	void init_ui() override;
 
 };

@@ -29,14 +29,11 @@
 #ifndef PLAYLISTITEMMODEL_H_
 #define PLAYLISTITEMMODEL_H_
 
-#include "Components/Playlist/PlaylistTypedefs.h"
 #include "GUI/Helper/SearchableWidget/AbstractSearchModel.h"
 #include "Helper/typedefs.h"
+#include "Helper/Playlist/PlaylistFwd.h"
 
-#include <QUrl>
-#include <QLabel>
-#include <QAbstractListModel>
-#include <QStringList>
+#include <QString>
 
 class MetaData;
 class MetaDataList;

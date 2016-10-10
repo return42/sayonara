@@ -29,12 +29,12 @@
 #ifndef PLAYLISTHANDLER_H_
 #define PLAYLISTHANDLER_H_
 
-#include "PlaylistTypedefs.h"
 #include "PlaylistDBInterface.h"
+#include "Components/PlayManager/PlayState.h"
 
 #include "Helper/singleton.h"
 #include "Helper/Settings/SayonaraClass.h"
-#include "Components/PlayManager/PlayState.h"
+#include "Helper/Playlist/PlaylistFwd.h"
 
 #include <QTimer>
 #include <memory>
@@ -285,7 +285,7 @@ public slots:
 	 * @param type deprecated
 	 * @return new playlist index
 	 */
-	int create_playlist(const MetaDataList& v_md, const QString& name=QString(), bool temporary=true, PlaylistType type=PlaylistType::Std);
+	int create_playlist(const MetaDataList& v_md, const QString& name=QString(), bool temporary=true, Playlist::Type type=Playlist::Type::Std);
 
 	/**
 	 * @brief create a new playlist (overloaded)
@@ -296,7 +296,7 @@ public slots:
 	 * @return new playlist index
 	 */
 
-	int create_playlist(const QStringList& path_list, const QString& name=QString(), bool temporary=true, PlaylistType type=PlaylistType::Std);
+	int create_playlist(const QStringList& path_list, const QString& name=QString(), bool temporary=true, Playlist::Type type=Playlist::Type::Std);
 
 	/**
 	 * @brief create a new playlist (overloaded)
@@ -307,7 +307,7 @@ public slots:
 	 * @return new playlist index
 	 */
 
-	int create_playlist(const QString& dir, const QString& name=QString(), bool temporary=true, PlaylistType type=PlaylistType::Std);
+	int create_playlist(const QString& dir, const QString& name=QString(), bool temporary=true, Playlist::Type type=Playlist::Type::Std);
 
 	/**
 	 * @brief create a new playlist (overloaded)
@@ -373,10 +373,10 @@ private:
 
 	// adds a new playlist, creates it, if name is not in the list of playlists. If name already exists,
 	// this function returns the index
-	int	add_new_playlist(const QString& name, bool editable, PlaylistType type=PlaylistType::Std);
+	int	add_new_playlist(const QString& name, bool editable, Playlist::Type type=Playlist::Type::Std);
 
 	// raw creation of playlists
-	PlaylistPtr new_playlist(PlaylistType type, int idx, QString name="");
+	PlaylistPtr new_playlist(Playlist::Type type, int idx, QString name="");
 
 
 	/**

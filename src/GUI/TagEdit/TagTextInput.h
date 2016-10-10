@@ -24,13 +24,11 @@
 #define TAGTEXTINPUT_H
 
 #include <QLineEdit>
-#include <QString>
-#include <QFocusEvent>
-#include <QMenu>
-#include <QAction>
-#include <QContextMenuEvent>
-
 #include "Helper/Settings/SayonaraClass.h"
+
+class QAction;
+class QMenu;
+class QContextMenuEvent;
 
 /**
  * @brief GUI class for String fields meant to convert content to first upper case by a context menu
@@ -45,6 +43,7 @@ class TagTextInput :
 
 public:
 	TagTextInput(QWidget* parent=nullptr);
+	virtual ~TagTextInput();
 
 private slots:
 	void cvt_to_first_upper();

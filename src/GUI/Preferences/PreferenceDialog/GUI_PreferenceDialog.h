@@ -19,17 +19,17 @@
  */
 
 
-
 #ifndef GUI_PreferenceDialog_H
 #define GUI_PreferenceDialog_H
 
-#include <QDialog>
-#include <QList>
-#include "GUI/Preferences/ui_GUI_PreferenceDialog.h"
-#include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
 #include "Interfaces/PreferenceDialog/PreferenceDialogInterface.h"
 
-#include <QSpacerItem>
+#include <QList>
+
+namespace Ui
+{
+	class GUI_PreferenceDialog;
+}
 
 class PreferenceWidgetInterface;
 
@@ -38,8 +38,7 @@ class PreferenceWidgetInterface;
  * @ingroup Preferences
  */
 class GUI_PreferenceDialog :
-		public PreferenceDialogInterface,
-		private Ui::GUI_PreferenceDialog
+		public PreferenceDialogInterface
 {
 
 	friend class PreferenceDialogInterface;
@@ -49,7 +48,7 @@ class GUI_PreferenceDialog :
 
 public:
 	explicit GUI_PreferenceDialog(QWidget *parent = 0);
-	~GUI_PreferenceDialog();
+	virtual ~GUI_PreferenceDialog();
 
 	QString get_action_name() const override;
 	void init_ui() override;
@@ -70,6 +69,7 @@ protected:
 	void hide_all();
 
 private:
+	Ui::GUI_PreferenceDialog* ui=nullptr;
 	QList<PreferenceWidgetInterface*> _dialogs;
 };
 

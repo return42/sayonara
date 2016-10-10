@@ -22,7 +22,7 @@
 #define PLAYLISTLOADER_H
 
 #include "Helper/Settings/SayonaraClass.h"
-#include "Helper/Playlist/CustomPlaylistTypedefs.h"
+#include "Helper/Playlist/CustomPlaylistFwd.h"
 
 #include <QObject>
 

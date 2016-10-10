@@ -33,7 +33,7 @@
 #include "GUI/Helper/GUI_Helper.h"
 #include "Helper/Helper.h"
 #include "Helper/Settings/Settings.h"
-#include "Helper/LibrarySearchMode.h"
+#include "Helper/Library/SearchMode.h"
 
 LibraryItemModelAlbums::LibraryItemModelAlbums() :
 	LibraryItemModel()

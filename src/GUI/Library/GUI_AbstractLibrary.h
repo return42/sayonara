@@ -38,7 +38,7 @@
 #include "Delegates/LibraryItemDelegateTracks.h"
 
 #include "Helper/Settings/SayonaraClass.h"
-#include "Helper/Filter.h"
+#include "Helper/Library/Filter.h"
 
 #include <QStringList>
 #include <QPoint>

@@ -21,7 +21,7 @@
 #ifndef PLAYLISTCHOOSER_H_
 #define PLAYLISTCHOOSER_H_
 
-#include "Helper/Playlist/CustomPlaylistTypedefs.h"
+#include "Helper/Playlist/CustomPlaylistFwd.h"
 
 #include <QMap>
 #include <QObject>

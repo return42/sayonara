@@ -18,9 +18,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "GUI_PreferenceDialog.h"
+#include "GUI/Preferences/ui_GUI_PreferenceDialog.h"
+
 #include "GUI/Helper/Delegates/ComboBoxDelegate.cpp"
 #include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
 #include "Helper/globals.h"
@@ -30,21 +30,23 @@
 
 
 GUI_PreferenceDialog::GUI_PreferenceDialog(QWidget *parent) :
-	PreferenceDialogInterface(parent),
-	Ui::GUI_PreferenceDialog()
+	PreferenceDialogInterface(parent)
 {
-	setup_parent(this);
+	setup_parent(this, &ui);
 
-	connect(list_preferences, &QListWidget::currentRowChanged, this, &GUI_PreferenceDialog::row_changed);
+	connect(ui->list_preferences, &QListWidget::currentRowChanged, this, &GUI_PreferenceDialog::row_changed);
 
-	connect(btn_apply, &QPushButton::clicked, this, &GUI_PreferenceDialog::commit);
-	connect(btn_ok, &QPushButton::clicked, this, &GUI_PreferenceDialog::commit_and_close);
-	connect(btn_cancel, &QPushButton::clicked, this, &GUI_PreferenceDialog::revert);
+	connect(ui->btn_apply, &QPushButton::clicked, this, &GUI_PreferenceDialog::commit);
+	connect(ui->btn_ok, &QPushButton::clicked, this, &GUI_PreferenceDialog::commit_and_close);
+	connect(ui->btn_cancel, &QPushButton::clicked, this, &GUI_PreferenceDialog::revert);
 }
 
 GUI_PreferenceDialog::~GUI_PreferenceDialog()
 {
-
+	if(ui)
+	{
+		delete ui; ui=nullptr;
+	}
 }
 
 void GUI_PreferenceDialog::register_preference_dialog(PreferenceWidgetInterface* dialog)
@@ -54,7 +56,7 @@ void GUI_PreferenceDialog::register_preference_dialog(PreferenceWidgetInterface*
 	QListWidgetItem* item = new QListWidgetItem(dialog->get_action_name());
 
 	item->setSizeHint(QSize(item->sizeHint().width(), 20));
-	list_preferences->addItem(item);
+	ui->list_preferences->addItem(item);
 }
 
 void GUI_PreferenceDialog::language_changed()
@@ -65,13 +67,14 @@ void GUI_PreferenceDialog::language_changed()
 		return;
 	}
 
-	retranslateUi(this);
-	list_preferences->setMouseTracking(false);
-	list_preferences->setItemDelegate(new QItemDelegate(list_preferences));
+	ui->retranslateUi(this);
+
+	ui->list_preferences->setMouseTracking(false);
+	ui->list_preferences->setItemDelegate(new QItemDelegate(ui->list_preferences));
 
 	int i=0;
 	for(PreferenceWidgetInterface* dialog : _dialogs){
-		QListWidgetItem* item = list_preferences->item(i);
+		QListWidgetItem* item = ui->list_preferences->item(i);
 		item->setText(dialog->get_action_name());
 		i++;
 	}
@@ -124,8 +127,10 @@ void GUI_PreferenceDialog::row_changed(int row)
 	}
 
 	hide_all();
+
 	PreferenceWidgetInterface* widget = _dialogs[row];
-	QLayout* layout = widget_preferences->layout();
+
+	QLayout* layout = ui->widget_preferences->layout();
 	layout->setContentsMargins(0,0,0,0);
 
 	if(layout){
@@ -133,17 +138,16 @@ void GUI_PreferenceDialog::row_changed(int row)
 		layout->setAlignment(Qt::AlignTop);
 	}
 
-	lab_pref_title->setText(widget->get_action_name());
-	widget->show();
+	ui->lab_pref_title->setText(widget->get_action_name());
 
+	widget->show();
 }
 
 
-void GUI_PreferenceDialog::hide_all(){
-
+void GUI_PreferenceDialog::hide_all()
+{
 	for(PreferenceWidgetInterface* iface : _dialogs){
 		iface->setParent(nullptr);
 		iface->hide();
-
 	}
 }

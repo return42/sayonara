@@ -68,7 +68,6 @@ private slots:
 	void skin_changed() override;
 
 
-
 private:
 	ShortcutHandler*		_sch=nullptr;
 	QString					_key;

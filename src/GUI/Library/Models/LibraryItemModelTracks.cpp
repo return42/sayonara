@@ -35,7 +35,7 @@
 #include "Helper/Helper.h"
 #include "Helper/FileHelper.h"
 #include "Helper/Settings/Settings.h"
-#include "Helper/LibrarySearchMode.h"
+#include "Helper/Library/SearchMode.h"
 
 
 LibraryItemModelTracks::LibraryItemModelTracks() :

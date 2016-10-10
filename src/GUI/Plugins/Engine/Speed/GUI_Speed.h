@@ -18,16 +18,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef GUI_SPEED_H
 #define GUI_SPEED_H
 
-#include "GUI/Plugins/Engine/ui_GUI_Speed.h"
-
 #include "Interfaces/PlayerPlugin/PlayerPlugin.h"
 
-class GUI_Speed : public PlayerPluginInterface, private Ui::GUI_Speed
+namespace Ui
+{
+	class GUI_Speed;
+}
+
+class GUI_Speed : public PlayerPluginInterface
 {
 	Q_OBJECT
 
@@ -35,8 +36,13 @@ class GUI_Speed : public PlayerPluginInterface, private Ui::GUI_Speed
 
 public:
 	explicit GUI_Speed(QWidget *parent=nullptr);
+	virtual ~GUI_Speed();
+
 	QString get_name() const override;
 	QString get_display_name() const override;
+
+private:
+	Ui::GUI_Speed* ui=nullptr;
 
 private slots:
 	void speed_changed(int value);

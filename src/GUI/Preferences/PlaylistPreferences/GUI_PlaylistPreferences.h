@@ -19,21 +19,21 @@
  */
 
 
-
 /* GUI_PlaylistPreferences.h */
 
 
 #ifndef GUI_PLAYLISTPREFERENCES_H
 #define GUI_PLAYLISTPREFERENCES_H
 
-
 #include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
-#include "GUI/Preferences/ui_GUI_PlaylistPreferences.h"
 
+namespace Ui
+{
+	class GUI_PlaylistPreferences;
+}
 
 class GUI_PlaylistPreferences :
-		public PreferenceWidgetInterface,
-		protected Ui::GUI_PlaylistPreferences
+		public PreferenceWidgetInterface
 {
 	Q_OBJECT
 
@@ -42,12 +42,14 @@ class GUI_PlaylistPreferences :
 
 public:
 	explicit GUI_PlaylistPreferences(QWidget *parent = 0);
-	~GUI_PlaylistPreferences();
+	virtual ~GUI_PlaylistPreferences();
 
 	void commit() override;
 	void revert() override;
 
 private:
+	Ui::GUI_PlaylistPreferences*	ui=nullptr;
+
 	void init_ui() override;
 	QString get_action_name() const override;
 

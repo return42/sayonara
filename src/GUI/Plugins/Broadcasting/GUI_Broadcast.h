@@ -23,14 +23,16 @@
 #ifndef GUI_BROADCAST_H
 #define GUI_BROADCAST_H
 
-#include "GUI/Plugins/Broadcasting/ui_GUI_Broadcast.h"
-
 #include "Components/Broadcasting/StreamServer.h"
 #include "Interfaces/PlayerPlugin/PlayerPlugin.h"
 
+namespace Ui
+{
+	class GUI_Broadcast;
+}
+
 class GUI_Broadcast :
-		public PlayerPluginInterface,
-		protected Ui::GUI_Broadcast
+		public PlayerPluginInterface
 {
 	Q_OBJECT
 
@@ -66,6 +68,7 @@ protected:
 	void init_ui() override;
 
 	StreamServer*		_server=nullptr;
+	Ui::GUI_Broadcast*	ui=nullptr;
 
 };
 

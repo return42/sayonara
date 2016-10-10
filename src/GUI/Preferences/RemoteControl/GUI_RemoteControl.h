@@ -25,13 +25,15 @@
 #ifndef GUISOCKETSETUP_H_
 #define GUISOCKETSETUP_H_
 
-#include "GUI/Preferences/ui_GUI_RemoteControl.h"
-
 #include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
 
+namespace Ui
+{
+	class GUI_RemoteControl;
+}
+
 class GUI_RemoteControl:
-		public PreferenceWidgetInterface,
-		private Ui::GUI_RemoteControl
+		public PreferenceWidgetInterface
 {
 
 	Q_OBJECT
@@ -61,6 +63,9 @@ private slots:
 
 
 private:
+
+	Ui::GUI_RemoteControl*	ui=nullptr;
+
 	QString get_url_string();
 	void refresh_url();
 

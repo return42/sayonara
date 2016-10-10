@@ -25,7 +25,6 @@
 
 #include <QAction>
 #include <QByteArray>
-#include <QLabel>
 #include <QShowEvent>
 #include <QCloseEvent>
 #include <QString>
@@ -52,13 +51,7 @@ public:
 	 * @param text text of the action
 	 * @param preference_interface Widget, that should appear when action is triggered
 	 */
-	PreferenceAction(const QString& text, QWidget* preference_interface) :
-		QAction(nullptr)
-	{
-		this->setText(text + "...");
-		connect(this, &QAction::triggered, preference_interface, &QWidget::show);
-	}
-
+	PreferenceAction(const QString& text, QWidget* preference_interface);
 };
 
 template <typename T>
@@ -83,15 +76,16 @@ protected:
 	 */
 	virtual void init_ui()=0;
 
-	template<typename W>
+	template<typename W, typename UiClass>
 	/**
 	 * @brief Sets up the Preference dialog. After this method, the dialog is "ready to use"\n
 	 * This method should be the first to be called when calling init_ui()
 	 * @param widget should always be "this"
 	 */
-	void setup_parent(W* widget) {
+	void setup_parent(W* widget, UiClass** ui) {
 
-		widget->setupUi(widget);
+		*ui = new UiClass();
+		(*ui)->setupUi(widget);
 
 		_is_initialized = true;
 

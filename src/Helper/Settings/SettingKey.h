@@ -29,8 +29,13 @@ class QPoint;
 class QSize;
 
 class EQ_Setting;
-class PlaylistMode;
+
 struct RawShortcutMap;
+
+namespace Playlist
+{
+    class Mode;
+}
 
 namespace Library
 {
@@ -247,7 +252,7 @@ INST(int,				PL_LastPlaylist);			/* last Playlist id, where LastTrack has been p
 INST(QString,			PL_EntryLook);				/* formatting of playlist entry */
 INST(int,				PL_FontSize);				/* current playlist font size */
 
-INST(PlaylistMode,		PL_Mode);				/* playlist mode: rep1, repAll, shuffle... */
+INST(Playlist::Mode,		PL_Mode);				/* playlist mode: rep1, repAll, shuffle... */
 INST(bool,				PL_ShowNumbers);			/* show numbers in playlist */
 INST(bool,				Notification_Show);			/* show notifications */
 INST(int,				Notification_Timeout);			/* notification timeout */

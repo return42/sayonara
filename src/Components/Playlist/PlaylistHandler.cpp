@@ -130,14 +130,14 @@ int PlaylistHandler::load_old_playlists(){
 }
 
 
-PlaylistPtr PlaylistHandler::new_playlist(PlaylistType type, int playlist_idx, QString name) {
+PlaylistPtr PlaylistHandler::new_playlist(Playlist::Type type, int playlist_idx, QString name) {
 
 	switch(type) {
 
-	case PlaylistType::Stream:
+	case Playlist::Type::Stream:
 		return PlaylistPtr(new StreamPlaylist(playlist_idx, name));
 
-	case PlaylistType::Std:
+	case Playlist::Type::Std:
 	default:
 		return PlaylistPtr(new StdPlaylist(playlist_idx, name));
 	}
@@ -146,7 +146,7 @@ PlaylistPtr PlaylistHandler::new_playlist(PlaylistType type, int playlist_idx, Q
 }
 
 
-int PlaylistHandler::add_new_playlist(const QString& name, bool temporary, PlaylistType type){
+int PlaylistHandler::add_new_playlist(const QString& name, bool temporary, Playlist::Type type){
 
 	PlaylistPtr pl;
 	int idx = exists(name);
@@ -167,7 +167,7 @@ int PlaylistHandler::add_new_playlist(const QString& name, bool temporary, Playl
 
 
 // create a playlist, where metadata is already available
-int PlaylistHandler::create_playlist(const MetaDataList& v_md, const QString& name, bool temporary, PlaylistType type) {
+int PlaylistHandler::create_playlist(const MetaDataList& v_md, const QString& name, bool temporary, Playlist::Type type) {
 
 	int idx;
 	PlaylistPtr pl;
@@ -193,7 +193,7 @@ int PlaylistHandler::create_playlist(const MetaDataList& v_md, const QString& na
 
 // create a new playlist, where only filepaths are given
 // Load Folder, Load File...
-int PlaylistHandler::create_playlist(const QStringList& pathlist, const QString& name, bool temporary, PlaylistType type) {
+int PlaylistHandler::create_playlist(const QStringList& pathlist, const QString& name, bool temporary, Playlist::Type type) {
 
 	DirectoryReader reader;
 	MetaDataList v_md = reader.get_md_from_filelist(pathlist);
@@ -201,7 +201,7 @@ int PlaylistHandler::create_playlist(const QStringList& pathlist, const QString&
 }
 
 
-int PlaylistHandler::create_playlist(const QString& dir, const QString& name, bool temporary, PlaylistType type) {
+int PlaylistHandler::create_playlist(const QString& dir, const QString& name, bool temporary, Playlist::Type type) {
 
 	QStringList lst;
 	lst << dir;
@@ -221,7 +221,7 @@ int PlaylistHandler::create_playlist(const CustomPlaylist& cpl){
 	});
 
 	if(it == _playlists.end()){
-		idx = add_new_playlist(cpl.name(), cpl.temporary(), PlaylistType::Std);
+		idx = add_new_playlist(cpl.name(), cpl.temporary(), Playlist::Type::Std);
 	}
 
 	else{
@@ -501,7 +501,7 @@ PlaylistConstPtr PlaylistHandler::get_playlist_at(int idx) const {
 		return nullptr;
 	}
 
-	return std::const_pointer_cast<const Playlist>(_playlists[idx]);
+	return std::const_pointer_cast<const AbstractPlaylist>(_playlists[idx]);
 }
 
 PlaylistPtr PlaylistHandler::get_playlist(int idx, PlaylistPtr fallback) const
@@ -521,7 +521,7 @@ PlaylistPtr PlaylistHandler::get_active()
 
 	// assure we have at least one playlist
 	if(_playlists.size() == 0){
-		_active_playlist_idx = add_new_playlist(request_new_playlist_name(), true, PlaylistType::Std);
+		_active_playlist_idx = add_new_playlist(request_new_playlist_name(), true, Playlist::Type::Std);
 	}
 
 	// assure valid idx

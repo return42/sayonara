@@ -23,17 +23,20 @@
 #ifndef GUI_SPECTRUM_H
 #define GUI_SPECTRUM_H
 
-#include "GUI/Plugins/Engine/ui_GUI_Spectrum.h"
 #include "Components/Engine/Playback/SoundOutReceiver.h"
 
 #include "EnginePlugin.h"
 
 #include <QList>
 
+namespace Ui
+{
+	class GUI_Spectrum;
+}
+
 class GUI_Spectrum :
 		public EnginePlugin,
-		public SpectrumReceiver,
-		private Ui::GUI_Spectrum
+		public SpectrumReceiver
 {
     Q_OBJECT
 
@@ -41,8 +44,10 @@ class GUI_Spectrum :
 
 public:
 	explicit GUI_Spectrum(QWidget *parent=nullptr);
-	virtual QString get_name() const override;
-	virtual QString get_display_name() const override;
+	virtual ~GUI_Spectrum();
+
+	QString get_name() const override;
+	QString get_display_name() const override;
 
 protected:
 	void paintEvent(QPaintEvent* e) override;
@@ -61,6 +66,7 @@ public slots:
 	void sl_update_style() override;
 
 private:
+	Ui::GUI_Spectrum* ui=nullptr;
 
 	QList<float> _spec;
 	int** _steps=nullptr;

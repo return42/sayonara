@@ -24,7 +24,7 @@
 #define RAWSHORTCUTMAP_H
 
 
-#include <QString>
+#include <QStringList>
 #include <QMap>
 
 //this class has to be inline because we need this in the settings registry
@@ -34,7 +34,9 @@
  * This class is used for converting a shortcut map into its database representation
  * @ingroup Shortcuts
  */
-struct RawShortcutMap : public QMap<QString, QStringList> {
+struct RawShortcutMap :
+		public QMap<QString, QStringList>
+{
 
 	QString toString() const {
 
@@ -69,7 +71,6 @@ struct RawShortcutMap : public QMap<QString, QStringList> {
 
 		return rsc;
 	}
-
 };
 
 

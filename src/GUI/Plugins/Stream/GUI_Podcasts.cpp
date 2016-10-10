@@ -18,18 +18,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "GUI_Podcasts.h"
+#include "GUI/Plugins/Stream/ui_GUI_Podcasts.h"
 
 GUI_Podcasts::GUI_Podcasts(QWidget *parent) :
-	GUI_AbstractStream(new StreamHandlerPodcasts(), parent),
-	Ui::GUI_Podcasts()
+	GUI_AbstractStream(new StreamHandlerPodcasts(), parent)
+
 {
-	setup_parent(this);
+	setup_parent(this, &ui);
 }
 
-GUI_Podcasts::~GUI_Podcasts() {}
+GUI_Podcasts::~GUI_Podcasts()
+{
+	if(ui)
+	{
+		delete ui; ui=nullptr;
+	}
+}
 
 QString GUI_Podcasts::get_name() const
 {
@@ -43,7 +48,7 @@ QString GUI_Podcasts::get_display_name() const
 
 void GUI_Podcasts::language_changed()
 {
-	retranslateUi(this);
+	ui->retranslateUi(this);
 }
 
 QString GUI_Podcasts::get_title_fallback_name() const

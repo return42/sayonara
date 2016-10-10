@@ -385,8 +385,8 @@ void PlaybackEngine::gapless_timed_out()
 
 void PlaybackEngine::_playlist_mode_changed() {
 
-	PlaylistMode plm = _settings->get(Set::PL_Mode);
-	bool gapless =	PlaylistMode::isActiveAndEnabled(plm.gapless()) ||
+	Playlist::Mode plm = _settings->get(Set::PL_Mode);
+	bool gapless =	Playlist::Mode::isActiveAndEnabled(plm.gapless()) ||
 					_settings->get(Set::Engine_CrossFaderActive);
 
 	if(gapless) {
@@ -415,9 +415,9 @@ void PlaybackEngine::_playlist_mode_changed() {
 
 void PlaybackEngine::change_gapless_state(GaplessState state)
 {
-	PlaylistMode plm = _settings->get(Set::PL_Mode);
+	Playlist::Mode plm = _settings->get(Set::PL_Mode);
 
-	bool gapless = PlaylistMode::isActiveAndEnabled(plm.gapless());
+	bool gapless = Playlist::Mode::isActiveAndEnabled(plm.gapless());
 	bool crossfader = _settings->get(Set::Engine_CrossFaderActive);
 
 	_gapless_state = state;

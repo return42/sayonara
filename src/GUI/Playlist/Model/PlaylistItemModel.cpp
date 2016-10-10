@@ -27,13 +27,13 @@
  */
 
 #include "PlaylistItemModel.h"
-#include "Components/Playlist/Playlist.h"
+#include "Components/Playlist/AbstractPlaylist.h"
 
 #include "GUI/Helper/CustomMimeData.h"
 
 #include "Helper/MetaData/MetaDataList.h"
 #include "Helper/Settings/Settings.h"
-#include "Helper/LibrarySearchMode.h"
+#include "Helper/Library/SearchMode.h"
 #include "Helper/FileHelper.h"
 #include "Helper/Set.h"
 #include "Helper/globals.h"
@@ -43,7 +43,7 @@ PlaylistItemModel::PlaylistItemModel(PlaylistPtr pl, QObject* parent) :
 	AbstractSearchListModel(parent),
 	_pl(pl)
 {
-	connect(_pl.get(), &Playlist::sig_data_changed, this, &PlaylistItemModel::playlist_changed);
+	connect(_pl.get(), &AbstractPlaylist::sig_data_changed, this, &PlaylistItemModel::playlist_changed);
 }
 
 PlaylistItemModel::~PlaylistItemModel() {

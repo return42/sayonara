@@ -21,7 +21,7 @@
 #include "GUI_AbstractLibrary.h"
 #include "Helper/Message/Message.h"
 #include "Components/Library/AbstractLibrary.h"
-#include "Helper/LibrarySearchMode.h"
+#include "Helper/Library/SearchMode.h"
 #include "Helper/Settings/Settings.h"
 
 #include "GUI/Library/Helper/ColumnHeader.h"

@@ -23,9 +23,9 @@
 #ifndef REMOTECONTROL_H
 #define REMOTECONTROL_H
 
-#include "Helper/Settings/SayonaraClass.h"
 #include "Components/PlayManager/PlayState.h"
-#include "Components/Playlist/PlaylistTypedefs.h"
+#include "Helper/Settings/SayonaraClass.h"
+#include "Helper/Playlist/PlaylistFwd.h"
 
 #include <QObject>
 #include <QTcpServer>

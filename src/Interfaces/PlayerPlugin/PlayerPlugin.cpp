@@ -21,6 +21,9 @@
 
 #include "PlayerPlugin.h"
 
+#include "GUI/Helper/Shortcuts/Shortcut.h"
+
+#include "GUI/Helper/Shortcuts/ShortcutHandler.h"
 #include "Components/PlayManager/PlayManager.h"
 
 PlayerPluginInterface::PlayerPluginInterface(QWidget *parent) :
@@ -82,7 +85,28 @@ QSize PlayerPluginInterface::get_size() const
 
 
 void PlayerPluginInterface::set_size(QSize size) {
-    this->setMinimumSize(size);
+	this->setMinimumSize(size);
+}
+
+void PlayerPluginInterface::finalize_initialization()
+{
+	QLayout* widget_layout = layout();
+	if(widget_layout){
+		widget_layout->setContentsMargins(3, 3, 3, 3);
+	}
+
+	ShortcutHandler* sch = ShortcutHandler::getInstance();
+	Shortcut sc = sch->get_shortcut("close_plugin");
+	if(!sc.is_valid()){
+		sc = sch->add(Shortcut(this, "close_plugin", tr("Close plugin"), "Ctrl+Esc"));
+	}
+
+	sc.create_qt_shortcut(this, this, SLOT(close()));
+
+	REGISTER_LISTENER(Set::Player_Language, _sl_lang_changed);
+	REGISTER_LISTENER(Set::Player_Style, skin_changed);
+
+	this->set_ui_initialized();
 }
 
 void PlayerPluginInterface::closeEvent(QCloseEvent* e) {

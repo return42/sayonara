@@ -19,6 +19,8 @@
  */
 
 #include "GUI_AudioConverter.h"
+#include "GUI/Plugins/Engine/ui_GUI_AudioConvert.h"
+
 #include "Helper/Message/Message.h"
 #include "Helper/Logger/Logger.h"
 
@@ -29,11 +31,18 @@
 
 
 GUI_AudioConverter::GUI_AudioConverter(QWidget *parent) :
-	PlayerPluginInterface(parent),
-	Ui::GUI_AudioConvert()
+	PlayerPluginInterface(parent)
 {
 	_engine = EngineHandler::getInstance();
 	_mp3_enc_available = true;
+}
+
+GUI_AudioConverter::~GUI_AudioConverter()
+{
+	if(ui)
+	{
+		delete ui; ui=nullptr;
+	}
 }
 
 
@@ -53,7 +62,7 @@ void GUI_AudioConverter::language_changed(){
 		return;
 	}
 
-	retranslateUi(this);
+	ui->retranslateUi(this);
 }
 
 void GUI_AudioConverter::init_ui()
@@ -63,17 +72,17 @@ void GUI_AudioConverter::init_ui()
 		return;
 	}
 
-	setup_parent(this);
+	setup_parent(this, &ui);
 
 	LameBitrate br = (LameBitrate) _settings->get(Set::Engine_ConvertQuality);
 
-	rb_cbr->setChecked(false);
-	rb_vbr->setChecked(false);
+	ui->rb_cbr->setChecked(false);
+	ui->rb_vbr->setChecked(false);
 
-	connect(rb_cbr, &QRadioButton::toggled, this, &GUI_AudioConverter::rb_cbr_toggled);
-	connect(rb_vbr, &QRadioButton::toggled, this, &GUI_AudioConverter::rb_vbr_toggled);
-	connect(cb_quality,	combo_current_index_changed_int, this, &GUI_AudioConverter::quality_changed);
-	connect(cb_active, &QCheckBox::toggled, this, &GUI_AudioConverter::cb_active_toggled);
+	connect(ui->rb_cbr, &QRadioButton::toggled, this, &GUI_AudioConverter::rb_cbr_toggled);
+	connect(ui->rb_vbr, &QRadioButton::toggled, this, &GUI_AudioConverter::rb_vbr_toggled);
+	connect(ui->cb_quality,	combo_current_index_changed_int, this, &GUI_AudioConverter::quality_changed);
+	connect(ui->cb_active, &QCheckBox::toggled, this, &GUI_AudioConverter::cb_active_toggled);
 
 	int idx = -1;
 
@@ -83,18 +92,18 @@ void GUI_AudioConverter::init_ui()
 		case LameBitrate_192:
 		case LameBitrate_256:
 		case LameBitrate_320:
-			rb_cbr->setChecked(true);
-			idx = cb_quality->findData((int) br);
-			if(idx < 0 || idx >= cb_quality->count()) break;
-			else cb_quality->setCurrentIndex(idx);
+			ui->rb_cbr->setChecked(true);
+			idx = ui->cb_quality->findData((int) br);
 			break;
 
 		default:
-			rb_vbr->setChecked(true);
-			idx = cb_quality->findData((int) br);
-			if(idx < 0 || idx >= cb_quality->count()) break;
-			else cb_quality->setCurrentIndex(idx);
+			ui->rb_vbr->setChecked(true);
+			idx = ui->cb_quality->findData((int) br);
 			break;
+	}
+
+	if(idx >= 0 && idx < ui->cb_quality->count()) {
+		ui->cb_quality->setCurrentIndex(idx);
 	}
 
 	REGISTER_LISTENER(SetNoDB::MP3enc_found, mp3_enc_found);
@@ -107,17 +116,18 @@ void GUI_AudioConverter::fill_cbr() {
 		return;
 	}
 
-	disconnect(cb_quality,	combo_current_index_changed_int, this, &GUI_AudioConverter::quality_changed);
-	cb_quality->clear();
+	disconnect(ui->cb_quality,	combo_current_index_changed_int, this, &GUI_AudioConverter::quality_changed);
 
-	cb_quality->addItem("64", LameBitrate_64);
-	cb_quality->addItem("128", LameBitrate_128);
-	cb_quality->addItem("192", LameBitrate_192);
-	cb_quality->addItem("256", LameBitrate_256);
-	cb_quality->addItem("320", LameBitrate_320);
-	connect(cb_quality,	combo_current_index_changed_int, this, &GUI_AudioConverter::quality_changed);
+	ui->cb_quality->clear();
+	ui->cb_quality->addItem("64", LameBitrate_64);
+	ui->cb_quality->addItem("128", LameBitrate_128);
+	ui->cb_quality->addItem("192", LameBitrate_192);
+	ui->cb_quality->addItem("256", LameBitrate_256);
+	ui->cb_quality->addItem("320", LameBitrate_320);
 
-	cb_quality->setCurrentIndex(2);
+	connect(ui->cb_quality,	combo_current_index_changed_int, this, &GUI_AudioConverter::quality_changed);
+
+	ui->cb_quality->setCurrentIndex(2);
 }
 
 void GUI_AudioConverter::fill_vbr() {
@@ -126,31 +136,37 @@ void GUI_AudioConverter::fill_vbr() {
 		return;
 	}
 
-	disconnect(cb_quality,	combo_current_index_changed_int, this, &GUI_AudioConverter::quality_changed);
-	cb_quality->clear();
+	disconnect(ui->cb_quality,	combo_current_index_changed_int, this, &GUI_AudioConverter::quality_changed);
 
-	cb_quality->addItem(tr("0 (Best)"), LameBitrate_var_0);
-	cb_quality->addItem("1", LameBitrate_var_1);
-	cb_quality->addItem("2", LameBitrate_var_2);
-	cb_quality->addItem("3", LameBitrate_var_3);
-	cb_quality->addItem("4", LameBitrate_var_4);
-	cb_quality->addItem("5", LameBitrate_var_5);
-	cb_quality->addItem("6", LameBitrate_var_6);
-	cb_quality->addItem("7", LameBitrate_var_7);
-	cb_quality->addItem("8", LameBitrate_var_8);
-	cb_quality->addItem(tr("9 (Worst)"), LameBitrate_var_9);
-	connect(cb_quality,	combo_current_index_changed_int, this, &GUI_AudioConverter::quality_changed);
+	ui->cb_quality->clear();
+	ui->cb_quality->addItem(tr("0 (Best)"), LameBitrate_var_0);
+	ui->cb_quality->addItem("1", LameBitrate_var_1);
+	ui->cb_quality->addItem("2", LameBitrate_var_2);
+	ui->cb_quality->addItem("3", LameBitrate_var_3);
+	ui->cb_quality->addItem("4", LameBitrate_var_4);
+	ui->cb_quality->addItem("5", LameBitrate_var_5);
+	ui->cb_quality->addItem("6", LameBitrate_var_6);
+	ui->cb_quality->addItem("7", LameBitrate_var_7);
+	ui->cb_quality->addItem("8", LameBitrate_var_8);
+	ui->cb_quality->addItem(tr("9 (Worst)"), LameBitrate_var_9);
 
-	cb_quality->setCurrentIndex(2);
+	connect(ui->cb_quality,	combo_current_index_changed_int, this, &GUI_AudioConverter::quality_changed);
+
+	ui->cb_quality->setCurrentIndex(2);
 }
 
 
 void GUI_AudioConverter::stopped(){
 
-	if(!isVisible()) return;
-	if(!cb_active->isChecked()) return;
+	if(!isVisible()) {
+		return;
+	}
 
-	cb_active->setChecked( false );
+	if(!ui->cb_active->isChecked()) {
+		return;
+	}
+
+	ui->cb_active->setChecked( false );
 }
 
 
@@ -160,11 +176,9 @@ void GUI_AudioConverter::rb_cbr_toggled(bool b) {
 		return;
 	}
 
-	if(!b) {
-		return;
+	if(b) {
+		fill_cbr();
 	}
-
-	fill_cbr();
 }
 
 void GUI_AudioConverter::rb_vbr_toggled(bool b) {
@@ -173,17 +187,15 @@ void GUI_AudioConverter::rb_vbr_toggled(bool b) {
 		return;
 	}
 
-	if(!b) {
-		return;
+	if(b) {
+		fill_vbr();
 	}
-
-	fill_vbr();
 }
 
 void GUI_AudioConverter::pl_mode_backup(){
 	_pl_mode = _settings->get(Set::PL_Mode);
 
-	PlaylistMode new_mode;
+	Playlist::Mode new_mode;
 		new_mode.setAppend(false, false);
 		new_mode.setRep1(false, false);
 		new_mode.setRepAll(false, false);
@@ -206,9 +218,11 @@ void GUI_AudioConverter::cb_active_toggled(bool b) {
 
 	if(!_mp3_enc_available){
 		Message::warning(tr("Cannot find lame mp3 encoder"));
-		disconnect(cb_active, &QCheckBox::toggled, this, &GUI_AudioConverter::cb_active_toggled);
-		cb_active->setChecked(false);
-		connect(cb_active, &QCheckBox::toggled, this, &GUI_AudioConverter::cb_active_toggled);
+
+		disconnect(ui->cb_active, &QCheckBox::toggled, this, &GUI_AudioConverter::cb_active_toggled);
+		ui->cb_active->setChecked(false);
+		connect(ui->cb_active, &QCheckBox::toggled, this, &GUI_AudioConverter::cb_active_toggled);
+
 		return;
 	}
 
@@ -225,9 +239,9 @@ void GUI_AudioConverter::cb_active_toggled(bool b) {
 		}
 
 		else {
-			disconnect(cb_active, &QCheckBox::toggled, this, &GUI_AudioConverter::cb_active_toggled);
-			cb_active->setChecked(false);
-			connect(cb_active, &QCheckBox::toggled, this, &GUI_AudioConverter::cb_active_toggled);
+			disconnect(ui->cb_active, &QCheckBox::toggled, this, &GUI_AudioConverter::cb_active_toggled);
+			ui->cb_active->setChecked(false);
+			connect(ui->cb_active, &QCheckBox::toggled, this, &GUI_AudioConverter::cb_active_toggled);
 		}
 	}
 
@@ -243,7 +257,7 @@ void GUI_AudioConverter::quality_changed(int index) {
 		return;
 	}
 
-	LameBitrate q = (LameBitrate) cb_quality->itemData(index).toInt();
+	LameBitrate q = (LameBitrate) ui->cb_quality->itemData(index).toInt();
 	sp_log(Log::Info) << "Quality: " << q;
 	_settings->set(Set::Engine_ConvertQuality, (int) q);
 }

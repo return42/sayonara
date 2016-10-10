@@ -24,25 +24,26 @@
 #define SETTINGCONVERTER_H
 
 #include <QString>
-#include <QStringList>
-#include <QSize>
-#include <QPoint>
 #include <QList>
 #include <QPair>
 
+class QSize;
+class QStringLIst;
+class QPoint;
 // generic
 template<typename T>
 /**
  * @brief The SettingConverter class
  * @ingroup Settings
  */
-class SettingConverter{
+class SettingConverter
+{
 public:
 	static QString cvt_to_string(const T& val){
 		return val.toString();
 	}
 
-	static bool cvt_from_string(QString val, T& ret){
+	static bool cvt_from_string(const QString& val, T& ret){
 		ret = T::fromString(val);
 		return true;
 	}
@@ -57,30 +58,8 @@ template<>
  */
 class SettingConverter<bool>{
 public:
-	static QString cvt_to_string(const bool& val){
-		if(val) {
-			return QString("true");
-		}
-
-		else {
-			return QString("false");
-		}
-	}
-
-	static bool cvt_from_string(QString val, bool& b){
-		if( val.compare("true", Qt::CaseInsensitive) == 0 ||
-			val.toInt() > 0)
-		{
-			b = true;
-		}
-
-		else
-		{
-			b = false;
-		}
-
-		return true;
-	}
+	static QString cvt_to_string(const bool& val);
+	static bool cvt_from_string(const QString& val, bool& b);
 };
 
 
@@ -93,31 +72,15 @@ public:
 template<>
 class SettingConverter<int>{
 public:
-	static QString cvt_to_string(const int& val){
-		return QString::number(val);
-	}
-
-	static bool cvt_from_string(QString val, int& i){
-		bool ok;
-		i = val.toInt(&ok);
-
-		return ok;
-	}
+	static QString cvt_to_string(const int& val);
+	static bool cvt_from_string(const QString& val, int& i);
 };
 
 template<>
 class SettingConverter<float>{
 public:
-	static QString cvt_to_string(const float& val){
-		return QString::number(val);
-	}
-
-	static bool cvt_from_string(QString val, float& i){
-		bool ok;
-		i = val.toFloat(&ok);
-
-		return ok;
-	}
+	static QString cvt_to_string(const float& val);
+	static bool cvt_from_string(const QString& val, float& i);
 };
 
 
@@ -129,15 +92,10 @@ template<>
  */
 class SettingConverter<QStringList>{
 public:
-	static QString cvt_to_string(const QStringList& val){
-		return val.join(",");
-	}
-
-	static bool cvt_from_string(QString val, QStringList& lst){
-		lst = val.split(",");
-		return true;
-	}
+	static QString cvt_to_string(const QStringList& val);
+	static bool cvt_from_string(const QString& val, QStringList& lst);
 };
+
 
 // for QString
 template<>
@@ -147,15 +105,10 @@ template<>
  */
 class SettingConverter<QString>{
 public:
-	static QString cvt_to_string(const QString& val){
-		return val;
-	}
-
-	static bool cvt_from_string(QString val, QString& b){
-		b = val;
-		return true;
-	}
+	static QString cvt_to_string(const QString& val);
+	static bool cvt_from_string(const QString& val, QString& b);
 };
+
 
 // for QSize
 template<>
@@ -165,31 +118,10 @@ template<>
  */
 class SettingConverter<QSize>{
 public:
-	static QString cvt_to_string(const QSize& val){
-		return QString::number(val.width()) + "," + QString::number(val.height());
-	}
-
-	static bool cvt_from_string(QString val, QSize& sz){
-
-		bool ok;
-		int width, height;
-
-		QStringList lst = val.split(",");
-
-		if(lst.size() < 2) return false;
-
-		width = lst[0].toInt(&ok);
-
-		if(!ok) return false;
-		height = lst[1].toInt(&ok);
-		if(!ok) return false;
-
-		sz.setWidth(width);
-		sz.setHeight(height);
-
-		return true;
-	}
+	static QString cvt_to_string(const QSize& val);
+	static bool cvt_from_string(const QString& val, QSize& sz);
 };
+
 
 // for QPoint
 template<>
@@ -199,33 +131,12 @@ template<>
  */
 class SettingConverter<QPoint>{
 public:
-	static QString cvt_to_string(const QPoint& val){
-		return QString::number(val.x()) + "," + QString::number(val.y());
-	}
-
-	static bool cvt_from_string(QString val, QPoint& sz){
-
-		bool ok;
-		int x, y;
-
-		QStringList lst = val.split(",");
-
-		if(lst.size() < 2) return false;
-
-		x = lst[0].toInt(&ok);
-
-		if(!ok) return false;
-		y = lst[1].toInt(&ok);
-		if(!ok) return false;
-
-		sz.setX(x);
-		sz.setY(y);
-
-		return true;
-	}
+	static QString cvt_to_string(const QPoint& val);
+	static bool cvt_from_string(const QString& val, QPoint& sz);
 };
 
-// for QPoint
+
+// for QByteArray
 template<>
 /**
  * @brief The SettingConverter<QByteArray> class
@@ -233,26 +144,10 @@ template<>
  */
 class SettingConverter<QByteArray>{
 public:
-	static QString cvt_to_string(const QByteArray& arr){
-		QStringList numbers;
-		for(quint8 item : arr){
-			numbers << QString::number(item);
-		}
-
-		return numbers.join(",");
-	}
-
-	static bool cvt_from_string(QString str, QByteArray& arr){
-		QStringList numbers = str.split(",");
-
-		for(const QString& num_str : numbers){
-			quint8 num = num_str.toInt();
-			arr.append((char) num);
-		}
-
-		return (numbers.size() > 0);
-	}
+	static QString cvt_to_string(const QByteArray& arr);
+	static bool cvt_from_string(const QString& str, QByteArray& arr);
 };
+
 
 // generic for lists
 template<typename T>

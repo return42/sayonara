@@ -24,6 +24,9 @@
 #include "TagTextInput.h"
 #include "Helper/Settings/Settings.h"
 
+#include <QMenu>
+#include <QAction>
+#include <QContextMenuEvent>
 #include <QCursor>
 
 TagTextInput::TagTextInput(QWidget* parent) :
@@ -34,6 +37,9 @@ TagTextInput::TagTextInput(QWidget* parent) :
 
 	REGISTER_LISTENER(Set::Player_Language, language_changed);
 }
+
+TagTextInput::~TagTextInput()
+{}
 
 
 void TagTextInput::init_context_menu() 

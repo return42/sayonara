@@ -22,12 +22,14 @@
 #define GUI_LIBRARYPREFERENCES_H
 
 #include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
-#include "GUI/Preferences/ui_GUI_LibraryPreferences.h"
 
+namespace Ui
+{
+	class GUI_LibraryPreferences;
+}
 
 class GUI_LibraryPreferences :
-		public PreferenceWidgetInterface,
-		protected Ui::GUI_LibraryPreferences
+		public PreferenceWidgetInterface
 {
 	friend class PreferenceWidgetInterface;
 	friend class PreferenceInterface<SayonaraWidget>;
@@ -36,9 +38,13 @@ class GUI_LibraryPreferences :
 
 public:
 	GUI_LibraryPreferences(QWidget* parent=nullptr);
+	virtual ~GUI_LibraryPreferences();
+
 	void commit() override;
 	void revert() override;
 
+private:
+	Ui::GUI_LibraryPreferences*	ui=nullptr;
 
 private:
 	void init_ui() override;

@@ -19,17 +19,24 @@
  */
 
 #include "GUI_Notifications.h"
+#include "GUI/Preferences/ui_GUI_Notifications.h"
+
 #include "GUI/Helper/Delegates/ComboBoxDelegate.h"
 #include "Helper/Settings/Settings.h"
+#include "Interfaces/Notification/NotificationHandler.h"
 
 GUI_Notifications::GUI_Notifications(QWidget *parent) :
-	PreferenceWidgetInterface(parent),
-	Ui::GUI_Notifications()
+	PreferenceWidgetInterface(parent)
 {
 
 }
 
-GUI_Notifications::~GUI_Notifications() {
+GUI_Notifications::~GUI_Notifications()
+{
+	if(ui)
+	{
+		delete ui; ui=nullptr;
+	}
 }
 
 void GUI_Notifications::language_changed(){
@@ -40,7 +47,7 @@ void GUI_Notifications::language_changed(){
 		return;
 	}
 
-	retranslateUi(this);
+	ui->retranslateUi(this);
 
 	PreferenceWidgetInterface::language_changed();
 }
@@ -50,20 +57,21 @@ void GUI_Notifications::notifications_changed(){
 
 	NotificatonList notifications = _notification_handler->get_notificators();
 
-	combo_notification->clear();
+	ui->combo_notification->clear();
+
 	for(const NotificationInterface* notification : notifications){
-		combo_notification->addItem(notification->get_name());
+		ui->combo_notification->addItem(notification->get_name());
 	}
 
-	combo_notification->setCurrentIndex(_notification_handler->get_cur_idx());
+	ui->combo_notification->setCurrentIndex(_notification_handler->get_cur_idx());
 }
 
 
 void GUI_Notifications::commit() {
 
-	bool active =       cb_activate->isChecked();
-	int timeout =       sb_timeout->value();
-	QString cur_text =  combo_notification->currentText();
+	bool active =       ui->cb_activate->isChecked();
+	int timeout =       ui->sb_timeout->value();
+	QString cur_text =  ui->combo_notification->currentText();
     
 	_settings->set(Set::Notification_Name, cur_text);
 	_settings->set(Set::Notification_Timeout, timeout);
@@ -77,8 +85,8 @@ void GUI_Notifications::revert() {
 	int timeout = _settings->get(Set::Notification_Timeout);
 	int active = _settings->get(Set::Notification_Show);
 
-	sb_timeout->setValue(timeout);
-	cb_activate->setChecked(active);
+	ui->sb_timeout->setValue(timeout);
+	ui->cb_activate->setChecked(active);
 }
 
 
@@ -89,10 +97,10 @@ QString GUI_Notifications::get_action_name() const
 
 void GUI_Notifications::init_ui()
 {
-	setup_parent(this);
+	setup_parent(this, &ui);
 
 	_notification_handler = NotificationHandler::getInstance();
-	combo_notification->setItemDelegate(new ComboBoxDelegate(combo_notification));
+	ui->combo_notification->setItemDelegate(new ComboBoxDelegate(ui->combo_notification));
 
 	revert();
 

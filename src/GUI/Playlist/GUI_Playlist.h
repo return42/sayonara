@@ -54,7 +54,7 @@ public:
 private:
 	PlayManager*			_play_manager=nullptr;
 	PlaylistHandler*		_playlist=nullptr;
-	PlaylistType			_playlist_type;
+	Playlist::Type			_playlist_type;
 
 private:
 	PlaylistView* get_view_by_idx(int idx);
