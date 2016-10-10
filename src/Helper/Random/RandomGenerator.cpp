@@ -19,27 +19,37 @@
  */
 
 #include "Helper/Random/RandomGenerator.h"
+#include <random>
+#include <chrono>
+
+struct RandomGenerator::Private
+{
+	unsigned int seed;
+	std::mt19937 generator;
+};
 
 RandomGenerator::RandomGenerator()
 {
+	_m = new RandomGenerator::Private();
 	update_seed();
 }
 
 RandomGenerator::~RandomGenerator()
 {
-
+	delete _m; _m = nullptr;
 }
 
 
 void RandomGenerator::update_seed(){
-	_seed = std::chrono::system_clock::now().time_since_epoch().count();
-	_generator = std::mt19937(_seed);
+	_m->seed = std::chrono::system_clock::now().time_since_epoch().count();
+	_m->generator = std::mt19937(_m->seed);
 
 }
 
-int RandomGenerator::get_number(int min, int max){
+int RandomGenerator::get_number(int min, int max)
+{
 	std::uniform_int_distribution<int> d(min, max);
-	return d(_generator);
+	return d(_m->generator);
 }
 
 int RandomGenerator::get_random_number(int min, int max)

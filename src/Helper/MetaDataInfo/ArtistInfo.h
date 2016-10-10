@@ -30,7 +30,9 @@
  * @ingroup MetaDataHelper
  */
 class MetaDataList;
-class ArtistInfo : public MetaDataInfo {
+class ArtistInfo : 
+	public MetaDataInfo 
+{
 
 	Q_OBJECT
 

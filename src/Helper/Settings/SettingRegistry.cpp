@@ -53,7 +53,7 @@ bool SettingRegistry::init(){
 	}
 
 	register_setting( Set::LFM_Login, "LastFM_login", StringPair("None", "None"));
-	register_setting( Set::LFM_ScrobbleTimeSec, "LastFM_login", 10);
+	register_setting( Set::LFM_ScrobbleTimeSec, "lfm_scrobble_time", 10);
 	register_setting( Set::LFM_Active, "LastFM_active", false );
 	register_setting( Set::LFM_Corrections, "lfm_corrections", false );
 	register_setting( Set::LFM_ShowErrors, "lfm_q.show_errors", false );

@@ -57,7 +57,9 @@ enum class InfoStrings : quint8
  * @brief The MetaDataInfo class
  * @ingroup MetaDataHelper
  */
-class MetaDataInfo : public QObject, protected SayonaraClass
+class MetaDataInfo : 
+	public QObject, 
+	protected SayonaraClass
 {
 	Q_OBJECT
 
