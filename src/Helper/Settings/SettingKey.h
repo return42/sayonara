@@ -27,10 +27,15 @@ class QString;
 class QStringList;
 class QPoint;
 class QSize;
-class LibSortOrder;
+
 class EQ_Setting;
 class PlaylistMode;
 struct RawShortcutMap;
+
+namespace Library
+{
+    class Sortings;
+}
 
 
 /**
@@ -196,7 +201,7 @@ INST(BoolList,			Lib_ColsTitle);				/* shown columns tracks */
 INST(BoolList,			Lib_ColsArtist);			/* shown columns artist */
 INST(BoolList,			Lib_ColsAlbum);				/* shown columns albums */
 INST(bool,				Lib_LiveSearch);			/* library live search */
-INST(LibSortOrder,		Lib_Sorting);				/* how to sort in lib */
+INST(Library::Sortings,		Lib_Sorting);				/* how to sort in lib */
 INST(QString,			Lib_CurPlugin);				/* Current shown library plugin */
 INST(QByteArray,		Lib_SplitterStateArtist);		/* Splitter state between artists and albums */
 INST(QByteArray,		Lib_SplitterStateTrack);		/* Splitter state between artists and tracks */

@@ -121,14 +121,14 @@ public slots:
 	virtual void psl_metadata_id3_changed(const MetaDataList&, const MetaDataList&);
 
 	// calls fetch_by_filter and emits
-	virtual void psl_filter_changed(const Filter&, bool force=false);
+	virtual void psl_filter_changed(const Library::Filter&, bool force=false);
 
 	/* write new rating to database */
 	virtual void psl_track_rating_changed(int idx, int rating);
 	virtual void psl_album_rating_changed(int idx, int rating);
 
 	/* a searchfilter has been entered, nothing is emitted */
-	virtual void fetch_by_filter(const Filter& filter, bool force);
+	virtual void fetch_by_filter(const Library::Filter& filter, bool force);
 
 
 	virtual void delete_tracks(const MetaDataList& v_md, Library::TrackDeletionMode mode)=0;
@@ -165,27 +165,27 @@ protected:
 	SP::Set<AlbumID>	_selected_albums;
 	SP::Set<TrackID>	_selected_tracks;
 
-	Filter				_filter;
-	LibSortOrder		_sortorder;
+	Library::Filter		_filter;
+	Library::Sortings		_sortorder;
 
 
 	/* Emit 3 signals with shown artists, shown album, shown tracks */
 	virtual void 		emit_stuff();
 
 
-	virtual void		get_all_artists(ArtistList& artists, LibSortOrder so)=0;
-	virtual void		get_all_artists_by_searchstring(Filter filter, ArtistList& artists, LibSortOrder so)=0;
+	virtual void		get_all_artists(ArtistList& artists, Library::Sortings so)=0;
+	virtual void		get_all_artists_by_searchstring(Library::Filter filter, ArtistList& artists, Library::Sortings so)=0;
 
-	virtual void		get_all_albums(AlbumList& albums, LibSortOrder so)=0;
-	virtual void		get_all_albums_by_artist(IDList artist_ids, AlbumList& albums, Filter filter, LibSortOrder so)=0;
-	virtual void		get_all_albums_by_searchstring(Filter filter, AlbumList& albums, LibSortOrder so)=0;
+	virtual void		get_all_albums(AlbumList& albums, Library::Sortings so)=0;
+	virtual void		get_all_albums_by_artist(IDList artist_ids, AlbumList& albums, Library::Filter filter, Library::Sortings so)=0;
+	virtual void		get_all_albums_by_searchstring(Library::Filter filter, AlbumList& albums, Library::Sortings so)=0;
 
 
-	virtual void		get_all_tracks(MetaDataList& v_md, LibSortOrder so)=0;
+	virtual void		get_all_tracks(MetaDataList& v_md, Library::Sortings so)=0;
 	virtual void		get_all_tracks(const QStringList& paths, MetaDataList& v_md)=0;
-	virtual void		get_all_tracks_by_artist(IDList artist_ids, MetaDataList& v_md, Filter filter, LibSortOrder so)=0;
-	virtual	void		get_all_tracks_by_album(IDList album_ids, MetaDataList& v_md, Filter filter, LibSortOrder so)=0;
-	virtual void		get_all_tracks_by_searchstring(Filter filter, MetaDataList& v_md, LibSortOrder so)=0;
+	virtual void		get_all_tracks_by_artist(IDList artist_ids, MetaDataList& v_md, Library::Filter filter, Library::Sortings so)=0;
+	virtual	void		get_all_tracks_by_album(IDList album_ids, MetaDataList& v_md, Library::Filter filter, Library::Sortings so)=0;
+	virtual void		get_all_tracks_by_searchstring(Library::Filter filter, MetaDataList& v_md, Library::Sortings so)=0;
 
 	virtual void		get_album_by_id(int album_id, Album& album)=0;
 	virtual void		get_artist_by_id(int artist_id, Artist& artist)=0;

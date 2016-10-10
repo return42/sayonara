@@ -22,45 +22,47 @@
 #define SORTING_H
 
 #include <QStringList>
-
-enum class SortOrder : quint8
+namespace Library
 {
-	NoSorting=0,
-	ArtistNameAsc,
-	ArtistNameDesc,
-	ArtistTrackcountAsc,
-	ArtistTrackcountDesc,
-	AlbumNameAsc,
-	AlbumNameDesc,
-	AlbumYearAsc,
-	AlbumYearDesc,
-	AlbumTracksAsc,
-	AlbumTracksDesc,
-	AlbumDurationAsc,
-	AlbumDurationDesc,
-	AlbumRatingAsc,
-	AlbumRatingDesc,
-	TrackNumAsc,
-	TrackNumDesc,
-	TrackTitleAsc,
-	TrackTitleDesc,
-	TrackAlbumAsc,
-	TrackAlbumDesc,
-	TrackArtistAsc,
-	TrackArtistDesc,
-	TrackYearAsc,
-	TrackYearDesc,
-	TrackLenghtAsc,
-	TrackLengthDesc,
-	TrackBitrateAsc,
-	TrackBitrateDesc,
-	TrackSizeAsc,
-	TrackSizeDesc,
-	TrackDiscnumberAsc,
-	TrackDiscnumberDesc,
-	TrackRatingAsc,
-	TrackRatingDesc
-};
+    enum class SortOrder : quint8
+    {
+	    NoSorting=0,
+	    ArtistNameAsc,
+	    ArtistNameDesc,
+	    ArtistTrackcountAsc,
+	    ArtistTrackcountDesc,
+	    AlbumNameAsc,
+	    AlbumNameDesc,
+	    AlbumYearAsc,
+	    AlbumYearDesc,
+	    AlbumTracksAsc,
+	    AlbumTracksDesc,
+	    AlbumDurationAsc,
+	    AlbumDurationDesc,
+	    AlbumRatingAsc,
+	    AlbumRatingDesc,
+	    TrackNumAsc,
+	    TrackNumDesc,
+	    TrackTitleAsc,
+	    TrackTitleDesc,
+	    TrackAlbumAsc,
+	    TrackAlbumDesc,
+	    TrackArtistAsc,
+	    TrackArtistDesc,
+	    TrackYearAsc,
+	    TrackYearDesc,
+	    TrackLenghtAsc,
+	    TrackLengthDesc,
+	    TrackBitrateAsc,
+	    TrackBitrateDesc,
+	    TrackSizeAsc,
+	    TrackSizeDesc,
+	    TrackDiscnumberAsc,
+	    TrackDiscnumberDesc,
+	    TrackRatingAsc,
+	    TrackRatingDesc
+    };
+}
 
 enum class SortOrderPlaylists : quint8{
 	IDAsc=0,
@@ -72,47 +74,49 @@ enum class SortOrderPlaylists : quint8{
 
 
 // This class has to be inline because of setting registry
-class LibSortOrder {
+namespace Library
+{
+    class Sortings {
 
-public:
-	SortOrder so_albums;
-	SortOrder so_artists;
-	SortOrder so_tracks;
+    public:
+	Library::SortOrder so_albums;
+	Library::SortOrder so_artists;
+	Library::SortOrder so_tracks;
 
-    LibSortOrder(){
-		so_artists = SortOrder::ArtistNameAsc;
-		so_albums = SortOrder::AlbumNameAsc;
-		so_tracks = SortOrder::TrackAlbumAsc;
-    }
+	Sortings(){
+	    so_artists = Library::SortOrder::ArtistNameAsc;
+	    so_albums = Library::SortOrder::AlbumNameAsc;
+	    so_tracks = Library::SortOrder::TrackAlbumAsc;
+	}
 
-    LibSortOrder(const LibSortOrder& so){
-        so_albums = so.so_albums;
-        so_artists = so.so_artists;
-        so_tracks = so.so_tracks;
-    }
+	Sortings(const Library::Sortings& so){
+	    so_albums = so.so_albums;
+	    so_artists = so.so_artists;
+	    so_tracks = so.so_tracks;
+	}
 
-    bool operator==(LibSortOrder so){
-        return  (so.so_albums == so_albums) &&
-                (so.so_artists == so_artists) &&
-                (so.so_tracks == so_tracks);
-    }
+	bool operator==(Library::Sortings so){
+	    return  (so.so_albums == so_albums) &&
+		    (so.so_artists == so_artists) &&
+		    (so.so_tracks == so_tracks);
+	}
 
-    QString toString() const{
-        return QString::number((int) so_albums) + "," +
-                QString::number((int) so_artists) + "," +
-                QString::number((int) so_tracks);
-    }
+	QString toString() const{
+	    return QString::number((int) so_albums) + "," +
+		    QString::number((int) so_artists) + "," +
+		    QString::number((int) so_tracks);
+	}
 
-    static LibSortOrder fromString(const QString str){
+	static Library::Sortings fromString(const QString str){
 
-        LibSortOrder so;
-        QStringList lst = str.split(",");
-		so.so_albums = (SortOrder) lst[0].toInt();
-		so.so_artists = (SortOrder) lst[1].toInt();
-		so.so_tracks = (SortOrder) lst[2].toInt();
-        return so;
-    }
-};
-
+	    Library::Sortings so;
+	    QStringList lst = str.split(",");
+		    so.so_albums = (Library::SortOrder) lst[0].toInt();
+		    so.so_artists = (Library::SortOrder) lst[1].toInt();
+		    so.so_tracks = (Library::SortOrder) lst[2].toInt();
+	    return so;
+	}
+    };
+}
 
 #endif // SORTING_H

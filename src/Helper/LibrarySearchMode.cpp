@@ -5,15 +5,15 @@
 QStringList no_diacritic_chars;
 QString diacritic_chars;
 
-QString LibraryHelper::convert_search_string(const QString& str, LibraryHelper::SearchModeMask mode)
+QString Library::convert_search_string(const QString& str, Library::SearchModeMask mode)
 {
     QString ret = str;
-    if(mode & LibraryHelper::CaseInsensitve)
+	if(mode & Library::CaseInsensitve)
     {
 		ret = str.toLower();
     }
 
-    if(mode & LibraryHelper::NoSpecialChars)
+	if(mode & Library::NoSpecialChars)
     {
 		QString special_chars =
 				QString::fromUtf8("\\.|'|\"|&|!|\\$|\\+|\\*|\\s|/|\\(|\\)|\\=|-|_|;|:|,|\\?|<|>|\\[|\\]|\\{|\\}|@|€");
@@ -21,7 +21,7 @@ QString LibraryHelper::convert_search_string(const QString& str, LibraryHelper::
 		ret.remove(QRegExp(special_chars));
     }
 
-    if(mode & LibraryHelper::NoDiacriticChars)
+	if(mode & Library::NoDiacriticChars)
     {
 		if (diacritic_chars.isEmpty()) {
 			diacritic_chars = QString::fromUtf8("ŠŒŽšœžŸ¥µÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýÿ");
@@ -38,7 +38,7 @@ QString LibraryHelper::convert_search_string(const QString& str, LibraryHelper::
 	    }
 	    else {
 		QString replacement = no_diacritic_chars[found_index];
-		if(mode & LibraryHelper::CaseInsensitve)
+		if(mode & Library::CaseInsensitve)
 		{
 		    replacement = replacement.toLower();
 		}

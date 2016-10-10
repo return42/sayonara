@@ -67,7 +67,7 @@ bool SettingRegistry::init(){
 	register_setting( Set::Lib_ColsArtist, "lib_shown_cols_artist", shown_cols );
 	register_setting( Set::Lib_ColsAlbum, "lib_shown_cols_album", shown_cols );
 	register_setting( Set::Lib_LiveSearch, "lib_live_search", true );
-	register_setting( Set::Lib_Sorting, "lib_sortings", LibSortOrder() );
+	register_setting( Set::Lib_Sorting, "lib_sortings", Library::Sortings() );
 	register_setting( Set::Lib_Path, "library_path", QString() );
 	register_setting( Set::Lib_Show, "show_library", true );
 	register_setting( Set::Lib_CurPlugin ,"last_lib_plugin", "local_library");
@@ -80,7 +80,7 @@ bool SettingRegistry::init(){
 	register_setting( Set::Lib_DC_PlayImmediately ,"lib_dc_play_immediately", false);
 	register_setting( Set::Lib_DD_DoNothing ,"lib_dd_do_nothing", true);
 	register_setting( Set::Lib_DD_PlayIfStoppedAndEmpty ,"lib_dd_play_if_stopped_and_empty", false);
-	register_setting( Set::Lib_SearchMode, "lib_search_mode", LibraryHelper::CaseInsensitve);
+	register_setting( Set::Lib_SearchMode, "lib_search_mode", Library::CaseInsensitve);
 	register_setting( Set::Lib_AutoUpdate, "lib_auto_update", false);
 
 #ifdef Q_OS_WIN

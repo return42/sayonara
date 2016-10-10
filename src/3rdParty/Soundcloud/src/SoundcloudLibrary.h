@@ -50,18 +50,18 @@ protected:
 
 	SoundcloudData*		_scd=nullptr;
 
-	void		get_all_artists(ArtistList& artists, LibSortOrder so=LibSortOrder()) override;
-	void		get_all_artists_by_searchstring(Filter filter, ArtistList& artists, LibSortOrder so) override;
+	void		get_all_artists(ArtistList& artists, Library::Sortings so=Library::Sortings()) override;
+	void		get_all_artists_by_searchstring(Library::Filter filter, ArtistList& artists, Library::Sortings so) override;
 
-	void		get_all_albums(AlbumList& albums, LibSortOrder so) override;
-	void		get_all_albums_by_artist(IDList artist_ids, AlbumList& albums, Filter filter, LibSortOrder so) override;
-	void		get_all_albums_by_searchstring(Filter filter, AlbumList& albums, LibSortOrder so) override;
+	void		get_all_albums(AlbumList& albums, Library::Sortings so) override;
+	void		get_all_albums_by_artist(IDList artist_ids, AlbumList& albums, Library::Filter filter, Library::Sortings so) override;
+	void		get_all_albums_by_searchstring(Library::Filter filter, AlbumList& albums, Library::Sortings so) override;
 
 	void		get_all_tracks(const QStringList& paths, MetaDataList& v_md) override;
-	void		get_all_tracks(MetaDataList& v_md, LibSortOrder so) override;
-	void		get_all_tracks_by_artist(IDList artist_ids, MetaDataList& v_md, Filter filter, LibSortOrder so) override;
-	void		get_all_tracks_by_album(IDList album_ids, MetaDataList& v_md, Filter filter, LibSortOrder so) override;
-	void		get_all_tracks_by_searchstring(Filter filter, MetaDataList& v_md, LibSortOrder so) override;
+	void		get_all_tracks(MetaDataList& v_md, Library::Sortings so) override;
+	void		get_all_tracks_by_artist(IDList artist_ids, MetaDataList& v_md, Library::Filter filter, Library::Sortings so) override;
+	void		get_all_tracks_by_album(IDList album_ids, MetaDataList& v_md, Library::Filter filter, Library::Sortings so) override;
+	void		get_all_tracks_by_searchstring(Library::Filter filter, MetaDataList& v_md, Library::Sortings so) override;
 
 	void		update_track(const MetaData& md) override;
 	void		update_album(const Album& album) override;

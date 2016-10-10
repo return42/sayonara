@@ -240,14 +240,14 @@ QModelIndex LibraryItemModelAlbums::getNextRowIndexOf(QString substr, int row, c
 	}
 
 	Settings* settings = Settings::getInstance();
-	LibraryHelper::SearchModeMask mask = settings->get(Set::Lib_SearchMode);
-	substr = LibraryHelper::convert_search_string(substr, mask);
+	Library::SearchModeMask mask = settings->get(Set::Lib_SearchMode);
+	substr = Library::convert_search_string(substr, mask);
 
 	for(int i=0; i<len; i++) {
 		int row_idx = (i + row) % len;
 
 		QString album_name = _albums[row_idx].name;
-		album_name = LibraryHelper::convert_search_string(album_name, mask);
+		album_name = Library::convert_search_string(album_name, mask);
 
 		if( album_name.contains(substr))
 		{
@@ -263,8 +263,8 @@ QModelIndex LibraryItemModelAlbums::getPrevRowIndexOf(QString substr, int row, c
 	Q_UNUSED(parent)
 
 	Settings* settings = Settings::getInstance();
-	LibraryHelper::SearchModeMask mask = settings->get(Set::Lib_SearchMode);
-	substr = LibraryHelper::convert_search_string(substr, mask);
+	Library::SearchModeMask mask = settings->get(Set::Lib_SearchMode);
+	substr = Library::convert_search_string(substr, mask);
 
 	int len = _albums.size();
 	if(len < row){
@@ -281,7 +281,7 @@ QModelIndex LibraryItemModelAlbums::getPrevRowIndexOf(QString substr, int row, c
 		row_idx = (row-i) % len;
 
 		QString album_name = _albums[row_idx].name;
-		album_name = LibraryHelper::convert_search_string(album_name, mask);
+		album_name = Library::convert_search_string(album_name, mask);
 
 		if( album_name.contains(substr))
 		{

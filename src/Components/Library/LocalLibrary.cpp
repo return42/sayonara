@@ -87,7 +87,7 @@ void LocalLibrary::_sl_search_mode_changed()
 {
 	sp_log(Log::Debug) << "Updating cissearch...";
 
-	LibraryHelper::SearchModeMask mode = _settings->get(Set::Lib_SearchMode);
+	Library::SearchModeMask mode = _settings->get(Set::Lib_SearchMode);
 	_db->updateArtistCissearch(mode);
 	_db->updateAlbumCissearch(mode);
 	_db->updateTrackCissearch(mode);
@@ -100,7 +100,7 @@ void LocalLibrary::_sl_auto_update_changed()
 	bool active = _settings->get(Set::Lib_AutoUpdate);
 	if(active){
 		MetaDataList v_md;
-		get_all_tracks(v_md, LibSortOrder());
+		get_all_tracks(v_md, Library::Sortings());
 		IndexDirectoriesThread* thread = new IndexDirectoriesThread(v_md);
 		connect(thread, &QThread::finished, this, &LocalLibrary::indexing_finished);
 		thread->start();
@@ -195,28 +195,28 @@ void LocalLibrary::psl_track_rating_changed(int idx, int rating){
 }
 
 
-void LocalLibrary::get_all_artists(ArtistList& artists, LibSortOrder so){
+void LocalLibrary::get_all_artists(ArtistList& artists, Library::Sortings so){
 	_db->getAllArtists(artists, so.so_artists);
 }
 
-void LocalLibrary::get_all_artists_by_searchstring(Filter filter, ArtistList& artists, LibSortOrder so){
+void LocalLibrary::get_all_artists_by_searchstring(Library::Filter filter, ArtistList& artists, Library::Sortings so){
 	_db->getAllArtistsBySearchString(filter, artists, so.so_artists);
 }
 
 
-void LocalLibrary::get_all_albums(AlbumList& albums, LibSortOrder so){
+void LocalLibrary::get_all_albums(AlbumList& albums, Library::Sortings so){
 	_db->getAllAlbums(albums, so.so_albums);
 }
 
-void LocalLibrary::get_all_albums_by_artist(IDList artist_ids, AlbumList& albums, Filter filter, LibSortOrder so){
+void LocalLibrary::get_all_albums_by_artist(IDList artist_ids, AlbumList& albums, Library::Filter filter, Library::Sortings so){
 	_db->getAllAlbumsByArtist(artist_ids, albums, filter, so.so_albums)	;
 }
 
-void LocalLibrary::get_all_albums_by_searchstring(Filter filter, AlbumList& albums, LibSortOrder so){
+void LocalLibrary::get_all_albums_by_searchstring(Library::Filter filter, AlbumList& albums, Library::Sortings so){
 	_db->getAllAlbumsBySearchString(filter, albums, so.so_albums);
 }
 
-void LocalLibrary::get_all_tracks(MetaDataList& v_md, LibSortOrder so){
+void LocalLibrary::get_all_tracks(MetaDataList& v_md, Library::Sortings so){
 	_db->getTracksFromDatabase(v_md, so.so_tracks);
 }
 
@@ -224,15 +224,15 @@ void LocalLibrary::get_all_tracks(const QStringList& paths, MetaDataList& v_md){
 	_db->getMultipleTracksByPath(paths, v_md);
 }
 
-void LocalLibrary::get_all_tracks_by_artist(IDList artist_ids, MetaDataList& v_md, Filter filter, LibSortOrder so){
+void LocalLibrary::get_all_tracks_by_artist(IDList artist_ids, MetaDataList& v_md, Library::Filter filter, Library::Sortings so){
 	_db->getAllTracksByArtist(artist_ids, v_md, filter, so.so_tracks);
 }
 
-void LocalLibrary::get_all_tracks_by_album(IDList album_ids, MetaDataList& v_md, Filter filter, LibSortOrder so){
+void LocalLibrary::get_all_tracks_by_album(IDList album_ids, MetaDataList& v_md, Library::Filter filter, Library::Sortings so){
 	_db->getAllTracksByAlbum(album_ids, v_md, filter, so.so_tracks);
 }
 
-void LocalLibrary::get_all_tracks_by_searchstring(Filter filter, MetaDataList& v_md, LibSortOrder so){
+void LocalLibrary::get_all_tracks_by_searchstring(Library::Filter filter, MetaDataList& v_md, Library::Sortings so){
 	_db->getAllTracksBySearchString(filter, v_md, so.so_tracks);
 }
 

@@ -110,28 +110,28 @@ void GUI_AbstractLibrary::language_changed(){
 
 void GUI_AbstractLibrary::init_headers(){
 
-	LibSortOrder so = _settings->get(Set::Lib_Sorting);
+	Library::Sortings so = _settings->get(Set::Lib_Sorting);
 
-	ColumnHeader* t_h0 = new SharpHeader(true, SortOrder::TrackNumAsc, SortOrder::TrackNumDesc, 25);
-	ColumnHeader* t_h1 = new TitleHeader(false, SortOrder::TrackTitleAsc, SortOrder::TrackTitleDesc, 0.4, 200);
-	ColumnHeader* t_h2 = new ArtistHeader(true, SortOrder::TrackArtistAsc, SortOrder::TrackArtistDesc, 0.3, 160);
-	ColumnHeader* t_h3 = new AlbumHeader(true, SortOrder::TrackAlbumAsc, SortOrder::TrackAlbumDesc, 0.3, 160);
-	ColumnHeader* t_h4 = new YearHeader(true, SortOrder::TrackYearAsc, SortOrder::TrackYearDesc, 50);
-	ColumnHeader* t_h5 = new DurationShortHeader(true, SortOrder::TrackLenghtAsc, SortOrder::TrackLengthDesc, 50);
-	ColumnHeader* t_h6 = new BitrateHeader(true, SortOrder::TrackBitrateAsc, SortOrder::TrackBitrateDesc, 75);
-	ColumnHeader* t_h7 = new FilesizeHeader( true, SortOrder::TrackSizeAsc, SortOrder::TrackSizeDesc, 75);
-	ColumnHeader* t_h8 = new RatingHeader(true, SortOrder::TrackRatingAsc, SortOrder::TrackRatingDesc, 80);
+	ColumnHeader* t_h0 = new SharpHeader(true, Library::SortOrder::TrackNumAsc, Library::SortOrder::TrackNumDesc, 25);
+	ColumnHeader* t_h1 = new TitleHeader(false, Library::SortOrder::TrackTitleAsc, Library::SortOrder::TrackTitleDesc, 0.4, 200);
+	ColumnHeader* t_h2 = new ArtistHeader(true, Library::SortOrder::TrackArtistAsc, Library::SortOrder::TrackArtistDesc, 0.3, 160);
+	ColumnHeader* t_h3 = new AlbumHeader(true, Library::SortOrder::TrackAlbumAsc, Library::SortOrder::TrackAlbumDesc, 0.3, 160);
+	ColumnHeader* t_h4 = new YearHeader(true, Library::SortOrder::TrackYearAsc, Library::SortOrder::TrackYearDesc, 50);
+	ColumnHeader* t_h5 = new DurationShortHeader(true, Library::SortOrder::TrackLenghtAsc, Library::SortOrder::TrackLengthDesc, 50);
+	ColumnHeader* t_h6 = new BitrateHeader(true, Library::SortOrder::TrackBitrateAsc, Library::SortOrder::TrackBitrateDesc, 75);
+	ColumnHeader* t_h7 = new FilesizeHeader( true, Library::SortOrder::TrackSizeAsc, Library::SortOrder::TrackSizeDesc, 75);
+	ColumnHeader* t_h8 = new RatingHeader(true, Library::SortOrder::TrackRatingAsc, Library::SortOrder::TrackRatingDesc, 80);
 
-	ColumnHeader* al_h0 = new SharpHeader(true, SortOrder::NoSorting, SortOrder::NoSorting, 20);
-	ColumnHeader* al_h1 = new AlbumHeader(false, SortOrder::AlbumNameAsc, SortOrder::AlbumNameDesc, 1.0, 160);
-	ColumnHeader* al_h2 = new DurationHeader(true, SortOrder::AlbumDurationAsc, SortOrder::AlbumDurationDesc, 90);
-	ColumnHeader* al_h3 = new NumTrackHeader(true, SortOrder::AlbumTracksAsc, SortOrder::AlbumTracksDesc, 80);
-	ColumnHeader* al_h4 = new YearHeader(true, SortOrder::AlbumYearAsc, SortOrder::AlbumYearDesc, 50);
-	ColumnHeader* al_h5 = new RatingHeader(true, SortOrder::AlbumRatingAsc, SortOrder::AlbumRatingDesc, 80);
+	ColumnHeader* al_h0 = new SharpHeader(true, Library::SortOrder::NoSorting, Library::SortOrder::NoSorting, 20);
+	ColumnHeader* al_h1 = new AlbumHeader(false, Library::SortOrder::AlbumNameAsc, Library::SortOrder::AlbumNameDesc, 1.0, 160);
+	ColumnHeader* al_h2 = new DurationHeader(true, Library::SortOrder::AlbumDurationAsc, Library::SortOrder::AlbumDurationDesc, 90);
+	ColumnHeader* al_h3 = new NumTrackHeader(true, Library::SortOrder::AlbumTracksAsc, Library::SortOrder::AlbumTracksDesc, 80);
+	ColumnHeader* al_h4 = new YearHeader(true, Library::SortOrder::AlbumYearAsc, Library::SortOrder::AlbumYearDesc, 50);
+	ColumnHeader* al_h5 = new RatingHeader(true, Library::SortOrder::AlbumRatingAsc, Library::SortOrder::AlbumRatingDesc, 80);
 
-	ColumnHeader* ar_h0 = new SharpHeader(true, SortOrder::NoSorting, SortOrder::NoSorting, 20);
-	ColumnHeader* ar_h1 = new ArtistHeader(false, SortOrder::ArtistNameAsc, SortOrder::ArtistNameDesc, 1.0, 160 );
-	ColumnHeader* ar_h2 = new NumTrackHeader(true, SortOrder::ArtistTrackcountAsc, SortOrder::ArtistTrackcountDesc, 80);
+	ColumnHeader* ar_h0 = new SharpHeader(true, Library::SortOrder::NoSorting, Library::SortOrder::NoSorting, 20);
+	ColumnHeader* ar_h1 = new ArtistHeader(false, Library::SortOrder::ArtistNameAsc, Library::SortOrder::ArtistNameDesc, 1.0, 160 );
+	ColumnHeader* ar_h2 = new NumTrackHeader(true, Library::SortOrder::ArtistTrackcountAsc, Library::SortOrder::ArtistTrackcountDesc, 80);
 
 	ColumnHeaderList track_columns, album_columns, artist_columns;
 
@@ -197,22 +197,23 @@ void GUI_AbstractLibrary::text_line_edited(const QString &search){
 		_le_search->setText("");
 	}
 
-	Filter filter;
+	Library::SearchModeMask mask = _settings->get(Set::Lib_SearchMode);
+	Library::Filter filter;
 	QString text = search;
 	switch( _combo_search->currentIndex() ) {
 
 		case 1:
-			filter.mode = Filter::Mode::Genre;
+			filter.mode = Library::Filter::Genre;
 			break;
 
 		case 2:
-			filter.mode = Filter::Mode::Filename;
+			filter.mode = Library::Filter::Filename;
 			break;
 
 		case 0:
 		default:
-			text = LibraryHelper::convert_search_string(search, mask);
-			filter.mode = Filter::Mode::Fulltext;
+			text = Library::convert_search_string(search, mask);
+			filter.mode = Library::Filter::Fulltext;
 			break;
 	}
 
@@ -221,7 +222,7 @@ void GUI_AbstractLibrary::text_line_edited(const QString &search){
 	}
 
 	else{
-		LibraryHelper::SearchModeMask mask = _settings->get(Set::Lib_SearchMode);
+
 
 		filter.filtertext = QString("%") + text + QString("%");
 		filter.cleared = false;
@@ -252,16 +253,16 @@ void GUI_AbstractLibrary::combo_search_changed(int idx) {
 	switch(idx) {
 
 		case 1:
-			_cur_searchfilter.mode = Filter::Mode::Genre;
+			_cur_searchfilter.mode = Library::Filter::Genre;
 			break;
 
 		case 2:
-			_cur_searchfilter.mode = Filter::Mode::Filename;
+			_cur_searchfilter.mode = Library::Filter::Filename;
 			break;
 
 		case 0:
 		default:
-			_cur_searchfilter.mode = Filter::Mode::Fulltext; break;
+			_cur_searchfilter.mode = Library::Filter::Fulltext; break;
 	}
 
 	_library->psl_filter_changed(_cur_searchfilter);
@@ -372,33 +373,33 @@ void  GUI_AbstractLibrary::columns_title_changed(const BoolList& list) {
 
 
 
-void GUI_AbstractLibrary::sortorder_artist_changed(SortOrder s) {
+void GUI_AbstractLibrary::sortorder_artist_changed(Library::SortOrder s) {
 
 	_lv_artist->save_selections();
 
-	LibSortOrder so = _settings->get(Set::Lib_Sorting);
+	Library::Sortings so = _settings->get(Set::Lib_Sorting);
 	so.so_artists = s;
 
 	 _settings->set(Set::Lib_Sorting, so);
 }
 
 
-void GUI_AbstractLibrary::sortorder_album_changed(SortOrder s) {
+void GUI_AbstractLibrary::sortorder_album_changed(Library::SortOrder s) {
 
 	_lv_album->save_selections();
 
-   LibSortOrder so = _settings->get(Set::Lib_Sorting);
+   Library::Sortings so = _settings->get(Set::Lib_Sorting);
 	so.so_albums = s;
 
 	_settings->set(Set::Lib_Sorting, so);
 }
 
 
-void GUI_AbstractLibrary::sortorder_title_changed(SortOrder s) {
+void GUI_AbstractLibrary::sortorder_title_changed(Library::SortOrder s) {
 
 	_lv_tracks->save_selections();
 
-	LibSortOrder so = _settings->get(Set::Lib_Sorting);
+	Library::Sortings so = _settings->get(Set::Lib_Sorting);
 	so.so_tracks = s;
 
 	 _settings->set(Set::Lib_Sorting, so);

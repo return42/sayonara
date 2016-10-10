@@ -26,6 +26,7 @@
 #include "Database/DatabaseModule.h"
 #include "Components/Library/Sorting.h"
 #include "Helper/LibrarySearchMode.h"
+#include "Helper/Filter.h"
 
 
 class Artist;
@@ -35,7 +36,7 @@ class DatabaseArtists : private DatabaseModule
 
 private:
 	QString _fetch_query;
-	QString _create_order_string(SortOrder sort);
+	QString _create_order_string(Library::SortOrder sort);
 
 protected:
 	void set_artist_fetch_query(const QString& query);
@@ -50,17 +51,17 @@ public:
 	virtual bool getArtistByID(int id, Artist& artist);
 	virtual int getMaxArtistID();
 
-	virtual bool getAllArtists(ArtistList& result, SortOrder sortorder = SortOrder::ArtistNameAsc, bool also_empty=false);
+	virtual bool getAllArtists(ArtistList& result, Library::SortOrder sortorder = Library::SortOrder::ArtistNameAsc, bool also_empty=false);
 
-	virtual bool getAllArtistsByAlbum(int album, ArtistList& result, SortOrder sortorder = SortOrder::ArtistNameAsc);
+	virtual bool getAllArtistsByAlbum(int album, ArtistList& result, Library::SortOrder sortorder = Library::SortOrder::ArtistNameAsc);
 
-	virtual bool getAllArtistsBySearchString(Filter filter, ArtistList& result, SortOrder sortorder = SortOrder::ArtistNameAsc);
+	virtual bool getAllArtistsBySearchString(Library::Filter filter, ArtistList& result, Library::SortOrder sortorder = Library::SortOrder::ArtistNameAsc);
 
 	virtual int insertArtistIntoDatabase (const QString& artist);
 	virtual int insertArtistIntoDatabase (const Artist& artist);
 	virtual int updateArtist(const Artist& artist);
 
-	virtual void updateArtistCissearch(LibraryHelper::SearchModeMask mode);
+	virtual void updateArtistCissearch(Library::SearchModeMask mode);
 
 };
 

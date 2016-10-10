@@ -102,27 +102,27 @@ void DatabaseTracks::set_track_fetch_query(const QString &query){
 }
 
 
-QString DatabaseTracks::append_track_sort_string(QString querytext, SortOrder sort) {
+QString DatabaseTracks::append_track_sort_string(QString querytext, Library::SortOrder sort) {
 
 
-	if(sort == SortOrder::TrackArtistAsc) querytext += QString(" ORDER BY artistName ASC, discnumber ASC, albumName ASC, trackNum;");
-	else if(sort == SortOrder::TrackArtistDesc) querytext += QString(" ORDER BY artistName DESC, discnumber ASC, albumName ASC, trackNum;");
-	else if(sort == SortOrder::TrackAlbumAsc) querytext += QString(" ORDER BY discnumber ASC, albumName ASC, trackNum;");
-	else if(sort == SortOrder::TrackAlbumDesc) querytext += QString(" ORDER BY discnumber ASC, albumName DESC, trackNum;");
-	else if(sort == SortOrder::TrackTitleAsc) querytext += QString(" ORDER BY trackTitle ASC;");
-	else if(sort == SortOrder::TrackTitleDesc) querytext += QString(" ORDER BY trackTitle DESC;");
-	else if(sort == SortOrder::TrackNumAsc) querytext += QString(" ORDER BY trackNum ASC;");
-	else if(sort == SortOrder::TrackNumDesc) querytext += QString(" ORDER BY trackNum DESC;");
-	else if(sort == SortOrder::TrackYearAsc) querytext += QString(" ORDER BY trackYear ASC;");
-	else if(sort == SortOrder::TrackYearDesc) querytext += QString(" ORDER BY trackYear DESC;");
-	else if(sort == SortOrder::TrackLenghtAsc) querytext += QString(" ORDER BY trackLength ASC;");
-	else if(sort == SortOrder::TrackLengthDesc) querytext += QString(" ORDER BY trackLength DESC;");
-	else if(sort == SortOrder::TrackBitrateAsc) querytext += QString(" ORDER BY trackBitrate ASC;");
-	else if(sort == SortOrder::TrackBitrateDesc) querytext += QString(" ORDER BY trackBitrate DESC;");
-	else if(sort == SortOrder::TrackSizeAsc) querytext += QString(" ORDER BY filesize ASC;");
-	else if(sort == SortOrder::TrackSizeDesc) querytext += QString(" ORDER BY filesize DESC;");
-	else if(sort == SortOrder::TrackRatingAsc) querytext += QString(" ORDER BY rating ASC;");
-	else if(sort == SortOrder::TrackRatingDesc) querytext += QString(" ORDER BY rating DESC;");
+	if(sort == Library::SortOrder::TrackArtistAsc) querytext += QString(" ORDER BY artistName ASC, discnumber ASC, albumName ASC, trackNum;");
+	else if(sort == Library::SortOrder::TrackArtistDesc) querytext += QString(" ORDER BY artistName DESC, discnumber ASC, albumName ASC, trackNum;");
+	else if(sort == Library::SortOrder::TrackAlbumAsc) querytext += QString(" ORDER BY discnumber ASC, albumName ASC, trackNum;");
+	else if(sort == Library::SortOrder::TrackAlbumDesc) querytext += QString(" ORDER BY discnumber ASC, albumName DESC, trackNum;");
+	else if(sort == Library::SortOrder::TrackTitleAsc) querytext += QString(" ORDER BY trackTitle ASC;");
+	else if(sort == Library::SortOrder::TrackTitleDesc) querytext += QString(" ORDER BY trackTitle DESC;");
+	else if(sort == Library::SortOrder::TrackNumAsc) querytext += QString(" ORDER BY trackNum ASC;");
+	else if(sort == Library::SortOrder::TrackNumDesc) querytext += QString(" ORDER BY trackNum DESC;");
+	else if(sort == Library::SortOrder::TrackYearAsc) querytext += QString(" ORDER BY trackYear ASC;");
+	else if(sort == Library::SortOrder::TrackYearDesc) querytext += QString(" ORDER BY trackYear DESC;");
+	else if(sort == Library::SortOrder::TrackLenghtAsc) querytext += QString(" ORDER BY trackLength ASC;");
+	else if(sort == Library::SortOrder::TrackLengthDesc) querytext += QString(" ORDER BY trackLength DESC;");
+	else if(sort == Library::SortOrder::TrackBitrateAsc) querytext += QString(" ORDER BY trackBitrate ASC;");
+	else if(sort == Library::SortOrder::TrackBitrateDesc) querytext += QString(" ORDER BY trackBitrate DESC;");
+	else if(sort == Library::SortOrder::TrackSizeAsc) querytext += QString(" ORDER BY filesize ASC;");
+	else if(sort == Library::SortOrder::TrackSizeDesc) querytext += QString(" ORDER BY filesize DESC;");
+	else if(sort == Library::SortOrder::TrackRatingAsc) querytext += QString(" ORDER BY rating ASC;");
+	else if(sort == Library::SortOrder::TrackRatingDesc) querytext += QString(" ORDER BY rating DESC;");
 
 
 	else querytext += ";";
@@ -211,7 +211,7 @@ MetaData DatabaseTracks::getTrackById(int id) {
 }
 
 
-bool DatabaseTracks::getTracksFromDatabase (MetaDataList & returndata, SortOrder sort) {
+bool DatabaseTracks::getTracksFromDatabase (MetaDataList & returndata, Library::SortOrder sort) {
 
 	DB_RETURN_NOT_OPEN_BOOL(_db);
 
@@ -223,7 +223,7 @@ bool DatabaseTracks::getTracksFromDatabase (MetaDataList & returndata, SortOrder
 	return db_fetch_tracks(q, returndata);
 }
 
-bool DatabaseTracks::getAllTracksByAlbum(int album, MetaDataList& returndata, Filter filter, SortOrder sort, int discnumber) {
+bool DatabaseTracks::getAllTracksByAlbum(int album, MetaDataList& returndata, Library::Filter filter, Library::SortOrder sort, int discnumber) {
 
 	bool success;
 	IDList list;
@@ -249,7 +249,7 @@ bool DatabaseTracks::getAllTracksByAlbum(int album, MetaDataList& returndata, Fi
 	return success;
 }
 
-bool DatabaseTracks::getAllTracksByAlbum(IDList albums, MetaDataList& returndata, Filter filter, SortOrder sort) {
+bool DatabaseTracks::getAllTracksByAlbum(IDList albums, MetaDataList& returndata, Library::Filter filter, Library::SortOrder sort) {
 
 	DB_RETURN_NOT_OPEN_BOOL(_db);
 
@@ -275,15 +275,15 @@ bool DatabaseTracks::getAllTracksByAlbum(IDList albums, MetaDataList& returndata
 
 
 		switch(filter.mode) {
-			case Filter::Mode::Genre:
+			case Library::Filter::Genre:
 				querytext += "AND tracks.genre LIKE :filter1 ";
 				break;
 
-			case Filter::Mode::Filename:
+			case Library::Filter::Filename:
 				querytext += "AND tracks.filename LIKE :filter1 ";
 				break;
 
-			case Filter::Mode::Fulltext:
+			case Library::Filter::Fulltext:
 			default:
 				// consider the case, that the search string may fit to the title
 				// union the case that the search string may fit to the album
@@ -322,11 +322,11 @@ bool DatabaseTracks::getAllTracksByAlbum(IDList albums, MetaDataList& returndata
 		q.bindValue(":filter1", QVariant(filter.filtertext));
 
 		switch(filter.mode) {
-			case Filter::Mode::Genre:
-			case Filter::Mode::Filename:
+			case Library::Filter::Genre:
+			case Library::Filter::Filename:
 				break;
 
-			case Filter::Mode::Fulltext:
+			case Library::Filter::Fulltext:
 			default:
 				q.bindValue(":filter2", QVariant(filter.filtertext));
 				q.bindValue(":filter3", QVariant(filter.filtertext));
@@ -339,14 +339,14 @@ bool DatabaseTracks::getAllTracksByAlbum(IDList albums, MetaDataList& returndata
 
 }
 
-bool DatabaseTracks::getAllTracksByArtist(int artist, MetaDataList& returndata, Filter filter, SortOrder sort) {
+bool DatabaseTracks::getAllTracksByArtist(int artist, MetaDataList& returndata, Library::Filter filter, Library::SortOrder sort) {
 
 	IDList list;
 	list << artist;
 	return getAllTracksByArtist(list, returndata, filter, sort);
 }
 
-bool DatabaseTracks::getAllTracksByArtist(IDList artists, MetaDataList& returndata, Filter filter, SortOrder sort) {
+bool DatabaseTracks::getAllTracksByArtist(IDList artists, MetaDataList& returndata, Library::Filter filter, Library::SortOrder sort) {
 
 	DB_RETURN_NOT_OPEN_BOOL(_db);
 
@@ -373,15 +373,15 @@ bool DatabaseTracks::getAllTracksByArtist(IDList artists, MetaDataList& returnda
 	if(filter.filtertext.length() > 0 ) {
 		switch(filter.mode) {
 
-			case Filter::Mode::Genre:
+			case Library::Filter::Genre:
 					querytext += "AND tracks.genre LIKE :filter1";
 				break;
 
-			case Filter::Mode::Filename:
+			case Library::Filter::Filename:
 				querytext += "AND tracks.filename LIKE :filter1 ";
 				break;
 
-			case Filter::Mode::Fulltext:
+			case Library::Filter::Fulltext:
 			default:
 				querytext += QString("AND tracks.trackid IN ( ") +
 							"	SELECT t2.trackid "
@@ -413,11 +413,11 @@ bool DatabaseTracks::getAllTracksByArtist(IDList artists, MetaDataList& returnda
 		q.bindValue(":filter1", QVariant(filter.filtertext));
 
 		switch(filter.mode) {
-			case Filter::Mode::Genre:
-			case Filter::Mode::Filename:
+			case Library::Filter::Genre:
+			case Library::Filter::Filename:
 				break;
 
-			case Filter::Mode::Fulltext:
+			case Library::Filter::Fulltext:
 			default:
 				q.bindValue(":filter2", QVariant(filter.filtertext));
 				q.bindValue(":filter3", QVariant(filter.filtertext));
@@ -429,7 +429,7 @@ bool DatabaseTracks::getAllTracksByArtist(IDList artists, MetaDataList& returnda
 }
 
 
-bool DatabaseTracks::getAllTracksBySearchString(Filter filter, MetaDataList& result, SortOrder sort) {
+bool DatabaseTracks::getAllTracksBySearchString(Library::Filter filter, MetaDataList& result, Library::SortOrder sort) {
 
 	DB_RETURN_NOT_OPEN_BOOL(_db);
 
@@ -438,18 +438,18 @@ bool DatabaseTracks::getAllTracksBySearchString(Filter filter, MetaDataList& res
 
 	switch(filter.mode) {
 
-		case Filter::Mode::Genre:
+		case Library::Filter::Genre:
 			querytext = _fetch_query +
 						"AND genrename LIKE :search_in_genre ";
 		break;
 
-		case Filter::Mode::Filename:
+		case Library::Filter::Filename:
 			querytext = _fetch_query +
 
 						"AND tracks.filename LIKE :search_in_filename ";
 			break;
 
-		case Filter::Mode::Fulltext:
+		case Library::Filter::Fulltext:
 		default:
 
 				  querytext = _fetch_query + " AND tracks.trackID IN ("+
@@ -472,16 +472,16 @@ bool DatabaseTracks::getAllTracksBySearchString(Filter filter, MetaDataList& res
 
 	switch(filter.mode) {
 
-		case Filter::Mode::Genre:
+		case Library::Filter::Genre:
 			q.bindValue(":search_in_genre", QVariant(filter.filtertext));
 			break;
 
-		case Filter::Mode::Filename:
+		case Library::Filter::Filename:
 			q.bindValue(":search_in_filename",QVariant(filter.filtertext));
 			break;
 
 
-		case Filter::Mode::Fulltext:
+		case Library::Filter::Fulltext:
 		default:
 			q.bindValue(":search_in_title",QVariant(filter.filtertext));
 			q.bindValue(":search_in_album",QVariant(filter.filtertext));
@@ -632,7 +632,7 @@ QStringList DatabaseTracks::getAllGenres(){
 }
 
 
-void DatabaseTracks::updateTrackCissearch(LibraryHelper::SearchModeMask mode)
+void DatabaseTracks::updateTrackCissearch(Library::SearchModeMask mode)
 {
 	MetaDataList v_md;
 	getTracksFromDatabase(v_md);
@@ -642,7 +642,7 @@ void DatabaseTracks::updateTrackCissearch(LibraryHelper::SearchModeMask mode)
 		QString str = "UPDATE tracks SET cissearch=:cissearch WHERE trackID=:id;";
 		SayonaraQuery q(_db);
 		q.prepare(str);
-		q.bindValue(":cissearch", LibraryHelper::convert_search_string(md.title, mode));
+		q.bindValue(":cissearch", Library::convert_search_string(md.title, mode));
 		q.bindValue(":id", md.id);
 
 		if(!q.exec()){

@@ -185,8 +185,8 @@ QModelIndex	LibraryItemModelArtists::getNextRowIndexOf(QString substr, int row, 
 	Q_UNUSED(parent)
 
 	Settings* settings = Settings::getInstance();
-	LibraryHelper::SearchModeMask mask = settings->get(Set::Lib_SearchMode);
-	substr = LibraryHelper::convert_search_string(substr, mask);
+	Library::SearchModeMask mask = settings->get(Set::Lib_SearchMode);
+	substr = Library::convert_search_string(substr, mask);
 
 	int len = _artists.size();
 	if( len == 0 ) return this->index(-1, -1);
@@ -195,7 +195,7 @@ QModelIndex	LibraryItemModelArtists::getNextRowIndexOf(QString substr, int row, 
 		int row_idx = (i + row) % len;
 
 		QString artist_name = _artists[row_idx].name;
-		artist_name = LibraryHelper::convert_search_string(artist_name, mask);
+		artist_name = Library::convert_search_string(artist_name, mask);
 
 		if(artist_name.contains(substr))
 		{
@@ -212,8 +212,8 @@ QModelIndex	LibraryItemModelArtists::getPrevRowIndexOf(QString substr, int row, 
 	Q_UNUSED(parent)
 
 	Settings* settings = Settings::getInstance();
-	LibraryHelper::SearchModeMask mask = settings->get(Set::Lib_SearchMode);
-	substr = LibraryHelper::convert_search_string(substr, mask);
+	Library::SearchModeMask mask = settings->get(Set::Lib_SearchMode);
+	substr = Library::convert_search_string(substr, mask);
 
 	int len = _artists.size();
 	if( len < row) row = len - 1;
@@ -227,7 +227,7 @@ QModelIndex	LibraryItemModelArtists::getPrevRowIndexOf(QString substr, int row, 
 		int row_idx = (row-i) % len;
 
 		QString artist_name = _artists[row_idx].name;
-		artist_name = LibraryHelper::convert_search_string(artist_name, mask);
+		artist_name = Library::convert_search_string(artist_name, mask);
 
 		if(artist_name.contains(substr))
 		{

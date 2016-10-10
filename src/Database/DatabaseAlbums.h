@@ -37,7 +37,7 @@ class DatabaseAlbums : private DatabaseModule
 private:
 	QString _fetch_query;
 
-	QString _create_order_string(SortOrder order);
+	QString _create_order_string(Library::SortOrder order);
 
 protected:
 	void set_album_fetch_query(const QString& query);
@@ -52,19 +52,19 @@ public:
 
 	virtual bool getAlbumByID(const int& id, Album& album);
 
-	virtual bool getAllAlbums(AlbumList& result, SortOrder sortorder=SortOrder::AlbumNameAsc, bool also_empty=false);
+	virtual bool getAllAlbums(AlbumList& result, Library::SortOrder sortorder=Library::SortOrder::AlbumNameAsc, bool also_empty=false);
 
-	virtual bool getAllAlbumsByArtist(int artist, AlbumList& result, Filter filter=Filter(), SortOrder sortorder = SortOrder::AlbumNameAsc);
-	virtual bool getAllAlbumsByArtist(IDList artists, AlbumList& result, Filter filter=Filter(), SortOrder sortorder = SortOrder::AlbumNameAsc);
+	virtual bool getAllAlbumsByArtist(int artist, AlbumList& result, Library::Filter filter=Library::Filter(), Library::SortOrder sortorder = Library::SortOrder::AlbumNameAsc);
+	virtual bool getAllAlbumsByArtist(IDList artists, AlbumList& result, Library::Filter filter=Library::Filter(), Library::SortOrder sortorder = Library::SortOrder::AlbumNameAsc);
 
-	virtual bool getAllAlbumsBySearchString(Filter filter, AlbumList& result, SortOrder sortorder = SortOrder::AlbumNameAsc);
+	virtual bool getAllAlbumsBySearchString(Library::Filter filter, AlbumList& result, Library::SortOrder sortorder = Library::SortOrder::AlbumNameAsc);
 
 	virtual int insertAlbumIntoDatabase (const QString & album);
 	virtual int insertAlbumIntoDatabase (const Album& album);
 
 	virtual int updateAlbum(const Album& album);
 
-	virtual void updateAlbumCissearch(LibraryHelper::SearchModeMask mode);
+	virtual void updateAlbumCissearch(Library::SearchModeMask mode);
 
 };
 

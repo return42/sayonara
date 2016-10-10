@@ -3,20 +3,18 @@
 
 #include <QString>
 
-namespace LibraryHelper
+namespace Library
 {
     enum SearchMode
     {
-	CaseInsensitve=(1<<0),
-	NoSpecialChars=(1<<1),
-	NoDiacriticChars=(1<<2)
+		CaseInsensitve=(1<<0),
+		NoSpecialChars=(1<<1),
+		NoDiacriticChars=(1<<2)
     };
 
     typedef int SearchModeMask;
 
-
-
-    QString convert_search_string(const QString& str, LibraryHelper::SearchModeMask mode);
+	QString convert_search_string(const QString& str, Library::SearchModeMask mode);
 }
 
 #endif // LIBRARYSEARCHMODE_H

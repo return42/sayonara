@@ -41,11 +41,15 @@ class MetaDataList;
 class MetaDataChangeNotifier;
 class TagEdit;
 
-template<typename T>
-class Tree;
+namespace SP
+{
+	template<typename T>
+	class Tree;
+}
+
 class TreeDelegate;
 
-typedef Tree<QString> GenreNode;
+typedef SP::Tree<QString> GenreNode;
 
 
 

@@ -244,15 +244,15 @@ QModelIndex LibraryItemModelTracks::getNextRowIndexOf(QString substr, int row, c
 	}
 
 	Settings* settings = Settings::getInstance();
-	LibraryHelper::SearchModeMask mask = settings->get(Set::Lib_SearchMode);
-	substr = LibraryHelper::convert_search_string(substr, mask);
+	Library::SearchModeMask mask = settings->get(Set::Lib_SearchMode);
+	substr = Library::convert_search_string(substr, mask);
 
 	for(int i=0; i< len; i++)
 	{
 		int row_idx = (i + row) % len;
 
 		QString title = _tracks[row_idx].title;
-		title = LibraryHelper::convert_search_string(title, mask);
+		title = Library::convert_search_string(title, mask);
 
 		if(title.contains(substr)) {
 			return this->index(row_idx, 0);
@@ -267,8 +267,8 @@ QModelIndex LibraryItemModelTracks::getPrevRowIndexOf(QString substr, int row, c
 	Q_UNUSED(parent)
 
 	Settings* settings = Settings::getInstance();
-	LibraryHelper::SearchModeMask mask = settings->get(Set::Lib_SearchMode);
-	substr = LibraryHelper::convert_search_string(substr, mask);
+	Library::SearchModeMask mask = settings->get(Set::Lib_SearchMode);
+	substr = Library::convert_search_string(substr, mask);
 
 	int len = _tracks.size();
 	if(len < row) row = len - 1;
@@ -281,7 +281,7 @@ QModelIndex LibraryItemModelTracks::getPrevRowIndexOf(QString substr, int row, c
 		int row_idx = (row - i) % len;
 
 		QString title = _tracks[row_idx].title;
-		title = LibraryHelper::convert_search_string(title, mask);
+		title = Library::convert_search_string(title, mask);
 
 		if(title.contains(substr))
 		{

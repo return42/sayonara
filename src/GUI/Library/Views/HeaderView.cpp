@@ -77,7 +77,7 @@ void HeaderView::action_triggered(bool b)
 }
 
 
-void HeaderView::set_column_headers(const ColumnHeaderList& column_headers, const BoolList& shown_actions, SortOrder sorting)
+void HeaderView::set_column_headers(const ColumnHeaderList& column_headers, const BoolList& shown_actions, Library::SortOrder sorting)
 {
 	_column_headers = column_headers;
 

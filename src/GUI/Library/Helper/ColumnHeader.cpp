@@ -21,7 +21,7 @@
 #include "ColumnHeader.h"
 #include <algorithm>
 
-ColumnHeader::ColumnHeader(bool switchable, SortOrder sort_asc, SortOrder sort_desc){
+ColumnHeader::ColumnHeader(bool switchable, Library::SortOrder sort_asc, Library::SortOrder sort_desc){
 	_action = new QAction(this);
 	_switchable = switchable;
 	_sort_asc = sort_asc;
@@ -33,7 +33,7 @@ ColumnHeader::ColumnHeader(bool switchable, SortOrder sort_asc, SortOrder sort_d
 
 }
 
-ColumnHeader::ColumnHeader(bool switchable, SortOrder sort_asc, SortOrder sort_desc, int preferred_size_abs) :
+ColumnHeader::ColumnHeader(bool switchable, Library::SortOrder sort_asc, Library::SortOrder sort_desc, int preferred_size_abs) :
 	ColumnHeader(switchable, sort_asc, sort_desc)
 {
 	_preferred_size_abs = preferred_size_abs;
@@ -44,7 +44,7 @@ ColumnHeader::ColumnHeader(bool switchable, SortOrder sort_asc, SortOrder sort_d
 	_action->setCheckable(_switchable);
 }
 
-ColumnHeader::ColumnHeader(bool switchable, SortOrder sort_asc, SortOrder sort_desc, double preferred_size_rel, int min_size) :
+ColumnHeader::ColumnHeader(bool switchable, Library::SortOrder sort_asc, Library::SortOrder sort_desc, double preferred_size_rel, int min_size) :
 	ColumnHeader(switchable, sort_asc, sort_desc)
 {
 	_preferred_size_abs = min_size;
@@ -76,11 +76,11 @@ double ColumnHeader::get_preferred_size_rel() const {
 	return _preferred_size_rel;
 }
 
-SortOrder ColumnHeader::get_asc_sortorder() const {
+Library::SortOrder ColumnHeader::get_asc_sortorder() const {
 	return _sort_asc;
 }
 
-SortOrder ColumnHeader::get_desc_sortorder() const {
+Library::SortOrder ColumnHeader::get_desc_sortorder() const {
 	return _sort_desc;
 }
 

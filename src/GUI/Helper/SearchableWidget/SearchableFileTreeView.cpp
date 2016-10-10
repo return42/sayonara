@@ -42,8 +42,8 @@ QModelIndex AbstractSearchFileTreeModel::getFirstRowIndexOf(QString substr)
 	_found_strings.clear();
 
 	Settings* settings = Settings::getInstance();
-	LibraryHelper::SearchModeMask mask = settings->get(Set::Lib_SearchMode);
-	substr = LibraryHelper::convert_search_string(substr, mask);
+	Library::SearchModeMask mask = settings->get(Set::Lib_SearchMode);
+	substr = Library::convert_search_string(substr, mask);
 
 	QDirIterator it(this->rootPath(), QDirIterator::Subdirectories);
 	QString str;
@@ -52,7 +52,7 @@ QModelIndex AbstractSearchFileTreeModel::getFirstRowIndexOf(QString substr)
 		it.next();
 
 		QString filename = it.fileName();
-		filename = LibraryHelper::convert_search_string(filename, mask);
+		filename = Library::convert_search_string(filename, mask);
 
 		if (filename.contains(substr)) {
 			str = it.filePath();

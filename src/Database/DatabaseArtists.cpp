@@ -71,16 +71,16 @@ bool DatabaseArtists::db_fetch_artists(SayonaraQuery& q, ArtistList& result) {
 	return true;
 }
 
-QString DatabaseArtists::_create_order_string(SortOrder sort) {
+QString DatabaseArtists::_create_order_string(Library::SortOrder sort) {
 
 	switch(sort) {
-		case SortOrder::ArtistNameAsc:
+		case Library::SortOrder::ArtistNameAsc:
 			return QString(" ORDER BY artistName ASC ");
-		case SortOrder::ArtistNameDesc:
+		case Library::SortOrder::ArtistNameDesc:
 			return QString(" ORDER BY artistName DESC ");
-		case SortOrder::ArtistTrackcountAsc:
+		case Library::SortOrder::ArtistTrackcountAsc:
 			return QString(" ORDER BY artistNTracks ASC, artistName ASC ");
-		case SortOrder::ArtistTrackcountDesc:
+		case Library::SortOrder::ArtistTrackcountDesc:
 			return QString(" ORDER BY artistNTracks DESC, artistName DESC ");
 		default:
 			return  "";
@@ -163,7 +163,7 @@ int DatabaseArtists::getArtistID (const QString & artist)  {
 	return artistID;
 }
 
-bool DatabaseArtists::getAllArtists(ArtistList& result, SortOrder sortorder, bool also_empty) {
+bool DatabaseArtists::getAllArtists(ArtistList& result, Library::SortOrder sortorder, bool also_empty) {
 
 	DB_RETURN_NOT_OPEN_BOOL(_db);
 
@@ -184,7 +184,7 @@ bool DatabaseArtists::getAllArtists(ArtistList& result, SortOrder sortorder, boo
 
 }
 
-bool DatabaseArtists::getAllArtistsByAlbum(int album, ArtistList& result, SortOrder sortorder) {
+bool DatabaseArtists::getAllArtistsByAlbum(int album, ArtistList& result, Library::SortOrder sortorder) {
 
 	DB_RETURN_NOT_OPEN_BOOL(_db);
 
@@ -199,7 +199,7 @@ bool DatabaseArtists::getAllArtistsByAlbum(int album, ArtistList& result, SortOr
 	return db_fetch_artists(q, result);
 }
 
-bool DatabaseArtists::getAllArtistsBySearchString(Filter filter, ArtistList& result, SortOrder sortorder) {
+bool DatabaseArtists::getAllArtistsBySearchString(Library::Filter filter, ArtistList& result, Library::SortOrder sortorder) {
 
 	DB_RETURN_NOT_OPEN_BOOL(_db);
 
@@ -208,19 +208,19 @@ bool DatabaseArtists::getAllArtistsBySearchString(Filter filter, ArtistList& res
 
 	switch(filter.mode) {
 
-		case Filter::Mode::Genre:
+		case Library::Filter::Genre:
 			query = _fetch_query +
 							"	WHERE albums.albumid = tracks.albumid AND artists.artistID = tracks.artistid AND tracks.genre LIKE :search_in_genre " +
 							"	GROUP BY artists.artistid, artists.name ";
 			break;
 
-		case Filter::Mode::Filename:
+		case Library::Filter::Filename:
 			query = _fetch_query +
 							"	WHERE albums.albumid = tracks.albumid AND artists.artistID = tracks.artistid AND tracks.filename LIKE :search_in_filename " +
 							"	GROUP BY artists.artistid, artists.name ";
 			break;
 
-		case Filter::Mode::Fulltext:
+		case Library::Filter::Fulltext:
 		default:
 			query = QString("SELECT * FROM ( ") +
 					_fetch_query +
@@ -245,14 +245,14 @@ bool DatabaseArtists::getAllArtistsBySearchString(Filter filter, ArtistList& res
 	q.prepare(query);
 	switch(filter.mode) {
 
-		case Filter::Mode::Genre:
+		case Library::Filter::Genre:
 			q.bindValue(":search_in_genre", QVariant(filter.filtertext));
 			break;
-		case Filter::Mode::Filename:
+		case Library::Filter::Filename:
 			q.bindValue(":search_in_filename",QVariant(filter.filtertext));
 			break;
 
-		case Filter::Mode::Fulltext:
+		case Library::Filter::Fulltext:
 		default:
 			q.bindValue(":search_in_title",QVariant(filter.filtertext));
 			q.bindValue(":search_in_album",QVariant(filter.filtertext));
@@ -320,7 +320,7 @@ int DatabaseArtists::updateArtist(const Artist &artist){
 	return artist.id;
 }
 
-void DatabaseArtists::updateArtistCissearch(LibraryHelper::SearchModeMask mode)
+void DatabaseArtists::updateArtistCissearch(Library::SearchModeMask mode)
 {
 	ArtistList artists;
 	getAllArtists(artists);
@@ -330,7 +330,7 @@ void DatabaseArtists::updateArtistCissearch(LibraryHelper::SearchModeMask mode)
 		QString str = "UPDATE artists SET cissearch=:cissearch WHERE artistID=:id;";
 		SayonaraQuery q(_db);
 		q.prepare(str);
-		q.bindValue(":cissearch", LibraryHelper::convert_search_string(artist.name, mode));
+		q.bindValue(":cissearch", Library::convert_search_string(artist.name, mode));
 		q.bindValue(":id", artist.id);
 
 		if(!q.exec()){

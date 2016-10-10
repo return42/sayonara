@@ -39,7 +39,7 @@ void switch_sorters(T& srcdst, T src1, T src2) {
 
 void LibraryView::sort_by_column(int col) {
 
-	SortOrder asc_sortorder, desc_sortorder;
+	Library::SortOrder asc_sortorder, desc_sortorder;
 
 	HeaderView* header_view = this->get_header_view();
 
@@ -58,7 +58,7 @@ void LibraryView::sort_by_column(int col) {
 }
 
 
-void LibraryView::set_table_headers(const ColumnHeaderList& headers, const BoolList& shown_cols, SortOrder sorting) {
+void LibraryView::set_table_headers(const ColumnHeaderList& headers, const BoolList& shown_cols, Library::SortOrder sorting) {
 
 	HeaderView* header_view = this->get_header_view();
 

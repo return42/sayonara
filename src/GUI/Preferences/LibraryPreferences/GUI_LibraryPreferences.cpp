@@ -43,17 +43,17 @@ QString GUI_LibraryPreferences::get_action_name() const
 
 void GUI_LibraryPreferences::commit(){
 
-	LibraryHelper::SearchModeMask mask = 0;
+	Library::SearchModeMask mask = 0;
 	if(cb_case_insensitive->isChecked()){
-		mask |= LibraryHelper::CaseInsensitve;
+		mask |= Library::CaseInsensitve;
 	}
 
 	if(cb_no_special_chars->isChecked()){
-		mask |= LibraryHelper::NoSpecialChars;
+		mask |= Library::NoSpecialChars;
 	}
 
 	if(cb_no_accents->isChecked()){
-		mask |= LibraryHelper::NoDiacriticChars;
+		mask |= Library::NoDiacriticChars;
 	}
 
 	_settings->set(Set::Lib_DC_DoNothing, rb_dc_do_nothing->isChecked());
@@ -70,17 +70,17 @@ void GUI_LibraryPreferences::revert(){
 	cb_no_special_chars->setChecked(false);
 	cb_no_accents->setChecked(false);
 
-	LibraryHelper::SearchModeMask mask = _settings->get(Set::Lib_SearchMode);
+	Library::SearchModeMask mask = _settings->get(Set::Lib_SearchMode);
 
-	if(mask & LibraryHelper::CaseInsensitve){
+	if(mask & Library::CaseInsensitve){
 		cb_case_insensitive->setChecked(true);
 	}
 
-	if(mask & LibraryHelper::NoSpecialChars){
+	if(mask & Library::NoSpecialChars){
 		cb_no_special_chars->setChecked(true);
 	}
 
-	if(mask & LibraryHelper::NoDiacriticChars){
+	if(mask & Library::NoDiacriticChars){
 		cb_no_accents->setCheckable(true);
 	}
 

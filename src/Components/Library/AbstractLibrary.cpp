@@ -37,7 +37,7 @@ AbstractLibrary::AbstractLibrary(QObject *parent) :
 	_playlist = PlaylistHandler::getInstance();
 	_sortorder = _settings->get(Set::Lib_Sorting);
 
-	_filter.mode = Filter::Mode::Fulltext;
+	_filter.mode = Library::Filter::Fulltext;
 	_filter.filtertext = "";
 
 	MetaDataChangeNotifier* md_change_notifier = MetaDataChangeNotifier::getInstance();
@@ -481,7 +481,7 @@ void AbstractLibrary::psl_selected_tracks_changed(const SP::Set<int>& idx_list) 
 }
 
 
-void AbstractLibrary::fetch_by_filter(const Filter& filter, bool force){
+void AbstractLibrary::fetch_by_filter(const Library::Filter& filter, bool force){
 
 	if( _filter.cleared &&
 		filter.cleared &&
@@ -518,9 +518,9 @@ void AbstractLibrary::fetch_by_filter(const Filter& filter, bool force){
 }
 
 
-void AbstractLibrary::psl_filter_changed(const Filter& filter, bool force) {
+void AbstractLibrary::psl_filter_changed(const Library::Filter& filter, bool force) {
 
-	//sp_log(Log::Debug) << "Library: Filter changed";
+	//sp_log(Log::Debug) << "Library: Library::Filter changed";
 	fetch_by_filter(filter, force);
 	emit_stuff();
 }
@@ -530,7 +530,7 @@ void AbstractLibrary::psl_filter_changed(const Filter& filter, bool force) {
 
 void AbstractLibrary::_sl_sortorder_changed() {
 
-	LibSortOrder so = _settings->get(Set::Lib_Sorting);
+	Library::Sortings so = _settings->get(Set::Lib_Sorting);
 
 	// artist sort order has changed
 	if(so.so_artists != _sortorder.so_artists) {

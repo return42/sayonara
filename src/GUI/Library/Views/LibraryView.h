@@ -76,7 +76,7 @@ signals:
 	void sig_play_next_clicked();
 	void sig_append_clicked();
 	void sig_refresh_clicked();
-	void sig_sortorder_changed(SortOrder);
+	void sig_sortorder_changed(Library::SortOrder);
 
 	void sig_no_disc_menu();
 	void sig_import_files(const QStringList&);
@@ -101,7 +101,7 @@ public:
 	LibraryView(QWidget* parent=nullptr);
 	virtual ~LibraryView();
 
-	virtual void set_table_headers(const ColumnHeaderList& headers, const BoolList& shown_cols, SortOrder sorting);
+	virtual void set_table_headers(const ColumnHeaderList& headers, const BoolList& shown_cols, Library::SortOrder sorting);
 
 	virtual void save_selections();
 
@@ -150,7 +150,7 @@ protected:
 
 	LibraryContextMenu*			_rc_menu=nullptr;
 
-	SortOrder					_sort_order;
+	Library::SortOrder			_sort_order;
 
 	bool						_cur_filling;
 	MetaDataList::Interpretation	_type;

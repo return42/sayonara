@@ -93,38 +93,38 @@ void DatabaseAlbums::set_album_fetch_query(const QString &query){
 	_fetch_query = query;
 }
 
-QString DatabaseAlbums::_create_order_string(SortOrder sortorder) {
+QString DatabaseAlbums::_create_order_string(Library::SortOrder sortorder) {
 
 	switch(sortorder) {
 
-		case SortOrder::AlbumNameAsc:
+		case Library::SortOrder::AlbumNameAsc:
 			return QString (" ORDER BY albumName ASC ");
 
-		case SortOrder::AlbumNameDesc:
+		case Library::SortOrder::AlbumNameDesc:
 			return QString (" ORDER BY albumName DESC ");
 
-		case SortOrder::AlbumYearAsc:
+		case Library::SortOrder::AlbumYearAsc:
 			return QString (" ORDER BY albumYear ASC, albumName ASC ");
 
-		case SortOrder::AlbumYearDesc:
+		case Library::SortOrder::AlbumYearDesc:
 			return QString (" ORDER BY albumYear DESC, albumName ASC ");
 
-		case SortOrder::AlbumTracksAsc:
+		case Library::SortOrder::AlbumTracksAsc:
 			return QString (" ORDER BY albumNTracks ASC, albumName ASC ");
 
-		case SortOrder::AlbumTracksDesc:
+		case Library::SortOrder::AlbumTracksDesc:
 			return QString (" ORDER BY albumNTracks DESC, albumName ASC ");
 
-		case SortOrder::AlbumDurationAsc:
+		case Library::SortOrder::AlbumDurationAsc:
 			return QString (" ORDER BY albumLength ASC, albumName ASC ");
 
-		case SortOrder::AlbumDurationDesc:
+		case Library::SortOrder::AlbumDurationDesc:
 			return QString (" ORDER BY albumLength DESC, albumName ASC ");
 
-		case SortOrder::AlbumRatingAsc:
+		case Library::SortOrder::AlbumRatingAsc:
 			return QString (" ORDER BY albumRating ASC, albumName ASC ");
 
-		case SortOrder::AlbumRatingDesc:
+		case Library::SortOrder::AlbumRatingDesc:
 			return QString (" ORDER BY albumRating DESC, albumName ASC ");
 
 		default:
@@ -195,7 +195,7 @@ bool DatabaseAlbums::getAlbumByID(const int& id, Album& album) {
 	return (albums.size() > 0);
 }
 
-bool DatabaseAlbums::getAllAlbums(AlbumList& result, SortOrder sortorder, bool also_empty) {
+bool DatabaseAlbums::getAllAlbums(AlbumList& result, Library::SortOrder sortorder, bool also_empty) {
 
 	DB_RETURN_NOT_OPEN_BOOL(_db);
 
@@ -219,7 +219,7 @@ bool DatabaseAlbums::getAllAlbums(AlbumList& result, SortOrder sortorder, bool a
 }
 
 
-bool DatabaseAlbums::getAllAlbumsByArtist(IDList artists, AlbumList& result, Filter filter,SortOrder sortorder) {
+bool DatabaseAlbums::getAllAlbumsByArtist(IDList artists, AlbumList& result, Library::Filter filter, Library::SortOrder sortorder) {
 
 	DB_RETURN_NOT_OPEN_BOOL(_db);
 
@@ -253,16 +253,16 @@ bool DatabaseAlbums::getAllAlbumsByArtist(IDList artists, AlbumList& result, Fil
 
 		switch(filter.mode) {
 
-			case Filter::Mode::Genre:
+			case Library::Filter::Genre:
 				querytext += QString("AND tracks.genre LIKE :filter1 ");			// track title is like filter
 				break;
 
-			case Filter::Mode::Filename:
+			case Library::Filter::Filename:
 				querytext += QString("AND tracks.filename LIKE :filter1 ");			// track title is like filter
 
 				break;
 
-			case Filter::Mode::Fulltext:
+			case Library::Filter::Fulltext:
 			default:
 				querytext += QString("AND tracks.trackID IN ( "
 									 "SELECT t2.trackID "
@@ -297,7 +297,7 @@ bool DatabaseAlbums::getAllAlbumsByArtist(IDList artists, AlbumList& result, Fil
 
 		switch(filter.mode) {
 
-			case Filter::Mode::Fulltext:
+			case Library::Filter::Fulltext:
 				q.bindValue(":filter2", QVariant(filter.filtertext));
 				q.bindValue(":filter3", QVariant(filter.filtertext));
 				break;
@@ -311,14 +311,14 @@ bool DatabaseAlbums::getAllAlbumsByArtist(IDList artists, AlbumList& result, Fil
 
 }
 
-bool DatabaseAlbums::getAllAlbumsByArtist(int artist, AlbumList& result, Filter filter, SortOrder sortorder) {
+bool DatabaseAlbums::getAllAlbumsByArtist(int artist, AlbumList& result, Library::Filter filter, Library::SortOrder sortorder) {
 
 	IDList list;
 	list << artist;
 	return getAllAlbumsByArtist(list, result, filter, sortorder);
 }
 
-bool DatabaseAlbums::getAllAlbumsBySearchString(Filter filter, AlbumList& result, SortOrder sortorder) {
+bool DatabaseAlbums::getAllAlbumsBySearchString(Library::Filter filter, AlbumList& result, Library::SortOrder sortorder) {
 
 	DB_RETURN_NOT_OPEN_BOOL(_db);
 
@@ -326,19 +326,19 @@ bool DatabaseAlbums::getAllAlbumsBySearchString(Filter filter, AlbumList& result
 	QString query;
 	switch(filter.mode){
 
-		case Filter::Mode::Genre:
+		case Library::Filter::Genre:
 			query = _fetch_query +
 						 "WHERE albums.albumid = tracks.albumid AND artists.artistID = tracks.artistid AND tracks.genre LIKE :search_in_genre " +
 						 "GROUP BY albums.albumID, albumName";
 			break;
 
-		case Filter::Mode::Filename:
+		case Library::Filter::Filename:
 			query = _fetch_query +
 						"WHERE albums.albumid = tracks.albumid AND artists.artistID = tracks.artistid AND tracks.filename LIKE :search_in_filename " +
 						"GROUP BY albums.albumID, albumName";
 			break;
 
-		case Filter::Mode::Fulltext:
+		case Library::Filter::Fulltext:
 		default:
 			query = QString("SELECT DISTINCT * FROM ( ") +
 					_fetch_query +
@@ -366,15 +366,15 @@ bool DatabaseAlbums::getAllAlbumsBySearchString(Filter filter, AlbumList& result
 
 	switch(filter.mode){
 
-		case Filter::Mode::Genre:
+		case Library::Filter::Genre:
 			q.bindValue(":search_in_genre", QVariant(filter.filtertext));
 			break;
 
-		case Filter::Mode::Filename:
+		case Library::Filter::Filename:
 			q.bindValue(":search_in_filename", QVariant(filter.filtertext));
 			break;
 
-		case Filter::Mode::Fulltext:
+		case Library::Filter::Fulltext:
 		default:
 			q.bindValue(":search_in_title",QVariant(filter.filtertext));
 			q.bindValue(":search_in_album",QVariant(filter.filtertext));
@@ -410,7 +410,7 @@ int DatabaseAlbums::updateAlbum (const Album & album) {
 	return getAlbumID (album.name);
 }
 
-void DatabaseAlbums::updateAlbumCissearch(LibraryHelper::SearchModeMask mode)
+void DatabaseAlbums::updateAlbumCissearch(Library::SearchModeMask mode)
 {
 	AlbumList albums;
 	getAllAlbums(albums);
@@ -420,7 +420,7 @@ void DatabaseAlbums::updateAlbumCissearch(LibraryHelper::SearchModeMask mode)
 		QString str = "UPDATE albums SET cissearch=:cissearch WHERE albumID=:id;";
 		SayonaraQuery q(_db);
 		q.prepare(str);
-		q.bindValue(":cissearch", LibraryHelper::convert_search_string(album.name, mode));
+		q.bindValue(":cissearch", Library::convert_search_string(album.name, mode));
 		q.bindValue(":id", album.id);
 
 		if(!q.exec()){

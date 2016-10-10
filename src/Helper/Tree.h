@@ -24,23 +24,25 @@
 #include <QString>
 #include <algorithm>
 
-template<typename T>
-/**
- * @brief The Tree class
- * @ingroup Helper
- */
-class Tree {
+namespace SP
+{
+	template<typename T>
+	/**
+	 * @brief The Tree class
+	 * @ingroup Helper
+	 */
+	class Tree {
 
-	public:
+		public:
 		Tree* parent=nullptr;
 
 		QList<Tree*> children;
 		T data;
 
 		/**
-		 * @brief Tree constructor
-		 * @param data_ set the root element
-		 */
+				 * @brief Tree constructor
+				 * @param data_ set the root element
+				 */
 		Tree(const T& data_){
 			data = data_;
 			parent = nullptr;
@@ -57,8 +59,8 @@ class Tree {
 		}
 
 		/**
-		 * copy the entire tree. Has to be deleted afterwards
-		 */
+				 * copy the entire tree. Has to be deleted afterwards
+				 */
 		Tree* copy(){
 			Tree* node = new Tree(this->data);
 
@@ -71,10 +73,10 @@ class Tree {
 
 
 		/**
-		 * @brief adds a child to the given node
-		 * @param node the parent node
-		 * @return pointer to inserted node
-		 */
+				 * @brief adds a child to the given node
+				 * @param node the parent node
+				 * @return pointer to inserted node
+				 */
 		Tree* add_child(Tree* node){
 
 			node->parent = this;
@@ -87,10 +89,10 @@ class Tree {
 
 
 		/**
-		 * @brief remove a node from the current node
-		 * @param deleted_node node to remove
-		 * @return pointer to deleted_node
-		 */
+				 * @brief remove a node from the current node
+				 * @param deleted_node node to remove
+				 * @return pointer to deleted_node
+				 */
 		Tree* remove_child(Tree* deleted_node){
 
 			deleted_node->parent = nullptr;
@@ -110,9 +112,9 @@ class Tree {
 
 
 		/**
-		 * @brief move current node to a new parent
-		 * @param new_parent new parent of node
-		 */
+				 * @brief move current node to a new parent
+				 * @param new_parent new parent of node
+				 */
 		void move(Tree* new_parent){
 
 			parent->remove_child(data);
@@ -120,9 +122,9 @@ class Tree {
 		}
 
 		/**
-		 * @brief sort children of all nodes in ascending way according to their data
-		 * @param recursive if set to true, do it for all subnodes, too
-		 */
+				 * @brief sort children of all nodes in ascending way according to their data
+				 * @param recursive if set to true, do it for all subnodes, too
+				 */
 		void sort(bool recursive){
 			int i;
 
@@ -161,7 +163,7 @@ class Tree {
 				child->print(lvl+1);
 			}
 		}
-};
-
+	};
+}
 
 #endif // TREE_H

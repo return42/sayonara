@@ -69,7 +69,7 @@ public:
 protected:
 	AbstractLibrary*	_library = nullptr;
 
-	Filter				_cur_searchfilter;
+	Library::Filter		_cur_searchfilter;
 
 	BoolList	_shown_cols_albums;
 	BoolList	_shown_cols_artist;
@@ -132,9 +132,9 @@ protected slots:
 	virtual void columns_album_changed(const BoolList&);
 	virtual void columns_artist_changed(const BoolList&);
 
-	virtual void sortorder_title_changed(SortOrder);
-	virtual void sortorder_album_changed(SortOrder);
-	virtual void sortorder_artist_changed(SortOrder);
+	virtual void sortorder_title_changed(Library::SortOrder);
+	virtual void sortorder_album_changed(Library::SortOrder);
+	virtual void sortorder_artist_changed(Library::SortOrder);
 
 	virtual void text_line_edited(const QString&);
 	virtual void clear_button_pressed();

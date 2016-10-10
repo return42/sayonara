@@ -45,23 +45,23 @@ void SoundcloudLibrary::load(){
 }
 
 
-void SoundcloudLibrary::get_all_artists(ArtistList& artists, LibSortOrder so){
+void SoundcloudLibrary::get_all_artists(ArtistList& artists, Library::Sortings so){
 	_scd->getAllArtists(artists, so.so_artists);
 }
 
-void SoundcloudLibrary::get_all_artists_by_searchstring(Filter filter, ArtistList& artists, LibSortOrder so){
+void SoundcloudLibrary::get_all_artists_by_searchstring(Library::Filter filter, ArtistList& artists, Library::Sortings so){
 	_scd->getAllArtistsBySearchString(filter, artists, so.so_artists);
 }
 
-void SoundcloudLibrary::get_all_albums(AlbumList& albums, LibSortOrder so){
+void SoundcloudLibrary::get_all_albums(AlbumList& albums, Library::Sortings so){
 	_scd->getAllAlbums(albums, so.so_albums);
 }
 
-void SoundcloudLibrary::get_all_albums_by_artist(IDList artist_ids, AlbumList& albums, Filter filter, LibSortOrder so){
+void SoundcloudLibrary::get_all_albums_by_artist(IDList artist_ids, AlbumList& albums, Library::Filter filter, Library::Sortings so){
 	_scd->getAllAlbumsByArtist(artist_ids, albums, filter, so.so_albums);
 }
 
-void SoundcloudLibrary::get_all_albums_by_searchstring(Filter filter, AlbumList& albums, LibSortOrder so){
+void SoundcloudLibrary::get_all_albums_by_searchstring(Library::Filter filter, AlbumList& albums, Library::Sortings so){
 	_scd->getAllAlbumsBySearchString(filter, albums, so.so_albums);
 }
 
@@ -71,19 +71,19 @@ void SoundcloudLibrary::get_all_tracks(const QStringList& paths, MetaDataList& v
 	return;
 }
 
-void SoundcloudLibrary::get_all_tracks(MetaDataList& v_md, LibSortOrder so){
+void SoundcloudLibrary::get_all_tracks(MetaDataList& v_md, Library::Sortings so){
 	_scd->getTracksFromDatabase(v_md, so.so_tracks);
 }
 
-void SoundcloudLibrary::get_all_tracks_by_artist(IDList artist_ids, MetaDataList& v_md, Filter filter, LibSortOrder so){
+void SoundcloudLibrary::get_all_tracks_by_artist(IDList artist_ids, MetaDataList& v_md, Library::Filter filter, Library::Sortings so){
 	_scd->getAllTracksByArtist(artist_ids, v_md, filter, so.so_tracks);
 }
 
-void SoundcloudLibrary::get_all_tracks_by_album(IDList album_ids, MetaDataList& v_md, Filter filter, LibSortOrder so){
+void SoundcloudLibrary::get_all_tracks_by_album(IDList album_ids, MetaDataList& v_md, Library::Filter filter, Library::Sortings so){
 	_scd->getAllTracksByAlbum(album_ids, v_md, filter, so.so_tracks);
 }
 
-void SoundcloudLibrary::get_all_tracks_by_searchstring(Filter filter, MetaDataList& v_md, LibSortOrder so){
+void SoundcloudLibrary::get_all_tracks_by_searchstring(Library::Filter filter, MetaDataList& v_md, Library::Sortings so){
 	_scd->getAllTracksBySearchString(filter, v_md, so.so_tracks);
 
 }
@@ -128,7 +128,7 @@ void SoundcloudLibrary::refresh_artist(){
 	IDList artist_ids;
 	artist_ids << artist_id;
 
-	get_all_tracks_by_artist(artist_ids, v_md, Filter(), LibSortOrder());
+	get_all_tracks_by_artist(artist_ids, v_md, Library::Filter(), Library::Sortings());
 
 	delete_tracks(v_md, Library::TrackDeletionMode::OnlyLibrary);
 	sp_log(Log::Debug) << "Deleted " << v_md.size() << " soundcloud tracks";

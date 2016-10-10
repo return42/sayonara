@@ -38,6 +38,7 @@
 class ColumnHeader : public QObject {
 	Q_OBJECT
 
+	//todo
 public:
 	enum class SizeType : quint8
 	{
@@ -47,7 +48,7 @@ public:
 	};
 
 protected:
-	ColumnHeader(bool switchable, SortOrder sort_asc, SortOrder sort_desc);
+	ColumnHeader(bool switchable, Library::SortOrder sort_asc, Library::SortOrder sort_desc);
 
 protected:
 	QAction*		_action=nullptr;
@@ -56,13 +57,13 @@ protected:
 	int 			_preferred_size_abs;
 	double			_preferred_size_rel;
 
-	SortOrder		_sort_asc;
-	SortOrder		_sort_desc;
+	Library::SortOrder	_sort_asc;
+	Library::SortOrder	_sort_desc;
 	SizeType		_size_type;
 
 public:
-	ColumnHeader(bool switchable, SortOrder sort_asc, SortOrder sort_desc, int preferred_size_abs);
-	ColumnHeader(bool switchable, SortOrder sort_asc, SortOrder sort_desc, double preferred_size_rel, int min_size);
+	ColumnHeader(bool switchable, Library::SortOrder sort_asc, Library::SortOrder sort_desc, int preferred_size_abs);
+	ColumnHeader(bool switchable, Library::SortOrder sort_asc, Library::SortOrder sort_desc, double preferred_size_rel, int min_size);
 
 	void set_preferred_size_abs(int preferred_size);
 	void set_preferred_size_rel(double preferred_size);
@@ -70,8 +71,8 @@ public:
 	int get_preferred_size_abs() const;
 	double get_preferred_size_rel() const;
 
-	SortOrder get_asc_sortorder() const;
-	SortOrder get_desc_sortorder() const;
+	Library::SortOrder get_asc_sortorder() const;
+	Library::SortOrder get_desc_sortorder() const;
 
 	ColumnHeader::SizeType get_size_type() const;
 

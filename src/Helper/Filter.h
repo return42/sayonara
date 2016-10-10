@@ -27,26 +27,28 @@
 
 #include <QString>
 
-
-struct Filter {
-
-    enum class Mode : quint8
+namespace Library
+{
+    struct Filter
     {
-	Fulltext=0,
-	Filename,
-	Genre
+	enum Mode
+	{
+	    Fulltext=0,
+	    Filename,
+	    Genre
+	};
+
+	QString		filtertext;
+	Mode		mode;
+	bool		cleared;
+
+	Filter(){
+	    filtertext = "";
+	    mode = Mode::Fulltext;
+	    cleared = true;
+	}
     };
-
-    QString		filtertext;
-    Mode		mode;
-    bool		cleared;
-
-    Filter(){
-	filtertext = "";
-	mode = Mode::Fulltext;
-	cleared = true;
-    }
-};
+}
 
 
 #endif /* FILTER_H_ */
