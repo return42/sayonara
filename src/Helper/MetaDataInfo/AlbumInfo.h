@@ -30,7 +30,9 @@ class MetaDataList;
  * @brief The AlbumInfo class
  * @ingroup MetaDataHelper
  */
-class AlbumInfo : public MetaDataInfo {
+class AlbumInfo : 
+	public MetaDataInfo 
+{
 
 	Q_OBJECT
 

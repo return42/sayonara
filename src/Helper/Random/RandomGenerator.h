@@ -23,9 +23,6 @@
 #ifndef RANDOMGENERATOR_H
 #define RANDOMGENERATOR_H
 
-#include <random>
-#include <chrono>
-
 /**
  * @brief The RandomGenerator class
  * @ingroup Helper
@@ -34,8 +31,8 @@ class RandomGenerator
 {
 
 private:
-	unsigned int _seed;
-	std::mt19937 _generator;
+	struct Private;
+	RandomGenerator::Private* _m=nullptr;
 
 public:
 	RandomGenerator();

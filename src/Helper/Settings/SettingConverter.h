@@ -28,6 +28,7 @@
 #include <QSize>
 #include <QPoint>
 #include <QList>
+#include <QPair>
 
 // generic
 template<typename T>
@@ -304,6 +305,7 @@ public:
 		B b = val.second;
 		SettingConverter<A> sc_a;
 		SettingConverter<B> sc_b;
+
 		return sc_a.cvt_to_string(val.first) + "," + sc_b.cvt_to_string(b);
 	}
 
