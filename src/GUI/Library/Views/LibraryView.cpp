@@ -65,9 +65,7 @@ LibraryView::LibraryView(QWidget* parent) :
 }
 
 
-LibraryView::~LibraryView() {
-	delete _rc_menu;
-}
+LibraryView::~LibraryView() {}
 
 
 void LibraryView::setModel(LibraryItemModel * model) {
@@ -106,7 +104,7 @@ void LibraryView::do_drag(){
 	CustomMimeData* mimedata = _model->get_mimedata();
 
 	if(_drag){
-		delete _drag;
+		delete _drag; _drag = nullptr;
 	}
 
 	_drag = new QDrag(this);
@@ -156,7 +154,7 @@ MetaDataList LibraryView::get_selected_metadata() const
 	mimedata = _model->get_mimedata();
 	if(mimedata){
 		v_md = mimedata->getMetaData();
-		delete mimedata;
+		delete mimedata; mimedata = nullptr;
 	}
 
 	return v_md;

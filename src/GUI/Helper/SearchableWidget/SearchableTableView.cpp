@@ -40,7 +40,7 @@ SearchableTableView::SearchableTableView(QWidget* parent) :
 }
 
 SearchableTableView::~SearchableTableView() {
-	delete _mini_searcher;
+
 }
 
 void SearchableTableView::setAbstractModel(AbstractSearchTableModel* model) {

@@ -85,8 +85,6 @@ GUI_AlternativeCovers::GUI_AlternativeCovers(QWidget* parent) :
 
 
 GUI_AlternativeCovers::~GUI_AlternativeCovers() {
-	delete _model;
-	delete _delegate;
 
 	if(_cl_alternative) {
 		_cl_alternative->stop();

@@ -61,13 +61,13 @@ int PlaylistParser::parse_playlist(const QString& local_filename, MetaDataList& 
 		v_md_tmp = playlist_parser->get_md();
 
 		if(v_md_tmp.isEmpty()){
-			delete playlist_parser;
+			delete playlist_parser; playlist_parser = nullptr;
 			playlist_parser = new PLSParser(local_filename);
 			v_md_tmp = playlist_parser->get_md();
 		}
 
 		if(v_md_tmp.isEmpty()){
-			delete playlist_parser;
+			delete playlist_parser; playlist_parser = nullptr;
 			playlist_parser = new ASXParser(local_filename);
 		}
 	}
@@ -89,7 +89,9 @@ int PlaylistParser::parse_playlist(const QString& local_filename, MetaDataList& 
 		DatabaseConnector::getInstance()->deleteTracks(v_md_to_delete);
 	}
 
-	delete playlist_parser;
+	if(playlist_parser){
+		delete playlist_parser; playlist_parser = nullptr;
+	}
 
 	return v_md.size();
 }

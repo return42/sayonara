@@ -62,7 +62,12 @@ EngineHandler::EngineHandler(QObject* parent) : Engine(parent) {
 
 
 EngineHandler::~EngineHandler() {
-	
+	for(Engine* e : _engines)
+	{
+		delete e;
+	}
+
+	_engines.clear();
 }
 
 bool EngineHandler::init() {

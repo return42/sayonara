@@ -161,7 +161,7 @@ void GUI_Playlist::tab_close_playlist_clicked(int idx){
 
 	set_total_time_label();
 
-	delete playlist_widget;
+	delete playlist_widget; playlist_widget = nullptr;
 }
 
 

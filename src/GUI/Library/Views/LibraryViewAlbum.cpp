@@ -112,7 +112,7 @@ void LibraryViewAlbum::delete_discmenu(){
 
 	disconnect(_discmenu, &DiscPopupMenu::sig_disc_pressed, this, &LibraryViewAlbum::sig_disc_pressed);
 
-	delete _discmenu;
+	_discmenu->deleteLater();
 	_discmenu = nullptr;
 }
 

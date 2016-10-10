@@ -31,7 +31,10 @@ SayonaraWidget::SayonaraWidget(QWidget* parent) :
 	REGISTER_LISTENER(Set::Player_Style, skin_changed);
 }
 
-SayonaraWidget::~SayonaraWidget(){}
+SayonaraWidget::~SayonaraWidget()
+{
+
+}
 
 SayonaraDialog* SayonaraWidget::box_into_dialog()
 {

@@ -47,7 +47,7 @@ PlayerPluginInterface::PlayerPluginInterface(QWidget *parent) :
 
 PlayerPluginInterface::~PlayerPluginInterface() {
 
-	delete _pp_action;
+	delete _pp_action; _pp_action = nullptr;
 }
 
 void PlayerPluginInterface::show(){

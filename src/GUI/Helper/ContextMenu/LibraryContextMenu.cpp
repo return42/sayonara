@@ -89,14 +89,6 @@ LibraryContextMenu::LibraryContextMenu(QWidget* parent) :
 
 LibraryContextMenu::~LibraryContextMenu() {
 
-	delete _info_action;
-	delete _lyrics_action;
-	delete _edit_action;
-	delete _remove_action;
-	delete _delete_action;
-	delete _play_next_action;
-	delete _refresh_action;
-	delete _clear_action;
 }
 
 

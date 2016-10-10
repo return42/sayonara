@@ -29,20 +29,9 @@ EnginePlugin::EnginePlugin(QWidget* parent) :
 
 EnginePlugin::~EnginePlugin(){
 
-	if(!is_ui_initialized()){
-		return;
+	if(_ecsc){
+		delete _ecsc; _ecsc = nullptr;
 	}
-
-	disconnect(_btn_config, &QPushButton::clicked, this, &EnginePlugin::config_clicked);
-	disconnect(_btn_prev, &QPushButton::clicked, this, &EnginePlugin::prev_clicked);
-	disconnect(_btn_next, &QPushButton::clicked, this, &EnginePlugin::next_clicked);
-
-    delete _btn_config;
-    delete _btn_prev;
-    delete _btn_next;
-    delete _btn_close;
-	delete _ui_style_settings;
-	delete _ecsc;
 }
 
 

@@ -122,7 +122,7 @@ void CrossFader::init_fader()
 			Helper::sleep_ms(10);
 		}
 
-		delete _fader;
+		delete _fader; _fader=nullptr;
 	}
 
 	int fading_time = Settings::getInstance()->get(Set::Engine_CrossFaderTime);

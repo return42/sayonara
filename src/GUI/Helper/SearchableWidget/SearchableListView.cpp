@@ -38,7 +38,6 @@ SearchableListView::SearchableListView(QWidget* parent) :
 }
 
 SearchableListView::~SearchableListView() {
-	delete _mini_searcher;
 }
 
 

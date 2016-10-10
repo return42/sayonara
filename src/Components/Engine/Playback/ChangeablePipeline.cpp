@@ -124,7 +124,7 @@ void ChangeablePipeline::add_element(GstElement* element, GstElement* first_elem
 
 	sp_log(Log::Debug) << "Element " << element_name << " added.";
 
-	delete data;
+	delete data; data = nullptr;
 }
 
 
@@ -231,7 +231,7 @@ void ChangeablePipeline::remove_element(GstElement* element, GstElement* first_e
 
 	sp_log(Log::Debug) << "Element " << gst_element_get_name(element) << " removed.";
 
-	delete data;
+	delete data; data = nullptr;
 }
 
 

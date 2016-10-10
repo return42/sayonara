@@ -44,7 +44,7 @@ PlaylistTabWidget::PlaylistTabWidget(QWidget* parent) :
 }
 
 PlaylistTabWidget::~PlaylistTabWidget(){
-	delete _tab_bar;
+
 }
 
 void PlaylistTabWidget::show_tabbar(){

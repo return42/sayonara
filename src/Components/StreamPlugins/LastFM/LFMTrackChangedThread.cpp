@@ -56,7 +56,7 @@ LFMTrackChangedThread::LFMTrackChangedThread(const QString& username, const QStr
 
 
 LFMTrackChangedThread::~LFMTrackChangedThread() {
-	delete _smart_comparison;
+	delete _smart_comparison; _smart_comparison = nullptr;
 }
 
 void LFMTrackChangedThread::set_session_key(const QString& session_key) {

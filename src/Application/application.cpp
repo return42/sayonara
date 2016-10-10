@@ -292,7 +292,7 @@ Application::~Application()
 	}
 
 	if(player){
-		delete player;
+		delete player; player=nullptr;
 	}
 
 	if(_plh){
@@ -302,6 +302,11 @@ Application::~Application()
 	if(_db){
 		_db->store_settings();
 		_db->close_db();
+	}
+
+	if(_timer)
+	{
+		delete _timer; _timer=nullptr;
 	}
 }
 

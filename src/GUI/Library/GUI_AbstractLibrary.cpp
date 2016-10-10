@@ -37,11 +37,11 @@ GUI_AbstractLibrary::GUI_AbstractLibrary(AbstractLibrary* library, QWidget *pare
 }
 
 GUI_AbstractLibrary::~GUI_AbstractLibrary(){
-	delete _album_model;
-	delete _album_delegate;
-	delete _artist_model;
-	delete _track_model;
-	delete _track_delegate;
+	delete _album_model; _album_model = nullptr;
+	delete _album_delegate; _album_delegate = nullptr;
+	delete _artist_model; _artist_model = nullptr;
+	delete _track_model; _track_model = nullptr;
+	delete _track_delegate; _track_delegate = nullptr;
 }
 
 void GUI_AbstractLibrary::init_finished(){

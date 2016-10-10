@@ -47,6 +47,7 @@ class Engine :
 public:
 
 	Engine(QObject* parent=nullptr);
+	virtual ~Engine();
 	virtual EngineName	get_name() const final;
 
 	virtual bool		init()=0;

@@ -110,7 +110,7 @@ GUI_Playlist::~GUI_Playlist() {
 		tw_playlists->removeTab(0);
 
 		if(widget){
-			delete widget;
+			delete widget; widget = nullptr;
 		}
 	}
 }
