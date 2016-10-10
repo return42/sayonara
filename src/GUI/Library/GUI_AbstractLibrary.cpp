@@ -198,6 +198,7 @@ void GUI_AbstractLibrary::text_line_edited(const QString &search){
 
 	Filter filter;
 	QString text = search;
+
 	switch( _combo_search->currentIndex() ) {
 
 		case 1:
