@@ -197,6 +197,7 @@ void GUI_AbstractLibrary::text_line_edited(const QString &search){
 	}
 
 	Filter filter;
+	QString text = search;
 	switch( _combo_search->currentIndex() ) {
 
 		case 1:
@@ -209,6 +210,7 @@ void GUI_AbstractLibrary::text_line_edited(const QString &search){
 
 		case 0:
 		default:
+			text = LibraryHelper::convert_search_string(search, mask);
 			filter.mode = Filter::Mode::Fulltext;
 			break;
 	}
@@ -219,7 +221,8 @@ void GUI_AbstractLibrary::text_line_edited(const QString &search){
 
 	else{
 		LibraryHelper::SearchModeMask mask = _settings->get(Set::Lib_SearchMode);
-		filter.filtertext = QString("%") + LibraryHelper::convert_search_string(search, mask) + QString("%");
+
+		filter.filtertext = QString("%") + text + QString("%");
 		filter.cleared = false;
 	}
 
