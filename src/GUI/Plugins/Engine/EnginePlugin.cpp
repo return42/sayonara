@@ -19,6 +19,7 @@
  */
 
 #include "EnginePlugin.h"
+#include "EngineColorStyleChooser.h"
 #include "Components/Engine/EngineHandler.h"
 
 EnginePlugin::EnginePlugin(QWidget* parent) :

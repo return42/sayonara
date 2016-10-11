@@ -25,9 +25,6 @@
 
 #include <QSlider>
 #include <QLabel>
-#include <QEvent>
-#include <QFocusEvent>
-#include <QMouseEvent>
 
 /**
  * @brief The SayonaraSlider class

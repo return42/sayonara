@@ -29,7 +29,6 @@
 #ifndef ALTERNATIVECOVERITEMDELEGATE_H_
 #define ALTERNATIVECOVERITEMDELEGATE_H_
 
-#include <QWidget>
 #include <QTableView>
 #include <QItemDelegate>
 #include <QLabel>
@@ -39,7 +38,9 @@
  * @brief The AlternativeCoverItemDelegate class
  * @ingroup GUICovers
  */
-class AlternativeCoverItemDelegate : public QItemDelegate{
+class AlternativeCoverItemDelegate :
+		public QItemDelegate
+{
 
 	Q_OBJECT
 

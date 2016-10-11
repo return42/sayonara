@@ -23,10 +23,7 @@
 #ifndef SAYONARAWIDGET_H
 #define SAYONARAWIDGET_H
 
-#include <QObject>
-#include <QWidget>
 #include <QMainWindow>
-
 #include "SayonaraWidgetTemplate.h"
 
 

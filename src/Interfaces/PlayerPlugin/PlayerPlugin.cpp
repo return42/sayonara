@@ -26,6 +26,8 @@
 #include "GUI/Helper/Shortcuts/ShortcutHandler.h"
 #include "Components/PlayManager/PlayManager.h"
 
+#include <QLayout>
+
 PlayerPluginInterface::PlayerPluginInterface(QWidget *parent) :
 	SayonaraWidget(parent),
 	ShortcutWidget()

@@ -28,7 +28,6 @@
 #include "GUI/Plugins/Engine/ui_GUI_Style.h"
 #include "GUI/Helper/SayonaraWidget/SayonaraDialog.h"
 
-
 #include <QList>
 #include <QCloseEvent>
 

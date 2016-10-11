@@ -23,9 +23,7 @@
 #define GUI_TAGEDIT_H_
 
 #include <QLineEdit>
-#include <QFocusEvent>
 #include <QString>
-#include <QRegExp>
 
 #include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
 #include "Components/TagEdit/TagExpression.h"

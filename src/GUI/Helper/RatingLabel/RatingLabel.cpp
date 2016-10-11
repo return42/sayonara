@@ -24,6 +24,8 @@
 #include "RatingLabel.h"
 #include "GUI/Helper/GUI_Helper.h"
 
+#include <QMouseEvent>
+#include <QPainter>
 #include <algorithm>
 
 const int Offset_X = 3;

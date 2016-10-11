@@ -22,6 +22,7 @@
 #define FILEHELPER_H
 
 #include <QStringList>
+
 namespace Helper
 {
 

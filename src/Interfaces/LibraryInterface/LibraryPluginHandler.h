@@ -19,14 +19,10 @@
  */
 
 
-
 #ifndef LIBRARYPLUGINLOADER_H
 #define LIBRARYPLUGINLOADER_H
 
-#include <QDir>
 #include <QList>
-#include <QPluginLoader>
-#include <QWidget>
 
 #include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
 

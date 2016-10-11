@@ -32,6 +32,55 @@ struct CachingThread::Private {
 	ImportCache		cache;
 	QStringList		file_list;
 	bool			cancelled;
+
+
+	void read_files()
+	{
+		DirectoryReader dr;
+		dr.set_filter("*");
+
+		for(const QString& filename : file_list){
+
+			if(cancelled){
+				cache.clear();
+				return;
+			}
+
+			if(Helper::File::is_dir(filename)){
+				QStringList dir_files;
+				QDir dir(filename);
+
+				dr.get_files_in_dir_rec(dir, dir_files);
+
+				for(const QString& dir_file : dir_files){
+					cache.add_standard_file(dir_file, filename);
+				}
+			}
+
+			else{
+				cache.add_standard_file(filename);
+			}
+		}
+	}
+
+	void extract_soundfiles()
+	{
+
+		for(const QString& filename : cache.get_files()){
+
+			if(Helper::File::is_soundfile(filename)){
+
+				bool success = false;
+				MetaData md;
+				md.set_filepath(filename);
+				success = Tagging::getMetaDataOfFile(md);
+
+				if(success){
+					cache.add_soundfile(md);
+				}
+			}
+		}
+	}
 };
 
 CachingThread::CachingThread(const QStringList& file_list, QObject *parent) :
@@ -45,67 +94,19 @@ CachingThread::CachingThread(const QStringList& file_list, QObject *parent) :
 
 CachingThread::~CachingThread()
 {
-	delete _m;
+	delete _m; _m = nullptr;
 }
 
 void CachingThread::run()
 {
 	_m->cache.clear();
 
-	read_files();
-	extract_soundfiles();
+	_m->read_files();
+	_m->extract_soundfiles();
 
 	emit sig_progress( -1 );
 }
 
-
-void CachingThread::read_files()
-{
-	DirectoryReader dr;
-	dr.set_filter("*");
-
-	for(const QString& filename : _m->file_list){
-
-		if(_m->cancelled){
-			_m->cache.clear();
-			return;
-		}
-
-		if(Helper::File::is_dir(filename)){
-			QStringList dir_files;
-			QDir dir(filename);
-
-			dr.get_files_in_dir_rec(dir, dir_files);
-
-			for(const QString& dir_file : dir_files){
-				_m->cache.add_standard_file(dir_file, filename);
-			}
-		}
-
-		else{
-			_m->cache.add_standard_file(filename);
-		}
-	}
-}
-
-void CachingThread::extract_soundfiles()
-{
-
-	for(const QString& filename : _m->cache.get_files()){
-
-		if(Helper::File::is_soundfile(filename)){
-
-			bool success = false;
-			MetaData md;
-			md.set_filepath(filename);
-			success = Tagging::getMetaDataOfFile(md);
-
-			if(success){
-				_m->cache.add_soundfile(md);
-			}
-		}
-	}
-}
 
 void CachingThread::change_metadata(const MetaDataList& v_md_old, const MetaDataList& v_md_new){
 	_m->cache.change_metadata(v_md_old, v_md_new);
@@ -122,7 +123,7 @@ void CachingThread::cancel()
 	_m->cancelled = true;
 }
 
-bool CachingThread::was_canelled() const
+bool CachingThread::is_cancelled() const
 {
 	return _m->cancelled;
 }

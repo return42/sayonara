@@ -28,6 +28,8 @@
 	#include "GUI/ShutdownDialog/GUI_Shutdown.h"
 #endif
 
+#include <QFile>
+
 
 GUI_PlaylistBottomBar::GUI_PlaylistBottomBar(QWidget *parent) :
 	SayonaraWidget(parent),

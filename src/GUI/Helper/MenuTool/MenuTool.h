@@ -25,11 +25,6 @@
 
 #include <QMenu>
 
-#include <QMouseEvent>
-#include <QList>
-#include <QAction>
-#include <QTimer>
-
 #include "MenuButton.h"
 #include "GUI/Helper/ContextMenu/ContextMenu.h"
 

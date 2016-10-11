@@ -30,9 +30,6 @@
 #include <QPushButton>
 #include <QLineEdit>
 #include <QMap>
-#include <QKeyEvent>
-
-#include <tuple>
 
 namespace Ui
 {

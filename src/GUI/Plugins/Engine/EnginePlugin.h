@@ -24,20 +24,12 @@
 #define ENGINEPLUGIN_H
 
 #include "GUI_StyleSettings.h"
-
 #include "Interfaces/PlayerPlugin/PlayerPlugin.h"
 
-#include "EngineColorStyleChooser.h"
-
-#include <QAction>
-#include <QColor>
 #include <QTimer>
 #include <QPushButton>
-#include <QMouseEvent>
-#include <QResizeEvent>
-#include <QPaintEvent>
-#include <QShowEvent>
 	
+class EngineColorStyleChooser;
 class EngineHandler;
 class GUI_PlayerPlugin;
 class EnginePlugin : public PlayerPluginInterface {

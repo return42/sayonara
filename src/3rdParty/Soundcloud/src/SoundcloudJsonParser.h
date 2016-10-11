@@ -23,14 +23,13 @@
 
 #include "SoundcloudGlobal.h"
 
-
 #include <QList>
 #include <QString>
 #include <QByteArray>
-#include <QObject>
-#include <QJsonDocument>
+
 #include <QObject>
 
+#include <QJsonDocument>
 #include <QJsonParseError>
 #include <QJsonObject>
 #include <QJsonArray>

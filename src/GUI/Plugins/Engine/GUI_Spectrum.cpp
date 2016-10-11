@@ -19,6 +19,7 @@
  */
 
 #include "GUI_Spectrum.h"
+#include "EngineColorStyleChooser.h"
 #include "GUI/Plugins/Engine/ui_GUI_Spectrum.h"
 
 #include "Helper/globals.h"

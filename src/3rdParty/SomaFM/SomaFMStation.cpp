@@ -41,6 +41,83 @@ struct SomaFMStation::Private
 	MetaDataList	v_md;
 	bool			loved;
 
+
+	void parse_station_name()
+	{
+		QString pattern("<h3>(.*)</h3>");
+		QRegExp re(pattern);
+		re.setMinimal(true);
+
+		int idx = re.indexIn(content);
+		if(idx > 0){
+			station_name = Helper::cvt_str_to_first_upper(re.cap(1));
+		}
+	}
+
+
+	void parse_urls()
+	{
+		QString mp3_pattern("<nobr>\\s*MP3:\\s*<a\\s+href=\"(.*)\"");
+		QString aac_pattern("<nobr>\\s*AAC:\\s*<a\\s+href=\"(.*)\"");
+		QRegExp re_mp3(mp3_pattern);
+		QRegExp re_aac(aac_pattern);
+
+		re_mp3.setMinimal(true);
+		re_aac.setMinimal(true);
+
+		int idx=-1;
+		do{
+			idx = re_mp3.indexIn(content, idx+1);
+			if(idx > 0){
+				QString url = re_mp3.cap(1);
+				urls[url] = SomaFMStation::UrlType::MP3;
+			}
+		} while(idx > 0);
+
+		idx=-1;
+		do{
+			idx = re_aac.indexIn(content, idx+1);
+			if(idx > 0){
+				QString url = re_aac.cap(1);
+				urls[url] = SomaFMStation::UrlType::AAC;
+			}
+
+		} while(idx > 0);
+	}
+
+
+
+	void parse_description()
+	{
+		QString pattern("<p\\s*class=\"descr\">(.*)</p>");
+		QRegExp re(pattern);
+		re.setMinimal(true);
+
+		int idx = re.indexIn(content);
+		if(idx > 0){
+			description = re.cap(1);
+		}
+	}
+
+	void parse_image()
+	{
+		QString pattern("<img\\s*src=\\s*\"(.*)\"");
+		QRegExp re(pattern);
+
+		re.setMinimal(true);
+
+		int idx = re.indexIn(content);
+		if(idx > 0){
+			QString url = QString("https://somafm.com/") + re.cap(1);
+			QString cover_path = Helper::get_sayonara_path() +
+					"/covers/" +
+					station_name + "." + Helper::File::get_file_extension(url);
+
+			cover = CoverLocation::get_cover_location(QUrl(url), cover_path);
+		}
+	}
+
+
 };
 
 SomaFMStation::SomaFMStation()
@@ -55,10 +132,10 @@ SomaFMStation::SomaFMStation(const QString& content) :
 {
 	_m->content = content;
 
-	parse_description();
-	parse_station_name();
-	parse_image();
-	parse_urls();
+	_m->parse_description();
+	_m->parse_station_name();
+	_m->parse_image();
+	_m->parse_urls();
 }
 
 QString SomaFMStation::get_name() const
@@ -102,79 +179,6 @@ MetaDataList SomaFMStation::get_metadata() const
 void SomaFMStation::set_metadata(const MetaDataList& v_md)
 {
 	_m->v_md = v_md;
-}
-
-
-void SomaFMStation::parse_station_name()
-{
-	QString pattern("<h3>(.*)</h3>");
-	QRegExp re(pattern);
-	re.setMinimal(true);
-
-	int idx = re.indexIn(_m->content);
-	if(idx > 0){
-		_m->station_name = Helper::cvt_str_to_first_upper(re.cap(1));
-	}
-}
-
-void SomaFMStation::parse_urls()
-{
-	QString mp3_pattern("<nobr>\\s*MP3:\\s*<a\\s+href=\"(.*)\"");
-	QString aac_pattern("<nobr>\\s*AAC:\\s*<a\\s+href=\"(.*)\"");
-	QRegExp re_mp3(mp3_pattern);
-	QRegExp re_aac(aac_pattern);
-
-	re_mp3.setMinimal(true);
-	re_aac.setMinimal(true);
-
-	int idx=-1;
-	do{
-		idx = re_mp3.indexIn(_m->content, idx+1);
-		if(idx > 0){
-			QString url = re_mp3.cap(1);
-			_m->urls[url] = SomaFMStation::UrlType::MP3;
-		}
-	} while(idx > 0);
-
-	idx=-1;
-	do{
-		idx = re_aac.indexIn(_m->content, idx+1);
-		if(idx > 0){
-			QString url = re_aac.cap(1);
-			_m->urls[url] = SomaFMStation::UrlType::AAC;
-		}
-
-	} while(idx > 0);
-}
-
-void SomaFMStation::parse_description()
-{
-	QString pattern("<p\\s*class=\"descr\">(.*)</p>");
-	QRegExp re(pattern);
-	re.setMinimal(true);
-
-	int idx = re.indexIn(_m->content);
-	if(idx > 0){
-		_m->description = re.cap(1);
-	}
-}
-
-void SomaFMStation::parse_image()
-{
-	QString pattern("<img\\s*src=\\s*\"(.*)\"");
-	QRegExp re(pattern);
-
-	re.setMinimal(true);
-
-	int idx = re.indexIn(_m->content);
-	if(idx > 0){
-		QString url = QString("https://somafm.com/") + re.cap(1);
-		QString cover_path = Helper::get_sayonara_path() +
-				"/covers/" +
-				_m->station_name + "." + Helper::File::get_file_extension(url);
-
-		_m->cover = CoverLocation::get_cover_location(QUrl(url), cover_path);
-	}
 }
 
 void SomaFMStation::set_loved(bool loved){

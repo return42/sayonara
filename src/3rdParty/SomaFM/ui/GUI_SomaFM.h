@@ -30,6 +30,7 @@
 class SomaFMStationModel;
 class SomaFMStation;
 class SomaFMLibrary;
+class QComboBox;
 
 namespace Ui
 {

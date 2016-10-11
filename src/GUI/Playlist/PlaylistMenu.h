@@ -26,10 +26,7 @@
 #include "Helper/Settings/SayonaraClass.h"
 
 #include <QMenu>
-#include <QAction>
-#include <QWidget>
 #include <QTimer>
-#include <QShowEvent>
 
 class GUI_PlaylistEntryLook;
 

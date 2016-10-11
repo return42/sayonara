@@ -21,6 +21,8 @@
 
 #include "EqSlider.h"
 
+#include <QKeyEvent>
+
 EqSlider::EqSlider(QWidget *parent) :
 	SayonaraSlider(parent)
 {

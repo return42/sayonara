@@ -23,13 +23,14 @@
 #ifndef LIBRARYCONTAINER_H
 #define LIBRARYCONTAINER_H
 
-#include <QIcon>
-#include <QWidget>
-#include <QComboBox>
 
-#include <QList>
-#include <QAction>
+#include <QObject>
 
+class QAction;
+class QIcon;
+class QMenu;
+class QWidget;
+class QComboBox;
 class Settings;
 class LibraryPluginHandler;
 

@@ -29,8 +29,7 @@
 #ifndef STYLE_H_
 #define STYLE_H_
 
-#include <QString>
-
+class QString;
 /**
  * @define the Style namespace
  * @ingroup GUIHelper

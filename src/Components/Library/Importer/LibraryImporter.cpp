@@ -90,7 +90,7 @@ void LibraryImporter::caching_thread_finished() {
 
 	v_md = _import_cache.get_soundfiles();
 
-	if(v_md.isEmpty() || thread->was_canelled()){
+	if(v_md.isEmpty() || thread->is_cancelled()){
 		emit_status(ImportStatus::NoTracks);
 	}
 

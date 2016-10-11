@@ -35,8 +35,6 @@
 #include "Components/Playlist/PlaylistDBInterface.h"
 
 #include <QTextEdit>
-#include <QFocusEvent>
-#include <QKeyEvent>
 
 class PlayManager;
 class PlaylistView;

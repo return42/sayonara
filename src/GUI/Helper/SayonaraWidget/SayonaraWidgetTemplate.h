@@ -23,12 +23,8 @@
 #ifndef SAYONARAWIDGETTEMPLATE_H
 #define SAYONARAWIDGETTEMPLATE_H
 
-#include <QObject>
 #include <QWidget>
-#include <QComboBox>
-#include <QPalette>
-#include <QColor>
-#include <QShortcut>
+#include <QStringList>
 
 #include "Helper/Settings/SayonaraClass.h"
 

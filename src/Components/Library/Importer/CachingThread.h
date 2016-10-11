@@ -32,8 +32,6 @@ class CachingThread :
 {
 	Q_OBJECT
 
-private:
-
 signals:
 	void			sig_progress(int);
 
@@ -42,9 +40,8 @@ public:
 	CachingThread(const QStringList& file_list, QObject *parent=nullptr);
 	virtual ~CachingThread();
 
-
 	void			cancel();
-	bool			was_canelled() const;
+	bool			is_cancelled() const;
 	ImportCache		get_cache() const;
 	void			change_metadata(const MetaDataList& v_md_old, const MetaDataList& v_md_new);
 
@@ -56,10 +53,6 @@ private:
 
 private:
 	void run() override;
-
-	void read_files();
-	void extract_soundfiles();
-
 };
 
 #endif // IMPORTFOLDERTHREAD_H

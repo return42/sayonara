@@ -35,6 +35,7 @@
 
 #include <QDir>
 #include <QDesktopServices>
+#include <QRegExp>
 
 GUI_TagEdit::GUI_TagEdit(QWidget* parent) :
 	SayonaraWidget(parent)

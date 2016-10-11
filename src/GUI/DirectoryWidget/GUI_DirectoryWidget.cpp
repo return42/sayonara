@@ -37,6 +37,7 @@
 #include <QItemSelectionModel>
 #include <QApplication>
 #include <QMouseEvent>
+#include <QShortcut>
 
 GUI_DirectoryWidget::GUI_DirectoryWidget(QWidget *parent) :
 	SayonaraWidget(parent),

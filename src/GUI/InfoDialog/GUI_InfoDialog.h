@@ -28,11 +28,6 @@
 #include "GUI/Helper/SayonaraWidget/SayonaraDialog.h"
 #include "Helper/MetaData/MetaDataList.h"
 
-#include <QCloseEvent>
-#include <QDateTime>
-#include <QTabBar>
-#include <QWidget>
-
 class GUI_TagEdit;
 class LyricLookupThread;
 class InfoDialogContainer;
@@ -96,7 +91,7 @@ private:
 
 	struct Private;
 	GUI_InfoDialog::Private*	_m=nullptr;
-	Ui::InfoDialog*			ui=nullptr;
+	Ui::InfoDialog*				ui=nullptr;
 
 };
 

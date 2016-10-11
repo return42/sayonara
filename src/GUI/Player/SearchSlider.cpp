@@ -25,6 +25,8 @@
 #include "SearchSlider.h"
 
 #include <algorithm>
+#include <QEvent>
+#include <QWheelEvent>
 
 SearchSlider::SearchSlider(QWidget* parent) :
 	SayonaraSlider(parent)

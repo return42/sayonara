@@ -29,6 +29,8 @@
 #include "Helper/DirectoryReader/DirectoryReader.h"
 
 #include <QShortcut>
+#include <QInputDialog>
+#include <QMouseEvent>
 
 
 PlaylistTabBar::PlaylistTabBar(QWidget *parent) :

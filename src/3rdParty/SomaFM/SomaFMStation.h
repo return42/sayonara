@@ -26,8 +26,9 @@
 #define SOMAFMSTATION_H
 
 #include <QtGlobal>
-#include <QString>
 
+class QStringList;
+class QString;
 class CoverLocation;
 class MetaDataList;
 class SomaFMStation
@@ -58,7 +59,6 @@ public:
 
 
 private:
-
 	struct Private;
 	SomaFMStation::Private* _m=nullptr;
 

@@ -26,7 +26,6 @@
 #define SAYONARALOADINGBAR_H
 
 #include <QProgressBar>
-#include <QShowEvent>
 
 /**
  * @brief The SayonaraLoadingBar class

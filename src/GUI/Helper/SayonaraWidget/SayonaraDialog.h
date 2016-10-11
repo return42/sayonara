@@ -23,9 +23,7 @@
 #ifndef SAYONARADIALOG_H
 #define SAYONARADIALOG_H
 
-#include <QObject>
 #include <QDialog>
-#include <QCloseEvent>
 #include "SayonaraWidgetTemplate.h"
 
 /**
@@ -33,7 +31,9 @@
  * @ingroup Widgets
  * @ingroup Interfaces
  */
-class SayonaraDialog : public SayonaraWidgetTemplate<QDialog> {
+class SayonaraDialog :
+		public SayonaraWidgetTemplate<QDialog>
+{
 
 	Q_OBJECT
 

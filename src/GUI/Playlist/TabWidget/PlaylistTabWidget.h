@@ -27,12 +27,7 @@
 #include "Helper/Settings/SayonaraClass.h"
 #include "PlaylistMenuEntry.h"
 
-
 #include <QTabWidget>
-#include <QLineEdit>
-#include <QMenu>
-#include <QAction>
-#include <QMouseEvent>
 
 class PlaylistTabBar;
 class MetaDataList;

@@ -23,9 +23,6 @@
 
 #include <QAction>
 #include <QCloseEvent>
-#include <QLabel>
-#include <QPushButton>
-#include <QLayout>
 
 #include "Helper/Settings/Settings.h"
 #include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"

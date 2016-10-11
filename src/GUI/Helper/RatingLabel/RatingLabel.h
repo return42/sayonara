@@ -24,12 +24,6 @@
 #define RATINGLABEL_H
 
 #include <QLabel>
-#include <QPaintEvent>
-#include <QMouseEvent>
-#include <QFocusEvent>
-#include <QPalette>
-#include <QPainter>
-#include <QRect>
 #include <QPoint>
 #include <QPixmap>
 

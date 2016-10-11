@@ -23,14 +23,13 @@
 #ifndef BOOKMARKS_ACTION_H
 #define BOOKMARKS_ACTION_H
 
+#include <QMenu>
+#include <QList>
+
+
 class MetaData;
 class Bookmarks;
 class Bookmark;
-
-#include <QMenu>
-#include <QWidget>
-#include <QList>
-
 
 class BookmarksMenu :
 	public QMenu

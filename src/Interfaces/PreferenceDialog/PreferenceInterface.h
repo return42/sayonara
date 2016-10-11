@@ -25,9 +25,6 @@
 
 #include <QAction>
 #include <QByteArray>
-#include <QShowEvent>
-#include <QCloseEvent>
-#include <QString>
 
 #include "GUI/Helper/SayonaraWidget/SayonaraDialog.h"
 #include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"

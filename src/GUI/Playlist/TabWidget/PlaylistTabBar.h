@@ -26,12 +26,7 @@
 #include "PlaylistMenuEntry.h"
 #include "GUI/Helper/Shortcuts/ShortcutWidget.h"
 
-#include <QInputDialog>
 #include <QTabBar>
-#include <QMouseEvent>
-#include <QWheelEvent>
-
-
 
 class PlaylistTabMenu;
 class MetaDataList;

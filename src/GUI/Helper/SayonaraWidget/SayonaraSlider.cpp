@@ -21,6 +21,7 @@
 
 
 #include "SayonaraSlider.h"
+#include <QMouseEvent>
 
 SayonaraSlider::SayonaraSlider(QWidget *parent) :
 	QSlider(parent)

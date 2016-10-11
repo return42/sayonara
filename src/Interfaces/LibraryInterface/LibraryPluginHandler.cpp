@@ -29,7 +29,10 @@
 #include "Helper/Settings/Settings.h"
 #include "Helper/Logger/Logger.h"
 
+#include <QDir>
 #include <QLayout>
+#include <QComboBox>
+#include <QPluginLoader>
 
 LibraryPluginHandler::LibraryPluginHandler(QObject* parent) :
 	QObject(parent),

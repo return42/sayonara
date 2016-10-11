@@ -28,6 +28,7 @@
 
 #include <QFileSystemModel>
 
+class QComboBox;
 class LocalLibrary;
 class IconProvider;
 class LocalLibrary;
