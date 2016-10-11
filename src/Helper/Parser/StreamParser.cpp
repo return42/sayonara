@@ -30,6 +30,9 @@
 #include "Helper/UrlHelper.h"
 #include "Helper/Logger/Logger.h"
 
+#include <QFile>
+#include <QDir>
+
 struct StreamParser::Private{
 	QStringList 	urls;
 	QString			last_url;

@@ -498,7 +498,6 @@ bool DatabasePlaylist::emptyPlaylist(int playlist_id)
 	return true;
 }
 
-
 bool DatabasePlaylist::deletePlaylist(int playlist_id)
 {
 	DB_RETURN_NOT_OPEN_BOOL(_db);

@@ -25,13 +25,12 @@
 #ifndef GUI_HELPER_H
 #define GUI_HELPER_H
 
-#include <QIcon>
-#include <QString>
-#include <QPixmap>
 #include <QSize>
-#include <QImage>
-#include <QWidget>
-#include <QMainWindow>
+
+class QPixmap;
+class QString;
+class QIcon;
+class QMainWindow;
 
 /**
  * @ingroup GUI

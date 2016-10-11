@@ -29,8 +29,14 @@
 #include <QtGlobal>
 #include <QNetworkInterface>
 #include <QHostAddress>
+#include <QString>
+#include <QCryptographicHash>
+#include <QDir>
+#include <QRegExp>
+
 #include <thread>
 #include <chrono>
+
 #ifdef Q_OS_LINUX
 #ifndef LIB_INSTALL_DIR
 #define LIB_INSTALL_DIR "/usr/lib"

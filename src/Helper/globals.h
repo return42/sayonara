@@ -21,7 +21,6 @@
 #ifndef GLOBALS_H_
 #define GLOBALS_H_
 
-#include <QtGlobal>
 #include <type_traits>
 
 #define DARK_BLUE(x) QString("<font color=#0000FF>") + x + QString("</font>")

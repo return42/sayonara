@@ -25,6 +25,9 @@
 #include "Helper/Logger/Logger.h"
 
 #include <QDir>
+#include <QFile>
+#include <QFileInfo>
+#include <QStringList>
 
 #include <algorithm>
 

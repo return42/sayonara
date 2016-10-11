@@ -29,8 +29,9 @@
 #include "Helper/Logger/Logger.h"
 
 
-EngineHandler::EngineHandler(QObject* parent) : Engine(parent) {
-
+EngineHandler::EngineHandler(QObject* parent) : 
+	Engine(parent) 
+{
 	_cur_engine = nullptr;
 
 	_play_manager = PlayManager::getInstance();

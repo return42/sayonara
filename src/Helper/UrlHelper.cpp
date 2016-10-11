@@ -22,6 +22,7 @@
 
 #include "UrlHelper.h"
 #include <QRegExp>
+#include <QString>
 
 QString Helper::Url::get_protocol(const QString &url){
 	QRegExp re("(.+)://.*");

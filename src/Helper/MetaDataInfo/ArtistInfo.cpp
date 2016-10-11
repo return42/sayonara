@@ -29,6 +29,8 @@
 #include "Helper/globals.h"
 #include "Helper/FileHelper.h"
 
+#include <QFile>
+
 ArtistInfo::ArtistInfo(const MetaDataList& v_md) :
 	MetaDataInfo(v_md){
 

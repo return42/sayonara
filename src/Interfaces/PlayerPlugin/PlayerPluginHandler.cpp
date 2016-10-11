@@ -24,6 +24,7 @@
 #include "Helper/Helper.h"
 #include "Helper/Logger/Logger.h"
 
+#include <QDir>
 #include <QAction>
 #include <QPluginLoader>
 

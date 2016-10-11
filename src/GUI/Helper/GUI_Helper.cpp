@@ -25,6 +25,11 @@
 #include "GUI_Helper.h"
 #include "Helper/Logger/Logger.h"
 
+#include <QIcon>
+#include <QString>
+#include <QPixmap>
+#include <QMainWindow>
+
 
 QIcon GUI::get_icon(const QString& icon_name){
 

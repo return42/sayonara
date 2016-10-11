@@ -29,14 +29,9 @@
 #ifndef _HELPER_H
 #define _HELPER_H
 
-#include <QDir>
-#include <QUrl>
-#include <QCryptographicHash>
-#include <QFile>
-#include <QFontMetrics>
-#include <QFileInfo>
-#include <QMap>
+#include <QObject>
 
+class QString;
 class MetaData;
 /**
  * @brief Helper functions

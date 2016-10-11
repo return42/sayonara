@@ -21,11 +21,7 @@
 #ifndef FILEHELPER_H
 #define FILEHELPER_H
 
-#include <QString>
 #include <QStringList>
-#include <QDir>
-#include <QFile>
-
 namespace Helper
 {
 

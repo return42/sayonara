@@ -23,8 +23,7 @@
 #ifndef URLHELPER_H
 #define URLHELPER_H
 
-#include <QString>
-
+class QString;
 namespace Helper
 {
 	/**

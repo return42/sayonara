@@ -35,6 +35,7 @@
 #include <taglib/id3v2tag.h>
 
 #include <QFile>
+#include <QFileInfo>
 
 bool Tagging::is_valid_file(const TagLib::FileRef& f)
 {

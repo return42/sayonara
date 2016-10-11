@@ -23,7 +23,7 @@
 #ifndef SETTINGCONVERTER_H
 #define SETTINGCONVERTER_H
 
-#include <QString>
+#include <QStringList>
 #include <QList>
 #include <QPair>
 

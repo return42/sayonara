@@ -32,6 +32,7 @@
 #include "Helper/Helper.h"
 #include "Helper/WebAccess/AsyncWebAccess.h"
 
+#include <QFile>
 #include <QRegExp>
 #include <QThread>
 #include <algorithm>

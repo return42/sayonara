@@ -26,6 +26,9 @@
 #include "Helper/Logger/Logger.h"
 #include "Helper/Settings/Settings.h"
 
+#include <QFile>
+#include <QDir>
+
 struct CopyThread::Private
 {
 	MetaDataList	v_md;

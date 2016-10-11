@@ -21,11 +21,13 @@
 
 
 #include "AbstractPlaylistParser.h"
+#include "PlaylistParser.h"
 #include "Helper/FileHelper.h"
 #include "Helper/WebAccess/AsyncWebAccess.h"
-#include "PlaylistParser.h"
 #include "Helper/MetaData/MetaData.h"
 #include "Helper/MetaData/MetaDataList.h"
+
+#include <QDir>
 
 
 AbstractPlaylistParser::AbstractPlaylistParser(const QString& filename)

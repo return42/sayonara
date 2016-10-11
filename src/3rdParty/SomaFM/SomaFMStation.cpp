@@ -28,6 +28,9 @@
 
 #include "Components/Covers/CoverLocation.h"
 
+#include <QMap>
+#include <QStringList>
+
 struct SomaFMStation::Private
 {
 	QString			content;

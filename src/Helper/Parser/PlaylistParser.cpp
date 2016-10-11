@@ -30,6 +30,8 @@
 #include "Database/DatabaseConnector.h"
 
 #include <QUrl>
+#include <QDir>
+#include <QFile>
 
 int PlaylistParser::parse_playlist(const QString& local_filename, MetaDataList& v_md) {
 

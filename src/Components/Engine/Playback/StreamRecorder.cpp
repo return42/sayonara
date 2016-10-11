@@ -28,7 +28,10 @@
 #include "Helper/MetaData/MetaDataList.h"
 
 #include "Components/PlayManager/PlayManager.h"
+
 #include <QDateTime>
+#include <QDir>
+#include <QFile>
 
 
 struct StreamRecorder::Private

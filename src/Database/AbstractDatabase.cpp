@@ -27,6 +27,9 @@
 #include "Helper/Helper.h"
 #include "Helper/Logger/Logger.h"
 
+#include <QFile>
+#include <QDir>
+
 
 AbstractDatabase::AbstractDatabase(quint8 db_id, const QString& db_dir, const QString& db_name, QObject *parent) : QObject(parent)
 {

@@ -30,11 +30,11 @@
 
 #include <algorithm>
 
+
 PlaylistLoader::PlaylistLoader(QObject* parent) :
 	QObject(parent),
 	SayonaraClass()
 {
-
 	_playlist_db_connector = PlaylistDBWrapper::getInstance();
 
 	bool success=false;
@@ -48,7 +48,6 @@ PlaylistLoader::PlaylistLoader(QObject* parent) :
 
 	_last_playlist_idx = -1;
 	_last_track_idx = -1;
-
 
 	// we don't load any playlists
 	if(!load_playlists){
@@ -64,6 +63,7 @@ PlaylistLoader::PlaylistLoader(QObject* parent) :
 
 		return;
 	}
+
 
 	bool has_playlist_id=false;
 	if(load_temporary_playlists && !load_saved_playlists){
@@ -82,7 +82,6 @@ PlaylistLoader::PlaylistLoader(QObject* parent) :
 	if(!success){
 		return;
 	}
-
 
 	has_playlist_id = std::any_of(_playlists.begin(), _playlists.end(), [&saved_playlist_id](const CustomPlaylist& pl){
 		return (saved_playlist_id == pl.id());

@@ -38,6 +38,8 @@
 #include <QTranslator>
 #include <QFontDatabase>
 #include <QtGlobal>
+#include <QDir>
+#include <QIcon>
 #include <algorithm>
 
 #ifdef Q_OS_LINUX
