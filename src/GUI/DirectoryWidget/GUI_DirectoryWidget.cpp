@@ -24,7 +24,6 @@
 #include "GUI/Helper/SearchableWidget/SearchableFileTreeView.h"
 #include "GUI/Helper/ContextMenu/LibraryContextMenu.h"
 #include "Helper/Message/GlobalMessage.h"
-#include "GUI/Helper/IconLoader/IconLoader.h"
 
 #include "Components/Library/LocalLibrary.h"
 #include "Components/Library/LibraryNamespaces.h"
@@ -38,8 +37,6 @@
 #include <QItemSelectionModel>
 #include <QApplication>
 #include <QMouseEvent>
-
-
 
 GUI_DirectoryWidget::GUI_DirectoryWidget(QWidget *parent) :
 	SayonaraWidget(parent),
@@ -88,8 +85,11 @@ GUI_DirectoryWidget::GUI_DirectoryWidget(QWidget *parent) :
 
 GUI_DirectoryWidget::~GUI_DirectoryWidget()
 {
-	delete ui;
+	if(ui){
+		delete ui; ui = nullptr;
+	}
 }
+
 
 QComboBox* GUI_DirectoryWidget::get_libchooser(){
 	return ui->combo_libchooser;
@@ -310,13 +310,13 @@ void GUI_DirectoryWidget::init_dir_view()
 }
 
 
-void GUI_DirectoryWidget::showEvent(QShowEvent* e){
-
+void GUI_DirectoryWidget::showEvent(QShowEvent* e)
+{
 	if(!_dir_model){
 		init_dir_view();
 	}
 
-	e->accept();
+	SayonaraWidget::showEvent(e);
 }
 
 

@@ -46,44 +46,42 @@
 
 
 GUI_LocalLibrary::GUI_LocalLibrary(QWidget* parent) :
-	GUI_AbstractLibrary(LocalLibrary::getInstance(), parent),
-	Ui::GUI_LocalLibrary()
+	GUI_AbstractLibrary(LocalLibrary::getInstance(), parent)
 {
-	setup_parent(this);
+	setup_parent(this, &ui);
 
 	LocalLibrary* library = LocalLibrary::getInstance();
 
 	_local_library_menu = new LocalLibraryMenu(this);
 
-	pb_progress->setVisible(false);
-	lab_progress->setVisible(false);
+	ui->pb_progress->setVisible(false);
+	ui->lab_progress->setVisible(false);
 
 	connect(_library, &LocalLibrary::sig_reloading_library, this, &GUI_LocalLibrary::progress_changed);
 	connect(_library, &LocalLibrary::sig_reloading_library_finished, this, &GUI_LocalLibrary::reload_finished);
-	connect(btn_setLibrary, &QPushButton::clicked, this, &GUI_LocalLibrary::set_library_path_clicked);
+	connect(ui->btn_setLibrary, &QPushButton::clicked, this, &GUI_LocalLibrary::set_library_path_clicked);
 
-	connect(lv_album, &LibraryViewAlbum::sig_disc_pressed, this, &GUI_LocalLibrary::disc_pressed);
-	connect(lv_album, &LibraryViewAlbum::sig_import_files, this, &GUI_LocalLibrary::import_files);
-	connect(lv_album, &LibraryView::sig_merge, library, &LocalLibrary::merge_albums);
+	connect(ui->lv_album, &LibraryViewAlbum::sig_disc_pressed, this, &GUI_LocalLibrary::disc_pressed);
+	connect(ui->lv_album, &LibraryViewAlbum::sig_import_files, this, &GUI_LocalLibrary::import_files);
+	connect(ui->lv_album, &LibraryView::sig_merge, library, &LocalLibrary::merge_albums);
 
-	connect(lv_artist, &LibraryView::sig_import_files, this, &GUI_LocalLibrary::import_files);
-	connect(lv_artist, &LibraryView::sig_merge, library, &LocalLibrary::merge_artists);
-	connect(tb_title, &LibraryView::sig_import_files, this, &GUI_LocalLibrary::import_files);
-	connect(lv_genres, &QAbstractItemView::clicked, this, &GUI_LocalLibrary::genre_selection_changed);
-	connect(lv_genres, &QAbstractItemView::activated, this, &GUI_LocalLibrary::genre_selection_changed);
-	connect(lv_genres, &LibraryGenreView::sig_progress, this, &GUI_LocalLibrary::progress_changed);
-
+	connect(ui->lv_artist, &LibraryView::sig_import_files, this, &GUI_LocalLibrary::import_files);
+	connect(ui->lv_artist, &LibraryView::sig_merge, library, &LocalLibrary::merge_artists);
+	connect(ui->tb_title, &LibraryView::sig_import_files, this, &GUI_LocalLibrary::import_files);
+	connect(ui->lv_genres, &QAbstractItemView::clicked, this, &GUI_LocalLibrary::genre_selection_changed);
+	connect(ui->lv_genres, &QAbstractItemView::activated, this, &GUI_LocalLibrary::genre_selection_changed);
+	connect(ui->lv_genres, &LibraryGenreView::sig_progress, this, &GUI_LocalLibrary::progress_changed);
 
 	connect(_local_library_menu, &LocalLibraryMenu::sig_reload_library, this, &GUI_LocalLibrary::reload_library_requested);
 	connect(_local_library_menu, &LocalLibraryMenu::sig_import_file, this, &GUI_LocalLibrary::import_files_requested);
 	connect(_local_library_menu, &LocalLibraryMenu::sig_import_folder, this, &GUI_LocalLibrary::import_dirs_requested);
 	connect(_local_library_menu, &LocalLibraryMenu::sig_info, this, &GUI_LocalLibrary::show_info_box);
 	connect(_local_library_menu, &LocalLibraryMenu::sig_libpath_clicked, this, &GUI_LocalLibrary::set_library_path_clicked);
-	connect(btn_reload_library, &QPushButton::clicked, this, &GUI_LocalLibrary::reload_library_requested);
+	connect(ui->btn_reload_library, &QPushButton::clicked, this, &GUI_LocalLibrary::reload_library_requested);
 
-	connect(splitter_artist_album, &QSplitter::splitterMoved, this, &GUI_LocalLibrary::splitter_artist_moved);
-	connect(splitter_tracks, &QSplitter::splitterMoved, this, &GUI_LocalLibrary::splitter_tracks_moved);
-	connect(splitter_genre, &QSplitter::splitterMoved, this, &GUI_LocalLibrary::splitter_genre_moved);
+	connect(ui->splitter_artist_album, &QSplitter::splitterMoved, this, &GUI_LocalLibrary::splitter_artist_moved);
+	connect(ui->splitter_tracks, &QSplitter::splitterMoved, this, &GUI_LocalLibrary::splitter_tracks_moved);
+	connect(ui->splitter_genre, &QSplitter::splitterMoved, this, &GUI_LocalLibrary::splitter_genre_moved);
 
 	connect(library, &LocalLibrary::sig_no_library_path, this, &GUI_LocalLibrary::lib_no_lib_path);
 	connect(library, &LocalLibrary::sig_import_dialog_requested, this, &GUI_LocalLibrary::import_dialog_requested);
@@ -92,12 +90,12 @@ GUI_LocalLibrary::GUI_LocalLibrary(QWidget* parent) :
 
 	QTimer::singleShot(0, library, SLOT(load()));
 
-	if(lv_genres->get_row_count() <= 1){
-		stacked_genre_widget->setCurrentIndex(1);
+	if(ui->lv_genres->get_row_count() <= 1){
+		ui->stacked_genre_widget->setCurrentIndex(1);
 	}
 
 	else{
-		stacked_genre_widget->setCurrentIndex(0);
+		ui->stacked_genre_widget->setCurrentIndex(0);
 	}
 
 	REGISTER_LISTENER(Set::Lib_Path, _sl_libpath_changed);
@@ -105,12 +103,16 @@ GUI_LocalLibrary::GUI_LocalLibrary(QWidget* parent) :
 
 
 GUI_LocalLibrary::~GUI_LocalLibrary() {
-
+	if(ui)
+	{
+		delete ui; ui = nullptr;
+	}
 }
+
 
 QComboBox* GUI_LocalLibrary::get_libchooser() const
 {
-	return combo_lib_chooser;
+	return ui->combo_lib_chooser;
 }
 
 QMenu* GUI_LocalLibrary::get_menu() const
@@ -129,23 +131,23 @@ void GUI_LocalLibrary::showEvent(QShowEvent* e)
 	genre_splitter_state = _settings->get(Set::Lib_SplitterStateGenre);
 
 	if(!artist_splitter_state.isEmpty()){
-		splitter_artist_album->restoreState(artist_splitter_state);
+		ui->splitter_artist_album->restoreState(artist_splitter_state);
 	}
 
 	if(!track_splitter_state.isEmpty()){
-		splitter_tracks->restoreState(track_splitter_state);
+		ui->splitter_tracks->restoreState(track_splitter_state);
 	}
 
 	if(!genre_splitter_state.isEmpty()){
-		splitter_genre->restoreState(genre_splitter_state);
+		ui->splitter_genre->restoreState(genre_splitter_state);
 	}
 }
 
 void GUI_LocalLibrary::init_shortcuts()
 {
-	le_search->setShortcutEnabled(QKeySequence::Find, true);
+	ui->le_search->setShortcutEnabled(QKeySequence::Find, true);
 	new QShortcut(QKeySequence(Qt::Key_Escape), this, SLOT(clear_button_pressed()), nullptr, Qt::WidgetWithChildrenShortcut);
-	new QShortcut(QKeySequence::Find, le_search, SLOT(setFocus()), nullptr, Qt::WindowShortcut);
+	new QShortcut(QKeySequence::Find, ui->le_search, SLOT(setFocus()), nullptr, Qt::WindowShortcut);
 }
 
 Library::ReloadQuality GUI_LocalLibrary::show_quality_dialog()
@@ -186,7 +188,7 @@ Library::ReloadQuality GUI_LocalLibrary::show_quality_dialog()
 
 void GUI_LocalLibrary::language_changed() {
 
-	retranslateUi(this);
+	ui->retranslateUi(this);
 
 	GUI_AbstractLibrary::language_changed();
 }
@@ -196,16 +198,16 @@ void GUI_LocalLibrary::_sl_libpath_changed()
 {
 	QString library_path = _settings->get(Set::Lib_Path);
 	if(!library_path.isEmpty()){
-		stacked_widget->setCurrentIndex(0);
+		ui->stacked_widget->setCurrentIndex(0);
 	}
 
 	else{
-		stacked_widget->setCurrentIndex(1);
+		ui->stacked_widget->setCurrentIndex(1);
 	}
 
-	combo_searchfilter->setVisible(!library_path.isEmpty());
-	le_search->setVisible(!library_path.isEmpty());
-	btn_clear->setVisible(!library_path.isEmpty());
+	ui->combo_searchfilter->setVisible(!library_path.isEmpty());
+	ui->le_search->setVisible(!library_path.isEmpty());
+	ui->btn_clear->setVisible(!library_path.isEmpty());
 }
 
 
@@ -217,8 +219,8 @@ void GUI_LocalLibrary::paths_activated(const QStringList& paths)
 
 void GUI_LocalLibrary::genre_selection_changed(const QModelIndex& index){
 	QVariant data = index.data();
-	combo_searchfilter->setCurrentIndex(1);
-	le_search->setText(data.toString());
+	ui->combo_searchfilter->setCurrentIndex(1);
+	ui->le_search->setText(data.toString());
 	text_line_edited(data.toString());
 }
 
@@ -281,23 +283,23 @@ void GUI_LocalLibrary::lib_no_lib_path(){
 void GUI_LocalLibrary::progress_changed(const QString& type, int progress)
 {
 
-	pb_progress->setVisible(progress >= 0);
-	lab_progress->setVisible(progress >= 0);
+	ui->pb_progress->setVisible(progress >= 0);
+	ui->lab_progress->setVisible(progress >= 0);
 
-	lab_progress->setText(type);
+	ui->lab_progress->setText(type);
 
 	if(progress == 0){
-		if(pb_progress->maximum() != 0){
-			pb_progress->setMaximum(0);
+		if(ui->pb_progress->maximum() != 0){
+			ui->pb_progress->setMaximum(0);
 		}
 	}
 
 	if(progress > 0){
-		if(pb_progress->maximum() != 100){
-			pb_progress->setMaximum(100);
+		if(ui->pb_progress->maximum() != 100){
+			ui->pb_progress->setMaximum(100);
 		}
 
-		pb_progress->setValue(progress);
+		ui->pb_progress->setValue(progress);
 	}
 }
 
@@ -311,20 +313,20 @@ void GUI_LocalLibrary::reload_library_requested()
 	}
 
 	_library->psl_reload_library(false, quality);
-	btn_reload_library->setEnabled(false);
+	ui->btn_reload_library->setEnabled(false);
 }
 
 
 void GUI_LocalLibrary::reload_finished()
 {
-	btn_reload_library->setEnabled(true);
-	lv_genres->reload_genres();
+	ui->btn_reload_library->setEnabled(true);
+	ui->lv_genres->reload_genres();
 
-	if(lv_genres->get_row_count() <= 1){
-		stacked_genre_widget->setCurrentIndex(1);
+	if(ui->lv_genres->get_row_count() <= 1){
+		ui->stacked_genre_widget->setCurrentIndex(1);
 	}
 	else{
-		stacked_genre_widget->setCurrentIndex(0);
+		ui->stacked_genre_widget->setCurrentIndex(0);
 	}
 }
 
@@ -419,7 +421,7 @@ void GUI_LocalLibrary::splitter_artist_moved(int pos, int idx)
 	Q_UNUSED(pos)
 	Q_UNUSED(idx)
 
-	QByteArray arr = splitter_artist_album->saveState();
+	QByteArray arr = ui->splitter_artist_album->saveState();
 	_settings->set(Set::Lib_SplitterStateArtist, arr);
 }
 
@@ -428,7 +430,7 @@ void GUI_LocalLibrary::splitter_tracks_moved(int pos, int idx)
 	Q_UNUSED(pos)
 	Q_UNUSED(idx)
 
-	QByteArray arr = splitter_tracks->saveState();
+	QByteArray arr = ui->splitter_tracks->saveState();
 	_settings->set(Set::Lib_SplitterStateTrack, arr);
 }
 
@@ -437,6 +439,6 @@ void GUI_LocalLibrary::splitter_genre_moved(int pos, int idx)
 	Q_UNUSED(pos)
 	Q_UNUSED(idx)
 
-	QByteArray arr = splitter_genre->saveState();
+	QByteArray arr = ui->splitter_genre->saveState();
 	_settings->set(Set::Lib_SplitterStateGenre, arr);
 }

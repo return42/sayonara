@@ -164,19 +164,21 @@ public slots:
 	virtual void id3_tags_changed();
 
 protected:
-	template<typename T>
-	void setup_parent(T* subclass){
+	template<typename T, typename UI>
+	void setup_parent(T* subclass, UI** ui){
 
-		subclass->setupUi(subclass);
+		*ui = new UI();
 
-		_combo_libchooser = subclass->combo_lib_chooser;
-		_lv_artist = subclass->lv_artist;
-		_lv_album = subclass->lv_album;
-		_lv_tracks = subclass->tb_title;
-		_btn_clear = subclass->btn_clear;
-		_le_search = subclass->le_search;
-		_combo_search = subclass->combo_searchfilter;
+		UI* ui_ptr = *ui;
+		ui_ptr->setupUi(subclass);
 
+		_combo_libchooser = ui_ptr->combo_lib_chooser;
+		_lv_artist = ui_ptr->lv_artist;
+		_lv_album = ui_ptr->lv_album;
+		_lv_tracks = ui_ptr->tb_title;
+		_btn_clear = ui_ptr->btn_clear;
+		_le_search = ui_ptr->le_search;
+		_combo_search = ui_ptr->combo_searchfilter;
 
 		_combo_search->setItemDelegate(new ComboBoxDelegate(this));
 		_combo_search->setIconSize(QSize(16, 16));
@@ -184,7 +186,6 @@ protected:
 
 		init_shortcuts();
 		init_finished();
-
 	}
 };
 

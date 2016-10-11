@@ -18,23 +18,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "3rdParty/Soundcloud/ui/GUI_SoundcloudLibrary.h"
+#include "3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h"
 
-#include "ui/GUI_SoundcloudLibrary.h"
 #include "GUI/Helper/ContextMenu/LibraryContextMenu.h"
 
 #include <QShortcut>
 
 GUI_SoundCloudLibrary::GUI_SoundCloudLibrary(SoundcloudLibrary* library, QWidget *parent) :
-	GUI_AbstractLibrary(library, parent),
-	Ui::GUI_SoundcloudLibrary()
+	GUI_AbstractLibrary(library, parent)
 {
-	setup_parent(this);
-
-	QAction* action_add_artist;
+	setup_parent(this, &ui);
 
 	_artist_search = new GUI_SoundcloudArtistSearch(library, this);
 	_library_menu = new QMenu(this);
-	action_add_artist = _library_menu->addAction(tr("Add artist"));
+
+	QAction*  action_add_artist = _library_menu->addAction(tr("Add artist"));
 
 	setAcceptDrops(false);
 
@@ -47,19 +46,27 @@ GUI_SoundCloudLibrary::GUI_SoundCloudLibrary(SoundcloudLibrary* library, QWidget
 			LibraryContextMenu::EntryAppend |
 			LibraryContextMenu::EntryRefresh);
 
-	tb_title->set_rc_menu(entry_mask);
-	lv_album->set_rc_menu(entry_mask);
-	lv_artist->set_rc_menu(entry_mask);
+	ui->tb_title->show_rc_menu_actions(entry_mask);
+	ui->lv_album->show_rc_menu_actions(entry_mask);
+	ui->lv_artist->show_rc_menu_actions(entry_mask);
 
-	btn_info->hide();
+	ui->btn_info->hide();
 
 	library->load();
+}
+
+GUI_SoundCloudLibrary::~GUI_SoundCloudLibrary()
+{
+	if(ui)
+	{
+		delete ui; ui = nullptr;
+	}
 }
 
 
 QComboBox* GUI_SoundCloudLibrary::get_libchooser() const
 {
-	return combo_lib_chooser;
+	return ui->combo_lib_chooser;
 }
 
 
@@ -75,7 +82,7 @@ Library::TrackDeletionMode GUI_SoundCloudLibrary::show_delete_dialog(int n_track
 
 void GUI_SoundCloudLibrary::init_shortcuts()
 {
-	new QShortcut(QKeySequence("Ctrl+f"), le_search, SLOT(setFocus()), nullptr, Qt::WidgetWithChildrenShortcut);
+	new QShortcut(QKeySequence("Ctrl+f"), ui->le_search, SLOT(setFocus()), nullptr, Qt::WidgetWithChildrenShortcut);
 	new QShortcut(QKeySequence("Esc"), this, SLOT(clear_button_pressed()), nullptr, Qt::WidgetWithChildrenShortcut);
 }
 

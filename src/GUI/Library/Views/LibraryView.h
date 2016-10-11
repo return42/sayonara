@@ -107,14 +107,12 @@ public:
 
 	using QTableView::setModel;
 	virtual void setModel(LibraryItemModel* model);
-
-	// entries are specified in ContextMenu.h
-	virtual void set_rc_menu(int entries);
-
 	virtual MetaDataList get_selected_metadata() const;
 
 	MetaDataList::Interpretation get_type() const;
 	void set_type(MetaDataList::Interpretation type);
+
+	void show_rc_menu_actions(int entries);
 
 protected:
 	// Events implemented in LibraryViewEvents.cpp
@@ -131,9 +129,7 @@ protected:
 
 	virtual void selectionChanged ( const QItemSelection & selected, const QItemSelection & deselected ) override;
 	virtual void rc_menu_init();
-
 	virtual void do_drag();
-
 
 	HeaderView*	get_header_view();
 

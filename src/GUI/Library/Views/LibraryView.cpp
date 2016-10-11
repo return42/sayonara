@@ -52,8 +52,6 @@ LibraryView::LibraryView(QWidget* parent) :
 
 	this->setHorizontalHeader(header);
 
-	rc_menu_init();
-
 	connect(header, &HeaderView::sectionClicked, this, &LibraryView::sort_by_column);
 	connect(header, &HeaderView::sig_columns_changed, this, &LibraryView::header_actions_triggered);
 
@@ -120,14 +118,17 @@ void LibraryView::do_drag(){
 
 
 // Right click stuff
-void LibraryView::rc_menu_init() {
+void LibraryView::rc_menu_init()
+{
 	_rc_menu = new LibraryContextMenu(this);
 
-	set_rc_menu(LibraryContextMenu::EntryPlayNext |
+	_rc_menu->show_actions(
+				LibraryContextMenu::EntryPlayNext |
 				LibraryContextMenu::EntryInfo |
 				LibraryContextMenu::EntryDelete |
 				LibraryContextMenu::EntryEdit |
-				LibraryContextMenu::EntryAppend);
+				LibraryContextMenu::EntryAppend
+	);
 
 	_merge_menu = new QMenu(tr("Merge"), _rc_menu);
 	_merge_action = _rc_menu->addMenu(_merge_menu);
@@ -142,8 +143,12 @@ void LibraryView::rc_menu_init() {
 	connect(_rc_menu, &LibraryContextMenu::sig_refresh_clicked, this, &LibraryView::sig_refresh_clicked);
 }
 
-void LibraryView::set_rc_menu(int entries){
-	if(!_rc_menu) return;
+void LibraryView::show_rc_menu_actions(int entries)
+{
+	if(!_rc_menu){
+		rc_menu_init();
+	}
+
 	_rc_menu->show_actions(entries);
 }
 

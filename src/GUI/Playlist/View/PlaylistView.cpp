@@ -57,14 +57,6 @@ PlaylistView::PlaylistView(PlaylistPtr pl, QWidget* parent) :
 	_model = new PlaylistItemModel(pl, this);
 	_delegate = new PlaylistItemDelegate(this);
 
-	_rc_menu = new LibraryContextMenu(this);
-	_bookmarks_menu = new BookmarksMenu(this);
-	connect(_bookmarks_menu, &BookmarksMenu::sig_bookmark_pressed, this, [](quint32 time){
-			PlayManager::getInstance()->seek_abs_ms(time * 1000);
-	});
-
-	_bookmarks_action = _rc_menu->addMenu(_bookmarks_menu);
-
 	this->setModel(_model);
 	this->setAbstractModel(_model);
 	this->setItemDelegate(_delegate);
@@ -79,6 +71,22 @@ PlaylistView::PlaylistView(PlaylistPtr pl, QWidget* parent) :
 	this->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 
 	new QShortcut(QKeySequence(Qt::Key_Backspace), this, SLOT(clear()), nullptr, Qt::WidgetShortcut);
+}
+
+PlaylistView::~PlaylistView()
+{
+}
+
+
+void PlaylistView::init_rc_menu()
+{
+	if(_rc_menu){
+		return;
+	}
+
+	_rc_menu = new LibraryContextMenu(this);
+	_bookmarks_menu = new BookmarksMenu(this);
+	_bookmarks_action = _rc_menu->addMenu(_bookmarks_menu);
 
 	connect(_rc_menu, &LibraryContextMenu::sig_info_clicked, this, [=](){show_info();});
 	connect(_rc_menu, &LibraryContextMenu::sig_edit_clicked, this, [=](){show_edit();});
@@ -86,10 +94,10 @@ PlaylistView::PlaylistView(PlaylistPtr pl, QWidget* parent) :
 	connect(_rc_menu, &LibraryContextMenu::sig_remove_clicked, this, &PlaylistView::remove_cur_selected_rows);
 	connect(_rc_menu, &LibraryContextMenu::sig_clear_clicked, this, &PlaylistView::clear);
 	connect(_rc_menu, &LibraryContextMenu::sig_rating_changed, this, &PlaylistView::rating_changed);
-}
 
-PlaylistView::~PlaylistView()
-{
+	connect(_bookmarks_menu, &BookmarksMenu::sig_bookmark_pressed, this, [](quint32 time){
+			PlayManager::getInstance()->seek_abs_ms(time * 1000);
+	});
 }
 
 

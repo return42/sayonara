@@ -97,6 +97,7 @@ private:
 
 private:
 
+	void init_rc_menu();
 	void set_delegate_max_width(int n_items);
 
 	// d & d
@@ -134,6 +135,8 @@ private slots:
 	void handle_async_drop(bool success);
 	void rating_changed(int rating);
 };
+
+
 
 
 #endif /* PlaylistView_H_ */

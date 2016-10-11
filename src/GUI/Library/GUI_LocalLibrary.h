@@ -39,9 +39,13 @@ class GUI_LibraryInfoBox;
 class GUI_ImportFolder;
 class LocalLibraryMenu;
 
+namespace Ui
+{
+	class GUI_LocalLibrary;
+}
+
 class GUI_LocalLibrary :
-		public GUI_AbstractLibrary,
-		private Ui::GUI_LocalLibrary
+		public GUI_AbstractLibrary
 {
 
 	friend class GUI_AbstractLibrary;
@@ -55,6 +59,7 @@ public:
 
 	QComboBox*	get_libchooser() const;
 	QMenu*		get_menu() const;
+
 
 protected:
 	void showEvent(QShowEvent* e) override;
@@ -104,9 +109,11 @@ protected slots:
 
 
 private:
+	Ui::GUI_LocalLibrary*	ui=nullptr;
 	GUI_LibraryInfoBox*		_library_info_box=nullptr;
 	GUI_ImportFolder*		_ui_importer=nullptr;
 	LocalLibraryMenu*		_local_library_menu=nullptr;
+
 
 };
 

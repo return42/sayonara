@@ -23,14 +23,10 @@
 #ifndef GUI_DIRECTORYWIDGET_H
 #define GUI_DIRECTORYWIDGET_H
 
-#include "GUI/DirectoryWidget/ui_GUI_DirectoryWidget.h"
 #include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
 #include "GUI/InfoDialog/InfoDialogContainer.h"
 
-#include <QWidget>
 #include <QFileSystemModel>
-#include <QShowEvent>
-#include <QMouseEvent>
 
 class LocalLibrary;
 class IconProvider;
@@ -53,6 +49,7 @@ public:
 	~GUI_DirectoryWidget();
 
 	QComboBox*	get_libchooser();
+	void init();
 
 
 private:
@@ -75,11 +72,10 @@ private:
 	Ui::GUI_DirectoryWidget*			ui;
 
 
-
-
 private:
 	void showEvent(QShowEvent* e) override;
 	void init_shortcuts();
+
 
 private slots:
 	void search_button_clicked();

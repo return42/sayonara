@@ -26,7 +26,12 @@
 
 bool LibraryView::event(QEvent* e)
 {
-	if(e->type() == QEvent::ContextMenu){
+	if(e->type() == QEvent::ContextMenu)
+	{
+		if(!_rc_menu) {
+			rc_menu_init();
+		}
+
 		SP::Set<int> selections = get_selections();
 
 		QContextMenuEvent* cme = dynamic_cast<QContextMenuEvent*>(e);

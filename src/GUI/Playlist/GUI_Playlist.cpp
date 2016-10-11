@@ -100,7 +100,6 @@ GUI_Playlist::GUI_Playlist(QWidget *parent) :
 
 		plv->setObjectName("playlist_view" + QString::number(i));
 	}
-
 }
 
 

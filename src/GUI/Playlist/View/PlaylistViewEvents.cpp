@@ -36,27 +36,36 @@
 
 void PlaylistView::contextMenuEvent(QContextMenuEvent* e)
 {
+	if(!_rc_menu){
+		init_rc_menu();
+	}
+
 	QPoint pos = e->globalPos();
 	QModelIndex idx = indexAt(e->pos());
 
-	_bookmarks_action->setVisible(
-			idx.row() == _model->get_current_track() && 
-			idx.row() >= 0 &&
-			_bookmarks_menu->has_bookmarks());
+	LibraryContexMenuEntries entry_mask = 0;
 
-	LibraryContexMenuEntries entry_mask;
-
-	entry_mask = (LibraryContextMenu::EntryInfo |
-				  LibraryContextMenu::EntryRemove |
-				  LibraryContextMenu::EntryClear);
-
-	SP::Set<int> selections = get_selections();
-	if(selections.size() == 1){
-		entry_mask |= LibraryContextMenu::EntryLyrics;
+	if(this->get_num_rows() > 0)
+	{
+		entry_mask = (LibraryContextMenu::EntryClear);
 	}
 
-	if(_model->has_local_media(selections.toList()) ){
-		entry_mask |= LibraryContextMenu::EntryEdit;
+	SP::Set<int> selections = get_selections();
+	if(selections.size() > 0)
+	{
+		entry_mask |=
+				(LibraryContextMenu::EntryInfo |
+				LibraryContextMenu::EntryRemove);
+	}
+
+	if(selections.size() == 1)
+	{
+		entry_mask |= (LibraryContextMenu::EntryLyrics);
+	}
+
+	if(_model->has_local_media(selections.toList()) )
+	{
+		entry_mask |= (LibraryContextMenu::EntryEdit);
 
 		if(selections.size() == 1){
 
@@ -66,11 +75,20 @@ void PlaylistView::contextMenuEvent(QContextMenuEvent* e)
 		}
 	}
 
-	_rc_menu->show_actions(entry_mask);
-	_rc_menu->exec(pos);
+	_bookmarks_action->setVisible(
+			idx.row() == _model->get_current_track() &&
+			idx.row() >= 0 &&
+			_bookmarks_menu->has_bookmarks());
+
+
+	if(entry_mask > 0 || _bookmarks_action->isVisible()){
+		_rc_menu->show_actions(entry_mask);
+		_rc_menu->exec(pos);
+	}
 
 	SearchableListView::contextMenuEvent(e);
 }
+
 
 void PlaylistView::mousePressEvent(QMouseEvent* event)
 {

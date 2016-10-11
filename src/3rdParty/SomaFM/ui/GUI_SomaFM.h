@@ -23,7 +23,6 @@
 #ifndef GUI_SOMAFM_H
 #define GUI_SOMAFM_H
 
-#include "3rdParty/SomaFM/ui_GUI_SomaFM.h"
 #include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
 
 #include <QItemSelection>
@@ -32,14 +31,19 @@ class SomaFMStationModel;
 class SomaFMStation;
 class SomaFMLibrary;
 
+namespace Ui
+{
+	class GUI_SomaFM;
+}
+
 class GUI_SomaFM :
-		public SayonaraWidget,
-		protected Ui::GUI_SomaFM
+		public SayonaraWidget
 {
 	Q_OBJECT
 
 private:
-	SomaFMLibrary*	_library=nullptr;
+	SomaFMLibrary*		_library=nullptr;
+	Ui::GUI_SomaFM*		ui=nullptr;
 
 
 public:
@@ -60,6 +64,7 @@ private slots:
 	void cover_found(const QString& cover_path);
 
 	void selection_changed(const QModelIndexList& selected);
+
 
 private:
 	SomaFMStation get_station(int row) const;

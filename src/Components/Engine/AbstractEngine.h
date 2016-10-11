@@ -24,6 +24,8 @@
 
 #include "Helper/Settings/SayonaraClass.h"
 #include "Helper/MetaData/MetaData.h"
+#include <QObject>
+
 #include <gst/gst.h>
 
 #define PLAYBACK_ENGINE "playback_engine"
