@@ -32,10 +32,6 @@ InfoDialogContainer::InfoDialogContainer(){
 
 InfoDialogContainer::~InfoDialogContainer(){
 
-	if(_info_dialog){
-		delete _info_dialog;
-		_info_dialog = nullptr;
-	}
 }
 
 void InfoDialogContainer::info_dialog_closed()

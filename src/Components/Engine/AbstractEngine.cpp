@@ -30,6 +30,11 @@ Engine::Engine(QObject *parent) :
 	_broadcast_active = false;
 }
 
+Engine::~Engine()
+{
+
+}
+
 EngineName Engine::get_name() const {
 	return _name;
 }

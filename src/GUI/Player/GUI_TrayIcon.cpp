@@ -64,13 +64,6 @@ GUI_TrayIcon::GUI_TrayIcon (QObject *parent) :
 
 GUI_TrayIcon::~GUI_TrayIcon()
 {
-	delete _play_action;
-	delete _stop_action;
-	delete _bwd_action;
-	delete _fwd_action;
-	delete _mute_action;
-	delete _close_action;
-	delete _show_action;
 }
 
 

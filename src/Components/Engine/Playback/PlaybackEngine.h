@@ -108,18 +108,18 @@ public slots:
 
 private:
 	
-	PlaybackPipeline*		_pipeline=nullptr;
-	PlaybackPipeline*		_other_pipeline=nullptr;
+	PlaybackPipeline*			_pipeline=nullptr;
+	PlaybackPipeline*			_other_pipeline=nullptr;
 
 	QList<LevelReceiver*>		_level_receiver;
 	QList<SpectrumReceiver*>	_spectrum_receiver;
 
-	QTimer*				_gapless_timer=nullptr;
-	GaplessState			_gapless_state;
+	QTimer*						_gapless_timer=nullptr;
+	GaplessState				_gapless_state;
 
-	bool				_sr_active;
+	bool						_sr_active;
 
-	StreamRecorder*			_stream_recorder=nullptr;
+	StreamRecorder*				_stream_recorder=nullptr;
 
 private:
 

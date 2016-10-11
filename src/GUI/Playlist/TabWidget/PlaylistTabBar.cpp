@@ -59,7 +59,7 @@ PlaylistTabBar::PlaylistTabBar(QWidget *parent) :
 
 
 PlaylistTabBar::~PlaylistTabBar(){
-	delete _menu;
+
 }
 
 

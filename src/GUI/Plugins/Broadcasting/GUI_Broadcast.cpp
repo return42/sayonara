@@ -21,6 +21,7 @@
 
 #include "GUI_Broadcast.h"
 
+#include "Components/Broadcasting/StreamServer.h"
 #include "Helper/Message/Message.h"
 #include "Helper/Logger/Logger.h"
 #include "GUI/Helper/Delegates/ComboBoxDelegate.h"

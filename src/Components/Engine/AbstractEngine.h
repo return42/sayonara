@@ -25,11 +25,11 @@
 #include "Helper/Settings/SayonaraClass.h"
 #include "Helper/MetaData/MetaData.h"
 #include <gst/gst.h>
-#include <QImage>
 
 #define PLAYBACK_ENGINE "playback_engine"
 #define CONVERT_ENGINE "convert_engine"
 
+class QImage;
 enum class EngineName : quint8 {
 	Undefined=0,
 	PlaybackEngine=1,
@@ -47,6 +47,7 @@ class Engine :
 public:
 
 	Engine(QObject* parent=nullptr);
+	virtual ~Engine();
 	virtual EngineName	get_name() const final;
 
 	virtual bool		init()=0;

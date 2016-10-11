@@ -90,12 +90,6 @@ PlaylistView::PlaylistView(PlaylistPtr pl, QWidget* parent) :
 
 PlaylistView::~PlaylistView()
 {
-	if(_rc_menu){
-		delete _rc_menu;
-	}
-
-	delete _model;
-	delete _delegate;
 }
 
 

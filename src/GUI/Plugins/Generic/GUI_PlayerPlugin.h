@@ -25,16 +25,16 @@
 #ifndef GUI_PLAYERPLUGIN_H
 #define GUI_PLAYERPLUGIN_H
 
-#include <QHideEvent>
-#include <QCloseEvent>
-
-#include "GUI/Plugins/Generic/ui_GUI_PlayerPlugin.h"
 #include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
+
+namespace Ui
+{
+	class GUI_PlayerPlugin;
+}
 
 class PlayerPluginInterface;
 class GUI_PlayerPlugin :
-		public SayonaraWidget,
-		private Ui::GUI_PlayerPlugin
+		public SayonaraWidget
 
 {
 	Q_OBJECT
@@ -46,6 +46,8 @@ public:
 
 private:
 	PlayerPluginInterface* _current_plugin=nullptr;
+	Ui::GUI_PlayerPlugin* ui=nullptr;
+
 
 private:
 	void close_cur_plugin();

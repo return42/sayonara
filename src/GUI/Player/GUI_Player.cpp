@@ -325,8 +325,13 @@ void GUI_Player::setup_tray_actions()
 	connect(_tray_icon, &GUI_TrayIcon::sig_show_clicked, this, &GUI_Player::raise);
 	connect(_tray_icon, &GUI_TrayIcon::sig_wheel_changed, this, &GUI_Player::change_volume_by_tick);
 	connect(_tray_icon, &GUI_TrayIcon::activated, this, &GUI_Player::tray_icon_activated);
+	connect(_tray_icon, &QObject::destroyed, this, [=](){
+		this->_tray_icon = nullptr;
+	});
 
-	_tray_icon->show();
+	if(_settings->get(Set::Player_ShowTrayIcon)){
+		_tray_icon->show();
+	}
 }
 
 
@@ -637,9 +642,6 @@ void GUI_Player::awa_translators_finished(bool success)
 
 void GUI_Player::really_close()
 {
-	_tray_icon->hide();
-	_tray_icon->deleteLater();
-
 	QMainWindow::close();
 	
 	emit sig_player_closed();

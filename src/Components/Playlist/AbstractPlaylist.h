@@ -29,9 +29,8 @@
 #include "Helper/Playlist/PlaylistMode.h"
 #include "Helper/Settings/SayonaraClass.h"
 
-#include <QString>
-#include <QList>
-
+class QString;
+class QStringList;
 namespace SP
 {
 	template<typename T>

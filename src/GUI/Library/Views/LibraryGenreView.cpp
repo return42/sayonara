@@ -70,7 +70,7 @@ LibraryGenreView::LibraryGenreView(QWidget* parent) :
 
 LibraryGenreView::~LibraryGenreView()
 {
-	delete _genres;
+	delete _genres; _genres = nullptr;
 }
 
 
@@ -85,7 +85,7 @@ void LibraryGenreView::reload_genres()
 {
 	for(GenreNode* n : _genres->children){
 		_genres->remove_child(n);
-		delete n;
+		delete n; n=nullptr;
 	}
 
 	this->clear();

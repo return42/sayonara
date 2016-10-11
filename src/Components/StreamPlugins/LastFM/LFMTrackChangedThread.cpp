@@ -65,7 +65,7 @@ LFMTrackChangedThread::LFMTrackChangedThread(const QString& username, const QStr
 
 LFMTrackChangedThread::~LFMTrackChangedThread() {
 #ifdef SMART_COMPARE
-	delete _smart_comparison;
+	delete _smart_comparison; _smart_comparison=nullptr;
 #endif
 }
 

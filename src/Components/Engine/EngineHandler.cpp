@@ -28,6 +28,8 @@
 #include "Convert/ConvertEngine.h"
 #include "Helper/Logger/Logger.h"
 
+#include <QImage>
+
 
 EngineHandler::EngineHandler(QObject* parent) : 
 	Engine(parent) 
@@ -64,7 +66,12 @@ EngineHandler::EngineHandler(QObject* parent) :
 
 
 EngineHandler::~EngineHandler() {
-	
+	for(Engine* e : _engines)
+	{
+		delete e;
+	}
+
+	_engines.clear();
 }
 
 bool EngineHandler::init() {

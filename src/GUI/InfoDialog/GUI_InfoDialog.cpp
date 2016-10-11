@@ -202,7 +202,7 @@ void GUI_InfoDialog::prepare_info(MetaDataList::Interpretation md_interpretation
 
 	prepare_cover(_m->cl);
 
-	delete info;
+	delete info; info = nullptr;
 }
 
 

@@ -83,7 +83,7 @@ GUI_TagEdit::GUI_TagEdit(QWidget* parent) :
 
 
 GUI_TagEdit::~GUI_TagEdit(){
-	delete _tag_edit;
+
 }
 
 void GUI_TagEdit::language_changed(){

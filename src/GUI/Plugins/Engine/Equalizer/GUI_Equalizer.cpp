@@ -54,12 +54,8 @@ GUI_Equalizer::GUI_Equalizer(QWidget *parent) :
 
 }
 
-GUI_Equalizer::~GUI_Equalizer() {
-
-	for(EqSlider* s : _sliders) {
-		delete s;
-	}
-
+GUI_Equalizer::~GUI_Equalizer() 
+{
 	if(ui)
 	{
 		delete ui; ui=nullptr;

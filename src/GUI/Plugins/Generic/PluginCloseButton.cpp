@@ -25,6 +25,8 @@
 #include "GUI/Helper/GUI_Helper.h"
 #include "GUI/Helper/IconLoader/IconLoader.h"
 
+#include <QEvent>
+
 PluginCloseButton::PluginCloseButton(QWidget *parent) :
 	QPushButton(parent)
 {

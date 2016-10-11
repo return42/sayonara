@@ -51,7 +51,7 @@ namespace SP
 
 		virtual ~Tree(){
 			for(Tree* child : children){
-				delete child;
+				delete child; child = nullptr;
 			}
 
 			children.clear();

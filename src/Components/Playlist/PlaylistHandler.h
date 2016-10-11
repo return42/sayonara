@@ -36,9 +36,6 @@
 #include "Helper/Settings/SayonaraClass.h"
 #include "Helper/Playlist/PlaylistFwd.h"
 
-#include <QTimer>
-#include <memory>
-
 class PlayManager;
 class DatabaseConnector;
 class CustomPlaylist;

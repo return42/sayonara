@@ -18,13 +18,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef GUI_BROADCAST_H
 #define GUI_BROADCAST_H
 
-#include "Components/Broadcasting/StreamServer.h"
 #include "Interfaces/PlayerPlugin/PlayerPlugin.h"
+
+class StreamServer;
 
 namespace Ui
 {

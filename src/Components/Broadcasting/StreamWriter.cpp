@@ -57,8 +57,13 @@ StreamWriter::~StreamWriter(){
 
 	_engine->unregister_raw_sound_receiver(this);
 
-	delete _parser;
-	delete _sender;
+	if(_parser){
+		delete _parser; _parser = nullptr;
+	}
+
+	if(_sender){
+		delete _sender; _sender = nullptr;
+	}
 }
 
 

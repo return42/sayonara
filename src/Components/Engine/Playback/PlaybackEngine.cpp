@@ -58,11 +58,17 @@ PlaybackEngine::~PlaybackEngine() {
 	}
 
 	if(_gapless_timer){
-		delete _gapless_timer;
+		delete _gapless_timer; _gapless_timer = nullptr;
 	}
 
-	delete _pipeline;
-	delete _stream_recorder;
+
+	delete _pipeline; _pipeline = nullptr;
+	if(_other_pipeline)
+	{
+		delete _other_pipeline; _other_pipeline = nullptr;
+	}
+
+	delete _stream_recorder; _stream_recorder = nullptr;
 }
 
 
