@@ -36,7 +36,7 @@ DatabaseLibrary::DatabaseLibrary(QSqlDatabase db, quint8 db_id) :
 
 
 
-void DatabaseLibrary::deleteTracksAlbumsArtists() {
+/*void DatabaseLibrary::deleteTracksAlbumsArtists() {
 
 	DB_RETURN_NOT_OPEN_VOID(_db);
 
@@ -64,7 +64,7 @@ void DatabaseLibrary::deleteTracksAlbumsArtists() {
 		_db.rollback();
 	}
 }
-
+*/
 
 
 bool DatabaseLibrary::storeMetadata(const MetaDataList& v_md)  {

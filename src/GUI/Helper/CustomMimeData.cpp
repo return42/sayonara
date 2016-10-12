@@ -18,44 +18,54 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "CustomMimeData.h"
+#include "Helper/MetaData/MetaDataList.h"
+
+struct CustomMimeData::Private
+{
+    MetaDataList    v_md;
+	QString			cover_url;
+};
 
 CustomMimeData::CustomMimeData() :
 	QMimeData()
 {
+	_m = new CustomMimeData::Private();
 }
 
-CustomMimeData::~CustomMimeData(){}
+CustomMimeData::~CustomMimeData()
+{
+	delete _m; _m = nullptr;
+}
 
 
 void CustomMimeData::setMetaData(const MetaDataList& v_md)
 {
-    _v_md = v_md;
+    _m->v_md = v_md;
 }
 
 MetaDataList CustomMimeData::getMetaData() const
 {
-	return _v_md;
+	return _m->v_md;
 }
 
 bool CustomMimeData::hasMetaData() const
 {
-	return (_v_md.size() > 0);
+	return (_m->v_md.size() > 0);
 }
 
-void CustomMimeData::setCoverUrl(const QString& url)
+// TODO: Never used
+/*void CustomMimeData::setCoverUrl(const QString& url)
 {
-	_cover_url = url;
-}
+	_m->cover_url = url;
+}*/
 
 QString CustomMimeData::getCoverUrl() const 
 {
-	return _cover_url;
+	return _m->cover_url;
 }
 
 bool CustomMimeData::hasCoverUrl() const
 {
-	return (!_cover_url.isEmpty());
+	return (!_m->cover_url.isEmpty());
 }

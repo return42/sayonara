@@ -549,7 +549,7 @@ int PlaylistHandler::get_current_idx() const
 {
 	return _current_playlist_idx;
 }
-
+/* TODO: never used
 int PlaylistHandler::get_playlist_count() const
 {
 	return _playlists.size();
@@ -564,7 +564,7 @@ QStringList PlaylistHandler::get_playlist_names() const
 
 	return names;
 }
-
+*/
 int PlaylistHandler::exists(const QString& name) const
 {
 	if( name.isEmpty() &&

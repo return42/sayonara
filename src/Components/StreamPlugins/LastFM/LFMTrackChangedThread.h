@@ -33,7 +33,7 @@
 
 #include "ArtistMatch.h"
 #include "Helper/typedefs.h"
-#include "Helper/MetaData/MetaData.h"
+#include "Helper/MetaData/MetaDataFwd.h"
 
 class SmartCompare;
 class LFMTrackChangedThread :
@@ -61,18 +61,9 @@ public:
 
 private:
 
-	/* update track */
-	QString						_artist;
-	QString						_username;
-	QString						_session_key;
-	QHash<QString, ArtistMatch>  _sim_artists_cache;
-	MetaData					_md;
-
-#ifdef SMART_COMPARE
-	SmartCompare*				_smart_comparison=nullptr;
-#endif
-
-
+	struct Private;
+	LFMTrackChangedThread::Private*	_m=nullptr;
+	
 private:
 	void evaluate_artist_match(const ArtistMatch& artist_match);
 

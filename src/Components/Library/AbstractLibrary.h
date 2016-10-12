@@ -94,7 +94,7 @@ public slots:
 
 
 	// Those two functions are identical (1) calls (2)
-	virtual void psl_prepare_track_for_playlist(int idx, bool new_playlist);
+//	virtual void psl_prepare_track_for_playlist(int idx, bool new_playlist);
 	virtual void psl_prepare_tracks_for_playlist(bool new_playlist);
 	virtual void psl_prepare_tracks_for_playlist(const SP::Set<int>& indexes, bool new_playlist);
 	virtual void psl_prepare_tracks_for_playlist(const QStringList& file_paths, bool new_playlist);
@@ -111,10 +111,10 @@ public slots:
 
 
 	/* triggered from outside, when something important has been changed*/
-	virtual void psl_metadata_changed(const MetaData&);
+//	virtual void psl_metadata_changed(const MetaData&);
 
 	/* triggered from outside, when playing time*/
-	virtual void psl_dur_changed(const MetaData&);
+//	virtual void psl_dur_changed(const MetaData&);
 
 
 	/* triggered by tagedit */
@@ -197,7 +197,7 @@ protected:
 private:
 	void set_playlist_action_after_double_click();
 
-	virtual void restore_artist_selection();
+//	virtual void restore_artist_selection();
 	virtual void restore_track_selection();
 	virtual void restore_album_selection();
 

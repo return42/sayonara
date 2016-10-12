@@ -55,7 +55,7 @@ public:
 	void call_url(const QString& url);
 
 	void call_post_url(const QString& url, const QByteArray& post_data);
-	void call_post_url_https(const QString& url, const QByteArray& post_data);
+//	void call_post_url_https(const QString& url, const QByteArray& post_data);
 
 private slots:
 	void awa_finished(bool success);

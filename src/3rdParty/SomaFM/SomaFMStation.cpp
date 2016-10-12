@@ -30,6 +30,7 @@
 
 #include <QMap>
 #include <QStringList>
+#include <QUrl>
 
 struct SomaFMStation::Private
 {
@@ -40,7 +41,6 @@ struct SomaFMStation::Private
 	CoverLocation	cover;
 	MetaDataList	v_md;
 	bool			loved;
-
 
 	void parse_station_name()
 	{
@@ -136,6 +136,18 @@ SomaFMStation::SomaFMStation(const QString& content) :
 	_m->parse_station_name();
 	_m->parse_image();
 	_m->parse_urls();
+}
+
+SomaFMStation::~SomaFMStation()
+{
+	delete _m; _m = nullptr;
+}
+
+SomaFMStation::SomaFMStation(const SomaFMStation& other)
+{
+	SomaFMStation::Private* other_private = other._m;
+	(*_m) = (*other_private);
+	
 }
 
 QString SomaFMStation::get_name() const

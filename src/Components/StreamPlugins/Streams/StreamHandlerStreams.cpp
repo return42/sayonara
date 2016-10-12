@@ -49,6 +49,3 @@ bool StreamHandlerStreams::update_url(const QString& station_name, const QString
 	return _db->updateStreamUrl(station_name, url);
 }
 
-bool StreamHandlerStreams::rename_stream(const QString &station_name, const QString &url){
-	return _db->renameStream(station_name, url);
-}

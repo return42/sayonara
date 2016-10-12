@@ -128,7 +128,7 @@ Application::Application(int & argc, char ** argv) :
 	this->setQuitOnLastWindowClosed(false);
 }
 
-void Application::check_for_crash()
+/*void Application::check_for_crash()
 {
 	QString error_file = Helper::get_error_file();
 
@@ -167,7 +167,7 @@ void Application::check_for_crash()
 
 	return;
 }
-
+*/
 
 bool Application::init(QTranslator* translator, const QStringList& files_to_play)
 {

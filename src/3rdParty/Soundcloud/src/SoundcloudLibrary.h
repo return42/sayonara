@@ -46,6 +46,10 @@ public:
 	void				fetch_playlists_by_artist(qint64 artist_sc_id);
 	void				insert_tracks(const MetaDataList& v_md) override;
 	void				insert_tracks(const MetaDataList& v_md, const ArtistList& artists, const AlbumList& albums);
+	void				get_album_by_id(int album_id, Album& album) override;
+	void  				get_artist_by_id(int artist_id, Artist& artist) override;
+
+
 protected:
 
 	SoundcloudData*		_scd=nullptr;
@@ -66,18 +70,14 @@ protected:
 	void		update_track(const MetaData& md) override;
 	void		update_album(const Album& album) override;
 	void		delete_tracks(const MetaDataList& v_md, Library::TrackDeletionMode mode) override;
-	void		get_album_by_id(int album_id, Album& album) override;
-	void		get_artist_by_id(int artist_id, Artist& artist) override;
 
-	void				apply_artist_and_album_to_md();
+	void		apply_artist_and_album_to_md();
 
 
 private slots:
 	void		artists_fetched(const ArtistList& artists);
 	void		tracks_fetched(const MetaDataList& v_md);
 	void		albums_fetched(const AlbumList& albums);
-
-	void		cover_lookup_finished(bool);
 	void		cover_found(const CoverLocation& cl);
 
 public slots:

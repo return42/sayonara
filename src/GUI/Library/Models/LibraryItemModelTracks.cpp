@@ -36,17 +36,22 @@
 #include "Helper/FileHelper.h"
 #include "Helper/Settings/Settings.h"
 #include "Helper/Library/SearchMode.h"
+#include "Helper/MetaData/MetaDataList.h"
 
+struct LibraryItemModelTracks::Private
+{
+	MetaDataList tracks;
+};
 
 LibraryItemModelTracks::LibraryItemModelTracks() :
 	LibraryItemModel()
 {
-
+	_m = new LibraryItemModelTracks::Private();
 }
 
 
 LibraryItemModelTracks::~LibraryItemModelTracks() {
-
+	delete _m; _m = nullptr;
 }
 
 
@@ -58,30 +63,28 @@ QVariant LibraryItemModelTracks::data(const QModelIndex &index, int role) const{
 	if (!index.isValid())
 		return QVariant();
 
-	if (row >= _tracks.size())
+	if (row >= _m->tracks.size())
 		return QVariant();
 
 	ColumnIndex::Track idx_col = (ColumnIndex::Track) col;
 
-	if( role == Qt::TextAlignmentRole ){
-		int alignment = Qt::AlignVCenter;
-		switch(idx_col)
+	if (role == Qt::TextAlignmentRole) {
+
+		if (idx_col == ColumnIndex::Track::TrackNumber ||
+			idx_col == ColumnIndex::Track::Bitrate ||
+			idx_col == ColumnIndex::Track::Length ||
+			idx_col == ColumnIndex::Track::Year ||
+			idx_col == ColumnIndex::Track::Filesize)
 		{
-			case ColumnIndex::Track::Title:
-			case ColumnIndex::Track::Album:
-			case ColumnIndex::Track::Artist:
-				alignment |= Qt::AlignLeft;
-				break;
-			default:
-				alignment |= Qt::AlignRight;
+			return Qt::AlignRight + Qt::AlignVCenter;
 		}
 
-		return alignment;
+		else return Qt::AlignLeft + Qt::AlignVCenter;
 	}
 
 	else if (role == Qt::DisplayRole || role==Qt::EditRole) {
 
-		const MetaData& md = _tracks.at(row);
+		const MetaData& md = _m->tracks.at(row);
 
 		switch(idx_col) {
 			case ColumnIndex::Track::TrackNumber:
@@ -119,20 +122,6 @@ QVariant LibraryItemModelTracks::data(const QModelIndex &index, int role) const{
 		}
 	}
 
-	else if (role == Qt::TextAlignmentRole) {
-
-		if (idx_col == ColumnIndex::Track::TrackNumber ||
-			idx_col == ColumnIndex::Track::Bitrate ||
-			idx_col == ColumnIndex::Track::Length ||
-			idx_col == ColumnIndex::Track::Year ||
-			idx_col == ColumnIndex::Track::Filesize)
-		{
-			return Qt::AlignRight + Qt::AlignVCenter;
-		}
-
-		else return Qt::AlignLeft + Qt::AlignVCenter;
-	}
-
 
 	return QVariant();
 }
@@ -163,12 +152,12 @@ bool LibraryItemModelTracks::setData(const QModelIndex &index, const QVariant &v
 		int col = index.column();
 
 		if(col == (int) ColumnIndex::Track::Rating) {
-			_tracks[row].rating = value.toInt();
+			_m->tracks[row].rating = value.toInt();
 		}
 
 		else{
 
-			if(!MetaData::fromVariant(value, _tracks[row])) {
+			if(!MetaData::fromVariant(value, _m->tracks[row])) {
 				return false;
 			}
 		}
@@ -191,7 +180,7 @@ bool LibraryItemModelTracks::setData(const QModelIndex&index, const MetaDataList
 
 		int row = index.row();
 
-		_tracks = v_md;
+		_m->tracks = v_md;
 
 		emit dataChanged(index, this->index(row + v_md.size() - 1, _header_names.size() - 1));
 
@@ -204,30 +193,30 @@ bool LibraryItemModelTracks::setData(const QModelIndex&index, const MetaDataList
 
 int LibraryItemModelTracks::get_id_by_row(int row)
 {
-	if(!between(row, _tracks)){
+	if(!between(row, _m->tracks)){
 		return -1;
 	}
 
 	else {
-		return _tracks[row].id;
+		return _m->tracks[row].id;
 	}
 }
 
 QString LibraryItemModelTracks::get_string(int row) const
 {
-	if(!between(row, _tracks)){
+	if(!between(row, _m->tracks)){
 		return QString();
 	}
 
 	else {
-		return _tracks[row].title;
+		return _m->tracks[row].title;
 	}
 }
 
 
 
 QModelIndex	LibraryItemModelTracks::getFirstRowIndexOf(QString substr) {
-	if(_tracks.isEmpty()) {
+	if(_m->tracks.isEmpty()) {
 		return this->index(-1, -1);
 	}
 
@@ -238,8 +227,8 @@ QModelIndex LibraryItemModelTracks::getNextRowIndexOf(QString substr, int row, c
 
 	Q_UNUSED(parent)
 
-	int len = _tracks.size();
-	if(_tracks.isEmpty()) {
+	int len = _m->tracks.size();
+	if(_m->tracks.isEmpty()) {
 		return this->index(-1, -1);
 	}
 
@@ -251,7 +240,7 @@ QModelIndex LibraryItemModelTracks::getNextRowIndexOf(QString substr, int row, c
 	{
 		int row_idx = (i + row) % len;
 
-		QString title = _tracks[row_idx].title;
+		QString title = _m->tracks[row_idx].title;
 		title = Library::convert_search_string(title, mask);
 
 		if(title.contains(substr)) {
@@ -270,7 +259,7 @@ QModelIndex LibraryItemModelTracks::getPrevRowIndexOf(QString substr, int row, c
 	Library::SearchModeMask mask = settings->get(Set::Lib_SearchMode);
 	substr = Library::convert_search_string(substr, mask);
 
-	int len = _tracks.size();
+	int len = _m->tracks.size();
 	if(len < row) row = len - 1;
 	for(int i=0; i< len; i++)
 	{
@@ -280,7 +269,7 @@ QModelIndex LibraryItemModelTracks::getPrevRowIndexOf(QString substr, int row, c
 
 		int row_idx = (row - i) % len;
 
-		QString title = _tracks[row_idx].title;
+		QString title = _m->tracks[row_idx].title;
 		title = Library::convert_search_string(title, mask);
 
 		if(title.contains(substr))

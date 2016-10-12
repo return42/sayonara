@@ -39,7 +39,7 @@ public:
 
 	virtual void createIndexes();
 	virtual bool storeMetadata(const MetaDataList & v_md);
-	virtual void deleteTracksAlbumsArtists();
+//	virtual void deleteTracksAlbumsArtists();
 };
 
 #endif // DATABASELIBRARY_H

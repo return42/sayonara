@@ -111,7 +111,7 @@ public:
 
 	const MetaData& operator[](int idx) const;
 	const MetaData& at_const_ref(int idx) const;
-	MetaData& at_ref(int idx);
+//	MetaData& at_ref(int idx);
 
 
 	virtual void clear();
@@ -119,7 +119,7 @@ public:
 	virtual void move_track(const int idx, int tgt);
 	virtual void move_tracks(const SP::Set<int>& indexes, int tgt);
 
-	virtual void copy_track(const int idx, int tgt);
+//	virtual void copy_track(const int idx, int tgt);
 	virtual void copy_tracks(const SP::Set<int>& indexes, int tgt);
 
 	virtual void delete_track(const int idx);
@@ -128,7 +128,7 @@ public:
 	virtual void insert_track(const MetaData& metadata, int tgt);
 	virtual void insert_tracks(const MetaDataList& lst, int tgt);
 
-	virtual void append_track(const MetaData& metadata);
+//	virtual void append_track(const MetaData& metadata);
 	virtual void append_tracks(const MetaDataList& lst);
 
 	virtual bool change_track(int idx)=0;

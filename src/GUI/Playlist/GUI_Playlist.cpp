@@ -33,6 +33,7 @@
 
 #include "Helper/Helper.h"
 #include "Helper/Settings/Settings.h"
+#include "Helper/MetaData/MetaDataList.h"
 
 #include "Components/PlayManager/PlayManager.h"
 #include "Components/Playlist/AbstractPlaylist.h"

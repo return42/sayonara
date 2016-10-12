@@ -119,7 +119,7 @@ void AbstractPipeline::refresh_position() {
 	}
 
 	else if(success){
-		success = gst_element_query_position(_pipeline, GST_FORMAT_TIME, &pos_pipeline);
+		gst_element_query_position(_pipeline, GST_FORMAT_TIME, &pos_pipeline);
 		_position_ms = GST_TIME_AS_MSECONDS(pos_pipeline);
 	}
 
@@ -234,11 +234,6 @@ void AbstractPipeline::finished() {
 }
 
 
-GstBus* AbstractPipeline::get_bus() {
-	return _bus;
-}
-
-
 GstState AbstractPipeline::get_state() {
 	GstState state;
 	gst_element_get_state(_pipeline, &state, nullptr, GST_MSECOND * 10);
@@ -254,10 +249,6 @@ GstElement* AbstractPipeline::get_pipeline() const {
 bool AbstractPipeline::set_uri(gchar* uri) {
 	_uri = uri;
 	return (_uri != nullptr);
-}
-
-gchar* AbstractPipeline::get_uri() {
-	return _uri;
 }
 
 

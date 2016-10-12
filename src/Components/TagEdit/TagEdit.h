@@ -118,7 +118,7 @@ public:
 	 * @brief remove_cover for a specific track
 	 * @param idx track index
 	 */
-	void remove_cover(int idx);
+//	void remove_cover(int idx);
 
 	/**
 	 * @brief does the user want to replace/add a cover

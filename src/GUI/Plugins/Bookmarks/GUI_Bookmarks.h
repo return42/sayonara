@@ -56,7 +56,7 @@ private slots:
 	void prev_clicked();
 	void new_clicked();
 	void del_clicked();
-	void del_all_clicked();
+//	void del_all_clicked();
 	void loop_clicked(bool);
 
 	void prev_changed(const Bookmark& bookmark);

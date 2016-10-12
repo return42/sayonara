@@ -88,15 +88,6 @@ void SoundcloudLibrary::get_all_tracks_by_searchstring(Library::Filter filter, M
 
 }
 
-void SoundcloudLibrary::get_album_by_id(int album_id, Album& album){
-	_scd->getAlbumByID(album_id, album);
-}
-
-void SoundcloudLibrary::get_artist_by_id(int artist_id, Artist& artist){
-	_scd->getArtistByID(artist_id, artist);
-}
-
-
 void SoundcloudLibrary::update_track(const MetaData& md){
 	_scd->updateTrack(md);
 }
@@ -152,12 +143,12 @@ void SoundcloudLibrary::refresh_tracks(){
 }
 
 
-
+/* TODO: UNUSED
 void SoundcloudLibrary::cover_lookup_finished(bool){
 	CoverLookup* cover_lookup = static_cast<CoverLookup*>(sender());
 	cover_lookup->deleteLater();
 }
-
+*/
 void SoundcloudLibrary::cover_found(const CoverLocation& cl){
 	sp_log(Log::Debug) << "Saved sound cloud cover: " << cl.toString();
 }
@@ -257,4 +248,18 @@ void SoundcloudLibrary::albums_fetched(const AlbumList& albums){
 
 	refetch();
 	//sender()->deleteLater();
+}
+
+
+void SoundcloudLibrary::get_artist_by_id(int artist_id, Artist& artist)
+{
+	Q_UNUSED(artist_id)
+	Q_UNUSED(artist)
+}
+
+
+void SoundcloudLibrary::get_album_by_id(int album_id, Album& album)
+{
+	Q_UNUSED(album_id)
+	Q_UNUSED(album)
 }

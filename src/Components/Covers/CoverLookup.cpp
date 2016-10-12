@@ -91,59 +91,11 @@ bool CoverLookup::fetch_cover(const CoverLocation& cl) {
 	return true;
 }
 
-
-bool CoverLookup::fetch_album_cover_standard(const QString& artist_name, const QString& album_name) {
-
-	CoverLocation cl = CoverLocation::get_cover_location(album_name, artist_name);
-	return fetch_cover(cl);
-}
-
-
-bool CoverLookup::fetch_album_cover_sampler(const QStringList& artists, const QString& album_name) {
-
-	CoverLocation cl = CoverLocation::get_cover_location(album_name, artists);
-	return fetch_cover(cl);
-}
-
-
-bool CoverLookup::fetch_album_cover_by_id(int album_id, quint8 db_id) {
-
-	CoverLocation cl = CoverLocation::get_cover_location(album_id, db_id);
-	return fetch_cover(cl);
-}
-
-
 bool CoverLookup::fetch_album_cover(const Album& album) {
 
 	CoverLocation cl = CoverLocation::get_cover_location(album);
 	return fetch_cover(cl);
 }
-
-
-bool CoverLookup::fetch_artist_cover_standard(const QString& artist) {
-
-	CoverLocation cl = CoverLocation::get_cover_location(artist);
-	return fetch_cover(cl);
-}
-
-
-
-bool CoverLookup::fetch_artist_cover(const Artist& artist) {
-
-	CoverLocation cl = CoverLocation::get_cover_location(artist);
-	return fetch_cover(cl);
-}
-
-
-bool CoverLookup::fetch_cover_by_searchstring(const QString& searchstring, const QString& target_name) {
-
-	CoverLocation cl =
-			CoverLocation::get_cover_location_by_searchstring(searchstring, target_name);
-
-	start_new_thread( cl );
-	return true;
-}
-
 
 void CoverLookup::finished(bool success) {
 
@@ -159,12 +111,12 @@ void CoverLookup::cover_found(const QString& file_path) {
 		emit sig_finished(true);
 	}
 }
-
-void CoverLookup::emit_standard_cover() {
+// TODO
+/*void CoverLookup::emit_standard_cover() {
 
 	CoverLocation cl = CoverLocation::getInvalidLocation();
 	emit sig_cover_found(cl.cover_path());
-}
+}*/
 
 void CoverLookup::stop()
 {

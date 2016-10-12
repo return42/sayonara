@@ -52,11 +52,12 @@ public:
 	bool event ( QEvent * e ) override;
 
 
-   void set_enable_play(bool);
+/*   void set_enable_play(bool);
    void set_enable_stop(bool);
    void set_enable_mute(bool);
+   void set_enable_bwd(bool);*/
+
    void set_enable_fwd(bool);
-   void set_enable_bwd(bool);
 
    void notify(const MetaData& md) override;
    void notify(const QString &title, const QString &message, const QString &image_path) override;

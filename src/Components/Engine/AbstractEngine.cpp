@@ -44,10 +44,10 @@ void Engine::set_track_finished(GstElement* src){
 
 }
 
-void Engine::async_done(GstElement* src){
+/*void Engine::async_done(GstElement* src){
 	Q_UNUSED(src)
 
-}
+}*/
 
 void Engine::update_md(const MetaData& md, GstElement* src){
 	Q_UNUSED(src)

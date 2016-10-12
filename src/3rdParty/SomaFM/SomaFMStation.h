@@ -44,6 +44,8 @@ public:
 
 	SomaFMStation();
 	SomaFMStation(const QString& content);
+	SomaFMStation(const SomaFMStation& other);
+	~SomaFMStation();
 
 	QString get_name() const;
 	QStringList get_urls() const;

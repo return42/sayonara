@@ -96,9 +96,9 @@ QComboBox* GUI_DirectoryWidget::get_libchooser(){
 	return ui->combo_libchooser;
 }
 
-MetaDataList::Interpretation GUI_DirectoryWidget::get_metadata_interpretation() const
+MD::Interpretation GUI_DirectoryWidget::get_metadata_interpretation() const
 {
-	return MetaDataList::Interpretation::Tracks;
+	return MD::Interpretation::Tracks;
 }
 
 MetaDataList GUI_DirectoryWidget::get_data_for_info_dialog() const

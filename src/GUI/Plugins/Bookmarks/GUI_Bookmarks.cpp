@@ -236,7 +236,7 @@ void GUI_Bookmarks::del_clicked() {
 		ui->stackedWidget->setCurrentIndex(1);
 	}
 }
-
+/*
 void GUI_Bookmarks::del_all_clicked() {
 	_bookmarks->remove_all();
 
@@ -244,3 +244,4 @@ void GUI_Bookmarks::del_all_clicked() {
 		ui->stackedWidget->setCurrentIndex(1);
 	}
 }
+*/

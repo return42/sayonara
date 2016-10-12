@@ -350,11 +350,6 @@ QString MetaDataInfo::get_additional_info_as_string() const
 	return str;
 }
 
-QStringList MetaDataInfo::get_paths() const
-{
-	return _paths;
-}
-
 QString MetaDataInfo::get_paths_as_string() const
 {
 
@@ -380,19 +375,6 @@ CoverLocation MetaDataInfo::get_cover_location() const
 	return _cover_location;
 }
 
-QString MetaDataInfo::get_cover_artist() const
-{
-
-	if(_artists.isEmpty()) {
-		return "";
-	}
-
-	else if(_artists.size() > 1) {
-		return tr("Various artists");
-	}
-
-	return _artists.first();
-}
 
 QString MetaDataInfo::get_cover_album() const
 {
@@ -404,7 +386,28 @@ QString MetaDataInfo::get_cover_album() const
 }
 
 
+void MetaDataInfo::insert_interval(InfoStrings key, int min, int max){
+	QString str;
+
+	if(min == max){
+		str = QString::number(min);
+	}
+
+	else {
+		str = QString::number(min) + " - " + QString::number(max);
+	}
+
+	if(key == InfoStrings::Bitrate){
+		str += " kBit/s";
+	}
+
+	_info.insert(key, str);
+}
 
 
+void MetaDataInfo::insert_number(InfoStrings key, int number){
+	QString str = QString::number(number);
+	_info.insert(key, str);
+}
 
 

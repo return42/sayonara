@@ -34,6 +34,10 @@ FileSystemWatcher::FileSystemWatcher(const QString& library_path, QObject* paren
 	QThread(parent)
 {
 	_library_path = library_path;
+
+	_may_run = true;
+	_refresh = false;
+	_waiting = false;
 }
 
 void FileSystemWatcher::run()

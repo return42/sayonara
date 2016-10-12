@@ -42,9 +42,11 @@ void remove_first_and_last(QByteArray& data, char first, char last){
 }
 
 
-SoundcloudJsonParser::SoundcloudJsonParser(const QByteArray& content) : QObject()
+SoundcloudJsonParser::SoundcloudJsonParser(const QByteArray& content) : 
+	QObject(),
+
+	_content(content)
 {
-	_content = content;
 
 	QJsonParseError error;
 	_json_doc = QJsonDocument::fromJson(content, &error);

@@ -22,6 +22,7 @@
 #define METADATALIST_H
 
 #include "MetaData.h"
+#include "MetaDataFwd.h"
 #include "Helper/typedefs.h"
 
 /**
@@ -41,14 +42,6 @@ private:
 	int _cur_played_track;
 
 public:
-
-	enum class Interpretation : quint8
-	{
-		None=0,
-		Artists,
-		Albums,
-		Tracks
-	};
 
 	MetaDataList();
 	MetaDataList(const MetaDataList&);

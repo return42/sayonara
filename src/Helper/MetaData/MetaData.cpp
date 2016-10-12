@@ -67,12 +67,10 @@ MetaData::MetaData() :
 	filesize = 0;
 	discnumber = 0;
 	n_discs = 0;
-
 	pl_playing = false;
-
 	is_disabled = false;
+	is_extern = false;
 	played = false;
-
 }
 
 MetaData::MetaData(const MetaData & other) :

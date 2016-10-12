@@ -117,7 +117,7 @@ QString MTP_Device::friendly_name() const
 	return _friendly_name;
 }
 
-QString MTP_Device::default_album_dir() const
+/*QString MTP_Device::default_album_dir() const
 {
 	return _default_album_dir;
 }
@@ -131,5 +131,5 @@ QString MTP_Device::default_music_dir() const
 {
 	return _default_music_dir;
 }
-
+*/
 

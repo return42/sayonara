@@ -230,12 +230,6 @@ public slots:
 
 
 	/**
-	 * @brief change duration of track
-	 * @param duration_ms new duration in milliseconds
-	 */
-	void duration_changed(quint64 duration_ms);
-
-	/**
 	 * @brief notify, that track is ready for playback
 	 */
 	void set_track_ready();

@@ -35,7 +35,8 @@
 GUI_StreamRecorder::GUI_StreamRecorder(QWidget* parent) :
 	PreferenceWidgetInterface(parent)
 {
-
+	_is_active = false;
+	_is_create_session_path = false;
 }
 
 

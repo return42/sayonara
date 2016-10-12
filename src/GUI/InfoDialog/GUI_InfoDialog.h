@@ -26,12 +26,11 @@
 #define GUI_INFODIALOG_H_
 
 #include "GUI/Helper/SayonaraWidget/SayonaraDialog.h"
-#include "Helper/MetaData/MetaDataList.h"
+#include "Helper/MetaData/MetaDataFwd.h"
 
 class GUI_TagEdit;
 class LyricLookupThread;
 class InfoDialogContainer;
-class MetaDataList;
 class CoverLocation;
 
 namespace Ui
@@ -60,7 +59,7 @@ public:
 	GUI_InfoDialog(InfoDialogContainer* container, QWidget* parent=nullptr);
 	virtual ~GUI_InfoDialog();
 
-	void set_metadata(const MetaDataList& vd, MetaDataList::Interpretation interpretation);
+	void set_metadata(const MetaDataList& vd, MD::Interpretation interpretation);
 	bool has_metadata() const;
 	void show(GUI_InfoDialog::Tab tab);
 
@@ -81,7 +80,7 @@ private:
 
 	void prepare_cover(const CoverLocation& cover_path);
 	void prepare_lyrics();
-	void prepare_info(MetaDataList::Interpretation mode);
+	void prepare_info(MD::Interpretation mode);
 
 	void closeEvent(QCloseEvent *e) override;
 	void showEvent(QShowEvent *e) override;

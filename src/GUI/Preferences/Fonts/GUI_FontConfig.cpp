@@ -30,7 +30,9 @@
 GUI_FontConfig::GUI_FontConfig(QWidget* parent) :
 	PreferenceWidgetInterface(parent)
 {
-
+	_cur_font_size = 0;
+	_cur_font_weight = 0;
+	_is_default = true;
 }
 
 GUI_FontConfig::~GUI_FontConfig()

@@ -35,7 +35,7 @@
 #include "GUI/Library/Models/LibraryItemModel.h"
 #include "GUI/InfoDialog/InfoDialogContainer.h"
 
-#include "Helper/MetaData/MetaDataList.h"
+#include "Helper/MetaData/MetaDataFwd.h"
 #include "Components/Library/Sorting.h"
 
 #include <QAction>
@@ -93,7 +93,7 @@ protected slots:
 	void merge_action_triggered();
 
 	void language_changed();
-	MetaDataList::Interpretation get_metadata_interpretation() const override;
+	MD::Interpretation get_metadata_interpretation() const override;
 	MetaDataList get_data_for_info_dialog() const override;
 
 
@@ -109,8 +109,8 @@ public:
 	virtual void setModel(LibraryItemModel* model);
 	virtual MetaDataList get_selected_metadata() const;
 
-	MetaDataList::Interpretation get_type() const;
-	void set_type(MetaDataList::Interpretation type);
+	MD::Interpretation get_type() const;
+	void set_type(MD::Interpretation type);
 
 	void show_rc_menu_actions(int entries);
 
@@ -149,7 +149,7 @@ protected:
 	Library::SortOrder			_sort_order;
 
 	bool						_cur_filling;
-	MetaDataList::Interpretation	_type;
+	MD::Interpretation			_type;
 
 
 public:

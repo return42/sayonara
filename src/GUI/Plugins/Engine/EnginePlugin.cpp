@@ -25,7 +25,8 @@
 EnginePlugin::EnginePlugin(QWidget* parent) :
 	PlayerPluginInterface(parent)
 {
-
+	_cur_style_idx = 0;
+	_timer_stopped = true;
 }
 
 EnginePlugin::~EnginePlugin(){

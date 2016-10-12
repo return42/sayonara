@@ -102,42 +102,6 @@ void SearchSlider::mouseMoveEvent(QMouseEvent *e)
 }
 
 
-void SearchSlider::increment(int i)
-{
-	setValue( value() + i );
-}
-
-
-void SearchSlider::decrement(int i)
-{
-	setValue( value() - i );
-}
-
-
-void SearchSlider::increment_10()
-{
-	increment(10);
-}
-
-
-void SearchSlider::decrement_10()
-{
-	decrement(10);
-}
-
-
-void SearchSlider::increment_50()
-{
-	increment(50);
-}
-
-
-void SearchSlider::decrement_50()
-{
-	decrement(50);
-}
-
-
 void SearchSlider::emit_new_val(int value)
 {
 	value = std::max(value, 0);

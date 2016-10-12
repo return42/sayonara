@@ -45,7 +45,6 @@ public:
 
 private:
 
-		QTableView*		_parent;
 		QPixmap			_icon_single_album;
 		QPixmap			_icon_multi_album;
 };

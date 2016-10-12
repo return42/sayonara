@@ -92,7 +92,7 @@ void GUI_AbstractLibrary::init_finished(){
 
 	REGISTER_LISTENER(Set::Lib_LiveSearch, _sl_live_search_changed);
 }
-
+/*
 void GUI_AbstractLibrary::set_lib_chooser(const QMap<QString, QIcon>& items){
 	if(!_combo_libchooser) return;
 
@@ -103,7 +103,7 @@ void GUI_AbstractLibrary::set_lib_chooser(const QMap<QString, QIcon>& items){
 	_combo_libchooser->setIconSize(QSize(16, 16));
 	_combo_libchooser->view()->setIconSize(QSize(16, 16));
 }
-
+*/
 void GUI_AbstractLibrary::language_changed(){
 
 }
@@ -154,7 +154,7 @@ void GUI_AbstractLibrary::init_headers(){
 	_lv_tracks->setItemDelegate(_track_delegate);
 	_lv_tracks->setAlternatingRowColors(true);
 	_lv_tracks->setDragEnabled(true);
-	_lv_tracks->set_type(MetaDataList::Interpretation::Tracks);
+	_lv_tracks->set_type(MD::Interpretation::Tracks);
 	_lv_tracks->set_table_headers(track_columns, _shown_cols_tracks, so.so_tracks);
 
 	_lv_artist->setModel(_artist_model);
@@ -162,7 +162,7 @@ void GUI_AbstractLibrary::init_headers(){
 	_lv_artist->setAlternatingRowColors(true);
 	_lv_artist->setItemDelegate(new QItemDelegate(_lv_artist));
 	_lv_artist->setDragEnabled(true);
-	_lv_artist->set_type(MetaDataList::Interpretation::Artists);
+	_lv_artist->set_type(MD::Interpretation::Artists);
 	_lv_artist->set_table_headers(artist_columns, _shown_cols_artist, so.so_artists);
 
 	_lv_album->setModel(_album_model);
@@ -170,7 +170,7 @@ void GUI_AbstractLibrary::init_headers(){
 	_lv_album->setItemDelegate(_album_delegate);
 	_lv_album->setAlternatingRowColors(true);
 	_lv_album->setDragEnabled(true);
-	_lv_album->set_type(MetaDataList::Interpretation::Albums);
+	_lv_album->set_type(MD::Interpretation::Albums);
 	_lv_album->set_table_headers(album_columns, _shown_cols_albums, so.so_albums);
 }
 
@@ -536,7 +536,7 @@ void GUI_AbstractLibrary::_sl_live_search_changed(){
 	}
 }
 
-void GUI_AbstractLibrary::set_index(int idx){
+/*void GUI_AbstractLibrary::set_index(int idx){
 
 	if(!_combo_libchooser) {
 		return;
@@ -544,6 +544,7 @@ void GUI_AbstractLibrary::set_index(int idx){
 
 	_combo_libchooser->setCurrentIndex(idx);
 }
+*/
 
 
 

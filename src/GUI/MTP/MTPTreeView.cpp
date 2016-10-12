@@ -18,8 +18,9 @@
  */
 
 #include "MTPTreeView.h"
-#include "Helper/Logger/Logger.h"
 #include "GUI/Helper/CustomMimeData.h"
+#include "Helper/Logger/Logger.h"
+#include "Helper/MetaData/MetaDataList.h"
 
 MTPTreeView::MTPTreeView(QWidget *parent) :
 	QTreeWidget(parent)

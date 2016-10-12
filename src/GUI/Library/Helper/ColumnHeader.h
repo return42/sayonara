@@ -65,8 +65,8 @@ public:
 	ColumnHeader(bool switchable, Library::SortOrder sort_asc, Library::SortOrder sort_desc, int preferred_size_abs);
 	ColumnHeader(bool switchable, Library::SortOrder sort_asc, Library::SortOrder sort_desc, double preferred_size_rel, int min_size);
 
-	void set_preferred_size_abs(int preferred_size);
-	void set_preferred_size_rel(double preferred_size);
+/*	void set_preferred_size_abs(int preferred_size);
+	void set_preferred_size_rel(double preferred_size);*/
 
 	int get_preferred_size_abs() const;
 	double get_preferred_size_rel() const;
@@ -78,7 +78,6 @@ public:
 
 	bool is_visible() const;
 	bool is_hidden() const;
-	bool is_switchable() const;
 
 	void retranslate();
 

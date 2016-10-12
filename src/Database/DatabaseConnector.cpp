@@ -153,6 +153,8 @@ bool DatabaseConnector::apply_fixes() {
 		success &= check_and_insert_column("albums", "cissearch", "VARCHAR(512)");
 		success &= check_and_insert_column("artists", "cissearch", "VARCHAR(512)");
 
+		Q_UNUSED(success)
+
 		updateAlbumCissearchFix();
 		updateArtistCissearchFix();
 		updateTrackCissearchFix();

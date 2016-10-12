@@ -80,7 +80,7 @@ bool PlaylistDBWrapper:: get_non_temporary_skeletons(CustomPlaylistSkeletons& sk
 }
 
 
-bool PlaylistDBWrapper::extract_stream(CustomPlaylist& pl, QString name, QString url){
+/* bool PlaylistDBWrapper::extract_stream(CustomPlaylist& pl, QString name, QString url){
 
 	pl.set_temporary(false);
 
@@ -123,7 +123,7 @@ bool PlaylistDBWrapper::extract_stream(CustomPlaylist& pl, QString name, QString
 
 	return pl.valid();
 }
-
+*/
 
 bool PlaylistDBWrapper::get_playlists(CustomPlaylists& playlists, DatabasePlaylist::PlaylistChooserType type, Playlist::SortOrder so){
 

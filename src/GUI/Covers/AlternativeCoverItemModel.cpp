@@ -86,7 +86,6 @@ int AlternativeCoverItemModel::columnCount(const QModelIndex &parent) const
 
 QVariant AlternativeCoverItemModel::data(const QModelIndex &index, int role) const
 {
-	const int sz = 80;
 
 	int lin_idx = this->cvt_2_idx(index.row(), index.column());
     if(lin_idx < 0) return QVariant();
@@ -100,7 +99,8 @@ QVariant AlternativeCoverItemModel::data(const QModelIndex &index, int role) con
 	 }
 
 	 else if(role == Qt::SizeHintRole){
-		 return QSize(sz, sz);
+		const int sz = 80;
+		return QSize(sz, sz);
 	 }
 
 	 return QVariant();

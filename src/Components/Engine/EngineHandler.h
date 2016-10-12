@@ -42,11 +42,9 @@ class EngineHandler : public Engine
 
 public:
 
-	void fill_engines(const QList<Engine*>& engines);
 	virtual bool init() override;
 
 	PlaybackEngine* get_playback_engine();
-	ConvertEngine* get_convert_engine();
 
 	void register_raw_sound_receiver(RawSoundReceiverInterface* receiver);
 	void unregister_raw_sound_receiver(RawSoundReceiverInterface* receiver);

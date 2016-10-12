@@ -485,7 +485,7 @@ void PlaybackPipeline::set_speed(float speed, double pitch, bool preserve_pitch)
 }
 
 
-void PlaybackPipeline::change_pitch(int a_frequency)
+/*void PlaybackPipeline::change_pitch(int a_frequency)
 {
 	if(!_pitch){
 		return;
@@ -509,7 +509,7 @@ void PlaybackPipeline::change_pitch(int a_frequency)
 		"pitch", scale,
 		nullptr);
 }
-
+*/
 
 void PlaybackPipeline::_sl_show_level_changed()
 {

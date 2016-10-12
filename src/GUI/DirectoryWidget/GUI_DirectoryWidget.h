@@ -25,6 +25,7 @@
 
 #include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
 #include "GUI/InfoDialog/InfoDialogContainer.h"
+#include "Helper/MetaData/MetaDataFwd.h"
 
 #include <QFileSystemModel>
 
@@ -99,7 +100,7 @@ private slots:
 
 	// InfoDialogContainer interface
 protected:
-	MetaDataList::Interpretation get_metadata_interpretation() const override;
+	MD::Interpretation get_metadata_interpretation() const override;
 	MetaDataList get_data_for_info_dialog() const override;
 };
 

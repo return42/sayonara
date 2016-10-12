@@ -41,14 +41,6 @@ public:
 
 	bool is_busy() const;
 
-public slots:
-	void increment_10();
-	void decrement_10();
-	void increment_50();
-	void decrement_50();
-	void increment(int i);
-	void decrement(int i);
-
 
 protected:
 	
@@ -59,7 +51,6 @@ protected:
 
 
 private:
-	bool	_searching;
 	void	emit_new_val(int value);
 };
 

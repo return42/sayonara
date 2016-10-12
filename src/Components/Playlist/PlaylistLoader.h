@@ -54,14 +54,8 @@ public:
 
 
 	CustomPlaylists			get_playlists() const;
-	int						get_playlist_count() const;
-
 	int						get_last_playlist_idx() const;
-	bool					was_last_playlist_found() const;
-
 	int						get_last_track_idx() const;
-	bool					was_last_track_found() const;
-
 	int						create_playlists();
 
 };

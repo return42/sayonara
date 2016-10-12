@@ -30,9 +30,7 @@
 #define LIBRARYITEMMODELARTISTS_H_
 
 #include "LibraryItemModel.h"
-#include "Helper/MetaData/Artist.h"
-
-#include <QPixmap>
+#include "Helper/MetaData/MetaDataFwd.h"
 
 class ColumnHeader;
 class LibraryItemModelArtists : public LibraryItemModel {
@@ -57,11 +55,9 @@ public:
 	virtual QModelIndex	getNextRowIndexOf(QString substr, int row, const QModelIndex& parent=QModelIndex()) override;
 
 
-
 private:
-	ArtistList	_artists;
-	QPixmap		_pm_multi;
-	QPixmap		_pm_single;
+	struct Private;
+	LibraryItemModelArtists::Private*	_m=nullptr;
 };
 
 

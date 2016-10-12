@@ -157,10 +157,6 @@ private slots:
 	void track_changed(const MetaData& md);
 
 	void seek(int);
-	void jump_forward();
-	void jump_backward();
-	void jump_forward_ms();
-	void jump_backward_ms();
 
 	void mute_button_clicked();
 	void volume_slider_moved(int val);

@@ -41,6 +41,7 @@ public:
 
 	ImportCache();
 	virtual ~ImportCache();
+	ImportCache(const ImportCache& other);
 
 
 	void			clear();

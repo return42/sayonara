@@ -43,7 +43,7 @@ LibraryView::LibraryView(QWidget* parent) :
 	InfoDialogContainer()
 {
 
-	_type = MetaDataList::Interpretation::None;
+	_type = MD::Interpretation::None;
 	_drag = nullptr;
 	_cur_filling = false;
 	_model = nullptr;
@@ -186,12 +186,12 @@ void LibraryView::language_changed()
 	}
 }
 
-MetaDataList::Interpretation LibraryView::get_type() const
+MD::Interpretation LibraryView::get_type() const
 {
 	return _type;
 }
 
-void LibraryView::set_type(MetaDataList::Interpretation type)
+void LibraryView::set_type(MD::Interpretation type)
 {
 	_type = type;
 }
@@ -201,7 +201,7 @@ MetaDataList LibraryView::get_data_for_info_dialog() const
 	return get_selected_metadata();
 }
 
-MetaDataList::Interpretation LibraryView::get_metadata_interpretation() const
+MD::Interpretation LibraryView::get_metadata_interpretation() const
 {
 	return _type;
 }

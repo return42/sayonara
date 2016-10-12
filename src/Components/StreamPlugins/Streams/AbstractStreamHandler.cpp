@@ -89,11 +89,11 @@ void AbstractStreamHandler::stream_parser_finished(bool success){
 	_m->playlist->create_playlist(v_md, _m->station_name, true, Playlist::Type::Stream);
 	_m->blocked = false;
 }
-
+/* TODO
 MetaDataList AbstractStreamHandler::get_tracks(const QString& station_name){
 	return _m->station_contents[station_name];
 }
-
+*/
 
 void AbstractStreamHandler::save(const QString& station_name, const QString& url)
 {

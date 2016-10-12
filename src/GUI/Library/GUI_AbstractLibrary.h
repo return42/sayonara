@@ -62,8 +62,8 @@ public:
 
 	virtual ~GUI_AbstractLibrary();
 
-	void set_lib_chooser(const QMap<QString, QIcon>&);
-	void set_index(int idx);
+/*	void set_lib_chooser(const QMap<QString, QIcon>&);
+	void set_index(int idx);*/
 
 
 protected:

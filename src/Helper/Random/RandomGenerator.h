@@ -34,6 +34,8 @@ private:
 	struct Private;
 	RandomGenerator::Private* _m=nullptr;
 
+	RandomGenerator(const RandomGenerator& other);
+
 public:
 	RandomGenerator();
 	~RandomGenerator();

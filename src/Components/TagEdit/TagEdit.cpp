@@ -239,11 +239,11 @@ void TagEdit::update_cover(int idx, const QImage& cover){
 
 	_m->cover_map[idx] = cover;
 }
-
+/** TODO: never used
 void TagEdit::remove_cover(int idx){
 	_m->cover_map.remove(idx);
 }
-
+*/
 bool TagEdit::has_cover_replacement(int idx) const
 {
 	return _m->cover_map.contains(idx);

@@ -45,7 +45,7 @@ public:
 
 
 private:
-	void check_for_crash();
+//	void check_for_crash();
 	void init_single_instance_thread();
 
 	GUI_Player* player=nullptr;

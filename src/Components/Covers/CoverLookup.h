@@ -95,22 +95,6 @@ public:
 	bool fetch_cover(const CoverLocation& cl);
 
 	/**
-	 * @brief uses CoverLocation(const QString& artist, const QString& album_name)
-	 * @param artist Artist name
-	 * @param album_name Album name
-	 * @return true
-	 */
-	bool fetch_album_cover_standard(const QString& artist, const QString& album_name);
-
-	/**
-	 * @brief uses CoverLocation(const QString& album_name, const QStringList& artists)
-	 * @param artists List of artist names
-	 * @param album_name Album name
-	 * @return true
-	 */
-	bool fetch_album_cover_sampler(const QStringList& artists, const QString& album_name);
-
-	/**
 	 * @brief uses CoverLocation(const Album& album)
 	 * @param album Album object
 	 * @return true
@@ -118,40 +102,9 @@ public:
 	bool fetch_album_cover(const Album& album);
 
 	/**
-	 * @brief uses CoverLocation(int album_id, int db_id);
-	 * @param album_id Album ID
-	 * @param db_id Database ID
-	 * @return true
-	 */
-	bool fetch_album_cover_by_id(int album_id, quint8 db_id);
-
-	/**
-	 * @brief uses CoverLocation(const QString& artist);
-	 * @param artist Artist name
-	 * @return true
-	 */
-	bool fetch_artist_cover_standard(const QString& artist);
-
-	/**
-	 * @brief uses CoverLocation(const Artist& artist)
-	 * @param artist Artist object
-	 * @return true
-	 */
-	bool fetch_artist_cover(const Artist& artist);
-
-
-	/**
-	 * @brief Sets CoverLocation::cover_path and CoverLocation::search_url and starts new CoverFetchThread
-	 * @param searchstring a Google search string
-	 * @param target_name target cover path
-	 * @return true
-	 */
-	bool fetch_cover_by_searchstring(const QString& searchstring, const QString& target_name);
-
-	/**
 	 * @brief Emits the Sayonara logo
 	 */
-	void emit_standard_cover();
+//	void emit_standard_cover();
 
 	/**
 	 * @brief not implemented

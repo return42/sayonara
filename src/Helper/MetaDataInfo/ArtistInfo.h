@@ -47,7 +47,6 @@ public:
 	ArtistInfo(const MetaDataList& v_md);
 	virtual ~ArtistInfo();
 
-	QString get_cover_album() const override;
 	QString get_additional_info_as_string() const override;
 };
 

@@ -67,7 +67,7 @@ public slots:
 	void set_eq_band(const QString& band_name, double val);
 	void set_speed(float speed, double pitch, bool preserve_pitch);
 	void set_streamrecorder_path(const QString& session_path);
-	void change_pitch(int a_frequency);
+//	void change_pitch(int a_frequency);
 
 	gint64 seek_rel(double percent, gint64 ref_ns);
 	gint64 seek_abs(gint64 ns );

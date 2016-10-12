@@ -157,11 +157,6 @@ CustomPlaylists PlaylistLoader::get_playlists() const
 	return _playlists;
 }
 
-int	PlaylistLoader::get_playlist_count() const
-{
-	return _playlists.size();
-}
-
 int	PlaylistLoader::get_last_playlist_idx() const
 {
 	if( !between(_last_playlist_idx, _playlists))
@@ -192,26 +187,14 @@ int	PlaylistLoader::get_last_track_idx() const
 	return _last_track_idx;
 }
 
-bool PlaylistLoader::was_last_playlist_found() const
-{
-	return (get_last_playlist_idx() != -1);
-}
-
-bool PlaylistLoader::was_last_track_found() const
-{
-	return (get_last_track_idx() != -1);
-}
-
-
 int PlaylistLoader::create_playlists(){
 
 	PlaylistHandler* plh = PlaylistHandler::getInstance();
-	int idx;
 
 	// no playlists found
 	if( _playlists.isEmpty() ){
 		QString name = plh->request_new_playlist_name();
-		idx = plh->create_empty_playlist(name);
+		int idx = plh->create_empty_playlist(name);
 		plh->set_current_idx(idx);
 	}
 

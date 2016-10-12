@@ -183,11 +183,11 @@ void LibraryItemModel::add_selections(const SP::Set<int>& rows){
 		_selections.insert(get_id_by_row(row));
 	});
 }
-
+/*
 void LibraryItemModel::add_selection(int row){
 	_selections.insert(get_id_by_row(row));
 }
-
+*/
 bool LibraryItemModel::is_selected(int id)
 {
 	return _selections.contains(id);

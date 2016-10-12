@@ -246,12 +246,6 @@ void PlayManager::set_position_ms(quint64 ms)
 	emit sig_position_changed_ms(ms);
 }
 
-void PlayManager::duration_changed(quint64 duration_ms)
-{
-	_m->md.length_ms = duration_ms;
-	emit sig_duration_changed(duration_ms);
-}
-
 
 void PlayManager::change_track(const MetaData& md, int playlist_idx)
 {

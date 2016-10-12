@@ -58,19 +58,6 @@ QString	SoundcloudWebAccess::create_dl_get_artist(int artist_id){
 	return ret;
 }
 
-QString	SoundcloudWebAccess::create_dl_get_playlist(int playlist_id){
-
-	QString ret;
-
-	ret = QString("http://api.soundcloud.com/playlists/") +
-			QString::number(playlist_id) + "?" +
-			CLIENT_ID_STR;
-
-	sp_log(Log::Debug, "Soundcloud") << "Get playlist from " << ret;
-
-	return ret;
-}
-
 QString	SoundcloudWebAccess::create_dl_get_playlists(int artist_id){
 
 	QString ret;
@@ -81,19 +68,6 @@ QString	SoundcloudWebAccess::create_dl_get_playlists(int artist_id){
 			CLIENT_ID_STR;
 
 	sp_log(Log::Debug, "Soundcloud") << "Get artist playlists from " << ret;
-
-	return ret;
-}
-
-QString	SoundcloudWebAccess::create_dl_get_track(int track_id){
-
-	QString ret;
-
-	ret = QString("http://api.soundcloud.com/tracks/") +
-			QString::number(track_id) + "?" +
-			CLIENT_ID_STR;
-
-	sp_log(Log::Debug, "Soundcloud") << "Get track from " << ret;
 
 	return ret;
 }

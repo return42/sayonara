@@ -179,14 +179,14 @@ public:
 	 * @brief get number of playlists
 	 * @return
 	 */
-	int get_playlist_count() const;
+//	int get_playlist_count() const;
 
 
 	/**
 	 * @brief get names of playlists
 	 * @return
 	 */
-	QStringList get_playlist_names() const;
+//	QStringList get_playlist_names() const;
 
 
 	/**

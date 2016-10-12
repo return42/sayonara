@@ -133,11 +133,6 @@ void ArtistInfo::set_cover_location(){
 }
 
 
-QString ArtistInfo::get_cover_album() const
-{
-	return "";
-}
-
 
 QString ArtistInfo::get_additional_info_as_string() const
 {

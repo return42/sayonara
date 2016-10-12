@@ -86,12 +86,14 @@ void AbstractPlaylist::move_tracks(const SP::Set<int>& indexes, int tgt) {
 	set_changed(true);
 }
 
+/*
+ * TODO: UNUSED
 void AbstractPlaylist::copy_track(int idx, int tgt) {
 
 	SP::Set<int> indexes(idx);
 	copy_tracks(indexes, tgt);
 }
-
+*/
 void AbstractPlaylist::copy_tracks(const SP::Set<int>& indexes, int tgt) {
 
 	_m->v_md.copy_tracks(indexes, tgt);
@@ -124,13 +126,14 @@ void AbstractPlaylist::insert_tracks(const MetaDataList& lst, int tgt) {
 	set_changed(true);
 }
 
-
+/*
 void AbstractPlaylist::append_track(const MetaData& md) {
 
 	MetaDataList v_md;
 	v_md << md;
 	append_tracks(v_md);
 }
+*/
 
 void AbstractPlaylist::append_tracks(const MetaDataList& lst) {
 
@@ -274,7 +277,7 @@ const MetaData& AbstractPlaylist::at_const_ref(int idx) const {
 	return _m->v_md[idx];
 }
 
-MetaData& AbstractPlaylist::at_ref(int idx) {
+/*MetaData& AbstractPlaylist::at_ref(int idx) {
 	return _m->v_md[idx];
-}
+}*/
 

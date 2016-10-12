@@ -46,10 +46,6 @@ bool StreamHandlerPodcasts::delete_stream(const QString& station_name){
 	return _db->deletePodcast(station_name);
 }
 
-bool StreamHandlerPodcasts::rename_stream(const QString& station_name, const QString& url){
-	return _db->renameStream(station_name, url);
-}
-
 bool StreamHandlerPodcasts::update_url(const QString& station_name, const QString& url)
 {
 	return _db->updatePodcastUrl(station_name, url);

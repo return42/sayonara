@@ -51,7 +51,7 @@ QString calc_lab(int val) {
 GUI_Equalizer::GUI_Equalizer(QWidget *parent) :
 	PlayerPluginInterface(parent)
 {
-
+	_active_idx = 0;
 }
 
 GUI_Equalizer::~GUI_Equalizer() 

@@ -56,7 +56,7 @@ public:
 
 	virtual void		set_track_finished(GstElement* src);
 
-	virtual void		async_done(GstElement* src);
+//	virtual void		async_done(GstElement* src);
 	virtual void		update_md(const MetaData& md, GstElement* src);
 	virtual void		update_cover(const QImage& img, GstElement* src);
 	virtual void		update_duration(GstElement* src);

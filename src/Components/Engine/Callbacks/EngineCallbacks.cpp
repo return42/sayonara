@@ -59,23 +59,37 @@ static bool parse_image(GstTagList* tags, QImage& img)
 		}
 	}
 
-	gchar* mime_type = gst_caps_to_string(gst_sample_get_caps(sample));
-	//sp_log(Log::Debug) << "Mime type: " << mime_type;
+	gchar* mimetype = gst_caps_to_string(gst_sample_get_caps(sample));
+	gchar* parsed_mimetype = nullptr;
+
+	if(mimetype == nullptr)
+	{
+		return false;
+	}
+
+	//sp_log(Log::Debug) << "Mime type: " << mimetype;
 	QRegExp re(".*(image/[a-z|A-Z]+).*");
-	QString mime(mime_type);
-	if(re.indexIn(mime) >= 0){
+	QString mime(mimetype);
+	if(re.indexIn(mime) >= 0)
+	{
 		mime = re.cap(1);
-		mime_type = strdup(mime.toLocal8Bit().data());
+		parsed_mimetype = strdup(mime.toLocal8Bit().data());
+	}
+
+	else{
+		parsed_mimetype = strdup(mimetype);
 	}
 
 	GstBuffer* buffer = gst_sample_get_buffer( sample );
 	if(!buffer){
+		g_free(mimetype); g_free(parsed_mimetype);
 		gst_sample_unref(sample);
 		return false;
 	}
 
 	gsize size = gst_buffer_get_size(buffer);
 	if(size == 0){
+		g_free(mimetype); g_free(parsed_mimetype);
 		gst_sample_unref(sample);
 		return false;
 	}
@@ -84,14 +98,17 @@ static bool parse_image(GstTagList* tags, QImage& img)
 	size = gst_buffer_extract(buffer, 0, data, size);
 
 	if(size == 0){
+		g_free(mimetype); g_free(parsed_mimetype);
 		delete[] data;
+
 		gst_sample_unref(sample);
 	
 		return false;
 	}
 
-	img = QImage::fromData((const uchar*) data, size, mime_type);
+	img = QImage::fromData((const uchar*) data, size, parsed_mimetype);
 	
+	g_free(mimetype); g_free(parsed_mimetype);
 	delete[] data;
 	gst_sample_unref(sample);
 

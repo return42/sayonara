@@ -23,7 +23,7 @@
 #ifndef _CUSTOMMIMEDATA_H
 #define _CUSTOMMIMEDATA_H
 
-#include "Helper/MetaData/MetaDataList.h"
+#include "Helper/MetaData/MetaDataFwd.h"
 #include <QMimeData>
 #include <QUrl>
 
@@ -35,8 +35,8 @@ class CustomMimeData : public QMimeData {
 
 
 private:
-    MetaDataList    _v_md;
-	QString			_cover_url;
+	struct Private;
+	CustomMimeData::Private* _m=nullptr;
 
 public:
     /**
@@ -65,7 +65,7 @@ public:
      */
     bool hasMetaData() const;
 
-	void setCoverUrl(const QString& path);
+//	void setCoverUrl(const QString& path);
 	QString getCoverUrl() const;
 	bool hasCoverUrl() const;
 };

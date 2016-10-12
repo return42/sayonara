@@ -698,7 +698,7 @@ void GUI_TagEdit::btn_tag_help_clicked()
 	QUrl url(QString("http://sayonara-player.com/faq.php#tag-edit"));
 	QDesktopServices::openUrl(url);
 }
-
+/* TODO: Never used
 void GUI_TagEdit::show_button_commit(bool b)
 {
 	ui->btn_ok->setVisible(b);
@@ -708,3 +708,4 @@ void GUI_TagEdit::show_button_cancel(bool b)
 {
 	ui->btn_cancel->setVisible(b);
 }
+*/

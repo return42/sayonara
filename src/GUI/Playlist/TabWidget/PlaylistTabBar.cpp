@@ -27,6 +27,7 @@
 #include "GUI/Helper/Shortcuts/Shortcut.h"
 
 #include "Helper/DirectoryReader/DirectoryReader.h"
+#include "Helper/MetaData/MetaDataList.h"
 
 #include <QShortcut>
 #include <QInputDialog>

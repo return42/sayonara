@@ -29,9 +29,9 @@
 #ifndef LIBRARYITEMMODELTRACKS_H_
 #define LIBRARYITEMMODELTRACKS_H_
 
-#include "Helper/MetaData/MetaData.h"
 #include "GUI/Library/Models/LibraryItemModel.h"
 
+class MetaDataList;
 class LibraryItemModelTracks : public LibraryItemModel {
 
 Q_OBJECT
@@ -56,10 +56,9 @@ public:
 	virtual QModelIndex	getNextRowIndexOf(QString substr, int row, const QModelIndex& parent=QModelIndex()) override;
 
 
-
 private:
-	MetaDataList _tracks;
-
+	struct Private;
+	LibraryItemModelTracks::Private*	_m=nullptr;
 };
 
 #endif /* LIBRARYITEMMODELTRACKS_H_ */

@@ -75,14 +75,14 @@ void GUI_ImportFolder::language_changed(){
 	retranslateUi(this);
 }
 
-
-void GUI_ImportFolder::set_import_dir(const QString& dir){
+// TODO: never used
+/*void GUI_ImportFolder::set_import_dir(const QString& dir){
 	_importer->import_dir(dir);
 }
 
 void GUI_ImportFolder::set_import_files(const QStringList& filelist){
 	_importer->import_files(filelist);
-}
+}*/
 
 
 void GUI_ImportFolder::set_metadata(const MetaDataList& v_md){

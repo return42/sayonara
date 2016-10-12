@@ -209,27 +209,27 @@ void GUI_TrayIcon::playstate_changed(PlayState state)
 	}
 }
 
-
+/*
 void GUI_TrayIcon::set_enable_play(bool b)
 {
 	if(_play_action){
 		_play_action->setEnabled(b);
 	}
 }
+*/
 
-
-void GUI_TrayIcon::set_enable_stop(bool b)
+/*void GUI_TrayIcon::set_enable_stop(bool b)
 {
 	if(_stop_action){
 		_stop_action->setEnabled(b);
 	}
-}
+}*/
 
 
-void GUI_TrayIcon::set_enable_mute(bool b)
+/*void GUI_TrayIcon::set_enable_mute(bool b)
 {
 	Q_UNUSED(b)
-}
+}*/
 
 
 void GUI_TrayIcon::set_enable_fwd(bool b)
@@ -239,13 +239,13 @@ void GUI_TrayIcon::set_enable_fwd(bool b)
 	}
 }
 
-
-void GUI_TrayIcon::set_enable_bwd(bool b)
+//TODO: never used
+/*void GUI_TrayIcon::set_enable_bwd(bool b)
 {
 	if(_bwd_action){
 		_bwd_action->setEnabled(b);
 	}
-}
+}*/
 
 
 void GUI_TrayIcon::play_clicked()

@@ -29,11 +29,11 @@
 #ifndef LIBRARYITEMMODELALBUMS_H_
 #define LIBRARYITEMMODELALBUMS_H_
 
-#include "Helper/MetaData/Album.h"
 #include "GUI/Library/Models/LibraryItemModel.h"
 
 #include <QPixmap>
 
+class AlbumList;
 class ColumnHeader;
 class LibraryItemModelAlbums : public LibraryItemModel {
 
@@ -58,9 +58,8 @@ public:
 	virtual QString get_string(int row) const override;
 
 private:
-	AlbumList 	_albums;
-	QPixmap		_pm_multi;
-	QPixmap		_pm_single;
+	struct Private;
+	LibraryItemModelAlbums::Private*	_m = nullptr;
 
 };
 

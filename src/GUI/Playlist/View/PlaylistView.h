@@ -32,6 +32,7 @@
 #include "GUI/Helper/SearchableWidget/SearchableListView.h"
 #include "GUI/InfoDialog/InfoDialogContainer.h"
 #include "Helper/Playlist/PlaylistFwd.h"
+#include "Helper/MetaData/MetaDataFwd.h"
 
 #include <QPoint>
 #include <QDrag>
@@ -127,7 +128,7 @@ private:
 	void resizeEvent(QResizeEvent *e) override;
 	void selectionChanged ( const QItemSelection & selected, const QItemSelection & deselected ) override;
 
-	MetaDataList::Interpretation get_metadata_interpretation() const override;
+	MD::Interpretation get_metadata_interpretation() const override;
 	MetaDataList get_data_for_info_dialog() const override;
 
 

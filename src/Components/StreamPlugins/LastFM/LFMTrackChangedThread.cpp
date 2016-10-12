@@ -27,6 +27,7 @@
 #include "LFMWebAccess.h"
 #include "LFMGlobals.h"
 #include "LFMSimArtistsParser.h"
+#include "ArtistMatch.h"
 
 #include "Database/DatabaseHandler.h"
 #include "Database/DatabaseConnector.h"
@@ -34,6 +35,7 @@
 #include "Helper/Helper.h"
 #include "Helper/FileHelper.h"
 #include "Helper/MetaData/Artist.h"
+#include "Helper/MetaData/MetaData.h"
 #include "Helper/Compressor/Compressor.h"
 #include "Helper/Logger/Logger.h"
 
@@ -45,13 +47,25 @@
 #include <QStringList>
 #include <QUrl>
 
+struct LFMTrackChangedThread::Private
+{
+	QString						artist;
+	QString						username;
+	QString						session_key;
+	QHash<QString, ArtistMatch>  sim_artists_cache;
+	MetaData					md;
+
+#ifdef SMART_COMPARE
+	SmartCompare*				_smart_comparison=nullptr;
+#endif
+};
 
 LFMTrackChangedThread::LFMTrackChangedThread(const QString& username, const QString& session_key, QObject* parent) :
 	QObject(parent)
 {
-
-	_username = username;
-	_session_key = session_key;
+	_m = new LFMTrackChangedThread::Private();
+	_m->username = username;
+	_m->session_key = session_key;
 
 	ArtistList artists;
 	DatabaseConnector::getInstance()->getAllArtists(artists);
@@ -64,32 +78,34 @@ LFMTrackChangedThread::LFMTrackChangedThread(const QString& username, const QStr
 
 
 LFMTrackChangedThread::~LFMTrackChangedThread() {
+	delete _m; _m = nullptr;
+
 #ifdef SMART_COMPARE
 	delete _smart_comparison; _smart_comparison=nullptr;
 #endif
 }
 
 void LFMTrackChangedThread::set_session_key(const QString& session_key) {
-	_session_key = session_key;
+	_m->session_key = session_key;
 }
 
 void LFMTrackChangedThread::set_username(const QString& username) {
-	_username = username;
+	_m->username = username;
 }
 
 
 
 void LFMTrackChangedThread::update_now_playing(const MetaData& md) {
 
-	_md = md;
+	_m->md = md;
 
 	LFMWebAccess* lfm_wa = new LFMWebAccess();
 
 	connect(lfm_wa, &LFMWebAccess::sig_response, this, &LFMTrackChangedThread::response_update);
 	connect(lfm_wa, &LFMWebAccess::sig_error, this, &LFMTrackChangedThread::error_update);
 
-	QString artist = _md.artist;
-	QString title = _md.title;
+	QString artist = _m->md.artist;
+	QString title = _m->md.title;
 
 	if(artist.trimmed().size() == 0) artist = "Unknown";
 	artist.replace("&", "&amp;");
@@ -97,9 +113,9 @@ void LFMTrackChangedThread::update_now_playing(const MetaData& md) {
 	UrlParams sig_data;
 	sig_data["api_key"] = LFM_API_KEY;
 	sig_data["artist"] = artist.toLocal8Bit();
-	sig_data["duration"] = QString::number(_md.length_ms / 1000).toLocal8Bit();
+	sig_data["duration"] = QString::number(_m->md.length_ms / 1000).toLocal8Bit();
 	sig_data["method"] = QString("track.updatenowplaying").toLocal8Bit();
-	sig_data["sk"] = _session_key.toLocal8Bit();
+	sig_data["sk"] = _m->session_key.toLocal8Bit();
 	sig_data["track"] =  title.toLocal8Bit();
 
 	sig_data.append_signature();
@@ -144,20 +160,20 @@ void LFMTrackChangedThread::search_similar_artists(const MetaData& md) {
 		return;
 	}
 
-	_md = md;
+	_m->md = md;
 
-	if(_md.artist.trimmed().isEmpty()){
+	if(_m->md.artist.trimmed().isEmpty()){
 		return;
 	}
 
 	// check if already in cache
-	if(_sim_artists_cache.contains(_md.artist)) {
-		const ArtistMatch& artist_match = _sim_artists_cache.value(_md.artist);
+	if(_m->sim_artists_cache.contains(_m->md.artist)) {
+		const ArtistMatch& artist_match = _m->sim_artists_cache.value(_m->md.artist);
 		evaluate_artist_match(artist_match);
 		return;
 	}
 
-	_artist = md.artist;
+	_m->artist = _m->md.artist;
 
 	LFMWebAccess* lfm_wa = new LFMWebAccess();
 
@@ -165,7 +181,7 @@ void LFMTrackChangedThread::search_similar_artists(const MetaData& md) {
 	connect(lfm_wa, &LFMWebAccess::sig_error, this, &LFMTrackChangedThread::error_sim_artists);
 
 	QString url = 	QString("http://ws.audioscrobbler.com/2.0/?");
-	QString encoded = QUrl::toPercentEncoding( _md.artist );
+	QString encoded = QUrl::toPercentEncoding( _m->md.artist );
 	url += QString("method=artist.getsimilar&");
 	url += QString("artist=") + encoded + QString("&");
 	url += QString("api_key=") + LFM_API_KEY;
@@ -278,13 +294,13 @@ QMap<QString, int> LFMTrackChangedThread::filter_available_artists(const ArtistM
 
 void LFMTrackChangedThread::response_sim_artists(const QByteArray& data){
 
-	LFMSimArtistsParser parser(_artist, data);
+	LFMSimArtistsParser parser(_m->artist, data);
 
 	ArtistMatch artist_match = parser.get_artist_match();
 
 	if(artist_match.is_valid()){
 		QString artist_name = artist_match.get_artist_name();
-		_sim_artists_cache[artist_name] = artist_match;
+		_m->sim_artists_cache[artist_name] = artist_match;
 	}
 
 	evaluate_artist_match(artist_match);

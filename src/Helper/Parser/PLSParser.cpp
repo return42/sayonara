@@ -95,19 +95,18 @@ void PLSParser::parse(){
 }
 
 
-int PLSParser::get_number_of_entries(){
+/*int PLSParser::get_number_of_entries(){
 
 	QRegExp re("^\\s*numberofentries\\s*=\\s*([0-9]+)");
 
-	int idx = -1;
-	idx = re.indexIn(_file_content.toLower());
+	int idx = re.indexIn(_file_content.toLower());
 	if(idx == -1){
 		return -1;
 	}
 
 	return re.cap(1).toInt();
 }
-
+*/
 bool PLSParser::split_line(const QString& line, QString& key, QString& val, int& idx)
 {
 	int pos_idx;

@@ -95,7 +95,7 @@ namespace Library
 		    QString::number((int) so_tracks);
 	}
 
-	static Library::Sortings fromString(const QString str){
+	static Library::Sortings fromString(const QString& str){
 
 	    Library::Sortings so;
 	    QStringList lst = str.split(",");

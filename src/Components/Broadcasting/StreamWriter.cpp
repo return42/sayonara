@@ -73,12 +73,6 @@ QString StreamWriter::get_ip() const
 }
 
 
-int StreamWriter::get_sd() const
-{
-	return _socket->socketDescriptor();
-}
-
-
 StreamHttpParser::HttpAnswer StreamWriter::parse_message(){
 
 	StreamHttpParser::HttpAnswer status;
@@ -231,8 +225,3 @@ void StreamWriter::data_available(){
 	}
 }
 
-
-StreamWriter::Type StreamWriter::get_type() const
-{
-	return _type;
-}

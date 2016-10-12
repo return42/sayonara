@@ -40,6 +40,7 @@
 #include "Helper/FileHelper.h"
 #include "Helper/Parser/StreamParser.h"
 #include "Helper/DirectoryReader/DirectoryReader.h"
+#include "Helper/MetaData/MetaDataList.h"
 
 #include "Components/Playlist/AbstractPlaylist.h"
 #include "Components/Playlist/PlaylistHandler.h"
@@ -56,6 +57,8 @@ PlaylistView::PlaylistView(PlaylistPtr pl, QWidget* parent) :
 {
 	_model = new PlaylistItemModel(pl, this);
 	_delegate = new PlaylistItemDelegate(this);
+
+	_async_drop_index = -1;
 
 	this->setModel(_model);
 	this->setAbstractModel(_model);
@@ -365,9 +368,9 @@ void PlaylistView::rating_changed(int rating)
 
 
 
-MetaDataList::Interpretation PlaylistView::get_metadata_interpretation() const
+MD::Interpretation PlaylistView::get_metadata_interpretation() const
 {
-	return MetaDataList::Interpretation::Tracks;
+	return MD::Interpretation::Tracks;
 }
 
 MetaDataList PlaylistView::get_data_for_info_dialog() const

@@ -33,41 +33,51 @@
 #include "GUI/Helper/GUI_Helper.h"
 #include "Helper/Settings/Settings.h"
 #include "Helper/Library/SearchMode.h"
+#include "Helper/MetaData/Artist.h"
 
 #include <QAbstractListModel>
 #include <QStringList>
+#include <QPixmap>
 
+struct LibraryItemModelArtists::Private
+{
+	ArtistList	artists;
+	QPixmap		pm_multi;
+	QPixmap		pm_single;
+};
 
 LibraryItemModelArtists::LibraryItemModelArtists() :
 	LibraryItemModel()
 {
-	_pm_single = GUI::get_pixmap("play", QSize(16, 16));
-	_pm_multi = GUI::get_pixmap("sampler", QSize(16, 16));
+	_m = new LibraryItemModelArtists::Private();
+
+	_m->pm_single = GUI::get_pixmap("play", QSize(16, 16));
+	_m->pm_multi = GUI::get_pixmap("sampler", QSize(16, 16));
 }
 
 LibraryItemModelArtists::~LibraryItemModelArtists() {
-
+	delete _m; _m = nullptr;
 }
 
 int LibraryItemModelArtists::get_id_by_row(int row)
 {
-	if(row < 0 || row >= _artists.size()){
+	if(row < 0 || row >= _m->artists.size()){
 		return -1;
 	}
 
 	else {
-		return _artists[row].id;
+		return _m->artists[row].id;
 	}
 }
 
 QString LibraryItemModelArtists::get_string(int row) const
 {
-	if(row < 0 || row >= _artists.size()){
+	if(row < 0 || row >= _m->artists.size()){
 		return QString();
 	}
 
 	else {
-		return _artists[row].name;
+		return _m->artists[row].name;
 	}
 }
 
@@ -77,14 +87,14 @@ QVariant LibraryItemModelArtists::data(const QModelIndex & index, int role) cons
 	if (!index.isValid())
 		return QVariant();
 
-	if (index.row() >= _artists.size())
+	if (index.row() >= _m->artists.size())
 		return QVariant();
 
 	int row = index.row();
 	int col = index.column();
 
 	ColumnIndex::Artist idx_col = (ColumnIndex::Artist) col;
-	const Artist& artist = _artists[row];
+	const Artist& artist = _m->artists[row];
 
 
 	if(role == Qt::TextAlignmentRole){
@@ -100,9 +110,9 @@ QVariant LibraryItemModelArtists::data(const QModelIndex & index, int role) cons
 	else if(role == Qt::DecorationRole){
 		if(idx_col == ColumnIndex::Artist::NumAlbums){
 			if(artist.num_albums > 1){
-				return _pm_multi;
+				return _m->pm_multi;
 			}
-			return _pm_single;
+			return _m->pm_single;
 		}
 	}
 
@@ -131,7 +141,7 @@ bool LibraryItemModelArtists::setData(const QModelIndex& index, const QVariant& 
 
 		int row = index.row();
 
-		Artist::fromVariant(value,  _artists[row]);
+		Artist::fromVariant(value,  _m->artists[row]);
 
 		emit dataChanged(index, this->index(row, _header_names.size() - 1));
 
@@ -148,7 +158,7 @@ bool LibraryItemModelArtists::setData(const QModelIndex& index, const ArtistList
 
 		int row = index.row();
 
-		_artists = artists;
+		_m->artists = artists;
 
 		emit dataChanged(index, this->index(row + artists.size() - 1, _header_names.size() - 1));
 
@@ -169,7 +179,7 @@ Qt::ItemFlags LibraryItemModelArtists::flags(const QModelIndex & index) const
 }
 
 QModelIndex LibraryItemModelArtists::getFirstRowIndexOf(QString substr) {
-	if(_artists.isEmpty()) {
+	if(_m->artists.isEmpty()) {
 		return this->index(-1, -1);
 	}
 
@@ -188,13 +198,13 @@ QModelIndex	LibraryItemModelArtists::getNextRowIndexOf(QString substr, int row, 
 	Library::SearchModeMask mask = settings->get(Set::Lib_SearchMode);
 	substr = Library::convert_search_string(substr, mask);
 
-	int len = _artists.size();
+	int len = _m->artists.size();
 	if( len == 0 ) return this->index(-1, -1);
 
 	for(int i=0; i<len; i++) {
 		int row_idx = (i + row) % len;
 
-		QString artist_name = _artists[row_idx].name;
+		QString artist_name = _m->artists[row_idx].name;
 		artist_name = Library::convert_search_string(artist_name, mask);
 
 		if(artist_name.contains(substr))
@@ -215,7 +225,7 @@ QModelIndex	LibraryItemModelArtists::getPrevRowIndexOf(QString substr, int row, 
 	Library::SearchModeMask mask = settings->get(Set::Lib_SearchMode);
 	substr = Library::convert_search_string(substr, mask);
 
-	int len = _artists.size();
+	int len = _m->artists.size();
 	if( len < row) row = len - 1;
 
 	for(int i=0; i<len; i++) {
@@ -226,7 +236,7 @@ QModelIndex	LibraryItemModelArtists::getPrevRowIndexOf(QString substr, int row, 
 
 		int row_idx = (row-i) % len;
 
-		QString artist_name = _artists[row_idx].name;
+		QString artist_name = _m->artists[row_idx].name;
 		artist_name = Library::convert_search_string(artist_name, mask);
 
 		if(artist_name.contains(substr))

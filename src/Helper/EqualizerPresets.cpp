@@ -168,6 +168,7 @@ void EQ_Setting::set_values(const QList<int> values)
 	}
 }
 
+/*
 void EQ_Setting::append_value(int val)
 {
 	if(_values.size() == 10){
@@ -177,7 +178,7 @@ void EQ_Setting::append_value(int val)
 
 	_values << val;
 }
-
+*/
 
 
 QList<int> EQ_Setting::values() const

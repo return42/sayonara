@@ -68,7 +68,7 @@ signals:
 		 * @param station_name
 		 * @return
 		 */
-		MetaDataList get_tracks(const QString& station_name);
+//		MetaDataList get_tracks(const QString& station_name);
 
 		/**
 		 * @brief Saves the station. Calls the add_stream() method.
@@ -108,13 +108,6 @@ signals:
 		 */
 		virtual bool update_url(const QString& station_name, const QString& url)=0;
 
-		/**
-		 * @brief Rename the station
-		 * @param station_name new name of the station
-		 * @param url old URL of the station
-		 * @return true if successful, false else
-		 */
-		virtual bool rename_stream(const QString& station_name, const QString& url)=0;
 
 		/**
 		 * @brief Clears all station content

@@ -30,9 +30,9 @@
 #include "GUI/Helper/CustomMimeData.h"
 #include "GUI/Helper/Delegates/TreeDelegate.h"
 
-#include "Helper/MetaData/MetaData.h"
 #include "Helper/Helper.h"
 #include "Helper/Tree.h"
+#include "Helper/MetaData/MetaDataList.h"
 #include "Helper/Logger/Logger.h"
 
 

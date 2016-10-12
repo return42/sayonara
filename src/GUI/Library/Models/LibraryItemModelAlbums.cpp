@@ -34,37 +34,46 @@
 #include "Helper/Helper.h"
 #include "Helper/Settings/Settings.h"
 #include "Helper/Library/SearchMode.h"
+#include "Helper/MetaData/Album.h"
+
+struct LibraryItemModelAlbums::Private
+{
+	AlbumList 	albums;
+	QPixmap		pm_multi;
+	QPixmap		pm_single;
+};
 
 LibraryItemModelAlbums::LibraryItemModelAlbums() :
 	LibraryItemModel()
 {
-	_pm_single = GUI::get_pixmap("cd.png", QSize(14, 14));
-	_pm_multi = GUI::get_pixmap("cds.png", QSize(16, 16));
+	_m = new LibraryItemModelAlbums::Private();
+	_m->pm_single = GUI::get_pixmap("cd.png", QSize(14, 14));
+	_m->pm_multi = GUI::get_pixmap("cds.png", QSize(16, 16));
 }
 
 LibraryItemModelAlbums::~LibraryItemModelAlbums() {
-
+	delete _m; _m = nullptr;
 }
 
 int LibraryItemModelAlbums::get_id_by_row(int row)
 {
-	if(row < 0 || row >= _albums.size()){
+	if(row < 0 || row >= _m->albums.size()){
 		return -1;
 	}
 
 	else {
-		return _albums[row].id;
+		return _m->albums[row].id;
 	}
 }
 
 QString LibraryItemModelAlbums::get_string(int row) const
 {
-	if(row < 0 || row >= _albums.size()){
+	if(row < 0 || row >= _m->albums.size()){
 		return QString();
 	}
 
 	else {
-		return _albums[row].name;
+		return _m->albums[row].name;
 	}
 }
 
@@ -75,14 +84,14 @@ QVariant LibraryItemModelAlbums::data(const QModelIndex & index, int role) const
 	if (!index.isValid())
 		return QVariant();
 
-	if (index.row() >= _albums.size())
+	if (index.row() >= _m->albums.size())
 		return QVariant();
 
 	int row = index.row();
 	int column = index.column();
 	ColumnIndex::Album col = (ColumnIndex::Album) column;
 
-	const Album& album = _albums[row];
+	const Album& album = _m->albums[row];
 
 	if(role == Qt::TextAlignmentRole ){
 		int alignment = Qt::AlignVCenter;
@@ -108,9 +117,9 @@ QVariant LibraryItemModelAlbums::data(const QModelIndex & index, int role) const
 	else if(role == Qt::DecorationRole){
 		if(col == ColumnIndex::Album::MultiDisc){
 			if(album.discnumbers.size() > 1){
-				return _pm_multi;
+				return _m->pm_multi;
 			}
-			return _pm_single;
+			return _m->pm_single;
 		}
 	}
 
@@ -156,11 +165,11 @@ bool LibraryItemModelAlbums::setData(const QModelIndex & index, const QVariant &
 		int col = index.column();
 
 		if(col == (int) ColumnIndex::Album::Rating) {
-			_albums[row].rating = value.toInt();
+			_m->albums[row].rating = value.toInt();
 		}
 
 		else {
-			bool success = Album::fromVariant(value, _albums[row]);
+			bool success = Album::fromVariant(value, _m->albums[row]);
 
 			if( !success ) {
 				return false;
@@ -186,7 +195,7 @@ bool LibraryItemModelAlbums::setData(const QModelIndex& index, const AlbumList& 
 
 		int row = index.row();
 
-		_albums = albums;
+		_m->albums = albums;
 
 		emit dataChanged(index, this->index(row + albums.size() - 1, _header_names.size() - 1));
 
@@ -221,7 +230,7 @@ void LibraryItemModelAlbums::sort(int column, Qt::SortOrder order) {
 
 QModelIndex LibraryItemModelAlbums::getFirstRowIndexOf(QString substr) {
 
-	if(_albums.isEmpty()) {
+	if(_m->albums.isEmpty()) {
 		return this->index(-1, -1);
 	}
 
@@ -234,7 +243,7 @@ QModelIndex LibraryItemModelAlbums::getNextRowIndexOf(QString substr, int row, c
 
 	Q_UNUSED(parent)
 
-	int len = _albums.size();
+	int len = _m->albums.size();
 	if(len == 0)  {
 		return this->index(-1, -1);
 	}
@@ -246,7 +255,7 @@ QModelIndex LibraryItemModelAlbums::getNextRowIndexOf(QString substr, int row, c
 	for(int i=0; i<len; i++) {
 		int row_idx = (i + row) % len;
 
-		QString album_name = _albums[row_idx].name;
+		QString album_name = _m->albums[row_idx].name;
 		album_name = Library::convert_search_string(album_name, mask);
 
 		if( album_name.contains(substr))
@@ -266,7 +275,7 @@ QModelIndex LibraryItemModelAlbums::getPrevRowIndexOf(QString substr, int row, c
 	Library::SearchModeMask mask = settings->get(Set::Lib_SearchMode);
 	substr = Library::convert_search_string(substr, mask);
 
-	int len = _albums.size();
+	int len = _m->albums.size();
 	if(len < row){
 		row = len - 1;
 	}
@@ -280,7 +289,7 @@ QModelIndex LibraryItemModelAlbums::getPrevRowIndexOf(QString substr, int row, c
 
 		row_idx = (row-i) % len;
 
-		QString album_name = _albums[row_idx].name;
+		QString album_name = _m->albums[row_idx].name;
 		album_name = Library::convert_search_string(album_name, mask);
 
 		if( album_name.contains(substr))

@@ -68,8 +68,8 @@ public:
 	 */
 	void cancel();
 
-	void show_button_commit(bool b);
-	void show_button_cancel(bool b);
+/*	void show_button_commit(bool b);
+	void show_button_cancel(bool b);*/
 
 
 signals:

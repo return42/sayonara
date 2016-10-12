@@ -29,6 +29,7 @@
 
 #include <QMap>
 #include <QObject>
+#include <QStringList>
 
 class MetaDataList;
 class LibraryDatabase;
@@ -85,7 +86,6 @@ protected:
 
 	LibraryDatabase*			_db=nullptr;
 
-
 	QString calc_tracknum_str( quint16 tracknum );
 	QString calc_artist_str();
 	QString calc_album_str();
@@ -98,35 +98,13 @@ protected:
 	void insert_genre(const QStringList& lst);
 	void insert_filesize(quint64 filesize);
 
-	template<typename T>
-	void insert_interval(InfoStrings key, T min, T max){
-		QString str;
+	void insert_interval(InfoStrings key, int min, int max);
+	void insert_number(InfoStrings key, int number);
+	
 
-		if(min == max){
-			str = QString::number(min);
-		}
-
-		else {
-			str = QString::number(min) + " - " + QString::number(max);
-		}
-
-		if(key == InfoStrings::Bitrate){
-			str += " kBit/s";
-		}
-
-		_info.insert(key, str);
-	}
-
-	template<typename T>
-	void insert_number(InfoStrings key, T number){
-		QString str = QString::number(number);
-		_info.insert(key, str);
-	}
-
-public:
+	public:
 
 	MetaDataInfo(const MetaDataList& v_md);
-
 	virtual ~MetaDataInfo();
 
 	QString get_header() const;
@@ -134,11 +112,9 @@ public:
 	QMap<InfoStrings, QString> get_info() const;
 	QString get_info_as_string() const;
 	virtual QString get_additional_info_as_string() const;
-	QStringList get_paths() const;
 	QString get_paths_as_string() const;
 	CoverLocation get_cover_location() const;
 
-	virtual QString get_cover_artist() const;
 	virtual QString get_cover_album() const;
 };
 

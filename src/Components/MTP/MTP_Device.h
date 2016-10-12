@@ -18,8 +18,6 @@
  */
 
 
-
-
 #ifndef MTP_DEVICE_H
 #define MTP_DEVICE_H
 
@@ -36,9 +34,9 @@ public:
 	virtual ~MTP_Device();
 
 	quint32 id() const;
-	QString default_album_dir() const;
+/*	QString default_album_dir() const;
 	QString default_plaliyst_dir() const;
-	QString default_music_dir() const;
+	QString default_music_dir() const;*/
 	QString friendly_name() const;
 	QList<MTP_StoragePtr> storages();
 

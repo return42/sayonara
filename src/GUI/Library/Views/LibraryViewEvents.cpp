@@ -37,7 +37,7 @@ bool LibraryView::event(QEvent* e)
 		QContextMenuEvent* cme = dynamic_cast<QContextMenuEvent*>(e);
 		QPoint pos = cme->globalPos();
 
-		if(_type == MetaDataList::Interpretation::Tracks && selections.size() == 1)
+		if(_type == MD::Interpretation::Tracks && selections.size() == 1)
 		{
 			_rc_menu->show_action(LibraryContextMenu::EntryLyrics, true);
 		}
@@ -46,8 +46,8 @@ bool LibraryView::event(QEvent* e)
 		}
 
 		bool is_right_type = 
-			(_type == MetaDataList::Interpretation::Artists ||
-			_type == MetaDataList::Interpretation::Albums);
+			(_type == MD::Interpretation::Artists ||
+			_type == MD::Interpretation::Albums);
 
 		if(is_right_type){
 

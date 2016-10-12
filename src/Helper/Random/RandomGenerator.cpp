@@ -39,6 +39,11 @@ RandomGenerator::~RandomGenerator()
 	delete _m; _m = nullptr;
 }
 
+RandomGenerator::RandomGenerator(const RandomGenerator& other)
+{
+	(void) (other);
+}
+
 
 void RandomGenerator::update_seed(){
 	_m->seed = std::chrono::system_clock::now().time_since_epoch().count();

@@ -19,11 +19,10 @@
  */
 
 
-
 #ifndef INFO_DIALOG_CONTAINER_H_
 #define INFO_DIALOG_CONTAINER_H_
 
-#include "Helper/MetaData/MetaDataList.h"
+#include "Helper/MetaData/MetaDataFwd.h"
 
 class GUI_InfoDialog;
 
@@ -76,7 +75,7 @@ class InfoDialogContainer
 		 * considered as tracks
 		 * @return interpretation of metadata
 		 */
-		virtual MetaDataList::Interpretation get_metadata_interpretation() const=0;
+		virtual MD::Interpretation get_metadata_interpretation() const=0;
 
 		/**
 		 * @brief get the metadata that should be used for the info dialog

@@ -46,7 +46,7 @@ private:
 					   DatabasePlaylist::PlaylistChooserType type,
 					   Playlist::SortOrder sortorder);
 
-	bool extract_stream(CustomPlaylist& pl, QString name, QString url);
+//	bool extract_stream(CustomPlaylist& pl, QString name, QString url);
 
 
 public:

@@ -45,8 +45,8 @@ public:
 	GUI_ImportFolder(QWidget* parent, bool copy_enabled);
 	virtual ~GUI_ImportFolder();
 
-	void set_import_dir(const QString& dir);
-	void set_import_files(const QStringList& filelist);
+/*	void set_import_dir(const QString& dir);
+	void set_import_files(const QStringList& filelist);*/
 
 private slots:
 	void bb_accepted();

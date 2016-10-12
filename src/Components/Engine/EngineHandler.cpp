@@ -106,14 +106,6 @@ void EngineHandler::end_convert() {
 }
 
 
-
-void EngineHandler::fill_engines(const QList<Engine*>& engines) {
-	_engines = engines;
-
-	switch_engine(EngineName::PlaybackEngine);
-}
-
-
 void EngineHandler::playstate_changed(PlayState state){
 
 	if(!_cur_engine) return;
@@ -299,10 +291,6 @@ void EngineHandler::switch_engine(EngineName name) {
 
 PlaybackEngine* EngineHandler::get_playback_engine(){
 	return dynamic_cast<PlaybackEngine*>(get_engine(EngineName::PlaybackEngine));
-}
-
-ConvertEngine* EngineHandler::get_convert_engine(){
-	return dynamic_cast<ConvertEngine*>(get_engine(EngineName::ConvertEngine));
 }
 
 void EngineHandler::new_data(const uchar* data, quint64 n_bytes){

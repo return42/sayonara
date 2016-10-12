@@ -24,10 +24,10 @@
 
 #include "PlaylistView.h"
 #include "Helper/Set.h"
+#include "Helper/MetaData/MetaData.h"
 #include "GUI/Playlist/Delegate/PlaylistItemDelegate.h"
 #include "GUI/Playlist/Model/PlaylistItemModel.h"
 #include "GUI/Playlist/BookmarksMenu.h"
-
 #include "GUI/Helper/ContextMenu/LibraryContextMenu.h"
 #include "GUI/Helper/CustomMimeData.h"
 

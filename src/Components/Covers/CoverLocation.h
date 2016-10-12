@@ -19,14 +19,14 @@
  */
 
 
-
 #ifndef COVERLOCATION_H
 #define COVERLOCATION_H
 
-#include <QStringList>
 #include <QMetaType>
-#include <QUrl>
 
+class QUrl;
+class QString;
+class QStringList;
 class MetaData;
 class Album;
 class Artist;
@@ -38,36 +38,13 @@ class CoverLocation
 {
 
 private:
-
-	/**
-	 * @brief The search engine term what to search
-	 */
-	QString			_search_term;
-
-	/**
-	 * @brief search_url url where to fetch covers
-	 */
-	QString			_search_url;
-
-	/**
-	 * @brief cover_path path, in .Sayonara, where cover is stored. Ignored if local_paths are not empty
-	 */
-	QString			_cover_path;
-
-	/**
-	 * @brief local_paths paths where images can be fetched from if they should not be fetched from the .Sayonara directory
-	 */
-	QStringList		_local_paths;
-
-	/**
-	 * @brief valid if CoverLocation object contains a valid download url
-	 */
-	bool			_valid;
-
+	struct Private;
+	CoverLocation::Private* _m=nullptr;
 
 public:
 	CoverLocation();
 	CoverLocation(const CoverLocation&);
+	~CoverLocation();
 
 	void print() const;
     QString toString() const;

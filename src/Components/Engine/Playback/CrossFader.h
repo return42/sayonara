@@ -61,6 +61,9 @@ private:
 
 
 private:
+
+	CrossFader(const CrossFader& other);
+
     void increase_volume();
     void decrease_volume();
 

@@ -519,7 +519,7 @@ bool DatabasePlaylist::deletePlaylist(int playlist_id)
 }
 
 
-bool DatabasePlaylist::deleteTrackFromPlaylists(int track_id)
+/*bool DatabasePlaylist::deleteTrackFromPlaylists(int track_id)
 {
 	DB_TRY_OPEN(_db);
 	DB_RETURN_NOT_OPEN_BOOL(_db);
@@ -536,4 +536,4 @@ bool DatabasePlaylist::deleteTrackFromPlaylists(int track_id)
 	}
 
 	return true;
-}
+}*/

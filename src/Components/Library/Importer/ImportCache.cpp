@@ -41,7 +41,13 @@ ImportCache::ImportCache()
 
 ImportCache::~ImportCache()
 {
-	delete _m;
+	delete _m; _m = nullptr;
+}
+
+ImportCache::ImportCache(const ImportCache& other)
+{
+	ImportCache::Private* member = other._m;
+	(*_m) = (*member);
 }
 
 void ImportCache::clear()

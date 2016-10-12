@@ -29,15 +29,16 @@ const int SleepInterval = 50;
 
 struct ProbeData
 {
-	GstElement* first_element;
-	GstElement* second_element;
-	GstElement* element_of_interest;
-	GstElement* pipeline;
+	GstElement* first_element=nullptr;
+	GstElement* second_element=nullptr;
+	GstElement* element_of_interest=nullptr;
+	GstElement* pipeline=nullptr;
 	GstState old_state;
 	bool done;
 
 	ProbeData()
 	{
+		old_state = GST_STATE_NULL;
 		done = false;
 	}
 };

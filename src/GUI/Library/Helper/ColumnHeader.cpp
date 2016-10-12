@@ -22,6 +22,10 @@
 #include <algorithm>
 
 ColumnHeader::ColumnHeader(bool switchable, Library::SortOrder sort_asc, Library::SortOrder sort_desc){
+
+	_preferred_size_abs = 0;
+	_preferred_size_rel = 0;
+
 	_action = new QAction(this);
 	_switchable = switchable;
 	_sort_asc = sort_asc;
@@ -50,22 +54,6 @@ ColumnHeader::ColumnHeader(bool switchable, Library::SortOrder sort_asc, Library
 	_preferred_size_abs = min_size;
 	_preferred_size_rel = preferred_size_rel;
 	_size_type = SizeType::Rel;
-}
-
-void ColumnHeader::set_preferred_size_abs(int preferred_size){
-	_preferred_size_abs = preferred_size;
-	_preferred_size_rel = 0;
-	_size_type = SizeType::Abs;
-}
-
-void ColumnHeader::set_preferred_size_rel(double preferred_size){
-	_preferred_size_rel = preferred_size;
-	_preferred_size_abs = 0;
-	_size_type = SizeType::Rel;
-}
-
-bool ColumnHeader::is_switchable() const {
-	return _switchable;
 }
 
 int ColumnHeader::get_preferred_size_abs() const {

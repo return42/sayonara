@@ -34,6 +34,7 @@
 #include "Components/LyricLookup/LyricLookup.h"
 #include "Components/TagEdit/TagEdit.h"
 
+#include "Helper/MetaData/MetaDataList.h"
 #include "Helper/MetaDataInfo/MetaDataInfo.h"
 #include "Helper/MetaDataInfo/AlbumInfo.h"
 #include "Helper/MetaDataInfo/ArtistInfo.h"
@@ -48,7 +49,7 @@ struct GUI_InfoDialog::Private
 	GUI_TagEdit*			ui_tag_edit=nullptr;
 	CoverLocation			cl;
 	MetaDataList			v_md;
-	MetaDataList::Interpretation	md_interpretation;
+	MD::Interpretation	md_interpretation;
 };
 
 
@@ -59,7 +60,7 @@ GUI_InfoDialog::GUI_InfoDialog(InfoDialogContainer* container, QWidget* parent) 
 	_m = new GUI_InfoDialog::Private();
 
 	_m->info_dialog_container = container;
-	_m->md_interpretation = MetaDataList::Interpretation::None;
+	_m->md_interpretation = MD::Interpretation::None;
 }
 
 GUI_InfoDialog::~GUI_InfoDialog()
@@ -164,7 +165,7 @@ void GUI_InfoDialog::lyrics_fetched()
 }
 
 
-void GUI_InfoDialog::prepare_info(MetaDataList::Interpretation md_interpretation)
+void GUI_InfoDialog::prepare_info(MD::Interpretation md_interpretation)
 {
 	if(!ui){
 		return;
@@ -174,14 +175,14 @@ void GUI_InfoDialog::prepare_info(MetaDataList::Interpretation md_interpretation
 
 	switch (md_interpretation)
 	{
-		case MetaDataList::Interpretation::Artists:
+		case MD::Interpretation::Artists:
 			info = new ArtistInfo(_m->v_md);
 			break;
-		case MetaDataList::Interpretation::Albums:
+		case MD::Interpretation::Albums:
 			info = new AlbumInfo(_m->v_md);
 			break;
 
-		case MetaDataList::Interpretation::Tracks:
+		case MD::Interpretation::Tracks:
 			info = new MetaDataInfo(_m->v_md);
 			break;
 
@@ -206,7 +207,7 @@ void GUI_InfoDialog::prepare_info(MetaDataList::Interpretation md_interpretation
 }
 
 
-void GUI_InfoDialog::set_metadata(const MetaDataList& v_md, MetaDataList::Interpretation md_interpretation)
+void GUI_InfoDialog::set_metadata(const MetaDataList& v_md, MD::Interpretation md_interpretation)
 {
 	_m->md_interpretation = md_interpretation;
 	_m->v_md = v_md;

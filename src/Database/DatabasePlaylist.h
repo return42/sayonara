@@ -48,7 +48,7 @@ public:
 	bool getPlaylistSkeletonById(CustomPlaylistSkeleton& skeleton);
 
 	int createPlaylist(QString playlist_name, bool temporary);
-	bool deleteTrackFromPlaylists(int track_id);
+//	bool deleteTrackFromPlaylists(int track_id);
 	bool renamePlaylist(int id, const QString& new_name);
 
 	int getPlaylistIdByName(const QString& name);

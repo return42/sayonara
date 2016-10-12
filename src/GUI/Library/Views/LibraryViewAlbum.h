@@ -23,8 +23,6 @@
 #ifndef LIBRARYVIEWALBUM_H
 #define LIBRARYVIEWALBUM_H
 
-#include <QTimer>
-
 #include "Helper/MetaData/Album.h"
 #include "GUI/Library/Views/LibraryView.h"
 #include <QModelIndex>
@@ -58,7 +56,8 @@ protected:
 
 public:
 	template <typename T, typename ModelType>
-	void fill(const T& input_data){
+	void fill(const T& input_data)
+	{
 		_discnumbers.clear();
 
 		for(const Album& album: input_data){

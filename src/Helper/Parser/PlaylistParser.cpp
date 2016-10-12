@@ -64,7 +64,7 @@ int PlaylistParser::parse_playlist(const QString& local_filename, MetaDataList& 
 		v_md_tmp = playlist_parser->get_md();
 
 		if(v_md_tmp.isEmpty()){
-			delete playlist_parser; playlist_parser = nullptr;
+			delete playlist_parser;
 			playlist_parser = new PLSParser(local_filename);
 			v_md_tmp = playlist_parser->get_md();
 		}

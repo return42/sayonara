@@ -46,11 +46,6 @@ public:
 	void set_rating(int rating);
 	int get_rating() const;
 
-	void kill_yourself();
-
-	void increase();
-	void decrease();
-
 
 protected:
 	void paintEvent(QPaintEvent *e) override;

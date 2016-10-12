@@ -218,31 +218,6 @@ void GUI_Player::file_info_changed()
 	lab_rating->setToolTip(rating_text);
 }
 
-
-void GUI_Player::jump_forward_ms()
-{
-	_play_manager->seek_rel_ms(10000);
-}
-
-
-void GUI_Player::jump_backward_ms()
-{
-	_play_manager->seek_rel_ms(-10000);
-}
-
-
-void GUI_Player::jump_forward()
-{
-	sli_progress->increment(50);
-}
-
-
-void GUI_Player::jump_backward()
-{
-	sli_progress->increment(-50);
-}
-
-
 void GUI_Player::seek(int val)
 {
 	val = std::max(val, 0);

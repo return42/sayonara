@@ -136,7 +136,6 @@ void CopyThread::rollback()
 {
 	int n_operations = _m->lst_copied_files.size();
     int n_ops_todo = n_operations;
-    int percent;
 
 	QString lib_dir = _settings->get(Set::Lib_Path);
 	QDir dir(lib_dir);
@@ -144,7 +143,7 @@ void CopyThread::rollback()
 	for(const QString& f : _m->lst_copied_files) {
         QFile file(f);
         file.remove();
-		percent = ((n_ops_todo--) * (_m->percent * 1000)) / (n_operations);
+		int percent = ((n_ops_todo--) * (_m->percent * 1000)) / (n_operations);
 
         emit sig_progress(percent/ 1000);
     }

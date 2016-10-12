@@ -31,22 +31,22 @@ namespace Library
 {
     struct Filter
     {
-	enum Mode
-	{
-	    Fulltext=0,
-	    Filename,
-	    Genre
-	};
+		enum Mode
+		{
+			Fulltext=0,
+			Filename,
+			Genre
+		};
 
-	QString		filtertext;
-	Mode		mode;
-	bool		cleared;
+		QString		filtertext;
+		Mode		mode;
+		bool		cleared;
 
-	Filter(){
-	    filtertext = "";
-	    mode = Mode::Fulltext;
-	    cleared = true;
-	}
+		Filter() 
+		{
+			mode = Mode::Fulltext;
+			cleared = true;
+		}
     };
 }
 

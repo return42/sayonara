@@ -112,6 +112,11 @@ CrossFader::~CrossFader()
 
 }
 
+CrossFader::CrossFader(const CrossFader& other)
+{
+	(void) other;
+}
+
 
 void CrossFader::init_fader()
 {

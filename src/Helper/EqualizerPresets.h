@@ -95,7 +95,7 @@ public:
 	 * If there are already more than 10 values, nothing happens
 	 * @param val
 	 */
-	void append_value(int val);
+//	void append_value(int val);
 
 	/**
 	 * @brief checks, if preset is default preset

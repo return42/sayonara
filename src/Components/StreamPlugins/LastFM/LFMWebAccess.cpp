@@ -56,13 +56,13 @@ void LFMWebAccess::call_post_url(const QString& url, const QByteArray& post_data
 }
 
 
-void LFMWebAccess::call_post_url_https(const QString& url, const QByteArray& post_data) {
+/*void LFMWebAccess::call_post_url_https(const QString& url, const QByteArray& post_data) {
 
 	AsyncWebAccess* awa = new AsyncWebAccess(this);
 	connect(awa, &AsyncWebAccess::sig_finished, this, &LFMWebAccess::awa_finished);
 	awa->run_post(url, post_data, 10000);
 }
-
+*/
 
 void LFMWebAccess::awa_finished(bool success){
 

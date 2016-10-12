@@ -95,18 +95,6 @@ public:
 		QString get_ip() const;
 
 		/**
-		 * @brief get raw socket descriptor
-		 * @return
-		 */
-		int get_sd() const;
-
-		/**
-		 * @brief get connection type
-		 * @return
-		 */
-		Type get_type() const;
-
-		/**
 		 * @brief send new icy data to clients, and send new metadata to remote controls.
 		 * @param md Track structure
 		 */

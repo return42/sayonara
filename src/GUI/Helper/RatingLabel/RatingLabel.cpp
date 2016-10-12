@@ -143,20 +143,6 @@ void RatingLabel::update_rating(int rating) {
     update();
 }
 
-void RatingLabel::increase() {
-
-	_rating = std::min(5, _rating + 1);
-
-    update_rating(_rating);
-}
-
-void RatingLabel::decrease() {
-
-	_rating = std::max(_rating - 1, 0);
-
-    update_rating(_rating);
-}
-
 void RatingLabel::set_rating(int rating) {
 
     _rating = rating;
@@ -168,7 +154,4 @@ int RatingLabel::get_rating() const{
     return _rating;
 }
 
-void RatingLabel::kill_yourself() {
-    emit sig_finished(false);
-}
 
