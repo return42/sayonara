@@ -18,10 +18,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef RANDOMGENERATOR_H
 #define RANDOMGENERATOR_H
+
+#include "Helper/Pimpl.h"
 
 /**
  * @brief The RandomGenerator class
@@ -31,8 +31,7 @@ class RandomGenerator
 {
 
 private:
-	struct Private;
-	RandomGenerator::Private* _m=nullptr;
+	PIMPL(RandomGenerator)
 
 	RandomGenerator(const RandomGenerator& other);
 

@@ -30,7 +30,9 @@
 class DummyNotificator : public NotificationInterface
 {
 public:
-	DummyNotificator(const QString& name);
+	explicit DummyNotificator(const QString& name);
+	virtual ~DummyNotificator();
+
 	virtual void notify(const MetaData& md);
 	virtual void notify(const QString& title, const QString& message, const QString& image_path);
 };

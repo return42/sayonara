@@ -37,6 +37,11 @@ GUI_Shutdown::GUI_Shutdown(QWidget* parent):
 	connect(rb_after_minutes, &QRadioButton::clicked, this, &GUI_Shutdown::rb_after_minutes_clicked);
 }
 
+GUI_Shutdown::~GUI_Shutdown()
+{
+
+}
+
 
 void GUI_Shutdown::ok_clicked(){
 

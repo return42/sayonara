@@ -33,13 +33,13 @@ struct IndexDirectoriesThread::Private
 
 IndexDirectoriesThread::IndexDirectoriesThread(const MetaDataList& v_md)
 {
-	_m = new IndexDirectoriesThread::Private();
+	_m = Pimpl::make<IndexDirectoriesThread::Private>();
 	_m->v_md = v_md;
 }
 
 IndexDirectoriesThread::~IndexDirectoriesThread()
 {
-	delete _m; _m = nullptr;
+
 }
 
 

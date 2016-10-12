@@ -42,7 +42,7 @@ private:
 	void set_header();
 
 public:
-	AlbumInfo(const MetaDataList& v_md);
+	explicit AlbumInfo(const MetaDataList& v_md);
 	virtual ~AlbumInfo();
 };
 

@@ -98,7 +98,7 @@ protected slots:
 
 
 public:
-	LibraryView(QWidget* parent=nullptr);
+	explicit LibraryView(QWidget* parent=nullptr);
 	virtual ~LibraryView();
 
 	virtual void set_table_headers(const ColumnHeaderList& headers, const BoolList& shown_cols, Library::SortOrder sorting);
@@ -109,7 +109,6 @@ public:
 	virtual void setModel(LibraryItemModel* model);
 	virtual MetaDataList get_selected_metadata() const;
 
-	MD::Interpretation get_type() const;
 	void set_type(MD::Interpretation type);
 
 	void show_rc_menu_actions(int entries);

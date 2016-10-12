@@ -30,6 +30,7 @@
 #define LIBRARYITEMMODELTRACKS_H_
 
 #include "GUI/Library/Models/LibraryItemModel.h"
+#include "Helper/Pimpl.h"
 
 class MetaDataList;
 class LibraryItemModelTracks : public LibraryItemModel {
@@ -37,8 +38,8 @@ class LibraryItemModelTracks : public LibraryItemModel {
 Q_OBJECT
 
 public:
-	LibraryItemModelTracks();
 
+	LibraryItemModelTracks();
 	virtual ~LibraryItemModelTracks();
 
 	QVariant data(const QModelIndex &index, int role) const override;
@@ -57,8 +58,7 @@ public:
 
 
 private:
-	struct Private;
-	LibraryItemModelTracks::Private*	_m=nullptr;
+	PIMPL(LibraryItemModelTracks)
 };
 
 #endif /* LIBRARYITEMMODELTRACKS_H_ */

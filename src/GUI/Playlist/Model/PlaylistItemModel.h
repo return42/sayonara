@@ -48,8 +48,7 @@ class PlaylistItemModel : public AbstractSearchListModel {
 	Q_OBJECT
 
 public:
-	PlaylistItemModel(PlaylistPtr pl, QObject* parent=nullptr);
-
+	explicit PlaylistItemModel(PlaylistPtr pl, QObject* parent=nullptr);
 	virtual ~PlaylistItemModel();
 
 	int rowCount(const QModelIndex &parent=QModelIndex()) const override;
@@ -65,7 +64,6 @@ public:
 	void remove_rows(const SP::Set<int>& rows);
 	void move_rows(const SP::Set<int>& rows, int target_index);
 	void copy_rows(const SP::Set<int>& rows, int target_index);
-	void insert_metadata(const MetaDataList& v_md, int target_index);
 
 	void set_current_track(int row);
 	int get_current_track() const;

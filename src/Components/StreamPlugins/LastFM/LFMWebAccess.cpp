@@ -56,14 +56,6 @@ void LFMWebAccess::call_post_url(const QString& url, const QByteArray& post_data
 }
 
 
-/*void LFMWebAccess::call_post_url_https(const QString& url, const QByteArray& post_data) {
-
-	AsyncWebAccess* awa = new AsyncWebAccess(this);
-	connect(awa, &AsyncWebAccess::sig_finished, this, &LFMWebAccess::awa_finished);
-	awa->run_post(url, post_data, 10000);
-}
-*/
-
 void LFMWebAccess::awa_finished(bool success){
 
 	AsyncWebAccess* awa = static_cast<AsyncWebAccess*>(sender());
@@ -75,37 +67,6 @@ void LFMWebAccess::awa_finished(bool success){
 
 	emit sig_response(data);
 }
-
-
-
-QString LFMWebAccess::parse_session_answer(const QString& content) {
-
-	QString str_key = "";
-	QDomDocument doc("answer");
-	doc.setContent(content);
-
-	QDomNodeList nodeList =  doc.documentElement().elementsByTagName("session");
-
-	for(int i=0; i<nodeList.size(); i++) {
-		QDomNodeList nl_session = nodeList.at(i).toElement().elementsByTagName("key");
-		bool found = false;
-
-		for(int j=0; j<nl_session.size(); j++) {
-			str_key = nl_session.at(j).toElement().text();
-			if(str_key.size() != 0) {
-				found = true;
-				break;
-			}
-		}
-
-		if(found) break;
-	}
-
-	doc.clear();
-	return str_key;
-}
-
-
 
 QString LFMWebAccess::LFMWebAccess::create_std_url(const QString& base_url, const UrlParams& data) {
 	QByteArray post_data;

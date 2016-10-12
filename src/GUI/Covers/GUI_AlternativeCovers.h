@@ -30,6 +30,7 @@
 #define GUI_ALTERNATE_COVERS_H_
 
 #include "GUI/Helper/SayonaraWidget/SayonaraDialog.h"
+#include "Helper/Pimpl.h"
 
 namespace Ui {
 	class AlternativeCovers;
@@ -47,7 +48,7 @@ class GUI_AlternativeCovers :
 	Q_OBJECT
 
 public:
-	GUI_AlternativeCovers(QWidget* parent=nullptr);
+	explicit GUI_AlternativeCovers(QWidget* parent=nullptr);
 	virtual ~GUI_AlternativeCovers();
 
 signals:
@@ -66,8 +67,7 @@ private slots:
 
 private:
 
-	struct Private;
-	GUI_AlternativeCovers::Private*	_m=nullptr;
+	PIMPL(GUI_AlternativeCovers)
 	Ui::AlternativeCovers*			ui=nullptr;
 
 

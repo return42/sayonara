@@ -49,8 +49,8 @@ private:
 
 
 public:
-	MTP_Track(const MetaData& md);
-	MTP_Track(const QString& filename);
+	explicit MTP_Track(const MetaData& md);
+	explicit MTP_Track(const QString& filename);
 	virtual ~MTP_Track();
 
 	QString src_filename() const;

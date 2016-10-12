@@ -81,7 +81,7 @@ public:
 	MetaData ();
 	MetaData (const MetaData& );
 	MetaData ( MetaData&& );
-	MetaData (const QString& path);
+	explicit MetaData (const QString& path);
 	virtual ~MetaData();
 
 	QUrl url() const;

@@ -48,7 +48,6 @@ public:
 	virtual bool db_fetch_albums(SayonaraQuery& q, AlbumList& result);
 
 	virtual int getAlbumID (const QString& album);
-	virtual int getMaxAlbumID();
 
 	virtual bool getAlbumByID(const int& id, Album& album);
 

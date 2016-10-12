@@ -57,10 +57,10 @@ public slots:
 
 
 public:
-	MiniSearcherLineEdit(QWidget* parent=nullptr);
+	explicit MiniSearcherLineEdit(QWidget* parent=nullptr);
 	virtual ~MiniSearcherLineEdit();
-	bool event(QEvent *);
 
+	bool event(QEvent *);
 };
 
 

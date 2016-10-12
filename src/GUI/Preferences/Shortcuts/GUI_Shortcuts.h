@@ -51,7 +51,7 @@ class GUI_Shortcuts :
 	friend class PreferenceInterface<SayonaraWidget>;
 
 public:
-	GUI_Shortcuts(QWidget* parent=nullptr);
+	explicit GUI_Shortcuts(QWidget* parent=nullptr);
 	virtual ~GUI_Shortcuts();
 
 	QString get_action_name() const override;

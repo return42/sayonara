@@ -28,7 +28,6 @@ struct CoverButton::Private
 {
 	GUI_AlternativeCovers* 	alternative_covers=nullptr;
 	CoverLookup*			cover_lookup=nullptr;
-	CoverLocation 			found_cover_location;
 	CoverLocation 			search_cover_location;
 	QString					text;
 	bool 					cover_forced;
@@ -38,24 +37,17 @@ struct CoverButton::Private
 CoverButton::CoverButton(QWidget* parent) : 
 	QPushButton(parent)
 {
-	_m = new CoverButton::Private();
+	_m = Pimpl::make<CoverButton::Private>();
 
 	_m->cover_forced = false;
-	_m->found_cover_location = CoverLocation::getInvalidLocation();
 	_m->search_cover_location = CoverLocation::getInvalidLocation();
 
 	connect(this, &QPushButton::clicked, this, &CoverButton::cover_button_clicked);
 }
 
-CoverButton::~CoverButton()
-{
-	delete _m;
-}
-
+CoverButton::~CoverButton(){}
 
 void CoverButton::cover_button_clicked(){
-
-	_m->found_cover_location = CoverLocation::getInvalidLocation();
 
 	if(!_m->alternative_covers){
 		_m->alternative_covers = new GUI_AlternativeCovers(this);
@@ -92,8 +84,6 @@ void CoverButton::force_icon(const QIcon& icon){
 
 void CoverButton::alternative_cover_fetched(const CoverLocation& cl){
 
-	_m->found_cover_location = cl;
-
 	if(cl.valid()){
 		emit sig_cover_replaced();
 	}
@@ -103,8 +93,6 @@ void CoverButton::alternative_cover_fetched(const CoverLocation& cl){
 
 
 void CoverButton::cover_found(const CoverLocation &cl){
-
-	_m->found_cover_location = cl;
 
 	if(cl.valid()){
 		emit sig_cover_found();
@@ -125,14 +113,4 @@ void CoverButton::set_cover_image(const QString& cover_path){
 	this->setToolTip("");
 }
 
-
-bool CoverButton::has_valid_cover() const
-{
-	return _m->found_cover_location.valid();
-}
-
-CoverLocation CoverButton::get_found_cover() const
-{
-	return _m->found_cover_location;
-}
 

@@ -206,14 +206,6 @@ QString Helper::File::calc_filesize_str(quint64 filesize) {
 }
 
 
-
-bool Helper::File::is_url(const QString& str) {
-	if(is_www(str)) return true;
-	if(str.startsWith("file"), Qt::CaseInsensitive) return true;
-	return false;
-}
-
-
 bool Helper::File::is_www(const QString& str) {
 
 	if(str.startsWith("http://")) return true;
@@ -250,34 +242,6 @@ bool Helper::File::is_soundfile(const QString& filename) {
 }
 
 
-bool Helper::File::is_podcastfile(const QString& filename, const QByteArray& content) {
-
-	bool extension_correct = false;
-	QStringList extensions = Helper::get_podcast_extensions();
-	for(const QString& extension : extensions) {
-		if(filename.toLower().endsWith(extension.right(4).toLower())) {
-			extension_correct = true;
-			break;
-		}
-	}
-
-	if(!extension_correct){
-		return false;
-	}
-
-	QString header = content.left(content.size());
-	if(content.size() > 1024) header = content.left(1024);
-
-
-	if(header.contains("<rss")) {
-		return true;
-	}
-
-	return false;
-}
-
-
-
 bool Helper::File::is_playlistfile(const QString& filename) {
 	QStringList extensions = Helper::get_playlistfile_extensions();
 	for(const QString& extension : extensions) {
@@ -288,10 +252,6 @@ bool Helper::File::is_playlistfile(const QString& filename) {
 
 	return false;
 }
-
-
-
-
 
 
 bool Helper::File::create_directories(const QString& path)

@@ -24,6 +24,7 @@
 #include <QObject>
 #include "PlayState.h"
 #include "Helper/singleton.h"
+#include "Helper/Pimpl.h"
 #include "Helper/Settings/SayonaraClass.h"
 
 
@@ -41,6 +42,7 @@ class PlayManager :
 	Q_OBJECT
 
 	SINGLETON_QOBJECT(PlayManager)
+	PIMPL(PlayManager)
 
 
 signals:
@@ -312,12 +314,6 @@ public:
 	 * @return true if muted, false else
 	 */
 	bool		get_mute() const;
-
-
-private:
-
-	struct Private;
-	PlayManager::Private*	_m=nullptr;
 };
 
 

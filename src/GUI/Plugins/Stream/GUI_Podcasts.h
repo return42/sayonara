@@ -43,7 +43,7 @@ protected:
 	QString get_title_fallback_name() const override;
 
 public:
-	GUI_Podcasts(QWidget *parent=nullptr);
+	explicit GUI_Podcasts(QWidget *parent=nullptr);
     virtual ~GUI_Podcasts();
 
 

@@ -34,7 +34,7 @@ class MTP_RawDevice
 {
 
 public:
-	MTP_RawDevice(MTPIntern_RawDevice* raw_device=nullptr);
+	explicit MTP_RawDevice(MTPIntern_RawDevice* raw_device=nullptr);
 	virtual ~MTP_RawDevice();
 
 	MTP_DevicePtr open();

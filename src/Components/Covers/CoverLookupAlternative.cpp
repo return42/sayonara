@@ -29,12 +29,16 @@ struct CoverLookupAlternative::Private
 
 	int					n_covers;
 	bool				run;
+
+	~Private(){
+		cl->stop();
+	}
 };
 
 CoverLookupAlternative::CoverLookupAlternative(QObject* parent, int n_covers) :
     CoverLookupInterface(parent)
 {
-	_m = new CoverLookupAlternative::Private();
+	_m = Pimpl::make<CoverLookupAlternative::Private>();
 	_m->run = true;
 	_m->n_covers = n_covers;
 }
@@ -48,9 +52,6 @@ CoverLookupAlternative::CoverLookupAlternative(QObject* parent, const CoverLocat
 
 CoverLookupAlternative::~CoverLookupAlternative() {
 
-	_m->cl->stop();
-
-	delete _m; _m = nullptr;
 }
 
 void CoverLookupAlternative::stop() {

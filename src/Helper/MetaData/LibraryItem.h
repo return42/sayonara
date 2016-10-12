@@ -79,8 +79,6 @@ public:
 	QString get_custom_field(const QString& id) const;
 	QString get_custom_field(int idx) const;
 
-	int has_custom_field(const QString& id) const;
-
 	virtual void print() const;
 };
 

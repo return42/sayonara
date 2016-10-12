@@ -37,6 +37,7 @@ class GUI_StyleSettings : public SayonaraDialog, private Ui::GUI_Style
     Q_OBJECT
 public:
     explicit GUI_StyleSettings(QWidget *parent=nullptr);
+	virtual ~GUI_StyleSettings();
     
 signals:
     void sig_style_update();

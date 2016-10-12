@@ -36,7 +36,7 @@ class PlayerPluginHandler : public QObject, public SayonaraClass
     Q_OBJECT
 
 public:
-    PlayerPluginHandler(QObject *parent=nullptr);
+	explicit PlayerPluginHandler(QObject *parent=nullptr);
     ~PlayerPluginHandler();
 
 

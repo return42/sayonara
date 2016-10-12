@@ -47,7 +47,7 @@ signals:
 	void sig_append_clicked();
 
 public:
-	FileListView(QWidget* parent=nullptr);
+	explicit FileListView(QWidget* parent=nullptr);
 
 	QModelIndexList get_selected_rows() const;
 	QFileSystemModel* get_model() const override;

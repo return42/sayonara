@@ -45,7 +45,7 @@ class SayonaraWidgetTemplate :
 {
 
 public:
-	SayonaraWidgetTemplate(QWidget* parent=nullptr) :
+	explicit SayonaraWidgetTemplate(QWidget* parent=nullptr) :
 		T(parent),
 		SayonaraClass()
 	{

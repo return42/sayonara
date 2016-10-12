@@ -44,7 +44,7 @@ protected:
 	QListView*		_parent=nullptr;
 
 public:
-	ListDelegate(QListView* parent=nullptr);
+	explicit ListDelegate(QListView* parent=nullptr);
 	virtual ~ListDelegate();
 
 	virtual QSize sizeHint(const QStyleOptionViewItem &option,

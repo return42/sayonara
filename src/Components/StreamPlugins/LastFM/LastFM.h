@@ -32,6 +32,7 @@
 #include "Helper/Settings/SayonaraClass.h"
 #include "Helper/typedefs.h"
 #include "Helper/singleton.h"
+#include "Helper/Pimpl.h"
 
 #include <QMap>
 #include <QtXml>
@@ -52,7 +53,6 @@ class LastFM : public QObject, protected SayonaraClass{
 
 	public slots:
 		void psl_login();
-		void psl_logout();
 
 
 	private slots:
@@ -70,13 +70,10 @@ class LastFM : public QObject, protected SayonaraClass{
 
 
 	private:
-
 		LastFM(const LastFM&);
 		LastFM& operator=(const LastFM&);
 
-		struct Private;
-		LastFM::Private* _m=nullptr;
-
+		PIMPL(LastFM)
 
 		bool init_track_changed_thread();
 		bool update_track(const MetaData&);

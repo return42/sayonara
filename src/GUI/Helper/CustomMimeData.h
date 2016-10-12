@@ -23,9 +23,12 @@
 #ifndef _CUSTOMMIMEDATA_H
 #define _CUSTOMMIMEDATA_H
 
+#include "Helper/Pimpl.h"
 #include "Helper/MetaData/MetaDataFwd.h"
+
 #include <QMimeData>
 #include <QUrl>
+
 
 /**
  * @brief Mimedata class for drag and dropping metadata
@@ -35,8 +38,7 @@ class CustomMimeData : public QMimeData {
 
 
 private:
-	struct Private;
-	CustomMimeData::Private* _m=nullptr;
+	PIMPL(CustomMimeData)
 
 public:
     /**
@@ -64,10 +66,6 @@ public:
      * @return true if yes, false else
      */
     bool hasMetaData() const;
-
-//	void setCoverUrl(const QString& path);
-	QString getCoverUrl() const;
-	bool hasCoverUrl() const;
 };
 
 

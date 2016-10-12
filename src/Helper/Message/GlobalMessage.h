@@ -41,8 +41,6 @@ class GlobalMessage : public QObject
 
 	GlobalMessageReceiverInterface* _receiver=nullptr;
 
-private slots:
-	void receiver_destroyed();
 
 public:
 

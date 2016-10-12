@@ -68,7 +68,7 @@ StreamRecorder::StreamRecorder(QObject *parent) :
 	QObject(parent),
 	SayonaraClass()
 {
-	_m = new StreamRecorder::Private();
+	_m = Pimpl::make<StreamRecorder::Private>();
 
 	clear();
 
@@ -87,10 +87,7 @@ StreamRecorder::StreamRecorder(QObject *parent) :
 	connect(play_manager, &PlayManager::sig_playstate_changed, this, &StreamRecorder::playstate_changed);
 }
 
-
-StreamRecorder::~StreamRecorder() {
-	delete _m; _m = nullptr;
-}
+StreamRecorder::~StreamRecorder() {}
 
 void StreamRecorder::clear(){
 	_m->md.title = "";
@@ -202,8 +199,6 @@ QString StreamRecorder::check_session_path(const QString& sr_path) {
     return recording_dst;
 }
 
-
-
 void StreamRecorder::record(bool b){
 
 	if(b == _m->recording) {
@@ -224,12 +219,6 @@ void StreamRecorder::record(bool b){
 	_m->recording = b;
 }
 
-QString StreamRecorder::get_dst_file() const
-{
-	if(!_m->recording) return "";
-
-	return _m->sr_recording_dst;
-}
 
 bool StreamRecorder::is_recording() const
 {

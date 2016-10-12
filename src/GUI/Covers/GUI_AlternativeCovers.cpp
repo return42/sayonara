@@ -60,6 +60,16 @@ struct GUI_AlternativeCovers::Private
 	AlternativeCoverItemDelegate*	delegate=nullptr;
 
 	CoverLookupAlternative*			cl_alternative=nullptr;
+
+	~Private()
+	{
+		delete model;
+		delete delegate;
+
+		if(cl_alternative) {
+			cl_alternative->stop();
+		}
+	}
 };
 
 
@@ -67,7 +77,7 @@ GUI_AlternativeCovers::GUI_AlternativeCovers(QWidget* parent) :
 	SayonaraDialog(parent)
 {
 	ui = new Ui::AlternativeCovers();
-	_m = new GUI_AlternativeCovers::Private();
+	_m = Pimpl::make<GUI_AlternativeCovers::Private>();
 
 	ui->setupUi(this);
 
@@ -100,16 +110,8 @@ GUI_AlternativeCovers::GUI_AlternativeCovers(QWidget* parent) :
 
 GUI_AlternativeCovers::~GUI_AlternativeCovers() {
 
-	delete _m->model;
-	delete _m->delegate;
-
-	if(_m->cl_alternative) {
-		_m->cl_alternative->stop();
-	}
-
 	delete_all_files();
 
-	delete _m;
 	delete ui;
 }
 

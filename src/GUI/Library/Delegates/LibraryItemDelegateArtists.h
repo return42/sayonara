@@ -39,7 +39,7 @@ class LibraryItemDelegateArtists :
 {
 
 public:
-	LibraryItemDelegateArtists(QObject* parent=nullptr);
+	explicit LibraryItemDelegateArtists(QObject* parent=nullptr);
 	virtual ~LibraryItemDelegateArtists();
 
 

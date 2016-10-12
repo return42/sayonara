@@ -41,8 +41,6 @@ public:
 	virtual void commit();
 	virtual void rollback();
 
-	static void remove_connections();
-
 	quint8 get_id();
 
 

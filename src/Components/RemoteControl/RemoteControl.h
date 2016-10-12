@@ -88,7 +88,7 @@ class RemoteControl : public QObject, protected SayonaraClass
 	Q_OBJECT
 
 public:
-	RemoteControl(QObject *parent = 0);
+	explicit RemoteControl(QObject *parent=nullptr);
 	virtual ~RemoteControl();
 
 

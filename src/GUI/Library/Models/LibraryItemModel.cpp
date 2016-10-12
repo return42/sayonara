@@ -82,10 +82,6 @@ int LibraryItemModel::rowCount(const QModelIndex& parent) const
 }
 
 
-QStringList LibraryItemModel::get_header_names() const {
-	return _header_names;
-}
-
 int LibraryItemModel::columnCount(const QModelIndex& parent) const{
 
 	Q_UNUSED(parent);
@@ -183,25 +179,12 @@ void LibraryItemModel::add_selections(const SP::Set<int>& rows){
 		_selections.insert(get_id_by_row(row));
 	});
 }
-/*
-void LibraryItemModel::add_selection(int row){
-	_selections.insert(get_id_by_row(row));
-}
-*/
+
 bool LibraryItemModel::is_selected(int id)
 {
 	return _selections.contains(id);
 }
 
-
-void LibraryItemModel::remove_selection(int id){
-
-	auto it = _selections.find(id);
-
-	if(it != _selections.end()){
-		_selections.erase(it);
-	}
-}
 
 void LibraryItemModel::clear_selections(){
 	_selections.clear();

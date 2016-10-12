@@ -26,6 +26,7 @@
 #include <QObject>
 #include <QPushButton>
 #include <QIcon>
+#include "Helper/Pimpl.h"
 
 class GUI_AlternativeCovers;
 class CoverLookup;
@@ -46,18 +47,14 @@ signals:
 	void sig_cover_found();
 
 public:
-	CoverButton(QWidget* parent=nullptr);
+	explicit CoverButton(QWidget* parent=nullptr);
 	virtual ~CoverButton();
 
-	bool has_valid_cover() const;
-	CoverLocation get_found_cover() const;
 	void set_cover_location(const CoverLocation& cl);
 	void force_icon(const QIcon& icon);
 
 private:
-
-	struct Private;
-	CoverButton::Private*	_m=nullptr;
+	PIMPL(CoverButton)
 
 
 private slots:

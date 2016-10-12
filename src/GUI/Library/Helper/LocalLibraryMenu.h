@@ -44,7 +44,7 @@ signals:
 	void sig_libpath_clicked();
 
 public:
-	LocalLibraryMenu(QWidget* parent=nullptr);
+	explicit LocalLibraryMenu(QWidget* parent=nullptr);
 	~LocalLibraryMenu();
 
 private:

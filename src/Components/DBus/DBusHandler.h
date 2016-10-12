@@ -38,7 +38,7 @@ class DBusHandler : private QObject
 {
 
 public:
-	DBusHandler(QMainWindow* player, QObject* parent=nullptr);
+	explicit DBusHandler(QMainWindow* player, QObject* parent=nullptr);
 	virtual ~DBusHandler();
 
 

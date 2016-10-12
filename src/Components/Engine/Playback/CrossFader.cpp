@@ -52,10 +52,6 @@ public:
 		_cycle_time_ms = fading_time / _cycles;
 	}
 
-	void set_callback(const std::function<void ()>& fn){
-		_fn = fn;
-	}
-
 	void reset(){
 		_cycles = 500;
 	}

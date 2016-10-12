@@ -45,7 +45,7 @@ struct TagEdit::Private
 TagEdit::TagEdit(QObject *parent) :
 	QThread(parent)
 {
-	_m = new TagEdit::Private();
+	_m = Pimpl::make<TagEdit::Private>();
 	_m->ldb = DB::getInstance()->get_std();
 	_m->notify = true;
 
@@ -58,10 +58,7 @@ TagEdit::TagEdit(const MetaDataList& v_md, QObject* parent) :
 	set_metadata(v_md);
 }
 
-TagEdit::~TagEdit()
-{
-	delete _m; _m = nullptr;
-}
+TagEdit::~TagEdit() {}
 
 
 void TagEdit::update_track(int idx, const MetaData& md){
@@ -116,19 +113,6 @@ void TagEdit::add_genre_to_metadata(const QString &genre)
 	}
 }
 
-void TagEdit::remove_genre_from_metadata(const QString& genre){
-
-	for(int i=0; i<_m->v_md.size(); i++){
-
-		int entries_removed;
-		entries_removed = _m->v_md[i].genres.removeAll(genre);
-
-		if(entries_removed > 0){
-			_m->changed_md[i] = true;
-		}
-	}
-}
-
 
 void TagEdit::set_metadata(const MetaDataList& v_md){
 
@@ -147,11 +131,6 @@ void TagEdit::set_metadata(const MetaDataList& v_md){
 	}
 
 	emit sig_metadata_received(_m->v_md);
-}
-
-void TagEdit::set_auto_notify(bool b)
-{
-	_m->notify = b;
 }
 
 void TagEdit::check_for_new_artists_and_albums(QStringList& new_artists, QStringList& new_albums){

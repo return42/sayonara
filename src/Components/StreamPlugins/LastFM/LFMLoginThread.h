@@ -54,11 +54,10 @@ signals:
 	void sig_logged_in(bool success);
 
 public:
-    LFMLoginThread(QObject *parent=nullptr);
+	explicit LFMLoginThread(QObject *parent=nullptr);
 	~LFMLoginThread();
 
 	void login(const QString& username, const QString& password);
-	void get_token();
 	bool request_authorization();
 
     LFMLoginStuff getLoginStuff();
@@ -66,8 +65,6 @@ public:
 private slots:
 	void wa_response(const QByteArray& data);
 	void wa_error(const QString& response);
-	void wa_response_token(const QByteArray& data);
-	void wa_error_token(const QString& error);
 
 private:
 

@@ -42,7 +42,7 @@ class PlaybackPipeline :
 
 public:
 
-	PlaybackPipeline(Engine* engine, QObject *parent=nullptr);
+	explicit PlaybackPipeline(Engine* engine, QObject *parent=nullptr);
 	virtual ~PlaybackPipeline();
 
 	bool init(GstState state=GST_STATE_NULL) override;

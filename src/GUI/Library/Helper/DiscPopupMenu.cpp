@@ -31,6 +31,11 @@ DiscAction::DiscAction(QWidget* parent, const QIcon& icon) :
 	connect(this, &QAction::triggered, this, &DiscAction::disc_hover);
 }
 
+DiscAction::~DiscAction()
+{
+
+}
+
 void DiscAction::disc_hover(){
 	bool ok = false;
 	int discnumber = data().toInt(&ok);

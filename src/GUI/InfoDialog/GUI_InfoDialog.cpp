@@ -57,20 +57,13 @@ GUI_InfoDialog::GUI_InfoDialog(InfoDialogContainer* container, QWidget* parent) 
 	SayonaraDialog(parent)
 {
 	ui = nullptr;
-	_m = new GUI_InfoDialog::Private();
+	_m = Pimpl::make<GUI_InfoDialog::Private>();
 
 	_m->info_dialog_container = container;
 	_m->md_interpretation = MD::Interpretation::None;
 }
 
-GUI_InfoDialog::~GUI_InfoDialog()
-{
-	delete _m; _m = nullptr;
-	if(ui){
-		delete ui;
-		ui = nullptr;
-	}
-}
+GUI_InfoDialog::~GUI_InfoDialog(){}
 
 void GUI_InfoDialog::language_changed()
 {

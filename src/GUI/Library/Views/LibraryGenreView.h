@@ -61,7 +61,7 @@ signals:
 	void sig_progress(const QString& message, int progress);
 
 public:
-	LibraryGenreView(QWidget* parent=nullptr);
+	explicit LibraryGenreView(QWidget* parent=nullptr);
 	~LibraryGenreView();
 
 	QSize sizeHint() const override;

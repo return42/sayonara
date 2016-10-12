@@ -35,19 +35,24 @@ struct ImportCache::Private
 
 ImportCache::ImportCache()
 {
-	_m = new ImportCache::Private();
+	_m = Pimpl::make<ImportCache::Private>();
 	_m->library_path = Settings::getInstance()->get(Set::Lib_Path);
 }
 
-ImportCache::~ImportCache()
-{
-	delete _m; _m = nullptr;
-}
-
+ImportCache::~ImportCache() {}
 ImportCache::ImportCache(const ImportCache& other)
 {
-	ImportCache::Private* member = other._m;
-	(*_m) = (*member);
+	_m = Pimpl::make<ImportCache::Private>();
+	ImportCache::Private data = *(other._m.get());
+	(*_m) = data;
+}
+
+ImportCache& ImportCache::operator=(const ImportCache& other)
+{
+	ImportCache::Private data = *(other._m.get());
+	(*_m) = data;
+
+	return *this;
 }
 
 void ImportCache::clear()

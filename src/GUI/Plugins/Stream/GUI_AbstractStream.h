@@ -57,7 +57,7 @@ signals:
 	void sig_close_event();
 
 public:
-	GUI_AbstractStream(AbstractStreamHandler* stream_handler, QWidget* parent=nullptr);
+	explicit GUI_AbstractStream(AbstractStreamHandler* stream_handler, QWidget* parent=nullptr);
 	virtual ~GUI_AbstractStream();
 
 

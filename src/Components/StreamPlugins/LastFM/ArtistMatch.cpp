@@ -44,7 +44,10 @@ ArtistMatch::ArtistMatch(const ArtistMatch& other)
 	_poor = other._poor;
 }
 
+ArtistMatch::~ArtistMatch()
+{
 
+}
 
 bool ArtistMatch::is_valid() const {
 	return  (

@@ -51,7 +51,6 @@ class AbstrSetting{
 	public:
 		virtual ~AbstrSetting();
 
-		QString get_db_key() const;
 		SK::SettingKey get_key() const;
 
 		/* Pure virtual function for DB load/save */

@@ -61,7 +61,7 @@ private:
 	virtual QItemSelectionModel* get_selection_model() const override;
 
 public:
-	SearchableListView(QWidget* parent=nullptr);
+	explicit SearchableListView(QWidget* parent=nullptr);
 	virtual ~SearchableListView();
 	void setAbstractModel(AbstractSearchListModel* model);
 

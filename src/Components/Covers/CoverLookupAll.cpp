@@ -28,13 +28,20 @@ struct CoverLookupAll::Private
 	CoverLookup*	cl=nullptr;
 	AlbumList		album_list;
 	bool			run;
+
+	~Private()
+	{
+		if(cl){
+			cl->stop();
+		}
+	}
 };
 
 
 CoverLookupAll::CoverLookupAll(QObject* parent, const AlbumList& album_list) :
 	CoverLookupInterface(parent)
 {
-	_m = new CoverLookupAll::Private();
+	_m = Pimpl::make<CoverLookupAll::Private>();
 
 	_m->album_list = album_list;
 	_m->run = true;
@@ -47,11 +54,8 @@ CoverLookupAll::CoverLookupAll(QObject* parent, const AlbumList& album_list) :
 
 CoverLookupAll::~CoverLookupAll()
 {
-	_m->cl->stop();
 
-	delete _m; _m = nullptr;
 }
-
 
 void CoverLookupAll::start() {
 

@@ -56,7 +56,7 @@ public:
 
 	/* get a setting, defined by a unique, REGISTERED key */
 	template<typename T, SK::SettingKey S>
-	const T& get(const SettingKey<T,S> k) const
+	const T& get(const SettingKey<T,S>& k) const
 	{
 		Q_UNUSED(k);
 		Setting<T>* s = (Setting<T>*) _settings[(int) S];
@@ -65,7 +65,7 @@ public:
 
 	/* set a setting, define by a unique, REGISTERED key */
 	template<typename T, SK::SettingKey S>
-	void set(SettingKey<T,S> key, const T& val)
+	void set(const SettingKey<T,S>& key, const T& val)
 	{
 		Q_UNUSED(key)
 		Setting<T>* s = (Setting<T>*) _settings[(int) S];

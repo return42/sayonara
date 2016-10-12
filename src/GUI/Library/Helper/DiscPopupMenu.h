@@ -43,6 +43,7 @@ Q_OBJECT
 
 	public:
 		DiscAction(QWidget* parent, const QIcon& icon);
+		virtual ~DiscAction();
 };
 
 

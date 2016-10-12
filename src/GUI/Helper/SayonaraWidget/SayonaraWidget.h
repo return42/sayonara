@@ -42,7 +42,7 @@ class SayonaraWidget :
 	Q_OBJECT
 
 public:
-	SayonaraWidget(QWidget* parent=nullptr);
+	explicit SayonaraWidget(QWidget* parent=nullptr);
 	virtual ~SayonaraWidget();
 
 	SayonaraDialog* box_into_dialog();
@@ -65,7 +65,7 @@ class SayonaraMainWindow : public SayonaraWidgetTemplate<QMainWindow> {
 	Q_OBJECT
 
 public:
-	SayonaraMainWindow(QWidget* parent=nullptr);
+	explicit SayonaraMainWindow(QWidget* parent=nullptr);
 	virtual ~SayonaraMainWindow();
 
 	void raise();

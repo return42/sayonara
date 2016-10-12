@@ -48,7 +48,7 @@ class GUI_LastFM :
 	friend class PreferenceInterface<SayonaraWidget>;
 
 public:
-	GUI_LastFM(QWidget* parent=nullptr);
+	explicit GUI_LastFM(QWidget* parent=nullptr);
 	virtual ~GUI_LastFM();
 
 	void commit() override;

@@ -186,11 +186,6 @@ void LibraryView::language_changed()
 	}
 }
 
-MD::Interpretation LibraryView::get_type() const
-{
-	return _type;
-}
-
 void LibraryView::set_type(MD::Interpretation type)
 {
 	_type = type;

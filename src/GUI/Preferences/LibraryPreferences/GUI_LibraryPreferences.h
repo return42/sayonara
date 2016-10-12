@@ -37,7 +37,7 @@ class GUI_LibraryPreferences :
 	Q_OBJECT
 
 public:
-	GUI_LibraryPreferences(QWidget* parent=nullptr);
+	explicit GUI_LibraryPreferences(QWidget* parent=nullptr);
 	virtual ~GUI_LibraryPreferences();
 
 	void commit() override;

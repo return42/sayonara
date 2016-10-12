@@ -48,7 +48,7 @@ CopyThread::CopyThread(const QString& target_dir, const ImportCache& cache, QObj
 	QThread(parent),
 	SayonaraClass()
 {
-	_m = new CopyThread::Private();
+	_m = Pimpl::make<CopyThread::Private>();
 	_m->cache = cache;
 	_m->target_dir = target_dir;
 
@@ -57,7 +57,7 @@ CopyThread::CopyThread(const QString& target_dir, const ImportCache& cache, QObj
 
 CopyThread::~CopyThread()
 {
-	delete _m; _m = nullptr;
+
 }
 
 
@@ -192,10 +192,5 @@ int CopyThread::get_n_copied_files() const
 void CopyThread::set_mode(CopyThread::Mode mode)
 {
 	_m->mode = mode;
-}
-
-CopyThread::Mode CopyThread::get_mode() const
-{
-	return _m->mode;
 }
 

@@ -24,6 +24,7 @@
 #define BOOKMARKS_H
 
 #include "Components/PlayManager/PlayState.h"
+#include "Helper/Pimpl.h"
 
 #include <QObject>
 #include <QPair>
@@ -60,7 +61,7 @@ signals:
 	void sig_next_changed(const Bookmark& bm);
 
 public:
-	Bookmarks(QObject *parent=nullptr);
+	explicit Bookmarks(QObject *parent=nullptr);
 	virtual ~Bookmarks();
 
 	/**
@@ -104,12 +105,6 @@ public:
 
 
 	/**
-	 * @brief Remove all bookmarks from database for current track
-	 * @return true if successful, false if not
-	 */
-	bool remove_all();
-
-	/**
 	 * @brief tries to set the loop between the current two indices
 	 * @param b switch loop on or off
 	 * @return false if the two current indices are invalid or if b == false. True else
@@ -148,8 +143,7 @@ private slots:
 
 
 private:
-	struct Private;
-	Bookmarks::Private*		_m=nullptr;
+	PIMPL(Bookmarks)
 
 
 private:

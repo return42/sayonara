@@ -26,6 +26,8 @@
 #include <QImage>
 #include <QStringList>
 
+#include "Helper/Pimpl.h"
+
 class MetaDataList;
 class MetaData;
 /**
@@ -42,14 +44,16 @@ class TagEdit :
 {
 	Q_OBJECT
 
+	PIMPL(TagEdit)
+
 signals:
 	void sig_progress(int);
 	void sig_metadata_received(const MetaDataList& v_md);
 
 
 public:
-	TagEdit(QObject* parent=nullptr);
-	TagEdit(const MetaDataList& v_md, QObject* parent=nullptr);
+	explicit TagEdit(QObject* parent=nullptr);
+	explicit TagEdit(const MetaDataList& v_md, QObject* parent=nullptr);
 	virtual ~TagEdit();
 
 
@@ -85,12 +89,6 @@ public:
 	 * @param genre the genre name
 	 */
 	void add_genre_to_metadata(const QString& genre);
-
-	/**
-	 * @brief Removes genre from all (changed) metadata
-	 * @param genre the genre name
-	 */
-	void remove_genre_from_metadata(const QString& genre);
 
 
 	/**
@@ -142,12 +140,6 @@ public:
 	void set_metadata(const MetaDataList& v_md);
 
 
-	/**
-	 * @brief Send notification when finished committing
-	 * @param b
-	 */
-	void set_auto_notify(bool b);
-
 public slots:
 
 	/**
@@ -155,9 +147,6 @@ public slots:
 	 */
 	void commit();
 
-private:
-	struct Private;
-	TagEdit::Private*			_m=nullptr;
 
 private:
 

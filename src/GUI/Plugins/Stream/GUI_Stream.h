@@ -41,7 +41,7 @@ protected:
 
 
 public:
-	GUI_Stream(QWidget *parent=nullptr);
+	explicit GUI_Stream(QWidget *parent=nullptr);
 	virtual ~GUI_Stream();
 
 	QString get_name() const override;

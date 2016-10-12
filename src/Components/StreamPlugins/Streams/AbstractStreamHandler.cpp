@@ -38,7 +38,7 @@ struct AbstractStreamHandler::Private
 AbstractStreamHandler::AbstractStreamHandler(QObject *parent) :
 	QObject(parent)
 {
-	_m = new AbstractStreamHandler::Private();
+	_m = Pimpl::make<AbstractStreamHandler::Private>();
 	_m->playlist = PlaylistHandler::getInstance();
 	_m->blocked = false;
 
@@ -47,7 +47,7 @@ AbstractStreamHandler::AbstractStreamHandler(QObject *parent) :
 
 AbstractStreamHandler::~AbstractStreamHandler()
 {
-	delete _m; _m = nullptr;
+
 }
 
 void AbstractStreamHandler::clear(){

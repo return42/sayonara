@@ -32,8 +32,6 @@ MTP_Storage::MTP_Storage(MTPIntern_Device* device, MTPIntern_Storage* storage){
 
 	if(storage){
 		_id = storage->id;
-		_free_space = storage->FreeSpaceInBytes;
-		_max_space = storage->MaxCapacity;
 		_name = QString(storage->StorageDescription);
 		_identifier = QString(storage->VolumeIdentifier);
 
@@ -111,14 +109,6 @@ QList<MTP_FilePtr> MTP_Storage::files_of_folder(quint32 folder_id) const
 
 quint32 MTP_Storage::id() const {
 	return _id;
-}
-
-quint64 MTP_Storage::free_space() const {
-	return _free_space;
-}
-
-quint64 MTP_Storage::max_space() const {
-	return _max_space;
 }
 
 QString MTP_Storage::name() const {

@@ -25,6 +25,7 @@
 
 #include "Components/PlayManager/PlayState.h"
 #include "Helper/Settings/SayonaraClass.h"
+#include "Helper/Pimpl.h"
 
 #include <QObject>
 #include <QString>
@@ -36,10 +37,7 @@ class StreamRecorder :
 		protected SayonaraClass
 {
 
-private:
-
-	struct Private;
-	StreamRecorder::Private* _m=nullptr;
+	PIMPL(StreamRecorder)
 
 private:
 	// set metadata, add to session collector
@@ -55,7 +53,7 @@ private:
 
 
 public:
-	StreamRecorder(QObject *parent=nullptr);
+	explicit StreamRecorder(QObject *parent=nullptr);
 	virtual ~StreamRecorder();
 
 	// change recording destination, create session path
@@ -64,9 +62,6 @@ public:
 
 	// start or end a session
 	void record(bool b);
-
-	// destination path
-	QString get_dst_file() const ;
 
 	// is in a session currently
 	bool is_recording() const;

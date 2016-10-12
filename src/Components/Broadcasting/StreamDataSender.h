@@ -42,7 +42,7 @@ private:
 	bool send_icy_metadata(const QString& stream_title);
 
 public:
-	StreamDataSender(QTcpSocket* socket);
+	explicit StreamDataSender(QTcpSocket* socket);
 	~StreamDataSender();
 
 	bool send_trash();

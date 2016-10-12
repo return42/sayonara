@@ -30,6 +30,10 @@ ComboBoxDelegate::ComboBoxDelegate(QObject *parent) :
 
 }
 
+ComboBoxDelegate::~ComboBoxDelegate()
+{
+
+}
 
 
 void ComboBoxDelegate::paint(QPainter *painter, const QStyleOptionViewItem & option, const QModelIndex & index) const

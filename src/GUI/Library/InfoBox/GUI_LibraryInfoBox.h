@@ -38,7 +38,7 @@ class GUI_LibraryInfoBox :
 	Q_OBJECT
 
 public:
-	GUI_LibraryInfoBox(QWidget* parent=nullptr);
+	explicit GUI_LibraryInfoBox(QWidget* parent=nullptr);
 	virtual ~GUI_LibraryInfoBox();
 
 

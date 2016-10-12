@@ -167,18 +167,6 @@ SP::Set<int> SayonaraSelectionView::get_selections() const {
 }
 
 
-int SayonaraSelectionView::get_max_selected() const
-{
-	SP::Set<int> selected = this->get_selections();
-	auto it = std::max_element(selected.begin(), selected.end());
-	if(it != selected.end()){
-		return *it;
-	}
-
-	return -1;
-}
-
-
 int SayonaraSelectionView::get_min_selected() const
 {
 	SP::Set<int> selected = this->get_selections();

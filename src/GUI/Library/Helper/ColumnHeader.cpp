@@ -37,6 +37,11 @@ ColumnHeader::ColumnHeader(bool switchable, Library::SortOrder sort_asc, Library
 
 }
 
+ColumnHeader::~ColumnHeader()
+{
+
+}
+
 ColumnHeader::ColumnHeader(bool switchable, Library::SortOrder sort_asc, Library::SortOrder sort_desc, int preferred_size_abs) :
 	ColumnHeader(switchable, sort_asc, sort_desc)
 {

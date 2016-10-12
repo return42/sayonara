@@ -34,15 +34,11 @@ class PLSParser : public AbstractPlaylistParser
 {
 
 public:
-	PLSParser(const QString& filename);
+	explicit PLSParser(const QString& filename);
+	virtual ~PLSParser();
 
 private:
 	virtual void parse() override;
-
-//	int get_number_of_entries();
-	bool split_line(const QString& line, QString& key, QString& val, int& idx);
-
-
 };
 
 #endif // PLSPARSER_H

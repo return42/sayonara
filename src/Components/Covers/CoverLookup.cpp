@@ -47,6 +47,10 @@ CoverLookupInterface::CoverLookupInterface(QObject* parent):
 {
 }
 
+CoverLookupInterface::~CoverLookupInterface()
+{
+
+}
 
 CoverLookup::CoverLookup(QObject* parent, int n_covers) :
 	CoverLookupInterface(parent)

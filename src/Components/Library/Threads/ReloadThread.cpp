@@ -55,7 +55,7 @@ ReloadThread::ReloadThread(QObject *parent) :
 	SayonaraClass()
 {
 
-	_m = new ReloadThread::Private();
+	_m = Pimpl::make<ReloadThread::Private>();
 	_m->db = DatabaseConnector::getInstance();
 
 	_m->paused = false;
@@ -68,7 +68,7 @@ ReloadThread::ReloadThread(QObject *parent) :
 
 ReloadThread::~ReloadThread() 
 {
-	delete _m; _m = nullptr;
+
 }
 
 bool ReloadThread::compare_md(const MetaData& md1, const MetaData& md2)

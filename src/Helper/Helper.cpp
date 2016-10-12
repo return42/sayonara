@@ -137,12 +137,6 @@ QString Helper::cvt_ms_to_string(quint64 msec, bool empty_zero, bool colon, bool
 }
 
 
-
-
-QString Helper::get_error_file(){
-	return get_sayonara_path() + "error_log";
-}
-
 QString Helper::get_sayonara_path() {
 	return QDir::homePath() + QDir::separator() + ".Sayonara" + QDir::separator();
 }
@@ -309,6 +303,12 @@ void Helper::sleep_ms(quint64 ms){
 #else
 	std::this_thread::sleep_for(std::chrono::milliseconds(ms));
 #endif
+}
+
+Helper::StringDummy::StringDummy(QObject* parent) :
+	QObject(parent)
+{
+
 }
 
 

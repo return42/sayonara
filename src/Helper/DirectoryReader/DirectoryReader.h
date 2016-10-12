@@ -56,13 +56,6 @@ class DirectoryReader
 		 */
 		void get_files_in_dir_rec(QDir base_dir, QStringList& files) const;
 
-		/**
-		 * @brief get_files_in_dir fetch all files in base_dir. Subdirectories are ignored
-		 * @param base_dir the directory of interest
-		 * @return returns list of absolute filenames found in base_dir
-		 */
-		QStringList get_files_in_dir (const QDir& base_dir) const;
-
 
 		/**
 		 * @brief extracts MetaData structures from a list of files

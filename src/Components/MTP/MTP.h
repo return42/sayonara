@@ -43,21 +43,18 @@ class MTP : public QThread
 
 public:
 
-	MTP(QObject* parent=0);
+	explicit MTP(QObject* parent=nullptr);
 	virtual ~MTP();
 
 	QList<MTP_RawDevicePtr>		get_raw_devices();
-	QList<MTP_DevicePtr>		get_devices();
 
 private:
 
 	void run_raw_devices();
-	void run_devices();
 
 	void run() override;
 
 	QList<MTP_RawDevicePtr>	_raw_devices;
-	QList<MTP_DevicePtr>	_devices;
 	bool					_mtp_initialized;
 };
 

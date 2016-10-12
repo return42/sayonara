@@ -46,7 +46,7 @@ class GUI_TrayIcon :
 
 public:
 
-    GUI_TrayIcon(QObject *parent=nullptr);
+	explicit GUI_TrayIcon(QObject *parent=nullptr);
     virtual ~GUI_TrayIcon();
 
 	bool event ( QEvent * e ) override;

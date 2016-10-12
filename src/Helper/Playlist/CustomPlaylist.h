@@ -41,7 +41,7 @@ public:
 	int num_tracks() const override;
 
 	CustomPlaylist();
-	CustomPlaylist(const CustomPlaylistSkeleton& skeleton);
+	explicit CustomPlaylist(const CustomPlaylistSkeleton& skeleton);
 	virtual ~CustomPlaylist();
 
 private:

@@ -175,19 +175,6 @@ public:
 	int get_current_idx() const;
 	void set_current_idx(int pl_idx);
 
-	/**
-	 * @brief get number of playlists
-	 * @return
-	 */
-//	int get_playlist_count() const;
-
-
-	/**
-	 * @brief get names of playlists
-	 * @return
-	 */
-//	QStringList get_playlist_names() const;
-
 
 	/**
 	 * @brief get specific playlist at given index

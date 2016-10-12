@@ -49,7 +49,7 @@ class GUI_TagEdit :
 	Q_OBJECT
 
 public:
-	GUI_TagEdit(QWidget* parent=nullptr);
+	explicit GUI_TagEdit(QWidget* parent=nullptr);
 	virtual ~GUI_TagEdit();
 
 	/**

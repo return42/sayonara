@@ -44,7 +44,7 @@ class AbstrSettingNotifier : public QObject{
 		void sig_value_changed();
 
 	protected:
-		AbstrSettingNotifier(QObject* parent=nullptr);
+		explicit AbstrSettingNotifier(QObject* parent=nullptr);
 		virtual ~AbstrSettingNotifier();
 };
 

@@ -37,7 +37,7 @@ signals:
 	void sig_tracks_found(const MetaDataList& v_md);
 
 public:
-	SoundcloudLibrary(QObject *parent=nullptr);
+	explicit SoundcloudLibrary(QObject *parent=nullptr);
 	~SoundcloudLibrary();
 
 	void				load() override;

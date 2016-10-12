@@ -45,8 +45,6 @@ public slots:
 	void pause() override;
 	void stop() override;
 
-	guint get_bitrate();
-
 	void set_quality(LameBitrate quality);
 
 private:

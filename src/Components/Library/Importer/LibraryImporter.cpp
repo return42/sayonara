@@ -55,14 +55,6 @@ LibraryImporter::~LibraryImporter(){
 }
 
 
-void LibraryImporter::import_dir(const QString& dir) {
-
-	QStringList lst;
-	lst << dir;
-	import_files(lst);
-}
-
-
 void LibraryImporter::import_files(const QStringList& files) {
 
 	emit_status(ImportStatus::Caching);

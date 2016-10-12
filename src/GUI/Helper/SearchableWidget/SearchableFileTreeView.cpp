@@ -35,6 +35,11 @@ AbstractSearchFileTreeModel::AbstractSearchFileTreeModel(QObject* parent) :
 	_cur_idx = -1;
 }
 
+AbstractSearchFileTreeModel::~AbstractSearchFileTreeModel()
+{
+
+}
+
 
 QModelIndex AbstractSearchFileTreeModel::getFirstRowIndexOf(QString substr)
 {

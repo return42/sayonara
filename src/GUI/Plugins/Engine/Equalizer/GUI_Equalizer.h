@@ -57,7 +57,7 @@ class GUI_Equalizer :
 	friend class PlayerPluginInterface;
 
 public:
-	GUI_Equalizer(QWidget* parent=nullptr);
+	explicit GUI_Equalizer(QWidget* parent=nullptr);
 	virtual ~GUI_Equalizer();
 
 	QString get_name() const override;

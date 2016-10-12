@@ -49,7 +49,6 @@ public:
 	virtual ~MetaDataList();
 
 	void set_cur_play_track(int idx);
-	void set_cur_play_track_idx_only(int idx);
 	int get_cur_play_track() const;
 
 
@@ -61,7 +60,6 @@ public:
 	MetaDataList& move_tracks(const SP::Set<int>& indexes, int tgt_idx);
 	MetaDataList& copy_tracks(const SP::Set<int>& indexes, int tgt_idx);
 	MetaDataList& insert_tracks(const MetaDataList& v_md, int tgt_idx);
-	MetaDataList& randomize();
 
 	IdxList findTracks(int id) const;
 	IdxList findTracks(const QString&) const;

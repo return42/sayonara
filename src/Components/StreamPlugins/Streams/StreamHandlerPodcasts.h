@@ -29,7 +29,7 @@ class StreamHandlerPodcasts : public AbstractStreamHandler
 {
 	Q_OBJECT
 public:
-	StreamHandlerPodcasts(QObject* parent=nullptr);
+	explicit StreamHandlerPodcasts(QObject* parent=nullptr);
 	~StreamHandlerPodcasts();
 
 	bool get_all_streams(StreamMap& streams) override;

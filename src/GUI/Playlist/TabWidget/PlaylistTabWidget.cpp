@@ -46,13 +46,6 @@ PlaylistTabWidget::~PlaylistTabWidget(){
 
 }
 
-void PlaylistTabWidget::show_tabbar(){
-	this->tabBar()->show();
-}
-
-void PlaylistTabWidget::hide_tabbar(){
-	this->tabBar()->hide();
-}
 
 void PlaylistTabWidget::show_menu_items(PlaylistMenuEntries entries){
 	_tab_bar->show_menu_items(entries);

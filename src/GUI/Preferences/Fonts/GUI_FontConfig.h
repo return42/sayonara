@@ -41,7 +41,7 @@ class GUI_FontConfig :
 	friend class PreferenceInterface<SayonaraWidget>;
 
 public:
-	GUI_FontConfig(QWidget* parent=nullptr);
+	explicit GUI_FontConfig(QWidget* parent=nullptr);
 	virtual ~GUI_FontConfig();
 
 	QString get_action_name() const override;

@@ -44,9 +44,7 @@ bool GlobalMessage::register_receiver(GlobalMessageReceiverInterface* receiver){
 	return true;
 }
 
-void GlobalMessage::receiver_destroyed(){
-	_receiver = nullptr;
-}
+
 
 GlobalMessage::Answer
 GlobalMessage::info(const QString& info, const QString& sender_name){

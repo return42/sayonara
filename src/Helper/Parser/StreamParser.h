@@ -35,7 +35,7 @@ class StreamParser : public QObject
 		void sig_finished(bool);
 
 	public:
-		StreamParser(const QString& station_name=QString(), QObject* parent=nullptr);
+		explicit StreamParser(const QString& station_name=QString(), QObject* parent=nullptr);
 		virtual ~StreamParser();
 
 		void parse_stream(const QString& url);

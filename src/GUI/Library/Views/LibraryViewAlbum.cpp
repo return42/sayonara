@@ -31,6 +31,11 @@ LibraryViewAlbum::LibraryViewAlbum(QWidget *parent) :
 	connect(this, &QTableView::clicked, this, &LibraryViewAlbum::index_clicked);
 }
 
+LibraryViewAlbum::~LibraryViewAlbum()
+{
+
+}
+
 
 void LibraryViewAlbum::rc_menu_show(const QPoint & p){
 	delete_discmenu();

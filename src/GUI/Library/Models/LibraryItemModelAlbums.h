@@ -30,6 +30,7 @@
 #define LIBRARYITEMMODELALBUMS_H_
 
 #include "GUI/Library/Models/LibraryItemModel.h"
+#include "Helper/Pimpl.h"
 
 #include <QPixmap>
 
@@ -38,6 +39,7 @@ class ColumnHeader;
 class LibraryItemModelAlbums : public LibraryItemModel {
 
 Q_OBJECT
+
 public:
 	LibraryItemModelAlbums();
 	virtual ~LibraryItemModelAlbums();
@@ -58,8 +60,7 @@ public:
 	virtual QString get_string(int row) const override;
 
 private:
-	struct Private;
-	LibraryItemModelAlbums::Private*	_m = nullptr;
+	PIMPL(LibraryItemModelAlbums)
 
 };
 

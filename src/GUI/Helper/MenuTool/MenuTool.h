@@ -48,7 +48,7 @@ signals:
 	void sig_default();
 
 public:
-	MenuToolButton(QWidget *parent=nullptr);
+	explicit MenuToolButton(QWidget *parent=nullptr);
 	virtual ~MenuToolButton();
 
 	/**

@@ -36,6 +36,7 @@ signals:
 
 public:
 	explicit MTPTreeView(QWidget *parent = 0);
+	virtual ~MTPTreeView();
 
 
 protected:

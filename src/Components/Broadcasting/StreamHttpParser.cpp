@@ -30,7 +30,6 @@ StreamHttpParser::StreamHttpParser()
 {
 	_icy = false;
 	_host = QString();
-	_user_agent = QString();
 	_status = HttpAnswer::OK;
 }
 
@@ -56,7 +55,6 @@ StreamHttpParser::HttpAnswer StreamHttpParser::parse(const QByteArray& data){
 
 	_icy = false;
 	_host = "";
-	_user_agent ="";
 
 	if(data.isEmpty()) {
 		sp_log(Log::Error) << "Fail.. Cannot read from socket";
@@ -124,18 +122,19 @@ StreamHttpParser::HttpAnswer StreamHttpParser::parse(const QByteArray& data){
 		if(str.contains("user-agent", Qt::CaseInsensitive)){
 
 			if(str.size() > 11){
-				_user_agent = str.right( str.size() - 11).toLower();
-				if( _user_agent.contains("firefox", Qt::CaseInsensitive) ||
-					_user_agent.contains("mozilla", Qt::CaseInsensitive) ||
-					_user_agent.contains("safari", Qt::CaseInsensitive) ||
-					_user_agent.contains("internet explorer", Qt::CaseInsensitive) ||
-					_user_agent.contains("opera", Qt::CaseInsensitive) ||
-					_user_agent.contains("chrom", Qt::CaseInsensitive))
+
+				QString user_agent = str.right( str.size() - 11).toLower();
+				if( user_agent.contains("firefox", Qt::CaseInsensitive) ||
+					user_agent.contains("mozilla", Qt::CaseInsensitive) ||
+					user_agent.contains("safari", Qt::CaseInsensitive) ||
+					user_agent.contains("internet explorer", Qt::CaseInsensitive) ||
+					user_agent.contains("opera", Qt::CaseInsensitive) ||
+					user_agent.contains("chrom", Qt::CaseInsensitive))
 				{
 						is_browser = true;
 				}
 
-				if(_user_agent.contains("sayonara", Qt::CaseInsensitive)){
+				if(user_agent.contains("sayonara", Qt::CaseInsensitive)){
 					get_playlist = true;
 					continue;
 				}
@@ -184,7 +183,4 @@ QString StreamHttpParser::get_host() const{
 	return _host;
 }
 
-QString StreamHttpParser::get_user_agent() const{
-	return _user_agent;
-}
 

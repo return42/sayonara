@@ -94,24 +94,6 @@ bool DatabasePodcasts::addPodcast(const QString& name, const QString& url) {
 	return true;
 }
 
-bool DatabasePodcasts::renamePodcast(const QString& name, const QString& url)
-{
-	DB_RETURN_NOT_OPEN_BOOL(_db);
-
-	SayonaraQuery q (_db);
-
-	q.prepare("UPDATE savedpodcasts SET name=:name WHERE url=:url;");
-	q.bindValue(":name", name);
-	q.bindValue(":url", url);
-
-	if(!q.exec()) {
-		q.show_error(QString("Could not rename podcast ") + name);
-		return false;
-	}
-
-	return true;
-}
-
 
 
 bool DatabasePodcasts::updatePodcastUrl(const QString& name, const QString& url)

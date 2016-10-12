@@ -45,7 +45,8 @@ private:
 
 public:
 
-	SoundcloudLibraryContainer(QObject* parent=nullptr);
+	explicit SoundcloudLibraryContainer(QObject* parent=nullptr);
+	virtual ~SoundcloudLibraryContainer();
 
 	// override from LibraryViewInterface
 	QString			get_name() const override;

@@ -43,7 +43,7 @@ private:
 	Bookmarks*	_bookmarks=nullptr;
 
 public:
-	BookmarksMenu(QWidget* parent);
+	explicit BookmarksMenu(QWidget* parent);
 	virtual ~BookmarksMenu();
 
 	void set_metadata(const MetaData& md);

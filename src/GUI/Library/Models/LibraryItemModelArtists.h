@@ -31,6 +31,7 @@
 
 #include "LibraryItemModel.h"
 #include "Helper/MetaData/MetaDataFwd.h"
+#include "Helper/Pimpl.h"
 
 class ColumnHeader;
 class LibraryItemModelArtists : public LibraryItemModel {
@@ -56,8 +57,7 @@ public:
 
 
 private:
-	struct Private;
-	LibraryItemModelArtists::Private*	_m=nullptr;
+	PIMPL(LibraryItemModelArtists)
 };
 
 

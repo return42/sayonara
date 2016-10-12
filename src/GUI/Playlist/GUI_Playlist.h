@@ -46,7 +46,7 @@ class GUI_Playlist :
 	Q_OBJECT
 
 public:
-	GUI_Playlist(QWidget *parent=nullptr);
+	explicit GUI_Playlist(QWidget *parent=nullptr);
 	~GUI_Playlist();
 
 private:

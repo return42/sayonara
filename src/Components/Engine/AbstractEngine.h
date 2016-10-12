@@ -48,7 +48,7 @@ class Engine :
 
 public:
 
-	Engine(QObject* parent=nullptr);
+	explicit Engine(QObject* parent=nullptr);
 	virtual ~Engine();
 	virtual EngineName	get_name() const final;
 
@@ -56,12 +56,10 @@ public:
 
 	virtual void		set_track_finished(GstElement* src);
 
-//	virtual void		async_done(GstElement* src);
 	virtual void		update_md(const MetaData& md, GstElement* src);
 	virtual void		update_cover(const QImage& img, GstElement* src);
 	virtual void		update_duration(GstElement* src);
 	virtual void		update_bitrate(quint32 br, GstElement* src);
-	virtual void		update_time(qint32 time, GstElement* src);
 
 	virtual void		set_track_ready(GstElement* src);
 	virtual void		set_buffer_state(int percent, GstElement* src);

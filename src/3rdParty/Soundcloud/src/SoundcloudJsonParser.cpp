@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "SoundcloudJsonParser.h"
 #include "Helper/Helper.h"
 #include "Helper/FileHelper.h"
@@ -28,18 +26,6 @@
 #include "Helper/MetaData/MetaDataList.h"
 #include "Helper/Settings/Settings.h"
 #include "Helper/Logger/Logger.h"
-
-void remove_first_and_last(QByteArray& data, char first, char last){
-
-
-	if(data.startsWith(first)){
-		data.remove(0, 1);
-	}
-
-	if(data.endsWith(last)){
-		data.remove(data.size() - 1, 1);
-	}
-}
 
 
 SoundcloudJsonParser::SoundcloudJsonParser(const QByteArray& content) : 
@@ -394,33 +380,6 @@ bool SoundcloudJsonParser::get_int(const QString& key, const QJsonObject& object
 	return false;
 }
 
-bool SoundcloudJsonParser::get_double(const QString& key, const QJsonObject& object, double& d)
-{
-	auto it = object.find(key);
-	if(it != object.end()){
-		QJsonValue ref = *it;
-		if(ref.isDouble()){
-			d = ref.toDouble();
-			return true;
-		}
-	}
-
-	return false;
-}
-
-bool SoundcloudJsonParser::get_bool(const QString& key, const QJsonObject& object, bool& b)
-{
-	auto it = object.find(key);
-	if(it != object.end()){
-		QJsonValue ref = *it;
-		if(ref.isBool()){
-			b = ref.toBool();
-			return true;
-		}
-	}
-
-	return false;
-}
 
 bool SoundcloudJsonParser::get_array(const QString& key, const QJsonObject& object, QJsonArray& arr)
 {

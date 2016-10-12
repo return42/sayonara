@@ -36,6 +36,11 @@ GUI_PlayerPlugin::GUI_PlayerPlugin(QWidget *parent) :
 	connect(ui->btn_close, &QPushButton::clicked, this, &GUI_PlayerPlugin::close);
 }
 
+GUI_PlayerPlugin::~GUI_PlayerPlugin()
+{
+	delete ui; ui=nullptr;
+}
+
 
 void GUI_PlayerPlugin::show(PlayerPluginInterface* player_plugin)
 {

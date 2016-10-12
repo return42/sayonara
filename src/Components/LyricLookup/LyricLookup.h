@@ -53,7 +53,7 @@ signals:
 	void sig_finished();
 
 public:
-	LyricLookupThread(QObject* parent=nullptr);
+	explicit LyricLookupThread(QObject* parent=nullptr);
 	virtual ~LyricLookupThread();
 
 	QStringList get_servers();
@@ -74,8 +74,6 @@ private:
 	void init_server_list();
 	QString parse_webpage(const QByteArray& raw);
 	QString calc_url(QString artist, QString song);
-
-	void parse_xml();
 
 
 private slots:

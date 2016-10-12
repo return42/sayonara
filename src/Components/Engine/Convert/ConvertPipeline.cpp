@@ -148,12 +148,6 @@ void ConvertPipeline::stop() {
 }
 
 
-guint ConvertPipeline::get_bitrate() {
-
-	return 0;
-}
-
-
 void ConvertPipeline::set_quality(LameBitrate quality) {
 
 	if(!_pipeline) return;

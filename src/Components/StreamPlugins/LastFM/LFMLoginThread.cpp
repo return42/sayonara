@@ -37,55 +37,6 @@ LFMLoginThread::~LFMLoginThread()
 
 }
 
-void LFMLoginThread::get_token() {
-
-	LFMWebAccess* lfm_wa = new LFMWebAccess();
-	connect(lfm_wa, &LFMWebAccess::sig_response, this, &LFMLoginThread::wa_response_token);
-	connect(lfm_wa, &LFMWebAccess::sig_error, this, &LFMLoginThread::wa_error_token);
-
-    UrlParams signature_data;
-        signature_data["api_key"] = LFM_API_KEY;
-        signature_data["method"] = "auth.gettoken";
-
-		signature_data.append_signature();
-
-
-	QString url = lfm_wa->create_std_url(QString("https://ws.audioscrobbler.com/2.0/"), signature_data);
-
-	lfm_wa->call_url(url);
-}
-
-
-void LFMLoginThread::wa_response_token(const QByteArray& data){
-
-	QString str = QString::fromUtf8(data);
-	LFMWebAccess* lfm_wa = static_cast<LFMWebAccess*>(sender());
-	QString token = Helper::easy_tag_finder("lfm.token", str);
-
-	if(token.size() != 32) {
-		sp_log(Log::Warning) << "Last.fm: Invalid token = " << token;
-		return;
-	}
-
-	_login_info.token = token;
-
-	lfm_wa->deleteLater();
-
-	request_authorization();
-}
-
-
-void LFMLoginThread::wa_error_token(const QString& error){
-
-	LFMWebAccess* lfm_wa =  static_cast<LFMWebAccess*>(sender());
-
-	sp_log(Log::Warning) << "LFM: could not call login url " << error;
-	_login_info.logged_in = false;
-
-	lfm_wa->deleteLater();
-}
-
-
 bool LFMLoginThread::request_authorization() {
 
     UrlParams signature_data;

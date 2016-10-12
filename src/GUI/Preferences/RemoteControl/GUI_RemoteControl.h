@@ -43,7 +43,7 @@ class GUI_RemoteControl:
 
 
 public:
-	GUI_RemoteControl(QWidget* parent=nullptr);
+	explicit GUI_RemoteControl(QWidget* parent=nullptr);
 	virtual ~GUI_RemoteControl();
 
 	void commit() override;

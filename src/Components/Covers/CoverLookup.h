@@ -52,7 +52,8 @@ public slots:
 	virtual void stop()=0;
 
 public:
-	CoverLookupInterface(QObject* parent=nullptr);
+	explicit CoverLookupInterface(QObject* parent=nullptr);
+	virtual ~CoverLookupInterface();
 
 };
 

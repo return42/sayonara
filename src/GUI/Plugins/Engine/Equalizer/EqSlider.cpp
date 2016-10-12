@@ -48,9 +48,6 @@ int EqSlider::getIndex() const
 	return _idx;
 }
 
-void EqSlider::setIndex(int idx){
-	_idx = idx;
-}
 
 void EqSlider::sliderChange(SliderChange change){
 	QSlider::sliderChange(change);
@@ -74,16 +71,6 @@ double EqSlider::get_eq_value() const
 	}
 }
 
-void EqSlider::set_eq_value(double val)
-{
-	if(val > 0){
-		this->setValue(val);
-	}
-
-	else {
-		this->setValue(val * 2);
-	}
-}
 
 void EqSlider::keyPressEvent(QKeyEvent* e)
 {

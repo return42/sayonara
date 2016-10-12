@@ -30,13 +30,13 @@ struct RandomGenerator::Private
 
 RandomGenerator::RandomGenerator()
 {
-	_m = new RandomGenerator::Private();
+	_m = Pimpl::make<RandomGenerator::Private>();
 	update_seed();
 }
 
 RandomGenerator::~RandomGenerator()
 {
-	delete _m; _m = nullptr;
+
 }
 
 RandomGenerator::RandomGenerator(const RandomGenerator& other)

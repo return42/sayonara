@@ -46,13 +46,13 @@ struct LibraryItemModelAlbums::Private
 LibraryItemModelAlbums::LibraryItemModelAlbums() :
 	LibraryItemModel()
 {
-	_m = new LibraryItemModelAlbums::Private();
+	_m = Pimpl::make<LibraryItemModelAlbums::Private>();
 	_m->pm_single = GUI::get_pixmap("cd.png", QSize(14, 14));
 	_m->pm_multi = GUI::get_pixmap("cds.png", QSize(16, 16));
 }
 
 LibraryItemModelAlbums::~LibraryItemModelAlbums() {
-	delete _m; _m = nullptr;
+
 }
 
 int LibraryItemModelAlbums::get_id_by_row(int row)

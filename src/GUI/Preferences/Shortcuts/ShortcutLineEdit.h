@@ -38,7 +38,8 @@ signals:
 	void sig_sequence_entered();
 
 public:
-	ShortcutLineEdit(QWidget* parent=nullptr);
+	explicit ShortcutLineEdit(QWidget* parent=nullptr);
+	virtual ~ShortcutLineEdit();
 
 	QList<QKeySequence> get_sequences() const;
 

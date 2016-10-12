@@ -382,25 +382,6 @@ bool DatabasePlaylist::renamePlaylist(int id, const QString& new_name)
 	return true;
 }
 
-bool DatabasePlaylist::updatePlaylistTempState(int playlist_id, bool temporary)
-{
-	DB_RETURN_NOT_OPEN_BOOL(_db);
-
-	int temporary_int = (temporary) ? 1 : 0;
-
-	SayonaraQuery q(_db);
-	QString query_string = QString("UPDATE playlists SET temporary=:temporary WHERE playlistID = :playlist_id;");
-	q.prepare(query_string);
-	q.bindValue(":playlist_id", playlist_id);
-	q.bindValue(":temporary", temporary_int);
-
-	if(!q.exec()){
-		q.show_error("Cannot update playlist");
-		return false;
-	}
-
-	return true;
-}
 
 bool DatabasePlaylist::storePlaylist(const MetaDataList& vec_md, QString playlist_name, bool temporary)
 {

@@ -42,7 +42,7 @@ signals:
 
 
 public:
-	SomaFMLibrary(QObject* parent=nullptr);
+	explicit SomaFMLibrary(QObject* parent=nullptr);
 	virtual ~SomaFMLibrary();
 
 	SomaFMStation get_station(const QString& name);

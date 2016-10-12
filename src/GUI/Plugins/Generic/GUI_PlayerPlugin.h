@@ -40,7 +40,9 @@ class GUI_PlayerPlugin :
 	Q_OBJECT
 
 public:
-	explicit GUI_PlayerPlugin(QWidget *parent = 0);
+	explicit GUI_PlayerPlugin(QWidget *parent = nullptr);
+	virtual ~GUI_PlayerPlugin();
+
 	void set_content(PlayerPluginInterface* player_plugin);
 	void show(PlayerPluginInterface* player_plugin);
 

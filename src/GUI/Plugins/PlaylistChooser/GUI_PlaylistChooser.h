@@ -60,7 +60,7 @@ signals:
 
 
 public:
-	GUI_PlaylistChooser(QWidget *parent=nullptr);
+	explicit GUI_PlaylistChooser(QWidget *parent=nullptr);
 	virtual ~GUI_PlaylistChooser();
 
 	QString get_name() const override;

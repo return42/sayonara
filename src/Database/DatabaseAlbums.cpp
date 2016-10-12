@@ -151,24 +151,6 @@ int DatabaseAlbums::getAlbumID (const QString & album)  {
 	return albumID;
 }
 
-int DatabaseAlbums::getMaxAlbumID() {
-
-	int max_id = -1;
-
-	SayonaraQuery q (_db);
-	q.prepare("SELECT MAX(albumID) FROM albums;");
-
-	if (!q.exec()) {
-		return -1;
-	}
-
-	while (q.next()) {
-		max_id = q.value(0).toInt();
-	}
-
-	return max_id;
-
-}
 
 bool DatabaseAlbums::getAlbumByID(const int& id, Album& album) {
 

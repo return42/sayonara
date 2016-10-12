@@ -24,6 +24,7 @@
 #define COVERLOOKUPALL_H
 
 #include "CoverLookup.h"
+#include "Helper/Pimpl.h"
 
 class AlbumList;
 
@@ -36,9 +37,8 @@ class CoverLookupAll : public CoverLookupInterface
 {
     Q_OBJECT
 
-private:
-	struct Private;
-	CoverLookupAll::Private* _m=nullptr;
+
+	PIMPL(CoverLookupAll)
 
 
 private slots:

@@ -26,6 +26,7 @@
 #include <QString>
 #include <QObject>
 
+#include "Helper/Pimpl.h"
 #include "Helper/MetaData/MetaDataList.h"
 
 typedef QMap<QString, QString> StreamMap;
@@ -115,8 +116,7 @@ signals:
 		void clear();
 
 	private:
-		struct Private;
-		AbstractStreamHandler::Private*	_m=nullptr;
+		PIMPL(AbstractStreamHandler)
 
 
 	protected:

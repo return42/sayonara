@@ -68,27 +68,6 @@ QList<MTP_FolderPtr> MTP_Folder::children() const
 }
 
 
-QList<MTP_FolderPtr> MTP_Folder::siblings() const
-{
-
-	MTPIntern_Folder* sibling;
-	QList<MTP_FolderPtr> siblings;
-
-	if(!_folder){
-		return siblings;
-	}
-
-	sibling = _folder->sibling;
-
-	while(sibling){
-		siblings << MTP_FolderPtr( new MTP_Folder(_device, sibling) );
-		sibling = sibling->sibling;
-	}
-
-	return siblings;
-}
-
-
 bool MTP_Folder::send_track(MTP_TrackPtr track) const
 {
 

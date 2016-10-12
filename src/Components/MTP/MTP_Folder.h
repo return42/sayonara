@@ -43,7 +43,7 @@ private:
 
 
 public:
-	MTP_Folder(MTPIntern_Device* device=nullptr, MTPIntern_Folder* folder=nullptr);
+	explicit MTP_Folder(MTPIntern_Device* device=nullptr, MTPIntern_Folder* folder=nullptr);
 	virtual ~MTP_Folder();
 
 	quint32 id() const;
@@ -52,8 +52,6 @@ public:
 	quint32 storage_id() const;
 
 	QList<MTP_FolderPtr> children() const;
-	QList<MTP_FolderPtr> siblings() const;
-
 
 	bool send_track(MTP_TrackPtr track) const;
 	bool remove() const;

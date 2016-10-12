@@ -49,7 +49,12 @@ GUI_StyleSettings::GUI_StyleSettings(QWidget *parent) :
 
     set_sth_changed(false);
 
-    init();
+	init();
+}
+
+GUI_StyleSettings::~GUI_StyleSettings()
+{
+
 }
 
 void GUI_StyleSettings::language_changed() {

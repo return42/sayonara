@@ -23,6 +23,7 @@
 #define COVERLOCATION_H
 
 #include <QMetaType>
+#include "Helper/Pimpl.h"
 
 class QUrl;
 class QString;
@@ -37,14 +38,13 @@ class Artist;
 class CoverLocation
 {
 
-private:
-	struct Private;
-	CoverLocation::Private* _m=nullptr;
+	PIMPL(CoverLocation)
 
 public:
 	CoverLocation();
-	CoverLocation(const CoverLocation&);
 	~CoverLocation();
+	CoverLocation(const CoverLocation& cl);
+	CoverLocation& operator=(const CoverLocation& cl);
 
 	void print() const;
     QString toString() const;
@@ -132,15 +132,6 @@ public:
 	 * @return CoverLocation object
 	 */
 	static CoverLocation get_cover_location(const QUrl& url, const QString& target_path);
-
-
-	/**
-	 * @brief fetch a cover for a specific search string
-	 * @param search_string the string where the cover has to be fetched for
-	 * @param target_path path where the found image has to be saved
-	 * @return CoverLocation object
-	 */
-	static CoverLocation get_cover_location_by_searchstring(const QString& search_string, const QString& target_path);
 
 
 	/**

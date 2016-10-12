@@ -69,8 +69,7 @@ private slots:
 
 
 public:
-	PlaylistTabMenu(QWidget* parent=nullptr);
-
+	explicit PlaylistTabMenu(QWidget* parent=nullptr);
 	~PlaylistTabMenu();
 
 	void show_menu_items(PlaylistMenuEntries entries);

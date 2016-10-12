@@ -49,11 +49,8 @@ signals:
 
 
 public:
-	PlaylistTabWidget(QWidget* parent=nullptr);
+	explicit PlaylistTabWidget(QWidget* parent=nullptr);
 	~PlaylistTabWidget();
-
-	void show_tabbar();
-	void hide_tabbar();
 
 	void show_menu_items(PlaylistMenuEntries actions);
 

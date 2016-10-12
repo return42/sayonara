@@ -211,12 +211,6 @@ void GUI_LocalLibrary::_sl_libpath_changed()
 }
 
 
-void GUI_LocalLibrary::paths_activated(const QStringList& paths)
-{
-	_library->psl_prepare_tracks_for_playlist(paths, false);
-}
-
-
 void GUI_LocalLibrary::genre_selection_changed(const QModelIndex& index){
 	QVariant data = index.data();
 	ui->combo_searchfilter->setCurrentIndex(1);

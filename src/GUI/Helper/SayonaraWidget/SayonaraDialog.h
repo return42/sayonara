@@ -44,7 +44,7 @@ signals:
 	void sig_closed();
 
 public:
-	SayonaraDialog(QWidget* parent=nullptr);
+	explicit SayonaraDialog(QWidget* parent=nullptr);
 	virtual ~SayonaraDialog();
 
 protected:

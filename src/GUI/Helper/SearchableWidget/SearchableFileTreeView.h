@@ -37,7 +37,8 @@ class AbstractSearchFileTreeModel :
 	Q_OBJECT
 
 public:
-	AbstractSearchFileTreeModel(QObject* parent=nullptr);
+	explicit AbstractSearchFileTreeModel(QObject* parent=nullptr);
+	virtual ~AbstractSearchFileTreeModel();
 
 public:
 	virtual QModelIndex getFirstRowIndexOf(QString substr) override;

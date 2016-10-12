@@ -39,7 +39,8 @@ private:
 	int			_fixed_height;
 
 public:
-	SayonaraLoadingBar(QWidget* parent);
+	explicit SayonaraLoadingBar(QWidget* parent);
+	virtual ~SayonaraLoadingBar();
 
 protected:
 	void showEvent(QShowEvent* e) override;

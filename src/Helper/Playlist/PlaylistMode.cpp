@@ -86,6 +86,11 @@ Playlist::Mode::Mode(){
 	_dynamic = Playlist::Mode::Off;
 }
 
+Playlist::Mode::~Mode()
+{
+
+}
+
 void Playlist::Mode::print()
 {
 	sp_log(Log::Debug) << "rep1 = "   << (int) _rep1 << ", "

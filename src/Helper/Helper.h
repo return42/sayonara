@@ -44,11 +44,7 @@ namespace Helper {
 		Q_OBJECT
 
 	public:
-		StringDummy(QObject* parent=nullptr) :
-			QObject(parent)
-		{
-
-		}
+		explicit StringDummy(QObject* parent=nullptr);
 
 		QString various();
 		QString days();
@@ -85,13 +81,6 @@ namespace Helper {
 	 */
 	QString cvt_ms_to_string(quint64 msec, bool empty_zero = false, bool colon=true, bool show_days=true);
 
-
-
-	/**
-	 * @brief get error log file
-	 * @return
-	 */
-	QString get_error_file();
 
 	/**
 	 * @brief get sayonara path in home directory

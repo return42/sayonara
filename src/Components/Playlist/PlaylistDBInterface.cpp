@@ -32,7 +32,6 @@ PlaylistDBInterface::PlaylistDBInterface(const QString& name)
 	_id = _playlist_db_connector->get_playlist_by_name(name).id();
 
 	_is_temporary = true;
-	_save_enabled = true;
 }
 
 PlaylistDBInterface::~PlaylistDBInterface(){}
@@ -61,14 +60,6 @@ bool PlaylistDBInterface::is_temporary() const{
 void PlaylistDBInterface::set_temporary(bool b){
 	_is_temporary = b;
 }
-
-
-void PlaylistDBInterface::set_skeleton(const CustomPlaylistSkeleton& skeleton){
-	_name = skeleton.name();
-	_id = skeleton.id();
-	_is_temporary = skeleton.temporary();
-}
-
 
 
 PlaylistDBInterface::SaveAsAnswer PlaylistDBInterface::save(){
@@ -253,16 +244,6 @@ bool PlaylistDBInterface::remove_from_db(){
 
 	_is_temporary = true;
 	return success;
-}
-
-void PlaylistDBInterface::enable_saving(bool b)
-{
-	_save_enabled = b;
-}
-
-bool PlaylistDBInterface::is_save_enabled() const
-{
-	return _save_enabled;
 }
 
 

@@ -36,12 +36,10 @@ class MTP_Storage
 
 public:
 
-	MTP_Storage(MTPIntern_Device* device=nullptr, MTPIntern_Storage* storage=nullptr);
+	explicit MTP_Storage(MTPIntern_Device* device=nullptr, MTPIntern_Storage* storage=nullptr);
 	virtual ~MTP_Storage();
 
 	quint32 id() const;
-	quint64 free_space() const;
-	quint64 max_space() const;
 	QString name() const;
 	QString identifier() const;
 
@@ -53,8 +51,6 @@ public:
 
 private:
 	quint32					_id;
-	quint64					_free_space;
-	quint64					_max_space;
 	QString					_name;
 	QString					_identifier;
 

@@ -34,7 +34,7 @@ private:
 	QIcon		_folder_icon;
 
 public:
-	explicit IconProvider();
+	IconProvider();
 
 	virtual QIcon icon(IconType type) const;
 	virtual QIcon icon(const QFileInfo &info) const;

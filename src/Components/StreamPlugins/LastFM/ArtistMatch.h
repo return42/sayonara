@@ -58,8 +58,9 @@ public:
 
 
 	ArtistMatch();
-	ArtistMatch(const QString& artist_name);
+	explicit ArtistMatch(const QString& artist_name);
 	ArtistMatch(const ArtistMatch& other);
+	virtual ~ArtistMatch();
 
 	/**
 	 * @brief checks, if structure is valid.

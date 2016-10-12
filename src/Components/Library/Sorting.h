@@ -77,11 +77,13 @@ namespace Library
 	    so_tracks = Library::SortOrder::TrackAlbumAsc;
 	}
 
-	Sortings(const Library::Sortings& so){
+	Sortings(const Sortings& so){
 	    so_albums = so.so_albums;
 	    so_artists = so.so_artists;
 	    so_tracks = so.so_tracks;
 	}
+
+	~Sortings(){}
 
 	bool operator==(Library::Sortings so){
 	    return  (so.so_albums == so_albums) &&

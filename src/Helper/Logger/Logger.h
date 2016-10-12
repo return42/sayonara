@@ -51,7 +51,7 @@ protected:
 
 public:
 
-	Logger(std::ostream& out);
+	explicit Logger(std::ostream& out);
 	Logger(const char* msg, std::ostream& out);
 
 	~Logger();

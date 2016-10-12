@@ -42,7 +42,7 @@ class GUI_MTP :
 	Q_OBJECT
 
 public:
-	GUI_MTP(QWidget* parent=nullptr);
+	explicit GUI_MTP(QWidget* parent=nullptr);
 	virtual ~GUI_MTP();
 
 	void device_opened(MTP_DevicePtr device);

@@ -38,8 +38,8 @@ class MTP_CopyFiles : public QThread
 	Q_OBJECT
 
 public:
-	explicit MTP_CopyFiles(const MetaDataList& v_md, MTP_FolderPtr folder, QObject *parent = 0);
-	explicit MTP_CopyFiles(const QStringList& files, MTP_FolderPtr folder, QObject *parent = 0);
+	explicit MTP_CopyFiles(const MetaDataList& v_md, MTP_FolderPtr folder, QObject *parent = nullptr);
+	explicit MTP_CopyFiles(const QStringList& files, MTP_FolderPtr folder, QObject *parent = nullptr);
 
 private:
 

@@ -26,6 +26,7 @@
 #define SOMAFMSTATION_H
 
 #include <QtGlobal>
+#include "Helper/Pimpl.h"
 
 class QStringList;
 class QString;
@@ -43,8 +44,9 @@ public:
 	};
 
 	SomaFMStation();
-	SomaFMStation(const QString& content);
+	explicit SomaFMStation(const QString& content);
 	SomaFMStation(const SomaFMStation& other);
+	SomaFMStation& operator=(const SomaFMStation& other);
 	~SomaFMStation();
 
 	QString get_name() const;
@@ -61,8 +63,7 @@ public:
 
 
 private:
-	struct Private;
-	SomaFMStation::Private* _m=nullptr;
+	PIMPL(SomaFMStation)
 
 private:
 	void parse_station_name();

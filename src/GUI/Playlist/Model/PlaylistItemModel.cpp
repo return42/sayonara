@@ -142,11 +142,6 @@ void PlaylistItemModel::set_current_track(int row)
 	_pl->change_track(row);
 }
 
-void PlaylistItemModel::insert_metadata(const MetaDataList& v_md, int target_index){
-
-	_pl->insert_tracks(v_md, target_index);
-}
-
 
 void PlaylistItemModel::get_metadata(const IdxList& rows, MetaDataList& v_md) {
 

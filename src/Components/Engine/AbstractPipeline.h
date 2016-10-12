@@ -28,6 +28,8 @@
 #include <gst/gst.h>
 #include <gst/gstbuffer.h>
 
+#include <memory>
+
 #include <QTimer>
 
 enum class GSTFileMode : quint8 {

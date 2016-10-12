@@ -72,7 +72,7 @@ signals:
 
 public:
 
-	GUI_Player(QTranslator* translator, QWidget *parent=nullptr);
+	explicit GUI_Player(QTranslator* translator, QWidget *parent=nullptr);
     ~GUI_Player();
 
 	void set_libraries(LibraryPluginHandler* plugin_loader);

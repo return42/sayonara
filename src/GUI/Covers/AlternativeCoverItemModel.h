@@ -58,7 +58,7 @@ class AlternativeCoverItemModel : public QAbstractTableModel {
 Q_OBJECT
 
 public:
-	AlternativeCoverItemModel(QObject* parent);
+	explicit AlternativeCoverItemModel(QObject* parent);
 	virtual ~AlternativeCoverItemModel();
 
 	int rowCount(const QModelIndex &parent = QModelIndex()) const override;

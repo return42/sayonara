@@ -53,9 +53,7 @@ signals:
 
 public:
 	void call_url(const QString& url);
-
 	void call_post_url(const QString& url, const QByteArray& post_data);
-//	void call_post_url_https(const QString& url, const QByteArray& post_data);
 
 private slots:
 	void awa_finished(bool success);
@@ -66,7 +64,6 @@ private:
 	bool check_error(const QByteArray& data, bool success);
 
 public:
-	static QString parse_session_answer(const QString& content);
 	static QString parse_token_answer(const QString& content);
 
 	static QString create_std_url(const QString& base_url, const UrlParams& data);

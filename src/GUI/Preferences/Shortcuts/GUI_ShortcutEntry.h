@@ -48,7 +48,8 @@ signals:
 	void sig_sequence_entered();
 
 public:
-	GUI_ShortcutEntry(const Shortcut& shortcut, QWidget* parent=nullptr);
+	explicit GUI_ShortcutEntry(const Shortcut& shortcut, QWidget* parent=nullptr);
+	virtual ~GUI_ShortcutEntry();
 
 	QList<QKeySequence> get_sequences() const;
 	void show_sequence_error();

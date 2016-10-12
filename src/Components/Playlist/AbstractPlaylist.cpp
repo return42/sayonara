@@ -30,6 +30,7 @@
 
 #include <utility>
 #include <algorithm>
+#include <memory>
 
 struct AbstractPlaylist::Private
 {
@@ -44,8 +45,9 @@ AbstractPlaylist::AbstractPlaylist(int idx, const QString& name) :
 	MetaDataChangeNotifier* md_change_notifier = MetaDataChangeNotifier::getInstance();
 	EngineHandler* engine = EngineHandler::getInstance();
 
-	_m = new AbstractPlaylist::Private();
+	_m = Pimpl::make<AbstractPlaylist::Private>();
 	_m->playlist_changed = false;
+
 	_playlist_idx = idx;
 	_playlist_mode = _settings->get(Set::PL_Mode);
 
@@ -60,7 +62,7 @@ AbstractPlaylist::AbstractPlaylist(int idx, const QString& name) :
 }
 
 AbstractPlaylist::~AbstractPlaylist(){
-	delete _m; _m = nullptr;
+	_m.release();
 }
 
 void AbstractPlaylist::clear() {
@@ -73,11 +75,6 @@ void AbstractPlaylist::clear() {
 	set_changed(true);
 }
 
-void AbstractPlaylist::move_track(const int idx, int tgt) {
-
-	SP::Set<int> indexes(idx);
-	move_tracks(indexes, tgt);
-}
 
 void AbstractPlaylist::move_tracks(const SP::Set<int>& indexes, int tgt) {
 
@@ -86,25 +83,12 @@ void AbstractPlaylist::move_tracks(const SP::Set<int>& indexes, int tgt) {
 	set_changed(true);
 }
 
-/*
- * TODO: UNUSED
-void AbstractPlaylist::copy_track(int idx, int tgt) {
 
-	SP::Set<int> indexes(idx);
-	copy_tracks(indexes, tgt);
-}
-*/
 void AbstractPlaylist::copy_tracks(const SP::Set<int>& indexes, int tgt) {
 
 	_m->v_md.copy_tracks(indexes, tgt);
 }
 
-
-
-void AbstractPlaylist::delete_track(const int idx) {
-	_m->v_md.remove_track(idx);
-	set_changed(true);
-}
 
 void AbstractPlaylist::delete_tracks(const SP::Set<int>& indexes) {
 	_m->v_md.remove_tracks(indexes);
@@ -126,14 +110,6 @@ void AbstractPlaylist::insert_tracks(const MetaDataList& lst, int tgt) {
 	set_changed(true);
 }
 
-/*
-void AbstractPlaylist::append_track(const MetaData& md) {
-
-	MetaDataList v_md;
-	v_md << md;
-	append_tracks(v_md);
-}
-*/
 
 void AbstractPlaylist::append_tracks(const MetaDataList& lst) {
 
@@ -200,9 +176,6 @@ quint64 AbstractPlaylist::get_running_time() const
 	return dur_ms;
 }
 
-Playlist::Mode AbstractPlaylist::get_playlist_mode() const {
-	return _playlist_mode;
-}
 
 int AbstractPlaylist::get_cur_track_idx() const {
 	return _m->v_md.get_cur_play_track();
@@ -276,8 +249,3 @@ const MetaData& AbstractPlaylist::operator[](int idx) const{
 const MetaData& AbstractPlaylist::at_const_ref(int idx) const {
 	return _m->v_md[idx];
 }
-
-/*MetaData& AbstractPlaylist::at_ref(int idx) {
-	return _m->v_md[idx];
-}*/
-

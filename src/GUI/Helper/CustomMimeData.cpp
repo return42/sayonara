@@ -24,18 +24,16 @@
 struct CustomMimeData::Private
 {
     MetaDataList    v_md;
-	QString			cover_url;
 };
 
 CustomMimeData::CustomMimeData() :
 	QMimeData()
 {
-	_m = new CustomMimeData::Private();
+	_m = Pimpl::make<CustomMimeData::Private>();
 }
 
 CustomMimeData::~CustomMimeData()
-{
-	delete _m; _m = nullptr;
+{	
 }
 
 
@@ -52,20 +50,4 @@ MetaDataList CustomMimeData::getMetaData() const
 bool CustomMimeData::hasMetaData() const
 {
 	return (_m->v_md.size() > 0);
-}
-
-// TODO: Never used
-/*void CustomMimeData::setCoverUrl(const QString& url)
-{
-	_m->cover_url = url;
-}*/
-
-QString CustomMimeData::getCoverUrl() const 
-{
-	return _m->cover_url;
-}
-
-bool CustomMimeData::hasCoverUrl() const
-{
-	return (!_m->cover_url.isEmpty());
 }

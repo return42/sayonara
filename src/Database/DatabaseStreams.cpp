@@ -90,25 +90,6 @@ bool DatabaseStreams::addStream(const QString& name, const QString& url) {
 	return true;
 }
 
-bool DatabaseStreams::renameStream(const QString& name, const QString& url)
-{
-	DB_RETURN_NOT_OPEN_BOOL(_db);
-
-	SayonaraQuery q (_db);
-
-	q.prepare("UPDATE savedstreams SET name=:name WHERE url=:url;");
-	q.bindValue(":name", name);
-	q.bindValue(":url", url);
-
-	if(!q.exec()) {
-		q.show_error(QString("Could not rename stream ") + name);
-		return false;
-	}
-
-	return true;
-}
-
-
 
 bool DatabaseStreams::updateStreamUrl(const QString& name, const QString& url)
 {

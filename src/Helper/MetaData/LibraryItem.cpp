@@ -91,15 +91,6 @@ const QList<CustomField>& LibraryItem::get_custom_fields() const {
 	return _additional_data;
 }
 
-int LibraryItem::has_custom_field(const QString& id) const {
-	for(int i=0; i<_additional_data.size(); i++){
-		if(_additional_data[i].get_id() == id){
-			return i;
-		}
-	}
-
-	return -1;
-}
 
 QString LibraryItem::get_custom_field(const QString& id) const {
 

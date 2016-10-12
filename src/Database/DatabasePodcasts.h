@@ -34,7 +34,6 @@ public:
 	bool getAllPodcasts(QMap<QString, QString>& result);
 	bool deletePodcast(const QString& name);
 	bool addPodcast(const QString& name, const QString& url);
-	bool renamePodcast(const QString& name, const QString& url);
 	bool updatePodcastUrl(const QString& name, const QString& url);
 };
 

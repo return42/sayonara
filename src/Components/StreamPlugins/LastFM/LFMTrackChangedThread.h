@@ -34,6 +34,7 @@
 #include "ArtistMatch.h"
 #include "Helper/typedefs.h"
 #include "Helper/MetaData/MetaDataFwd.h"
+#include "Helper/Pimpl.h"
 
 class SmartCompare;
 class LFMTrackChangedThread :
@@ -47,22 +48,18 @@ signals:
 
 
 public:
-	LFMTrackChangedThread(const QString& username=QString(), const QString& session_key=QString(), QObject* parent=nullptr);
+	explicit LFMTrackChangedThread(const QString& username=QString(), const QString& session_key=QString(), QObject* parent=nullptr);
 	~LFMTrackChangedThread();
-
 
 	void set_session_key(const QString& session_key);
 	void set_username(const QString& username);
-
 
 	void search_similar_artists(const MetaData& md);
 	void update_now_playing(const MetaData& md);
 
 
 private:
-
-	struct Private;
-	LFMTrackChangedThread::Private*	_m=nullptr;
+	PIMPL(LFMTrackChangedThread)
 	
 private:
 	void evaluate_artist_match(const ArtistMatch& artist_match);

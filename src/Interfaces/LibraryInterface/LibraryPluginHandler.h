@@ -57,7 +57,7 @@ private:
 
 
 public:
-	LibraryPluginHandler(QObject* parent=nullptr);
+	explicit LibraryPluginHandler(QObject* parent=nullptr);
 	~LibraryPluginHandler();
 
 

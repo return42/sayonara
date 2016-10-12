@@ -32,7 +32,7 @@ class GUI_TargetPlaylistDialog :
     Q_OBJECT
 
 public:
-	GUI_TargetPlaylistDialog(QWidget *parent=nullptr);
+	explicit GUI_TargetPlaylistDialog(QWidget *parent=nullptr);
 	virtual ~GUI_TargetPlaylistDialog();
 
 signals:

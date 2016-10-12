@@ -36,7 +36,7 @@ class SearchSlider: public SayonaraSlider {
 
 public:
 
-	SearchSlider(QWidget* parent=nullptr);
+	explicit SearchSlider(QWidget* parent=nullptr);
 	virtual ~SearchSlider();
 
 	bool is_busy() const;

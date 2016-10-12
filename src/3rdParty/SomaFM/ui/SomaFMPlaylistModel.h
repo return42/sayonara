@@ -40,7 +40,9 @@ private:
 	SomaFMStation _station;
 
 public:
-    SomaFMPlaylistModel(QObject* parent=nullptr);
+	explicit SomaFMPlaylistModel(QObject* parent=nullptr);
+	virtual ~SomaFMPlaylistModel();
+
     QMimeData* mimeData(const QModelIndexList &indexes) const override;
 
     void setStation(const SomaFMStation& station);

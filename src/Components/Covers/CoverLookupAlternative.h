@@ -22,6 +22,7 @@
 #define COVERLOOKUPALTERNATIVE_H
 
 #include "CoverLookup.h"
+#include "Helper/Pimpl.h"
 
 /**
  * @brief The CoverLookupAlternative class
@@ -32,12 +33,10 @@ class CoverLookupAlternative :
 {
 
     Q_OBJECT
+	PIMPL(CoverLookupAlternative)
 
 private:
     CoverLookupAlternative(QObject* parent, int n_covers);
-
-	struct Private;
-	CoverLookupAlternative::Private* _m=nullptr;
 
 
 public:

@@ -85,7 +85,7 @@ struct CachingThread::Private {
 CachingThread::CachingThread(const QStringList& file_list, QObject *parent) :
 	QThread(parent)
 {
-	_m = new CachingThread::Private;
+	_m = Pimpl::make<CachingThread::Private>();
 
 	_m->file_list = file_list;
 	_m->cancelled = false;
@@ -93,7 +93,7 @@ CachingThread::CachingThread(const QStringList& file_list, QObject *parent) :
 
 CachingThread::~CachingThread()
 {
-	delete _m; _m = nullptr;
+
 }
 
 void CachingThread::run()

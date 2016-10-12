@@ -31,7 +31,7 @@ class DirectoryDelegate : public QItemDelegate
 	Q_OBJECT
 
 public:
-	DirectoryDelegate(QObject* parent=nullptr);
+	explicit DirectoryDelegate(QObject* parent=nullptr);
 	~DirectoryDelegate();
 
 public:

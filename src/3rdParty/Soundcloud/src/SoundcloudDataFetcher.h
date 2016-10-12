@@ -24,6 +24,7 @@
 
 #include <QObject>
 #include <QString>
+#include "Helper/Pimpl.h"
 
 class ArtistList;
 class AlbumList;
@@ -41,13 +42,11 @@ signals:
 	void sig_tracks_fetched(const MetaDataList& v_md);
 
 public:
-	SoundcloudDataFetcher(QObject* parent=nullptr);
+	explicit SoundcloudDataFetcher(QObject* parent=nullptr);
 	~SoundcloudDataFetcher();
 
 	void search_artists(const QString& artist_name);
 	void get_artist(int artist_id);
-
-	void get_playlists_by_artist(int artist_id);
 	void get_tracks_by_artist(int artist_id);
 
 	void clear();
@@ -59,9 +58,7 @@ private slots:
 	void tracks_fetched(bool success);
 
 private:
-
-	struct Private;
-	SoundcloudDataFetcher::Private*	_m=nullptr;
+	PIMPL(SoundcloudDataFetcher)
 };
 
 #endif // SOUNDCLOUDDataFetcher_H

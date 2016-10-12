@@ -49,7 +49,7 @@ public:
 	 * @brief Standard constructor
 	 * @param parent
 	 */
-	PreferenceWidgetInterface(QWidget* parent=nullptr);
+	explicit PreferenceWidgetInterface(QWidget* parent=nullptr);
 	virtual ~PreferenceWidgetInterface();
 };
 

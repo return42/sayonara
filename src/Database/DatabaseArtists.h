@@ -49,12 +49,8 @@ public:
 
 	virtual int getArtistID (const QString& artist);
 	virtual bool getArtistByID(int id, Artist& artist);
-	virtual int getMaxArtistID();
 
 	virtual bool getAllArtists(ArtistList& result, Library::SortOrder sortorder = Library::SortOrder::ArtistNameAsc, bool also_empty=false);
-
-	virtual bool getAllArtistsByAlbum(int album, ArtistList& result, Library::SortOrder sortorder = Library::SortOrder::ArtistNameAsc);
-
 	virtual bool getAllArtistsBySearchString(Library::Filter filter, ArtistList& result, Library::SortOrder sortorder = Library::SortOrder::ArtistNameAsc);
 
 	virtual int insertArtistIntoDatabase (const QString& artist);

@@ -145,15 +145,6 @@ void GUI_StreamRecorder::revert(){
 }
 
 
-void GUI_StreamRecorder::record_button_toggled(bool b) {
-
-	ui->btn_path->setEnabled(!b);
-	ui->cb_activate->setEnabled(!b);
-	ui->cb_create_session_path->setEnabled(!b);
-	ui->le_path->setEnabled(!b);
-}
-
-
 QString GUI_StreamRecorder::get_action_name() const
 {
 	return tr("Stream recorder");

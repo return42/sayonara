@@ -56,7 +56,7 @@ StreamServer::StreamServer(QObject* parent) :
 	PlayManager* play_manager;
 	EngineHandler* engine;
 
-	_m = new StreamServer::Private();
+	_m = Pimpl::make<StreamServer::Private>();
 	_m->asking = false;
 	_m->mp3_enc_available = false;
 
@@ -84,7 +84,6 @@ StreamServer::~StreamServer(){
 		delete _m->server;
 		_m->server = nullptr;
 	}
-	delete _m; _m = nullptr;
 
 	Helper::sleep_ms(500);
 }

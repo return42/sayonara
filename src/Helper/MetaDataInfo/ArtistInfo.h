@@ -44,7 +44,7 @@ private:
 	void calc_similar_artists(Artist& artist);
 
 public:
-	ArtistInfo(const MetaDataList& v_md);
+	explicit ArtistInfo(const MetaDataList& v_md);
 	virtual ~ArtistInfo();
 
 	QString get_additional_info_as_string() const override;

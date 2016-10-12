@@ -116,13 +116,12 @@ struct SomaFMStation::Private
 			cover = CoverLocation::get_cover_location(QUrl(url), cover_path);
 		}
 	}
-
-
 };
+
 
 SomaFMStation::SomaFMStation()
 {
-	_m = new SomaFMStation::Private;
+	_m = Pimpl::make<SomaFMStation::Private>();
 	_m->cover = CoverLocation::getInvalidLocation();
 	_m->loved = false;
 }
@@ -138,17 +137,22 @@ SomaFMStation::SomaFMStation(const QString& content) :
 	_m->parse_urls();
 }
 
-SomaFMStation::~SomaFMStation()
-{
-	delete _m; _m = nullptr;
-}
-
 SomaFMStation::SomaFMStation(const SomaFMStation& other)
 {
-	SomaFMStation::Private* other_private = other._m;
-	(*_m) = (*other_private);
-	
+	_m = Pimpl::make<SomaFMStation::Private>();
+	SomaFMStation::Private data = *(other._m.get());
+	(*_m) = data;
 }
+
+SomaFMStation& SomaFMStation::operator=(const SomaFMStation& other)
+{
+	SomaFMStation::Private data = *(other._m.get());
+	(*_m) = data;
+	return *this;
+}
+
+SomaFMStation::~SomaFMStation() {}
+
 
 QString SomaFMStation::get_name() const
 {

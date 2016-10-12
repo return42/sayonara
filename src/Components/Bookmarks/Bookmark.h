@@ -38,7 +38,7 @@ class Bookmark {
 
 	public:
 
-		Bookmark(quint32 time=0, const QString& name=QString(), bool valid=false);
+		explicit Bookmark(quint32 time=0, const QString& name=QString(), bool valid=false);
 
 		quint32 get_time() const;
 		QString get_name() const;

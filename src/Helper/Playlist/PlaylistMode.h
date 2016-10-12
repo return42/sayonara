@@ -73,6 +73,7 @@ namespace Playlist
 		static bool isActiveAndEnabled(Playlist::Mode::State pl);
 
 		Mode();
+		virtual ~Mode();
 
 		void print();
 

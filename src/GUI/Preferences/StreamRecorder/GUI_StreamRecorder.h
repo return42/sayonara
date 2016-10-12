@@ -41,12 +41,8 @@ class GUI_StreamRecorder :
 	friend class PreferenceWidgetInterface;
 	friend class PreferenceInterface<SayonaraWidget>;
 
-
-public slots:
-	void record_button_toggled(bool);
-
 public:
-	GUI_StreamRecorder(QWidget* parent=nullptr);
+	explicit GUI_StreamRecorder(QWidget* parent=nullptr);
 	virtual ~GUI_StreamRecorder();
 
 	void commit() override;

@@ -82,7 +82,7 @@ public slots:
 
 
 public:
-	EnginePlugin(QWidget* parent=nullptr);
+	explicit EnginePlugin(QWidget* parent=nullptr);
     virtual ~EnginePlugin();
 
 	virtual bool is_title_shown() const override;

@@ -35,7 +35,8 @@ class ComboBoxDelegate : public QStyledItemDelegate
 Q_OBJECT
 
 public:
-  ComboBoxDelegate(QObject *parent = nullptr);
+  explicit ComboBoxDelegate(QObject *parent = nullptr);
+  virtual ~ComboBoxDelegate();
 
   virtual void paint(QPainter *painter, const QStyleOptionViewItem & option, const QModelIndex & index) const override;
   virtual QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const override;

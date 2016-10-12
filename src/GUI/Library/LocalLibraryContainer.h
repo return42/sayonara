@@ -37,7 +37,8 @@ private:
 
 public:
 
-	LocalLibraryContainer(QObject* parent=nullptr);
+	explicit LocalLibraryContainer(QObject* parent=nullptr);
+	virtual ~LocalLibraryContainer();
 
 	// override from LibraryViewInterface
 	QString     get_name() const override;

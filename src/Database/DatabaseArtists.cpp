@@ -87,30 +87,6 @@ QString DatabaseArtists::_create_order_string(Library::SortOrder sort) {
 	}
 }
 
-int DatabaseArtists::getMaxArtistID() {
-
-#ifdef DEBUG_DB
-	sp_log(Log::Debug) << Q_FUNC_INFO;
-#endif
-
-	DB_RETURN_NOT_OPEN_INT(_db);
-
-	int max_id = -1;
-
-	SayonaraQuery q (_db);
-	q.prepare("SELECT MAX(artistID) FROM artists;");
-
-	if (!q.exec()) {
-		q.show_error("Cannot get max artist id");
-		return -1;
-	}
-
-	while (q.next()) {
-		max_id = q.value(0).toInt();
-	}
-
-	return max_id;
-}
 
 bool DatabaseArtists::getArtistByID(int id, Artist& artist) {
 
@@ -182,21 +158,6 @@ bool DatabaseArtists::getAllArtists(ArtistList& result, Library::SortOrder sorto
 
 	return db_fetch_artists(q, result);
 
-}
-
-bool DatabaseArtists::getAllArtistsByAlbum(int album, ArtistList& result, Library::SortOrder sortorder) {
-
-	DB_RETURN_NOT_OPEN_BOOL(_db);
-
-	SayonaraQuery q (_db);
-	q.prepare(	_fetch_query +
-				"WHERE Tracks.albumID = albums.albumID " +
-				"AND artists.artistid = tracks.artistid " +
-				"AND albums.albumid=" + QString::number(album) + " " +
-				"GROUP BY artists.artistID, artists.name " +
-				_create_order_string(sortorder) + "; ");
-
-	return db_fetch_artists(q, result);
 }
 
 bool DatabaseArtists::getAllArtistsBySearchString(Library::Filter filter, ArtistList& result, Library::SortOrder sortorder) {

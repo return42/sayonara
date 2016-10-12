@@ -38,8 +38,6 @@ PlayerPluginInterface::PlayerPluginInterface(QWidget *parent) :
 	_pp_action = new QAction(nullptr);
 	_pp_action->setCheckable(true);
 
-    _pp_is_closed = true;
-
 	connect(_pp_action, &QAction::triggered, this, &PlayerPluginInterface::action_triggered);
 	connect(_play_manager, &PlayManager::sig_playstate_changed,	this, &PlayerPluginInterface::playstate_changed);
 
@@ -86,10 +84,6 @@ QSize PlayerPluginInterface::get_size() const
 }
 
 
-void PlayerPluginInterface::set_size(QSize size) {
-	this->setMinimumSize(size);
-}
-
 void PlayerPluginInterface::finalize_initialization()
 {
 	QLayout* widget_layout = layout();
@@ -131,7 +125,6 @@ void PlayerPluginInterface::set_ui_initialized()
 void PlayerPluginInterface::action_triggered(bool b) {
 
 	_pp_action->setChecked(b);
-	_pp_is_closed = !b;
 
 	skin_changed();
 
@@ -143,11 +136,6 @@ void PlayerPluginInterface::_sl_lang_changed()
 	if(!is_ui_initialized()){
 		return;
 	}
-}
-
-bool PlayerPluginInterface::is_closed() const
-{
-    return _pp_is_closed;
 }
 
 

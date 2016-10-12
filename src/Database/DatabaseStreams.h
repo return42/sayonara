@@ -34,7 +34,6 @@ public:
 	bool getAllStreams(QMap<QString, QString>& result);
 	bool deleteStream(const QString& name);
 	bool addStream(const QString& name, const QString& url);
-	bool renameStream(const QString& name, const QString& url);
 	bool updateStreamUrl(const QString& name, const QString& url);
 
 };

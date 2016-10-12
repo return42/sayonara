@@ -27,6 +27,8 @@
 #include <QString>
 #include <QStringList>
 
+#include "Helper/Pimpl.h"
+
 class MetaData;
 class MetaDataList;
 
@@ -34,15 +36,15 @@ class ImportCache
 {
 
 private:
-	struct Private;
-	ImportCache::Private*		_m=nullptr;
+	PIMPL(ImportCache)
 
 public:
 
 	ImportCache();
 	virtual ~ImportCache();
-	ImportCache(const ImportCache& other);
 
+	ImportCache(const ImportCache& other);
+	ImportCache& operator=(const ImportCache& other);
 
 	void			clear();
 

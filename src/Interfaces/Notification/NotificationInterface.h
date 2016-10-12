@@ -40,7 +40,7 @@ public:
 	 * @brief Constructor
 	 * @param name appearing in GUI_Notifications
 	 */
-	NotificationInterface(const QString& name);
+	explicit NotificationInterface(const QString& name);
 
 	virtual ~NotificationInterface();
 

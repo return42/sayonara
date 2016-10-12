@@ -30,14 +30,10 @@
 class MTP_Device {
 
 public:
-	MTP_Device(MTPIntern_Device* device);
+	explicit MTP_Device(MTPIntern_Device* device);
 	virtual ~MTP_Device();
 
 	quint32 id() const;
-/*	QString default_album_dir() const;
-	QString default_plaliyst_dir() const;
-	QString default_music_dir() const;*/
-	QString friendly_name() const;
 	QList<MTP_StoragePtr> storages();
 
 	static QList<MTP_DevicePtr> get_all_connected_devices();

@@ -69,20 +69,6 @@ void DirectoryReader::get_files_in_dir_rec(QDir base_dir, QStringList& files) co
 	}
 }
 
-QStringList DirectoryReader::get_files_in_dir(const QDir& base_dir) const
-{
-
-	QStringList entries, files;
-
-	entries = base_dir.entryList(_name_filters, QDir::Files);
-
-	for(const QString& file : entries) {
-		files << base_dir.absoluteFilePath(file);
-	}
-
-	return files;
-}
-
 
 MetaDataList DirectoryReader::get_md_from_filelist(const QStringList& lst)
 {

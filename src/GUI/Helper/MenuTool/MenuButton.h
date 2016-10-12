@@ -68,7 +68,7 @@ protected:
 	void set_std_icon();
 
 public:
-	MenuButton(QWidget* parent=nullptr);
+	explicit MenuButton(QWidget* parent=nullptr);
 	virtual ~MenuButton();
 
 	void set_show_title(bool show_title);

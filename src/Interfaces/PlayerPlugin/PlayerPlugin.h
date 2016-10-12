@@ -49,7 +49,7 @@ class PlayerPluginInterface :
     Q_OBJECT
 
 public:
-	PlayerPluginInterface(QWidget *parent=nullptr);
+	explicit PlayerPluginInterface(QWidget *parent=nullptr);
 	virtual ~PlayerPluginInterface();
 
 signals:
@@ -79,10 +79,8 @@ private slots:
 	void _sl_lang_changed();
 
 private:
-    bool        _pp_is_closed;
 	bool		_is_initialized;
 
-	void		set_size(QSize size);
 	void		finalize_initialization();
 
 	/**
@@ -181,11 +179,6 @@ public:
 	 */
 	virtual QAction*		get_action() const final;
 
-	/**
-	 * @brief needed by the player ui, final
-	 * @return visibility of plugin
-	 */
-	virtual bool			is_closed() const final;
 
 	/**
 	 * @brief must be overwritten

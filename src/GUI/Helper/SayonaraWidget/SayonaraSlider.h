@@ -40,7 +40,7 @@ class SayonaraSlider : public QSlider {
 		void sig_slider_hovered(int);
 
 	public:
-		SayonaraSlider(QWidget* parent=nullptr);
+		explicit SayonaraSlider(QWidget* parent=nullptr);
 		virtual ~SayonaraSlider() {}
 
 	protected:

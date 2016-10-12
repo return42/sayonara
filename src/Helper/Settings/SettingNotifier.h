@@ -56,7 +56,7 @@ template < typename T >
 class SettingNotifier : public AbstrSettingNotifier {
 
 	private:
-		SettingNotifier( QObject* parent=0 ) : AbstrSettingNotifier(parent) {}
+		explicit SettingNotifier( QObject* parent=0 ) : AbstrSettingNotifier(parent) {}
 		SettingNotifier( const SettingNotifier& ){}
 
 	public:

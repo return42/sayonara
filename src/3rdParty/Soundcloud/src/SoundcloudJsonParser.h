@@ -74,14 +74,12 @@ private:
 
 
 public:
-	SoundcloudJsonParser(const QByteArray& content);
+	explicit SoundcloudJsonParser(const QByteArray& content);
 	~SoundcloudJsonParser();
 
 
 	bool				get_string(const QString& key, const QJsonObject& object, QString& str);
 	bool				get_int(const QString& key, const QJsonObject& object, int& i);
-	bool				get_double(const QString& key, const QJsonObject& object, double& d);
-	bool				get_bool(const QString& key, const QJsonObject& object, bool& b);
 	bool				get_array(const QString& key, const QJsonObject& object, QJsonArray& arr);
 	bool				get_object(const QString& key, const QJsonObject& object, QJsonObject& o);
 

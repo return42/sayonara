@@ -64,10 +64,6 @@ void Engine::update_duration(GstElement* src){
 
 }
 
-void Engine::update_time(qint32 time, GstElement* src){
-	Q_UNUSED(src)
-	Q_UNUSED(time)
-}
 
 void Engine::update_bitrate(quint32 br, GstElement* src){
 	Q_UNUSED(src)

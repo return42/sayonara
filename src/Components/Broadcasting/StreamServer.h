@@ -23,6 +23,7 @@
 
 #include "StreamWriter.h"
 #include "Helper/Settings/SayonaraClass.h"
+#include "Helper/Pimpl.h"
 
 #include <QThread>
 #include <QList>
@@ -46,12 +47,11 @@ class StreamServer :
 		void sig_can_listen(bool);
 
 	public:
-		StreamServer(QObject* parent=nullptr);
+		explicit StreamServer(QObject* parent=nullptr);
 		virtual ~StreamServer();
 
 	private:
-		struct Private;
-		StreamServer::Private*				_m = nullptr;
+		PIMPL(StreamServer)
 
 		// create new server and listen
 		void create_server();

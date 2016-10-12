@@ -29,15 +29,6 @@
  */
 namespace LocalCoverSearcher
 {
-
-	/**
-	 * @brief Determines if filepath is a dir or a file and calls
-	 *   get_local_cover_paths_from_filename or get_local_cover_paths_from_dirname
-	 * @param filepath Filepath may be a directory or a filename
-	 * @return Paths for all covers in that directory
-	 */
-	QStringList get_local_cover_paths(const QString& filepath);
-
 	/**
 	 * @brief Extracts dirname and calls get_local_cover_paths_from_dirname
 	 * @param filename filename of a file within the same directory. E.g. a mp3 file

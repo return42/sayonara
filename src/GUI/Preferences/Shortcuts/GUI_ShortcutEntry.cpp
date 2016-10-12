@@ -50,6 +50,11 @@ GUI_ShortcutEntry::GUI_ShortcutEntry(const Shortcut& shortcut, QWidget* parent) 
 	skin_changed();
 }
 
+GUI_ShortcutEntry::~GUI_ShortcutEntry()
+{
+
+}
+
 QList<QKeySequence> GUI_ShortcutEntry::get_sequences() const
 {
 	return le_entry->get_sequences();

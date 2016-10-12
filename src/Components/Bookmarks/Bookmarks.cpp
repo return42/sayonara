@@ -47,8 +47,8 @@ struct Bookmarks::Private
 Bookmarks::Bookmarks(QObject *parent) :
 	QObject(parent)
 {
+	_m = Pimpl::make<Bookmarks::Private>();
 
-	_m = new Bookmarks::Private();
 	_m->play_manager = PlayManager::getInstance();
 	_m->db = DatabaseConnector::getInstance();
 
@@ -63,7 +63,7 @@ Bookmarks::Bookmarks(QObject *parent) :
 
 Bookmarks::~Bookmarks()
 {
-	delete _m;
+
 }
 
 void Bookmarks::init_members()
@@ -134,17 +134,6 @@ bool Bookmarks::save()
 
 bool Bookmarks::remove(int idx){
 	bool success = _m->db->removeBookmark(_m->md.id, _m->bookmarks[idx].get_time());
-
-	if(success){
-		reload_bookmarks();
-	}
-
-	return success;
-}
-
-
-bool Bookmarks::remove_all(){
-	bool success = _m->db->removeAllBookmarks(_m->md.id);
 
 	if(success){
 		reload_bookmarks();

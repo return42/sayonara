@@ -38,7 +38,7 @@ class EqSlider :
 		void sig_value_changed(int idx, int val);
 
 	public:
-		EqSlider(QWidget* parent);
+		explicit EqSlider(QWidget* parent);
 		virtual ~EqSlider() {}
 
 		/**
@@ -61,22 +61,11 @@ class EqSlider :
 		int getIndex() const;
 
 		/**
-		 * @brief set the index of the slider
-		 * @param idx new index
-		 */
-		void setIndex(int idx);
-
-		/**
 		 * @brief get the gstreamer compatible value
 		 * @return
 		 */
 		double get_eq_value() const;
 
-		/**
-		 * @brief set the gstreamer compatible value
-		 * @param val
-		 */
-		void set_eq_value(double val);
 
 	protected:
 		void sliderChange(SliderChange change) override;

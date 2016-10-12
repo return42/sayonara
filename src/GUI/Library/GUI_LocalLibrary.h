@@ -54,7 +54,7 @@ Q_OBJECT
 
 public:
 
-	GUI_LocalLibrary(QWidget* parent=nullptr);
+	explicit GUI_LocalLibrary(QWidget* parent=nullptr);
 	virtual ~GUI_LocalLibrary();
 
 	QComboBox*	get_libchooser() const;
@@ -75,10 +75,6 @@ protected slots:
 	void progress_changed(const QString& type, int progress);
 
 	void genre_selection_changed(const QModelIndex& index);
-	void paths_activated(const QStringList& paths);
-
-	// after drag and drop from library views we land here
-
 
 	void reload_library_requested();
 	void import_dirs_requested();

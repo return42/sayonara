@@ -55,7 +55,7 @@ namespace SP {
 		 * @brief Constructs a set with a single element
 		 * @param one_element the first element
 		 */
-		Set(const T& one_element) :
+		explicit Set(const T& one_element) :
 			Set()
 		{
 			this->insert(one_element);

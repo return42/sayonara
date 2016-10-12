@@ -74,7 +74,7 @@ LastFM::LastFM() :
 	QObject(),
 	SayonaraClass()
 {
-	_m = new LastFM::Private();
+	_m = Pimpl::make<LastFM::Private>();
 	_m->play_manager = PlayManager::getInstance();
 
 	_m->logged_in = false;
@@ -92,7 +92,7 @@ LastFM::LastFM() :
 }
 
 LastFM::~LastFM() {
-	delete _m; _m = nullptr;
+
 }
 
 void LastFM::get_login(QString& user, QString& pw){
@@ -121,11 +121,6 @@ void LastFM::psl_login() {
 
 	_m->logged_in = false;
 	_m->login_thread->login(_m->username, password);
-}
-
-
-void LastFM::psl_logout(){
-	_m->logged_in = false;
 }
 
 

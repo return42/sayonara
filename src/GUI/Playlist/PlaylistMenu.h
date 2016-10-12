@@ -41,7 +41,7 @@ signals:
 	void sig_shutdown(bool);
 
 public:
-	PlaylistMenu(QWidget* parent=nullptr);
+	explicit PlaylistMenu(QWidget* parent=nullptr);
 	void set_shutdown(bool b);
 
 private:

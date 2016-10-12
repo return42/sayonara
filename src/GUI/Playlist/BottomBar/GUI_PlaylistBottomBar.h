@@ -50,7 +50,6 @@ public:
 	virtual ~GUI_PlaylistBottomBar();
 
 	void check_dynamic_play_button();
-	void set_playlist_type(Playlist::Type playlist_type);
 
 private slots:
 

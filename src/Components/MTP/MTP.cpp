@@ -35,10 +35,6 @@ MTP::~MTP()
 }
 
 
-void MTP::run_devices(){
-	_devices = MTP_Device::get_all_connected_devices();
-}
-
 void MTP::run_raw_devices(){
 
 	MTPIntern_RawDevice* raw_device_ptr;
@@ -67,7 +63,6 @@ void MTP::run_raw_devices(){
 void MTP::run(){
 
 	_raw_devices.clear();
-	_devices.clear();
 
 	run_raw_devices();
 }
@@ -76,8 +71,5 @@ QList<MTP_RawDevicePtr> MTP::get_raw_devices(){
 	return _raw_devices;
 }
 
-QList<MTP_DevicePtr> MTP::get_devices(){
-	return _devices;
-}
 
 

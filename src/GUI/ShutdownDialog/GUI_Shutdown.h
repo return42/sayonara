@@ -45,7 +45,8 @@ private slots:
 	void rb_after_minutes_clicked(bool b);
 
 public:
-	GUI_Shutdown(QWidget* parent=nullptr);
+	explicit GUI_Shutdown(QWidget* parent=nullptr);
+	virtual ~GUI_Shutdown();
 };
 
 #endif

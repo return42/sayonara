@@ -27,6 +27,7 @@
 
 #include "GUI/Helper/SayonaraWidget/SayonaraDialog.h"
 #include "Helper/MetaData/MetaDataFwd.h"
+#include "Helper/Pimpl.h"
 
 class GUI_TagEdit;
 class LyricLookupThread;
@@ -56,7 +57,7 @@ public:
 		Edit=2
 	};
 
-	GUI_InfoDialog(InfoDialogContainer* container, QWidget* parent=nullptr);
+	explicit GUI_InfoDialog(InfoDialogContainer* container, QWidget* parent=nullptr);
 	virtual ~GUI_InfoDialog();
 
 	void set_metadata(const MetaDataList& vd, MD::Interpretation interpretation);
@@ -88,9 +89,8 @@ private:
 
 private:
 
-	struct Private;
-	GUI_InfoDialog::Private*	_m=nullptr;
-	Ui::InfoDialog*				ui=nullptr;
+	PIMPL(GUI_InfoDialog)
+	Ui::InfoDialog*	ui=nullptr;
 
 };
 

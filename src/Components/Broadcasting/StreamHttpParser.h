@@ -66,7 +66,6 @@ public:
 	HttpAnswer parse(const QByteArray& data);
 
 	QString		get_host() const;
-	QString		get_user_agent() const;
 	bool		is_icy() const;
 };
 

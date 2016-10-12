@@ -48,23 +48,25 @@ struct CoverLocation::Private
 CoverLocation::CoverLocation() {
 	qRegisterMetaType<CoverLocation>("CoverLocation");
 
-	_m = new CoverLocation::Private();
+	_m = Pimpl::make<CoverLocation::Private>();
 	_m->valid = false;
 }
 
-CoverLocation::CoverLocation(const CoverLocation& cl) : 
-	CoverLocation()
+CoverLocation::~CoverLocation() {}
+
+CoverLocation::CoverLocation(const CoverLocation& other)
 {
-	_m->search_url = cl.search_url();
-	_m->search_term = cl.search_term();
-	_m->cover_path = cl.cover_path();
-	_m->local_paths = cl.local_paths();
-	_m->valid = cl.valid();
+	_m = Pimpl::make<CoverLocation::Private>();
+	CoverLocation::Private data = *(other._m.get());
+	(*_m) = data;
 }
 
-CoverLocation::~CoverLocation()
+CoverLocation& CoverLocation::operator=(const CoverLocation& other)
 {
-	delete _m; _m = nullptr;
+	CoverLocation::Private data = *(other._m.get());
+	(*_m) = data;
+
+	return *this;
 }
 
 QString CoverLocation::get_cover_directory(){
@@ -255,18 +257,6 @@ CoverLocation CoverLocation::get_cover_location(const QUrl& url, const QString& 
 	CoverLocation cl;
 	cl._m->cover_path = target_path;
 	cl._m->search_url = url.toString();
-	cl._m->valid = true;
-
-	return cl;
-}
-
-
-CoverLocation CoverLocation::get_cover_location_by_searchstring(const QString& search_string, const QString& target_path)
-{
-	CoverLocation cl;
-	cl._m->cover_path = target_path;
-	cl._m->search_term = search_string;
-	cl._m->search_url = CoverHelper::calc_google_image_search_address(search_string);
 	cl._m->valid = true;
 
 	return cl;

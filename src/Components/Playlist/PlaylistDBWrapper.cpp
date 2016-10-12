@@ -63,13 +63,6 @@ bool PlaylistDBWrapper::get_all_skeletons(CustomPlaylistSkeletons& skeletons,
 						 so);
 }
 
-bool PlaylistDBWrapper::get_temporary_skeletons(CustomPlaylistSkeletons& skeletons,
-					   Playlist::SortOrder so)
-{
-	return get_skeletons(skeletons,
-						 DatabaseConnector::PlaylistChooserType::OnlyTemporary,
-						 so);
-}
 
 bool PlaylistDBWrapper:: get_non_temporary_skeletons(CustomPlaylistSkeletons& skeletons,
 					   Playlist::SortOrder so)
@@ -79,51 +72,6 @@ bool PlaylistDBWrapper:: get_non_temporary_skeletons(CustomPlaylistSkeletons& sk
 						 so);
 }
 
-
-/* bool PlaylistDBWrapper::extract_stream(CustomPlaylist& pl, QString name, QString url){
-
-	pl.set_temporary(false);
-
-	if(Helper::File::is_playlistfile(url)) 
-	{
-		if(PlaylistParser::parse_playlist(url, pl) > 0)
-		{
-			for(MetaData& md : pl) {
-
-				md.album = name;
-				if(md.title.isEmpty()){
-					md.title = name;
-				}
-
-				if(md.artist.isEmpty()){
-					md.artist = url;
-				}
-
-				md.is_extern = true;
-				md.id = -1;
-			}
-		}
-	}
-
-	// real stream
-	else
-	{
-		MetaData md;
-
-		md.title = name;
-		md.album = name;
-		md.artist = url;
-		md.set_filepath(url);
-
-		md.is_extern = true;
-		md.id = -1;
-
-		pl << std::move(md);
-	}
-
-	return pl.valid();
-}
-*/
 
 bool PlaylistDBWrapper::get_playlists(CustomPlaylists& playlists, DatabasePlaylist::PlaylistChooserType type, Playlist::SortOrder so){
 

@@ -26,9 +26,41 @@
 
 #include <algorithm>
 
+
+static int split_line(const QString& line, QString& key, QString& val)
+{
+	int idx;
+	int pos_idx;
+	QRegExp re_idx("(\\S+)([0-9]+)");
+	QStringList splitted = line.split("=");
+
+	if(splitted.size() < 2){
+		return -1;
+	}
+
+	pos_idx = re_idx.indexIn(splitted[0]);
+	if(pos_idx < 0){
+		return -1;
+	}
+
+	key = re_idx.cap(1).toLower();
+	val = splitted[1];
+	idx = re_idx.cap(2).toInt();
+
+	return idx;
+}
+
+
+
+
 PLSParser::PLSParser(const QString& filename) :
 	AbstractPlaylistParser(filename)
 {
+}
+
+PLSParser::~PLSParser()
+{
+
 }
 
 
@@ -50,9 +82,9 @@ void PLSParser::parse(){
 			continue;
 		}
 
-		success = split_line(line, key, val, track_idx);
+		track_idx = split_line(line, key, val);
 
-		if(!success){
+		if(track_idx < 0){
 			continue;
 		}
 
@@ -94,37 +126,3 @@ void PLSParser::parse(){
 	}
 }
 
-
-/*int PLSParser::get_number_of_entries(){
-
-	QRegExp re("^\\s*numberofentries\\s*=\\s*([0-9]+)");
-
-	int idx = re.indexIn(_file_content.toLower());
-	if(idx == -1){
-		return -1;
-	}
-
-	return re.cap(1).toInt();
-}
-*/
-bool PLSParser::split_line(const QString& line, QString& key, QString& val, int& idx)
-{
-	int pos_idx;
-	QRegExp re_idx("(\\S+)([0-9]+)");
-	QStringList splitted = line.split("=");
-
-	if(splitted.size() < 2){
-		return false;
-	}
-
-	pos_idx = re_idx.indexIn(splitted[0]);
-	if(pos_idx < 0){
-		return false;
-	}
-
-	key = re_idx.cap(1).toLower();
-	val = splitted[1];
-	idx = re_idx.cap(2).toInt();
-
-	return (idx >= 0);
-}

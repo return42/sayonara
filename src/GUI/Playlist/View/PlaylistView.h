@@ -57,7 +57,7 @@ signals:
 	void sig_time_changed();
 
 public:
-	PlaylistView(PlaylistPtr pl, QWidget* parent=nullptr);
+	explicit PlaylistView(PlaylistPtr pl, QWidget* parent=nullptr);
 	virtual ~PlaylistView();
 
 	void fill(PlaylistPtr pl);

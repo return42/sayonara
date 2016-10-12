@@ -323,10 +323,6 @@ QString MetaDataInfo::get_info_string(InfoStrings idx) const
 	return "";
 }
 
-QMap<InfoStrings, QString> MetaDataInfo::get_info() const
-{
-	return _info;
-}
 
 QString MetaDataInfo::get_info_as_string() const
 {
@@ -373,16 +369,6 @@ QString MetaDataInfo::get_paths_as_string() const
 CoverLocation MetaDataInfo::get_cover_location() const
 {
 	return _cover_location;
-}
-
-
-QString MetaDataInfo::get_cover_album() const
-{
-	if(_albums.isEmpty()) {
-		return "";
-	}
-
-	return _albums.first();
 }
 
 

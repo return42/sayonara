@@ -27,9 +27,17 @@
 #include <QDomElement>
 #include <QDomNode>
 
+
+
+
 ASXParser::ASXParser(const QString& filename) :
 	AbstractPlaylistParser(filename)
 {
+}
+
+ASXParser::~ASXParser()
+{
+
 }
 
 
@@ -98,7 +106,8 @@ void ASXParser::parse()  {
 	} while (!entry.isNull());
 }
 
-QString ASXParser::parse_ref_node(QDomNode node){
+
+QString ASXParser::parse_ref_node(const QDomNode& node){
 
 	QDomElement e = node.toElement();
 	QDomNamedNodeMap map = e.attributes();
@@ -116,3 +125,4 @@ QString ASXParser::parse_ref_node(QDomNode node){
 
 	return "";
 }
+

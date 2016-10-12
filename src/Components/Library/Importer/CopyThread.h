@@ -29,6 +29,7 @@
 #include <QStringList>
 
 #include "Helper/Settings/SayonaraClass.h"
+#include "Helper/Pimpl.h"
 
 class ImportCache;
 class MetaDataList;
@@ -56,12 +57,9 @@ public:
 	MetaDataList get_copied_metadata() const;
 
 	void set_mode(CopyThread::Mode mode);
-	CopyThread::Mode  get_mode() const;
-
 
 private:
-	struct Private;
-	CopyThread::Private*		_m=nullptr;
+	PIMPL(CopyThread)
 
 private:
 

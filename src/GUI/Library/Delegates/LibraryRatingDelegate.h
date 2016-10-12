@@ -33,6 +33,7 @@ signals:
 
 public:
 	LibraryRatingDelegate(QObject* parent, bool enabled);
+	~LibraryRatingDelegate();
 
 	QWidget* createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 	void setEditorData(QWidget *editor, const QModelIndex &index) const override;

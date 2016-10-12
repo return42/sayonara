@@ -39,7 +39,7 @@ private:
 
 public:
 
-	DirectoryLibraryContainer(QObject* parent=nullptr);
+	explicit DirectoryLibraryContainer(QObject* parent=nullptr);
 	virtual ~DirectoryLibraryContainer();
 
 	QIcon				get_icon() const override;

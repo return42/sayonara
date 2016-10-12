@@ -40,13 +40,13 @@ struct SoundcloudDataFetcher::Private{
 SoundcloudDataFetcher::SoundcloudDataFetcher(QObject* parent) :
 	QObject(parent)
 {
-	_m = new SoundcloudDataFetcher::Private();
+	_m = Pimpl::make<SoundcloudDataFetcher::Private>();
 	clear();
 }
 
 SoundcloudDataFetcher::~SoundcloudDataFetcher()
 {
-	delete _m; _m = nullptr;
+
 }
 
 
@@ -69,11 +69,6 @@ void SoundcloudDataFetcher::get_artist(int artist_id){
 			this, &SoundcloudDataFetcher::artists_fetched);
 
 	awa->run( SoundcloudWebAccess::create_dl_get_artist(artist_id) );
-}
-
-
-void SoundcloudDataFetcher::get_playlists_by_artist(int artist_id){
-	return get_tracks_by_artist(artist_id);
 }
 
 

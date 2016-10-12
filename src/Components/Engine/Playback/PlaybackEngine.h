@@ -58,7 +58,7 @@ signals:
 
 public:
 
-	PlaybackEngine(QObject* parent=nullptr);
+	explicit PlaybackEngine(QObject* parent=nullptr);
 	virtual ~PlaybackEngine();
 
 	bool init() override;

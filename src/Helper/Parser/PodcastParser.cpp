@@ -181,10 +181,6 @@ bool  PodcastParser::parse_podcast_xml_file_content(const QString& content, Meta
 					fallback_url = item_element.text();
                 }
 
-				else if(!item_nodename.compare("enclosure", Qt::CaseInsensitive)) {
-					md.filesize = item_element.attribute("length").toLong();
-                }
-
 				else if(!item_nodename.compare("author") && md.artist.size() == 0) {
 					md.artist = QString::fromUtf8(item_element_text.toStdString().c_str());
                 }

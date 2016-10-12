@@ -91,7 +91,7 @@ PlayManager::PlayManager(QObject* parent) :
 	QObject(parent),
 	SayonaraClass()
 {
-	_m = new PlayManager::Private();
+	_m = Pimpl::make<PlayManager::Private>();
 	_m->position_ms = 0;
 	_m->cur_idx = -1;
 	_m->playstate = PlayState::Stopped;
@@ -114,7 +114,6 @@ PlayManager::PlayManager(QObject* parent) :
 PlayManager::~PlayManager()
 {
 	 _settings->set(Set::Engine_CurTrackPos_s, (int) (_m->position_ms / 1000));
-	 delete _m;
 }
 
 PlayState PlayManager::get_play_state() const

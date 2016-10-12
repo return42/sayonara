@@ -63,7 +63,7 @@ struct LFMTrackChangedThread::Private
 LFMTrackChangedThread::LFMTrackChangedThread(const QString& username, const QString& session_key, QObject* parent) :
 	QObject(parent)
 {
-	_m = new LFMTrackChangedThread::Private();
+	_m = Pimpl::make<LFMTrackChangedThread::Private>();
 	_m->username = username;
 	_m->session_key = session_key;
 
@@ -76,13 +76,7 @@ LFMTrackChangedThread::LFMTrackChangedThread(const QString& username, const QStr
 
 }
 
-
 LFMTrackChangedThread::~LFMTrackChangedThread() {
-	delete _m; _m = nullptr;
-
-#ifdef SMART_COMPARE
-	delete _smart_comparison; _smart_comparison=nullptr;
-#endif
 }
 
 void LFMTrackChangedThread::set_session_key(const QString& session_key) {

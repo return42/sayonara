@@ -49,6 +49,7 @@ public:
 
 protected:
 	ColumnHeader(bool switchable, Library::SortOrder sort_asc, Library::SortOrder sort_desc);
+	virtual ~ColumnHeader();
 
 protected:
 	QAction*		_action=nullptr;

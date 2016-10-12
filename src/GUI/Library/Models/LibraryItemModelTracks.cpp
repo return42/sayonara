@@ -46,12 +46,12 @@ struct LibraryItemModelTracks::Private
 LibraryItemModelTracks::LibraryItemModelTracks() :
 	LibraryItemModel()
 {
-	_m = new LibraryItemModelTracks::Private();
+	_m = Pimpl::make<LibraryItemModelTracks::Private>();
 }
 
 
 LibraryItemModelTracks::~LibraryItemModelTracks() {
-	delete _m; _m = nullptr;
+
 }
 
 

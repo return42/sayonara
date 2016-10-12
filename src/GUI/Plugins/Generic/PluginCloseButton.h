@@ -55,7 +55,7 @@ protected:
 	void set_std_icon();
 
 public:
-	PluginCloseButton(QWidget* parent=nullptr);
+	explicit PluginCloseButton(QWidget* parent=nullptr);
 	virtual ~PluginCloseButton();
 
 protected slots:

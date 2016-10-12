@@ -39,11 +39,6 @@ AbstrSetting::~AbstrSetting(){
 
 }
 
-QString AbstrSetting::get_db_key() const
-{
-	return _db_key;
-}
-
 SK::SettingKey AbstrSetting::get_key() const
 {
 	return _key;

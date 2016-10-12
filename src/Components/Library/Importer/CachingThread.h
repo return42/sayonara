@@ -23,6 +23,7 @@
 #define IMPORTFOLDERTHREAD_H
 
 #include <QThread>
+#include "Helper/Pimpl.h"
 
 class ImportCache;
 class MetaDataList;
@@ -37,7 +38,7 @@ signals:
 
 
 public:
-	CachingThread(const QStringList& file_list, QObject *parent=nullptr);
+	explicit CachingThread(const QStringList& file_list, QObject *parent=nullptr);
 	virtual ~CachingThread();
 
 	void			cancel();
@@ -48,8 +49,7 @@ public:
 
 private:
 
-	struct Private;
-	CachingThread::Private* _m=nullptr;
+	PIMPL(CachingThread)
 
 private:
 	void run() override;

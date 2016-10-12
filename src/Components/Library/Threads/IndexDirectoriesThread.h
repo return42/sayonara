@@ -25,13 +25,14 @@
 
 #include <QStringList>
 #include <QThread>
+#include "Helper/Pimpl.h"
 
 class MetaDataList;
 class IndexDirectoriesThread :
 		public QThread
 {
 public:
-	IndexDirectoriesThread(const MetaDataList& v_md);
+	explicit IndexDirectoriesThread(const MetaDataList& v_md);
 	virtual ~IndexDirectoriesThread();
 
 	QStringList get_directories() const;
@@ -40,8 +41,8 @@ protected:
 	void run() override;
 
 private:
-	struct Private;
-	IndexDirectoriesThread::Private* _m=nullptr;
+	PIMPL(IndexDirectoriesThread)
+
 };
 
 #endif // INDEXDIRECTORIESTHREAD_H

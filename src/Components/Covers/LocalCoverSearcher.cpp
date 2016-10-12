@@ -77,28 +77,3 @@ QStringList LocalCoverSearcher::get_local_cover_paths_from_dirname(const QString
 	return ret;
 }
 
-
-QStringList LocalCoverSearcher::get_local_cover_paths(const QString &filepath){
-
-
-	QStringList ret;
-
-
-	QFileInfo fi(filepath);
-
-	if(fi.isDir()){
-		ret =  get_local_cover_paths_from_dirname(filepath);
-	}
-
-	else if(fi.isFile()){
-		ret =  get_local_cover_paths_from_filename(filepath);
-	}
-
-
-	for(QString& str : ret){
-		QFileInfo sfi(str);
-		str = sfi.absoluteFilePath();
-	}
-
-	return ret;
-}

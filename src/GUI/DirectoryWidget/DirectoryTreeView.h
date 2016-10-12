@@ -46,7 +46,7 @@ signals:
 	void sig_append_clicked();
 
 public:
-	DirectoryTreeView(QWidget* parent=nullptr);
+	explicit DirectoryTreeView(QWidget* parent=nullptr);
 
 	AbstractSearchFileTreeModel* get_model() const;
 

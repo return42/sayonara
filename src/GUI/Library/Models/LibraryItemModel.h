@@ -42,8 +42,6 @@ public:
 	LibraryItemModel();
 	virtual ~LibraryItemModel();
 
-	QStringList 	get_header_names() const;
-
 	/** Overloaded from QAbstractTableModel **/
 	QVariant 	headerData ( int section, Qt::Orientation orientation, int role=Qt::DisplayRole ) const override;
 	bool		setHeaderData(int section, Qt::Orientation orientation, const QVariant &value, int role) override;
@@ -56,10 +54,8 @@ public:
 	bool		insertRows(int row, int count, const QModelIndex &parent=QModelIndex()) override;
 
 	virtual void			add_selections(const SP::Set<int>& rows) final;
-//	virtual void			add_selection(int row) final;
 	virtual bool			is_selected(int id) final;
 	virtual bool			has_selections() final;
-	virtual void			remove_selection(int row) final;
 	virtual void			clear_selections() final;
 
 	virtual QString			get_string(int row) const=0;

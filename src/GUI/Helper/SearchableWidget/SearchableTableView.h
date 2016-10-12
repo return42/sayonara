@@ -64,8 +64,9 @@ private:
 
 
 public:
-	SearchableTableView(QWidget* parent=nullptr);
+	explicit SearchableTableView(QWidget* parent=nullptr);
 	virtual ~SearchableTableView();
+
 	void setAbstractModel(AbstractSearchTableModel* model);
 
 protected:

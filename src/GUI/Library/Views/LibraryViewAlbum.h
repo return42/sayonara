@@ -40,6 +40,7 @@ protected slots:
 
 public:
 	explicit LibraryViewAlbum(QWidget *parent=nullptr);
+	virtual ~LibraryViewAlbum();
 
 
 protected:

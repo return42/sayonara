@@ -104,18 +104,15 @@ protected:
 
 	public:
 
-	MetaDataInfo(const MetaDataList& v_md);
+	explicit MetaDataInfo(const MetaDataList& v_md);
 	virtual ~MetaDataInfo();
 
 	QString get_header() const;
 	QString get_subheader() const;
-	QMap<InfoStrings, QString> get_info() const;
 	QString get_info_as_string() const;
 	virtual QString get_additional_info_as_string() const;
 	QString get_paths_as_string() const;
 	CoverLocation get_cover_location() const;
-
-	virtual QString get_cover_album() const;
 };
 
 

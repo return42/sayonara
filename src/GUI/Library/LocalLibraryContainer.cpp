@@ -30,6 +30,11 @@ LocalLibraryContainer::LocalLibraryContainer(QObject* parent) :
 
 }
 
+LocalLibraryContainer::~LocalLibraryContainer()
+{
+
+}
+
 QString LocalLibraryContainer::get_name() const
 {
 	return "local_library";

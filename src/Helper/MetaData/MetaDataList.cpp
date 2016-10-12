@@ -41,9 +41,6 @@ MetaDataList::~MetaDataList() {
 
 }
 
-void MetaDataList::set_cur_play_track_idx_only(int idx) {
-	_cur_played_track = idx;
-}
 
 void MetaDataList::set_cur_play_track(int idx) {
 
@@ -165,18 +162,6 @@ MetaDataList& MetaDataList::move_tracks(const SP::Set<int>& indexes, int tgt_idx
 
 	return *this;
 }
-
-MetaDataList& MetaDataList::randomize(){
-	RandomGenerator generator;
-
-	for(auto it=this->begin(); it != this->end(); it++){
-		int rnd_number = generator.get_number(0, this->size()-1);
-		std::swap(*it, *(this->begin() + rnd_number));
-	}
-
-	return *this;
-}
-
 
 MetaDataList& MetaDataList::remove_track(int idx){
 	return remove_tracks(idx, idx);

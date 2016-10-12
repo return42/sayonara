@@ -46,7 +46,6 @@ private:
 	QString					_name;
 	bool					_is_temporary;
 	int						_id;
-	bool					_save_enabled;
 
 public:
 
@@ -57,7 +56,7 @@ public:
 		Error
 	};
 
-	PlaylistDBInterface(const QString& name);
+	explicit PlaylistDBInterface(const QString& name);
 	virtual ~PlaylistDBInterface();
 
 	int get_id() const;
@@ -68,8 +67,6 @@ public:
 
 	bool is_temporary() const;
 	void set_temporary(bool b);
-
-	void set_skeleton(const CustomPlaylistSkeleton& skeleton);
 
 	bool insert_temporary_into_db();
 	SaveAsAnswer save();
@@ -85,8 +82,6 @@ public:
 	virtual void set_changed(bool b) = 0;
 	virtual bool was_changed() const = 0;
 	virtual bool is_storable() const =0;
-	void enable_saving(bool b);
-	bool is_save_enabled() const;
 
 	static QString request_new_db_name();
 };

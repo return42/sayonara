@@ -59,7 +59,8 @@ class TagLineEdit :
 	Q_OBJECT
 
 public:
-	TagLineEdit(QWidget* parent=nullptr);
+	explicit TagLineEdit(QWidget* parent=nullptr);
+	virtual ~TagLineEdit();
 
 protected:
 

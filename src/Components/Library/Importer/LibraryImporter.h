@@ -59,7 +59,6 @@ signals:
 
 public:
 	void import_files(const QStringList& files);
-	void import_dir(const QString& dirname);
 	void accept_import(const QString& target_dir);
 	void cancel_import();
 	LibraryImporter::ImportStatus get_status() const;

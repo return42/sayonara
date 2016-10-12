@@ -106,6 +106,11 @@ DummyNotificator::DummyNotificator(const QString& name) :
 
 }
 
+DummyNotificator::~DummyNotificator()
+{
+
+}
+
 void DummyNotificator::notify(const MetaData &md){
 	Q_UNUSED(md)
 }

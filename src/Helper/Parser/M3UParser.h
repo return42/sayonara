@@ -33,7 +33,8 @@ class M3UParser : public AbstractPlaylistParser
 {
 
 public:
-	M3UParser(const QString& filename);
+	explicit M3UParser(const QString& filename);
+	virtual ~M3UParser();
 
 private:
 	virtual void parse() override;

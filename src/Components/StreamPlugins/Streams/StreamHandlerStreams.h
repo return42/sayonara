@@ -28,7 +28,7 @@
 class StreamHandlerStreams : public AbstractStreamHandler
 {
 public:
-	StreamHandlerStreams(QObject* parent=nullptr);
+	explicit StreamHandlerStreams(QObject* parent=nullptr);
 	~StreamHandlerStreams();
 
 	bool get_all_streams(StreamMap& streams) override;

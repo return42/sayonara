@@ -38,7 +38,7 @@ private:
 	OrgFreedesktopNotificationsInterface* _interface=nullptr;
 
 public:
-	DBusNotifications(QObject* parent=0);
+	explicit DBusNotifications(QObject* parent=nullptr);
 	virtual ~DBusNotifications();
 
 	void notify(const MetaData& md);

@@ -57,11 +57,6 @@ AbstractDatabase::~AbstractDatabase()
 	}
 }
 
-void AbstractDatabase::remove_connections(){
-	for(const QString& connection : QSqlDatabase::connectionNames()) {
-		QSqlDatabase::removeDatabase(connection);
-	}
-}
 
 bool AbstractDatabase::is_initialized(){
 	return _initialized;

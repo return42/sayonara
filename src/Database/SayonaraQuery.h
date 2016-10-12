@@ -35,9 +35,9 @@ private:
 	QString _query_string;
 
 public:
-	SayonaraQuery(const QString& query=QString(), QSqlDatabase db = QSqlDatabase());
-	SayonaraQuery(QSqlResult * result);
-	SayonaraQuery(QSqlDatabase db);
+	explicit SayonaraQuery(const QString& query=QString(), QSqlDatabase db = QSqlDatabase());
+	explicit SayonaraQuery(QSqlResult * result);
+	explicit SayonaraQuery(QSqlDatabase db);
 	SayonaraQuery(const QSqlQuery & other);
 
 	virtual ~SayonaraQuery();

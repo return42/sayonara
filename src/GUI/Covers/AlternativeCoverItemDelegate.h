@@ -45,7 +45,7 @@ class AlternativeCoverItemDelegate :
 	Q_OBJECT
 
 public:
-	AlternativeCoverItemDelegate(QObject* parent=nullptr);
+	explicit AlternativeCoverItemDelegate(QObject* parent=nullptr);
 	virtual ~AlternativeCoverItemDelegate();
 
 

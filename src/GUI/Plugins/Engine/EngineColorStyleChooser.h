@@ -46,8 +46,6 @@ public:
 
     void reload(int widget_width, int widget_height);
 
-
-
 private:
 	void insertColorOfRect(int bin, int n_bins, const ColorList& colors, QHash<int, QColor>& map);
     void create_colorstyle(ColorStyle &style, const ColorList &colors_active, int n_rects, int n_fading_steps);

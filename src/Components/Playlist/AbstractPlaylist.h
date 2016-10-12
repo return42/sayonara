@@ -28,8 +28,11 @@
 #include "Helper/Playlist/PlaylistFwd.h"
 #include "Helper/Playlist/PlaylistMode.h"
 #include "Helper/Settings/SayonaraClass.h"
+#include "Helper/Pimpl.h"
 
-class QString;
+#include <QString>
+
+
 class QStringList;
 namespace SP
 {
@@ -56,8 +59,7 @@ signals:
 	void sig_data_changed(int idx);
 
 private:
-	struct Private;
-	AbstractPlaylist::Private*	_m=nullptr;
+	PIMPL(AbstractPlaylist)
 
 
 protected:
@@ -80,8 +82,9 @@ protected:
 	MetaDataList& metadata();
 	MetaData& metadata(int idx);
 
+
 public:
-	AbstractPlaylist(int idx, const QString& name="");
+	explicit AbstractPlaylist(int idx, const QString& name=QString());
 	virtual ~AbstractPlaylist();
 
 	QStringList		toStringList() const;
@@ -92,7 +95,6 @@ public:
 	bool			get_cur_track(MetaData& metadata) const;
 	int				get_idx() const;
 	void			set_idx(int idx);	
-	Playlist::Mode	get_playlist_mode() const;
 	void			set_playlist_mode(const Playlist::Mode& mode);
 	quint64			get_running_time() const;
 
@@ -111,24 +113,18 @@ public:
 
 	const MetaData& operator[](int idx) const;
 	const MetaData& at_const_ref(int idx) const;
-//	MetaData& at_ref(int idx);
-
 
 	virtual void clear();
 
-	virtual void move_track(const int idx, int tgt);
 	virtual void move_tracks(const SP::Set<int>& indexes, int tgt);
 
-//	virtual void copy_track(const int idx, int tgt);
 	virtual void copy_tracks(const SP::Set<int>& indexes, int tgt);
 
-	virtual void delete_track(const int idx);
 	virtual void delete_tracks(const SP::Set<int>& indexes);
 
 	virtual void insert_track(const MetaData& metadata, int tgt);
 	virtual void insert_tracks(const MetaDataList& lst, int tgt);
 
-//	virtual void append_track(const MetaData& metadata);
 	virtual void append_tracks(const MetaDataList& lst);
 
 	virtual bool change_track(int idx)=0;

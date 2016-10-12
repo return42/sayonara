@@ -39,6 +39,11 @@ SayonaraLoadingBar::SayonaraLoadingBar(QWidget* parent) :
 	this->setVisible(false);
 }
 
+SayonaraLoadingBar::~SayonaraLoadingBar()
+{
+
+}
+
 void SayonaraLoadingBar::showEvent(QShowEvent* e)
 {
 	this->setGeometry(0,
