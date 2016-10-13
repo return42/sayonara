@@ -1,4 +1,4 @@
-sayonara (0.9.2-0ppa8-xenial1) xenial; urgency=low
+sayonara (0.9.2-0ppa9-xenial1) xenial; urgency=low
 
   * Playlist: Bug fixed. Saved playlists aren't deleted anymore
 
