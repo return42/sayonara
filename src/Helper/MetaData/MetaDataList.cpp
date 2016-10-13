@@ -37,10 +37,7 @@ MetaDataList::MetaDataList(const MetaDataList& lst) :
 	_cur_played_track = lst._cur_played_track;
 }
 
-MetaDataList::~MetaDataList() {
-
-}
-
+MetaDataList::~MetaDataList() {}
 
 void MetaDataList::set_cur_play_track(int idx) {
 

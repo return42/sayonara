@@ -86,11 +86,7 @@ LibraryContextMenu::LibraryContextMenu(QWidget* parent) :
 	REGISTER_LISTENER(Set::Player_Style, skin_changed);
 }
 
-
-LibraryContextMenu::~LibraryContextMenu() {
-
-}
-
+LibraryContextMenu::~LibraryContextMenu() {}
 
 void LibraryContextMenu::changeEvent(QEvent* e) {
 	if (e->type() == QEvent::LanguageChange) {

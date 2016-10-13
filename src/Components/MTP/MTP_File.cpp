@@ -33,11 +33,7 @@ MTP_File::MTP_File(MTPIntern_Device* device, MTPIntern_File* file){
 	}
 }
 
-MTP_File::~MTP_File(){
-	/*if(_file){
-		LIBMTP_destroy_file_t(_file);
-	}*/
-}
+MTP_File::~MTP_File() {}
 
 bool MTP_File::remove() const
 {

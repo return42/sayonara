@@ -38,9 +38,7 @@ SearchableListView::SearchableListView(QWidget* parent) :
 	connect(_mini_searcher, &MiniSearcher::sig_find_prev_row, this, &SearchableListView::bwd_clicked);
 }
 
-SearchableListView::~SearchableListView() {
-}
-
+SearchableListView::~SearchableListView() {}
 
 void SearchableListView::setAbstractModel(AbstractSearchListModel* model) {
 	 _abstr_model = model;

@@ -78,7 +78,8 @@ PlaylistTabMenu::PlaylistTabMenu(QWidget* parent) :
 	REGISTER_LISTENER(Set::Player_Style, skin_changed);
 }
 
-PlaylistTabMenu::~PlaylistTabMenu(){
+PlaylistTabMenu::~PlaylistTabMenu()
+{
 	this->clear();
 }
 

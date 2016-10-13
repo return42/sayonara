@@ -43,11 +43,7 @@ DBusAdaptor::DBusAdaptor(QObject* parent) :
 	_play_manager = PlayManager::getInstance();
 }
 
-DBusAdaptor::~DBusAdaptor(){
-
-}
-
-
+DBusAdaptor::~DBusAdaptor(){}
 
 void DBusAdaptor::create_message(QString name, QVariant val){
 

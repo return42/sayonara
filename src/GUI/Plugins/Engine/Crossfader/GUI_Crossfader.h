@@ -25,10 +25,7 @@
 
 #include "Interfaces/PlayerPlugin/PlayerPlugin.h"
 
-namespace Ui
-{
-	class GUI_Crossfader;
-}
+namespace Ui { class GUI_Crossfader; }
 
 class GUI_Crossfader :
 		public PlayerPluginInterface

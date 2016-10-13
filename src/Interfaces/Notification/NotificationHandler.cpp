@@ -28,9 +28,7 @@ NotificationHandler::NotificationHandler(QObject* parent) :
 	_cur_idx = -1;
 }
 
-NotificationHandler::~NotificationHandler(){
-
-}
+NotificationHandler::~NotificationHandler() {}
 
 void NotificationHandler::notify(const MetaData& md){
 	get()->notify(md);
@@ -106,10 +104,7 @@ DummyNotificator::DummyNotificator(const QString& name) :
 
 }
 
-DummyNotificator::~DummyNotificator()
-{
-
-}
+DummyNotificator::~DummyNotificator() {}
 
 void DummyNotificator::notify(const MetaData &md){
 	Q_UNUSED(md)

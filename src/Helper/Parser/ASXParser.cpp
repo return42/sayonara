@@ -35,11 +35,7 @@ ASXParser::ASXParser(const QString& filename) :
 {
 }
 
-ASXParser::~ASXParser()
-{
-
-}
-
+ASXParser::~ASXParser() {}
 
 void ASXParser::parse()  {
 

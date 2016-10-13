@@ -86,11 +86,7 @@ SoundcloudData::SoundcloudData() :
 	set_track_fetch_query(track_fetch_query);
 }
 
-
-
-SoundcloudData::~SoundcloudData()
-{
-}
+SoundcloudData::~SoundcloudData() {}
 
 bool SoundcloudData::db_fetch_tracks(SayonaraQuery& q, MetaDataList& result){
 

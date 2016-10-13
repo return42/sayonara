@@ -58,16 +58,9 @@ void register_setting(const KEY& key, const T& default_value){
 	settings->register_setting( setting );
 }
 
-SettingRegistry::SettingRegistry()
-{
+SettingRegistry::SettingRegistry() {}
 
-}
-
-SettingRegistry::~SettingRegistry()
-{
-
-}
-
+SettingRegistry::~SettingRegistry() {}
 
 bool SettingRegistry::init(){
 

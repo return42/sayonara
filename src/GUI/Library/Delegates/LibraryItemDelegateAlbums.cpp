@@ -45,11 +45,7 @@ LibraryItemDelegateAlbums::LibraryItemDelegateAlbums(QObject* parent, bool enabl
 	_icon_multi_album = GUI::get_pixmap("sampler", QSize(16, 16), false);
 }
 
-
-LibraryItemDelegateAlbums::~LibraryItemDelegateAlbums() {
-
-}
-
+LibraryItemDelegateAlbums::~LibraryItemDelegateAlbums() {}
 
 void LibraryItemDelegateAlbums::paint(QPainter *painter, const QStyleOptionViewItem & option, const QModelIndex & index) const
 {

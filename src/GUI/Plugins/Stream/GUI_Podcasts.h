@@ -18,19 +18,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #ifndef GUI_PODCASTS_H
 #define GUI_PODCASTS_H
 
 #include "Components/StreamPlugins/Streams/StreamHandlerPodcasts.h"
 #include "GUI_AbstractStream.h"
 
-#include <QMap>
-
-namespace Ui
-{
-	class GUI_Podcasts;
-}
+namespace Ui { class GUI_Podcasts; }
 
 class GUI_Podcasts :
 		public GUI_AbstractStream
@@ -45,7 +39,6 @@ protected:
 public:
 	explicit GUI_Podcasts(QWidget *parent=nullptr);
     virtual ~GUI_Podcasts();
-
 
 	QString get_name() const override;
 	QString get_display_name() const override;

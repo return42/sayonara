@@ -60,8 +60,8 @@ PlaylistHandler::PlaylistHandler(QObject * parent) :
 	connect(_play_manager, &PlayManager::sig_www_track_finished, this, &PlaylistHandler::www_track_finished);
 }
 
-PlaylistHandler::~PlaylistHandler() {
-
+PlaylistHandler::~PlaylistHandler()
+{
 	_playlists.clear();
 }
 

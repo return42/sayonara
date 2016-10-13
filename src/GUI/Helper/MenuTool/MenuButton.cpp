@@ -40,11 +40,7 @@ MenuButton::MenuButton(QWidget* parent) :
 	REGISTER_LISTENER(Set::Player_Language, _sl_language_changed);
 }
 
-MenuButton::~MenuButton()
-{
-
-}
-
+MenuButton::~MenuButton() {}
 
 void MenuButton::show_menu(QPoint pos){
 	Q_UNUSED(pos)

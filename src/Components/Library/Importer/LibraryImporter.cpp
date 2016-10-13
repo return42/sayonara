@@ -50,10 +50,7 @@ LibraryImporter::LibraryImporter(QObject* parent) :
 			this, &LibraryImporter::metadata_changed);
 }
 
-LibraryImporter::~LibraryImporter(){
-
-}
-
+LibraryImporter::~LibraryImporter(){}
 
 void LibraryImporter::import_files(const QStringList& files) {
 

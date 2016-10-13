@@ -27,8 +27,7 @@ StreamPlaylist::StreamPlaylist(int idx, QString name) :
 	_is_storable = false;
 }
 
-StreamPlaylist::~StreamPlaylist()
-{}
+StreamPlaylist::~StreamPlaylist() {}
 
 Playlist::Type StreamPlaylist::get_type() const
 {

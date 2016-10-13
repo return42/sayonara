@@ -42,7 +42,8 @@ GUI_Broadcast::GUI_Broadcast(QWidget *parent) :
 }
 
 
-GUI_Broadcast::~GUI_Broadcast(){
+GUI_Broadcast::~GUI_Broadcast()
+{
 	if(ui)
 	{
 		delete ui; ui = nullptr;

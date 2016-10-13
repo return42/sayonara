@@ -45,8 +45,7 @@ SayonaraQuery::SayonaraQuery(const QSqlQuery & other) :
 {
 }
 
-SayonaraQuery::~SayonaraQuery(){
-}
+SayonaraQuery::~SayonaraQuery() {}
 
 bool SayonaraQuery::prepare(const QString& query){
 

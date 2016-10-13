@@ -36,9 +36,4 @@ LibraryItemDelegateArtists::LibraryItemDelegateArtists(QObject* parent) :
 	_icon_multi_album = GUI::get_pixmap("sampler", QSize(16, 16), false);
 }
 
-LibraryItemDelegateArtists::~LibraryItemDelegateArtists() {
-
-}
-
-
-
+LibraryItemDelegateArtists::~LibraryItemDelegateArtists() {}

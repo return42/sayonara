@@ -31,10 +31,7 @@ DiscAction::DiscAction(QWidget* parent, const QIcon& icon) :
 	connect(this, &QAction::triggered, this, &DiscAction::disc_hover);
 }
 
-DiscAction::~DiscAction()
-{
-
-}
+DiscAction::~DiscAction() {}
 
 void DiscAction::disc_hover(){
 	bool ok = false;
@@ -80,7 +77,8 @@ DiscPopupMenu::DiscPopupMenu(QWidget* parent, QList<quint8> discs): QMenu(parent
 	}
 }
 
-DiscPopupMenu::~DiscPopupMenu(){
+DiscPopupMenu::~DiscPopupMenu()
+{
 	clean_up();
 }
 

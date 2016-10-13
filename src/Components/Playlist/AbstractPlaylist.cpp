@@ -61,9 +61,7 @@ AbstractPlaylist::AbstractPlaylist(int idx, const QString& name) :
 	REGISTER_LISTENER(Set::PL_Mode, _sl_playlist_mode_changed);
 }
 
-AbstractPlaylist::~AbstractPlaylist(){
-	_m.release();
-}
+AbstractPlaylist::~AbstractPlaylist() {}
 
 void AbstractPlaylist::clear() {
 	if(_m->v_md.isEmpty()){

@@ -43,15 +43,9 @@ struct ProbeData
 	}
 };
 
-ChangeablePipeline::ChangeablePipeline()
-{
+ChangeablePipeline::ChangeablePipeline() {}
 
-}
-
-ChangeablePipeline::~ChangeablePipeline()
-{
-
-}
+ChangeablePipeline::~ChangeablePipeline() {}
 
 
 static GstPadProbeReturn

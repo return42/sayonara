@@ -38,8 +38,7 @@ TagTextInput::TagTextInput(QWidget* parent) :
 	REGISTER_LISTENER(Set::Player_Language, language_changed);
 }
 
-TagTextInput::~TagTextInput()
-{}
+TagTextInput::~TagTextInput() {}
 
 
 void TagTextInput::init_context_menu() 

@@ -39,9 +39,7 @@ ConvertPipeline::ConvertPipeline(Engine* engine, QObject *parent) :
 }
 
 
-ConvertPipeline::~ConvertPipeline() {
-
-}
+ConvertPipeline::~ConvertPipeline() {}
 
 bool ConvertPipeline::init(GstState state){
 

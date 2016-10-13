@@ -33,10 +33,7 @@ LibraryContainerInterface::LibraryContainerInterface(QObject* parent) :
 	REGISTER_LISTENER(Set::Player_Language, language_changed);
 }
 
-LibraryContainerInterface::~LibraryContainerInterface()
-{
-
-}
+LibraryContainerInterface::~LibraryContainerInterface() {}
 
 QMenu* LibraryContainerInterface::get_menu()
 {

@@ -32,9 +32,7 @@
 #include "GUI/Helper/SayonaraWidget/SayonaraDialog.h"
 #include "Helper/Pimpl.h"
 
-namespace Ui {
-	class AlternativeCovers;
-}
+namespace Ui { class AlternativeCovers; }
 
 /**
  * @brief The GUI_AlternativeCovers class

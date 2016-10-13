@@ -65,11 +65,7 @@ ReloadThread::ReloadThread(QObject *parent) :
 	_m->quality = Library::ReloadQuality::Fast;
 }
 
-
-ReloadThread::~ReloadThread() 
-{
-
-}
+ReloadThread::~ReloadThread() {}
 
 bool ReloadThread::compare_md(const MetaData& md1, const MetaData& md2)
 {

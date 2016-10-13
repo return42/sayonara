@@ -38,9 +38,7 @@ LibraryItemDelegateTracks::LibraryItemDelegateTracks(QObject* parent, bool enabl
 
 }
 
-LibraryItemDelegateTracks::~LibraryItemDelegateTracks() {
-
-}
+LibraryItemDelegateTracks::~LibraryItemDelegateTracks() {}
 
 void LibraryItemDelegateTracks::paint(QPainter *painter, const QStyleOptionViewItem & option, const QModelIndex & index) const
 {

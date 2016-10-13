@@ -103,9 +103,8 @@ GUI_Playlist::GUI_Playlist(QWidget *parent) :
 	}
 }
 
-
-GUI_Playlist::~GUI_Playlist() {
-
+GUI_Playlist::~GUI_Playlist()
+{
 	while(tw_playlists->count() > 0){
 		tw_playlists->removeTab(0);
 	}

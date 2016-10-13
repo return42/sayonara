@@ -69,11 +69,7 @@ LocalLibraryMenu::LocalLibraryMenu(QWidget* parent) :
 	REGISTER_LISTENER(Set::Player_Style, skin_changed);
 }
 
-
-LocalLibraryMenu::~LocalLibraryMenu()
-{
-
-}
+LocalLibraryMenu::~LocalLibraryMenu() {}
 
 void LocalLibraryMenu::language_changed()
 {

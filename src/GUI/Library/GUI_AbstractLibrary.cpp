@@ -37,7 +37,8 @@ GUI_AbstractLibrary::GUI_AbstractLibrary(AbstractLibrary* library, QWidget *pare
 	_shown_cols_tracks = _settings->get(Set::Lib_ColsTitle);
 }
 
-GUI_AbstractLibrary::~GUI_AbstractLibrary(){
+GUI_AbstractLibrary::~GUI_AbstractLibrary()
+{
 	delete _album_model; _album_model = nullptr;
 	delete _album_delegate; _album_delegate = nullptr;
 	delete _artist_model; _artist_model = nullptr;

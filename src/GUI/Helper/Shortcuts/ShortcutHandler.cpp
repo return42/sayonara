@@ -29,12 +29,9 @@ ShortcutHandler::ShortcutHandler() :
 	SayonaraClass()
 {
 
-
 }
 
-ShortcutHandler::~ShortcutHandler(){
-
-}
+ShortcutHandler::~ShortcutHandler() {}
 
 Shortcut ShortcutHandler::get_shortcut(const QString& identifier) const
 {

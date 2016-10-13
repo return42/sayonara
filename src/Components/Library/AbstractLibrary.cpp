@@ -45,10 +45,7 @@ AbstractLibrary::AbstractLibrary(QObject *parent) :
 			this,				&AbstractLibrary::psl_metadata_id3_changed);
 }
 
-AbstractLibrary::~AbstractLibrary(){
-
-}
-
+AbstractLibrary::~AbstractLibrary() {}
 
 void AbstractLibrary::load () {
 

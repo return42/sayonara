@@ -51,9 +51,7 @@ LibraryItemModelAlbums::LibraryItemModelAlbums() :
 	_m->pm_multi = GUI::get_pixmap("cds.png", QSize(16, 16));
 }
 
-LibraryItemModelAlbums::~LibraryItemModelAlbums() {
-
-}
+LibraryItemModelAlbums::~LibraryItemModelAlbums() {}
 
 int LibraryItemModelAlbums::get_id_by_row(int row)
 {

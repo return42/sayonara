@@ -55,11 +55,7 @@ CopyThread::CopyThread(const QString& target_dir, const ImportCache& cache, QObj
 	clear();
 }
 
-CopyThread::~CopyThread()
-{
-
-}
-
+CopyThread::~CopyThread() {}
 
 void CopyThread::clear()
 {

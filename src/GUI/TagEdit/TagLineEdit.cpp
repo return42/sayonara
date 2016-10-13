@@ -28,11 +28,7 @@ TagLineEdit::TagLineEdit(QWidget* parent) :
 	this->setReadOnly(true);
 }
 
-TagLineEdit::~TagLineEdit()
-{
-
-}
-
+TagLineEdit::~TagLineEdit() {}
 
 void TagLineEdit::focusInEvent(QFocusEvent* e){
 	_text_selection.reset();

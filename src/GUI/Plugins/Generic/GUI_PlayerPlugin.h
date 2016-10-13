@@ -27,10 +27,7 @@
 
 #include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
 
-namespace Ui
-{
-	class GUI_PlayerPlugin;
-}
+namespace Ui { class GUI_PlayerPlugin; }
 
 class PlayerPluginInterface;
 class GUI_PlayerPlugin :

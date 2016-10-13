@@ -24,8 +24,6 @@
 
 /* Nothing in here */
 
-ShortcutWidget::ShortcutWidget()
-{}
+ShortcutWidget::ShortcutWidget() {}
 
-ShortcutWidget::~ShortcutWidget()
-{}
+ShortcutWidget::~ShortcutWidget() {}

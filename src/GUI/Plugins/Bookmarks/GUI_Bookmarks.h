@@ -26,10 +26,7 @@
 class Bookmarks;
 class Bookmark;
 
-namespace Ui
-{
-	class GUI_Bookmarks;
-}
+namespace Ui { class GUI_Bookmarks; }
 
 /**
  * @brief The GUI_Bookmarks class

@@ -27,8 +27,7 @@ TreeDelegate::TreeDelegate(QObject* parent) :
 	QItemDelegate(parent)
 {}
 
-TreeDelegate::~TreeDelegate()
-{}
+TreeDelegate::~TreeDelegate() {}
 
 QSize TreeDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
 {

@@ -34,8 +34,7 @@ PlaylistDBWrapper::PlaylistDBWrapper()
 }
 
 
-PlaylistDBWrapper::~PlaylistDBWrapper()
-{}
+PlaylistDBWrapper::~PlaylistDBWrapper() {}
 
 
 void PlaylistDBWrapper::apply_tags(MetaDataList& v_md)

@@ -35,10 +35,7 @@ class IconProvider;
 class LocalLibrary;
 class AbstractSearchFileTreeModel;
 
-namespace Ui
-{
-	class GUI_DirectoryWidget;
-}
+namespace Ui { class GUI_DirectoryWidget; }
 
 class GUI_DirectoryWidget :
 		public SayonaraWidget,

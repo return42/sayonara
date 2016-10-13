@@ -43,12 +43,7 @@ LibraryPluginHandler::LibraryPluginHandler(QObject* parent) :
 	REGISTER_LISTENER(Set::Player_Language, language_changed);
 }
 
-
-LibraryPluginHandler::~LibraryPluginHandler()
-{
-
-}
-
+LibraryPluginHandler::~LibraryPluginHandler() {}
 
 void LibraryPluginHandler::init(const QList<LibraryContainerInterface*>& containers)
 {

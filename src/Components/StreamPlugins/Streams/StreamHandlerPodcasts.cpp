@@ -29,10 +29,7 @@ StreamHandlerPodcasts::StreamHandlerPodcasts(QObject* parent) :
 
 }
 
-StreamHandlerPodcasts::~StreamHandlerPodcasts()
-{
-
-}
+StreamHandlerPodcasts::~StreamHandlerPodcasts() {}
 
 bool StreamHandlerPodcasts::get_all_streams(StreamMap& streams){
 	return _db->getAllPodcasts(streams);

@@ -80,7 +80,7 @@ AlbumInfo::AlbumInfo(const MetaDataList& v_md) :
 	set_cover_location();
 }
 
-AlbumInfo::~AlbumInfo(){}
+AlbumInfo::~AlbumInfo() {}
 
 void AlbumInfo::set_header(){
 	_header = calc_album_str();

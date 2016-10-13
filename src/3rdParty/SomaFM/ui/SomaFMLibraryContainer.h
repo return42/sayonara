@@ -47,7 +47,7 @@ private:
 public:
 
 	explicit SomaFMLibraryContainer(QObject* parent=nullptr);
-	//virtual ~SomaFMLibraryContainer();
+	virtual ~SomaFMLibraryContainer();
 
 	// override from LibraryViewInterface
 	QString			get_name() const override;

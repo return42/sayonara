@@ -34,10 +34,7 @@ class LyricLookupThread;
 class InfoDialogContainer;
 class CoverLocation;
 
-namespace Ui
-{
-	class InfoDialog;
-}
+namespace Ui { class InfoDialog; }
 
 /**
  * @brief The GUI_InfoDialog class

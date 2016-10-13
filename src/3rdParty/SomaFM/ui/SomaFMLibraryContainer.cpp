@@ -32,10 +32,7 @@ SomaFMLibraryContainer::SomaFMLibraryContainer(QObject* parent) :
 	Q_INIT_RESOURCE(SomaFMIcons);
 }
 
-/*
-SomaFMLibraryContainer::~SomeFMLibraryContainer(){
-	ui->deleteLater();
-}*/
+SomaFMLibraryContainer::~SomaFMLibraryContainer(){}
 
 QString SomaFMLibraryContainer::get_name() const
 {

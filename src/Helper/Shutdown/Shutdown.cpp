@@ -55,7 +55,8 @@ Shutdown::Shutdown(QObject* parent) :
 }
 
 
-Shutdown::~Shutdown(){
+Shutdown::~Shutdown()
+{
 	_timer->stop();
 	_timer->deleteLater();
 	_timer_countdown->stop();
@@ -63,7 +64,8 @@ Shutdown::~Shutdown(){
 }
 
 
-void Shutdown::shutdown_after_end(){
+void Shutdown::shutdown_after_end()
+{
 	_is_running = true;
 
 	NotificationHandler::getInstance()->notify(tr("Shutdown"),

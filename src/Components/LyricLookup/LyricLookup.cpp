@@ -66,8 +66,7 @@ LyricLookupThread::LyricLookupThread(QObject* parent) :
 
 }
 
-LyricLookupThread::~LyricLookupThread() {
-}
+LyricLookupThread::~LyricLookupThread() {}
 
 QString LyricLookupThread::convert_to_regex(const QString& str){
 	QString ret = str;

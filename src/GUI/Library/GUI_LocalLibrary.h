@@ -39,10 +39,7 @@ class GUI_LibraryInfoBox;
 class GUI_ImportFolder;
 class LocalLibraryMenu;
 
-namespace Ui
-{
-	class GUI_LocalLibrary;
-}
+namespace Ui { class GUI_LocalLibrary; }
 
 class GUI_LocalLibrary :
 		public GUI_AbstractLibrary

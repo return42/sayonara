@@ -23,10 +23,7 @@
 
 #include "Interfaces/PlayerPlugin/PlayerPlugin.h"
 
-namespace Ui
-{
-	class GUI_Speed;
-}
+namespace Ui { class GUI_Speed; }
 
 class GUI_Speed : public PlayerPluginInterface
 {

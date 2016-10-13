@@ -47,10 +47,7 @@ CoverLookupInterface::CoverLookupInterface(QObject* parent):
 {
 }
 
-CoverLookupInterface::~CoverLookupInterface()
-{
-
-}
+CoverLookupInterface::~CoverLookupInterface() {}
 
 CoverLookup::CoverLookup(QObject* parent, int n_covers) :
 	CoverLookupInterface(parent)
@@ -58,10 +55,7 @@ CoverLookup::CoverLookup(QObject* parent, int n_covers) :
 	_n_covers = n_covers;
 }
 
-CoverLookup::~CoverLookup() {
-
-}
-
+CoverLookup::~CoverLookup() {}
 
 void CoverLookup::start_new_thread(const CoverLocation& cl ) {
 

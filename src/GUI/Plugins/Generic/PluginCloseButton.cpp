@@ -39,9 +39,7 @@ PluginCloseButton::PluginCloseButton(QWidget *parent) :
 	REGISTER_LISTENER(Set::Player_Style, _sl_skin_changed);
 }
 
-PluginCloseButton::~PluginCloseButton(){
-
-}
+PluginCloseButton::~PluginCloseButton() {}
 
 void PluginCloseButton::mouseReleaseEvent(QMouseEvent *e){
 	QPushButton::mouseReleaseEvent(e);

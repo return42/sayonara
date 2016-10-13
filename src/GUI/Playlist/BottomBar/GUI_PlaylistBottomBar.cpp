@@ -94,9 +94,7 @@ GUI_PlaylistBottomBar::GUI_PlaylistBottomBar(QWidget *parent) :
 	REGISTER_LISTENER(Set::PL_Mode, _sl_playlist_mode_changed);
 }
 
-GUI_PlaylistBottomBar::~GUI_PlaylistBottomBar(){
-
-}
+GUI_PlaylistBottomBar::~GUI_PlaylistBottomBar() {}
 
 void GUI_PlaylistBottomBar::btn_menu_pressed(QPoint pos){
 

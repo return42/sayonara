@@ -43,9 +43,7 @@ ID3v2Frame::DiscnumberFrame::DiscnumberFrame(TagLib::FileRef *file_ref) :
 
 }
 
-ID3v2Frame::DiscnumberFrame::~DiscnumberFrame(){
-
-}
+ID3v2Frame::DiscnumberFrame::~DiscnumberFrame() {}
 
 void ID3v2Frame::DiscnumberFrame::map_model_to_frame(){
 

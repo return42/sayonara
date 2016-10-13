@@ -51,11 +51,7 @@ GUI_LibraryInfoBox::GUI_LibraryInfoBox(QWidget* parent) :
 	language_changed();
 }
 
-GUI_LibraryInfoBox::~GUI_LibraryInfoBox() {
-
-}
-
-
+GUI_LibraryInfoBox::~GUI_LibraryInfoBox() {}
 
 void GUI_LibraryInfoBox::language_changed() {
 

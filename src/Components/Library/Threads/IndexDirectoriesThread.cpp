@@ -37,11 +37,7 @@ IndexDirectoriesThread::IndexDirectoriesThread(const MetaDataList& v_md)
 	_m->v_md = v_md;
 }
 
-IndexDirectoriesThread::~IndexDirectoriesThread()
-{
-
-}
-
+IndexDirectoriesThread::~IndexDirectoriesThread() {}
 
 QStringList IndexDirectoriesThread::get_directories() const
 {

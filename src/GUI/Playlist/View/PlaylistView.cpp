@@ -76,10 +76,7 @@ PlaylistView::PlaylistView(PlaylistPtr pl, QWidget* parent) :
 	new QShortcut(QKeySequence(Qt::Key_Backspace), this, SLOT(clear()), nullptr, Qt::WidgetShortcut);
 }
 
-PlaylistView::~PlaylistView()
-{
-}
-
+PlaylistView::~PlaylistView() {}
 
 void PlaylistView::init_rc_menu()
 {

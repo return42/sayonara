@@ -61,10 +61,7 @@ Bookmarks::Bookmarks(QObject *parent) :
 	reload_bookmarks();
 }
 
-Bookmarks::~Bookmarks()
-{
-
-}
+Bookmarks::~Bookmarks() {}
 
 void Bookmarks::init_members()
 {

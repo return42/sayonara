@@ -38,10 +38,7 @@ ShortcutLineEdit::ShortcutLineEdit(QWidget*parent) :
 {
 }
 
-ShortcutLineEdit::~ShortcutLineEdit()
-{
-
-}
+ShortcutLineEdit::~ShortcutLineEdit() {}
 
 QList<QKeySequence> ShortcutLineEdit::get_sequences() const
 {

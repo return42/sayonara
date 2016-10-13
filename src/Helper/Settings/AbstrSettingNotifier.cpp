@@ -27,6 +27,4 @@ AbstrSettingNotifier::AbstrSettingNotifier(QObject* parent) :
 {
 }
 
-AbstrSettingNotifier::~AbstrSettingNotifier(){
-
-}
+AbstrSettingNotifier::~AbstrSettingNotifier() {}

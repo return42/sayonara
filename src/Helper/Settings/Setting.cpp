@@ -35,9 +35,7 @@ AbstrSetting::AbstrSetting(SK::SettingKey key, const char* db_key){
 	_db_key = db_key;
 }
 
-AbstrSetting::~AbstrSetting(){
-
-}
+AbstrSetting::~AbstrSetting() {}
 
 SK::SettingKey AbstrSetting::get_key() const
 {

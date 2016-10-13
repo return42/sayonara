@@ -58,11 +58,7 @@ PLSParser::PLSParser(const QString& filename) :
 {
 }
 
-PLSParser::~PLSParser()
-{
-
-}
-
+PLSParser::~PLSParser() {}
 
 void PLSParser::parse(){
 

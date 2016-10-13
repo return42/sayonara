@@ -33,9 +33,7 @@ SoundcloudLibrary::SoundcloudLibrary(QObject *parent) :
 	_scd = SoundcloudData::getInstance();
 }
 
-SoundcloudLibrary::~SoundcloudLibrary(){
-
-}
+SoundcloudLibrary::~SoundcloudLibrary(){}
 
 void SoundcloudLibrary::load(){
 	AbstractLibrary::load();

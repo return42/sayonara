@@ -25,10 +25,7 @@
 
 class StreamServer;
 
-namespace Ui
-{
-	class GUI_Broadcast;
-}
+namespace Ui { class GUI_Broadcast; }
 
 class GUI_Broadcast :
 		public PlayerPluginInterface

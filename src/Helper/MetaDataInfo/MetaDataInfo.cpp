@@ -147,11 +147,7 @@ MetaDataInfo::MetaDataInfo(const MetaDataList& v_md) :
 	set_cover_location(v_md);
 }
 
-
-MetaDataInfo::~MetaDataInfo(){
-
-}
-
+MetaDataInfo::~MetaDataInfo() {}
 
 void MetaDataInfo::set_header(){}
 void MetaDataInfo::set_header(const MetaDataList& lst){

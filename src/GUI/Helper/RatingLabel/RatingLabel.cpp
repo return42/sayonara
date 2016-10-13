@@ -48,9 +48,7 @@ RatingLabel::RatingLabel(QWidget *parent, bool enabled) :
 	this->setStyleSheet("background: transparent;");
 }
 
-RatingLabel::~RatingLabel() {
-}
-
+RatingLabel::~RatingLabel() {}
 
 int RatingLabel::calc_rating(QPoint pos) const{
 

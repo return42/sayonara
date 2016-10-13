@@ -26,13 +26,9 @@
 #include "Helper/MetaData/MetaDataList.h"
 #include <QMainWindow>
 
-InfoDialogContainer::InfoDialogContainer(){
+InfoDialogContainer::InfoDialogContainer() {}
 
-}
-
-InfoDialogContainer::~InfoDialogContainer(){
-
-}
+InfoDialogContainer::~InfoDialogContainer() {}
 
 void InfoDialogContainer::info_dialog_closed()
 {

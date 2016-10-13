@@ -26,7 +26,5 @@ SayonaraClass::SayonaraClass(){
 	_settings = Settings::getInstance();
 }
 
-SayonaraClass::~SayonaraClass(){
-
-}
+SayonaraClass::~SayonaraClass() {}
 

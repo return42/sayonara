@@ -40,10 +40,7 @@ LocalLibrary::LocalLibrary(QObject *parent) :
 	REGISTER_LISTENER(Set::Lib_AutoUpdate, _sl_auto_update_changed);
 }
 
-LocalLibrary::~LocalLibrary(){
-
-}
-
+LocalLibrary::~LocalLibrary() {}
 
 void LocalLibrary::psl_reload_library(bool clear_first, Library::ReloadQuality quality) {
 

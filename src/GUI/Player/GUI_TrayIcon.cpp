@@ -61,11 +61,7 @@ GUI_TrayIcon::GUI_TrayIcon (QObject *parent) :
 	REGISTER_LISTENER(Set::Player_ShowTrayIcon, _sl_show_tray_icon);
 }
 
-
-GUI_TrayIcon::~GUI_TrayIcon()
-{
-}
-
+GUI_TrayIcon::~GUI_TrayIcon() {}
 
 void GUI_TrayIcon::language_changed()
 {

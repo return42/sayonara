@@ -33,10 +33,7 @@ StreamHttpParser::StreamHttpParser()
 	_status = HttpAnswer::OK;
 }
 
-StreamHttpParser::~StreamHttpParser()
-{
-
-}
+StreamHttpParser::~StreamHttpParser() {}
 
 
 StreamHttpParser::HttpAnswer StreamHttpParser::parse(const QByteArray& data){

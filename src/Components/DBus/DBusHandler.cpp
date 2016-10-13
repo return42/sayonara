@@ -38,6 +38,4 @@ DBusHandler::DBusHandler(QMainWindow* player, QObject* parent) :
 
 }
 
-DBusHandler::~DBusHandler(){
-
-}
+DBusHandler::~DBusHandler() {}

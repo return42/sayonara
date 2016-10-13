@@ -88,9 +88,7 @@ ID3v2Frame::PopularimeterFrame::PopularimeterFrame(TagLib::FileRef* f) :
 
 }
 
-ID3v2Frame::PopularimeterFrame::~PopularimeterFrame(){
-
-}
+ID3v2Frame::PopularimeterFrame::~PopularimeterFrame() {}
 
 TagLib::ID3v2::Frame* ID3v2Frame::PopularimeterFrame::create_id3v2_frame(){
 	return new TagLib::ID3v2::PopularimeterFrame();

@@ -22,13 +22,10 @@
 #define GUI_STREAM_H_
 
 #include "Components/StreamPlugins/Streams/StreamHandlerStreams.h"
-
 #include "GUI_AbstractStream.h"
 
-namespace Ui
-{
-	class GUI_Stream;
-}
+namespace Ui { class GUI_Stream; }
+
 class GUI_Stream :
 		public GUI_AbstractStream
 {

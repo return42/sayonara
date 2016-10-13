@@ -44,10 +44,7 @@ TagExpression::TagExpression(const QString& tag_str, const QString& filepath) :
 	update_tag(tag_str, filepath);
 }
 
-TagExpression::~TagExpression(){
-
-}
-
+TagExpression::~TagExpression() {}
 
 QString TagExpression::escape_special_chars(const QString& str) const
 {

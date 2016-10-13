@@ -36,9 +36,7 @@ ID3v2Frame::CoverFrame::CoverFrame(TagLib::FileRef* file_ref) :
 
 }
 
-ID3v2Frame::CoverFrame::~CoverFrame(){
-
-}
+ID3v2Frame::CoverFrame::~CoverFrame() {}
 
 void  ID3v2Frame::CoverFrame::map_model_to_frame(){
 

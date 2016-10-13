@@ -43,10 +43,7 @@ MTP_Folder::MTP_Folder(MTPIntern_Device* device, MTPIntern_Folder *folder){
 	}
 }
 
-MTP_Folder::~MTP_Folder(){
-}
-
-
+MTP_Folder::~MTP_Folder() {}
 
 QList<MTP_FolderPtr> MTP_Folder::children() const
 {

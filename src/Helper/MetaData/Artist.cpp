@@ -59,11 +59,7 @@ Artist& Artist::operator =(const Artist& other){
 	return *this;
 }
 
-
-Artist::~Artist() {
-
-}
-
+Artist::~Artist() {}
 
 QVariant Artist::toVariant(const Artist& artist) {
 

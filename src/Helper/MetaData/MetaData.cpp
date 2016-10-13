@@ -91,9 +91,7 @@ MetaData::MetaData(const QString& path)
 	this->set_filepath(path);
 }
 
-MetaData::~MetaData() {
-
-}
+MetaData::~MetaData() {}
 
 QString MetaData::to_string() const {
 	return	title + " by " +

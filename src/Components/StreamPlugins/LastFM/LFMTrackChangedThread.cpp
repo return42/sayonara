@@ -76,8 +76,7 @@ LFMTrackChangedThread::LFMTrackChangedThread(const QString& username, const QStr
 
 }
 
-LFMTrackChangedThread::~LFMTrackChangedThread() {
-}
+LFMTrackChangedThread::~LFMTrackChangedThread() {}
 
 void LFMTrackChangedThread::set_session_key(const QString& session_key) {
 	_m->session_key = session_key;

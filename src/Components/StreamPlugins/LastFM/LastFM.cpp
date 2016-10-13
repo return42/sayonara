@@ -91,9 +91,7 @@ LastFM::LastFM() :
 	REGISTER_LISTENER(Set::LFM_Active, psl_login);
 }
 
-LastFM::~LastFM() {
-
-}
+LastFM::~LastFM() {}
 
 void LastFM::get_login(QString& user, QString& pw){
 

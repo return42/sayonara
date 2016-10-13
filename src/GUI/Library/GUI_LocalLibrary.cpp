@@ -102,7 +102,8 @@ GUI_LocalLibrary::GUI_LocalLibrary(QWidget* parent) :
 }
 
 
-GUI_LocalLibrary::~GUI_LocalLibrary() {
+GUI_LocalLibrary::~GUI_LocalLibrary()
+{
 	if(ui)
 	{
 		delete ui; ui = nullptr;

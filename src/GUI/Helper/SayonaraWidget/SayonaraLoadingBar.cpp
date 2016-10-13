@@ -39,10 +39,7 @@ SayonaraLoadingBar::SayonaraLoadingBar(QWidget* parent) :
 	this->setVisible(false);
 }
 
-SayonaraLoadingBar::~SayonaraLoadingBar()
-{
-
-}
+SayonaraLoadingBar::~SayonaraLoadingBar() {}
 
 void SayonaraLoadingBar::showEvent(QShowEvent* e)
 {

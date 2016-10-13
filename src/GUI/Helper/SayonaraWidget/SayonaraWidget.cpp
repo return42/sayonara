@@ -33,10 +33,7 @@ SayonaraWidget::SayonaraWidget(QWidget* parent) :
 	REGISTER_LISTENER(Set::Player_Style, skin_changed);
 }
 
-SayonaraWidget::~SayonaraWidget()
-{
-
-}
+SayonaraWidget::~SayonaraWidget() {}
 
 SayonaraDialog* SayonaraWidget::box_into_dialog()
 {
@@ -60,7 +57,7 @@ SayonaraMainWindow::SayonaraMainWindow(QWidget* parent) :
 	REGISTER_LISTENER(Set::Player_Style, skin_changed);
 }
 
-SayonaraMainWindow::~SayonaraMainWindow(){}
+SayonaraMainWindow::~SayonaraMainWindow() {}
 
 void SayonaraMainWindow::language_changed(){}
 void SayonaraMainWindow::skin_changed(){}

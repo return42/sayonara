@@ -34,10 +34,7 @@ ListDelegate::ListDelegate(QListView* parent) :
 	_parent = parent;
 }
 
-ListDelegate::~ListDelegate(){
-
-}
-
+ListDelegate::~ListDelegate() {}
 
 QSize ListDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
 {

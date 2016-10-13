@@ -39,9 +39,7 @@ SearchableTableView::SearchableTableView(QWidget* parent) :
 	connect(_mini_searcher, &MiniSearcher::sig_find_prev_row, this, &SearchableTableView::bwd_clicked);
 }
 
-SearchableTableView::~SearchableTableView() {
-
-}
+SearchableTableView::~SearchableTableView() {}
 
 void SearchableTableView::setAbstractModel(AbstractSearchTableModel* model) {
 	 _abstr_model = model;

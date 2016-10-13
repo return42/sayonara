@@ -36,9 +36,7 @@ DirectoryReader::DirectoryReader () {
 	_name_filters = Helper::get_soundfile_extensions();
 }
 
-DirectoryReader::~DirectoryReader () {
-
-}
+DirectoryReader::~DirectoryReader () {}
 
 void DirectoryReader::set_filter(const QStringList & filter) {
 

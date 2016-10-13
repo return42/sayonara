@@ -27,10 +27,7 @@ MTPTreeView::MTPTreeView(QWidget *parent) :
 {
 }
 
-MTPTreeView::~MTPTreeView()
-{
-
-}
+MTPTreeView::~MTPTreeView() {}
 
 bool MTPTreeView::dropMimeData(QTreeWidgetItem* parent, int index, const QMimeData* data, Qt::DropAction action)
 {

@@ -34,11 +34,7 @@ AsyncWebAccess::AsyncWebAccess(QObject* parent, const QByteArray& header, AsyncW
 	connect(_nam, &QNetworkAccessManager::finished, this, &AsyncWebAccess::finished);
 }
 
-
-AsyncWebAccess::~AsyncWebAccess() {
-}
-
-
+AsyncWebAccess::~AsyncWebAccess() {}
 
 void AsyncWebAccess::run(const QString& url, int timeout){
 

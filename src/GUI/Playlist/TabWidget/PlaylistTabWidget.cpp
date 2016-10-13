@@ -42,10 +42,7 @@ PlaylistTabWidget::PlaylistTabWidget(QWidget* parent) :
 	connect(_tab_bar, &PlaylistTabBar::sig_metadata_dropped, this, &PlaylistTabWidget::sig_metadata_dropped);
 }
 
-PlaylistTabWidget::~PlaylistTabWidget(){
-
-}
-
+PlaylistTabWidget::~PlaylistTabWidget() {}
 
 void PlaylistTabWidget::show_menu_items(PlaylistMenuEntries entries){
 	_tab_bar->show_menu_items(entries);

@@ -52,10 +52,7 @@ CoverLookupAll::CoverLookupAll(QObject* parent, const AlbumList& album_list) :
 }
 
 
-CoverLookupAll::~CoverLookupAll()
-{
-
-}
+CoverLookupAll::~CoverLookupAll() {}
 
 void CoverLookupAll::start() {
 

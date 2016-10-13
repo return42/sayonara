@@ -19,16 +19,14 @@
 
 #include "NotificationInterface.h"
 
-NotificationInterface::NotificationInterface(const QString& name){
+NotificationInterface::NotificationInterface(const QString& name)
+{
 	_name = name;
 }
 
-NotificationInterface::~NotificationInterface()
+NotificationInterface::~NotificationInterface() {}
+
+QString NotificationInterface::get_name() const
 {
-
-}
-
-
-QString NotificationInterface::get_name() const{
 	return _name;
 }

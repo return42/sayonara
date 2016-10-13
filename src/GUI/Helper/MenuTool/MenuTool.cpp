@@ -37,11 +37,7 @@ MenuToolButton::MenuToolButton(QWidget *parent) :
 	prove_enabled();
 }
 
-MenuToolButton::~MenuToolButton()
-{
-
-}
-
+MenuToolButton::~MenuToolButton() {}
 
 void MenuToolButton::register_action(QAction *action)
 {

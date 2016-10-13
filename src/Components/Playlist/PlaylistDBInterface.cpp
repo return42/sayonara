@@ -34,7 +34,7 @@ PlaylistDBInterface::PlaylistDBInterface(const QString& name)
 	_is_temporary = true;
 }
 
-PlaylistDBInterface::~PlaylistDBInterface(){}
+PlaylistDBInterface::~PlaylistDBInterface() {}
 
 int PlaylistDBInterface::get_id() const {
 	return _id;

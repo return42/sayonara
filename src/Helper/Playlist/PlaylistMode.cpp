@@ -86,10 +86,7 @@ Playlist::Mode::Mode(){
 	_dynamic = Playlist::Mode::Off;
 }
 
-Playlist::Mode::~Mode()
-{
-
-}
+Playlist::Mode::~Mode() {}
 
 void Playlist::Mode::print()
 {

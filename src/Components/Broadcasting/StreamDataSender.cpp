@@ -76,11 +76,7 @@ StreamDataSender::StreamDataSender(QTcpSocket* socket)
 	_reject_header.append("\r\n");
 }
 
-StreamDataSender::~StreamDataSender()
-{
-
-}
-
+StreamDataSender::~StreamDataSender() {}
 
 bool StreamDataSender::send_trash(){
 	char single_byte = 0x00;

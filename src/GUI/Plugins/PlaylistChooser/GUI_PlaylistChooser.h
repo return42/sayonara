@@ -35,10 +35,7 @@
 class PlaylistChooser;
 class GUI_TargetPlaylistDialog;
 
-namespace Ui
-{
-	class GUI_PlaylistChooser;
-}
+namespace Ui { class GUI_PlaylistChooser; }
 
 class GUI_PlaylistChooser :
 		public PlayerPluginInterface

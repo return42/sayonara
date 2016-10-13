@@ -39,12 +39,10 @@ CustomField::CustomField(const CustomField &copy){
 	_value = copy._value;
 }
 
-CustomField::~CustomField()
+CustomField::~CustomField() {}
+
+QString CustomField::get_id() const
 {
-
-}
-
-QString CustomField::get_id() const {
 	return _id;
 }
 

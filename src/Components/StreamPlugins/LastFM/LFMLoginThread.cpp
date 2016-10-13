@@ -32,10 +32,7 @@ LFMLoginThread::LFMLoginThread(QObject *parent) :
 
 }
 
-LFMLoginThread::~LFMLoginThread()
-{
-
-}
+LFMLoginThread::~LFMLoginThread() {}
 
 bool LFMLoginThread::request_authorization() {
 

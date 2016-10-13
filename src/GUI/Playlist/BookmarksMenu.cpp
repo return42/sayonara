@@ -35,7 +35,7 @@ BookmarksMenu::BookmarksMenu(QWidget* parent) :
 	connect(_bookmarks, &Bookmarks::sig_bookmarks_changed, this, &BookmarksMenu::bookmarks_changed);
 }
 
-BookmarksMenu::~BookmarksMenu(){}
+BookmarksMenu::~BookmarksMenu() {}
 
 bool BookmarksMenu::has_bookmarks() const
 {

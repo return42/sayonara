@@ -49,11 +49,7 @@ LibraryItemModelTracks::LibraryItemModelTracks() :
 	_m = Pimpl::make<LibraryItemModelTracks::Private>();
 }
 
-
-LibraryItemModelTracks::~LibraryItemModelTracks() {
-
-}
-
+LibraryItemModelTracks::~LibraryItemModelTracks() {}
 
 QVariant LibraryItemModelTracks::data(const QModelIndex &index, int role) const{
 

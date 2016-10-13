@@ -29,7 +29,4 @@ PreferenceWidgetInterface::PreferenceWidgetInterface(QWidget* parent) :
 
 }
 
-PreferenceWidgetInterface::~PreferenceWidgetInterface()
-{
-
-}
+PreferenceWidgetInterface::~PreferenceWidgetInterface() {}

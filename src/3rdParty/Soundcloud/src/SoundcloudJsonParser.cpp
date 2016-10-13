@@ -44,10 +44,7 @@ SoundcloudJsonParser::SoundcloudJsonParser(const QByteArray& content) :
 	}
 }
 
-SoundcloudJsonParser::~SoundcloudJsonParser()
-{
-
-}
+SoundcloudJsonParser::~SoundcloudJsonParser() {}
 
 bool SoundcloudJsonParser::parse_artists(ArtistList& artists)
 {

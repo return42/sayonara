@@ -28,25 +28,22 @@ Settings::Settings(){
 	memset(_settings, 0, SK::Num_Setting_Keys + 1);
 }
 
+Settings::~Settings () {}
 
-Settings::~Settings () {
-}
-
-
-AbstrSetting** Settings::get_settings(){
+AbstrSetting** Settings::get_settings()
+{
 	return _settings;
 }
 
-
-void Settings::register_setting(AbstrSetting* s){
-
+void Settings::register_setting(AbstrSetting* s)
+{
 	SK::SettingKey key  = s->get_key();
 	_settings[ (int) key ] = s;
 }
 
 
-bool Settings::check_settings(){
-
+bool Settings::check_settings()
+{
 	IntList un_init;
 	for(int i=0; i<SK::Num_Setting_Keys; i++){
 		if(! _settings[i] ){

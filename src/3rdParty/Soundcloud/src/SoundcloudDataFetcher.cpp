@@ -44,10 +44,7 @@ SoundcloudDataFetcher::SoundcloudDataFetcher(QObject* parent) :
 	clear();
 }
 
-SoundcloudDataFetcher::~SoundcloudDataFetcher()
-{
-
-}
+SoundcloudDataFetcher::~SoundcloudDataFetcher() {}
 
 
 void SoundcloudDataFetcher::search_artists(const QString& artist_name){

@@ -29,8 +29,8 @@ EnginePlugin::EnginePlugin(QWidget* parent) :
 	_timer_stopped = true;
 }
 
-EnginePlugin::~EnginePlugin(){
-
+EnginePlugin::~EnginePlugin()
+{
 	if(_ecsc){
 		delete _ecsc; _ecsc = nullptr;
 	}

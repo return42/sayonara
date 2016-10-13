@@ -33,11 +33,7 @@ M3UParser::M3UParser(const QString& filename) :
 
 }
 
-M3UParser::~M3UParser()
-{
-
-}
-
+M3UParser::~M3UParser() {}
 
 void M3UParser::parse(){
 

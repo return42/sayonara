@@ -24,11 +24,7 @@
 
 #include <algorithm>
 
-ArtistMatch::ArtistMatch()
-{
-
-}
-
+ArtistMatch::ArtistMatch() {}
 
 ArtistMatch::ArtistMatch(const QString& artist_name)
 {
@@ -44,10 +40,7 @@ ArtistMatch::ArtistMatch(const ArtistMatch& other)
 	_poor = other._poor;
 }
 
-ArtistMatch::~ArtistMatch()
-{
-
-}
+ArtistMatch::~ArtistMatch() {}
 
 bool ArtistMatch::is_valid() const {
 	return  (

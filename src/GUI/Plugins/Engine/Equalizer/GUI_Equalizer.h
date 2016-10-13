@@ -35,14 +35,10 @@
 #include <QMenu>
 #include <QAction>
 
-namespace Ui
-{
-	class GUI_Equalizer;
-}
+namespace Ui { class GUI_Equalizer; }
 
 class EqSlider;
 class EngineHandler;
-
 
 /**
  * @brief The GUI_Equalizer class

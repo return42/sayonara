@@ -32,10 +32,7 @@ InstanceThread::InstanceThread(InstanceMessage* instance_message, QObject* paren
 	_instance_message = instance_message;
 }
 
-InstanceThread::~InstanceThread()
-{
-
-}
+InstanceThread::~InstanceThread() {}
 
 void InstanceThread::run()
 {

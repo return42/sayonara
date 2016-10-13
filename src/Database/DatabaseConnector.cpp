@@ -38,10 +38,7 @@ DatabaseConnector::DatabaseConnector() :
 	apply_fixes();
 }
 
-
-DatabaseConnector::~DatabaseConnector() {
-
-}
+DatabaseConnector::~DatabaseConnector() {}
 
 bool DatabaseConnector::updateAlbumCissearchFix() {
 

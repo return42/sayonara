@@ -29,9 +29,7 @@ StreamHandlerStreams::StreamHandlerStreams(QObject* parent) :
 
 }
 
-StreamHandlerStreams::~StreamHandlerStreams(){
-
-}
+StreamHandlerStreams::~StreamHandlerStreams() {}
 
 bool StreamHandlerStreams::get_all_streams(StreamMap& streams){
 	return _db->getAllStreams(streams);

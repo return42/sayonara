@@ -33,8 +33,7 @@ StdPlaylist::StdPlaylist(int idx, QString name) :
 	_is_storable = true;
 }
 
-StdPlaylist::~StdPlaylist()
-{}
+StdPlaylist::~StdPlaylist() {}
 
 
 bool StdPlaylist::change_track(int idx) {

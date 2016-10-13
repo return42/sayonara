@@ -45,7 +45,7 @@ CoverButton::CoverButton(QWidget* parent) :
 	connect(this, &QPushButton::clicked, this, &CoverButton::cover_button_clicked);
 }
 
-CoverButton::~CoverButton(){}
+CoverButton::~CoverButton() {}
 
 void CoverButton::cover_button_clicked(){
 

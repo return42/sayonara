@@ -38,7 +38,6 @@ PlayerPluginHandler::PlayerPluginHandler(QObject *parent) :
 
 PlayerPluginHandler::~PlayerPluginHandler() {}
 
-
 PlayerPluginInterface* PlayerPluginHandler::find_plugin(const QString& name) {
 
 	sp_log(Log::Debug) << "Search for plugin " << name;

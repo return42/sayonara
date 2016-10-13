@@ -52,11 +52,7 @@ DBusNotifications::DBusNotifications(QObject* parent) :
 }
 
 
-DBusNotifications::~DBusNotifications(){
-
-}
-
-
+DBusNotifications::~DBusNotifications() {}
 
 void DBusNotifications::notify(const QString& title, const QString& text, const QString& image_path){
 

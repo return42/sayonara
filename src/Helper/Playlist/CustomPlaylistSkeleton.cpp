@@ -37,7 +37,7 @@ CustomPlaylistSkeleton::CustomPlaylistSkeleton(const CustomPlaylistSkeleton& s)
 	_num_tracks = s._num_tracks;
 }
 
-CustomPlaylistSkeleton::~CustomPlaylistSkeleton(){}
+CustomPlaylistSkeleton::~CustomPlaylistSkeleton() {}
 
 int CustomPlaylistSkeleton::id() const
 { 

@@ -55,9 +55,7 @@ LibraryItemModelArtists::LibraryItemModelArtists() :
 	_m->pm_multi = GUI::get_pixmap("sampler", QSize(16, 16));
 }
 
-LibraryItemModelArtists::~LibraryItemModelArtists() {
-
-}
+LibraryItemModelArtists::~LibraryItemModelArtists() {}
 
 int LibraryItemModelArtists::get_id_by_row(int row)
 {

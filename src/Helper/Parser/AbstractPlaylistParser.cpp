@@ -39,9 +39,7 @@ AbstractPlaylistParser::AbstractPlaylistParser(const QString& filename)
 	_parsed = false;
 }
 
-AbstractPlaylistParser::~AbstractPlaylistParser(){
-
-}
+AbstractPlaylistParser::~AbstractPlaylistParser() {}
 
 MetaDataList AbstractPlaylistParser::get_md(bool force_parse) {
 

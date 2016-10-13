@@ -29,10 +29,7 @@
 
 #include <QList>
 
-namespace Ui
-{
-	class GUI_Spectrum;
-}
+namespace Ui { class GUI_Spectrum; }
 
 class GUI_Spectrum :
 		public EnginePlugin,

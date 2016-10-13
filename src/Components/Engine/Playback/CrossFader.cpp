@@ -103,10 +103,7 @@ CrossFader::CrossFader()
 				);
 }
 
-CrossFader::~CrossFader()
-{
-
-}
+CrossFader::~CrossFader() {}
 
 CrossFader::CrossFader(const CrossFader& other)
 {

@@ -75,7 +75,7 @@ ArtistInfo::ArtistInfo(const MetaDataList& v_md) :
 	set_cover_location();
 }
 
-ArtistInfo::~ArtistInfo(){}
+ArtistInfo::~ArtistInfo() {}
 
 void ArtistInfo::set_header(){
 	_header = calc_artist_str();

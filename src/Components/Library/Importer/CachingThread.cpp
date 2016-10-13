@@ -91,10 +91,7 @@ CachingThread::CachingThread(const QStringList& file_list, QObject *parent) :
 	_m->cancelled = false;
 }
 
-CachingThread::~CachingThread()
-{
-
-}
+CachingThread::~CachingThread() {}
 
 void CachingThread::run()
 {

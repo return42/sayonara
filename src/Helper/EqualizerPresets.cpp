@@ -32,17 +32,12 @@ EQ_Setting::EQ_Setting(const QString& name){
 	}
 }
 
-
 EQ_Setting::EQ_Setting(const EQ_Setting& s){
 	_values = s.values();
 	_name = s.name();
 }
 
-EQ_Setting::~EQ_Setting()
-{
-
-}
-
+EQ_Setting::~EQ_Setting() {}
 
 EQ_Setting EQ_Setting::fromString(const QString& str){
 

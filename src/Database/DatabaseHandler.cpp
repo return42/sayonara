@@ -29,13 +29,9 @@
 #include "Helper/Logger/Logger.h"
 
 
-DB::DB()
-{
-}
+DB::DB() {}
 
-DB::~DB(){
-
-}
+DB::~DB() {}
 
 LibraryDatabase* DB::getInstance(quint8 db_id){
 	return getInstance()->get(db_id);

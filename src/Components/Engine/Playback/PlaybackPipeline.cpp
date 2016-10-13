@@ -55,9 +55,7 @@ PlaybackPipeline::PlaybackPipeline(Engine* engine, QObject *parent) :
 	_sr_data = new StreamRecorderData();
 }
 
-
-PlaybackPipeline::~PlaybackPipeline() {
-}
+PlaybackPipeline::~PlaybackPipeline() {}
 
 bool PlaybackPipeline::init(GstState state){
 

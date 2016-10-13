@@ -47,9 +47,7 @@ CoverFetchThread::CoverFetchThread(QObject* parent, const CoverLocation& cl, con
 }
 
 
-CoverFetchThread::~CoverFetchThread() {
-
-}
+CoverFetchThread::~CoverFetchThread() {}
 
 bool CoverFetchThread::start(){
 

@@ -43,9 +43,7 @@ AlternativeCoverItemModel::AlternativeCoverItemModel(QObject* parent) : QAbstrac
 	_pathlist.reserve(10);
 }
 
-AlternativeCoverItemModel::~AlternativeCoverItemModel() {
-
-}
+AlternativeCoverItemModel::~AlternativeCoverItemModel() {}
 
 RowColumn AlternativeCoverItemModel::cvt_2_row_col(int idx) const {
 

@@ -34,10 +34,7 @@ RandomGenerator::RandomGenerator()
 	update_seed();
 }
 
-RandomGenerator::~RandomGenerator()
-{
-
-}
+RandomGenerator::~RandomGenerator() {}
 
 RandomGenerator::RandomGenerator(const RandomGenerator& other)
 {

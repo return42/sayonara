@@ -24,10 +24,7 @@
 #include "EnginePlugin.h"
 #include "Components/Engine/Playback/SoundOutReceiver.h"
 
-namespace Ui
-{
-	class GUI_LevelPainter;
-}
+namespace Ui { class GUI_LevelPainter; }
 
 class GUI_LevelPainter :
 		public EnginePlugin,

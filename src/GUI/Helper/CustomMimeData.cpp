@@ -32,10 +32,7 @@ CustomMimeData::CustomMimeData() :
 	_m = Pimpl::make<CustomMimeData::Private>();
 }
 
-CustomMimeData::~CustomMimeData()
-{	
-}
-
+CustomMimeData::~CustomMimeData() {}
 
 void CustomMimeData::setMetaData(const MetaDataList& v_md)
 {

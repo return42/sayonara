@@ -34,7 +34,7 @@ CustomPlaylist::CustomPlaylist(const CustomPlaylistSkeleton& skeleton) :
 
 }
 
-CustomPlaylist::~CustomPlaylist(){}
+CustomPlaylist::~CustomPlaylist() {}
 
 void CustomPlaylist::set_num_tracks(int num_tracks)
 {

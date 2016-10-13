@@ -49,10 +49,7 @@ CoverLookupAlternative::CoverLookupAlternative(QObject* parent, const CoverLocat
 	_m->cover_location = cl;
 }
 
-
-CoverLookupAlternative::~CoverLookupAlternative() {
-
-}
+CoverLookupAlternative::~CoverLookupAlternative() {}
 
 void CoverLookupAlternative::stop() {
 	_m->cl->stop();

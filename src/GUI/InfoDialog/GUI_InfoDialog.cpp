@@ -63,7 +63,7 @@ GUI_InfoDialog::GUI_InfoDialog(InfoDialogContainer* container, QWidget* parent) 
 	_m->md_interpretation = MD::Interpretation::None;
 }
 
-GUI_InfoDialog::~GUI_InfoDialog(){}
+GUI_InfoDialog::~GUI_InfoDialog() {}
 
 void GUI_InfoDialog::language_changed()
 {

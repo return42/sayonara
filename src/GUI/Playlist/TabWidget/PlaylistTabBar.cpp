@@ -60,11 +60,7 @@ PlaylistTabBar::PlaylistTabBar(QWidget *parent) :
 	connect(_menu, &PlaylistTabMenu::sig_close_others_clicked, this, &PlaylistTabBar::close_others_pressed);
 }
 
-
-PlaylistTabBar::~PlaylistTabBar(){
-
-}
-
+PlaylistTabBar::~PlaylistTabBar() {}
 
 void PlaylistTabBar::save_pressed(){
 	emit sig_tab_save(currentIndex());

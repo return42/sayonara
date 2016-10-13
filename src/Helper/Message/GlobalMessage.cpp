@@ -28,10 +28,7 @@ GlobalMessage::GlobalMessage(QObject* parent) :
 	_receiver = nullptr;
 }
 
-GlobalMessage::~GlobalMessage()
-{
-
-}
+GlobalMessage::~GlobalMessage() {}
 
 bool GlobalMessage::register_receiver(GlobalMessageReceiverInterface* receiver){
 	if(_receiver != nullptr){

@@ -26,10 +26,7 @@
 #include "Interfaces/PlayerPlugin/PlayerPlugin.h"
 #include "Helper/Playlist/PlaylistMode.h"
 
-namespace Ui
-{
-	class GUI_AudioConvert;
-}
+namespace Ui { class GUI_AudioConverter; }
 
 class EngineHandler;
 class GUI_AudioConverter :
@@ -66,7 +63,7 @@ protected slots:
 	
 private:
 
-	Ui::GUI_AudioConvert*	ui=nullptr;
+	Ui::GUI_AudioConverter*	ui=nullptr;
 	EngineHandler*		_engine=nullptr;
 	Playlist::Mode		_pl_mode;
 	bool				_mp3_enc_available;

@@ -54,9 +54,7 @@ MTP_Storage::MTP_Storage(MTPIntern_Device* device, MTPIntern_Storage* storage){
 	}
 }
 
-MTP_Storage::~MTP_Storage(){
-
-}
+MTP_Storage::~MTP_Storage() {}
 
 void MTP_Storage::remove_id(quint32 id){
 	if(_files.contains(id)){

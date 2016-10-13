@@ -48,10 +48,7 @@ PlaylistItemDelegate::PlaylistItemDelegate(QListView* parent) :
 	REGISTER_LISTENER_NO_CALL(Set::PL_EntryLook, _sl_look_changed);
 }
 
-PlaylistItemDelegate::~PlaylistItemDelegate() {
-
-}
-
+PlaylistItemDelegate::~PlaylistItemDelegate() {}
 
 void PlaylistItemDelegate::paint( QPainter *painter,
 						const QStyleOptionViewItem &option,

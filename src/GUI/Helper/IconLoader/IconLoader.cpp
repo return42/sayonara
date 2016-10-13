@@ -62,10 +62,7 @@ IconLoader::IconLoader(){
 
 }
 
-IconLoader::~IconLoader(){
-
-
-}
+IconLoader::~IconLoader() {}
 
 QStringList IconLoader::load_ancestors(const QString &index_theme_file){
 

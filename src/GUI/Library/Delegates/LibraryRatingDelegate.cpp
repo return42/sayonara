@@ -32,10 +32,7 @@ LibraryRatingDelegate::LibraryRatingDelegate(QObject* parent, bool enabled) :
 	_enabled = enabled;
 }
 
-LibraryRatingDelegate::~LibraryRatingDelegate()
-{
-
-}
+LibraryRatingDelegate::~LibraryRatingDelegate() {}
 
 
 QWidget *LibraryRatingDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem & option, const QModelIndex & index) const

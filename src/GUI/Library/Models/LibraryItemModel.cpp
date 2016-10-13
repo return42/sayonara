@@ -34,10 +34,7 @@ LibraryItemModel::LibraryItemModel() {
 	_n_rows = 0;
 }
 
-LibraryItemModel::~LibraryItemModel() {
-
-}
-
+LibraryItemModel::~LibraryItemModel() {}
 
 QVariant LibraryItemModel::headerData ( int section, Qt::Orientation orientation, int role ) const{
 

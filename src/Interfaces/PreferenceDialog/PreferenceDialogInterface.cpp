@@ -29,9 +29,5 @@ PreferenceDialogInterface::PreferenceDialogInterface(QWidget* parent) :
 
 }
 
-PreferenceDialogInterface::~PreferenceDialogInterface()
-{
-
-}
-
+PreferenceDialogInterface::~PreferenceDialogInterface() {}
 

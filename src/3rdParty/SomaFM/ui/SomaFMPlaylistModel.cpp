@@ -31,10 +31,7 @@ SomaFMPlaylistModel::SomaFMPlaylistModel(QObject* parent) :
 
 }
 
-SomaFMPlaylistModel::~SomaFMPlaylistModel()
-{
-
-}
+SomaFMPlaylistModel::~SomaFMPlaylistModel(){}
 
 
 void SomaFMPlaylistModel::setStation(const SomaFMStation& station)

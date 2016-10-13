@@ -51,10 +51,7 @@ RemoteControl::RemoteControl(QObject *parent) :
 	_initialized = false;
 }
 
-RemoteControl::~RemoteControl()
-{
-
-}
+RemoteControl::~RemoteControl() {}
 
 void RemoteControl::init()
 {

@@ -31,9 +31,7 @@ MTP_RawDevice::MTP_RawDevice(MTPIntern_RawDevice* raw_device) :
 {
 }
 
-MTP_RawDevice::~MTP_RawDevice(){
-	sp_log(Log::Warning) << "Raw device deleted";
-}
+MTP_RawDevice::~MTP_RawDevice() {}
 
 MTP_DevicePtr MTP_RawDevice::open()
 {

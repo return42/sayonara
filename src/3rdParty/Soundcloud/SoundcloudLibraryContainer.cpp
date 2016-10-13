@@ -33,10 +33,7 @@ SoundcloudLibraryContainer::SoundcloudLibraryContainer(QObject *parent) :
 	Q_INIT_RESOURCE(SoundcloudIcons);
 }
 
-SoundcloudLibraryContainer::~SoundcloudLibraryContainer()
-{
-
-}
+SoundcloudLibraryContainer::~SoundcloudLibraryContainer() {}
 
 QString SoundcloudLibraryContainer::get_name() const
 {

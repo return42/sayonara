@@ -44,10 +44,7 @@ AlternativeCoverItemDelegate::AlternativeCoverItemDelegate(QObject* parent) : QI
 	label->setPixmap(pm);
 }
 
-AlternativeCoverItemDelegate::~AlternativeCoverItemDelegate() {
-
-}
-
+AlternativeCoverItemDelegate::~AlternativeCoverItemDelegate() {}
 
 void AlternativeCoverItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const{
 	QItemDelegate::paint(painter, option, index);

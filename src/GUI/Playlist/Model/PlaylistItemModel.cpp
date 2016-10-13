@@ -46,9 +46,7 @@ PlaylistItemModel::PlaylistItemModel(PlaylistPtr pl, QObject* parent) :
 	connect(_pl.get(), &AbstractPlaylist::sig_data_changed, this, &PlaylistItemModel::playlist_changed);
 }
 
-PlaylistItemModel::~PlaylistItemModel() {
-}
-
+PlaylistItemModel::~PlaylistItemModel() {}
 
 int PlaylistItemModel::rowCount(const QModelIndex &parent) const{
 	Q_UNUSED(parent);

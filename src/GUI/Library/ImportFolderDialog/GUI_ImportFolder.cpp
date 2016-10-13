@@ -66,12 +66,10 @@ GUI_ImportFolder::GUI_ImportFolder(QWidget* parent, bool copy_enabled) :
 	setModal(true);
 }
 
+GUI_ImportFolder::~GUI_ImportFolder() {}
 
-GUI_ImportFolder::~GUI_ImportFolder() {
-
-}
-
-void GUI_ImportFolder::language_changed(){
+void GUI_ImportFolder::language_changed()
+{
 	retranslateUi(this);
 }
 

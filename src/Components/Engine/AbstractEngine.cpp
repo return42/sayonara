@@ -30,10 +30,7 @@ Engine::Engine(QObject *parent) :
 	_broadcast_active = false;
 }
 
-Engine::~Engine()
-{
-
-}
+Engine::~Engine() {}
 
 EngineName Engine::get_name() const {
 	return _name;

@@ -45,15 +45,12 @@ AbstractStreamHandler::AbstractStreamHandler(QObject *parent) :
 	_db = DatabaseConnector::getInstance();
 }
 
-AbstractStreamHandler::~AbstractStreamHandler()
+AbstractStreamHandler::~AbstractStreamHandler() {}
+
+void AbstractStreamHandler::clear()
 {
-
-}
-
-void AbstractStreamHandler::clear(){
 	_m->station_contents.clear();
 }
-
 
 bool AbstractStreamHandler::parse_station(const QString& url, const QString& station_name){
 

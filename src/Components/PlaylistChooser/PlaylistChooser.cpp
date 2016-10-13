@@ -36,9 +36,7 @@ PlaylistChooser::PlaylistChooser() {
 			this, &PlaylistChooser::load_all_playlists);
 }
 
-PlaylistChooser::~PlaylistChooser() {
-
-}
+PlaylistChooser::~PlaylistChooser() {}
 
 void PlaylistChooser::load_all_playlists() {
 

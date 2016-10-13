@@ -27,12 +27,10 @@ GlobalMessageReceiverInterface::GlobalMessageReceiverInterface(const QString &na
 	_name = name;
 }
 
-GlobalMessageReceiverInterface::~GlobalMessageReceiverInterface()
+GlobalMessageReceiverInterface::~GlobalMessageReceiverInterface() {}
+
+QString GlobalMessageReceiverInterface::get_name() const
 {
-
-}
-
-QString GlobalMessageReceiverInterface::get_name() const{
-		return _name;
+	return _name;
 }
 

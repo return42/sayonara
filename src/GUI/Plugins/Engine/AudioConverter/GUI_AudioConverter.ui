@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>GUI_AudioConvert</class>
- <widget class="QWidget" name="GUI_AudioConvert">
+ <class>GUI_AudioConverter</class>
+ <widget class="QWidget" name="GUI_AudioConverter">
   <property name="geometry">
    <rect>
     <x>0</x>

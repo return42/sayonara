@@ -28,8 +28,7 @@ DirectoryDelegate::DirectoryDelegate(QObject* parent) :
 	QItemDelegate(parent)
 {}
 
-DirectoryDelegate::~DirectoryDelegate()
-{}
+DirectoryDelegate::~DirectoryDelegate() {}
 
 QSize DirectoryDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
