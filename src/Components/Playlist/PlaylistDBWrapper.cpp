@@ -58,16 +58,23 @@ bool PlaylistDBWrapper::get_all_skeletons(CustomPlaylistSkeletons& skeletons,
 					   Playlist::SortOrder so)
 {
 	return get_skeletons(skeletons,
-						 DatabaseConnector::PlaylistChooserType::TemporaryAndNoTemporary,
+						 DatabaseConnector::PlaylistChooserType::TemporaryAndPermanent,
 						 so);
 }
 
-
-bool PlaylistDBWrapper:: get_non_temporary_skeletons(CustomPlaylistSkeletons& skeletons,
-					   Playlist::SortOrder so)
+bool PlaylistDBWrapper::get_temporary_skeletons(CustomPlaylistSkeletons& skeletons,
+                                                Playlist::SortOrder so)
 {
 	return get_skeletons(skeletons,
-						 DatabaseConnector::PlaylistChooserType::OnlyNoTemporary,
+	                     DatabaseConnector::PlaylistChooserType::OnlyTemporary,
+	                     so);
+}
+
+bool PlaylistDBWrapper:: get_non_temporary_skeletons(CustomPlaylistSkeletons& skeletons,
+													 Playlist::SortOrder so)
+{
+	return get_skeletons(skeletons,
+						 DatabaseConnector::PlaylistChooserType::OnlyPermanent,
 						 so);
 }
 
@@ -84,6 +91,12 @@ bool PlaylistDBWrapper::get_playlists(CustomPlaylists& playlists, DatabasePlayli
 		return false;
 	}
 
+	bool load_temporary = (type == DatabasePlaylist::PlaylistChooserType::OnlyTemporary ||
+	                       type == DatabasePlaylist::PlaylistChooserType::TemporaryAndPermanent);
+
+	bool load_permanent = (type == DatabasePlaylist::PlaylistChooserType::OnlyPermanent ||
+	                       type == DatabasePlaylist::PlaylistChooserType::TemporaryAndPermanent);
+
 	for(const CustomPlaylistSkeleton& skeleton : skeletons){
 
 		CustomPlaylist pl(skeleton);
@@ -99,7 +112,11 @@ bool PlaylistDBWrapper::get_playlists(CustomPlaylists& playlists, DatabasePlayli
 
 		apply_tags(pl);
 
-		playlists.push_back(pl);
+		if( (pl.temporary() && load_temporary) ||
+			(!pl.temporary() && load_permanent) )
+		{
+			playlists.push_back(pl);
+		}
 	}
 
 	return true;
@@ -108,7 +125,7 @@ bool PlaylistDBWrapper::get_playlists(CustomPlaylists& playlists, DatabasePlayli
 
 bool PlaylistDBWrapper::get_all_playlists(CustomPlaylists& playlists, Playlist::SortOrder so){
 	return get_playlists(playlists,
-						 DatabaseConnector::PlaylistChooserType::TemporaryAndNoTemporary,
+						 DatabaseConnector::PlaylistChooserType::TemporaryAndPermanent,
 						 so);
 }
 
@@ -122,7 +139,7 @@ bool PlaylistDBWrapper::get_temporary_playlists(CustomPlaylists& playlists, Play
 
 bool PlaylistDBWrapper::get_non_temporary_playlists(CustomPlaylists& playlists, Playlist::SortOrder so){
 	return get_playlists(playlists,
-						 DatabaseConnector::PlaylistChooserType::OnlyNoTemporary,
+						 DatabaseConnector::PlaylistChooserType::OnlyPermanent,
 						 so);
 }
 

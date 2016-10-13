@@ -69,7 +69,6 @@ void PLSParser::parse(){
 
 	for(QString line : lines) {
 
-		bool success;
 		QString key, val;
 		int track_idx;
 

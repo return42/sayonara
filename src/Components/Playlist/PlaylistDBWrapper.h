@@ -61,6 +61,9 @@ public:
 	bool get_non_temporary_skeletons(CustomPlaylistSkeletons& skeletons,
 						   Playlist::SortOrder so=Playlist::SortOrder::IDAsc);
 
+	bool get_temporary_skeletons(CustomPlaylistSkeletons& skeletons,
+								 Playlist::SortOrder so);
+
 	bool get_all_playlists(CustomPlaylists& playlists,
 						   Playlist::SortOrder so=Playlist::SortOrder::IDAsc);
 
