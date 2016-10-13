@@ -165,7 +165,7 @@ bool PlaylistDBWrapper::get_playlists(CustomPlaylists& playlists,
 		apply_tags(pl.tracks);
 
 		if( (pl.is_temporary && load_temporary) ||
-		    (!pl.is_temporary && load_non_temporary) )
+		    (!pl.is_temporary && load_permanent) )
 		{
 			playlists.push_back(pl);
 		}
