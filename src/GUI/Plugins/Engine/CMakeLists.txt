@@ -21,7 +21,7 @@ QT5_WRAP_UI(FORMS_UIC
 	GUI_Spectrum.ui
 	GUI_Style.ui
 
-	AudioConverter/GUI_AudioConvert.ui
+	AudioConverter/GUI_AudioConverter.ui
 	Crossfader/GUI_Crossfader.ui
 	Equalizer/GUI_Equalizer.ui
 	Speed/GUI_Speed.ui
