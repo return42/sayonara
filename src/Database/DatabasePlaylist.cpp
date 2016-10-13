@@ -55,7 +55,7 @@ bool DatabasePlaylist::getAllPlaylistSkeletons(CustomPlaylistSkeletons& skeleton
 		case DatabasePlaylist::PlaylistChooserType::OnlyTemporary:
 			type_clause = " WHERE playlists.temporary = 1 ";
 			break;
-		case DatabasePlaylist::PlaylistChooserType::OnlyNoTemporary:
+		case DatabasePlaylist::PlaylistChooserType::OnlyPermanent:
 			type_clause = " WHERE playlists.temporary = 0 ";
 			break;
 		default:

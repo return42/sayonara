@@ -33,9 +33,9 @@ class DatabasePlaylist : private DatabaseModule
 public:
 
 	enum class PlaylistChooserType : quint8 {
-		OnlyTemporary=0,
-		OnlyNoTemporary,
-		TemporaryAndNoTemporary
+		OnlyTemporary=1,
+		OnlyPermanent=2,
+		TemporaryAndPermanent=3
 	};
 
 
