@@ -24,6 +24,7 @@
 #define DIRECTORYTREEVIEW_H
 
 #include "Helper/Settings/SayonaraClass.h"
+#include "GUI/Helper/Dragable/Draggable.h"
 
 #include <QTreeView>
 #include <QModelIndexList>
@@ -34,6 +35,7 @@ class MetaDataList;
 
 class DirectoryTreeView :
 		public QTreeView,
+		protected Draggable,
 		private SayonaraClass
 {
 
@@ -54,12 +56,15 @@ public:
 	MetaDataList 		read_metadata() const;
 	QStringList			get_filelist() const;
 
+	QMimeData*			get_mime_data() const;
+
 private:
 	LibraryContextMenu*				_context_menu=nullptr;
 	AbstractSearchFileTreeModel*	_model = nullptr;
 
 private:
 	void mousePressEvent(QMouseEvent* event) override;
+	void mouseMoveEvent(QMouseEvent *event) override;
 	void init_context_menu();
 
 

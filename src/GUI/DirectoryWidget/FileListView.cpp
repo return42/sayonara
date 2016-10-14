@@ -18,10 +18,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "FileListView.h"
+#include "FileListModel.h"
+
+#include "GUI/Helper/GUI_Helper.h"
 #include "GUI/Helper/ContextMenu/LibraryContextMenu.h"
+
 #include "DirectoryIconProvider.h"
 #include "DirectoryDelegate.h"
 #include "Helper/Helper.h"
@@ -29,32 +31,35 @@
 #include "Helper/DirectoryReader/DirectoryReader.h"
 #include "Helper/Settings/Settings.h"
 
+#include <QDrag>
+#include <QDragEnterEvent>
+#include <QDragMoveEvent>
+#include <QPainter>
+#include <QMimeData>
+#include <QApplication>
+
 
 FileListView::FileListView(QWidget* parent) :
 	SearchableListView(parent),
+	Draggable(this),
 	SayonaraClass()
 {
 	QString lib_path = _settings->get(Set::Lib_Path);
 
-	IconProvider* icon_provider = new IconProvider();
-
-	_model = new QFileSystemModel(this);
-	_model->setRootPath(lib_path);
-	_model->setIconProvider(icon_provider);
-	_model->setNameFilterDisables(false);
-	_model->setNameFilters(Helper::get_soundfile_extensions() << Helper::get_playlistfile_extensions());
-	_model->setFilter(QDir::Files);
+	_model = new FileListModel(this);
+	_model->set_parent_directory(lib_path);
 
 	this->setModel(_model);
 	this->setItemDelegate(new DirectoryDelegate(this));
-	this->setRootIndex(_model->index(lib_path));
+	this->setSelectionMode(QAbstractItemView::ExtendedSelection);
 	this->setDragEnabled(true);
 	this->setIconSize(QSize(16, 16));
 }
 
+FileListView::~FileListView() {}
+
 void FileListView::mousePressEvent(QMouseEvent* event)
 {
-
 	SearchableListView::mousePressEvent(event);
 
 	if(event->button() & Qt::RightButton){
@@ -67,9 +72,26 @@ void FileListView::mousePressEvent(QMouseEvent* event)
 
 		_context_menu->exec(pos);
 	}
+
+	if(event->button() & Qt::LeftButton){
+		this->drag_pressed(event->pos());
+	}
 }
 
-void FileListView::init_context_menu(){
+void FileListView::mouseMoveEvent(QMouseEvent* event)
+{
+	QDrag* drag = Draggable::drag_moving(event->pos());
+	if(drag)
+	{
+		connect(drag, &QObject::destroyed, this, [=](){
+			this->drag_released(Draggable::ReleaseReason::Destroyed);
+		});
+	}
+}
+
+
+void FileListView::init_context_menu()
+{
 	_context_menu = new LibraryContextMenu(this);
 
 	LibraryContexMenuEntries entries =
@@ -87,7 +109,6 @@ void FileListView::init_context_menu(){
 }
 
 
-
 QModelIndexList FileListView::get_selected_rows() const
 {
 	QItemSelectionModel* selection_model;
@@ -102,31 +123,38 @@ QModelIndexList FileListView::get_selected_rows() const
 }
 
 
-QFileSystemModel* FileListView::get_model() const
+QAbstractItemModel* FileListView::get_model() const
 {
 	return _model;
 }
 
 
-MetaDataList FileListView::read_metadata() const
+MetaDataList FileListView::get_metadata() const
 {
 	DirectoryReader reader;
-	QStringList paths = get_filelist();
+	QStringList paths = get_files();
 	return reader.get_md_from_filelist(paths);
 }
 
-QStringList FileListView::get_filelist() const
+
+QStringList FileListView::get_files() const
 {
-	QModelIndexList idx_list = this->get_selected_rows();
-	if(idx_list.isEmpty()){
-		return QStringList();
-	}
-
-	QStringList paths;
-	for(const QModelIndex& idx : idx_list){
-		paths << _model->fileInfo(idx).absoluteFilePath();
-	}
-
-	return paths;
+	return _model->get_files();
 }
 
+
+void FileListView::set_parent_directory(const QString& dir)
+{
+	_model->set_parent_directory(dir);
+}
+
+QMimeData*FileListView::get_mime_data() const
+{
+	QItemSelectionModel* sel_model = this->selectionModel();
+	if(sel_model)
+	{
+		return _model->mimeData(sel_model->selectedIndexes());
+	}
+
+	return nullptr;
+}

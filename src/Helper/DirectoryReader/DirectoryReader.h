@@ -57,6 +57,9 @@ class DirectoryReader
 		void get_files_in_dir_rec(QDir base_dir, QStringList& files) const;
 
 
+		void get_files_in_dir(const QDir base_dir, QStringList& files) const;
+
+
 		/**
 		 * @brief extracts MetaData structures from a list of files
 		 * @param paths List of filepaths

@@ -24,6 +24,7 @@
 #define GUI_DIRECTORYWIDGET_H
 
 #include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
+#include "GUI/Helper/Dragable/Draggable.h"
 #include "GUI/InfoDialog/InfoDialogContainer.h"
 #include "Helper/MetaData/MetaDataFwd.h"
 
@@ -34,18 +35,20 @@ class LocalLibrary;
 class IconProvider;
 class LocalLibrary;
 class AbstractSearchFileTreeModel;
+class FileListModel;
 
 namespace Ui { class GUI_DirectoryWidget; }
 
 class GUI_DirectoryWidget :
 		public SayonaraWidget,
 		public InfoDialogContainer
+
 {
 	Q_OBJECT
 
 public:
 	explicit GUI_DirectoryWidget(QWidget *parent = 0);
-	~GUI_DirectoryWidget();
+	virtual ~GUI_DirectoryWidget();
 
 	QComboBox*	get_libchooser();
 	void init();
@@ -61,7 +64,6 @@ private:
 	} _selected_widget;
 
 	IconProvider*						_icon_provider=nullptr;
-	QFileSystemModel*					_file_model=nullptr;
 	LocalLibrary*						_local_library=nullptr;
 	AbstractSearchFileTreeModel*		_dir_model=nullptr;
 
@@ -72,6 +74,7 @@ private:
 
 
 private:
+
 	void showEvent(QShowEvent* e) override;
 	void init_shortcuts();
 
@@ -80,7 +83,6 @@ private slots:
 	void search_button_clicked();
 	void search_term_changed(const QString& term);
 	void directory_loaded(const QString& path);
-	void files_loaded(const QString& path);
 	void init_dir_view();
 	void dir_clicked(QModelIndex idx);
 	void dir_pressed(QModelIndex idx);
@@ -99,6 +101,7 @@ private slots:
 protected:
 	MD::Interpretation get_metadata_interpretation() const override;
 	MetaDataList get_data_for_info_dialog() const override;
+
 };
 
 

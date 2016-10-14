@@ -19,6 +19,7 @@
  */
 
 #include "GUI_DirectoryWidget.h"
+#include "FileListModel.h"
 #include "GUI/DirectoryWidget/ui_GUI_DirectoryWidget.h"
 
 #include "GUI/Helper/SearchableWidget/SearchableFileTreeView.h"
@@ -50,7 +51,6 @@ GUI_DirectoryWidget::GUI_DirectoryWidget(QWidget *parent) :
 
 	_local_library = LocalLibrary::getInstance();
 	_dir_model = ui->tv_dirs->get_model();
-	_file_model = ui->lv_files->get_model();
 
 	connect(ui->tv_dirs, &QTreeView::clicked, this, &GUI_DirectoryWidget::dir_clicked);
 	connect(ui->tv_dirs, &QTreeView::pressed, this, &GUI_DirectoryWidget::dir_pressed);
@@ -110,33 +110,34 @@ MetaDataList GUI_DirectoryWidget::get_data_for_info_dialog() const
 		case SelectedWidget::Dirs:
 			return ui->tv_dirs->read_metadata();
 		case SelectedWidget::Files:
-			return ui->lv_files->read_metadata();
+			return ui->lv_files->get_metadata();
 		default:
 			return v_md;
 	}
 }
 
-
-void GUI_DirectoryWidget::dir_clicked(QModelIndex idx){
-
+void GUI_DirectoryWidget::dir_clicked(QModelIndex idx)
+{
 	QString dir = _dir_model->fileInfo(idx).absoluteFilePath();
-	QModelIndex tgt_idx = _file_model->setRootPath(dir);
-	ui->lv_files->setRootIndex(tgt_idx);
+	ui->lv_files->set_parent_directory(dir);
 }
 
-void GUI_DirectoryWidget::dir_append_clicked(){
+void GUI_DirectoryWidget::dir_append_clicked()
+{
 	MetaDataList v_md = ui->tv_dirs->read_metadata();
 	PlaylistHandler* plh = PlaylistHandler::getInstance();
 	plh->append_tracks(v_md, plh->get_current_idx());
 }
 
-void GUI_DirectoryWidget::dir_play_next_clicked(){
+void GUI_DirectoryWidget::dir_play_next_clicked()
+{
 	MetaDataList v_md = ui->tv_dirs->read_metadata();
 	PlaylistHandler* plh = PlaylistHandler::getInstance();
 	plh->play_next(v_md);
 }
 
-void GUI_DirectoryWidget::dir_delete_clicked(){
+void GUI_DirectoryWidget::dir_delete_clicked()
+{
 	GlobalMessage* gm = GlobalMessage::getInstance();
 	GlobalMessage::Answer answer = gm->question(tr("Really?"));
 
@@ -156,14 +157,14 @@ void GUI_DirectoryWidget::dir_delete_clicked(){
 
 void GUI_DirectoryWidget::file_append_clicked()
 {
-	MetaDataList v_md = ui->lv_files->read_metadata();
+	MetaDataList v_md = ui->lv_files->get_metadata();
 	PlaylistHandler* plh = PlaylistHandler::getInstance();
 	plh->append_tracks(v_md, plh->get_current_idx());
 }
 
 void GUI_DirectoryWidget::file_play_next_clicked()
 {
-	MetaDataList v_md = ui->lv_files->read_metadata();
+	MetaDataList v_md = ui->lv_files->get_metadata();
 	PlaylistHandler* plh = PlaylistHandler::getInstance();
 	plh->play_next(v_md);
 }
@@ -177,15 +178,13 @@ void GUI_DirectoryWidget::file_delete_clicked()
 		return;
 	}
 
-	QStringList files = ui->lv_files->get_filelist();
-	MetaDataList v_md = ui->lv_files->read_metadata();
+	QStringList files = ui->lv_files->get_files();
+	MetaDataList v_md = ui->lv_files->get_metadata();
 
 	_local_library->delete_tracks(v_md, Library::TrackDeletionMode::OnlyLibrary);
 
 	Helper::File::delete_files(files);
 }
-
-
 
 void GUI_DirectoryWidget::dir_pressed(QModelIndex idx)
 {
@@ -211,7 +210,7 @@ void GUI_DirectoryWidget::file_pressed(QModelIndex idx)
 	Qt::MouseButtons buttons = QApplication::mouseButtons();
 	if(buttons & Qt::MiddleButton){
 
-		QStringList paths = ui->lv_files->get_filelist();
+		QStringList paths = ui->lv_files->get_files();
 
 		if(!paths.isEmpty()){
 			_local_library->psl_prepare_tracks_for_playlist(paths, true);
@@ -243,27 +242,6 @@ void GUI_DirectoryWidget::directory_loaded(const QString& path){
 	dir_clicked(_found_idx);
 }
 
-void GUI_DirectoryWidget::files_loaded(const QString& path){
-
-	QString searchstring = ui->le_search->text();
-	ui->lv_files->clearSelection();
-
-	if(searchstring.isEmpty()){
-		return;
-	}
-
-	QModelIndex parent_idx = _file_model->index(path);
-	int row_count = _file_model->rowCount(parent_idx);
-
-	for(int row=0; row<row_count; row++){
-		QModelIndex idx = _file_model->index(row, 0, parent_idx);
-		QString text = idx.data().toString();
-		if(text.contains(searchstring, Qt::CaseInsensitive)){
-			ui->lv_files->scrollTo(idx, QAbstractItemView::EnsureVisible);
-			ui->lv_files->selectionModel()->select(idx, QItemSelectionModel::Select);
-		}
-	}
-}
 
 void GUI_DirectoryWidget::search_button_clicked(){
 
@@ -305,9 +283,6 @@ void GUI_DirectoryWidget::init_dir_view()
 {
 	connect(_dir_model, &AbstractSearchFileTreeModel::directoryLoaded,
 			this, &GUI_DirectoryWidget::directory_loaded);
-
-	connect(_file_model, &QFileSystemModel::directoryLoaded,
-			this, &GUI_DirectoryWidget::files_loaded);
 }
 
 

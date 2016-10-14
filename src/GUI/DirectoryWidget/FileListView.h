@@ -25,17 +25,18 @@
 
 #include "Helper/Settings/SayonaraClass.h"
 #include "GUI/Helper/SearchableWidget/SearchableListView.h"
+#include "GUI/Helper/Dragable/Draggable.h"
 
 #include <QModelIndexList>
-#include <QFileSystemModel>
 
+class FileListModel;
 class MetaDataList;
 class LibraryContextMenu;
 
 class FileListView :
 		public SearchableListView,
+		private Draggable,
 		private SayonaraClass
-
 {
 
 	Q_OBJECT
@@ -48,20 +49,25 @@ signals:
 
 public:
 	explicit FileListView(QWidget* parent=nullptr);
+	virtual ~FileListView();
 
 	QModelIndexList get_selected_rows() const;
-	QFileSystemModel* get_model() const override;
-	MetaDataList read_metadata() const;
-	QStringList get_filelist() const;
+	QAbstractItemModel* get_model() const override;
+	MetaDataList get_metadata() const;
+	QStringList get_files() const;
+	void set_parent_directory(const QString& dir);
+
+	QMimeData* get_mime_data() const override;
 
 private:
 	LibraryContextMenu*	_context_menu=nullptr;
-	QFileSystemModel*	_model=nullptr;
+	FileListModel*	_model=nullptr;
 
 private:
 	void mousePressEvent(QMouseEvent* event) override;
-	void init_context_menu();
+	void mouseMoveEvent(QMouseEvent* event) override;
 
+	void init_context_menu();
 };
 
 

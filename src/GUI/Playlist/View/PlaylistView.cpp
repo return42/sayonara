@@ -106,6 +106,7 @@ int PlaylistView::get_num_rows() const
 	return _model->rowCount();
 }
 
+
 void PlaylistView::goto_row(int row)
 {
 	row = std::min(row, _model->rowCount() - 1);
@@ -134,6 +135,7 @@ void PlaylistView::selectionChanged ( const QItemSelection& selected, const QIte
 	goto_row(selected.indexes().first().row());
 }
 
+
 void PlaylistView::scroll_up()
 {
 	QPoint p(5, 5);
@@ -143,6 +145,7 @@ void PlaylistView::scroll_up()
 	goto_row(idx.row() - 1);
 }
 
+
 void PlaylistView::scroll_down()
 {
 	QPoint p(5, this->y() + this->height() - 5);
@@ -151,6 +154,7 @@ void PlaylistView::scroll_down()
 
 	goto_row(idx.row() + 1);
 }
+
 
 void PlaylistView::remove_cur_selected_rows()
 {
@@ -182,7 +186,6 @@ void PlaylistView::set_delegate_max_width(int n_items)
 }
 
 
-
 // remove the black line under the titles
 void  PlaylistView::clear_drag_drop_lines(int row)
 {
@@ -205,6 +208,7 @@ int PlaylistView::calc_drag_drop_line(QPoint pos)
 
 	return row;
 }
+
 
 void PlaylistView::handle_drop(QDropEvent* event)
 {
@@ -285,6 +289,7 @@ void PlaylistView::handle_drop(QDropEvent* event)
 	}
 }
 
+
 void PlaylistView::handle_async_drop(bool success)
 {
 	PlaylistHandler* plh = PlaylistHandler::getInstance();
@@ -300,6 +305,7 @@ void PlaylistView::handle_async_drop(bool success)
 
 	stream_parser->deleteLater();
 }
+
 
 void PlaylistView::handle_inner_drag_drop(int row, bool copy)
 {
@@ -364,11 +370,11 @@ void PlaylistView::rating_changed(int rating)
 }
 
 
-
 MD::Interpretation PlaylistView::get_metadata_interpretation() const
 {
 	return MD::Interpretation::Tracks;
 }
+
 
 MetaDataList PlaylistView::get_data_for_info_dialog() const
 {

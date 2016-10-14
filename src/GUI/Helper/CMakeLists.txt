@@ -13,6 +13,8 @@ SET(SOURCES
 	Delegates/TreeDelegate.cpp
 	Delegates/ListDelegate.cpp
 
+	Dragable/Draggable.cpp
+
 	IconLoader/IconLoader.cpp
 
 	MenuTool/MenuButton.cpp

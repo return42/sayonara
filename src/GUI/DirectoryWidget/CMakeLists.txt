@@ -6,6 +6,7 @@ SET(SOURCES
 	DirectoryIconProvider.cpp
 	DirectoryDelegate.cpp
 	FileListView.cpp
+	FileListModel.cpp
 	DirectoryTreeView.cpp
 	DirectoryWidgetContainer.cpp
 )

@@ -33,9 +33,11 @@
 
 #include <QDir>
 #include <QMouseEvent>
+#include <QDrag>
 
 DirectoryTreeView::DirectoryTreeView(QWidget *parent) :
 	QTreeView(parent),
+	Draggable(this),
 	SayonaraClass()
 {
 
@@ -65,9 +67,14 @@ void DirectoryTreeView::mousePressEvent(QMouseEvent* event)
 {
 	QTreeView::mousePressEvent(event);
 
+	if(event->buttons() & Qt::LeftButton)
+	{
+		Draggable::drag_pressed( event->pos() );
+	}
+
 	if(event->button() & Qt::RightButton){
 
-		QPoint pos = QWidget::mapToGlobal(event->pos());
+		QPoint pos = QWidget::mapToGlobal( event->pos() );
 
 		if(!_context_menu){
 			init_context_menu();
@@ -77,6 +84,27 @@ void DirectoryTreeView::mousePressEvent(QMouseEvent* event)
 	}
 }
 
+
+void DirectoryTreeView::mouseMoveEvent(QMouseEvent* e)
+{
+	QDrag* drag = Draggable::drag_moving(e->pos());
+	if(drag){
+		connect(drag, &QDrag::destroyed, this, [=](){
+			this->drag_released(Draggable::ReleaseReason::Destroyed);
+		});
+	}
+}
+
+QMimeData* DirectoryTreeView::get_mime_data() const
+{
+	QItemSelectionModel* sel_model = this->selectionModel();
+	if(sel_model)
+	{
+		return _model->mimeData(sel_model->selectedIndexes());
+	}
+
+	return nullptr;
+}
 void DirectoryTreeView::init_context_menu(){
 	_context_menu = new LibraryContextMenu(this);
 
@@ -100,21 +128,20 @@ AbstractSearchFileTreeModel* DirectoryTreeView::get_model() const
 }
 
 
-void DirectoryTreeView::_sl_library_path_changed(){
+void DirectoryTreeView::_sl_library_path_changed()
+{
 	Settings* settings = Settings::getInstance();
 	QString lib_path = settings->get(Set::Lib_Path);
 
 	this->setRootIndex(_model->index(lib_path));
 }
 
+
 QModelIndexList DirectoryTreeView::get_selected_rows() const
 {
-	QItemSelectionModel* selection_model;
-	QModelIndexList selected_rows;
+	QItemSelectionModel* selection_model = this->selectionModel();
 
-	selection_model = this->selectionModel();
-
-	return  selection_model->selectedRows();
+	return selection_model->selectedRows();
 }
 
 
@@ -124,6 +151,7 @@ MetaDataList DirectoryTreeView::read_metadata() const
 	QStringList paths = get_filelist();
 	return reader.get_md_from_filelist(paths);
 }
+
 
 QStringList DirectoryTreeView::get_filelist() const
 {
@@ -138,6 +166,5 @@ QStringList DirectoryTreeView::get_filelist() const
 	}
 
 	return paths;
-
 }
 
