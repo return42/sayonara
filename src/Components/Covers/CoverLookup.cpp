@@ -67,18 +67,18 @@ void CoverLookup::start_new_thread(const CoverLocation& cl ) {
 }
 
 
-bool CoverLookup::fetch_cover(const CoverLocation& cl) {
-
+bool CoverLookup::fetch_cover(const CoverLocation& cl)
+{
 	// Look, if cover exists in .Sayonara/covers
-	if( QFile::exists(cl.cover_path()) && _n_covers == 1 ) {
-
+	if( QFile::exists(cl.cover_path()) && _n_covers == 1 )
+	{
 		emit sig_cover_found(cl.cover_path());
 		return true;
 	}
 
 	// For one cover, we also can use the local cover path
-	if(!cl.local_paths().isEmpty() && _n_covers == 1){
-
+	if(!cl.local_paths().isEmpty() && _n_covers == 1)
+	{
 		emit sig_cover_found(cl.local_path(0));
 		return true;
 	}

@@ -47,11 +47,11 @@ GUI_MTP::GUI_MTP(QWidget* parent) :
 GUI_MTP::~GUI_MTP()
 {
 	if(_open_devices.size() > 0){
-		sp_log(Log::Debug) << "Devices open: " << _open_devices[0].use_count();
+		sp_log(Log::Debug) << "Devices open: " << _open_devices.first().use_count();
 	}
 
 	if(_raw_devices.size() > 0){
-		sp_log(Log::Debug) << "Raw Devices open: " << _raw_devices[0].use_count();
+		sp_log(Log::Debug) << "Raw Devices open: " << _raw_devices.first().use_count();
 	}
 
 	if(_mtp_copy_files){

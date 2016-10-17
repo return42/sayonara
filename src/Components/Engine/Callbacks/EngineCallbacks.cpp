@@ -72,6 +72,7 @@ static bool parse_image(GstTagList* tags, QImage& img)
 	//sp_log(Log::Debug) << "Mime type: " << mimetype;
 	QRegExp re(".*(image/[a-z|A-Z]+).*");
 	QString mime(mimetype.get());
+	
 	if(re.indexIn(mime) >= 0)
 	{
 		mime = re.cap(1);

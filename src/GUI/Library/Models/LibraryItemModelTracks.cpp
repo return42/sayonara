@@ -28,6 +28,7 @@
 
 
 #include "LibraryItemModelTracks.h"
+#include "Components/Covers/CoverLocation.h"
 #include "GUI/Library/Helper/ColumnHeader.h"
 #include "GUI/Library/Helper/ColumnIndex.h"
 
@@ -117,7 +118,6 @@ QVariant LibraryItemModelTracks::data(const QModelIndex &index, int role) const{
 				return QVariant();
 		}
 	}
-
 
 	return QVariant();
 }
@@ -277,3 +277,20 @@ QModelIndex LibraryItemModelTracks::getPrevRowIndexOf(QString substr, int row, c
 	return this->index(-1, -1);
 }
 
+CoverLocation LibraryItemModelTracks::get_cover(const SP::Set<int>& indexes) const
+{
+	if(indexes.isEmpty()){
+		return CoverLocation();
+	}
+
+	SP::Set<int> album_ids;
+	for(int idx : indexes){
+
+		album_ids.insert( _m->tracks[idx].album_id );
+		if(album_ids.size() > 1){
+			return CoverLocation();
+		}
+	}
+
+	return CoverLocation::get_cover_location( _m->tracks.first() );
+}

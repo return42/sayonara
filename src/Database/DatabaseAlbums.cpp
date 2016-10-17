@@ -171,7 +171,7 @@ bool DatabaseAlbums::getAlbumByID(const int& id, Album& album) {
 
 	db_fetch_albums(q, albums);
 	if(albums.size() > 0) {
-		album = albums[0];
+		album = albums.first();
 	}
 
 	return (albums.size() > 0);
@@ -268,7 +268,7 @@ bool DatabaseAlbums::getAllAlbumsByArtist(IDList artists, AlbumList& result, Lib
 
 	q.prepare(querytext);
 
-	q.bindValue(":artist_id", QVariant(artists[0]));
+	q.bindValue(":artist_id", QVariant(artists.first()));
 	for(int i=1; i<artists.size(); i++) {
 		q.bindValue(QString(":artist_id_") + QString::number(i), artists[i]);
 	}

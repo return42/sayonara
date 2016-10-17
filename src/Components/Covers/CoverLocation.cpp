@@ -69,8 +69,22 @@ CoverLocation& CoverLocation::operator=(const CoverLocation& other)
 	return *this;
 }
 
-QString CoverLocation::get_cover_directory(){
+QString CoverLocation::get_cover_directory()
+{
 	return Helper::get_sayonara_path() + QDir::separator() + "covers";
+}
+
+QString CoverLocation::preferred_path() const
+{
+	if(!this->local_paths().isEmpty()){
+		return this->local_paths().first();
+	}
+
+	if(QFile::exists(this->cover_path())){
+		return this->cover_path();
+	}
+
+	return getInvalidLocation().cover_path();
 }
 
 CoverLocation CoverLocation::getInvalidLocation() 
@@ -91,18 +105,19 @@ bool CoverLocation::isInvalidLocation(const QString& cover_path)
 	return (path1 == path2);
 }
 
-void CoverLocation::print() const{
-
+void CoverLocation::print() const
+{
 	sp_log(Log::Info) << "CoverLocation: " << _m->cover_path;
 	sp_log(Log::Info) << "CoverLocation: " << _m->search_url;
 }
 
-QString CoverLocation::toString() const{
+QString CoverLocation::toString() const
+{
 	return QString("Location ") + _m->cover_path + " Url: " + _m->search_url;
 }
 
-CoverLocation CoverLocation::get_cover_location(const QString& album_name, const QString& artist_name) {
-
+CoverLocation CoverLocation::get_cover_location(const QString& album_name, const QString& artist_name)
+{
 	QString cover_dir = get_cover_directory();
 
 	QString cover_token = CoverHelper::calc_cover_token(artist_name, album_name);
@@ -122,14 +137,14 @@ CoverLocation CoverLocation::get_cover_location(const QString& album_name, const
 	return ret;
 }
 
-CoverLocation CoverLocation::get_cover_location(const QString& album_name, const QStringList& artists) {
-
+CoverLocation CoverLocation::get_cover_location(const QString& album_name, const QStringList& artists)
+{
 	QString major_artist = ArtistList::get_major_artist(artists);
 	return get_cover_location(album_name, major_artist);
 }
 
-CoverLocation CoverLocation::get_cover_location(int album_id, quint8 db_id) {
-
+CoverLocation CoverLocation::get_cover_location(int album_id, quint8 db_id)
+{
 	if(album_id < 0) {
 		return CoverLocation::getInvalidLocation();
 	}
@@ -159,7 +174,8 @@ CoverLocation CoverLocation::get_cover_location(int album_id, quint8 db_id) {
 }
 
 
-CoverLocation CoverLocation::get_cover_location(const Album& album) {
+CoverLocation CoverLocation::get_cover_location(const Album& album)
+{
 	int n_artists;
 
 	n_artists = album.artists.size();
@@ -171,7 +187,7 @@ CoverLocation CoverLocation::get_cover_location(const Album& album) {
 	}
 
 	else if( n_artists == 1 ) {
-		cl = CoverLocation::get_cover_location(album.name, album.artists[0]);
+		cl = CoverLocation::get_cover_location(album.name, album.artists.first());
 	}
 
 	else {
@@ -201,8 +217,8 @@ CoverLocation CoverLocation::get_cover_location(const Artist& artist) {
 }
 
 
-CoverLocation CoverLocation::get_cover_location(const QString& artist) {
-
+CoverLocation CoverLocation::get_cover_location(const QString& artist)
+{
 	if(artist.isEmpty()) return getInvalidLocation();
 
 	QString cover_dir = get_cover_directory();
@@ -223,9 +239,9 @@ CoverLocation CoverLocation::get_cover_location(const QString& artist) {
 }
 
 
-CoverLocation CoverLocation::get_cover_location(const MetaData& md) {
-
-    CoverLocation cl;
+CoverLocation CoverLocation::get_cover_location(const MetaData& md)
+{
+	CoverLocation cl;
 	if(md.album_id >= 0){
 		cl = get_cover_location(md.album_id, md.db_id);
 	}
@@ -263,11 +279,13 @@ CoverLocation CoverLocation::get_cover_location(const QUrl& url, const QString& 
 }
 
 
-bool CoverLocation::valid() const {
+bool CoverLocation::valid() const
+{
 	return _m->valid;
 }
 
-QStringList CoverLocation::local_paths() const {
+QStringList CoverLocation::local_paths() const
+{
 	return _m->local_paths;
 }
 

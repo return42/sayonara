@@ -53,7 +53,8 @@
 
 PlaylistView::PlaylistView(PlaylistPtr pl, QWidget* parent) :
 	SearchableListView(parent),
-	InfoDialogContainer()
+	InfoDialogContainer(),
+	Dragable(this)
 {
 	_model = new PlaylistItemModel(pl, this);
 	_delegate = new PlaylistItemDelegate(this);

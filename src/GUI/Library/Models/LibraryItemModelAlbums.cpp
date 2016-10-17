@@ -35,6 +35,7 @@
 #include "Helper/Settings/Settings.h"
 #include "Helper/Library/SearchMode.h"
 #include "Helper/MetaData/Album.h"
+#include "Components/Covers/CoverLocation.h"
 
 struct LibraryItemModelAlbums::Private
 {
@@ -73,6 +74,22 @@ QString LibraryItemModelAlbums::get_string(int row) const
 	else {
 		return _m->albums[row].name;
 	}
+}
+
+
+CoverLocation LibraryItemModelAlbums::get_cover(const SP::Set<int>& indexes) const
+{
+	if(indexes.isEmpty() || indexes.size() > 1){
+		return CoverLocation();
+	}
+
+	int idx = indexes.first();
+	if(idx < 0 || idx > _m->albums.size()){
+		return CoverLocation();
+	}
+
+	const Album& album = _m->albums[idx];
+	return CoverLocation::get_cover_location(album.id, album.db_id);
 }
 
 

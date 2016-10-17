@@ -172,7 +172,7 @@ MetaData DatabaseTracks::getTrackByPath(const QString& path) {
 		return md;
 	}
 
-	return vec_data[0];
+	return vec_data.first();
 }
 
 struct Blupp{
@@ -207,7 +207,7 @@ MetaData DatabaseTracks::getTrackById(int id) {
 		return md;
 	}
 
-	return vec_data[0];
+	return vec_data.first();
 }
 
 
@@ -313,7 +313,7 @@ bool DatabaseTracks::getAllTracksByAlbum(IDList albums, MetaDataList& returndata
 	querytext = append_track_sort_string(querytext, sort);
 
 	q.prepare(querytext);
-	q.bindValue(":albumid", QVariant(albums[0]));
+	q.bindValue(":albumid", QVariant(albums.first()));
 	for(int i=1; i<albums.size(); i++) {
 		q.bindValue(QString(":albumid_") + QString::number(i), albums[i]);
 	}
@@ -404,7 +404,7 @@ bool DatabaseTracks::getAllTracksByArtist(IDList artists, MetaDataList& returnda
 	querytext = append_track_sort_string(querytext, sort);
 
 	q.prepare(querytext);
-	q.bindValue(":artist_id", QVariant(artists[0]));
+	q.bindValue(":artist_id", QVariant(artists.first()));
 	for(int i=1; i<artists.size(); i++) {
 		q.bindValue(QString(":artist_id_") + QString::number(i), artists[i]);
 	}

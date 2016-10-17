@@ -154,6 +154,8 @@ public:
 	 */
 	static QString get_cover_directory();
 
+	QString preferred_path() const;
+
 };
 
 Q_DECLARE_METATYPE(CoverLocation)

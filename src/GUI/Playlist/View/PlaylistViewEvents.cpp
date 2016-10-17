@@ -92,78 +92,35 @@ void PlaylistView::contextMenuEvent(QContextMenuEvent* e)
 
 void PlaylistView::mousePressEvent(QMouseEvent* event)
 {
-	if(_model->rowCount() == 0){
-		return;
-	}
-
-	QModelIndex idx = this->indexAt(event->pos());
-
 	SearchableListView::mousePressEvent(event);
 
-	switch (event->button()) {
-
-		case Qt::LeftButton:
-
-			if(!idx.isValid()){
-				clear_selection();
-				return;
-			}
-
-			_drag_pos = event->pos();
-
-			break;
-
-		default:
-			break;
+	if(event->buttons() & Qt::LeftButton){
+		this->drag_pressed(event->pos());
 	}
 }
 
 
 void PlaylistView::mouseMoveEvent(QMouseEvent* event)
 {
-	int distance = (event->pos() - _drag_pos).manhattanLength();
-	QModelIndex idx = this->indexAt(event->pos());
-
-	if(!idx.isValid()){
-		return;
-	}
-
-	if( event->buttons() & Qt::LeftButton &&
-		distance >= QApplication::startDragDistance())
-	{
-
-		CustomMimeData* mimedata;
-
-		if(_drag_pos.isNull()){
-			return;
-		}
-
-		if(_drag){
-			delete _drag;
-			_drag = nullptr;
-		}
-
-		if(_model->rowCount() == 0){
-			return;
-		}
-
-		mimedata = _model->get_custom_mimedata(this->selectedIndexes());
-		if(!mimedata){
-			return;
-		}
-
-		_drag = new QDrag(this);
-
-		connect(_drag, &QDrag::destroyed, [=](){
-			_drag = nullptr;
+	QDrag* drag = this->drag_moving(event->pos());
+	if(drag){
+		connect(drag, &QDrag::destroyed, this, [=]{
+			this->drag_released(Dragable::ReleaseReason::Destroyed);
 		});
-
-		mimedata->setObjectName("inner");
-		_drag->setMimeData(mimedata);
-		_drag->exec(Qt::CopyAction);
 	}
 }
 
+QMimeData* PlaylistView::get_mimedata() const
+{
+	CustomMimeData* mimedata = _model->get_custom_mimedata(this->selectedIndexes());
+	if(!mimedata)
+	{
+		return nullptr;
+	}
+
+	mimedata->setObjectName("inner");
+	return mimedata;
+}
 
 void PlaylistView::mouseDoubleClickEvent(QMouseEvent* event)
 {

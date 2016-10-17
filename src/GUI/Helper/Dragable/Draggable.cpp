@@ -7,18 +7,21 @@
 #include <QApplication>
 #include <QWidget>
 #include <QUrl>
+#include <QFontMetrics>
 
 #include "GUI/Helper/GUI_Helper.h"
 #include "Helper/FileHelper.h"
+#include "Helper/Logger/Logger.h"
 
-struct Draggable::Private
+struct Dragable::Private
 {
 	QPoint		start_drag_pos;
 	bool		dragging=false;
 	QWidget*	parent=nullptr;
 	QDrag*		drag=nullptr;
 
-	Private(){
+	Private()
+	{
 		start_drag_pos = QPoint();
 		dragging = false;
 	}
@@ -26,49 +29,58 @@ struct Draggable::Private
 	QStringList get_strings(const QMimeData* data)
 	{
 		QStringList ret;
-		QStringList playlist_files;
-		QStringList directories;
-		QStringList sound_files;
+		int playlists, dirs, tracks;
+		playlists = dirs = tracks = 0;
 
 		QList<QUrl> urls = data->urls();
+
 		for(const QUrl& url : urls)
 		{
 			QString filename = url.toLocalFile();
 			if(Helper::File::is_playlistfile(filename)){
-				playlist_files << filename;
+				playlists++;
 			}
 
 			else if(Helper::File::is_soundfile(filename)){
-				sound_files << filename;
+				tracks++;
 			}
 
 			else if(Helper::File::is_dir(filename)){
-				directories << filename;
+				dirs++;
 			}
 		}
 
+		if(tracks > 0){
+			ret << QString::number(tracks) + " " + "tracks";
+		}
+		if(playlists > 0){
+			ret << QString::number(playlists) + " " + "playlists";
+		}
+		if(dirs >0){
+			ret << QString::number(dirs) + " " + "directories";
+		}
 
-
+		return ret;
 	}
 };
 
 
-Draggable::Draggable(QWidget* parent)
+Dragable::Dragable(QWidget* parent)
 {
-	_m = Pimpl::make<Draggable::Private>();
+	_m = Pimpl::make<Dragable::Private>();
 	_m->parent = parent;
 }
 
-Draggable::~Draggable() {}
+Dragable::~Dragable() {}
 
-void Draggable::drag_pressed(const QPoint& p)
+void Dragable::drag_pressed(const QPoint& p)
 {
 	_m->dragging = false;
 	_m->start_drag_pos = p;
 }
 
 
-QDrag* Draggable::drag_moving(const QPoint& p)
+QDrag* Dragable::drag_moving(const QPoint& p)
 {
 	int distance = (p - _m->start_drag_pos).manhattanLength();
 
@@ -82,24 +94,37 @@ QDrag* Draggable::drag_moving(const QPoint& p)
 		return _m->drag;
 	}
 
+	if(_m->drag){
+		delete _m->drag;
+	}
+
 	_m->dragging = true;
 	_m->start_drag_pos = QPoint();
 	_m->drag = new QDrag(_m->parent);
 
-	QMimeData* data = get_mime_data();
+	QMimeData* data = get_mimedata();
 	if(data == nullptr)
 	{
 		return _m->drag;
 	}
 
+	QStringList strings = _m->get_strings(data);
 
-	QString text = QString("%1 tracks").arg(data->urls().size());
+	const int logo_height = 24;
+	const int logo_width = logo_height;
+	const QSize logo_size(logo_width, logo_height);
+	const int left_offset = 4;
 
-	const int pm_height = 24;
-	const int pm_width = 100;
-	const int logo_height = 16;
-	const QSize logo_size(logo_height, logo_height);
-	const int right_offset = 4;
+	const int pm_height = std::max(30, 30 + (strings.size() - 1) * 12 + 4);
+	int pm_width = logo_height + 4;
+
+	QFontMetrics fm(QApplication::font());
+	for(const QString& str : strings){
+
+		pm_width = std::max( pm_width, fm.width(str) );
+	}
+
+	pm_width += logo_width + 22;
 
 	QPixmap cover = get_pixmap();
 	if(cover.isNull()){
@@ -112,10 +137,14 @@ QDrag* Draggable::drag_moving(const QPoint& p)
 	painter.fillRect(pm.rect(), QColor(64, 64, 64));
 	painter.setPen(QColor("#424e72"));
 	painter.drawRect(0, 0, pm_width - 1, pm_height - 1);
-	painter.drawPixmap(right_offset, (pm_height - logo_height) / 2, logo_height, logo_height, cover);
+	painter.drawPixmap(left_offset, (pm_height - logo_height) / 2, logo_height, logo_height, cover);
 	painter.setPen(QColor(255, 255, 255));
-	painter.translate(logo_height + 15, (pm_height - 10) / 2 + 10);
-	painter.drawText(0, 0, text);
+	painter.translate(logo_width + 15, 18);
+
+	for(const QString& str : strings){
+		painter.drawText(0, 0, str);
+		painter.translate(0, 12);
+	}
 
 	_m->drag->setMimeData(data);
 	_m->drag->setPixmap(pm);
@@ -125,9 +154,13 @@ QDrag* Draggable::drag_moving(const QPoint& p)
 }
 
 
-void Draggable::drag_released(Draggable::ReleaseReason reason)
+void Dragable::drag_released(Dragable::ReleaseReason reason)
 {
-	if(reason == Draggable::ReleaseReason::Destroyed)
+	if(!_m){
+		return;
+	}
+
+	if(reason == Dragable::ReleaseReason::Destroyed)
 	{
 		_m->drag = nullptr;
 	}
@@ -141,7 +174,7 @@ void Draggable::drag_released(Draggable::ReleaseReason reason)
 }
 
 
-QPixmap Draggable::get_pixmap() const
+QPixmap Dragable::get_pixmap() const
 {
 	return QPixmap();
 }

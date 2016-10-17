@@ -327,31 +327,20 @@ void RemoteControl::write_cover(const MetaData& md){
 
 	CoverLocation cl = CoverLocation::get_cover_location(md);
 	QByteArray img_data;
-	QStringList cover_paths;
-	if(!cl.cover_path().isEmpty() && QFile::exists(cl.cover_path()) ){
-		cover_paths << cl.cover_path();
-	}
+	QString cover_path = cl.preferred_path();
+	QImage img(cover_path);
 
-	if(!cl.local_paths().isEmpty() && QFile::exists(cl.local_path(0))){
-		cover_paths << cl.local_path(0);
-	}
+	if(!img.isNull()){
 
-	for(const QString& cover_path : cover_paths){
-		QImage img(cover_path);
+		QImage img_copy = img.scaled(300, 300, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+		img_data = QByteArray((char*) img_copy.bits(), img_copy.byteCount());
+		QByteArray data = QByteArray("coverinfo:") +
+				QByteArray::number(img_copy.width()) + ':' +
+				QByteArray::number(img_copy.height()) + ':' +
+				QByteArray::number(img_copy.format());
 
-		if(!img.isNull()){
-
-			QImage img_copy = img.scaled(300, 300, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-			img_data = QByteArray((char*) img_copy.bits(), img_copy.byteCount());
-			QByteArray data = QByteArray("coverinfo:") +
-					QByteArray::number(img_copy.width()) + ':' +
-					QByteArray::number(img_copy.height()) + ':' +
-					QByteArray::number(img_copy.format());
-
-			write(data);
-			write(img_data);
-			break;
-		}
+		write(data);
+		write(img_data);
 	}
 }
 

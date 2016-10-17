@@ -111,7 +111,7 @@ bool DatabaseArtists::getArtistByID(int id, Artist& artist) {
 
 	if(artists.size() > 0) {
 		success = true;
-		artist = artists[0];
+		artist = artists.first();
 	}
 
 	else success = false;

@@ -127,7 +127,7 @@ void GUI_SomaFM::selection_changed(const QModelIndexList& indexes){
 		return;
 	}
 
-	station_index_changed(indexes[0]);
+	station_index_changed(indexes.first());
 }
 
 

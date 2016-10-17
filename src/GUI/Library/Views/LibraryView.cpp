@@ -28,6 +28,7 @@
 
 #include "LibraryView.h"
 #include "HeaderView.h"
+#include "Components/Covers/CoverLocation.h"
 #include "GUI/Library/Helper/ColumnHeader.h"
 
 #include "Helper/globals.h"
@@ -40,11 +41,11 @@
 LibraryView::LibraryView(QWidget* parent) :
 	SearchableTableView(parent),
 	SayonaraClass(),
-	InfoDialogContainer()
+	InfoDialogContainer(),
+	Dragable(this)
 {
 
 	_type = MD::Interpretation::None;
-	_drag = nullptr;
 	_cur_filling = false;
 	_model = nullptr;
 
@@ -98,25 +99,6 @@ void LibraryView::save_selections()
 
 
 
-void LibraryView::do_drag(){
-
-	CustomMimeData* mimedata = _model->get_mimedata();
-
-	if(_drag){
-		delete _drag; _drag = nullptr;
-	}
-
-	_drag = new QDrag(this);
-
-	connect(_drag, &QDrag::destroyed, this, [=](){
-		_drag = nullptr;
-	});
-
-	_drag->setMimeData(mimedata);
-	_drag->exec(Qt::CopyAction);
-}
-
-
 // Right click stuff
 void LibraryView::rc_menu_init()
 {
@@ -150,6 +132,22 @@ void LibraryView::show_rc_menu_actions(int entries)
 	}
 
 	_rc_menu->show_actions(entries);
+}
+
+QMimeData* LibraryView::get_mimedata() const
+{
+	return _model->get_mimedata();
+}
+
+QPixmap LibraryView::get_pixmap() const
+{
+	CoverLocation cl = _model->get_cover( this->get_selections() );
+	QString cover_path = cl.preferred_path();
+	if(cl.valid()){
+		return QPixmap(cover_path);
+	}
+
+	return QPixmap();
 }
 
 MetaDataList LibraryView::get_selected_metadata() const

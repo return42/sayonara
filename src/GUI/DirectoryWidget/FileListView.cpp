@@ -24,12 +24,15 @@
 #include "GUI/Helper/GUI_Helper.h"
 #include "GUI/Helper/ContextMenu/LibraryContextMenu.h"
 
+#include "Helper/globals.h"
 #include "DirectoryIconProvider.h"
 #include "DirectoryDelegate.h"
 #include "Helper/Helper.h"
+#include "Helper/Set.h"
 #include "Helper/MetaData/MetaDataList.h"
 #include "Helper/DirectoryReader/DirectoryReader.h"
 #include "Helper/Settings/Settings.h"
+
 
 #include <QDrag>
 #include <QDragEnterEvent>
@@ -41,7 +44,7 @@
 
 FileListView::FileListView(QWidget* parent) :
 	SearchableListView(parent),
-	Draggable(this),
+	Dragable(this),
 	SayonaraClass()
 {
 	QString lib_path = _settings->get(Set::Lib_Path);
@@ -80,11 +83,11 @@ void FileListView::mousePressEvent(QMouseEvent* event)
 
 void FileListView::mouseMoveEvent(QMouseEvent* event)
 {
-	QDrag* drag = Draggable::drag_moving(event->pos());
+	QDrag* drag = Dragable::drag_moving(event->pos());
 	if(drag)
 	{
 		connect(drag, &QObject::destroyed, this, [=](){
-			this->drag_released(Draggable::ReleaseReason::Destroyed);
+			this->drag_released(Dragable::ReleaseReason::Destroyed);
 		});
 	}
 }
@@ -123,23 +126,35 @@ QModelIndexList FileListView::get_selected_rows() const
 }
 
 
+
 QAbstractItemModel* FileListView::get_model() const
 {
 	return _model;
 }
 
-
-MetaDataList FileListView::get_metadata() const
+MetaDataList FileListView::get_selected_metadata() const
 {
+	QStringList paths = get_selected_paths();
 	DirectoryReader reader;
-	QStringList paths = get_files();
+
 	return reader.get_md_from_filelist(paths);
 }
 
-
-QStringList FileListView::get_files() const
+QStringList FileListView::get_selected_paths() const
 {
-	return _model->get_files();
+	QStringList paths = _model->get_files();
+	QStringList ret;
+	QModelIndexList selections = this->get_selected_rows();
+
+	for(const QModelIndex& idx : selections)
+	{
+		int row = idx.row();
+		if(between(row, paths)){
+			ret << paths[row];
+		}
+	}
+
+	return ret;
 }
 
 
@@ -148,7 +163,7 @@ void FileListView::set_parent_directory(const QString& dir)
 	_model->set_parent_directory(dir);
 }
 
-QMimeData*FileListView::get_mime_data() const
+QMimeData*FileListView::get_mimedata() const
 {
 	QItemSelectionModel* sel_model = this->selectionModel();
 	if(sel_model)

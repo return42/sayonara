@@ -22,7 +22,9 @@
 #include "LibraryView.h"
 #include "HeaderView.h"
 #include "GUI/Helper/ContextMenu/LibraryContextMenu.h"
+
 #include <QMimeData>
+#include <QDrag>
 
 bool LibraryView::event(QEvent* e)
 {
@@ -90,7 +92,7 @@ void LibraryView::mousePressEvent(QMouseEvent* event)
 	switch(event->button()) {
 
 		case Qt::LeftButton:
-			_drag_pos = pos_org;
+			this->drag_pressed(event->pos());
 			break;
 
 		case Qt::MidButton:
@@ -107,12 +109,12 @@ void LibraryView::mousePressEvent(QMouseEvent* event)
 
 void LibraryView::mouseMoveEvent(QMouseEvent* event) 
 {
-	int distance = (event->pos() - _drag_pos).manhattanLength();
-
-	if( event->buttons() & Qt::LeftButton &&
-			distance > QApplication::startDragDistance())
+	QDrag* drag = this->drag_moving(event->pos());
+	if(drag)
 	{
-		do_drag();
+		connect(drag, &QDrag::destroyed, this, [=](){
+			this->drag_released(Dragable::ReleaseReason::Destroyed);
+		});
 	}
 }
 
@@ -214,7 +216,18 @@ void LibraryView::keyPressEvent(QKeyEvent* event)
 }
 // keyboard end
 
-void LibraryView::dropEvent(QDropEvent *event) 
+
+void LibraryView::dragEnterEvent(QDragEnterEvent *event) 
+{
+	event->accept();
+}
+
+void  LibraryView::dragMoveEvent(QDragMoveEvent *event) 
+{
+	event->accept();
+}
+
+void LibraryView::dropEvent(QDropEvent *event)
 {
 	event->accept();
 	const QMimeData* mime_data = event->mimeData();
@@ -243,16 +256,6 @@ void LibraryView::dropEvent(QDropEvent *event)
 	}
 
 	emit sig_import_files(filelist);
-}
-
-void LibraryView::dragEnterEvent(QDragEnterEvent *event) 
-{
-	event->accept();
-}
-
-void  LibraryView::dragMoveEvent(QDragMoveEvent *event) 
-{
-	event->accept();
 }
 
 void LibraryView::resizeEvent(QResizeEvent *event)

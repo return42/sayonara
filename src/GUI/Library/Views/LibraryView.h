@@ -31,16 +31,17 @@
 
 #include "Helper/Settings/SayonaraClass.h"
 #include "GUI/Helper/SearchableWidget/SearchableTableView.h"
+#include "GUI/Helper/Dragable/Draggable.h"
 #include "GUI/Library/Helper/ColumnHeader.h"
 #include "GUI/Library/Models/LibraryItemModel.h"
 #include "GUI/InfoDialog/InfoDialogContainer.h"
 
 #include "Helper/MetaData/MetaDataFwd.h"
+
 #include "Components/Library/Sorting.h"
 
 #include <QAction>
 #include <QApplication>
-#include <QDrag>
 #include <QDropEvent>
 #include <QEvent>
 #include <QFont>
@@ -61,7 +62,8 @@ class HeaderView;
 class LibraryView :
 		public SearchableTableView,
 		public SayonaraClass,
-		public InfoDialogContainer
+		public InfoDialogContainer,
+		private Dragable
 {
 
 	Q_OBJECT
@@ -79,9 +81,9 @@ signals:
 	void sig_sortorder_changed(Library::SortOrder);
 
 	void sig_no_disc_menu();
-	void sig_import_files(const QStringList&);
-	void sig_double_clicked(const SP::Set<int>&);
-	void sig_sel_changed(const SP::Set<int>&);
+	void sig_import_files(const QStringList& files);
+	void sig_double_clicked(const SP::Set<int>& indexes);
+	void sig_sel_changed(const SP::Set<int>& indexes);
 	void sig_merge(int target_id);
 
 
@@ -112,6 +114,9 @@ public:
 	void set_type(MD::Interpretation type);
 
 	void show_rc_menu_actions(int entries);
+	QMimeData* get_mimedata() const override;
+	QPixmap get_pixmap() const override;
+
 
 protected:
 	// Events implemented in LibraryViewEvents.cpp
@@ -121,14 +126,15 @@ protected:
 	virtual void mouseMoveEvent(QMouseEvent* event) override;
 	virtual void mouseDoubleClickEvent(QMouseEvent *event) override;
 	virtual void keyPressEvent(QKeyEvent* event) override;
-	virtual void dropEvent(QDropEvent* event) override;
+
 	virtual void dragEnterEvent(QDragEnterEvent *event) override;
 	virtual void dragMoveEvent(QDragMoveEvent *event) override;
+	virtual void dropEvent(QDropEvent* event) override;
+
 	virtual void resizeEvent(QResizeEvent *event) override;
 
 	virtual void selectionChanged ( const QItemSelection & selected, const QItemSelection & deselected ) override;
 	virtual void rc_menu_init();
-	virtual void do_drag();
 
 	HeaderView*	get_header_view();
 
@@ -136,9 +142,6 @@ protected:
 protected:
 
 	LibraryItemModel*			_model=nullptr;
-
-	QDrag*						_drag=nullptr;
-	QPoint						_drag_pos;
 
 	QAction*					_merge_action=nullptr;
 	QMenu*						_merge_menu=nullptr;

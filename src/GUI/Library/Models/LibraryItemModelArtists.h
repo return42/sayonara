@@ -48,12 +48,14 @@ public:
 	bool setData(const QModelIndex &index, const QVariant &value, int role=Qt::DisplayRole) override;
 	bool setData(const QModelIndex &index, const ArtistList& artists, int role=Qt::DisplayRole);
 
-	virtual int get_id_by_row(int row) override;
-	virtual QString get_string(int row) const override;
+	int get_id_by_row(int row) override;
+	QString get_string(int row) const override;
 
-	virtual QModelIndex	getFirstRowIndexOf(QString substr) override;
-	virtual QModelIndex	getPrevRowIndexOf(QString substr, int row, const QModelIndex& parent=QModelIndex()) override;
-	virtual QModelIndex	getNextRowIndexOf(QString substr, int row, const QModelIndex& parent=QModelIndex()) override;
+	QModelIndex	getFirstRowIndexOf(QString substr) override;
+	QModelIndex	getPrevRowIndexOf(QString substr, int row, const QModelIndex& parent=QModelIndex()) override;
+	QModelIndex	getNextRowIndexOf(QString substr, int row, const QModelIndex& parent=QModelIndex()) override;
+
+	CoverLocation get_cover(const SP::Set<int>& indexes) const override;
 
 
 private:

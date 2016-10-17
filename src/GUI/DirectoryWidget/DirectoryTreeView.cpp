@@ -37,7 +37,7 @@
 
 DirectoryTreeView::DirectoryTreeView(QWidget *parent) :
 	QTreeView(parent),
-	Draggable(this),
+	Dragable(this),
 	SayonaraClass()
 {
 
@@ -69,7 +69,7 @@ void DirectoryTreeView::mousePressEvent(QMouseEvent* event)
 
 	if(event->buttons() & Qt::LeftButton)
 	{
-		Draggable::drag_pressed( event->pos() );
+		Dragable::drag_pressed( event->pos() );
 	}
 
 	if(event->button() & Qt::RightButton){
@@ -87,15 +87,15 @@ void DirectoryTreeView::mousePressEvent(QMouseEvent* event)
 
 void DirectoryTreeView::mouseMoveEvent(QMouseEvent* e)
 {
-	QDrag* drag = Draggable::drag_moving(e->pos());
+	QDrag* drag = Dragable::drag_moving(e->pos());
 	if(drag){
 		connect(drag, &QDrag::destroyed, this, [=](){
-			this->drag_released(Draggable::ReleaseReason::Destroyed);
+			this->drag_released(Dragable::ReleaseReason::Destroyed);
 		});
 	}
 }
 
-QMimeData* DirectoryTreeView::get_mime_data() const
+QMimeData* DirectoryTreeView::get_mimedata() const
 {
 	QItemSelectionModel* sel_model = this->selectionModel();
 	if(sel_model)
@@ -145,15 +145,15 @@ QModelIndexList DirectoryTreeView::get_selected_rows() const
 }
 
 
-MetaDataList DirectoryTreeView::read_metadata() const
+MetaDataList DirectoryTreeView::get_selected_metadata() const
 {
 	DirectoryReader reader;
-	QStringList paths = get_filelist();
+	QStringList paths = get_selected_paths();
 	return reader.get_md_from_filelist(paths);
 }
 
 
-QStringList DirectoryTreeView::get_filelist() const
+QStringList DirectoryTreeView::get_selected_paths() const
 {
 	QModelIndexList idx_list = this->get_selected_rows();
 	if(idx_list.isEmpty()){

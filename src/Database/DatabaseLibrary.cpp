@@ -78,9 +78,9 @@ bool DatabaseLibrary::storeMetadata(const MetaDataList& v_md)  {
 
 	_db.transaction();
 
-	DatabaseAlbums db_albums(_db, v_md[0].db_id);
-	DatabaseArtists db_artists(_db, v_md[0].db_id);
-	DatabaseTracks db_tracks(_db, v_md[0].db_id);
+	DatabaseAlbums db_albums(_db, v_md.first().db_id);
+	DatabaseArtists db_artists(_db, v_md.first().db_id);
+	DatabaseTracks db_tracks(_db, v_md.first().db_id);
 
 	for(const MetaData& md : v_md) {
 

@@ -249,17 +249,7 @@ QVariantMap DBusMPRIS::MediaPlayer2::Metadata(){
 	v_length.setValue<qlonglong>(_md.length_ms * 1000);
 
 	cl = CoverLocation::get_cover_location(_md);
-	if(!cl.local_paths().isEmpty()){
-		cover_path = cl.local_path(0);
-	}
-
-	else if(!cl.cover_path().isEmpty()){
-		cover_path = cl.cover_path();
-	}
-
-	else{
-		cover_path = CoverLocation::getInvalidLocation().cover_path();
-	}
+	cover_path = cl.preferred_path();
 
 	map["mpris:trackid"] = v_object_path;
 	map["mpris:length"] = v_length;

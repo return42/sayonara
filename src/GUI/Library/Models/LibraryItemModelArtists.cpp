@@ -27,6 +27,7 @@
  */
 
 #include "LibraryItemModelArtists.h"
+#include "Components/Covers/CoverLocation.h"
 #include "GUI/Library/Helper/ColumnHeader.h"
 #include "GUI/Library/Helper/ColumnIndex.h"
 
@@ -244,4 +245,20 @@ QModelIndex	LibraryItemModelArtists::getPrevRowIndexOf(QString substr, int row, 
 	}
 
 	return this->index(-1, -1);
+}
+
+
+CoverLocation LibraryItemModelArtists::get_cover(const SP::Set<int>& indexes) const
+{
+	if(indexes.isEmpty() || indexes.size() > 1){
+		return CoverLocation();
+	}
+
+	int idx = indexes.first();
+	if(idx < 0 || idx > _m->artists.size()){
+		return CoverLocation();
+	}
+
+	const Artist& artist = _m->artists[idx];
+	return CoverLocation::get_cover_location(artist);
 }

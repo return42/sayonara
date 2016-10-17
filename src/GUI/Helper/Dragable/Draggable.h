@@ -9,12 +9,12 @@ class QMimeData;
 class QWidget;
 class QDrag;
 
-class Draggable
+class Dragable
 {
 
 public:
-	explicit Draggable(QWidget* parent);
-	virtual ~Draggable();
+	explicit Dragable(QWidget* parent);
+	virtual ~Dragable();
 
 	enum class ReleaseReason : char
 	{
@@ -23,14 +23,14 @@ public:
 	};
 
 private:
-	PIMPL(Draggable)
+	PIMPL(Dragable)
 
 protected:
 	virtual void	drag_pressed(const QPoint& p) final;
 	virtual QDrag*	drag_moving(const QPoint& p) final;
 	virtual void	drag_released(ReleaseReason reason);
 
-	virtual QMimeData*	get_mime_data() const=0;
+	virtual QMimeData*	get_mimedata() const=0;
 	virtual QPixmap		get_pixmap() const;
 };
 

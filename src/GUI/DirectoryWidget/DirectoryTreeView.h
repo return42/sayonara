@@ -35,7 +35,7 @@ class MetaDataList;
 
 class DirectoryTreeView :
 		public QTreeView,
-		protected Draggable,
+		protected Dragable,
 		private SayonaraClass
 {
 
@@ -53,10 +53,10 @@ public:
 	AbstractSearchFileTreeModel* get_model() const;
 
 	QModelIndexList		get_selected_rows() const;
-	MetaDataList 		read_metadata() const;
-	QStringList			get_filelist() const;
+	MetaDataList 		get_selected_metadata() const;
+	QStringList			get_selected_paths() const;
 
-	QMimeData*			get_mime_data() const;
+	QMimeData*			get_mimedata() const;
 
 private:
 	LibraryContextMenu*				_context_menu=nullptr;

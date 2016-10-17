@@ -35,7 +35,7 @@ class LibraryContextMenu;
 
 class FileListView :
 		public SearchableListView,
-		private Draggable,
+		private Dragable,
 		private SayonaraClass
 {
 
@@ -51,13 +51,15 @@ public:
 	explicit FileListView(QWidget* parent=nullptr);
 	virtual ~FileListView();
 
-	QModelIndexList get_selected_rows() const;
 	QAbstractItemModel* get_model() const override;
-	MetaDataList get_metadata() const;
-	QStringList get_files() const;
+
+	QModelIndexList get_selected_rows() const;
+	MetaDataList get_selected_metadata() const;
+	QStringList get_selected_paths() const;
+
 	void set_parent_directory(const QString& dir);
 
-	QMimeData* get_mime_data() const override;
+	QMimeData* get_mimedata() const override;
 
 private:
 	LibraryContextMenu*	_context_menu=nullptr;

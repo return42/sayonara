@@ -22,13 +22,11 @@
 #ifndef LIBRARYITEMMODEL_H_
 #define LIBRARYITEMMODEL_H_
 
-
-
-
 #include "GUI/Helper/SearchableWidget/AbstractSearchModel.h"
 #include "Helper/MetaData/MetaDataList.h"
 #include "Helper/Set.h"
 
+class CoverLocation;
 class CustomMimeData;
 class ColumnHeader;
 class LibraryItemModel :
@@ -60,12 +58,15 @@ public:
 
 	virtual QString			get_string(int row) const=0;
 	virtual int				get_id_by_row(int row)=0;
+	virtual CoverLocation	get_cover(const SP::Set<int>& indexes) const=0;
+
 
 	virtual QMap<QChar, QString> getExtraTriggers() override;
 
 	void set_mimedata(const MetaDataList& v_md);
 
 	CustomMimeData* get_mimedata();
+
 
 
 protected:

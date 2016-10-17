@@ -170,6 +170,7 @@ void EngineHandler::change_track(const MetaData& md) {
 }
 
 void EngineHandler::change_track(const QString& str) {
+
 	if(!_cur_engine) return;
 	_cur_engine->change_track(str);
 }

@@ -30,6 +30,7 @@
 #define PLAYLISTVIEW_H_
 
 #include "GUI/Helper/SearchableWidget/SearchableListView.h"
+#include "GUI/Helper/Dragable/Draggable.h"
 #include "GUI/InfoDialog/InfoDialogContainer.h"
 #include "Helper/Playlist/PlaylistFwd.h"
 #include "Helper/MetaData/MetaDataFwd.h"
@@ -46,7 +47,8 @@ class BookmarksMenu;
 
 class PlaylistView :
 		public SearchableListView,
-		public InfoDialogContainer
+		public InfoDialogContainer,
+		private Dragable
 {
 	Q_OBJECT
 
@@ -82,9 +84,6 @@ public slots:
 
 
 private:
-	QDrag*					_drag=nullptr;
-	QPoint					_drag_pos;
-
 	LibraryContextMenu*		_rc_menu=nullptr;
 
 	PlaylistItemModel*		_model=nullptr;
@@ -130,6 +129,7 @@ private:
 
 	MD::Interpretation get_metadata_interpretation() const override;
 	MetaDataList get_data_for_info_dialog() const override;
+	QMimeData* get_mimedata() const override;
 
 
 private slots:

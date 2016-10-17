@@ -355,7 +355,7 @@ void LibraryGenreView::init_data(const QStringList& genres){
 
 		else{
 			int first_parent_idx;
-			first_parent_idx = parent_idxs[0];
+			first_parent_idx = parent_idxs.first();
 			parent_node = item_node_map[ first_parent_idx ];
 		}
 

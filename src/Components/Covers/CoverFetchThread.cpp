@@ -77,7 +77,7 @@ bool CoverFetchThread::more(){
 		return false;
 	}
 
-	QString address = _addresses[0];
+	QString address = _addresses.first();
 	AsyncWebAccess* awa = new AsyncWebAccess(this);
 
 	if(_n_covers == 1){

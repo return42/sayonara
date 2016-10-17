@@ -33,6 +33,7 @@
 #include "Helper/DirectoryReader/DirectoryReader.h"
 #include "Helper/FileHelper.h"
 #include "Helper/Logger/Logger.h"
+#include "Helper/globals.h"
 #include "DirectoryDelegate.h"
 
 #include <QItemSelectionModel>
@@ -108,13 +109,30 @@ MetaDataList GUI_DirectoryWidget::get_data_for_info_dialog() const
 	switch(_selected_widget)
 	{
 		case SelectedWidget::Dirs:
-			return ui->tv_dirs->read_metadata();
+			return ui->tv_dirs->get_selected_metadata();
 		case SelectedWidget::Files:
-			return ui->lv_files->get_metadata();
+			return ui->lv_files->get_selected_metadata();
 		default:
 			return v_md;
 	}
 }
+
+
+void GUI_DirectoryWidget::dir_pressed(QModelIndex idx)
+{
+	Q_UNUSED(idx)
+
+	Qt::MouseButtons buttons = QApplication::mouseButtons();
+	if(buttons & Qt::MiddleButton){
+
+		QStringList paths = ui->tv_dirs->get_selected_paths();
+
+		if(!paths.isEmpty()){
+			_local_library->psl_prepare_tracks_for_playlist(paths, true);
+		}
+	}
+}
+
 
 void GUI_DirectoryWidget::dir_clicked(QModelIndex idx)
 {
@@ -122,19 +140,22 @@ void GUI_DirectoryWidget::dir_clicked(QModelIndex idx)
 	ui->lv_files->set_parent_directory(dir);
 }
 
+
 void GUI_DirectoryWidget::dir_append_clicked()
 {
-	MetaDataList v_md = ui->tv_dirs->read_metadata();
+	MetaDataList v_md = ui->tv_dirs->get_selected_metadata();
 	PlaylistHandler* plh = PlaylistHandler::getInstance();
 	plh->append_tracks(v_md, plh->get_current_idx());
 }
 
+
 void GUI_DirectoryWidget::dir_play_next_clicked()
 {
-	MetaDataList v_md = ui->tv_dirs->read_metadata();
+	MetaDataList v_md = ui->tv_dirs->get_selected_metadata();
 	PlaylistHandler* plh = PlaylistHandler::getInstance();
 	plh->play_next(v_md);
 }
+
 
 void GUI_DirectoryWidget::dir_delete_clicked()
 {
@@ -145,8 +166,8 @@ void GUI_DirectoryWidget::dir_delete_clicked()
 		return;
 	}
 
-	QStringList files = ui->tv_dirs->get_filelist();
-	MetaDataList v_md = ui->tv_dirs->read_metadata();
+	QStringList files = ui->tv_dirs->get_selected_paths();
+	MetaDataList v_md = ui->tv_dirs->get_selected_metadata();
 	_local_library->delete_tracks(v_md, Library::TrackDeletionMode::OnlyLibrary);
 
 	sp_log(Log::Debug) << "Delete clicked: " << files;
@@ -157,17 +178,19 @@ void GUI_DirectoryWidget::dir_delete_clicked()
 
 void GUI_DirectoryWidget::file_append_clicked()
 {
-	MetaDataList v_md = ui->lv_files->get_metadata();
+	MetaDataList v_md = ui->lv_files->get_selected_metadata();
 	PlaylistHandler* plh = PlaylistHandler::getInstance();
 	plh->append_tracks(v_md, plh->get_current_idx());
 }
 
+
 void GUI_DirectoryWidget::file_play_next_clicked()
 {
-	MetaDataList v_md = ui->lv_files->get_metadata();
+	MetaDataList v_md = ui->lv_files->get_selected_metadata();
 	PlaylistHandler* plh = PlaylistHandler::getInstance();
 	plh->play_next(v_md);
 }
+
 
 void GUI_DirectoryWidget::file_delete_clicked()
 {
@@ -178,29 +201,12 @@ void GUI_DirectoryWidget::file_delete_clicked()
 		return;
 	}
 
-	QStringList files = ui->lv_files->get_files();
-	MetaDataList v_md = ui->lv_files->get_metadata();
-
+	MetaDataList v_md = ui->lv_files->get_selected_metadata();
 	_local_library->delete_tracks(v_md, Library::TrackDeletionMode::OnlyLibrary);
 
+	QStringList files = ui->lv_files->get_selected_paths();
 	Helper::File::delete_files(files);
 }
-
-void GUI_DirectoryWidget::dir_pressed(QModelIndex idx)
-{
-	Q_UNUSED(idx)
-
-	Qt::MouseButtons buttons = QApplication::mouseButtons();
-	if(buttons & Qt::MiddleButton){
-
-		QStringList paths = ui->tv_dirs->get_filelist();
-
-		if(!paths.isEmpty()){
-			_local_library->psl_prepare_tracks_for_playlist(paths, true);
-		}
-	}
-}
-
 
 
 void GUI_DirectoryWidget::file_pressed(QModelIndex idx)
@@ -208,25 +214,22 @@ void GUI_DirectoryWidget::file_pressed(QModelIndex idx)
 	Q_UNUSED(idx)
 
 	Qt::MouseButtons buttons = QApplication::mouseButtons();
-	if(buttons & Qt::MiddleButton){
 
-		QStringList paths = ui->lv_files->get_files();
-
-		if(!paths.isEmpty()){
-			_local_library->psl_prepare_tracks_for_playlist(paths, true);
-		}
+	if(buttons & Qt::MiddleButton)
+	{
+		QStringList paths = ui->lv_files->get_selected_paths();
+		_local_library->psl_prepare_tracks_for_playlist(paths, true);
 	}
 }
 
 
+void GUI_DirectoryWidget::file_dbl_clicked(QModelIndex idx)
+{
+	Q_UNUSED(idx)
 
-void GUI_DirectoryWidget::file_dbl_clicked(QModelIndex idx){
-	QStringList paths;
-	paths << _dir_model->filePath(idx);
-
+	QStringList paths = ui->lv_files->get_selected_paths();
 	_local_library->psl_prepare_tracks_for_playlist(paths, false);
 }
-
 
 void GUI_DirectoryWidget::directory_loaded(const QString& path){
 

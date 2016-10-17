@@ -76,7 +76,7 @@ QModelIndex AbstractSearchFileTreeModel::getFirstRowIndexOf(QString substr)
 
 		_found_strings.removeDuplicates();
 
-		str = _found_strings[0];
+		str = _found_strings.first();
 		_cur_idx = 0;
 	}
 

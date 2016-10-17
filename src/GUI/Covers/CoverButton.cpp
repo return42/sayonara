@@ -92,7 +92,7 @@ void CoverButton::alternative_cover_fetched(const CoverLocation& cl){
 }
 
 
-void CoverButton::cover_found(const CoverLocation &cl){
+void CoverButton::cover_found(const CoverLocation& cl){
 
 	if(cl.valid()){
 		emit sig_cover_found();
