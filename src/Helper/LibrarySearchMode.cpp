@@ -2,8 +2,8 @@
 #include <QRegExp>
 #include <QStringList>
 
-QStringList no_diacritic_chars;
-QString diacritic_chars;
+static QStringList no_diacritic_chars;
+static QString diacritic_chars;
 
 QString LibraryHelper::convert_search_string(const QString& str, LibraryHelper::SearchModeMask mode)
 {
