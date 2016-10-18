@@ -56,9 +56,9 @@ public:
 
 	QModelIndexList		get_selected_rows() const;
 	MetaDataList 		get_selected_metadata() const;
-	QStringList			get_selected_paths() const;
+	QStringList		get_selected_paths() const;
 
-	QMimeData*			get_mimedata() const;
+	QMimeData*		get_mimedata() const;
 
 private:
 	LibraryContextMenu*				_context_menu=nullptr;

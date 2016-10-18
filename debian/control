@@ -11,6 +11,7 @@ Build-Depends: cmake,
                libtag1-dev,
                pkg-config,
                qtbase5-dev,
+               qttools5-dev,
                qttools5-dev-tools,
                zlib1g-dev
 Standards-Version: 3.9.8

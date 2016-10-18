@@ -36,7 +36,7 @@ IconProvider::IconProvider() :
 	_folder_icon.addPixmap(GUI::get_pixmap("folder_open"), QIcon::Normal, QIcon::On);
 }
 
-IconProvider::~IconProvider(){}
+IconProvider::~IconProvider() {}
 
 QIcon IconProvider::icon(IconType type) const {
 

@@ -37,7 +37,6 @@
 #include <QCloseEvent>
 #include <QTranslator>
 #include <QKeySequence>
-#include <QFileSystemWatcher>
 
 #include <QAction>
 #include <QSystemTrayIcon>

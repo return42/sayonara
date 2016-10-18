@@ -42,7 +42,6 @@
 #include <QFile>
 #include <QDir>
 #include <QFileDialog>
-#include <QFileSystemWatcher>
 #include <QRegExp>
 #include <QPixmap>
 #include <QList>
