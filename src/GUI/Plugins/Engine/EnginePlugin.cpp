@@ -21,12 +21,16 @@
 #include "EnginePlugin.h"
 #include "EngineColorStyleChooser.h"
 #include "Components/Engine/EngineHandler.h"
+#include "Components/PlayManager/PlayManager.h"
 
 EnginePlugin::EnginePlugin(QWidget* parent) :
 	PlayerPluginInterface(parent)
 {
 	_cur_style_idx = 0;
 	_timer_stopped = true;
+
+	_play_manager = PlayManager::getInstance();
+	connect(_play_manager, &PlayManager::sig_playstate_changed, this, &EnginePlugin::playstate_changed);
 }
 
 EnginePlugin::~EnginePlugin()
@@ -215,16 +219,29 @@ void EnginePlugin::init_ui()
 			this, &EnginePlugin::sl_update_style);
 }
 
-void EnginePlugin::played(){
-
+void EnginePlugin::playstate_changed(PlayState state)
+{
+	switch(state)
+	{
+		case PlayState::Playing:
+			played();
+			break;
+		case PlayState::Paused:
+			paused();
+			break;
+		case PlayState::Stopped:
+			stopped();
+			break;
+		default:
+			break;
+	}
 }
 
-void EnginePlugin::paused(){
+void EnginePlugin::played(){}
+void EnginePlugin::paused(){}
 
-}
-
-void EnginePlugin::stopped(){
-
+void EnginePlugin::stopped()
+{
 	if(!is_ui_initialized()){
 		return;
 	}

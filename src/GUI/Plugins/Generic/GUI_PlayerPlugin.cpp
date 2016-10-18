@@ -36,6 +36,7 @@ GUI_PlayerPlugin::GUI_PlayerPlugin(QWidget *parent) :
 	connect(ui->btn_close, &QPushButton::clicked, this, &GUI_PlayerPlugin::close);
 }
 
+
 GUI_PlayerPlugin::~GUI_PlayerPlugin()
 {
 	delete ui; ui=nullptr;
@@ -61,11 +62,14 @@ void GUI_PlayerPlugin::show(PlayerPluginInterface* player_plugin)
 	SayonaraWidget::show();
 }
 
-void GUI_PlayerPlugin::language_changed() {
+
+void GUI_PlayerPlugin::language_changed() 
+{
 	if(_current_plugin){
 		ui->lab_title->setText(_current_plugin->get_display_name());
 	}
 }
+
 
 void GUI_PlayerPlugin::closeEvent(QCloseEvent* e)
 {
@@ -74,12 +78,12 @@ void GUI_PlayerPlugin::closeEvent(QCloseEvent* e)
 	SayonaraWidget::closeEvent(e);
 }
 
-void GUI_PlayerPlugin::close_cur_plugin(){
 
+void GUI_PlayerPlugin::close_cur_plugin()
+{
 	if(_current_plugin){
 		_current_plugin->close();
 	}
 
 	_current_plugin = nullptr;
-	_settings->set(Set::Player_ShownPlugin, QString());
 }

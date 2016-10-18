@@ -19,7 +19,6 @@
  */
 
 
-
 /* GUI_PlayerPlugin.h */
 
 #ifndef GUI_PLAYERPLUGIN_H

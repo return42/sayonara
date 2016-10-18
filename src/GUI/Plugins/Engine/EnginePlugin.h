@@ -18,13 +18,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef ENGINEPLUGIN_H
 #define ENGINEPLUGIN_H
 
 #include "GUI_StyleSettings.h"
 #include "Interfaces/PlayerPlugin/PlayerPlugin.h"
+#include "Components/PlayManager/PlayState.h"
 
 #include <QTimer>
 #include <QPushButton>
@@ -32,6 +31,7 @@
 class EngineColorStyleChooser;
 class EngineHandler;
 class GUI_PlayerPlugin;
+class PlayManager;
 class EnginePlugin : public PlayerPluginInterface {
 
 	Q_OBJECT
@@ -43,6 +43,7 @@ protected:
 	QPushButton* _btn_next=nullptr;
 	QPushButton* _btn_close=nullptr;
 
+	PlayManager*				_play_manager=nullptr;
 	EngineHandler*				_engine=nullptr;
 	GUI_StyleSettings*			_ui_style_settings=nullptr;
 	EngineColorStyleChooser*    _ecsc=nullptr;
@@ -70,9 +71,10 @@ protected slots:
 
 	virtual void timed_out()=0;
 
-	virtual void played() override;
-	virtual void paused() override;
-	virtual void stopped() override;
+	virtual void playstate_changed(PlayState play_state);
+	virtual void played();
+	virtual void paused();
+	virtual void stopped();
 
 
 public slots:

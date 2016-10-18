@@ -98,10 +98,7 @@ void ID3v2Frame::PopularimeterFrame::map_model_to_frame(){
 	_frame->setEmail(TagLib::String(_data_model.email.toUtf8().data(), TagLib::String::UTF8));
 	_frame->setCounter(_data_model.playcount);
 	_frame->setRating(_data_model.rating_byte);
-	TagLib::ByteVector vec = _frame->render();
-	QByteArray arr(vec.data(), vec.size());
-	sp_log(Log::Debug) << arr;
-
+	_frame->render();
 }
 
 void ID3v2Frame::PopularimeterFrame::map_frame_to_model(){

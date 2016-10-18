@@ -18,13 +18,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef GUI_AUDIOCONVERTER_H
 #define GUI_AUDIOCONVERTER_H
 
 #include "Interfaces/PlayerPlugin/PlayerPlugin.h"
 #include "Helper/Playlist/PlaylistMode.h"
+#include "Components/PlayManager/PlayState.h"
+
+class PlayManager;
 
 namespace Ui { class GUI_AudioConverter; }
 
@@ -51,14 +52,15 @@ private slots:
 	void cb_active_toggled(bool b);
 	void mp3_enc_found();
 
-protected:
 
+protected:
 	void language_changed() override;
 	virtual void init_ui() override;
 
 
 protected slots:
-	void stopped() override;
+	void playstate_changed(PlayState state);
+	void stopped();
 
 	
 private:

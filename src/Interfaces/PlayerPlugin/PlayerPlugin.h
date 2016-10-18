@@ -27,11 +27,8 @@
 #include "Helper/Settings/Settings.h"
 #include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
 #include "GUI/Helper/Shortcuts/ShortcutWidget.h"
-#include "Components/PlayManager/PlayState.h"
-
 
 class PlayerPluginHandler;
-class PlayManager;
 
 /**
  * @brief Interface for PlayerPlugin classes.
@@ -52,6 +49,11 @@ public:
 	explicit PlayerPluginInterface(QWidget *parent=nullptr);
 	virtual ~PlayerPluginInterface();
 
+private:
+	bool		_is_initialized;
+	QAction*	_pp_action=nullptr;
+
+
 signals:
 	/**
 	 * @brief signal is emitted when the plugin action is triggered\n
@@ -67,6 +69,11 @@ signals:
 	 */
 	void sig_reload(PlayerPluginInterface*);
 
+	/** 
+	 * @brief emitted when plugin is closed
+	 */
+	void sig_closed();
+
 
 private slots:
 	/**
@@ -76,30 +83,13 @@ private slots:
 	 */
 	void action_triggered(bool checked);
 
-	void _sl_lang_changed();
-
 private:
-	bool		_is_initialized;
-
-	void		finalize_initialization();
 
 	/**
 	 * @brief mark ui as initialized
 	 */
 	void set_ui_initialized();
-
-
-protected:
-
-	/**
-	 * @brief _play_manager Notifies about playstate
-	 */
-	PlayManager* _play_manager=nullptr;
-
-	/**
-	 * @brief _pp_action already allocated, displays name of the plugin by calling get_name()
-	 */
-	QAction*    _pp_action=nullptr;
+	void finalize_initialization();
 
 
 protected:
@@ -117,15 +107,15 @@ protected:
 	virtual void language_changed() override=0;
 
 	/**
-	 * @brief GUI will be initialized on first show up. Please use this to make Sayonara starting fast
-	 */
-	virtual void init_ui()=0;
-
-	/**
 	 * @brief Check if ui already was initialized
 	 * @return
 	 */
 	bool is_ui_initialized() const;
+
+	/**
+	 * @brief GUI will be initialized on first show up. Please use this to make Sayonara starting fast
+	 */
+	virtual void init_ui()=0;
 
 
 	template<typename T, typename UiClass>
@@ -140,30 +130,6 @@ protected:
 
 		finalize_initialization();
 	}
-
-protected slots:
-
-	/**
-	 * @brief Playstate has changed, this does nothing in default implementation
-	 * @param the new State
-	 */
-	virtual void playstate_changed(PlayState state);
-
-	/**
-	 * @brief Playstate has changed to playing
-	 */
-	virtual void played();
-
-	/**
-	 * @brief Playstate has changed to paused
-	 */
-	virtual void paused();
-
-	/**
-	 * @brief Playstate has changed to stop
-	 */
-	virtual void stopped();
-
 
 
 public:
@@ -199,6 +165,9 @@ public:
 	virtual void		show();
 
 
+	/**
+	 * @brief indicates if title bar is shown or not
+	 */ 
 	virtual bool		is_title_shown() const;
 
 

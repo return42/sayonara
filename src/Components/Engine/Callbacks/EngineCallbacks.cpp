@@ -33,6 +33,8 @@
 
 #include <memory>
 
+typedef std::shared_ptr<gchar> SharedString;
+
 #ifdef Q_OS_WIN
 	void EngineCallbacks::destroy_notify(gpointer data){}
 
@@ -61,26 +63,31 @@ static bool parse_image(GstTagList* tags, QImage& img)
 		}
 	}
 
-	std::shared_ptr<gchar> mimetype = std::shared_ptr<gchar>(gst_caps_to_string(gst_sample_get_caps(sample)));
-	std::shared_ptr<gchar> parsed_mimetype = nullptr;
-
-	if(mimetype == nullptr)
-	{
+	GstCaps* caps = gst_sample_get_caps(sample);
+	if(!caps){
+		gst_sample_unref(sample);
 		return false;
 	}
 
-	//sp_log(Log::Debug) << "Mime type: " << mimetype;
+	gchar* mime_type_char = gst_caps_to_string(	caps );
+	if(!mime_type_char){
+		gst_sample_unref(sample);
+		return false;
+	}
+
+	SharedString mimetype(mime_type_char);
+	SharedString parsed_mimetype = nullptr;
+
 	QRegExp re(".*(image/[a-z|A-Z]+).*");
 	QString mime(mimetype.get());
-	
 	if(re.indexIn(mime) >= 0)
 	{
 		mime = re.cap(1);
-		parsed_mimetype = std::shared_ptr<gchar>(strdup(mime.toLocal8Bit().data()));
+		parsed_mimetype = SharedString( strdup(mime.toLocal8Bit().data()) );
 	}
 
 	else{
-		parsed_mimetype = std::shared_ptr<gchar>(strdup(mimetype.get()));
+		parsed_mimetype = SharedString( strdup(mimetype.get()) );
 	}
 
 	GstBuffer* buffer = gst_sample_get_buffer( sample );
@@ -95,20 +102,17 @@ static bool parse_image(GstTagList* tags, QImage& img)
 		return false;
 	}
 
-	gchar* data = new gchar[size];
-	size = gst_buffer_extract(buffer, 0, data, size);
+	gchar* data_char = new gchar[size];
+	size = gst_buffer_extract(buffer, 0, data_char, size);
+	SharedString data(data_char);
 
 	if(size == 0){
-		delete[] data;
-
 		gst_sample_unref(sample);
 	
 		return false;
 	}
 
-	img = QImage::fromData((const uchar*) data, size, parsed_mimetype.get());
-	
-	delete[] data;
+	img = QImage::fromData((const uchar*) data.get(), size, parsed_mimetype.get());
 	gst_sample_unref(sample);
 
 	return (!img.isNull());

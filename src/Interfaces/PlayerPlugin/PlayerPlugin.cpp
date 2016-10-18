@@ -20,11 +20,8 @@
 
 
 #include "PlayerPlugin.h"
-
 #include "GUI/Helper/Shortcuts/Shortcut.h"
-
 #include "GUI/Helper/Shortcuts/ShortcutHandler.h"
-#include "Components/PlayManager/PlayManager.h"
 
 #include <QLayout>
 
@@ -32,14 +29,12 @@ PlayerPluginInterface::PlayerPluginInterface(QWidget *parent) :
 	SayonaraWidget(parent),
 	ShortcutWidget()
 {
-	_play_manager = PlayManager::getInstance();
 	_is_initialized = false;
 
 	_pp_action = new QAction(nullptr);
 	_pp_action->setCheckable(true);
 
 	connect(_pp_action, &QAction::triggered, this, &PlayerPluginInterface::action_triggered);
-	connect(_play_manager, &PlayManager::sig_playstate_changed,	this, &PlayerPluginInterface::playstate_changed);
 
 	hide();
 }
@@ -50,16 +45,20 @@ PlayerPluginInterface::~PlayerPluginInterface()
 	delete _pp_action; _pp_action = nullptr;
 }
 
-void PlayerPluginInterface::show(){
+
+void PlayerPluginInterface::show()
+{
 	QWidget::show();
 
 	init_ui();
 }
 
+
 bool PlayerPluginInterface::is_title_shown() const
 {
 	return true;
 }
+
 
 QString PlayerPluginInterface::get_shortcut_text(const QString& shortcut_identifier) const
 {
@@ -71,8 +70,8 @@ QString PlayerPluginInterface::get_shortcut_text(const QString& shortcut_identif
 }
 
 
-QAction* PlayerPluginInterface::get_action() const {
-
+QAction* PlayerPluginInterface::get_action() const 
+{
 	_pp_action->setText( this->get_display_name() );
 	return _pp_action;
 }
@@ -101,22 +100,27 @@ void PlayerPluginInterface::finalize_initialization()
 		sc.create_qt_shortcut(this, parentWidget(), SLOT(close()));
 	}
 
-	REGISTER_LISTENER(Set::Player_Language, _sl_lang_changed);
 	REGISTER_LISTENER(Set::Player_Style, skin_changed);
 
 	this->set_ui_initialized();
 }
 
-void PlayerPluginInterface::closeEvent(QCloseEvent* e) {
+
+void PlayerPluginInterface::closeEvent(QCloseEvent* e) 
+{
 	SayonaraWidget::closeEvent(e);
 
     _pp_action->setChecked(false);
+
+	emit sig_closed();
 }
+
 
 bool PlayerPluginInterface::is_ui_initialized() const
 {
 	return _is_initialized;
 }
+
 
 void PlayerPluginInterface::set_ui_initialized()
 {
@@ -124,51 +128,13 @@ void PlayerPluginInterface::set_ui_initialized()
 }
 
 
-void PlayerPluginInterface::action_triggered(bool b) {
-
+void PlayerPluginInterface::action_triggered(bool b) 
+{
 	_pp_action->setChecked(b);
 
-	skin_changed();
-
 	emit sig_action_triggered(this, b);
-}
 
-void PlayerPluginInterface::_sl_lang_changed()
-{
-	if(!is_ui_initialized()){
-		return;
-	}
+	skin_changed();
 }
 
 
-void PlayerPluginInterface::playstate_changed(PlayState state){
-
-	switch(state){
-		case PlayState::Playing:
-			played();
-			break;
-
-		case PlayState::Paused:
-			paused();
-			break;
-
-		case PlayState::Stopped:
-			stopped();
-			break;
-
-		default:
-			return;
-	}
-}
-
-void PlayerPluginInterface::played(){
-
-}
-
-void PlayerPluginInterface::paused(){
-
-}
-
-void PlayerPluginInterface::stopped(){
-
-}

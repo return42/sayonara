@@ -31,7 +31,9 @@
 
 
 class PlayerPluginInterface;
-class PlayerPluginHandler : public QObject, public SayonaraClass
+class PlayerPluginHandler : 
+	public QObject, 
+	public SayonaraClass
 {
     Q_OBJECT
 
@@ -46,7 +48,8 @@ signals:
 
 
 private slots:
-	void plugin_action_triggered(PlayerPluginInterface*, bool);
+	void plugin_action_triggered(PlayerPluginInterface* source, bool on);
+	void plugin_closed();
 	void reload_plugin(PlayerPluginInterface* p);
 	void language_changed();
 
@@ -57,7 +60,6 @@ private:
 
 public:
 	void add_plugin(PlayerPluginInterface* plugin);
-	void load_dynamic_plugins();
 
 	PlayerPluginInterface*        find_plugin(const QString& name);
 	QList<PlayerPluginInterface*> get_all_plugins() const;

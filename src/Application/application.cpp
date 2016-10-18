@@ -223,7 +223,6 @@ bool Application::init(QTranslator* translator, const QStringList& files_to_play
 	pph->add_plugin(new GUI_Speed());
 	pph->add_plugin(new GUI_Broadcast());
 	pph->add_plugin(new GUI_Crossfader());
-	pph->load_dynamic_plugins();
 
 	sp_log(Log::Debug) << "Plugins finsihed: " << _timer->elapsed() << "ms";
 

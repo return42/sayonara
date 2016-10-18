@@ -26,6 +26,7 @@
 
 #include "Components/Engine/EngineHandler.h"
 #include "Components/Engine/Convert/LameBitrate.h"
+#include "Components/PlayManager/PlayManager.h"
 
 #include <QFileDialog>
 
@@ -56,8 +57,8 @@ QString GUI_AudioConverter::get_display_name() const
 	return tr("Audio Converter");
 }
 
-void GUI_AudioConverter::language_changed(){
-
+void GUI_AudioConverter::language_changed()
+{
 	if(!is_ui_initialized()){
 		return;
 	}
@@ -67,7 +68,6 @@ void GUI_AudioConverter::language_changed(){
 
 void GUI_AudioConverter::init_ui()
 {
-
 	if(is_ui_initialized()){
 		return;
 	}
@@ -106,12 +106,15 @@ void GUI_AudioConverter::init_ui()
 		ui->cb_quality->setCurrentIndex(idx);
 	}
 
+	PlayManager* play_manager = PlayManager::getInstance();
+	connect(play_manager, &PlayManager::sig_playstate_changed, this, &GUI_AudioConverter::playstate_changed);
+
 	REGISTER_LISTENER(SetNoDB::MP3enc_found, mp3_enc_found);
 }
 
 
-void GUI_AudioConverter::fill_cbr() {
-
+void GUI_AudioConverter::fill_cbr() 
+{
 	if(!is_ui_initialized()){
 		return;
 	}
@@ -130,8 +133,8 @@ void GUI_AudioConverter::fill_cbr() {
 	ui->cb_quality->setCurrentIndex(2);
 }
 
-void GUI_AudioConverter::fill_vbr() {
-
+void GUI_AudioConverter::fill_vbr() 
+{
 	if(!is_ui_initialized()){
 		return;
 	}
@@ -155,9 +158,15 @@ void GUI_AudioConverter::fill_vbr() {
 	ui->cb_quality->setCurrentIndex(2);
 }
 
+void GUI_AudioConverter::playstate_changed(PlayState state)
+{
+	if(state == PlayState::Stopped){
+		stopped();
+	}
+}
 
-void GUI_AudioConverter::stopped(){
-
+void GUI_AudioConverter::stopped()
+{
 	if(!isVisible()) {
 		return;
 	}
@@ -170,8 +179,8 @@ void GUI_AudioConverter::stopped(){
 }
 
 
-void GUI_AudioConverter::rb_cbr_toggled(bool b) {
-
+void GUI_AudioConverter::rb_cbr_toggled(bool b) 
+{
 	if(!is_ui_initialized()){
 		return;
 	}
@@ -181,8 +190,8 @@ void GUI_AudioConverter::rb_cbr_toggled(bool b) {
 	}
 }
 
-void GUI_AudioConverter::rb_vbr_toggled(bool b) {
-
+void GUI_AudioConverter::rb_vbr_toggled(bool b) 
+{
 	if(!is_ui_initialized()){
 		return;
 	}
@@ -192,7 +201,8 @@ void GUI_AudioConverter::rb_vbr_toggled(bool b) {
 	}
 }
 
-void GUI_AudioConverter::pl_mode_backup(){
+void GUI_AudioConverter::pl_mode_backup()
+{
 	_pl_mode = _settings->get(Set::PL_Mode);
 
 	Playlist::Mode new_mode;
@@ -206,12 +216,13 @@ void GUI_AudioConverter::pl_mode_backup(){
 	_settings->set(Set::PL_Mode, new_mode);
 }
 
-void GUI_AudioConverter::pl_mode_restore(){
+void GUI_AudioConverter::pl_mode_restore()
+{
 	_settings->set(Set::PL_Mode, _pl_mode);
 }
 
-void GUI_AudioConverter::cb_active_toggled(bool b) {
-
+void GUI_AudioConverter::cb_active_toggled(bool b) 
+{
 	if(!is_ui_initialized()){
 		return;
 	}
@@ -251,8 +262,8 @@ void GUI_AudioConverter::cb_active_toggled(bool b) {
 	}
 }
 
-void GUI_AudioConverter::quality_changed(int index) {
-
+void GUI_AudioConverter::quality_changed(int index) 
+{
 	if(!is_ui_initialized()){
 		return;
 	}
@@ -262,6 +273,7 @@ void GUI_AudioConverter::quality_changed(int index) {
 	_settings->set(Set::Engine_ConvertQuality, (int) q);
 }
 
-void GUI_AudioConverter::mp3_enc_found(){
+void GUI_AudioConverter::mp3_enc_found()
+{
 	_mp3_enc_available = _settings->get(SetNoDB::MP3enc_found);
 }

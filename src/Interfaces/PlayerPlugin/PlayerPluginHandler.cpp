@@ -24,9 +24,7 @@
 #include "Helper/Helper.h"
 #include "Helper/Logger/Logger.h"
 
-#include <QDir>
 #include <QAction>
-#include <QPluginLoader>
 
 
 PlayerPluginHandler::PlayerPluginHandler(QObject *parent) :
@@ -38,8 +36,8 @@ PlayerPluginHandler::PlayerPluginHandler(QObject *parent) :
 
 PlayerPluginHandler::~PlayerPluginHandler() {}
 
-PlayerPluginInterface* PlayerPluginHandler::find_plugin(const QString& name) {
-
+PlayerPluginInterface* PlayerPluginHandler::find_plugin(const QString& name) 
+{
 	sp_log(Log::Debug) << "Search for plugin " << name;
 
 	for(PlayerPluginInterface* p : _plugins) {
@@ -51,12 +49,18 @@ PlayerPluginInterface* PlayerPluginHandler::find_plugin(const QString& name) {
 	return nullptr;
 }
 
-void PlayerPluginHandler::add_plugin(PlayerPluginInterface* p) {
+
+void PlayerPluginHandler::add_plugin(PlayerPluginInterface* p) 
+{
+	if(!p){
+		return;
+	}
 
 	_plugins.push_back(p);
 
 	connect(p, &PlayerPluginInterface::sig_action_triggered, this, &PlayerPluginHandler::plugin_action_triggered);
 	connect(p, &PlayerPluginInterface::sig_reload, this,  &PlayerPluginHandler::reload_plugin);
+	connect(p, &PlayerPluginInterface::sig_closed, this, &PlayerPluginHandler::plugin_closed);
 
 	QString last_plugin = _settings->get(Set::Player_ShownPlugin);
 	if(p->get_name() == last_plugin){
@@ -66,13 +70,9 @@ void PlayerPluginHandler::add_plugin(PlayerPluginInterface* p) {
 }
 
 
-void PlayerPluginHandler::plugin_action_triggered(PlayerPluginInterface* p, bool b) {
-
+void PlayerPluginHandler::plugin_action_triggered(PlayerPluginInterface* p, bool b) 
+{
 	if(!p){
-		return;
-	}
-
-	if(!p->get_action()){
 		return;
 	}
 
@@ -81,18 +81,26 @@ void PlayerPluginHandler::plugin_action_triggered(PlayerPluginInterface* p, bool
 		_settings->set(Set::Player_ShownPlugin, p->get_name());
 	}
 
-	else{
-		emit sig_hide_all_plugins();
-		_settings->set(Set::Player_ShownPlugin, QString());
+	else {
+		plugin_closed();
 	}
 }
 
 
-void PlayerPluginHandler::reload_plugin(PlayerPluginInterface* p) {
+void PlayerPluginHandler::plugin_closed()
+{
+	emit sig_hide_all_plugins();
+	_settings->set(Set::Player_ShownPlugin, QString());
+}
+
+
+void PlayerPluginHandler::reload_plugin(PlayerPluginInterface* p) 
+{
 	if(p) {
 		emit sig_show_plugin(p);
 	}
 }
+
 
 void PlayerPluginHandler::language_changed()
 {
@@ -102,43 +110,8 @@ void PlayerPluginHandler::language_changed()
 	}
 }
 
-void PlayerPluginHandler::load_dynamic_plugins()
+
+QList<PlayerPluginInterface*> PlayerPluginHandler::get_all_plugins() const 
 {
-	QString lib_dir;
-	QDir plugin_dir;
-	QStringList dll_filenames;
-	QString cur_plugin;
-
-	lib_dir = Helper::get_lib_path();
-	plugin_dir = QDir(lib_dir);
-	dll_filenames = plugin_dir.entryList(QDir::Files);
-	cur_plugin = _settings->get(Set::Lib_CurPlugin);
-
-	for(const QString& filename : dll_filenames) {
-
-		QObject* raw_plugin;
-		PlayerPluginInterface* plugin;
-
-		QPluginLoader loader(plugin_dir.absoluteFilePath(filename));
-
-		raw_plugin = loader.instance();
-		if(!raw_plugin) {
-			loader.unload();
-			continue;
-		}
-
-		plugin = dynamic_cast<PlayerPluginInterface*>(raw_plugin);
-		if(!plugin) {
-			loader.unload();
-			continue;
-		}
-
-		sp_log(Log::Info) << "Found player plugin " << plugin->get_display_name();
-		_plugins << plugin;
-	}
-}
-
-
-QList<PlayerPluginInterface*> PlayerPluginHandler::get_all_plugins() const {
 	return _plugins;
 }
