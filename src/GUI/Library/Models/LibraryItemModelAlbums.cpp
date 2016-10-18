@@ -243,7 +243,7 @@ void LibraryItemModelAlbums::sort(int column, Qt::SortOrder order) {
 	Q_UNUSED(order);
 }
 
-QModelIndex LibraryItemModelAlbums::getFirstRowIndexOf(QString substr) {
+QModelIndex LibraryItemModelAlbums::getFirstRowIndexOf(const QString& substr) {
 
 	if(_m->albums.isEmpty()) {
 		return this->index(-1, -1);
@@ -254,7 +254,7 @@ QModelIndex LibraryItemModelAlbums::getFirstRowIndexOf(QString substr) {
 	}
 }
 
-QModelIndex LibraryItemModelAlbums::getNextRowIndexOf(QString substr, int row, const QModelIndex& parent) {
+QModelIndex LibraryItemModelAlbums::getNextRowIndexOf(const QString& substr, int row, const QModelIndex& parent) {
 
 	Q_UNUSED(parent)
 
@@ -265,7 +265,7 @@ QModelIndex LibraryItemModelAlbums::getNextRowIndexOf(QString substr, int row, c
 
 	Settings* settings = Settings::getInstance();
 	Library::SearchModeMask mask = settings->get(Set::Lib_SearchMode);
-	substr = Library::convert_search_string(substr, mask);
+	QString converted_string = Library::convert_search_string(substr, mask);
 
 	for(int i=0; i<len; i++) {
 		int row_idx = (i + row) % len;
@@ -273,7 +273,7 @@ QModelIndex LibraryItemModelAlbums::getNextRowIndexOf(QString substr, int row, c
 		QString album_name = _m->albums[row_idx].name;
 		album_name = Library::convert_search_string(album_name, mask);
 
-		if( album_name.contains(substr))
+		if( album_name.contains(converted_string))
 		{
 			return this->index(row_idx, 0);
 		}
@@ -282,13 +282,13 @@ QModelIndex LibraryItemModelAlbums::getNextRowIndexOf(QString substr, int row, c
 	return this->index(-1, -1);
 }
 
-QModelIndex LibraryItemModelAlbums::getPrevRowIndexOf(QString substr, int row, const QModelIndex& parent) {
+QModelIndex LibraryItemModelAlbums::getPrevRowIndexOf(const QString& substr, int row, const QModelIndex& parent) {
 
 	Q_UNUSED(parent)
 
 	Settings* settings = Settings::getInstance();
 	Library::SearchModeMask mask = settings->get(Set::Lib_SearchMode);
-	substr = Library::convert_search_string(substr, mask);
+	QString converted_string = Library::convert_search_string(substr, mask);
 
 	int len = _m->albums.size();
 	if(len < row){
@@ -307,7 +307,7 @@ QModelIndex LibraryItemModelAlbums::getPrevRowIndexOf(QString substr, int row, c
 		QString album_name = _m->albums[row_idx].name;
 		album_name = Library::convert_search_string(album_name, mask);
 
-		if( album_name.contains(substr))
+		if( album_name.contains(converted_string))
 		{
 			return this->index(row_idx, 0);
 		}

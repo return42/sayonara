@@ -60,12 +60,12 @@ QVariant FileListModel::data(const QModelIndex& idx, int role) const
 	return Helper::File::get_filename_of_path(_files[row]);
 }
 
-QModelIndex FileListModel::getFirstRowIndexOf(QString substr)
+QModelIndex FileListModel::getFirstRowIndexOf(const QString& substr)
 {
 	return getNextRowIndexOf(substr, 0);
 }
 
-QModelIndex FileListModel::getNextRowIndexOf(QString substr, int cur_row, const QModelIndex& parent)
+QModelIndex FileListModel::getNextRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent)
 {
 	Q_UNUSED(parent)
 
@@ -80,7 +80,7 @@ QModelIndex FileListModel::getNextRowIndexOf(QString substr, int cur_row, const 
 	return QModelIndex();
 }
 
-QModelIndex FileListModel::getPrevRowIndexOf(QString substr, int cur_row, const QModelIndex& parent)
+QModelIndex FileListModel::getPrevRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent)
 {
 	Q_UNUSED(parent)
 

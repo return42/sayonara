@@ -39,20 +39,16 @@ AbstractPipeline::AbstractPipeline(QString name, Engine* engine, QObject* parent
 	_about_to_finish = false;
 }
 
-AbstractPipeline::~AbstractPipeline(){
+AbstractPipeline::~AbstractPipeline()
+{
 	if (_bus){
 		gst_object_unref (_bus);
-	}
-
-	if (_pipeline) {
-		gst_element_set_state(GST_ELEMENT(_pipeline), GST_STATE_NULL);
-		gst_object_unref (GST_OBJECT(_pipeline));
 	}
 }
 
 
-bool AbstractPipeline::init(GstState state){
-
+bool AbstractPipeline::init(GstState state)
+{
 	bool success = false;
 	if(_initialized) {
 		return true;

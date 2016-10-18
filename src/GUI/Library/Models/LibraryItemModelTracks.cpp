@@ -211,7 +211,8 @@ QString LibraryItemModelTracks::get_string(int row) const
 
 
 
-QModelIndex	LibraryItemModelTracks::getFirstRowIndexOf(QString substr) {
+QModelIndex	LibraryItemModelTracks::getFirstRowIndexOf(const QString& substr)
+{
 	if(_m->tracks.isEmpty()) {
 		return this->index(-1, -1);
 	}
@@ -219,8 +220,8 @@ QModelIndex	LibraryItemModelTracks::getFirstRowIndexOf(QString substr) {
 	return getNextRowIndexOf(substr, 0);
 }
 
-QModelIndex LibraryItemModelTracks::getNextRowIndexOf(QString substr, int row, const QModelIndex& parent) {
-
+QModelIndex LibraryItemModelTracks::getNextRowIndexOf(const QString& substr, int row, const QModelIndex& parent)
+{
 	Q_UNUSED(parent)
 
 	int len = _m->tracks.size();
@@ -230,7 +231,7 @@ QModelIndex LibraryItemModelTracks::getNextRowIndexOf(QString substr, int row, c
 
 	Settings* settings = Settings::getInstance();
 	Library::SearchModeMask mask = settings->get(Set::Lib_SearchMode);
-	substr = Library::convert_search_string(substr, mask);
+	QString converted_string = Library::convert_search_string(substr, mask);
 
 	for(int i=0; i< len; i++)
 	{
@@ -239,7 +240,7 @@ QModelIndex LibraryItemModelTracks::getNextRowIndexOf(QString substr, int row, c
 		QString title = _m->tracks[row_idx].title;
 		title = Library::convert_search_string(title, mask);
 
-		if(title.contains(substr)) {
+		if(title.contains(converted_string)) {
 			return this->index(row_idx, 0);
 		}
 	}
@@ -247,13 +248,13 @@ QModelIndex LibraryItemModelTracks::getNextRowIndexOf(QString substr, int row, c
 	return this->index(-1, -1);
 }
 
-QModelIndex LibraryItemModelTracks::getPrevRowIndexOf(QString substr, int row, const QModelIndex& parent) {
-
+QModelIndex LibraryItemModelTracks::getPrevRowIndexOf(const QString& substr, int row, const QModelIndex& parent)
+{
 	Q_UNUSED(parent)
 
 	Settings* settings = Settings::getInstance();
 	Library::SearchModeMask mask = settings->get(Set::Lib_SearchMode);
-	substr = Library::convert_search_string(substr, mask);
+	QString converted_string = Library::convert_search_string(substr, mask);
 
 	int len = _m->tracks.size();
 	if(len < row) row = len - 1;
@@ -268,7 +269,7 @@ QModelIndex LibraryItemModelTracks::getPrevRowIndexOf(QString substr, int row, c
 		QString title = _m->tracks[row_idx].title;
 		title = Library::convert_search_string(title, mask);
 
-		if(title.contains(substr))
+		if(title.contains(converted_string))
 		{
 			return this->index(row_idx, 0);
 		}

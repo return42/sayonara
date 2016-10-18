@@ -41,9 +41,9 @@ public:
 	virtual ~AbstractSearchFileTreeModel();
 
 public:
-	virtual QModelIndex getFirstRowIndexOf(QString substr) override;
-	virtual QModelIndex getNextRowIndexOf(QString substr, int cur_row, const QModelIndex& parent=QModelIndex()) override;
-	virtual QModelIndex getPrevRowIndexOf(QString substr, int cur_row, const QModelIndex& parent=QModelIndex()) override;
+	virtual QModelIndex getFirstRowIndexOf(const QString& substr) override;
+	virtual QModelIndex getNextRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent=QModelIndex()) override;
+	virtual QModelIndex getPrevRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent=QModelIndex()) override;
 	virtual QMap<QChar, QString> getExtraTriggers() override;
 
 private:

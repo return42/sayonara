@@ -128,12 +128,12 @@ QVariant SomaFMStationModel::data(const QModelIndex& index, int role) const
 
 
 
-QModelIndex SomaFMStationModel::getFirstRowIndexOf(QString substr)
+QModelIndex SomaFMStationModel::getFirstRowIndexOf(const QString& substr)
 {
 	return getNextRowIndexOf(substr, 0, QModelIndex());
 }
 
-QModelIndex SomaFMStationModel::getNextRowIndexOf(QString substr, int cur_row, const QModelIndex& parent)
+QModelIndex SomaFMStationModel::getNextRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent)
 {
 	Q_UNUSED(parent)
 	for(int i=cur_row; i<_stations.size(); i++){
@@ -152,7 +152,7 @@ QModelIndex SomaFMStationModel::getNextRowIndexOf(QString substr, int cur_row, c
 
 }
 
-QModelIndex SomaFMStationModel::getPrevRowIndexOf(QString substr, int cur_row, const QModelIndex& parent)
+QModelIndex SomaFMStationModel::getPrevRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent)
 {
 	Q_UNUSED(parent)
 	for(int i=cur_row; i>=0; i--){

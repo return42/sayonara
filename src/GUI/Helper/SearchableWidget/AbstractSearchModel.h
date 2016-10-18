@@ -35,9 +35,9 @@
 class AbstractSearchModelInterface {
 
 public:
-    virtual QModelIndex getFirstRowIndexOf(QString substr)=0;
-    virtual QModelIndex getNextRowIndexOf(QString substr, int cur_row, const QModelIndex& parent=QModelIndex())=0;
-    virtual QModelIndex getPrevRowIndexOf(QString substr, int cur_row, const QModelIndex& parent=QModelIndex())=0;
+	virtual QModelIndex getFirstRowIndexOf(const QString& substr)=0;
+	virtual QModelIndex getNextRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent=QModelIndex())=0;
+	virtual QModelIndex getPrevRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent=QModelIndex())=0;
     virtual QMap<QChar, QString> getExtraTriggers()=0;
 
 protected:
