@@ -39,12 +39,12 @@ DirectoryTreeView::DirectoryTreeView(QWidget *parent) :
 
 	QString lib_path = _settings->get(Set::Lib_Path);
 
-	IconProvider* icon_provider = new IconProvider();
+	_icon_provider = new IconProvider();
 
 	_model = new AbstractSearchFileTreeModel(this);
 	_model->setRootPath(lib_path);
 	_model->setFilter(QDir::NoDotAndDotDot | QDir::Dirs);
-	_model->setIconProvider(icon_provider);
+	_model->setIconProvider(_icon_provider);
 
 	this->setModel(_model);
 	this->setItemDelegate(new DirectoryDelegate(this));
@@ -56,6 +56,11 @@ DirectoryTreeView::DirectoryTreeView(QWidget *parent) :
 	}
 
 	REGISTER_LISTENER(Set::Lib_Path, _sl_library_path_changed);
+}
+
+DirectoryTreeView::~DirectoryTreeView()
+{
+	delete _icon_provider; _icon_provider = nullptr;
 }
 
 

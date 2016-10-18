@@ -31,6 +31,8 @@
 
 class LibraryContextMenu;
 class AbstractSearchFileTreeModel;
+class IconProvider;
+
 class DirectoryTreeView :
 		public QTreeView,
 		private SayonaraClass
@@ -45,7 +47,8 @@ signals:
 	void sig_append_clicked();
 
 public:
-	DirectoryTreeView(QWidget* parent=nullptr);
+	explicit DirectoryTreeView(QWidget* parent=nullptr);
+	virtual ~DirectoryTreeView();
 
 	AbstractSearchFileTreeModel* get_model() const;
 
@@ -56,6 +59,7 @@ public:
 private:
 	LibraryContextMenu*				_context_menu=nullptr;
 	AbstractSearchFileTreeModel*	_model = nullptr;
+	IconProvider*					_icon_provider = nullptr;
 
 private:
 	void mousePressEvent(QMouseEvent* event) override;

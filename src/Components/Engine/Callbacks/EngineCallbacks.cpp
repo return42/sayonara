@@ -58,14 +58,22 @@ bool parse_image(GstTagList* tags, QImage& img)
 		}
 	}
 
+	GstCaps* caps = gst_sample_get_caps(sample);
+	if(!caps){
+		return false;
+	}
 
-	gchar* mime_type = gst_caps_to_string(gst_sample_get_caps(sample));
-	//sp_log(Log::Debug) << "Mime type: " << mime_type;
+	gchar* mimetype = gst_caps_to_string(caps);
+	if(mimetype == nullptr){
+		return false;
+	}
+
+	QString mime(mimetype);
+	g_free(mimetype); mimetype = nullptr;
+
 	QRegExp re(".*(image/[a-z|A-Z]+).*");
-	QString mime(mime_type);
 	if(re.indexIn(mime) >= 0){
 		mime = re.cap(1);
-		mime_type = strdup(mime.toLocal8Bit().data());
 	}
 
 	GstBuffer* buffer = gst_sample_get_buffer( sample );
@@ -85,12 +93,13 @@ bool parse_image(GstTagList* tags, QImage& img)
 
 	if(size == 0){
 		delete[] data;
+
 		gst_sample_unref(sample);
 	
 		return false;
 	}
 
-	img = QImage::fromData((const uchar*) data, size, mime_type);
+	img = QImage::fromData((const uchar*) data, size, mime.toLocal8Bit().data());
 	
 	delete[] data;
 	gst_sample_unref(sample);
