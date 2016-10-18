@@ -110,21 +110,29 @@ QDrag* Dragable::drag_moving(const QPoint& p)
 
 	QStringList strings = _m->get_strings(data);
 
+	QFontMetrics fm(QApplication::font());
 	const int logo_height = 24;
 	const int logo_width = logo_height;
 	const QSize logo_size(logo_width, logo_height);
 	const int left_offset = 4;
+	const int font_height = fm.ascent();
+	const int text_height = strings.size() * (font_height + 2);
+	const int pm_height = std::max(30, 30 + (strings.size() - 1) * font_height + 4);
+	const int font_padding = (pm_height - text_height) / 2 + 1;
 
-	const int pm_height = std::max(30, 30 + (strings.size() - 1) * 12 + 4);
+	sp_log(Log::Debug) << "Pixmap height: " << pm_height;
+	sp_log(Log::Debug) << "Font height: " << font_height;
+	sp_log(Log::Debug) << "Font padding: " << font_padding;
+
 	int pm_width = logo_height + 4;
 
-	QFontMetrics fm(QApplication::font());
 	for(const QString& str : strings){
 
 		pm_width = std::max( pm_width, fm.width(str) );
 	}
 
 	pm_width += logo_width + 22;
+
 
 	QPixmap cover = get_pixmap();
 	if(cover.isNull()){
@@ -139,11 +147,11 @@ QDrag* Dragable::drag_moving(const QPoint& p)
 	painter.drawRect(0, 0, pm_width - 1, pm_height - 1);
 	painter.drawPixmap(left_offset, (pm_height - logo_height) / 2, logo_height, logo_height, cover);
 	painter.setPen(QColor(255, 255, 255));
-	painter.translate(logo_width + 15, 18);
+	painter.translate(logo_width + 15, font_padding + font_height - 2);
 
 	for(const QString& str : strings){
 		painter.drawText(0, 0, str);
-		painter.translate(0, 12);
+		painter.translate(0, font_height + 2);
 	}
 
 	_m->drag->setMimeData(data);

@@ -80,7 +80,7 @@ GUI_Player::GUI_Player(QTranslator* translator, QWidget *parent) :
 
 GUI_Player::~GUI_Player()
 {
-	sp_log(Log::Info) << "closing player...";
+	sp_log(Log::Debug) << "Player closed.";
 }
 
 
@@ -642,6 +642,8 @@ void GUI_Player::awa_translators_finished(bool success)
 
 void GUI_Player::really_close()
 {
+	sp_log(Log::Info) << "closing player...";
+
 	QMainWindow::close();
 	
 	emit sig_player_closed();

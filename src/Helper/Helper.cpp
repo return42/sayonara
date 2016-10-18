@@ -200,8 +200,6 @@ QString Helper::create_link(const QString& name, bool dark, const QString& targe
 }
 
 
-
-
 QStringList Helper::get_soundfile_extensions() {
 
 	QStringList filters;
@@ -216,6 +214,14 @@ QStringList Helper::get_soundfile_extensions() {
 			<< "*.wma"
 			<< "*.mpc";
 
+	QStringList upper_filters;
+	for(const QString& filter : filters) {
+		upper_filters << filter.toUpper();
+	}
+
+	filters.append(upper_filters);
+
+
 	return filters;
 }
 
@@ -224,15 +230,18 @@ QStringList Helper::get_playlistfile_extensions() {
 
 	QStringList filters;
 
+
 	filters << "*.pls"
 			<< "*.m3u"
 			<< "*.ram"
 			<< "*.asx";
 
-
+	QStringList upper_filters;
 	for(const QString& filter : filters) {
-		filters.push_back(filter.toUpper());
+		upper_filters << filter.toUpper();
 	}
+
+	filters.append(upper_filters);
 
 	return filters;
 }
@@ -242,16 +251,19 @@ QStringList Helper::get_playlistfile_extensions() {
 
 QStringList Helper::get_podcast_extensions() {
 
-	QStringList filters, filters_new;
+	QStringList filters;
 
 	filters << "*.xml"
 			<< "*.rss";
 
+	QStringList upper_filters;
 	for(const QString& filter : filters) {
-		filters_new.push_back(filter.toUpper());
+		upper_filters << filter.toUpper();
 	}
 
-	return filters_new;
+	filters.append(upper_filters);
+
+	return filters;
 }
 
 

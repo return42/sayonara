@@ -118,11 +118,12 @@ static InstanceMessage instance_message=InstanceMessageNone;
 #endif
 
 Application::Application(int & argc, char ** argv) :
-	QApplication(argc, argv),
-	SayonaraClass()
+	QApplication(argc, argv)
 {
 	_timer = new QTime();
 	_timer->start();
+	_settings = Settings::getInstance();
+
 	instance_message = InstanceMessageNone;
 
 	this->setQuitOnLastWindowClosed(false);
@@ -292,9 +293,9 @@ Application::~Application()
 		}
 	}
 
-	if(player){
+	/*if(player){
 		delete player; player=nullptr;
-	}
+	}*/
 
 	if(_plh){
 		_plh->save_all_playlists();

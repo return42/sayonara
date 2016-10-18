@@ -31,12 +31,12 @@ IconProvider::IconProvider() :
 	QFileIconProvider()
 {
 	_settings = Settings::getInstance();
-	_soundfile_extensions = Helper::get_soundfile_extensions();
-	_playlist_extensions << Helper::get_playlistfile_extensions();
 
 	_folder_icon.addPixmap(GUI::get_pixmap("folder"), QIcon::Normal, QIcon::Off);
 	_folder_icon.addPixmap(GUI::get_pixmap("folder_open"), QIcon::Normal, QIcon::On);
 }
+
+IconProvider::~IconProvider(){}
 
 QIcon IconProvider::icon(IconType type) const {
 

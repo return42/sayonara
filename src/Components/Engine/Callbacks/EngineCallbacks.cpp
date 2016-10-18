@@ -61,26 +61,22 @@ static bool parse_image(GstTagList* tags, QImage& img)
 		}
 	}
 
-	std::shared_ptr<gchar> mimetype = std::shared_ptr<gchar>(gst_caps_to_string(gst_sample_get_caps(sample)));
-	std::shared_ptr<gchar> parsed_mimetype = nullptr;
-
-	if(mimetype == nullptr)
-	{
+	GstCaps* caps = gst_sample_get_caps(sample);
+	if(!caps){
 		return false;
 	}
 
-	//sp_log(Log::Debug) << "Mime type: " << mimetype;
-	QRegExp re(".*(image/[a-z|A-Z]+).*");
-	QString mime(mimetype.get());
-	
-	if(re.indexIn(mime) >= 0)
-	{
-		mime = re.cap(1);
-		parsed_mimetype = std::shared_ptr<gchar>(strdup(mime.toLocal8Bit().data()));
+	gchar* mimetype = gst_caps_to_string(caps);
+	if(mimetype == nullptr){
+		return false;
 	}
 
-	else{
-		parsed_mimetype = std::shared_ptr<gchar>(strdup(mimetype.get()));
+	QString mime(mimetype);
+	g_free(mimetype); mimetype = nullptr;
+
+	QRegExp re(".*(image/[a-z|A-Z]+).*");
+	if(re.indexIn(mime) >= 0){
+		mime = re.cap(1);
 	}
 
 	GstBuffer* buffer = gst_sample_get_buffer( sample );
@@ -106,7 +102,7 @@ static bool parse_image(GstTagList* tags, QImage& img)
 		return false;
 	}
 
-	img = QImage::fromData((const uchar*) data, size, parsed_mimetype.get());
+	img = QImage::fromData((const uchar*) data, size, mime.toLocal8Bit().data());
 	
 	delete[] data;
 	gst_sample_unref(sample);
