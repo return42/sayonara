@@ -44,6 +44,11 @@ AbstractPipeline::~AbstractPipeline()
 	if (_bus){
 		gst_object_unref (_bus);
 	}
+
+	if (_pipeline) {
+		gst_element_set_state(GST_ELEMENT(_pipeline), GST_STATE_NULL);
+		gst_object_unref (GST_OBJECT(_pipeline));
+	}
 }
 
 
