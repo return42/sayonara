@@ -25,54 +25,26 @@
 #include "SearchableListView.h"
 
 #include "GUI/Helper/GUI_Helper.h"
+#include "Helper/Logger/Logger.h"
 
 #include <QScrollBar>
+#include <QShortcut>
+#include <QKeySequence>
 
-MiniSearcherLineEdit::MiniSearcherLineEdit(QWidget* parent) : QLineEdit(parent) {
+MiniSearcherLineEdit::MiniSearcherLineEdit(QWidget* parent) :
+	QLineEdit(parent)
+{
 
 }
 
 MiniSearcherLineEdit::~MiniSearcherLineEdit() {}
 
-void MiniSearcherLineEdit::keyPressEvent(QKeyEvent *e) {
 
-	int key = e->key();
-
-	switch(key) {
-
-		case Qt::Key_Tab:
-			emit sig_tab_pressed();
-		case Qt::Key_Up:
-		case Qt::Key_Down:
-		case Qt::Key_Escape:
-		case Qt::Key_Enter:
-		case Qt::Key_Return:
-			if(this->isVisible()){
-				e->setAccepted(false);
-			}
-
-			else {
-				e->setAccepted(true);
-			}
-
-			return;
-
-		default:
-
-			QLineEdit::keyPressEvent(e);
-			break;
-	}
+void MiniSearcherLineEdit::focusOutEvent(QFocusEvent* e)
+{
+	emit sig_le_focus_lost();
+	QLineEdit::focusOutEvent(e);
 }
-
-bool MiniSearcherLineEdit::event(QEvent * e) {
-
-	if(e->type() == QEvent::FocusOut) {
-		emit sig_le_focus_lost();
-	}
-
-	return QLineEdit::event(e);
-}
-
 
 
 MiniSearcher::MiniSearcher(SearchableTableView *parent, MiniSearcherButtons b) :
@@ -84,11 +56,11 @@ MiniSearcher::MiniSearcher(SearchableTableView *parent, MiniSearcherButtons b) :
 	connect(parent, &SearchableTableView::sig_mouse_moved, this, &MiniSearcher::reset);
 	connect(parent, &SearchableTableView::sig_mouse_released, this, &MiniSearcher::reset);
 	connect(parent, &SearchableTableView::sig_focus_out, this, &MiniSearcher::reset);
-	//connect(parent, &SearchableTableView::sig_key_pressed(QKeyEvent*)), this, &MiniSearcher::key_pressed(QKeyEvent*)));
 
-	initLayout(b);
+	init_layout(b);
 
 }
+
 
 MiniSearcher::MiniSearcher(SearchableListView *parent, MiniSearcherButtons b) :
 	QFrame(parent)
@@ -99,31 +71,31 @@ MiniSearcher::MiniSearcher(SearchableListView *parent, MiniSearcherButtons b) :
 	connect(parent, &SearchableListView::sig_mouse_moved, this, &MiniSearcher::reset);
 	connect(parent, &SearchableListView::sig_mouse_released, this, &MiniSearcher::reset);
 	connect(parent, &SearchableListView::sig_focus_out, this, &MiniSearcher::reset);
-	//connect(parent, &SearchableListView::sig_key_pressed(QKeyEvent*)), this, &MiniSearcher::key_pressed(QKeyEvent*)));
 
-	initLayout(b);
+	init_layout(b);
 }
 
 
-
-void MiniSearcher::initLayout(MiniSearcherButtons b) {
-
+void MiniSearcher::init_layout(MiniSearcherButtons b)
+{
     bool left=false;
     bool right=false;
 
 	_line_edit = new MiniSearcherLineEdit(this);
 	_line_edit->setMaximumWidth(100);
-	//this->setFocusProxy(_line_edit);
+
 	connect(_line_edit, &MiniSearcherLineEdit::textChanged, this, &MiniSearcher::line_edit_text_changed);
 	connect(_line_edit, &MiniSearcherLineEdit::sig_tab_pressed, this, &MiniSearcher::right_clicked);
 	connect(_line_edit, &MiniSearcherLineEdit::sig_le_focus_lost, this, &MiniSearcher::line_edit_focus_lost);
+	connect(_line_edit, &MiniSearcherLineEdit::sig_esc_pressed, this, &MiniSearcher::close);
 
 	_layout = new QBoxLayout(QBoxLayout::LeftToRight, this);
 	_layout->setContentsMargins(4, 4, 4, 4);
 	_layout->setSpacing(3);
 	_layout->addWidget(_line_edit);
 
-	switch(b) {
+	switch(b)
+	{
 		case MiniSearcherButtons::BothButtons:
 			left = true; right = true;
 			break;
@@ -147,6 +119,7 @@ void MiniSearcher::initLayout(MiniSearcherButtons b) {
 		_left_button->setVisible(true);
 		_left_button->setFlat(true);
 		_left_button->setFocusPolicy(Qt::ClickFocus);
+
 		connect(_left_button, &QPushButton::clicked, this, &MiniSearcher::left_clicked);
 
 		_layout->addWidget(_left_button);
@@ -158,15 +131,18 @@ void MiniSearcher::initLayout(MiniSearcherButtons b) {
 		_right_button->setVisible(true);
 		_right_button->setFlat(true);
 		_right_button->setFocusPolicy(Qt::ClickFocus);
+
 		connect(_right_button, &QPushButton::clicked, this, &MiniSearcher::right_clicked);
+
 		_layout->addWidget(_right_button);
 	}
 
 	this->hide();
 }
 
-bool MiniSearcher::isInitiator(QKeyEvent* event) {
 
+bool MiniSearcher::is_initiator(QKeyEvent* event)
+{
     QString text = event->text();
 
 	if(event->modifiers() & Qt::ControlModifier){
@@ -188,20 +164,16 @@ bool MiniSearcher::isInitiator(QKeyEvent* event) {
 	return false;
 }
 
-bool MiniSearcher::isInitialized() {
-    return this->isVisible();
-}
 
-
-void MiniSearcher::keyPressEvent(QKeyEvent* event) {
-
+void MiniSearcher::keyPressEvent(QKeyEvent* event)
+{
 	int key = event->key();
 
-	switch(key) {
-		case Qt::Key_Escape:
+	sp_log(Log::Debug) << event->key();
+	switch(key)
+	{
 		case Qt::Key_Enter:
 		case Qt::Key_Return:
-
 			if(this->isVisible()) {
 				reset();
 			}
@@ -217,41 +189,79 @@ void MiniSearcher::keyPressEvent(QKeyEvent* event) {
 			break;
 
 		default:
-			event->accept();
-			QWidget::keyPressEvent(event);
+			QFrame::keyPressEvent(event);
 			break;
 	}
-
 }
 
-void MiniSearcher::line_edit_text_changed(const QString& str) {
 
+void MiniSearcher::showEvent(QShowEvent* e)
+{
+	if(!_esc_shortcut){
+		_esc_shortcut = new QShortcut(QKeySequence(Qt::Key_Escape),
+									  this,
+									  SLOT(reset()),
+									  SLOT(reset()),
+									  Qt::WidgetWithChildrenShortcut);
+	}
+
+	_esc_shortcut->setEnabled(true);
+
+	QFrame::showEvent(e);
+}
+
+void MiniSearcher::hideEvent(QHideEvent* e)
+{
+	_esc_shortcut->setEnabled(false);
+	_parent->setFocus();
+
+	QFrame::hideEvent(e);
+}
+
+
+void MiniSearcher::focusOutEvent(QFocusEvent* e)
+{
+	this->hide();
+
+	QFrame::focusOutEvent(e);
+}
+
+
+void MiniSearcher::line_edit_text_changed(const QString& str)
+{
 	emit sig_text_changed(str);
 }
 
-void MiniSearcher::line_edit_focus_lost() {
-	if(_left_button->hasFocus() || _right_button->hasFocus() || _parent->hasFocus()) return;
+
+void MiniSearcher::line_edit_focus_lost()
+{
+	if(	_left_button->hasFocus() ||
+		_right_button->hasFocus() ||
+		_parent->hasFocus())
+	{
+		return;
+	}
 
 	reset();
-
 }
 
-void MiniSearcher::left_clicked() {
 
+void MiniSearcher::left_clicked()
+{
 	emit sig_find_prev_row();
 	this->_line_edit->setFocus();
 }
 
-void MiniSearcher::right_clicked() {
 
+void MiniSearcher::right_clicked()
+{
 	emit sig_find_next_row();
 	this->_line_edit->setFocus();
-
 }
 
 
-void MiniSearcher::init(QString text) {
-
+void MiniSearcher::init(QString text)
+{
     int sb_width = _parent->verticalScrollBar()->width();
     int sb_height = _parent->horizontalScrollBar()->height();
     int par_width = _parent->width();
@@ -266,7 +276,6 @@ void MiniSearcher::init(QString text) {
 
 	this->setGeometry(new_width, new_height, 130, 35);
 
-
 	this->_line_edit->setFocus();
 	this->_line_edit->setText(text);
 
@@ -274,8 +283,8 @@ void MiniSearcher::init(QString text) {
 }
 
 
-void MiniSearcher::reset() {
-
+void MiniSearcher::reset()
+{
 	this->_line_edit->setText("");
 	if(this->isVisible()){
 		_parent->setFocus();
@@ -284,9 +293,10 @@ void MiniSearcher::reset() {
 	this->hide();
 }
 
-bool MiniSearcher::check_and_init(QKeyEvent *event) {
 
-	if(!isInitiator(event)) {
+bool MiniSearcher::check_and_init(QKeyEvent *event)
+{
+	if(!is_initiator(event)) {
 		return false;
 	}
 
@@ -299,7 +309,9 @@ bool MiniSearcher::check_and_init(QKeyEvent *event) {
 	return false;
 }
 
-void MiniSearcher::setExtraTriggers(QMap<QChar, QString> triggers) {
+
+void MiniSearcher::set_extra_triggers(const QMap<QChar, QString>& triggers)
+{
 	_triggers = triggers;
 	QString tooltip;
 
@@ -312,7 +324,9 @@ void MiniSearcher::setExtraTriggers(QMap<QChar, QString> triggers) {
 	this->setToolTip(tooltip);
 }
 
-QString MiniSearcher::getCurrentText() {
+
+QString MiniSearcher::get_current_text()
+{
 	return _line_edit->text();
 }
 

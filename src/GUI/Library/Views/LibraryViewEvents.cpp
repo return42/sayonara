@@ -141,7 +141,6 @@ void LibraryView::mouseReleaseEvent(QMouseEvent* event)
 }
 // mouse events end
 
-
 // keyboard events
 void LibraryView::keyPressEvent(QKeyEvent* event) 
 {
@@ -153,16 +152,20 @@ void LibraryView::keyPressEvent(QKeyEvent* event)
 	bool alt_pressed = (modifiers & Qt::AltModifier);
 	bool ctrl_pressed = (modifiers & Qt::ControlModifier);
 
-	if((key == Qt::Key_Up || key == Qt::Key_Down)) {
-		if(this->selectionModel()->selection().isEmpty()) {
+	if((key == Qt::Key_Up || key == Qt::Key_Down))
+	{
+		if(this->selectionModel()->selection().isEmpty())
+		{
 			if(_model->rowCount() > 0) {
 				selectRow(0);
 			}
+
 			return;
 		}
 
-		if(ctrl_pressed)
+		if(ctrl_pressed){
 			event->setModifiers(Qt::NoModifier);
+		}
 	}
 
 	SearchableTableView::keyPressEvent(event);
@@ -172,23 +175,20 @@ void LibraryView::keyPressEvent(QKeyEvent* event)
 
 	switch(key) {
 
-		case Qt::Key_Escape:
-
-			clearSelection();
-			this->selectionModel()->clearSelection();
-
-			break;
-
 		case Qt::Key_Return:
 		case Qt::Key_Enter:
 
-			if(selections.size() == 0) break;
-			if(ctrl_pressed) break;
+			if(selections.isEmpty() || ctrl_pressed){
+				break;
+			}
 
 			// standard enter
-			if(!shift_pressed && !alt_pressed){
-				int first_idx = selections.first();
-				emit doubleClicked( _model->index(first_idx, 0));
+			if(!shift_pressed && !alt_pressed)
+			{
+				if(!selections.isEmpty()){
+					int first_idx = selections.first();
+					emit doubleClicked( _model->index(first_idx, 0));
+				}
 			}
 
 			// enter with shift

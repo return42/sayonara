@@ -30,6 +30,7 @@
 #include <QKeyEvent>
 #include <QFocusEvent>
 #include <QScrollArea>
+#include <QShortcut>
 
 class SearchableTableView;
 class SearchableListView;
@@ -48,19 +49,14 @@ class MiniSearcherLineEdit : public QLineEdit {
 
 signals:
 	void sig_tab_pressed();
+	void sig_esc_pressed();
 	void sig_le_focus_lost();
-
-
-
-public slots:
-	void keyPressEvent(QKeyEvent *);
-
 
 public:
 	explicit MiniSearcherLineEdit(QWidget* parent=nullptr);
 	virtual ~MiniSearcherLineEdit();
 
-	bool event(QEvent *);
+	void focusOutEvent(QFocusEvent* e) override;
 };
 
 
@@ -90,10 +86,11 @@ private:
 	QPushButton*            _right_button=nullptr;
 	MiniSearcherLineEdit*   _line_edit=nullptr;
 	QBoxLayout*             _layout=nullptr;
+	QShortcut*				_esc_shortcut=nullptr;
 
-    bool isInitiator(QKeyEvent* event);
+	bool is_initiator(QKeyEvent* event);
     void init(QString text);
-	void initLayout(MiniSearcherButtons b);
+	void init_layout(MiniSearcherButtons b);
 
 
 public:
@@ -101,15 +98,20 @@ public:
 	MiniSearcher(SearchableListView* parent, MiniSearcherButtons b=MiniSearcherButtons::NoButton);
 	MiniSearcher(SearchableTableView *parent, MiniSearcherButtons b=MiniSearcherButtons::NoButton);
 
-
-    bool isInitialized();
     bool check_and_init(QKeyEvent* event);
-	void setExtraTriggers(QMap<QChar, QString> triggers);
-	QString getCurrentText();
-	void keyPressEvent(QKeyEvent *e);
+	void set_extra_triggers(const QMap<QChar, QString>& triggers);
+	QString get_current_text();
+
+	void keyPressEvent(QKeyEvent *e) override;
+	void showEvent(QShowEvent* e) override;
+	void hideEvent(QHideEvent *e) override;
+	void focusOutEvent(QFocusEvent* e) override;
+
 
 public slots:
 	void reset();
 };
+
+
 
 #endif // MINISEARCHER_H

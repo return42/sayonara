@@ -65,7 +65,7 @@ protected:
 	Library::ReloadQuality show_quality_dialog();
 
 
-protected slots:
+private slots:
 
 	void disc_pressed(int);
 	void lib_no_lib_path();
@@ -77,7 +77,6 @@ protected slots:
 	void import_dirs_requested();
 	void import_files_requested();
 	void import_files(const QStringList& files);
-
 
 	// importer requests dialog
 	void import_dialog_requested();

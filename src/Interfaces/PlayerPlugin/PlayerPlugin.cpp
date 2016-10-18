@@ -97,7 +97,9 @@ void PlayerPluginInterface::finalize_initialization()
 		sc = sch->add(Shortcut(this, "close_plugin", tr("Close plugin"), "Ctrl+Esc"));
 	}
 
-	sc.create_qt_shortcut(this, this, SLOT(close()));
+	if(parentWidget()){
+		sc.create_qt_shortcut(this, parentWidget(), SLOT(close()));
+	}
 
 	REGISTER_LISTENER(Set::Player_Language, _sl_lang_changed);
 	REGISTER_LISTENER(Set::Player_Style, skin_changed);

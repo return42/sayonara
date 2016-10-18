@@ -44,6 +44,8 @@ public:
 	QString get_name() const override;
 	QString get_display_name() const override;
 
+	void init_ui() override;
+
 private:
 	Ui::GUI_Stream* ui=nullptr;
 };

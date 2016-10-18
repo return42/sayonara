@@ -25,6 +25,7 @@
 #include "MiniSearcher.h"
 
 #include "GUI/Library/Models/LibraryItemModel.h"
+#include "Helper/Logger/Logger.h"
 
 
 SearchableTableView::SearchableTableView(QWidget* parent) :
@@ -41,66 +42,69 @@ SearchableTableView::SearchableTableView(QWidget* parent) :
 
 SearchableTableView::~SearchableTableView() {}
 
-void SearchableTableView::setAbstractModel(AbstractSearchTableModel* model) {
+void SearchableTableView::setAbstractModel(AbstractSearchTableModel* model)
+{
 	 _abstr_model = model;
-	 _mini_searcher->setExtraTriggers(_abstr_model->getExtraTriggers());
+	 _mini_searcher->set_extra_triggers(_abstr_model->getExtraTriggers());
 }
+
 
 QAbstractItemModel* SearchableTableView::get_model() const
 {
 	return _abstr_model;
 }
 
+
 QItemSelectionModel* SearchableTableView::get_selection_model() const
 {
 	return this->selectionModel();
 }
 
-void SearchableTableView::set_current_index(int idx){
+
+void SearchableTableView::set_current_index(int idx)
+{
 	this->setCurrentIndex(_abstr_model->index(idx, 0));
 }
 
-void SearchableTableView::mouseMoveEvent(QMouseEvent *e) {
+
+void SearchableTableView::mouseMoveEvent(QMouseEvent *e)
+{
 	emit sig_mouse_moved();
 	QTableView::mouseMoveEvent(e);
-
 }
 
-void SearchableTableView::mousePressEvent(QMouseEvent *e) {
 
+void SearchableTableView::mousePressEvent(QMouseEvent *e)
+{
 	emit sig_mouse_pressed();
 	QTableView::mousePressEvent(e);
 }
 
 
-void SearchableTableView::mouseReleaseEvent(QMouseEvent *e) {
+void SearchableTableView::mouseReleaseEvent(QMouseEvent *e)
+{
 	emit sig_mouse_released();
 	QTableView::mouseReleaseEvent(e);
 }
 
-void SearchableTableView::keyPressEvent(QKeyEvent *e) {
 
-	bool was_initialized = _mini_searcher->isInitialized();
+void SearchableTableView::keyPressEvent(QKeyEvent *e)
+{
+	bool was_initialized = _mini_searcher->isVisible();
 	bool initialized = _mini_searcher->check_and_init(e);
 
-	if(e->key() == Qt::Key_Tab && !was_initialized) {
-		QWidget::keyPressEvent(e);
-		return;
-	}
-
-	if(initialized || was_initialized) {
+	if(initialized || was_initialized)
+	{
 		_mini_searcher->keyPressEvent(e);
 		e->setAccepted(false);
-		return;
 	}
 
 	QTableView::keyPressEvent(e);
-	e->setAccepted(true);
 }
 
 
-void SearchableTableView::edit_changed(QString str) {
-
+void SearchableTableView::edit_changed(QString str)
+{
 	if(str.size() == 0) return;
 	if(!_abstr_model) return;
 
@@ -114,8 +118,9 @@ void SearchableTableView::edit_changed(QString str) {
 }
 
 
-void SearchableTableView::fwd_clicked() {
-	QString str = _mini_searcher->getCurrentText();
+void SearchableTableView::fwd_clicked()
+{
+	QString str = _mini_searcher->get_current_text();
 	if(str.size() == 0) return;
 	if(!_abstr_model) return;
 
@@ -129,9 +134,9 @@ void SearchableTableView::fwd_clicked() {
 }
 
 
-void SearchableTableView::bwd_clicked() {
-
-	QString str = _mini_searcher->getCurrentText();
+void SearchableTableView::bwd_clicked()
+{
+	QString str = _mini_searcher->get_current_text();
 	if(str.size() == 0) return;
 	if(!_abstr_model) return;
 

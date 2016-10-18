@@ -42,7 +42,7 @@ SearchableListView::~SearchableListView() {}
 
 void SearchableListView::setAbstractModel(AbstractSearchListModel* model) {
 	 _abstr_model = model;
-	 _mini_searcher->setExtraTriggers(_abstr_model->getExtraTriggers());
+	 _mini_searcher->set_extra_triggers(_abstr_model->getExtraTriggers());
 }
 
 QAbstractItemModel* SearchableListView::get_model() const
@@ -79,10 +79,11 @@ void SearchableListView::mouseReleaseEvent(QMouseEvent *e) {
 
 void SearchableListView::keyPressEvent(QKeyEvent *e) {
 
-	bool was_initialized = _mini_searcher->isInitialized();
+	bool was_initialized = _mini_searcher->isVisible();
 	bool initialized = _mini_searcher->check_and_init(e);
 
 	if(e->key() == Qt::Key_Tab && !was_initialized) {
+		QListView::keyPressEvent(e);
 		return;
 	}
 
@@ -116,7 +117,7 @@ void SearchableListView::edit_changed(const QString& str) {
 }
 
 void SearchableListView::fwd_clicked() {
-	QString str = _mini_searcher->getCurrentText();
+	QString str = _mini_searcher->get_current_text();
 	if(str.size() == 0) return;
 	if(!_abstr_model) return;
 
@@ -134,7 +135,7 @@ void SearchableListView::fwd_clicked() {
 
 void SearchableListView::bwd_clicked() {
 
-	QString str = _mini_searcher->getCurrentText();
+	QString str = _mini_searcher->get_current_text();
 	if(str.size() == 0) return;
 	if(!_abstr_model) return;
 

@@ -147,9 +147,11 @@ void GUI_LocalLibrary::showEvent(QShowEvent* e)
 void GUI_LocalLibrary::init_shortcuts()
 {
 	ui->le_search->setShortcutEnabled(QKeySequence::Find, true);
+
 	new QShortcut(QKeySequence(Qt::Key_Escape), this, SLOT(clear_button_pressed()), nullptr, Qt::WidgetWithChildrenShortcut);
 	new QShortcut(QKeySequence::Find, ui->le_search, SLOT(setFocus()), nullptr, Qt::WindowShortcut);
 }
+
 
 Library::ReloadQuality GUI_LocalLibrary::show_quality_dialog()
 {
@@ -334,15 +336,68 @@ void GUI_LocalLibrary::show_info_box()
 	_library_info_box->psl_refresh();
 }
 
-
+#include <QListView>
+#include <QTreeView>
+#include <QStandardPaths>
 void GUI_LocalLibrary::import_dirs_requested()
 {
-	QString dir = QFileDialog::getExistingDirectory(this, tr("Open Directory"),
-				QDir::homePath(), QFileDialog::ShowDirsOnly);
+	QStringList dirs;
 
-	if(!dir.isEmpty()) {
-		QStringList files = QStringList() << dir;
-		_library->import_files(files);
+	QFileDialog* dialog = new QFileDialog(this);
+	dialog->setDirectory(QDir::homePath());
+	dialog->setWindowTitle(tr("Import Directory"));
+	dialog->setFileMode(QFileDialog::DirectoryOnly);
+	dialog->setOption(QFileDialog::DontUseNativeDialog, true);
+	QList<QUrl> sidebar_urls = dialog->sidebarUrls();
+
+	QList<QStandardPaths::StandardLocation> locations;
+	locations << QStandardPaths::HomeLocation;
+	locations << QStandardPaths::DesktopLocation;
+	locations << QStandardPaths::DownloadLocation;
+	locations << QStandardPaths::MusicLocation;
+	locations << QStandardPaths::TempLocation;
+
+	for(QStandardPaths::StandardLocation location : locations)
+	{
+		QStringList std_locations = QStandardPaths::standardLocations(location);
+		for(const QString& std_location : std_locations){
+			QUrl url = QUrl::fromLocalFile(std_location);
+			if(sidebar_urls.contains(url)){
+				continue;
+			}
+
+			sidebar_urls << url;
+		}
+	}
+
+	dialog->setSidebarUrls(sidebar_urls);
+
+	QListView* list_view = dialog->findChild<QListView*>("listView");
+	if(list_view == nullptr)
+	{
+		delete dialog;
+
+		QString dir = QFileDialog::getExistingDirectory(this, tr("Import Directory"),
+					QDir::homePath(), QFileDialog::ShowDirsOnly);
+		if(!dir.isEmpty()){
+			dirs << dir;
+		}
+	}
+
+	else{
+		list_view->setSelectionMode(QAbstractItemView::MultiSelection);
+		QTreeView* tree_view = dialog->findChild<QTreeView*>();
+		if(tree_view){
+			tree_view->setSelectionMode(QAbstractItemView::MultiSelection);
+		}
+
+		if(dialog->exec() == QFileDialog::Accepted){
+			dirs = dialog->selectedFiles();
+		}
+	}
+
+	if(!dirs.isEmpty()){
+		_library->import_files(dirs);
 	}
 }
 

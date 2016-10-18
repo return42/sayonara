@@ -25,7 +25,7 @@
 GUI_Stream::GUI_Stream(QWidget *parent) :
 	GUI_AbstractStream(new StreamHandlerStreams(), parent)
 {
-	setup_parent(this, &ui);
+
 }
 
 GUI_Stream::~GUI_Stream()
@@ -50,6 +50,13 @@ void GUI_Stream::language_changed()
 {
 	ui->retranslateUi(this);
 }
+
+void GUI_Stream::init_ui()
+{
+	setup_parent(this, &ui);
+	GUI_AbstractStream::init_ui();
+}
+
 
 QString GUI_Stream::get_title_fallback_name() const
 {

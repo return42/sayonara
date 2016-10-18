@@ -46,8 +46,8 @@ GUI_AbstractLibrary::~GUI_AbstractLibrary()
 	delete _track_delegate; _track_delegate = nullptr;
 }
 
-void GUI_AbstractLibrary::init_finished(){
-
+void GUI_AbstractLibrary::init_finished()
+{
 	init_headers();
 
 	connect(_library, &AbstractLibrary::sig_all_artists_loaded, this, &GUI_AbstractLibrary::lib_fill_artists);
@@ -93,23 +93,13 @@ void GUI_AbstractLibrary::init_finished(){
 
 	REGISTER_LISTENER(Set::Lib_LiveSearch, _sl_live_search_changed);
 }
-/*
-void GUI_AbstractLibrary::set_lib_chooser(const QMap<QString, QIcon>& items){
-	if(!_combo_libchooser) return;
 
-	for(const QString& key : items.keys()){
-		_combo_libchooser->addItem(items[key], key);
-	}
 
-	_combo_libchooser->setIconSize(QSize(16, 16));
-	_combo_libchooser->view()->setIconSize(QSize(16, 16));
-}
-*/
-void GUI_AbstractLibrary::language_changed(){
+void GUI_AbstractLibrary::language_changed(){}
 
-}
 
-void GUI_AbstractLibrary::init_headers(){
+void GUI_AbstractLibrary::init_headers()
+{
 
 	Library::Sortings so = _settings->get(Set::Lib_Sorting);
 
@@ -175,14 +165,11 @@ void GUI_AbstractLibrary::init_headers(){
 	_lv_album->set_table_headers(album_columns, _shown_cols_albums, so.so_albums);
 }
 
-void GUI_AbstractLibrary::init_shortcuts()
+void GUI_AbstractLibrary::init_shortcuts() {}
+
+
+void GUI_AbstractLibrary::text_line_edited(const QString &search)
 {
-
-}
-
-
-void GUI_AbstractLibrary::text_line_edited(const QString &search){
-
 	if(search.startsWith("f:", Qt::CaseInsensitive)) {
 		_combo_search->setCurrentIndex(0);
 		_le_search->setText("");
@@ -235,8 +222,8 @@ void GUI_AbstractLibrary::text_line_edited(const QString &search){
 }
 
 
-void GUI_AbstractLibrary::clear_button_pressed() {
-
+void GUI_AbstractLibrary::clear_button_pressed()
+{
 	disconnect(_le_search, &QLineEdit::textEdited, this, &GUI_AbstractLibrary::text_line_edited);
 
 	_combo_search->setCurrentIndex(0);
@@ -249,8 +236,8 @@ void GUI_AbstractLibrary::clear_button_pressed() {
 }
 
 
-void GUI_AbstractLibrary::combo_search_changed(int idx) {
-
+void GUI_AbstractLibrary::combo_search_changed(int idx)
+{
 	switch(idx) {
 
 		case 1:
@@ -269,12 +256,15 @@ void GUI_AbstractLibrary::combo_search_changed(int idx) {
 	_library->psl_filter_changed(_cur_searchfilter);
 }
 
-void GUI_AbstractLibrary::return_pressed() {
+
+void GUI_AbstractLibrary::return_pressed()
+{
 	text_line_edited(_le_search->text());
 }
 
 
-void GUI_AbstractLibrary::refresh(){
+void GUI_AbstractLibrary::refresh()
+{
 	_library->refresh();
 }
 
