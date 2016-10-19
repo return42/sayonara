@@ -20,9 +20,9 @@ class FileListModel :
 		void set_parent_directory(const QString& dir);
 		QStringList get_files() const;
 
-		QModelIndex getFirstRowIndexOf(QString substr) override;
-		QModelIndex getNextRowIndexOf(QString substr, int cur_row, const QModelIndex& parent=QModelIndex()) override;
-		QModelIndex getPrevRowIndexOf(QString substr, int cur_row, const QModelIndex& parent=QModelIndex()) override;
+		QModelIndex getFirstRowIndexOf(const QString& substr) override;
+		QModelIndex getNextRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent=QModelIndex()) override;
+		QModelIndex getPrevRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent=QModelIndex()) override;
 		QMap<QChar, QString> getExtraTriggers() override;
 
 		QVariant data(const QModelIndex& idx, int role) const override;

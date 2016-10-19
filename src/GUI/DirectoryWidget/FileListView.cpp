@@ -44,8 +44,7 @@
 
 FileListView::FileListView(QWidget* parent) :
 	SearchableListView(parent),
-	Dragable(this),
-	SayonaraClass()
+	Dragable(this)
 {
 	QString lib_path = _settings->get(Set::Lib_Path);
 

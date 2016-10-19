@@ -52,9 +52,9 @@ public:
 
 	void sort(int column, Qt::SortOrder order) override;
 
-	QModelIndex	getFirstRowIndexOf(QString substr) override;
-	QModelIndex	getNextRowIndexOf(QString substr, int row, const QModelIndex& parent=QModelIndex()) override;
-	QModelIndex	getPrevRowIndexOf(QString substr, int row, const QModelIndex& parent=QModelIndex()) override;
+	QModelIndex	getFirstRowIndexOf(const QString& substr) override;
+	QModelIndex	getNextRowIndexOf(const QString& substr, int row, const QModelIndex& parent=QModelIndex()) override;
+	QModelIndex	getPrevRowIndexOf(const QString& substr, int row, const QModelIndex& parent=QModelIndex()) override;
 
 	int	get_id_by_row(int row) override;
 	QString get_string(int row) const override;

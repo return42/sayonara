@@ -25,7 +25,7 @@
 
 #include "Helper/Settings/SayonaraClass.h"
 #include "GUI/Helper/SearchableWidget/SearchableListView.h"
-#include "GUI/Helper/Dragable/Draggable.h"
+#include "GUI/Helper/Dragable/Dragable.h"
 
 #include <QModelIndexList>
 
@@ -35,8 +35,7 @@ class LibraryContextMenu;
 
 class FileListView :
 		public SearchableListView,
-		private Dragable,
-		private SayonaraClass
+		private Dragable
 {
 
 	Q_OBJECT

@@ -26,14 +26,14 @@
 #include <QTime>
 #include <QStringList>
 
-#include "Helper/Settings/SayonaraClass.h"
-
 class InstanceThread;
 class DatabaseConnector;
 class PlaylistHandler;
 class GUI_Player;
+class Settings;
 
-class Application : public QApplication, private SayonaraClass
+class Application :
+		public QApplication
 {
     Q_OBJECT
 
@@ -48,8 +48,9 @@ private:
 //	void check_for_crash();
 	void init_single_instance_thread();
 
-	GUI_Player* player=nullptr;
-	QTime*		_timer=nullptr;
+	QTime*			_timer=nullptr;
+	Settings*		_settings = nullptr;
+	GUI_Player*		player=nullptr;
 
 	PlaylistHandler*	_plh=nullptr;
 	DatabaseConnector*	_db=nullptr;

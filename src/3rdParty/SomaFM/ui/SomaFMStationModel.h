@@ -59,9 +59,9 @@ public:
 
 	// AbstractSearchModelInterface interface
 public:
-	QModelIndex getFirstRowIndexOf(QString substr) override;
-	QModelIndex getNextRowIndexOf(QString substr, int cur_row, const QModelIndex& parent) override;
-	QModelIndex getPrevRowIndexOf(QString substr, int cur_row, const QModelIndex& parent) override;
+	QModelIndex getFirstRowIndexOf(const QString& substr) override;
+	QModelIndex getNextRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent) override;
+	QModelIndex getPrevRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent) override;
 	QMap<QChar, QString> getExtraTriggers() override;
 
 	void set_stations(const QList<SomaFMStation>& stations);

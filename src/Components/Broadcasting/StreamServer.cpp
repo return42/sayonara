@@ -31,10 +31,10 @@
 #include "Components/Engine/EngineHandler.h"
 #include "Components/PlayManager/PlayManager.h"
 
-
 #include <QHostAddress>
 
-struct StreamServer::Private{
+struct StreamServer::Private
+{
 	QTcpServer*							server=nullptr;		// the server
 
 	MetaData							cur_track;				// cur played track
@@ -53,17 +53,14 @@ StreamServer::StreamServer(QObject* parent) :
 	QThread(parent),
 	SayonaraClass()
 {
-	PlayManager* play_manager;
-	EngineHandler* engine;
-
 	_m = Pimpl::make<StreamServer::Private>();
 	_m->asking = false;
 	_m->mp3_enc_available = false;
 
 	create_server();
 
-	play_manager = PlayManager::getInstance();
-	engine = EngineHandler::getInstance();
+	PlayManager* play_manager = PlayManager::getInstance();
+	EngineHandler* engine = EngineHandler::getInstance();
 
 	connect(play_manager, &PlayManager::sig_track_changed, this, &StreamServer::track_changed);
 
@@ -75,8 +72,8 @@ StreamServer::StreamServer(QObject* parent) :
 	REGISTER_LISTENER(SetNoDB::MP3enc_found, _sl_mp3_enc_found);
 }
 
-StreamServer::~StreamServer(){
-
+StreamServer::~StreamServer()
+{
 	server_close();
 	disconnect_all();
 
@@ -88,7 +85,8 @@ StreamServer::~StreamServer(){
 	Helper::sleep_ms(500);
 }
 
-void StreamServer::create_server(){
+void StreamServer::create_server()
+{
 	if(_m->server != nullptr){
 		delete _m->server;
 	}
@@ -104,12 +102,13 @@ void StreamServer::create_server(){
 	}
 }
 
-void StreamServer::server_destroyed(){
+void StreamServer::server_destroyed()
+{
 	sp_log(Log::Info) << "Server destroyed";
 }
 
-void StreamServer::run(){
-
+void StreamServer::run()
+{
 	emit sig_can_listen(_m->server->isListening());
 
 	forever{
@@ -136,8 +135,8 @@ void StreamServer::run(){
 	sp_log(Log::Info) << "Radio station: Bye";
 }
 
-bool StreamServer::listen_for_connection(){
-
+bool StreamServer::listen_for_connection()
+{
 	if(!_m->server){
 		sp_log(Log::Error) << "Server socket invalid";
 		return false;
@@ -223,8 +222,8 @@ void StreamServer::new_client_request()
 // every kind of request will land here or in reject client.
 // so one client will be accepted multiple times until he will be able
 // to listen to music
-void StreamServer::accept_client(QTcpSocket* socket, const QString& ip){
-
+void StreamServer::accept_client(QTcpSocket* socket, const QString& ip)
+{
 	StreamWriterPtr sw;
 
 	if(!_m->allowed_ips.contains(ip)){
@@ -243,20 +242,23 @@ void StreamServer::accept_client(QTcpSocket* socket, const QString& ip){
 	emit sig_new_connection(ip);
 }
 
-void StreamServer::reject_client(QTcpSocket* socket, const QString& ip){
+void StreamServer::reject_client(QTcpSocket* socket, const QString& ip)
+{
 	Q_UNUSED(socket);
 	Q_UNUSED(ip);
 }
 
 
 // this finally is the new connection when asking for sound
-void StreamServer::new_connection(const QString& ip){
+void StreamServer::new_connection(const QString& ip)
+{
 	Q_UNUSED(ip)
 }
 
 
 
-void StreamServer::track_changed(const MetaData& md){
+void StreamServer::track_changed(const MetaData& md)
+{
 	_m->cur_track = md;
 	for(StreamWriterPtr sw : _m->lst_sw){
 		sw->change_track(md);
@@ -264,8 +266,8 @@ void StreamServer::track_changed(const MetaData& md){
 }
 
 
-void StreamServer::server_close(){
-	
+void StreamServer::server_close()
+{
 	if(_m->server){
 		_m->server->close();
 		sp_log(Log::Info) << "Server closed..";
@@ -273,8 +275,8 @@ void StreamServer::server_close(){
 }
 
 // when user forbids further streaming
-void StreamServer::dismiss(int idx){
-
+void StreamServer::dismiss(int idx)
+{
 	if( idx >= _m->lst_sw.size() ) {
 		return;
 	}
@@ -287,12 +289,13 @@ void StreamServer::dismiss(int idx){
 }
 
 // real socket disconnect (if no further sending is possible)
-void StreamServer::disconnect(StreamWriterPtr sw){
+void StreamServer::disconnect(StreamWriterPtr sw)
+{
 	sw->disconnect();
 }
 
-void StreamServer::disconnect_all(){
-
+void StreamServer::disconnect_all()
+{
 	for(StreamWriterPtr sw : _m->lst_sw){
 		sw->disconnect();
 	}
@@ -301,8 +304,8 @@ void StreamServer::disconnect_all(){
 }
 
 // the client disconnected itself
-void StreamServer::disconnected(StreamWriter* sw){
-
+void StreamServer::disconnected(StreamWriter* sw)
+{
 	if(!sw) {
 		return;
 	}
@@ -321,8 +324,8 @@ void StreamServer::disconnected(StreamWriter* sw){
 
 
 // this happens when the user tries to look for the codec again
-void StreamServer::retry(){
-
+void StreamServer::retry()
+{
 	bool success;
 
 	if(!_m->mp3_enc_available){
@@ -347,8 +350,8 @@ void StreamServer::retry(){
 
 
 // this is a final stop. Class is destroyed afterwards
-void StreamServer::stop(){
-
+void StreamServer::stop()
+{
 	server_close();
 	disconnect_all();
 
@@ -361,8 +364,8 @@ void StreamServer::stop(){
 }
 
 
-void StreamServer::_sl_mp3_enc_found(){
-
+void StreamServer::_sl_mp3_enc_found()
+{
 	_m->mp3_enc_available = _settings->get(SetNoDB::MP3enc_found);
 
 	if(!_m->mp3_enc_available){
@@ -371,8 +374,8 @@ void StreamServer::_sl_mp3_enc_found(){
 }
 
 
-void StreamServer::_sl_port_changed(){
-
+void StreamServer::_sl_port_changed()
+{
 	stop();
 
 	create_server();
@@ -381,8 +384,8 @@ void StreamServer::_sl_port_changed(){
 }
 
 
-void StreamServer::_sl_active_changed(){
-
+void StreamServer::_sl_active_changed()
+{
 	bool active = _settings->get(Set::Broadcast_Active);
 
 	if(!_m->mp3_enc_available){

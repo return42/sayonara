@@ -24,7 +24,7 @@
 #define GUI_DIRECTORYWIDGET_H
 
 #include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
-#include "GUI/Helper/Dragable/Draggable.h"
+#include "GUI/Helper/Dragable/Dragable.h"
 #include "GUI/InfoDialog/InfoDialogContainer.h"
 #include "Helper/MetaData/MetaDataFwd.h"
 

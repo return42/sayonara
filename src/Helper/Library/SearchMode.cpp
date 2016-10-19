@@ -18,60 +18,138 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "SearchMode.h"
+
 #include <QRegExp>
-#include <QStringList>
+#include <QMap>
+#include <QString>
 
-QStringList no_diacritic_chars;
-QString diacritic_chars;
+static QMap<QString, QString> diacritic_chars;
 
-QString Library::convert_search_string(const QString& str, Library::SearchModeMask mode)
+static void init_diacritic_chars()
 {
-    QString ret = str;
+	diacritic_chars.insert(QString::fromUtf8("Š"), "S");
+	diacritic_chars.insert(QString::fromUtf8("Œ"), "OE");
+	diacritic_chars.insert(QString::fromUtf8("Ž"), "Z");
+	diacritic_chars.insert(QString::fromUtf8("š"), "s");
+	diacritic_chars.insert(QString::fromUtf8("œ"), "oe");
+	diacritic_chars.insert(QString::fromUtf8("ž"), "z");
+	diacritic_chars.insert(QString::fromUtf8("Ÿ"), "Y");
+	diacritic_chars.insert(QString::fromUtf8("¥"), "Y");
+	diacritic_chars.insert(QString::fromUtf8("µ"), "u");
+	diacritic_chars.insert(QString::fromUtf8("À"), "A");
+	diacritic_chars.insert(QString::fromUtf8("Á"), "A");
+	diacritic_chars.insert(QString::fromUtf8("Â"), "A");
+	diacritic_chars.insert(QString::fromUtf8("Ä"), "A");
+	diacritic_chars.insert(QString::fromUtf8("Å"), "A");
+	diacritic_chars.insert(QString::fromUtf8("Æ"), "AE");
+	diacritic_chars.insert(QString::fromUtf8("Ç"), "C");
+	diacritic_chars.insert(QString::fromUtf8("È"), "E");
+	diacritic_chars.insert(QString::fromUtf8("É"), "E");
+	diacritic_chars.insert(QString::fromUtf8("Ê"), "E ");
+	diacritic_chars.insert(QString::fromUtf8("Ë"), "E");
+	diacritic_chars.insert(QString::fromUtf8("Ì"), "I");
+	diacritic_chars.insert(QString::fromUtf8("Í"), "I");
+	diacritic_chars.insert(QString::fromUtf8("Î"), "I");
+	diacritic_chars.insert(QString::fromUtf8("Ï"), "I");
+	diacritic_chars.insert(QString::fromUtf8("Ð"), "D");
+	diacritic_chars.insert(QString::fromUtf8("Ñ"), "N");
+	diacritic_chars.insert(QString::fromUtf8("Ò"), "O");
+	diacritic_chars.insert(QString::fromUtf8("Ó"), "O");
+	diacritic_chars.insert(QString::fromUtf8("Ô"), "O");
+	diacritic_chars.insert(QString::fromUtf8("Õ"), "O");
+	diacritic_chars.insert(QString::fromUtf8("Ö"), "O");
+	diacritic_chars.insert(QString::fromUtf8("Ø"), "O");
+	diacritic_chars.insert(QString::fromUtf8("Ù"), "U");
+	diacritic_chars.insert(QString::fromUtf8("Ú"), "U");
+	diacritic_chars.insert(QString::fromUtf8("Û"), "U");
+	diacritic_chars.insert(QString::fromUtf8("Ü"), "U");
+	diacritic_chars.insert(QString::fromUtf8("Ý"), "Y");
+	diacritic_chars.insert(QString::fromUtf8("ß"), "ss");
+	diacritic_chars.insert(QString::fromUtf8("à"), "a");
+	diacritic_chars.insert(QString::fromUtf8("á"), "a");
+	diacritic_chars.insert(QString::fromUtf8("â"), "a");
+	diacritic_chars.insert(QString::fromUtf8("ã"), "a");
+	diacritic_chars.insert(QString::fromUtf8("ä"), "a");
+	diacritic_chars.insert(QString::fromUtf8("å"), "a");
+	diacritic_chars.insert(QString::fromUtf8("æ"), "ae");
+	diacritic_chars.insert(QString::fromUtf8("ç"), "c");
+	diacritic_chars.insert(QString::fromUtf8("è"), "e");
+	diacritic_chars.insert(QString::fromUtf8("é"), "e");
+	diacritic_chars.insert(QString::fromUtf8("ê"), "e");
+	diacritic_chars.insert(QString::fromUtf8("ë"), "e");
+	diacritic_chars.insert(QString::fromUtf8("ì"), "i");
+	diacritic_chars.insert(QString::fromUtf8("í"), "i");
+	diacritic_chars.insert(QString::fromUtf8("î"), "i");
+	diacritic_chars.insert(QString::fromUtf8("ï"), "i");
+	diacritic_chars.insert(QString::fromUtf8("ð"), "o");
+	diacritic_chars.insert(QString::fromUtf8("ñ"), "n");
+	diacritic_chars.insert(QString::fromUtf8("ò"), "o");
+	diacritic_chars.insert(QString::fromUtf8("ó"), "o");
+	diacritic_chars.insert(QString::fromUtf8("ô"), "o");
+	diacritic_chars.insert(QString::fromUtf8("õ"), "o");
+	diacritic_chars.insert(QString::fromUtf8("ö"), "o");
+	diacritic_chars.insert(QString::fromUtf8("ø"), "o");
+	diacritic_chars.insert(QString::fromUtf8("ù"), "u");
+	diacritic_chars.insert(QString::fromUtf8("ú"), "u");
+	diacritic_chars.insert(QString::fromUtf8("û"), "u");
+	diacritic_chars.insert(QString::fromUtf8("ü"), "u");
+	diacritic_chars.insert(QString::fromUtf8("ý"), "y");
+	diacritic_chars.insert(QString::fromUtf8("ÿ"), "y");
+}
+
+QString Library::convert_search_string(const QString& str, Library::SearchModeMask mode, const QList<QChar>& ignored_chars)
+{
+	QString ret = str;
 	if(mode & Library::CaseInsensitve)
-    {
+	{
 		ret = str.toLower();
-    }
+	}
 
 	if(mode & Library::NoSpecialChars)
-    {
+	{
 		QString special_chars =
 				QString::fromUtf8("\\.|'|\"|&|!|\\$|\\+|\\*|\\s|/|\\(|\\)|\\=|-|_|;|:|,|\\?|<|>|\\[|\\]|\\{|\\}|@|€");
 
-		ret.remove(QRegExp(special_chars));
-    }
-
-	if(mode & Library::NoDiacriticChars)
-    {
-		if (diacritic_chars.isEmpty()) {
-			diacritic_chars = QString::fromUtf8("ŠŒŽšœžŸ¥µÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýÿ");
-			no_diacritic_chars << "S"<<"OE"<<"Z"<<"s"<<"oe"<<"z"<<"Y"<<"Y"<<"u"<<"A"<<"A"<<"A"<<"A"<<"A"<<"A"<<"AE"<<"C"<<"E"<<"E"<<"E"<<"E"<<"I"<<"I"<<"I"<<"I"<<"D"<<"N"<<"O"<<"O"<<"O"<<"O"<<"O"<<"O"<<"U"<<"U"<<"U"<<"U"<<"Y"<<"s"<<"a"<<"a"<<"a"<<"a"<<"a"<<"a"<<"ae"<<"c"<<"e"<<"e"<<"e"<<"e"<<"i"<<"i"<<"i"<<"i"<<"o"<<"n"<<"o"<<"o"<<"o"<<"o"<<"o"<<"o"<<"u"<<"u"<<"u"<<"u"<<"y"<<"y";
-	}
-
-	QString output;
-	for (int i = 0; i < ret.length(); i++) {
-	    QChar c = ret[i];
-	    int found_index = diacritic_chars.indexOf(c);
-
-	    if (found_index < 0) {
-		output.append(c);
-	    }
-	    else {
-		QString replacement = no_diacritic_chars[found_index];
-		if(mode & Library::CaseInsensitve)
-		{
-		    replacement = replacement.toLower();
+		for(const QChar& c : ignored_chars){
+			special_chars.remove(c);
 		}
 
-		output.append(replacement);
-	    }
+		ret.remove(QRegExp(special_chars));
 	}
 
-	ret = output;
-    }
+	if(mode & Library::NoDiacriticChars)
+	{
+		QString cleaned_string;
+		
+		if (diacritic_chars.isEmpty()) {
+			init_diacritic_chars();
+		}
 
-    return ret;
+		for (int i = 0; i < ret.length(); i++) 
+		{
+			QString c = QString(ret[i]);
+			QString replacement;
+
+			if(diacritic_chars.contains(c)){
+				replacement = diacritic_chars[c];	
+			}
+
+			else{
+				replacement = c;
+			}
+
+			if(mode & Library::CaseInsensitve)
+			{
+				replacement = replacement.toLower();
+			}
+
+			cleaned_string.append(replacement);
+		}
+
+		ret = cleaned_string;
+	}
+
+	return ret;
 }
 

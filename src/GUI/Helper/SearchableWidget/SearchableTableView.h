@@ -24,14 +24,16 @@
 #define SEARCHABLETABLEVIEW_H
 
 #include "SayonaraSelectionView.h"
+#include "Helper/Library/SearchMode.h"
 
 #include <QTableView>
 #include <QMouseEvent>
 #include <QKeyEvent>
 
-
+class Settings;
 class AbstractSearchTableModel;
 class MiniSearcher;
+
 class SearchableTableView :
 		public QTableView,
 		public SayonaraSelectionView
@@ -53,21 +55,26 @@ private slots:
 	void bwd_clicked();
 
 private:
+	Settings*					_settings=nullptr;
 	MiniSearcher*               _mini_searcher=nullptr;
 	AbstractSearchTableModel*   _abstr_model=nullptr;
 	int							_cur_row;
+	Library::SearchModeMask		_search_mode;
 
 private:
 	virtual QAbstractItemModel* get_model() const override;
 	virtual QItemSelectionModel* get_selection_model() const override;
 	virtual void set_current_index(int idx) override;
 
+private slots:
+	void search_mode_changed();
 
 public:
 	explicit SearchableTableView(QWidget* parent=nullptr);
 	virtual ~SearchableTableView();
 
 	void setAbstractModel(AbstractSearchTableModel* model);
+	Library::SearchModeMask search_mode() const;
 
 protected:
 	void mouseMoveEvent(QMouseEvent *) override;

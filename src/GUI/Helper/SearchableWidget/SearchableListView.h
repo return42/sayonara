@@ -22,17 +22,23 @@
 #define SEARCHABLELISTVIEW_H
 
 #include "SayonaraSelectionView.h"
+#include "Helper/Library/SearchMode.h"
+#include "Helper/Settings/SayonaraClass.h"
 
 #include <QListView>
 #include <QMouseEvent>
 #include <QKeyEvent>
 #include <QModelIndexList>
 
+class Settings;
+class AbstractSearchListModel;
 class MiniSearcher;
+
 class AbstractSearchListModel;
 class SearchableListView :
 		public QListView,
-		public SayonaraSelectionView
+		public SayonaraSelectionView,
+		protected SayonaraClass
 {
 	Q_OBJECT
 
@@ -51,19 +57,25 @@ private slots:
 	void bwd_clicked();
 
 private:
-
 	MiniSearcher*               _mini_searcher=nullptr;
 	AbstractSearchListModel*	_abstr_model=nullptr;
 	int							_cur_row;
+	Library::SearchModeMask		_search_mode;
 
-	virtual void set_current_index(int idx) override;
+private:
 	virtual QAbstractItemModel* get_model() const override;
 	virtual QItemSelectionModel* get_selection_model() const override;
+	virtual void set_current_index(int idx) override;
+
+private slots:
+	void search_mode_changed();
 
 public:
 	explicit SearchableListView(QWidget* parent=nullptr);
 	virtual ~SearchableListView();
+
 	void setAbstractModel(AbstractSearchListModel* model);
+	Library::SearchModeMask search_mode() const;
 
 protected:
 	void mouseMoveEvent(QMouseEvent *) override;
@@ -72,6 +84,5 @@ protected:
 	void keyPressEvent(QKeyEvent *) override;
 	void selectionChanged(const QItemSelection& selected, const QItemSelection& deselected) override;
 };
-
 
 #endif // SEARCHABLELISTVIEW_H

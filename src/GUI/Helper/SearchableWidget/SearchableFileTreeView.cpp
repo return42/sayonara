@@ -37,14 +37,14 @@ AbstractSearchFileTreeModel::AbstractSearchFileTreeModel(QObject* parent) :
 
 AbstractSearchFileTreeModel::~AbstractSearchFileTreeModel() {}
 
-QModelIndex AbstractSearchFileTreeModel::getFirstRowIndexOf(QString substr)
+QModelIndex AbstractSearchFileTreeModel::getFirstRowIndexOf(const QString& substr)
 {
 	_cur_idx = -1;
 	_found_strings.clear();
 
 	Settings* settings = Settings::getInstance();
 	Library::SearchModeMask mask = settings->get(Set::Lib_SearchMode);
-	substr = Library::convert_search_string(substr, mask);
+	QString converted_substr = Library::convert_search_string(substr, mask);
 
 	QDirIterator it(this->rootPath(), QDirIterator::Subdirectories);
 	QString str;
@@ -55,7 +55,7 @@ QModelIndex AbstractSearchFileTreeModel::getFirstRowIndexOf(QString substr)
 		QString filename = it.fileName();
 		filename = Library::convert_search_string(filename, mask);
 
-		if (filename.contains(substr)) {
+		if (filename.contains(converted_substr)) {
 			str = it.filePath();
 
 			if(it.fileInfo().isFile()){
@@ -85,7 +85,7 @@ QModelIndex AbstractSearchFileTreeModel::getFirstRowIndexOf(QString substr)
 
 
 
-QModelIndex AbstractSearchFileTreeModel::getNextRowIndexOf(QString substr, int cur_row, const QModelIndex& parent)
+QModelIndex AbstractSearchFileTreeModel::getNextRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent)
 {
 	Q_UNUSED(substr)
 	Q_UNUSED(cur_row)
@@ -105,7 +105,7 @@ QModelIndex AbstractSearchFileTreeModel::getNextRowIndexOf(QString substr, int c
 }
 
 
-QModelIndex AbstractSearchFileTreeModel::getPrevRowIndexOf(QString substr, int cur_row, const QModelIndex& parent)
+QModelIndex AbstractSearchFileTreeModel::getPrevRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent)
 {
 
 	Q_UNUSED(substr)

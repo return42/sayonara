@@ -39,7 +39,8 @@ AbstractPipeline::AbstractPipeline(QString name, Engine* engine, QObject* parent
 	_about_to_finish = false;
 }
 
-AbstractPipeline::~AbstractPipeline(){
+AbstractPipeline::~AbstractPipeline()
+{
 	if (_bus){
 		gst_object_unref (_bus);
 	}
@@ -51,8 +52,8 @@ AbstractPipeline::~AbstractPipeline(){
 }
 
 
-bool AbstractPipeline::init(GstState state){
-
+bool AbstractPipeline::init(GstState state)
+{
 	bool success = false;
 	if(_initialized) {
 		return true;

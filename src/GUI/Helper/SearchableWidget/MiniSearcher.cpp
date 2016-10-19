@@ -25,7 +25,6 @@
 #include "SearchableListView.h"
 
 #include "GUI/Helper/GUI_Helper.h"
-#include "Helper/Logger/Logger.h"
 
 #include <QScrollBar>
 #include <QShortcut>
@@ -169,7 +168,6 @@ void MiniSearcher::keyPressEvent(QKeyEvent* event)
 {
 	int key = event->key();
 
-	sp_log(Log::Debug) << event->key();
 	switch(key)
 	{
 		case Qt::Key_Enter:

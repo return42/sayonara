@@ -63,10 +63,8 @@ QString cvtNum2String(T num, int digits) {
 }
 
 
-
-QString Helper::cvt_str_to_first_upper(const QString& str) {
-
-	QString ret_str = "";
+QString Helper::cvt_str_to_first_upper(const QString& str) 
+{
 	QStringList lst = str.split(" ");
 	QStringList tgt_lst;
 
@@ -77,8 +75,8 @@ QString Helper::cvt_str_to_first_upper(const QString& str) {
 	return tgt_lst.join(" ");
 }
 
-QString Helper::cvt_str_to_very_first_upper(const QString& str) {
-
+QString Helper::cvt_str_to_very_first_upper(const QString& str) 
+{
 	if(str.isEmpty()){
 		return str;
 	}
@@ -91,8 +89,8 @@ QString Helper::cvt_str_to_very_first_upper(const QString& str) {
 }
 
 
-QString Helper::cvt_ms_to_string(quint64 msec, bool empty_zero, bool colon, bool show_days) {
-
+QString Helper::cvt_ms_to_string(quint64 msec, bool empty_zero, bool colon, bool show_days) 
+{
 	if(msec == 0 && empty_zero){
 		return "";
 	}
@@ -137,12 +135,14 @@ QString Helper::cvt_ms_to_string(quint64 msec, bool empty_zero, bool colon, bool
 }
 
 
-QString Helper::get_sayonara_path() {
+QString Helper::get_sayonara_path() 
+{
 	return QDir::homePath() + QDir::separator() + ".Sayonara" + QDir::separator();
 }
 
 
-QString Helper::get_share_path() {
+QString Helper::get_share_path() 
+{
 
 #ifdef Q_OS_WIN
 	return QString("./share/");
@@ -161,15 +161,12 @@ QString Helper::get_lib_path() {
 }
 
 
-
-
-QString Helper::create_link(const QString& name, bool dark, const QString& target, bool underline) {
-	
+QString Helper::create_link(const QString& name, bool dark, const QString& target, bool underline) 
+{
 	QString new_target;
 	QString content;
-	QString style = "";
+	QString style;
 	QString ret;
-
 
 	if(target.size() == 0){
 		new_target = name;
@@ -200,10 +197,8 @@ QString Helper::create_link(const QString& name, bool dark, const QString& targe
 }
 
 
-
-
-QStringList Helper::get_soundfile_extensions() {
-
+QStringList Helper::get_soundfile_extensions() 
+{
 	QStringList filters;
 	filters << "*.mp3"
 			<< "*.ogg"
@@ -216,12 +211,20 @@ QStringList Helper::get_soundfile_extensions() {
 			<< "*.wma"
 			<< "*.mpc";
 
+	QStringList upper_filters;
+	for(const QString& filter : filters) {
+		upper_filters << filter.toUpper();
+	}
+
+	filters.append(upper_filters);
+
+
 	return filters;
 }
 
 
-QStringList Helper::get_playlistfile_extensions() {
-
+QStringList Helper::get_playlistfile_extensions() 
+{
 	QStringList filters;
 
 	filters << "*.pls"
@@ -229,35 +232,37 @@ QStringList Helper::get_playlistfile_extensions() {
 			<< "*.ram"
 			<< "*.asx";
 
-
+	QStringList upper_filters;
 	for(const QString& filter : filters) {
-		filters.push_back(filter.toUpper());
+		upper_filters << filter.toUpper();
 	}
+
+	filters.append(upper_filters);
 
 	return filters;
 }
 
 
-
-
-QStringList Helper::get_podcast_extensions() {
-
-	QStringList filters, filters_new;
+QStringList Helper::get_podcast_extensions() 
+{
+	QStringList filters;
 
 	filters << "*.xml"
 			<< "*.rss";
 
+	QStringList upper_filters;
 	for(const QString& filter : filters) {
-		filters_new.push_back(filter.toUpper());
+		upper_filters << filter.toUpper();
 	}
 
-	return filters_new;
+	filters.append(upper_filters);
+
+	return filters;
 }
 
 
-
-QString Helper::easy_tag_finder(const QString& tag, const QString& xml_doc) {
-
+QString Helper::easy_tag_finder(const QString& tag, const QString& xml_doc) 
+{
 	int p = tag.indexOf('.');
 	QString ret = tag;
 	QString new_tag = tag;
@@ -291,13 +296,15 @@ QString Helper::easy_tag_finder(const QString& tag, const QString& xml_doc) {
 	return "";
 }
 
-QByteArray Helper::calc_hash(const QByteArray& data) {
+
+QByteArray Helper::calc_hash(const QByteArray& data) 
+{
 	return QCryptographicHash::hash(data, QCryptographicHash::Md5).toHex();
 }
 
 
-
-void Helper::sleep_ms(quint64 ms){
+void Helper::sleep_ms(quint64 ms)
+{
 #ifdef Q_OS_WIN
 	Sleep(ms);
 #else

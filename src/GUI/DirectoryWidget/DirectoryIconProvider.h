@@ -35,12 +35,10 @@ private:
 
 public:
 	IconProvider();
+	virtual ~IconProvider();
 
 	virtual QIcon icon(IconType type) const;
 	virtual QIcon icon(const QFileInfo &info) const;
-
-	QStringList _soundfile_extensions;
-	QStringList _playlist_extensions;
 };
 
 #endif // ICONPROVIDER_H

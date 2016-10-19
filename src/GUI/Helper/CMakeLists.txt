@@ -13,7 +13,7 @@ SET(SOURCES
 	Delegates/TreeDelegate.cpp
 	Delegates/ListDelegate.cpp
 
-	Dragable/Draggable.cpp
+	Dragable/Dragable.cpp
 
 	IconLoader/IconLoader.cpp
 

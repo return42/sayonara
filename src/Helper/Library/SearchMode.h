@@ -18,12 +18,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef LIBRARYSEARCHMODE_H
 #define LIBRARYSEARCHMODE_H
 
 #include <QString>
+#include <QList>
 
 namespace Library
 {
@@ -36,7 +35,7 @@ namespace Library
 
     typedef int SearchModeMask;
 
-	QString convert_search_string(const QString& str, Library::SearchModeMask mode);
+	QString convert_search_string(const QString& str, Library::SearchModeMask mode, const QList<QChar>& ignored_chars=QList<QChar>());
 }
 
 #endif // LIBRARYSEARCHMODE_H

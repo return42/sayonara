@@ -31,7 +31,7 @@
 
 #include "Helper/Settings/SayonaraClass.h"
 #include "GUI/Helper/SearchableWidget/SearchableTableView.h"
-#include "GUI/Helper/Dragable/Draggable.h"
+#include "GUI/Helper/Dragable/Dragable.h"
 #include "GUI/Library/Helper/ColumnHeader.h"
 #include "GUI/Library/Models/LibraryItemModel.h"
 #include "GUI/InfoDialog/InfoDialogContainer.h"

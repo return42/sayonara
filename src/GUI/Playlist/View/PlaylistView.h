@@ -30,7 +30,7 @@
 #define PLAYLISTVIEW_H_
 
 #include "GUI/Helper/SearchableWidget/SearchableListView.h"
-#include "GUI/Helper/Dragable/Draggable.h"
+#include "GUI/Helper/Dragable/Dragable.h"
 #include "GUI/InfoDialog/InfoDialogContainer.h"
 #include "Helper/Playlist/PlaylistFwd.h"
 #include "Helper/MetaData/MetaDataFwd.h"

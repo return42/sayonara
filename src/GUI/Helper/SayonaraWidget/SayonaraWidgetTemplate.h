@@ -39,10 +39,13 @@ template<typename T>
  * @ingroup Widgets
  * @ingroup Interfaces
  */
+
 class SayonaraWidgetTemplate :
 		public T,
 		protected SayonaraClass
 {
+
+protected:
 
 public:
 	explicit SayonaraWidgetTemplate(QWidget* parent=nullptr) :
@@ -52,12 +55,11 @@ public:
 
 	}
 
-	virtual ~SayonaraWidgetTemplate(){
-
-	}
-
+	virtual ~SayonaraWidgetTemplate() {}
 
 protected:
+
+
 
 	QString elide_text(const QString &text, QWidget *widget, int max_lines){
 

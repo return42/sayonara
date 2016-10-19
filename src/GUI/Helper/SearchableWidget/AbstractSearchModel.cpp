@@ -25,6 +25,16 @@
 AbstractSearchModelInterface::AbstractSearchModelInterface(){}
 AbstractSearchModelInterface::~AbstractSearchModelInterface(){}
 
+void AbstractSearchModelInterface::set_search_mode(Library::SearchModeMask search_mode)
+{
+	_search_mode = search_mode;
+}
+
+Library::SearchModeMask AbstractSearchModelInterface::search_mode() const
+{
+	return _search_mode;
+}
+
 AbstractSearchTableModel::AbstractSearchTableModel(QObject* parent) :
     QAbstractTableModel(parent),
     AbstractSearchModelInterface()
