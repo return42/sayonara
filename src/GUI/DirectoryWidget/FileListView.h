@@ -51,7 +51,9 @@ public:
 	explicit FileListView(QWidget* parent=nullptr);
 	virtual ~FileListView();
 
-	QAbstractItemModel* get_model() const override;
+	QModelIndex get_index(int row, int col) const override;
+	int get_row_count() const override;
+	int get_column_count() const override;
 
 	QModelIndexList get_selected_rows() const;
 	MetaDataList get_selected_metadata() const;

@@ -31,6 +31,7 @@
 #include <QFocusEvent>
 #include <QScrollArea>
 #include <QShortcut>
+#include <QAbstractItemView>
 
 class SearchableTableView;
 class SearchableListView;
@@ -80,7 +81,7 @@ private slots:
 
 
 private:
-	QAbstractScrollArea*    _parent=nullptr;
+	QAbstractItemView*		_parent=nullptr;
 	QMap<QChar, QString>    _triggers;
 	QPushButton*            _left_button=nullptr;
 	QPushButton*            _right_button=nullptr;
@@ -95,8 +96,7 @@ private:
 
 public:
 
-	MiniSearcher(SearchableListView* parent, MiniSearcherButtons b=MiniSearcherButtons::NoButton);
-	MiniSearcher(SearchableTableView *parent, MiniSearcherButtons b=MiniSearcherButtons::NoButton);
+	MiniSearcher(QAbstractItemView* parent, MiniSearcherButtons b=MiniSearcherButtons::NoButton);
 
     bool check_and_init(QKeyEvent* event);
 	void set_extra_triggers(const QMap<QChar, QString>& triggers);

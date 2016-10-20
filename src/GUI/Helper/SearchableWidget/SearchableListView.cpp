@@ -42,7 +42,7 @@ SearchableListView::SearchableListView(QWidget* parent) :
 
 SearchableListView::~SearchableListView() {}
 
-void SearchableListView::setAbstractModel(AbstractSearchListModel* model)
+void SearchableListView::setSearchModel(SearchModelInterface* model)
 {
 	 _abstr_model = model;
 
@@ -53,9 +53,19 @@ void SearchableListView::setAbstractModel(AbstractSearchListModel* model)
 	 _mini_searcher->set_extra_triggers(_abstr_model->getExtraTriggers());
 }
 
-QAbstractItemModel* SearchableListView::get_model() const
+int SearchableListView::get_row_count() const
 {
-	return _abstr_model;
+	return model()->rowCount();
+}
+
+int SearchableListView::get_column_count() const
+{
+	return 1;
+}
+
+QModelIndex SearchableListView::get_index(int row, int col) const
+{
+	return model()->index(row, col);
 }
 
 QItemSelectionModel* SearchableListView::get_selection_model() const
@@ -65,7 +75,7 @@ QItemSelectionModel* SearchableListView::get_selection_model() const
 
 void SearchableListView::set_current_index(int idx)
 {
-	this->setCurrentIndex(_abstr_model->index(idx, 0));
+	this->setCurrentIndex(get_index(idx, 0));
 }
 
 void SearchableListView::keyPressEvent(QKeyEvent *e)
@@ -129,12 +139,13 @@ void SearchableListView::select_match(const QString &str, SearchDirection direct
 
 	_cur_row = idx.row();
 
-	this->scrollTo(idx);
+
 	this->setCurrentIndex(idx);
 
 	SP::Set<int> indexes;
 	indexes.insert(_cur_row);
 	this->select_rows(indexes);
+	this->scrollTo(idx);
 }
 
 void SearchableListView::edit_changed(const QString& str)

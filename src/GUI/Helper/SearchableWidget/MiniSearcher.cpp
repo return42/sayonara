@@ -46,17 +46,7 @@ void MiniSearcherLineEdit::focusOutEvent(QFocusEvent* e)
 }
 
 
-MiniSearcher::MiniSearcher(SearchableTableView *parent, MiniSearcherButtons b) :
-	QFrame(parent)
-{
-    _parent = parent;
-
-	init_layout(b);
-
-}
-
-
-MiniSearcher::MiniSearcher(SearchableListView *parent, MiniSearcherButtons b) :
+MiniSearcher::MiniSearcher(QAbstractItemView* parent, MiniSearcherButtons b) :
 	QFrame(parent)
 {
     _parent = parent;
@@ -225,7 +215,7 @@ void MiniSearcher::line_edit_focus_lost()
 {
 	if(	_left_button->hasFocus() ||
 		_right_button->hasFocus() ||
-		_parent->hasFocus())
+		this->hasFocus())
 	{
 		return;
 	}

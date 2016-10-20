@@ -33,7 +33,7 @@
 
 class Settings;
 class MiniSearcher;
-class AbstractSearchListModel;
+class SearchModelInterface;
 
 
 class SearchableListView :
@@ -51,7 +51,7 @@ private slots:
 
 private:
 
-	enum class SearchDirection
+	enum class SearchDirection : quint8
 	{
 		First,
 		Next,
@@ -59,14 +59,17 @@ private:
 	};
 
 	MiniSearcher*					_mini_searcher=nullptr;
-	AbstractSearchListModel*		_abstr_model=nullptr;
+	SearchModelInterface*			_abstr_model=nullptr;
 	Settings*						_settings=nullptr;
 	int								_cur_row;
 
 
 private:
-	virtual QAbstractItemModel* get_model() const override;
-	virtual QItemSelectionModel* get_selection_model() const override;
+	QItemSelectionModel* get_selection_model() const override;
+
+	QModelIndex get_index(int row, int col) const override;
+	int get_row_count() const override;
+	int get_column_count() const override;
 
 	QModelIndex get_match_index(const QString& str, SearchDirection direction) const;
 	void select_match(const QString& str, SearchDirection direction);
@@ -76,7 +79,7 @@ public:
 	explicit SearchableListView(QWidget* parent=nullptr);
 	virtual ~SearchableListView();
 
-	void setAbstractModel(AbstractSearchListModel* model);
+	void setSearchModel(SearchModelInterface* model);
 
 protected:
 	void keyPressEvent(QKeyEvent *) override;
@@ -84,4 +87,4 @@ protected:
 	void set_current_index(int idx);
 };
 
-#endif // SEARCHABLELISTVIEW_H
+#endif

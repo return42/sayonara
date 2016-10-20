@@ -31,7 +31,7 @@
 
 class AbstractSearchFileTreeModel :
 		public QFileSystemModel,
-		private AbstractSearchModelInterface
+		private SearchModelInterface
 {
 
 	Q_OBJECT

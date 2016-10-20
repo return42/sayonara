@@ -62,7 +62,7 @@ PlaylistView::PlaylistView(PlaylistPtr pl, QWidget* parent) :
 	_async_drop_index = -1;
 
 	this->setModel(_model);
-	this->setAbstractModel(_model);
+	this->setSearchModel(_model);
 	this->setItemDelegate(_delegate);
 	this->setDragEnabled(true);
 	this->setDropIndicatorShown(true);

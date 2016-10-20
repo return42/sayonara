@@ -21,6 +21,7 @@
 #include "SearchableTableView.h"
 #include "AbstractSearchModel.h"
 #include "MiniSearcher.h"
+#include "Helper/Set.h"
 #include "Helper/Settings/Settings.h"
 
 SearchableTableView::SearchableTableView(QWidget* parent) :
@@ -41,7 +42,7 @@ SearchableTableView::SearchableTableView(QWidget* parent) :
 
 SearchableTableView::~SearchableTableView() {}
 
-void SearchableTableView::setAbstractModel(AbstractSearchTableModel* model)
+void SearchableTableView::setSearchModel(SearchModelInterface* model)
 {
 	 _abstr_model = model;
 
@@ -52,9 +53,19 @@ void SearchableTableView::setAbstractModel(AbstractSearchTableModel* model)
 	 _mini_searcher->set_extra_triggers(_abstr_model->getExtraTriggers());
 }
 
-QAbstractItemModel* SearchableTableView::get_model() const
+int SearchableTableView::get_row_count() const
 {
-	return _abstr_model;
+	return model()->rowCount();
+}
+
+int SearchableTableView::get_column_count() const
+{
+	return model()->columnCount();
+}
+
+QModelIndex SearchableTableView::get_index(int row, int col) const
+{
+	return model()->index(row, col);
 }
 
 QItemSelectionModel* SearchableTableView::get_selection_model() const
@@ -64,7 +75,7 @@ QItemSelectionModel* SearchableTableView::get_selection_model() const
 
 void SearchableTableView::set_current_index(int idx)
 {
-	this->setCurrentIndex(_abstr_model->index(idx, 0));
+	this->setCurrentIndex(get_index(idx, 0));
 }
 
 void SearchableTableView::keyPressEvent(QKeyEvent *e) 
@@ -118,6 +129,7 @@ QModelIndex SearchableTableView::get_match_index(const QString& str, SearchDirec
 	return idx;
 }
 
+
 void SearchableTableView::select_match(const QString &str, SearchDirection direction)
 {
 	QModelIndex idx = get_match_index(str, direction);
@@ -128,10 +140,13 @@ void SearchableTableView::select_match(const QString &str, SearchDirection direc
 
 	_cur_row = idx.row();
 
-	this->scrollTo(idx);
 	this->setCurrentIndex(idx);
 
-	this->selectRow(_cur_row);
+	SP::Set<int> indexes;
+	indexes.insert(_cur_row);
+
+	this->select_rows(indexes);
+	this->scrollTo(idx);
 }
 
 void SearchableTableView::edit_changed(const QString& str)

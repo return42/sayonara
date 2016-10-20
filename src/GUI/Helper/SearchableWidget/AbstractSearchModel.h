@@ -33,7 +33,7 @@
 // We need this for eventual disambiguation between the
 // table itself and this interface
 // in the Searchable View class
-class AbstractSearchModelInterface
+class SearchModelInterface
 {
 
 public:
@@ -46,8 +46,8 @@ public:
 	Library::SearchModeMask search_mode() const;
 
 protected:
-    AbstractSearchModelInterface();
-    virtual ~AbstractSearchModelInterface();
+	SearchModelInterface();
+	virtual ~SearchModelInterface();
 
 private:
 	Library::SearchModeMask _search_mode;
@@ -57,7 +57,7 @@ private:
 // Searchable Model for tables
 class AbstractSearchTableModel :
 	public QAbstractTableModel,
-	public AbstractSearchModelInterface
+	public SearchModelInterface
 {
 
 protected:
@@ -69,7 +69,7 @@ protected:
 // Searchable Model for lists
 class AbstractSearchListModel :
 		public QAbstractListModel,
-		public AbstractSearchModelInterface
+		public SearchModelInterface
 {
 
 protected:

@@ -141,7 +141,7 @@ void GUI_AbstractLibrary::init_headers()
 	connect(_track_delegate, &LibraryRatingDelegate::sig_rating_changed, this, &GUI_AbstractLibrary::title_rating_changed);
 
 	_lv_tracks->setModel(_track_model);
-	_lv_tracks->setAbstractModel(_track_model);
+	_lv_tracks->setSearchModel(_track_model);
 	_lv_tracks->setItemDelegate(_track_delegate);
 	_lv_tracks->setAlternatingRowColors(true);
 	_lv_tracks->setDragEnabled(true);
@@ -149,7 +149,7 @@ void GUI_AbstractLibrary::init_headers()
 	_lv_tracks->set_table_headers(track_columns, _shown_cols_tracks, so.so_tracks);
 
 	_lv_artist->setModel(_artist_model);
-	_lv_artist->setAbstractModel(_artist_model);
+	_lv_artist->setSearchModel(_artist_model);
 	_lv_artist->setAlternatingRowColors(true);
 	_lv_artist->setItemDelegate(new QItemDelegate(_lv_artist));
 	_lv_artist->setDragEnabled(true);
@@ -157,7 +157,7 @@ void GUI_AbstractLibrary::init_headers()
 	_lv_artist->set_table_headers(artist_columns, _shown_cols_artist, so.so_artists);
 
 	_lv_album->setModel(_album_model);
-	_lv_album->setAbstractModel(_album_model);
+	_lv_album->setSearchModel(_album_model);
 	_lv_album->setItemDelegate(_album_delegate);
 	_lv_album->setAlternatingRowColors(true);
 	_lv_album->setDragEnabled(true);

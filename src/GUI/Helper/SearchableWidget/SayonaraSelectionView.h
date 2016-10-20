@@ -26,7 +26,7 @@
 #include <QList>
 #include <QItemSelectionModel>
 #include <QAbstractItemModel>
-
+class QModelIndex;
 namespace SP
 {
 	template<typename T>
@@ -38,14 +38,16 @@ class SayonaraSelectionView
 
 protected:
 	virtual QItemSelectionModel* get_selection_model() const=0;
-	virtual QAbstractItemModel* get_model() const =0;
+	virtual QModelIndex	get_index(int row, int col) const=0;
+	virtual int	get_row_count() const=0;
+	virtual int get_column_count() const=0;
 	virtual void set_current_index(int idx)=0;
 
-	virtual void select_all();
-	virtual void select_rows(const SP::Set<int>& indexes, int min_col=0, int max_col=0);
-	virtual void select_row(int row);
-	virtual void clear_selection();
-	virtual int get_min_selected() const;
+	void select_all();
+	void select_rows(const SP::Set<int>& indexes, int min_col=-1, int max_col=-1);
+	void select_row(int row);
+	void clear_selection();
+	int get_min_selected() const;
 
 public:
 	SP::Set<int> get_selections() const;

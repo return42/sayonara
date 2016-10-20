@@ -32,7 +32,7 @@
 
 class Settings;
 class MiniSearcher;
-class AbstractSearchTableModel;
+class SearchModelInterface;
 
 class SearchableTableView :
 		public QTableView,
@@ -57,14 +57,17 @@ private:
 	};
 
 	MiniSearcher*					_mini_searcher=nullptr;
-	AbstractSearchTableModel*		_abstr_model=nullptr;
+	SearchModelInterface*			_abstr_model=nullptr;
 	Settings*						_settings=nullptr;
 	int								_cur_row;
 
 
 private:
-	virtual QAbstractItemModel* get_model() const override;
-	virtual QItemSelectionModel* get_selection_model() const override;
+	QItemSelectionModel* get_selection_model() const override;
+
+	QModelIndex get_index(int row, int col) const override;
+	int get_row_count() const override;
+	int get_column_count() const override;
 
 	QModelIndex get_match_index(const QString& str, SearchDirection direction) const;
 	void select_match(const QString& str, SearchDirection direction);
@@ -74,7 +77,7 @@ public:
 	explicit SearchableTableView(QWidget* parent=nullptr);
 	virtual ~SearchableTableView();
 
-	void setAbstractModel(AbstractSearchTableModel* model);
+	void setSearchModel(SearchModelInterface* model);
 
 protected:
 	void keyPressEvent(QKeyEvent *) override;

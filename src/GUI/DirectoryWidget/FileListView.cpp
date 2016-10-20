@@ -124,9 +124,19 @@ QModelIndexList FileListView::get_selected_rows() const
 	return QModelIndexList();
 }
 
-QAbstractItemModel* FileListView::get_model() const
+int FileListView::get_row_count() const
 {
-	return _model;
+	return model()->rowCount();
+}
+
+int FileListView::get_column_count() const
+{
+	return 1;
+}
+
+QModelIndex FileListView::get_index(int row, int col) const
+{
+	return model()->index(row, col);
 }
 
 MetaDataList FileListView::get_selected_metadata() const
