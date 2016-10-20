@@ -33,7 +33,8 @@
 // We need this for eventual disambiguation between the
 // table itself and this interface
 // in the Searchable View class
-class AbstractSearchModelInterface {
+class AbstractSearchModelInterface
+{
 
 public:
 	virtual QModelIndex getFirstRowIndexOf(const QString& substr)=0;
@@ -56,7 +57,8 @@ private:
 // Searchable Model for tables
 class AbstractSearchTableModel :
 	public QAbstractTableModel,
-	public AbstractSearchModelInterface {
+	public AbstractSearchModelInterface
+{
 
 protected:
 	explicit AbstractSearchTableModel(QObject* parent=nullptr);
@@ -65,7 +67,10 @@ protected:
 
 
 // Searchable Model for lists
-class AbstractSearchListModel : public QAbstractListModel, public AbstractSearchModelInterface {
+class AbstractSearchListModel :
+		public QAbstractListModel,
+		public AbstractSearchModelInterface
+{
 
 protected:
 	 explicit AbstractSearchListModel(QObject* parent=nullptr);

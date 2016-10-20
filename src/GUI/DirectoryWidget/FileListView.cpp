@@ -124,8 +124,6 @@ QModelIndexList FileListView::get_selected_rows() const
 	return QModelIndexList();
 }
 
-
-
 QAbstractItemModel* FileListView::get_model() const
 {
 	return _model;

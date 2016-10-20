@@ -33,7 +33,8 @@ namespace SP
 	class Set;
 }
 
-class SayonaraSelectionView {
+class SayonaraSelectionView
+{
 
 protected:
 	virtual QItemSelectionModel* get_selection_model() const=0;

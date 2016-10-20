@@ -51,11 +51,6 @@ MiniSearcher::MiniSearcher(SearchableTableView *parent, MiniSearcherButtons b) :
 {
     _parent = parent;
 
-	connect(parent, &SearchableTableView::sig_mouse_pressed, this, &MiniSearcher::reset);
-	connect(parent, &SearchableTableView::sig_mouse_moved, this, &MiniSearcher::reset);
-	connect(parent, &SearchableTableView::sig_mouse_released, this, &MiniSearcher::reset);
-	connect(parent, &SearchableTableView::sig_focus_out, this, &MiniSearcher::reset);
-
 	init_layout(b);
 
 }
@@ -65,11 +60,6 @@ MiniSearcher::MiniSearcher(SearchableListView *parent, MiniSearcherButtons b) :
 	QFrame(parent)
 {
     _parent = parent;
-
-	connect(parent, &SearchableListView::sig_mouse_pressed, this, &MiniSearcher::reset);
-	connect(parent, &SearchableListView::sig_mouse_moved, this, &MiniSearcher::reset);
-	connect(parent, &SearchableListView::sig_mouse_released, this, &MiniSearcher::reset);
-	connect(parent, &SearchableListView::sig_focus_out, this, &MiniSearcher::reset);
 
 	init_layout(b);
 }

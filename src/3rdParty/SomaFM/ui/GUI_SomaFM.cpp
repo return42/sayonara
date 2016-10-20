@@ -78,7 +78,6 @@ GUI_SomaFM::GUI_SomaFM(QWidget *parent) :
 	connect(ui->tv_stations, &QListView::activated, this, &GUI_SomaFM::station_index_changed);
 	connect(ui->tv_stations, &QListView::clicked, this, &GUI_SomaFM::station_clicked);
 	connect(ui->tv_stations, &QListView::doubleClicked, this, &GUI_SomaFM::station_double_clicked);
-	connect(ui->tv_stations, &SearchableTableView::sig_selection_changed, this, &GUI_SomaFM::selection_changed);
 
 	connect(ui->lv_playlists, &QListView::doubleClicked, this, &GUI_SomaFM::playlist_double_clicked);
 	connect(ui->lv_playlists, &QListView::activated, this, &GUI_SomaFM::playlist_double_clicked);

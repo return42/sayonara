@@ -32,6 +32,7 @@
 class FileListModel;
 class MetaDataList;
 class LibraryContextMenu;
+class Settings;
 
 class FileListView :
 		public SearchableListView,
@@ -62,7 +63,8 @@ public:
 
 private:
 	LibraryContextMenu*	_context_menu=nullptr;
-	FileListModel*	_model=nullptr;
+	FileListModel*		_model=nullptr;
+	Settings*			_settings=nullptr;
 
 private:
 	void mousePressEvent(QMouseEvent* event) override;

@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "SearchableListView.h"
 #include "AbstractSearchModel.h"
 #include "MiniSearcher.h"
@@ -28,9 +26,9 @@
 
 SearchableListView::SearchableListView(QWidget* parent) :
 	QListView(parent),
-	SayonaraSelectionView(),
-	SayonaraClass()
+	SayonaraSelectionView()
 {
+	_settings = Settings::getInstance();
 	_mini_searcher = new MiniSearcher(this, MiniSearcherButtons::BothButtons);
 	_abstr_model = nullptr;
 	_cur_row = -1;
@@ -44,10 +42,14 @@ SearchableListView::SearchableListView(QWidget* parent) :
 
 SearchableListView::~SearchableListView() {}
 
-void SearchableListView::setAbstractModel(AbstractSearchListModel* model) 
+void SearchableListView::setAbstractModel(AbstractSearchListModel* model)
 {
 	 _abstr_model = model;
-	 _abstr_model->set_search_mode(_search_mode);
+
+	 if(_abstr_model){
+		 _abstr_model->set_search_mode(_settings->get(Set::Lib_SearchMode));
+	 }
+
 	 _mini_searcher->set_extra_triggers(_abstr_model->getExtraTriggers());
 }
 
@@ -66,51 +68,64 @@ void SearchableListView::set_current_index(int idx)
 	this->setCurrentIndex(_abstr_model->index(idx, 0));
 }
 
-void SearchableListView::mouseMoveEvent(QMouseEvent *e) 
-{
-	emit sig_mouse_moved();
-	QListView::mouseMoveEvent(e);
-}
-
-void SearchableListView::mousePressEvent(QMouseEvent *e) 
-{
-	emit sig_mouse_pressed();
-	QListView::mousePressEvent(e);
-}
-
-
-void SearchableListView::mouseReleaseEvent(QMouseEvent *e) 
-{
-	emit sig_mouse_released();
-	QListView::mouseReleaseEvent(e);
-}
-
-void SearchableListView::keyPressEvent(QKeyEvent *e) 
+void SearchableListView::keyPressEvent(QKeyEvent *e)
 {
 	bool was_initialized = _mini_searcher->isVisible();
 	bool initialized = _mini_searcher->check_and_init(e);
 
+	if(e->key() == Qt::Key_Tab && !was_initialized) {
+		return;
+	}
+
 	if(initialized || was_initialized) {
 		_mini_searcher->keyPressEvent(e);
 		e->setAccepted(false);
+		return;
 	}
 
 	QListView::keyPressEvent(e);
+	e->setAccepted(true);
 }
 
-
-void SearchableListView::edit_changed(const QString& str) 
+QModelIndex SearchableListView::get_match_index(const QString& str, SearchDirection direction) const
 {
-	if(str.isEmpty()) return;
-	if(!_abstr_model) return;
+	QModelIndex idx;
+	if(str.isEmpty()) {
+		return idx;
+	}
 
-	QMap<QChar, QString> edit_triggers = _abstr_model->getExtraTriggers();
-	QList<QChar> ignored_chars = edit_triggers.keys();
+	if(!_abstr_model) {
+		return idx;
+	}
 
-	QString converted_string = Library::convert_search_string(str, _search_mode, ignored_chars);
-	QModelIndex idx = _abstr_model->getFirstRowIndexOf(converted_string);
+	QMap<QChar, QString> extra_triggers = _abstr_model->getExtraTriggers();
+	Library::SearchModeMask search_mode = _settings->get(Set::Lib_SearchMode);
 
-	if(!idx.isValid()) return;
+	QString converted_string = Library::convert_search_string(str, search_mode, extra_triggers.keys());
+
+	switch(direction)
+	{
+		case SearchDirection::First:
+			idx = _abstr_model->getFirstRowIndexOf(converted_string);
+			break;
+		case SearchDirection::Next:
+			idx = _abstr_model->getNextRowIndexOf(converted_string, _cur_row + 1);
+			break;
+		case SearchDirection::Prev:
+			idx = _abstr_model->getPrevRowIndexOf(converted_string, _cur_row - 1);
+			break;
+	}
+
+	return idx;
+}
+
+void SearchableListView::select_match(const QString &str, SearchDirection direction)
+{
+	QModelIndex idx = get_match_index(str, direction);
+	if(!idx.isValid()){
+		_cur_row = -1;
+		return;
+	}
 
 	_cur_row = idx.row();
 
@@ -122,68 +137,28 @@ void SearchableListView::edit_changed(const QString& str)
 	this->select_rows(indexes);
 }
 
-void SearchableListView::fwd_clicked() 
+void SearchableListView::edit_changed(const QString& str)
 {
-	QString str = _mini_searcher->get_current_text();
-	if(str.isEmpty()) return;
-	if(!_abstr_model) return;
-
-	QMap<QChar, QString> edit_triggers = _abstr_model->getExtraTriggers();
-	QList<QChar> ignored_chars = edit_triggers.keys();
-
-	QString converted_string = Library::convert_search_string(str, _search_mode, ignored_chars);
-	QModelIndex idx = _abstr_model->getNextRowIndexOf(converted_string, _cur_row + 1);
-	if(!idx.isValid()) return;
-
-	_cur_row = idx.row();
-
-	SP::Set<int> indexes;
-	indexes.insert(idx.row());
-
-	this->scrollTo(idx);
-	this->select_rows(indexes);
+	select_match(str, SearchDirection::First);
 }
 
-void SearchableListView::bwd_clicked() 
+void SearchableListView::fwd_clicked()
 {
 	QString str = _mini_searcher->get_current_text();
-	if(str.isEmpty()) return;
-	if(!_abstr_model) return;
-
-	QMap<QChar, QString> edit_triggers = _abstr_model->getExtraTriggers();
-	QList<QChar> ignored_chars = edit_triggers.keys();
-
-	QString converted_string = Library::convert_search_string(str, _search_mode, ignored_chars);
-	QModelIndex idx = _abstr_model->getPrevRowIndexOf(converted_string, _cur_row -1);
-
-	if(!idx.isValid()) return;
-
-	_cur_row = idx.row();
-
-	SP::Set<int> indexes;
-	indexes.insert(idx.row());
-
-	this->scrollTo(idx);
-	this->select_rows(indexes);
+	select_match(str, SearchDirection::Next);
 }
 
-void SearchableListView::selectionChanged(const QItemSelection& selected, const QItemSelection& deselected)
+void SearchableListView::bwd_clicked()
 {
-	QListView::selectionChanged(selected, deselected);
-
-	emit sig_selection_changed(selected.indexes());
+	QString str = _mini_searcher->get_current_text();
+	select_match(str, SearchDirection::Prev);
 }
 
 void SearchableListView::search_mode_changed()
 {
-	_search_mode = _settings->get(Set::Lib_SearchMode);
+	Library::SearchModeMask search_mode = _settings->get(Set::Lib_SearchMode);
 
 	if(_abstr_model){
-		_abstr_model->set_search_mode(_search_mode);
+		_abstr_model->set_search_mode(search_mode);
 	}
-}
-
-Library::SearchModeMask SearchableListView::search_mode() const
-{
-	return _search_mode;
 }

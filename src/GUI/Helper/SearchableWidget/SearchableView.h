@@ -23,23 +23,14 @@
 #ifndef SEARCHABLEWIDGET_H
 #define SEARCHABLEWIDGET_H
 
-#include "MiniSearcher.h"
-#include "GUI/Library/Models/LibraryItemModel.h"
-#include "AbstractSearchModel.h"
 
 
-#include <QList>
-#include <QKeyEvent>
-#include <QMouseEvent>
-#include <QTableView>
-#include <QListView>
-#include <QFocusEvent>
+class SearchableWidget :
 
 
+{
 
-class MiniSearcher;
-
-
+};
 
 
 

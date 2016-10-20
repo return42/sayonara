@@ -24,15 +24,15 @@
 #define SEARCHABLETABLEVIEW_H
 
 #include "SayonaraSelectionView.h"
-#include "Helper/Library/SearchMode.h"
 
 #include <QTableView>
 #include <QMouseEvent>
 #include <QKeyEvent>
+#include <QModelIndexList>
 
 class Settings;
-class AbstractSearchTableModel;
 class MiniSearcher;
+class AbstractSearchTableModel;
 
 class SearchableTableView :
 		public QTableView,
@@ -40,48 +40,46 @@ class SearchableTableView :
 {
 	Q_OBJECT
 
-signals:
-	void sig_mouse_moved();
-	void sig_mouse_pressed();
-	void sig_mouse_released();
-	void sig_focus_out();
-	void sig_key_pressed(QKeyEvent*);
-	void sig_selection_changed(const QModelIndexList& idxs);
-
-
 private slots:
-	void edit_changed(QString str);
+	void edit_changed(const QString& str);
 	void fwd_clicked();
 	void bwd_clicked();
 
+	void search_mode_changed();
+
 private:
-	Settings*					_settings=nullptr;
-	MiniSearcher*               _mini_searcher=nullptr;
-	AbstractSearchTableModel*   _abstr_model=nullptr;
-	int							_cur_row;
-	Library::SearchModeMask		_search_mode;
+
+	enum class SearchDirection : quint8
+	{
+		First,
+		Next,
+		Prev
+	};
+
+	MiniSearcher*					_mini_searcher=nullptr;
+	AbstractSearchTableModel*		_abstr_model=nullptr;
+	Settings*						_settings=nullptr;
+	int								_cur_row;
+
 
 private:
 	virtual QAbstractItemModel* get_model() const override;
 	virtual QItemSelectionModel* get_selection_model() const override;
-	virtual void set_current_index(int idx) override;
 
-private slots:
-	void search_mode_changed();
+	QModelIndex get_match_index(const QString& str, SearchDirection direction) const;
+	void select_match(const QString& str, SearchDirection direction);
+
 
 public:
 	explicit SearchableTableView(QWidget* parent=nullptr);
 	virtual ~SearchableTableView();
 
 	void setAbstractModel(AbstractSearchTableModel* model);
-	Library::SearchModeMask search_mode() const;
 
 protected:
-	void mouseMoveEvent(QMouseEvent *) override;
-	void mousePressEvent(QMouseEvent *) override;
-	void mouseReleaseEvent(QMouseEvent *) override;
 	void keyPressEvent(QKeyEvent *) override;
-	void selectionChanged(const QItemSelection& selected, const QItemSelection& deselected) override;
+
+	void set_current_index(int idx);
 };
 
 #endif

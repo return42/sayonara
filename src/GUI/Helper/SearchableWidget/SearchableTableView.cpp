@@ -21,13 +21,11 @@
 #include "SearchableTableView.h"
 #include "AbstractSearchModel.h"
 #include "MiniSearcher.h"
-
-#include "GUI/Library/Models/LibraryItemModel.h"
 #include "Helper/Settings/Settings.h"
-#include "Helper/Logger/Logger.h"
 
 SearchableTableView::SearchableTableView(QWidget* parent) :
-	QTableView(parent)
+	QTableView(parent),
+	SayonaraSelectionView()
 {
 	_settings = Settings::getInstance();
 	_mini_searcher = new MiniSearcher(this, MiniSearcherButtons::BothButtons);
@@ -46,132 +44,118 @@ SearchableTableView::~SearchableTableView() {}
 void SearchableTableView::setAbstractModel(AbstractSearchTableModel* model)
 {
 	 _abstr_model = model;
-	 _abstr_model->set_search_mode(_search_mode);
+
+	 if(_abstr_model){
+		 _abstr_model->set_search_mode(_settings->get(Set::Lib_SearchMode));
+	 }
+
 	 _mini_searcher->set_extra_triggers(_abstr_model->getExtraTriggers());
 }
-
 
 QAbstractItemModel* SearchableTableView::get_model() const
 {
 	return _abstr_model;
 }
 
-
 QItemSelectionModel* SearchableTableView::get_selection_model() const
 {
 	return this->selectionModel();
 }
-
 
 void SearchableTableView::set_current_index(int idx)
 {
 	this->setCurrentIndex(_abstr_model->index(idx, 0));
 }
 
-
-void SearchableTableView::mouseMoveEvent(QMouseEvent *e)
-{
-	emit sig_mouse_moved();
-	QTableView::mouseMoveEvent(e);
-}
-
-
-void SearchableTableView::mousePressEvent(QMouseEvent *e)
-{
-	emit sig_mouse_pressed();
-	QTableView::mousePressEvent(e);
-}
-
-
-void SearchableTableView::mouseReleaseEvent(QMouseEvent *e)
-{
-	emit sig_mouse_released();
-	QTableView::mouseReleaseEvent(e);
-}
-
-
-void SearchableTableView::keyPressEvent(QKeyEvent *e)
+void SearchableTableView::keyPressEvent(QKeyEvent *e) 
 {
 	bool was_initialized = _mini_searcher->isVisible();
 	bool initialized = _mini_searcher->check_and_init(e);
 
+	if(e->key() == Qt::Key_Tab && !was_initialized) {
+		return;
+	}
+
 	if(initialized || was_initialized) {
 		_mini_searcher->keyPressEvent(e);
 		e->setAccepted(false);
+		return;
 	}
 
 	QTableView::keyPressEvent(e);
+	e->setAccepted(true);
 }
 
-
-void SearchableTableView::edit_changed(QString str)
+QModelIndex SearchableTableView::get_match_index(const QString& str, SearchDirection direction) const
 {
-	if(str.isEmpty()) return;
-	if(!_abstr_model) return;
+	QModelIndex idx;
+	if(str.isEmpty()) {
+		return idx;
+	}
 
-	QString converted_string = Library::convert_search_string(str, _search_mode);
-	QModelIndex idx = _abstr_model->getFirstRowIndexOf(converted_string);
+	if(!_abstr_model) {
+		return idx;
+	}
 
-	if(!idx.isValid()) return;
+	QMap<QChar, QString> extra_triggers = _abstr_model->getExtraTriggers();
+	Library::SearchModeMask search_mode = _settings->get(Set::Lib_SearchMode);
+
+	QString converted_string = Library::convert_search_string(str, search_mode, extra_triggers.keys());
+
+	switch(direction)
+	{
+		case SearchDirection::First:
+			idx = _abstr_model->getFirstRowIndexOf(converted_string);
+			break;
+		case SearchDirection::Next:
+			idx = _abstr_model->getNextRowIndexOf(converted_string, _cur_row + 1);
+			break;
+		case SearchDirection::Prev:
+			idx = _abstr_model->getPrevRowIndexOf(converted_string, _cur_row - 1);
+			break;
+	}
+
+	return idx;
+}
+
+void SearchableTableView::select_match(const QString &str, SearchDirection direction)
+{
+	QModelIndex idx = get_match_index(str, direction);
+	if(!idx.isValid()){
+		_cur_row = -1;
+		return;
+	}
 
 	_cur_row = idx.row();
 
 	this->scrollTo(idx);
+	this->setCurrentIndex(idx);
+
 	this->selectRow(_cur_row);
 }
 
+void SearchableTableView::edit_changed(const QString& str)
+{
+	select_match(str, SearchDirection::First);
+}
 
-void SearchableTableView::fwd_clicked()
+void SearchableTableView::fwd_clicked() 
 {
 	QString str = _mini_searcher->get_current_text();
-	if(str.isEmpty()) return;
-	if(!_abstr_model) return;
-
-	QString converted_string = Library::convert_search_string(str, _search_mode);
-	QModelIndex idx = _abstr_model->getNextRowIndexOf(converted_string, _cur_row + 1);
-	if(!idx.isValid()) return;
-
-	_cur_row = idx.row();
-
-	this->scrollTo(idx);
-	this->selectRow(_cur_row);
+	select_match(str, SearchDirection::Next);
 }
 
-
-void SearchableTableView::bwd_clicked()
+void SearchableTableView::bwd_clicked() 
 {
 	QString str = _mini_searcher->get_current_text();
-	if(str.isEmpty()) return;
-	if(!_abstr_model) return;
-
-	QString converted_string = Library::convert_search_string(str, _search_mode);
-	QModelIndex idx = _abstr_model->getPrevRowIndexOf(converted_string, _cur_row -1);
-
-	if(!idx.isValid()) return;
-
-	_cur_row = idx.row();
-
-	this->scrollTo(idx);
-	this->selectRow(_cur_row);
-}
-
-
-void SearchableTableView::selectionChanged(const QItemSelection& selected, const QItemSelection& deselected)
-{
-	QTableView::selectionChanged(selected, deselected);
-
-	emit sig_selection_changed(selected.indexes());
+	select_match(str, SearchDirection::Prev);
 }
 
 void SearchableTableView::search_mode_changed()
 {
-	_search_mode = _settings->get(Set::Lib_SearchMode);
-	if(_abstr_model){
-		_abstr_model->set_search_mode(_search_mode);
-	}
-}
+	Library::SearchModeMask search_mode = _settings->get(Set::Lib_SearchMode);
 
-Library::SearchModeMask SearchableTableView::search_mode() const
-{
-	return _search_mode;
+	if(_abstr_model){
+		_abstr_model->set_search_mode(search_mode);
+	}
 }
