@@ -80,7 +80,8 @@ PlaylistMenu::PlaylistMenu(QWidget* parent) :
 	REGISTER_LISTENER(Set::Player_Language, language_changed);
 }
 
-void PlaylistMenu::language_changed(){
+void PlaylistMenu::language_changed()
+{
 	_action_rep1->setText(Lang::get(Lang::Repeat1));
 	_action_repAll->setText(Lang::get(Lang::RepeatAll));
 	_action_append->setText(Lang::get(Lang::Append));
@@ -88,7 +89,6 @@ void PlaylistMenu::language_changed(){
 	_action_dynamic->setText(Lang::get(Lang::DynamicPlayback));
 	_action_gapless->setText(Lang::get(Lang::GaplessPlayback));
 	_action_shutdown->setText(Lang::get(Lang::Shutdown));
-
 }
 
 

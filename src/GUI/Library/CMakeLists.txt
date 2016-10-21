@@ -12,7 +12,6 @@ SET(SOURCES
     Models/LibraryItemModelTracks.cpp
 
     Delegates/LibraryItemDelegateAlbums.cpp
-    Delegates/LibraryItemDelegateArtists.cpp
     Delegates/LibraryItemDelegateTracks.cpp
     Delegates/LibraryRatingDelegate.cpp
 

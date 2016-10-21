@@ -57,7 +57,7 @@ public:
 	MetaDataList 		get_selected_metadata() const;
 	QStringList			get_selected_paths() const;
 
-	QMimeData*			get_mimedata() const;
+	QMimeData*			get_mimedata() const override;
 
 private:
 	LibraryContextMenu*			_context_menu=nullptr;

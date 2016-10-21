@@ -28,21 +28,16 @@
 
 #include "LibraryItemDelegateAlbums.h"
 #include "GUI/Helper/RatingLabel/RatingLabel.h"
-#include "GUI/Helper/GUI_Helper.h"
 #include "GUI/Library/Helper/ColumnIndex.h"
 
-#include <QLabel>
-#include <QItemDelegate>
 #include <QPainter>
-#include <QTableView>
 #include <QStyleOptionViewItem>
 
 
 LibraryItemDelegateAlbums::LibraryItemDelegateAlbums(QObject* parent, bool enabled) :
 	LibraryRatingDelegate(parent, enabled)
 {
-	_icon_single_album = GUI::get_pixmap("play", QSize(16, 16), false);
-	_icon_multi_album = GUI::get_pixmap("sampler", QSize(16, 16), false);
+
 }
 
 LibraryItemDelegateAlbums::~LibraryItemDelegateAlbums() {}

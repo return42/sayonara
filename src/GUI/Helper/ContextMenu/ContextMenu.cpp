@@ -41,7 +41,6 @@ ContextMenu::ContextMenu(QWidget *parent) :
 	_action_rename = new QAction(GUI::get_icon("edit"), QString(), this);
 	_action_delete = new QAction(GUI::get_icon("delete"), QString(), this);
 
-
 	_actions << addSeparator()
 			<< _action_new
 			<< _action_open

@@ -28,16 +28,16 @@
 #include <algorithm>
 
 
-LibraryItemModel::LibraryItemModel() {
-
+LibraryItemModel::LibraryItemModel()
+{
 	_n_cols = 0;
 	_n_rows = 0;
 }
 
 LibraryItemModel::~LibraryItemModel() {}
 
-QVariant LibraryItemModel::headerData ( int section, Qt::Orientation orientation, int role ) const{
-
+QVariant LibraryItemModel::headerData ( int section, Qt::Orientation orientation, int role ) const
+{
 	if (role != Qt::DisplayRole){
 		return QVariant();
 	}
@@ -71,7 +71,6 @@ bool LibraryItemModel::setHeaderData(int section, Qt::Orientation orientation, c
 }
 
 
-
 int LibraryItemModel::rowCount(const QModelIndex& parent) const
 {
 	Q_UNUSED(parent)
@@ -79,15 +78,16 @@ int LibraryItemModel::rowCount(const QModelIndex& parent) const
 }
 
 
-int LibraryItemModel::columnCount(const QModelIndex& parent) const{
-
+int LibraryItemModel::columnCount(const QModelIndex& parent) const
+{
 	Q_UNUSED(parent);
 
 	return _header_names.size();
 }
 
 
-bool LibraryItemModel::insertColumns(int position, int cols, const QModelIndex &index) {
+bool LibraryItemModel::insertColumns(int position, int cols, const QModelIndex &index)
+{
 	Q_UNUSED(index)
 
 	beginInsertColumns(QModelIndex(), position, position+cols-1);
@@ -101,7 +101,8 @@ bool LibraryItemModel::insertColumns(int position, int cols, const QModelIndex &
 }
 
 
-bool LibraryItemModel::removeColumns(int position, int cols, const QModelIndex &index) {
+bool LibraryItemModel::removeColumns(int position, int cols, const QModelIndex &index)
+{
 	Q_UNUSED(index)
 
 	beginRemoveColumns(QModelIndex(), position, position+cols-1);
@@ -114,14 +115,17 @@ bool LibraryItemModel::removeColumns(int position, int cols, const QModelIndex &
 	return true;
 }
 
-bool LibraryItemModel::removeRows(int row, int count, const QModelIndex& index){
+bool LibraryItemModel::removeRows(int row, int count, const QModelIndex& index)
+{
 	Q_UNUSED(index)
 
 	beginRemoveRows(QModelIndex(), row, row + count - 1);
-	_n_rows -= count;
+
 	for(int i=row; i<row + count; i++){
 		_selections.remove( get_id_by_row(i) );
 	}
+
+	_n_rows -= count;
 
 	endRemoveRows();
 
@@ -139,14 +143,17 @@ bool LibraryItemModel::insertRows(int row, int count, const QModelIndex& index)
 }
 
 
-QMap<QChar, QString> LibraryItemModel::getExtraTriggers() {
-	QMap<QChar, QString> map;
-	return map;
+QMap<QChar, QString> LibraryItemModel::getExtraTriggers()
+{
+	return QMap<QChar, QString>();
 }
 
-void LibraryItemModel::set_mimedata(const MetaDataList& v_md){
+
+void LibraryItemModel::set_mimedata(const MetaDataList& v_md)
+{
 	_md_mimedata = v_md;
 }
+
 
 CustomMimeData* LibraryItemModel::get_mimedata(){
 	CustomMimeData* mimedata = new CustomMimeData();
@@ -165,17 +172,19 @@ CustomMimeData* LibraryItemModel::get_mimedata(){
 }
 
 
-bool LibraryItemModel::has_selections(){
+bool LibraryItemModel::has_selections()
+{
 	return !(_selections.isEmpty());
 }
 
 
-void LibraryItemModel::add_selections(const SP::Set<int>& rows){
-
+void LibraryItemModel::add_selections(const SP::Set<int>& rows)
+{
 	std::for_each(rows.begin(), rows.end(), [=](int row){
 		_selections.insert(get_id_by_row(row));
 	});
 }
+
 
 bool LibraryItemModel::is_selected(int id)
 {
@@ -183,6 +192,69 @@ bool LibraryItemModel::is_selected(int id)
 }
 
 
-void LibraryItemModel::clear_selections(){
+void LibraryItemModel::clear_selections()
+{
 	_selections.clear();
+}
+
+
+QModelIndex	LibraryItemModel::getFirstRowIndexOf(const QString& substr)
+{
+	if(rowCount() == 0) {
+		return QModelIndex();
+	}
+
+	return getNextRowIndexOf(substr, 0);
+}
+
+
+QModelIndex LibraryItemModel::getNextRowIndexOf(const QString& substr, int row, const QModelIndex& parent)
+{
+	Q_UNUSED(parent)
+
+	int len = rowCount();
+	if(len == 0) {
+		return QModelIndex();
+	}
+
+	for(int i=0; i<len; i++)
+	{
+		int row_idx = (i + row) % len;
+
+		QString title = get_string(row_idx);
+		title = Library::convert_search_string(title, search_mode());
+
+		if(title.contains(substr)) {
+			return this->index(row_idx, get_searchable_column());
+		}
+	}
+
+	return QModelIndex();
+}
+
+
+QModelIndex LibraryItemModel::getPrevRowIndexOf(const QString& substr, int row, const QModelIndex& parent)
+{
+	Q_UNUSED(parent)
+
+	int len = rowCount();
+	if(len < row) row = len - 1;
+
+	for(int i=0; i<len; i++)
+	{
+		if(row - i < 0) {
+			row = len - 1;
+		}
+
+		int row_idx = (row - i) % len;
+
+		QString title = get_string(row_idx);
+		title = Library::convert_search_string(title, search_mode());
+
+		if(title.contains(substr)) {
+			return this->index(row_idx, get_searchable_column());
+		}
+	}
+
+	return QModelIndex();
 }

@@ -26,7 +26,6 @@
  *      Author: Lucio Carreras
  */
 
-#include "LibraryItemModel.h"
 #include "LibraryItemModelAlbums.h"
 #include "GUI/Library/Helper/ColumnIndex.h"
 #include "GUI/Library/Helper/ColumnHeader.h"
@@ -168,7 +167,6 @@ QVariant LibraryItemModelAlbums::data(const QModelIndex & index, int role) const
 
 bool LibraryItemModelAlbums::setData(const QModelIndex & index, const QVariant & value, int role)
 {
-
 	if(!index.isValid()){
 		return false;
 	}
@@ -200,7 +198,6 @@ bool LibraryItemModelAlbums::setData(const QModelIndex & index, const QVariant &
 
 bool LibraryItemModelAlbums::setData(const QModelIndex& index, const AlbumList& albums, int role)
 {
-
 	if(!index.isValid()){
 		return false;
 	}
@@ -236,73 +233,14 @@ Qt::ItemFlags LibraryItemModelAlbums::flags(const QModelIndex & index) const
 }
 
 
-void LibraryItemModelAlbums::sort(int column, Qt::SortOrder order) {
-
+void LibraryItemModelAlbums::sort(int column, Qt::SortOrder order)
+{
 	Q_UNUSED(column);
 	Q_UNUSED(order);
 }
 
-QModelIndex LibraryItemModelAlbums::getFirstRowIndexOf(const QString& substr) {
 
-	if(_m->albums.isEmpty()) {
-		return this->index(-1, -1);
-	}
-
-	else{
-		return getNextRowIndexOf(substr, 0);
-	}
-}
-
-QModelIndex LibraryItemModelAlbums::getNextRowIndexOf(const QString& substr, int row, const QModelIndex& parent) {
-
-	Q_UNUSED(parent)
-
-	int len = _m->albums.size();
-	if(len == 0)  {
-		return this->index(-1, -1);
-	}
-
-	for(int i=0; i<len; i++) {
-		int row_idx = (i + row) % len;
-
-		QString album_name = _m->albums[row_idx].name;
-		album_name = Library::convert_search_string(album_name, search_mode());
-
-		if( album_name.contains(substr))
-		{
-			return this->index(row_idx, (int) ColumnIndex::Album::Name);
-		}
-	}
-
-	return this->index(-1, -1);
-}
-
-QModelIndex LibraryItemModelAlbums::getPrevRowIndexOf(const QString& substr, int row, const QModelIndex& parent) {
-
-	Q_UNUSED(parent)
-
-	int len = _m->albums.size();
-	if(len < row){
-		row = len - 1;
-	}
-
-	for(int i=0; i<len; i++) {
-		int row_idx;
-
-		if(row - i < 0){
-			row = len - 1;
-		}
-
-		row_idx = (row-i) % len;
-
-		QString album_name = _m->albums[row_idx].name;
-		album_name = Library::convert_search_string(album_name, search_mode());
-
-		if( album_name.contains(substr))
-		{
-			return this->index(row_idx, (int) ColumnIndex::Album::Name);
-		}
-	}
-
-	return this->index(-1, -1);
+int LibraryItemModelAlbums::get_searchable_column() const
+{
+	return (int) ColumnIndex::Album::Name;
 }
