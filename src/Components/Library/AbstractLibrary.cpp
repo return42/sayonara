@@ -26,6 +26,7 @@
 
 #include "Helper/Settings/Settings.h"
 #include "Helper/Logger/Logger.h"
+#include "Helper/Language.h"
 
 #include <QHash>
 
@@ -699,12 +700,12 @@ void AbstractLibrary::delete_tracks(const MetaDataList &v_md, Library::TrackDele
 
 	if(mode == Library::TrackDeletionMode::None) return;
 
-	QString file_entry = tr("entries");
+	QString file_entry = Lang::get(Lang::Entries);
 	QString answer_str;
 
 	int n_fails = 0;
 	if(mode == Library::TrackDeletionMode::AlsoFiles){
-		file_entry = tr("files");
+		file_entry = Lang::get(Lang::Files);
 		for( const MetaData& md : v_md ){
 			QFile f(md.filepath());
 			if(!f.remove()){

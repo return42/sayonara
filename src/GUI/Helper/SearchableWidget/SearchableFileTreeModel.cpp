@@ -20,7 +20,7 @@
 
 #include "Helper/FileHelper.h"
 
-#include "SearchableFileTreeView.h"
+#include "SearchableFileTreeModel.h"
 #include "GUI/Helper/SearchableWidget/MiniSearcher.h"
 
 #include "Helper/Settings/Settings.h"
@@ -29,15 +29,16 @@
 #include <QDirIterator>
 #include <algorithm>
 
-AbstractSearchFileTreeModel::AbstractSearchFileTreeModel(QObject* parent) :
-	QFileSystemModel(parent)
+SearchableFileTreeModel::SearchableFileTreeModel(QObject* parent) :
+	QFileSystemModel(parent),
+	SearchModelInterface()
 {
 	_cur_idx = -1;
 }
 
-AbstractSearchFileTreeModel::~AbstractSearchFileTreeModel() {}
+SearchableFileTreeModel::~SearchableFileTreeModel() {}
 
-QModelIndex AbstractSearchFileTreeModel::getFirstRowIndexOf(const QString& substr)
+QModelIndex SearchableFileTreeModel::getFirstRowIndexOf(const QString& substr)
 {
 	_cur_idx = -1;
 	_found_strings.clear();
@@ -49,13 +50,15 @@ QModelIndex AbstractSearchFileTreeModel::getFirstRowIndexOf(const QString& subst
 	QDirIterator it(this->rootPath(), QDirIterator::Subdirectories);
 	QString str;
 
-	while (it.hasNext()) {
+	while (it.hasNext())
+	{
 		it.next();
 
 		QString filename = it.fileName();
 		filename = Library::convert_search_string(filename, mask);
 
-		if (filename.contains(converted_substr)) {
+		if (filename.contains(converted_substr))
+		{
 			str = it.filePath();
 
 			if(it.fileInfo().isFile()){
@@ -84,8 +87,7 @@ QModelIndex AbstractSearchFileTreeModel::getFirstRowIndexOf(const QString& subst
 }
 
 
-
-QModelIndex AbstractSearchFileTreeModel::getNextRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent)
+QModelIndex SearchableFileTreeModel::getNextRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent)
 {
 	Q_UNUSED(substr)
 	Q_UNUSED(cur_row)
@@ -105,9 +107,8 @@ QModelIndex AbstractSearchFileTreeModel::getNextRowIndexOf(const QString& substr
 }
 
 
-QModelIndex AbstractSearchFileTreeModel::getPrevRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent)
+QModelIndex SearchableFileTreeModel::getPrevRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent)
 {
-
 	Q_UNUSED(substr)
 	Q_UNUSED(cur_row)
 	Q_UNUSED(parent)
@@ -130,8 +131,7 @@ QModelIndex AbstractSearchFileTreeModel::getPrevRowIndexOf(const QString& substr
 	return index(str);
 }
 
-QMap<QChar, QString> AbstractSearchFileTreeModel::getExtraTriggers()
+QMap<QChar, QString> SearchableFileTreeModel::getExtraTriggers()
 {
 	return QMap<QChar, QString>();
 }
-

@@ -2,10 +2,12 @@
 #define FILE_LIST_MODEL_H
 
 #include "GUI/Helper/SearchableWidget/AbstractSearchModel.h"
+#include "Helper/Settings/SayonaraClass.h"
 
 #include <QStringList>
 #include <QModelIndex>
 
+class Settings;
 class QVariant;
 
 class FileListModel :
@@ -25,7 +27,8 @@ class FileListModel :
 		QModelIndex getPrevRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent=QModelIndex()) override;
 		QMap<QChar, QString> getExtraTriggers() override;
 
-		QVariant data(const QModelIndex& idx, int role) const override;
+		QVariant data(const QModelIndex &index, int role) const override;
+
 		int rowCount(const QModelIndex &parent = QModelIndex()) const override;
 
 		QMimeData* mimeData(const QModelIndexList &indexes) const override;

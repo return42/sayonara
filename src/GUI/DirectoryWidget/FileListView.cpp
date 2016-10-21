@@ -21,14 +21,11 @@
 #include "FileListView.h"
 #include "FileListModel.h"
 
-#include "GUI/Helper/GUI_Helper.h"
 #include "GUI/Helper/ContextMenu/LibraryContextMenu.h"
 
 #include "Helper/globals.h"
 #include "DirectoryIconProvider.h"
 #include "DirectoryDelegate.h"
-#include "Helper/Helper.h"
-#include "Helper/Set.h"
 #include "Helper/MetaData/MetaDataList.h"
 #include "Helper/DirectoryReader/DirectoryReader.h"
 #include "Helper/Settings/Settings.h"
@@ -52,6 +49,7 @@ FileListView::FileListView(QWidget* parent) :
 	_model->set_parent_directory(lib_path);
 
 	this->setModel(_model);
+	this->setSearchModel(_model);
 	this->setItemDelegate(new DirectoryDelegate(this));
 	this->setSelectionMode(QAbstractItemView::ExtendedSelection);
 	this->setDragEnabled(true);
@@ -122,21 +120,6 @@ QModelIndexList FileListView::get_selected_rows() const
 	}
 
 	return QModelIndexList();
-}
-
-int FileListView::get_row_count() const
-{
-	return model()->rowCount();
-}
-
-int FileListView::get_column_count() const
-{
-	return 1;
-}
-
-QModelIndex FileListView::get_index(int row, int col) const
-{
-	return model()->index(row, col);
 }
 
 MetaDataList FileListView::get_selected_metadata() const

@@ -28,7 +28,6 @@
 
 #include "AlternativeCoverItemModel.h"
 #include "Components/Covers/CoverLocation.h"
-#include "Helper/Logger/Logger.h"
 #include "Helper/globals.h"
 #include "Helper/Helper.h"
 

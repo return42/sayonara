@@ -24,13 +24,14 @@
 
 #include "Components/Bookmarks/Bookmarks.h"
 #include "Components/Bookmarks/Bookmark.h"
+#include "Helper/Language.h"
 
 BookmarksMenu::BookmarksMenu(QWidget* parent) :
 	QMenu(parent)
 {
 	_bookmarks = new Bookmarks(this);
 
-	this->setTitle(tr("Bookmarks"));
+	this->setTitle( Lang::get(Lang::Bookmarks));
 
 	connect(_bookmarks, &Bookmarks::sig_bookmarks_changed, this, &BookmarksMenu::bookmarks_changed);
 }

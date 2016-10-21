@@ -24,26 +24,25 @@
 #include "GUI/Helper/IconLoader/IconLoader.h"
 #include "GUI/Helper/GUI_Helper.h"
 #include "Helper/Settings/Settings.h"
+#include "Helper/Language.h"
 
 
 PlaylistTabMenu::PlaylistTabMenu(QWidget* parent) :
 	QMenu(parent),
 	SayonaraClass()
 {
-
-	_action_open_file = new QAction(GUI::get_icon("play"), tr("Open File"), this);
-	_action_open_dir = new QAction(GUI::get_icon("play"), tr("Open Folder"), this);
-	_action_reset = new QAction(GUI::get_icon("undo"), tr("Reset"), this);
-	_action_rename = new QAction(GUI::get_icon("edit"), tr("Rename"), this);
-	_action_delete = new QAction(GUI::get_icon("delete"), tr("Delete"), this);
-	_action_save = new QAction(GUI::get_icon("save"), tr("Save"), this);
-	_action_save_as = new QAction(GUI::get_icon("save_as"), tr("Save as"), this);
-	_action_clear = new QAction(GUI::get_icon("broom.png"), tr("Clear"), this);
-	_action_close = new QAction(GUI::get_icon("power_off"), tr("Close"), this);
-	_action_close_others = new QAction(GUI::get_icon("power_on"), tr("Close others"), this);
+	_action_open_file = new QAction(GUI::get_icon("play"), QString(), this);
+	_action_open_dir = new QAction(GUI::get_icon("play"), QString(), this);
+	_action_reset = new QAction(GUI::get_icon("undo"), QString(), this);
+	_action_rename = new QAction(GUI::get_icon("edit"), QString(), this);
+	_action_delete = new QAction(GUI::get_icon("delete"), QString(), this);
+	_action_save = new QAction(GUI::get_icon("save"), QString(), this);
+	_action_save_as = new QAction(GUI::get_icon("save_as"), QString(), this);
+	_action_clear = new QAction(GUI::get_icon("broom.png"), QString(), this);
+	_action_close = new QAction(GUI::get_icon("power_off"), QString(), this);
+	_action_close_others = new QAction(GUI::get_icon("power_on"), QString(), this);
 
 	_icon_loader = IconLoader::getInstance();
-
 
 	QList<QAction*> actions;
 	actions << _action_open_file
@@ -83,17 +82,18 @@ PlaylistTabMenu::~PlaylistTabMenu()
 	this->clear();
 }
 
-void PlaylistTabMenu::language_changed(){
-	_action_open_file->setText(tr("Open File"));
-	_action_open_dir->setText(tr("Open Folder"));
-	_action_reset->setText(tr("Reset"));
-	_action_rename->setText(tr("Rename"));
-	_action_delete->setText(tr("Delete"));
-	_action_save->setText(tr("Save"));
-	_action_save_as->setText(tr("Save as"));
-	_action_clear->setText(tr("Clear"));
-	_action_close->setText(tr("Close"));
-	_action_close_others->setText(tr("Close others"));
+void PlaylistTabMenu::language_changed()
+{
+	_action_open_file->setText(Lang::get(Lang::OpenFile));
+	_action_open_dir->setText(Lang::get(Lang::OpenDir));
+	_action_reset->setText(Lang::get(Lang::Reset));
+	_action_rename->setText(Lang::get(Lang::Rename));
+	_action_delete->setText(Lang::get(Lang::Delete));
+	_action_save->setText(Lang::get(Lang::Save));
+	_action_save_as->setText(Lang::get(Lang::SaveAs));
+	_action_clear->setText(Lang::get(Lang::Clear));
+	_action_close->setText(Lang::get(Lang::Close));
+	_action_close_others->setText(Lang::get(Lang::CloseOthers));
 }
 
 void PlaylistTabMenu::skin_changed(){
@@ -113,7 +113,8 @@ void PlaylistTabMenu::skin_changed(){
 
 }
 
-void PlaylistTabMenu::show_menu_items(PlaylistMenuEntries entries){
+void PlaylistTabMenu::show_menu_items(PlaylistMenuEntries entries)
+{
 	_action_open_file->setVisible(entries & PlaylistMenuEntry::OpenFile);
 	_action_open_dir->setVisible(entries & PlaylistMenuEntry::OpenDir);
 	_action_reset->setVisible(entries & PlaylistMenuEntry::Reset);
@@ -128,7 +129,8 @@ void PlaylistTabMenu::show_menu_items(PlaylistMenuEntries entries){
 }
 
 
-void PlaylistTabMenu::show_close(bool b){
+void PlaylistTabMenu::show_close(bool b)
+{
 	_action_close->setVisible(b);
 	_action_close_others->setVisible(b);
 }

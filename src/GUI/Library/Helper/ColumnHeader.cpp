@@ -19,10 +19,13 @@
 
 
 #include "ColumnHeader.h"
+#include "Helper/Language.h"
+
 #include <algorithm>
 
-ColumnHeader::ColumnHeader(bool switchable, Library::SortOrder sort_asc, Library::SortOrder sort_desc){
+ColumnHeader::ColumnHeader(HeaderType type, bool switchable, Library::SortOrder sort_asc, Library::SortOrder sort_desc){
 
+	_type = type;
 	_preferred_size_abs = 0;
 	_preferred_size_rel = 0;
 
@@ -39,8 +42,8 @@ ColumnHeader::ColumnHeader(bool switchable, Library::SortOrder sort_asc, Library
 
 ColumnHeader::~ColumnHeader() {}
 
-ColumnHeader::ColumnHeader(bool switchable, Library::SortOrder sort_asc, Library::SortOrder sort_desc, int preferred_size_abs) :
-	ColumnHeader(switchable, sort_asc, sort_desc)
+ColumnHeader::ColumnHeader(HeaderType type, bool switchable, Library::SortOrder sort_asc, Library::SortOrder sort_desc, int preferred_size_abs) :
+	ColumnHeader(type, switchable, sort_asc, sort_desc)
 {
 	_preferred_size_abs = preferred_size_abs;
 	_preferred_size_rel = 0;
@@ -50,8 +53,8 @@ ColumnHeader::ColumnHeader(bool switchable, Library::SortOrder sort_asc, Library
 	_action->setCheckable(_switchable);
 }
 
-ColumnHeader::ColumnHeader(bool switchable, Library::SortOrder sort_asc, Library::SortOrder sort_desc, double preferred_size_rel, int min_size) :
-	ColumnHeader(switchable, sort_asc, sort_desc)
+ColumnHeader::ColumnHeader(HeaderType type, bool switchable, Library::SortOrder sort_asc, Library::SortOrder sort_desc, double preferred_size_rel, int min_size) :
+	ColumnHeader(type, switchable, sort_asc, sort_desc)
 {
 	_preferred_size_abs = min_size;
 	_preferred_size_rel = preferred_size_rel;
@@ -132,4 +135,33 @@ int ColumnHeaderList::get_nth_shown_col(int n) const
 	return -1;
 }
 
-
+QString ColumnHeader::get_title() const
+{
+	switch(_type)
+	{
+		case ColumnHeader::Sharp:
+			return "#";
+		case ColumnHeader::Artist:
+			return Lang::get(Lang::Artist);
+		case ColumnHeader::Album:
+			return Lang::get(Lang::Album);
+		case ColumnHeader::Title:
+			return Lang::get(Lang::Title);
+		case ColumnHeader::NumTracks:
+			return Lang::get(Lang::NumTracks);
+		case ColumnHeader::Duration:
+			return Lang::get(Lang::Duration);
+		case ColumnHeader::DurationShort:
+			return Lang::get(Lang::DurationShort);
+		case ColumnHeader::Year:
+			return Lang::get(Lang::Year);
+		case ColumnHeader::Rating:
+			return Lang::get(Lang::Rating);
+		case ColumnHeader::Bitrate:
+			return Lang::get(Lang::Bitrate);
+		case ColumnHeader::Filesize:
+			return Lang::get(Lang::Filesize);
+		default:
+			return QString();
+	}
+}

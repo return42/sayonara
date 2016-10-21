@@ -34,6 +34,7 @@
 #include "Helper/Helper.h"
 #include "Helper/Library/SearchMode.h"
 #include "Helper/MetaData/Album.h"
+#include "Helper/Language.h"
 #include "Components/Covers/CoverLocation.h"
 
 struct LibraryItemModelAlbums::Private
@@ -92,7 +93,6 @@ CoverLocation LibraryItemModelAlbums::get_cover(const SP::Set<int>& indexes) con
 }
 
 
-
 QVariant LibraryItemModelAlbums::data(const QModelIndex & index, int role) const
 {
 	if (!index.isValid())
@@ -142,11 +142,11 @@ QVariant LibraryItemModelAlbums::data(const QModelIndex & index, int role) const
 		switch(col) {
 
 			case ColumnIndex::Album::NumSongs:
-				return QString::number(album.num_songs) + " " + tr("tracks");
+				return QString::number(album.num_songs) + " " + Lang::get(Lang::Tracks).toLower();
 
 			case ColumnIndex::Album::Year:
 				if(album.year == 0){
-					return tr("None");
+					return Lang::get(Lang::None);
 				}
 				return album.year;
 
@@ -270,7 +270,7 @@ QModelIndex LibraryItemModelAlbums::getNextRowIndexOf(const QString& substr, int
 
 		if( album_name.contains(substr))
 		{
-			return this->index(row_idx, 0);
+			return this->index(row_idx, (int) ColumnIndex::Album::Name);
 		}
 	}
 
@@ -300,7 +300,7 @@ QModelIndex LibraryItemModelAlbums::getPrevRowIndexOf(const QString& substr, int
 
 		if( album_name.contains(substr))
 		{
-			return this->index(row_idx, 0);
+			return this->index(row_idx, (int) ColumnIndex::Album::Name);
 		}
 	}
 

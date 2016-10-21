@@ -18,10 +18,8 @@
  */
 
 
-
-
-#ifndef SEARCHABLEFileTreeView_H
-#define SEARCHABLEFileTreeView_H
+#ifndef SEARCHABLEFILETREEMODEL_H
+#define SEARCHABLEFILETREEMODEL_H
 
 #include "AbstractSearchModel.h"
 
@@ -29,29 +27,26 @@
 #include <QThread>
 #include <QFileSystemModel>
 
-class AbstractSearchFileTreeModel :
-		public QFileSystemModel,
-		private SearchModelInterface
+class SearchableFileTreeModel :
+	public QFileSystemModel,
+	public SearchModelInterface
 {
-
-	Q_OBJECT
-
-public:
-	explicit AbstractSearchFileTreeModel(QObject* parent=nullptr);
-	virtual ~AbstractSearchFileTreeModel();
+    Q_OBJECT
 
 public:
-	virtual QModelIndex getFirstRowIndexOf(const QString& substr) override;
-	virtual QModelIndex getNextRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent=QModelIndex()) override;
-	virtual QModelIndex getPrevRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent=QModelIndex()) override;
-	virtual QMap<QChar, QString> getExtraTriggers() override;
+    explicit SearchableFileTreeModel(QObject* parent=nullptr);
+    virtual ~SearchableFileTreeModel();
+
+public:
+    virtual QModelIndex getFirstRowIndexOf(const QString& substr) override;
+    virtual QModelIndex getNextRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent=QModelIndex()) override;
+    virtual QModelIndex getPrevRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent=QModelIndex()) override;
+    virtual QMap<QChar, QString> getExtraTriggers() override;
 
 private:
-	QStringList		_found_strings;
-	int				_cur_idx;
+    QStringList	_found_strings;
+	int			_cur_idx;
 };
-
-
 
 
 #endif // SEARCHABLEFileTreeView_H

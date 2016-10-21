@@ -15,11 +15,13 @@ SET(SOURCES
     EqualizerPresets.cpp
     FileHelper.cpp
     Helper.cpp
+    Language.cpp
     UrlHelper.cpp
     Set.cpp
     Tree.cpp
 
     DirectoryReader/DirectoryReader.cpp
+
 
     Library/SearchMode.cpp
     Logger/Logger.cpp

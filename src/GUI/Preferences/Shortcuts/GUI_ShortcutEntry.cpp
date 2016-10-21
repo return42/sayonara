@@ -23,6 +23,7 @@
 #include "GUI/Preferences/Shortcuts/ShortcutLineEdit.h"
 #include "GUI/Helper/IconLoader/IconLoader.h"
 #include "GUI/Helper/Shortcuts/ShortcutHandler.h"
+#include "Helper/Language.h"
 
 #include <QKeySequence>
 #include <QShortcut>
@@ -63,7 +64,7 @@ QList<QKeySequence> GUI_ShortcutEntry::get_sequences() const
 void GUI_ShortcutEntry::show_sequence_error()
 {
 	this->le_entry->setText("");
-	QMessageBox::warning(this, tr("Error"), tr("Shortcut already in use"));
+	QMessageBox::warning(this, Lang::get(Lang::Error), tr("Shortcut already in use"));
 }
 
 void GUI_ShortcutEntry::commit()
@@ -106,8 +107,8 @@ void GUI_ShortcutEntry::language_changed()
 
 	lab_description->setText(_shortcut.get_name());
 
-	btn_default->setToolTip(tr("Default"));
-	btn_edit->setToolTip(tr("Edit"));
+	btn_default->setToolTip(Lang::get(Lang::Default));
+	btn_edit->setToolTip(Lang::get(Lang::Edit));
 	btn_test->setToolTip(tr("Test"));
 }
 

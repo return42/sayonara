@@ -34,8 +34,6 @@ class ArtistInfo :
 	public MetaDataInfo 
 {
 
-	Q_OBJECT
-
 private:
 	void set_cover_location() override;
 	void set_subheader() override;

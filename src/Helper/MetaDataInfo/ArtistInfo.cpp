@@ -28,6 +28,7 @@
 #include "Helper/Helper.h"
 #include "Helper/globals.h"
 #include "Helper/FileHelper.h"
+#include "Helper/Language.h"
 
 #include <QFile>
 
@@ -154,7 +155,7 @@ QString ArtistInfo::get_additional_info_as_string() const
 	});
 
 	if(!sim_artists.isEmpty()){
-		str = BOLD(tr("Similar artists:")) + CAR_RET + CAR_RET;
+		str = BOLD(Lang::get(Lang::SimilarArtists) + ":") + CAR_RET + CAR_RET;
 	}
 
 

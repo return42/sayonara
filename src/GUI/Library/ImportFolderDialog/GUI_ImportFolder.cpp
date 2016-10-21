@@ -73,16 +73,6 @@ void GUI_ImportFolder::language_changed()
 	retranslateUi(this);
 }
 
-// TODO: never used
-/*void GUI_ImportFolder::set_import_dir(const QString& dir){
-	_importer->import_dir(dir);
-}
-
-void GUI_ImportFolder::set_import_files(const QStringList& filelist){
-	_importer->import_files(filelist);
-}*/
-
-
 void GUI_ImportFolder::set_metadata(const MetaDataList& v_md){
 
 	if(!v_md.isEmpty()){
@@ -114,7 +104,7 @@ void GUI_ImportFolder::set_status(LibraryImporter::ImportStatus status) {
 			break;
 
 		case LibraryImporter::ImportStatus::Imported:
-			lab_status->setText(tr("Done"));
+			lab_status->setText(tr("Finished"));
 			close();
 			break;
 

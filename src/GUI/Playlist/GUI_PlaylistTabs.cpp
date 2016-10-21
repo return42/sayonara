@@ -29,6 +29,7 @@
 #include "Components/Playlist/PlaylistHandler.h"
 
 #include "Helper/globals.h"
+#include "Helper/Language.h"
 
 void GUI_Playlist::playlist_name_changed(int idx){
 
@@ -227,7 +228,7 @@ void GUI_Playlist::tab_rename_clicked(int idx, const QString& str){
 
 void GUI_Playlist::tab_delete_playlist_clicked(int idx){
 
-	GlobalMessage::Answer answer = Message::question_yn(tr("Really"), tr("Delete"));
+	GlobalMessage::Answer answer = Message::question_yn(tr("Really"), Lang::get(Lang::Delete));
 
 	if(answer == GlobalMessage::Answer::No) {
 		return;
@@ -336,11 +337,11 @@ GlobalMessage::Answer GUI_Playlist::show_save_message_box(PlaylistDBInterface::S
 
 	switch(answer){
 		case PlaylistDBInterface::SaveAsAnswer::Error:
-			Message::warning(tr("Cannot save playlist."), tr("Save as"));
+			Message::warning(tr("Cannot save playlist."), Lang::get(Lang::SaveAs));
 			break;
 
 		case PlaylistDBInterface::SaveAsAnswer::AlreadyThere:
-			return Message::question_yn(tr("Playlist exists") + "\n" + tr("Overwrite?"), tr("Save as"));
+			return Message::question_yn(tr("Playlist exists") + "\n" + tr("Overwrite?"), Lang::get(Lang::SaveAs));
 
 		case PlaylistDBInterface::SaveAsAnswer::ExternTracksError:
 			return Message::warning(tr("Playlists are currently only supported for library tracks."), tr("Save playlist"));

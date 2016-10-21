@@ -26,6 +26,7 @@
 #include "Helper/Parser/PlaylistParser.h"
 #include "Helper/Parser/PodcastParser.h"
 #include "Helper/Logger/Logger.h"
+#include "Helper/Language.h"
 
 #include "Components/StreamPlugins/Streams/AbstractStreamHandler.h"
 #include "Database/DatabaseConnector.h"
@@ -90,8 +91,8 @@ void GUI_AbstractStream::init_ui()
 {
 	_btn_play->setMinimumSize(QSize(24,24));
 	_btn_play->setMaximumSize(QSize(24,24));
-	_btn_tool->setToolTip(tr("Menu"));
-	_btn_tool->setText(tr("Menu"));
+	_btn_tool->setToolTip(Lang::get(Lang::Menu));
+	_btn_tool->setText(Lang::get(Lang::Menu));
 
 	REGISTER_LISTENER(Set::Player_Style, _sl_skin_changed);
 }
@@ -99,7 +100,7 @@ void GUI_AbstractStream::init_ui()
 void GUI_AbstractStream::error(){
 
 	_btn_play->setDisabled(false);
-	_lab_listen->setText(tr("Listen"));
+	_lab_listen->setText(Lang::get(Lang::Listen));
 
 	sp_log(Log::Info) << "Stream Handler error";
 	Message::warning(tr("Cannot open stream") + "\n" + _le_url->text());
@@ -109,7 +110,7 @@ void GUI_AbstractStream::error(){
 void GUI_AbstractStream::data_available(){
 
 	_btn_play->setDisabled(false);
-	_lab_listen->setText(tr("Listen"));
+	_lab_listen->setText(Lang::get(Lang::Listen));
 }
 
 void GUI_AbstractStream::_sl_skin_changed()
@@ -118,14 +119,14 @@ void GUI_AbstractStream::_sl_skin_changed()
 }
 
 
-void GUI_AbstractStream::play(QString url, QString station_name){
-
+void GUI_AbstractStream::play(QString url, QString station_name)
+{
 	bool success = _stream_handler->parse_station(url, station_name);
 	if(!success){
 		sp_log(Log::Info) << "Stream Handler busy";
 		_btn_play->setEnabled(true);
 		_lab_listen->setEnabled(true);
-		_lab_listen->setText(tr("Play"));
+		_lab_listen->setText(Lang::get(Lang::Play));
 	}
 }
 

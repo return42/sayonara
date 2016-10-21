@@ -19,8 +19,6 @@
  */
 
 
-
-
 #include "DBusMPRIS.h"
 #include "Components/DBus/org_mpris_media_player2_adaptor.h"
 #include "Components/DBus/org_mpris_media_player2_player_adaptor.h"

@@ -21,6 +21,7 @@
 #include "application.h"
 #include "InstanceThread.h"
 #include "Helper/Macros.h"
+#include "Helper/Language.h"
 
 #ifdef WITH_DBUS
 	#include "Components/DBus/DBusHandler.h"
@@ -206,7 +207,7 @@ bool Application::init(QTranslator* translator, const QStringList& files_to_play
 
 	if(_settings->get(Set::Notification_Show)){
 		NotificationHandler::getInstance()->notify("Sayonara Player",
-												   tr("Version ") + SAYONARA_VERSION,
+												   Lang::get(Lang::Version) + " " + SAYONARA_VERSION,
 												   Helper::get_share_path() + "logo.png");
 	}
 

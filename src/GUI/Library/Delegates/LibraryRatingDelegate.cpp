@@ -19,10 +19,8 @@
  */
 
 
-
 #include "LibraryRatingDelegate.h"
 #include "GUI/Helper/RatingLabel/RatingLabel.h"
-#include "Helper/Logger/Logger.h"
 
 #include <QFontMetrics>
 

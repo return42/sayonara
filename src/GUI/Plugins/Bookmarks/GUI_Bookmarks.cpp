@@ -28,6 +28,7 @@
 #include "Helper/Helper.h"
 #include "Helper/MetaData/MetaData.h"
 #include "Helper/Message/Message.h"
+#include "Helper/Language.h"
 
 #include "Components/Bookmarks/Bookmark.h"
 #include "Components/Bookmarks/Bookmarks.h"
@@ -55,7 +56,7 @@ QString GUI_Bookmarks::get_name() const
 
 QString GUI_Bookmarks::get_display_name() const
 {
-	return tr("Bookmarks");
+	return Lang::get(Lang::Bookmarks);
 }
 
 
@@ -215,7 +216,7 @@ void GUI_Bookmarks::new_clicked() {
 	MetaData md = _bookmarks->get_cur_track();
 	if( md.id < 0 || md.db_id != 0 ){
 		Message::warning(tr("Sorry, bookmarks can only be set for library tracks at the moment."),
-						tr("Bookmarks"));
+						Lang::get(Lang::Bookmarks));
 		return;
 	}
 

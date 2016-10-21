@@ -24,6 +24,8 @@
 #include "Components/Broadcasting/StreamServer.h"
 #include "Helper/Message/Message.h"
 #include "Helper/Logger/Logger.h"
+#include "Helper/Language.h"
+
 #include "GUI/Helper/Delegates/ComboBoxDelegate.h"
 
 #include "GUI/Plugins/Broadcasting/ui_GUI_Broadcast.h"
@@ -241,7 +243,7 @@ void GUI_Broadcast::mp3_enc_found(){
 		ui->btn_dismiss->hide();
 		ui->btn_dismiss_all->hide();
 		ui->lab_status->hide();
-		ui->lab_error->setText(tr("Cannot find lame mp3 encoder"));
+		ui->lab_error->setText(Lang::get(Lang::CannotFindLame));
 	}
 
 	else{

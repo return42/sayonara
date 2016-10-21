@@ -27,15 +27,17 @@
  */
 
 #include "GUI_LocalLibrary.h"
-#include "Helper/Message/Message.h"
-
+#include "GUI/Library/ui_GUI_LocalLibrary.h"
 #include "GUI/Library/Helper/LocalLibraryMenu.h"
+
+#include "Helper/Message/Message.h"
 #include "InfoBox/GUI_LibraryInfoBox.h"
 #include "ImportFolderDialog/GUI_ImportFolder.h"
 
 #include "Components/Library/LocalLibrary.h"
 #include "Helper/Helper.h"
 #include "Helper/Settings/Settings.h"
+#include "Helper/Language.h"
 
 #include <QFileDialog>
 #include <QDir>
@@ -231,13 +233,13 @@ Library::TrackDeletionMode GUI_LocalLibrary::show_delete_dialog(int n_tracks) {
 
 	dialog.setFocus();
 	dialog.setIcon(QMessageBox::Warning);
-	dialog.setText("<b>" + tr("Warning") + "!</b>");
+	dialog.setText("<b>" + Lang::get(Lang::Warning) + "!</b>");
 	dialog.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
 	only_library_button = dialog.addButton(tr("Only from library"), QMessageBox::AcceptRole);
 	dialog.setDefaultButton(QMessageBox::No);
 	QString info_text = tr("You are about to delete %1 files").arg(n_tracks);
 
-	dialog.setInformativeText(info_text + "\n" + tr("Continue?") );
+	dialog.setInformativeText(info_text + "\n" + Lang::get(Lang::Continue).question() );
 
 	int answer = dialog.exec();
 	clicked_button = dialog.clickedButton();
@@ -270,7 +272,7 @@ void GUI_LocalLibrary::lib_no_lib_path(){
 
 	Message::warning(tr("Please select your library path first and reload again."));
 
-	QString dir = QFileDialog::getExistingDirectory(this, tr("Open Directory"),	QDir::homePath(), QFileDialog::ShowDirsOnly);
+	QString dir = QFileDialog::getExistingDirectory(this, Lang::get(Lang::OpenDir),	QDir::homePath(), QFileDialog::ShowDirsOnly);
 
 	if(dir.size() > 3){
 		_settings->set(Set::Lib_Path, dir);
@@ -345,7 +347,7 @@ void GUI_LocalLibrary::import_dirs_requested()
 
 	QFileDialog* dialog = new QFileDialog(this);
 	dialog->setDirectory(QDir::homePath());
-	dialog->setWindowTitle(tr("Import Directory"));
+	dialog->setWindowTitle(Lang::get(Lang::ImportDir));
 	dialog->setFileMode(QFileDialog::DirectoryOnly);
 	dialog->setOption(QFileDialog::DontUseNativeDialog, true);
 	QList<QUrl> sidebar_urls = dialog->sidebarUrls();
@@ -377,7 +379,7 @@ void GUI_LocalLibrary::import_dirs_requested()
 	{
 		delete dialog;
 
-		QString dir = QFileDialog::getExistingDirectory(this, tr("Import Directory"),
+		QString dir = QFileDialog::getExistingDirectory(this, Lang::get(Lang::ImportDir),
 					QDir::homePath(), QFileDialog::ShowDirsOnly);
 		if(!dir.isEmpty()){
 			dirs << dir;
@@ -405,7 +407,7 @@ void GUI_LocalLibrary::import_files_requested()
 {
 	QStringList extensions = Helper::get_soundfile_extensions();
 	QString filter = QString("Soundfiles (") + extensions.join(" ") + ")";
-	QStringList files = QFileDialog::getOpenFileNames(this, tr("Import Files"),
+	QStringList files = QFileDialog::getOpenFileNames(this, Lang::get(Lang::ImportFiles),
 					QDir::homePath(), filter);
 
 	if(files.size() > 0) {
@@ -438,7 +440,7 @@ void GUI_LocalLibrary::set_library_path_clicked() {
 		start_dir = old_dir;
 	}
 
-	QString dir = QFileDialog::getExistingDirectory(this, tr("Open Directory"),
+	QString dir = QFileDialog::getExistingDirectory(this, Lang::get(Lang::OpenDir),
 			old_dir, QFileDialog::ShowDirsOnly);
 
 	if(dir.isEmpty()){

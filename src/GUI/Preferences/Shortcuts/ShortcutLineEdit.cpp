@@ -21,7 +21,6 @@
 
 
 #include "ShortcutLineEdit.h"
-#include "Helper/Logger/Logger.h"
 
 bool is_modifier(int key){
 	return (key == Qt::Key_Control

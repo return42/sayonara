@@ -4,18 +4,7 @@
 <context>
     <name>AbstractLibrary</name>
     <message>
-        <location filename="../Components/Library/AbstractLibrary.cpp" line="+705"/>
-        <source>entries</source>
-        <translatorcomment>Database entries</translatorcomment>
-        <translation>pozycje</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>files</source>
-        <translation>Pliki</translation>
-    </message>
-    <message>
-        <location line="+10"/>
+        <location filename="../Components/Library/AbstractLibrary.cpp" line="+718"/>
         <source>All %1 could be removed</source>
         <translatorcomment>The %1 is a place holder. In this case this will result in a string like &quot;All files could be removed&quot; or &quot;All entries could be removed&quot;. Just place the placeholder there, where it needs to be in polish language</translatorcomment>
         <translation type="unfinished"></translation>
@@ -25,33 +14,6 @@
         <source>%1 of %2 %3 could not be removed</source>
         <translatorcomment>The resulting string will be something like &quot;4 of 10 files could be removed&quot; or &quot;4 of 10 entries could be removed&quot;</translatorcomment>
         <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>AlbumHeader</name>
-    <message>
-        <location filename="../GUI/Library/Helper/ColumnHeader.h" line="+112"/>
-        <source>Album</source>
-        <translation>Album</translation>
-    </message>
-</context>
-<context>
-    <name>AlbumInfo</name>
-    <message>
-        <location filename="../Helper/MetaDataInfo/AlbumInfo.cpp" line="+50"/>
-        <source>yes</source>
-        <translation>tak</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>no</source>
-        <translation>nie</translation>
-    </message>
-    <message>
-        <location line="+36"/>
-        <source>by</source>
-        <translatorcomment>track &quot;by&quot; artist</translatorcomment>
-        <translation>przez</translation>
     </message>
 </context>
 <context>
@@ -142,164 +104,15 @@
     </message>
 </context>
 <context>
-    <name>Application</name>
-    <message>
-        <location filename="../Application/application.cpp" line="+208"/>
-        <source>Version </source>
-        <translatorcomment>watch out for the space at the end</translatorcomment>
-        <translation>Wersja</translation>
-    </message>
-</context>
-<context>
-    <name>ArtistHeader</name>
-    <message>
-        <location filename="../GUI/Library/Helper/ColumnHeader.h" line="-9"/>
-        <source>Artist</source>
-        <translation>Artysta</translation>
-    </message>
-</context>
-<context>
-    <name>ArtistInfo</name>
-    <message>
-        <location filename="../Helper/MetaDataInfo/ArtistInfo.cpp" line="+162"/>
-        <source>Similar artists:</source>
-        <translation>Podobni wykonawcy:</translation>
-    </message>
-</context>
-<context>
-    <name>BitrateHeader</name>
-    <message>
-        <location filename="../GUI/Library/Helper/ColumnHeader.h" line="+73"/>
-        <source>Bitrate</source>
-        <translation>Szybkość bitowa</translation>
-    </message>
-</context>
-<context>
-    <name>BookmarksMenu</name>
-    <message>
-        <location filename="../GUI/Playlist/BookmarksMenu.cpp" line="+33"/>
-        <source>Bookmarks</source>
-        <translation>Zakładki</translation>
-    </message>
-</context>
-<context>
-    <name>ContextMenu</name>
-    <message>
-        <location filename="../GUI/Helper/ContextMenu/ContextMenu.cpp" line="+34"/>
-        <location line="+44"/>
-        <source>Open</source>
-        <translation>Otwarty</translation>
-    </message>
-    <message>
-        <location line="-43"/>
-        <location line="+42"/>
-        <source>New</source>
-        <translation>Nowa</translation>
-    </message>
-    <message>
-        <location line="-41"/>
-        <location line="+46"/>
-        <source>Undo</source>
-        <translation>Cofnij</translation>
-    </message>
-    <message>
-        <location line="-45"/>
-        <location line="+46"/>
-        <source>Default</source>
-        <translation>Domyślna</translation>
-    </message>
-    <message>
-        <location line="-45"/>
-        <location line="+41"/>
-        <source>Save</source>
-        <translation>Save</translation>
-    </message>
-    <message>
-        <location line="-40"/>
-        <location line="+41"/>
-        <source>Save as</source>
-        <translation>Zapisz jako</translation>
-    </message>
-    <message>
-        <location line="-40"/>
-        <location line="+41"/>
-        <source>Rename</source>
-        <translation>Zmiana nazwy</translation>
-    </message>
-    <message>
-        <location line="-40"/>
-        <location line="+43"/>
-        <source>Delete</source>
-        <translation>Delete</translation>
-    </message>
-</context>
-<context>
-    <name>DirectoryLibraryContainer</name>
-    <message>
-        <location filename="../GUI/DirectoryWidget/DirectoryWidgetContainer.cpp" line="+43"/>
-        <source>Directories</source>
-        <translation>Katalogi</translation>
-    </message>
-</context>
-<context>
-    <name>DurationHeader</name>
-    <message>
-        <location filename="../GUI/Library/Helper/ColumnHeader.h" line="-37"/>
-        <source>Duration</source>
-        <translation>Czas trwania</translation>
-    </message>
-</context>
-<context>
-    <name>DurationShortHeader</name>
-    <message>
-        <location line="+10"/>
-        <source>Dur.</source>
-        <translation>Czas</translation>
-    </message>
-</context>
-<context>
-    <name>FilesizeHeader</name>
-    <message>
-        <location line="+36"/>
-        <source>Filesize</source>
-        <translation></translation>
-    </message>
-</context>
-<context>
-    <name>GUI_AbstractLibrary</name>
-    <message>
-        <location filename="../GUI/Library/GUI_AbstractLibrary.cpp" line="+522"/>
-        <source>Library</source>
-        <translation>Biblioteka</translation>
-    </message>
-</context>
-<context>
     <name>GUI_AbstractStream</name>
     <message>
-        <location filename="../GUI/Plugins/Stream/GUI_AbstractStream.cpp" line="+93"/>
-        <location line="+1"/>
-        <source>Menu</source>
-        <translation>Menu</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <location line="+10"/>
-        <source>Listen</source>
-        <translation>Słuchaj</translation>
-    </message>
-    <message>
-        <location line="-7"/>
+        <location filename="../GUI/Plugins/Stream/GUI_AbstractStream.cpp" line="+106"/>
         <source>Cannot open stream</source>
         <translatorcomment>player is unable to open a stream</translatorcomment>
         <translation>Nie mogę otworzyć strumienia</translation>
     </message>
     <message>
-        <location line="+23"/>
-        <source>Play</source>
-        <translation>Gra</translation>
-    </message>
-    <message>
-        <location line="+23"/>
+        <location line="+46"/>
         <source>Busy...</source>
         <translation>Zajęty...</translation>
     </message>
@@ -318,12 +131,7 @@
 <context>
     <name>GUI_AlternativeCovers</name>
     <message>
-        <location filename="../GUI/Covers/GUI_AlternativeCovers.cpp" line="+135"/>
-        <source>Stop</source>
-        <translation>Koniec</translation>
-    </message>
-    <message>
-        <location line="+60"/>
+        <location filename="../GUI/Covers/GUI_AlternativeCovers.cpp" line="+198"/>
         <source>This cover does not exist</source>
         <translation type="unfinished"></translation>
     </message>
@@ -334,12 +142,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+10"/>
-        <source>Search</source>
-        <translation>Szukaj</translation>
-    </message>
-    <message>
-        <location line="+46"/>
+        <location line="+56"/>
         <source>Open image files</source>
         <translation>Otwórz pliki graficzne</translation>
     </message>
@@ -347,8 +150,6 @@
 <context>
     <name>GUI_AudioConvert</name>
     <message>
-        <location filename="../GUI/Plugins/Engine/AudioConverter/GUI_AudioConvert.ui" line="+77"/>
-        <location filename="../../build/src/GUI/Plugins/Engine/ui_GUI_AudioConvert.h" line="+92"/>
         <location filename="../../build_clang/src/GUI/Plugins/Engine/ui_GUI_AudioConvert.h" line="+92"/>
         <location filename="../../build_cotire/src/GUI/Plugins/Engine/ui_GUI_AudioConvert.h" line="+92"/>
         <location filename="../../build_release/src/GUI/Plugins/AudioConverter/ui_GUI_AudioConvert.h" line="+92"/>
@@ -357,9 +158,7 @@
         <translation>Jakość</translation>
     </message>
     <message>
-        <location line="+10"/>
-        <location filename="../../build/src/GUI/Plugins/Engine/ui_GUI_AudioConvert.h" line="+1"/>
-        <location filename="../../build_clang/src/GUI/Plugins/Engine/ui_GUI_AudioConvert.h" line="+1"/>
+        <location line="+1"/>
         <location filename="../../build_cotire/src/GUI/Plugins/Engine/ui_GUI_AudioConvert.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Plugins/AudioConverter/ui_GUI_AudioConvert.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Plugins/Engine/ui_GUI_AudioConvert.h" line="+1"/>
@@ -367,9 +166,7 @@
         <translation>Stała szybkość transmisji</translation>
     </message>
     <message>
-        <location line="-26"/>
-        <location filename="../../build/src/GUI/Plugins/Engine/ui_GUI_AudioConvert.h" line="-2"/>
-        <location filename="../../build_clang/src/GUI/Plugins/Engine/ui_GUI_AudioConvert.h" line="-2"/>
+        <location line="-2"/>
         <location filename="../../build_cotire/src/GUI/Plugins/Engine/ui_GUI_AudioConvert.h" line="-2"/>
         <location filename="../../build_release/src/GUI/Plugins/AudioConverter/ui_GUI_AudioConvert.h" line="-2"/>
         <location filename="../../build_release/src/GUI/Plugins/Engine/ui_GUI_AudioConvert.h" line="-2"/>
@@ -377,9 +174,7 @@
         <translation>Zmienna szybkość transmisji</translation>
     </message>
     <message>
-        <location line="-29"/>
-        <location filename="../../build/src/GUI/Plugins/Engine/ui_GUI_AudioConvert.h" line="-1"/>
-        <location filename="../../build_clang/src/GUI/Plugins/Engine/ui_GUI_AudioConvert.h" line="-1"/>
+        <location line="-1"/>
         <location filename="../../build_cotire/src/GUI/Plugins/Engine/ui_GUI_AudioConvert.h" line="-1"/>
         <location filename="../../build_release/src/GUI/Plugins/AudioConverter/ui_GUI_AudioConvert.h" line="-1"/>
         <location filename="../../build_release/src/GUI/Plugins/Engine/ui_GUI_AudioConvert.h" line="-1"/>
@@ -390,13 +185,13 @@
 <context>
     <name>GUI_AudioConverter</name>
     <message>
-        <location filename="../GUI/Plugins/Engine/AudioConverter/GUI_AudioConverter.cpp" line="+56"/>
+        <location filename="../GUI/Plugins/Engine/AudioConverter/GUI_AudioConverter.cpp" line="+58"/>
         <source>Audio Converter</source>
         <translatorcomment>Header for the plugin to convert files to mp3 files</translatorcomment>
         <translation>Konwerter audio</translation>
     </message>
     <message>
-        <location line="+86"/>
+        <location line="+88"/>
         <source>0 (Best)</source>
         <translation>0 (Najlepsza)</translation>
     </message>
@@ -406,10 +201,36 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+69"/>
-        <source>Cannot find lame mp3 encoder</source>
-        <translatorcomment>You don&apos;t nee to translate lame mp3 encoder </translatorcomment>
-        <translation>Nie można znaleźć kodek lame mp3</translation>
+        <location filename="../GUI/Plugins/Engine/AudioConverter/GUI_AudioConverter.ui" line="+32"/>
+        <location filename="../../build/src/GUI/Plugins/Engine/ui_GUI_AudioConverter.h" line="+90"/>
+        <location filename="../../build_clang/src/GUI/Plugins/Engine/ui_GUI_AudioConverter.h" line="+90"/>
+        <location filename="../../build_release/src/GUI/Plugins/Engine/ui_GUI_AudioConverter.h" line="+90"/>
+        <source>Activate</source>
+        <translation>Uaktywnij</translation>
+    </message>
+    <message>
+        <location line="+29"/>
+        <location filename="../../build/src/GUI/Plugins/Engine/ui_GUI_AudioConverter.h" line="+1"/>
+        <location filename="../../build_clang/src/GUI/Plugins/Engine/ui_GUI_AudioConverter.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/Plugins/Engine/ui_GUI_AudioConverter.h" line="+1"/>
+        <source>Variable Bitrate</source>
+        <translation>Zmienna szybkość transmisji</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <location filename="../../build/src/GUI/Plugins/Engine/ui_GUI_AudioConverter.h" line="+1"/>
+        <location filename="../../build_clang/src/GUI/Plugins/Engine/ui_GUI_AudioConverter.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/Plugins/Engine/ui_GUI_AudioConverter.h" line="+1"/>
+        <source>Quality</source>
+        <translation>Jakość</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <location filename="../../build/src/GUI/Plugins/Engine/ui_GUI_AudioConverter.h" line="+1"/>
+        <location filename="../../build_clang/src/GUI/Plugins/Engine/ui_GUI_AudioConverter.h" line="+1"/>
+        <location filename="../../build_release/src/GUI/Plugins/Engine/ui_GUI_AudioConverter.h" line="+1"/>
+        <source>Constant Bitrate</source>
+        <translation>Stała szybkość transmisji</translation>
     </message>
 </context>
 <context>
@@ -443,13 +264,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../GUI/Plugins/Bookmarks/GUI_Bookmarks.cpp" line="+58"/>
-        <location line="+160"/>
-        <source>Bookmarks</source>
-        <translation>Zakładki</translation>
-    </message>
-    <message>
-        <location line="-1"/>
+        <location filename="../GUI/Plugins/Bookmarks/GUI_Bookmarks.cpp" line="+218"/>
         <source>Sorry, bookmarks can only be set for library tracks at the moment.</source>
         <translatorcomment>This means, that for external tracks which are not stored in the library, it&apos;s impossible to add a bookmark</translatorcomment>
         <translation>Niestety, w tej chwili, zakładki można ustawić tylko na torach bibliotecznych.</translation>
@@ -507,7 +322,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../GUI/Plugins/Broadcasting/GUI_Broadcast.cpp" line="+59"/>
+        <location filename="../GUI/Plugins/Broadcasting/GUI_Broadcast.cpp" line="+62"/>
         <source>Broadcast</source>
         <translatorcomment> You can translate broadcast like a radio station where others can listen to your music</translatorcomment>
         <translation type="unfinished"></translation>
@@ -535,12 +350,6 @@
         <source>Maybe another application is using this port?</source>
         <translatorcomment>This port is occupied by an other application</translatorcomment>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+71"/>
-        <source>Cannot find lame mp3 encoder</source>
-        <translatorcomment>see GUI_AudioConverter</translatorcomment>
-        <translation>Nie można znaleźć kodek lame mp3</translation>
     </message>
 </context>
 <context>
@@ -582,11 +391,6 @@
         <source>Port</source>
         <translation>Port</translation>
     </message>
-    <message>
-        <location filename="../GUI/Preferences/Broadcast/GUI_BroadcastSetup.cpp" line="+116"/>
-        <source>Broadcast</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>GUI_Crossfader</name>
@@ -612,24 +416,10 @@
         <location filename="../GUI/DirectoryWidget/GUI_DirectoryWidget.ui" line="+150"/>
         <location filename="../../build/src/GUI/DirectoryWidget/ui_GUI_DirectoryWidget.h" line="+140"/>
         <location filename="../../build_clang/src/GUI/DirectoryWidget/ui_GUI_DirectoryWidget.h" line="+140"/>
-        <location filename="../GUI/DirectoryWidget/GUI_DirectoryWidget.cpp" line="+299"/>
         <location filename="../../build_cotire/src/GUI/DirectoryWidget/ui_GUI_DirectoryWidget.h" line="+140"/>
         <location filename="../../build_release/src/GUI/DirectoryWidget/ui_GUI_DirectoryWidget.h" line="+140"/>
         <source>Search</source>
         <translation>Szukaj</translation>
-    </message>
-    <message>
-        <location filename="../GUI/DirectoryWidget/GUI_DirectoryWidget.cpp" line="-158"/>
-        <location line="+33"/>
-        <source>Really?</source>
-        <translatorcomment>Do you really want to delete some stuff?</translatorcomment>
-        <translation>Naprawdę?</translation>
-    </message>
-    <message>
-        <location line="+106"/>
-        <source>Search next</source>
-        <translatorcomment>Feel free to translate it like &quot;goon searching&quot;... But there is not that much space.</translatorcomment>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -664,7 +454,7 @@
 <context>
     <name>GUI_FontConfig</name>
     <message>
-        <location filename="../GUI/Preferences/Fonts/GUI_FontConfig.cpp" line="+46"/>
+        <location filename="../GUI/Preferences/Fonts/GUI_FontConfig.cpp" line="+48"/>
         <source>Fonts</source>
         <translation>Czcionki</translation>
     </message>
@@ -743,7 +533,7 @@
 <context>
     <name>GUI_ImportFolder</name>
     <message>
-        <location filename="../GUI/Library/ImportFolderDialog/GUI_ImportFolder.cpp" line="+91"/>
+        <location filename="../GUI/Library/ImportFolderDialog/GUI_ImportFolder.cpp" line="+79"/>
         <source>%1 tracks available</source>
         <translatorcomment>5 tracks available</translatorcomment>
         <translation>%1 Zaimportuj folder</translation>
@@ -760,8 +550,8 @@
     </message>
     <message>
         <location line="+5"/>
-        <source>Done</source>
-        <translation>Gotowe</translation>
+        <source>Finished</source>
+        <translation>Ukończono</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -1047,7 +837,7 @@
         <location filename="../../build_cotire/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
         <source>Option</source>
-        <translation type="unfinished"></translation>
+        <translation>Opcja</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -1152,15 +942,15 @@
     <name>GUI_LocalLibrary</name>
     <message>
         <location filename="../GUI/Library/GUI_LocalLibrary.ui" line="+26"/>
-        <location filename="../../build/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+422"/>
-        <location filename="../../build_clang/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+422"/>
+        <location filename="../../build/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+420"/>
+        <location filename="../../build_clang/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+420"/>
         <location filename="../../build_cotire/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+422"/>
-        <location filename="../../build_release/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+422"/>
+        <location filename="../../build_release/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+420"/>
         <source>Library</source>
         <translation>Biblioteka</translation>
     </message>
     <message>
-        <location line="+377"/>
+        <location line="+395"/>
         <location filename="../../build/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+17"/>
         <location filename="../../build_clang/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+17"/>
         <location filename="../../build_cotire/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+17"/>
@@ -1169,7 +959,7 @@
         <translation>Gatunki</translation>
     </message>
     <message>
-        <location line="+85"/>
+        <location line="+103"/>
         <location filename="../../build/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+1"/>
         <location filename="../../build_clang/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+1"/>
         <location filename="../../build_cotire/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+1"/>
@@ -1207,7 +997,7 @@
         <translation>Ustaw ścieżkę biblioteki</translation>
     </message>
     <message>
-        <location line="-517"/>
+        <location line="-553"/>
         <location filename="../../build/src/GUI/Library/ui_GUI_LocalLibrary.h" line="-13"/>
         <location filename="../../build_clang/src/GUI/Library/ui_GUI_LocalLibrary.h" line="-13"/>
         <location filename="../../build_cotire/src/GUI/Library/ui_GUI_LocalLibrary.h" line="-13"/>
@@ -1263,7 +1053,7 @@
         <translation>Pokaż wszystkie utwory, albumy,</translation>
     </message>
     <message>
-        <location filename="../GUI/Library/GUI_LocalLibrary.cpp" line="+158"/>
+        <location filename="../GUI/Library/GUI_LocalLibrary.cpp" line="+162"/>
         <source>Check for changed files (fast)</source>
         <translatorcomment>Check, if some files were deleted or added</translatorcomment>
         <translation>Sprawdź zmienione pliki (szybo)</translation>
@@ -1281,12 +1071,7 @@
         <translation>Wybierz tryb ładowania</translation>
     </message>
     <message>
-        <location line="+74"/>
-        <source>Warning</source>
-        <translation>Ostrzeźenie</translation>
-    </message>
-    <message>
-        <location line="+2"/>
+        <location line="+70"/>
         <source>Only from library</source>
         <translatorcomment>Delete tracks only from library</translatorcomment>
         <translation>Tylko z biblioteki</translation>
@@ -1298,30 +1083,13 @@
         <translation>Zamierzasz usunąć%1 plików</translation>
     </message>
     <message>
-        <location line="+2"/>
-        <source>Continue?</source>
-        <translation>Kontynuować?</translation>
-    </message>
-    <message>
-        <location line="+31"/>
+        <location line="+33"/>
         <source>Please select your library path first and reload again.</source>
         <translatorcomment>You first have to specify the library path and reload your library in order to have fun with the player</translatorcomment>
         <translation>Proszę wybrać ścieżkę biblioteki w pierwszej kolejności i załadować ją ponownie.</translation>
     </message>
     <message>
-        <location line="+2"/>
-        <location line="+69"/>
-        <location line="+46"/>
-        <source>Open Directory</source>
-        <translation>Open Directory - katalog stron WWW</translation>
-    </message>
-    <message>
-        <location line="-33"/>
-        <source>Import Files</source>
-        <translation>Importuj pliki</translation>
-    </message>
-    <message>
-        <location line="+46"/>
+        <location line="+183"/>
         <source>Do you want to reload the Library?</source>
         <translation>Chcesz odświeżyć bibliotekę?</translation>
     </message>
@@ -1401,32 +1169,27 @@
 <context>
     <name>GUI_Player</name>
     <message>
-        <location filename="../GUI/Player/GUI_Player.cpp" line="+102"/>
+        <location filename="../GUI/Player/GUI_Player.cpp" line="+104"/>
         <source>Sayonara Player</source>
-        <translation type="unfinished">Sayonara Player</translation>
+        <translation>Sayonara Player</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Written by</source>
-        <translation type="unfinished">przez</translation>
+        <translation>przez</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Copyright</source>
-        <translation type="unfinished">Copyright</translation>
+        <translation>Copyright</translation>
     </message>
     <message>
-        <location line="+3"/>
-        <source>Library</source>
-        <translation>Biblioteka</translation>
-    </message>
-    <message>
-        <location line="+500"/>
+        <location line="+503"/>
         <source>A new version is available!</source>
         <translation>Nowa wersja programu, jest dostępna!</translation>
     </message>
     <message>
-        <location filename="../GUI/Player/GUI_PlayerMenubar.cpp" line="+47"/>
+        <location filename="../GUI/Player/GUI_PlayerMenubar.cpp" line="+48"/>
         <source>Media files</source>
         <translation>Pliki multimedialne</translation>
     </message>
@@ -1436,12 +1199,7 @@
         <translation>Otwórz pliki multimedialne</translation>
     </message>
     <message>
-        <location line="+15"/>
-        <source>Open Directory</source>
-        <translation>Open Directory - katalog stron WWW</translation>
-    </message>
-    <message>
-        <location line="+69"/>
+        <location line="+84"/>
         <source>Please visit the forum at</source>
         <translation>Zapraszamy na forum</translation>
     </message>
@@ -1475,99 +1233,6 @@
         <location line="+1"/>
         <source>License</source>
         <translation>Licencja</translation>
-    </message>
-    <message>
-        <location filename="../GUI/Player/GUI_PlayerMessages.cpp" line="+48"/>
-        <source>Error</source>
-        <translation>Błąd</translation>
-    </message>
-    <message>
-        <location line="+0"/>
-        <source>error</source>
-        <translation>błąd</translation>
-    </message>
-    <message>
-        <location line="+6"/>
-        <source>Warning</source>
-        <translation>Ostrzeźenie</translation>
-    </message>
-    <message>
-        <location line="+0"/>
-        <source>warning</source>
-        <translation>ostrzeżenie</translation>
-    </message>
-    <message>
-        <location line="+6"/>
-        <location line="+7"/>
-        <source>Info</source>
-        <translation>Info</translation>
-    </message>
-    <message>
-        <location line="-7"/>
-        <location line="+7"/>
-        <source>info</source>
-        <translation>informacja</translation>
-    </message>
-    <message>
-        <location filename="../GUI/Player/GUI_PlayerConnections.cpp" line="+93"/>
-        <location line="+33"/>
-        <source>Play/Pause</source>
-        <translation>Odtwarzaj/Pauza</translation>
-    </message>
-    <message>
-        <location line="-32"/>
-        <location line="+35"/>
-        <source>Stop</source>
-        <translation>Koniec</translation>
-    </message>
-    <message>
-        <location line="-34"/>
-        <location line="+37"/>
-        <source>Next track</source>
-        <translation>Następny utwór</translation>
-    </message>
-    <message>
-        <location line="-36"/>
-        <location line="+39"/>
-        <source>Previous track</source>
-        <translation>Poprzedni utwór</translation>
-    </message>
-    <message>
-        <location line="-38"/>
-        <location line="+41"/>
-        <source>Volume down</source>
-        <translatorcomment>Zwiększ głośność</translatorcomment>
-        <translation>Zmniejsz głośność</translation>
-    </message>
-    <message>
-        <location line="-40"/>
-        <location line="+43"/>
-        <source>Volume up</source>
-        <translation>Zwiększ głośność</translation>
-    </message>
-    <message>
-        <location line="-42"/>
-        <location line="+45"/>
-        <source>Seek forward</source>
-        <translation>Przeszukaj do przodu</translation>
-    </message>
-    <message>
-        <location line="-44"/>
-        <location line="+47"/>
-        <source>Seek backward</source>
-        <translation>Przeszukaj wstecz</translation>
-    </message>
-    <message>
-        <location line="-46"/>
-        <location line="+49"/>
-        <source>Seek forward (fast)</source>
-        <translation>Przewiń w przód (szybko)</translation>
-    </message>
-    <message>
-        <location line="-48"/>
-        <location line="+52"/>
-        <source>Seek backward (fast)</source>
-        <translation>Przewiń wstecz (szybko)</translation>
     </message>
 </context>
 <context>
@@ -1620,22 +1285,12 @@
 <context>
     <name>GUI_Playlist</name>
     <message>
-        <location filename="../GUI/Playlist/GUI_Playlist.cpp" line="+327"/>
+        <location filename="../GUI/Playlist/GUI_Playlist.cpp" line="+328"/>
         <source>Playlist empty</source>
         <translation>Pleylista jest pusta</translation>
     </message>
     <message>
-        <location line="+4"/>
-        <source>Track</source>
-        <translation>Utwór</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Tracks</source>
-        <translation>Utwory</translation>
-    </message>
-    <message>
-        <location line="+20"/>
+        <location line="+28"/>
         <source>Media files</source>
         <translation>Pliki multimedialne</translation>
     </message>
@@ -1645,12 +1300,7 @@
         <translation>Otwórz pliki multimedialne</translation>
     </message>
     <message>
-        <location line="+17"/>
-        <source>Open Directory</source>
-        <translation>Open Directory - katalog stron WWW</translation>
-    </message>
-    <message>
-        <location filename="../GUI/Playlist/GUI_PlaylistTabs.cpp" line="+219"/>
+        <location filename="../GUI/Playlist/GUI_PlaylistTabs.cpp" line="+220"/>
         <source>Playlist name already exists</source>
         <translatorcomment>Playlist cannot be saved, because a playlist with that name already exists</translatorcomment>
         <translation>Playlista o podobnej nazwie, już istnieje</translation>
@@ -1662,24 +1312,13 @@
         <translation>Naprawdę</translation>
     </message>
     <message>
-        <location line="+0"/>
-        <source>Delete</source>
-        <translation>Delete</translation>
-    </message>
-    <message>
         <location line="+109"/>
         <source>Cannot save playlist.</source>
         <translatorcomment>Impossible to save the playlist</translatorcomment>
         <translation>Nie można zapisać playlistę.</translation>
     </message>
     <message>
-        <location line="+0"/>
         <location line="+4"/>
-        <source>Save as</source>
-        <translation>Zapisz jako</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>Playlist exists</source>
         <translatorcomment>same as playlist name already exists</translatorcomment>
         <translation>Lista odtwarzania istnieje</translation>
@@ -1768,7 +1407,6 @@
         <location line="+42"/>
         <location filename="../../build/src/GUI/Playlist/ui_GUI_PlaylistBottomBar.h" line="+5"/>
         <location filename="../../build_clang/src/GUI/Playlist/ui_GUI_PlaylistBottomBar.h" line="+5"/>
-        <location filename="../GUI/Playlist/BottomBar/GUI_PlaylistBottomBar.cpp" line="+192"/>
         <location filename="../../build_cotire/src/GUI/Playlist/ui_GUI_PlaylistBottomBar.h" line="+5"/>
         <location filename="../../build_release/src/GUI/Playlist/ui_GUI_PlaylistBottomBar.h" line="+5"/>
         <source>Dynamic playing</source>
@@ -1797,7 +1435,7 @@ podczas odtwarzania listy</translation>
         <translation>Odtwarzanie bez przerw</translation>
     </message>
     <message>
-        <location filename="../GUI/Playlist/BottomBar/GUI_PlaylistBottomBar.cpp" line="-4"/>
+        <location filename="../GUI/Playlist/BottomBar/GUI_PlaylistBottomBar.cpp" line="+187"/>
         <source>Please set library path first</source>
         <translation>Proszę ustawić ścieżkę biblioteki pierwsza</translation>
     </message>
@@ -1830,22 +1468,7 @@ podczas odtwarzania listy</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../GUI/Plugins/PlaylistChooser/GUI_PlaylistChooser.cpp" line="+59"/>
-        <source>Playlists</source>
-        <translation>Listy odtwarzania</translation>
-    </message>
-    <message>
-        <location line="+89"/>
-        <source>Overwrite?</source>
-        <translation>Czy zastąpić?</translation>
-    </message>
-    <message>
-        <location line="+21"/>
-        <source>Delete?</source>
-        <translation>Usunąć?</translation>
-    </message>
-    <message>
-        <location line="+29"/>
+        <location filename="../GUI/Plugins/PlaylistChooser/GUI_PlaylistChooser.cpp" line="+199"/>
         <source>Open Playlist files</source>
         <translation>Otwórz pliki z playlistą</translation>
     </message>
@@ -1997,11 +1620,6 @@ podczas odtwarzania listy</translation>
         <source>Default</source>
         <translation>Domyślna</translation>
     </message>
-    <message>
-        <location filename="../GUI/Preferences/PlaylistPreferences/GUI_PlaylistPreferences.cpp" line="+105"/>
-        <source>Playlist</source>
-        <translation>Lista odtwarzania</translation>
-    </message>
 </context>
 <context>
     <name>GUI_Podcasts</name>
@@ -2077,7 +1695,7 @@ podczas odtwarzania listy</translation>
         <translation>Podcasty</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+18"/>
         <source>Podcast</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2170,22 +1788,7 @@ podczas odtwarzania listy</translation>
         <translation>Wpisz skrót ...</translation>
     </message>
     <message>
-        <location filename="../GUI/Preferences/Shortcuts/GUI_ShortcutEntry.cpp" line="+105"/>
-        <source>Edit</source>
-        <translation>Edycja</translation>
-    </message>
-    <message>
-        <location line="-1"/>
-        <source>Default</source>
-        <translation>Domyślna</translation>
-    </message>
-    <message>
-        <location line="-43"/>
-        <source>Error</source>
-        <translation>Błąd</translation>
-    </message>
-    <message>
-        <location line="+0"/>
+        <location filename="../GUI/Preferences/Shortcuts/GUI_ShortcutEntry.cpp" line="+67"/>
         <source>Shortcut already in use</source>
         <translatorcomment>This shortcut is used elsewhere already</translatorcomment>
         <translation>Skrót, jest już w użyciu</translation>
@@ -2524,7 +2127,7 @@ podczas odtwarzania listy</translation>
         <location filename="../../build_release/src/GUI/Plugins/Engine/ui_GUI_Speed.h" line="+3"/>
         <location filename="../../build_release/src/GUI/Plugins/Speed/ui_GUI_Speed.h" line="+3"/>
         <source>Pitch</source>
-        <translation type="unfinished">Ton</translation>
+        <translation>Ton</translation>
     </message>
     <message>
         <location line="+55"/>
@@ -2662,14 +2265,9 @@ podczas odtwarzania listy</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../GUI/Plugins/Stream/GUI_Stream.cpp" line="+46"/>
+        <location filename="../GUI/Plugins/Stream/GUI_Stream.cpp" line="+47"/>
         <source>Webstreams</source>
         <translation>Strumień internetowy</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Radio Station</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2713,7 +2311,7 @@ podczas odtwarzania listy</translation>
         <translation>Utwórz folder sesji</translation>
     </message>
     <message>
-        <location filename="../GUI/Preferences/StreamRecorder/GUI_StreamRecorder.cpp" line="+96"/>
+        <location filename="../GUI/Preferences/StreamRecorder/GUI_StreamRecorder.cpp" line="+97"/>
         <source>Choose target directory</source>
         <translatorcomment>choose a target directory. within this directory the session folder will also be placed</translatorcomment>
         <translation>Wybierz katalog docelowy</translation>
@@ -2728,7 +2326,7 @@ Proszę wybrać inny folder</translation>
     </message>
     <message>
         <location line="+0"/>
-        <location line="+36"/>
+        <location line="+27"/>
         <source>Stream recorder</source>
         <translation>Nagrywanie strumienia</translation>
     </message>
@@ -2895,7 +2493,7 @@ Proszę wybrać inny folder</translation>
 <context>
     <name>GUI_StyleSettings</name>
     <message>
-        <location filename="../GUI/Plugins/Engine/GUI_StyleSettings.cpp" line="+157"/>
+        <location filename="../GUI/Plugins/Engine/GUI_StyleSettings.cpp" line="+162"/>
         <source>There are some unsaved settings&lt;br /&gt;Save now?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3206,30 +2804,18 @@ Proszę wybrać inny folder</translation>
         <translation>&gt;</translation>
     </message>
     <message>
-        <location filename="../GUI/TagEdit/GUI_TagEdit.cpp" line="+245"/>
-        <location line="+17"/>
+        <location filename="../GUI/TagEdit/GUI_TagEdit.cpp" line="+263"/>
         <source>Track </source>
         <translation>Ścieżka </translation>
     </message>
     <message>
-        <location line="+192"/>
-        <source>None</source>
-        <translation>Brak</translation>
-    </message>
-    <message>
-        <location line="+125"/>
+        <location line="+317"/>
         <source>Cannot apply tag for</source>
         <translatorcomment>The tag could not be extracted from the file path for a specific track. Cannot apply tag for /home/user/track.mp3</translatorcomment>
         <translation>Nie można zastosować znacznika do</translation>
     </message>
     <message>
-        <location line="+15"/>
-        <source>by</source>
-        <translatorcomment>Battery by Metallica</translatorcomment>
-        <translation>przez</translation>
-    </message>
-    <message>
-        <location line="+5"/>
+        <location line="+20"/>
         <source>Ignore these tracks?</source>
         <translation>Zignoruj te utwory?</translation>
     </message>
@@ -3302,114 +2888,11 @@ Proszę wybrać inny folder</translation>
 <context>
     <name>GUI_TrayIcon</name>
     <message>
-        <location filename="../GUI/Player/GUI_TrayIcon.cpp" line="+72"/>
-        <location line="+16"/>
-        <location line="+117"/>
-        <source>Play</source>
-        <translation>Gra</translation>
-    </message>
-    <message>
-        <location line="-130"/>
-        <location line="+15"/>
-        <source>Stop</source>
-        <translation>Koniec</translation>
-    </message>
-    <message>
-        <location line="-16"/>
-        <location line="+18"/>
-        <source>Previous</source>
-        <translation>Poprzedni</translation>
-    </message>
-    <message>
-        <location line="-19"/>
-        <location line="+21"/>
-        <source>Next</source>
-        <translation>Dalej</translation>
-    </message>
-    <message>
-        <location line="-18"/>
-        <location line="+20"/>
-        <location line="+217"/>
-        <source>Mute</source>
-        <translation>Wycisz</translation>
-    </message>
-    <message>
-        <location line="-235"/>
-        <location line="+20"/>
-        <source>Show</source>
-        <translation>Pokaz</translation>
-    </message>
-    <message>
-        <location line="-19"/>
+        <location filename="../GUI/Player/GUI_TrayIcon.cpp" line="+76"/>
         <location line="+20"/>
         <source>Current song</source>
         <translatorcomment>current song which is playing at the moment</translatorcomment>
         <translation>Informacje o utworze</translation>
-    </message>
-    <message>
-        <location line="-22"/>
-        <location line="+24"/>
-        <source>Close</source>
-        <translation>Zamknij</translation>
-    </message>
-    <message>
-        <location line="+64"/>
-        <source> by </source>
-        <translatorcomment>Enter sandman by Metallica</translatorcomment>
-        <translation> przez </translation>
-    </message>
-    <message>
-        <location line="+153"/>
-        <source>Unmute</source>
-        <translation>Wyłącz wyciszenie</translation>
-    </message>
-    <message>
-        <location line="-122"/>
-        <source>Pause</source>
-        <translation>Pause</translation>
-    </message>
-</context>
-<context>
-    <name>Helper::StringDummy</name>
-    <message>
-        <location filename="../Helper/Helper.cpp" line="+316"/>
-        <source>Various</source>
-        <translatorcomment>Various tracks/albums/artists</translatorcomment>
-        <translation></translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>d</source>
-        <translatorcomment>Short form for days. But probably &apos;d&apos; is common in Poland, too.</translatorcomment>
-        <translation></translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>h</source>
-        <translatorcomment>hours</translatorcomment>
-        <translation>h</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>m</source>
-        <translatorcomment>minutes</translatorcomment>
-        <translation>m</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>s</source>
-        <translatorcomment>seconds</translatorcomment>
-        <translation>s</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Disc</source>
-        <translation>Płyta</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Discs</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3555,65 +3038,561 @@ Proszę wybrać inny folder</translation>
     </message>
 </context>
 <context>
-    <name>LibraryContextMenu</name>
+    <name>Lang</name>
     <message>
-        <location filename="../GUI/Helper/ContextMenu/LibraryContextMenu.cpp" line="+33"/>
-        <location line="+64"/>
-        <source>Info</source>
-        <translation>Info</translation>
+        <location filename="../Helper/Language.cpp" line="+43"/>
+        <source>About</source>
+        <translation>O programie</translation>
     </message>
     <message>
-        <location line="-63"/>
-        <location line="+64"/>
-        <source>Lyrics</source>
-        <translation>Słowa</translation>
+        <location line="+2"/>
+        <source>Action</source>
+        <translation>Akcja</translation>
     </message>
     <message>
-        <location line="-63"/>
-        <location line="+64"/>
-        <source>Edit</source>
-        <translation>Edycja</translation>
+        <location line="+2"/>
+        <source>Actions</source>
+        <translation>Akcje</translation>
     </message>
     <message>
-        <location line="-63"/>
-        <location line="+64"/>
-        <source>Remove</source>
-        <translation>Usuń</translation>
+        <location line="+2"/>
+        <source>Add tab</source>
+        <translation>Dodaj kartę</translation>
     </message>
     <message>
-        <location line="-63"/>
-        <location line="+64"/>
-        <source>Delete</source>
-        <translation>Delete</translation>
+        <location line="+2"/>
+        <source>Album</source>
+        <translation>Album</translation>
     </message>
     <message>
-        <location line="-63"/>
-        <location line="+64"/>
-        <source>Play next</source>
-        <translation>Odtwórz następny</translation>
+        <location line="+2"/>
+        <source>Albums</source>
+        <translation>Albumy</translation>
     </message>
     <message>
-        <location line="-63"/>
-        <location line="+64"/>
+        <location line="+2"/>
         <source>Append</source>
         <translation>Dołącz</translation>
     </message>
     <message>
-        <location line="-63"/>
-        <location line="+64"/>
-        <source>Refresh</source>
-        <translation>Odśwież</translation>
+        <location line="+2"/>
+        <source>Artist</source>
+        <translation>Artysta</translation>
     </message>
     <message>
-        <location line="-63"/>
-        <location line="+64"/>
+        <location line="+2"/>
+        <source>Artists</source>
+        <translation>Wykonawcy</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Bitrate</source>
+        <translation>Szybkość bitowa</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Bookmarks</source>
+        <translation>Zakładki</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Broadcast</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>by</source>
+        <translation>przez</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Cannot find Lame MP3 encoder</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Clear</source>
         <translation>Wyczyść</translation>
     </message>
     <message>
-        <location line="+132"/>
+        <location line="+2"/>
+        <source>Close</source>
+        <translation>Zamknij</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Close others</source>
+        <translation>Zamknij wszystko</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Close tab</source>
+        <translation>Zamknij kartę</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Continue</source>
+        <translation>Dalej</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>d</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Default</source>
+        <translation>Domyślna</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Delete</source>
+        <translation>Delete</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Directory</source>
+        <translation>Katalog</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Directories</source>
+        <translation>Katalogi</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Dur.</source>
+        <translation>Czas</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Duration</source>
+        <translation>Czas trwania</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Dynamic playback</source>
+        <translation>Proszę ustawić ścieżkę biblioteki pierwszą</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Edit</source>
+        <translation>Edycja</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Entry</source>
+        <translation>Wpis</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Entries</source>
+        <translation>Wpisy</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Error</source>
+        <translation>Błąd</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Fast</source>
+        <translation>Szybka</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>File</source>
+        <translation>Plik</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Files</source>
+        <translation>Pliki</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Filesize</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>1st</source>
+        <translation>1.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Gapless playback</source>
+        <translation>Odtwarzanie bez przerw</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Genre</source>
+        <translation>Gatunek</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Genres</source>
+        <translation>Gatunki</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>h</source>
+        <translation>h</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Import directory</source>
+        <translation>Importuj katalog</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Import files</source>
+        <translation>Importuj pliki</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Info</source>
+        <translation>Info</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Library</source>
+        <translation>Biblioteka</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Library path</source>
+        <translation>Ścieżka biblioteki</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Listen</source>
+        <translation>Słuchaj</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Lyrics</source>
+        <translation>Słowa</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Menu</source>
+        <translation>Menu</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>m</source>
+        <translation>m</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Mute on</source>
+        <translation>Wyciszenie wł.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Mute off</source>
+        <translation>Wyciszenie wył.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>New</source>
+        <translation>Nowa</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Next track</source>
+        <translation>Następny utwór</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>No</source>
+        <translation>Nie</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>None</source>
+        <translation>Brak</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Tracks</source>
+        <translation>Utwory</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>on</source>
+        <translation>w</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Open</source>
+        <translation>Otwarty</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Open directory</source>
+        <translation>Otwórz katalog</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Open file</source>
+        <translation>Otwórz plik</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Overwrite</source>
+        <translation>Nadpisz</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Pause</source>
+        <translation>Pause</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Play</source>
+        <translation>Gra</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Play/Pause</source>
+        <translation>Odtwarzaj/Pauza</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Playing time</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Playlist</source>
+        <translation>Lista odtwarzania</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Playlists</source>
+        <translation>Listy odtwarzania</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Play next</source>
+        <translation>Odtwórz następny</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Previous track</source>
+        <translation>Poprzedni utwór</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Radio</source>
+        <translation>Radio</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Rating</source>
         <translation>Ocena</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Really</source>
+        <translation>Naprawdę</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Reload library</source>
+        <translation>Odśwież bibliotekę</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Remove</source>
+        <translation>Usuń</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Rename</source>
+        <translation>Zmiana nazwy</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Repeat 1</source>
+        <translation>Powtórz utwór</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Repeat all</source>
+        <translation>Powtórz wszystko</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Reset</source>
+        <translation>Przywracanie</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Refresh</source>
+        <translation>Odśwież</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Sampler</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Shuffle</source>
+        <translation>Kolejność losowa</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Shutdown</source>
+        <translation>Wyłącz</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Save</source>
+        <translation>Save</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Save as</source>
+        <translation>Zapisz jako</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Search</source>
+        <translation>Szukaj</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Search next</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>2nd</source>
+        <translation>2.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>s</source>
+        <translation>s</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Seek backward</source>
+        <translation>Przeszukaj wstecz</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Seek forward</source>
+        <translation>Przeszukaj do przodu</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Show</source>
+        <translation>Pokaz</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Similar artists</source>
+        <translation>Podobni wykonawcy</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Stop</source>
+        <translation>Koniec</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Success</source>
+        <translation>Sukces</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>th</source>
+        <translation>.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>3rd</source>
+        <translation>3.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Title</source>
+        <translation>Tytuł</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>track</source>
+        <translation>Utwór</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>track on</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>tracks</source>
+        <translation>Utwory</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Undo</source>
+        <translation>Cofnij</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Various</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Various albums</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Various artists</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Various tracks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Version</source>
+        <translation>Wersja</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Volume down</source>
+        <translation>Zmniejsz głośność</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Volume up</source>
+        <translation>Zwiększ głośność</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Warning</source>
+        <translation>Ostrzeźenie</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Year</source>
+        <translation>Rok</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Yes</source>
+        <translation>Tak</translation>
     </message>
 </context>
 <context>
@@ -3629,7 +3608,7 @@ Proszę wybrać inny folder</translation>
 <context>
     <name>LibraryImporter</name>
     <message>
-        <location filename="../Components/Library/Importer/LibraryImporter.cpp" line="+166"/>
+        <location filename="../Components/Library/Importer/LibraryImporter.cpp" line="+155"/>
         <source>All files could be imported</source>
         <translation>Wszystkie pliki mogą być importowane</translation>
     </message>
@@ -3653,38 +3632,9 @@ Proszę wybrać inny folder</translation>
     </message>
 </context>
 <context>
-    <name>LibraryItemModelAlbums</name>
-    <message>
-        <location filename="../GUI/Library/Models/LibraryItemModelAlbums.cpp" line="+122"/>
-        <source>tracks</source>
-        <translation>utworów</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>None</source>
-        <translation>Brak</translation>
-    </message>
-</context>
-<context>
-    <name>LibraryItemModelArtists</name>
-    <message>
-        <location filename="../GUI/Library/Models/LibraryItemModelArtists.cpp" line="+116"/>
-        <source>tracks</source>
-        <translation>utworów</translation>
-    </message>
-</context>
-<context>
-    <name>LibraryItemModelTracks</name>
-    <message>
-        <location filename="../GUI/Library/Models/LibraryItemModelTracks.cpp" line="+104"/>
-        <source>None</source>
-        <translation>Brak</translation>
-    </message>
-</context>
-<context>
     <name>LibraryView</name>
     <message>
-        <location filename="../GUI/Library/Views/LibraryView.cpp" line="+133"/>
+        <location filename="../GUI/Library/Views/LibraryView.cpp" line="+115"/>
         <source>Merge</source>
         <translation>Połącz</translation>
     </message>
@@ -3692,7 +3642,7 @@ Proszę wybrać inny folder</translation>
 <context>
     <name>LocalLibraryContainer</name>
     <message>
-        <location filename="../GUI/Library/LocalLibraryContainer.cpp" line="+39"/>
+        <location filename="../GUI/Library/LocalLibraryContainer.cpp" line="+41"/>
         <source>Local Library</source>
         <translation>Biblioteka</translation>
     </message>
@@ -3700,46 +3650,15 @@ Proszę wybrać inny folder</translation>
 <context>
     <name>LocalLibraryMenu</name>
     <message>
-        <location filename="../GUI/Library/Helper/LocalLibraryMenu.cpp" line="+32"/>
-        <location line="+48"/>
-        <source>Reload library</source>
-        <translatorcomment>I have the feeling we had that so often already...</translatorcomment>
-        <translation>Odśwież bibliotekę</translation>
-    </message>
-    <message>
-        <location line="-47"/>
-        <location line="+48"/>
-        <source>Import files</source>
-        <translation>Importuj pliki</translation>
-    </message>
-    <message>
-        <location line="-47"/>
-        <location line="+48"/>
-        <source>Import directory</source>
-        <translation>Importuj katalog</translation>
-    </message>
-    <message>
-        <location line="-47"/>
-        <location line="+48"/>
-        <source>Info</source>
-        <translation>Info</translation>
-    </message>
-    <message>
-        <location line="-47"/>
-        <location line="+48"/>
-        <source>Library path</source>
-        <translation>Ścieżka biblioteki</translation>
-    </message>
-    <message>
-        <location line="-45"/>
-        <location line="+46"/>
+        <location filename="../GUI/Library/Helper/LocalLibraryMenu.cpp" line="+41"/>
+        <location line="+42"/>
         <source>Live search</source>
         <translatorcomment>biblioteka przedstawia wyniki wyszukiwania natychmiast. Podobnie jak google błyskawiczne wyszukiwanie</translatorcomment>
         <translation>Szukaj na żywo</translation>
     </message>
     <message>
-        <location line="-43"/>
-        <location line="+44"/>
+        <location line="-39"/>
+        <location line="+40"/>
         <source>Auto update</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3747,7 +3666,7 @@ Proszę wybrać inny folder</translation>
 <context>
     <name>LyricLookupThread</name>
     <message>
-        <location filename="../Components/LyricLookup/LyricLookup.cpp" line="+227"/>
+        <location filename="../Components/LyricLookup/LyricLookup.cpp" line="+226"/>
         <source>Sorry, could not fetch lyrics from %1</source>
         <translatorcomment>Could not fetch lyrics from www.lyrics.com</translatorcomment>
         <translation>Niestety, nie można pobierać tekstu z %1</translation>
@@ -3759,335 +3678,28 @@ Proszę wybrać inny folder</translation>
     </message>
 </context>
 <context>
-    <name>MenuButton</name>
-    <message>
-        <location filename="../GUI/Helper/MenuTool/MenuButton.cpp" line="+36"/>
-        <location line="+1"/>
-        <location line="+105"/>
-        <location line="+3"/>
-        <location line="+7"/>
-        <source>Menu</source>
-        <translation>Menu</translation>
-    </message>
-</context>
-<context>
-    <name>MetaDataInfo</name>
-    <message>
-        <location filename="../Helper/MetaDataInfo/MetaDataInfo.cpp" line="+165"/>
-        <source>Various tracks</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+11"/>
-        <source>track on</source>
-        <translatorcomment>5th track on &quot;master of puppets&quot;</translatorcomment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>on</source>
-        <translation>w</translation>
-    </message>
-    <message>
-        <location line="+45"/>
-        <source>%1 various artists</source>
-        <translatorcomment>5 various artists</translatorcomment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+16"/>
-        <source>%1 various albums</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+11"/>
-        <source>1st</source>
-        <translatorcomment>In german for example it&apos;s 1. 2. 3. 4., in french 1er 2nd 3eme. </translatorcomment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>2nd</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>3rd</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>th</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+40"/>
-        <source>#Tracks</source>
-        <translatorcomment>number of tracks</translatorcomment>
-        <translation>#Ścieżki</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>#Albums</source>
-        <translatorcomment>number of albums</translatorcomment>
-        <translation>#Albumy</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>#Artists</source>
-        <translatorcomment>number of artists</translatorcomment>
-        <translation>#Wykonawcy</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Filesize</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Playing time</source>
-        <translatorcomment>sum of length for multiple tracks</translatorcomment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Year</source>
-        <translation>Rok</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Sampler? </source>
-        <translatorcomment>Is that album a sampler?</translatorcomment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Bitrate</source>
-        <translation>Szybkość bitowa</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Genre</source>
-        <translation>Gatunek</translation>
-    </message>
-    <message>
-        <location line="+73"/>
-        <source>Various artists</source>
-        <translation>Różni wykonawcy</translation>
-    </message>
-</context>
-<context>
-    <name>NumTrackHeader</name>
-    <message>
-        <location filename="../GUI/Library/Helper/ColumnHeader.h" line="-55"/>
-        <source>#Tracks</source>
-        <translation>#Ścieżki</translation>
-    </message>
-</context>
-<context>
     <name>PlayerPluginInterface</name>
     <message>
-        <location filename="../Interfaces/PlayerPlugin/PlayerPlugin.cpp" line="+69"/>
-        <location line="+34"/>
+        <location filename="../Interfaces/PlayerPlugin/PlayerPlugin.cpp" line="+66"/>
+        <location line="+30"/>
         <source>Close plugin</source>
         <translatorcomment>Close some player plugin</translatorcomment>
         <translation>Wyłąc wtyczki</translation>
     </message>
 </context>
 <context>
-    <name>PlaylistDBInterface</name>
-    <message>
-        <location filename="../Components/Playlist/PlaylistDBInterface.cpp" line="+279"/>
-        <source>New %1</source>
-        <translation>Nowy %1</translation>
-    </message>
-</context>
-<context>
     <name>PlaylistItemModel</name>
     <message>
-        <location filename="../GUI/Playlist/Model/PlaylistItemModel.cpp" line="+332"/>
-        <source>Artist</source>
-        <translation>Artysta</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Album</source>
-        <translation>Album</translation>
-    </message>
-    <message>
-        <location line="+1"/>
+        <location filename="../GUI/Playlist/Model/PlaylistItemModel.cpp" line="+330"/>
         <source>Goto row</source>
         <translatorcomment>jump to row</translatorcomment>
         <translation>Idź do wiersz</translation>
     </message>
 </context>
 <context>
-    <name>PlaylistMenu</name>
-    <message>
-        <location filename="../GUI/Playlist/PlaylistMenu.cpp" line="+34"/>
-        <location line="+49"/>
-        <source>Repeat 1</source>
-        <translation>Powtórz utwór</translation>
-    </message>
-    <message>
-        <location line="-48"/>
-        <location line="+49"/>
-        <source>Repeat all</source>
-        <translation>Powtórz wszystko</translation>
-    </message>
-    <message>
-        <location line="-48"/>
-        <location line="+49"/>
-        <source>Append</source>
-        <translation>Dołącz</translation>
-    </message>
-    <message>
-        <location line="-48"/>
-        <location line="+49"/>
-        <source>Shuffle</source>
-        <translation>Kolejność losowa</translation>
-    </message>
-    <message>
-        <location line="-48"/>
-        <location line="+49"/>
-        <source>Dynamic playback</source>
-        <translatorcomment>We had that already</translatorcomment>
-        <translation>Proszę ustawić ścieżkę biblioteki pierwszą</translation>
-    </message>
-    <message>
-        <location line="-48"/>
-        <location line="+49"/>
-        <source>Gapless playback</source>
-        <translatorcomment>this too</translatorcomment>
-        <translation>Odtwarzanie bez przerw</translation>
-    </message>
-    <message>
-        <location line="-48"/>
-        <location line="+49"/>
-        <source>Shutdown</source>
-        <translation>Wyłącz</translation>
-    </message>
-</context>
-<context>
-    <name>PlaylistTabBar</name>
-    <message>
-        <location filename="../GUI/Playlist/TabWidget/PlaylistTabBar.cpp" line="+78"/>
-        <source>Save as...</source>
-        <translation>Zapisz jako...</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Save as</source>
-        <translation>Zapisz jako</translation>
-    </message>
-    <message>
-        <location line="+36"/>
-        <location line="+1"/>
-        <source>Rename</source>
-        <translation>Zmiana nazwy</translation>
-    </message>
-    <message>
-        <location line="+68"/>
-        <location line="+11"/>
-        <source>Add tab</source>
-        <translation>Dodaj kartę</translation>
-    </message>
-    <message>
-        <location line="-10"/>
-        <location line="+14"/>
-        <source>Close tab</source>
-        <translation>Zamknij kartę</translation>
-    </message>
-</context>
-<context>
-    <name>PlaylistTabMenu</name>
-    <message>
-        <location filename="../GUI/Playlist/TabWidget/PlaylistTabMenu.cpp" line="+34"/>
-        <location line="+52"/>
-        <source>Open File</source>
-        <translation>Otwórz plik</translation>
-    </message>
-    <message>
-        <location line="-51"/>
-        <location line="+52"/>
-        <source>Open Folder</source>
-        <translation>Otwórz folder</translation>
-    </message>
-    <message>
-        <location line="-51"/>
-        <location line="+52"/>
-        <source>Reset</source>
-        <translation>Przywracanie</translation>
-    </message>
-    <message>
-        <location line="-51"/>
-        <location line="+52"/>
-        <source>Rename</source>
-        <translation>Zmiana nazwy</translation>
-    </message>
-    <message>
-        <location line="-51"/>
-        <location line="+52"/>
-        <source>Delete</source>
-        <translation>Delete</translation>
-    </message>
-    <message>
-        <location line="-51"/>
-        <location line="+52"/>
-        <source>Save</source>
-        <translation>Save</translation>
-    </message>
-    <message>
-        <location line="-51"/>
-        <location line="+52"/>
-        <source>Save as</source>
-        <translation>Zapisz jako</translation>
-    </message>
-    <message>
-        <location line="-51"/>
-        <location line="+52"/>
-        <source>Clear</source>
-        <translation>Wyczyść</translation>
-    </message>
-    <message>
-        <location line="-51"/>
-        <location line="+52"/>
-        <source>Close</source>
-        <translation>Zamknij</translation>
-    </message>
-    <message>
-        <location line="-51"/>
-        <location line="+52"/>
-        <source>Close others</source>
-        <translatorcomment>close all except the current tab in the playlist</translatorcomment>
-        <translation>Zamknij wszystko</translation>
-    </message>
-</context>
-<context>
-    <name>PluginCloseButton</name>
-    <message>
-        <location filename="../GUI/Plugins/Generic/PluginCloseButton.cpp" line="+37"/>
-        <source>Close</source>
-        <translation>Zamknij</translation>
-    </message>
-</context>
-<context>
-    <name>RatingHeader</name>
-    <message>
-        <location filename="../GUI/Library/Helper/ColumnHeader.h" line="+37"/>
-        <source>Rating</source>
-        <translation>Ocena</translation>
-    </message>
-</context>
-<context>
     <name>ReloadThread</name>
     <message>
-        <location filename="../Components/Library/Threads/ReloadThread.cpp" line="+120"/>
-        <source>Reloading library</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+48"/>
+        <location filename="../Components/Library/Threads/ReloadThread.cpp" line="+165"/>
         <source>Reading files from file system</source>
         <translatorcomment>player is currently reading/loading files from filesystem</translatorcomment>
         <translation type="unfinished"></translation>
@@ -4260,15 +3872,7 @@ Proszę wybrać inny folder</translation>
 <context>
     <name>Shutdown</name>
     <message>
-        <location filename="../Helper/Shutdown/Shutdown.cpp" line="+69"/>
-        <location line="+25"/>
-        <location line="+25"/>
-        <source>Shutdown</source>
-        <translatorcomment>Shutdown computer</translatorcomment>
-        <translation>Wyłącz</translation>
-    </message>
-    <message>
-        <location line="-49"/>
+        <location filename="../Helper/Shutdown/Shutdown.cpp" line="+72"/>
         <source>Computer will shutdown after playlist has finished</source>
         <translation>Komputer będzie wyłączony, po zakończeniu odtwarzania</translation>
     </message>
@@ -4295,7 +3899,7 @@ Proszę wybrać inny folder</translation>
 <context>
     <name>SoundcloudData</name>
     <message>
-        <location filename="../3rdParty/Soundcloud/src/SoundcloudData.cpp" line="+126"/>
+        <location filename="../3rdParty/Soundcloud/src/SoundcloudData.cpp" line="+122"/>
         <source>Purchase Url</source>
         <translatorcomment>where you can buy this track/album</translatorcomment>
         <translation>Kupno Url</translation>
@@ -4304,7 +3908,7 @@ Proszę wybrać inny folder</translation>
 <context>
     <name>SoundcloudJsonParser</name>
     <message>
-        <location filename="../3rdParty/Soundcloud/src/SoundcloudJsonParser.cpp" line="+206"/>
+        <location filename="../3rdParty/Soundcloud/src/SoundcloudJsonParser.cpp" line="+192"/>
         <location line="+121"/>
         <source>Purchase Url</source>
         <translation>Zakup Url</translation>
@@ -4321,42 +3925,24 @@ Proszę wybrać inny folder</translation>
         <translation>Link URL</translation>
     </message>
     <message>
-        <location line="-207"/>
-        <source>About</source>
-        <translation>O programie</translation>
-    </message>
-    <message>
-        <location line="+9"/>
+        <location line="-198"/>
         <source>Followers/Following</source>
         <translatorcomment>like twitter followers/following</translatorcomment>
         <translation>Śledzący/Śledzenie</translation>
-    </message>
-    <message>
-        <location line="+92"/>
-        <source>None</source>
-        <translation>Brak</translation>
     </message>
 </context>
 <context>
     <name>SoundcloudLibraryContainer</name>
     <message>
-        <location filename="../3rdParty/Soundcloud/SoundcloudLibraryContainer.cpp" line="+43"/>
+        <location filename="../3rdParty/Soundcloud/SoundcloudLibraryContainer.cpp" line="+45"/>
         <source>Soundcloud</source>
         <translation>Soundcloud</translation>
     </message>
 </context>
 <context>
-    <name>StreamParser</name>
-    <message>
-        <location filename="../Helper/Parser/StreamParser.cpp" line="+184"/>
-        <source>Radio</source>
-        <translation>Radio</translation>
-    </message>
-</context>
-<context>
     <name>StreamServer</name>
     <message>
-        <location filename="../Components/Broadcasting/StreamServer.cpp" line="+198"/>
+        <location filename="../Components/Broadcasting/StreamServer.cpp" line="+196"/>
         <source>%1 wants to listen to your music.
 OK?</source>
         <translatorcomment>%1 = IP address</translatorcomment>
@@ -4366,7 +3952,7 @@ OK?</source>
 <context>
     <name>TagTextInput</name>
     <message>
-        <location filename="../GUI/TagEdit/TagTextInput.cpp" line="+85"/>
+        <location filename="../GUI/TagEdit/TagTextInput.cpp" line="+84"/>
         <source>Very first letter to upper case</source>
         <translatorcomment>we want to convert some sentence so that only the first letter will be a capital letter</translatorcomment>
         <translation type="unfinished"></translation>
@@ -4376,22 +3962,6 @@ OK?</source>
         <source>First letters to upper case</source>
         <translatorcomment>we want to convert some sentence so that the first letter of every word will be a capital letter</translatorcomment>
         <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>TitleHeader</name>
-    <message>
-        <location filename="../GUI/Library/Helper/ColumnHeader.h" line="-46"/>
-        <source>Title</source>
-        <translation>Tytuł</translation>
-    </message>
-</context>
-<context>
-    <name>YearHeader</name>
-    <message>
-        <location line="+37"/>
-        <source>Year</source>
-        <translation>Rok</translation>
     </message>
 </context>
 </TS>

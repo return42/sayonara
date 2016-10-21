@@ -30,6 +30,7 @@
 
 #include "Helper/Helper.h"
 #include "Helper/Playlist/CustomPlaylist.h"
+#include "Helper/Language.h"
 
 #include <QTimer>
 #include <algorithm>
@@ -56,7 +57,7 @@ QString GUI_PlaylistChooser::get_name() const
 
 QString GUI_PlaylistChooser::get_display_name() const
 {
-	return tr("Playlists");
+	return Lang::get(Lang::Playlists);
 }
 
 
@@ -145,7 +146,7 @@ void GUI_PlaylistChooser::save_button_pressed() {
 	}
 
 	else{
-		GlobalMessage::Answer answer = Message::question_yn(tr("Overwrite?"));
+		GlobalMessage::Answer answer = Message::question_yn(Lang::get(Lang::Overwrite).question());
 		if(answer == GlobalMessage::Answer::Yes){
 			_playlist_chooser->save_playlist(id);
 		}
@@ -166,7 +167,7 @@ void GUI_PlaylistChooser::delete_button_pressed() {
 
 	int cur_idx = ui->combo_playlistchooser->currentIndex();
 
-	GlobalMessage::Answer answer = Message::question_yn(tr("Delete?"));
+	GlobalMessage::Answer answer = Message::question_yn(Lang::get(Lang::Delete).question());
 
 	int val = ui->combo_playlistchooser->itemData(cur_idx).toInt();
 

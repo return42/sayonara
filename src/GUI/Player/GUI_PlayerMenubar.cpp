@@ -29,6 +29,7 @@
 
 #include "Helper/Helper.h"
 #include "Helper/Settings/Settings.h"
+#include "Helper/Language.h"
 
 #include "Components/Playlist/PlaylistHandler.h"
 #include "Helper/WebAccess/AsyncWebAccess.h"
@@ -64,7 +65,7 @@ void GUI_Player::open_files_clicked()
 void GUI_Player::open_dir_clicked()
 {
 	QString dir = QFileDialog::getExistingDirectory(this,
-			tr("Open Directory"),
+			Lang::get(Lang::OpenDir),
 			QDir::homePath(),
 			QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
 

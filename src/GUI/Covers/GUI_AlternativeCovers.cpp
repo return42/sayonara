@@ -28,7 +28,6 @@
 
 #include "GUI_AlternativeCovers.h"
 #include "GUI/Covers/ui_GUI_AlternativeCovers.h"
-#include "Helper/Message/Message.h"
 
 #include "AlternativeCoverItemDelegate.h"
 #include "AlternativeCoverItemModel.h"
@@ -36,8 +35,10 @@
 #include "Components/Covers/CoverLocation.h"
 #include "Components/Covers/CoverLookupAlternative.h"
 
-#include "Helper/Helper.h"
+#include "Helper/Message/Message.h"
+#include "Helper/Language.h"
 #include "Helper/Settings/Settings.h"
+#include "Helper/Language.h"
 
 #include <QFile>
 #include <QDir>
@@ -133,7 +134,7 @@ void GUI_AlternativeCovers::connect_and_start(const CoverLocation& cl)
 
 	_m->is_searching = true;
 
-	ui->btn_search->setText(tr("Stop"));
+	ui->btn_search->setText( Lang::get(Lang::Stop) );
 	ui->btn_save->setEnabled(false);
 	ui->le_search->setText(cl.search_term());
 	ui->lab_info->setText(cl.search_term());
@@ -232,7 +233,7 @@ void GUI_AlternativeCovers::cl_finished(bool b)
 
 	_m->is_searching = false;
 
-	ui->btn_search->setText(tr("Search"));
+	ui->btn_search->setText(Lang::get(Lang::Search));
 
 	_m->cl_alternative->deleteLater();
 	_m->cl_alternative = nullptr;

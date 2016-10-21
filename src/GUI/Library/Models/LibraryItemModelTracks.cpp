@@ -37,6 +37,7 @@
 #include "Helper/FileHelper.h"
 #include "Helper/Library/SearchMode.h"
 #include "Helper/MetaData/MetaDataList.h"
+#include "Helper/Language.h"
 
 struct LibraryItemModelTracks::Private
 {
@@ -100,7 +101,7 @@ QVariant LibraryItemModelTracks::data(const QModelIndex &index, int role) const{
 
 			case ColumnIndex::Track::Year:
 				if(md.year == 0){
-					return tr("None");
+					return Lang::get(Lang::None);
 				}
 				
 				return md.year;
@@ -236,7 +237,7 @@ QModelIndex LibraryItemModelTracks::getNextRowIndexOf(const QString& substr, int
 		title = Library::convert_search_string(title, search_mode());
 
 		if(title.contains(substr)) {
-			return this->index(row_idx, 0);
+			return this->index(row_idx, (int) ColumnIndex::Track::Title);
 		}
 	}
 
@@ -262,7 +263,7 @@ QModelIndex LibraryItemModelTracks::getPrevRowIndexOf(const QString& substr, int
 
 		if(title.contains(substr))
 		{
-			return this->index(row_idx, 0);
+			return this->index(row_idx, (int) ColumnIndex::Track::Title);
 		}
 	}
 

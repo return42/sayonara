@@ -25,7 +25,7 @@
 #include "DirectoryIconProvider.h"
 
 #include "GUI/Helper/ContextMenu/LibraryContextMenu.h"
-#include "GUI/Helper/SearchableWidget/SearchableFileTreeView.h"
+#include "GUI/Helper/SearchableWidget/SearchableFileTreeModel.h"
 
 #include "Helper/DirectoryReader/DirectoryReader.h"
 #include "Helper/MetaData/MetaDataList.h"
@@ -36,16 +36,14 @@
 #include <QDrag>
 
 DirectoryTreeView::DirectoryTreeView(QWidget *parent) :
-	QTreeView(parent),
-	Dragable(this),
-	SayonaraClass()
+	SearchableTreeView(parent),
+	Dragable(this)
 {
-
 	QString lib_path = _settings->get(Set::Lib_Path);
 
 	_icon_provider = new IconProvider();
 
-	_model = new AbstractSearchFileTreeModel(this);
+	_model = new SearchableFileTreeModel(this);
 	_model->setRootPath(lib_path);
 	_model->setFilter(QDir::NoDotAndDotDot | QDir::Dirs);
 	_model->setIconProvider(_icon_provider);
@@ -127,7 +125,7 @@ void DirectoryTreeView::init_context_menu(){
 	connect(_context_menu, &LibraryContextMenu::sig_append_clicked, this, &DirectoryTreeView::sig_append_clicked);
 }
 
-AbstractSearchFileTreeModel* DirectoryTreeView::get_model() const
+SearchableFileTreeModel* DirectoryTreeView::get_model() const
 {
 	return _model;
 }

@@ -25,7 +25,6 @@
 
 #include "Helper/Helper.h"
 #include "Helper/FileHelper.h"
-#include "Helper/Logger/Logger.h"
 #include "Helper/WebAccess/AsyncWebAccess.h"
 #include "Helper/Parser/StreamParser.h"
 #include "Helper/globals.h"

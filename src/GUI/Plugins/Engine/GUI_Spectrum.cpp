@@ -23,7 +23,6 @@
 #include "GUI/Plugins/Engine/ui_GUI_Spectrum.h"
 
 #include "Helper/globals.h"
-#include "Helper/Logger/Logger.h"
 #include "Components/Engine/Playback/PlaybackEngine.h"
 #include "Components/Engine/EngineHandler.h"
 

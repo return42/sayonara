@@ -34,6 +34,7 @@
 #include "GUI/Helper/GUI_Helper.h"
 #include "Helper/Library/SearchMode.h"
 #include "Helper/MetaData/Artist.h"
+#include "Helper/Language.h"
 
 #include <QAbstractListModel>
 #include <QStringList>
@@ -121,7 +122,7 @@ QVariant LibraryItemModelArtists::data(const QModelIndex & index, int role) cons
 				return artist.name;
 
 			case ColumnIndex::Artist::Tracks:
-				return QString::number(artist.num_songs) + " " + tr("tracks");
+				return QString::number(artist.num_songs) + " " + Lang::get(Lang::Tracks);
 
 			default:
 				return QVariant();
@@ -203,7 +204,7 @@ QModelIndex	LibraryItemModelArtists::getNextRowIndexOf(const QString& substr, in
 
 		if(artist_name.contains(substr))
 		{
-			return this->index(row_idx, 0);
+			return this->index(row_idx, (int) ColumnIndex::Artist::Name);
 		}
 	}
 
@@ -231,7 +232,7 @@ QModelIndex	LibraryItemModelArtists::getPrevRowIndexOf(const QString& substr, in
 
 		if(artist_name.contains(substr))
 		{
-			return this->index(row_idx, 0);
+			return this->index(row_idx, (int) ColumnIndex::Artist::Name);
 		}
 	}
 

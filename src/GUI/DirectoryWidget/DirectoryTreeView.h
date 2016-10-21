@@ -23,21 +23,20 @@
 #ifndef DIRECTORYTREEVIEW_H
 #define DIRECTORYTREEVIEW_H
 
-#include "Helper/Settings/SayonaraClass.h"
+#include "GUI/Helper/SearchableWidget/SearchableTreeView.h"
 #include "GUI/Helper/Dragable/Dragable.h"
 
 #include <QTreeView>
 #include <QModelIndexList>
 
 class LibraryContextMenu;
-class AbstractSearchFileTreeModel;
+class SearchableFileTreeModel;
 class MetaDataList;
 class IconProvider;
 
 class DirectoryTreeView :
-		public QTreeView,
-		protected Dragable,
-		private SayonaraClass
+		public SearchableTreeView,
+		protected Dragable
 {
 
 	Q_OBJECT
@@ -52,18 +51,18 @@ public:
 	explicit DirectoryTreeView(QWidget* parent=nullptr);
 	virtual ~DirectoryTreeView();
 
-	AbstractSearchFileTreeModel* get_model() const;
+	SearchableFileTreeModel* get_model() const;
 
 	QModelIndexList		get_selected_rows() const;
 	MetaDataList 		get_selected_metadata() const;
-	QStringList		get_selected_paths() const;
+	QStringList			get_selected_paths() const;
 
-	QMimeData*		get_mimedata() const;
+	QMimeData*			get_mimedata() const;
 
 private:
-	LibraryContextMenu*				_context_menu=nullptr;
-	AbstractSearchFileTreeModel*	_model = nullptr;
-	IconProvider*					_icon_provider = nullptr;
+	LibraryContextMenu*			_context_menu=nullptr;
+	SearchableFileTreeModel*	_model = nullptr;
+	IconProvider*				_icon_provider = nullptr;
 
 private:
 	void mousePressEvent(QMouseEvent* event) override;

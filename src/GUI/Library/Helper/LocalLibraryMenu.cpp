@@ -22,6 +22,8 @@
 #include "GUI/Helper/GUI_Helper.h"
 #include "GUI/Helper/IconLoader/IconLoader.h"
 #include "Helper/Settings/Settings.h"
+#include "Helper/Language.h"
+
 
 LocalLibraryMenu::LocalLibraryMenu(QWidget* parent) :
 	QMenu(parent),
@@ -29,11 +31,11 @@ LocalLibraryMenu::LocalLibraryMenu(QWidget* parent) :
 {
 	_icon_loader = IconLoader::getInstance();
 
-	_reload_library_action = new QAction(GUI::get_icon("undo"), tr("Reload library"), this);
-	_import_file_action = new QAction(GUI::get_icon("open"), tr("Import files"), this);
-	_import_folder_action = new QAction(GUI::get_icon("open"), tr("Import directory"), this);
-	_info_action = new QAction(GUI::get_icon("info"), tr("Info"), this);
-	_library_path_action = new QAction(GUI::get_icon("folder"), tr("Library path"), this);
+	_reload_library_action = new QAction(GUI::get_icon("undo"), QString(), this);
+	_import_file_action = new QAction(GUI::get_icon("open"), QString(), this);
+	_import_folder_action = new QAction(GUI::get_icon("open"), QString(), this);
+	_info_action = new QAction(GUI::get_icon("info"), QString(), this);
+	_library_path_action = new QAction(GUI::get_icon("folder"), QString(), this);
 
 
 	_realtime_search_action = new QAction(QIcon(), tr("Live search"), this);
@@ -73,11 +75,11 @@ LocalLibraryMenu::~LocalLibraryMenu() {}
 
 void LocalLibraryMenu::language_changed()
 {
-	_reload_library_action->setText(tr("Reload library"));
-	_import_file_action->setText(tr("Import files"));
-	_import_folder_action->setText(tr("Import directory"));
-	_info_action->setText(tr("Info"));
-	_library_path_action->setText(tr("Library path"));
+	_reload_library_action->setText(Lang::get(Lang::ReloadLibrary));
+	_import_file_action->setText(Lang::get(Lang::ImportFiles));
+	_import_folder_action->setText(Lang::get(Lang::ImportDir));
+	_info_action->setText(Lang::get(Lang::Info));
+	_library_path_action->setText(Lang::get(Lang::LibraryPath));
 	_realtime_search_action->setText(tr("Live search"));
 	_auto_update->setText(tr("Auto update"));
 }

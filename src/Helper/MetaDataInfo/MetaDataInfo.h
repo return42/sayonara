@@ -61,7 +61,6 @@ class MetaDataInfo :
 	public QObject, 
 	protected SayonaraClass
 {
-	Q_OBJECT
 
 private:
 	void set_cover_location(const MetaDataList& lst);

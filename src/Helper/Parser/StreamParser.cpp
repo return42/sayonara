@@ -29,6 +29,7 @@
 #include "Helper/Parser/PodcastParser.h"
 #include "Helper/UrlHelper.h"
 #include "Helper/Logger/Logger.h"
+#include "Helper/Language.h"
 
 #include <QFile>
 #include <QDir>
@@ -181,7 +182,7 @@ void StreamParser::tag_metadata(MetaData &md, const QString& stream_url) const
 	if(_m->station_name.isEmpty()){
 		md.album = stream_url;
 		if(md.title.isEmpty()){
-			md.title = tr("Radio");
+			md.title = Lang::get(Lang::Radio);
 		}
 	}
 

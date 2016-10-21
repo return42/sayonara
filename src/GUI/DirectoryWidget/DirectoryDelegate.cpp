@@ -19,10 +19,7 @@
  */
 
 
-
 #include "DirectoryDelegate.h"
-#include "Helper/Logger/Logger.h"
-#include <QPainter>
 
 DirectoryDelegate::DirectoryDelegate(QObject* parent) :
 	QItemDelegate(parent)

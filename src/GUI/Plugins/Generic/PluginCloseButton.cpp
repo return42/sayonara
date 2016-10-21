@@ -24,6 +24,7 @@
 #include "Helper/Settings/Settings.h"
 #include "GUI/Helper/GUI_Helper.h"
 #include "GUI/Helper/IconLoader/IconLoader.h"
+#include "Helper/Language.h"
 
 #include <QEvent>
 
@@ -34,7 +35,7 @@ PluginCloseButton::PluginCloseButton(QWidget *parent) :
 	this->setIconSize(QSize(14,14));
 
 	this->setStyleSheet("margin-left: 2px; margin-right: 2px; padding-left: 0px; padding-right: 0px; background: transparent;");
-	this->setToolTip(tr("Close"));
+	this->setToolTip(Lang::get(Lang::Close));
 
 	REGISTER_LISTENER(Set::Player_Style, _sl_skin_changed);
 }

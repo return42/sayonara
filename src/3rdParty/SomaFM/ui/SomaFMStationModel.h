@@ -26,27 +26,30 @@
 #define SomaFMStationModel_H
 
 #include "GUI/Helper/SearchableWidget/AbstractSearchModel.h"
+#include "Helper/Pimpl.h"
 
 #include <QMap>
 #include <QList>
 #include <QMimeData>
+
 class SomaFMStation;
 class SomaFMStationModel : public AbstractSearchTableModel
 {
 	Q_OBJECT
+
 public:
-	explicit SomaFMStationModel(QObject *parent = 0);
+	explicit SomaFMStationModel(QObject *parent = nullptr);
+	virtual ~SomaFMStationModel();
 
 private:
-	QList<SomaFMStation> _stations;
+	PIMPL(SomaFMStationModel)
 
-	enum class Status {
+	enum class Status : char
+	{
 		Waiting,
 		Error,
 		OK
 	};
-
-	Status _status;
 
 	// QAbstractItemModel interface
 public:

@@ -23,6 +23,7 @@
 #include "Helper/Message/Message.h"
 #include "GUI/Playlist/PlaylistMenu.h"
 #include "Helper/Settings/Settings.h"
+#include "Helper/Language.h"
 
 #ifdef WITH_SHUTDOWN
 	#include "GUI/ShutdownDialog/GUI_Shutdown.h"
@@ -187,7 +188,7 @@ void GUI_PlaylistBottomBar::check_dynamic_play_button() {
 	}
 
 	else{
-		btn_dynamic->setToolTip(tr("Dynamic playing"));
+		btn_dynamic->setToolTip(Lang::get(Lang::DynamicPlayback));
 	}
 }
 

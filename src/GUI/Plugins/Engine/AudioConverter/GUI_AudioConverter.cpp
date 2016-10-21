@@ -23,6 +23,7 @@
 
 #include "Helper/Message/Message.h"
 #include "Helper/Logger/Logger.h"
+#include "Helper/Language.h"
 
 #include "Components/Engine/EngineHandler.h"
 #include "Components/Engine/Convert/LameBitrate.h"
@@ -228,7 +229,7 @@ void GUI_AudioConverter::cb_active_toggled(bool b)
 	}
 
 	if(!_mp3_enc_available){
-		Message::warning(tr("Cannot find lame mp3 encoder"));
+		Message::warning(Lang::get(Lang::CannotFindLame));
 
 		disconnect(ui->cb_active, &QCheckBox::toggled, this, &GUI_AudioConverter::cb_active_toggled);
 		ui->cb_active->setChecked(false);

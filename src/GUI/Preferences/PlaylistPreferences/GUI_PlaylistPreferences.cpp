@@ -24,8 +24,9 @@
 #include "GUI_PlaylistPreferences.h"
 #include "GUI/Preferences/ui_GUI_PlaylistPreferences.h"
 
-#include "ui_GUI_PlaylistPreferences.h"
+#include "GUI/Preferences/ui_GUI_PlaylistPreferences.h"
 #include "Helper/Settings/Settings.h"
+#include "Helper/Language.h"
 
 
 GUI_PlaylistPreferences::GUI_PlaylistPreferences(QWidget *parent) :
@@ -102,7 +103,7 @@ void GUI_PlaylistPreferences::init_ui()
 
 QString GUI_PlaylistPreferences::get_action_name() const
 {
-	return tr("Playlist");
+	return Lang::get(Lang::Playlist);
 }
 
 void GUI_PlaylistPreferences::language_changed()

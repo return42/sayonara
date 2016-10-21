@@ -22,6 +22,7 @@
 #include "Helper/Helper.h"
 #include "Helper/globals.h"
 #include "Helper/FileHelper.h"
+#include "Helper/Language.h"
 #include "Helper/MetaData/MetaDataList.h"
 #include "Helper/Settings/Settings.h"
 
@@ -158,7 +159,7 @@ void MetaDataInfo::set_header(const MetaDataList& lst){
 	}
 
 	else{
-		_header = tr("Various tracks");
+		_header = Lang::get(Lang::VariousTracks);
 	}
 }
 
@@ -169,11 +170,12 @@ void MetaDataInfo::set_subheader(quint16 tracknum){
 	_subheader = calc_artist_str();
 
 	if(tracknum){
-		_subheader += CAR_RET + calc_tracknum_str(tracknum) + " " + tr("track on") + " ";
+		_subheader += CAR_RET + calc_tracknum_str(tracknum) + " " +
+				Lang::get(Lang::TrackOn) + " ";
 	}
 
 	else{
-		_subheader += CAR_RET + tr("on") + " ";
+		_subheader += CAR_RET + Lang::get(Lang::On) + " ";
 	}
 
 	_subheader += calc_album_str();
@@ -218,7 +220,7 @@ QString MetaDataInfo::calc_artist_str(){
 	}
 
 	else{
-		str = tr("%1 various artists").arg(_artists.size());
+		QString::number(_artists.size()) + " " + Lang::get(Lang::VariousArtists);
 	}
 
 	return str;
@@ -234,7 +236,7 @@ QString MetaDataInfo::calc_album_str(){
 	}
 
 	else{
-		str = tr("%1 various albums").arg(_albums.size());
+		QString::number(_artists.size()) + " " + Lang::get(Lang::VariousAlbums) ;
 	}
 
 	return str;
@@ -245,17 +247,17 @@ QString MetaDataInfo::calc_tracknum_str( quint16 tracknum ){
 	QString str;
 	switch (tracknum) {
 		case 1:
-			str = tr("1st");
+			str = Lang::get(Lang::First);
 
 			break;
 		case 2:
-			str = tr("2nd");
+			str = Lang::get(Lang::Second);
 			break;
 		case 3:
-			str = tr("3rd");
+			str = Lang::get(Lang::Third);
 			break;
 		default:
-			str = QString::number(tracknum) + tr("th");
+			str = QString::number(tracknum) + Lang::get(Lang::Th);
 		break;
 	}
 
@@ -295,23 +297,23 @@ QString MetaDataInfo::get_info_string(InfoStrings idx) const
 	switch(idx){
 
 		case InfoStrings::nTracks:
-			return tr("#Tracks") + ": ";
+			return QString("#") + Lang::get(Lang::Tracks) + ": ";
 		case InfoStrings::nAlbums:
-			return tr("#Albums") + ": ";
+			return QString("#") + Lang::get(Lang::Albums) + ": ";
 		case InfoStrings::nArtists:
-			return tr("#Artists") + ": ";
+			return QString("#") + Lang::get(Lang::Artists) + ": ";
 		case InfoStrings::Filesize:
-			return tr("Filesize") + ": ";
+			return Lang::get(Lang::Filesize) + ": ";
 		case InfoStrings::PlayingTime:
-			return tr("Playing time") + ": ";
+			return Lang::get(Lang::PlayingTime) + ": ";
 		case InfoStrings::Year:
-			return tr("Year") + ": ";
+			return Lang::get(Lang::Year) + ": ";
 		case InfoStrings::Sampler:
-			return tr("Sampler? ");
+			return Lang::get(Lang::Sampler);
 		case InfoStrings::Bitrate:
-			return tr("Bitrate") + ": ";
+			return Lang::get(Lang::Bitrate) + ": ";
 		case InfoStrings::Genre:
-			return tr("Genre") + ": ";
+			return Lang::get(Lang::Genre) + ": ";
 		default: break;
 
 	}

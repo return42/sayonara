@@ -22,6 +22,7 @@
 #include "GUI/Helper/GUI_Helper.h"
 #include "GUI/Helper/IconLoader/IconLoader.h"
 #include "Helper/Settings/Settings.h"
+#include "Helper/Language.h"
 
 #include <QMouseEvent>
 
@@ -33,8 +34,8 @@ MenuButton::MenuButton(QWidget* parent) :
 	this->setIconSize(QSize(14,14));
 
 	this->setStyleSheet("margin-left: 2px; margin-right: 2px; padding-left: 0px; padding-right: 0px;");
-	this->setToolTip(tr("Menu"));
-	this->setText(tr("Menu"));
+	this->setToolTip(Lang::get(Lang::Menu));
+	this->setText(Lang::get(Lang::Menu));
 
 	REGISTER_LISTENER(Set::Player_Style, _sl_skin_changed);
 	REGISTER_LISTENER(Set::Player_Language, _sl_language_changed);
@@ -42,19 +43,22 @@ MenuButton::MenuButton(QWidget* parent) :
 
 MenuButton::~MenuButton() {}
 
-void MenuButton::show_menu(QPoint pos){
+void MenuButton::show_menu(QPoint pos)
+{
 	Q_UNUSED(pos)
 	this->setAttribute( Qt::WA_Hover, false);
 	this->setAttribute( Qt::WA_UnderMouse, false);
 	return;
 }
 
-bool MenuButton::prove_enabled(){
+bool MenuButton::prove_enabled()
+{
 	return true;
 }
 
 
-void MenuButton::mousePressEvent(QMouseEvent* e){
+void MenuButton::mousePressEvent(QMouseEvent* e)
+{
 
 	QPushButton::mousePressEvent(e);
 
@@ -65,13 +69,14 @@ void MenuButton::mousePressEvent(QMouseEvent* e){
 	show_menu(globalPoint);
 }
 
-void MenuButton::mouseReleaseEvent(QMouseEvent *e){
+void MenuButton::mouseReleaseEvent(QMouseEvent *e)
+{
 	QPushButton::mouseReleaseEvent(e);
 }
 
 
-void MenuButton::enterEvent(QEvent* e){
-
+void MenuButton::enterEvent(QEvent* e)
+{
 	QPushButton::enterEvent(e);
 
 	bool dark = (_settings->get(Set::Player_Style) == 1);
@@ -91,15 +96,16 @@ void MenuButton::enterEvent(QEvent* e){
 	}
 }
 
-void MenuButton::leaveEvent(QEvent* e){
+void MenuButton::leaveEvent(QEvent* e)
+{
 	QPushButton::leaveEvent(e);
 
 	set_std_icon();
 }
 
 
-void MenuButton::set_std_icon(){
-
+void MenuButton::set_std_icon()
+{
 	bool dark = (_settings->get(Set::Player_Style) == 1);
 
 	QIcon icon;
@@ -130,22 +136,25 @@ void MenuButton::set_std_icon(){
 }
 
 
-void MenuButton::_sl_skin_changed(){
+void MenuButton::_sl_skin_changed()
+{
 	set_std_icon();
 }
 
-void MenuButton::_sl_language_changed(){
-	this->setToolTip(tr("Menu"));
+void MenuButton::_sl_language_changed()
+{
+	this->setToolTip(Lang::get(Lang::Menu));
 
 	if(!this->text().isEmpty()){
-		this->setText(tr("Menu"));
+		this->setText(Lang::get(Lang::Menu));
 	}
 }
 
 
-void MenuButton::set_show_title(bool show_title){
+void MenuButton::set_show_title(bool show_title)
+{
 	if(show_title){
-		this->setText(tr("Menu"));
+		this->setText(Lang::get(Lang::Menu));
 	}
 
 	else

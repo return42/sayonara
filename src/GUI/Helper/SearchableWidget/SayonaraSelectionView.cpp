@@ -70,6 +70,7 @@ void SayonaraSelectionView::select_rows(const SP::Set<int>& indexes, int min_col
 		QModelIndex last_idx = get_index(indexes.first(), get_column_count() - 1);
 
 		sel.select(first_idx, last_idx);
+		sel_model->select(sel, QItemSelectionModel::ClearAndSelect);
 		return;
 	}
 
@@ -144,8 +145,6 @@ void SayonaraSelectionView::clear_selection()
 
 SP::Set<int> SayonaraSelectionView::get_selections() const
 {
-
-
 	QItemSelectionModel* sel_model = this->get_selection_model();
 	if(!sel_model){
 		return SP::Set<int>();

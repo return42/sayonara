@@ -22,6 +22,7 @@
 #include "PlaylistMenu.h"
 #include "Helper/Playlist/PlaylistMode.h"
 #include "Helper/Settings/Settings.h"
+#include "Helper/Language.h"
 
 
 PlaylistMenu::PlaylistMenu(QWidget* parent) :
@@ -31,13 +32,13 @@ PlaylistMenu::PlaylistMenu(QWidget* parent) :
 
 	_timer = new QTimer(this);
 
-	_action_rep1 = new QAction(tr("Repeat 1"), this);
-	_action_repAll = new QAction(tr("Repeat all"), this);
-	_action_append = new QAction(tr("Append"), this);
-	_action_shuffle = new QAction(tr("Shuffle"), this);
-	_action_dynamic = new QAction(tr("Dynamic playback"), this);
-	_action_gapless = new QAction(tr("Gapless playback"), this);
-	_action_shutdown = new QAction(tr("Shutdown"), this);
+	_action_rep1 = new QAction(QString(), this);
+	_action_repAll = new QAction(QString(), this);
+	_action_append = new QAction(QString(), this);
+	_action_shuffle = new QAction(QString(), this);
+	_action_dynamic = new QAction(QString(), this);
+	_action_gapless = new QAction(QString(), this);
+	_action_shutdown = new QAction(QString(), this);
 
 	QList<QAction*> actions;
 	actions << _action_rep1
@@ -80,13 +81,13 @@ PlaylistMenu::PlaylistMenu(QWidget* parent) :
 }
 
 void PlaylistMenu::language_changed(){
-	_action_rep1->setText(tr("Repeat 1"));
-	_action_repAll->setText(tr("Repeat all"));
-	_action_append->setText(tr("Append"));
-	_action_shuffle->setText(tr("Shuffle"));
-	_action_dynamic->setText(tr("Dynamic playback"));
-	_action_gapless->setText(tr("Gapless playback"));
-	_action_shutdown->setText(tr("Shutdown"));
+	_action_rep1->setText(Lang::get(Lang::Repeat1));
+	_action_repAll->setText(Lang::get(Lang::RepeatAll));
+	_action_append->setText(Lang::get(Lang::Append));
+	_action_shuffle->setText(Lang::get(Lang::Shuffle));
+	_action_dynamic->setText(Lang::get(Lang::DynamicPlayback));
+	_action_gapless->setText(Lang::get(Lang::GaplessPlayback));
+	_action_shutdown->setText(Lang::get(Lang::Shutdown));
 
 }
 

@@ -33,9 +33,6 @@ class MetaDataList;
 class AlbumInfo : 
 	public MetaDataInfo 
 {
-
-	Q_OBJECT
-
 private:
 	void set_cover_location();
 	void set_subheader();

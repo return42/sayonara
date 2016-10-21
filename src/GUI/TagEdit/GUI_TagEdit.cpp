@@ -30,6 +30,7 @@
 #include "Helper/globals.h"
 #include "Helper/Logger/Logger.h"
 #include "Helper/MetaData/MetaDataList.h"
+#include "Helper/Language.h"
 
 #include "Components/TagEdit/TagEdit.h"
 
@@ -242,7 +243,7 @@ void GUI_TagEdit::track_idx_changed(){
 	ui->lab_filepath->clear();
 	ui->lab_filepath->setText( md.filepath() );
 	ui->lab_track_num->setText(
-			tr("Track ") +
+			Lang::get(Lang::Track).space() +
 			QString::number( _cur_idx+1 ) + "/" + QString::number( n_tracks )
 	);
 }
@@ -451,7 +452,7 @@ void GUI_TagEdit::set_cover(const MetaData& md){
 
 	if(!has_cover){
 		ui->btn_cover_original->setIcon(QIcon());
-		ui->btn_cover_original->setText(tr("None"));
+		ui->btn_cover_original->setText(Lang::get(Lang::None));
 	}
 
 	else{
@@ -591,7 +592,7 @@ void GUI_TagEdit::apply_tag_all_clicked(){
 			not_valid_str +=
 					QString::number(i+1) + "/" +
 					QString::number(n_tracks) + " " +
-					v_md[i].title + " " + tr("by") + " " +
+					v_md[i].title + " " + Lang::get(Lang::By).space() +
 					v_md[i].artist + "<br />";
 		}
 	}

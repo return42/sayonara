@@ -5,6 +5,7 @@
 
 #define PIMPL(Class) private: \
     struct Private; \
+    friend class Private; \
     std::unique_ptr< Class ::Private> _m;
 
 namespace Pimpl
