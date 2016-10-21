@@ -32,13 +32,7 @@
 GUI_PreferenceDialog::GUI_PreferenceDialog(QWidget *parent) :
 	PreferenceDialogInterface(parent)
 {
-	setup_parent(this, &ui);
 
-	connect(ui->list_preferences, &QListWidget::currentRowChanged, this, &GUI_PreferenceDialog::row_changed);
-
-	connect(ui->btn_apply, &QPushButton::clicked, this, &GUI_PreferenceDialog::commit);
-	connect(ui->btn_ok, &QPushButton::clicked, this, &GUI_PreferenceDialog::commit_and_close);
-	connect(ui->btn_cancel, &QPushButton::clicked, this, &GUI_PreferenceDialog::revert);
 }
 
 GUI_PreferenceDialog::~GUI_PreferenceDialog()
@@ -52,11 +46,6 @@ GUI_PreferenceDialog::~GUI_PreferenceDialog()
 void GUI_PreferenceDialog::register_preference_dialog(PreferenceWidgetInterface* dialog)
 {
 	_dialogs << dialog;
-
-	QListWidgetItem* item = new QListWidgetItem(dialog->get_action_name());
-
-	item->setSizeHint(QSize(item->sizeHint().width(), 20));
-	ui->list_preferences->addItem(item);
 }
 
 void GUI_PreferenceDialog::language_changed()
@@ -69,13 +58,22 @@ void GUI_PreferenceDialog::language_changed()
 
 	ui->retranslateUi(this);
 
-	ui->list_preferences->setMouseTracking(false);
-	ui->list_preferences->setItemDelegate(new QItemDelegate(ui->list_preferences));
+	// TODO: Init should not be so deep in language changed
+	bool is_empty = (ui->list_preferences->count() == 0);
 
 	int i=0;
 	for(PreferenceWidgetInterface* dialog : _dialogs){
-		QListWidgetItem* item = ui->list_preferences->item(i);
-		item->setText(dialog->get_action_name());
+		QListWidgetItem* item;
+		if(is_empty){
+			item = new QListWidgetItem(dialog->get_action_name());
+			item->setSizeHint(QSize(item->sizeHint().width(), 20));
+			ui->list_preferences->addItem(item);
+		}
+		else{
+			item = ui->list_preferences->item(i);
+			item->setText(dialog->get_action_name());
+		}
+
 		i++;
 	}
 
@@ -90,10 +88,6 @@ QString GUI_PreferenceDialog::get_action_name() const
 }
 
 
-void GUI_PreferenceDialog::init_ui()
-{
-
-}
 
 void GUI_PreferenceDialog::commit_and_close(){
 	commit();
@@ -150,4 +144,27 @@ void GUI_PreferenceDialog::hide_all()
 		iface->setParent(nullptr);
 		iface->hide();
 	}
+}
+
+void GUI_PreferenceDialog::showEvent(QShowEvent* e)
+{
+	init_ui();
+	QDialog::showEvent(e);
+}
+
+void GUI_PreferenceDialog::init_ui()
+{
+	if(is_ui_initialized()){
+		return;
+	}
+
+	setup_parent(this, &ui);
+
+	ui->list_preferences->setMouseTracking(false);
+	ui->list_preferences->setItemDelegate(new QItemDelegate(ui->list_preferences));
+
+	connect(ui->list_preferences, &QListWidget::currentRowChanged, this, &GUI_PreferenceDialog::row_changed);
+	connect(ui->btn_apply, &QPushButton::clicked, this, &GUI_PreferenceDialog::commit);
+	connect(ui->btn_ok, &QPushButton::clicked, this, &GUI_PreferenceDialog::commit_and_close);
+	connect(ui->btn_cancel, &QPushButton::clicked, this, &GUI_PreferenceDialog::revert);
 }

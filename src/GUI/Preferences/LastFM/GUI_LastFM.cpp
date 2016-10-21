@@ -39,7 +39,8 @@ GUI_LastFM::GUI_LastFM(QWidget* parent) :
 }
 
 
-GUI_LastFM::~GUI_LastFM() {
+GUI_LastFM::~GUI_LastFM()
+{
 	if(ui)
 	{
 		delete ui; ui=nullptr;

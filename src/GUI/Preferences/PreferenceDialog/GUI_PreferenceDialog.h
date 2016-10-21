@@ -67,6 +67,7 @@ protected slots:
 
 protected:
 	void hide_all();
+	void showEvent(QShowEvent *e) override;
 
 private:
 	Ui::GUI_PreferenceDialog* ui=nullptr;

@@ -19,6 +19,7 @@
  */
 
 #include "Helper/MetaData/MetaData.h"
+#include "Helper/Logger/Logger.h"
 
 #include <QDir>
 #include <QUrl>
@@ -48,12 +49,31 @@
 	is_disabled = other.is_disabled; \
 	played = other.played;
 
+/*struct MDCounter
+{
+	int c=0;
+	int m=0;
+	void increase(){
+		c++;
+		m=std::max(c, m);
+		sp_log(Log::Debug) << "Num MD: " << c << " / " <<  m;
+	}
 
+	void decrease(){
+		c--;
+		m=std::max(c, m);
+		sp_log(Log::Debug) << "Num MD: " << c << " / " <<  m;
+	}
+};
+
+
+static MDCounter mdc;*/
 
 MetaData::MetaData() :
 	LibraryItem()
 {
-
+//	mdc.increase();
+	
 	id = -1;
 	artist_id = -1;
 	album_id = -1;
@@ -77,6 +97,8 @@ MetaData::MetaData(const MetaData & other) :
 	LibraryItem(other)
 {
 	MD_DO_COPY
+	
+//	mdc.increase();
 }
 
 
@@ -88,10 +110,13 @@ MetaData::MetaData(MetaData&& other) :
 
 MetaData::MetaData(const QString& path)
 {
+//	mdc.increase();
 	this->set_filepath(path);
 }
 
-MetaData::~MetaData() {}
+MetaData::~MetaData() {
+//	mdc.decrease();
+}
 
 QString MetaData::to_string() const {
 	return	title + " by " +

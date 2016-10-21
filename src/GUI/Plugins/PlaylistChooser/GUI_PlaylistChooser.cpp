@@ -37,11 +37,11 @@
 GUI_PlaylistChooser::GUI_PlaylistChooser(QWidget *parent) :
 	PlayerPluginInterface(parent)
 {
-	_playlist_chooser = new PlaylistChooser();
+
 }
 
-GUI_PlaylistChooser::~GUI_PlaylistChooser() {
-
+GUI_PlaylistChooser::~GUI_PlaylistChooser()
+{
 	if(ui){
 		delete ui; ui=nullptr;
 	}
@@ -66,7 +66,8 @@ void GUI_PlaylistChooser::edit_text_changed(const QString& name)
 }
 
 
-void GUI_PlaylistChooser::language_changed() {
+void GUI_PlaylistChooser::language_changed()
+{
 	if(!is_ui_initialized()){
 		return;
 	}
@@ -76,16 +77,18 @@ void GUI_PlaylistChooser::language_changed() {
 
 void GUI_PlaylistChooser::init_ui()
 {
-
 	if(is_ui_initialized()){
 		return;
 	}
+
+	_playlist_chooser = new PlaylistChooser();
 
 	setup_parent(this, &ui);
 
 	_last_dir = _settings->get(Set::Lib_Path);
 	_target_playlist_dialog = new GUI_TargetPlaylistDialog(this);
 
+	ui->tabWidget->setCurrentIndex(0);
 	ui->combo_playlistchooser->setItemDelegate(new ComboBoxDelegate(this));
 
 	ui->btn_tool_pl->show_action(ContextMenu::EntryDelete, false);

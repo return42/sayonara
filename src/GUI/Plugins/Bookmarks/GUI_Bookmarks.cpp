@@ -37,7 +37,7 @@
 GUI_Bookmarks::GUI_Bookmarks(QWidget *parent) :
 	PlayerPluginInterface(parent)
 {
-	_bookmarks = new Bookmarks(this);
+
 }
 
 GUI_Bookmarks::~GUI_Bookmarks()
@@ -75,6 +75,7 @@ void GUI_Bookmarks::init_ui()
 		return;
 	}
 
+	_bookmarks = new Bookmarks(this);
 	setup_parent(this, &ui);
 
 	ui->cb_bookmarks->setItemDelegate(new ComboBoxDelegate(this));

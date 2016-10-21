@@ -70,7 +70,6 @@ void GUI_StreamRecorder::language_changed()
 
 	ui->retranslateUi(this);
 	PreferenceWidgetInterface::language_changed();
-
 }
 
 
