@@ -40,8 +40,8 @@ DatabaseConnector::DatabaseConnector() :
 
 DatabaseConnector::~DatabaseConnector() {}
 
-bool DatabaseConnector::updateAlbumCissearchFix() {
-
+bool DatabaseConnector::updateAlbumCissearchFix()
+{
 #ifdef DEBUG_DB
 	sp_log(Log::Debug) << Q_FUNC_INFO;
 #endif
@@ -64,8 +64,8 @@ bool DatabaseConnector::updateAlbumCissearchFix() {
 }
 
 
-bool DatabaseConnector::updateArtistCissearchFix() {
-
+bool DatabaseConnector::updateArtistCissearchFix()
+{
 	ArtistList artists;
 	getAllArtists(artists);
 	for(const Artist& artist : artists) {
@@ -83,8 +83,8 @@ bool DatabaseConnector::updateArtistCissearchFix() {
 	return true;
 }
 
-bool DatabaseConnector::updateTrackCissearchFix() {
-
+bool DatabaseConnector::updateTrackCissearchFix()
+{
 	MetaDataList v_md;
 	getTracksFromDatabase(v_md);
 	for(const MetaData& md : v_md) {
@@ -248,6 +248,7 @@ bool DatabaseConnector::apply_fixes() {
 			q_index.exec();
 		}
 	}
+
 
 	return true;
 }

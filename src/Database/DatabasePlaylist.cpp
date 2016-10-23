@@ -25,7 +25,7 @@
 #include "Helper/MetaData/MetaDataList.h"
 #include "Helper/Playlist/CustomPlaylist.h"
 
-DatabasePlaylist::DatabasePlaylist(QSqlDatabase db, quint8 db_id) :
+DatabasePlaylist::DatabasePlaylist(const QSqlDatabase& db, quint8 db_id) :
 	DatabaseModule(db, db_id)
 {
 }

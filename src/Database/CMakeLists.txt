@@ -10,6 +10,7 @@ SET(SOURCES
     AbstractDatabase.cpp
     DatabaseHandler.cpp
     LibraryDatabase.cpp
+    DatabaseSearchMode.cpp
     DatabaseBookmarks.cpp
     DatabaseConnector.cpp
     DatabaseModule.cpp

@@ -18,20 +18,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef DATABASEARTISTS_H
 #define DATABASEARTISTS_H
 
+#include "Database/DatabaseSearchMode.h"
 #include "Database/DatabaseModule.h"
 #include "Components/Library/Sorting.h"
 #include "Helper/Library/SearchMode.h"
 #include "Helper/Library/Filter.h"
-
+#include "Helper/Library/SearchMode.h"
 
 class Artist;
 class ArtistList;
-class DatabaseArtists : private DatabaseModule
+class DatabaseArtists :
+		private DatabaseModule,
+		private DatabaseSearchMode
 {
 
 private:
@@ -43,7 +44,7 @@ protected:
 
 
 public:
-	DatabaseArtists(QSqlDatabase db, quint8 db_id);
+	DatabaseArtists(const QSqlDatabase& db, quint8 db_id);
 
 	virtual bool db_fetch_artists(SayonaraQuery& q, ArtistList& result);
 
@@ -53,11 +54,11 @@ public:
 	virtual bool getAllArtists(ArtistList& result, Library::SortOrder sortorder = Library::SortOrder::ArtistNameAsc, bool also_empty=false);
 	virtual bool getAllArtistsBySearchString(Library::Filter filter, ArtistList& result, Library::SortOrder sortorder = Library::SortOrder::ArtistNameAsc);
 
-	virtual int insertArtistIntoDatabase (const QString& artist);
-	virtual int insertArtistIntoDatabase (const Artist& artist);
+	virtual int insertArtistIntoDatabase(const QString& artist);
+	virtual int insertArtistIntoDatabase(const Artist& artist);
 	virtual int updateArtist(const Artist& artist);
 
-	virtual void updateArtistCissearch(Library::SearchModeMask mode);
+	virtual void updateArtistCissearch();
 
 };
 

@@ -23,7 +23,7 @@
 #include "Database/SayonaraQuery.h"
 #include "Helper/Logger/Logger.h"
 
-SayonaraQuery::SayonaraQuery(const QString& query, QSqlDatabase db) :
+SayonaraQuery::SayonaraQuery(const QString& query, const QSqlDatabase& db) :
 	QSqlQuery(query, db)
 {
 	_query_string = query;
@@ -35,7 +35,7 @@ SayonaraQuery::SayonaraQuery(QSqlResult * result) :
 }
 
 
-SayonaraQuery::SayonaraQuery(QSqlDatabase db) :
+SayonaraQuery::SayonaraQuery(const QSqlDatabase& db) :
 	QSqlQuery(db)
 {
 }

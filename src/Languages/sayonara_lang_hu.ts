@@ -1038,7 +1038,7 @@
     <message>
         <location line="+2"/>
         <source>You are about to delete %1 files</source>
-        <translation type="unfinished">Biztos törlöd a(z) %1 fájlt?</translation>
+        <translation>Biztos törlöd a(z) %1 fájlt</translation>
     </message>
     <message>
         <location line="+33"/>
@@ -1152,12 +1152,12 @@
     <message>
         <location filename="../GUI/Player/GUI_Player.cpp" line="+104"/>
         <source>Sayonara Player</source>
-        <translation type="unfinished">Sayonara Player</translation>
+        <translation>Sayonara Player</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Written by</source>
-        <translation type="unfinished">Írta</translation>
+        <translation>Írta</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -3061,7 +3061,7 @@ Kérjük, válasszon egy másik mappát</translation>
     <message>
         <location line="+2"/>
         <source>Dur.</source>
-        <translation type="unfinished">Leírás</translation>
+        <translation>Leírás</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -3081,7 +3081,7 @@ Kérjük, válasszon egy másik mappát</translation>
     <message>
         <location line="+2"/>
         <source>Entry</source>
-        <translation type="unfinished"></translation>
+        <translation>Bejegyzés</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -3116,7 +3116,7 @@ Kérjük, válasszon egy másik mappát</translation>
     <message>
         <location line="+2"/>
         <source>1st</source>
-        <translation type="unfinished">1.</translation>
+        <translation>1.</translation>
     </message>
     <message>
         <location line="+2"/>

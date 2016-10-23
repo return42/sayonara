@@ -24,16 +24,14 @@
 #include "Helper/Settings/Settings.h"
 #include "Helper/Logger/Logger.h"
 
-DatabaseSettings::DatabaseSettings(QSqlDatabase db, quint8 db_id) :
+DatabaseSettings::DatabaseSettings(const QSqlDatabase& db, quint8 db_id) :
 	DatabaseModule(db, db_id)
 {
 }
 
 
-
-
-bool DatabaseSettings::load_settings() {
-
+bool DatabaseSettings::load_settings()
+{
 	DB_RETURN_NOT_OPEN_BOOL(_db);
 
 	Settings* _settings = Settings::getInstance();
@@ -49,8 +47,8 @@ bool DatabaseSettings::load_settings() {
 	return true;
 }
 
-bool DatabaseSettings::store_settings() {
-
+bool DatabaseSettings::store_settings()
+{
 	DB_RETURN_NOT_OPEN_BOOL(_db);
 
 	Settings* _settings = Settings::getInstance();

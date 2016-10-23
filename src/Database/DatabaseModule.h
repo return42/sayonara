@@ -61,7 +61,7 @@ protected:
 
 
 public:
-	DatabaseModule(QSqlDatabase db, quint8 db_id);
+	DatabaseModule(const QSqlDatabase& db, quint8 db_id);
 
 };
 

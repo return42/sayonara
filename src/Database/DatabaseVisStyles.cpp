@@ -25,7 +25,7 @@
 
 #include <QColor>
 
-DatabaseVisStyles::DatabaseVisStyles(QSqlDatabase db, quint8 db_id) :
+DatabaseVisStyles::DatabaseVisStyles(const QSqlDatabase& db, quint8 db_id) :
 	DatabaseModule(db, db_id)
 {
 }

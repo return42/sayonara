@@ -28,8 +28,9 @@
 
 #include <utility>
 
-DatabaseTracks::DatabaseTracks(QSqlDatabase db, quint8 db_id) :
-	DatabaseModule(db, db_id)
+DatabaseTracks::DatabaseTracks(const QSqlDatabase& db, quint8 db_id) :
+	DatabaseModule(db, db_id),
+	DatabaseSearchMode(db)
 {
 	_fetch_query = QString("SELECT ") +
 			"tracks.trackID AS trackID, "
@@ -552,8 +553,8 @@ bool DatabaseTracks::deleteTracks(const MetaDataList& v_md) {
 	return (success == v_md.size());
 }
 
-bool DatabaseTracks::deleteInvalidTracks(){
-
+bool DatabaseTracks::deleteInvalidTracks()
+{
 	bool success;
 
 	MetaDataList v_md;
@@ -632,8 +633,10 @@ QStringList DatabaseTracks::getAllGenres(){
 }
 
 
-void DatabaseTracks::updateTrackCissearch(Library::SearchModeMask mode)
+void DatabaseTracks::updateTrackCissearch()
 {
+	DatabaseSearchMode::update_search_mode();
+
 	MetaDataList v_md;
 	getTracksFromDatabase(v_md);
 
@@ -642,7 +645,7 @@ void DatabaseTracks::updateTrackCissearch(Library::SearchModeMask mode)
 		QString str = "UPDATE tracks SET cissearch=:cissearch WHERE trackID=:id;";
 		SayonaraQuery q(_db);
 		q.prepare(str);
-		q.bindValue(":cissearch", Library::convert_search_string(md.title, mode));
+		q.bindValue(":cissearch", Library::convert_search_string(md.title, search_mode()));
 		q.bindValue(":id", md.id);
 
 		if(!q.exec()){
@@ -653,21 +656,21 @@ void DatabaseTracks::updateTrackCissearch(Library::SearchModeMask mode)
 }
 
 
-bool DatabaseTracks::updateTrack(const MetaData& md) {
-
-	if(md.id == -1) return false;
+bool DatabaseTracks::updateTrack(const MetaData& md)
+{
+	if(md.id < 0) return false;
 
 	DB_RETURN_NOT_OPEN_BOOL(_db);
 
 	SayonaraQuery q (_db);
 
+	QString cissearch = Library::convert_search_string(md.title, search_mode());
 	QStringList genres;
 	for(const QString& genre : md.genres){
 		if(!genre.trimmed().isEmpty()){
 			genres << genre;
 		}
 	}
-
 
 	q.prepare("UPDATE Tracks "
 			  "SET albumID=:albumID, "
@@ -696,7 +699,7 @@ bool DatabaseTracks::updateTrack(const MetaData& md) {
 	q.bindValue(":filesize", QVariant(md.filesize));
 	q.bindValue(":discnumber", QVariant(md.discnumber));
 	q.bindValue(":rating", QVariant(md.rating));
-	q.bindValue(":cissearch", QVariant(md.title.toLower()));
+	q.bindValue(":cissearch", cissearch);
 
 	if (!q.exec()) {
 		q.show_error(QString("Cannot update track ") + md.filepath());
@@ -738,9 +741,7 @@ bool DatabaseTracks::insertTrackIntoDatabase (const MetaData& md, int artistID, 
 		track_copy.artist_id = artistID;
 		track_copy.album_id = albumID;
 
-
 		return updateTrack(track_copy);
-
 	}
 
 	QStringList genres;
@@ -750,9 +751,9 @@ bool DatabaseTracks::insertTrackIntoDatabase (const MetaData& md, int artistID, 
 		}
 	}
 
-
 	sp_log(Log::Info) << "insert new track: " << md.filepath();
 
+	QString cissearch = Library::convert_search_string(md.title, search_mode());
 	QString querytext = QString("INSERT INTO tracks ") +
 				"(filename,albumID,artistID,title,year,length,track,bitrate,genre,filesize,discnumber,rating,cissearch) " +
 				"VALUES "+
@@ -772,7 +773,7 @@ bool DatabaseTracks::insertTrackIntoDatabase (const MetaData& md, int artistID, 
 	q.bindValue(":filesize", md.filesize);
 	q.bindValue(":discnumber", md.discnumber);
 	q.bindValue(":rating", md.rating);
-	q.bindValue(":cissearch", md.title.toLower());
+	q.bindValue(":cissearch", cissearch);
 
 	if (!q.exec()) {
 		q.show_error(QString("Cannot insert track into database ") + md.filepath());

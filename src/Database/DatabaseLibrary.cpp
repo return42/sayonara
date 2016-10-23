@@ -29,42 +29,10 @@
 #include "Helper/MetaData/MetaDataList.h"
 #include "Helper/Logger/Logger.h"
 
-DatabaseLibrary::DatabaseLibrary(QSqlDatabase db, quint8 db_id) :
+DatabaseLibrary::DatabaseLibrary(const QSqlDatabase& db, quint8 db_id) :
 	DatabaseModule(db, db_id)
 {
 }
-
-
-
-/*void DatabaseLibrary::deleteTracksAlbumsArtists() {
-
-	DB_RETURN_NOT_OPEN_VOID(_db);
-
-	_db.transaction();
-
-	bool err = false;
-
-	for(int i=0; i<3; i++) {
-		SayonaraQuery q (_db);
-
-		if(i==0) q.prepare("delete from tracks;");
-		else if(i==1) q.prepare("delete from artists;");
-		else if(i==2) q.prepare("delete from albums;");
-
-		if( !q.exec() ){
-			q.show_error("Cannot delete all tracks, albums and artists");
-			err = true;
-		}
-	}
-
-	if(err){
-		_db.commit();
-	}
-	else {
-		_db.rollback();
-	}
-}
-*/
 
 
 bool DatabaseLibrary::storeMetadata(const MetaDataList& v_md)  {

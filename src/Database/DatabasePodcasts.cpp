@@ -23,7 +23,7 @@
 #include "Database/DatabasePodcasts.h"
 #include "Helper/Logger/Logger.h"
 
-DatabasePodcasts::DatabasePodcasts(QSqlDatabase db, quint8 db_id) :
+DatabasePodcasts::DatabasePodcasts(const QSqlDatabase& db, quint8 db_id) :
 	DatabaseModule(db, db_id)
 {
 }

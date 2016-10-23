@@ -2973,7 +2973,7 @@ Vyberte, prosím, jinou složku</translation>
     <message>
         <location line="+2"/>
         <source>Append</source>
-        <translation type="unfinished">Připojit</translation>
+        <translation>Přidat</translation>
     </message>
     <message>
         <location line="+2"/>
