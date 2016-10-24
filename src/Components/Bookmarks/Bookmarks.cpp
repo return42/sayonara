@@ -44,6 +44,7 @@ struct Bookmarks::Private
 	quint32					loop_end;
 };
 
+
 Bookmarks::Bookmarks(QObject *parent) :
 	QObject(parent)
 {
@@ -76,8 +77,8 @@ void Bookmarks::init_members()
 }
 
 
-void Bookmarks::sort_bookmarks(){
-
+void Bookmarks::sort_bookmarks()
+{
 	auto lambda = [](const Bookmark& bm1, const Bookmark& bm2){
 		return bm1.get_time() < bm2.get_time();
 	};
@@ -85,8 +86,8 @@ void Bookmarks::sort_bookmarks(){
 	std::sort(_m->bookmarks.begin(), _m->bookmarks.end(), lambda);
 }
 
-void Bookmarks::reload_bookmarks(){
-
+void Bookmarks::reload_bookmarks()
+{
 	QMap<quint32, QString> bookmarks;
 	if(_m->md.id >= 0){
 		_m->db->searchBookmarks(_m->md.id, bookmarks);
@@ -99,15 +100,20 @@ void Bookmarks::reload_bookmarks(){
 
 	sort_bookmarks();
 
-	emit sig_bookmarks_changed(_m->bookmarks);
+	emit sig_bookmarks_changed();
 }
 
 
-bool Bookmarks::save()
+Bookmarks::CreationStatus Bookmarks::create()
 {
+	if(_m->md.id < 0 || _m->md.db_id != 0)
+	{
+		return Bookmarks::CreationStatus::NoDBTrack;
+	}
+
 	quint32 cur_time = _m->cur_time;
 	if(cur_time == 0) {
-		return false;
+		return Bookmarks::CreationStatus::OtherError;
 	}
 
 	bool already_there = std::any_of(_m->bookmarks.begin(), _m->bookmarks.end(), [&cur_time](const Bookmark& bm){
@@ -115,7 +121,7 @@ bool Bookmarks::save()
 	});
 
 	if(already_there){
-		return true;
+		return Bookmarks::CreationStatus::AlreadyThere;
 	}
 
 	QString name = Helper::cvt_ms_to_string(cur_time * 1000, true, true, false);
@@ -123,13 +129,19 @@ bool Bookmarks::save()
 
 	if(success){
 		reload_bookmarks();
+		return Bookmarks::CreationStatus::Success;
 	}
 
-	return success;
+	return Bookmarks::CreationStatus::DBError;
 }
 
 
-bool Bookmarks::remove(int idx){
+bool Bookmarks::remove(int idx)
+{
+	if(idx < 0 || idx >= _m->bookmarks.size()){
+		return false;
+	}
+
 	bool success = _m->db->removeBookmark(_m->md.id, _m->bookmarks[idx].get_time());
 
 	if(success){
@@ -140,12 +152,15 @@ bool Bookmarks::remove(int idx){
 }
 
 
-bool Bookmarks::jump_to(int idx){
+bool Bookmarks::jump_to(int idx)
+{
 	_m->play_manager->seek_abs_ms(_m->bookmarks[idx].get_time() * 1000);
 	return true;
 }
 
-bool Bookmarks::jump_next(){
+
+bool Bookmarks::jump_next()
+{
 	if( !between(_m->next_idx, _m->bookmarks) ){
 		emit sig_next_changed(Bookmark());
 		return false;
@@ -157,8 +172,9 @@ bool Bookmarks::jump_next(){
 	return true;
 }
 
-bool Bookmarks::jump_prev() {
 
+bool Bookmarks::jump_prev()
+{
 	quint32 new_time;
 
 	if( _m->prev_idx >= _m->bookmarks.size() ){
@@ -179,8 +195,8 @@ bool Bookmarks::jump_prev() {
 }
 
 
-void Bookmarks::pos_changed_ms(quint64 pos_ms){
-
+void Bookmarks::pos_changed_ms(quint64 pos_ms)
+{
 	_m->cur_time = (quint32) (pos_ms / 1000);
 
 	if( _m->cur_time >= _m->loop_end &&
@@ -277,25 +293,25 @@ void Bookmarks::track_changed(const MetaData& md)
 
 	sort_bookmarks();
 
-	emit sig_bookmarks_changed(_m->bookmarks);
+	emit sig_bookmarks_changed();
 	emit sig_prev_changed(Bookmark());
 	emit sig_next_changed(Bookmark());
 }
 
 
-void Bookmarks::playstate_changed(PlayState state){
-
+void Bookmarks::playstate_changed(PlayState state)
+{
 	if(state == PlayState::Stopped){
 		init_members();
-		emit sig_bookmarks_changed(_m->bookmarks);
+		emit sig_bookmarks_changed();
 		emit sig_prev_changed(Bookmark());
 		emit sig_next_changed(Bookmark());
 	}
 }
 
 
-bool Bookmarks::set_loop(bool b){
-
+bool Bookmarks::set_loop(bool b)
+{
 	bool ret = false;
 
 	_m->loop_start = 0;

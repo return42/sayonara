@@ -28,10 +28,8 @@ EnginePlugin::EnginePlugin(QWidget* parent) :
 {
 	_cur_style_idx = 0;
 	_timer_stopped = true;
-
-	_play_manager = PlayManager::getInstance();
-	connect(_play_manager, &PlayManager::sig_playstate_changed, this, &EnginePlugin::playstate_changed);
 }
+
 
 EnginePlugin::~EnginePlugin()
 {
@@ -41,8 +39,33 @@ EnginePlugin::~EnginePlugin()
 }
 
 
-void EnginePlugin::init_buttons(bool small){
+void EnginePlugin::init_ui()
+{
+	_play_manager = PlayManager::getInstance();
+	connect(_play_manager, &PlayManager::sig_playstate_changed, this, &EnginePlugin::playstate_changed);
 
+	_ecsc = new EngineColorStyleChooser(minimumWidth(), minimumHeight());
+	_ui_style_settings = new GUI_StyleSettings(this);
+	_engine = EngineHandler::getInstance();
+
+	_timer = new QTimer();
+	_timer->setInterval(30);
+	_timer_stopped = true;
+
+	connect(_timer, &QTimer::timeout, this, &EnginePlugin::timed_out);
+	connect(_ui_style_settings, &GUI_StyleSettings::sig_style_update,
+			this, &EnginePlugin::sl_update_style);
+}
+
+
+bool EnginePlugin::is_title_shown() const
+{
+	return false;
+}
+
+
+void EnginePlugin::init_buttons(bool small)
+{
 	int height = this->height() - 4;
 	int x = 10;
 	int y;
@@ -79,11 +102,14 @@ void EnginePlugin::init_buttons(bool small){
 }
 
 
-void EnginePlugin::config_clicked(){
+void EnginePlugin::config_clicked()
+{
 	_ui_style_settings->show(_cur_style_idx);
 }
 
-void EnginePlugin::next_clicked(){
+
+void EnginePlugin::next_clicked()
+{
     int n_styles = _ecsc->get_num_color_schemes();
     _cur_style_idx = (_cur_style_idx + 1) % n_styles;
 
@@ -91,8 +117,8 @@ void EnginePlugin::next_clicked(){
 }
 
 
-void EnginePlugin::prev_clicked(){
-
+void EnginePlugin::prev_clicked()
+{
     int n_styles = _ecsc->get_num_color_schemes();
     _cur_style_idx = (_cur_style_idx - 1);
     if(_cur_style_idx < 0){
@@ -103,13 +129,57 @@ void EnginePlugin::prev_clicked(){
 }
 
 
-void EnginePlugin::closeEvent(QCloseEvent *e) {
-	PlayerPluginInterface::closeEvent(e);
-    update();
+void EnginePlugin::update()
+{
+	QWidget::update();
+
+	if(!is_ui_initialized()){
+		return;
+	}
 }
 
-void EnginePlugin::resizeEvent(QResizeEvent* e){
 
+void EnginePlugin::playstate_changed(PlayState state)
+{
+	switch(state)
+	{
+		case PlayState::Playing:
+			played();
+			break;
+		case PlayState::Paused:
+			paused();
+			break;
+		case PlayState::Stopped:
+			stopped();
+			break;
+		default:
+			break;
+	}
+}
+
+void EnginePlugin::played(){}
+void EnginePlugin::paused(){}
+
+void EnginePlugin::stopped()
+{
+	if(!is_ui_initialized()){
+		return;
+	}
+
+	_timer->start();
+	_timer_stopped = false;
+}
+
+
+void EnginePlugin::closeEvent(QCloseEvent *e)
+{
+	PlayerPluginInterface::closeEvent(e);
+	update();
+}
+
+
+void EnginePlugin::resizeEvent(QResizeEvent* e)
+{
 	PlayerPluginInterface::resizeEvent(e);
 
 	if(!is_ui_initialized()){
@@ -149,109 +219,47 @@ void EnginePlugin::resizeEvent(QResizeEvent* e){
 		_btn_next->setFont(font);
 		_btn_close->setFont(font);
 	}
-
 }
 
 
-void EnginePlugin::mousePressEvent(QMouseEvent *e) {
-
-    switch(e->button()){
-        case Qt::LeftButton:
-            next_clicked();
-            break;
-        case Qt::MidButton:
+void EnginePlugin::mousePressEvent(QMouseEvent *e)
+{
+	switch(e->button()){
+		case Qt::LeftButton:
+			next_clicked();
+			break;
+		case Qt::MidButton:
 			if(this->parentWidget()){
 				this->parentWidget()->close();
 			}
-            break;
-        case Qt::RightButton:
+			break;
+		case Qt::RightButton:
 			_ui_style_settings->show(_cur_style_idx);
-			break;
-        default:
-            break;
-    }
-}
-
-
-void EnginePlugin::enterEvent(QEvent* e){
-
-	PlayerPluginInterface::enterEvent(e);
-
-    _btn_config->show();
-    _btn_prev->show();
-    _btn_next->show();
-    _btn_close->show();
-
-}
-
-void EnginePlugin::leaveEvent(QEvent* e){
-
-	PlayerPluginInterface::leaveEvent(e);
-
-    _btn_config->hide();
-    _btn_prev->hide();
-    _btn_next->hide();
-	_btn_close->hide();
-}
-
-
-void EnginePlugin::update()
-{
-	QWidget::update();
-
-	if(!is_ui_initialized()){
-		return;
-	}
-}
-
-void EnginePlugin::init_ui()
-{
-	_ecsc = new EngineColorStyleChooser(minimumWidth(), minimumHeight());
-	_ui_style_settings = new GUI_StyleSettings(this);
-	_engine = EngineHandler::getInstance();
-
-	_timer = new QTimer();
-	_timer->setInterval(30);
-	_timer_stopped = true;
-
-	connect(_timer, &QTimer::timeout, this, &EnginePlugin::timed_out);
-	connect(_ui_style_settings, &GUI_StyleSettings::sig_style_update,
-			this, &EnginePlugin::sl_update_style);
-}
-
-void EnginePlugin::playstate_changed(PlayState state)
-{
-	switch(state)
-	{
-		case PlayState::Playing:
-			played();
-			break;
-		case PlayState::Paused:
-			paused();
-			break;
-		case PlayState::Stopped:
-			stopped();
 			break;
 		default:
 			break;
 	}
 }
 
-void EnginePlugin::played(){}
-void EnginePlugin::paused(){}
 
-void EnginePlugin::stopped()
+void EnginePlugin::enterEvent(QEvent* e)
 {
-	if(!is_ui_initialized()){
-		return;
-	}
+	PlayerPluginInterface::enterEvent(e);
 
-	_timer->start();
-	_timer_stopped = false;
+	_btn_config->show();
+	_btn_prev->show();
+	_btn_next->show();
+	_btn_close->show();
+
 }
 
-
-bool EnginePlugin::is_title_shown() const
+void EnginePlugin::leaveEvent(QEvent* e)
 {
-	return false;
+	PlayerPluginInterface::leaveEvent(e);
+
+	_btn_config->hide();
+	_btn_prev->hide();
+	_btn_next->hide();
+	_btn_close->hide();
 }
+

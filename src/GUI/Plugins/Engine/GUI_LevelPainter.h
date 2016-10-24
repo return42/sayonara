@@ -32,8 +32,6 @@ class GUI_LevelPainter :
 {
     Q_OBJECT
 
-	friend class PlayerPluginInterface;
-
 public:
 	explicit GUI_LevelPainter(QWidget *parent=nullptr);
 	virtual ~GUI_LevelPainter();

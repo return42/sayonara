@@ -51,9 +51,8 @@ public:
 
 private slots:
 	void action_pressed();
-	void bookmarks_changed(const QList<Bookmark>& bookmarks);
+	void bookmarks_changed();
 
-	
 };
 
 

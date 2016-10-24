@@ -39,6 +39,7 @@ GUI_AudioConverter::GUI_AudioConverter(QWidget *parent) :
 	_mp3_enc_available = true;
 }
 
+
 GUI_AudioConverter::~GUI_AudioConverter()
 {
 	if(ui)
@@ -48,31 +49,8 @@ GUI_AudioConverter::~GUI_AudioConverter()
 }
 
 
-QString GUI_AudioConverter::get_name() const
-{
-	return "Audio Converter";
-}
-
-QString GUI_AudioConverter::get_display_name() const
-{
-	return tr("Audio Converter");
-}
-
-void GUI_AudioConverter::language_changed()
-{
-	if(!is_ui_initialized()){
-		return;
-	}
-
-	ui->retranslateUi(this);
-}
-
 void GUI_AudioConverter::init_ui()
 {
-	if(is_ui_initialized()){
-		return;
-	}
-
 	setup_parent(this, &ui);
 
 	LameBitrate br = (LameBitrate) _settings->get(Set::Engine_ConvertQuality);
@@ -114,6 +92,28 @@ void GUI_AudioConverter::init_ui()
 }
 
 
+QString GUI_AudioConverter::get_name() const
+{
+	return "Audio Converter";
+}
+
+
+QString GUI_AudioConverter::get_display_name() const
+{
+	return tr("Audio Converter");
+}
+
+
+void GUI_AudioConverter::language_changed()
+{
+	if(!is_ui_initialized()){
+		return;
+	}
+
+	ui->retranslateUi(this);
+}
+
+
 void GUI_AudioConverter::fill_cbr() 
 {
 	if(!is_ui_initialized()){
@@ -133,6 +133,7 @@ void GUI_AudioConverter::fill_cbr()
 
 	ui->cb_quality->setCurrentIndex(2);
 }
+
 
 void GUI_AudioConverter::fill_vbr() 
 {
@@ -159,12 +160,14 @@ void GUI_AudioConverter::fill_vbr()
 	ui->cb_quality->setCurrentIndex(2);
 }
 
+
 void GUI_AudioConverter::playstate_changed(PlayState state)
 {
 	if(state == PlayState::Stopped){
 		stopped();
 	}
 }
+
 
 void GUI_AudioConverter::stopped()
 {

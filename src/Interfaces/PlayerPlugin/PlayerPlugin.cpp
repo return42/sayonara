@@ -46,14 +46,6 @@ PlayerPluginInterface::~PlayerPluginInterface()
 }
 
 
-void PlayerPluginInterface::show()
-{
-	QWidget::show();
-
-	init_ui();
-}
-
-
 bool PlayerPluginInterface::is_title_shown() const
 {
 	return true;
@@ -106,14 +98,6 @@ void PlayerPluginInterface::finalize_initialization()
 }
 
 
-void PlayerPluginInterface::closeEvent(QCloseEvent* e) 
-{
-	SayonaraWidget::closeEvent(e);
-
-    _pp_action->setChecked(false);
-
-	emit sig_closed();
-}
 
 
 bool PlayerPluginInterface::is_ui_initialized() const
@@ -126,6 +110,27 @@ void PlayerPluginInterface::set_ui_initialized()
 {
 	_is_initialized = true;
 }
+
+
+void PlayerPluginInterface::showEvent(QShowEvent* e)
+{
+	if(!is_ui_initialized()){
+		init_ui();
+	}
+
+	QWidget::showEvent(e);
+}
+
+
+void PlayerPluginInterface::closeEvent(QCloseEvent* e)
+{
+	SayonaraWidget::closeEvent(e);
+
+	_pp_action->setChecked(false);
+
+	emit sig_closed();
+}
+
 
 
 void PlayerPluginInterface::action_triggered(bool b) 

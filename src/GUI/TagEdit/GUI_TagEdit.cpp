@@ -84,13 +84,14 @@ GUI_TagEdit::GUI_TagEdit(QWidget* parent) :
 }
 
 
-GUI_TagEdit::~GUI_TagEdit(){
+GUI_TagEdit::~GUI_TagEdit(){}
 
-}
 
-void GUI_TagEdit::language_changed(){
+void GUI_TagEdit::language_changed()
+{
 	ui->retranslateUi(this);
 }
+
 
 void GUI_TagEdit::commit_finished()
 {
@@ -98,19 +99,15 @@ void GUI_TagEdit::commit_finished()
 	ui->btn_cancel->setEnabled(true);
 }
 
+
 TagEdit* GUI_TagEdit::get_tag_edit() const
 {
 	return _tag_edit;
 }
 
-void GUI_TagEdit::cancel(){
 
-	undo_all_clicked();
-
-	emit sig_cancelled();
-}
-
-void GUI_TagEdit::progress_changed(int val){
+void GUI_TagEdit::progress_changed(int val)
+{
 
 	ui->pb_progress->setVisible(val >= 0);
 
@@ -123,8 +120,8 @@ void GUI_TagEdit::progress_changed(int val){
 	}
 }
 
-void GUI_TagEdit::metadata_changed(const MetaDataList& md){
-
+void GUI_TagEdit::metadata_changed(const MetaDataList& md)
+{
 	Q_UNUSED(md)
 
 	reset();
@@ -140,8 +137,8 @@ bool GUI_TagEdit::check_idx(int idx) const
 }
 
 
-void GUI_TagEdit::next_button_clicked(){
-
+void GUI_TagEdit::next_button_clicked()
+{
 	write_changes(_cur_idx);
 
 	_cur_idx++;
@@ -150,8 +147,8 @@ void GUI_TagEdit::next_button_clicked(){
 }
 
 
-void GUI_TagEdit::prev_button_clicked(){
-
+void GUI_TagEdit::prev_button_clicked()
+{
 	write_changes(_cur_idx);
 
 	_cur_idx--;
@@ -159,8 +156,8 @@ void GUI_TagEdit::prev_button_clicked(){
 	track_idx_changed();
 }
 
-void GUI_TagEdit::track_idx_changed(){
-
+void GUI_TagEdit::track_idx_changed()
+{
 	bool valid;
 	int n_tracks = _tag_edit->get_n_tracks();
 
@@ -248,8 +245,8 @@ void GUI_TagEdit::track_idx_changed(){
 	);
 }
 
-void GUI_TagEdit::reset(){
-
+void GUI_TagEdit::reset()
+{
 	_cur_idx = -1;
 
 	ui->cb_album_all->setChecked(false);
@@ -305,32 +302,38 @@ void GUI_TagEdit::reset(){
 
 }
 
-void GUI_TagEdit::album_all_changed(bool b){
+void GUI_TagEdit::album_all_changed(bool b)
+{
 	ui->le_album->setEnabled(!b);
 }
 
-void GUI_TagEdit::artist_all_changed(bool b){
+void GUI_TagEdit::artist_all_changed(bool b)
+{
 	ui->le_artist->setEnabled(!b);
 }
 
-void GUI_TagEdit::genre_all_changed(bool b){
+void GUI_TagEdit::genre_all_changed(bool b)
+{
 	ui->le_genre->setEnabled(!b);
 }
 
-void GUI_TagEdit::year_all_changed(bool b){
+void GUI_TagEdit::year_all_changed(bool b)
+{
 	ui->sb_year->setEnabled(!b);
 }
 
-void GUI_TagEdit::discnumber_all_changed(bool b){
+void GUI_TagEdit::discnumber_all_changed(bool b)
+{
 	ui->sb_discnumber->setEnabled(!b);
 }
 
-void GUI_TagEdit::rating_all_changed(bool b){
+void GUI_TagEdit::rating_all_changed(bool b)
+{
 	ui->lab_rating->setEnabled(!b);
 }
 
-void GUI_TagEdit::cover_all_changed(bool b){
-
+void GUI_TagEdit::cover_all_changed(bool b)
+{
 	if(!b){
 		if(between(_cur_idx, _tag_edit->get_n_tracks()) ){
 			set_cover(_tag_edit->get_metadata(_cur_idx));
@@ -342,20 +345,21 @@ void GUI_TagEdit::cover_all_changed(bool b){
 	ui->btn_cover_replacement->setEnabled(!b);
 }
 
-void GUI_TagEdit::undo_clicked(){
-
+void GUI_TagEdit::undo_clicked()
+{
 	_tag_edit->undo(_cur_idx);
 	track_idx_changed();
 }
 
-void GUI_TagEdit::undo_all_clicked(){
+void GUI_TagEdit::undo_all_clicked()
+{
 	_tag_edit->undo_all();
 	track_idx_changed();
 }
 
 
-void GUI_TagEdit::write_changes(int idx){
-
+void GUI_TagEdit::write_changes(int idx)
+{
 	if( !check_idx(idx) ) {
 		return;
 	}
@@ -378,8 +382,8 @@ void GUI_TagEdit::write_changes(int idx){
 	}
 }
 
-void GUI_TagEdit::commit(){
-
+void GUI_TagEdit::commit()
+{
 	if(!ui->btn_ok->isEnabled()){
 		return;
 	}
@@ -430,7 +434,17 @@ void GUI_TagEdit::commit(){
 	_tag_edit->commit();
 }
 
-void GUI_TagEdit::show_replacement_field(bool b){
+
+void GUI_TagEdit::cancel()
+{
+	undo_all_clicked();
+
+	emit sig_cancelled();
+}
+
+
+void GUI_TagEdit::show_replacement_field(bool b)
+{
 	ui->lab_replacement->setVisible(b);
 	ui->btn_cover_replacement->setVisible(b);
 	ui->cb_cover_all->setVisible(b);
@@ -444,8 +458,8 @@ bool GUI_TagEdit::is_cover_replacement_active() const
 			ui->btn_cover_replacement->isVisible());
 }
 
-void GUI_TagEdit::set_cover(const MetaData& md){
-
+void GUI_TagEdit::set_cover(const MetaData& md)
+{
 	QByteArray img_data;
 	QString mime_type;
 	bool has_cover = Tagging::extract_cover(md, img_data, mime_type);
@@ -475,27 +489,23 @@ void GUI_TagEdit::set_cover(const MetaData& md){
 	}
 }
 
-void GUI_TagEdit::update_cover(int idx, const QString& cover_path){
-
+void GUI_TagEdit::update_cover(int idx, const QString& cover_path)
+{
 	QImage img(cover_path);
-	if(img.isNull()){
-		return;
-	}
-
 	_tag_edit->update_cover(idx, img);
 }
 
 
-void GUI_TagEdit::rb_dont_replace_toggled(bool b){
-
+void GUI_TagEdit::rb_dont_replace_toggled(bool b)
+{
 	show_replacement_field(!b);
 }
 
 
 /*** TAG ***/
 
-void GUI_TagEdit::set_tag_colors(bool valid){
-
+void GUI_TagEdit::set_tag_colors(bool valid)
+{
 	if( !valid ){
 		ui->le_tag->setStyleSheet("color: red;");
 	}
@@ -508,8 +518,9 @@ void GUI_TagEdit::set_tag_colors(bool valid){
 	ui->btn_apply_tag_all->setEnabled(valid);
 }
 
-void GUI_TagEdit::tag_text_changed(const QString& str){
 
+void GUI_TagEdit::tag_text_changed(const QString& str)
+{
 	if( !check_idx(_cur_idx) ) {
 		return;
 	}
@@ -523,8 +534,9 @@ void GUI_TagEdit::tag_text_changed(const QString& str){
 
 }
 
-void GUI_TagEdit::apply_tag(int idx){
 
+void GUI_TagEdit::apply_tag(int idx)
+{
 	if(!check_idx(idx)) {
 		return;
 	}
@@ -569,12 +581,13 @@ void GUI_TagEdit::apply_tag(int idx){
 	}
 }
 
-void GUI_TagEdit::apply_tag_clicked(){
+void GUI_TagEdit::apply_tag_clicked()
+{
 	apply_tag(_cur_idx);
 }
 
-void GUI_TagEdit::apply_tag_all_clicked(){
-
+void GUI_TagEdit::apply_tag_all_clicked()
+{
 	IdxList not_valid;
 
 	QString not_valid_str = tr("Cannot apply tag for") + "<br /><br /> ";
@@ -616,8 +629,8 @@ void GUI_TagEdit::apply_tag_all_clicked(){
 }
 
 
-bool GUI_TagEdit::replace_selected_tag_text(Tag t, bool b){
-
+bool GUI_TagEdit::replace_selected_tag_text(Tag t, bool b)
+{
 	TextSelection ts = ui->le_tag->get_text_selection();
 
 	if(ts.selection_start < 0 && b) {
@@ -661,34 +674,43 @@ bool GUI_TagEdit::replace_selected_tag_text(Tag t, bool b){
 	return true;
 }
 
-void GUI_TagEdit::btn_title_checked(bool b){
+void GUI_TagEdit::btn_title_checked(bool b)
+{
 	if(!replace_selected_tag_text(TAG_TITLE, b)){
 		ui->btn_title->setChecked(false);
 	}
 }
 
-void GUI_TagEdit::btn_artist_checked(bool b){
+void GUI_TagEdit::btn_artist_checked(bool b)
+{
 	if(!replace_selected_tag_text(TAG_ARTIST, b)){
 		ui->btn_artist->setChecked(false);
 	}
 }
 
-void GUI_TagEdit::btn_album_checked(bool b){
+void GUI_TagEdit::btn_album_checked(bool b)
+{
 	if(!replace_selected_tag_text(TAG_ALBUM, b)){
 		ui->btn_album->setChecked(false);
 	}
 }
-void GUI_TagEdit::btn_track_nr_checked(bool b){
+
+void GUI_TagEdit::btn_track_nr_checked(bool b)
+{
 	if(!replace_selected_tag_text(TAG_TRACK_NUM, b)){
 		ui->btn_track_nr->setChecked(false);
 	}
 }
-void GUI_TagEdit::btn_disc_nr_checked(bool b){
+
+void GUI_TagEdit::btn_disc_nr_checked(bool b)
+{
 	if(!replace_selected_tag_text(TAG_DISC, b)){
 		ui->btn_disc_nr->setChecked(false);
 	}
 }
-void GUI_TagEdit::btn_year_checked(bool b){
+
+void GUI_TagEdit::btn_year_checked(bool b)
+{
 	if(!replace_selected_tag_text(TAG_YEAR, b)){
 		ui->btn_year->setChecked(false);
 	}
@@ -699,14 +721,3 @@ void GUI_TagEdit::btn_tag_help_clicked()
 	QUrl url(QString("http://sayonara-player.com/faq.php#tag-edit"));
 	QDesktopServices::openUrl(url);
 }
-/* TODO: Never used
-void GUI_TagEdit::show_button_commit(bool b)
-{
-	ui->btn_ok->setVisible(b);
-}
-
-void GUI_TagEdit::show_button_cancel(bool b)
-{
-	ui->btn_cancel->setVisible(b);
-}
-*/

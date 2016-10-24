@@ -50,8 +50,6 @@ class GUI_Equalizer :
 
 	Q_OBJECT
 
-	friend class PlayerPluginInterface;
-
 public:
 	explicit GUI_Equalizer(QWidget* parent=nullptr);
 	virtual ~GUI_Equalizer();
@@ -59,6 +57,24 @@ public:
 	QString get_name() const override;
 	QString get_display_name() const override;
 
+public slots:
+	void fill_eq_presets();
+
+
+private:
+	Ui::GUI_Equalizer*	ui=nullptr;
+	EngineHandler*		_engine=nullptr;
+	QList<EQ_Setting>	_presets;
+	QList<EqSlider*>	_sliders;
+
+	int					_old_val[10];
+	int					_active_idx;
+
+	int find_combo_text(QString txt);
+
+private:
+	void language_changed() override;
+	void init_ui() override;
 
 private slots:
 	void sli_changed(int idx, int value);
@@ -74,26 +90,6 @@ private slots:
 	void btn_undo_clicked();
 
 	void text_changed(const QString&);
-
-public slots:
-	void fill_eq_presets();
-
-
-protected:
-	void language_changed() override;
-	void init_ui() override;
-
-private:
-
-	Ui::GUI_Equalizer*	ui=nullptr;
-	EngineHandler*		_engine=nullptr;
-	QList<EQ_Setting>	_presets;
-	QList<EqSlider*>	_sliders;
-
-	int					_old_val[10];
-	int					_active_idx;
-
-	int find_combo_text(QString txt);
 
 };
 

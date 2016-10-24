@@ -31,7 +31,6 @@
 #include <QFileDialog>
 #include <QPixmap>
 
-
 class PlaylistChooser;
 class GUI_TargetPlaylistDialog;
 
@@ -43,17 +42,11 @@ class GUI_PlaylistChooser :
 
 	Q_OBJECT
 
-	friend class PlayerPluginInterface;
+private:
 
-signals:
-	void sig_playlist_chosen(int);
-	void sig_delete_playlist(int);
-	void sig_save_playlist(int);
-	void sig_save_playlist(QString);
-	void sig_save_playlist_file(QString, bool);
-	void sig_closed();
-	void sig_clear_playlist();
-	void sig_files_selected(const QStringList&);
+	Ui::GUI_PlaylistChooser*		ui=nullptr;
+	QString							_last_dir;
+	PlaylistChooser*				_playlist_chooser=nullptr;
 
 
 public:
@@ -62,6 +55,15 @@ public:
 
 	QString get_name() const override;
 	QString get_display_name() const override;
+
+
+public slots:
+	void all_playlists_fetched(const CustomPlaylistSkeletons&);
+
+
+private:
+	void language_changed() override;
+	void init_ui() override;
 
 
 private slots:
@@ -73,24 +75,6 @@ private slots:
 	void playlist_selected(int);
 
 	void got_save_params(const QString&, bool);
-
-
-public slots:
-	void all_playlists_fetched(const CustomPlaylistSkeletons&);
-
-
-private:
-
-	Ui::GUI_PlaylistChooser*		ui=nullptr;
-	GUI_TargetPlaylistDialog*		_target_playlist_dialog=nullptr;
-	PlaylistChooser*				_playlist_chooser=nullptr;
-
-	QString		_last_dir;
-
-
-private:
-	void language_changed() override;
-	void init_ui() override;
 };
 
 #endif /* GUIPLAYLISTCHOOSER_H_ */

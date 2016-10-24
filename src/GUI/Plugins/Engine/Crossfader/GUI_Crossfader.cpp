@@ -38,21 +38,9 @@ GUI_Crossfader::~GUI_Crossfader()
 	}
 }
 
-void GUI_Crossfader::language_changed(){
-
-	if(!is_ui_initialized()){
-		return;
-	}
-
-	ui->retranslateUi(this);
-}
 
 void GUI_Crossfader::init_ui()
 {
-	if(is_ui_initialized()){
-		return;
-	}
-
 	setup_parent(this, &ui);
 
 	int val = _settings->get(Set::Engine_CrossFaderTime);
@@ -69,10 +57,21 @@ void GUI_Crossfader::init_ui()
 }
 
 
+void GUI_Crossfader::language_changed(){
+
+	if(!is_ui_initialized()){
+		return;
+	}
+
+	ui->retranslateUi(this);
+}
+
+
 QString GUI_Crossfader::get_name() const
 {
 	return "Crossfader";
 }
+
 
 QString GUI_Crossfader::get_display_name() const
 {
@@ -80,15 +79,15 @@ QString GUI_Crossfader::get_display_name() const
 }
 
 
-void GUI_Crossfader::slider_changed(int val) {
-
+void GUI_Crossfader::slider_changed(int val)
+{
 	ui->lab_crossfader->setText(QString::number(val) + "ms");
 	_settings->set(Set::Engine_CrossFaderTime, val);
 }
 
 
-void GUI_Crossfader::active_changed(bool b) {
-
+void GUI_Crossfader::active_changed(bool b)
+{
 	ui->sli_crossfader->setEnabled(b);
 
 	Playlist::Mode plm = _settings->get(Set::PL_Mode);

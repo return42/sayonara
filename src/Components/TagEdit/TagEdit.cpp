@@ -203,6 +203,10 @@ void TagEdit::apply_artists_and_albums_to_md(){
 
 void TagEdit::update_cover(int idx, const QImage& cover){
 
+	if(cover.isNull()){
+		return;
+	}
+
 	if(!between(idx, _m->v_md) ){
 		return;
 	}

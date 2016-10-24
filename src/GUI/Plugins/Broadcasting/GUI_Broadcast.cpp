@@ -36,9 +36,9 @@ GUI_Broadcast::GUI_Broadcast(QWidget *parent) :
 {
 	_server = new StreamServer(this);
 
-	connect(_server, &StreamServer::sig_new_connection, this, &GUI_Broadcast::new_connection);
+	connect(_server, &StreamServer::sig_new_connection, this, &GUI_Broadcast::connection_established);
 	connect(_server, &StreamServer::sig_connection_closed, this, &GUI_Broadcast::connection_closed);
-	connect(_server, &StreamServer::sig_can_listen, this, &GUI_Broadcast::can_listen);
+	connect(_server, &StreamServer::sig_can_listen, this, &GUI_Broadcast::can_listen_changed);
 
 	_server->retry();
 }
@@ -52,10 +52,12 @@ GUI_Broadcast::~GUI_Broadcast()
 	}
 }
 
+
 QString GUI_Broadcast::get_name() const
 {
 	return "Broadcast";
 }
+
 
 QString GUI_Broadcast::get_display_name() const
 {
@@ -63,13 +65,14 @@ QString GUI_Broadcast::get_display_name() const
 }
 
 
-void GUI_Broadcast::language_changed(){
-
+void GUI_Broadcast::language_changed()
+{
 	if(is_ui_initialized()){
 		ui->retranslateUi(this);
 		set_status_label();
 	}
 }
+
 
 void GUI_Broadcast::init_ui()
 {
@@ -94,8 +97,9 @@ void GUI_Broadcast::init_ui()
 	REGISTER_LISTENER(SetNoDB::MP3enc_found, mp3_enc_found);
 }
 
-void GUI_Broadcast::set_status_label(){
 
+void GUI_Broadcast::set_status_label()
+{
 	if(!is_ui_initialized()){
 		return;
 	}
@@ -114,14 +118,14 @@ void GUI_Broadcast::set_status_label(){
 	ui->lab_status->setText(str_listeners);
 }
 
-// finally connection is established
-void GUI_Broadcast::new_connection(const QString& ip){
 
+// finally connection is established
+void GUI_Broadcast::connection_established(const QString& ip)
+{
 	if(!is_ui_initialized()){
 		return;
 	}
 
-	//sp_log(Log::Debug) << "Add item " << ip;
 	ui->combo_clients->addItem(ip);
 	set_status_label();
 	ui->combo_clients->setCurrentIndex(ui->combo_clients->count() -1);
@@ -129,17 +133,19 @@ void GUI_Broadcast::new_connection(const QString& ip){
 }
 
 
-void GUI_Broadcast::connection_closed(const QString& ip){
-
+void GUI_Broadcast::connection_closed(const QString& ip)
+{
 	if(!is_ui_initialized()){
 		return;
 	}
 
-	int idx;
+	if(ip.isEmpty()) {
+		return;
+	}
 
-	if(ip.isEmpty()) return;
 	sp_log(Log::Info) << "Connection closed: " << ip;
 
+	int idx;
 	for(idx=0; idx<ui->combo_clients->count(); idx++){
 		if(ui->combo_clients->itemText(idx).contains(ip)){
 			break;
@@ -160,8 +166,8 @@ void GUI_Broadcast::connection_closed(const QString& ip){
 	set_status_label();
 }
 
-void GUI_Broadcast::can_listen(bool success){
-
+void GUI_Broadcast::can_listen_changed(bool success)
+{
 	if(!is_ui_initialized()){
 		return;
 	}
@@ -178,13 +184,15 @@ void GUI_Broadcast::can_listen(bool success){
 	}
 }
 
-void GUI_Broadcast::retry(){
+
+void GUI_Broadcast::retry()
+{
 	_server->retry();
 }
 
 
-void GUI_Broadcast::dismiss_at(int idx){
-
+void GUI_Broadcast::dismiss_at(int idx)
+{
 	if(!is_ui_initialized()){
 		return;
 	}
@@ -199,17 +207,16 @@ void GUI_Broadcast::dismiss_at(int idx){
 }
 
 
-void GUI_Broadcast::dismiss_clicked(){
-
+void GUI_Broadcast::dismiss_clicked()
+{
 	int idx = ui->combo_clients->currentIndex();
 	dismiss_at(idx);
 	ui->btn_dismiss->setEnabled(false);
-
 }
 
 
-void GUI_Broadcast::dismiss_all_clicked(){
-
+void GUI_Broadcast::dismiss_all_clicked()
+{
 	for(int idx = 0; idx <ui->combo_clients->count(); idx++){
 		dismiss_at(idx);
 	}
@@ -218,8 +225,9 @@ void GUI_Broadcast::dismiss_all_clicked(){
 	ui->btn_dismiss->setEnabled(false);
 }
 
-void GUI_Broadcast::combo_changed(int idx){
 
+void GUI_Broadcast::combo_changed(int idx)
+{
 	Q_UNUSED(idx)
 	QString text = ui->combo_clients->currentText();
 
@@ -231,8 +239,9 @@ void GUI_Broadcast::combo_changed(int idx){
 	}
 }
 
-void GUI_Broadcast::mp3_enc_found(){
 
+void GUI_Broadcast::mp3_enc_found()
+{
 	if(!is_ui_initialized()){
 		return;
 	}

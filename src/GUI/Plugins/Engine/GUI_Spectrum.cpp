@@ -43,26 +43,13 @@ GUI_Spectrum::GUI_Spectrum(QWidget *parent) :
 	_settings->set(Set::Engine_ShowSpectrum, false);
 }
 
+
 GUI_Spectrum::~GUI_Spectrum()
 {
 	if(ui)
 	{
 		delete ui; ui=nullptr;
 	}
-}
-
-QString GUI_Spectrum::get_name() const
-{
-	return "Spectrum";
-}
-
-QString GUI_Spectrum::get_display_name() const
-{
-	return tr("Spectrum");
-}
-
-void GUI_Spectrum::language_changed(){
-
 }
 
 
@@ -111,9 +98,23 @@ void GUI_Spectrum::init_ui()
 }
 
 
-void
-GUI_Spectrum::set_spectrum(const QList<float>& lst) {
+QString GUI_Spectrum::get_name() const
+{
+	return "Spectrum";
+}
 
+
+QString GUI_Spectrum::get_display_name() const
+{
+	return tr("Spectrum");
+}
+
+
+void GUI_Spectrum::language_changed(){}
+
+
+void GUI_Spectrum::set_spectrum(const QList<float>& lst)
+{
 	if(!is_ui_initialized() || !isVisible()){
 		return;
 	}
@@ -128,91 +129,8 @@ GUI_Spectrum::set_spectrum(const QList<float>& lst) {
 }
 
 
-void
-GUI_Spectrum::paintEvent(QPaintEvent *e) {
-
-	Q_UNUSED(e)
-
-     QPainter painter(this);
-
-	float widget_height = (float) height();
-
-     int n_rects = _cur_style.n_rects;
-     int n_fading_steps = _cur_style.n_fading_steps;
-	 int h_rect = (widget_height / n_rects) - _cur_style.ver_spacing;
-     int border_y = _cur_style.ver_spacing;
-     int border_x = _cur_style.hor_spacing;
-
-
-    int x=3;
-    int ninety = (_spec.size() * 500) / 1000;
-    int offset = 0;
-    int n_zero = 0;
-
-	if(ninety == 0) {
-		return;
-	}
-
-	int w_bin = ((width() + 10) / (ninety - offset)) - border_x;
-
-    // run through all bins
-    for(int i=offset; i<ninety + 1; i++) {
-
-		float f = _spec[i] * log_lu[ i*10 + 54];
-
-        // if this is one bar, how tall would it be?
-        int h =  f * widget_height;
-
-        // how many colored rectangles would fit into this bar?
-		int colored_rects = h / (h_rect + border_y) - 1 ;
-
-		colored_rects = std::max(colored_rects, 0);
-
-        // we start from bottom with painting
-        int y = widget_height - h_rect;
-
-        // run vertical
-
-		QRect rect(x, y, w_bin, h_rect);
-		QColor col;
-		for(int r=0; r<n_rects; r++) {
-
-            // 100%
-            if( r < colored_rects) {
-                col = _cur_style.style[r].value(-1);
-                _steps[i][r] = n_fading_steps;
-            }
-
-            // fading out
-            else{
-                col = _cur_style.style[r].value(_steps[i][r]);
-
-				if(_steps[i][r] > 0) {
-					_steps[i][r]--;
-				}
-
-				else {
-					n_zero++;
-				}
-            }
-
-			painter.fillRect(rect, col);
-
-			rect.translate(0, -(h_rect + border_y));
-        }
-
-        x += w_bin + border_x;
-    }
-
-    if(n_zero == (ninety - offset) * n_rects && _timer->isActive()) {
-        _timer->stop();
-        _timer_stopped = true;
-    }
-}
-
-
-void GUI_Spectrum::timed_out() {
-
+void GUI_Spectrum::timed_out()
+{
 	for(auto it=_spec.begin(); it!= _spec.begin(); it++) {
 		*it -= 0.024f;
     }
@@ -245,8 +163,8 @@ void GUI_Spectrum::resize_steps(int n_bins, int rects) {
 }
 
 
-void GUI_Spectrum::sl_update_style() {
-
+void GUI_Spectrum::sl_update_style()
+{
 	if(!is_ui_initialized()){
 		return;
 	}
@@ -262,12 +180,97 @@ void GUI_Spectrum::sl_update_style() {
 }
 
 
-void GUI_Spectrum::showEvent(QShowEvent* e){
+void GUI_Spectrum::showEvent(QShowEvent* e)
+{
 	_settings->set(Set::Engine_ShowSpectrum, true);
 	EnginePlugin::showEvent(e);
 }
 
-void GUI_Spectrum::closeEvent(QCloseEvent* e){
+
+void GUI_Spectrum::closeEvent(QCloseEvent* e)
+{
 	_settings->set(Set::Engine_ShowSpectrum, false);
 	EnginePlugin::closeEvent(e);
+}
+
+
+void GUI_Spectrum::paintEvent(QPaintEvent *e)
+{
+	Q_UNUSED(e)
+
+	 QPainter painter(this);
+
+	float widget_height = (float) height();
+
+	 int n_rects = _cur_style.n_rects;
+	 int n_fading_steps = _cur_style.n_fading_steps;
+	 int h_rect = (widget_height / n_rects) - _cur_style.ver_spacing;
+	 int border_y = _cur_style.ver_spacing;
+	 int border_x = _cur_style.hor_spacing;
+
+
+	int x=3;
+	int ninety = (_spec.size() * 500) / 1000;
+	int offset = 0;
+	int n_zero = 0;
+
+	if(ninety == 0) {
+		return;
+	}
+
+	int w_bin = ((width() + 10) / (ninety - offset)) - border_x;
+
+	// run through all bins
+	for(int i=offset; i<ninety + 1; i++) {
+
+		float f = _spec[i] * log_lu[ i*10 + 54];
+
+		// if this is one bar, how tall would it be?
+		int h =  f * widget_height;
+
+		// how many colored rectangles would fit into this bar?
+		int colored_rects = h / (h_rect + border_y) - 1 ;
+
+		colored_rects = std::max(colored_rects, 0);
+
+		// we start from bottom with painting
+		int y = widget_height - h_rect;
+
+		// run vertical
+
+		QRect rect(x, y, w_bin, h_rect);
+		QColor col;
+		for(int r=0; r<n_rects; r++) {
+
+			// 100%
+			if( r < colored_rects) {
+				col = _cur_style.style[r].value(-1);
+				_steps[i][r] = n_fading_steps;
+			}
+
+			// fading out
+			else{
+				col = _cur_style.style[r].value(_steps[i][r]);
+
+				if(_steps[i][r] > 0) {
+					_steps[i][r]--;
+				}
+
+				else {
+					n_zero++;
+				}
+			}
+
+			painter.fillRect(rect, col);
+
+			rect.translate(0, -(h_rect + border_y));
+		}
+
+		x += w_bin + border_x;
+	}
+
+	if(n_zero == (ninety - offset) * n_rects && _timer->isActive()) {
+		_timer->stop();
+		_timer_stopped = true;
+	}
 }

@@ -32,8 +32,6 @@ class GUI_Crossfader :
 {
 	Q_OBJECT
 
-	friend class PlayerPluginInterface;
-
 public:
 	explicit GUI_Crossfader(QWidget *parent=nullptr);
 	virtual ~GUI_Crossfader();
@@ -41,15 +39,15 @@ public:
 	QString get_name() const override;
 	QString get_display_name() const override;
 
+
 private:
 	Ui::GUI_Crossfader*	ui=nullptr;
+
 
 private slots:
 	void slider_changed(int);
 	void active_changed(bool);
 	
-
-protected:
 	void language_changed() override;
 	void init_ui() override;
 };

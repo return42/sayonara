@@ -18,7 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #include "GUI_PlaylistChooser.h"
 #include "GUI_TargetPlaylistDialog.h"
 #include "GUI/Plugins/PlaylistChooser/ui_GUI_PlaylistChooser.h"
@@ -32,7 +31,6 @@
 #include "Helper/Playlist/CustomPlaylist.h"
 #include "Helper/Language.h"
 
-#include <QTimer>
 #include <algorithm>
 
 GUI_PlaylistChooser::GUI_PlaylistChooser(QWidget *parent) :
@@ -41,8 +39,9 @@ GUI_PlaylistChooser::GUI_PlaylistChooser(QWidget *parent) :
 	_playlist_chooser = new PlaylistChooser();
 }
 
-GUI_PlaylistChooser::~GUI_PlaylistChooser() {
 
+GUI_PlaylistChooser::~GUI_PlaylistChooser()
+{
 	if(ui){
 		delete ui; ui=nullptr;
 	}
@@ -50,42 +49,12 @@ GUI_PlaylistChooser::~GUI_PlaylistChooser() {
 	delete _playlist_chooser;
 }
 
-QString GUI_PlaylistChooser::get_name() const
-{
-	return "Playlists";
-}
-
-QString GUI_PlaylistChooser::get_display_name() const
-{
-	return Lang::get(Lang::Playlists);
-}
-
-
-void GUI_PlaylistChooser::edit_text_changed(const QString& name)
-{
-	ui->btn_tool_pl->show_action(ContextMenu::EntrySave, !name.isEmpty());
-}
-
-
-void GUI_PlaylistChooser::language_changed() {
-	if(!is_ui_initialized()){
-		return;
-	}
-
-	ui->retranslateUi(this);
-}
 
 void GUI_PlaylistChooser::init_ui()
 {
-
-	if(is_ui_initialized()){
-		return;
-	}
-
 	setup_parent(this, &ui);
 
 	_last_dir = _settings->get(Set::Lib_Path);
-	_target_playlist_dialog = new GUI_TargetPlaylistDialog(this);
 
 	ui->combo_playlistchooser->setItemDelegate(new ComboBoxDelegate(this));
 
@@ -103,19 +72,43 @@ void GUI_PlaylistChooser::init_ui()
 	connect(ui->combo_playlistchooser, combo_activated_int, this, &GUI_PlaylistChooser::playlist_selected);
 	connect(ui->combo_playlistchooser, &QComboBox::editTextChanged, this, &GUI_PlaylistChooser::edit_text_changed);
 
-
-	connect(_target_playlist_dialog, &GUI_TargetPlaylistDialog::sig_target_chosen,
-			this, &GUI_PlaylistChooser::got_save_params);
-
 	connect(_playlist_chooser, &PlaylistChooser::sig_all_playlists_loaded,
 			this, &GUI_PlaylistChooser::all_playlists_fetched);
 
-	QTimer::singleShot(1000, _playlist_chooser, SLOT(load_all_playlists()));
+	_playlist_chooser->load_all_playlists();
 }
 
 
-void GUI_PlaylistChooser::all_playlists_fetched(const CustomPlaylistSkeletons& skeletons) {
+void GUI_PlaylistChooser::language_changed()
+{
+	if(!is_ui_initialized()){
+		return;
+	}
 
+	ui->retranslateUi(this);
+}
+
+
+QString GUI_PlaylistChooser::get_name() const
+{
+	return "Playlists";
+}
+
+
+QString GUI_PlaylistChooser::get_display_name() const
+{
+	return Lang::get(Lang::Playlists);
+}
+
+
+void GUI_PlaylistChooser::edit_text_changed(const QString& name)
+{
+	ui->btn_tool_pl->show_action(ContextMenu::EntrySave, !name.isEmpty());
+}
+
+
+void GUI_PlaylistChooser::all_playlists_fetched(const CustomPlaylistSkeletons& skeletons)
+{
 	if(!is_ui_initialized()){
 		return;
 	}
@@ -136,8 +129,8 @@ void GUI_PlaylistChooser::all_playlists_fetched(const CustomPlaylistSkeletons& s
 }
 
 
-void GUI_PlaylistChooser::save_button_pressed() {
-
+void GUI_PlaylistChooser::save_button_pressed()
+{
 	int id = _playlist_chooser->find_playlist(ui->combo_playlistchooser->currentText());
 
 	if(id < 0){
@@ -153,18 +146,28 @@ void GUI_PlaylistChooser::save_button_pressed() {
 	}
 }
 
-void GUI_PlaylistChooser::got_save_params(const QString& filename, bool relative) {
+
+void GUI_PlaylistChooser::got_save_params(const QString& filename, bool relative)
+{
+	sender()->deleteLater();
+
 	_playlist_chooser->save_playlist_file(filename, relative);
 }
 
-void GUI_PlaylistChooser::save_as_button_pressed() {
 
-    _target_playlist_dialog->show();
+void GUI_PlaylistChooser::save_as_button_pressed()
+{
+	GUI_TargetPlaylistDialog* target_playlist_dialog = new GUI_TargetPlaylistDialog(this);
+
+	connect(target_playlist_dialog, &GUI_TargetPlaylistDialog::sig_target_chosen,
+			this, &GUI_PlaylistChooser::got_save_params);
+
+	target_playlist_dialog->show();
 }
 
 
-void GUI_PlaylistChooser::delete_button_pressed() {
-
+void GUI_PlaylistChooser::delete_button_pressed()
+{
 	int cur_idx = ui->combo_playlistchooser->currentIndex();
 
 	GlobalMessage::Answer answer = Message::question_yn(Lang::get(Lang::Delete).question());
@@ -177,8 +180,8 @@ void GUI_PlaylistChooser::delete_button_pressed() {
 }
 
 
-void GUI_PlaylistChooser::playlist_selected(int idx) {
-
+void GUI_PlaylistChooser::playlist_selected(int idx)
+{
 	int id = _playlist_chooser->find_playlist(ui->combo_playlistchooser->currentText());
 
 	ui->btn_tool_pl->show_action(ContextMenu::EntrySave, idx > 0);
@@ -192,8 +195,8 @@ void GUI_PlaylistChooser::playlist_selected(int idx) {
 }
 
 
-void GUI_PlaylistChooser::load_button_pressed() {
-
+void GUI_PlaylistChooser::load_button_pressed()
+{
     QStringList filelist = QFileDialog::getOpenFileNames(
                     this,
                     tr("Open Playlist files"),

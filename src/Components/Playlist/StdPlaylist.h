@@ -29,7 +29,8 @@
  * @brief The StdPlaylist class
  * @ingroup Playlists
  */
-class StdPlaylist : public AbstractPlaylist
+class StdPlaylist :
+		public AbstractPlaylist
 {
 	Q_OBJECT
 
