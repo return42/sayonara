@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "FileHelper.h"
 #include "Helper.h"
 #include "Helper/Logger/Logger.h"
@@ -34,6 +32,11 @@
 QString Helper::File::clean_filename(const QString& path)
 {
 	QString ret = path;
+	while(ret.contains("/./") || ret.contains("\\.\\")){
+		ret.replace("/./", QDir::separator());
+		ret.replace("\\.\\", QDir::separator());
+	}
+
 	while(ret.contains("//") || ret.contains("\\\\")){
 		ret.replace("//", QDir::separator());
 		ret.replace("\\\\", QDir::separator());
@@ -41,6 +44,7 @@ QString Helper::File::clean_filename(const QString& path)
 
 	ret.replace("/", QDir::separator());
 	ret.replace("\\", QDir::separator());
+
 
 	if(ret.right(1) == QDir::separator()){
 		ret.remove(ret.size() - 1, 1);
@@ -69,16 +73,15 @@ void Helper::File::remove_files_in_directory(const QString& dir_name, const QStr
 	for(const QFileInfo& info : info_lst){
 
 		QString path = info.absoluteFilePath();
-		if(info.isDir()){
+		if(info.isDir())
+		{
 			remove_files_in_directory(path);
+			QDir().rmdir(path);
 		}
 
 		else{
 			QFile file(path);
-			success = file.remove();
-			if(!success){
-				sp_log(Log::Warning) << "Could not remove file " << path;
-			}
+			file.remove();
 		}
 	}
 	
@@ -88,10 +91,8 @@ void Helper::File::remove_files_in_directory(const QString& dir_name, const QStr
 		sp_log(Log::Warning) << "Could not remove dir " << dir_name;
 	}
 }
-
+#include <QDebug>
 void Helper::File::delete_files(const QStringList& paths){
-
-	bool success;
 
 	QStringList sorted_paths = paths;
 	std::sort(sorted_paths.begin(), sorted_paths.end(), [](const QString& str1, const QString& str2){
@@ -107,12 +108,11 @@ void Helper::File::delete_files(const QStringList& paths){
 
 		if(info.isDir()){
 			remove_files_in_directory(path);
+			QDir().rmdir(path);
 		}
 
 		else {
-			success = QFile::remove(path);
-			if(!success){
-			}
+			QFile::remove(path);
 		}
 	}
 }
@@ -256,16 +256,23 @@ bool Helper::File::is_playlistfile(const QString& filename) {
 
 bool Helper::File::create_directories(const QString& path)
 {
-
 	if(QFile::exists(path)){
 		return true;
 	}
 
-	QStringList paths = path.split(QDir::separator());
-	QDir dir = QDir::root();
+	QString cleaned_path = clean_filename(path);
+	QStringList paths = cleaned_path.split(QDir::separator());
+	QDir dir;
+	if( is_absolute(cleaned_path) ){
+		dir = QDir::root();
+	}
 
-	for(QString p : paths){
+	else{
+		dir = QDir(".");
+	}
 
+	for(QString p : paths)
+	{
 		QString abs_path = dir.absoluteFilePath(p);
 
 		if(QFile::exists(abs_path)){

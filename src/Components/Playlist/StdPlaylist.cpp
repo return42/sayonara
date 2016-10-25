@@ -35,6 +35,29 @@ StdPlaylist::StdPlaylist(int idx, QString name) :
 
 StdPlaylist::~StdPlaylist() {}
 
+Playlist::Type StdPlaylist::get_type() const
+{
+	return Playlist::Type::Std;
+}
+
+
+int StdPlaylist::create_playlist(const MetaDataList& v_md) 
+{
+	bool was_changed = (!metadata().isEmpty() || this->was_changed());
+
+	if(Playlist::Mode::isActiveAndEnabled(_playlist_mode.append())){
+		metadata() << v_md;
+	}
+
+	else{
+		metadata() = v_md;
+	}
+
+	set_changed(was_changed);
+
+	return metadata().size();
+}
+
 
 bool StdPlaylist::change_track(int idx) 
 {
@@ -57,30 +80,6 @@ bool StdPlaylist::change_track(int idx)
 	}
 
 	return true;
-}
-
-
-Playlist::Type StdPlaylist::get_type() const
-{
-	return Playlist::Type::Std;
-}
-
-
-int StdPlaylist::create_playlist(const MetaDataList& v_md) 
-{
-	bool was_changed = (!metadata().isEmpty() || this->was_changed());
-
-	if(Playlist::Mode::isActiveAndEnabled(_playlist_mode.append())){
-		metadata() << v_md;
-	}
-
-	else{
-		metadata() = v_md;
-	}
-
-	set_changed(was_changed);
-
-	return metadata().size();
 }
 
 
