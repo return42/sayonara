@@ -36,6 +36,7 @@
 #include "Helper/MetaData/MetaDataList.h"
 #include "Helper/Settings/Settings.h"
 #include "Helper/Logger/Logger.h"
+#include "Helper/Language.h"
 #include "Database/DatabaseConnector.h"
 
 #include <utility>
@@ -113,7 +114,7 @@ int ReloadThread::get_and_save_all_files(const QHash<QString, MetaData>& md_map_
 		const MetaData& md_lib = md_map_lib[filepath];
 
 		int percent = (cur_idx_files++ * 100) / n_files;
-		emit sig_reloading_library(tr("Reloading library"), percent);
+		emit sig_reloading_library(Lang::get(Lang::ReloadLibrary).triplePt(), percent);
 
 		if(md_lib.id >= 0){
 

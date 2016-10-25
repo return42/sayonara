@@ -39,24 +39,6 @@ class MetaData;
  */
 namespace Helper {
 
-	class StringDummy : public QObject
-	{
-		Q_OBJECT
-
-	public:
-		explicit StringDummy(QObject* parent=nullptr);
-
-		QString various();
-		QString days();
-		QString hours();
-		QString minutes();
-		QString seconds();
-		QString disc();
-		QString discs();
-	};
-
-
-
 	/**
 	 * @brief Transform all letters after a space to upper case
 	 * @param str input string

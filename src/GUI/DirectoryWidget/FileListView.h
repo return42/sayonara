@@ -38,7 +38,6 @@ class FileListView :
 		public SearchableListView,
 		private Dragable
 {
-
 	Q_OBJECT
 
 signals:
@@ -51,8 +50,6 @@ public:
 	explicit FileListView(QWidget* parent=nullptr);
 	virtual ~FileListView();
 
-	QAbstractItemModel* get_model() const override;
-
 	QModelIndexList get_selected_rows() const;
 	MetaDataList get_selected_metadata() const;
 	QStringList get_selected_paths() const;
@@ -64,7 +61,7 @@ public:
 private:
 	LibraryContextMenu*	_context_menu=nullptr;
 	FileListModel*		_model=nullptr;
-	Settings*			_settings=nullptr;
+
 
 private:
 	void mousePressEvent(QMouseEvent* event) override;

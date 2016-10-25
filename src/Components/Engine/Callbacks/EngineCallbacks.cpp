@@ -23,7 +23,6 @@
 #include "Components/Engine/Playback/PlaybackEngine.h"
 
 #include "Helper/globals.h"
-#include "Helper/FileHelper.h"
 #include "Helper/Logger/Logger.h"
 
 #include <algorithm>

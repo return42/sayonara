@@ -51,11 +51,16 @@ public:
 	bool		removeRows(int position, int rows, const QModelIndex& index=QModelIndex()) override;
 	bool		insertRows(int row, int count, const QModelIndex &parent=QModelIndex()) override;
 
+	QModelIndex	getFirstRowIndexOf(const QString& substr) override;
+	QModelIndex getNextRowIndexOf(const QString& substr, int row, const QModelIndex& parent=QModelIndex()) override;
+	QModelIndex getPrevRowIndexOf(const QString& substr, int row, const QModelIndex& parent=QModelIndex()) override;
+
 	virtual void			add_selections(const SP::Set<int>& rows) final;
 	virtual bool			is_selected(int id) final;
 	virtual bool			has_selections() final;
 	virtual void			clear_selections() final;
 
+	virtual int				get_searchable_column() const=0;
 	virtual QString			get_string(int row) const=0;
 	virtual int				get_id_by_row(int row)=0;
 	virtual CoverLocation	get_cover(const SP::Set<int>& indexes) const=0;

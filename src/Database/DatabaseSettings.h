@@ -30,7 +30,7 @@ class DatabaseSettings : private DatabaseModule
 {
 
 public:
-	DatabaseSettings(QSqlDatabase db, quint8 db_id);
+	DatabaseSettings(const QSqlDatabase& db, quint8 db_id);
 
 
 	bool load_setting(QString key, QString& val);

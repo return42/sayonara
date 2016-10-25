@@ -20,7 +20,6 @@
 
 
 #include "Popularimeter.h"
-#include "Helper/Logger/Logger.h"
 
 ID3v2Frame::Popularimeter::Popularimeter(){
 	email = "sayonara player";

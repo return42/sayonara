@@ -32,8 +32,10 @@ class QStringList;
 class QString;
 class CoverLocation;
 class MetaDataList;
+
 class SomaFMStation
 {
+
 public:
 
 	enum class UrlType : quint8

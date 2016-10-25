@@ -30,6 +30,7 @@
 #include "Helper/globals.h"
 #include "Helper/Logger/Logger.h"
 #include "Helper/MetaData/MetaDataList.h"
+#include "Helper/Language.h"
 
 #include "Components/TagEdit/TagEdit.h"
 
@@ -82,12 +83,15 @@ GUI_TagEdit::GUI_TagEdit(QWidget* parent) :
 	reset();
 }
 
+
 GUI_TagEdit::~GUI_TagEdit(){}
+
 
 void GUI_TagEdit::language_changed()
 {
 	ui->retranslateUi(this);
 }
+
 
 void GUI_TagEdit::commit_finished()
 {
@@ -95,20 +99,16 @@ void GUI_TagEdit::commit_finished()
 	ui->btn_cancel->setEnabled(true);
 }
 
+
 TagEdit* GUI_TagEdit::get_tag_edit() const
 {
 	return _tag_edit;
 }
 
-void GUI_TagEdit::cancel()
-{
-	undo_all_clicked();
-
-	emit sig_cancelled();
-}
 
 void GUI_TagEdit::progress_changed(int val)
 {
+
 	ui->pb_progress->setVisible(val >= 0);
 
 	if(val >= 0){
@@ -240,7 +240,7 @@ void GUI_TagEdit::track_idx_changed()
 	ui->lab_filepath->clear();
 	ui->lab_filepath->setText( md.filepath() );
 	ui->lab_track_num->setText(
-			tr("Track ") +
+			Lang::get(Lang::Track).space() +
 			QString::number( _cur_idx+1 ) + "/" + QString::number( n_tracks )
 	);
 }
@@ -299,6 +299,7 @@ void GUI_TagEdit::reset()
 	ui->btn_track_nr->setChecked(false);
 
 	_cover_path_map.clear();
+
 }
 
 void GUI_TagEdit::album_all_changed(bool b)
@@ -433,6 +434,15 @@ void GUI_TagEdit::commit()
 	_tag_edit->commit();
 }
 
+
+void GUI_TagEdit::cancel()
+{
+	undo_all_clicked();
+
+	emit sig_cancelled();
+}
+
+
 void GUI_TagEdit::show_replacement_field(bool b)
 {
 	ui->lab_replacement->setVisible(b);
@@ -456,7 +466,7 @@ void GUI_TagEdit::set_cover(const MetaData& md)
 
 	if(!has_cover){
 		ui->btn_cover_original->setIcon(QIcon());
-		ui->btn_cover_original->setText(tr("None"));
+		ui->btn_cover_original->setText(Lang::get(Lang::None));
 	}
 
 	else{
@@ -482,10 +492,6 @@ void GUI_TagEdit::set_cover(const MetaData& md)
 void GUI_TagEdit::update_cover(int idx, const QString& cover_path)
 {
 	QImage img(cover_path);
-	if(img.isNull()){
-		return;
-	}
-
 	_tag_edit->update_cover(idx, img);
 }
 
@@ -512,6 +518,7 @@ void GUI_TagEdit::set_tag_colors(bool valid)
 	ui->btn_apply_tag_all->setEnabled(valid);
 }
 
+
 void GUI_TagEdit::tag_text_changed(const QString& str)
 {
 	if( !check_idx(_cur_idx) ) {
@@ -524,7 +531,9 @@ void GUI_TagEdit::tag_text_changed(const QString& str)
 	valid = _tag_expression.update_tag(str, md.filepath() );
 
 	set_tag_colors( valid );
+
 }
+
 
 void GUI_TagEdit::apply_tag(int idx)
 {
@@ -596,7 +605,7 @@ void GUI_TagEdit::apply_tag_all_clicked()
 			not_valid_str +=
 					QString::number(i+1) + "/" +
 					QString::number(n_tracks) + " " +
-					v_md[i].title + " " + tr("by") + " " +
+					v_md[i].title + " " + Lang::get(Lang::By).space() +
 					v_md[i].artist + "<br />";
 		}
 	}
@@ -712,4 +721,3 @@ void GUI_TagEdit::btn_tag_help_clicked()
 	QUrl url(QString("http://sayonara-player.com/faq.php#tag-edit"));
 	QDesktopServices::openUrl(url);
 }
-

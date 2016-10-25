@@ -20,9 +20,9 @@
 
 #include "AlbumInfo.h"
 #include "MetaDataInfo.h"
+#include "Helper/Language.h"
 #include "Helper/MetaData/Album.h"
 #include "Database/LibraryDatabase.h"
-
 
 AlbumInfo::AlbumInfo(const MetaDataList& v_md) :
 	MetaDataInfo(v_md){
@@ -47,11 +47,11 @@ AlbumInfo::AlbumInfo(const MetaDataList& v_md) :
 		bool success;
 
 		if(_artists.size() > 1){
-			str_sampler = tr("yes");
+			str_sampler = Lang::get(Lang::Yes).toLower();
 			_info.insert(InfoStrings::Sampler, str_sampler);
 		}
 		if(_artists.size() == 1){
-			str_sampler = tr("no");
+			str_sampler = Lang::get(Lang::No).toLower();
 			_info.insert(InfoStrings::Sampler, str_sampler);
 		}
 
@@ -87,7 +87,7 @@ void AlbumInfo::set_header(){
 }
 
 void AlbumInfo::set_subheader(){
-	_subheader = tr("by") + " " + calc_artist_str();
+	_subheader = Lang::get(Lang::By).toLower() + " " + calc_artist_str();
 }
 
 void AlbumInfo::set_cover_location()

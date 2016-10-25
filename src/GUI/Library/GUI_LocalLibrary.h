@@ -29,8 +29,6 @@
 #ifndef GUI_LOCAL_LIBRARY_H_
 #define GUI_LOCAL_LIBRARY_H_
 
-
-#include "GUI/Library/ui_GUI_LocalLibrary.h"
 #include "GUI_AbstractLibrary.h"
 #include "Components/Library/LibraryNamespaces.h"
 #include "Interfaces/LibraryInterface/LibraryContainer/LibraryContainer.h"
@@ -105,8 +103,6 @@ private:
 	GUI_LibraryInfoBox*		_library_info_box=nullptr;
 	GUI_ImportFolder*		_ui_importer=nullptr;
 	LocalLibraryMenu*		_local_library_menu=nullptr;
-
-
 };
 
 #endif /* GUI_LocalLibrary_H_ */

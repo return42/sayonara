@@ -37,7 +37,10 @@ class GUI_Bookmarks :
 {
 	Q_OBJECT
 
-	friend class PlayerPluginInterface;
+private:
+	Bookmarks*	_bookmarks=nullptr;
+	Ui::GUI_Bookmarks*	ui=nullptr;
+
 
 public:
 	explicit GUI_Bookmarks(QWidget *parent=nullptr);
@@ -47,13 +50,17 @@ public:
 	QString get_display_name() const override;
 	
 
+private:
+	void language_changed() override;
+	void init_ui() override;
+
+
 private slots:
 	void combo_changed(int new_idx);
 	void next_clicked();
 	void prev_clicked();
 	void new_clicked();
 	void del_clicked();
-//	void del_all_clicked();
 	void loop_clicked(bool);
 
 	void prev_changed(const Bookmark& bookmark);
@@ -62,18 +69,7 @@ private slots:
 	void disable_prev();
 	void disable_next();
 
-	void bookmarks_changed(const QList<Bookmark>& bookmarks);
-
-
-protected:
-	void language_changed() override;
-	void init_ui() override;
-
-
-private:
-	Bookmarks*	_bookmarks=nullptr;
-	Ui::GUI_Bookmarks*	ui=nullptr;
-
+	void bookmarks_changed();
 };
 
 #endif // GUI_BOOKMARKS_H

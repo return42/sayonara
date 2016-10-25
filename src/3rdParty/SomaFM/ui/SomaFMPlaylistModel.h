@@ -34,7 +34,6 @@
 class SomaFMStation;
 class SomaFMPlaylistModel : public QStringListModel
 {
-    Q_OBJECT
 
 private:
 	SomaFMStation _station;
@@ -46,9 +45,6 @@ public:
     QMimeData* mimeData(const QModelIndexList &indexes) const override;
 
     void setStation(const SomaFMStation& station);
-
-
-
 };
 
 

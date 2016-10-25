@@ -22,7 +22,7 @@
 #include "FileListModel.h"
 #include "GUI/DirectoryWidget/ui_GUI_DirectoryWidget.h"
 
-#include "GUI/Helper/SearchableWidget/SearchableFileTreeView.h"
+#include "GUI/Helper/SearchableWidget/SearchableFileTreeModel.h"
 #include "GUI/Helper/ContextMenu/LibraryContextMenu.h"
 #include "Helper/Message/GlobalMessage.h"
 
@@ -34,6 +34,7 @@
 #include "Helper/FileHelper.h"
 #include "Helper/Logger/Logger.h"
 #include "Helper/globals.h"
+#include "Helper/Language.h"
 #include "DirectoryDelegate.h"
 
 #include <QItemSelectionModel>
@@ -97,10 +98,12 @@ QComboBox* GUI_DirectoryWidget::get_libchooser(){
 	return ui->combo_libchooser;
 }
 
+
 MD::Interpretation GUI_DirectoryWidget::get_metadata_interpretation() const
 {
 	return MD::Interpretation::Tracks;
 }
+
 
 MetaDataList GUI_DirectoryWidget::get_data_for_info_dialog() const
 {
@@ -160,7 +163,7 @@ void GUI_DirectoryWidget::dir_play_next_clicked()
 void GUI_DirectoryWidget::dir_delete_clicked()
 {
 	GlobalMessage* gm = GlobalMessage::getInstance();
-	GlobalMessage::Answer answer = gm->question(tr("Really?"));
+	GlobalMessage::Answer answer = gm->question(Lang::get(Lang::Really) + "?");
 
 	if(answer != GlobalMessage::Answer::Yes){
 		return;
@@ -195,7 +198,7 @@ void GUI_DirectoryWidget::file_play_next_clicked()
 void GUI_DirectoryWidget::file_delete_clicked()
 {
 	GlobalMessage* gm = GlobalMessage::getInstance();
-	GlobalMessage::Answer answer = gm->question(tr("Really?"));
+	GlobalMessage::Answer answer = gm->question(Lang::get(Lang::Really) + "?");
 
 	if(answer != GlobalMessage::Answer::Yes){
 		return;
@@ -258,7 +261,7 @@ void GUI_DirectoryWidget::search_button_clicked(){
 	else{
 		_search_term = ui->le_search->text();
 		_found_idx = _dir_model->getFirstRowIndexOf(_search_term);
-		ui->btn_search->setText(tr("Search next"));
+		ui->btn_search->setText(Lang::get(Lang::SearchNext));
 	}
 
 	if(!_found_idx.isValid()){
@@ -277,14 +280,14 @@ void GUI_DirectoryWidget::search_button_clicked(){
 void GUI_DirectoryWidget::search_term_changed(const QString& term)
 {
 	if(term != _search_term && !term.isEmpty()){
-		ui->btn_search->setText(tr("Search"));
+		ui->btn_search->setText(Lang::get(Lang::Search));
 	}
 }
 
 
 void GUI_DirectoryWidget::init_dir_view()
 {
-	connect(_dir_model, &AbstractSearchFileTreeModel::directoryLoaded,
+	connect(_dir_model, &SearchableFileTreeModel::directoryLoaded,
 			this, &GUI_DirectoryWidget::directory_loaded);
 }
 

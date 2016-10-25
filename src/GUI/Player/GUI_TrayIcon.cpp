@@ -24,6 +24,7 @@
 #include "GUI/Helper/Style/Style.h"
 #include "Helper/MetaData/MetaData.h"
 #include "Helper/Settings/Settings.h"
+#include "Helper/Language.h"
 
 #include "Components/PlayManager/PlayManager.h"
 
@@ -65,13 +66,13 @@ GUI_TrayIcon::~GUI_TrayIcon() {}
 
 void GUI_TrayIcon::language_changed()
 {
-	_play_action->setText(tr("Play"));
-	_fwd_action->setText(tr("Next"));
-	_bwd_action->setText(tr("Previous"));
-	_stop_action->setText(tr("Stop"));
-	_mute_action->setText(tr("Mute"));
-	_close_action->setText(tr("Close"));
-	_show_action->setText(tr("Show"));
+	_play_action->setText(Lang::get(Lang::PlayPause));
+	_fwd_action->setText(Lang::get(Lang::NextTrack));
+	_bwd_action->setText(Lang::get(Lang::PreviousTrack));
+	_stop_action->setText(Lang::get(Lang::Stop));
+	_mute_action->setText(Lang::get(Lang::MuteOn));
+	_close_action->setText(Lang::get(Lang::Close));
+	_show_action->setText(Lang::get(Lang::Show));
 	_cur_song_action->setText(tr("Current song"));
 }
 
@@ -81,20 +82,20 @@ void GUI_TrayIcon::init_context_menu()
 		return;
 	}
 
-	_play_action = new QAction(tr("Play"), this);
+	_play_action = new QAction(Lang::get(Lang::PlayPause), this);
 	_play_action->setIcon(GUI::get_icon("play"));
-	_stop_action = new QAction(tr("Stop"), this);
+	_stop_action = new QAction(Lang::get(Lang::Stop), this);
 	_stop_action->setIcon(GUI::get_icon("stop"));
-	_bwd_action = new QAction(tr("Previous"), this);
+	_bwd_action = new QAction(Lang::get(Lang::PreviousTrack), this);
 	_bwd_action->setIcon(GUI::get_icon("bwd"));
-	_fwd_action = new QAction(tr("Next"), this);
+	_fwd_action = new QAction(Lang::get(Lang::NextTrack), this);
 	_fwd_action->setIcon(GUI::get_icon("fwd"));
-	_mute_action = new QAction(tr("Mute"), this);
+	_mute_action = new QAction(Lang::get(Lang::MuteOn), this);
 	_mute_action->setIcon(GUI::get_icon("vol_mute"));
-	_show_action = new QAction(tr("Show"), this);
+	_show_action = new QAction(Lang::get(Lang::Show), this);
 	_cur_song_action = new QAction(tr("Current song"), this);
 	_cur_song_action->setIcon(GUI::get_icon("info"));
-	_close_action = new QAction(tr("Close"), this);
+	_close_action = new QAction(Lang::get(Lang::Close), this);
 	_close_action->setIcon(GUI::get_icon("power_off"));
 
 	_context_menu = new QMenu();
@@ -158,7 +159,7 @@ void GUI_TrayIcon::notify(const MetaData& md)
 		return;
 	}
 
-	QString msg = md.title + tr(" by ") + md.artist;
+	QString msg = md.title + " " + Lang::get(Lang::By).space() + md.artist;
 	int timeout = _settings->get(Set::Notification_Timeout);
 
 	showMessage("Sayonara", msg, QSystemTrayIcon::Information, timeout);
@@ -189,7 +190,7 @@ void GUI_TrayIcon::playstate_changed(PlayState state)
 
 			if(_play_action){
 				_play_action->setIcon(GUI::get_icon("pause"));
-				_play_action->setText(tr("Pause"));
+				_play_action->setText(Lang::get(Lang::Pause));
 			}
 
 			break;
@@ -198,34 +199,12 @@ void GUI_TrayIcon::playstate_changed(PlayState state)
 			setIcon(GUI::get_icon("pause"));
 			if(_play_action){
 				_play_action->setIcon(GUI::get_icon("play"));
-				_play_action->setText(tr("Play"));
+				_play_action->setText(Lang::get(Lang::Play));
 			}
 
 			break;
 	}
 }
-
-/*
-void GUI_TrayIcon::set_enable_play(bool b)
-{
-	if(_play_action){
-		_play_action->setEnabled(b);
-	}
-}
-*/
-
-/*void GUI_TrayIcon::set_enable_stop(bool b)
-{
-	if(_stop_action){
-		_stop_action->setEnabled(b);
-	}
-}*/
-
-
-/*void GUI_TrayIcon::set_enable_mute(bool b)
-{
-	Q_UNUSED(b)
-}*/
 
 
 void GUI_TrayIcon::set_enable_fwd(bool b)
@@ -234,15 +213,6 @@ void GUI_TrayIcon::set_enable_fwd(bool b)
 		_fwd_action->setEnabled(b);
 	}
 }
-
-//TODO: never used
-/*void GUI_TrayIcon::set_enable_bwd(bool b)
-{
-	if(_bwd_action){
-		_bwd_action->setEnabled(b);
-	}
-}*/
-
 
 void GUI_TrayIcon::play_clicked()
 {
@@ -306,12 +276,12 @@ void GUI_TrayIcon::mute_changed(bool muted)
 	if(_mute_action){
 		if(!muted) {
 			_mute_action->setIcon(GUI::get_icon("vol_mute" + suffix));
-			_mute_action->setText(tr("Mute"));
+			_mute_action->setText(Lang::get(Lang::MuteOn));
 		}
 
 		else {
 			_mute_action->setIcon(GUI::get_icon("vol_3" + suffix));
-			_mute_action->setText(tr("Unmute"));
+			_mute_action->setText(Lang::get(Lang::MuteOff));
 		}
 	}
 }

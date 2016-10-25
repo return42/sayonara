@@ -28,6 +28,7 @@
 
 #include "Helper/DirectoryReader/DirectoryReader.h"
 #include "Helper/MetaData/MetaDataList.h"
+#include "Helper/Language.h"
 
 #include <QShortcut>
 #include <QInputDialog>
@@ -72,8 +73,8 @@ void PlaylistTabBar::save_as_pressed(){
 
 	QString name = QInputDialog::getText(
 				this,
-				tr("Save as..."),
-				cur_text + ": " + tr("Save as"));
+				Lang::get(Lang::SaveAs).triplePt(),
+				cur_text + ": " + Lang::get(Lang::SaveAs));
 
 	emit sig_tab_save_as(currentIndex(), name);
 }
@@ -109,8 +110,8 @@ void PlaylistTabBar::rename_pressed(){
 
 	QString name = QInputDialog::getText(
 				this,
-				tr("Rename"),
-				cur_text + ": " + tr("Rename"));
+				Lang::get(Lang::Rename),
+				cur_text + ": " + Lang::get(Lang::Rename));
 
 	if(name.compare(cur_text) == 0){
 		return;
@@ -178,8 +179,8 @@ void PlaylistTabBar::wheelEvent(QWheelEvent* e)
 void PlaylistTabBar::init_shortcuts()
 {
 	ShortcutHandler* sch = ShortcutHandler::getInstance();
-	Shortcut sc1 = sch->add(Shortcut(this, "add_tab", tr("Add tab"), "Ctrl+t"));
-	Shortcut sc2 = sch->add(Shortcut(this, "close_tab", tr("Close tab"), "Ctrl+w"));
+	Shortcut sc1 = sch->add(Shortcut(this, "add_tab", Lang::get(Lang::AddTab), "Ctrl+t"));
+	Shortcut sc2 = sch->add(Shortcut(this, "close_tab", Lang::get(Lang::CloseTab), "Ctrl+w"));
 
 	sc1.create_qt_shortcut(this, this, SIGNAL(sig_add_tab_clicked()));
 	sc2.create_qt_shortcut(this, this, SLOT(close_pressed()));
@@ -189,11 +190,11 @@ void PlaylistTabBar::init_shortcuts()
 QString PlaylistTabBar::get_shortcut_text(const QString& shortcut_identifier) const
 {
 	if(shortcut_identifier == "add_tab"){
-		return tr("Add tab");
+		return Lang::get(Lang::AddTab);
 	}
 
 	if(shortcut_identifier == "close_tab"){
-		return tr("Close tab");
+		return Lang::get(Lang::CloseTab);
 	}
 
 	return "";

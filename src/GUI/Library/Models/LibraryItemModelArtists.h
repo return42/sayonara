@@ -34,7 +34,9 @@
 #include "Helper/Pimpl.h"
 
 class ColumnHeader;
-class LibraryItemModelArtists : public LibraryItemModel {
+class LibraryItemModelArtists :
+		public LibraryItemModel
+{
 
 Q_OBJECT
 public:
@@ -51,15 +53,13 @@ public:
 	int get_id_by_row(int row) override;
 	QString get_string(int row) const override;
 
-	QModelIndex	getFirstRowIndexOf(const QString& substr) override;
-	QModelIndex	getPrevRowIndexOf(const QString& substr, int row, const QModelIndex& parent=QModelIndex()) override;
-	QModelIndex	getNextRowIndexOf(const QString& substr, int row, const QModelIndex& parent=QModelIndex()) override;
-
 	CoverLocation get_cover(const SP::Set<int>& indexes) const override;
+	int get_searchable_column() const override;
 
 
 private:
 	PIMPL(LibraryItemModelArtists)
+
 };
 
 

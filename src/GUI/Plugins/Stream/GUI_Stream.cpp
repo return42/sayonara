@@ -21,6 +21,7 @@
 
 #include "GUI_Stream.h"
 #include "GUI/Plugins/Stream/ui_GUI_Stream.h"
+#include "Helper/Language.h"
 
 GUI_Stream::GUI_Stream(QWidget *parent) :
 	GUI_AbstractStream(new StreamHandlerStreams(), parent)
@@ -48,7 +49,9 @@ QString GUI_Stream::get_display_name() const
 
 void GUI_Stream::language_changed()
 {
-	ui->retranslateUi(this);
+	if(ui){
+		ui->retranslateUi(this);
+	}
 }
 
 void GUI_Stream::init_ui()
@@ -60,5 +63,5 @@ void GUI_Stream::init_ui()
 
 QString GUI_Stream::get_title_fallback_name() const
 {
-	return tr("Radio Station");
+	return Lang::get(Lang::Radio);
 }

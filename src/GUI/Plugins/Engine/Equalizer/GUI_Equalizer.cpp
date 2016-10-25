@@ -34,8 +34,8 @@
 #include "GUI/Helper/Delegates/ComboBoxDelegate.h"
 #include "Helper/EqualizerPresets.h"
 
-QString calc_lab(int val) {
-
+static QString calc_lab(int val)
+{
 	if(val > 0) {
         double v = val / 2.0;
         if(val % 2 == 0)
@@ -45,7 +45,6 @@ QString calc_lab(int val) {
     }
 
     return QString::number(val) + ".0";
-
 }
 
 GUI_Equalizer::GUI_Equalizer(QWidget *parent) :
@@ -62,31 +61,9 @@ GUI_Equalizer::~GUI_Equalizer()
 	}
 }
 
-QString GUI_Equalizer::get_name() const
-{
-	return "Equalizer";
-}
-
-QString GUI_Equalizer::get_display_name() const
-{
-	return tr("Equalizer");
-}
-
-
-void GUI_Equalizer::language_changed() {
-	if(!is_ui_initialized()){
-		return;
-	}
-
-	ui->retranslateUi(this);
-}
 
 void GUI_Equalizer::init_ui()
 {
-	if(is_ui_initialized()){
-		return;
-	}
-
 	setup_parent(this, &ui);
 
 	_engine = EngineHandler::getInstance();
@@ -135,6 +112,26 @@ void GUI_Equalizer::init_ui()
 	connect(ui->combo_presets, &QComboBox::editTextChanged, this, &GUI_Equalizer::text_changed);
 
 	fill_eq_presets();
+}
+
+
+QString GUI_Equalizer::get_name() const
+{
+	return "Equalizer";
+}
+
+QString GUI_Equalizer::get_display_name() const
+{
+	return tr("Equalizer");
+}
+
+
+void GUI_Equalizer::language_changed() {
+	if(!is_ui_initialized()){
+		return;
+	}
+
+	ui->retranslateUi(this);
 }
 
 

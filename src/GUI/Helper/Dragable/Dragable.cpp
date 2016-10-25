@@ -1,6 +1,7 @@
 #include "Dragable.h"
 #include "GUI/Helper/GUI_Helper.h"
 #include "Helper/FileHelper.h"
+#include "Helper/Language.h"
 
 #include <QPoint>
 #include <QMimeData>
@@ -50,13 +51,15 @@ struct Dragable::Private
 		}
 
 		if(tracks > 0){
-			ret << QString::number(tracks) + " " + "tracks";
+			ret << QString::number(tracks) + " " + Lang::get(Lang::Tracks).toLower();
 		}
+
 		if(playlists > 0){
-			ret << QString::number(playlists) + " " + "playlists";
+			ret << QString::number(playlists) + " " + Lang::get(Lang::Playlists).toLower();
 		}
+
 		if(dirs >0){
-			ret << QString::number(dirs) + " " + "directories";
+			ret << QString::number(dirs) + " " + Lang::get(Lang::Directories).toLower();
 		}
 
 		return ret;

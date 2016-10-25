@@ -24,6 +24,7 @@
 
 #include "GUI_DirectoryWidget.h"
 #include "GUI/Helper/IconLoader/IconLoader.h"
+#include "Helper/Language.h"
 
 DirectoryLibraryContainer::DirectoryLibraryContainer(QObject* parent) :
 	LibraryContainerInterface(parent)
@@ -40,7 +41,7 @@ QString DirectoryLibraryContainer::get_name() const
 
 QString DirectoryLibraryContainer::get_display_name() const
 {
-	return tr("Directories");
+	return Lang::get(Lang::Directories);
 }
 
 QIcon DirectoryLibraryContainer::get_icon() const

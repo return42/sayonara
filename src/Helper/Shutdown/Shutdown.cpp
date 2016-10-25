@@ -31,7 +31,7 @@
 #include "Components/PlayManager/PlayManager.h"
 #include "Interfaces/Notification/NotificationHandler.h"
 #include "Helper/Logger/Logger.h"
-
+#include "Helper/Language.h"
 
 #ifdef WITH_SHUTDOWN
 
@@ -68,7 +68,7 @@ void Shutdown::shutdown_after_end()
 {
 	_is_running = true;
 
-	NotificationHandler::getInstance()->notify(tr("Shutdown"),
+	NotificationHandler::getInstance()->notify(Lang::get(Lang::Shutdown),
 											   tr("Computer will shutdown after playlist has finished"),
 											   Helper::get_share_path() + "logo.png");
 }
@@ -93,7 +93,7 @@ void Shutdown::shutdown(quint64 ms){
 	_timer_countdown->start(1000);
 	emit sig_started(ms);
 
-	NotificationHandler::getInstance()->notify(tr("Shutdown"),
+	NotificationHandler::getInstance()->notify(Lang::get(Lang::Shutdown),
 											   tr("Computer will shutdown in %1 minutes").arg(Helper::cvt_ms_to_string(ms, false, true, false)),
 											   Helper::get_share_path() + "logo.png");
 }
@@ -118,7 +118,7 @@ void Shutdown::countdown_timeout(){
 	sp_log(Log::Info) << "Time to go: " << _msecs2go;
 
 	if(_msecs2go % 60000 == 0){
-		NotificationHandler::getInstance()->notify(tr("Shutdown"),
+		NotificationHandler::getInstance()->notify(Lang::get(Lang::Shutdown),
 												   tr("Computer will shutdown in %1 minutes").arg(Helper::cvt_ms_to_string(_msecs2go, false, true, false)),
 												   Helper::get_share_path() + "logo.png");
 	}

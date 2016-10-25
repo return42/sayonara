@@ -29,7 +29,6 @@
 #include "LyricLookup.h"
 #include "LyricServer.h"
 
-#include "Helper/Helper.h"
 #include "Helper/WebAccess/AsyncWebAccess.h"
 
 #include <QFile>

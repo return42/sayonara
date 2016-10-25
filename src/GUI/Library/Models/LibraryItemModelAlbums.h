@@ -36,7 +36,9 @@
 
 class AlbumList;
 class ColumnHeader;
-class LibraryItemModelAlbums : public LibraryItemModel {
+class LibraryItemModelAlbums :
+		public LibraryItemModel
+{
 
 Q_OBJECT
 
@@ -52,10 +54,6 @@ public:
 
 	void sort(int column, Qt::SortOrder order) override;
 
-	QModelIndex	getFirstRowIndexOf(const QString& substr) override;
-	QModelIndex	getNextRowIndexOf(const QString& substr, int row, const QModelIndex& parent=QModelIndex()) override;
-	QModelIndex	getPrevRowIndexOf(const QString& substr, int row, const QModelIndex& parent=QModelIndex()) override;
-
 	int	get_id_by_row(int row) override;
 	QString get_string(int row) const override;
 
@@ -65,6 +63,10 @@ public:
 private:
 	PIMPL(LibraryItemModelAlbums)
 
+
+	// LibraryItemModel interface
+	public:
+		int get_searchable_column() const override;
 };
 
 #endif /* LIBRARYITEMMODELALBUMS_H_ */

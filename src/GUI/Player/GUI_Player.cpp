@@ -25,8 +25,10 @@
 #include "GUI/Helper/GUI_Helper.h"
 #include "GUI/Helper/Style/Style.h"
 
+
 #include "Helper/Message/Message.h"
 #include "Helper/Logger/Logger.h"
+#include "Helper/Language.h"
 
 #ifdef WITH_MTP
 	#include "GUI/MTP/GUI_MTP.h"
@@ -105,7 +107,7 @@ void GUI_Player::init_gui()
 	lab_copyright->setText(tr("Copyright") + " 2011-" + QString::number(QDateTime::currentDateTime().date().year()));
 
 	action_viewLibrary->setChecked(_settings->get(Set::Lib_Show));
-	action_viewLibrary->setText(tr("Library"));
+	action_viewLibrary->setText(Lang::get(Lang::Library));
 
 	action_Dark->setChecked(_settings->get(Set::Player_Style));
 	action_Dark->setShortcut(QKeySequence("F10"));

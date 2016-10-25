@@ -23,6 +23,7 @@
 #include "Components/Library/AbstractLibrary.h"
 #include "Helper/Library/SearchMode.h"
 #include "Helper/Settings/Settings.h"
+#include "Helper/Language.h"
 
 #include "GUI/Library/Helper/ColumnHeader.h"
 #include <QKeySequence>
@@ -103,26 +104,26 @@ void GUI_AbstractLibrary::init_headers()
 
 	Library::Sortings so = _settings->get(Set::Lib_Sorting);
 
-	ColumnHeader* t_h0 = new SharpHeader(true, Library::SortOrder::TrackNumAsc, Library::SortOrder::TrackNumDesc, 25);
-	ColumnHeader* t_h1 = new TitleHeader(false, Library::SortOrder::TrackTitleAsc, Library::SortOrder::TrackTitleDesc, 0.4, 200);
-	ColumnHeader* t_h2 = new ArtistHeader(true, Library::SortOrder::TrackArtistAsc, Library::SortOrder::TrackArtistDesc, 0.3, 160);
-	ColumnHeader* t_h3 = new AlbumHeader(true, Library::SortOrder::TrackAlbumAsc, Library::SortOrder::TrackAlbumDesc, 0.3, 160);
-	ColumnHeader* t_h4 = new YearHeader(true, Library::SortOrder::TrackYearAsc, Library::SortOrder::TrackYearDesc, 50);
-	ColumnHeader* t_h5 = new DurationShortHeader(true, Library::SortOrder::TrackLenghtAsc, Library::SortOrder::TrackLengthDesc, 50);
-	ColumnHeader* t_h6 = new BitrateHeader(true, Library::SortOrder::TrackBitrateAsc, Library::SortOrder::TrackBitrateDesc, 75);
-	ColumnHeader* t_h7 = new FilesizeHeader( true, Library::SortOrder::TrackSizeAsc, Library::SortOrder::TrackSizeDesc, 75);
-	ColumnHeader* t_h8 = new RatingHeader(true, Library::SortOrder::TrackRatingAsc, Library::SortOrder::TrackRatingDesc, 80);
+	ColumnHeader* t_h0 = new ColumnHeader(ColumnHeader::Sharp, true, Library::SortOrder::TrackNumAsc, Library::SortOrder::TrackNumDesc, 25);
+	ColumnHeader* t_h1 = new ColumnHeader(ColumnHeader::Title, false, Library::SortOrder::TrackTitleAsc, Library::SortOrder::TrackTitleDesc, 0.4, 200);
+	ColumnHeader* t_h2 = new ColumnHeader(ColumnHeader::Artist, true, Library::SortOrder::TrackArtistAsc, Library::SortOrder::TrackArtistDesc, 0.3, 160);
+	ColumnHeader* t_h3 = new ColumnHeader(ColumnHeader::Album, true, Library::SortOrder::TrackAlbumAsc, Library::SortOrder::TrackAlbumDesc, 0.3, 160);
+	ColumnHeader* t_h4 = new ColumnHeader(ColumnHeader::Year, true, Library::SortOrder::TrackYearAsc, Library::SortOrder::TrackYearDesc, 50);
+	ColumnHeader* t_h5 = new ColumnHeader(ColumnHeader::DurationShort, true, Library::SortOrder::TrackLenghtAsc, Library::SortOrder::TrackLengthDesc, 50);
+	ColumnHeader* t_h6 = new ColumnHeader(ColumnHeader::Bitrate, true, Library::SortOrder::TrackBitrateAsc, Library::SortOrder::TrackBitrateDesc, 75);
+	ColumnHeader* t_h7 = new ColumnHeader(ColumnHeader::Filesize, true, Library::SortOrder::TrackSizeAsc, Library::SortOrder::TrackSizeDesc, 75);
+	ColumnHeader* t_h8 = new ColumnHeader(ColumnHeader::Rating, true, Library::SortOrder::TrackRatingAsc, Library::SortOrder::TrackRatingDesc, 80);
 
-	ColumnHeader* al_h0 = new SharpHeader(true, Library::SortOrder::NoSorting, Library::SortOrder::NoSorting, 20);
-	ColumnHeader* al_h1 = new AlbumHeader(false, Library::SortOrder::AlbumNameAsc, Library::SortOrder::AlbumNameDesc, 1.0, 160);
-	ColumnHeader* al_h2 = new DurationHeader(true, Library::SortOrder::AlbumDurationAsc, Library::SortOrder::AlbumDurationDesc, 90);
-	ColumnHeader* al_h3 = new NumTrackHeader(true, Library::SortOrder::AlbumTracksAsc, Library::SortOrder::AlbumTracksDesc, 80);
-	ColumnHeader* al_h4 = new YearHeader(true, Library::SortOrder::AlbumYearAsc, Library::SortOrder::AlbumYearDesc, 50);
-	ColumnHeader* al_h5 = new RatingHeader(true, Library::SortOrder::AlbumRatingAsc, Library::SortOrder::AlbumRatingDesc, 80);
+	ColumnHeader* al_h0 = new ColumnHeader(ColumnHeader::Sharp, true, Library::SortOrder::NoSorting, Library::SortOrder::NoSorting, 20);
+	ColumnHeader* al_h1 = new ColumnHeader(ColumnHeader::Album, false, Library::SortOrder::AlbumNameAsc, Library::SortOrder::AlbumNameDesc, 1.0, 160);
+	ColumnHeader* al_h2 = new ColumnHeader(ColumnHeader::Duration, true, Library::SortOrder::AlbumDurationAsc, Library::SortOrder::AlbumDurationDesc, 90);
+	ColumnHeader* al_h3 = new ColumnHeader(ColumnHeader::NumTracks, true, Library::SortOrder::AlbumTracksAsc, Library::SortOrder::AlbumTracksDesc, 80);
+	ColumnHeader* al_h4 = new ColumnHeader(ColumnHeader::Year, true, Library::SortOrder::AlbumYearAsc, Library::SortOrder::AlbumYearDesc, 50);
+	ColumnHeader* al_h5 = new ColumnHeader(ColumnHeader::Rating, true, Library::SortOrder::AlbumRatingAsc, Library::SortOrder::AlbumRatingDesc, 80);
 
-	ColumnHeader* ar_h0 = new SharpHeader(true, Library::SortOrder::NoSorting, Library::SortOrder::NoSorting, 20);
-	ColumnHeader* ar_h1 = new ArtistHeader(false, Library::SortOrder::ArtistNameAsc, Library::SortOrder::ArtistNameDesc, 1.0, 160 );
-	ColumnHeader* ar_h2 = new NumTrackHeader(true, Library::SortOrder::ArtistTrackcountAsc, Library::SortOrder::ArtistTrackcountDesc, 80);
+	ColumnHeader* ar_h0 = new ColumnHeader(ColumnHeader::Sharp, true, Library::SortOrder::NoSorting, Library::SortOrder::NoSorting, 20);
+	ColumnHeader* ar_h1 = new ColumnHeader(ColumnHeader::Artist, false, Library::SortOrder::ArtistNameAsc, Library::SortOrder::ArtistNameDesc, 1.0, 160 );
+	ColumnHeader* ar_h2 = new ColumnHeader(ColumnHeader::NumTracks, true, Library::SortOrder::ArtistTrackcountAsc, Library::SortOrder::ArtistTrackcountDesc, 80);
 
 	ColumnHeaderList track_columns, album_columns, artist_columns;
 
@@ -141,7 +142,7 @@ void GUI_AbstractLibrary::init_headers()
 	connect(_track_delegate, &LibraryRatingDelegate::sig_rating_changed, this, &GUI_AbstractLibrary::title_rating_changed);
 
 	_lv_tracks->setModel(_track_model);
-	_lv_tracks->setAbstractModel(_track_model);
+	_lv_tracks->setSearchModel(_track_model);
 	_lv_tracks->setItemDelegate(_track_delegate);
 	_lv_tracks->setAlternatingRowColors(true);
 	_lv_tracks->setDragEnabled(true);
@@ -149,7 +150,7 @@ void GUI_AbstractLibrary::init_headers()
 	_lv_tracks->set_table_headers(track_columns, _shown_cols_tracks, so.so_tracks);
 
 	_lv_artist->setModel(_artist_model);
-	_lv_artist->setAbstractModel(_artist_model);
+	_lv_artist->setSearchModel(_artist_model);
 	_lv_artist->setAlternatingRowColors(true);
 	_lv_artist->setItemDelegate(new QItemDelegate(_lv_artist));
 	_lv_artist->setDragEnabled(true);
@@ -157,7 +158,7 @@ void GUI_AbstractLibrary::init_headers()
 	_lv_artist->set_table_headers(artist_columns, _shown_cols_artist, so.so_artists);
 
 	_lv_album->setModel(_album_model);
-	_lv_album->setAbstractModel(_album_model);
+	_lv_album->setSearchModel(_album_model);
 	_lv_album->setItemDelegate(_album_delegate);
 	_lv_album->setAlternatingRowColors(true);
 	_lv_album->setDragEnabled(true);
@@ -510,7 +511,7 @@ void GUI_AbstractLibrary::id3_tags_changed() {
 
 
 void GUI_AbstractLibrary::show_delete_answer(QString answer) {
-	Message::info(answer, tr("Library"));
+	Message::info(answer, Lang::get(Lang::Library));
 }
 
 

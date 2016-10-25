@@ -36,8 +36,8 @@ StdPlaylist::StdPlaylist(int idx, QString name) :
 StdPlaylist::~StdPlaylist() {}
 
 
-bool StdPlaylist::change_track(int idx) {
-
+bool StdPlaylist::change_track(int idx) 
+{
 	metadata().set_cur_play_track(idx);
 
 	// ERROR: invalid idx
@@ -59,14 +59,15 @@ bool StdPlaylist::change_track(int idx) {
 	return true;
 }
 
+
 Playlist::Type StdPlaylist::get_type() const
 {
 	return Playlist::Type::Std;
 }
 
 
-int StdPlaylist::create_playlist(const MetaDataList& v_md) {
-
+int StdPlaylist::create_playlist(const MetaDataList& v_md) 
+{
 	bool was_changed = (!metadata().isEmpty() || this->was_changed());
 
 	if(Playlist::Mode::isActiveAndEnabled(_playlist_mode.append())){
@@ -83,8 +84,8 @@ int StdPlaylist::create_playlist(const MetaDataList& v_md) {
 }
 
 
-void StdPlaylist::play() {
-
+void StdPlaylist::play() 
+{
 	if( metadata().isEmpty() ) {
 		stop();
 		return;
@@ -96,12 +97,11 @@ void StdPlaylist::play() {
 }
 
 
-void StdPlaylist::pause() {
-
-}
+void StdPlaylist::pause() {}
 
 
-void StdPlaylist::stop() {
+void StdPlaylist::stop() 
+{
 	metadata().set_cur_play_track(-1);
 
 	for(MetaData& md : metadata()){
@@ -110,27 +110,26 @@ void StdPlaylist::stop() {
 }
 
 
-void StdPlaylist::fwd() {
-
+void StdPlaylist::fwd() 
+{
 	Playlist::Mode::State rep1 = _playlist_mode.rep1();
 	_playlist_mode.setRep1(false);
 
 	next();
 
 	_playlist_mode.setRep1(rep1);
-
 }
 
 
-void StdPlaylist::bwd() {
-
+void StdPlaylist::bwd() 
+{
 	int cur_idx = metadata().get_cur_play_track();
 	change_track( cur_idx - 1 );
 }
 
 
-void StdPlaylist::next() {
-
+void StdPlaylist::next() 
+{
 	int cur_track = metadata().get_cur_play_track();
 	int track_num = -1;
 
@@ -183,8 +182,8 @@ void StdPlaylist::next() {
 }
 
 
-int StdPlaylist::calc_shuffle_track(){
-
+int StdPlaylist::calc_shuffle_track()
+{
 	if(metadata().size() <= 1){
 		return -1;
 	}
@@ -221,8 +220,8 @@ int StdPlaylist::calc_shuffle_track(){
 }
 
 
-void StdPlaylist::metadata_changed(const MetaDataList& v_md_old, const MetaDataList& v_md_new) {
-
+void StdPlaylist::metadata_changed(const MetaDataList& v_md_old, const MetaDataList& v_md_new) 
+{
 	Q_UNUSED(v_md_old)
 
 	for(auto it=metadata().begin(); it !=metadata().end(); it++){
@@ -242,7 +241,9 @@ void StdPlaylist::metadata_changed(const MetaDataList& v_md_old, const MetaDataL
 	emit sig_data_changed(_playlist_idx);
 }
 
-void StdPlaylist::metadata_changed_single(const MetaData& md){
+
+void StdPlaylist::metadata_changed_single(const MetaData& md)
+{
 	IdxList idx_list = find_tracks(md.filepath());
 
 	for(int i : idx_list){

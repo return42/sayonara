@@ -51,6 +51,7 @@
 #include "Helper/Helper.h"
 #include "Helper/Random/RandomGenerator.h"
 #include "Helper/Macros.h"
+#include "Helper/Language.h"
 
 template<typename T>
 QString cvtNum2String(T num, int digits) {
@@ -95,8 +96,6 @@ QString Helper::cvt_ms_to_string(quint64 msec, bool empty_zero, bool colon, bool
 		return "";
 	}
 
-	StringDummy str(nullptr);
-
 	bool show_hrs = false;
 
 	quint64 sec = msec / 1000;
@@ -109,7 +108,7 @@ QString Helper::cvt_ms_to_string(quint64 msec, bool empty_zero, bool colon, bool
 	QString final_str;
 
 	if(days > 0 && show_days) {
-		final_str += QString::number(days) + str.days() + " ";
+		final_str += QString::number(days) + Lang::get(Lang::DaysShort) + " ";
 		hrs = hrs % 24;
 		show_hrs = true;
 	}
@@ -119,7 +118,7 @@ QString Helper::cvt_ms_to_string(quint64 msec, bool empty_zero, bool colon, bool
 	}
 
 	if(hrs > 0 || show_hrs) {
-		final_str += QString::number(hrs) + str.hours() + " ";
+		final_str += QString::number(hrs) + Lang::get(Lang::HoursShort) + " ";
 		min = min % 60;
 	}
 
@@ -128,7 +127,7 @@ QString Helper::cvt_ms_to_string(quint64 msec, bool empty_zero, bool colon, bool
 	}
 
 	else{
-		final_str +=  cvtNum2String(min, 2) + str.minutes() + " " + cvtNum2String(secs, 2);
+		final_str +=  cvtNum2String(min, 2) + Lang::get(Lang::MinutesShort) + " " + cvtNum2String(secs, 2);
 	}
 
 	return final_str;
@@ -311,42 +310,6 @@ void Helper::sleep_ms(quint64 ms)
 	std::this_thread::sleep_for(std::chrono::milliseconds(ms));
 #endif
 }
-
-Helper::StringDummy::StringDummy(QObject* parent) :
-	QObject(parent)
-{
-
-}
-
-
-QString Helper::StringDummy::various(){
-	return tr("Various");
-}
-
-QString Helper::StringDummy::days(){
-	return tr("d");
-}
-
-QString Helper::StringDummy::hours(){
-	return tr("h");
-}
-
-QString Helper::StringDummy::minutes(){
-	return tr("m");
-}
-
-QString Helper::StringDummy::seconds(){
-	return tr("s");
-}
-
-QString Helper::StringDummy::disc(){
-	return tr("Disc");
-}
-
-QString Helper::StringDummy::discs(){
-	return tr("Discs");
-}
-
 
 int Helper::get_random_number(int min, int max)
 {

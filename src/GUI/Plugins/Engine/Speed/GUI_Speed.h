@@ -29,7 +29,8 @@ class GUI_Speed : public PlayerPluginInterface
 {
 	Q_OBJECT
 
-	friend class PlayerPluginInterface;
+private:
+	Ui::GUI_Speed* ui=nullptr;
 
 public:
 	explicit GUI_Speed(QWidget *parent=nullptr);
@@ -39,7 +40,8 @@ public:
 	QString get_display_name() const override;
 
 private:
-	Ui::GUI_Speed* ui=nullptr;
+	void language_changed() override;
+	void init_ui() override;
 
 private slots:
 	void speed_changed(int value);
@@ -54,10 +56,6 @@ private slots:
 	void speed_hovered(int val);
 
 	void _sl_pitch_found_changed();
-
-protected:
-	void language_changed() override;
-	void init_ui() override;
 };
 
 

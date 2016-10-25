@@ -63,6 +63,7 @@ bool LibraryView::event(QEvent* e)
 				for(int i : selections)
 				{
 					QString name = _model->get_string(i);
+					name.replace("&", "&&");
 					int id = _model->get_id_by_row(i);
 					QAction* action = new QAction(name, _merge_menu);
 					action->setData(id);

@@ -32,23 +32,23 @@ class GUI_Broadcast :
 {
 	Q_OBJECT
 
-	friend class PlayerPluginInterface;
+private:
+	StreamServer*		_server=nullptr;
+	Ui::GUI_Broadcast*	ui=nullptr;
 
 public:
 	explicit GUI_Broadcast(QWidget *parent=nullptr);
-	~GUI_Broadcast();
+	virtual ~GUI_Broadcast();
 
 	QString get_name() const override;
 	QString get_display_name() const override;
 
 
-public slots:
-
-	void new_connection(const QString& ip);
-	void connection_closed(const QString& ip);
-	void can_listen(bool);
-
 private slots:
+	void connection_established(const QString& ip);
+	void connection_closed(const QString& ip);
+	void can_listen_changed(bool b);
+
 	void dismiss_clicked();
 	void dismiss_all_clicked();
 	void combo_changed(int idx);
@@ -59,12 +59,8 @@ private:
 	void dismiss_at(int idx);
 	void set_status_label();
 
-protected:
 	void language_changed() override;
 	void init_ui() override;
-
-	StreamServer*		_server=nullptr;
-	Ui::GUI_Broadcast*	ui=nullptr;
 
 };
 

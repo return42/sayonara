@@ -84,10 +84,9 @@ void LocalLibrary::_sl_search_mode_changed()
 {
 	sp_log(Log::Debug) << "Updating cissearch...";
 
-	Library::SearchModeMask mode = _settings->get(Set::Lib_SearchMode);
-	_db->updateArtistCissearch(mode);
-	_db->updateAlbumCissearch(mode);
-	_db->updateTrackCissearch(mode);
+	_db->updateArtistCissearch();
+	_db->updateAlbumCissearch();
+	_db->updateTrackCissearch();
 
 	sp_log(Log::Debug) << "Updating cissearch finished";
 }

@@ -26,6 +26,7 @@
 #include "Helper/MetaData/MetaDataList.h"
 #include "Helper/Settings/Settings.h"
 #include "Helper/Logger/Logger.h"
+#include "Helper/Language.h"
 
 
 SoundcloudJsonParser::SoundcloudJsonParser(const QByteArray& content) : 
@@ -98,7 +99,7 @@ bool SoundcloudJsonParser::parse_artist(Artist& artist, QJsonObject object)
 	}
 
 	if(get_string("description", object, description)){
-		artist.add_custom_field("description", tr("About"), description);
+		artist.add_custom_field("description", Lang::get(Lang::About), description);
 	}
 
 	int followers=-1;
@@ -199,7 +200,7 @@ bool SoundcloudJsonParser::parse_track(Artist& artist, MetaData& md, QJsonObject
 
 			if(md.album_id < 0){
 				md.album_id = 0;
-				md.album = tr("None");
+				md.album = Lang::get(Lang::None);
 			}
 		}
 	}

@@ -31,9 +31,6 @@
 #include <QPushButton>
 #include <QLineEdit>
 #include <QLabel>
-#include <QPainter>
-#include <QModelIndex>
-#include <QVariant>
 
 class AbstractStreamHandler;
 class DatabaseConnector;
@@ -44,17 +41,19 @@ class GUI_AbstractStream : public PlayerPluginInterface
 	Q_OBJECT
 
 private:
-	QLineEdit*				_le_url=nullptr;
 	QComboBox*				_combo_stream=nullptr;
 	QPushButton*			_btn_play=nullptr;
-	MenuToolButton*			_btn_tool=nullptr;
+	QLineEdit*				_le_url=nullptr;
 	QLabel*					_lab_listen=nullptr;
+	MenuToolButton*			_btn_tool=nullptr;
 
 	virtual void			init_connections();
 	virtual void			init_streams();
 
+
 signals:
 	void sig_close_event();
+
 
 public:
 	explicit GUI_AbstractStream(AbstractStreamHandler* stream_handler, QWidget* parent=nullptr);
@@ -76,6 +75,23 @@ protected:
 	virtual GlobalMessage::Answer		show_delete_confirm_dialog();
 
 	virtual QString						get_title_fallback_name() const=0;
+	virtual void						setup_stations(const QMap<QString, QString>&);
+
+	template<typename T, typename UiType>
+	void setup_parent(T* subclass, UiType** ui)
+	{
+		PlayerPluginInterface::setup_parent(subclass, ui);
+
+		_le_url =			(*ui)->le_url;
+		_combo_stream =		(*ui)->combo_stream;
+		_btn_play =			(*ui)->btn_play;
+		_btn_tool =			(*ui)->btn_tool;
+		_lab_listen =		(*ui)->lab_listen;
+
+		init_connections();
+		init_streams();
+	}
+
 
 protected slots:
 	virtual void listen_clicked();
@@ -88,24 +104,6 @@ protected slots:
 	void error();
 	void data_available();
 	void _sl_skin_changed();
-
-public:
-	virtual void setup_stations(const QMap<QString, QString>&);
-
-	template<typename T, typename UiType>
-	void setup_parent(T* subclass, UiType** ui){
-
-		PlayerPluginInterface::setup_parent(subclass, ui);
-
-		_le_url =			(*ui)->le_url;
-		_combo_stream =		(*ui)->combo_stream;
-		_btn_play =			(*ui)->btn_play;
-		_btn_tool =			(*ui)->btn_tool;
-		_lab_listen =		(*ui)->lab_listen;
-
-		init_connections();
-		init_streams();
-	}
 };
 
 #endif // GUI_AbstractStream_H

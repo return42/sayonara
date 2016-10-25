@@ -25,8 +25,9 @@
 #include "Helper/MetaData/Artist.h"
 #include "Helper/Library/Filter.h"
 
-DatabaseArtists::DatabaseArtists(QSqlDatabase db, quint8 db_id) :
-	DatabaseModule(db, db_id)
+DatabaseArtists::DatabaseArtists(const QSqlDatabase& db, quint8 db_id) :
+	DatabaseModule(db, db_id),
+	DatabaseSearchMode(db)
 {
 	_fetch_query = 	QString("SELECT ") +
 					"artists.artistid AS artistID, "
@@ -36,12 +37,13 @@ DatabaseArtists::DatabaseArtists(QSqlDatabase db, quint8 db_id) :
 					"FROM artists, albums, tracks ";
 }
 
-void DatabaseArtists::set_artist_fetch_query(const QString &query){
+void DatabaseArtists::set_artist_fetch_query(const QString &query)
+{
 	_fetch_query = query;
 }
 
-bool DatabaseArtists::db_fetch_artists(SayonaraQuery& q, ArtistList& result) {
-
+bool DatabaseArtists::db_fetch_artists(SayonaraQuery& q, ArtistList& result)
+{
 	result.clear();
 
 	if (!q.exec()) {
@@ -71,8 +73,8 @@ bool DatabaseArtists::db_fetch_artists(SayonaraQuery& q, ArtistList& result) {
 	return true;
 }
 
-QString DatabaseArtists::_create_order_string(Library::SortOrder sort) {
-
+QString DatabaseArtists::_create_order_string(Library::SortOrder sort)
+{
 	switch(sort) {
 		case Library::SortOrder::ArtistNameAsc:
 			return QString(" ORDER BY artistName ASC ");
@@ -88,9 +90,9 @@ QString DatabaseArtists::_create_order_string(Library::SortOrder sort) {
 }
 
 
-bool DatabaseArtists::getArtistByID(int id, Artist& artist) {
-
-	if(id == -1) return false;
+bool DatabaseArtists::getArtistByID(int id, Artist& artist)
+{
+	if(id < 0) return false;
 
 	DB_RETURN_NOT_OPEN_BOOL(_db);
 
@@ -119,8 +121,8 @@ bool DatabaseArtists::getArtistByID(int id, Artist& artist) {
 	return success;
 }
 
-int DatabaseArtists::getArtistID (const QString & artist)  {
-
+int DatabaseArtists::getArtistID (const QString & artist)
+{
 	DB_RETURN_NOT_OPEN_INT(_db);
 
 	SayonaraQuery q (_db);
@@ -139,8 +141,8 @@ int DatabaseArtists::getArtistID (const QString & artist)  {
 	return artistID;
 }
 
-bool DatabaseArtists::getAllArtists(ArtistList& result, Library::SortOrder sortorder, bool also_empty) {
-
+bool DatabaseArtists::getAllArtists(ArtistList& result, Library::SortOrder sortorder, bool also_empty)
+{
 	DB_RETURN_NOT_OPEN_BOOL(_db);
 
 	SayonaraQuery q (_db);
@@ -157,11 +159,10 @@ bool DatabaseArtists::getAllArtists(ArtistList& result, Library::SortOrder sorto
 	q.prepare(query);
 
 	return db_fetch_artists(q, result);
-
 }
 
-bool DatabaseArtists::getAllArtistsBySearchString(Library::Filter filter, ArtistList& result, Library::SortOrder sortorder) {
-
+bool DatabaseArtists::getAllArtistsBySearchString(Library::Filter filter, ArtistList& result, Library::SortOrder sortorder)
+{
 	DB_RETURN_NOT_OPEN_BOOL(_db);
 
 	SayonaraQuery q (_db);
@@ -224,9 +225,8 @@ bool DatabaseArtists::getAllArtistsBySearchString(Library::Filter filter, Artist
 	return db_fetch_artists(q, result);
 }
 
-
-int DatabaseArtists::insertArtistIntoDatabase (const QString& artist) {
-
+int DatabaseArtists::insertArtistIntoDatabase (const QString& artist)
+{
 	DB_RETURN_NOT_OPEN_INT(_db);
 
 	int id = getArtistID(artist);
@@ -235,9 +235,11 @@ int DatabaseArtists::insertArtistIntoDatabase (const QString& artist) {
 	}
 
 	SayonaraQuery q (_db);
+
+	QString cissearch = Library::convert_search_string(artist, search_mode());
 	q.prepare("INSERT INTO artists (name, cissearch) values (:artist, :cissearch);");
 	q.bindValue(":artist", artist);
-	q.bindValue(":cissearch", artist.toLower());
+	q.bindValue(":cissearch", cissearch);
 
 	if (!q.exec()) {
 		q.show_error(QString("Cannot insert artist ") + artist);
@@ -247,8 +249,8 @@ int DatabaseArtists::insertArtistIntoDatabase (const QString& artist) {
 	return getArtistID(artist);
 }
 
-int DatabaseArtists::insertArtistIntoDatabase (const Artist & artist) {
-
+int DatabaseArtists::insertArtistIntoDatabase (const Artist & artist)
+{
 	DB_RETURN_NOT_OPEN_INT(_db);
 
 	if(artist.id >= 0){
@@ -257,20 +259,22 @@ int DatabaseArtists::insertArtistIntoDatabase (const Artist & artist) {
 	}
 
 	return insertArtistIntoDatabase(artist.name);
-
 }
 
 
-int DatabaseArtists::updateArtist(const Artist &artist){
+int DatabaseArtists::updateArtist(const Artist &artist)
+{
 	DB_RETURN_NOT_OPEN_INT(_db);
 
 	SayonaraQuery q (_db);
 
 	if(artist.id < 0) return -1;
 
+	QString cissearch = Library::convert_search_string(artist.name, search_mode());
+
 	q.prepare("UPDATE artists SET name = :name, cissearch = :cissearch WHERE artistid = :artist_id;");
 	q.bindValue(":name", artist.name);
-	q.bindValue(":cissearch", artist.name.toLower());
+	q.bindValue(":cissearch", cissearch);
 	q.bindValue(":artist_id", artist.id);
 
 	if (!q.exec()) {
@@ -281,8 +285,10 @@ int DatabaseArtists::updateArtist(const Artist &artist){
 	return artist.id;
 }
 
-void DatabaseArtists::updateArtistCissearch(Library::SearchModeMask mode)
+void DatabaseArtists::updateArtistCissearch()
 {
+	DatabaseSearchMode::update_search_mode();
+
 	ArtistList artists;
 	getAllArtists(artists);
 
@@ -291,7 +297,7 @@ void DatabaseArtists::updateArtistCissearch(Library::SearchModeMask mode)
 		QString str = "UPDATE artists SET cissearch=:cissearch WHERE artistID=:id;";
 		SayonaraQuery q(_db);
 		q.prepare(str);
-		q.bindValue(":cissearch", Library::convert_search_string(artist.name, mode));
+		q.bindValue(":cissearch", Library::convert_search_string(artist.name, search_mode()));
 		q.bindValue(":id", artist.id);
 
 		if(!q.exec()){

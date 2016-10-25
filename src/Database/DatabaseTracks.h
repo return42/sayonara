@@ -23,6 +23,7 @@
 #ifndef DATABASETRACKS_H
 #define DATABASETRACKS_H
 
+#include "Database/DatabaseSearchMode.h"
 #include "Database/DatabaseModule.h"
 #include "Helper/typedefs.h"
 #include "Helper/Library/Filter.h"
@@ -34,7 +35,10 @@
 class MetaData;
 class MetaDataList;
 class CustomPlaylist;
-class DatabaseTracks : private DatabaseModule
+class DatabaseTracks :
+		private DatabaseModule,
+		private DatabaseSearchMode
+
 {
 
 private:
@@ -47,7 +51,7 @@ protected:
 	QString append_track_sort_string(QString querytext, Library::SortOrder sort);
 
 public:
-	DatabaseTracks(QSqlDatabase db, quint8 db_id);
+	DatabaseTracks(const QSqlDatabase& db, quint8 db_id);
 
 	virtual bool db_fetch_tracks(SayonaraQuery& q, MetaDataList& result);
 
@@ -74,7 +78,7 @@ public:
 	virtual bool deleteInvalidTracks();
 
 	virtual QStringList getAllGenres();
-	virtual void updateTrackCissearch(Library::SearchModeMask mode);
+	virtual void updateTrackCissearch();
 
 };
 

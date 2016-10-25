@@ -36,6 +36,7 @@
 #include "Helper/FileHelper.h"
 #include "Helper/Set.h"
 #include "Helper/globals.h"
+#include "Helper/Language.h"
 
 
 PlaylistItemModel::PlaylistItemModel(PlaylistPtr pl, QObject* parent) :
@@ -324,8 +325,8 @@ QModelIndex PlaylistItemModel::getNextRowIndexOf(const QString& substr, int row,
 QMap<QChar, QString> PlaylistItemModel::getExtraTriggers() 
 {
 	QMap<QChar, QString> map;
-	map.insert(ARTIST_SEARCH, tr("Artist"));
-	map.insert(ALBUM_SEARCH, tr("Album"));
+	map.insert(ARTIST_SEARCH, Lang::get(Lang::Artist));
+	map.insert(ALBUM_SEARCH, Lang::get(Lang::Album));
 	map.insert(JUMP, tr("Goto row"));
 	return map;
 }

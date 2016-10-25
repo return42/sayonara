@@ -31,12 +31,6 @@ class GUI_Stream :
 {
 	Q_OBJECT
 
-
-protected:
-	void language_changed() override;
-	QString get_title_fallback_name() const override;
-
-
 public:
 	explicit GUI_Stream(QWidget *parent=nullptr);
 	virtual ~GUI_Stream();
@@ -44,10 +38,13 @@ public:
 	QString get_name() const override;
 	QString get_display_name() const override;
 
-	void init_ui() override;
 
 private:
 	Ui::GUI_Stream* ui=nullptr;
+
+	void init_ui() override;
+	void language_changed() override;
+	QString get_title_fallback_name() const override;
 };
 
 #endif /* GUI_STREAM_H_ */

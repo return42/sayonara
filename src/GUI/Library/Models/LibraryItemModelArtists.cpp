@@ -34,6 +34,7 @@
 #include "GUI/Helper/GUI_Helper.h"
 #include "Helper/Library/SearchMode.h"
 #include "Helper/MetaData/Artist.h"
+#include "Helper/Language.h"
 
 #include <QAbstractListModel>
 #include <QStringList>
@@ -121,7 +122,7 @@ QVariant LibraryItemModelArtists::data(const QModelIndex & index, int role) cons
 				return artist.name;
 
 			case ColumnIndex::Artist::Tracks:
-				return QString::number(artist.num_songs) + " " + tr("tracks");
+				return QString::number(artist.num_songs) + " " + Lang::get(Lang::Tracks);
 
 			default:
 				return QVariant();
@@ -166,76 +167,12 @@ bool LibraryItemModelArtists::setData(const QModelIndex& index, const ArtistList
 	return false;
 }
 
-
-
 Qt::ItemFlags LibraryItemModelArtists::flags(const QModelIndex & index) const
 {
 	if (!index.isValid())
 		return Qt::ItemIsEnabled;
 
 	return QAbstractItemModel::flags(index);
-}
-
-QModelIndex LibraryItemModelArtists::getFirstRowIndexOf(const QString& substr) {
-	if(_m->artists.isEmpty()) {
-		return this->index(-1, -1);
-	}
-
-	else{
-		return getNextRowIndexOf(substr, 0);
-	}
-
-}
-
-
-QModelIndex	LibraryItemModelArtists::getNextRowIndexOf(const QString& substr, int row, const QModelIndex& parent) {
-
-	Q_UNUSED(parent)
-
-	int len = _m->artists.size();
-	if( len == 0 ) return this->index(-1, -1);
-
-	for(int i=0; i<len; i++) {
-		int row_idx = (i + row) % len;
-
-		QString artist_name = _m->artists[row_idx].name;
-		artist_name = Library::convert_search_string(artist_name, search_mode());
-
-		if(artist_name.contains(substr))
-		{
-			return this->index(row_idx, 0);
-		}
-	}
-
-	return this->index(-1, -1);
-}
-
-
-QModelIndex	LibraryItemModelArtists::getPrevRowIndexOf(const QString& substr, int row, const QModelIndex& parent) {
-
-	Q_UNUSED(parent)
-
-	int len = _m->artists.size();
-	if( len < row) row = len - 1;
-
-	for(int i=0; i<len; i++) {
-
-		if(row - i < 0) {
-			row = len - 1;
-		}
-
-		int row_idx = (row-i) % len;
-
-		QString artist_name = _m->artists[row_idx].name;
-		artist_name = Library::convert_search_string(artist_name, search_mode());
-
-		if(artist_name.contains(substr))
-		{
-			return this->index(row_idx, 0);
-		}
-	}
-
-	return this->index(-1, -1);
 }
 
 
@@ -252,4 +189,10 @@ CoverLocation LibraryItemModelArtists::get_cover(const SP::Set<int>& indexes) co
 
 	const Artist& artist = _m->artists[idx];
 	return CoverLocation::get_cover_location(artist);
+}
+
+
+int LibraryItemModelArtists::get_searchable_column() const
+{
+	return (int) ColumnIndex::Artist::Name;
 }

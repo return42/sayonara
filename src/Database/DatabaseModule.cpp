@@ -22,7 +22,7 @@
 
 #include "Database/DatabaseModule.h"
 
-DatabaseModule::DatabaseModule(QSqlDatabase db, quint8 db_id)
+DatabaseModule::DatabaseModule(const QSqlDatabase& db, quint8 db_id)
 {
 	_db = db;
 	_module_db_id = db_id;

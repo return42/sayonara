@@ -19,10 +19,9 @@
  */
 
 
-#include "Helper/FileHelper.h"
 #include "Helper/MetaData/Artist.h"
-#include "Helper/Helper.h"
 #include "Helper/Logger/Logger.h"
+#include "Helper/Language.h"
 
 #include <QHash>
 #include <QVariant>
@@ -123,7 +122,7 @@ QString ArtistList::get_major_artist(const QStringList& artists)
 
 	}
 
-	return Helper::StringDummy().various();
+	return Lang::get(Lang::Various);
 }
 
 QString ArtistList::get_major_artist() const

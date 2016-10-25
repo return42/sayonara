@@ -22,6 +22,7 @@
 #include "GUI/Helper/IconLoader/IconLoader.h"
 #include "GUI/Helper/GUI_Helper.h"
 #include "Helper/Settings/Settings.h"
+#include "Helper/Language.h"
 
 #include <algorithm>
 
@@ -31,15 +32,14 @@ ContextMenu::ContextMenu(QWidget *parent) :
 	_timer = new QTimer(this);
 	_icon_loader = IconLoader::getInstance();
 
-	_action_open = new QAction(GUI::get_icon("open"), tr("Open"), this);
-	_action_new = new QAction(GUI::get_icon("new"), tr("New"), this);
-	_action_undo = new QAction(GUI::get_icon("undo"), tr("Undo"), this);
-	_action_default = new QAction(GUI::get_icon("undo"), tr("Default"), this);
-	_action_save = new QAction(GUI::get_icon("save"), tr("Save"), this);
-	_action_save_as = new QAction(GUI::get_icon("save_as"), tr("Save as"), this);
-	_action_rename = new QAction(GUI::get_icon("edit"), tr("Rename"), this);
-	_action_delete = new QAction(GUI::get_icon("delete"), tr("Delete"), this);
-
+	_action_open = new QAction(GUI::get_icon("open"), QString(), this);
+	_action_new = new QAction(GUI::get_icon("new"), QString(), this);
+	_action_undo = new QAction(GUI::get_icon("undo"), QString(), this);
+	_action_default = new QAction(GUI::get_icon("undo"), QString(), this);
+	_action_save = new QAction(GUI::get_icon("save"), QString(), this);
+	_action_save_as = new QAction(GUI::get_icon("save_as"), QString(), this);
+	_action_rename = new QAction(GUI::get_icon("edit"), QString(), this);
+	_action_delete = new QAction(GUI::get_icon("delete"), QString(), this);
 
 	_actions << addSeparator()
 			<< _action_new
@@ -73,15 +73,16 @@ ContextMenu::ContextMenu(QWidget *parent) :
 	REGISTER_LISTENER(Set::Player_Style, skin_changed);
 }
 
-void ContextMenu::language_changed(){
-	 _action_new->setText(tr("New"));
-	 _action_open->setText(tr("Open"));
-	 _action_save->setText(tr("Save"));
-	 _action_save_as->setText(tr("Save as"));
-	 _action_rename->setText(tr("Rename"));
-	 _action_undo->setText(tr("Undo"));
-	 _action_default->setText(tr("Default"));
-	 _action_delete->setText(tr("Delete"));
+void ContextMenu::language_changed()
+{
+	 _action_new->setText(Lang::get(Lang::New));
+	 _action_open->setText(Lang::get(Lang::Open));
+	 _action_save->setText(Lang::get(Lang::Save));
+	 _action_save_as->setText(Lang::get(Lang::SaveAs));
+	 _action_rename->setText(Lang::get(Lang::Rename));
+	 _action_undo->setText(Lang::get(Lang::Undo));
+	 _action_default->setText(Lang::get(Lang::Default));
+	 _action_delete->setText(Lang::get(Lang::Delete));
 }
 
 void ContextMenu::skin_changed()

@@ -23,6 +23,7 @@
 #ifndef DATABASEALBUMS_H
 #define DATABASEALBUMS_H
 
+#include "Database/DatabaseSearchMode.h"
 #include "Database/DatabaseModule.h"
 #include "Components/Library/Sorting.h"
 #include "Helper/typedefs.h"
@@ -31,7 +32,9 @@
 
 class Album;
 class AlbumList;
-class DatabaseAlbums : private DatabaseModule
+class DatabaseAlbums :
+		private DatabaseModule,
+		private DatabaseSearchMode
 {
 
 private:
@@ -63,7 +66,7 @@ public:
 
 	virtual int updateAlbum(const Album& album);
 
-	virtual void updateAlbumCissearch(Library::SearchModeMask mode);
+	virtual void updateAlbumCissearch();
 
 };
 

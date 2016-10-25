@@ -35,11 +35,11 @@ class DatabaseLibrary :
 
 public:
 
-	DatabaseLibrary(QSqlDatabase db, quint8 db_id);
+	DatabaseLibrary(const QSqlDatabase& db, quint8 db_id);
 
 	virtual void createIndexes();
 	virtual bool storeMetadata(const MetaDataList & v_md);
-//	virtual void deleteTracksAlbumsArtists();
+
 };
 
 #endif // DATABASELIBRARY_H

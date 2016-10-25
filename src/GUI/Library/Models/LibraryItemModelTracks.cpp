@@ -37,6 +37,7 @@
 #include "Helper/FileHelper.h"
 #include "Helper/Library/SearchMode.h"
 #include "Helper/MetaData/MetaDataList.h"
+#include "Helper/Language.h"
 
 struct LibraryItemModelTracks::Private
 {
@@ -100,7 +101,7 @@ QVariant LibraryItemModelTracks::data(const QModelIndex &index, int role) const{
 
 			case ColumnIndex::Track::Year:
 				if(md.year == 0){
-					return tr("None");
+					return Lang::get(Lang::None);
 				}
 				
 				return md.year;
@@ -209,66 +210,6 @@ QString LibraryItemModelTracks::get_string(int row) const
 }
 
 
-
-QModelIndex	LibraryItemModelTracks::getFirstRowIndexOf(const QString& substr)
-{
-	if(_m->tracks.isEmpty()) {
-		return this->index(-1, -1);
-	}
-
-	return getNextRowIndexOf(substr, 0);
-}
-
-QModelIndex LibraryItemModelTracks::getNextRowIndexOf(const QString& substr, int row, const QModelIndex& parent)
-{
-	Q_UNUSED(parent)
-
-	int len = _m->tracks.size();
-	if(_m->tracks.isEmpty()) {
-		return this->index(-1, -1);
-	}
-
-	for(int i=0; i< len; i++)
-	{
-		int row_idx = (i + row) % len;
-
-		QString title = _m->tracks[row_idx].title;
-		title = Library::convert_search_string(title, search_mode());
-
-		if(title.contains(substr)) {
-			return this->index(row_idx, 0);
-		}
-	}
-
-	return this->index(-1, -1);
-}
-
-QModelIndex LibraryItemModelTracks::getPrevRowIndexOf(const QString& substr, int row, const QModelIndex& parent)
-{
-	Q_UNUSED(parent)
-
-	int len = _m->tracks.size();
-	if(len < row) row = len - 1;
-	for(int i=0; i< len; i++)
-	{
-		if(row - i < 0) {
-			row = len - 1;
-		}
-
-		int row_idx = (row - i) % len;
-
-		QString title = _m->tracks[row_idx].title;
-		title = Library::convert_search_string(title, search_mode());
-
-		if(title.contains(substr))
-		{
-			return this->index(row_idx, 0);
-		}
-	}
-
-	return this->index(-1, -1);
-}
-
 CoverLocation LibraryItemModelTracks::get_cover(const SP::Set<int>& indexes) const
 {
 	if(indexes.isEmpty()){
@@ -285,4 +226,10 @@ CoverLocation LibraryItemModelTracks::get_cover(const SP::Set<int>& indexes) con
 	}
 
 	return CoverLocation::get_cover_location( _m->tracks.first() );
+}
+
+
+int LibraryItemModelTracks::get_searchable_column() const
+{
+	return (int) ColumnIndex::Track::Title;
 }

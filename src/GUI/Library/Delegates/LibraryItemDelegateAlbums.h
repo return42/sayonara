@@ -47,11 +47,6 @@ public:
 	virtual void paint(QPainter *painter,
 					   const QStyleOptionViewItem &option,
 					   const QModelIndex &index) const override;
-
-private:
-	QPixmap _icon_single_album;
-	QPixmap _icon_multi_album;
-
 };
 
 #endif /* LIBRARYITEMDELEGATEALBUMS_H_ */

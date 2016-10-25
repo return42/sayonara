@@ -124,13 +124,11 @@ private:
 
 
 protected:
-	void changeEvent(QEvent* e) override;
 	QAction* init_rating_action(int rating);
-
-	QString rating_text();
 
 private slots:
 	void skin_changed();
+	void language_changed();
 };
 
 

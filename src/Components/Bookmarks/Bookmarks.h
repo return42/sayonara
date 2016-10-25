@@ -46,7 +46,7 @@ signals:
 	 * @brief emitted when bookmarks have changed
 	 * @param bookmarks new bookmarks
 	 */
-	void sig_bookmarks_changed(const QList<Bookmark>& bookmarks);
+	void sig_bookmarks_changed();
 
 	/**
 	 * @brief previous bookmark has changed
@@ -61,6 +61,7 @@ signals:
 	void sig_next_changed(const Bookmark& bm);
 
 public:
+
 	explicit Bookmarks(QObject *parent=nullptr);
 	virtual ~Bookmarks();
 
@@ -71,11 +72,20 @@ public:
 	QList<Bookmark> get_all_bookmarks() const;
 
 
+	enum class CreationStatus : quint8
+	{
+		Success,
+		AlreadyThere,
+		NoDBTrack,
+		DBError,
+		OtherError
+	};
+
 	/**
 	 * @brief create a new bookmark for current track and current position
 	 * @return true if successful, else false
 	 */
-	bool save();
+	Bookmarks::CreationStatus create();
 
 	/**
 	 * @brief Jump to specific bookmark

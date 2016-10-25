@@ -29,7 +29,6 @@
 #include "AlternativeCoverItemDelegate.h"
 #include "Components/Covers/CoverLocation.h"
 #include "GUI/Helper/GUI_Helper.h"
-#include "Helper/Logger/Logger.h"
 
 #include <QPainter>
 

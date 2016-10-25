@@ -42,7 +42,7 @@ public:
 	};
 
 
-	DatabasePlaylist(QSqlDatabase db, quint8 db_id);
+	DatabasePlaylist(const QSqlDatabase& db, quint8 db_id);
 
 	bool getAllPlaylistSkeletons(CustomPlaylistSkeletons& skeletons, DatabasePlaylist::PlaylistChooserType type, Playlist::SortOrder sortorder=Playlist::SortOrder::NameAsc);
 	bool getPlaylistSkeletonById(CustomPlaylistSkeleton& skeleton);

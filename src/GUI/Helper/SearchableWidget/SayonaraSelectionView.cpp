@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "SayonaraSelectionView.h"
 #include "Helper/Set.h"
 #include "GUI/Helper/Delegates/ComboBoxDelegate.h"
@@ -32,37 +30,48 @@ SayonaraSelectionView::~SayonaraSelectionView(){}
 
 void SayonaraSelectionView::select_all()
 {
-	QAbstractItemModel* model;
-	QItemSelectionModel* sel_model;
-	QItemSelection sel;
-
-	model = this->get_model();
-	sel_model = this->get_selection_model();
-	if(!model || !sel_model){
+	QItemSelectionModel* sel_model = this->get_selection_model();
+	if(!sel_model){
 		return;
 	}
 
-	sel = sel_model->selection();
+	int n_rows = get_row_count();
+	int n_cols = get_column_count();
 
-	sel.select(model->index(0, 0), model->index(model->rowCount() - 1, model->columnCount() - 1));
+	QModelIndex first_idx = get_index(0, 0);
+	QModelIndex last_idx = get_index(n_rows - 1, n_cols - 1);
+
+	QItemSelection sel = sel_model->selection();
+	sel.select(first_idx, last_idx);
 	sel_model->select(sel, QItemSelectionModel::ClearAndSelect);
 }
 
-void SayonaraSelectionView::select_rows(const SP::Set<int>& indexes, int min_col, int max_col){
-
-	QAbstractItemModel* model;
-	QItemSelectionModel* sel_model;
-	QItemSelection sel;
-
-	model = this->get_model();
-	sel_model = this->get_selection_model();
-	if(!model || !sel_model){
+void SayonaraSelectionView::select_rows(const SP::Set<int>& indexes, int min_col, int max_col)
+{
+	QItemSelectionModel* sel_model = this->get_selection_model();
+	if(!sel_model){
 		return;
 	}
 
-	if(indexes.size() > 0){
+	if(indexes.size() > 0) {
 		int first_index = indexes.first();
 		this->set_current_index(first_index);
+	}
+
+	min_col = std::max(0, min_col);
+	min_col = std::min(min_col, get_column_count() - 1);
+	max_col = std::max(0, max_col);
+	max_col = std::min(max_col, get_column_count() - 1);
+
+	QItemSelection sel;
+	if(indexes.size() == 1)
+	{
+		QModelIndex first_idx = get_index(indexes.first(), 0);
+		QModelIndex last_idx = get_index(indexes.first(), get_column_count() - 1);
+
+		sel.select(first_idx, last_idx);
+		sel_model->select(sel, QItemSelectionModel::ClearAndSelect);
+		return;
 	}
 
 
@@ -84,13 +93,14 @@ void SayonaraSelectionView::select_rows(const SP::Set<int>& indexes, int min_col
 	// i is increased in the next loop, so progress is
 	// guaranteed
 
-	for(auto it=indexes.begin(); it!=indexes.end(); it++){
 
+	for(auto it=indexes.begin(); it!=indexes.end(); it++)
+	{
 		auto other_it=it;
 		auto other_predecessor=it;
 
-		do{
-
+		do
+		{
 			other_predecessor = other_it;
 			other_it++;
 
@@ -101,9 +111,10 @@ void SayonaraSelectionView::select_rows(const SP::Set<int>& indexes, int min_col
 		} while(*other_it - 1 == *other_predecessor);
 
 		// select the range
-		sel.select(model->index(*it, min_col),
-				   model->index(*other_predecessor, max_col)
-		);
+
+		QModelIndex min_idx = get_index(*it, min_col);
+		QModelIndex max_idx = get_index(*other_predecessor, max_col);
+		sel.select(min_idx, max_idx);
 
 		it = other_it;
 
@@ -117,30 +128,14 @@ void SayonaraSelectionView::select_rows(const SP::Set<int>& indexes, int min_col
 
 void SayonaraSelectionView::select_row(int row)
 {
-	QAbstractItemModel* model;
-	QItemSelectionModel* sel_model;
-
-	model = this->get_model();
-	sel_model = this->get_selection_model();
-	if(!model || !sel_model || model->rowCount() == 0){
-		return;
-	}
-
-	row = std::min(model->rowCount() - 1, row);
-	row = std::max(row, 0);
-
-	sel_model->setCurrentIndex(model->index(row, 0), QItemSelectionModel::Select);
-
 	SP::Set<int> indexes;
 	indexes.insert(row);
-	select_rows(indexes, 0, 0);
+	select_rows(indexes);
 }
 
 void SayonaraSelectionView::clear_selection()
 {
-	QItemSelectionModel* sel_model;
-
-	sel_model = this->get_selection_model();
+	QItemSelectionModel* sel_model = this->get_selection_model();
 	if(!sel_model){
 		return;
 	}
@@ -148,10 +143,8 @@ void SayonaraSelectionView::clear_selection()
 	sel_model->clearSelection();
 }
 
-SP::Set<int> SayonaraSelectionView::get_selections() const {
-
-	SP::Set<int> indexes;
-
+SP::Set<int> SayonaraSelectionView::get_selections() const
+{
 	QItemSelectionModel* sel_model = this->get_selection_model();
 	if(!sel_model){
 		return SP::Set<int>();
@@ -159,6 +152,7 @@ SP::Set<int> SayonaraSelectionView::get_selections() const {
 
 	QModelIndexList idx_list = sel_model->selectedRows();
 
+	SP::Set<int> indexes;
 	for(const QModelIndex& model_idx : idx_list) {
 		indexes.insert(model_idx.row());
 	}

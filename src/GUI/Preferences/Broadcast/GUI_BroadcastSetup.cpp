@@ -26,6 +26,7 @@
 
 #include "Helper/Helper.h"
 #include "Helper/Settings/Settings.h"
+#include "Helper/Language.h"
 
 
 GUI_BroadcastSetup::GUI_BroadcastSetup(QWidget *parent) :
@@ -113,7 +114,7 @@ void GUI_BroadcastSetup::skin_changed()
 
 QString GUI_BroadcastSetup::get_action_name() const
 {
-	return tr("Broadcast");
+	return Lang::get(Lang::Broadcast);
 }
 
 

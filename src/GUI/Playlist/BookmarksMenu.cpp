@@ -24,13 +24,14 @@
 
 #include "Components/Bookmarks/Bookmarks.h"
 #include "Components/Bookmarks/Bookmark.h"
+#include "Helper/Language.h"
 
 BookmarksMenu::BookmarksMenu(QWidget* parent) :
 	QMenu(parent)
 {
 	_bookmarks = new Bookmarks(this);
 
-	this->setTitle(tr("Bookmarks"));
+	this->setTitle( Lang::get(Lang::Bookmarks));
 
 	connect(_bookmarks, &Bookmarks::sig_bookmarks_changed, this, &BookmarksMenu::bookmarks_changed);
 }
@@ -42,10 +43,11 @@ bool BookmarksMenu::has_bookmarks() const
 	return (this->actions().size() > 0);
 }
 
-void BookmarksMenu::bookmarks_changed(const QList<Bookmark>& bookmarks)
+void BookmarksMenu::bookmarks_changed()
 {
 	this->clear();
 
+	QList<Bookmark> bookmarks = _bookmarks->get_all_bookmarks();
 	for(const Bookmark& bookmark : bookmarks){
 		QString name = bookmark.get_name();
 		if(name.isEmpty()){

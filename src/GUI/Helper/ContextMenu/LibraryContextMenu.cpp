@@ -25,20 +25,21 @@
 #include "GUI/Helper/RatingLabel/RatingLabel.h"
 
 #include "Helper/Settings/Settings.h"
+#include "Helper/Language.h"
 
 LibraryContextMenu::LibraryContextMenu(QWidget* parent) :
 	QMenu(parent),
 	SayonaraClass()
 {
-	_info_action = new QAction(GUI::get_icon("info"), tr("Info"), this);
-	_lyrics_action  = new QAction(GUI::get_icon("lyrics"), tr("Lyrics"), this);
-	_edit_action = new QAction(GUI::get_icon("edit"), tr("Edit"), this);
-	_remove_action = new QAction(GUI::get_icon("delete"), tr("Remove"), this);
-	_delete_action = new QAction(GUI::get_icon("delete"), tr("Delete"), this);
-	_play_next_action = new QAction(GUI::get_icon("play_small"), tr("Play next"), this);
-	_append_action = new QAction(GUI::get_icon("append"), tr("Append"), this);
-	_refresh_action = new QAction(GUI::get_icon("undo"), tr("Refresh"), this);
-	_clear_action = new QAction(GUI::get_icon("broom.png"), tr("Clear"), this);
+	_info_action = new QAction(GUI::get_icon("info"), QString(), this);
+	_lyrics_action  = new QAction(GUI::get_icon("lyrics"), QString(), this);
+	_edit_action = new QAction(GUI::get_icon("edit"), QString(), this);
+	_remove_action = new QAction(GUI::get_icon("delete"), QString(), this);
+	_delete_action = new QAction(GUI::get_icon("delete"), QString(), this);
+	_play_next_action = new QAction(GUI::get_icon("play_small"), QString(), this);
+	_append_action = new QAction(GUI::get_icon("append"), QString(), this);
+	_refresh_action = new QAction(GUI::get_icon("undo"), QString(), this);
+	_clear_action = new QAction(GUI::get_icon("broom.png"), QString(), this);
 
 	QList<QAction*> rating_actions;
 	for(int i=0; i<=5; i++)
@@ -71,40 +72,36 @@ LibraryContextMenu::LibraryContextMenu(QWidget* parent) :
 			<< _refresh_action
 			<< addSeparator()
 			<< _clear_action
-			;
+			   ;
 
 	this->addActions(actions);
 
 	_rating_action = this->insertMenu(_remove_action, _rating_menu);
 	_rating_action->setIcon(GUI::get_icon("star.png"));
-	_rating_action->setText(rating_text());
+	_rating_action->setText(Lang::get(Lang::Rating));
 
 	for(QAction* action : actions){
 		action->setVisible(action->isSeparator());
 	}
 
 	REGISTER_LISTENER(Set::Player_Style, skin_changed);
+	REGISTER_LISTENER(Set::Player_Language, language_changed);
 }
 
 LibraryContextMenu::~LibraryContextMenu() {}
 
-void LibraryContextMenu::changeEvent(QEvent* e) {
-	if (e->type() == QEvent::LanguageChange) {
-		_info_action->setText(tr("Info"));
-		_lyrics_action->setText(tr("Lyrics"));
-		_edit_action->setText(tr("Edit"));
-		_remove_action->setText(tr("Remove"));
-		_delete_action->setText(tr("Delete"));
-		_play_next_action->setText(tr("Play next"));
-		_append_action->setText(tr("Append"));
-		_refresh_action->setText(tr("Refresh"));
-		_clear_action->setText(tr("Clear"));
-		_rating_action->setText(rating_text());
-
-		return;
-	}
-
-	QMenu::changeEvent(e);
+void LibraryContextMenu::language_changed()
+{
+	_info_action->setText(Lang::get(Lang::Info));
+	_lyrics_action->setText(Lang::get(Lang::Lyrics));
+	_edit_action->setText(Lang::get(Lang::Edit));
+	_remove_action->setText(Lang::get(Lang::Remove));
+	_delete_action->setText(Lang::get(Lang::Delete));
+	_play_next_action->setText(Lang::get(Lang::PlayNext));
+	_append_action->setText(Lang::get(Lang::Append));
+	_refresh_action->setText(Lang::get(Lang::Refresh));
+	_clear_action->setText(Lang::get(Lang::Clear));
+	_rating_action->setText(Lang::get(Lang::Rating));
 }
 
 LibraryContexMenuEntries LibraryContextMenu::get_entries() const
@@ -147,8 +144,8 @@ LibraryContexMenuEntries LibraryContextMenu::get_entries() const
 }
 
 
-void LibraryContextMenu::show_actions(LibraryContexMenuEntries entries) {
-
+void LibraryContextMenu::show_actions(LibraryContexMenuEntries entries)
+{
 	_info_action->setVisible(entries & EntryInfo);
 	_lyrics_action->setVisible(entries & EntryLyrics);
 	_edit_action->setVisible(entries & EntryEdit);
@@ -159,7 +156,6 @@ void LibraryContextMenu::show_actions(LibraryContexMenuEntries entries) {
 	_refresh_action->setVisible(entries & EntryRefresh);
 	_clear_action->setVisible(entries & EntryClear);
 	_rating_action->setVisible(entries & EntryRating);
-
 }
 
 void LibraryContextMenu::show_action(LibraryContextMenu::Entry entry, bool visible){
@@ -205,7 +201,7 @@ QAction* LibraryContextMenu::init_rating_action(int rating)
 	action->setCheckable(true);
 
 	connect(action, &QAction::triggered, this, [=](){
-		emit sig_rating_changed(rating);		
+		emit sig_rating_changed(rating);
 	});
 
 	return action;
@@ -215,20 +211,17 @@ void LibraryContextMenu::set_rating(int rating)
 {
 	QList<QAction*> actions = _rating_menu->actions();
 	for(QAction* action : actions){
-		int data = action->data().toInt(); 
+		int data = action->data().toInt();
 		action->setChecked(data == rating);
 	}
 
+	QString rating_text = Lang::get(Lang::Rating);
 	if(rating > 0){
-		_rating_action->setText(rating_text() + " (" + QString::number(rating) + ")");
+		_rating_action->setText(rating_text + " (" + QString::number(rating) + ")");
 	}
 
 	else{
-		_rating_action->setText(rating_text());
+		_rating_action->setText(rating_text);
 	}
 }
 
-QString LibraryContextMenu::rating_text()
-{
-	return tr("Rating");
-}

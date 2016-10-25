@@ -34,6 +34,7 @@
 #include "Helper/Helper.h"
 #include "Helper/Settings/Settings.h"
 #include "Helper/MetaData/MetaDataList.h"
+#include "Helper/Language.h"
 
 #include "Components/PlayManager/PlayManager.h"
 #include "Components/Playlist/AbstractPlaylist.h"
@@ -328,11 +329,11 @@ void GUI_Playlist::set_total_time_label() {
 	}
 
 	else if(n_rows == 1)	{
-		playlist_string += " " + tr("Track");
+		playlist_string += " " + Lang::get(Lang::Track);
 	}
 
 	else {
-		playlist_string += " " + tr("Tracks");
+		playlist_string += " " + Lang::get(Lang::Tracks);
 	}
 
 	if( dur_ms > 0 ){
@@ -374,7 +375,7 @@ void GUI_Playlist::open_dir_clicked(int tgt_idx) {
 	Q_UNUSED(tgt_idx)
 
 	QString dir = QFileDialog::getExistingDirectory(this,
-			tr("Open Directory"),
+			Lang::get(Lang::OpenDir),
 			QDir::homePath(),
 			QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
 

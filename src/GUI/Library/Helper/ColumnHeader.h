@@ -18,13 +18,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 /*
- * MyColumnHeader.h
  *
  *  Created on: 19.12.2012
- *      Author: lugmair
+ *      Author: luke
  */
 
 #ifndef MYCOLUMNHEADER_H_
@@ -38,7 +35,6 @@
 class ColumnHeader : public QObject {
 	Q_OBJECT
 
-	//todo
 public:
 	enum class SizeType : quint8
 	{
@@ -47,11 +43,28 @@ public:
 		Undefined
 	};
 
-protected:
-	ColumnHeader(bool switchable, Library::SortOrder sort_asc, Library::SortOrder sort_desc);
+	enum HeaderType
+	{
+		Sharp,
+		Artist,
+		Album,
+		Title,
+		NumTracks,
+		Duration,
+		DurationShort,
+		Year,
+		Rating,
+		Bitrate,
+		Filesize
+	};
+
+
+private:
+	ColumnHeader(HeaderType type, bool switchable, Library::SortOrder sort_asc, Library::SortOrder sort_desc);
 	virtual ~ColumnHeader();
 
-protected:
+
+private:
 	QAction*		_action=nullptr;
 	bool 			_switchable;
 
@@ -61,13 +74,12 @@ protected:
 	Library::SortOrder	_sort_asc;
 	Library::SortOrder	_sort_desc;
 	SizeType		_size_type;
+	HeaderType		_type;
 
 public:
-	ColumnHeader(bool switchable, Library::SortOrder sort_asc, Library::SortOrder sort_desc, int preferred_size_abs);
-	ColumnHeader(bool switchable, Library::SortOrder sort_asc, Library::SortOrder sort_desc, double preferred_size_rel, int min_size);
 
-/*	void set_preferred_size_abs(int preferred_size);
-	void set_preferred_size_rel(double preferred_size);*/
+	ColumnHeader(HeaderType type, bool switchable, Library::SortOrder sort_asc, Library::SortOrder sort_desc, int preferred_size_abs);
+	ColumnHeader(HeaderType type, bool switchable, Library::SortOrder sort_asc, Library::SortOrder sort_desc, double preferred_size_rel, int min_size);
 
 	int get_preferred_size_abs() const;
 	double get_preferred_size_rel() const;
@@ -83,116 +95,16 @@ public:
 	void retranslate();
 
 	QAction* get_action();
-	virtual QString get_title() const=0;
+	QString get_title() const;
 };
-
-class SharpHeader : public ColumnHeader {
-	Q_OBJECT
-public:
-	using ColumnHeader::ColumnHeader;
-	QString get_title() const override {
-		return "#";
-	}
-};
-
-class ArtistHeader : public ColumnHeader {
-	Q_OBJECT
-public:
-	using ColumnHeader::ColumnHeader;
-	QString get_title() const override {
-		return tr("Artist");
-	}
-};
-
-class AlbumHeader : public ColumnHeader {
-	Q_OBJECT
-public:
-	using ColumnHeader::ColumnHeader;
-	QString get_title() const override {
-		return tr("Album");
-	}
-};
-
-class TitleHeader : public ColumnHeader {
-	Q_OBJECT
-public:
-	using ColumnHeader::ColumnHeader;
-	QString get_title() const override {
-		return tr("Title");
-	}
-};
-
-class NumTrackHeader : public ColumnHeader {
-	Q_OBJECT
-public:
-	using ColumnHeader::ColumnHeader;
-	QString get_title() const override {
-		return tr("#Tracks");
-	}
-};
-
-class DurationHeader : public ColumnHeader {
-	Q_OBJECT
-public:
-	using ColumnHeader::ColumnHeader;
-	QString get_title() const override {
-		return tr("Duration");
-	}
-};
-
-
-class DurationShortHeader : public ColumnHeader {
-	Q_OBJECT
-public:
-	using ColumnHeader::ColumnHeader;
-	QString get_title() const override {
-		return tr("Dur.");
-	}
-};
-
-class YearHeader : public ColumnHeader {
-	Q_OBJECT
-public:
-	using ColumnHeader::ColumnHeader;
-	QString get_title() const override {
-		return tr("Year");
-	}
-};
-
-class RatingHeader : public ColumnHeader {
-	Q_OBJECT
-public:
-	using ColumnHeader::ColumnHeader;
-	QString get_title() const override {
-		return tr("Rating");
-	}
-};
-
-class BitrateHeader : public ColumnHeader {
-	Q_OBJECT
-public:
-	using ColumnHeader::ColumnHeader;
-	QString get_title() const override {
-		return tr("Bitrate");
-	}
-};
-
-class FilesizeHeader : public ColumnHeader {
-	Q_OBJECT
-public:
-	using ColumnHeader::ColumnHeader;
-	QString get_title() const override {
-		return tr("Filesize");
-	}
-};
-
 
 class ColumnHeaderList :
-	public QList<ColumnHeader*> {
-
+	public QList<ColumnHeader*>
+{
 	public:
 	   int get_shown_columns() const;
 	   int get_nth_shown_col(int n) const;
 };
 
-  #endif /* MYCOLUMNHEADER_H_ */
+
+#endif /* MYCOLUMNHEADER_H_ */

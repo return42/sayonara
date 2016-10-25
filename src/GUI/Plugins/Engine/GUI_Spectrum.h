@@ -37,8 +37,6 @@ class GUI_Spectrum :
 {
     Q_OBJECT
 
-	friend class PlayerPluginInterface;
-
 public:
 	explicit GUI_Spectrum(QWidget *parent=nullptr);
 	virtual ~GUI_Spectrum();

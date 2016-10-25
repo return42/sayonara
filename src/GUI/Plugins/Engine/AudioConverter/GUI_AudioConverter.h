@@ -35,8 +35,6 @@ class GUI_AudioConverter :
 {
 	Q_OBJECT
 
-	friend class PlayerPluginInterface;
-
 public:
 	explicit GUI_AudioConverter(QWidget *parent=nullptr);
 	virtual ~GUI_AudioConverter();
@@ -51,14 +49,6 @@ private slots:
 	void quality_changed(int index);
 	void cb_active_toggled(bool b);
 	void mp3_enc_found();
-
-
-protected:
-	void language_changed() override;
-	virtual void init_ui() override;
-
-
-protected slots:
 	void playstate_changed(PlayState state);
 	void stopped();
 
@@ -70,11 +60,15 @@ private:
 	Playlist::Mode		_pl_mode;
 	bool				_mp3_enc_available;
 
+
+private:
 	void fill_cbr();
 	void fill_vbr();
-
 	void pl_mode_backup();
 	void pl_mode_restore();
+
+	void language_changed() override;
+	virtual void init_ui() override;
 };
 
 #endif // GUI_AUDIOCONVERTER_H

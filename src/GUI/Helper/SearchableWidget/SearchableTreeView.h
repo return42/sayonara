@@ -1,6 +1,6 @@
-/* LibraryItemDelegateArtists.h */
+/* SearchableTreeView.h */
 
-/* Copyright (C) 2011-2016 Lucio Carreras
+/* Copyright (C) 2011-2016  Lucio Carreras
  *
  * This file is part of sayonara player
  *
@@ -19,34 +19,43 @@
  */
 
 
-/*
- * LibraryItemDelegateArtists.h
- *
- *  Created on: Jun 3, 2011
- *      Author: Lucio Carreras
- */
 
-#ifndef LIBRARYITEMDELEGATEARTISTS_H_
-#define LIBRARYITEMDELEGATEARTISTS_H_
+#ifndef SEARCHABLETREEVIEW_H
+#define SEARCHABLETREEVIEW_H
 
-#include <QObject>
-#include <QTableView>
-#include <QStyledItemDelegate>
+#include "SearchableView.h"
 
+#include <QTreeView>
+#include <QString>
+#include <QWidget>
 
-class LibraryItemDelegateArtists :
-		public QStyledItemDelegate
+class Settings;
+class MiniSearcher;
+class SearchModelInterface;
+
+class SearchableTreeView :
+		public QTreeView,
+		public SearchViewInterface
 {
+	Q_OBJECT
 
-public:
-	explicit LibraryItemDelegateArtists(QObject* parent=nullptr);
-	virtual ~LibraryItemDelegateArtists();
-
+private slots:
+	void edit_changed(const QString& str);
+	void fwd_clicked();
+	void bwd_clicked();
 
 private:
+	MiniSearcher* _mini_searcher=nullptr;
 
-		QPixmap			_icon_single_album;
-		QPixmap			_icon_multi_album;
+protected:
+	MiniSearcher* mini_searcher() const override;
+	void keyPressEvent(QKeyEvent *event) override;
+
+
+public:
+	explicit SearchableTreeView(QWidget* parent=nullptr);
+	virtual ~SearchableTreeView();
 };
 
-#endif /* LIBRARYITEMDELEGATEARTISTS_H_ */
+
+#endif

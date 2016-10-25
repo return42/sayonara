@@ -23,22 +23,21 @@
 #ifndef SEARCHABLELISTVIEW_H
 #define SEARCHABLELISTVIEW_H
 
-
-#include "SayonaraSelectionView.h"
+#include "SearchableView.h"
 
 #include <QListView>
-#include <QMouseEvent>
-#include <QKeyEvent>
-#include <QModelIndexList>
+#include <QString>
+#include <QWidget>
+
 
 class Settings;
 class MiniSearcher;
-class AbstractSearchListModel;
+class SearchModelInterface;
 
 
 class SearchableListView :
 		public QListView,
-		public SayonaraSelectionView
+		public SearchViewInterface
 {
 	Q_OBJECT
 
@@ -47,41 +46,18 @@ private slots:
 	void fwd_clicked();
 	void bwd_clicked();
 
-	void search_mode_changed();
-
 private:
+	MiniSearcher* _mini_searcher=nullptr;
 
-	enum class SearchDirection
-	{
-		First,
-		Next,
-		Prev
-	};
-
-	MiniSearcher*					_mini_searcher=nullptr;
-	AbstractSearchListModel*		_abstr_model=nullptr;
-	Settings*						_settings=nullptr;
-	int								_cur_row;
-
-
-private:
-	virtual QAbstractItemModel* get_model() const override;
-	virtual QItemSelectionModel* get_selection_model() const override;
-
-	QModelIndex get_match_index(const QString& str, SearchDirection direction) const;
-	void select_match(const QString& str, SearchDirection direction);
+protected:
+	MiniSearcher* mini_searcher() const override;
+	void keyPressEvent(QKeyEvent *event) override;
 
 
 public:
 	explicit SearchableListView(QWidget* parent=nullptr);
 	virtual ~SearchableListView();
-
-	void setAbstractModel(AbstractSearchListModel* model);
-
-protected:
-	void keyPressEvent(QKeyEvent *) override;
-
-	void set_current_index(int idx);
 };
 
-#endif // SEARCHABLELISTVIEW_H
+
+#endif

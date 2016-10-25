@@ -54,7 +54,9 @@ void GUI_Podcasts::init_ui()
 
 void GUI_Podcasts::language_changed()
 {
-	ui->retranslateUi(this);
+	if(ui){
+		ui->retranslateUi(this);
+	}
 }
 
 QString GUI_Podcasts::get_title_fallback_name() const

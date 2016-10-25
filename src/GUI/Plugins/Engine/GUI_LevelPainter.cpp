@@ -38,8 +38,8 @@ GUI_LevelPainter::GUI_LevelPainter(QWidget *parent) :
 	EnginePlugin(parent)
 {
 	_settings->set(Set::Engine_ShowLevel, false);
-
 }
+
 
 GUI_LevelPainter::~GUI_LevelPainter()
 {
@@ -49,32 +49,9 @@ GUI_LevelPainter::~GUI_LevelPainter()
 	}
 }
 
-QString GUI_LevelPainter::get_name() const
-{
-	return "Level";
-}
-
-QString GUI_LevelPainter::get_display_name() const
-{
-	return tr("Level");
-}
-
-void GUI_LevelPainter::language_changed()
-{
-	if(!is_ui_initialized()){
-		return;
-	}
-
-	ui->retranslateUi(this);
-}
-
 
 void GUI_LevelPainter::init_ui()
 {
-	if(is_ui_initialized()){
-		return;
-	}
-
 	EnginePlugin::init_ui();
 	setup_parent(this, &ui);
 
@@ -97,7 +74,6 @@ void GUI_LevelPainter::init_ui()
 	std::memset(_steps[0], 0, n_rects * sizeof(int));
 	std::memset(_steps[1], 0, n_rects * sizeof(int));
 
-
 	_level[0] = 0;
 	_level[1] = 0;
 
@@ -112,6 +88,28 @@ void GUI_LevelPainter::init_ui()
 	if(playback_engine){
 		playback_engine->add_level_receiver(this);
 	}
+}
+
+
+QString GUI_LevelPainter::get_name() const
+{
+	return "Level";
+}
+
+
+QString GUI_LevelPainter::get_display_name() const
+{
+	return tr("Level");
+}
+
+
+void GUI_LevelPainter::language_changed()
+{
+	if(!is_ui_initialized()){
+		return;
+	}
+
+	ui->retranslateUi(this);
 }
 
 
@@ -131,6 +129,7 @@ void GUI_LevelPainter::set_level(float level_l, float level_r) {
 
 	update();
 }
+
 
 void GUI_LevelPainter::paintEvent(QPaintEvent* e) {
 	Q_UNUSED(e)

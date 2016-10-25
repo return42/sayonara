@@ -34,7 +34,7 @@ class QComboBox;
 class LocalLibrary;
 class IconProvider;
 class LocalLibrary;
-class AbstractSearchFileTreeModel;
+class SearchableFileTreeModel;
 class FileListModel;
 
 namespace Ui { class GUI_DirectoryWidget; }
@@ -65,7 +65,7 @@ private:
 
 	IconProvider*						_icon_provider=nullptr;
 	LocalLibrary*						_local_library=nullptr;
-	AbstractSearchFileTreeModel*		_dir_model=nullptr;
+	SearchableFileTreeModel*		_dir_model=nullptr;
 
 	QModelIndex							_found_idx;
 	QString								_search_term;

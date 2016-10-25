@@ -22,6 +22,7 @@
 #include "PlaylistDBWrapper.h"
 #include "PlaylistDBInterface.h"
 #include "Helper/Playlist/CustomPlaylist.h"
+#include "Helper/Language.h"
 
 
 PlaylistDBInterface::PlaylistDBInterface(const QString& name)
@@ -257,7 +258,7 @@ QString PlaylistDBInterface::request_new_db_name()
 	for(int idx = 1; idx < 1000; idx++){
 
 		bool found = false;
-		target_name = tr("New %1").arg(idx);
+		target_name = Lang::get(Lang::New) + " " + QString::number(idx);
 		for(const CustomPlaylistSkeleton& skeleton : skeletons){
 
 			QString name = skeleton.name();

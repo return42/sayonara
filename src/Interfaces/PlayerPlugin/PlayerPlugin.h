@@ -45,13 +45,14 @@ class PlayerPluginInterface :
 
     Q_OBJECT
 
-public:
-	explicit PlayerPluginInterface(QWidget *parent=nullptr);
-	virtual ~PlayerPluginInterface();
-
 private:
 	bool		_is_initialized;
 	QAction*	_pp_action=nullptr;
+
+
+public:
+	explicit PlayerPluginInterface(QWidget *parent=nullptr);
+	virtual ~PlayerPluginInterface();
 
 
 signals:
@@ -91,31 +92,24 @@ private:
 	void set_ui_initialized();
 	void finalize_initialization();
 
-
-protected:
-
-	/**
-	 * @brief Event fired when closed overrides QWidget::closeEvent
-	 * @param e the event
-	 */
-	void closeEvent(QCloseEvent* e) override;
-
-
 	/**
 	 * @brief language_changed Has to be implemented and is called when language has changed
 	 */
 	virtual void language_changed() override=0;
 
 	/**
+	 * @brief GUI will be initialized on first show up. Please use this to make Sayonara starting fast
+	 */
+	virtual void init_ui()=0;
+
+
+protected:
+
+	/**
 	 * @brief Check if ui already was initialized
 	 * @return
 	 */
 	bool is_ui_initialized() const;
-
-	/**
-	 * @brief GUI will be initialized on first show up. Please use this to make Sayonara starting fast
-	 */
-	virtual void init_ui()=0;
 
 
 	template<typename T, typename UiClass>
@@ -130,6 +124,14 @@ protected:
 
 		finalize_initialization();
 	}
+
+	/**
+	 * @brief Event fired when closed overrides QWidget::closeEvent
+	 * @param e the event
+	 */
+	void closeEvent(QCloseEvent* e) override;
+
+	void showEvent(QShowEvent* e) override;
 
 
 public:
@@ -150,25 +152,19 @@ public:
 	 * @brief must be overwritten
 	 * @return the NOT translated name of the plugin
 	 */
-	virtual QString		get_name() const=0;
+	virtual QString			get_name() const=0;
 
 	/**
 	 * @brief must be overwritten
 	 * @return the translated name of the plugin
 	 */
-	virtual QString		get_display_name() const=0;
-
-
-	/**
-	 * @brief show Plugin
-	 */
-	virtual void		show();
+	virtual QString			get_display_name() const=0;
 
 
 	/**
 	 * @brief indicates if title bar is shown or not
 	 */ 
-	virtual bool		is_title_shown() const;
+	virtual bool			is_title_shown() const;
 
 
 	/**

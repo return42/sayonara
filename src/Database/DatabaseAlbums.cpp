@@ -24,7 +24,8 @@
 #include "Helper/MetaData/Album.h"
 
 DatabaseAlbums::DatabaseAlbums(QSqlDatabase db, quint8 db_id) :
-	DatabaseModule(db, db_id)
+	DatabaseModule(db, db_id),
+	DatabaseSearchMode(db)
 {
 	_fetch_query = QString("SELECT ") +
 					"albums.albumID AS albumID, " +
@@ -369,7 +370,8 @@ bool DatabaseAlbums::getAllAlbumsBySearchString(Library::Filter filter, AlbumLis
 }
 
 
-int DatabaseAlbums::updateAlbum (const Album & album) {
+int DatabaseAlbums::updateAlbum (const Album & album)
+{
 	SayonaraQuery q (_db);
 
 	q.prepare("UPDATE albums "
@@ -378,9 +380,11 @@ int DatabaseAlbums::updateAlbum (const Album & album) {
 			  "    rating=:rating "
 			  "WHERE albumID = :id;");
 
+	QString cissearch = Library::convert_search_string(album.name, search_mode());
+
 	q.bindValue(":id", album.id);
 	q.bindValue(":name", album.name);
-	q.bindValue(":cissearch", album.name.toLower());
+	q.bindValue(":cissearch", cissearch);
 	q.bindValue(":rating", album.rating);
 
 
@@ -392,17 +396,21 @@ int DatabaseAlbums::updateAlbum (const Album & album) {
 	return getAlbumID (album.name);
 }
 
-void DatabaseAlbums::updateAlbumCissearch(Library::SearchModeMask mode)
+void DatabaseAlbums::updateAlbumCissearch()
 {
+	DatabaseSearchMode::update_search_mode();
+
 	AlbumList albums;
 	getAllAlbums(albums);
 
 	_db.transaction();
-	for(const Album& album : albums) {
+
+	for(const Album& album : albums)
+	{
 		QString str = "UPDATE albums SET cissearch=:cissearch WHERE albumID=:id;";
 		SayonaraQuery q(_db);
 		q.prepare(str);
-		q.bindValue(":cissearch", Library::convert_search_string(album.name, mode));
+		q.bindValue(":cissearch", Library::convert_search_string(album.name, search_mode()));
 		q.bindValue(":id", album.id);
 
 		if(!q.exec()){
@@ -413,8 +421,8 @@ void DatabaseAlbums::updateAlbumCissearch(Library::SearchModeMask mode)
 	_db.commit();
 }
 
-int DatabaseAlbums::insertAlbumIntoDatabase (const QString& album) {
-
+int DatabaseAlbums::insertAlbumIntoDatabase (const QString& album)
+{
 	SayonaraQuery q (_db);
 
 	int album_id = getAlbumID(album);
@@ -424,9 +432,10 @@ int DatabaseAlbums::insertAlbumIntoDatabase (const QString& album) {
 		return updateAlbum(a);
 	}
 
+	QString cissearch = Library::convert_search_string(album, search_mode());
 	q.prepare("INSERT INTO albums (name, cissearch) values (:album, :cissearch);");
 	q.bindValue(":album", album);
-	q.bindValue(":cissearch", album.toLower());
+	q.bindValue(":cissearch", cissearch);
 
 	if (!q.exec()) {
 		q.show_error(QString("Cannot insert album ") + album + " to db");
@@ -443,11 +452,12 @@ int DatabaseAlbums::insertAlbumIntoDatabase (const Album& album) {
 	}
 
 	SayonaraQuery q (_db);
+	QString cissearch = Library::convert_search_string(album.name, search_mode());
 
 	q.prepare("INSERT INTO albums (name, cissearch, rating) values (:name, :cissearch, :rating);");
 
 	q.bindValue(":name", album.name);
-	q.bindValue(":cissearch", album.name.toLower());
+	q.bindValue(":cissearch", cissearch);
 	q.bindValue(":rating", album.rating);
 
 	if (!q.exec()) {
