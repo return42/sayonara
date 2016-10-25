@@ -28,8 +28,6 @@
 #include <QDomNode>
 
 
-
-
 ASXParser::ASXParser(const QString& filename) :
 	AbstractPlaylistParser(filename)
 {
@@ -37,9 +35,8 @@ ASXParser::ASXParser(const QString& filename) :
 
 ASXParser::~ASXParser() {}
 
-void ASXParser::parse()  {
-
-
+void ASXParser::parse()
+{
 	QDomDocument doc("AsxFile");
 	doc.setContent(_file_content);
 
@@ -63,10 +60,8 @@ void ASXParser::parse()  {
 		md.length_ms = 0;
 		md.album = "";
 
-
 		for(int i=0; i<entry.childNodes().size(); i++)
 		{
-
 			QDomNode node = entry.childNodes().at(i);
 			QString node_name = node.nodeName().toLower();
 

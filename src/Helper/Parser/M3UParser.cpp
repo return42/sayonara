@@ -81,6 +81,7 @@ void M3UParser::parse(){
 	}
 }
 
+
 bool M3UParser::parse_first_line(const QString& line, MetaData& md)
 {
 	QRegExp re("^#EXTINF:\\s*([0-9]+)\\s*,\\s*(\\S)+\\s*-\\s*(\\S)+");
@@ -96,12 +97,12 @@ bool M3UParser::parse_first_line(const QString& line, MetaData& md)
 	return true;
 }
 
-void M3UParser::parse_local_file(const QString& line, MetaData& md){
 
+void M3UParser::parse_local_file(const QString& line, MetaData& md)
+{
 	MetaData md_db;
 	DatabaseConnector* db = DatabaseConnector::getInstance();
 	QString abs_filename = get_absolute_filename(line);
-
 
 	if(abs_filename.isEmpty()){
 		return;
@@ -119,8 +120,9 @@ void M3UParser::parse_local_file(const QString& line, MetaData& md){
 	}
 }
 
-void M3UParser::parse_www_file(const QString& line, MetaData& md){
 
+void M3UParser::parse_www_file(const QString& line, MetaData& md)
+{
 	if(md.artist.isEmpty()){
 		md.artist = line;
 	}

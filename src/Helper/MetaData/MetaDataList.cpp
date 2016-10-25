@@ -188,10 +188,22 @@ MetaDataList& MetaDataList::remove_tracks(int first, int last){
 	return *this;
 }
 
-MetaDataList& MetaDataList::remove_tracks(const SP::Set<int>& indexes){
-
+MetaDataList& MetaDataList::remove_tracks(const SP::Set<int>& indexes)
+{
 	for(auto it=indexes.rbegin(); it != indexes.rend(); it++){
 		this->removeAt(*it);
+	}
+
+	if(indexes.contains(_cur_played_track)){
+		_cur_played_track = -1;
+	}
+
+	else{
+		int n_tracks_before_cur_track = std::count_if(indexes.begin(), indexes.end(), [=](int idx){
+			return (idx < _cur_played_track);
+		});
+
+		_cur_played_track -= n_tracks_before_cur_track;
 	}
 
 	return *this;
