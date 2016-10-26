@@ -102,7 +102,7 @@ bool DatabaseConnector::apply_fixes() {
 	QString str_version;
 	int version;
 	bool success;
-	const int LatestVersion = 10;
+	const int LatestVersion = 11;
 
 	success = load_setting("version", str_version);
 	version = str_version.toInt(&success);
@@ -150,6 +150,8 @@ bool DatabaseConnector::apply_fixes() {
 		success &= check_and_insert_column("tracks", "cissearch", "VARCHAR(512)");
 		success &= check_and_insert_column("albums", "cissearch", "VARCHAR(512)");
 		success &= check_and_insert_column("artists", "cissearch", "VARCHAR(512)");
+
+		Q_UNUSED(success)
 
 		updateAlbumCissearchFix();
 		updateArtistCissearchFix();
@@ -247,6 +249,12 @@ bool DatabaseConnector::apply_fixes() {
 			q_index.exec();
 		}
 	}
+
+	if(version < 11)
+	{
+		// look in UpdateDatesThread
+	}
+
 
 	return true;
 }

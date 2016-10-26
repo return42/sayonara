@@ -95,6 +95,7 @@ protected:
 	void		update_album(const Album& album) override;
 
 	void		insert_tracks(const MetaDataList& v_md) override;
+	void		apply_db_fixes();
 
 private:
 	void		init_reload_thread();

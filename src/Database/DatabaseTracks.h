@@ -74,6 +74,8 @@ public:
 	virtual QStringList getAllGenres();
 	virtual void updateTrackCissearch(LibraryHelper::SearchModeMask mode);
 
+	bool updateTrackDates();
+
 };
 
 #endif // DATABASETRACKS_H

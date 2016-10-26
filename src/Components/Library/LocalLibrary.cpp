@@ -23,6 +23,7 @@
 #include "threads/ReloadThread.h"
 #include "threads/IndexDirectoriesThread.h"
 #include "threads/FileSystemWatcher.h"
+#include "threads/UpdateDatesThread.h"
 #include "Database/DatabaseConnector.h"
 
 #include "Helper/LibrarySearchMode.h"
@@ -33,12 +34,27 @@ LocalLibrary::LocalLibrary(QObject *parent) :
 {
     _db = DatabaseConnector::getInstance();
 
+	apply_db_fixes();
+
 	REGISTER_LISTENER_NO_CALL(Set::Lib_SearchMode, _sl_search_mode_changed);
 	REGISTER_LISTENER(Set::Lib_AutoUpdate, _sl_auto_update_changed);
 }
 
 LocalLibrary::~LocalLibrary(){
 
+}
+
+void LocalLibrary::apply_db_fixes()
+{
+	QString str_val;
+	_db->load_setting("version", str_val);
+
+	int version = str_val.toInt();
+	if(version < 11){
+		UpdateDatesThread* t = new UpdateDatesThread(this);
+		connect(t, &QThread::finished, t, &QObject::deleteLater);
+		t->start();
+	}
 }
 
 
