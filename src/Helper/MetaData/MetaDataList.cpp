@@ -97,6 +97,17 @@ MetaDataList& MetaDataList::move_tracks(const SP::Set<int>& indexes, int tgt_idx
 	MetaDataList v_md_before_tgt;
 	MetaDataList v_md_after_tgt;
 
+	int n_tracks_before_cur_idx =
+		std::count_if(indexes.begin(), indexes.end(), [=](int idx){
+			return idx < _cur_played_track;
+		});
+
+	int n_tracks_after_cur_idx =
+		std::count_if(indexes.begin(), indexes.end(), [=](int idx){
+			return idx > _cur_played_track;
+		});
+
+
 	int i=0;
 	for(auto it=this->begin(); it!=this->end(); it++, i++)
 	{
@@ -138,6 +149,15 @@ MetaDataList& MetaDataList::move_tracks(const SP::Set<int>& indexes, int tgt_idx
 			break;
 		}
 	}
+
+	if(tgt_idx < _cur_played_track){
+		_cur_played_track += n_tracks_after_cur_idx;
+	}
+
+	else if(tgt_idx > _cur_played_track){
+		_cur_played_track -= n_tracks_before_cur_idx;
+	}
+
 
 	return *this;
 }

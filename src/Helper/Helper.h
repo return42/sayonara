@@ -33,11 +33,15 @@
 
 class QString;
 class MetaData;
+class QDateTime;
 /**
  * @brief Helper functions
  * @ingroup Helper
  */
 namespace Helper {
+
+	quint64 current_date_to_int();
+	quint64 date_to_int(const QDateTime& date);
 
 	/**
 	 * @brief Transform all letters after a space to upper case

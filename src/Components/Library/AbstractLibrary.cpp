@@ -170,13 +170,7 @@ void AbstractLibrary::psl_prepare_album_for_playlist(int idx, bool new_playlist)
 	set_playlist_action_after_double_click();
 }
 
-/* TODO
-void AbstractLibrary::psl_prepare_track_for_playlist(int idx, bool new_playlist) {
-	SP::Set<int> indexes;
-	indexes.insert(idx);
-	psl_prepare_tracks_for_playlist(indexes, new_playlist);
-}
-*/
+
 void AbstractLibrary::psl_prepare_tracks_for_playlist(bool new_playlist){
 	if(!new_playlist){
 		_playlist->create_playlist(_vec_md);
@@ -278,25 +272,9 @@ void AbstractLibrary::psl_append_tracks(const SP::Set<int>& indexes) {
 	_playlist->append_tracks(v_md, _playlist->get_current_idx());
 }
 
-/*
-void AbstractLibrary::restore_artist_selection(){
 
-	SP::Set<ArtistID> new_selected_artists;
-
-	for(const Artist& artist : _vec_artists) {
-		if(!_selected_artists.contains( artist.id)) {
-			continue;
-		}
-
-		new_selected_artists.insert(artist.id);
-	}
-
-	_selected_artists = new_selected_artists;
-}
-*/
-
-void AbstractLibrary::restore_album_selection(){
-
+void AbstractLibrary::restore_album_selection()
+{
 	SP::Set<AlbumID> new_selected_albums;
 	for(const Album& album : _vec_albums) {
 
@@ -311,8 +289,8 @@ void AbstractLibrary::restore_album_selection(){
 }
 
 
-void AbstractLibrary::restore_track_selection(){
-
+void AbstractLibrary::restore_track_selection()
+{
 	SP::Set<TrackID> new_selected_tracks;
 	for(const MetaData& md : _vec_md) {
 
@@ -327,10 +305,8 @@ void AbstractLibrary::restore_track_selection(){
 }
 
 
-
-
-void AbstractLibrary::change_artist_selection(const SP::Set<int>& indexes){
-
+void AbstractLibrary::change_artist_selection(const SP::Set<int>& indexes)
+{
 	SP::Set<ArtistID> selected_artists;
 
 	if(indexes.isEmpty() && _selected_artists.isEmpty()){
@@ -479,8 +455,8 @@ void AbstractLibrary::psl_selected_tracks_changed(const SP::Set<int>& idx_list) 
 }
 
 
-void AbstractLibrary::fetch_by_filter(const Library::Filter& filter, bool force){
-
+void AbstractLibrary::fetch_by_filter(const Library::Filter& filter, bool force)
+{
 	if( _filter.cleared &&
 		filter.cleared &&
 		filter.filtertext.size() < 5 &&
@@ -501,8 +477,7 @@ void AbstractLibrary::fetch_by_filter(const Library::Filter& filter, bool force)
 	_selected_artists.clear();
 
 
-	if(_filter.cleared) {
-
+	if(_filter.cleared)	{
 		get_all_artists(_vec_artists, _sortorder);
 		get_all_albums(_vec_albums, _sortorder);
 		get_all_tracks(_vec_md, _sortorder);
@@ -516,14 +491,11 @@ void AbstractLibrary::fetch_by_filter(const Library::Filter& filter, bool force)
 }
 
 
-void AbstractLibrary::psl_filter_changed(const Library::Filter& filter, bool force) {
-
-	//sp_log(Log::Debug) << "Library: Library::Filter changed";
+void AbstractLibrary::psl_filter_changed(const Library::Filter& filter, bool force)
+{
 	fetch_by_filter(filter, force);
 	emit_stuff();
 }
-
-
 
 
 void AbstractLibrary::_sl_sortorder_changed() {
@@ -612,27 +584,6 @@ void AbstractLibrary::psl_album_rating_changed(int idx, int rating) {
 	update_album(_vec_albums[idx]);
 }
 
-
-/* TODO
-void AbstractLibrary::psl_metadata_changed(const MetaData& md) {
-
-	if( md.id < 0 ) return;
-
-	update_track(md);
-	refresh();
-	emit_stuff();
-}
-*/
-/*
-void AbstractLibrary::psl_dur_changed(const MetaData& md){
-
-	if( md.id < 0 ) return;
-
-	update_track(md);
-	refresh();
-	emit_stuff();
-}
-*/
 
 void AbstractLibrary::psl_metadata_id3_changed(const MetaDataList& v_md_old, const MetaDataList& v_md_new){
 

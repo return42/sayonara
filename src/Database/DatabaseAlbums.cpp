@@ -234,7 +234,11 @@ bool DatabaseAlbums::getAllAlbumsByArtist(IDList artists, AlbumList& result, Lib
 
 	if( !filter.filtertext.isEmpty() ) {
 
-		switch(filter.mode) {
+		switch(filter.mode) 
+		{
+			case Library::Filter::Date:
+				querytext += QString("AND ") + filter.date_filter.get_sql_filter("tracks");
+				break;
 
 			case Library::Filter::Genre:
 				querytext += QString("AND tracks.genre LIKE :filter1 ");			// track title is like filter
@@ -246,7 +250,6 @@ bool DatabaseAlbums::getAllAlbumsByArtist(IDList artists, AlbumList& result, Lib
 				break;
 
 			case Library::Filter::Fulltext:
-			default:
 				querytext += QString("AND tracks.trackID IN ( "
 									 "SELECT t2.trackID "
 									 "FROM tracks t2 "
@@ -261,6 +264,7 @@ bool DatabaseAlbums::getAllAlbumsByArtist(IDList artists, AlbumList& result, Lib
 								"WHERE t4.albumid = albums.albumid AND t4.artistid = artists.artistid AND artists.cissearch LIKE :filter3 "
 							") ";
 				break;
+
 		}
 	}
 
@@ -274,17 +278,19 @@ bool DatabaseAlbums::getAllAlbumsByArtist(IDList artists, AlbumList& result, Lib
 		q.bindValue(QString(":artist_id_") + QString::number(i), artists[i]);
 	}
 
-	if(filter.filtertext.length() > 0) {
-
-		q.bindValue(":filter1", QVariant(filter.filtertext));
-
+	if(filter.filtertext.length() > 0) 
+	{
 		switch(filter.mode) {
+
+			case Library::Filter::Date:
+				break;
 
 			case Library::Filter::Fulltext:
 				q.bindValue(":filter2", QVariant(filter.filtertext));
 				q.bindValue(":filter3", QVariant(filter.filtertext));
-				break;
+
 			default:
+				q.bindValue(":filter1", QVariant(filter.filtertext));
 				break;
 		}
 	}
@@ -307,8 +313,16 @@ bool DatabaseAlbums::getAllAlbumsBySearchString(Library::Filter filter, AlbumLis
 
 	SayonaraQuery q (_db);
 	QString query;
-	switch(filter.mode){
+	switch(filter.mode)
+	{
 
+		case Library::Filter::Date:
+			query = _fetch_query +
+						 "WHERE albums.albumid = tracks.albumid AND artists.artistID = tracks.artistid AND "
+						 "(" + filter.date_filter.get_sql_filter("tracks") + ") "
+						 "GROUP BY albums.albumID, albumName";
+			break;
+			
 		case Library::Filter::Genre:
 			query = _fetch_query +
 						 "WHERE albums.albumid = tracks.albumid AND artists.artistID = tracks.artistid AND tracks.genre LIKE :search_in_genre " +
@@ -347,7 +361,10 @@ bool DatabaseAlbums::getAllAlbumsBySearchString(Library::Filter filter, AlbumLis
 	q.prepare(query);
 
 
-	switch(filter.mode){
+	switch(filter.mode)
+	{
+		case Library::Filter::Date:
+			break;
 
 		case Library::Filter::Genre:
 			q.bindValue(":search_in_genre", QVariant(filter.filtertext));

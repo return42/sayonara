@@ -26,27 +26,30 @@
 #define FILTER_H_
 
 #include <QString>
+#include "DateFilter.h"
 
 namespace Library
 {
     struct Filter
     {
-	enum Mode
-	{
-	    Fulltext=0,
-	    Filename,
-	    Genre
-	};
+		enum Mode
+		{
+			Fulltext=0,
+			Filename,
+			Genre,
+			Date
+		};
 
-	QString		filtertext;
-	Mode		mode;
-	bool		cleared;
+		DateFilter  date_filter;
+		QString		filtertext;
+		Mode		mode;
+		bool		cleared;
 
-	Filter()
-	{
-	    mode = Mode::Fulltext;
-	    cleared = true;
-	}
+		Filter()
+		{
+			mode = Mode::Fulltext;
+			cleared = true;
+		}
     };
 }
 

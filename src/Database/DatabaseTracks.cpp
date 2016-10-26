@@ -25,6 +25,7 @@
 #include "Helper/MetaData/MetaData.h"
 #include "Helper/MetaData/MetaDataList.h"
 #include "Helper/Logger/Logger.h"
+#include "Helper/Helper.h"
 
 #include <utility>
 
@@ -274,8 +275,8 @@ bool DatabaseTracks::getAllTracksByAlbum(IDList albums, MetaDataList& returndata
 
 	if( !filter.filtertext.isEmpty() ) {
 
-
-		switch(filter.mode) {
+		switch(filter.mode) 
+		{
 			case Library::Filter::Genre:
 				querytext += "AND tracks.genre LIKE :filter1 ";
 				break;
@@ -285,7 +286,6 @@ bool DatabaseTracks::getAllTracksByAlbum(IDList albums, MetaDataList& returndata
 				break;
 
 			case Library::Filter::Fulltext:
-			default:
 				// consider the case, that the search string may fit to the title
 				// union the case that the search string may fit to the album
 				querytext += QString("AND tracks.trackid IN ( ") +
@@ -306,7 +306,8 @@ bool DatabaseTracks::getAllTracksByAlbum(IDList albums, MetaDataList& returndata
 								") ";
 				break;
 
-
+			default:
+				break;
 		}
 
 	}
@@ -320,17 +321,19 @@ bool DatabaseTracks::getAllTracksByAlbum(IDList albums, MetaDataList& returndata
 	}
 
 	if(filter.filtertext.length() > 0) {
-		q.bindValue(":filter1", QVariant(filter.filtertext));
 
-		switch(filter.mode) {
-			case Library::Filter::Genre:
-			case Library::Filter::Filename:
+		switch(filter.mode) 
+		{
+			case Library::Filter::Date:
 				break;
 
 			case Library::Filter::Fulltext:
-			default:
+				q.bindValue(":filter1", QVariant(filter.filtertext));
 				q.bindValue(":filter2", QVariant(filter.filtertext));
 				q.bindValue(":filter3", QVariant(filter.filtertext));
+
+			default:
+				q.bindValue(":filter1", QVariant(filter.filtertext));
 				break;
 		}
 
@@ -372,7 +375,11 @@ bool DatabaseTracks::getAllTracksByArtist(IDList artists, MetaDataList& returnda
 	}
 
 	if(filter.filtertext.length() > 0 ) {
-		switch(filter.mode) {
+		switch(filter.mode) 
+		{
+			case Library::Filter::Date:
+				querytext += filter.date_filter.get_sql_filter("tracks");
+				break;
 
 			case Library::Filter::Genre:
 					querytext += "AND tracks.genre LIKE :filter1";
@@ -411,17 +418,18 @@ bool DatabaseTracks::getAllTracksByArtist(IDList artists, MetaDataList& returnda
 	}
 
 	if( !filter.filtertext.isEmpty() ) {
-		q.bindValue(":filter1", QVariant(filter.filtertext));
 
-		switch(filter.mode) {
-			case Library::Filter::Genre:
-			case Library::Filter::Filename:
+		switch(filter.mode) 
+		{
+			case Library::Filter::Date:
 				break;
 
 			case Library::Filter::Fulltext:
-			default:
 				q.bindValue(":filter2", QVariant(filter.filtertext));
 				q.bindValue(":filter3", QVariant(filter.filtertext));
+
+			default:
+				q.bindValue(":filter1", QVariant(filter.filtertext));
 				break;
 		}
 	}
@@ -430,19 +438,23 @@ bool DatabaseTracks::getAllTracksByArtist(IDList artists, MetaDataList& returnda
 }
 
 
-bool DatabaseTracks::getAllTracksBySearchString(Library::Filter filter, MetaDataList& result, Library::SortOrder sort) {
-
+bool DatabaseTracks::getAllTracksBySearchString(Library::Filter filter, MetaDataList& result, Library::SortOrder sort) 
+{
 	DB_RETURN_NOT_OPEN_BOOL(_db);
 
 	SayonaraQuery q (_db);
 	QString querytext;
 
-	switch(filter.mode) {
+	switch(filter.mode) 
+	{
+		case Library::Filter::Date:
+			  querytext = _fetch_query += " AND " + filter.date_filter.get_sql_filter("tracks");
+			  break;
 
 		case Library::Filter::Genre:
 			querytext = _fetch_query +
 						"AND genrename LIKE :search_in_genre ";
-		break;
+			break;
 
 		case Library::Filter::Filename:
 			querytext = _fetch_query +
@@ -451,8 +463,6 @@ bool DatabaseTracks::getAllTracksBySearchString(Library::Filter filter, MetaData
 			break;
 
 		case Library::Filter::Fulltext:
-		default:
-
 				  querytext = _fetch_query + " AND tracks.trackID IN ("+
 							"SELECT tracks.trackID FROM tracks WHERE tracks.cissearch LIKE :search_in_title " +
 							"UNION "+
@@ -464,15 +474,11 @@ bool DatabaseTracks::getAllTracksBySearchString(Library::Filter filter, MetaData
 			break;
 	}
 
-
-
-
 	querytext = append_track_sort_string(querytext, sort);
 	q.prepare(querytext);
 
-
-	switch(filter.mode) {
-
+	switch(filter.mode) 
+	{
 		case Library::Filter::Genre:
 			q.bindValue(":search_in_genre", QVariant(filter.filtertext));
 			break;
@@ -481,12 +487,13 @@ bool DatabaseTracks::getAllTracksBySearchString(Library::Filter filter, MetaData
 			q.bindValue(":search_in_filename",QVariant(filter.filtertext));
 			break;
 
-
 		case Library::Filter::Fulltext:
-		default:
 			q.bindValue(":search_in_title",QVariant(filter.filtertext));
 			q.bindValue(":search_in_album",QVariant(filter.filtertext));
 			q.bindValue(":search_in_artist",QVariant(filter.filtertext));
+			break;
+
+		default:
 			break;
 	}
 
@@ -603,8 +610,8 @@ bool DatabaseTracks::deleteInvalidTracks()
 	return false;
 }
 
-QStringList DatabaseTracks::getAllGenres(){
-
+QStringList DatabaseTracks::getAllGenres()
+{
 	QString querystring;
 	bool success;
 
@@ -684,7 +691,8 @@ bool DatabaseTracks::updateTrack(const MetaData& md)
 				   "filesize=:filesize, "
 				   "discnumber=:discnumber, "
 				   "cissearch=:cissearch, "
-				   "rating=:rating "
+				   "rating=:rating, "
+				   "modifydate=:modifydate "
 				"WHERE TrackID = :trackID;");
 
 	q.bindValue(":albumID",QVariant(md.album_id));
@@ -698,8 +706,9 @@ bool DatabaseTracks::updateTrack(const MetaData& md)
 	q.bindValue(":genre", QVariant(genres.join(",")));
 	q.bindValue(":filesize", QVariant(md.filesize));
 	q.bindValue(":discnumber", QVariant(md.discnumber));
-	q.bindValue(":rating", QVariant(md.rating));
 	q.bindValue(":cissearch", cissearch);
+	q.bindValue(":rating", QVariant(md.rating));
+	q.bindValue(":modifydate", Helper::current_date_to_int());
 
 	if (!q.exec()) {
 		q.show_error(QString("Cannot update track ") + md.filepath());
@@ -755,10 +764,11 @@ bool DatabaseTracks::insertTrackIntoDatabase (const MetaData& md, int artistID, 
 
 	QString cissearch = Library::convert_search_string(md.title, search_mode());
 	QString querytext = QString("INSERT INTO tracks ") +
-				"(filename,albumID,artistID,title,year,length,track,bitrate,genre,filesize,discnumber,rating,cissearch) " +
+				"(filename,albumID,artistID,title,year,length,track,bitrate,genre,filesize,discnumber,rating,cissearch,createdate,modifydate) " +
 				"VALUES "+
-				"(:filename,:albumID,:artistID,:title,:year,:length,:track,:bitrate,:genre,:filesize,:discnumber,:rating,:cissearch); ";
+				"(:filename,:albumID,:artistID,:title,:year,:length,:track,:bitrate,:genre,:filesize,:discnumber,:rating,:cissearch,:createdate,:modifydate); ";
 
+	quint64 current_time = Helper::current_date_to_int();
 	q.prepare(querytext);
 
 	q.bindValue(":filename", md.filepath());
@@ -774,6 +784,8 @@ bool DatabaseTracks::insertTrackIntoDatabase (const MetaData& md, int artistID, 
 	q.bindValue(":discnumber", md.discnumber);
 	q.bindValue(":rating", md.rating);
 	q.bindValue(":cissearch", cissearch);
+	q.bindValue(":createdate", current_time);
+	q.bindValue(":modifydate", current_time);
 
 	if (!q.exec()) {
 		q.show_error(QString("Cannot insert track into database ") + md.filepath());
@@ -782,4 +794,5 @@ bool DatabaseTracks::insertTrackIntoDatabase (const MetaData& md, int artistID, 
 
 	return true;
 }
+
 

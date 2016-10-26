@@ -101,7 +101,6 @@ void GUI_AbstractLibrary::language_changed(){}
 
 void GUI_AbstractLibrary::init_headers()
 {
-
 	Library::Sortings so = _settings->get(Set::Lib_Sorting);
 
 	ColumnHeader* t_h0 = new ColumnHeader(ColumnHeader::Sharp, true, Library::SortOrder::TrackNumAsc, Library::SortOrder::TrackNumDesc, 25);
@@ -191,14 +190,22 @@ void GUI_AbstractLibrary::text_line_edited(const QString &search)
 
 	QString text = search;
 
-	switch( _combo_search->currentIndex() ) {
-
+	switch( _combo_search->currentIndex() )
+	{
 		case 1:
 			filter.mode = Library::Filter::Genre;
 			break;
 
 		case 2:
 			filter.mode = Library::Filter::Filename;
+			break;
+
+		case 3:
+			filter.mode = Library::Filter::Date;
+			//TODO: make something good
+			filter.date_filter.set_between(
+						Library::DateFilter::TimeSpan::Months, 1,
+						Library::DateFilter::TimeSpan::Months, 2);
 			break;
 
 		case 0:
@@ -210,6 +217,10 @@ void GUI_AbstractLibrary::text_line_edited(const QString &search)
 
 	if(search.size() < 3){
 		filter.cleared = true;
+	}
+
+	else if(filter.mode == Library::Filter::Date){
+		filter.cleared = false;
 	}
 
 	else{
@@ -527,16 +538,3 @@ void GUI_AbstractLibrary::_sl_live_search_changed(){
 		connect(_le_search, &QLineEdit::returnPressed, this, &GUI_AbstractLibrary::return_pressed);
 	}
 }
-
-/*void GUI_AbstractLibrary::set_index(int idx){
-
-	if(!_combo_libchooser) {
-		return;
-	}
-
-	_combo_libchooser->setCurrentIndex(idx);
-}
-*/
-
-
-

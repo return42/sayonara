@@ -99,6 +99,11 @@
          <string>Path</string>
         </property>
        </item>
+       <item>
+        <property name="text">
+         <string>Date</string>
+        </property>
+       </item>
       </widget>
      </item>
      <item>

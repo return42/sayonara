@@ -24,6 +24,13 @@
 #include "Helper/MetaData/Artist.h"
 #include "Helper/MetaData/MetaDataList.h"
 #include "Helper/Logger/Logger.h"
+#include "Helper/Helper.h"
+
+#include <QFileInfo>
+#include <QDateTime>
+
+#include <tuple>
+#include <algorithm>
 
 DatabaseConnector::DatabaseConnector() :
 
@@ -101,7 +108,7 @@ bool DatabaseConnector::apply_fixes() {
 	QString str_version;
 	int version;
 	bool success;
-	const int LatestVersion = 10;
+	const int LatestVersion = 11;
 
 	success = load_setting("version", str_version);
 	version = str_version.toInt(&success);
@@ -247,6 +254,43 @@ bool DatabaseConnector::apply_fixes() {
 
 			q_index.exec();
 		}
+	}
+
+	if(version < 11)
+	{
+		sp_log(Log::Debug) << "Insert dates...";
+
+		QString querytext = QString("SELECT trackID, filename FROM tracks;");
+		SayonaraQuery q(_database);
+		q.prepare(querytext);
+		QMap<int, QString> v_md;
+		
+		QList< std::tuple<int, quint64, quint64> > lst;
+		if(q.exec())
+		{
+			while(q.next())
+			{
+				int id = q.value(0).toInt();
+				QString filepath = q.value(1).toString();
+				QFileInfo fi(filepath);
+
+				QDateTime created = fi.created();
+				QDateTime modified = fi.lastModified();
+
+				lst << std::make_tuple(id, Helper::date_to_int(created), Helper::date_to_int(modified));
+			}
+		}
+
+		_database.transaction();
+		for(auto t : lst){
+			SayonaraQuery q(_database);
+			q.prepare("UPDATE tracks SET createdate=:createdate, modifydate=:modifydate WHERE trackID = :id;");
+			q.bindValue(":id", std::get<0>(t));
+			q.bindValue(":createdate", std::get<1>(t));
+			q.bindValue(":modifydate", std::get<2>(t));
+			q.exec();
+		}
+		_database.commit();
 	}
 
 

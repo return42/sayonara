@@ -168,7 +168,14 @@ bool DatabaseArtists::getAllArtistsBySearchString(Library::Filter filter, Artist
 	SayonaraQuery q (_db);
 	QString query;
 
-	switch(filter.mode) {
+	switch(filter.mode) 
+	{
+		case Library::Filter::Date:
+			query = _fetch_query +
+							" WHERE albums.albumid = tracks.albumid AND artists.artistID = tracks.artistid AND "
+							"(" + filter.date_filter.get_sql_filter("tracks") + ")" + 
+							" GROUP BY artists.artistid, artists.name ";
+			break;
 
 		case Library::Filter::Genre:
 			query = _fetch_query +
@@ -206,6 +213,9 @@ bool DatabaseArtists::getAllArtistsBySearchString(Library::Filter filter, Artist
 
 	q.prepare(query);
 	switch(filter.mode) {
+
+		case Library::Filter::Date:
+			break;
 
 		case Library::Filter::Genre:
 			q.bindValue(":search_in_genre", QVariant(filter.filtertext));

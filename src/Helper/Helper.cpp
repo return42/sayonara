@@ -33,6 +33,7 @@
 #include <QCryptographicHash>
 #include <QDir>
 #include <QRegExp>
+#include <QDateTime>
 
 #include <thread>
 #include <chrono>
@@ -61,6 +62,19 @@ QString cvtNum2String(T num, int digits) {
 	}
 
 	return str;
+}
+
+quint64 Helper::date_to_int(const QDateTime& date_time)
+{
+
+	QString str = date_time.toUTC().toString("yyMMddHHmmss");
+	return str.toULongLong();
+}
+
+quint64 Helper::current_date_to_int()
+{
+	QString str = QDateTime::currentDateTimeUtc().toString("yyMMddHHmmss");
+	return str.toULongLong();
 }
 
 
