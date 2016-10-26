@@ -36,6 +36,7 @@
 class GUI_LibraryInfoBox;
 class GUI_ImportFolder;
 class LocalLibraryMenu;
+class DateSearchModel;
 
 namespace Ui { class GUI_LocalLibrary; }
 
@@ -70,6 +71,7 @@ private slots:
 	void progress_changed(const QString& type, int progress);
 
 	void genre_selection_changed(const QModelIndex& index);
+	void date_selection_changed(const QModelIndex& index);
 
 	void reload_library_requested();
 	void import_dirs_requested();
@@ -96,6 +98,7 @@ private slots:
 	void language_changed() override;
 
 	void _sl_libpath_changed();
+	void clear_button_pressed() override;
 
 
 private:
@@ -103,6 +106,7 @@ private:
 	GUI_LibraryInfoBox*		_library_info_box=nullptr;
 	GUI_ImportFolder*		_ui_importer=nullptr;
 	LocalLibraryMenu*		_local_library_menu=nullptr;
+	DateSearchModel*		_date_serach_model=nullptr;
 };
 
 #endif /* GUI_LocalLibrary_H_ */

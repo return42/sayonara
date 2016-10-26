@@ -448,7 +448,7 @@ bool DatabaseTracks::getAllTracksBySearchString(Library::Filter filter, MetaData
 	switch(filter.mode) 
 	{
 		case Library::Filter::Date:
-			  querytext = _fetch_query += " AND " + filter.date_filter.get_sql_filter("tracks");
+			  querytext = _fetch_query + " AND " + filter.date_filter.get_sql_filter("tracks");
 			  break;
 
 		case Library::Filter::Genre:
@@ -497,7 +497,7 @@ bool DatabaseTracks::getAllTracksBySearchString(Library::Filter filter, MetaData
 			break;
 	}
 
-
+	sp_log(Log::Debug) << querytext;
 	return db_fetch_tracks(q, result);
 }
 

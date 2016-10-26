@@ -25,9 +25,11 @@
 #include "Helper/MetaData/MetaDataList.h"
 #include "Helper/Logger/Logger.h"
 #include "Helper/Helper.h"
+#include "Helper/FileHelper.h"
 
 #include <QFileInfo>
 #include <QDateTime>
+#include <QTime>
 
 #include <tuple>
 #include <algorithm>
@@ -258,6 +260,8 @@ bool DatabaseConnector::apply_fixes() {
 
 	if(version < 11)
 	{
+		QTime timer;
+		timer.start();
 		sp_log(Log::Debug) << "Insert dates...";
 
 		QString querytext = QString("SELECT trackID, filename FROM tracks;");
@@ -272,9 +276,11 @@ bool DatabaseConnector::apply_fixes() {
 			{
 				int id = q.value(0).toInt();
 				QString filepath = q.value(1).toString();
-				QFileInfo fi(filepath);
 
-				QDateTime created = fi.created();
+				QString dir = Helper::File::get_parent_directory(filepath);
+				QFileInfo fi(filepath);
+				QFileInfo fi_dir(dir);
+				QDateTime created = fi_dir.created();
 				QDateTime modified = fi.lastModified();
 
 				lst << std::make_tuple(id, Helper::date_to_int(created), Helper::date_to_int(modified));
@@ -291,6 +297,9 @@ bool DatabaseConnector::apply_fixes() {
 			q.exec();
 		}
 		_database.commit();
+
+		sp_log(Log::Debug) << "updated tracks in " << timer.elapsed() << " ms";
+		//store_setting("version", 11);
 	}
 
 

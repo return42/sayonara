@@ -58,13 +58,14 @@ AbstractDatabase::~AbstractDatabase()
 }
 
 
-bool AbstractDatabase::is_initialized(){
+bool AbstractDatabase::is_initialized()
+{
 	return _initialized;
 }
 
 
-bool AbstractDatabase::open_db(){
-
+bool AbstractDatabase::open_db()
+{
 	_database = QSqlDatabase::addDatabase("QSQLITE", _db_path);
 	_database.setDatabaseName( _db_path );
 
@@ -79,8 +80,8 @@ bool AbstractDatabase::open_db(){
 	return success;
 }
 
-void AbstractDatabase::close_db() {
-
+void AbstractDatabase::close_db()
+{
 	if(!_database.isOpen()){
 		return;
 	}
@@ -91,8 +92,8 @@ void AbstractDatabase::close_db() {
 }
 
 
-bool AbstractDatabase::exists() {
-
+bool AbstractDatabase::exists()
+{
 	bool success;
 	success = QFile::exists(_db_path);
 	if(!success) {
@@ -123,8 +124,8 @@ bool AbstractDatabase::exists() {
 
 
 
-bool AbstractDatabase::create_db() {
-
+bool AbstractDatabase::create_db()
+{
 	bool success;
 	QDir dir = QDir::homePath();
 
@@ -177,26 +178,27 @@ bool AbstractDatabase::create_db() {
 }
 
 
-void AbstractDatabase::transaction(){
+void AbstractDatabase::transaction()
+{
 	DB_RETURN_NOT_OPEN_VOID(_database);
 	_database.transaction();
 }
 
-void AbstractDatabase::commit(){
+void AbstractDatabase::commit()
+{
 	DB_RETURN_NOT_OPEN_VOID(_database);
 	_database.commit();
 }
 
-void AbstractDatabase::rollback(){
+void AbstractDatabase::rollback()
+{
 	DB_RETURN_NOT_OPEN_VOID(_database);
 	_database.rollback();
 }
 
 
-
-
-bool AbstractDatabase::check_and_drop_table(QString tablename) {
-
+bool AbstractDatabase::check_and_drop_table(QString tablename)
+{
 	DB_RETURN_NOT_OPEN_BOOL(_database);
 
 	SayonaraQuery q(_database);
@@ -211,8 +213,8 @@ bool AbstractDatabase::check_and_drop_table(QString tablename) {
 	return true;
 }
 
-bool AbstractDatabase::check_and_insert_column(QString tablename, QString column, QString sqltype) {
-
+bool AbstractDatabase::check_and_insert_column(QString tablename, QString column, QString sqltype)
+{
 	DB_RETURN_NOT_OPEN_BOOL(_database);
 
 	SayonaraQuery q (_database);
@@ -236,8 +238,8 @@ bool AbstractDatabase::check_and_insert_column(QString tablename, QString column
 	return true;
 }
 
-bool AbstractDatabase::check_and_create_table(QString tablename, QString sql_create_str) {
-
+bool AbstractDatabase::check_and_create_table(QString tablename, QString sql_create_str)
+{
 	DB_RETURN_NOT_OPEN_BOOL(_database);
 
 	SayonaraQuery q (_database);
@@ -257,6 +259,7 @@ bool AbstractDatabase::check_and_create_table(QString tablename, QString sql_cre
 	return true;
 }
 
-quint8 AbstractDatabase::get_id(){
+quint8 AbstractDatabase::get_id()
+{
 	return _db_id;
 }

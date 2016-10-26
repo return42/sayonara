@@ -10,6 +10,7 @@ SET(SOURCES
     Models/LibraryItemModelArtists.cpp
     Models/LibraryItemModel.cpp
     Models/LibraryItemModelTracks.cpp
+    Models/DateSearchModel.cpp
 
     Delegates/LibraryItemDelegateAlbums.cpp
     Delegates/LibraryItemDelegateTracks.cpp

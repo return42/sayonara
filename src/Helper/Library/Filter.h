@@ -32,24 +32,32 @@ namespace Library
 {
     struct Filter
     {
-		enum Mode
-		{
-			Fulltext=0,
-			Filename,
-			Genre,
-			Date
-		};
+	enum Mode
+	{
+	    Fulltext=0,
+	    Filename,
+	    Genre,
+	    Date
+	};
 
-		DateFilter  date_filter;
-		QString		filtertext;
-		Mode		mode;
-		bool		cleared;
+	DateFilter	date_filter;
+	QString		filtertext;
+	Mode		mode;
+	bool		cleared;
 
-		Filter()
-		{
-			mode = Mode::Fulltext;
-			cleared = true;
-		}
+
+	Filter()
+	{
+	    clear();
+	}
+
+	void clear()
+	{
+	    date_filter = DateFilter("");
+	    filtertext = QString();
+	    mode = Mode::Fulltext;
+	    cleared = true;
+	}
     };
 }
 

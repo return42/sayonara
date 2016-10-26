@@ -200,23 +200,16 @@ void GUI_AbstractLibrary::text_line_edited(const QString &search)
 			filter.mode = Library::Filter::Filename;
 			break;
 
-		case 3:
-			filter.mode = Library::Filter::Date;
-			//TODO: make something good
-			filter.date_filter.set_between(
-						Library::DateFilter::TimeSpan::Months, 1,
-						Library::DateFilter::TimeSpan::Months, 2);
-			break;
-
 		case 0:
-		default:
 			text = Library::convert_search_string(search, mask);
 			filter.mode = Library::Filter::Fulltext;
+			break;
+		default:
 			break;
 	}
 
 	if(search.size() < 3){
-		filter.cleared = true;
+		filter.clear();
 	}
 
 	else if(filter.mode == Library::Filter::Date){

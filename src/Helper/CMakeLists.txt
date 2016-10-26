@@ -22,7 +22,7 @@ SET(SOURCES
 
     DirectoryReader/DirectoryReader.cpp
 
-
+    Library/DateFilter.cpp
     Library/SearchMode.cpp
     Logger/Logger.cpp
 

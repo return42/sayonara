@@ -29,6 +29,7 @@
 #include "GUI_LocalLibrary.h"
 #include "GUI/Library/ui_GUI_LocalLibrary.h"
 #include "GUI/Library/Helper/LocalLibraryMenu.h"
+#include "GUI/Library/Models/DateSearchModel.h"
 
 #include "Helper/Message/Message.h"
 #include "InfoBox/GUI_LibraryInfoBox.h"
@@ -38,6 +39,8 @@
 #include "Helper/Helper.h"
 #include "Helper/Settings/Settings.h"
 #include "Helper/Language.h"
+#include "GUI/Helper/SearchableWidget/SearchableListView.h"
+#include "GUI/Helper/Delegates/ListDelegate.h"
 
 #include <QFileDialog>
 #include <QDir>
@@ -59,6 +62,12 @@ GUI_LocalLibrary::GUI_LocalLibrary(QWidget* parent) :
 	ui->pb_progress->setVisible(false);
 	ui->lab_progress->setVisible(false);
 
+	_date_serach_model = new DateSearchModel(this);
+
+	ui->lv_date_search->setModel(_date_serach_model);
+	ui->lv_date_search->setSearchModel(_date_serach_model);
+	ui->lv_date_search->setItemDelegate(new ListDelegate(ui->lv_date_search));
+
 	connect(_library, &LocalLibrary::sig_reloading_library, this, &GUI_LocalLibrary::progress_changed);
 	connect(_library, &LocalLibrary::sig_reloading_library_finished, this, &GUI_LocalLibrary::reload_finished);
 	connect(ui->btn_setLibrary, &QPushButton::clicked, this, &GUI_LocalLibrary::set_library_path_clicked);
@@ -74,6 +83,9 @@ GUI_LocalLibrary::GUI_LocalLibrary(QWidget* parent) :
 	connect(ui->lv_genres, &QAbstractItemView::activated, this, &GUI_LocalLibrary::genre_selection_changed);
 	connect(ui->lv_genres, &LibraryGenreView::sig_progress, this, &GUI_LocalLibrary::progress_changed);
 
+	connect(ui->lv_date_search, &QAbstractItemView::clicked, this, &GUI_LocalLibrary::date_selection_changed);
+	connect(ui->lv_date_search, &QAbstractItemView::activated, this, &GUI_LocalLibrary::date_selection_changed);
+
 	connect(_local_library_menu, &LocalLibraryMenu::sig_reload_library, this, &GUI_LocalLibrary::reload_library_requested);
 	connect(_local_library_menu, &LocalLibraryMenu::sig_import_file, this, &GUI_LocalLibrary::import_files_requested);
 	connect(_local_library_menu, &LocalLibraryMenu::sig_import_folder, this, &GUI_LocalLibrary::import_dirs_requested);
@@ -84,6 +96,8 @@ GUI_LocalLibrary::GUI_LocalLibrary(QWidget* parent) :
 	connect(ui->splitter_artist_album, &QSplitter::splitterMoved, this, &GUI_LocalLibrary::splitter_artist_moved);
 	connect(ui->splitter_tracks, &QSplitter::splitterMoved, this, &GUI_LocalLibrary::splitter_tracks_moved);
 	connect(ui->splitter_genre, &QSplitter::splitterMoved, this, &GUI_LocalLibrary::splitter_genre_moved);
+
+
 
 	connect(library, &LocalLibrary::sig_no_library_path, this, &GUI_LocalLibrary::lib_no_lib_path);
 	connect(library, &LocalLibrary::sig_import_dialog_requested, this, &GUI_LocalLibrary::import_dialog_requested);
@@ -215,12 +229,29 @@ void GUI_LocalLibrary::_sl_libpath_changed()
 	ui->btn_clear->setVisible(!library_path.isEmpty());
 }
 
+void GUI_LocalLibrary::clear_button_pressed()
+{
+	ui->lv_genres->clearSelection();
+	ui->lv_date_search->clearSelection();
+
+	GUI_AbstractLibrary::clear_button_pressed();
+}
+
 
 void GUI_LocalLibrary::genre_selection_changed(const QModelIndex& index){
 	QVariant data = index.data();
 	ui->combo_searchfilter->setCurrentIndex(1);
 	ui->le_search->setText(data.toString());
 	text_line_edited(data.toString());
+}
+
+void GUI_LocalLibrary::date_selection_changed(const QModelIndex& index)
+{
+	Library::Filter filter;
+	filter.mode = Library::Filter::Date;
+	filter.date_filter = _date_serach_model->get_filter(index.row());
+	filter.cleared = false;
+	_library->psl_filter_changed(filter);
 }
 
 

@@ -52,8 +52,7 @@ void AbstractLibrary::load () {
 
 	REGISTER_LISTENER(Set::Lib_Sorting, _sl_sortorder_changed);
 
-	_filter.cleared = true;
-	_filter.filtertext = "";
+	_filter.clear();
 
 	get_all_artists(_vec_artists, _sortorder);
 	get_all_albums(_vec_albums, _sortorder);
@@ -83,8 +82,7 @@ void AbstractLibrary::refetch(){
 	_vec_artists.clear();
 	_vec_md.clear();
 
-	_filter.cleared = true;
-	_filter.filtertext = "";
+	_filter.clear();
 
 	get_all_artists(_vec_artists, _sortorder);
 	get_all_albums(_vec_albums, _sortorder);
