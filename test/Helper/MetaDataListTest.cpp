@@ -15,6 +15,7 @@ private slots:
 	void insert_test();
 	void remove_test();
 	void move_test();
+	void write_move_stuff();
 };
 
 
@@ -140,10 +141,74 @@ void MetaDataListTest::remove_test()
 	}
 }
 
+#include "Helper/FileHelper.h"
+#include "Helper/Random/RandomGenerator.h"
+void MetaDataListTest::write_move_stuff()
+{
+	QString data;
+	for(int x=0; x<1000; x++){
+
+		int sz = RandomGenerator::get_random_number(50, 100);
+		int target_idx = RandomGenerator::get_random_number(0, sz - 1);
+		int cur_play_idx = RandomGenerator::get_random_number(0, sz - 1);
+		int n_idxs = RandomGenerator::get_random_number(5, sz - 10);
+
+		SP::Set<int> idxs;
+		for(int i=0; i<n_idxs; i++){
+			idxs.insert(RandomGenerator::get_random_number(0, sz));
+		}
+
+		MetaDataList v_md = create_v_md(0, sz);
+		v_md.set_cur_play_track(cur_play_idx);
+
+
+		int n_tracks_before_cur_track =
+				std::count_if(idxs.begin(), idxs.end(), [&cur_play_idx](int idx){
+					return idx < cur_play_idx;
+				});
+
+		int n_tracks_after_cur_track =
+				std::count_if(idxs.begin(), idxs.end(), [&cur_play_idx](int idx){
+					return idx > cur_play_idx;
+				});
+
+		bool has_cur_idx = idxs.contains(cur_play_idx);
+
+		QList<int> lst;
+		lst << target_idx;
+		lst << cur_play_idx;
+		lst << n_tracks_before_cur_track;
+		lst << n_tracks_after_cur_track;
+
+		if(has_cur_idx){
+			lst << 1;
+		}
+
+		else{
+			lst << 0;
+		}
+
+		v_md.move_tracks(idxs, target_idx);
+
+		lst << v_md.get_cur_play_track();
+
+		QStringList str_lst;
+		for(int i : lst)
+		{
+			str_lst << QString::number(i);
+		}
+
+		data += str_lst.join("\t");
+		data += "\n";
+	}
+
+	Helper::File::write_file(data.toLocal8Bit(), "/home/luke/md.validate");
+}
+
 
 void MetaDataListTest::move_test()
 {
-	for(int rounds = 0; rounds < 10; rounds++)
+	/*for(int rounds = 0; rounds < 10; rounds++)
 	{
 		MetaDataList v_md = create_v_md(0, 53);
 		SP::Set<int> move_indexes = create_idx_set(15, v_md.size());
@@ -155,7 +220,9 @@ void MetaDataListTest::move_test()
 			move_indexes.insert( (i + rounds) % v_md.size() );
 		}
 
-		int cur_track = v_md.get_cur_play_track();
+		int cur_track = 5;
+		v_md.set_cur_play_track(cur_track);
+
 		int old_size = v_md.size();
 
 		MetaDataList moved_md;
@@ -192,7 +259,7 @@ void MetaDataListTest::move_test()
 			int new_cur_track = cur_track - n_tracks_before_cur_track;
 			QVERIFY(v_md.get_cur_play_track() == new_cur_track);
 		}
-	}
+	}*/
 }
 
 

@@ -19,7 +19,6 @@
  */
 
 
-
 #include "ASXParser.h"
 #include "Helper/MetaData/MetaData.h"
 
@@ -53,8 +52,8 @@ void ASXParser::parse()
 		return;
 	}
 
-	do{
-
+	do
+	{
 		MetaData md;
 
 		md.length_ms = 0;
