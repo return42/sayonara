@@ -78,6 +78,8 @@ public:
 	virtual QStringList getAllGenres();
 	virtual void updateTrackCissearch();
 
+	bool updateTrackDates();
+
 };
 
 #endif // DATABASETRACKS_H

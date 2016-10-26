@@ -260,46 +260,7 @@ bool DatabaseConnector::apply_fixes() {
 
 	if(version < 11)
 	{
-		QTime timer;
-		timer.start();
-		sp_log(Log::Debug) << "Insert dates...";
-
-		QString querytext = QString("SELECT trackID, filename FROM tracks;");
-		SayonaraQuery q(_database);
-		q.prepare(querytext);
-		QMap<int, QString> v_md;
-		
-		QList< std::tuple<int, quint64, quint64> > lst;
-		if(q.exec())
-		{
-			while(q.next())
-			{
-				int id = q.value(0).toInt();
-				QString filepath = q.value(1).toString();
-
-				QString dir = Helper::File::get_parent_directory(filepath);
-				QFileInfo fi(filepath);
-				QFileInfo fi_dir(dir);
-				QDateTime created = fi_dir.created();
-				QDateTime modified = fi.lastModified();
-
-				lst << std::make_tuple(id, Helper::date_to_int(created), Helper::date_to_int(modified));
-			}
-		}
-
-		_database.transaction();
-		for(auto t : lst){
-			SayonaraQuery q(_database);
-			q.prepare("UPDATE tracks SET createdate=:createdate, modifydate=:modifydate WHERE trackID = :id;");
-			q.bindValue(":id", std::get<0>(t));
-			q.bindValue(":createdate", std::get<1>(t));
-			q.bindValue(":modifydate", std::get<2>(t));
-			q.exec();
-		}
-		_database.commit();
-
-		sp_log(Log::Debug) << "updated tracks in " << timer.elapsed() << " ms";
-		//store_setting("version", 11);
+		// look in UpdateDatesThread
 	}
 
 

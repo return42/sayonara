@@ -232,7 +232,7 @@ bool DatabaseAlbums::getAllAlbumsByArtist(IDList artists, AlbumList& result, Lib
 	}
 
 
-	if( !filter.filtertext.isEmpty() ) {
+	if( !filter.cleared ) {
 
 		switch(filter.mode) 
 		{
@@ -278,7 +278,7 @@ bool DatabaseAlbums::getAllAlbumsByArtist(IDList artists, AlbumList& result, Lib
 		q.bindValue(QString(":artist_id_") + QString::number(i), artists[i]);
 	}
 
-	if(filter.filtertext.length() > 0) 
+	if( !filter.cleared )
 	{
 		switch(filter.mode) {
 

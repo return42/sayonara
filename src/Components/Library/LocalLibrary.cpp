@@ -23,6 +23,7 @@
 #include "Threads/ReloadThread.h"
 #include "Threads/IndexDirectoriesThread.h"
 #include "Threads/FileSystemWatcher.h"
+#include "Threads/UpdateDatesThread.h"
 #include "Database/DatabaseConnector.h"
 
 #include "Helper/Settings/Settings.h"
@@ -41,6 +42,20 @@ LocalLibrary::LocalLibrary(QObject *parent) :
 }
 
 LocalLibrary::~LocalLibrary() {}
+
+void LocalLibrary::apply_db_fixes()
+{
+	QString str_val;
+	_db->load_setting("version", str_val);
+
+	int version = str_val.toInt();
+	if(version < 11){
+		UpdateDatesThread* t = new UpdateDatesThread(this);
+		connect(t, &QThread::finished, t, &QObject::deleteLater);
+		t->start();
+	}
+}
+
 
 void LocalLibrary::psl_reload_library(bool clear_first, Library::ReloadQuality quality) {
 

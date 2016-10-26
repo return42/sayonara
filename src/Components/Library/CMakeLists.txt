@@ -1,3 +1,4 @@
+
 PROJECT(say_comp_library)
 CMAKE_MINIMUM_REQUIRED(VERSION 2.7)
 
@@ -13,6 +14,7 @@ SET(SOURCES
     Threads/ReloadThread.cpp
     Threads/IndexDirectoriesThread.cpp
     Threads/FileSystemWatcher.cpp
+	Threads/UpdateDatesThread.cpp
 )
 
 
@@ -21,8 +23,4 @@ TARGET_LINK_LIBRARIES(${PROJECT_NAME}
 	say_comp_tagedit
 	say_comp_playlist
 )
-
-IF( WITH_COTIRE )
-    cotire(${PROJECT_NAME})
-ENDIF()
 

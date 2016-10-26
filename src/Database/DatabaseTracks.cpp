@@ -22,12 +22,17 @@
 #include "Database/SayonaraQuery.h"
 #include "Database/DatabaseTracks.h"
 #include "Database/DatabaseLibrary.h"
-#include "Helper/MetaData/MetaData.h"
 #include "Helper/MetaData/MetaDataList.h"
 #include "Helper/Logger/Logger.h"
 #include "Helper/Helper.h"
+#include "Helper/FileHelper.h"
+
+#include <QFileInfo>
+#include <QDateTime>
+#include <QMap>
 
 #include <utility>
+#include <tuple>
 
 DatabaseTracks::DatabaseTracks(const QSqlDatabase& db, quint8 db_id) :
 	DatabaseModule(db, db_id),
@@ -273,10 +278,14 @@ bool DatabaseTracks::getAllTracksByAlbum(IDList albums, MetaDataList& returndata
 		querytext += ") ";
 	}
 
-	if( !filter.filtertext.isEmpty() ) {
+	if( !filter.cleared ) {
 
 		switch(filter.mode) 
 		{
+			case Library::Filter::Date:
+				querytext += "AND " + filter.date_filter.get_sql_filter("tracks");
+				break;
+
 			case Library::Filter::Genre:
 				querytext += "AND tracks.genre LIKE :filter1 ";
 				break;
@@ -328,7 +337,6 @@ bool DatabaseTracks::getAllTracksByAlbum(IDList albums, MetaDataList& returndata
 				break;
 
 			case Library::Filter::Fulltext:
-				q.bindValue(":filter1", QVariant(filter.filtertext));
 				q.bindValue(":filter2", QVariant(filter.filtertext));
 				q.bindValue(":filter3", QVariant(filter.filtertext));
 
@@ -374,11 +382,12 @@ bool DatabaseTracks::getAllTracksByArtist(IDList artists, MetaDataList& returnda
 		querytext += ") ";
 	}
 
-	if(filter.filtertext.length() > 0 ) {
+	if( !filter.cleared )
+	{
 		switch(filter.mode) 
 		{
 			case Library::Filter::Date:
-				querytext += filter.date_filter.get_sql_filter("tracks");
+				querytext += "AND " + filter.date_filter.get_sql_filter("tracks");
 				break;
 
 			case Library::Filter::Genre:
@@ -433,6 +442,8 @@ bool DatabaseTracks::getAllTracksByArtist(IDList artists, MetaDataList& returnda
 				break;
 		}
 	}
+
+	sp_log(Log::Debug) << querytext;
 
 	return db_fetch_tracks(q, returndata);
 }
@@ -497,7 +508,6 @@ bool DatabaseTracks::getAllTracksBySearchString(Library::Filter filter, MetaData
 			break;
 	}
 
-	sp_log(Log::Debug) << querytext;
 	return db_fetch_tracks(q, result);
 }
 
@@ -681,19 +691,19 @@ bool DatabaseTracks::updateTrack(const MetaData& md)
 
 	q.prepare("UPDATE Tracks "
 			  "SET albumID=:albumID, "
-				   "artistID=:artistID, "
-				   "title=:title, "
-				   "year=:year, "
-				   "length=:length, "
-				   "bitrate=:bitrate, "
-				   "track=:track, "
-				   "genre=:genre, "
-				   "filesize=:filesize, "
-				   "discnumber=:discnumber, "
-				   "cissearch=:cissearch, "
-				   "rating=:rating, "
-				   "modifydate=:modifydate "
-				"WHERE TrackID = :trackID;");
+			  "artistID=:artistID, "
+			  "title=:title, "
+			  "year=:year, "
+			  "length=:length, "
+			  "bitrate=:bitrate, "
+			  "track=:track, "
+			  "genre=:genre, "
+			  "filesize=:filesize, "
+			  "discnumber=:discnumber, "
+			  "cissearch=:cissearch, "
+			  "rating=:rating, "
+			  "modifydate=:modifydate "
+			  "WHERE TrackID = :trackID;");
 
 	q.bindValue(":albumID",QVariant(md.album_id));
 	q.bindValue(":artistID",QVariant(md.artist_id));
@@ -796,3 +806,51 @@ bool DatabaseTracks::insertTrackIntoDatabase (const MetaData& md, int artistID, 
 }
 
 
+bool DatabaseTracks::updateTrackDates()
+{
+	sp_log(Log::Debug, "Database Tracks") << "Insert dates...";
+
+	QString querytext = QString("SELECT trackID, filename FROM tracks;");
+	SayonaraQuery q(_db);
+	q.prepare(querytext);
+	QMap<int, QString> v_md;
+
+	QList< std::tuple<int, quint64, quint64> > lst;
+	if(q.exec())
+	{
+		while(q.next())
+		{
+			int id = q.value(0).toInt();
+			QString filepath = q.value(1).toString();
+
+			QString dir = Helper::File::get_parent_directory(filepath);
+			QFileInfo fi(filepath);
+			QFileInfo fi_dir(dir);
+			QDateTime created = fi_dir.created();
+			QDateTime modified = fi.lastModified();
+
+			lst << std::make_tuple(id, Helper::date_to_int(created), Helper::date_to_int(modified));
+		}
+	}
+
+	else{
+		sp_log(Log::Error, "Database Tracks") << "Insert dates finished with error";
+		return false;
+	}
+
+	_db.transaction();
+
+	for(auto t : lst){
+		SayonaraQuery q(_db);
+		q.prepare("UPDATE tracks SET createdate=:createdate, modifydate=:modifydate WHERE trackID = :id;");
+		q.bindValue(":id", std::get<0>(t));
+		q.bindValue(":createdate", std::get<1>(t));
+		q.bindValue(":modifydate", std::get<2>(t));
+		q.exec();
+	}
+
+	_db.commit();
+
+	sp_log(Log::Debug, "Database Tracks") << "Insert dates finished!";
+	return true;
+}
