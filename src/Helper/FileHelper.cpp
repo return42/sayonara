@@ -18,19 +18,25 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "FileHelper.h"
 #include "Helper.h"
 #include "Helper/Logger/Logger.h"
 
 #include <QDir>
+#include <QFile>
+#include <QFileInfo>
+#include <QStringList>
 
 #include <algorithm>
 
 QString Helper::File::clean_filename(const QString& path)
 {
 	QString ret = path;
+	while(ret.contains("/./") || ret.contains("\\.\\")){
+		ret.replace("/./", QDir::separator());
+		ret.replace("\\.\\", QDir::separator());
+	}
+
 	while(ret.contains("//") || ret.contains("\\\\")){
 		ret.replace("//", QDir::separator());
 		ret.replace("\\\\", QDir::separator());
@@ -47,15 +53,14 @@ QString Helper::File::clean_filename(const QString& path)
 }
 
 
-QString Helper::File::calc_file_extension(const QString& filename) {
-
+QString Helper::File::calc_file_extension(const QString& filename) 
+{
 	return get_file_extension(filename);
 }
 
 
-
-void Helper::File::remove_files_in_directory(const QString& dir_name, const QStringList& filters) {
-
+void Helper::File::remove_files_in_directory(const QString& dir_name, const QStringList& filters) 
+{
 	bool success;
 	QDir dir(dir_name);
 	dir.setNameFilters(filters);
@@ -66,16 +71,15 @@ void Helper::File::remove_files_in_directory(const QString& dir_name, const QStr
 	for(const QFileInfo& info : info_lst){
 
 		QString path = info.absoluteFilePath();
-		if(info.isDir()){
+		if(info.isDir())
+		{
 			remove_files_in_directory(path);
+			QDir().rmdir(path);
 		}
 
 		else{
 			QFile file(path);
-			success = file.remove();
-			if(!success){
-				sp_log(Log::Warning) << "Could not remove file " << path;
-			}
+			file.remove();
 		}
 	}
 	
@@ -86,10 +90,9 @@ void Helper::File::remove_files_in_directory(const QString& dir_name, const QStr
 	}
 }
 
-void Helper::File::delete_files(const QStringList& paths){
 
-	bool success;
-
+void Helper::File::delete_files(const QStringList& paths)
+{
 	QStringList sorted_paths = paths;
 	std::sort(sorted_paths.begin(), sorted_paths.end(), [](const QString& str1, const QString& str2){
 			return (str1.size() > str2.size());
@@ -104,18 +107,18 @@ void Helper::File::delete_files(const QStringList& paths){
 
 		if(info.isDir()){
 			remove_files_in_directory(path);
+			QDir().rmdir(path);
 		}
 
 		else {
-			success = QFile::remove(path);
-			if(!success){
-			}
+			QFile::remove(path);
 		}
 	}
 }
 
-QString Helper::File::get_parent_directory(const QString& filename) {
 
+QString Helper::File::get_parent_directory(const QString& filename) 
+{
 	QString ret = clean_filename(filename);
 	int last_idx = ret.lastIndexOf(QDir::separator());
 
@@ -126,8 +129,8 @@ QString Helper::File::get_parent_directory(const QString& filename) {
 	return ret;
 }
 
-QString Helper::File::get_filename_of_path(const QString& path) {
-
+QString Helper::File::get_filename_of_path(const QString& path) 
+{
 	QString ret = clean_filename(path);
 	int last_idx = ret.lastIndexOf(QDir::separator());
 
@@ -138,9 +141,9 @@ QString Helper::File::get_filename_of_path(const QString& path) {
 	return "";
 }
 
-void Helper::File::split_filename(const QString& src, QString& path, QString& filename) {
 
-
+void Helper::File::split_filename(const QString& src, QString& path, QString& filename) 
+{
 	QString tmp = clean_filename(src);
 
 	path = Helper::File::get_parent_directory(src);
@@ -148,9 +151,8 @@ void Helper::File::split_filename(const QString& src, QString& path, QString& fi
 }
 
 
-
-QStringList Helper::File::get_parent_directories(const QStringList& files) {
-
+QStringList Helper::File::get_parent_directories(const QStringList& files) 
+{
 	QStringList folders;
 	for(const QString& file : files) {
 		QString folder = get_parent_directory(file);
@@ -163,8 +165,8 @@ QStringList Helper::File::get_parent_directories(const QStringList& files) {
 }
 
 
-QString Helper::File::get_absolute_filename(const QString& filename){
-
+QString Helper::File::get_absolute_filename(const QString& filename)
+{
 	QString f, d;
 	QString re_str = QString("(.*)") + QDir::separator() + "(.+)";
 	QRegExp re(re_str);
@@ -179,9 +181,8 @@ QString Helper::File::get_absolute_filename(const QString& filename){
 }
 
 
-
-
-QString Helper::File::calc_filesize_str(quint64 filesize) {
+QString Helper::File::calc_filesize_str(quint64 filesize) 
+{
 	quint64 kb = 1024;
 	quint64 mb = kb * 1024;
 	quint64 gb = mb * 1024;
@@ -203,16 +204,16 @@ QString Helper::File::calc_filesize_str(quint64 filesize) {
 }
 
 
-
-bool Helper::File::is_url(const QString& str) {
+bool Helper::File::is_url(const QString& str) 
+{
 	if(is_www(str)) return true;
 	if(str.startsWith("file"), Qt::CaseInsensitive) return true;
 	return false;
 }
 
 
-bool Helper::File::is_www(const QString& str) {
-
+bool Helper::File::is_www(const QString& str) 
+{
 	if(str.startsWith("http://")) return true;
 	else if(str.startsWith("https://")) return true;
 	else if(str.startsWith("ftp://")) return true;
@@ -221,21 +222,23 @@ bool Helper::File::is_www(const QString& str) {
 	return false;
 }
 
-bool Helper::File::is_dir(const QString& filename) {
+bool Helper::File::is_dir(const QString& filename) 
+{
 	if(!QFile::exists(filename)) return false;
 	QFileInfo fileinfo(filename);
 	return fileinfo.isDir();
 }
 
-bool Helper::File::is_file(const QString& filename) {
+bool Helper::File::is_file(const QString& filename) 
+{
 	if(!QFile::exists(filename)) return false;
 	QFileInfo fileinfo(filename);
 	return fileinfo.isFile();
 }
 
 
-bool Helper::File::is_soundfile(const QString& filename) {
-
+bool Helper::File::is_soundfile(const QString& filename) 
+{
 	QStringList extensions = Helper::get_soundfile_extensions();
 	for(const QString& extension : extensions) {
 		if(filename.toLower().endsWith(extension.right(4))) {
@@ -247,8 +250,8 @@ bool Helper::File::is_soundfile(const QString& filename) {
 }
 
 
-bool Helper::File::is_podcastfile(const QString& filename, const QByteArray& content) {
-
+bool Helper::File::is_podcastfile(const QString& filename, const QByteArray& content) 
+{
 	bool extension_correct = false;
 	QStringList extensions = Helper::get_podcast_extensions();
 	for(const QString& extension : extensions) {
@@ -274,7 +277,6 @@ bool Helper::File::is_podcastfile(const QString& filename, const QByteArray& con
 }
 
 
-
 bool Helper::File::is_playlistfile(const QString& filename) {
 	QStringList extensions = Helper::get_playlistfile_extensions();
 	for(const QString& extension : extensions) {
@@ -287,22 +289,25 @@ bool Helper::File::is_playlistfile(const QString& filename) {
 }
 
 
-
-
-
-
 bool Helper::File::create_directories(const QString& path)
 {
-
 	if(QFile::exists(path)){
 		return true;
 	}
 
-	QStringList paths = path.split(QDir::separator());
-	QDir dir = QDir::root();
+	QString cleaned_path = clean_filename(path);
+	QStringList paths = cleaned_path.split(QDir::separator());
+	QDir dir;
+	if( is_absolute(cleaned_path) ){
+		dir = QDir::root();
+	}
 
-	for(QString p : paths){
+	else{
+		dir = QDir(".");
+	}
 
+	for(QString p : paths)
+	{
 		QString abs_path = dir.absoluteFilePath(p);
 
 		if(QFile::exists(abs_path)){

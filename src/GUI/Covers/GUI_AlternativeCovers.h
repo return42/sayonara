@@ -65,9 +65,9 @@ public slots:
 	void start(const CoverLocation& cl);
 
 private slots:
-	void save_button_pressed();
-	void cancel_button_pressed();
-	void search_button_pressed();
+	void ok_clicked();
+	void apply_clicked();
+	void search_clicked();
 	void cover_pressed(const QModelIndex& idx);
 	void open_file_dialog();
 	void cl_new_cover(const QString& cover_path);
