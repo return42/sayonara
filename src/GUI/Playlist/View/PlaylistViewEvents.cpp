@@ -78,8 +78,8 @@ void PlaylistView::contextMenuEvent(QContextMenuEvent* e)
 	_bookmarks_action->setVisible(
 			idx.row() == _model->get_current_track() &&
 			idx.row() >= 0 &&
-			_bookmarks_menu->has_bookmarks());
-
+			_bookmarks_menu->has_bookmarks()
+	);
 
 	if(entry_mask > 0 || _bookmarks_action->isVisible()){
 		_rc_menu->show_actions(entry_mask);

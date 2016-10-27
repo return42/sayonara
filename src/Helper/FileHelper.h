@@ -157,6 +157,7 @@ namespace Helper
 		bool check_file(const QString& filepath);
 
 		// Everything clear
+		bool is_url(const QString& str);
 		bool is_www(const QString& str);
 		bool is_file(const QString& filename);
 		bool is_dir(const QString& filename);

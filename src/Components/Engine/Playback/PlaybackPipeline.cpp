@@ -414,7 +414,7 @@ bool PlaybackPipeline::_seek(gint64 ns)
 {
 	return gst_element_seek_simple(_audio_src,
 							GST_FORMAT_TIME,
-							(GstSeekFlags)(GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_SNAP_NEAREST),
+							(GstSeekFlags)(GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_ACCURATE),
 							ns);
 }
 
@@ -482,32 +482,6 @@ void PlaybackPipeline::set_speed(float speed, double pitch, bool preserve_pitch)
 	}
 }
 
-
-/*void PlaybackPipeline::change_pitch(int a_frequency)
-{
-	if(!_pitch){
-		return;
-	}
-
-	if(a_frequency == 440){
-		remove_element(_pitch, _audio_convert, _equalizer);
-	}
-	else{
-		add_element(_pitch, _audio_convert, _equalizer);
-	}
-
-	double freq = a_frequency * 1.0;
-	double scale = freq / 440.0;
-	if(a_frequency == 440)
-	{
-		scale = 1.0;
-	}
-
-	g_object_set(G_OBJECT(_pitch),
-		"pitch", scale,
-		nullptr);
-}
-*/
 
 void PlaybackPipeline::_sl_show_level_changed()
 {

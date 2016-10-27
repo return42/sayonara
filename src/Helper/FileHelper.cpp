@@ -45,7 +45,6 @@ QString Helper::File::clean_filename(const QString& path)
 	ret.replace("/", QDir::separator());
 	ret.replace("\\", QDir::separator());
 
-
 	if(ret.right(1) == QDir::separator()){
 		ret.remove(ret.size() - 1, 1);
 	}
@@ -54,15 +53,14 @@ QString Helper::File::clean_filename(const QString& path)
 }
 
 
-QString Helper::File::calc_file_extension(const QString& filename) {
-
+QString Helper::File::calc_file_extension(const QString& filename) 
+{
 	return get_file_extension(filename);
 }
 
 
-
-void Helper::File::remove_files_in_directory(const QString& dir_name, const QStringList& filters) {
-
+void Helper::File::remove_files_in_directory(const QString& dir_name, const QStringList& filters) 
+{
 	bool success;
 	QDir dir(dir_name);
 	dir.setNameFilters(filters);
@@ -91,9 +89,10 @@ void Helper::File::remove_files_in_directory(const QString& dir_name, const QStr
 		sp_log(Log::Warning) << "Could not remove dir " << dir_name;
 	}
 }
-#include <QDebug>
-void Helper::File::delete_files(const QStringList& paths){
 
+
+void Helper::File::delete_files(const QStringList& paths)
+{
 	QStringList sorted_paths = paths;
 	std::sort(sorted_paths.begin(), sorted_paths.end(), [](const QString& str1, const QString& str2){
 			return (str1.size() > str2.size());
@@ -117,8 +116,9 @@ void Helper::File::delete_files(const QStringList& paths){
 	}
 }
 
-QString Helper::File::get_parent_directory(const QString& filename) {
 
+QString Helper::File::get_parent_directory(const QString& filename) 
+{
 	QString ret = clean_filename(filename);
 	int last_idx = ret.lastIndexOf(QDir::separator());
 
@@ -129,8 +129,9 @@ QString Helper::File::get_parent_directory(const QString& filename) {
 	return ret;
 }
 
-QString Helper::File::get_filename_of_path(const QString& path) {
 
+QString Helper::File::get_filename_of_path(const QString& path) 
+{
 	QString ret = clean_filename(path);
 	int last_idx = ret.lastIndexOf(QDir::separator());
 
@@ -141,9 +142,9 @@ QString Helper::File::get_filename_of_path(const QString& path) {
 	return "";
 }
 
-void Helper::File::split_filename(const QString& src, QString& path, QString& filename) {
 
-
+void Helper::File::split_filename(const QString& src, QString& path, QString& filename) 
+{
 	QString tmp = clean_filename(src);
 
 	path = Helper::File::get_parent_directory(src);
@@ -151,9 +152,8 @@ void Helper::File::split_filename(const QString& src, QString& path, QString& fi
 }
 
 
-
-QStringList Helper::File::get_parent_directories(const QStringList& files) {
-
+QStringList Helper::File::get_parent_directories(const QStringList& files) 
+{
 	QStringList folders;
 	for(const QString& file : files) {
 		QString folder = get_parent_directory(file);
@@ -166,8 +166,8 @@ QStringList Helper::File::get_parent_directories(const QStringList& files) {
 }
 
 
-QString Helper::File::get_absolute_filename(const QString& filename){
-
+QString Helper::File::get_absolute_filename(const QString& filename)
+{
 	QString f, d;
 	QString re_str = QString("(.*)") + QDir::separator() + "(.+)";
 	QRegExp re(re_str);
@@ -182,9 +182,8 @@ QString Helper::File::get_absolute_filename(const QString& filename){
 }
 
 
-
-
-QString Helper::File::calc_filesize_str(quint64 filesize) {
+QString Helper::File::calc_filesize_str(quint64 filesize) 
+{
 	quint64 kb = 1024;
 	quint64 mb = kb * 1024;
 	quint64 gb = mb * 1024;
@@ -206,8 +205,16 @@ QString Helper::File::calc_filesize_str(quint64 filesize) {
 }
 
 
-bool Helper::File::is_www(const QString& str) {
+bool Helper::File::is_url(const QString& str) 
+{
+	if(is_www(str)) return true;
+	if(str.startsWith("file"), Qt::CaseInsensitive) return true;
+	return false;
+}
 
+
+bool Helper::File::is_www(const QString& str) 
+{
 	if(str.startsWith("http://")) return true;
 	else if(str.startsWith("https://")) return true;
 	else if(str.startsWith("ftp://")) return true;
@@ -216,21 +223,23 @@ bool Helper::File::is_www(const QString& str) {
 	return false;
 }
 
-bool Helper::File::is_dir(const QString& filename) {
+bool Helper::File::is_dir(const QString& filename) 
+{
 	if(!QFile::exists(filename)) return false;
 	QFileInfo fileinfo(filename);
 	return fileinfo.isDir();
 }
 
-bool Helper::File::is_file(const QString& filename) {
+bool Helper::File::is_file(const QString& filename) 
+{
 	if(!QFile::exists(filename)) return false;
 	QFileInfo fileinfo(filename);
 	return fileinfo.isFile();
 }
 
 
-bool Helper::File::is_soundfile(const QString& filename) {
-
+bool Helper::File::is_soundfile(const QString& filename) 
+{
 	QStringList extensions = Helper::get_soundfile_extensions();
 	for(const QString& extension : extensions) {
 		if(filename.toLower().endsWith(extension.right(4))) {
@@ -314,7 +323,8 @@ bool Helper::File::write_file(const QByteArray& arr, const QString& filename)
 }
 
 
-bool Helper::File::read_file_into_byte_arr(const QString& filename, QByteArray& content){
+bool Helper::File::read_file_into_byte_arr(const QString& filename, QByteArray& content)
+{
 	QFile file(filename);
 	content.clear();
 
@@ -334,8 +344,8 @@ bool Helper::File::read_file_into_byte_arr(const QString& filename, QByteArray& 
 }
 
 
-bool Helper::File::read_file_into_str(const QString& filename, QString& content) {
-
+bool Helper::File::read_file_into_str(const QString& filename, QString& content) 
+{
 	QFile file(filename);
 	content.clear();
 	if(!file.open(QIODevice::ReadOnly)) {
@@ -355,7 +365,6 @@ bool Helper::File::read_file_into_str(const QString& filename, QString& content)
 	return false;
 
 }
-
 
 
 QString Helper::File::get_file_extension(const QString& filename)

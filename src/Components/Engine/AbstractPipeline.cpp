@@ -101,8 +101,8 @@ bool AbstractPipeline::init(GstState state)
 	return true;
 }
 
-void AbstractPipeline::refresh_position() {
-
+void AbstractPipeline::refresh_position() 
+{
 	gint64 pos_pipeline, pos_source;
 	bool success;
 	GstElement* element;

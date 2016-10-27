@@ -25,6 +25,7 @@
 #include "Helper/MetaData/MetaData.h"
 #include "Database/DatabaseConnector.h"
 #include "Components/PlayManager/PlayManager.h"
+#include "Helper/Logger/Logger.h"
 
 #include <algorithm>
 
@@ -154,7 +155,14 @@ bool Bookmarks::remove(int idx)
 
 bool Bookmarks::jump_to(int idx)
 {
-	_m->play_manager->seek_abs_ms(_m->bookmarks[idx].get_time() * 1000);
+	if(idx < 0){
+		_m->play_manager->seek_abs_ms(0);
+	}
+	else{
+		sp_log(Log::Debug) << "Jump to  " << Helper::cvt_ms_to_string(_m->bookmarks[idx].get_time() * 1000);
+		_m->play_manager->seek_abs_ms(_m->bookmarks[idx].get_time() * 1000);
+	}
+
 	return true;
 }
 
@@ -166,8 +174,7 @@ bool Bookmarks::jump_next()
 		return false;
 	}
 
-	quint32 new_time = _m->bookmarks[_m->next_idx].get_time();
-	_m->play_manager->seek_abs_ms(new_time * 1000);
+	jump_to(_m->next_idx);
 
 	return true;
 }
@@ -175,21 +182,12 @@ bool Bookmarks::jump_next()
 
 bool Bookmarks::jump_prev()
 {
-	quint32 new_time;
-
 	if( _m->prev_idx >= _m->bookmarks.size() ){
 		emit sig_prev_changed(Bookmark());
 		return false;
 	}
 
-	if(_m->prev_idx < 0){
-		new_time = 0;
-	}
-	else{
-		new_time = _m->bookmarks[_m->prev_idx].get_time();
-	}
-
-	_m->play_manager->seek_abs_ms(new_time * 1000);
+	jump_to(_m->prev_idx);
 
 	return true;
 }
@@ -219,7 +217,7 @@ void Bookmarks::pos_changed_ms(quint64 pos_ms)
 
 		quint32 time = bookmark.get_time();
 
-		if(time < _m->cur_time){
+		if(time + 2 < _m->cur_time){
 			_m->prev_idx = i;
 		}
 

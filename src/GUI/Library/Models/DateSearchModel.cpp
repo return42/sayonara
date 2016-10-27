@@ -39,14 +39,15 @@ DateSearchModel::~DateSearchModel(){}
 
 
 int DateSearchModel::rowCount(const QModelIndex& parent) const
-{
+{ 
+	Q_UNUSED(parent)
     return _m->date_filters.size();
 }
 
 QVariant DateSearchModel::data(const QModelIndex& index, int role) const
 {
     if(role == Qt::DisplayRole){
-	return _m->date_filters[index.row()].name();
+		return _m->date_filters[index.row()].name();
     }
 
     return QVariant();
@@ -59,12 +60,48 @@ QModelIndex DateSearchModel::getFirstRowIndexOf(const QString& substr)
 
 QModelIndex DateSearchModel::getNextRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent)
 {
+	Q_UNUSED(parent)
+
+	int rows = rowCount();
+	if(rows == 0){
+		return QModelIndex();
+	}
+
+	for(int i=0; i<rows; i++){
+		int row = (i + cur_row) % rows;
+		QString str = _m->date_filters[row].name();
+		str = Library::convert_search_string(str, search_mode());
+		if(str.contains(substr)){
+			return this->index(row, 0);
+		}
+	}
+
     return QModelIndex();
 }
 
 QModelIndex DateSearchModel::getPrevRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent)
 {
-    return QModelIndex();
+	Q_UNUSED(parent)
+
+	int rows = rowCount();
+	if(rows == 0){
+		return QModelIndex();
+	}
+
+	for(int i=0; i<rows; i++){
+		int row = (cur_row - i);
+		if(row < 0){
+			row = rows - 1;
+		}
+
+		QString str = _m->date_filters[row].name();
+		str = Library::convert_search_string(str, search_mode());
+		if(str.contains(substr)){
+			return this->index(row, 0);
+		}
+	}
+
+	return QModelIndex();
 }
 
 QMap<QChar, QString> DateSearchModel::getExtraTriggers()

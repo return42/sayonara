@@ -46,7 +46,6 @@ public:
 	explicit BookmarksMenu(QWidget* parent);
 	virtual ~BookmarksMenu();
 
-	void set_metadata(const MetaData& md);
 	bool has_bookmarks() const;
 
 private slots:
