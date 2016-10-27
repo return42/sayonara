@@ -18,8 +18,12 @@ struct DateSearchModel::Private
 	df4.set_newer_than(Library::DateFilter::TimeSpan::Years, 1);
 	Library::DateFilter df5("Between 1 and 3 months");
 	df5.set_between(Library::DateFilter::TimeSpan::Months, 1, Library::DateFilter::TimeSpan::Months, 3);
+	Library::DateFilter df6("Older than 1 year");
+	df6.set_older_than(Library::DateFilter::TimeSpan::Years, 1);
+	Library::DateFilter df7("Older than 2 years");
+	df7.set_older_than(Library::DateFilter::TimeSpan::Years, 2);
 
-	date_filters << df1 << df2 << df3 << df4 << df5;
+	date_filters << df1 << df2 << df3 << df4 << df5 << df6 << df7;
     }
 };
 

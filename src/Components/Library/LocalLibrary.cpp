@@ -36,6 +36,7 @@ LocalLibrary::LocalLibrary(QObject *parent) :
 	AbstractLibrary(parent)
 {
     _db = DatabaseConnector::getInstance();
+	apply_db_fixes();
 
 	REGISTER_LISTENER_NO_CALL(Set::Lib_SearchMode, _sl_search_mode_changed);
 	REGISTER_LISTENER(Set::Lib_AutoUpdate, _sl_auto_update_changed);
