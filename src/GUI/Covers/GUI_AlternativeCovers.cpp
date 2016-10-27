@@ -100,11 +100,12 @@ GUI_AlternativeCovers::GUI_AlternativeCovers(QWidget* parent) :
 	ui->tv_images->setModel(_m->model);
 	ui->tv_images->setItemDelegate(_m->delegate);
 
-	connect(ui->btn_save, &QPushButton::clicked, this, &GUI_AlternativeCovers::save_button_pressed);
-	connect(ui->btn_cancel, &QPushButton::clicked, this, &SayonaraDialog::close);
-	connect(ui->btn_search, &QPushButton::clicked, this, &GUI_AlternativeCovers::search_button_pressed);
-	connect(ui->tv_images, &QTableView::pressed, this, &GUI_AlternativeCovers::cover_pressed);
+	connect(ui->btn_ok, &QPushButton::clicked, this, &GUI_AlternativeCovers::ok_clicked);
+	connect(ui->btn_apply, &QPushButton::clicked, this, &GUI_AlternativeCovers::apply_clicked);
+	connect(ui->btn_search, &QPushButton::clicked, this, &GUI_AlternativeCovers::search_clicked);
+	connect(ui->tv_images, &QTableView::pressed, this, &GUI_AlternativeCovers::cover_pressed);	
 	connect(ui->btn_file, &QPushButton::clicked, this, &GUI_AlternativeCovers::open_file_dialog);
+	connect(ui->btn_cancel, &QPushButton::clicked, this, &SayonaraDialog::close);
 }
 
 
@@ -134,8 +135,9 @@ void GUI_AlternativeCovers::connect_and_start(const CoverLocation& cl)
 
 	_m->is_searching = true;
 
+	ui->btn_ok->setEnabled(false);
+	ui->btn_apply->setEnabled(false);
 	ui->btn_search->setText( Lang::get(Lang::Stop) );
-	ui->btn_save->setEnabled(false);
 	ui->le_search->setText(cl.search_term());
 	ui->lab_info->setText(cl.search_term());
 
@@ -155,28 +157,13 @@ void GUI_AlternativeCovers::start(const CoverLocation& cl)
 	connect_and_start(cl);
 }
 
-
-void GUI_AlternativeCovers::search_button_pressed()
+void GUI_AlternativeCovers::ok_clicked()
 {
-	if(_m->is_searching && _m->cl_alternative){
-		_m->cl_alternative->stop();
-		return;
-	}
-
-	if(!ui->le_search->text().isEmpty()){
-		QString text = ui->le_search->text();
-		_m->cover_location.set_search_term(text);
-	}
-
-	else{
-		ui->le_search->setText( _m->cover_location.search_term() );
-	}
-
-	connect_and_start(_m->cover_location);
+	apply_clicked();
+	close();
 }
 
-
-void GUI_AlternativeCovers::save_button_pressed()
+void GUI_AlternativeCovers::apply_clicked()
 {
 	if(_m->cur_idx == -1) {
 		return;
@@ -208,6 +195,27 @@ void GUI_AlternativeCovers::save_button_pressed()
 	emit sig_cover_changed(_m->cover_location);
 }
 
+void GUI_AlternativeCovers::search_clicked()
+{
+	if(_m->is_searching && _m->cl_alternative){
+		_m->cl_alternative->stop();
+		return;
+	}
+
+	if(!ui->le_search->text().isEmpty()){
+		QString text = ui->le_search->text();
+		_m->cover_location.set_search_term(text);
+	}
+
+	else{
+		ui->le_search->setText( _m->cover_location.search_term() );
+	}
+
+	connect_and_start(_m->cover_location);
+}
+
+
+
 
 void GUI_AlternativeCovers::cl_new_cover(const QString& cover_path)
 {
@@ -222,7 +230,8 @@ void GUI_AlternativeCovers::cl_new_cover(const QString& cover_path)
 
 	_m->model->setData(model_idx, cover_path);
 
-	ui->btn_save->setEnabled( is_valid );
+	ui->btn_ok->setEnabled(is_valid);
+	ui->btn_apply->setEnabled(is_valid);
 	ui->lab_status->setText( tr("%1 covers found").arg(n_files) ) ;
 }
 
@@ -244,11 +253,11 @@ void GUI_AlternativeCovers::cover_pressed(const QModelIndex& idx)
 {
 	int row = idx.row();
 	int col = idx.column();
-
+	bool valid = _m->model->is_valid(row, col);
 	_m->cur_idx = _m->model->cvt_2_idx(row, col);
 
-	bool valid = _m->model->is_valid(row, col);
-	ui->btn_save->setEnabled(valid);
+	ui->btn_ok->setEnabled(valid);
+	ui->btn_apply->setEnabled(valid);
 }
 
 
@@ -273,7 +282,6 @@ void GUI_AlternativeCovers::open_file_dialog()
 	dir.setFilter(QDir::Files);
 	dir.setNameFilters(filters);
 
-
 	for(const QString& f : dir.entryList()) {
 		QFile::remove(dir.absoluteFilePath(f));
 	}
@@ -282,18 +290,17 @@ void GUI_AlternativeCovers::open_file_dialog()
                                   tr("Open image files"),
 								  _m->last_path,
                                   filters.join(" "));
-
-	if(lst.isEmpty()){
+	if(lst.isEmpty())
+	{
 		return;
 	}
 
 	reset_model();
 
 	int idx = 0;
-	for(const QString& path : lst) {
-
+	for(const QString& path : lst)
+	{
 		RowColumn rc = _m->model->cvt_2_row_col( idx );
-
 		QModelIndex model_idx = _m->model->index(rc.row, rc.col);
 
 		_m->model->setData(model_idx, path);

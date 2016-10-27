@@ -52,6 +52,9 @@ namespace Library
 	void set_newer_than(const QDateTime& date, ChangeMode change_mode=ChangeMode::Created);
 
 	QString get_sql_filter(const QString& track_prefix=QString()) const;
+
+	QString toString() const;
+	static Library::DateFilter fromString(const QString& str);
     };
 }
 

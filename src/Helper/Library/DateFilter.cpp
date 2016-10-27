@@ -207,3 +207,35 @@ QString Library::DateFilter::get_sql_filter(const QString& track_prefix) const
     sp_log(Log::Debug) << ret;
     return ret + " ";
 }
+
+QString Library::DateFilter::toString() const
+{
+	if(!_m->valid){
+		return QString();
+	}
+
+	QStringList lst;
+	lst << _m->name;
+	lst << QString::number(_m->span_from);
+	lst << QString::number(_m->span_to);
+	lst << QString::number((int) _m->change_mode);
+
+	return lst.join(",");
+}
+
+Library::DateFilter Library::DateFilter::fromString(const QString& str)
+{
+	QStringList lst = str.split(",");
+	if(lst.size() != 4){
+		return Library::DateFilter();
+	}
+
+	Library::DateFilter filter(lst[0]);
+	filter._m->span_from = lst[1].toULongLong();
+	filter._m->span_to = lst[2].toULongLong();
+	filter._m->change_mode = (Library::DateFilter::ChangeMode) lst[3].toInt();
+
+	return filter;
+}
+
+
