@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "Bookmarks.h"
 #include "Helper/Helper.h"
 #include "Database/DatabaseConnector.h"
@@ -39,13 +37,11 @@ Bookmarks::Bookmarks(QObject *parent) :
 	connect(_play_manager, &PlayManager::sig_position_changed_ms, this, &Bookmarks::pos_changed_ms);
 	connect(_play_manager, &PlayManager::sig_playstate_changed,	this, &Bookmarks::playstate_changed);
 
+	_md = _play_manager->get_cur_track();
 	reload_bookmarks();
 }
 
-Bookmarks::~Bookmarks()
-{
-
-}
+Bookmarks::~Bookmarks() {}
 
 void Bookmarks::init_members()
 {
@@ -60,8 +56,8 @@ void Bookmarks::init_members()
 }
 
 
-void Bookmarks::sort_bookmarks(){
-
+void Bookmarks::sort_bookmarks()
+{
 	auto lambda = [](const Bookmark& bm1, const Bookmark& bm2){
 		return bm1.get_time() < bm2.get_time();
 	};
@@ -69,8 +65,8 @@ void Bookmarks::sort_bookmarks(){
 	std::sort(_bookmarks.begin(), _bookmarks.end(), lambda);
 }
 
-void Bookmarks::reload_bookmarks(){
-
+void Bookmarks::reload_bookmarks()
+{
 	QMap<quint32, QString> bookmarks;
 	if(_md.id >= 0){
 		_db->searchBookmarks(_md.id, bookmarks);
@@ -113,7 +109,12 @@ bool Bookmarks::save()
 }
 
 
-bool Bookmarks::remove(int idx){
+bool Bookmarks::remove(int idx)
+{
+	if(idx < 0 || idx >= _bookmarks.size()){
+		return false;
+	}
+
 	bool success = _db->removeBookmark(_md.id, _bookmarks[idx].get_time());
 
 	if(success){
@@ -124,19 +125,16 @@ bool Bookmarks::remove(int idx){
 }
 
 
-bool Bookmarks::remove_all(){
-	bool success = _db->removeAllBookmarks(_md.id);
-
-	if(success){
-		reload_bookmarks();
+bool Bookmarks::jump_to(int idx)
+{
+	if(idx < 0){
+		_play_manager->seek_abs_ms(0);
+	}
+	else{
+		quint64 new_time = _bookmarks[idx].get_time() * 1000;
+		_play_manager->seek_abs_ms(new_time);
 	}
 
-	return success;
-}
-
-
-bool Bookmarks::jump_to(int idx){
-	_play_manager->seek_abs_ms(_bookmarks[idx].get_time() * 1000);
 	return true;
 }
 
@@ -146,29 +144,20 @@ bool Bookmarks::jump_next(){
 		return false;
 	}
 
-	quint32 new_time = _bookmarks[_next_idx].get_time();
-	_play_manager->seek_abs_ms(new_time * 1000);
+	jump_to(_next_idx);
 
 	return true;
 }
 
-bool Bookmarks::jump_prev() {
 
-	quint32 new_time;
-
+bool Bookmarks::jump_prev() 
+{
 	if( _prev_idx >= _bookmarks.size() ){
 		emit sig_prev_changed(Bookmark());
 		return false;
 	}
 
-	if(_prev_idx < 0){
-		new_time = 0;
-	}
-	else{
-		new_time = _bookmarks[_prev_idx].get_time();
-	}
-
-	_play_manager->seek_abs_ms(new_time * 1000);
+	jump_to(_prev_idx);
 
 	return true;
 }
@@ -278,8 +267,8 @@ void Bookmarks::track_changed(const MetaData& md)
 }
 
 
-void Bookmarks::playstate_changed(PlayManager::PlayState state){
-
+void Bookmarks::playstate_changed(PlayManager::PlayState state)
+{
 	if(state == PlayManager::PlayState::Stopped){
 		init_members();
 		emit sig_bookmarks_changed(_bookmarks);
@@ -322,4 +311,15 @@ QList<Bookmark> Bookmarks::get_all_bookmarks() const
 int Bookmarks::get_size() const
 {
 	return _bookmarks.size();
+}
+
+
+bool Bookmarks::remove_all(){
+	bool success = _db->removeAllBookmarks(_md.id);
+
+	if(success){
+		reload_bookmarks();
+	}
+
+	return success;
 }
