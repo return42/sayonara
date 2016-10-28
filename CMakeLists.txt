@@ -24,10 +24,17 @@ CONFIGURE_FILE(Macros.h.in "${CMAKE_CURRENT_BINARY_DIR}/src/Helper/Macros.h" @ON
 MESSAGE("Build Sayonara ${VAR_SAYONARA_VERSION}")
 MESSAGE("Will install to ${CMAKE_INSTALL_PREFIX}")
 
-ENABLE_TESTING()
 ADD_SUBDIRECTORY(src)
 ADD_SUBDIRECTORY(resources)
-ADD_SUBDIRECTORY(test)
+
+IF( WITH_TESTS )
+	MESSAGE("Compiling with tests...")
+	ENABLE_TESTING()
+	ADD_SUBDIRECTORY(test)
+ELSE()
+	MESSAGE("Compiling without tests...")
+	MESSAGE(" In order to change that, use -DWITH_TESTS=1")
+ENDIF()
 
 SET(CMAKE_SKIP_RPATH:BOOL ON)
 SET(CMAKE_INSTALL_MANIFEST "install_manifest.txt")

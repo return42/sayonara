@@ -53,6 +53,7 @@ Bookmarks::Bookmarks(QObject *parent) :
 
 	_m->play_manager = PlayManager::getInstance();
 	_m->db = DatabaseConnector::getInstance();
+	_m->md = _m->play_manager->get_cur_track();
 
 	init_members();
 
@@ -159,9 +160,9 @@ bool Bookmarks::jump_to(int idx)
 		_m->play_manager->seek_abs_ms(0);
 	}
 	else{
-		sp_log(Log::Debug) << "Jump to  " << Helper::cvt_ms_to_string(_m->bookmarks[idx].get_time() * 1000);
-		_m->play_manager->seek_abs_ms(_m->bookmarks[idx].get_time() * 1000);
-	}
+		quint64 new_time = _m->bookmarks[idx].get_time() * 1000;
+		_m->play_manager->seek_abs_ms(new_time);
+}
 
 	return true;
 }
