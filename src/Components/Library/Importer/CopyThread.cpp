@@ -34,7 +34,8 @@ CopyThread::CopyThread(const QString& target_dir, const ImportCache& cache, QObj
 }
 
 
-void CopyThread::clear(){
+void CopyThread::clear()
+{
 	_v_md.clear();
 	_copied_files = 0;
 	_lst_copied_files.clear();
@@ -44,8 +45,8 @@ void CopyThread::clear(){
 }
 
 
-void CopyThread::emit_percent(int i, int n) {
-
+void CopyThread::emit_percent(int i, int n)
+{
 	int percent = (i * 100000) / n;
 	_percent = percent / 1000;
 
@@ -53,16 +54,8 @@ void CopyThread::emit_percent(int i, int n) {
 }
 
 
-
-
-// example
-// i want to import /home/user/dir
-// my music library is in /home/user/Music
-// i will type "chosen" into entry field
-// i expect a directory /home/user/Music/chosen/dir in my music library
-
-void CopyThread::copy() {
-
+void CopyThread::copy()
+{
 	clear();
 
 	QStringList files = _cache.get_files();
@@ -112,8 +105,8 @@ void CopyThread::copy() {
 	}
 }
 
-void CopyThread::rollback() {
-
+void CopyThread::rollback()
+{
 	int n_operations = _lst_copied_files.size();
     int n_ops_todo = n_operations;
     int percent;
@@ -132,12 +125,11 @@ void CopyThread::rollback() {
     _percent = 0;
     _copied_files = 0;
     _lst_copied_files.clear();
-
 }
 
 
-void CopyThread::run() {
-
+void CopyThread::run()
+{
     _cancelled = false;
 	if(_mode == Mode::Copy){
 		copy();
@@ -149,7 +141,8 @@ void CopyThread::run() {
 }
 
 
-void CopyThread::cancel() {
+void CopyThread::cancel()
+{
 	_cancelled = true;
 }
 
@@ -170,7 +163,8 @@ int CopyThread::get_n_copied_files() const
 }
 
 
-void CopyThread::set_mode(CopyThread::Mode mode) {
+void CopyThread::set_mode(CopyThread::Mode mode)
+{
     _mode = mode;
 }
 

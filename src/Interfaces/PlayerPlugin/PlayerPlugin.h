@@ -119,7 +119,7 @@ protected:
 	/**
 	 * @brief language_changed Has to be implemented and is called when language has changed
 	 */
-	virtual void language_changed()=0;
+	virtual void language_changed() override=0;
 
 	/**
 	 * @brief GUI will be initialized on first show up. Please use this to make Sayonara starting fast
@@ -152,7 +152,7 @@ protected:
 
 		widget_layout = layout();
 		if(widget_layout){
-			widget_layout->setContentsMargins(3, 3, 3, 0);
+			widget_layout->setContentsMargins(3, 3, 3, 3);
 		}
 
 		ShortcutHandler* sch = ShortcutHandler::getInstance();

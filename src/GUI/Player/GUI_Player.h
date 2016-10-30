@@ -32,7 +32,6 @@
 #include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
 #include "GUI/Helper/Shortcuts/ShortcutWidget.h"
 
-
 #include <QMessageBox>
 #include <QMainWindow>
 #include <QShowEvent>
@@ -44,10 +43,6 @@
 #include <QAction>
 
 class CoverLocation;
-class CoverLookup;
-class LocalLibrary;
-class GUI_AlternativeCovers;
-class EngineHandler;
 class GUI_Playlist;
 class AsyncWebAccess;
 class PlayerPluginInterface;
@@ -69,12 +64,14 @@ class GUI_Player :
 
 	Q_OBJECT
 
+signals:
+	void sig_player_closed();
+
+
 public:
 
 	GUI_Player(QTranslator* translator, QWidget *parent=nullptr);
     ~GUI_Player();
-
-	// set the playlist ui
 
 	void set_libraries(LibraryPluginHandler* plugin_loader);
 
@@ -88,6 +85,7 @@ public:
 public slots:
 
 	void set_cur_pos_ms(quint64 pos_ms);
+	void set_file_info_label();
 	void id3_tags_changed(const MetaDataList& v_md_old, const MetaDataList& v_md_new);
 
 	void md_changed(const MetaData&);
@@ -107,12 +105,7 @@ public slots:
 private:
 
 	QWidget*					_cur_library=nullptr;
-	LocalLibrary*				_local_library=nullptr;
 
-	GUI_AlternativeCovers*		_ui_alternative_covers=nullptr;
-
-	EngineHandler*				_engine=nullptr;
-	CoverLookup*				_cov_lookup=nullptr;
 	PlayerPluginHandler*		_pph=nullptr;
 	LibraryPluginHandler*		_lph=nullptr;
 
@@ -122,7 +115,6 @@ private:
 
 	GUI_TrayIcon*				_tray_icon=nullptr;
 
-
 	QTranslator*				_translator=nullptr;
 	QStringList					_translators;
 
@@ -130,8 +122,7 @@ private:
 	QMessageBox*				_about_box=nullptr;
 
 	MetaData					_md;
-	bool						_cover_from_tag;
-	IconLoader*				_icon_loader=nullptr;
+	IconLoader*					_icon_loader=nullptr;
 
 
 private:
@@ -148,8 +139,6 @@ private:
 
 	void set_radio_mode(RadioMode model);
 
-	bool check_library_path();
-
 	void closeEvent(QCloseEvent* e) override;
 	void keyPressEvent(QKeyEvent* e) override;
 	void resizeEvent(QResizeEvent* e) override;
@@ -160,6 +149,7 @@ private:
 
 	void set_total_time_label(qint64 length_ms);
 	void set_cur_pos_label(int val);
+	void set_cover_location();
 
 	template<typename T>
 	void init_action(QAction* action, T setting_key){
@@ -167,14 +157,11 @@ private:
 		action->setChecked(b);
 	}
 
-
 	// Methods for other mudules to display info/warning/error
 	GlobalMessage::Answer error_received(const QString &error, const QString &sender_name=QString()) override;
 	GlobalMessage::Answer warning_received(const QString &error, const QString &sender_name=QString()) override;
 	GlobalMessage::Answer info_received(const QString &error, const QString &sender_name=QString()) override;
 	GlobalMessage::Answer question_received(const QString &info, const QString &sender_name=QString(), GlobalMessage::QuestionType type=GlobalMessage::QuestionType::YesNo) override;
-
-
 
 
 private slots:
@@ -185,6 +172,7 @@ private slots:
 	void next_clicked();
 	void rec_clicked(bool);
 	void buffering(int progress);
+	void set_progress_tooltip(int val);
 
 	void played();
 	void paused();
@@ -193,7 +181,6 @@ private slots:
 
 	void track_changed(const MetaData& md);
 
-	void cover_clicked();
 	void seek(int);
 	void jump_forward();
 	void jump_backward();
@@ -215,17 +202,8 @@ private slots:
 
 	/* View */
 	void show_library(bool);
-	void show_notification_toggled(bool);
 	void show_fullscreen_toggled(bool);
-	void _sl_fullscreen_toggled();
 	void skin_toggled(bool);
-
-	void set_library_path_clicked();
-
-	void min2tray_toggled(bool);
-	void only_one_instance_toggled(bool);
-	void live_search_toggled(bool);
-	void notify_new_version_toggled(bool);
 
 	void main_splitter_moved(int pos, int idx);
 
@@ -237,9 +215,7 @@ private slots:
 	void help();
 
 	void set_standard_cover();
-	void set_cover_image(const CoverLocation&);
 	void cover_changed(const QImage& cover);
-	void fetch_cover();
 
 	void awa_version_finished(bool success);
 	void awa_translators_finished(bool success);

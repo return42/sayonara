@@ -24,7 +24,7 @@
 #define GUI_SHORTCUTS_H
 
 
-#include "GUI/Preferences/Shortcuts/ui_GUI_Shortcuts.h"
+#include "GUI/Preferences/ui_GUI_Shortcuts.h"
 #include "GUI/Helper/Shortcuts/ShortcutHandler.h"
 
 #include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"

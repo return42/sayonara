@@ -18,18 +18,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "MetaDataInfo.h"
 #include "Helper/Helper.h"
 #include "Helper/FileHelper.h"
 #include "Helper/MetaData/MetaDataList.h"
 
-#include "Components/CoverLookup/CoverLookup.h"
-#include "Components/CoverLookup/CoverLocation.h"
+#include "Components/Covers/CoverLocation.h"
 #include "Database/DatabaseHandler.h"
 
-
+#include <limits>
 
 MetaDataInfo::MetaDataInfo(const MetaDataList& v_md) :
 	QObject(nullptr),
@@ -98,8 +95,6 @@ MetaDataInfo::MetaDataInfo(const MetaDataList& v_md) :
 				values[name] << value;
 			}
 		}
-
-
 
 
 		// genre
@@ -395,7 +390,6 @@ QString MetaDataInfo::get_cover_artist() const
 	}
 
 	return _artists.first();
-
 }
 
 QString MetaDataInfo::get_cover_album() const

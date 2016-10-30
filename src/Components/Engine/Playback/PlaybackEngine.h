@@ -27,7 +27,6 @@
 #include "Helper/EqualizerPresets.h"
 
 #include <glib.h>
-#include <gst/gst.h>
 #include <gst/gstbuffer.h>
 
 #include <QTimer>
@@ -63,14 +62,15 @@ public:
 	bool init() override;
 
 	void set_track_finished(GstElement* src) override;
-	void update_duration(GstElement* src) override;
+
 	void update_bitrate(quint32 br, GstElement* src) override;
+	void update_duration(GstElement* src) override;
 	void set_about_to_finish(qint64 time2go) override;
 	void set_cur_position_ms(qint64 pos_ms) override;
 
 	void set_streamrecorder_recording(bool b);
 
-	void set_spectrum(const QVector<float>& vals);
+	void set_spectrum(const QList<float>& vals);
 	void add_spectrum_receiver(SpectrumReceiver* receiver);
 
 	void set_level(float left, float right);
@@ -79,7 +79,6 @@ public:
 	void set_n_sound_receiver(int num_sound_receiver);
 
 	void set_equalizer(int band, int value);
-	void set_speed(float f);
 
 	void emit_buffer(float inv_array_elements, float scale);
 
@@ -101,6 +100,8 @@ public slots:
 	void set_buffer_state(int progress, GstElement* src) override;
 
 	void gapless_timed_out();
+
+
 
 private:
 	
@@ -125,7 +126,7 @@ private:
 
 
 private slots:
-	void _gapless_changed();
+	void _playlist_mode_changed();
 	void _streamrecorder_active_changed();
 
 };

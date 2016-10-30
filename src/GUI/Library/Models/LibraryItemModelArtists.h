@@ -42,18 +42,20 @@ public:
 	LibraryItemModelArtists();
 	virtual ~LibraryItemModelArtists();
 
-	QVariant data(const QModelIndex &index, int role=Qt::DisplayRole) const;
+	QVariant data(const QModelIndex &index, int role=Qt::DisplayRole) const override;
 
-	Qt::ItemFlags flags(const QModelIndex &index) const;
+	Qt::ItemFlags flags(const QModelIndex &index) const override;
 
-	bool setData(const QModelIndex &index, const QVariant &value, int role=Qt::DisplayRole);
+	bool setData(const QModelIndex &index, const QVariant &value, int role=Qt::DisplayRole) override;
 	bool setData(const QModelIndex &index, const ArtistList& artists, int role=Qt::DisplayRole);
 
 	virtual int get_id_by_row(int row) override;
+	virtual QString get_string(int row) const override;
 
 	virtual QModelIndex	getFirstRowIndexOf(QString substr) override;
 	virtual QModelIndex	getPrevRowIndexOf(QString substr, int row, const QModelIndex& parent=QModelIndex()) override;
 	virtual QModelIndex	getNextRowIndexOf(QString substr, int row, const QModelIndex& parent=QModelIndex()) override;
+
 
 
 private:

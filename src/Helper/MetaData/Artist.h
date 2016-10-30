@@ -27,7 +27,7 @@
 
 #include <QVariant>
 #include <QMetaType>
-#include <QVector>
+#include <QList>
 
 /**
  * @brief The Artist class
@@ -41,7 +41,7 @@ public:
     QString name;                                                                                                                                                      
     quint16 num_songs;                                                                                                           
 	quint16 num_albums;
-	QString mb_id;
+	//QString mb_id;
 
 	Artist();
 	Artist(const Artist& other);
@@ -62,7 +62,7 @@ Q_DECLARE_METATYPE(Artist)
  * @ingroup MetaDataHelper
  */
 class ArtistList :
-		public QVector<Artist>
+		public QList<Artist>
 {
 
 

@@ -27,17 +27,22 @@
 
 #include "GUI/Helper/SayonaraWidget/SayonaraDialog.h"
 #include "Helper/MetaData/MetaDataList.h"
-#include "Components/CoverLookup/CoverLocation.h"
+#include "Components/Covers/CoverLocation.h"
 
 #include "GUI/InfoDialog/ui_GUI_InfoDialog.h"
 
 #include <QCloseEvent>
+#include <QDateTime>
+#include <QTabBar>
 
 class GUI_TagEdit;
-class GUI_AlternativeCovers;
-class CoverLookup;
 class LyricLookupThread;
+class InfoDialogContainer;
 
+/**
+ * @brief The GUI_InfoDialog class
+ * @ingroup GUI
+ */
 class GUI_InfoDialog :
 		public SayonaraDialog,
 		private Ui::InfoDialog
@@ -47,25 +52,18 @@ class GUI_InfoDialog :
 
 public:
 
-	enum class Mode : quint8 {
-		Tracks=0,
-		Albums,
-		Artists,
-		Invalid
-
+	enum class Tab : quint8 {
+		Info=0,
+		Lyrics=1,
+		Edit=2
 	};
 
-	enum TabIndex {
-		TabInfo=0,
-		TabLyrics=1,
-		TabEdit=2
-	};
-
-	GUI_InfoDialog(QWidget* parent=nullptr);
+	GUI_InfoDialog(InfoDialogContainer* container, QWidget* parent=nullptr);
 	virtual ~GUI_InfoDialog();
 
-	void set_metadata(const MetaDataList& vd, GUI_InfoDialog::Mode mode);
-	void show(GUI_InfoDialog::TabIndex tab);
+	void set_metadata(const MetaDataList& vd, MetaDataList::Interpretation interpretation);
+	bool has_metadata() const;
+	void show(GUI_InfoDialog::Tab tab);
 
 
 private slots:
@@ -73,11 +71,7 @@ private slots:
 	void lyric_server_changed(int idx);
 
 	void tab_index_changed_int(int idx);
-	void tab_index_changed(GUI_InfoDialog::TabIndex idx);
-
-	void cover_clicked();
-	void cover_fetched(const CoverLocation&);
-	void alternative_cover_fetched(const CoverLocation&);
+	void tab_index_changed(GUI_InfoDialog::Tab idx);
 
 	void skin_changed() override;
 	void language_changed() override;
@@ -85,14 +79,11 @@ private slots:
 
 private:
 
+	InfoDialogContainer*	_info_dialog_container=nullptr;
 	GUI_TagEdit*			_ui_tag_edit=nullptr;
-	GUI_AlternativeCovers*	_ui_alternative_covers=nullptr;
-
-	CoverLookup* 			_cover_lookup=nullptr;
-
 	LyricLookupThread*		_lyric_thread=nullptr;
 
-	GUI_InfoDialog::Mode	_cur_mode;
+	MetaDataList::Interpretation	_md_interpretation;
 
 	QString 				_cover_artist;
 	QString					_cover_album;
@@ -108,7 +99,7 @@ private:
 
 	void prepare_cover(const CoverLocation& cover_path);
 	void prepare_lyrics();
-	void prepare_info(GUI_InfoDialog::Mode mode);
+	void prepare_info(MetaDataList::Interpretation mode);
 
 	void closeEvent(QCloseEvent *e) override;
 	void showEvent(QShowEvent *e) override;

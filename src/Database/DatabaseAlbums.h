@@ -27,6 +27,8 @@
 #include "Components/Library/Sorting.h"
 #include "Helper/globals.h"
 #include "Helper/Filter.h"
+#include "Helper/LibrarySearchMode.h"
+
 class Album;
 class AlbumList;
 class DatabaseAlbums : private DatabaseModule
@@ -61,6 +63,8 @@ public:
 	virtual int insertAlbumIntoDatabase (const Album& album);
 
 	virtual int updateAlbum(const Album& album);
+
+	virtual void updateAlbumCissearch(LibraryHelper::SearchModeMask mode);
 
 };
 

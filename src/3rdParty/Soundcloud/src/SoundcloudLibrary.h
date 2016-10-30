@@ -40,7 +40,7 @@ public:
 	SoundcloudLibrary(QObject *parent=nullptr);
 	~SoundcloudLibrary();
 
-	void load();
+	void				load() override;
 	void				search_artist(const QString& artist_name);
 	void				fetch_tracks_by_artist(qint64 artist_sc_id);
 	void				fetch_playlists_by_artist(qint64 artist_sc_id);
@@ -48,7 +48,7 @@ public:
 	void				insert_tracks(const MetaDataList& v_md, const ArtistList& artists, const AlbumList& albums);
 protected:
 
-	SoundcloudData*		_scd;
+	SoundcloudData*		_scd=nullptr;
 
 	void		get_all_artists(ArtistList& artists, LibSortOrder so=LibSortOrder()) override;
 	void		get_all_artists_by_searchstring(Filter filter, ArtistList& artists, LibSortOrder so) override;
@@ -63,12 +63,11 @@ protected:
 	void		get_all_tracks_by_album(IDList album_ids, MetaDataList& v_md, Filter filter, LibSortOrder so) override;
 	void		get_all_tracks_by_searchstring(Filter filter, MetaDataList& v_md, LibSortOrder so) override;
 
-	void		update_track(const MetaData& md);
-	void		update_album(const Album& album);
-
-	void		delete_tracks(const MetaDataList& v_md, Library::TrackDeletionMode mode);
-	void		get_album_by_id(int album_id, Album& album);
-	void		get_artist_by_id(int artist_id, Artist& artist);
+	void		update_track(const MetaData& md) override;
+	void		update_album(const Album& album) override;
+	void		delete_tracks(const MetaDataList& v_md, Library::TrackDeletionMode mode) override;
+	void		get_album_by_id(int album_id, Album& album) override;
+	void		get_artist_by_id(int artist_id, Artist& artist) override;
 
 	void				apply_artist_and_album_to_md();
 
@@ -82,10 +81,10 @@ private slots:
 	void		cover_found(const CoverLocation& cl);
 
 public slots:
-	void		psl_reload_library(bool clear_first, Library::ReloadQuality quality);
-	void		refresh_artist();
-	void		refresh_albums();
-	void		refresh_tracks();
+	void		psl_reload_library(bool clear_first, Library::ReloadQuality quality) override;
+	void		refresh_artist() override;
+	void		refresh_albums() override;
+	void		refresh_tracks() override;
 };
 
 #endif // LocalLibrary_H

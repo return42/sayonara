@@ -18,15 +18,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef METADATAINFO_H
 #define METADATAINFO_H
 
-
 #include "Helper/Set.h"
 #include "Helper/Settings/SayonaraClass.h"
-#include "Components/CoverLookup/CoverLocation.h"
+#include "Components/Covers/CoverLocation.h"
 
 #include <QMap>
 

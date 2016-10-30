@@ -24,6 +24,7 @@
 #include "Helper/FileHelper.h"
 #include "Helper/WebAccess/AsyncWebAccess.h"
 #include "PlaylistParser.h"
+#include "Helper/MetaData/MetaDataList.h"
 
 
 AbstractPlaylistParser::AbstractPlaylistParser(const QString& filename)

@@ -114,6 +114,7 @@ QString StreamRecorder::change_track(const MetaData& md) {
 	title.replace(" ", "_");
 	title.replace("/", "_");
 	title.replace("\\", "_");
+	title.replace(":", "");
 
 	sr_path = _settings->get(Set::Engine_SR_Path);
 	session_path = check_session_path(sr_path);

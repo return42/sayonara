@@ -25,7 +25,6 @@
 
 
 #include <QList>
-#include <QString>
 #include <algorithm>
 
 #include "Helper/Logger/Logger.h"
@@ -55,7 +54,7 @@ class Tree {
 
 		virtual ~Tree(){
 			for(Tree* child : children){
-				delete child;
+				delete child; child = nullptr;
 			}
 
 			children.clear();

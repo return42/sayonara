@@ -83,11 +83,12 @@ public:
 
 
 // for int
-template<>
+
 /**
  * @brief The SettingConverter<int> class
  * @ingroup Settings
  */
+template<>
 class SettingConverter<int>{
 public:
 	static QString cvt_to_string(const int& val){
@@ -101,6 +102,22 @@ public:
 		return ok;
 	}
 };
+
+template<>
+class SettingConverter<float>{
+public:
+	static QString cvt_to_string(const float& val){
+		return QString::number(val);
+	}
+
+	static bool cvt_from_string(QString val, float& i){
+		bool ok;
+		i = val.toFloat(&ok);
+
+		return ok;
+	}
+};
+
 
 // for QStringList
 template<>

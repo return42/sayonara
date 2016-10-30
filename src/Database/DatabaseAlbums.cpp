@@ -52,14 +52,9 @@ bool DatabaseAlbums::db_fetch_albums(SayonaraQuery& q, AlbumList& result) {
 		return true;
 	}
 
-	int i=0;
-	int n_rows = q.at() + 1;
+	for(bool is_element=q.first(); is_element; is_element = q.next()){
 
-	result.resize(n_rows);
-
-	for(bool is_element=q.first(); is_element; is_element = q.next(), i++){
-
-		Album& album = result[i];
+		Album album;
 
 		album.id = q.value(0).toInt();
 		album.name = q.value(1).toString().trimmed();
@@ -87,6 +82,8 @@ bool DatabaseAlbums::db_fetch_albums(SayonaraQuery& q, AlbumList& result) {
 		album.n_discs = album.discnumbers.size();
 		album.is_sampler = (artistList.size() > 1);
 		album.db_id = _module_db_id;
+
+		result << album;
 	};
 
 	return true;
@@ -411,6 +408,27 @@ int DatabaseAlbums::updateAlbum (const Album & album) {
 	}
 
 	return getAlbumID (album.name);
+}
+
+void DatabaseAlbums::updateAlbumCissearch(LibraryHelper::SearchModeMask mode)
+{
+	AlbumList albums;
+	getAllAlbums(albums);
+
+	_db.transaction();
+	for(const Album& album : albums) {
+		QString str = "UPDATE albums SET cissearch=:cissearch WHERE albumID=:id;";
+		SayonaraQuery q(_db);
+		q.prepare(str);
+		q.bindValue(":cissearch", LibraryHelper::convert_search_string(album.name, mode));
+		q.bindValue(":id", album.id);
+
+		if(!q.exec()){
+			q.show_error("Cannot update album cissearch");
+		}
+	}
+
+	_db.commit();
 }
 
 int DatabaseAlbums::insertAlbumIntoDatabase (const QString& album) {

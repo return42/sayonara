@@ -23,8 +23,8 @@
 #include "Interfaces/PlayerPlugin/PlayerPlugin.h"
 #include "Interfaces/PlayerPlugin/PlayerPluginHandler.h"
 
-void GUI_Player::hide_all_plugins() {
-
+void GUI_Player::hide_all_plugins()
+{
 	QList<PlayerPluginInterface*> plugins = _pph->get_all_plugins();
 
 	for(PlayerPluginInterface* p : plugins){
@@ -36,8 +36,8 @@ void GUI_Player::hide_all_plugins() {
 }
 
 
-void GUI_Player::show_plugin(PlayerPluginInterface* plugin) {
-
+void GUI_Player::show_plugin(PlayerPluginInterface* plugin)
+{
 	hide_all_plugins();
 
 	QAction* action = plugin->get_action();

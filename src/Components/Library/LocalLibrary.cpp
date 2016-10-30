@@ -18,20 +18,43 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #include "LocalLibrary.h"
-#include "Components/Library/Importer/LibraryImporter.h"
-#include "Components/Library/threads/ReloadThread.h"
+#include "Importer/LibraryImporter.h"
+#include "threads/ReloadThread.h"
+#include "threads/IndexDirectoriesThread.h"
+#include "threads/FileSystemWatcher.h"
+#include "threads/UpdateDatesThread.h"
 #include "Database/DatabaseConnector.h"
+
+#include "Helper/LibrarySearchMode.h"
+#include <utility>
 
 LocalLibrary::LocalLibrary(QObject *parent) :
 	AbstractLibrary(parent)
 {
     _db = DatabaseConnector::getInstance();
+
+	apply_db_fixes();
+
+	REGISTER_LISTENER_NO_CALL(Set::Lib_SearchMode, _sl_search_mode_changed);
+	REGISTER_LISTENER(Set::Lib_AutoUpdate, _sl_auto_update_changed);
 }
 
 LocalLibrary::~LocalLibrary(){
 
+}
+
+void LocalLibrary::apply_db_fixes()
+{
+	QString str_val;
+	_db->load_setting("version", str_val);
+
+	int version = str_val.toInt();
+	if(version < 11){
+		UpdateDatesThread* t = new UpdateDatesThread(this);
+		connect(t, &QThread::finished, t, &QObject::deleteLater);
+		t->start();
+	}
 }
 
 
@@ -67,6 +90,66 @@ void LocalLibrary::reload_thread_finished() {
 
 	emit sig_reloading_library("", -1);
 	emit sig_reloading_library_finished();
+
+	if(_fsw){
+		_fsw->refresh();
+	}
+}
+
+void LocalLibrary::_sl_search_mode_changed()
+{
+	sp_log(Log::Debug) << "Updating cissearch...";
+
+	LibraryHelper::SearchModeMask mode = _settings->get(Set::Lib_SearchMode);
+	_db->updateArtistCissearch(mode);
+	_db->updateAlbumCissearch(mode);
+	_db->updateTrackCissearch(mode);
+
+	sp_log(Log::Debug) << "Updating cissearch finished";
+}
+
+void LocalLibrary::_sl_auto_update_changed()
+{
+	bool active = _settings->get(Set::Lib_AutoUpdate);
+	if(active){
+		MetaDataList v_md;
+		get_all_tracks(v_md, LibSortOrder());
+		IndexDirectoriesThread* thread = new IndexDirectoriesThread(v_md);
+		connect(thread, &QThread::finished, this, &LocalLibrary::indexing_finished);
+		thread->start();
+	}
+
+	else{
+		if(_fsw){
+			_fsw->stop();
+
+			sp_log(Log::Debug) << "Removed filesystem watcher";
+		}
+	}
+}
+
+void LocalLibrary::indexing_finished()
+{
+	IndexDirectoriesThread* thread = dynamic_cast<IndexDirectoriesThread*>(sender());
+
+	_fsw = new FileSystemWatcher(_settings->get(Set::Lib_Path), this);
+
+	connect(_fsw, &QThread::finished, _fsw, &QObject::deleteLater);
+	connect(_fsw, &QThread::destroyed, this, [=](){
+		_fsw = nullptr;
+	});
+
+	connect(_fsw, &FileSystemWatcher::sig_changed, this, [=](){
+		if(!_reload_thread || (_reload_thread && !_reload_thread->is_running())){
+			this->psl_reload_library(false, Library::ReloadQuality::Fast);
+		}
+	});
+
+	_fsw->start();
+
+	thread->deleteLater();
+	sp_log(Log::Debug) << "Added filesystem watcher";
+
 }
 
 void LocalLibrary::library_reloading_state_new_block() {
@@ -94,13 +177,13 @@ void LocalLibrary::psl_disc_pressed(int disc) {
 	MetaDataList v_metadata;
 
 
-	/*if(disc < 0){
-		_db->getAllTracksByAlbum(_selected_albums[0], _vec_md, _filter, _sortorder.so_tracks);
+	if(disc < 0){
+		_db->getAllTracksByAlbum(_selected_albums.first(), _vec_md, _filter, _sortorder.so_tracks);
 		emit sig_all_tracks_loaded(_vec_md);
 		return;
 	}
 
-	_db->getAllTracksByAlbum(_selected_albums[0], v_metadata, _filter, _sortorder.so_tracks);*/
+	_db->getAllTracksByAlbum(_selected_albums.first(), v_metadata, _filter, _sortorder.so_tracks);
 
 	_vec_md.clear();
 
@@ -231,3 +314,54 @@ void LocalLibrary::import_files(const QStringList& files){
 	emit sig_import_dialog_requested();
 }
 
+void LocalLibrary::merge_artists(int target_artist)
+{
+	if(_selected_artists.isEmpty())	{
+		return;
+	}
+
+	bool success;
+
+	Artist artist;
+	success =_db->getArtistByID(target_artist, artist);
+	if(!success){
+		return;
+	}
+
+	MetaDataList v_md;
+	get_all_tracks_by_artist(_selected_artists.toList(), v_md, _filter, _sortorder);
+	for(MetaData& md : v_md){
+		md.artist_id = artist.id;
+		md.artist = artist.name;
+	}
+
+	_db->updateTracks(v_md);
+	refresh();
+}
+
+void LocalLibrary::merge_albums(int target_album)
+{
+
+	if(_selected_albums.isEmpty())	{
+		return;
+	}
+
+	bool success;
+
+	Album album;
+	success =_db->getAlbumByID(target_album, album);
+	if(!success){
+		return;
+	}
+
+	MetaDataList v_md;
+	get_all_tracks_by_album(_selected_albums.toList(), v_md, _filter, _sortorder);
+	for(MetaData& md : v_md){
+		md.album_id = album.id;
+		md.album = album.name;
+	}
+
+	_db->updateTracks(v_md);
+	refresh();
+
+}

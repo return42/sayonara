@@ -1,5 +1,5 @@
 
-/* Copyright (C) 2011-2015  Lucio Carreras
+/* Copyright (C) 2011-2016  Lucio Carreras
  *
  * This file is part of sayonara player
  *
@@ -37,7 +37,9 @@ enum PlaylistMenuEntry {
 	CloseOthers =	(1 << 4),
 	Reset=			(1 << 5),
 	Rename=			(1 << 6),
-	Clear=			(1 << 7)
+	Clear=			(1 << 7),
+	OpenFile=		(1 << 8),
+	OpenDir=		(1 << 9)
 };
 
 

@@ -22,9 +22,9 @@
 
 
 #include "DBusMPRIS.h"
-#include "DBus/org_mpris_media_player2_adaptor.h"
-#include "DBus/org_mpris_media_player2_player_adaptor.h"
-#include "Components/CoverLookup/CoverLocation.h"
+#include "Components/DBus/org_mpris_media_player2_adaptor.h"
+#include "Components/DBus/org_mpris_media_player2_player_adaptor.h"
+#include "Components/Covers/CoverLocation.h"
 #include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
 
 #include "Helper/Random/RandomGenerator.h"
@@ -251,16 +251,16 @@ QVariantMap DBusMPRIS::MediaPlayer2::Metadata(){
 	v_length.setValue<qlonglong>(_md.length_ms * 1000);
 
 	cl = CoverLocation::get_cover_location(_md);
-	if(!cl.local_paths.isEmpty()){
-		cover_path = cl.local_paths.first();
+	if(!cl.local_paths().isEmpty()){
+		cover_path = cl.local_path(0);
 	}
 
-	else if(!cl.cover_path.isEmpty()){
-		cover_path = cl.cover_path;
+	else if(!cl.cover_path().isEmpty()){
+		cover_path = cl.cover_path();
 	}
 
 	else{
-		cover_path = CoverLocation::getInvalidLocation().cover_path;
+		cover_path = CoverLocation::getInvalidLocation().cover_path();
 	}
 
 	map["mpris:trackid"] = v_object_path;

@@ -27,7 +27,6 @@
  */
 
 #include "GUI_Playlist.h"
-#include "GUI/InfoDialog/GUI_InfoDialog.h"
 #include "View/PlaylistView.h"
 #include "Helper/Helper.h"
 #include "GUI/Helper/IconLoader/IconLoader.h"
@@ -49,7 +48,6 @@ GUI_Playlist::GUI_Playlist(QWidget *parent) :
 
 	_playlist = PlaylistHandler::getInstance();
 	_play_manager = PlayManager::getInstance();
-	_info_dialog = new GUI_InfoDialog(this);
 
 	bottom_bar->check_dynamic_play_button();
 
@@ -79,6 +77,8 @@ GUI_Playlist::GUI_Playlist(QWidget *parent) :
 	connect(tw_playlists, &PlaylistTabWidget::sig_tab_clear, this, &GUI_Playlist::clear_button_pressed);
 	connect(tw_playlists, &PlaylistTabWidget::sig_tab_reset, _playlist, &PlaylistHandler::reset_playlist);
 	connect(tw_playlists, &PlaylistTabWidget::sig_metadata_dropped, this, &GUI_Playlist::tab_metadata_dropped);
+	connect(tw_playlists, &PlaylistTabWidget::sig_open_file, this, &GUI_Playlist::open_file_clicked);
+	connect(tw_playlists, &PlaylistTabWidget::sig_open_dir, this, &GUI_Playlist::open_dir_clicked);
 
 	REGISTER_LISTENER(Set::Lib_Path, _sl_library_path_changed);
 	REGISTER_LISTENER(Set::PL_ShowNumbers, _sl_show_numbers_changed);
@@ -110,11 +110,9 @@ GUI_Playlist::~GUI_Playlist() {
 		tw_playlists->removeTab(0);
 
 		if(widget){
-			delete widget;
+			delete widget; widget = nullptr;
 		}
 	}
-
-	delete _info_dialog;
 }
 
 void GUI_Playlist::changeEvent(QEvent* e) {
@@ -238,54 +236,10 @@ void GUI_Playlist::double_clicked(int row) {
 	_playlist->change_track(row, cur_idx);
 }
 
-void GUI_Playlist::fill_info_dialog(){
-
-	int cur_idx = _playlist->get_current_idx();
-
-	PlaylistConstPtr pl = _playlist->get_playlist_at(cur_idx);
-	PlaylistView* cur_view = get_view_by_idx(cur_idx);
-
-	if(pl == nullptr || cur_view == nullptr){
-		return;
-	}
-
-	SP::Set<int> selections = cur_view->get_selections();
-	MetaDataList v_md = pl->get_playlist().extract_tracks(selections);
-
-	_info_dialog->set_metadata(v_md, GUI_InfoDialog::Mode::Tracks );
-}
 
 void GUI_Playlist::init_shortcuts()
 {
 
-}
-
-
-void GUI_Playlist::menu_info_clicked() {
-
-    if(!_info_dialog) return;
-
-	fill_info_dialog();
-
-	_info_dialog->show(GUI_InfoDialog::TabInfo);
-}
-
-
-void GUI_Playlist::menu_edit_clicked() {
-    if(!_info_dialog) return;
-
-	fill_info_dialog();
-
-	_info_dialog->show(GUI_InfoDialog::TabEdit);
-}
-
-void GUI_Playlist::menu_lyrics_clicked()
-{
-	if(!_info_dialog) return;
-
-	fill_info_dialog();
-
-	_info_dialog->show(GUI_InfoDialog::TabLyrics);
 }
 
 
@@ -384,6 +338,49 @@ void GUI_Playlist::set_total_time_label() {
 	lab_totalTime->setContentsMargins(0, 2, 0, 2);
 }
 
+void GUI_Playlist::open_file_clicked(int tgt_idx) {
+
+	Q_UNUSED(tgt_idx)
+
+	QStringList filetypes;
+
+	filetypes << Helper::get_soundfile_extensions();
+	filetypes << Helper::get_playlistfile_extensions();
+
+	QString filetypes_str = tr("Media files") + " (" + filetypes.join(" ") + ")";
+
+	QStringList list =
+			QFileDialog::getOpenFileNames(
+					this,
+					tr("Open Media files"),
+					QDir::homePath(),
+					filetypes_str);
+
+	if(list.isEmpty()){
+		return;
+	}
+
+	PlaylistHandler* plh = PlaylistHandler::getInstance();
+	plh->create_playlist(list);
+}
+
+void GUI_Playlist::open_dir_clicked(int tgt_idx) {
+
+	Q_UNUSED(tgt_idx)
+
+	QString dir = QFileDialog::getExistingDirectory(this,
+			tr("Open Directory"),
+			QDir::homePath(),
+			QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+
+	if (dir.isEmpty()){
+		return;
+	}
+
+	PlaylistHandler* plh = PlaylistHandler::getInstance();
+	plh->create_playlist(dir);
+}
+
 
 
 void GUI_Playlist::_sl_show_numbers_changed(){
@@ -407,3 +404,4 @@ void GUI_Playlist::load_old_playlists()
 {
 	_playlist->load_old_playlists();
 }
+

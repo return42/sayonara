@@ -18,12 +18,11 @@
  */
 
 
-
 #include "HeaderView.h"
 #include <QFontMetrics>
 #include <QTableView>
 
-
+#include <algorithm>
 
 HeaderView::HeaderView(Qt::Orientation orientation, QWidget* parent) :
 	QHeaderView(orientation, parent),
@@ -92,7 +91,7 @@ void HeaderView::set_column_headers(const ColumnHeaderList& column_headers, cons
 		}
 
 		bool is_shown = true;
-		if(between(i, 0, shown_actions.size())){
+		if(between(i, shown_actions)){
 			is_shown = shown_actions[i];
 		}
 
@@ -123,7 +122,7 @@ void HeaderView::refresh_sizes(QTableView* view)
 		int preferred_size = 0;
 		int col = _column_headers.get_nth_shown_col(i);
 
-		if(!between(col, 0, _column_headers.size())){
+		if(!between(col, _column_headers)){
 			continue;
 		}
 
@@ -198,7 +197,7 @@ BoolList HeaderView::refresh_active_columns()
 
 ColumnHeader* HeaderView::get_column_header(int idx)
 {
-	if(!between(idx, 0, _column_headers.size())){
+	if(!between(idx, _column_headers)){
 		return nullptr;
 	}
 

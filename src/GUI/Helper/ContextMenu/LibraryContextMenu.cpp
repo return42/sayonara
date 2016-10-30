@@ -24,6 +24,7 @@
 
 #include "GUI/Helper/IconLoader/IconLoader.h"
 #include "GUI/Helper/GUI_Helper.h"
+#include "GUI/Helper/RatingLabel/RatingLabel.h"
 
 LibraryContextMenu::LibraryContextMenu(QWidget* parent) :
 	QMenu(parent),
@@ -34,10 +35,19 @@ LibraryContextMenu::LibraryContextMenu(QWidget* parent) :
 	_edit_action = new QAction(GUI::get_icon("edit"), tr("Edit"), this);
 	_remove_action = new QAction(GUI::get_icon("delete"), tr("Remove"), this);
 	_delete_action = new QAction(GUI::get_icon("delete"), tr("Delete"), this);
-	_play_next_action = new QAction(GUI::get_icon("fwd_orange"), tr("Play next"), this);
+	_play_next_action = new QAction(GUI::get_icon("play_small"), tr("Play next"), this);
 	_append_action = new QAction(GUI::get_icon("append"), tr("Append"), this);
 	_refresh_action = new QAction(GUI::get_icon("undo"), tr("Refresh"), this);
 	_clear_action = new QAction(GUI::get_icon("broom.png"), tr("Clear"), this);
+
+	QList<QAction*> rating_actions;
+	for(int i=0; i<=5; i++)
+	{
+		rating_actions << init_rating_action(i);
+	}
+
+	_rating_menu = new QMenu(this);
+	_rating_menu->addActions(rating_actions);
 
 	connect(_info_action, &QAction::triggered, this, &LibraryContextMenu::sig_info_clicked);
 	connect(_lyrics_action, &QAction::triggered, this, &LibraryContextMenu::sig_lyrics_clicked);
@@ -55,15 +65,22 @@ LibraryContextMenu::LibraryContextMenu(QWidget* parent) :
 			<< _edit_action
 			<< _remove_action
 			<< _delete_action
+			<< addSeparator()
 			<< _play_next_action
 			<< _append_action
 			<< _refresh_action
-			<< _clear_action;
+			<< addSeparator()
+			<< _clear_action
+			;
 
 	this->addActions(actions);
 
+	_rating_action = this->insertMenu(_remove_action, _rating_menu);
+	_rating_action->setIcon(GUI::get_icon("star.png"));
+	_rating_action->setText(rating_text());
+
 	for(QAction* action : actions){
-		action->setVisible(false);
+		action->setVisible(action->isSeparator());
 	}
 
 	REGISTER_LISTENER(Set::Player_Style, skin_changed);
@@ -72,14 +89,6 @@ LibraryContextMenu::LibraryContextMenu(QWidget* parent) :
 
 LibraryContextMenu::~LibraryContextMenu() {
 
-	delete _info_action;
-	delete _lyrics_action;
-	delete _edit_action;
-	delete _remove_action;
-	delete _delete_action;
-	delete _play_next_action;
-	delete _refresh_action;
-	delete _clear_action;
 }
 
 
@@ -94,6 +103,7 @@ void LibraryContextMenu::changeEvent(QEvent* e) {
 		_append_action->setText(tr("Append"));
 		_refresh_action->setText(tr("Refresh"));
 		_clear_action->setText(tr("Clear"));
+		_rating_action->setText(rating_text());
 
 		return;
 	}
@@ -133,6 +143,9 @@ LibraryContexMenuEntries LibraryContextMenu::get_entries() const
 	if(_clear_action->isVisible()){
 		entries |= EntryClear;
 	}
+	if(_rating_action->isVisible()){
+		entries |= EntryRating;
+	}
 
 	return entries;
 }
@@ -149,6 +162,7 @@ void LibraryContextMenu::show_actions(LibraryContexMenuEntries entries) {
 	_append_action->setVisible(entries & EntryAppend);
 	_refresh_action->setVisible(entries & EntryRefresh);
 	_clear_action->setVisible(entries & EntryClear);
+	_rating_action->setVisible(entries & EntryRating);
 
 }
 
@@ -181,8 +195,44 @@ void LibraryContextMenu::skin_changed()
 	_edit_action->setIcon(icon_loader->get_icon("accessories-text-editor", "edit"));
 	_remove_action->setIcon(icon_loader->get_icon("list-remove", "delete"));
 	_delete_action->setIcon(icon_loader->get_icon("edit-delete", "delete"));
-	_play_next_action->setIcon(icon_loader->get_icon("media-playback-start", "play"));
+	_play_next_action->setIcon(icon_loader->get_icon("media-playback-start", "play_small"));
 	_append_action->setIcon(icon_loader->get_icon("list-add", "append"));
 	_refresh_action->setIcon(icon_loader->get_icon("edit-undo", "undo"));
-	_clear_action->setIcon(icon_loader->get_icon("edit-clear", "broom"));
+	_clear_action->setIcon(icon_loader->get_icon("edit-clear", "broom.png"));
+	_rating_action->setIcon(GUI::get_icon("star.png"));
+}
+
+QAction* LibraryContextMenu::init_rating_action(int rating)
+{
+	QAction* action = new QAction(QString::number(rating), nullptr);
+	action->setData(rating);
+	action->setCheckable(true);
+
+	connect(action, &QAction::triggered, this, [=](){
+		emit sig_rating_changed(rating);		
+	});
+
+	return action;
+}
+
+void LibraryContextMenu::set_rating(int rating)
+{
+	QList<QAction*> actions = _rating_menu->actions();
+	for(QAction* action : actions){
+		int data = action->data().toInt(); 
+		action->setChecked(data == rating);
+	}
+
+	if(rating > 0){
+		_rating_action->setText(rating_text() + " (" + QString::number(rating) + ")");
+	}
+
+	else{
+		_rating_action->setText(rating_text());
+	}
+}
+
+QString LibraryContextMenu::rating_text()
+{
+	return tr("Rating");
 }

@@ -19,9 +19,9 @@
  */
 
 #include "GUI_AbstractLibrary.h"
-#include "GUI/InfoDialog/GUI_InfoDialog.h"
 #include "GUI/Helper/Message/Message.h"
 #include "Components/Library/AbstractLibrary.h"
+#include "Helper/LibrarySearchMode.h"
 
 #include "GUI/Library/Helper/ColumnHeader.h"
 #include <QKeySequence>
@@ -30,7 +30,6 @@ GUI_AbstractLibrary::GUI_AbstractLibrary(AbstractLibrary* library, QWidget *pare
 	SayonaraWidget(parent)
 {
 	_library = library;
-	_info_dialog = new GUI_InfoDialog(this);
 
 	_shown_cols_albums = _settings->get(Set::Lib_ColsAlbum);
 	_shown_cols_artist = _settings->get(Set::Lib_ColsArtist);
@@ -38,11 +37,11 @@ GUI_AbstractLibrary::GUI_AbstractLibrary(AbstractLibrary* library, QWidget *pare
 }
 
 GUI_AbstractLibrary::~GUI_AbstractLibrary(){
-	delete _album_model;
-	delete _album_delegate;
-	delete _artist_model;
-	delete _track_model;
-	delete _track_delegate;
+	delete _album_model; _album_model = nullptr;
+	delete _album_delegate; _album_delegate = nullptr;
+	delete _artist_model; _artist_model = nullptr;
+	delete _track_model; _track_model = nullptr;
+	delete _track_delegate; _track_delegate = nullptr;
 }
 
 void GUI_AbstractLibrary::init_finished(){
@@ -60,8 +59,6 @@ void GUI_AbstractLibrary::init_finished(){
 	connect(_lv_album, &LibraryViewAlbum::sig_middle_button_clicked, this, &GUI_AbstractLibrary::album_middle_clicked);
 	connect(_lv_album, &LibraryViewAlbum::sig_sortorder_changed, this, &GUI_AbstractLibrary::sortorder_album_changed);
 	connect(_lv_album, &LibraryViewAlbum::sig_columns_changed, this, &GUI_AbstractLibrary::columns_album_changed);
-	connect(_lv_album, &LibraryViewAlbum::sig_edit_clicked, this, &GUI_AbstractLibrary::edit_album);
-	connect(_lv_album, &LibraryViewAlbum::sig_info_clicked, this, &GUI_AbstractLibrary::info_album);
 	connect(_lv_album, &LibraryViewAlbum::sig_delete_clicked, this, &GUI_AbstractLibrary::delete_album);
 	connect(_lv_album, &LibraryViewAlbum::sig_play_next_clicked, this, &GUI_AbstractLibrary::play_next);
 	connect(_lv_album, &LibraryViewAlbum::sig_append_clicked, this, &GUI_AbstractLibrary::append);
@@ -72,8 +69,6 @@ void GUI_AbstractLibrary::init_finished(){
 	connect(_lv_artist, &LibraryView::sig_middle_button_clicked, this, &GUI_AbstractLibrary::artist_middle_clicked);
 	connect(_lv_artist, &LibraryView::sig_sortorder_changed, this, &GUI_AbstractLibrary::sortorder_artist_changed);
 	connect(_lv_artist, &LibraryView::sig_columns_changed, this, &GUI_AbstractLibrary::columns_artist_changed);
-	connect(_lv_artist, &LibraryView::sig_edit_clicked, this, &GUI_AbstractLibrary::edit_artist);
-	connect(_lv_artist, &LibraryView::sig_info_clicked, this, &GUI_AbstractLibrary::info_artist);
 	connect(_lv_artist, &LibraryView::sig_delete_clicked, this, &GUI_AbstractLibrary::delete_artist);
 	connect(_lv_artist, &LibraryView::sig_play_next_clicked, this, &GUI_AbstractLibrary::play_next);
 	connect(_lv_artist, &LibraryView::sig_append_clicked, this, &GUI_AbstractLibrary::append);
@@ -84,8 +79,6 @@ void GUI_AbstractLibrary::init_finished(){
 	connect(_lv_tracks, &LibraryView::sig_middle_button_clicked, this, &GUI_AbstractLibrary::tracks_middle_clicked);
 	connect(_lv_tracks, &LibraryView::sig_sortorder_changed, this, &GUI_AbstractLibrary::sortorder_title_changed);
 	connect(_lv_tracks, &LibraryView::sig_columns_changed, this, &GUI_AbstractLibrary::columns_title_changed);
-	connect(_lv_tracks, &LibraryView::sig_edit_clicked, this, &GUI_AbstractLibrary::edit_tracks);
-	connect(_lv_tracks, &LibraryView::sig_info_clicked, this, &GUI_AbstractLibrary::info_tracks);
 	connect(_lv_tracks, &LibraryView::sig_delete_clicked, this, &GUI_AbstractLibrary::delete_tracks);
 	connect(_lv_tracks, &LibraryView::sig_play_next_clicked, this, &GUI_AbstractLibrary::play_next_tracks);
 	connect(_lv_tracks, &LibraryView::sig_append_clicked, this, &GUI_AbstractLibrary::append_tracks);
@@ -160,6 +153,7 @@ void GUI_AbstractLibrary::init_headers(){
 	_lv_tracks->setItemDelegate(_track_delegate);
 	_lv_tracks->setAlternatingRowColors(true);
 	_lv_tracks->setDragEnabled(true);
+	_lv_tracks->set_type(MetaDataList::Interpretation::Tracks);
 	_lv_tracks->set_table_headers(track_columns, _shown_cols_tracks, so.so_tracks);
 
 	_lv_artist->setModel(_artist_model);
@@ -167,6 +161,7 @@ void GUI_AbstractLibrary::init_headers(){
 	_lv_artist->setAlternatingRowColors(true);
 	_lv_artist->setItemDelegate(new QItemDelegate(_lv_artist));
 	_lv_artist->setDragEnabled(true);
+	_lv_artist->set_type(MetaDataList::Interpretation::Artists);
 	_lv_artist->set_table_headers(artist_columns, _shown_cols_artist, so.so_artists);
 
 	_lv_album->setModel(_album_model);
@@ -174,6 +169,7 @@ void GUI_AbstractLibrary::init_headers(){
 	_lv_album->setItemDelegate(_album_delegate);
 	_lv_album->setAlternatingRowColors(true);
 	_lv_album->setDragEnabled(true);
+	_lv_album->set_type(MetaDataList::Interpretation::Albums);
 	_lv_album->set_table_headers(album_columns, _shown_cols_albums, so.so_albums);
 }
 
@@ -201,6 +197,9 @@ void GUI_AbstractLibrary::text_line_edited(const QString &search){
 	}
 
 	Filter filter;
+	LibraryHelper::SearchModeMask mask = _settings->get(Set::Lib_SearchMode);
+	QString text = search;
+
 	switch( _combo_search->currentIndex() ) {
 
 		case 1:
@@ -213,6 +212,7 @@ void GUI_AbstractLibrary::text_line_edited(const QString &search){
 
 		case 0:
 		default:
+			text = LibraryHelper::convert_search_string(search, mask);
 			filter.mode = Filter::Mode::Fulltext;
 			break;
 	}
@@ -222,7 +222,7 @@ void GUI_AbstractLibrary::text_line_edited(const QString &search){
 	}
 
 	else{
-		filter.filtertext = QString("%") + search + QString("%");
+		filter.filtertext = QString("%") + text + QString("%");
 		filter.cleared = false;
 	}
 
@@ -240,7 +240,9 @@ void GUI_AbstractLibrary::clear_button_pressed() {
 	_le_search->setText("");
 	_library->refetch();
 
-	connect(_le_search, &QLineEdit::textEdited, this, &GUI_AbstractLibrary::text_line_edited);
+	if(_settings->get(Set::Lib_LiveSearch)){
+		connect(_le_search, &QLineEdit::textEdited, this, &GUI_AbstractLibrary::text_line_edited);
+	}
 }
 
 
@@ -399,45 +401,6 @@ void GUI_AbstractLibrary::sortorder_title_changed(SortOrder s) {
 	so.so_tracks = s;
 
 	 _settings->set(Set::Lib_Sorting, so);
-}
-
-
-void GUI_AbstractLibrary::edit_album() {
-	_info_dialog->set_metadata(_lv_album->get_selected_metadata(), GUI_InfoDialog::Mode::Albums);
-	_info_dialog->show(GUI_InfoDialog::TabEdit);
-}
-
-void GUI_AbstractLibrary::edit_artist() {
-	_info_dialog->set_metadata(_lv_artist->get_selected_metadata(), GUI_InfoDialog::Mode::Artists);
-	_info_dialog->show(GUI_InfoDialog::TabEdit);
-}
-
-void GUI_AbstractLibrary::edit_tracks() {
-	_info_dialog->set_metadata(_lv_tracks->get_selected_metadata(), GUI_InfoDialog::Mode::Tracks);
-	_info_dialog->show(GUI_InfoDialog::TabEdit);
-}
-
-
-void GUI_AbstractLibrary::info_album() {
-	_info_dialog->set_metadata(_lv_album->get_selected_metadata(), GUI_InfoDialog::Mode::Albums);
-	_info_dialog->show(GUI_InfoDialog::TabInfo);
-}
-
-void GUI_AbstractLibrary::info_artist() {
-
-	if(!_info_dialog){
-		_info_dialog = new GUI_InfoDialog(this);
-	}
-	_info_dialog->set_metadata(_lv_artist->get_selected_metadata(), GUI_InfoDialog::Mode::Artists);
-	_info_dialog->show(GUI_InfoDialog::TabInfo);
-}
-
-void GUI_AbstractLibrary::info_tracks() {
-	if(!_info_dialog){
-
-	}
-	_info_dialog->set_metadata(_lv_tracks->get_selected_metadata(), GUI_InfoDialog::Mode::Tracks);
-	_info_dialog->show(GUI_InfoDialog::TabInfo);
 }
 
 

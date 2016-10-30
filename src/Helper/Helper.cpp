@@ -29,6 +29,7 @@
 #include <QtGlobal>
 #include <QNetworkInterface>
 #include <QHostAddress>
+#include <QDateTime>
 #include <thread>
 #include <chrono>
 #ifdef Q_OS_LINUX
@@ -55,7 +56,18 @@ QString cvtNum2String(T num, int digits) {
 	return str;
 }
 
+quint64 Helper::date_to_int(const QDateTime& date_time)
+{
 
+	QString str = date_time.toUTC().toString("yyMMddHHmmss");
+	return str.toULongLong();
+}
+
+quint64 Helper::current_date_to_int()
+{
+	QString str = QDateTime::currentDateTimeUtc().toString("yyMMddHHmmss");
+	return str.toULongLong();
+}
 
 QString Helper::cvt_str_to_first_upper(const QString& str) {
 
@@ -199,8 +211,6 @@ QString Helper::create_link(const QString& name, bool dark, const QString& targe
 }
 
 
-
-
 QStringList Helper::get_soundfile_extensions() {
 
 	QStringList filters;
@@ -212,7 +222,16 @@ QStringList Helper::get_soundfile_extensions() {
 			<< "*.wav"
 			<< "*.flac"
 			<< "*.aac"
-			<< "*.wma";
+			<< "*.wma"
+			<< "*.mpc";
+
+	QStringList upper_filters;
+	for(const QString& filter : filters) {
+		upper_filters << filter.toUpper();
+	}
+
+	filters.append(upper_filters);
+
 
 	return filters;
 }
@@ -222,15 +241,18 @@ QStringList Helper::get_playlistfile_extensions() {
 
 	QStringList filters;
 
+
 	filters << "*.pls"
 			<< "*.m3u"
 			<< "*.ram"
 			<< "*.asx";
 
-
+	QStringList upper_filters;
 	for(const QString& filter : filters) {
-		filters.push_back(filter.toUpper());
+		upper_filters << filter.toUpper();
 	}
+
+	filters.append(upper_filters);
 
 	return filters;
 }
@@ -240,16 +262,19 @@ QStringList Helper::get_playlistfile_extensions() {
 
 QStringList Helper::get_podcast_extensions() {
 
-	QStringList filters, filters_new;
+	QStringList filters;
 
 	filters << "*.xml"
 			<< "*.rss";
 
+	QStringList upper_filters;
 	for(const QString& filter : filters) {
-		filters_new.push_back(filter.toUpper());
+		upper_filters << filter.toUpper();
 	}
 
-	return filters_new;
+	filters.append(upper_filters);
+
+	return filters;
 }
 
 
@@ -304,8 +329,6 @@ void Helper::sleep_ms(quint64 ms){
 }
 
 
-
-
 QString Helper::StringDummy::various(){
 	return tr("Various");
 }
@@ -355,4 +378,18 @@ QStringList Helper::get_ip_addresses()
 	}
 
 	return ret;
+}
+
+#include <cstdlib>
+
+void Helper::set_environment(const QString& key, const QString& value)
+{
+
+#ifdef Q_OS_WIN
+	QString str = key + "=" + value;
+	_putenv(str.toLocal8Bit().constData());
+	sp_log(Log::Info) << "Windows: Set environment variable " << str;
+#else
+	setenv(key.toLocal8Bit().constData(), value.toLocal8Bit().constData(), 1);
+#endif
 }

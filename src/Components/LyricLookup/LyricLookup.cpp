@@ -32,9 +32,9 @@
 #include "Helper/Helper.h"
 #include "Helper/WebAccess/AsyncWebAccess.h"
 
-
 #include <QRegExp>
 #include <QThread>
+#include <algorithm>
 
 size_t first_appearance = -1;
 size_t last_appearance = -1;
@@ -82,6 +82,9 @@ QString LyricLookupThread::convert_to_regex(const QString& str){
 
 QString LyricLookupThread::calc_url(QString artist, QString song) {
 
+	if(_cur_server < 0 || _cur_server >= _server_list.size()){
+		return "";
+	}
 
 	QMap<QString, QString> replacements = _server_list[_cur_server].replacements;
 
@@ -501,11 +504,8 @@ void LyricLookupThread::parse_xml(){
 		}
 
 		_server_list << t;
-
-
-
 	}
 
 	f.close();
-
+	f.remove();
 }

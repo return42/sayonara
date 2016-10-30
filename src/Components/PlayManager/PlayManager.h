@@ -25,6 +25,8 @@
 #include "Helper/MetaData/MetaData.h"
 #include "Helper/Settings/SayonaraClass.h"
 
+#include <algorithm>
+
 template<typename T, int N_ITEMS>
 class RingBuffer {
 
@@ -58,6 +60,16 @@ class RingBuffer {
 
 			return false;
 		}
+
+		int count() const
+		{
+			return _n_items;
+		}
+
+		bool is_empty() const
+		{
+			return (_n_items == 0);
+		}
 };
 
 /**
@@ -84,6 +96,12 @@ class PlayManager : public QObject, protected SayonaraClass
 
 
 signals:
+
+	/**
+	 * @brief emitted when a streamed track has finished
+	 * @param old_md the last played track
+	 */
+	void sig_www_track_finished(const MetaData& old_md);
 
 	/**
 	 * @brief emitted, when PlayManager::PlayState was changed
@@ -250,7 +268,9 @@ public slots:
 
 	/**
 	 * @brief set current position of track
-	 * @param ms position in milliseconds
+	 * This method does not seek.
+	 * Just tells the playmanager where the current position is
+	 * @param ms position in milliseconds. 	 
 	 */
 	void set_position_ms(quint64 ms);
 

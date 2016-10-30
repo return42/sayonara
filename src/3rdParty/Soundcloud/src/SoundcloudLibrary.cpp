@@ -22,8 +22,8 @@
 
 #include "SoundcloudLibrary.h"
 #include "SoundcloudDataFetcher.h"
-#include "Components/CoverLookup/CoverLookup.h"
-#include "Components/CoverLookup/CoverLocation.h"
+#include "Components/Covers/CoverLookup.h"
+#include "Components/Covers/CoverLocation.h"
 
 
 SoundcloudLibrary::SoundcloudLibrary(QObject *parent) :

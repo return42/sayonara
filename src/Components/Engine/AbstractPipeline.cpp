@@ -63,8 +63,6 @@ bool AbstractPipeline::init(GstState state){
 		return false;
 	}
 
-	_elements.insert(_pipeline);
-
 	_bus = gst_pipeline_get_bus(GST_PIPELINE(_pipeline));
 
 	success = create_elements();
@@ -113,25 +111,26 @@ void AbstractPipeline::refresh_position() {
 		element = GST_ELEMENT(_pipeline);
 	}
 
-	success = gst_element_query_position(GST_ELEMENT(_pipeline), GST_FORMAT_TIME, &pos_pipeline);
-	if(!success){
-		pos_pipeline = 0;
-	}
-
-	if(_duration_ms >= 0){
-		emit sig_pos_changed_ms( GST_TIME_AS_MSECONDS(pos_pipeline));
-	}
-
 	success = gst_element_query_position(element, GST_FORMAT_TIME, &pos_source);
 
 	if(success && (pos_source >> 10) > 0){
 		_position_ms = GST_TIME_AS_MSECONDS(pos_source);
 	}
-	else {
+
+	else if(success){
+		success = gst_element_query_position(_pipeline, GST_FORMAT_TIME, &pos_pipeline);
 		_position_ms = GST_TIME_AS_MSECONDS(pos_pipeline);
 	}
 
+	else{
+		_position_ms = 0;
+	}
+
+	if(_duration_ms >= 0){
+		emit sig_pos_changed_ms( _position_ms);
+	}
 }
+
 
 void AbstractPipeline::refresh_duration(){
 
@@ -174,6 +173,7 @@ void AbstractPipeline::check_about_to_finish(){
 
 	if(difference <= 0 && !_about_to_finish){
 		refresh_duration();
+
 
 		if(_duration_ms <= 0){
 			return;
@@ -226,10 +226,6 @@ qint64 AbstractPipeline::get_position_ms(){
 }
 
 
-void AbstractPipeline::set_speed(float f) {
-	Q_UNUSED(f);
-}
-
 void AbstractPipeline::finished() {
 
 	emit sig_finished();
@@ -249,7 +245,7 @@ GstState AbstractPipeline::get_state() {
 
 
 
-GstElement* AbstractPipeline::get_pipeline() {
+GstElement* AbstractPipeline::get_pipeline() const {
 	return _pipeline;
 }
 
@@ -277,9 +273,6 @@ bool AbstractPipeline::create_element(GstElement** elem, const gchar* elem_name,
 	}
 
 	bool success = _test_and_error(*elem, error_msg);
-	if(success){
-		_elements.insert(*elem);
-	}
 
 	return success;
 }
@@ -311,6 +304,8 @@ bool AbstractPipeline::tee_connect(GstElement* tee, GstPadTemplate* tee_src_pad_
 
 	g_object_set (queue, "silent", TRUE, nullptr);
 
+	gst_object_unref(tee_queue_pad);
+	gst_object_unref(queue_pad);
 	return true;
 }
 
@@ -323,7 +318,28 @@ AbstractPipeline::has_element(GstElement* e) const
 		return true;
 	}
 
-	return (_elements.contains(e));
+	GstObject* o = (GstObject*) e;
+	GstObject* parent = nullptr;
+
+	while(o){
+		if( o == (GstObject*) _pipeline ){
+			if( (GstObject*) e != o ){
+				gst_object_unref(o);
+			}
+
+			return true;
+		}
+
+		parent = gst_object_get_parent(o);
+		if( (GstObject*) e != o ){
+			gst_object_unref(o);
+		}
+
+		o = parent;
+	}
+
+	return false;
+
 }
 
 

@@ -31,6 +31,7 @@
  * @brief The AbstractPlaylistParser class
  * @ingroup PlaylistParser
  */
+
 class AbstractPlaylistParser
 {
 

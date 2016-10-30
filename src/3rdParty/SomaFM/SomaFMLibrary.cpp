@@ -1,3 +1,25 @@
+/* SomaFMLibrary.cpp */
+
+/* Copyright (C) 2011-2016  Lucio Carreras
+ *
+ * This file is part of sayonara player
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/* SomaFMLibrary.cpp */
+
 #include "SomaFMLibrary.h"
 #include "Helper/Helper.h"
 #include "Helper/FileHelper.h"
@@ -15,7 +37,11 @@ SomaFMLibrary::SomaFMLibrary(QObject* parent) :
 	QString path = Helper::File::clean_filename(Helper::get_sayonara_path() + "/somafm.ini");
 
 	_qsettings = new QSettings(path, QSettings::IniFormat, this);
+}
 
+SomaFMLibrary::~SomaFMLibrary()
+{
+	_qsettings->deleteLater();
 }
 
 
@@ -74,8 +100,8 @@ void SomaFMLibrary::soma_website_fetched(bool success)
 	awa->deleteLater();
 }
 
-void SomaFMLibrary::create_playlist_from_station(int row){
-
+void SomaFMLibrary::create_playlist_from_station(int row)
+{
 	Q_UNUSED(row)
 
 	SomaFMStation station = _station_map[_requested_station];
@@ -84,7 +110,8 @@ void SomaFMLibrary::create_playlist_from_station(int row){
 	parser->parse_streams(station.get_urls());
 }
 
-void SomaFMLibrary::soma_station_playlists_fetched(bool success){
+void SomaFMLibrary::soma_station_playlists_fetched(bool success)
+{
 	StreamParser* parser = dynamic_cast<StreamParser*>(sender());
 
 	if(!success){
@@ -94,10 +121,10 @@ void SomaFMLibrary::soma_station_playlists_fetched(bool success){
 
 	MetaDataList v_md  = parser->get_metadata();
 	SomaFMStation station = _station_map[_requested_station];
-	QString cover_url = station.get_cover_location().search_url;
+	QString cover_url = station.get_cover_location().search_url();
 
-	for(MetaData& md : v_md){
-		md.cover_download_url = cover_url;
+	for(auto it = v_md.begin(); it != v_md.end(); it++){
+		it->cover_download_url = cover_url;
 	}
 
 	station.set_metadata(v_md);
@@ -111,15 +138,15 @@ void SomaFMLibrary::soma_station_playlists_fetched(bool success){
 						 Playlist::Type::Stream);
 
 	parser->deleteLater();
-
 }
+
 
 void SomaFMLibrary::create_playlist_from_playlist(int idx)
 {
 	SomaFMStation station = _station_map[_requested_station];
 	QStringList urls = station.get_urls();
 
-	if( !between(idx, 0, urls.size())) {
+	if( !between(idx, urls)) {
 		return;		
 	}
 
@@ -143,10 +170,10 @@ void SomaFMLibrary::soma_playlist_content_fetched(bool success)
 	MetaDataList v_md = parser->get_metadata();
 
 	SomaFMStation station = _station_map[_requested_station];
-	QString cover_url = station.get_cover_location().search_url;
+	QString cover_url = station.get_cover_location().search_url();
 
-	for(MetaData& md : v_md){
-		md.cover_download_url = cover_url;
+	for(auto it = v_md.begin(); it != v_md.end(); it++){
+		it->cover_download_url = cover_url;
 	}
 
 	station.set_metadata(v_md);
@@ -163,8 +190,8 @@ void SomaFMLibrary::soma_playlist_content_fetched(bool success)
 }
 
 
-void SomaFMLibrary::set_station_loved(const QString& station_name, bool loved){
-
+void SomaFMLibrary::set_station_loved(const QString& station_name, bool loved)
+{
 	_station_map[station_name].set_loved(loved);
 	_qsettings->setValue(station_name, loved);
 
@@ -181,8 +208,9 @@ void SomaFMLibrary::set_station_loved(const QString& station_name, bool loved){
 	emit sig_stations_loaded(stations);
 }
 
-void SomaFMLibrary::sort_stations(QList<SomaFMStation>& stations){
 
+void SomaFMLibrary::sort_stations(QList<SomaFMStation>& stations)
+{
 	auto lambda = [](const SomaFMStation& s1, const SomaFMStation& s2){
 		if(s1.is_loved() && !s2.is_loved()){
 			return true;

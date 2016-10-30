@@ -41,20 +41,20 @@
 #include "GUI/Helper/GUI_Helper.h"
 
 #include "GUI/Player/GUI_Player.h"
-#include "GUI/Library/GUI_LocalLibrary.h"
+#include "GUI/Library/LocalLibraryContainer.h"
 #include "GUI/DirectoryWidget/GUI_DirectoryWidget.h"
 
-#include "GUI/PlayerPlugins/PlaylistChooser/GUI_PlaylistChooser.h"
-#include "GUI/PlayerPlugins/AudioConverter/GUI_AudioConverter.h"
-#include "GUI/PlayerPlugins/Engine/GUI_LevelPainter.h"
-#include "GUI/PlayerPlugins/Engine/GUI_Spectrum.h"
-#include "GUI/PlayerPlugins/Stream/GUI_Stream.h"
-#include "GUI/PlayerPlugins/Stream/GUI_Podcasts.h"
-#include "GUI/PlayerPlugins/Equalizer/GUI_Equalizer.h"
-#include "GUI/PlayerPlugins/Bookmarks/GUI_Bookmarks.h"
-#include "GUI/PlayerPlugins/Speed/GUI_Speed.h"
-#include "GUI/PlayerPlugins/Broadcasting/GUI_Broadcast.h"
-#include "GUI/PlayerPlugins/Crossfader/GUI_Crossfader.h"
+#include "GUI/Plugins/PlaylistChooser/GUI_PlaylistChooser.h"
+#include "GUI/Plugins/AudioConverter/GUI_AudioConverter.h"
+#include "GUI/Plugins/Engine/GUI_LevelPainter.h"
+#include "GUI/Plugins/Engine/GUI_Spectrum.h"
+#include "GUI/Plugins/Stream/GUI_Stream.h"
+#include "GUI/Plugins/Stream/GUI_Podcasts.h"
+#include "GUI/Plugins/Equalizer/GUI_Equalizer.h"
+#include "GUI/Plugins/Bookmarks/GUI_Bookmarks.h"
+#include "GUI/Plugins/Speed/GUI_Speed.h"
+#include "GUI/Plugins/Broadcasting/GUI_Broadcast.h"
+#include "GUI/Plugins/Crossfader/GUI_Crossfader.h"
 
 #include "GUI/Preferences/Fonts/GUI_FontConfig.h"
 #include "GUI/Preferences/Notifications/GUI_Notifications.h"
@@ -76,11 +76,6 @@
 
 #include "Database/DatabaseConnector.h"
 
-#include <QByteArray>
-#include <thread>
-#include <chrono>
-
-
 static InstanceMessage instance_message=InstanceMessageNone;
 
 #ifdef Q_OS_UNIX
@@ -89,7 +84,8 @@ static InstanceMessage instance_message=InstanceMessageNone;
 
 	void new_instance_handler(int sig_num)
 	{
-		switch(sig_num){
+		switch(sig_num)
+		{
 			case SIGUSR1:
 				instance_message = InstanceMessageWithFiles;
 				break;
@@ -129,8 +125,8 @@ Application::Application(int & argc, char ** argv) :
 	instance_message = InstanceMessageNone;
 }
 
-void Application::check_for_crash(){
-
+void Application::check_for_crash()
+{
 	QString error_file = Helper::get_error_file();
 
 	if(!QFile::exists(error_file)) return;
@@ -169,8 +165,9 @@ void Application::check_for_crash(){
 	return;
 }
 
-bool Application::init(QTranslator* translator, const QStringList& files_to_play) {
 
+bool Application::init(QTranslator* translator, const QStringList& files_to_play)
+{
 	_plh = PlaylistHandler::getInstance();
 	_db = DatabaseConnector::getInstance();
 
@@ -187,7 +184,10 @@ bool Application::init(QTranslator* translator, const QStringList& files_to_play
 	_settings->set(Set::Player_Version, version);
 
 	sp_log(Log::Debug) << "Start player: " << _timer->elapsed() << "ms";
-	player	= new GUI_Player(translator);
+	player = new GUI_Player(translator);
+	GUI::set_main_window(player);
+
+	connect(player, &GUI_Player::sig_player_closed, this, &QCoreApplication::quit);
 
 	sp_log(Log::Debug) << "Init player: " << _timer->elapsed() << "ms";
 
@@ -283,8 +283,9 @@ bool Application::init(QTranslator* translator, const QStringList& files_to_play
 	return true;
 }
 
-Application::~Application() {
 
+Application::~Application()
+{
 	if(_instance_thread){
 		_instance_thread->stop();
 		while(_instance_thread->isRunning()){
@@ -302,7 +303,7 @@ Application::~Application() {
 #endif
 
 	if(player){
-		delete player;
+		delete player; player=nullptr;
 	}
 
 	if(_plh){
@@ -313,13 +314,18 @@ Application::~Application() {
 		_db->store_settings();
 		_db->close_db();
 	}
+
+	if(_timer)
+	{
+		delete _timer; _timer=nullptr;
+	}
 }
 
 
 #ifdef Q_OS_UNIX
-	void Application::init_single_instance_thread(){
-
-
+	
+	void Application::init_single_instance_thread()
+	{
 		signal(SIGUSR1, new_instance_handler);
 		signal(SIGUSR2, new_instance_handler);
 
@@ -332,9 +338,6 @@ Application::~Application() {
 
 		_instance_thread->start();
 	}
-
-#else
-
 #endif
 
 

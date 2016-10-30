@@ -30,10 +30,10 @@
 #include <QKeyEvent>
 #include <QFocusEvent>
 #include <QScrollArea>
-#include <QMap>
 
 class SearchableTableView;
 class SearchableListView;
+
 enum class MiniSearcherButtons : quint8
 {
   NoButton=0,
@@ -104,7 +104,7 @@ public:
 
     bool isInitialized();
     bool check_and_init(QKeyEvent* event);
-    void setExtraTriggers(QMap<QChar, QString> triggers);
+	void setExtraTriggers(QMap<QChar, QString> triggers);
 	QString getCurrentText();
 	void keyPressEvent(QKeyEvent *e);
 

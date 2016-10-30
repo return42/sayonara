@@ -75,10 +75,6 @@ void PlayerPluginHandler::plugin_action_triggered(PlayerPluginInterface* p, bool
 		return;
 	}
 
-	/*if(b == p->get_action()->isChecked()){
-		return;
-	}*/
-
 	if(b) {
 		emit sig_show_plugin(p);
 		_settings->set(Set::Player_ShownPlugin, p->get_name());
@@ -126,11 +122,13 @@ void PlayerPluginHandler::load_dynamic_plugins()
 
 		raw_plugin = loader.instance();
 		if(!raw_plugin) {
+			loader.unload();
 			continue;
 		}
 
 		plugin = dynamic_cast<PlayerPluginInterface*>(raw_plugin);
 		if(!plugin) {
+			loader.unload();
 			continue;
 		}
 

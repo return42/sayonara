@@ -1,3 +1,27 @@
+/* SomaFMStation.cpp */
+
+/* Copyright (C) 2011-2016  Lucio Carreras
+ *
+ * This file is part of sayonara player
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+
+
+/* SomaFMStation.cpp */
+
 #include "SomaFMStation.h"
 #include "Helper/Helper.h"
 #include "Helper/FileHelper.h"
@@ -17,10 +41,6 @@ SomaFMStation::SomaFMStation(const QString& content) :
 	parse_station_name();
 	parse_image();
 	parse_urls();
-
-	_cover.cover_path = Helper::get_sayonara_path() +
-			"/covers/" +
-			_station_name + "." + Helper::File::get_file_extension(_cover.search_url);
 }
 
 QString SomaFMStation::get_name() const
@@ -53,7 +73,7 @@ bool SomaFMStation::is_valid() const
 	return (!_station_name.isEmpty() &&
 			!_urls.isEmpty() &&
 			!_description.isEmpty() &&
-			_cover.valid);
+			_cover.valid());
 }
 
 MetaDataList SomaFMStation::get_metadata() const
@@ -130,9 +150,12 @@ void SomaFMStation::parse_image()
 
 	int idx = re.indexIn(_content);
 	if(idx > 0){
-		_cover.cover_path = "";
-		_cover.search_url = QString("https://somafm.com/") + re.cap(1);
-		_cover.valid = true;
+		QString url = QString("https://somafm.com/") + re.cap(1);
+		QString cover_path = Helper::get_sayonara_path() +
+				"/covers/" +
+				_station_name + "." + Helper::File::get_file_extension(url);
+
+		_cover = CoverLocation::get_cover_location(QUrl(url), cover_path);
 	}
 }
 

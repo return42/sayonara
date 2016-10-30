@@ -50,6 +50,7 @@ signals:
 	void sig_save_as();
 	void sig_rename();
 	void sig_delete();
+	void sig_default();
 
 public:
 	MenuToolButton(QWidget *parent=nullptr);

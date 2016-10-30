@@ -24,7 +24,6 @@
 #define GUI_SOUNDCLOUDARTISTSEARCH_H
 
 #include <QDialog>
-#include <QVector>
 #include "GUI/Helper/SayonaraWidget/SayonaraDialog.h"
 #include "3rdParty/Soundcloud/ui_GUI_SoundcloudArtistSearch.h"
 #include "3rdParty/Soundcloud/src/SoundcloudLibrary.h"

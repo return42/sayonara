@@ -34,7 +34,7 @@ TagExpression::TagExpression(){
 	_tag_regex_map.insert(TAG_ARTIST, QString("(.+)"));
 	_tag_regex_map.insert(TAG_TRACK_NUM, QString("(\\d+)"));
 	_tag_regex_map.insert(TAG_YEAR, QString("(\\d{4})"));
-	_tag_regex_map.insert(TAG_DISC, QString("(\\d{1,2})"));
+	_tag_regex_map.insert(TAG_DISC, QString("(\\d{1,3})"));
 	_tag_regex_map.insert(TAG_IGNORE, QString("(.+)"));
 }
 

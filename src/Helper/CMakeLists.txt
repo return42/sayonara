@@ -2,11 +2,8 @@ PROJECT(say_helper)
 CMAKE_MINIMUM_REQUIRED(VERSION 2.7)
 
 ADD_SUBDIRECTORY(MetaDataInfo)
-ADD_SUBDIRECTORY(Parser)
 ADD_SUBDIRECTORY(Settings)
-ADD_SUBDIRECTORY(Tagging)
 ADD_SUBDIRECTORY(Compressor)
-ADD_SUBDIRECTORY(DirectoryReader)
 
 IF(NOT WIN32 OR NOT DEFINED WIN32)
     ADD_SUBDIRECTORY(Shutdown)
@@ -21,8 +18,9 @@ SET(SOURCES
     UrlHelper.cpp
     Set.cpp
     Tree.cpp
+    LibrarySearchMode.cpp
 
-	Playlist/CustomPlaylist.cpp
+    Playlist/CustomPlaylist.cpp
 
     MetaData/LibraryItem.cpp
     MetaData/MetaData.cpp
@@ -34,6 +32,27 @@ SET(SOURCES
     Random/RandomGenerator.cpp
     SmartCompare/SmartCompare.cpp
     WebAccess/AsyncWebAccess.cpp
+
+    Parser/AbstractPlaylistParser.cpp
+
+    Parser/M3UParser.cpp
+    Parser/PLSParser.cpp
+    Parser/ASXParser.cpp
+
+    Parser/PlaylistParser.cpp
+    Parser/PodcastParser.cpp
+    Parser/StreamParser.cpp
+
+    Parser/CommandLineParser.cpp
+
+    Tagging/Tagging.cpp
+
+    Tagging/Frames/AbstractFrame.cpp
+    Tagging/Frames/Discnumber.cpp
+    Tagging/Frames/Popularimeter.cpp
+    Tagging/Frames/Cover.cpp
+
+    DirectoryReader/DirectoryReader.cpp
 )
 
 
@@ -43,6 +62,6 @@ TARGET_LINK_LIBRARIES(${PROJECT_NAME}
     Qt5::Xml
     Qt5::DBus
     Qt5::Gui
-
-    ${HELPER_LIBRARIES}
+    tag
 )
+#cotire(${PROJECT_NAME})

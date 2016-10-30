@@ -39,7 +39,7 @@
 #include <QDomNode>
 #include <QMap>
 
-class ServerTemplate;
+struct ServerTemplate;
 
 /**
  * @brief The LyricLookupThread class

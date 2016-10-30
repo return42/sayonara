@@ -34,6 +34,8 @@
 #include "Database/DatabaseConnector.h"
 #include "Helper/DirectoryReader/DirectoryReader.h"
 
+#include <utility>
+
 ReloadThread::ReloadThread(QObject *parent) :
 	QThread(parent),
 	SayonaraClass()

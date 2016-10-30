@@ -24,11 +24,17 @@
 #define DATABASELIBRARY_H
 
 #include "Database/DatabaseModule.h"
+#include "Helper/LibrarySearchMode.h"
 
 class MetaDataList;
-class DatabaseLibrary : private DatabaseModule
+
+
+class DatabaseLibrary :
+		private DatabaseModule
 {
+
 public:
+
 	DatabaseLibrary(QSqlDatabase db, quint8 db_id);
 
 	virtual void createIndexes();

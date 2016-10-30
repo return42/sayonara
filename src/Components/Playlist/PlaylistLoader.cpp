@@ -26,8 +26,7 @@
 #include "PlaylistDBWrapper.h"
 #include "Helper/Playlist/CustomPlaylist.h"
 
-
-#include <QDir>
+#include <algorithm>
 
 PlaylistLoader::PlaylistLoader(QObject* parent) :
 	QObject(parent),
@@ -113,7 +112,7 @@ PlaylistLoader::PlaylistLoader(QObject* parent) :
 
 		if(pl.id == saved_playlist_id){
 
-			if( between(saved_track_idx, 0, pl.tracks.size()) )
+			if( between(saved_track_idx, pl.tracks) )
 			{
 				if(load_last_track){
 					_last_track_idx = saved_track_idx;
@@ -161,7 +160,7 @@ int	PlaylistLoader::get_playlist_count() const
 
 int	PlaylistLoader::get_last_playlist_idx() const
 {
-	if( !between(_last_playlist_idx, 0, _playlists.size()))
+	if( !between(_last_playlist_idx, _playlists))
 	{
 		return -1;
 	}

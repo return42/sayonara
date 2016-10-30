@@ -2,7 +2,7 @@ PROJECT(say_db)
 CMAKE_MINIMUM_REQUIRED(VERSION 2.7)
 
 SET(HEADERS
-	CDatabaseConnector.h
+    CDatabaseConnector.h
 )
 
 SET(SOURCES
@@ -29,7 +29,8 @@ SET(SOURCES
 ADD_LIBRARY(${PROJECT_NAME} STATIC ${SOURCES} )
 TARGET_LINK_LIBRARIES(${PROJECT_NAME}
 	Qt5::Sql
-	Qt5::Gui
 	say_helper
 )
+
+#cotire(${PROJECT_NAME})
 

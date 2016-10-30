@@ -40,29 +40,7 @@ GUI_MTP::GUI_MTP(QWidget* parent) :
 	SayonaraDialog(parent),
 	Ui::GUI_MTP()
 {
-	setupUi(this);
-
-	tree_view->setExpandsOnDoubleClick(true);
-	tree_view->setAnimated(true);
-	tree_view->setAutoExpandDelay(100);
-	tree_view->setSelectionMode(QAbstractItemView::ExtendedSelection);
-	tree_view->setItemDelegate(new TreeDelegate(this));
-
-	pb_progress->hide();
-
-	enable_drag_drop(false);
-
-	_mtp = nullptr;
-	_mtp_copy_files = nullptr;
-
-	connect(tree_view, &QTreeWidget::itemActivated, this, &GUI_MTP::folder_idx_changed);
-	connect(tree_view, &QTreeWidget::itemExpanded, this, &GUI_MTP::folder_idx_expanded);
-	connect(combo_devices, combo_current_index_changed_int, this, &GUI_MTP::device_idx_changed);
-	connect(combo_storages, combo_current_index_changed_int, this, &GUI_MTP::storage_idx_changed);
-	connect(btn_go, &QPushButton::clicked, this, &GUI_MTP::refresh_clicked);
-	connect(btn_delete, &QPushButton::clicked, this, &GUI_MTP::delete_clicked);
-
-	btn_delete->setEnabled(false);
+	_initialized = false;
 }
 
 
@@ -183,7 +161,7 @@ void GUI_MTP::device_idx_changed(int idx){
 	_storages.clear();
 	combo_storages->clear();
 
-	if( !between(idx, 0, _raw_devices.size()) ){
+	if( !between(idx, _raw_devices) ){
 		return;
 	}
 
@@ -228,7 +206,7 @@ void GUI_MTP::device_opened(MTP_DevicePtr device){
 
 void GUI_MTP::storage_idx_changed(int idx){
 
-	if( !between(idx, 0, _storages.size()) ){
+	if( !between(idx, _storages) ){
 		return;
 	}
 
@@ -410,12 +388,8 @@ void GUI_MTP::dropEvent(QDropEvent* e)
 			sp_log(Log::Debug) << "Will drop " << v_md.size() << " Tracks ";
 		}
 
-
-
-
 		btn_delete->setEnabled(false);
 		btn_go->setEnabled(false);
-
 
 		connect(_mtp_copy_files, &MTP_CopyFiles::sig_progress, this, &GUI_MTP::progress_changed);
 		connect(_mtp_copy_files, &MTP_CopyFiles::finished, this, &GUI_MTP::copy_thread_finished);
@@ -423,6 +397,38 @@ void GUI_MTP::dropEvent(QDropEvent* e)
 		_mtp_copy_files->start();
 	}
 
+}
+
+void GUI_MTP::showEvent(QShowEvent* e)
+{
+	if(!_initialized){
+		setupUi(this);
+
+		tree_view->setExpandsOnDoubleClick(true);
+		tree_view->setAnimated(true);
+		tree_view->setAutoExpandDelay(100);
+		tree_view->setSelectionMode(QAbstractItemView::ExtendedSelection);
+		tree_view->setItemDelegate(new TreeDelegate(this));
+
+		pb_progress->hide();
+
+		enable_drag_drop(false);
+
+		_mtp = nullptr;
+		_mtp_copy_files = nullptr;
+
+		connect(tree_view, &QTreeWidget::itemActivated, this, &GUI_MTP::folder_idx_changed);
+		connect(tree_view, &QTreeWidget::itemExpanded, this, &GUI_MTP::folder_idx_expanded);
+		connect(combo_devices, combo_current_index_changed_int, this, &GUI_MTP::device_idx_changed);
+		connect(combo_storages, combo_current_index_changed_int, this, &GUI_MTP::storage_idx_changed);
+		connect(btn_go, &QPushButton::clicked, this, &GUI_MTP::refresh_clicked);
+		connect(btn_delete, &QPushButton::clicked, this, &GUI_MTP::delete_clicked);
+
+		btn_delete->setEnabled(false);
+		_initialized = true;
+	}
+
+	SayonaraDialog::showEvent(e);
 }
 
 void GUI_MTP::progress_changed(int progress){

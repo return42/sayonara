@@ -53,14 +53,9 @@ bool DatabaseArtists::db_fetch_artists(SayonaraQuery& q, ArtistList& result) {
 		return true;
 	}
 
-	int i=0;
-	int n_rows = q.at() + 1;
+	for(bool is_element=q.first(); is_element; is_element = q.next()){
 
-	result.resize(n_rows);
-
-	for(bool is_element=q.first(); is_element; is_element = q.next(), i++){
-
-		Artist& artist = result[i];
+		Artist artist;
 
 		artist.id = q.value(0).toInt();
 		artist.name = q.value(1).toString().trimmed();
@@ -70,7 +65,7 @@ bool DatabaseArtists::db_fetch_artists(SayonaraQuery& q, ArtistList& result) {
 		artist.num_albums = list.size();
 		artist.db_id = _module_db_id;
 
-		result[i] = artist;
+		result << artist;
 	}
 
 	return true;
@@ -323,5 +318,25 @@ int DatabaseArtists::updateArtist(const Artist &artist){
 	}
 
 	return artist.id;
+}
+
+void DatabaseArtists::updateArtistCissearch(LibraryHelper::SearchModeMask mode)
+{
+	ArtistList artists;
+	getAllArtists(artists);
+
+	_db.transaction();
+	for(const Artist& artist : artists) {
+		QString str = "UPDATE artists SET cissearch=:cissearch WHERE artistID=:id;";
+		SayonaraQuery q(_db);
+		q.prepare(str);
+		q.bindValue(":cissearch", LibraryHelper::convert_search_string(artist.name, mode));
+		q.bindValue(":id", artist.id);
+
+		if(!q.exec()){
+			q.show_error("Cannot update artist cissearch");
+		}
+	}
+	_db.commit();
 }
 

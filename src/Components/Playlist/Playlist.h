@@ -23,12 +23,13 @@
 #ifndef PLAYLIST_H
 #define PLAYLIST_H
 
-#include "Helper/PlaylistMode.h"
+#include "Helper/Playlist/PlaylistMode.h"
 #include "Helper/Settings/SayonaraClass.h"
 #include "PlaylistDBInterface.h"
 
 #include <QString>
 #include <QList>
+
 #include <memory>
 
 /**
@@ -62,7 +63,6 @@ private:
 protected:
 
 	bool			_is_storable;
-	int             _cur_play_idx;
 	int				_playlist_idx;
 
 	MetaDataList    _v_md;

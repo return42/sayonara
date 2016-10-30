@@ -24,7 +24,7 @@
 #define GUI_PLAYERPREFERENCES_H
 
 #include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
-#include "GUI/Preferences/PlayerPreferences/ui_GUI_PlayerPreferences.h"
+#include "GUI/Preferences/ui_GUI_PlayerPreferences.h"
 
 
 class GUI_PlayerPreferences :
@@ -41,11 +41,9 @@ public:
 	~GUI_PlayerPreferences();
 
 
-
 protected:
-	void init_ui();
-	void language_changed();
-
+	void init_ui() override;
+	void language_changed() override;
 
 
 public:
@@ -53,6 +51,9 @@ public:
 
 	void commit() override;
 	void revert() override;
+
+private slots:
+	void show_tray_icon_toggled(bool b);
 };
 
 #endif // GUI_PLAYERPREFERENCES_H

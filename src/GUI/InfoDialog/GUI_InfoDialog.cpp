@@ -22,11 +22,11 @@
  *
  */
 
-#include "GUI/InfoDialog/GUI_InfoDialog.h"
-#include "GUI/TagEdit/GUI_TagEdit.h"
-#include "GUI/AlternativeCovers/GUI_AlternativeCovers.h"
+#include "GUI_InfoDialog.h"
+#include "InfoDialogContainer.h"
 
-#include "Components/CoverLookup/CoverLookup.h"
+#include "GUI/TagEdit/GUI_TagEdit.h"
+
 #include "Components/LyricLookup/LyricLookup.h"
 #include "Components/TagEdit/TagEdit.h"
 
@@ -36,45 +36,39 @@
 #include "Helper/FileHelper.h"
 #include "GUI/Helper/IconLoader/IconLoader.h"
 
-#include <QPixmap>
-#include <QCloseEvent>
-#include <QPainter>
-#include <QDateTime>
-#include <QTabBar>
+#include <algorithm>
 
-
-GUI_InfoDialog::GUI_InfoDialog(QWidget* parent) :
+GUI_InfoDialog::GUI_InfoDialog(InfoDialogContainer* container, QWidget* parent) :
 	SayonaraDialog(parent),
 	Ui::InfoDialog()
 {
+	_info_dialog_container = container;
 	_is_initialized = false;
-	_cur_mode = Mode::Invalid;
+	_md_interpretation = MetaDataList::Interpretation::None;
 }
 
-GUI_InfoDialog::~GUI_InfoDialog() {
+GUI_InfoDialog::~GUI_InfoDialog() {}
 
-}
-
-
-
-void GUI_InfoDialog::language_changed() {
-
+void GUI_InfoDialog::language_changed()
+{
 	if(!_is_initialized){
 		return;
 	}
 
 	retranslateUi(this);
 
-	prepare_info(_cur_mode);
+	prepare_info(_md_interpretation);
 }
 
-void GUI_InfoDialog::skin_changed(){
+void GUI_InfoDialog::skin_changed()
+{
 	if(!_is_initialized){
 		return;
 	}
 
 	QTabBar* tab_bar = tab_widget->tabBar();
-	if(tab_bar){
+	if(tab_bar)
+	{
 		IconLoader* icon_loader = IconLoader::getInstance();
 		tab_bar->setTabIcon(0, icon_loader->get_icon("dialog-info", "info"));
 		tab_bar->setTabIcon(1, icon_loader->get_icon("document-properties", "lyrics"));
@@ -83,14 +77,15 @@ void GUI_InfoDialog::skin_changed(){
 }
 
 
-void GUI_InfoDialog::lyric_server_changed(int idx) {
+void GUI_InfoDialog::lyric_server_changed(int idx)
+{
 	Q_UNUSED(idx)
 	prepare_lyrics();
 }
 
 
-void GUI_InfoDialog::prepare_lyrics() {
-
+void GUI_InfoDialog::prepare_lyrics()
+{
 	if(!_is_initialized){
 		return;
 	}
@@ -99,16 +94,33 @@ void GUI_InfoDialog::prepare_lyrics() {
 		return;
 	}
 
+	int cur_idx = combo_servers->currentIndex();
+
+	if(!_lyric_thread){
+		_lyric_thread = new LyricLookupThread(this);
+		connect(_lyric_thread, &LyricLookupThread::sig_finished, this, &GUI_InfoDialog::lyrics_fetched);
+		connect(_lyric_thread, &QObject::destroyed, this, [=](){_lyric_thread = nullptr;});
+	}
+
+	if(combo_servers->count() == 0){
+		QStringList lyric_server_list = _lyric_thread->get_servers();
+		for(const QString& server : lyric_server_list) {
+			combo_servers->addItem(server);
+		}
+		cur_idx = 0;
+	}
+
 	te_lyrics->setText("");
 	pb_loading->setVisible(true);
 
-	_lyric_thread->run(_v_md[0].artist, _v_md[0].title, combo_servers->currentIndex());
+	_lyric_thread->run(_v_md.first().artist, _v_md.first().title, cur_idx);
 }
 
 
-void GUI_InfoDialog::lyrics_fetched() {
-
+void GUI_InfoDialog::lyrics_fetched()
+{
 	if(!_is_initialized){
+		sender()->deleteLater();
 		return;
 	}
 
@@ -127,32 +139,34 @@ void GUI_InfoDialog::lyrics_fetched() {
 	te_lyrics->setLineWrapMode(QTextEdit::FixedPixelWidth);
 	te_lyrics->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 	te_lyrics->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+
+	sender()->deleteLater();
 }
 
 
-void GUI_InfoDialog::prepare_info(GUI_InfoDialog::Mode mode) {
-
+void GUI_InfoDialog::prepare_info(MetaDataList::Interpretation md_interpretation)
+{
 	if(!_is_initialized){
 		return;
 	}
 
 	MetaDataInfo* info;
 
-	switch (mode){
-		case GUI_InfoDialog::Mode::Artists:
+	switch (md_interpretation)
+	{
+		case MetaDataList::Interpretation::Artists:
 			info = new ArtistInfo(_v_md);
 			break;
-		case GUI_InfoDialog::Mode::Albums:
+		case MetaDataList::Interpretation::Albums:
 			info = new AlbumInfo(_v_md);
 			break;
 
-		case GUI_InfoDialog::Mode::Tracks:
+		case MetaDataList::Interpretation::Tracks:
 			info = new MetaDataInfo(_v_md);
 			break;
 
 		default:
 			return;
-
 	}
 
 	QString info_text = info->get_info_as_string() + CAR_RET + CAR_RET +
@@ -167,7 +181,7 @@ void GUI_InfoDialog::prepare_info(GUI_InfoDialog::Mode mode) {
 
 	_cl = info->get_cover_location();
 
-	if(_cl.valid){
+	if(_cl.valid()){
 		_cover_artist = info->get_cover_artist();
 		_cover_album = info->get_cover_album();
 	}
@@ -177,55 +191,35 @@ void GUI_InfoDialog::prepare_info(GUI_InfoDialog::Mode mode) {
 		_cover_album.clear();
 	}
 
-	delete info;
+	prepare_cover(_cl);
+
+	delete info; info = nullptr;
 }
 
 
-void GUI_InfoDialog::alternative_cover_fetched(const CoverLocation& cl){
-	cover_fetched(cl);
-}
-
-void GUI_InfoDialog::cover_fetched(const CoverLocation& cl) {
-
-	if(!_is_initialized){
-		return;
-	}
-
-	QIcon icon(cl.cover_path);
-	if(icon.isNull()) return;
-
-	btn_image->setIcon(icon);
-	btn_image->update();
-	btn_image->repaint();
-}
-
-
-void GUI_InfoDialog::set_metadata(const MetaDataList& v_md, GUI_InfoDialog::Mode mode) {
-
-	_cur_mode = mode;
+void GUI_InfoDialog::set_metadata(const MetaDataList& v_md, MetaDataList::Interpretation md_interpretation)
+{
+	_md_interpretation = md_interpretation;
 	_v_md = v_md;
 
-	prepare_info(mode);
+	prepare_info(md_interpretation);
 }
 
-void GUI_InfoDialog::tab_index_changed_int(int idx){
-	GUI_InfoDialog::TabIndex tab;
-	if( idx != GUI_InfoDialog::TabIndex::TabInfo &&
-		idx != GUI_InfoDialog::TabIndex::TabLyrics &&
-		idx != GUI_InfoDialog::TabIndex::TabEdit)
-	{
-		tab = GUI_InfoDialog::TabIndex::TabInfo;
-	}
-
-	else{
-		tab = (GUI_InfoDialog::TabIndex) (idx);
-	}
-
-	tab_index_changed(tab);
+bool GUI_InfoDialog::has_metadata() const
+{
+	return (_v_md.size() > 0);
 }
 
-void GUI_InfoDialog::tab_index_changed(GUI_InfoDialog::TabIndex idx){
+void GUI_InfoDialog::tab_index_changed_int(int idx)
+{
+	idx = std::min( (int) GUI_InfoDialog::Tab::Edit, idx);
+	idx = std::max( (int) GUI_InfoDialog::Tab::Info, idx);
 
+	tab_index_changed( (GUI_InfoDialog::Tab) idx );
+}
+
+void GUI_InfoDialog::tab_index_changed(GUI_InfoDialog::Tab idx)
+{
 	if(!_is_initialized){
 		return;
 	}
@@ -234,13 +228,12 @@ void GUI_InfoDialog::tab_index_changed(GUI_InfoDialog::TabIndex idx){
 	ui_lyric_widget->hide();
 	_ui_tag_edit->hide();
 
-	switch(idx){
-
-		case GUI_InfoDialog::TabEdit:
+	switch(idx)
+	{
+		case GUI_InfoDialog::Tab::Edit:
 
 			tab_widget->setCurrentWidget(_ui_tag_edit);
 			{
-
 				MetaDataList local_md = _v_md.extract_tracks( [](const MetaData& md){
 					return !Helper::File::is_www(md.filepath());
 				});
@@ -253,7 +246,8 @@ void GUI_InfoDialog::tab_index_changed(GUI_InfoDialog::TabIndex idx){
 			_ui_tag_edit->show();
 			break;
 
-		case GUI_InfoDialog::TabLyrics:
+		case GUI_InfoDialog::Tab::Lyrics:
+
 			tab_widget->setCurrentWidget(ui_lyric_widget);
 			ui_lyric_widget->show();
 			prepare_lyrics();
@@ -267,30 +261,29 @@ void GUI_InfoDialog::tab_index_changed(GUI_InfoDialog::TabIndex idx){
 	}
 }
 
-void GUI_InfoDialog::show(GUI_InfoDialog::TabIndex tab) {
-
+void GUI_InfoDialog::show(GUI_InfoDialog::Tab tab)
+{
 	if(!_is_initialized){
 		init();
 	}
 
-	cover_fetched(CoverLocation::getInvalidLocation());
+	prepare_cover(CoverLocation::getInvalidLocation());
 
+	bool lyric_enabled = (_v_md.size() == 1);
 	bool tag_edit_enabled = std::any_of(_v_md.begin(), _v_md.end(), [](const MetaData& md){
 		return (!Helper::File::is_www(md.filepath()));
 	});
 
-	tab_widget->setTabEnabled(GUI_InfoDialog::TabEdit, tag_edit_enabled);
+	tab_widget->setTabEnabled((int) GUI_InfoDialog::Tab::Edit, tag_edit_enabled);
+	tab_widget->setTabEnabled((int) GUI_InfoDialog::Tab::Lyrics, lyric_enabled);
 
-	bool lyric_enabled = (_v_md.size() == 1);
-	tab_widget->setTabEnabled(GUI_InfoDialog::TabLyrics, lyric_enabled);
-
-	if( !tab_widget->isTabEnabled(tab) )
+	if( !tab_widget->isTabEnabled((int) tab) )
 	{
-		tab = GUI_InfoDialog::TabInfo;
+		tab = GUI_InfoDialog::Tab::Info;
 	}
 
-	if(tab == TabEdit){
-
+	if(tab == GUI_InfoDialog::Tab::Edit)
+	{
 		MetaDataList local_md = _v_md.extract_tracks([](const MetaData& md){
 			return (!Helper::File::is_www(md.filepath()));
 		});
@@ -300,7 +293,7 @@ void GUI_InfoDialog::show(GUI_InfoDialog::TabIndex tab) {
 		}
 	}
 
-	tab_widget->setCurrentIndex(tab);
+	tab_widget->setCurrentIndex((int) tab);
 	tab_index_changed(tab);
 
 	_is_initialized = true;
@@ -309,43 +302,17 @@ void GUI_InfoDialog::show(GUI_InfoDialog::TabIndex tab) {
 }
 
 
-void GUI_InfoDialog::prepare_cover(const CoverLocation& cover_location) {
-
-	if(!cover_location.valid) {
-		return;
-	}
-
-	_cover_lookup->fetch_cover(cover_location);
+void GUI_InfoDialog::prepare_cover(const CoverLocation& cl)
+{
+	btn_image->set_cover_location(cl);
 }
 
 
-void GUI_InfoDialog::cover_clicked() {
-
-	setFocus();
-
-	if(_cover_artist.size() > 0 && _cover_album.size() > 0){
-		_ui_alternative_covers->start(_cover_album, _cover_artist, _cl);
-	}
-
-	else if(_cover_artist.size() > 0){
-		_ui_alternative_covers->start(_cover_artist, _cl);
-	}
-
-	else if(_cover_album.size() > 0){
-		_ui_alternative_covers->start(_cover_album, "Various artists", _cl);
-	}
-}
-
-void GUI_InfoDialog::init() {
-
+void GUI_InfoDialog::init()
+{
 	setupUi(this);
 
 	QLayout* tab3_layout;
-	QStringList lyric_server_list;
-
-	_lyric_thread = new LyricLookupThread(this);
-	_cover_lookup = new CoverLookup(this);
-	_ui_alternative_covers = new GUI_AlternativeCovers(this);
 
 	tab3_layout = tab_3->layout();
 	if(tab3_layout){
@@ -353,29 +320,15 @@ void GUI_InfoDialog::init() {
 		tab3_layout->addWidget(_ui_tag_edit);
 	}
 
-	lyric_server_list = _lyric_thread->get_servers();
-	for(const QString& server : lyric_server_list) {
-		combo_servers->addItem(server);
-	}
-
 	combo_servers->setCurrentIndex(0);
 
-	connect(_cover_lookup, &CoverLookup::sig_cover_found, this, &GUI_InfoDialog::cover_fetched);
-
-	connect(_ui_alternative_covers, &GUI_AlternativeCovers::sig_cover_changed, this, &GUI_InfoDialog::alternative_cover_fetched);
-
-	connect(_lyric_thread, &LyricLookupThread::sig_finished, this, &GUI_InfoDialog::lyrics_fetched);
 	connect(tab_widget, &QTabWidget::currentChanged, this, &GUI_InfoDialog::tab_index_changed_int);
-
 	connect(_ui_tag_edit, &GUI_TagEdit::sig_cancelled, this, &GUI_InfoDialog::close);
-
 	connect(combo_servers, combo_current_index_changed_int, this, &GUI_InfoDialog::lyric_server_changed);
-
-	connect(btn_image, &QPushButton::clicked, this, &GUI_InfoDialog::cover_clicked);
 
 	btn_image->setStyleSheet("QPushButton:hover {background-color: transparent;}");
 
-	tab_widget->setCurrentIndex(GUI_InfoDialog::TabInfo);
+	tab_widget->setCurrentIndex((int) GUI_InfoDialog::Tab::Info);
 	tab_widget->setFocusPolicy(Qt::NoFocus);
 
 	_is_initialized = true;
@@ -383,12 +336,15 @@ void GUI_InfoDialog::init() {
 	language_changed();
 	skin_changed();
 
-	prepare_info(_cur_mode);
+	prepare_info(_md_interpretation);
 }
 
 
-void GUI_InfoDialog::closeEvent(QCloseEvent* e) {
+void GUI_InfoDialog::closeEvent(QCloseEvent* e)
+{
 	SayonaraDialog::closeEvent(e);
+
+	_info_dialog_container->info_dialog_closed();
 }
 
 void GUI_InfoDialog::showEvent(QShowEvent *e)

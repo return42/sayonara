@@ -39,7 +39,6 @@ SET(SOURCES
 	Shortcuts/Shortcut.cpp
 	Shortcuts/ShortcutHandler.cpp
 	Shortcuts/ShortcutWidget.cpp
-	Shortcuts/RawShortcutMap.cpp
 
 	Style/Style.cpp
 
@@ -49,5 +48,6 @@ ADD_LIBRARY(${PROJECT_NAME} STATIC ${SOURCES})
 TARGET_LINK_LIBRARIES(${PROJECT_NAME}
 	Qt5::Widgets
 	say_helper_settings
-	say_helper_directory_reader
 )
+
+#cotire(${PROJECT_NAME})

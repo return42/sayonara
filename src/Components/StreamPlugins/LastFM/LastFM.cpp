@@ -41,6 +41,8 @@
 #include <QDomDocument>
 #include <QUrl>
 
+#include <algorithm>
+
 LastFM::LastFM() :
 	QObject(),
 	SayonaraClass()
@@ -62,8 +64,6 @@ LastFM::LastFM() :
 	REGISTER_LISTENER(Set::LFM_Active, psl_login);
 }
 
-
-
 LastFM::~LastFM() {
 
 }
@@ -74,7 +74,6 @@ void LastFM::get_login(QString& user, QString& pw){
 	user = user_pw.first;
 	pw = user_pw.second;
 }
-
 
 
 bool LastFM::is_logged_in() {
@@ -130,7 +129,7 @@ void LastFM::sl_login_thread_finished(bool success) {
 void LastFM::sl_track_changed(const MetaData& md) {
 
 	PlaylistMode pl_mode = _settings->get(Set::PL_Mode);
-	if( pl_mode.dynamic) {
+	if( PlaylistMode::isActiveAndEnabled(pl_mode.dynamic())) {
 		_track_changed_thread->search_similar_artists(md);
 	}
 
@@ -198,14 +197,15 @@ bool LastFM::check_scrobble(quint64 pos_ms){
 
 		else{
 
+			quint64 scrobble_time_ms = (quint64) (_settings->get(Set::LFM_ScrobbleTimeSec) * 1000);
+
 			_old_pos_difference += (pos_ms - _old_pos);
 			_old_pos = pos_ms;
 
-			if( _old_pos_difference > 10000 ||
-					(_old_pos_difference >= (_md.length_ms * 5) / 10 && _md.length_ms >= 1000))
+			if( (_old_pos_difference > scrobble_time_ms) ||
+				(_old_pos_difference >= ((_md.length_ms  * 3) / 4) && _md.length_ms >= 1000))
 			{
 				scrobble(_md);
-				_scrobbled = true;
 			}
 		}
 	}
@@ -247,7 +247,6 @@ void LastFM::scrobble(const MetaData& metadata) {
 	sig_data["track"] = title.toLocal8Bit();
 
 	sig_data.append_signature();
-
 
 	QByteArray post_data;
 	QString url = lfm_wa->create_std_url_post("http://ws.audioscrobbler.com/2.0/", sig_data, post_data);

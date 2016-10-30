@@ -18,12 +18,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef DISCNUMBER_H
 #define DISCNUMBER_H
-
-
 
 #include "AbstractFrame.h"
 

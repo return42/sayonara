@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "MenuButton.h"
 #include "GUI/Helper/GUI_Helper.h"
 #include "GUI/Helper/IconLoader/IconLoader.h"
@@ -32,9 +30,11 @@ MenuButton::MenuButton(QWidget* parent) :
 	this->setIconSize(QSize(14,14));
 
 	this->setStyleSheet("margin-left: 2px; margin-right: 2px; padding-left: 0px; padding-right: 0px;");
-	this->setToolTip(tr("Actions"));
+	this->setToolTip(tr("Menu"));
+	this->setText(tr("Menu"));
 
 	REGISTER_LISTENER(Set::Player_Style, _sl_skin_changed);
+	REGISTER_LISTENER(Set::Player_Language, _sl_language_changed);
 }
 
 MenuButton::~MenuButton()
@@ -80,7 +80,6 @@ void MenuButton::enterEvent(QEvent* e){
 
 	if(dark){
 		icon = GUI::get_icon("tool_grey");
-
 	}
 
 	else{
@@ -136,5 +135,22 @@ void MenuButton::_sl_skin_changed(){
 	set_std_icon();
 }
 
+void MenuButton::_sl_language_changed(){
+	this->setToolTip(tr("Menu"));
+
+	if(!this->text().isEmpty()){
+		this->setText(tr("Menu"));
+	}
+}
 
 
+void MenuButton::set_show_title(bool show_title){
+	if(show_title){
+		this->setText(tr("Menu"));
+	}
+
+	else
+	{
+		this->setText(QString());
+	}
+}

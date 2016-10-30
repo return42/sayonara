@@ -24,7 +24,7 @@
 #define DATABASEVISSTYLES_H
 
 #include "Database/DatabaseModule.h"
-
+#include <QList>
 
 struct RawColorStyle;
 class DatabaseVisStyles : private DatabaseModule

@@ -62,7 +62,12 @@ EngineHandler::EngineHandler(QObject* parent) : Engine(parent) {
 
 
 EngineHandler::~EngineHandler() {
-	
+	for(Engine* e : _engines)
+	{
+		delete e;
+	}
+
+	_engines.clear();
 }
 
 bool EngineHandler::init() {
@@ -96,16 +101,9 @@ void EngineHandler::end_convert() {
 	_cur_engine->stop();
 }
 
-void EngineHandler::set_speed(float f) {
 
-	PlaybackEngine* engine = get_playback_engine();
 
-	if(engine){
-		engine->set_speed(f);
-	}
-}
-
-void EngineHandler::fill_engines(const QVector<Engine*>& engines) {
+void EngineHandler::fill_engines(const QList<Engine*>& engines) {
 	_engines = engines;
 
 	switch_engine(EngineName::PlaybackEngine);
@@ -206,6 +204,7 @@ void EngineHandler::sl_track_ready_changed(){
 void EngineHandler::sl_track_finished() {
 	_play_manager->next();
 }
+
 
 void EngineHandler::sl_buffer_state_changed(int progress){
 	_play_manager->buffering(progress);

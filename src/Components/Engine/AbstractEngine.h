@@ -47,6 +47,7 @@ class Engine :
 public:
 
 	Engine(QObject* parent=nullptr);
+	virtual ~Engine();
 	virtual EngineName	get_name() const final;
 
 	virtual bool		init()=0;
@@ -64,7 +65,8 @@ public:
 	virtual void		set_buffer_state(int percent, GstElement* src);
 
 	void				set_level(float right, float left);
-	void				set_spectrum(QVector<float>& lst );
+	void				set_spectrum(QList<float>& lst );
+
 
 signals:
 	void sig_md_changed(const MetaData&);
@@ -101,7 +103,6 @@ public slots:
 
 	virtual void change_track(const MetaData&)=0;
 	virtual void change_track(const QString&)=0;
-
 
 protected:
 

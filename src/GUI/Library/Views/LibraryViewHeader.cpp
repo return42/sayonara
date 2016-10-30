@@ -23,6 +23,7 @@
 #include "GUI/Library/Views/HeaderView.h"
 
 #include <QMouseEvent>
+#include <algorithm>
 
 template <typename T>
 void switch_sorters(T& srcdst, T src1, T src2) {

@@ -17,3 +17,5 @@ TARGET_LINK_LIBRARIES(${PROJECT_NAME}
 	say_gui_helper
 	say_helper_compressor
 )
+
+#cotire(${PROJECT_NAME})

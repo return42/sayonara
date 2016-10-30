@@ -24,8 +24,8 @@
 #define GUI_PreferenceDialog_H
 
 #include <QDialog>
-#include <QVector>
-#include "GUI/Preferences/PreferenceDialog/ui_GUI_PreferenceDialog.h"
+#include <QList>
+#include "GUI/Preferences/ui_GUI_PreferenceDialog.h"
 #include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
 #include "Interfaces/PreferenceDialog/PreferenceDialogInterface.h"
 
@@ -70,7 +70,7 @@ protected:
 	void hide_all();
 
 private:
-	QVector<PreferenceWidgetInterface*> _dialogs;
+	QList<PreferenceWidgetInterface*> _dialogs;
 };
 
 #endif // GUI_PreferenceDialog_H

@@ -25,8 +25,8 @@
 #include "Helper/globals.h"
 #include "Helper/FileHelper.h"
 
-#include <algorithm>		// std::min
-#include <QVector>
+#include <algorithm>
+#include <QList>
 #include <QImage>
 #include <QRegExp>
 
@@ -58,14 +58,22 @@ bool parse_image(GstTagList* tags, QImage& img)
 		}
 	}
 
+	GstCaps* caps = gst_sample_get_caps(sample);
+	if(!caps){
+		return false;
+	}
 
-	gchar* mime_type = gst_caps_to_string(gst_sample_get_caps(sample));
-	//sp_log(Log::Debug) << "Mime type: " << mime_type;
+	gchar* mimetype = gst_caps_to_string(caps);
+	if(mimetype == nullptr){
+		return false;
+	}
+
+	QString mime(mimetype);
+	g_free(mimetype); mimetype = nullptr;
+
 	QRegExp re(".*(image/[a-z|A-Z]+).*");
-	QString mime(mime_type);
 	if(re.indexIn(mime) >= 0){
 		mime = re.cap(1);
-		mime_type = strdup(mime.toLocal8Bit().data());
 	}
 
 	GstBuffer* buffer = gst_sample_get_buffer( sample );
@@ -84,15 +92,16 @@ bool parse_image(GstTagList* tags, QImage& img)
 	size = gst_buffer_extract(buffer, 0, data, size);
 
 	if(size == 0){
-		delete data;
+		delete[] data;
+
 		gst_sample_unref(sample);
 	
 		return false;
 	}
 
-	img = QImage::fromData((const uchar*) data, size, mime_type);
+	img = QImage::fromData((const uchar*) data, size, mime.toLocal8Bit().data());
 	
-	delete data;
+	delete[] data;
 	gst_sample_unref(sample);
 
 	return (!img.isNull());
@@ -234,8 +243,17 @@ gboolean EngineCallbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpoint
 		case GST_MESSAGE_BUFFERING:
 
 			gint percent;
+			
+			gint avg_in, avg_out;
+			gint64 buffering_left;
+
+			GstBufferingMode mode;
 			gst_message_parse_buffering(msg, &percent);
-			//sp_log(Log::Debug) << "Buffering " << percent;
+			gst_message_parse_buffering_stats(msg, &mode, &avg_in, &avg_out, &buffering_left );
+
+/*			sp_log(Log::Debug) << "Buffering " << percent;
+			sp_log(Log::Debug) << "Buffering State: " << (int) mode << " avg in: " << avg_in << " avg out: " << avg_out << " todo: " << buffering_left;*/
+
 			engine->set_buffer_state(percent, src);
 			break;
 
@@ -365,7 +383,7 @@ EngineCallbacks::spectrum_handler(GstBus* bus, GstMessage* message, gpointer dat
 	const GstStructure*		structure;
 	const gchar*			structure_name;
 	const GValue*			magnitudes;
-	static QVector<float>	spectrum_vals(N_BINS);
+	static QList<float>		spectrum_vals;
 
 	engine = static_cast<PlaybackEngine*>(data);
 	if(!engine) {
@@ -384,6 +402,12 @@ EngineCallbacks::spectrum_handler(GstBus* bus, GstMessage* message, gpointer dat
 
 	magnitudes = gst_structure_get_value (structure, "magnitude");
 
+	if(spectrum_vals.isEmpty()){
+		for (guint i = 0; i < N_BINS; ++i) {
+			spectrum_vals << 0;
+		}
+	}
+
 	for (guint i = 0; i < N_BINS; ++i) {
 
         float f;
@@ -395,6 +419,7 @@ EngineCallbacks::spectrum_handler(GstBus* bus, GstMessage* message, gpointer dat
 		}
 
 		f = (g_value_get_float(mag) + 75) / (75.0f);
+
 		spectrum_vals[i] = f;
     }
 

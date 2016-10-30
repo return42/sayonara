@@ -65,11 +65,15 @@ GUI_LocalLibrary::GUI_LocalLibrary(QWidget* parent) :
 
 	connect(lv_album, &LibraryViewAlbum::sig_disc_pressed, this, &GUI_LocalLibrary::disc_pressed);
 	connect(lv_album, &LibraryViewAlbum::sig_import_files, this, &GUI_LocalLibrary::import_files);
+	connect(lv_album, &LibraryView::sig_merge, library, &LocalLibrary::merge_albums);
+
 	connect(lv_artist, &LibraryView::sig_import_files, this, &GUI_LocalLibrary::import_files);
+	connect(lv_artist, &LibraryView::sig_merge, library, &LocalLibrary::merge_artists);
 	connect(tb_title, &LibraryView::sig_import_files, this, &GUI_LocalLibrary::import_files);
 	connect(lv_genres, &QAbstractItemView::clicked, this, &GUI_LocalLibrary::genre_selection_changed);
 	connect(lv_genres, &QAbstractItemView::activated, this, &GUI_LocalLibrary::genre_selection_changed);
 	connect(lv_genres, &LibraryGenreView::sig_progress, this, &GUI_LocalLibrary::progress_changed);
+
 
 	connect(_local_library_menu, &LocalLibraryMenu::sig_reload_library, this, &GUI_LocalLibrary::reload_library_requested);
 	connect(_local_library_menu, &LocalLibraryMenu::sig_import_file, this, &GUI_LocalLibrary::import_files_requested);
@@ -437,48 +441,3 @@ void GUI_LocalLibrary::splitter_genre_moved(int pos, int idx)
 	QByteArray arr = splitter_genre->saveState();
 	_settings->set(Set::Lib_SplitterStateGenre, arr);
 }
-
-
-
-LocalLibraryContainer::LocalLibraryContainer(QObject *parent) :
-	LibraryContainerInterface(parent)
-{
-
-}
-
-QString LocalLibraryContainer::get_name() const {
-	return "local_library";
-}
-
-// LibraryViewInterface
-QString LocalLibraryContainer::get_display_name() const {
-	return tr("Local Library");
-}
-
-QIcon LocalLibraryContainer::get_icon() const {
-	return GUI::get_icon("append");
-}
-
-QWidget* LocalLibraryContainer::get_ui() const {
-	return static_cast<QWidget*>(_ui);
-}
-
-QComboBox* LocalLibraryContainer::get_libchooser(){
-	return _ui->get_libchooser();
-}
-
-QMenu*LocalLibraryContainer::get_menu()
-{
-	if(_ui){
-		return _ui->get_menu();
-	}
-
-	return nullptr;
-}
-
-void LocalLibraryContainer::init_ui()
-{
-	_ui = new GUI_LocalLibrary();
-}
-
-

@@ -31,7 +31,10 @@ SayonaraWidget::SayonaraWidget(QWidget* parent) :
 	REGISTER_LISTENER(Set::Player_Style, skin_changed);
 }
 
-SayonaraWidget::~SayonaraWidget(){}
+SayonaraWidget::~SayonaraWidget()
+{
+
+}
 
 SayonaraDialog* SayonaraWidget::box_into_dialog()
 {
@@ -72,8 +75,8 @@ void SayonaraMainWindow::raise(){
         this->setVisible(true);
     }   
 
+
     this->setWindowFlags((Qt::WindowFlags) (windowFlags() & ~Qt::WindowMinimized));
     this->activateWindow();
-    this->show();
-
+	this->showNormal();
 }

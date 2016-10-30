@@ -28,21 +28,16 @@
 #include "GUI/Helper/GUI_Helper.h"
 
 #include "Helper/Helper.h"
-#include "Helper/FileHelper.h"
 
-#include "Components/CoverLookup/CoverLookupAll.h"
-#include "Components/Library/LocalLibrary.h"
 #include "Components/Playlist/PlaylistHandler.h"
 #include "Helper/WebAccess/AsyncWebAccess.h"
-
 
 #include <QDir>
 #include <QFileDialog>
 #include <QMessageBox>
 
-/** FILE **/
-void GUI_Player::open_files_clicked() {
-
+void GUI_Player::open_files_clicked()
+{
 	QStringList filetypes;
 
 	filetypes << Helper::get_soundfile_extensions();
@@ -65,8 +60,8 @@ void GUI_Player::open_files_clicked() {
 	plh->create_playlist(list);
 }
 
-void GUI_Player::open_dir_clicked() {
-
+void GUI_Player::open_dir_clicked()
+{
 	QString dir = QFileDialog::getExistingDirectory(this,
 			tr("Open Directory"),
 			QDir::homePath(),
@@ -80,40 +75,14 @@ void GUI_Player::open_dir_clicked() {
 	plh->create_playlist(dir);
 }
 
-bool GUI_Player::check_library_path(){
 
-	QString lib_path = _settings->get(Set::Lib_Path);
-
-	if(lib_path.size() == 0 || !QFile::exists(lib_path)) {
-
-		GlobalMessage::Answer ret = Message::info(tr("Please select library path first"));
-		if(ret == GlobalMessage::Answer::Cancel) {
-			return false;
-		}
-
-		set_library_path_clicked();
-
-		return false;
-	}
-
-	return true;
-}
-
-/** FILE END **/
-
-
-/** VIEW **/
-
-void GUI_Player::show_library(bool b) {
-
-	QSize player_size;
-	int library_width;
-
-	player_size = this->size();
+void GUI_Player::show_library(bool b)
+{
+	QSize player_size = this->size();
 
 	_settings->set(Set::Lib_Show, b);
 
-	library_width = library_widget->width();
+	int library_width = library_widget->width();
 	library_widget->setVisible(b);
 
 	if(!b){
@@ -138,16 +107,17 @@ void GUI_Player::show_library(bool b) {
 
 	check_library_menu_action();
 
-	this->resize(player_size);
+	if(!this->isMaximized() && !this->isFullScreen()){
+		this->resize(player_size);
+	}
 }
 
-void GUI_Player::_sl_fullscreen_toggled(){
-	show_fullscreen_toggled(_settings->get(Set::Player_Fullscreen));
-}
 
-void GUI_Player::show_fullscreen_toggled(bool b) {
+void GUI_Player::show_fullscreen_toggled(bool b)
+{
 	// may happened because of F11 too
 	action_Fullscreen->setChecked(b);
+
 	if(b){
 		showFullScreen();
 	}
@@ -160,68 +130,8 @@ void GUI_Player::show_fullscreen_toggled(bool b) {
 }
 
 
-/** VIEW END **/
-
-
-
-/** PREFERENCES **/
-
-void GUI_Player::set_library_path_clicked() {
-
-	QString start_dir = QDir::homePath();
-	QString new_dir;
-	QString old_dir = Helper::File::get_absolute_filename(_settings->get(Set::Lib_Path));
-
-	if(!_local_library){
-		_local_library = LocalLibrary::getInstance();
-	}
-
-	if (old_dir.size() > 0 && QFile::exists(old_dir)) {
-		start_dir = old_dir;
-    }
-
-	QString dir = QFileDialog::getExistingDirectory(this, tr("Open Directory"),
-			old_dir, QFileDialog::ShowDirsOnly);
-
-    if (dir.size() > 0 && (old_dir.compare(dir) != 0)) {
-
-		_settings->set(Set::Lib_Path, dir);
-		new_dir = dir;
-
-		GlobalMessage::Answer answer = Message::question_yn(tr("Do you want to reload the Library?"), "Library");
-
-		if(answer == GlobalMessage::Answer::Yes){
-			bool clear_first = (old_dir != new_dir);
-
-			_local_library->psl_reload_library(clear_first, Library::ReloadQuality::Fast);
-		}
-	}
-}
-
-
-// prvt slot
-void GUI_Player::show_notification_toggled(bool active) {
-	_settings->set(Set::Notification_Show, active);
-}
-
-// prvt slot
-void GUI_Player::min2tray_toggled(bool b) {
-	_settings->set(Set::Player_Min2Tray, b);
-}
-
-void GUI_Player::only_one_instance_toggled(bool b) {
-	_settings->set(Set::Player_OneInstance, b);
-}
-
-
-void GUI_Player::live_search_toggled(bool b) {
-	_settings->set(Set::Lib_LiveSearch, b);
-}
-
-/** PREFERENCES END **/
-
-void GUI_Player::help() {
-
+void GUI_Player::help()
+{
 	Message::info(tr("Please visit the forum at") + "<br />" +
 				  Helper::create_link("http://sayonara-player.com/forum", is_dark()) +
 				  "<br /><br />" +
@@ -232,8 +142,8 @@ void GUI_Player::help() {
 }
 
 // private slot
-void GUI_Player::about() {
-
+void GUI_Player::about()
+{
 	QString first_translators;
 	QString last_translator;
 	QString translator_str = "";

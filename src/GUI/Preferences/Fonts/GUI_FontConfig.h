@@ -24,7 +24,7 @@
 #define GUI_FONTCONFIG_H
 
 #include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
-#include "GUI/Preferences/Fonts/ui_GUI_FontConfig.h"
+#include "GUI/Preferences/ui_GUI_FontConfig.h"
 
 #include <QFontDatabase>
 #include <QFont>

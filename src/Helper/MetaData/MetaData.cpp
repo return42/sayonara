@@ -42,7 +42,6 @@
 	is_extern = other.is_extern; \
 	_radio_mode = other.radio_mode(); \
 	filesize = other.filesize; \
-	comment = other.comment; \
 	discnumber = other.discnumber; \
 	n_discs = other.n_discs; \
 	pl_playing = other.pl_playing; \
@@ -58,22 +57,16 @@ MetaData::MetaData() :
 	id = -1;
 	artist_id = -1;
 	album_id = -1;
-	//title = QString();
-	//artist = QString();
-	//album = QString();
 	rating = 0;
 	length_ms = 0;
 	year = 0;
-	//_filepath = QString();
 	track_num = 0;
 	bitrate = 0;
 	is_extern = false;
 	_radio_mode = RadioMode::Off;
 	filesize = 0;
-	//comment = QString();
 	discnumber = 0;
 	n_discs = 0;
-	//genres = QStringList();
 
 	pl_playing = false;
 
@@ -189,7 +182,7 @@ bool MetaData::is_equal_deep(const MetaData& md) const{
 			 ( is_extern == md.is_extern ) &&
 			 ( _radio_mode == md.radio_mode() ) &&
 			 ( filesize == md.filesize ) &&
-			 ( comment == md.comment ) &&
+			 //( comment == md.comment ) &&
 			 ( discnumber == md.discnumber ) &&
 			 ( n_discs == md.n_discs ) &&
 

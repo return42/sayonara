@@ -1,3 +1,27 @@
+/* GUI_SomaFM.cpp */
+
+/* Copyright (C) 2011-2016  Lucio Carreras
+ *
+ * This file is part of sayonara player
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+
+
+/* GUI_SomaFM.cpp */
+
 #include "ui/GUI_SomaFM.h"
 #include "ui/SomaFMStationModel.h"
 #include "ui/SomaFMPlaylistModel.h"
@@ -5,7 +29,7 @@
 #include "Helper/Helper.h"
 #include "GUI/Helper/GUI_Helper.h"
 #include "GUI/Helper/Delegates/ListDelegate.h"
-#include "Components/CoverLookup/CoverLookup.h"
+#include "Components/Covers/CoverLookup.h"
 
 #include <QPixmap>
 #include <QItemDelegate>
@@ -157,14 +181,14 @@ void GUI_SomaFM::playlist_double_clicked(const QModelIndex& idx)
 }
 
 
-void GUI_SomaFM::cover_found(const CoverLocation &cover_location){
+void GUI_SomaFM::cover_found(const QString &cover_path){
 
 	CoverLookup* cl = static_cast<CoverLookup*>(sender());
-	if(!cover_location.valid){
+	if(CoverLocation::isInvalidLocation(cover_path)){
 		return;
 	}
 
-	QPixmap pixmap = QPixmap(cover_location.cover_path).scaled(QSize(200, 200), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+	QPixmap pixmap = QPixmap(cover_path).scaled(QSize(200, 200), Qt::KeepAspectRatio, Qt::SmoothTransformation);
 	if(pixmap.isNull()){
 		pixmap = QPixmap(":/soma_icons/soma_logo.png").scaled(QSize(200, 200), Qt::KeepAspectRatio, Qt::SmoothTransformation);
 	}

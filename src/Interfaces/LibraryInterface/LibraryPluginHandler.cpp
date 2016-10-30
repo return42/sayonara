@@ -79,11 +79,13 @@ void LibraryPluginHandler::init(const QList<LibraryContainerInterface*>& contain
 		raw_plugin = loader.instance();
 		if(!raw_plugin) {
 			sp_log(Log::Warning) << "Cannot load plugin: " << filename << ": " << loader.errorString();
+			loader.unload();
 			continue;
 		}
 
 		container = dynamic_cast<LibraryContainerInterface*>(raw_plugin);
 		if(!container) {
+			loader.unload();
 			continue;
 		}
 
@@ -198,7 +200,7 @@ void LibraryPluginHandler::index_changed(int idx){
 }
 
 LibraryContainerInterface* LibraryPluginHandler::get_cur_library() const {
-	if(!between(_cur_idx, 0, _libraries.size())) {
+	if(!between(_cur_idx, _libraries)) {
 		return nullptr;
 	}
 

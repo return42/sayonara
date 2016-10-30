@@ -18,12 +18,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef METADATALIST_H
 #define METADATALIST_H
 
-#include <QVector>
+#include <QList>
 #include "MetaData.h"
 #include "Helper/globals.h"
 
@@ -43,16 +41,23 @@ namespace SP {
 	class Set;
 }
 
-class MetaDataList : public QVector<MetaData> {
+class MetaDataList : public QList<MetaData> {
 
 private:
 	int _cur_played_track;
 
 public:
 
+	enum class Interpretation : quint8
+	{
+		None=0,
+		Artists,
+		Albums,
+		Tracks
+	};
+
 	MetaDataList();
 	MetaDataList(const MetaDataList&);
-	MetaDataList(int n_elems);
 
 	virtual ~MetaDataList();
 
@@ -64,6 +69,7 @@ public:
 	virtual bool contains(const MetaData& md) const;
 	MetaDataList& remove_track(int idx);
 	MetaDataList& remove_tracks(const SP::Set<int>& rows);
+	MetaDataList& remove_tracks(int first, int last);
 
 	MetaDataList& move_tracks(const SP::Set<int>& indexes, int tgt_idx);
 	MetaDataList& copy_tracks(const SP::Set<int>& indexes, int tgt_idx);

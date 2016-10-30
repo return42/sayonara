@@ -32,7 +32,6 @@
 #include "Playlist.h"
 
 #include "Helper/globals.h"
-#include "Helper/PlaylistMode.h"
 #include "Helper/Settings/SayonaraClass.h"
 
 #include "Components/PlayManager/PlayManager.h"
@@ -348,6 +347,8 @@ private slots:
 	 * @brief PlayManager's playstate has changed
 	 */
 	void playstate_changed(PlayManager::PlayState);
+
+	void www_track_finished(const MetaData& md);
 
 private:
 

@@ -1,3 +1,27 @@
+/* SomaFMStationModel.h */
+
+/* Copyright (C) 2011-2016  Lucio Carreras
+ *
+ * This file is part of sayonara player
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+
+
+/* SomaFMStationModel.h */
+
 #ifndef SomaFMStationModel_H
 #define SomaFMStationModel_H
 
@@ -34,10 +58,10 @@ public:
 
 	// AbstractSearchModelInterface interface
 public:
-	QModelIndex getFirstRowIndexOf(QString substr);
-	QModelIndex getNextRowIndexOf(QString substr, int cur_row, const QModelIndex& parent);
-	QModelIndex getPrevRowIndexOf(QString substr, int cur_row, const QModelIndex& parent);
-	QMap<QChar, QString> getExtraTriggers();
+	QModelIndex getFirstRowIndexOf(QString substr) override;
+	QModelIndex getNextRowIndexOf(QString substr, int cur_row, const QModelIndex& parent) override;
+	QModelIndex getPrevRowIndexOf(QString substr, int cur_row, const QModelIndex& parent) override;
+	QMap<QChar, QString> getExtraTriggers() override;
 
 	void set_stations(const QList<SomaFMStation>& stations);
 	void replace_station(const SomaFMStation& station);

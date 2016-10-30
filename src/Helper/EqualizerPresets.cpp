@@ -24,18 +24,18 @@
 #include "Helper/Logger/Logger.h"
 #include <QStringList>
 
-EQ_Setting::EQ_Setting(QString n){
-	name = n;
+EQ_Setting::EQ_Setting(const QString& name){
+	_name = name;
 
 	for(int i=0; i<10; i++){
-		values.push_back(0);
+		_values.push_back(0);
 	}
 }
 
 
 EQ_Setting::EQ_Setting(const EQ_Setting& s){
-	values = s.values;
-	name = s.name;
+	_values = s.values();
+	_name = s.name();
 }
 
 EQ_Setting::~EQ_Setting()
@@ -53,15 +53,15 @@ EQ_Setting EQ_Setting::fromString(const QString& str){
 		return eq;
 	}
 
-	eq.name = list.at(0);
+	eq.set_name(list.first());
 	list.pop_front();
 
 	for(int i=0; i<list.size(); i++){
-		if( i == eq.values.size() ){
+		if( i == eq.values().size() ){
 			break;
 		}
 
-		eq.values[i] = list[i].toInt();
+		eq.set_value(i, list[i].toInt());
 	}
 
 	return eq;
@@ -70,24 +70,26 @@ EQ_Setting EQ_Setting::fromString(const QString& str){
 
 QString EQ_Setting::toString() const {
 
-	QString str = name;
+	QString str = _name;
 
-	for(int i=0; i<values.size(); i++){
-		str += QString(":") + QString::number(values[i]);
+	for(int i=0; i<_values.size(); i++){
+		str += QString(":") + QString::number(_values[i]);
 	}
 
 	return str;
 }
 
 
-bool EQ_Setting::operator==(const EQ_Setting& s){
+bool EQ_Setting::operator==(const EQ_Setting& s) const
+{
 	QString str = toString();
 	QString other = s.toString();
-	return ( str.compare(other) == 0 );
+	return ( str.compare(other, Qt::CaseInsensitive) == 0 );
 }
 
 
 QList<EQ_Setting> EQ_Setting::get_defaults(){
+
 	QList<EQ_Setting> defaults;
 
 	defaults << fromString(QString(":0:0:0:0:0:0:0:0:0:0"));
@@ -97,5 +99,124 @@ QList<EQ_Setting> EQ_Setting::get_defaults(){
 	defaults << fromString(QString("Treble:0:0:-3:-5:-3:2:8:15:17:13"));
 	defaults << fromString(QString("Bass:13:17:15:8:2:-3:-5:-3:0:0"));
 	defaults << fromString(QString("Mid:0:0:5:9:15:15:12:7:2:0"));
+
 	return defaults;
 }
+
+QList<int> EQ_Setting::get_default_values(const QString& name)
+{
+	QList<EQ_Setting> defaults = EQ_Setting::get_defaults();
+	for(const EQ_Setting& def : defaults){
+		if(def.name().compare(name, Qt::CaseInsensitive) == 0){
+			return def.values();
+		}
+	}
+
+	return QList<int>();
+}
+
+
+bool EQ_Setting::is_default_name(const QString& name)
+{
+	QList<EQ_Setting> defaults = EQ_Setting::get_defaults();
+	for(const EQ_Setting& def : defaults){
+		if(def.name().compare(name, Qt::CaseInsensitive) == 0){
+			return true;
+		}
+	}
+
+	return false;
+}
+
+
+QString EQ_Setting::name() const
+{
+	return _name;
+}
+
+void EQ_Setting::set_name(const QString& name)
+{
+	_name = name;
+}
+
+
+
+void EQ_Setting::set_value(int idx, int val)
+{
+	if(idx < 0 || idx >= _values.size()){
+		return;
+	}
+
+	_values[idx] = val;
+}
+
+void EQ_Setting::set_values(const QList<int> values)
+{
+	_values = values;
+
+	if(_values.size() != 10){
+		sp_log(Log::Warning) << "EQ Preset " << _name << " should have 10 values. But it has " << _values.size();
+	}
+
+	while(_values.size() < 10){
+		_values << 0;
+	}
+
+	while(_values.size() > 10)
+	{
+		_values.pop_back();
+	}
+}
+
+void EQ_Setting::append_value(int val)
+{
+	if(_values.size() == 10){
+		sp_log(Log::Warning) << "EQ Preset " << _name << " already has 10 values";
+		return;
+	}
+
+	_values << val;
+}
+
+
+
+QList<int> EQ_Setting::values() const
+{
+	return _values;
+}
+
+int EQ_Setting::value(int idx) const
+{
+	if(idx < 0 || idx >= _values.size()){
+		return 0;
+	}
+
+	return _values[idx];
+}
+
+bool EQ_Setting::is_default_name() const
+{
+	QList<EQ_Setting> defaults = EQ_Setting::get_defaults();
+	for(const EQ_Setting& def : defaults){
+		if(def.name().compare(_name, Qt::CaseInsensitive) == 0){
+			return true;
+		}
+	}
+
+	return false;
+
+}
+
+bool EQ_Setting::is_default() const
+{
+	QList<EQ_Setting> defaults = EQ_Setting::get_defaults();
+
+	for(const EQ_Setting& def : defaults){
+		if(def.name().compare(_name, Qt::CaseInsensitive) == 0){
+			return( def == *this );
+		}
+	}
+
+	return true;
+}
+

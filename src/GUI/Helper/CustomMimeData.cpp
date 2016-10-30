@@ -23,17 +23,15 @@
 #include "CustomMimeData.h"
 
 CustomMimeData::CustomMimeData() :
-	QMimeData(),
-	_v_md(0)
+	QMimeData()
 {
-
 }
 
-CustomMimeData::~CustomMimeData(){
-}
+CustomMimeData::~CustomMimeData(){}
 
-void CustomMimeData::setMetaData(const MetaDataList& v_md){
 
+void CustomMimeData::setMetaData(const MetaDataList& v_md)
+{
     _v_md = v_md;
 }
 
@@ -42,12 +40,13 @@ MetaDataList CustomMimeData::getMetaData() const
 	return _v_md;
 }
 
-bool CustomMimeData::hasMetaData() const {
-
+bool CustomMimeData::hasMetaData() const
+{
 	return (_v_md.size() > 0);
 }
 
-void CustomMimeData::setCoverUrl(const QString& url){
+void CustomMimeData::setCoverUrl(const QString& url)
+{
 	_cover_url = url;
 }
 

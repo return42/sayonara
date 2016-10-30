@@ -38,6 +38,7 @@
 #include <QMap>
 
 class MetaData;
+class QDateTime;
 /**
  * @brief Helper functions
  * @ingroup Helper
@@ -63,6 +64,9 @@ namespace Helper {
 		QString disc();
 		QString discs();
 	};
+
+	quint64 current_date_to_int();
+	quint64 date_to_int(const QDateTime& date);
 
 	/**
 	 * @brief Transform all letters after a space to upper case
@@ -183,6 +187,15 @@ namespace Helper {
 	 * @return list of ip addresses
 	 */
 	QStringList get_ip_addresses();
+
+
+	/**
+	 * @brief set an environment variable. This function is platform independent
+	 * @param key variable name
+	 * @param value variable value
+	 */
+	void set_environment(const QString& key, const QString& value);
+
 }
 
 

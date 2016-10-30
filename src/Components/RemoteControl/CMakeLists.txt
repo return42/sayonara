@@ -10,7 +10,7 @@ TARGET_LINK_LIBRARIES(${PROJECT_NAME}
     Qt5::Core
     Qt5::Network
     Qt5::Gui
-    say_helper
+
     say_comp_playmanager
     say_comp_playlist
     say_comp_covers

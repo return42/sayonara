@@ -33,6 +33,8 @@
 #include "Helper/Helper.h"
 #include "Helper/FileHelper.h"
 
+#include "Helper/Settings/Settings.h"
+#include "Helper/LibrarySearchMode.h"
 
 
 LibraryItemModelTracks::LibraryItemModelTracks() :
@@ -137,9 +139,7 @@ Qt::ItemFlags LibraryItemModelTracks::flags(const QModelIndex &index = QModelInd
 	if (!index.isValid())
 		return Qt::ItemIsEnabled;
 
-	int idx_column = index.column();
-	int shown_col = idx_column;
-	if(shown_col == COL_TRACK_RATING) {
+	if(index.column() == COL_TRACK_RATING) {
 
 		return QAbstractItemModel::flags(index) | Qt::ItemIsEditable;
 	}
@@ -200,12 +200,23 @@ bool LibraryItemModelTracks::setData(const QModelIndex&index, const MetaDataList
 
 int LibraryItemModelTracks::get_id_by_row(int row)
 {
-	if(row < 0 || row >= _tracks.size()){
+	if(!between(row, _tracks)){
 		return -1;
 	}
 
 	else {
 		return _tracks[row].id;
+	}
+}
+
+QString LibraryItemModelTracks::get_string(int row) const
+{
+	if(!between(row, _tracks)){
+		return QString();
+	}
+
+	else {
+		return _tracks[row].title;
 	}
 }
 
@@ -228,10 +239,18 @@ QModelIndex LibraryItemModelTracks::getNextRowIndexOf(QString substr, int row, c
 		return this->index(-1, -1);
 	}
 
-	for(int i=0; i< len; i++) {
+	Settings* settings = Settings::getInstance();
+	LibraryHelper::SearchModeMask mask = settings->get(Set::Lib_SearchMode);
+	substr = LibraryHelper::convert_search_string(substr, mask);
+
+	for(int i=0; i< len; i++)
+	{
 		int row_idx = (i + row) % len;
+
 		QString title = _tracks[row_idx].title;
-		if(title.startsWith(substr, Qt::CaseInsensitive)) {
+		title = LibraryHelper::convert_search_string(title, mask);
+
+		if(title.contains(substr)) {
 			return this->index(row_idx, 0);
 		}
 	}
@@ -243,13 +262,25 @@ QModelIndex LibraryItemModelTracks::getPrevRowIndexOf(QString substr, int row, c
 
 	Q_UNUSED(parent)
 
+	Settings* settings = Settings::getInstance();
+	LibraryHelper::SearchModeMask mask = settings->get(Set::Lib_SearchMode);
+	substr = LibraryHelper::convert_search_string(substr, mask);
+
 	int len = _tracks.size();
 	if(len < row) row = len - 1;
-	for(int i=0; i< len; i++) {
-		if(row - i < 0) row = len - 1;
+	for(int i=0; i< len; i++)
+	{
+		if(row - i < 0) {
+			row = len - 1;
+		}
+
 		int row_idx = (row - i) % len;
+
 		QString title = _tracks[row_idx].title;
-		if(title.startsWith(substr, Qt::CaseInsensitive)) {
+		title = LibraryHelper::convert_search_string(title, mask);
+
+		if(title.contains(substr))
+		{
 			return this->index(row_idx, 0);
 		}
 	}

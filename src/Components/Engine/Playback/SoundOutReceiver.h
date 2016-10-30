@@ -1,6 +1,6 @@
 /* SoundOutReceiver.h */
 
-/* Copyright (C) 2011-2015  Lucio Carreras
+/* Copyright (C) 2011-2016  Lucio Carreras
  *
  * This file is part of sayonara player
  *
@@ -32,7 +32,7 @@ public:
 
 class SpectrumReceiver {
 public:
-	virtual void set_spectrum(const QVector<float>& spectrum)=0;
+	virtual void set_spectrum(const QList<float>& spectrum)=0;
 };
 
 #endif // LEVELRECEIVER_H

@@ -1,5 +1,5 @@
 
-/* Copyright (C) 2011-2015  Lucio Carreras
+/* Copyright (C) 2011-2016  Lucio Carreras
  *
  * This file is part of sayonara player
  *
@@ -33,7 +33,7 @@
 
 class MTP_Device;
 class MTP_File;
-class MTP_Folder;
+struct MTP_Folder;
 class MTP_RawDevice;
 class MTP_Storage;
 class MTP_Track;
@@ -127,13 +127,6 @@ typedef LIBMTP_track_t					MTPIntern_Track;
  * @ingroup MTP
  */
 typedef std::shared_ptr<MTP_Track>		MTP_TrackPtr;
-
-
-
-
-
-
-
 
 
 #endif // MTP_TYPEDEFS_H

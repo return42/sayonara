@@ -67,7 +67,7 @@ void StreamParser::awa_finished(bool success)
 	AsyncWebAccess* awa = static_cast<AsyncWebAccess*>(sender());
 
 	if(!success){
-		sp_log(Log::Debug) << "Stream error: "<< awa->get_url();
+		sp_log(Log::Warning) << "Stream error: "<< awa->get_url();
 
 		awa->deleteLater();
 

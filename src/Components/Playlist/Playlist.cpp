@@ -25,6 +25,9 @@
 #include "Components/TagEdit/MetaDataChangeNotifier.h"
 #include "Components/Engine/EngineHandler.h"
 
+#include <utility>
+#include <algorithm>
+
 
 Playlist::Playlist(int idx, QString name) :
 	PlaylistDBInterface(name),
@@ -34,7 +37,6 @@ Playlist::Playlist(int idx, QString name) :
 	EngineHandler* engine = EngineHandler::getInstance();
 
 	_playlist_changed = false;
-	_cur_play_idx = -1;
 	_playlist_idx = idx;
 	_playlist_type = Playlist::Type::Std;
 	_playlist_mode = _settings->get(Set::PL_Mode);
@@ -135,7 +137,7 @@ void Playlist::append_tracks(const MetaDataList& lst) {
 
 void Playlist::replace_track(int idx, const MetaData& md) {
 
-	if( !between(idx, 0, _v_md.size()) ) {
+	if( !between(idx, _v_md) ) {
 		return;
 	}
 
@@ -163,7 +165,7 @@ void Playlist::set_idx(int idx){
 
 void Playlist::set_playlist_mode(const PlaylistMode& mode) {
 
-	if(_playlist_mode.shuffle != mode.shuffle){
+	if(_playlist_mode.shuffle() != mode.shuffle()){
 		for(MetaData& md : _v_md){
 			md.played = false;
 		}

@@ -25,6 +25,7 @@
 #include "Helper/Tagging/Tagging.h"
 #include "Database/DatabaseConnector.h"
 
+#include <algorithm>
 
 TagEdit::TagEdit(QObject *parent) :
 	QThread(parent),
@@ -45,8 +46,6 @@ TagEdit::TagEdit(const MetaDataList& v_md, QObject* parent) :
 TagEdit::~TagEdit(){
 
 }
-
-
 
 
 void TagEdit::update_track(int idx, const MetaData& md){
@@ -208,7 +207,7 @@ void TagEdit::apply_artists_and_albums_to_md(){
 
 void TagEdit::update_cover(int idx, const QImage& cover){
 
-	if(!between(idx, 0, _v_md.size())){
+	if(!between(idx, _v_md) ){
 		return;
 	}
 
@@ -235,7 +234,7 @@ bool TagEdit::has_cover_replacement(int idx) const
 
 bool TagEdit::is_id3v2_tag(int idx) const
 {
-	if(!between(idx, 0, _v_md.size())){
+	if(!between(idx, _v_md)){
 		return false;
 	}
 
@@ -266,12 +265,11 @@ void TagEdit::run()
 		MetaData md = _v_md[i];
 		emit sig_progress( (i * 100) / n_operations);
 
-		if( _changed_md[i] == false ) continue;
+		if( _changed_md[i] == false ) {
+			continue;
+		}
 
 		bool success = Tagging::setMetaDataOfFile(md);
-		sp_log(Log::Debug) << "Write track "<< md.title
-				 << " (" << md.album << ") by " << md.artist
-				 << ": " << success;
 
 		if( !success ) {
 			continue;
@@ -298,15 +296,16 @@ void TagEdit::run()
 	db = DatabaseConnector::getInstance();
 	db->clean_up();
 
-	_v_md = v_md;
-	_v_md_orig = v_md_orig;
+	_v_md_after_change = v_md;
+	_v_md_before_change = v_md_orig;
+	_v_md_orig = _v_md;
 
 	emit sig_progress(-1);
 }
 
 void TagEdit::thread_finished(){
 	if(_notify){
-		MetaDataChangeNotifier::getInstance()->change_metadata(_v_md_orig, _v_md);
+		MetaDataChangeNotifier::getInstance()->change_metadata(_v_md_before_change, _v_md_after_change);
 	}
 }
 

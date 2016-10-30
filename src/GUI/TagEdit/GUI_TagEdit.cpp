@@ -22,14 +22,14 @@
 #include "GUI_TagEdit.h"
 #include "TagLineEdit.h"
 #include "Components/TagEdit/TagExpression.h"
-#include "Components/CoverLookup/CoverLocation.h"
-#include "Components/CoverLookup/CoverLookup.h"
+#include "Components/Covers/CoverLocation.h"
 #include "GUI/Helper/Message/Message.h"
 #include "Helper/Tagging/Tagging.h"
 
 #include "Components/TagEdit/TagEdit.h"
 
 #include <QDir>
+#include <QDesktopServices>
 
 GUI_TagEdit::GUI_TagEdit(QWidget* parent) :
 	SayonaraWidget(parent)
@@ -37,17 +37,14 @@ GUI_TagEdit::GUI_TagEdit(QWidget* parent) :
 	setupUi(this);
 
 	_tag_edit = new TagEdit(this);
-	_cover_lookup = new CoverLookup(this);
 
 	frame_tag_from_path->setVisible(cb_tag_from_path->isChecked());
 
 	connect(btn_next, &QPushButton::clicked, this, &GUI_TagEdit::next_button_clicked);
 	connect(btn_prev, &QPushButton::clicked, this, &GUI_TagEdit::prev_button_clicked);
-	connect(btn_ok, &QPushButton::clicked, this, &GUI_TagEdit::commit);
 	connect(btn_apply_tag, &QPushButton::clicked, this, &GUI_TagEdit::apply_tag_clicked);
 	connect(btn_apply_tag_all, &QPushButton::clicked, this, &GUI_TagEdit::apply_tag_all_clicked);
 	connect(rb_dont_replace, &QRadioButton::toggled, this, &GUI_TagEdit::rb_dont_replace_toggled);
-//	connect(btn_cover_replacement, &QPushButton::toggled, this, &GUI_TagEdit::btn_cover_replacement_clicked);
 
 	connect(cb_album_all, &QCheckBox::toggled, this, &GUI_TagEdit::album_all_changed);
 	connect(cb_artist_all, &QCheckBox::toggled, this, &GUI_TagEdit::artist_all_changed);
@@ -57,8 +54,6 @@ GUI_TagEdit::GUI_TagEdit(QWidget* parent) :
 	connect(cb_rating_all, &QCheckBox::toggled, this, &GUI_TagEdit::rating_all_changed);
 	connect(cb_cover_all, &QCheckBox::toggled, this, &GUI_TagEdit::cover_all_changed);
 	connect(le_tag, &QLineEdit::textChanged, this, &GUI_TagEdit::tag_text_changed);
-	connect(btn_undo, &QPushButton::clicked, this, &GUI_TagEdit::undo_clicked);
-	connect(btn_undo_all, &QPushButton::clicked, this, &GUI_TagEdit::undo_all_clicked);
 
 	connect(btn_title, &QPushButton::toggled, this, &GUI_TagEdit::btn_title_checked);
 	connect(btn_artist, &QPushButton::toggled, this, &GUI_TagEdit::btn_artist_checked);
@@ -66,20 +61,23 @@ GUI_TagEdit::GUI_TagEdit(QWidget* parent) :
 	connect(btn_track_nr, &QPushButton::toggled, this, &GUI_TagEdit::btn_track_nr_checked);
 	connect(btn_year, &QPushButton::toggled, this, &GUI_TagEdit::btn_year_checked);
 	connect(btn_disc_nr, &QPushButton::toggled, this, &GUI_TagEdit::btn_disc_nr_checked);
+	connect(btn_tag_help, &QPushButton::clicked, this, &GUI_TagEdit::btn_tag_help_clicked);
 
 	connect(_tag_edit, &TagEdit::sig_progress, this, &GUI_TagEdit::progress_changed);
 	connect(_tag_edit, &TagEdit::sig_metadata_received, this, &GUI_TagEdit::metadata_changed);
 	connect(_tag_edit, &TagEdit::finished, this, &GUI_TagEdit::commit_finished);
-	connect(btn_cancel, &QPushButton::clicked, this, &GUI_TagEdit::cancel);
 
-	connect(_cover_lookup, &CoverLookup::sig_cover_found, this, &GUI_TagEdit::cover_found);
+	connect(btn_ok, &QPushButton::clicked, this, &GUI_TagEdit::commit);
+	connect(btn_undo, &QPushButton::clicked, this, &GUI_TagEdit::undo_clicked);
+	connect(btn_undo_all, &QPushButton::clicked, this, &GUI_TagEdit::undo_all_clicked);
+	connect(btn_cancel, &QPushButton::clicked, this, &GUI_TagEdit::cancel);
 
 	reset();
 }
 
 
 GUI_TagEdit::~GUI_TagEdit(){
-	delete _tag_edit;
+
 }
 
 void GUI_TagEdit::language_changed(){
@@ -111,6 +109,10 @@ void GUI_TagEdit::progress_changed(int val){
 	if(val >= 0){
 		pb_progress->setValue(val);
 	}
+
+	if(val < 0){
+		metadata_changed( _tag_edit->get_all_metadata() );
+	}
 }
 
 void GUI_TagEdit::metadata_changed(const MetaDataList& md){
@@ -126,7 +128,7 @@ void GUI_TagEdit::metadata_changed(const MetaDataList& md){
 
 bool GUI_TagEdit::check_idx(int idx) const
 {
-	return between(idx, 0, _tag_edit->get_n_tracks());
+	return between(idx, _tag_edit->get_n_tracks());
 }
 
 
@@ -158,7 +160,6 @@ void GUI_TagEdit::track_idx_changed(){
 	btn_prev->setEnabled(_cur_idx > 0 && _cur_idx < n_tracks);
 
 	if(!check_idx(_cur_idx)) return;
-
 
 	MetaData md = _tag_edit->get_metadata(_cur_idx);
 
@@ -218,10 +219,12 @@ void GUI_TagEdit::track_idx_changed(){
 
 		if(_tag_edit->has_cover_replacement(_cur_idx)){
 			rb_replace->setChecked(true);
+			rb_dont_replace->setChecked(false);
 		}
 	
 		else{
 			rb_dont_replace->setChecked(true);
+			rb_replace->setChecked(false);
 		}
 	}
 
@@ -273,11 +276,12 @@ void GUI_TagEdit::reset(){
 	lab_rating->setEnabled(true);
 
 	rb_dont_replace->setChecked(true);
+	rb_replace->setChecked(false);
 
 	btn_cover_replacement->setEnabled(true);
 	show_replacement_field(false);
 
-	QIcon icon(CoverLocation::getInvalidLocation().cover_path);
+	QIcon icon(CoverLocation::getInvalidLocation().cover_path());
 	btn_cover_replacement->setIcon( icon );
 
 	lab_filepath->clear();
@@ -321,7 +325,7 @@ void GUI_TagEdit::rating_all_changed(bool b){
 void GUI_TagEdit::cover_all_changed(bool b){
 
 	if(!b){
-		if(between(_cur_idx, 0, _tag_edit->get_n_tracks())){
+		if(between(_cur_idx, _tag_edit->get_n_tracks()) ){
 			set_cover(_tag_edit->get_metadata(_cur_idx));
 		}
 	}
@@ -375,6 +379,8 @@ void GUI_TagEdit::commit(){
 
 	btn_ok->setEnabled(false);
 	btn_cancel->setEnabled(false);
+	btn_undo->setEnabled(false);
+	btn_undo_all->setEnabled(false);
 
 	write_changes(_cur_idx);
 
@@ -452,26 +458,13 @@ void GUI_TagEdit::set_cover(const MetaData& md){
 	}
 
 	CoverLocation cl = CoverLocation::get_cover_location(md);
-	QString cover_path = cl.cover_path;
+	btn_cover_replacement->set_cover_location(cl);
 
-	bool exists = QFile::exists(cl.cover_path);
-	bool valid = (cl.valid && exists);
+	cb_cover_all->setEnabled(cl.valid());
+	btn_cover_replacement->setEnabled(cl.valid() && !cb_cover_all->isChecked());
 
-	if(!exists){
-		cover_path = CoverLocation::getInvalidLocation().cover_path;
-	}
-
-	cb_cover_all->setEnabled(valid);
-	btn_cover_replacement->setEnabled(valid && !cb_cover_all->isChecked());
-
-	QIcon icon(cover_path);
-	btn_cover_replacement->setIcon( icon );
-
-	if(!valid){
-		_cover_lookup->fetch_cover(CoverLocation::get_cover_location(md));
-	}
-	else{
-		_cover_path_map[_cur_idx] = cl.cover_path;
+	if(cl.valid()){
+		_cover_path_map[_cur_idx] = cl.cover_path();
 	}
 }
 
@@ -485,15 +478,6 @@ void GUI_TagEdit::update_cover(int idx, const QString& cover_path){
 	_tag_edit->update_cover(idx, img);
 }
 
-void GUI_TagEdit::cover_found(const CoverLocation& cl){
-	QIcon icon(cl.cover_path);
-	_cover_path_map[_cur_idx] = cl.cover_path;
-
-	btn_cover_replacement->setIcon( icon );
-
-	cb_cover_all->setEnabled(cl.valid);
-	btn_cover_replacement->setEnabled(cl.valid && !cb_cover_all->isChecked());
-}
 
 void GUI_TagEdit::rb_dont_replace_toggled(bool b){
 
@@ -703,6 +687,11 @@ void GUI_TagEdit::btn_year_checked(bool b){
 	}
 }
 
+void GUI_TagEdit::btn_tag_help_clicked()
+{
+	QUrl url(QString("http://sayonara-player.com/faq.php#tag-edit"));
+	QDesktopServices::openUrl(url);
+}
 
 void GUI_TagEdit::show_button_commit(bool b)
 {

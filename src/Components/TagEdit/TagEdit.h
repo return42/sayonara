@@ -27,7 +27,7 @@
 #include "Database/DatabaseHandler.h"
 #include "Helper/MetaData/MetaDataList.h"
 
-#include <QVector>
+#include <QList>
 #include <QThread>
 #include <QImage>
 #include <QMap>
@@ -35,6 +35,10 @@
 class MetaDataList;
 /**
  * @brief The TagEdit class
+ * Metadata has to be added using the set_metadata(const MetaDataList&) method.
+ * Use update_track(int idx, const MetaData& md) to stage the changes you made
+ * to the track. commit() starts the thread and writes changes to HDD and the
+ * database. When finished the finished() signal is emitted.
  * @ingroup Tagging
  */
 class TagEdit : public QThread,
@@ -107,9 +111,31 @@ public:
 	 */
 	void update_track(int idx, const MetaData& md);
 
+	/**
+	 * @brief update the cover for a specific track.
+	 * @param idx track index
+	 * @param cover new cover image
+	 */
 	void update_cover(int idx, const QImage& cover);
+
+	/**
+	 * @brief remove_cover for a specific track
+	 * @param idx track index
+	 */
 	void remove_cover(int idx);
+
+	/**
+	 * @brief does the user want to replace/add a cover
+	 * @param idx track index
+	 * @return false, if no new alternative cover is desired
+	 */
 	bool has_cover_replacement(int idx) const;
+
+	/**
+	 * @brief checks, if the tracks' tag is an id3v2 tag
+	 * @param idx track index
+	 * @return
+	 */
 	bool is_id3v2_tag(int idx) const;
 
 
@@ -138,7 +164,10 @@ public slots:
 private:
 	MetaDataList			_v_md;			// the current metadata
 	MetaDataList			_v_md_orig;		// the original metadata
-	QVector<bool>			_changed_md;	// indicates if metadata at idx was changed
+
+	MetaDataList			_v_md_before_change;
+	MetaDataList			_v_md_after_change;
+	QList<bool>				_changed_md;	// indicates if metadata at idx was changed
 	QMap<int, QImage>		_cover_map;
 
 	LibraryDatabase*		_ldb=nullptr;	// database of LocalLibrary
@@ -170,7 +199,6 @@ private:
 	 * @brief applies the new artists and albums to the original metadata
 	 */
 	void apply_artists_and_albums_to_md();
-
 
 	void run() override;
 

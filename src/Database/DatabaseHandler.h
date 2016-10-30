@@ -26,9 +26,6 @@
 #include "Helper/globals.h"
 #include "Database/LibraryDatabase.h"
 
-#include <QVector>
-#include <QMap>
-
 class Album;
 class MetaData;
 class Artist;

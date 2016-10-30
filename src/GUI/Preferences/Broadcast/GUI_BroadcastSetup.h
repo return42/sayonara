@@ -23,7 +23,7 @@
 #ifndef GUI_BROADCASTSETUP_H
 #define GUI_BROADCASTSETUP_H
 
-#include "GUI/Preferences/Broadcast/ui_GUI_BroadcastSetup.h"
+#include "GUI/Preferences/ui_GUI_BroadcastSetup.h"
 #include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
 
 class GUI_BroadcastSetup :

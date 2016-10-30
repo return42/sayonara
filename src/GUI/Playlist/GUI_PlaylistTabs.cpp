@@ -85,7 +85,7 @@ void GUI_Playlist::select_tab_right()
 
 void GUI_Playlist::playlist_idx_changed(int pl_idx){
 
-	if(!between(pl_idx, 0, tw_playlists->count() - 1)){
+	if(!between(pl_idx, tw_playlists->count() - 1)){
 		return;
 	}
 
@@ -113,11 +113,8 @@ void GUI_Playlist::playlist_added(PlaylistPtr pl){
 	_playlist->set_current_idx(idx);
 
 	connect(pl_view, &PlaylistView::sig_double_clicked, this, &GUI_Playlist::double_clicked);
-	connect(pl_view, &PlaylistView::sig_info_clicked, this, &GUI_Playlist::menu_info_clicked);
-	connect(pl_view, &PlaylistView::sig_edit_clicked, this, &GUI_Playlist::menu_edit_clicked);
-	connect(pl_view, &PlaylistView::sig_lyrics_clicked, this, &GUI_Playlist::menu_lyrics_clicked);
-	connect(pl_view, &PlaylistView::sig_left_clicked, this, &GUI_Playlist::select_tab_left);
-	connect(pl_view, &PlaylistView::sig_right_clicked, this, &GUI_Playlist::select_tab_right);
+	connect(pl_view, &PlaylistView::sig_left_tab_clicked, this, &GUI_Playlist::select_tab_left);
+	connect(pl_view, &PlaylistView::sig_right_tab_clicked, this, &GUI_Playlist::select_tab_right);
 	connect(pl_view, &PlaylistView::sig_time_changed, this, &GUI_Playlist::playlist_time_changed);
 
 	connect(pl.get(), &Playlist::sig_data_changed, this, &GUI_Playlist::playlist_changed);
@@ -146,7 +143,7 @@ void GUI_Playlist::tab_close_playlist_clicked(int idx){
 	PlaylistView* plv;
 	int count = tw_playlists->count();
 
-	if( !between(idx, 0, count - 1)) {
+	if( !between(idx, count - 1)) {
 		return;
 	}
 
@@ -164,7 +161,7 @@ void GUI_Playlist::tab_close_playlist_clicked(int idx){
 
 	set_total_time_label();
 
-	delete playlist_widget;
+	delete playlist_widget; playlist_widget = nullptr;
 }
 
 
@@ -283,6 +280,9 @@ void GUI_Playlist::check_playlist_menu(PlaylistConstPtr pl){
 	bool rename_enabled =	(storable);
 	bool clear_enabled =	(!pl->is_empty());
 
+	entries |= PlaylistMenuEntry::OpenFile;
+	entries |= PlaylistMenuEntry::OpenDir;
+
 	if(save_enabled){
 		entries |= PlaylistMenuEntry::Save;
 	}
@@ -349,7 +349,7 @@ GlobalMessage::Answer GUI_Playlist::show_save_message_box(PlaylistDBInterface::S
 
 PlaylistView* GUI_Playlist::get_view_by_idx(int idx){
 
-	if(!between(idx, 0, tw_playlists->count() - 1)){
+	if(!between(idx, tw_playlists->count() - 1)){
 		return nullptr;
 	}
 
@@ -361,7 +361,7 @@ PlaylistView* GUI_Playlist::get_view_by_idx(int idx){
 PlaylistView* GUI_Playlist::get_current_view(){
 
 	int idx = tw_playlists->currentIndex();
-	if(!between(idx, 0, tw_playlists->count() - 1)){
+	if(!between(idx, tw_playlists->count() - 1)){
 		return nullptr;
 	}
 

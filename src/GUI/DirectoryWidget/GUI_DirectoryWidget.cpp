@@ -18,10 +18,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "GUI_DirectoryWidget.h"
-#include "GUI/InfoDialog/GUI_InfoDialog.h"
 
 #include "GUI/Helper/SearchableWidget/SearchableFileTreeView.h"
 #include "GUI/Helper/ContextMenu/LibraryContextMenu.h"
@@ -45,9 +42,12 @@
 
 GUI_DirectoryWidget::GUI_DirectoryWidget(QWidget *parent) :
 	SayonaraWidget(parent),
+	InfoDialogContainer(),
 	Ui::GUI_DirectoryWidget()
 {
 	setupUi(this);
+
+	_selected_widget = SelectedWidget::None;
 
 	_local_library = LocalLibrary::getInstance();
 	_dir_model = tv_dirs->get_model();
@@ -64,16 +64,23 @@ GUI_DirectoryWidget::GUI_DirectoryWidget(QWidget *parent) :
 	connect(le_search, &QLineEdit::returnPressed, this, &GUI_DirectoryWidget::search_button_clicked);
 	connect(le_search, &QLineEdit::textChanged, this, &GUI_DirectoryWidget::search_term_changed);
 
-	connect(tv_dirs, &DirectoryTreeView::sig_info_clicked, this, &GUI_DirectoryWidget::dir_info_clicked);
+	connect(tv_dirs, &DirectoryTreeView::sig_info_clicked, this, [=](){
+		_selected_widget = SelectedWidget::Dirs;
+		show_info();
+	});
+
 	connect(tv_dirs, &DirectoryTreeView::sig_append_clicked, this, &GUI_DirectoryWidget::dir_append_clicked);
 	connect(tv_dirs, &DirectoryTreeView::sig_play_next_clicked, this, &GUI_DirectoryWidget::dir_play_next_clicked);
 	connect(tv_dirs, &DirectoryTreeView::sig_delete_clicked, this, &GUI_DirectoryWidget::dir_delete_clicked);
 
-	connect(lv_files, &FileListView::sig_info_clicked, this, &GUI_DirectoryWidget::file_info_clicked);
+	connect(lv_files, &FileListView::sig_info_clicked, this, [=](){
+		_selected_widget = SelectedWidget::Files;
+		show_info();
+	});
+
 	connect(lv_files, &FileListView::sig_append_clicked, this, &GUI_DirectoryWidget::file_append_clicked);
 	connect(lv_files, &FileListView::sig_play_next_clicked, this, &GUI_DirectoryWidget::file_play_next_clicked);
 	connect(lv_files, &FileListView::sig_delete_clicked, this, &GUI_DirectoryWidget::file_delete_clicked);
-
 
 	init_shortcuts();
 }
@@ -87,21 +94,32 @@ QComboBox* GUI_DirectoryWidget::get_libchooser(){
 	return combo_libchooser;
 }
 
+MetaDataList::Interpretation GUI_DirectoryWidget::get_metadata_interpretation() const
+{
+	return MetaDataList::Interpretation::Tracks;
+}
+
+MetaDataList GUI_DirectoryWidget::get_data_for_info_dialog() const
+{
+	MetaDataList v_md;
+
+	switch(_selected_widget)
+	{
+		case SelectedWidget::Dirs:
+			return tv_dirs->read_metadata();
+		case SelectedWidget::Files:
+			return lv_files->read_metadata();
+		default:
+			return v_md;
+	}
+}
+
 
 void GUI_DirectoryWidget::dir_clicked(QModelIndex idx){
 
 	QString dir = _dir_model->fileInfo(idx).absoluteFilePath();
 	QModelIndex tgt_idx = _file_model->setRootPath(dir);
 	lv_files->setRootIndex(tgt_idx);
-}
-
-void GUI_DirectoryWidget::dir_info_clicked(){
-	GUI_InfoDialog* dialog = new GUI_InfoDialog(this);
-	connect(dialog, &SayonaraDialog::sig_closed, dialog, &SayonaraDialog::deleteLater);
-
-	MetaDataList v_md = tv_dirs->read_metadata();
-	dialog->set_metadata(v_md, GUI_InfoDialog::Mode::Tracks);
-	dialog->show(GUI_InfoDialog::TabInfo);
 }
 
 void GUI_DirectoryWidget::dir_append_clicked(){
@@ -131,16 +149,6 @@ void GUI_DirectoryWidget::dir_delete_clicked(){
 	Helper::File::delete_files(files);
 }
 
-
-void GUI_DirectoryWidget::file_info_clicked()
-{
-	GUI_InfoDialog* dialog = new GUI_InfoDialog(this);
-	connect(dialog, &SayonaraDialog::sig_closed, dialog, &SayonaraDialog::deleteLater);
-
-	MetaDataList v_md = lv_files->read_metadata();
-	dialog->set_metadata(v_md, GUI_InfoDialog::Mode::Tracks);
-	dialog->show(GUI_InfoDialog::TabInfo);
-}
 
 void GUI_DirectoryWidget::file_append_clicked()
 {

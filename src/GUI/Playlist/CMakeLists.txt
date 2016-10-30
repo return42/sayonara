@@ -1,15 +1,11 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 PROJECT(say_gui_playlist)
 
-INCLUDE_DIRECTORIES(
-    ${CMAKE_CURRENT_BINARY_DIR},
-    ${CMAKE_CURRENT_SOURCE_DIR}
-)
-
 SET(SOURCES
     PlaylistMenu.cpp
     GUI_Playlist.cpp
     GUI_PlaylistTabs.cpp
+	BookmarksMenu.cpp
 
     BottomBar/GUI_PlaylistBottomBar.cpp
     Delegate/PlaylistItemDelegate.cpp
@@ -34,17 +30,19 @@ SET(LINK_LIBS
     say_gui_info_dialog
     say_gui_shutdown_dialog
     say_gui_helper
+    say_comp_bookmarks
 )
 
 IF(NOT WIN32 OR NOT DEFINED WIN32)
-	SET(LINK_LIBS
-		${LINK_LIBS}
-		say_helper_shutdown
-	)
+SET(LINK_LIBS
+    ${LINK_LIBS}
+    say_helper_shutdown
+)
 ENDIF()
 
 ADD_LIBRARY(${PROJECT_NAME} STATIC ${SOURCES} ${FORMS_UIC})
 TARGET_LINK_LIBRARIES(${PROJECT_NAME}
-		${LINK_LIBS}
+    ${LINK_LIBS}
 )
+#cotire(${PROJECT_NAME})
 

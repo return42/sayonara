@@ -26,7 +26,7 @@
 #include <QMap>
 #include <QShowEvent>
 
-#include "GUI/Preferences/Language/ui_GUI_LanguageChooser.h"
+#include "GUI/Preferences/ui_GUI_LanguageChooser.h"
 #include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
 
 

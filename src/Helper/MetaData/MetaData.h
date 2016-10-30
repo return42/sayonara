@@ -69,7 +69,7 @@ public:
 	quint16 track_num;
 	quint32 bitrate;
 	quint64 filesize;
-	QString comment;
+	//QString comment;
 	quint8 discnumber;
 	quint8 n_discs;
 

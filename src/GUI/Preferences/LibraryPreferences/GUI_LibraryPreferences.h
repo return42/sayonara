@@ -18,13 +18,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef GUI_LIBRARYPREFERENCES_H
 #define GUI_LIBRARYPREFERENCES_H
 
 #include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
-#include "GUI/Preferences/LibraryPreferences/ui_GUI_LibraryPreferences.h"
+#include "GUI/Preferences/ui_GUI_LibraryPreferences.h"
 
 
 class GUI_LibraryPreferences :

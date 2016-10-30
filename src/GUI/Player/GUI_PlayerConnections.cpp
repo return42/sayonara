@@ -20,12 +20,9 @@
 
 #include "GUI_Player.h"
 
-
-#include "Components/CoverLookup/CoverLookup.h"
 #include "Components/TagEdit/MetaDataChangeNotifier.h"
 #include "Components/Engine/EngineHandler.h"
 
-#include "GUI/AlternativeCovers/GUI_AlternativeCovers.h"
 #include "GUI/Helper/Shortcuts/ShortcutHandler.h"
 #ifdef WITH_MTP
 	#include "GUI/MTP/GUI_MTP.h"
@@ -33,15 +30,12 @@
 
 void GUI_Player::setup_connections() {
 
-	qRegisterMetaType<CoverLocation>("CoverLocation");
-
 	connect(btn_play,	&QPushButton::clicked,	this, &GUI_Player::play_clicked);
 	connect(btn_fw,		&QPushButton::clicked,	this, &GUI_Player::next_clicked);
 	connect(btn_bw,		&QPushButton::clicked,	this, &GUI_Player::prev_clicked);
 	connect(btn_stop,	&QPushButton::clicked,	this, &GUI_Player::stop_clicked);
 	connect(btn_mute,	&QPushButton::released,	this, &GUI_Player::mute_button_clicked);
 	connect(btn_rec,	&QPushButton::toggled, this, &GUI_Player::rec_clicked);
-	connect(albumCover, &QPushButton::clicked, this, &GUI_Player::cover_clicked);
 
 	connect(_play_manager, &PlayManager::sig_playstate_changed, this, &GUI_Player::playstate_changed);
 	connect(_play_manager, &PlayManager::sig_track_changed, this, &GUI_Player::track_changed);
@@ -51,10 +45,11 @@ void GUI_Player::setup_connections() {
 	connect(_play_manager, &PlayManager::sig_mute_changed, this, &GUI_Player::mute_changed);
 
 	// engine
-	connect(_engine, &EngineHandler::sig_md_changed,	this, &GUI_Player::md_changed);
-	connect(_engine, &EngineHandler::sig_dur_changed, this, &GUI_Player::dur_changed);
-	connect(_engine, &EngineHandler::sig_br_changed,	this, &GUI_Player::br_changed);
-	connect(_engine, &EngineHandler::sig_cover_changed, this, &GUI_Player::cover_changed);
+	EngineHandler* engine = EngineHandler::getInstance();
+	connect(engine, &EngineHandler::sig_md_changed,	this, &GUI_Player::md_changed);
+	connect(engine, &EngineHandler::sig_dur_changed, this, &GUI_Player::dur_changed);
+	connect(engine, &EngineHandler::sig_br_changed,	this, &GUI_Player::br_changed);
+	connect(engine, &EngineHandler::sig_cover_changed, this, &GUI_Player::cover_changed);
 
 	// file
 	connect(action_OpenFile, &QAction::triggered, this, &GUI_Player::open_files_clicked);
@@ -62,9 +57,15 @@ void GUI_Player::setup_connections() {
 	connect(action_Close, &QAction::triggered, this, &GUI_Player::really_close);
 
 #ifdef WITH_MTP
-	connect(action_devices, &QAction::triggered, _mtp, &GUI_MTP::show);
-#endif
+	connect(action_devices, &QAction::triggered, this, [=](){
 
+		if(!_mtp){
+			_mtp = new GUI_MTP(this);
+		}
+
+		_mtp->show();
+	});
+#endif
 
 	// view
 	connect(action_viewLibrary, &QAction::toggled, this, &GUI_Player::show_library);
@@ -74,28 +75,17 @@ void GUI_Player::setup_connections() {
 	connect(splitter, &QSplitter::splitterMoved, this, &GUI_Player::main_splitter_moved);
 
 
-	// preferencesF
-	connect(action_setLibPath, &QAction::triggered, this, &GUI_Player::set_library_path_clicked);
-	connect(action_min2tray, &QAction::toggled,	this, &GUI_Player::min2tray_toggled);
-	connect(action_only_one_instance, &QAction::toggled, this, &GUI_Player::only_one_instance_toggled);
-	connect(action_livesearch, &QAction::triggered, this, &GUI_Player::live_search_toggled);
-	connect(action_notifyNewVersion, &QAction::triggered, this,	&GUI_Player::notify_new_version_toggled);
-
-
 	// about
 	connect(action_about, &QAction::triggered, this, &GUI_Player::about);
 	connect(action_help, &QAction::triggered, this, &GUI_Player::help);
 
 	connect(sli_volume, &SearchSlider::sig_slider_moved, this, &GUI_Player::volume_slider_moved);
 	connect(sli_progress, &SearchSlider::sig_slider_moved, this, &GUI_Player::seek);
+	connect(sli_progress, &SearchSlider::sig_slider_hovered, this, &GUI_Player::set_progress_tooltip);
 
 
 	MetaDataChangeNotifier* md_change_notifier = MetaDataChangeNotifier::getInstance();
 	connect(md_change_notifier, &MetaDataChangeNotifier::sig_metadata_changed, this, &GUI_Player::id3_tags_changed);
-
-	// cover lookup
-	connect(_cov_lookup, &CoverLookup::sig_cover_found, this, &GUI_Player::set_cover_image);
-	connect(_ui_alternative_covers, &GUI_AlternativeCovers::sig_cover_changed, this, &GUI_Player::set_cover_image);
 
 	ShortcutHandler* sch = ShortcutHandler::getInstance();
 

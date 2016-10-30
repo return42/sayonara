@@ -25,7 +25,7 @@
 
 
 #define COL_ALBUM_MACROS
-#define COL_ALBUM_SAMPLER 0
+#define COL_ALBUM_MULTI_DISC 0
 #define COL_ALBUM_NAME 1
 #define COL_ALBUM_DURATION 2
 #define COL_ALBUM_N_SONGS 3
@@ -54,7 +54,9 @@
 
 class CustomMimeData;
 class ColumnHeader;
-class LibraryItemModel : public AbstractSearchTableModel{
+class LibraryItemModel :
+		public AbstractSearchTableModel
+{
 
 	Q_OBJECT
 
@@ -81,9 +83,12 @@ public:
 	virtual bool			is_selected(int id) final;
 	virtual bool			has_selections() final;
 	virtual void			remove_selection(int row) final;
-	virtual void			clear_selections() final ;
+	virtual void			clear_selections() final;
 
-	virtual QMap<QChar, QString> getExtraTriggers();
+	virtual QString			get_string(int row) const=0;
+	virtual int				get_id_by_row(int row)=0;
+
+	virtual QMap<QChar, QString> getExtraTriggers() override;
 
 	void set_mimedata(const MetaDataList& v_md);
 
@@ -99,7 +104,6 @@ protected:
 	int				_n_cols;
 
 protected:
-	virtual int		get_id_by_row(int row)=0;
 
 };
 

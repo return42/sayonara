@@ -485,8 +485,8 @@ void AbstractLibrary::fetch_by_filter(const Filter& filter, bool force){
 		filter.filtertext.size() < 5 &&
 		(_selected_artists.size() == 0) &&
 		(_selected_albums.size() == 0) &&
-		!force) {
-
+		!force)
+	{
 		return;
 	}
 

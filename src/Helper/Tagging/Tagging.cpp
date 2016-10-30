@@ -124,7 +124,7 @@ bool Tagging::getMetaDataOfFile(MetaData& md, Tagging::Quality quality) {
 
 	QStringList genres;
 	QString genre_str = Helper::cvt_str_to_first_upper(genre);
-	genres = genre_str.split(QRegExp(",|/|;|\\."));
+	genres = genre_str.split(QRegExp(",|/|;"));
 	for(int i=0; i<genres.size(); i++) {
 		genres[i] = genres[i].trimmed();
 	}
@@ -142,7 +142,7 @@ bool Tagging::getMetaDataOfFile(MetaData& md, Tagging::Quality quality) {
 	md.genres = genres;
 	md.discnumber = discnumber.disc;
 	md.n_discs = discnumber.n_discs;
-	md.comment = comment;
+	//md.comment = comment;
 	md.rating = popularimeter.get_sayonara_rating();
 
 	if(md.title.length() == 0) {

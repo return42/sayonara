@@ -33,6 +33,10 @@
 #include <QPoint>
 #include <QPixmap>
 
+/**
+ * @brief The RatingLabel class
+ * @ingroup GUIHelper
+ */
 class RatingLabel : public QLabel
 {
 	Q_OBJECT

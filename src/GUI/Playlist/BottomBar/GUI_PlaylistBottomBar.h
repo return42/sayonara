@@ -27,7 +27,7 @@
 #include "GUI/Playlist/ui_GUI_PlaylistBottomBar.h"
 
 #include "Helper/Shutdown/Shutdown.h"
-#include "Helper/PlaylistMode.h"
+#include "Helper/Playlist/PlaylistMode.h"
 
 #include "Components/Playlist/Playlist.h"
 

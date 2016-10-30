@@ -22,8 +22,12 @@
 
 #include "SearchableFileTreeView.h"
 #include "GUI/Helper/SearchableWidget/MiniSearcher.h"
-#include <QDirIterator>
 
+#include "Helper/Settings/Settings.h"
+#include "Helper/LibrarySearchMode.h"
+
+#include <QDirIterator>
+#include <algorithm>
 
 AbstractSearchFileTreeModel::AbstractSearchFileTreeModel(QObject* parent) :
 	QFileSystemModel(parent)
@@ -34,9 +38,12 @@ AbstractSearchFileTreeModel::AbstractSearchFileTreeModel(QObject* parent) :
 
 QModelIndex AbstractSearchFileTreeModel::getFirstRowIndexOf(QString substr)
 {
-
 	_cur_idx = -1;
 	_found_strings.clear();
+
+	Settings* settings = Settings::getInstance();
+	LibraryHelper::SearchModeMask mask = settings->get(Set::Lib_SearchMode);
+	substr = LibraryHelper::convert_search_string(substr, mask);
 
 	QDirIterator it(this->rootPath(), QDirIterator::Subdirectories);
 	QString str;
@@ -44,7 +51,10 @@ QModelIndex AbstractSearchFileTreeModel::getFirstRowIndexOf(QString substr)
 	while (it.hasNext()) {
 		it.next();
 
-		if (it.fileName().contains(substr, Qt::CaseInsensitive)) {
+		QString filename = it.fileName();
+		filename = LibraryHelper::convert_search_string(filename, mask);
+
+		if (filename.contains(substr)) {
 			str = it.filePath();
 
 			if(it.fileInfo().isFile()){

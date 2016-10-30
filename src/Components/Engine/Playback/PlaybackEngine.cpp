@@ -25,8 +25,10 @@
 
 #include "Helper/Tagging/Tagging.h"
 #include "Helper/FileHelper.h"
+#include "Helper/Playlist/PlaylistMode.h"
 
 #include <QUrl>
+#include <algorithm>
 
 PlaybackEngine::PlaybackEngine(QObject* parent) :
 	Engine(parent)
@@ -54,11 +56,17 @@ PlaybackEngine::~PlaybackEngine() {
 	}
 
 	if(_gapless_timer){
-		delete _gapless_timer;
+		delete _gapless_timer; _gapless_timer = nullptr;
 	}
 
-	delete _pipeline;
-	delete _stream_recorder;
+
+	delete _pipeline; _pipeline = nullptr;
+	if(_other_pipeline)
+	{
+		delete _other_pipeline; _other_pipeline = nullptr;
+	}
+
+	delete _stream_recorder; _stream_recorder = nullptr;
 }
 
 
@@ -77,7 +85,7 @@ bool PlaybackEngine::init() {
 	connect(_pipeline, &PlaybackPipeline::sig_pos_changed_ms, this, &PlaybackEngine::set_cur_position_ms);
 	connect(_pipeline, &PlaybackPipeline::sig_data, this, &PlaybackEngine::sig_data);
 
-	REGISTER_LISTENER(Set::Engine_Gapless, _gapless_changed);
+	REGISTER_LISTENER(Set::PL_Mode, _playlist_mode_changed);
 	return true;
 }
 
@@ -379,10 +387,11 @@ void PlaybackEngine::gapless_timed_out()
 }
 
 
-void PlaybackEngine::_gapless_changed() {
+void PlaybackEngine::_playlist_mode_changed() {
 
-	bool gapless =	(_settings->get(Set::Engine_Gapless) ||
-					_settings->get(Set::Engine_CrossFaderActive));
+	PlaylistMode plm = _settings->get(Set::PL_Mode);
+	bool gapless =	PlaylistMode::isActiveAndEnabled(plm.gapless()) ||
+					_settings->get(Set::Engine_CrossFaderActive);
 
 	if(gapless) {
 
@@ -410,23 +419,15 @@ void PlaybackEngine::_gapless_changed() {
 
 void PlaybackEngine::change_gapless_state(GaplessState state)
 {
-	if( !_settings->get(Set::Engine_Gapless) &&
-		!_settings->get(Set::Engine_CrossFaderActive))
-	{
+	PlaylistMode plm = _settings->get(Set::PL_Mode);
+
+	bool gapless = PlaylistMode::isActiveAndEnabled(plm.gapless());
+	bool crossfader = _settings->get(Set::Engine_CrossFaderActive);
+
+	_gapless_state = state;
+
+	if(!gapless && !crossfader) {
 		_gapless_state = GaplessState::NoGapless;
-	}
-
-	else{
-		_gapless_state = state;
-	}
-}
-
-
-void PlaybackEngine::set_speed(float f) {
-	_pipeline->set_speed(f);
-
-	if(_other_pipeline){
-		_other_pipeline->set_speed(f);
 	}
 }
 
@@ -493,7 +494,8 @@ void PlaybackEngine::update_md(const MetaData& md, GstElement* src){
 		return;
 	}
 
-	if(md.title == _md.title) {
+	if(	md.title == _md.title)
+	{
 		return;
 	}
 
@@ -520,7 +522,7 @@ void PlaybackEngine::update_duration(GstElement* src) {
 	quint32 duration_s = (duration_ms >> 10);
 	quint32 md_duration_s = (_md.length_ms >> 10);
 
-	if(!between(duration_s, 1, 1500000)){
+	if(duration_s == 0 || duration_s > 1500000){
 		return;
 	}
 
@@ -557,7 +559,7 @@ void PlaybackEngine::add_spectrum_receiver(SpectrumReceiver* receiver){
 	_spectrum_receiver << receiver;
 }
 
-void PlaybackEngine::set_spectrum(const QVector<float>& vals){
+void PlaybackEngine::set_spectrum(const QList<float>& vals){
 	for(SpectrumReceiver* rcv : _spectrum_receiver){
 		if(rcv){
 			rcv->set_spectrum(vals);

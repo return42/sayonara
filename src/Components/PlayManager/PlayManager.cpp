@@ -19,10 +19,11 @@
  */
 
 
-
 #include "PlayManager.h"
 #include "Interfaces/Notification/NotificationHandler.h"
 
+#include <QDateTime>
+#include <QTime>
 
 PlayManager::PlayManager(QObject* parent) :
 	QObject(parent),
@@ -48,7 +49,8 @@ PlayManager::PlayManager(QObject* parent) :
 	stop();
 }
 
-PlayManager::~PlayManager(){
+PlayManager::~PlayManager()
+{
 	 _settings->set(Set::Engine_CurTrackPos_s, (int) (_position_ms / 1000));
 }
 
@@ -87,9 +89,8 @@ bool PlayManager::get_mute() const
 	return _settings->get(Set::Engine_Mute);
 }
 
-
-void PlayManager::play(){
-
+void PlayManager::play()
+{
 	if(_playstate == PlayManager::PlayState::Stopped && _cur_idx == -1){
 		_playstate = PlayManager::PlayState::Playing;
 		next();
@@ -101,8 +102,9 @@ void PlayManager::play(){
 	emit sig_playstate_changed(_playstate);
 }
 
-void PlayManager::play_pause(){
 
+void PlayManager::play_pause()
+{
 	if(_playstate == PlayManager::PlayState::Playing){
 		pause();
 	}
@@ -112,8 +114,9 @@ void PlayManager::play_pause(){
 	}
 }
 
-void PlayManager::pause(){
 
+void PlayManager::pause()
+{
 	if(_playstate == PlayManager::PlayState::Stopped){
 		_playstate = PlayManager::PlayState::Paused;
 		next();
@@ -125,18 +128,21 @@ void PlayManager::pause(){
 	emit sig_playstate_changed(_playstate);
 }
 
-void PlayManager::previous(){
 
+void PlayManager::previous()
+{
 	emit sig_previous();
 }
 
-void PlayManager::next(){
 
+void PlayManager::next()
+{
 	emit sig_next();
 }
 
-void PlayManager::stop(){
 
+void PlayManager::stop()
+{
 	_md = MetaData();
 	_ring_buffer.clear();
 	_cur_idx = -1;
@@ -144,23 +150,29 @@ void PlayManager::stop(){
 	emit sig_playstate_changed(_playstate);
 }
 
-void PlayManager::record(bool b){
+
+void PlayManager::record(bool b)
+{
     emit sig_record(b);
 }
 
-void PlayManager::seek_rel(double percent){
+void PlayManager::seek_rel(double percent)
+{
 	emit sig_seeked_rel(percent);
 }
 
-void PlayManager::seek_rel_ms(qint64 ms){
+void PlayManager::seek_rel_ms(qint64 ms)
+{
 	emit sig_seeked_rel_ms(ms);
 }
 
-void PlayManager::seek_abs_ms(quint64 ms){
+void PlayManager::seek_abs_ms(quint64 ms)
+{
 	emit sig_seeked_abs_ms(ms);
 }
 
-void PlayManager::set_position_ms(quint64 ms){
+void PlayManager::set_position_ms(quint64 ms)
+{
 	_position_ms = ms;
 
 	if(_position_ms % 1000 == 0){
@@ -170,14 +182,15 @@ void PlayManager::set_position_ms(quint64 ms){
 	emit sig_position_changed_ms(ms);
 }
 
-void PlayManager::duration_changed(quint64 duration_ms){
+void PlayManager::duration_changed(quint64 duration_ms)
+{
 	_md.length_ms = duration_ms;
 	emit sig_duration_changed(duration_ms);
 }
 
 
-void PlayManager::change_track(const MetaData& md, int playlist_idx){
-
+void PlayManager::change_track(const MetaData& md, int playlist_idx)
+{
 	_md = md;
 	_position_ms = 0;
 	_cur_idx = playlist_idx;
@@ -224,8 +237,8 @@ void PlayManager::change_track(const MetaData& md, int playlist_idx){
 }
 
 
-void PlayManager::set_track_ready(){
-
+void PlayManager::set_track_ready()
+{
 	if(_initial_position_ms > 0){
 		sp_log(Log::Debug) << "Track ready, " << (int) (_initial_position_ms / 1000);
 		this->seek_abs_ms(_initial_position_ms);
@@ -233,7 +246,8 @@ void PlayManager::set_track_ready(){
 	}
 }
 
-void PlayManager::buffering(int progress){
+void PlayManager::buffering(int progress)
+{
 	emit sig_buffer(progress);
 }
 
@@ -270,16 +284,32 @@ void PlayManager::change_duration(qint64 ms){
 
 void PlayManager::change_metadata(const MetaData& md)
 {
+	MetaData md_old = _md;
 	_md = md;
+
 	QString str = md.title + md.artist;
 	bool has_data = _ring_buffer.has_item(str);
 
 	if(!has_data){
-		_ring_buffer.insert(md.title + md.artist);
 
 		if(_settings->get(Set::Notification_Show)){
 			NotificationHandler::getInstance()->notify(_md);
 		}
+
+		if( _ring_buffer.count() > 0 ){
+			md_old.album = "";
+			md_old.artist = "";
+			md_old.is_disabled = true;
+			md_old.set_filepath("");
+
+			QDateTime date = QDateTime::currentDateTime();
+			QTime time = date.time();
+			md_old.length_ms = (time.hour() * 60 + time.minute()) * 1000;
+
+			emit sig_www_track_finished(md_old);
+		}
+
+		_ring_buffer.insert(str);
 	}
 
 	emit sig_md_changed(md);

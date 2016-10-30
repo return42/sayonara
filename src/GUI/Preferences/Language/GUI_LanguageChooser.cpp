@@ -98,6 +98,10 @@ void GUI_LanguageChooser::renew_combo() {
 			continue;
 		}
 
+		if(country_code.compare("mx") == 0){
+			continue;
+		}
+
 		QString icon_path = Helper::get_share_path() + "translations/icons/" + country_code + ".png";
 
 		QString language_name = _map.value(country_code);
@@ -127,10 +131,10 @@ void GUI_LanguageChooser::init_ui()
 	_map["de"] = "Deutsch";
 	_map["en"] = "English";
 	_map["es"] = QString::fromUtf8("Español");
-	_map["mx"] = QString::fromUtf8("Español (México)");
 	_map["fr"] = "Francais";
 	_map["hu"] = "Magyar";
 	_map["it"] = "Italiano";
+	_map["ja"] = QString::fromUtf8("日本語");
 	_map["pl"] = QString::fromUtf8("Polski");
 	_map["pt"] = QString::fromUtf8("Português");
 	_map["ro"] = QString::fromUtf8("Limba română");

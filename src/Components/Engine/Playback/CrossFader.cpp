@@ -1,6 +1,33 @@
+/* CrossFader.cpp */
+
+/* Copyright (C) 2011-2016  Lucio Carreras
+ *
+ * This file is part of sayonara player
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+
+
+/* CrossFader.cpp */
+
 #include "CrossFader.h"
 #include "Helper/Settings/Settings.h"
 #include "Helper/Helper.h"
+
+#include <QThread>
+
 #include <glib.h>
 #include <functional>
 
@@ -50,13 +77,26 @@ public:
 	}
 };
 
+class FaderThread : public QThread
+{
+private:
+	FaderThreadData* _ftd=nullptr;
 
-void timer_thread(FaderThreadData* data){
-
-	while(data->is_active()){
-		data->wait();
+public:
+	FaderThread(FaderThreadData* data) : QThread(nullptr){
+		_ftd = data;
 	}
-}
+
+protected:
+	void run() override {
+
+		while(_ftd && _ftd->is_active())
+		{
+			_ftd->wait();
+		}
+	}
+};
+
 
 CrossFader::CrossFader()
 {
@@ -69,29 +109,33 @@ CrossFader::CrossFader()
 }
 
 
-void CrossFader::init_fader(){
+void CrossFader::init_fader()
+{
 	if(_fade_mode == CrossFader::FadeMode::NoFading){
 		return;
 	}
 
 	if(_fader && _fader_data->is_active()){
 		_fader_data->abort();
-		_fader->join();
 
-		delete _fader;
+		while(_fader->isRunning()){
+			Helper::sleep_ms(10);
+		}
+
+		delete _fader; _fader=nullptr;
 	}
-
 
 	int fading_time = Settings::getInstance()->get(Set::Engine_CrossFaderTime);
 
 	_fader_data->reset();
 	_fader_data->set_fading_time(fading_time);
-	_fader = new std::thread(timer_thread, _fader_data);
+	_fader = new FaderThread(_fader_data);
+	_fader->start();
 }
 
 
-void CrossFader::fade_in(){
-
+void CrossFader::fade_in()
+{
 	double volume = Settings::getInstance()->get(Set::Engine_Vol) / 100.0;
 
 	_fade_mode = CrossFader::FadeMode::FadeIn;
@@ -103,7 +147,8 @@ void CrossFader::fade_in(){
 	init_fader();
 }
 
-void CrossFader::fade_out(){
+void CrossFader::fade_out()
+{
 	double volume = Settings::getInstance()->get(Set::Engine_Vol) / 100.0;
 
 	_fade_mode = CrossFader::FadeMode::FadeOut;
@@ -115,7 +160,8 @@ void CrossFader::fade_out(){
 }
 
 
-void CrossFader::fader_timed_out(){
+void CrossFader::fader_timed_out()
+{
 	if(_fade_mode == CrossFader::FadeMode::FadeIn){
 		increase_volume();
 	}

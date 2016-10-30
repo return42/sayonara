@@ -36,14 +36,13 @@
 #include "GUI/Helper/ContextMenu/LibraryContextMenu.h"
 #include "GUI/Helper/SearchableWidget/MiniSearcher.h"
 
-
-
-
 LibraryView::LibraryView(QWidget* parent) :
 	SearchableTableView(parent),
-	SayonaraClass()
+	SayonaraClass(),
+	InfoDialogContainer()
 {
 
+	_type = MetaDataList::Interpretation::None;
 	_drag = nullptr;
 	_cur_filling = false;
 	_model = nullptr;
@@ -66,9 +65,7 @@ LibraryView::LibraryView(QWidget* parent) :
 }
 
 
-LibraryView::~LibraryView() {
-	delete _rc_menu;
-}
+LibraryView::~LibraryView() {}
 
 
 void LibraryView::setModel(LibraryItemModel * model) {
@@ -107,7 +104,7 @@ void LibraryView::do_drag(){
 	CustomMimeData* mimedata = _model->get_mimedata();
 
 	if(_drag){
-		delete _drag;
+		delete _drag; _drag = nullptr;
 	}
 
 	_drag = new QDrag(this);
@@ -130,6 +127,18 @@ void LibraryView::rc_menu_init() {
 				LibraryContextMenu::EntryDelete |
 				LibraryContextMenu::EntryEdit |
 				LibraryContextMenu::EntryAppend);
+
+	_merge_menu = new QMenu(tr("Merge"), _rc_menu);
+	_merge_action = _rc_menu->addMenu(_merge_menu);
+	_merge_action->setVisible(false);
+
+	connect(_rc_menu, &LibraryContextMenu::sig_edit_clicked, this, [=](){show_edit();});
+	connect(_rc_menu, &LibraryContextMenu::sig_info_clicked, this, [=](){show_info();});
+	connect(_rc_menu, &LibraryContextMenu::sig_lyrics_clicked, this, [=](){show_lyrics();});
+	connect(_rc_menu, &LibraryContextMenu::sig_delete_clicked, this, &LibraryView::sig_delete_clicked);
+	connect(_rc_menu, &LibraryContextMenu::sig_play_next_clicked, this, &LibraryView::sig_play_next_clicked);
+	connect(_rc_menu, &LibraryContextMenu::sig_append_clicked, this, &LibraryView::sig_append_clicked);
+	connect(_rc_menu, &LibraryContextMenu::sig_refresh_clicked, this, &LibraryView::sig_refresh_clicked);
 }
 
 void LibraryView::set_rc_menu(int entries){
@@ -145,7 +154,7 @@ MetaDataList LibraryView::get_selected_metadata() const
 	mimedata = _model->get_mimedata();
 	if(mimedata){
 		v_md = mimedata->getMetaData();
-		delete mimedata;
+		delete mimedata; mimedata = nullptr;
 	}
 
 	return v_md;
@@ -154,21 +163,7 @@ MetaDataList LibraryView::get_selected_metadata() const
 
 void LibraryView::rc_menu_show(const QPoint& p) {
 
-	connect(_rc_menu, &LibraryContextMenu::sig_edit_clicked, this, &LibraryView::sig_edit_clicked);
-	connect(_rc_menu, &LibraryContextMenu::sig_info_clicked, this, &LibraryView::sig_info_clicked);
-	connect(_rc_menu, &LibraryContextMenu::sig_delete_clicked, this, &LibraryView::sig_delete_clicked);
-	connect(_rc_menu, &LibraryContextMenu::sig_play_next_clicked, this, &LibraryView::sig_play_next_clicked);
-	connect(_rc_menu, &LibraryContextMenu::sig_append_clicked, this, &LibraryView::sig_append_clicked);
-	connect(_rc_menu, &LibraryContextMenu::sig_refresh_clicked, this, &LibraryView::sig_refresh_clicked);
-
 	_rc_menu->exec(p);
-
-	disconnect(_rc_menu, &LibraryContextMenu::sig_edit_clicked, this, &LibraryView::sig_edit_clicked);
-	disconnect(_rc_menu, &LibraryContextMenu::sig_info_clicked, this, &LibraryView::sig_info_clicked);
-	disconnect(_rc_menu, &LibraryContextMenu::sig_delete_clicked, this, &LibraryView::sig_delete_clicked);
-	disconnect(_rc_menu, &LibraryContextMenu::sig_play_next_clicked, this, &LibraryView::sig_play_next_clicked);
-	disconnect(_rc_menu, &LibraryContextMenu::sig_append_clicked, this, &LibraryView::sig_append_clicked);
-	disconnect(_rc_menu, &LibraryContextMenu::sig_refresh_clicked, this, &LibraryView::sig_refresh_clicked);
 }
 
 
@@ -185,3 +180,30 @@ void LibraryView::language_changed()
 	}
 }
 
+MetaDataList::Interpretation LibraryView::get_type() const
+{
+	return _type;
+}
+
+void LibraryView::set_type(MetaDataList::Interpretation type)
+{
+	_type = type;
+}
+
+MetaDataList LibraryView::get_data_for_info_dialog() const
+{
+	return get_selected_metadata();
+}
+
+MetaDataList::Interpretation LibraryView::get_metadata_interpretation() const
+{
+	return _type;
+}
+
+void LibraryView::merge_action_triggered()
+{
+	QAction* action = dynamic_cast<QAction*>(sender());
+	int id = action->data().toInt();
+
+	emit sig_merge(id);
+}

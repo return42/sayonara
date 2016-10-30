@@ -22,12 +22,15 @@
 #ifndef LocalLibrary_H
 #define LocalLibrary_H
 
-#include "Components/Library/AbstractLibrary.h"
+#include "AbstractLibrary.h"
+
 #include "Helper/MetaData/MetaData.h"
 #include "Helper/Filter.h"
 
 class ReloadThread;
 class DatabaseConnector;
+class FileSystemWatcher;
+
 class LocalLibrary : public AbstractLibrary
 {
 
@@ -52,19 +55,25 @@ public slots:
 	void refresh_albums() override;
 	void refresh_tracks() override;
 
-	void import_files(const QStringList& files);
+	void import_files(const QStringList& files) override;
+	void merge_artists(int target_artist_id);
+	void merge_albums(int target_album_id);
 
 
 protected slots:
 
 	void library_reloading_state_new_block();
 	void reload_thread_finished();
+	void _sl_search_mode_changed();
+	void _sl_auto_update_changed();
+	void indexing_finished();
 
 
 protected:
 
 	DatabaseConnector*	_db=nullptr;
 	ReloadThread* 		_reload_thread=nullptr;
+	FileSystemWatcher*	_fsw=nullptr;
 
 	void		get_all_artists(ArtistList& artists, LibSortOrder so) override;
 	void		get_all_artists_by_searchstring(Filter filter, ArtistList& artists, LibSortOrder so) override;
@@ -86,6 +95,7 @@ protected:
 	void		update_album(const Album& album) override;
 
 	void		insert_tracks(const MetaDataList& v_md) override;
+	void		apply_db_fixes();
 
 private:
 	void		init_reload_thread();

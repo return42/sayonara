@@ -90,6 +90,8 @@ void GUI_LastFM::commit() {
 
 		_settings->set( Set::LFM_Active, cb_activate->isChecked() );
 	}
+
+	_settings->set(Set::LFM_ScrobbleTimeSec, sb_scrobble_time->value());
 }
 
 
@@ -104,8 +106,7 @@ void GUI_LastFM::revert(){
 	StringPair user_pw = _settings->get(Set::LFM_Login);
 	tf_username->setText(user_pw.first);
 	tf_password->setText(user_pw.second);
-
-
+	sb_scrobble_time->setValue( _settings->get(Set::LFM_ScrobbleTimeSec) );
 }
 
 
