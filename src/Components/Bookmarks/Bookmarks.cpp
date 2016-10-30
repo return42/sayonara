@@ -61,6 +61,7 @@ Bookmarks::Bookmarks(QObject *parent) :
 	connect(_m->play_manager, &PlayManager::sig_position_changed_ms, this, &Bookmarks::pos_changed_ms);
 	connect(_m->play_manager, &PlayManager::sig_playstate_changed,	this, &Bookmarks::playstate_changed);
 
+	_m->md = _m->play_manager->get_cur_track();
 	reload_bookmarks();
 }
 
