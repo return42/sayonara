@@ -33,6 +33,7 @@ ContextMenu::ContextMenu(QWidget *parent) :
 	_icon_loader = IconLoader::getInstance();
 
 	_action_open = new QAction(GUI::get_icon("open"), QString(), this);
+	_action_edit = new QAction(GUI::get_icon("edit"), QString(), this);
 	_action_new = new QAction(GUI::get_icon("new"), QString(), this);
 	_action_undo = new QAction(GUI::get_icon("undo"), QString(), this);
 	_action_default = new QAction(GUI::get_icon("undo"), QString(), this);
@@ -44,6 +45,7 @@ ContextMenu::ContextMenu(QWidget *parent) :
 	_actions << addSeparator()
 			<< _action_new
 			<< _action_open
+			<< _action_edit
 			<< _action_save
 			<< _action_save_as
 			<< _action_rename
@@ -62,6 +64,7 @@ ContextMenu::ContextMenu(QWidget *parent) :
 
 	connect(_action_open, &QAction::triggered, this, &ContextMenu::sig_open);
 	connect(_action_new, &QAction::triggered, this, &ContextMenu::sig_new);
+	connect(_action_edit, &QAction::triggered, this, &ContextMenu::sig_edit);
 	connect(_action_undo, &QAction::triggered, this, &ContextMenu::sig_undo);
 	connect(_action_default, &QAction::triggered, this, &ContextMenu::sig_default);
 	connect(_action_save, &QAction::triggered, this, &ContextMenu::sig_save);
@@ -73,9 +76,12 @@ ContextMenu::ContextMenu(QWidget *parent) :
 	REGISTER_LISTENER(Set::Player_Style, skin_changed);
 }
 
+ContextMenu::~ContextMenu() {}
+
 void ContextMenu::language_changed()
 {
 	 _action_new->setText(Lang::get(Lang::New));
+	 _action_edit->setText(Lang::get(Lang::Edit));
 	 _action_open->setText(Lang::get(Lang::Open));
 	 _action_save->setText(Lang::get(Lang::Save));
 	 _action_save_as->setText(Lang::get(Lang::SaveAs));
@@ -88,6 +94,7 @@ void ContextMenu::language_changed()
 void ContextMenu::skin_changed()
 {
 	_action_open->setIcon(_icon_loader->get_icon( "document-open", "open") );
+	_action_edit->setIcon(_icon_loader->get_icon( "document-page-setup", "edit") );
 	_action_new->setIcon(_icon_loader->get_icon( "document-new", "new") );
 	_action_undo->setIcon(_icon_loader->get_icon( "edit-undo", "undo") );
 	_action_default->setIcon(_icon_loader->get_icon( "edit-undo", "undo") );
@@ -107,6 +114,7 @@ void ContextMenu::register_action(QAction *action){
 void ContextMenu::show_actions(ContextMenuEntries entries){
 
 	_action_new->setVisible(entries & ContextMenu::EntryNew);
+	_action_edit->setVisible(entries & ContextMenu::EntryEdit);
 	_action_open->setVisible(entries & ContextMenu::EntryOpen);
 	_action_undo->setVisible(entries & ContextMenu::EntryUndo);
 	_action_default->setVisible(entries & ContextMenu::EntryDefault);
@@ -146,7 +154,9 @@ ContextMenuEntries ContextMenu::get_entries() const
 	if(_action_new->isVisible()){
 		entries |= ContextMenu::EntryNew;
 	}
-
+	if(_action_edit->isVisible()){
+		entries |= ContextMenu::EntryEdit;
+	}
 	if(_action_delete->isVisible()){
 		entries |= ContextMenu::EntryDelete;
 	}

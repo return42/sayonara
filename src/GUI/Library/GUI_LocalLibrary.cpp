@@ -40,7 +40,6 @@
 #include "Helper/Settings/Settings.h"
 #include "Helper/Language.h"
 #include "GUI/Helper/SearchableWidget/SearchableListView.h"
-#include "GUI/Helper/Delegates/ListDelegate.h"
 
 #include <QFileDialog>
 #include <QDir>
@@ -61,12 +60,6 @@ GUI_LocalLibrary::GUI_LocalLibrary(QWidget* parent) :
 
 	ui->pb_progress->setVisible(false);
 	ui->lab_progress->setVisible(false);
-
-	_date_serach_model = new DateSearchModel(this);
-
-	ui->lv_date_search->setModel(_date_serach_model);
-	ui->lv_date_search->setSearchModel(_date_serach_model);
-	ui->lv_date_search->setItemDelegate(new ListDelegate(ui->lv_date_search));
 
 	connect(_library, &LocalLibrary::sig_reloading_library, this, &GUI_LocalLibrary::progress_changed);
 	connect(_library, &LocalLibrary::sig_reloading_library_finished, this, &GUI_LocalLibrary::reload_finished);
@@ -96,8 +89,7 @@ GUI_LocalLibrary::GUI_LocalLibrary(QWidget* parent) :
 	connect(ui->splitter_artist_album, &QSplitter::splitterMoved, this, &GUI_LocalLibrary::splitter_artist_moved);
 	connect(ui->splitter_tracks, &QSplitter::splitterMoved, this, &GUI_LocalLibrary::splitter_tracks_moved);
 	connect(ui->splitter_genre, &QSplitter::splitterMoved, this, &GUI_LocalLibrary::splitter_genre_moved);
-
-
+	connect(ui->splitter_date, &QSplitter::splitterMoved, this, &GUI_LocalLibrary::splitter_date_moved);
 
 	connect(library, &LocalLibrary::sig_no_library_path, this, &GUI_LocalLibrary::lib_no_lib_path);
 	connect(library, &LocalLibrary::sig_import_dialog_requested, this, &GUI_LocalLibrary::import_dialog_requested);
@@ -141,11 +133,12 @@ void GUI_LocalLibrary::showEvent(QShowEvent* e)
 {
 	GUI_AbstractLibrary::showEvent(e);
 
-	QByteArray artist_splitter_state, track_splitter_state, genre_splitter_state;
+	QByteArray artist_splitter_state, track_splitter_state, genre_splitter_state, date_splitter_state;
 
 	artist_splitter_state = _settings->get(Set::Lib_SplitterStateArtist);
 	track_splitter_state = _settings->get(Set::Lib_SplitterStateTrack);
 	genre_splitter_state = _settings->get(Set::Lib_SplitterStateGenre);
+	date_splitter_state = _settings->get(Set::Lib_SplitterStateDate);
 
 	if(!artist_splitter_state.isEmpty()){
 		ui->splitter_artist_album->restoreState(artist_splitter_state);
@@ -157,6 +150,10 @@ void GUI_LocalLibrary::showEvent(QShowEvent* e)
 
 	if(!genre_splitter_state.isEmpty()){
 		ui->splitter_genre->restoreState(genre_splitter_state);
+	}
+
+	if(!date_splitter_state.isEmpty()){
+		ui->splitter_date->restoreState(date_splitter_state);
 	}
 }
 
@@ -249,7 +246,7 @@ void GUI_LocalLibrary::date_selection_changed(const QModelIndex& index)
 {
 	Library::Filter filter;
 	filter.mode = Library::Filter::Date;
-	filter.date_filter = _date_serach_model->get_filter(index.row());
+	filter.date_filter = ui->lv_date_search->get_filter(index.row());
 	filter.cleared = false;
 	_library->psl_filter_changed(filter);
 }
@@ -524,4 +521,13 @@ void GUI_LocalLibrary::splitter_genre_moved(int pos, int idx)
 
 	QByteArray arr = ui->splitter_genre->saveState();
 	_settings->set(Set::Lib_SplitterStateGenre, arr);
+}
+
+void GUI_LocalLibrary::splitter_date_moved(int pos, int idx)
+{
+	Q_UNUSED(pos)
+	Q_UNUSED(idx)
+
+	QByteArray arr = ui->splitter_date->saveState();
+	_settings->set(Set::Lib_SplitterStateDate, arr);
 }

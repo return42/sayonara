@@ -36,7 +36,6 @@
 class GUI_LibraryInfoBox;
 class GUI_ImportFolder;
 class LocalLibraryMenu;
-class DateSearchModel;
 
 namespace Ui { class GUI_LocalLibrary; }
 
@@ -87,6 +86,7 @@ private slots:
 	void splitter_artist_moved(int pos, int idx);
 	void splitter_tracks_moved(int pos, int idx);
 	void splitter_genre_moved(int pos, int idx);
+	void splitter_date_moved(int pos, int idx);
 
 	// reimplemented from Abstract Library
 	Library::TrackDeletionMode show_delete_dialog(int n_tracks) override;
@@ -100,13 +100,11 @@ private slots:
 	void _sl_libpath_changed();
 	void clear_button_pressed() override;
 
-
 private:
 	Ui::GUI_LocalLibrary*	ui=nullptr;
 	GUI_LibraryInfoBox*		_library_info_box=nullptr;
 	GUI_ImportFolder*		_ui_importer=nullptr;
 	LocalLibraryMenu*		_local_library_menu=nullptr;
-	DateSearchModel*		_date_serach_model=nullptr;
 };
 
 #endif /* GUI_LocalLibrary_H_ */

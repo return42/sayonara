@@ -4,6 +4,7 @@ PROJECT(say_gui_library)
 SET(SOURCES
     GUI_AbstractLibrary.cpp
     GUI_LocalLibrary.cpp
+	GUI_DateSearchConfig.cpp
     LocalLibraryContainer.cpp
 
     Models/LibraryItemModelAlbums.cpp
@@ -16,6 +17,7 @@ SET(SOURCES
     Delegates/LibraryItemDelegateTracks.cpp
     Delegates/LibraryRatingDelegate.cpp
 
+	Views/LibraryDateSearchView.cpp
     Views/LibraryGenreView.cpp
     Views/LibraryViewAlbum.cpp
     Views/LibraryView.cpp
@@ -32,6 +34,7 @@ SET(SOURCES
 )
 
 QT5_WRAP_UI(FORMS_UIC
+	GUI_DateSearchConfig.ui
     GUI_LocalLibrary.ui
     InfoBox/GUI_LibraryInfoBox.ui
     ImportFolderDialog/GUI_ImportFolder.ui

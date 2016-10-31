@@ -55,17 +55,19 @@ public:
 	enum Entry {
 		EntryNone	=0,
 		EntryNew	=(1<<0),
-		EntryUndo	=(1<<1),
-		EntrySave	=(1<<2),
-		EntrySaveAs	=(1<<3),
-		EntryRename	=(1<<4),
-		EntryDelete	=(1<<5),
-		EntryOpen	=(1<<6),
-		EntryDefault=(1<<7)
+		EntryEdit	=(1<<1),
+		EntryUndo	=(1<<2),
+		EntrySave	=(1<<3),
+		EntrySaveAs	=(1<<4),
+		EntryRename	=(1<<5),
+		EntryDelete	=(1<<6),
+		EntryOpen	=(1<<7),
+		EntryDefault=(1<<8)
 	};
 
 signals:
 	void sig_new();
+	void sig_edit();
 	void sig_undo();
 	void sig_save();
 	void sig_save_as();
@@ -75,8 +77,10 @@ signals:
 	void sig_default();
 
 
+
 private:
 	QAction*	_action_new=nullptr;
+	QAction*	_action_edit=nullptr;
 	QAction*	_action_open=nullptr;
 	QAction*	_action_undo=nullptr;
 	QAction*	_action_save=nullptr;
@@ -100,6 +104,7 @@ private:
 
 public:
 	explicit ContextMenu(QWidget *parent=nullptr);
+	virtual ~ContextMenu();
 
 	/**
 	 * @brief register a custom action

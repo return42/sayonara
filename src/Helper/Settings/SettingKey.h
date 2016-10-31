@@ -40,6 +40,7 @@ namespace Playlist
 namespace Library
 {
     class Sortings;
+	class DateFilter;
 }
 
 
@@ -72,6 +73,7 @@ enum SettingKey {
 	Lib_SplitterStateArtist,
 	Lib_SplitterStateTrack,
 	Lib_SplitterStateGenre,
+	Lib_SplitterStateDate,
 	Lib_OldWidth,
 	Lib_DC_DoNothing,
 	Lib_DC_PlayIfStopped,
@@ -82,6 +84,7 @@ enum SettingKey {
 	Lib_FontBold,
 	Lib_SearchMode,
 	Lib_AutoUpdate,
+	Lib_DateFilters,
 
 	Player_Version,
 	Player_Language,
@@ -211,6 +214,7 @@ INST(QString,			Lib_CurPlugin);				/* Current shown library plugin */
 INST(QByteArray,		Lib_SplitterStateArtist);		/* Splitter state between artists and albums */
 INST(QByteArray,		Lib_SplitterStateTrack);		/* Splitter state between artists and tracks */
 INST(QByteArray,		Lib_SplitterStateGenre);		/* Splitter state between tracks and genres */
+INST(QByteArray,		Lib_SplitterStateDate);		/* Splitter state between tracks and genres */
 INST(int,				Lib_OldWidth);				/* Old library width when hiding library */
 INST(bool,				Lib_DC_DoNothing);			/* when double clicked, create playlist and do nothing*/
 INST(bool,				Lib_DC_PlayIfStopped);			/* when double clicked, play if stopped */
@@ -221,6 +225,7 @@ INST(int,				Lib_FontSize);				/* current library font size */
 INST(bool,				Lib_FontBold);				/* current library font weight */
 INST(int,				Lib_SearchMode);			/* Search mode in library. See */
 INST(bool,				Lib_AutoUpdate);			/* Automatic update of library */
+INST(QList<Library::DateFilter>, Lib_DateFilters);	/* Date filters appearing in library window */
 
 
 INST(QString,			Player_Version);			/* Version string of player */
