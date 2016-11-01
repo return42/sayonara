@@ -24,11 +24,11 @@
 #include "Database/DatabaseSearchMode.h"
 #include "Database/DatabaseModule.h"
 #include "Helper/typedefs.h"
-#include "Helper/Library/Filter.h"
-#include "Helper/Library/SearchMode.h"
-#include "Components/Library/Sorting.h"
+#include "Helper/Library/Sortorder.h"
 
 #include <QString>
+
+namespace Library {class Filter;}
 
 class MetaData;
 class MetaDataList;
@@ -53,13 +53,17 @@ public:
 
 	virtual bool db_fetch_tracks(SayonaraQuery& q, MetaDataList& result);
 
-	virtual bool getAllTracksByAlbum(int album, MetaDataList& result, Library::Filter filter=Library::Filter(), Library::SortOrder sortorder = Library::SortOrder::TrackArtistAsc, int discnumber=-1);
-	virtual bool getAllTracksByAlbum(IDList albums, MetaDataList& result, Library::Filter filter=Library::Filter(), Library::SortOrder sortorder = Library::SortOrder::TrackArtistAsc);
+	virtual bool getAllTracksByAlbum(int album, MetaDataList& result);
+	virtual bool getAllTracksByAlbum(int album, MetaDataList& result, const Library::Filter& filter, Library::SortOrder sortorder = Library::SortOrder::TrackArtistAsc, int discnumber=-1);
+	virtual bool getAllTracksByAlbum(IDList albums, MetaDataList& result);
+	virtual bool getAllTracksByAlbum(IDList albums, MetaDataList& result, const Library::Filter& filter, Library::SortOrder sortorder = Library::SortOrder::TrackArtistAsc);
 
-	virtual bool getAllTracksByArtist(int artist, MetaDataList& result, Library::Filter filter=Library::Filter(), Library::SortOrder sortorder = Library::SortOrder::TrackArtistAsc);
-	virtual bool getAllTracksByArtist(IDList artists, MetaDataList& result, Library::Filter filter=Library::Filter(), Library::SortOrder sortorder = Library::SortOrder::TrackArtistAsc);
+	virtual bool getAllTracksByArtist(int artist, MetaDataList& result);
+	virtual bool getAllTracksByArtist(int artist, MetaDataList& result, const Library::Filter& filter, Library::SortOrder sortorder = Library::SortOrder::TrackArtistAsc);
+	virtual bool getAllTracksByArtist(IDList artists, MetaDataList& result);
+	virtual bool getAllTracksByArtist(IDList artists, MetaDataList& result, const Library::Filter& filter, Library::SortOrder sortorder = Library::SortOrder::TrackArtistAsc);
 
-	virtual bool getAllTracksBySearchString(Library::Filter filter, MetaDataList& result, Library::SortOrder sortorder = Library::SortOrder::TrackArtistAsc);
+	virtual bool getAllTracksBySearchString(const Library::Filter& filter, MetaDataList& result, Library::SortOrder sortorder = Library::SortOrder::TrackArtistAsc);
 
 	virtual bool insertTrackIntoDatabase (const MetaData& data,int artistID, int albumID);
 	virtual bool updateTrack(const MetaData& data);

@@ -15,11 +15,20 @@ class GUI_DateSearchConfig :
 {
 
 public:
+
+	enum class Result
+	{
+		Cancelled,
+		Replace,
+		New
+	};
+
 	explicit GUI_DateSearchConfig(QWidget* parent=nullptr);
 	~GUI_DateSearchConfig();
 
 	void set_filter(const Library::DateFilter& filter);
 	Library::DateFilter get_edited_filter() const;
+	Result get_result() const;
 
 
 protected slots:

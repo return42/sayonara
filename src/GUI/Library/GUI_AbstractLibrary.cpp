@@ -193,16 +193,16 @@ void GUI_AbstractLibrary::text_line_edited(const QString &search)
 	switch( _combo_search->currentIndex() )
 	{
 		case 1:
-			filter.mode = Library::Filter::Genre;
+			filter.set_mode(Library::Filter::Genre);
 			break;
 
 		case 2:
-			filter.mode = Library::Filter::Filename;
+			filter.set_mode(Library::Filter::Filename);
 			break;
 
 		case 0:
 			text = Library::convert_search_string(search, mask);
-			filter.mode = Library::Filter::Fulltext;
+			filter.set_mode(Library::Filter::Fulltext);
 			break;
 		default:
 			break;
@@ -212,13 +212,8 @@ void GUI_AbstractLibrary::text_line_edited(const QString &search)
 		filter.clear();
 	}
 
-	else if(filter.mode == Library::Filter::Date){
-		filter.cleared = false;
-	}
-
 	else{
-		filter.filtertext = QString("%") + text + QString("%");
-		filter.cleared = false;
+		filter.set_filtertext( QString("%") + text + QString("%") );
 	}
 
 	_cur_searchfilter = filter;
@@ -246,16 +241,17 @@ void GUI_AbstractLibrary::combo_search_changed(int idx)
 	switch(idx) {
 
 		case 1:
-			_cur_searchfilter.mode = Library::Filter::Genre;
+			_cur_searchfilter.set_mode(Library::Filter::Genre);
 			break;
 
 		case 2:
-			_cur_searchfilter.mode = Library::Filter::Filename;
+			_cur_searchfilter.set_mode(Library::Filter::Filename);
 			break;
 
 		case 0:
 		default:
-			_cur_searchfilter.mode = Library::Filter::Fulltext; break;
+			_cur_searchfilter.set_mode(Library::Filter::Fulltext);
+			break;
 	}
 
 	_library->psl_filter_changed(_cur_searchfilter);

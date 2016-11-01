@@ -38,8 +38,8 @@ AbstractLibrary::AbstractLibrary(QObject *parent) :
 	_playlist = PlaylistHandler::getInstance();
 	_sortorder = _settings->get(Set::Lib_Sorting);
 
-	_filter.mode = Library::Filter::Fulltext;
-	_filter.filtertext = "";
+	_filter.set_mode(Library::Filter::Fulltext);
+	_filter.set_filtertext("");
 
 	MetaDataChangeNotifier* md_change_notifier = MetaDataChangeNotifier::getInstance();
 	connect(md_change_notifier, &MetaDataChangeNotifier::sig_metadata_changed,
@@ -333,7 +333,7 @@ void AbstractLibrary::change_artist_selection(const SP::Set<int>& indexes)
 		get_all_albums_by_artist(_selected_artists.toList(), _vec_albums, _filter, _sortorder);
 	}
 
-	else if(!_filter.cleared) {
+	else if(!_filter.cleared()) {
 		get_all_tracks_by_searchstring(_filter, _vec_md, _sortorder);
 		get_all_albums_by_searchstring(_filter, _vec_albums, _sortorder);
 		get_all_artists_by_searchstring(_filter, _vec_artists, _sortorder);
@@ -406,7 +406,7 @@ void AbstractLibrary::change_album_selection(const SP::Set<int>& indexes){
 	}
 
 	// neither album nor artist, but searchstring
-	else if(!_filter.cleared) {
+	else if(!_filter.cleared()) {
 		get_all_tracks_by_searchstring(_filter, _vec_md, _sortorder);
 	}
 
@@ -455,9 +455,9 @@ void AbstractLibrary::psl_selected_tracks_changed(const SP::Set<int>& idx_list) 
 
 void AbstractLibrary::fetch_by_filter(const Library::Filter& filter, bool force)
 {
-	if( _filter.cleared &&
-		filter.cleared &&
-		filter.filtertext.size() < 5 &&
+	if( _filter.cleared() &&
+		filter.cleared() &&
+		filter.filtertext().size() < 5 &&
 		(_selected_artists.size() == 0) &&
 		(_selected_albums.size() == 0) &&
 		!force)
@@ -475,7 +475,7 @@ void AbstractLibrary::fetch_by_filter(const Library::Filter& filter, bool force)
 	_selected_artists.clear();
 
 
-	if(_filter.cleared)	{
+	if(_filter.cleared()) {
 		get_all_artists(_vec_artists, _sortorder);
 		get_all_albums(_vec_albums, _sortorder);
 		get_all_tracks(_vec_md, _sortorder);
@@ -506,7 +506,7 @@ void AbstractLibrary::_sl_sortorder_changed() {
 		_sortorder = so;
 		_vec_artists.clear();
 
-		if(!_filter.cleared) {
+		if(!_filter.cleared()) {
 			get_all_artists_by_searchstring(_filter, _vec_artists, _sortorder);
 		}
 
@@ -530,7 +530,7 @@ void AbstractLibrary::_sl_sortorder_changed() {
 		}
 
 		// only filter
-		else if( !_filter.cleared ) {
+		else if( !_filter.cleared() ) {
 			get_all_albums_by_searchstring(_filter, _vec_albums, _sortorder);
 		}
 
@@ -556,7 +556,7 @@ void AbstractLibrary::_sl_sortorder_changed() {
 			get_all_tracks_by_artist(_selected_artists.toList(), _vec_md, _filter, _sortorder);
 		}
 
-		else if(!_filter.cleared) {
+		else if(!_filter.cleared()) {
 			get_all_tracks_by_searchstring(_filter, _vec_md, _sortorder);
 		}
 

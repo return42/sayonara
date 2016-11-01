@@ -1,4 +1,4 @@
-/* DatabaseLibrary.h */
+/* Sorting.h */
 
 /* Copyright (C) 2011-2016  Lucio Carreras
  *
@@ -18,27 +18,34 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifndef LIBRARY_SORTING_H
+#define LIBRARY_SORTING_H
 
+#include <QtGlobal>
+#include "Sortorder.h"
 
-#ifndef DATABASELIBRARY_H
-#define DATABASELIBRARY_H
-
-#include "Database/DatabaseModule.h"
-
-class MetaDataList;
-
-
-class DatabaseLibrary :
-		private DatabaseModule
+class QString;
+namespace Library
 {
 
-public:
+    class Sortings
+    {
 
-	DatabaseLibrary(const QSqlDatabase& db, quint8 db_id);
+    public:
+	Library::SortOrder so_albums;
+	Library::SortOrder so_artists;
+	Library::SortOrder so_tracks;
 
-	virtual void createIndexes();
-	virtual bool storeMetadata(const MetaDataList & v_md);
+	Sortings();
+	Sortings(const Sortings& so);
+	~Sortings();
 
-};
+	bool operator==(Library::Sortings so);
 
-#endif // DATABASELIBRARY_H
+	QString toString() const;
+
+	static Library::Sortings fromString(const QString& str);
+    };
+}
+
+#endif // SORTING_H

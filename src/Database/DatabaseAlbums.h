@@ -25,11 +25,10 @@
 
 #include "Database/DatabaseSearchMode.h"
 #include "Database/DatabaseModule.h"
-#include "Components/Library/Sorting.h"
+#include "Helper/Library/Sortorder.h"
 #include "Helper/typedefs.h"
-#include "Helper/Library/Filter.h"
-#include "Helper/Library/SearchMode.h"
 
+namespace Library {class Filter;}
 class Album;
 class AlbumList;
 class DatabaseAlbums :
@@ -56,10 +55,12 @@ public:
 
 	virtual bool getAllAlbums(AlbumList& result, Library::SortOrder sortorder=Library::SortOrder::AlbumNameAsc, bool also_empty=false);
 
-	virtual bool getAllAlbumsByArtist(int artist, AlbumList& result, Library::Filter filter=Library::Filter(), Library::SortOrder sortorder = Library::SortOrder::AlbumNameAsc);
-	virtual bool getAllAlbumsByArtist(IDList artists, AlbumList& result, Library::Filter filter=Library::Filter(), Library::SortOrder sortorder = Library::SortOrder::AlbumNameAsc);
+	virtual bool getAllAlbumsByArtist(int artist, AlbumList& result);
+	virtual bool getAllAlbumsByArtist(int artist, AlbumList& result, const Library::Filter& filter, Library::SortOrder sortorder = Library::SortOrder::AlbumNameAsc);
+	virtual bool getAllAlbumsByArtist(IDList artists, AlbumList& result);
+	virtual bool getAllAlbumsByArtist(IDList artists, AlbumList& result, const Library::Filter& filter, Library::SortOrder sortorder = Library::SortOrder::AlbumNameAsc);
 
-	virtual bool getAllAlbumsBySearchString(Library::Filter filter, AlbumList& result, Library::SortOrder sortorder = Library::SortOrder::AlbumNameAsc);
+	virtual bool getAllAlbumsBySearchString(const Library::Filter& filter, AlbumList& result, Library::SortOrder sortorder = Library::SortOrder::AlbumNameAsc);
 
 	virtual int insertAlbumIntoDatabase (const QString & album);
 	virtual int insertAlbumIntoDatabase (const Album& album);
@@ -67,7 +68,6 @@ public:
 	virtual int updateAlbum(const Album& album);
 
 	virtual void updateAlbumCissearch();
-
 };
 
 #endif // DATABASEALBUMS_H

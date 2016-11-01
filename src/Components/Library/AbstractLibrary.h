@@ -34,7 +34,7 @@
 #include "Helper/MetaData/Album.h"
 #include "Helper/MetaData/MetaDataList.h"
 
-#include "Components/Library/Sorting.h"
+#include "Helper/Library/Sorting.h"
 
 #include <QFile>
 

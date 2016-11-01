@@ -26,39 +26,50 @@
 #define FILTER_H_
 
 #include <QString>
-#include "DateFilter.h"
+#include "Helper/Pimpl.h"
 
 namespace Library
 {
-    struct Filter
+    class DateFilter;
+}
+
+namespace Library
+{
+
+    class Filter
     {
-	enum Mode
-	{
-	    Fulltext=0,
-	    Filename,
-	    Genre,
-	    Date
-	};
+	public:
 
-	DateFilter	date_filter;
-	QString		filtertext;
-	Mode		mode;
-	bool		cleared;
+	    enum Mode
+	    {
+		Fulltext=0,
+		Filename,
+		Genre,
+		Date
+	    };
 
 
-	Filter()
-	{
-	    clear();
-	}
+	    Filter();
+	    ~Filter();
+	    void operator=(const Filter& other);
+	    Filter(const Filter& other);
 
-	void clear()
-	{
-	    date_filter = DateFilter("");
-	    filtertext = QString();
-	    mode = Mode::Fulltext;
-	    cleared = true;
-	}
+	    Library::DateFilter date_filter() const;
+	    void set_date_filter(const Library::DateFilter& filter);
+
+	    QString filtertext() const;
+	    void set_filtertext(const QString& str);
+
+	    Library::Filter::Mode mode() const;
+	    void set_mode(Library::Filter::Mode mode);
+
+	    void clear();
+	    bool cleared() const;
+
+	private:
+	    PIMPL(Filter)
     };
+
 }
 
 

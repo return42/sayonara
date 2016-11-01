@@ -37,6 +37,7 @@
 
 #include "Components/Library/LocalLibrary.h"
 #include "Helper/Helper.h"
+#include "Helper/Library/DateFilter.h"
 #include "Helper/Settings/Settings.h"
 #include "Helper/Language.h"
 #include "GUI/Helper/SearchableWidget/SearchableListView.h"
@@ -245,9 +246,9 @@ void GUI_LocalLibrary::genre_selection_changed(const QModelIndex& index){
 void GUI_LocalLibrary::date_selection_changed(const QModelIndex& index)
 {
 	Library::Filter filter;
-	filter.mode = Library::Filter::Date;
-	filter.date_filter = ui->lv_date_search->get_filter(index.row());
-	filter.cleared = false;
+	Library::DateFilter date_filter = ui->lv_date_search->get_filter(index.row());
+	filter.set_mode(Library::Filter::Date);
+	filter.set_date_filter(date_filter);
 	_library->psl_filter_changed(filter);
 }
 

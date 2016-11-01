@@ -1,11 +1,15 @@
 #include "GUI_DateSearchConfig.h"
 #include "GUI/Library/ui_GUI_DateSearchConfig.h"
 #include "Helper/Library/DateFilter.h"
+#include "Helper/Language.h"
+
+#include <QInputDialog>
 
 struct GUI_DateSearchConfig::Private
 {
 	Library::DateFilter org_filter;
 	Library::DateFilter edited_filter;
+	GUI_DateSearchConfig::Result result;
 };
 
 static bool check_name(const QString& name)
@@ -49,28 +53,38 @@ void GUI_DateSearchConfig::ok_clicked()
 	commit();
 
 	_m->org_filter = _m->edited_filter;
+	_m->result = GUI_DateSearchConfig::Result::Replace;
 
 	this->close();
 }
 
 void GUI_DateSearchConfig::save_as_clicked()
 {
-	if(!check_name(ui->le_title->text())){
+	QString new_name = QInputDialog::getText(this,
+											 Lang::get(Lang::SaveAs),
+											 Lang::get(Lang::SaveAs));
+
+	if(!check_name(new_name)){
 		return;
 	}
 
-	QString new_name = "Todo";
+	if(new_name.isEmpty()){
+		_m->result = GUI_DateSearchConfig::Result::Cancelled;
+		return;
+	}
 
 	commit();
 
 	_m->edited_filter.set_name(new_name);
 	_m->org_filter = _m->edited_filter;
+	_m->result = GUI_DateSearchConfig::Result::New;
 
 	this->close();
 }
 
 void GUI_DateSearchConfig::cancel_clicked()
 {
+	_m->result = GUI_DateSearchConfig::Result::Cancelled;
 	this->close();
 }
 
@@ -172,6 +186,8 @@ void GUI_DateSearchConfig::commit()
 
 void GUI_DateSearchConfig::set_filter(const Library::DateFilter& filter)
 {
+	_m->result = GUI_DateSearchConfig::Result::Cancelled;
+
 	Library::DateFilter::Type type = filter.type();
 	Library::DateFilter::TimeSpanMap time_span_map = filter.time_span_map();
 
@@ -232,7 +248,6 @@ void GUI_DateSearchConfig::set_filter(const Library::DateFilter& filter)
 		case Library::DateFilter::Type::Between:
 		{
 			if(time_span_map.size() < 2){
-				//todo
 				return;
 			}
 
@@ -266,4 +281,9 @@ void GUI_DateSearchConfig::set_filter(const Library::DateFilter& filter)
 Library::DateFilter GUI_DateSearchConfig::get_edited_filter() const
 {
 	return _m->edited_filter;
+}
+
+GUI_DateSearchConfig::Result GUI_DateSearchConfig::get_result() const
+{
+	return _m->result;
 }

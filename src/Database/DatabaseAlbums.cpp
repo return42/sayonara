@@ -22,6 +22,8 @@
 #include "Database/SayonaraQuery.h"
 #include "Database/DatabaseAlbums.h"
 #include "Helper/MetaData/Album.h"
+#include "Helper/Library/Filter.h"
+#include "Helper/Library/DateFilter.h"
 
 DatabaseAlbums::DatabaseAlbums(QSqlDatabase db, quint8 db_id) :
 	DatabaseModule(db, db_id),
@@ -202,7 +204,13 @@ bool DatabaseAlbums::getAllAlbums(AlbumList& result, Library::SortOrder sortorde
 }
 
 
-bool DatabaseAlbums::getAllAlbumsByArtist(IDList artists, AlbumList& result, Library::Filter filter, Library::SortOrder sortorder) {
+bool DatabaseAlbums::getAllAlbumsByArtist(IDList artists, AlbumList& result)
+{
+	return getAllAlbumsByArtist(artists, result, Library::Filter());
+}
+
+
+bool DatabaseAlbums::getAllAlbumsByArtist(IDList artists, AlbumList& result, const Library::Filter& filter, Library::SortOrder sortorder) {
 
 	DB_RETURN_NOT_OPEN_BOOL(_db);
 
@@ -232,12 +240,12 @@ bool DatabaseAlbums::getAllAlbumsByArtist(IDList artists, AlbumList& result, Lib
 	}
 
 
-	if( !filter.cleared ) {
+	if( !filter.cleared() ) {
 
-		switch(filter.mode) 
+		switch(filter.mode())
 		{
 			case Library::Filter::Date:
-				querytext += QString("AND ") + filter.date_filter.get_sql_filter("tracks");
+				querytext += QString("AND ") + filter.date_filter().get_sql_filter("tracks");
 				break;
 
 			case Library::Filter::Genre:
@@ -278,19 +286,20 @@ bool DatabaseAlbums::getAllAlbumsByArtist(IDList artists, AlbumList& result, Lib
 		q.bindValue(QString(":artist_id_") + QString::number(i), artists[i]);
 	}
 
-	if( !filter.cleared )
+	if( !filter.cleared() )
 	{
-		switch(filter.mode) {
+		QString filtertext = filter.filtertext();
+		switch(filter.mode()) {
 
 			case Library::Filter::Date:
 				break;
 
 			case Library::Filter::Fulltext:
-				q.bindValue(":filter2", QVariant(filter.filtertext));
-				q.bindValue(":filter3", QVariant(filter.filtertext));
+				q.bindValue(":filter2", filtertext);
+				q.bindValue(":filter3", filtertext);
 
 			default:
-				q.bindValue(":filter1", QVariant(filter.filtertext));
+				q.bindValue(":filter1", filtertext);
 				break;
 		}
 	}
@@ -300,26 +309,32 @@ bool DatabaseAlbums::getAllAlbumsByArtist(IDList artists, AlbumList& result, Lib
 
 }
 
-bool DatabaseAlbums::getAllAlbumsByArtist(int artist, AlbumList& result, Library::Filter filter, Library::SortOrder sortorder) {
+bool DatabaseAlbums::getAllAlbumsByArtist(int artist, AlbumList& result)
+{
+	return getAllAlbumsByArtist(artist, result, Library::Filter());
+}
+
+bool DatabaseAlbums::getAllAlbumsByArtist(int artist, AlbumList& result, const Library::Filter& filter, Library::SortOrder sortorder)
+{
 
 	IDList list;
 	list << artist;
 	return getAllAlbumsByArtist(list, result, filter, sortorder);
 }
 
-bool DatabaseAlbums::getAllAlbumsBySearchString(Library::Filter filter, AlbumList& result, Library::SortOrder sortorder) {
+bool DatabaseAlbums::getAllAlbumsBySearchString(const Library::Filter& filter, AlbumList& result, Library::SortOrder sortorder) {
 
 	DB_RETURN_NOT_OPEN_BOOL(_db);
 
 	SayonaraQuery q (_db);
 	QString query;
-	switch(filter.mode)
+	switch(filter.mode())
 	{
 
 		case Library::Filter::Date:
 			query = _fetch_query +
 						 "WHERE albums.albumid = tracks.albumid AND artists.artistID = tracks.artistid AND "
-						 "(" + filter.date_filter.get_sql_filter("tracks") + ") "
+						 "(" + filter.date_filter().get_sql_filter("tracks") + ") "
 						 "GROUP BY albums.albumID, albumName";
 			break;
 			
@@ -360,25 +375,25 @@ bool DatabaseAlbums::getAllAlbumsBySearchString(Library::Filter filter, AlbumLis
 
 	q.prepare(query);
 
-
-	switch(filter.mode)
+	QString filtertext = filter.filtertext();
+	switch(filter.mode())
 	{
 		case Library::Filter::Date:
 			break;
 
 		case Library::Filter::Genre:
-			q.bindValue(":search_in_genre", QVariant(filter.filtertext));
+			q.bindValue(":search_in_genre", filtertext);
 			break;
 
 		case Library::Filter::Filename:
-			q.bindValue(":search_in_filename", QVariant(filter.filtertext));
+			q.bindValue(":search_in_filename", filtertext);
 			break;
 
 		case Library::Filter::Fulltext:
 		default:
-			q.bindValue(":search_in_title",QVariant(filter.filtertext));
-			q.bindValue(":search_in_album",QVariant(filter.filtertext));
-			q.bindValue(":search_in_artist",QVariant(filter.filtertext));
+			q.bindValue(":search_in_title", filtertext);
+			q.bindValue(":search_in_album", filtertext);
+			q.bindValue(":search_in_artist", filtertext);
 			break;
 
 	}

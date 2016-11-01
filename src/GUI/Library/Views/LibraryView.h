@@ -38,7 +38,7 @@
 
 #include "Helper/MetaData/MetaDataFwd.h"
 
-#include "Components/Library/Sorting.h"
+#include "Helper/Library/Sortorder.h"
 
 #include <QAction>
 #include <QApplication>

@@ -44,10 +44,10 @@ void LibraryDateSearchView::contextMenuEvent(QContextMenuEvent* e)
 	if(!_m->rc_menu){
 		_m->rc_menu = new ContextMenu(this);
 		_m->rc_menu->show_actions(
-			ContextMenu::EntryNew |
-			ContextMenu::EntryEdit |
-			ContextMenu::EntryDelete
-		);
+					ContextMenu::EntryNew |
+					ContextMenu::EntryEdit |
+					ContextMenu::EntryDelete
+					);
 
 		connect(_m->rc_menu, &ContextMenu::sig_new, this, &LibraryDateSearchView::new_clicked);
 		connect(_m->rc_menu, &ContextMenu::sig_edit, this, &LibraryDateSearchView::edit_clicked);
@@ -67,10 +67,18 @@ void LibraryDateSearchView::new_clicked()
 	_m->dsc->set_filter(Library::DateFilter());
 	_m->dsc->exec();
 
-	Library::DateFilter filter = _m->dsc->get_edited_filter();
-	if(filter.valid()){
-		_m->model->add_data(filter);
+	Library::DateFilter edited_filter = _m->dsc->get_edited_filter();
+	if(!edited_filter.valid()){
+		return;
 	}
+
+	GUI_DateSearchConfig::Result result = _m->dsc->get_result();
+
+	if(result !=  GUI_DateSearchConfig::Result::Cancelled){
+		_m->model->add_data(edited_filter);
+	}
+
+	return;
 }
 
 
@@ -84,7 +92,17 @@ void LibraryDateSearchView::edit_clicked()
 	_m->dsc->exec();
 
 	Library::DateFilter edited_filter = _m->dsc->get_edited_filter();
-	if(edited_filter.valid()){
+	GUI_DateSearchConfig::Result result = _m->dsc->get_result();
+
+	if(!edited_filter.valid()){
+		return;
+	}
+
+	if(result ==  GUI_DateSearchConfig::Result::New){
+		_m->model->add_data(edited_filter);
+	}
+
+	else if(result ==  GUI_DateSearchConfig::Result::Replace){
 		_m->model->set_data(edited_filter, this->currentIndex().row());
 	}
 }

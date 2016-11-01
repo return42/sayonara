@@ -6,23 +6,20 @@
 
 // TODO! That's CRAP
 
-static quint64 convert_timespan_to_int(Library::DateFilter::TimeSpan span, quint8 val)
+static QDateTime substract_span(const QDateTime& t, Library::DateFilter::TimeSpan span, int val)
 {
-	quint64 ret = val;
 	switch(span)
 	{
-	case Library::DateFilter::TimeSpan::Hours:
-		return ret * 100 * 100;
 	case Library::DateFilter::TimeSpan::Days:
-		return ret * 100 * 100 * 100;
+		return t.addDays(-val);
 	case Library::DateFilter::TimeSpan::Weeks:
-		return ret * 100 * 100 * 100 * 7;
+		return t.addDays(-val * 7);
 	case Library::DateFilter::TimeSpan::Months:
-		return ret * 100 * 100 * 100 * 100;
+		return t.addMonths(-val);
 	case Library::DateFilter::TimeSpan::Years:
-		return ret * 100 * 100 * 100 * 100 * 100;
+		return t.addYears(-val);;
 	default:
-		return 0;
+		return QDateTime();
 	}
 }
 
@@ -56,9 +53,7 @@ struct Library::DateFilter::Private
 	void check_from_to()
 	{
 		if(span_from > span_to){
-			quint64 span_to_tmp = span_to;
-			span_to = span_from;
-			span_from = span_to_tmp;
+			std::swap(span_from, span_to);
 		}
 	}
 };
@@ -127,8 +122,8 @@ Library::DateFilter::type() const
 void Library::DateFilter::set_between(Library::DateFilter::TimeSpan span_from, quint8 value_from, Library::DateFilter::TimeSpan span_to, quint8 value_to, Library::DateFilter::ChangeMode change_mode)
 {
 	_m->clear();
-	_m->span_from = Helper::current_date_to_int() - convert_timespan_to_int(span_from, value_from);
-	_m->span_to = Helper::current_date_to_int() - convert_timespan_to_int(span_to, value_to);
+	_m->span_from = Helper::date_to_int( substract_span(QDateTime::currentDateTime(), span_from, value_from) );
+	_m->span_to = Helper::date_to_int( substract_span(QDateTime::currentDateTime(), span_to, value_to) );
 	_m->change_mode = change_mode;
 	_m->valid = true;
 	_m->check_from_to();
@@ -152,7 +147,7 @@ void Library::DateFilter::set_older_than(Library::DateFilter::TimeSpan span, qui
 {
 	_m->clear();
 	_m->span_from = 0;
-	_m->span_to = Helper::current_date_to_int() - convert_timespan_to_int(span, value);
+	_m->span_to = Helper::date_to_int( substract_span(QDateTime::currentDateTime(), span, value) );
 	_m->change_mode = change_mode;
 	_m->valid = true;
 	_m->filter_map << QPair<Library::DateFilter::TimeSpan, quint8>(span, value);
@@ -173,7 +168,7 @@ void Library::DateFilter::set_older_than(const QDateTime& date, Library::DateFil
 void Library::DateFilter::set_newer_than(Library::DateFilter::TimeSpan span, quint8 value, Library::DateFilter::ChangeMode change_mode)
 {
 	_m->clear();
-	_m->span_from = Helper::current_date_to_int() - convert_timespan_to_int(span, value);
+	_m->span_from = Helper::date_to_int( substract_span(QDateTime::currentDateTime(), span, value) );
 	_m->span_to = Helper::current_date_to_int();
 	_m->change_mode = change_mode;
 	_m->valid = true;

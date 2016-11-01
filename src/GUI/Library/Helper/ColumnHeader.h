@@ -27,7 +27,7 @@
 #ifndef MYCOLUMNHEADER_H_
 #define MYCOLUMNHEADER_H_
 
-#include "Components/Library/Sorting.h"
+#include "Helper/Library/Sortorder.h"
 
 #include <QAction>
 #include <QString>

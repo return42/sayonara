@@ -23,10 +23,9 @@
 
 #include "Database/DatabaseSearchMode.h"
 #include "Database/DatabaseModule.h"
-#include "Components/Library/Sorting.h"
-#include "Helper/Library/SearchMode.h"
-#include "Helper/Library/Filter.h"
-#include "Helper/Library/SearchMode.h"
+#include "Helper/Library/Sortorder.h"
+
+namespace Library {class Filter;}
 
 class Artist;
 class ArtistList;
@@ -52,7 +51,7 @@ public:
 	virtual bool getArtistByID(int id, Artist& artist);
 
 	virtual bool getAllArtists(ArtistList& result, Library::SortOrder sortorder = Library::SortOrder::ArtistNameAsc, bool also_empty=false);
-	virtual bool getAllArtistsBySearchString(Library::Filter filter, ArtistList& result, Library::SortOrder sortorder = Library::SortOrder::ArtistNameAsc);
+	virtual bool getAllArtistsBySearchString(const Library::Filter& filter, ArtistList& result, Library::SortOrder sortorder = Library::SortOrder::ArtistNameAsc);
 
 	virtual int insertArtistIntoDatabase(const QString& artist);
 	virtual int insertArtistIntoDatabase(const Artist& artist);

@@ -24,11 +24,12 @@
 #include "Settings.h"
 
 #include "Database/DatabaseConnector.h"
+#include "Helper/Macros.h"
 #include "Helper/Playlist/PlaylistMode.h"
 #include "Helper/EqualizerPresets.h"
 #include "Helper/Library/SearchMode.h"
-#include "Helper/Macros.h"
 #include "Helper/Library/DateFilter.h"
+#include "Helper/Library/Sorting.h"
 
 #include "GUI/Helper/Shortcuts/RawShortcutMap.h"
 

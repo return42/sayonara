@@ -19,15 +19,10 @@
  */
 
 
-
 #ifndef DATABASEMODULE_H
 #define DATABASEMODULE_H
 
-
 #include <QSqlDatabase>
-/*#include "Database/SayonaraQuery.h"
-#include "Components/Library/Sorting.h"
-#include "Helper/Library/Filter.h"*/
 
 
 #define DB_TRY_OPEN(db)		if (!this -> db.isOpen()) \

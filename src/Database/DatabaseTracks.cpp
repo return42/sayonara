@@ -26,6 +26,8 @@
 #include "Helper/Logger/Logger.h"
 #include "Helper/Helper.h"
 #include "Helper/FileHelper.h"
+#include "Helper/Library/Filter.h"
+#include "Helper/Library/DateFilter.h"
 
 #include <QFileInfo>
 #include <QDateTime>
@@ -103,6 +105,7 @@ bool DatabaseTracks::db_fetch_tracks(SayonaraQuery& q, MetaDataList& result) {
 
 	return true;
 }
+
 
 void DatabaseTracks::set_track_fetch_query(const QString &query){
 	_fetch_query = query;
@@ -230,7 +233,14 @@ bool DatabaseTracks::getTracksFromDatabase (MetaDataList & returndata, Library::
 	return db_fetch_tracks(q, returndata);
 }
 
-bool DatabaseTracks::getAllTracksByAlbum(int album, MetaDataList& returndata, Library::Filter filter, Library::SortOrder sort, int discnumber) {
+
+bool DatabaseTracks::getAllTracksByAlbum(int album, MetaDataList& result)
+{
+	return getAllTracksByAlbum(album, result, Library::Filter());
+}
+
+
+bool DatabaseTracks::getAllTracksByAlbum(int album, MetaDataList& returndata, const Library::Filter& filter, Library::SortOrder sort, int discnumber) {
 
 	bool success;
 	IDList list;
@@ -256,7 +266,15 @@ bool DatabaseTracks::getAllTracksByAlbum(int album, MetaDataList& returndata, Li
 	return success;
 }
 
-bool DatabaseTracks::getAllTracksByAlbum(IDList albums, MetaDataList& returndata, Library::Filter filter, Library::SortOrder sort) {
+
+
+bool DatabaseTracks::getAllTracksByAlbum(IDList albums, MetaDataList& result)
+{
+	return getAllTracksByAlbum(albums, result, Library::Filter());
+}
+
+
+bool DatabaseTracks::getAllTracksByAlbum(IDList albums, MetaDataList& returndata, const Library::Filter& filter, Library::SortOrder sort) {
 
 	DB_RETURN_NOT_OPEN_BOOL(_db);
 
@@ -278,12 +296,12 @@ bool DatabaseTracks::getAllTracksByAlbum(IDList albums, MetaDataList& returndata
 		querytext += ") ";
 	}
 
-	if( !filter.cleared ) {
-
-		switch(filter.mode) 
+	if( !filter.cleared() )
+	{
+		switch(filter.mode())
 		{
 			case Library::Filter::Date:
-				querytext += "AND " + filter.date_filter.get_sql_filter("tracks");
+				querytext += "AND " + filter.date_filter().get_sql_filter("tracks");
 				break;
 
 			case Library::Filter::Genre:
@@ -329,19 +347,21 @@ bool DatabaseTracks::getAllTracksByAlbum(IDList albums, MetaDataList& returndata
 		q.bindValue(QString(":albumid_") + QString::number(i), albums[i]);
 	}
 
-	if(filter.filtertext.length() > 0) {
 
-		switch(filter.mode) 
+	if( !filter.cleared() )
+	{
+		QString filtertext = filter.filtertext();
+		switch(filter.mode())
 		{
 			case Library::Filter::Date:
 				break;
 
 			case Library::Filter::Fulltext:
-				q.bindValue(":filter2", QVariant(filter.filtertext));
-				q.bindValue(":filter3", QVariant(filter.filtertext));
+				q.bindValue(":filter2", filtertext);
+				q.bindValue(":filter3", filtertext);
 
 			default:
-				q.bindValue(":filter1", QVariant(filter.filtertext));
+				q.bindValue(":filter1", filtertext);
 				break;
 		}
 
@@ -351,14 +371,24 @@ bool DatabaseTracks::getAllTracksByAlbum(IDList albums, MetaDataList& returndata
 
 }
 
-bool DatabaseTracks::getAllTracksByArtist(int artist, MetaDataList& returndata, Library::Filter filter, Library::SortOrder sort) {
+bool DatabaseTracks::getAllTracksByArtist(int artist, MetaDataList& result)
+{
+	return getAllTracksByArtist(artist, result, Library::Filter());
+}
+
+bool DatabaseTracks::getAllTracksByArtist(int artist, MetaDataList& returndata, const Library::Filter& filter, Library::SortOrder sort) {
 
 	IDList list;
 	list << artist;
 	return getAllTracksByArtist(list, returndata, filter, sort);
 }
 
-bool DatabaseTracks::getAllTracksByArtist(IDList artists, MetaDataList& returndata, Library::Filter filter, Library::SortOrder sort) {
+bool DatabaseTracks::getAllTracksByArtist(IDList artists, MetaDataList& returndata)
+{
+	return 	getAllTracksByArtist(artists, returndata, Library::Filter());
+}
+
+bool DatabaseTracks::getAllTracksByArtist(IDList artists, MetaDataList& returndata, const Library::Filter& filter, Library::SortOrder sort) {
 
 	DB_RETURN_NOT_OPEN_BOOL(_db);
 
@@ -382,12 +412,12 @@ bool DatabaseTracks::getAllTracksByArtist(IDList artists, MetaDataList& returnda
 		querytext += ") ";
 	}
 
-	if( !filter.cleared )
+	if( !filter.cleared() )
 	{
-		switch(filter.mode) 
+		switch( filter.mode() )
 		{
 			case Library::Filter::Date:
-				querytext += "AND " + filter.date_filter.get_sql_filter("tracks");
+				querytext += "AND " + filter.date_filter().get_sql_filter("tracks");
 				break;
 
 			case Library::Filter::Genre:
@@ -426,19 +456,20 @@ bool DatabaseTracks::getAllTracksByArtist(IDList artists, MetaDataList& returnda
 		q.bindValue(QString(":artist_id_") + QString::number(i), artists[i]);
 	}
 
-	if( !filter.filtertext.isEmpty() ) {
-
-		switch(filter.mode) 
+	if( !filter.cleared() )
+	{
+		QString filtertext = filter.filtertext();
+		switch(filter.mode())
 		{
 			case Library::Filter::Date:
 				break;
 
 			case Library::Filter::Fulltext:
-				q.bindValue(":filter2", QVariant(filter.filtertext));
-				q.bindValue(":filter3", QVariant(filter.filtertext));
+				q.bindValue(":filter2", filtertext);
+				q.bindValue(":filter3", filtertext);
 
 			default:
-				q.bindValue(":filter1", QVariant(filter.filtertext));
+				q.bindValue(":filter1", filtertext);
 				break;
 		}
 	}
@@ -449,17 +480,17 @@ bool DatabaseTracks::getAllTracksByArtist(IDList artists, MetaDataList& returnda
 }
 
 
-bool DatabaseTracks::getAllTracksBySearchString(Library::Filter filter, MetaDataList& result, Library::SortOrder sort) 
+bool DatabaseTracks::getAllTracksBySearchString(const Library::Filter& filter, MetaDataList& result, Library::SortOrder sort)
 {
 	DB_RETURN_NOT_OPEN_BOOL(_db);
 
 	SayonaraQuery q (_db);
 	QString querytext;
 
-	switch(filter.mode) 
+	switch(filter.mode())
 	{
 		case Library::Filter::Date:
-			  querytext = _fetch_query + " AND " + filter.date_filter.get_sql_filter("tracks");
+			  querytext = _fetch_query + " AND " + filter.date_filter().get_sql_filter("tracks");
 			  break;
 
 		case Library::Filter::Genre:
@@ -488,20 +519,21 @@ bool DatabaseTracks::getAllTracksBySearchString(Library::Filter filter, MetaData
 	querytext = append_track_sort_string(querytext, sort);
 	q.prepare(querytext);
 
-	switch(filter.mode) 
+	QString filtertext = filter.filtertext();
+	switch(filter.mode())
 	{
 		case Library::Filter::Genre:
-			q.bindValue(":search_in_genre", QVariant(filter.filtertext));
+			q.bindValue(":search_in_genre", filtertext);
 			break;
 
 		case Library::Filter::Filename:
-			q.bindValue(":search_in_filename",QVariant(filter.filtertext));
+			q.bindValue(":search_in_filename", filtertext);
 			break;
 
 		case Library::Filter::Fulltext:
-			q.bindValue(":search_in_title",QVariant(filter.filtertext));
-			q.bindValue(":search_in_album",QVariant(filter.filtertext));
-			q.bindValue(":search_in_artist",QVariant(filter.filtertext));
+			q.bindValue(":search_in_title", filtertext);
+			q.bindValue(":search_in_album", filtertext);
+			q.bindValue(":search_in_artist", filtertext);
 			break;
 
 		default:
