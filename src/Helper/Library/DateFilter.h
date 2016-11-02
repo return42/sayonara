@@ -18,9 +18,9 @@ namespace Library
 
 	enum class TimeSpan : char
 	{
-	    Days,
+		Days=1,
 		Weeks,
-	    Months,
+		Months,
 	    Years
 	};
 

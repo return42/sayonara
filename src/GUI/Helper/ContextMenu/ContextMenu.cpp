@@ -94,7 +94,7 @@ void ContextMenu::language_changed()
 void ContextMenu::skin_changed()
 {
 	_action_open->setIcon(_icon_loader->get_icon( "document-open", "open") );
-	_action_edit->setIcon(_icon_loader->get_icon( "document-page-setup", "edit") );
+	_action_edit->setIcon(_icon_loader->get_icon( "accessories-text-editor", "edit") );
 	_action_new->setIcon(_icon_loader->get_icon( "document-new", "new") );
 	_action_undo->setIcon(_icon_loader->get_icon( "edit-undo", "undo") );
 	_action_default->setIcon(_icon_loader->get_icon( "edit-undo", "undo") );
