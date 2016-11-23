@@ -35,7 +35,6 @@ MetaDataInfo::MetaDataInfo(const MetaDataList& v_md) :
 	QObject(nullptr),
 	SayonaraClass()
 {
-
 	if(v_md.isEmpty()) {
 		return;
 	}
@@ -85,7 +84,6 @@ MetaDataInfo::MetaDataInfo(const MetaDataList& v_md) :
 		// custom fields
 		const QList<CustomField>& custom_fields = md.get_custom_fields();
 
-
 		for(const CustomField& field : custom_fields){
 
 			QString name = field.get_display_name();
@@ -98,7 +96,6 @@ MetaDataInfo::MetaDataInfo(const MetaDataList& v_md) :
 				values[name] << value;
 			}
 		}
-
 
 		// genre
 		for(const QString& genre : md.genres){
@@ -125,7 +122,6 @@ MetaDataInfo::MetaDataInfo(const MetaDataList& v_md) :
 		}
 	}
 
-
 	for(const QString& name : values.keys()){
 		_additional_info[name] = values[name].join("<br />");
 	}
@@ -151,8 +147,8 @@ MetaDataInfo::MetaDataInfo(const MetaDataList& v_md) :
 MetaDataInfo::~MetaDataInfo() {}
 
 void MetaDataInfo::set_header(){}
-void MetaDataInfo::set_header(const MetaDataList& lst){
-
+void MetaDataInfo::set_header(const MetaDataList& lst)
+{
 	if(lst.size() == 1){
         const MetaData& md = lst[0];
 		_header = md.title;
@@ -165,8 +161,8 @@ void MetaDataInfo::set_header(const MetaDataList& lst){
 
 
 void MetaDataInfo::set_subheader(){}
-void MetaDataInfo::set_subheader(quint16 tracknum){
-
+void MetaDataInfo::set_subheader(quint16 tracknum)
+{
 	_subheader = calc_artist_str();
 
 	if(tracknum){
@@ -182,8 +178,8 @@ void MetaDataInfo::set_subheader(quint16 tracknum){
 }
 
 void MetaDataInfo::set_cover_location(){}
-void MetaDataInfo::set_cover_location(const MetaDataList& lst){
-
+void MetaDataInfo::set_cover_location(const MetaDataList& lst)
+{
 	if(lst.size() == 1){
         const MetaData& md = lst[0];
 		_cover_location = CoverLocation::get_cover_location(md);
@@ -211,8 +207,8 @@ void MetaDataInfo::set_cover_location(const MetaDataList& lst){
 }
 
 
-QString MetaDataInfo::calc_artist_str(){
-
+QString MetaDataInfo::calc_artist_str(
+{
 	QString str;
 
 	if( _artists.size() == 1 ){
@@ -227,8 +223,8 @@ QString MetaDataInfo::calc_artist_str(){
 }
 
 
-QString MetaDataInfo::calc_album_str(){
-
+QString MetaDataInfo::calc_album_str()
+{
 	QString str;
 
 	if( _albums.size() == 1){
@@ -242,13 +238,13 @@ QString MetaDataInfo::calc_album_str(){
 	return str;
 }
 
-QString MetaDataInfo::calc_tracknum_str( quint16 tracknum ){
-
+QString MetaDataInfo::calc_tracknum_str( quint16 tracknum )
+{
 	QString str;
-	switch (tracknum) {
+	switch (tracknum)
+	{
 		case 1:
 			str = Lang::get(Lang::First);
-
 			break;
 		case 2:
 			str = Lang::get(Lang::Second);
@@ -265,17 +261,20 @@ QString MetaDataInfo::calc_tracknum_str( quint16 tracknum ){
 }
 
 
-void MetaDataInfo::insert_playing_time(quint64 ms){
+void MetaDataInfo::insert_playing_time(quint64 ms)
+{
 	QString str = Helper::cvt_ms_to_string(ms);
 	_info.insert(InfoStrings::PlayingTime, str);
 }
 
-void MetaDataInfo::insert_genre(const QStringList& lst){
+void MetaDataInfo::insert_genre(const QStringList& lst)
+{
 	QString str = lst.join(", ");
 	_info.insert(InfoStrings::Genre, str);
 }
 
-void MetaDataInfo::insert_filesize(quint64 filesize){
+void MetaDataInfo::insert_filesize(quint64 filesize)
+{
 	QString str = Helper::File::calc_filesize_str(filesize);
 	_info.insert(InfoStrings::Filesize, str);
 }
@@ -294,8 +293,8 @@ QString MetaDataInfo::get_subheader() const
 
 QString MetaDataInfo::get_info_string(InfoStrings idx) const
 {
-	switch(idx){
-
+	switch(idx)
+	{
 		case InfoStrings::nTracks:
 			return QString("#") + Lang::get(Lang::Tracks) + ": ";
 		case InfoStrings::nAlbums:
@@ -315,7 +314,6 @@ QString MetaDataInfo::get_info_string(InfoStrings idx) const
 		case InfoStrings::Genre:
 			return Lang::get(Lang::Genre) + ": ";
 		default: break;
-
 	}
 
 	return "";
@@ -346,7 +344,6 @@ QString MetaDataInfo::get_additional_info_as_string() const
 
 QString MetaDataInfo::get_paths_as_string() const
 {
-
 	QString str;
 	QString lib_path = _settings->get(Set::Lib_Path);
 	bool dark = (_settings->get(Set::Player_Style) == 1);
@@ -370,7 +367,8 @@ CoverLocation MetaDataInfo::get_cover_location() const
 }
 
 
-void MetaDataInfo::insert_interval(InfoStrings key, int min, int max){
+void MetaDataInfo::insert_interval(InfoStrings key, int min, int max)
+{
 	QString str;
 
 	if(min == max){
@@ -389,9 +387,8 @@ void MetaDataInfo::insert_interval(InfoStrings key, int min, int max){
 }
 
 
-void MetaDataInfo::insert_number(InfoStrings key, int number){
+void MetaDataInfo::insert_number(InfoStrings key, int number)
+{
 	QString str = QString::number(number);
 	_info.insert(key, str);
 }
-
-

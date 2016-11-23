@@ -22,19 +22,20 @@
 #include "ArtistInfo.h"
 
 #include "Database/LibraryDatabase.h"
-#include "Helper/Compressor/Compressor.h"
+
 
 #include "Helper/MetaData/Artist.h"
 #include "Helper/Helper.h"
 #include "Helper/globals.h"
 #include "Helper/FileHelper.h"
 #include "Helper/Language.h"
+#include "Helper/SimilarArtists.h"
 
 #include <QFile>
 
 ArtistInfo::ArtistInfo(const MetaDataList& v_md) :
-	MetaDataInfo(v_md){
-
+	MetaDataInfo(v_md)
+{
 	insert_number(InfoStrings::nAlbums, _albums.size());
 
 	// clear, because it's from Metadata. We are not interested in these
@@ -70,7 +71,6 @@ ArtistInfo::ArtistInfo(const MetaDataList& v_md) :
 		insert_number(InfoStrings::nArtists, _artists.size());
 	}
 
-
 	set_header();
 	set_subheader();
 	set_cover_location();
@@ -78,51 +78,35 @@ ArtistInfo::ArtistInfo(const MetaDataList& v_md) :
 
 ArtistInfo::~ArtistInfo() {}
 
-void ArtistInfo::set_header(){
+void ArtistInfo::set_header()
+{
 	_header = calc_artist_str();
-
 }
+
 
 void ArtistInfo::calc_similar_artists(Artist& artist)
 {
-	QString sim_path = Helper::get_sayonara_path() + "/similar_artists/" + artist.name  + ".comp";
-	if(!QFile::exists(sim_path)){
-		return;
-	}
-
-	QByteArray content, decomp;
-	bool success = Helper::File::read_file_into_byte_arr(sim_path, content);
-	if(!success){
-		return;
-	}
-
-	decomp = Compressor::decompress(content);
-	if(decomp.isEmpty()){
-		return;
-	}
-
-	QStringList sim_artists  = QString::fromLocal8Bit(decomp).split("\n");
-	for(const QString& sim_artist : sim_artists){
-		QStringList lst = sim_artist.split("\t");
-		if(lst.size() < 3){
-			continue;
-		}
-
-		QString match = lst[0];
-		QString artist_name = lst[2];
+	SimilarArtists* sa = SimilarArtists::getInstance();
+	QMap<QString, double> sim_artists = sa.get_similar_artists(artist.name);
+	for(const QString& artist_name : sim_artists.keys())
+	{
+		double match = sim_artists[artist_name];
 
 		artist.add_custom_field("sim_artist_" + artist_name,
-								"sim_artist_" + match + artist_name,
+								"sim_artist_" + QString::number(match) + artist_name,
 								artist_name);
 	}
 }
 
-void ArtistInfo::set_subheader(){
+
+void ArtistInfo::set_subheader()
+{
 	_subheader = "";
 }
 
-void ArtistInfo::set_cover_location(){
 
+void ArtistInfo::set_cover_location()
+{
 	if( _artists.size() == 1){
 		QString artist = _artists.first();
 		_cover_location = CoverLocation::get_cover_location(artist);
@@ -132,7 +116,6 @@ void ArtistInfo::set_cover_location(){
 		_cover_location = CoverLocation::getInvalidLocation();
 	}
 }
-
 
 
 QString ArtistInfo::get_additional_info_as_string() const
@@ -158,7 +141,6 @@ QString ArtistInfo::get_additional_info_as_string() const
 		str = BOLD(Lang::get(Lang::SimilarArtists) + ":") + CAR_RET + CAR_RET;
 	}
 
-
 	int i=0;
 	QStringList artist_list;
 	for(const QString& sim_artist : sim_artists){
@@ -169,7 +151,7 @@ QString ArtistInfo::get_additional_info_as_string() const
 		QString artist_name = _additional_info[sim_artist];
 
 		int id = _db->getArtistID(artist_name);
-		
+
 		if( id >= 0 ){
 			artist_list << BOLD(artist_name);
 		}
@@ -181,7 +163,6 @@ QString ArtistInfo::get_additional_info_as_string() const
 	}
 
 	str += artist_list.join(", ");
-
 
 	return str;
 }

@@ -53,6 +53,7 @@ SET(SOURCES
     Playlist/PlaylistMode.cpp
 
     Random/RandomGenerator.cpp
+    SimilarArtists/SimilarArtists.cpp
     #SmartCompare/SmartCompare.cpp
 
     Tagging/Tagging.cpp
@@ -80,4 +81,3 @@ TARGET_LINK_LIBRARIES(${PROJECT_NAME}
 IF( WITH_COTIRE )
     cotire(${PROJECT_NAME})
 ENDIF()
-
