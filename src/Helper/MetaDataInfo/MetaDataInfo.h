@@ -86,7 +86,7 @@ protected:
 	LibraryDatabase*			_db=nullptr;
 
 	QString calc_tracknum_str( quint16 tracknum );
-	QString calc_artist_str();
+	QString calc_artist_str() const;
 	QString calc_album_str();
 
 	virtual void set_cover_location();

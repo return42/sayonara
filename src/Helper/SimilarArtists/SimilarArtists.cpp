@@ -1,13 +1,15 @@
 #include "SimilarArtists.h"
-#include "Helper/MetaData/ArtistList.h"
+#include "Helper/MetaData/Artist.h"
 #include "Helper/Helper.h"
 #include "Helper/FileHelper.h"
 #include "Helper/Compressor/Compressor.h"
 
+#include <QDir>
+
 SimilarArtists::SimilarArtists() {}
 SimilarArtists::~SimilarArtists() {}
 
-static QString get_file(const QString& artist) const
+static QString get_filename(const QString& artist)
 {
     QString sayonara_path = Helper::get_sayonara_path() + "/" + "similar_artists/";
     sayonara_path = Helper::File::clean_filename(sayonara_path);
@@ -16,14 +18,14 @@ static QString get_file(const QString& artist) const
     QStringList name_filters;
         name_filters << "*.comp";
 
-    QDir::Filters filters = (QDir::Filters)(QDir::Files);
+	QDir::Filters filters = static_cast<QDir::Filters>(QDir::Files);
 
     QStringList files = dir.entryList(name_filters, filters);
     if(files.isEmpty()){
         return QString();
     }
 
-    QString target_name = artist.name + ".comp";
+	QString target_name = artist + ".comp";
     QString result_filename;
     for(const QString& str : files)
     {
@@ -38,10 +40,10 @@ static QString get_file(const QString& artist) const
 }
 
 QMap<QString, double>
-SimilarArtists::get_similar_artists(const QString& artist)
+SimilarArtists::get_similar_artists(const QString& artist) const
 {
     QMap<QString, double> sim_artist_map;
-    QString filename = get_filename(artist);
+	QString filename = get_filename(artist);
     if(filename.isEmpty()){
         return sim_artist_map;
     }

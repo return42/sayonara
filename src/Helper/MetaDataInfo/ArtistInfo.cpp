@@ -29,14 +29,14 @@
 #include "Helper/globals.h"
 #include "Helper/FileHelper.h"
 #include "Helper/Language.h"
-#include "Helper/SimilarArtists.h"
+#include "Helper/SimilarArtists/SimilarArtists.h"
 
 #include <QFile>
 
 ArtistInfo::ArtistInfo(const MetaDataList& v_md) :
 	MetaDataInfo(v_md)
 {
-	insert_number(InfoStrings::nAlbums, _albums.size());
+	insert_number(InfoStrings::nAlbums, _albums.count());
 
 	// clear, because it's from Metadata. We are not interested in these
 	// rather fetch artists' additional data, if there's only one artist
@@ -68,7 +68,7 @@ ArtistInfo::ArtistInfo(const MetaDataList& v_md) :
 	}
 
 	else if(_artists.size() > 1){
-		insert_number(InfoStrings::nArtists, _artists.size());
+		insert_number(InfoStrings::nArtists, _artists.count());
 	}
 
 	set_header();
@@ -87,7 +87,7 @@ void ArtistInfo::set_header()
 void ArtistInfo::calc_similar_artists(Artist& artist)
 {
 	SimilarArtists* sa = SimilarArtists::getInstance();
-	QMap<QString, double> sim_artists = sa.get_similar_artists(artist.name);
+	QMap<QString, double> sim_artists = sa->get_similar_artists(artist.name);
 	for(const QString& artist_name : sim_artists.keys())
 	{
 		double match = sim_artists[artist_name];
@@ -103,6 +103,7 @@ void ArtistInfo::set_subheader()
 {
 	_subheader = "";
 }
+
 
 
 void ArtistInfo::set_cover_location()

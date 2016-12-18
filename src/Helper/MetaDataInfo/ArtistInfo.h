@@ -35,6 +35,9 @@ class ArtistInfo :
 {
 
 private:
+
+	int bla;
+
 	void set_cover_location() override;
 	void set_subheader() override;
 	void set_header() override;

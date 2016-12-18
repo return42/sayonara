@@ -117,6 +117,11 @@ namespace SP {
 				this->erase(it);
 			}
 		}
+
+		int count() const
+		{
+			return static_cast<int>(this->size());
+		}
 	};
 }
 
