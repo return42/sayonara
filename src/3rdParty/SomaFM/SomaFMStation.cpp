@@ -42,6 +42,15 @@ struct SomaFMStation::Private
 	MetaDataList	v_md;
 	bool			loved;
 
+	QString complete_url(const QString& url)
+	{
+		if(url.startsWith("/")){
+			return QString("https://somafm.com") + url;
+		}
+
+		return url;
+	}
+
 	void parse_station_name()
 	{
 		QString pattern("<h3>(.*)</h3>");
@@ -53,7 +62,6 @@ struct SomaFMStation::Private
 			station_name = Helper::cvt_str_to_first_upper(re.cap(1));
 		}
 	}
-
 
 	void parse_urls()
 	{
@@ -69,7 +77,7 @@ struct SomaFMStation::Private
 		do{
 			idx = re_mp3.indexIn(content, idx+1);
 			if(idx > 0){
-				QString url = re_mp3.cap(1);
+				QString url = complete_url(re_mp3.cap(1));
 				urls[url] = SomaFMStation::UrlType::MP3;
 			}
 		} while(idx > 0);
@@ -77,8 +85,9 @@ struct SomaFMStation::Private
 		idx=-1;
 		do{
 			idx = re_aac.indexIn(content, idx+1);
+
 			if(idx > 0){
-				QString url = re_aac.cap(1);
+				QString url = complete_url(re_aac.cap(1));
 				urls[url] = SomaFMStation::UrlType::AAC;
 			}
 
@@ -108,7 +117,7 @@ struct SomaFMStation::Private
 
 		int idx = re.indexIn(content);
 		if(idx > 0){
-			QString url = QString("https://somafm.com/") + re.cap(1);
+			QString url = complete_url(re.cap(1));
 			QString cover_path = Helper::get_sayonara_path() +
 					"/covers/" +
 					station_name + "." + Helper::File::get_file_extension(url);
@@ -116,6 +125,8 @@ struct SomaFMStation::Private
 			cover = CoverLocation::get_cover_location(QUrl(url), cover_path);
 		}
 	}
+
+
 };
 
 
