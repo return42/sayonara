@@ -54,13 +54,19 @@ private:
 	QString		_filepath;
 	RadioMode	_radio_mode;
 
+	qint32		_album_artist_id;
+	QString		_album_artist;
+
 public:
 	qint32 id;
-	qint32 album_id;
-	qint32 artist_id;
 	QString title;
+
+	qint32 artist_id;
 	QString artist;
+
+	qint32 album_id;
 	QString album;          // if radio station: name of radio station
+
 	QStringList genres;
 	quint8 rating;
 	quint64 length_ms;
@@ -69,7 +75,7 @@ public:
 	quint16 track_num;
 	quint32 bitrate;
 	quint64 filesize;
-	//QString comment;
+
 	quint8 discnumber;
 	quint8 n_discs;
 
@@ -87,6 +93,13 @@ public:
 	QUrl url() const;
 	QString filepath() const;
 	QString set_filepath(QString filepath);
+
+	qint32 album_artist_id() const;
+	QString album_artist() const;
+	bool has_album_artist() const;
+
+	void set_album_artist(const QString& album_artist, qint32 id=-1);
+	void set_album_artist_id(qint32 id);
 
 	RadioMode radio_mode() const;
 

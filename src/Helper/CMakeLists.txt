@@ -62,6 +62,7 @@ SET(SOURCES
     Tagging/Frames/Discnumber.cpp
     Tagging/Frames/Popularimeter.cpp
     Tagging/Frames/Cover.cpp
+    Tagging/Frames/AlbumArtist.cpp
 
     WebAccess/AsyncWebAccess.cpp
 )

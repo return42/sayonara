@@ -23,6 +23,7 @@
 #include "Frames/Popularimeter.h"
 #include "Frames/Discnumber.h"
 #include "Frames/Cover.h"
+#include "Frames/AlbumArtist.h"
 
 #include "Helper/Helper.h"
 #include "Helper/FileHelper.h"
@@ -97,6 +98,13 @@ bool Tagging::getMetaDataOfFile(MetaData& md, Tagging::Quality quality) {
 	QString genre = QString::fromUtf8(tag->genre().toCString(true));
 	QString comment = QString::fromUtf8(tag->comment().toCString(true));
 
+	QString album_artist;
+	ID3v2Frame::AlbumArtistFrame album_artist_frame(&f);
+	success = album_artist_frame.read(album_artist);
+	if(success){
+		md.set_album_artist(album_artist);
+	}
+
 	ID3v2Frame::PopularimeterFrame popularimeter_frame(&f);
 	ID3v2Frame::Popularimeter popularimeter;
 	success = popularimeter_frame.read(popularimeter);
@@ -123,7 +131,6 @@ bool Tagging::getMetaDataOfFile(MetaData& md, Tagging::Quality quality) {
 		length = f.audioProperties()->length() * 1000;
 	}
 
-
 	QStringList genres;
 	QString genre_str = Helper::cvt_str_to_first_upper(genre);
 	genres = genre_str.split(QRegExp(",|/|;"));
@@ -144,7 +151,6 @@ bool Tagging::getMetaDataOfFile(MetaData& md, Tagging::Quality quality) {
 	md.genres = genres;
 	md.discnumber = discnumber.disc;
 	md.n_discs = discnumber.n_discs;
-	//md.comment = comment;
 	md.rating = popularimeter.get_sayonara_rating();
 
 	if(md.title.length() == 0) {

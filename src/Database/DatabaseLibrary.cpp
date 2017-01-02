@@ -27,6 +27,8 @@
 
 #include "Helper/MetaData/MetaData.h"
 #include "Helper/MetaData/MetaDataList.h"
+#include "Helper/MetaData/Album.h"
+#include "Helper/MetaData/Artist.h"
 #include "Helper/Logger/Logger.h"
 
 DatabaseLibrary::DatabaseLibrary(const QSqlDatabase& db, quint8 db_id) :
@@ -50,19 +52,66 @@ bool DatabaseLibrary::storeMetadata(const MetaDataList& v_md)  {
 	DatabaseArtists db_artists(_db, v_md.first().db_id);
 	DatabaseTracks db_tracks(_db, v_md.first().db_id);
 
+	AlbumList albums;
+	ArtistList artists;
+	QHash<QString, Album> album_map;
+	QHash<QString, Artist> artist_map;
+
+	db_albums.getAllAlbums(albums);
+	db_artists.getAllArtists(artists);
+
+	for(const Album& album : albums){
+		album_map[album.name] = album;
+	}
+
+	for(const Artist& artist : artists){
+		artist_map[artist.name] = artist;
+	}
+
+	albums.clear();
+	artists.clear();
+
 	for(const MetaData& md : v_md) {
 
-		int artist_id, album_id;
+		int artist_id, album_id, album_artist_id;
 		//first check if we know the artist and its id
-
-		album_id = db_albums.getAlbumID(md.album);
-		if (album_id == -1) {
+		Album album = album_map[md.album];
+		if(album.id < 0) {
 			album_id = db_albums.insertAlbumIntoDatabase(md.album);
+			album.id = album_id;
+			album_map[md.album] = album;
 		}
 
-		artist_id = db_artists.getArtistID(md.artist);
-		if (artist_id == -1) {
+		else{
+			album_id = album.id;
+		}
+
+		Artist artist = artist_map[md.artist];
+		if (artist.id < 0) {
 			artist_id = db_artists.insertArtistIntoDatabase(md.artist);
+			artist.id = artist_id;
+			artist_map[md.artist] = artist;
+		}
+
+		else{
+			artist_id = artist.id;
+		}
+
+		Artist album_artist = artist_map[md.album_artist()];
+		if (album_artist.id < 0) {
+			if(md.album_artist().isEmpty()){
+				album_artist_id = -1;
+			}
+
+			else{
+				album_artist_id = db_artists.insertArtistIntoDatabase(md.album_artist());
+				album_artist.id = album_artist_id;
+				artist_map[md.album_artist()] = album_artist;
+			}
+		}
+
+		else{
+			album_artist_id = album_artist.id;
 		}
 
 		if(album_id == -1 || artist_id == -1){
@@ -70,7 +119,7 @@ bool DatabaseLibrary::storeMetadata(const MetaDataList& v_md)  {
 			continue;
 		}
 
-		db_tracks.insertTrackIntoDatabase (md, artist_id, album_id);
+		db_tracks.insertTrackIntoDatabase(md, artist_id, album_id, album_artist_id);
 	}
 
 	success = _db.commit();

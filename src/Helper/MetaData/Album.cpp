@@ -83,6 +83,22 @@ bool Album::fromVariant(const QVariant& v, Album& album) {
 }
 
 
+QString Album::album_artist() const
+{
+	return _album_artist;
+}
+
+bool Album::has_album_artist() const
+{
+	return (!_album_artist.isEmpty());
+}
+
+void Album::set_album_artist(const QString& album_artist)
+{
+	_album_artist = album_artist;
+}
+
+
 bool AlbumList::contains(qint32 album_id) const
 {
 	for(auto it=this->begin(); it!=this->end(); it++){

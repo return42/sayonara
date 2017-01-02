@@ -133,7 +133,7 @@ int ReloadThread::get_and_save_all_files(const QHash<QString, MetaData>& md_map_
 			}
 		}
 
-		sp_log(Log::Debug) << "Have to reload " << filepath;
+		//sp_log(Log::Debug) << "Have to reload " << filepath;
 
 		file_was_read = Tagging::getMetaDataOfFile(md, Tagging::Quality::Quality);
 

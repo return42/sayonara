@@ -58,7 +58,7 @@ public:
 
 	bool updateTrack(const MetaData& md) override;
 	bool storeMetadata(const MetaDataList& v_md) override;
-	bool insertTrackIntoDatabase(const MetaData &md, int artistID, int albumID) override;
+	bool insertTrackIntoDatabase(const MetaData &md, int artist_id, int album_id) override;
 
 	bool apply_fixes() override;
 };

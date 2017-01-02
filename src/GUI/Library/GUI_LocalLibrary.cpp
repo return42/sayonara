@@ -195,7 +195,7 @@ Library::ReloadQuality GUI_LocalLibrary::show_quality_dialog()
 		return Library::ReloadQuality::Fast;
 	}
 
-	if(str.compare(lst.first()) == 0){
+	if(str.compare(lst[1]) == 0){
 		return Library::ReloadQuality::Accurate;
 	}
 

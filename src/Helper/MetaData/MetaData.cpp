@@ -30,9 +30,11 @@
 	id = other.id; \
 	artist_id = other.artist_id; \
 	album_id = other.album_id; \
+	_album_artist_id = other._album_artist_id ; \
 	title = other.title; \
 	artist = other.artist; \
 	album = other.album; \
+	_album_artist = other._album_artist; \
 	genres = other.genres; \
 	rating = other.rating; \
 	length_ms = other.length_ms; \
@@ -77,6 +79,7 @@ MetaData::MetaData() :
 	id = -1;
 	artist_id = -1;
 	album_id = -1;
+	_album_artist_id = -1;
 	rating = 0;
 	length_ms = 0;
 	year = 0;
@@ -175,8 +178,6 @@ bool MetaData::is_equal(const MetaData& md) const {
 	QString s_first_path = first_path.absolutePath();
 	QString s_other_path = other_path.absolutePath();
 
-
-
 #ifdef Q_OS_UNIX
 	return (s_first_path.compare(s_other_path) == 0);
 #else
@@ -190,9 +191,11 @@ bool MetaData::is_equal_deep(const MetaData& md) const{
 	return ( (id == md.id)  &&
 			 ( artist_id == md.artist_id ) &&
 			 ( album_id == md.album_id ) &&
+			 ( _album_artist_id == md._album_artist_id ) &&
 			 ( title == md.title ) &&
 			 ( artist == md.artist ) &&
 			 ( album == md.album ) &&
+			 ( _album_artist == md._album_artist ) &&
 			 ( genres == md.genres ) &&
 			 ( rating == md.rating ) &&
 			 ( length_ms == md.length_ms ) &&
@@ -213,13 +216,14 @@ bool MetaData::is_equal_deep(const MetaData& md) const{
 			 );
 }
 
-QString MetaData::filepath() const{
+QString MetaData::filepath() const
+{
 	return _filepath;
 }
 
 
-QString MetaData::set_filepath(QString filepath){
-
+QString MetaData::set_filepath(QString filepath)
+{
 	bool is_local_path = false;
 
 #ifdef Q_OS_UNIX
@@ -251,7 +255,41 @@ QString MetaData::set_filepath(QString filepath){
 	return _filepath;
 }
 
-RadioMode MetaData::radio_mode() const {
+
+RadioMode MetaData::radio_mode() const
+{
 	return _radio_mode;
 }
+
+
+qint32 MetaData::album_artist_id() const
+{
+	if(_album_artist_id < 0){
+		return artist_id;
+	}
+
+	return _album_artist_id;
+}
+
+QString MetaData::album_artist() const
+{
+	return _album_artist;
+}
+
+void MetaData::set_album_artist(const QString& album_artist, qint32 id)
+{
+	_album_artist = album_artist;
+	_album_artist_id = id;
+}
+
+void MetaData::set_album_artist_id(qint32 id)
+{
+	_album_artist_id = id;
+}
+
+bool MetaData::has_album_artist() const
+{
+	return (!_album_artist.isEmpty() && _album_artist_id >= 0);
+}
+
 

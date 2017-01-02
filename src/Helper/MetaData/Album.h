@@ -37,7 +37,11 @@ Q_DECLARE_METATYPE(Album)
  * @brief The Album class
  * @ingroup MetaDataHelper
  */
-class Album : public LibraryItem {
+class Album : public LibraryItem
+{
+
+private:
+	QString _album_artist;
 
 public:
     QString name;
@@ -45,11 +49,13 @@ public:
     quint16 num_songs;
     quint32 length_sec;
     quint16	year;
+
+
     QStringList artists;
+
     QList<quint8> discnumbers;
     quint8 n_discs;
     quint8 rating;
-	//QString mb_id;
 
     bool is_sampler;
 
@@ -61,6 +67,10 @@ public:
 
 	static QVariant toVariant(const Album& album);
 	static bool fromVariant(const QVariant& v, Album& album);
+
+	QString album_artist() const;
+	bool has_album_artist() const;
+	void set_album_artist(const QString& album_artist);
 };
 
 

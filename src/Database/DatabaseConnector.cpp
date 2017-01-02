@@ -110,7 +110,7 @@ bool DatabaseConnector::apply_fixes() {
 	QString str_version;
 	int version;
 	bool success;
-	const int LatestVersion = 11;
+	const int LatestVersion = 13;
 
 	success = load_setting("version", str_version);
 	version = str_version.toInt(&success);
@@ -263,6 +263,42 @@ bool DatabaseConnector::apply_fixes() {
 		// look in UpdateDatesThread
 	}
 
+	if(version < 12){
+
+		QString querytext =
+				"CREATE VIEW album_info_view AS "
+				"SELECT "
+				"	albums.albumID as albumID, "
+				"	albums.name as name, "
+				"	albums.cissearch as cissearch, "
+				"	albums.rating as rating, "
+				"	COUNT(artists.artistID) as artistCount, "
+				"	COUNT(tracks.trackID) as trackCount, "
+				"	CASE WHEN COUNT(DISTINCT artists.artistID) > 1 "
+				"	THEN 1 "
+				"	ELSE 0 "
+				"	END as Sampler "
+				"FROM albums, artists, tracks "
+				"WHERE albums.albumID = tracks.albumID "
+				"AND artists.artistID = tracks.artistID "
+				"GROUP BY albums.albumID, albums.name";
+			;
+
+		SayonaraQuery q(_database);
+		q.prepare(querytext);
+
+		if(q.exec()){
+			store_setting("version", 12);
+		}
+	}
+
+	if(version < 13){
+
+		bool success = check_and_insert_column("tracks", "albumArtistID", "integer");
+		if(success){
+			store_setting("version", 13);
+		}
+	}
 
 	return true;
 }
