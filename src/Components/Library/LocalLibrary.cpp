@@ -157,7 +157,7 @@ void LocalLibrary::library_reloading_state_new_block() {
 
 	_db->getAllAlbums(_vec_albums, _sortorder.so_albums);
 	_db->getAllArtists(_vec_artists, _sortorder.so_artists);
-	_db->getTracksFromDatabase(_vec_md, _sortorder.so_tracks);
+	_db->getAllTracks(_vec_md, _sortorder.so_tracks);
 
 	emit_stuff();
 
@@ -229,7 +229,7 @@ void LocalLibrary::get_all_albums_by_searchstring(Library::Filter filter, AlbumL
 }
 
 void LocalLibrary::get_all_tracks(MetaDataList& v_md, Library::Sortings so){
-	_db->getTracksFromDatabase(v_md, so.so_tracks);
+	_db->getAllTracks(v_md, so.so_tracks);
 }
 
 void LocalLibrary::get_all_tracks(const QStringList& paths, MetaDataList& v_md){

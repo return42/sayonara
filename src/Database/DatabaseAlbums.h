@@ -53,7 +53,7 @@ public:
 
 	virtual bool getAlbumByID(const int& id, Album& album);
 
-	virtual bool getAllAlbums(AlbumList& result, Library::SortOrder sortorder=Library::SortOrder::AlbumNameAsc, bool also_empty=false);
+	virtual bool getAllAlbums(AlbumList& result, Library::SortOrder sortorder=Library::SortOrder::AlbumNameAsc);
 
 	virtual bool getAllAlbumsByArtist(int artist, AlbumList& result);
 	virtual bool getAllAlbumsByArtist(int artist, AlbumList& result, const Library::Filter& filter, Library::SortOrder sortorder = Library::SortOrder::AlbumNameAsc);

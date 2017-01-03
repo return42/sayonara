@@ -77,7 +77,7 @@ void GUI_LibraryInfoBox::psl_refresh() {
 	AlbumList v_albums;
 	ArtistList v_artists;
 
-	_db->getTracksFromDatabase(v_md);
+	_db->getAllTracks(v_md);
 	_db->getAllAlbums(v_albums);
 	_db->getAllArtists(v_artists);
 

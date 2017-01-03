@@ -260,7 +260,7 @@ void ReloadThread::run()
 	emit sig_reloading_library(tr("Delete orphaned tracks..."), 0);
 
 	db->deleteInvalidTracks();
-	db->getTracksFromDatabase(v_md);
+	db->getAllTracks(v_md);
 
 	sp_log(Log::Debug) << "Have " << v_md.size() << " tracks";
 

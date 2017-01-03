@@ -70,7 +70,7 @@ void SoundcloudLibrary::get_all_tracks(const QStringList& paths, MetaDataList& v
 }
 
 void SoundcloudLibrary::get_all_tracks(MetaDataList& v_md, Library::Sortings so){
-	_scd->getTracksFromDatabase(v_md, so.so_tracks);
+	_scd->getAllTracks(v_md, so.so_tracks);
 }
 
 void SoundcloudLibrary::get_all_tracks_by_artist(IDList artist_ids, MetaDataList& v_md, Library::Filter filter, Library::Sortings so){

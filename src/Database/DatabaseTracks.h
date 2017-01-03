@@ -70,7 +70,7 @@ public:
 	virtual bool updateTrack(const MetaData& data);
 	virtual bool updateTracks(const MetaDataList& lst);
 
-	virtual bool getTracksFromDatabase (MetaDataList& returndata, Library::SortOrder sortorder = Library::SortOrder::TrackArtistAsc);
+	virtual bool getAllTracks(MetaDataList& returndata, Library::SortOrder sortorder = Library::SortOrder::TrackArtistAsc);
 	virtual MetaData getTrackById(int id);
 	virtual MetaData getTrackByPath(const QString& path);
 	virtual bool getMultipleTracksByPath(const QStringList& paths, MetaDataList& v_md);

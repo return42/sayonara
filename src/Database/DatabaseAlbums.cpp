@@ -29,21 +29,26 @@ DatabaseAlbums::DatabaseAlbums(QSqlDatabase db, quint8 db_id) :
 	DatabaseModule(db, db_id),
 	DatabaseSearchMode(db)
 {
-	_fetch_query = QString("SELECT ") +
-					"albums.albumID AS albumID, " +
-					"albums.name AS albumName, " +
-					"SUM(tracks.length) / 1000 AS albumLength, " +
-					"albums.rating AS albumRating, " +
-					"COUNT(DISTINCT tracks.trackid) AS albumNTracks, " +
-					"MAX(tracks.year) AS albumYear, " +
-					"GROUP_CONCAT(DISTINCT artists.name) AS albumArtists, " +
-					"GROUP_CONCAT(DISTINCT tracks.discnumber) AS discnumbers " +
-					"FROM albums, artists, tracks ";
+	_fetch_query = "SELECT "
+					"albums.albumID AS albumID"
+					", albums.name AS albumName"
+					", SUM(tracks.length) / 1000"
+					", albums.rating AS albumRating"
+					", COUNT(DISTINCT tracks.trackid)"
+					", MAX(tracks.year) AS albumYear"
+					", GROUP_CONCAT(DISTINCT artists.name)"
+					", GROUP_CONCAT(DISTINCT tracks.discnumber)"
+					", GROUP_CONCAT(DISTINCT albumartists.name)"
+					"FROM albums "
+					"INNER JOIN tracks ON tracks.albumid = albums.albumid "
+					"INNER JOIN artists ON tracks.artistid = artists.artistid "
+					"LEFT OUTER JOIN artists albumartists ON tracks.albumartistid = albumartists.artistid "
+	;
 }
 
 
-bool DatabaseAlbums::db_fetch_albums(SayonaraQuery& q, AlbumList& result) {
-
+bool DatabaseAlbums::db_fetch_albums(SayonaraQuery& q, AlbumList& result)
+{
 	result.clear();
 
 	if (!q.exec()) {
@@ -55,35 +60,38 @@ bool DatabaseAlbums::db_fetch_albums(SayonaraQuery& q, AlbumList& result) {
 		return true;
 	}
 
-	for(bool is_element=q.first(); is_element; is_element = q.next()){
-
+	for(bool is_element=q.first(); is_element; is_element = q.next())
+	{
 		Album album;
 
-		album.id = q.value(0).toInt();
-		album.name = q.value(1).toString().trimmed();
-		album.length_sec = q.value(2).toInt();
-		album.rating = q.value(3).toInt();
-		album.num_songs = q.value(4).toInt();
-		album.year = q.value(5).toInt();
-		QStringList artistList = q.value(6).toString().split(',');
-		album.artists = artistList;
+		album.id =			q.value(0).toInt();
+		album.name =		q.value(1).toString().trimmed();
+		album.length_sec =	q.value(2).toInt();
+		album.rating =		q.value(3).toInt();
+		album.num_songs =	q.value(4).toInt();
+		album.year =		q.value(5).toInt();
+		album.artists =		q.value(6).toString().split(',');
 
-		QStringList discnumberList = q.value(7).toString().split(',');
 		album.discnumbers.clear();
+		QStringList discs =	q.value(7).toString().split(',');
 
-		for(const QString& disc : discnumberList) {
+		for(const QString& disc : discs) {
 			int d = disc.toInt();
-			if(album.discnumbers.contains(d)) continue;
+			if(album.discnumbers.contains(d)) {
+				continue;
+			}
 
 			album.discnumbers << d;
 		}
 
-		if(album.discnumbers.size() == 0) {
+		if(album.discnumbers.isEmpty()) {
 			album.discnumbers << 1;
 		}
 
+		album.set_album_artist(q.value(8).toString());
+
 		album.n_discs = album.discnumbers.size();
-		album.is_sampler = (artistList.size() > 1);
+		album.is_sampler = (album.artists.size() > 1);
 		album.db_id = _module_db_id;
 
 		result << album;
@@ -92,12 +100,13 @@ bool DatabaseAlbums::db_fetch_albums(SayonaraQuery& q, AlbumList& result) {
 	return true;
 }
 
-void DatabaseAlbums::set_album_fetch_query(const QString &query){
+void DatabaseAlbums::set_album_fetch_query(const QString &query)
+{
 	_fetch_query = query;
 }
 
-QString DatabaseAlbums::_create_order_string(Library::SortOrder sortorder) {
-
+QString DatabaseAlbums::_create_order_string(Library::SortOrder sortorder)
+{
 	switch(sortorder) {
 
 		case Library::SortOrder::AlbumNameAsc:
@@ -135,8 +144,8 @@ QString DatabaseAlbums::_create_order_string(Library::SortOrder sortorder) {
 	}
 }
 
-int DatabaseAlbums::getAlbumID (const QString & album)  {
-
+int DatabaseAlbums::getAlbumID (const QString & album)
+{
 	SayonaraQuery q (_db);
 	int albumID = -1;
 
@@ -155,24 +164,23 @@ int DatabaseAlbums::getAlbumID (const QString & album)  {
 }
 
 
-bool DatabaseAlbums::getAlbumByID(const int& id, Album& album) {
+bool DatabaseAlbums::getAlbumByID(const int& id, Album& album)
+{
+	if(id == -1) {
+		return false;
+	}
 
-	if(id == -1) return false;
-
-	AlbumList albums;
-
-	SayonaraQuery q (_db);
-	QString querytext =
-			_fetch_query +
-			"WHERE albums.albumID = :id "
-			"AND tracks.albumID = albums.albumID "
-			"AND artists.artistID = tracks.artistID;";
-
+	SayonaraQuery q(_db);
+	QString querytext =	_fetch_query +
+						" WHERE albums.albumID = :id "
+						" GROUP BY albums.albumID, albums.name, albums.rating ";
 
 	q.prepare(querytext);
 	q.bindValue(":id", QVariant(id));
 
+	AlbumList albums;
 	db_fetch_albums(q, albums);
+
 	if(albums.size() > 0) {
 		album = albums.first();
 	}
@@ -180,22 +188,14 @@ bool DatabaseAlbums::getAlbumByID(const int& id, Album& album) {
 	return (albums.size() > 0);
 }
 
-bool DatabaseAlbums::getAllAlbums(AlbumList& result, Library::SortOrder sortorder, bool also_empty) {
-
+bool DatabaseAlbums::getAllAlbums(AlbumList& result, Library::SortOrder sortorder)
+{
 	DB_RETURN_NOT_OPEN_BOOL(_db);
 
 	SayonaraQuery q (_db);
 	QString querytext = _fetch_query ;
 
-	if(!also_empty){
-			querytext += " WHERE tracks.albumID = albums.albumID "
-					"AND artists.artistid = tracks.artistid ";
-
-	}
-
-	querytext += "GROUP BY albums.albumID, albumName";
-
-
+	querytext += " GROUP BY albums.albumID, albums.name, albums.rating ";
 	querytext += _create_order_string(sortorder) + ";";
 
 	q.prepare(querytext);
@@ -210,24 +210,21 @@ bool DatabaseAlbums::getAllAlbumsByArtist(IDList artists, AlbumList& result)
 }
 
 
-bool DatabaseAlbums::getAllAlbumsByArtist(IDList artists, AlbumList& result, const Library::Filter& filter, Library::SortOrder sortorder) {
-
+bool DatabaseAlbums::getAllAlbumsByArtist(IDList artists, AlbumList& result, const Library::Filter& filter, Library::SortOrder sortorder)
+{
 	DB_RETURN_NOT_OPEN_BOOL(_db);
 
 	SayonaraQuery q (_db);
 
 	// fetch all albums
-	QString querytext =
-			_fetch_query +
-			"WHERE tracks.albumID = albums.albumID AND "
-			"artists.artistid = tracks.artistid AND ";
+	QString querytext =	_fetch_query;
 
 	if(artists.size() == 0) {
 		return false;
 	}
 
 	else if(artists.size() > 1) {
-		querytext += "(artists.artistid = :artist_id ";
+		querytext += "WHERE (artists.artistid = :artist_id ";
 		for(int i=1; i<artists.size(); i++) {
 			querytext += QString("OR artists.artistid = :artist_id_" + QString::number(i) + " ");
 		}
@@ -236,7 +233,7 @@ bool DatabaseAlbums::getAllAlbumsByArtist(IDList artists, AlbumList& result, con
 	}
 
 	else{
-		querytext += "artists.artistid = :artist_id ";
+		querytext += "WHERE artists.artistid = :artist_id ";
 	}
 
 
@@ -245,32 +242,35 @@ bool DatabaseAlbums::getAllAlbumsByArtist(IDList artists, AlbumList& result, con
 		switch(filter.mode())
 		{
 			case Library::Filter::Date:
-				querytext += QString("AND ") + filter.date_filter().get_sql_filter("tracks");
+				querytext += "AND " + filter.date_filter().get_sql_filter("tracks");
 				break;
 
 			case Library::Filter::Genre:
-				querytext += QString("AND tracks.genre LIKE :filter1 ");			// track title is like filter
+				querytext += "AND tracks.genre LIKE :filter1 ";			// track title is like filter
 				break;
 
 			case Library::Filter::Filename:
-				querytext += QString("AND tracks.filename LIKE :filter1 ");			// track title is like filter
+				querytext += "AND tracks.filename LIKE :filter1 ";			// track title is like filter
 
 				break;
 
 			case Library::Filter::Fulltext:
-				querytext += QString("AND tracks.trackID IN ( "
-									 "SELECT t2.trackID "
-									 "FROM tracks t2 "
-									 "WHERE t2.cissearch LIKE :filter1 ") +			// track title is like filter
+				querytext +=	"AND tracks.trackID IN ( "
+								"	SELECT t2.trackID "
+								"	FROM tracks t2 "
+								"	WHERE t2.cissearch LIKE :filter1 "	// track title is like filter
 
-								"UNION SELECT t3.trackid "+			// album title is like filter
-								"FROM tracks t3, albums "+
-								"WHERE albums.albumid = t3.albumid AND albums.cissearch LIKE :filter2 "+
+								"	UNION SELECT t3.trackid "			// album title is like filter
+								"	FROM tracks t3"
+								"   INNER JOIN albums ON albums.albumid = t3.albumid "
+								"	AND albums.cissearch LIKE :filter2 "
 
-								"UNION SELECT t4.trackid " +		// artist title is like filter
-								"FROM tracks t4, albums, artists " +
-								"WHERE t4.albumid = albums.albumid AND t4.artistid = artists.artistid AND artists.cissearch LIKE :filter3 "
-							") ";
+								"	UNION SELECT t4.trackid " 		// artist title is like filter
+								"	FROM tracks t4 "
+								"   INNER JOIN albums ON t4.albumid = albums.albumid "
+								"   INNER JOIN artists ON t4.artistid = artists.artistid "
+								"	AND artists.cissearch LIKE :filter3 "
+								") ";
 				break;
 
 		}
@@ -316,14 +316,13 @@ bool DatabaseAlbums::getAllAlbumsByArtist(int artist, AlbumList& result)
 
 bool DatabaseAlbums::getAllAlbumsByArtist(int artist, AlbumList& result, const Library::Filter& filter, Library::SortOrder sortorder)
 {
-
 	IDList list;
 	list << artist;
 	return getAllAlbumsByArtist(list, result, filter, sortorder);
 }
 
-bool DatabaseAlbums::getAllAlbumsBySearchString(const Library::Filter& filter, AlbumList& result, Library::SortOrder sortorder) {
-
+bool DatabaseAlbums::getAllAlbumsBySearchString(const Library::Filter& filter, AlbumList& result, Library::SortOrder sortorder)
+{
 	DB_RETURN_NOT_OPEN_BOOL(_db);
 
 	SayonaraQuery q (_db);
@@ -333,39 +332,39 @@ bool DatabaseAlbums::getAllAlbumsBySearchString(const Library::Filter& filter, A
 
 		case Library::Filter::Date:
 			query = _fetch_query +
-						 "WHERE albums.albumid = tracks.albumid AND artists.artistID = tracks.artistid AND "
+						 "WHERE "
 						 "(" + filter.date_filter().get_sql_filter("tracks") + ") "
 						 "GROUP BY albums.albumID, albumName";
 			break;
 			
 		case Library::Filter::Genre:
 			query = _fetch_query +
-						 "WHERE albums.albumid = tracks.albumid AND artists.artistID = tracks.artistid AND tracks.genre LIKE :search_in_genre " +
+						 "WHERE tracks.genre LIKE :search_in_genre "
 						 "GROUP BY albums.albumID, albumName";
 			break;
 
 		case Library::Filter::Filename:
 			query = _fetch_query +
-						"WHERE albums.albumid = tracks.albumid AND artists.artistID = tracks.artistid AND tracks.filename LIKE :search_in_filename " +
+						"WHERE tracks.filename LIKE :search_in_filename "
 						"GROUP BY albums.albumID, albumName";
 			break;
 
 		case Library::Filter::Fulltext:
 		default:
-			query = QString("SELECT DISTINCT * FROM ( ") +
-					_fetch_query +
-						"WHERE albums.albumid = tracks.albumid AND artists.artistID = tracks.artistid AND albums.cissearch LIKE :search_in_album " +
-						"GROUP BY albums.albumid, albums.name " +
-					"UNION " +
-					_fetch_query +
-						"WHERE albums.albumid = tracks.albumid AND artists.artistID = tracks.artistid AND tracks.cissearch LIKE :search_in_title " +
-						"GROUP BY albums.albumid, albums.name " +
-					"UNION " +
-					_fetch_query +
-						"WHERE albums.albumid = tracks.albumid AND artists.artistID = tracks.artistid AND artists.cissearch LIKE :search_in_artist " +
-						"GROUP BY albums.albumid, albums.name " +
-					"" +
-				") " +
+			query = "SELECT DISTINCT * FROM ( "
+					+ _fetch_query +
+						"WHERE albums.cissearch LIKE :search_in_album "
+						"GROUP BY albums.albumid, albums.name "
+					"UNION "
+					+ _fetch_query +
+						"WHERE tracks.cissearch LIKE :search_in_title "
+						"GROUP BY albums.albumid, albums.name "
+					"UNION "
+					+ _fetch_query +
+						"WHERE artists.cissearch LIKE :search_in_artist "
+						"GROUP BY albums.albumid, albums.name "
+					""
+				") "
 				"GROUP BY albumID, albumName";
 			break;
 	}
@@ -418,7 +417,6 @@ int DatabaseAlbums::updateAlbum (const Album & album)
 	q.bindValue(":name", album.name);
 	q.bindValue(":cissearch", cissearch);
 	q.bindValue(":rating", album.rating);
-
 
 	if (!q.exec()) {
 		q.show_error(QString("Cannot update album ") + album.name);
@@ -477,8 +475,8 @@ int DatabaseAlbums::insertAlbumIntoDatabase (const QString& album)
 	return getAlbumID(album);
 }
 
-int DatabaseAlbums::insertAlbumIntoDatabase (const Album& album) {
-
+int DatabaseAlbums::insertAlbumIntoDatabase (const Album& album)
+{
 	if(album.id >= 0){
 		return updateAlbum(album);
 	}

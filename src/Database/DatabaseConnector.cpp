@@ -95,7 +95,7 @@ bool DatabaseConnector::updateArtistCissearchFix()
 bool DatabaseConnector::updateTrackCissearchFix()
 {
 	MetaDataList v_md;
-	getTracksFromDatabase(v_md);
+	getAllTracks(v_md);
 	for(const MetaData& md : v_md) {
 		updateTrack(md);
 	}
