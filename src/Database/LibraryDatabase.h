@@ -35,8 +35,19 @@ class LibraryDatabase : public AbstractDatabase,
 		 public DatabaseTracks,
 		 public DatabaseLibrary
 {
+
 public:
+
+	enum class ArtistIDField : quint8
+	{
+		AlbumArtistID,
+		ArtistID
+	};
+
 	LibraryDatabase(quint8 db_id, const QString& db_dir, const QString& db_name);
+	virtual ~LibraryDatabase();
+
+	void change_artistid_field(ArtistIDField field);
 
 protected:
 	virtual bool apply_fixes()=0;

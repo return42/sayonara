@@ -41,14 +41,17 @@ class DatabaseTracks :
 
 private:
 	QString _fetch_query;
+	QString _artistid_field;
 
 protected:
 	void set_track_fetch_query(const QString& query);
+	void change_artistid_field(const QString& field);
 
 protected:
 	QString append_track_sort_string(QString querytext, Library::SortOrder sort);
 
 public:
+
 	DatabaseTracks(const QSqlDatabase& db, quint8 db_id);
 
 	virtual bool db_fetch_tracks(SayonaraQuery& q, MetaDataList& result);
@@ -84,7 +87,6 @@ public:
 	virtual void updateTrackCissearch();
 
 	bool updateTrackDates();
-
 };
 
 #endif // DATABASETRACKS_H

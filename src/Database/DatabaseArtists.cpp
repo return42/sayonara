@@ -25,12 +25,14 @@
 #include "Helper/MetaData/Artist.h"
 #include "Helper/Library/Filter.h"
 #include "Helper/Library/DateFilter.h"
+#include "Helper/Logger/Logger.h"
 
 DatabaseArtists::DatabaseArtists(const QSqlDatabase& db, quint8 db_id) :
 	DatabaseModule(db, db_id),
 	DatabaseSearchMode(db)
 {
-	_fetch_query = 	QString("SELECT ") +
+	_artistid_field = "artistID";
+	_fetch_query = 	"SELECT "
 					"artists.artistid AS artistID, "
 					"artists.name AS artistName, "
 					"COUNT(DISTINCT tracks.trackid) AS artistNTracks, "
@@ -103,7 +105,7 @@ bool DatabaseArtists::getArtistByID(int id, Artist& artist)
 
 	QString query = _fetch_query +
 				"WHERE artists.artistID = ? " +
-				"AND tracks.artistID = artists.artistID " +
+				"AND tracks." + _artistid_field + " = artists.artistID " +
 				"AND tracks.albumID = albums.albumID " +
 				"GROUP BY artistName;";
 
@@ -122,13 +124,11 @@ bool DatabaseArtists::getArtistByID(int id, Artist& artist)
 	return success;
 }
 
-int DatabaseArtists::getArtistID (const QString & artist)
+int DatabaseArtists::getArtistID(const QString& artist)
 {
-	DB_RETURN_NOT_OPEN_INT(_db);
-
 	SayonaraQuery q (_db);
 	int artistID = -1;
-	q.prepare("select artistID from artists where name == ?;");
+	q.prepare("SELECT artistID FROM artists WHERE name = ?;");
 	q.addBindValue(artist);
 
 	if (!q.exec()) {
@@ -144,28 +144,26 @@ int DatabaseArtists::getArtistID (const QString & artist)
 
 bool DatabaseArtists::getAllArtists(ArtistList& result, Library::SortOrder sortorder, bool also_empty)
 {
-	DB_RETURN_NOT_OPEN_BOOL(_db);
-
 	SayonaraQuery q (_db);
 	QString query = _fetch_query;
 
 	if(!also_empty){
-			query += "WHERE Tracks.albumID = albums.albumID AND artists.artistid = tracks.artistid ";
+			query += "WHERE Tracks.albumID = albums.albumID "
+					 "AND artists.artistid = tracks." + _artistid_field + " ";
 	}
 
 	query += "GROUP BY artists.artistID, artists.name ";
-
 	query += _create_order_string(sortorder) + ";";
 
 	q.prepare(query);
+
+	sp_log(Log::Debug) << q.get_query_string();
 
 	return db_fetch_artists(q, result);
 }
 
 bool DatabaseArtists::getAllArtistsBySearchString(const Library::Filter& filter, ArtistList& result, Library::SortOrder sortorder)
 {
-	DB_RETURN_NOT_OPEN_BOOL(_db);
-
 	SayonaraQuery q (_db);
 	QString query;
 
@@ -173,38 +171,49 @@ bool DatabaseArtists::getAllArtistsBySearchString(const Library::Filter& filter,
 	{
 		case Library::Filter::Date:
 			query = _fetch_query +
-							" WHERE albums.albumid = tracks.albumid AND artists.artistID = tracks.artistid AND "
-							"(" + filter.date_filter().get_sql_filter("tracks") + ")" +
-							" GROUP BY artists.artistid, artists.name ";
+					" WHERE albums.albumid = tracks.albumid "
+					" AND artists.artistID = tracks." + _artistid_field +
+					" AND (" + filter.date_filter().get_sql_filter("tracks") + ") "
+					" GROUP BY artists.artistid, artists.name ";
 			break;
 
 		case Library::Filter::Genre:
 			query = _fetch_query +
-							"	WHERE albums.albumid = tracks.albumid AND artists.artistID = tracks.artistid AND tracks.genre LIKE :search_in_genre " +
-							"	GROUP BY artists.artistid, artists.name ";
+					"	WHERE albums.albumid = tracks.albumid "
+					"   AND artists.artistID = tracks." + _artistid_field + " "
+					"   AND tracks.genre LIKE :search_in_genre "
+					"	GROUP BY artists.artistid, artists.name ";
 			break;
 
 		case Library::Filter::Filename:
 			query = _fetch_query +
-							"	WHERE albums.albumid = tracks.albumid AND artists.artistID = tracks.artistid AND tracks.filename LIKE :search_in_filename " +
-							"	GROUP BY artists.artistid, artists.name ";
+					"	WHERE albums.albumid = tracks.albumid "
+					"   AND artists.artistID = tracks.artistid "
+					"   AND tracks.filename LIKE :search_in_filename "
+					"	GROUP BY artists.artistid, artists.name ";
 			break;
 
 		case Library::Filter::Fulltext:
 		default:
-			query = QString("SELECT * FROM ( ") +
-					_fetch_query +
-			"			WHERE albums.albumid = tracks.albumid AND artists.artistID = tracks.artistid AND artists.cissearch LIKE :search_in_artist " +
-			"			GROUP BY artists.artistid, artists.name " +
-			"		UNION " +
-					_fetch_query +
-			"			WHERE albums.albumid = tracks.albumid AND artists.artistID = tracks.artistid AND albums.cissearch LIKE :search_in_album " +
-			"			GROUP BY artists.artistid, artists.name " +
-			"		UNION " +
-					_fetch_query +
-			"			WHERE albums.albumid = tracks.albumid AND artists.artistID = tracks.artistid AND tracks.cissearch LIKE :search_in_title " +
-			"			GROUP BY artists.artistid, artists.name " +
-			"	)  " +
+			query = QString("SELECT * FROM ( ")
+					+ _fetch_query +
+			"			WHERE albums.albumid = tracks.albumid "
+			"           AND artists.artistID = tracks." + _artistid_field +
+			"           AND artists.cissearch LIKE :search_in_artist "
+			"			GROUP BY artists.artistid, artists.name "
+			"		UNION "
+					+ _fetch_query +
+			"			WHERE albums.albumid = tracks.albumid "
+			"           AND artists.artistID = tracks." + _artistid_field +
+			"           AND albums.cissearch LIKE :search_in_album "
+			"			GROUP BY artists.artistid, artists.name "
+			"		UNION "
+					+ _fetch_query +
+			"			WHERE albums.albumid = tracks.albumid "
+			"           AND artists.artistID = tracks." + _artistid_field +
+			"           AND tracks.cissearch LIKE :search_in_title "
+			"			GROUP BY artists.artistid, artists.name "
+			"	)  "
 			"	GROUP BY artistID, artistName ";
 			break;
 	}
@@ -240,8 +249,6 @@ bool DatabaseArtists::getAllArtistsBySearchString(const Library::Filter& filter,
 
 int DatabaseArtists::insertArtistIntoDatabase (const QString& artist)
 {
-	DB_RETURN_NOT_OPEN_INT(_db);
-
 	int id = getArtistID(artist);
 	if(id >= 0){
 		return id;
@@ -264,8 +271,6 @@ int DatabaseArtists::insertArtistIntoDatabase (const QString& artist)
 
 int DatabaseArtists::insertArtistIntoDatabase (const Artist & artist)
 {
-	DB_RETURN_NOT_OPEN_INT(_db);
-
 	if(artist.id >= 0){
 		updateArtist(artist);
 		return artist.id;
@@ -277,8 +282,6 @@ int DatabaseArtists::insertArtistIntoDatabase (const Artist & artist)
 
 int DatabaseArtists::updateArtist(const Artist &artist)
 {
-	DB_RETURN_NOT_OPEN_INT(_db);
-
 	SayonaraQuery q (_db);
 
 	if(artist.id < 0) return -1;
@@ -320,3 +323,8 @@ void DatabaseArtists::updateArtistCissearch()
 	_db.commit();
 }
 
+
+void DatabaseArtists::change_artistid_field(const QString& field)
+{
+	_artistid_field = field;
+}

@@ -30,4 +30,25 @@ LibraryDatabase::LibraryDatabase(quint8 db_id, const QString& db_dir, const QStr
 	DatabaseLibrary(_database, db_id)
 {
 	DB::getInstance()->add(this);
+
+	change_artistid_field(LibraryDatabase::ArtistIDField::AlbumArtistID);
+	//change_artistid_field(LibraryDatabase::ArtistIDField::ArtistID);
+}
+
+LibraryDatabase::~LibraryDatabase() {}
+
+void LibraryDatabase::change_artistid_field(LibraryDatabase::ArtistIDField field)
+{
+	QString str;
+	if(field == LibraryDatabase::ArtistIDField::AlbumArtistID){
+		str = "albumArtistID";
+	}
+
+	else{
+		str = "artistID";
+	}
+
+	DatabaseAlbums::change_artistid_field(str);
+	DatabaseArtists::change_artistid_field(str);
+	DatabaseTracks::change_artistid_field(str);
 }

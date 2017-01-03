@@ -36,13 +36,17 @@ class DatabaseArtists :
 
 private:
 	QString _fetch_query;
+	QString _artistid_field;
+
 	QString _create_order_string(Library::SortOrder sort);
 
 protected:
 	void set_artist_fetch_query(const QString& query);
+	void change_artistid_field(const QString& field);
 
 
 public:
+
 	DatabaseArtists(const QSqlDatabase& db, quint8 db_id);
 
 	virtual bool db_fetch_artists(SayonaraQuery& q, ArtistList& result);
@@ -58,7 +62,6 @@ public:
 	virtual int updateArtist(const Artist& artist);
 
 	virtual void updateArtistCissearch();
-
 };
 
 #endif // DATABASEARTISTS_H

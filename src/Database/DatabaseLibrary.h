@@ -38,7 +38,6 @@ public:
 
 	virtual void createIndexes();
 	virtual bool storeMetadata(const MetaDataList & v_md);
-
 };
 
 #endif // DATABASELIBRARY_H

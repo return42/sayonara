@@ -77,8 +77,11 @@ bool DatabaseConnector::updateArtistCissearchFix()
 {
 	ArtistList artists;
 	getAllArtists(artists);
-	for(const Artist& artist : artists) {
-		QString str = "UPDATE artists SET cissearch=:cissearch WHERE artistID=:id;";
+	for(const Artist& artist : artists)
+	{
+		QString str =
+				"UPDATE artists SET cissearch=:cissearch WHERE artistID=:id;";
+
 		SayonaraQuery q(_database);
 		q.prepare(str);
 		q.bindValue(":cissearch", artist.name.toLower());
