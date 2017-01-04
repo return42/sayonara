@@ -81,9 +81,9 @@ SoundcloudData::SoundcloudData() :
 			"INNER JOIN artists ON tracks.artistID = artists.artistID "
 			"WHERE filetype is null ";
 
-	set_artist_fetch_query(artist_fetch_query);
+/*	set_artist_fetch_query(artist_fetch_query);
 	set_album_fetch_query(album_fetch_query);
-	set_track_fetch_query(track_fetch_query);
+	set_track_fetch_query(track_fetch_query);*/
 }
 
 SoundcloudData::~SoundcloudData() {}

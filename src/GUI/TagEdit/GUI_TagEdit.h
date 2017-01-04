@@ -68,9 +68,6 @@ public:
 	 */
 	void cancel();
 
-/*	void show_button_commit(bool b);
-	void show_button_cancel(bool b);*/
-
 
 signals:
 	void sig_ok_clicked(const MetaDataList&);
@@ -176,6 +173,12 @@ private slots:
 	 * @brief (un)sets _artist_all
 	 */
 	void artist_all_changed(bool b);
+
+	/**
+	  * @brief (un)sets _album_artist_all
+	  */
+
+	void album_artist_all_changed(bool b);
 
 
 	/**

@@ -42,10 +42,11 @@ signals:
 	void sig_import_folder();
 	void sig_info();
 	void sig_libpath_clicked();
+	void sig_show_album_artists_changed();
 
 public:
 	explicit LocalLibraryMenu(QWidget* parent=nullptr);
-	~LocalLibraryMenu();
+	virtual ~LocalLibraryMenu();
 
 private:
 	QAction* _reload_library_action=nullptr;
@@ -55,6 +56,7 @@ private:
 	QAction* _library_path_action=nullptr;
 	QAction* _realtime_search_action=nullptr;
 	QAction* _auto_update=nullptr;
+	QAction* _show_album_artists_action=nullptr;
 
 	IconLoader* _icon_loader=nullptr;
 
@@ -62,6 +64,7 @@ private:
 
 
 private slots:
+	void show_album_artists_changed();
 	void language_changed();
 	void skin_changed();
 

@@ -191,11 +191,11 @@ bool MetaData::is_equal_deep(const MetaData& md) const{
 	return ( (id == md.id)  &&
 			 ( artist_id == md.artist_id ) &&
 			 ( album_id == md.album_id ) &&
-			 ( _album_artist_id == md._album_artist_id ) &&
+			 ( album_artist_id() == md.album_artist_id() ) &&
 			 ( title == md.title ) &&
 			 ( artist == md.artist ) &&
 			 ( album == md.album ) &&
-			 ( _album_artist == md._album_artist ) &&
+			 ( album_artist() == md.album_artist() ) &&
 			 ( genres == md.genres ) &&
 			 ( rating == md.rating ) &&
 			 ( length_ms == md.length_ms ) &&
@@ -206,12 +206,9 @@ bool MetaData::is_equal_deep(const MetaData& md) const{
 			 ( is_extern == md.is_extern ) &&
 			 ( _radio_mode == md.radio_mode() ) &&
 			 ( filesize == md.filesize ) &&
-			 //( comment == md.comment ) &&
 			 ( discnumber == md.discnumber ) &&
 			 ( n_discs == md.n_discs ) &&
-
 			 ( pl_playing == md.pl_playing ) &&
-
 			 ( is_disabled == md.is_disabled )
 			 );
 }

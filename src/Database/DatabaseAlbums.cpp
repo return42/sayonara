@@ -24,27 +24,30 @@
 #include "Helper/MetaData/Album.h"
 #include "Helper/Library/Filter.h"
 #include "Helper/Library/DateFilter.h"
+#include "Helper/Logger/Logger.h"
 
 DatabaseAlbums::DatabaseAlbums(QSqlDatabase db, quint8 db_id) :
 	DatabaseModule(db, db_id),
 	DatabaseSearchMode(db)
 {
 	_artistid_field = "artistID";
-	_fetch_query = "SELECT "
-					"albums.albumID AS albumID"
-					", albums.name AS albumName"
-					", SUM(tracks.length) / 1000 AS albumLength"
-					", albums.rating AS albumRating"
-					", COUNT(DISTINCT tracks.trackid) AS trackCount"
-					", MAX(tracks.year) AS albumYear"
-					", GROUP_CONCAT(DISTINCT artists.name)"
-					", GROUP_CONCAT(DISTINCT tracks.discnumber)"
-					", GROUP_CONCAT(DISTINCT albumartists.name)"
-					"FROM albums "
-					"INNER JOIN tracks ON tracks.albumid = albums.albumid "
-					"INNER JOIN artists ON tracks.artistid = artists.artistid "
-					"LEFT OUTER JOIN artists albumartists ON tracks.albumartistid = albumartists.artistid "
-	;
+}
+
+QString DatabaseAlbums::fetch_query() const
+{
+	return "SELECT "
+			"  albums.albumID AS albumID"
+			", albums.name AS albumName"
+			", SUM(tracks.length) / 1000 AS albumLength"
+			", albums.rating AS albumRating"
+			", COUNT(DISTINCT tracks.trackid) AS trackCount"
+			", MAX(tracks.year) AS albumYear"
+			", GROUP_CONCAT(DISTINCT artists.name)"
+			", GROUP_CONCAT(DISTINCT tracks.discnumber)"
+			" FROM albums "
+			" INNER JOIN tracks ON tracks.albumID = albums.albumID "
+			" INNER JOIN artists ON tracks."+ _artistid_field + " = artists.artistID "
+			;
 }
 
 
@@ -85,7 +88,7 @@ bool DatabaseAlbums::db_fetch_albums(SayonaraQuery& q, AlbumList& result)
 			album.discnumbers << 1;
 		}
 
-		album.set_album_artist(q.value(8).toString());
+		//album.set_album_artist(q.value(8).toString());
 
 		album.n_discs = album.discnumbers.size();
 		album.is_sampler = (album.artists.size() > 1);
@@ -97,10 +100,6 @@ bool DatabaseAlbums::db_fetch_albums(SayonaraQuery& q, AlbumList& result)
 	return true;
 }
 
-void DatabaseAlbums::set_album_fetch_query(const QString &query)
-{
-	_fetch_query = query;
-}
 
 QString DatabaseAlbums::_create_order_string(Library::SortOrder sortorder)
 {
@@ -168,7 +167,7 @@ bool DatabaseAlbums::getAlbumByID(const int& id, Album& album)
 	}
 
 	SayonaraQuery q(_db);
-	QString querytext =	_fetch_query +
+	QString querytext =	fetch_query() +
 						" WHERE albums.albumID = :id "
 						" GROUP BY albums.albumID, albums.name, albums.rating ";
 
@@ -188,7 +187,7 @@ bool DatabaseAlbums::getAlbumByID(const int& id, Album& album)
 bool DatabaseAlbums::getAllAlbums(AlbumList& result, Library::SortOrder sortorder)
 {
 	SayonaraQuery q (_db);
-	QString querytext = _fetch_query ;
+	QString querytext = fetch_query() ;
 
 	querytext += " GROUP BY albums.albumID, albums.name, albums.rating ";
 	querytext += _create_order_string(sortorder) + ";";
@@ -210,16 +209,16 @@ bool DatabaseAlbums::getAllAlbumsByArtist(IDList artists, AlbumList& result, con
 	SayonaraQuery q (_db);
 
 	// fetch all albums
-	QString querytext =	_fetch_query;
+	QString querytext =	fetch_query();
 
 	if(artists.isEmpty()) {
 		return false;
 	}
 
 	else if(artists.size() > 1) {
-		querytext += "WHERE (artists.artistid = :artist_id ";
+		querytext += "WHERE (artists.artistID = :artist_id ";
 		for(int i=1; i<artists.size(); i++) {
-			querytext += "OR artists.artistid = :artist_id_"
+			querytext += "OR artists.artistID = :artist_id_"
 					+ QString::number(i) + " ";
 		}
 
@@ -227,7 +226,7 @@ bool DatabaseAlbums::getAllAlbumsByArtist(IDList artists, AlbumList& result, con
 	}
 
 	else{
-		querytext += "WHERE artists.artistid = :artist_id ";
+		querytext += "WHERE artists.artistID = :artist_id ";
 	}
 
 
@@ -254,15 +253,15 @@ bool DatabaseAlbums::getAllAlbumsByArtist(IDList artists, AlbumList& result, con
 								"	FROM tracks t2 "
 								"	WHERE t2.cissearch LIKE :filter1 "	// track title is like filter
 
-								"	UNION SELECT t3.trackid "			// album title is like filter
+								"	UNION SELECT t3.trackID "			// album title is like filter
 								"	FROM tracks t3"
-								"   INNER JOIN albums ON albums.albumid = t3.albumid "
+								"   INNER JOIN albums ON albums.albumID = t3.albumID "
 								"	AND albums.cissearch LIKE :filter2 "
 
-								"	UNION SELECT t4.trackid " 		// artist title is like filter
+								"	UNION SELECT t4.trackID " 		// artist title is like filter
 								"	FROM tracks t4 "
-								"   INNER JOIN albums ON t4.albumid = albums.albumid "
-								"   INNER JOIN artists ON t4." + _artistid_field + " = artists.artistid "
+								"   INNER JOIN albums ON t4.albumID = albums.albumID "
+								"   INNER JOIN artists ON t4." + _artistid_field + " = artists.artistID "
 								"	AND artists.cissearch LIKE :filter3 "
 								") ";
 				break;
@@ -316,7 +315,7 @@ bool DatabaseAlbums::getAllAlbumsByArtist(int artist, AlbumList& result, const L
 bool DatabaseAlbums::getAllAlbumsBySearchString(const Library::Filter& filter, AlbumList& result, Library::SortOrder sortorder)
 {
 	SayonaraQuery q(_db);
-	QString querystring = _fetch_query;
+	QString querystring = fetch_query();
 	switch(filter.mode())
 	{
 		case Library::Filter::Date:
@@ -338,15 +337,15 @@ bool DatabaseAlbums::getAllAlbumsBySearchString(const Library::Filter& filter, A
 		case Library::Filter::Fulltext:
 		default:
 			querystring = "SELECT DISTINCT * FROM ( "
-						+ _fetch_query +
+						+ fetch_query() +
 						"WHERE albums.cissearch LIKE :search_in_album "
 						"GROUP BY albums.albumid, albums.name "
 					"UNION "
-						+ _fetch_query +
+						+ fetch_query() +
 						"WHERE tracks.cissearch LIKE :search_in_title "
 						"GROUP BY albums.albumid, albums.name "
 					"UNION "
-						+ _fetch_query +
+						+ fetch_query() +
 						"WHERE artists.cissearch LIKE :search_in_artist "
 						"GROUP BY albums.albumid, albums.name "
 					""

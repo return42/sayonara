@@ -18,9 +18,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "LibraryDatabase.h"
+#include "SayonaraQuery.h"
 
 LibraryDatabase::LibraryDatabase(quint8 db_id, const QString& db_dir, const QString& db_name) :
 	AbstractDatabase(db_id, db_dir, db_name),
@@ -31,8 +30,25 @@ LibraryDatabase::LibraryDatabase(quint8 db_id, const QString& db_dir, const QStr
 {
 	DB::getInstance()->add(this);
 
-	change_artistid_field(LibraryDatabase::ArtistIDField::AlbumArtistID);
-	//change_artistid_field(LibraryDatabase::ArtistIDField::ArtistID);
+	bool show_album_artists = false;
+	_database.open();
+	SayonaraQuery q(_database);
+	QString querytext = "SELECT value FROM settings WHERE key = 'lib_show_album_artists';";
+	q.prepare(querytext);
+	if(q.exec()){
+		if(q.next()){
+			QVariant var = q.value("value");
+			show_album_artists = var.toBool();
+		}
+	}
+
+	if(show_album_artists){
+		change_artistid_field(LibraryDatabase::ArtistIDField::AlbumArtistID);
+	}
+
+	else{
+		change_artistid_field(LibraryDatabase::ArtistIDField::ArtistID);
+	}
 }
 
 LibraryDatabase::~LibraryDatabase() {}

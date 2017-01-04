@@ -35,15 +35,12 @@ class DatabaseArtists :
 {
 
 private:
-	QString _fetch_query;
 	QString _artistid_field;
-
 	QString _create_order_string(Library::SortOrder sort);
 
 protected:
-	void set_artist_fetch_query(const QString& query);
 	void change_artistid_field(const QString& field);
-
+	virtual QString fetch_query() const;
 
 public:
 
@@ -54,7 +51,7 @@ public:
 	virtual int getArtistID (const QString& artist);
 	virtual bool getArtistByID(int id, Artist& artist);
 
-	virtual bool getAllArtists(ArtistList& result, Library::SortOrder sortorder = Library::SortOrder::ArtistNameAsc, bool also_empty=false);
+	virtual bool getAllArtists(ArtistList& result, Library::SortOrder sortorder = Library::SortOrder::ArtistNameAsc);
 	virtual bool getAllArtistsBySearchString(const Library::Filter& filter, ArtistList& result, Library::SortOrder sortorder = Library::SortOrder::ArtistNameAsc);
 
 	virtual int insertArtistIntoDatabase(const QString& artist);

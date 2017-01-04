@@ -56,6 +56,7 @@ GUI_TagEdit::GUI_TagEdit(QWidget* parent) :
 
 	connect(ui->cb_album_all, &QCheckBox::toggled, this, &GUI_TagEdit::album_all_changed);
 	connect(ui->cb_artist_all, &QCheckBox::toggled, this, &GUI_TagEdit::artist_all_changed);
+	connect(ui->cb_album_artist_all, &QCheckBox::toggled, this, &GUI_TagEdit::album_artist_all_changed);
 	connect(ui->cb_genre_all, &QCheckBox::toggled, this, &GUI_TagEdit::genre_all_changed);
 	connect(ui->cb_year_all, &QCheckBox::toggled, this, &GUI_TagEdit::year_all_changed);
 	connect(ui->cb_discnumber_all, &QCheckBox::toggled, this, &GUI_TagEdit::discnumber_all_changed);
@@ -195,6 +196,10 @@ void GUI_TagEdit::track_idx_changed()
 		ui->le_artist->setText(md.artist);
 	}
 
+	if(!ui->cb_album_artist_all->isChecked()){
+		ui->le_album_artist->setText(md.album_artist());
+	}
+
 	if(!ui->cb_genre_all->isChecked()){
 		QStringList genres;
 		for(const QString& genre : md.genres){
@@ -251,6 +256,7 @@ void GUI_TagEdit::reset()
 
 	ui->cb_album_all->setChecked(false);
 	ui->cb_artist_all->setChecked(false);
+	ui->cb_album_artist_all->setChecked(false);
 	ui->cb_genre_all->setChecked(false);
 	ui->cb_discnumber_all->setChecked(false);
 	ui->cb_rating_all->setChecked(false);
@@ -263,6 +269,7 @@ void GUI_TagEdit::reset()
 
 	ui->le_album->clear();
 	ui->le_artist->clear();
+	ui->le_album_artist->clear();
 	ui->le_title->clear();
 	ui->le_genre->clear();
 	ui->le_tag->clear();
@@ -273,6 +280,7 @@ void GUI_TagEdit::reset()
 
 	ui->le_album->setEnabled(true);
 	ui->le_artist->setEnabled(true);
+	ui->le_album_artist->setEnabled(true);
 	ui->le_genre->setEnabled(true);
 	ui->le_tag->setEnabled(true);
 	ui->sb_year->setEnabled(true);
@@ -299,7 +307,6 @@ void GUI_TagEdit::reset()
 	ui->btn_track_nr->setChecked(false);
 
 	_cover_path_map.clear();
-
 }
 
 void GUI_TagEdit::album_all_changed(bool b)
@@ -310,6 +317,11 @@ void GUI_TagEdit::album_all_changed(bool b)
 void GUI_TagEdit::artist_all_changed(bool b)
 {
 	ui->le_artist->setEnabled(!b);
+}
+
+void GUI_TagEdit::album_artist_all_changed(bool b)
+{
+	ui->le_album_artist->setEnabled(!b);
 }
 
 void GUI_TagEdit::genre_all_changed(bool b)
@@ -369,6 +381,7 @@ void GUI_TagEdit::write_changes(int idx)
 	md.title = ui->le_title->text();
 	md.artist = ui->le_artist->text();
 	md.album = ui->le_album->text();
+	md.set_album_artist(ui->le_album_artist->text());
 	md.genres = ui->le_genre->text().split(", ");
 	md.discnumber = ui->sb_discnumber->value();
 	md.year = ui->sb_year->value();
@@ -406,6 +419,9 @@ void GUI_TagEdit::commit()
 		}
 		if( ui->cb_artist_all->isChecked()){
 			md.artist = ui->le_artist->text();
+		}
+		if( ui->cb_album_artist_all->isChecked()){
+			md.set_album_artist(ui->le_album_artist->text());
 		}
 		if( ui->cb_genre_all->isChecked()){
 			md.genres = ui->le_genre->text().split(", ");

@@ -40,11 +40,11 @@ class DatabaseTracks :
 {
 
 private:
-	QString _fetch_query;
 	QString _artistid_field;
 
+	virtual QString fetch_query() const;
+
 protected:
-	void set_track_fetch_query(const QString& query);
 	void change_artistid_field(const QString& field);
 
 protected:

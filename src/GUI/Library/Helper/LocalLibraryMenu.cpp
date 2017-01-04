@@ -23,7 +23,7 @@
 #include "GUI/Helper/IconLoader/IconLoader.h"
 #include "Helper/Settings/Settings.h"
 #include "Helper/Language.h"
-
+#include "Database/DatabaseHandler.h"
 
 LocalLibraryMenu::LocalLibraryMenu(QWidget* parent) :
 	QMenu(parent),
@@ -37,13 +37,16 @@ LocalLibraryMenu::LocalLibraryMenu(QWidget* parent) :
 	_info_action = new QAction(GUI::get_icon("info"), QString(), this);
 	_library_path_action = new QAction(GUI::get_icon("folder"), QString(), this);
 
-
 	_realtime_search_action = new QAction(QIcon(), tr("Live search"), this);
 	_realtime_search_action->setCheckable(true);
 	_realtime_search_action->setChecked(_settings->get(Set::Lib_LiveSearch));
 	_auto_update = new QAction(QIcon(), tr("Auto update"), this);
 	_auto_update->setCheckable(true);
 	_auto_update->setChecked(_settings->get(Set::Lib_AutoUpdate));
+
+	_show_album_artists_action = new QAction(QIcon(), QString(), this);
+	_show_album_artists_action->setCheckable(true);
+	_show_album_artists_action->setChecked(_settings->get(Set::Lib_ShowAlbumArtists));
 
 	connect(_reload_library_action, &QAction::triggered, this, &LocalLibraryMenu::sig_reload_library);
 	connect(_import_file_action, &QAction::triggered, this, &LocalLibraryMenu::sig_import_file);
@@ -52,6 +55,7 @@ LocalLibraryMenu::LocalLibraryMenu(QWidget* parent) :
 	connect(_library_path_action, &QAction::triggered, this, &LocalLibraryMenu::sig_libpath_clicked);
 	connect(_realtime_search_action, &QAction::triggered, this, &LocalLibraryMenu::realtime_search_changed);
 	connect(_auto_update, &QAction::triggered, this, &LocalLibraryMenu::auto_update_changed);
+	connect(_show_album_artists_action, &QAction::triggered, this, &LocalLibraryMenu::show_album_artists_changed);
 
 	_actions <<_library_path_action <<
 				this->addSeparator() <<
@@ -63,7 +67,8 @@ LocalLibraryMenu::LocalLibraryMenu(QWidget* parent) :
 				_reload_library_action <<
 				this->addSeparator() <<
 				_realtime_search_action <<
-				_auto_update;
+				_auto_update <<
+				_show_album_artists_action;
 
 	this->addActions(_actions);
 
@@ -82,6 +87,8 @@ void LocalLibraryMenu::language_changed()
 	_library_path_action->setText(Lang::get(Lang::LibraryPath));
 	_realtime_search_action->setText(tr("Live search"));
 	_auto_update->setText(tr("Auto update"));
+	_show_album_artists_action->setText(Lang::get(Lang::ShowAlbumArtists));
+
 }
 
 void LocalLibraryMenu::skin_changed()
@@ -93,7 +100,6 @@ void LocalLibraryMenu::skin_changed()
 	_library_path_action->setIcon(_icon_loader->get_icon("folder", "folder"));
 }
 
-
 void LocalLibraryMenu::realtime_search_changed()
 {
 	_settings->set(Set::Lib_LiveSearch, _realtime_search_action->isChecked());
@@ -102,5 +108,21 @@ void LocalLibraryMenu::realtime_search_changed()
 void LocalLibraryMenu::auto_update_changed()
 {
 	_settings->set(Set::Lib_AutoUpdate, _auto_update->isChecked());
+}
+
+void LocalLibraryMenu::show_album_artists_changed()
+{
+	bool show_album_artist = _show_album_artists_action->isChecked();
+	_settings->set(Set::Lib_ShowAlbumArtists, show_album_artist);
+
+	if(show_album_artist){
+		DB::getInstance()->get_std()->change_artistid_field(LibraryDatabase::ArtistIDField::AlbumArtistID);
+	}
+
+	else{
+		DB::getInstance()->get_std()->change_artistid_field(LibraryDatabase::ArtistIDField::ArtistID);
+	}
+
+	emit sig_show_album_artists_changed();
 }
 

@@ -85,6 +85,7 @@ enum SettingKey {
 	Lib_SearchMode,
 	Lib_AutoUpdate,
 	Lib_DateFilters,
+	Lib_ShowAlbumArtists,
 
 	Player_Version,
 	Player_Language,
@@ -226,6 +227,7 @@ INST(bool,				Lib_FontBold);				/* current library font weight */
 INST(int,				Lib_SearchMode);			/* Search mode in library. See */
 INST(bool,				Lib_AutoUpdate);			/* Automatic update of library */
 INST(QList<Library::DateFilter>, Lib_DateFilters);	/* Date filters appearing in library window */
+INST(bool,				Lib_ShowAlbumArtists);		/* Show album artists instead of artists */
 
 
 INST(QString,			Player_Version);			/* Version string of player */

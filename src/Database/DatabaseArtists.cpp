@@ -32,17 +32,19 @@ DatabaseArtists::DatabaseArtists(const QSqlDatabase& db, quint8 db_id) :
 	DatabaseSearchMode(db)
 {
 	_artistid_field = "artistID";
-	_fetch_query = 	"SELECT "
-					"artists.artistid AS artistID, "
-					"artists.name AS artistName, "
-					"COUNT(DISTINCT tracks.trackid) AS artistNTracks, "
-					"GROUP_CONCAT(DISTINCT albums.albumid) AS artistAlbums "
-					"FROM artists, albums, tracks ";
+
 }
 
-void DatabaseArtists::set_artist_fetch_query(const QString &query)
+QString DatabaseArtists::fetch_query() const
 {
-	_fetch_query = query;
+	return	"SELECT "
+			"artists.artistID AS artistID "
+			", artists.name AS artistName "
+			", COUNT(DISTINCT tracks.trackid) AS artistNTracks "
+			" FROM artists "
+			" INNER JOIN tracks ON tracks." + _artistid_field + " = artists.artistID "
+			" INNER JOIN albums ON tracks.albumID = albums.albumID "
+	;
 }
 
 bool DatabaseArtists::db_fetch_artists(SayonaraQuery& q, ArtistList& result)
@@ -65,9 +67,6 @@ bool DatabaseArtists::db_fetch_artists(SayonaraQuery& q, ArtistList& result)
 		artist.id = q.value(0).toInt();
 		artist.name = q.value(1).toString().trimmed();
 		artist.num_songs = q.value(2).toInt();
-
-		QStringList list = q.value(3).toString().split(',');		
-		artist.num_albums = list.size();
 		artist.db_id = _module_db_id;
 
 		result << artist;
@@ -103,10 +102,8 @@ bool DatabaseArtists::getArtistByID(int id, Artist& artist)
 
 	ArtistList artists;
 
-	QString query = _fetch_query +
-				"WHERE artists.artistID = ? " +
-				"AND tracks." + _artistid_field + " = artists.artistID " +
-				"AND tracks.albumID = albums.albumID " +
+	QString query = fetch_query() +
+				"WHERE artists.artistID = ? "
 				"GROUP BY artistName;";
 
 	q.prepare(query);
@@ -142,22 +139,15 @@ int DatabaseArtists::getArtistID(const QString& artist)
 	return artistID;
 }
 
-bool DatabaseArtists::getAllArtists(ArtistList& result, Library::SortOrder sortorder, bool also_empty)
+bool DatabaseArtists::getAllArtists(ArtistList& result, Library::SortOrder sortorder)
 {
 	SayonaraQuery q (_db);
-	QString query = _fetch_query;
-
-	if(!also_empty){
-			query += "WHERE Tracks.albumID = albums.albumID "
-					 "AND artists.artistid = tracks." + _artistid_field + " ";
-	}
+	QString query = fetch_query();
 
 	query += "GROUP BY artists.artistID, artists.name ";
 	query += _create_order_string(sortorder) + ";";
 
 	q.prepare(query);
-
-	sp_log(Log::Debug) << q.get_query_string();
 
 	return db_fetch_artists(q, result);
 }
@@ -170,49 +160,37 @@ bool DatabaseArtists::getAllArtistsBySearchString(const Library::Filter& filter,
 	switch(filter.mode())
 	{
 		case Library::Filter::Date:
-			query = _fetch_query +
-					" WHERE albums.albumid = tracks.albumid "
-					" AND artists.artistID = tracks." + _artistid_field +
+			query = fetch_query() +
 					" AND (" + filter.date_filter().get_sql_filter("tracks") + ") "
-					" GROUP BY artists.artistid, artists.name ";
+					" GROUP BY artists.artistID, artists.name ";
 			break;
 
 		case Library::Filter::Genre:
-			query = _fetch_query +
-					"	WHERE albums.albumid = tracks.albumid "
-					"   AND artists.artistID = tracks." + _artistid_field + " "
+			query = fetch_query() +
 					"   AND tracks.genre LIKE :search_in_genre "
-					"	GROUP BY artists.artistid, artists.name ";
+					"	GROUP BY artists.artistID, artists.name ";
 			break;
 
 		case Library::Filter::Filename:
-			query = _fetch_query +
-					"	WHERE albums.albumid = tracks.albumid "
-					"   AND artists.artistID = tracks.artistid "
+			query = fetch_query() +
 					"   AND tracks.filename LIKE :search_in_filename "
-					"	GROUP BY artists.artistid, artists.name ";
+					"	GROUP BY artists.artistID, artists.name ";
 			break;
 
 		case Library::Filter::Fulltext:
 		default:
 			query = QString("SELECT * FROM ( ")
-					+ _fetch_query +
-			"			WHERE albums.albumid = tracks.albumid "
-			"           AND artists.artistID = tracks." + _artistid_field +
+					+ fetch_query() +
 			"           AND artists.cissearch LIKE :search_in_artist "
-			"			GROUP BY artists.artistid, artists.name "
+			"			GROUP BY artists.artistID, artists.name "
 			"		UNION "
-					+ _fetch_query +
-			"			WHERE albums.albumid = tracks.albumid "
-			"           AND artists.artistID = tracks." + _artistid_field +
+					+ fetch_query() +
 			"           AND albums.cissearch LIKE :search_in_album "
-			"			GROUP BY artists.artistid, artists.name "
+			"			GROUP BY artists.artistID, artists.name "
 			"		UNION "
-					+ _fetch_query +
-			"			WHERE albums.albumid = tracks.albumid "
-			"           AND artists.artistID = tracks." + _artistid_field +
+					+ fetch_query() +
 			"           AND tracks.cissearch LIKE :search_in_title "
-			"			GROUP BY artists.artistid, artists.name "
+			"			GROUP BY artists.artistID, artists.name "
 			"	)  "
 			"	GROUP BY artistID, artistName ";
 			break;
@@ -288,7 +266,7 @@ int DatabaseArtists::updateArtist(const Artist &artist)
 
 	QString cissearch = Library::convert_search_string(artist.name, search_mode());
 
-	q.prepare("UPDATE artists SET name = :name, cissearch = :cissearch WHERE artistid = :artist_id;");
+	q.prepare("UPDATE artists SET name = :name, cissearch = :cissearch WHERE artistID = :artist_id;");
 	q.bindValue(":name", artist.name);
 	q.bindValue(":cissearch", cissearch);
 	q.bindValue(":artist_id", artist.id);

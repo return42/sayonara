@@ -49,6 +49,8 @@ LanguageString Lang::get(Lang::Term term)
 			return l.tr("Add tab");
 		case Album:
 			return l.tr("Album");
+		case AlbumArtists:
+			return l.tr("Album artists");
 		case Albums:
 			return l.tr("Albums");
 		case Append:
@@ -225,6 +227,8 @@ LanguageString Lang::get(Lang::Term term)
 			return l.tr("Seek forward");
 		case Show:
 			return l.tr("Show");
+		case ShowAlbumArtists:
+			return l.tr("Show album artists");
 		case SimilarArtists:
 			return l.tr("Similar artists");
 		case Stop:

@@ -61,18 +61,20 @@ TagEdit::TagEdit(const MetaDataList& v_md, QObject* parent) :
 TagEdit::~TagEdit() {}
 
 
-void TagEdit::update_track(int idx, const MetaData& md){
-
+void TagEdit::update_track(int idx, const MetaData& md)
+{
 	_m->changed_md[idx] = !( md.is_equal_deep( _m->v_md_orig[idx]) );
 	_m->v_md[idx] = md;
 }
 
-void TagEdit::undo(int idx){
+void TagEdit::undo(int idx)
+{
 	_m->v_md[idx] = _m->v_md_orig[idx];
 }
 
 
-void TagEdit::undo_all(){
+void TagEdit::undo_all()
+{
 	_m->v_md = _m->v_md_orig;
 }
 
@@ -114,8 +116,8 @@ void TagEdit::add_genre_to_metadata(const QString &genre)
 }
 
 
-void TagEdit::set_metadata(const MetaDataList& v_md){
-
+void TagEdit::set_metadata(const MetaDataList& v_md)
+{
 	_m->v_md = v_md;
 	_m->v_md_orig = v_md;
 
@@ -133,8 +135,8 @@ void TagEdit::set_metadata(const MetaDataList& v_md){
 	emit sig_metadata_received(_m->v_md);
 }
 
-void TagEdit::check_for_new_artists_and_albums(QStringList& new_artists, QStringList& new_albums){
-
+void TagEdit::check_for_new_artists_and_albums(QStringList& new_artists, QStringList& new_albums)
+{
 	QStringList artists;
 	QStringList albums;
 
@@ -145,6 +147,10 @@ void TagEdit::check_for_new_artists_and_albums(QStringList& new_artists, QString
 
 		if(!artists.contains(md.artist)){
 			artists << md.artist;
+		}
+
+		if(!artists.contains(md.album_artist())){
+			artists << md.album_artist();
 		}
 
 		if(!albums.contains(md.album)){
@@ -169,40 +175,42 @@ void TagEdit::check_for_new_artists_and_albums(QStringList& new_artists, QString
 }
 
 
-void TagEdit::insert_new_artists(const QStringList& artists){
-
+void TagEdit::insert_new_artists(const QStringList& artists)
+{
 	for(const QString& a : artists){
 		_m->ldb->insertArtistIntoDatabase(a);
 	}
 }
 
-void TagEdit::insert_new_albums(const QStringList& albums){
-
+void TagEdit::insert_new_albums(const QStringList& albums)
+{
 	for(const QString& a : albums){
 		_m->ldb->insertAlbumIntoDatabase(a);
 	}
 }
 
-void TagEdit::apply_artists_and_albums_to_md(){
-
+void TagEdit::apply_artists_and_albums_to_md()
+{
 	for(int i=0; i<_m->v_md.size(); i++){
 
 		if( _m->changed_md[i] == false ) {
 			continue;
 		}
 
-		int artist_id, album_id;
+		int artist_id, album_id, album_artist_id;
 		artist_id = _m->ldb->getArtistID(_m->v_md[i].artist);
 		album_id = _m->ldb->getAlbumID(_m->v_md[i].album);
+		album_artist_id = _m->ldb->getArtistID(_m->v_md[i].album_artist());
 
 		_m->v_md[i].album_id = album_id;
 		_m->v_md[i].artist_id = artist_id;
+		_m->v_md[i].set_album_artist_id(album_artist_id);
 	}
 }
 
 
-void TagEdit::update_cover(int idx, const QImage& cover){
-
+void TagEdit::update_cover(int idx, const QImage& cover)
+{
 	if(cover.isNull()){
 		return;
 	}
@@ -222,11 +230,8 @@ void TagEdit::update_cover(int idx, const QImage& cover){
 
 	_m->cover_map[idx] = cover;
 }
-/** TODO: never used
-void TagEdit::remove_cover(int idx){
-	_m->cover_map.remove(idx);
-}
-*/
+
+
 bool TagEdit::has_cover_replacement(int idx) const
 {
 	return _m->cover_map.contains(idx);
@@ -303,13 +308,15 @@ void TagEdit::run()
 	emit sig_progress(-1);
 }
 
-void TagEdit::thread_finished(){
+void TagEdit::thread_finished()
+{
 	if(_m->notify){
 		MetaDataChangeNotifier::getInstance()->change_metadata(_m->v_md_before_change, _m->v_md_after_change);
 	}
 }
 
-void TagEdit::commit(){
+void TagEdit::commit()
+{
 	this->start();
 }
 
