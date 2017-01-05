@@ -215,40 +215,25 @@ bool DatabaseAlbums::getAllAlbumsByArtist(IDList artists, AlbumList& result, con
 		return false;
 	}
 
-	else if(artists.size() > 1) {
-		querytext += "WHERE (artists.artistID = :artist_id ";
-		for(int i=1; i<artists.size(); i++) {
-			querytext += "OR artists.artistID = :artist_id_"
-					+ QString::number(i) + " ";
-		}
-
-		querytext += ") ";
-	}
-
-	else{
-		querytext += "WHERE artists.artistID = :artist_id ";
-	}
-
-
 	if( !filter.cleared() ) {
 
 		switch(filter.mode())
 		{
 			case Library::Filter::Date:
-				querytext += "AND " + filter.date_filter().get_sql_filter("tracks");
+				querytext += "WHERE " + filter.date_filter().get_sql_filter("tracks") + " AND ";
 				break;
 
 			case Library::Filter::Genre:
-				querytext += "AND tracks.genre LIKE :filter1 ";			// track title is like filter
+				querytext += "WHERE tracks.genre LIKE :filter1 AND ";			// track title is like filter
 				break;
 
 			case Library::Filter::Filename:
-				querytext += "AND tracks.filename LIKE :filter1 ";			// track title is like filter
+				querytext += "WHERE tracks.filename LIKE :filter1 AND ";			// track title is like filter
 
 				break;
 
 			case Library::Filter::Fulltext:
-				querytext +=	"AND tracks.trackID IN ( "
+				querytext +=	"INNER JOIN ( "
 								"	SELECT t2.trackID "
 								"	FROM tracks t2 "
 								"	WHERE t2.cissearch LIKE :filter1 "	// track title is like filter
@@ -263,10 +248,27 @@ bool DatabaseAlbums::getAllAlbumsByArtist(IDList artists, AlbumList& result, con
 								"   INNER JOIN albums ON t4.albumID = albums.albumID "
 								"   INNER JOIN artists ON t4." + _artistid_field + " = artists.artistID "
 								"	AND artists.cissearch LIKE :filter3 "
-								") ";
+								") foundTracks ON tracks.trackID = foundTracks.trackID WHERE ";
 				break;
-
 		}
+	}
+
+	else{
+		querytext += " WHERE ";
+	}
+
+	if(artists.size() > 1) {
+		querytext += " (artists.artistID = :artist_id ";
+		for(int i=1; i<artists.size(); i++) {
+			querytext += "OR artists.artistID = :artist_id_"
+					+ QString::number(i) + " ";
+		}
+
+		querytext += ") ";
+	}
+
+	else{
+		querytext += " artists.artistID = :artist_id ";
 	}
 
 	querytext += QString("GROUP BY albums.albumID, albumName ");
@@ -336,21 +338,22 @@ bool DatabaseAlbums::getAllAlbumsBySearchString(const Library::Filter& filter, A
 
 		case Library::Filter::Fulltext:
 		default:
-			querystring = "SELECT DISTINCT * FROM ( "
+			querystring +=
+					"INNER JOIN ( "
 						+ fetch_query() +
 						"WHERE albums.cissearch LIKE :search_in_album "
 						"GROUP BY albums.albumid, albums.name "
-					"UNION "
+						"UNION "
 						+ fetch_query() +
 						"WHERE tracks.cissearch LIKE :search_in_title "
 						"GROUP BY albums.albumid, albums.name "
-					"UNION "
+						"UNION "
 						+ fetch_query() +
 						"WHERE artists.cissearch LIKE :search_in_artist "
 						"GROUP BY albums.albumid, albums.name "
-					""
-				") "
-				"GROUP BY albumID, albumName";
+
+					") foundAlbums ON albums.albumID=foundAlbums.albumID "
+					"GROUP BY albums.albumID, albumName ";
 			break;
 	}
 
@@ -427,7 +430,6 @@ void DatabaseAlbums::updateAlbumCissearch()
 		q.prepare(str);
 		q.bindValue(":cissearch", cis);
 		q.bindValue(":id", album.id);
-		q.show_query();
 
 		if(!q.exec()){
 			q.show_error("Cannot update album cissearch");

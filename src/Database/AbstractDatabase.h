@@ -62,9 +62,9 @@ protected:
 	virtual bool open_db();
 	virtual bool apply_fixes()=0;
 
-	virtual bool check_and_insert_column(QString tablename, QString column, QString sqltype);
-	virtual bool check_and_create_table(QString tablename, QString sql_create_str);
-	virtual bool check_and_drop_table(QString tablename);
+	virtual bool check_and_insert_column(const QString& tablename, const QString& column, const QString& sqltype, const QString& default_value=QString());
+	virtual bool check_and_create_table(const QString& tablename, const QString& sql_create_str);
+	virtual bool check_and_drop_table(const QString& tablename);
 };
 
 #endif // ABSTRACTDATABASE_H

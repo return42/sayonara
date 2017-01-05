@@ -297,7 +297,12 @@ bool DatabaseConnector::apply_fixes() {
 
 	if(version < 13){
 
-		bool success = check_and_insert_column("tracks", "albumArtistID", "integer");
+		bool success = check_and_insert_column("tracks", "albumArtistID", "integer", "-1");
+
+		SayonaraQuery q(_database);
+		q.prepare("UPDATE tracks SET albumArtistID=artistID;");
+		success = success && q.exec();
+
 		if(success){
 			store_setting("version", 13);
 		}

@@ -197,7 +197,7 @@ void AbstractDatabase::rollback()
 }
 
 
-bool AbstractDatabase::check_and_drop_table(QString tablename)
+bool AbstractDatabase::check_and_drop_table(const QString& tablename)
 {
 	DB_RETURN_NOT_OPEN_BOOL(_database);
 
@@ -213,7 +213,7 @@ bool AbstractDatabase::check_and_drop_table(QString tablename)
 	return true;
 }
 
-bool AbstractDatabase::check_and_insert_column(QString tablename, QString column, QString sqltype)
+bool AbstractDatabase::check_and_insert_column(const QString& tablename, const QString& column, const QString& sqltype, const QString& default_value)
 {
 	DB_RETURN_NOT_OPEN_BOOL(_database);
 
@@ -224,7 +224,13 @@ bool AbstractDatabase::check_and_insert_column(QString tablename, QString column
 	if(!q.exec()) {
 
 		SayonaraQuery q2 (_database);
-		querytext = "ALTER TABLE " + tablename + " ADD COLUMN " + column + " " + sqltype + ";";
+		querytext = "ALTER TABLE " + tablename + " ADD COLUMN " + column + " " + sqltype;
+		if(!default_value.isEmpty()){
+			querytext += " DEFAULT " + default_value;
+		}
+
+		querytext += ";";
+
 		q2.prepare(querytext);
 
 		if(!q2.exec()){;
@@ -238,7 +244,7 @@ bool AbstractDatabase::check_and_insert_column(QString tablename, QString column
 	return true;
 }
 
-bool AbstractDatabase::check_and_create_table(QString tablename, QString sql_create_str)
+bool AbstractDatabase::check_and_create_table(const QString& tablename, const QString& sql_create_str)
 {
 	DB_RETURN_NOT_OPEN_BOOL(_database);
 

@@ -167,32 +167,32 @@ bool DatabaseArtists::getAllArtistsBySearchString(const Library::Filter& filter,
 
 		case Library::Filter::Genre:
 			query = fetch_query() +
-					"   AND tracks.genre LIKE :search_in_genre "
+					"   AND tracks.genre LIKE :searchstring "
 					"	GROUP BY artists.artistID, artists.name ";
 			break;
 
 		case Library::Filter::Filename:
 			query = fetch_query() +
-					"   AND tracks.filename LIKE :search_in_filename "
+					"   AND tracks.filename LIKE :searchstring "
 					"	GROUP BY artists.artistID, artists.name ";
 			break;
 
 		case Library::Filter::Fulltext:
 		default:
-			query = QString("SELECT * FROM ( ")
+			query = "SELECT * FROM ("
 					+ fetch_query() +
-			"           AND artists.cissearch LIKE :search_in_artist "
-			"			GROUP BY artists.artistID, artists.name "
-			"		UNION "
+					" AND artists.cissearch LIKE :searchstring "
+					" GROUP BY artists.artistID, artists.name "
+					" UNION "
 					+ fetch_query() +
-			"           AND albums.cissearch LIKE :search_in_album "
-			"			GROUP BY artists.artistID, artists.name "
-			"		UNION "
+					" AND albums.cissearch LIKE :searchstring "
+					" GROUP BY artists.artistID, artists.name "
+					" UNION "
 					+ fetch_query() +
-			"           AND tracks.cissearch LIKE :search_in_title "
-			"			GROUP BY artists.artistID, artists.name "
-			"	)  "
-			"	GROUP BY artistID, artistName ";
+					" AND tracks.cissearch LIKE :searchstring "
+					" GROUP BY artists.artistID, artists.name "
+					") "
+					"GROUP BY artistID, artistName ";
 			break;
 	}
 
@@ -201,27 +201,7 @@ bool DatabaseArtists::getAllArtistsBySearchString(const Library::Filter& filter,
 
 	q.prepare(query);
 
-	QString filtertext = filter.filtertext();
-	switch(filter.mode())
-	{
-		case Library::Filter::Date:
-			break;
-
-		case Library::Filter::Genre:
-			q.bindValue(":search_in_genre", filtertext);
-			break;
-		case Library::Filter::Filename:
-			q.bindValue(":search_in_filename", filtertext);
-			break;
-
-		case Library::Filter::Fulltext:
-		default:
-			q.bindValue(":search_in_title", filtertext);
-			q.bindValue(":search_in_album", filtertext);
-			q.bindValue(":search_in_artist", filtertext);
-			break;
-	}
-
+	q.bindValue(":searchstring", filter.filtertext());
 	return db_fetch_artists(q, result);
 }
 

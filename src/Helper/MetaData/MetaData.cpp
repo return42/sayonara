@@ -111,7 +111,8 @@ MetaData::MetaData(MetaData&& other) :
 	MD_DO_COPY
 }
 
-MetaData::MetaData(const QString& path)
+MetaData::MetaData(const QString& path) :
+	MetaData()
 {
 //	mdc.increase();
 	this->set_filepath(path);

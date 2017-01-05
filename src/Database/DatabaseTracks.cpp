@@ -70,8 +70,9 @@ QString DatabaseTracks::fetch_query() const
 		   "INNER JOIN albums ON tracks.albumID = albums.albumID "
 		   "INNER JOIN artists ON tracks." + _artistid_field + " = artists.artistID "
 		   "INNER JOIN artists artists2 ON tracks.artistID = artists2.artistID "
-		   "INNER JOIN artists albumartists ON tracks.albumArtistID = albumartists.artistID "
-		   "WHERE filetype is null ";
+		   "LEFT OUTER JOIN artists albumartists ON tracks.albumArtistID = albumartists.artistID "
+		   //"WHERE filetype is null "
+			;
 }
 
 
@@ -163,9 +164,11 @@ MetaData DatabaseTracks::getTrackByPath(const QString& path)
 {
 	SayonaraQuery q (_db);
 
-	QString querytext = fetch_query() + " AND tracks.filename = :filename;";
+	QString querytext = fetch_query() + " WHERE tracks.filename LIKE :filename;";
 	q.prepare(querytext);
 	q.bindValue(":filename", path);
+
+	q.show_query();
 
 	MetaData md;
 	md.id = -1;
@@ -190,7 +193,7 @@ MetaData DatabaseTracks::getTrackByPath(const QString& path)
 MetaData DatabaseTracks::getTrackById(int id)
 {
 	SayonaraQuery q (_db);
-	QString querytext = fetch_query() + " AND tracks.trackID = :track_id;";
+	QString querytext = fetch_query() + " WHERE tracks.trackID = :track_id;";
 
 	q.prepare(querytext);
 	q.bindValue(":track_id", QVariant(id));
@@ -215,6 +218,7 @@ bool DatabaseTracks::getAllTracks(MetaDataList& returndata, Library::SortOrder s
 	SayonaraQuery q (_db);
 
 	QString querytext = append_track_sort_string(fetch_query(), sort);
+
 	q.prepare(querytext);
 
 	return db_fetch_tracks(q, returndata);
@@ -269,61 +273,53 @@ bool DatabaseTracks::getAllTracksByAlbum(IDList albums, MetaDataList& returndata
 		return false;
 	}
 
-	else if(albums.size() == 1) {
-		querytext += "AND tracks.albumID=:albumid ";
-	}
-
-	else {
-		querytext += "AND (tracks.albumID=:albumid ";
-		for(int i=1; i<albums.size(); i++) {
-			querytext += "OR tracks.albumID=:albumid_" + QString::number(i) + " ";
-		}
-
-		querytext += ") ";
-	}
-
 	if( !filter.cleared() )
 	{
 		switch(filter.mode())
 		{
 			case Library::Filter::Date:
-				querytext += "AND " + filter.date_filter().get_sql_filter("tracks");
+				querytext += "WHERE " + filter.date_filter().get_sql_filter("tracks") + " AND ";
 				break;
 
 			case Library::Filter::Genre:
-				querytext += "AND tracks.genre LIKE :filter1 ";
+				querytext += "WHERE tracks.genre LIKE :filter1 AND ";
 				break;
 
 			case Library::Filter::Filename:
-				querytext += "AND tracks.filename LIKE :filter1 ";
+				querytext += "WHERE tracks.filename LIKE :filter1 AND ";
 				break;
 
 			case Library::Filter::Fulltext:
 				// consider the case, that the search string may fit to the title
 				// union the case that the search string may fit to the album
 				querytext +=
-								//"AND tracks.trackid IN ( "
-								"   INNER JOIN ("
-								"	SELECT t2.trackID "
-								"	FROM tracks t2 "
-								"	WHERE t2.cissearch LIKE :filter1 "
+								" INNER JOIN ( "
+								"	SELECT tracks.trackID "
+								"	FROM tracks "
+								"	WHERE tracks.cissearch LIKE :filter1 "
 
-								"	UNION SELECT t3.trackID "
-								"	FROM tracks t3 "
-								"   INNER JOIN albums a2 ON t3.albumID = a2.albumID "
-								"	WHERE a2.cissearch LIKE :filter2 "
+								"	UNION SELECT tracks.trackID "
+								"	FROM tracks "
+								"   INNER JOIN albums "
+								"   ON tracks.albumID = albums.albumID "
+								"	WHERE albums.cissearch LIKE :filter2 "
 
-								"	UNION SELECT t4.trackID "
-								"	FROM tracks t4 "
-								"   INNER JOIN albums a3 ON t4.albumID = a3.albumID "
-								"   INNER JOIN artists ar2 ON ("
-								"     t4.artistID = ar2.artistID "
-								"     OR "
-								"     t4.albumArtistID = ar2.artistID "
-								"   )  "
-								"	WHERE ar2.cissearch LIKE :filter3 "
-								") "
-								"matchingTracks ON tracks.trackID = matchingTracks.trackID "
+								"	UNION SELECT tracks.trackID "
+								"	FROM tracks "
+								"   INNER JOIN albums "
+								"   ON tracks.albumID = albums.albumID "
+								"   INNER JOIN artists "
+								"   ON tracks.artistID = artists.artistID "
+								"   WHERE artists.cissearch LIKE :filter3 "
+
+								"	UNION SELECT tracks.trackID "
+								"	FROM tracks "
+								"   INNER JOIN albums "
+								"   ON tracks.albumID = albums.albumID "
+								"   INNER JOIN artists "
+								"   ON tracks.albumArtistID = artists.artistID "
+								"   WHERE artists.cissearch LIKE :filter3 "
+								") foundTracks ON tracks.trackID = foundTracks.trackID WHERE "
 						;
 				break;
 
@@ -331,6 +327,24 @@ bool DatabaseTracks::getAllTracksByAlbum(IDList albums, MetaDataList& returndata
 				break;
 		}
 	}
+
+	else{
+		querytext += " WHERE ";
+	}
+
+	if(albums.size() == 1) {
+		querytext += " tracks.albumID=:albumid ";
+	}
+
+	else {
+		querytext += " (tracks.albumID=:albumid ";
+		for(int i=1; i<albums.size(); i++) {
+			querytext += "OR tracks.albumID=:albumid_" + QString::number(i) + " ";
+		}
+
+		querytext += ") ";
+	}
+
 
 	querytext = append_track_sort_string(querytext, sort);
 
@@ -388,59 +402,66 @@ bool DatabaseTracks::getAllTracksByArtist(IDList artists, MetaDataList& returnda
 		return false;
 	}
 
-	if(artists.size() == 1) {
-		querytext += "AND tracks." + _artistid_field + "=:artist_id ";
-	}
-
-	else {
-		querytext += "AND (tracks." + _artistid_field + "=:artist_id ";
-		for(int i=1; i<artists.size(); i++) {
-			querytext += "OR tracks." + _artistid_field + "=:artist_id_" + QString::number(i) + " ";
-		}
-
-		querytext += ") ";
-	}
-
 	if( !filter.cleared() )
 	{
 		switch( filter.mode() )
 		{
 			case Library::Filter::Date:
-				querytext += "AND " + filter.date_filter().get_sql_filter("tracks");
+				querytext += "WHERE " + filter.date_filter().get_sql_filter("tracks") + " AND ";
 				break;
 
 			case Library::Filter::Genre:
-				querytext += "AND tracks.genre LIKE :filter1";
+				querytext += "WHERE tracks.genre LIKE :filter1 AND " ;
 				break;
 
 			case Library::Filter::Filename:
-				querytext += "AND tracks.filename LIKE :filter1 ";
+				querytext += "AND tracks.filename LIKE :filter1 AND ";
 				break;
 
 			case Library::Filter::Fulltext:
 			default:
-				querytext += "AND tracks.trackid IN ( "
-							 "	SELECT t2.trackid "
-							 "	FROM tracks t2 "
-							 "	WHERE t2.cissearch LIKE :filter1 "
+				querytext += "INNER JOIN ( "
+							 "	SELECT tracks.trackid "
+							 "	FROM tracks "
+							 "	WHERE tracks.cissearch LIKE :filter1 "
 
-							 "	UNION SELECT t3.trackID "
-							 "	FROM tracks t3 "
-							 "	INNER JOIN albums a2 ON "
-							 "	a2.albumID = t3.albumID AND a2.cissearch LIKE :filter2 "
+							 "	UNION SELECT tracks.trackID "
+							 "	FROM tracks "
+							 "	INNER JOIN albums ON "
+							 "	albums.albumID = tracks.albumID "
+							 "  AND albums.cissearch LIKE :filter2 "
 
-							 "	UNION SELECT t4.trackID "
-							 "	FROM tracks t4 "
-							 "	INNER JOIN albums a3 ON t4.albumID = a3.albumID "
-							 "  INNER JOIN artists ar2 ON ("
-							 "  t4.artistID = ar2.artistID "
-							 "  OR "
-							 "  t4.albumArtistID = ar2.artistID "
-							 ") "
-							 "	AND ar2.cissearch LIKE :filter3 "
-							 ") ";
+							 "	UNION SELECT tracks.trackID "
+							 "	FROM tracks "
+							 "  INNER JOIN artists ON "
+							 "  tracks.artistID = artists.artistID "
+							 "  AND artists.cissearch LIKE :filter3"
+
+							 "	UNION SELECT tracks.trackID "
+							 "	FROM tracks "
+							 "  INNER JOIN artists albumArtists "
+							 "  ON tracks.albumArtistID = albumArtists.artistID "
+							 "  AND albumArtists.cissearch LIKE :filter4 "
+							 ") foundTracks ON tracks.trackID = foundTracks.trackID WHERE ";
 				break;
 		}
+	}
+
+	else{
+		querytext += " WHERE ";
+	}
+
+	if(artists.size() == 1) {
+		querytext += " tracks." + _artistid_field + "=:artist_id ";
+	}
+
+	else {
+		querytext += " (tracks." + _artistid_field + "=:artist_id ";
+		for(int i=1; i<artists.size(); i++) {
+			querytext += "OR tracks." + _artistid_field + "=:artist_id_" + QString::number(i) + " ";
+		}
+
+		querytext += ") ";
 	}
 
 	querytext = append_track_sort_string(querytext, sort);
@@ -462,14 +483,13 @@ bool DatabaseTracks::getAllTracksByArtist(IDList artists, MetaDataList& returnda
 			case Library::Filter::Fulltext:
 				q.bindValue(":filter2", filtertext);
 				q.bindValue(":filter3", filtertext);
+				q.bindValue(":filter4", filtertext);
 
 			default:
 				q.bindValue(":filter1", filtertext);
 				break;
 		}
 	}
-
-	//sp_log(Log::Debug) << q.get_query_string();
 
 	return db_fetch_tracks(q, returndata);
 }
@@ -483,22 +503,22 @@ bool DatabaseTracks::getAllTracksBySearchString(const Library::Filter& filter, M
 	switch(filter.mode())
 	{
 		case Library::Filter::Date:
-			querytext = fetch_query() + " AND " + filter.date_filter().get_sql_filter("tracks");
+			querytext = fetch_query() + " WHERE " + filter.date_filter().get_sql_filter("tracks");
 			break;
 
 		case Library::Filter::Genre:
 			querytext = fetch_query() +
-					"AND genrename LIKE :search_in_genre ";
+					"WHERE genrename LIKE :search_in_genre ";
 			break;
 
 		case Library::Filter::Filename:
 			querytext = fetch_query() +
-					"AND tracks.filename LIKE :search_in_filename ";
+					"WHERE tracks.filename LIKE :search_in_filename ";
 			break;
 
 		case Library::Filter::Fulltext:
 			querytext = fetch_query() +
-					"AND tracks.trackID IN ("
+					"INNER JOIN ("
 					"SELECT tracks.trackID "
 					"FROM tracks "
 					"WHERE tracks.cissearch LIKE :search_in_title "
@@ -512,13 +532,18 @@ bool DatabaseTracks::getAllTracksBySearchString(const Library::Filter& filter, M
 					"UNION "
 					"SELECT tracks.trackID "
 					"FROM tracks "
-					"INNER JOIN artists ON ("
-					"  tracks.artistID = artists.artistID "
-					"  OR "
-					"  tracks.albumArtistID = artists.artistID "
-					") "
+					"INNER JOIN artists ON "
+					"tracks.artistID = artists.artistID "
 					"AND artists.cissearch LIKE :search_in_artist "
-					") ";
+
+					"UNION "
+					"SELECT tracks.trackID "
+					"FROM tracks "
+					"INNER JOIN artists ON "
+					"tracks.albumArtistID = artists.artistID "
+					"AND artists.cissearch LIKE :search_in_artist "
+
+					") foundTracks ON tracks.trackID = foundTracks.trackID";
 
 			break;
 	}
@@ -796,6 +821,7 @@ bool DatabaseTracks::insertTrackIntoDatabase (const MetaData& md, int artist_id,
 		track_copy.id = md_tmp.id;
 		track_copy.artist_id = artist_id;
 		track_copy.album_id = album_id;
+		track_copy.set_album_artist_id(album_artist_id);
 
 		return updateTrack(track_copy);
 	}

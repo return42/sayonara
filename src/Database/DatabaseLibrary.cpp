@@ -148,7 +148,7 @@ void DatabaseLibrary::dropIndexes()
 		QString text = "DROP INDEX " + idx + ";";
 		q.prepare(text);
 		if(!q.exec()){
-			q.show_error("Cannot drop indexes");
+			q.show_error("Cannot drop index " + idx);
 		}
 	}
 }
@@ -160,7 +160,7 @@ void DatabaseLibrary::createIndexes()
 
 	QList<IndexDescription> indexes;
 	indexes << std::make_tuple("album_search", "albums", "albumID");
-	indexes << std::make_tuple("artists_search", "artists", "artistID");
+	indexes << std::make_tuple("artist_search", "artists", "artistID");
 	indexes << std::make_tuple("track_search", "tracks", "trackID");
 
 	for(const IndexDescription& idx : indexes){
@@ -168,10 +168,10 @@ void DatabaseLibrary::createIndexes()
 		QString name = std::get<0>(idx);
 		QString table = std::get<1>(idx);
 		QString column = std::get<2>(idx);
-		QString text = "CREATE INDEX " + name + " ON " + table + "(cissearch, " + column + ");";
+		QString text = "CREATE INDEX " + name + " ON " + table + " (cissearch, " + column + ");";
 		q.prepare(text);
 		if(!q.exec()){
-			q.show_error("Cannot create indexes");
+			q.show_error("Cannot create index " + name);
 		}
 	}
 }

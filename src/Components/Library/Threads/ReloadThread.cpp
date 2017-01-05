@@ -86,7 +86,9 @@ bool ReloadThread::compare_md(const MetaData& md1, const MetaData& md2)
 			md1.rating == md2.rating &&
 			genres1 == genres2 &&
 			md1.discnumber == md2.discnumber &&
-			md1.track_num == md2.track_num  
+			md1.track_num == md2.track_num &&
+			md1.album_artist() == md2.album_artist() &&
+			md1.album_artist_id() == md2.album_artist_id()
 	);
 }
 

@@ -48,6 +48,7 @@ SayonaraQuery::~SayonaraQuery() {}
 bool SayonaraQuery::prepare(const QString& query)
 {
 	_query_string = query;
+
 	return QSqlQuery::prepare(query);
 }
 
@@ -97,5 +98,6 @@ void SayonaraQuery::show_error(const QString& err_msg) const
 {
 	sp_log(Log::Error) << "SQL ERROR: " << err_msg;
 	sp_log(Log::Error) << this->lastError().text();
+	sp_log(Log::Error) << this->lastError().databaseText();
 	sp_log(Log::Error) << this->get_query_string();
 }
