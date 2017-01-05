@@ -423,9 +423,11 @@ void DatabaseAlbums::updateAlbumCissearch()
 	{
 		QString str = "UPDATE albums SET cissearch=:cissearch WHERE albumID=:id;";
 		SayonaraQuery q(_db);
+		QString cis = Library::convert_search_string(album.name, search_mode());
 		q.prepare(str);
-		q.bindValue(":cissearch", Library::convert_search_string(album.name, search_mode()));
+		q.bindValue(":cissearch", cis);
 		q.bindValue(":id", album.id);
+		q.show_query();
 
 		if(!q.exec()){
 			q.show_error("Cannot update album cissearch");

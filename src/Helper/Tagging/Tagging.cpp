@@ -96,7 +96,6 @@ bool Tagging::getMetaDataOfFile(MetaData& md, Tagging::Quality quality) {
 	QString album = QString::fromUtf8(tag->album().toCString(true));
 	QString title = QString::fromUtf8(tag->title().toCString(true));
 	QString genre = QString::fromUtf8(tag->genre().toCString(true));
-	QString comment = QString::fromUtf8(tag->comment().toCString(true));
 
 	QString album_artist;
 	ID3v2Frame::AlbumArtistFrame album_artist_frame(&f);
@@ -172,11 +171,13 @@ bool Tagging::setMetaDataOfFile(const MetaData& md) {
 
 	QString filepath = md.filepath();
 	TagLib::FileRef f(TagLib::FileName(filepath.toUtf8()));
+
 	if(!is_valid_file(f)){
 		sp_log(Log::Warning) << "Cannot open tags for " << md.filepath();
 		return false;
 	}
 
+	get_tag_type(filepath);
 
 	TagLib::String album(md.album.toUtf8().data(), TagLib::String::UTF8);
 	TagLib::String artist(md.artist.toUtf8().data(), TagLib::String::UTF8);
@@ -198,6 +199,9 @@ bool Tagging::setMetaDataOfFile(const MetaData& md) {
 	ID3v2Frame::Discnumber discnumber(md.discnumber, md.n_discs);
 	ID3v2Frame::DiscnumberFrame discnumber_frame(&f);
 	discnumber_frame.write(discnumber);
+
+	ID3v2Frame::AlbumArtistFrame album_artist_frame(&f);
+	album_artist_frame.write(md.album_artist());
 
 	f.save();
 

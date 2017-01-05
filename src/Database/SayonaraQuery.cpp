@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "Database/SayonaraQuery.h"
 #include "Helper/Logger/Logger.h"
 
@@ -47,30 +45,23 @@ SayonaraQuery::SayonaraQuery(const QSqlQuery & other) :
 
 SayonaraQuery::~SayonaraQuery() {}
 
-bool SayonaraQuery::prepare(const QString& query){
-
-
+bool SayonaraQuery::prepare(const QString& query)
+{
 	_query_string = query;
 	return QSqlQuery::prepare(query);
 }
 
-void SayonaraQuery::bindValue(const QString& placeholder, const QVariant& val, QSql::ParamType param_type ){
-
-	QString replace_str;
-
-	if(val.canConvert<int>()){
-		replace_str=QString::number(val.toInt());
-	}
-
-	else{
-		replace_str = QString("'") + val.toString() + "'";
-	}
+void SayonaraQuery::bindValue(const QString& placeholder, const QVariant& val, QSql::ParamType param_type )
+{
+	QString replace_str = QString("'") + val.toString() + "'";
 
 	_query_string.replace(placeholder + " ", replace_str + " ");
+	_query_string.replace(placeholder + ",", replace_str + ",");
+	_query_string.replace(placeholder + ";", replace_str + ";");
+	_query_string.replace(placeholder + ")", replace_str + ")");
+
 	QSqlQuery::bindValue(placeholder, val, param_type);
 }
-
-//#define DB_DEBUG
 
 #ifdef DB_DEBUG
 	#include <QTime>
@@ -86,21 +77,24 @@ bool SayonaraQuery::exec()
 	bool success = QSqlQuery::exec();
 
 #ifdef DB_DEBUG
-
 	sp_log(Log::Debug) << _query_string << ": " << timer.elapsed() << "ms";
 #endif
 
 	return success;
-
 }
 
-
-QString SayonaraQuery::get_query_string() const {
+QString SayonaraQuery::get_query_string() const
+{
 	return _query_string;
 }
 
+void SayonaraQuery::show_query() const
+{
+	sp_log(Log::Debug) << _query_string;
+}
 
-void SayonaraQuery::show_error(const QString& err_msg) const{
+void SayonaraQuery::show_error(const QString& err_msg) const
+{
 	sp_log(Log::Error) << "SQL ERROR: " << err_msg;
 	sp_log(Log::Error) << this->lastError().text();
 	sp_log(Log::Error) << this->get_query_string();

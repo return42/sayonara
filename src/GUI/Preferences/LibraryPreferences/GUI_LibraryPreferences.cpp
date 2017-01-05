@@ -50,8 +50,8 @@ QString GUI_LibraryPreferences::get_action_name() const
 }
 
 
-void GUI_LibraryPreferences::commit(){
-
+void GUI_LibraryPreferences::commit()
+{
 	Library::SearchModeMask mask = 0;
 	if(ui->cb_case_insensitive->isChecked()){
 		mask |= Library::CaseInsensitve;
@@ -73,8 +73,8 @@ void GUI_LibraryPreferences::commit(){
 	_settings->set(Set::Lib_SearchMode, mask);
 }
 
-void GUI_LibraryPreferences::revert(){
-
+void GUI_LibraryPreferences::revert()
+{
 	ui->cb_case_insensitive->setChecked(false);
 	ui->cb_no_special_chars->setChecked(false);
 	ui->cb_no_accents->setChecked(false);
@@ -90,7 +90,7 @@ void GUI_LibraryPreferences::revert(){
 	}
 
 	if(mask & Library::NoDiacriticChars){
-		ui->cb_no_accents->setCheckable(true);
+		ui->cb_no_accents->setChecked(true);
 	}
 
 	ui->rb_dc_do_nothing->setChecked(_settings->get(Set::Lib_DC_DoNothing));

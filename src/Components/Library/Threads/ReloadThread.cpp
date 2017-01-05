@@ -87,7 +87,7 @@ bool ReloadThread::compare_md(const MetaData& md1, const MetaData& md2)
 			genres1 == genres2 &&
 			md1.discnumber == md2.discnumber &&
 			md1.track_num == md2.track_num  
-			);
+	);
 }
 
 int ReloadThread::get_and_save_all_files(const QHash<QString, MetaData>& md_map_lib) 
@@ -133,8 +133,6 @@ int ReloadThread::get_and_save_all_files(const QHash<QString, MetaData>& md_map_
 			}
 		}
 
-		//sp_log(Log::Debug) << "Have to reload " << filepath;
-
 		file_was_read = Tagging::getMetaDataOfFile(md, Tagging::Quality::Quality);
 
 		if(file_was_read){
@@ -152,6 +150,7 @@ int ReloadThread::get_and_save_all_files(const QHash<QString, MetaData>& md_map_
 		v_md_to_store.clear();
 	}
 
+	db->addAlbumArtists();
 	db->createIndexes();
 	db->clean_up();
 
@@ -189,12 +188,10 @@ QStringList ReloadThread::get_files_recursive(QDir base_dir)
 		return ret;
 	}
 
-
 	ret << process_sub_files(base_dir, sub_files);
 
 	return ret;
 }
-
 
 
 QStringList ReloadThread::process_sub_files(const QDir& base_dir, const QStringList& sub_files)
@@ -244,7 +241,6 @@ void ReloadThread::set_quality(Library::ReloadQuality quality)
 
 void ReloadThread::run() 
 {
-
 	if(_m->running){
 		return;
 	}

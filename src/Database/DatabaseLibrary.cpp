@@ -37,9 +37,8 @@ DatabaseLibrary::DatabaseLibrary(const QSqlDatabase& db, quint8 db_id) :
 }
 
 
-bool DatabaseLibrary::storeMetadata(const MetaDataList& v_md)  {
-
-	DB_RETURN_NOT_OPEN_BOOL(_db);
+bool DatabaseLibrary::storeMetadata(const MetaDataList& v_md)
+{
 	bool success = true;
 
 	if(v_md.isEmpty()) {
@@ -127,17 +126,52 @@ bool DatabaseLibrary::storeMetadata(const MetaDataList& v_md)  {
 	return success;
 }
 
-void DatabaseLibrary::createIndexes(){
-
-	DB_RETURN_NOT_OPEN_VOID(_db);
-
+void DatabaseLibrary::addAlbumArtists()
+{
 	SayonaraQuery q(_db);
-	QString querytext = QString() +
-		"CREATE INDEX album_search ON albums(cissearch, albumID); "
-		"CREATE INDEX artist_search ON artists(cissearch, artistID); "
-		"CREATE INDEX track_search ON tracks(cissearch, trackID); ";
-
+	QString	querytext = "UPDATE tracks SET albumArtistID = artistID WHERE albumArtistID = -1;";
 	q.prepare(querytext);
+	if(!q.exec()){
+		q.show_error("Cannot add album artists");
+	}
+}
 
-	q.exec();
+void DatabaseLibrary::dropIndexes()
+{
+	QStringList indexes;
+	indexes << "album_search";
+	indexes << "artist_search";
+	indexes << "track_search";
+
+	for(const QString& idx : indexes){
+		SayonaraQuery q(_db);
+		QString text = "DROP INDEX " + idx + ";";
+		q.prepare(text);
+		if(!q.exec()){
+			q.show_error("Cannot drop indexes");
+		}
+	}
+}
+
+typedef std::tuple<QString, QString, QString> IndexDescription;
+void DatabaseLibrary::createIndexes()
+{
+	dropIndexes();
+
+	QList<IndexDescription> indexes;
+	indexes << std::make_tuple("album_search", "albums", "albumID");
+	indexes << std::make_tuple("artists_search", "artists", "artistID");
+	indexes << std::make_tuple("track_search", "tracks", "trackID");
+
+	for(const IndexDescription& idx : indexes){
+		SayonaraQuery q(_db);
+		QString name = std::get<0>(idx);
+		QString table = std::get<1>(idx);
+		QString column = std::get<2>(idx);
+		QString text = "CREATE INDEX " + name + " ON " + table + "(cissearch, " + column + ");";
+		q.prepare(text);
+		if(!q.exec()){
+			q.show_error("Cannot create indexes");
+		}
+	}
 }

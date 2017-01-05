@@ -36,8 +36,10 @@ public:
 
 	DatabaseLibrary(const QSqlDatabase& db, quint8 db_id);
 
+	virtual void dropIndexes();
 	virtual void createIndexes();
-	virtual bool storeMetadata(const MetaDataList & v_md);
+	virtual bool storeMetadata(const MetaDataList& v_md);
+	virtual void addAlbumArtists();
 };
 
 #endif // DATABASELIBRARY_H
