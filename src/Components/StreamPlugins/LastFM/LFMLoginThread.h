@@ -32,7 +32,8 @@ struct LFMLoginStuff{
 	bool subscriber;
 	QString error;
 
-	LFMLoginStuff(){
+	LFMLoginStuff()
+{
 		logged_in = false;
 		subscriber = false;
 	}

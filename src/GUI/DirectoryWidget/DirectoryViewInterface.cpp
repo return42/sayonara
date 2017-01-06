@@ -20,5 +20,4 @@
 
 #include "DirectoryViewInterface.h"
 
-DirectoryViewInterface::DirectoryViewInterface()
-{}
+DirectoryViewInterface::DirectoryViewInterface() {}

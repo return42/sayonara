@@ -46,8 +46,8 @@ GUI_SoundcloudArtistSearch::GUI_SoundcloudArtistSearch(SoundcloudLibrary* librar
 	clear_clicked();
 }
 
-void GUI_SoundcloudArtistSearch::search_clicked(){
-
+void GUI_SoundcloudArtistSearch::search_clicked()
+{
 	QString text = le_search->text();
 	clear_clicked();
 
@@ -63,9 +63,8 @@ void GUI_SoundcloudArtistSearch::search_clicked(){
 	_fetcher->search_artists(text);
 }
 
-void GUI_SoundcloudArtistSearch::clear_clicked(){
-
-
+void GUI_SoundcloudArtistSearch::clear_clicked()
+{
 	list_artists->clear();
 	list_playlists->clear();
 	list_tracks->clear();
@@ -87,8 +86,8 @@ void GUI_SoundcloudArtistSearch::clear_clicked(){
 }
 
 
-void GUI_SoundcloudArtistSearch::add_clicked(){
-
+void GUI_SoundcloudArtistSearch::add_clicked()
+{
 	if( _v_md.size() > 0 &&
 		_chosen_artists.size() > 0 &&
 		_albums.size() > 0)
@@ -98,13 +97,13 @@ void GUI_SoundcloudArtistSearch::add_clicked(){
 	}
 }
 
-void GUI_SoundcloudArtistSearch::close_clicked(){
+void GUI_SoundcloudArtistSearch::close_clicked()
+{
 	close();
 }
 
 
 void GUI_SoundcloudArtistSearch::artist_selected(int idx){
-
 	list_playlists->clear();
 	list_tracks->clear();
 
@@ -132,7 +131,6 @@ void GUI_SoundcloudArtistSearch::language_changed()
 
 
 void GUI_SoundcloudArtistSearch::artists_fetched(const ArtistList& artists){
-
 	list_artists->clear();
 	_searched_artists.clear();
 
@@ -157,7 +155,6 @@ void GUI_SoundcloudArtistSearch::artists_ext_fetched(const ArtistList &artists){
 
 
 void GUI_SoundcloudArtistSearch::albums_fetched(const AlbumList& albums){
-
 	list_playlists->clear();
 
 	for(const Album& album : albums){
@@ -171,7 +168,6 @@ void GUI_SoundcloudArtistSearch::albums_fetched(const AlbumList& albums){
 
 
 void GUI_SoundcloudArtistSearch::tracks_fetched(const MetaDataList& v_md){
-
 	list_tracks->clear();
 
 	for(const MetaData& md : v_md){

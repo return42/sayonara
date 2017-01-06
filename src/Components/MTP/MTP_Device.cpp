@@ -23,7 +23,6 @@
 
 
 MTP_Device::MTP_Device(MTPIntern_Device* device){
-
 	_device = device;
 	_valid = true;
 
@@ -33,7 +32,6 @@ MTP_Device::MTP_Device(MTPIntern_Device* device){
 	}
 
 	else{
-
 		LIBMTP_Get_Storage(device, LIBMTP_STORAGE_SORTBY_NOTSORTED);
 		char* friendly = LIBMTP_Get_Friendlyname(device);
 		if(friendly){
@@ -51,15 +49,16 @@ MTP_Device::MTP_Device(MTPIntern_Device* device){
 }
 
 
-MTP_Device::~MTP_Device(){
+MTP_Device::~MTP_Device()
+{
 	if(_device){
 		sp_log(Log::Debug) << "Closed device " << _friendly_name;
 		LIBMTP_Release_Device(_device);
 	}
 }
 
-QList<MTP_DevicePtr> MTP_Device::get_all_connected_devices(){
-
+QList<MTP_DevicePtr> MTP_Device::get_all_connected_devices()
+{
 	QList<MTP_DevicePtr> ret;
 
 	MTPIntern_Device* devices;
@@ -95,7 +94,6 @@ QList<MTP_StoragePtr> MTP_Device::storages()
 	intern_storage = _device->storage;
 
 	while(intern_storage){
-
 		MTP_StoragePtr storage = MTP_StoragePtr( new MTP_Storage(_device, intern_storage) );
 		_storages << storage;
 

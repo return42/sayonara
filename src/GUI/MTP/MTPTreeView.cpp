@@ -23,14 +23,12 @@
 #include "Helper/MetaData/MetaDataList.h"
 
 MTPTreeView::MTPTreeView(QWidget *parent) :
-	QTreeWidget(parent)
-{}
+	QTreeWidget(parent) {}
 
 MTPTreeView::~MTPTreeView() {}
 
 bool MTPTreeView::dropMimeData(QTreeWidgetItem* parent, int index, const QMimeData* data, Qt::DropAction action)
 {
-
 	Q_UNUSED(action)
 
 	QTreeWidget::dropMimeData(parent, index, data, action);

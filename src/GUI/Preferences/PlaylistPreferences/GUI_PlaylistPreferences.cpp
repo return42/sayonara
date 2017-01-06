@@ -30,8 +30,7 @@
 
 
 GUI_PlaylistPreferences::GUI_PlaylistPreferences(QWidget *parent) :
-	PreferenceWidgetInterface(parent)
-{}
+	PreferenceWidgetInterface(parent) {}
 
 GUI_PlaylistPreferences::~GUI_PlaylistPreferences()
 {
@@ -76,7 +75,6 @@ void GUI_PlaylistPreferences::revert()
 
 void GUI_PlaylistPreferences::init_ui()
 {
-
 	if(is_ui_initialized()){
 		return;
 	}
@@ -93,7 +91,8 @@ void GUI_PlaylistPreferences::init_ui()
 	connect(ui->cb_remember_time, &QCheckBox::toggled, this, &GUI_PlaylistPreferences::cb_toggled);
 	connect(ui->cb_start_playing, &QCheckBox::toggled, this, &GUI_PlaylistPreferences::cb_toggled);
 
-	connect(ui->btn_default, &QPushButton::clicked, [=](){
+	connect(ui->btn_default, &QPushButton::clicked, [=]()
+{
 		ui->le_expression->setText("*%title%* - %artist%");
 	});
 }

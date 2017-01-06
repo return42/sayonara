@@ -25,24 +25,21 @@
 MTP_CopyFiles::MTP_CopyFiles(const MetaDataList& v_md, MTP_FolderPtr folder, QObject *parent) :
 	QThread(parent),
 	_v_md(v_md),
-	_folder(folder)
-{}
+	_folder(folder) {}
 
 MTP_CopyFiles::MTP_CopyFiles(const QStringList& paths, MTP_FolderPtr folder, QObject* parent) :
 	QThread(parent),
 	_folder(folder)
 {
-
 	DirectoryReader dr;
 	_v_md = dr.get_md_from_filelist(paths);
 }
 
-void MTP_CopyFiles::run(){
-
+void MTP_CopyFiles::run()
+{
 	int i=0;
 
 	for(const MetaData& md : _v_md){
-
 		int progress;
 
 		MTP_TrackPtr track = MTP_TrackPtr(new MTP_Track(md));

@@ -31,7 +31,8 @@
  * These custom fields are intendend for Plugins
  * @ingroup MetaDataHelper
  */
-class CustomField {
+class CustomField
+{
 	QString _display_name;
 	QString _value;
 	QString _id;

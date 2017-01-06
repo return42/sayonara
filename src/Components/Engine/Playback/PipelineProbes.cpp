@@ -72,7 +72,6 @@ Probing::lame_probed(GstPad *pad, GstPadProbeInfo *info, gpointer user_data){
 
 
 void Probing::handle_probe(bool* active, GstElement* queue, gulong* probe_id, GstPadProbeCallback callback){
-
 	GstPad* pad =  gst_element_get_static_pad(queue, "src");
 
 	if(*active == true){
@@ -83,7 +82,6 @@ void Probing::handle_probe(bool* active, GstElement* queue, gulong* probe_id, Gs
 	}
 
 	else if(*probe_id == 0){
-
 		*probe_id = gst_pad_add_probe(
 					pad,
 					(GstPadProbeType)(GST_PAD_PROBE_TYPE_BUFFER),
@@ -100,7 +98,6 @@ void Probing::handle_probe(bool* active, GstElement* queue, gulong* probe_id, Gs
 
 
 void Probing::handle_stream_recorder_probe(StreamRecorderData* data, GstPadProbeCallback callback){
-
 	GstPad* pad =  gst_element_get_static_pad(data->queue, "src");
 
 	if(data->probe_id == 0){
@@ -124,7 +121,6 @@ void Probing::handle_stream_recorder_probe(StreamRecorderData* data, GstPadProbe
 
 GstPadProbeReturn
 Probing::stream_recorder_probed(GstPad *pad, GstPadProbeInfo *info, gpointer user_data){
-
 	Q_UNUSED(pad)
 	Q_UNUSED(info)
 
@@ -135,7 +131,6 @@ Probing::stream_recorder_probed(GstPad *pad, GstPadProbeInfo *info, gpointer use
 	}
 
 	if(data->active){
-
 		sp_log(Log::Debug) << "set new filename streamrecorder: " << data->filename;
 
 		gst_element_set_state(data->sink, GST_STATE_NULL);

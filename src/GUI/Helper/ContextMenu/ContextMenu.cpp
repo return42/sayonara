@@ -112,7 +112,6 @@ void ContextMenu::register_action(QAction *action){
 }
 
 void ContextMenu::show_actions(ContextMenuEntries entries){
-
 	_action_new->setVisible(entries & ContextMenu::EntryNew);
 	_action_edit->setVisible(entries & ContextMenu::EntryEdit);
 	_action_open->setVisible(entries & ContextMenu::EntryOpen);
@@ -139,8 +138,8 @@ void ContextMenu::show_action(ContextMenu::Entry entry, bool visible)
 }
 
 
-bool ContextMenu::has_actions() {
-
+bool ContextMenu::has_actions()
+{
 	return std::any_of(_actions.begin(), _actions.end(), [](QAction* a){
 		return a->isVisible();
 	});
@@ -182,7 +181,8 @@ ContextMenuEntries ContextMenu::get_entries() const
 }
 
 
-void ContextMenu::show_all(){
+void ContextMenu::show_all()
+{
 	for(QAction* action: _actions){
 		action->setVisible(true);
 	}
@@ -197,7 +197,8 @@ void ContextMenu::showEvent(QShowEvent* e){
 	QTimer::singleShot(300, this, SLOT(timed_out()));
 }
 
-void ContextMenu::timed_out(){
+void ContextMenu::timed_out()
+{
 	for(QAction* action: _actions){
 		action->setDisabled(false);
 	}

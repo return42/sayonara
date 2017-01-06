@@ -63,7 +63,6 @@ void FileListView::mousePressEvent(QMouseEvent* event)
 	SearchableListView::mousePressEvent(event);
 
 	if(event->button() & Qt::RightButton){
-
 		QPoint pos = QWidget::mapToGlobal(event->pos());
 
 		if(!_context_menu){
@@ -83,7 +82,8 @@ void FileListView::mouseMoveEvent(QMouseEvent* event)
 	QDrag* drag = Dragable::drag_moving(event->pos());
 	if(drag)
 	{
-		connect(drag, &QObject::destroyed, this, [=](){
+		connect(drag, &QObject::destroyed, this, [=]()
+{
 			this->drag_released(Dragable::ReleaseReason::Destroyed);
 		});
 	}

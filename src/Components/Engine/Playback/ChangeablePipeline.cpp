@@ -97,7 +97,6 @@ void ChangeablePipeline::add_element(GstElement* element, GstElement* first_elem
 	gst_element_get_state(pipeline, &data->old_state, nullptr, 0);
 
 	if(data->old_state != GST_STATE_PLAYING){
-
 		gst_element_unlink(data->first_element, data->second_element);
 		gst_bin_add((GstBin*)pipeline, data->element_of_interest);
 		gst_element_link_many(data->first_element, data->element_of_interest, data->second_element, nullptr);

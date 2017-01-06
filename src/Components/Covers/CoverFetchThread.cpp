@@ -49,8 +49,8 @@ CoverFetchThread::CoverFetchThread(QObject* parent, const CoverLocation& cl, con
 
 CoverFetchThread::~CoverFetchThread() {}
 
-bool CoverFetchThread::start(){
-
+bool CoverFetchThread::start()
+{
 	_covers_found = 0;
 
 	if(!_url.contains("google", Qt::CaseInsensitive))
@@ -69,8 +69,8 @@ bool CoverFetchThread::start(){
 }
 
 
-bool CoverFetchThread::more(){
-
+bool CoverFetchThread::more()
+{
 	if(_n_covers == _covers_found || _addresses.isEmpty()){
 		emit sig_finished(true);
 		return false;
@@ -96,7 +96,6 @@ bool CoverFetchThread::more(){
 
 
 void CoverFetchThread::content_fetched(bool success){
-
 	if(!success){
 		sp_log(Log::Warning) << "Could not fetch content";
 		return;
@@ -117,7 +116,6 @@ void CoverFetchThread::content_fetched(bool success){
 
 
 void CoverFetchThread::single_image_fetched(bool success){
-
 	if(!success){
 		sp_log(Log::Warning) << "Could not fetch cover";
 		return;
@@ -136,7 +134,6 @@ void CoverFetchThread::single_image_fetched(bool success){
 
 
 void CoverFetchThread::multi_image_fetched(bool success){
-
 	if(!success){
 		sp_log(Log::Warning) << "Could not fetch cover";
 		return;
@@ -163,7 +160,6 @@ void CoverFetchThread::multi_image_fetched(bool success){
 void CoverFetchThread::save_and_emit_image(const QString& filepath,
 										   const QImage& img)
 {
-
 	QString filename = filepath;
 	QString ext = Helper::File::calc_file_extension(filepath);
 	if(ext.compare("gif", Qt::CaseInsensitive) == 0){
@@ -189,7 +185,6 @@ QStringList CoverFetchThread::calc_addresses(int num,
 											const QString& regex)
 const
 {
-
 	QStringList addresses;
 	if (website.isEmpty()) {
 		sp_log(Log::Error) << "Cover Fetch Thread: website empty";

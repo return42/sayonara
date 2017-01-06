@@ -42,8 +42,7 @@
 #include <QImage>
 
 CoverLookupInterface::CoverLookupInterface(QObject* parent):
-	QObject(parent)
-{}
+	QObject(parent) {}
 
 CoverLookupInterface::~CoverLookupInterface() {}
 
@@ -56,7 +55,6 @@ CoverLookup::CoverLookup(QObject* parent, int n_covers) :
 CoverLookup::~CoverLookup() {}
 
 void CoverLookup::start_new_thread(const CoverLocation& cl ) {
-
 	CoverFetchThread* cft = new CoverFetchThread(this, cl, _n_covers);
 	connect(cft, &CoverFetchThread::sig_cover_found, this, &CoverLookup::cover_found);
 	connect(cft, &CoverFetchThread::sig_finished, this, &CoverLookup::finished);
@@ -88,18 +86,15 @@ bool CoverLookup::fetch_cover(const CoverLocation& cl)
 }
 
 bool CoverLookup::fetch_album_cover(const Album& album) {
-
 	CoverLocation cl = CoverLocation::get_cover_location(album);
 	return fetch_cover(cl);
 }
 
 void CoverLookup::finished(bool success) {
-
     emit sig_finished(success);
 }
 
 void CoverLookup::cover_found(const QString& file_path) {
-
 	CoverFetchThread* cft = static_cast<CoverFetchThread*>(sender());
     emit sig_cover_found(file_path);
 
@@ -108,13 +103,12 @@ void CoverLookup::cover_found(const QString& file_path) {
 	}
 }
 // TODO
-/*void CoverLookup::emit_standard_cover() {
-
+/*void CoverLookup::emit_standard_cover()
+{
 	CoverLocation cl = CoverLocation::getInvalidLocation();
 	emit sig_cover_found(cl.cover_path());
 }*/
 
-void CoverLookup::stop()
-{}
+void CoverLookup::stop() {}
 
 

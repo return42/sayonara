@@ -33,7 +33,8 @@ SoundcloudLibrary::SoundcloudLibrary(QObject *parent) :
 
 SoundcloudLibrary::~SoundcloudLibrary() {}
 
-void SoundcloudLibrary::load(){
+void SoundcloudLibrary::load()
+{
 	AbstractLibrary::load();
 
 	ArtistList artists;
@@ -102,8 +103,8 @@ void SoundcloudLibrary::psl_reload_library(bool b, Library::ReloadQuality qualit
 	Q_UNUSED(quality)
 }
 
-void SoundcloudLibrary::refresh_artist(){
-
+void SoundcloudLibrary::refresh_artist()
+{
 	if(_selected_artists.isEmpty()){
 		return;
 	}
@@ -151,7 +152,6 @@ void SoundcloudLibrary::insert_tracks(const MetaDataList& v_md){
 }
 
 void SoundcloudLibrary::insert_tracks(const MetaDataList& v_md, const ArtistList& artists, const AlbumList& albums){
-
 	Artist artist_tmp;
 	Album album_tmp;
 
@@ -189,9 +189,7 @@ void SoundcloudLibrary::insert_tracks(const MetaDataList& v_md, const ArtistList
 
 
 void SoundcloudLibrary::artists_fetched(const ArtistList& artists){
-
 	for(const Artist& artist : artists){
-
 		SoundcloudDataFetcher* fetcher;
 
 		if(artist.id <= 0) {
@@ -217,7 +215,6 @@ void SoundcloudLibrary::artists_fetched(const ArtistList& artists){
 }
 
 void SoundcloudLibrary::tracks_fetched(const MetaDataList& v_md){
-
 	for(const MetaData& md : v_md){
 		if(md.id > 0){
 			_scd->insertTrackIntoDatabase(md, md.artist_id, md.album_id);

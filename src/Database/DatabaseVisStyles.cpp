@@ -25,8 +25,7 @@
 #include <QColor>
 
 DatabaseVisStyles::DatabaseVisStyles(const QSqlDatabase& db, quint8 db_id) :
-	DatabaseModule(db, db_id)
-{}
+	DatabaseModule(db, db_id) {}
 
 
 QString col2String(QColor col) {
@@ -61,8 +60,8 @@ bool colFromString(QString str, QColor& c) {
 	return true;
 }
 
-QList<RawColorStyle> DatabaseVisStyles::get_raw_color_styles() {
-
+QList<RawColorStyle> DatabaseVisStyles::get_raw_color_styles()
+{
 	DB_TRY_OPEN(_db);
 
 	QList<RawColorStyle> ret_val;
@@ -110,7 +109,6 @@ QList<RawColorStyle> DatabaseVisStyles::get_raw_color_styles() {
 
 
 bool DatabaseVisStyles::insert_raw_color_style_to_db(const RawColorStyle& rcs) {
-
 	if(raw_color_style_exists(rcs.col_list.name))
 		return update_raw_color_style(rcs);
 
@@ -171,7 +169,6 @@ bool DatabaseVisStyles::insert_raw_color_style_to_db(const RawColorStyle& rcs) {
 
 
 bool DatabaseVisStyles::update_raw_color_style(const RawColorStyle& rcs) {
-
 	if(!raw_color_style_exists(rcs.col_list.name))
 		return insert_raw_color_style_to_db(rcs);
 
@@ -232,7 +229,6 @@ bool DatabaseVisStyles::update_raw_color_style(const RawColorStyle& rcs) {
 
 
 bool DatabaseVisStyles::delete_raw_color_style(QString name) {
-
 	DB_RETURN_NOT_OPEN_BOOL(_db);
 
 	SayonaraQuery q(_db);
@@ -249,7 +245,6 @@ bool DatabaseVisStyles::delete_raw_color_style(QString name) {
 
 
 bool DatabaseVisStyles::raw_color_style_exists(QString name) {
-
 	DB_RETURN_NOT_OPEN_BOOL(_db);
 
 	SayonaraQuery q(_db);

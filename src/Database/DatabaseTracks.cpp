@@ -88,7 +88,6 @@ bool DatabaseTracks::db_fetch_tracks(SayonaraQuery& q, MetaDataList& result)
 	}
 
 	for(bool is_element = q.first(); is_element; is_element = q.next()){
-
 		MetaData data;
 
 		data.id = 		 q.value(0).toInt();
@@ -688,7 +687,6 @@ QStringList DatabaseTracks::getAllGenres()
 
 	QHash<QString, bool> hash;
 	while(q.next()){
-
 		QString genre = q.value("genre").toString();
 		QStringList subgenres = genre.split(",");
 
@@ -788,7 +786,6 @@ bool DatabaseTracks::updateTracks(const MetaDataList& lst)
 
 	_db.transaction();
 	for(const MetaData& md : lst){
-
 		if(updateTrack(md)){
 			n_files++;
 		}

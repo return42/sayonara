@@ -30,8 +30,7 @@
 
 
 GUI_PreferenceDialog::GUI_PreferenceDialog(QWidget *parent) :
-	PreferenceDialogInterface(parent)
-{}
+	PreferenceDialogInterface(parent) {}
 
 GUI_PreferenceDialog::~GUI_PreferenceDialog()
 {
@@ -85,7 +84,8 @@ QString GUI_PreferenceDialog::get_action_name() const
 }
 
 
-void GUI_PreferenceDialog::commit_and_close(){
+void GUI_PreferenceDialog::commit_and_close()
+{
 	commit();
 	close();
 }

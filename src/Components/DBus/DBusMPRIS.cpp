@@ -43,7 +43,6 @@ DBusAdaptor::DBusAdaptor(QObject* parent) :
 DBusAdaptor::~DBusAdaptor() {}
 
 void DBusAdaptor::create_message(QString name, QVariant val){
-
 	QDBusMessage sig;
 	QVariantMap map;
 	QVariantList args;
@@ -109,8 +108,8 @@ DBusMPRIS::MediaPlayer2::~MediaPlayer2()
 	QDBusConnection::sessionBus().unregisterService(_service_name);
 }
 
-void DBusMPRIS::MediaPlayer2::init(){
-
+void DBusMPRIS::MediaPlayer2::init()
+{
 	if(_initialized){
 		return;
 	}
@@ -147,19 +146,23 @@ bool DBusMPRIS::MediaPlayer2::CanRaise()
 	return true;
 }
 
-bool DBusMPRIS::MediaPlayer2::HasTrackList(){
+bool DBusMPRIS::MediaPlayer2::HasTrackList()
+{
 	return false;
 }
 
-QString DBusMPRIS::MediaPlayer2::Identity(){
+QString DBusMPRIS::MediaPlayer2::Identity()
+{
 	return QString("Sayonara Player");
 }
 
-QString DBusMPRIS::MediaPlayer2::DesktopEntry(){
+QString DBusMPRIS::MediaPlayer2::DesktopEntry()
+{
 	return QString("sayonara");
 }
 
-QStringList DBusMPRIS::MediaPlayer2::SupportedUriSchemes(){
+QStringList DBusMPRIS::MediaPlayer2::SupportedUriSchemes()
+{
 	QStringList uri_schemes;
 	uri_schemes << "file"
 				<< "http"
@@ -170,7 +173,8 @@ QStringList DBusMPRIS::MediaPlayer2::SupportedUriSchemes(){
 	return uri_schemes;
 }
 
-QStringList DBusMPRIS::MediaPlayer2::SupportedMimeTypes(){
+QStringList DBusMPRIS::MediaPlayer2::SupportedMimeTypes()
+{
 	QStringList mimetypes;
 	mimetypes   << "audio/mpeg"
 				<< "audio/ogg";
@@ -178,11 +182,13 @@ QStringList DBusMPRIS::MediaPlayer2::SupportedMimeTypes(){
 	return mimetypes;
 }
 
-bool DBusMPRIS::MediaPlayer2::CanSetFullscreen(){
+bool DBusMPRIS::MediaPlayer2::CanSetFullscreen()
+{
 	return true;
 }
 
-bool DBusMPRIS::MediaPlayer2::Fullscreen(){
+bool DBusMPRIS::MediaPlayer2::Fullscreen()
+{
 	return _settings->get(Set::Player_Fullscreen);
 }
 
@@ -192,11 +198,13 @@ void DBusMPRIS::MediaPlayer2::SetFullscreen(bool b){
 }
 
 
-void DBusMPRIS::MediaPlayer2::Quit(){
+void DBusMPRIS::MediaPlayer2::Quit()
+{
 	_player->close();
 }
 
-void DBusMPRIS::MediaPlayer2::Raise(){
+void DBusMPRIS::MediaPlayer2::Raise()
+{
 	sp_log(Log::Debug) << "Raise";
 	_player->show();
 	_player->raise();
@@ -207,26 +215,29 @@ void DBusMPRIS::MediaPlayer2::Raise(){
 
 /*** mpris.mediaplayer2.player ***/
 
-QString DBusMPRIS::MediaPlayer2::PlaybackStatus(){
-
+QString DBusMPRIS::MediaPlayer2::PlaybackStatus()
+{
 	return _playback_status;
 }
 
-QString DBusMPRIS::MediaPlayer2::LoopStatus(){
+QString DBusMPRIS::MediaPlayer2::LoopStatus()
+{
 	return "None";
 }
 
-double DBusMPRIS::MediaPlayer2::Rate(){
+double DBusMPRIS::MediaPlayer2::Rate()
+{
 	return 1.0;
 }
 
-bool DBusMPRIS::MediaPlayer2::Shuffle(){
+bool DBusMPRIS::MediaPlayer2::Shuffle()
+{
 	return false;
 }
 
 
-QVariantMap DBusMPRIS::MediaPlayer2::Metadata(){
-
+QVariantMap DBusMPRIS::MediaPlayer2::Metadata()
+{
 	QString cover_path;
 	CoverLocation cl;
 
@@ -256,73 +267,87 @@ QVariantMap DBusMPRIS::MediaPlayer2::Metadata(){
 	return map;
 }
 
-double DBusMPRIS::MediaPlayer2::Volume(){
+double DBusMPRIS::MediaPlayer2::Volume()
+{
 	return _volume;
 }
 
-qint64 DBusMPRIS::MediaPlayer2::Position(){
+qint64 DBusMPRIS::MediaPlayer2::Position()
+{
 	return _pos;
 }
 
 
-double DBusMPRIS::MediaPlayer2::MinimumRate(){
+double DBusMPRIS::MediaPlayer2::MinimumRate()
+{
 	return 1.0;
 }
 
-double DBusMPRIS::MediaPlayer2::MaximumRate(){
+double DBusMPRIS::MediaPlayer2::MaximumRate()
+{
 	return 1.0;
 }
 
-bool DBusMPRIS::MediaPlayer2::CanGoNext(){
+bool DBusMPRIS::MediaPlayer2::CanGoNext()
+{
 	return _can_next;
 }
 
-bool DBusMPRIS::MediaPlayer2::CanGoPrevious(){
+bool DBusMPRIS::MediaPlayer2::CanGoPrevious()
+{
 	return _can_previous;
 }
 
-bool DBusMPRIS::MediaPlayer2::CanPlay(){
+bool DBusMPRIS::MediaPlayer2::CanPlay()
+{
 	return true;
 }
 
-bool DBusMPRIS::MediaPlayer2::CanPause(){
+bool DBusMPRIS::MediaPlayer2::CanPause()
+{
 	return true;
 }
 
-bool DBusMPRIS::MediaPlayer2::CanSeek(){
+bool DBusMPRIS::MediaPlayer2::CanSeek()
+{
 	return true;
 }
 
-bool DBusMPRIS::MediaPlayer2::CanControl(){
+bool DBusMPRIS::MediaPlayer2::CanControl()
+{
 	return true;
 }
 
 
-void DBusMPRIS::MediaPlayer2::Next(){
+void DBusMPRIS::MediaPlayer2::Next()
+{
 	_play_manager->next();
 }
 
 
-void DBusMPRIS::MediaPlayer2::Previous(){
-
+void DBusMPRIS::MediaPlayer2::Previous()
+{
 	_play_manager->previous();
 }
 
-void DBusMPRIS::MediaPlayer2::Pause(){
+void DBusMPRIS::MediaPlayer2::Pause()
+{
 	_play_manager->pause();
 }
 
 
-void DBusMPRIS::MediaPlayer2::PlayPause(){
+void DBusMPRIS::MediaPlayer2::PlayPause()
+{
 	_play_manager->play_pause();
 }
 
-void DBusMPRIS::MediaPlayer2::Stop(){
+void DBusMPRIS::MediaPlayer2::Stop()
+{
 	_play_manager->stop();
 }
 
-void DBusMPRIS::MediaPlayer2::Play(){
-
+void DBusMPRIS::MediaPlayer2::Play()
+{
 	_playback_status = "Playing";
 	_play_manager->play();
 }
@@ -353,7 +378,6 @@ void DBusMPRIS::MediaPlayer2::SetShuffle(bool shuffle){
 }
 
 void DBusMPRIS::MediaPlayer2::SetVolume(double volume){
-
 	_play_manager->set_volume((int) (volume * 100));
 }
 
@@ -368,7 +392,6 @@ void DBusMPRIS::MediaPlayer2::volume_changed(int volume){
 
 
 void DBusMPRIS::MediaPlayer2::position_changed(quint64 pos){
-
 	if(!_initialized){
 		init();
 	}
@@ -384,7 +407,6 @@ void DBusMPRIS::MediaPlayer2::position_changed(quint64 pos){
 
 
 void DBusMPRIS::MediaPlayer2::track_idx_changed(int idx){
-
 	if(!_initialized){
 		init();
 	}
@@ -398,7 +420,6 @@ void DBusMPRIS::MediaPlayer2::track_idx_changed(int idx){
 }
 
 void DBusMPRIS::MediaPlayer2::playlist_len_changed(int len){
-
 	if(!_initialized){
 		init();
 	}
@@ -410,7 +431,6 @@ void DBusMPRIS::MediaPlayer2::playlist_len_changed(int len){
 }
 
 void DBusMPRIS::MediaPlayer2::track_changed(const MetaData& md){
-
 	_md = md;
 	if(!_initialized){
 		init();
@@ -421,7 +441,6 @@ void DBusMPRIS::MediaPlayer2::track_changed(const MetaData& md){
 }
 
 void DBusMPRIS::MediaPlayer2::playstate_changed(PlayState state){
-
 	QString playback_status;
 	if(!_initialized){
 		init();

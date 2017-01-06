@@ -51,7 +51,6 @@ bool Tagging::is_valid_file(const TagLib::FileRef& f)
 }
 
 bool Tagging::getMetaDataOfFile(MetaData& md, Tagging::Quality quality) {
-
 	bool success;
 
 	QFileInfo fi(md.filepath());
@@ -167,7 +166,6 @@ bool Tagging::getMetaDataOfFile(MetaData& md, Tagging::Quality quality) {
 
 
 bool Tagging::setMetaDataOfFile(const MetaData& md) {
-
 	QString filepath = md.filepath();
 	TagLib::FileRef f(TagLib::FileName(filepath.toUtf8()));
 
@@ -227,7 +225,6 @@ bool Tagging::write_cover(const MetaData& md, const QImage& cover){
 
 
 bool Tagging::write_cover(const MetaData& md, const QString& cover_image_path){
-
 	QString error_msg = "Cannot save cover. ";
 	QString filepath = md.filepath();
 	TagLib::FileRef f(TagLib::FileName(filepath.toUtf8()));
@@ -267,7 +264,6 @@ bool Tagging::write_cover(const MetaData& md, const QString& cover_image_path){
 }
 
 bool Tagging::extract_cover(const MetaData &md, QByteArray& cover_data, QString& mime_type){
-
 	QString error_msg = "Cannot fetch cover. ";
 	QString filepath = md.filepath();
 	TagLib::FileRef f(TagLib::FileName(filepath.toUtf8()));
@@ -322,7 +318,6 @@ Tagging::TagType Tagging::get_tag_type(const QString& filepath){
 
 
 Tagging::TagType Tagging::get_tag_type(const MetaData& md){
-
 	QString filepath = md.filepath();
 	return get_tag_type(filepath);
 }

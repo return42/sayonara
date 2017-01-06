@@ -97,7 +97,6 @@ QVariant LibraryItemModelArtists::data(const QModelIndex & index, int role) cons
 
 
 	if(role == Qt::TextAlignmentRole){
-
 		switch(idx_col) {
 			case ColumnIndex::Artist::Name:
 				return (int) (Qt::AlignLeft | Qt::AlignVCenter);
@@ -116,7 +115,6 @@ QVariant LibraryItemModelArtists::data(const QModelIndex & index, int role) cons
 	}
 
 	else if(role == Qt::DisplayRole) {
-
 		switch(idx_col) {
 			case ColumnIndex::Artist::Name:
 				return artist.name;
@@ -135,9 +133,7 @@ QVariant LibraryItemModelArtists::data(const QModelIndex & index, int role) cons
 
 bool LibraryItemModelArtists::setData(const QModelIndex& index, const QVariant& value, int role)
 {
-
 	if (index.isValid() && role == Qt::DisplayRole) {
-
 		int row = index.row();
 
 		Artist::fromVariant(value,  _m->artists[row]);
@@ -152,9 +148,7 @@ bool LibraryItemModelArtists::setData(const QModelIndex& index, const QVariant& 
 
 bool LibraryItemModelArtists::setData(const QModelIndex& index, const ArtistList& artists, int role)
 {
-
 	if (index.isValid() && role == Qt::DisplayRole) {
-
 		int row = index.row();
 
 		_m->artists = artists;

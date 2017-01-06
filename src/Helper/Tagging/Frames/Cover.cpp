@@ -19,7 +19,8 @@
 
 #include "Cover.h"
 
-ID3v2Frame::Cover::Cover(){
+ID3v2Frame::Cover::Cover()
+{
 	description = "Cover by Sayonara Player";
 }
 
@@ -31,13 +32,12 @@ ID3v2Frame::Cover::Cover(const QString& mime_type_, const QByteArray& image_data
 }
 
 ID3v2Frame::CoverFrame::CoverFrame(TagLib::FileRef* file_ref) :
-	AbstractFrame<Cover, TagLib::ID3v2::AttachedPictureFrame>(file_ref, "APIC")
-{}
+	AbstractFrame<Cover, TagLib::ID3v2::AttachedPictureFrame>(file_ref, "APIC") {}
 
 ID3v2Frame::CoverFrame::~CoverFrame() {}
 
-void  ID3v2Frame::CoverFrame::map_model_to_frame(){
-
+void  ID3v2Frame::CoverFrame::map_model_to_frame()
+{
 	TagLib::String description = TagLib::String("Cover by Sayonara Player");
 	TagLib::String::Type encoding = TagLib::String::Latin1;
 	TagLib::String mime_type = TagLib::String(_data_model.mime_type.toLatin1().constData());
@@ -66,9 +66,8 @@ void  ID3v2Frame::CoverFrame::map_model_to_frame(){
 	_frame->setData(vec);
 }
 
-void ID3v2Frame::CoverFrame::map_frame_to_model(){
-
-
+void ID3v2Frame::CoverFrame::map_frame_to_model()
+{
 	TagLib::ByteVector taglib_image_data = _frame->picture();
 	TagLib::String mime_type = _frame->mimeType();
 
@@ -76,8 +75,8 @@ void ID3v2Frame::CoverFrame::map_frame_to_model(){
 	_data_model.mime_type = QString::fromLatin1(mime_type.toCString(), mime_type.length());
 }
 
-TagLib::ID3v2::Frame* ID3v2Frame::CoverFrame::create_id3v2_frame(){
-
+TagLib::ID3v2::Frame* ID3v2Frame::CoverFrame::create_id3v2_frame()
+{
 	return new TagLib::ID3v2::AttachedPictureFrame(TagLib::ByteVector());
 }
 

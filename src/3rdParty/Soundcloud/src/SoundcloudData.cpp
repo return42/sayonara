@@ -28,8 +28,7 @@
 #include "Helper/Logger/Logger.h"
 
 SoundcloudData::SoundcloudData() :
-	LibraryDatabase(1, "", "soundcloud.db")
-{}
+	LibraryDatabase(1, "", "soundcloud.db") {}
 
 SoundcloudData::~SoundcloudData() {}
 
@@ -134,7 +133,6 @@ bool SoundcloudData::db_fetch_tracks(SayonaraQuery& q, MetaDataList& result)
 	}
 
 	for(bool is_element = q.first(); is_element; is_element = q.next()){
-
 		MetaData data;
 
 		data.id = 		 q.value(0).toInt();
@@ -172,7 +170,6 @@ bool SoundcloudData::db_fetch_albums(SayonaraQuery& q, AlbumList& result)
 	}
 
 	while(q.next()){
-
 		Album album;
 
 		album.id =					q.value(0).toInt();
@@ -226,7 +223,6 @@ bool SoundcloudData::db_fetch_artists(SayonaraQuery& q, ArtistList& result)
 	}
 
 	for(bool is_element=q.first(); is_element; is_element = q.next()){
-
 		Artist artist;
 
 		artist.id =						q.value(0).toInt();
@@ -427,7 +423,6 @@ bool SoundcloudData::updateTrack(const MetaData& md)
 	q.bindValue(":cover_url", md.cover_download_url);
 
 	if (!q.exec()) {
-
 		q.show_error(QString("Cannot insert track into database ") + md.filepath());
 		return false;
 	}
@@ -477,7 +472,6 @@ bool SoundcloudData::insertTrackIntoDatabase(const MetaData &md, int artist_id, 
 	q.bindValue(":cover_url", md.cover_download_url);
 
 	if (!q.exec()) {
-
 		q.show_error(QString("Cannot insert track into database ") + md.filepath());
 		return false;
 	}
@@ -493,7 +487,6 @@ bool SoundcloudData::storeMetadata(const MetaDataList& v_md)
 	_database.transaction();
 
 	for(const MetaData& md : v_md) {
-
 		sp_log(Log::Debug) << "Looking for " << md.artist << " and " << md.album;
 		if(md.album_id == -1 || md.artist_id == -1){
 			sp_log(Log::Warning) << "AlbumID = " << md.album_id << " - ArtistID = " << md.artist_id;

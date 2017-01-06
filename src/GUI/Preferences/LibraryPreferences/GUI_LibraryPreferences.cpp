@@ -25,8 +25,7 @@
 #include "Helper/Settings/Settings.h"
 
 GUI_LibraryPreferences::GUI_LibraryPreferences(QWidget* parent) :
-	PreferenceWidgetInterface(parent)
-{}
+	PreferenceWidgetInterface(parent) {}
 
 GUI_LibraryPreferences::~GUI_LibraryPreferences()
 {
@@ -36,8 +35,8 @@ GUI_LibraryPreferences::~GUI_LibraryPreferences()
 	}
 }
 
-void GUI_LibraryPreferences::init_ui(){
-
+void GUI_LibraryPreferences::init_ui()
+{
 	setup_parent(this, &ui);
 
 	revert();

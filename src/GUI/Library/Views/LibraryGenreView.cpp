@@ -103,7 +103,6 @@ int LibraryGenreView::get_row_count() const
 
 
 void LibraryGenreView::fill_list(const QStringList& genres){
-
 	if(_filled){
 		return;
 	}
@@ -186,8 +185,8 @@ void LibraryGenreView::dropEvent(QDropEvent *e)
 }
 
 
-void LibraryGenreView::update_genre_tags_finished(){
-
+void LibraryGenreView::update_genre_tags_finished()
+{
 	reload_genres();
 
 	emit sig_progress("", -1);
@@ -221,7 +220,6 @@ void LibraryGenreView::metadata_changed(const MetaDataList& v_md_old, const Meta
 
 void LibraryGenreView::keyPressEvent(QKeyEvent* e)
 {
-
 	if( e->key() == Qt::Key_Enter ||
 		e->key() == Qt::Key_Return)
 	{
@@ -234,7 +232,6 @@ void LibraryGenreView::keyPressEvent(QKeyEvent* e)
 
 
 void LibraryGenreView::insert_genres(QTreeWidgetItem* parent_item, GenreNode* node){
-
 	QTreeWidgetItem* item;
 	QStringList text = { Helper::cvt_str_to_first_upper(node->data) };
 
@@ -257,8 +254,6 @@ void LibraryGenreView::insert_genres(QTreeWidgetItem* parent_item, GenreNode* no
 
 
 void LibraryGenreView::init_data(const QStringList& genres){
-
-
 	QStringList genre_copy;
 
 	// just needed for the first 2 steps
@@ -275,7 +270,6 @@ void LibraryGenreView::init_data(const QStringList& genres){
 
 	// find all parents of all genres ( O(n²) )
 	for(auto it = genre_copy.begin(); it != genre_copy.end(); it++){
-
 		QString genre = *it;
 		int idx = (it - genre_copy.begin());
 
@@ -284,7 +278,6 @@ void LibraryGenreView::init_data(const QStringList& genres){
 		}
 
 		for(auto subit = genre_copy.begin(); subit != genre_copy.end(); subit++){
-
 			int subidx = (subit - genre_copy.begin());
 			QString sub_genre = *subit;
 
@@ -305,7 +298,6 @@ void LibraryGenreView::init_data(const QStringList& genres){
 	// create new entries for all items with more than one parent
 	// append them to to the end of genre_copy
 	for(int idx=0; idx<original_genre_size; idx++){
-
 		QString genre = genre_copy[idx];
 		QList<int> parent_idxs = item_parent_map[idx];
 
@@ -313,7 +305,6 @@ void LibraryGenreView::init_data(const QStringList& genres){
 		item_node_map[idx] = node;
 
 		for(int i=parent_idxs.size() - 1; i>=1; i--){
-
 			GenreNode* new_node = new GenreNode(genre.toLower());
 			QList<int> new_parent_idxs;
 
@@ -334,7 +325,6 @@ void LibraryGenreView::init_data(const QStringList& genres){
 
 	// get all parents and add the children
 	for(auto it = genre_copy.begin(); it != genre_copy.end(); it++){
-
 		int idx = (it - genre_copy.begin());
 		QList<int> parent_idxs; // should have at most 1 element
 		GenreNode* node;		// corresponding node to genre_copy

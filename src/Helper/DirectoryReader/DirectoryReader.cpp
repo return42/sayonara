@@ -32,14 +32,14 @@
 #include <QDirIterator>
 #include <QFileInfo>
 
-DirectoryReader::DirectoryReader () {
+DirectoryReader::DirectoryReader ()
+{
 	_name_filters = Helper::get_soundfile_extensions();
 }
 
 DirectoryReader::~DirectoryReader () {}
 
 void DirectoryReader::set_filter(const QStringList & filter) {
-
 	_name_filters = filter;
 }
 
@@ -80,7 +80,6 @@ void DirectoryReader::get_files_in_dir(const QDir base_dir, QStringList& files) 
 
 MetaDataList DirectoryReader::get_md_from_filelist(const QStringList& lst)
 {
-
 	MetaDataList v_md;
 	QStringList sound_files, playlist_files;
 
@@ -94,13 +93,11 @@ MetaDataList DirectoryReader::get_md_from_filelist(const QStringList& lst)
 	set_filter(filter);
 
 	for( const QString& str : lst) {
-
 		if(!QFile::exists(str)) {
 			continue;
 		}
 
 		if(Helper::File::is_dir(str)) {
-
 			QStringList files;
 			QDir dir(str);
 			dir.cd(str);
@@ -127,7 +124,6 @@ MetaDataList DirectoryReader::get_md_from_filelist(const QStringList& lst)
 
 	auto it=v_md.begin();
 	while(it != v_md.end()){
-
 		if( it->id < 0 ) {
 			if(!Tagging::getMetaDataOfFile(*it)) {
 				it = v_md.erase(it);
@@ -166,7 +162,6 @@ QStringList DirectoryReader::find_files_rec(QDir dir, const QString& filename)
 	QStringList files = dir.entryList(QDir::Files);
 
 	for(const QString& d : dirs){
-
 		if(d.isEmpty()){
 			continue;
 		}
@@ -182,7 +177,6 @@ QStringList DirectoryReader::find_files_rec(QDir dir, const QString& filename)
 	}
 
 	for(const QString& file : files){
-
 		QFileInfo fi(file);
 		if(!fi.isFile()){
 			continue;

@@ -40,7 +40,6 @@ AbstractDatabase::AbstractDatabase(quint8 db_id, const QString& db_dir, const QS
 	_initialized = exists();
 
 	if(!_initialized) {
-
 		sp_log(Log::Warning) << "Database not existent. Creating database";
 		_initialized = create_db();
 	}
@@ -156,7 +155,6 @@ bool AbstractDatabase::create_db()
 	}
 
 	if (!success) {
-
 		sp_log(Log::Info) << "Database " << _db_path << " not existent yet";
 		sp_log(Log::Info) << "Copy " <<  source_db_file << " to " << _db_path;
 
@@ -219,7 +217,6 @@ bool AbstractDatabase::check_and_insert_column(const QString& tablename, const Q
 	q.prepare(querytext);
 
 	if(!q.exec()) {
-
 		SayonaraQuery q2 (_database);
 		querytext = "ALTER TABLE " + tablename + " ADD COLUMN " + column + " " + sqltype;
 		if(!default_value.isEmpty()){

@@ -26,8 +26,7 @@
 #include "Helper/globals.h"
 
 SomaFMPlaylistModel::SomaFMPlaylistModel(QObject* parent) :
-    QStringListModel(parent)
-{}
+    QStringListModel(parent) {}
 
 SomaFMPlaylistModel::~SomaFMPlaylistModel() {}
 

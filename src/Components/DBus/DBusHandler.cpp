@@ -29,7 +29,6 @@
 DBusHandler::DBusHandler(QMainWindow* player, QObject* parent) :
 	QObject(parent)
 {
-
 	_dbus_mpris	= new DBusMPRIS::MediaPlayer2(player, this);
 	_dbus_mate = new DBusMediaKeysInterfaceMate(this);
 	_dbus_gnome = new DBusMediaKeysInterfaceGnome(this);

@@ -38,7 +38,6 @@ void switch_sorters(T& srcdst, T src1, T src2) {
 
 
 void LibraryView::sort_by_column(int col) {
-
 	Library::SortOrder asc_sortorder, desc_sortorder;
 
 	HeaderView* header_view = this->get_header_view();
@@ -59,7 +58,6 @@ void LibraryView::sort_by_column(int col) {
 
 
 void LibraryView::set_table_headers(const ColumnHeaderList& headers, const BoolList& shown_cols, Library::SortOrder sorting) {
-
 	HeaderView* header_view = this->get_header_view();
 
 	_model->removeColumns(0, _model->columnCount());
@@ -78,7 +76,6 @@ void LibraryView::set_table_headers(const ColumnHeaderList& headers, const BoolL
 
 
 void LibraryView::header_actions_triggered(const BoolList& shown_cols) {
-
 	SP::Set<int> sel_indexes = get_selections();
 
 	std::for_each(sel_indexes.begin(), sel_indexes.end(), [this](int row){
@@ -88,7 +85,8 @@ void LibraryView::header_actions_triggered(const BoolList& shown_cols) {
 	emit sig_columns_changed(shown_cols);
 }
 
-HeaderView*	LibraryView::get_header_view(){
+HeaderView*	LibraryView::get_header_view()
+{
 	return static_cast<HeaderView*>(this->horizontalHeader());
 }
 

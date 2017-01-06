@@ -78,7 +78,6 @@ int PlaylistParser::parse_playlist(const QString& local_filename, MetaDataList& 
 	v_md_tmp = playlist_parser->get_md();
 
 	for(const MetaData& md : v_md_tmp) {
-
 		if( Helper::File::check_file(md.filepath()) ){
 			v_md << md;
 		}
@@ -101,7 +100,6 @@ int PlaylistParser::parse_playlist(const QString& local_filename, MetaDataList& 
 
 
 void PlaylistParser::save_playlist(QString filename, const MetaDataList& v_md, bool relative) {
-
 	if(!filename.endsWith("m3u", Qt::CaseInsensitive)) {
 		filename.append(".m3u");
 	}
@@ -121,7 +119,6 @@ void PlaylistParser::save_playlist(QString filename, const MetaDataList& v_md, b
 
 	qint64 lines = 0;
 	for(const MetaData& md : v_md) {
-
 		QString str;
 		if(relative) {
 			str = dir.relativeFilePath(md.filepath());

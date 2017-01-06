@@ -27,8 +27,7 @@
 
 
 ASXParser::ASXParser(const QString& filename) :
-	AbstractPlaylistParser(filename)
-{}
+	AbstractPlaylistParser(filename) {}
 
 ASXParser::~ASXParser() {}
 
@@ -68,7 +67,6 @@ void ASXParser::parse()
 			}
 
 			if(node_name.compare("ref") == 0) {
-
 				QString file_path = parse_ref_node(node);
 				md.artist = file_path;
 				md.set_filepath(file_path);
@@ -96,16 +94,13 @@ void ASXParser::parse()
 
 
 QString ASXParser::parse_ref_node(const QDomNode& node){
-
 	QDomElement e = node.toElement();
 	QDomNamedNodeMap map = e.attributes();
 
 	for(int j=0; j<map.size(); j++){
-
 		QDomNode item_node = map.item(j);
 		QString nodename = item_node.nodeName();
 		if(nodename.compare("href", Qt::CaseInsensitive) == 0){
-
 			QString path = e.attribute(nodename);
 			return  get_absolute_filename(path);
 		}

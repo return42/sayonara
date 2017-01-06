@@ -40,7 +40,6 @@ MetaDataList::MetaDataList(const MetaDataList& lst) :
 MetaDataList::~MetaDataList() {}
 
 void MetaDataList::set_cur_play_track(int idx) {
-
 	_cur_played_track = -1;
 	if( !between(idx, this)) {
 		return;
@@ -56,7 +55,6 @@ void MetaDataList::set_cur_play_track(int idx) {
 }
 
 MetaDataList& MetaDataList::insert_tracks(const MetaDataList& v_md, int tgt_idx){
-
 	if(v_md.isEmpty()) {
 		return *this;
 	}
@@ -81,7 +79,6 @@ MetaDataList& MetaDataList::insert_tracks(const MetaDataList& v_md, int tgt_idx)
 }
 
 MetaDataList& MetaDataList::copy_tracks(const SP::Set<int>& indexes, int tgt_idx){
-
 	MetaDataList v_md;
 	for(int idx : indexes){
 		v_md << this->operator[](idx);
@@ -92,7 +89,6 @@ MetaDataList& MetaDataList::copy_tracks(const SP::Set<int>& indexes, int tgt_idx
 
 
 MetaDataList& MetaDataList::move_tracks(const SP::Set<int>& indexes, int tgt_idx){
-
 	MetaDataList v_md_to_move;
 	MetaDataList v_md_before_tgt;
 	MetaDataList v_md_after_tgt;

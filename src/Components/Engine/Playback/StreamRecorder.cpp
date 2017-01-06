@@ -46,8 +46,8 @@ struct StreamRecorder::Private
 	int				cur_idx;							// index of track (used for filename)
 };
 
-static QString get_time_str() {
-
+static QString get_time_str()
+{
     QString time_str;
     QDateTime cur = QDateTime::currentDateTime();
 
@@ -88,7 +88,8 @@ StreamRecorder::StreamRecorder(QObject *parent) :
 
 StreamRecorder::~StreamRecorder() {}
 
-void StreamRecorder::clear(){
+void StreamRecorder::clear()
+{
 	_m->md.title = "";
 	_m->session_path = get_time_str();
 	_m->session_collector.clear();
@@ -96,15 +97,14 @@ void StreamRecorder::clear(){
 	_m->cur_idx = 1;
 }
 
-void StreamRecorder::new_session(){
-
+void StreamRecorder::new_session()
+{
 	clear();
 	sp_log(Log::Info) << "New session: " << _m->session_path;
 }
 
 
 QString StreamRecorder::change_track(const MetaData& md) {
-
 	QString sr_path;
 	QString session_path;
 	QString title;
@@ -155,8 +155,8 @@ QString StreamRecorder::change_track(const MetaData& md) {
 }
 
 
-bool  StreamRecorder::save() {
-
+bool  StreamRecorder::save()
+{
 	if(!QFile::exists(_m->sr_recording_dst)){
         return false;
     }
@@ -175,7 +175,6 @@ bool  StreamRecorder::save() {
 
 
 QString StreamRecorder::check_session_path(const QString& sr_path) {
-
 	bool create_session_path =_settings->get(Set::Engine_SR_SessionPath);
 
 	if(!create_session_path) {
@@ -184,7 +183,6 @@ QString StreamRecorder::check_session_path(const QString& sr_path) {
 
 	QString recording_dst = sr_path + QDir::separator() + _m->session_path;
     if(!QFile::exists(recording_dst)) {
-
 		Helper::File::create_directories(recording_dst);
     }
 
@@ -198,7 +196,6 @@ QString StreamRecorder::check_session_path(const QString& sr_path) {
 }
 
 void StreamRecorder::record(bool b){
-
 	if(b == _m->recording) {
 		return;
 	}
@@ -225,9 +222,7 @@ bool StreamRecorder::is_recording() const
 
 
 void StreamRecorder::playstate_changed(PlayState state){
-
 	if(state == PlayState::Stopped){
-
 		if(_m->recording){
 			save();
 			clear();

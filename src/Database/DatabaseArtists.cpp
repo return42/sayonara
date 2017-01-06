@@ -58,7 +58,6 @@ bool DatabaseArtists::db_fetch_artists(SayonaraQuery& q, ArtistList& result)
 	}
 
 	for(bool is_element=q.first(); is_element; is_element = q.next()){
-
 		Artist artist;
 
 		artist.id = q.value(0).toInt();

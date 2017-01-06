@@ -26,7 +26,6 @@
 
 
 gboolean PipelineCallbacks::position_changed(gpointer data) {
-
 	GstState state;
 	AbstractPipeline* pipeline;
 
@@ -75,7 +74,6 @@ void PipelineCallbacks::pad_added_handler(GstElement* src, GstPad* new_src_pad, 
 	pad_link_return = gst_pad_link(new_src_pad, sink_pad);
 
 	if(pad_link_return != GST_PAD_LINK_OK) {
-
 		sp_log(Log::Error) << "Dynamic pad linking: Cannot link pads";
 
 		switch(pad_link_return){
@@ -105,7 +103,6 @@ void PipelineCallbacks::pad_added_handler(GstElement* src, GstPad* new_src_pad, 
 
 #define TCP_BUFFER_SIZE 16384
 GstFlowReturn PipelineCallbacks::new_buffer(GstElement *sink, gpointer p){
-
 	static uchar data[TCP_BUFFER_SIZE];
 
 	AbstractPipeline* pipeline;

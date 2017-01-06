@@ -109,7 +109,6 @@ TagEdit* GUI_TagEdit::get_tag_edit() const
 
 void GUI_TagEdit::progress_changed(int val)
 {
-
 	ui->pb_progress->setVisible(val >= 0);
 
 	if(val >= 0){
@@ -409,7 +408,6 @@ void GUI_TagEdit::commit()
 	write_changes(_cur_idx);
 
 	for(int i=0; i<_tag_edit->get_n_tracks(); i++){
-
 		if(i == _cur_idx) continue;
 
 		MetaData md = _tag_edit->get_metadata(i);
@@ -440,7 +438,6 @@ void GUI_TagEdit::commit()
 		}
 
 		if( ui->cb_cover_all->isChecked() ){
-
 			update_cover(i, _cover_path_map[_cur_idx]);
 		}
 
@@ -560,7 +557,6 @@ void GUI_TagEdit::apply_tag(int idx)
 	MetaData md = _tag_edit->get_metadata(idx);
 
 	for(const QString& tag : tag_cap_map.keys()){
-
 		ReplacedString cap = tag_cap_map[tag];
 
 		if(tag.compare(TAG_TITLE) == 0){
@@ -610,7 +606,6 @@ void GUI_TagEdit::apply_tag_all_clicked()
 	int n_tracks = v_md.size();
 
 	for(int i=0; i<n_tracks; i++){
-
 		bool valid;
 
 		valid = _tag_expression.update_tag(ui->le_tag->text(), v_md[i].filepath() );
@@ -633,7 +628,6 @@ void GUI_TagEdit::apply_tag_all_clicked()
 	}
 
 	if(answer == GlobalMessage::Answer::Yes){
-
 		for(int i=0; i<n_tracks; i++){
 			if(not_valid.contains(i)) continue;
 
@@ -657,7 +651,6 @@ bool GUI_TagEdit::replace_selected_tag_text(Tag t, bool b)
 
 	// replace the string by a tag
 	if(b){
-
 		ReplacedString selected_text = text.mid( ts.selection_start, ts.selection_size );
 		if(!_tag_expression.check_tag(t, selected_text)) return false;
 
@@ -669,7 +662,6 @@ bool GUI_TagEdit::replace_selected_tag_text(Tag t, bool b)
 
 	// replace tag by the original string
 	else{
-
 		text.replace(t, _tag_str_map[t]);
 		ui->le_tag->setText(text);
 
@@ -678,7 +670,6 @@ bool GUI_TagEdit::replace_selected_tag_text(Tag t, bool b)
 
 
 	if(check_idx(_cur_idx)){
-
 		// fetch corresponding filepath and update the tag expression
 		MetaData md = _tag_edit->get_metadata(_cur_idx);
 		bool valid = _tag_expression.update_tag(text, md.filepath() );

@@ -22,12 +22,10 @@
 #include "Database/DatabaseStreams.h"
 
 DatabaseStreams::DatabaseStreams(const QSqlDatabase& db, quint8 db_id) :
-	DatabaseModule(db, db_id)
-{}
+	DatabaseModule(db, db_id) {}
 
 
 bool DatabaseStreams::getAllStreams(QMap<QString, QString>& streams) {
-
 	DB_RETURN_NOT_OPEN_BOOL(_db);
 
 	streams.clear();
@@ -52,7 +50,6 @@ bool DatabaseStreams::getAllStreams(QMap<QString, QString>& streams) {
 
 
 bool DatabaseStreams::deleteStream(const QString& name) {
-
 	DB_RETURN_NOT_OPEN_BOOL(_db);
 
 	SayonaraQuery q(_db);
@@ -69,7 +66,6 @@ bool DatabaseStreams::deleteStream(const QString& name) {
 
 
 bool DatabaseStreams::addStream(const QString& name, const QString& url) {
-
 	DB_RETURN_NOT_OPEN_BOOL(_db);
 
 	SayonaraQuery q(_db);

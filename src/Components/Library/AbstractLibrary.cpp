@@ -34,7 +34,6 @@ AbstractLibrary::AbstractLibrary(QObject *parent) :
 	QObject(parent),
 	SayonaraClass()
 {
-
 	_playlist = PlaylistHandler::getInstance();
 	_sortorder = _settings->get(Set::Lib_Sorting);
 
@@ -48,8 +47,8 @@ AbstractLibrary::AbstractLibrary(QObject *parent) :
 
 AbstractLibrary::~AbstractLibrary() {}
 
-void AbstractLibrary::load () {
-
+void AbstractLibrary::load ()
+{
 	REGISTER_LISTENER(Set::Lib_Sorting, _sl_sortorder_changed);
 
 	_filter.clear();
@@ -62,16 +61,16 @@ void AbstractLibrary::load () {
 }
 
 
-void AbstractLibrary::emit_stuff() {
-
+void AbstractLibrary::emit_stuff()
+{
 	emit sig_all_albums_loaded( _vec_albums );
 	emit sig_all_artists_loaded( _vec_artists );
 	emit sig_all_tracks_loaded( _vec_md );
 }
 
 
-void AbstractLibrary::refetch(){
-
+void AbstractLibrary::refetch()
+{
 	_selected_albums.clear();
 	_selected_artists.clear();
 	_selected_tracks.clear();
@@ -90,8 +89,8 @@ void AbstractLibrary::refetch(){
 }
 
 
-void AbstractLibrary::refresh() {
-
+void AbstractLibrary::refresh()
+{
 	SP::Set<int> sel_artists, sel_albums, sel_tracks;
 	SP::Set<int> sel_artists_idx, sel_albums_idx, sel_tracks_idx;
 
@@ -198,7 +197,6 @@ void AbstractLibrary::psl_prepare_tracks_for_playlist(const SP::Set<int>& indexe
 }
 
 void AbstractLibrary::psl_prepare_tracks_for_playlist(const QStringList& paths, bool new_playlist) {
-
 	if(!new_playlist){
 		_playlist->create_playlist(paths);
 	}
@@ -213,7 +211,6 @@ void AbstractLibrary::psl_prepare_tracks_for_playlist(const QStringList& paths, 
 
 void AbstractLibrary::set_playlist_action_after_double_click()
 {
-
 	PlayManager* play_manager = PlayManager::getInstance();
 
 	if(_settings->get(Set::Lib_DC_DoNothing)){
@@ -232,7 +229,8 @@ void AbstractLibrary::set_playlist_action_after_double_click()
 }
 
 
-void AbstractLibrary::psl_play_next_all_tracks() {
+void AbstractLibrary::psl_play_next_all_tracks()
+{
 	_playlist->play_next(_vec_md);
 }
 
@@ -248,7 +246,8 @@ void AbstractLibrary::psl_play_next_tracks(const SP::Set<int>& indexes) {
 }
 
 
-void AbstractLibrary::psl_append_all_tracks() {
+void AbstractLibrary::psl_append_all_tracks()
+{
 	_playlist->append_tracks(_vec_md, _playlist->get_current_idx());
 }
 
@@ -269,7 +268,6 @@ void AbstractLibrary::restore_album_selection()
 {
 	SP::Set<AlbumID> new_selected_albums;
 	for(const Album& album : _vec_albums) {
-
 		if(!_selected_albums.contains(album.id)) {
 			continue;
 		}
@@ -285,7 +283,6 @@ void AbstractLibrary::restore_track_selection()
 {
 	SP::Set<TrackID> new_selected_tracks;
 	for(const MetaData& md : _vec_md) {
-
 		if(!_selected_tracks.contains(md.id)) {
 			continue;
 		}
@@ -302,7 +299,6 @@ void AbstractLibrary::change_artist_selection(const SP::Set<int>& indexes)
 	SP::Set<ArtistID> selected_artists;
 
 	if(indexes.isEmpty() && _selected_artists.isEmpty()){
-
 		restore_album_selection();
 		restore_track_selection();
 
@@ -344,7 +340,6 @@ void AbstractLibrary::change_artist_selection(const SP::Set<int>& indexes)
 
 
 void AbstractLibrary::psl_selected_artists_changed(const SP::Set<int>& indexes) {
-
 	change_artist_selection(indexes);
 
 	emit sig_all_albums_loaded(_vec_albums);
@@ -353,7 +348,6 @@ void AbstractLibrary::psl_selected_artists_changed(const SP::Set<int>& indexes) 
 
 
 void AbstractLibrary::change_album_selection(const SP::Set<int>& indexes){
-
 	SP::Set<AlbumID> selected_albums;
 
 	for(auto it=indexes.begin(); it != indexes.end(); it++){
@@ -371,9 +365,7 @@ void AbstractLibrary::change_album_selection(const SP::Set<int>& indexes){
 
 	// only show tracks of selected album / artist
 	if(_selected_artists.size() > 0) {
-
 		if(_selected_albums.size() > 0) {
-
 			MetaDataList v_md;
 
 			get_all_tracks_by_album(_selected_albums.toList(), v_md, _filter, _sortorder);
@@ -412,14 +404,12 @@ void AbstractLibrary::change_album_selection(const SP::Set<int>& indexes){
 
 
 void AbstractLibrary::psl_selected_albums_changed(const SP::Set<int>& idx_list) {
-
 	change_album_selection(idx_list);
 	emit sig_all_tracks_loaded(_vec_md);
 }
 
 
 MetaDataList AbstractLibrary::change_track_selection(const SP::Set<int>& idx_list){
-
 	_selected_tracks.clear();
 
 	MetaDataList v_md;
@@ -436,7 +426,6 @@ MetaDataList AbstractLibrary::change_track_selection(const SP::Set<int>& idx_lis
 
 
 void AbstractLibrary::psl_selected_tracks_changed(const SP::Set<int>& idx_list) {
-
 	MetaDataList v_md =	change_track_selection(idx_list);
 	if(v_md.size() > 0){
 		emit sig_track_mime_data_available(v_md);
@@ -487,13 +476,12 @@ void AbstractLibrary::psl_filter_changed(const Library::Filter& filter, bool for
 }
 
 
-void AbstractLibrary::_sl_sortorder_changed() {
-
+void AbstractLibrary::_sl_sortorder_changed()
+{
 	Library::Sortings so = _settings->get(Set::Lib_Sorting);
 
 	// artist sort order has changed
 	if(so.so_artists != _sortorder.so_artists) {
-
 		_sortorder = so;
 		_vec_artists.clear();
 
@@ -511,7 +499,6 @@ void AbstractLibrary::_sl_sortorder_changed() {
 
 	// album sort order has changed
 	if(so.so_albums != _sortorder.so_albums) {
-
 		_sortorder = so;
 		_vec_albums.clear();
 
@@ -536,7 +523,6 @@ void AbstractLibrary::_sl_sortorder_changed() {
 
 	// track sort order has changed
 	if(so.so_tracks != _sortorder.so_tracks) {
-
 		_sortorder = so;
 		_vec_md.clear();
 
@@ -561,20 +547,17 @@ void AbstractLibrary::_sl_sortorder_changed() {
 
 
 void AbstractLibrary::psl_track_rating_changed(int idx, int rating) {
-
 	_vec_md[idx].rating = rating;
 	update_track(_vec_md[idx]);
 }
 
 void AbstractLibrary::psl_album_rating_changed(int idx, int rating) {
-
 	_vec_albums[idx].rating = rating;
 	update_album(_vec_albums[idx]);
 }
 
 
 void AbstractLibrary::psl_metadata_id3_changed(const MetaDataList& v_md_old, const MetaDataList& v_md_new){
-
 	// id -> idx
 	QHash<int, int> md_map;
 	for(int i=0; i<_vec_md.size(); i++){
@@ -626,8 +609,8 @@ void AbstractLibrary::delete_current_tracks(Library::TrackDeletionMode mode){
 }
 
 
-void AbstractLibrary::delete_all_tracks(){
-
+void AbstractLibrary::delete_all_tracks()
+{
 	MetaDataList v_md;
 	get_all_tracks(v_md, _sortorder);
 	delete_tracks(v_md, Library::TrackDeletionMode::OnlyLibrary);
@@ -635,7 +618,6 @@ void AbstractLibrary::delete_all_tracks(){
 
 
 void AbstractLibrary::delete_tracks(const MetaDataList &v_md, Library::TrackDeletionMode mode){
-
 	if(mode == Library::TrackDeletionMode::None) return;
 
 	QString file_entry = Lang::get(Lang::Entries);
@@ -667,7 +649,6 @@ void AbstractLibrary::delete_tracks(const MetaDataList &v_md, Library::TrackDele
 
 
 void AbstractLibrary::delete_tracks_by_idx(const SP::Set<int>& indexes, Library::TrackDeletionMode mode){
-
 	if(mode == Library::TrackDeletionMode::None) return;
 
 	MetaDataList v_md;

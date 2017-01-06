@@ -25,8 +25,7 @@
 #include "Helper/Playlist/CustomPlaylist.h"
 
 DatabasePlaylist::DatabasePlaylist(const QSqlDatabase& db, quint8 db_id) :
-	DatabaseModule(db, db_id)
-{}
+	DatabaseModule(db, db_id) {}
 
 
 bool DatabasePlaylist::getAllPlaylistSkeletons(CustomPlaylistSkeletons& skeletons, DatabasePlaylist::PlaylistChooserType type, Playlist::SortOrder sortorder)
@@ -140,7 +139,6 @@ bool DatabasePlaylist::getPlaylistSkeletonById(CustomPlaylistSkeleton& skeleton)
 	}
 
 	if(q.next()) {
-
 		skeleton.set_id(q.value(0).toInt());
 		skeleton.set_name(q.value(1).toString());
 
@@ -252,7 +250,6 @@ bool DatabasePlaylist::getPlaylistById(CustomPlaylist& pl)
 	}
 
 	while (q2.next()) {
-
 		int position = q2.value(1).toInt();
 
 
@@ -410,7 +407,6 @@ bool DatabasePlaylist::storePlaylist(const MetaDataList& vec_md, QString playlis
 
 	// fill playlist
 	for(int i=0; i<vec_md.size(); i++) {
-
 		bool success = insertTrackIntoPlaylist(vec_md[i], playlist_id, i);
 
 		if( !success ) {

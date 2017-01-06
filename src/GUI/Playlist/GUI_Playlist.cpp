@@ -111,7 +111,6 @@ GUI_Playlist::~GUI_Playlist()
 	}
 
 	while(tw_playlists->count() > 1){
-
 		QWidget* widget = tw_playlists->widget(0);
 		tw_playlists->removeTab(0);
 
@@ -126,7 +125,6 @@ void GUI_Playlist::changeEvent(QEvent* e) {
 }
 
 void GUI_Playlist::resizeEvent(QResizeEvent* e) {
-
 	PlaylistView* cur_view = get_current_view();
 
     e->accept();
@@ -137,8 +135,8 @@ void GUI_Playlist::resizeEvent(QResizeEvent* e) {
 	}
 }
 
-void GUI_Playlist::language_changed() {
-
+void GUI_Playlist::language_changed()
+{
 	retranslateUi(this);
 	set_total_time_label();
 
@@ -152,7 +150,6 @@ void GUI_Playlist::skin_changed()
 
 
 void GUI_Playlist::playlist_track_changed(int row, int playlist_idx) {
-
 	check_tab_icon();
 
 	int n_rows;
@@ -175,7 +172,6 @@ void GUI_Playlist::playlist_track_changed(int row, int playlist_idx) {
 
 
 void GUI_Playlist::playlist_fill(PlaylistPtr pl) {
-
 	int pl_idx = pl->get_idx();
 	PlaylistView* plv = get_view_by_idx(pl_idx);
 
@@ -192,15 +188,14 @@ void GUI_Playlist::playlist_fill(PlaylistPtr pl) {
 
 
 void GUI_Playlist::clear_button_pressed(int pl_idx) {
-
 	_playlist->clear_playlist(pl_idx);
 
 	set_total_time_label();
 }
 
 
-void GUI_Playlist::add_playlist_button_pressed(){
-
+void GUI_Playlist::add_playlist_button_pressed()
+{
 	QString name = _playlist->request_new_playlist_name();
 	_playlist->create_empty_playlist(name);
 }
@@ -213,7 +208,6 @@ void GUI_Playlist::tab_metadata_dropped(int pl_idx, const MetaDataList& v_md)
 
 	int origin_tab = tw_playlists->get_drag_origin_tab();
 	if(tw_playlists->was_drag_from_playlist()){
-
 		PlaylistView* plv = get_view_by_idx(origin_tab);
 
 		if(plv){
@@ -237,14 +231,12 @@ void GUI_Playlist::tab_metadata_dropped(int pl_idx, const MetaDataList& v_md)
 
 
 void GUI_Playlist::double_clicked(int row) {
-
 	int cur_idx = tw_playlists->currentIndex();
 	_playlist->change_track(row, cur_idx);
 }
 
 
-void GUI_Playlist::init_shortcuts()
-{}
+void GUI_Playlist::init_shortcuts() {}
 
 
 void GUI_Playlist::dragLeaveEvent(QDragLeaveEvent* event) {
@@ -258,7 +250,6 @@ void GUI_Playlist::dragEnterEvent(QDragEnterEvent* event) {
 
 
 void GUI_Playlist::dragMoveEvent(QDragMoveEvent* event) {
-
 	PlaylistView* cur_view = get_current_view();
 
 	if(!cur_view){
@@ -292,8 +283,8 @@ void GUI_Playlist::playlist_time_changed()
 }
 
 
-void GUI_Playlist::set_total_time_label() {
-
+void GUI_Playlist::set_total_time_label()
+{
 	PlaylistView* cur_view;
 
 	int n_rows = 0;
@@ -343,7 +334,6 @@ void GUI_Playlist::set_total_time_label() {
 }
 
 void GUI_Playlist::open_file_clicked(int tgt_idx) {
-
 	Q_UNUSED(tgt_idx)
 
 	QStringList filetypes;
@@ -369,7 +359,6 @@ void GUI_Playlist::open_file_clicked(int tgt_idx) {
 }
 
 void GUI_Playlist::open_dir_clicked(int tgt_idx) {
-
 	Q_UNUSED(tgt_idx)
 
 	QString dir = QFileDialog::getExistingDirectory(this,
@@ -386,8 +375,8 @@ void GUI_Playlist::open_dir_clicked(int tgt_idx) {
 }
 
 
-void GUI_Playlist::_sl_show_numbers_changed(){
-
+void GUI_Playlist::_sl_show_numbers_changed()
+{
 	PlaylistView* cur_view = get_current_view();
 
 	parentWidget()->setFocus();
@@ -398,8 +387,8 @@ void GUI_Playlist::_sl_show_numbers_changed(){
 }
 
 
-void GUI_Playlist::_sl_library_path_changed() {
-
+void GUI_Playlist::_sl_library_path_changed()
+{
 	bottom_bar->check_dynamic_play_button();
 }
 

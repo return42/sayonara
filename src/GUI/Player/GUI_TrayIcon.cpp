@@ -140,7 +140,6 @@ void GUI_TrayIcon::skin_changed()
 bool GUI_TrayIcon::event ( QEvent * e )
 {
 	if (e->type() == QEvent::Wheel) {
-
 		QWheelEvent* wheel_event = static_cast<QWheelEvent*>(e);
 
 		if(wheel_event){
@@ -166,7 +165,6 @@ void GUI_TrayIcon::notify(const MetaData& md)
 
 
 void GUI_TrayIcon::notify(const QString &title, const QString &message, const QString &image_path) {
-
 	Q_UNUSED(image_path)
 
 	if(!isSystemTrayAvailable()){

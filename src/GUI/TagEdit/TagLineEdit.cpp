@@ -34,7 +34,6 @@ void TagLineEdit::focusInEvent(QFocusEvent* e){
 }
 
 void TagLineEdit::focusOutEvent(QFocusEvent* e){
-
 	QString selected_text = this->selectedText();
 	if(selected_text.isEmpty()){
 		_text_selection.reset();

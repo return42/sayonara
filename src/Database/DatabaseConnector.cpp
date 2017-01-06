@@ -106,8 +106,8 @@ bool DatabaseConnector::updateTrackCissearchFix()
 	return true;
 }
 
-bool DatabaseConnector::apply_fixes() {
-
+bool DatabaseConnector::apply_fixes()
+{
 	DB_RETURN_NOT_OPEN_BOOL(_database);
 
 	QString str_version;
@@ -131,7 +131,6 @@ bool DatabaseConnector::apply_fixes() {
 	sp_log(Log::Info) << "Apply fixes";
 
 	if(version < 1) {
-
 		check_and_insert_column("playlisttotracks", "position", "INTEGER");
 		check_and_insert_column("playlisttotracks", "filepath", "VARCHAR(512)");
 		check_and_insert_column("tracks", "genre", "VARCHAR(1024)");
@@ -177,7 +176,6 @@ bool DatabaseConnector::apply_fixes() {
 	}
 
 	if(version < 4) {
-
 		QString create_vis_styles = QString("CREATE TABLE VisualStyles ") +
 				"( " +
 				"  name VARCHAR(255) PRIMARY KEY, " +
@@ -229,7 +227,6 @@ bool DatabaseConnector::apply_fixes() {
 		bool success = check_and_insert_column("playlists", "temporary", "integer");
 
 		if(success) {
-
 			SayonaraQuery q(_database);
 			QString querytext = "UPDATE playlists SET temporary=0;";
 			q.prepare(querytext);
@@ -242,7 +239,6 @@ bool DatabaseConnector::apply_fixes() {
 	if(version < 10){
 		bool success = check_and_insert_column("playlisttotracks", "db_id", "integer");
 		if(success) {
-
 			SayonaraQuery q(_database);
 			SayonaraQuery q_index(_database);
 			QString querytext = "UPDATE playlisttotracks SET db_id = (CASE WHEN trackid > 0 THEN 0 ELSE -1 END)";
@@ -267,7 +263,6 @@ bool DatabaseConnector::apply_fixes() {
 	}
 
 	if(version < 12){
-
 		QString querytext =
 				"CREATE VIEW album_info_view AS "
 				"SELECT "
@@ -296,7 +291,6 @@ bool DatabaseConnector::apply_fixes() {
 	}
 
 	if(version < 13){
-
 		bool success = check_and_insert_column("tracks", "albumArtistID", "integer", "-1");
 
 		SayonaraQuery q(_database);

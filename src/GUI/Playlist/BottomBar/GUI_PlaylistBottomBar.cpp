@@ -97,7 +97,6 @@ GUI_PlaylistBottomBar::GUI_PlaylistBottomBar(QWidget *parent) :
 GUI_PlaylistBottomBar::~GUI_PlaylistBottomBar() {}
 
 void GUI_PlaylistBottomBar::btn_menu_pressed(QPoint pos){
-
 	pos.setY(pos.y() - 160);
 	_playlist_menu->exec(pos);
 }
@@ -130,8 +129,8 @@ void GUI_PlaylistBottomBar::shuffle_checked(bool checked){
 }
 
 // internal gui slot
-void GUI_PlaylistBottomBar::playlist_mode_changed() {
-
+void GUI_PlaylistBottomBar::playlist_mode_changed()
+{
 	parentWidget()->setFocus();
 
 	Playlist::Mode plm;
@@ -153,8 +152,8 @@ void GUI_PlaylistBottomBar::playlist_mode_changed() {
 }
 
 // setting slot
-void GUI_PlaylistBottomBar::_sl_playlist_mode_changed(){
-
+void GUI_PlaylistBottomBar::_sl_playlist_mode_changed()
+{
 	Playlist::Mode plm = _settings->get(Set::PL_Mode);
 
 	if(plm == _plm) return;
@@ -177,8 +176,8 @@ void GUI_PlaylistBottomBar::_sl_playlist_mode_changed(){
 }
 
 
-void GUI_PlaylistBottomBar::check_dynamic_play_button() {
-
+void GUI_PlaylistBottomBar::check_dynamic_play_button()
+{
 	QString lib_path = _settings->get(Set::Lib_Path);
 
 	if(lib_path.isEmpty() || !QFile::exists(lib_path)) {
@@ -194,7 +193,6 @@ void GUI_PlaylistBottomBar::check_dynamic_play_button() {
 #ifdef WITH_SHUTDOWN
 
 	void GUI_PlaylistBottomBar::shutdown_toggled(bool b){
-
 		Shutdown* shutdown = Shutdown::getInstance();
 		bool shutdown_is_running = shutdown->is_running();
 
@@ -222,8 +220,8 @@ void GUI_PlaylistBottomBar::check_dynamic_play_button() {
 	}
 
 
-	void GUI_PlaylistBottomBar::shutdown_closed(){
-
+	void GUI_PlaylistBottomBar::shutdown_closed()
+{
 		bool b = Shutdown::getInstance()->is_running();
 		btn_shutdown->setVisible(b);
 		btn_shutdown->setChecked(b);

@@ -49,8 +49,8 @@ RatingLabel::RatingLabel(QWidget *parent, bool enabled) :
 
 RatingLabel::~RatingLabel() {}
 
-int RatingLabel::calc_rating(QPoint pos) const{
-
+int RatingLabel::calc_rating(QPoint pos) const
+{
 	double drating = (double) ((pos.x() * 1.0) / (_icon_size + 2.0)) + 0.5; 
 	int rating = (int) (drating);
 
@@ -84,7 +84,6 @@ void RatingLabel::paintEvent(QPaintEvent *e) {
 
 
 void RatingLabel::mouseMoveEvent(QMouseEvent *e) {
-
 	if(!_enabled) {
 		return;
 	}
@@ -99,7 +98,6 @@ void RatingLabel::mouseMoveEvent(QMouseEvent *e) {
 
 
 void RatingLabel::mousePressEvent(QMouseEvent *e) {
-
 	if(!_enabled) {
 		return;
 	}
@@ -140,13 +138,12 @@ void RatingLabel::update_rating(int rating) {
 }
 
 void RatingLabel::set_rating(int rating) {
-
     _rating = rating;
     update();
 }
 
-int RatingLabel::get_rating() const{
-
+int RatingLabel::get_rating() const
+{
     return _rating;
 }
 

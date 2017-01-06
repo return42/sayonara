@@ -23,8 +23,7 @@
 #include <QModelIndex>
 
 ComboBoxDelegate::ComboBoxDelegate(QObject *parent) :
-	QStyledItemDelegate(parent)
-{}
+	QStyledItemDelegate(parent) {}
 
 ComboBoxDelegate::~ComboBoxDelegate() {}
 
@@ -34,7 +33,8 @@ void ComboBoxDelegate::paint(QPainter *painter, const QStyleOptionViewItem & opt
 }
 
 
-QSize ComboBoxDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const{
+QSize ComboBoxDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
+{
 	Q_UNUSED(option)
 	Q_UNUSED(index)
 

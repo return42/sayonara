@@ -25,8 +25,7 @@
 #include "Helper/Language.h"
 
 DirectoryLibraryContainer::DirectoryLibraryContainer(QObject* parent) :
-	LibraryContainerInterface(parent)
-{}
+	LibraryContainerInterface(parent) {}
 
 DirectoryLibraryContainer::~DirectoryLibraryContainer() {}
 

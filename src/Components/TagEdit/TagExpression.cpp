@@ -24,7 +24,8 @@
 #include <QMap>
 #include "Helper/Logger/Logger.h"
 
-TagExpression::TagExpression(){
+TagExpression::TagExpression()
+{
 	_valid = false;
 
 	_tag_regex_map.insert(TAG_TITLE, QString("(.+)"));
@@ -46,7 +47,6 @@ TagExpression::~TagExpression() {}
 
 QString TagExpression::escape_special_chars(const QString& str) const
 {
-
 	QString s = str;
 	QStringList str2escape;
 	str2escape << "\\" << "?" << "+" << "*" << "[" << "]" << "(" << ")" << "{" << "}" << "."; //<< "-";
@@ -60,7 +60,6 @@ QString TagExpression::escape_special_chars(const QString& str) const
 
 QStringList TagExpression::split_tag_string( const QString& tag_str ) const
 {
-
 	QStringList splitted_tag_str;
 	QString tag_str_tmp = escape_special_chars(tag_str);
 
@@ -87,7 +86,6 @@ QStringList TagExpression::split_tag_string( const QString& tag_str ) const
 
 
 	for(int idx : tags.keys()){
-
 		int len = idx - cur_idx;
 
 		splitted_tag_str << tag_str_tmp.mid(cur_idx, idx - cur_idx);
@@ -105,11 +103,9 @@ QStringList TagExpression::split_tag_string( const QString& tag_str ) const
 
 QString TagExpression::calc_regex_string(const QStringList& splitted_str) const
 {
-
 	QString re_str;
 
 	for(const QString& s : splitted_str){
-
 		if(s.isEmpty()) continue;
 
 
@@ -127,7 +123,6 @@ QString TagExpression::calc_regex_string(const QStringList& splitted_str) const
 
 
 bool TagExpression::update_tag(const QString& tag_str, const QString& filepath){
-
 	_cap_map.clear();
 
 	bool valid;
@@ -151,7 +146,6 @@ bool TagExpression::update_tag(const QString& tag_str, const QString& filepath){
 	valid = (n_caps == n_tags);
 
 	if( !valid ){
-
 		sp_log(Log::Warning) << regex;
 		sp_log(Log::Warning) <<  n_caps << " tags found, but requested " << n_tags;
 		sp_log(Log::Warning) << "Caps: ";
@@ -165,9 +159,7 @@ bool TagExpression::update_tag(const QString& tag_str, const QString& filepath){
 	}
 
 	else{
-
 		for(int i=0; i<n_caps; i++){
-
 			Tag tag = splitted_tag_str[i];
 			QString cap = captured_texts[i];
 
@@ -186,8 +178,6 @@ bool TagExpression::update_tag(const QString& tag_str, const QString& filepath){
 }
 
 bool TagExpression::check_tag(const Tag& tag, const QString& str){
-
-
 	if(!_tag_regex_map.contains(tag)) {
 		return false;
 	}

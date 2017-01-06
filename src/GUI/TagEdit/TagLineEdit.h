@@ -36,12 +36,14 @@ struct TextSelection
 	/**
 	 * @brief set selection_start to -1 and selection_size to 0
 	 */
-	void reset(){
+	void reset()
+{
 		selection_start = -1;
 		selection_size = 0;
 	}
 
-	TextSelection(){
+	TextSelection()
+{
 		reset();
 	}
 };

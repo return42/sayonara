@@ -59,7 +59,6 @@ void LocalLibrary::apply_db_fixes()
 
 
 void LocalLibrary::psl_reload_library(bool clear_first, Library::ReloadQuality quality) {
-
 	if(_reload_thread && _reload_thread->is_running()){
 		return;
 	}
@@ -69,7 +68,6 @@ void LocalLibrary::psl_reload_library(bool clear_first, Library::ReloadQuality q
 	QString library_path = _settings->get(Set::Lib_Path);
 
 	if(library_path.isEmpty()) {
-
 		emit sig_no_library_path();
 		return;
 	}
@@ -84,8 +82,8 @@ void LocalLibrary::psl_reload_library(bool clear_first, Library::ReloadQuality q
 }
 
 
-void LocalLibrary::reload_thread_finished() {
-
+void LocalLibrary::reload_thread_finished()
+{
 	load();
 
 	emit sig_reloading_library("", -1);
@@ -134,11 +132,13 @@ void LocalLibrary::indexing_finished()
 	_fsw = new FileSystemWatcher(_settings->get(Set::Lib_Path), this);
 
 	connect(_fsw, &QThread::finished, _fsw, &QObject::deleteLater);
-	connect(_fsw, &QThread::destroyed, this, [=](){
+	connect(_fsw, &QThread::destroyed, this, [=]()
+{
 		_fsw = nullptr;
 	});
 
-	connect(_fsw, &FileSystemWatcher::sig_changed, this, [=](){
+	connect(_fsw, &FileSystemWatcher::sig_changed, this, [=]()
+{
 		if(!_reload_thread || (_reload_thread && !_reload_thread->is_running())){
 			this->psl_reload_library(false, Library::ReloadQuality::Fast);
 		}
@@ -150,8 +150,8 @@ void LocalLibrary::indexing_finished()
 	sp_log(Log::Debug) << "Added filesystem watcher";
 }
 
-void LocalLibrary::library_reloading_state_new_block() {
-
+void LocalLibrary::library_reloading_state_new_block()
+{
 	_reload_thread->pause();
 
 	_db->getAllAlbums(_vec_albums, _sortorder.so_albums);
@@ -165,7 +165,6 @@ void LocalLibrary::library_reloading_state_new_block() {
 
 
 void LocalLibrary::psl_disc_pressed(int disc) {
-
     if( _selected_albums.size() == 0 ||
 		_selected_albums.size() > 1 )
 	{
@@ -186,7 +185,6 @@ void LocalLibrary::psl_disc_pressed(int disc) {
 	_vec_md.clear();
 
 	for(const MetaData& md : v_metadata) {
-
 		if(md.discnumber != disc) {
 			continue;
 		}
@@ -288,7 +286,6 @@ void LocalLibrary::init_reload_thread()
 }
 
 void LocalLibrary::delete_tracks(const MetaDataList &v_md, Library::TrackDeletionMode mode){
-
 	_db->deleteTracks(v_md);
 
 	AbstractLibrary::delete_tracks(v_md, mode);
@@ -333,7 +330,6 @@ void LocalLibrary::merge_artists(int target_artist)
 
 void LocalLibrary::merge_albums(int target_album)
 {
-
 	if(_selected_albums.isEmpty())	{
 		return;
 	}

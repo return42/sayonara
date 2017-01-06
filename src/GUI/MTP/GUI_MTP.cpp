@@ -203,7 +203,6 @@ void GUI_MTP::device_opened(MTP_DevicePtr device)
 	sp_log(Log::Debug) << "Device " << device->id() << " has " << storages.size() << " storages";
 
 	for(MTP_StoragePtr storage : storages){
-
 		QString name = storage->name() + ": " + storage->identifier();
 		sp_log(Log::Debug) << "New Storage: " << name;
 		_storages << storage;
@@ -268,7 +267,6 @@ void GUI_MTP::folder_idx_changed(QTreeWidgetItem* item, int column)
 	}
 
 	for(MTP_FolderPtr folder : children){
-
 		_folders[folder->id()] = folder;
 
 		QTreeWidgetItem* child_item;

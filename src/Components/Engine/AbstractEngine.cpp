@@ -32,7 +32,8 @@ Engine::Engine(QObject *parent) :
 
 Engine::~Engine() {}
 
-EngineName Engine::get_name() const {
+EngineName Engine::get_name() const
+{
 	return _name;
 }
 

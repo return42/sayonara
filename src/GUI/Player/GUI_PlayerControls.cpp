@@ -157,7 +157,6 @@ void GUI_Player::set_progress_tooltip(int val)
 
 
 void GUI_Player::set_cur_pos_label(int val){
-
 	int max = sli_progress->maximum();
 
 	val = std::max(val, 0);
@@ -172,7 +171,6 @@ void GUI_Player::set_cur_pos_label(int val){
 
 
 void GUI_Player::set_total_time_label(qint64 total_time) {
-
 	_md.length_ms = total_time;
 
 	QString length_str;

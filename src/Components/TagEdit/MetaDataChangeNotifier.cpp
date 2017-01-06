@@ -22,8 +22,7 @@
 #include "Helper/MetaData/MetaDataList.h"
 
 MetaDataChangeNotifier::MetaDataChangeNotifier(QObject *parent) :
-	QObject(parent)
-{}
+	QObject(parent) {}
 
 MetaDataChangeNotifier::~MetaDataChangeNotifier() {}
 

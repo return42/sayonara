@@ -64,7 +64,8 @@ GUI_DirectoryWidget::GUI_DirectoryWidget(QWidget *parent) :
 	connect(ui->le_search, &QLineEdit::returnPressed, this, &GUI_DirectoryWidget::search_button_clicked);
 	connect(ui->le_search, &QLineEdit::textChanged, this, &GUI_DirectoryWidget::search_term_changed);
 
-	connect(ui->tv_dirs, &DirectoryTreeView::sig_info_clicked, this, [=](){
+	connect(ui->tv_dirs, &DirectoryTreeView::sig_info_clicked, this, [=]()
+{
 		_selected_widget = SelectedWidget::Dirs;
 		show_info();
 	});
@@ -73,7 +74,8 @@ GUI_DirectoryWidget::GUI_DirectoryWidget(QWidget *parent) :
 	connect(ui->tv_dirs, &DirectoryTreeView::sig_play_next_clicked, this, &GUI_DirectoryWidget::dir_play_next_clicked);
 	connect(ui->tv_dirs, &DirectoryTreeView::sig_delete_clicked, this, &GUI_DirectoryWidget::dir_delete_clicked);
 
-	connect(ui->lv_files, &FileListView::sig_info_clicked, this, [=](){
+	connect(ui->lv_files, &FileListView::sig_info_clicked, this, [=]()
+{
 		_selected_widget = SelectedWidget::Files;
 		show_info();
 	});
@@ -93,7 +95,8 @@ GUI_DirectoryWidget::~GUI_DirectoryWidget()
 }
 
 
-QComboBox* GUI_DirectoryWidget::get_libchooser(){
+QComboBox* GUI_DirectoryWidget::get_libchooser()
+{
 	return ui->combo_libchooser;
 }
 
@@ -126,7 +129,6 @@ void GUI_DirectoryWidget::dir_pressed(QModelIndex idx)
 
 	Qt::MouseButtons buttons = QApplication::mouseButtons();
 	if(buttons & Qt::MiddleButton){
-
 		QStringList paths = ui->tv_dirs->get_selected_paths();
 
 		if(!paths.isEmpty()){
@@ -232,7 +234,6 @@ void GUI_DirectoryWidget::file_dbl_clicked(QModelIndex idx)
 }
 
 void GUI_DirectoryWidget::directory_loaded(const QString& path){
-
 	Q_UNUSED(path)
 
 	if(!_found_idx.isValid()){
@@ -246,8 +247,8 @@ void GUI_DirectoryWidget::directory_loaded(const QString& path){
 }
 
 
-void GUI_DirectoryWidget::search_button_clicked(){
-
+void GUI_DirectoryWidget::search_button_clicked()
+{
 	if(ui->le_search->text().isEmpty()){
 		return;
 	}

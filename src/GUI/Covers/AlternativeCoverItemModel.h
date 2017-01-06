@@ -41,7 +41,8 @@ struct RowColumn {
 	int col;
     bool valid;
 
-    RowColumn(){
+    RowColumn()
+{
 		row = -1;
 		col = -1;
         valid = false;

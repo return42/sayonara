@@ -55,13 +55,15 @@
 {
 	int c=0;
 	int m=0;
-	void increase(){
+	void increase()
+{
 		c++;
 		m=std::max(c, m);
 		sp_log(Log::Debug) << "Num MD: " << c << " / " <<  m;
 	}
 
-	void decrease(){
+	void decrease()
+{
 		c--;
 		m=std::max(c, m);
 		sp_log(Log::Debug) << "Num MD: " << c << " / " <<  m;
@@ -118,11 +120,13 @@ MetaData::MetaData(const QString& path) :
 	this->set_filepath(path);
 }
 
-MetaData::~MetaData() {
+MetaData::~MetaData()
+{
 //	mdc.decrease();
 }
 
-QString MetaData::to_string() const {
+QString MetaData::to_string() const
+{
 	return	title + " by " +
 			artist + " from " +
 			album +
@@ -132,7 +136,6 @@ QString MetaData::to_string() const {
 }
 
 QVariant MetaData::toVariant(const MetaData& md) {
-
 	QVariant v;
 
 	v.setValue<MetaData>(md);
@@ -141,7 +144,6 @@ QVariant MetaData::toVariant(const MetaData& md) {
 }
 
 bool MetaData::fromVariant(const QVariant& v, MetaData& md) {
-
 	if(! v.canConvert<MetaData>() ) {
 		return false;
 	}
@@ -158,18 +160,20 @@ MetaData& MetaData::operator=(const MetaData& other)
 }
 
 
-bool MetaData::operator==(const MetaData& md) const {
+bool MetaData::operator==(const MetaData& md) const
+{
 	return this->is_equal(md);
 }
 
 
-bool MetaData::operator!=(const MetaData& md) const {
+bool MetaData::operator!=(const MetaData& md) const
+{
 	return !(this->is_equal(md));
 }
 
 
-bool MetaData::is_equal(const MetaData& md) const {
-
+bool MetaData::is_equal(const MetaData& md) const
+{
 	QDir first_path(_filepath);
 	QDir other_path(md.filepath());
 
@@ -184,8 +188,8 @@ bool MetaData::is_equal(const MetaData& md) const {
 
 }
 
-bool MetaData::is_equal_deep(const MetaData& md) const{
-
+bool MetaData::is_equal_deep(const MetaData& md) const
+{
 	return ( (id == md.id)  &&
 			 ( artist_id == md.artist_id ) &&
 			 ( album_id == md.album_id ) &&

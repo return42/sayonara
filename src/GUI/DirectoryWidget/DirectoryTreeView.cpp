@@ -74,7 +74,6 @@ void DirectoryTreeView::mousePressEvent(QMouseEvent* event)
 	}
 
 	if(event->button() & Qt::RightButton){
-
 		QPoint pos = QWidget::mapToGlobal( event->pos() );
 
 		if(!_context_menu){
@@ -90,7 +89,8 @@ void DirectoryTreeView::mouseMoveEvent(QMouseEvent* e)
 {
 	QDrag* drag = Dragable::drag_moving(e->pos());
 	if(drag){
-		connect(drag, &QDrag::destroyed, this, [=](){
+		connect(drag, &QDrag::destroyed, this, [=]()
+{
 			this->drag_released(Dragable::ReleaseReason::Destroyed);
 		});
 	}
@@ -106,7 +106,8 @@ QMimeData* DirectoryTreeView::get_mimedata() const
 
 	return nullptr;
 }
-void DirectoryTreeView::init_context_menu(){
+void DirectoryTreeView::init_context_menu()
+{
 	_context_menu = new LibraryContextMenu(this);
 
 	LibraryContexMenuEntries entries =

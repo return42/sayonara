@@ -22,8 +22,7 @@
 #include <QPainter>
 
 TreeDelegate::TreeDelegate(QObject* parent) :
-	QItemDelegate(parent)
-{}
+	QItemDelegate(parent) {}
 
 TreeDelegate::~TreeDelegate() {}
 

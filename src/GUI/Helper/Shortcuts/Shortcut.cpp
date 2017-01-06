@@ -53,8 +53,7 @@ Shortcut::Shortcut(ShortcutWidget* parent, const QString& identifier, const QStr
 }
 
 Shortcut::Shortcut(ShortcutWidget* parent, const QString& identifier, const QString& name, const QString& default_shortcut) :
-	Shortcut(parent, identifier, name, QStringList(default_shortcut))
-{}
+	Shortcut(parent, identifier, name, QStringList(default_shortcut)) {}
 
 Shortcut::Shortcut(const Shortcut& other)
 {
@@ -105,7 +104,8 @@ QString Shortcut::get_identifier() const
 	return _identifier;
 }
 
-Shortcut Shortcut::getInvalid(){
+Shortcut Shortcut::getInvalid()
+{
 	return Shortcut();
 }
 
@@ -126,7 +126,6 @@ void Shortcut::create_qt_shortcut(QWidget* parent, QObject* receiver, const char
 
 QList<QShortcut*> Shortcut::init_qt_shortcut(QWidget* parent)
 {
-
 	QList<QShortcut*> lst;
 	if(get_sequences().size() > 1){
 		sp_log(Log::Debug) << "Number of shortcuts: " << get_sequences().size();
@@ -150,7 +149,6 @@ QList<QShortcut*> Shortcut::init_qt_shortcut(QWidget* parent)
 
 
 void Shortcut::change_shortcut(const QStringList &shortcuts){
-
 	_shortcuts = shortcuts;
 	for(QString& str : _shortcuts){
 		str.replace(" +", "+");

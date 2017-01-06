@@ -32,8 +32,7 @@
 #include <QRegExp>
 
 GUI_LanguageChooser::GUI_LanguageChooser(QWidget *parent) :
-	PreferenceWidgetInterface(parent)
-{}
+	PreferenceWidgetInterface(parent) {}
 
 GUI_LanguageChooser::~GUI_LanguageChooser()
 {
@@ -43,8 +42,8 @@ GUI_LanguageChooser::~GUI_LanguageChooser()
 	}
 }
 
-void GUI_LanguageChooser::language_changed(){
-
+void GUI_LanguageChooser::language_changed()
+{
 	translate_action();
 
 	if(!is_ui_initialized()){
@@ -58,8 +57,8 @@ void GUI_LanguageChooser::language_changed(){
 }
 
 
-void GUI_LanguageChooser::commit() {
-
+void GUI_LanguageChooser::commit()
+{
 	int cur_idx = ui->combo_lang->currentIndex();
 	QString cur_language = ui->combo_lang->itemData(cur_idx).toString();
 
@@ -69,8 +68,8 @@ void GUI_LanguageChooser::commit() {
 void GUI_LanguageChooser::revert() {}
 
 // typically a qm file looks like sayonara_lang_lc.qm
-void GUI_LanguageChooser::renew_combo() {
-
+void GUI_LanguageChooser::renew_combo()
+{
 	if(!is_ui_initialized()){
 		return;
 	}
@@ -87,7 +86,6 @@ void GUI_LanguageChooser::renew_combo() {
 
 	int i=0;
 	for(const QString& file : files) {
-
 		QRegExp re(".*lang_(.*)\\.qm");
 		re.setMinimal(true);
 
@@ -148,7 +146,6 @@ void GUI_LanguageChooser::init_ui()
 }
 
 void GUI_LanguageChooser::showEvent(QShowEvent* e) {
-
 	PreferenceWidgetInterface::showEvent(e);
 
 	renew_combo();

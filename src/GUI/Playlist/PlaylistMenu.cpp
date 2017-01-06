@@ -28,7 +28,6 @@ PlaylistMenu::PlaylistMenu(QWidget* parent) :
 	QMenu(parent),
 	SayonaraClass()
 {
-
 	_timer = new QTimer(this);
 
 	_action_rep1 = new QAction(QString(), this);
@@ -101,7 +100,6 @@ void PlaylistMenu::timed_out()
 
 void PlaylistMenu::showEvent(QShowEvent* e)
 {
-
 	for(QAction* action : this->actions()){
 		action->setEnabled(false);
 	}
@@ -112,8 +110,8 @@ void PlaylistMenu::showEvent(QShowEvent* e)
 	_timer->start();
 }
 
-void PlaylistMenu::plm_changed(){
-
+void PlaylistMenu::plm_changed()
+{
 	Playlist::Mode plm = _settings->get(Set::PL_Mode);
 
 	_action_append->setChecked(plm.append() == Playlist::Mode::On);
@@ -131,8 +129,8 @@ void PlaylistMenu::plm_changed(){
 	_action_gapless->setVisible(plm.gapless() != Playlist::Mode::Disabled);
 }
 
-void PlaylistMenu::change_plm(){
-
+void PlaylistMenu::change_plm()
+{
 	Playlist::Mode plm = _settings->get(Set::PL_Mode);
 	plm.setRep1(_action_rep1->isChecked());
 	plm.setRepAll(_action_repAll->isChecked());

@@ -44,7 +44,6 @@ bool GlobalMessage::register_receiver(GlobalMessageReceiverInterface* receiver){
 
 GlobalMessage::Answer
 GlobalMessage::info(const QString& info, const QString& sender_name){
-
 	if(!_receiver) {
 		return GlobalMessage::Answer::Undefined;
 	}
@@ -54,7 +53,6 @@ GlobalMessage::info(const QString& info, const QString& sender_name){
 
 GlobalMessage::Answer
 GlobalMessage::warning(const QString& warning, const QString& sender_name){
-
 	if(!_receiver) {
 		return GlobalMessage::Answer::Undefined;
 	}
@@ -64,7 +62,6 @@ GlobalMessage::warning(const QString& warning, const QString& sender_name){
 
 GlobalMessage::Answer
 GlobalMessage::error(const QString& error, const QString& sender_name){
-
 	if(!_receiver) {
 		return GlobalMessage::Answer::Undefined;
 	}

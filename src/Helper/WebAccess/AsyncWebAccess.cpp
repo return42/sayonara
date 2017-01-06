@@ -37,7 +37,6 @@ AsyncWebAccess::AsyncWebAccess(QObject* parent, const QByteArray& header, AsyncW
 AsyncWebAccess::~AsyncWebAccess() {}
 
 void AsyncWebAccess::run(const QString& url, int timeout){
-
 	_header.clear();
 	_data.clear();
 	_url = url;
@@ -59,7 +58,6 @@ void AsyncWebAccess::run(const QString& url, int timeout){
 }
 
 void AsyncWebAccess::run_post(const QString &url, const QByteArray &post_data, int timeout){
-
 	_header.clear();
 	_data.clear();
 	_url = url;
@@ -81,7 +79,6 @@ void AsyncWebAccess::run_post(const QString &url, const QByteArray &post_data, i
 
 
 void AsyncWebAccess::finished(QNetworkReply *reply){
-
 	QNetworkReply::NetworkError error = reply->error();
 
 	bool success = (error == QNetworkReply::NoError);
@@ -92,7 +89,6 @@ void AsyncWebAccess::finished(QNetworkReply *reply){
 	QString redirect_url = reply->attribute(QNetworkRequest::RedirectionTargetAttribute).toString();
 
 	if(!redirect_url.isEmpty() && redirect_url != _url){
-
 		QUrl url(_url);
 
 		if(redirect_url.startsWith("/")){
@@ -131,8 +127,8 @@ void AsyncWebAccess::finished(QNetworkReply *reply){
 	emit sig_finished(success);
 }
 
-void AsyncWebAccess::timeout(){
-
+void AsyncWebAccess::timeout()
+{
 	if(_reply->bytesAvailable() > 0){
 		emit sig_finished( true );
 	}
@@ -168,7 +164,6 @@ void AsyncWebAccess::set_behavior(AsyncWebAccess::Behavior behavior)
 }
 
 void AsyncWebAccess::set_raw_header(const QMap<QByteArray, QByteArray>& header){
-
 	_header = header;
 }
 

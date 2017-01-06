@@ -30,7 +30,8 @@ struct CoverLookupAlternative::Private
 	int					n_covers;
 	bool				run;
 
-	~Private(){
+	~Private()
+{
 		cl->stop();
 	}
 };
@@ -51,12 +52,13 @@ CoverLookupAlternative::CoverLookupAlternative(QObject* parent, const CoverLocat
 
 CoverLookupAlternative::~CoverLookupAlternative() {}
 
-void CoverLookupAlternative::stop() {
+void CoverLookupAlternative::stop()
+{
 	_m->cl->stop();
 }
 
-void CoverLookupAlternative::start() {
-
+void CoverLookupAlternative::start()
+{
 	_m->run = true;
 
 	_m->cl = CoverLookupPtr(new CoverLookup(this, _m->n_covers));

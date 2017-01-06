@@ -23,7 +23,6 @@
 #include <algorithm>
 
 ColumnHeader::ColumnHeader(HeaderType type, bool switchable, Library::SortOrder sort_asc, Library::SortOrder sort_desc){
-
 	_type = type;
 	_preferred_size_abs = 0;
 	_preferred_size_rel = 0;
@@ -59,23 +58,28 @@ ColumnHeader::ColumnHeader(HeaderType type, bool switchable, Library::SortOrder 
 	_size_type = SizeType::Rel;
 }
 
-int ColumnHeader::get_preferred_size_abs() const {
+int ColumnHeader::get_preferred_size_abs() const
+{
 	return _preferred_size_abs;
 }
 
-double ColumnHeader::get_preferred_size_rel() const {
+double ColumnHeader::get_preferred_size_rel() const
+{
 	return _preferred_size_rel;
 }
 
-Library::SortOrder ColumnHeader::get_asc_sortorder() const {
+Library::SortOrder ColumnHeader::get_asc_sortorder() const
+{
 	return _sort_asc;
 }
 
-Library::SortOrder ColumnHeader::get_desc_sortorder() const {
+Library::SortOrder ColumnHeader::get_desc_sortorder() const
+{
 	return _sort_desc;
 }
 
-QAction* ColumnHeader::get_action() {
+QAction* ColumnHeader::get_action()
+{
 	_action->setText( this->get_title() );
 	return _action;
 }
@@ -95,11 +99,13 @@ bool ColumnHeader::is_hidden() const
 	return (!is_visible());
 }
 
-void ColumnHeader::retranslate() {
+void ColumnHeader::retranslate()
+{
 	_action->setText(this->get_title());
 }
 
-ColumnHeader::SizeType ColumnHeader::get_size_type() const {
+ColumnHeader::SizeType ColumnHeader::get_size_type() const
+{
 	return _size_type;
 }
 

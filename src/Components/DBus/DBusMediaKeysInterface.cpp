@@ -35,7 +35,6 @@ DBusMediaKeysInterface::DBusMediaKeysInterface(QObject *parent) :
 
 
 void DBusMediaKeysInterface::sl_media_key_pressed(const QString& program_name, const QString& key){
-
 	Q_UNUSED(program_name)
 
 	QKeyEvent *event = nullptr;
@@ -72,7 +71,6 @@ void DBusMediaKeysInterface::sl_media_key_pressed(const QString& program_name, c
 
 
 void DBusMediaKeysInterface::sl_register_finished(QDBusPendingCallWatcher* watcher){
-
 	QDBusMessage reply = watcher->reply();
 	watcher->deleteLater();
 

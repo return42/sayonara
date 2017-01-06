@@ -36,7 +36,8 @@ PlaylistDBInterface::PlaylistDBInterface(const QString& name)
 
 PlaylistDBInterface::~PlaylistDBInterface() {}
 
-int PlaylistDBInterface::get_id() const {
+int PlaylistDBInterface::get_id() const
+{
 	return _id;
 }
 
@@ -45,7 +46,8 @@ void PlaylistDBInterface::set_id(int id){
 }
 
 
-QString PlaylistDBInterface::get_name() const {
+QString PlaylistDBInterface::get_name() const
+{
 	return _name;
 }
 
@@ -53,7 +55,8 @@ void PlaylistDBInterface::set_name(const QString& name){
 	_name = name;
 }
 
-bool PlaylistDBInterface::is_temporary() const{
+bool PlaylistDBInterface::is_temporary() const
+{
 	return _is_temporary;
 }
 
@@ -62,8 +65,8 @@ void PlaylistDBInterface::set_temporary(bool b){
 }
 
 
-PlaylistDBInterface::SaveAsAnswer PlaylistDBInterface::save(){
-
+PlaylistDBInterface::SaveAsAnswer PlaylistDBInterface::save()
+{
 	if(!is_storable()){
 		return SaveAsAnswer::ExternTracksError;
 	}
@@ -73,7 +76,6 @@ PlaylistDBInterface::SaveAsAnswer PlaylistDBInterface::save(){
 	PlaylistDBInterface::SaveAsAnswer answer;
 
 	if(_id >= 0){
-
 		bool success;
 
 		answer = SaveAsAnswer::Error;
@@ -93,8 +95,8 @@ PlaylistDBInterface::SaveAsAnswer PlaylistDBInterface::save(){
 }
 
 
-bool PlaylistDBInterface::insert_temporary_into_db(){
-
+bool PlaylistDBInterface::insert_temporary_into_db()
+{
 	if(!_is_temporary) {
 		return false;
 	}
@@ -119,7 +121,6 @@ bool PlaylistDBInterface::insert_temporary_into_db(){
 
 
 PlaylistDBInterface::SaveAsAnswer PlaylistDBInterface::save_as(const QString& name, bool force_override){
-
 	if(!is_storable()){
 		return SaveAsAnswer::ExternTracksError;
 	}
@@ -137,11 +138,9 @@ PlaylistDBInterface::SaveAsAnswer PlaylistDBInterface::save_as(const QString& na
 
 	// check if name already exists
 	for(const CustomPlaylistSkeleton& skeleton : skeletons){
-
 		QString tmp_name = skeleton.name();
 
 		if( tmp_name.compare(name, Qt::CaseInsensitive) == 0 ){
-
 			tgt_id = skeleton.id();
 
 			if(!force_override){
@@ -164,7 +163,6 @@ PlaylistDBInterface::SaveAsAnswer PlaylistDBInterface::save_as(const QString& na
 
 	// New playlist
 	else{
-
 		success = _playlist_db_connector->save_playlist_as( v_md, name);
 
 		if(success && was_temporary){
@@ -173,7 +171,6 @@ PlaylistDBInterface::SaveAsAnswer PlaylistDBInterface::save_as(const QString& na
 	}
 
 	if(success){
-
 		int id = _playlist_db_connector->get_playlist_by_name(name).id();
 		if(id >= 0){
 			this->set_id(id);
@@ -191,7 +188,6 @@ PlaylistDBInterface::SaveAsAnswer PlaylistDBInterface::save_as(const QString& na
 
 
 PlaylistDBInterface::SaveAsAnswer PlaylistDBInterface::rename(const QString& name){
-
 	bool success;
 
 	if(!is_storable()){
@@ -203,7 +199,6 @@ PlaylistDBInterface::SaveAsAnswer PlaylistDBInterface::rename(const QString& nam
 
 	// check if name already exists
 	for(const CustomPlaylistSkeleton& skeleton : skeletons){
-
 		QString tmp_name = skeleton.name();
 
 		if( tmp_name.compare(name, Qt::CaseInsensitive) == 0 ){
@@ -227,8 +222,8 @@ bool PlaylistDBInterface::delete_playlist()
 }
 
 
-bool PlaylistDBInterface::remove_from_db(){
-
+bool PlaylistDBInterface::remove_from_db()
+{
 	if(!is_storable()){
 		return false;
 	}
@@ -255,11 +250,9 @@ QString PlaylistDBInterface::request_new_db_name()
 	QString target_name;
 
 	for(int idx = 1; idx < 1000; idx++){
-
 		bool found = false;
 		target_name = Lang::get(Lang::New) + " " + QString::number(idx);
 		for(const CustomPlaylistSkeleton& skeleton : skeletons){
-
 			QString name = skeleton.name();
 
 			if(name.compare(target_name, Qt::CaseInsensitive) == 0){

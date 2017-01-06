@@ -36,14 +36,14 @@ ConvertEngine::ConvertEngine(QObject *parent) :
 	connect(_pipeline, &ConvertPipeline::sig_pos_changed_ms, this, &ConvertEngine::set_cur_position_ms);
 }
 
-bool ConvertEngine::init() {
+bool ConvertEngine::init()
+{
 	return _pipeline->init();
 }
 
 
 // methods
 bool ConvertEngine::set_uri(const MetaData& md) {
-
 	QUrl url;
 	gchar* uri;
 	gchar* target_uri;
@@ -70,7 +70,6 @@ bool ConvertEngine::set_uri(const MetaData& md) {
 	// no stream (not quite right because of mms, rtsp or other streams
 	// normal filepath -> no uri
 	else if (!md.filepath().contains("://")) {
-
 		url = QUrl::fromLocalFile(md.filepath());
 		uri = url.toString().toUtf8().data();
 	}
@@ -103,7 +102,6 @@ bool ConvertEngine::set_uri(const MetaData& md) {
 }
 
 void ConvertEngine::change_track(const MetaData& md) {
-
 	stop();
 	_md = md;
 
@@ -118,19 +116,20 @@ void ConvertEngine::change_track(const QString& str) {
 }
 
 
-void ConvertEngine::play() {
-
+void ConvertEngine::play()
+{
 	_pipeline->play();
 
 	g_timeout_add(200, (GSourceFunc) PipelineCallbacks::position_changed, this);
 }
 
-void ConvertEngine::pause() {
+void ConvertEngine::pause()
+{
 	return;
 }
 
-void ConvertEngine::stop() {
-
+void ConvertEngine::stop()
+{
 	_pipeline->stop();
 
     Tagging::setMetaDataOfFile(_md_target);

@@ -38,7 +38,6 @@ EQ_Setting::EQ_Setting(const EQ_Setting& s){
 EQ_Setting::~EQ_Setting() {}
 
 EQ_Setting EQ_Setting::fromString(const QString& str){
-
 	EQ_Setting eq;
 	QStringList list = str.split(':');
 	if(list.size() < 11) {
@@ -61,8 +60,8 @@ EQ_Setting EQ_Setting::fromString(const QString& str){
 }
 
 
-QString EQ_Setting::toString() const {
-
+QString EQ_Setting::toString() const
+{
 	QString str = _name;
 
 	for(int i=0; i<_values.size(); i++){
@@ -81,8 +80,8 @@ bool EQ_Setting::operator==(const EQ_Setting& s) const
 }
 
 
-QList<EQ_Setting> EQ_Setting::get_defaults(){
-
+QList<EQ_Setting> EQ_Setting::get_defaults()
+{
 	QList<EQ_Setting> defaults;
 
 	defaults << fromString(QString(":0:0:0:0:0:0:0:0:0:0"));

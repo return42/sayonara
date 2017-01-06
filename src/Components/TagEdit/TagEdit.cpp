@@ -98,7 +98,6 @@ void TagEdit::add_genre_to_metadata(const QString &genre)
 {
 	int i=0;
 	for(MetaData& md : _m->v_md) {
-
 		bool already_there;
 
 		already_there = std::any_of(md.genres.cbegin(), md.genres.cend(), [&genre](const QString& g)
@@ -142,7 +141,6 @@ void TagEdit::check_for_new_artists_and_albums(QStringList& new_artists, QString
 
 	// first gather all artists and albums
 	for(const MetaData& md : _m->v_md){
-
 		if(md.is_extern) continue;
 
 		if(!artists.contains(md.artist)){
@@ -192,7 +190,6 @@ void TagEdit::insert_new_albums(const QStringList& albums)
 void TagEdit::apply_artists_and_albums_to_md()
 {
 	for(int i=0; i<_m->v_md.size(); i++){
-
 		if( _m->changed_md[i] == false ) {
 			continue;
 		}
@@ -250,7 +247,6 @@ bool TagEdit::is_id3v2_tag(int idx) const
 
 void TagEdit::run()
 {
-
 	MetaDataList v_md;
 	MetaDataList v_md_orig;
 	DatabaseConnector* db;
@@ -266,7 +262,6 @@ void TagEdit::run()
 	int i=0;
 	int n_operations = _m->v_md.size() + _m->cover_map.size();
 	for(i=0; i<_m->v_md.size(); i++){
-
 		MetaData md = _m->v_md[i];
 		emit sig_progress( (i * 100) / n_operations);
 

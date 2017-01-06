@@ -32,18 +32,18 @@ ID3v2Frame::Discnumber::Discnumber(quint8 disc_, quint8 n_discs_){
 }
 
 
-QString ID3v2Frame::Discnumber::to_string(){
+QString ID3v2Frame::Discnumber::to_string()
+{
 	return QString("TPOS: ") + QString::number(disc) + "/" + QString::number(n_discs);
 }
 
 ID3v2Frame::DiscnumberFrame::DiscnumberFrame(TagLib::FileRef *file_ref) :
-	AbstractFrame<Discnumber, TagLib::ID3v2::TextIdentificationFrame>(file_ref, "TPOS")
-{}
+	AbstractFrame<Discnumber, TagLib::ID3v2::TextIdentificationFrame>(file_ref, "TPOS") {}
 
 ID3v2Frame::DiscnumberFrame::~DiscnumberFrame() {}
 
-void ID3v2Frame::DiscnumberFrame::map_model_to_frame(){
-
+void ID3v2Frame::DiscnumberFrame::map_model_to_frame()
+{
 	QByteArray byte_arr_header, byte_arr_body;
 	TagLib::ByteVector data;
 
@@ -70,7 +70,8 @@ void ID3v2Frame::DiscnumberFrame::map_model_to_frame(){
 	_frame->setData(data);
 }
 
-void ID3v2Frame::DiscnumberFrame::map_frame_to_model(){
+void ID3v2Frame::DiscnumberFrame::map_frame_to_model()
+{
 	TagLib::ByteVector vec = _frame->render();
 	quint32 i, size;
 	quint8 disc, n_discs;
@@ -110,7 +111,8 @@ void ID3v2Frame::DiscnumberFrame::map_frame_to_model(){
 	_data_model.n_discs = n_discs;
 }
 
-TagLib::ID3v2::Frame* ID3v2Frame::DiscnumberFrame::create_id3v2_frame(){
+TagLib::ID3v2::Frame* ID3v2Frame::DiscnumberFrame::create_id3v2_frame()
+{
 	return new TagLib::ID3v2::TextIdentificationFrame(TagLib::ByteVector());
 }
 

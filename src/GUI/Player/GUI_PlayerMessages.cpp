@@ -25,7 +25,6 @@
 GlobalMessage::Answer convert_answer(QMessageBox::StandardButton answer)
 {
 	switch(answer){
-
 		case QMessageBox::Ok:
 			return GlobalMessage::Answer::Ok;
 

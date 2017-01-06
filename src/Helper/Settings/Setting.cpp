@@ -23,12 +23,14 @@
 
 AbstrSetting::AbstrSetting() {}
 
-AbstrSetting::AbstrSetting(const AbstrSetting& other){
+AbstrSetting::AbstrSetting(const AbstrSetting& other)
+{
 	_key = other._key;
 	_db_key = other._db_key;
 }
 
-AbstrSetting::AbstrSetting(SK::SettingKey key, const char* db_key){
+AbstrSetting::AbstrSetting(SK::SettingKey key, const char* db_key)
+{
 	_key = key;
 	_db_key = db_key;
 }

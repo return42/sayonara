@@ -24,7 +24,6 @@
 DBusMediaKeysInterfaceMate::DBusMediaKeysInterfaceMate(QObject *parent) :
 	DBusMediaKeysInterface(parent)
 {
-
 	_media_key_interface = new OrgMateSettingsDaemonMediaKeysInterface(
 				"org.mate.SettingsDaemon",
 				"/org/mate/SettingsDaemon/MediaKeys",
@@ -50,7 +49,6 @@ DBusMediaKeysInterfaceMate::DBusMediaKeysInterfaceMate(QObject *parent) :
 
 
 void DBusMediaKeysInterfaceMate::sl_register_finished(QDBusPendingCallWatcher* watcher){
-
 	if(!_initialized){
 		return;
 	}

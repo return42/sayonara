@@ -84,15 +84,15 @@ void LibraryItem::add_custom_field(const QString& id, const QString& display_nam
 	_additional_data << CustomField(id, display_name, value);
 }
 
-const QList<CustomField>& LibraryItem::get_custom_fields() const {
+const QList<CustomField>& LibraryItem::get_custom_fields() const
+{
 	return _additional_data;
 }
 
 
-QString LibraryItem::get_custom_field(const QString& id) const {
-
+QString LibraryItem::get_custom_field(const QString& id) const
+{
 	for(const CustomField& field : _additional_data){
-
 		if(field.get_id().compare(id, Qt::CaseInsensitive) == 0){
 			return field.get_value();
 		}
@@ -102,7 +102,8 @@ QString LibraryItem::get_custom_field(const QString& id) const {
 }
 
 
-QString LibraryItem::get_custom_field(int idx) const {
+QString LibraryItem::get_custom_field(int idx) const
+{
 	if(idx < 0 || idx >= _additional_data.size()){
 		return "";
 	}

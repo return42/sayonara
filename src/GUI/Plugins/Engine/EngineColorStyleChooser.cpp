@@ -27,7 +27,6 @@ QList<float> borders_4, borders_3, borders_2;
 
 EngineColorStyleChooser::EngineColorStyleChooser(int widget_width, int widget_height)
 {
-
 	borders_4 << 0 << 0.33f  << 0.66f << 1.0f;
 	borders_3 << 0 << 0.50f  << 1.0f;
 	borders_2 << 0 << 1.0f;
@@ -39,7 +38,6 @@ EngineColorStyleChooser::EngineColorStyleChooser(int widget_width, int widget_he
 
 void EngineColorStyleChooser::
 create_colorstyle(ColorStyle &style, const ColorList &clist_active, int n_rects, int n_fading_steps) {
-
     style.style.clear();
 
 		QHash<int, QColor> map_col_active;
@@ -55,7 +53,6 @@ create_colorstyle(ColorStyle &style, const ColorList &clist_active, int n_rects,
 
         // run through rect
         for(int idx_rect=0; idx_rect < n_rects; idx_rect++) {
-
             QColor col_active = map_col_active.value(idx_rect);
 
             // fadeout
@@ -79,7 +76,6 @@ create_colorstyle(ColorStyle &style, const ColorList &clist_active, int n_rects,
 
 
 void EngineColorStyleChooser::insertColorOfRect(int bin, int n_bins, const ColorList& colorlist, QHash<int, QColor>& map) {
-
 	QColor col;
 	QList<float> borders;
 
@@ -134,7 +130,6 @@ void EngineColorStyleChooser::insertColorOfRect(int bin, int n_bins, const Color
 // scheme_fading_rect_color[r]: get access to the rect j in fading scheme i
 // scheme_fading_rect_color[r][c]: get access to the c-th color of rect j in fading scheme i
 ColorStyle EngineColorStyleChooser::get_color_scheme_spectrum(int i) {
-
 	i = std::max(i, 0);
 	i = std::min(_styles_spectrum.size() -1, i);
 
@@ -142,7 +137,6 @@ ColorStyle EngineColorStyleChooser::get_color_scheme_spectrum(int i) {
 }
 
 ColorStyle EngineColorStyleChooser::get_color_scheme_level(int i) {
-
 	i = std::max(i, 0);
 	i = std::min(_styles_level.size() -1, i);
 
@@ -150,20 +144,19 @@ ColorStyle EngineColorStyleChooser::get_color_scheme_level(int i) {
 }
 
 
-int EngineColorStyleChooser::get_num_color_schemes() {
+int EngineColorStyleChooser::get_num_color_schemes()
+{
     return _styles_spectrum.size();
 }
 
 
 void EngineColorStyleChooser::reload(int widget_width, int widget_height) {
-
 	QList< RawColorStyle > colors_active = DatabaseConnector::getInstance()->get_raw_color_styles();
 
     _styles_spectrum.clear();
     _styles_level.clear();
 
     if(colors_active.size() == 0) {
-
         RawColorStyle fallback1, fallback2;
 
         fallback1.col_list.colors << QColor(0, 216, 0)  << QColor(216, 216, 0) << QColor(216, 0, 0) << QColor(216, 0, 0);;

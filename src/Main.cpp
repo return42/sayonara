@@ -57,7 +57,6 @@
 #endif
 
 int check_for_another_instance(qint64 own_pid) {
-
 #ifdef Q_OS_LINUX
 
 	QDir dir("/proc");
@@ -96,11 +95,9 @@ int check_for_another_instance(qint64 own_pid) {
 
 
 void notify_old_instance(const QStringList& files_to_play, int pid){
-
 	QSharedMemory memory("SayonaraMemory");
 
 	if(!files_to_play.isEmpty()){
-
 		QString filename = files_to_play[0] + "\n";
 		QByteArray arr = filename.toUtf8();
 
@@ -135,7 +132,8 @@ void notify_old_instance(const QStringList& files_to_play, int pid){
 }
 
 #ifdef Q_OS_WIN
-void init_gio(){
+void init_gio()
+{
 	QString gio_path = Helper::File::clean_filename(QApplication::applicationDirPath()) + QDir::separator() + "gio-modules";
 	QString gst_plugin_path = Helper::File::clean_filename(QApplication::applicationDirPath()) + QDir::separator() + "gstreamer-1.0/";
 
@@ -151,7 +149,6 @@ void init_gio(){
 
 
 void segfault_handler(int sig){
-
 	Q_UNUSED(sig)
 
 #ifdef Q_OS_LINUX
@@ -169,7 +166,6 @@ void segfault_handler(int sig){
 
 
 int main(int argc, char *argv[]) {
-
 	Application app(argc, argv);
 
 	QTranslator translator;

@@ -43,7 +43,6 @@ bool SearchSlider::event(QEvent *e)
 	int delta_val = 5;
 
 	switch(e->type()){
-
 		case QEvent::Wheel:
 
 			if(!this->isEnabled()) {
@@ -87,7 +86,6 @@ void SearchSlider::mousePressEvent(QMouseEvent* e)
 
 void SearchSlider::mouseReleaseEvent(QMouseEvent* e)
 {
-
 	SayonaraSlider::mouseReleaseEvent(e);
 	emit_new_val(this->value());
 }

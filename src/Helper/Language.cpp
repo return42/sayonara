@@ -22,8 +22,7 @@
 #include "Helper.h"
 
 LanguageString::LanguageString(const QString& str) :
-	QString(str)
-{}
+	QString(str) {}
 
 LanguageString LanguageString::toFirstUpper() const
 {

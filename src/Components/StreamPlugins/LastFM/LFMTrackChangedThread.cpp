@@ -87,7 +87,6 @@ void LFMTrackChangedThread::set_username(const QString& username) {
 
 
 void LFMTrackChangedThread::update_now_playing(const MetaData& md) {
-
 	_m->md = md;
 
 	LFMWebAccess* lfm_wa = new LFMWebAccess();
@@ -140,7 +139,6 @@ void LFMTrackChangedThread::error_update(const QString& error){
 
 
 void LFMTrackChangedThread::search_similar_artists(const MetaData& md) {
-
 	if(md.db_id != 0) {
 		return;
 	}
@@ -181,7 +179,6 @@ void LFMTrackChangedThread::search_similar_artists(const MetaData& md) {
 
 
 void LFMTrackChangedThread::evaluate_artist_match(const ArtistMatch& artist_match){
-
 	if(!artist_match.is_valid()){
 		return;
 	}
@@ -211,7 +208,6 @@ void LFMTrackChangedThread::evaluate_artist_match(const ArtistMatch& artist_matc
 	QMap<QString, int> possible_artists;
 
 	while(possible_artists.isEmpty()) {
-
 		possible_artists = filter_available_artists(artist_match, quality);
 
 		switch(quality){
@@ -248,20 +244,17 @@ void LFMTrackChangedThread::evaluate_artist_match(const ArtistMatch& artist_matc
 
 
 QMap<QString, int> LFMTrackChangedThread::filter_available_artists(const ArtistMatch& artist_match, ArtistMatch::Quality quality) {
-
 	DatabaseConnector* db = DatabaseConnector::getInstance();
 	QMap<ArtistMatch::ArtistDesc, double> bin = artist_match.get(quality);
 	QMap<QString, int> possible_artists;
 
 	for(const ArtistMatch::ArtistDesc& key : bin.keys()) {
-
 #if SMART_COMPARE
 
 		QMap<QString, float> sc_map = _smart_comparison->get_similar_strings(key);
 		for(const QString& sc_key : sc_map.keys() ){
 			int artist_id = db->getArtistID(sc_key);
 			if(artist_id >= 0 && sc_map[sc_key] > 5.0f){
-
 				possible_artists[sc_key] = artist_id;
 			}
 
@@ -270,7 +263,6 @@ QMap<QString, int> LFMTrackChangedThread::filter_available_artists(const ArtistM
 #else
 		int artist_id = db->getArtistID(key.artist_name);
 		if(artist_id >= 0 ){
-
 			possible_artists[key.artist_name] = artist_id;
 		}
 
@@ -282,7 +274,6 @@ QMap<QString, int> LFMTrackChangedThread::filter_available_artists(const ArtistM
 
 
 void LFMTrackChangedThread::response_sim_artists(const QByteArray& data){
-
 	LFMSimArtistsParser parser(_m->artist, data);
 
 	ArtistMatch artist_match = parser.get_artist_match();

@@ -26,8 +26,7 @@
 #include "Interfaces/Notification/NotificationHandler.h"
 
 GUI_Notifications::GUI_Notifications(QWidget *parent) :
-	PreferenceWidgetInterface(parent)
-{}
+	PreferenceWidgetInterface(parent) {}
 
 GUI_Notifications::~GUI_Notifications()
 {
@@ -37,8 +36,8 @@ GUI_Notifications::~GUI_Notifications()
 	}
 }
 
-void GUI_Notifications::language_changed(){
-
+void GUI_Notifications::language_changed()
+{
 	translate_action();
 
 	if(!is_ui_initialized()){
@@ -51,8 +50,8 @@ void GUI_Notifications::language_changed(){
 }
 
 
-void GUI_Notifications::notifications_changed(){
-
+void GUI_Notifications::notifications_changed()
+{
 	NotificatonList notifications = _notification_handler->get_notificators();
 
 	ui->combo_notification->clear();
@@ -65,8 +64,8 @@ void GUI_Notifications::notifications_changed(){
 }
 
 
-void GUI_Notifications::commit() {
-
+void GUI_Notifications::commit()
+{
 	bool active =       ui->cb_activate->isChecked();
 	int timeout =       ui->sb_timeout->value();
 	QString cur_text =  ui->combo_notification->currentText();
@@ -78,8 +77,8 @@ void GUI_Notifications::commit() {
 	_notification_handler->notificator_changed(cur_text);
 }
 
-void GUI_Notifications::revert() {
-
+void GUI_Notifications::revert()
+{
 	int timeout = _settings->get(Set::Notification_Timeout);
 	int active = _settings->get(Set::Notification_Show);
 

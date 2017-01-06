@@ -35,12 +35,11 @@ GUI_Shutdown::GUI_Shutdown(QWidget* parent):
 	connect(rb_after_minutes, &QRadioButton::clicked, this, &GUI_Shutdown::rb_after_minutes_clicked);
 }
 
-GUI_Shutdown::~GUI_Shutdown()
-{}
+GUI_Shutdown::~GUI_Shutdown() {}
 
 
-void GUI_Shutdown::ok_clicked(){
-
+void GUI_Shutdown::ok_clicked()
+{
 	if(sb_minutes->isEnabled()){
 		quint64 msec = sb_minutes->value() * 60 * 1000;
 		Shutdown::getInstance()->shutdown(msec);
@@ -55,7 +54,8 @@ void GUI_Shutdown::ok_clicked(){
 	emit sig_closed();
 }
 
-void GUI_Shutdown::cancel_clicked(){
+void GUI_Shutdown::cancel_clicked()
+{
 	close();
 	emit sig_closed();
 }

@@ -26,7 +26,6 @@
 
 AlbumInfo::AlbumInfo(const MetaDataList& v_md) :
 	MetaDataInfo(v_md){
-
 	QString str_sampler;
 
 	// clear, because it's from Metadata. We are not interested in
@@ -42,7 +41,6 @@ AlbumInfo::AlbumInfo(const MetaDataList& v_md) :
 	}
 
 	if(_albums.size() == 1){
-
 		Album album;
 		bool success;
 
@@ -63,7 +61,6 @@ AlbumInfo::AlbumInfo(const MetaDataList& v_md) :
 			// custom fields
 			const QList<CustomField>& custom_fields = album.get_custom_fields();
 			for(const CustomField& field : custom_fields){
-
 				QString name = field.get_display_name();
 				QString value = field.get_value();
 				if(value.isEmpty()){
@@ -82,11 +79,13 @@ AlbumInfo::AlbumInfo(const MetaDataList& v_md) :
 
 AlbumInfo::~AlbumInfo() {}
 
-void AlbumInfo::set_header(){
+void AlbumInfo::set_header()
+{
 	_header = calc_album_str();
 }
 
-void AlbumInfo::set_subheader(){
+void AlbumInfo::set_subheader()
+{
 	_subheader = Lang::get(Lang::By).toLower() + " " + calc_artist_str();
 }
 

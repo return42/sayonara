@@ -37,12 +37,18 @@ Playlist::Mode::set_state(bool active, bool enabled)
 	return (Playlist::Mode::State) ret;
 }
 
-Playlist::Mode::State Playlist::Mode::rep1() const { return _rep1; }
-Playlist::Mode::State Playlist::Mode::repAll() const { return _repAll; }
-Playlist::Mode::State Playlist::Mode::append() const { return _append; }
-Playlist::Mode::State Playlist::Mode::shuffle() const { return _shuffle; }
-Playlist::Mode::State Playlist::Mode::dynamic() const { return _dynamic; }
-Playlist::Mode::State Playlist::Mode::gapless() const { return _gapless; }
+Playlist::Mode::State Playlist::Mode::rep1() const
+{ return _rep1; }
+Playlist::Mode::State Playlist::Mode::repAll() const
+{ return _repAll; }
+Playlist::Mode::State Playlist::Mode::append() const
+{ return _append; }
+Playlist::Mode::State Playlist::Mode::shuffle() const
+{ return _shuffle; }
+Playlist::Mode::State Playlist::Mode::dynamic() const
+{ return _dynamic; }
+Playlist::Mode::State Playlist::Mode::gapless() const
+{ return _gapless; }
 
 void Playlist::Mode::setRep1(Playlist::Mode::State state){ _rep1 = state; }
 void Playlist::Mode::setRepAll(Playlist::Mode::State state){ _repAll = state; }
@@ -74,7 +80,8 @@ bool Playlist::Mode::isActiveAndEnabled(Playlist::Mode::State pl)
 	return (isEnabled(pl) && isActive(pl));
 }
 
-Playlist::Mode::Mode(){
+Playlist::Mode::Mode()
+{
 	_rep1 = Playlist::Mode::Off;
 	_repAll = Playlist::Mode::On;
 	_append = Playlist::Mode::Off;
@@ -95,7 +102,8 @@ void Playlist::Mode::print()
 		<< "gapless = " << (int) _gapless;
 }
 
-QString Playlist::Mode::toString() const {
+QString Playlist::Mode::toString() const
+{
 	QString str;
 	str += QString::number((int) _append)  + QString(",");
 	str += QString::number((int) _repAll)  + QString(",");
@@ -109,7 +117,6 @@ QString Playlist::Mode::toString() const {
 }
 
 Playlist::Mode Playlist::Mode::fromString(const QString& str){
-
 	Playlist::Mode plm;
 	QStringList list = str.split(',');
 
@@ -128,8 +135,8 @@ Playlist::Mode Playlist::Mode::fromString(const QString& str){
 	return plm;
 }
 
-bool Playlist::Mode::operator==(const Playlist::Mode& pm) const {
-
+bool Playlist::Mode::operator==(const Playlist::Mode& pm) const
+{
 	if(pm.append() != _append) return false;
 	if(pm.repAll() != _repAll) return false;
 	if(pm.rep1() != _rep1) return false;

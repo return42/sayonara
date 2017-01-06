@@ -114,7 +114,6 @@ void GUI_DateSearchConfig::commit()
 
 	switch(ui->comboBox->currentIndex())
 	{
-
 		case 0:
 		{
 			Library::DateFilter::TimeSpan time_span;

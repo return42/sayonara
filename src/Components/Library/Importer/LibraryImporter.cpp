@@ -53,14 +53,14 @@ LibraryImporter::LibraryImporter(QObject* parent) :
 LibraryImporter::~LibraryImporter() {}
 
 void LibraryImporter::import_files(const QStringList& files) {
-
 	emit_status(ImportStatus::Caching);
 
 	CachingThread* thread = new CachingThread(files);
 
 	connect(thread, &CachingThread::finished, this, &LibraryImporter::caching_thread_finished);
 	connect(thread, &CachingThread::sig_progress, this, &LibraryImporter::sig_progress);
-	connect(thread, &CachingThread::destroyed, [=](){
+	connect(thread, &CachingThread::destroyed, [=]()
+{
 		_cache_thread = nullptr;
 	});
 
@@ -70,8 +70,8 @@ void LibraryImporter::import_files(const QStringList& files) {
 
 
 // preload thread has cached everything, but ok button has not been clicked yet
-void LibraryImporter::caching_thread_finished() {
-
+void LibraryImporter::caching_thread_finished()
+{
 	CachingThread* thread = static_cast<CachingThread*>(sender());
 	MetaDataList v_md ;
 
@@ -95,14 +95,14 @@ void LibraryImporter::caching_thread_finished() {
 
 // fired if ok was clicked in dialog
 void  LibraryImporter::accept_import(const QString& target_dir) {
-
 	emit_status(ImportStatus::Importing);
 
 	CopyThread* copy_thread = new CopyThread(target_dir, _import_cache, this);
 
 	connect(copy_thread, &CopyThread::sig_progress, this, &LibraryImporter::sig_progress);
 	connect(copy_thread, &CopyThread::finished, this, &LibraryImporter::copy_thread_finished);
-	connect(copy_thread, &CachingThread::destroyed, [=](){
+	connect(copy_thread, &CachingThread::destroyed, [=]()
+{
 		_copy_thread = nullptr;
 	});
 
@@ -111,8 +111,8 @@ void  LibraryImporter::accept_import(const QString& target_dir) {
 }
 
 
-void LibraryImporter::copy_thread_finished() {
-
+void LibraryImporter::copy_thread_finished()
+{
 	CopyThread* copy_thread = static_cast<CopyThread*>(sender());
 
 	MetaDataList v_md = copy_thread->get_copied_metadata();
@@ -129,7 +129,6 @@ void LibraryImporter::copy_thread_finished() {
 	// copy was cancelled
 	sp_log(Log::Debug) << "Copy folder thread finished " << _copy_thread->was_cancelled();
 	if(copy_thread->was_cancelled()) {
-
 		copy_thread->set_mode(CopyThread::Mode::Rollback);
 		copy_thread->start();
 
@@ -144,7 +143,6 @@ void LibraryImporter::copy_thread_finished() {
 
 	// error and success messages
 	if(success) {
-
 		_db->clean_up();
 
 		QString str = "";
@@ -186,8 +184,8 @@ void LibraryImporter::metadata_changed(const MetaDataList& old_md, const MetaDat
 
 
 // fired if cancel button was clicked in dialog
-void LibraryImporter::cancel_import() {
-
+void LibraryImporter::cancel_import()
+{
 	emit_status(ImportStatus::Cancelled);
 
 	if(_cache_thread && _cache_thread->isRunning()){
@@ -205,6 +203,7 @@ void LibraryImporter::emit_status(LibraryImporter::ImportStatus status)
 	emit sig_status_changed(_status);
 }
 
-LibraryImporter::ImportStatus LibraryImporter::get_status() const{
+LibraryImporter::ImportStatus LibraryImporter::get_status() const
+{
 	return _status;
 }

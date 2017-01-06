@@ -145,7 +145,6 @@ QDrag* Dragable::drag_moving(const QPoint& p)
 	int pm_width = logo_height + 4;
 
 	for(const QString& str : strings){
-
 		pm_width = std::max( pm_width, fm.width(str) );
 	}
 

@@ -45,7 +45,6 @@ LibraryPluginHandler::~LibraryPluginHandler() {}
 
 void LibraryPluginHandler::init(const QList<LibraryContainerInterface*>& containers)
 {
-
 	QString lib_dir;
 	QDir plugin_dir;
 	QStringList dll_filenames;
@@ -58,7 +57,6 @@ void LibraryPluginHandler::init(const QList<LibraryContainerInterface*>& contain
 
 
 	for(LibraryContainerInterface* container : containers){
-
 		if(!container){
 			continue;
 		}
@@ -69,7 +67,6 @@ void LibraryPluginHandler::init(const QList<LibraryContainerInterface*>& contain
 	}
 
 	for(const QString& filename : dll_filenames) {
-
 		QObject* raw_plugin;
 		LibraryContainerInterface* container;
 
@@ -96,7 +93,6 @@ void LibraryPluginHandler::init(const QList<LibraryContainerInterface*>& contain
 
 	int i=0;
 	for(LibraryContainerInterface* container : _libraries ){
-
 		if(cur_plugin == container->get_name()){
 			_cur_idx = i;
 			init_library(i);
@@ -148,15 +144,12 @@ void LibraryPluginHandler::init_library(int idx)
 
 
 void LibraryPluginHandler::index_changed(int idx){
-
 	_cur_idx = idx;
 
 	init_library(_cur_idx);
 
 	int i=0;
 	for(LibraryContainerInterface* container : _libraries){
-
-
 		if(!container->is_initialized()){
 			i++;
 			continue;
@@ -196,7 +189,8 @@ void LibraryPluginHandler::index_changed(int idx){
 	emit sig_idx_changed(idx);
 }
 
-LibraryContainerInterface* LibraryPluginHandler::get_cur_library() const {
+LibraryContainerInterface* LibraryPluginHandler::get_cur_library() const
+{
 	if(!between(_cur_idx, _libraries)) {
 		return nullptr;
 	}
@@ -220,10 +214,9 @@ void LibraryPluginHandler::set_library_parent(QWidget* parent)
 	}
 }
 
-void LibraryPluginHandler::language_changed(){
-
+void LibraryPluginHandler::language_changed()
+{
 	for(LibraryContainerInterface* container : _libraries){
-
 		if(!container->is_initialized()){
 			continue;
 		}
@@ -239,7 +232,8 @@ void LibraryPluginHandler::language_changed(){
 }
 
 
-QList<LibraryContainerInterface*> LibraryPluginHandler::get_libraries() const {
+QList<LibraryContainerInterface*> LibraryPluginHandler::get_libraries() const
+{
 	return _libraries;
 }
 

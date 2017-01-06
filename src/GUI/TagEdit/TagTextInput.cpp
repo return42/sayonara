@@ -56,7 +56,6 @@ void TagTextInput::init_context_menu()
 }
 
 void TagTextInput::contextMenuEvent(QContextMenuEvent* event){
-
 	QPoint pos = event->pos();
 
 	pos.setX(QCursor::pos().x());	
@@ -64,19 +63,22 @@ void TagTextInput::contextMenuEvent(QContextMenuEvent* event){
 	_context_menu->exec(pos);
 }
 
-void TagTextInput::cvt_to_first_upper(){
+void TagTextInput::cvt_to_first_upper()
+{
 	QString text = this->text();
 	text = Helper::cvt_str_to_first_upper(text);
 	this->setText(text);
 }
 
-void TagTextInput::cvt_to_very_first_upper(){
+void TagTextInput::cvt_to_very_first_upper()
+{
 	QString text = this->text();
 	text = Helper::cvt_str_to_very_first_upper(text);
 	this->setText(text);
 }
 
-void TagTextInput::language_changed(){
+void TagTextInput::language_changed()
+{
 	_action_cvt_to_very_first_upper->setText(tr("Very first letter to upper case"));
 	_action_cvt_to_first_upper->setText(tr("First letters to upper case"));
 }

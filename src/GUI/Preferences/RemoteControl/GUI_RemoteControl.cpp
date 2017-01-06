@@ -30,8 +30,7 @@
 
 
 GUI_RemoteControl::GUI_RemoteControl(QWidget* parent) :
-	PreferenceWidgetInterface(parent)
-{}
+	PreferenceWidgetInterface(parent) {}
 
 GUI_RemoteControl::~GUI_RemoteControl()
 {
@@ -52,8 +51,8 @@ void GUI_RemoteControl::init_ui()
 }
 
 
-void GUI_RemoteControl::language_changed() {
-
+void GUI_RemoteControl::language_changed()
+{
 	translate_action();
 
 	if(!is_ui_initialized()){

@@ -64,7 +64,6 @@ void GUI_FontConfig::init_ui()
 
 
 void GUI_FontConfig::combo_fonts_changed(const QFont& font){
-
 	_cur_font_size = ui->combo_sizes->currentText().toInt();
 
 	QStringList sizes = get_available_font_sizes(font);
@@ -155,8 +154,8 @@ void GUI_FontConfig::commit()
 	_cur_font_size = font_size;
 }
 
-void GUI_FontConfig::revert(){
-
+void GUI_FontConfig::revert()
+{
 	QString cur_family = _settings->get(Set::Player_FontName);
 	int cur_font_size = _settings->get(Set::Player_FontSize);
 	int cur_pl_font_size = _settings->get(Set::PL_FontSize);
@@ -229,5 +228,4 @@ void GUI_FontConfig::language_changed()
 	PreferenceWidgetInterface::language_changed();
 }
 
-void GUI_FontConfig::skin_changed()
-{}
+void GUI_FontConfig::skin_changed() {}

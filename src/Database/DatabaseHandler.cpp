@@ -53,7 +53,6 @@ void DB::add(LibraryDatabase *db){
 }
 
 LibraryDatabase* DB::get(quint8 db_id){
-
 	if(_dbs.size() == 0){
 		sp_log(Log::Warning) << "There are no Databases available";
 		return get_std();
@@ -90,6 +89,7 @@ LibraryDatabase* DB::get(const Artist& artist){
 	return get(artist.db_id);
 }
 
-LibraryDatabase* DB::get_std(){
+LibraryDatabase* DB::get_std()
+{
 	return DatabaseConnector::getInstance();
 }

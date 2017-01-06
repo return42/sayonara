@@ -31,7 +31,6 @@ using namespace std;
 
 SmartCompare::SmartCompare()
 {
-
 	_vocals << 'a' << 'e' << 'i' << 'o' << 'u';
 	_consonants << 'b' << 'c' << 'd' << 'f' <<
 				   'g' << 'h' << 'j' << 'k' <<
@@ -58,7 +57,6 @@ SmartCompare::SmartCompare(const ArtistList &artist_list) :
 }
 
 QString revert_string(const QString& str){
-
 	QString ret = "";
 	if(str.size() == 0) return "";
 
@@ -71,7 +69,6 @@ QString revert_string(const QString& str){
 
 
 float SmartCompare::compare_hashes(const Hash& str1, const Hash& str2, HashLevel level, bool reverse){
-
 	Q_UNUSED(level)
 	QString s1 = str1.hash;
 	QString s2 = str2.hash;
@@ -107,7 +104,6 @@ float SmartCompare::compare_hashes(const Hash& str1, const Hash& str2, HashLevel
 	QMap<int, int> pairs;
 
 	while(true){
-
 		QChar ncl = s1.at(idx1);
 		bool found = false;
 		int wrong2letters=0;
@@ -196,7 +192,6 @@ float SmartCompare::compare_hashes(const Hash& str1, const Hash& str2, HashLevel
 
 
 float SmartCompare::compare(const QString& str1, const QString& str2, HashLevel level, bool revert){
-
 	Hash hash1 = create_hash(str1, level);
 	Hash hash2 = create_hash(str2, level);
 
@@ -209,7 +204,6 @@ float SmartCompare::compare(const QString& str1, const QString& str2, HashLevel 
 }
 
 Hash SmartCompare::create_hash(const QString& str, HashLevel level){
-
 	Hash hash;
 
 	hash.org_str = str;
@@ -237,7 +231,6 @@ Hash SmartCompare::create_hash(const QString& str, HashLevel level){
 
 
 void SmartCompare::equalize(QMap<QString, float>& map, float min, float max){
-
 	float stretch = 1.0f / (max - min);
 	QStringList to_remove;
 
@@ -260,7 +253,6 @@ void SmartCompare::equalize(QMap<QString, float>& map, float min, float max){
 }
 
 QMap<QString, float> SmartCompare::get_similar_strings( const QString& str){
-
 	HashLevel level = HashLevel::zero;
 	if(_cache.contains(str)){
 		return _cache[str];
@@ -269,14 +261,12 @@ QMap<QString, float> SmartCompare::get_similar_strings( const QString& str){
 	bool reverse = false;
 
 	while(true){
-
 		float max = std::numeric_limits<float>::min();
 		float min = std::numeric_limits<float>::max();
 
 		QMap<QString, float> map;
 
 		for(const QString& tmp_str : _strlist){
-
 			float similarity = compare(tmp_str, str, level, false);
 			similarity = std::max(similarity, compare(tmp_str, str, level, true));
 
@@ -317,7 +307,6 @@ QMap<QString, float> SmartCompare::get_similar_strings( const QString& str){
 }
 
 QString SmartCompare::remove_special_chars(const QString& str){
-
 	QString ret = str;
 
 	for(const QChar& c : ret){
@@ -332,7 +321,6 @@ QString SmartCompare::remove_special_chars(const QString& str){
 }
 
 QString SmartCompare::remove_vocals(const QString& str){
-
 	QString ret = str;
 	for(const QString& vocal :_vocals){
 		ret.remove(vocal);
@@ -342,14 +330,12 @@ QString SmartCompare::remove_vocals(const QString& str){
 }
 
 QString SmartCompare::sort_letters(const QString& str){
-
 	QString ret = "";
 	QMap<QChar, int> cons_count;
 	QMap<QChar, int> vocal_count;
 	QMap<QChar, int> number_count;
 
 	for(const QChar& c : str){
-
 		if(_vocals.contains(c)){
 			if( vocal_count.contains(c) ){
 				int count = vocal_count.value(c);
@@ -415,6 +401,7 @@ QString SmartCompare::sort_letters(const QString& str){
 }
 
 
-void Hash::print() const{
+void Hash::print() const
+{
 	sp_log(Log::Info) << org_str << " -> " << hash << ": " << penalty;
 }

@@ -83,7 +83,6 @@ void CopyThread::copy()
 	QStringList files = _m->cache.get_files();
 
 	for(const QString& filename : files){
-
 		if(_m->cancelled){
 			return;
 		}

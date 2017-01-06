@@ -57,12 +57,14 @@ class SettingNotifier : public AbstrSettingNotifier {
 	public:
 		virtual ~SettingNotifier() {}
 
-		static SettingNotifier< T >* getInstance(){
+		static SettingNotifier< T >* getInstance()
+{
 			static SettingNotifier< T > inst;
 			return &inst;
 		}
 
-		void val_changed(){
+		void val_changed()
+{
 			emit sig_value_changed();
 		}
 };

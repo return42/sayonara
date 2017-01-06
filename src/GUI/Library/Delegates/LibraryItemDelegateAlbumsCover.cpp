@@ -21,5 +21,4 @@
 #include "LibraryItemDelegateAlbumsCover.h"
 
 LibraryItemDelegateAlbumsCover::LibraryItemDelegateAlbumsCover(QObject *parent) :
-	QStyledItemDelegate(parent)
-{}
+	QStyledItemDelegate(parent) {}

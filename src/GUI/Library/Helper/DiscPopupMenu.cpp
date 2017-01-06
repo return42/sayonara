@@ -31,7 +31,8 @@ DiscAction::DiscAction(QWidget* parent, const QIcon& icon) :
 
 DiscAction::~DiscAction() {}
 
-void DiscAction::disc_hover(){
+void DiscAction::disc_hover()
+{
 	bool ok = false;
 	int discnumber = data().toInt(&ok);
 	if(ok){
@@ -41,7 +42,6 @@ void DiscAction::disc_hover(){
 
 
 DiscPopupMenu::DiscPopupMenu(QWidget* parent, QList<quint8> discs): QMenu(parent){
-
 	std::sort(discs.begin(), discs.end(), [](quint8 disc1, quint8 disc2){
 		return disc1 < disc2;
 	});

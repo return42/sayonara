@@ -128,8 +128,8 @@ void GUI_StreamRecorder::commit()
     _path = str;
 }
 
-void GUI_StreamRecorder::revert(){
-
+void GUI_StreamRecorder::revert()
+{
 	_path = _settings->get(Set::Engine_SR_Path);
 	_is_active = _settings->get(Set::Engine_SR_Active);
 	_is_create_session_path = _settings->get(Set::Engine_SR_SessionPath);

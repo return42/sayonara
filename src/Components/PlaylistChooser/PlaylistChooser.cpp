@@ -25,8 +25,8 @@
 
 #include "Helper/Logger/Logger.h"
 
-PlaylistChooser::PlaylistChooser() {
-
+PlaylistChooser::PlaylistChooser()
+{
 	_playlist_handler = PlaylistHandler::getInstance();
 
 	_playlist_db_connector = PlaylistDBWrapper::getInstance();
@@ -37,8 +37,8 @@ PlaylistChooser::PlaylistChooser() {
 
 PlaylistChooser::~PlaylistChooser() {}
 
-void PlaylistChooser::load_all_playlists() {
-
+void PlaylistChooser::load_all_playlists()
+{
 	bool success;
 
 	_skeletons.clear();
@@ -50,13 +50,11 @@ void PlaylistChooser::load_all_playlists() {
 }
 
 CustomPlaylist PlaylistChooser::find_custom_playlist(int id){
-
 	CustomPlaylist pl = _playlist_db_connector->get_playlist_by_id(id);
 	return pl;
 }
 
 void PlaylistChooser::load_single_playlist(int id) {
-
 	int idx;
 	if(id < 0) {
 		return;
@@ -73,7 +71,6 @@ void PlaylistChooser::load_single_playlist(int id) {
 
 
 void PlaylistChooser::delete_playlist(int id) {
-
 	bool success = _playlist_db_connector->delete_playlist(id);
 
 	if(!success) {
@@ -103,7 +100,8 @@ void PlaylistChooser::save_playlist_file(const QString& filename, bool relative_
 }
 
 
-void PlaylistChooser::clear_playlist(){
+void PlaylistChooser::clear_playlist()
+{
 	int cur_idx = _playlist_handler->get_current_idx();
 	_playlist_handler->clear_playlist(cur_idx);
 }

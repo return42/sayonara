@@ -22,8 +22,7 @@
 
 GUI_StartupDialog::GUI_StartupDialog(QWidget *parent) :
 	PreferenceWidgetInterface(parent),
-	Ui::GUI_StartupOptions()
-{}
+	Ui::GUI_StartupOptions() {}
 
 GUI_StartupDialog::~GUI_StartupDialog() {}
 
@@ -34,8 +33,8 @@ void GUI_StartupDialog::init_ui()
 	revert();
 }
 
-void GUI_StartupDialog::language_changed() {
-
+void GUI_StartupDialog::language_changed()
+{
 	translate_action();
 
 	if(!is_ui_initialized()){

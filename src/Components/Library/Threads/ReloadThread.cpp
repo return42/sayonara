@@ -55,7 +55,6 @@ ReloadThread::ReloadThread(QObject *parent) :
 	QThread(parent),
 	SayonaraClass()
 {
-
 	_m = Pimpl::make<ReloadThread::Private>();
 	_m->db = DatabaseConnector::getInstance();
 
@@ -110,7 +109,6 @@ int ReloadThread::get_and_save_all_files(const QHash<QString, MetaData>& md_map_
 	int cur_idx_files=0;
 
 	for(const QString& filepath : files){
-
 		bool file_was_read = false;
 		MetaData md(filepath);
 		const MetaData& md_lib = md_map_lib[filepath];
@@ -119,7 +117,6 @@ int ReloadThread::get_and_save_all_files(const QHash<QString, MetaData>& md_map_
 		emit sig_reloading_library(Lang::get(Lang::ReloadLibrary).triplePt(), percent);
 
 		if(md_lib.id >= 0){
-
 			if(_m->quality == Library::ReloadQuality::Fast){
 				continue;
 			}
@@ -173,7 +170,6 @@ QStringList ReloadThread::get_files_recursive(QDir base_dir)
 	sub_dirs = base_dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
 
 	for(const QString& dir : sub_dirs) {
-
 		bool success = base_dir.cd(dir);
 
 		if(!success){
@@ -200,7 +196,6 @@ QStringList ReloadThread::process_sub_files(const QDir& base_dir, const QStringL
 {
 	QStringList lst;
 	for(const QString& filename : sub_files) {
-
 		QString abs_path = base_dir.absoluteFilePath(filename);
 		QFileInfo info(abs_path);
 
@@ -264,7 +259,6 @@ void ReloadThread::run()
 
 	// find orphaned tracks in library && delete them
 	for(const MetaData& md : v_md){
-
 		if(!Helper::File::check_file(md.filepath())) {
 			v_to_delete << std::move(md);
 		}

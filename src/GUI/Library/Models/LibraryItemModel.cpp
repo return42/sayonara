@@ -154,7 +154,8 @@ void LibraryItemModel::set_mimedata(const MetaDataList& v_md)
 }
 
 
-CustomMimeData* LibraryItemModel::get_mimedata(){
+CustomMimeData* LibraryItemModel::get_mimedata()
+{
 	CustomMimeData* mimedata = new CustomMimeData();
 	QList<QUrl> urls;
 

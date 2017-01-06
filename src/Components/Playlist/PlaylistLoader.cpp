@@ -49,7 +49,6 @@ PlaylistLoader::PlaylistLoader(QObject* parent) :
 
 	// we don't load any playlists
 	if(!load_playlists){
-
 		CustomPlaylists playlists;
 		success = _playlist_db_connector->get_temporary_playlists(playlists);
 
@@ -91,7 +90,6 @@ PlaylistLoader::PlaylistLoader(QObject* parent) :
 
 
 	for(int i=0; i<_playlists.size(); i++){
-
 		// we load all temporary playlist
 		bool add_playlist = false;
 		CustomPlaylist pl = _playlists[i];
@@ -111,7 +109,6 @@ PlaylistLoader::PlaylistLoader(QObject* parent) :
 		// but this was the last one
 
 		if(pl.id() == saved_playlist_id){
-
 			if( between(saved_track_idx, pl) )
 			{
 				if(load_last_track){
@@ -167,7 +164,6 @@ int	PlaylistLoader::get_last_playlist_idx() const
 
 int	PlaylistLoader::get_last_track_idx() const
 {
-
 	int n_tracks;
 	if(	_last_playlist_idx < 0 ||
 		_last_playlist_idx >= _playlists.size())
@@ -185,8 +181,8 @@ int	PlaylistLoader::get_last_track_idx() const
 	return _last_track_idx;
 }
 
-int PlaylistLoader::create_playlists(){
-
+int PlaylistLoader::create_playlists()
+{
 	PlaylistHandler* plh = PlaylistHandler::getInstance();
 
 	// no playlists found
@@ -197,7 +193,6 @@ int PlaylistLoader::create_playlists(){
 	}
 
 	else {
-
 		// add playlists
 		for(const CustomPlaylist& pl : _playlists){
 			plh->create_playlist(pl);

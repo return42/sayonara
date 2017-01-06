@@ -53,8 +53,8 @@ GUI_LibraryInfoBox::GUI_LibraryInfoBox(QWidget* parent) :
 
 GUI_LibraryInfoBox::~GUI_LibraryInfoBox() {}
 
-void GUI_LibraryInfoBox::language_changed() {
-
+void GUI_LibraryInfoBox::language_changed()
+{
 	retranslateUi(this);
 }
 
@@ -71,8 +71,8 @@ void GUI_LibraryInfoBox::skin_changed()
 }
 
 
-void GUI_LibraryInfoBox::psl_refresh() {
-
+void GUI_LibraryInfoBox::psl_refresh()
+{
     MetaDataList v_md;
 	AlbumList v_albums;
 	ArtistList v_artists;

@@ -205,7 +205,6 @@ void GUI_PlaylistChooser::load_button_pressed()
 
 	QString lab_text;
 	for(const QString& filename : filelist) {
-
 		int last_index_of_sep = filename.lastIndexOf(QDir::separator());
         _last_dir = filename.left(last_index_of_sep);
 

@@ -53,8 +53,8 @@ StreamWriter::StreamWriter(QTcpSocket* socket, const QString& ip, const MetaData
 	connect(socket, &QTcpSocket::readyRead, this, &StreamWriter::data_available);
 }
 
-StreamWriter::~StreamWriter(){
-
+StreamWriter::~StreamWriter()
+{
 	_engine->unregister_raw_sound_receiver(this);
 
 	if(_parser){
@@ -73,8 +73,8 @@ QString StreamWriter::get_ip() const
 }
 
 
-StreamHttpParser::HttpAnswer StreamWriter::parse_message(){
-
+StreamHttpParser::HttpAnswer StreamWriter::parse_message()
+{
 	StreamHttpParser::HttpAnswer status;
 	status = _parser->parse(_socket->readAll());
 
@@ -84,7 +84,6 @@ StreamHttpParser::HttpAnswer StreamWriter::parse_message(){
 }
 
 void StreamWriter::new_audio_data(const uchar* data, quint64 size){
-
 	if(!_send_data) {
 		return;
 	}
@@ -103,25 +102,28 @@ void StreamWriter::new_audio_data(const uchar* data, quint64 size){
 	}
 }
 
-bool StreamWriter::send_playlist(){
+bool StreamWriter::send_playlist()
+{
 	return _sender->send_playlist(_parser->get_host(), _socket->localPort());
 }
 
-bool StreamWriter::send_favicon(){
+bool StreamWriter::send_favicon()
+{
 	return _sender->send_favicon();
 }
 
-bool StreamWriter::send_metadata(){
-
+bool StreamWriter::send_metadata()
+{
 	return _sender->send_metadata(_stream_title);
 }
 
-bool StreamWriter::send_bg(){
+bool StreamWriter::send_bg()
+{
 	return _sender->send_bg();
 }
 
-bool StreamWriter::send_html5(){
-
+bool StreamWriter::send_html5()
+{
 	return _sender->send_html5(_stream_title);
 }
 
@@ -134,14 +136,15 @@ void StreamWriter::change_track(const MetaData& md){
 	_stream_title = md.title + " by " + md.artist;
 }
 
-void StreamWriter::dismiss(){
-
+void StreamWriter::dismiss()
+{
 	_engine->unregister_raw_sound_receiver(this);
 	_dismissed = true;
 }
 
 
-void StreamWriter::disconnect(){
+void StreamWriter::disconnect()
+{
 	
 	dismiss();
 	
@@ -149,15 +152,15 @@ void StreamWriter::disconnect(){
 }
 
 
-void StreamWriter::socket_disconnected(){
-
+void StreamWriter::socket_disconnected()
+{
 	_engine->unregister_raw_sound_receiver(this);
 	emit sig_disconnected(this);
 }
 
 
-void StreamWriter::data_available(){
-
+void StreamWriter::data_available()
+{
 	StreamHttpParser::HttpAnswer answer = parse_message();
 	QString ip = get_ip();
 	bool success;
@@ -165,7 +168,6 @@ void StreamWriter::data_available(){
 	_type = StreamWriter::Type::Standard;
 
 	switch(answer){
-
 		case StreamHttpParser::HttpAnswer::Fail:
 		case StreamHttpParser::HttpAnswer::Reject:
 

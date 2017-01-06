@@ -170,9 +170,7 @@ void GUI_Player::about()
 	}
 
 	if(_translators.size() > 2) {
-
 		for (int i=0; i<_translators.size() - 1; i++) {
-
 			first_translators += "<b>" + _translators[i] + "</b>";
 			if(i < _translators.size() - 2) first_translators += ", ";
         }

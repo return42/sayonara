@@ -121,7 +121,6 @@ void GUI_SomaFM::station_double_clicked(const QModelIndex& idx)
 }
 
 void GUI_SomaFM::selection_changed(const QModelIndexList& indexes){
-
 	if(indexes.isEmpty()){
 		return;
 	}
@@ -162,7 +161,6 @@ void GUI_SomaFM::station_clicked(const QModelIndex &idx){
 }
 
 void GUI_SomaFM::station_index_changed(const QModelIndex& idx){
-
 	if(!idx.isValid()){
 		return;
 	}
@@ -189,7 +187,6 @@ void GUI_SomaFM::playlist_double_clicked(const QModelIndex& idx)
 
 
 void GUI_SomaFM::cover_found(const QString &cover_path){
-
 	CoverLookup* cl = static_cast<CoverLookup*>(sender());
 	if(CoverLocation::isInvalidLocation(cover_path)){
 		return;

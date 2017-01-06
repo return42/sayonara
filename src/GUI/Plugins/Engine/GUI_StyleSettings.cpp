@@ -50,14 +50,15 @@ GUI_StyleSettings::GUI_StyleSettings(QWidget *parent) :
 	init();
 }
 
-GUI_StyleSettings::~GUI_StyleSettings()
-{}
+GUI_StyleSettings::~GUI_StyleSettings() {}
 
-void GUI_StyleSettings::language_changed() {
+void GUI_StyleSettings::language_changed()
+{
 	retranslateUi(this);
 }
 
-void GUI_StyleSettings::init() {
+void GUI_StyleSettings::init()
+{
 	combo_styles->clear();
 
     _styles.clear();
@@ -82,7 +83,6 @@ void GUI_StyleSettings::init() {
 }
 
 QIcon col2Icon(QColor col) {
-
     QPixmap pm(18,18);
     pm.fill(col);
 
@@ -99,8 +99,8 @@ void GUI_StyleSettings::connect_spinbox(const QSpinBox* box){
 	);
 }
 
-void GUI_StyleSettings::connect_spinboxes() {
-
+void GUI_StyleSettings::connect_spinboxes()
+{
 	connect_spinbox(sb_fading_steps_lv);
 	connect_spinbox(sb_fading_steps_sp);
 	connect_spinbox(sb_h_spacing_lv);
@@ -121,8 +121,8 @@ void GUI_StyleSettings::disconnect_spinbox(const QSpinBox *box){
 }
 
 
-void GUI_StyleSettings::disconnect_spinboxes() {
-
+void GUI_StyleSettings::disconnect_spinboxes()
+{
 	disconnect_spinbox(sb_fading_steps_lv);
 	disconnect_spinbox(sb_fading_steps_sp);
 	disconnect_spinbox(sb_h_spacing_lv);
@@ -134,30 +134,27 @@ void GUI_StyleSettings::disconnect_spinboxes() {
 	disconnect_spinbox(sb_v_spacing_sp);
 }
 
-void GUI_StyleSettings::connect_combo_idx_changed(){
+void GUI_StyleSettings::connect_combo_idx_changed()
+{
 	connect(combo_styles, combo_current_index_changed_int, this, &GUI_StyleSettings::combo_styles_changed);
 }
 
-void GUI_StyleSettings::disconnect_combo_idx_changed(){
+void GUI_StyleSettings::disconnect_combo_idx_changed()
+{
 	disconnect(combo_styles, combo_current_index_changed_int, this, &GUI_StyleSettings::combo_styles_changed);
 }
 
 
 void GUI_StyleSettings::combo_styles_changed(int idx) {
-
     int new_idx = idx;
 
     if(_sth_changed) {
-
-
 		GlobalMessage::Answer ret = Message::question_yn(tr("There are some unsaved settings<br />Save now?"));
 
 		if(ret == GlobalMessage::Answer::Yes) {
-
             save_pressed();
             // save was not successful
             if(_cur_text.size() == 0) {
-
 				disconnect_combo_idx_changed();
 				combo_styles->setCurrentIndex(_cur_idx);
 				connect_combo_idx_changed();
@@ -223,8 +220,8 @@ void GUI_StyleSettings::combo_styles_changed(int idx) {
     set_sth_changed(false);
 }
 
-void GUI_StyleSettings::save_pressed() {
-
+void GUI_StyleSettings::save_pressed()
+{
     // we came from [0]
     if(_cur_idx == 0 && _cur_text.size() == 0) {
 		Message::warning(tr("Please specify a name"));
@@ -270,9 +267,8 @@ void GUI_StyleSettings::save_pressed() {
 }
 
 
-void GUI_StyleSettings::col1_activated() {
-
-
+void GUI_StyleSettings::col1_activated()
+{
 		int cur_style = combo_styles->currentIndex();
 
         QColor col_new = QColorDialog::getColor(_styles[cur_style].col_list.colors[0], this);
@@ -282,7 +278,8 @@ void GUI_StyleSettings::col1_activated() {
         col_changed();
 }
 
-void GUI_StyleSettings::col2_activated() {
+void GUI_StyleSettings::col2_activated()
+{
 	int cur_style = combo_styles->currentIndex();
 
     QColor col_new = QColorDialog::getColor(_styles[cur_style].col_list.colors[1], this);
@@ -292,8 +289,8 @@ void GUI_StyleSettings::col2_activated() {
     col_changed();
 }
 
-void GUI_StyleSettings::col3_activated() {
-
+void GUI_StyleSettings::col3_activated()
+{
 	int cur_style = combo_styles->currentIndex();
 
     QColor col_old(255, 255, 255);
@@ -307,8 +304,8 @@ void GUI_StyleSettings::col3_activated() {
 }
 
 
-void GUI_StyleSettings::col4_activated() {
-
+void GUI_StyleSettings::col4_activated()
+{
 	int cur_style = combo_styles->currentIndex();
 
     QColor col_old(255, 255, 255);
@@ -323,8 +320,8 @@ void GUI_StyleSettings::col4_activated() {
 }
 
 
-void GUI_StyleSettings::del_pressed() {
-
+void GUI_StyleSettings::del_pressed()
+{
 	setWindowTitle(windowTitle().remove("*"));
 
 	disconnect_combo_idx_changed();
@@ -341,8 +338,8 @@ void GUI_StyleSettings::del_pressed() {
     emit sig_style_update();
 }
 
-void GUI_StyleSettings::undo_pressed() {
-
+void GUI_StyleSettings::undo_pressed()
+{
     disconnect_spinboxes();
 
 	sb_fading_steps_lv->setValue(_cur_style.n_fading_steps_level);
@@ -396,7 +393,8 @@ void GUI_StyleSettings::spin_box_changed(int v) {
     set_sth_changed(true);
 }
 
-void GUI_StyleSettings::col_changed() {
+void GUI_StyleSettings::col_changed()
+{
     set_sth_changed(true);
 }
 
@@ -408,7 +406,6 @@ void GUI_StyleSettings::combo_text_changed(const QString & str) {
 
 
 void GUI_StyleSettings::set_sth_changed(bool b) {
-
 	btn_undo->setEnabled(b);
     _sth_changed = b;
 
@@ -425,7 +422,6 @@ void GUI_StyleSettings::set_sth_changed(bool b) {
 
 
 void GUI_StyleSettings::show(int idx) {
-
 	if(isVisible()) {
 		return;
 	}

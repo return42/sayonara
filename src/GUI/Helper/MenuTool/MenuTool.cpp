@@ -62,7 +62,8 @@ bool MenuToolButton::prove_enabled()
 	return enabled;
 }
 
-void MenuToolButton::show_all(){
+void MenuToolButton::show_all()
+{
 	_menu->show_all();
 	prove_enabled();
 }

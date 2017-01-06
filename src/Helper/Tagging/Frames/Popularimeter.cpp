@@ -20,7 +20,8 @@
 
 #include "Popularimeter.h"
 
-ID3v2Frame::Popularimeter::Popularimeter(){
+ID3v2Frame::Popularimeter::Popularimeter()
+{
 	email = "sayonara player";
 	rating_byte = 0x00;
 	playcount = 0;
@@ -74,29 +75,32 @@ quint8 ID3v2Frame::Popularimeter::get_sayonara_rating() const
 	return 0;
 }
 
-QString ID3v2Frame::Popularimeter::to_string(){
+QString ID3v2Frame::Popularimeter::to_string()
+{
 	return QString("POPM: ") + email + " " + QString::number(rating_byte) + " " + QString::number(playcount);
 }
 
 
 ID3v2Frame::PopularimeterFrame::PopularimeterFrame(TagLib::FileRef* f) :
-	AbstractFrame<Popularimeter, TagLib::ID3v2::PopularimeterFrame>(f, "POPM")
-{}
+	AbstractFrame<Popularimeter, TagLib::ID3v2::PopularimeterFrame>(f, "POPM") {}
 
 ID3v2Frame::PopularimeterFrame::~PopularimeterFrame() {}
 
-TagLib::ID3v2::Frame* ID3v2Frame::PopularimeterFrame::create_id3v2_frame(){
+TagLib::ID3v2::Frame* ID3v2Frame::PopularimeterFrame::create_id3v2_frame()
+{
 	return new TagLib::ID3v2::PopularimeterFrame();
 }
 
-void ID3v2Frame::PopularimeterFrame::map_model_to_frame(){
+void ID3v2Frame::PopularimeterFrame::map_model_to_frame()
+{
 	_frame->setEmail(TagLib::String(_data_model.email.toUtf8().data(), TagLib::String::UTF8));
 	_frame->setCounter(_data_model.playcount);
 	_frame->setRating(_data_model.rating_byte);
 	_frame->render();
 }
 
-void ID3v2Frame::PopularimeterFrame::map_frame_to_model(){
+void ID3v2Frame::PopularimeterFrame::map_frame_to_model()
+{
 	_data_model.playcount = _frame->counter();
 
 	_data_model.email = QString::fromLatin1(_frame->email().toCString());

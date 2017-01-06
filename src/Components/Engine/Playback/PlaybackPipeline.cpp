@@ -58,7 +58,6 @@ PlaybackPipeline::PlaybackPipeline(Engine* engine, QObject *parent) :
 PlaybackPipeline::~PlaybackPipeline() {}
 
 bool PlaybackPipeline::init(GstState state){
-
 	if(!AbstractPipeline::init(state)){
 		return false;
 	}
@@ -83,8 +82,8 @@ bool PlaybackPipeline::init(GstState state){
 	return true;
 }
 
-bool PlaybackPipeline::create_elements(){
-
+bool PlaybackPipeline::create_elements()
+{
 	// input
 	if(!create_element(&_audio_src, "uridecodebin", "src")) return false;
 	if(!create_element(&_audio_convert, "audioconvert")) return false;
@@ -141,8 +140,8 @@ bool PlaybackPipeline::create_elements(){
 	return true;
 }
 
-bool PlaybackPipeline::add_and_link_elements(){
-
+bool PlaybackPipeline::add_and_link_elements()
+{
 	bool success;
 	GstPadTemplate* tee_src_pad_template;
 
@@ -236,8 +235,8 @@ bool PlaybackPipeline::add_and_link_elements(){
 	return true;
 }
 
-bool PlaybackPipeline::configure_elements(){
-
+bool PlaybackPipeline::configure_elements()
+{
 	guint64 interval = 25000000;
 	gint threshold = -75;
 	QList<GstElement*> sinks;
@@ -271,7 +270,6 @@ bool PlaybackPipeline::configure_elements(){
 				 nullptr);
 
 	if(_lame){
-
 		g_object_set(G_OBJECT (_lame),
 					 "perfect-timestamp", true,
 					 "target", 1,
@@ -312,7 +310,6 @@ bool PlaybackPipeline::configure_elements(){
 	sinks << _level_sink << _spectrum_sink;
 
 	for(GstElement* sink : sinks){
-
 		//gst_object_ref(sink);
 		/* run synced and not as fast as we can */
 		g_object_set(G_OBJECT (sink), "sync", true, nullptr);
@@ -353,7 +350,6 @@ void PlaybackPipeline::init_equalizer()
 
 
 	for(auto it=values.begin(); it != values.end(); it++){
-
 		double new_val;
 		if (*it > 0) {
 			new_val = *it * 0.25;

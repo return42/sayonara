@@ -30,8 +30,7 @@
 #include <QKeySequence>
 
 MiniSearcherLineEdit::MiniSearcherLineEdit(QWidget* parent) :
-	QLineEdit(parent)
-{}
+	QLineEdit(parent) {}
 
 MiniSearcherLineEdit::~MiniSearcherLineEdit() {}
 
@@ -276,7 +275,6 @@ bool MiniSearcher::check_and_init(QKeyEvent *event)
 	}
 
     if(!this->isVisible()) {
-
         init(event->text());
         return true;
     }

@@ -214,7 +214,6 @@ bool DatabaseAlbums::getAllAlbumsByArtist(IDList artists, AlbumList& result, con
 	}
 
 	if( !filter.cleared() ) {
-
 		switch(filter.mode())
 		{
 			case Library::Filter::Date:

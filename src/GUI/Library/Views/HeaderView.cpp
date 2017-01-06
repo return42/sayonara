@@ -83,7 +83,6 @@ void HeaderView::set_column_headers(const ColumnHeaderList& column_headers, cons
 	int i=0;
 
 	for(ColumnHeader* header : _column_headers) {
-
 		if( header->get_asc_sortorder() == sorting) {
 			this->setSortIndicator(i, Qt::AscendingOrder);
 		}
@@ -110,7 +109,6 @@ void HeaderView::set_column_headers(const ColumnHeaderList& column_headers, cons
 
 void HeaderView::refresh_sizes(QTableView* view)
 {
-
 	int altogether_width = 0;
 	int desired_width = 0;
 	int tolerance = 30;
@@ -119,7 +117,6 @@ void HeaderView::refresh_sizes(QTableView* view)
 	int n_cols = _column_headers.get_shown_columns();
 
 	for(int i=0; i<n_cols; i++) {
-
 		int preferred_size = 0;
 		int col = _column_headers.get_nth_shown_col(i);
 
@@ -157,7 +154,6 @@ void HeaderView::refresh_sizes(QTableView* view)
 
 	// width for percentage stuff
 	for(int i=0; i<n_cols; i++) {
-
 		int col = _column_headers.get_nth_shown_col(i);
 		int preferred_size = 0;
 

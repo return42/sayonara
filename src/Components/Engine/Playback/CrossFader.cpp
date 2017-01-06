@@ -32,7 +32,6 @@
 
 class FaderThreadData
 {
-
 private:
 
 	int						_cycles;
@@ -47,11 +46,11 @@ public:
 	}
 
 	void set_fading_time(int fading_time){
-
 		_cycle_time_ms = fading_time / _cycles;
 	}
 
-	void reset(){
+	void reset()
+{
 		_cycles = 500;
 	}
 
@@ -65,7 +64,8 @@ public:
 		_cycles = 0;
 	}
 
-	void wait(){
+	void wait()
+{
 		Helper::sleep_ms(_cycle_time_ms);
 		_cycles --;
 		_fn();
@@ -84,7 +84,6 @@ public:
 
 protected:
 	void run() override {
-
 		while(_ftd && _ftd->is_active())
 		{
 			_ftd->wait();
@@ -196,7 +195,6 @@ void CrossFader::decrease_volume()
 
 	volume -= _fade_step;
 	if(volume < 0.00001){
-
 		abort_fader();
 		return;
 	}

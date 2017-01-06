@@ -59,7 +59,6 @@ void GUI_Shortcuts::init_ui()
 	QList<Shortcut> shortcuts = _sch->get_shortcuts();
 
 	for(const Shortcut& shortcut : shortcuts){
-
 		GUI_ShortcutEntry* entry = new GUI_ShortcutEntry(shortcut);
 
 		connect(entry, &GUI_ShortcutEntry::sig_test_pressed,
@@ -88,8 +87,8 @@ QString GUI_Shortcuts::get_action_name() const
 }
 
 
-void GUI_Shortcuts::commit(){
-
+void GUI_Shortcuts::commit()
+{
 	for(GUI_ShortcutEntry* entry : _entries){
 		entry->commit();
 	}
@@ -136,7 +135,6 @@ void GUI_Shortcuts::sequence_entered()
 			{
 				QString seq2_str = seq2.toString(QKeySequence::NativeText);
 				if(seq1_str == seq2_str && !seq1_str.isEmpty()){
-
 					entry->show_sequence_error();
 					break;
 				}

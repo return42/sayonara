@@ -27,13 +27,12 @@
 
 
 LFMLoginThread::LFMLoginThread(QObject *parent) :
-	QObject(parent)
-{}
+	QObject(parent) {}
 
 LFMLoginThread::~LFMLoginThread() {}
 
-bool LFMLoginThread::request_authorization() {
-
+bool LFMLoginThread::request_authorization()
+{
     UrlParams signature_data;
         signature_data["api_key"] = LFM_API_KEY;
 		signature_data["token"] = _login_info.token.toLocal8Bit();
@@ -58,7 +57,6 @@ bool LFMLoginThread::request_authorization() {
 
 
 void LFMLoginThread::login(const QString& username, const QString& password) {
-
 	LFMWebAccess* lfm_wa = new LFMWebAccess();
 	connect(lfm_wa, &LFMWebAccess::sig_response, this, &LFMLoginThread::wa_response);
 	connect(lfm_wa, &LFMWebAccess::sig_error, this, &LFMLoginThread::wa_error);
@@ -84,7 +82,6 @@ void LFMLoginThread::login(const QString& username, const QString& password) {
 
 
 void LFMLoginThread::wa_response(const QByteArray& data){
-
 	LFMWebAccess* lfm_wa = static_cast<LFMWebAccess*>(sender());
 	QString str = QString::fromUtf8(data);
 
@@ -109,7 +106,6 @@ void LFMLoginThread::wa_response(const QByteArray& data){
 
 
 void LFMLoginThread::wa_error(const QString& error){
-
 	LFMWebAccess* lfm_wa = static_cast<LFMWebAccess*>(sender());
 
 	sp_log(Log::Warning) << "LastFM: Cannot login";
@@ -121,7 +117,8 @@ void LFMLoginThread::wa_error(const QString& error){
 }
 
 
-LFMLoginStuff LFMLoginThread::getLoginStuff() {
+LFMLoginStuff LFMLoginThread::getLoginStuff()
+{
 	return _login_info;
 }
 

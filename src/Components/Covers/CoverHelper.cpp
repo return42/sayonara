@@ -24,7 +24,6 @@
 #include <QUrl>
 
 QString CoverHelper::calc_google_image_search_address(const QString& str) {
-
 	QString searchstring = str;
 	searchstring.replace(" ", "%20");
 	searchstring.replace("/", "%2F");
@@ -41,13 +40,11 @@ QString CoverHelper::calc_google_image_search_address(const QString& str) {
 
 
 QString CoverHelper::calc_google_artist_address(const QString& artist) {
-
 	return calc_google_image_search_address(QUrl::toPercentEncoding(artist));
 }
 
 
 QString CoverHelper::calc_google_album_address(const QString& artist, const QString& album) {
-
 	QString new_album, searchstring;
 	QRegExp regex;
 
@@ -74,7 +71,6 @@ QString CoverHelper::calc_google_album_address(const QString& artist, const QStr
 
 
 QString CoverHelper::calc_cover_token(const QString& artist, const QString& album) {
-
 	QByteArray str = QString(artist.trimmed() + album.trimmed()).toLower().toUtf8();
 
 	return Helper::calc_hash(str);

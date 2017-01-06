@@ -24,7 +24,6 @@
 
 
 QString	SoundcloudWebAccess::create_dl_get_artist(const QString& name){
-
 	QString ret = "";
 
 	if(name.isEmpty()) {
@@ -42,7 +41,6 @@ QString	SoundcloudWebAccess::create_dl_get_artist(const QString& name){
 }
 
 QString	SoundcloudWebAccess::create_dl_get_artist(int artist_id){
-
 	QString ret = "";
 
 	if(artist_id <= 0){
@@ -59,7 +57,6 @@ QString	SoundcloudWebAccess::create_dl_get_artist(int artist_id){
 }
 
 QString	SoundcloudWebAccess::create_dl_get_playlists(int artist_id){
-
 	QString ret;
 
 	ret = QString("http://api.soundcloud.com/users/") +
@@ -73,7 +70,6 @@ QString	SoundcloudWebAccess::create_dl_get_playlists(int artist_id){
 }
 
 QString	SoundcloudWebAccess::create_dl_get_tracks(int artist_id){
-
 	QString ret;
 
 	ret = QString("http://api.soundcloud.com/users/") +

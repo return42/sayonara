@@ -51,8 +51,8 @@ PlaybackEngine::PlaybackEngine(QObject* parent) :
 }
 
 
-PlaybackEngine::~PlaybackEngine() {
-
+PlaybackEngine::~PlaybackEngine()
+{
 	if(_stream_recorder->is_recording()){
 		set_streamrecorder_recording(false);
 	}
@@ -72,8 +72,8 @@ PlaybackEngine::~PlaybackEngine() {
 }
 
 
-bool PlaybackEngine::init() {
-
+bool PlaybackEngine::init()
+{
 	gst_init(0, 0);
 
 	_pipeline = new PlaybackPipeline(this);
@@ -93,7 +93,6 @@ bool PlaybackEngine::init() {
 
 
 void PlaybackEngine::change_track_gapless(const MetaData& md) {
-
 	set_uri(md.filepath());
 	_md = md;
 
@@ -123,7 +122,6 @@ void PlaybackEngine::change_track_gapless(const MetaData& md) {
 }
 
 void PlaybackEngine::change_track(const QString& filepath) {
-
 	MetaData md(filepath);
 
 	bool got_md = Tagging::getMetaDataOfFile(md);
@@ -138,7 +136,6 @@ void PlaybackEngine::change_track(const QString& filepath) {
 
 
 void PlaybackEngine::change_track(const MetaData& md) {
-
 	bool success;
 	emit sig_pos_changed_s(0);
 
@@ -168,7 +165,6 @@ void PlaybackEngine::change_track(const MetaData& md) {
 
 
 bool PlaybackEngine::set_uri(const QString& filepath) {
-
 	bool success = false;
 	QUrl url;
 
@@ -182,7 +178,6 @@ bool PlaybackEngine::set_uri(const QString& filepath) {
 	// stream, but don't want to record
 	// stream is already uri
 	if (_playing_stream) {
-
 		url = QUrl(filepath);
 		_uri = g_strdup(url.toString().toUtf8().data());
 	}
@@ -190,7 +185,6 @@ bool PlaybackEngine::set_uri(const QString& filepath) {
 	// no stream (not quite right because of mms, rtsp or other streams
 	// normal filepath -> no uri
 	else if (!filepath.contains("://")) {
-
 		url = QUrl::fromLocalFile(filepath);
 		_uri = g_strdup(url.url().toUtf8().data());
 	}
@@ -210,8 +204,8 @@ bool PlaybackEngine::set_uri(const QString& filepath) {
 }
 
 
-void PlaybackEngine::play() {
-
+void PlaybackEngine::play()
+{
 	if( _gapless_state == GaplessState::AboutToFinish ||
 		_gapless_state == GaplessState::TrackFetched )
 	{
@@ -226,8 +220,8 @@ void PlaybackEngine::play() {
 }
 
 
-void PlaybackEngine::stop() {
-
+void PlaybackEngine::stop()
+{
 	change_gapless_state(GaplessState::Playing);
 
 	if(_gapless_timer){
@@ -249,7 +243,8 @@ void PlaybackEngine::stop() {
 }
 
 
-void PlaybackEngine::pause() {
+void PlaybackEngine::pause()
+{
 	_pipeline->pause();
 }
 
@@ -259,7 +254,6 @@ void PlaybackEngine::jump_abs_ms(quint64 pos_ms) {
 }
 
 void PlaybackEngine::jump_rel_ms(quint64 ms) {
-
 	quint64 new_time_ms = _pipeline->get_position_ms() + ms;
 	_pipeline->seek_abs(new_time_ms * GST_MSECOND);
 }
@@ -271,7 +265,6 @@ void PlaybackEngine::jump_rel(double percent) {
 
 
 void PlaybackEngine::set_equalizer(int band, int val) {
-
 	double new_val;
 	if (val > 0) {
 		new_val = val * 0.25;
@@ -305,7 +298,6 @@ void PlaybackEngine::set_buffer_state(int progress, GstElement* src)
 
 
 void PlaybackEngine::set_cur_position_ms(qint64 pos_ms) {
-
 	if(sender() != _pipeline){
 		return;
 	}
@@ -337,7 +329,6 @@ void PlaybackEngine::set_track_ready(GstElement* src){
 
 
 void PlaybackEngine::set_about_to_finish(qint64 time2go) {
-
 	Q_UNUSED(time2go)
 
 	if(sender() != _pipeline){
@@ -388,16 +379,14 @@ void PlaybackEngine::gapless_timed_out()
 }
 
 
-void PlaybackEngine::_playlist_mode_changed() {
-
+void PlaybackEngine::_playlist_mode_changed()
+{
 	Playlist::Mode plm = _settings->get(Set::PL_Mode);
 	bool gapless =	Playlist::Mode::isActiveAndEnabled(plm.gapless()) ||
 					_settings->get(Set::Engine_CrossFaderActive);
 
 	if(gapless) {
-
 		if(!_other_pipeline) {
-
 			_other_pipeline = new PlaybackPipeline(this);
 			if(!_other_pipeline->init()){
 				change_gapless_state(GaplessState::NoGapless);
@@ -433,8 +422,8 @@ void PlaybackEngine::change_gapless_state(GaplessState state)
 }
 
 
-void PlaybackEngine::_streamrecorder_active_changed(){
-
+void PlaybackEngine::_streamrecorder_active_changed()
+{
 	_sr_active = _settings->get(Set::Engine_SR_Active);
 
 	if(!_sr_active){
@@ -444,7 +433,6 @@ void PlaybackEngine::_streamrecorder_active_changed(){
 
 
 void PlaybackEngine::set_streamrecorder_recording(bool b){
-
 	QString dst_file;
 
 	if(_stream_recorder->is_recording() != b){
@@ -482,7 +470,6 @@ void PlaybackEngine::update_cover(const QImage& img, GstElement* src)
 
 
 void PlaybackEngine::update_md(const MetaData& md, GstElement* src){
-
 	if(!_pipeline->has_element(src)){
 		return;
 	}
@@ -512,7 +499,6 @@ void PlaybackEngine::update_md(const MetaData& md, GstElement* src){
 
 
 void PlaybackEngine::update_duration(GstElement* src) {
-
 	if(! _pipeline->has_element(src)){
 		return;
 	}
@@ -538,7 +524,6 @@ void PlaybackEngine::update_duration(GstElement* src) {
 
 
 void PlaybackEngine::update_bitrate(quint32 br, GstElement* src){
-
 	if(!_pipeline->has_element(src)){
 		return;
 	}

@@ -51,7 +51,8 @@ QAction* LibraryContainerInterface::get_menu_action() const
 }
 
 
-void LibraryContainerInterface::set_initialized(){
+void LibraryContainerInterface::set_initialized()
+{
 	_initialized = true;
 }
 
@@ -61,7 +62,8 @@ bool LibraryContainerInterface::is_initialized() const
 }
 
 
-void LibraryContainerInterface::language_changed(){
+void LibraryContainerInterface::language_changed()
+{
 	if(_action){
 		_action->setText(this->get_display_name());
 	}

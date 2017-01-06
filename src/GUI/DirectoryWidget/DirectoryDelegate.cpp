@@ -21,8 +21,7 @@
 #include "DirectoryDelegate.h"
 
 DirectoryDelegate::DirectoryDelegate(QObject* parent) :
-	QItemDelegate(parent)
-{}
+	QItemDelegate(parent) {}
 
 DirectoryDelegate::~DirectoryDelegate() {}
 

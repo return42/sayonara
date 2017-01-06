@@ -100,8 +100,8 @@ static InstanceMessage instance_message=InstanceMessageNone;
 	}
 
 #else
-	void global_key_handler(){
-
+	void global_key_handler()
+{
 		if(!RegisterHotKey(NULL, 1, MOD_NOREPEAT, VK_MEDIA_PLAY_PAUSE)){
 			return false;
 		}
@@ -271,7 +271,6 @@ bool Application::init(QTranslator* translator, const QStringList& files_to_play
 	player->ui_loaded();
 
 	if(files_to_play.size() > 0) {
-
 		QString playlist_name = _plh->request_new_playlist_name();
 		_plh->create_playlist(files_to_play, playlist_name);
 	}
@@ -315,7 +314,6 @@ Application::~Application()
 
 void Application::init_single_instance_thread()
 {
-
 #ifdef Q_OS_UNIX
 	signal(SIGUSR1, new_instance_handler);
 	signal(SIGUSR2, new_instance_handler);

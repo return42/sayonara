@@ -41,7 +41,6 @@ void PlaylistDBWrapper::apply_tags(MetaDataList& v_md)
 {
 	for(MetaData& md : v_md){
 		if(md.is_extern){
-
 			if(Helper::File::is_file(md.filepath())){
 				Tagging::getMetaDataOfFile(md);
 			}
@@ -80,7 +79,6 @@ bool PlaylistDBWrapper:: get_non_temporary_skeletons(CustomPlaylistSkeletons& sk
 
 
 bool PlaylistDBWrapper::get_playlists(CustomPlaylists& playlists, DatabasePlaylist::PlaylistChooserType type, Playlist::SortOrder so){
-
 	Q_UNUSED(type)
 
 	bool success;
@@ -98,7 +96,6 @@ bool PlaylistDBWrapper::get_playlists(CustomPlaylists& playlists, DatabasePlayli
 	                       type == DatabasePlaylist::PlaylistChooserType::TemporaryAndPermanent);
 
 	for(const CustomPlaylistSkeleton& skeleton : skeletons){
-
 		CustomPlaylist pl(skeleton);
 		if(pl.id() < 0){
 			continue;
@@ -145,7 +142,6 @@ bool PlaylistDBWrapper::get_non_temporary_playlists(CustomPlaylists& playlists, 
 
 
 CustomPlaylist PlaylistDBWrapper::get_playlist_by_id(int id){
-
 	bool success;
 	CustomPlaylist pl;
 	pl.set_id(id);
@@ -160,8 +156,6 @@ CustomPlaylist PlaylistDBWrapper::get_playlist_by_id(int id){
 
 
 CustomPlaylist PlaylistDBWrapper::get_playlist_by_name(const QString& name){
-
-
 	int id = _db->getPlaylistIdByName(name);
 
 	if(id < 0){

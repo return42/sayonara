@@ -24,7 +24,6 @@
 DBusMediaKeysInterfaceGnome::DBusMediaKeysInterfaceGnome(QObject *parent) :
 	DBusMediaKeysInterface(parent)
 {
-
 	_media_key_interface = new OrgGnomeSettingsDaemonMediaKeysInterface(
 				"org.gnome.SettingsDaemon",
 				"/org/gnome/SettingsDaemon/MediaKeys",
@@ -49,7 +48,6 @@ DBusMediaKeysInterfaceGnome::DBusMediaKeysInterfaceGnome(QObject *parent) :
 
 
 void DBusMediaKeysInterfaceGnome::sl_register_finished(QDBusPendingCallWatcher* watcher){
-
 	if(!_initialized){
 		return;
 	}

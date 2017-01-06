@@ -50,7 +50,6 @@
 
 struct LastFM::Private
 {
-
 	bool						logged_in;
 	bool						active;
 	bool						scrobbled;
@@ -94,20 +93,20 @@ LastFM::LastFM() :
 LastFM::~LastFM() {}
 
 void LastFM::get_login(QString& user, QString& pw){
-
 	StringPair user_pw = Settings::getInstance()->get(Set::LFM_Login);
 	user = user_pw.first;
 	pw = user_pw.second;
 }
 
 
-bool LastFM::is_logged_in() {
+bool LastFM::is_logged_in()
+{
 	return _m->logged_in;
 }
 
 
-void LastFM::psl_login() {
-
+void LastFM::psl_login()
+{
 	_m->active = _settings->get(Set::LFM_Active);
 
 	if(!_m->active){
@@ -123,7 +122,6 @@ void LastFM::psl_login() {
 
 
 void LastFM::sl_login_thread_finished(bool success) {
-
 	if(!success){
 		return;
 	}
@@ -146,7 +144,6 @@ void LastFM::sl_login_thread_finished(bool success) {
 }
 
 void LastFM::sl_track_changed(const MetaData& md) {
-
 	Playlist::Mode pl_mode = _settings->get(Set::PL_Mode);
 	if( Playlist::Mode::isActiveAndEnabled(pl_mode.dynamic())) {
 		_m->track_changed_thread->search_similar_artists(md);
@@ -214,7 +211,6 @@ bool LastFM::check_scrobble(quint64 pos_ms)
 		}
 
 		else{
-
 			quint64 scrobble_time_ms = (quint64) (_settings->get(Set::LFM_ScrobbleTimeSec) * 1000);
 
 			_m->old_pos_difference += (pos_ms - _m->old_pos);
@@ -232,7 +228,6 @@ bool LastFM::check_scrobble(quint64 pos_ms)
 }
 
 void LastFM::scrobble(const MetaData& metadata) {
-
 	_m->scrobbled = true;
 
 	if(!_m->active) {
@@ -275,7 +270,6 @@ void LastFM::scrobble(const MetaData& metadata) {
 
 // private slot
 void LastFM::sl_similar_artists_available(IDList artist_ids) {
-
 	if(artist_ids.isEmpty()){
 		return;
 	}
@@ -303,7 +297,6 @@ void LastFM::sl_similar_artists_available(IDList artist_ids) {
 
 		// try all songs of artist
 		for(int rounds=0; rounds < artist_tracks.size(); rounds++) {
-
 			int rnd_track = RandomGenerator::get_random_number(0, artist_tracks.size()- 1);
 
 			MetaData md = artist_tracks.takeAt(rnd_track);
@@ -314,7 +307,6 @@ void LastFM::sl_similar_artists_available(IDList artist_ids) {
 			});
 
 			if(!track_exists){
-
 				MetaDataList v_md; v_md << md;
 
 				plh->append_tracks(v_md, active_idx);

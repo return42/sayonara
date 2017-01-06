@@ -69,7 +69,6 @@ void Helper::File::remove_files_in_directory(const QString& dir_name, const QStr
 				(QDir::Filters)(QDir::Files | QDir::Dirs | QDir::NoDotAndDotDot));
 
 	for(const QFileInfo& info : info_lst){
-
 		QString path = info.absoluteFilePath();
 		if(info.isDir())
 		{

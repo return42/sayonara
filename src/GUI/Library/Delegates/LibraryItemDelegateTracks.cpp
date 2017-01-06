@@ -33,8 +33,7 @@
 #include <QPainter>
 
 LibraryItemDelegateTracks::LibraryItemDelegateTracks(QObject* parent, bool enabled) :
-	LibraryRatingDelegate(parent, enabled)
-{}
+	LibraryRatingDelegate(parent, enabled) {}
 
 LibraryItemDelegateTracks::~LibraryItemDelegateTracks() {}
 

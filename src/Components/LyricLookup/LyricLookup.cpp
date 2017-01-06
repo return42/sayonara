@@ -79,7 +79,6 @@ QString LyricLookupThread::convert_to_regex(const QString& str){
 }
 
 QString LyricLookupThread::calc_url(QString artist, QString song) {
-
 	if(_cur_server < 0 || _cur_server >= _server_list.size()){
 		return "";
 	}
@@ -110,13 +109,11 @@ QString LyricLookupThread::calc_url(QString artist, QString song) {
 }
 
 QString LyricLookupThread::parse_webpage(const QByteArray& raw) {
-
 	QString dst(raw);
 
 	ServerTemplate t = _server_list[_cur_server];
 
 	for(QString start_tag : t.start_end_tag.keys()) {
-
 		QString content;
 		QString end_tag;
 
@@ -192,7 +189,6 @@ QString LyricLookupThread::parse_webpage(const QByteArray& raw) {
 }
 
 void LyricLookupThread::run(const QString& artist, const QString& title, int server_idx){
-
 	_artist = artist;
 	_title = title;
 
@@ -214,7 +210,6 @@ void LyricLookupThread::run(const QString& artist, const QString& title, int ser
 }
 
 void  LyricLookupThread::content_fetched(bool success){
-
 	AsyncWebAccess* awa = static_cast<AsyncWebAccess*>(sender());
 	QString url = awa->get_url();
 
@@ -242,8 +237,8 @@ void  LyricLookupThread::content_fetched(bool success){
 	emit sig_finished();
 }
 
-void LyricLookupThread::init_server_list() {
-
+void LyricLookupThread::init_server_list()
+{
 	/*parse_xml();
 	return;*/
 
@@ -392,7 +387,8 @@ void LyricLookupThread::init_server_list() {
 
 }
 
-QStringList LyricLookupThread::get_servers() {
+QStringList LyricLookupThread::get_servers()
+{
 	QStringList lst;
 	for(const ServerTemplate& t : _server_list) {
 		lst << t.display_str;
@@ -401,7 +397,8 @@ QStringList LyricLookupThread::get_servers() {
 	return lst;
 }
 
-QString LyricLookupThread::get_lyric_data() {
+QString LyricLookupThread::get_lyric_data()
+{
 	return _final_wp;
 }
 

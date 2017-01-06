@@ -30,7 +30,8 @@
  * @ingroup MetaDataHelper
  */
 
-namespace SP {
+namespace SP
+{
 	template<typename T>
 	class Set;
 }

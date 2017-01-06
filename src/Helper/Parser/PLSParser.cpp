@@ -51,8 +51,7 @@ static int split_line(const QString& line, QString& key, QString& val)
 
 
 PLSParser::PLSParser(const QString& filename) :
-	AbstractPlaylistParser(filename)
-{}
+	AbstractPlaylistParser(filename) {}
 
 PLSParser::~PLSParser() {}
 
@@ -64,7 +63,6 @@ void PLSParser::parse()
 	int cur_track_idx = -1;
 
 	for(QString line : lines) {
-
 		QString key, val;
 		int track_idx;
 
@@ -81,7 +79,6 @@ void PLSParser::parse()
 
 
 		if(track_idx != cur_track_idx){
-
 			if(cur_track_idx > 0){
 				_v_md << md;
 			}
@@ -104,7 +101,6 @@ void PLSParser::parse()
 		}
 
 		else if(key.startsWith("length")) {
-
 			int len = val.toInt();
 
 			len = std::max(0, len);

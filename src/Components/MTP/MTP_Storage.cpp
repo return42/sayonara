@@ -24,7 +24,6 @@
 #include <algorithm>
 
 MTP_Storage::MTP_Storage(MTPIntern_Device* device, MTPIntern_Storage* storage){
-
 	_device = device;
 	_storage = storage;
 	_id = 0;
@@ -103,15 +102,18 @@ QList<MTP_FilePtr> MTP_Storage::files_of_folder(quint32 folder_id) const
 }
 
 
-quint32 MTP_Storage::id() const {
+quint32 MTP_Storage::id() const
+{
 	return _id;
 }
 
-QString MTP_Storage::name() const {
+QString MTP_Storage::name() const
+{
 	return _name;
 }
 
-QString MTP_Storage::identifier() const {
+QString MTP_Storage::identifier() const
+{
 	return _identifier;
 }
 

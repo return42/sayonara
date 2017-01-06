@@ -242,7 +242,6 @@ void GUI_AudioConverter::cb_active_toggled(bool b)
 	}
 
 	if(b) {
-
 		QString cvt_target_path = _settings->get(Set::Engine_CovertTargetPath);
 		QString dir = QFileDialog::getExistingDirectory(this, "Choose target directory", cvt_target_path);
 

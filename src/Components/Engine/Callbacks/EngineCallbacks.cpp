@@ -36,7 +36,6 @@
 
 	GstBusSyncReply
 	EngineCallbacks::bus_message_received(GstBus* bus, GstMessage* msg, gpointer data) {
-
 		if(bus_state_changed(bus, msg, data)){
 			gst_message_unref(msg);
 			return GST_BUS_DROP;
@@ -111,7 +110,6 @@ static bool parse_image(GstTagList* tags, QImage& img)
 
 // check messages from bus
 gboolean EngineCallbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpointer data) {
-
 	Q_UNUSED(bus);
 
 	Engine*			engine;
@@ -134,7 +132,6 @@ gboolean EngineCallbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpoint
 	src = reinterpret_cast<GstElement*>(msg->src);
 
 	switch (msg_type) {
-
 		case GST_MESSAGE_EOS:
 
 			if (!engine) {
@@ -303,7 +300,6 @@ gboolean EngineCallbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpoint
 // level changed
 gboolean
 EngineCallbacks::level_handler(GstBus * bus, GstMessage * message, gpointer data) {
-
 	Q_UNUSED(bus);
 
 	double					channel_values[2];
@@ -345,7 +341,6 @@ EngineCallbacks::level_handler(GstBus * bus, GstMessage * message, gpointer data
 
 	n_peak_elements = std::min((guint) 2, n_peak_elements);
 	for(guint i=0; i<n_peak_elements; i++) {
-
 		double d;
 		const GValue* val;
 
@@ -377,7 +372,6 @@ EngineCallbacks::level_handler(GstBus * bus, GstMessage * message, gpointer data
 // spectrum changed
 gboolean
 EngineCallbacks::spectrum_handler(GstBus* bus, GstMessage* message, gpointer data) {
-
 	Q_UNUSED(bus);
 
 	PlaybackEngine*			engine;
@@ -411,7 +405,6 @@ EngineCallbacks::spectrum_handler(GstBus* bus, GstMessage* message, gpointer dat
 	}
 
 	for (int i=0; i<bins; ++i) {
-
         float f;
 		const GValue* mag;
 

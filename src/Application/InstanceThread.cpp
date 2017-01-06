@@ -37,9 +37,7 @@ void InstanceThread::run()
 	_may_run = true;
 
 	while(_may_run) {
-
 		if((*_instance_message) != InstanceMessageNone){
-
 			sp_log(Log::Debug) << "Kill signal received";
 
 			emit sig_player_raise();
@@ -57,7 +55,8 @@ void InstanceThread::run()
 	}
 }
 
-void InstanceThread::stop() {
+void InstanceThread::stop()
+{
 	_may_run = false;
 }
 
@@ -77,13 +76,11 @@ void InstanceThread::parse_memory()
 	const char* data = static_cast<const char*>(_memory.constData());
 
 	if(data){
-
 		QByteArray array(data, _memory.size());
 		QList<QByteArray> strings = array.split('\n');
 		QStringList file_list;
 
 		for(const QByteArray& arr : strings){
-
 			QString filename = QString::fromUtf8(arr);
 			sp_log(Log::Debug) << "Add file " << filename;
 

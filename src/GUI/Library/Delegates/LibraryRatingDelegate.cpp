@@ -47,7 +47,6 @@ QWidget *LibraryRatingDelegate::createEditor(QWidget *parent, const QStyleOption
 
 
 void LibraryRatingDelegate::destroy_editor(bool save) {
-
 	Q_UNUSED(save)
 
     RatingLabel *label = qobject_cast<RatingLabel *>(sender());
@@ -74,7 +73,6 @@ void LibraryRatingDelegate::setEditorData(QWidget *editor, const QModelIndex & i
 
 void LibraryRatingDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex & index) const
 {
-
     RatingLabel* label = qobject_cast<RatingLabel *>(editor);
     if(!label) return;
     model->setData(index, label->get_rating());

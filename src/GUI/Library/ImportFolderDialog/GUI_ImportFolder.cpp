@@ -74,7 +74,6 @@ void GUI_ImportFolder::language_changed()
 }
 
 void GUI_ImportFolder::set_metadata(const MetaDataList& v_md){
-
 	if(!v_md.isEmpty()){
 		lab_status->setText(tr("%1 tracks available").arg(v_md.size()));
 	}
@@ -84,7 +83,6 @@ void GUI_ImportFolder::set_metadata(const MetaDataList& v_md){
 }
 
 void GUI_ImportFolder::set_status(LibraryImporter::ImportStatus status) {
-
 	pb_progress->hide();
 	lab_status->show();
 
@@ -136,7 +134,6 @@ void GUI_ImportFolder::set_status(LibraryImporter::ImportStatus status) {
 }
 
 void GUI_ImportFolder::set_progress(int val) {
-
 	if(val) {
 		pb_progress->show();
 		lab_status->hide();
@@ -154,8 +151,8 @@ void GUI_ImportFolder::set_progress(int val) {
 	emit sig_progress(val);
 }
 
-void GUI_ImportFolder::bb_accepted() {
-
+void GUI_ImportFolder::bb_accepted()
+{
 	//tag_edit->commit();
 
 	QString target_dir = le_directory->text();
@@ -163,8 +160,8 @@ void GUI_ImportFolder::bb_accepted() {
 	_importer->accept_import(target_dir);
 }
 
-void GUI_ImportFolder::bb_rejected() {
-
+void GUI_ImportFolder::bb_rejected()
+{
 	//tag_edit->cancel();
 	LibraryImporter::ImportStatus status = _importer->get_status();
 
@@ -179,8 +176,8 @@ void GUI_ImportFolder::bb_rejected() {
 }
 
 
-void GUI_ImportFolder::choose_dir() {
-
+void GUI_ImportFolder::choose_dir()
+{
 	QString lib_path = _settings->get(Set::Lib_Path);
 	QString dialog_title = tr("Choose target directory");
 	QString dir =

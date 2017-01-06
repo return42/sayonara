@@ -46,8 +46,8 @@ CoverButton::CoverButton(QWidget* parent) :
 
 CoverButton::~CoverButton() {}
 
-void CoverButton::cover_button_clicked(){
-
+void CoverButton::cover_button_clicked()
+{
 	if(!_m->alternative_covers){
 		_m->alternative_covers = new GUI_AlternativeCovers(this);
 
@@ -60,7 +60,6 @@ void CoverButton::cover_button_clicked(){
 
 
 void CoverButton::set_cover_location(const CoverLocation& cl){
-
 	_m->search_cover_location = cl;
 
 	if(!_m->cover_lookup){
@@ -73,7 +72,6 @@ void CoverButton::set_cover_location(const CoverLocation& cl){
 }
 
 void CoverButton::force_icon(const QIcon& icon){
-
 	_m->cover_forced = true;
 
 	this->setIcon(icon);
@@ -82,7 +80,6 @@ void CoverButton::force_icon(const QIcon& icon){
 
 
 void CoverButton::alternative_cover_fetched(const CoverLocation& cl){
-
 	if(cl.valid()){
 		emit sig_cover_replaced();
 	}
@@ -92,7 +89,6 @@ void CoverButton::alternative_cover_fetched(const CoverLocation& cl){
 
 
 void CoverButton::cover_found(const CoverLocation& cl){
-
 	if(cl.valid()){
 		emit sig_cover_found();
 	}
@@ -102,7 +98,6 @@ void CoverButton::cover_found(const CoverLocation& cl){
 
 
 void CoverButton::set_cover_image(const QString& cover_path){
-
 	if( _m->cover_forced && sender() == _m->cover_lookup){
 		return;
 	}

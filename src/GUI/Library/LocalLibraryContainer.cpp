@@ -23,8 +23,7 @@
 #include "GUI/Helper/GUI_Helper.h"
 
 LocalLibraryContainer::LocalLibraryContainer(QObject* parent) :
-	LibraryContainerInterface(parent)
-{}
+	LibraryContainerInterface(parent) {}
 
 LocalLibraryContainer::~LocalLibraryContainer() {}
 
@@ -33,19 +32,23 @@ QString LocalLibraryContainer::get_name() const
 	return "local_library";
 }
 
-QString LocalLibraryContainer::get_display_name() const {
+QString LocalLibraryContainer::get_display_name() const
+{
 	return tr("Local Library");
 }
 
-QIcon LocalLibraryContainer::get_icon() const {
+QIcon LocalLibraryContainer::get_icon() const
+{
 	return GUI::get_icon("append");
 }
 
-QWidget* LocalLibraryContainer::get_ui() const {
+QWidget* LocalLibraryContainer::get_ui() const
+{
 	return static_cast<QWidget*>(_ui);
 }
 
-QComboBox* LocalLibraryContainer::get_libchooser(){
+QComboBox* LocalLibraryContainer::get_libchooser()
+{
 	return _ui->get_libchooser();
 }
 

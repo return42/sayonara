@@ -26,8 +26,7 @@
 #include <functional>
 
 ShortcutHandler::ShortcutHandler() :
-	SayonaraClass()
-{}
+	SayonaraClass() {}
 
 ShortcutHandler::~ShortcutHandler() {}
 

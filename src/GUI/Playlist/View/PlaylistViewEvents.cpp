@@ -67,7 +67,6 @@ void PlaylistView::contextMenuEvent(QContextMenuEvent* e)
 		entry_mask |= (LibraryContextMenu::EntryEdit);
 
 		if(selections.size() == 1){
-
 			MetaData md = _model->get_md(selections.first());
 			_rc_menu->set_rating( md.rating );
 			entry_mask |= LibraryContextMenu::EntryRating;
@@ -144,7 +143,6 @@ void PlaylistView::keyPressEvent(QKeyEvent* event)
 	int key = event->key();
 
 	if((key == Qt::Key_Up || key == Qt::Key_Down)) {
-
 		SP::Set<int> selections = this->get_selections();
 		bool ctrl_pressed = (event->modifiers() & Qt::ControlModifier);
 
@@ -302,7 +300,6 @@ void PlaylistView::dropEvent(QDropEvent* event)
 
 
 void PlaylistView::resizeEvent(QResizeEvent *e) {
-
 	SearchableListView::resizeEvent(e);
 
 	this->set_delegate_max_width(_model->rowCount());

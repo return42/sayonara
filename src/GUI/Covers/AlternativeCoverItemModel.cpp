@@ -38,15 +38,13 @@
 #include <QIcon>
 
 AlternativeCoverItemModel::AlternativeCoverItemModel(QObject* parent) : QAbstractTableModel(parent) {
-
 	_pathlist.reserve(10);
 }
 
 AlternativeCoverItemModel::~AlternativeCoverItemModel() {}
 
-RowColumn AlternativeCoverItemModel::cvt_2_row_col(int idx) const {
-
-
+RowColumn AlternativeCoverItemModel::cvt_2_row_col(int idx) const
+{
 	RowColumn p;
 
     if(idx < 0) {
@@ -62,7 +60,8 @@ RowColumn AlternativeCoverItemModel::cvt_2_row_col(int idx) const {
 	return p;
 }
 
-int AlternativeCoverItemModel::cvt_2_idx(int row, int col) const {
+int AlternativeCoverItemModel::cvt_2_idx(int row, int col) const
+{
     if(row < 0 || col < 0) return -1;
 
 	return row * columnCount() + col;
@@ -82,7 +81,6 @@ int AlternativeCoverItemModel::columnCount(const QModelIndex &parent) const
 
 QVariant AlternativeCoverItemModel::data(const QModelIndex &index, int role) const
 {
-
 	int lin_idx = this->cvt_2_idx(index.row(), index.column());
     if(lin_idx < 0) return QVariant();
 
@@ -103,7 +101,8 @@ QVariant AlternativeCoverItemModel::data(const QModelIndex &index, int role) con
 }
 
 
-Qt::ItemFlags AlternativeCoverItemModel::flags(const QModelIndex &index) const{
+Qt::ItemFlags AlternativeCoverItemModel::flags(const QModelIndex &index) const
+{
 	if (!index.isValid()){
 		return Qt::ItemIsEnabled;
 	}
@@ -121,7 +120,6 @@ Qt::ItemFlags AlternativeCoverItemModel::flags(const QModelIndex &index) const{
 }
 
 bool AlternativeCoverItemModel::setData(const QModelIndex &index, const QVariant &value, int role) {
-
 	if (!index.isValid()){
 		 return false;
 	}
@@ -132,7 +130,6 @@ bool AlternativeCoverItemModel::setData(const QModelIndex &index, const QVariant
         return false;
 
 	 if(role == Qt::DisplayRole) {
-
 		_pathlist[lin_idx] = value.toString();
 
 		 emit dataChanged(index, index);
@@ -183,7 +180,6 @@ bool AlternativeCoverItemModel::removeRows(int position, int rows, const QModelI
 }
 
 bool AlternativeCoverItemModel::is_valid(int row, int col){
-
     int idx = cvt_2_idx(row, col);
     if(idx < 0) return false;
 

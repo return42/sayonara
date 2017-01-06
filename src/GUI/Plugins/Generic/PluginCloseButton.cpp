@@ -48,7 +48,6 @@ void PluginCloseButton::mouseReleaseEvent(QMouseEvent *e){
 
 
 void PluginCloseButton::enterEvent(QEvent* e){
-
 	QPushButton::enterEvent(e);
 
 	bool dark = (_settings->get(Set::Player_Style) == 1);
@@ -77,8 +76,8 @@ void PluginCloseButton::leaveEvent(QEvent* e){
 }
 
 
-void PluginCloseButton::set_std_icon(){
-
+void PluginCloseButton::set_std_icon()
+{
 	bool dark = (_settings->get(Set::Player_Style) == 1);
 
 	QIcon icon;
@@ -86,7 +85,6 @@ void PluginCloseButton::set_std_icon(){
 	QPixmap pixmap_disabled;
 
 	if(dark){
-
 		pixmap = GUI::get_pixmap("tool_dark_grey");
 		pixmap_disabled = GUI::get_pixmap("tool_disabled");
 		icon.addPixmap(pixmap, QIcon::Normal, QIcon::On);
@@ -111,7 +109,8 @@ void PluginCloseButton::set_std_icon(){
 }
 
 
-void PluginCloseButton::_sl_skin_changed(){
+void PluginCloseButton::_sl_skin_changed()
+{
 	set_std_icon();
 }
 

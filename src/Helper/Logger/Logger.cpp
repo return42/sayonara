@@ -29,10 +29,8 @@
 #include <iostream>
 
 Logger sp_log(Log type, const QString& module){
-
 	QString type_str;
 	switch(type){
-
 	case Log::Info:
 		break;
 	case Log::Debug:
@@ -67,8 +65,7 @@ Logger sp_log(Log type){
 }
 
 
-Logger::Logger(std::ostream& out) :	_out(out)
-{}
+Logger::Logger(std::ostream& out) :	_out(out) {}
 
 Logger::Logger(const char* msg, std::ostream& out) :
 	Logger(out)
@@ -77,7 +74,8 @@ Logger::Logger(const char* msg, std::ostream& out) :
 }
 
 
-Logger::~Logger(){
+Logger::~Logger()
+{
 	_out << std::endl;
 	_out.flush();
 }
@@ -97,7 +95,6 @@ Logger& Logger::operator << (const QStringList& lst){
 
 
 Logger& Logger::operator << (const QChar& c){
-
 	(*this) << c.toLatin1();
 
 
@@ -110,12 +107,10 @@ Logger& Logger::operator << (const QPoint& point){
 }
 
 Logger& Logger::operator << (const QByteArray& arr){
-
 	_out << std::endl;
 	QString line_str;
 
 	for(int i=0; i<arr.size(); i++){
-
 		char c = arr[i];
 
 		QChar qc = QChar(c);

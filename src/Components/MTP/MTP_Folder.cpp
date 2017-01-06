@@ -26,7 +26,6 @@
 
 
 MTP_Folder::MTP_Folder(MTPIntern_Device* device, MTPIntern_Folder *folder){
-
 	_id = 0;
 	_folder = folder;
 	_device = device;
@@ -65,7 +64,6 @@ QList<MTP_FolderPtr> MTP_Folder::children() const
 
 bool MTP_Folder::send_track(MTP_TrackPtr track) const
 {
-
 	QString lib_path = Settings::getInstance()->get(Set::Lib_Path);
 	QString track_path = track->src_filename();
 	sp_log(Log::Debug) << "Track path = " << track_path;
@@ -120,7 +118,6 @@ bool MTP_Folder::send_track(MTP_TrackPtr track) const
 
 		int id = ptr->create_folder(subpath);
 		if(id != 0){
-
 			sp_log(Log::Debug) << "Will copy to " << subpath;
 
 			MTPIntern_Folder* f = LIBMTP_new_folder_t();
@@ -167,7 +164,6 @@ bool MTP_Folder::remove() const
 
 quint32 MTP_Folder::create_folder(const QString& name) const
 {
-
 	quint32 ret;
 	ret = LIBMTP_Create_Folder(_device,
 							   strndup(name.toUtf8().data(), name.size()),

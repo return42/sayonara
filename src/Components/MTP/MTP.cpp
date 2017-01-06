@@ -34,8 +34,8 @@ MTP::~MTP()
 }
 
 
-void MTP::run_raw_devices(){
-
+void MTP::run_raw_devices()
+{
 	MTPIntern_RawDevice* raw_device_ptr;
 	int n_devices;
 
@@ -48,7 +48,6 @@ void MTP::run_raw_devices(){
 
 	sp_log(Log::Debug) << "Scan  for devices: " << n_devices;
 	for(int i=0; i<n_devices; i++){
-
 		MTPIntern_RawDevice* raw_device = (raw_device_ptr + i);
 		if(!raw_device){
 			continue;
@@ -59,14 +58,15 @@ void MTP::run_raw_devices(){
 	}
 }
 
-void MTP::run(){
-
+void MTP::run()
+{
 	_raw_devices.clear();
 
 	run_raw_devices();
 }
 
-QList<MTP_RawDevicePtr> MTP::get_raw_devices(){
+QList<MTP_RawDevicePtr> MTP::get_raw_devices()
+{
 	return _raw_devices;
 }
 

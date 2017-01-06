@@ -40,7 +40,6 @@ void LibraryViewAlbum::rc_menu_show(const QPoint & p){
 
 
 void LibraryViewAlbum::index_clicked(const QModelIndex &idx){
-
 	if(idx.column() != (int) ColumnIndex::Album::MultiDisc){
 		return;
 	}
@@ -55,7 +54,6 @@ void LibraryViewAlbum::index_clicked(const QModelIndex &idx){
 
 /* where to show the popup */
 void LibraryViewAlbum::calc_discmenu_point(QModelIndex idx){
-
 	_discmenu_point = QCursor::pos();
 
 	QRect box = this->geometry();
@@ -76,7 +74,6 @@ void LibraryViewAlbum::calc_discmenu_point(QModelIndex idx){
 }
 
 void LibraryViewAlbum::init_discmenu(QModelIndex idx){
-
 	int row = idx.row();
 	QList<quint8> discnumbers;
 	delete_discmenu();
@@ -101,8 +98,8 @@ void LibraryViewAlbum::init_discmenu(QModelIndex idx){
 }
 
 
-void LibraryViewAlbum::delete_discmenu(){
-
+void LibraryViewAlbum::delete_discmenu()
+{
 	if(!_discmenu) {
 		return;
 	}
@@ -117,8 +114,8 @@ void LibraryViewAlbum::delete_discmenu(){
 }
 
 
-void LibraryViewAlbum::show_discmenu(){
-
+void LibraryViewAlbum::show_discmenu()
+{
 	if(!_discmenu) return;
 
 	_discmenu->popup(_discmenu_point);

@@ -318,7 +318,8 @@ void GUI_Player::setup_tray_actions()
 	connect(_tray_icon, &GUI_TrayIcon::sig_show_clicked, this, &GUI_Player::raise);
 	connect(_tray_icon, &GUI_TrayIcon::sig_wheel_changed, this, &GUI_Player::change_volume_by_tick);
 	connect(_tray_icon, &GUI_TrayIcon::activated, this, &GUI_Player::tray_icon_activated);
-	connect(_tray_icon, &QObject::destroyed, this, [=](){
+	connect(_tray_icon, &QObject::destroyed, this, [=]()
+{
 		this->_tray_icon = nullptr;
 	});
 
@@ -332,7 +333,6 @@ void GUI_Player::tray_icon_activated (QSystemTrayIcon::ActivationReason reason)
 {
 	bool min_to_tray = _settings->get(Set::Player_Min2Tray);
 	switch (reason) {
-
 	case QSystemTrayIcon::Trigger:
 
 		if( this->isMinimized() ||
@@ -394,7 +394,6 @@ void GUI_Player::check_library_menu_action()
 	cur_idx = _lph->get_cur_library_idx();
 
 	for(int i=0; i<libraries.size(); i++){
-
 		QMenu* menu;
 		QAction* action;
 		LibraryContainerInterface* library;

@@ -66,7 +66,6 @@ QString cvtNum2String(T num, int digits) {
 
 quint64 Helper::date_to_int(const QDateTime& date_time)
 {
-
 	QString str = date_time.toUTC().toString("yyMMddHHmmss");
 	return str.toULongLong();
 }
@@ -156,7 +155,6 @@ QString Helper::get_sayonara_path()
 
 QString Helper::get_share_path() 
 {
-
 #ifdef Q_OS_WIN
 	return QString("./share/");
 #endif
@@ -164,8 +162,8 @@ QString Helper::get_share_path()
 	return SAYONARA_INSTALL_SHARE_PATH;
 }
 
-QString Helper::get_lib_path() {
-
+QString Helper::get_lib_path()
+{
 #ifdef Q_OS_WIN
 	return QString("./lib/sayonara/");
 #endif
@@ -283,7 +281,6 @@ QString Helper::easy_tag_finder(const QString& tag, const QString& xml_doc)
 	QString new_xml_doc = xml_doc;
 
 	while(p > 0) {
-
 		ret = new_tag.left(p);
 		t_rev = tag.right(new_tag.length() - p -1);
 
@@ -351,7 +348,6 @@ QStringList Helper::get_ip_addresses()
 
 void Helper::set_environment(const QString& key, const QString& value)
 {
-
 #ifdef Q_OS_WIN
 	QString str = key + "=" + value;
 	_putenv(str.toLocal8Bit().constData());

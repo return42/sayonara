@@ -22,8 +22,7 @@
 #include "Database/DatabaseConnector.h"
 
 UpdateDatesThread::UpdateDatesThread(QObject* parent) :
-    QThread(parent)
-{}
+    QThread(parent) {}
 
 UpdateDatesThread::~UpdateDatesThread() {}
 

@@ -70,12 +70,12 @@ QComboBox* GUI_SoundCloudLibrary::get_libchooser() const
 }
 
 
-QMenu* GUI_SoundCloudLibrary::get_menu() const {
+QMenu* GUI_SoundCloudLibrary::get_menu() const
+{
 	return _library_menu;
 }
 
 Library::TrackDeletionMode GUI_SoundCloudLibrary::show_delete_dialog(int n_tracks){
-
 	Q_UNUSED(n_tracks)
 	return Library::TrackDeletionMode::OnlyLibrary;
 }
@@ -86,7 +86,8 @@ void GUI_SoundCloudLibrary::init_shortcuts()
 	new QShortcut(QKeySequence("Esc"), this, SLOT(clear_button_pressed()), nullptr, Qt::WidgetWithChildrenShortcut);
 }
 
-void GUI_SoundCloudLibrary::btn_add_clicked(){
+void GUI_SoundCloudLibrary::btn_add_clicked()
+{
 	_artist_search->show();
 }
 

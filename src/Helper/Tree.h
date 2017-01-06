@@ -48,7 +48,8 @@ namespace SP
 			children.clear();
 		}
 
-		virtual ~Tree(){
+		virtual ~Tree()
+{
 			for(Tree* child : children){
 				delete child; child = nullptr;
 			}
@@ -60,7 +61,8 @@ namespace SP
 		/**
 				 * copy the entire tree. Has to be deleted afterwards
 				 */
-		Tree* copy(){
+		Tree* copy()
+{
 			Tree* node = new Tree(this->data);
 
 			for(Tree* child : children){

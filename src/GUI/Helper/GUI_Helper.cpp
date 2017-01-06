@@ -31,7 +31,6 @@
 
 
 QIcon GUI::get_icon(const QString& icon_name){
-
 	QString path;
 
 	if(icon_name.endsWith(".png")){
@@ -40,7 +39,6 @@ QIcon GUI::get_icon(const QString& icon_name){
 	}
 
 	else if(!icon_name.endsWith(".svg.png")){
-
 		path = icon_name + ".svg.png";
 	}
 
@@ -56,7 +54,6 @@ QIcon GUI::get_icon(const QString& icon_name){
 }
 
 QPixmap GUI::get_pixmap(const QString& icon_name, QSize sz, bool keep_aspect){
-
 	QString path = QString(":/Icons/") + icon_name;
 	if(path.endsWith(".png")){
 		// alles paletti
@@ -92,7 +89,8 @@ QPixmap GUI::get_pixmap(const QString& icon_name, QSize sz, bool keep_aspect){
 
 static QMainWindow* main_window=nullptr;
 
-QMainWindow* GUI::get_main_window(){
+QMainWindow* GUI::get_main_window()
+{
 	return main_window;
 }
 

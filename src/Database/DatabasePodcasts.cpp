@@ -23,12 +23,10 @@
 #include "Helper/Logger/Logger.h"
 
 DatabasePodcasts::DatabasePodcasts(const QSqlDatabase& db, quint8 db_id) :
-	DatabaseModule(db, db_id)
-{}
+	DatabaseModule(db, db_id) {}
 
 
 bool DatabasePodcasts::getAllPodcasts(QMap<QString, QString> & podcasts) {
-
 	DB_RETURN_NOT_OPEN_BOOL(_db);
 
 	podcasts.clear();
@@ -53,7 +51,6 @@ bool DatabasePodcasts::getAllPodcasts(QMap<QString, QString> & podcasts) {
 
 
 bool DatabasePodcasts::deletePodcast(const QString& name) {
-
 	DB_RETURN_NOT_OPEN_BOOL(_db);
 
 	SayonaraQuery q(_db);
@@ -71,7 +68,6 @@ bool DatabasePodcasts::deletePodcast(const QString& name) {
 
 
 bool DatabasePodcasts::addPodcast(const QString& name, const QString& url) {
-
 	DB_RETURN_NOT_OPEN_BOOL(_db);
 
 	SayonaraQuery q(_db);

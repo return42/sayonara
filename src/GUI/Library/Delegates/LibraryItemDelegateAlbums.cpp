@@ -35,8 +35,7 @@
 
 
 LibraryItemDelegateAlbums::LibraryItemDelegateAlbums(QObject* parent, bool enabled) :
-	LibraryRatingDelegate(parent, enabled)
-{}
+	LibraryRatingDelegate(parent, enabled) {}
 
 LibraryItemDelegateAlbums::~LibraryItemDelegateAlbums() {}
 

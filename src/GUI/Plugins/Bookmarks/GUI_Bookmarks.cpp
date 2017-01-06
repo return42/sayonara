@@ -35,8 +35,7 @@
 static const QString NoBookmarkText("--:--");
 
 GUI_Bookmarks::GUI_Bookmarks(QWidget *parent) :
-	PlayerPluginInterface(parent)
-{}
+	PlayerPluginInterface(parent) {}
 
 GUI_Bookmarks::~GUI_Bookmarks()
 {
@@ -57,8 +56,8 @@ QString GUI_Bookmarks::get_display_name() const
 }
 
 
-void GUI_Bookmarks::language_changed(){
-
+void GUI_Bookmarks::language_changed()
+{
 	if(!is_ui_initialized()){
 		return;
 	}

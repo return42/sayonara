@@ -140,7 +140,6 @@ void GUI_Spectrum::timed_out()
 
 
 void GUI_Spectrum::resize_steps(int n_bins, int rects) {
-
 	if(!is_ui_initialized()){
 		return;
 	}
@@ -222,7 +221,6 @@ void GUI_Spectrum::paintEvent(QPaintEvent *e)
 
 	// run through all bins
 	for(int i=offset; i<ninety + 1; i++) {
-
 		float f = _spec[i] * log_lu[ i*10 + 54];
 
 		// if this is one bar, how tall would it be?
@@ -241,7 +239,6 @@ void GUI_Spectrum::paintEvent(QPaintEvent *e)
 		QRect rect(x, y, w_bin, h_rect);
 		QColor col;
 		for(int r=0; r<n_rects; r++) {
-
 			// 100%
 			if( r < colored_rects) {
 				col = _cur_style.style[r].value(-1);

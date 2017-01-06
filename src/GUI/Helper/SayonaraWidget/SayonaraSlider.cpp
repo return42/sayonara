@@ -31,11 +31,9 @@ SayonaraSlider::SayonaraSlider(QWidget *parent) :
 }
 
 bool SayonaraSlider::event(QEvent *e){
-
 	/** We need this for activate an item as soon it is hovered.
 	Otherwise, the curve functionality with the mouse wheel event does not work **/
 	switch(e->type()){
-
 		case QEvent::HoverEnter:
 			emit sig_slider_got_focus();
 			break;
@@ -82,7 +80,6 @@ void SayonaraSlider::mouseReleaseEvent(QMouseEvent* e)
 }
 
 void SayonaraSlider::mouseMoveEvent(QMouseEvent* e) {
-
 	int new_val = get_val_from_pos(e->pos());
 
 	if(this->isSliderDown()){

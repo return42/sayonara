@@ -60,12 +60,10 @@ void NotificationHandler::register_notificator(NotificationInterface* notificato
 
 
 void NotificationHandler::notificator_changed(const QString& name){
-
 	_cur_idx = -1;
 	int i = 0;
 
 	for(NotificationInterface* n : _notificators){
-
 		if(n->get_name().compare(name, Qt::CaseInsensitive) == 0){
 			_cur_idx = i;
 			break;
@@ -98,8 +96,7 @@ int NotificationHandler::get_cur_idx() const
 
 
 DummyNotificator::DummyNotificator(const QString& name) :
-	NotificationInterface(name)
-{}
+	NotificationInterface(name) {}
 
 DummyNotificator::~DummyNotificator() {}
 

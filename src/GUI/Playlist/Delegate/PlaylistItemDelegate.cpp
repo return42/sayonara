@@ -53,7 +53,6 @@ void PlaylistItemDelegate::paint( QPainter *painter,
 						const QStyleOptionViewItem &option,
 						const QModelIndex &index) const
 {
-
 	QItemDelegate::drawBackground(painter, option, index);
 
 	if(!index.isValid()) return;
@@ -83,7 +82,6 @@ void PlaylistItemDelegate::paint( QPainter *painter,
 
 	if(md.pl_playing)
 	{
-
 		QColor col_highlight = palette.color(QPalette::Active, QPalette::Highlight);
 		col_highlight.setAlpha(160);
 
@@ -127,7 +125,6 @@ void PlaylistItemDelegate::paint( QPainter *painter,
 
 
 	for(int i=0; i<_entry_template.size(); i++){
-
 		bool print = (i == _entry_template.size() - 1);
 
 		QChar c = _entry_template.at(i);

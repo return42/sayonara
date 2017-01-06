@@ -80,7 +80,6 @@ bool Shutdown::is_running() const
 
 
 void Shutdown::shutdown(quint64 ms){
-
 	if(ms == 0){
 		timeout();
 		return;
@@ -98,7 +97,8 @@ void Shutdown::shutdown(quint64 ms){
 }
 
 
-void Shutdown::stop(){
+void Shutdown::stop()
+{
 	sp_log(Log::Info) << "Shutdown cancelled";
 	_is_running = false;
 	_timer->stop();
@@ -107,8 +107,8 @@ void Shutdown::stop(){
 }
 
 
-void Shutdown::countdown_timeout(){
-
+void Shutdown::countdown_timeout()
+{
 	_msecs2go -= 1000;
 	_timer_countdown->start(1000);
 
@@ -240,7 +240,8 @@ void Shutdown::timeout()
 }
 
 
-void Shutdown::playlist_finished(){
+void Shutdown::playlist_finished()
+{
 	if( _is_running ){
 		timeout();
 	}

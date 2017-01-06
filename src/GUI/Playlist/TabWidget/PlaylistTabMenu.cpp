@@ -94,7 +94,8 @@ void PlaylistTabMenu::language_changed()
 	_action_close_others->setText(Lang::get(Lang::CloseOthers));
 }
 
-void PlaylistTabMenu::skin_changed(){
+void PlaylistTabMenu::skin_changed()
+{
 	_action_open_file->setIcon(_icon_loader->get_icon( "document-open", "play_small") );
 	_action_open_dir->setIcon(_icon_loader->get_icon( "document-open", "play_small") );
 

@@ -53,7 +53,6 @@ void AbstractStreamHandler::clear()
 }
 
 bool AbstractStreamHandler::parse_station(const QString& url, const QString& station_name){
-
 	if(_m->blocked) {
 		return false;
 	}
@@ -69,7 +68,6 @@ bool AbstractStreamHandler::parse_station(const QString& url, const QString& sta
 }
 
 void AbstractStreamHandler::stream_parser_finished(bool success){
-
 	if(!success){
 		emit sig_error();
 		_m->blocked = false;

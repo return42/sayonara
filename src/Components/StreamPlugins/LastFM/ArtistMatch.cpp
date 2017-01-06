@@ -41,7 +41,8 @@ ArtistMatch::ArtistMatch(const ArtistMatch& other)
 
 ArtistMatch::~ArtistMatch() {}
 
-bool ArtistMatch::is_valid() const {
+bool ArtistMatch::is_valid() const
+{
 	return  (
 				_very_good.size() > 0 ||
 				_well.size() > 0  ||
@@ -49,7 +50,8 @@ bool ArtistMatch::is_valid() const {
 				);
 }
 
-bool ArtistMatch::operator ==(const ArtistMatch& am) const {
+bool ArtistMatch::operator ==(const ArtistMatch& am) const
+{
 	return (_artist == am._artist);
 }
 

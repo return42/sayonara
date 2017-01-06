@@ -82,7 +82,6 @@ void SomaFMLibrary::soma_website_fetched(bool success)
 
 
 	for(const QString& station_content : station_contents){
-
 		SomaFMStation station(station_content);
 		if(!station.is_valid()){
 			continue;

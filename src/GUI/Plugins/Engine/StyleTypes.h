@@ -67,7 +67,8 @@ struct RawColorStyle{
     int hor_spacing_spectrum;
     int ver_spacing_spectrum;
 
-    RawColorStyle(){
+    RawColorStyle()
+{
         col_list.name = "";
 
 		n_rects_level = 0;
@@ -83,7 +84,8 @@ struct RawColorStyle{
         ver_spacing_spectrum = 1;
     }
 
-    QString toString() const {
+    QString toString() const
+{
         QString ret;
         ret += col_list.name + "";
         ret += ", n_bins_sp: " + QString::number(n_bins_spectrum);

@@ -38,7 +38,6 @@ struct CachingThread::Private {
 		dr.set_filter("*");
 
 		for(const QString& filename : file_list){
-
 			if(cancelled){
 				cache.clear();
 				return;
@@ -63,11 +62,8 @@ struct CachingThread::Private {
 
 	void extract_soundfiles()
 	{
-
 		for(const QString& filename : cache.get_files()){
-
 			if(Helper::File::is_soundfile(filename)){
-
 				MetaData md(filename);
 
 				bool success = Tagging::getMetaDataOfFile(md);

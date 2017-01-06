@@ -29,7 +29,6 @@ DBusNotifications::DBusNotifications(QObject* parent) :
 	NotificationInterface("DBus"),
 	SayonaraClass()
 {
-
 	_interface = new OrgFreedesktopNotificationsInterface(
 				QString("org.freedesktop.Notifications"),
 				QString("/org/freedesktop/Notifications"),
@@ -54,7 +53,6 @@ DBusNotifications::DBusNotifications(QObject* parent) :
 DBusNotifications::~DBusNotifications() {}
 
 void DBusNotifications::notify(const QString& title, const QString& text, const QString& image_path){
-
 	QVariantMap map;
 	map.insert("action-icons", false);
 	map.insert("desktop-entry", "/usr/share/applications/sayonara.desktop");
@@ -82,7 +80,6 @@ void DBusNotifications::notify(const MetaData& md){
 
 
 void DBusNotifications::track_changed(const MetaData& md){
-
 	bool active = _settings->get(Set::Notification_Show);
 	if(!active){
 		return;

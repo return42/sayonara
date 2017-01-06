@@ -33,7 +33,6 @@
 #include <QPainter>
 
 AlternativeCoverItemDelegate::AlternativeCoverItemDelegate(QObject* parent) : QItemDelegate(parent) {
-
 	QPixmap pm = GUI::get_pixmap("logo.png");
 
 	label = new QLabel();
@@ -45,7 +44,8 @@ AlternativeCoverItemDelegate::AlternativeCoverItemDelegate(QObject* parent) : QI
 
 AlternativeCoverItemDelegate::~AlternativeCoverItemDelegate() {}
 
-void AlternativeCoverItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const{
+void AlternativeCoverItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
+{
 	QItemDelegate::paint(painter, option, index);
 
     if(!index.isValid()) return;
@@ -67,7 +67,6 @@ void AlternativeCoverItemDelegate::paint(QPainter *painter, const QStyleOptionVi
 	QPixmap pixmap( cover_path );
 
 	if(!pixmap.isNull()) {
-
 		label->setPixmap(pixmap);
 	}
 
@@ -77,7 +76,8 @@ void AlternativeCoverItemDelegate::paint(QPainter *painter, const QStyleOptionVi
 }
 
 
-QSize AlternativeCoverItemDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const{
+QSize AlternativeCoverItemDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
+{
 	Q_UNUSED(option)
 	Q_UNUSED(index)
 	return QSize(100, 100);

@@ -59,7 +59,6 @@ bool MenuButton::prove_enabled()
 
 void MenuButton::mousePressEvent(QMouseEvent* e)
 {
-
 	QPushButton::mousePressEvent(e);
 
 	QPoint globalPoint = this->mapToGlobal(this->pos()) - this->pos();
@@ -113,7 +112,6 @@ void MenuButton::set_std_icon()
 	QPixmap pixmap_disabled;
 
 	if(dark){
-
 		pixmap = GUI::get_pixmap("tool_dark_grey");
 		pixmap_disabled = GUI::get_pixmap("tool_disabled");
 		icon.addPixmap(pixmap, QIcon::Normal, QIcon::On);

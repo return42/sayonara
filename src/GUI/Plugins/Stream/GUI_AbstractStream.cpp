@@ -44,8 +44,8 @@ GUI_AbstractStream::GUI_AbstractStream(AbstractStreamHandler* stream_handler, QW
 
 GUI_AbstractStream::~GUI_AbstractStream() {}
 
-void GUI_AbstractStream::init_connections(){
-
+void GUI_AbstractStream::init_connections()
+{
 	_combo_stream->setAutoCompletion(false);
 
 	_combo_stream->setFocusPolicy(Qt::StrongFocus);
@@ -71,8 +71,8 @@ void GUI_AbstractStream::init_connections(){
 	connect(_stream_handler, &AbstractStreamHandler::sig_data_available, this, &GUI_AbstractStream::data_available);
 }
 
-void GUI_AbstractStream::init_streams(){
-
+void GUI_AbstractStream::init_streams()
+{
 	StreamMap data;
 
 	if( _stream_handler->get_all_streams(data) ){
@@ -93,8 +93,8 @@ void GUI_AbstractStream::init_ui()
 	REGISTER_LISTENER(Set::Player_Style, _sl_skin_changed);
 }
 
-void GUI_AbstractStream::error(){
-
+void GUI_AbstractStream::error()
+{
 	_btn_play->setDisabled(false);
 	_lab_listen->setText(Lang::get(Lang::Listen));
 
@@ -102,8 +102,8 @@ void GUI_AbstractStream::error(){
 	Message::warning(tr("Cannot open stream") + "\n" + _le_url->text());
 }
 
-void GUI_AbstractStream::data_available(){
-
+void GUI_AbstractStream::data_available()
+{
 	_btn_play->setDisabled(false);
 	_lab_listen->setText(Lang::get(Lang::Listen));
 }
@@ -126,7 +126,8 @@ void GUI_AbstractStream::play(QString url, QString station_name)
 }
 
 
-void GUI_AbstractStream::listen_clicked(){
+void GUI_AbstractStream::listen_clicked()
+{
 	QString name, url;
 
 	if( _combo_stream->currentIndex() <= 0) {
@@ -141,7 +142,6 @@ void GUI_AbstractStream::listen_clicked(){
 
 	url = url.trimmed();
 	if(url.size() > 5) {
-
 		play(url, name);
 		_btn_play->setDisabled(true);
 		_lab_listen->setText(tr("Busy..."));
@@ -149,7 +149,6 @@ void GUI_AbstractStream::listen_clicked(){
 }
 
 void GUI_AbstractStream::combo_idx_changed(int idx){
-
 	QString cur_station_name = _combo_stream->currentText();
 	QString address = _stations[cur_station_name];
 	bool listen_enabled;
@@ -172,14 +171,14 @@ void GUI_AbstractStream::combo_idx_changed(int idx){
 }
 
 
-GlobalMessage::Answer GUI_AbstractStream::show_delete_confirm_dialog(){
-
+GlobalMessage::Answer GUI_AbstractStream::show_delete_confirm_dialog()
+{
 	QString cur_station_name = _combo_stream->currentText();
 	return Message::question_yn(tr("Do you really want to delete %1").arg(cur_station_name));
 }
 
-void GUI_AbstractStream::new_clicked(){
-
+void GUI_AbstractStream::new_clicked()
+{
 	if(_combo_stream->count() > 0){
 		_combo_stream->setCurrentIndex(0);
 		_combo_stream->setItemText(0, "");
@@ -206,17 +205,15 @@ void GUI_AbstractStream::text_changed(const QString& str)
 						  !_combo_stream->currentText().isEmpty());
 }
 
-void GUI_AbstractStream::delete_clicked(){
-
+void GUI_AbstractStream::delete_clicked()
+{
 	if(_combo_stream->currentIndex() <= 0) return;
 
 	QString cur_station_name = _combo_stream->currentText();
 	GlobalMessage::Answer ret = show_delete_confirm_dialog();
 
 	if(ret == GlobalMessage::Answer::Yes) {
-
 		if( _stream_handler->delete_stream(cur_station_name) ) {
-
 			StreamMap map;
 			sp_log(Log::Info) << cur_station_name << "successfully deleted";
 
@@ -227,8 +224,8 @@ void GUI_AbstractStream::delete_clicked(){
 	}
 }
 
-void GUI_AbstractStream::save_clicked(){
-
+void GUI_AbstractStream::save_clicked()
+{
 	QString name = _combo_stream->currentText();
 	QString url = _le_url->text();
 	GlobalMessage::Answer answer;
@@ -263,7 +260,6 @@ void GUI_AbstractStream::save_clicked(){
 }
 
 void GUI_AbstractStream::setup_stations(const StreamMap& stations){
-
 	QString old_name = _combo_stream->currentText();
 	QString old_url = _le_url->text();
 

@@ -27,7 +27,6 @@
 #include <algorithm>
 
 int find_year(QString str) {
-
     int idx = str.indexOf(QRegExp("[0-9]{4,4}"));
 
     if(idx >= 0) {
@@ -67,7 +66,6 @@ int parse_length_s(const QString& str)
 
 
 bool  PodcastParser::parse_podcast_xml_file_content(const QString& content, MetaDataList& v_md) {
-
     v_md.clear();
 
     QDomDocument doc("PodcastFile");
@@ -85,7 +83,6 @@ bool  PodcastParser::parse_podcast_xml_file_content(const QString& content, Meta
 	QString cover_url;
 
 	for(int c = 0; c<first_channel_node.childNodes().size(); c++) {
-
 		QDomNode channel_content_node = first_channel_node.childNodes().at(c);
 		QString channel_content_nodename = channel_content_node.nodeName();
 		QDomElement channel_content_element = channel_content_node.toElement();
@@ -99,7 +96,6 @@ bool  PodcastParser::parse_podcast_xml_file_content(const QString& content, Meta
         }
 
 		else if(!channel_content_nodename.compare("itunes:category", Qt::CaseInsensitive)) {
-
 			QStringList genres = channel_content_element.text().split(QRegExp(",|/|;|\\."));
             for(int i=0; i<genres.size(); i++) {
                 genres[i] = genres[i].trimmed();
@@ -109,7 +105,6 @@ bool  PodcastParser::parse_podcast_xml_file_content(const QString& content, Meta
         }
 
 		else if(!channel_content_nodename.compare("image", Qt::CaseInsensitive)) {
-
 			QDomNodeList image_content_nodes = channel_content_node.childNodes();
 
 			for(int icn=0; icn<image_content_nodes.size(); icn++) {
@@ -132,7 +127,6 @@ bool  PodcastParser::parse_podcast_xml_file_content(const QString& content, Meta
 
         // item
 		else if(!channel_content_nodename.compare("item", Qt::CaseInsensitive)) {
-
 			if(!channel_content_node.hasChildNodes()) continue;
 
             MetaData md;
@@ -163,7 +157,6 @@ bool  PodcastParser::parse_podcast_xml_file_content(const QString& content, Meta
 				}
 
 				else if(!item_nodename.compare("enclosure", Qt::CaseInsensitive)){
-
 					QDomNamedNodeMap map = item_element.attributes();
 					for(int j=0; j<map.count(); j++){
 						QDomAttr attr = map.item(j).toAttr();
@@ -186,7 +179,6 @@ bool  PodcastParser::parse_podcast_xml_file_content(const QString& content, Meta
                 }
 
 				else if(!item_nodename.compare("itunes:duration", Qt::CaseInsensitive)) {
-
 					QStringList lst = item_element_text.split(":");
                     int len = 0;
 					for(int j=lst.size() -1; j>=0; j--) {
@@ -209,7 +201,6 @@ bool  PodcastParser::parse_podcast_xml_file_content(const QString& content, Meta
                 }
 
 				else if(!item_nodename.compare("psc:chapters", Qt::CaseInsensitive)){
-
 					QDomNodeList chapter_nodes = item_node.childNodes();
 
 					for(int cn=0; cn<chapter_nodes.size(); cn++)

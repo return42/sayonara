@@ -73,7 +73,6 @@ bool StdPlaylist::change_track(int idx)
 
 	// ERROR: track not available in file system anymore
 	if( !Helper::File::check_file(metadata(idx).filepath()) ) {
-
 		metadata(idx).is_disabled = true;
 
 		return change_track(idx + 1);
@@ -158,10 +157,8 @@ void StdPlaylist::next()
 
 	// normal track
 	else {
-
 		// last track
 		if(cur_track == metadata().size() - 1){
-
 			if(Playlist::Mode::isActiveAndEnabled(_playlist_mode.repAll())){
 				track_num = 0;
 			}
@@ -203,7 +200,6 @@ int StdPlaylist::calc_shuffle_track()
 
 	// no random track to play
 	if(left_tracks.isEmpty()){
-
 		if(Playlist::Mode::isActiveAndEnabled(_playlist_mode.repAll())){
 			return rnd.get_number(0, metadata().size() -1);
 		}
@@ -224,7 +220,6 @@ void StdPlaylist::metadata_changed(const MetaDataList& v_md_old, const MetaDataL
 	Q_UNUSED(v_md_old)
 
 	for(auto it=metadata().begin(); it !=metadata().end(); it++){
-
 		auto lambda = [it](const MetaData& md) -> bool{
 			return it->is_equal(md);
 		};

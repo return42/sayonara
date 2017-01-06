@@ -204,8 +204,8 @@ Library::ReloadQuality GUI_LocalLibrary::show_quality_dialog()
 }
 
 
-void GUI_LocalLibrary::language_changed() {
-
+void GUI_LocalLibrary::language_changed()
+{
 	ui->retranslateUi(this);
 
 	GUI_AbstractLibrary::language_changed();
@@ -255,7 +255,6 @@ void GUI_LocalLibrary::date_selection_changed(const QModelIndex& index)
 
 
 Library::TrackDeletionMode GUI_LocalLibrary::show_delete_dialog(int n_tracks) {
-
 	QMessageBox dialog(this);
 	QAbstractButton* clicked_button;
 	QPushButton* only_library_button;
@@ -297,8 +296,8 @@ void GUI_LocalLibrary::disc_pressed(int disc) {
 }
 
 
-void GUI_LocalLibrary::lib_no_lib_path(){
-
+void GUI_LocalLibrary::lib_no_lib_path()
+{
 	Message::warning(tr("Please select your library path first and reload again."));
 
 	QString dir = QFileDialog::getExistingDirectory(this, Lang::get(Lang::OpenDir),	QDir::homePath(), QFileDialog::ShowDirsOnly);
@@ -310,7 +309,6 @@ void GUI_LocalLibrary::lib_no_lib_path(){
 
 void GUI_LocalLibrary::progress_changed(const QString& type, int progress)
 {
-
 	ui->pb_progress->setVisible(progress >= 0);
 	ui->lab_progress->setVisible(progress >= 0);
 
@@ -334,7 +332,6 @@ void GUI_LocalLibrary::progress_changed(const QString& type, int progress)
 
 void GUI_LocalLibrary::reload_library_requested()
 {
-
 	Library::ReloadQuality quality = show_quality_dialog();
 	if(quality == Library::ReloadQuality::Unknown){
 		return;
@@ -450,8 +447,8 @@ void GUI_LocalLibrary::import_files(const QStringList& files){
 }
 
 
-void GUI_LocalLibrary::import_dialog_requested(){
-
+void GUI_LocalLibrary::import_dialog_requested()
+{
 	if(!_ui_importer){
 		_ui_importer = new GUI_ImportFolder(this, true);
 	}
@@ -460,8 +457,8 @@ void GUI_LocalLibrary::import_dialog_requested(){
 }
 
 
-void GUI_LocalLibrary::set_library_path_clicked() {
-
+void GUI_LocalLibrary::set_library_path_clicked()
+{
 	QString start_dir = QDir::homePath();
 	QString old_dir = _settings->get(Set::Lib_Path);
 

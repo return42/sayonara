@@ -34,7 +34,6 @@ SoundcloudJsonParser::SoundcloudJsonParser(const QByteArray& content) :
 
 	_content(content)
 {
-
 	QJsonParseError error;
 	_json_doc = QJsonDocument::fromJson(content, &error);
 	Helper::File::write_file(_json_doc.toJson(QJsonDocument::Indented), Helper::get_sayonara_path() + "/tmp.json");
@@ -66,7 +65,6 @@ bool SoundcloudJsonParser::parse_artists(ArtistList& artists)
 
 
 bool SoundcloudJsonParser::parse_artist_list(ArtistList& artists, QJsonArray arr){
-
 	artists.clear();
 
 	for(auto it = arr.begin(); it != arr.end(); it++){
@@ -126,7 +124,6 @@ bool SoundcloudJsonParser::parse_tracks(ArtistList& artists, MetaDataList &v_md)
 
 
 bool SoundcloudJsonParser::parse_track_list(ArtistList& artists, MetaDataList &v_md, QJsonArray arr){
-
 	v_md.clear();
 
 	for(auto it = arr.begin(); it != arr.end(); it++){
@@ -227,7 +224,6 @@ bool SoundcloudJsonParser::parse_playlists(ArtistList& artists, AlbumList &album
 
 
 bool SoundcloudJsonParser::parse_playlist_list(ArtistList& artists, AlbumList& albums, MetaDataList& v_md, QJsonArray arr){
-
 	albums.clear();
 
 	for(auto it = arr.begin(); it != arr.end(); it++){
@@ -238,7 +234,6 @@ bool SoundcloudJsonParser::parse_playlist_list(ArtistList& artists, AlbumList& a
 			ArtistList artists_tmp;
 
 			if(parse_playlist(artists_tmp, album, v_md_tmp, ref.toObject())){
-
 				v_md << v_md_tmp;
 
 				for(const Artist& artist_tmp : artists_tmp){

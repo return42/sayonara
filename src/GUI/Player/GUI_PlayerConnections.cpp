@@ -31,8 +31,8 @@
 	#include "GUI/MTP/GUI_MTP.h"
 #endif
 
-void GUI_Player::setup_connections() {
-
+void GUI_Player::setup_connections()
+{
 	connect(btn_play,	&QPushButton::clicked,	this, &GUI_Player::play_clicked);
 	connect(btn_fw,		&QPushButton::clicked,	this, &GUI_Player::next_clicked);
 	connect(btn_bw,		&QPushButton::clicked,	this, &GUI_Player::prev_clicked);
@@ -60,8 +60,8 @@ void GUI_Player::setup_connections() {
 	connect(action_Close, &QAction::triggered, this, &GUI_Player::really_close);
 
 #ifdef WITH_MTP
-	connect(action_devices, &QAction::triggered, this, [=](){
-
+	connect(action_devices, &QAction::triggered, this, [=]()
+{
 		if(!_mtp){
 			_mtp = new GUI_MTP(this);
 		}
@@ -109,14 +109,18 @@ void GUI_Player::setup_connections() {
 	sc4.create_qt_shortcut(this, _play_manager, SLOT(previous()));
 	sc5.create_qt_shortcut(this, _play_manager, SLOT(volume_down()));
 	sc6.create_qt_shortcut(this, _play_manager, SLOT(volume_up()));
-	sc7.create_qt_shortcut(this, [=](){_play_manager->seek_rel_ms(2000);});
-	sc8.create_qt_shortcut(this, [=](){_play_manager->seek_rel_ms(-2000);});
-	sc9.create_qt_shortcut(this, [=](){
+	sc7.create_qt_shortcut(this, [=]()
+{_play_manager->seek_rel_ms(2000);});
+	sc8.create_qt_shortcut(this, [=]()
+{_play_manager->seek_rel_ms(-2000);});
+	sc9.create_qt_shortcut(this, [=]()
+{
 		qint64 ms = _play_manager->get_duration_ms() / 20;
 		_play_manager->seek_rel_ms(ms);
 	});
 
-	sc10.create_qt_shortcut(this, [=](){
+	sc10.create_qt_shortcut(this, [=]()
+{
 		qint64 ms = _play_manager->get_duration_ms() / 20;
 		_play_manager->seek_rel_ms(-ms);
 	});

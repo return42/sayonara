@@ -26,7 +26,6 @@
 #include <QDomElement>
 
 LFMSimArtistsParser::LFMSimArtistsParser(const QString& artist_name, const QByteArray &arr){
-
 	_artist_name = artist_name;
 
 	_data = arr;
@@ -74,7 +73,6 @@ void LFMSimArtistsParser::parse_document()
 
 	QDomNodeList child_nodes = similar_artists.childNodes();
 	for(int idx_artist=0; idx_artist < child_nodes.size(); idx_artist++) {
-
 		QDomNode artist = child_nodes.item(idx_artist);
 		QString node_name = artist.nodeName();
 

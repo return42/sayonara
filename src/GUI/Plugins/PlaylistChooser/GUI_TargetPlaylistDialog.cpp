@@ -35,13 +35,14 @@ GUI_TargetPlaylistDialog::GUI_TargetPlaylistDialog(QWidget *parent) :
 GUI_TargetPlaylistDialog::~GUI_TargetPlaylistDialog() {}
 
 
-void GUI_TargetPlaylistDialog::language_changed() {
+void GUI_TargetPlaylistDialog::language_changed()
+{
 	retranslateUi(this);
 }
 
 
-void GUI_TargetPlaylistDialog::search_button_clicked() {
-
+void GUI_TargetPlaylistDialog::search_button_clicked()
+{
 	QString lib_path = _settings->get(Set::Lib_Path);
 
     QString target_filename = QFileDialog::getSaveFileName(this,
@@ -54,7 +55,8 @@ void GUI_TargetPlaylistDialog::search_button_clicked() {
 }
 
 
-void GUI_TargetPlaylistDialog::ok_button_clicked() {
+void GUI_TargetPlaylistDialog::ok_button_clicked()
+{
 	QString target_filename = le_path->text();
 	bool checked = cb_relative->isChecked();
 

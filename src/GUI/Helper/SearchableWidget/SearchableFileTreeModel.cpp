@@ -71,7 +71,6 @@ QModelIndex SearchableFileTreeModel::getFirstRowIndexOf(const QString& substr)
 
 
 	if(_found_strings.size() > 0){
-
 		std::sort(_found_strings.begin(), _found_strings.end(), [](const QString& str1 , const QString& str2){
 			return (str1 < str2);
 		});

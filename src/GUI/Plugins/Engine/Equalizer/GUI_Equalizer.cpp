@@ -97,7 +97,6 @@ void GUI_Equalizer::init_ui()
 	ui->cb_gauss->setChecked( _settings->get(Set::Eq_Gauss));
 
 	for(EqSlider* s : _sliders) {
-
 		connect(s, &EqSlider::sig_value_changed, this, &GUI_Equalizer::sli_changed);
 		connect(s, &EqSlider::sig_slider_got_focus, this, &GUI_Equalizer::sli_pressed);
 		connect(s, &EqSlider::sig_slider_lost_focus, this, &GUI_Equalizer::sli_released);
@@ -126,7 +125,8 @@ QString GUI_Equalizer::get_display_name() const
 }
 
 
-void GUI_Equalizer::language_changed() {
+void GUI_Equalizer::language_changed()
+{
 	if(!is_ui_initialized()){
 		return;
 	}
@@ -148,8 +148,8 @@ int GUI_Equalizer::find_combo_text(QString text){
 }
 
 
-void GUI_Equalizer::sli_pressed(){
-
+void GUI_Equalizer::sli_pressed()
+{
 	EqSlider* sli = static_cast<EqSlider*>(sender());
 	int idx = sli->getIndex();
 
@@ -163,8 +163,8 @@ void GUI_Equalizer::sli_pressed(){
 }
 
 
-void GUI_Equalizer::sli_released(){
-
+void GUI_Equalizer::sli_released()
+{
 	_active_idx = -1;
 }
 
@@ -172,7 +172,6 @@ void GUI_Equalizer::sli_released(){
 static double scale[] = {1.0, 0.6, 0.20, 0.06, 0.01};
 
 void GUI_Equalizer::sli_changed(int idx, int new_val) {
-
 	ui->btn_tool->show_action(ContextMenu::EntryUndo, true);
 
 	EqSlider* s = _sliders[idx];
@@ -202,8 +201,8 @@ void GUI_Equalizer::sli_changed(int idx, int new_val) {
 }
 
 
-void GUI_Equalizer::fill_eq_presets() {
-
+void GUI_Equalizer::fill_eq_presets()
+{
 	if(!is_ui_initialized()){
 		return;
 	}
@@ -215,7 +214,6 @@ void GUI_Equalizer::fill_eq_presets() {
 	_presets.prepend(EQ_Setting());
 
 	for(const EQ_Setting& s : _presets) {
-
 		items << s.name();
 	}
 
@@ -236,7 +234,6 @@ void GUI_Equalizer::fill_eq_presets() {
 
 
 void GUI_Equalizer::preset_changed(int index) {
-
 	if(index >= _presets.size()) {
 		ui->btn_tool->show_actions(ContextMenu::EntryNone);
 		return;
@@ -255,7 +252,6 @@ void GUI_Equalizer::preset_changed(int index) {
 	QList<int> values = setting.values();
 
 	for(int i=0; i<values.size(); i++){
-
 		if(i >= _sliders.size()){
 			break;
 		}
@@ -291,8 +287,8 @@ void GUI_Equalizer::btn_default_clicked()
 }
 
 
-void GUI_Equalizer::btn_save_clicked() {
-
+void GUI_Equalizer::btn_save_clicked()
+{
 	QString text = ui->combo_presets->currentText();
 	if(text.isEmpty()){
 		return;
@@ -319,8 +315,8 @@ void GUI_Equalizer::btn_save_clicked() {
 	preset_changed(found_idx);
 }
 
-void GUI_Equalizer::btn_delete_clicked(){
-
+void GUI_Equalizer::btn_delete_clicked()
+{
 	ui->btn_tool->show_action(ContextMenu::EntryUndo, false);
 	int idx = ui->combo_presets->currentIndex();
 
@@ -334,8 +330,8 @@ void GUI_Equalizer::btn_delete_clicked(){
 	_presets.prepend(EQ_Setting());
 }
 
-void GUI_Equalizer::btn_undo_clicked(){
-
+void GUI_Equalizer::btn_undo_clicked()
+{
 	ui->btn_tool->show_action(ContextMenu::EntryUndo, false);
 	QString text = ui->combo_presets->currentText();
 

@@ -62,7 +62,8 @@ SayonaraMainWindow::~SayonaraMainWindow() {}
 void SayonaraMainWindow::language_changed() {}
 void SayonaraMainWindow::skin_changed() {}
 
-void SayonaraMainWindow::raise(){
+void SayonaraMainWindow::raise()
+{
     QMainWindow::raise();
 
     if(this->isHidden())

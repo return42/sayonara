@@ -52,7 +52,6 @@ void EqSlider::sliderChange(SliderChange change){
 	QSlider::sliderChange(change);
 
 	if(change == QAbstractSlider::SliderValueChange){
-
 		emit sig_value_changed(_idx, this->get_eq_value());
 	}
 }

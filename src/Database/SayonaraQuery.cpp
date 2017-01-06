@@ -28,17 +28,14 @@ SayonaraQuery::SayonaraQuery(const QString& query, const QSqlDatabase& db) :
 }
 
 SayonaraQuery::SayonaraQuery(QSqlResult * result) :
-	QSqlQuery(result)
-{}
+	QSqlQuery(result) {}
 
 
 SayonaraQuery::SayonaraQuery(const QSqlDatabase& db) :
-	QSqlQuery(db)
-{}
+	QSqlQuery(db) {}
 
 SayonaraQuery::SayonaraQuery(const QSqlQuery & other) :
-	QSqlQuery(other)
-{}
+	QSqlQuery(other) {}
 
 SayonaraQuery::~SayonaraQuery() {}
 

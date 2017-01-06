@@ -64,7 +64,8 @@ EngineHandler::EngineHandler(QObject* parent) :
 }
 
 
-EngineHandler::~EngineHandler() {
+EngineHandler::~EngineHandler()
+{
 	for(Engine* e : _engines)
 	{
 		delete e;
@@ -73,14 +74,14 @@ EngineHandler::~EngineHandler() {
 	_engines.clear();
 }
 
-bool EngineHandler::init() {
-
+bool EngineHandler::init()
+{
 	return true;
 }
 
 
-void EngineHandler::start_convert() {
-
+void EngineHandler::start_convert()
+{
 	stop();
 
 	if( _cur_engine->get_name() != EngineName::ConvertEngine ) {
@@ -90,8 +91,8 @@ void EngineHandler::start_convert() {
 	_cur_engine->stop();
 }
 
-void EngineHandler::end_convert() {
-
+void EngineHandler::end_convert()
+{
 	stop();
 
 	sp_log(Log::Debug) << "Engine end convert";
@@ -106,7 +107,6 @@ void EngineHandler::end_convert() {
 
 
 void EngineHandler::playstate_changed(PlayState state){
-
 	if(!_cur_engine) return;
 
 	switch(state){
@@ -128,19 +128,21 @@ void EngineHandler::playstate_changed(PlayState state){
 }
 
 
-void EngineHandler::play() {
+void EngineHandler::play()
+{
 	if(!_cur_engine) return;
 
 	_cur_engine->play();
 }
 
-void EngineHandler::stop() {
-
+void EngineHandler::stop()
+{
 	if(!_cur_engine) return;
 	_cur_engine->stop();
 }
 
-void EngineHandler::pause() {
+void EngineHandler::pause()
+{
 	if(!_cur_engine) return;
 	_cur_engine->pause();
 }
@@ -168,7 +170,6 @@ void EngineHandler::change_track(const MetaData& md) {
 }
 
 void EngineHandler::change_track(const QString& str) {
-
 	if(!_cur_engine) return;
 	_cur_engine->change_track(str);
 }
@@ -192,11 +193,13 @@ void EngineHandler::sl_pos_changed_s(quint32 sec) {
 	_play_manager->set_position_ms( (quint64) (sec * 1000) );
 }
 
-void EngineHandler::sl_track_ready_changed(){
+void EngineHandler::sl_track_ready_changed()
+{
 	_play_manager->set_track_ready();
 }
 
-void EngineHandler::sl_track_finished() {
+void EngineHandler::sl_track_finished()
+{
 	_play_manager->next();
 }
 
@@ -206,7 +209,6 @@ void EngineHandler::sl_buffer_state_changed(int progress){
 }
 
 void EngineHandler::sr_record_button_pressed(bool b){
-
 	PlaybackEngine* p = get_playback_engine();
 	if(p){
 		p->set_streamrecorder_recording(b);
@@ -214,7 +216,6 @@ void EngineHandler::sr_record_button_pressed(bool b){
 }
 
 bool EngineHandler::configure_connections(Engine* old_engine, Engine* new_engine) {
-
 	if(!old_engine && !new_engine) return false;
 	if(old_engine == new_engine) return false;
 
@@ -276,7 +277,6 @@ Engine* EngineHandler::get_engine(EngineName name)
 
 
 void EngineHandler::switch_engine(EngineName name) {
-
 	Engine* new_engine=get_engine(name);
 
 	if(!new_engine){
@@ -287,7 +287,8 @@ void EngineHandler::switch_engine(EngineName name) {
 	_cur_engine = new_engine;
 }
 
-PlaybackEngine* EngineHandler::get_playback_engine(){
+PlaybackEngine* EngineHandler::get_playback_engine()
+{
 	return dynamic_cast<PlaybackEngine*>(get_engine(EngineName::PlaybackEngine));
 }
 
@@ -314,7 +315,6 @@ void EngineHandler::register_raw_sound_receiver(RawSoundReceiverInterface* recei
 }
 
 void EngineHandler::unregister_raw_sound_receiver(RawSoundReceiverInterface* receiver){
-
 	PlaybackEngine* engine;
 
 	if(!_raw_sound_receiver.contains(receiver)){

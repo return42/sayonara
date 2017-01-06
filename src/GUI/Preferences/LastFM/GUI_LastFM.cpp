@@ -66,8 +66,8 @@ QString GUI_LastFM::get_action_name() const
 }
 
 
-void GUI_LastFM::language_changed() {
-
+void GUI_LastFM::language_changed()
+{
 	translate_action();
 
 	if(!is_ui_initialized()){
@@ -99,7 +99,8 @@ void GUI_LastFM::commit()
 }
 
 
-void GUI_LastFM::revert(){
+void GUI_LastFM::revert()
+{
 	bool active = _settings->get(Set::LFM_Active);
 
 	ui->cb_activate->setChecked(active);
@@ -114,8 +115,8 @@ void GUI_LastFM::revert(){
 }
 
 
-void GUI_LastFM::btn_login_clicked(){
-
+void GUI_LastFM::btn_login_clicked()
+{
 	if(ui->tf_username->text().length() < 3) {
 		return;
 	}
@@ -135,7 +136,6 @@ void GUI_LastFM::btn_login_clicked(){
 
 
 void GUI_LastFM::active_changed(bool active) {
-
 	if(!is_ui_initialized()){
 		return;
 	}
@@ -146,7 +146,6 @@ void GUI_LastFM::active_changed(bool active) {
 
 
 void GUI_LastFM::logged_in(bool success){
-
 	if(!is_ui_initialized()){
 		return;
 	}

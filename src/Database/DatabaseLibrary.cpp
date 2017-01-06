@@ -31,8 +31,7 @@
 #include "Helper/Logger/Logger.h"
 
 DatabaseLibrary::DatabaseLibrary(const QSqlDatabase& db, quint8 db_id) :
-	DatabaseModule(db, db_id)
-{}
+	DatabaseModule(db, db_id) {}
 
 
 bool DatabaseLibrary::storeMetadata(const MetaDataList& v_md)
@@ -69,7 +68,6 @@ bool DatabaseLibrary::storeMetadata(const MetaDataList& v_md)
 	artists.clear();
 
 	for(const MetaData& md : v_md) {
-
 		int artist_id, album_id, album_artist_id;
 		//first check if we know the artist and its id
 		Album album = album_map[md.album];

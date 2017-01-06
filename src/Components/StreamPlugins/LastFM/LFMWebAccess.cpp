@@ -35,14 +35,12 @@
 
 
 void LFMWebAccess::call_url(const QString& url) {
-
 	AsyncWebAccess* awa = new AsyncWebAccess(this);
 	connect(awa, &AsyncWebAccess::sig_finished, this, &LFMWebAccess::awa_finished);
 	awa->run(url, 10000);
 }
 
 void LFMWebAccess::call_post_url(const QString& url, const QByteArray& post_data) {
-
 	AsyncWebAccess* awa = new AsyncWebAccess(this);
 	connect(awa, &AsyncWebAccess::sig_finished, this, &LFMWebAccess::awa_finished);
 
@@ -55,7 +53,6 @@ void LFMWebAccess::call_post_url(const QString& url, const QByteArray& post_data
 
 
 void LFMWebAccess::awa_finished(bool success){
-
 	AsyncWebAccess* awa = static_cast<AsyncWebAccess*>(sender());
 	QByteArray data = awa->get_data();
 
@@ -77,13 +74,11 @@ QString LFMWebAccess::LFMWebAccess::create_std_url(const QString& base_url, cons
 }
 
 QString LFMWebAccess::create_std_url_post(const QString& base_url, const UrlParams& sig_data, QByteArray& post_data) {
-
 	QString url = base_url;
 
 	post_data.clear();
 
 	for(const QByteArray& key : sig_data.keys()) {
-
 		QByteArray entry = key + "=" + sig_data[key];
 		entry.replace("&", "%26");
 		entry += QChar('&');
@@ -98,7 +93,6 @@ QString LFMWebAccess::create_std_url_post(const QString& base_url, const UrlPara
 
 
 bool LFMWebAccess::check_error(const QByteArray& data, bool success){
-
 	QString error_str = parse_error_message(data);
 	if(!error_str.isEmpty()){
 		emit sig_error(error_str);
@@ -113,7 +107,6 @@ bool LFMWebAccess::check_error(const QByteArray& data, bool success){
 }
 
 QString LFMWebAccess::parse_error_message(const QString& response) {
-
 	if(response.isEmpty()){
 		return "";
 	}
@@ -127,15 +120,13 @@ QString LFMWebAccess::parse_error_message(const QString& response) {
 
 
 UrlParams::UrlParams() : 
-	QMap<QByteArray, QByteArray>()
-{}
+	QMap<QByteArray, QByteArray>() {}
 
 void UrlParams::append_signature()
 {
 	QByteArray signature;
 
     for(const QByteArray& key : this->keys()) {
-
         signature += key;
         signature += this->value(key);
     }

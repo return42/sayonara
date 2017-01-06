@@ -215,7 +215,6 @@ void Bookmarks::pos_changed_ms(quint64 pos_ms)
 
 	int i=0;
 	for(Bookmark& bookmark : _m->bookmarks){
-
 		quint32 time = bookmark.get_time();
 
 		if(time + 2 < _m->cur_time){

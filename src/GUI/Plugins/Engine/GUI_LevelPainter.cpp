@@ -114,7 +114,6 @@ void GUI_LevelPainter::language_changed()
 
 
 void GUI_LevelPainter::set_level(float level_l, float level_r) {
-
 	if(!is_ui_initialized() || !isVisible()){
 		return;
 	}
@@ -148,7 +147,6 @@ void GUI_LevelPainter::paintEvent(QPaintEvent* e) {
 	int x_init = (w_rect + border_x);
 
 	for(int c=0; c<2; c++) {
-
 		float level= -std::max(_level[c], -39.9f) * 15.0f;
 		int idx = std::max(0, std::min(599, (int) level));
 
@@ -158,7 +156,6 @@ void GUI_LevelPainter::paintEvent(QPaintEvent* e) {
 
 		QRect rect(0, y, w_rect, h_rect);
 		for(int r=0; r<n_rects; r++) {
-
 			if(r < n_colored_rects) {
 				if(!_cur_style.style[r].contains(-1)){
 					sp_log(Log::Debug) << "Style does not contain -1";
@@ -198,8 +195,8 @@ void GUI_LevelPainter::paintEvent(QPaintEvent* e) {
 }
 
 
-void GUI_LevelPainter::timed_out() {
-
+void GUI_LevelPainter::timed_out()
+{
 	for(int i=0; i<2; i++){
 		_level[i] -= 2.0f;
 	}
@@ -207,8 +204,8 @@ void GUI_LevelPainter::timed_out() {
 	update();
 }
 
-void GUI_LevelPainter::sl_update_style() {
-
+void GUI_LevelPainter::sl_update_style()
+{
 	_settings->set(Set::Level_Style, _cur_style_idx);
 	_ecsc->reload(width(), height());
 	_cur_style = _ecsc->get_color_scheme_level(_cur_style_idx);
@@ -219,7 +216,6 @@ void GUI_LevelPainter::sl_update_style() {
 }
 
 void GUI_LevelPainter::resize_steps(int n_rects) {
-
 	if(!_steps){
 		_steps = new int*[2];
 		memset(_steps, 0, sizeof(int*) * 2);
@@ -236,7 +232,8 @@ void GUI_LevelPainter::resize_steps(int n_rects) {
 }
 
 
-void GUI_LevelPainter::reload() {
+void GUI_LevelPainter::reload()
+{
 	int new_height = _cur_style.rect_height * 2 + _cur_style.ver_spacing + 12;
 
 	setMinimumHeight(0);

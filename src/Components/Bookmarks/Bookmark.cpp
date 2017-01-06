@@ -26,14 +26,17 @@ Bookmark::Bookmark(quint32 time, const QString& name, bool valid){
 	_valid = valid;
 }
 
-quint32 Bookmark::get_time() const {
+quint32 Bookmark::get_time() const
+{
 	return _time;
 }
 
-QString Bookmark::get_name() const {
+QString Bookmark::get_name() const
+{
 	return _name;
 }
 
-bool Bookmark::is_valid() const {
+bool Bookmark::is_valid() const
+{
 	return _valid;
 }

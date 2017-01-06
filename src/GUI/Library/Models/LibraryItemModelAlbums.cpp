@@ -137,9 +137,7 @@ QVariant LibraryItemModelAlbums::data(const QModelIndex & index, int role) const
 	}
 
 	else if(role == Qt::DisplayRole || role==Qt::EditRole) {
-
 		switch(col) {
-
 			case ColumnIndex::Album::NumSongs:
 				return QString::number(album.num_songs) + " " + Lang::get(Lang::Tracks).toLower();
 
@@ -172,7 +170,6 @@ bool LibraryItemModelAlbums::setData(const QModelIndex & index, const QVariant &
 	}
 
 	if (role == Qt::EditRole || role == Qt::DisplayRole) {
-
 		int row = index.row();
 		int col = index.column();
 
@@ -203,7 +200,6 @@ bool LibraryItemModelAlbums::setData(const QModelIndex& index, const AlbumList& 
 	}
 
 	if (role == Qt::EditRole || role == Qt::DisplayRole) {
-
 		int row = index.row();
 
 		_m->albums = albums;

@@ -54,21 +54,21 @@ CoverLookupAll::CoverLookupAll(QObject* parent, const AlbumList& album_list) :
 
 CoverLookupAll::~CoverLookupAll() {}
 
-void CoverLookupAll::start() {
-
+void CoverLookupAll::start()
+{
 	Album album = _m->album_list.back();
 	_m->cl->fetch_album_cover(album);
 }
 
 
-void CoverLookupAll::stop() {
+void CoverLookupAll::stop()
+{
 	_m->run = false;
 	_m->cl->stop();
 }
 
 
 void CoverLookupAll::cover_found(const QString& cover_path) {
-
 	_m->album_list.pop_back();
 	emit sig_cover_found(cover_path);
 

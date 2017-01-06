@@ -54,7 +54,6 @@ ArtistInfo::ArtistInfo(const MetaDataList& v_md) :
 			// custom fields
 			const QList<CustomField>& custom_fields = artist.get_custom_fields();
 			for(const CustomField& field : custom_fields){
-
 				QString name = field.get_display_name();
 				QString value = field.get_value();
 				if(value.isEmpty()){
@@ -122,7 +121,6 @@ QString ArtistInfo::get_additional_info_as_string() const
 	QString str;
 	QStringList sim_artists;
 	for(const QString& key : _additional_info.keys()){
-
 		if(key.startsWith("sim_artist_")){
 			sim_artists << key;
 		}

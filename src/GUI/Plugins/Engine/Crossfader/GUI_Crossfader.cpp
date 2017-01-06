@@ -24,8 +24,7 @@
 
 
 GUI_Crossfader::GUI_Crossfader(QWidget *parent) :
-	PlayerPluginInterface(parent)
-{}
+	PlayerPluginInterface(parent) {}
 
 GUI_Crossfader::~GUI_Crossfader()
 {
@@ -54,8 +53,8 @@ void GUI_Crossfader::init_ui()
 }
 
 
-void GUI_Crossfader::language_changed(){
-
+void GUI_Crossfader::language_changed()
+{
 	if(!is_ui_initialized()){
 		return;
 	}

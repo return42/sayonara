@@ -25,7 +25,8 @@
 #include <QPoint>
 
 /** Bool **/
-QString SettingConverter<bool>::cvt_to_string(const bool& val){
+QString SettingConverter<bool>::cvt_to_string(const bool& val)
+{
 	if(val) {
 		return QString("true");
 	}
@@ -35,7 +36,8 @@ QString SettingConverter<bool>::cvt_to_string(const bool& val){
 	}
 }
 
-bool SettingConverter<bool>::cvt_from_string(const QString& val, bool& b){
+bool SettingConverter<bool>::cvt_from_string(const QString& val, bool& b)
+{
 	if( val.compare("true", Qt::CaseInsensitive) == 0 ||
 		val.toInt() > 0)
 	{
@@ -52,11 +54,13 @@ bool SettingConverter<bool>::cvt_from_string(const QString& val, bool& b){
 
 
 /** Integer **/
-QString SettingConverter<int>::cvt_to_string(const int& val){
+QString SettingConverter<int>::cvt_to_string(const int& val)
+{
 	return QString::number(val);
 }
 
-bool SettingConverter<int>::cvt_from_string(const QString& val, int& i){
+bool SettingConverter<int>::cvt_from_string(const QString& val, int& i)
+{
 	bool ok;
 	i = val.toInt(&ok);
 
@@ -65,11 +69,13 @@ bool SettingConverter<int>::cvt_from_string(const QString& val, int& i){
 
 
 /** Floating Point **/
-QString SettingConverter<float>::cvt_to_string(const float& val){
+QString SettingConverter<float>::cvt_to_string(const float& val)
+{
 	return QString::number(val);
 }
 
-bool SettingConverter<float>::cvt_from_string(const QString& val, float& i){
+bool SettingConverter<float>::cvt_from_string(const QString& val, float& i)
+{
 	bool ok;
 	i = val.toFloat(&ok);
 
@@ -78,32 +84,37 @@ bool SettingConverter<float>::cvt_from_string(const QString& val, float& i){
 
 
 /** QStringList **/
-QString SettingConverter<QStringList>::cvt_to_string(const QStringList& val){
+QString SettingConverter<QStringList>::cvt_to_string(const QStringList& val)
+{
 	return val.join(",");
 }
 
-bool SettingConverter<QStringList>::cvt_from_string(const QString& val, QStringList& lst){
+bool SettingConverter<QStringList>::cvt_from_string(const QString& val, QStringList& lst)
+{
 	lst = val.split(",");
 	return true;
 }
 
 /** QString **/
-QString SettingConverter<QString>::cvt_to_string(const QString& val){
+QString SettingConverter<QString>::cvt_to_string(const QString& val)
+{
 	return val;
 }
 
-bool SettingConverter<QString>::cvt_from_string(const QString& val, QString& b){
+bool SettingConverter<QString>::cvt_from_string(const QString& val, QString& b)
+{
 	b = val;
 	return true;
 }
 
 /** QSize **/
-QString SettingConverter<QSize>::cvt_to_string(const QSize& val){
+QString SettingConverter<QSize>::cvt_to_string(const QSize& val)
+{
 	return QString::number(val.width()) + "," + QString::number(val.height());
 }
 
-bool SettingConverter<QSize>::cvt_from_string(const QString& val, QSize& sz){
-
+bool SettingConverter<QSize>::cvt_from_string(const QString& val, QSize& sz)
+{
 	bool ok;
 	int width, height;
 
@@ -131,7 +142,6 @@ QString SettingConverter<QPoint>::cvt_to_string(const QPoint& val)
 
 bool SettingConverter<QPoint>::cvt_from_string(const QString& val, QPoint& sz)
 {
-
 	bool ok;
 	int x, y;
 

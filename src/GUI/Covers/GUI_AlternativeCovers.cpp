@@ -109,8 +109,8 @@ GUI_AlternativeCovers::GUI_AlternativeCovers(QWidget* parent) :
 }
 
 
-GUI_AlternativeCovers::~GUI_AlternativeCovers() {
-
+GUI_AlternativeCovers::~GUI_AlternativeCovers()
+{
 	delete_all_files();
 
 	delete ui;

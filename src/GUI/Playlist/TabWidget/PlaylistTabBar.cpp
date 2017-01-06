@@ -61,11 +61,13 @@ PlaylistTabBar::PlaylistTabBar(QWidget *parent) :
 
 PlaylistTabBar::~PlaylistTabBar() {}
 
-void PlaylistTabBar::save_pressed(){
+void PlaylistTabBar::save_pressed()
+{
 	emit sig_tab_save(currentIndex());
 }
 
-void PlaylistTabBar::save_as_pressed(){
+void PlaylistTabBar::save_as_pressed()
+{
 	int cur_idx = currentIndex();
 	QString cur_text = tabText(cur_idx);
 
@@ -77,11 +79,13 @@ void PlaylistTabBar::save_as_pressed(){
 	emit sig_tab_save_as(currentIndex(), name);
 }
 
-void PlaylistTabBar::open_file_pressed(){
+void PlaylistTabBar::open_file_pressed()
+{
 	emit sig_open_file(currentIndex());
 }
 
-void PlaylistTabBar::open_dir_pressed(){
+void PlaylistTabBar::open_dir_pressed()
+{
 	emit sig_open_dir(currentIndex());
 }
 
@@ -90,19 +94,23 @@ void PlaylistTabBar::clear_pressed()
 	emit sig_tab_clear(currentIndex());
 }
 
-void PlaylistTabBar::delete_pressed(){
+void PlaylistTabBar::delete_pressed()
+{
 	emit sig_tab_delete(currentIndex());
 }
 
-void PlaylistTabBar::close_pressed(){
+void PlaylistTabBar::close_pressed()
+{
 	emit tabCloseRequested(this->currentIndex());
 }
 
-void PlaylistTabBar::reset_pressed(){
+void PlaylistTabBar::reset_pressed()
+{
 	emit sig_tab_reset(currentIndex());
 }
 
-void PlaylistTabBar::rename_pressed(){
+void PlaylistTabBar::rename_pressed()
+{
 	int cur_idx = currentIndex();
 	QString cur_text = tabText(cur_idx);
 
@@ -119,7 +127,8 @@ void PlaylistTabBar::rename_pressed(){
 }
 
 
-void PlaylistTabBar::close_others_pressed(){
+void PlaylistTabBar::close_others_pressed()
+{
 	int my_tab = currentIndex();
 	int i=0;
 
@@ -139,7 +148,6 @@ void PlaylistTabBar::close_others_pressed(){
 }
 
 void PlaylistTabBar::mousePressEvent(QMouseEvent* e){
-
 	int idx = this->tabAt(e->pos());
 
 	if(idx == this->count() - 1){

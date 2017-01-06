@@ -22,7 +22,8 @@
 #include "Helper/Settings/Settings.h"
 #include "Helper/typedefs.h"
 
-Settings::Settings(){
+Settings::Settings()
+{
 	_db_file = "player.db";
 	memset(_settings, 0, SK::Num_Setting_Keys + 1);
 }

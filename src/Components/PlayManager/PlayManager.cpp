@@ -31,18 +31,19 @@
 
 template<typename T, int N_ITEMS>
 class RingBuffer {
-
 	private:
 		int _cur_idx;
 		int _n_items;
 		T _data[N_ITEMS];
 
 	public:
-		RingBuffer(){
+		RingBuffer()
+{
 			clear();
 		}
 
-		void clear(){
+		void clear()
+{
 			_cur_idx = 0;
 			_n_items = 0;
 		}
@@ -53,7 +54,8 @@ class RingBuffer {
 			_n_items = std::min(N_ITEMS, _n_items + 1);
 		}
 
-		bool has_item(const T& item) const {
+		bool has_item(const T& item) const
+{
 			for(int i=0; i<_n_items; i++){
 				if(_data[i] == item){
 					return true;
@@ -262,7 +264,6 @@ void PlayManager::change_track(const MetaData& md, int playlist_idx)
 
 	// play or stop
 	if(_m->cur_idx >= 0){
-
 		emit sig_track_changed(_m->md);
 		emit sig_track_idx_changed(_m->cur_idx);
 
@@ -347,7 +348,6 @@ void PlayManager::change_metadata(const MetaData& md)
 	bool has_data = _m->ring_buffer.has_item(str);
 
 	if(!has_data){
-
 		if(_settings->get(Set::Notification_Show)){
 			NotificationHandler::getInstance()->notify(_m->md);
 		}

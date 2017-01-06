@@ -78,7 +78,8 @@ StreamDataSender::StreamDataSender(QTcpSocket* socket)
 
 StreamDataSender::~StreamDataSender() {}
 
-bool StreamDataSender::send_trash(){
+bool StreamDataSender::send_trash()
+{
 	char single_byte = 0x00;
 	qint64 n_bytes;
 
@@ -91,7 +92,6 @@ bool StreamDataSender::send_trash(){
 }
 
 bool StreamDataSender::send_data(const uchar* data, quint64 size){
-
 	qint64 n_bytes;
 
 	_sent_data_bytes = 0;
@@ -106,13 +106,11 @@ bool StreamDataSender::send_data(const uchar* data, quint64 size){
 // [  bytes_before        | icy_data | bytes_to_write ]
 
 bool StreamDataSender::send_icy_data(const uchar* data, quint64 size, const QString& stream_title){
-
 	qint64 n_bytes=0;
 	qint64 bytes_to_write = 0;
 	const int IcySize = 8192;
 
 	if(_sent_data_bytes + size > IcySize){
-
 		quint64 bytes_before = IcySize - _sent_data_bytes;
 
 		if(bytes_before > 0){
@@ -159,7 +157,6 @@ bool StreamDataSender::send_icy_data(const uchar* data, quint64 size, const QStr
 
 
 bool StreamDataSender::send_icy_metadata(const QString& stream_title){
-
 	bool success;
 	qint64 n_bytes=0;
 	QByteArray metadata = QByteArray("StreamTitle='");
@@ -212,7 +209,6 @@ bool StreamDataSender::send_header(bool reject, bool icy){
 
 
 bool StreamDataSender::send_html5(const QString& stream_title){
-
 	int n_bytes;
 	QByteArray html;
 	QByteArray data;
@@ -288,8 +284,8 @@ bool StreamDataSender::send_html5(const QString& stream_title){
 }
 
 
-bool StreamDataSender::send_bg(){
-
+bool StreamDataSender::send_bg()
+{
 	bool success;
 	int n_bytes;
 	QByteArray html;
@@ -314,7 +310,6 @@ bool StreamDataSender::send_bg(){
 
 
 bool StreamDataSender::send_metadata(const QString& stream_title){
-
 	int n_bytes;
 	QByteArray html;
 	QByteArray data;
@@ -334,7 +329,6 @@ bool StreamDataSender::send_metadata(const QString& stream_title){
 
 
 bool StreamDataSender::send_playlist(const QString& host, int port){
-
 	qint64 n_bytes;
 	QByteArray playlist;
 	QByteArray data;
@@ -359,8 +353,8 @@ bool StreamDataSender::send_playlist(const QString& host, int port){
 }
 
 
-bool StreamDataSender::send_favicon(){
-
+bool StreamDataSender::send_favicon()
+{
 	int n_bytes;
 	bool success;
 	QByteArray arr;

@@ -66,8 +66,8 @@ void StreamParser::parse_stream(const QString& url)
 	parse_streams( {url} );
 }
 
-bool StreamParser::parse_next(){
-
+bool StreamParser::parse_next()
+{
 	if(_m->urls.isEmpty()){
 		emit sig_finished( _m->v_md.size() > 0);
 		return false;
@@ -116,7 +116,6 @@ void StreamParser::awa_finished(bool success)
 
 	/** Let's look what's inside data **/
 	if(!data.isEmpty()){
-
 		v_md = parse_content(data);
 		if(v_md.isEmpty()){
 			parse_next();
@@ -144,7 +143,6 @@ void StreamParser::awa_finished(bool success)
 
 
 MetaDataList StreamParser::parse_content(const QByteArray& data){
-
 	MetaDataList v_md;
 
 	/** 1. try if podcast file **/
@@ -159,7 +157,6 @@ MetaDataList StreamParser::parse_content(const QByteArray& data){
 
 	/** 3. search for a playlist file on website **/
 	if(v_md.isEmpty()){
-
 		_m->stream_buffer = search_for_playlist_files(data);
 		if(_m->stream_buffer.isEmpty()){
 			return MetaDataList();
@@ -177,7 +174,6 @@ MetaDataList StreamParser::parse_content(const QByteArray& data){
 
 void StreamParser::tag_metadata(MetaData &md, const QString& stream_url) const
 {
-
 	if(_m->station_name.isEmpty()){
 		md.album = stream_url;
 		if(md.title.isEmpty()){
@@ -220,7 +216,6 @@ QString StreamParser::write_playlist_file(const QByteArray& data) const
 
 QStringList StreamParser::search_for_playlist_files(const QByteArray& data) const
 {
-
 	QStringList playlist_strings;
 	QString base_url = Helper::Url::get_base_url(_m->last_url);
 
@@ -231,7 +226,6 @@ QStringList StreamParser::search_for_playlist_files(const QByteArray& data) cons
 	int idx = re.indexIn(utf8_data);
 
 	while(idx > 0){
-
 		QString playlist = re.cap(1);
 		if(!playlist.startsWith("http")){
 			playlist = base_url + "/" + playlist;

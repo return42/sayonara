@@ -25,7 +25,6 @@
 
 
 QByteArray Compressor::compress(const QByteArray &arr){
-
 	QByteArray target(arr.size(), 0);
 
 	z_stream comp_stream;
@@ -47,7 +46,6 @@ QByteArray Compressor::compress(const QByteArray &arr){
 }
 
 QByteArray Compressor::decompress(const QByteArray& arr){
-
 	QByteArray target(arr.size() * 10, 0);
 
 	z_stream decomp_stream;

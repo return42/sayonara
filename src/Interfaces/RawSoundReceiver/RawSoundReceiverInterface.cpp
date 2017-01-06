@@ -20,5 +20,4 @@
 
 #include "RawSoundReceiverInterface.h"
 
-RawSoundReceiverInterface::RawSoundReceiverInterface()
-{}
+RawSoundReceiverInterface::RawSoundReceiverInterface() {}

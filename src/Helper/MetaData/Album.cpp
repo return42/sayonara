@@ -34,7 +34,8 @@
 	rating = other.rating; \
 	is_sampler = other.is_sampler; \
 
-Album::Album() : LibraryItem() {
+Album::Album() : LibraryItem()
+{
     name = "";
     id = -1;
     num_songs = 0;
@@ -75,7 +76,6 @@ QVariant Album::toVariant(const Album& album)
 
 
 bool Album::fromVariant(const QVariant& v, Album& album) {
-
 	if( !v.canConvert<Album>() ) return false;
 	album =	v.value<Album>();
 	return true;

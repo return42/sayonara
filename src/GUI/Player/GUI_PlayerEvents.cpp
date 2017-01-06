@@ -45,7 +45,6 @@ void GUI_Player::resizeEvent(QResizeEvent* e)
 	}
 
 	if(is_library_visible && _lph){
-
 		LibraryContainerInterface* container;
 		container = _lph->get_cur_library();
 		if(container && container->is_initialized()){
@@ -73,7 +72,6 @@ void GUI_Player::main_splitter_moved(int pos, int idx)
 	Q_UNUSED(idx)
 
 	if(_lph){
-
 		LibraryContainerInterface* container;
 		container = _lph->get_cur_library();
 		if(container){
@@ -93,7 +91,6 @@ void GUI_Player::keyPressEvent(QKeyEvent* e)
 	e->accept();
 
 	switch (e->key()) {
-
 		case (Qt::Key_F10):
 			action_Dark->setChecked(!action_Dark->isChecked());
 			break;

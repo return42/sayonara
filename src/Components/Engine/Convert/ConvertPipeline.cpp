@@ -41,7 +41,6 @@ ConvertPipeline::ConvertPipeline(Engine* engine, QObject *parent) :
 ConvertPipeline::~ConvertPipeline() {}
 
 bool ConvertPipeline::init(GstState state){
-
 	if(!AbstractPipeline::init(state)){
 		return false;
 	}
@@ -55,8 +54,8 @@ GstElement*ConvertPipeline::get_source() const
 	return _audio_src;
 }
 
-bool ConvertPipeline::create_elements(){
-
+bool ConvertPipeline::create_elements()
+{
 	if(!create_element(&_audio_src, "uridecodebin", "src")) return false;
 	if(!create_element(&_audio_convert, "audioconvert", "audio_convert")) return false;
 	if(!create_element(&_lame, "lamemp3enc", "lame")) return false;
@@ -67,7 +66,8 @@ bool ConvertPipeline::create_elements(){
 	return true;
 }
 
-bool ConvertPipeline::add_and_link_elements(){
+bool ConvertPipeline::add_and_link_elements()
+{
 	bool success;
 
 	gst_bin_add_many(GST_BIN(_pipeline),
@@ -84,14 +84,14 @@ bool ConvertPipeline::add_and_link_elements(){
 	return _test_and_error_bool(success, "ConvertEngine: Cannot link lame elements");
 }
 
-bool ConvertPipeline::configure_elements(){
+bool ConvertPipeline::configure_elements()
+{
 	g_signal_connect (_audio_src, "pad-added", G_CALLBACK (PipelineCallbacks::pad_added_handler), _audio_convert);
 	return true;
 }
 
 
 bool ConvertPipeline::set_uri(gchar* uri) {
-
 	if(!uri) return false;
 	if(!_pipeline) return false;
 	stop();
@@ -102,7 +102,6 @@ bool ConvertPipeline::set_uri(gchar* uri) {
 }
 
 bool ConvertPipeline::set_target_uri(gchar* uri) {
-
 	if(!_pipeline) return false;
 
 	stop();
@@ -112,8 +111,8 @@ bool ConvertPipeline::set_target_uri(gchar* uri) {
 }
 
 
-void ConvertPipeline::play() {
-
+void ConvertPipeline::play()
+{
 	if(!_pipeline) return;
 
 	LameBitrate q = (LameBitrate) _settings->get(Set::Engine_ConvertQuality);
@@ -125,16 +124,16 @@ void ConvertPipeline::play() {
 }
 
 
-void ConvertPipeline::pause() {
-
+void ConvertPipeline::pause()
+{
 	if(!_pipeline) return;
 
 	gst_element_set_state(GST_ELEMENT(_pipeline), GST_STATE_PAUSED);
 }
 
 
-void ConvertPipeline::stop() {
-
+void ConvertPipeline::stop()
+{
 	if(!_pipeline) return;
 
     _duration_ms = 0;
@@ -145,7 +144,6 @@ void ConvertPipeline::stop() {
 
 
 void ConvertPipeline::set_quality(LameBitrate quality) {
-
 	if(!_pipeline) return;
 
 
@@ -153,7 +151,6 @@ void ConvertPipeline::set_quality(LameBitrate quality) {
 	double vbr=-1.0;
 
 	switch(quality) {
-
 		case LameBitrate_64:
 		case LameBitrate_128:
 		case LameBitrate_192:

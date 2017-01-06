@@ -21,7 +21,6 @@
 
 
 MTP_File::MTP_File(MTPIntern_Device* device, MTPIntern_File* file){
-
 	_id = 0;
 	_file = file;
 	_device = device;

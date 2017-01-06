@@ -111,7 +111,6 @@ void StreamServer::run()
 	emit sig_can_listen(_m->server->isListening());
 
 	forever{
-
 		if(!_m->mp3_enc_available){
 			Helper::sleep_ms (100);
 		}
@@ -183,15 +182,11 @@ void StreamServer::new_client_request()
 	_m->asking = true;
 
 	do{
-
 		pending_socket = _m->pending[0].first;
 		pending_ip = _m->pending[0].second;
 
 		if( _settings->get(Set::Broadcast_Prompt) ){
-
 			if(!_m->allowed_ips.contains(pending_ip)){
-
-
 				QString question = tr("%1 wants to listen to your music.\nOK?").arg(pending_ip);
 				GlobalMessage::Answer answer = GlobalMessage::getInstance()->question(question);
 				if(answer==GlobalMessage::Answer::Yes){

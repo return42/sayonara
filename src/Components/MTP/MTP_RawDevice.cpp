@@ -25,8 +25,7 @@
 MTP_RawDevice::MTP_RawDevice(MTPIntern_RawDevice* raw_device) :
 	_raw_device(raw_device),
 	_open_device( MTP_DevicePtr( new MTP_Device(nullptr)) )
-
-{}
+ {}
 
 MTP_RawDevice::~MTP_RawDevice() {}
 

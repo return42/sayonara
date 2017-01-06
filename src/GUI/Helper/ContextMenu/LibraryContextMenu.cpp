@@ -159,7 +159,6 @@ void LibraryContextMenu::show_actions(LibraryContexMenuEntries entries)
 }
 
 void LibraryContextMenu::show_action(LibraryContextMenu::Entry entry, bool visible){
-
 	LibraryContexMenuEntries entries = this->get_entries();
 	if(visible){
 		entries |= entry;
@@ -172,7 +171,8 @@ void LibraryContextMenu::show_action(LibraryContextMenu::Entry entry, bool visib
 	show_actions(entries);
 }
 
-void LibraryContextMenu::show_all(){
+void LibraryContextMenu::show_all()
+{
 	for(QAction* action : this->actions()){
 		action->setVisible(true);
 	}
@@ -200,7 +200,8 @@ QAction* LibraryContextMenu::init_rating_action(int rating)
 	action->setData(rating);
 	action->setCheckable(true);
 
-	connect(action, &QAction::triggered, this, [=](){
+	connect(action, &QAction::triggered, this, [=]()
+{
 		emit sig_rating_changed(rating);
 	});
 

@@ -49,8 +49,7 @@ GUI_ShortcutEntry::GUI_ShortcutEntry(const Shortcut& shortcut, QWidget* parent) 
 	skin_changed();
 }
 
-GUI_ShortcutEntry::~GUI_ShortcutEntry()
-{}
+GUI_ShortcutEntry::~GUI_ShortcutEntry() {}
 
 QList<QKeySequence> GUI_ShortcutEntry::get_sequences() const
 {
@@ -71,16 +70,19 @@ void GUI_ShortcutEntry::commit()
 	_shortcut = _sch->get_shortcut(identifier);
 }
 
-void GUI_ShortcutEntry::clear(){
+void GUI_ShortcutEntry::clear()
+{
 	le_entry->setText("");
 }
 
-void GUI_ShortcutEntry::revert(){
+void GUI_ShortcutEntry::revert()
+{
 	le_entry->setText(_shortcut.get_shortcuts().join(", "));
 }
 
 
-void GUI_ShortcutEntry::default_clicked(){
+void GUI_ShortcutEntry::default_clicked()
+{
 	le_entry->setText(_shortcut.get_default().join(", "));
 }
 
@@ -116,7 +118,8 @@ void GUI_ShortcutEntry::skin_changed()
 }
 
 
-void GUI_ShortcutEntry::edit_clicked(){
+void GUI_ShortcutEntry::edit_clicked()
+{
 	le_entry->clear();
 	le_entry->setFocus();
 }

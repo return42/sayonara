@@ -29,8 +29,7 @@
 
 
 GUI_BroadcastSetup::GUI_BroadcastSetup(QWidget *parent) :
-	PreferenceWidgetInterface(parent)
-{}
+	PreferenceWidgetInterface(parent) {}
 
 GUI_BroadcastSetup::~GUI_BroadcastSetup()
 {
@@ -50,8 +49,8 @@ void GUI_BroadcastSetup::init_ui()
 	connect(ui->sb_port, spinbox_value_changed_int, this, &GUI_BroadcastSetup::port_changed);
 }
 
-void GUI_BroadcastSetup::commit(){
-
+void GUI_BroadcastSetup::commit()
+{
 	bool new_active = ui->cb_active->isChecked();
 	bool new_prompt = ui->cb_prompt->isChecked();
 	int new_port = ui->sb_port->value();
@@ -74,8 +73,8 @@ void GUI_BroadcastSetup::commit(){
 }
 
 
-void GUI_BroadcastSetup::revert(){
-
+void GUI_BroadcastSetup::revert()
+{
 	bool active = _settings->get(Set::Broadcast_Active);
 
 	ui->cb_active->setChecked( active );
@@ -88,8 +87,8 @@ void GUI_BroadcastSetup::revert(){
 }
 
 
-void GUI_BroadcastSetup::language_changed(){
-
+void GUI_BroadcastSetup::language_changed()
+{
 	if(!is_ui_initialized()){
 		return;
 	}
@@ -126,7 +125,8 @@ void GUI_BroadcastSetup::port_changed(int new_val)
 	refresh_url();
 }
 
-QString GUI_BroadcastSetup::get_url_string(){
+QString GUI_BroadcastSetup::get_url_string()
+{
 	int port = ui->sb_port->value();
 	QStringList ips = Helper::get_ip_addresses();
 
@@ -139,7 +139,8 @@ QString GUI_BroadcastSetup::get_url_string(){
 	return ret.join("; ");
 }
 
-void GUI_BroadcastSetup::refresh_url(){
+void GUI_BroadcastSetup::refresh_url()
+{
 	bool active = ui->cb_active->isChecked();
 
 	ui->le_url->setVisible(active);

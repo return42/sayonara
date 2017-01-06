@@ -24,8 +24,7 @@
 #include "Helper/Logger/Logger.h"
 
 DatabaseSettings::DatabaseSettings(const QSqlDatabase& db, quint8 db_id) :
-	DatabaseModule(db, db_id)
-{}
+	DatabaseModule(db, db_id) {}
 
 
 bool DatabaseSettings::load_settings()
@@ -66,7 +65,6 @@ bool DatabaseSettings::store_settings()
 
 
 bool DatabaseSettings::load_setting(QString key, QString& tgt_value) {
-
 	DB_RETURN_NOT_OPEN_BOOL(_db);
 
 	SayonaraQuery q(_db);
@@ -88,7 +86,6 @@ bool DatabaseSettings::load_setting(QString key, QString& tgt_value) {
 
 
 bool DatabaseSettings::store_setting(QString key, const QVariant& value) {
-
 	DB_RETURN_NOT_OPEN_BOOL(_db);
 
 	SayonaraQuery q(_db);

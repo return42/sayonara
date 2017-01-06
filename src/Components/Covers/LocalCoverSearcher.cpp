@@ -26,14 +26,12 @@
 #include <QFileInfo>
 
 QStringList LocalCoverSearcher::get_local_cover_paths_from_filename(const QString& filepath){
-
 	QString file, dir;
 	Helper::File::split_filename(filepath, dir, file);
 	return get_local_cover_paths_from_dirname(dir);
 }
 
 QStringList LocalCoverSearcher::get_local_cover_paths_from_dirname(const QString& filepath){
-
 	QStringList ret;
 	QStringList hash[3];
 	QStringList entries;
@@ -48,7 +46,6 @@ QStringList LocalCoverSearcher::get_local_cover_paths_from_dirname(const QString
 	}
 
 	for(const QString& entry : entries){
-
 		int prio = 2;
 
 		if(entry.contains("cover", Qt::CaseInsensitive) ||

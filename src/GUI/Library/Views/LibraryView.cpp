@@ -44,7 +44,6 @@ LibraryView::LibraryView(QWidget* parent) :
 	InfoDialogContainer(),
 	Dragable(this)
 {
-
 	_type = MD::Interpretation::None;
 	_cur_filling = false;
 	_model = nullptr;
@@ -69,7 +68,6 @@ LibraryView::~LibraryView() {}
 
 
 void LibraryView::setModel(LibraryItemModel * model) {
-
 	SearchableTableView::setModel(model);
 	_model = model;
 
@@ -78,7 +76,6 @@ void LibraryView::setModel(LibraryItemModel * model) {
 
 
 void LibraryView::selectionChanged(const QItemSelection& selected, const QItemSelection& deselected ) {
-
 	if(_cur_filling) {
 		return;
 	}
@@ -115,9 +112,12 @@ void LibraryView::rc_menu_init()
 	_merge_action = _rc_menu->addMenu(_merge_menu);
 	_merge_action->setVisible(false);
 
-	connect(_rc_menu, &LibraryContextMenu::sig_edit_clicked, this, [=](){show_edit();});
-	connect(_rc_menu, &LibraryContextMenu::sig_info_clicked, this, [=](){show_info();});
-	connect(_rc_menu, &LibraryContextMenu::sig_lyrics_clicked, this, [=](){show_lyrics();});
+	connect(_rc_menu, &LibraryContextMenu::sig_edit_clicked, this, [=]()
+{show_edit();});
+	connect(_rc_menu, &LibraryContextMenu::sig_info_clicked, this, [=]()
+{show_info();});
+	connect(_rc_menu, &LibraryContextMenu::sig_lyrics_clicked, this, [=]()
+{show_lyrics();});
 	connect(_rc_menu, &LibraryContextMenu::sig_delete_clicked, this, &LibraryView::sig_delete_clicked);
 	connect(_rc_menu, &LibraryContextMenu::sig_play_next_clicked, this, &LibraryView::sig_play_next_clicked);
 	connect(_rc_menu, &LibraryContextMenu::sig_append_clicked, this, &LibraryView::sig_append_clicked);
@@ -165,7 +165,6 @@ MetaDataList LibraryView::get_selected_metadata() const
 
 
 void LibraryView::rc_menu_show(const QPoint& p) {
-
 	_rc_menu->exec(p);
 }
 
@@ -175,7 +174,6 @@ void LibraryView::language_changed()
 	HeaderView* header_view = get_header_view();
 
 	for(int i=0; i<_model->columnCount(); i++){
-
 		ColumnHeader* header = header_view->get_column_header(i);
 		if(header){
 			_model->setHeaderData(i, Qt::Horizontal, header->get_title(), Qt::DisplayRole);

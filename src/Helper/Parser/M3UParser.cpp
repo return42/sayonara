@@ -28,26 +28,23 @@
 #include <QRegExp>
 
 M3UParser::M3UParser(const QString& filename) :
-	AbstractPlaylistParser(filename)
-{}
+	AbstractPlaylistParser(filename) {}
 
 M3UParser::~M3UParser() {}
 
-void M3UParser::parse(){
-
+void M3UParser::parse()
+{
 	QStringList list = _file_content.split('\n');
 
 	MetaData md;
 
 	for(QString line : list) {
-
 		line = line.trimmed();
 		if(line.isEmpty()){
 			continue;
 		}
 
 		if(line.startsWith("#EXTINF:", Qt::CaseInsensitive)) {
-
 			md = MetaData();
 			parse_first_line(line, md);
 			continue;

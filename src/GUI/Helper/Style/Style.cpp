@@ -39,7 +39,6 @@
 #define NEWLINE "\n";
 
 QString Style::get_style(bool dark) {
-
 	Settings* settings = Settings::getInstance();
 
 	QFont std_font = QApplication::font();

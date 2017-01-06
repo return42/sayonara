@@ -32,7 +32,8 @@
 	num_albums = other.num_albums;
 
 
-Artist::Artist() : LibraryItem() {
+Artist::Artist() : LibraryItem()
+{
     id = -1;
 	//name = QString();
     num_songs = 0;
@@ -60,7 +61,6 @@ Artist& Artist::operator =(const Artist& other){
 Artist::~Artist() {}
 
 QVariant Artist::toVariant(const Artist& artist) {
-
 	QVariant var;
 	var.setValue(artist);
 	return var;
@@ -68,22 +68,20 @@ QVariant Artist::toVariant(const Artist& artist) {
 
 
 bool Artist::fromVariant(const QVariant& v, Artist& artist) {
-
 	if( !v.canConvert<Artist>() ) return false;
 	
 	artist = v.value<Artist>();
 	return true;
 }
 
-void Artist::print() const {
-
+void Artist::print() const
+{
 	sp_log(Log::Info) << id << ": " << name << ": " << num_songs << " Songs, " << num_albums << " Albums";
 }
 
 
 QString ArtistList::get_major_artist(const QStringList& artists)
 {
-
 	QHash<QString, int> map;
 	int n_artists = artists.size();
 
@@ -96,7 +94,6 @@ QString ArtistList::get_major_artist(const QStringList& artists)
 	}
 
 	for(const QString& artist : artists) {
-
 		QString alower = artist.toLower().trimmed();
 
 		// count appearance of artist
@@ -110,7 +107,6 @@ QString ArtistList::get_major_artist(const QStringList& artists)
 
 	// n_appearances have to be at least 2/3 of all appearances
 	for(const QString& artist : map.keys()) {
-
 		int n_appearances = map.value(artist);
 		if(n_appearances * 3 > n_artists * 2) {
 			return artist;
@@ -123,7 +119,6 @@ QString ArtistList::get_major_artist(const QStringList& artists)
 
 QString ArtistList::get_major_artist() const
 {
-
 	QStringList lst;
 
 	for(auto it=this->begin(); it!=this->end(); it++){

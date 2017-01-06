@@ -22,8 +22,7 @@
 #include "Database/DatabaseConnector.h"
 
 StreamHandlerStreams::StreamHandlerStreams(QObject* parent) :
-	AbstractStreamHandler(parent)
-{}
+	AbstractStreamHandler(parent) {}
 
 StreamHandlerStreams::~StreamHandlerStreams() {}
 

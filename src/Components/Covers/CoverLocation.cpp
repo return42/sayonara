@@ -44,7 +44,8 @@ struct CoverLocation::Private
 	bool			valid; // valid if CoverLocation object contains a valid download url
 };
 
-CoverLocation::CoverLocation() {
+CoverLocation::CoverLocation()
+{
 	qRegisterMetaType<CoverLocation>("CoverLocation");
 
 	_m = Pimpl::make<CoverLocation::Private>();
@@ -203,7 +204,6 @@ CoverLocation CoverLocation::get_cover_location(const Album& album)
 }
 
 CoverLocation CoverLocation::get_cover_location(const Artist& artist) {
-
 	CoverLocation cl = CoverLocation::get_cover_location(artist.name);
 
 	if(!artist.cover_download_url.isEmpty()){
@@ -297,15 +297,18 @@ QString CoverLocation::local_path(int idx) const
 	return _m->local_paths[idx];
 }
 
-QString CoverLocation::cover_path() const {
+QString CoverLocation::cover_path() const
+{
 	return _m->cover_path;
 }
 
-QString CoverLocation::search_url() const {
+QString CoverLocation::search_url() const
+{
 	return _m->search_url;
 }
 
-QString CoverLocation::search_term() const {
+QString CoverLocation::search_term() const
+{
 	return _m->search_term;
 }
 

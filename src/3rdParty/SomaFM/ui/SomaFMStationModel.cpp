@@ -145,7 +145,6 @@ QModelIndex SomaFMStationModel::getNextRowIndexOf(const QString& substr, int cur
 {
 	Q_UNUSED(parent)
 	for(int i=cur_row; i<_m->stations.size(); i++){
-
 		QString name = _m->stations[i].get_name();
 		QString desc = _m->stations[i].get_description();
 
@@ -212,7 +211,6 @@ void SomaFMStationModel::replace_station(const SomaFMStation& station)
 	for(int i=0; i<_m->stations.size(); i++)
 	{
 		if(station.get_name() == _m->stations[i].get_name()){
-
 			_m->stations[i] = station;
 
 			emit dataChanged(this->index(i, 0), this->index(i, 1));
@@ -226,7 +224,8 @@ bool SomaFMStationModel::has_stations() const
 	return (_m->stations.size() > 0);
 }
 
-void SomaFMStationModel::set_waiting(){
+void SomaFMStationModel::set_waiting()
+{
 	_m->status = Status::Waiting;
 	emit dataChanged( index(0,0), index(0, 1) );
 }
@@ -265,7 +264,6 @@ QMimeData* SomaFMStationModel::mimeData(const QModelIndexList& indexes) const
 
 Qt::ItemFlags SomaFMStationModel::flags(const QModelIndex& index) const
 {
-
 	switch(_m->status)
 	{
 		case Status::Waiting:

@@ -48,14 +48,15 @@ PlaylistItemModel::PlaylistItemModel(PlaylistPtr pl, QObject* parent) :
 
 PlaylistItemModel::~PlaylistItemModel() {}
 
-int PlaylistItemModel::rowCount(const QModelIndex &parent) const{
+int PlaylistItemModel::rowCount(const QModelIndex &parent) const
+{
 	Q_UNUSED(parent);
 	return _pl->get_count();
 }
 
 
-QVariant PlaylistItemModel::data(const QModelIndex &index, int role) const{
-
+QVariant PlaylistItemModel::data(const QModelIndex &index, int role) const
+{
 	if (!index.isValid()) {
 		return QVariant();
 	}
@@ -79,8 +80,8 @@ const MetaData& PlaylistItemModel::get_md(int row) const
 }
 
 
-Qt::ItemFlags PlaylistItemModel::flags(const QModelIndex &index = QModelIndex()) const{
-
+Qt::ItemFlags PlaylistItemModel::flags(const QModelIndex &index = QModelIndex()) const
+{
 	int row = index.row();
 	if (!index.isValid()){
 		return Qt::ItemIsEnabled;
@@ -113,7 +114,6 @@ void PlaylistItemModel::clear()
 
 
 void PlaylistItemModel::remove_rows(const SP::Set<int>& indexes){
-
 	_pl->delete_tracks(indexes);
 }
 
@@ -129,7 +129,8 @@ void PlaylistItemModel::copy_rows(const SP::Set<int>& indexes, int target_index)
 }
 
 
-int PlaylistItemModel::get_current_track() const {
+int PlaylistItemModel::get_current_track() const
+{
 	return _pl->get_cur_track_idx();
 }
 
@@ -242,7 +243,6 @@ QModelIndex PlaylistItemModel::getPrevRowIndexOf(const QString& substr, int row,
 }
 
 QModelIndex PlaylistItemModel::getNextRowIndexOf(const QString& substr, int row, const QModelIndex &parent) {
-
 	Q_UNUSED(parent)
 
 	QString converted_string = substr;
@@ -330,8 +330,8 @@ QMap<QChar, QString> PlaylistItemModel::getExtraTriggers()
 }
 
 
-CustomMimeData* PlaylistItemModel::get_custom_mimedata(const QModelIndexList& indexes) const {
-
+CustomMimeData* PlaylistItemModel::get_custom_mimedata(const QModelIndexList& indexes) const
+{
 	CustomMimeData* mimedata = new CustomMimeData();
 	MetaDataList v_md;
 	QList<QUrl> urls;
@@ -357,7 +357,8 @@ CustomMimeData* PlaylistItemModel::get_custom_mimedata(const QModelIndexList& in
 	return mimedata;
 }
 
-QMimeData* PlaylistItemModel::mimeData(const QModelIndexList& indexes) const {
+QMimeData* PlaylistItemModel::mimeData(const QModelIndexList& indexes) const
+{
 	CustomMimeData* cmd =  get_custom_mimedata(indexes);
 	return static_cast<QMimeData*> (cmd);
 }

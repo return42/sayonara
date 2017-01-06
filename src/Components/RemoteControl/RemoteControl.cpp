@@ -53,7 +53,6 @@ RemoteControl::~RemoteControl() {}
 
 void RemoteControl::init()
 {
-
 	if(_initialized){
 		return;
 	}
@@ -63,14 +62,22 @@ void RemoteControl::init()
 
 	PlayManager* mgr = _play_manager;
 
-   _fn_call_map["play"] =		[mgr](){mgr->play();};
-   _fn_call_map["pause"] =		[mgr](){mgr->pause();};
-   _fn_call_map["prev"] =		[mgr](){mgr->previous();};
-   _fn_call_map["next"] =		[mgr](){mgr->next();};
-   _fn_call_map["playpause"] =	[mgr](){mgr->play_pause();};
-   _fn_call_map["stop"] =		[mgr](){mgr->stop();};
-   _fn_call_map["volup"] =		[mgr](){mgr->volume_up();};
-   _fn_call_map["voldown"] =	[mgr](){mgr->volume_down();};
+   _fn_call_map["play"] =		[mgr]()
+{mgr->play();};
+   _fn_call_map["pause"] =		[mgr]()
+{mgr->pause();};
+   _fn_call_map["prev"] =		[mgr]()
+{mgr->previous();};
+   _fn_call_map["next"] =		[mgr]()
+{mgr->next();};
+   _fn_call_map["playpause"] =	[mgr]()
+{mgr->play_pause();};
+   _fn_call_map["stop"] =		[mgr]()
+{mgr->stop();};
+   _fn_call_map["volup"] =		[mgr]()
+{mgr->volume_up();};
+   _fn_call_map["voldown"] =	[mgr]()
+{mgr->volume_down();};
    _fn_call_map["state"] =		std::bind(&RemoteControl::request_state, this);
    _fn_call_map["pl"] =			std::bind(&RemoteControl::write_playlist, this);
    _fn_call_map["curSong"] =	std::bind(&RemoteControl::write_cur_track, this);
@@ -91,7 +98,6 @@ void RemoteControl::init()
 
 bool RemoteControl::is_connected() const
 {
-
 	if(!_settings->get(Set::Remote_Active)){
 		return false;
 	}
@@ -110,8 +116,8 @@ bool RemoteControl::is_connected() const
 	return true;
 }
 
-void RemoteControl::new_connection(){
-
+void RemoteControl::new_connection()
+{
 	if(!_initialized){
 		init();
 	}
@@ -147,7 +153,6 @@ void RemoteControl::socket_disconnected()
 }
 
 void RemoteControl::pos_changed_ms(const quint64 pos){
-
 	Q_UNUSED(pos)
 	write_cur_pos();
 }
@@ -163,8 +168,8 @@ void RemoteControl::volume_changed(int vol){
 }
 
 
-void RemoteControl::new_request(){
-
+void RemoteControl::new_request()
+{
 	QByteArray arr = _socket->readAll();
 	arr = arr.left(arr.size() - 1);
 
@@ -211,7 +216,6 @@ void RemoteControl::playlist_changed(PlaylistConstPtr pl)
 
 void RemoteControl::_sl_active_changed()
 {
-
 	bool active = _settings->get(Set::Remote_Active);
 
 	if(!active){
@@ -228,7 +232,8 @@ void RemoteControl::_sl_active_changed()
 	}
 }
 
-void RemoteControl::_sl_port_changed(){
+void RemoteControl::_sl_port_changed()
+{
 	int port = _settings->get(Set::Remote_Port);
 	bool active = _settings->get(Set::Remote_Active);
 
@@ -272,18 +277,20 @@ void RemoteControl::change_track(int idx){
 }
 
 
-void RemoteControl::write_cur_pos(){
+void RemoteControl::write_cur_pos()
+{
 	quint32 pos_sec = _play_manager->get_cur_position_ms() / 1000;
 	write("curPos:" + QByteArray::number(pos_sec));
 }
 
-void RemoteControl::write_volume(){
+void RemoteControl::write_volume()
+{
 	int vol = _play_manager->get_volume();
 	write("vol:" + QByteArray::number(vol));
 }
 
-void RemoteControl::write_cur_track(){
-
+void RemoteControl::write_cur_track()
+{
 	PlayState playstate = _play_manager->get_play_state();
 
 	playstate_changed(playstate);
@@ -310,21 +317,20 @@ void RemoteControl::write_cur_track(){
 }
 
 
-void RemoteControl::write_cover(){
+void RemoteControl::write_cover()
+{
 	MetaData md = _play_manager->get_cur_track();
 	write_cover(md);
 }
 
 
 void RemoteControl::write_cover(const MetaData& md){
-
 	CoverLocation cl = CoverLocation::get_cover_location(md);
 	QByteArray img_data;
 	QString cover_path = cl.preferred_path();
 	QImage img(cover_path);
 
 	if(!img.isNull()){
-
 		QImage img_copy = img.scaled(300, 300, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 		img_data = QByteArray((char*) img_copy.bits(), img_copy.byteCount());
 		QByteArray data = QByteArray("coverinfo:") +
@@ -360,8 +366,8 @@ void RemoteControl::write_playstate()
 }
 
 
-void RemoteControl::write_playlist(){
-
+void RemoteControl::write_playlist()
+{
 	QByteArray data;
 	PlaylistConstPtr pl = _plh->get_playlist_at(_plh->get_active_idx());
 
@@ -396,7 +402,6 @@ void RemoteControl::write_broadcast_info()
 
 
 void RemoteControl::write(const QByteArray& data){
-
 	if(!_socket){
 		return;
 	}
@@ -422,8 +427,8 @@ void RemoteControl::request_state()
 }
 
 
-void RemoteControl::show_api(){
-
+void RemoteControl::show_api()
+{
 	if(!_socket || !_socket->isOpen()){
 		return;
 	}

@@ -24,8 +24,7 @@
 
 
 GUI_PlayerPreferences::GUI_PlayerPreferences(QWidget *parent) :
-	PreferenceWidgetInterface(parent)
-{}
+	PreferenceWidgetInterface(parent) {}
 
 GUI_PlayerPreferences::~GUI_PlayerPreferences()
 {
@@ -84,8 +83,8 @@ void GUI_PlayerPreferences::show_tray_icon_toggled(bool b)
 	}
 }
 
-void GUI_PlayerPreferences::language_changed(){
-
+void GUI_PlayerPreferences::language_changed()
+{
 	translate_action();
 
 	if(!is_ui_initialized()){

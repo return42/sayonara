@@ -51,7 +51,6 @@ bool LibraryView::event(QEvent* e)
 			_type == MD::Interpretation::Albums);
 
 		if(is_right_type){
-
 			bool has_selections = (selections.size() > 1);
 
 			_merge_action->setVisible(has_selections);
@@ -90,7 +89,6 @@ void LibraryView::mousePressEvent(QMouseEvent* event)
 	}
 
 	switch(event->button()) {
-
 		case Qt::LeftButton:
 			this->drag_pressed(event->pos());
 			break;
@@ -112,7 +110,8 @@ void LibraryView::mouseMoveEvent(QMouseEvent* event)
 	QDrag* drag = this->drag_moving(event->pos());
 	if(drag)
 	{
-		connect(drag, &QDrag::destroyed, this, [=](){
+		connect(drag, &QDrag::destroyed, this, [=]()
+{
 			this->drag_released(Dragable::ReleaseReason::Destroyed);
 		});
 	}
@@ -127,7 +126,6 @@ void LibraryView::mouseDoubleClickEvent(QMouseEvent *event)
 void LibraryView::mouseReleaseEvent(QMouseEvent* event) 
 {
 	switch (event->button()) {
-
 		case Qt::LeftButton:
 
 			SearchableTableView::mouseReleaseEvent(event);
@@ -174,7 +172,6 @@ void LibraryView::keyPressEvent(QKeyEvent* event)
 	SP::Set<int> selections = get_selections();
 
 	switch(key) {
-
 		case Qt::Key_Return:
 		case Qt::Key_Enter:
 
@@ -247,7 +244,6 @@ void LibraryView::dropEvent(QDropEvent *event)
 
 	QStringList filelist;
 	for(const QUrl& url : mime_data->urls()) {
-
 		QString path = url.path();
 
 		if(QFile::exists(path)) {

@@ -54,7 +54,6 @@ MetaDataInfo::MetaDataInfo(const MetaDataList& v_md) :
 	_db = DB::getInstance(v_md[0]);
 
 	for(const MetaData& md : v_md ){
-
 		_artists.insert(md.artist);
 		_albums.insert(md.album);
 		_album_ids.insert(md.album_id);
@@ -85,7 +84,6 @@ MetaDataInfo::MetaDataInfo(const MetaDataList& v_md) :
 		const QList<CustomField>& custom_fields = md.get_custom_fields();
 
 		for(const CustomField& field : custom_fields){
-
 			QString name = field.get_display_name();
 			QString value = field.get_value();
 			if(value.isEmpty()){
@@ -99,7 +97,6 @@ MetaDataInfo::MetaDataInfo(const MetaDataList& v_md) :
 
 		// genre
 		for(const QString& genre : md.genres){
-
 			QString first_upper = Helper::cvt_str_to_first_upper(genre).trimmed();
 
 			if(first_upper.size() == 0) continue;
@@ -349,7 +346,6 @@ QString MetaDataInfo::get_paths_as_string() const
 	bool dark = (_settings->get(Set::Player_Style) == 1);
 
 	for(const QString& path : _paths){
-
 		QString name = path;
 		name.replace(lib_path, "...");
 
