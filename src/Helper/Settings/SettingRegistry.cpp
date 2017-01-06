@@ -81,7 +81,6 @@ static QList<Library::DateFilter> get_date_filters()
 	Library::DateFilter df7("Older than 2 years");
 	df7.set_older_than(Library::DateFilter::TimeSpan::Years, 2);
 
-
 	QList<Library::DateFilter> date_filters;
 	date_filters << df1 << df2 << df3 << df4 << df5 << df6;
 	return date_filters;

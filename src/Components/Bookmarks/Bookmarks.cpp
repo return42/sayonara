@@ -25,7 +25,6 @@
 #include "Helper/MetaData/MetaData.h"
 #include "Database/DatabaseConnector.h"
 #include "Components/PlayManager/PlayManager.h"
-#include "Helper/Logger/Logger.h"
 
 #include <algorithm>
 

@@ -46,7 +46,7 @@ DatabaseTracks::DatabaseTracks(const QSqlDatabase& db, quint8 db_id) :
 
 }
 
-QString DatabaseTracks::fetch_query() const
+QString DatabaseTracks::fetch_query_tracks() const
 {
 	return "SELECT "
 		   "tracks.trackID AS trackID "
@@ -162,17 +162,13 @@ bool DatabaseTracks::getMultipleTracksByPath(const QStringList& paths, MetaDataL
 
 MetaData DatabaseTracks::getTrackByPath(const QString& path)
 {
-	SayonaraQuery q (_db);
+	SayonaraQuery q(_db);
 
-	QString querytext = fetch_query() + " WHERE tracks.filename LIKE :filename;";
+	QString querytext = fetch_query_tracks() + " WHERE tracks.filename LIKE :filename;";
 	q.prepare(querytext);
 	q.bindValue(":filename", path);
 
-	q.show_query();
-
-	MetaData md;
-	md.id = -1;
-	md.set_filepath(path);
+	MetaData md(path);
 	md.db_id = _module_db_id;
 
 	MetaDataList v_md;
@@ -192,8 +188,8 @@ MetaData DatabaseTracks::getTrackByPath(const QString& path)
 
 MetaData DatabaseTracks::getTrackById(int id)
 {
-	SayonaraQuery q (_db);
-	QString querytext = fetch_query() + " WHERE tracks.trackID = :track_id;";
+	SayonaraQuery q(_db);
+	QString querytext = fetch_query_tracks() + " WHERE tracks.trackID = :track_id;";
 
 	q.prepare(querytext);
 	q.bindValue(":track_id", QVariant(id));
@@ -215,9 +211,9 @@ MetaData DatabaseTracks::getTrackById(int id)
 
 bool DatabaseTracks::getAllTracks(MetaDataList& returndata, Library::SortOrder sort)
 {
-	SayonaraQuery q (_db);
+	SayonaraQuery q(_db);
 
-	QString querytext = append_track_sort_string(fetch_query(), sort);
+	QString querytext = append_track_sort_string(fetch_query_tracks(), sort);
 
 	q.prepare(querytext);
 
@@ -266,8 +262,8 @@ bool DatabaseTracks::getAllTracksByAlbum(IDList albums, MetaDataList& result)
 
 bool DatabaseTracks::getAllTracksByAlbum(IDList albums, MetaDataList& returndata, const Library::Filter& filter, Library::SortOrder sort)
 {
-	SayonaraQuery q (_db);
-	QString querytext = fetch_query();
+	SayonaraQuery q(_db);
+	QString querytext = fetch_query_tracks();
 
 	if(albums.isEmpty()) {
 		return false;
@@ -395,8 +391,8 @@ bool DatabaseTracks::getAllTracksByArtist(IDList artists, MetaDataList& returnda
 
 bool DatabaseTracks::getAllTracksByArtist(IDList artists, MetaDataList& returndata, const Library::Filter& filter, Library::SortOrder sort)
 {
-	SayonaraQuery q (_db);
-	QString querytext = fetch_query();
+	SayonaraQuery q(_db);
+	QString querytext = fetch_query_tracks();
 
 	if(artists.size() == 0){
 		return false;
@@ -497,27 +493,27 @@ bool DatabaseTracks::getAllTracksByArtist(IDList artists, MetaDataList& returnda
 
 bool DatabaseTracks::getAllTracksBySearchString(const Library::Filter& filter, MetaDataList& result, Library::SortOrder sort)
 {
-	SayonaraQuery q (_db);
+	SayonaraQuery q(_db);
 	QString querytext;
 
 	switch(filter.mode())
 	{
 		case Library::Filter::Date:
-			querytext = fetch_query() + " WHERE " + filter.date_filter().get_sql_filter("tracks");
+			querytext = fetch_query_tracks() + " WHERE " + filter.date_filter().get_sql_filter("tracks");
 			break;
 
 		case Library::Filter::Genre:
-			querytext = fetch_query() +
+			querytext = fetch_query_tracks() +
 					"WHERE genrename LIKE :search_in_genre ";
 			break;
 
 		case Library::Filter::Filename:
-			querytext = fetch_query() +
+			querytext = fetch_query_tracks() +
 					"WHERE tracks.filename LIKE :search_in_filename ";
 			break;
 
 		case Library::Filter::Fulltext:
-			querytext = fetch_query() +
+			querytext = fetch_query_tracks() +
 					"INNER JOIN ("
 					"SELECT tracks.trackID "
 					"FROM tracks "
@@ -577,7 +573,7 @@ bool DatabaseTracks::getAllTracksBySearchString(const Library::Filter& filter, M
 
 bool DatabaseTracks::deleteTrack(int id)
 {
-	SayonaraQuery q (_db);
+	SayonaraQuery q(_db);
 	QString querytext = QString("DELETE FROM tracks WHERE trackID = :track_id;");
 
 	q.prepare(querytext);
@@ -648,8 +644,8 @@ bool DatabaseTracks::deleteInvalidTracks()
 	}
 
 	int idx = 0;
-	for(const MetaData& md : v_md){
-
+	for(const MetaData& md : v_md)
+	{
 		if(map.contains(md.filepath())){
 			sp_log(Log::Warning) << "found double path: " << md.filepath();
 			int old_idx = map[md.filepath()];
@@ -895,7 +891,7 @@ bool DatabaseTracks::updateTrackDates()
 	}
 
 	else{
-		sp_log(Log::Error, "Database Tracks") << "Insert dates finished with error";
+		q.show_error("Insert dates");
 		return false;
 	}
 

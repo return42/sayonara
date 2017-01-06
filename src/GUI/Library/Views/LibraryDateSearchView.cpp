@@ -1,3 +1,25 @@
+/* LibraryDateSearchView.cpp */
+
+/* Copyright (C) 2011-2017  Lucio Carreras
+ *
+ * This file is part of sayonara player
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+
+
 #include "LibraryDateSearchView.h"
 #include "GUI/Library/Models/DateSearchModel.h"
 #include "GUI/Library/GUI_DateSearchConfig.h"
@@ -41,13 +63,14 @@ Library::DateFilter LibraryDateSearchView::get_filter(int row) const
 
 void LibraryDateSearchView::contextMenuEvent(QContextMenuEvent* e)
 {
-	if(!_m->rc_menu){
+	if(!_m->rc_menu)
+	{
 		_m->rc_menu = new ContextMenu(this);
 		_m->rc_menu->show_actions(
 					ContextMenu::EntryNew |
 					ContextMenu::EntryEdit |
 					ContextMenu::EntryDelete
-					);
+		);
 
 		connect(_m->rc_menu, &ContextMenu::sig_new, this, &LibraryDateSearchView::new_clicked);
 		connect(_m->rc_menu, &ContextMenu::sig_edit, this, &LibraryDateSearchView::edit_clicked);

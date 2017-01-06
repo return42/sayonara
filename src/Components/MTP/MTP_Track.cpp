@@ -26,18 +26,16 @@
 #include "Helper/Logger/Logger.h"
 
 
-MTP_Track::MTP_Track(const MetaData &md){
+MTP_Track::MTP_Track(const MetaData &md)
+{
 	_track = nullptr;
 	read_metadata(md);
 }
 
-MTP_Track::MTP_Track(const QString& filename){
-
-	MetaData md;
-	bool success;
-
-	md.set_filepath(filename);
-	success = Tagging::getMetaDataOfFile(md);
+MTP_Track::MTP_Track(const QString& filename)
+{
+	MetaData md(filename);
+	bool success = Tagging::getMetaDataOfFile(md);
 
 	if(success){
 		read_metadata(md);
@@ -47,7 +45,8 @@ MTP_Track::MTP_Track(const QString& filename){
 	}
 }
 
-MTP_Track::~MTP_Track(){
+MTP_Track::~MTP_Track()
+{
 	if(_track){
 		LIBMTP_destroy_track_t(_track);
 		_track = nullptr;
@@ -55,7 +54,8 @@ MTP_Track::~MTP_Track(){
 }
 
 
-void MTP_Track::read_metadata(const MetaData &md){
+void MTP_Track::read_metadata(const MetaData &md)
+{
 	_src_filename = md.filepath();
 
 	_track = LIBMTP_new_track_t();
@@ -104,7 +104,8 @@ MTPIntern_Track* MTP_Track::metadata() const
 	return _track;
 }
 
-void MTP_Track::set_folder_id(quint32 folder_id){
+void MTP_Track::set_folder_id(quint32 folder_id)
+{
 	if(!_track){
 		return;
 	}
@@ -112,7 +113,8 @@ void MTP_Track::set_folder_id(quint32 folder_id){
 	_track->parent_id = folder_id;
 }
 
-void MTP_Track::set_storage_id(quint32 storage_id){
+void MTP_Track::set_storage_id(quint32 storage_id)
+{
 	if(!_track){
 		return;
 	}

@@ -71,7 +71,7 @@ bool DatabaseSettings::load_setting(QString key, QString& tgt_value) {
 
 	DB_RETURN_NOT_OPEN_BOOL(_db);
 
-	SayonaraQuery q (_db);
+	SayonaraQuery q(_db);
 	q.prepare("SELECT value FROM settings WHERE key = ?;");
 	q.addBindValue(QVariant(key));
 
@@ -93,7 +93,7 @@ bool DatabaseSettings::store_setting(QString key, const QVariant& value) {
 
 	DB_RETURN_NOT_OPEN_BOOL(_db);
 
-	SayonaraQuery q (_db);
+	SayonaraQuery q(_db);
 	q.prepare("SELECT value FROM settings WHERE key = :key;");
 	q.bindValue(":key", key);
 

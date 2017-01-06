@@ -196,5 +196,3 @@ void GUI_Player::about()
 		_about_box->exec();
 	}
 }
-
-

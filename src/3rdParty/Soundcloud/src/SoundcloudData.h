@@ -58,9 +58,18 @@ public:
 
 	bool updateTrack(const MetaData& md) override;
 	bool storeMetadata(const MetaDataList& v_md) override;
-	bool insertTrackIntoDatabase(const MetaData &md, int artist_id, int album_id) override;
+	bool insertTrackIntoDatabase(const MetaData& md, int artist_id, int album_id, int album_artist_id) override;
+	bool insertTrackIntoDatabase(const MetaData& md, int artist_id, int album_id) override;
 
 	bool apply_fixes() override;
+
+	QString load_setting(const QString& key);
+	bool save_setting(const QString& key, const QString& value);
+
+	QString fetch_query_albums() const override;
+	QString fetch_query_artists() const override;
+	QString fetch_query_tracks() const override;
+
 };
 
 #endif // SOUNDCLOUDDATA_H

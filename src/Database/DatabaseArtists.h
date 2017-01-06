@@ -40,7 +40,7 @@ private:
 
 protected:
 	void change_artistid_field(const QString& field);
-	virtual QString fetch_query() const;
+	virtual QString fetch_query_artists() const;
 
 public:
 

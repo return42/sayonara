@@ -158,6 +158,3 @@ QString GUI_Player::get_shortcut_text(const QString &shortcut_identifier) const
 
 	return "";
 }
-
-
-

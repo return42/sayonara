@@ -230,7 +230,7 @@ bool DatabaseConnector::apply_fixes() {
 
 		if(success) {
 
-			SayonaraQuery q (_database);
+			SayonaraQuery q(_database);
 			QString querytext = "UPDATE playlists SET temporary=0;";
 			q.prepare(querytext);
 			if(q.exec()){
@@ -243,7 +243,7 @@ bool DatabaseConnector::apply_fixes() {
 		bool success = check_and_insert_column("playlisttotracks", "db_id", "integer");
 		if(success) {
 
-			SayonaraQuery q (_database);
+			SayonaraQuery q(_database);
 			SayonaraQuery q_index(_database);
 			QString querytext = "UPDATE playlisttotracks SET db_id = (CASE WHEN trackid > 0 THEN 0 ELSE -1 END)";
 			QString index_query = "CREATE INDEX album_search ON albums(cissearch, albumID);"
@@ -316,7 +316,7 @@ void DatabaseConnector::clean_up()
 {
 	DB_RETURN_NOT_OPEN_VOID(_database);
 
-	SayonaraQuery q (_database);
+	SayonaraQuery q(_database);
 	QString querytext = "VACUUM;";
 	q.prepare(querytext);
 	q.exec();

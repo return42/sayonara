@@ -70,8 +70,7 @@ struct CachingThread::Private {
 
 			if(Helper::File::is_soundfile(filename)){
 
-				MetaData md;
-				md.set_filepath(filename);
+				MetaData md(filename);
 
 				bool success = Tagging::getMetaDataOfFile(md);
 				if(success){

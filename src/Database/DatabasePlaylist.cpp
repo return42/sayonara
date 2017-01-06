@@ -257,9 +257,9 @@ bool DatabasePlaylist::getPlaylistById(CustomPlaylist& pl)
 
 		int position = q2.value(1).toInt();
 
-		MetaData data;
+
 		QString filepath = q2.value(0).toString();
-		data.set_filepath( filepath );
+		MetaData data(filepath);
 		data.id = -1;
 		data.is_extern = true;
 		data.db_id = _module_db_id;
@@ -312,7 +312,7 @@ bool DatabasePlaylist::insertTrackIntoPlaylist(const MetaData& md, int playlist_
 		return false;
 	}
 
-	SayonaraQuery q (_db);
+	SayonaraQuery q(_db);
 
 	QString query_string = QString("INSERT INTO playlisttotracks ") +
 							"(trackid, playlistid, position, filepath, db_id) " +

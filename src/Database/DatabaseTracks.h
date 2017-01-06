@@ -42,7 +42,7 @@ class DatabaseTracks :
 private:
 	QString _artistid_field;
 
-	virtual QString fetch_query() const;
+	virtual QString fetch_query_tracks() const;
 
 protected:
 	void change_artistid_field(const QString& field);

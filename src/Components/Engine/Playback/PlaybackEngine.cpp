@@ -124,8 +124,7 @@ void PlaybackEngine::change_track_gapless(const MetaData& md) {
 
 void PlaybackEngine::change_track(const QString& filepath) {
 
-	MetaData md;
-	md.set_filepath(filepath);
+	MetaData md(filepath);
 
 	bool got_md = Tagging::getMetaDataOfFile(md);
 	if( !got_md ) {

@@ -19,10 +19,15 @@
  */
 
 #include "GUI_MTP.h"
+#include "GUI/MTP/ui_GUI_MTP.h"
+#include "Components/MTP/MTP.h"
+#include "Components/MTP/MTP_CopyFiles.h"
 
-#include "Helper/Message/Message.h"
 #include "GUI/Helper/Delegates/TreeDelegate.h"
 #include "GUI/Helper/GUI_Helper.h"
+#include "GUI/Helper/CustomMimeData.h"
+
+#include "Helper/Message/Message.h"
 #include "Helper/globals.h"
 #include "Helper/Logger/Logger.h"
 
@@ -30,15 +35,15 @@
 #include <functional>
 
 
-static void open_device(GUI_MTP* mtp, MTP_RawDevicePtr raw_device){
+static void open_device(GUI_MTP* mtp, MTP_RawDevicePtr raw_device)
+{
 	MTP_DevicePtr device = raw_device->open();
 	mtp->device_opened(device);
 }
 
 
 GUI_MTP::GUI_MTP(QWidget* parent) :
-	SayonaraDialog(parent),
-	Ui::GUI_MTP()
+	SayonaraDialog(parent)
 {
 	_initialized = false;
 }
@@ -66,8 +71,8 @@ GUI_MTP::~GUI_MTP()
 }
 
 
-void GUI_MTP::refresh_clicked(){
-
+void GUI_MTP::refresh_clicked()
+{
 	_raw_devices.clear();
 	_open_devices.clear();
 	_storages.clear();
@@ -80,14 +85,15 @@ void GUI_MTP::refresh_clicked(){
 		connect(_mtp, &MTP::finished, this, &GUI_MTP::scan_thread_finished);
 	}
 
-	btn_go->setEnabled(false);
-	btn_go->setText("Initializing...");
+	ui->btn_go->setEnabled(false);
+	ui->btn_go->setText("Initializing...");
 	_mtp->start();
 }
 
-void GUI_MTP::delete_clicked(){
-
-	for(QTreeWidgetItem* item : tree_view->selectedItems()){
+void GUI_MTP::delete_clicked()
+{
+	for(QTreeWidgetItem* item : ui->tree_view->selectedItems())
+	{
 		quint32 id = item->data(1, 0).toInt();
 		if(id == 0){
 			continue;
@@ -103,12 +109,15 @@ void GUI_MTP::delete_clicked(){
 
 		item->setDisabled(true);
 		item->setSelected(false);
-		_storages[combo_storages->currentIndex()]->remove_id(id);
+
+		int cur_storage_idx = ui->combo_storages->currentIndex();
+		_storages[cur_storage_idx]->remove_id(id);
 		folder_idx_changed(item->parent(), 0);
-		tree_view->removeItemWidget(item, 0);
+		ui->tree_view->removeItemWidget(item, 0);
 	}
 
-	for(QTreeWidgetItem* item : tree_view->selectedItems()){
+	for(QTreeWidgetItem* item : ui->tree_view->selectedItems())
+	{
 		quint32 id = item->data(1, 0).toInt();
 		if(id == 0){
 			continue;
@@ -124,22 +133,23 @@ void GUI_MTP::delete_clicked(){
 
 		item->setDisabled(true);
 		item->setSelected(false);
-		_storages[combo_storages->currentIndex()]->remove_id(id);
+		int cur_storage_idx = ui->combo_storages->currentIndex();
+		_storages[cur_storage_idx]->remove_id(id);
 		folder_idx_changed(item->parent(), 0);
-		tree_view->removeItemWidget(item, 0);
+		ui->tree_view->removeItemWidget(item, 0);
 
 	}
 }
 
 
-void GUI_MTP::scan_thread_finished(){
-
-	combo_devices->clear();
+void GUI_MTP::scan_thread_finished()
+{
+	ui->combo_devices->clear();
 
 	sp_log(Log::Debug) << "Scan thread finished";
 
-	btn_go->setEnabled(true);
-	btn_go->setText("Refresh");
+	ui->btn_go->setEnabled(true);
+	ui->btn_go->setText("Refresh");
 
 	QList<MTP_RawDevicePtr> raw_devices = _mtp->get_raw_devices();
 	if(raw_devices.size() == 0){
@@ -151,15 +161,15 @@ void GUI_MTP::scan_thread_finished(){
 		QString device_string = raw_device->get_device_string();
 
 		_raw_devices << raw_device;
-		combo_devices->addItem(device_string);
+		ui->combo_devices->addItem(device_string);
 	}
 }
 
 
-void GUI_MTP::device_idx_changed(int idx){
-
+void GUI_MTP::device_idx_changed(int idx)
+{
 	_storages.clear();
-	combo_storages->clear();
+	ui->combo_storages->clear();
 
 	if( !between(idx, _raw_devices) ){
 		return;
@@ -171,17 +181,18 @@ void GUI_MTP::device_idx_changed(int idx){
 	std::thread* open_thread = new std::thread(open_device, this, raw_device);
 	Q_UNUSED(open_thread);
 
-	btn_go->setText(tr("Opening") + "...");
-	btn_go->setDisabled(true);
-
+	ui->btn_go->setText(tr("Opening") + "...");
+	ui->btn_go->setDisabled(true);
 }
 
-void GUI_MTP::device_opened(MTP_DevicePtr device){
 
-	btn_go->setText(tr("Refresh"));
-	btn_go->setDisabled(false);
-	if(!device){
+void GUI_MTP::device_opened(MTP_DevicePtr device)
+{
+	ui->btn_go->setText(tr("Refresh"));
+	ui->btn_go->setDisabled(false);
 
+	if(!device)
+	{
 		//Message::warning("Cannot open device");
 		return;
 	}
@@ -196,29 +207,29 @@ void GUI_MTP::device_opened(MTP_DevicePtr device){
 		QString name = storage->name() + ": " + storage->identifier();
 		sp_log(Log::Debug) << "New Storage: " << name;
 		_storages << storage;
-		combo_storages->addItem(name);
+		ui->combo_storages->addItem(name);
 	}
 
-	if(combo_storages->currentIndex() == -1 && combo_storages->count() > 0){
-		combo_storages->setCurrentIndex(0);
+	if(ui->combo_storages->currentIndex() == -1 && ui->combo_storages->count() > 0){
+		ui->combo_storages->setCurrentIndex(0);
 	}
 }
 
-void GUI_MTP::storage_idx_changed(int idx){
-
+void GUI_MTP::storage_idx_changed(int idx)
+{
 	if( !between(idx, _storages) ){
 		return;
 	}
 
 	MTP_StoragePtr storage = _storages[idx];
-	tree_view->clear();
+	ui->tree_view->clear();
 
 	QList<MTP_FolderPtr> folders = storage->folders();
 	sp_log(Log::Debug) << "Storage has " << folders.size() << " folders";
 	enable_drag_drop(folders.size() > 0);
 
-	for(MTP_FolderPtr folder : folders){
-
+	for(MTP_FolderPtr folder : folders)
+	{
 		_folders[folder->id()] = folder;
 		QTreeWidgetItem* item = new QTreeWidgetItem(QStringList() << folder->name());
 
@@ -226,19 +237,19 @@ void GUI_MTP::storage_idx_changed(int idx){
 		item->setText(0, folder->name());
 		item->addChild(new QTreeWidgetItem());
 
-		tree_view->addTopLevelItem(item);
+		ui->tree_view->addTopLevelItem(item);
 	}
 }
 
-void GUI_MTP::folder_idx_expanded(QTreeWidgetItem *item){
+void GUI_MTP::folder_idx_expanded(QTreeWidgetItem *item)
+{
 	Q_UNUSED(item)
-	//folder_idx_changed(item, 0);
 }
 
-void GUI_MTP::folder_idx_changed(QTreeWidgetItem* item, int column){
-
+void GUI_MTP::folder_idx_changed(QTreeWidgetItem* item, int column)
+{
 	Q_UNUSED(column)
-	btn_delete->setEnabled(true);
+	ui->btn_delete->setEnabled(true);
 
 	if(!item){
 		return;
@@ -272,11 +283,11 @@ void GUI_MTP::folder_idx_changed(QTreeWidgetItem* item, int column){
 		item->addChild(child_item);
 	}
 
-	MTP_StoragePtr storage = _storages[combo_storages->currentIndex()];
+	MTP_StoragePtr storage = _storages[ui->combo_storages->currentIndex()];
 	QList<MTP_FilePtr> files = storage->files_of_folder(folder->id());
 
-	for(MTP_FilePtr file : files){
-
+	for(MTP_FilePtr file : files)
+	{
 		_files[file->id()] = file;
 
 		QTreeWidgetItem* child_item = new QTreeWidgetItem();
@@ -290,27 +301,28 @@ void GUI_MTP::folder_idx_changed(QTreeWidgetItem* item, int column){
 	}
 }
 
-void GUI_MTP::enable_drag_drop(bool b){
-
-	tree_view->setAcceptDrops(b);
-	tree_view->setDragEnabled(b);
+void GUI_MTP::enable_drag_drop(bool b)
+{
+	ui->tree_view->setAcceptDrops(b);
+	ui->tree_view->setDragEnabled(b);
 	this->setAcceptDrops(b);
-
 }
+
 
 void GUI_MTP::dragEnterEvent(QDragEnterEvent* e)
 {
 	e->accept();
 }
 
+
 void GUI_MTP::dragMoveEvent(QDragMoveEvent* e)
 {
 	e->accept();
 
 	QPoint pos = e->pos();
-	tree_view->clearSelection();
+	ui->tree_view->clearSelection();
 
-	QTreeWidgetItem* item = tree_view->itemAt(pos - tree_view->pos());
+	QTreeWidgetItem* item = ui->tree_view->itemAt(pos - ui->tree_view->pos());
 
 	if(!item){
 		return;
@@ -337,7 +349,7 @@ void GUI_MTP::dropEvent(QDropEvent* e)
 	QPoint pos;
 
 	pos = e->pos();
-	item = tree_view->itemAt(pos - tree_view->pos());
+	item = ui->tree_view->itemAt(pos - ui->tree_view->pos());
 
 	if(!item){
 		return;
@@ -358,20 +370,20 @@ void GUI_MTP::dropEvent(QDropEvent* e)
 	}
 
 	cmd = static_cast<const CustomMimeData*>(mime_data);
-	if(cmd){
 
-
+	if(cmd)
+	{
 		if(_mtp_copy_files){
 			delete _mtp_copy_files;
 			_mtp_copy_files = nullptr;
 		}
 
-
 		enable_drag_drop(false);
 
 		v_md = cmd->getMetaData();
 
-		if(v_md.isEmpty() && cmd->hasUrls()){
+		if(v_md.isEmpty() && cmd->hasUrls())
+		{
 			QList<QUrl> urls = mime_data->urls();
 			QStringList str_urls;
 
@@ -388,63 +400,66 @@ void GUI_MTP::dropEvent(QDropEvent* e)
 			sp_log(Log::Debug) << "Will drop " << v_md.size() << " Tracks ";
 		}
 
-		btn_delete->setEnabled(false);
-		btn_go->setEnabled(false);
+		ui->btn_delete->setEnabled(false);
+		ui->btn_go->setEnabled(false);
 
 		connect(_mtp_copy_files, &MTP_CopyFiles::sig_progress, this, &GUI_MTP::progress_changed);
 		connect(_mtp_copy_files, &MTP_CopyFiles::finished, this, &GUI_MTP::copy_thread_finished);
 
 		_mtp_copy_files->start();
 	}
-
 }
 
 void GUI_MTP::showEvent(QShowEvent* e)
 {
-	if(!_initialized){
-		setupUi(this);
+	if(!_initialized)
+	{
+		ui = new Ui::GUI_MTP();
+		ui->setupUi(this);
 
-		tree_view->setExpandsOnDoubleClick(true);
-		tree_view->setAnimated(true);
-		tree_view->setAutoExpandDelay(100);
-		tree_view->setSelectionMode(QAbstractItemView::ExtendedSelection);
-		tree_view->setItemDelegate(new TreeDelegate(this));
+		ui->tree_view->setExpandsOnDoubleClick(true);
+		ui->tree_view->setAnimated(true);
+		ui->tree_view->setAutoExpandDelay(100);
+		ui->tree_view->setSelectionMode(QAbstractItemView::ExtendedSelection);
+		ui->tree_view->setItemDelegate(new TreeDelegate(this));
 
-		pb_progress->hide();
+		ui->pb_progress->hide();
 
 		enable_drag_drop(false);
 
 		_mtp = nullptr;
 		_mtp_copy_files = nullptr;
 
-		connect(tree_view, &QTreeWidget::itemActivated, this, &GUI_MTP::folder_idx_changed);
-		connect(tree_view, &QTreeWidget::itemExpanded, this, &GUI_MTP::folder_idx_expanded);
-		connect(combo_devices, combo_current_index_changed_int, this, &GUI_MTP::device_idx_changed);
-		connect(combo_storages, combo_current_index_changed_int, this, &GUI_MTP::storage_idx_changed);
-		connect(btn_go, &QPushButton::clicked, this, &GUI_MTP::refresh_clicked);
-		connect(btn_delete, &QPushButton::clicked, this, &GUI_MTP::delete_clicked);
+		connect(ui->tree_view, &QTreeWidget::itemActivated, this, &GUI_MTP::folder_idx_changed);
+		connect(ui->tree_view, &QTreeWidget::itemExpanded, this, &GUI_MTP::folder_idx_expanded);
+		connect(ui->combo_devices, combo_current_index_changed_int, this, &GUI_MTP::device_idx_changed);
+		connect(ui->combo_storages, combo_current_index_changed_int, this, &GUI_MTP::storage_idx_changed);
+		connect(ui->btn_go, &QPushButton::clicked, this, &GUI_MTP::refresh_clicked);
+		connect(ui->btn_delete, &QPushButton::clicked, this, &GUI_MTP::delete_clicked);
 
-		btn_delete->setEnabled(false);
+		ui->btn_delete->setEnabled(false);
 		_initialized = true;
 	}
 
 	SayonaraDialog::showEvent(e);
 }
 
-void GUI_MTP::progress_changed(int progress){
+void GUI_MTP::progress_changed(int progress)
+{
 	if(progress == -1){
-		pb_progress->hide();
+		ui->pb_progress->hide();
 	}
 
 	else{
-		pb_progress->show();
-		pb_progress->setValue(progress);
+		ui->pb_progress->show();
+		ui->pb_progress->setValue(progress);
 	}
 }
 
-void GUI_MTP::copy_thread_finished(){
-	pb_progress->hide();
+void GUI_MTP::copy_thread_finished()
+{
+	ui->pb_progress->hide();
 	enable_drag_drop(true);
-	btn_delete->setEnabled(true);
-	btn_go->setEnabled(true);
+	ui->btn_delete->setEnabled(true);
+	ui->btn_go->setEnabled(true);
 }

@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef DATABASEALBUMS_H
 #define DATABASEALBUMS_H
 
@@ -40,7 +38,7 @@ private:
 	QString _artistid_field;
 
 	QString _create_order_string(Library::SortOrder order);
-	virtual QString fetch_query() const;
+	virtual QString fetch_query_albums() const;
 
 protected:
 	void change_artistid_field(const QString& field);

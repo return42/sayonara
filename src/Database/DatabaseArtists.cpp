@@ -25,17 +25,15 @@
 #include "Helper/MetaData/Artist.h"
 #include "Helper/Library/Filter.h"
 #include "Helper/Library/DateFilter.h"
-#include "Helper/Logger/Logger.h"
 
 DatabaseArtists::DatabaseArtists(const QSqlDatabase& db, quint8 db_id) :
 	DatabaseModule(db, db_id),
 	DatabaseSearchMode(db)
 {
 	_artistid_field = "artistID";
-
 }
 
-QString DatabaseArtists::fetch_query() const
+QString DatabaseArtists::fetch_query_artists() const
 {
 	return	"SELECT "
 			"artists.artistID AS artistID "
@@ -98,11 +96,11 @@ bool DatabaseArtists::getArtistByID(int id, Artist& artist)
 
 	DB_RETURN_NOT_OPEN_BOOL(_db);
 
-	SayonaraQuery q (_db);
+	SayonaraQuery q(_db);
 
 	ArtistList artists;
 
-	QString query = fetch_query() +
+	QString query = fetch_query_artists() +
 				"WHERE artists.artistID = ? "
 				"GROUP BY artistName;";
 
@@ -123,7 +121,7 @@ bool DatabaseArtists::getArtistByID(int id, Artist& artist)
 
 int DatabaseArtists::getArtistID(const QString& artist)
 {
-	SayonaraQuery q (_db);
+	SayonaraQuery q(_db);
 	int artistID = -1;
 	q.prepare("SELECT artistID FROM artists WHERE name = ?;");
 	q.addBindValue(artist);
@@ -141,8 +139,8 @@ int DatabaseArtists::getArtistID(const QString& artist)
 
 bool DatabaseArtists::getAllArtists(ArtistList& result, Library::SortOrder sortorder)
 {
-	SayonaraQuery q (_db);
-	QString query = fetch_query();
+	SayonaraQuery q(_db);
+	QString query = fetch_query_artists();
 
 	query += "GROUP BY artists.artistID, artists.name ";
 	query += _create_order_string(sortorder) + ";";
@@ -154,25 +152,25 @@ bool DatabaseArtists::getAllArtists(ArtistList& result, Library::SortOrder sorto
 
 bool DatabaseArtists::getAllArtistsBySearchString(const Library::Filter& filter, ArtistList& result, Library::SortOrder sortorder)
 {
-	SayonaraQuery q (_db);
+	SayonaraQuery q(_db);
 	QString query;
 
 	switch(filter.mode())
 	{
 		case Library::Filter::Date:
-			query = fetch_query() +
+			query = fetch_query_artists() +
 					" AND (" + filter.date_filter().get_sql_filter("tracks") + ") "
 					" GROUP BY artists.artistID, artists.name ";
 			break;
 
 		case Library::Filter::Genre:
-			query = fetch_query() +
+			query = fetch_query_artists() +
 					"   AND tracks.genre LIKE :searchstring "
 					"	GROUP BY artists.artistID, artists.name ";
 			break;
 
 		case Library::Filter::Filename:
-			query = fetch_query() +
+			query = fetch_query_artists() +
 					"   AND tracks.filename LIKE :searchstring "
 					"	GROUP BY artists.artistID, artists.name ";
 			break;
@@ -180,15 +178,15 @@ bool DatabaseArtists::getAllArtistsBySearchString(const Library::Filter& filter,
 		case Library::Filter::Fulltext:
 		default:
 			query = "SELECT * FROM ("
-					+ fetch_query() +
+					+ fetch_query_artists() +
 					" AND artists.cissearch LIKE :searchstring "
 					" GROUP BY artists.artistID, artists.name "
 					" UNION "
-					+ fetch_query() +
+					+ fetch_query_artists() +
 					" AND albums.cissearch LIKE :searchstring "
 					" GROUP BY artists.artistID, artists.name "
 					" UNION "
-					+ fetch_query() +
+					+ fetch_query_artists() +
 					" AND tracks.cissearch LIKE :searchstring "
 					" GROUP BY artists.artistID, artists.name "
 					") "
@@ -212,7 +210,7 @@ int DatabaseArtists::insertArtistIntoDatabase (const QString& artist)
 		return id;
 	}
 
-	SayonaraQuery q (_db);
+	SayonaraQuery q(_db);
 
 	QString cissearch = Library::convert_search_string(artist, search_mode());
 	q.prepare("INSERT INTO artists (name, cissearch) values (:artist, :cissearch);");
@@ -240,7 +238,7 @@ int DatabaseArtists::insertArtistIntoDatabase (const Artist & artist)
 
 int DatabaseArtists::updateArtist(const Artist &artist)
 {
-	SayonaraQuery q (_db);
+	SayonaraQuery q(_db);
 
 	if(artist.id < 0) return -1;
 

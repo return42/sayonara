@@ -25,15 +25,10 @@
 #include "GUI/Helper/GUI_Helper.h"
 #include "GUI/Helper/Style/Style.h"
 
-
+#include "Helper/MetaData/MetaDataList.h"
 #include "Helper/Message/Message.h"
 #include "Helper/Logger/Logger.h"
 #include "Helper/Language.h"
-
-#ifdef WITH_MTP
-	#include "GUI/MTP/GUI_MTP.h"
-#endif
-
 #include "Helper/Helper.h"
 #include "Helper/globals.h"
 #include "Helper/WebAccess/AsyncWebAccess.h"
@@ -276,10 +271,6 @@ void GUI_Player::id3_tags_changed(const MetaDataList& v_md_old, const MetaDataLi
 
 	set_cover_location();
 }
-
-
-
-
 
 void GUI_Player::skin_changed()
 {

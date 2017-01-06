@@ -217,7 +217,7 @@ bool AbstractDatabase::check_and_insert_column(const QString& tablename, const Q
 {
 	DB_RETURN_NOT_OPEN_BOOL(_database);
 
-	SayonaraQuery q (_database);
+	SayonaraQuery q(_database);
 	QString querytext = "SELECT " + column + " FROM " + tablename + ";";
 	q.prepare(querytext);
 
@@ -248,17 +248,18 @@ bool AbstractDatabase::check_and_create_table(const QString& tablename, const QS
 {
 	DB_RETURN_NOT_OPEN_BOOL(_database);
 
-	SayonaraQuery q (_database);
+	SayonaraQuery q(_database);
 	QString querytext = "SELECT * FROM " + tablename + ";";
 	q.prepare(querytext);
 
-	if(!q.exec()) {
-
+	if(!q.exec())
+	{
 		SayonaraQuery q2 (_database);
 		q2.prepare(sql_create_str);
 
 		if(!q2.exec()){
 			q.show_error(QString("Cannot create table ") + tablename);
+			return false;
 		}
 	}
 

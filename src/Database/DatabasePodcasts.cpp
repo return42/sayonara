@@ -36,7 +36,7 @@ bool DatabasePodcasts::getAllPodcasts(QMap<QString, QString> & podcasts) {
 
 	podcasts.clear();
 
-	SayonaraQuery q (_db);
+	SayonaraQuery q(_db);
 	q.prepare("SELECT name, url FROM savedpodcasts;");
 
 	if (!q.exec()){
@@ -60,7 +60,7 @@ bool DatabasePodcasts::deletePodcast(const QString& name) {
 
 	DB_RETURN_NOT_OPEN_BOOL(_db);
 
-	SayonaraQuery q (_db);
+	SayonaraQuery q(_db);
 
 	q.prepare("DELETE FROM savedpodcasts WHERE name = :name;" );
 	q.bindValue(":name", name);
@@ -80,7 +80,7 @@ bool DatabasePodcasts::addPodcast(const QString& name, const QString& url) {
 
 	DB_RETURN_NOT_OPEN_BOOL(_db);
 
-	SayonaraQuery q (_db);
+	SayonaraQuery q(_db);
 	q.prepare("INSERT INTO savedpodcasts (name, url) VALUES (:name, :url); " );
 	q.bindValue(":name", name);
 	q.bindValue(":url", url);
@@ -100,7 +100,7 @@ bool DatabasePodcasts::updatePodcastUrl(const QString& name, const QString& url)
 {
 	DB_RETURN_NOT_OPEN_BOOL(_db);
 
-	SayonaraQuery q (_db);
+	SayonaraQuery q(_db);
 
 	q.prepare("UPDATE savedpodcasts SET url=:url WHERE name=:name;");
 	q.bindValue(":name", name);

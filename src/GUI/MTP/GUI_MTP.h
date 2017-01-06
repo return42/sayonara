@@ -23,21 +23,27 @@
 #ifndef GUI_MTP_H
 #define GUI_MTP_H
 
-
-#include "GUI/MTP/ui_GUI_MTP.h"
-#include "Components/MTP/MTP.h"
-#include "Components/MTP/MTP_CopyFiles.h"
-#include "GUI/Helper/CustomMimeData.h"
 #include "GUI/Helper/SayonaraWidget/SayonaraDialog.h"
+#include "Components/MTP/MTP_Typedefs.h"
 
 #include <QDragEnterEvent>
 #include <QDragMoveEvent>
 #include <QDragLeaveEvent>
 #include <QDropEvent>
+#include <QTreeWidgetItem>
+#include <QList>
+#include <QHash>
 
+
+namespace Ui
+{
+	class GUI_MTP;
+}
+
+class MTP_CopyFiles;
+class MTP;
 class GUI_MTP :
-		public SayonaraDialog,
-		private Ui::GUI_MTP
+		public SayonaraDialog
 {
 	Q_OBJECT
 
@@ -75,6 +81,8 @@ private:
 	QHash<quint32, MTP_FolderPtr> _folders;
 	QHash<quint32, MTP_FilePtr>	  _files;
 
+	Ui::GUI_MTP*				ui=nullptr;
+
 
 private:
 	void enable_drag_drop(bool b);
@@ -85,7 +93,6 @@ private:
 	void dropEvent(QDropEvent* e) override;
 
 	void showEvent(QShowEvent* e) override;
-
 };
 
 #endif // GUI_MTP_H

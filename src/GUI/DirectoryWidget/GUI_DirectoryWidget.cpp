@@ -32,7 +32,6 @@
 
 #include "Helper/DirectoryReader/DirectoryReader.h"
 #include "Helper/FileHelper.h"
-#include "Helper/Logger/Logger.h"
 #include "Helper/globals.h"
 #include "Helper/Language.h"
 #include "DirectoryDelegate.h"
@@ -172,8 +171,6 @@ void GUI_DirectoryWidget::dir_delete_clicked()
 	QStringList files = ui->tv_dirs->get_selected_paths();
 	MetaDataList v_md = ui->tv_dirs->get_selected_metadata();
 	_local_library->delete_tracks(v_md, Library::TrackDeletionMode::OnlyLibrary);
-
-	sp_log(Log::Debug) << "Delete clicked: " << files;
 
 	Helper::File::delete_files(files);
 }

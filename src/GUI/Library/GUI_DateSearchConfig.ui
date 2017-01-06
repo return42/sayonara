@@ -88,7 +88,7 @@
    <item row="3" column="0">
     <widget class="QStackedWidget" name="stackedWidget">
      <property name="currentIndex">
-      <number>1</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="page">
       <layout class="QGridLayout" name="gridLayout_5">
@@ -137,6 +137,9 @@
        </item>
        <item row="0" column="1">
         <widget class="QSpinBox" name="sb_nt">
+         <property name="minimum">
+          <number>1</number>
+         </property>
          <property name="maximum">
           <number>120</number>
          </property>
@@ -191,6 +194,9 @@
        </item>
        <item row="0" column="1">
         <widget class="QSpinBox" name="sb_ot">
+         <property name="minimum">
+          <number>1</number>
+         </property>
          <property name="maximum">
           <number>120</number>
          </property>
@@ -288,6 +294,9 @@
        </item>
        <item row="0" column="1">
         <widget class="QSpinBox" name="sb_bwf">
+         <property name="minimum">
+          <number>1</number>
+         </property>
          <property name="maximum">
           <number>120</number>
          </property>
@@ -295,6 +304,9 @@
        </item>
        <item row="0" column="3">
         <widget class="QSpinBox" name="sb_bwt">
+         <property name="minimum">
+          <number>1</number>
+         </property>
          <property name="maximum">
           <number>120</number>
          </property>
@@ -334,8 +346,8 @@
  </connections>
  <buttongroups>
   <buttongroup name="buttonGroup"/>
-  <buttongroup name="buttonGroup_2"/>
-  <buttongroup name="buttonGroup_3"/>
   <buttongroup name="buttonGroup_4"/>
+  <buttongroup name="buttonGroup_3"/>
+  <buttongroup name="buttonGroup_2"/>
  </buttongroups>
 </ui>

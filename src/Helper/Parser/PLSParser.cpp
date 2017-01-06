@@ -59,8 +59,8 @@ PLSParser::PLSParser(const QString& filename) :
 
 PLSParser::~PLSParser() {}
 
-void PLSParser::parse(){
-
+void PLSParser::parse()
+{
 	QStringList lines = _file_content.split("\n");
 
 	MetaData md;

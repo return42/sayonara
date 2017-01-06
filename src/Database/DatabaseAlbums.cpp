@@ -24,7 +24,6 @@
 #include "Helper/MetaData/Album.h"
 #include "Helper/Library/Filter.h"
 #include "Helper/Library/DateFilter.h"
-#include "Helper/Logger/Logger.h"
 
 DatabaseAlbums::DatabaseAlbums(QSqlDatabase db, quint8 db_id) :
 	DatabaseModule(db, db_id),
@@ -33,7 +32,7 @@ DatabaseAlbums::DatabaseAlbums(QSqlDatabase db, quint8 db_id) :
 	_artistid_field = "artistID";
 }
 
-QString DatabaseAlbums::fetch_query() const
+QString DatabaseAlbums::fetch_query_albums() const
 {
 	return "SELECT "
 			"  albums.albumID AS albumID"
@@ -47,7 +46,7 @@ QString DatabaseAlbums::fetch_query() const
 			" FROM albums "
 			" INNER JOIN tracks ON tracks.albumID = albums.albumID "
 			" INNER JOIN artists ON tracks."+ _artistid_field + " = artists.artistID "
-			;
+	;
 }
 
 
@@ -142,7 +141,7 @@ QString DatabaseAlbums::_create_order_string(Library::SortOrder sortorder)
 
 int DatabaseAlbums::getAlbumID (const QString & album)
 {
-	SayonaraQuery q (_db);
+	SayonaraQuery q(_db);
 	int albumID = -1;
 
 	q.prepare("SELECT albumID FROM albums WHERE name = ?;");
@@ -167,7 +166,7 @@ bool DatabaseAlbums::getAlbumByID(const int& id, Album& album)
 	}
 
 	SayonaraQuery q(_db);
-	QString querytext =	fetch_query() +
+	QString querytext =	fetch_query_albums() +
 						" WHERE albums.albumID = :id "
 						" GROUP BY albums.albumID, albums.name, albums.rating ";
 
@@ -186,8 +185,8 @@ bool DatabaseAlbums::getAlbumByID(const int& id, Album& album)
 
 bool DatabaseAlbums::getAllAlbums(AlbumList& result, Library::SortOrder sortorder)
 {
-	SayonaraQuery q (_db);
-	QString querytext = fetch_query() ;
+	SayonaraQuery q(_db);
+	QString querytext = fetch_query_albums() ;
 
 	querytext += " GROUP BY albums.albumID, albums.name, albums.rating ";
 	querytext += _create_order_string(sortorder) + ";";
@@ -206,10 +205,10 @@ bool DatabaseAlbums::getAllAlbumsByArtist(IDList artists, AlbumList& result)
 
 bool DatabaseAlbums::getAllAlbumsByArtist(IDList artists, AlbumList& result, const Library::Filter& filter, Library::SortOrder sortorder)
 {
-	SayonaraQuery q (_db);
+	SayonaraQuery q(_db);
 
 	// fetch all albums
-	QString querytext =	fetch_query();
+	QString querytext =	fetch_query_albums();
 
 	if(artists.isEmpty()) {
 		return false;
@@ -317,7 +316,7 @@ bool DatabaseAlbums::getAllAlbumsByArtist(int artist, AlbumList& result, const L
 bool DatabaseAlbums::getAllAlbumsBySearchString(const Library::Filter& filter, AlbumList& result, Library::SortOrder sortorder)
 {
 	SayonaraQuery q(_db);
-	QString querystring = fetch_query();
+	QString querystring = fetch_query_albums();
 	switch(filter.mode())
 	{
 		case Library::Filter::Date:
@@ -340,15 +339,15 @@ bool DatabaseAlbums::getAllAlbumsBySearchString(const Library::Filter& filter, A
 		default:
 			querystring +=
 					"INNER JOIN ( "
-						+ fetch_query() +
+						+ fetch_query_albums() +
 						"WHERE albums.cissearch LIKE :search_in_album "
 						"GROUP BY albums.albumid, albums.name "
 						"UNION "
-						+ fetch_query() +
+						+ fetch_query_albums() +
 						"WHERE tracks.cissearch LIKE :search_in_title "
 						"GROUP BY albums.albumid, albums.name "
 						"UNION "
-						+ fetch_query() +
+						+ fetch_query_albums() +
 						"WHERE artists.cissearch LIKE :search_in_artist "
 						"GROUP BY albums.albumid, albums.name "
 
@@ -441,7 +440,7 @@ void DatabaseAlbums::updateAlbumCissearch()
 
 int DatabaseAlbums::insertAlbumIntoDatabase (const QString& album)
 {
-	SayonaraQuery q (_db);
+	SayonaraQuery q(_db);
 
 	int album_id = getAlbumID(album);
 	if(album_id >= 0){
@@ -469,7 +468,7 @@ int DatabaseAlbums::insertAlbumIntoDatabase (const Album& album)
 		return updateAlbum(album);
 	}
 
-	SayonaraQuery q (_db);
+	SayonaraQuery q(_db);
 	QString cissearch = Library::convert_search_string(album.name, search_mode());
 
 	q.prepare("INSERT INTO albums (name, cissearch, rating) values (:name, :cissearch, :rating);");
