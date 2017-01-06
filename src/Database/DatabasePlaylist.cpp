@@ -423,7 +423,6 @@ bool DatabasePlaylist::storePlaylist(const MetaDataList& vec_md, QString playlis
 }
 
 
-
 bool DatabasePlaylist::storePlaylist(const MetaDataList& vec_md, int playlist_id, bool temporary)
 {
 	DB_RETURN_NOT_OPEN_BOOL(_db);

@@ -28,7 +28,6 @@ DatabasePodcasts::DatabasePodcasts(const QSqlDatabase& db, quint8 db_id) :
 }
 
 
-
 bool DatabasePodcasts::getAllPodcasts(QMap<QString, QString> & podcasts) {
 
 	DB_RETURN_NOT_OPEN_BOOL(_db);
@@ -54,7 +53,6 @@ bool DatabasePodcasts::getAllPodcasts(QMap<QString, QString> & podcasts) {
 }
 
 
-
 bool DatabasePodcasts::deletePodcast(const QString& name) {
 
 	DB_RETURN_NOT_OPEN_BOOL(_db);
@@ -71,8 +69,6 @@ bool DatabasePodcasts::deletePodcast(const QString& name) {
 
 	return true;
 }
-
-
 
 
 bool DatabasePodcasts::addPodcast(const QString& name, const QString& url) {
@@ -92,7 +88,6 @@ bool DatabasePodcasts::addPodcast(const QString& name, const QString& url) {
 	sp_log(Log::Info) << "podcast " << name << ", " << url << " successfully added";
 	return true;
 }
-
 
 
 bool DatabasePodcasts::updatePodcastUrl(const QString& name, const QString& url)

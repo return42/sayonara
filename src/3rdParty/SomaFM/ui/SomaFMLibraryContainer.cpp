@@ -19,7 +19,6 @@
  */
 
 
-
 /* SomaFMLibraryContainer.cpp */
 
 #include "ui/SomaFMLibraryContainer.h"

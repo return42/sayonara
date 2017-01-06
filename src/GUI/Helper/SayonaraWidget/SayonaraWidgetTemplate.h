@@ -58,7 +58,6 @@ public:
 protected:
 
 
-
 	QString elide_text(const QString &text, QWidget *widget, int max_lines){
 
 		QFontMetrics metric = widget->fontMetrics();

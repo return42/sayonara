@@ -37,8 +37,6 @@ EngineColorStyleChooser::EngineColorStyleChooser(int widget_width, int widget_he
 }
 
 
-
-
 void EngineColorStyleChooser::
 create_colorstyle(ColorStyle &style, const ColorList &clist_active, int n_rects, int n_fading_steps) {
 
@@ -152,7 +150,6 @@ ColorStyle EngineColorStyleChooser::get_color_scheme_level(int i) {
 }
 
 
-
 int EngineColorStyleChooser::get_num_color_schemes() {
     return _styles_spectrum.size();
 }
@@ -181,7 +178,6 @@ void EngineColorStyleChooser::reload(int widget_width, int widget_height) {
         fallback1.rect_height_spectrum = 2;
         fallback1.rect_width_level = 5;
         fallback1.rect_height_level = 6;
-
 
 
         fallback2.col_list.colors << QColor(27, 32, 47)  << QColor(134, 134, 134) << QColor(216, 216, 216) << QColor(255, 255, 255);

@@ -49,7 +49,6 @@ void TagLineEdit::focusOutEvent(QFocusEvent* e){
 }
 
 
-
 TextSelection TagLineEdit::get_text_selection() const
 {
 	return _text_selection;

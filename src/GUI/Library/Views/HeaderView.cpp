@@ -108,7 +108,6 @@ void HeaderView::set_column_headers(const ColumnHeaderList& column_headers, cons
 }
 
 
-
 void HeaderView::refresh_sizes(QTableView* view)
 {
 

@@ -142,7 +142,6 @@ QString LyricLookupThread::parse_webpage(const QByteArray& raw) {
 		}
 
 
-
 		QRegExp re_script;
 		re_script.setPattern("<script.+</script>");
 		re_script.setMinimal(true);
@@ -310,7 +309,6 @@ void LyricLookupThread::init_server_list() {
 	lyricskeeper.error = QString("page cannot be found");
 
 
-
 	ServerTemplate metrolyrics;
 	metrolyrics.display_str = "MetroLyrics.com";
 	metrolyrics.server_address = QString("http://www.metrolyrics.com");
@@ -385,7 +383,6 @@ void LyricLookupThread::init_server_list() {
 	_server_list.push_back(lyricskeeper);
 	_server_list.push_back(elyrics);
 	_server_list.push_back(golyr);
-
 
 
 	/*sp_log(Log::Info) << "Servers: [";

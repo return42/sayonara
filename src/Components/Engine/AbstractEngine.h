@@ -90,7 +90,6 @@ protected slots:
 	virtual void set_cur_position_ms(qint64 ms);
 
 
-
 public slots:
 	virtual void play()=0;
 	virtual void stop()=0;

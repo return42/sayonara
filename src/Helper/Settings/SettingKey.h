@@ -296,7 +296,6 @@ INST(bool,				Remote_Active);				/* Remote control activated */
 INST(int,				Remote_Port);				/* Remote control port */
 
 
-
 }
 
 namespace SetNoDB{
@@ -306,7 +305,6 @@ INST(bool,				Pitch_found);
 INST(bool,				Player_Quit);
 
 }
-
 
 
 #endif // SETTINGKEY_H

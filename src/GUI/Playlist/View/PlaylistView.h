@@ -138,6 +138,4 @@ private slots:
 };
 
 
-
-
 #endif /* PlaylistView_H_ */

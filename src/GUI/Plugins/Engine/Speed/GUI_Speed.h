@@ -59,5 +59,4 @@ private slots:
 };
 
 
-
 #endif // GUI_SPEED_H

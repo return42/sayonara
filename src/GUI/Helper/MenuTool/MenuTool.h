@@ -102,6 +102,4 @@ public slots:
 };
 
 
-
-
 #endif // MENUTOOL_H

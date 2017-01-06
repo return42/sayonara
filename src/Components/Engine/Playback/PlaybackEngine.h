@@ -104,7 +104,6 @@ public slots:
 	void gapless_timed_out();
 
 
-
 private:
 	
 	PlaybackPipeline*			_pipeline=nullptr;

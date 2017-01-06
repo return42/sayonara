@@ -497,7 +497,6 @@ void GUI_Player::_sl_sr_active_changed()
 }
 
 
-
 void GUI_Player::ui_loaded()
 {
 	skin_changed();
@@ -569,7 +568,6 @@ void GUI_Player::ui_loaded()
 		show_plugin(p);
 	}
 }
-
 
 
 void GUI_Player::awa_version_finished(bool success)

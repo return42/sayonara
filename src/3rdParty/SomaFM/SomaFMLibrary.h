@@ -19,7 +19,6 @@
  */
 
 
-
 /* SomaFMLibrary.h */
 
 #ifndef SOMAFMLIBRARY_H

@@ -103,7 +103,6 @@ QList<MTP_FilePtr> MTP_Storage::files_of_folder(quint32 folder_id) const
 }
 
 
-
 quint32 MTP_Storage::id() const {
 	return _id;
 }

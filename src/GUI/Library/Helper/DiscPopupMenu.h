@@ -70,7 +70,4 @@ class DiscPopupMenu : public QMenu {
 };
 
 
-
-
-
 #endif

@@ -56,5 +56,4 @@ private slots:
 };
 
 
-
 #endif // GUI_PLAYERPLUGIN_H

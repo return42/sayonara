@@ -369,7 +369,6 @@ void PlaybackPipeline::init_equalizer()
 }
 
 
-
 void PlaybackPipeline::play()
 {
 	gst_element_set_state(_pipeline, GST_STATE_PLAYING);
@@ -553,7 +552,6 @@ void PlaybackPipeline::set_eq_band(const QString& band_name, double val)
 }
 
 
-
 void PlaybackPipeline::set_streamrecorder_path(const QString& path)
 {
 	if(!_file_sink) {
@@ -596,7 +594,6 @@ double PlaybackPipeline::get_current_volume() const
 	g_object_get(_volume, "volume", &volume, nullptr);
 	return volume;
 }
-
 
 
 void PlaybackPipeline::_sl_speed_active_changed()

@@ -115,7 +115,6 @@ bool SoundcloudJsonParser::parse_artist(Artist& artist, QJsonObject object)
 }
 
 
-
 bool SoundcloudJsonParser::parse_tracks(ArtistList& artists, MetaDataList &v_md)
 {
 	if(!_json_doc.isArray()){
@@ -225,7 +224,6 @@ bool SoundcloudJsonParser::parse_playlists(ArtistList& artists, AlbumList &album
 
 	return false;
 }
-
 
 
 bool SoundcloudJsonParser::parse_playlist_list(ArtistList& artists, AlbumList& albums, MetaDataList& v_md, QJsonArray arr){

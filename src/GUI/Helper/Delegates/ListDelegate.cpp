@@ -19,7 +19,6 @@
  */
 
 
-
 /* ListDelegate.cpp */
 
 #include "ListDelegate.h"

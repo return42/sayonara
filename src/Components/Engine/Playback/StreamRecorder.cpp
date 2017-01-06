@@ -63,7 +63,6 @@ static QString get_time_str() {
 }
 
 
-
 StreamRecorder::StreamRecorder(QObject *parent) :
 	QObject(parent),
 	SayonaraClass()
@@ -102,7 +101,6 @@ void StreamRecorder::new_session(){
 	clear();
 	sp_log(Log::Info) << "New session: " << _m->session_path;
 }
-
 
 
 QString StreamRecorder::change_track(const MetaData& md) {

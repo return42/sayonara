@@ -51,5 +51,4 @@ private slots:
 };
 
 
-
 #endif // GUI_CROSSFADER_H

@@ -72,5 +72,4 @@ struct RawShortcutMap :
 };
 
 
-
 #endif // RAWSHORTCUTMAP_H

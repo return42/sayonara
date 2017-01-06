@@ -254,7 +254,6 @@ void GUI_LocalLibrary::date_selection_changed(const QModelIndex& index)
 }
 
 
-
 Library::TrackDeletionMode GUI_LocalLibrary::show_delete_dialog(int n_tracks) {
 
 	QMessageBox dialog(this);

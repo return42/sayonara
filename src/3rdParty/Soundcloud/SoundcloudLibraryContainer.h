@@ -19,7 +19,6 @@
  */
 
 
-
 /* SoundcloudLibraryContainer.h */
 
 #ifndef SOUNDCLOUD_LIBRARY_CONTAINER

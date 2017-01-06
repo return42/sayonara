@@ -109,7 +109,6 @@ void LibraryPluginHandler::init(const QList<LibraryContainerInterface*>& contain
 }
 
 
-
 void LibraryPluginHandler::init_library(int idx)
 {
 	LibraryContainerInterface* library = _libraries[idx];
@@ -146,7 +145,6 @@ void LibraryPluginHandler::init_library(int idx)
 
 	connect(libchooser, combo_activated_int, this, &LibraryPluginHandler::index_changed);
 }
-
 
 
 void LibraryPluginHandler::index_changed(int idx){

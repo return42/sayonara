@@ -99,8 +99,6 @@ void Probing::handle_probe(bool* active, GstElement* queue, gulong* probe_id, Gs
 }
 
 
-
-
 void Probing::handle_stream_recorder_probe(StreamRecorderData* data, GstPadProbeCallback callback){
 
 	GstPad* pad =  gst_element_get_static_pad(data->queue, "src");

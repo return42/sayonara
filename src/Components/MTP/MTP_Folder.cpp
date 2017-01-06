@@ -25,7 +25,6 @@
 #include <QDir>
 
 
-
 MTP_Folder::MTP_Folder(MTPIntern_Device* device, MTPIntern_Folder *folder){
 
 	_id = 0;
@@ -151,7 +150,6 @@ bool MTP_Folder::send_track(MTP_TrackPtr track) const
 	}
 
 
-
 	ret = LIBMTP_Send_Track_From_File(_device,
 							   track->src_filename().toUtf8().data(),
 							   track->metadata(),
@@ -199,7 +197,6 @@ quint32 MTP_Folder::storage_id() const
 {
 	return _storage_id;
 }
-
 
 
 

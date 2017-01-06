@@ -19,7 +19,6 @@
  */
 
 
-
 /* SomaFMStationModel.cpp */
 
 #include "SomaFMStationModel.h"
@@ -135,7 +134,6 @@ QVariant SomaFMStationModel::data(const QModelIndex& index, int role) const
 
 	return QVariant();
 }
-
 
 
 QModelIndex SomaFMStationModel::getFirstRowIndexOf(const QString& substr)

@@ -79,7 +79,6 @@ const MetaData& PlaylistItemModel::get_md(int row) const
 }
 
 
-
 Qt::ItemFlags PlaylistItemModel::flags(const QModelIndex &index = QModelIndex()) const{
 
 	int row = index.row();

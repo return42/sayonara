@@ -67,5 +67,4 @@ private:
 };
 
 
-
 #endif // GUI_NOTIFICATIONS_H

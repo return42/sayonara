@@ -50,8 +50,6 @@ static int split_line(const QString& line, QString& key, QString& val)
 }
 
 
-
-
 PLSParser::PLSParser(const QString& filename) :
 	AbstractPlaylistParser(filename)
 {

@@ -121,7 +121,4 @@ private slots:
 };
 
 
-
-
-
 #endif /* GUI_PLAYLIST_H_ */

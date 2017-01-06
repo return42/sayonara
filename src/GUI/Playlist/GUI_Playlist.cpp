@@ -388,7 +388,6 @@ void GUI_Playlist::open_dir_clicked(int tgt_idx) {
 }
 
 
-
 void GUI_Playlist::_sl_show_numbers_changed(){
 
 	PlaylistView* cur_view = get_current_view();

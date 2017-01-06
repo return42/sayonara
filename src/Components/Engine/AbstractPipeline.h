@@ -95,7 +95,6 @@ class AbstractPipeline :
 		virtual void stop()=0;
 
 
-
 	public:
 		AbstractPipeline(QString name, Engine* engine, QObject* parent=nullptr);
 		virtual ~AbstractPipeline();

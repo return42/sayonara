@@ -56,8 +56,4 @@ public:
 };
 
 
-
-
-
-
 #endif // MTP_FOLDER_H

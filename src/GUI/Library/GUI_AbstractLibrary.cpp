@@ -364,7 +364,6 @@ void  GUI_AbstractLibrary::columns_title_changed(const BoolList& list) {
 }
 
 
-
 void GUI_AbstractLibrary::sortorder_artist_changed(Library::SortOrder s) {
 
 	_lv_artist->save_selections();

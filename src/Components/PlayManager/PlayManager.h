@@ -268,7 +268,6 @@ public slots:
 	void change_metadata(const MetaData& md);
 
 
-
 	void change_duration(qint64 ms);
 
 public:
@@ -315,7 +314,6 @@ public:
 	 */
 	bool		get_mute() const;
 };
-
 
 
 #endif

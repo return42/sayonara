@@ -19,7 +19,6 @@
  */
 
 
-
 /* GUI_Helper.cpp */
 
 #include "GUI_Helper.h"

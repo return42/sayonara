@@ -54,7 +54,6 @@ protected:
 };
 
 
-
 namespace DBusMPRIS {
 
 
@@ -137,11 +136,9 @@ class MediaPlayer2 :
 		void					SetLoopStatus(QString status);
 
 
-
 		Q_PROPERTY(double		Rate				READ	Rate		WRITE	SetRate)
 		double					Rate();
 		void					SetRate(double rate);
-
 
 
 		Q_PROPERTY(bool			Shuffle				READ	Shuffle		WRITE	SetShuffle)
@@ -161,7 +158,6 @@ class MediaPlayer2 :
 		Q_PROPERTY(qint64	Position			READ	Position)
 		qint64				Position();
 		void				SetPosition(const QDBusObjectPath& track_id, qint64 position);
-
 
 
 		Q_PROPERTY(double		MinimumRate			READ	MinimumRate)

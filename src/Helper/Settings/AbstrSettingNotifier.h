@@ -47,5 +47,4 @@ class AbstrSettingNotifier : public QObject{
 };
 
 
-
 #endif // ABSTRSETTINGNOTIFIER_H

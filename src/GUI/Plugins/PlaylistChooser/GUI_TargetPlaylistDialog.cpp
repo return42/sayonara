@@ -42,7 +42,6 @@ void GUI_TargetPlaylistDialog::language_changed() {
 }
 
 
-
 void GUI_TargetPlaylistDialog::search_button_clicked() {
 
 	QString lib_path = _settings->get(Set::Lib_Path);

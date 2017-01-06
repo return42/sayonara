@@ -19,7 +19,6 @@
  */
 
 
-
 /* PluginCloseButton.h */
 
 #ifndef PLUGINCLOSEBUTTON_H

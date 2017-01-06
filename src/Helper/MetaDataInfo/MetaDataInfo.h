@@ -52,7 +52,6 @@ enum class InfoStrings : quint8
 };
 
 
-
 /**
  * @brief The MetaDataInfo class
  * @ingroup MetaDataHelper

@@ -19,7 +19,6 @@
  */
 
 
-
 /* SomaFMStationModel.h */
 
 #ifndef SomaFMStationModel_H

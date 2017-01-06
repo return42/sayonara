@@ -390,8 +390,6 @@ void GUI_StyleSettings::undo_pressed() {
 }
 
 
-
-
 void GUI_StyleSettings::closeEvent(QCloseEvent * e) {
     if(_sth_changed) {
 		GlobalMessage::Answer ret = Message::question_yn(tr("Save changes?"));

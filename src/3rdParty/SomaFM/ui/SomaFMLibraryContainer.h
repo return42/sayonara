@@ -19,7 +19,6 @@
  */
 
 
-
 /* SomaFMLibraryContainer.h */
 
 #ifndef GUI_SOMAFMLIBRARY_CONTAINER_H

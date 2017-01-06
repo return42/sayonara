@@ -150,7 +150,6 @@ void SoundcloudLibrary::cover_found(const CoverLocation& cl){
 }
 
 
-
 void SoundcloudLibrary::insert_tracks(const MetaDataList& v_md){
 	Q_UNUSED(v_md)
 	return;

@@ -157,7 +157,6 @@ eos_probe_installed_remove (GstPad* pad, GstPadProbeInfo * info, gpointer data)
 }
 
 
-
 static GstPadProbeReturn
 src_blocked_remove(GstPad* pad, GstPadProbeInfo* info, gpointer data)
 {

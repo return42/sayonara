@@ -208,7 +208,6 @@ bool Tagging::setMetaDataOfFile(const MetaData& md) {
 }
 
 
-
 bool Tagging::write_cover(const MetaData& md, const QImage& cover){
 	bool success;
 	QString filepath = Helper::get_sayonara_path() + "tmp.png";

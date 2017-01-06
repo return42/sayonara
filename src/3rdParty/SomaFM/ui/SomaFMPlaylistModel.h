@@ -19,7 +19,6 @@
  */
 
 
-
 /* SomaFMPlaylistModel.h */
 
 #ifndef SOMAFMPLAYLISTMODEL_H

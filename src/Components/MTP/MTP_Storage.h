@@ -60,7 +60,4 @@ private:
 };
 
 
-
-
-
 #endif // MTP_STORAGE_H

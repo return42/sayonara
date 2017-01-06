@@ -211,7 +211,6 @@ bool StreamDataSender::send_header(bool reject, bool icy){
 }
 
 
-
 bool StreamDataSender::send_html5(const QString& stream_title){
 
 	int n_bytes;

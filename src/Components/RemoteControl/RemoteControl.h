@@ -147,7 +147,6 @@ private:
 	void write(const QByteArray& arr);
 
 
-
 };
 
 #endif // REMOTECONTROL_H

@@ -128,7 +128,6 @@ void GUI_Player::rec_clicked(bool b)
 }
 
 
-
 void GUI_Player::buffering(int progress)
 {
 	if(progress >= 0 && progress < 100){

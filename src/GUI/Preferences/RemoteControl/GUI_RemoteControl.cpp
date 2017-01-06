@@ -88,7 +88,6 @@ QString GUI_RemoteControl::get_action_name() const
 }
 
 
-
 void GUI_RemoteControl::active_toggled(bool b)
 {
 	Q_UNUSED(b)

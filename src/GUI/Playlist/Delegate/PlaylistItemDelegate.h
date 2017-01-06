@@ -59,7 +59,6 @@ public:
 	int get_drag_index() const;
 
 
-
 private:
 
 	int					_row_height;
@@ -67,7 +66,6 @@ private:
 	int					_drag_row;
 	bool				_show_numbers;
 	QString				_entry_template;
-
 
 
 private slots:

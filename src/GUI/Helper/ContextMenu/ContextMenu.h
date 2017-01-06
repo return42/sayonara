@@ -75,7 +75,6 @@ signals:
 	void sig_default();
 
 
-
 private:
 	QAction*	_action_new=nullptr;
 	QAction*	_action_edit=nullptr;
@@ -155,7 +154,6 @@ private slots:
 	void language_changed();
 	void skin_changed();
 };
-
 
 
 #endif // CONTEXTMENU_H

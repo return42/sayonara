@@ -51,7 +51,6 @@ MTP_Device::MTP_Device(MTPIntern_Device* device){
 }
 
 
-
 MTP_Device::~MTP_Device(){
 	if(_device){
 		sp_log(Log::Debug) << "Closed device " << _friendly_name;

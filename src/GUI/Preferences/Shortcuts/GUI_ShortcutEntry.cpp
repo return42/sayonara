@@ -119,7 +119,6 @@ void GUI_ShortcutEntry::skin_changed()
 }
 
 
-
 void GUI_ShortcutEntry::edit_clicked(){
 	le_entry->clear();
 	le_entry->setFocus();

@@ -183,7 +183,6 @@ ContextMenuEntries ContextMenu::get_entries() const
 }
 
 
-
 void ContextMenu::show_all(){
 	for(QAction* action: _actions){
 		action->setVisible(true);

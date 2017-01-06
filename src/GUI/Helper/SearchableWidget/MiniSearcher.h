@@ -77,7 +77,6 @@ private slots:
 	void right_clicked();
 
 
-
 private:
 	QAbstractItemView*		_parent=nullptr;
 	QMap<QChar, QString>    _triggers;
@@ -109,7 +108,6 @@ public:
 public slots:
 	void reset();
 };
-
 
 
 #endif // MINISEARCHER_H

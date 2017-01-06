@@ -71,8 +71,6 @@ void DBusMediaKeysInterface::sl_media_key_pressed(const QString& program_name, c
 }
 
 
-
-
 void DBusMediaKeysInterface::sl_register_finished(QDBusPendingCallWatcher* watcher){
 
 	QDBusMessage reply = watcher->reply();

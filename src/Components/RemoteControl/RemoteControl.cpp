@@ -198,8 +198,6 @@ int RemoteControl::extract_parameter_int(const QByteArray& data, int cmd_len){
 }
 
 
-
-
 void RemoteControl::playstate_changed(PlayState playstate)
 {
 	Q_UNUSED(playstate)
@@ -276,7 +274,6 @@ void RemoteControl::change_track(int idx){
 }
 
 
-
 void RemoteControl::write_cur_pos(){
 	quint32 pos_sec = _play_manager->get_cur_position_ms() / 1000;
 	write("curPos:" + QByteArray::number(pos_sec));
@@ -343,7 +340,6 @@ void RemoteControl::write_cover(const MetaData& md){
 }
 
 
-
 void RemoteControl::write_playstate()
 {
 	PlayState playstate = _play_manager->get_play_state();
@@ -364,7 +360,6 @@ void RemoteControl::write_playstate()
 
 	write(playstate_str);
 }
-
 
 
 void RemoteControl::write_playlist(){
@@ -400,7 +395,6 @@ void RemoteControl::write_broadcast_info()
 
 	write(data);
 }
-
 
 
 void RemoteControl::write(const QByteArray& data){

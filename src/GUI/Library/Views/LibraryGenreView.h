@@ -50,7 +50,6 @@ class TreeDelegate;
 typedef SP::Tree<QString> GenreNode;
 
 
-
 class LibraryGenreView : public QTreeWidget
 {
 	Q_OBJECT

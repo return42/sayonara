@@ -133,7 +133,6 @@ void EQ_Setting::set_name(const QString& name)
 }
 
 
-
 void EQ_Setting::set_value(int idx, int val)
 {
 	if(idx < 0 || idx >= _values.size()){

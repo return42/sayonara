@@ -44,5 +44,4 @@ private:
 };
 
 
-
 #endif // MTP_RAWDEVICE_H

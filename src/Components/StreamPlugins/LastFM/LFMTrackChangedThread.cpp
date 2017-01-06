@@ -86,7 +86,6 @@ void LFMTrackChangedThread::set_username(const QString& username) {
 }
 
 
-
 void LFMTrackChangedThread::update_now_playing(const MetaData& md) {
 
 	_m->md = md;
@@ -138,8 +137,6 @@ void LFMTrackChangedThread::error_update(const QString& error){
 
 	lfm_wa->deleteLater();
 }
-
-
 
 
 void LFMTrackChangedThread::search_similar_artists(const MetaData& md) {

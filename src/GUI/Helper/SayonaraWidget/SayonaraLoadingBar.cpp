@@ -19,7 +19,6 @@
  */
 
 
-
 /* SayonaraLoadingBar.cpp */
 
 #include "SayonaraLoadingBar.h"

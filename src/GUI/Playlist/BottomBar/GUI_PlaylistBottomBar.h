@@ -75,5 +75,4 @@ private:
 };
 
 
-
 #endif // PLAYLISTBOTTOMBAR_H

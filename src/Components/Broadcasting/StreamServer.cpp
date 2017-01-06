@@ -255,7 +255,6 @@ void StreamServer::new_connection(const QString& ip)
 }
 
 
-
 void StreamServer::track_changed(const MetaData& md)
 {
 	_m->cur_track = md;

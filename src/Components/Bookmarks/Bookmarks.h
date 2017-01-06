@@ -129,7 +129,6 @@ public:
 	int get_size() const;
 
 
-
 private slots:
 	/**
 	 * @brief track position has changed

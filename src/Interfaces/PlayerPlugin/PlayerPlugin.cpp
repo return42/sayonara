@@ -97,8 +97,6 @@ void PlayerPluginInterface::finalize_initialization()
 }
 
 
-
-
 bool PlayerPluginInterface::is_ui_initialized() const
 {
 	return _is_initialized;
@@ -129,7 +127,6 @@ void PlayerPluginInterface::closeEvent(QCloseEvent* e)
 
 	emit sig_closed();
 }
-
 
 
 void PlayerPluginInterface::action_triggered(bool b) 

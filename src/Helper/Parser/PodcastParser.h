@@ -19,8 +19,6 @@
  */
 
 
-
-
 #include <QString>
 
 class MetaDataList;

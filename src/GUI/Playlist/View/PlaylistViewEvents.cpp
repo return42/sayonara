@@ -19,7 +19,6 @@
  */
 
 
-
 /* PlaylistViewEvents.cpp */
 
 #include "PlaylistView.h"

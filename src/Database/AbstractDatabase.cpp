@@ -121,7 +121,6 @@ bool AbstractDatabase::exists()
 }
 
 
-
 bool AbstractDatabase::create_db()
 {
 	bool success;

@@ -199,7 +199,6 @@ QString PlaylistTabBar::get_shortcut_text(const QString& shortcut_identifier) co
 }
 
 
-
 void PlaylistTabBar::show_menu_items(PlaylistMenuEntries entries){
 	_menu->show_menu_items(entries);
 }
@@ -218,7 +217,6 @@ int PlaylistTabBar::get_drag_origin_tab() const
 {
 	return _drag_origin_tab;
 }
-
 
 
 void PlaylistTabBar::dragEnterEvent(QDragEnterEvent* e)

@@ -29,7 +29,6 @@
 class ArtistMatch{
 
 
-
 public:
 
 	struct ArtistDesc {
@@ -108,8 +107,6 @@ private:
 	QString _artist;
 
 };
-
-
 
 
 #endif // ARTISTMATCH_H

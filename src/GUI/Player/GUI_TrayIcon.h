@@ -94,7 +94,6 @@ private slots:
 	void _sl_show_tray_icon();
 
 
-
 protected:
 	virtual void  language_changed();
 

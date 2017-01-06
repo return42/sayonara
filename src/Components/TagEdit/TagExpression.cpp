@@ -103,7 +103,6 @@ QStringList TagExpression::split_tag_string( const QString& tag_str ) const
 }
 
 
-
 QString TagExpression::calc_regex_string(const QStringList& splitted_str) const
 {
 
@@ -125,7 +124,6 @@ QString TagExpression::calc_regex_string(const QStringList& splitted_str) const
 
 	return re_str;
 }
-
 
 
 bool TagExpression::update_tag(const QString& tag_str, const QString& filepath){

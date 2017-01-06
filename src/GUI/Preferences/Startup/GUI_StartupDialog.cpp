@@ -60,7 +60,6 @@ void GUI_StartupDialog::commit() {
 void GUI_StartupDialog::revert() {
 
 
-
 }
 
 QString GUI_StartupDialog::get_action_name() const

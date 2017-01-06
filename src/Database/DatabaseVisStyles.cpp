@@ -173,7 +173,6 @@ bool DatabaseVisStyles::insert_raw_color_style_to_db(const RawColorStyle& rcs) {
 }
 
 
-
 bool DatabaseVisStyles::update_raw_color_style(const RawColorStyle& rcs) {
 
 	if(!raw_color_style_exists(rcs.col_list.name))
@@ -233,7 +232,6 @@ bool DatabaseVisStyles::update_raw_color_style(const RawColorStyle& rcs) {
 
 	return true;
 }
-
 
 
 bool DatabaseVisStyles::delete_raw_color_style(QString name) {

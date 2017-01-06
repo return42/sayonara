@@ -47,8 +47,6 @@
 	} while(0)
 
 
-
-
 /* A Setting notifier has to be a singleton */
 template < typename T >
 class SettingNotifier : public AbstrSettingNotifier {

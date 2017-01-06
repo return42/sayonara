@@ -32,7 +32,6 @@ DBusMediaKeysInterfaceMate::DBusMediaKeysInterfaceMate(QObject *parent) :
 				this);
 
 
-
 	if (!QDBusConnection::sessionBus().interface()->isServiceRegistered("org.mate.SettingsDaemon"))
 	{
 		return;
@@ -48,7 +47,6 @@ DBusMediaKeysInterfaceMate::DBusMediaKeysInterfaceMate(QObject *parent) :
 
 	_initialized = true;
 }
-
 
 
 void DBusMediaKeysInterfaceMate::sl_register_finished(QDBusPendingCallWatcher* watcher){

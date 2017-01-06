@@ -98,7 +98,6 @@ void LibraryView::save_selections()
 // selections end
 
 
-
 // Right click stuff
 void LibraryView::rc_menu_init()
 {

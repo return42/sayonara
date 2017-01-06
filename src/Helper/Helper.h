@@ -142,7 +142,6 @@ namespace Helper {
 	QByteArray calc_hash(const QByteArray&  data);
 
 
-
 	/**
 	 * @brief sleep
 	 * @param ms milliseconds to sleep
@@ -164,7 +163,6 @@ namespace Helper {
 	void set_environment(const QString& key, const QString& value);
 
 }
-
 
 
 #endif

@@ -243,7 +243,6 @@ int PlaylistHandler::create_empty_playlist(const QString& name){
 }
 
 
-
 void PlaylistHandler::clear_playlist(int pl_idx) {
 
 	if( !between(pl_idx, _playlists)){
@@ -364,7 +363,6 @@ void PlaylistHandler::set_current_idx(int pl_idx){
 
 	emit sig_playlist_idx_changed(pl_idx);
 }
-
 
 
 void PlaylistHandler::play_next(const MetaDataList& v_md) {
@@ -582,7 +580,6 @@ int PlaylistHandler::exists(const QString& name) const
 
 	return -1;
 }
-
 
 
 void PlaylistHandler::save_playlist_to_file(const QString& filename, bool relative) {

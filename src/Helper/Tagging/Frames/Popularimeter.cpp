@@ -79,7 +79,6 @@ QString ID3v2Frame::Popularimeter::to_string(){
 }
 
 
-
 ID3v2Frame::PopularimeterFrame::PopularimeterFrame(TagLib::FileRef* f) :
 	AbstractFrame<Popularimeter, TagLib::ID3v2::PopularimeterFrame>(f, "POPM")
 {

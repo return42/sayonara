@@ -93,7 +93,6 @@ void LibraryImporter::caching_thread_finished() {
 }
 
 
-
 // fired if ok was clicked in dialog
 void  LibraryImporter::accept_import(const QString& target_dir) {
 
@@ -110,7 +109,6 @@ void  LibraryImporter::accept_import(const QString& target_dir) {
 	_copy_thread = copy_thread;
 	copy_thread->start();
 }
-
 
 
 void LibraryImporter::copy_thread_finished() {
@@ -185,8 +183,6 @@ void LibraryImporter::metadata_changed(const MetaDataList& old_md, const MetaDat
 
 	_import_cache.change_metadata(old_md, new_md);
 }
-
-
 
 
 // fired if cancel button was clicked in dialog

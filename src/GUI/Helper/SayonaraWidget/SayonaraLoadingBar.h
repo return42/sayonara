@@ -19,7 +19,6 @@
  */
 
 
-
 /* SayonaraLoadingBar.h */
 
 #ifndef SAYONARALOADINGBAR_H
@@ -45,7 +44,6 @@ public:
 protected:
 	void showEvent(QShowEvent* e) override;
 };
-
 
 
 #endif // SAYONARALOADINGBAR_H

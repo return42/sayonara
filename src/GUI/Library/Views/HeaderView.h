@@ -65,5 +65,4 @@ public:
 };
 
 
-
 #endif // HEADERVIEW_H

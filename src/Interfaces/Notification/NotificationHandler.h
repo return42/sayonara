@@ -65,5 +65,4 @@ public:
 };
 
 
-
 #endif // NOTIFICATIONHANDLER_H

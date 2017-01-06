@@ -19,7 +19,6 @@
  */
 
 
-
 /* ListDelegate.h */
 
 #ifndef LISTDELEGATE_H_

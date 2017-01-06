@@ -104,7 +104,6 @@ void ArtistInfo::set_subheader()
 }
 
 
-
 void ArtistInfo::set_cover_location()
 {
 	if( _artists.size() == 1){

@@ -140,7 +140,6 @@ void GUI_Playlist::playlist_finished(){
 }
 
 
-
 /** GUI SLOTS **/
 
 
@@ -236,7 +235,6 @@ void GUI_Playlist::tab_delete_playlist_clicked(int idx){
 
 	_playlist->delete_playlist(idx);
 }
-
 
 
 void GUI_Playlist::check_tab_icon(){

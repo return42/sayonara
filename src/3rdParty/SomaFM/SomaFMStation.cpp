@@ -95,7 +95,6 @@ struct SomaFMStation::Private
 	}
 
 
-
 	void parse_description()
 	{
 		QString pattern("<p\\s*class=\"descr\">(.*)</p>");

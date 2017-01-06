@@ -38,7 +38,6 @@ GUI_PlayerPreferences::~GUI_PlayerPreferences()
 }
 
 
-
 void GUI_PlayerPreferences::init_ui()
 {
 	setup_parent(this, &ui);

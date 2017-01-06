@@ -62,14 +62,12 @@ void AbstractLibrary::load () {
 }
 
 
-
 void AbstractLibrary::emit_stuff() {
 
 	emit sig_all_albums_loaded( _vec_albums );
 	emit sig_all_artists_loaded( _vec_artists );
 	emit sig_all_tracks_loaded( _vec_md );
 }
-
 
 
 void AbstractLibrary::refetch(){
@@ -90,7 +88,6 @@ void AbstractLibrary::refetch(){
 
 	emit_stuff();
 }
-
 
 
 void AbstractLibrary::refresh() {
@@ -236,7 +233,6 @@ void AbstractLibrary::set_playlist_action_after_double_click()
 }
 
 
-
 void AbstractLibrary::psl_play_next_all_tracks() {
 	_playlist->play_next(_vec_md);
 
@@ -349,8 +345,6 @@ void AbstractLibrary::change_artist_selection(const SP::Set<int>& indexes)
 }
 
 
-
-
 void AbstractLibrary::psl_selected_artists_changed(const SP::Set<int>& indexes) {
 
 	change_artist_selection(indexes);
@@ -441,7 +435,6 @@ MetaDataList AbstractLibrary::change_track_selection(const SP::Set<int>& idx_lis
 
 	return v_md;
 }
-
 
 
 void AbstractLibrary::psl_selected_tracks_changed(const SP::Set<int>& idx_list) {
@@ -569,7 +562,6 @@ void AbstractLibrary::_sl_sortorder_changed() {
 }
 
 
-
 void AbstractLibrary::psl_track_rating_changed(int idx, int rating) {
 
 	_vec_md[idx].rating = rating;
@@ -642,7 +634,6 @@ void AbstractLibrary::delete_all_tracks(){
 	get_all_tracks(v_md, _sortorder);
 	delete_tracks(v_md, Library::TrackDeletionMode::OnlyLibrary);
 }
-
 
 
 void AbstractLibrary::delete_tracks(const MetaDataList &v_md, Library::TrackDeletionMode mode){

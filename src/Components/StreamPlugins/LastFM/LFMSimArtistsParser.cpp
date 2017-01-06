@@ -48,7 +48,6 @@ LFMSimArtistsParser::LFMSimArtistsParser(const QString& artist_name, const QStri
 }
 
 
-
 void LFMSimArtistsParser::parse_document()
 {
 	bool success;
@@ -124,7 +123,6 @@ void LFMSimArtistsParser::parse_document()
 		}
 	}
 }
-
 
 
 ArtistMatch LFMSimArtistsParser::get_artist_match() const

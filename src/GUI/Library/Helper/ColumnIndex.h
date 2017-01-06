@@ -58,6 +58,4 @@ enum class Track : quint8
 }
 
 
-
-
 #endif // LIBRARYVIEWCOLUMNS_H

@@ -90,5 +90,4 @@ public:
 };
 
 
-
 #endif // SOUNDCLOUDJSONPARSER_H

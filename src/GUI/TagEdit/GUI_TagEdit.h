@@ -140,8 +140,6 @@ private:
 	bool check_idx(int idx) const;
 
 
-
-
 private slots:
 	/**
 	 * @brief calls write_changes and track_idx_changed with new _cur_idx
@@ -269,7 +267,6 @@ private slots:
 	void set_tag_colors(bool valid);
 
 
-
 	/**
 	 * @brief Undo on current track
 	 */
@@ -293,7 +290,6 @@ private slots:
 	 * @brief update gui, if metadata was changed
 	 */
 	void metadata_changed(const MetaDataList&);
-
 
 
 	/**

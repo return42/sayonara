@@ -59,7 +59,6 @@ bool LFMLoginThread::request_authorization() {
 }
 
 
-
 void LFMLoginThread::login(const QString& username, const QString& password) {
 
 	LFMWebAccess* lfm_wa = new LFMWebAccess();

@@ -34,7 +34,6 @@
 #include "Helper/Logger/Logger.h"
 
 
-
 LibraryGenreView::LibraryGenreView(QWidget* parent) :
 	QTreeWidget(parent)
 {
@@ -101,7 +100,6 @@ int LibraryGenreView::get_row_count() const
 	int n_rows = _genres->children.size();
 	return n_rows;
 }
-
 
 
 void LibraryGenreView::fill_list(const QStringList& genres){
@@ -260,7 +258,6 @@ void LibraryGenreView::insert_genres(QTreeWidgetItem* parent_item, GenreNode* no
 
 
 void LibraryGenreView::init_data(const QStringList& genres){
-
 
 
 	QStringList genre_copy;

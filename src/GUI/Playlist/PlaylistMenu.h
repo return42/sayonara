@@ -67,5 +67,4 @@ private slots:
 };
 
 
-
 #endif // PLAYLISTMENU_H

@@ -34,8 +34,6 @@
 #include <QCryptographicHash>
 
 
-
-
 void LFMWebAccess::call_url(const QString& url) {
 
 	AsyncWebAccess* awa = new AsyncWebAccess(this);
@@ -97,7 +95,6 @@ QString LFMWebAccess::create_std_url_post(const QString& base_url, const UrlPara
 
 	return url;
 }
-
 
 
 bool LFMWebAccess::check_error(const QByteArray& data, bool success){

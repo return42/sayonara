@@ -110,12 +110,10 @@ void GUI_BroadcastSetup::skin_changed()
 }
 
 
-
 QString GUI_BroadcastSetup::get_action_name() const
 {
 	return Lang::get(Lang::Broadcast);
 }
-
 
 
 void GUI_BroadcastSetup::active_toggled(bool b)

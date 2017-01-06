@@ -119,7 +119,6 @@ bool Shortcut::is_valid() const
 }
 
 
-
 void Shortcut::create_qt_shortcut(QWidget* parent, QObject* receiver, const char* slot)
 {
 	QList<QShortcut*> shortcuts = init_qt_shortcut(parent);

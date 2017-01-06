@@ -19,7 +19,6 @@
  */
 
 
-
 /* CrossFader.cpp */
 
 #include "CrossFader.h"

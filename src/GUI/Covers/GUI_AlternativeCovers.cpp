@@ -215,8 +215,6 @@ void GUI_AlternativeCovers::search_clicked()
 }
 
 
-
-
 void GUI_AlternativeCovers::cl_new_cover(const QString& cover_path)
 {
 	_m->filelist << cover_path;

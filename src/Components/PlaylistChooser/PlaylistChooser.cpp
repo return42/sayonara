@@ -73,7 +73,6 @@ void PlaylistChooser::load_single_playlist(int id) {
 }
 
 
-
 void PlaylistChooser::delete_playlist(int id) {
 
 	bool success = _playlist_db_connector->delete_playlist(id);

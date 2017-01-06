@@ -44,7 +44,6 @@ GUI_PlaylistPreferences::~GUI_PlaylistPreferences()
 }
 
 
-
 void GUI_PlaylistPreferences::commit()
 {
 	_settings->set( Set::PL_LoadSavedPlaylists, ui->cb_load_saved_playlists->isChecked() );

@@ -125,7 +125,6 @@ void ConvertPipeline::play() {
 }
 
 
-
 void ConvertPipeline::pause() {
 
 	if(!_pipeline) return;

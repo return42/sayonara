@@ -82,7 +82,6 @@ void GUI_Shortcuts::init_ui()
 }
 
 
-
 QString GUI_Shortcuts::get_action_name() const
 {
 	return tr("Shortcuts");

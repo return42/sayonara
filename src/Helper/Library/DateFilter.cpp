@@ -76,7 +76,6 @@ struct Library::DateFilter::Private
 };
 
 
-
 Library::DateFilter::DateFilter(const QString& name)
 {
 	_m = Pimpl::make<Library::DateFilter::Private>(name);

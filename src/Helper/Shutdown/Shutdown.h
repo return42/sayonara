@@ -28,7 +28,6 @@
 #ifdef WITH_SHUTDOWN
 
 
-
 #include "Helper/singleton.h"
 #include "Helper/Settings/SayonaraClass.h"
 

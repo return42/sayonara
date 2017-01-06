@@ -24,7 +24,6 @@
 #include "zlib.h"
 
 
-
 QByteArray Compressor::compress(const QByteArray &arr){
 
 	QByteArray target(arr.size(), 0);

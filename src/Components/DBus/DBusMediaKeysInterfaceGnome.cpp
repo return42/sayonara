@@ -32,7 +32,6 @@ DBusMediaKeysInterfaceGnome::DBusMediaKeysInterfaceGnome(QObject *parent) :
 				this);
 
 
-
 	if (!QDBusConnection::sessionBus().interface()->isServiceRegistered("org.gnome.SettingsDaemon"))
 	{
 		return;
@@ -47,7 +46,6 @@ DBusMediaKeysInterfaceGnome::DBusMediaKeysInterfaceGnome(QObject *parent) :
 
 	_initialized = true;
 }
-
 
 
 void DBusMediaKeysInterfaceGnome::sl_register_finished(QDBusPendingCallWatcher* watcher){

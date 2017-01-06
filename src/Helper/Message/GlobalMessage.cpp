@@ -42,7 +42,6 @@ bool GlobalMessage::register_receiver(GlobalMessageReceiverInterface* receiver){
 }
 
 
-
 GlobalMessage::Answer
 GlobalMessage::info(const QString& info, const QString& sender_name){
 

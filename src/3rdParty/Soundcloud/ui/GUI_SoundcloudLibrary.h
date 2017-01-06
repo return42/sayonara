@@ -63,5 +63,4 @@ private:
 };
 
 
-
 #endif // GUI_SOUNDCLOUDLIBRARY_H

@@ -65,7 +65,6 @@ void DBusAdaptor::create_message(QString name, QVariant val){
 }
 
 
-
 DBusMPRIS::MediaPlayer2::MediaPlayer2(QMainWindow* player, QObject *parent) :
 	DBusAdaptor(parent),
 	SayonaraClass()

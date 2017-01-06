@@ -72,7 +72,6 @@ public:
 	CustomMimeData* get_mimedata();
 
 
-
 protected:
 	QStringList		_header_names;
 	MetaDataList	_md_mimedata;

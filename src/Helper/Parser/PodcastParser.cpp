@@ -66,9 +66,6 @@ int parse_length_s(const QString& str)
 }
 
 
-
-
-
 bool  PodcastParser::parse_podcast_xml_file_content(const QString& content, MetaDataList& v_md) {
 
     v_md.clear();

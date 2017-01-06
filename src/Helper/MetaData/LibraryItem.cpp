@@ -111,7 +111,6 @@ QString LibraryItem::get_custom_field(int idx) const {
 }
 
 
-
 void LibraryItem::print() const {}
 
 

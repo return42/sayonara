@@ -241,14 +241,12 @@ public:
 	PlaylistDBInterface::SaveAsAnswer rename_playlist(int pl_idx, const QString& name);
 
 
-
 	/**
 	 * @brief save a playlist to file
 	 * @param filename, if filename does not end with m3u, extension is appended automatically
 	 * @param relative relative paths in m3u file
 	 */
 	void save_playlist_to_file(const QString& filename, bool relative);
-
 
 
 public slots:
@@ -258,7 +256,6 @@ public slots:
 	 * @return number of playlists fetched
 	 */
 	int	load_old_playlists();
-
 
 
 	/**
@@ -307,7 +304,6 @@ public slots:
 	 * @return new playlist index
 	 */
 	int create_empty_playlist(const QString& name);
-
 
 
 private slots:

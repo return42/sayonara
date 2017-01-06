@@ -27,7 +27,6 @@ DatabaseStreams::DatabaseStreams(const QSqlDatabase& db, quint8 db_id) :
 }
 
 
-
 bool DatabaseStreams::getAllStreams(QMap<QString, QString>& streams) {
 
 	DB_RETURN_NOT_OPEN_BOOL(_db);
@@ -51,7 +50,6 @@ bool DatabaseStreams::getAllStreams(QMap<QString, QString>& streams) {
 
 	return true;
 }
-
 
 
 bool DatabaseStreams::deleteStream(const QString& name) {

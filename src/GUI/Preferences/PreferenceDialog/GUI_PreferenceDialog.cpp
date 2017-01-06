@@ -81,12 +81,10 @@ void GUI_PreferenceDialog::language_changed()
 }
 
 
-
 QString GUI_PreferenceDialog::get_action_name() const
 {
 	return tr("Preferences");
 }
-
 
 
 void GUI_PreferenceDialog::commit_and_close(){

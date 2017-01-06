@@ -195,7 +195,6 @@ float SmartCompare::compare_hashes(const Hash& str1, const Hash& str2, HashLevel
 }
 
 
-
 float SmartCompare::compare(const QString& str1, const QString& str2, HashLevel level, bool revert){
 
 	Hash hash1 = create_hash(str1, level);
@@ -235,7 +234,6 @@ Hash SmartCompare::create_hash(const QString& str, HashLevel level){
 
 	return hash;
 }
-
 
 
 void SmartCompare::equalize(QMap<QString, float>& map, float min, float max){

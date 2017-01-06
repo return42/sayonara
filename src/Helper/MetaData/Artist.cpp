@@ -82,8 +82,6 @@ void Artist::print() const {
 }
 
 
-
-
 QString ArtistList::get_major_artist(const QStringList& artists)
 {
 

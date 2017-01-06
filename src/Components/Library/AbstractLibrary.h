@@ -63,7 +63,6 @@ signals:
 	void sig_import_dialog_requested();
 
 
-
 public slots:
 
 	virtual void load();
@@ -77,7 +76,6 @@ public slots:
 	/* refetches everything from database as it is, keeping selected elements,
 	   the user won't recognize anything at all */
 	virtual void refresh();
-
 
 
 	/* selection changed */

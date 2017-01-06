@@ -130,7 +130,6 @@ bool StreamWriter::send_header(bool reject){
 }
 
 
-
 void StreamWriter::change_track(const MetaData& md){
 	_stream_title = md.title + " by " + md.artist;
 }

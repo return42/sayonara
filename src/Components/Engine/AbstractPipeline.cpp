@@ -219,7 +219,6 @@ qint64 AbstractPipeline::get_time_to_go() const
 }
 
 
-
 qint64 AbstractPipeline::get_duration_ms(){
     return _duration_ms;
 }
@@ -240,7 +239,6 @@ GstState AbstractPipeline::get_state() {
 	gst_element_get_state(_pipeline, &state, nullptr, GST_MSECOND * 10);
 	return state;
 }
-
 
 
 GstElement* AbstractPipeline::get_pipeline() const {
@@ -302,7 +300,6 @@ bool AbstractPipeline::tee_connect(GstElement* tee, GstPadTemplate* tee_src_pad_
 	gst_object_unref(queue_pad);
 	return true;
 }
-
 
 
 bool

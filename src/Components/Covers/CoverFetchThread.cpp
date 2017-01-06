@@ -96,8 +96,6 @@ bool CoverFetchThread::more(){
 }
 
 
-
-
 void CoverFetchThread::content_fetched(bool success){
 
 	if(!success){
@@ -161,7 +159,6 @@ void CoverFetchThread::multi_image_fetched(bool success){
 
 	awa->deleteLater();
 }
-
 
 
 void CoverFetchThread::save_and_emit_image(const QString& filepath,

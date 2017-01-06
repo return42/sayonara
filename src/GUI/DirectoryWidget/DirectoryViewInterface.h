@@ -22,11 +22,9 @@
 #define DIRECTORYVIEWINTERFACE_H
 
 
-
 class DirectoryViewInterface
 {
 	Q_OBJECT
-
 
 
 public:

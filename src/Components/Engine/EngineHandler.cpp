@@ -146,7 +146,6 @@ void EngineHandler::pause() {
 }
 
 
-
 void EngineHandler::jump_abs_ms(quint64 ms) {
 	if(!_cur_engine) return;
 	_cur_engine->jump_abs_ms(ms);

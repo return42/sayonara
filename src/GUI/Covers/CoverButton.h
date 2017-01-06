@@ -31,7 +31,6 @@ class CoverLookup;
 class CoverLocation;
 
 
-
 /**
  * @brief The CoverButton class
  * @ingroup GUICovers

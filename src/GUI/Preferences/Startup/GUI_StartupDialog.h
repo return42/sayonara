@@ -57,5 +57,4 @@ private slots:
 };
 
 
-
 #endif // GUI_StartupDialog_H
