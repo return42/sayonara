@@ -22,5 +22,4 @@
 
 Library::Library(QObject *parent) :
 	QObject(parent)
-{
-}
+{}

@@ -36,9 +36,7 @@ static const QString NoBookmarkText("--:--");
 
 GUI_Bookmarks::GUI_Bookmarks(QWidget *parent) :
 	PlayerPluginInterface(parent)
-{
-
-}
+{}
 
 GUI_Bookmarks::~GUI_Bookmarks()
 {

@@ -24,8 +24,7 @@
 
 MTPTreeView::MTPTreeView(QWidget *parent) :
 	QTreeWidget(parent)
-{
-}
+{}
 
 MTPTreeView::~MTPTreeView() {}
 

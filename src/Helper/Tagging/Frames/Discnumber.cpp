@@ -38,9 +38,7 @@ QString ID3v2Frame::Discnumber::to_string(){
 
 ID3v2Frame::DiscnumberFrame::DiscnumberFrame(TagLib::FileRef *file_ref) :
 	AbstractFrame<Discnumber, TagLib::ID3v2::TextIdentificationFrame>(file_ref, "TPOS")
-{
-
-}
+{}
 
 ID3v2Frame::DiscnumberFrame::~DiscnumberFrame() {}
 

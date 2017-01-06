@@ -21,9 +21,7 @@
 #include "Setting.h"
 #include "Helper/Logger/Logger.h"
 
-AbstrSetting::AbstrSetting(){
-
-}
+AbstrSetting::AbstrSetting() {}
 
 AbstrSetting::AbstrSetting(const AbstrSetting& other){
 	_key = other._key;

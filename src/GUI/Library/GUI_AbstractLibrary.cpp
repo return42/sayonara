@@ -96,7 +96,7 @@ void GUI_AbstractLibrary::init_finished()
 }
 
 
-void GUI_AbstractLibrary::language_changed(){}
+void GUI_AbstractLibrary::language_changed() {}
 
 
 void GUI_AbstractLibrary::init_headers()

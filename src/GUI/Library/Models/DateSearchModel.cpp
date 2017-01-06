@@ -50,7 +50,7 @@ DateSearchModel::DateSearchModel(QObject* parent) :
 	emit dataChanged(index(0, 0), index(rowCount()-1, 0));
 }
 
-DateSearchModel::~DateSearchModel(){}
+DateSearchModel::~DateSearchModel() {}
 
 
 int DateSearchModel::rowCount(const QModelIndex& parent) const

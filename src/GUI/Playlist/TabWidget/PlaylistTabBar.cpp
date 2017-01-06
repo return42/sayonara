@@ -128,9 +128,7 @@ void PlaylistTabBar::close_others_pressed(){
 			tabCloseRequested(0);
 		}
 
-		else if(i == my_tab){
-
-		}
+		else if(i == my_tab) {}
 
 		else{
 			tabCloseRequested(1);

@@ -32,8 +32,7 @@
 
 DatabaseLibrary::DatabaseLibrary(const QSqlDatabase& db, quint8 db_id) :
 	DatabaseModule(db, db_id)
-{
-}
+{}
 
 
 bool DatabaseLibrary::storeMetadata(const MetaDataList& v_md)

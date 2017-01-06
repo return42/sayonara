@@ -32,8 +32,7 @@ bool is_modifier(int key){
 
 ShortcutLineEdit::ShortcutLineEdit(QWidget*parent) :
 	QLineEdit(parent)
-{
-}
+{}
 
 ShortcutLineEdit::~ShortcutLineEdit() {}
 

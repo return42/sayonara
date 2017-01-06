@@ -24,9 +24,7 @@
 GUI_Podcasts::GUI_Podcasts(QWidget *parent) :
 	GUI_AbstractStream(new StreamHandlerPodcasts(), parent)
 
-{
-
-}
+{}
 
 GUI_Podcasts::~GUI_Podcasts()
 {

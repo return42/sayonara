@@ -30,8 +30,8 @@ SayonaraDialog::SayonaraDialog(QWidget* parent) :
 
 SayonaraDialog::~SayonaraDialog() {}
 
-void SayonaraDialog::language_changed(){}
-void SayonaraDialog::skin_changed(){}
+void SayonaraDialog::language_changed() {}
+void SayonaraDialog::skin_changed() {}
 void SayonaraDialog::closeEvent(QCloseEvent *e){
 	Q_UNUSED(e);
 	emit sig_closed();

@@ -21,5 +21,4 @@
 #include "RawSoundReceiverInterface.h"
 
 RawSoundReceiverInterface::RawSoundReceiverInterface()
-{
-}
+{}

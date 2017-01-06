@@ -99,9 +99,7 @@ namespace ID3v2Frame
 			}
 
 			// destructor
-			virtual ~AbstractFrame(){
-
-			}
+			virtual ~AbstractFrame() {}
 
 
 			//

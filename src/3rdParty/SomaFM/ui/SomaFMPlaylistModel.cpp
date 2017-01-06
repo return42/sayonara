@@ -27,11 +27,9 @@
 
 SomaFMPlaylistModel::SomaFMPlaylistModel(QObject* parent) :
     QStringListModel(parent)
-{
+{}
 
-}
-
-SomaFMPlaylistModel::~SomaFMPlaylistModel(){}
+SomaFMPlaylistModel::~SomaFMPlaylistModel() {}
 
 
 void SomaFMPlaylistModel::setStation(const SomaFMStation& station)

@@ -167,8 +167,8 @@ class SettingKey
 {
 public:
 	T* p=nullptr;
-	SettingKey(){}
-	~SettingKey(){}
+	SettingKey() {}
+	~SettingKey() {}
 };
 
 

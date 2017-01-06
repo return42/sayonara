@@ -31,9 +31,7 @@
 
 GUI_PlaylistPreferences::GUI_PlaylistPreferences(QWidget *parent) :
 	PreferenceWidgetInterface(parent)
-{
-
-}
+{}
 
 GUI_PlaylistPreferences::~GUI_PlaylistPreferences()
 {

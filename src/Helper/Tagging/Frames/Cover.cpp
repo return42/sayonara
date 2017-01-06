@@ -32,9 +32,7 @@ ID3v2Frame::Cover::Cover(const QString& mime_type_, const QByteArray& image_data
 
 ID3v2Frame::CoverFrame::CoverFrame(TagLib::FileRef* file_ref) :
 	AbstractFrame<Cover, TagLib::ID3v2::AttachedPictureFrame>(file_ref, "APIC")
-{
-
-}
+{}
 
 ID3v2Frame::CoverFrame::~CoverFrame() {}
 

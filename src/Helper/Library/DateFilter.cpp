@@ -81,7 +81,7 @@ Library::DateFilter::DateFilter(const QString& name)
 	_m = Pimpl::make<Library::DateFilter::Private>(name);
 }
 
-Library::DateFilter::~DateFilter(){}
+Library::DateFilter::~DateFilter() {}
 
 Library::DateFilter::DateFilter(const DateFilter& other)
 {

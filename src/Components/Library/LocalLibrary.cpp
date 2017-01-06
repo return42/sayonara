@@ -296,17 +296,11 @@ void LocalLibrary::delete_tracks(const MetaDataList &v_md, Library::TrackDeletio
 }
 
 // TODO: check for orphaned tracks
-void LocalLibrary::refresh_artist(){
+void LocalLibrary::refresh_artist() {}
 
-}
+void LocalLibrary::refresh_albums() {}
 
-void LocalLibrary::refresh_albums(){
-
-}
-
-void LocalLibrary::refresh_tracks(){
-
-}
+void LocalLibrary::refresh_tracks() {}
 
 void LocalLibrary::import_files(const QStringList& files){
 	LibraryImporter::getInstance()->import_files(files);

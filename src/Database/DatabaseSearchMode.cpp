@@ -47,7 +47,7 @@ DatabaseSearchMode::DatabaseSearchMode(const QSqlDatabase& db) :
 	_m->db = db;
 }
 
-DatabaseSearchMode::~DatabaseSearchMode(){}
+DatabaseSearchMode::~DatabaseSearchMode() {}
 
 
 void DatabaseSearchMode::init()

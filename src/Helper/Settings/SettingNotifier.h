@@ -53,10 +53,10 @@ class SettingNotifier : public AbstrSettingNotifier {
 
 	private:
 		explicit SettingNotifier( QObject* parent=0 ) : AbstrSettingNotifier(parent) {}
-		SettingNotifier( const SettingNotifier& ){}
+		SettingNotifier( const SettingNotifier& ) {}
 
 	public:
-		virtual ~SettingNotifier(){}
+		virtual ~SettingNotifier() {}
 
 		static SettingNotifier< T >* getInstance(){
 			static SettingNotifier< T > inst;

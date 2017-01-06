@@ -31,9 +31,7 @@
 
 GUI_PreferenceDialog::GUI_PreferenceDialog(QWidget *parent) :
 	PreferenceDialogInterface(parent)
-{
-
-}
+{}
 
 GUI_PreferenceDialog::~GUI_PreferenceDialog()
 {

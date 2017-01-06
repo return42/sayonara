@@ -30,9 +30,7 @@
 
 GUI_BroadcastSetup::GUI_BroadcastSetup(QWidget *parent) :
 	PreferenceWidgetInterface(parent)
-{
-
-}
+{}
 
 GUI_BroadcastSetup::~GUI_BroadcastSetup()
 {

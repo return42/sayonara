@@ -34,9 +34,7 @@
 
 LibraryItemDelegateTracks::LibraryItemDelegateTracks(QObject* parent, bool enabled) :
 	LibraryRatingDelegate(parent, enabled)
-{
-
-}
+{}
 
 LibraryItemDelegateTracks::~LibraryItemDelegateTracks() {}
 

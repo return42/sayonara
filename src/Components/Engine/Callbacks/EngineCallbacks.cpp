@@ -32,7 +32,7 @@
 #include <memory>
 
 #ifdef Q_OS_WIN
-	void EngineCallbacks::destroy_notify(gpointer data){}
+	void EngineCallbacks::destroy_notify(gpointer data) {}
 
 	GstBusSyncReply
 	EngineCallbacks::bus_message_received(GstBus* bus, GstMessage* msg, gpointer data) {

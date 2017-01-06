@@ -31,9 +31,7 @@
 
 MiniSearcherLineEdit::MiniSearcherLineEdit(QWidget* parent) :
 	QLineEdit(parent)
-{
-
-}
+{}
 
 MiniSearcherLineEdit::~MiniSearcherLineEdit() {}
 

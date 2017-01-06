@@ -32,8 +32,8 @@
 		Q_OBJECT
 
 	public:
-		File(QObject* parent=nullptr){}
-		virtual ~File(){}
+		File(QObject* parent=nullptr) {}
+		virtual ~File() {}
 
 		int getFileFromFileDescriptor(int deviceID, const QDBusUnixFileDescriptor &fileDescriptorSource, int transactionID, int &newFileID){return 0;}
 		int getFileMetadata(int deviceID, int fileID, int &parentID, int &storageID, QString &name, qlonglong &size, qlonglong &modificationdate, QString &mimetype){return 0;}

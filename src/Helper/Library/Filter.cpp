@@ -48,7 +48,7 @@ void Library::Filter::operator=(const Filter& other)
     *(_m) = *(other._m);
 }
 
-Library::Filter::~Filter(){}
+Library::Filter::~Filter() {}
 
 
 Library::DateFilter Library::Filter::date_filter() const

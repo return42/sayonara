@@ -22,5 +22,4 @@
 
 LibraryItemDelegateAlbumsCover::LibraryItemDelegateAlbumsCover(QObject *parent) :
 	QStyledItemDelegate(parent)
-{
-}
+{}

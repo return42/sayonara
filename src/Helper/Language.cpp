@@ -23,9 +23,7 @@
 
 LanguageString::LanguageString(const QString& str) :
 	QString(str)
-{
-
-}
+{}
 
 LanguageString LanguageString::toFirstUpper() const
 {

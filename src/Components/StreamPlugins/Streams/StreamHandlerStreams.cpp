@@ -23,9 +23,7 @@
 
 StreamHandlerStreams::StreamHandlerStreams(QObject* parent) :
 	AbstractStreamHandler(parent)
-{
-
-}
+{}
 
 StreamHandlerStreams::~StreamHandlerStreams() {}
 

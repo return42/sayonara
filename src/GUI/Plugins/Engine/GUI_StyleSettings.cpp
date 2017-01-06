@@ -51,9 +51,7 @@ GUI_StyleSettings::GUI_StyleSettings(QWidget *parent) :
 }
 
 GUI_StyleSettings::~GUI_StyleSettings()
-{
-
-}
+{}
 
 void GUI_StyleSettings::language_changed() {
 	retranslateUi(this);

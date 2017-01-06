@@ -23,8 +23,7 @@
 
 DatabaseBookmarks::DatabaseBookmarks(const QSqlDatabase& db, quint8 db_id) :
 	DatabaseModule(db, db_id)
-{
-}
+{}
 
 
 bool DatabaseBookmarks::searchBookmarks(int track_id, QMap<quint32, QString>& bookmarks) {

@@ -23,8 +23,7 @@
 
 DatabaseStreams::DatabaseStreams(const QSqlDatabase& db, quint8 db_id) :
 	DatabaseModule(db, db_id)
-{
-}
+{}
 
 
 bool DatabaseStreams::getAllStreams(QMap<QString, QString>& streams) {

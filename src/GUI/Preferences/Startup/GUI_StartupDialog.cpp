@@ -23,13 +23,9 @@
 GUI_StartupDialog::GUI_StartupDialog(QWidget *parent) :
 	PreferenceWidgetInterface(parent),
 	Ui::GUI_StartupOptions()
-{
+{}
 
-}
-
-GUI_StartupDialog::~GUI_StartupDialog() {
-
-}
+GUI_StartupDialog::~GUI_StartupDialog() {}
 
 void GUI_StartupDialog::init_ui()
 {
@@ -52,15 +48,9 @@ void GUI_StartupDialog::language_changed() {
 }
 
 
-void GUI_StartupDialog::commit() {
+void GUI_StartupDialog::commit() {}
 
-
-}
-
-void GUI_StartupDialog::revert() {
-
-
-}
+void GUI_StartupDialog::revert() {}
 
 QString GUI_StartupDialog::get_action_name() const
 {

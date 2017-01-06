@@ -27,9 +27,7 @@
 
 GUI_Notifications::GUI_Notifications(QWidget *parent) :
 	PreferenceWidgetInterface(parent)
-{
-
-}
+{}
 
 GUI_Notifications::~GUI_Notifications()
 {

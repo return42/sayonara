@@ -28,9 +28,7 @@
 
 LFMLoginThread::LFMLoginThread(QObject *parent) :
 	QObject(parent)
-{
-
-}
+{}
 
 LFMLoginThread::~LFMLoginThread() {}
 

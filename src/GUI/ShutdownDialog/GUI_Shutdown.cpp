@@ -36,9 +36,7 @@ GUI_Shutdown::GUI_Shutdown(QWidget* parent):
 }
 
 GUI_Shutdown::~GUI_Shutdown()
-{
-
-}
+{}
 
 
 void GUI_Shutdown::ok_clicked(){

@@ -99,9 +99,7 @@ int NotificationHandler::get_cur_idx() const
 
 DummyNotificator::DummyNotificator(const QString& name) :
 	NotificationInterface(name)
-{
-
-}
+{}
 
 DummyNotificator::~DummyNotificator() {}
 

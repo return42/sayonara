@@ -23,29 +23,17 @@
 
 AbstrSettingNotifier::AbstrSettingNotifier(QObject *parent) :
 	QObject(parent)
-{
+{}
 
-
-}
-
-AbstrSettingNotifier::~AbstrSettingNotifier(){
-
-}
+AbstrSettingNotifier::~AbstrSettingNotifier() {}
 
 SettingNotifier::SettingNotifier(QObject *parent) :
 	AbstrSettingNotifier(parent)
-{
+{}
 
+SettingNotifier::SettingNotifier( const SettingNotifier& sn) {}
 
-}
-
-SettingNotifier::SettingNotifier( const SettingNotifier& sn){
-
-}
-
-SettingNotifier::~SettingNotifier(){
-
-}
+SettingNotifier::~SettingNotifier() {}
 
 void SettingNotifier::val_changed(){
 	emit sig_value_changed();

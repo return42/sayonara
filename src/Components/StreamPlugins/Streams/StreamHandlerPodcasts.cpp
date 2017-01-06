@@ -23,9 +23,7 @@
 
 StreamHandlerPodcasts::StreamHandlerPodcasts(QObject* parent) :
 	AbstractStreamHandler(parent)
-{
-
-}
+{}
 
 StreamHandlerPodcasts::~StreamHandlerPodcasts() {}
 

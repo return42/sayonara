@@ -31,9 +31,7 @@
 
 FileListModel::FileListModel(QObject* parent) :
 	AbstractSearchListModel(parent)
-{
-
-}
+{}
 
 FileListModel::~FileListModel() {}
 

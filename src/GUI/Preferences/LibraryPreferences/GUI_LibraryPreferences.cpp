@@ -26,8 +26,7 @@
 
 GUI_LibraryPreferences::GUI_LibraryPreferences(QWidget* parent) :
 	PreferenceWidgetInterface(parent)
-{
-}
+{}
 
 GUI_LibraryPreferences::~GUI_LibraryPreferences()
 {

@@ -44,9 +44,7 @@ namespace SP {
 		 */
 		Set() :
 			std::set<T>()
-		{
-
-		}
+		{}
 
 
 		/**

@@ -24,8 +24,7 @@
 
 DatabasePodcasts::DatabasePodcasts(const QSqlDatabase& db, quint8 db_id) :
 	DatabaseModule(db, db_id)
-{
-}
+{}
 
 
 bool DatabasePodcasts::getAllPodcasts(QMap<QString, QString> & podcasts) {

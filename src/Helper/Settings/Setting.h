@@ -100,9 +100,7 @@ class Setting : public AbstrSetting
         }
 
 		/* Destructor */
-		virtual ~Setting(){
-
-		}
+		virtual ~Setting() {}
 
 
 		/* Load setting from DB */

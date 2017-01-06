@@ -24,9 +24,7 @@
 
 LocalLibraryContainer::LocalLibraryContainer(QObject* parent) :
 	LibraryContainerInterface(parent)
-{
-
-}
+{}
 
 LocalLibraryContainer::~LocalLibraryContainer() {}
 

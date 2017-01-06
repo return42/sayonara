@@ -23,16 +23,12 @@
 CustomPlaylist::CustomPlaylist() :
 	CustomPlaylistSkeleton(),
 	MetaDataList()
-{
-
-}
+{}
 
 CustomPlaylist::CustomPlaylist(const CustomPlaylistSkeleton& skeleton) :
 	CustomPlaylistSkeleton(skeleton),
 	MetaDataList()
-{
-
-}
+{}
 
 CustomPlaylist::~CustomPlaylist() {}
 

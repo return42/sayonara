@@ -26,9 +26,7 @@ MTP_CopyFiles::MTP_CopyFiles(const MetaDataList& v_md, MTP_FolderPtr folder, QOb
 	QThread(parent),
 	_v_md(v_md),
 	_folder(folder)
-{
-
-}
+{}
 
 MTP_CopyFiles::MTP_CopyFiles(const QStringList& paths, MTP_FolderPtr folder, QObject* parent) :
 	QThread(parent),

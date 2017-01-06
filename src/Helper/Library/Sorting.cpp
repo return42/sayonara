@@ -36,7 +36,7 @@ Library::Sortings::Sortings(const Sortings& so)
     so_tracks = so.so_tracks;
 }
 
-Library::Sortings::~Sortings(){}
+Library::Sortings::~Sortings() {}
 
 bool Library::Sortings::operator==(Library::Sortings so)
 {

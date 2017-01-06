@@ -23,9 +23,7 @@
 
 UpdateDatesThread::UpdateDatesThread(QObject* parent) :
     QThread(parent)
-{
-
-}
+{}
 
 UpdateDatesThread::~UpdateDatesThread() {}
 

@@ -157,8 +157,8 @@ void EnginePlugin::playstate_changed(PlayState state)
 	}
 }
 
-void EnginePlugin::played(){}
-void EnginePlugin::paused(){}
+void EnginePlugin::played() {}
+void EnginePlugin::paused() {}
 
 void EnginePlugin::stopped()
 {

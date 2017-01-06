@@ -146,7 +146,7 @@ MetaDataInfo::MetaDataInfo(const MetaDataList& v_md) :
 
 MetaDataInfo::~MetaDataInfo() {}
 
-void MetaDataInfo::set_header(){}
+void MetaDataInfo::set_header() {}
 void MetaDataInfo::set_header(const MetaDataList& lst)
 {
 	if(lst.size() == 1){
@@ -160,7 +160,7 @@ void MetaDataInfo::set_header(const MetaDataList& lst)
 }
 
 
-void MetaDataInfo::set_subheader(){}
+void MetaDataInfo::set_subheader() {}
 void MetaDataInfo::set_subheader(quint16 tracknum)
 {
 	_subheader = calc_artist_str();
@@ -177,7 +177,7 @@ void MetaDataInfo::set_subheader(quint16 tracknum)
 	_subheader += calc_album_str();
 }
 
-void MetaDataInfo::set_cover_location(){}
+void MetaDataInfo::set_cover_location() {}
 void MetaDataInfo::set_cover_location(const MetaDataList& lst)
 {
 	if(lst.size() == 1){

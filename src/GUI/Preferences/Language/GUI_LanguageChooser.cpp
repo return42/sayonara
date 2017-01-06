@@ -33,9 +33,7 @@
 
 GUI_LanguageChooser::GUI_LanguageChooser(QWidget *parent) :
 	PreferenceWidgetInterface(parent)
-{
-
-}
+{}
 
 GUI_LanguageChooser::~GUI_LanguageChooser()
 {
@@ -68,9 +66,7 @@ void GUI_LanguageChooser::commit() {
 	_settings->set(Set::Player_Language, cur_language);
 }
 
-void GUI_LanguageChooser::revert() {
-
-}
+void GUI_LanguageChooser::revert() {}
 
 // typically a qm file looks like sayonara_lang_lc.qm
 void GUI_LanguageChooser::renew_combo() {

@@ -244,9 +244,7 @@ void GUI_Playlist::double_clicked(int row) {
 
 
 void GUI_Playlist::init_shortcuts()
-{
-
-}
+{}
 
 
 void GUI_Playlist::dragLeaveEvent(QDragLeaveEvent* event) {

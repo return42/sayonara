@@ -24,9 +24,7 @@
 
 GUI_Stream::GUI_Stream(QWidget *parent) :
 	GUI_AbstractStream(new StreamHandlerStreams(), parent)
-{
-
-}
+{}
 
 GUI_Stream::~GUI_Stream()
 {

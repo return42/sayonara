@@ -26,9 +26,7 @@
 
 DirectoryLibraryContainer::DirectoryLibraryContainer(QObject* parent) :
 	LibraryContainerInterface(parent)
-{
-
-}
+{}
 
 DirectoryLibraryContainer::~DirectoryLibraryContainer() {}
 

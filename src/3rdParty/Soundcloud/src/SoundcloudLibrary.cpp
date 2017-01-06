@@ -31,7 +31,7 @@ SoundcloudLibrary::SoundcloudLibrary(QObject *parent) :
 	_scd = SoundcloudData::getInstance();
 }
 
-SoundcloudLibrary::~SoundcloudLibrary(){}
+SoundcloudLibrary::~SoundcloudLibrary() {}
 
 void SoundcloudLibrary::load(){
 	AbstractLibrary::load();
@@ -130,13 +130,9 @@ void SoundcloudLibrary::refresh_artist(){
 }
 
 
-void SoundcloudLibrary::refresh_albums(){
+void SoundcloudLibrary::refresh_albums() {}
 
-}
-
-void SoundcloudLibrary::refresh_tracks(){
-
-}
+void SoundcloudLibrary::refresh_tracks() {}
 
 
 /* TODO: UNUSED

@@ -29,9 +29,7 @@
 
 M3UParser::M3UParser(const QString& filename) :
 	AbstractPlaylistParser(filename)
-{
-
-}
+{}
 
 M3UParser::~M3UParser() {}
 

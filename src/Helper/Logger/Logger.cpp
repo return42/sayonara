@@ -68,9 +68,7 @@ Logger sp_log(Log type){
 
 
 Logger::Logger(std::ostream& out) :	_out(out)
-{
-
-}
+{}
 
 Logger::Logger(const char* msg, std::ostream& out) :
 	Logger(out)

@@ -25,9 +25,7 @@
 
 GUI_PlayerPreferences::GUI_PlayerPreferences(QWidget *parent) :
 	PreferenceWidgetInterface(parent)
-{
-
-}
+{}
 
 GUI_PlayerPreferences::~GUI_PlayerPreferences()
 {

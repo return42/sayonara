@@ -110,7 +110,7 @@ QString GUI_Spectrum::get_display_name() const
 }
 
 
-void GUI_Spectrum::language_changed(){}
+void GUI_Spectrum::language_changed() {}
 
 
 void GUI_Spectrum::set_spectrum(const QList<float>& lst)

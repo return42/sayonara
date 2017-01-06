@@ -25,9 +25,7 @@
 
 GUI_Crossfader::GUI_Crossfader(QWidget *parent) :
 	PlayerPluginInterface(parent)
-{
-
-}
+{}
 
 GUI_Crossfader::~GUI_Crossfader()
 {

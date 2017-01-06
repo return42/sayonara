@@ -47,8 +47,8 @@ SayonaraDialog* SayonaraWidget::box_into_dialog()
 	return _boxed_dialog;
 }
 
-void SayonaraWidget::language_changed(){}
-void SayonaraWidget::skin_changed(){}
+void SayonaraWidget::language_changed() {}
+void SayonaraWidget::skin_changed() {}
 
 SayonaraMainWindow::SayonaraMainWindow(QWidget* parent) :
 	SayonaraWidgetTemplate<QMainWindow>(parent)
@@ -59,8 +59,8 @@ SayonaraMainWindow::SayonaraMainWindow(QWidget* parent) :
 
 SayonaraMainWindow::~SayonaraMainWindow() {}
 
-void SayonaraMainWindow::language_changed(){}
-void SayonaraMainWindow::skin_changed(){}
+void SayonaraMainWindow::language_changed() {}
+void SayonaraMainWindow::skin_changed() {}
 
 void SayonaraMainWindow::raise(){
     QMainWindow::raise();

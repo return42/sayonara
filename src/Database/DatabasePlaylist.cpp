@@ -26,8 +26,7 @@
 
 DatabasePlaylist::DatabasePlaylist(const QSqlDatabase& db, quint8 db_id) :
 	DatabaseModule(db, db_id)
-{
-}
+{}
 
 
 bool DatabasePlaylist::getAllPlaylistSkeletons(CustomPlaylistSkeletons& skeletons, DatabasePlaylist::PlaylistChooserType type, Playlist::SortOrder sortorder)

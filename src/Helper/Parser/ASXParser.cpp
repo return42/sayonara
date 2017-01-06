@@ -28,8 +28,7 @@
 
 ASXParser::ASXParser(const QString& filename) :
 	AbstractPlaylistParser(filename)
-{
-}
+{}
 
 ASXParser::~ASXParser() {}
 

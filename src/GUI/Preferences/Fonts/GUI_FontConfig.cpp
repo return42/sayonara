@@ -230,6 +230,4 @@ void GUI_FontConfig::language_changed()
 }
 
 void GUI_FontConfig::skin_changed()
-{
-
-}
+{}

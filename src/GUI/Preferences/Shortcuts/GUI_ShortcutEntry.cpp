@@ -50,9 +50,7 @@ GUI_ShortcutEntry::GUI_ShortcutEntry(const Shortcut& shortcut, QWidget* parent) 
 }
 
 GUI_ShortcutEntry::~GUI_ShortcutEntry()
-{
-
-}
+{}
 
 QList<QKeySequence> GUI_ShortcutEntry::get_sequences() const
 {

@@ -21,6 +21,4 @@
 #include "GUI_LibraryFiles.h"
 
 GUI_LibraryFiles::GUI_LibraryFiles()
-{
-
-}
+{}

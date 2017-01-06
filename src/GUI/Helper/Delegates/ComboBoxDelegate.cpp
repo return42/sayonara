@@ -24,9 +24,7 @@
 
 ComboBoxDelegate::ComboBoxDelegate(QObject *parent) :
 	QStyledItemDelegate(parent)
-{
-
-}
+{}
 
 ComboBoxDelegate::~ComboBoxDelegate() {}
 

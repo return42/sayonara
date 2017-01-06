@@ -25,8 +25,7 @@
 
 DatabaseSettings::DatabaseSettings(const QSqlDatabase& db, quint8 db_id) :
 	DatabaseModule(db, db_id)
-{
-}
+{}
 
 
 bool DatabaseSettings::load_settings()

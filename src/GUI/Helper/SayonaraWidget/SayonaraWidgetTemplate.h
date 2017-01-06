@@ -49,9 +49,7 @@ public:
 	explicit SayonaraWidgetTemplate(QWidget* parent=nullptr) :
 		T(parent),
 		SayonaraClass()
-	{
-
-	}
+	{}
 
 	virtual ~SayonaraWidgetTemplate() {}
 

@@ -27,9 +27,7 @@
 
 ShortcutHandler::ShortcutHandler() :
 	SayonaraClass()
-{
-
-}
+{}
 
 ShortcutHandler::~ShortcutHandler() {}
 

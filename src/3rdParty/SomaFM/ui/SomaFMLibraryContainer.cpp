@@ -31,7 +31,7 @@ SomaFMLibraryContainer::SomaFMLibraryContainer(QObject* parent) :
 	Q_INIT_RESOURCE(SomaFMIcons);
 }
 
-SomaFMLibraryContainer::~SomaFMLibraryContainer(){}
+SomaFMLibraryContainer::~SomaFMLibraryContainer() {}
 
 QString SomaFMLibraryContainer::get_name() const
 {

@@ -31,9 +31,7 @@
 
 GUI_RemoteControl::GUI_RemoteControl(QWidget* parent) :
 	PreferenceWidgetInterface(parent)
-{
-
-}
+{}
 
 GUI_RemoteControl::~GUI_RemoteControl()
 {

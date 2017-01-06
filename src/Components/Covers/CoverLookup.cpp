@@ -43,8 +43,7 @@
 
 CoverLookupInterface::CoverLookupInterface(QObject* parent):
 	QObject(parent)
-{
-}
+{}
 
 CoverLookupInterface::~CoverLookupInterface() {}
 
@@ -116,8 +115,6 @@ void CoverLookup::cover_found(const QString& file_path) {
 }*/
 
 void CoverLookup::stop()
-{
-
-}
+{}
 
 

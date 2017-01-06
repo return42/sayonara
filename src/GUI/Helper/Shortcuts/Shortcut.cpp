@@ -54,9 +54,7 @@ Shortcut::Shortcut(ShortcutWidget* parent, const QString& identifier, const QStr
 
 Shortcut::Shortcut(ShortcutWidget* parent, const QString& identifier, const QString& name, const QString& default_shortcut) :
 	Shortcut(parent, identifier, name, QStringList(default_shortcut))
-{
-
-}
+{}
 
 Shortcut::Shortcut(const Shortcut& other)
 {
@@ -68,9 +66,7 @@ Shortcut::Shortcut(const Shortcut& other)
 	_qt_shortcuts =			other._qt_shortcuts;
 }
 
-Shortcut::Shortcut(){
-
-}
+Shortcut::Shortcut() {}
 
 QString Shortcut::get_name() const
 {

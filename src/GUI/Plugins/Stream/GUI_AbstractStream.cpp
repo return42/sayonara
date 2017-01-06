@@ -42,9 +42,7 @@ GUI_AbstractStream::GUI_AbstractStream(AbstractStreamHandler* stream_handler, QW
 	_stream_handler = stream_handler;
 }
 
-GUI_AbstractStream::~GUI_AbstractStream(){
-
-}
+GUI_AbstractStream::~GUI_AbstractStream() {}
 
 void GUI_AbstractStream::init_connections(){
 
@@ -83,9 +81,7 @@ void GUI_AbstractStream::init_streams(){
 }
 
 
-void GUI_AbstractStream::language_changed(){
-
-}
+void GUI_AbstractStream::language_changed() {}
 
 void GUI_AbstractStream::init_ui()
 {

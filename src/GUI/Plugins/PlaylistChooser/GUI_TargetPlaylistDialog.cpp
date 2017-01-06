@@ -32,9 +32,7 @@ GUI_TargetPlaylistDialog::GUI_TargetPlaylistDialog(QWidget *parent) :
 	connect(btn_ok, &QPushButton::clicked, this, &GUI_TargetPlaylistDialog::ok_button_clicked);
 }
 
-GUI_TargetPlaylistDialog::~GUI_TargetPlaylistDialog() {
-
-}
+GUI_TargetPlaylistDialog::~GUI_TargetPlaylistDialog() {}
 
 
 void GUI_TargetPlaylistDialog::language_changed() {

@@ -23,8 +23,7 @@
 
 MetaDataChangeNotifier::MetaDataChangeNotifier(QObject *parent) :
 	QObject(parent)
-{
-}
+{}
 
 MetaDataChangeNotifier::~MetaDataChangeNotifier() {}
 

@@ -26,9 +26,7 @@
 
 GUI_Speed::GUI_Speed(QWidget *parent) :
 	PlayerPluginInterface(parent)
-{
-
-}
+{}
 
 GUI_Speed::~GUI_Speed()
 {
