@@ -1,6 +1,6 @@
 /* LFMTrackChangedThread.h
 
- * Copyright (C) 2012-2016 Lucio Carreras
+ * Copyright (C) 2011-2017 Lucio Carreras
  *
  * This file is part of sayonara-player
  *

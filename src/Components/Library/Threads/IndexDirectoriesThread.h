@@ -1,6 +1,6 @@
 /* IndexDirectoriesThread.h */
 
-/* Copyright (C) 2011-2015  Lucio Carreras
+/* Copyright (C) 2011-2017  Lucio Carreras
  *
  * This file is part of sayonara player
  *

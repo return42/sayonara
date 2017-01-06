@@ -3640,8 +3640,8 @@ Please choose another folder</source>
         <location filename="../../build_clang/src/GUI/Player/ui_GUI_Player.h" line="+6"/>
         <location filename="../../build_cotire/src/GUI/Player/ui_GUI_Player.h" line="+6"/>
         <location filename="../../build_release/src/GUI/Player/ui_GUI_Player.h" line="+6"/>
-        <source>Copyright 2011-2016</source>
-        <translation>版权所有2011年至2013年 {2011-2016?}</translation>
+        <source>Copyright 2011-2017</source>
+        <translation>版权所有2011年至2017年 {2011-2017}</translation>
     </message>
     <message>
         <location line="+342"/>

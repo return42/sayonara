@@ -1,6 +1,6 @@
 /* LibraryItemDelegateAlbumsCover.cpp */
 
-/* Copyright (C) 2013  Lucio Carreras
+/* Copyright 2011-2017  Lucio Carreras
  *
  * This file is part of sayonara player
  *
