@@ -89,12 +89,19 @@ void PlaylistView::init_rc_menu()
 	_bookmarks_menu = new BookmarksMenu(this);
 	_bookmarks_action = _rc_menu->addMenu(_bookmarks_menu);
 
-	connect(_rc_menu, &LibraryContextMenu::sig_info_clicked, this, [=]()
-{show_info();});
-	connect(_rc_menu, &LibraryContextMenu::sig_edit_clicked, this, [=]()
-{show_edit();});
-	connect(_rc_menu, &LibraryContextMenu::sig_lyrics_clicked, this, [=]()
-{show_lyrics();});
+	connect(_rc_menu, &LibraryContextMenu::sig_info_clicked, this, [=](){
+		show_info();
+	});
+
+	connect(_rc_menu, &LibraryContextMenu::sig_edit_clicked, this, [=](){
+		show_edit();
+	});
+
+	connect(_rc_menu, &LibraryContextMenu::sig_lyrics_clicked, this, [=](){
+		show_lyrics();
+	});
+
+	connect(_rc_menu, &LibraryContextMenu::sig_delete_clicked, this, &PlaylistView::delete_cur_selected_tracks);
 	connect(_rc_menu, &LibraryContextMenu::sig_remove_clicked, this, &PlaylistView::remove_cur_selected_rows);
 	connect(_rc_menu, &LibraryContextMenu::sig_clear_clicked, this, &PlaylistView::clear);
 	connect(_rc_menu, &LibraryContextMenu::sig_rating_changed, this, &PlaylistView::rating_changed);
@@ -173,6 +180,12 @@ void PlaylistView::remove_cur_selected_rows()
 		min_row = std::min(min_row, row_count - 1);
 		select_row(min_row);
 	}
+}
+
+void PlaylistView::delete_cur_selected_tracks()
+{
+	SP::Set<int> selections = get_selections();
+	emit sig_delete_tracks(selections);
 }
 
 

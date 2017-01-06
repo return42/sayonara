@@ -36,6 +36,7 @@
 #include "Helper/Playlist/CustomPlaylist.h"
 #include "Helper/Settings/Settings.h"
 #include "Helper/Logger/Logger.h"
+#include "Helper/Set.h"
 
 #include <algorithm>
 #include <memory>
@@ -528,22 +529,7 @@ int PlaylistHandler::get_current_idx() const
 {
 	return _current_playlist_idx;
 }
-/* TODO: never used
-int PlaylistHandler::get_playlist_count() const
-{
-	return _playlists.size();
-}
 
-QStringList PlaylistHandler::get_playlist_names() const
-{
-	QStringList names;
-	for(const PlaylistPtr& pl : _playlists){
-		names << pl->get_name();
-	}
-
-	return names;
-}
-*/
 int PlaylistHandler::exists(const QString& name) const
 {
 	if( name.isEmpty() &&
@@ -587,7 +573,8 @@ void PlaylistHandler::reset_playlist(int pl_idx){
 }
 
 
-PlaylistDBInterface::SaveAsAnswer PlaylistHandler::save_playlist(int idx){
+PlaylistDBInterface::SaveAsAnswer PlaylistHandler::save_playlist(int idx)
+{
 	PlaylistDBInterface::SaveAsAnswer ret;
 
 	if( !between(idx, _playlists) ){
@@ -608,7 +595,8 @@ PlaylistDBInterface::SaveAsAnswer PlaylistHandler::save_playlist(int idx){
 }
 
 
-PlaylistDBInterface::SaveAsAnswer PlaylistHandler::save_playlist_as(int idx, const QString& name, bool force_override){
+PlaylistDBInterface::SaveAsAnswer PlaylistHandler::save_playlist_as(int idx, const QString& name, bool force_override)
+{
 	PlaylistPtr pl = _playlists[idx];
 	PlaylistDBInterface::SaveAsAnswer ret;
 
@@ -634,7 +622,8 @@ PlaylistDBInterface::SaveAsAnswer PlaylistHandler::save_playlist_as(int idx, con
 }
 
 
-PlaylistDBInterface::SaveAsAnswer PlaylistHandler::rename_playlist(int pl_idx, const QString& name){
+PlaylistDBInterface::SaveAsAnswer PlaylistHandler::rename_playlist(int pl_idx, const QString& name)
+{
 	// no empty playlists
 	if(name.isEmpty()){
 		return PlaylistDBInterface::SaveAsAnswer::Error;
@@ -658,7 +647,8 @@ PlaylistDBInterface::SaveAsAnswer PlaylistHandler::rename_playlist(int pl_idx, c
 	return PlaylistDBInterface::SaveAsAnswer::Success;
 }
 
-void PlaylistHandler::delete_playlist(int idx){
+void PlaylistHandler::delete_playlist(int idx)
+{
 	PlaylistPtr pl = _playlists[idx];
 	bool was_temporary = pl->is_temporary();
 	bool success = pl->remove_from_db();
@@ -667,6 +657,29 @@ void PlaylistHandler::delete_playlist(int idx){
 	if(success && !was_temporary){
 		emit sig_saved_playlists_changed();
 	}
+}
+
+void PlaylistHandler::delete_tracks(const SP::Set<int>& rows, Library::TrackDeletionMode deletion_mode)
+{
+	int idx = get_current_idx();
+	if(!between(idx, _playlists)){
+		return;
+	}
+
+	PlaylistPtr pl = _playlists[idx];
+	const MetaDataList& tracks = pl->get_playlist();
+	MetaDataList v_md;
+	for(int i : rows){
+		if(i >= 0 && i < tracks.size()){
+			v_md << tracks[i];
+		}
+	}
+
+	if(v_md.isEmpty()){
+		return;
+	}
+
+	emit sig_track_deletion_requested(v_md, deletion_mode);
 }
 
 void PlaylistHandler::www_track_finished(const MetaData& md){

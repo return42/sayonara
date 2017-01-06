@@ -135,7 +135,8 @@ void AbstractLibrary::refresh()
 }
 
 
-void AbstractLibrary::psl_prepare_artist_for_playlist(int idx, bool new_playlist) {
+void AbstractLibrary::psl_prepare_artist_for_playlist(int idx, bool new_playlist)
+{
 	Q_UNUSED(idx);
 
 	if(!new_playlist){
@@ -150,7 +151,8 @@ void AbstractLibrary::psl_prepare_artist_for_playlist(int idx, bool new_playlist
 }
 
 
-void AbstractLibrary::psl_prepare_album_for_playlist(int idx, bool new_playlist) {
+void AbstractLibrary::psl_prepare_album_for_playlist(int idx, bool new_playlist)
+{
 	Q_UNUSED(idx);
 
 	if(!new_playlist){
@@ -165,7 +167,8 @@ void AbstractLibrary::psl_prepare_album_for_playlist(int idx, bool new_playlist)
 }
 
 
-void AbstractLibrary::psl_prepare_tracks_for_playlist(bool new_playlist){
+void AbstractLibrary::psl_prepare_tracks_for_playlist(bool new_playlist)
+{
 	if(!new_playlist){
 		_playlist->create_playlist(_vec_md);
 	}
@@ -177,7 +180,8 @@ void AbstractLibrary::psl_prepare_tracks_for_playlist(bool new_playlist){
 	set_playlist_action_after_double_click();
 }
 
-void AbstractLibrary::psl_prepare_tracks_for_playlist(const SP::Set<int>& indexes, bool new_playlist) {
+void AbstractLibrary::psl_prepare_tracks_for_playlist(const SP::Set<int>& indexes, bool new_playlist)
+{
 	MetaDataList v_md;
 
 	for(int idx : indexes) {
@@ -196,7 +200,8 @@ void AbstractLibrary::psl_prepare_tracks_for_playlist(const SP::Set<int>& indexe
 	set_playlist_action_after_double_click();
 }
 
-void AbstractLibrary::psl_prepare_tracks_for_playlist(const QStringList& paths, bool new_playlist) {
+void AbstractLibrary::psl_prepare_tracks_for_playlist(const QStringList& paths, bool new_playlist)
+{
 	if(!new_playlist){
 		_playlist->create_playlist(paths);
 	}
@@ -234,7 +239,8 @@ void AbstractLibrary::psl_play_next_all_tracks()
 	_playlist->play_next(_vec_md);
 }
 
-void AbstractLibrary::psl_play_next_tracks(const SP::Set<int>& indexes) {
+void AbstractLibrary::psl_play_next_tracks(const SP::Set<int>& indexes)
+{
 	MetaDataList v_md;
 
 	for(auto it=indexes.begin(); it != indexes.end(); it++){
@@ -252,7 +258,8 @@ void AbstractLibrary::psl_append_all_tracks()
 }
 
 
-void AbstractLibrary::psl_append_tracks(const SP::Set<int>& indexes) {
+void AbstractLibrary::psl_append_tracks(const SP::Set<int>& indexes)
+{
 	MetaDataList v_md;
 
 	for(auto it=indexes.begin(); it != indexes.end(); it++){
@@ -339,7 +346,8 @@ void AbstractLibrary::change_artist_selection(const SP::Set<int>& indexes)
 }
 
 
-void AbstractLibrary::psl_selected_artists_changed(const SP::Set<int>& indexes) {
+void AbstractLibrary::psl_selected_artists_changed(const SP::Set<int>& indexes)
+{
 	change_artist_selection(indexes);
 
 	emit sig_all_albums_loaded(_vec_albums);
@@ -347,7 +355,8 @@ void AbstractLibrary::psl_selected_artists_changed(const SP::Set<int>& indexes) 
 }
 
 
-void AbstractLibrary::change_album_selection(const SP::Set<int>& indexes){
+void AbstractLibrary::change_album_selection(const SP::Set<int>& indexes)
+{
 	SP::Set<AlbumID> selected_albums;
 
 	for(auto it=indexes.begin(); it != indexes.end(); it++){
@@ -403,13 +412,15 @@ void AbstractLibrary::change_album_selection(const SP::Set<int>& indexes){
 }
 
 
-void AbstractLibrary::psl_selected_albums_changed(const SP::Set<int>& idx_list) {
+void AbstractLibrary::psl_selected_albums_changed(const SP::Set<int>& idx_list)
+{
 	change_album_selection(idx_list);
 	emit sig_all_tracks_loaded(_vec_md);
 }
 
 
-MetaDataList AbstractLibrary::change_track_selection(const SP::Set<int>& idx_list){
+MetaDataList AbstractLibrary::change_track_selection(const SP::Set<int>& idx_list)
+{
 	_selected_tracks.clear();
 
 	MetaDataList v_md;
@@ -425,7 +436,8 @@ MetaDataList AbstractLibrary::change_track_selection(const SP::Set<int>& idx_lis
 }
 
 
-void AbstractLibrary::psl_selected_tracks_changed(const SP::Set<int>& idx_list) {
+void AbstractLibrary::psl_selected_tracks_changed(const SP::Set<int>& idx_list)
+{
 	MetaDataList v_md =	change_track_selection(idx_list);
 	if(v_md.size() > 0){
 		emit sig_track_mime_data_available(v_md);
@@ -546,18 +558,21 @@ void AbstractLibrary::_sl_sortorder_changed()
 }
 
 
-void AbstractLibrary::psl_track_rating_changed(int idx, int rating) {
+void AbstractLibrary::psl_track_rating_changed(int idx, int rating)
+{
 	_vec_md[idx].rating = rating;
 	update_track(_vec_md[idx]);
 }
 
-void AbstractLibrary::psl_album_rating_changed(int idx, int rating) {
+void AbstractLibrary::psl_album_rating_changed(int idx, int rating)
+{
 	_vec_albums[idx].rating = rating;
 	update_album(_vec_albums[idx]);
 }
 
 
-void AbstractLibrary::psl_metadata_id3_changed(const MetaDataList& v_md_old, const MetaDataList& v_md_new){
+void AbstractLibrary::psl_metadata_id3_changed(const MetaDataList& v_md_old, const MetaDataList& v_md_new)
+{
 	// id -> idx
 	QHash<int, int> md_map;
 	for(int i=0; i<_vec_md.size(); i++){
@@ -593,17 +608,20 @@ void AbstractLibrary::psl_metadata_id3_changed(const MetaDataList& v_md_old, con
 }
 
 
-void AbstractLibrary::insert_tracks(const MetaDataList &v_md){
+void AbstractLibrary::insert_tracks(const MetaDataList &v_md)
+{
 	Q_UNUSED(v_md)
 	refresh();
 }
 
-void AbstractLibrary::import_files(const QStringList &files){
+void AbstractLibrary::import_files(const QStringList &files)
+{
 	Q_UNUSED(files)
 }
 
 
-void AbstractLibrary::delete_current_tracks(Library::TrackDeletionMode mode){
+void AbstractLibrary::delete_current_tracks(Library::TrackDeletionMode mode)
+{
 	if(mode == Library::TrackDeletionMode::None) return;
 	delete_tracks(_vec_md, mode);
 }
@@ -617,7 +635,8 @@ void AbstractLibrary::delete_all_tracks()
 }
 
 
-void AbstractLibrary::delete_tracks(const MetaDataList &v_md, Library::TrackDeletionMode mode){
+void AbstractLibrary::delete_tracks(const MetaDataList& v_md, Library::TrackDeletionMode mode)
+{
 	if(mode == Library::TrackDeletionMode::None) return;
 
 	QString file_entry = Lang::get(Lang::Entries);
@@ -643,6 +662,7 @@ void AbstractLibrary::delete_tracks(const MetaDataList &v_md, Library::TrackDele
 	}
 
 	emit sig_delete_answer(answer_str);
+	MetaDataChangeNotifier::getInstance()->delete_metadata(v_md);
 
 	refresh();
 }

@@ -101,7 +101,8 @@ void GUI_Playlist::playlist_idx_changed(int pl_idx){
 }
 
 
-void GUI_Playlist::playlist_added(PlaylistPtr pl){
+void GUI_Playlist::playlist_added(PlaylistPtr pl)
+{
 	PlaylistView* pl_view;
 	int idx;
 	QString name;
@@ -119,12 +120,14 @@ void GUI_Playlist::playlist_added(PlaylistPtr pl){
 	connect(pl_view, &PlaylistView::sig_left_tab_clicked, this, &GUI_Playlist::select_tab_left);
 	connect(pl_view, &PlaylistView::sig_right_tab_clicked, this, &GUI_Playlist::select_tab_right);
 	connect(pl_view, &PlaylistView::sig_time_changed, this, &GUI_Playlist::playlist_time_changed);
+	connect(pl_view, &PlaylistView::sig_delete_tracks, this, &GUI_Playlist::delete_tracks_clicked);
 
 	connect(pl.get(), &AbstractPlaylist::sig_data_changed, this, &GUI_Playlist::playlist_changed);
 }
 
 
-void GUI_Playlist::playstate_changed(PlayState state){
+void GUI_Playlist::playstate_changed(PlayState state)
+{
 	if(state == PlayState::Stopped){
 		check_tab_icon();
 	}
@@ -140,7 +143,8 @@ void GUI_Playlist::playlist_finished()
 /** GUI SLOTS **/
 
 
-void GUI_Playlist::tab_close_playlist_clicked(int idx){
+void GUI_Playlist::tab_close_playlist_clicked(int idx)
+{
 	QWidget* playlist_widget;
 	PlaylistView* plv;
 	int count = tw_playlists->count();
@@ -167,7 +171,8 @@ void GUI_Playlist::tab_close_playlist_clicked(int idx){
 }
 
 
-void GUI_Playlist::tab_save_playlist_clicked(int idx){
+void GUI_Playlist::tab_save_playlist_clicked(int idx)
+{
 	PlaylistDBInterface::SaveAsAnswer success = _playlist->save_playlist(idx);
 
 	if(success == PlaylistDBInterface::SaveAsAnswer::Success){
@@ -184,7 +189,8 @@ void GUI_Playlist::tab_save_playlist_clicked(int idx){
 }
 
 
-void GUI_Playlist::tab_save_playlist_as_clicked(int idx, const QString& str){
+void GUI_Playlist::tab_save_playlist_as_clicked(int idx, const QString& str)
+{
 	PlaylistDBInterface::SaveAsAnswer success;
 
 	success = _playlist->save_playlist_as(idx, str, false);
@@ -203,7 +209,8 @@ void GUI_Playlist::tab_save_playlist_as_clicked(int idx, const QString& str){
 }
 
 
-void GUI_Playlist::tab_rename_clicked(int idx, const QString& str){
+void GUI_Playlist::tab_rename_clicked(int idx, const QString& str)
+{
 	PlaylistDBInterface::SaveAsAnswer success = _playlist->rename_playlist(idx, str);
 
 	if(success == PlaylistDBInterface::SaveAsAnswer::AlreadyThere){
@@ -216,7 +223,8 @@ void GUI_Playlist::tab_rename_clicked(int idx, const QString& str){
 }
 
 
-void GUI_Playlist::tab_delete_playlist_clicked(int idx){
+void GUI_Playlist::tab_delete_playlist_clicked(int idx)
+{
 	GlobalMessage::Answer answer = Message::question_yn(tr("Really"), Lang::get(Lang::Delete));
 
 	if(answer == GlobalMessage::Answer::No) {
@@ -259,7 +267,8 @@ void GUI_Playlist::check_tab_icon()
 }
 
 
-void GUI_Playlist::check_playlist_menu(PlaylistConstPtr pl){
+void GUI_Playlist::check_playlist_menu(PlaylistConstPtr pl)
+{
 	PlaylistMenuEntries entries = PlaylistMenuEntry::None;
 
 	bool temporary = pl->is_temporary();
@@ -320,8 +329,10 @@ void GUI_Playlist::check_playlist_name(PlaylistConstPtr pl)
 
 /** Private methods **/
 
-GlobalMessage::Answer GUI_Playlist::show_save_message_box(PlaylistDBInterface::SaveAsAnswer answer){
-	switch(answer){
+GlobalMessage::Answer GUI_Playlist::show_save_message_box(PlaylistDBInterface::SaveAsAnswer answer)
+{
+	switch(answer)
+	{
 		case PlaylistDBInterface::SaveAsAnswer::Error:
 			Message::warning(tr("Cannot save playlist."), Lang::get(Lang::SaveAs));
 			break;
@@ -341,6 +352,7 @@ GlobalMessage::Answer GUI_Playlist::show_save_message_box(PlaylistDBInterface::S
 
 
 PlaylistView* GUI_Playlist::get_view_by_idx(int idx){
+
 	if(!between(idx, tw_playlists->count() - 1)){
 		return nullptr;
 	}

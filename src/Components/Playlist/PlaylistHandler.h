@@ -35,6 +35,8 @@
 #include "Helper/singleton.h"
 #include "Helper/Settings/SayonaraClass.h"
 #include "Helper/Playlist/PlaylistFwd.h"
+#include "Helper/Library/LibraryNamespaces.h"
+
 
 class PlayManager;
 class DatabaseConnector;
@@ -103,6 +105,8 @@ signals:
 
 
 	void sig_playlist_idx_changed(int idx);
+
+	void sig_track_deletion_requested(const MetaDataList& v_md, Library::TrackDeletionMode deletion_mode);
 
 
 public:
@@ -306,6 +310,9 @@ public slots:
 	int create_empty_playlist(const QString& name);
 
 
+	void delete_tracks(const SP::Set<int>& rows, Library::TrackDeletionMode deletion_mode);
+
+
 private slots:
 
 	/**
@@ -340,6 +347,8 @@ private slots:
 	void playstate_changed(PlayState state);
 
 	void www_track_finished(const MetaData& md);
+
+
 
 private:
 

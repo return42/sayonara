@@ -16,6 +16,7 @@ SET(SOURCES
 	Dragable/Dragable.cpp
 
 	IconLoader/IconLoader.cpp
+	Library/LibraryDeleteDialog.cpp
 
 	MenuTool/MenuButton.cpp
 	MenuTool/MenuTool.cpp

@@ -27,9 +27,11 @@
  */
 
 #include "GUI_Playlist.h"
+#include "TabWidget/PlaylistTabWidget.h"
 #include "View/PlaylistView.h"
 #include "GUI/Helper/IconLoader/IconLoader.h"
-#include "TabWidget/PlaylistTabWidget.h"
+#include "GUI/Helper/Library/LibraryDeleteDialog.h"
+
 
 #include "Helper/Helper.h"
 #include "Helper/Settings/Settings.h"
@@ -120,11 +122,13 @@ GUI_Playlist::~GUI_Playlist()
 	}
 }
 
-void GUI_Playlist::changeEvent(QEvent* e) {
+void GUI_Playlist::changeEvent(QEvent* e)
+{
     e->accept();
 }
 
-void GUI_Playlist::resizeEvent(QResizeEvent* e) {
+void GUI_Playlist::resizeEvent(QResizeEvent* e)
+{
 	PlaylistView* cur_view = get_current_view();
 
     e->accept();
@@ -149,7 +153,8 @@ void GUI_Playlist::skin_changed()
 }
 
 
-void GUI_Playlist::playlist_track_changed(int row, int playlist_idx) {
+void GUI_Playlist::playlist_track_changed(int row, int playlist_idx)
+{
 	check_tab_icon();
 
 	int n_rows;
@@ -171,7 +176,8 @@ void GUI_Playlist::playlist_track_changed(int row, int playlist_idx) {
 }
 
 
-void GUI_Playlist::playlist_fill(PlaylistPtr pl) {
+void GUI_Playlist::playlist_fill(PlaylistPtr pl)
+{
 	int pl_idx = pl->get_idx();
 	PlaylistView* plv = get_view_by_idx(pl_idx);
 
@@ -187,9 +193,9 @@ void GUI_Playlist::playlist_fill(PlaylistPtr pl) {
 }
 
 
-void GUI_Playlist::clear_button_pressed(int pl_idx) {
+void GUI_Playlist::clear_button_pressed(int pl_idx)
+{
 	_playlist->clear_playlist(pl_idx);
-
 	set_total_time_label();
 }
 
@@ -333,7 +339,8 @@ void GUI_Playlist::set_total_time_label()
 	lab_totalTime->setContentsMargins(0, 2, 0, 2);
 }
 
-void GUI_Playlist::open_file_clicked(int tgt_idx) {
+void GUI_Playlist::open_file_clicked(int tgt_idx)
+{
 	Q_UNUSED(tgt_idx)
 
 	QStringList filetypes;
@@ -358,7 +365,8 @@ void GUI_Playlist::open_file_clicked(int tgt_idx) {
 	plh->create_playlist(list);
 }
 
-void GUI_Playlist::open_dir_clicked(int tgt_idx) {
+void GUI_Playlist::open_dir_clicked(int tgt_idx)
+{
 	Q_UNUSED(tgt_idx)
 
 	QString dir = QFileDialog::getExistingDirectory(this,
@@ -386,6 +394,17 @@ void GUI_Playlist::_sl_show_numbers_changed()
 	}
 }
 
+void GUI_Playlist::delete_tracks_clicked(const SP::Set<int>& rows)
+{
+	LibraryDeleteDialog dialog((int) rows.size(), this);
+	dialog.exec();
+	Library::TrackDeletionMode deletion_mode = dialog.answer();
+	if(deletion_mode == Library::TrackDeletionMode::None){
+		return;
+	}
+
+	_playlist->delete_tracks(rows, deletion_mode);
+}
 
 void GUI_Playlist::_sl_library_path_changed()
 {

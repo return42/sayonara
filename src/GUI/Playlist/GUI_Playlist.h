@@ -30,7 +30,11 @@
 #define GUI_PLAYLIST_H_
 
 #include "GUI/Playlist/ui_GUI_Playlist.h"
+
 #include "Helper/Message/GlobalMessage.h"
+#include "Helper/Library/LibraryNamespaces.h"
+#include "Helper/Set.h"
+
 #include "Components/PlayManager/PlayState.h"
 #include "Components/Playlist/PlaylistDBInterface.h"
 
@@ -95,6 +99,7 @@ private slots:
 	void tab_metadata_dropped(int pl_idx, const MetaDataList& v_md);
 	void open_file_clicked(int pl_idx);
 	void open_dir_clicked(int pl_idx);
+	void delete_tracks_clicked(const SP::Set<int>& rows);
 
 	void check_tab_icon();
 	void check_playlist_menu(PlaylistConstPtr pl);

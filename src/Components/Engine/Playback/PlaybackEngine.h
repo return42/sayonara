@@ -61,6 +61,7 @@ public:
 	virtual ~PlaybackEngine();
 
 	bool init() override;
+	void init_other_pipeline();
 
 	void set_track_finished(GstElement* src) override;
 

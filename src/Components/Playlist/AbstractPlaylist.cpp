@@ -54,6 +54,7 @@ AbstractPlaylist::AbstractPlaylist(int idx, const QString& name) :
 	_is_storable = false;
 
 	connect(md_change_notifier, &MetaDataChangeNotifier::sig_metadata_changed, this, &AbstractPlaylist::metadata_changed);
+	connect(md_change_notifier, &MetaDataChangeNotifier::sig_metadata_deleted, this, &AbstractPlaylist::metadata_deleted);
 
 	connect(engine, &EngineHandler::sig_md_changed, this, &AbstractPlaylist::metadata_changed_single);
 	connect(engine, &EngineHandler::sig_dur_changed, this, &AbstractPlaylist::metadata_changed_single);

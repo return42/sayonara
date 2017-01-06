@@ -126,6 +126,7 @@ public:
 
 	virtual bool change_track(int idx)=0;
 
+	virtual void metadata_deleted(const MetaDataList& v_md_deleted)=0;
 	virtual void metadata_changed(const MetaDataList& v_md_old, const MetaDataList& v_md_new)=0;
 	virtual void metadata_changed_single(const MetaData& metadata)=0;
 

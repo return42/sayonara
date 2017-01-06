@@ -50,6 +50,7 @@ public:
 
 	int create_playlist(const MetaDataList& v_md) override;
 
+	void metadata_deleted(const MetaDataList &v_md_deleted) override;
 	void metadata_changed(const MetaDataList& old_md, const MetaDataList& new_md) override;
 	void metadata_changed_single(const MetaData& metadata) override;
 

@@ -65,6 +65,7 @@ public:
 	void reload_genres();
 	int get_row_count() const;
 
+
 private:
 
 	GenreNode*				_genres=nullptr;
@@ -86,6 +87,7 @@ private slots:
 	void progress_changed(int progress);
 
 	void metadata_changed(const MetaDataList& v_md_old, const MetaDataList& v_md_new);
+	void metadata_deleted(const MetaDataList& v_md_deleted);
 
 
 protected:

@@ -35,7 +35,7 @@
 
 #include "Helper/Settings/SayonaraClass.h"
 #include "Helper/singleton.h"
-#include "Components/Library/LibraryNamespaces.h"
+#include "Helper/Library/LibraryNamespaces.h"
 #include "Helper/Pimpl.h"
 
 class MetaData;

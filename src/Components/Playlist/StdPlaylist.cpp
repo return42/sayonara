@@ -24,6 +24,7 @@
 #include "Helper/Parser/PlaylistParser.h"
 #include "Helper/Random/RandomGenerator.h"
 #include "Helper/MetaData/MetaDataList.h"
+#include "Helper/Set.h"
 
 #include <algorithm>
 
@@ -57,6 +58,7 @@ int StdPlaylist::create_playlist(const MetaDataList& v_md)
 
 	return metadata().size();
 }
+
 
 
 bool StdPlaylist::change_track(int idx) 
@@ -212,6 +214,22 @@ int StdPlaylist::calc_shuffle_track()
 	left_tracks_idx = rnd.get_number(0, left_tracks.size() - 1);
 
 	return left_tracks[left_tracks_idx];
+}
+
+void StdPlaylist::metadata_deleted(const MetaDataList& v_md_deleted)
+{
+	SP::Set<int> indexes;
+	for(int i=0; i<metadata().size(); i++){
+		for(auto it=v_md_deleted.begin(); it != v_md_deleted.end(); it++){
+			if(it->is_equal(metadata()[i])){
+				indexes.insert(i);
+				break;
+			}
+		}
+	}
+
+	metadata().remove_tracks(indexes);
+	emit sig_data_changed(_playlist_idx);
 }
 
 

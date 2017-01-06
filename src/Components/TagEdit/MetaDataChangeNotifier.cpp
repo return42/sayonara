@@ -30,3 +30,8 @@ void MetaDataChangeNotifier::change_metadata(const MetaDataList& v_md_old, const
 {
 	emit sig_metadata_changed(v_md_old, v_md_new);
 }
+
+void MetaDataChangeNotifier::delete_metadata(const MetaDataList& v_md_deleted)
+{
+	emit sig_metadata_deleted(v_md_deleted);
+}

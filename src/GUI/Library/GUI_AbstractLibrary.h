@@ -21,7 +21,6 @@
 #ifndef GUI_ABSTRACTLIBRARY_H
 #define GUI_ABSTRACTLIBRARY_H
 
-#include "Components/Library/LibraryNamespaces.h"
 #include "GUI/Helper/Delegates/ComboBoxDelegate.h"
 #include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
 
@@ -37,6 +36,7 @@
 
 #include "Helper/Settings/SayonaraClass.h"
 #include "Helper/Library/Filter.h"
+#include "Helper/Library/LibraryNamespaces.h"
 
 #include <QStringList>
 #include <QPoint>

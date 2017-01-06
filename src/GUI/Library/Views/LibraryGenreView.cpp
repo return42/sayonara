@@ -57,6 +57,7 @@ LibraryGenreView::LibraryGenreView(QWidget* parent) :
 	connect(this, &QTreeWidget::itemExpanded, this, &LibraryGenreView::item_expanded);
 
 	connect(mcn, &MetaDataChangeNotifier::sig_metadata_changed, this, &LibraryGenreView::metadata_changed);
+	connect(mcn, &MetaDataChangeNotifier::sig_metadata_deleted, this, &LibraryGenreView::metadata_deleted);
 
 	connect(_tag_edit, &QThread::finished, this, &LibraryGenreView::update_genre_tags_finished);
 	connect(_tag_edit, &TagEdit::sig_progress, this, &LibraryGenreView::progress_changed);
@@ -214,6 +215,13 @@ void LibraryGenreView::metadata_changed(const MetaDataList& v_md_old, const Meta
 {
 	Q_UNUSED(v_md_old)
 	Q_UNUSED(v_md_new)
+
+	reload_genres();
+}
+
+void LibraryGenreView::metadata_deleted(const MetaDataList& v_md_deleted)
+{
+	Q_UNUSED(v_md_deleted)
 
 	reload_genres();
 }

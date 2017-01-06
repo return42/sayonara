@@ -5,7 +5,7 @@ SET(SOURCES
     PlaylistMenu.cpp
     GUI_Playlist.cpp
     GUI_PlaylistTabs.cpp
-	BookmarksMenu.cpp
+    BookmarksMenu.cpp
 
     BottomBar/GUI_PlaylistBottomBar.cpp
     Delegate/PlaylistItemDelegate.cpp

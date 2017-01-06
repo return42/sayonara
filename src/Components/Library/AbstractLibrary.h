@@ -22,7 +22,7 @@
 #define ABSTRACTLIBRARY_H
 
 
-#include "LibraryNamespaces.h"
+#include "Helper/Library/LibraryNamespaces.h"
 #include "Helper/Library/Filter.h"
 #include "Helper/Settings/SayonaraClass.h"
 #include "Helper/typedefs.h"

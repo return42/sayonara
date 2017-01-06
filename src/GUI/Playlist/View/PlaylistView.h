@@ -57,6 +57,7 @@ signals:
 	void sig_left_tab_clicked();
 	void sig_right_tab_clicked();
 	void sig_time_changed();
+	void sig_delete_tracks(const SP::Set<int>& rows);
 
 public:
 	explicit PlaylistView(PlaylistPtr pl, QWidget* parent=nullptr);
@@ -70,6 +71,7 @@ public:
 
 	int get_num_rows() const;
 	void remove_cur_selected_rows();
+	void delete_cur_selected_tracks();
 
 	/**
 	 * @brief called from GUI_Playlist when data has not been dropped

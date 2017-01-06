@@ -14,7 +14,7 @@ SET(SOURCES
     Threads/ReloadThread.cpp
     Threads/IndexDirectoriesThread.cpp
     Threads/FileSystemWatcher.cpp
-	Threads/UpdateDatesThread.cpp
+    Threads/UpdateDatesThread.cpp
 )
 
 

@@ -31,16 +31,18 @@
 #include "GUI/Library/Helper/LocalLibraryMenu.h"
 #include "GUI/Library/Models/DateSearchModel.h"
 
-#include "Helper/Message/Message.h"
+#include "GUI/Helper/Library/LibraryDeleteDialog.h"
+#include "GUI/Helper/SearchableWidget/SearchableListView.h"
+
+#include "Components/Library/LocalLibrary.h"
 #include "InfoBox/GUI_LibraryInfoBox.h"
 #include "ImportFolderDialog/GUI_ImportFolder.h"
 
-#include "Components/Library/LocalLibrary.h"
 #include "Helper/Helper.h"
 #include "Helper/Library/DateFilter.h"
 #include "Helper/Settings/Settings.h"
 #include "Helper/Language.h"
-#include "GUI/Helper/SearchableWidget/SearchableListView.h"
+#include "Helper/Message/Message.h"
 
 #include <QFileDialog>
 #include <QDir>
@@ -254,39 +256,11 @@ void GUI_LocalLibrary::date_selection_changed(const QModelIndex& index)
 }
 
 
-Library::TrackDeletionMode GUI_LocalLibrary::show_delete_dialog(int n_tracks) {
-	QMessageBox dialog(this);
-	QAbstractButton* clicked_button;
-	QPushButton* only_library_button;
-
-	dialog.setFocus();
-	dialog.setIcon(QMessageBox::Warning);
-	dialog.setText("<b>" + Lang::get(Lang::Warning) + "!</b>");
-	dialog.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-	only_library_button = dialog.addButton(tr("Only from library"), QMessageBox::AcceptRole);
-	dialog.setDefaultButton(QMessageBox::No);
-	QString info_text = tr("You are about to delete %1 files").arg(n_tracks);
-
-	dialog.setInformativeText(info_text + "\n" + Lang::get(Lang::Continue).question() );
-
-	int answer = dialog.exec();
-	clicked_button = dialog.clickedButton();
-	dialog.close();
-
-
-	if(answer == QMessageBox::No){
-		return Library::TrackDeletionMode::None;
-	}
-
-	if(answer == QMessageBox::Yes){
-		return Library::TrackDeletionMode::AlsoFiles;
-	}
-
-	if(clicked_button->text() == only_library_button->text()) {
-		return Library::TrackDeletionMode::OnlyLibrary;
-	}
-
-	return Library::TrackDeletionMode::None;
+Library::TrackDeletionMode GUI_LocalLibrary::show_delete_dialog(int n_tracks)
+{
+	LibraryDeleteDialog dialog(n_tracks, this);
+	dialog.exec();
+	return dialog.answer();
 }
 
 
@@ -442,7 +416,8 @@ void GUI_LocalLibrary::import_files_requested()
 }
 
 
-void GUI_LocalLibrary::import_files(const QStringList& files){
+void GUI_LocalLibrary::import_files(const QStringList& files)
+{
 	_library->import_files(files);
 }
 

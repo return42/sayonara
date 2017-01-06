@@ -54,7 +54,7 @@ void PlaylistView::contextMenuEvent(QContextMenuEvent* e)
 	{
 		entry_mask |=
 				(LibraryContextMenu::EntryInfo |
-				LibraryContextMenu::EntryRemove);
+				 LibraryContextMenu::EntryRemove);
 	}
 
 	if(selections.size() == 1)
@@ -70,6 +70,10 @@ void PlaylistView::contextMenuEvent(QContextMenuEvent* e)
 			MetaData md = _model->get_md(selections.first());
 			_rc_menu->set_rating( md.rating );
 			entry_mask |= LibraryContextMenu::EntryRating;
+		}
+
+		if(selections.size() > 0){
+			entry_mask |= LibraryContextMenu::EntryDelete;
 		}
 	}
 
