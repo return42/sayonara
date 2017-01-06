@@ -37,7 +37,6 @@ namespace SP {
 
 class MetaDataList : public QList<MetaData>
 {
-
 private:
 	int _cur_played_track;
 
@@ -70,8 +69,6 @@ public:
 	MetaDataList& operator <<(const MetaData& md);
 
 	bool contains(qint32 id) const;
-
 };
-
 
 #endif // METADATALIST_H

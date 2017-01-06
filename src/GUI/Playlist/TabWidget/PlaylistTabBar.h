@@ -33,7 +33,6 @@ class PlaylistTabBar :
 		public QTabBar,
 		public ShortcutWidget
 {
-
 	Q_OBJECT
 
 
@@ -95,7 +94,6 @@ private slots:
 	void close_pressed();
 	void close_others_pressed();
 	void rename_pressed();
-
 };
 
 #endif // PLAYLISTTABBAR_H

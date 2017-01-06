@@ -39,7 +39,6 @@ class LibraryItemDelegateAlbums :
 		public LibraryRatingDelegate
 {
 
-
 public:
 	LibraryItemDelegateAlbums(QObject* parent, bool enabled);
 	virtual ~LibraryItemDelegateAlbums();

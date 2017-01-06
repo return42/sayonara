@@ -56,5 +56,4 @@ public:
 	virtual ~SearchableTableView();
 };
 
-
 #endif

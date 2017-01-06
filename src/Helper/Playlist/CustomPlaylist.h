@@ -32,7 +32,6 @@ class CustomPlaylist :
 		public CustomPlaylistSkeleton,
 		public MetaDataList
 {
-
 public:
 
 	bool valid() const;
@@ -46,6 +45,5 @@ public:
 private:
 	void set_num_tracks(int num_tracks) override;
 };
-
 
 #endif // CUSTOMPLAYLIST_H

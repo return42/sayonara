@@ -37,7 +37,6 @@ class ColumnHeader;
 class LibraryItemModelArtists :
 		public LibraryItemModel
 {
-
 Q_OBJECT
 public:
 	LibraryItemModelArtists();
@@ -61,6 +60,5 @@ private:
 	PIMPL(LibraryItemModelArtists)
 
 };
-
 
 #endif /* LIBRARYITEMMODELARTISTS_H_ */

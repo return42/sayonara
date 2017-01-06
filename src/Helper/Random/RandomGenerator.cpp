@@ -45,7 +45,6 @@ RandomGenerator::RandomGenerator(const RandomGenerator& other)
 void RandomGenerator::update_seed(){
 	_m->seed = std::chrono::system_clock::now().time_since_epoch().count();
 	_m->generator = std::mt19937(_m->seed);
-
 }
 
 int RandomGenerator::get_number(int min, int max)

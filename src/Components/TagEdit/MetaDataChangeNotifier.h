@@ -50,7 +50,6 @@ signals:
 	 * @param v_md_new The actualized Metadata
 	 */
 	void sig_metadata_changed(const MetaDataList& v_md_old, const MetaDataList& v_md_new);
-
 };
 
 #endif // METADATACHANGENOTIFIER_H

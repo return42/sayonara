@@ -108,7 +108,6 @@ void PlaylistTabMenu::skin_changed(){
 	_action_close->setIcon(_icon_loader->get_icon( "window-close", "power_off") );
 
 	_action_close_others->setIcon(_icon_loader->get_icon( "window-close", "power_on") );
-
 }
 
 void PlaylistTabMenu::show_menu_items(PlaylistMenuEntries entries)
@@ -123,7 +122,6 @@ void PlaylistTabMenu::show_menu_items(PlaylistMenuEntries entries)
 	_action_clear->setVisible(entries & PlaylistMenuEntry::Clear);
 	_action_close->setVisible(entries & PlaylistMenuEntry::Close);
 	_action_close_others->setVisible(entries & PlaylistMenuEntry::CloseOthers);
-
 }
 
 

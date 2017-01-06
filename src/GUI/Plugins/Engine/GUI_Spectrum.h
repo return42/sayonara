@@ -65,7 +65,6 @@ private:
 	int** _steps=nullptr;
 
     void resize_steps(int bins, int rects);
-
 };
 
 #endif // GUI_SPECTRUM_H

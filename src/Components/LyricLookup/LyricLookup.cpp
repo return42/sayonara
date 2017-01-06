@@ -62,7 +62,6 @@ LyricLookupThread::LyricLookupThread(QObject* parent) :
 	_regex_conversions.insert("^", "\\^");
 	_regex_conversions.insert("|", "\\|");
 	_regex_conversions.insert(".", "\\.");
-
 }
 
 LyricLookupThread::~LyricLookupThread() {}
@@ -212,7 +211,6 @@ void LyricLookupThread::run(const QString& artist, const QString& title, int ser
 	AsyncWebAccess* awa = new AsyncWebAccess(this);
 	connect(awa, &AsyncWebAccess::sig_finished, this, &LyricLookupThread::content_fetched);
 	awa->run(url);
-
 }
 
 void  LyricLookupThread::content_fetched(bool success){

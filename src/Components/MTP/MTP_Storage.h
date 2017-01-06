@@ -30,7 +30,6 @@
 class MTP_Storage
 {
 
-
 public:
 
 	explicit MTP_Storage(MTPIntern_Device* device=nullptr, MTPIntern_Storage* storage=nullptr);
@@ -56,8 +55,6 @@ private:
 	QList<MTP_FolderPtr>	_folders;
 
 	QHash<quint32, QList<MTP_FilePtr>> _files;
-
 };
-
 
 #endif // MTP_STORAGE_H

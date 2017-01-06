@@ -33,7 +33,6 @@
 class SomaFMStation;
 class SomaFMPlaylistModel : public QStringListModel
 {
-
 private:
 	SomaFMStation _station;
 
@@ -45,6 +44,5 @@ public:
 
     void setStation(const SomaFMStation& station);
 };
-
 
 #endif // SOMAFMPLAYLISTMODEL_H

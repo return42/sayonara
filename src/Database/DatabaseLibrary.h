@@ -29,7 +29,6 @@ class MetaDataList;
 class DatabaseLibrary :
 		private DatabaseModule
 {
-
 public:
 
 	DatabaseLibrary(const QSqlDatabase& db, quint8 db_id);

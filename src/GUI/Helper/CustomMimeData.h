@@ -32,8 +32,8 @@
  * @brief Mimedata class for drag and dropping metadata
  * @ingroup GUIHelper
  */
-class CustomMimeData : public QMimeData {
-
+class CustomMimeData : public QMimeData 
+{
 
 private:
 	PIMPL(CustomMimeData)
@@ -65,6 +65,5 @@ public:
      */
     bool hasMetaData() const;
 };
-
 
 #endif

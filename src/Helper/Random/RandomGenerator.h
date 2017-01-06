@@ -29,7 +29,6 @@
  */
 class RandomGenerator
 {
-
 private:
 	PIMPL(RandomGenerator)
 

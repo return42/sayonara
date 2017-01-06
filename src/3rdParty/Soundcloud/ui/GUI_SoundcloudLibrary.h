@@ -62,5 +62,4 @@ private:
 	Ui::GUI_SoundcloudLibrary*	ui=nullptr;
 };
 
-
 #endif // GUI_SOUNDCLOUDLIBRARY_H

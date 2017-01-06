@@ -30,12 +30,13 @@ class AlbumList;
 
 namespace MD 
 {
-	enum class Interpretation : char
-	{
-		None=0,
-		Artists,
-		Albums,
-		Tracks
-	};
+    enum class Interpretation : char
+    {
+	None=0,
+	Artists,
+	Albums,
+	Tracks
+    };
 }
+
 #endif

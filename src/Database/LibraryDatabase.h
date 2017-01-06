@@ -33,7 +33,6 @@ class LibraryDatabase : public AbstractDatabase,
 		 public DatabaseTracks,
 		 public DatabaseLibrary
 {
-
 public:
 
 	enum class ArtistIDField : quint8
@@ -49,7 +48,6 @@ public:
 
 protected:
 	virtual bool apply_fixes()=0;
-
 };
 
 #include "DatabaseHandler.h"

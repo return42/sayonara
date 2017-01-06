@@ -28,7 +28,6 @@
 
 class ArtistMatch{
 
-
 public:
 
 	struct ArtistDesc {
@@ -47,7 +46,8 @@ public:
 	/**
 	 * @brief The Quality enum used to access the bin of interest. See ArtistMatch::get(Quality q)
 	 */
-	enum class Quality : quint8 {
+	enum class Quality : quint8 
+	{
 		Poor = 0,
 		Well = 1,
 		Very_Good = 2
@@ -105,8 +105,6 @@ private:
 	QMap<ArtistDesc, double> _poor;
 
 	QString _artist;
-
 };
-
 
 #endif // ARTISTMATCH_H

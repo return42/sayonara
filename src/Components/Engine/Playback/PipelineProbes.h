@@ -50,9 +50,8 @@ struct StreamRecorderData
 };
 
 
-namespace Probing {
-
-
+namespace Probing
+{
 	GstPadProbeReturn
 	level_probed(GstPad *pad, GstPadProbeInfo *info, gpointer user_data);
 
@@ -68,7 +67,6 @@ namespace Probing {
 	GstPadProbeReturn
 	stream_recorder_probed(GstPad *pad, GstPadProbeInfo *info, gpointer user_data);
 	void handle_stream_recorder_probe(StreamRecorderData* data, GstPadProbeCallback callback);
-
 }
 
 #endif // PIPELINEPROBES_H

@@ -29,7 +29,6 @@
  */
 class MTP_RawDevice
 {
-
 public:
 	explicit MTP_RawDevice(MTPIntern_RawDevice* raw_device=nullptr);
 	virtual ~MTP_RawDevice();
@@ -40,8 +39,6 @@ public:
 private:
 	MTPIntern_RawDevice* _raw_device=nullptr;
 	MTP_DevicePtr		 _open_device;
-
 };
-
 
 #endif // MTP_RAWDEVICE_H

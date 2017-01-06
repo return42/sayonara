@@ -32,7 +32,6 @@
  * @ingroup MetaDataHelper
  */
 class CustomField {
-
 	QString _display_name;
 	QString _value;
 	QString _id;
@@ -53,8 +52,8 @@ public:
  * @brief The LibraryItem class
  * @ingroup MetaDataHelper
  */
-class LibraryItem {
-
+class LibraryItem 
+{
 private:
 	QList<CustomField>	_additional_data;
 

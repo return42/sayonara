@@ -28,11 +28,10 @@ class MetaDataList;
  * @brief PlaylistParser namespace
  * @ingroup PlaylistParser
  */
-namespace PlaylistParser {
-
+namespace PlaylistParser 
+{
 	int parse_playlist(const QString& playlist_file, MetaDataList& md);
 	void save_playlist(QString filename, const MetaDataList& md, bool relative);
-
 }
 
 #endif /* PLAYLISTPARSER_H_ */

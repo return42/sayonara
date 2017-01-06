@@ -37,7 +37,6 @@ Q_DECLARE_METATYPE(Album)
  */
 class Album : public LibraryItem
 {
-
 private:
 	QString _album_artist;
 
@@ -76,8 +75,8 @@ public:
  * @brief The AlbumList class
  * @ingroup MetaDataHelper
  */
-class AlbumList : public QList<Album> {
-
+class AlbumList : public QList<Album> 
+{
 public:
 	bool contains(qint32 album_id) const;
 };

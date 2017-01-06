@@ -42,7 +42,6 @@ class SayonaraWidgetTemplate :
 		public T,
 		protected SayonaraClass
 {
-
 protected:
 
 public:
@@ -57,7 +56,6 @@ protected:
 
 
 	QString elide_text(const QString &text, QWidget *widget, int max_lines){
-
 		QFontMetrics metric = widget->fontMetrics();
 		int width = widget->width();
 
@@ -67,7 +65,6 @@ protected:
 		QString line;
 
 		for( const QString& str : splitted){
-
 			tmp = line + str;
 
 			if(metric.boundingRect(tmp).width() > width){
@@ -105,6 +102,5 @@ protected:
 		return final_str;
 	}
 };
-
 
 #endif // SAYONARAWIDGETTEMPLATE_H

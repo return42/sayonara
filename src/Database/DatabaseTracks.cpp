@@ -42,7 +42,6 @@ DatabaseTracks::DatabaseTracks(const QSqlDatabase& db, quint8 db_id) :
 	DatabaseSearchMode(db)
 {
 	_artistid_field = "artistID";
-
 }
 
 QString DatabaseTracks::fetch_query_tracks() const

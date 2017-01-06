@@ -22,7 +22,6 @@
 #define LAME_BITRATE_H
 
 enum LameBitrate {
-
     LameBitrate_64=64,
     LameBitrate_128=128,
     LameBitrate_192=192,

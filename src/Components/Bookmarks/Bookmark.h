@@ -27,8 +27,8 @@
  * @brief The Bookmark helper class
  * @ingroup Bookmarks
  */
-class Bookmark {
-
+class Bookmark 
+{
 	private:
 		quint32		_time;
 		QString		_name;

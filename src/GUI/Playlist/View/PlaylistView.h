@@ -137,5 +137,4 @@ private slots:
 	void rating_changed(int rating);
 };
 
-
 #endif /* PlaylistView_H_ */

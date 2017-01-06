@@ -35,7 +35,6 @@ namespace SP
 
 class SayonaraSelectionView
 {
-
 protected:
 	virtual QItemSelectionModel* get_selection_model() const=0;
 	virtual QModelIndex	get_index(int row, int col, const QModelIndex& parent=QModelIndex()) const=0;
@@ -56,6 +55,5 @@ protected:
 	SayonaraSelectionView();
 	virtual ~SayonaraSelectionView();
 };
-
 
 #endif // SAYONARASELECTIONVIEW_H

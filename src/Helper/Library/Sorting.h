@@ -27,10 +27,8 @@
 class QString;
 namespace Library
 {
-
     class Sortings
-    {
-
+	{
     public:
 	Library::SortOrder so_albums;
 	Library::SortOrder so_artists;

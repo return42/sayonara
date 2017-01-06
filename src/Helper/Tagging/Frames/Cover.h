@@ -31,7 +31,6 @@ namespace ID3v2Frame
 {
 	class Cover
 	{
-
 		private:
 			unsigned char text_encoding;
 			unsigned char picture_type;
@@ -53,7 +52,6 @@ namespace ID3v2Frame
 	class CoverFrame :
 			public AbstractFrame<Cover, TagLib::ID3v2::AttachedPictureFrame>
 	{
-
 		public:
 			CoverFrame(TagLib::FileRef* file_ref);
 			~CoverFrame();
@@ -64,4 +62,5 @@ namespace ID3v2Frame
 			TagLib::ID3v2::Frame* create_id3v2_frame() override;
 	};
 }
+
 #endif // COVER_H

@@ -45,7 +45,6 @@ enum class Log : unsigned char
  * @ingroup Helper
  */
 class Logger{
-
 protected:
 	std::ostream& _out;
 
@@ -71,7 +70,6 @@ public:
 
 	template<typename T, template <typename ELEM> class CONT>
 	Logger& operator << (const CONT<T> list){
-
 		for(const T& item : list){
 			(*this) << item << ", ";
 		}

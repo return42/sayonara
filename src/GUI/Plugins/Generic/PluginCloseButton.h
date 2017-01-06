@@ -37,7 +37,6 @@ class PluginCloseButton :
 		public QPushButton,
 		protected SayonaraClass
 {
-
 	Q_OBJECT
 
 signals:

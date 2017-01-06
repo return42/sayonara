@@ -38,7 +38,6 @@ class DatabaseTracks :
 		private DatabaseSearchMode
 
 {
-
 private:
 	QString _artistid_field;
 

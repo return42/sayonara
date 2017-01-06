@@ -73,7 +73,6 @@ int AlternativeCoverItemModel::rowCount(const QModelIndex &parent) const
 {
 	Q_UNUSED(parent)
 	return 2;
-
 }
 int AlternativeCoverItemModel::columnCount(const QModelIndex &parent) const
 {
@@ -119,7 +118,6 @@ Qt::ItemFlags AlternativeCoverItemModel::flags(const QModelIndex &index) const{
 	}
 
 	return QAbstractItemModel::flags(index);
-
 }
 
 bool AlternativeCoverItemModel::setData(const QModelIndex &index, const QVariant &value, int role) {
@@ -172,7 +170,6 @@ bool AlternativeCoverItemModel::insertRows(int position, int rows, const QModelI
 
 	endInsertRows();
 	return true;
-
 }
 bool AlternativeCoverItemModel::removeRows(int position, int rows, const QModelIndex &index) {
 	Q_UNUSED(index);
@@ -183,7 +180,6 @@ bool AlternativeCoverItemModel::removeRows(int position, int rows, const QModelI
 
 	 endRemoveRows();
 	 return true;
-
 }
 
 bool AlternativeCoverItemModel::is_valid(int row, int col){

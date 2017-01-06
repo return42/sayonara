@@ -85,5 +85,4 @@ public:
 	}
 };
 
-
 #endif // Settings_H

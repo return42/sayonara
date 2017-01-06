@@ -35,7 +35,6 @@ class GUI_ImportFolder :
 		public SayonaraDialog,
 		private Ui::ImportFolder
 {
-
 	Q_OBJECT
 
 signals:
@@ -67,7 +66,6 @@ private:
 
 	LibraryImporter*	_importer=nullptr;
 	GUI_TagEdit*		tag_edit=nullptr;
-
 };
 
 #endif /* GUIIMPORTFOLDER_H_ */

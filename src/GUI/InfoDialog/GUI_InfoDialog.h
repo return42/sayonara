@@ -43,12 +43,12 @@ namespace Ui { class InfoDialog; }
 class GUI_InfoDialog :
 		public SayonaraDialog
 {
-
 	Q_OBJECT
 
 public:
 
-	enum class Tab : quint8 {
+	enum class Tab : quint8 
+	{
 		Info=0,
 		Lyrics=1,
 		Edit=2
@@ -88,7 +88,6 @@ private:
 
 	PIMPL(GUI_InfoDialog)
 	Ui::InfoDialog*	ui=nullptr;
-
 };
 
 #endif /* GUI_INFODIALOG_H_ */

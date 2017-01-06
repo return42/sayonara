@@ -56,7 +56,6 @@ namespace ID3v2Frame
 	class PopularimeterFrame :
 			public AbstractFrame<Popularimeter, TagLib::ID3v2::PopularimeterFrame>
 	{
-
 		protected:
 			TagLib::ID3v2::Frame* create_id3v2_frame() override;
 
@@ -68,4 +67,5 @@ namespace ID3v2Frame
 			void map_frame_to_model() override;
 	};
 }
+
 #endif // POPULARIMETER_H

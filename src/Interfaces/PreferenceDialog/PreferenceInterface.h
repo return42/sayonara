@@ -57,7 +57,6 @@ template <typename T>
  */
 class PreferenceInterface : public T
 {
-
 private:
 	PreferenceAction*	_action=nullptr;
 	bool				_is_initialized;
@@ -78,7 +77,6 @@ protected:
 	 * @param widget should always be "this"
 	 */
 	void setup_parent(W* widget, UiClass** ui) {
-
 		*ui = new UiClass();
 		(*ui)->setupUi(widget);
 
@@ -215,7 +213,6 @@ public:
 	 * in the init_ui() method
 	 */
 	virtual void revert()=0;
-
 };
 
 #endif // PREFERENCEINTERFACE_H

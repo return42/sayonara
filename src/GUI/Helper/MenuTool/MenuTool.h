@@ -31,8 +31,8 @@
  * It opens up a menu when clicked. The actions in the menu a configurable
  * @ingroup GUIHelper
  */
-class MenuToolButton : public MenuButton {
-
+class MenuToolButton : public MenuButton 
+{
 	Q_OBJECT
 
 signals:
@@ -98,8 +98,6 @@ public slots:
 	 * @brief show all actions
 	 */
 	void show_all();
-
 };
-
 
 #endif // MENUTOOL_H

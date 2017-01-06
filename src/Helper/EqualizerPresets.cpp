@@ -197,7 +197,6 @@ bool EQ_Setting::is_default_name() const
 	}
 
 	return false;
-
 }
 
 bool EQ_Setting::is_default() const

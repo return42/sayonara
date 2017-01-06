@@ -39,7 +39,6 @@ class ColumnHeader;
 class LibraryItemModelAlbums :
 		public LibraryItemModel
 {
-
 Q_OBJECT
 
 public:

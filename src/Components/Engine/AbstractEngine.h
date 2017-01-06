@@ -31,7 +31,8 @@
 #define CONVERT_ENGINE "convert_engine"
 
 class QImage;
-enum class EngineName : quint8 {
+enum class EngineName : quint8 
+{
 	Undefined=0,
 	PlaybackEngine=1,
 	ConvertEngine=2
@@ -42,7 +43,6 @@ class Engine :
 		public QObject,
 		protected SayonaraClass
 {
-
 	Q_OBJECT
 
 public:
@@ -111,7 +111,6 @@ protected:
 	qint64		_cur_pos_ms;
 	bool 		_playing_stream;
 	bool		_broadcast_active;
-
 };
 
 extern Engine* gst_obj_ref;

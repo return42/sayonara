@@ -35,7 +35,6 @@
  * @ingroup Settings
  */
 class AbstrSettingNotifier : public QObject{
-
 	Q_OBJECT
 
 	signals:
@@ -45,6 +44,5 @@ class AbstrSettingNotifier : public QObject{
 		explicit AbstrSettingNotifier(QObject* parent=nullptr);
 		virtual ~AbstrSettingNotifier();
 };
-
 
 #endif // ABSTRSETTINGNOTIFIER_H

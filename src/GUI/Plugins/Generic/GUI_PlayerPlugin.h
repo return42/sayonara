@@ -55,5 +55,4 @@ private slots:
 	void language_changed() override;
 };
 
-
 #endif // GUI_PLAYERPLUGIN_H

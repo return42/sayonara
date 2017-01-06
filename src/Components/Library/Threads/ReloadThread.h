@@ -44,7 +44,6 @@ class ReloadThread :
 		public QThread,
 		protected SayonaraClass
 {
-
 Q_OBJECT
 
 signals:
@@ -80,7 +79,6 @@ private:
 	QStringList		process_sub_files(const QDir& dir, const QStringList& sub_files);
 
 	bool			compare_md(const MetaData& md1, const MetaData& md2);
-
 };
 
 #endif /* RELOADTHREAD_H_ */

@@ -115,8 +115,6 @@ private:
 
 private:
 	void init_context_menu();
-
 };
-
 
 #endif

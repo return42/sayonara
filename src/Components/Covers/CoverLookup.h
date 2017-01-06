@@ -41,7 +41,6 @@ class CoverLocation;
  * @ingroup Covers
  */
 class CoverLookupInterface : public QObject{
-
 	Q_OBJECT
 
 signals:
@@ -54,15 +53,14 @@ public slots:
 public:
 	explicit CoverLookupInterface(QObject* parent=nullptr);
 	virtual ~CoverLookupInterface();
-
 };
 
 /**
  * @brief The CoverLookup class
  * @ingroup Covers
  */
-class CoverLookup : public CoverLookupInterface {
-
+class CoverLookup : public CoverLookupInterface 
+{
 	Q_OBJECT
 
 

@@ -64,7 +64,6 @@ protected:
 	bool set_uri(const MetaData& md);
 };
 
-
 #endif // ConvertEngine_H
 
 

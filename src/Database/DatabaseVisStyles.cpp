@@ -36,7 +36,6 @@ QString col2String(QColor col) {
 	QString::number(col.blue()) + "," +
 	QString::number(col.alpha());
 	return str;
-
 }
 
 
@@ -60,7 +59,6 @@ bool colFromString(QString str, QColor& c) {
 	}
 
 	return true;
-
 }
 
 QList<RawColorStyle> DatabaseVisStyles::get_raw_color_styles() {

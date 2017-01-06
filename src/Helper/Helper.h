@@ -37,8 +37,8 @@ class QDateTime;
  * @brief Helper functions
  * @ingroup Helper
  */
-namespace Helper {
-
+namespace Helper 
+{
 	quint64 current_date_to_int();
 	quint64 date_to_int(const QDateTime& date);
 
@@ -161,8 +161,6 @@ namespace Helper {
 	 * @param value variable value
 	 */
 	void set_environment(const QString& key, const QString& value);
-
 }
-
 
 #endif

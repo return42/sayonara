@@ -44,7 +44,6 @@ namespace Ui
 class GUI_TagEdit :
 		public SayonaraWidget
 {
-
 	Q_OBJECT
 
 public:
@@ -304,7 +303,6 @@ private slots:
 
 
 	void rb_dont_replace_toggled(bool b);
-
 };
 
 #endif

@@ -30,7 +30,6 @@
  * @ingroup Lyrics
  */
 struct ServerTemplate {
-
 	QString display_str;
 	QString server_address;
 	QMap<QString, QString> replacements;
@@ -51,7 +50,6 @@ struct ServerTemplate {
 
 	void print_xml() const
 	{
-
 		sp_log(Log::Info) << "<ServerTemplate>";
 		sp_log(Log::Info) << "  <name>\"" << display_str << "\"</name>";
 		sp_log(Log::Info) << "  <server_address>\"" << server_address << "\"</server_address>";

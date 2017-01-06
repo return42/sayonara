@@ -32,7 +32,6 @@ class PlaylistTabMenu :
 		public QMenu,
 		private SayonaraClass
 {
-
 	Q_OBJECT
 
 signals:
@@ -73,6 +72,5 @@ public:
 	void show_menu_items(PlaylistMenuEntries entries);
 	void show_close(bool b);
 };
-
 
 #endif // PLAYLISTTABMENU_H

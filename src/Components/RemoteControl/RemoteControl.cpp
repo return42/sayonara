@@ -144,7 +144,6 @@ void RemoteControl::socket_disconnected()
 	disconnect(mgr, &PlayManager::sig_volume_changed, this, &RemoteControl::volume_changed);
 	disconnect(mgr, &PlayManager::sig_playstate_changed, this, &RemoteControl::playstate_changed);
 	disconnect(_plh, &PlaylistHandler::sig_playlist_created, this, &RemoteControl::playlist_changed);
-
 }
 
 void RemoteControl::pos_changed_ms(const quint64 pos){
@@ -261,7 +260,6 @@ void RemoteControl::seek_rel(int percent){
 	percent = std::min(percent, 100);
 	percent = std::max(percent, 0);
 	_play_manager->seek_rel( percent / 100.0 );
-
 }
 
 void RemoteControl::seek_rel_ms(int pos_ms){

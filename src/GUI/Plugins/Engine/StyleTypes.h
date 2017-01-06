@@ -32,7 +32,6 @@ struct ColorList {
 };
 
 struct ColorStyle {
-
     QString name;
 
     // list size is number or rectangles
@@ -50,7 +49,6 @@ struct ColorStyle {
 };
 
 struct RawColorStyle{
-
     ColorList col_list;
 
     int n_bins_spectrum;
@@ -86,7 +84,6 @@ struct RawColorStyle{
     }
 
     QString toString() const {
-
         QString ret;
         ret += col_list.name + "";
         ret += ", n_bins_sp: " + QString::number(n_bins_spectrum);
@@ -104,6 +101,5 @@ struct RawColorStyle{
     }
 
 };
-
 
 #endif // STYLETYPES_H

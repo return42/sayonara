@@ -32,7 +32,6 @@
 class SayonaraDialog :
 		public SayonaraWidgetTemplate<QDialog>
 {
-
 	Q_OBJECT
 
 signals:
@@ -51,7 +50,6 @@ protected:
 protected slots:
 	virtual void language_changed();
 	virtual void skin_changed();
-
 };
 
 #endif // SAYONARADIALOG_H

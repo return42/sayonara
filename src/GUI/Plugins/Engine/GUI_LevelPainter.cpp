@@ -216,7 +216,6 @@ void GUI_LevelPainter::sl_update_style() {
 	resize_steps(_cur_style.n_rects);
 
 	update();
-
 }
 
 void GUI_LevelPainter::resize_steps(int n_rects) {

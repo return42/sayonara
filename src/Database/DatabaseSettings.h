@@ -26,7 +26,6 @@
 
 class DatabaseSettings : private DatabaseModule
 {
-
 public:
 	DatabaseSettings(const QSqlDatabase& db, quint8 db_id);
 
@@ -36,7 +35,6 @@ public:
 
 	bool load_settings();
 	bool store_settings();
-
 };
 
 #endif // DATABASESETTINGS_H

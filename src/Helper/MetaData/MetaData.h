@@ -48,7 +48,6 @@ enum class RadioMode : quint8
 class MetaData :
 		public LibraryItem
 {
-
 private:
 	QString		_filepath;
 	RadioMode	_radio_mode;

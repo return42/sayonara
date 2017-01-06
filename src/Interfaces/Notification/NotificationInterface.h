@@ -28,7 +28,6 @@
 class MetaData;
 class NotificationInterface
 {
-
 private:
 	QString _name;
 
@@ -60,8 +59,6 @@ public:
 	 * @return
 	 */
 	QString get_name() const;
-
-
 };
 
 typedef QList<NotificationInterface*> NotificatonList;

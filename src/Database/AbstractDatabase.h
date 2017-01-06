@@ -27,7 +27,6 @@
 
 class AbstractDatabase : public QObject
 {
-
 public:
 	explicit AbstractDatabase(quint8 db_id, const QString& db_dir, const QString& db_name, QObject *parent=nullptr);
 	virtual ~AbstractDatabase();

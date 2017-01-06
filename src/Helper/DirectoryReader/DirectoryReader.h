@@ -31,7 +31,6 @@ class MetaDataList;
  */
 class DirectoryReader
 {
-
     public:
 		DirectoryReader();
 		virtual ~DirectoryReader();
@@ -81,7 +80,6 @@ class DirectoryReader
 		 * @brief _name_filters may begin with *
 		 */
 		QStringList		_name_filters;
-
 };
 
 #endif

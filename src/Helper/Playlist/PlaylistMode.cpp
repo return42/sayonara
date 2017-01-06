@@ -93,7 +93,6 @@ void Playlist::Mode::print()
 		<< "append = "  << (int) _append <<", "
 		<< "dynamic = " << (int) _dynamic << ","
 		<< "gapless = " << (int) _gapless;
-
 }
 
 QString Playlist::Mode::toString() const {

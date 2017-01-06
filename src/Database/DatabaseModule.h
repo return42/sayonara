@@ -47,7 +47,6 @@ class SayonaraQuery;
 struct Filter;
 class DatabaseModule
 {
-
 protected:
 
 	QSqlDatabase _db;
@@ -56,7 +55,6 @@ protected:
 
 public:
 	DatabaseModule(const QSqlDatabase& db, quint8 db_id);
-
 };
 
 #endif // DATABASEMODULE_H

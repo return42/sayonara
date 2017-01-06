@@ -42,7 +42,6 @@ namespace Ui { class GUI_LocalLibrary; }
 class GUI_LocalLibrary :
 		public GUI_AbstractLibrary
 {
-
 	friend class GUI_AbstractLibrary;
 
 Q_OBJECT

@@ -48,5 +48,4 @@ public:
 	void        init_ui() override;
 };
 
-
 #endif // LOCALLIBRARYCONTAINER_H

@@ -34,7 +34,6 @@ class StreamRecorder :
 		public QObject,
 		protected SayonaraClass
 {
-
 	PIMPL(StreamRecorder)
 
 private:
@@ -66,8 +65,6 @@ public:
 
 private slots:
 	void playstate_changed(PlayState state);
-
-
 };
 
 #endif // STREAMRECORDER_H

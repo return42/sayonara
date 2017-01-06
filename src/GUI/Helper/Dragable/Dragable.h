@@ -31,7 +31,6 @@ class QDrag;
 
 class Dragable
 {
-
 public:
 	explicit Dragable(QWidget* parent);
 	virtual ~Dragable();

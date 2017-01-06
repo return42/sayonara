@@ -34,7 +34,6 @@ class GUI_SomaFM;
 class SomaFMLibraryContainer :
 	public LibraryContainerInterface
 {
-
 	Q_OBJECT
 
 	Q_PLUGIN_METADATA(IID "com.sayonara-player.somafm_library")
@@ -56,7 +55,6 @@ public:
 	QComboBox*		get_libchooser() override;
 	QMenu*			get_menu() override;
 	void			init_ui() override;
-
 };
 
 #endif

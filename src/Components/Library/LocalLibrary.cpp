@@ -148,7 +148,6 @@ void LocalLibrary::indexing_finished()
 
 	thread->deleteLater();
 	sp_log(Log::Debug) << "Added filesystem watcher";
-
 }
 
 void LocalLibrary::library_reloading_state_new_block() {
@@ -356,5 +355,4 @@ void LocalLibrary::merge_albums(int target_album)
 
 	_db->updateTracks(v_md);
 	refresh();
-
 }

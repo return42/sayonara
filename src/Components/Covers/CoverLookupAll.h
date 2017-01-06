@@ -71,7 +71,6 @@ public:
 	 * @brief Runs the search
 	 */
     void start();
-
 };
 
 #endif // COVERLOOKUPALL_H

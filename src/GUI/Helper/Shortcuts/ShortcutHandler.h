@@ -34,7 +34,6 @@ class Shortcut;
  */
 class ShortcutHandler : public SayonaraClass
 {
-
 	SINGLETON(ShortcutHandler)
 
 public:
@@ -83,7 +82,6 @@ public:
 	 * @return
 	 */
 	QList<Shortcut>	get_shortcuts() const;
-
 };
 
 #endif // SHORTCUTHANDLER_H

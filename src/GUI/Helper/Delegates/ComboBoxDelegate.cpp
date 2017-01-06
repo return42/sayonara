@@ -39,5 +39,4 @@ QSize ComboBoxDelegate::sizeHint(const QStyleOptionViewItem &option, const QMode
 	Q_UNUSED(index)
 
 	return QSize(200, 20);
-
 }

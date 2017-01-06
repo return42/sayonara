@@ -31,7 +31,8 @@ class Album;
 class MetaData;
 class Artist;
 
-class DB {
+class DB 
+{
 	SINGLETON(DB)
 
 	public:
@@ -50,7 +51,6 @@ class DB {
 
 	private:
 		QMap<quint8, LibraryDatabase*> _dbs;
-
 };
 
 #endif // DATABASEHANDLER_H

@@ -30,7 +30,6 @@ class FileSystemWatcher;
 
 class LocalLibrary : public AbstractLibrary
 {
-
     Q_OBJECT
 	SINGLETON_QOBJECT(LocalLibrary)
 
@@ -96,7 +95,6 @@ protected:
 
 private:
 	void		init_reload_thread();
-
 };
 
 #endif // LocalLibrary_H

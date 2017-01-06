@@ -35,7 +35,6 @@ class PlaylistDBWrapper;
 class PlaylistDBInterface :
 		public QObject
 {
-
 	Q_OBJECT
 
 private:
@@ -47,7 +46,8 @@ private:
 
 public:
 
-	enum class SaveAsAnswer : quint8 {
+	enum class SaveAsAnswer : quint8 
+	{
 		Success=0,
 		AlreadyThere,
 		ExternTracksError,

@@ -363,7 +363,6 @@ bool Helper::File::read_file_into_str(const QString& filename, QString& content)
 	}
 
 	return false;
-
 }
 
 

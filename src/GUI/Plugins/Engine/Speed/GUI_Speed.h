@@ -58,5 +58,4 @@ private slots:
 	void _sl_pitch_found_changed();
 };
 
-
 #endif // GUI_SPEED_H

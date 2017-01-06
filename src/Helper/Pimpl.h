@@ -39,5 +39,4 @@ namespace Pimpl
     }
 }
 
-
 #endif // PIMPL_H

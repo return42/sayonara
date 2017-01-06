@@ -30,7 +30,6 @@
  */
 class PLSParser : public AbstractPlaylistParser
 {
-
 public:
 	explicit PLSParser(const QString& filename);
 	virtual ~PLSParser();

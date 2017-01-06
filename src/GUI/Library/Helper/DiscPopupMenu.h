@@ -30,7 +30,6 @@
 
 
 class DiscAction : public QAction {
-
 Q_OBJECT
 
 	signals:
@@ -45,8 +44,8 @@ Q_OBJECT
 };
 
 
-class DiscPopupMenu : public QMenu {
-
+class DiscPopupMenu : public QMenu 
+{
 	Q_OBJECT
 
 	signals:
@@ -68,6 +67,5 @@ class DiscPopupMenu : public QMenu {
 
 		void clean_up();
 };
-
 
 #endif

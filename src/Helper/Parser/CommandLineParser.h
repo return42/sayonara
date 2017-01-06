@@ -34,7 +34,6 @@ struct CommandLineData
 
 class CommandLineParser
 {
-
 public:
 
     static CommandLineData parse(int argc, char** argv);

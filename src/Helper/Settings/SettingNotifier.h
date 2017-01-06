@@ -50,7 +50,6 @@
 /* A Setting notifier has to be a singleton */
 template < typename T >
 class SettingNotifier : public AbstrSettingNotifier {
-
 	private:
 		explicit SettingNotifier( QObject* parent=0 ) : AbstrSettingNotifier(parent) {}
 		SettingNotifier( const SettingNotifier& ) {}
@@ -67,6 +66,5 @@ class SettingNotifier : public AbstrSettingNotifier {
 			emit sig_value_changed();
 		}
 };
-
 
 #endif // SETTINGNOTIFIER_H

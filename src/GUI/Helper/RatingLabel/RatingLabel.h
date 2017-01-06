@@ -67,5 +67,4 @@ private:
 	int calc_rating(QPoint pos) const;
 };
 
-
 #endif // RATINGLABEL_H

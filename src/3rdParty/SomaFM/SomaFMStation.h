@@ -34,7 +34,6 @@ class MetaDataList;
 
 class SomaFMStation
 {
-
 public:
 
 	enum class UrlType : quint8

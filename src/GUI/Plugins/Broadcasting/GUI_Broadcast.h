@@ -61,7 +61,6 @@ private:
 
 	void language_changed() override;
 	void init_ui() override;
-
 };
 
 #endif // GUI_BROADCAST_H

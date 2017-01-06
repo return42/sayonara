@@ -202,7 +202,6 @@ void DBusMPRIS::MediaPlayer2::Raise(){
 	_player->raise();
 	_player->show();
 	_player->raise();
-
 }
 
 

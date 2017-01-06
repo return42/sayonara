@@ -250,7 +250,6 @@ void EnginePlugin::enterEvent(QEvent* e)
 	_btn_prev->show();
 	_btn_next->show();
 	_btn_close->show();
-
 }
 
 void EnginePlugin::leaveEvent(QEvent* e)

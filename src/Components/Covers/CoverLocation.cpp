@@ -313,5 +313,4 @@ void CoverLocation::set_search_term(const QString& search_term)
 {
 	_m->search_term = search_term;
 	_m->search_url = CoverHelper::calc_google_image_search_address(search_term);
-
 }

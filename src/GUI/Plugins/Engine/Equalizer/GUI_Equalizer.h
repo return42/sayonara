@@ -47,7 +47,6 @@ class EngineHandler;
 class GUI_Equalizer :
 		public PlayerPluginInterface
 {
-
 	Q_OBJECT
 
 public:
@@ -90,7 +89,6 @@ private slots:
 	void btn_undo_clicked();
 
 	void text_changed(const QString&);
-
 };
 
 #endif /* GUI_EQUALIZER_H_ */

@@ -122,7 +122,6 @@ void ContextMenu::show_actions(ContextMenuEntries entries){
 	_action_save_as->setVisible(entries & ContextMenu::EntrySaveAs);
 	_action_rename->setVisible(entries & ContextMenu::EntryRename);
 	_action_delete->setVisible(entries & ContextMenu::EntryDelete);
-
 }
 
 void ContextMenu::show_action(ContextMenu::Entry entry, bool visible)

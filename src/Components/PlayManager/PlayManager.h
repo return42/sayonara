@@ -38,7 +38,6 @@ class PlayManager :
 		public QObject,
 		protected SayonaraClass
 {
-
 	Q_OBJECT
 
 	SINGLETON_QOBJECT(PlayManager)
@@ -314,7 +313,6 @@ public:
 	 */
 	bool		get_mute() const;
 };
-
 
 #endif
 

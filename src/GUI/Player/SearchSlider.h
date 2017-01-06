@@ -27,8 +27,8 @@
 
 #include "GUI/Helper/SayonaraWidget/SayonaraSlider.h"
 
-class SearchSlider: public SayonaraSlider {
-
+class SearchSlider: public SayonaraSlider 
+{
 	Q_OBJECT
 
 	signals:

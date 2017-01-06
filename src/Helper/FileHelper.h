@@ -25,7 +25,6 @@
 
 namespace Helper
 {
-
 	/**
 	 * @brief Filehelper functions
 	 * @ingroup Helper

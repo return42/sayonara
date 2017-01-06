@@ -31,7 +31,6 @@ class MetaDataList;
 class ArtistInfo : 
 	public MetaDataInfo 
 {
-
 private:
 
 	int bla;

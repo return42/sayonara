@@ -26,7 +26,6 @@
 
 
 struct LFMLoginStuff{
-
 	QString token;
 	QString session_key;
 	bool logged_in;
@@ -43,7 +42,6 @@ struct LFMLoginStuff{
 class LFMLoginThread :
 		public QObject
 {
-
 	Q_OBJECT
 
 signals:
@@ -68,6 +66,5 @@ private:
 
 	LFMLoginStuff _login_info;
 };
-
 
 #endif // LFMLOGINTHREAD_H

@@ -61,7 +61,6 @@ class GUI_Player :
 		public GlobalMessageReceiverInterface,
 		private Ui::Sayonara
 {
-
 	Q_OBJECT
 
 signals:
@@ -206,6 +205,5 @@ private slots:
 
 	void _sl_sr_active_changed();
 };
-
 
 #endif // GUI_SIMPLEPLAYER_H

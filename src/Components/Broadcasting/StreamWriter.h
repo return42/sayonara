@@ -48,7 +48,8 @@ class StreamWriter :
 
 public:
 
-	enum class Type : quint8 {
+	enum class Type : quint8 
+	{
 		Undefined,
 		Standard,
 		Invalid,

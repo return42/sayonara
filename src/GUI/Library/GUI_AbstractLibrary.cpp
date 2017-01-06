@@ -403,7 +403,6 @@ void GUI_AbstractLibrary::delete_album() {
 	Library::TrackDeletionMode answer = show_delete_dialog(n_tracks);
 
 	_library->delete_current_tracks(answer);
-
 }
 
 void GUI_AbstractLibrary::delete_artist() {

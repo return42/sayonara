@@ -57,7 +57,6 @@ public:
 	int						get_last_playlist_idx() const;
 	int						get_last_track_idx() const;
 	int						create_playlists();
-
 };
 
 #endif // PLAYLISTLOADER_H

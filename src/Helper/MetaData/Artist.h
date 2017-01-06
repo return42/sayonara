@@ -31,8 +31,8 @@ class QVarint;
  * @brief The Artist class
  * @ingroup MetaDataHelper
  */
-class Artist : public LibraryItem {
-
+class Artist : public LibraryItem 
+{
 public:
 
     qint32 id;                                                                                                                                       
@@ -63,7 +63,6 @@ class ArtistList :
 		public QList<Artist>
 {
 
-
 public:
 
 	/**
@@ -82,8 +81,6 @@ public:
 
 
 	bool contains(int artist_id) const;
-
 };
-
 
 #endif

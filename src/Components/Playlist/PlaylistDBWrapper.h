@@ -35,7 +35,6 @@ class MetaDataList;
  */
 class PlaylistDBWrapper
 {
-
 	SINGLETON(PlaylistDBWrapper)
 
 private:

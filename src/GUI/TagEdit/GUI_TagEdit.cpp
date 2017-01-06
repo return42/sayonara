@@ -547,7 +547,6 @@ void GUI_TagEdit::tag_text_changed(const QString& str)
 	valid = _tag_expression.update_tag(str, md.filepath() );
 
 	set_tag_colors( valid );
-
 }
 
 

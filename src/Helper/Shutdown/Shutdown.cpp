@@ -104,7 +104,6 @@ void Shutdown::stop(){
 	_timer->stop();
 	_timer_countdown->stop();
 	_msecs2go = 0;
-
 }
 
 

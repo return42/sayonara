@@ -57,7 +57,6 @@ IconLoader::IconLoader(){
 #endif
 
 	sp_log(Log::Debug) << "Theme paths " << _theme_paths;
-
 }
 
 IconLoader::~IconLoader() {}

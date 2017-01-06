@@ -32,7 +32,6 @@ void GUI_StartupDialog::init_ui()
 	setup_parent(this);
 
 	revert();
-
 }
 
 void GUI_StartupDialog::language_changed() {

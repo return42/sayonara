@@ -50,7 +50,6 @@ namespace Library
  */
 namespace SK {
 enum SettingKey {
-
 	LFM_Active=0,
 	LFM_ScrobbleTimeSec,
 	LFM_Login,
@@ -189,8 +188,8 @@ public:
  * @brief Set namespace defines the setting: Which key and which type
  * @ingroup Settings
  */
-namespace Set {
-
+namespace Set 
+{
 //typedef SettingKey<bool, SK::LFM_Active> LFM_Active_t; const LFM_Active_t LFM_Active
 INST(bool,				LFM_Active);				/* is lastFM active? */
 INST(int,				LFM_ScrobbleTimeSec);			/* time in sec when to scrobble */
@@ -298,13 +297,11 @@ INST(int,				Remote_Port);				/* Remote control port */
 
 }
 
-namespace SetNoDB{
-
+namespace SetNoDB
+{
 INST(bool,				MP3enc_found);
 INST(bool,				Pitch_found);
 INST(bool,				Player_Quit);
-
 }
-
 
 #endif // SETTINGKEY_H

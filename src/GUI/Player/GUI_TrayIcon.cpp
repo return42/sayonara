@@ -124,7 +124,6 @@ void GUI_TrayIcon::init_context_menu()
 	connect(_show_action, &QAction::triggered, this, &GUI_TrayIcon::show_clicked);
 
 	REGISTER_LISTENER(Set::Player_Style, skin_changed);
-
 }
 
 void GUI_TrayIcon::skin_changed()

@@ -31,7 +31,6 @@ namespace Ui
 class GUI_BroadcastSetup :
 		public PreferenceWidgetInterface
 {
-
 	Q_OBJECT
 
 	friend class PreferenceWidgetInterface;
@@ -62,7 +61,6 @@ private:
 
 	QString get_url_string();
 	void refresh_url();
-
 };
 
 #endif // GUI_BROADCASTSETUP_H

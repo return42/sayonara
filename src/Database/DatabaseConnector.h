@@ -44,7 +44,6 @@ class DatabaseConnector :
 		public DatabaseStreams,
 		public DatabaseVisStyles
 {
-
 	SINGLETON(DatabaseConnector)
 
 

@@ -38,9 +38,6 @@ public:
 
 protected:
 	virtual bool dropMimeData(QTreeWidgetItem* parent, int index, const QMimeData* data, Qt::DropAction action) override;
-
-
 };
-
 
 #endif // MTPTREEVIEW_H

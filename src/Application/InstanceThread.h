@@ -55,7 +55,6 @@ private:
 private:
 		void run() override;
 		void parse_memory();
-
 };
 
 #endif // INSTANCETHREAD_H

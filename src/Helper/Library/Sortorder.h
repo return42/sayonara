@@ -26,7 +26,7 @@
 namespace Library
 {
     enum class SortOrder : quint8
-    {
+	{
 	    NoSorting=0,
 	    ArtistNameAsc,
 	    ArtistNameDesc,

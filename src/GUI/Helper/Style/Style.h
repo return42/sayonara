@@ -30,18 +30,18 @@
 #define STYLE_H_
 
 class QString;
+
 /**
  * @define the Style namespace
  * @ingroup GUIHelper
  */
-namespace Style{
-
+namespace Style
+{
 	/**
 	 * @brief fetch the stylesheet file formatted as string
 	 * @return string formatted stylesheet file
 	 */
 	QString get_style(bool dark);
 }
-
 
 #endif /* STYLE_H_ */

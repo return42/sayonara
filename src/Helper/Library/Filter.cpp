@@ -26,7 +26,6 @@ struct Library::Filter::Private
     Library::DateFilter	    date_filter;
     QString		    filtertext;
     Library::Filter::Mode   mode;
-
 };
 
 Library::Filter::Filter()
@@ -40,7 +39,6 @@ Library::Filter::Filter(const Library::Filter& other)
 {
     _m = Pimpl::make<Library::Filter::Private>();
     *(_m) = *(other._m);
-
 }
 
 void Library::Filter::operator=(const Filter& other)

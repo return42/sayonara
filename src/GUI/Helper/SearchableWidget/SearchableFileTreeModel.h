@@ -47,5 +47,4 @@ private:
 	int			_cur_idx;
 };
 
-
 #endif // SEARCHABLEFileTreeView_H

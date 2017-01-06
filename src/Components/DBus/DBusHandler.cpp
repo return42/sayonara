@@ -34,7 +34,6 @@ DBusHandler::DBusHandler(QMainWindow* player, QObject* parent) :
 	_dbus_mate = new DBusMediaKeysInterfaceMate(this);
 	_dbus_gnome = new DBusMediaKeysInterfaceGnome(this);
 	_dbus_notifications = new DBusNotifications(this);
-
 }
 
 DBusHandler::~DBusHandler() {}

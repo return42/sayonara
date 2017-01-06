@@ -36,7 +36,6 @@ ColumnHeader::ColumnHeader(HeaderType type, bool switchable, Library::SortOrder 
 	_size_type = SizeType::Undefined;
 	_action->setChecked(true);
 	_action->setCheckable(_switchable);
-
 }
 
 ColumnHeader::~ColumnHeader() {}

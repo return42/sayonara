@@ -32,7 +32,6 @@ class MetaDataList;
 
 class ImportCache
 {
-
 private:
 	PIMPL(ImportCache)
 
@@ -54,7 +53,6 @@ public:
 	QString			get_target_filename(const QString& src_filename, const QString& target_directory) const;
 	MetaData		get_metadata(const QString& filename) const;
 	void			change_metadata(const MetaDataList& v_md_old, const MetaDataList& v_md_new);
-
 };
 
 #endif // IMPORTCACHE_H

@@ -44,7 +44,8 @@ namespace SP
 	class Set;
 }
 
-class PlaylistItemModel : public AbstractSearchListModel {
+class PlaylistItemModel : public AbstractSearchListModel 
+{
 	Q_OBJECT
 
 public:
@@ -86,7 +87,6 @@ protected:
 
 private slots:
 	void				playlist_changed(int pl_idx);
-
 };
 
 #endif /* PLAYLISTITEMMODEL_H_ */

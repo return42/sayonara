@@ -39,7 +39,6 @@ class PreferenceWidgetInterface;
 class GUI_PreferenceDialog :
 		public PreferenceDialogInterface
 {
-
 	friend class PreferenceDialogInterface;
 	friend class PreferenceInterface<SayonaraDialog>;
 

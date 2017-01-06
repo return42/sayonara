@@ -36,7 +36,6 @@ class TagTextInput :
 	public QLineEdit,
 	public SayonaraClass
 {
-
 	Q_OBJECT
 
 public:
@@ -60,6 +59,5 @@ protected:
 	void contextMenuEvent(QContextMenuEvent* event) override;
 	void init_context_menu();
 };
-
 
 #endif // TAGTEXTINPUT_H

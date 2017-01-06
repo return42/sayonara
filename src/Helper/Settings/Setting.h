@@ -34,7 +34,6 @@
  * @ingroup Settings
  */
 class AbstrSetting{
-
 	protected:
 		SK::SettingKey	_key;
 		QString			_db_key;
@@ -66,7 +65,6 @@ template< typename T,
  */
 class Setting : public AbstrSetting
 {
-
 	private:
 		Setting();
 		Setting(const Setting&);
@@ -105,7 +103,6 @@ class Setting : public AbstrSetting
 
 		/* Load setting from DB */
 		virtual void load_db(DatabaseSettings* db){
-
             if(!_db_setting) return;
 
 			QString s;
@@ -127,7 +124,6 @@ class Setting : public AbstrSetting
 
 		/* Save setting to DB */
 		virtual void store_db(DatabaseSettings* db){
-
             if(!_db_setting) return;
 
             QString s = SC<T>::cvt_to_string(_val);
@@ -140,13 +136,13 @@ class Setting : public AbstrSetting
 		}
 
 		/* ... */
-		const T& getDefaultValue() const {
+		const T& getDefaultValue() const 
+		{
 			return _default_val;
 		}
 
 		/* ... */
 		bool setValue(const T& val){
-
 			if( _val == val ){
 				return false;
 			}

@@ -100,7 +100,6 @@ void GUI_AbstractStream::error(){
 
 	sp_log(Log::Info) << "Stream Handler error";
 	Message::warning(tr("Cannot open stream") + "\n" + _le_url->text());
-
 }
 
 void GUI_AbstractStream::data_available(){

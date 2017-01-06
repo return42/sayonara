@@ -29,10 +29,10 @@ class FaderThreadData;
 class FaderThread;
 class CrossFader
 {
-
 public:
 
-    enum class FadeMode : quint8 {
+    enum class FadeMode : quint8 
+	{
 		NoFading=0,
 		FadeIn,
 		FadeOut
@@ -73,8 +73,6 @@ private:
 protected:
 
     void	    abort_fader();
-
 };
-
 
 #endif // CROSSFADER_H

@@ -61,5 +61,4 @@ private slots:
 	void set_cover_image(const QString& cover_path);
 };
 
-
 #endif

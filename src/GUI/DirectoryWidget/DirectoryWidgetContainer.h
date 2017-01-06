@@ -29,7 +29,6 @@ class GUI_DirectoryWidget;
 class DirectoryLibraryContainer :
 		public LibraryContainerInterface
 {
-
 	Q_OBJECT
 
 private:

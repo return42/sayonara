@@ -34,7 +34,6 @@ class HeaderView :
 		public QHeaderView,
 		protected SayonaraClass
 {
-
 	Q_OBJECT
 
 signals:
@@ -61,8 +60,6 @@ public:
 	BoolList refresh_active_columns();
 
 	ColumnHeader* get_column_header(int idx);
-
 };
-
 
 #endif // HEADERVIEW_H

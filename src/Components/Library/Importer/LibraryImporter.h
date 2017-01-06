@@ -39,7 +39,8 @@ class LibraryImporter : public QObject, protected SayonaraClass
 
 public:
 
-	enum class ImportStatus : quint8 {
+	enum class ImportStatus : quint8 
+	{
 			 Cancelled,
 			 Rollback,
 			 Caching,

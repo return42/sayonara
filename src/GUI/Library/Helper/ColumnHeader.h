@@ -32,7 +32,8 @@
 #include <QAction>
 #include <QString>
 
-class ColumnHeader : public QObject {
+class ColumnHeader : public QObject 
+{
 	Q_OBJECT
 
 public:
@@ -105,6 +106,5 @@ class ColumnHeaderList :
 	   int get_shown_columns() const;
 	   int get_nth_shown_col(int n) const;
 };
-
 
 #endif /* MYCOLUMNHEADER_H_ */

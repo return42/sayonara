@@ -33,7 +33,6 @@ public:
 	bool deleteStream(const QString& name);
 	bool addStream(const QString& name, const QString& url);
 	bool updateStreamUrl(const QString& name, const QString& url);
-
 };
 
 #endif // DATABASESTREAMS_H

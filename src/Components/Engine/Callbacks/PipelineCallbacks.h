@@ -23,8 +23,8 @@
 
 #include <gst/gst.h>
 
-namespace PipelineCallbacks {
-
+namespace PipelineCallbacks
+{
 	void pad_added_handler(GstElement *src, GstPad *new_pad, gpointer data);
 	gboolean position_changed(gpointer data);
 	GstFlowReturn new_buffer(GstElement *sink, gpointer data);

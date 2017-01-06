@@ -33,7 +33,6 @@
 // in the Searchable View class
 class SearchModelInterface
 {
-
 public:
 	virtual QModelIndex getFirstRowIndexOf(const QString& substr)=0;
 	virtual QModelIndex getNextRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent=QModelIndex())=0;
@@ -57,7 +56,6 @@ class AbstractSearchTableModel :
 	public QAbstractTableModel,
 	public SearchModelInterface
 {
-
 protected:
 	explicit AbstractSearchTableModel(QObject* parent=nullptr);
     virtual ~AbstractSearchTableModel();
@@ -69,11 +67,9 @@ class AbstractSearchListModel :
 		public QAbstractListModel,
 		public SearchModelInterface
 {
-
 protected:
 	 explicit AbstractSearchListModel(QObject* parent=nullptr);
      virtual ~AbstractSearchListModel();
 };
-
 
 #endif

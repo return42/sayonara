@@ -129,7 +129,6 @@ QString MetaData::to_string() const {
 			//" (" + QString::number(length_ms) + " m_sec) :: " +
 			//_filepath +
 			"";
-
 }
 
 QVariant MetaData::toVariant(const MetaData& md) {

@@ -33,7 +33,6 @@ class DatabaseAlbums :
 		private DatabaseModule,
 		private DatabaseSearchMode
 {
-
 private:
 	QString _artistid_field;
 

@@ -88,7 +88,6 @@ void LocalLibraryMenu::language_changed()
 	_realtime_search_action->setText(tr("Live search"));
 	_auto_update->setText(tr("Auto update"));
 	_show_album_artists_action->setText(Lang::get(Lang::ShowAlbumArtists));
-
 }
 
 void LocalLibraryMenu::skin_changed()

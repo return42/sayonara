@@ -122,7 +122,6 @@ void RatingLabel::mouseReleaseEvent(QMouseEvent *e) {
 
 void RatingLabel::focusInEvent(QFocusEvent* e) {
 	Q_UNUSED(e);
-
 }
 
 void RatingLabel::focusOutEvent(QFocusEvent* e) {

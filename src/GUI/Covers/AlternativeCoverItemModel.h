@@ -53,8 +53,8 @@ struct RowColumn {
  * @brief The AlternativeCoverItemModel class
  * @ingroup GUICovers
  */
-class AlternativeCoverItemModel : public QAbstractTableModel {
-
+class AlternativeCoverItemModel : public QAbstractTableModel 
+{
 Q_OBJECT
 
 public:
@@ -84,6 +84,5 @@ public:
 private:
 	QStringList _pathlist;
 };
-
 
 #endif

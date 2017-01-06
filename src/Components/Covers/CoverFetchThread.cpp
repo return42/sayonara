@@ -66,7 +66,6 @@ bool CoverFetchThread::start(){
 
 	awa->run(_url);
 	return true;
-
 }
 
 
@@ -219,7 +218,6 @@ const
 	}
 
 	return addresses;
-
 }
 
 QStringList CoverFetchThread::calc_addresses_from_google(int num,

@@ -35,19 +35,18 @@ class MetaData;
  */
 namespace Tagging
 {
-
 	/**
 	 * @brief The Quality enum
 	 */
 	enum class Quality : quint8 {
-
 		Fast=TagLib::AudioProperties::Fast,
 		Standard=TagLib::AudioProperties::Average,
 		Quality=TagLib::AudioProperties::Accurate,
 		Dirty
 	};
 
-	enum class TagType : quint8 {
+	enum class TagType : quint8 
+	{
 		ID3v1=0,
 		ID3v2,
 		APE,
@@ -80,6 +79,5 @@ namespace Tagging
 
 	bool is_valid_file(const TagLib::FileRef& f);
 }
-
 
 #endif

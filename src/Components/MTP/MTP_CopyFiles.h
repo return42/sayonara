@@ -48,7 +48,6 @@ protected:
 
 signals:
 	void sig_progress(int);
-
 };
 
 #endif // MTPCOPYFILES_H

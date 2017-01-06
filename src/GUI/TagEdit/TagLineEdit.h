@@ -53,7 +53,6 @@ struct TextSelection
 class TagLineEdit :
 		public QLineEdit
 {
-
 	Q_OBJECT
 
 public:
@@ -84,6 +83,5 @@ public:
 	 */
 	TextSelection get_text_selection() const;
 };
-
 
 #endif // TAGLINEEDIT_H

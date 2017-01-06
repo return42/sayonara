@@ -30,7 +30,8 @@
 
 #include <QTimer>
 
-enum class GSTFileMode : quint8 {
+enum class GSTFileMode : quint8 
+{
 	File,
 	Http
 };
@@ -46,7 +47,6 @@ class AbstractPipeline :
 	public QObject, 
 	protected SayonaraClass 
 {
-
 	Q_OBJECT
 
 	signals:
@@ -117,6 +117,5 @@ class AbstractPipeline :
 
 		bool 				has_element(GstElement* e) const;
 };
-
 
 #endif // GSTPIPELINE_H

@@ -38,7 +38,6 @@ class ShortcutWidget;
  */
 class Shortcut : private SayonaraClass
 {
-
 private:
 	QStringList			_default_shortcuts;
 	QStringList			_shortcuts;
@@ -137,7 +136,6 @@ public:
 	 * @param func a lambda function which will be triggered when shortcut is pressed
 	 */
 	void create_qt_shortcut(QWidget* parent, T func){
-
 		QList<QShortcut*> shortcuts = init_qt_shortcut(parent);
 		for(QShortcut* sc : shortcuts){
 			parent->connect(sc, &QShortcut::activated, func);

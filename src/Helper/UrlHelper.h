@@ -28,7 +28,8 @@ namespace Helper
 	 * @brief Helper function for Url handling
 	 * @ingroup Helper
 	 */
-	namespace Url {
+	namespace Url 
+	{
 		/**
 		 * @brief get protocol string without ://
 		 * @param url source url

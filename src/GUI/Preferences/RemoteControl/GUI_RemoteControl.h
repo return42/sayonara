@@ -35,7 +35,6 @@ namespace Ui
 class GUI_RemoteControl:
 		public PreferenceWidgetInterface
 {
-
 	Q_OBJECT
 
 	friend class PreferenceWidgetInterface;
@@ -68,7 +67,6 @@ private:
 
 	QString get_url_string();
 	void refresh_url();
-
 };
 
 #endif /* GUISOCKETSETUP_H_ */

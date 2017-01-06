@@ -41,6 +41,5 @@ public:
 	virtual ~AlbumInfo();
 };
 
-
 #endif // ALBUMINFO_H
 

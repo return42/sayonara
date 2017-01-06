@@ -31,7 +31,6 @@
 class CoverLookupAlternative :
 		public CoverLookupInterface
 {
-
     Q_OBJECT
 	PIMPL(CoverLookupAlternative)
 
@@ -51,6 +50,5 @@ private slots:
 	void cover_found(const QString& cover_path);
     void finished(bool);
 };
-
 
 #endif // COVERLOOKUPALTERNATIVE_H

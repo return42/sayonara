@@ -127,7 +127,6 @@ public:
 	 * @return true if ui has been initialized, false else
 	 */
 	bool						is_initialized() const;
-
 };
 
 Q_DECLARE_INTERFACE(LibraryContainerInterface, "com.sayonara-player.library")

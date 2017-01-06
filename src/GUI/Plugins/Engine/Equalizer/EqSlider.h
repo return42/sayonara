@@ -74,5 +74,4 @@ class EqSlider :
 		int		_idx;
 };
 
-
 #endif // EQSLIDER_H

@@ -33,7 +33,8 @@ class PlaylistHandler;
  * @brief The PlaylistChooser class
  * @ingroup Components
  */
-class PlaylistChooser : public QObject {
+class PlaylistChooser : public QObject 
+{
 	Q_OBJECT
 
 public:

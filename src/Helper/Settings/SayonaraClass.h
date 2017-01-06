@@ -26,8 +26,8 @@ class Settings;
  * @brief The SayonaraClass class provides access to Settings and notifications
  * @ingroup Helper
  */
-class SayonaraClass {
-
+class SayonaraClass 
+{
 	protected:
 		Settings* _settings=nullptr;
 
@@ -36,6 +36,5 @@ class SayonaraClass {
 
 		virtual ~SayonaraClass();
 };
-
 
 #endif // SAYONARACLASS_H

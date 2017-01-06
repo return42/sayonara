@@ -36,7 +36,6 @@ class DatabaseConnector;
 
 class GUI_AbstractStream : public PlayerPluginInterface
 {
-
 	Q_OBJECT
 
 private:

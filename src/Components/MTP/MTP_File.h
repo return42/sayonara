@@ -26,8 +26,8 @@
  * @brief The MTP_File class
  * @ingroup MTP
  */
-class MTP_File {
-
+class MTP_File 
+{
 private:
 	quint32				_id;
 	QString				_filename;
@@ -46,8 +46,6 @@ public:
 	bool remove() const;
 
 	bool operator==(const MTP_File& other) const;
-
 };
-
 
 #endif // MTP_FILE_H

@@ -32,7 +32,6 @@ class PlaylistMenu :
 		public QMenu,
 		protected SayonaraClass
 {
-
 	Q_OBJECT
 
 signals:
@@ -65,6 +64,5 @@ private slots:
 
 	void language_changed();
 };
-
 
 #endif // PLAYLISTMENU_H

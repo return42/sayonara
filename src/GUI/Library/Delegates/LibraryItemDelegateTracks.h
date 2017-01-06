@@ -34,14 +34,12 @@
 class LibraryItemDelegateTracks :
 		public LibraryRatingDelegate
 {
-
 public:
 	LibraryItemDelegateTracks(QObject* parent, bool enabled);
 	virtual ~LibraryItemDelegateTracks();
 
 public:
 	void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
-
 };
 
 #endif /* IBRARYITEMDELEGATETRACKS_H_ */

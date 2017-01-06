@@ -53,7 +53,6 @@ void TagTextInput::init_context_menu()
 
 	connect(_action_cvt_to_first_upper, &QAction::triggered, this, &TagTextInput::cvt_to_first_upper);
 	connect(_action_cvt_to_very_first_upper, &QAction::triggered, this, &TagTextInput::cvt_to_very_first_upper);
-
 }
 
 void TagTextInput::contextMenuEvent(QContextMenuEvent* event){
@@ -75,7 +74,6 @@ void TagTextInput::cvt_to_very_first_upper(){
 	QString text = this->text();
 	text = Helper::cvt_str_to_very_first_upper(text);
 	this->setText(text);
-
 }
 
 void TagTextInput::language_changed(){

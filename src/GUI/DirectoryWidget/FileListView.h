@@ -68,5 +68,4 @@ private:
 	void init_context_menu();
 };
 
-
 #endif // FILELISTVIEW_H

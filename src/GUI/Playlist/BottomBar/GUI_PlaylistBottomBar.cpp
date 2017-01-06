@@ -100,7 +100,6 @@ void GUI_PlaylistBottomBar::btn_menu_pressed(QPoint pos){
 
 	pos.setY(pos.y() - 160);
 	_playlist_menu->exec(pos);
-
 }
 
 void GUI_PlaylistBottomBar::rep1_checked(bool checked)

@@ -42,7 +42,6 @@ namespace ID3v2Frame
 	 * @ingroup Tagging
 	 */
 	class AbstractFrame {
-
 		protected:
 			const char*				_four=nullptr;
 			TagLib::ID3v2::Tag*		_tag=nullptr;
@@ -127,7 +126,6 @@ namespace ID3v2Frame
 			 * @return false if frame cannot be accessed
 			 */
 			virtual bool write(const ModelType_t& data_model){
-
 				bool created = false;
 
 				if(!_tag){
@@ -135,7 +133,6 @@ namespace ID3v2Frame
 				}
 
 				if(!_frame){
-
 					_frame = dynamic_cast<FrameType_t*>(create_id3v2_frame());
 
 					if(!_frame){
@@ -161,9 +158,11 @@ namespace ID3v2Frame
 			 * @brief if the frame was found when called read()
 			 * @return true, if the frame was found
 			 */
-			bool is_frame_found() const {
+			bool is_frame_found() const 
+			{
 				return (_frame != nullptr);
 			}
 	};
 }
+
 #endif // ABSTRACTFRAME_H

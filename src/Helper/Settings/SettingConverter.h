@@ -154,10 +154,8 @@ template<typename T>
  * @ingroup Settings
  */
 class SettingConverter< QList<T> >{
-
 public:
 	static QString cvt_to_string(const QList<T>& val){
-
 		SettingConverter<T> sc;
 		QStringList lst;
 
@@ -170,13 +168,11 @@ public:
 
 
 	static bool cvt_from_string(const QString& val, QList<T>& ret){
-
 		SettingConverter<T> sc;
 		ret.clear();
 		QStringList lst = val.split(",");
 
 		for(const QString& l : lst){
-
 			T v;
 			sc.cvt_from_string(l, v);
 			ret << v;
@@ -203,7 +199,6 @@ public:
 	}
 
 	static bool cvt_from_string(const QString& val, QPair<A,B>& ret){
-
 		SettingConverter<A> sc_a;
 		SettingConverter<B> sc_b;
 
@@ -217,7 +212,8 @@ public:
 		if(lst.size() > 1){
 			b = lst[1];
 		}
-		else {
+		else 
+		{
 			success = false;
 		}
 

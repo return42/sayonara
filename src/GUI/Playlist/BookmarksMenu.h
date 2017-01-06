@@ -49,8 +49,6 @@ public:
 private slots:
 	void action_pressed();
 	void bookmarks_changed();
-
 };
-
 
 #endif

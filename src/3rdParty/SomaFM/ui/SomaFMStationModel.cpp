@@ -157,7 +157,6 @@ QModelIndex SomaFMStationModel::getNextRowIndexOf(const QString& substr, int cur
 	}
 
 	return QModelIndex();
-
 }
 
 QModelIndex SomaFMStationModel::getPrevRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent)

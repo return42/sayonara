@@ -127,5 +127,4 @@ void GUI_PlaylistPreferences::cb_toggled(bool b) {
 
 	bool cb_load_last_track_checked = ui->cb_load_last_track->isChecked() && ui->cb_load_last_track->isEnabled();
 	ui->cb_remember_time->setEnabled(cb_load_last_track_checked);
-
 }

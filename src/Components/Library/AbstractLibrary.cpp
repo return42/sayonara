@@ -208,7 +208,6 @@ void AbstractLibrary::psl_prepare_tracks_for_playlist(const QStringList& paths, 
 	}
 
 	set_playlist_action_after_double_click();
-
 }
 
 
@@ -235,7 +234,6 @@ void AbstractLibrary::set_playlist_action_after_double_click()
 
 void AbstractLibrary::psl_play_next_all_tracks() {
 	_playlist->play_next(_vec_md);
-
 }
 
 void AbstractLibrary::psl_play_next_tracks(const SP::Set<int>& indexes) {

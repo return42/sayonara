@@ -28,7 +28,6 @@ namespace ID3v2Frame
 	class AlbumArtistFrame :
 			public AbstractFrame<QString, TagLib::ID3v2::TextIdentificationFrame>
 	{
-
 		public:
 			explicit AlbumArtistFrame(TagLib::FileRef* file_ref);
 			virtual ~AlbumArtistFrame();

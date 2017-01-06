@@ -37,7 +37,6 @@ public:
 class NotificationHandler :
 		public QObject
 {
-
 	Q_OBJECT
 	SINGLETON_QOBJECT(NotificationHandler)
 
@@ -61,8 +60,6 @@ public:
 
 	virtual void notify(const MetaData& md);
 	virtual void notify(const QString& title, const QString& message, const QString& image_path=QString());
-
 };
-
 
 #endif // NOTIFICATIONHANDLER_H

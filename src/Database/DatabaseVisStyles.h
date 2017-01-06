@@ -35,8 +35,6 @@ public:
 	bool update_raw_color_style(const RawColorStyle& rcs);
 	bool raw_color_style_exists(QString name);
 	bool delete_raw_color_style(QString name);
-
-
 };
 
 #endif // DATABASEVISSTYLES_H

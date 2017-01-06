@@ -160,7 +160,6 @@ public slots:
 protected:
 	template<typename T, typename UI>
 	void setup_parent(T* subclass, UI** ui){
-
 		*ui = new UI();
 
 		UI* ui_ptr = *ui;

@@ -165,7 +165,6 @@ static void show_time_info(gint64 pos, gint64 dur){
 					   << dur - pos << ": "
 					   << pos << " - "
 					   << dur;
-
 }
 */
 void AbstractPipeline::check_about_to_finish(){
@@ -330,7 +329,6 @@ AbstractPipeline::has_element(GstElement* e) const
 	}
 
 	return false;
-
 }
 
 

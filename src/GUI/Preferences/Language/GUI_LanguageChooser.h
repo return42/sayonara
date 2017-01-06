@@ -60,7 +60,6 @@ private:
 
 private:
 	void renew_combo();
-
 };
 
 #endif // GUI_LANGUAGECHOOSER_H

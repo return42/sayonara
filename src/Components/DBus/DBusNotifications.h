@@ -43,8 +43,6 @@ public:
 
 private slots:
 	void track_changed(const MetaData& md);
-
 };
-
 
 #endif // DBUSNOTIFICATIONS_H

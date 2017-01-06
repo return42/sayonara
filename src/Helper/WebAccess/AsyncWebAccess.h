@@ -32,8 +32,8 @@
  * @brief Asynchgronous web access class
  * @ingroup Helper
  */
-class AsyncWebAccess : public QObject{
-
+class AsyncWebAccess : public QObject
+{
 	Q_OBJECT
 
 signals:
@@ -45,7 +45,8 @@ public:
 	/**
 	 * @brief The Behavior enum. Responsible for the user-agent variable in the HTTP header
 	 */
-	enum class Behavior : quint8 {
+	enum class Behavior : quint8 
+	{
 		AsBrowser=0,
 		AsSayonara
 	};
@@ -135,8 +136,6 @@ private:
 	QNetworkReply*			_reply=nullptr;
 
 	QMap<QByteArray, QByteArray> _header;
-
 };
-
 
 #endif

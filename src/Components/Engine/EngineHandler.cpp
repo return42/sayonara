@@ -285,7 +285,6 @@ void EngineHandler::switch_engine(EngineName name) {
 
 	configure_connections(_cur_engine, new_engine);
 	_cur_engine = new_engine;
-
 }
 
 PlaybackEngine* EngineHandler::get_playback_engine(){

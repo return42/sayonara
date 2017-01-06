@@ -33,7 +33,6 @@ class PlaylistItemDelegate :
 		public QItemDelegate,
 		protected SayonaraClass
 {
-
 	Q_OBJECT
 
 public:
@@ -73,8 +72,6 @@ private slots:
 
 	void _sl_show_numbers_changed();
 	void _sl_look_changed();
-
 };
-
 
 #endif /* PLAYLISTITEMDELEGATEINTERFACE_H_ */

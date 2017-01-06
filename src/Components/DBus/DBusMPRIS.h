@@ -34,7 +34,6 @@
 
 class PlayManager;
 class DBusAdaptor : public QObject {
-
 	Q_OBJECT
 
 protected:
@@ -54,14 +53,13 @@ protected:
 };
 
 
-namespace DBusMPRIS {
-
+namespace DBusMPRIS 
+{
 
 class MediaPlayer2 :
 		public DBusAdaptor,
 		protected SayonaraClass
 {
-
 	Q_OBJECT
 
 	private:
@@ -215,9 +213,7 @@ class MediaPlayer2 :
 	signals:
 		void					Seeked(qint64 position);
 		void					sig_raise();
-
 };
-
 } // end namespace DBusMPRIS
 
 #endif // DBUS_MPRIS_H

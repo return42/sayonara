@@ -36,7 +36,6 @@ class MetaDataList;
 class LibraryItemModelTracks :
 		public LibraryItemModel
 {
-
 Q_OBJECT
 
 public:

@@ -42,7 +42,6 @@ public:
 protected slots:
 	virtual void sl_media_key_pressed(const QString& app_name, const QString& key);
 	virtual void sl_register_finished(QDBusPendingCallWatcher*);
-
 };
 
 #endif // DBUSMEDIAKEYSINTERFACE_H

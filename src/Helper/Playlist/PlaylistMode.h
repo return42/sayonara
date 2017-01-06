@@ -27,7 +27,6 @@ namespace Playlist
 {
 	class Mode
 	{
-
 		public:
 		enum State
 		{

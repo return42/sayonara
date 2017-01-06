@@ -38,7 +38,6 @@ namespace Ui { class GUI_PlaylistChooser; }
 class GUI_PlaylistChooser :
 		public PlayerPluginInterface
 {
-
 	Q_OBJECT
 
 private:

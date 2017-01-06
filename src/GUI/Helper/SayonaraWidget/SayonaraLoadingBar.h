@@ -32,7 +32,6 @@
  */
 class SayonaraLoadingBar : public QProgressBar
 {
-
 private:
 	QWidget*	_parent=nullptr;
 	int			_fixed_height;
@@ -44,6 +43,5 @@ public:
 protected:
 	void showEvent(QShowEvent* e) override;
 };
-
 
 #endif // SAYONARALOADINGBAR_H

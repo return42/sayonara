@@ -159,7 +159,6 @@ QModelIndex PlaylistItemModel::getFirstRowIndexOf(const QString& substr)
 	}
 
 	return getNextRowIndexOf(substr, 0);
-
 }
 
 QModelIndex PlaylistItemModel::getPrevRowIndexOf(const QString& substr, int row, const QModelIndex &parent) 

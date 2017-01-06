@@ -60,7 +60,6 @@ class MetaDataInfo :
 	public QObject, 
 	protected SayonaraClass
 {
-
 private:
 	void set_cover_location(const MetaDataList& lst);
 	void set_subheader(quint16 tracknum);
@@ -112,6 +111,5 @@ protected:
 	QString get_paths_as_string() const;
 	CoverLocation get_cover_location() const;
 };
-
 
 #endif // METADATAINFO_H

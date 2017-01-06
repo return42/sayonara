@@ -142,7 +142,6 @@ void AsyncWebAccess::timeout(){
 	}
 
 	_timer->stop();
-
 }
 
 

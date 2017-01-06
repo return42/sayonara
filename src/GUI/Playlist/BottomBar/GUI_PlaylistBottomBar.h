@@ -74,5 +74,4 @@ private:
 #endif
 };
 
-
 #endif // PLAYLISTBOTTOMBAR_H

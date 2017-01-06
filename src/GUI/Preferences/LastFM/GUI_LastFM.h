@@ -41,7 +41,6 @@ class LastFM;
 class GUI_LastFM :
 		public PreferenceWidgetInterface
 {
-
 	Q_OBJECT
 
 	friend class PreferenceWidgetInterface;
@@ -71,7 +70,6 @@ private slots:
 	void btn_login_clicked();
 	void active_changed(bool active);
 	void logged_in(bool success);
-
 };
 
 #endif /* GUI_LASTFM_H_ */

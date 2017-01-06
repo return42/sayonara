@@ -47,7 +47,8 @@ public:
 	/**
 	 * @brief This enum indicates which entries should be visible
 	 */
-	enum Entry {
+	enum Entry 
+	{
 		EntryNone=0,
 		EntryInfo=(1<<0),
 		EntryEdit=(1<<1),
@@ -128,6 +129,5 @@ private slots:
 	void skin_changed();
 	void language_changed();
 };
-
 
 #endif // LIBRARYCONTEXTMENU_H

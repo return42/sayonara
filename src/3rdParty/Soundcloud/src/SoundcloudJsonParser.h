@@ -45,7 +45,6 @@ class AlbumList;
 
 class SoundcloudJsonParser : public QObject
 {
-
 	Q_OBJECT
 
 private:
@@ -86,8 +85,6 @@ public:
 	bool				parse_artists(ArtistList& artists);
 	bool				parse_tracks(ArtistList& artists, MetaDataList& v_md);
 	bool				parse_playlists(ArtistList& artists, AlbumList& albums, MetaDataList& v_md);
-
 };
-
 
 #endif // SOUNDCLOUDJSONPARSER_H

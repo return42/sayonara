@@ -36,7 +36,8 @@ class StreamRecorder;
 class SpectrumReceiver;
 class LevelReceiver;
 
-enum class GaplessState : quint8 {
+enum class GaplessState : quint8 
+{
 	NoGapless=0,		// no gapless enabled at all
 	AboutToFinish,		// the phase when the new track is already displayed but not played yet
 	TrackFetched,		// track is requested, but no yet there
@@ -46,7 +47,6 @@ enum class GaplessState : quint8 {
 class PlaybackEngine :
 		public Engine
 {
-
 	Q_OBJECT
 
 
@@ -129,8 +129,6 @@ private:
 private slots:
 	void _playlist_mode_changed();
 	void _streamrecorder_active_changed();
-
 };
-
 
 #endif /* GSTENGINE_H_ */

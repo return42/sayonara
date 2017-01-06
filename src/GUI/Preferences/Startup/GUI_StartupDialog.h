@@ -30,7 +30,6 @@ class GUI_StartupDialog :
 		public PreferenceWidgetInterface,
 		private Ui::GUI_StartupOptions
 {
-
     Q_OBJECT
 
 	friend class PreferenceWidgetInterface;
@@ -53,8 +52,6 @@ protected:
 
 private slots:
     void cb_toggled(bool);
-
 };
-
 
 #endif // GUI_StartupDialog_H

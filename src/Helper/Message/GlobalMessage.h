@@ -42,7 +42,8 @@ class GlobalMessage : public QObject
 
 public:
 
-	enum class Answer : quint8 {
+	enum class Answer : quint8 
+	{
 		Yes=0,
 		No,
 		Ok,
@@ -50,7 +51,8 @@ public:
 		Undefined
 	};
 
-	enum class QuestionType : quint8 {
+	enum class QuestionType : quint8 
+	{
 		YesNo=0,
 		OkCancel
 	};
@@ -80,6 +82,5 @@ public:
 	 */
 	bool register_receiver(GlobalMessageReceiverInterface* receiver);
 };
-
 
 #endif // GLOBALMESSAGE_H

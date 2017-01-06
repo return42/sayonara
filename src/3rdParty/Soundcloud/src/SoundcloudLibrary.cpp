@@ -81,7 +81,6 @@ void SoundcloudLibrary::get_all_tracks_by_album(IDList album_ids, MetaDataList& 
 
 void SoundcloudLibrary::get_all_tracks_by_searchstring(Library::Filter filter, MetaDataList& v_md, Library::Sortings so){
 	_scd->getAllTracksBySearchString(filter, v_md, so.so_tracks);
-
 }
 
 void SoundcloudLibrary::update_track(const MetaData& md){

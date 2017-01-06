@@ -39,7 +39,8 @@ class CopyThread :
 
 public:
 
-	enum class Mode : quint8 {
+	enum class Mode : quint8 
+	{
 		Copy=0,
 		Rollback
 	};
@@ -78,9 +79,6 @@ private:
 
 signals:
     void sig_progress(int);
-
-
 };
-
 
 #endif

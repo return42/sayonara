@@ -27,8 +27,8 @@
 #include <QSqlDatabase>
 #include <QSqlError>
 
-class SayonaraQuery : public QSqlQuery {
-
+class SayonaraQuery : public QSqlQuery 
+{
 private:
 	QString _query_string;
 
@@ -48,6 +48,5 @@ public:
 	void show_query() const;
 	void show_error(const QString& err_msg) const;
 };
-
 
 #endif // SAYONARAQUERY_H

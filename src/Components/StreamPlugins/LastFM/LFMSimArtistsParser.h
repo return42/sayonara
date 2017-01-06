@@ -28,7 +28,6 @@
 
 class LFMSimArtistsParser
 {
-
 private:
 	ArtistMatch				_artist_match;
 	QString					_artist_name;
@@ -45,8 +44,6 @@ public:
 	LFMSimArtistsParser(const QString& artist_name, const QString& filename);
 
 	ArtistMatch get_artist_match() const;
-
-
 };
 
 #endif // LFMSIMARTISTSPARSER_H

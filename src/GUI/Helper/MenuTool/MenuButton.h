@@ -35,7 +35,6 @@ class MenuButton :
 		public QPushButton,
 		protected SayonaraClass
 {
-
 	Q_OBJECT
 
 signals:

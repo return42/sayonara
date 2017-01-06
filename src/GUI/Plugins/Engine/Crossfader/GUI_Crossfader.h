@@ -50,5 +50,4 @@ private slots:
 	void init_ui() override;
 };
 
-
 #endif // GUI_CROSSFADER_H

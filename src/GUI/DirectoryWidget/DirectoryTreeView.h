@@ -36,7 +36,6 @@ class DirectoryTreeView :
 		public SearchableTreeView,
 		protected Dragable
 {
-
 	Q_OBJECT
 
 signals:
@@ -70,7 +69,6 @@ private:
 
 private slots:
 	void _sl_library_path_changed();
-
 };
 
 #endif // DIRECTORYTREEVIEW_H

@@ -63,8 +63,6 @@ private:
 	Ui::GUI_Notifications*	ui=nullptr;
 
 	void init_ui() override;
-
 };
-
 
 #endif // GUI_NOTIFICATIONS_H

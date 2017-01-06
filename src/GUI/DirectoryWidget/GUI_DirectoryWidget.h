@@ -99,8 +99,6 @@ private slots:
 protected:
 	MD::Interpretation get_metadata_interpretation() const override;
 	MetaDataList get_data_for_info_dialog() const override;
-
 };
-
 
 #endif // GUI_DIRECTORYWIDGET_H

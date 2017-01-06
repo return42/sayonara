@@ -30,8 +30,8 @@
  * @ingroup GUIHelper
  * @ingroup Interfaces
  */
-class GlobalMessageReceiverInterface {
-
+class GlobalMessageReceiverInterface 
+{
 private:
         QString _name;
 
@@ -47,6 +47,5 @@ public:
         virtual GlobalMessage::Answer warning_received(const QString& warning, const QString& sender_name=QString())=0;
         virtual GlobalMessage::Answer error_received(const QString& error, const QString& sender_name=QString())=0;
 };
-
 
 #endif // GLOBALMESSAGERECEIVERINTERFACE_H

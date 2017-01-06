@@ -31,7 +31,6 @@ class ColumnHeader;
 class LibraryItemModel :
 		public AbstractSearchTableModel
 {
-
 	Q_OBJECT
 
 public:

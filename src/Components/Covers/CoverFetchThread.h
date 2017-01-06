@@ -38,8 +38,8 @@ class AsyncWebAccess;
  * @brief The CoverFetchThread class, This is not a real QThread class, but behaves like one because of AsyncWebAccess
  * @ingroup Covers
  */
-class CoverFetchThread : public QObject {
-
+class CoverFetchThread : public QObject 
+{
 	Q_OBJECT
 
 
@@ -145,7 +145,6 @@ private slots:
 	 * @param success indicates if content could be fetched
 	 */
 	void content_fetched(bool success);
-
 };
 
 #endif /* COVERFETCHTHREAD_H_ */

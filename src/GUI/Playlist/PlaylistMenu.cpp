@@ -129,7 +129,6 @@ void PlaylistMenu::plm_changed(){
 	_action_shuffle->setVisible(plm.shuffle() != Playlist::Mode::Disabled);
 	_action_dynamic->setVisible(plm.dynamic() != Playlist::Mode::Disabled);
 	_action_gapless->setVisible(plm.gapless() != Playlist::Mode::Disabled);
-
 }
 
 void PlaylistMenu::change_plm(){
@@ -143,7 +142,6 @@ void PlaylistMenu::change_plm(){
 	plm.setGapless(_action_gapless->isChecked());
 
 	_settings->set(Set::PL_Mode, plm);
-
 }
 
 void PlaylistMenu::set_shutdown(bool b){

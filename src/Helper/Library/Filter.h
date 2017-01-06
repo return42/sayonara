@@ -35,17 +35,16 @@ namespace Library
 
 namespace Library
 {
-
     class Filter
     {
 	public:
 
 	    enum Mode
 	    {
-		Fulltext=0,
-		Filename,
-		Genre,
-		Date
+			Fulltext=0,
+			Filename,
+			Genre,
+			Date
 	    };
 
 
@@ -69,8 +68,6 @@ namespace Library
 	private:
 	    PIMPL(Filter)
     };
-
 }
-
 
 #endif /* FILTER_H_ */

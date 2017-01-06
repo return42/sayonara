@@ -34,7 +34,6 @@ class LibraryPluginHandler :
 		public QObject,
 		protected SayonaraClass
 {
-
 	Q_OBJECT
 
 signals:

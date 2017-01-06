@@ -183,7 +183,6 @@ void LibraryGenreView::dropEvent(QDropEvent *e)
 	_tag_edit->commit();
 
 	emit sig_progress(tr("Updating genres"), 0);
-
 }
 
 

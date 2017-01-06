@@ -73,5 +73,4 @@ private:
 	Shortcut				_shortcut;
 };
 
-
 #endif // GUI_SHORTCUTENTRY_H

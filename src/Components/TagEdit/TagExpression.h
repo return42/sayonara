@@ -42,8 +42,8 @@ typedef QString ReplacedString;
  * @brief The TagExpression class
  * @ingroup Tagging
  */
-class TagExpression {
-
+class TagExpression 
+{
 private:
 
 	/**

@@ -42,8 +42,8 @@ enum class MiniSearcherButtons : quint8
   BothButtons
 };
 
-class MiniSearcherLineEdit : public QLineEdit {
-
+class MiniSearcherLineEdit : public QLineEdit 
+{
 	Q_OBJECT
 
 signals:
@@ -108,6 +108,5 @@ public:
 public slots:
 	void reset();
 };
-
 
 #endif // MINISEARCHER_H

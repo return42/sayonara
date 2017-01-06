@@ -32,7 +32,6 @@
 class SomaFMStation;
 class SomaFMLibrary : public QObject
 {
-
 	Q_OBJECT
 
 signals:
@@ -65,6 +64,5 @@ private:
 private:
 	void sort_stations(QList<SomaFMStation>& stations);
 };
-
 
 #endif // SOMAFMLIBRARY_H

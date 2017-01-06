@@ -31,7 +31,8 @@ class LevelReceiver {
     virtual ~LevelReceiver();
 };
 
-class SpectrumReceiver {
+class SpectrumReceiver 
+{
 public:
     virtual void set_spectrum(const QList<float>& spectrum)=0;
 

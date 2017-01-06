@@ -35,7 +35,6 @@ namespace Ui
 class GUI_StreamRecorder :
 		public PreferenceWidgetInterface
 {
-
 	Q_OBJECT
 
 	friend class PreferenceWidgetInterface;
@@ -65,8 +64,6 @@ private slots:
 	void sl_cb_activate_toggled(bool);
 	void sl_cb_create_session_path_toggled(bool);
 	void sl_btn_path_clicked();
-
-
 };
 
 #endif /* GUI_STREAMRECORDER_H_ */

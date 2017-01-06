@@ -200,7 +200,6 @@ private:
 	virtual MetaDataList change_track_selection(const SP::Set<int>& idx_list);
 	virtual void change_artist_selection(const SP::Set<int>& idx_list);
 	virtual void change_album_selection(const SP::Set<int>& idx_list);
-
 };
 
 #endif // ABSTRACTLIBRARY_H

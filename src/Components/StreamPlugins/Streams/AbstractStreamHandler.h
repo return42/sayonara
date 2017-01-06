@@ -124,7 +124,6 @@ signals:
 
 	private slots:
 		void stream_parser_finished(bool success);
-
 };
 
 #endif // AbstractStreamHandler_H

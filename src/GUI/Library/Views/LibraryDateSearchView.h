@@ -50,5 +50,4 @@ protected slots:
 	void delete_clicked();
 };
 
-
 #endif // LIBRARYDATESEARCHVIEW_H

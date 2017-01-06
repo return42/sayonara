@@ -36,7 +36,6 @@ class Settings;
  */
 class IconLoader
 {
-
 	SINGLETON(IconLoader)
 
 private:

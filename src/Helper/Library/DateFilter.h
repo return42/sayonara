@@ -31,8 +31,7 @@
 namespace Library
 {
     class DateFilter
-    {
-
+	{
     public:
 
 

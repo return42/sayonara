@@ -52,7 +52,6 @@ namespace ID3v2Frame
 	class DiscnumberFrame :
 			public AbstractFrame<Discnumber, TagLib::ID3v2::TextIdentificationFrame>
 	{
-
 		public:
 			DiscnumberFrame(TagLib::FileRef* file_ref);
 			~DiscnumberFrame();
@@ -63,4 +62,5 @@ namespace ID3v2Frame
 			TagLib::ID3v2::Frame* create_id3v2_frame() override;
 	};
 }
+
 #endif // DISCNUMBER_H

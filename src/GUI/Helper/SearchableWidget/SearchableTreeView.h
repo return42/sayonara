@@ -55,5 +55,4 @@ public:
 	virtual ~SearchableTreeView();
 };
 
-
 #endif

@@ -44,7 +44,6 @@ class PlayManager;
 class LFMLoginThread;
 class LFMTrackChangedThread;
 class LastFM : public QObject, protected SayonaraClass{
-
 	Q_OBJECT
 	SINGLETON(LastFM)
 
@@ -83,7 +82,6 @@ class LastFM : public QObject, protected SayonaraClass{
 		void reset_scrobble();
 		bool check_scrobble(quint64 pos_ms);
 		void scrobble(const MetaData&);
-
 };
 
 #endif /* LASTFM_H_ */

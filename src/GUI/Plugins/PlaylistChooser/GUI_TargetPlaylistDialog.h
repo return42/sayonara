@@ -28,7 +28,6 @@ class GUI_TargetPlaylistDialog :
 		public SayonaraDialog,
 		private Ui::GUI_TargetPlaylistDialog
 {
-
     Q_OBJECT
 
 public:

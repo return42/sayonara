@@ -120,5 +120,4 @@ private slots:
 	void _sl_library_path_changed();
 };
 
-
 #endif /* GUI_PLAYLIST_H_ */

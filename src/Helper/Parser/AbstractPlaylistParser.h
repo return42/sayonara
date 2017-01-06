@@ -32,7 +32,6 @@
 
 class AbstractPlaylistParser
 {
-
 public:
 	explicit AbstractPlaylistParser(const QString& filepath);
 	virtual ~AbstractPlaylistParser();

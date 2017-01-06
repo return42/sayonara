@@ -26,7 +26,6 @@
 class Settings;
 class IconProvider : public QFileIconProvider
 {
-
 private:
 	Settings*	_settings;
 	QIcon		_folder_icon;

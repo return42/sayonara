@@ -145,5 +145,4 @@ void UrlParams::append_signature()
     QByteArray hash = Helper::calc_hash(signature);
 
     this->insert("api_sig", hash);
-
 }

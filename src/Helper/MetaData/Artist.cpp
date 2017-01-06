@@ -78,7 +78,6 @@ bool Artist::fromVariant(const QVariant& v, Artist& artist) {
 void Artist::print() const {
 
 	sp_log(Log::Info) << id << ": " << name << ": " << num_songs << " Songs, " << num_albums << " Albums";
-
 }
 
 

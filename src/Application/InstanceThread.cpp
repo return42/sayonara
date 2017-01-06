@@ -98,5 +98,4 @@ void InstanceThread::parse_memory()
 
 	_memory.unlock();
 	_memory.detach();
-
 }

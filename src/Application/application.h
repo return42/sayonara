@@ -57,7 +57,6 @@ private:
 	InstanceThread*		_instance_thread=nullptr;
 };
 
-
 #endif // APPLICATION_H
 
 

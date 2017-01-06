@@ -27,8 +27,8 @@ class MetaData;
  * @brief The MTP_Track class
  * @ingroup MTP
  */
-class MTP_Track {
-
+class MTP_Track 
+{
 	friend struct MTP_Folder;
 
 private:
@@ -54,6 +54,5 @@ public:
 
 	MetaData export_metadata();
 };
-
 
 #endif // MTP_TRACK_H

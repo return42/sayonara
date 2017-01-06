@@ -72,5 +72,4 @@ public:
 	void set_waiting();
 };
 
-
 #endif // SomaFMStationModel_H

@@ -65,7 +65,6 @@ private:
 private:
 	void set_tracks_label(int n_tracks);
 	void set_playlist_label(int n_playlists);
-
 };
 
 #endif // GUI_SOUNDCLOUDARTISTSEARCH_H

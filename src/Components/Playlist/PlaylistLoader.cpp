@@ -205,5 +205,4 @@ int PlaylistLoader::create_playlists(){
 	}
 
 	return _playlists.size();
-
 }

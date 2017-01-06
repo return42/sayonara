@@ -41,7 +41,6 @@
 class AlternativeCoverItemDelegate :
 		public QItemDelegate
 {
-
 	Q_OBJECT
 
 public:
@@ -59,7 +58,6 @@ public:
 private:
 
 	QLabel*		label=nullptr;
-
 };
 
 #endif /* ALTERNATECOVERITEMDELEGATE_H_ */

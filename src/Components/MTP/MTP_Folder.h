@@ -27,7 +27,6 @@
  * @ingroup MTP
  */
 struct MTP_Folder {
-
 private:
 	MTPIntern_Folder*	_folder=nullptr;
 	MTPIntern_Device*	_device=nullptr;
@@ -54,6 +53,5 @@ public:
 	bool remove() const;
 	quint32 create_folder(const QString& name) const;
 };
-
 
 #endif // MTP_FOLDER_H

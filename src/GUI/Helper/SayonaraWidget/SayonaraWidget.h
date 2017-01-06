@@ -36,7 +36,6 @@ class SayonaraDialog;
 class SayonaraWidget :
 		public SayonaraWidgetTemplate<QWidget>
 {
-
 	Q_OBJECT
 
 public:
@@ -58,8 +57,8 @@ protected slots:
  * @brief The SayonaraMainWindow class
  * @ingroup Widgets
  */
-class SayonaraMainWindow : public SayonaraWidgetTemplate<QMainWindow> {
-
+class SayonaraMainWindow : public SayonaraWidgetTemplate<QMainWindow> 
+{
 	Q_OBJECT
 
 public:
@@ -73,6 +72,5 @@ protected slots:
 	virtual void language_changed();
 	virtual void skin_changed();
 };
-
 
 #endif // SAYONARAWIDGET_H

@@ -29,7 +29,6 @@
  * @ingroup Widgets
  */
 class SayonaraSlider : public QSlider {
-
 	Q_OBJECT
 
 	signals:
@@ -52,6 +51,5 @@ class SayonaraSlider : public QSlider {
 		virtual void mouseReleaseEvent(QMouseEvent* e) override;
 		virtual bool event(QEvent* e) override;
 };
-
 
 #endif // SAYONARASLIDER_H

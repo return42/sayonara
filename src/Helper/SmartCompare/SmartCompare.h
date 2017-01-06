@@ -49,7 +49,6 @@ struct Hash{
  */
 class SmartCompare
 {
-
 private:
 
 	QStringList  _strlist;
@@ -81,8 +80,6 @@ public:
 	SmartCompare(const ArtistList& strlist);
 
 	QMap<QString, float> get_similar_strings(const QString& str);
-
-
 };
 
 #endif // SmartCompare_H

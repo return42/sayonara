@@ -33,7 +33,6 @@ class DatabaseArtists :
 		private DatabaseModule,
 		private DatabaseSearchMode
 {
-
 private:
 	QString _artistid_field;
 	QString _create_order_string(Library::SortOrder sort);

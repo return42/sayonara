@@ -48,5 +48,4 @@ bool MTPTreeView::dropMimeData(QTreeWidgetItem* parent, int index, const QMimeDa
 	emit sig_metadata_dropped(v_md, index);
 
 	return true;
-
 }

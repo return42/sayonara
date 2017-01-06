@@ -32,7 +32,6 @@ namespace SP
 	 * @ingroup Helper
 	 */
 	class Tree {
-
 		public:
 		Tree* parent=nullptr;
 
@@ -78,7 +77,6 @@ namespace SP
 				 * @return pointer to inserted node
 				 */
 		Tree* add_child(Tree* node){
-
 			node->parent = this;
 			this->children << node;
 
@@ -94,11 +92,9 @@ namespace SP
 				 * @return pointer to deleted_node
 				 */
 		Tree* remove_child(Tree* deleted_node){
-
 			deleted_node->parent = nullptr;
 
 			for(int i=0; i < children.size(); i++){
-
 				Tree* node = children[i];
 
 				if(node == deleted_node){
@@ -116,7 +112,6 @@ namespace SP
 				 * @param new_parent new parent of node
 				 */
 		void move(Tree* new_parent){
-
 			parent->remove_child(data);
 			new_parent->add_child(this);
 		}
@@ -149,10 +144,9 @@ namespace SP
 		}
 
 
-		void print(int lvl) const {
-
+		void print(int lvl) const 
+		{
 			for(Tree* child : children){
-
 				QString str;
 				for(int i=0; i<lvl; i++){
 					str += "  ";

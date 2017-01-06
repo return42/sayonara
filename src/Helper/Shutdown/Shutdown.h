@@ -43,8 +43,8 @@ class NotificationHandler;
  * @brief The Shutdown class
  * @ingroup Helper
  */
-class Shutdown : public QObject, private SayonaraClass {
-
+class Shutdown : public QObject, private SayonaraClass 
+{
 	Q_OBJECT
 	SINGLETON_QOBJECT(Shutdown)
 

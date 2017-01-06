@@ -36,7 +36,6 @@ namespace SP {
 	class Set :
 			public std::set<T>
 	{
-
 	public:
 
 		/**
@@ -120,6 +119,5 @@ namespace SP {
 		}
 	};
 }
-
 
 #endif // SET_H

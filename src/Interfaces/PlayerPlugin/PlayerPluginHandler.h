@@ -61,7 +61,6 @@ public:
 
 	PlayerPluginInterface*        find_plugin(const QString& name);
 	QList<PlayerPluginInterface*> get_all_plugins() const;
-
 };
 
 #endif // PLAYERPLUGINHANDLER_H

@@ -79,8 +79,6 @@ void GUI_StyleSettings::init() {
 	_cur_idx = combo_styles->currentIndex();
 	_cur_text = combo_styles->currentText();
     _cur_style = _styles[_cur_idx];
-
-
 }
 
 QIcon col2Icon(QColor col) {
@@ -112,7 +110,6 @@ void GUI_StyleSettings::connect_spinboxes() {
 	connect_spinbox(sb_rect_height_lv);
 	connect_spinbox(sb_v_spacing_lv);
 	connect_spinbox(sb_v_spacing_sp);
-
 }
 
 void GUI_StyleSettings::disconnect_spinbox(const QSpinBox *box){
@@ -135,8 +132,6 @@ void GUI_StyleSettings::disconnect_spinboxes() {
 	disconnect_spinbox(sb_rect_height_lv);
 	disconnect_spinbox(sb_v_spacing_lv);
 	disconnect_spinbox(sb_v_spacing_sp);
-
-
 }
 
 void GUI_StyleSettings::connect_combo_idx_changed(){
@@ -285,7 +280,6 @@ void GUI_StyleSettings::col1_activated() {
         _colors[0] = col_new;
 
         col_changed();
-
 }
 
 void GUI_StyleSettings::col2_activated() {
@@ -296,7 +290,6 @@ void GUI_StyleSettings::col2_activated() {
     _colors[1] = col_new;
 
     col_changed();
-
 }
 
 void GUI_StyleSettings::col3_activated() {
@@ -346,8 +339,6 @@ void GUI_StyleSettings::del_pressed() {
 
     set_sth_changed(false);
     emit sig_style_update();
-
-
 }
 
 void GUI_StyleSettings::undo_pressed() {
@@ -407,7 +398,6 @@ void GUI_StyleSettings::spin_box_changed(int v) {
 
 void GUI_StyleSettings::col_changed() {
     set_sth_changed(true);
-
 }
 
 void GUI_StyleSettings::combo_text_changed(const QString & str) {

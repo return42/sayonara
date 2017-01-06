@@ -32,7 +32,6 @@
  */
 class EQ_Setting
 {
-
 private:
 	QList<int>		_values;
 	QString			_name;

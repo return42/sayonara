@@ -94,7 +94,6 @@ void GUI_ShortcutEntry::test_clicked()
 	}
 
 	emit sig_test_pressed(sequences);
-
 }
 
 void GUI_ShortcutEntry::language_changed()

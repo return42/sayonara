@@ -137,5 +137,4 @@ protected slots:
 	void _sl_speed_changed();
 };
 
-
 #endif

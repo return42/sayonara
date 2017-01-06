@@ -29,7 +29,6 @@
  */
 class M3UParser : public AbstractPlaylistParser
 {
-
 public:
 	explicit M3UParser(const QString& filename);
 	virtual ~M3UParser();
@@ -40,8 +39,6 @@ private:
 	bool parse_first_line(const QString& line, MetaData& md);
 	void parse_local_file(const QString& line, MetaData& md);
 	void parse_www_file(const QString& line, MetaData& md);
-
 };
-
 
 #endif // M3UPARSER_H

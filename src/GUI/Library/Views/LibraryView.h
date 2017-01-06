@@ -65,7 +65,6 @@ class LibraryView :
 		public InfoDialogContainer,
 		private Dragable
 {
-
 	Q_OBJECT
 
 signals:
@@ -157,7 +156,6 @@ protected:
 public:
 	template < typename T, typename ModelType >
 	void fill(const T& input_data){
-
 		SP::Set<int> indexes;
 		int old_size, new_size;
 
@@ -175,8 +173,8 @@ public:
 			_model->insertRows(old_size, new_size - old_size);
 		}
 
-		for(int row=0; row < new_size; row++) {
-
+		for(int row=0; row < new_size; row++) 
+		{
 			if(_model->is_selected(input_data[row].id)){
 				indexes.insert(row);
 			}

@@ -33,7 +33,6 @@ public:
 	bool insertBookmark(int track_id, quint32 time, QString text);
 	bool removeBookmark(int track_id, quint32 time);
 	bool removeAllBookmarks(int track_id);
-
 };
 
 #endif // DATABASEBOOKMARKS_H

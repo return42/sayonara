@@ -26,8 +26,8 @@
  * @brief The MTP_Device class
  * @ingroup MTP
  */
-class MTP_Device {
-
+class MTP_Device 
+{
 public:
 	explicit MTP_Device(MTPIntern_Device* device);
 	virtual ~MTP_Device();
@@ -49,6 +49,5 @@ private:
 	QString					_default_music_dir;
 	QString					_friendly_name;
 };
-
 
 #endif // MTP_DEVICE_H

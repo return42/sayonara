@@ -32,8 +32,8 @@ class EngineColorStyleChooser;
 class EngineHandler;
 class GUI_PlayerPlugin;
 class PlayManager;
-class EnginePlugin : public PlayerPluginInterface {
-
+class EnginePlugin : public PlayerPluginInterface 
+{
 	Q_OBJECT
 
 protected:
@@ -88,9 +88,7 @@ public:
     virtual ~EnginePlugin();
 
 	virtual bool is_title_shown() const override;
-
 };
-
 
 #endif // ENGINEPLUGIN_H
 

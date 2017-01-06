@@ -63,5 +63,4 @@ void DBusMediaKeysInterfaceMate::sl_register_finished(QDBusPendingCallWatcher* w
 			 this,
 			 &DBusMediaKeysInterfaceMate::sl_media_key_pressed
 	);
-
 }

@@ -48,7 +48,6 @@ class AbstractPlaylist :
 		public PlaylistDBInterface,
 		protected SayonaraClass
 {
-
 	Q_OBJECT
 
 	friend class PlaylistHandler;
@@ -134,6 +133,5 @@ public:
 private slots:
 	void			_sl_playlist_mode_changed();
 };
-
 
 #endif // PLAYLIST_H

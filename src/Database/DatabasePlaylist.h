@@ -30,10 +30,10 @@ class MetaDataList;
 
 class DatabasePlaylist : private DatabaseModule
 {
-
 public:
 
-	enum class PlaylistChooserType : quint8 {
+	enum class PlaylistChooserType : quint8 
+	{
 		OnlyTemporary=1,
 		OnlyPermanent=2,
 		TemporaryAndPermanent=3
@@ -59,8 +59,6 @@ public:
 	bool emptyPlaylist(int playlist_id);
 
 	bool insertTrackIntoPlaylist(const MetaData& md, int playlist_id, int pos);
-
-
 };
 
 #endif // DATABASEPLAYLIST_H

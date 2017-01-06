@@ -54,7 +54,6 @@ public:
 	void metadata_changed_single(const MetaData& metadata) override;
 
 	virtual Playlist::Type get_type() const override;
-
 };
 
 #endif // STDPLAYLISTR_H

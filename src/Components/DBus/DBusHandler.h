@@ -30,13 +30,13 @@ class DBusMediaKeysInterfaceGnome;
 class DBusNotifications;
 
 
-namespace DBusMPRIS {
+namespace DBusMPRIS 
+{
 	class MediaPlayer2;
 }
 
 class DBusHandler : private QObject
 {
-
 public:
 	explicit DBusHandler(QMainWindow* player, QObject* parent=nullptr);
 	virtual ~DBusHandler();

@@ -35,15 +35,14 @@
 #include <QByteArray>
 
 class UrlParams :  public QMap<QByteArray, QByteArray> {
-
 public:
 	UrlParams();
 	void append_signature();
 };
 
 
-class LFMWebAccess : public QObject {
-
+class LFMWebAccess : public QObject 
+{
 	Q_OBJECT
 
 signals:
@@ -69,6 +68,5 @@ public:
 	static QString create_std_url(const QString& base_url, const UrlParams& data);
 	static QString create_std_url_post(const QString& base_url, const UrlParams& data, QByteArray& post_data);
 };
-
 
 #endif /* LFMWEBACCESS_H_ */

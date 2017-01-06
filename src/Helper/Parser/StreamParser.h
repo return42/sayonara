@@ -88,7 +88,6 @@ class StreamParser : public QObject
 
 
 		bool parse_next();
-
 };
 
 #endif

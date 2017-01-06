@@ -34,7 +34,6 @@ class GUI_LibraryInfoBox :
 		public SayonaraDialog,
 		private Ui::GUI_LibraryInfoBox
 {
-
 	Q_OBJECT
 
 public:

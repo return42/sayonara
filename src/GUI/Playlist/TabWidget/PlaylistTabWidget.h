@@ -66,8 +66,6 @@ private:
 
 private:
 	void check_last_tab();
-
-
 };
 
 #endif // PLAYLISTTABWIDGET_H

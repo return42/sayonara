@@ -53,7 +53,6 @@ CustomPlaylist PlaylistChooser::find_custom_playlist(int id){
 
 	CustomPlaylist pl = _playlist_db_connector->get_playlist_by_id(id);
 	return pl;
-
 }
 
 void PlaylistChooser::load_single_playlist(int id) {

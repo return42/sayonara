@@ -39,5 +39,4 @@ enum PlaylistMenuEntry {
 	OpenDir=		(1 << 9)
 };
 
-
 #endif // PLAYLISTMENUENTRY_H

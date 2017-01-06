@@ -52,8 +52,8 @@ namespace SP
  * @brief Global handler for playlists
  * @ingroup Playlists
  */
-class PlaylistHandler : public QObject, protected SayonaraClass {
-
+class PlaylistHandler : public QObject, protected SayonaraClass 
+{
 	Q_OBJECT
 
 	SINGLETON_QOBJECT(PlaylistHandler)
@@ -395,8 +395,6 @@ private:
 	 * @param pl_idx playlist index
 	 */
 	void set_active_idx(int pl_idx);
-
-
 };
 
 #endif /* PLAYLISTHANDLER_H_ */

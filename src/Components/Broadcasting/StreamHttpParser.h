@@ -30,12 +30,12 @@
  */
 class StreamHttpParser
 {
-
 public:
 	/**
 	 * @brief The HttpAnswer enum
 	 */
-	enum class HttpAnswer : quint8 {
+	enum class HttpAnswer : quint8 
+	{
 		Fail=0,
 		OK,
 		Reject,

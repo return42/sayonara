@@ -40,7 +40,6 @@ class PlayerPluginInterface :
 		public SayonaraWidget,
 		public ShortcutWidget
 {
-
 	friend class PlayerPluginHandler;
 
     Q_OBJECT
@@ -114,7 +113,6 @@ protected:
 
 	template<typename T, typename UiClass>
 	void setup_parent(T* widget, UiClass** ui){
-
 		if(is_ui_initialized()){
 			return;
 		}

@@ -29,7 +29,6 @@
  */
 class RawSoundReceiverInterface
 {
-
 public:
 	RawSoundReceiverInterface();
 	virtual ~RawSoundReceiverInterface() {}
@@ -40,7 +39,6 @@ public:
 	 * @param n_bytes array size
 	 */
 	virtual void new_audio_data(const uchar* data, quint64 n_bytes)=0;
-
 };
 
 #endif // RAWSOUNDRECEIVER_H

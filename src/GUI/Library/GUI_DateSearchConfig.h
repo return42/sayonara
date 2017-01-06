@@ -33,7 +33,6 @@ namespace Ui{ class GUI_DateSearchConfig; }
 class GUI_DateSearchConfig :
 		public SayonaraDialog
 {
-
 public:
 
 	enum class Result
@@ -67,6 +66,5 @@ private:
 private:
 	void commit();
 };
-
 
 #endif // GUI_DATESEARCHCONFIG_H

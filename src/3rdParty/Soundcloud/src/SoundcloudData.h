@@ -37,7 +37,6 @@ class SayonaraQuery;
 class SoundcloudData :
 		public LibraryDatabase
 {
-
 	Q_OBJECT
 	SINGLETON(SoundcloudData)
 
@@ -67,7 +66,6 @@ public:
 	QString fetch_query_albums() const override;
 	QString fetch_query_artists() const override;
 	QString fetch_query_tracks() const override;
-
 };
 
 #endif // SOUNDCLOUDDATA_H

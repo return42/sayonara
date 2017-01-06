@@ -44,7 +44,6 @@ QByteArray Compressor::compress(const QByteArray &arr){
 
 	target.resize(comp_stream.total_out);
 	return target;
-
 }
 
 QByteArray Compressor::decompress(const QByteArray& arr){

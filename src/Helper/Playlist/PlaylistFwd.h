@@ -40,12 +40,12 @@ typedef std::shared_ptr<const AbstractPlaylist> PlaylistConstPtr;
 
 namespace Playlist
 {
-	class Mode;
-	enum class Type : quint8
-	{
-		Std=0,
-		Stream
-	};
+    class Mode;
+    enum class Type : quint8
+    {
+	    Std=0,
+	    Stream
+    };
 }
 
 #endif
