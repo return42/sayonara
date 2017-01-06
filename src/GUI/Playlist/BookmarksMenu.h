@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef BOOKMARKS_ACTION_H
 #define BOOKMARKS_ACTION_H
 

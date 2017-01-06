@@ -17,9 +17,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
-
 #ifndef MTP_STORAGE_H
 #define MTP_STORAGE_H
 

@@ -18,7 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #ifndef GSTPLAYBACKENGINE_H_
 #define GSTPLAYBACKENGINE_H_
 

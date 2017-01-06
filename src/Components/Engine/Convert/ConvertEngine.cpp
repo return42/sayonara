@@ -18,7 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #include "ConvertEngine.h"
 #include "Components/Engine/Callbacks/PipelineCallbacks.h"
 #include "ConvertPipeline.h"

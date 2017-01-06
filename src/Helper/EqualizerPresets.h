@@ -18,7 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #ifndef _EQUALIZER_PRESETS_
 #define _EQUALIZER_PRESETS_
 

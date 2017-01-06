@@ -18,7 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #ifndef INFO_DIALOG_CONTAINER_H_
 #define INFO_DIALOG_CONTAINER_H_
 

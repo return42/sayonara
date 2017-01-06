@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef DBUS_MTP_FILE_H_
 #define DBUS_MTP_FILE_H_
 

@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef DBUSMEDIAKEYSINTERFACEGNOME_H
 #define DBUSMEDIAKEYSINTERFACEGNOME_H
 

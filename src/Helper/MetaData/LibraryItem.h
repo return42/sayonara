@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef _LIBRARY_ITEM_H_
 #define _LIBRARY_ITEM_H_
 

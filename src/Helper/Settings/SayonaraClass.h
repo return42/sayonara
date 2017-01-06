@@ -18,7 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #ifndef SAYONARACLASS_H
 #define SAYONARACLASS_H
 

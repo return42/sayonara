@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "Bookmark.h"
 
 Bookmark::Bookmark(quint32 time, const QString& name, bool valid){

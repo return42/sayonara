@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "LibraryPluginHandler.h"
 #include "GUI/Helper/Delegates/ComboBoxDelegate.h"
 #include "LibraryContainer/LibraryContainer.h"

@@ -18,7 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #include "Helper/Settings/SayonaraClass.h"
 #include "Helper/Settings/Settings.h"
 

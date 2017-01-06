@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef SAYONARADIALOG_H
 #define SAYONARADIALOG_H
 

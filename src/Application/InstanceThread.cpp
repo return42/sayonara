@@ -17,8 +17,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "InstanceThread.h"
 #include "Helper/Helper.h"
 #include "Helper/Logger/Logger.h"

@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef LIBRARYDATESEARCHVIEW_H
 #define LIBRARYDATESEARCHVIEW_H
 

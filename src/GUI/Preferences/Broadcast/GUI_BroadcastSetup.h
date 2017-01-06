@@ -18,7 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #ifndef GUI_BROADCASTSETUP_H
 #define GUI_BROADCASTSETUP_H
 

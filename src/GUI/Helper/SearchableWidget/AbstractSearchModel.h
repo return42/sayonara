@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef ABSTRACT_SEARCH_MODEL_H_
 #define ABSTRACT_SEARCH_MODEL_H_
 

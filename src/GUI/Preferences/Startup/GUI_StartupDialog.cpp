@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "GUI_StartupDialog.h"
 
 GUI_StartupDialog::GUI_StartupDialog(QWidget *parent) :

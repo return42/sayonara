@@ -17,7 +17,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #include "MTP_Device.h"
 #include "MTP_Storage.h"
 #include "Helper/Logger/Logger.h"

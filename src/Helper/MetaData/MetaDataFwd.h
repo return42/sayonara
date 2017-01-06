@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef METADATA_FWD_H
 #define METADATA_FWD_H
 

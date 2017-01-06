@@ -18,7 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #include "GUI_Crossfader.h"
 #include "GUI/Plugins/Engine/ui_GUI_Crossfader.h"
 #include "Helper/Playlist/PlaylistMode.h"

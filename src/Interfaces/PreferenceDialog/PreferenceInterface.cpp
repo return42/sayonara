@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "PreferenceInterface.h"
 
 PreferenceAction::PreferenceAction(const QString &text, QWidget *preference_interface) :

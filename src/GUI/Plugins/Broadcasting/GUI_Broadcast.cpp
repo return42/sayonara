@@ -18,7 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #include "GUI_Broadcast.h"
 
 #include "Components/Broadcasting/StreamServer.h"

@@ -17,8 +17,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef GUI_SHORTCUTENTRY_H
 #define GUI_SHORTCUTENTRY_H
 

@@ -26,7 +26,6 @@
  *      Author: Lucio Carreras
  */
 
-
 #include "CoverLookup.h"
 #include "CoverHelper.h"
 #include "CoverFetchThread.h"

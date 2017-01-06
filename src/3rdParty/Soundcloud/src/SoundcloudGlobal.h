@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef SOUNDCLOUDGLOBAL_H
 #define SOUNDCLOUDGLOBAL_H
 

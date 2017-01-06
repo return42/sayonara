@@ -18,7 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #include "Database/SayonaraQuery.h"
 #include "Database/DatabasePodcasts.h"
 #include "Helper/Logger/Logger.h"

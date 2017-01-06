@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "SimilarArtists.h"
 #include "Helper/MetaData/Artist.h"
 #include "Helper/Helper.h"

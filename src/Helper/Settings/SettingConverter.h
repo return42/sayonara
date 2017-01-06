@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef SETTINGCONVERTER_H
 #define SETTINGCONVERTER_H
 

@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "PipelineProbes.h"
 #include "Helper/Logger/Logger.h"
 #include "Helper/Helper.h"

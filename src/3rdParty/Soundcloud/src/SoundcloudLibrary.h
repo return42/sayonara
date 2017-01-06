@@ -18,7 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #ifndef SOUNDCLOUD_H
 #define SOUNDCLOUD_H
 

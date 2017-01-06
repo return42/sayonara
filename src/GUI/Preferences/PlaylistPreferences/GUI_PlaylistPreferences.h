@@ -21,7 +21,6 @@
 
 /* GUI_PlaylistPreferences.h */
 
-
 #ifndef GUI_PLAYLISTPREFERENCES_H
 #define GUI_PLAYLISTPREFERENCES_H
 

@@ -18,7 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #include "LibraryViewAlbum.h"
 #include "GUI/Library/Helper/DiscPopupMenu.h"
 #include "GUI/Library/Helper/ColumnIndex.h"

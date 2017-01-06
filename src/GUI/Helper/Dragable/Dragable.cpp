@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "Dragable.h"
 #include "GUI/Helper/GUI_Helper.h"
 #include "Helper/FileHelper.h"

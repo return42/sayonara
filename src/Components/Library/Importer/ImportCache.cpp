@@ -18,7 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #include "ImportCache.h"
 #include "Helper/Settings/Settings.h"
 #include "Helper/FileHelper.h"

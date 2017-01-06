@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef SEARCHABLETREEVIEW_H
 #define SEARCHABLETREEVIEW_H
 

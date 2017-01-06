@@ -24,7 +24,6 @@
  * Homepage: https://launchpad.net/~hakaishi
  */
 
-
 #include "Helper/Helper.h"
 #include "Helper/Shutdown/Shutdown.h"
 #include "Database/DatabaseConnector.h"

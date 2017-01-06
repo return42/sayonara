@@ -18,7 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #include "Database/SayonaraQuery.h"
 #include "Database/DatabaseTracks.h"
 #include "Database/DatabaseLibrary.h"

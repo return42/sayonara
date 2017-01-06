@@ -18,7 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #ifndef ICON_LOADER_H_
 #define ICON_LOADER_H_
 

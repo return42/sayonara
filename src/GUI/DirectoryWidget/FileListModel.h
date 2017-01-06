@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef FILE_LIST_MODEL_H
 #define FILE_LIST_MODEL_H
 

@@ -18,7 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #include "CopyThread.h"
 #include "ImportCache.h"
 #include "Helper/MetaData/MetaDataList.h"

@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "ComboBoxDelegate.h"
 #include <QVariant>
 #include <QModelIndex>

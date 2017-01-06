@@ -18,7 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #ifndef LIBRARYITEMMODEL_H_
 #define LIBRARYITEMMODEL_H_
 

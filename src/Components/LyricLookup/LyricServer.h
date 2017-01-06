@@ -18,7 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #ifndef LYRICSERVER_H_
 #define LYRICSERVER_H_
 

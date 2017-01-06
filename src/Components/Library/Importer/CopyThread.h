@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef IMPORT_COPY_THREAD_H
 #define IMPORT_COPY_THREAD_H
 

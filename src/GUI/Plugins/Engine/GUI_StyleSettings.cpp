@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "GUI_StyleSettings.h"
 #include "Helper/Message/Message.h"
 #include "Database/DatabaseConnector.h"

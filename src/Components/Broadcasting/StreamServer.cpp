@@ -18,7 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #include "StreamServer.h"
 
 #include "Helper/Helper.h"

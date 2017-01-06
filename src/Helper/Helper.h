@@ -25,7 +25,6 @@
  *      Author: Lucio Carreras
  */
 
-
 #ifndef _HELPER_H
 #define _HELPER_H
 

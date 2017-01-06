@@ -18,7 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #include "GUI_Player.h"
 #include "GUI_TrayIcon.h"
 #include "GUI/Helper/IconLoader/IconLoader.h"

@@ -17,7 +17,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #include "MTP_Storage.h"
 #include "MTP_File.h"
 #include "MTP_Folder.h"

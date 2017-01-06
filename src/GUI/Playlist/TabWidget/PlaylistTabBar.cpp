@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "PlaylistTabBar.h"
 #include "PlaylistTabMenu.h"
 #include "GUI/Helper/CustomMimeData.h"

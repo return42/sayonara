@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "MetaDataChangeNotifier.h"
 #include "Helper/MetaData/MetaDataList.h"
 

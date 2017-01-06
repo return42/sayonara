@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef GUI_DATESEARCHCONFIG_H
 #define GUI_DATESEARCHCONFIG_H
 

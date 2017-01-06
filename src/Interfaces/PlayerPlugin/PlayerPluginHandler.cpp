@@ -18,7 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #include "PlayerPlugin.h"
 #include "PlayerPluginHandler.h"
 #include "Helper/Logger/Logger.h"

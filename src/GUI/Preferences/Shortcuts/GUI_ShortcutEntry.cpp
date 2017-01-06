@@ -17,8 +17,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "GUI_ShortcutEntry.h"
 #include "GUI/Preferences/Shortcuts/ShortcutLineEdit.h"
 #include "GUI/Helper/IconLoader/IconLoader.h"

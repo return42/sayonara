@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "DBusMediaKeysInterface.h"
 #include "Helper/Logger/Logger.h"
 #include "Components/PlayManager/PlayManager.h"

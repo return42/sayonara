@@ -17,7 +17,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #include "HeaderView.h"
 #include "Helper/globals.h"
 #include "Helper/Settings/Settings.h"

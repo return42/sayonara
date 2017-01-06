@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "GUI_SoundcloudArtistSearch.h"
 #include "Helper/globals.h"
 

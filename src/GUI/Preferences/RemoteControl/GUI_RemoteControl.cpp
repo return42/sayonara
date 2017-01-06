@@ -22,7 +22,6 @@
  *
  */
 
-
 #include "GUI_RemoteControl.h"
 #include "GUI/Preferences/ui_GUI_RemoteControl.h"
 

@@ -18,7 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #ifndef LIBRARY_RATING_DELEGATE_H
 #define LIBRARY_RATING_DELEGATE_H
 

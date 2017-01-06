@@ -18,7 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #ifndef GUI_TAGEDIT_H_
 #define GUI_TAGEDIT_H_
 

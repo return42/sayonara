@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef SORTORDER_PLAYLIST_H
 #define SORTORDER_PLAYLIST_H
 

@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "GUI_Player.h"
 #include "Helper/Settings/Settings.h"
 #include "Interfaces/LibraryInterface/LibraryPluginHandler.h"

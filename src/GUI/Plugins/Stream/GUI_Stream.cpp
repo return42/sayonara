@@ -18,7 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #include "GUI_Stream.h"
 #include "GUI/Plugins/Stream/ui_GUI_Stream.h"
 #include "Helper/Language.h"

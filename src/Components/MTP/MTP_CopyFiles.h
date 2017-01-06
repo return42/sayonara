@@ -17,9 +17,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
-
 #ifndef MTPCOPYFILES_H
 #define MTPCOPYFILES_H
 

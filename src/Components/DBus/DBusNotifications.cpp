@@ -17,7 +17,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #include "DBusNotifications.h"
 #include "Components/Covers/CoverLocation.h"
 

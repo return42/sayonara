@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef DBUS_MPRIS_H
 #define DBUS_MPRIS_H
 

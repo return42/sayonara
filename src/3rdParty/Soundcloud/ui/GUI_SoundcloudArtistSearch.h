@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef GUI_SOUNDCLOUDARTISTSEARCH_H
 #define GUI_SOUNDCLOUDARTISTSEARCH_H
 

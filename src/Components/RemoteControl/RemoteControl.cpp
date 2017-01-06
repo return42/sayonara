@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "RemoteControl.h"
 #include "Components/Covers/CoverLocation.h"
 #include "Components/Playlist/PlaylistHandler.h"

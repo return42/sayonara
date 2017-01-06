@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "EqualizerPresets.h"
 #include "Helper/Logger/Logger.h"
 #include <QStringList>

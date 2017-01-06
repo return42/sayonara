@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "LibraryGenreView.h"
 #include "Database/DatabaseHandler.h"
 #include "Database/DatabaseConnector.h"

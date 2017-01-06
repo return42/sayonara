@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef DIRECTORYVIEWINTERFACE_H
 #define DIRECTORYVIEWINTERFACE_H
 

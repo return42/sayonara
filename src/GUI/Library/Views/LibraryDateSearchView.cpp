@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "LibraryDateSearchView.h"
 #include "GUI/Library/Models/DateSearchModel.h"
 #include "GUI/Library/GUI_DateSearchConfig.h"

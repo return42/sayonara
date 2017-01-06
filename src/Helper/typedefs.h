@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef TYPEDEFS_H
 #define TYPEDEFS_H
 

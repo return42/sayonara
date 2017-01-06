@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef CUSTOM_PLAYLIST_SKELETON_H
 #define CUSTOM_PLAYLIST_SKELETON_H
 

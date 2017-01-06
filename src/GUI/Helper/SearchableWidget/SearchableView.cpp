@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "SearchableView.h"
 #include "AbstractSearchModel.h"
 #include "MiniSearcher.h"

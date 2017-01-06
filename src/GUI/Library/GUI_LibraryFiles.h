@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef GUI_LIBRARYFILES_H
 #define GUI_LIBRARYFILES_H
 

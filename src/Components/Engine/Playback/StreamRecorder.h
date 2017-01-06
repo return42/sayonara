@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef STREAMRECORDER_H
 #define STREAMRECORDER_H
 

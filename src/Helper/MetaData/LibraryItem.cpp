@@ -18,7 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #include "Helper/MetaData/LibraryItem.h"
 
 #define LI_DO_COPY \

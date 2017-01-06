@@ -18,7 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #include "Discnumber.h"
 
 ID3v2Frame::Discnumber::Discnumber()

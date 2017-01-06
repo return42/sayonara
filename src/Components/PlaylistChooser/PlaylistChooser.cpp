@@ -18,7 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #include "PlaylistChooser.h"
 #include "Helper/Playlist/CustomPlaylist.h"
 #include "Components/Playlist/PlaylistHandler.h"

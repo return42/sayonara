@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "FileListModel.h"
 #include "Helper/DirectoryReader/DirectoryReader.h"
 #include "Helper/Helper.h"

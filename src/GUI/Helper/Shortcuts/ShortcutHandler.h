@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef SHORTCUTHANDLER_H
 #define SHORTCUTHANDLER_H
 

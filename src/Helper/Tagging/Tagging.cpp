@@ -18,7 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #include "Tagging.h"
 #include "Frames/Popularimeter.h"
 #include "Frames/Discnumber.h"

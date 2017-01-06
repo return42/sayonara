@@ -18,7 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #include "DBusMPRIS.h"
 #include "Components/DBus/org_mpris_media_player2_adaptor.h"
 #include "Components/DBus/org_mpris_media_player2_player_adaptor.h"

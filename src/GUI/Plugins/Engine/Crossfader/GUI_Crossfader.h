@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef GUI_CROSSFADER_H
 #define GUI_CROSSFADER_H
 

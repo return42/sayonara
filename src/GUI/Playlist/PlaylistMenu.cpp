@@ -18,7 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #include "PlaylistMenu.h"
 #include "Helper/Playlist/PlaylistMode.h"
 #include "Helper/Settings/Settings.h"

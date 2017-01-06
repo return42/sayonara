@@ -17,9 +17,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
-
 #ifndef GUI_FONTCONFIG_H
 #define GUI_FONTCONFIG_H
 

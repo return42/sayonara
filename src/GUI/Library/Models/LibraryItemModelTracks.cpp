@@ -26,7 +26,6 @@
  *      Author: Lucio Carreras
  */
 
-
 #include "LibraryItemModelTracks.h"
 #include "Components/Covers/CoverLocation.h"
 #include "GUI/Library/Helper/ColumnHeader.h"

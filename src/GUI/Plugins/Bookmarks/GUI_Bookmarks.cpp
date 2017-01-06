@@ -19,7 +19,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #include "GUI_Bookmarks.h"
 
 #include "GUI/Plugins/Bookmarks/ui_GUI_Bookmarks.h"

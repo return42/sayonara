@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef TAGEXPRESSION_H
 #define TAGEXPRESSION_H
 

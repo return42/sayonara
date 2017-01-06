@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef PLAYLIST_TYPEDEFS_H
 #define PLAYLIST_TYPEDEFS_H
 

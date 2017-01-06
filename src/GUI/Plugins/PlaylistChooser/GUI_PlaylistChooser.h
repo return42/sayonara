@@ -18,7 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #ifndef GUIPLAYLISTCHOOSER_H_
 #define GUIPLAYLISTCHOOSER_H_
 

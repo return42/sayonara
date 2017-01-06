@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "GUI_LibraryFiles.h"
 
 GUI_LibraryFiles::GUI_LibraryFiles()

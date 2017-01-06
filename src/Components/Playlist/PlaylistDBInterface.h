@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef PLAYLISTDBINTERFACE_H
 #define PLAYLISTDBINTERFACE_H
 

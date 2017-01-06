@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "Helper/SmartCompare/SmartCompare.h"
 #include "Helper/Logger/Logger.h"
 #include "Helper/MetaData/Artist.h"

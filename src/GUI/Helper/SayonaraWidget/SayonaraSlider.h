@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef SAYONARASLIDER_H
 #define SAYONARASLIDER_H
 

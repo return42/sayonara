@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef FILELISTVIEW_H
 #define FILELISTVIEW_H
 

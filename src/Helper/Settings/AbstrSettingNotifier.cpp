@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "Helper/Settings/AbstrSettingNotifier.h"
 
 AbstrSettingNotifier::AbstrSettingNotifier(QObject* parent) :

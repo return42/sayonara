@@ -18,7 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #ifndef GUI_PreferenceDialog_H
 #define GUI_PreferenceDialog_H
 

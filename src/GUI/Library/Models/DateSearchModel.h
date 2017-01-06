@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef DATESEARCHMODEL_H
 #define DATESEARCHMODEL_H
 

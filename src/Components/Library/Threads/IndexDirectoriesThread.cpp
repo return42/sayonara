@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "IndexDirectoriesThread.h"
 #include "Helper/Set.h"
 #include "Helper/FileHelper.h"

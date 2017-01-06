@@ -18,7 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #include "DBusHandler.h"
 #include "Components/DBus/DBusMPRIS.h"
 #include "Components/DBus/DBusMediaKeysInterfaceMate.h"

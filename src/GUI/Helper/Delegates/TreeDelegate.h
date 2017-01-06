@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef TREE_DELEGATE_H
 #define TREE_DELEGATE_H
 

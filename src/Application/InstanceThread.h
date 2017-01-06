@@ -17,9 +17,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
-
 #ifndef INSTANCETHREAD_H
 #define INSTANCETHREAD_H
 

@@ -17,9 +17,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
-
 #ifndef MTPTREEVIEW_H
 #define MTPTREEVIEW_H
 

@@ -18,7 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #include "GUI_BroadcastSetup.h"
 #include "GUI/Preferences/ui_GUI_BroadcastSetup.h"
 

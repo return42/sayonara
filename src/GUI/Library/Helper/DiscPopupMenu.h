@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef DISC_POPUP_MENU_H_
 #define DISC_POPUP_MENU_H_
 

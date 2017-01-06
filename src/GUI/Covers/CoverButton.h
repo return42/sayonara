@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef COVER_BUTTON_H
 #define COVER_BUTTON_H
 

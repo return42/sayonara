@@ -18,7 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #include "LibraryView.h"
 #include "HeaderView.h"
 #include "GUI/Helper/ContextMenu/LibraryContextMenu.h"

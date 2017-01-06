@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "Database/DatabaseModule.h"
 
 DatabaseModule::DatabaseModule(const QSqlDatabase& db, quint8 db_id)

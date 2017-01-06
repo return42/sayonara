@@ -18,7 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #include "CoverButton.h"
 #include "GUI_AlternativeCovers.h"
 #include "Components/Covers/CoverLookup.h"

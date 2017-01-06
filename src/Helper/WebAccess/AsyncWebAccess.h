@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef ASYNCWEBACCESS_H_
 #define ASYNCWEBACCESS_H_
 

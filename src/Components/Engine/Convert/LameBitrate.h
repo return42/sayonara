@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef LAME_BITRATE_H
 #define LAME_BITRATE_H
 

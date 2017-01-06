@@ -18,7 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #include "LibraryItemModel.h"
 #include "GUI/Library/Helper/ColumnHeader.h"
 #include "GUI/Helper/CustomMimeData.h"
