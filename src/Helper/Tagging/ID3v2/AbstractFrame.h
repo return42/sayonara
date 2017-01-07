@@ -69,29 +69,24 @@ namespace ID3v2Frame
 
 
 		public:
-		// constructor
-			AbstractFrame(TagLib::FileRef* file_ref, const char* four) :
+			// constructor
+			AbstractFrame(const TagLib::FileRef& f, const char* four) :
 				_four(four),
-				_tag(nullptr),
 				_frame(nullptr)
 			{
-				TagLib::MPEG::File* file_mp3;
-				TagLib::ID3v2::FrameListMap map;
-				TagLib::ID3v2::FrameList frame_list;
-
-				file_mp3 = dynamic_cast<TagLib::MPEG::File*>(file_ref->file());
-				if(!file_mp3) {
+				TagLib::MPEG::File* mpeg = dynamic_cast<TagLib::MPEG::File*>(f.file());
+				if(!mpeg){
 					return;
 				}
 
-				_tag = file_mp3->ID3v2Tag();
+				_tag = mpeg->ID3v2Tag(true);
 				if(!_tag){
 					return;
 				}
 
 				// map, containing [four][frame list]
-				map = _tag->frameListMap();
-				frame_list = map[_four];
+				TagLib::ID3v2::FrameListMap map = _tag->frameListMap();
+				TagLib::ID3v2::FrameList frame_list = map[_four];
 				if(!frame_list.isEmpty()) {
 					_frame = dynamic_cast<FrameType_t*> (frame_list.front());
 				}
@@ -107,7 +102,8 @@ namespace ID3v2Frame
 			 * @param data reference to data filled with _data_model
 			 * @return false, if frame cannot be accessed, true else
 			 */
-			virtual bool read(ModelType_t& data){
+			virtual bool read(ModelType_t& data)
+			{
 				if(!_frame){
 					return false;
 				}
@@ -125,7 +121,8 @@ namespace ID3v2Frame
 			 * @param data_model the data model
 			 * @return false if frame cannot be accessed
 			 */
-			virtual bool write(const ModelType_t& data_model){
+			virtual bool write(const ModelType_t& data_model)
+			{
 				bool created = false;
 
 				if(!_tag){

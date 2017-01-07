@@ -153,7 +153,7 @@ CoverLocation CoverLocation::get_cover_location(int album_id, quint8 db_id)
 	MetaDataList v_md;
 	LibraryDatabase* db = DB::getInstance(db_id);
 
-	bool success = db->getAlbumByID(album_id, album);
+	bool success = db->getAlbumByID(album_id, album, true);
 
 	if(!success) {
 		return getInvalidLocation();

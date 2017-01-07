@@ -1,4 +1,4 @@
-/* Popularimeter.h */
+/* Cover.h */
 
 /* Copyright (C) 2011-2017  Lucio Carreras
  *
@@ -18,54 +18,34 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef POPULARIMETER_H
-#define POPULARIMETER_H
-
+#ifndef COVER_H
+#define COVER_H
 
 #include "AbstractFrame.h"
+#include "Tagging/Models/Cover.h"
 
+#include <QByteArray>
 #include <QString>
-#include <taglib/popularimeterframe.h>
+#include <taglib/attachedpictureframe.h>
 
 namespace ID3v2Frame
 {
 	/**
-	 * @brief The Popularimeter class
+	 * @brief The DiscnumberFrame class
 	 * @ingroup Tagging
 	 */
-	class Popularimeter
+	class CoverFrame :
+			public AbstractFrame<Models::Cover, TagLib::ID3v2::AttachedPictureFrame>
 	{
 		public:
-
-			QString		email;
-			quint8		rating_byte;	// value between 0 and 0xff
-			int			playcount;
-
-			Popularimeter();
-			Popularimeter(const QString& email_, quint8 rating_byte_, int playcount);
-			void set_sayonara_rating(quint8 max_5);
-			quint8 get_sayonara_rating() const;
-			QString to_string();
-	};
-
-
-	/**
-	 * @brief The PopularimeterFrame class
-	 * @ingroup Tagging
-	 */
-	class PopularimeterFrame :
-			public AbstractFrame<Popularimeter, TagLib::ID3v2::PopularimeterFrame>
-	{
-		protected:
-			TagLib::ID3v2::Frame* create_id3v2_frame() override;
-
-		public:
-			PopularimeterFrame(TagLib::FileRef* file_ref);
-			~PopularimeterFrame();
+			CoverFrame(const TagLib::FileRef& f);
+			virtual ~CoverFrame();
 
 			void map_model_to_frame() override;
 			void map_frame_to_model() override;
+
+			TagLib::ID3v2::Frame* create_id3v2_frame() override;
 	};
 }
 
-#endif // POPULARIMETER_H
+#endif // COVER_H

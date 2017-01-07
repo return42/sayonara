@@ -33,9 +33,10 @@ SoundcloudData::SoundcloudData() :
 SoundcloudData::~SoundcloudData() {}
 
 
-QString SoundcloudData::fetch_query_artists() const
+QString SoundcloudData::fetch_query_artists(bool also_empty) const
 {
-	return QString("SELECT ") +
+	QString sql =
+			"SELECT "
 			"artists.artistid AS artistID, "
 			"artists.name AS artistName, "
 			"artists.permalink_url AS permalink_url, "
@@ -44,14 +45,21 @@ QString SoundcloudData::fetch_query_artists() const
 			"artists.cover_url AS cover_url, "
 			"COUNT(DISTINCT tracks.trackid) AS artistNTracks, "
 			"GROUP_CONCAT(DISTINCT albums.albumid) AS artistAlbums "
-			"FROM artists "
+			"FROM artists ";
+
+	if(!also_empty){
+		sql +=
 			"INNER JOIN tracks ON artists.artistID = tracks.artistID "
 			"INNER JOIN albums ON albums.albumID = tracks.albumID ";
+	}
+
+	return sql;
 }
 
-QString SoundcloudData::fetch_query_albums() const
+QString SoundcloudData::fetch_query_albums(bool also_empty) const
 {
-	return QString("SELECT ") +
+	QString sql =
+			"SELECT "
 			"albums.albumID AS albumID, "
 			"albums.name AS albumName, "
 			"SUM(tracks.length) / 1000 AS albumLength, "
@@ -63,9 +71,15 @@ QString SoundcloudData::fetch_query_albums() const
 			"MAX(tracks.year) AS albumYear, "
 			"GROUP_CONCAT(DISTINCT artists.name) AS albumArtists, "
 			"GROUP_CONCAT(DISTINCT tracks.discnumber) AS discnumbers "
-			"FROM albums "
+			"FROM albums ";
+
+	if(!also_empty){
+		sql +=
 			"INNER JOIN tracks ON albums.albumID = tracks.albumID "
 			"INNER JOIN artists ON artists.artistID = tracks.artistID ";
+	}
+
+	return sql;
 }
 
 QString SoundcloudData::fetch_query_tracks() const

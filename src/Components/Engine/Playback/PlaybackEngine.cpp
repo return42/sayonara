@@ -47,8 +47,7 @@ PlaybackEngine::PlaybackEngine(QObject* parent) :
 
 	connect(_gapless_timer, &QTimer::timeout, this, &PlaybackEngine::gapless_timed_out);
 
-	REGISTER_LISTENER(Set::Engine_SR_Active, _streamrecorder_active_changed);
-	REGISTER_LISTENER(Set::Engine_CrossFaderActive, _playlist_mode_changed);
+
 }
 
 
@@ -89,6 +88,9 @@ bool PlaybackEngine::init()
 	connect(_pipeline, &PlaybackPipeline::sig_data, this, &PlaybackEngine::sig_data);
 
 	REGISTER_LISTENER(Set::PL_Mode, _playlist_mode_changed);
+	REGISTER_LISTENER(Set::Engine_SR_Active, _streamrecorder_active_changed);
+	REGISTER_LISTENER(Set::Engine_CrossFaderActive, _playlist_mode_changed);
+
 	return true;
 }
 

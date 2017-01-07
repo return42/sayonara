@@ -216,7 +216,7 @@ void TagEdit::update_cover(int idx, const QImage& cover)
 		return;
 	}
 
-	Tagging::TagType t = Tagging::get_tag_type(_m->v_md[idx]);
+	Tagging::TagType t = Tagging::get_tag_type(_m->v_md[idx].filepath());
 	if(t != Tagging::TagType::ID3v2) {
 		return;
 	}
@@ -240,7 +240,7 @@ bool TagEdit::is_id3v2_tag(int idx) const
 		return false;
 	}
 
-	Tagging::TagType t = Tagging::get_tag_type(_m->v_md[idx]);
+	Tagging::TagType t = Tagging::get_tag_type(_m->v_md[idx].filepath());
 
 	return (t == Tagging::TagType::ID3v2);
 }

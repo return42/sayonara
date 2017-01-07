@@ -63,8 +63,8 @@ public:
 	QString load_setting(const QString& key);
 	bool save_setting(const QString& key, const QString& value);
 
-	QString fetch_query_albums() const override;
-	QString fetch_query_artists() const override;
+	QString fetch_query_albums(bool also_empty=false) const override;
+	QString fetch_query_artists(bool also_empty=false) const override;
 	QString fetch_query_tracks() const override;
 };
 

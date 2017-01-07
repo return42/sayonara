@@ -32,16 +32,24 @@ DatabaseArtists::DatabaseArtists(const QSqlDatabase& db, quint8 db_id) :
 	_artistid_field = "artistID";
 }
 
-QString DatabaseArtists::fetch_query_artists() const
+QString DatabaseArtists::fetch_query_artists(bool also_empty) const
 {
-	return	"SELECT "
+	QString sql =
+			"SELECT "
 			"artists.artistID AS artistID "
 			", artists.name AS artistName "
 			", COUNT(DISTINCT tracks.trackid) AS artistNTracks "
-			" FROM artists "
-			" INNER JOIN tracks ON tracks." + _artistid_field + " = artists.artistID "
-			" INNER JOIN albums ON tracks.albumID = albums.albumID "
-	;
+			" FROM artists ";
+
+	QString join = " INNER JOIN ";
+	if(also_empty){
+		join = " LEFT OUTER JOIN ";
+	}
+
+	sql += join + " tracks ON tracks." + _artistid_field + " = artists.artistID ";
+	sql += join + " albums ON tracks.albumID = albums.albumID ";
+
+	return sql;
 }
 
 bool DatabaseArtists::db_fetch_artists(SayonaraQuery& q, ArtistList& result)
@@ -88,7 +96,7 @@ QString DatabaseArtists::_create_order_string(Library::SortOrder sort)
 }
 
 
-bool DatabaseArtists::getArtistByID(int id, Artist& artist)
+bool DatabaseArtists::getArtistByID(int id, Artist& artist, bool also_empty)
 {
 	if(id < 0) return false;
 
@@ -98,7 +106,7 @@ bool DatabaseArtists::getArtistByID(int id, Artist& artist)
 
 	ArtistList artists;
 
-	QString query = fetch_query_artists() +
+	QString query = fetch_query_artists(also_empty) +
 				"WHERE artists.artistID = ? "
 				"GROUP BY artistName;";
 
@@ -135,10 +143,15 @@ int DatabaseArtists::getArtistID(const QString& artist)
 	return artistID;
 }
 
-bool DatabaseArtists::getAllArtists(ArtistList& result, Library::SortOrder sortorder)
+bool DatabaseArtists::getAllArtists(ArtistList& result, bool also_empty)
+{
+	return getAllArtists(result, Library::SortOrder::ArtistNameAsc, also_empty);
+}
+
+bool DatabaseArtists::getAllArtists(ArtistList& result, Library::SortOrder sortorder, bool also_empty)
 {
 	SayonaraQuery q(_db);
-	QString query = fetch_query_artists();
+	QString query = fetch_query_artists(also_empty);
 
 	query += "GROUP BY artists.artistID, artists.name ";
 	query += _create_order_string(sortorder) + ";";

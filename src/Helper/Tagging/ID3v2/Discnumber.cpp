@@ -20,25 +20,8 @@
 
 #include "Discnumber.h"
 
-ID3v2Frame::Discnumber::Discnumber()
-{
-	n_discs = 1;
-	disc = 1;
-}
-
-ID3v2Frame::Discnumber::Discnumber(quint8 disc_, quint8 n_discs_){
-	n_discs = n_discs_;
-	disc = disc_;
-}
-
-
-QString ID3v2Frame::Discnumber::to_string()
-{
-	return QString("TPOS: ") + QString::number(disc) + "/" + QString::number(n_discs);
-}
-
-ID3v2Frame::DiscnumberFrame::DiscnumberFrame(TagLib::FileRef *file_ref) :
-	AbstractFrame<Discnumber, TagLib::ID3v2::TextIdentificationFrame>(file_ref, "TPOS") {}
+ID3v2Frame::DiscnumberFrame::DiscnumberFrame(const TagLib::FileRef& f) :
+	AbstractFrame<Models::Discnumber, TagLib::ID3v2::TextIdentificationFrame>(f, "TPOS") {}
 
 ID3v2Frame::DiscnumberFrame::~DiscnumberFrame() {}
 

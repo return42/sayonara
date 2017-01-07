@@ -39,7 +39,7 @@ private:
 
 protected:
 	void change_artistid_field(const QString& field);
-	virtual QString fetch_query_artists() const;
+	virtual QString fetch_query_artists(bool also_empty=false) const;
 
 public:
 
@@ -48,9 +48,10 @@ public:
 	virtual bool db_fetch_artists(SayonaraQuery& q, ArtistList& result);
 
 	virtual int getArtistID (const QString& artist);
-	virtual bool getArtistByID(int id, Artist& artist);
+	virtual bool getArtistByID(int id, Artist& artist, bool also_empty=false);
 
-	virtual bool getAllArtists(ArtistList& result, Library::SortOrder sortorder = Library::SortOrder::ArtistNameAsc);
+	virtual bool getAllArtists(ArtistList& result, bool also_empty);
+	virtual bool getAllArtists(ArtistList& result, Library::SortOrder sortorder = Library::SortOrder::ArtistNameAsc, bool also_empty=false);
 	virtual bool getAllArtistsBySearchString(const Library::Filter& filter, ArtistList& result, Library::SortOrder sortorder = Library::SortOrder::ArtistNameAsc);
 
 	virtual int insertArtistIntoDatabase(const QString& artist);

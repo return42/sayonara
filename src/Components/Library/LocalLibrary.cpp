@@ -371,7 +371,7 @@ void LocalLibrary::merge_albums(int target_album)
 	bool success;
 
 	Album album;
-	success =_db->getAlbumByID(target_album, album);
+	success =_db->getAlbumByID(target_album, album, true);
 	if(!success){
 		return;
 	}

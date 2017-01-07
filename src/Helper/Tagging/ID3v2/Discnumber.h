@@ -1,4 +1,4 @@
-/* Cover.h */
+/* Discnumber.h */
 
 /* Copyright (C) 2011-2017  Lucio Carreras
  *
@@ -18,43 +18,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef COVER_H
-#define COVER_H
+#ifndef DISCNUMBER_H
+#define DISCNUMBER_H
 
 #include "AbstractFrame.h"
+#include "Tagging/Models/Discnumber.h"
 
-#include <QByteArray>
-#include <QString>
-#include <taglib/attachedpictureframe.h>
+#include <taglib/textidentificationframe.h>
 
 namespace ID3v2Frame
 {
-	class Cover
-	{
-		private:
-			unsigned char text_encoding;
-			unsigned char picture_type;
-			QString description;
-
-		public:
-			QString mime_type;
-			QByteArray image_data;
-
-			Cover();
-			Cover(const QString& mime_type, const QByteArray& image_data);
-	};
-
-
 	/**
 	 * @brief The DiscnumberFrame class
 	 * @ingroup Tagging
 	 */
-	class CoverFrame :
-			public AbstractFrame<Cover, TagLib::ID3v2::AttachedPictureFrame>
+	class DiscnumberFrame :
+			public AbstractFrame<Models::Discnumber, TagLib::ID3v2::TextIdentificationFrame>
 	{
 		public:
-			CoverFrame(TagLib::FileRef* file_ref);
-			~CoverFrame();
+			DiscnumberFrame(const TagLib::FileRef& f);
+			virtual ~DiscnumberFrame();
 
 			void map_model_to_frame() override;
 			void map_frame_to_model() override;
@@ -63,4 +46,4 @@ namespace ID3v2Frame
 	};
 }
 
-#endif // COVER_H
+#endif // DISCNUMBER_H

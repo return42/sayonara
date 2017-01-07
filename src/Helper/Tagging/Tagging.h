@@ -49,7 +49,7 @@ namespace Tagging
 	{
 		ID3v1=0,
 		ID3v2,
-		APE,
+		Xiph,
 		Other,
 		Unknown
 	};
@@ -74,10 +74,10 @@ namespace Tagging
 
 	bool extract_cover(const MetaData& md, QByteArray& cover_data, QString& mime_type);
 
-	Tagging::TagType get_tag_type(const MetaData& md);
-	Tagging::TagType get_tag_type(const QString& filepath);
-
 	bool is_valid_file(const TagLib::FileRef& f);
+
+	Tagging::TagType get_tag_type(const TagLib::FileRef& f);
+	Tagging::TagType get_tag_type(const QString& filepath);
 }
 
 #endif

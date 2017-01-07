@@ -1,4 +1,4 @@
-/* AlbumArtist.h */
+/* Popularimeter.h */
 
 /* Copyright (C) 2011-2017  Lucio Carreras
  *
@@ -18,26 +18,35 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ALBUMARTIST_H
-#define ALBUMARTIST_H
+#ifndef POPULARIMETER_H
+#define POPULARIMETER_H
+
 
 #include "AbstractFrame.h"
+#include "Tagging/Models/Popularimeter.h"
+
+#include <QString>
+#include <taglib/popularimeterframe.h>
 
 namespace ID3v2Frame
 {
-	class AlbumArtistFrame :
-			public AbstractFrame<QString, TagLib::ID3v2::TextIdentificationFrame>
+	/**
+	 * @brief The PopularimeterFrame class
+	 * @ingroup Tagging
+	 */
+	class PopularimeterFrame :
+			public AbstractFrame<Models::Popularimeter, TagLib::ID3v2::PopularimeterFrame>
 	{
-		public:
-			explicit AlbumArtistFrame(TagLib::FileRef* file_ref);
-			virtual ~AlbumArtistFrame();
-
 		protected:
 			TagLib::ID3v2::Frame* create_id3v2_frame() override;
+
+		public:
+			PopularimeterFrame(const TagLib::FileRef& f);
+			virtual ~PopularimeterFrame();
 
 			void map_model_to_frame() override;
 			void map_frame_to_model() override;
 	};
 }
 
-#endif // ALBUMARTIST_H
+#endif // POPULARIMETER_H

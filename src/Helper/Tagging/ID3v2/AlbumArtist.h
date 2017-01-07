@@ -1,4 +1,4 @@
-/* Discnumber.h */
+/* AlbumArtist.h */
 
 /* Copyright (C) 2011-2017  Lucio Carreras
  *
@@ -18,49 +18,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef DISCNUMBER_H
-#define DISCNUMBER_H
+#ifndef ALBUMARTIST_H
+#define ALBUMARTIST_H
 
 #include "AbstractFrame.h"
 
-#include <QString>
-#include <taglib/textidentificationframe.h>
-
 namespace ID3v2Frame
 {
-	/**
-	 * @brief The Discnumber class
-	 * @ingroup Tagging
-	 */
-	class Discnumber
+	class AlbumArtistFrame :
+			public AbstractFrame<QString, TagLib::ID3v2::TextIdentificationFrame>
 	{
 		public:
+			explicit AlbumArtistFrame(const TagLib::FileRef& f);
+			virtual ~AlbumArtistFrame();
 
-			quint8		disc;
-			quint8		n_discs;
-
-			Discnumber();
-			Discnumber(quint8 disc, quint8 n_discs=1);
-			QString to_string();
-	};
-
-
-	/**
-	 * @brief The DiscnumberFrame class
-	 * @ingroup Tagging
-	 */
-	class DiscnumberFrame :
-			public AbstractFrame<Discnumber, TagLib::ID3v2::TextIdentificationFrame>
-	{
-		public:
-			DiscnumberFrame(TagLib::FileRef* file_ref);
-			~DiscnumberFrame();
+		protected:
+			TagLib::ID3v2::Frame* create_id3v2_frame() override;
 
 			void map_model_to_frame() override;
 			void map_frame_to_model() override;
-
-			TagLib::ID3v2::Frame* create_id3v2_frame() override;
 	};
 }
 
-#endif // DISCNUMBER_H
+#endif // ALBUMARTIST_H

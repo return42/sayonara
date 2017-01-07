@@ -741,6 +741,7 @@ bool DatabaseTracks::updateTrack(const MetaData& md)
 	q.prepare("UPDATE Tracks "
 			  "SET albumID=:albumID, "
 			  "artistID=:artistID, "
+			  "albumID=:albumID, "
 			  "albumArtistID=:albumArtistID, "
 			  "title=:title, "
 			  "year=:year, "

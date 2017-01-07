@@ -31,9 +31,10 @@ DatabaseAlbums::DatabaseAlbums(QSqlDatabase db, quint8 db_id) :
 	_artistid_field = "artistID";
 }
 
-QString DatabaseAlbums::fetch_query_albums() const
+QString DatabaseAlbums::fetch_query_albums(bool also_empty) const
 {
-	return "SELECT "
+	QString sql=
+			"SELECT "
 			"  albums.albumID AS albumID"
 			", albums.name AS albumName"
 			", SUM(tracks.length) / 1000 AS albumLength"
@@ -42,10 +43,17 @@ QString DatabaseAlbums::fetch_query_albums() const
 			", MAX(tracks.year) AS albumYear"
 			", GROUP_CONCAT(DISTINCT artists.name)"
 			", GROUP_CONCAT(DISTINCT tracks.discnumber)"
-			" FROM albums "
-			" INNER JOIN tracks ON tracks.albumID = albums.albumID "
-			" INNER JOIN artists ON tracks."+ _artistid_field + " = artists.artistID "
-	;
+			" FROM albums ";
+
+	QString join = " INNER JOIN ";
+	if(also_empty){
+		join = " LEFT OUTER JOIN ";
+	}
+
+	sql +=	join + " tracks ON tracks.albumID = albums.albumID " +
+			join + " artists ON tracks."+ _artistid_field + " = artists.artistID ";
+
+	return sql;
 }
 
 
@@ -158,14 +166,14 @@ int DatabaseAlbums::getAlbumID (const QString & album)
 }
 
 
-bool DatabaseAlbums::getAlbumByID(const int& id, Album& album)
+bool DatabaseAlbums::getAlbumByID(const int& id, Album& album, bool also_empty)
 {
 	if(id == -1) {
 		return false;
 	}
 
 	SayonaraQuery q(_db);
-	QString querytext =	fetch_query_albums() +
+	QString querytext =	fetch_query_albums(also_empty) +
 						" WHERE albums.albumID = :id "
 						" GROUP BY albums.albumID, albums.name, albums.rating ";
 
@@ -182,10 +190,15 @@ bool DatabaseAlbums::getAlbumByID(const int& id, Album& album)
 	return (albums.size() > 0);
 }
 
-bool DatabaseAlbums::getAllAlbums(AlbumList& result, Library::SortOrder sortorder)
+bool DatabaseAlbums::getAllAlbums(AlbumList& result, bool also_empty)
+{
+	return getAllAlbums(result, Library::SortOrder::AlbumNameAsc, also_empty);
+}
+
+bool DatabaseAlbums::getAllAlbums(AlbumList& result, Library::SortOrder sortorder, bool also_empty)
 {
 	SayonaraQuery q(_db);
-	QString querytext = fetch_query_albums() ;
+	QString querytext = fetch_query_albums(also_empty) ;
 
 	querytext += " GROUP BY albums.albumID, albums.name, albums.rating ";
 	querytext += _create_order_string(sortorder) + ";";
@@ -443,7 +456,7 @@ int DatabaseAlbums::insertAlbumIntoDatabase (const QString& album)
 	int album_id = getAlbumID(album);
 	if(album_id >= 0){
 		Album a;
-		getAlbumByID(album_id, a);
+		getAlbumByID(album_id, a, true);
 		return updateAlbum(a);
 	}
 

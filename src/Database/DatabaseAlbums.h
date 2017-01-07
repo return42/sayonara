@@ -37,7 +37,7 @@ private:
 	QString _artistid_field;
 
 	QString _create_order_string(Library::SortOrder order);
-	virtual QString fetch_query_albums() const;
+	virtual QString fetch_query_albums(bool also_empty=false) const;
 
 protected:
 	void change_artistid_field(const QString& field);
@@ -50,9 +50,11 @@ public:
 
 	virtual int getAlbumID (const QString& album);
 
-	virtual bool getAlbumByID(const int& id, Album& album);
+	virtual bool getAlbumByID(const int& id, Album& album, bool also_empty=false);
 
-	virtual bool getAllAlbums(AlbumList& result, Library::SortOrder sortorder=Library::SortOrder::AlbumNameAsc);
+	virtual bool getAllAlbums(AlbumList& result, bool also_empty);
+	virtual bool getAllAlbums(AlbumList& result, Library::SortOrder sortorder=Library::SortOrder::AlbumNameAsc, bool also_empty=false);
+
 
 	virtual bool getAllAlbumsByArtist(int artist, AlbumList& result);
 	virtual bool getAllAlbumsByArtist(int artist, AlbumList& result, const Library::Filter& filter, Library::SortOrder sortorder = Library::SortOrder::AlbumNameAsc);

@@ -53,8 +53,8 @@ bool DatabaseLibrary::storeMetadata(const MetaDataList& v_md)
 	QHash<QString, Album> album_map;
 	QHash<QString, Artist> artist_map;
 
-	db_albums.getAllAlbums(albums);
-	db_artists.getAllArtists(artists);
+	db_albums.getAllAlbums(albums, true);
+	db_artists.getAllArtists(artists, true);
 
 	for(const Album& album : albums){
 		album_map[album.name] = album;
@@ -67,7 +67,7 @@ bool DatabaseLibrary::storeMetadata(const MetaDataList& v_md)
 	albums.clear();
 	artists.clear();
 
-	for(const MetaData& md : v_md) {
+	for(MetaData md : v_md) {
 		int artist_id, album_id, album_artist_id;
 		//first check if we know the artist and its id
 		Album album = album_map[md.album];
@@ -92,6 +92,14 @@ bool DatabaseLibrary::storeMetadata(const MetaDataList& v_md)
 			artist_id = artist.id;
 		}
 
+		if(md.album_artist_id() == -1){
+			md.set_album_artist_id(artist_id);
+		}
+
+		if(md.album_artist().isEmpty()){
+			md.set_album_artist(md.artist);
+		}
+
 		Artist album_artist = artist_map[md.album_artist()];
 		if (album_artist.id < 0) {
 			if(md.album_artist().isEmpty()){
@@ -108,6 +116,9 @@ bool DatabaseLibrary::storeMetadata(const MetaDataList& v_md)
 		else{
 			album_artist_id = album_artist.id;
 		}
+
+		md.album_id = album_id;
+		md.artist_id = artist_id;
 
 		if(album_id == -1 || artist_id == -1){
 			sp_log(Log::Warning) << "Cannot insert artist or album of " << md.filepath();

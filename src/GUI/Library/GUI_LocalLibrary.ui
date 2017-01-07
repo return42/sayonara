@@ -33,6 +33,15 @@
      </property>
      <widget class="QWidget" name="page_library">
       <layout class="QGridLayout" name="gridLayout_7">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>5</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
        <item row="0" column="0">
         <widget class="QSplitter" name="splitter_genre">
          <property name="orientation">
@@ -236,7 +245,16 @@
          </widget>
          <widget class="QWidget" name="sidepane_widget" native="true">
           <layout class="QGridLayout" name="gridLayout_3">
-           <property name="margin">
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>0</number>
+           </property>
+           <property name="bottomMargin">
             <number>0</number>
            </property>
            <item row="0" column="0">
@@ -274,14 +292,23 @@
                  </property>
                  <widget class="QWidget" name="page">
                   <layout class="QGridLayout" name="gridLayout_5">
+                   <property name="leftMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="topMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="rightMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="bottomMargin">
+                    <number>0</number>
+                   </property>
                    <property name="horizontalSpacing">
                     <number>0</number>
                    </property>
                    <property name="verticalSpacing">
                     <number>3</number>
-                   </property>
-                   <property name="margin">
-                    <number>0</number>
                    </property>
                    <item row="0" column="0">
                     <widget class="LibraryGenreView" name="lv_genres">
@@ -326,7 +353,16 @@
                    <property name="spacing">
                     <number>6</number>
                    </property>
-                   <property name="margin">
+                   <property name="leftMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="topMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="rightMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="bottomMargin">
                     <number>0</number>
                    </property>
                    <item>

@@ -25,7 +25,7 @@ SET(SOURCES
     Library/DateFilter.cpp
     Library/Filter.cpp
     Library/SearchMode.cpp
-	Library/Sorting.cpp
+    Library/Sorting.cpp
 
     Logger/Logger.cpp
 
@@ -58,11 +58,18 @@ SET(SOURCES
 
     Tagging/Tagging.cpp
 
-    Tagging/Frames/AbstractFrame.cpp
-    Tagging/Frames/Discnumber.cpp
-    Tagging/Frames/Popularimeter.cpp
-    Tagging/Frames/Cover.cpp
-    Tagging/Frames/AlbumArtist.cpp
+    Tagging/ID3v2/AbstractFrame.cpp
+    Tagging/ID3v2/Discnumber.cpp
+    Tagging/ID3v2/Popularimeter.cpp
+    Tagging/ID3v2/Cover.cpp
+    Tagging/ID3v2/AlbumArtist.cpp
+    Tagging/Xiph/AlbumArtist.cpp
+    Tagging/Xiph/DiscnumberFrame.cpp
+    Tagging/Xiph/PopularimeterFrame.cpp
+
+    Tagging/Models/Discnumber.cpp
+    Tagging/Models/Cover.cpp
+    Tagging/Models/Popularimeter.cpp
 
     WebAccess/AsyncWebAccess.cpp
 )

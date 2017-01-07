@@ -19,20 +19,8 @@
 
 #include "Cover.h"
 
-ID3v2Frame::Cover::Cover()
-{
-	description = "Cover by Sayonara Player";
-}
-
-ID3v2Frame::Cover::Cover(const QString& mime_type_, const QByteArray& image_data_) : 
-	ID3v2Frame::Cover::Cover()
-{
-	mime_type = mime_type_;
-	image_data = image_data_;
-}
-
-ID3v2Frame::CoverFrame::CoverFrame(TagLib::FileRef* file_ref) :
-	AbstractFrame<Cover, TagLib::ID3v2::AttachedPictureFrame>(file_ref, "APIC") {}
+ID3v2Frame::CoverFrame::CoverFrame(const TagLib::FileRef& f) :
+	AbstractFrame<Models::Cover, TagLib::ID3v2::AttachedPictureFrame>(f, "APIC") {}
 
 ID3v2Frame::CoverFrame::~CoverFrame() {}
 
