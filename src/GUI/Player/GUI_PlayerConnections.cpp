@@ -26,6 +26,7 @@
 #include "GUI/Helper/Shortcuts/Shortcut.h"
 #include "GUI/Helper/Shortcuts/ShortcutHandler.h"
 #include "Helper/Language.h"
+#include "Helper/MetaData/MetaDataList.h"
 
 #ifdef WITH_MTP
 	#include "GUI/MTP/GUI_MTP.h"
