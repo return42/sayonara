@@ -67,7 +67,8 @@ class AbstractPipeline :
 		gchar*		_uri=nullptr;
 
 		qint64		_duration_ms;
-		qint64		_position_ms;
+		qint64		_position_source_ms;
+		qint64		_position_pipeline_ms;
 
 		bool tee_connect(GstElement* tee,
 						GstPadTemplate* tee_src_pad_template,
@@ -112,8 +113,9 @@ class AbstractPipeline :
 
 		virtual bool		set_uri(gchar* uri);
 
-		virtual qint64		get_duration_ms() final;
-		virtual qint64		get_position_ms() final;
+		virtual qint64		get_duration_ms() const final ;
+		virtual qint64		get_source_position_ms() const final;
+		virtual qint64		get_pipeline_position_ms() const final;
 
 		bool 				has_element(GstElement* e) const;
 };

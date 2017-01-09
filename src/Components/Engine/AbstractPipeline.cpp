@@ -34,7 +34,8 @@ AbstractPipeline::AbstractPipeline(QString name, Engine* engine, QObject* parent
 	_initialized = false;
 	_engine = engine;
 	_name = name;
-    _position_ms = 0;
+	_position_source_ms = 0;
+	_position_pipeline_ms = 0;
     _duration_ms = 0;
 	_about_to_finish = false;
 }
@@ -105,7 +106,7 @@ bool AbstractPipeline::init(GstState state)
 void AbstractPipeline::refresh_position() 
 {
 	gint64 pos_pipeline, pos_source;
-	bool success;
+	bool success_source, success_pipeline;
 	GstElement* element;
 
 	element = get_source();
@@ -114,23 +115,21 @@ void AbstractPipeline::refresh_position()
 		element = GST_ELEMENT(_pipeline);
 	}
 
-	success = gst_element_query_position(element, GST_FORMAT_TIME, &pos_source);
+	success_source = gst_element_query_position(element, GST_FORMAT_TIME, &pos_source);
+	success_pipeline = gst_element_query_position(_pipeline, GST_FORMAT_TIME, &pos_pipeline);
 
-	if(success && (pos_source >> 10) > 0){
-		_position_ms = GST_TIME_AS_MSECONDS(pos_source);
+	_position_source_ms = 0;
+	_position_pipeline_ms = 0;
+	if(success_source){
+		_position_source_ms = GST_TIME_AS_MSECONDS(pos_source);
 	}
 
-	else if(success){
-		gst_element_query_position(_pipeline, GST_FORMAT_TIME, &pos_pipeline);
-		_position_ms = GST_TIME_AS_MSECONDS(pos_pipeline);
-	}
-
-	else{
-		_position_ms = 0;
+	if(success_pipeline){
+		_position_pipeline_ms = GST_TIME_AS_MSECONDS(pos_pipeline);
 	}
 
 	if(_duration_ms >= 0){
-		emit sig_pos_changed_ms( _position_ms);
+		emit sig_pos_changed_ms( _position_pipeline_ms );
 	}
 }
 
@@ -169,18 +168,16 @@ static void show_time_info(gint64 pos, gint64 dur){
 */
 void AbstractPipeline::check_about_to_finish()
 {
-	gint64 difference = _duration_ms - _position_ms;
-
+	gint64 difference = _duration_ms - _position_pipeline_ms;
 
 	if(difference <= 0 && !_about_to_finish){
 		refresh_duration();
-
 
 		if(_duration_ms <= 0){
 			return;
 		}
 
-		difference = _duration_ms - _position_ms;
+		difference = _duration_ms - _position_pipeline_ms;
 	}
 
 	//show_time_info(_position_ms, _duration_ms);
@@ -216,16 +213,20 @@ qint64 AbstractPipeline::get_time_to_go() const
 }
 
 
-qint64 AbstractPipeline::get_duration_ms()
+qint64 AbstractPipeline::get_duration_ms() const
 {
     return _duration_ms;
 }
 
-qint64 AbstractPipeline::get_position_ms()
+qint64 AbstractPipeline::get_source_position_ms() const
 {
-    return _position_ms;
+	return _position_source_ms;
 }
 
+qint64 AbstractPipeline::get_pipeline_position_ms() const
+{
+	return _position_pipeline_ms;
+}
 
 void AbstractPipeline::finished()
 {

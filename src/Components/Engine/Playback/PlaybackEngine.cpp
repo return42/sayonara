@@ -280,7 +280,7 @@ void PlaybackEngine::jump_abs_ms(quint64 pos_ms)
 
 void PlaybackEngine::jump_rel_ms(quint64 ms)
 {
-	quint64 new_time_ms = _pipeline->get_position_ms() + ms;
+	quint64 new_time_ms = _pipeline->get_source_position_ms() + ms;
 	_pipeline->seek_abs(new_time_ms * GST_MSECOND);
 }
 

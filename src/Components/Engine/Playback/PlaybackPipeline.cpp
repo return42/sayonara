@@ -97,7 +97,6 @@ bool PlaybackPipeline::create_elements()
 
 	// standard output branch
 	if(!create_element(&_eq_queue, "queue", "eq_queue")) return false;
-	//if(!create_element(&_speed, "scaletempo")) return false;
 	if(!create_element(&_volume, "volume")) return false;
 	if(!create_element(&_audio_sink, "autoaudiosink")) return false;
 
@@ -297,7 +296,6 @@ bool PlaybackPipeline::configure_elements()
 					 nullptr);
 
 		g_object_set(G_OBJECT(_file_sink),
-//					 "buffer-mode", 1,
 					 "buffer-size", 8192,
 					 "location", (Helper::get_sayonara_path() + "bla.mp3").toLocal8Bit().data(),
 					 nullptr);
@@ -348,7 +346,6 @@ void PlaybackPipeline::init_equalizer()
 
 	int i=0;
 
-
 	for(auto it=values.begin(); it != values.end(); it++){
 		double new_val;
 		if (*it > 0) {
@@ -380,7 +377,8 @@ void PlaybackPipeline::pause()
 
 void PlaybackPipeline::stop()
 {
-	_position_ms = 0;
+	_position_source_ms = 0;
+	_position_pipeline_ms = 0;
 	_duration_ms = 0;
 	_uri = nullptr;
 
