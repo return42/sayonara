@@ -1613,8 +1613,7 @@
         <location filename="../../build_cotire/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
         <source>Example</source>
-        <translation>Beispiel
-</translation>
+        <translation>Beispiel</translation>
     </message>
     <message>
         <location line="+27"/>
@@ -2023,7 +2022,7 @@
     <message>
         <location line="+54"/>
         <source>%1 playlists found</source>
-        <translation>%1 Playlist gefunden</translation>
+        <translation>%1 Wiedergabelisten gefunden</translation>
     </message>
     <message>
         <location line="-9"/>
@@ -3893,13 +3892,6 @@ Bitte ein anderes Verzeichnis wählen</translation>
         <location filename="../../build_release/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
         <source>Donate</source>
         <translation>Spenden</translation>
-    </message>
-    <message>
-        <location filename="../../build_clang/src/GUI/Player/ui_GUI_Player.h" line="+11"/>
-        <location filename="../../build_cotire/src/GUI/Player/ui_GUI_Player.h" line="+11"/>
-        <location filename="../../build_release/src/GUI/Player/ui_GUI_Player.h" line="+11"/>
-        <source>Copyright 2011-2016</source>
-        <translation>Copyright 2011-2016</translation>
     </message>
 </context>
 <context>

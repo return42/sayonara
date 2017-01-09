@@ -3902,8 +3902,8 @@ de ID3v2</translation>
         <location filename="../../build_clang/src/GUI/Player/ui_GUI_Player.h" line="+11"/>
         <location filename="../../build_cotire/src/GUI/Player/ui_GUI_Player.h" line="+11"/>
         <location filename="../../build_release/src/GUI/Player/ui_GUI_Player.h" line="+11"/>
-        <source>Copyright 2011-2016</source>
-        <translation>Derechos de autor 2011-2016</translation>
+        <source>Copyright 2011-2017</source>
+        <translation>Derechos de autor 2011-2017</translation>
     </message>
 </context>
 <context>

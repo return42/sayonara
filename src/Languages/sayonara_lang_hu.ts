@@ -3895,8 +3895,8 @@ Kérjük, válasszon egy másik mappát</translation>
         <location filename="../../build_clang/src/GUI/Player/ui_GUI_Player.h" line="+12"/>
         <location filename="../../build_cotire/src/GUI/Player/ui_GUI_Player.h" line="+12"/>
         <location filename="../../build_release/src/GUI/Player/ui_GUI_Player.h" line="+12"/>
-        <source>Copyright 2011-2016</source>
-        <translation>Copyright 2011-2016</translation>
+        <source>Copyright 2011-2017</source>
+        <translation>Copyright 2011-2017</translation>
     </message>
 </context>
 <context>

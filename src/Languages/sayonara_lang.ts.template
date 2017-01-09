@@ -35,6 +35,7 @@
         <location filename="../../build_cotire/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="+1"/>
         <source>Search</source>
+        <translatorcomment>Search button text</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -44,6 +45,7 @@
         <location filename="../../build_cotire/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="+1"/>
         <source>Online search</source>
+        <translatorcomment>Search in the www</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -110,6 +112,7 @@
         <location filename="../../build_cotire/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="+1"/>
         <source>Alternative Cover</source>
+        <translatorcomment>Search for an alternative cover</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -130,6 +133,7 @@
     <message>
         <location line="+96"/>
         <source>Overwrite?</source>
+        <translatorcomment>Overwrite existing entry</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -144,6 +148,7 @@
     <message>
         <location filename="../GUI/Covers/GUI_AlternativeCovers.cpp" line="+184"/>
         <source>This cover does not exist</source>
+        <translatorcomment>This cover image does not exist</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -172,6 +177,7 @@
         <location filename="../../build_release/src/GUI/Plugins/AudioConverter/ui_GUI_AudioConvert.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Plugins/Engine/ui_GUI_AudioConvert.h" line="+1"/>
         <source>Constant Bitrate</source>
+        <translatorcomment>MP3 constant bitrate</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -179,6 +185,7 @@
         <location filename="../../build_release/src/GUI/Plugins/AudioConverter/ui_GUI_AudioConvert.h" line="-2"/>
         <location filename="../../build_release/src/GUI/Plugins/Engine/ui_GUI_AudioConvert.h" line="-2"/>
         <source>Variable Bitrate</source>
+        <translatorcomment>MP3 variable bitrate</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -186,6 +193,7 @@
         <location filename="../../build_release/src/GUI/Plugins/AudioConverter/ui_GUI_AudioConvert.h" line="-1"/>
         <location filename="../../build_release/src/GUI/Plugins/Engine/ui_GUI_AudioConvert.h" line="-1"/>
         <source>Activate</source>
+        <translatorcomment>Button text for activate something</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -200,11 +208,13 @@
     <message>
         <location line="+44"/>
         <source>0 (Best)</source>
+        <translatorcomment>best quality</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+9"/>
         <source>9 (Worst)</source>
+        <translatorcomment>worst quality</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -253,6 +263,7 @@
         <location filename="../../build_cotire/src/GUI/Plugins/Bookmarks/ui_GUI_Bookmarks.h" line="+174"/>
         <location filename="../../build_release/src/GUI/Plugins/Bookmarks/ui_GUI_Bookmarks.h" line="+174"/>
         <source>Menu</source>
+        <translatorcomment>Button text to open a menu</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -311,6 +322,7 @@
         <location filename="../../build_cotire/src/GUI/Plugins/Broadcasting/ui_GUI_Broadcast.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Plugins/Broadcasting/ui_GUI_Broadcast.h" line="+1"/>
         <source>Retry</source>
+        <translatorcomment>Retry connecting </translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -392,6 +404,7 @@
         <location filename="../../build_cotire/src/GUI/Preferences/ui_GUI_BroadcastSetup.h" line="+3"/>
         <location filename="../../build_release/src/GUI/Preferences/ui_GUI_BroadcastSetup.h" line="+3"/>
         <source>Stream URL:</source>
+        <translatorcomment>Open stream for that URL</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -401,6 +414,7 @@
         <location filename="../../build_cotire/src/GUI/Preferences/ui_GUI_BroadcastSetup.h" line="-5"/>
         <location filename="../../build_release/src/GUI/Preferences/ui_GUI_BroadcastSetup.h" line="-5"/>
         <source>Port</source>
+        <translatorcomment>TCP Port</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -429,12 +443,14 @@
         <location filename="../GUI/Library/GUI_DateSearchConfig.ui" line="+14"/>
         <location filename="../../build/src/GUI/Library/ui_GUI_DateSearchConfig.h" line="+300"/>
         <source>Edit Filter</source>
+        <translatorcomment>Edit a search filter for the library</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+7"/>
         <location filename="../../build/src/GUI/Library/ui_GUI_DateSearchConfig.h" line="+3"/>
         <source>Newer than</source>
+        <translatorcomment>e.g. newer than 4 days</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -447,6 +463,7 @@
         <location line="+5"/>
         <location filename="../../build/src/GUI/Library/ui_GUI_DateSearchConfig.h" line="+1"/>
         <source>Between</source>
+        <translatorcomment>e.g. between 3 days and 4 weeks</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -531,6 +548,7 @@
         <location filename="../../build_cotire/src/GUI/DirectoryWidget/ui_GUI_DirectoryWidget.h" line="+140"/>
         <location filename="../../build_release/src/GUI/DirectoryWidget/ui_GUI_DirectoryWidget.h" line="+140"/>
         <source>Search</source>
+        <translatorcomment>Search button text</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -568,6 +586,7 @@
     <message>
         <location filename="../GUI/Preferences/Fonts/GUI_FontConfig.cpp" line="+47"/>
         <source>Fonts</source>
+        <translatorcomment>Font configuration header </translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -653,26 +672,31 @@
     <message>
         <location line="+16"/>
         <source>Loading tracks...</source>
+        <translatorcomment>Status message, that currently tracks are loaded</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Importing...</source>
+        <translatorcomment>Status message that player is currently importing some tracks</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Finished</source>
+        <translatorcomment>status message that importing has been finished</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Cancelled</source>
+        <translatorcomment>status message, that importing was cancelled</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+5"/>
         <source>No tracks</source>
+        <translatorcomment>status message, that there are no tracks available</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -694,6 +718,7 @@
     <message>
         <location line="+50"/>
         <source>Choose target directory</source>
+        <translatorcomment>choose the directory where something has to be stored</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -734,6 +759,7 @@
     <message>
         <location filename="../GUI/Preferences/LastFM/GUI_LastFM.cpp" line="+154"/>
         <source>Logged in</source>
+        <translatorcomment>status message: You are currently logged in</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -762,6 +788,7 @@
         <location filename="../../build_cotire/src/GUI/Preferences/ui_GUI_LastFM.h" line="+2"/>
         <location filename="../../build_release/src/GUI/Preferences/ui_GUI_LastFM.h" line="+2"/>
         <source>Scrobble after</source>
+        <translatorcomment>When should last.fm scrobble? e.g. scrobble after 10 seconds</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -771,6 +798,7 @@
         <location filename="../../build_cotire/src/GUI/Preferences/ui_GUI_LastFM.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Preferences/ui_GUI_LastFM.h" line="+1"/>
         <source>sec</source>
+        <translatorcomment>short form of seconds. But it does not need to be the short form</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -780,6 +808,7 @@
         <location filename="../../build_cotire/src/GUI/Preferences/ui_GUI_LastFM.h" line="+2"/>
         <location filename="../../build_release/src/GUI/Preferences/ui_GUI_LastFM.h" line="+2"/>
         <source>Login now</source>
+        <translatorcomment>Button text. When clicked, you log in to last.fm</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -844,6 +873,7 @@
     <message>
         <location filename="../GUI/Plugins/Engine/GUI_LevelPainter.cpp" line="+102"/>
         <source>Level</source>
+        <translatorcomment>Header for the level meter plugin</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -940,6 +970,7 @@
         <location filename="../../build_cotire/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
         <source>Case insensitive</source>
+        <translatorcomment>ignore capital/non-capital letters (you can translate this term)</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -958,6 +989,7 @@
         <location filename="../../build_cotire/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
         <source>Ignore special characters</source>
+        <translatorcomment>ignore characters that are not in the alphabet, like spaces, quotes...</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -967,6 +999,7 @@
         <location filename="../../build_cotire/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
         <source>Ignore accents</source>
+        <translatorcomment>ignore accents or umlaute.</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1114,6 +1147,7 @@
         <location filename="../../build_cotire/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+1"/>
         <source>Set library path</source>
+        <translatorcomment>Set the path for you music library</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1133,6 +1167,7 @@
         <location filename="../../build_cotire/src/GUI/Library/ui_GUI_LocalLibrary.h" line="-5"/>
         <location filename="../../build_release/src/GUI/Library/ui_GUI_LocalLibrary.h" line="-5"/>
         <source>Search</source>
+        <translatorcomment>text for the search button</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1160,6 +1195,7 @@
         <location filename="../../build_cotire/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+6"/>
         <location filename="../../build_release/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+6"/>
         <source>Search for title, interprets and albums</source>
+        <translatorcomment>tooltip for the closer description</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1169,6 +1205,7 @@
         <location filename="../../build_cotire/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+3"/>
         <location filename="../../build_release/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+3"/>
         <source>Show all interprets, albums, tracks</source>
+        <translatorcomment>tooltip for closer description</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1230,11 +1267,13 @@
         <location filename="../../build_release/src/GUI/MTP/ui_GUI_MTP.h" line="+1"/>
         <location filename="../GUI/MTP/GUI_MTP.cpp" line="+191"/>
         <source>Refresh</source>
+        <translatorcomment>refresh the current view</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../GUI/MTP/GUI_MTP.cpp" line="-7"/>
         <source>Opening</source>
+        <translatorcomment>status message, that the device is currently opened</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1243,6 +1282,7 @@
     <message>
         <location filename="../GUI/Preferences/Notifications/GUI_Notifications.cpp" line="+92"/>
         <source>Notifications</source>
+        <translatorcomment>these are those little popups when changing a track</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1252,6 +1292,7 @@
         <location filename="../../build_cotire/src/GUI/Preferences/ui_GUI_Notifications.h" line="+77"/>
         <location filename="../../build_release/src/GUI/Preferences/ui_GUI_Notifications.h" line="+77"/>
         <source>Timeout (ms)</source>
+        <translatorcomment>how long should this popup be displayed</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1371,6 +1412,7 @@
         <location filename="../../build_cotire/src/GUI/Preferences/ui_GUI_PlayerPreferences.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Preferences/ui_GUI_PlayerPreferences.h" line="+1"/>
         <source>Show system tray icon</source>
+        <translatorcomment>show this little icon in the task bar</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1394,6 +1436,7 @@
     <message>
         <location filename="../GUI/Playlist/GUI_Playlist.cpp" line="+323"/>
         <source>Playlist empty</source>
+        <translatorcomment>your playlist is empty</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1433,6 +1476,7 @@
     <message>
         <location line="+0"/>
         <source>Overwrite?</source>
+        <translatorcomment>overwrite already existing </translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1456,6 +1500,7 @@
         <location filename="../../build_cotire/src/GUI/Playlist/ui_GUI_PlaylistBottomBar.h" line="+167"/>
         <location filename="../../build_release/src/GUI/Playlist/ui_GUI_PlaylistBottomBar.h" line="+167"/>
         <source>Repeat 1</source>
+        <translatorcomment>repeat only one track</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1490,6 +1535,7 @@
         <location line="+5"/>
         <location line="+5"/>
         <source>Enter</source>
+        <translatorcomment>I guess that&apos;s the name of the enter key on your keyboard. </translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1499,6 +1545,7 @@
         <location filename="../../build_cotire/src/GUI/Playlist/ui_GUI_PlaylistBottomBar.h" line="-23"/>
         <location filename="../../build_release/src/GUI/Playlist/ui_GUI_PlaylistBottomBar.h" line="-23"/>
         <source>Repeat All</source>
+        <translatorcomment>repeat all tracks</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1543,6 +1590,7 @@
     <message>
         <location filename="../GUI/Playlist/BottomBar/GUI_PlaylistBottomBar.cpp" line="+184"/>
         <source>Please set library path first</source>
+        <translatorcomment>no library path given until now. you have to set one first</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1598,6 +1646,7 @@
         <location filename="../../build_cotire/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
         <source>Look</source>
+        <translatorcomment>set the look of the playlist</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1667,7 +1716,7 @@
         <location filename="../../build_cotire/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+3"/>
         <location filename="../../build_release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+3"/>
         <source>&apos;italic text&apos;</source>
-        <translatorcomment>cursive text</translatorcomment>
+        <translatorcomment>cursive text, please add those quote marks, too</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1686,6 +1735,7 @@
         <location filename="../../build_cotire/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
         <source>*bold text*</source>
+        <translatorcomment>big, fat letters. please add those star symbols too</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1755,6 +1805,7 @@
         <location filename="../../build_cotire/src/GUI/Plugins/Stream/ui_GUI_Podcasts.h" line="+3"/>
         <location filename="../../build_release/src/GUI/Plugins/Stream/ui_GUI_Podcasts.h" line="+3"/>
         <source>Listen</source>
+        <translatorcomment>button text. if you click, you will listen to the radio</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1860,6 +1911,7 @@
     <message>
         <location filename="../GUI/Preferences/RemoteControl/GUI_RemoteControl.cpp" line="+84"/>
         <source>Remote control</source>
+        <translatorcomment>this thing you have on your TV, too</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1878,6 +1930,7 @@
         <location filename="../../build_cotire/src/GUI/Preferences/ui_GUI_RemoteControl.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Preferences/ui_GUI_RemoteControl.h" line="+1"/>
         <source>Remote control URL</source>
+        <translatorcomment>url where the remote control should connect to</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1887,6 +1940,7 @@
         <location filename="../../build_cotire/src/GUI/Preferences/ui_GUI_RemoteControl.h" line="-2"/>
         <location filename="../../build_release/src/GUI/Preferences/ui_GUI_RemoteControl.h" line="-2"/>
         <source>Port</source>
+        <translatorcomment>tcp port</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1911,6 +1965,7 @@
     <message>
         <location line="+47"/>
         <source>Test</source>
+        <translatorcomment>test your shortcut</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2031,7 +2086,7 @@
         <location filename="../../build_cotire/src/3rdParty/SomaFM/ui_GUI_SomaFM.h" line="+1"/>
         <location filename="../../build_release/src/3rdParty/SomaFM/ui_GUI_SomaFM.h" line="+1"/>
         <source>Streams</source>
-        <translatorcomment>every station has several stream</translatorcomment>
+        <translatorcomment>every station has several streams</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2040,6 +2095,7 @@
     <message>
         <location filename="../3rdParty/Soundcloud/ui/GUI_SoundcloudLibrary.cpp" line="+36"/>
         <source>Add artist</source>
+        <translatorcomment>add a new artist to your soundcloud library</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2086,26 +2142,31 @@
     <message>
         <location filename="../3rdParty/Soundcloud/ui/GUI_SoundcloudArtistSearch.cpp" line="+57"/>
         <source>Query too short</source>
+        <translatorcomment>your search query is too short</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+81"/>
         <source>No artists found</source>
+        <translatorcomment>no artists found for your search query</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Found %1 artists</source>
+        <translatorcomment>e.g. 5 artists found</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+54"/>
         <source>%1 playlists found</source>
+        <translatorcomment>e.g. 4 playlists found</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="-9"/>
         <source>%1 tracks found</source>
+        <translatorcomment>e.g. 10 tracks found</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2127,7 +2188,7 @@
         <location filename="../../build_cotire/src/3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h" line="+8"/>
         <location filename="../../build_release/src/3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h" line="+8"/>
         <source>Shortcuts: &lt;br /&gt;Search &lt;span style=&quot; font-weight:600;&quot;&gt;s: &lt;br /&gt; &lt;/span&gt;Genre &lt;span style=&quot; font-weight:600;&quot;&gt;g: &lt;br /&gt;&lt;/span&gt;Path &lt;span style=&quot; font-weight:600;&quot;&gt;p:&lt;br/&gt;</source>
-        <translatorcomment>a mess again</translatorcomment>
+        <translatorcomment>a mess again, but it&apos;s only a tooltip</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2137,6 +2198,7 @@
         <location filename="../../build_cotire/src/3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h" line="-5"/>
         <location filename="../../build_release/src/3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h" line="-5"/>
         <source>Search</source>
+        <translatorcomment>search button text</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2146,6 +2208,7 @@
         <location filename="../../build_cotire/src/3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h" line="+1"/>
         <location filename="../../build_release/src/3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h" line="+1"/>
         <source>Genre</source>
+        <translatorcomment>search for genre</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2155,6 +2218,7 @@
         <location filename="../../build_cotire/src/3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h" line="+1"/>
         <location filename="../../build_release/src/3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h" line="+1"/>
         <source>Path</source>
+        <translatorcomment>search for file path</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2192,6 +2256,7 @@
     <message>
         <location filename="../GUI/Plugins/Engine/GUI_Spectrum.cpp" line="+109"/>
         <source>Spectrum</source>
+        <translatorcomment>header text for the spectrum analyzer</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2231,6 +2296,7 @@
         <location filename="../../build_release/src/GUI/Plugins/Engine/ui_GUI_Speed.h" line="-2"/>
         <location filename="../../build_release/src/GUI/Plugins/Speed/ui_GUI_Speed.h" line="-2"/>
         <source>Preserve pitch</source>
+        <translatorcomment>keep the pitch when changing the speed. Avoid this Mickey mouse effect</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2263,12 +2329,14 @@
         <location filename="../../build_release/src/GUI/Plugins/Engine/ui_GUI_Speed.h" line="-3"/>
         <location filename="../../build_release/src/GUI/Plugins/Speed/ui_GUI_Speed.h" line="-3"/>
         <source>Speed</source>
+        <translatorcomment>header text for playback speed</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../GUI/Plugins/Engine/Speed/GUI_Speed.cpp" line="+62"/>
         <location line="+1"/>
         <source>%1 not found</source>
+        <translatorcomment>e.g. speed element not found</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2292,6 +2360,7 @@
     <message>
         <location line="+7"/>
         <source>Start playing</source>
+        <translatorcomment>start playing when starting the player</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2331,7 +2400,7 @@
         <location filename="../../build_cotire/src/GUI/Plugins/Stream/ui_GUI_Stream.h" line="+3"/>
         <location filename="../../build_release/src/GUI/Plugins/Stream/ui_GUI_Stream.h" line="+3"/>
         <source>Type name you want to save the stream as</source>
-        <translatorcomment>We already had this</translatorcomment>
+        <translatorcomment>We already had this in GUI_Podcasts</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2442,6 +2511,7 @@ Please choose another folder</source>
         <location line="+0"/>
         <location line="+27"/>
         <source>Stream recorder</source>
+        <translatorcomment>header text for this internet stream recorder</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2526,7 +2596,7 @@ Please choose another folder</source>
         <location filename="../../build_release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="-3"/>
         <location line="+7"/>
         <source>Fading steps</source>
-        <translatorcomment>fade out steps</translatorcomment>
+        <translatorcomment>fade out steps, how many steps are there until the cover disappears. This term is really annoying.</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2536,6 +2606,7 @@ Please choose another folder</source>
         <location filename="../../build_cotire/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="-5"/>
         <location filename="../../build_release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="-5"/>
         <source>Level</source>
+        <translatorcomment>level meter</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2545,6 +2616,7 @@ Please choose another folder</source>
         <location filename="../../build_cotire/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+2"/>
         <location filename="../../build_release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+2"/>
         <source>Rect width</source>
+        <translatorcomment>rectangle width</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2650,6 +2722,7 @@ Please choose another folder</source>
         <location filename="../../build_release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-23"/>
         <location line="+27"/>
         <source># Track</source>
+        <translatorcomment>number of tracks</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2794,6 +2867,7 @@ Please choose another folder</source>
         <location line="-249"/>
         <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-15"/>
         <source>Album artist</source>
+        <translatorcomment>some albums (especially sampler) also have an extra artist </translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3030,6 +3104,7 @@ Please choose another folder</source>
         <location filename="../../build_cotire/src/GUI/Library/ui_GUI_ImportFolder.h" line="+149"/>
         <location filename="../../build_release/src/GUI/Library/ui_GUI_ImportFolder.h" line="+149"/>
         <source>Import</source>
+        <translatorcomment>import tracks to library</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3039,6 +3114,7 @@ Please choose another folder</source>
         <location filename="../../build_cotire/src/GUI/Library/ui_GUI_ImportFolder.h" line="+2"/>
         <location filename="../../build_release/src/GUI/Library/ui_GUI_ImportFolder.h" line="+2"/>
         <source>Select target folder</source>
+        <translatorcomment>select the forlder where files should be stored</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3133,6 +3209,7 @@ Please choose another folder</source>
         <location filename="../../build_cotire/src/GUI/InfoDialog/ui_GUI_InfoDialog.h" line="-4"/>
         <location filename="../../build_release/src/GUI/InfoDialog/ui_GUI_InfoDialog.h" line="-4"/>
         <source>Paths</source>
+        <translatorcomment>file paths</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3168,6 +3245,7 @@ Please choose another folder</source>
     <message>
         <location filename="../Helper/Language.cpp" line="+60"/>
         <source>About</source>
+        <translatorcomment>this is the text when clicking on help-&gt;about</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3183,6 +3261,7 @@ Please choose another folder</source>
     <message>
         <location line="+2"/>
         <source>Add tab</source>
+        <translatorcomment>add a new tab to the playlist</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3198,6 +3277,7 @@ Please choose another folder</source>
     <message>
         <location line="+2"/>
         <source>Append</source>
+        <translatorcomment>append tracks to a list</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3223,11 +3303,13 @@ Please choose another folder</source>
     <message>
         <location line="+2"/>
         <source>Broadcast</source>
+        <translatorcomment>the broadcasting plugin</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+2"/>
         <source>by</source>
+        <translatorcomment>e.g. Master of puppets by metallica</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3238,6 +3320,7 @@ Please choose another folder</source>
     <message>
         <location line="+2"/>
         <source>Clear</source>
+        <translatorcomment>clear a view</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3248,6 +3331,7 @@ Please choose another folder</source>
     <message>
         <location line="+2"/>
         <source>Close others</source>
+        <translatorcomment>e.g. close other tabs</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3258,11 +3342,13 @@ Please choose another folder</source>
     <message>
         <location line="+2"/>
         <source>Continue</source>
+        <translatorcomment>go on</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+3"/>
         <source>d</source>
+        <translatorcomment>short form of day</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3288,6 +3374,7 @@ Please choose another folder</source>
     <message>
         <location line="+4"/>
         <source>Dur.</source>
+        <translatorcomment>short form of duration</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3298,11 +3385,13 @@ Please choose another folder</source>
     <message>
         <location line="-41"/>
         <source>Album artists</source>
+        <translatorcomment>some albums (especially sampler) also have an extra artist</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+45"/>
         <source>Dynamic playback</source>
+        <translatorcomment>new tracks by similar artists are automatically added to the playlist</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3313,6 +3402,7 @@ Please choose another folder</source>
     <message>
         <location line="+2"/>
         <source>Entry</source>
+        <translatorcomment>some list entry</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3328,6 +3418,7 @@ Please choose another folder</source>
     <message>
         <location line="+2"/>
         <source>Fast</source>
+        <translatorcomment>do something fast</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3368,6 +3459,7 @@ Please choose another folder</source>
     <message>
         <location line="+3"/>
         <source>h</source>
+        <translatorcomment>short form of hour</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3413,16 +3505,19 @@ Please choose another folder</source>
     <message>
         <location line="+3"/>
         <source>m</source>
+        <translatorcomment>short form of minute</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Mute on</source>
+        <translatorcomment>Mute the stuff, I don&apos;t wanna hear anyting</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Mute off</source>
+        <translatorcomment>i wanna hear something again. Switch off muting</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3443,6 +3538,7 @@ Please choose another folder</source>
     <message>
         <location line="+2"/>
         <source>None</source>
+        <translatorcomment>This means not available in most cases. </translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3453,11 +3549,13 @@ Please choose another folder</source>
     <message>
         <location line="+2"/>
         <source>on</source>
+        <translatorcomment>e.g. 5th track on some album</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Open</source>
+        <translatorcomment>the common word in the file dialog</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3493,6 +3591,7 @@ Please choose another folder</source>
     <message>
         <location line="+2"/>
         <source>Playing time</source>
+        <translatorcomment>summed up playing time of some tracks</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3508,6 +3607,7 @@ Please choose another folder</source>
     <message>
         <location line="+2"/>
         <source>Play next</source>
+        <translatorcomment>insert tracks behind the current played tracks</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3523,11 +3623,13 @@ Please choose another folder</source>
     <message>
         <location line="+2"/>
         <source>Rating</source>
+        <translatorcomment>rating for tracks</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Really</source>
+        <translatorcomment>are you sure?</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3563,16 +3665,19 @@ Please choose another folder</source>
     <message>
         <location line="+2"/>
         <source>Refresh</source>
+        <translatorcomment>refresh a view</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Sampler</source>
+        <translatorcomment>an album with many artists, like e.g. a soundtrack</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Shuffle</source>
+        <translatorcomment>random playback</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3598,6 +3703,7 @@ Please choose another folder</source>
     <message>
         <location line="+2"/>
         <source>Search next</source>
+        <translatorcomment>search for next match</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3608,6 +3714,7 @@ Please choose another folder</source>
     <message>
         <location line="+3"/>
         <source>s</source>
+        <translatorcomment>short form of seconds</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3736,11 +3843,13 @@ Please choose another folder</source>
     <message>
         <location filename="../GUI/Helper/Library/LibraryDeleteDialog.cpp" line="+22"/>
         <source>Only from library</source>
+        <translatorcomment>delete tracks only from library</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+3"/>
         <source>You are about to delete %1 files</source>
+        <translatorcomment>this is a warning text. e.g. You are about to delete 5 files. Are you really sure? Are you?</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3759,6 +3868,7 @@ Please choose another folder</source>
     <message>
         <location filename="../Components/Library/Importer/LibraryImporter.cpp" line="+150"/>
         <source>All files could be imported</source>
+        <translatorcomment>all files you wished to be imported could be imported</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3785,6 +3895,7 @@ Please choose another folder</source>
     <message>
         <location filename="../GUI/Library/Views/LibraryView.cpp" line="+111"/>
         <source>Merge</source>
+        <translatorcomment>merge some artists are albums. e.g. merge Guns &apos;n&apos; Roses and Guns &apos;n Roses to one artist</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3793,6 +3904,7 @@ Please choose another folder</source>
     <message>
         <location filename="../GUI/Library/LocalLibraryContainer.cpp" line="+37"/>
         <source>Local Library</source>
+        <translatorcomment>your library with your local media</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3809,6 +3921,7 @@ Please choose another folder</source>
         <location line="-45"/>
         <location line="+46"/>
         <source>Auto update</source>
+        <translatorcomment>automatically update your music collection if some tracks were deleted/modified/added in your file system</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3967,6 +4080,7 @@ Please choose another folder</source>
         <location filename="../../build_cotire/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
         <location filename="../../build_release/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
         <source>Dark</source>
+        <translatorcomment>The dark skin</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4014,13 +4128,6 @@ Please choose another folder</source>
         <source>Donate</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <location filename="../../build_clang/src/GUI/Player/ui_GUI_Player.h" line="+11"/>
-        <location filename="../../build_cotire/src/GUI/Player/ui_GUI_Player.h" line="+11"/>
-        <location filename="../../build_release/src/GUI/Player/ui_GUI_Player.h" line="+11"/>
-        <source>Copyright 2011-2016</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>Shutdown</name>
@@ -4033,6 +4140,7 @@ Please choose another folder</source>
         <location line="+24"/>
         <location line="+25"/>
         <source>Computer will shutdown in %1 minutes</source>
+        <translatorcomment>computer will shutdown after 40 minutes</translatorcomment>
         <translation type="unfinished"></translation>
     </message>
 </context>
