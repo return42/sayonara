@@ -36,9 +36,6 @@ class GUI_PlaylistPreferences :
 {
 	Q_OBJECT
 
-	friend class PreferenceWidgetInterface;
-	friend class PreferenceInterface<SayonaraWidget>;
-
 public:
 	explicit GUI_PlaylistPreferences(QWidget *parent = 0);
 	virtual ~GUI_PlaylistPreferences();
@@ -46,14 +43,16 @@ public:
 	void commit() override;
 	void revert() override;
 
+	QString get_action_name() const override;
+
+protected:
+	void init_ui() override;
+	void retranslate_ui() override;
+
 private:
 	Ui::GUI_PlaylistPreferences*	ui=nullptr;
 
-	void init_ui() override;
-	QString get_action_name() const override;
-
 private slots:
-	void language_changed() override;
 	void cb_toggled(bool b);
 };
 

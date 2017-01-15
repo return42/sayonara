@@ -44,6 +44,7 @@ void GUI_PlayerPreferences::init_ui()
 	connect(ui->cb_show_tray_icon, &QCheckBox::toggled, this, &GUI_PlayerPreferences::show_tray_icon_toggled);
 }
 
+
 QString GUI_PlayerPreferences::get_action_name() const
 {
 	return tr("Player");
@@ -83,15 +84,7 @@ void GUI_PlayerPreferences::show_tray_icon_toggled(bool b)
 	}
 }
 
-void GUI_PlayerPreferences::language_changed()
+void GUI_PlayerPreferences::retranslate_ui()
 {
-	translate_action();
-
-	if(!is_ui_initialized()){
-		return;
-	}
-
 	ui->retranslateUi(this);
-
-	PreferenceWidgetInterface::language_changed();
 }

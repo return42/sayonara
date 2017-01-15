@@ -28,4 +28,5 @@ INCLUDE_DIRECTORIES(${CMAKE_BINARY_DIR}/test)
 INCLUDE("new_test.cmake")
 NEW_TEST(Helper/FileHelperTest.cpp)
 NEW_TEST(Helper/MetaDataListTest.cpp)
+NEW_TEST(Helper/LanguageKeyTest.cpp)
 

@@ -43,9 +43,6 @@ class GUI_LastFM :
 {
 	Q_OBJECT
 
-	friend class PreferenceWidgetInterface;
-	friend class PreferenceInterface<SayonaraWidget>;
-
 public:
 	explicit GUI_LastFM(QWidget* parent=nullptr);
 	virtual ~GUI_LastFM();
@@ -55,10 +52,9 @@ public:
 
 	QString get_action_name() const override;
 
-
-private:
-	void language_changed() override;
+protected:
 	void init_ui() override;
+	void retranslate_ui() override;
 
 private:
 	Ui::GUI_LastFM*		ui=nullptr;

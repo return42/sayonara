@@ -677,7 +677,7 @@
 <context>
     <name>GUI_LanguageChooser</name>
     <message>
-        <location filename="../GUI/Preferences/Language/GUI_LanguageChooser.cpp" line="+157"/>
+        <location filename="../GUI/Preferences/Language/GUI_LanguageChooser.cpp" line="+152"/>
         <source>Language</source>
         <translation>Jazyk</translation>
     </message>
@@ -703,7 +703,7 @@
 <context>
     <name>GUI_LastFM</name>
     <message>
-        <location filename="../GUI/Preferences/LastFM/GUI_LastFM.cpp" line="+154"/>
+        <location filename="../GUI/Preferences/LastFM/GUI_LastFM.cpp" line="+145"/>
         <source>Logged in</source>
         <translation>Přihlášen</translation>
     </message>
@@ -713,7 +713,7 @@
         <translation>Nepřihlášen</translation>
     </message>
     <message>
-        <location line="-93"/>
+        <location line="-84"/>
         <source>Last.fm</source>
         <translation>Last.fm</translation>
     </message>
@@ -1197,7 +1197,7 @@
 <context>
     <name>GUI_Notifications</name>
     <message>
-        <location filename="../GUI/Preferences/Notifications/GUI_Notifications.cpp" line="+92"/>
+        <location filename="../GUI/Preferences/Notifications/GUI_Notifications.cpp" line="+84"/>
         <source>Notifications</source>
         <translation>Oznamování</translation>
     </message>
@@ -1336,7 +1336,7 @@
         <translation>Oznamovatel aktualizací</translation>
     </message>
     <message>
-        <location filename="../GUI/Preferences/PlayerPreferences/GUI_PlayerPreferences.cpp" line="+49"/>
+        <location filename="../GUI/Preferences/PlayerPreferences/GUI_PlayerPreferences.cpp" line="+50"/>
         <source>Player</source>
         <translation>Přehrávač</translation>
     </message>
@@ -1750,7 +1750,7 @@
         <location filename="../GUI/Preferences/PreferenceDialog/GUI_PreferenceDialog.ui" line="+30"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_PreferenceDialog.h" line="+181"/>
         <location filename="../../build_clang/src/GUI/Preferences/ui_GUI_PreferenceDialog.h" line="+181"/>
-        <location filename="../GUI/Preferences/PreferenceDialog/GUI_PreferenceDialog.cpp" line="+83"/>
+        <location filename="../GUI/Preferences/PreferenceDialog/GUI_PreferenceDialog.cpp" line="+76"/>
         <location filename="../../build_cotire/src/GUI/Preferences/ui_GUI_PreferenceDialog.h" line="+181"/>
         <location filename="../../build_release/src/GUI/Preferences/ui_GUI_PreferenceDialog.h" line="+181"/>
         <source>Preferences</source>
@@ -1787,7 +1787,7 @@
 <context>
     <name>GUI_RemoteControl</name>
     <message>
-        <location filename="../GUI/Preferences/RemoteControl/GUI_RemoteControl.cpp" line="+84"/>
+        <location filename="../GUI/Preferences/RemoteControl/GUI_RemoteControl.cpp" line="+76"/>
         <source>Remote control</source>
         <translation>Dálkové ovládání</translation>
     </message>
@@ -1847,14 +1847,14 @@
         <location filename="../GUI/Preferences/Shortcuts/GUI_Shortcuts.ui" line="+41"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_Shortcuts.h" line="+85"/>
         <location filename="../../build_clang/src/GUI/Preferences/ui_GUI_Shortcuts.h" line="+85"/>
-        <location filename="../GUI/Preferences/Shortcuts/GUI_Shortcuts.cpp" line="+108"/>
+        <location filename="../GUI/Preferences/Shortcuts/GUI_Shortcuts.cpp" line="+109"/>
         <location filename="../../build_cotire/src/GUI/Preferences/ui_GUI_Shortcuts.h" line="+85"/>
         <location filename="../../build_release/src/GUI/Preferences/ui_GUI_Shortcuts.h" line="+85"/>
         <source>Press shortcut</source>
         <translation>Stiskněte klávesovou zkratku</translation>
     </message>
     <message>
-        <location filename="../GUI/Preferences/Shortcuts/GUI_Shortcuts.cpp" line="-22"/>
+        <location filename="../GUI/Preferences/Shortcuts/GUI_Shortcuts.cpp" line="-23"/>
         <source>Shortcuts</source>
         <translation>Klávesové zkratky</translation>
     </message>
@@ -1959,7 +1959,7 @@
 <context>
     <name>GUI_SoundCloudLibrary</name>
     <message>
-        <location filename="../3rdParty/Soundcloud/ui/GUI_SoundcloudLibrary.cpp" line="+36"/>
+        <location filename="../3rdParty/Soundcloud/ui/GUI_SoundcloudLibrary.cpp" line="+43"/>
         <source>Add artist</source>
         <translation>Přidat umělce</translation>
     </message>
@@ -2003,12 +2003,12 @@
         <translation>Přidat</translation>
     </message>
     <message>
-        <location filename="../3rdParty/Soundcloud/ui/GUI_SoundcloudArtistSearch.cpp" line="+57"/>
+        <location filename="../3rdParty/Soundcloud/ui/GUI_SoundcloudArtistSearch.cpp" line="+76"/>
         <source>Query too short</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+81"/>
+        <location line="+79"/>
         <source>No artists found</source>
         <translation>Nenalezeni žádní umělci</translation>
     </message>
@@ -2018,7 +2018,7 @@
         <translation>Nalezeno %1 umělců</translation>
     </message>
     <message>
-        <location line="+54"/>
+        <location line="+57"/>
         <source>%1 playlists found</source>
         <translation>Nalezeno %1 seznamů skladeb</translation>
     </message>
@@ -2334,7 +2334,7 @@
         <translation>Vytvořit složku se sezením</translation>
     </message>
     <message>
-        <location filename="../GUI/Preferences/StreamRecorder/GUI_StreamRecorder.cpp" line="+96"/>
+        <location filename="../GUI/Preferences/StreamRecorder/GUI_StreamRecorder.cpp" line="+88"/>
         <source>Choose target directory</source>
         <translation>Vybrat cílový adresář</translation>
     </message>
@@ -3898,8 +3898,8 @@ Vyberte, prosím, jinou složku</translation>
         <location filename="../../build_clang/src/GUI/Player/ui_GUI_Player.h" line="+13"/>
         <location filename="../../build_cotire/src/GUI/Player/ui_GUI_Player.h" line="+13"/>
         <location filename="../../build_release/src/GUI/Player/ui_GUI_Player.h" line="+13"/>
-        <source>Copyright 2011-2017</source>
-        <translation>Autorské právo 2011-2017</translation>
+        <source>Copyright 2011-2016</source>
+        <translation type="unfinished">Autorské právo 2011-2016</translation>
     </message>
 </context>
 <context>
@@ -3932,7 +3932,7 @@ Vyberte, prosím, jinou složku</translation>
 <context>
     <name>SoundcloudData</name>
     <message>
-        <location filename="../3rdParty/Soundcloud/src/SoundcloudData.cpp" line="+166"/>
+        <location filename="../3rdParty/Soundcloud/src/SoundcloudData.cpp" line="+170"/>
         <source>Purchase Url</source>
         <translation>Adresa (URL) nákupu</translation>
     </message>
@@ -3940,7 +3940,7 @@ Vyberte, prosím, jinou složku</translation>
 <context>
     <name>SoundcloudJsonParser</name>
     <message>
-        <location filename="../3rdParty/Soundcloud/src/SoundcloudJsonParser.cpp" line="+188"/>
+        <location filename="../3rdParty/Soundcloud/src/SoundcloudJsonParser.cpp" line="+189"/>
         <location line="+118"/>
         <source>Purchase Url</source>
         <translation>Koupeno u</translation>

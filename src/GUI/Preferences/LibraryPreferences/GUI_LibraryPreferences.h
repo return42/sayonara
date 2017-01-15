@@ -31,9 +31,6 @@ namespace Ui
 class GUI_LibraryPreferences :
 		public PreferenceWidgetInterface
 {
-	friend class PreferenceWidgetInterface;
-	friend class PreferenceInterface<SayonaraWidget>;
-
 	Q_OBJECT
 
 public:
@@ -43,16 +40,15 @@ public:
 	void commit() override;
 	void revert() override;
 
+	QString get_action_name() const override;
+
+protected:
+	void init_ui() override;
+	void retranslate_ui() override;
+
 private:
 	Ui::GUI_LibraryPreferences*	ui=nullptr;
 
-private:
-	void init_ui() override;
-	QString get_action_name() const override;
-
-
-private slots:
-	void language_changed() override;
 };
 
 #endif // GUI_LIBRARYPREFERENCES_H

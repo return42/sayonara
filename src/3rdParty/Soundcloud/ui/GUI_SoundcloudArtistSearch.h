@@ -21,19 +21,27 @@
 #ifndef GUI_SOUNDCLOUDARTISTSEARCH_H
 #define GUI_SOUNDCLOUDARTISTSEARCH_H
 
-#include <QDialog>
+#include "Helper/Pimpl.h"
 #include "GUI/Helper/SayonaraWidget/SayonaraDialog.h"
-#include "3rdParty/Soundcloud/ui_GUI_SoundcloudArtistSearch.h"
-#include "3rdParty/Soundcloud/src/SoundcloudLibrary.h"
-#include "3rdParty/Soundcloud/src/SoundcloudDataFetcher.h"
 
+class SoundcloudDataFetcher;
+class SoundcloudLibrary;
+class ArtistList;
+class MetaDataList;
+class AlbumList;
 
-class GUI_SoundcloudArtistSearch : public SayonaraDialog, private Ui::GUI_SoundcloudArtistSearch
+namespace Ui { class GUI_SoundcloudArtistSearch; }
+
+class GUI_SoundcloudArtistSearch :
+		public SayonaraDialog
 {
 	Q_OBJECT
 
+	PIMPL(GUI_SoundcloudArtistSearch)
+
 public:
 	explicit GUI_SoundcloudArtistSearch(SoundcloudLibrary* library, QWidget *parent=nullptr);
+	virtual ~GUI_SoundcloudArtistSearch();
 
 private slots:
 	void search_clicked();
@@ -51,16 +59,7 @@ private slots:
 	void language_changed() override;
 
 private:
-	SoundcloudLibrary*			_library=nullptr;
-	SoundcloudDataFetcher*		_fetcher=nullptr;
-
-
-	MetaDataList		_v_md;
-	AlbumList			_albums;
-	ArtistList			_searched_artists;
-	ArtistList			_chosen_artists;
-
-	quint64				_cur_artist_sc_id;
+	Ui::GUI_SoundcloudArtistSearch* ui=nullptr;
 
 private:
 	void set_tracks_label(int n_tracks);

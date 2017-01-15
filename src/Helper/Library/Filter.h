@@ -35,6 +35,10 @@ namespace Library
 
 namespace Library
 {
+	/**
+	 * @brief The Filter class
+	 * @ingroup LibraryHelper
+	 */
     class Filter
     {
 	public:

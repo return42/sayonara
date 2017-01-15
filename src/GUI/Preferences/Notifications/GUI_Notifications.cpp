@@ -36,19 +36,10 @@ GUI_Notifications::~GUI_Notifications()
 	}
 }
 
-void GUI_Notifications::language_changed()
+void GUI_Notifications::retranslate_ui()
 {
-	translate_action();
-
-	if(!is_ui_initialized()){
-		return;
-	}
-
 	ui->retranslateUi(this);
-
-	PreferenceWidgetInterface::language_changed();
 }
-
 
 void GUI_Notifications::notifications_changed()
 {
@@ -62,6 +53,7 @@ void GUI_Notifications::notifications_changed()
 
 	ui->combo_notification->setCurrentIndex(_notification_handler->get_cur_idx());
 }
+
 
 
 void GUI_Notifications::commit()

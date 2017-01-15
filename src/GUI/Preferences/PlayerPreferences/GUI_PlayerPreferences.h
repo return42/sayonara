@@ -33,24 +33,20 @@ class GUI_PlayerPreferences :
 {
 	Q_OBJECT
 
-	friend class PreferenceInterface<SayonaraWidget>;
-	friend class PreferenceWidgetInterface;
-
 public:
 	explicit GUI_PlayerPreferences(QWidget *parent = 0);
 	virtual ~GUI_PlayerPreferences();
 
+	void commit() override;
+	void revert() override;
+
+	QString get_action_name() const override;
+
 
 protected:
 	void init_ui() override;
-	void language_changed() override;
+	void retranslate_ui() override;
 
-
-public:
-	QString get_action_name() const override;
-
-	void commit() override;
-	void revert() override;
 
 private:
 	 Ui::GUI_PlayerPreferences*	ui=nullptr;

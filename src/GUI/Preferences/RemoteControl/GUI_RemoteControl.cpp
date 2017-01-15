@@ -50,19 +50,11 @@ void GUI_RemoteControl::init_ui()
 	connect(ui->sb_port, spinbox_value_changed_int, this, &GUI_RemoteControl::port_changed);
 }
 
-
-void GUI_RemoteControl::language_changed()
+void GUI_RemoteControl::retranslate_ui()
 {
-	translate_action();
-
-	if(!is_ui_initialized()){
-		return;
-	}
-
 	ui->retranslateUi(this);
-
-	PreferenceWidgetInterface::language_changed();
 }
+
 
 void GUI_RemoteControl::commit()
 {

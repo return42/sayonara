@@ -35,9 +35,6 @@ class GUI_LanguageChooser :
 {
     Q_OBJECT
 
-	friend class PreferenceWidgetInterface;
-	friend class PreferenceInterface<SayonaraWidget>;
-
 public:
     explicit GUI_LanguageChooser(QWidget *parent=nullptr);
     virtual ~GUI_LanguageChooser();
@@ -47,10 +44,11 @@ public:
 
 	QString get_action_name() const override;
 
-	void init_ui() override;
 
+protected:
+	void init_ui() override;
+	void retranslate_ui() override;
 	void showEvent(QShowEvent*) override;
-	void language_changed() override;
 
 
 private:
@@ -60,6 +58,7 @@ private:
 
 private:
 	void renew_combo();
+
 };
 
 #endif // GUI_LANGUAGECHOOSER_H

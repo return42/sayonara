@@ -22,46 +22,45 @@
 #include "SoundcloudGlobal.h"
 #include "Helper/Logger/Logger.h"
 
+const QString sc_main("https://api.soundcloud.com");
+const QString sc_users(sc_main + "/users");
 
-QString	SoundcloudWebAccess::create_dl_get_artist(const QString& name){
+
+QString	SoundcloudWebAccess::create_dl_get_artist(const QString& name)
+{
 	QString ret = "";
 
 	if(name.isEmpty()) {
 		return ret;
 	}
 
-	ret = QString("http://api.soundcloud.com/users?") +
-			CLIENT_ID_STR +
-			"&q=" +
-			name;
+	ret = sc_users + "?" + CLIENT_ID_STR + "&q=" + name;
 
 	sp_log(Log::Debug) << "Get Artist info from " << ret;
 
 	return ret;
 }
 
-QString	SoundcloudWebAccess::create_dl_get_artist(int artist_id){
+QString	SoundcloudWebAccess::create_dl_get_artist(int artist_id)
+{
 	QString ret = "";
 
 	if(artist_id <= 0){
 		return ret;
 	}
 
-	ret = QString("http://api.soundcloud.com/users/") +
-			QString::number(artist_id) + "?" +
-			CLIENT_ID_STR;
+	ret = sc_users + "/" + QString::number(artist_id) + "?" + CLIENT_ID_STR;
 
 	sp_log(Log::Debug) << "Get Artist info from " << ret;
 
 	return ret;
 }
 
-QString	SoundcloudWebAccess::create_dl_get_playlists(int artist_id){
+QString	SoundcloudWebAccess::create_dl_get_playlists(int artist_id)
+{
 	QString ret;
 
-	ret = QString("http://api.soundcloud.com/users/") +
-			QString::number(artist_id) + "/" +
-			"playlists?" +
+	ret = sc_users + "/" + QString::number(artist_id) + "/playlists?" +
 			CLIENT_ID_STR;
 
 	sp_log(Log::Debug, "Soundcloud") << "Get artist playlists from " << ret;
@@ -69,13 +68,11 @@ QString	SoundcloudWebAccess::create_dl_get_playlists(int artist_id){
 	return ret;
 }
 
-QString	SoundcloudWebAccess::create_dl_get_tracks(int artist_id){
+QString	SoundcloudWebAccess::create_dl_get_tracks(int artist_id)
+{
 	QString ret;
 
-	ret = QString("http://api.soundcloud.com/users/") +
-			QString::number(artist_id) + "/" +
-			"tracks?" +
-			CLIENT_ID_STR;
+	ret = sc_users + "/" + QString::number(artist_id) + "/tracks?" +	CLIENT_ID_STR;
 
 	sp_log(Log::Debug, "Soundcloud") << "Get Artist tracks from " << ret;
 

@@ -20,6 +20,10 @@
 
 #include "Helper/singleton.h"
 
+/**
+ * @brief The SettingRegistry class
+ * @ingroup Settings
+ */
 class SettingRegistry
 {
 	SINGLETON(SettingRegistry)

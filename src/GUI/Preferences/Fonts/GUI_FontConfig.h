@@ -35,26 +35,24 @@ class GUI_FontConfig :
 {
 	Q_OBJECT
 
-	friend class PreferenceInterface<SayonaraWidget>;
-
 public:
 	explicit GUI_FontConfig(QWidget* parent=nullptr);
 	virtual ~GUI_FontConfig();
 
-	QString get_action_name() const override;
-
 	void commit() override;
 	void revert() override;
 
+	QString get_action_name() const override;
+
+
 protected:
 	void init_ui() override;
+	void retranslate_ui() override;
+
 
 protected slots:
-
 	void default_clicked();
 	void combo_fonts_changed(const QFont& font);
-
-	void language_changed() override;
 	void skin_changed() override;
 
 
@@ -65,6 +63,7 @@ private:
 	int				_cur_font_size;
 	int				_cur_font_weight;
 	bool			_is_default;
+
 
 private:
 	QStringList get_available_font_sizes(const QString& font_name, const QString& style=QString());

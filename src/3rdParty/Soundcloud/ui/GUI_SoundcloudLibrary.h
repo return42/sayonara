@@ -22,6 +22,7 @@
 #define GUI_SOUNDCLOUDLIBRARY_H
 
 #include "GUI/Library/GUI_AbstractLibrary.h"
+#include "Helper/Pimpl.h"
 
 #include "3rdParty/Soundcloud/src/SoundcloudLibrary.h"
 #include "3rdParty/Soundcloud/ui/GUI_SoundcloudArtistSearch.h"
@@ -36,9 +37,7 @@ namespace Ui
 class GUI_SoundCloudLibrary :
 		public GUI_AbstractLibrary
 {
-	friend class GUI_AbstractLibrary;
 	Q_OBJECT
-
 
 public:
 	explicit GUI_SoundCloudLibrary(SoundcloudLibrary* library, QWidget *parent=nullptr);
@@ -47,7 +46,6 @@ public:
 	QComboBox*	get_libchooser() const;
 	QMenu*		get_menu() const;
 
-
 protected:
 	Library::TrackDeletionMode show_delete_dialog(int n_tracks) override;
 	void init_shortcuts() override;
@@ -55,10 +53,9 @@ protected:
 protected slots:
 	void btn_add_clicked();
 
+	PIMPL(GUI_SoundCloudLibrary)
 
 private:
-	GUI_SoundcloudArtistSearch* _artist_search=nullptr;
-	QMenu*						_library_menu=nullptr;
 	Ui::GUI_SoundcloudLibrary*	ui=nullptr;
 };
 

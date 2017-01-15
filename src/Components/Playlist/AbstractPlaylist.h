@@ -30,7 +30,6 @@
 
 #include <QString>
 
-
 class QStringList;
 namespace SP
 {
@@ -58,9 +57,7 @@ signals:
 private:
 	PIMPL(AbstractPlaylist)
 
-
 protected:
-
 	bool _is_storable;
 	int	 _playlist_idx;
 

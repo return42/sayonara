@@ -22,11 +22,10 @@
 #define SET_H
 
 #include <set>
-
 #include <QList>
 
-
 namespace SP {
+
 	template<typename T>
 
 	/**

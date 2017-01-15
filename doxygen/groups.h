@@ -91,6 +91,19 @@
  * @defgroup Interfaces Interfaces
  */
 
+/**
+ * @defgroup Library
+ * @brief Basic library functions
+ * @ingroup Components
+ */
+
+/**
+ * @defgroup LibraryHelper Library Helper
+ * @brief Static Library types and enumerations
+ * @ingroup Helper
+ * @ingroup Library
+ */
+
 
 /**
  * @defgroup Plugins

@@ -98,15 +98,7 @@ void GUI_LibraryPreferences::revert()
 	ui->rb_dd_start_if_stopped_and_empty->setChecked(_settings->get(Set::Lib_DD_PlayIfStoppedAndEmpty));
 }
 
-void GUI_LibraryPreferences::language_changed()
+void GUI_LibraryPreferences::retranslate_ui()
 {
-	translate_action();
-
-	if(!is_ui_initialized()){
-		return;
-	}
-
 	ui->retranslateUi(this);
-
-	PreferenceWidgetInterface::language_changed();
 }

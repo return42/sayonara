@@ -27,6 +27,10 @@
 class ImportCache;
 class MetaDataList;
 
+/**
+ * @brief The CachingThread class
+ * @ingroup Library
+ */
 class CachingThread :
 		public QThread
 {

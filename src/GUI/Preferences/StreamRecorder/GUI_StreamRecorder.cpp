@@ -59,17 +59,9 @@ void GUI_StreamRecorder::init_ui()
 	connect(ui->btn_path, &QPushButton::clicked, this, &GUI_StreamRecorder::sl_btn_path_clicked);
 }
 
-
-void GUI_StreamRecorder::language_changed()
+void GUI_StreamRecorder::retranslate_ui()
 {
-	translate_action();
-
-	if(!is_ui_initialized()){
-		return;
-	}
-
 	ui->retranslateUi(this);
-	PreferenceWidgetInterface::language_changed();
 }
 
 

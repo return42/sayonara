@@ -21,19 +21,15 @@
 #ifndef SOUNDCLOUDJSONPARSER_H
 #define SOUNDCLOUDJSONPARSER_H
 
-#include "SoundcloudGlobal.h"
-
 #include <QList>
 #include <QString>
+
 #include <QByteArray>
-
-#include <QObject>
-
 #include <QJsonDocument>
 #include <QJsonParseError>
 #include <QJsonObject>
 #include <QJsonArray>
-
+#include <QObject>
 
 class MetaData;
 class MetaDataList;
@@ -41,7 +37,6 @@ class Artist;
 class Album;
 class ArtistList;
 class AlbumList;
-
 
 class SoundcloudJsonParser : public QObject
 {
@@ -59,32 +54,29 @@ private:
 	};
 
 private:
+	bool	parse_artist_list(ArtistList& artists, QJsonArray arr);
+	bool	parse_track_list(ArtistList& artists, MetaDataList& v_md, QJsonArray arr);
+	bool	parse_playlist_list(ArtistList& artists, AlbumList& albums, MetaDataList& v_md, QJsonArray arr);
 
-	bool				parse_artist_list(ArtistList& artists, QJsonArray arr);
-	bool				parse_track_list(ArtistList& artists, MetaDataList& v_md, QJsonArray arr);
-	bool				parse_playlist_list(ArtistList& artists, AlbumList& albums, MetaDataList& v_md, QJsonArray arr);
+	bool	parse_artist(Artist& artist, QJsonObject object);
+	bool	parse_playlist(ArtistList& artists, Album& album, MetaDataList& v_md, QJsonObject object);
+	bool	parse_track(Artist& artist, MetaData& md, QJsonObject object);
 
-	bool				parse_artist(Artist& artist, QJsonObject object);
-	bool				parse_playlist(ArtistList& artists, Album& album, MetaDataList& v_md, QJsonObject object);
-	bool				parse_track(Artist& artist, MetaData& md, QJsonObject object);
-
-
-	QString				create_link(const QString& name, const QString& target);
+	QString	create_link(const QString& name, const QString& target);
 
 
 public:
 	explicit SoundcloudJsonParser(const QByteArray& content);
 	~SoundcloudJsonParser();
 
+	bool	get_string(const QString& key, const QJsonObject& object, QString& str);
+	bool	get_int(const QString& key, const QJsonObject& object, int& i);
+	bool	get_array(const QString& key, const QJsonObject& object, QJsonArray& arr);
+	bool	get_object(const QString& key, const QJsonObject& object, QJsonObject& o);
 
-	bool				get_string(const QString& key, const QJsonObject& object, QString& str);
-	bool				get_int(const QString& key, const QJsonObject& object, int& i);
-	bool				get_array(const QString& key, const QJsonObject& object, QJsonArray& arr);
-	bool				get_object(const QString& key, const QJsonObject& object, QJsonObject& o);
-
-	bool				parse_artists(ArtistList& artists);
-	bool				parse_tracks(ArtistList& artists, MetaDataList& v_md);
-	bool				parse_playlists(ArtistList& artists, AlbumList& albums, MetaDataList& v_md);
+	bool	parse_artists(ArtistList& artists);
+	bool	parse_tracks(ArtistList& artists, MetaDataList& v_md);
+	bool	parse_playlists(ArtistList& artists, AlbumList& albums, MetaDataList& v_md);
 };
 
 #endif // SOUNDCLOUDJSONPARSER_H

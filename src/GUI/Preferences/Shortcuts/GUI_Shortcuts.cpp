@@ -94,6 +94,7 @@ void GUI_Shortcuts::commit()
 	}
 }
 
+
 void GUI_Shortcuts::revert()
 {
 	for(GUI_ShortcutEntry* entry : _entries){
@@ -143,16 +144,8 @@ void GUI_Shortcuts::sequence_entered()
 	}
 }
 
-void GUI_Shortcuts::language_changed()
+void GUI_Shortcuts::retranslate_ui()
 {
-	translate_action();
-
-	if(!is_ui_initialized()){
-		return;
-	}
-
 	ui->retranslateUi(this);
-
-	PreferenceWidgetInterface::language_changed();
 }
 

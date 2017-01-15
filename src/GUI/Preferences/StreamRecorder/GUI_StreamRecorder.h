@@ -37,9 +37,6 @@ class GUI_StreamRecorder :
 {
 	Q_OBJECT
 
-	friend class PreferenceWidgetInterface;
-	friend class PreferenceInterface<SayonaraWidget>;
-
 public:
 	explicit GUI_StreamRecorder(QWidget* parent=nullptr);
 	virtual ~GUI_StreamRecorder();
@@ -47,10 +44,13 @@ public:
 	void commit() override;
 	void revert() override;
 
+	QString get_action_name() const override;
+
+
 protected:
 	void init_ui() override;
-	void language_changed() override;
-	QString get_action_name() const override;
+	void retranslate_ui() override;
+
 
 private:
 

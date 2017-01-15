@@ -29,11 +29,17 @@
 #include "Helper/MetaData/Artist.h"
 
 
-struct SoundcloudDataFetcher::Private{
+struct SoundcloudDataFetcher::Private
+{
 	MetaDataList	playlist_tracks;
 	AlbumList		playlists;
 	ArtistList		artists;
 	int				artist_id;
+
+	Private()
+	{
+		artist_id = -1;
+	}
 };
 
 
@@ -41,13 +47,15 @@ SoundcloudDataFetcher::SoundcloudDataFetcher(QObject* parent) :
 	QObject(parent)
 {
 	_m = Pimpl::make<SoundcloudDataFetcher::Private>();
+
 	clear();
 }
 
 SoundcloudDataFetcher::~SoundcloudDataFetcher() {}
 
 
-void SoundcloudDataFetcher::search_artists(const QString& artist_name){
+void SoundcloudDataFetcher::search_artists(const QString& artist_name)
+{
 	clear();
 
 	AsyncWebAccess* awa = new AsyncWebAccess(this);
@@ -56,7 +64,8 @@ void SoundcloudDataFetcher::search_artists(const QString& artist_name){
 	awa->run( SoundcloudWebAccess::create_dl_get_artist(artist_name));
 }
 
-void SoundcloudDataFetcher::get_artist(int artist_id){
+void SoundcloudDataFetcher::get_artist(int artist_id)
+{
 	clear();
 
 	AsyncWebAccess* awa = new AsyncWebAccess(this);
@@ -67,7 +76,8 @@ void SoundcloudDataFetcher::get_artist(int artist_id){
 }
 
 
-void SoundcloudDataFetcher::get_tracks_by_artist(int artist_id){
+void SoundcloudDataFetcher::get_tracks_by_artist(int artist_id)
+{
 	clear();
 
 	_m->artist_id = artist_id;
@@ -80,7 +90,8 @@ void SoundcloudDataFetcher::get_tracks_by_artist(int artist_id){
 }
 
 
-void SoundcloudDataFetcher::artists_fetched(bool success){
+void SoundcloudDataFetcher::artists_fetched(bool success)
+{
 	ArtistList artists;
 	AsyncWebAccess* awa = static_cast<AsyncWebAccess*>(sender());
 	if(!success){
@@ -97,7 +108,8 @@ void SoundcloudDataFetcher::artists_fetched(bool success){
 }
 
 
-void SoundcloudDataFetcher::playlist_tracks_fetched(bool success){
+void SoundcloudDataFetcher::playlist_tracks_fetched(bool success)
+{
 	AsyncWebAccess* awa = static_cast<AsyncWebAccess*>(sender());
 
 	if(!success){
@@ -118,7 +130,8 @@ void SoundcloudDataFetcher::playlist_tracks_fetched(bool success){
 	awa->deleteLater();
 }
 
-void SoundcloudDataFetcher::tracks_fetched(bool success){
+void SoundcloudDataFetcher::tracks_fetched(bool success)
+{
 	MetaDataList v_md;
 	ArtistList artists;
 	AsyncWebAccess* awa = static_cast<AsyncWebAccess*>(sender());

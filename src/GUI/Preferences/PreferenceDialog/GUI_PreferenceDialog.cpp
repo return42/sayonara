@@ -45,14 +45,9 @@ void GUI_PreferenceDialog::register_preference_dialog(PreferenceWidgetInterface*
 	_dialogs << dialog;
 }
 
-void GUI_PreferenceDialog::language_changed()
+
+void GUI_PreferenceDialog::retranslate_ui()
 {
-	translate_action();
-
-	if(!is_ui_initialized()){
-		return;
-	}
-
 	ui->retranslateUi(this);
 
 	// TODO: Init should not be so deep in language changed
@@ -73,8 +68,6 @@ void GUI_PreferenceDialog::language_changed()
 
 		i++;
 	}
-
-	PreferenceDialogInterface::language_changed();
 }
 
 
@@ -90,6 +83,7 @@ void GUI_PreferenceDialog::commit_and_close()
 	close();
 }
 
+
 void GUI_PreferenceDialog::commit()
 {
 	for(PreferenceWidgetInterface* iface : _dialogs){
@@ -98,6 +92,7 @@ void GUI_PreferenceDialog::commit()
 		}
 	}
 }
+
 
 void GUI_PreferenceDialog::revert()
 {
@@ -109,6 +104,7 @@ void GUI_PreferenceDialog::revert()
 
 	close();
 }
+
 
 void GUI_PreferenceDialog::row_changed(int row)
 {
@@ -142,11 +138,13 @@ void GUI_PreferenceDialog::hide_all()
 	}
 }
 
+// TODO: This seems strange and useless
 void GUI_PreferenceDialog::showEvent(QShowEvent* e)
 {
 	init_ui();
 	QDialog::showEvent(e);
 }
+
 
 void GUI_PreferenceDialog::init_ui()
 {

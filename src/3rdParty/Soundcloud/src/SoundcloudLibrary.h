@@ -39,51 +39,51 @@ public:
 	explicit SoundcloudLibrary(QObject *parent=nullptr);
 	~SoundcloudLibrary();
 
-	void				load() override;
-	void				search_artist(const QString& artist_name);
-	void				fetch_tracks_by_artist(qint64 artist_sc_id);
-	void				fetch_playlists_by_artist(qint64 artist_sc_id);
-	void				insert_tracks(const MetaDataList& v_md) override;
-	void				insert_tracks(const MetaDataList& v_md, const ArtistList& artists, const AlbumList& albums);
-	void				get_album_by_id(int album_id, Album& album) override;
-	void  				get_artist_by_id(int artist_id, Artist& artist) override;
+	void	load() override;
+	void	search_artist(const QString& artist_name);
+	void	fetch_tracks_by_artist(qint64 artist_sc_id);
+	void	fetch_playlists_by_artist(qint64 artist_sc_id);
+	void	insert_tracks(const MetaDataList& v_md) override;
+	void	insert_tracks(const MetaDataList& v_md, const ArtistList& artists, const AlbumList& albums);
+	void	get_album_by_id(int album_id, Album& album) override;
+	void  	get_artist_by_id(int artist_id, Artist& artist) override;
 
 
 protected:
 
 	SoundcloudData*		_scd=nullptr;
 
-	void		get_all_artists(ArtistList& artists, Library::Sortings so=Library::Sortings()) override;
-	void		get_all_artists_by_searchstring(Library::Filter filter, ArtistList& artists, Library::Sortings so) override;
+	void	get_all_artists(ArtistList& artists, Library::Sortings so=Library::Sortings()) override;
+	void	get_all_artists_by_searchstring(Library::Filter filter, ArtistList& artists, Library::Sortings so) override;
 
-	void		get_all_albums(AlbumList& albums, Library::Sortings so) override;
-	void		get_all_albums_by_artist(IDList artist_ids, AlbumList& albums, Library::Filter filter, Library::Sortings so) override;
-	void		get_all_albums_by_searchstring(Library::Filter filter, AlbumList& albums, Library::Sortings so) override;
+	void	get_all_albums(AlbumList& albums, Library::Sortings so) override;
+	void	get_all_albums_by_artist(IDList artist_ids, AlbumList& albums, Library::Filter filter, Library::Sortings so) override;
+	void	get_all_albums_by_searchstring(Library::Filter filter, AlbumList& albums, Library::Sortings so) override;
 
-	void		get_all_tracks(const QStringList& paths, MetaDataList& v_md) override;
-	void		get_all_tracks(MetaDataList& v_md, Library::Sortings so) override;
-	void		get_all_tracks_by_artist(IDList artist_ids, MetaDataList& v_md, Library::Filter filter, Library::Sortings so) override;
-	void		get_all_tracks_by_album(IDList album_ids, MetaDataList& v_md, Library::Filter filter, Library::Sortings so) override;
-	void		get_all_tracks_by_searchstring(Library::Filter filter, MetaDataList& v_md, Library::Sortings so) override;
+	void	get_all_tracks(const QStringList& paths, MetaDataList& v_md) override;
+	void	get_all_tracks(MetaDataList& v_md, Library::Sortings so) override;
+	void	get_all_tracks_by_artist(IDList artist_ids, MetaDataList& v_md, Library::Filter filter, Library::Sortings so) override;
+	void	get_all_tracks_by_album(IDList album_ids, MetaDataList& v_md, Library::Filter filter, Library::Sortings so) override;
+	void	get_all_tracks_by_searchstring(Library::Filter filter, MetaDataList& v_md, Library::Sortings so) override;
 
-	void		update_track(const MetaData& md) override;
-	void		update_album(const Album& album) override;
-	void		delete_tracks(const MetaDataList& v_md, Library::TrackDeletionMode mode) override;
+	void	update_track(const MetaData& md) override;
+	void	update_album(const Album& album) override;
+	void	delete_tracks(const MetaDataList& v_md, Library::TrackDeletionMode mode) override;
 
-	void		apply_artist_and_album_to_md();
+	void	apply_artist_and_album_to_md();
 
 
 private slots:
-	void		artists_fetched(const ArtistList& artists);
-	void		tracks_fetched(const MetaDataList& v_md);
-	void		albums_fetched(const AlbumList& albums);
-	void		cover_found(const CoverLocation& cl);
+	void	artists_fetched(const ArtistList& artists);
+	void	tracks_fetched(const MetaDataList& v_md);
+	void	albums_fetched(const AlbumList& albums);
+	void	cover_found(const CoverLocation& cl);
 
 public slots:
-	void		psl_reload_library(bool clear_first, Library::ReloadQuality quality) override;
-	void		refresh_artist() override;
-	void		refresh_albums() override;
-	void		refresh_tracks() override;
+	void	psl_reload_library(bool clear_first, Library::ReloadQuality quality) override;
+	void	refresh_artist() override;
+	void	refresh_albums() override;
+	void	refresh_tracks() override;
 };
 
 #endif // LocalLibrary_H

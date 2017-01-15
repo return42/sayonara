@@ -25,15 +25,22 @@
 
 #include <QShortcut>
 
+struct GUI_SoundCloudLibrary::Private
+{
+	GUI_SoundcloudArtistSearch* artist_search=nullptr;
+	QMenu*						library_menu=nullptr;
+};
+
 GUI_SoundCloudLibrary::GUI_SoundCloudLibrary(SoundcloudLibrary* library, QWidget *parent) :
 	GUI_AbstractLibrary(library, parent)
 {
 	setup_parent(this, &ui);
 
-	_artist_search = new GUI_SoundcloudArtistSearch(library, this);
-	_library_menu = new QMenu(this);
+	_m = Pimpl::make<GUI_SoundCloudLibrary::Private>();
+	_m->artist_search = new GUI_SoundcloudArtistSearch(library, this);
+	_m->library_menu = new QMenu(this);
 
-	QAction*  action_add_artist = _library_menu->addAction(tr("Add artist"));
+	QAction* action_add_artist = _m->library_menu->addAction(tr("Add artist"));
 
 	setAcceptDrops(false);
 
@@ -72,7 +79,7 @@ QComboBox* GUI_SoundCloudLibrary::get_libchooser() const
 
 QMenu* GUI_SoundCloudLibrary::get_menu() const
 {
-	return _library_menu;
+	return _m->library_menu;
 }
 
 Library::TrackDeletionMode GUI_SoundCloudLibrary::show_delete_dialog(int n_tracks){
@@ -88,6 +95,6 @@ void GUI_SoundCloudLibrary::init_shortcuts()
 
 void GUI_SoundCloudLibrary::btn_add_clicked()
 {
-	_artist_search->show();
+	_m->artist_search->show();
 }
 

@@ -26,6 +26,10 @@
 
 namespace Library
 {
+	/**
+	 * @brief The SearchMode enum
+	 * @ingroup LibraryHelper
+	 */
     enum SearchMode
     {
 		CaseInsensitve=(1<<0),

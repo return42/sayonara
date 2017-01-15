@@ -30,6 +30,10 @@
 
 namespace Library
 {
+	/**
+	 * @brief The DateFilter class
+	 * @ingroup LibraryHelper
+	 */
     class DateFilter
 	{
     public:

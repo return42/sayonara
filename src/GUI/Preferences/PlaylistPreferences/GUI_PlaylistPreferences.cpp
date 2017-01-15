@@ -73,6 +73,7 @@ void GUI_PlaylistPreferences::revert()
 	ui->cb_show_numbers->setChecked(_settings->get(Set::PL_ShowNumbers));
 }
 
+
 void GUI_PlaylistPreferences::init_ui()
 {
 	if(is_ui_initialized()){
@@ -102,17 +103,9 @@ QString GUI_PlaylistPreferences::get_action_name() const
 	return Lang::get(Lang::Playlist);
 }
 
-void GUI_PlaylistPreferences::language_changed()
+void GUI_PlaylistPreferences::retranslate_ui()
 {
-	translate_action();
-
-	if(!is_ui_initialized()){
-		return;
-	}
-
 	ui->retranslateUi(this);
-
-	PreferenceWidgetInterface::language_changed();
 }
 
 void GUI_PlaylistPreferences::cb_toggled(bool b) {

@@ -51,8 +51,12 @@ Lang::Lang() {}
 
 Lang::~Lang() {}
 
-LanguageString Lang::get(Lang::Term term)
+LanguageString Lang::get(Lang::Term term, bool* ok)
 {
+	if(ok){
+		*ok = true;
+	}
+
 	Lang l;
 	switch(term)
 	{
@@ -287,6 +291,9 @@ LanguageString Lang::get(Lang::Term term)
 		case Yes:
 			return l.tr("Yes");
 		default:
+			if(ok){
+				*ok = false;
+			}
 			return QString();
 	}
 }

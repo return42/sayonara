@@ -23,6 +23,10 @@
 
 #include <QtGlobal>
 
+/**
+ * @brief The PlayState enum
+ * @ingroup Helper
+ */
 enum class PlayState : quint8
 {
     Playing=0,

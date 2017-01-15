@@ -43,7 +43,6 @@ class PlayManager :
 	SINGLETON_QOBJECT(PlayManager)
 	PIMPL(PlayManager)
 
-
 signals:
 
 	/**

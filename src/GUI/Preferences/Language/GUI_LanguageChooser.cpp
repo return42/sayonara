@@ -42,18 +42,11 @@ GUI_LanguageChooser::~GUI_LanguageChooser()
 	}
 }
 
-void GUI_LanguageChooser::language_changed()
+
+void GUI_LanguageChooser::retranslate_ui()
 {
-	translate_action();
-
-	if(!is_ui_initialized()){
-		return;
-	}
-
 	ui->retranslateUi(this);
 	renew_combo();
-
-	PreferenceWidgetInterface::language_changed();
 }
 
 
@@ -121,6 +114,7 @@ void GUI_LanguageChooser::renew_combo()
 		i++;
 	}
 }
+
 
 void GUI_LanguageChooser::init_ui()
 {

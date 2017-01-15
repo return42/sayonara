@@ -31,6 +31,11 @@
 
 class ImportCache;
 class MetaDataList;
+
+/**
+ * @brief The CopyThread class
+ * @ingroup Library
+ */
 class CopyThread :
 		public QThread,
 		protected SayonaraClass

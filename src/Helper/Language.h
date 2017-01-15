@@ -41,7 +41,7 @@ class Lang :
 public:
 	enum Term
 	{
-		About,
+		About=0,
 		Action,
 		Actions,
 		AddTab,
@@ -157,14 +157,15 @@ public:
 		VolumeUp,
 		Warning,
 		Year,
-		Yes
+		Yes,
+		NUMBER_OF_LANGUAGE_KEYS
 	};
 
 public:
 	Lang();
 	virtual ~Lang();
 
-	static LanguageString get(Lang::Term term);
+	static LanguageString get(Lang::Term term, bool* ok=nullptr);
 };
 
 #endif // LANGUAGE_H

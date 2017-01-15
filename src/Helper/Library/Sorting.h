@@ -27,22 +27,26 @@
 class QString;
 namespace Library
 {
+	/**
+	 * @brief The Sortings class
+	 * @ingroup LibraryHelper
+	 */
     class Sortings
 	{
-    public:
-	Library::SortOrder so_albums;
-	Library::SortOrder so_artists;
-	Library::SortOrder so_tracks;
+		public:
+		Library::SortOrder so_albums;
+		Library::SortOrder so_artists;
+		Library::SortOrder so_tracks;
 
-	Sortings();
-	Sortings(const Sortings& so);
-	~Sortings();
+		Sortings();
+		Sortings(const Sortings& so);
+		~Sortings();
 
-	bool operator==(Library::Sortings so);
+		bool operator==(Library::Sortings so);
 
-	QString toString() const;
+		QString toString() const;
 
-	static Library::Sortings fromString(const QString& str);
+		static Library::Sortings fromString(const QString& str);
     };
 }
 

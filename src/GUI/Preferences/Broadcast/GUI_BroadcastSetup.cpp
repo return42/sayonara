@@ -87,23 +87,16 @@ void GUI_BroadcastSetup::revert()
 }
 
 
-void GUI_BroadcastSetup::language_changed()
-{
-	if(!is_ui_initialized()){
-		return;
-	}
-
-	ui->retranslateUi(this);
-
-	PreferenceWidgetInterface::language_changed();
-}
-
-
 void GUI_BroadcastSetup::skin_changed()
 {
 	if(!is_ui_initialized()){
 		return;
 	}
+}
+
+void GUI_BroadcastSetup::retranslate_ui()
+{
+	ui->retranslateUi(this);
 }
 
 

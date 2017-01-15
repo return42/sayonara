@@ -28,7 +28,7 @@
 
 #include <algorithm>
 
-StdPlaylist::StdPlaylist(int idx, QString name) :
+StdPlaylist::StdPlaylist(int idx, const QString& name) :
 	AbstractPlaylist(idx, name)
 {
 	_is_storable = true;

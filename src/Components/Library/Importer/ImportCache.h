@@ -30,6 +30,10 @@
 class MetaData;
 class MetaDataList;
 
+/**
+ * @brief The ImportCache class
+ * @ingroup Library
+ */
 class ImportCache
 {
 private:

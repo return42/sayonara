@@ -39,33 +39,29 @@ class PreferenceWidgetInterface;
 class GUI_PreferenceDialog :
 		public PreferenceDialogInterface
 {
-	friend class PreferenceDialogInterface;
-	friend class PreferenceInterface<SayonaraDialog>;
-
 	Q_OBJECT
 
 public:
 	explicit GUI_PreferenceDialog(QWidget *parent = 0);
 	virtual ~GUI_PreferenceDialog();
 
-	QString get_action_name() const override;
-	void init_ui() override;
-
-	void register_preference_dialog(PreferenceWidgetInterface* dialog);
-
-
-protected slots:
-	void language_changed() override;
-
-	void commit_and_close();
 	void commit() override;
 	void revert() override;
 
+	QString get_action_name() const override;
+
+	void register_preference_dialog(PreferenceWidgetInterface* dialog);
+
+protected slots:
+	void commit_and_close();
 	void row_changed(int row);
 
 protected:
-	void hide_all();
+	void init_ui() override;
+	void retranslate_ui() override;
 	void showEvent(QShowEvent *e) override;
+
+	void hide_all();
 
 private:
 	Ui::GUI_PreferenceDialog* ui=nullptr;

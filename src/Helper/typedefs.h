@@ -26,6 +26,10 @@
 #include <QPair>
 #include <QtGlobal>
 
+/**
+ * @brief Sayonara Typedefs
+ * @ingroup Helper
+ */
 typedef QPair<QString, QString> StringPair;
 typedef QList<int> IntList;
 typedef QList<int> IDList;

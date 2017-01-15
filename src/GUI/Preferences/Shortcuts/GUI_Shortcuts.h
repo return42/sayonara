@@ -45,17 +45,19 @@ class GUI_Shortcuts :
 {
 	Q_OBJECT
 
-	friend class PreferenceWidgetInterface;
-	friend class PreferenceInterface<SayonaraWidget>;
-
 public:
 	explicit GUI_Shortcuts(QWidget* parent=nullptr);
 	virtual ~GUI_Shortcuts();
 
-	QString get_action_name() const override;
-
 	void revert() override;
 	void commit() override;
+
+	QString get_action_name() const override;
+
+
+protected:
+	void init_ui() override;
+	void retranslate_ui() override;
 
 
 private:
@@ -64,9 +66,6 @@ private:
 	ShortcutHandler*			_sch = nullptr;
 	QList<GUI_ShortcutEntry*>	_entries;
 
-private:
-	void language_changed() override;
-	void init_ui() override;
 
 private slots:
 	void test_pressed(const QList<QKeySequence>& sequences);

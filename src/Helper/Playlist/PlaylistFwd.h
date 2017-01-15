@@ -25,19 +25,25 @@
 #include <QtGlobal>
 
 class AbstractPlaylist;
+
 /**
  * @brief PlaylistPtr Playlist Pointer (only used internally)
  * @ingroup Playlists
+ * @ingroup PlaylistHelper
  */
 typedef std::shared_ptr<AbstractPlaylist> PlaylistPtr;
 
 /**
  * @brief PlaylistConstPtr read only Playlist Pointer
  * @ingroup Playlists
+ * @ingroup PlaylistHelper
  */
 typedef std::shared_ptr<const AbstractPlaylist> PlaylistConstPtr;
 
 
+/**
+ * @ingroup PlaylistHelper
+ */
 namespace Playlist
 {
     class Mode;

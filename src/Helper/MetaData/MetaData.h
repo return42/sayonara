@@ -45,6 +45,10 @@ enum class RadioMode : quint8
 };
 
 
+/**
+ * @brief The MetaData class
+ * @ingoup MetaDataHelper
+ */
 class MetaData :
 		public LibraryItem
 {

@@ -21,21 +21,23 @@
 #ifndef LIBRARYIMPORTER_H
 #define LIBRARYIMPORTER_H
 
-#include "Helper/Tagging/Tagging.h"
 #include "Helper/Settings/SayonaraClass.h"
-#include "ImportCache.h"
 #include "Helper/singleton.h"
+#include "Helper/Pimpl.h"
+#include <QObject>
 
-class DatabaseConnector;
-class CachingThread;
-class CopyThread;
-
-class LibraryImporter : public QObject, protected SayonaraClass
+class MetaDataList;
+/**
+ * @brief The LibraryImporter class
+ * @ingroup Library
+ */
+class LibraryImporter :
+		public QObject,
+		protected SayonaraClass
 {
 	Q_OBJECT
 
 	SINGLETON_QOBJECT(LibraryImporter)
-
 
 public:
 
@@ -66,26 +68,14 @@ public:
 
 
 private slots:
-
 	void caching_thread_finished();
 	void copy_thread_finished();
-
 	void emit_status(LibraryImporter::ImportStatus status);
-
 	void metadata_changed(const MetaDataList& old_md, const MetaDataList& new_md);
 
 private:
-	CachingThread*			_cache_thread=nullptr;
-	CopyThread*				_copy_thread=nullptr;
+	PIMPL(LibraryImporter)
 
-	ImportCache				_import_cache;
-
-	DatabaseConnector*		_db=nullptr;
-
-	ImportStatus			_status;
-
-	QString                 _lib_path;
-	QString					_src_dir;
 };
 
 #endif // LIBRARYIMPORTER_H

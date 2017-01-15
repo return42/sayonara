@@ -27,6 +27,7 @@
 #include "Database/DatabaseConnector.h"
 #include "Components/Playlist/PlaylistHandler.h"
 
+#include "Helper/Tagging/Tagging.h"
 #include "Helper/Settings/Settings.h"
 #include "Helper/Library/SearchMode.h"
 #include "Helper/Logger/Logger.h"

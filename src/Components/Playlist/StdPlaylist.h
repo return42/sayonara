@@ -36,7 +36,7 @@ private:
 	int calc_shuffle_track();
 
 public:
-	explicit StdPlaylist(int idx, QString name);
+	explicit StdPlaylist(int idx, const QString& name);
 	virtual ~StdPlaylist();
     
 	void play() override;
@@ -46,7 +46,6 @@ public:
 	void bwd() override;
 	void next() override;
 	bool change_track(int idx) override;
-
 
 	int create_playlist(const MetaDataList& v_md) override;
 

@@ -25,6 +25,10 @@
 
 namespace Playlist 
 {
+	/**
+	 * @brief The Mode class
+	 * @ingroup PlaylistHelper
+	 */
 	class Mode
 	{
 		public:

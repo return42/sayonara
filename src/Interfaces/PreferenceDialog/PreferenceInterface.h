@@ -70,6 +70,13 @@ protected:
 	 */
 	virtual void init_ui()=0;
 
+
+	/**
+	 * @brief call the Qt retranslateUi method here
+	 */
+	virtual void retranslate_ui()=0;
+
+
 	template<typename W, typename UiClass>
 	/**
 	 * @brief Sets up the Preference dialog. After this method, the dialog is "ready to use"\n
@@ -100,7 +107,7 @@ protected:
 	 *		PreferenceWidgetInterface::language_changed();\n
 	 *  }\n
 	 */
-	void language_changed() override
+	virtual void language_changed() override final
 	{
 		translate_action();
 
@@ -110,6 +117,8 @@ protected:
 
 		QString new_name = get_action_name();
 		this->setWindowTitle(new_name);
+
+		retranslate_ui();
 	}
 
 
@@ -168,6 +177,7 @@ public:
 	}
 
 
+
 	/**
 	 * @brief checks if ui has already been initialized.
 	 * @return false, if the widget has never been activated before, true else
@@ -195,11 +205,15 @@ public:
 		return _action;
 	}
 
+
+
 	/**
 	 * @brief has to be implemented and should return the translated action text
 	 * @return translated action name
 	 */
 	virtual QString get_action_name() const=0;
+
+
 
 	/**
 	 * @brief This method is called, when OK or apply is pressed. So all settings

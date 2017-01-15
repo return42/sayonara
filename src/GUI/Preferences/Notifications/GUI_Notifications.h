@@ -35,10 +35,6 @@ class GUI_Notifications :
 {
     Q_OBJECT
 
-	friend class PreferenceWidgetInterface;
-	friend class PreferenceInterface<SayonaraWidget>;
-
-
 public:
     explicit GUI_Notifications(QWidget *parent=nullptr);
     virtual ~GUI_Notifications();
@@ -46,23 +42,22 @@ public:
 	void commit() override;
 	void revert() override;
 
-    
+	QString get_action_name() const override;
+
+
 private slots:
 	void notifications_changed();
 
 
 protected:
-	void language_changed() override;
-	QString get_action_name() const override;
+	void init_ui() override;
+	void retranslate_ui() override;
 
 
 private:
 	NotificationHandler* _notification_handler=nullptr;
-
-private:
 	Ui::GUI_Notifications*	ui=nullptr;
 
-	void init_ui() override;
 };
 
 #endif // GUI_NOTIFICATIONS_H

@@ -678,7 +678,7 @@
 <context>
     <name>GUI_LanguageChooser</name>
     <message>
-        <location filename="../GUI/Preferences/Language/GUI_LanguageChooser.cpp" line="+157"/>
+        <location filename="../GUI/Preferences/Language/GUI_LanguageChooser.cpp" line="+152"/>
         <source>Language</source>
         <translation>Sprache</translation>
     </message>
@@ -704,7 +704,7 @@
 <context>
     <name>GUI_LastFM</name>
     <message>
-        <location filename="../GUI/Preferences/LastFM/GUI_LastFM.cpp" line="+154"/>
+        <location filename="../GUI/Preferences/LastFM/GUI_LastFM.cpp" line="+145"/>
         <source>Logged in</source>
         <translation>Angemeldet</translation>
     </message>
@@ -714,7 +714,7 @@
         <translation>Nicht angemeldet</translation>
     </message>
     <message>
-        <location line="-93"/>
+        <location line="-84"/>
         <source>Last.fm</source>
         <translation>Last.fm</translation>
     </message>
@@ -1199,7 +1199,7 @@
 <context>
     <name>GUI_Notifications</name>
     <message>
-        <location filename="../GUI/Preferences/Notifications/GUI_Notifications.cpp" line="+92"/>
+        <location filename="../GUI/Preferences/Notifications/GUI_Notifications.cpp" line="+84"/>
         <source>Notifications</source>
         <translation>Benachrichtigungen</translation>
     </message>
@@ -1338,7 +1338,7 @@
         <translation>Updatebenachrichtigung</translation>
     </message>
     <message>
-        <location filename="../GUI/Preferences/PlayerPreferences/GUI_PlayerPreferences.cpp" line="+49"/>
+        <location filename="../GUI/Preferences/PlayerPreferences/GUI_PlayerPreferences.cpp" line="+50"/>
         <source>Player</source>
         <translation>Player</translation>
     </message>
@@ -1752,7 +1752,7 @@
         <location filename="../GUI/Preferences/PreferenceDialog/GUI_PreferenceDialog.ui" line="+30"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_PreferenceDialog.h" line="+181"/>
         <location filename="../../build_clang/src/GUI/Preferences/ui_GUI_PreferenceDialog.h" line="+181"/>
-        <location filename="../GUI/Preferences/PreferenceDialog/GUI_PreferenceDialog.cpp" line="+83"/>
+        <location filename="../GUI/Preferences/PreferenceDialog/GUI_PreferenceDialog.cpp" line="+76"/>
         <location filename="../../build_cotire/src/GUI/Preferences/ui_GUI_PreferenceDialog.h" line="+181"/>
         <location filename="../../build_release/src/GUI/Preferences/ui_GUI_PreferenceDialog.h" line="+181"/>
         <source>Preferences</source>
@@ -1789,7 +1789,7 @@
 <context>
     <name>GUI_RemoteControl</name>
     <message>
-        <location filename="../GUI/Preferences/RemoteControl/GUI_RemoteControl.cpp" line="+84"/>
+        <location filename="../GUI/Preferences/RemoteControl/GUI_RemoteControl.cpp" line="+76"/>
         <source>Remote control</source>
         <translation>Fernbedienung</translation>
     </message>
@@ -1849,14 +1849,14 @@
         <location filename="../GUI/Preferences/Shortcuts/GUI_Shortcuts.ui" line="+41"/>
         <location filename="../../build/src/GUI/Preferences/ui_GUI_Shortcuts.h" line="+85"/>
         <location filename="../../build_clang/src/GUI/Preferences/ui_GUI_Shortcuts.h" line="+85"/>
-        <location filename="../GUI/Preferences/Shortcuts/GUI_Shortcuts.cpp" line="+108"/>
+        <location filename="../GUI/Preferences/Shortcuts/GUI_Shortcuts.cpp" line="+109"/>
         <location filename="../../build_cotire/src/GUI/Preferences/ui_GUI_Shortcuts.h" line="+85"/>
         <location filename="../../build_release/src/GUI/Preferences/ui_GUI_Shortcuts.h" line="+85"/>
         <source>Press shortcut</source>
         <translation>Shortcut eingeben</translation>
     </message>
     <message>
-        <location filename="../GUI/Preferences/Shortcuts/GUI_Shortcuts.cpp" line="-22"/>
+        <location filename="../GUI/Preferences/Shortcuts/GUI_Shortcuts.cpp" line="-23"/>
         <source>Shortcuts</source>
         <translation>Shortcuts</translation>
     </message>
@@ -1961,7 +1961,7 @@
 <context>
     <name>GUI_SoundCloudLibrary</name>
     <message>
-        <location filename="../3rdParty/Soundcloud/ui/GUI_SoundcloudLibrary.cpp" line="+36"/>
+        <location filename="../3rdParty/Soundcloud/ui/GUI_SoundcloudLibrary.cpp" line="+43"/>
         <source>Add artist</source>
         <translation>Künstler hinzufügen</translation>
     </message>
@@ -2005,12 +2005,12 @@
         <translation>Hinzufügen</translation>
     </message>
     <message>
-        <location filename="../3rdParty/Soundcloud/ui/GUI_SoundcloudArtistSearch.cpp" line="+57"/>
+        <location filename="../3rdParty/Soundcloud/ui/GUI_SoundcloudArtistSearch.cpp" line="+76"/>
         <source>Query too short</source>
         <translation>Suchanfrage zu kurz</translation>
     </message>
     <message>
-        <location line="+81"/>
+        <location line="+79"/>
         <source>No artists found</source>
         <translation>Keine Künstler gefunden</translation>
     </message>
@@ -2020,7 +2020,7 @@
         <translation>%1 Künstler gefunden</translation>
     </message>
     <message>
-        <location line="+54"/>
+        <location line="+57"/>
         <source>%1 playlists found</source>
         <translation>%1 Wiedergabelisten gefunden</translation>
     </message>
@@ -2336,7 +2336,7 @@
         <translation>Sitzungsverzeichnis erstellen</translation>
     </message>
     <message>
-        <location filename="../GUI/Preferences/StreamRecorder/GUI_StreamRecorder.cpp" line="+96"/>
+        <location filename="../GUI/Preferences/StreamRecorder/GUI_StreamRecorder.cpp" line="+88"/>
         <source>Choose target directory</source>
         <translation>Zielverzeichnis auswählen</translation>
     </message>
@@ -3893,6 +3893,13 @@ Bitte ein anderes Verzeichnis wählen</translation>
         <source>Donate</source>
         <translation>Spenden</translation>
     </message>
+    <message>
+        <location filename="../../build_clang/src/GUI/Player/ui_GUI_Player.h" line="+11"/>
+        <location filename="../../build_cotire/src/GUI/Player/ui_GUI_Player.h" line="+11"/>
+        <location filename="../../build_release/src/GUI/Player/ui_GUI_Player.h" line="+11"/>
+        <source>Copyright 2011-2016</source>
+        <translation type="unfinished">Copyright 2011-2016</translation>
+    </message>
 </context>
 <context>
     <name>Shutdown</name>
@@ -3924,7 +3931,7 @@ Bitte ein anderes Verzeichnis wählen</translation>
 <context>
     <name>SoundcloudData</name>
     <message>
-        <location filename="../3rdParty/Soundcloud/src/SoundcloudData.cpp" line="+166"/>
+        <location filename="../3rdParty/Soundcloud/src/SoundcloudData.cpp" line="+170"/>
         <source>Purchase Url</source>
         <translation>Kaufen bei</translation>
     </message>
@@ -3932,7 +3939,7 @@ Bitte ein anderes Verzeichnis wählen</translation>
 <context>
     <name>SoundcloudJsonParser</name>
     <message>
-        <location filename="../3rdParty/Soundcloud/src/SoundcloudJsonParser.cpp" line="+188"/>
+        <location filename="../3rdParty/Soundcloud/src/SoundcloudJsonParser.cpp" line="+189"/>
         <location line="+118"/>
         <source>Purchase Url</source>
         <translation>Kaufen bei</translation>

@@ -37,10 +37,6 @@ class GUI_RemoteControl:
 {
 	Q_OBJECT
 
-	friend class PreferenceWidgetInterface;
-	friend class PreferenceInterface<SayonaraWidget>;
-
-
 public:
 	explicit GUI_RemoteControl(QWidget* parent=nullptr);
 	virtual ~GUI_RemoteControl();
@@ -52,9 +48,9 @@ public:
 
 
 protected:
-
 	void init_ui() override;
-	void language_changed() override;
+	void retranslate_ui() override;
+
 
 private slots:
 	void active_toggled(bool b);
@@ -62,7 +58,6 @@ private slots:
 
 
 private:
-
 	Ui::GUI_RemoteControl*	ui=nullptr;
 
 	QString get_url_string();

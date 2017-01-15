@@ -23,8 +23,15 @@
 
 #include <QtGlobal>
 
+/**
+ * @ingroup LibraryHelper
+ */
 namespace Library
 {
+    /**
+     * @brief The TrackDeletionMode enum
+     * @ingroup LibraryHelper
+     */
     enum class TrackDeletionMode : quint8
     {
 	    None=0,
@@ -32,6 +39,10 @@ namespace Library
 	    AlsoFiles
     };
 
+    /**
+     * @brief The ReloadQuality enum
+     * @ingroup LibraryHelper
+     */
     enum class ReloadQuality : quint8 
     {
 	    Fast=0,

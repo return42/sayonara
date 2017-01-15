@@ -216,16 +216,10 @@ void GUI_FontConfig::default_clicked()
 }
 
 
-void GUI_FontConfig::language_changed()
+void GUI_FontConfig::retranslate_ui()
 {
-	translate_action();
-
-	if(!is_ui_initialized()){
-		return;
-	}
-
 	ui->retranslateUi(this);
-	PreferenceWidgetInterface::language_changed();
 }
+
 
 void GUI_FontConfig::skin_changed() {}

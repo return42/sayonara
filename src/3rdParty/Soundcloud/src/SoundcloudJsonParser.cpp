@@ -18,6 +18,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "SoundcloudGlobal.h"
 #include "SoundcloudJsonParser.h"
 #include "Helper/Helper.h"
 #include "Helper/FileHelper.h"

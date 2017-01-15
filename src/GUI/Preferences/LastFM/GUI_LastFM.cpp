@@ -65,19 +65,10 @@ QString GUI_LastFM::get_action_name() const
 	return tr("Last.fm");
 }
 
-
-void GUI_LastFM::language_changed()
+void GUI_LastFM::retranslate_ui()
 {
-	translate_action();
-
-	if(!is_ui_initialized()){
-		return;
-	}
-
 	ui->retranslateUi(this);
-	PreferenceWidgetInterface::language_changed();
 }
-
 
 void GUI_LastFM::commit()
 {
