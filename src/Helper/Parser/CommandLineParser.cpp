@@ -33,23 +33,33 @@ CommandLineData CommandLineParser::parse(int argc, char** argv)
 {
     CommandLineData data;
 
-    for(int i=1; i<argc; i++) {
-	QString str(argv[i]);
-
-	if(str.compare("--help") == 0){
-	    help();
-	    data.abort = true;
-	    return data;
-	}
-
-	if(str.compare("--multi-instances") == 0){
-	    data.multiple_instances = true;
-	}
-
-	else
+    for(int i=1; i<argc; i++) 
 	{
-	    data.files_to_play << Helper::File::get_absolute_filename(QString(argv[i]));
-	}
+		QString str(argv[i]);
+		QRegExp re("--lang=([a-z]+).*");
+
+		if(str.compare("--help") == 0)
+		{
+			help();
+			data.abort = true;
+			return data;
+		}
+
+		if(str.compare("--multi-instances") == 0)
+		{
+			data.multiple_instances = true;
+		}
+
+		if(re.indexIn(str) >= 0)
+		{
+			data.language = re.cap(1);
+			sp_log(Log::Info) << "Force language to " << data.language;
+		}
+
+		else 
+		{
+			data.files_to_play << Helper::File::get_absolute_filename(QString(argv[i]));
+		}
     }
 
     return data;
@@ -61,7 +71,8 @@ void CommandLineParser::help()
     sp_log(Log::Info) << "sayonara [options] <list>";
     sp_log(Log::Info) << "<list> can consist of either files or directories or both";
     sp_log(Log::Info) << "Options:";
-    sp_log(Log::Info) << "\t--multi-instances  Run more than one instance";
-    sp_log(Log::Info) << "\t--help             Print this help dialog";
+    sp_log(Log::Info) << "\t--multi-instances      Run more than one instance";
+    sp_log(Log::Info) << "\t--lang=<country code>  Force language";
+    sp_log(Log::Info) << "\t--help                 Print this help dialog";
     sp_log(Log::Info) << "Bye.";
 }

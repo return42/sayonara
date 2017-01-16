@@ -23,6 +23,9 @@
 
 #include <gst/gst.h>
 
+/**
+ * @ingroup Engine
+ */
 namespace EngineCallbacks
 {
 

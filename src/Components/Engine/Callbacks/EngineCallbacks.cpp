@@ -24,12 +24,12 @@
 #include "Helper/globals.h"
 #include "Helper/Logger/Logger.h"
 
-#include <algorithm>
 #include <QList>
 #include <QImage>
 #include <QRegExp>
 
 #include <memory>
+#include <algorithm>
 
 #ifdef Q_OS_WIN
 	void EngineCallbacks::destroy_notify(gpointer data) {}
@@ -109,34 +109,22 @@ static bool parse_image(GstTagList* tags, QImage& img)
 
 
 // check messages from bus
-gboolean EngineCallbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpointer data) {
+gboolean EngineCallbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpointer data)
+{
 	Q_UNUSED(bus);
 
-	Engine*			engine;
-	GError*			err;
-	GstElement*		src;
-
-	GstMessageType	msg_type;
-	quint32			bitrate;
-
-	QString			msg_src_name;
-	QImage 			img;
-
-	engine = static_cast<Engine*>(data);
+	Engine* engine = static_cast<Engine*>(data);
 	if(!engine){
 		return true;
 	}
 
-	msg_type = GST_MESSAGE_TYPE(msg);
-	msg_src_name = QString(GST_MESSAGE_SRC_NAME(msg)).toLower();
-	src = reinterpret_cast<GstElement*>(msg->src);
+	GstMessageType msg_type = GST_MESSAGE_TYPE(msg);
+	QString msg_src_name = QString(GST_MESSAGE_SRC_NAME(msg)).toLower();
+	GstElement* src = reinterpret_cast<GstElement*>(msg->src);
 
-	switch (msg_type) {
+	switch (msg_type)
+	{
 		case GST_MESSAGE_EOS:
-
-			if (!engine) {
-				break;
-			}
 
 			if(  !msg_src_name.contains("sr_filesink") &&
 				 !msg_src_name.contains("level_sink") &&
@@ -153,10 +141,6 @@ gboolean EngineCallbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpoint
 
 		case GST_MESSAGE_ELEMENT:
 
-			if(!engine) {
-				break;
-			}
-
 			if(msg_src_name.compare("spectrum") == 0){
 				return spectrum_handler(bus, msg, engine);
 			}
@@ -172,10 +156,12 @@ gboolean EngineCallbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpoint
 			break;
 
 		case GST_MESSAGE_TAG:
-
+		{
 			GstTagList*		tags;
 			gchar*			title;
+			QImage 			img;
 			bool			success;
+			quint32			bitrate;
 
 			if( msg_src_name.compare("sr_filesink") == 0 ||
 				msg_src_name.compare("level_sink") == 0 ||
@@ -210,8 +196,9 @@ gboolean EngineCallbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpoint
 			}
 
 			gst_tag_list_unref(tags);
+		}
 
-			break;
+		break;
 
 		case GST_MESSAGE_STATE_CHANGED:
 			GstState old_state, new_state, pending_state;
@@ -228,7 +215,6 @@ gboolean EngineCallbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpoint
 			if(!msg_src_name.contains("pipeline", Qt::CaseInsensitive)){
 				break;
 			}
-
 
 			if( new_state == GST_STATE_PLAYING ||
 				new_state == GST_STATE_PAUSED)
@@ -264,23 +250,26 @@ gboolean EngineCallbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpoint
 			break;
 
 		case GST_MESSAGE_WARNING:
-
-			gst_message_parse_warning(msg, &err, nullptr);
-			sp_log(Log::Warning) << "Engine " << (int) engine->get_name() << ": GST_MESSAGE_WARNING: " << err->message << ": "
+			{
+				GError*			err;
+				gst_message_parse_warning(msg, &err, nullptr);
+				sp_log(Log::Warning) << "Engine " << (int) engine->get_name() << ": GST_MESSAGE_WARNING: " << err->message << ": "
 					 << GST_MESSAGE_SRC_NAME(msg);
+			}
 			break;
 
 		case GST_MESSAGE_ERROR:
+			{
+				GError*			err;
+				gst_message_parse_error(msg, &err, nullptr);
 
-			gst_message_parse_error(msg, &err, nullptr);
+				sp_log(Log::Error) << "Engine " << (int) engine->get_name() << ": GST_MESSAGE_ERROR: " << err->message << ": "
+						 << GST_MESSAGE_SRC_NAME(msg);
 
-			sp_log(Log::Error) << "Engine " << (int) engine->get_name() << ": GST_MESSAGE_ERROR: " << err->message << ": "
-					 << GST_MESSAGE_SRC_NAME(msg);
-
-			engine->set_track_finished(src);
-			engine->stop();
-			g_error_free(err);
-
+				engine->set_track_finished(src);
+				engine->stop();
+				g_error_free(err);
+			}
 			break;
 
 		case GST_MESSAGE_STREAM_STATUS:
@@ -299,7 +288,8 @@ gboolean EngineCallbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpoint
 
 // level changed
 gboolean
-EngineCallbacks::level_handler(GstBus * bus, GstMessage * message, gpointer data) {
+EngineCallbacks::level_handler(GstBus * bus, GstMessage * message, gpointer data)
+{
 	Q_UNUSED(bus);
 
 	double					channel_values[2];
@@ -371,7 +361,8 @@ EngineCallbacks::level_handler(GstBus * bus, GstMessage * message, gpointer data
 
 // spectrum changed
 gboolean
-EngineCallbacks::spectrum_handler(GstBus* bus, GstMessage* message, gpointer data) {
+EngineCallbacks::spectrum_handler(GstBus* bus, GstMessage* message, gpointer data)
+{
 	Q_UNUSED(bus);
 
 	PlaybackEngine*			engine;

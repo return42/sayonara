@@ -53,6 +53,7 @@
 #include "Helper/Random/RandomGenerator.h"
 #include "Helper/Macros.h"
 #include "Helper/Language.h"
+#include "Helper/FileHelper.h"
 
 template<typename T>
 QString cvtNum2String(T num, int digits) {
@@ -147,28 +148,38 @@ QString Helper::cvt_ms_to_string(quint64 msec, bool empty_zero, bool colon, bool
 }
 
 
-QString Helper::get_sayonara_path() 
+QString Helper::get_sayonara_path(const QString& append_path)
 {
-	return QDir::homePath() + QDir::separator() + ".Sayonara" + QDir::separator();
+	return Helper::File::clean_filename(
+			QDir::homePath() + "/.Sayonara/" + append_path
+	);
 }
 
 
-QString Helper::get_share_path() 
+QString Helper::get_share_path(const QString& append_path)
 {
+	QString base_path;
+
 #ifdef Q_OS_WIN
-	return QString("./share/");
+	base_path = "./share/";
+#else
+	base_path = SAYONARA_INSTALL_SHARE_PATH;
 #endif
 
-	return SAYONARA_INSTALL_SHARE_PATH;
+	return Helper::File::clean_filename(base_path + "/" + append_path);
 }
 
-QString Helper::get_lib_path()
+QString Helper::get_lib_path(const QString& append_path)
 {
+	QString base_path;
+
 #ifdef Q_OS_WIN
-	return QString("./lib/sayonara/");
+	base_path = "./lib/";
+#else
+	base_path = SAYONARA_INSTALL_LIB_PATH;
 #endif
 
-	return SAYONARA_INSTALL_LIB_PATH;
+	return Helper::File::clean_filename(base_path + "/" + append_path);
 }
 
 

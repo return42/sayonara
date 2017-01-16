@@ -36,6 +36,10 @@ class StreamRecorder;
 class SpectrumReceiver;
 class LevelReceiver;
 
+/**
+ * @brief The GaplessState enum
+ * @ingroup Engine
+ */
 enum class GaplessState : quint8 
 {
 	NoGapless=0,		// no gapless enabled at all
@@ -44,19 +48,19 @@ enum class GaplessState : quint8
 	Playing				// currently playing
 };
 
+/**
+ * @brief The PlaybackEngine class
+ * @ingroup Engine
+ */
 class PlaybackEngine :
 		public Engine
 {
 	Q_OBJECT
 
-
 signals:
-
 	void sig_data(const uchar* data, quint64 n_bytes);
 
-
 public:
-
 	explicit PlaybackEngine(QObject* parent=nullptr);
 	virtual ~PlaybackEngine();
 
@@ -106,7 +110,6 @@ public slots:
 
 
 private:
-	
 	PlaybackPipeline*			_pipeline=nullptr;
 	PlaybackPipeline*			_other_pipeline=nullptr;
 
@@ -121,7 +124,6 @@ private:
 	StreamRecorder*				_stream_recorder=nullptr;
 
 private:
-
 	bool set_uri(const QString& filepath);
 	void change_track_gapless(const MetaData& md);
 	void change_gapless_state(GaplessState state);

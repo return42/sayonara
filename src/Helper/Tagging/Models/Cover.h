@@ -3,8 +3,15 @@
 
 #include <QString>
 
+/**
+ * @ingroup Tagging
+ */
 namespace Models
 {
+	/**
+	 * @brief The Cover class
+	 * @ingroup Tagging
+	 */
     class Cover
     {
 		private:

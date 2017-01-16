@@ -76,10 +76,13 @@ StreamRecorder::StreamRecorder(QObject *parent) :
     // delete old stream ripper files
     QStringList lst = d.entryList(Helper::get_soundfile_extensions());
 
-	for( const QString& str : lst) {
-		sp_log(Log::Info) << "Remove " << d.absolutePath() + QDir::separator() + str;
-        QFile f(d.absolutePath() + QDir::separator() + str);
-        f.remove();
+	for( const QString& str : lst)
+	{
+		QString path = d.absoluteFilePath(str);
+		QFile f(path);
+		f.remove();
+
+		sp_log(Log::Info) << "Remove " << path;
     }
 
 	PlayManager* play_manager = PlayManager::getInstance();
@@ -104,7 +107,8 @@ void StreamRecorder::new_session()
 }
 
 
-QString StreamRecorder::change_track(const MetaData& md) {
+QString StreamRecorder::change_track(const MetaData& md)
+{
 	QString sr_path;
 	QString session_path;
 	QString title;
@@ -174,14 +178,15 @@ bool  StreamRecorder::save()
 }
 
 
-QString StreamRecorder::check_session_path(const QString& sr_path) {
+QString StreamRecorder::check_session_path(const QString& sr_path)
+{
 	bool create_session_path =_settings->get(Set::Engine_SR_SessionPath);
 
 	if(!create_session_path) {
 		return sr_path;
 	}
 
-	QString recording_dst = sr_path + QDir::separator() + _m->session_path;
+	QString recording_dst = Helper::File::clean_filename(sr_path + "/" + _m->session_path);
     if(!QFile::exists(recording_dst)) {
 		Helper::File::create_directories(recording_dst);
     }
@@ -195,7 +200,8 @@ QString StreamRecorder::check_session_path(const QString& sr_path) {
     return recording_dst;
 }
 
-void StreamRecorder::record(bool b){
+void StreamRecorder::record(bool b)
+{
 	if(b == _m->recording) {
 		return;
 	}

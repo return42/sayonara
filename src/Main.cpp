@@ -56,7 +56,8 @@
 	
 #endif
 
-int check_for_another_instance(qint64 own_pid) {
+int check_for_another_instance(qint64 own_pid) 
+{
 #ifdef Q_OS_LINUX
 
 	QDir dir("/proc");
@@ -70,7 +71,8 @@ int check_for_another_instance(qint64 own_pid) {
 
 		dir.cd(dirname);
 
-		QFile f(dir.absolutePath() + QDir::separator() + "cmdline");
+
+		QFile f(dir.absoluteFilePath("cmdline"));
 		f.open(QIODevice::ReadOnly);
 		if(!f.isOpen()) {
 			dir.cd("..");
@@ -94,7 +96,8 @@ int check_for_another_instance(qint64 own_pid) {
 }
 
 
-void notify_old_instance(const QStringList& files_to_play, int pid){
+void notify_old_instance(const QStringList& files_to_play, int pid)
+{
 	QSharedMemory memory("SayonaraMemory");
 
 	if(!files_to_play.isEmpty()){
@@ -134,8 +137,8 @@ void notify_old_instance(const QStringList& files_to_play, int pid){
 #ifdef Q_OS_WIN
 void init_gio()
 {
-	QString gio_path = Helper::File::clean_filename(QApplication::applicationDirPath()) + QDir::separator() + "gio-modules";
-	QString gst_plugin_path = Helper::File::clean_filename(QApplication::applicationDirPath()) + QDir::separator() + "gstreamer-1.0/";
+	QString gio_path = Helper::File::clean_filename(QApplication::applicationDirPath()) + "/gio-modules";
+	QString gst_plugin_path = Helper::File::clean_filename(QApplication::applicationDirPath()) + "/gstreamer-1.0/";
 
 	Helper::set_environment("GST_PLUGIN_PATH", gst_plugin_path);
 	Helper::set_environment("GST_PLUGIN_SYSTEM_PATH", gst_plugin_path);
@@ -148,7 +151,8 @@ void init_gio()
 #endif
 
 
-void segfault_handler(int sig){
+void segfault_handler(int sig)
+{
 	Q_UNUSED(sig)
 
 #ifdef Q_OS_LINUX
@@ -165,7 +169,8 @@ void segfault_handler(int sig){
 }
 
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[]) 
+{
 	Application app(argc, argv);
 
 	QTranslator translator;
@@ -222,7 +227,7 @@ int main(int argc, char *argv[]) {
 
 	language = Settings::getInstance()->get(Set::Player_Language);
 
-	translator.load(language, Helper::get_share_path() + "translations");
+	translator.load(language, Helper::get_share_path("translations"));
 
 	if(!app.init(&translator, cmd_data.files_to_play)) {
 		return 1;

@@ -30,6 +30,10 @@
 
 #include <QTimer>
 
+/**
+ * @brief The GSTFileMode enum
+ * @ingroup Engine
+ */
 enum class GSTFileMode : quint8 
 {
 	File,
@@ -43,6 +47,10 @@ bool
 _test_and_error_bool(bool b, const QString& errorstr);
 
 class Engine;
+/**
+ * @brief The AbstractPipeline class
+ * @ingroup Engine
+ */
 class AbstractPipeline : 
 	public QObject, 
 	protected SayonaraClass 

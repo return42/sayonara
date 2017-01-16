@@ -32,7 +32,7 @@
 AbstractDatabase::AbstractDatabase(quint8 db_id, const QString& db_dir, const QString& db_name, QObject *parent) : QObject(parent)
 {
 	_db_name = db_name;
-	_db_path = Helper::get_sayonara_path() +_db_name;
+	_db_path = Helper::get_sayonara_path(_db_name);
 
 	_db_id = db_id;
 	_db_dir = db_dir;
@@ -146,7 +146,7 @@ bool AbstractDatabase::create_db()
 		return false;
 	}
 
-	QString source_db_file = Helper::get_share_path() + "/" + _db_dir + "/" +_db_name;
+	QString source_db_file = Helper::get_share_path(_db_dir + "/" + _db_name);
 
 	success = QFile::exists(_db_path);
 

@@ -7,6 +7,7 @@
  * @defgroup Equalizer 
  * @ingroup PlayerPlugins
  */
+
 /**
  * @defgroup Components Basic Components
  */
@@ -21,6 +22,19 @@
  * @brief Contains everythin about cover management. Logic and UI
  * @ingroup Components
  */
+
+/**
+ * @defgroup Engine
+ * @brief Contains classes used for Sound
+ * @ingroup Components
+ */
+
+/**
+ * @defgroup EngineHelper
+ * @ingroup Engine
+ * @ingroup Helper
+ */
+
 
 /**
  * @defgroup GUICovers
@@ -55,7 +69,20 @@
 
 /**
  * @defgroup Tagging Tagging
+ * @brief Metadata tagging
  * @ingroup Components
+ */
+
+/**
+ * @defgroup Xiph
+ * @brief Xiph related header
+ * @ingroup Tagging
+ */
+
+/**
+ * @defgroup ID3v2
+ * @brief ID3v2 related header
+ * @ingroup Tagging
  */
 
 /**
@@ -90,6 +117,13 @@
 /**
  * @defgroup Interfaces Interfaces
  */
+
+/**
+ * @defgroup EngineInterfaces
+ * @ingroup Engine
+ * @ingroup Interfaces
+ */
+
 
 /**
  * @defgroup Library

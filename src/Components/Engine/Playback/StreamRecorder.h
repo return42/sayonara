@@ -30,6 +30,11 @@
 
 class MetaData;
 class PlayManager;
+
+/**
+ * @brief The StreamRecorder class
+ * @ingroup Engine
+ */
 class StreamRecorder :
 		public QObject,
 		protected SayonaraClass

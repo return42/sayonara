@@ -26,6 +26,8 @@
 struct CommandLineData
 {
     QStringList	files_to_play;
+	QString language;
+
     bool multiple_instances;
     bool abort;
 

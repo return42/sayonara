@@ -30,6 +30,10 @@
 struct StreamRecorderData;
 class Engine;
 
+/**
+ * @brief The PlaybackPipeline class
+ * @ingroup Engine
+ */
 class PlaybackPipeline :
 		public AbstractPipeline,
 		public CrossFader,

@@ -36,7 +36,8 @@ AsyncWebAccess::AsyncWebAccess(QObject* parent, const QByteArray& header, AsyncW
 
 AsyncWebAccess::~AsyncWebAccess() {}
 
-void AsyncWebAccess::run(const QString& url, int timeout){
+void AsyncWebAccess::run(const QString& url, int timeout)
+{
 	_header.clear();
 	_data.clear();
 	_url = url;
@@ -57,7 +58,8 @@ void AsyncWebAccess::run(const QString& url, int timeout){
 	_timer->start(timeout);
 }
 
-void AsyncWebAccess::run_post(const QString &url, const QByteArray &post_data, int timeout){
+void AsyncWebAccess::run_post(const QString &url, const QByteArray &post_data, int timeout)
+{
 	_header.clear();
 	_data.clear();
 	_url = url;

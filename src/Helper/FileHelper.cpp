@@ -66,7 +66,8 @@ void Helper::File::remove_files_in_directory(const QString& dir_name, const QStr
 	dir.setNameFilters(filters);
 
 	QFileInfoList info_lst = dir.entryInfoList(
-				(QDir::Filters)(QDir::Files | QDir::Dirs | QDir::NoDotAndDotDot));
+			(QDir::Filters)(QDir::Files | QDir::Dirs | QDir::NoDotAndDotDot)
+	);
 
 	for(const QFileInfo& info : info_lst){
 		QString path = info.absoluteFilePath();
@@ -144,8 +145,6 @@ QString Helper::File::get_filename_of_path(const QString& path)
 
 void Helper::File::split_filename(const QString& src, QString& path, QString& filename) 
 {
-	QString tmp = clean_filename(src);
-
 	path = Helper::File::get_parent_directory(src);
 	filename = Helper::File::get_filename_of_path(src);
 }

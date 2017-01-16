@@ -22,7 +22,7 @@
 #define COVER_H
 
 #include "AbstractFrame.h"
-#include "Tagging/Models/Cover.h"
+#include "Helper/Tagging/Models/Cover.h"
 
 #include <QByteArray>
 #include <QString>
@@ -32,7 +32,7 @@ namespace ID3v2Frame
 {
 	/**
 	 * @brief The DiscnumberFrame class
-	 * @ingroup Tagging
+	 * @ingroup ID3v2
 	 */
 	class CoverFrame :
 			public AbstractFrame<Models::Cover, TagLib::ID3v2::AttachedPictureFrame>

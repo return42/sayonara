@@ -41,10 +41,10 @@ struct GUI_SoundcloudArtistSearch::Private
 GUI_SoundcloudArtistSearch::GUI_SoundcloudArtistSearch(SoundcloudLibrary* library, QWidget *parent) :
 	SayonaraDialog(parent)
 {
-	Pimpl::make<GUI_SoundcloudArtistSearch::Private>();
 	ui = new Ui::GUI_SoundcloudArtistSearch();
 	ui->setupUi(this);
 
+	_m = Pimpl::make<GUI_SoundcloudArtistSearch::Private>();
 	_m->library = library;
 	_m->fetcher = new SoundcloudDataFetcher(this);
 

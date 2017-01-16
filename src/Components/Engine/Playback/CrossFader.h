@@ -27,6 +27,11 @@
 
 class FaderThreadData;
 class FaderThread;
+
+/**
+ * @brief The CrossFader class
+ * @ingroup EngineInterfaces
+ */
 class CrossFader
 {
 public:
@@ -41,14 +46,38 @@ public:
     CrossFader();
 	virtual ~CrossFader();
 
-    virtual double get_current_volume() const =0;
+	/**
+	 * @brief get current volume of pipeline
+	 * @return value between 0 and 1.0
+	 */
+	virtual double get_current_volume() const=0;
+
+	/**
+	 * @brief set current volume of pipeline
+	 * @param vol value between 0 and 1.0
+	 */
     virtual void set_current_volume(double vol)=0;
 
-    quint64 get_fading_time() const;
+	/**
+	 * @brief get fading time in ms
+	 * @return fading time in ms
+	 */
+	quint64 get_fading_time_ms() const;
 
+	/**
+	 * @brief start to fade in
+	 */
     void fade_in();
+
+	/**
+	 * @brief start to fade out
+	 */
     void fade_out();
 
+	/**
+	 * @brief function is called periodically. This function should not be used from outside
+	 * TODO
+	 */
     void fader_timed_out();
 
 
@@ -59,19 +88,14 @@ private:
 	FaderThread*    _fader=nullptr;
 	FaderThreadData* _fader_data=nullptr;
 
-
 private:
-
 	CrossFader(const CrossFader& other);
 
     void increase_volume();
     void decrease_volume();
-
     void init_fader();
 
-
 protected:
-
     void	    abort_fader();
 };
 

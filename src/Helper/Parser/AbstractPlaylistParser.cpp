@@ -69,7 +69,7 @@ QString AbstractPlaylistParser::get_absolute_filename(const QString& filename) c
 	}
 
 	if(!Helper::File::is_absolute(filename)){
-		ret = _directory + QDir::separator() + filename;
+		ret = _directory + "/" + filename;
 	}
 	else{
 		ret = filename;
@@ -79,5 +79,5 @@ QString AbstractPlaylistParser::get_absolute_filename(const QString& filename) c
 		ret = "";
 	}
 
-	return ret;
+	return Helper::File::clean_filename(ret);
 }

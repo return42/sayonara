@@ -38,7 +38,7 @@ QString DatabaseArtists::fetch_query_artists(bool also_empty) const
 			"SELECT "
 			"artists.artistID AS artistID "
 			", artists.name AS artistName "
-			", COUNT(DISTINCT tracks.trackid) AS artistNTracks "
+			", COUNT(DISTINCT tracks.trackid) AS trackCount "
 			" FROM artists ";
 
 	QString join = " INNER JOIN ";
@@ -87,9 +87,9 @@ QString DatabaseArtists::_create_order_string(Library::SortOrder sort)
 		case Library::SortOrder::ArtistNameDesc:
 			return QString(" ORDER BY artistName DESC ");
 		case Library::SortOrder::ArtistTrackcountAsc:
-			return QString(" ORDER BY artistNTracks ASC, artistName ASC ");
+			return QString(" ORDER BY trackCount ASC, artistName ASC ");
 		case Library::SortOrder::ArtistTrackcountDesc:
-			return QString(" ORDER BY artistNTracks DESC, artistName DESC ");
+			return QString(" ORDER BY trackCount DESC, artistName DESC ");
 		default:
 			return  "";
 	}

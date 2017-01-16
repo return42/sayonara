@@ -44,14 +44,18 @@ enum class Log : unsigned char
  * @brief The Logger class
  * @ingroup Helper
  */
-class Logger{
-protected:
-	std::ostream& _out;
+class Logger
+{
+
+private:
+	struct Private;
+	Private* _m=nullptr;
+
+	std::ostream& out();
 
 public:
-
-	explicit Logger(std::ostream& out);
-	Logger(const char* msg, std::ostream& out);
+	explicit Logger();
+	explicit Logger(const char* msg);
 
 	~Logger();
 
@@ -64,7 +68,7 @@ public:
 
 	template <typename T>
 	Logger& operator << (const T& msg){
-		_out << msg;
+		out() << msg;
 		return *this;
 	}
 

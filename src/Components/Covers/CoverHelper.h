@@ -23,6 +23,9 @@
 
 #include <QString>
 
+/**
+ * @ingroup Covers
+ */
 namespace CoverHelper
 {
 	QString calc_cover_token(const QString& artist, const QString& album);

@@ -45,15 +45,10 @@ LibraryPluginHandler::~LibraryPluginHandler() {}
 
 void LibraryPluginHandler::init(const QList<LibraryContainerInterface*>& containers)
 {
-	QString lib_dir;
-	QDir plugin_dir;
-	QStringList dll_filenames;
-	QString cur_plugin;
-
-	lib_dir = Helper::get_lib_path();
-	plugin_dir = QDir(lib_dir);
-	dll_filenames = plugin_dir.entryList(QDir::Files);
-	cur_plugin = _settings->get(Set::Lib_CurPlugin);
+	QString lib_dir = Helper::get_lib_path();
+	QDir plugin_dir = QDir(lib_dir);
+	QStringList dll_filenames = plugin_dir.entryList(QDir::Files);
+	QString cur_plugin = _settings->get(Set::Lib_CurPlugin);
 
 
 	for(LibraryContainerInterface* container : containers){

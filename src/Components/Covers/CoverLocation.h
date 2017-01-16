@@ -150,7 +150,7 @@ public:
 	 * @brief returns the standard cover directory
 	 * @return usually ~/.Sayonara/covers
 	 */
-	static QString get_cover_directory();
+	static QString get_cover_directory(const QString& append_path);
 
 	QString preferred_path() const;
 };

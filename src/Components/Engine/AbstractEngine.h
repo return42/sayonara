@@ -31,6 +31,10 @@
 #define CONVERT_ENGINE "convert_engine"
 
 class QImage;
+/**
+ * @brief The EngineName enum
+ * @ingroup Engine
+ */
 enum class EngineName : quint8 
 {
 	Undefined=0,
@@ -38,7 +42,10 @@ enum class EngineName : quint8
 	ConvertEngine=2
 };
 
-
+/**
+ * @brief The Engine class
+ * @ingroup Engine
+ */
 class Engine :
 		public QObject,
 		protected SayonaraClass

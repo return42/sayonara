@@ -1,11 +1,18 @@
 #ifndef DISCNUMBERXIPHFRAME_H
 #define DISCNUMBERXIPHFRAME_H
 
-#include "Tagging/Models/Discnumber.h"
+#include "Helper/Tagging/Models/Discnumber.h"
 #include "AbstractFrame.h"
 
+/**
+ * @ingroup Tagging
+ */
 namespace Xiph
 {
+	/**
+	 * @brief The DiscnumberFrame class
+	 * @ingroup Xiph
+	 */
 	class DiscnumberFrame :
 		public Xiph::AbstractFrame<Models::Discnumber>
 	{

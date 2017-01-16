@@ -203,7 +203,7 @@ void CrossFader::decrease_volume()
 }
 
 
-quint64 CrossFader::get_fading_time() const
+quint64 CrossFader::get_fading_time_ms() const
 {
 	Settings* settings = Settings::getInstance();
 	if(settings->get(Set::Engine_CrossFaderActive)){

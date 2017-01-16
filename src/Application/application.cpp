@@ -208,7 +208,7 @@ bool Application::init(QTranslator* translator, const QStringList& files_to_play
 	if(_settings->get(Set::Notification_Show)){
 		NotificationHandler::getInstance()->notify("Sayonara Player",
 												   Lang::get(Lang::Version) + " " + SAYONARA_VERSION,
-												   Helper::get_share_path() + "logo.png");
+												   Helper::get_share_path("logo.png"));
 	}
 
 	sp_log(Log::Debug) << "Init plugins: " << _timer->elapsed() << "ms";

@@ -23,6 +23,10 @@
 
 #include <gst/gst.h>
 
+/**
+ * @brief The StreamRecorderData struct
+ * @ingroup Engine
+ */
 struct StreamRecorderData
 {
 	GstElement* queue=nullptr;
@@ -35,7 +39,7 @@ struct StreamRecorderData
 	bool has_empty_filename;
 
 	StreamRecorderData()
-{
+	{
 		probe_id=0;
 		busy = false;
 		active = false;
@@ -43,7 +47,7 @@ struct StreamRecorderData
 	}
 
 	~StreamRecorderData()
-{
+	{
 		if(filename){
 			g_free(filename);
 			filename = nullptr;
@@ -51,7 +55,9 @@ struct StreamRecorderData
 	}
 };
 
-
+/**
+ * @ingroup Engine
+ */
 namespace Probing
 {
 	GstPadProbeReturn
@@ -64,7 +70,6 @@ namespace Probing
 	lame_probed(GstPad *pad, GstPadProbeInfo *info, gpointer user_data);
 
 	void handle_probe(bool* active, GstElement* queue, gulong* probe_id, GstPadProbeCallback callback);
-
 
 	GstPadProbeReturn
 	stream_recorder_probed(GstPad *pad, GstPadProbeInfo *info, gpointer user_data);

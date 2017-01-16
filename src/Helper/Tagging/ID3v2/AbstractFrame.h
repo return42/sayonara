@@ -39,7 +39,7 @@ namespace ID3v2Frame
 	 * @brief The AbstractFrame class\n
 	 * for example
 	 * AbstractFrame<Discnumber, TagLib::ID3v2::TextIdentificationFrame>
-	 * @ingroup Tagging
+	 * @ingroup ID3v2
 	 */
 	class AbstractFrame {
 		protected:

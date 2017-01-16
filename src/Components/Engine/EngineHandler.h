@@ -35,6 +35,10 @@ class PlaybackEngine;
 class ConvertEngine;
 class PlayManager;
 
+/**
+ * @brief The EngineHandler class
+ * @ingroup Engine
+ */
 class EngineHandler : public Engine
 {
 	Q_OBJECT

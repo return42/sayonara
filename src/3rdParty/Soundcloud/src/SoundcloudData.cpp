@@ -43,7 +43,7 @@ QString SoundcloudData::fetch_query_artists(bool also_empty) const
 			"artists.description AS description, "
 			"artists.followers_following AS followers_following, "
 			"artists.cover_url AS cover_url, "
-			"COUNT(DISTINCT tracks.trackid) AS artistNTracks, "
+			"COUNT(DISTINCT tracks.trackid) AS trackCount, "
 			"GROUP_CONCAT(DISTINCT albums.albumid) AS artistAlbums "
 			"FROM artists ";
 
@@ -69,7 +69,7 @@ QString SoundcloudData::fetch_query_albums(bool also_empty) const
 			"albums.permalink_url AS permalink_url, "
 			"albums.purchase_url AS purchase_url, "
 			"albums.cover_url AS cover_url, "
-			"COUNT(DISTINCT tracks.trackid) AS albumNTracks, "
+			"COUNT(DISTINCT tracks.trackid) AS trackCount, "
 			"MAX(tracks.year) AS albumYear, "
 			"GROUP_CONCAT(DISTINCT artists.name) AS albumArtists, "
 			"GROUP_CONCAT(DISTINCT tracks.discnumber) AS discnumbers "

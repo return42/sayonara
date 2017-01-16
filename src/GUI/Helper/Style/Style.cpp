@@ -65,15 +65,14 @@ QString Style::get_style(bool dark) {
 	}
 
     QString style;
-    QString share_path = Helper::get_share_path();
 
 	if(!dark){
-		Helper::File::read_file_into_str(share_path + "standard.css", style);
+		Helper::File::read_file_into_str( Helper::get_share_path("standard.css"), style );
 	}
 
     else{
-		Helper::File::read_file_into_str(share_path + "dark.css", style);
-        style.replace("<<SHARE_PATH>>", share_path);
+		Helper::File::read_file_into_str( Helper::get_share_path("dark.css"), style );
+		style.replace("<<SHARE_PATH>>", Helper::get_share_path());
     }
 
 	style.replace("<<FONT_FAMILY>>", font_family);

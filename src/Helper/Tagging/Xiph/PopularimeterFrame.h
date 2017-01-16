@@ -1,11 +1,18 @@
 #ifndef POPULARIMETERFRAME_H
 #define POPULARIMETERFRAME_H
 
-#include "Tagging/Xiph/AbstractFrame.h"
-#include "Tagging/Models/Popularimeter.h"
+#include "Helper/Tagging/Xiph/AbstractFrame.h"
+#include "Helper/Tagging/Models/Popularimeter.h"
 
+/**
+ * @ingroup Tagging
+ */
 namespace Xiph
 {
+	/**
+	 * @brief The PopularimeterFrame class
+	 * @ingroup Xiph
+	 */
 	class PopularimeterFrame : public AbstractFrame<Models::Popularimeter>
 	{
 	public:

@@ -71,19 +71,19 @@ namespace Helper
 	 * @brief get sayonara path in home directory
 	 * @return
 	 */
-	QString get_sayonara_path();
+	QString get_sayonara_path(const QString& append_path=QString());
 
 	/**
 	 * @brief get share path of sayonara
 	 * @return ./share on windows, share path of unix system
 	 */
-	QString get_share_path();
+	QString get_share_path(const QString& append_path=QString());
 
 	/**
 	 * @brief get library path of sayonara
 	 * @return ./lib on windows, lib path of unix system
 	 */
-	QString get_lib_path();
+	QString get_lib_path(const QString& append_path=QString());
 
 	/**
 	 * @brief create a link string

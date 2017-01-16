@@ -203,7 +203,7 @@ QString StreamParser::write_playlist_file(const QByteArray& data) const
 	QString filename, extension;
 
 	extension = Helper::File::get_file_extension(_m->last_url);
-	filename = Helper::get_sayonara_path() + QDir::separator() + "tmp_playlist";
+	filename = Helper::get_sayonara_path("tmp_playlist");
 
 	if(!extension.isEmpty()){
 		filename += "." + extension;

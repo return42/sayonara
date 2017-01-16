@@ -23,6 +23,10 @@
 
 #include <QList>
 
+/**
+ * @brief The LevelReceiver class
+ * @ingroup EngineInterfaces
+ */
 class LevelReceiver {
     public:
 	virtual void set_level(float left, float right)=0;
@@ -31,6 +35,10 @@ class LevelReceiver {
     virtual ~LevelReceiver();
 };
 
+/**
+ * @brief The SpectrumReceiver class
+ * @ingroup EngineInterfaces
+ */
 class SpectrumReceiver 
 {
 public:

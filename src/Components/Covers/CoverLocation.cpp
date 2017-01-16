@@ -69,9 +69,18 @@ CoverLocation& CoverLocation::operator=(const CoverLocation& other)
 	return *this;
 }
 
-QString CoverLocation::get_cover_directory()
+QString CoverLocation::get_cover_directory(const QString& append_path)
 {
-	return Helper::get_sayonara_path() + QDir::separator() + "covers";
+	QString cover_dir = Helper::get_sayonara_path("covers");
+	if(!QFile::exists(cover_dir)){
+		QDir().mkdir(cover_dir);
+	}
+
+	if(!append_path.isEmpty()){
+		cover_dir += "/" + append_path;
+	}
+
+	return Helper::File::clean_filename(cover_dir);
 }
 
 QString CoverLocation::preferred_path() const
@@ -90,7 +99,7 @@ QString CoverLocation::preferred_path() const
 CoverLocation CoverLocation::getInvalidLocation() 
 {
 	CoverLocation cl;
-	cl._m->cover_path = Helper::get_share_path() + "logo.png";
+	cl._m->cover_path = Helper::get_share_path("logo.png");
 	cl._m->search_url = "";
 	cl._m->search_term = "";
 	cl._m->valid = false;
@@ -118,15 +127,8 @@ QString CoverLocation::toString() const
 
 CoverLocation CoverLocation::get_cover_location(const QString& album_name, const QString& artist_name)
 {
-	QString cover_dir = get_cover_directory();
-
 	QString cover_token = CoverHelper::calc_cover_token(artist_name, album_name);
-
-	QString cover_path =  cover_dir + QDir::separator() + cover_token + ".jpg";
-
-	if(!QFile::exists(cover_dir)) {
-		QDir().mkdir(cover_dir);
-	}
+	QString cover_path = get_cover_directory( cover_token + ".jpg" );
 
 	CoverLocation ret;
 	ret._m->cover_path = cover_path;
@@ -220,16 +222,11 @@ CoverLocation CoverLocation::get_cover_location(const QString& artist)
 {
 	if(artist.isEmpty()) return getInvalidLocation();
 
-	QString cover_dir = get_cover_directory();
-	QString token = QString("artist_") + CoverHelper::calc_cover_token(artist, "");
-	QString target_file = cover_dir + QDir::separator() + token + ".jpg";
-
-	if(!QFile::exists(cover_dir)) {
-		QDir().mkdir(cover_dir);
-	}
+	QString cover_token = QString("artist_") + CoverHelper::calc_cover_token(artist, "");
+	QString cover_path = get_cover_directory(cover_token + ".jpg");
 
 	CoverLocation ret;
-	ret._m->cover_path = target_file;
+	ret._m->cover_path = cover_path;
 	ret._m->search_url = CoverHelper::calc_google_artist_address(artist);
 	ret._m->search_term = artist;
 	ret._m->valid = true;
@@ -252,9 +249,9 @@ CoverLocation CoverLocation::get_cover_location(const MetaData& md)
 	if(!md.cover_download_url.isEmpty())
 	{
 		QString extension = Helper::File::get_file_extension(md.cover_download_url);
-		QString cover_dir = get_cover_directory();
+
 		QString cover_token = CoverHelper::calc_cover_token(md.artist, md.album);
-		QString cover_path =  cover_dir + QDir::separator() + cover_token + "." + extension;
+		QString cover_path = get_cover_directory(cover_token + "." + extension);
 
 		cl = get_cover_location(QUrl(md.cover_download_url), cover_path);
 	}

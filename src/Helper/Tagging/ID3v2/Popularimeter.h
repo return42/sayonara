@@ -32,7 +32,7 @@ namespace ID3v2Frame
 {
 	/**
 	 * @brief The PopularimeterFrame class
-	 * @ingroup Tagging
+	 * @ingroup ID3v2
 	 */
 	class PopularimeterFrame :
 			public AbstractFrame<Models::Popularimeter, TagLib::ID3v2::PopularimeterFrame>

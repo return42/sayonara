@@ -25,6 +25,10 @@
 
 namespace ID3v2Frame
 {
+	/**
+	 * @brief The AlbumArtistFrame class
+	 * @ingroup ID3v2
+	 */
 	class AlbumArtistFrame :
 			public AbstractFrame<QString, TagLib::ID3v2::TextIdentificationFrame>
 	{

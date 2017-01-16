@@ -4,8 +4,15 @@
 #include "AbstractFrame.h"
 #include <QString>
 
+/**
+ * @ingroup Tagging
+ */
 namespace Xiph
 {
+	/**
+	 * @brief The AlbumArtistFrame class
+	 * @ingroup Xiph
+	 */
     class AlbumArtistFrame :
 	    public Xiph::AbstractFrame<QString>
     {
