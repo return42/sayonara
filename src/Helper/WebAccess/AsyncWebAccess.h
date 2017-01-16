@@ -32,7 +32,8 @@
  * @brief Asynchgronous web access class
  * @ingroup Helper
  */
-class AsyncWebAccess : public QObject
+class AsyncWebAccess :
+		public QObject
 {
 	Q_OBJECT
 
@@ -59,7 +60,7 @@ public:
 	AsyncWebAccess(QObject* parent=nullptr, const QByteArray& header=QByteArray(),
 				   AsyncWebAccess::Behavior behavior=AsyncWebAccess::Behavior::AsBrowser);
 
-	virtual ~AsyncWebAccess();
+	~AsyncWebAccess();
 
 	/**
 	 * @brief get fetched data

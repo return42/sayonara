@@ -31,7 +31,8 @@ namespace SP
 	 * @brief The Tree class
 	 * @ingroup Helper
 	 */
-	class Tree {
+	class Tree final
+	{
 		public:
 		Tree* parent=nullptr;
 
@@ -48,7 +49,7 @@ namespace SP
 			children.clear();
 		}
 
-		virtual ~Tree()
+		~Tree()
 {
 			for(Tree* child : children){
 				delete child; child = nullptr;

@@ -35,7 +35,8 @@ Q_DECLARE_METATYPE(Album)
  * @brief The Album class
  * @ingroup MetaDataHelper
  */
-class Album : public LibraryItem
+class Album :
+		public LibraryItem
 {
 private:
 	QString _album_artist;
@@ -60,7 +61,7 @@ public:
 	Album(const Album& other);
 	Album(Album&& other);
 	Album& operator=(const Album& other);
-	virtual ~Album();
+	~Album();
 
 	static QVariant toVariant(const Album& album);
 	static bool fromVariant(const QVariant& v, Album& album);

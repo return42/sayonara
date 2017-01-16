@@ -22,19 +22,13 @@
 #define AbstractStreamHandler_H
 
 #include <QMap>
-#include <QString>
 #include <QObject>
 
 #include "Helper/Pimpl.h"
-#include "Helper/MetaData/MetaDataList.h"
 
 typedef QMap<QString, QString> StreamMap;
 
-class MetaDataList;
-class PlaylistHandler;
-class AsyncWebAccess;
 class DatabaseConnector;
-class MetaDataList;
 
 /**
  * @brief Used to interprete website data as streams. Some methods have to be overridden,

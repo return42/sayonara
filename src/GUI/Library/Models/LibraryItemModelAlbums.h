@@ -32,10 +32,8 @@
 #include "GUI/Library/Models/LibraryItemModel.h"
 #include "Helper/Pimpl.h"
 
-#include <QPixmap>
-
 class AlbumList;
-class ColumnHeader;
+
 class LibraryItemModelAlbums :
 		public LibraryItemModel
 {

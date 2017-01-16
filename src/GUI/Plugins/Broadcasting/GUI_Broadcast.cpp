@@ -29,17 +29,22 @@
 
 #include "GUI/Plugins/Broadcasting/ui_GUI_Broadcast.h"
 
+struct GUI_Broadcast::Private
+{
+	StreamServer* server=nullptr;
+};
 
 GUI_Broadcast::GUI_Broadcast(QWidget *parent) :
 	PlayerPluginInterface(parent)
 {
-	_server = new StreamServer(this);
+	_m = Pimpl::make<GUI_Broadcast::Private>();
+	_m->server = new StreamServer(this);
 
-	connect(_server, &StreamServer::sig_new_connection, this, &GUI_Broadcast::connection_established);
-	connect(_server, &StreamServer::sig_connection_closed, this, &GUI_Broadcast::connection_closed);
-	connect(_server, &StreamServer::sig_can_listen, this, &GUI_Broadcast::can_listen_changed);
+	connect(_m->server, &StreamServer::sig_new_connection, this, &GUI_Broadcast::connection_established);
+	connect(_m->server, &StreamServer::sig_connection_closed, this, &GUI_Broadcast::connection_closed);
+	connect(_m->server, &StreamServer::sig_can_listen, this, &GUI_Broadcast::can_listen_changed);
 
-	_server->retry();
+	_m->server->retry();
 }
 
 
@@ -186,7 +191,7 @@ void GUI_Broadcast::can_listen_changed(bool success)
 
 void GUI_Broadcast::retry()
 {
-	_server->retry();
+	_m->server->retry();
 }
 
 
@@ -202,7 +207,7 @@ void GUI_Broadcast::dismiss_at(int idx)
 
 	ui->combo_clients->setItemText(idx, QString("(d) ") + ip);
 
-	_server->dismiss(idx);
+	_m->server->dismiss(idx);
 }
 
 

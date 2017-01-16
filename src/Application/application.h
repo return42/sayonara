@@ -39,7 +39,7 @@ class Application :
 
 public:
 	Application(int& argc, char** argv);
-    virtual ~Application();
+	~Application();
 
 	bool init(QTranslator* translator, const QStringList& files_to_play);
 

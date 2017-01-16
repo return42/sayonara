@@ -23,7 +23,7 @@
 
 #include <QList>
 
-#include "Helper/singleton.h"
+#include "Helper/Singleton.h"
 #include "Helper/Settings/SayonaraClass.h"
 
 class QStringList;

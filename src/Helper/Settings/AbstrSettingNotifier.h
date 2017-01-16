@@ -34,7 +34,9 @@
  * can be a QObject and therefore signals
  * @ingroup Settings
  */
-class AbstrSettingNotifier : public QObject{
+class AbstrSettingNotifier :
+		public QObject
+{
 	Q_OBJECT
 
 	signals:

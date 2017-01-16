@@ -28,7 +28,7 @@
 #ifdef WITH_SHUTDOWN
 
 
-#include "Helper/singleton.h"
+#include "Helper/Singleton.h"
 #include "Helper/Settings/SayonaraClass.h"
 
 #include <QDBusInterface>

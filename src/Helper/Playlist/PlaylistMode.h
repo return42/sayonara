@@ -29,7 +29,7 @@ namespace Playlist
 	 * @brief The Mode class
 	 * @ingroup PlaylistHelper
 	 */
-	class Mode
+	class Mode final
 	{
 		public:
 		enum State
@@ -76,7 +76,7 @@ namespace Playlist
 		static bool isActiveAndEnabled(Playlist::Mode::State pl);
 
 		Mode();
-		virtual ~Mode();
+		~Mode();
 
 		void print();
 

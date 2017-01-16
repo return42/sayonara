@@ -32,7 +32,7 @@ namespace Library {class Filter;}
 
 class MetaData;
 class MetaDataList;
-class CustomPlaylist;
+
 class DatabaseTracks :
 		private DatabaseModule,
 		private DatabaseSearchMode

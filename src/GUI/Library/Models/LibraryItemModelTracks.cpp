@@ -151,7 +151,7 @@ bool LibraryItemModelTracks::setData(const QModelIndex &index, const QVariant &v
 			}
 		}
 
-		emit dataChanged(index, this->index(row, _header_names.size() - 1));
+		emit dataChanged(index, this->index(row, columnCount() - 1));
 
 		return true;
 	}
@@ -170,7 +170,7 @@ bool LibraryItemModelTracks::setData(const QModelIndex&index, const MetaDataList
 
 		_m->tracks = v_md;
 
-		emit dataChanged(index, this->index(row + v_md.size() - 1, _header_names.size() - 1));
+		emit dataChanged(index, this->index(row + v_md.size() - 1, columnCount() - 1));
 
 		return true;
 	}

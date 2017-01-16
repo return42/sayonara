@@ -22,19 +22,11 @@
 #define GUI_DIRECTORYWIDGET_H
 
 #include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
-#include "GUI/Helper/Dragable/Dragable.h"
 #include "GUI/InfoDialog/InfoDialogContainer.h"
 #include "Helper/MetaData/MetaDataFwd.h"
-
-#include <QFileSystemModel>
+#include "Helper/Pimpl.h"
 
 class QComboBox;
-class LocalLibrary;
-class IconProvider;
-class LocalLibrary;
-class SearchableFileTreeModel;
-class FileListModel;
-
 namespace Ui { class GUI_DirectoryWidget; }
 
 class GUI_DirectoryWidget :
@@ -53,23 +45,8 @@ public:
 
 
 private:
-
-	enum SelectedWidget
-	{
-		None=0,
-		Dirs,
-		Files
-	} _selected_widget;
-
-	IconProvider*						_icon_provider=nullptr;
-	LocalLibrary*						_local_library=nullptr;
-	SearchableFileTreeModel*		_dir_model=nullptr;
-
-	QModelIndex							_found_idx;
-	QString								_search_term;
-	QStringList							_found_strings;
-	Ui::GUI_DirectoryWidget*			ui;
-
+	PIMPL(GUI_DirectoryWidget)
+	Ui::GUI_DirectoryWidget* ui=nullptr;
 
 private:
 

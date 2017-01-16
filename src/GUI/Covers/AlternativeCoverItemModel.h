@@ -29,20 +29,17 @@
 #ifndef ALTERNATIVECOVERITEMMODEL_H_
 #define ALTERNATIVECOVERITEMMODEL_H_
 
-
-#include <QList>
-#include <QPair>
 #include <QModelIndex>
 #include <QAbstractTableModel>
 
-class CoverLocation;
-struct RowColumn {
+struct RowColumn
+{
 	int row;
 	int col;
     bool valid;
 
     RowColumn()
-{
+	{
 		row = -1;
 		col = -1;
         valid = false;

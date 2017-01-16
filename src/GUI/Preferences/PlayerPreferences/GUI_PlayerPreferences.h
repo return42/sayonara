@@ -35,7 +35,7 @@ class GUI_PlayerPreferences :
 
 public:
 	explicit GUI_PlayerPreferences(QWidget *parent = 0);
-	virtual ~GUI_PlayerPreferences();
+	~GUI_PlayerPreferences();
 
 	void commit() override;
 	void revert() override;

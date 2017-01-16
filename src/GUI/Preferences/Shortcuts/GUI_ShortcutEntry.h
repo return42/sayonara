@@ -47,7 +47,7 @@ signals:
 
 public:
 	explicit GUI_ShortcutEntry(const Shortcut& shortcut, QWidget* parent=nullptr);
-	virtual ~GUI_ShortcutEntry();
+	~GUI_ShortcutEntry();
 
 	QList<QKeySequence> get_sequences() const;
 	void show_sequence_error();

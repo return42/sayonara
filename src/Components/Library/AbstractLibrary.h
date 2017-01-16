@@ -162,7 +162,7 @@ protected:
 	SP::Set<TrackID>	_selected_tracks;
 
 	Library::Filter		_filter;
-	Library::Sortings		_sortorder;
+	Library::Sortings	_sortorder;
 
 
 	/* Emit 3 signals with shown artists, shown album, shown tracks */
@@ -194,12 +194,12 @@ private:
 	void set_playlist_action_after_double_click();
 
 //	virtual void restore_artist_selection();
-	virtual void restore_track_selection();
-	virtual void restore_album_selection();
+	void restore_track_selection();
+	void restore_album_selection();
 
-	virtual MetaDataList change_track_selection(const SP::Set<int>& idx_list);
-	virtual void change_artist_selection(const SP::Set<int>& idx_list);
-	virtual void change_album_selection(const SP::Set<int>& idx_list);
+	MetaDataList change_track_selection(const SP::Set<int>& idx_list);
+	void change_artist_selection(const SP::Set<int>& idx_list);
+	void change_album_selection(const SP::Set<int>& idx_list);
 };
 
 #endif // ABSTRACTLIBRARY_H

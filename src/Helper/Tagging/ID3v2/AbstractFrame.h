@@ -41,7 +41,8 @@ namespace ID3v2Frame
 	 * AbstractFrame<Discnumber, TagLib::ID3v2::TextIdentificationFrame>
 	 * @ingroup ID3v2
 	 */
-	class AbstractFrame {
+	class AbstractFrame
+	{
 		protected:
 			const char*				_four=nullptr;
 			TagLib::ID3v2::Tag*		_tag=nullptr;

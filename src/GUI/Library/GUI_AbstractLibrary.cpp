@@ -24,9 +24,13 @@
 #include "Helper/Library/SearchMode.h"
 #include "Helper/Settings/Settings.h"
 #include "Helper/Language.h"
+#include "Helper/MetaData/MetaDataList.h"
 
 #include "GUI/Library/Helper/ColumnHeader.h"
+
 #include <QKeySequence>
+#include <QPushButton>
+#include <QLineEdit>
 
 GUI_AbstractLibrary::GUI_AbstractLibrary(AbstractLibrary* library, QWidget *parent) :
 	SayonaraWidget(parent)
@@ -269,7 +273,8 @@ void GUI_AbstractLibrary::refresh()
 }
 
 
-void GUI_AbstractLibrary::lib_fill_tracks(const MetaDataList& v_md) {
+void GUI_AbstractLibrary::lib_fill_tracks(const MetaDataList& v_md)
+{
 	_lv_tracks->fill<MetaDataList, LibraryItemModelTracks>(v_md);
 	_artist_model->set_mimedata(v_md);
 	_album_model->set_mimedata(v_md);

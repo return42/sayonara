@@ -26,6 +26,10 @@
 #include <QThread>
 #include <QFileSystemModel>
 
+/**
+ * @brief The SearchableFileTreeModel class
+ * @ingroup GUIInterfaces
+ */
 class SearchableFileTreeModel :
 	public QFileSystemModel,
 	public SearchModelInterface

@@ -21,7 +21,7 @@
 #ifndef SIMILAR_ARTISTS_H
 #define SIMILAR_ARTISTS_H
 
-#include "Helper/singleton.h"
+#include "Helper/Singleton.h"
 #include <QStringList>
 #include <QMap>
 

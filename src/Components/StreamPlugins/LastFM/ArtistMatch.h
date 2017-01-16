@@ -22,11 +22,10 @@
 #define ARTISTMATCH_H
 
 #include <QMap>
-#include <QString>
 #include <QObject>
 
-
-class ArtistMatch{
+class ArtistMatch
+{
 
 public:
 

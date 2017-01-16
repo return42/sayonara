@@ -33,7 +33,6 @@
 #include "Helper/MetaData/MetaDataFwd.h"
 #include "Helper/Pimpl.h"
 
-class ColumnHeader;
 class LibraryItemModelArtists :
 		public LibraryItemModel
 {

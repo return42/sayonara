@@ -26,12 +26,12 @@
 #include <QStringList>
 #include <QMetaType>
 
-class QVarint;
 /**
  * @brief The Artist class
  * @ingroup MetaDataHelper
  */
-class Artist : public LibraryItem 
+class Artist :
+		public LibraryItem
 {
 public:
 
@@ -45,7 +45,7 @@ public:
 	Artist(const Artist& other);
 	Artist(Artist&& other);
 	Artist& operator=(const Artist& other);
-	virtual	~Artist();
+	~Artist();
 
 	static bool fromVariant(const QVariant& v, Artist& a);
 	static QVariant toVariant(const Artist& a);

@@ -38,7 +38,7 @@ class GUI_PlaylistPreferences :
 
 public:
 	explicit GUI_PlaylistPreferences(QWidget *parent = 0);
-	virtual ~GUI_PlaylistPreferences();
+	~GUI_PlaylistPreferences();
 
 	void commit() override;
 	void revert() override;

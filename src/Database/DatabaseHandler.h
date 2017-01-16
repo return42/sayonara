@@ -21,7 +21,7 @@
 #ifndef DATABASEHANDLER_H
 #define DATABASEHANDLER_H
 
-#include "Helper/singleton.h"
+#include "Helper/Singleton.h"
 #include "Database/LibraryDatabase.h"
 
 #include <QMap>

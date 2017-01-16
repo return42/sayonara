@@ -13,11 +13,12 @@ namespace Xiph
 	 * @brief The PopularimeterFrame class
 	 * @ingroup Xiph
 	 */
-	class PopularimeterFrame : public AbstractFrame<Models::Popularimeter>
+	class PopularimeterFrame :
+			public AbstractFrame<Models::Popularimeter>
 	{
 	public:
 		PopularimeterFrame(TagLib::Tag* tag);
-		virtual ~PopularimeterFrame();
+		~PopularimeterFrame();
 
 	protected:
 		bool map_tag_to_model(const TagLib::String& value, Models::Popularimeter& model);

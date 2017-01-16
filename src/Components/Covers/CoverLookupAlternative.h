@@ -40,7 +40,7 @@ private:
 
 public:
 	CoverLookupAlternative(QObject* parent, const CoverLocation& cl, int n_covers);
-	virtual ~CoverLookupAlternative();
+	~CoverLookupAlternative();
 
 	void stop() override;
     void start();

@@ -34,7 +34,7 @@ ASXParser::~ASXParser() {}
 void ASXParser::parse()
 {
 	QDomDocument doc("AsxFile");
-	doc.setContent(_file_content);
+	doc.setContent( content() );
 
 	QDomElement docElement = doc.documentElement();
 	QDomNode child_node = docElement.firstChild();
@@ -85,7 +85,7 @@ void ASXParser::parse()
 			}
 		}
 
-		_v_md << md;
+		add_track(md);
 
 		entry = entry.nextSibling();
 
@@ -93,7 +93,8 @@ void ASXParser::parse()
 }
 
 
-QString ASXParser::parse_ref_node(const QDomNode& node){
+QString ASXParser::parse_ref_node(const QDomNode& node)
+{
 	QDomElement e = node.toElement();
 	QDomNamedNodeMap map = e.attributes();
 

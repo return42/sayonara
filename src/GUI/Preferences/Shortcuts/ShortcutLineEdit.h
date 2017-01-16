@@ -28,7 +28,8 @@
  * @brief The ShortcutLineEdit class
  * @ingroup Shortcuts
  */
-class ShortcutLineEdit : public QLineEdit
+class ShortcutLineEdit :
+		public QLineEdit
 {
 	Q_OBJECT
 
@@ -37,7 +38,7 @@ signals:
 
 public:
 	explicit ShortcutLineEdit(QWidget* parent=nullptr);
-	virtual ~ShortcutLineEdit();
+	~ShortcutLineEdit();
 
 	QList<QKeySequence> get_sequences() const;
 

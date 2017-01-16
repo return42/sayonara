@@ -22,12 +22,14 @@
 #define LIBRARYITEMMODEL_H_
 
 #include "GUI/Helper/SearchableWidget/AbstractSearchModel.h"
-#include "Helper/MetaData/MetaDataList.h"
+
 #include "Helper/Set.h"
+#include "Helper/Pimpl.h"
 
 class CoverLocation;
 class CustomMimeData;
-class ColumnHeader;
+class MetaDataList;
+
 class LibraryItemModel :
 		public AbstractSearchTableModel
 {
@@ -54,8 +56,8 @@ public:
 	QModelIndex getPrevRowIndexOf(const QString& substr, int row, const QModelIndex& parent=QModelIndex()) override;
 
 	virtual void			add_selections(const SP::Set<int>& rows) final;
-	virtual bool			is_selected(int id) final;
-	virtual bool			has_selections() final;
+	virtual bool			is_selected(int id) const final;
+	virtual bool			has_selections() const final;
 	virtual void			clear_selections() final;
 
 	virtual int				get_searchable_column() const=0;
@@ -72,14 +74,7 @@ public:
 
 
 protected:
-	QStringList		_header_names;
-	MetaDataList	_md_mimedata;
-	SP::Set<int>	_selections;
-
-	int				_n_rows;
-	int				_n_cols;
-
-protected:
+	PIMPL(LibraryItemModel)
 
 };
 

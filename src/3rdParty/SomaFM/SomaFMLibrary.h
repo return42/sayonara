@@ -41,7 +41,7 @@ signals:
 
 public:
 	explicit SomaFMLibrary(QObject* parent=nullptr);
-	virtual ~SomaFMLibrary();
+	~SomaFMLibrary();
 
 	SomaFMStation get_station(const QString& name);
 	void create_playlist_from_station(int idx);

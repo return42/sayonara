@@ -168,6 +168,11 @@
  */
 
 /**
+ * @defgroup GUIInterfaces
+ * @brief Interfaces for common GUI classes
+ */
+
+/**
  * @defgroup Widgets
  * @brief Sayonara widgets
  * @ingroup GUIHelper

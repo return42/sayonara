@@ -22,8 +22,6 @@
 #define DBUS_MPRIS_H
 
 #include <QObject>
-#include <QString>
-#include <QStringList>
 #include <QVariant>
 #include <QDBusObjectPath>
 #include <QMainWindow>
@@ -33,7 +31,9 @@
 #include "Components/PlayManager/PlayState.h"
 
 class PlayManager;
-class DBusAdaptor : public QObject {
+class DBusAdaptor :
+		public QObject
+{
 	Q_OBJECT
 
 protected:
@@ -44,7 +44,6 @@ protected:
 	QString		_service_name;
 	QString		_dbus_service;
 	QString		_dbus_interface;
-
 
 	explicit DBusAdaptor(QObject *parent=nullptr);
 	virtual ~DBusAdaptor();
@@ -70,7 +69,7 @@ class MediaPlayer2 :
 	public:
 
 		explicit MediaPlayer2(QMainWindow* player, QObject *parent=nullptr);
-		virtual ~MediaPlayer2();
+		~MediaPlayer2();
 
 		Q_PROPERTY(bool			CanQuit				READ CanQuit)
 		bool					CanQuit();

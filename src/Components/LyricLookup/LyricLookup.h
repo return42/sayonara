@@ -30,14 +30,8 @@
 #define LYRICLOOKUP_H_
 
 #include <QObject>
-#include <QStringList>
-#include <QString>
-#include <QList>
 
-#include <QDomDocument>
-#include <QDomElement>
-#include <QDomNode>
-#include <QMap>
+#include "Helper/Pimpl.h"
 
 struct ServerTemplate;
 
@@ -45,35 +39,33 @@ struct ServerTemplate;
  * @brief The LyricLookupThread class
  * @ingroup Lyrics
  */
-class LyricLookupThread : public QObject 
+class LyricLookupThread :
+		public QObject
 {
 	Q_OBJECT
 
 signals:
 	void sig_finished();
 
+
 public:
 	explicit LyricLookupThread(QObject* parent=nullptr);
-	virtual ~LyricLookupThread();
+	virtual	~LyricLookupThread();
 
-	QStringList get_servers();
-	QString get_lyric_data();
+	QString	get_lyric_data() const;
+	QStringList get_servers() const;
 
 	void run(const QString& artist, const QString& title, int server_idx);
 
 
 private:
-	QString					_artist;
-	QString					_title;
-	int						_cur_server;
-	QList<ServerTemplate>	_server_list;
-	QString					_final_wp;
-	QMap<QString, QString>  _regex_conversions;
+	PIMPL(LyricLookupThread)
 
-	QString convert_to_regex(const QString& str);
+	QString	convert_to_regex(const QString& str) const;
+	QString	parse_webpage(const QByteArray& raw, const ServerTemplate& t) const;
+
 	void init_server_list();
-	QString parse_webpage(const QByteArray& raw);
-	QString calc_url(QString artist, QString song);
+	QString	calc_server_url(QString artist, QString song);
 
 
 private slots:

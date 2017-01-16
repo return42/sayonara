@@ -163,7 +163,8 @@ void AbstractPlaylist::set_idx(int idx){
 }
 
 
-void AbstractPlaylist::set_playlist_mode(const Playlist::Mode& mode) {
+void AbstractPlaylist::set_playlist_mode(const Playlist::Mode& mode)
+{
 	if(_playlist_mode.shuffle() != mode.shuffle()){
 		for(MetaData& md : _m->v_md){
 			md.played = false;

@@ -28,7 +28,7 @@
  * @brief The CustomPlaylistSkeleton class
  * @ingroup PlaylistHelper
  */
-class CustomPlaylistSkeleton 
+class CustomPlaylistSkeleton
 {
 private:
 

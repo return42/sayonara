@@ -57,7 +57,7 @@ PLSParser::~PLSParser() {}
 
 void PLSParser::parse()
 {
-	QStringList lines = _file_content.split("\n");
+	QStringList lines = content().split("\n");
 
 	MetaData md;
 	int cur_track_idx = -1;
@@ -80,7 +80,7 @@ void PLSParser::parse()
 
 		if(track_idx != cur_track_idx){
 			if(cur_track_idx > 0){
-				_v_md << md;
+				add_track(md);
 			}
 
 			md = MetaData();
@@ -109,7 +109,7 @@ void PLSParser::parse()
 	}
 
 	if(!md.filepath().isEmpty()){
-		_v_md << md;
+		add_track(md);
 	}
 }
 

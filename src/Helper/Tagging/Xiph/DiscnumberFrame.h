@@ -18,7 +18,7 @@ namespace Xiph
 	{
 	public:
 		DiscnumberFrame(TagLib::Tag* tag);
-		virtual ~DiscnumberFrame();
+		~DiscnumberFrame();
 
 	protected:
 		bool map_tag_to_model(const TagLib::String& value, Models::Discnumber& model);

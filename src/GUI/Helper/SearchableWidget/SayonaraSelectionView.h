@@ -33,6 +33,10 @@ namespace SP
 	class Set;
 }
 
+/**
+ * @brief The SayonaraSelectionView class
+ * @ingroup GUIInterfaces
+ */
 class SayonaraSelectionView
 {
 protected:

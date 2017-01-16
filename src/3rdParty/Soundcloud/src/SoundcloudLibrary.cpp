@@ -134,13 +134,6 @@ void SoundcloudLibrary::refresh_albums() {}
 
 void SoundcloudLibrary::refresh_tracks() {}
 
-
-/* TODO: UNUSED
-void SoundcloudLibrary::cover_lookup_finished(bool){
-	CoverLookup* cover_lookup = static_cast<CoverLookup*>(sender());
-	cover_lookup->deleteLater();
-}
-*/
 void SoundcloudLibrary::cover_found(const CoverLocation& cl){
 	sp_log(Log::Debug) << "Saved sound cloud cover: " << cl.toString();
 }

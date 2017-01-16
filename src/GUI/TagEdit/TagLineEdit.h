@@ -59,7 +59,7 @@ class TagLineEdit :
 
 public:
 	explicit TagLineEdit(QWidget* parent=nullptr);
-	virtual ~TagLineEdit();
+	~TagLineEdit();
 
 protected:
 

@@ -48,7 +48,7 @@ class StreamServer :
 
 	public:
 		explicit StreamServer(QObject* parent=nullptr);
-		virtual ~StreamServer();
+		~StreamServer();
 
 	private:
 		PIMPL(StreamServer)

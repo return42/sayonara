@@ -40,14 +40,14 @@ class GUI_ShortcutEntry;
  * @brief The GUI_Shortcuts class
  * @ingroup Shortcuts
  */
-class GUI_Shortcuts :
+class GUI_Shortcuts final:
 		public PreferenceWidgetInterface
 {
 	Q_OBJECT
 
 public:
 	explicit GUI_Shortcuts(QWidget* parent=nullptr);
-	virtual ~GUI_Shortcuts();
+	~GUI_Shortcuts();
 
 	void revert() override;
 	void commit() override;

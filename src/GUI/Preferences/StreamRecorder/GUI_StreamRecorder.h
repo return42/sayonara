@@ -39,7 +39,7 @@ class GUI_StreamRecorder :
 
 public:
 	explicit GUI_StreamRecorder(QWidget* parent=nullptr);
-	virtual ~GUI_StreamRecorder();
+	~GUI_StreamRecorder();
 
 	void commit() override;
 	void revert() override;

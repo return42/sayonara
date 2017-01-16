@@ -60,7 +60,8 @@ bool PlaylistDBInterface::is_temporary() const
 	return _is_temporary;
 }
 
-void PlaylistDBInterface::set_temporary(bool b){
+void PlaylistDBInterface::set_temporary(bool b)
+{
 	_is_temporary = b;
 }
 
@@ -120,7 +121,8 @@ bool PlaylistDBInterface::insert_temporary_into_db()
 }
 
 
-PlaylistDBInterface::SaveAsAnswer PlaylistDBInterface::save_as(const QString& name, bool force_override){
+PlaylistDBInterface::SaveAsAnswer PlaylistDBInterface::save_as(const QString& name, bool force_override)
+{
 	if(!is_storable()){
 		return SaveAsAnswer::ExternTracksError;
 	}
@@ -187,7 +189,8 @@ PlaylistDBInterface::SaveAsAnswer PlaylistDBInterface::save_as(const QString& na
 }
 
 
-PlaylistDBInterface::SaveAsAnswer PlaylistDBInterface::rename(const QString& name){
+PlaylistDBInterface::SaveAsAnswer PlaylistDBInterface::rename(const QString& name)
+{
 	bool success;
 
 	if(!is_storable()){

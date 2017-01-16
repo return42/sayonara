@@ -24,7 +24,8 @@
 #include <QDBusPendingCallWatcher>
 
 class PlayManager;
-class DBusMediaKeysInterface : public QObject
+class DBusMediaKeysInterface :
+		public QObject
 {
 	Q_OBJECT
 
@@ -37,6 +38,7 @@ protected:
 
 public:
 	explicit DBusMediaKeysInterface(QObject *parent=nullptr);
+	virtual ~DBusMediaKeysInterface();
 
 
 protected slots:

@@ -38,7 +38,8 @@ class AsyncWebAccess;
  * @brief The CoverFetchThread class, This is not a real QThread class, but behaves like one because of AsyncWebAccess
  * @ingroup Covers
  */
-class CoverFetchThread : public QObject 
+class CoverFetchThread :
+		public QObject
 {
 	Q_OBJECT
 
@@ -59,7 +60,7 @@ signals:
 
 public:
 	CoverFetchThread(QObject* parent, const CoverLocation& cl, const int n_covers);
-    virtual ~CoverFetchThread();
+	~CoverFetchThread();
 
 	/**
 	 * @brief start fetching covers, if the url does not contain "google",

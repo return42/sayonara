@@ -22,7 +22,7 @@
 
 #include <QObject>
 #include "NotificationInterface.h"
-#include "Helper/singleton.h"
+#include "Helper/Singleton.h"
 
 class DummyNotificator : public NotificationInterface
 {

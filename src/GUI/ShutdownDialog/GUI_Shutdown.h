@@ -28,7 +28,9 @@
 
 #ifdef WITH_SHUTDOWN
 
-class GUI_Shutdown : public SayonaraDialog, protected Ui::GUI_Shutdown
+class GUI_Shutdown :
+		public SayonaraDialog,
+		protected Ui::GUI_Shutdown
 {
 	Q_OBJECT
 
@@ -44,7 +46,7 @@ private slots:
 
 public:
 	explicit GUI_Shutdown(QWidget* parent=nullptr);
-	virtual ~GUI_Shutdown();
+	~GUI_Shutdown();
 };
 
 #endif

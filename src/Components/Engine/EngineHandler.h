@@ -23,7 +23,7 @@
 
 #include "AbstractEngine.h"
 #include "Components/PlayManager/PlayState.h"
-#include "Helper/singleton.h"
+#include "Helper/Singleton.h"
 
 #include <QList>
 
@@ -32,21 +32,21 @@
 
 class RawSoundReceiverInterface;
 class PlaybackEngine;
-class ConvertEngine;
 class PlayManager;
 
 /**
  * @brief The EngineHandler class
  * @ingroup Engine
  */
-class EngineHandler : public Engine
+class EngineHandler :
+		public Engine
 {
 	Q_OBJECT
 	SINGLETON_QOBJECT(EngineHandler)
 
 public:
 
-	virtual bool init() override;
+	bool init() override;
 
 	PlaybackEngine* get_playback_engine();
 

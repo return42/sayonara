@@ -21,12 +21,12 @@
 #ifndef SETTINGCONVERTER_H
 #define SETTINGCONVERTER_H
 
-#include <QStringList>
 #include <QList>
 #include <QPair>
 
 class QSize;
-class QStringLIst;
+class QString;
+class QStringList;
 class QPoint;
 // generic
 template<typename T>

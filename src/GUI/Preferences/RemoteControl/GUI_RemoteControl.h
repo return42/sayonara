@@ -32,14 +32,14 @@ namespace Ui
 	class GUI_RemoteControl;
 }
 
-class GUI_RemoteControl:
+class GUI_RemoteControl :
 		public PreferenceWidgetInterface
 {
 	Q_OBJECT
 
 public:
 	explicit GUI_RemoteControl(QWidget* parent=nullptr);
-	virtual ~GUI_RemoteControl();
+	~GUI_RemoteControl();
 
 	void commit() override;
 	void revert() override;

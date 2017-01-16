@@ -43,7 +43,7 @@ class GUI_PreferenceDialog :
 
 public:
 	explicit GUI_PreferenceDialog(QWidget *parent = 0);
-	virtual ~GUI_PreferenceDialog();
+	~GUI_PreferenceDialog();
 
 	void commit() override;
 	void revert() override;

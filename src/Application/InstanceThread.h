@@ -30,8 +30,7 @@ enum InstanceMessage {
 	InstanceMessageWithFiles
 };
 
-class PlaylistHandler;
-class GUI_Player;
+
 class InstanceThread : public QThread
 {
 	Q_OBJECT

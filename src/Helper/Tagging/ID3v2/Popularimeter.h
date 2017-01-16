@@ -42,7 +42,7 @@ namespace ID3v2Frame
 
 		public:
 			PopularimeterFrame(const TagLib::FileRef& f);
-			virtual ~PopularimeterFrame();
+			~PopularimeterFrame();
 
 			void map_model_to_frame() override;
 			void map_frame_to_model() override;

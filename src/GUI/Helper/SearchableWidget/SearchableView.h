@@ -27,12 +27,15 @@
 #include <QKeyEvent>
 #include <QAbstractItemView>
 
-class QAbstractItemModel;
 class QItemSelectionModel;
 class MiniSearcher;
 class SearchModelInterface;
 class Settings;
 
+/**
+ * @brief The SearchViewInterface class
+ * @ingroup GUIInterfaces
+ */
 class SearchViewInterface :
 		public SayonaraSelectionView
 {

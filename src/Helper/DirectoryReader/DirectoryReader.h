@@ -29,11 +29,11 @@ class MetaDataList;
  * @brief Directory reader functions
  * @ingroup Helper
  */
-class DirectoryReader
+class DirectoryReader final
 {
     public:
 		DirectoryReader();
-		virtual ~DirectoryReader();
+		~DirectoryReader();
 
 		/**
 		 * @brief set name filters

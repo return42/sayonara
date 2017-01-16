@@ -35,11 +35,13 @@ namespace DBusMPRIS
 	class MediaPlayer2;
 }
 
-class DBusHandler : private QObject
+class DBusHandler :
+		private QObject
 {
+
 public:
 	explicit DBusHandler(QMainWindow* player, QObject* parent=nullptr);
-	virtual ~DBusHandler();
+	~DBusHandler();
 
 
 private:

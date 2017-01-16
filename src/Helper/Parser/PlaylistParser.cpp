@@ -61,12 +61,12 @@ int PlaylistParser::parse_playlist(const QString& local_filename, MetaDataList& 
 
 	else{
 		playlist_parser = new M3UParser(local_filename);
-		v_md_tmp = playlist_parser->get_md();
+		v_md_tmp = playlist_parser->tracks();
 
 		if(v_md_tmp.isEmpty()){
 			delete playlist_parser;
 			playlist_parser = new PLSParser(local_filename);
-			v_md_tmp = playlist_parser->get_md();
+			v_md_tmp = playlist_parser->tracks();
 		}
 
 		if(v_md_tmp.isEmpty()){
@@ -75,7 +75,7 @@ int PlaylistParser::parse_playlist(const QString& local_filename, MetaDataList& 
 		}
 	}
 
-	v_md_tmp = playlist_parser->get_md();
+	v_md_tmp = playlist_parser->tracks();
 
 	for(const MetaData& md : v_md_tmp) {
 		if( Helper::File::check_file(md.filepath()) ){

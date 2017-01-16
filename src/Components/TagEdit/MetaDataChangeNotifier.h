@@ -22,7 +22,7 @@
 #define METADATACHANGENOTIFIER_H
 
 #include <QObject>
-#include "Helper/singleton.h"
+#include "Helper/Singleton.h"
 
 class MetaDataList;
 /**

@@ -21,16 +21,32 @@
 #include "LibraryItemModel.h"
 #include "GUI/Library/Helper/ColumnHeader.h"
 #include "GUI/Helper/CustomMimeData.h"
+#include "Helper/MetaData/MetaDataList.h"
 
 #include "Helper/globals.h"
 
 #include <algorithm>
 
+struct LibraryItemModel::Private
+{
+	QStringList		header_names;
+	MetaDataList	track_mimedata;
+	SP::Set<int>	selections;
+
+	int				n_rows;
+	int				n_cols;
+
+	Private()
+	{
+		n_rows = 0;
+		n_cols = 0;
+	}
+};
+
 
 LibraryItemModel::LibraryItemModel()
 {
-	_n_cols = 0;
-	_n_rows = 0;
+	_m = Pimpl::make<LibraryItemModel::Private>();
 }
 
 LibraryItemModel::~LibraryItemModel() {}
@@ -41,12 +57,12 @@ QVariant LibraryItemModel::headerData ( int section, Qt::Orientation orientation
 		return QVariant();
 	}
 
-	if(!between(section, _header_names)){
+	if(!between(section, _m->header_names)){
 		return QVariant();
 	}
 
 	if (orientation == Qt::Horizontal){
-		return _header_names[section];
+		return _m->header_names[section];
 	}
 
 	return QVariant();
@@ -57,12 +73,12 @@ bool LibraryItemModel::setHeaderData(int section, Qt::Orientation orientation, c
 {
 	Q_UNUSED(role)
 
-	if(!between(section, _header_names)){
+	if(!between(section, _m->header_names)){
 		return false;
 	}
 
 	if(orientation == Qt::Horizontal){
-		_header_names[section] = value.toString();
+		_m->header_names[section] = value.toString();
 		emit headerDataChanged(orientation, section, section);
 	}
 
@@ -73,7 +89,7 @@ bool LibraryItemModel::setHeaderData(int section, Qt::Orientation orientation, c
 int LibraryItemModel::rowCount(const QModelIndex& parent) const
 {
 	Q_UNUSED(parent)
-	return _n_rows;
+	return _m->n_rows;
 }
 
 
@@ -81,7 +97,7 @@ int LibraryItemModel::columnCount(const QModelIndex& parent) const
 {
 	Q_UNUSED(parent);
 
-	return _header_names.size();
+	return _m->header_names.size();
 }
 
 
@@ -92,7 +108,7 @@ bool LibraryItemModel::insertColumns(int position, int cols, const QModelIndex &
 	beginInsertColumns(QModelIndex(), position, position+cols-1);
 
 	for(int i=position; i<position+cols; i++) {
-		_header_names.insert(i, "");
+		_m->header_names.insert(i, "");
 	}
 
 	endInsertColumns();
@@ -107,7 +123,7 @@ bool LibraryItemModel::removeColumns(int position, int cols, const QModelIndex &
 	beginRemoveColumns(QModelIndex(), position, position+cols-1);
 
 	for(int i=position; i<position+cols; i++) {
-		_header_names.removeAt(position);
+		_m->header_names.removeAt(position);
 	}
 
 	endRemoveColumns();
@@ -121,10 +137,10 @@ bool LibraryItemModel::removeRows(int row, int count, const QModelIndex& index)
 	beginRemoveRows(QModelIndex(), row, row + count - 1);
 
 	for(int i=row; i<row + count; i++){
-		_selections.remove( get_id_by_row(i) );
+		_m->selections.remove( get_id_by_row(i) );
 	}
 
-	_n_rows -= count;
+	_m->n_rows -= count;
 
 	endRemoveRows();
 
@@ -135,7 +151,7 @@ bool LibraryItemModel::insertRows(int row, int count, const QModelIndex& index)
 {
 	Q_UNUSED(index)
 	beginInsertRows(QModelIndex(), row, row + count - 1);
-	_n_rows += count;
+	_m->n_rows += count;
 	endInsertRows();
 
 	return true;
@@ -150,7 +166,7 @@ QMap<QChar, QString> LibraryItemModel::getExtraTriggers()
 
 void LibraryItemModel::set_mimedata(const MetaDataList& v_md)
 {
-	_md_mimedata = v_md;
+	_m->track_mimedata = v_md;
 }
 
 
@@ -159,12 +175,12 @@ CustomMimeData* LibraryItemModel::get_mimedata()
 	CustomMimeData* mimedata = new CustomMimeData();
 	QList<QUrl> urls;
 
-	for(const MetaData& md : _md_mimedata){
+	for(const MetaData& md : _m->track_mimedata){
 		QUrl url(QString("file://") + md.filepath());
 		urls << url;
 	}
 
-	mimedata->setMetaData(_md_mimedata);
+	mimedata->setMetaData(_m->track_mimedata);
 	mimedata->setText("tracks");
 	mimedata->setUrls(urls);
 
@@ -172,29 +188,29 @@ CustomMimeData* LibraryItemModel::get_mimedata()
 }
 
 
-bool LibraryItemModel::has_selections()
+bool LibraryItemModel::has_selections() const
 {
-	return !(_selections.isEmpty());
+	return !(_m->selections.isEmpty());
 }
 
 
 void LibraryItemModel::add_selections(const SP::Set<int>& rows)
 {
 	std::for_each(rows.begin(), rows.end(), [=](int row){
-		_selections.insert(get_id_by_row(row));
+		_m->selections.insert(get_id_by_row(row));
 	});
 }
 
 
-bool LibraryItemModel::is_selected(int id)
+bool LibraryItemModel::is_selected(int id) const
 {
-	return _selections.contains(id);
+	return _m->selections.contains(id);
 }
 
 
 void LibraryItemModel::clear_selections()
 {
-	_selections.clear();
+	_m->selections.clear();
 }
 
 

@@ -21,7 +21,7 @@
 #ifndef PLAYLISTDB_WRAPPER_H
 #define PLAYLISTDB_WRAPPER_H
 
-#include "Helper/singleton.h"
+#include "Helper/Singleton.h"
 #include "Database/DatabasePlaylist.h"
 
 class DatabaseConnector;

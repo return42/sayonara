@@ -41,7 +41,7 @@ class GUI_SoundCloudLibrary :
 
 public:
 	explicit GUI_SoundCloudLibrary(SoundcloudLibrary* library, QWidget *parent=nullptr);
-	virtual ~GUI_SoundCloudLibrary();
+	~GUI_SoundCloudLibrary();
 
 	QComboBox*	get_libchooser() const;
 	QMenu*		get_menu() const;

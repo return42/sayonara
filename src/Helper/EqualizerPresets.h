@@ -30,7 +30,7 @@
  * @ingroup Equalizer
  * @ingroup GUIHelper
  */
-class EQ_Setting
+class EQ_Setting final
 {
 private:
 	QList<int>		_values;
@@ -39,7 +39,7 @@ private:
 public:
 	EQ_Setting(const QString& name=QString());
 	EQ_Setting(const EQ_Setting& s);
-	virtual ~EQ_Setting();
+	~EQ_Setting();
 	
 	/**
 	 * @brief Compares the case insensitive string representation of two settings

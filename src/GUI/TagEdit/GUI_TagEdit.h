@@ -32,7 +32,6 @@
  * @ingroup Tagging
  */
 class TagEdit;
-class CoverLocation;
 class MetaDataList;
 class MetaData;
 
@@ -48,7 +47,7 @@ class GUI_TagEdit :
 
 public:
 	explicit GUI_TagEdit(QWidget* parent=nullptr);
-	virtual ~GUI_TagEdit();
+	~GUI_TagEdit();
 
 	/**
 	 * @brief Get tag edit object

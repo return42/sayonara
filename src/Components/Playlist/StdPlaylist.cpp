@@ -44,8 +44,6 @@ Playlist::Type StdPlaylist::get_type() const
 
 int StdPlaylist::create_playlist(const MetaDataList& v_md) 
 {
-	bool was_changed = (!metadata().isEmpty() || this->was_changed());
-
 	if(Playlist::Mode::isActiveAndEnabled(_playlist_mode.append())){
 		metadata() << v_md;
 	}
@@ -54,7 +52,7 @@ int StdPlaylist::create_playlist(const MetaDataList& v_md)
 		metadata() = v_md;
 	}
 
-	set_changed(was_changed);
+	set_changed(true);
 
 	return metadata().size();
 }

@@ -22,7 +22,7 @@
 #include "M3UParser.h"
 #include "Helper/FileHelper.h"
 #include "Helper/Tagging/Tagging.h"
-#include "Helper/MetaData/MetaData.h"
+#include "Helper/MetaData/MetaDataList.h"
 #include "Database/DatabaseConnector.h"
 
 #include <QRegExp>
@@ -34,7 +34,7 @@ M3UParser::~M3UParser() {}
 
 void M3UParser::parse()
 {
-	QStringList list = _file_content.split('\n');
+	QStringList list = content().split('\n');
 
 	MetaData md;
 
@@ -57,7 +57,7 @@ void M3UParser::parse()
 		if(Helper::File::is_playlistfile(line)){
 			MetaDataList v_md;
 			PlaylistParser::parse_playlist(line, v_md);
-			_v_md << v_md;
+			add_tracks(v_md);
 			continue;
 		}
 
@@ -70,7 +70,7 @@ void M3UParser::parse()
 		}
 
 		if(!md.filepath().isEmpty()){
-			_v_md << md;
+			add_track(md);
 			md = MetaData();
 		}
 	}

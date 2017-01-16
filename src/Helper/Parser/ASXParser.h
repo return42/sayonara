@@ -28,14 +28,15 @@ class QDomNode;
  * @brief The ASXParser class
  * @ingroup PlaylistParser
  */
-class ASXParser : public AbstractPlaylistParser
+class ASXParser :
+		public AbstractPlaylistParser
 {
 public:
 	explicit ASXParser(const QString& filename);
-	virtual ~ASXParser();
+	~ASXParser();
 
 private:
-	virtual void parse() override;
+	void parse() override;
 	QString parse_ref_node(const QDomNode& node);
 };
 

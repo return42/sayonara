@@ -32,7 +32,7 @@ class QContextMenuEvent;
  * @brief GUI class for String fields meant to convert content to first upper case by a context menu
  * @ingroup Tagging
  **/
-class TagTextInput : 
+class TagTextInput :
 	public QLineEdit,
 	public SayonaraClass
 {
@@ -40,7 +40,7 @@ class TagTextInput :
 
 public:
 	TagTextInput(QWidget* parent=nullptr);
-	virtual ~TagTextInput();
+	~TagTextInput();
 
 private slots:
 	void cvt_to_first_upper();

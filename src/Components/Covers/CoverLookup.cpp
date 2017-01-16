@@ -102,12 +102,6 @@ void CoverLookup::cover_found(const QString& file_path) {
 		emit sig_finished(true);
 	}
 }
-// TODO
-/*void CoverLookup::emit_standard_cover()
-{
-	CoverLocation cl = CoverLocation::getInvalidLocation();
-	emit sig_cover_found(cl.cover_path());
-}*/
 
 void CoverLookup::stop() {}
 

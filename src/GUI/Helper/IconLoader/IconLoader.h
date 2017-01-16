@@ -21,7 +21,7 @@
 #ifndef ICON_LOADER_H_
 #define ICON_LOADER_H_
 
-#include "Helper/singleton.h"
+#include "Helper/Singleton.h"
 
 #include <QString>
 #include <QMap>

@@ -31,7 +31,6 @@
 #include <QPixmap>
 
 class PlaylistChooser;
-class GUI_TargetPlaylistDialog;
 
 namespace Ui { class GUI_PlaylistChooser; }
 

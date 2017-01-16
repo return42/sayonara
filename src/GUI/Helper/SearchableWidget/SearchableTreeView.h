@@ -24,13 +24,13 @@
 #include "SearchableView.h"
 
 #include <QTreeView>
-#include <QString>
-#include <QWidget>
 
-class Settings;
 class MiniSearcher;
-class SearchModelInterface;
 
+/**
+ * @brief The SearchableTreeView class
+ * @ingroup GUIInterfaces
+ */
 class SearchableTreeView :
 		public QTreeView,
 		public SearchViewInterface

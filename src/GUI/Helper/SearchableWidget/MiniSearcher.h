@@ -23,16 +23,11 @@
 
 #include <QFrame>
 #include <QLineEdit>
-#include <QBoxLayout>
-#include <QPushButton>
 #include <QKeyEvent>
 #include <QFocusEvent>
-#include <QScrollArea>
-#include <QShortcut>
 #include <QAbstractItemView>
 
-class SearchableTableView;
-class SearchableListView;
+#include "Helper/Pimpl.h"
 
 enum class MiniSearcherButtons : quint8
 {
@@ -63,6 +58,8 @@ class MiniSearcher : public QFrame
 {
     Q_OBJECT
 
+	PIMPL(MiniSearcher)
+
 signals:
     void sig_reset();
 	void sig_text_changed(const QString&);
@@ -78,22 +75,14 @@ private slots:
 
 
 private:
-	QAbstractItemView*		_parent=nullptr;
-	QMap<QChar, QString>    _triggers;
-	QPushButton*            _left_button=nullptr;
-	QPushButton*            _right_button=nullptr;
-	MiniSearcherLineEdit*   _line_edit=nullptr;
-	QBoxLayout*             _layout=nullptr;
-	QShortcut*				_esc_shortcut=nullptr;
-
-	bool is_initiator(QKeyEvent* event);
+	bool is_initiator(QKeyEvent* event) const;
     void init(QString text);
 	void init_layout(MiniSearcherButtons b);
 
 
 public:
-
 	MiniSearcher(QAbstractItemView* parent, MiniSearcherButtons b=MiniSearcherButtons::NoButton);
+	virtual ~MiniSearcher();
 
     bool check_and_init(QKeyEvent* event);
 	void set_extra_triggers(const QMap<QChar, QString>& triggers);

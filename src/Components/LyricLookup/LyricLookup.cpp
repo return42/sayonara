@@ -18,7 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 /*
  * LyricLookupThread.cpp
  *
@@ -31,46 +30,57 @@
 
 #include "Helper/WebAccess/AsyncWebAccess.h"
 
-#include <QFile>
 #include <QRegExp>
-#include <QThread>
+#include <QMap>
+
 #include <algorithm>
 
-size_t first_appearance = -1;
-size_t last_appearance = -1;
-QStringList lst;
+
+struct LyricLookupThread::Private
+{
+	QString					artist;
+	QString					title;
+	int						cur_server;
+	QList<ServerTemplate>	server_list;
+	QString					final_wp;
+	QMap<QString, QString>  regex_conversions;
+};
+
 
 
 LyricLookupThread::LyricLookupThread(QObject* parent) :
 	QObject(parent)
 {
+	_m = Pimpl::make<LyricLookupThread::Private>();
+
 	init_server_list();
-	_cur_server = 0;
-	_final_wp.clear();
 
+	_m->cur_server = 0;
+	_m->final_wp.clear();
 
-	_regex_conversions.insert("$", "\\$");
-	_regex_conversions.insert("*", "\\*");
-	_regex_conversions.insert("+", "\\+");
-	_regex_conversions.insert("?", "\\?");
-	_regex_conversions.insert("[", "\\[");
-	_regex_conversions.insert("]", "\\]");
-	_regex_conversions.insert("(", "\\(");
-	_regex_conversions.insert(")", "\\)");
-	_regex_conversions.insert("{", "\\{");
-	_regex_conversions.insert("}", "\\}");
-	_regex_conversions.insert("^", "\\^");
-	_regex_conversions.insert("|", "\\|");
-	_regex_conversions.insert(".", "\\.");
+	_m->regex_conversions.insert("$", "\\$");
+	_m->regex_conversions.insert("*", "\\*");
+	_m->regex_conversions.insert("+", "\\+");
+	_m->regex_conversions.insert("?", "\\?");
+	_m->regex_conversions.insert("[", "\\[");
+	_m->regex_conversions.insert("]", "\\]");
+	_m->regex_conversions.insert("(", "\\(");
+	_m->regex_conversions.insert(")", "\\)");
+	_m->regex_conversions.insert("{", "\\{");
+	_m->regex_conversions.insert("}", "\\}");
+	_m->regex_conversions.insert("^", "\\^");
+	_m->regex_conversions.insert("|", "\\|");
+	_m->regex_conversions.insert(".", "\\.");
 }
 
 LyricLookupThread::~LyricLookupThread() {}
 
-QString LyricLookupThread::convert_to_regex(const QString& str){
+QString LyricLookupThread::convert_to_regex(const QString& str) const
+{
 	QString ret = str;
 
-	for(QString key : _regex_conversions.keys()){
-		ret.replace(key, _regex_conversions.value(key));
+	for(QString key : _m->regex_conversions.keys()){
+		ret.replace(key, _m->regex_conversions.value(key));
 	}
 
 	ret.replace(" ", "\\s+");
@@ -78,12 +88,13 @@ QString LyricLookupThread::convert_to_regex(const QString& str){
 	return ret;
 }
 
-QString LyricLookupThread::calc_url(QString artist, QString song) {
-	if(_cur_server < 0 || _cur_server >= _server_list.size()){
+QString LyricLookupThread::calc_server_url(QString artist, QString song)
+{
+	if(_m->cur_server < 0 || _m->cur_server >= _m->server_list.size()){
 		return "";
 	}
 
-	QMap<QString, QString> replacements = _server_list[_cur_server].replacements;
+	QMap<QString, QString> replacements = _m->server_list[_m->cur_server].replacements;
 
 	for(QString key : replacements.keys()) {
 		while(artist.indexOf(key) >= 0){
@@ -95,143 +106,67 @@ QString LyricLookupThread::calc_url(QString artist, QString song) {
 		}
 	}
 
-	QString url = _server_list[_cur_server].call_policy;
-	url.replace("<SERVER>", _server_list[_cur_server].server_address);
+	QString url = _m->server_list[_m->cur_server].call_policy;
+	url.replace("<SERVER>", _m->server_list[_m->cur_server].server_address);
 	url.replace("<FIRST_ARTIST_LETTER>", QString(artist[0]).trimmed());
 	url.replace("<ARTIST>", artist.trimmed());
 	url.replace("<TITLE>", song.trimmed());
 
-	if(_server_list[_cur_server].to_lower){
+	if(_m->server_list[_m->cur_server].to_lower){
 		return url.toLower();
 	}
 
 	return url;
 }
 
-QString LyricLookupThread::parse_webpage(const QByteArray& raw) {
-	QString dst(raw);
 
-	ServerTemplate t = _server_list[_cur_server];
+void LyricLookupThread::run(const QString& artist, const QString& title, int server_idx)
+{
+	_m->artist = artist;
+	_m->title = title;
 
-	for(QString start_tag : t.start_end_tag.keys()) {
-		QString content;
-		QString end_tag;
+	_m->cur_server = std::max(0, server_idx);
+	_m->cur_server = std::min(server_idx, _m->server_list.size() - 1);
 
-		end_tag = t.start_end_tag.value(start_tag);
-
-		start_tag = convert_to_regex(start_tag);
-		if(start_tag.startsWith("<") && !start_tag.endsWith(">")){
-			start_tag.append(".*>");
-		}
-
-		end_tag = convert_to_regex(end_tag);
-
-		QRegExp regex;
-		regex.setMinimal(true);
-		regex.setPattern(start_tag + "(.+)" + end_tag);
-		if(regex.indexIn(dst) != -1){
-			content  = regex.cap(1);
-		}
-
-		if(content.isEmpty()){
-			continue;
-		}
-
-
-		QRegExp re_script;
-		re_script.setPattern("<script.+</script>");
-		re_script.setMinimal(true);
-		while(re_script.indexIn(content) != -1){
-			content.replace(re_script, "");
-		}
-
-		QString word;
-		if(t.is_numeric) {
-			QRegExp rx("&#(\\d+);|<br />|</span>|</p>");
-
-			QStringList tmplist;;
-			int pos = 0;
-			while ((pos = rx.indexIn(content, pos)) != -1) {
-				QString str = rx.cap(1);
-
-				pos += rx.matchedLength();
-				if(str.size() == 0) {
-					tmplist.push_back(word);
-					word = "";
-					tmplist.push_back("<br />");
-				}
-
-				else{
-					word.append(QChar(str.toInt()));
-				}
-			}
-
-			dst = "";
-
-			for(const QString& str : tmplist) {
-				dst.append(str);
-			}
-		}
-
-		else{
-			dst = content;
-		}
-
-		dst.replace("\n", "<br />");
-		dst.replace("\\n", "<br />");
-
-		if(dst.size() > 100){
-			break;
-		}
-	}
-
-	return dst;
-}
-
-void LyricLookupThread::run(const QString& artist, const QString& title, int server_idx){
-	_artist = artist;
-	_title = title;
-
-	_cur_server = std::max(0, server_idx);
-	_cur_server = std::min(server_idx, _server_list.size() - 1);
-
-	if(_artist.isEmpty() && _title.isEmpty()) {
-		_final_wp = "No track selected";
+	if(_m->artist.isEmpty() && _m->title.isEmpty()) {
+		_m->final_wp = "No track selected";
 		return;
 	}
 
-	_final_wp.clear();
+	_m->final_wp.clear();
 
-	QString url = this->calc_url(_artist, _title);
+	QString url = this->calc_server_url(_m->artist, _m->title);
 
 	AsyncWebAccess* awa = new AsyncWebAccess(this);
 	connect(awa, &AsyncWebAccess::sig_finished, this, &LyricLookupThread::content_fetched);
 	awa->run(url);
 }
 
-void  LyricLookupThread::content_fetched(bool success){
+
+void LyricLookupThread::content_fetched(bool success)
+{
 	AsyncWebAccess* awa = static_cast<AsyncWebAccess*>(sender());
 	QString url = awa->get_url();
 
 	if(!success){
-		_final_wp = tr("Sorry, could not fetch lyrics from %1").arg(awa->get_url());
+		_m->final_wp = tr("Sorry, could not fetch lyrics from %1").arg(awa->get_url());
 		emit sig_finished();
 		return;
 	}
 
-	_final_wp = parse_webpage(awa->get_data());
+	_m->final_wp = parse_webpage(awa->get_data(), _m->server_list[_m->cur_server]);
 
-	if ( _final_wp.isEmpty() ) {
-		_final_wp = tr("Sorry, no lyrics found") + "<br />" + url;
+	if ( _m->final_wp.isEmpty() )
+	{
+		_m->final_wp = tr("Sorry, no lyrics found") + "<br />" + url;
 		emit sig_finished();
 		return;
 	}
 
-	_final_wp.push_front(_server_list[_cur_server].display_str + "<br /><br />");
-	_final_wp.push_front(awa->get_url() + "<br /><br />");
-	_final_wp.push_front(QString("<font size=\"5\" color=\"#F3841A\"><b>") +
-						 _artist + QString(" - ") +
-						 _title +
+	_m->final_wp.push_front(_m->server_list[_m->cur_server].display_str + "<br /><br />");
+	_m->final_wp.push_front(awa->get_url() + "<br /><br />");
+	_m->final_wp.push_front("<font size=\"5\" color=\"#F3841A\"><b>" +
+						 _m->artist + " - " +  _m->title +
 						 "</b></font><br /><br />");
 
 	emit sig_finished();
@@ -369,17 +304,17 @@ void LyricLookupThread::init_server_list()
 	musixmatch.to_lower = false;
 	musixmatch.error = "404 Not Found";
 
-	_server_list.push_back(wikia);
-	_server_list.push_back(musixmatch);
-	_server_list.push_back(metrolyrics);
-	_server_list.push_back(oldieLyrics);
-	_server_list.push_back(lyricskeeper);
-	_server_list.push_back(elyrics);
-	_server_list.push_back(golyr);
+	_m->server_list.push_back(wikia);
+	_m->server_list.push_back(musixmatch);
+	_m->server_list.push_back(metrolyrics);
+	_m->server_list.push_back(oldieLyrics);
+	_m->server_list.push_back(lyricskeeper);
+	_m->server_list.push_back(elyrics);
+	_m->server_list.push_back(golyr);
 
 
 	/*sp_log(Log::Info) << "Servers: [";
-	for(const ServerTemplate& t : _server_list){
+	for(const ServerTemplate& t : _m->server_list){
 		t.print_json();
 		sp_log(Log::Info) << ",";
 	}
@@ -387,18 +322,98 @@ void LyricLookupThread::init_server_list()
 
 }
 
-QStringList LyricLookupThread::get_servers()
+QStringList LyricLookupThread::get_servers() const
 {
 	QStringList lst;
-	for(const ServerTemplate& t : _server_list) {
+	for(const ServerTemplate& t : _m->server_list) {
 		lst << t.display_str;
 	}
 
 	return lst;
 }
 
-QString LyricLookupThread::get_lyric_data()
+QString LyricLookupThread::get_lyric_data() const
 {
-	return _final_wp;
+	return _m->final_wp;
 }
 
+
+
+QString LyricLookupThread::parse_webpage(const QByteArray& raw, const ServerTemplate& t) const
+{
+	QString dst(raw);
+
+	for(QString start_tag : t.start_end_tag.keys()) {
+		QString content;
+		QString end_tag;
+
+		end_tag = t.start_end_tag.value(start_tag);
+
+		start_tag = convert_to_regex(start_tag);
+		if(start_tag.startsWith("<") && !start_tag.endsWith(">")){
+			start_tag.append(".*>");
+		}
+
+		end_tag = convert_to_regex(end_tag);
+
+		QRegExp regex;
+		regex.setMinimal(true);
+		regex.setPattern(start_tag + "(.+)" + end_tag);
+		if(regex.indexIn(dst) != -1){
+			content  = regex.cap(1);
+		}
+
+		if(content.isEmpty()){
+			continue;
+		}
+
+
+		QRegExp re_script;
+		re_script.setPattern("<script.+</script>");
+		re_script.setMinimal(true);
+		while(re_script.indexIn(content) != -1){
+			content.replace(re_script, "");
+		}
+
+		QString word;
+		if(t.is_numeric) {
+			QRegExp rx("&#(\\d+);|<br />|</span>|</p>");
+
+			QStringList tmplist;;
+			int pos = 0;
+			while ((pos = rx.indexIn(content, pos)) != -1) {
+				QString str = rx.cap(1);
+
+				pos += rx.matchedLength();
+				if(str.size() == 0) {
+					tmplist.push_back(word);
+					word = "";
+					tmplist.push_back("<br />");
+				}
+
+				else{
+					word.append(QChar(str.toInt()));
+				}
+			}
+
+			dst = "";
+
+			for(const QString& str : tmplist) {
+				dst.append(str);
+			}
+		}
+
+		else{
+			dst = content;
+		}
+
+		dst.replace("\n", "<br />");
+		dst.replace("\\n", "<br />");
+
+		if(dst.size() > 100){
+			break;
+		}
+	}
+
+	return dst;
+}

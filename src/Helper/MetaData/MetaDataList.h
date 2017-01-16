@@ -36,7 +36,8 @@ namespace SP
 	class Set;
 }
 
-class MetaDataList : public QList<MetaData>
+class MetaDataList :
+		public QList<MetaData>
 {
 private:
 	int _cur_played_track;
@@ -46,13 +47,13 @@ public:
 	MetaDataList();
 	MetaDataList(const MetaDataList&);
 
-	virtual ~MetaDataList();
+	~MetaDataList();
 
 	void set_cur_play_track(int idx);
 	int get_cur_play_track() const;
 
 
-	virtual bool contains(const MetaData& md) const;
+	bool contains(const MetaData& md) const;
 	MetaDataList& remove_track(int idx);
 	MetaDataList& remove_tracks(const SP::Set<int>& rows);
 	MetaDataList& remove_tracks(int first, int last);

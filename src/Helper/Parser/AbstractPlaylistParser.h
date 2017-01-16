@@ -23,13 +23,15 @@
 
 
 #include <QString>
-#include "Helper/MetaData/MetaDataList.h"
+#include "Helper/Pimpl.h"
 
 /**
  * @brief The AbstractPlaylistParser class
  * @ingroup PlaylistParser
  */
 
+class MetaData;
+class MetaDataList;
 class AbstractPlaylistParser
 {
 public:
@@ -42,15 +44,17 @@ public:
 	 * Set to true if you want to force parsing again
 	 * @return list of MetaData
 	 */
-	virtual MetaDataList get_md(bool force_parse=false) final;
+	virtual MetaDataList tracks(bool force_parse=false) final;
 
+
+private:
+	PIMPL(AbstractPlaylistParser)
 
 protected:
-	MetaDataList		_v_md;
-	QString				_file_content;
-	QString				_directory;
-	QString				_download_target;
-	bool				_parsed;
+
+	void add_track(const MetaData& md);
+	void add_tracks(const MetaDataList& v_md);
+	const QString& content() const;
 
 
 protected:

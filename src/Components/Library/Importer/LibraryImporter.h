@@ -22,7 +22,7 @@
 #define LIBRARYIMPORTER_H
 
 #include "Helper/Settings/SayonaraClass.h"
-#include "Helper/singleton.h"
+#include "Helper/Singleton.h"
 #include "Helper/Pimpl.h"
 #include <QObject>
 

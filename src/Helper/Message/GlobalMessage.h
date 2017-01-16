@@ -21,7 +21,7 @@
 #ifndef GLOBALMESSAGE_H
 #define GLOBALMESSAGE_H
 
-#include "Helper/singleton.h"
+#include "Helper/Singleton.h"
 
 #include <QString>
 #include <QObject>

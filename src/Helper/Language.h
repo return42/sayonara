@@ -163,7 +163,7 @@ public:
 
 public:
 	Lang();
-	virtual ~Lang();
+	~Lang();
 
 	static LanguageString get(Lang::Term term, bool* ok=nullptr);
 };

@@ -22,10 +22,8 @@
 #define PLAYLISTDBINTERFACE_H
 
 #include <QObject>
-#include <QString>
 
 class MetaDataList;
-class CustomPlaylistSkeleton;
 class PlaylistDBWrapper;
 
 /**

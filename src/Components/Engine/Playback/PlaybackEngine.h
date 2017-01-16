@@ -62,7 +62,7 @@ signals:
 
 public:
 	explicit PlaybackEngine(QObject* parent=nullptr);
-	virtual ~PlaybackEngine();
+	~PlaybackEngine();
 
 	bool init() override;
 	void init_other_pipeline();

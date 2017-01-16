@@ -35,7 +35,8 @@ class MetaData;
  * @brief The Bookmarks logic class
  * @ingroup Bookmarks
  */
-class Bookmarks : public QObject
+class Bookmarks :
+		public QObject
 {
 	Q_OBJECT
 
@@ -61,7 +62,7 @@ signals:
 public:
 
 	explicit Bookmarks(QObject *parent=nullptr);
-	virtual ~Bookmarks();
+	~Bookmarks();
 
 	/**
 	 * @brief fetch all bookmarks for current track

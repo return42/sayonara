@@ -138,7 +138,7 @@ bool LibraryItemModelArtists::setData(const QModelIndex& index, const QVariant& 
 
 		Artist::fromVariant(value,  _m->artists[row]);
 
-		emit dataChanged(index, this->index(row, _header_names.size() - 1));
+		emit dataChanged(index, this->index(row, columnCount() - 1));
 
 		return true;
 	}
@@ -153,7 +153,7 @@ bool LibraryItemModelArtists::setData(const QModelIndex& index, const ArtistList
 
 		_m->artists = artists;
 
-		emit dataChanged(index, this->index(row + artists.size() - 1, _header_names.size() - 1));
+		emit dataChanged(index, this->index(row + artists.size() - 1, columnCount() - 1));
 
 		return true;
 	}

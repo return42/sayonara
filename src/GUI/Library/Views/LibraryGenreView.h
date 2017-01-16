@@ -21,23 +21,16 @@
 #ifndef LIBRARYGENREVIEW_H
 #define LIBRARYGENREVIEW_H
 
-
-#include <QMap>
 #include <QTreeWidget>
-#include <QThread>
-
-#include <QItemSelectionModel>
 
 #include <QDragEnterEvent>
 #include <QDragMoveEvent>
 #include <QDropEvent>
 #include <QDragLeaveEvent>
-#include <QShowEvent>
 
-class CustomMimeData;
 class MetaDataList;
-class MetaDataChangeNotifier;
 class TagEdit;
+class TreeDelegate;
 
 namespace SP
 {
@@ -45,10 +38,8 @@ namespace SP
 	class Tree;
 }
 
-class TreeDelegate;
 
 typedef SP::Tree<QString> GenreNode;
-
 
 class LibraryGenreView : public QTreeWidget
 {

@@ -30,8 +30,6 @@
 
 #include <QObject>
 
-class QString;
-class MetaData;
 class QDateTime;
 /**
  * @brief Helper functions

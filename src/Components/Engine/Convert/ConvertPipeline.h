@@ -24,12 +24,13 @@
 #include "LameBitrate.h"
 #include "Components/Engine/AbstractPipeline.h"
 
-class ConvertPipeline : public AbstractPipeline
+class ConvertPipeline :
+		public AbstractPipeline
 {
 	Q_OBJECT
 public:
 	explicit ConvertPipeline(Engine* engine, QObject *parent=nullptr);
-	virtual ~ConvertPipeline();
+	~ConvertPipeline();
 
 	bool set_uri(gchar* uri) override;
 	bool init(GstState state=GST_STATE_NULL) override;

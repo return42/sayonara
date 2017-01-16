@@ -87,7 +87,7 @@ public:
 		 * @param md
 		 */
 		StreamWriter(QTcpSocket* socket, const QString& ip, const MetaData& md);
-		virtual ~StreamWriter();
+		~StreamWriter();
 
 		/**
 		 * @brief get client ip address

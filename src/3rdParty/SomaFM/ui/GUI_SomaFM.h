@@ -27,7 +27,6 @@
 
 #include <QItemSelection>
 
-class SomaFMStationModel;
 class SomaFMStation;
 class SomaFMLibrary;
 class QComboBox;

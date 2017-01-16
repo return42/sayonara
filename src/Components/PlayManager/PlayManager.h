@@ -23,7 +23,7 @@
 
 #include <QObject>
 #include "PlayState.h"
-#include "Helper/singleton.h"
+#include "Helper/Singleton.h"
 #include "Helper/Pimpl.h"
 #include "Helper/Settings/SayonaraClass.h"
 

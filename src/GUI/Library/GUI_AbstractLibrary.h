@@ -38,15 +38,11 @@
 #include "Helper/Library/Filter.h"
 #include "Helper/Library/LibraryNamespaces.h"
 
-#include <QStringList>
 #include <QPoint>
-#include <QList>
-#include <QMap>
-#include <QIcon>
 #include <QComboBox>
-#include <QPushButton>
 
-class ColumnHeader;
+class QPushButton;
+class QComboBox;
 class AbstractLibrary;
 
 class GUI_AbstractLibrary :

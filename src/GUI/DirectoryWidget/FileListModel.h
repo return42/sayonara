@@ -22,12 +22,10 @@
 #define FILE_LIST_MODEL_H
 
 #include "GUI/Helper/SearchableWidget/AbstractSearchModel.h"
-#include "Helper/Settings/SayonaraClass.h"
 
 #include <QStringList>
 #include <QModelIndex>
 
-class Settings;
 class QVariant;
 
 class FileListModel :
@@ -54,7 +52,7 @@ class FileListModel :
 		QMimeData* mimeData(const QModelIndexList &indexes) const override;
 		Qt::ItemFlags flags(const QModelIndex& index) const override;
 
-private:
+	private:
 		QStringList _files;
 };
 

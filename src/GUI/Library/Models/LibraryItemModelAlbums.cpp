@@ -185,7 +185,7 @@ bool LibraryItemModelAlbums::setData(const QModelIndex & index, const QVariant &
 			}
 		}
 
-		emit dataChanged(index, this->index(row, _header_names.size() - 1));
+		emit dataChanged(index, this->index(row, columnCount() - 1));
 
 		return true;
 	}
@@ -204,7 +204,7 @@ bool LibraryItemModelAlbums::setData(const QModelIndex& index, const AlbumList& 
 
 		_m->albums = albums;
 
-		emit dataChanged(index, this->index(row + albums.size() - 1, _header_names.size() - 1));
+		emit dataChanged(index, this->index(row + albums.size() - 1, columnCount() - 1));
 
 		return true;
 	}

@@ -21,16 +21,12 @@
 #ifndef FILELISTVIEW_H
 #define FILELISTVIEW_H
 
-#include "Helper/Settings/SayonaraClass.h"
 #include "GUI/Helper/SearchableWidget/SearchableListView.h"
 #include "GUI/Helper/Dragable/Dragable.h"
-
-#include <QModelIndexList>
 
 class FileListModel;
 class MetaDataList;
 class LibraryContextMenu;
-class Settings;
 
 class FileListView :
 		public SearchableListView,

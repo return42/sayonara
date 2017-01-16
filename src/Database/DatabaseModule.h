@@ -44,14 +44,12 @@
 	return ""
 
 class SayonaraQuery;
-struct Filter;
 class DatabaseModule
 {
 protected:
 
 	QSqlDatabase _db;
 	quint8 _module_db_id;
-
 
 public:
 	DatabaseModule(const QSqlDatabase& db, quint8 db_id);

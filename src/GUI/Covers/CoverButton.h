@@ -21,15 +21,12 @@
 #ifndef COVER_BUTTON_H
 #define COVER_BUTTON_H
 
-#include <QObject>
 #include <QPushButton>
-#include <QIcon>
+
 #include "Helper/Pimpl.h"
 
-class GUI_AlternativeCovers;
-class CoverLookup;
 class CoverLocation;
-
+class QIcon;
 
 /**
  * @brief The CoverButton class

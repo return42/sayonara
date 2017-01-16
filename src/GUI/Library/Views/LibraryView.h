@@ -30,34 +30,26 @@
 #define MYTABLEVIEW_H_
 
 #include "Helper/Settings/SayonaraClass.h"
+
 #include "GUI/Helper/SearchableWidget/SearchableTableView.h"
 #include "GUI/Helper/Dragable/Dragable.h"
-#include "GUI/Library/Helper/ColumnHeader.h"
 #include "GUI/Library/Models/LibraryItemModel.h"
 #include "GUI/InfoDialog/InfoDialogContainer.h"
 
 #include "Helper/MetaData/MetaDataFwd.h"
-
 #include "Helper/Library/Sortorder.h"
+#include "Helper/typedefs.h"
 
 #include <QAction>
-#include <QApplication>
 #include <QDropEvent>
-#include <QEvent>
-#include <QFont>
-#include <QIcon>
-#include <QLineEdit>
-#include <QList>
 #include <QMenu>
 #include <QMouseEvent>
-#include <QScrollBar>
 #include <QStringList>
 
 class LibraryItemModel;
 class LibraryContextMenu;
-class MiniSearcher;
-class CustomMimeData;
 class HeaderView;
+class ColumnHeaderList;
 
 class LibraryView :
 		public SearchableTableView,
@@ -94,8 +86,7 @@ protected slots:
 	void merge_action_triggered();
 
 	void language_changed();
-	MD::Interpretation get_metadata_interpretation() const override;
-	MetaDataList get_data_for_info_dialog() const override;
+
 
 
 public:
@@ -136,6 +127,8 @@ protected:
 	virtual void rc_menu_init();
 
 	HeaderView*	get_header_view();
+	MD::Interpretation get_metadata_interpretation() const override;
+	MetaDataList get_data_for_info_dialog() const override;
 
 
 protected:

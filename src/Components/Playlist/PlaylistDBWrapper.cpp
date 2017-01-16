@@ -78,7 +78,8 @@ bool PlaylistDBWrapper:: get_non_temporary_skeletons(CustomPlaylistSkeletons& sk
 }
 
 
-bool PlaylistDBWrapper::get_playlists(CustomPlaylists& playlists, DatabasePlaylist::PlaylistChooserType type, Playlist::SortOrder so){
+bool PlaylistDBWrapper::get_playlists(CustomPlaylists& playlists, DatabasePlaylist::PlaylistChooserType type, Playlist::SortOrder so)
+{
 	Q_UNUSED(type)
 
 	bool success;
@@ -120,28 +121,32 @@ bool PlaylistDBWrapper::get_playlists(CustomPlaylists& playlists, DatabasePlayli
 }
 
 
-bool PlaylistDBWrapper::get_all_playlists(CustomPlaylists& playlists, Playlist::SortOrder so){
+bool PlaylistDBWrapper::get_all_playlists(CustomPlaylists& playlists, Playlist::SortOrder so)
+{
 	return get_playlists(playlists,
 						 DatabaseConnector::PlaylistChooserType::TemporaryAndPermanent,
 						 so);
 }
 
 
-bool PlaylistDBWrapper::get_temporary_playlists(CustomPlaylists& playlists, Playlist::SortOrder so){
+bool PlaylistDBWrapper::get_temporary_playlists(CustomPlaylists& playlists, Playlist::SortOrder so)
+{
 	return get_playlists(playlists,
 						 DatabaseConnector::PlaylistChooserType::OnlyTemporary,
 						 so);
 }
 
 
-bool PlaylistDBWrapper::get_non_temporary_playlists(CustomPlaylists& playlists, Playlist::SortOrder so){
+bool PlaylistDBWrapper::get_non_temporary_playlists(CustomPlaylists& playlists, Playlist::SortOrder so)
+{
 	return get_playlists(playlists,
 						 DatabaseConnector::PlaylistChooserType::OnlyPermanent,
 						 so);
 }
 
 
-CustomPlaylist PlaylistDBWrapper::get_playlist_by_id(int id){
+CustomPlaylist PlaylistDBWrapper::get_playlist_by_id(int id)
+{
 	bool success;
 	CustomPlaylist pl;
 	pl.set_id(id);
@@ -155,7 +160,8 @@ CustomPlaylist PlaylistDBWrapper::get_playlist_by_id(int id){
 }
 
 
-CustomPlaylist PlaylistDBWrapper::get_playlist_by_name(const QString& name){
+CustomPlaylist PlaylistDBWrapper::get_playlist_by_name(const QString& name)
+{
 	int id = _db->getPlaylistIdByName(name);
 
 	if(id < 0){
@@ -167,12 +173,14 @@ CustomPlaylist PlaylistDBWrapper::get_playlist_by_name(const QString& name){
 	return get_playlist_by_id(id);
 }
 
-bool PlaylistDBWrapper::rename_playlist(int id, const QString& new_name){
+bool PlaylistDBWrapper::rename_playlist(int id, const QString& new_name)
+{
 	return _db->renamePlaylist(id, new_name);
 }
 
 
-bool PlaylistDBWrapper::save_playlist_as(const MetaDataList& v_md, const QString& name){
+bool PlaylistDBWrapper::save_playlist_as(const MetaDataList& v_md, const QString& name)
+{
 	bool success;
 
 	_db->transaction();
@@ -182,7 +190,8 @@ bool PlaylistDBWrapper::save_playlist_as(const MetaDataList& v_md, const QString
 	return success;
 }
 
-bool PlaylistDBWrapper::save_playlist_temporary(const MetaDataList& v_md, const QString& name){
+bool PlaylistDBWrapper::save_playlist_temporary(const MetaDataList& v_md, const QString& name)
+{
 	bool success;
 
 	_db->transaction();
@@ -194,7 +203,8 @@ bool PlaylistDBWrapper::save_playlist_temporary(const MetaDataList& v_md, const 
 }
 
 
-bool PlaylistDBWrapper::save_playlist(const CustomPlaylist& pl){
+bool PlaylistDBWrapper::save_playlist(const CustomPlaylist& pl)
+{
 	bool success;
 
 	_db->transaction();
@@ -206,7 +216,8 @@ bool PlaylistDBWrapper::save_playlist(const CustomPlaylist& pl){
 }
 
 
-bool PlaylistDBWrapper::save_playlist(const MetaDataList& v_md, int id, bool is_temporary){
+bool PlaylistDBWrapper::save_playlist(const MetaDataList& v_md, int id, bool is_temporary)
+{
 	bool success;
 
 	_db->transaction();
@@ -218,18 +229,21 @@ bool PlaylistDBWrapper::save_playlist(const MetaDataList& v_md, int id, bool is_
 }
 
 
-bool PlaylistDBWrapper::delete_playlist(int id){
+bool PlaylistDBWrapper::delete_playlist(int id)
+{
 	return _db->deletePlaylist(id);
 }
 
 
-bool PlaylistDBWrapper::delete_playlist(const QString& name){
+bool PlaylistDBWrapper::delete_playlist(const QString& name)
+{
 	int id = _db->getPlaylistIdByName(name);
 	return _db->deletePlaylist(id);
 }
 
 
-bool PlaylistDBWrapper::exists(const QString& name){
+bool PlaylistDBWrapper::exists(const QString& name)
+{
 	int id = _db->getPlaylistIdByName(name);
 	return (id >= 0);
 }

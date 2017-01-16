@@ -29,6 +29,11 @@ class QMimeData;
 class QWidget;
 class QDrag;
 
+/**
+ * @brief The Dragable class
+ * @ingroup GUI
+ * @ingroup GUIInterfaces
+ */
 class Dragable
 {
 public:

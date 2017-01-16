@@ -13,12 +13,12 @@ namespace Xiph
 	 * @brief The AlbumArtistFrame class
 	 * @ingroup Xiph
 	 */
-    class AlbumArtistFrame :
+	class AlbumArtistFrame :
 	    public Xiph::AbstractFrame<QString>
     {
 	public:
 	    AlbumArtistFrame(TagLib::Tag* tag);
-	    virtual ~AlbumArtistFrame();
+		~AlbumArtistFrame();
 
 	protected:
 	    bool map_tag_to_model(const TagLib::String& value, QString& model);

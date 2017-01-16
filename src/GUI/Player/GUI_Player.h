@@ -42,9 +42,6 @@
 
 class GUI_TrayIcon;
 class PlayManager;
-class CoverLocation;
-class GUI_Playlist;
-class AsyncWebAccess;
 class PlayerPluginInterface;
 class PlayerPluginHandler;
 class LibraryPluginHandler;

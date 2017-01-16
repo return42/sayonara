@@ -22,12 +22,8 @@
 #define BOOKMARKS_ACTION_H
 
 #include <QMenu>
-#include <QList>
 
-
-class MetaData;
 class Bookmarks;
-class Bookmark;
 
 class BookmarksMenu :
 	public QMenu

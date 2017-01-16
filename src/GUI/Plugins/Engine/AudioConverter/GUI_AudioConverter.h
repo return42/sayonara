@@ -25,8 +25,6 @@
 #include "Helper/Playlist/PlaylistMode.h"
 #include "Components/PlayManager/PlayState.h"
 
-class PlayManager;
-
 namespace Ui { class GUI_AudioConverter; }
 
 class EngineHandler;

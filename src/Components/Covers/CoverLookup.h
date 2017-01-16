@@ -30,17 +30,18 @@
 #define COVERLOOKUP_H_
 
 #include <QObject>
-#include <QStringList>
+
 #include <memory>
 
 class Album;
-class Artist;
 class CoverLocation;
 /**
  * @brief The CoverLookupInterface class
  * @ingroup Covers
  */
-class CoverLookupInterface : public QObject{
+class CoverLookupInterface :
+		public QObject
+{
 	Q_OBJECT
 
 signals:
@@ -55,11 +56,13 @@ public:
 	virtual ~CoverLookupInterface();
 };
 
+
 /**
  * @brief The CoverLookup class
  * @ingroup Covers
  */
-class CoverLookup : public CoverLookupInterface 
+class CoverLookup :
+		public CoverLookupInterface
 {
 	Q_OBJECT
 
@@ -79,9 +82,8 @@ private slots:
 
 public:
 
-
 	CoverLookup(QObject* parent=nullptr, int n_covers=1);
-	virtual ~CoverLookup();
+	~CoverLookup();
 
 	/**
 	 * @brief fetches cover for a CoverLocation.
@@ -100,10 +102,6 @@ public:
 	 */
 	bool fetch_album_cover(const Album& album);
 
-	/**
-	 * @brief Emits the Sayonara logo
-	 */
-//	void emit_standard_cover();
 
 	/**
 	 * @brief not implemented

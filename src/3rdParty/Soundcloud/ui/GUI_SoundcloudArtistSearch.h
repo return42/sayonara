@@ -24,7 +24,6 @@
 #include "Helper/Pimpl.h"
 #include "GUI/Helper/SayonaraWidget/SayonaraDialog.h"
 
-class SoundcloudDataFetcher;
 class SoundcloudLibrary;
 class ArtistList;
 class MetaDataList;
@@ -41,7 +40,7 @@ class GUI_SoundcloudArtistSearch :
 
 public:
 	explicit GUI_SoundcloudArtistSearch(SoundcloudLibrary* library, QWidget *parent=nullptr);
-	virtual ~GUI_SoundcloudArtistSearch();
+	~GUI_SoundcloudArtistSearch();
 
 private slots:
 	void search_clicked();

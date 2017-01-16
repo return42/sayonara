@@ -27,7 +27,8 @@
  * @brief The LevelReceiver class
  * @ingroup EngineInterfaces
  */
-class LevelReceiver {
+class LevelReceiver
+{
     public:
 	virtual void set_level(float left, float right)=0;
 

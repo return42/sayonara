@@ -33,6 +33,7 @@
 
 #include "Helper/globals.h"
 #include "Helper/Settings/Settings.h"
+#include "Helper/MetaData/MetaDataList.h"
 
 #include "GUI/Helper/CustomMimeData.h"
 #include "GUI/Helper/ContextMenu/LibraryContextMenu.h"

@@ -29,8 +29,6 @@
 #include "Helper/MetaData/MetaDataFwd.h"
 #include "Helper/Pimpl.h"
 
-class GUI_TagEdit;
-class LyricLookupThread;
 class InfoDialogContainer;
 class CoverLocation;
 

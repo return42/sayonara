@@ -38,7 +38,7 @@ class SomaFMStationModel : public AbstractSearchTableModel
 
 public:
 	explicit SomaFMStationModel(QObject *parent = nullptr);
-	virtual ~SomaFMStationModel();
+	~SomaFMStationModel();
 
 private:
 	PIMPL(SomaFMStationModel)

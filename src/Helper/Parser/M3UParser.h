@@ -27,14 +27,15 @@
  * @brief The M3UParser class
  * @ingroup PlaylistParser
  */
-class M3UParser : public AbstractPlaylistParser
+class M3UParser :
+		public AbstractPlaylistParser
 {
 public:
 	explicit M3UParser(const QString& filename);
-	virtual ~M3UParser();
+	~M3UParser();
 
 private:
-	virtual void parse() override;
+	void parse() override;
 
 	bool parse_first_line(const QString& line, MetaData& md);
 	void parse_local_file(const QString& line, MetaData& md);

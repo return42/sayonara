@@ -34,7 +34,7 @@
 #include <QDir>
 
 #include "Helper/Settings/SayonaraClass.h"
-#include "Helper/singleton.h"
+#include "Helper/Singleton.h"
 #include "Helper/Library/LibraryNamespaces.h"
 #include "Helper/Pimpl.h"
 
@@ -44,7 +44,9 @@ class ReloadThread :
 		public QThread,
 		protected SayonaraClass
 {
-Q_OBJECT
+	Q_OBJECT
+	SINGLETON_QOBJECT(ReloadThread)
+
 
 signals:
 	void sig_reloading_library(const QString& message, int progress);
@@ -52,16 +54,11 @@ signals:
 
 
 public:
-
-	SINGLETON_QOBJECT(ReloadThread)
-
-	void set_lib_path(const QString& library_path);
-
-    void pause();
+	void pause();
     void goon();
 	bool is_running() const;
-
 	void set_quality(Library::ReloadQuality quality);
+	void set_lib_path(const QString& library_path);
 
 
 protected:
@@ -70,9 +67,6 @@ protected:
 
 private:
 	PIMPL(ReloadThread)
-
-
-private:
 
 	int				get_and_save_all_files(const QHash<QString, MetaData>& v_md_map);
 	QStringList		get_files_recursive (QDir base_dir);

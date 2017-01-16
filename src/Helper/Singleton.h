@@ -21,18 +21,29 @@
 #ifndef SINGLETON_H
 #define SINGLETON_H
 
-#define SINGLETON_QOBJECT(class_name) protected: \
-						explicit class_name (QObject* object=0); \
-						public: \
-						static class_name *getInstance() \
-						{ static class_name instance; return &instance; } \
-						virtual ~class_name ();
+#define _SINGLETON_BASIC_(class_name) protected: \
+				class_name( const class_name& other ) = delete; \
+				class_name& operator=(const class_name& other) = delete; \
+				class_name( const class_name&& other ) = delete; \
+				class_name& operator=(const class_name&& other) = delete; \
+				public: \
+				static class_name *getInstance() \
+				{ static class_name instance; return &instance; } \
+				virtual ~class_name ();
 
-#define SINGLETON(class_name) protected: \
-						class_name (); \
-						public: \
-						static class_name *getInstance() \
-						{ static class_name instance; return &instance; } \
-						virtual ~class_name ();
+#define SINGLETON(class_name) _SINGLETON_BASIC_(class_name) \
+				protected: \
+				    class_name(); \
+				private:
+
+#define SINGLETON_QOBJECT(class_name) _SINGLETON_BASIC_(class_name) \
+				protected: \
+				    class_name(QObject* parent=nullptr); \
+				private:
+
+
+
+
+
 
 #endif

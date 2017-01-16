@@ -26,10 +26,8 @@
 #include "Helper/Pimpl.h"
 
 #include <QObject>
-#include <QString>
 
 class MetaData;
-class PlayManager;
 
 /**
  * @brief The StreamRecorder class
@@ -56,7 +54,7 @@ private:
 
 public:
 	explicit StreamRecorder(QObject *parent=nullptr);
-	virtual ~StreamRecorder();
+	~StreamRecorder();
 
 	// change recording destination, create session path
 	// returns destination file

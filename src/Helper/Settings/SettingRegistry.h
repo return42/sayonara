@@ -18,7 +18,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "Helper/singleton.h"
+#include "Helper/Singleton.h"
 
 /**
  * @brief The SettingRegistry class

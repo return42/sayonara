@@ -28,14 +28,14 @@
  * @brief The PLSParser class
  * @ingroup PlaylistParser
  */
-class PLSParser : public AbstractPlaylistParser
+class PLSParser final: public AbstractPlaylistParser
 {
 public:
 	explicit PLSParser(const QString& filename);
-	virtual ~PLSParser();
+	~PLSParser();
 
 private:
-	virtual void parse() override;
+	void parse() override;
 };
 
 #endif // PLSPARSER_H

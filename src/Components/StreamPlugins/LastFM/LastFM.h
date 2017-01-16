@@ -31,19 +31,20 @@
 
 #include "Helper/Settings/SayonaraClass.h"
 #include "Helper/typedefs.h"
-#include "Helper/singleton.h"
+#include "Helper/Singleton.h"
 #include "Helper/Pimpl.h"
 
 #include <QMap>
-#include <QtXml>
+#include <QObject>
 
 // singleton base LastFM API class
 // signals and slots are handled by the adapter class
 class MetaData;
-class PlayManager;
-class LFMLoginThread;
-class LFMTrackChangedThread;
-class LastFM : public QObject, protected SayonaraClass{
+
+class LastFM :
+		public QObject,
+		protected SayonaraClass
+{
 	Q_OBJECT
 	SINGLETON(LastFM)
 
@@ -57,8 +58,8 @@ class LastFM : public QObject, protected SayonaraClass{
 	private slots:
 		void sl_login_thread_finished(bool success);
 		void sl_similar_artists_available(IDList artist_ids);
-		void sl_track_changed(const MetaData&);
-		void sl_position_ms_changed(quint64);
+		void sl_track_changed(const MetaData& md);
+		void sl_position_ms_changed(quint64 pos_ms);
 		void sl_scrobble_response(const QByteArray& data);
 		void sl_scrobble_error(const QString& str);
 
@@ -69,19 +70,15 @@ class LastFM : public QObject, protected SayonaraClass{
 
 
 	private:
-		LastFM(const LastFM&);
-		LastFM& operator=(const LastFM&);
-
 		PIMPL(LastFM)
 
 		bool init_track_changed_thread();
-		bool update_track(const MetaData&);
-		void get_similar_artists(const QString&);
-
+		void get_similar_artists(const QString& artist);
 
 		void reset_scrobble();
 		bool check_scrobble(quint64 pos_ms);
-		void scrobble(const MetaData&);
+		void scrobble(const MetaData& md);
+		bool update_track(const MetaData& md);
 };
 
 #endif /* LASTFM_H_ */

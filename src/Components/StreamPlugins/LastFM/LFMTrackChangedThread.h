@@ -25,11 +25,7 @@
 #ifndef LFMTRACKCHANGEDTHREAD_H_
 #define LFMTRACKCHANGEDTHREAD_H_
 
-#include <QThread>
-#include <QList>
 #include <QMap>
-#include <QHash>
-#include <QDomDocument>
 
 #include "ArtistMatch.h"
 #include "Helper/typedefs.h"

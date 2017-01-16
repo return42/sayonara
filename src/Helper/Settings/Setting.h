@@ -99,11 +99,11 @@ class Setting : public AbstrSetting
         }
 
 		/* Destructor */
-		virtual ~Setting() {}
+		~Setting() {}
 
 
 		/* Load setting from DB */
-		virtual void load_db(DatabaseSettings* db)
+		void load_db(DatabaseSettings* db) override
 		{
             if(!_db_setting) return;
 
@@ -125,7 +125,7 @@ class Setting : public AbstrSetting
 		}
 
 		/* Save setting to DB */
-		virtual void store_db(DatabaseSettings* db)
+		void store_db(DatabaseSettings* db) override
 		{
             if(!_db_setting) return;
 

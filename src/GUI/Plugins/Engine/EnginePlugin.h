@@ -30,7 +30,6 @@
 	
 class EngineColorStyleChooser;
 class EngineHandler;
-class GUI_PlayerPlugin;
 class PlayManager;
 class EnginePlugin : public PlayerPluginInterface 
 {

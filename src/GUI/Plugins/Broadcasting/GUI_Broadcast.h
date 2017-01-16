@@ -22,8 +22,7 @@
 #define GUI_BROADCAST_H
 
 #include "Interfaces/PlayerPlugin/PlayerPlugin.h"
-
-class StreamServer;
+#include "Helper/Pimpl.h"
 
 namespace Ui { class GUI_Broadcast; }
 
@@ -33,7 +32,8 @@ class GUI_Broadcast :
 	Q_OBJECT
 
 private:
-	StreamServer*		_server=nullptr;
+	PIMPL(GUI_Broadcast)
+
 	Ui::GUI_Broadcast*	ui=nullptr;
 
 public:

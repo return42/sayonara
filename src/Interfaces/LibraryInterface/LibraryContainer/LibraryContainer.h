@@ -21,7 +21,6 @@
 #ifndef LIBRARYCONTAINER_H
 #define LIBRARYCONTAINER_H
 
-
 #include <QObject>
 
 class QAction;

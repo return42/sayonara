@@ -33,6 +33,8 @@ DBusMediaKeysInterface::DBusMediaKeysInterface(QObject *parent) :
 	_initialized = false;
 }
 
+DBusMediaKeysInterface::~DBusMediaKeysInterface() {}
+
 
 void DBusMediaKeysInterface::sl_media_key_pressed(const QString& program_name, const QString& key){
 	Q_UNUSED(program_name)

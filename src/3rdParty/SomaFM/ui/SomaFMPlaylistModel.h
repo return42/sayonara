@@ -38,7 +38,7 @@ private:
 
 public:
 	explicit SomaFMPlaylistModel(QObject* parent=nullptr);
-	virtual ~SomaFMPlaylistModel();
+	~SomaFMPlaylistModel();
 
     QMimeData* mimeData(const QModelIndexList &indexes) const override;
 
