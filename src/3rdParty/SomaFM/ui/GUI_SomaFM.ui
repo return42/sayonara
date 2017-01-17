@@ -6,41 +6,61 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>929</width>
-    <height>542</height>
+    <width>856</width>
+    <height>978</height>
    </rect>
   </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
   <layout class="QGridLayout" name="gridLayout">
-   <property name="verticalSpacing">
-    <number>8</number>
-   </property>
-   <item row="5" column="2">
-    <widget class="Line" name="line_2">
-     <property name="maximumSize">
-      <size>
-       <width>200</width>
-       <height>16777215</height>
-      </size>
+   <item row="8" column="1">
+    <widget class="QListView" name="lv_playlists">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Maximum" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::StrongFocus</enum>
+     </property>
+     <property name="dragDropMode">
+      <enum>QAbstractItemView::DragOnly</enum>
+     </property>
+     <property name="alternatingRowColors">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="10" column="1">
+    <widget class="QLabel" name="label_3">
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Donate to Soma.fm</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="1">
+    <widget class="Line" name="line">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
      </property>
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
     </widget>
    </item>
-   <item row="6" column="2">
+   <item row="4" column="1">
     <widget class="QLabel" name="lab_description">
-     <property name="minimumSize">
-      <size>
-       <width>0</width>
-       <height>40</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>200</width>
-       <height>16777215</height>
-      </size>
-     </property>
      <property name="font">
       <font>
        <pointsize>11</pointsize>
@@ -63,88 +83,31 @@
      </property>
     </widget>
    </item>
-   <item row="11" column="2">
-    <widget class="QLabel" name="label_3">
-     <property name="font">
-      <font>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>Donate to Soma.fm</string>
-     </property>
-    </widget>
-   </item>
-   <item row="10" column="2">
-    <widget class="Line" name="line_4">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="2">
+   <item row="3" column="1">
     <widget class="Line" name="line_3">
-     <property name="maximumSize">
-      <size>
-       <width>200</width>
-       <height>16777215</height>
-      </size>
-     </property>
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
     </widget>
    </item>
-   <item row="3" column="0">
-    <widget class="QLabel" name="label">
-     <property name="font">
-      <font>
-       <pointsize>11</pointsize>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>Stations</string>
+   <item row="9" column="1">
+    <widget class="Line" name="line_2">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
      </property>
     </widget>
    </item>
-   <item row="4" column="2">
-    <widget class="QLabel" name="lab_image">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="minimumSize">
-      <size>
-       <width>200</width>
-       <height>200</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>200</width>
-       <height>200</height>
-      </size>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">background: black;
-border: 2px solid #202020;
-
-</string>
-     </property>
+   <item row="11" column="1">
+    <widget class="QLabel" name="lab_donate">
      <property name="text">
-      <string notr="true"/>
+      <string/>
      </property>
-     <property name="scaledContents">
-      <bool>false</bool>
+     <property name="openExternalLinks">
+      <bool>true</bool>
      </property>
     </widget>
    </item>
-   <item row="0" column="0" colspan="3">
+   <item row="0" column="0" colspan="2">
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QComboBox" name="combo_lib_chooser">
@@ -158,9 +121,6 @@ border: 2px solid #202020;
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
-       <property name="sizeType">
-        <enum>QSizePolicy::Expanding</enum>
-       </property>
        <property name="sizeHint" stdset="0">
         <size>
          <width>40</width>
@@ -169,9 +129,19 @@ border: 2px solid #202020;
        </property>
       </spacer>
      </item>
+     <item>
+      <widget class="QLineEdit" name="lineEdit">
+       <property name="maximumSize">
+        <size>
+         <width>0</width>
+         <height>16777215</height>
+        </size>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
-   <item row="8" column="2">
+   <item row="6" column="1">
     <widget class="QLabel" name="label_2">
      <property name="font">
       <font>
@@ -185,50 +155,14 @@ border: 2px solid #202020;
      </property>
     </widget>
    </item>
-   <item row="1" column="0" rowspan="2" colspan="3">
-    <widget class="Line" name="line">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
-   </item>
-   <item row="9" column="2">
-    <widget class="QListView" name="lv_playlists">
+   <item row="1" column="0" rowspan="11">
+    <widget class="SearchableTableView" name="tv_stations">
      <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-       <horstretch>1</horstretch>
+      <sizepolicy hsizetype="MinimumExpanding" vsizetype="Expanding">
+       <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
-     <property name="maximumSize">
-      <size>
-       <width>200</width>
-       <height>16777215</height>
-      </size>
-     </property>
-     <property name="focusPolicy">
-      <enum>Qt::StrongFocus</enum>
-     </property>
-     <property name="dragDropMode">
-      <enum>QAbstractItemView::DragOnly</enum>
-     </property>
-     <property name="alternatingRowColors">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="12" column="2">
-    <widget class="QLabel" name="lab_donate">
-     <property name="text">
-      <string/>
-     </property>
-     <property name="openExternalLinks">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="0" rowspan="9">
-    <widget class="SearchableTableView" name="tv_stations">
      <property name="focusPolicy">
       <enum>Qt::StrongFocus</enum>
      </property>
@@ -270,6 +204,38 @@ border: 2px solid #202020;
      </attribute>
     </widget>
    </item>
+   <item row="1" column="1" rowspan="2">
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="QLabel" name="lab_image">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>200</width>
+         <height>200</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background: black;
+border: 2px solid #202020;
+
+</string>
+       </property>
+       <property name="text">
+        <string notr="true"/>
+       </property>
+       <property name="scaledContents">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
   </layout>
  </widget>
  <customwidgets>
@@ -279,11 +245,6 @@ border: 2px solid #202020;
    <header>GUI/Helper/SearchableWidget/SearchableTableView.h</header>
   </customwidget>
  </customwidgets>
- <tabstops>
-  <tabstop>tv_stations</tabstop>
-  <tabstop>lv_playlists</tabstop>
-  <tabstop>combo_lib_chooser</tabstop>
- </tabstops>
  <resources/>
  <connections/>
 </ui>

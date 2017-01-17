@@ -125,7 +125,7 @@ void LibraryPluginHandler::init_library(int idx)
 	libchooser->setIconSize(QSize(16,16));
 	libchooser->setMinimumWidth(200);
 	libchooser->setMaximumWidth(200);
-	libchooser->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
+	libchooser->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 
 	for(LibraryContainerInterface* other_library : _libraries){
 		libchooser->addItem(other_library->get_icon(), other_library->get_display_name());
@@ -138,7 +138,8 @@ void LibraryPluginHandler::init_library(int idx)
 }
 
 
-void LibraryPluginHandler::index_changed(int idx){
+void LibraryPluginHandler::index_changed(int idx)
+{
 	_cur_idx = idx;
 
 	init_library(_cur_idx);

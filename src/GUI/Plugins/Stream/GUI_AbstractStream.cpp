@@ -184,12 +184,11 @@ void GUI_AbstractStream::skin_changed()
 		return;
 	}
 
-	_combo_stream->view()->parentWidget()->setStyleSheet("margin: 0px; padding: -4px -1px; border: 1px solid #282828; background: none;");
+	QAbstractItemView* view = _combo_stream->view();
 
-	QWidget* w = _combo_stream->view()->parentWidget();
-	sp_log(Log::Debug) << "Class name" << w->metaObject()->className();
-
-	_combo_stream->view()->setStyleSheet(Style::get_current_style());
+	view->parentWidget()->setStyleSheet("margin: 0px; padding: -4px -1px; border: 1px solid #282828; background: none;");
+	view->setStyleSheet(Style::get_current_style());
+	view->setMinimumHeight(20 * view->model()->rowCount());
 }
 
 void GUI_AbstractStream::new_clicked()

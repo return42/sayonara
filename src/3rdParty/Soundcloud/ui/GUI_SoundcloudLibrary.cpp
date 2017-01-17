@@ -57,8 +57,6 @@ GUI_SoundCloudLibrary::GUI_SoundCloudLibrary(SoundcloudLibrary* library, QWidget
 	ui->lv_album->show_rc_menu_actions(entry_mask);
 	ui->lv_artist->show_rc_menu_actions(entry_mask);
 
-	ui->btn_info->hide();
-
 	library->load();
 }
 
