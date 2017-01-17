@@ -42,6 +42,8 @@ namespace Style
 	 * @return string formatted stylesheet file
 	 */
 	QString get_style(bool dark);
+
+	QString get_current_style();
 }
 
 #endif /* STYLE_H_ */

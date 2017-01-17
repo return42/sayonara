@@ -23,6 +23,7 @@ SET(SOURCES
 
 	RatingLabel/RatingLabel.cpp
 
+	SayonaraWidget/SayonaraCompleter.cpp
 	SayonaraWidget/SayonaraWidgetTemplate.cpp
 	SayonaraWidget/SayonaraWidget.cpp
 	SayonaraWidget/SayonaraDialog.cpp

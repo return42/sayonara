@@ -93,6 +93,7 @@ private:
 	void update_cover(int idx, const QString& cover_path);
 	void set_cover(const MetaData& md);
 	void show_replacement_field(bool b);
+	void init_completer();
 
 
 	/**

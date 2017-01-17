@@ -38,7 +38,8 @@
 
 #define NEWLINE "\n";
 
-QString Style::get_style(bool dark) {
+QString Style::get_style(bool dark)
+{
 	Settings* settings = Settings::getInstance();
 
 	QFont std_font = QApplication::font();
@@ -84,3 +85,8 @@ QString Style::get_style(bool dark) {
     return style;
 }
 
+QString Style::get_current_style()
+{
+	bool dark = (Settings::getInstance()->get(Set::Player_Style) == 1);
+	return get_style(dark);
+}

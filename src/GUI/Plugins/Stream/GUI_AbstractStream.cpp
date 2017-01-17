@@ -177,6 +177,21 @@ GlobalMessage::Answer GUI_AbstractStream::show_delete_confirm_dialog()
 	return Message::question_yn(tr("Do you really want to delete %1").arg(cur_station_name));
 }
 
+
+void GUI_AbstractStream::skin_changed()
+{
+	if(!is_ui_initialized()){
+		return;
+	}
+
+	_combo_stream->view()->parentWidget()->setStyleSheet("margin: 0px; padding: -4px -1px; border: 1px solid #282828; background: none;");
+
+	QWidget* w = _combo_stream->view()->parentWidget();
+	sp_log(Log::Debug) << "Class name" << w->metaObject()->className();
+
+	_combo_stream->view()->setStyleSheet(Style::get_current_style());
+}
+
 void GUI_AbstractStream::new_clicked()
 {
 	if(_combo_stream->count() > 0){

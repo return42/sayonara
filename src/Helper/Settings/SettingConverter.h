@@ -23,10 +23,10 @@
 
 #include <QList>
 #include <QPair>
+#include <QStringList>
 
 class QSize;
 class QString;
-class QStringList;
 class QPoint;
 // generic
 template<typename T>

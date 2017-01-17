@@ -25,14 +25,19 @@
 
 #include "Components/TagEdit/TagExpression.h"
 #include "Components/Covers/CoverLocation.h"
+#include "Components/TagEdit/TagEdit.h"
+#include "GUI/Helper/Delegates/ComboBoxDelegate.h"
+#include "GUI/Helper/SayonaraWidget/SayonaraCompleter.h"
+
 #include "Helper/Message/Message.h"
 #include "Helper/Tagging/Tagging.h"
 #include "Helper/globals.h"
 #include "Helper/Logger/Logger.h"
 #include "Helper/MetaData/MetaDataList.h"
+#include "Helper/MetaData/Album.h"
+#include "Helper/MetaData/Artist.h"
 #include "Helper/Language.h"
-
-#include "Components/TagEdit/TagEdit.h"
+#include "Database/DatabaseConnector.h"
 
 #include <QDir>
 #include <QDesktopServices>
@@ -306,6 +311,36 @@ void GUI_TagEdit::reset()
 	ui->btn_track_nr->setChecked(false);
 
 	_cover_path_map.clear();
+	init_completer();
+}
+
+void GUI_TagEdit::init_completer()
+{
+	AlbumList albums;
+	ArtistList artists;
+	QStringList albumstr, artiststr;
+
+	DatabaseConnector* db = DatabaseConnector::getInstance();
+
+	db->getAllAlbums(albums, true);
+	db->getAllArtists(artists, true);
+
+	for(const Album& album : albums){
+		albumstr << album.name;
+	}
+
+	for(const Artist& artist : artists){
+		artiststr << artist.name;
+	}
+
+	SayonaraCompleter* album_completer = new SayonaraCompleter(albumstr, this);
+	ui->le_album->setCompleter(album_completer);
+
+	SayonaraCompleter* album_artist_completer = new SayonaraCompleter(artiststr, this);
+	ui->le_album_artist->setCompleter(album_artist_completer);
+
+	SayonaraCompleter* artist_completer = new SayonaraCompleter(artiststr, this);
+	ui->le_artist->setCompleter(artist_completer);
 }
 
 void GUI_TagEdit::album_all_changed(bool b)

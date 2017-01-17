@@ -22,14 +22,19 @@
 #define GUI_AbstractStream_H
 
 #include "GUI/Helper/MenuTool/MenuTool.h"
+#include "GUI/Helper/Delegates/ComboBoxDelegate.h"
+#include "GUI/Helper/Style/Style.h"
 #include "Interfaces/PlayerPlugin/PlayerPlugin.h"
 #include "Components/StreamPlugins/Streams/AbstractStreamHandler.h"
 #include "Helper/Message/GlobalMessage.h"
+
 
 #include <QComboBox>
 #include <QPushButton>
 #include <QLineEdit>
 #include <QLabel>
+#include <QListView>
+#include "Helper/Language.h"
 
 class AbstractStreamHandler;
 class DatabaseConnector;
@@ -86,9 +91,17 @@ protected:
 		_btn_tool =			(*ui)->btn_tool;
 		_lab_listen =		(*ui)->lab_listen;
 
+		_le_url->setPlaceholderText("Enter URL...");
+		_combo_stream->lineEdit()->setPlaceholderText("Enter name...");
+		_combo_stream->setItemDelegate(new ComboBoxDelegate(this));
+
+		skin_changed();
+
 		init_connections();
 		init_streams();
 	}
+
+	virtual void skin_changed() override;
 
 
 protected slots:

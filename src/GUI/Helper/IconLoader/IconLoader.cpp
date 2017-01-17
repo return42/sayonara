@@ -186,7 +186,6 @@ QIcon IconLoader::get_icon(const QStringList& names, const QString& dark_name){
 
 	if(!dark){
 		for(const QString& name : names){
-			sp_log(Log::Debug) << "Has icon " << name << " for " << QIcon::themeName() << "? " << (!QIcon::fromTheme(name).isNull());
 			if(!has_std_icon(name)){
 				QStringList lst; lst << name;
 				add_icon_names(lst);
