@@ -67,6 +67,8 @@ private slots:
 	void tab_index_changed_int(int idx);
 	void tab_index_changed(GUI_InfoDialog::Tab idx);
 
+	void zoom_changed(int percent);
+
 	void skin_changed() override;
 	void language_changed() override;
 

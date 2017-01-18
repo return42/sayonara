@@ -49,7 +49,8 @@ struct GUI_InfoDialog::Private
 	GUI_TagEdit*			ui_tag_edit=nullptr;
 	CoverLocation			cl;
 	MetaDataList			v_md;
-	MD::Interpretation	md_interpretation;
+	MD::Interpretation		md_interpretation;
+	qreal					initial_font_size;
 };
 
 
@@ -147,8 +148,9 @@ void GUI_InfoDialog::lyrics_fetched()
 	int height = ui->te_lyrics->height();
 	int width = ui->tab_2->size().width();
 	ui->te_lyrics->resize(width, height);
-	ui->te_lyrics->setAcceptRichText(true);
+	//ui->te_lyrics->setAcceptRichText(false);
 	ui->te_lyrics->setText(lyrics);
+	//sp_log(Log::Debug) << lyrics;
 	ui->te_lyrics->setLineWrapColumnOrWidth(ui->te_lyrics->width());
 	ui->te_lyrics->setLineWrapMode(QTextEdit::FixedPixelWidth);
 	ui->te_lyrics->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -267,6 +269,13 @@ void GUI_InfoDialog::tab_index_changed(GUI_InfoDialog::Tab idx)
 	}
 }
 
+void GUI_InfoDialog::zoom_changed(int percent)
+{
+	QFont font = ui->te_lyrics->font();
+	font.setPointSizeF( ((_m->initial_font_size * percent * 1.0) / 100.0) );
+	ui->te_lyrics->setFont(font);
+}
+
 void GUI_InfoDialog::show(GUI_InfoDialog::Tab tab)
 {
 	if(!ui){
@@ -322,6 +331,8 @@ void GUI_InfoDialog::init()
 	ui = new Ui::InfoDialog();
 	ui->setupUi(this);
 
+	_m->initial_font_size = this->font().pointSizeF();
+
 	QLayout* tab3_layout = ui->tab_3->layout();
 	QTabWidget* tab_widget = ui->tab_widget;
 
@@ -335,6 +346,7 @@ void GUI_InfoDialog::init()
 	connect(tab_widget, &QTabWidget::currentChanged, this, &GUI_InfoDialog::tab_index_changed_int);
 	connect(_m->ui_tag_edit, &GUI_TagEdit::sig_cancelled, this, &GUI_InfoDialog::close);
 	connect(ui->combo_servers, combo_current_index_changed_int, this, &GUI_InfoDialog::lyric_server_changed);
+	connect(ui->sb_zoom, spinbox_value_changed_int, this, &GUI_InfoDialog::zoom_changed);
 
 	ui->btn_image->setStyleSheet("QPushButton:hover {background-color: transparent;}");
 
