@@ -25,10 +25,7 @@
 
 #include <QMap>
 
-namespace Ui
-{
-	class GUI_LanguageChooser;
-}
+namespace Ui { class GUI_LanguageChooser; }
 
 class GUI_LanguageChooser :
 		public PreferenceWidgetInterface
@@ -53,12 +50,11 @@ protected:
 
 private:
 	Ui::GUI_LanguageChooser*	ui=nullptr;
-	QMap<QString, QString> _map;
+	QMap<QString, QString>		_map;
 
 
 private:
 	void renew_combo();
-
 };
 
 #endif // GUI_LANGUAGECHOOSER_H

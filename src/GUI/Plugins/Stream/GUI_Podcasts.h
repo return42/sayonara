@@ -21,7 +21,6 @@
 #ifndef GUI_PODCASTS_H
 #define GUI_PODCASTS_H
 
-#include "Components/StreamPlugins/Streams/StreamHandlerPodcasts.h"
 #include "GUI_AbstractStream.h"
 
 namespace Ui { class GUI_Podcasts; }
@@ -31,8 +30,6 @@ class GUI_Podcasts :
 
 {
     Q_OBJECT
-
-protected:
 
 public:
 	explicit GUI_Podcasts(QWidget *parent=nullptr);

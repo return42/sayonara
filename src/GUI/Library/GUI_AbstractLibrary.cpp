@@ -19,6 +19,14 @@
  */
 
 #include "GUI_AbstractLibrary.h"
+#include "Views/LibraryView.h"
+#include "Views/LibraryViewAlbum.h"
+#include "Delegates/LibraryItemDelegateAlbums.h"
+#include "Delegates/LibraryItemDelegateTracks.h"
+#include "Models/LibraryItemModelAlbums.h"
+#include "Models/LibraryItemModelArtists.h"
+#include "Models/LibraryItemModelTracks.h"
+
 #include "Helper/Message/Message.h"
 #include "Components/Library/AbstractLibrary.h"
 #include "Helper/Library/SearchMode.h"

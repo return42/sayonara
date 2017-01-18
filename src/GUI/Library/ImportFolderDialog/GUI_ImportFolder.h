@@ -21,19 +21,15 @@
 #ifndef GUIIMPORTFOLDER_H_
 #define GUIIMPORTFOLDER_H_
 
-#include "GUI/Library/ui_GUI_ImportFolder.h"
 #include "GUI/Helper/SayonaraWidget/SayonaraDialog.h"
 #include "Components/Library/Importer/LibraryImporter.h"
 
-#include <QCloseEvent>
-#include <QShowEvent>
-#include <QStringList>
+namespace Ui { class ImportFolder; }
 
 class MetaDataList;
 class GUI_TagEdit;
 class GUI_ImportFolder :
-		public SayonaraDialog,
-		private Ui::ImportFolder
+		public SayonaraDialog
 {
 	Q_OBJECT
 
@@ -43,9 +39,6 @@ signals:
 public:
 	GUI_ImportFolder(QWidget* parent, bool copy_enabled);
 	virtual ~GUI_ImportFolder();
-
-/*	void set_import_dir(const QString& dir);
-	void set_import_files(const QStringList& filelist);*/
 
 private slots:
 	void bb_accepted();
@@ -63,7 +56,7 @@ private:
 
 
 private:
-
+	Ui::ImportFolder*	ui=nullptr;
 	LibraryImporter*	_importer=nullptr;
 	GUI_TagEdit*		tag_edit=nullptr;
 };

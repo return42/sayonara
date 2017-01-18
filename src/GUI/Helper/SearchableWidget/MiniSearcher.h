@@ -23,8 +23,6 @@
 
 #include <QFrame>
 #include <QLineEdit>
-#include <QKeyEvent>
-#include <QFocusEvent>
 #include <QAbstractItemView>
 
 #include "Helper/Pimpl.h"

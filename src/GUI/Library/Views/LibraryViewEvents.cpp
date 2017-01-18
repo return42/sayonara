@@ -24,6 +24,8 @@
 
 #include <QMimeData>
 #include <QDrag>
+#include <QEvent>
+#include <QContextMenuEvent>
 
 bool LibraryView::event(QEvent* e)
 {

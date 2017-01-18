@@ -21,8 +21,7 @@
 #ifndef SAYONARASHORTCUTWIDGET_H
 #define SAYONARASHORTCUTWIDGET_H
 
-#include <QString>
-
+class QString;
 /**
  * @brief Interface that should be implemented when using configurable shortcuts.
  * @ingroup GUIHelper

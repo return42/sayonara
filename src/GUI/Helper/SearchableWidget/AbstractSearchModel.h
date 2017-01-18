@@ -21,7 +21,6 @@
 #ifndef ABSTRACT_SEARCH_MODEL_H_
 #define ABSTRACT_SEARCH_MODEL_H_
 
-#include <QModelIndex>
 #include <QAbstractTableModel>
 #include <QAbstractListModel>
 #include <QMap>

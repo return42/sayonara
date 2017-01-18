@@ -21,8 +21,7 @@
 #ifndef COVERHELPER_H
 #define COVERHELPER_H
 
-#include <QString>
-
+class QString;
 /**
  * @ingroup Covers
  */

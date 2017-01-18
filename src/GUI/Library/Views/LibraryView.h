@@ -33,20 +33,18 @@
 
 #include "GUI/Helper/SearchableWidget/SearchableTableView.h"
 #include "GUI/Helper/Dragable/Dragable.h"
-#include "GUI/Library/Models/LibraryItemModel.h"
 #include "GUI/InfoDialog/InfoDialogContainer.h"
+#include "GUI/Library/Models/LibraryItemModel.h"
 
 #include "Helper/MetaData/MetaDataFwd.h"
 #include "Helper/Library/Sortorder.h"
 #include "Helper/typedefs.h"
+#include "Helper/Set.h"
 
 #include <QAction>
-#include <QDropEvent>
 #include <QMenu>
-#include <QMouseEvent>
 #include <QStringList>
 
-class LibraryItemModel;
 class LibraryContextMenu;
 class HeaderView;
 class ColumnHeaderList;

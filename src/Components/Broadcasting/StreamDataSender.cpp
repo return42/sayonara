@@ -29,17 +29,28 @@
 #include "Helper/Logger/Logger.h"
 
 #include <QByteArray>
+#include <QTcpSocket>
 
 static char padding[256];
+
+struct StreamDataSender::Private
+{
+	QTcpSocket*		socket=nullptr;
+	quint64			sent_data_bytes;
+
+	QByteArray		header;
+	QByteArray		icy_header;
+	QByteArray		reject_header;
+};
 
 StreamDataSender::StreamDataSender(QTcpSocket* socket)
 {
 	memset(padding, 0, 256);
 
-	_sent_data_bytes = 0;
-	_socket = socket;
+	_m->sent_data_bytes = 0;
+	_m->socket = socket;
 
-	_header = QByteArray(
+	_m->header = QByteArray(
 				"ICY 200 Ok\r\n"
 				"icy-notice1:Bliblablupp\r\n"
 				"icy-notice2:asdfasd\r\n"
@@ -53,7 +64,7 @@ StreamDataSender::StreamDataSender(QTcpSocket* socket)
 				"connection:keep-alive\r\n"
 				);
 
-	_icy_header = QByteArray(
+	_m->icy_header = QByteArray(
 				"ICY 200 Ok\r\n"
 				"icy-notice1:Bliblablupp\r\n"
 				"icy-notice2:asdfasd\r\n"
@@ -69,11 +80,11 @@ StreamDataSender::StreamDataSender(QTcpSocket* socket)
 				);
 
 
-	_reject_header = QByteArray("HTTP/1.1 501 Not Implemented\r\nConnection: close\r\n");
+	_m->reject_header = QByteArray("HTTP/1.1 501 Not Implemented\r\nConnection: close\r\n");
 
-	_header.append("\r\n");
-	_icy_header.append("\r\n");
-	_reject_header.append("\r\n");
+	_m->header.append("\r\n");
+	_m->icy_header.append("\r\n");
+	_m->reject_header.append("\r\n");
 }
 
 StreamDataSender::~StreamDataSender() {}
@@ -83,20 +94,19 @@ bool StreamDataSender::send_trash()
 	char single_byte = 0x00;
 	qint64 n_bytes;
 
-	n_bytes = _socket->write(&single_byte, 1);
+	n_bytes = _m->socket->write(&single_byte, 1);
 
-	_socket->disconnectFromHost();
-	_socket->close();
+	_m->socket->disconnectFromHost();
+	_m->socket->close();
 
 	return (n_bytes > 0);
 }
 
-bool StreamDataSender::send_data(const uchar* data, quint64 size){
-	qint64 n_bytes;
+bool StreamDataSender::send_data(const uchar* data, quint64 size)
+{
+	_m->sent_data_bytes = 0;
 
-	_sent_data_bytes = 0;
-
-	n_bytes = _socket->write( (const char*) data, size);
+	qint64 n_bytes = _m->socket->write( (const char*) data, size);
 
 	return (n_bytes > 0);
 }
@@ -105,16 +115,17 @@ bool StreamDataSender::send_data(const uchar* data, quint64 size){
 // [..........................................................] = buffer
 // [  bytes_before        | icy_data | bytes_to_write ]
 
-bool StreamDataSender::send_icy_data(const uchar* data, quint64 size, const QString& stream_title){
+bool StreamDataSender::send_icy_data(const uchar* data, quint64 size, const QString& stream_title)
+{
 	qint64 n_bytes=0;
 	qint64 bytes_to_write = 0;
 	const int IcySize = 8192;
 
-	if(_sent_data_bytes + size > IcySize){
-		quint64 bytes_before = IcySize - _sent_data_bytes;
+	if(_m->sent_data_bytes + size > IcySize){
+		quint64 bytes_before = IcySize - _m->sent_data_bytes;
 
 		if(bytes_before > 0){
-			n_bytes = _socket->write( (const char*) data, bytes_before);
+			n_bytes = _m->socket->write( (const char*) data, bytes_before);
 		}
 
 		send_icy_metadata(stream_title);
@@ -122,12 +133,12 @@ bool StreamDataSender::send_icy_data(const uchar* data, quint64 size, const QStr
 
 		// this happens if size > 8192
 		if(bytes_to_write > IcySize){
-			n_bytes = _socket->write( (const char*) (data + bytes_before), IcySize);
+			n_bytes = _m->socket->write( (const char*) (data + bytes_before), IcySize);
 			bytes_to_write = bytes_to_write - n_bytes;
 		}
 
 		else if(bytes_to_write > 0){
-			n_bytes = _socket->write( (const char*) (data + bytes_before), bytes_to_write);
+			n_bytes = _m->socket->write( (const char*) (data + bytes_before), bytes_to_write);
 			bytes_to_write = 0;
 		}
 
@@ -137,13 +148,13 @@ bool StreamDataSender::send_icy_data(const uchar* data, quint64 size, const QStr
 			bytes_to_write = 0;
 		}
 
-		_sent_data_bytes = n_bytes;
+		_m->sent_data_bytes = n_bytes;
 	}
 
 	else{
-		n_bytes = _socket->write( (const char*) data, size);
-		_sent_data_bytes += n_bytes;
-		if(_sent_data_bytes > IcySize){
+		n_bytes = _m->socket->write( (const char*) data, size);
+		_m->sent_data_bytes += n_bytes;
+		if(_m->sent_data_bytes > IcySize){
 			sp_log(Log::Debug) << "Something is wrong";
 		}
 	}
@@ -156,7 +167,8 @@ bool StreamDataSender::send_icy_data(const uchar* data, quint64 size, const QStr
 }
 
 
-bool StreamDataSender::send_icy_metadata(const QString& stream_title){
+bool StreamDataSender::send_icy_metadata(const QString& stream_title)
+{
 	bool success;
 	qint64 n_bytes=0;
 	QByteArray metadata = QByteArray("StreamTitle='");
@@ -173,7 +185,7 @@ bool StreamDataSender::send_icy_metadata(const QString& stream_title){
 	metadata.append(padding, n_padding);
 	metadata.prepend((char) (int)((sz + 15) / 16));
 
-	n_bytes = _socket->write( metadata );
+	n_bytes = _m->socket->write( metadata );
 
 	success = (n_bytes > 0);
 
@@ -181,19 +193,20 @@ bool StreamDataSender::send_icy_metadata(const QString& stream_title){
 }
 
 
-bool StreamDataSender::send_header(bool reject, bool icy){
+bool StreamDataSender::send_header(bool reject, bool icy)
+{
 	qint64 n_bytes=0;
 
 	if(reject){
-		n_bytes = _socket->write( _reject_header );
+		n_bytes = _m->socket->write( _m->reject_header );
 	}
 
 	else if(icy){
-		n_bytes = _socket->write( _icy_header );
+		n_bytes = _m->socket->write( _m->icy_header );
 	}
 
 	else{
-		n_bytes = _socket->write( _header );
+		n_bytes = _m->socket->write( _m->header );
 	}
 
 	if(n_bytes <= 0){
@@ -278,7 +291,7 @@ bool StreamDataSender::send_html5(const QString& stream_title){
 					  html
 					  );
 
-	n_bytes = _socket->write(data);
+	n_bytes = _m->socket->write(data);
 
 	return (n_bytes > 0);
 }
@@ -303,13 +316,14 @@ bool StreamDataSender::send_bg()
 					  html
 					  );
 
-	n_bytes = _socket->write(data);
+	n_bytes = _m->socket->write(data);
 
 	return (n_bytes > 0);
 }
 
 
-bool StreamDataSender::send_metadata(const QString& stream_title){
+bool StreamDataSender::send_metadata(const QString& stream_title)
+{
 	int n_bytes;
 	QByteArray html;
 	QByteArray data;
@@ -322,13 +336,14 @@ bool StreamDataSender::send_metadata(const QString& stream_title){
 					  html
 					  );
 
-	n_bytes = _socket->write(data);
+	n_bytes = _m->socket->write(data);
 
 	return (n_bytes > 0);
 }
 
 
-bool StreamDataSender::send_playlist(const QString& host, int port){
+bool StreamDataSender::send_playlist(const QString& host, int port)
+{
 	qint64 n_bytes;
 	QByteArray playlist;
 	QByteArray data;
@@ -347,7 +362,7 @@ bool StreamDataSender::send_playlist(const QString& host, int port){
 					  playlist
 					  );
 
-	n_bytes = _socket->write(data);
+	n_bytes = _m->socket->write(data);
 
 	return (n_bytes > 0);
 }
@@ -374,7 +389,7 @@ bool StreamDataSender::send_favicon()
 					  );
 
 
-	n_bytes = _socket->write(data);
+	n_bytes = _m->socket->write(data);
 
 	return (n_bytes > 0);
 }

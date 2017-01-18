@@ -23,6 +23,7 @@
 #include "Database/DatabaseConnector.h"
 
 #include <QColorDialog>
+#include <QCloseEvent>
 
 GUI_StyleSettings::GUI_StyleSettings(QWidget *parent) :
 	SayonaraDialog(parent),

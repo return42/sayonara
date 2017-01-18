@@ -22,6 +22,8 @@
 #include "SoundcloudGlobal.h"
 #include "Helper/Logger/Logger.h"
 
+#include <QString>
+
 const QString sc_main("https://api.soundcloud.com");
 const QString sc_users(sc_main + "/users");
 

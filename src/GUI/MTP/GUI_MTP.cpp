@@ -34,6 +34,10 @@
 #include <thread>
 #include <functional>
 
+#include <QTreeWidgetItem>
+#include <QList>
+#include <QHash>
+#include <QDropEvent>
 
 static void open_device(GUI_MTP* mtp, MTP_RawDevicePtr raw_device)
 {
@@ -41,53 +45,73 @@ static void open_device(GUI_MTP* mtp, MTP_RawDevicePtr raw_device)
 	mtp->device_opened(device);
 }
 
+struct GUI_MTP::Private
+{
+	bool						initialized;
+
+	MTP*						mtp=nullptr;
+	MTP_CopyFiles*				mtp_copy_files=nullptr;
+
+	QList<MTP_RawDevicePtr>		raw_devices;
+	QList<MTP_DevicePtr>		open_devices;
+	QList<MTP_StoragePtr>		storages;
+
+	QHash<quint32, MTP_FolderPtr> folders;
+	QHash<quint32, MTP_FilePtr>	  files;
+
+	Private()
+	{
+		initialized = false;
+	}
+};
+
 
 GUI_MTP::GUI_MTP(QWidget* parent) :
 	SayonaraDialog(parent)
 {
-	_initialized = false;
+	_m = Pimpl::make<Private>();
 }
 
 
 GUI_MTP::~GUI_MTP()
 {
-	if(_open_devices.size() > 0){
-		sp_log(Log::Debug) << "Devices open: " << _open_devices.first().use_count();
+	if(_m->open_devices.size() > 0){
+		sp_log(Log::Debug) << "Devices open: " << _m->open_devices.first().use_count();
 	}
 
-	if(_raw_devices.size() > 0){
-		sp_log(Log::Debug) << "Raw Devices open: " << _raw_devices.first().use_count();
+	if(_m->raw_devices.size() > 0){
+		sp_log(Log::Debug) << "Raw Devices open: " << _m->raw_devices.first().use_count();
 	}
 
-	if(_mtp_copy_files){
-		delete _mtp_copy_files;
+	if(_m->mtp_copy_files){
+		delete _m->mtp_copy_files;
 	}
 
-	_files.clear();
-	_folders.clear();
-	_storages.clear();
-	_open_devices.clear();
-	_raw_devices.clear();
+	_m->files.clear();
+	_m->folders.clear();
+	_m->storages.clear();
+	_m->open_devices.clear();
+	_m->raw_devices.clear();
 }
 
 
 void GUI_MTP::refresh_clicked()
 {
-	_raw_devices.clear();
-	_open_devices.clear();
-	_storages.clear();
-	_folders.clear();
-	_files.clear();
+	_m->raw_devices.clear();
+	_m->open_devices.clear();
+	_m->storages.clear();
+	_m->folders.clear();
+	_m->files.clear();
 
-	if(_mtp == nullptr){
-		_mtp = new MTP(this);
+	if(_m->mtp == nullptr){
+		_m->mtp = new MTP(this);
 
-		connect(_mtp, &MTP::finished, this, &GUI_MTP::scan_thread_finished);
+		connect(_m->mtp, &MTP::finished, this, &GUI_MTP::scan_thread_finished);
 	}
 
 	ui->btn_go->setEnabled(false);
 	ui->btn_go->setText("Initializing...");
-	_mtp->start();
+	_m->mtp->start();
 }
 
 void GUI_MTP::delete_clicked()
@@ -99,19 +123,19 @@ void GUI_MTP::delete_clicked()
 			continue;
 		}
 
-		if(!_files.contains(id)){
+		if(!_m->files.contains(id)){
 			continue;
 		}
 
-		MTP_FilePtr file = _files[id];
+		MTP_FilePtr file = _m->files[id];
 		file->remove();
-		_files.remove(id);
+		_m->files.remove(id);
 
 		item->setDisabled(true);
 		item->setSelected(false);
 
 		int cur_storage_idx = ui->combo_storages->currentIndex();
-		_storages[cur_storage_idx]->remove_id(id);
+		_m->storages[cur_storage_idx]->remove_id(id);
 		folder_idx_changed(item->parent(), 0);
 		ui->tree_view->removeItemWidget(item, 0);
 	}
@@ -123,18 +147,18 @@ void GUI_MTP::delete_clicked()
 			continue;
 		}
 
-		if(!_folders.contains(id)){
+		if(!_m->folders.contains(id)){
 			continue;
 		}
 
-		MTP_FolderPtr folder = _folders[id];
+		MTP_FolderPtr folder = _m->folders[id];
 		folder->remove();
-		_folders.remove(id);
+		_m->folders.remove(id);
 
 		item->setDisabled(true);
 		item->setSelected(false);
 		int cur_storage_idx = ui->combo_storages->currentIndex();
-		_storages[cur_storage_idx]->remove_id(id);
+		_m->storages[cur_storage_idx]->remove_id(id);
 		folder_idx_changed(item->parent(), 0);
 		ui->tree_view->removeItemWidget(item, 0);
 
@@ -151,7 +175,7 @@ void GUI_MTP::scan_thread_finished()
 	ui->btn_go->setEnabled(true);
 	ui->btn_go->setText("Refresh");
 
-	QList<MTP_RawDevicePtr> raw_devices = _mtp->get_raw_devices();
+	QList<MTP_RawDevicePtr> raw_devices = _m->mtp->get_raw_devices();
 	if(raw_devices.size() == 0){
 		Message::warning("No devices found");
 		return;
@@ -160,7 +184,7 @@ void GUI_MTP::scan_thread_finished()
 	for(MTP_RawDevicePtr raw_device : raw_devices){
 		QString device_string = raw_device->get_device_string();
 
-		_raw_devices << raw_device;
+		_m->raw_devices << raw_device;
 		ui->combo_devices->addItem(device_string);
 	}
 }
@@ -168,14 +192,14 @@ void GUI_MTP::scan_thread_finished()
 
 void GUI_MTP::device_idx_changed(int idx)
 {
-	_storages.clear();
+	_m->storages.clear();
 	ui->combo_storages->clear();
 
-	if( !between(idx, _raw_devices) ){
+	if( !between(idx, _m->raw_devices) ){
 		return;
 	}
 
-	MTP_RawDevicePtr raw_device = _raw_devices[idx];
+	MTP_RawDevicePtr raw_device = _m->raw_devices[idx];
 
 
 	std::thread* open_thread = new std::thread(open_device, this, raw_device);
@@ -197,7 +221,7 @@ void GUI_MTP::device_opened(MTP_DevicePtr device)
 		return;
 	}
 
-	_open_devices << device;
+	_m->open_devices << device;
 
 	QList<MTP_StoragePtr> storages = device->storages();
 	sp_log(Log::Debug) << "Device " << device->id() << " has " << storages.size() << " storages";
@@ -205,7 +229,7 @@ void GUI_MTP::device_opened(MTP_DevicePtr device)
 	for(MTP_StoragePtr storage : storages){
 		QString name = storage->name() + ": " + storage->identifier();
 		sp_log(Log::Debug) << "New Storage: " << name;
-		_storages << storage;
+		_m->storages << storage;
 		ui->combo_storages->addItem(name);
 	}
 
@@ -216,11 +240,11 @@ void GUI_MTP::device_opened(MTP_DevicePtr device)
 
 void GUI_MTP::storage_idx_changed(int idx)
 {
-	if( !between(idx, _storages) ){
+	if( !between(idx, _m->storages) ){
 		return;
 	}
 
-	MTP_StoragePtr storage = _storages[idx];
+	MTP_StoragePtr storage = _m->storages[idx];
 	ui->tree_view->clear();
 
 	QList<MTP_FolderPtr> folders = storage->folders();
@@ -229,7 +253,7 @@ void GUI_MTP::storage_idx_changed(int idx)
 
 	for(MTP_FolderPtr folder : folders)
 	{
-		_folders[folder->id()] = folder;
+		_m->folders[folder->id()] = folder;
 		QTreeWidgetItem* item = new QTreeWidgetItem(QStringList() << folder->name());
 
 		item->setData(1, 0, folder->id());
@@ -259,7 +283,7 @@ void GUI_MTP::folder_idx_changed(QTreeWidgetItem* item, int column)
 		return;
 	}
 
-	MTP_FolderPtr folder = _folders[folder_id];
+	MTP_FolderPtr folder = _m->folders[folder_id];
 	QList<MTP_FolderPtr> children = folder->children();
 
 	for(int i = item->childCount() - 1; i>=0; i--){
@@ -267,7 +291,7 @@ void GUI_MTP::folder_idx_changed(QTreeWidgetItem* item, int column)
 	}
 
 	for(MTP_FolderPtr folder : children){
-		_folders[folder->id()] = folder;
+		_m->folders[folder->id()] = folder;
 
 		QTreeWidgetItem* child_item;
 
@@ -281,12 +305,12 @@ void GUI_MTP::folder_idx_changed(QTreeWidgetItem* item, int column)
 		item->addChild(child_item);
 	}
 
-	MTP_StoragePtr storage = _storages[ui->combo_storages->currentIndex()];
+	MTP_StoragePtr storage = _m->storages[ui->combo_storages->currentIndex()];
 	QList<MTP_FilePtr> files = storage->files_of_folder(folder->id());
 
 	for(MTP_FilePtr file : files)
 	{
-		_files[file->id()] = file;
+		_m->files[file->id()] = file;
 
 		QTreeWidgetItem* child_item = new QTreeWidgetItem();
 
@@ -358,7 +382,7 @@ void GUI_MTP::dropEvent(QDropEvent* e)
 		return;
 	}
 
-	folder = _folders[folder_id];
+	folder = _m->folders[folder_id];
 	sp_log(Log::Debug) << "Will drop into folder " << folder->name();
 
 	mime_data = e->mimeData();
@@ -371,9 +395,9 @@ void GUI_MTP::dropEvent(QDropEvent* e)
 
 	if(cmd)
 	{
-		if(_mtp_copy_files){
-			delete _mtp_copy_files;
-			_mtp_copy_files = nullptr;
+		if(_m->mtp_copy_files){
+			delete _m->mtp_copy_files;
+			_m->mtp_copy_files = nullptr;
 		}
 
 		enable_drag_drop(false);
@@ -389,28 +413,28 @@ void GUI_MTP::dropEvent(QDropEvent* e)
 				str_urls << url.toLocalFile();
 			}
 
-			_mtp_copy_files = new MTP_CopyFiles(str_urls, folder, nullptr);
+			_m->mtp_copy_files = new MTP_CopyFiles(str_urls, folder, nullptr);
 			sp_log(Log::Debug) << "Will drop " << str_urls.size() << " files ";
 		}
 
 		else{
-			_mtp_copy_files = new MTP_CopyFiles(v_md, folder, nullptr);
+			_m->mtp_copy_files = new MTP_CopyFiles(v_md, folder, nullptr);
 			sp_log(Log::Debug) << "Will drop " << v_md.size() << " Tracks ";
 		}
 
 		ui->btn_delete->setEnabled(false);
 		ui->btn_go->setEnabled(false);
 
-		connect(_mtp_copy_files, &MTP_CopyFiles::sig_progress, this, &GUI_MTP::progress_changed);
-		connect(_mtp_copy_files, &MTP_CopyFiles::finished, this, &GUI_MTP::copy_thread_finished);
+		connect(_m->mtp_copy_files, &MTP_CopyFiles::sig_progress, this, &GUI_MTP::progress_changed);
+		connect(_m->mtp_copy_files, &MTP_CopyFiles::finished, this, &GUI_MTP::copy_thread_finished);
 
-		_mtp_copy_files->start();
+		_m->mtp_copy_files->start();
 	}
 }
 
 void GUI_MTP::showEvent(QShowEvent* e)
 {
-	if(!_initialized)
+	if(!_m->initialized)
 	{
 		ui = new Ui::GUI_MTP();
 		ui->setupUi(this);
@@ -425,8 +449,8 @@ void GUI_MTP::showEvent(QShowEvent* e)
 
 		enable_drag_drop(false);
 
-		_mtp = nullptr;
-		_mtp_copy_files = nullptr;
+		_m->mtp = nullptr;
+		_m->mtp_copy_files = nullptr;
 
 		connect(ui->tree_view, &QTreeWidget::itemActivated, this, &GUI_MTP::folder_idx_changed);
 		connect(ui->tree_view, &QTreeWidget::itemExpanded, this, &GUI_MTP::folder_idx_expanded);
@@ -436,7 +460,7 @@ void GUI_MTP::showEvent(QShowEvent* e)
 		connect(ui->btn_delete, &QPushButton::clicked, this, &GUI_MTP::delete_clicked);
 
 		ui->btn_delete->setEnabled(false);
-		_initialized = true;
+		_m->initialized = true;
 	}
 
 	SayonaraDialog::showEvent(e);

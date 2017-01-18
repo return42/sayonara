@@ -20,6 +20,7 @@
 
 #include "LibraryPluginHandler.h"
 #include "GUI/Helper/Delegates/ComboBoxDelegate.h"
+#include "GUI/Helper/SayonaraWidget/SayonaraWidgetTemplate.h"
 #include "LibraryContainer/LibraryContainer.h"
 
 #include "Helper/globals.h"

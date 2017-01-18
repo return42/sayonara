@@ -24,26 +24,28 @@
 #include "GUI/Helper/Delegates/ComboBoxDelegate.h"
 #include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
 
-#include "Views/LibraryView.h"
-#include "Views/LibraryViewAlbum.h"
-
-#include "Models/LibraryItemModelAlbums.h"
-#include "Models/LibraryItemModelArtists.h"
-#include "Models/LibraryItemModelTracks.h"
-
-#include "Delegates/LibraryItemDelegateAlbums.h"
-#include "Delegates/LibraryItemDelegateTracks.h"
-
-#include "Helper/Settings/SayonaraClass.h"
 #include "Helper/Library/Filter.h"
 #include "Helper/Library/LibraryNamespaces.h"
+#include "Helper/typedefs.h"
+#include "Helper/Library/Sortorder.h"
+#include "Helper/MetaData/MetaDataFwd.h"
+#include "Helper/SetFwd.h"
 
 #include <QPoint>
 #include <QComboBox>
+#include <QAbstractItemView>
 
+class QItemDelegate;
 class QPushButton;
 class QComboBox;
 class AbstractLibrary;
+class LibraryView;
+class LibraryViewAlbum;
+class LibraryItemDelegateAlbums;
+class LibraryItemDelegateTracks;
+class LibraryItemModelAlbums;
+class LibraryItemModelArtists;
+class LibraryItemModelTracks;
 
 class GUI_AbstractLibrary :
 		public SayonaraWidget
@@ -64,7 +66,6 @@ protected:
 	BoolList	_shown_cols_albums;
 	BoolList	_shown_cols_artist;
 	BoolList	_shown_cols_tracks;
-
 
 	LibraryItemModelTracks* 	_track_model = nullptr;
 	LibraryItemModelAlbums* 	_album_model = nullptr;
@@ -90,9 +91,7 @@ private:
 	QLineEdit*			_le_search = nullptr;
 	QPushButton*		_btn_refresh = nullptr;
 
-
 	void init_finished();
-
 
 protected slots:
 	virtual void _sl_live_search_changed();

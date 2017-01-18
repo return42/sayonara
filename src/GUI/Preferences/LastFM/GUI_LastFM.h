@@ -31,13 +31,9 @@
 
 #include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
 
-namespace Ui
-{
-	class GUI_LastFM;
-}
+namespace Ui { class GUI_LastFM; }
 
 class LastFM;
-
 class GUI_LastFM :
 		public PreferenceWidgetInterface
 {
@@ -60,9 +56,7 @@ private:
 	Ui::GUI_LastFM*		ui=nullptr;
 	LastFM*				_lfm=nullptr;
 
-
 private slots:
-
 	void btn_login_clicked();
 	void active_changed(bool active);
 	void logged_in(bool success);

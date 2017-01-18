@@ -32,8 +32,6 @@
 
 #include <QMessageBox>
 #include <QMainWindow>
-#include <QShowEvent>
-#include <QCloseEvent>
 #include <QTranslator>
 #include <QKeySequence>
 

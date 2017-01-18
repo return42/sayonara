@@ -24,17 +24,27 @@
 #include <QRegExp>
 #include <QStringList>
 
+struct StreamHttpParser::Private
+{
+	bool		icy;
+	QString		host;
+
+	Private()
+	{
+		icy = false;
+	}
+};
+
 StreamHttpParser::StreamHttpParser()
 {
-	_icy = false;
-	_host = QString();
-	_status = HttpAnswer::OK;
+	_m = Pimpl::make<Private>();
 }
 
 StreamHttpParser::~StreamHttpParser() {}
 
 
-StreamHttpParser::HttpAnswer StreamHttpParser::parse(const QByteArray& data){
+StreamHttpParser::HttpAnswer StreamHttpParser::parse(const QByteArray& data)
+{
 	bool get_playlist = false;
 	bool get_received = false;
 	bool get_mp3 = false;
@@ -47,8 +57,8 @@ StreamHttpParser::HttpAnswer StreamHttpParser::parse(const QByteArray& data){
 	QString qmsg(data);
 	QStringList lst;
 
-	_icy = false;
-	_host = "";
+	_m->icy = false;
+	_m->host = "";
 
 	if(data.isEmpty()) {
 		sp_log(Log::Error) << "Fail.. Cannot read from socket";
@@ -99,7 +109,7 @@ StreamHttpParser::HttpAnswer StreamHttpParser::parse(const QByteArray& data){
 		if(str.toLower().contains("host:")){
 			QStringList lst = str.split(":");
 			if(lst.size() > 1){
-				_host = lst[1].trimmed();
+				_m->host = lst[1].trimmed();
 				//sp_log(Log::Info) << "Host = " << _host;
 
 			}
@@ -133,32 +143,32 @@ StreamHttpParser::HttpAnswer StreamHttpParser::parse(const QByteArray& data){
 		}
 	}
 
-	if(is_browser && get_favicon && !_host.isEmpty()){
+	if(is_browser && get_favicon && !_m->host.isEmpty()){
 		return HttpAnswer::Favicon;
 	}
 
-	if(is_browser && get_bg && !_host.isEmpty()){
+	if(is_browser && get_bg && !_m->host.isEmpty()){
 		return HttpAnswer::BG;
 	}
 
-	if(is_browser && get_metadata && !_host.isEmpty()){
+	if(is_browser && get_metadata && !_m->host.isEmpty()){
 		return HttpAnswer::MetaData;
 	}
 
-	if(is_browser && !get_mp3 && !_host.isEmpty()){
+	if(is_browser && !get_mp3 && !_m->host.isEmpty()){
 		return HttpAnswer::HTML5;
 	}
 
-	if(is_browser && get_mp3 && !_host.isEmpty()){
+	if(is_browser && get_mp3 && !_m->host.isEmpty()){
 		return HttpAnswer::MP3;
 	}
 
-	if(get_playlist && !_host.isEmpty()){
+	if(get_playlist && !_m->host.isEmpty()){
 		return HttpAnswer::Playlist;
 	}
 
 	if(get_received){
-		_icy = icy;
+		_m->icy = icy;
 
 		return HttpAnswer::OK;
 	}
@@ -168,12 +178,12 @@ StreamHttpParser::HttpAnswer StreamHttpParser::parse(const QByteArray& data){
 
 bool StreamHttpParser::is_icy() const
 {
-	return _icy;
+	return _m->icy;
 }
 
 QString StreamHttpParser::get_host() const
 {
-	return _host;
+	return _m->host;
 }
 
 

@@ -23,7 +23,7 @@
 
 #include "GUI/Helper/SearchableWidget/AbstractSearchModel.h"
 
-#include "Helper/Set.h"
+#include "Helper/SetFwd.h"
 #include "Helper/Pimpl.h"
 
 class CoverLocation;

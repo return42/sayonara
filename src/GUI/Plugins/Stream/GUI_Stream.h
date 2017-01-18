@@ -21,7 +21,6 @@
 #ifndef GUI_STREAM_H_
 #define GUI_STREAM_H_
 
-#include "Components/StreamPlugins/Streams/StreamHandlerStreams.h"
 #include "GUI_AbstractStream.h"
 
 namespace Ui { class GUI_Stream; }
@@ -37,7 +36,6 @@ public:
 
 	QString get_name() const override;
 	QString get_display_name() const override;
-
 
 private:
 	Ui::GUI_Stream* ui=nullptr;

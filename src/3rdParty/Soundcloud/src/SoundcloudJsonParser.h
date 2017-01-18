@@ -22,7 +22,6 @@
 #define SOUNDCLOUDJSONPARSER_H
 
 #include <QList>
-#include <QString>
 
 #include <QByteArray>
 #include <QJsonDocument>

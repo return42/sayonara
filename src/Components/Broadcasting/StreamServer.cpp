@@ -31,6 +31,7 @@
 #include "Components/PlayManager/PlayManager.h"
 
 #include <QHostAddress>
+#include <QTcpServer>
 
 struct StreamServer::Private
 {

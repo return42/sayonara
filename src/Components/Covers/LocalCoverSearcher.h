@@ -21,7 +21,8 @@
 #ifndef LOCALCOVERSEARCHER_H
 #define LOCALCOVERSEARCHER_H
 
-#include <QStringList>
+class QStringList;
+class QString;
 
 /**
  * @brief Helper Namespace for finding covers in a specific directory

@@ -19,24 +19,57 @@
  */
 
 #include "Bookmark.h"
+#include <QString>
 
-Bookmark::Bookmark(quint32 time, const QString& name, bool valid){
-	_time = time;
-	_name = name;
-	_valid = valid;
+struct Bookmark::Private
+{
+	quint32		time;
+	QString		name;
+	bool		valid;
+};
+
+Bookmark::Bookmark(quint32 time)
+{
+	_m = Pimpl::make<Private>();
+	_m->time = time;
+}
+
+Bookmark::Bookmark(quint32 time, const QString& name, bool valid) :
+	Bookmark(time)
+{
+	_m->name = name;
+	_m->valid = valid;
+}
+
+Bookmark::~Bookmark(){}
+
+
+Bookmark::Bookmark(const Bookmark& other) :
+	Bookmark(other._m->time, other._m->name, other._m->valid)
+{
+
+}
+
+Bookmark& Bookmark::operator=(const Bookmark& other)
+{
+	_m->time = other._m->time;
+	_m->name = other._m->name;
+	_m->valid = other._m->valid;
+
+	return *this;
 }
 
 quint32 Bookmark::get_time() const
 {
-	return _time;
+	return _m->time;
 }
 
 QString Bookmark::get_name() const
 {
-	return _name;
+	return _m->name;
 }
 
 bool Bookmark::is_valid() const
 {
-	return _valid;
+	return _m->valid;
 }

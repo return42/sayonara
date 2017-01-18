@@ -39,6 +39,9 @@
 #include "GUI/Helper/ContextMenu/LibraryContextMenu.h"
 #include "GUI/Helper/SearchableWidget/MiniSearcher.h"
 
+#include <QDropEvent>
+#include <QMouseEvent>
+
 LibraryView::LibraryView(QWidget* parent) :
 	SearchableTableView(parent),
 	SayonaraClass(),

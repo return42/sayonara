@@ -21,9 +21,10 @@
 #ifndef LIBRARYSEARCHMODE_H
 #define LIBRARYSEARCHMODE_H
 
-#include <QString>
 #include <QList>
+#include <QChar>
 
+class QString;
 namespace Library
 {
 	/**

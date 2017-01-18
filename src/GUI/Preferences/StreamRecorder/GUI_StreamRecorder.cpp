@@ -35,8 +35,7 @@
 GUI_StreamRecorder::GUI_StreamRecorder(QWidget* parent) :
 	PreferenceWidgetInterface(parent)
 {
-	_is_active = false;
-	_is_create_session_path = false;
+
 }
 
 
@@ -55,7 +54,6 @@ void GUI_StreamRecorder::init_ui()
 	revert();
 
 	connect(ui->cb_activate, &QCheckBox::toggled, this, &GUI_StreamRecorder::sl_cb_activate_toggled);
-	connect(ui->cb_create_session_path, &QCheckBox::toggled, this, &GUI_StreamRecorder::sl_cb_create_session_path_toggled);
 	connect(ui->btn_path, &QPushButton::clicked, this, &GUI_StreamRecorder::sl_btn_path_clicked);
 }
 
@@ -67,29 +65,18 @@ void GUI_StreamRecorder::retranslate_ui()
 
 void GUI_StreamRecorder::sl_cb_activate_toggled(bool b)
 {
-	_is_active = b;
-	_settings->set(Set::Engine_SR_Active, b);
-
 	ui->le_path->setEnabled(b);
 	ui->btn_path->setEnabled(b);
 	ui->cb_create_session_path->setEnabled(b);
 }
 
 
-void GUI_StreamRecorder::sl_cb_create_session_path_toggled(bool b)
-{
-    _is_create_session_path = b;
-	_settings->set(Set::Engine_SR_SessionPath, b);
-}
-
-
 void GUI_StreamRecorder::sl_btn_path_clicked()
 {
-	QString dir = QFileDialog::getExistingDirectory(this, tr("Choose target directory"), _path, QFileDialog::ShowDirsOnly);
+	QString path = ui->cb_create_session_path->text();
+	QString dir = QFileDialog::getExistingDirectory(this, tr("Choose target directory"), path, QFileDialog::ShowDirsOnly);
 	if(dir.size() > 0) {
-		_path = dir;
-		_settings->set(Set::Engine_SR_Path, _path);
-		ui->le_path->setText(_path);
+		ui->le_path->setText(path);
 	}
 }
 
@@ -116,23 +103,21 @@ void GUI_StreamRecorder::commit()
     }
 
 	_settings->set(Set::Engine_SR_Path, str);
-
-    _path = str;
 }
 
 void GUI_StreamRecorder::revert()
 {
-	_path = _settings->get(Set::Engine_SR_Path);
-	_is_active = _settings->get(Set::Engine_SR_Active);
-	_is_create_session_path = _settings->get(Set::Engine_SR_SessionPath);
+	QString path = _settings->get(Set::Engine_SR_Path);
+	bool active = _settings->get(Set::Engine_SR_Active);
+	bool create_session_path = _settings->get(Set::Engine_SR_SessionPath);
 
-	ui->le_path->setText(_path);
-	ui->cb_activate->setChecked(_is_active);
-	ui->cb_create_session_path->setChecked(_is_create_session_path);
+	ui->le_path->setText(path);
+	ui->cb_activate->setChecked(active);
+	ui->cb_create_session_path->setChecked(create_session_path);
 
-	ui->cb_create_session_path->setEnabled(_is_active);
-	ui->btn_path->setEnabled(_is_active);
-	ui->le_path->setEnabled(_is_active);
+	ui->cb_create_session_path->setEnabled(active);
+	ui->btn_path->setEnabled(active);
+	ui->le_path->setEnabled(active);
 }
 
 

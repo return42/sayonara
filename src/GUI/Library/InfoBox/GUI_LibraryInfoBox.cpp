@@ -23,6 +23,7 @@
  */
 
 #include "GUI_LibraryInfoBox.h"
+#include "GUI/Library/ui_GUI_LibraryInfoBox.h"
 
 #include "Database/DatabaseConnector.h"
 
@@ -38,12 +39,10 @@
 
 
 GUI_LibraryInfoBox::GUI_LibraryInfoBox(QWidget* parent) :
-	SayonaraDialog(parent),
-	Ui::GUI_LibraryInfoBox()
+	SayonaraDialog(parent)
 {
-	setupUi(this);
-
-	_db = DatabaseConnector::getInstance();
+	ui = new Ui::GUI_LibraryInfoBox();
+	ui->setupUi(this);
 
     hide();
 
@@ -55,52 +54,50 @@ GUI_LibraryInfoBox::~GUI_LibraryInfoBox() {}
 
 void GUI_LibraryInfoBox::language_changed()
 {
-	retranslateUi(this);
+	ui->retranslateUi(this);
 }
 
 void GUI_LibraryInfoBox::skin_changed()
 {
-	QSize sz;
-	QPixmap pm;
 	IconLoader* icon_loader = IconLoader::getInstance();
 
-	sz = lab_icon->size();
-	pm = icon_loader->get_icon("dialog-inforrr", "info").pixmap(sz, QIcon::Normal, QIcon::On);
+	QSize sz = ui->lab_icon->size();
+	QPixmap pm = icon_loader->get_icon("dialog-inforrr", "info").pixmap(sz, QIcon::Normal, QIcon::On);
 
-	lab_icon->setPixmap(pm);
+	ui->lab_icon->setPixmap(pm);
 }
 
 
 void GUI_LibraryInfoBox::psl_refresh()
 {
+	DatabaseConnector* db = DatabaseConnector::getInstance();
     MetaDataList v_md;
 	AlbumList v_albums;
 	ArtistList v_artists;
 
-	_db->getAllTracks(v_md);
-	_db->getAllAlbums(v_albums);
-	_db->getAllArtists(v_artists);
+	db->getAllTracks(v_md);
+	db->getAllAlbums(v_albums);
+	db->getAllArtists(v_artists);
 
-	_n_tracks = v_md.size();
-	_n_albums = v_albums.size();
-	_n_artists = v_artists.size();
-	_duration_ms = 0;
-    _filesize = 0;
+	int n_tracks = v_md.size();
+	int n_albums = v_albums.size();
+	int n_artists = v_artists.size();
+	qint64 duration_ms = 0;
+	qint64 filesize = 0;
 
 	for( const MetaData& md : v_md ) {
-		_duration_ms += md.length_ms;
-        _filesize += md.filesize;
+		duration_ms += md.length_ms;
+		filesize += md.filesize;
 	}
 
-	_duration_string = Helper::cvt_ms_to_string(_duration_ms, false);
-	_filesize_str = Helper::File::calc_filesize_str(_filesize);
+	QString duration_string = Helper::cvt_ms_to_string(duration_ms, false);
+	QString filesize_str = Helper::File::calc_filesize_str(filesize);
 
-
-	lab_album_count->setText(QString::number(_n_albums));
-	lab_track_count->setText(QString::number(_n_tracks));
-	lab_artist_count->setText(QString::number(_n_artists));
-	lab_duration_value->setText(_duration_string + "s");
-	lab_filesize->setText(_filesize_str);
+	ui->lab_album_count->setText(QString::number(n_albums));
+	ui->lab_track_count->setText(QString::number(n_tracks));
+	ui->lab_artist_count->setText(QString::number(n_artists));
+	ui->lab_duration_value->setText(duration_string + "s");
+	ui->lab_filesize->setText(filesize_str);
 
 	show();
 }

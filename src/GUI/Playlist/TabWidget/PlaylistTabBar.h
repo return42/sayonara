@@ -35,7 +35,6 @@ class PlaylistTabBar :
 {
 	Q_OBJECT
 
-
 signals:
 
 	void sig_open_file(int tab_idx);

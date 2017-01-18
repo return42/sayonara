@@ -26,11 +26,11 @@
 #include <glib.h>
 #include <gst/gstbuffer.h>
 
-#include <QTimer>
 #include <QList>
 #include <QtGlobal>
-#include <QString>
 
+class QTimer;
+class QString;
 class PlaybackPipeline;
 class StreamRecorder;
 class SpectrumReceiver;

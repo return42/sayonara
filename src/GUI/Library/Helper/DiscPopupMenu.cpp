@@ -21,6 +21,7 @@
 #include "DiscPopupMenu.h"
 #include "GUI/Helper/GUI_Helper.h"
 
+#include <QMouseEvent>
 #include <algorithm>
 
 DiscAction::DiscAction(QWidget* parent, const QIcon& icon) :

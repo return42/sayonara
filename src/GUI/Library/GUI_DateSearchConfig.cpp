@@ -24,6 +24,7 @@
 #include "Helper/Language.h"
 
 #include <QInputDialog>
+#include <QShowEvent>
 
 struct GUI_DateSearchConfig::Private
 {

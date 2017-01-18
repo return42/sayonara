@@ -34,6 +34,7 @@
 #include "Helper/Library/SearchMode.h"
 #include "Helper/MetaData/Album.h"
 #include "Helper/Language.h"
+#include "Helper/Set.h"
 #include "Components/Covers/CoverLocation.h"
 
 struct LibraryItemModelAlbums::Private

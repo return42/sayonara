@@ -26,11 +26,8 @@
 #include "Helper/Pimpl.h"
 
 #include <QThread>
-#include <QList>
-#include <QPair>
-#include <QTcpSocket>
-#include <QTcpServer>
 
+class QTcpSocket;
 /**
  * @brief The StreamServer class. This class is listening for new connections and holds and administrates current connections.
  * @ingroup Broadcasting

@@ -21,14 +21,11 @@
 #ifndef PLAYLISTITEMDELEGATE_H_
 #define PLAYLISTITEMDELEGATE_H_
 
-
-#include <QLabel>
-#include <QListView>
 #include <QItemDelegate>
 
 #include "Helper/Settings/SayonaraClass.h"
 
-
+class QListView;
 class PlaylistItemDelegate :
 		public QItemDelegate,
 		protected SayonaraClass

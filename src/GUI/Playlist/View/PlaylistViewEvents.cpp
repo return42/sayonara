@@ -31,7 +31,7 @@
 #include "GUI/Helper/CustomMimeData.h"
 
 #include <QApplication>
-
+#include <QContextMenuEvent>
 
 void PlaylistView::contextMenuEvent(QContextMenuEvent* e)
 {

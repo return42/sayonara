@@ -23,6 +23,7 @@
 #include <QPainter>
 #include <QFontMetrics>
 #include <QApplication>
+#include <QListView>
 
 #include "Helper/Helper.h"
 #include "Helper/MetaData/MetaData.h"

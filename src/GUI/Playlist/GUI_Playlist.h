@@ -33,7 +33,7 @@
 
 #include "Helper/Message/GlobalMessage.h"
 #include "Helper/Library/LibraryNamespaces.h"
-#include "Helper/Set.h"
+#include "Helper/SetFwd.h"
 
 #include "Components/PlayManager/PlayState.h"
 #include "Components/Playlist/PlaylistDBInterface.h"
@@ -43,9 +43,11 @@
 class PlayManager;
 class PlaylistView;
 class PlaylistHandler;
+
+namespace Ui { class Playlist_Window; }
+
 class GUI_Playlist :
-		public SayonaraWidget,
-		private Ui::Playlist_Window
+		public SayonaraWidget
 {
 	Q_OBJECT
 
@@ -57,6 +59,7 @@ private:
 	PlayManager*			_play_manager=nullptr;
 	PlaylistHandler*		_playlist=nullptr;
 	Playlist::Type			_playlist_type;
+	Ui::Playlist_Window*	ui=nullptr;
 
 private:
 	PlaylistView* get_view_by_idx(int idx);

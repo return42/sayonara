@@ -37,6 +37,7 @@
 #include "Helper/Library/SearchMode.h"
 #include "Helper/MetaData/MetaDataList.h"
 #include "Helper/Language.h"
+#include "Helper/Set.h"
 
 struct LibraryItemModelTracks::Private
 {

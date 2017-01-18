@@ -22,13 +22,11 @@
 #define SOUNDCLOUDDATAFETCHER_H
 
 #include <QObject>
-#include <QString>
 #include "Helper/Pimpl.h"
 
 class ArtistList;
 class AlbumList;
 class MetaDataList;
-
 
 class SoundcloudDataFetcher : public QObject
 {

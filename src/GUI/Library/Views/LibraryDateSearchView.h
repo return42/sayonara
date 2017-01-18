@@ -24,8 +24,6 @@
 #include "GUI/Helper/SearchableWidget/SearchableListView.h"
 #include "Helper/Pimpl.h"
 
-#include <QContextMenuEvent>
-
 namespace Library { class DateFilter; }
 
 class LibraryDateSearchView :

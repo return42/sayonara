@@ -24,7 +24,6 @@
 #include "GUI/Helper/SearchableWidget/SayonaraSelectionView.h"
 #include "Helper/Pimpl.h"
 
-#include <QKeyEvent>
 #include <QAbstractItemView>
 
 class QItemSelectionModel;

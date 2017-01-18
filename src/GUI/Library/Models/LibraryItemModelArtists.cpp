@@ -35,6 +35,7 @@
 #include "Helper/Library/SearchMode.h"
 #include "Helper/MetaData/Artist.h"
 #include "Helper/Language.h"
+#include "Helper/Set.h"
 
 #include <QAbstractListModel>
 #include <QStringList>

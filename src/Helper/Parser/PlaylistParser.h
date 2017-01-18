@@ -22,7 +22,7 @@
 #define PLAYLISTPARSER_H_
 
 
-#include <QString>
+class QString;
 class MetaDataList;
 /**
  * @brief PlaylistParser namespace
@@ -31,7 +31,7 @@ class MetaDataList;
 namespace PlaylistParser 
 {
 	int parse_playlist(const QString& playlist_file, MetaDataList& md);
-	void save_playlist(QString filename, const MetaDataList& md, bool relative);
+	void save_playlist(const QString& filename, const MetaDataList& md, bool relative);
 }
 
 #endif /* PLAYLISTPARSER_H_ */

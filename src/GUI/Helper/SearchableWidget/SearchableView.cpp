@@ -26,6 +26,7 @@
 
 #include <QAbstractItemModel>
 #include <QItemSelectionModel>
+#include <QKeyEvent>
 #include <QMap>
 #include <QString>
 

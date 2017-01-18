@@ -25,21 +25,18 @@
 #ifndef GUILIBRARYINFOBOX_H_
 #define GUILIBRARYINFOBOX_H_
 
-#include "GUI/Library/ui_GUI_LibraryInfoBox.h"
 #include "GUI/Helper/SayonaraWidget/SayonaraDialog.h"
 
+namespace Ui { class GUI_LibraryInfoBox; }
 
-class DatabaseConnector;
 class GUI_LibraryInfoBox :
-		public SayonaraDialog,
-		private Ui::GUI_LibraryInfoBox
+		public SayonaraDialog
 {
 	Q_OBJECT
 
 public:
 	explicit GUI_LibraryInfoBox(QWidget* parent=nullptr);
 	virtual ~GUI_LibraryInfoBox();
-
 
 public slots:
 	void psl_refresh();
@@ -49,16 +46,7 @@ protected:
 	void skin_changed() override;
 
 private:
-
-	DatabaseConnector*   	_db=nullptr;
-
-	uint 		_n_tracks;
-	uint		_n_albums;
-	uint		_n_artists;
-	qint64 		_duration_ms;
-	QString		_duration_string;
-    qint64      _filesize;
-    QString     _filesize_str;
+	Ui::GUI_LibraryInfoBox*	ui=nullptr;
 };
 
 #endif /* GUILIBRARYINFOBOX_H_ */

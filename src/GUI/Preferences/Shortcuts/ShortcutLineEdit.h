@@ -22,7 +22,6 @@
 #define SHORTCUTLINEEDIT_H
 
 #include <QLineEdit>
-#include <QKeyEvent>
 
 /**
  * @brief The ShortcutLineEdit class

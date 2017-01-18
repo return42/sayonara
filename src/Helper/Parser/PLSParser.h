@@ -21,9 +21,9 @@
 #ifndef PLSPARSER_H
 #define PLSPARSER_H
 
-#include <QString>
 #include "AbstractPlaylistParser.h"
 
+class QString;
 /**
  * @brief The PLSParser class
  * @ingroup PlaylistParser

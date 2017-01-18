@@ -23,7 +23,6 @@
 
 #include <QObject>
 #include <QSqlDatabase>
-#include <QString>
 
 class AbstractDatabase : public QObject
 {

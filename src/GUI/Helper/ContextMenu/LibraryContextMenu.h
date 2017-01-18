@@ -23,7 +23,7 @@
 
 #include <QMenu>
 #include <QAction>
-#include <QEvent>
+
 #include "Helper/Settings/SayonaraClass.h"
 
 typedef int LibraryContexMenuEntries;

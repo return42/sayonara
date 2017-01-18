@@ -27,10 +27,7 @@
 
 #include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
 
-namespace Ui
-{
-	class GUI_StreamRecorder;
-}
+namespace Ui { class GUI_StreamRecorder; }
 
 class GUI_StreamRecorder :
 		public PreferenceWidgetInterface
@@ -51,18 +48,12 @@ protected:
 	void init_ui() override;
 	void retranslate_ui() override;
 
-
 private:
-
 	Ui::GUI_StreamRecorder*	ui=nullptr;
-	QString		_path;
-	bool		_is_active;
-	bool		_is_create_session_path;
 
 
 private slots:
 	void sl_cb_activate_toggled(bool);
-	void sl_cb_create_session_path_toggled(bool);
 	void sl_btn_path_clicked();
 };
 

@@ -32,6 +32,7 @@
 #include "Helper/Logger/Logger.h"
 
 #include <QUrl>
+#include <QIcon>
 
 struct SomaFMStationModel::Private
 {

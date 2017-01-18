@@ -23,6 +23,9 @@
 #include "Interfaces/LibraryInterface/LibraryPluginHandler.h"
 #include "Interfaces/LibraryInterface/LibraryContainer/LibraryContainer.h"
 
+#include <QShowEvent>
+#include <QCloseEvent>
+
 void GUI_Player::moveEvent(QMoveEvent *e)
 {
 	QMainWindow::moveEvent(e);

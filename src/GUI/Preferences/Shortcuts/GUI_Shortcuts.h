@@ -21,19 +21,11 @@
 #ifndef GUI_SHORTCUTS_H
 #define GUI_SHORTCUTS_H
 
-#include "GUI/Helper/Shortcuts/ShortcutHandler.h"
-
 #include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
 
-#include <QPushButton>
-#include <QLineEdit>
-#include <QMap>
+namespace Ui { class GUI_Shortcuts; }
 
-namespace Ui
-{
-	class GUI_Shortcuts;
-}
-
+class ShortcutHandler;
 class GUI_ShortcutEntry;
 
 /**
@@ -54,18 +46,15 @@ public:
 
 	QString get_action_name() const override;
 
-
 protected:
 	void init_ui() override;
 	void retranslate_ui() override;
-
 
 private:
 	Ui::GUI_Shortcuts*			ui=nullptr;
 
 	ShortcutHandler*			_sch = nullptr;
 	QList<GUI_ShortcutEntry*>	_entries;
-
 
 private slots:
 	void test_pressed(const QList<QKeySequence>& sequences);

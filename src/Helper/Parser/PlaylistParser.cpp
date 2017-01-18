@@ -99,17 +99,19 @@ int PlaylistParser::parse_playlist(const QString& local_filename, MetaDataList& 
 }
 
 
-void PlaylistParser::save_playlist(QString filename, const MetaDataList& v_md, bool relative) {
-	if(!filename.endsWith("m3u", Qt::CaseInsensitive)) {
-		filename.append(".m3u");
+void PlaylistParser::save_playlist(const QString& filename, const MetaDataList& v_md, bool relative)
+{
+	QString f = filename;
+	if(!f.endsWith("m3u", Qt::CaseInsensitive)) {
+		f.append(".m3u");
 	}
 
 	bool success;
-	QString dir_str = filename.left(filename.lastIndexOf(QDir::separator()));
+	QString dir_str = f.left(f.lastIndexOf(QDir::separator()));
 	QDir dir(dir_str);
 	dir.cd(dir_str);
 
-	QFile file(filename);
+	QFile file(f);
 	success = file.open(QIODevice::WriteOnly);
 	if(!success){
 		return;

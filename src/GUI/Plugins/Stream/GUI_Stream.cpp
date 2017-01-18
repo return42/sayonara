@@ -20,6 +20,7 @@
 
 #include "GUI_Stream.h"
 #include "GUI/Plugins/Stream/ui_GUI_Stream.h"
+#include "Components/StreamPlugins/Streams/StreamHandlerStreams.h"
 #include "Helper/Language.h"
 
 GUI_Stream::GUI_Stream(QWidget *parent) :
@@ -53,7 +54,6 @@ void GUI_Stream::language_changed()
 void GUI_Stream::init_ui()
 {
 	setup_parent(this, &ui);
-	GUI_AbstractStream::init_ui();
 }
 
 

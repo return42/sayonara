@@ -59,6 +59,11 @@ QString Helper::File::calc_file_extension(const QString& filename)
 }
 
 
+void Helper::File::remove_files_in_directory(const QString& dir_name)
+{
+	remove_files_in_directory(dir_name, QStringList());
+}
+
 void Helper::File::remove_files_in_directory(const QString& dir_name, const QStringList& filters) 
 {
 	bool success;

@@ -20,6 +20,8 @@
 
 #include "TagLineEdit.h"
 
+#include <QFocusEvent>
+
 TagLineEdit::TagLineEdit(QWidget* parent) :
 	QLineEdit(parent)
 {

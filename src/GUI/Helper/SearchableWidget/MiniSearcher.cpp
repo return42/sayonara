@@ -27,6 +27,8 @@
 #include <QShortcut>
 #include <QKeySequence>
 #include <QAbstractItemView>
+#include <QKeyEvent>
+#include <QFocusEvent>
 
 
 MiniSearcherLineEdit::MiniSearcherLineEdit(QWidget* parent) :

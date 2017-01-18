@@ -21,7 +21,6 @@
 #ifndef _EQUALIZER_PRESETS_
 #define _EQUALIZER_PRESETS_
 
-
 #include <QList>
 #include <QString>
 

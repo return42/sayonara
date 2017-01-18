@@ -18,103 +18,75 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef GUI_AbstractStream_H
-#define GUI_AbstractStream_H
+#ifndef GUI_ABSTRACT_STREAM_H_
+#define GUI_ABSTRACT_STREAM_H_
 
-#include "GUI/Helper/MenuTool/MenuTool.h"
-#include "GUI/Helper/Delegates/ComboBoxDelegate.h"
-#include "GUI/Helper/Style/Style.h"
 #include "Interfaces/PlayerPlugin/PlayerPlugin.h"
-#include "Components/StreamPlugins/Streams/AbstractStreamHandler.h"
-#include "Helper/Message/GlobalMessage.h"
+#include "Helper/Pimpl.h"
 
-
-#include <QComboBox>
-#include <QPushButton>
-#include <QLineEdit>
-#include <QLabel>
-#include <QListView>
-#include "Helper/Language.h"
-
+class QComboBox;
+class QPushButton;
+class QLineEdit;
+class QLabel;
+class MenuToolButton;
 class AbstractStreamHandler;
-class DatabaseConnector;
 
-class GUI_AbstractStream : public PlayerPluginInterface
+class GUI_AbstractStream :
+		public PlayerPluginInterface
 {
 	Q_OBJECT
-
-private:
-	QComboBox*				_combo_stream=nullptr;
-	QPushButton*			_btn_play=nullptr;
-	QLineEdit*				_le_url=nullptr;
-	QLabel*					_lab_listen=nullptr;
-	MenuToolButton*			_btn_tool=nullptr;
-
-	virtual void			init_connections();
-	virtual void			init_streams();
-
-
-signals:
-	void sig_close_event();
-
 
 public:
 	explicit GUI_AbstractStream(AbstractStreamHandler* stream_handler, QWidget* parent=nullptr);
 	virtual ~GUI_AbstractStream();
 
-
 protected:
-	DatabaseConnector*		_db=nullptr;	// used to fetch entries from DB
-	AbstractStreamHandler*	_stream_handler=nullptr;
+	virtual void		language_changed() override;
+	virtual void		play(QString url, QString station_name);
 
-	// url, name
-	QMap<QString, QString>	_stations;
-
-
-	virtual void						language_changed() override;
-	virtual void						init_ui() override;
-
-	virtual void						play(QString url, QString station_name);
-	virtual GlobalMessage::Answer		show_delete_confirm_dialog();
-
-	virtual QString						get_title_fallback_name() const=0;
-	virtual void						setup_stations(const QMap<QString, QString>&);
+	virtual QString		get_title_fallback_name() const=0;
+	void				setup_stations(const QMap<QString, QString>&);
 
 	template<typename T, typename UiType>
-	void setup_parent(T* subclass, UiType** ui)
+	void setup_parent(T* subclass, UiType** uiptr)
 	{
-		PlayerPluginInterface::setup_parent(subclass, ui);
+		PlayerPluginInterface::setup_parent(subclass, uiptr);
 
-		_le_url =			(*ui)->le_url;
-		_combo_stream =		(*ui)->combo_stream;
-		_btn_play =			(*ui)->btn_play;
-		_btn_tool =			(*ui)->btn_tool;
-		_lab_listen =		(*ui)->lab_listen;
+		UiType* ui = *uiptr;
+		set_le_url( ui->le_url );
+		set_combo_stream( ui->combo_stream );
+		set_btn_play( ui->btn_play );
+		set_btn_tool( ui->btn_tool );
+		set_lab_listen( ui->lab_listen );
 
-		_le_url->setPlaceholderText("Enter URL...");
-		_combo_stream->lineEdit()->setPlaceholderText("Enter name...");
-		_combo_stream->setItemDelegate(new ComboBoxDelegate(this));
-
-		skin_changed();
-
-		init_connections();
-		init_streams();
+		GUI_AbstractStream::init_ui();
 	}
 
-	virtual void skin_changed() override;
-
-
 protected slots:
-	virtual void listen_clicked();
-	virtual void combo_idx_changed(int idx);
-	virtual void delete_clicked();
-	virtual void save_clicked();
-	virtual void new_clicked();
-	virtual void text_changed(const QString& str);
+	void listen_clicked();
+	void combo_idx_changed(int idx);
+	void delete_clicked();
+	void save_clicked();
+	void new_clicked();
+	void text_changed(const QString& str);
 
 	void error();
 	void data_available();
 	void _sl_skin_changed();
+
+private:
+	PIMPL(GUI_AbstractStream)
+
+	void init_connections();
+	void init_streams();
+
+	void set_le_url(QLineEdit* le_url);
+	void set_combo_stream(QComboBox* le_combo_stream);
+	void set_btn_play(QPushButton* btn_play);
+	void set_btn_tool(MenuToolButton* btn_tool);
+	void set_lab_listen(QLabel* lab_listen);
+
+	virtual void init_ui() override;
 };
 
-#endif // GUI_AbstractStream_H
+#endif // GUI_ABSTRACT_STREAM_H_

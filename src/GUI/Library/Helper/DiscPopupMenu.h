@@ -24,13 +24,10 @@
 #include <QMenu>
 #include <QAction>
 #include <QList>
-#include <QString>
-#include <QDebug>
-#include <QMouseEvent>
 
-
-class DiscAction : public QAction {
-Q_OBJECT
+class DiscAction : public QAction
+{
+	Q_OBJECT
 
 	signals:
 		void sig_disc_pressed(int);

@@ -21,13 +21,13 @@
 #include "GUI_Shortcuts.h"
 #include "GUI_ShortcutEntry.h"
 #include "GUI/Preferences/ui_GUI_Shortcuts.h"
+#include "GUI/Helper/Shortcuts/ShortcutHandler.h"
 
 #include <QLineEdit>
 #include <QPushButton>
 #include <QTimer>
 
 #define ADD_TO_MAP(x) _btn_le_map[btn_##x] = le_##x
-
 
 GUI_Shortcuts::GUI_Shortcuts(QWidget* parent) :
 	PreferenceWidgetInterface(parent)

@@ -23,16 +23,16 @@
 
 #include "StreamHttpParser.h"
 #include "Interfaces/RawSoundReceiver/RawSoundReceiverInterface.h"
-
-#include <QByteArray>
-#include <QHostAddress>
-#include <QTcpSocket>
+#include "Helper/Pimpl.h"
 
 #include <memory>
+#include <QObject>
 
 class StreamDataSender;
 class EngineHandler;
 class MetaData;
+class QTcpSocket;
+
 
 /**
  * @brief The StreamWriter class. This class is the interface between StreamDataSender and StreamServer.
@@ -45,6 +45,8 @@ class StreamWriter :
 
 {
 	Q_OBJECT
+
+	PIMPL(StreamWriter)
 
 public:
 
@@ -60,26 +62,10 @@ public:
 		void sig_new_connection(const QString& ip);
 		void sig_disconnected(StreamWriter* sw);
 
-
 	private:
-		EngineHandler*		_engine=nullptr;
-		StreamHttpParser*	_parser=nullptr;
-		StreamDataSender*	_sender=nullptr;
-		QTcpSocket*			_socket=nullptr;
-
-		bool				_dismissed; // after that, only trash will be sent
-		bool				_send_data; // after that, no data at all will be sent
-
-		QString				_stream_title;
-		QString				_ip;
-
-		StreamWriter::Type	_type;
-
 		void reset();
 
-
 	public:
-
 		/**
 		 * @brief StreamWriter
 		 * @param socket
@@ -160,7 +146,6 @@ public:
 
 
 	private slots:
-
 		void socket_disconnected();
 		void data_available();
 };

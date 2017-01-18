@@ -21,9 +21,12 @@
 #ifndef LIBRARYPLUGINLOADER_H
 #define LIBRARYPLUGINLOADER_H
 
-#include <QList>
+#include "Helper/Settings/SayonaraClass.h"
 
-#include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
+#include <QList>
+#include <QPair>
+#include <QObject>
+#include <QIcon>
 
 class LibraryContainerInterface;
 /**

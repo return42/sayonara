@@ -22,13 +22,12 @@
 #define ICON_LOADER_H_
 
 #include "Helper/Singleton.h"
-
-#include <QString>
-#include <QMap>
-#include <QIcon>
-#include <QPixmap>
+#include "Helper/Pimpl.h"
 
 class Settings;
+class QString;
+class QStringList;
+class QIcon;
 
 /**
  * @brief The IconLoader class
@@ -37,12 +36,7 @@ class Settings;
 class IconLoader
 {
 	SINGLETON(IconLoader)
-
-private:
-		QString 				_theme;
-		QStringList				_theme_paths;
-		QMap<QString, QIcon> 	_icons;
-		Settings*				_settings=nullptr;
+	PIMPL(IconLoader)
 
 private:
 		QStringList load_ancestors(const QString& index_theme_file);

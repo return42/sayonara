@@ -21,8 +21,7 @@
 #ifndef PLAYLISTMODE_H_
 #define PLAYLISTMODE_H_
 
-#include <QString>
-
+class QString;
 namespace Playlist 
 {
 	/**

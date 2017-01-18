@@ -58,7 +58,6 @@ private slots:
 	void language_changed();
 
 public:
-
 	explicit LibraryContainerInterface(QObject* parent=nullptr);
 	virtual ~LibraryContainerInterface();
 

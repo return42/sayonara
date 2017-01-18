@@ -2,7 +2,6 @@
 #define LIBRARYDELETEDIALOG_H
 
 #include <QMessageBox>
-#include <QWidget>
 #include "Helper/Library/LibraryNamespaces.h"
 
 class LibraryDeleteDialog :

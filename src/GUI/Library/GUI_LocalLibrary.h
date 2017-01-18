@@ -30,9 +30,6 @@
 #define GUI_LOCAL_LIBRARY_H_
 
 #include "GUI_AbstractLibrary.h"
-#include "Helper/Library/LibraryNamespaces.h"
-#include "Interfaces/LibraryInterface/LibraryContainer/LibraryContainer.h"
-
 
 class GUI_LibraryInfoBox;
 class GUI_ImportFolder;

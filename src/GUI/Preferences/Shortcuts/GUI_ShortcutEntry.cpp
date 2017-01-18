@@ -18,7 +18,7 @@
  */
 
 #include "GUI_ShortcutEntry.h"
-#include "GUI/Preferences/Shortcuts/ShortcutLineEdit.h"
+#include "GUI/Preferences/ui_GUI_ShortcutEntry.h"
 #include "GUI/Helper/IconLoader/IconLoader.h"
 #include "GUI/Helper/Shortcuts/ShortcutHandler.h"
 #include "Helper/Language.h"
@@ -27,38 +27,39 @@
 #include <QShortcut>
 #include <QMessageBox>
 
-
 GUI_ShortcutEntry::GUI_ShortcutEntry(const Shortcut& shortcut, QWidget* parent) :
 	SayonaraWidget(parent),
-	Ui::GUI_ShortcutEntry(),
 	_shortcut(shortcut)
-
 {
-	setupUi(this);
+	ui = new Ui::GUI_ShortcutEntry();
+	ui->setupUi(this);
 
 	_sch = ShortcutHandler::getInstance();
 
-	lab_description->setText(_shortcut.get_name());
-	le_entry->setText(_shortcut.get_shortcuts().join(", "));
+	ui->lab_description->setText(_shortcut.get_name());
+	ui->le_entry->setText(_shortcut.get_shortcuts().join(", "));
 
-	connect(btn_edit, &QPushButton::clicked, this, &GUI_ShortcutEntry::edit_clicked);
-	connect(btn_default, &QPushButton::clicked, this, &GUI_ShortcutEntry::default_clicked);
-	connect(btn_test, &QPushButton::clicked, this, &GUI_ShortcutEntry::test_clicked);
-	connect(le_entry, &ShortcutLineEdit::sig_sequence_entered, this, &GUI_ShortcutEntry::sig_sequence_entered);
+	connect(ui->btn_edit, &QPushButton::clicked, this, &GUI_ShortcutEntry::edit_clicked);
+	connect(ui->btn_default, &QPushButton::clicked, this, &GUI_ShortcutEntry::default_clicked);
+	connect(ui->btn_test, &QPushButton::clicked, this, &GUI_ShortcutEntry::test_clicked);
+	connect(ui->le_entry, &ShortcutLineEdit::sig_sequence_entered, this, &GUI_ShortcutEntry::sig_sequence_entered);
 
 	skin_changed();
 }
 
-GUI_ShortcutEntry::~GUI_ShortcutEntry() {}
+GUI_ShortcutEntry::~GUI_ShortcutEntry()
+{
+	if(ui){ delete ui; ui = nullptr; }
+}
 
 QList<QKeySequence> GUI_ShortcutEntry::get_sequences() const
 {
-	return le_entry->get_sequences();
+	return ui->le_entry->get_sequences();
 }
 
 void GUI_ShortcutEntry::show_sequence_error()
 {
-	this->le_entry->setText("");
+	ui->le_entry->setText("");
 	QMessageBox::warning(this, Lang::get(Lang::Error), tr("Shortcut already in use"));
 }
 
@@ -66,29 +67,33 @@ void GUI_ShortcutEntry::commit()
 {
 	QString identifier = _shortcut.get_identifier();
 
-	_sch->set_shortcut(identifier, le_entry->text().split(", "));
+	_sch->set_shortcut(identifier, ui->le_entry->text().split(", "));
 	_shortcut = _sch->get_shortcut(identifier);
 }
 
 void GUI_ShortcutEntry::clear()
 {
-	le_entry->setText("");
+	ui->le_entry->setText("");
 }
 
 void GUI_ShortcutEntry::revert()
 {
-	le_entry->setText(_shortcut.get_shortcuts().join(", "));
+	ui->le_entry->setText(
+		_shortcut.get_shortcuts().join(", ")
+	);
 }
 
 
 void GUI_ShortcutEntry::default_clicked()
 {
-	le_entry->setText(_shortcut.get_default().join(", "));
+	ui->le_entry->setText(
+		_shortcut.get_default().join(", ")
+	);
 }
 
 void GUI_ShortcutEntry::test_clicked()
 {	
-	QStringList splitted = le_entry->text().split(", ");
+	QStringList splitted = ui->le_entry->text().split(", ");
 	QList<QKeySequence> sequences;
 
 	for(const QString& str : splitted){
@@ -100,27 +105,27 @@ void GUI_ShortcutEntry::test_clicked()
 
 void GUI_ShortcutEntry::language_changed()
 {
-	retranslateUi(this);
+	ui->retranslateUi(this);
 
-	lab_description->setText(_shortcut.get_name());
+	ui->lab_description->setText(_shortcut.get_name());
 
-	btn_default->setToolTip(Lang::get(Lang::Default));
-	btn_edit->setToolTip(Lang::get(Lang::Edit));
-	btn_test->setToolTip(tr("Test"));
+	ui->btn_default->setToolTip(Lang::get(Lang::Default));
+	ui->btn_edit->setToolTip(Lang::get(Lang::Edit));
+	ui->btn_test->setToolTip(tr("Test"));
 }
 
 void GUI_ShortcutEntry::skin_changed()
 {
 	IconLoader* icon_loader = IconLoader::getInstance();
-	btn_default->setIcon(icon_loader->get_icon("undo", "undo"));
-	btn_edit->setIcon(icon_loader->get_icon("accessories-text-editor", "edit"));
-	btn_test->setIcon(icon_loader->get_icon("dialog-info", "info"));
+	ui->btn_default->setIcon(icon_loader->get_icon("undo", "undo"));
+	ui->btn_edit->setIcon(icon_loader->get_icon("accessories-text-editor", "edit"));
+	ui->btn_test->setIcon(icon_loader->get_icon("dialog-info", "info"));
 }
 
 
 void GUI_ShortcutEntry::edit_clicked()
 {
-	le_entry->clear();
-	le_entry->setFocus();
+	ui->le_entry->clear();
+	ui->le_entry->setFocus();
 }
 

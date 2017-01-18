@@ -22,13 +22,11 @@
 #define IMPORT_COPY_THREAD_H
 
 #include <QThread>
-#include <QMap>
-#include <QString>
-#include <QStringList>
 
 #include "Helper/Settings/SayonaraClass.h"
 #include "Helper/Pimpl.h"
 
+class QString;
 class ImportCache;
 class MetaDataList;
 

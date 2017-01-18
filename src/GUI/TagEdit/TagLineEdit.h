@@ -22,8 +22,7 @@
 #define TAGLINEEDIT_H
 
 #include <QLineEdit>
-#include <QString>
-#include <QFocusEvent>
+
 /**
  * @brief Holds start and size of a selection
  * @ingroup Tagging

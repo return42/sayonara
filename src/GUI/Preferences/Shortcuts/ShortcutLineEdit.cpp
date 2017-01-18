@@ -20,6 +20,8 @@
 
 #include "ShortcutLineEdit.h"
 
+#include <QKeyEvent>
+
 bool is_modifier(int key){
 	return (key == Qt::Key_Control
 			|| key == Qt::Key_Alt

@@ -21,13 +21,14 @@
 #ifndef STREAMHTTPPARSER_H
 #define STREAMHTTPPARSER_H
 
-#include <QByteArray>
-#include <QString>
+#include <QtGlobal>
+#include "Helper/Pimpl.h"
 
 /**
  * @brief Parses requests out of the Client.
  * @ingroup Broadcasting
  */
+class QString;
 class StreamHttpParser
 {
 public:
@@ -50,12 +51,7 @@ public:
 
 
 private:
-
-	bool		_icy;
-	QString		_host;
-	QString		_user_agent;
-	HttpAnswer	_status;
-
+	PIMPL(StreamHttpParser)
 
 public:
 	StreamHttpParser();

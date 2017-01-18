@@ -21,13 +21,15 @@
 #ifndef SHORTCUT_H
 #define SHORTCUT_H
 
-#include <QWidget>
-#include <QStringList>
 #include <QShortcut>
-#include <QKeySequence>
+
 #include "Helper/Settings/SayonaraClass.h"
+#include "Helper/Pimpl.h"
 
 class ShortcutWidget;
+class QKeySequence;
+class QWidget;
+class QStringList;
 /**
  * @brief A single shortcut managed by ShortcutHandler.
  * This class holds information about the default shortcuts,
@@ -39,14 +41,8 @@ class ShortcutWidget;
 class Shortcut : private SayonaraClass
 {
 private:
-	QStringList			_default_shortcuts;
-	QStringList			_shortcuts;
-	QString				_name;
-	QString				_identifier;
-	QList<QShortcut*>	_qt_shortcuts;
-	ShortcutWidget* _parent=nullptr;
+	PIMPL(Shortcut)
 
-private:
 	Shortcut();
 
 	/**
@@ -80,6 +76,10 @@ public:
 	 * @param other
 	 */
 	Shortcut(const Shortcut& other);
+
+	~Shortcut();
+
+	Shortcut& operator=(const Shortcut& other);
 
 	/**
 	 * @brief get a raw and invalid shortcut. This function is used instead of the default constructor

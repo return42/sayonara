@@ -41,7 +41,6 @@ public:
 private slots:
     void destroy_editor(bool save=false);
 
-
 protected:
 	bool			_enabled;
     

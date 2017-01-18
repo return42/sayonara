@@ -118,7 +118,7 @@ void GUI_BroadcastSetup::port_changed(int new_val)
 	refresh_url();
 }
 
-QString GUI_BroadcastSetup::get_url_string()
+QString GUI_BroadcastSetup::get_url_string() const
 {
 	int port = ui->sb_port->value();
 	QStringList ips = Helper::get_ip_addresses();

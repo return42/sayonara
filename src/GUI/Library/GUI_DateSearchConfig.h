@@ -24,9 +24,6 @@
 #include "GUI/Helper/SayonaraWidget/SayonaraDialog.h"
 #include "Helper/Pimpl.h"
 
-#include <QShowEvent>
-#include <QString>
-
 namespace Library { class DateFilter; }
 namespace Ui{ class GUI_DateSearchConfig; }
 

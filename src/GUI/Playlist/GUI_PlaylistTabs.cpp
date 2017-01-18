@@ -18,11 +18,11 @@
  */
 
 #include "GUI_Playlist.h"
+#include "GUI/Playlist/ui_GUI_Playlist.h"
 #include "View/PlaylistView.h"
 #include "TabWidget/PlaylistMenuEntry.h"
 
 #include "GUI/Helper/IconLoader/IconLoader.h"
-#include "Helper/Message/Message.h"
 
 #include "Components/PlayManager/PlayManager.h"
 #include "Components/Playlist/AbstractPlaylist.h"
@@ -30,8 +30,11 @@
 
 #include "Helper/globals.h"
 #include "Helper/Language.h"
+#include "Helper/Message/Message.h"
+#include "Helper/Set.h"
 
-void GUI_Playlist::playlist_name_changed(int idx){
+void GUI_Playlist::playlist_name_changed(int idx)
+{
 	PlaylistConstPtr pl = _playlist->get_playlist_at(idx);
 	if(!pl){
 		return;
@@ -40,19 +43,20 @@ void GUI_Playlist::playlist_name_changed(int idx){
 	QString name = pl->get_name();
 	check_playlist_name(pl);
 
-	for(int i = tw_playlists->count() - 2; i>=0; i--) {
+	for(int i = ui->tw_playlists->count() - 2; i>=0; i--) {
 		if(i == idx){
 			continue;
 		}
 
-		if(tw_playlists->tabText(i).compare(name) == 0){
-			tw_playlists->removeTab(i);
+		if(ui->tw_playlists->tabText(i).compare(name) == 0){
+			ui->tw_playlists->removeTab(i);
 		}
 	}
 }
 
 
-void GUI_Playlist::playlist_changed(int idx) {
+void GUI_Playlist::playlist_changed(int idx)
+{
 	PlaylistConstPtr pl = _playlist->get_playlist_at(idx);
 	PlaylistView* plv = get_view_by_idx(idx);
 
@@ -63,7 +67,7 @@ void GUI_Playlist::playlist_changed(int idx) {
 	}
 
 
-	if(idx != tw_playlists->currentIndex()){
+	if(idx != ui->tw_playlists->currentIndex()){
 		return;
 	}
 
@@ -74,7 +78,7 @@ void GUI_Playlist::playlist_changed(int idx) {
 
 void GUI_Playlist::select_tab_left()
 {
-	int cur_idx = tw_playlists->currentIndex();
+	int cur_idx = ui->tw_playlists->currentIndex();
 	if(cur_idx > 0 ){
 		playlist_idx_changed(cur_idx - 1);
 	}
@@ -82,19 +86,21 @@ void GUI_Playlist::select_tab_left()
 
 void GUI_Playlist::select_tab_right()
 {
-	int cur_idx = tw_playlists->currentIndex();
-	if(cur_idx < tw_playlists->count() - 1 ){
+	int cur_idx = ui->tw_playlists->currentIndex();
+	if(cur_idx < ui->tw_playlists->count() - 1 ){
 		playlist_idx_changed(cur_idx + 1);
 	}
 }
 
-void GUI_Playlist::playlist_idx_changed(int pl_idx){
-	if(!between(pl_idx, tw_playlists->count() - 1)){
+
+void GUI_Playlist::playlist_idx_changed(int pl_idx)
+{
+	if(!between(pl_idx, ui->tw_playlists->count() - 1)){
 		return;
 	}
 
 	PlaylistConstPtr pl = _playlist->get_playlist_at(pl_idx);
-	tw_playlists->setCurrentIndex(pl_idx);
+	ui->tw_playlists->setCurrentIndex(pl_idx);
 
 	set_total_time_label();
 	check_playlist_menu(pl);
@@ -113,7 +119,7 @@ void GUI_Playlist::playlist_added(PlaylistPtr pl)
 	idx = pl->get_idx();
 	name = pl->get_name();
 
-	tw_playlists->insertTab(tw_playlists->count() - 1, pl_view, name);
+	ui->tw_playlists->insertTab(ui->tw_playlists->count() - 1, pl_view, name);
 	_playlist->set_current_idx(idx);
 
 	connect(pl_view, &PlaylistView::sig_double_clicked, this, &GUI_Playlist::double_clicked);
@@ -140,22 +146,19 @@ void GUI_Playlist::playlist_finished()
 }
 
 
-/** GUI SLOTS **/
-
-
 void GUI_Playlist::tab_close_playlist_clicked(int idx)
 {
 	QWidget* playlist_widget;
 	PlaylistView* plv;
-	int count = tw_playlists->count();
+	int count = ui->tw_playlists->count();
 
 	if( !between(idx, count - 1)) {
 		return;
 	}
 
-	playlist_widget = tw_playlists->widget(idx);
+	playlist_widget = ui->tw_playlists->widget(idx);
 
-	tw_playlists->removeTab(idx);
+	ui->tw_playlists->removeTab(idx);
 
 	plv = get_current_view();
 	if(plv){
@@ -163,7 +166,7 @@ void GUI_Playlist::tab_close_playlist_clicked(int idx)
 	}
 
 	_playlist->close_playlist(idx);
-	_playlist->set_current_idx(tw_playlists->currentIndex());
+	_playlist->set_current_idx(ui->tw_playlists->currentIndex());
 
 	set_total_time_label();
 
@@ -176,13 +179,13 @@ void GUI_Playlist::tab_save_playlist_clicked(int idx)
 	PlaylistDBInterface::SaveAsAnswer success = _playlist->save_playlist(idx);
 
 	if(success == PlaylistDBInterface::SaveAsAnswer::Success){
-		QString old_string = tw_playlists->tabText(idx);
+		QString old_string = ui->tw_playlists->tabText(idx);
 
 		if(old_string.startsWith("* ")){
 			old_string = old_string.right(old_string.size() - 2);
 		}
 
-		tw_playlists->setTabText(idx, old_string);
+		ui->tw_playlists->setTabText(idx, old_string);
 	}
 
 	show_save_message_box(success);
@@ -242,9 +245,9 @@ void GUI_Playlist::check_tab_icon()
 	active_idx = _playlist->get_active_idx_of_cur_track();
 	PlaylistView* plv = get_view_by_idx(active_idx);
 
-	for(int i=0; i<tw_playlists->count(); i++){
-		tw_playlists->setIconSize(QSize(16, 16));
-		tw_playlists->setTabIcon(i, QIcon());
+	for(int i=0; i<ui->tw_playlists->count(); i++){
+		ui->tw_playlists->setIconSize(QSize(16, 16));
+		ui->tw_playlists->setTabIcon(i, QIcon());
 	}
 
 	if(!plv){
@@ -263,7 +266,7 @@ void GUI_Playlist::check_tab_icon()
 	IconLoader* icon_loader = IconLoader::getInstance();
 	QIcon icon = icon_loader->get_icon("media-playback-start", "play_bordered");
 
-	tw_playlists->tabBar()->setTabIcon(active_idx, icon);
+	ui->tw_playlists->tabBar()->setTabIcon(active_idx, icon);
 }
 
 
@@ -279,7 +282,7 @@ void GUI_Playlist::check_playlist_menu(PlaylistConstPtr pl)
 	bool save_as_enabled =	(storable);
 	bool delete_enabled =	(!temporary && storable);
 	bool reset_enabled =	(!temporary && storable && was_changed);
-	bool close_enabled =	(tw_playlists->count() > 2);
+	bool close_enabled =	(ui->tw_playlists->count() > 2);
 	bool rename_enabled =	(storable);
 	bool clear_enabled =	(!pl->is_empty());
 
@@ -309,8 +312,9 @@ void GUI_Playlist::check_playlist_menu(PlaylistConstPtr pl)
 		entries |= PlaylistMenuEntry::Clear;
 	}
 
-	tw_playlists->show_menu_items(entries);
+	ui->tw_playlists->show_menu_items(entries);
 }
+
 
 void GUI_Playlist::check_playlist_name(PlaylistConstPtr pl)
 {
@@ -323,11 +327,9 @@ void GUI_Playlist::check_playlist_name(PlaylistConstPtr pl)
 		name.prepend("* ");
 	}
 
-	tw_playlists->setTabText(pl->get_idx(), name);
+	ui->tw_playlists->setTabText(pl->get_idx(), name);
 }
 
-
-/** Private methods **/
 
 GlobalMessage::Answer GUI_Playlist::show_save_message_box(PlaylistDBInterface::SaveAsAnswer answer)
 {
@@ -351,24 +353,24 @@ GlobalMessage::Answer GUI_Playlist::show_save_message_box(PlaylistDBInterface::S
 }
 
 
-PlaylistView* GUI_Playlist::get_view_by_idx(int idx){
-
-	if(!between(idx, tw_playlists->count() - 1)){
+PlaylistView* GUI_Playlist::get_view_by_idx(int idx)
+{
+	if(!between(idx, ui->tw_playlists->count() - 1)){
 		return nullptr;
 	}
 
-	PlaylistView* plv = static_cast<PlaylistView*>(tw_playlists->widget(idx));
+	PlaylistView* plv = static_cast<PlaylistView*>(ui->tw_playlists->widget(idx));
 	return plv;
 }
 
 
 PlaylistView* GUI_Playlist::get_current_view()
 {
-	int idx = tw_playlists->currentIndex();
-	if(!between(idx, tw_playlists->count() - 1)){
+	int idx = ui->tw_playlists->currentIndex();
+	if(!between(idx, ui->tw_playlists->count() - 1)){
 		return nullptr;
 	}
 
-	PlaylistView* plv = static_cast<PlaylistView*>(tw_playlists->widget(idx));
+	PlaylistView* plv = static_cast<PlaylistView*>(ui->tw_playlists->widget(idx));
 	return plv;
 }

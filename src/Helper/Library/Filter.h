@@ -25,9 +25,10 @@
 #ifndef FILTER_H_
 #define FILTER_H_
 
-#include <QString>
+
 #include "Helper/Pimpl.h"
 
+class QString;
 namespace Library
 {
     class DateFilter;

@@ -21,7 +21,6 @@
 #ifndef LOCALLIBRARYMENU_H
 #define LOCALLIBRARYMENU_H
 
-#include <QObject>
 #include <QMenu>
 #include <QAction>
 

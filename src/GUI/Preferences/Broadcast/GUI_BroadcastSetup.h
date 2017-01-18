@@ -23,10 +23,7 @@
 
 #include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
 
-namespace Ui
-{
-	class GUI_BroadcastSetup;
-}
+namespace Ui { class GUI_BroadcastSetup; }
 
 class GUI_BroadcastSetup :
 		public PreferenceWidgetInterface
@@ -42,22 +39,19 @@ public:
 
 	QString get_action_name() const override;
 
-
 protected:
 	void init_ui() override;
 	void skin_changed() override;
 	void retranslate_ui() override;
 
-
 private slots:
 	void active_toggled(bool b);
 	void port_changed(int new_val);
 
-
 private:
 	Ui::GUI_BroadcastSetup* ui=nullptr;
 
-	QString get_url_string();
+	QString get_url_string() const;
 	void refresh_url();
 };
 

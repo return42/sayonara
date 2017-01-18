@@ -23,6 +23,7 @@
 #include "GUI/Helper/Shortcuts/ShortcutHandler.h"
 
 #include <QLayout>
+#include <QCloseEvent>
 
 PlayerPluginInterface::PlayerPluginInterface(QWidget *parent) :
 	SayonaraWidget(parent),

@@ -26,6 +26,8 @@
 #include "Helper/Language.h"
 #include "Helper/Library/DateFilter.h"
 
+#include <QContextMenuEvent>
+
 struct LibraryDateSearchView::Private
 {
 	ContextMenu*			rc_menu=nullptr;

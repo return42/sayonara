@@ -49,6 +49,7 @@
 
 #include <QScrollBar>
 #include <QShortcut>
+#include <QDropEvent>
 #include <algorithm>
 
 PlaylistView::PlaylistView(PlaylistPtr pl, QWidget* parent) :

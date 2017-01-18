@@ -18,10 +18,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-#include <QString>
-
 class MetaDataList;
+class QString;
 /**
  * @brief Podcast Parser class
  * @ingroup PlaylistParser

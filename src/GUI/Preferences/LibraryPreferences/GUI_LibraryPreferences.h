@@ -23,10 +23,7 @@
 
 #include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
 
-namespace Ui
-{
-	class GUI_LibraryPreferences;
-}
+namespace Ui { class GUI_LibraryPreferences; }
 
 class GUI_LibraryPreferences :
 		public PreferenceWidgetInterface
@@ -48,7 +45,6 @@ protected:
 
 private:
 	Ui::GUI_LibraryPreferences*	ui=nullptr;
-
 };
 
 #endif // GUI_LIBRARYPREFERENCES_H

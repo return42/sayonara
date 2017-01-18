@@ -21,20 +21,19 @@
 #define PLAYLISTBOTTOMBAR_H
 
 #include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
-#include "GUI/Playlist/ui_GUI_PlaylistBottomBar.h"
 
 #include "Helper/Shutdown/Shutdown.h"
-#include "Helper/Playlist/PlaylistMode.h"
 #include "Helper/Playlist/PlaylistFwd.h"
+#include "Helper/Pimpl.h"
 
 class PlaylistMenu;
 #ifdef WITH_SHUTDOWN
 	class GUI_Shutdown;
 #endif
 
+namespace Ui { class GUI_PlaylistBottomBar; }
 class GUI_PlaylistBottomBar :
-		public SayonaraWidget,
-		private Ui::GUI_PlaylistBottomBar
+		public SayonaraWidget
 {
 	Q_OBJECT
 
@@ -49,9 +48,7 @@ public:
 	void check_dynamic_play_button();
 
 private slots:
-
 	void btn_menu_pressed(QPoint pos);
-
 	void rep1_checked(bool checked);
 	void rep_all_checked(bool checked);
 	void shuffle_checked(bool checked);
@@ -64,14 +61,10 @@ private slots:
 	void shutdown_closed();
 #endif
 
-
 private:
-	Playlist::Mode		_plm;
-	PlaylistMenu*		_playlist_menu=nullptr;
+	PIMPL(GUI_PlaylistBottomBar)
+	Ui::GUI_PlaylistBottomBar* ui=nullptr;
 
-#ifdef WITH_SHUTDOWN
-	GUI_Shutdown*		_ui_shutdown=nullptr;
-#endif
 };
 
 #endif // PLAYLISTBOTTOMBAR_H

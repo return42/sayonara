@@ -21,15 +21,13 @@
 #ifndef ABSTRACTPLAYLISTPARSER_H
 #define ABSTRACTPLAYLISTPARSER_H
 
-
-#include <QString>
 #include "Helper/Pimpl.h"
 
 /**
  * @brief The AbstractPlaylistParser class
  * @ingroup PlaylistParser
  */
-
+class QString;
 class MetaData;
 class MetaDataList;
 class AbstractPlaylistParser

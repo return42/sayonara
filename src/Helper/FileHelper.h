@@ -21,7 +21,10 @@
 #ifndef FILEHELPER_H
 #define FILEHELPER_H
 
-#include <QStringList>
+#include <QtGlobal>
+
+class QStringList;
+class QString;
 
 namespace Helper
 {
@@ -50,7 +53,8 @@ namespace Helper
 		 * @param dir_name directory name
 		 * @param filters file name filters
 		 */
-		void			remove_files_in_directory(const QString& dir_name, const QStringList& filters=QStringList());
+		void			remove_files_in_directory(const QString& dir_name, const QStringList& filters);
+		void			remove_files_in_directory(const QString& dir_name);
 
 		/**
 		 * @brief Remove all given files (also directories can be specified)

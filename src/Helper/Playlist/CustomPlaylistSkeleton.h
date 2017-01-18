@@ -31,7 +31,6 @@
 class CustomPlaylistSkeleton
 {
 private:
-
 	int				_id;
 	QString			_name;
 	bool			_is_temporary;

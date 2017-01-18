@@ -21,8 +21,6 @@
 #ifndef MENUTOOL_H
 #define MENUTOOL_H
 
-#include <QMenu>
-
 #include "MenuButton.h"
 #include "GUI/Helper/ContextMenu/ContextMenu.h"
 

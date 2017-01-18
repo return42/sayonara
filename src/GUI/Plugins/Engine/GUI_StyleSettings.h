@@ -27,7 +27,6 @@
 #include "GUI/Helper/SayonaraWidget/SayonaraDialog.h"
 
 #include <QList>
-#include <QCloseEvent>
 
 class DatabaseConnector;
 class GUI_StyleSettings : public SayonaraDialog, private Ui::GUI_Style

@@ -23,6 +23,8 @@
 #include "Components/Engine/EngineHandler.h"
 #include "Components/PlayManager/PlayManager.h"
 
+#include <QResizeEvent>
+
 EnginePlugin::EnginePlugin(QWidget* parent) :
 	PlayerPluginInterface(parent)
 {

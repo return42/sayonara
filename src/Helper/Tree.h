@@ -21,7 +21,6 @@
 #define TREE_H
 
 #include <QList>
-#include <QString>
 #include <algorithm>
 
 namespace SP
@@ -75,10 +74,10 @@ namespace SP
 
 
 		/**
-				 * @brief adds a child to the given node
-				 * @param node the parent node
-				 * @return pointer to inserted node
-				 */
+		 * @brief adds a child to the given node
+		 * @param node the parent node
+		 * @return pointer to inserted node
+		 */
 		Tree* add_child(Tree* node){
 			node->parent = this;
 			this->children << node;
@@ -90,10 +89,10 @@ namespace SP
 
 
 		/**
-				 * @brief remove a node from the current node
-				 * @param deleted_node node to remove
-				 * @return pointer to deleted_node
-				 */
+		 * @brief remove a node from the current node
+		 * @param deleted_node node to remove
+		 * @return pointer to deleted_node
+		 */
 		Tree* remove_child(Tree* deleted_node){
 			deleted_node->parent = nullptr;
 
@@ -111,18 +110,18 @@ namespace SP
 
 
 		/**
-				 * @brief move current node to a new parent
-				 * @param new_parent new parent of node
-				 */
+		 * @brief move current node to a new parent
+		 * @param new_parent new parent of node
+		 */
 		void move(Tree* new_parent){
 			parent->remove_child(data);
 			new_parent->add_child(this);
 		}
 
 		/**
-				 * @brief sort children of all nodes in ascending way according to their data
-				 * @param recursive if set to true, do it for all subnodes, too
-				 */
+		 * @brief sort children of all nodes in ascending way according to their data
+		 * @param recursive if set to true, do it for all subnodes, too
+		 */
 		void sort(bool recursive){
 			int i;
 
@@ -143,21 +142,6 @@ namespace SP
 					child->sort(recursive);
 				}
 				i++;
-			}
-		}
-
-
-		void print(int lvl) const 
-		{
-			for(Tree* child : children){
-				QString str;
-				for(int i=0; i<lvl; i++){
-					str += "  ";
-				}
-
-				str += "|_";
-
-				child->print(lvl+1);
 			}
 		}
 	};

@@ -23,11 +23,6 @@
 
 #include <QTreeWidget>
 
-#include <QDragEnterEvent>
-#include <QDragMoveEvent>
-#include <QDropEvent>
-#include <QDragLeaveEvent>
-
 class MetaDataList;
 class TagEdit;
 class TreeDelegate;

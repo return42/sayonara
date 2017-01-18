@@ -22,10 +22,7 @@
 
 #include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
 
-namespace Ui
-{
-	class GUI_FontConfig;
-}
+namespace Ui { class GUI_FontConfig; }
 
 class QFont;
 class QFontDatabase;

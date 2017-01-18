@@ -21,7 +21,11 @@
 #ifndef STREAMDATASENDER_H
 #define STREAMDATASENDER_H
 
-#include <QTcpSocket>
+#include <QtGlobal>
+#include "Helper/Pimpl.h"
+
+class QString;
+class QTcpSocket;
 
 /**
  * @brief The StreamDataSender class. This class is used for sending the raw bytes.
@@ -30,12 +34,7 @@
 class StreamDataSender
 {
 private:
-	QTcpSocket*		_socket=nullptr;
-	quint64			_sent_data_bytes;
-
-	QByteArray		_header;
-	QByteArray		_icy_header;
-	QByteArray		_reject_header;
+	PIMPL(StreamDataSender)
 
 	bool send_icy_metadata(const QString& stream_title);
 

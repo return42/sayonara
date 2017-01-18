@@ -24,9 +24,9 @@
 #include "Helper/Settings/SayonaraClass.h"
 
 #include <QMenu>
-#include <QTimer>
 
 class GUI_PlaylistEntryLook;
+class QTimer;
 
 class PlaylistMenu :
 		public QMenu,

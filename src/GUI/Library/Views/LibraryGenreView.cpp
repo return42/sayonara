@@ -33,6 +33,7 @@
 #include "Helper/MetaData/MetaDataList.h"
 #include "Helper/Logger/Logger.h"
 
+#include <QDropEvent>
 
 LibraryGenreView::LibraryGenreView(QWidget* parent) :
 	QTreeWidget(parent)
@@ -360,5 +361,4 @@ void LibraryGenreView::init_data(const QStringList& genres){
 	}
 
 	_genres->sort(true);
-	_genres->print(0);
 }

@@ -22,8 +22,9 @@
 
 #include "GUI/Helper/Shortcuts/Shortcut.h"
 #include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
-#include "GUI/Preferences/ui_GUI_ShortcutEntry.h"
 
+
+namespace Ui { class GUI_ShortcutEntry; }
 /**
  * @brief The delegate class for displaying a shortcut.
  * @ingroup Shortcuts
@@ -31,8 +32,7 @@
 class ShortcutHandler;
 class Shortcut;
 class GUI_ShortcutEntry :
-		public SayonaraWidget,
-		private Ui::GUI_ShortcutEntry
+		public SayonaraWidget
 {
 	Q_OBJECT
 
@@ -68,6 +68,7 @@ private slots:
 
 
 private:
+	Ui::GUI_ShortcutEntry*	ui=nullptr;
 	ShortcutHandler*		_sch=nullptr;
 	QString					_key;
 	Shortcut				_shortcut;

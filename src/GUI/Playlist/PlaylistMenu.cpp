@@ -23,6 +23,7 @@
 #include "Helper/Settings/Settings.h"
 #include "Helper/Language.h"
 
+#include <QTimer>
 
 PlaylistMenu::PlaylistMenu(QWidget* parent) :
 	QMenu(parent),

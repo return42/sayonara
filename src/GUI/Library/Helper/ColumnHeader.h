@@ -30,7 +30,6 @@
 #include "Helper/Library/Sortorder.h"
 
 #include <QAction>
-#include <QString>
 
 class ColumnHeader : public QObject 
 {

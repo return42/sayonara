@@ -22,7 +22,6 @@
 #define PLAYERPLUGIN_H
 
 #include <QAction>
-#include <QCloseEvent>
 
 #include "Helper/Settings/Settings.h"
 #include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"

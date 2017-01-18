@@ -23,20 +23,11 @@
 
 #include "GUI/Helper/SayonaraWidget/SayonaraDialog.h"
 #include "Components/MTP/MTP_Typedefs.h"
+#include "Helper/Pimpl.h"
 
-#include <QDragEnterEvent>
-#include <QDragMoveEvent>
-#include <QDragLeaveEvent>
-#include <QDropEvent>
-#include <QTreeWidgetItem>
-#include <QList>
-#include <QHash>
+class QTreeWidgetItem;
 
-
-namespace Ui
-{
-	class GUI_MTP;
-}
+namespace Ui { class GUI_MTP; }
 
 class MTP_CopyFiles;
 class MTP;
@@ -66,18 +57,7 @@ private slots:
 	void copy_thread_finished();
 
 private:
-
-	bool						_initialized;
-
-	MTP*						_mtp=nullptr;
-	MTP_CopyFiles*				_mtp_copy_files=nullptr;
-
-	QList<MTP_RawDevicePtr>		_raw_devices;
-	QList<MTP_DevicePtr>		_open_devices;
-	QList<MTP_StoragePtr>		_storages;
-
-	QHash<quint32, MTP_FolderPtr> _folders;
-	QHash<quint32, MTP_FilePtr>	  _files;
+	PIMPL(GUI_MTP)
 
 	Ui::GUI_MTP*				ui=nullptr;
 

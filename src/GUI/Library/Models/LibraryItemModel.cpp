@@ -24,6 +24,7 @@
 #include "Helper/MetaData/MetaDataList.h"
 
 #include "Helper/globals.h"
+#include "Helper/Set.h"
 
 #include <algorithm>
 

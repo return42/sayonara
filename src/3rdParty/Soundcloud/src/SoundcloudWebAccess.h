@@ -21,8 +21,7 @@
 #ifndef SHOUTCASTHELPER_H
 #define SHOUTCASTHELPER_H
 
-#include <QString>
-
+class QString;
 namespace SoundcloudWebAccess
 {
 	QString	create_dl_get_artist(const QString& name);
