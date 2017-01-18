@@ -20,7 +20,7 @@
 
 #include "GUI_PlaylistChooser.h"
 #include "GUI_TargetPlaylistDialog.h"
-#include "GUI/Plugins/PlaylistChooser/ui_GUI_PlaylistChooser.h"
+#include "GUI/Plugins/ui_GUI_PlaylistChooser.h"
 
 #include "Components/PlaylistChooser/PlaylistChooser.h"
 

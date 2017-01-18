@@ -28,7 +28,7 @@
 
 #include "GUI_Equalizer.h"
 #include "EqSlider.h"
-#include "GUI/Plugins/Engine/ui_GUI_Equalizer.h"
+#include "GUI/Plugins/ui_GUI_Equalizer.h"
 
 #include "Components/Engine/EngineHandler.h"
 #include "GUI/Helper/Delegates/ComboBoxDelegate.h"

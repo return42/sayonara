@@ -21,7 +21,7 @@
 
 #include "GUI_Bookmarks.h"
 
-#include "GUI/Plugins/Bookmarks/ui_GUI_Bookmarks.h"
+#include "GUI/Plugins/ui_GUI_Bookmarks.h"
 #include "GUI/Helper/Delegates/ComboBoxDelegate.h"
 
 #include "Helper/Helper.h"

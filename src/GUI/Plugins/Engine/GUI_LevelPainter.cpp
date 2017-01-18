@@ -20,7 +20,7 @@
 
 #include "GUI_LevelPainter.h"
 #include "EngineColorStyleChooser.h"
-#include "GUI/Plugins/Engine/ui_GUI_LevelPainter.h"
+#include "GUI/Plugins/ui_GUI_LevelPainter.h"
 
 #include "Components/Engine/Playback/PlaybackEngine.h"
 #include "Components/Engine/EngineHandler.h"

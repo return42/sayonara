@@ -19,7 +19,7 @@
  */
 
 #include "GUI_Stream.h"
-#include "GUI/Plugins/Stream/ui_GUI_Stream.h"
+#include "GUI/Plugins/ui_GUI_Stream.h"
 #include "Components/StreamPlugins/Streams/StreamHandlerStreams.h"
 #include "Helper/Language.h"
 

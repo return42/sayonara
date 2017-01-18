@@ -21,7 +21,7 @@
 #ifndef GUI_TARGET_PLAYLIST_DIALOG_H
 #define GUI_TARGET_PLAYLIST_DIALOG_H
 
-#include "GUI/Plugins/PlaylistChooser/ui_GUI_TargetPlaylistDialog.h"
+#include "GUI/Plugins/ui_GUI_TargetPlaylistDialog.h"
 #include "GUI/Helper/SayonaraWidget/SayonaraDialog.h"
 
 class GUI_TargetPlaylistDialog :

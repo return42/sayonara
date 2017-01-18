@@ -19,7 +19,7 @@
  */
 
 #include "GUI_Podcasts.h"
-#include "GUI/Plugins/Stream/ui_GUI_Podcasts.h"
+#include "GUI/Plugins/ui_GUI_Podcasts.h"
 #include "Components/StreamPlugins/Streams/StreamHandlerPodcasts.h"
 
 GUI_Podcasts::GUI_Podcasts(QWidget *parent) :
