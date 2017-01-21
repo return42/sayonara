@@ -154,12 +154,26 @@ SP::Set<int> SayonaraSelectionView::get_selections() const
 
 	SP::Set<int> indexes;
 	for(const QModelIndex& model_idx : idx_list) {
-		indexes.insert(model_idx.row());
+		indexes.insert( get_index_by_model_index(model_idx) );
 	}
 
 	return indexes;
 }
 
+
+int SayonaraSelectionView::get_index_by_model_index(const QModelIndex& idx) const
+{
+	return idx.row();
+}
+
+SP::Set<int> SayonaraSelectionView::get_indexes_by_model_indexes(const QModelIndexList& idxs) const
+{
+	SP::Set<int> ret;
+	for(const QModelIndex& idx : idxs){
+		ret.insert( get_index_by_model_index(idx) );
+	}
+	return ret;
+}
 
 int SayonaraSelectionView::get_min_selected() const
 {

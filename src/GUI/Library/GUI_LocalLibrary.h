@@ -34,6 +34,8 @@
 class GUI_LibraryInfoBox;
 class GUI_ImportFolder;
 class LocalLibraryMenu;
+class AlbumCoverView;
+class AlbumCoverModel;
 
 namespace Ui { class GUI_LocalLibrary; }
 
@@ -96,11 +98,17 @@ private slots:
 	void _sl_libpath_changed();
 	void clear_button_pressed() override;
 
+	void lib_fill_albums(const AlbumList& albums) override;
+	void album_cover_view_sel_changed(const QModelIndex& index);
+
 private:
 	Ui::GUI_LocalLibrary*	ui=nullptr;
 	GUI_LibraryInfoBox*		_library_info_box=nullptr;
 	GUI_ImportFolder*		_ui_importer=nullptr;
 	LocalLibraryMenu*		_local_library_menu=nullptr;
+
+	AlbumCoverView*			_acv = nullptr;
+	AlbumCoverModel*		_acm = nullptr;
 };
 
 #endif /* GUI_LocalLibrary_H_ */

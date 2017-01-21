@@ -34,6 +34,7 @@
 #include "Helper/globals.h"
 #include "Helper/Settings/Settings.h"
 #include "Helper/MetaData/MetaDataList.h"
+#include "Helper/Set.h"
 
 #include "GUI/Helper/CustomMimeData.h"
 #include "GUI/Helper/ContextMenu/LibraryContextMenu.h"
@@ -194,6 +195,7 @@ MetaDataList LibraryView::get_data_for_info_dialog() const
 {
 	return get_selected_metadata();
 }
+
 
 MD::Interpretation LibraryView::get_metadata_interpretation() const
 {

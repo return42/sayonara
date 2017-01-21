@@ -30,6 +30,7 @@
 #define MYTABLEVIEW_H_
 
 #include "Helper/Settings/SayonaraClass.h"
+#include "Helper/SetFwd.h"
 
 #include "GUI/Helper/SearchableWidget/SearchableTableView.h"
 #include "GUI/Helper/Dragable/Dragable.h"
@@ -106,6 +107,8 @@ public:
 	QPixmap get_pixmap() const override;
 
 
+
+
 protected:
 	// Events implemented in LibraryViewEvents.cpp
 	virtual bool event(QEvent* event) override;
@@ -127,6 +130,7 @@ protected:
 	HeaderView*	get_header_view();
 	MD::Interpretation get_metadata_interpretation() const override;
 	MetaDataList get_data_for_info_dialog() const override;
+
 
 
 protected:

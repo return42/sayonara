@@ -44,12 +44,11 @@ namespace SP {
 			std::set<T>()
 		{}
 
-
 		/**
 		 * @brief Constructs a set with a single element
 		 * @param one_element the first element
 		 */
-		explicit Set(const T& one_element) :
+		Set(const T& one_element) :
 			Set()
 		{
 			this->insert(one_element);

@@ -30,6 +30,9 @@
 #include "GUI/Library/ui_GUI_LocalLibrary.h"
 #include "GUI/Library/Helper/LocalLibraryMenu.h"
 #include "GUI/Library/Models/DateSearchModel.h"
+#include "GUI/Library/Views/AlbumCoverView.h"
+#include "GUI/Library/Models/AlbumCoverModel.h"
+#include "GUI/Library/Delegates/AlbumCoverDelegate.h"
 
 #include "GUI/Helper/Library/LibraryDeleteDialog.h"
 #include "GUI/Helper/SearchableWidget/SearchableListView.h"
@@ -38,11 +41,13 @@
 #include "InfoBox/GUI_LibraryInfoBox.h"
 #include "ImportFolderDialog/GUI_ImportFolder.h"
 
+
 #include "Helper/Helper.h"
 #include "Helper/Library/DateFilter.h"
 #include "Helper/Settings/Settings.h"
 #include "Helper/Language.h"
 #include "Helper/Message/Message.h"
+#include "Components/Covers/CoverLocation.h"
 
 #include <QFileDialog>
 #include <QDir>
@@ -50,6 +55,7 @@
 #include <QShortcut>
 #include <QInputDialog>
 #include <QMessageBox>
+
 
 
 GUI_LocalLibrary::GUI_LocalLibrary(QWidget* parent) :
@@ -64,6 +70,13 @@ GUI_LocalLibrary::GUI_LocalLibrary(QWidget* parent) :
 	ui->pb_progress->setVisible(false);
 	ui->lab_progress->setVisible(false);
 
+	_acv = new AlbumCoverView(this);
+	_acm = new AlbumCoverModel(_acv);
+
+
+	_acv->setModel(_acm);
+	_acv->show();
+
 	connect(_library, &LocalLibrary::sig_reloading_library, this, &GUI_LocalLibrary::progress_changed);
 	connect(_library, &LocalLibrary::sig_reloading_library_finished, this, &GUI_LocalLibrary::reload_finished);
 	connect(ui->btn_setLibrary, &QPushButton::clicked, this, &GUI_LocalLibrary::set_library_path_clicked);
@@ -71,6 +84,10 @@ GUI_LocalLibrary::GUI_LocalLibrary(QWidget* parent) :
 	connect(ui->lv_album, &LibraryViewAlbum::sig_disc_pressed, this, &GUI_LocalLibrary::disc_pressed);
 	connect(ui->lv_album, &LibraryViewAlbum::sig_import_files, this, &GUI_LocalLibrary::import_files);
 	connect(ui->lv_album, &LibraryView::sig_merge, library, &LocalLibrary::merge_albums);
+
+	connect(_acv, &LibraryView::doubleClicked, this, &GUI_LocalLibrary::album_dbl_clicked);
+	connect(_acv, &LibraryView::sig_sel_changed, this, &GUI_LocalLibrary::album_sel_changed);
+	connect(_acv, &LibraryView::sig_middle_button_clicked, this, &GUI_LocalLibrary::album_middle_clicked);
 
 	connect(ui->lv_artist, &LibraryView::sig_import_files, this, &GUI_LocalLibrary::import_files);
 	connect(ui->lv_artist, &LibraryView::sig_merge, library, &LocalLibrary::merge_artists);
@@ -238,8 +255,30 @@ void GUI_LocalLibrary::clear_button_pressed()
 	GUI_AbstractLibrary::clear_button_pressed();
 }
 
+void GUI_LocalLibrary::lib_fill_albums(const AlbumList& albums)
+{
+	GUI_AbstractLibrary::lib_fill_albums(albums);
+	QList<CoverLocation> covers;
 
-void GUI_LocalLibrary::genre_selection_changed(const QModelIndex& index){
+	for(const Album& album : albums){
+		covers << CoverLocation::get_cover_location(album);
+	}
+
+	_acm->set_data(albums, covers);
+	_acv->show();
+	_acv->resize(500, 200);
+	_acv->resizeRowToContents(0);
+}
+
+void GUI_LocalLibrary::album_cover_view_sel_changed(const QModelIndex& idx)
+{
+	SP::Set<int> indexes;
+	indexes.insert(idx.column());
+	album_sel_changed(indexes);
+}
+
+void GUI_LocalLibrary::genre_selection_changed(const QModelIndex& index)
+{
 	QVariant data = index.data();
 	ui->combo_searchfilter->setCurrentIndex(1);
 	ui->le_search->setText(data.toString());

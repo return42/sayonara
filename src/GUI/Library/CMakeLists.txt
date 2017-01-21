@@ -12,10 +12,12 @@ SET(SOURCES
     Models/LibraryItemModel.cpp
     Models/LibraryItemModelTracks.cpp
     Models/DateSearchModel.cpp
+	Models/AlbumCoverModel.cpp
 
     Delegates/LibraryItemDelegateAlbums.cpp
     Delegates/LibraryItemDelegateTracks.cpp
     Delegates/LibraryRatingDelegate.cpp
+	Delegates/AlbumCoverDelegate.cpp
 
 	Views/LibraryDateSearchView.cpp
     Views/LibraryGenreView.cpp
@@ -24,6 +26,7 @@ SET(SOURCES
     Views/LibraryViewEvents.cpp
     Views/LibraryViewHeader.cpp
     Views/HeaderView.cpp
+	Views/AlbumCoverView.cpp
 
     Helper/DiscPopupMenu.cpp
     Helper/LocalLibraryMenu.cpp

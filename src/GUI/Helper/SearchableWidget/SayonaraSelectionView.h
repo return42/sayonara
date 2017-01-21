@@ -54,6 +54,8 @@ protected:
 
 public:
 	SP::Set<int> get_selections() const;
+	virtual int get_index_by_model_index(const QModelIndex& idx) const;
+	virtual SP::Set<int> get_indexes_by_model_indexes(const QModelIndexList& idx) const;
 
 protected:
 	SayonaraSelectionView();

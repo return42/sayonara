@@ -289,90 +289,114 @@ void GUI_AbstractLibrary::lib_fill_tracks(const MetaDataList& v_md)
 }
 
 
-void GUI_AbstractLibrary::lib_fill_albums(const AlbumList& albums) {
+void GUI_AbstractLibrary::lib_fill_albums(const AlbumList& albums)
+{
 	_lv_album->fill<AlbumList, LibraryItemModelAlbums>(albums);
 }
 
 
-void GUI_AbstractLibrary::lib_fill_artists(const ArtistList& artists) {
+void GUI_AbstractLibrary::lib_fill_artists(const ArtistList& artists)
+{
 	_lv_artist->fill<ArtistList, LibraryItemModelArtists>(artists);
 }
 
 
-void GUI_AbstractLibrary::track_info_available(const MetaDataList& v_md) {
+void GUI_AbstractLibrary::track_info_available(const MetaDataList& v_md)
+{
 	_track_model->set_mimedata(v_md);
 }
 
 
-void GUI_AbstractLibrary::artist_sel_changed(const SP::Set<int>& lst) {
+void GUI_AbstractLibrary::artist_sel_changed(const SP::Set<int>& lst)
+{
 	_library->psl_selected_artists_changed(lst);
 }
 
 
-void GUI_AbstractLibrary::album_sel_changed(const SP::Set<int>& lst) {
+void GUI_AbstractLibrary::album_sel_changed(const SP::Set<int>& lst)
+{
 	_library->psl_selected_albums_changed(lst);
 }
 
-void GUI_AbstractLibrary::track_sel_changed(const SP::Set<int>& lst) {
+void GUI_AbstractLibrary::track_sel_changed(const SP::Set<int>& lst)
+{
 	_library->psl_selected_tracks_changed(lst);
 }
 
 
-void GUI_AbstractLibrary::artist_middle_clicked(const QPoint& pt) {
+void GUI_AbstractLibrary::artist_middle_clicked(const QPoint& pt)
+{
 	Q_UNUSED(pt)
 	_library->psl_prepare_tracks_for_playlist(true);
 }
 
 
-void GUI_AbstractLibrary::album_middle_clicked(const QPoint& pt) {
+void GUI_AbstractLibrary::album_middle_clicked(const QPoint& pt)
+{
 	Q_UNUSED(pt)
 	_library->psl_prepare_tracks_for_playlist(true);
 }
 
-void GUI_AbstractLibrary::tracks_middle_clicked(const QPoint& pt) {
+void GUI_AbstractLibrary::tracks_middle_clicked(const QPoint& pt)
+{
 	Q_UNUSED(pt)
 	_library->psl_prepare_tracks_for_playlist(_lv_tracks->get_selections(), true);
 }
 
 
-void GUI_AbstractLibrary::album_dbl_clicked(const QModelIndex & idx) {
-	_library->psl_prepare_album_for_playlist(idx.row(), false);
+void GUI_AbstractLibrary::album_dbl_clicked(const QModelIndex& idx)
+{
+	LibraryView* view = static_cast<LibraryView*>( sender() );
+
+	_library->psl_prepare_album_for_playlist(
+				view->get_index_by_model_index(idx),
+				false
+	);
 }
 
-void GUI_AbstractLibrary::artist_dbl_clicked(const QModelIndex & idx) {
-	_library->psl_prepare_artist_for_playlist(idx.row(), false);
+void GUI_AbstractLibrary::artist_dbl_clicked(const QModelIndex& idx)
+{
+	LibraryView* view = static_cast<LibraryView*>( sender() );
+	_library->psl_prepare_artist_for_playlist(
+				view->get_index_by_model_index(idx),
+				false
+	);
 }
 
-void GUI_AbstractLibrary::track_dbl_clicked(const QModelIndex& idx) {
-	SP::Set<int> indexes = _lv_tracks->get_selections();
+void GUI_AbstractLibrary::track_dbl_clicked(const QModelIndex& idx)
+{
+	LibraryView* view = static_cast<LibraryView*>( sender() );
 
-	if( indexes.isEmpty() ) {
-		indexes.insert(idx.row());
-	}
-
-	_library->psl_prepare_tracks_for_playlist(indexes, false);
+	_library->psl_prepare_tracks_for_playlist(
+				view->get_index_by_model_index(idx),
+				false
+	);
 }
 
 
-void  GUI_AbstractLibrary::columns_album_changed(const BoolList& list) {
+void  GUI_AbstractLibrary::columns_album_changed(const BoolList& list)
+{
 	_shown_cols_albums = list;
 	_settings->set(Set::Lib_ColsAlbum, list);
 }
 
 
-void  GUI_AbstractLibrary::columns_artist_changed(const BoolList& list) {
+void  GUI_AbstractLibrary::columns_artist_changed(const BoolList& list)
+{
 	_shown_cols_artist = list;
 	_settings->set(Set::Lib_ColsArtist, list);
 }
 
 
-void  GUI_AbstractLibrary::columns_title_changed(const BoolList& list) {
+void  GUI_AbstractLibrary::columns_title_changed(const BoolList& list)
+{
 	_shown_cols_tracks = list;
 	_settings->set(Set::Lib_ColsTitle, list);
 }
 
 
-void GUI_AbstractLibrary::sortorder_artist_changed(Library::SortOrder s) {
+void GUI_AbstractLibrary::sortorder_artist_changed(Library::SortOrder s)
+{
 	_lv_artist->save_selections();
 
 	Library::Sortings so = _settings->get(Set::Lib_Sorting);
