@@ -76,7 +76,8 @@ void GUI_ImportFolder::language_changed()
 	ui->retranslateUi(this);
 }
 
-void GUI_ImportFolder::set_metadata(const MetaDataList& v_md){
+void GUI_ImportFolder::set_metadata(const MetaDataList& v_md)
+{
 	if(!v_md.isEmpty()){
 		ui->lab_status->setText(tr("%1 tracks available").arg(v_md.size()));
 	}
@@ -85,7 +86,8 @@ void GUI_ImportFolder::set_metadata(const MetaDataList& v_md){
 	ui->btn_edit->setVisible( !v_md.isEmpty() );
 }
 
-void GUI_ImportFolder::set_status(LibraryImporter::ImportStatus status) {
+void GUI_ImportFolder::set_status(LibraryImporter::ImportStatus status)
+{
 	ui->pb_progress->hide();
 	ui->lab_status->show();
 
@@ -136,7 +138,8 @@ void GUI_ImportFolder::set_status(LibraryImporter::ImportStatus status) {
 	}
 }
 
-void GUI_ImportFolder::set_progress(int val) {
+void GUI_ImportFolder::set_progress(int val)
+{
 	if(val) {
 		ui->pb_progress->show();
 		ui->lab_status->hide();
@@ -224,12 +227,14 @@ void GUI_ImportFolder::edit_pressed()
 	dialog->exec();
 }
 
-void GUI_ImportFolder::closeEvent(QCloseEvent* e) {
+void GUI_ImportFolder::closeEvent(QCloseEvent* e)
+{
 	SayonaraDialog::closeEvent(e);
 	_importer->cancel_import();
 }
 
-void GUI_ImportFolder::showEvent(QShowEvent* e) {
+void GUI_ImportFolder::showEvent(QShowEvent* e)
+{
 	QDialog::showEvent(e);
 }
 

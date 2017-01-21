@@ -194,7 +194,6 @@ bool SettingRegistry::init()
 	register_setting( Set::Engine_SpeedActive, "engine_speed_active", false);
 	register_setting( Set::Engine_Speed, "engine_speed", 1.0f);
 
-
 	register_setting( Set::Spectrum_Style, "spectrum_style", 0 );
 	register_setting( Set::Level_Style, "level_style", 0 );
 
@@ -204,6 +203,9 @@ bool SettingRegistry::init()
 
 	register_setting( Set::Remote_Active, "remote_control_active", false);
 	register_setting( Set::Remote_Port, "remote_control_port", 54055);
+
+	register_setting( Set::Lyrics_Server, "lyrics_server", QString());
+	register_setting( Set::Lyrics_Zoom, "lyrics_zoom", 100);
 
 	register_setting( SetNoDB::MP3enc_found, true );
 	register_setting( SetNoDB::Pitch_found, true );

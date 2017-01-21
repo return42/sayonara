@@ -39,6 +39,8 @@
 #include <taglib/tbytevector.h>
 #include <taglib/tbytevectorstream.h>
 #include <taglib/id3v1tag.h>
+#include <taglib/mp4file.h>
+#include <taglib/mp4tag.h>
 
 #include <QFile>
 #include <QFileInfo>
@@ -342,7 +344,6 @@ bool Tagging::extract_cover(const MetaData &md, QByteArray& cover_data, QString&
 	return !(cover_data.isEmpty());
 }
 
-
 Tagging::TagType Tagging::get_tag_type(const TagLib::FileRef& f)
 {
 	TagLib::MPEG::File* mpg = dynamic_cast<TagLib::MPEG::File*>(f.file());
@@ -382,7 +383,11 @@ Tagging::TagType Tagging::get_tag_type(const TagLib::FileRef& f)
 		return Tagging::TagType::Xiph;
 	}
 
-	return Tagging::TagType::Other;
+	if(dynamic_cast<TagLib::MP4::Tag*>(tag) != nullptr){
+		return Tagging::TagType::MP4;
+	}
+
+	return Tagging::TagType::Unsupported;
 }
 
 
@@ -394,4 +399,22 @@ Tagging::TagType Tagging::get_tag_type(const QString &filepath)
 	}
 
 	return get_tag_type(f);
+}
+
+QString Tagging::cvt_tag_type(Tagging::TagType type)
+{
+	switch(type){
+		case Tagging::TagType::ID3v1:
+			return "ID3v1";
+		case Tagging::TagType::ID3v2:
+			return "ID3v2";
+		case Tagging::TagType::Xiph:
+			return "Xiph";
+		case Tagging::TagType::MP4:
+			return "MP4";
+		case Tagging::TagType::Unknown:
+			return "Unknown";
+		default:
+			return "Partially unsupported";
+	}
 }

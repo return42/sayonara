@@ -157,6 +157,9 @@ enum SettingKey {
 	Remote_Active,
 	Remote_Port,
 
+	Lyrics_Zoom,
+	Lyrics_Server,
+
 	Num_Setting_Keys
 };
 }
@@ -193,14 +196,14 @@ namespace Set
 //typedef SettingKey<bool, SK::LFM_Active> LFM_Active_t; const LFM_Active_t LFM_Active
 INST(bool,				LFM_Active);				/* is lastFM active? */
 INST(int,				LFM_ScrobbleTimeSec);			/* time in sec when to scrobble */
-INST(StringPair,			LFM_Login);				/* 2-Tupel, username, password */
+INST(StringPair,		LFM_Login);				/* 2-Tupel, username, password */
 
 INST(bool,				LFM_Corrections);			/* propose lfm corrections */
 INST(bool,				LFM_ShowErrors);			/* get error message, if there are lfm problems */
 INST(QString,			LFM_SessionKey);			/* lfm session key */
 
 INST(int,				Eq_Last);				/* last equalizer index */
-INST(QList<EQ_Setting>,		Eq_List);				/* All equalizers */
+INST(QList<EQ_Setting>,	Eq_List);				/* All equalizers */
 INST(bool,				Eq_Gauss);				/* do curve, when changing eq setting */
 
 INST(bool,				Lib_Show);				/* show library */
@@ -209,7 +212,7 @@ INST(BoolList,			Lib_ColsTitle);				/* shown columns tracks */
 INST(BoolList,			Lib_ColsArtist);			/* shown columns artist */
 INST(BoolList,			Lib_ColsAlbum);				/* shown columns albums */
 INST(bool,				Lib_LiveSearch);			/* library live search */
-INST(Library::Sortings,		Lib_Sorting);				/* how to sort in lib */
+INST(Library::Sortings,	Lib_Sorting);				/* how to sort in lib */
 INST(QString,			Lib_CurPlugin);				/* Current shown library plugin */
 INST(QByteArray,		Lib_SplitterStateArtist);		/* Splitter state between artists and albums */
 INST(QByteArray,		Lib_SplitterStateTrack);		/* Splitter state between artists and tracks */
@@ -258,7 +261,7 @@ INST(int,				PL_LastPlaylist);			/* last Playlist id, where LastTrack has been p
 INST(QString,			PL_EntryLook);				/* formatting of playlist entry */
 INST(int,				PL_FontSize);				/* current playlist font size */
 
-INST(Playlist::Mode,		PL_Mode);				/* playlist mode: rep1, repAll, shuffle... */
+INST(Playlist::Mode,	PL_Mode);				/* playlist mode: rep1, repAll, shuffle... */
 INST(bool,				PL_ShowNumbers);			/* show numbers in playlist */
 INST(bool,				Notification_Show);			/* show notifications */
 INST(int,				Notification_Timeout);			/* notification timeout */
@@ -293,6 +296,9 @@ INST(int,				Broadcast_Port);			/* broadcast port */
 
 INST(bool,				Remote_Active);				/* Remote control activated */
 INST(int,				Remote_Port);				/* Remote control port */
+
+INST(int,				Lyrics_Zoom);				/* Zoom factor in lyrics window */
+INST(QString,			Lyrics_Server);				/* Lyrics server */
 
 
 }

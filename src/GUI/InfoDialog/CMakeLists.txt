@@ -2,11 +2,13 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 PROJECT(say_gui_info_dialog)
 
 SET(SOURCES
+	GUI_Lyrics.cpp
     GUI_InfoDialog.cpp
 	InfoDialogContainer.cpp
 )
 
 QT5_WRAP_UI(FORMS_UIC
+	GUI_Lyrics.ui
     GUI_InfoDialog.ui
 )
 

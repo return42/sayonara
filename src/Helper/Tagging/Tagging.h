@@ -50,7 +50,8 @@ namespace Tagging
 		ID3v1=0,
 		ID3v2,
 		Xiph,
-		Other,
+		MP4,
+		Unsupported,
 		Unknown
 	};
 
@@ -78,6 +79,7 @@ namespace Tagging
 
 	Tagging::TagType get_tag_type(const TagLib::FileRef& f);
 	Tagging::TagType get_tag_type(const QString& filepath);
+	QString cvt_tag_type(Tagging::TagType);
 }
 
 #endif

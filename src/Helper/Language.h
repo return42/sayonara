@@ -79,6 +79,8 @@ public:
 		Files,
 		Filesize,
 		First,
+		Font,
+		Fonts,
 		GaplessPlayback,
 		Genre,
 		Genres,
@@ -158,6 +160,7 @@ public:
 		Warning,
 		Year,
 		Yes,
+		Zoom,
 		NUMBER_OF_LANGUAGE_KEYS
 	};
 

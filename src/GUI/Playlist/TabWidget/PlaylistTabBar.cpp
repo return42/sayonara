@@ -119,6 +119,10 @@ void PlaylistTabBar::rename_pressed()
 				Lang::get(Lang::Rename),
 				cur_text + ": " + Lang::get(Lang::Rename));
 
+	if(name.isEmpty()){
+		return;
+	}
+
 	if(name.compare(cur_text) == 0){
 		return;
 	}

@@ -28,10 +28,10 @@
 #include "InfoDialogContainer.h"
 
 #include "GUI/TagEdit/GUI_TagEdit.h"
+#include "GUI/InfoDialog/GUI_Lyrics.h"
 #include "GUI/Helper/IconLoader/IconLoader.h"
 
 #include "Components/Covers/CoverLocation.h"
-#include "Components/LyricLookup/LyricLookup.h"
 #include "Components/TagEdit/TagEdit.h"
 
 #include "Helper/MetaData/MetaDataList.h"
@@ -47,10 +47,10 @@ struct GUI_InfoDialog::Private
 {
 	InfoDialogContainer*	info_dialog_container=nullptr;
 	GUI_TagEdit*			ui_tag_edit=nullptr;
+	GUI_Lyrics*				ui_lyrics=nullptr;
 	CoverLocation			cl;
 	MetaDataList			v_md;
 	MD::Interpretation		md_interpretation;
-	qreal					initial_font_size;
 };
 
 
@@ -92,73 +92,6 @@ void GUI_InfoDialog::skin_changed()
 		tab_bar->setTabIcon(2, icon_loader->get_icon("accessories-text-editor", "edit"));
 	}
 }
-
-
-void GUI_InfoDialog::lyric_server_changed(int idx)
-{
-	Q_UNUSED(idx)
-	prepare_lyrics();
-}
-
-
-void GUI_InfoDialog::prepare_lyrics()
-{
-	if(!ui){
-		return;
-	}
-
-	if(_m->v_md.size() != 1){
-		return;
-	}
-
-	int cur_idx = ui->combo_servers->currentIndex();
-
-	LyricLookupThread* lyric_thread = new LyricLookupThread(this);
-	connect(lyric_thread, &LyricLookupThread::sig_finished, this, &GUI_InfoDialog::lyrics_fetched);
-
-	if(ui->combo_servers->count() == 0){
-		QStringList lyric_server_list = lyric_thread->get_servers();
-		for(const QString& server : lyric_server_list) {
-			ui->combo_servers->addItem(server);
-		}
-		cur_idx = 0;
-	}
-
-	ui->te_lyrics->setText("");
-	ui->pb_loading->setVisible(true);
-
-	lyric_thread->run(_m->v_md.first().artist, _m->v_md.first().title, cur_idx);
-}
-
-
-void GUI_InfoDialog::lyrics_fetched()
-{
-	LyricLookupThread* lyric_thread = static_cast<LyricLookupThread*>(sender());
-
-	if(!ui){
-		lyric_thread->deleteLater();
-		return;
-	}
-
-	ui->pb_loading->setVisible(false);
-
-	QString lyrics = lyric_thread->get_lyric_data();
-	lyrics = lyrics.trimmed();
-
-	int height = ui->te_lyrics->height();
-	int width = ui->tab_2->size().width();
-	ui->te_lyrics->resize(width, height);
-	//ui->te_lyrics->setAcceptRichText(false);
-	ui->te_lyrics->setText(lyrics);
-	//sp_log(Log::Debug) << lyrics;
-	ui->te_lyrics->setLineWrapColumnOrWidth(ui->te_lyrics->width());
-	ui->te_lyrics->setLineWrapMode(QTextEdit::FixedPixelWidth);
-	ui->te_lyrics->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-	ui->te_lyrics->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-
-	sender()->deleteLater();
-}
-
 
 void GUI_InfoDialog::prepare_info(MD::Interpretation md_interpretation)
 {
@@ -208,6 +141,9 @@ void GUI_InfoDialog::set_metadata(const MetaDataList& v_md, MD::Interpretation m
 	_m->v_md = v_md;
 
 	prepare_info(md_interpretation);
+	if(ui){
+		_m->ui_lyrics->set_metadata(v_md.first());
+	}
 }
 
 bool GUI_InfoDialog::has_metadata() const
@@ -230,7 +166,7 @@ void GUI_InfoDialog::tab_index_changed(GUI_InfoDialog::Tab idx)
 	}
 
 	ui->ui_info_widget->hide();
-	ui->ui_lyric_widget->hide();
+	_m->ui_lyrics->hide();
 	_m->ui_tag_edit->hide();
 
 	switch(idx)
@@ -256,9 +192,11 @@ void GUI_InfoDialog::tab_index_changed(GUI_InfoDialog::Tab idx)
 
 		case GUI_InfoDialog::Tab::Lyrics:
 
-			ui->tab_widget->setCurrentWidget(ui->ui_lyric_widget);
-			ui->ui_lyric_widget->show();
-			prepare_lyrics();
+			ui->tab_widget->setCurrentWidget(_m->ui_lyrics);
+
+			_m->ui_lyrics->set_metadata(_m->v_md.first());
+			_m->ui_lyrics->show();
+
 			break;
 
 		default:
@@ -269,12 +207,6 @@ void GUI_InfoDialog::tab_index_changed(GUI_InfoDialog::Tab idx)
 	}
 }
 
-void GUI_InfoDialog::zoom_changed(int percent)
-{
-	QFont font = ui->te_lyrics->font();
-	font.setPointSizeF( ((_m->initial_font_size * percent * 1.0) / 100.0) );
-	ui->te_lyrics->setFont(font);
-}
 
 void GUI_InfoDialog::show(GUI_InfoDialog::Tab tab)
 {
@@ -313,6 +245,11 @@ void GUI_InfoDialog::show(GUI_InfoDialog::Tab tab)
 		}
 	}
 
+	if(tab == GUI_InfoDialog::Tab::Lyrics)
+	{
+		_m->ui_lyrics->set_metadata(_m->v_md.first());
+	}
+
 	tab_widget->setCurrentIndex((int) tab);
 	tab_index_changed(tab);
 
@@ -328,25 +265,30 @@ void GUI_InfoDialog::prepare_cover(const CoverLocation& cl)
 
 void GUI_InfoDialog::init()
 {
+	if(ui){
+		return;
+	}
+
 	ui = new Ui::InfoDialog();
 	ui->setupUi(this);
 
-	_m->initial_font_size = this->font().pointSizeF();
-
+	QLayout* tab2_layout = ui->tab_2->layout();
 	QLayout* tab3_layout = ui->tab_3->layout();
 	QTabWidget* tab_widget = ui->tab_widget;
+
+	if(tab2_layout){
+		_m->ui_lyrics = new GUI_Lyrics(ui->tab_2);
+		tab2_layout->addWidget(_m->ui_lyrics);
+	}
 
 	if(tab3_layout){
 		_m->ui_tag_edit = new GUI_TagEdit(ui->tab_3);
 		tab3_layout->addWidget(_m->ui_tag_edit);
 	}
 
-	ui->combo_servers->setCurrentIndex(0);
-
 	connect(tab_widget, &QTabWidget::currentChanged, this, &GUI_InfoDialog::tab_index_changed_int);
+	connect(_m->ui_lyrics, &GUI_Lyrics::sig_closed, this, &GUI_InfoDialog::close);
 	connect(_m->ui_tag_edit, &GUI_TagEdit::sig_cancelled, this, &GUI_InfoDialog::close);
-	connect(ui->combo_servers, combo_current_index_changed_int, this, &GUI_InfoDialog::lyric_server_changed);
-	connect(ui->sb_zoom, spinbox_value_changed_int, this, &GUI_InfoDialog::zoom_changed);
 
 	ui->btn_image->setStyleSheet("QPushButton:hover {background-color: transparent;}");
 

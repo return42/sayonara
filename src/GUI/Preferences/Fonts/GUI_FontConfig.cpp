@@ -21,6 +21,7 @@
 #include "GUI/Preferences/ui_GUI_FontConfig.h"
 
 #include "Helper/Settings/Settings.h"
+#include "Helper/Language.h"
 
 #include <QApplication>
 #include <QFont>
@@ -44,7 +45,7 @@ GUI_FontConfig::~GUI_FontConfig()
 
 QString GUI_FontConfig::get_action_name() const
 {
-	return tr("Fonts");
+	return Lang::get(Lang::Fonts);
 }
 
 void GUI_FontConfig::init_ui()

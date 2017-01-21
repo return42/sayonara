@@ -165,9 +165,13 @@ void LyricLookupThread::content_fetched(bool success)
 
 	_m->final_wp.push_front(_m->server_list[_m->cur_server].display_str + "<br /><br />");
 	_m->final_wp.push_front(awa->get_url() + "<br /><br />");
-	_m->final_wp.push_front("<font size=\"5\" color=\"#F3841A\"><b>" +
+	_m->final_wp.push_front(
+						//"<font size=\"5\" color=\"#F3841A\">"
+						"<b>" +
 						 _m->artist + " - " +  _m->title +
-						 "</b></font><br /><br />");
+						 "</b>"
+						 //"</font><br /><br />"
+				);
 
 	emit sig_finished();
 }

@@ -26,6 +26,7 @@
 
 #include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
 #include "Components/TagEdit/TagExpression.h"
+#include "Helper/Pimpl.h"
 
 /**
  * @brief The GUI_TagEdit class
@@ -65,6 +66,8 @@ public:
 	 */
 	void cancel();
 
+	void show_close_button(bool show);
+
 
 signals:
 	void sig_ok_clicked(const MetaDataList&);
@@ -72,23 +75,11 @@ signals:
 	void sig_undo_all_clicked();
 	void sig_cancelled();
 
-
 private:
+	PIMPL(GUI_TagEdit)
 	Ui::GUI_TagEdit*	ui=nullptr;
 
-	TagEdit*			_tag_edit=nullptr;
-	TagExpression		_tag_expression;
-	QMap<int, QString>	_cover_path_map;
-	int					_cur_idx;
-
-	/**
-	 * @brief _tag_str_map, key = tag, val = replaced string
-	 */
-	QMap<Tag, ReplacedString> _tag_str_map;
-
-
 private:
-
 	bool is_cover_replacement_active() const;
 	void update_cover(int idx, const QString& cover_path);
 	void set_cover(const MetaData& md);

@@ -135,6 +135,10 @@ LanguageString Lang::get(Lang::Term term, bool* ok)
 			return l.tr("Filesize");
 		case First:
 			return l.tr("1st");
+		case Font:
+			return l.tr("Font");
+		case Fonts:
+			return l.tr("Fonts");
 		case GaplessPlayback:
 			return l.tr("Gapless playback");
 		case Genre:
@@ -290,6 +294,8 @@ LanguageString Lang::get(Lang::Term term, bool* ok)
 			return l.tr("Year");
 		case Yes:
 			return l.tr("Yes");
+		case Zoom:
+			return l.tr("Zoom");
 		default:
 			if(ok){
 				*ok = false;

@@ -93,7 +93,7 @@ MiniSearcher
 
 QLabel
 {
-	height: 22px;
+	height: 25px;
 }
 
 QLabel, QScrollArea{
@@ -361,6 +361,7 @@ QMenuBar
 
 QMenuBar::item
 {
+	height: 25px;
 	color: #D8D8D8;
 	background-color: transparent;
 }
@@ -437,7 +438,7 @@ QMenu::separator
 
 QComboBox
 {
-	height: 22px;
+	height: 24px;
 	border: 1px solid #2B2B2B;
 	border-radius: 2px;
 	padding: 1px 3px 1px 3px;
@@ -458,7 +459,7 @@ QComboBox:!editable:off
 
 QComboBox::drop-down
 {
-	width: 18px;
+	width: 22px;
 	border-left-width: 1px;
 	border-left-color: #242424;
 	border-left-style: solid;
@@ -513,6 +514,7 @@ QLineEdit
 	border: 1px solid #2B2B2B;
 	border-radius: 2px;
 	background: #525252;
+	background: #484848;
 }
 
 
@@ -655,7 +657,7 @@ QTabBar::tear
 
 QSpinBox
 {
-	height: 22px;
+	height: 24px;
 	background: #525252;
 	border: 1px solid #2B2B2B;
 }
@@ -843,8 +845,8 @@ QPushButton[flat=false]
 {
 	border: 1px solid #282828;
 	background: #505050;
-	padding-left: 4px;
-	padding-right: 4px;
+	padding-left: 10px;
+	padding-right: 10px;
 
 }
 

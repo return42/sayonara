@@ -52,7 +52,8 @@ DBusNotifications::DBusNotifications(QObject* parent) :
 
 DBusNotifications::~DBusNotifications() {}
 
-void DBusNotifications::notify(const QString& title, const QString& text, const QString& image_path){
+void DBusNotifications::notify(const QString& title, const QString& text, const QString& image_path)
+{
 	QVariantMap map;
 	map.insert("action-icons", false);
 	map.insert("desktop-entry", "/usr/share/applications/sayonara.desktop");
@@ -74,12 +75,14 @@ void DBusNotifications::notify(const QString& title, const QString& text, const 
 	);
 }
 
-void DBusNotifications::notify(const MetaData& md){
+void DBusNotifications::notify(const MetaData& md)
+{
 	this->track_changed(md);
 }
 
 
-void DBusNotifications::track_changed(const MetaData& md){
+void DBusNotifications::track_changed(const MetaData& md)
+{
 	bool active = _settings->get(Set::Notification_Show);
 	if(!active){
 		return;
