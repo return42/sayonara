@@ -32,7 +32,8 @@
 #include <QMimeData>
 
 class SomaFMStation;
-class SomaFMStationModel : public AbstractSearchTableModel
+class SomaFMStationModel :
+		public AbstractSearchTableModel
 {
 	Q_OBJECT
 

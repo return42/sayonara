@@ -54,7 +54,6 @@ LibraryView::LibraryView(QWidget* parent) :
 	_model = nullptr;
 
 	HeaderView* header = new HeaderView(Qt::Horizontal, this);
-
 	this->setHorizontalHeader(header);
 
 	connect(header, &HeaderView::sectionClicked, this, &LibraryView::sort_by_column);
@@ -72,7 +71,8 @@ LibraryView::LibraryView(QWidget* parent) :
 LibraryView::~LibraryView() {}
 
 
-void LibraryView::setModel(LibraryItemModel * model) {
+void LibraryView::setModel(LibraryItemModel * model)
+{
 	SearchableTableView::setModel(model);
 	_model = model;
 
@@ -80,13 +80,14 @@ void LibraryView::setModel(LibraryItemModel * model) {
 }
 
 
-void LibraryView::selectionChanged(const QItemSelection& selected, const QItemSelection& deselected ) {
+void LibraryView::selectionChanged(const QItemSelection& selected, const QItemSelection& deselected )
+{
 	if(_cur_filling) {
 		return;
 	}
 
 	SearchableTableView::selectionChanged(selected, deselected);
-	SP::Set<int> indexes = get_selections();
+	SP::Set<int> indexes = get_selections(_selection_type);
 
 	emit sig_sel_changed(indexes);
 }
@@ -94,7 +95,7 @@ void LibraryView::selectionChanged(const QItemSelection& selected, const QItemSe
 
 void LibraryView::save_selections()
 {
-	SP::Set<int> indexes = get_selections();
+	SP::Set<int> indexes = get_selections(_selection_type);
 	_model->add_selections(indexes);
 }
 // selections end
@@ -145,13 +146,30 @@ QMimeData* LibraryView::get_mimedata() const
 
 QPixmap LibraryView::get_pixmap() const
 {
-	CoverLocation cl = _model->get_cover( this->get_selections() );
+	CoverLocation cl = _model->get_cover(
+			get_selections(_selection_type)
+	);
+
 	QString cover_path = cl.preferred_path();
 	if(cl.valid()){
 		return QPixmap(cover_path);
 	}
 
 	return QPixmap();
+}
+
+void LibraryView::set_selection_type(SayonaraSelectionView::SelectionType type)
+{
+	SayonaraSelectionView::set_selection_type(type);
+
+	if(type == SayonaraSelectionView::SelectionType::Rows){
+		setSelectionBehavior(QAbstractItemView::SelectRows);
+	}
+
+	else {
+		setSelectionBehavior(QAbstractItemView::SelectColumns);
+		this->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+	}
 }
 
 MetaDataList LibraryView::get_selected_metadata() const

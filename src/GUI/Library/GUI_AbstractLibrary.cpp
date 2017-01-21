@@ -340,7 +340,7 @@ void GUI_AbstractLibrary::album_middle_clicked(const QPoint& pt)
 void GUI_AbstractLibrary::tracks_middle_clicked(const QPoint& pt)
 {
 	Q_UNUSED(pt)
-	_library->psl_prepare_tracks_for_playlist(_lv_tracks->get_selections(), true);
+	_library->psl_prepare_tracks_for_playlist(_lv_tracks->get_selected_rows(), true);
 }
 
 
@@ -460,7 +460,7 @@ void GUI_AbstractLibrary::delete_tracks()
 
 
 void GUI_AbstractLibrary::album_rating_changed(int rating) {
-	SP::Set<int> indexes = _lv_album->get_selections();
+	SP::Set<int> indexes = _lv_album->get_selected_rows();
 	if(indexes.isEmpty()) {
 		return;
 	}
@@ -472,7 +472,7 @@ void GUI_AbstractLibrary::album_rating_changed(int rating) {
 
 
 void GUI_AbstractLibrary::title_rating_changed(int rating) {
-	SP::Set<int> indexes = _lv_tracks->get_selections();
+	SP::Set<int> indexes = _lv_tracks->get_selected_rows();
 	if(indexes.isEmpty()) {
 		return;
 	}

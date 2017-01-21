@@ -39,21 +39,49 @@ namespace SP
  */
 class SayonaraSelectionView
 {
+
+public:
+
+	enum class SelectionType
+	{
+		Rows=0,
+		Columns
+	};
+
+
 protected:
+	SelectionType _selection_type;
+
 	virtual QItemSelectionModel* get_selection_model() const=0;
 	virtual QModelIndex	get_index(int row, int col, const QModelIndex& parent=QModelIndex()) const=0;
 	virtual int	get_row_count(const QModelIndex& parent=QModelIndex()) const=0;
 	virtual int get_column_count(const QModelIndex& parent=QModelIndex()) const=0;
 	virtual void set_current_index(int idx)=0;
 
-	void select_all();
 	void select_rows(const SP::Set<int>& indexes, int min_col=-1, int max_col=-1);
 	void select_row(int row);
+
+	void select_columns(const SP::Set<int>& indexes, int min_row=-1, int max_row=-1);
+	void select_column(int col);
+
+
+	void select_all();
+
 	void clear_selection();
-	int get_min_selected() const;
+
+	int get_min_selected_row() const;
+	int get_min_selected_column() const;
+	int get_min_selected(SayonaraSelectionView::SelectionType type) const;
 
 public:
-	SP::Set<int> get_selections() const;
+
+	SP::Set<int> get_selected_rows() const;
+	SP::Set<int> get_selected_columns() const;
+	SP::Set<int> get_selections(SayonaraSelectionView::SelectionType type) const;
+
+	virtual void set_selection_type(SayonaraSelectionView::SelectionType type);
+	SayonaraSelectionView::SelectionType selection_type() const;
+
 	virtual int get_index_by_model_index(const QModelIndex& idx) const;
 	virtual SP::Set<int> get_indexes_by_model_indexes(const QModelIndexList& idx) const;
 

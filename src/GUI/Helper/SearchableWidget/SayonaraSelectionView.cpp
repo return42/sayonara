@@ -24,7 +24,10 @@
 
 #include <algorithm>
 
-SayonaraSelectionView::SayonaraSelectionView() {}
+SayonaraSelectionView::SayonaraSelectionView()
+{
+	_selection_type = SayonaraSelectionView::SelectionType::Rows;
+}
 
 SayonaraSelectionView::~SayonaraSelectionView() {}
 
@@ -45,6 +48,8 @@ void SayonaraSelectionView::select_all()
 	sel.select(first_idx, last_idx);
 	sel_model->select(sel, QItemSelectionModel::ClearAndSelect);
 }
+
+
 
 void SayonaraSelectionView::select_rows(const SP::Set<int>& indexes, int min_col, int max_col)
 {
@@ -126,11 +131,34 @@ void SayonaraSelectionView::select_rows(const SP::Set<int>& indexes, int min_col
 	sel_model->select(sel, QItemSelectionModel::ClearAndSelect);
 }
 
+
 void SayonaraSelectionView::select_row(int row)
 {
-	SP::Set<int> indexes;
-	indexes.insert(row);
+	SP::Set<int> indexes(row);
 	select_rows(indexes);
+}
+
+void SayonaraSelectionView::select_columns(const SP::Set<int>& indexes, int min_row, int max_row)
+{
+	//TODO
+	QItemSelectionModel* sel_model = this->get_selection_model();
+	if(!sel_model){
+		return;
+	}
+
+	QItemSelection sel;
+	for(auto it = indexes.begin(); it != indexes.end(); it++){
+		sel.select(get_index(min_row, *it),
+				   get_index(max_row, *it));
+	}
+
+	sel_model->select(sel, QItemSelectionModel::ClearAndSelect);
+}
+
+void SayonaraSelectionView::select_column(int col)
+{
+	SP::Set<int> indexes(col);
+	select_columns(col);
 }
 
 void SayonaraSelectionView::clear_selection()
@@ -143,16 +171,30 @@ void SayonaraSelectionView::clear_selection()
 	sel_model->clearSelection();
 }
 
-SP::Set<int> SayonaraSelectionView::get_selections() const
+
+SP::Set<int> SayonaraSelectionView::get_selected_rows() const
 {
+	return get_selections(SayonaraSelectionView::SelectionType::Rows);
+}
+
+
+SP::Set<int> SayonaraSelectionView::get_selected_columns() const
+{
+	return get_selections(SayonaraSelectionView::SelectionType::Columns);
+}
+
+
+SP::Set<int> SayonaraSelectionView::get_selections(SayonaraSelectionView::SelectionType type) const
+{
+	SP::Set<int> indexes;
 	QItemSelectionModel* sel_model = this->get_selection_model();
+
 	if(!sel_model){
-		return SP::Set<int>();
+		return indexes;
 	}
 
-	QModelIndexList idx_list = sel_model->selectedRows();
+	QModelIndexList idx_list = sel_model->selectedIndexes();
 
-	SP::Set<int> indexes;
 	for(const QModelIndex& model_idx : idx_list) {
 		indexes.insert( get_index_by_model_index(model_idx) );
 	}
@@ -160,11 +202,22 @@ SP::Set<int> SayonaraSelectionView::get_selections() const
 	return indexes;
 }
 
+void SayonaraSelectionView::set_selection_type(SayonaraSelectionView::SelectionType type)
+{
+	_selection_type = type;
+}
+
+SayonaraSelectionView::SelectionType SayonaraSelectionView::selection_type() const
+{
+	return _selection_type;
+}
+
 
 int SayonaraSelectionView::get_index_by_model_index(const QModelIndex& idx) const
 {
 	return idx.row();
 }
+
 
 SP::Set<int> SayonaraSelectionView::get_indexes_by_model_indexes(const QModelIndexList& idxs) const
 {
@@ -175,9 +228,19 @@ SP::Set<int> SayonaraSelectionView::get_indexes_by_model_indexes(const QModelInd
 	return ret;
 }
 
-int SayonaraSelectionView::get_min_selected() const
+int SayonaraSelectionView::get_min_selected_column() const
 {
-	SP::Set<int> selected = this->get_selections();
+	return get_min_selected(SayonaraSelectionView::SelectionType::Columns);
+}
+
+int SayonaraSelectionView::get_min_selected_row() const
+{
+	return get_min_selected(SayonaraSelectionView::SelectionType::Rows);
+}
+
+int SayonaraSelectionView::get_min_selected(SayonaraSelectionView::SelectionType type) const
+{
+	SP::Set<int> selected = this->get_selections(type);
 	auto it = std::min_element(selected.begin(), selected.end());
 	if(it != selected.end()){
 		return *it;

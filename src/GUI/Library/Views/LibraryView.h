@@ -106,7 +106,7 @@ public:
 	QMimeData* get_mimedata() const override;
 	QPixmap get_pixmap() const override;
 
-
+	void set_selection_type(SayonaraSelectionView::SelectionType type) override;
 
 
 protected:

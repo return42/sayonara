@@ -261,7 +261,7 @@ void GUI_LocalLibrary::lib_fill_albums(const AlbumList& albums)
 	QList<CoverLocation> covers;
 
 	for(const Album& album : albums){
-		covers << CoverLocation::get_cover_location(album);
+		covers << CoverLocation::get_cover_location(album.id, album.db_id);
 	}
 
 	_acm->set_data(albums, covers);

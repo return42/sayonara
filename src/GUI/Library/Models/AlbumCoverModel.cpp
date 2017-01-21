@@ -46,7 +46,10 @@ QVariant AlbumCoverModel::data(const QModelIndex& index, int role) const
 	if(row == 0){
 		switch(role){
 			case Qt::DecorationRole:
-				return QPixmap(cl.preferred_path()).scaled(100, 100, Qt::KeepAspectRatio);
+				{
+					QString preferred = cl.preferred_path();
+					return QPixmap(preferred).scaled(100, 100, Qt::KeepAspectRatio);
+				}
 			case Qt::SizeHintRole:
 				return QSize(100, 100);
 			default:

@@ -5,7 +5,7 @@
 AlbumCoverView::AlbumCoverView(QWidget* parent) :
 	LibraryView(parent)
 {
-
+	set_selection_type( SayonaraSelectionView::SelectionType::Columns );
 }
 
 AlbumCoverView::~AlbumCoverView() {}

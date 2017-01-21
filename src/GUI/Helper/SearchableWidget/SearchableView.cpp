@@ -34,7 +34,7 @@ struct SearchViewInterface::Private
 {
 	SearchModelInterface*		search_model=nullptr;
 	QAbstractItemView*			view=nullptr;
-	int							cur_row;
+	int							cur_idx;
 };
 
 
@@ -47,7 +47,7 @@ SearchViewInterface::SearchViewInterface(QAbstractItemView* view) :
 
 	_m->view = view;
 	_m->search_model = nullptr;
-	_m->cur_row = -1;
+	_m->cur_idx = -1;
 }
 
 SearchViewInterface::~SearchViewInterface() {}
@@ -105,10 +105,10 @@ QModelIndex SearchViewInterface::get_match_index(const QString& str, SearchDirec
 			idx = _m->search_model->getFirstRowIndexOf(converted_string);
 			break;
 		case SearchDirection::Next:
-			idx = _m->search_model->getNextRowIndexOf(converted_string, _m->cur_row + 1);
+			idx = _m->search_model->getNextRowIndexOf(converted_string, _m->cur_idx + 1);
 			break;
 		case SearchDirection::Prev:
-			idx = _m->search_model->getPrevRowIndexOf(converted_string, _m->cur_row - 1);
+			idx = _m->search_model->getPrevRowIndexOf(converted_string, _m->cur_idx - 1);
 			break;
 	}
 
@@ -120,17 +120,25 @@ void SearchViewInterface::select_match(const QString &str, SearchDirection direc
 {
 	QModelIndex idx = get_match_index(str, direction);
 	if(!idx.isValid()){
-		_m->cur_row = -1;
+		_m->cur_idx = -1;
 		return;
 	}
 
-	_m->cur_row = idx.row();
+	//todo
+	_m->cur_idx = idx.row();
 
 	SP::Set<int> indexes;
-	indexes.insert(_m->cur_row);
+	indexes.insert(_m->cur_idx);
 
-	this->select_rows(indexes);
-	this->set_current_index(_m->cur_row);
+	if(selection_type() == SayonaraSelectionView::SelectionType::Rows){
+		this->select_rows(indexes);
+	}
+
+	else{
+		this->select_columns(indexes);
+	}
+
+	this->set_current_index(_m->cur_idx);
 
 	_m->view->scrollTo(idx);
 }
@@ -144,7 +152,16 @@ QItemSelectionModel* SearchViewInterface::get_selection_model() const
 
 void SearchViewInterface::set_current_index(int idx)
 {
-	_m->view->setCurrentIndex(get_index(idx, 0));
+	QModelIndex index;
+	if(selection_type() == SayonaraSelectionView::SelectionType::Rows){
+		index = get_index(idx, 0);
+	}
+
+	else{
+		index = get_index(0, idx);
+	}
+
+	_m->view->setCurrentIndex(index);
 }
 
 

@@ -35,7 +35,7 @@ bool LibraryView::event(QEvent* e)
 			rc_menu_init();
 		}
 
-		SP::Set<int> selections = get_selections();
+		SP::Set<int> selections = get_selected_rows();
 
 		QContextMenuEvent* cme = dynamic_cast<QContextMenuEvent*>(e);
 		QPoint pos = cme->globalPos();
@@ -171,7 +171,7 @@ void LibraryView::keyPressEvent(QKeyEvent* event)
 	SearchableTableView::keyPressEvent(event);
 	if(!event->isAccepted()) return;
 
-	SP::Set<int> selections = get_selections();
+	SP::Set<int> selections = get_selected_rows();
 
 	switch(key) {
 		case Qt::Key_Return:

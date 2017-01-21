@@ -57,7 +57,8 @@ void LibraryView::sort_by_column(int col) {
 }
 
 
-void LibraryView::set_table_headers(const ColumnHeaderList& headers, const BoolList& shown_cols, Library::SortOrder sorting) {
+void LibraryView::set_table_headers(const ColumnHeaderList& headers, const BoolList& shown_cols, Library::SortOrder sorting)
+{
 	HeaderView* header_view = this->get_header_view();
 
 	_model->removeColumns(0, _model->columnCount());
@@ -75,8 +76,9 @@ void LibraryView::set_table_headers(const ColumnHeaderList& headers, const BoolL
 }
 
 
-void LibraryView::header_actions_triggered(const BoolList& shown_cols) {
-	SP::Set<int> sel_indexes = get_selections();
+void LibraryView::header_actions_triggered(const BoolList& shown_cols)
+{
+	SP::Set<int> sel_indexes = get_selected_rows();
 
 	std::for_each(sel_indexes.begin(), sel_indexes.end(), [this](int row){
 		this->selectRow(row);
@@ -87,7 +89,7 @@ void LibraryView::header_actions_triggered(const BoolList& shown_cols) {
 
 HeaderView*	LibraryView::get_header_view()
 {
-	return static_cast<HeaderView*>(this->horizontalHeader());
+	return dynamic_cast<HeaderView*>(this->horizontalHeader());
 }
 
 // header end

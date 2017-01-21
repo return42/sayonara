@@ -57,7 +57,7 @@ class AbstractSearchTableModel :
 {
 protected:
 	explicit AbstractSearchTableModel(QObject* parent=nullptr);
-    virtual ~AbstractSearchTableModel();
+	virtual ~AbstractSearchTableModel();
 };
 
 
@@ -68,7 +68,7 @@ class AbstractSearchListModel :
 {
 protected:
 	 explicit AbstractSearchListModel(QObject* parent=nullptr);
-     virtual ~AbstractSearchListModel();
+	 virtual ~AbstractSearchListModel();
 };
 
 #endif
