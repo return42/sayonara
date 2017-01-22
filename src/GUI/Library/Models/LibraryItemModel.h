@@ -70,7 +70,7 @@ public:
 
 	void set_mimedata(const MetaDataList& v_md);
 
-	CustomMimeData* get_mimedata();
+	CustomMimeData* get_mimedata() const;
 
 
 protected:

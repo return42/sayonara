@@ -156,7 +156,7 @@
     </widget>
    </item>
    <item row="1" column="0" rowspan="11">
-    <widget class="SearchableTableView" name="tv_stations">
+    <widget class="SomaFMStationView" name="tv_stations">
      <property name="sizePolicy">
       <sizepolicy hsizetype="MinimumExpanding" vsizetype="Expanding">
        <horstretch>0</horstretch>
@@ -240,9 +240,9 @@ border: 2px solid #202020;
  </widget>
  <customwidgets>
   <customwidget>
-   <class>SearchableTableView</class>
+   <class>SomaFMStationView</class>
    <extends>QTableView</extends>
-   <header>GUI/Helper/SearchableWidget/SearchableTableView.h</header>
+   <header>3rdParty/SomaFM/ui/SomaFMStationView.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

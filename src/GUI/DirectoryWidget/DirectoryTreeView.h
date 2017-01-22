@@ -69,6 +69,11 @@ private:
 
 private slots:
 	void _sl_library_path_changed();
+
+	// SayonaraSelectionView interface
+public:
+	int get_index_by_model_index(const QModelIndex& idx) const override;
+	QModelIndex get_model_index_by_index(int idx) const override;
 };
 
 #endif // DIRECTORYTREEVIEW_H

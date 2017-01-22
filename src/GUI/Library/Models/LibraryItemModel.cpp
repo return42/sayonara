@@ -25,6 +25,7 @@
 
 #include "Helper/globals.h"
 #include "Helper/Set.h"
+#include "Helper/Logger/Logger.h"
 
 #include <algorithm>
 
@@ -171,19 +172,26 @@ void LibraryItemModel::set_mimedata(const MetaDataList& v_md)
 }
 
 
-CustomMimeData* LibraryItemModel::get_mimedata()
+CustomMimeData* LibraryItemModel::get_mimedata() const
 {
 	CustomMimeData* mimedata = new CustomMimeData();
 	QList<QUrl> urls;
 
-	for(const MetaData& md : _m->track_mimedata){
-		QUrl url(QString("file://") + md.filepath());
-		urls << url;
+	if(_m->track_mimedata.isEmpty()){
+		sp_log(Log::Warning) << this->objectName() << " does not have any mimedata. Do you forget to call LibraryItemModel::set_mimedata first?";
+		mimedata->setText("No tracks");
 	}
 
-	mimedata->setMetaData(_m->track_mimedata);
-	mimedata->setText("tracks");
-	mimedata->setUrls(urls);
+	else{
+		for(const MetaData& md : _m->track_mimedata){
+			QUrl url(QString("file://") + md.filepath());
+			urls << url;
+		}
+
+		mimedata->setMetaData(_m->track_mimedata);
+		mimedata->setText("tracks");
+		mimedata->setUrls(urls);
+	}
 
 	return mimedata;
 }

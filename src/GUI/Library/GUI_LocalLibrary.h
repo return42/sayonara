@@ -63,7 +63,9 @@ protected:
 
 private slots:
 
-	void disc_pressed(int);
+	void switch_album_view();
+
+	void disc_pressed(int disc);
 	void lib_no_lib_path();
 	void progress_changed(const QString& type, int progress);
 
@@ -98,8 +100,10 @@ private slots:
 	void _sl_libpath_changed();
 	void clear_button_pressed() override;
 
+
+protected slots:
 	void lib_fill_albums(const AlbumList& albums) override;
-	void album_cover_view_sel_changed(const QModelIndex& index);
+	void lib_fill_tracks(const MetaDataList& v_md) override;
 
 private:
 	Ui::GUI_LocalLibrary*	ui=nullptr;
@@ -109,7 +113,10 @@ private:
 
 	AlbumCoverView*			_acv = nullptr;
 	AlbumCoverModel*		_acm = nullptr;
+
+	void init_album_cover_view();
 };
+
 
 #endif /* GUI_LocalLibrary_H_ */
 

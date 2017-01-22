@@ -125,10 +125,9 @@ void SearchViewInterface::select_match(const QString &str, SearchDirection direc
 	}
 
 	//todo
-	_m->cur_idx = idx.row();
+	_m->cur_idx = get_index_by_model_index(idx);
 
-	SP::Set<int> indexes;
-	indexes.insert(_m->cur_idx);
+	SP::Set<int> indexes(_m->cur_idx);
 
 	if(selection_type() == SayonaraSelectionView::SelectionType::Rows){
 		this->select_rows(indexes);
@@ -152,15 +151,7 @@ QItemSelectionModel* SearchViewInterface::get_selection_model() const
 
 void SearchViewInterface::set_current_index(int idx)
 {
-	QModelIndex index;
-	if(selection_type() == SayonaraSelectionView::SelectionType::Rows){
-		index = get_index(idx, 0);
-	}
-
-	else{
-		index = get_index(0, idx);
-	}
-
+	QModelIndex index = get_model_index_by_index(idx);
 	_m->view->setCurrentIndex(index);
 }
 

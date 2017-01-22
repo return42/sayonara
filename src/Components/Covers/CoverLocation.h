@@ -85,7 +85,9 @@ public:
 
 
 	/**
-	 * @brief overloaded. Fetches album from database and calls
+	 * @brief The slowest, but by far the most accurate function. Checks all local
+	 * cover paths by all known tracks for the album.
+	 * Fetches album from database and calls
 	 *  get_cover_location(const QString& album_name, const QStringList& artists)
 	 * @param album_id Album ID
 	 * @param db_id Database ID for album

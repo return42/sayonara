@@ -10,7 +10,12 @@ public:
 	explicit AlbumCoverView(QWidget* parent=nullptr);
 	virtual ~AlbumCoverView();
 
-	int get_index_by_model_index(const QModelIndex &idx) const override;
+	// SayonaraSelectionView interface
+public:
+	int get_index_by_model_index(const QModelIndex& idx) const override;
+	QModelIndex get_model_index_by_index(int idx) const override;
+
+	MD::Interpretation get_metadata_interpretation() const override;
 };
 
 #endif // ALBUMCOVERVIEW_H

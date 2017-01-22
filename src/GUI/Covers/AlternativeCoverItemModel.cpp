@@ -60,6 +60,7 @@ RowColumn AlternativeCoverItemModel::cvt_2_row_col(int idx) const
 	return p;
 }
 
+
 int AlternativeCoverItemModel::cvt_2_idx(int row, int col) const
 {
     if(row < 0 || col < 0) return -1;
@@ -73,11 +74,14 @@ int AlternativeCoverItemModel::rowCount(const QModelIndex &parent) const
 	Q_UNUSED(parent)
 	return 2;
 }
+
+
 int AlternativeCoverItemModel::columnCount(const QModelIndex &parent) const
 {
 	Q_UNUSED(parent)
 	return 5;
 }
+
 
 QVariant AlternativeCoverItemModel::data(const QModelIndex &index, int role) const
 {
@@ -119,7 +123,9 @@ Qt::ItemFlags AlternativeCoverItemModel::flags(const QModelIndex &index) const
 	return QAbstractItemModel::flags(index);
 }
 
-bool AlternativeCoverItemModel::setData(const QModelIndex &index, const QVariant &value, int role) {
+
+bool AlternativeCoverItemModel::setData(const QModelIndex &index, const QVariant &value, int role)
+{
 	if (!index.isValid()){
 		 return false;
 	}
@@ -139,6 +145,7 @@ bool AlternativeCoverItemModel::setData(const QModelIndex &index, const QVariant
 	 return false;
 }
 
+
 void AlternativeCoverItemModel::reset()
 {
 	int rows = rowCount();
@@ -151,7 +158,9 @@ void AlternativeCoverItemModel::reset()
 	}
 }
 
-bool AlternativeCoverItemModel::insertRows(int position, int rows, const QModelIndex &index) {
+
+bool AlternativeCoverItemModel::insertRows(int position, int rows, const QModelIndex &index)
+{
 	Q_UNUSED(index);
 
 	beginInsertRows(QModelIndex(), position, position+rows-1);
@@ -168,7 +177,10 @@ bool AlternativeCoverItemModel::insertRows(int position, int rows, const QModelI
 	endInsertRows();
 	return true;
 }
-bool AlternativeCoverItemModel::removeRows(int position, int rows, const QModelIndex &index) {
+
+
+bool AlternativeCoverItemModel::removeRows(int position, int rows, const QModelIndex &index)
+{
 	Q_UNUSED(index);
 
 	 beginRemoveRows(QModelIndex(), position, position+rows-1);
@@ -179,7 +191,9 @@ bool AlternativeCoverItemModel::removeRows(int position, int rows, const QModelI
 	 return true;
 }
 
-bool AlternativeCoverItemModel::is_valid(int row, int col){
+
+bool AlternativeCoverItemModel::is_valid(int row, int col)
+{
     int idx = cvt_2_idx(row, col);
     if(idx < 0) return false;
 

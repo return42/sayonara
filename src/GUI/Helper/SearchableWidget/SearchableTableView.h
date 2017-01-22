@@ -49,7 +49,6 @@ protected:
 	MiniSearcher* mini_searcher() const override;
 	void keyPressEvent(QKeyEvent *event) override;
 
-
 public:
 	explicit SearchableTableView(QWidget* parent=nullptr);
 	virtual ~SearchableTableView();

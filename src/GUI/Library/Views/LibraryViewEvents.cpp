@@ -35,7 +35,7 @@ bool LibraryView::event(QEvent* e)
 			rc_menu_init();
 		}
 
-		SP::Set<int> selections = get_selected_rows();
+		SP::Set<int> selections = get_selected_items();
 
 		QContextMenuEvent* cme = dynamic_cast<QContextMenuEvent*>(e);
 		QPoint pos = cme->globalPos();
@@ -171,7 +171,7 @@ void LibraryView::keyPressEvent(QKeyEvent* event)
 	SearchableTableView::keyPressEvent(event);
 	if(!event->isAccepted()) return;
 
-	SP::Set<int> selections = get_selected_rows();
+	SP::Set<int> selections = get_selected_items();
 
 	switch(key) {
 		case Qt::Key_Return:
@@ -254,10 +254,4 @@ void LibraryView::dropEvent(QDropEvent *event)
 	}
 
 	emit sig_import_files(filelist);
-}
-
-void LibraryView::resizeEvent(QResizeEvent *event)
-{
-	SearchableTableView::resizeEvent(event);
-	get_header_view()->refresh_sizes(this);
 }

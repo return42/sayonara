@@ -38,6 +38,10 @@ public:
 	QString get_string(int row) const override;
 	int get_id_by_row(int row) override;
 	CoverLocation get_cover(const SP::Set<int>& indexes) const override;
+
+	void set_max_columns(int columns);
+
+
 };
 
 #endif // ALBUMCOVERMODEL_H

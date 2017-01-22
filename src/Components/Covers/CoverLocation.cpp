@@ -145,6 +145,7 @@ CoverLocation CoverLocation::get_cover_location(const QString& album_name, const
 	return get_cover_location(album_name, major_artist);
 }
 
+#include <QImage>
 CoverLocation CoverLocation::get_cover_location(int album_id, quint8 db_id)
 {
 	if(album_id < 0) {
@@ -172,6 +173,18 @@ CoverLocation CoverLocation::get_cover_location(int album_id, quint8 db_id)
 		}
 	}
 
+	CoverLocation alt_cov_loc = CoverLocation::get_cover_location(album);
+	if(QFile::exists(!alt_cov_loc.cover_path())){
+		QImage img(cl.preferred_path());
+		img.save(alt_cov_loc.cover_path());
+	}
+
+	alt_cov_loc = CoverLocation::get_cover_location(album.name, album.artists);
+	if(QFile::exists(!alt_cov_loc.cover_path())){
+		QImage img(cl.preferred_path());
+		img.save(alt_cov_loc.cover_path());
+	}
+
 	return cl;
 }
 
@@ -181,6 +194,9 @@ CoverLocation CoverLocation::get_cover_location(const Album& album)
 	int n_artists;
 
 	n_artists = album.artists.size();
+
+
+	// TODO:  Check, if we firstly should check the albumid, db_id method
 
 	CoverLocation cl;
 

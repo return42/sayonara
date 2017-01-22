@@ -53,18 +53,10 @@ LibraryView::LibraryView(QWidget* parent) :
 	_cur_filling = false;
 	_model = nullptr;
 
-	HeaderView* header = new HeaderView(Qt::Horizontal, this);
-	this->setHorizontalHeader(header);
-
-	connect(header, &HeaderView::sectionClicked, this, &LibraryView::sort_by_column);
-	connect(header, &HeaderView::sig_columns_changed, this, &LibraryView::header_actions_triggered);
-
 	setAcceptDrops(true);
 	setSelectionBehavior(QAbstractItemView::SelectRows);
 
 	clearSelection();
-
-	REGISTER_LISTENER_NO_CALL(Set::Player_Language, language_changed);
 }
 
 
@@ -75,8 +67,6 @@ void LibraryView::setModel(LibraryItemModel * model)
 {
 	SearchableTableView::setModel(model);
 	_model = model;
-
-	language_changed();
 }
 
 
@@ -87,7 +77,7 @@ void LibraryView::selectionChanged(const QItemSelection& selected, const QItemSe
 	}
 
 	SearchableTableView::selectionChanged(selected, deselected);
-	SP::Set<int> indexes = get_selections(_selection_type);
+	SP::Set<int> indexes = get_selected_items();
 
 	emit sig_sel_changed(indexes);
 }
@@ -95,7 +85,7 @@ void LibraryView::selectionChanged(const QItemSelection& selected, const QItemSe
 
 void LibraryView::save_selections()
 {
-	SP::Set<int> indexes = get_selections(_selection_type);
+	SP::Set<int> indexes = get_selected_items();
 	_model->add_selections(indexes);
 }
 // selections end
@@ -147,7 +137,7 @@ QMimeData* LibraryView::get_mimedata() const
 QPixmap LibraryView::get_pixmap() const
 {
 	CoverLocation cl = _model->get_cover(
-			get_selections(_selection_type)
+			get_selected_items()
 	);
 
 	QString cover_path = cl.preferred_path();
@@ -174,10 +164,9 @@ void LibraryView::set_selection_type(SayonaraSelectionView::SelectionType type)
 
 MetaDataList LibraryView::get_selected_metadata() const
 {
-	CustomMimeData* mimedata;
 	MetaDataList v_md;
 
-	mimedata = _model->get_mimedata();
+	CustomMimeData* mimedata = _model->get_mimedata();
 	if(mimedata){
 		v_md = mimedata->getMetaData();
 		delete mimedata; mimedata = nullptr;
@@ -191,18 +180,6 @@ void LibraryView::rc_menu_show(const QPoint& p) {
 	_rc_menu->exec(p);
 }
 
-
-void LibraryView::language_changed()
-{
-	HeaderView* header_view = get_header_view();
-
-	for(int i=0; i<_model->columnCount(); i++){
-		ColumnHeader* header = header_view->get_column_header(i);
-		if(header){
-			_model->setHeaderData(i, Qt::Horizontal, header->get_title(), Qt::DisplayRole);
-		}
-	}
-}
 
 void LibraryView::set_type(MD::Interpretation type)
 {

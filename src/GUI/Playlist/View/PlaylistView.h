@@ -137,6 +137,11 @@ private:
 private slots:
 	void handle_async_drop(bool success);
 	void rating_changed(int rating);
+
+	// SayonaraSelectionView interface
+public:
+	int get_index_by_model_index(const QModelIndex& idx) const override;
+	QModelIndex get_model_index_by_index(int idx) const override;
 };
 
 #endif /* PlaylistView_H_ */

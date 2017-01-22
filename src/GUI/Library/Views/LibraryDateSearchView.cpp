@@ -136,3 +136,14 @@ void LibraryDateSearchView::delete_clicked()
 	QModelIndex cur_idx = this->currentIndex();
 	_m->model->remove(cur_idx.row());
 }
+
+
+int LibraryDateSearchView::get_index_by_model_index(const QModelIndex& idx) const
+{
+	return idx.row();
+}
+
+QModelIndex LibraryDateSearchView::get_model_index_by_index(int idx) const
+{
+	return _m->model->index(idx, 0);
+}

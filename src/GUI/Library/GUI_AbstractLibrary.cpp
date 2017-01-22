@@ -82,8 +82,8 @@ void GUI_AbstractLibrary::init_finished()
 	connect(_lv_artist, &LibraryView::doubleClicked, this, &GUI_AbstractLibrary::artist_dbl_clicked);
 	connect(_lv_artist, &LibraryView::sig_sel_changed, this, &GUI_AbstractLibrary::artist_sel_changed);
 	connect(_lv_artist, &LibraryView::sig_middle_button_clicked, this, &GUI_AbstractLibrary::artist_middle_clicked);
-	connect(_lv_artist, &LibraryView::sig_sortorder_changed, this, &GUI_AbstractLibrary::sortorder_artist_changed);
-	connect(_lv_artist, &LibraryView::sig_columns_changed, this, &GUI_AbstractLibrary::columns_artist_changed);
+	connect(_lv_artist, &LibraryTableView::sig_sortorder_changed, this, &GUI_AbstractLibrary::sortorder_artist_changed);
+	connect(_lv_artist, &LibraryTableView::sig_columns_changed, this, &GUI_AbstractLibrary::columns_artist_changed);
 	connect(_lv_artist, &LibraryView::sig_delete_clicked, this, &GUI_AbstractLibrary::delete_artist);
 	connect(_lv_artist, &LibraryView::sig_play_next_clicked, this, &GUI_AbstractLibrary::play_next);
 	connect(_lv_artist, &LibraryView::sig_append_clicked, this, &GUI_AbstractLibrary::append);
@@ -92,8 +92,8 @@ void GUI_AbstractLibrary::init_finished()
 	connect(_lv_tracks, &LibraryView::doubleClicked, this, &GUI_AbstractLibrary::track_dbl_clicked);
 	connect(_lv_tracks, &LibraryView::sig_sel_changed, this, &GUI_AbstractLibrary::track_sel_changed);
 	connect(_lv_tracks, &LibraryView::sig_middle_button_clicked, this, &GUI_AbstractLibrary::tracks_middle_clicked);
-	connect(_lv_tracks, &LibraryView::sig_sortorder_changed, this, &GUI_AbstractLibrary::sortorder_title_changed);
-	connect(_lv_tracks, &LibraryView::sig_columns_changed, this, &GUI_AbstractLibrary::columns_title_changed);
+	connect(_lv_tracks, &LibraryTableView::sig_sortorder_changed, this, &GUI_AbstractLibrary::sortorder_title_changed);
+	connect(_lv_tracks, &LibraryTableView::sig_columns_changed, this, &GUI_AbstractLibrary::columns_title_changed);
 	connect(_lv_tracks, &LibraryView::sig_delete_clicked, this, &GUI_AbstractLibrary::delete_tracks);
 	connect(_lv_tracks, &LibraryView::sig_play_next_clicked, this, &GUI_AbstractLibrary::play_next_tracks);
 	connect(_lv_tracks, &LibraryView::sig_append_clicked, this, &GUI_AbstractLibrary::append_tracks);
@@ -340,7 +340,7 @@ void GUI_AbstractLibrary::album_middle_clicked(const QPoint& pt)
 void GUI_AbstractLibrary::tracks_middle_clicked(const QPoint& pt)
 {
 	Q_UNUSED(pt)
-	_library->psl_prepare_tracks_for_playlist(_lv_tracks->get_selected_rows(), true);
+	_library->psl_prepare_tracks_for_playlist(_lv_tracks->get_selected_items(), true);
 }
 
 
@@ -459,8 +459,9 @@ void GUI_AbstractLibrary::delete_tracks()
 }
 
 
-void GUI_AbstractLibrary::album_rating_changed(int rating) {
-	SP::Set<int> indexes = _lv_album->get_selected_rows();
+void GUI_AbstractLibrary::album_rating_changed(int rating)
+{
+	SP::Set<int> indexes = _lv_album->get_selected_items();
 	if(indexes.isEmpty()) {
 		return;
 	}
@@ -471,8 +472,9 @@ void GUI_AbstractLibrary::album_rating_changed(int rating) {
 }
 
 
-void GUI_AbstractLibrary::title_rating_changed(int rating) {
-	SP::Set<int> indexes = _lv_tracks->get_selected_rows();
+void GUI_AbstractLibrary::title_rating_changed(int rating)
+{
+	SP::Set<int> indexes = _lv_tracks->get_selected_items();
 	if(indexes.isEmpty()) {
 		return;
 	}

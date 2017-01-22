@@ -170,9 +170,9 @@ void PlaylistView::scroll_down()
 
 void PlaylistView::remove_cur_selected_rows()
 {
-	int min_row = get_min_selected_row();
+	int min_row = get_min_selected_item();
 
-	_model->remove_rows(get_selected_rows());
+	_model->remove_rows(get_selected_items());
 	clear_selection();
 
 	int row_count = _model->rowCount();
@@ -185,7 +185,7 @@ void PlaylistView::remove_cur_selected_rows()
 
 void PlaylistView::delete_cur_selected_tracks()
 {
-	SP::Set<int> selections = get_selected_rows();
+	SP::Set<int> selections = get_selected_items();
 	emit sig_delete_tracks(selections);
 }
 
@@ -327,7 +327,7 @@ void PlaylistView::handle_inner_drag_drop(int row, bool copy)
 	SP::Set<int> cur_selected_rows, new_selected_rows;
 	int n_lines_before_tgt = 0;
 
-	cur_selected_rows = get_selected_rows();
+	cur_selected_rows = get_selected_items();
 
 	if( cur_selected_rows.contains(row) ) {
 		return;
@@ -365,7 +365,7 @@ void PlaylistView::fill(PlaylistPtr pl)
 
 void PlaylistView::rating_changed(int rating)
 {
-	SP::Set<int> selections = get_selected_rows();
+	SP::Set<int> selections = get_selected_items();
 	if(selections.isEmpty()){
 		return;
 	}
@@ -394,7 +394,18 @@ MD::Interpretation PlaylistView::get_metadata_interpretation() const
 MetaDataList PlaylistView::get_data_for_info_dialog() const
 {
 	MetaDataList v_md;
-	QList<int> selected_rows = get_selected_rows().toList();
+	QList<int> selected_rows = get_selected_items().toList();
 	_model->get_metadata(selected_rows, v_md);
 	return v_md;
+}
+
+
+int PlaylistView::get_index_by_model_index(const QModelIndex& idx) const
+{
+	return idx.row();
+}
+
+QModelIndex PlaylistView::get_model_index_by_index(int idx) const
+{
+	return _model->index(idx);
 }

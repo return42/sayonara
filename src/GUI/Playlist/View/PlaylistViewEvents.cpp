@@ -49,7 +49,7 @@ void PlaylistView::contextMenuEvent(QContextMenuEvent* e)
 		entry_mask = (LibraryContextMenu::EntryClear);
 	}
 
-	SP::Set<int> selections = get_selected_rows();
+	SP::Set<int> selections = get_selected_items();
 	if(selections.size() > 0)
 	{
 		entry_mask |=
@@ -148,7 +148,7 @@ void PlaylistView::keyPressEvent(QKeyEvent* event)
 
 	if((key == Qt::Key_Up || key == Qt::Key_Down))
 	{
-		SP::Set<int> selections = this->get_selected_rows();
+		SP::Set<int> selections = get_selected_items();
 		bool ctrl_pressed = (event->modifiers() & Qt::ControlModifier);
 
 		if( ctrl_pressed && !selections.isEmpty() )
@@ -213,7 +213,7 @@ void PlaylistView::keyPressEvent(QKeyEvent* event)
 	}
 
 	int new_row = -1;
-	int min_row = get_min_selected_row();
+	int min_row = get_min_selected_item();
 
 	switch(key) {
 		case Qt::Key_End:

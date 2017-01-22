@@ -163,3 +163,14 @@ QMimeData*FileListView::get_mimedata() const
 
 	return nullptr;
 }
+
+
+int FileListView::get_index_by_model_index(const QModelIndex& idx) const
+{
+	return idx.row();
+}
+
+QModelIndex FileListView::get_model_index_by_index(int idx) const
+{
+	return _model->index(idx);
+}

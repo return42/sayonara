@@ -39,7 +39,7 @@ class QItemDelegate;
 class QPushButton;
 class QComboBox;
 class AbstractLibrary;
-class LibraryView;
+class LibraryTableView;
 class LibraryViewAlbum;
 class LibraryItemDelegateAlbums;
 class LibraryItemDelegateTracks;
@@ -82,9 +82,9 @@ protected:
 
 private:
 	QComboBox*			_combo_libchooser = nullptr;
-	LibraryView*		_lv_artist = nullptr;
+	LibraryTableView*	_lv_artist = nullptr;
 	LibraryViewAlbum*	_lv_album = nullptr;
-	LibraryView*		_lv_tracks = nullptr;
+	LibraryTableView*	_lv_tracks = nullptr;
 
 	QComboBox*			_combo_search = nullptr;
 	QPushButton*		_btn_clear = nullptr;

@@ -4,13 +4,29 @@
 #include "Helper/Logger/Logger.h"
 
 #include <QPixmap>
+#include <QVector>
 
 
 struct AlbumCoverModel::Private
 {
 	QList<CoverLocation> cover_locations;
 	AlbumList albums;
+	QHash<QString, QPixmap> pixmaps;
+
+	int size;
+	int columns;
+
+	Private()
+	{
+		size = 100;
+		columns = 10;
+	}
 };
+
+static QString get_hash(const Album& album)
+{
+	return album.name + "-" + album.id;
+}
 
 AlbumCoverModel::AlbumCoverModel(QObject* parent) :
 	LibraryItemModel()
@@ -23,53 +39,69 @@ AlbumCoverModel::~AlbumCoverModel() {}
 
 int AlbumCoverModel::rowCount(const QModelIndex& parent) const
 {
-	return 2;
+	return (_m->albums.size() + columnCount() - 1 )/ columnCount();
 }
 
 int AlbumCoverModel::columnCount(const QModelIndex& parent) const
 {
-	return _m->cover_locations.size();
+	return _m->columns;
+}
+
+void AlbumCoverModel::set_max_columns(int columns)
+{
+	_m->columns = columns;
 }
 
 QVariant AlbumCoverModel::data(const QModelIndex& index, int role) const
 {
-	if(!index.isValid()){
+	if(!index.isValid()) {
 		return QVariant();
 	}
 
 	int row = index.row();
 	int col = index.column();
-	const CoverLocation& cl = _m->cover_locations[col];
-	const Album& album = _m->albums[col];
-	//sp_log(Log::Debug) << "Album name" << album.name;
 
-	if(row == 0){
-		switch(role){
-			case Qt::DecorationRole:
+	int n_columns = columnCount();
+
+	int idx = (row * n_columns) + col;
+	if(idx >= _m->cover_locations.size()){
+		return QVariant();
+	}
+
+	switch(role)
+	{
+		case Qt::DisplayRole:
+			return _m->albums[idx].name;
+
+		case Qt::DecorationRole:
+			{
+				QPixmap p;
+				QString hash = get_hash(_m->albums[idx]);
+
+				if( !_m->pixmaps.contains(hash) )
 				{
+					const CoverLocation& cl = _m->cover_locations[idx];
 					QString preferred = cl.preferred_path();
-					return QPixmap(preferred).scaled(100, 100, Qt::KeepAspectRatio);
+					p = QPixmap(preferred).scaled(_m->size, _m->size, Qt::KeepAspectRatio);
+					if(cl.valid() && !CoverLocation::isInvalidLocation(cl.preferred_path())){
+						_m->pixmaps[hash] = p;
+					}
 				}
-			case Qt::SizeHintRole:
-				return QSize(100, 100);
-			default:
-				return QVariant();
-		}
+
+				else {
+					p = _m->pixmaps[hash];
+				}
+
+				return p;
+			}
+
+		case Qt::SizeHintRole:
+			return QSize(_m->size + 100, _m->size + 10);
+
+		default:
+			return QVariant();
 	}
 
-	else if(row == 1){
-		switch(role){
-			case Qt::DisplayRole:
-				return album.name;
-			default:
-				return QVariant();
-		}
-	}
-
-
-	else{
-		sp_log(Log::Debug) << "Unknown row";
-	}
 	return QVariant();
 }
 
@@ -78,21 +110,21 @@ void AlbumCoverModel::set_data(const AlbumList& albums, const QList<CoverLocatio
 {
 	beginRemoveRows(QModelIndex(), 0, rowCount());
 	endRemoveRows();
-	beginInsertRows(QModelIndex(), 0, 2);
-	endInsertRows();
+
 	beginRemoveColumns(QModelIndex(), 0, columnCount());
 	endRemoveColumns();
-	beginInsertColumns(QModelIndex(), 0, albums.size());
-	endInsertColumns();
 
 	_m->cover_locations = cover_locations;
 	_m->albums = albums;
 
-	int rows = rowCount();
-	int cols = columnCount();
+	beginInsertRows(QModelIndex(), 0, rowCount());
+	endInsertRows();
+
+	beginInsertColumns(QModelIndex(), 0, columnCount());
+	endInsertColumns();
 
 	emit dataChanged(index(0, 0),
-					 index(rows, cols)
+					 index(rowCount(), columnCount())
 	);
 }
 

@@ -32,13 +32,14 @@
 
 #include <QPainter>
 
-AlternativeCoverItemDelegate::AlternativeCoverItemDelegate(QObject* parent) : QItemDelegate(parent) {
+AlternativeCoverItemDelegate::AlternativeCoverItemDelegate(QObject* parent) :
+	QItemDelegate(parent)
+{
 	QPixmap pm = GUI::get_pixmap("logo.png");
 
 	label = new QLabel();
 	label->setScaledContents(true);
 	label->setStyleSheet("background: transparent;");
-
 	label->setPixmap(pm);
 }
 

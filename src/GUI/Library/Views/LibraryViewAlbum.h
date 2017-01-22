@@ -22,11 +22,11 @@
 #define LIBRARYVIEWALBUM_H
 
 #include "Helper/MetaData/Album.h"
-#include "GUI/Library/Views/LibraryView.h"
+#include "GUI/Library/Views/LibraryTableView.h"
 #include <QModelIndex>
 
 class DiscPopupMenu;
-class LibraryViewAlbum : public LibraryView
+class LibraryViewAlbum : public LibraryTableView
 {
 	Q_OBJECT
 

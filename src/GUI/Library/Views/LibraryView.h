@@ -38,7 +38,6 @@
 #include "GUI/Library/Models/LibraryItemModel.h"
 
 #include "Helper/MetaData/MetaDataFwd.h"
-#include "Helper/Library/Sortorder.h"
 #include "Helper/typedefs.h"
 #include "Helper/Set.h"
 
@@ -47,20 +46,17 @@
 #include <QStringList>
 
 class LibraryContextMenu;
-class HeaderView;
 class ColumnHeaderList;
 
 class LibraryView :
 		public SearchableTableView,
 		public SayonaraClass,
 		public InfoDialogContainer,
-		private Dragable
+		protected Dragable
 {
 	Q_OBJECT
 
 signals:
-
-	void sig_columns_changed(const BoolList&);
 
 	void sig_middle_button_clicked(const QPoint&);
 	void sig_all_selected();
@@ -68,31 +64,15 @@ signals:
 	void sig_play_next_clicked();
 	void sig_append_clicked();
 	void sig_refresh_clicked();
-	void sig_sortorder_changed(Library::SortOrder);
-
-	void sig_no_disc_menu();
 	void sig_import_files(const QStringList& files);
 	void sig_double_clicked(const SP::Set<int>& indexes);
 	void sig_sel_changed(const SP::Set<int>& indexes);
 	void sig_merge(int target_id);
 
 
-protected slots:
-	virtual void header_actions_triggered(const BoolList& shown_cols);
-	virtual void rc_menu_show(const QPoint&);
-	virtual void sort_by_column(int);
-
-	void merge_action_triggered();
-
-	void language_changed();
-
-
-
 public:
 	explicit LibraryView(QWidget* parent=nullptr);
 	virtual ~LibraryView();
-
-	virtual void set_table_headers(const ColumnHeaderList& headers, const BoolList& shown_cols, Library::SortOrder sorting);
 
 	virtual void save_selections();
 
@@ -122,35 +102,31 @@ protected:
 	virtual void dragMoveEvent(QDragMoveEvent *event) override;
 	virtual void dropEvent(QDropEvent* event) override;
 
-	virtual void resizeEvent(QResizeEvent *event) override;
-
-	virtual void selectionChanged ( const QItemSelection & selected, const QItemSelection & deselected ) override;
+	virtual void selectionChanged (const QItemSelection& selected, const QItemSelection& deselected ) override;
 	virtual void rc_menu_init();
 
-	HeaderView*	get_header_view();
 	MD::Interpretation get_metadata_interpretation() const override;
 	MetaDataList get_data_for_info_dialog() const override;
 
 
-
 protected:
-
+	bool						_cur_filling;
 	LibraryItemModel*			_model=nullptr;
-
 	QAction*					_merge_action=nullptr;
 	QMenu*						_merge_menu=nullptr;
-
 	LibraryContextMenu*			_rc_menu=nullptr;
-
-	Library::SortOrder			_sort_order;
-
-	bool						_cur_filling;
 	MD::Interpretation			_type;
+
+
+protected slots:
+	virtual void rc_menu_show(const QPoint&);
+	virtual void merge_action_triggered();
 
 
 public:
 	template < typename T, typename ModelType >
-	void fill(const T& input_data){
+	void fill(const T& input_data)
+	{
 		SP::Set<int> indexes;
 		int old_size, new_size;
 
@@ -164,6 +140,7 @@ public:
 		if(old_size > new_size){
 			_model->removeRows(new_size, old_size - new_size);
 		}
+
 		else if(old_size < new_size){
 			_model->insertRows(old_size, new_size - old_size);
 		}

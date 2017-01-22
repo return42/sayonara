@@ -47,6 +47,7 @@ void SearchableTableView::keyPressEvent(QKeyEvent* event)
 	QTableView::keyPressEvent(event);
 }
 
+
 void SearchableTableView::edit_changed(const QString& str)
 {
 	select_match(str, SearchDirection::First);
