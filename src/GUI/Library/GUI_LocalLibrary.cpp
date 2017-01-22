@@ -552,7 +552,10 @@ void GUI_LocalLibrary::lib_fill_albums(const AlbumList& albums)
 	QList<CoverLocation> covers;
 
 	for(const Album& album : albums){
-		//covers << CoverLocation::get_cover_location(album.id, album.db_id);
+		// TODO: Maybe we should try some Pool of covers
+		// TODO: Do not look inside the CoverLocation class every time
+		// TODO: Make covers downloadable
+		// TODO: Adjust size of that thing
 		covers << CoverLocation::get_cover_location(album);
 	}
 

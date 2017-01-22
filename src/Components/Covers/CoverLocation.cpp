@@ -162,8 +162,7 @@ CoverLocation CoverLocation::get_cover_location(int album_id, quint8 db_id)
 		return getInvalidLocation();
 	}
 
-	CoverLocation cl;
-	cl = get_cover_location(album);
+	CoverLocation cl = get_cover_location(album);
 
 	db->getAllTracksByAlbum(album_id, v_md);
 	for(const MetaData& md : v_md){
@@ -173,30 +172,19 @@ CoverLocation CoverLocation::get_cover_location(int album_id, quint8 db_id)
 		}
 	}
 
-	CoverLocation alt_cov_loc = CoverLocation::get_cover_location(album);
-	if(QFile::exists(!alt_cov_loc.cover_path())){
-		QImage img(cl.preferred_path());
-		img.save(alt_cov_loc.cover_path());
-	}
-
-	alt_cov_loc = CoverLocation::get_cover_location(album.name, album.artists);
-	if(QFile::exists(!alt_cov_loc.cover_path())){
-		QImage img(cl.preferred_path());
-		img.save(alt_cov_loc.cover_path());
-	}
-
 	return cl;
 }
 
-
+// TODO: Clean me up
+// TODO: Check for albumID
+// TODO: Check for dbid
+// TODO: Make this class nicer: e.g. valid(), isInvalidLocation()
 CoverLocation CoverLocation::get_cover_location(const Album& album)
 {
 	int n_artists;
 
 	n_artists = album.artists.size();
 
-
-	// TODO:  Check, if we firstly should check the albumid, db_id method
 
 	CoverLocation cl;
 
@@ -217,6 +205,44 @@ CoverLocation CoverLocation::get_cover_location(const Album& album)
 	}
 
 	cl._m->search_term = album.name + " " + ArtistList::get_major_artist(album.artists);
+
+	if(!cl.valid() || !QFile::exists(cl.cover_path()))
+	{
+		// TODO: Only look in the database once for covers
+		// If we check covers in the database every time,
+		// people are not amused
+		return cl;
+
+		LibraryDatabase* db = DB::getInstance(album.db_id);
+		MetaDataList v_md;
+		db->getAllTracksByAlbum(album.id, v_md);
+		for(const MetaData& md : v_md){
+			cl._m->local_paths = LocalCoverSearcher::get_local_cover_paths_from_filename(md.filepath());
+			if(!cl._m->local_paths.isEmpty()){
+				break;
+			}
+		}
+
+		CoverLocation tmpcl;
+		if(!CoverLocation::isInvalidLocation(cl.preferred_path())){
+			QImage img(cl.preferred_path());
+
+			if( n_artists > 1){
+				tmpcl = CoverLocation::get_cover_location(album.name, album.artists);
+			}
+
+			else if( n_artists == 1){
+				tmpcl = CoverLocation::get_cover_location(album.name, album.artists.first());
+			}
+
+			else{
+				tmpcl = CoverLocation::get_cover_location(album.name, "");
+			}
+
+			img.save(tmpcl.cover_path());
+		}
+	}
+
 
 	return cl;
 }
