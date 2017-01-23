@@ -9,7 +9,7 @@ class CoverLocation;
 class AlbumCoverModel :
 		public LibraryItemModel
 {
-
+	Q_OBJECT
 	PIMPL(AlbumCoverModel)
 
 public:
@@ -17,6 +17,7 @@ public:
 	virtual ~AlbumCoverModel();
 
 	void set_data(const AlbumList& albums, const QList<CoverLocation>& cover_locations);
+
 
 
 	// QAbstractItemModel interface
@@ -41,7 +42,8 @@ public:
 
 	void set_max_columns(int columns);
 
-
+public slots:
+	void set_zoom(int zoom);
 };
 
 #endif // ALBUMCOVERMODEL_H

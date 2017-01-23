@@ -82,7 +82,7 @@ QVariant AlbumCoverModel::data(const QModelIndex& index, int role) const
 				{
 					const CoverLocation& cl = _m->cover_locations[idx];
 					QString preferred = cl.preferred_path();
-					p = QPixmap(preferred).scaled(_m->size, _m->size, Qt::KeepAspectRatio);
+					p = QPixmap(preferred);
 					if(cl.valid() && !CoverLocation::isInvalidLocation(cl.preferred_path())){
 						_m->pixmaps[hash] = p;
 					}
@@ -92,7 +92,7 @@ QVariant AlbumCoverModel::data(const QModelIndex& index, int role) const
 					p = _m->pixmaps[hash];
 				}
 
-				return p;
+				return p.scaled(_m->size, _m->size, Qt::KeepAspectRatio);;
 			}
 
 		case Qt::SizeHintRole:
@@ -125,7 +125,15 @@ void AlbumCoverModel::set_data(const AlbumList& albums, const QList<CoverLocatio
 
 	emit dataChanged(index(0, 0),
 					 index(rowCount(), columnCount())
-	);
+					 );
+}
+
+void AlbumCoverModel::set_zoom(int zoom)
+{
+	_m->size = zoom;
+	emit dataChanged(index(0, 0),
+					 index(rowCount(), columnCount())
+					 );
 }
 
 

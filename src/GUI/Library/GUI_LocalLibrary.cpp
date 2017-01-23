@@ -222,6 +222,13 @@ void GUI_LocalLibrary::switch_album_view()
 	}
 }
 
+void GUI_LocalLibrary::album_view_zoom_changed(int zoom)
+{
+	if(_acm){
+		_acm->set_zoom(zoom);
+	}
+}
+
 
 void GUI_LocalLibrary::language_changed()
 {
@@ -538,6 +545,7 @@ void GUI_LocalLibrary::init_album_cover_view()
 	connect(_acv, &LibraryView::doubleClicked, this, &GUI_LocalLibrary::album_dbl_clicked);
 	connect(_acv, &LibraryView::sig_sel_changed, this, &GUI_LocalLibrary::album_sel_changed);
 	connect(_acv, &LibraryView::sig_middle_button_clicked, this, &GUI_LocalLibrary::album_middle_clicked);
+	connect(_acv, &AlbumCoverView::sig_zoom_changed, _acm, &AlbumCoverModel::set_zoom);
 }
 
 
