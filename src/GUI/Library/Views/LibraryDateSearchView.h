@@ -21,7 +21,7 @@
 #ifndef LIBRARYDATESEARCHVIEW_H
 #define LIBRARYDATESEARCHVIEW_H
 
-#include "GUI/Helper/SearchableWidget/SearchableListView.h"
+#include "GUI/Helper/SearchableWidget/SearchableView.h"
 #include "Helper/Pimpl.h"
 
 namespace Library { class DateFilter; }

@@ -33,19 +33,29 @@
 #include "Components/Playlist/PlaylistHandler.h"
 #include "Components/Covers/CoverLocation.h"
 
+#include <QMap>
+#include <QSettings>
 #include <algorithm>
+
+struct SomaFMLibrary::Private
+{
+	QMap<QString, SomaFMStation> 	station_map;
+	QString 						requested_station;
+	QSettings*						qsettings=nullptr;
+};
 
 SomaFMLibrary::SomaFMLibrary(QObject* parent) :
 	QObject(parent)
 {
+	_m = Pimpl::make<Private>();
 	QString path = Helper::get_sayonara_path("somafm.ini");
 
-	_qsettings = new QSettings(path, QSettings::IniFormat, this);
+	_m->qsettings = new QSettings(path, QSettings::IniFormat, this);
 }
 
 SomaFMLibrary::~SomaFMLibrary()
 {
-	_qsettings->deleteLater();
+	_m->qsettings->deleteLater();
 }
 
 
@@ -60,8 +70,8 @@ void SomaFMLibrary::search_stations()
 
 SomaFMStation SomaFMLibrary::get_station(const QString& name)
 {
-	_requested_station = name;
-	SomaFMStation station = _station_map[name];
+	_m->requested_station = name;
+	SomaFMStation station = _m->station_map[name];
 	return station;
 }
 
@@ -89,11 +99,11 @@ void SomaFMLibrary::soma_website_fetched(bool success)
 
 		QString station_name = station.get_name();
 
-		bool loved = _qsettings->value(station_name, false).toBool();
+		bool loved = _m->qsettings->value(station_name, false).toBool();
 			
 		station.set_loved( loved );
 
-		_station_map[station_name] = station;
+		_m->station_map[station_name] = station;
 		stations << station;
 	}
 
@@ -107,7 +117,7 @@ void SomaFMLibrary::create_playlist_from_station(int row)
 {
 	Q_UNUSED(row)
 
-	SomaFMStation station = _station_map[_requested_station];
+	SomaFMStation station = _m->station_map[_m->requested_station];
 	StreamParser* parser = new StreamParser(station.get_name(), this);
 	connect(parser, &StreamParser::sig_finished, this, &SomaFMLibrary::soma_station_playlists_fetched);
 	parser->parse_streams(station.get_urls());
@@ -123,7 +133,7 @@ void SomaFMLibrary::soma_station_playlists_fetched(bool success)
 	}
 
 	MetaDataList v_md  = parser->get_metadata();
-	SomaFMStation station = _station_map[_requested_station];
+	SomaFMStation station = _m->station_map[_m->requested_station];
 	QString cover_url = station.get_cover_location().search_url();
 
 	for(auto it = v_md.begin(); it != v_md.end(); it++){
@@ -132,7 +142,7 @@ void SomaFMLibrary::soma_station_playlists_fetched(bool success)
 
 	station.set_metadata(v_md);
 
-	_station_map[_requested_station] = station;
+	_m->station_map[_m->requested_station] = station;
 
 	PlaylistHandler* plh = PlaylistHandler::getInstance();
 	plh->create_playlist(v_md,
@@ -146,7 +156,7 @@ void SomaFMLibrary::soma_station_playlists_fetched(bool success)
 
 void SomaFMLibrary::create_playlist_from_playlist(int idx)
 {
-	SomaFMStation station = _station_map[_requested_station];
+	SomaFMStation station = _m->station_map[_m->requested_station];
 	QStringList urls = station.get_urls();
 
 	if( !between(idx, urls)) {
@@ -172,7 +182,7 @@ void SomaFMLibrary::soma_playlist_content_fetched(bool success)
 
 	MetaDataList v_md = parser->get_metadata();
 
-	SomaFMStation station = _station_map[_requested_station];
+	SomaFMStation station = _m->station_map[_m->requested_station];
 	QString cover_url = station.get_cover_location().search_url();
 
 	for(auto it = v_md.begin(); it != v_md.end(); it++){
@@ -181,7 +191,7 @@ void SomaFMLibrary::soma_playlist_content_fetched(bool success)
 
 	station.set_metadata(v_md);
 
-	_station_map[_requested_station] = station;
+	_m->station_map[_m->requested_station] = station;
 
 	PlaylistHandler* plh = PlaylistHandler::getInstance();
 	plh->create_playlist(v_md,
@@ -195,16 +205,16 @@ void SomaFMLibrary::soma_playlist_content_fetched(bool success)
 
 void SomaFMLibrary::set_station_loved(const QString& station_name, bool loved)
 {
-	_station_map[station_name].set_loved(loved);
-	_qsettings->setValue(station_name, loved);
+	_m->station_map[station_name].set_loved(loved);
+	_m->qsettings->setValue(station_name, loved);
 
 	QList<SomaFMStation> stations;
-	for(const QString& key : _station_map.keys()){
+	for(const QString& key : _m->station_map.keys()){
 		if(key.isEmpty()){
 			continue;
 		}
 
-		stations << _station_map[key];
+		stations << _m->station_map[key];
 	}
 
 	sort_stations(stations);

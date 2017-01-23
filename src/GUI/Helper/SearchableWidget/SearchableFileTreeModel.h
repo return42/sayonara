@@ -31,8 +31,7 @@
  * @ingroup GUIInterfaces
  */
 class SearchableFileTreeModel :
-	public QFileSystemModel,
-	public SearchModelInterface
+	public SearchModelInterface<QFileSystemModel>
 {
     Q_OBJECT
 

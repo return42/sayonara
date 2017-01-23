@@ -29,8 +29,7 @@
 #include <algorithm>
 
 SearchableFileTreeModel::SearchableFileTreeModel(QObject* parent) :
-	QFileSystemModel(parent),
-	SearchModelInterface()
+	SearchModelInterface<QFileSystemModel>(parent)
 {
 	_cur_idx = -1;
 }

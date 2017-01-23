@@ -134,8 +134,10 @@ void SoundcloudLibrary::refresh_albums() {}
 
 void SoundcloudLibrary::refresh_tracks() {}
 
-void SoundcloudLibrary::cover_found(const CoverLocation& cl){
-	sp_log(Log::Debug) << "Saved sound cloud cover: " << cl.toString();
+void SoundcloudLibrary::cover_found(const CoverLocation& cl)
+{
+	Q_UNUSED(cl)
+	//sp_log(Log::Debug) << "Saved sound cloud cover: " << cl.toString();
 }
 
 

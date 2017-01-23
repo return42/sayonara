@@ -20,27 +20,16 @@
 
 #include "AbstractSearchModel.h"
 
-SearchModelInterface::SearchModelInterface() {}
-SearchModelInterface::~SearchModelInterface() {}
+SearchModelFunctionality::SearchModelFunctionality() {}
+SearchModelFunctionality::~SearchModelFunctionality() {}
 
-void SearchModelInterface::set_search_mode(Library::SearchModeMask search_mode)
+void SearchModelFunctionality::set_search_mode(Library::SearchModeMask search_mode)
 {
 	_search_mode = search_mode;
 }
 
-Library::SearchModeMask SearchModelInterface::search_mode() const
+Library::SearchModeMask SearchModelFunctionality::search_mode() const
 {
 	return _search_mode;
 }
 
-AbstractSearchTableModel::AbstractSearchTableModel(QObject* parent) :
-	QAbstractTableModel(parent),
-	SearchModelInterface() {}
-
-AbstractSearchTableModel::~AbstractSearchTableModel() {}
-
-AbstractSearchListModel::AbstractSearchListModel(QObject* parent) :
-	QAbstractListModel(parent),
-	SearchModelInterface() {}
-
-AbstractSearchListModel::~AbstractSearchListModel() {}

@@ -21,8 +21,7 @@
 #include "GUI_AbstractLibrary.h"
 #include "Views/LibraryView.h"
 #include "Views/LibraryViewAlbum.h"
-#include "Delegates/LibraryItemDelegateAlbums.h"
-#include "Delegates/LibraryItemDelegateTracks.h"
+#include "Delegates/LibraryRatingDelegate.h"
 #include "Models/LibraryItemModelAlbums.h"
 #include "Models/LibraryItemModelArtists.h"
 #include "Models/LibraryItemModelTracks.h"
@@ -146,8 +145,8 @@ void GUI_AbstractLibrary::init_headers()
 	_artist_model = new LibraryItemModelArtists();
 	_track_model = new LibraryItemModelTracks();
 
-	_album_delegate = new LibraryItemDelegateAlbums(_lv_album, true);
-	_track_delegate = new LibraryItemDelegateTracks(_lv_tracks, true);
+	_album_delegate = new LibraryRatingDelegate(_lv_album, (int) ColumnIndex::Album::Rating, true);
+	_track_delegate = new LibraryRatingDelegate(_lv_tracks, (int) ColumnIndex::Track::Rating, true);
 
 	connect(_album_delegate, &LibraryRatingDelegate::sig_rating_changed, this, &GUI_AbstractLibrary::album_rating_changed);
 	connect(_track_delegate, &LibraryRatingDelegate::sig_rating_changed, this, &GUI_AbstractLibrary::title_rating_changed);

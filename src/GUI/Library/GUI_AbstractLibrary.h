@@ -41,8 +41,7 @@ class QComboBox;
 class AbstractLibrary;
 class LibraryTableView;
 class LibraryViewAlbum;
-class LibraryItemDelegateAlbums;
-class LibraryItemDelegateTracks;
+class LibraryRatingDelegate;
 class LibraryItemModelAlbums;
 class LibraryItemModelArtists;
 class LibraryItemModelTracks;
@@ -71,9 +70,9 @@ protected:
 	LibraryItemModelAlbums* 	_album_model = nullptr;
 	LibraryItemModelArtists*	_artist_model = nullptr;
 
-	LibraryItemDelegateTracks* 		_track_delegate = nullptr;
-	LibraryItemDelegateAlbums* 		_album_delegate = nullptr;
-	QItemDelegate*					_artist_delegate = nullptr;
+	LibraryRatingDelegate* 		_track_delegate = nullptr;
+	LibraryRatingDelegate* 		_album_delegate = nullptr;
+	QItemDelegate*				_artist_delegate = nullptr;
 
 	virtual void init_headers();
 	virtual void init_shortcuts();

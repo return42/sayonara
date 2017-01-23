@@ -22,8 +22,8 @@
 #define MENUBUTTON_H
 
 #include <QPushButton>
-#include <QMenu>
 #include "Helper/Settings/SayonaraClass.h"
+
 
 /**
  * @brief The MenuButton class.\n

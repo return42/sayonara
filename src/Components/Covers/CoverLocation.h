@@ -44,17 +44,15 @@ public:
 	CoverLocation(const CoverLocation& cl);
 	CoverLocation& operator=(const CoverLocation& cl);
 
-	void print() const;
-    QString toString() const;
-
-
 	bool valid() const;
 	QStringList local_paths() const;
+	void add_local_path(const QString& path);
 	QString local_path(int idx) const;
 	QString cover_path() const;
 	QString search_url() const;
 	QString search_term() const;
 	void set_search_term(const QString& search_term);
+	QString to_string() const;
 
 
 	/**
@@ -93,7 +91,7 @@ public:
 	 * @param db_id Database ID for album
 	 * @return CoverLocation object
 	 */
-	static CoverLocation get_cover_location(int album_id, quint8 db_id);
+
 
 
 	/**

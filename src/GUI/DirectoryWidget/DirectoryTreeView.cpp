@@ -37,7 +37,7 @@ DirectoryTreeView::DirectoryTreeView(QWidget *parent) :
 	SearchableTreeView(parent),
 	Dragable(this)
 {
-	QString lib_path = _settings->get(Set::Lib_Path);
+	QString lib_path = Settings::getInstance()->get(Set::Lib_Path);
 
 	_icon_provider = new IconProvider();
 

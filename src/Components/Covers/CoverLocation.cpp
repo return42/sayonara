@@ -34,6 +34,7 @@
 #include <QDir>
 #include <QUrl>
 #include <QStringList>
+#include <QImage>
 
 struct CoverLocation::Private
 {
@@ -43,6 +44,7 @@ struct CoverLocation::Private
 	QStringList		local_paths; // local_paths paths where images can be fetched from if they should not be fetched from the .Sayonara directory
 	bool			valid; // valid if CoverLocation object contains a valid download url
 };
+
 
 CoverLocation::CoverLocation()
 {
@@ -114,16 +116,6 @@ bool CoverLocation::isInvalidLocation(const QString& cover_path)
 	return (path1 == path2);
 }
 
-void CoverLocation::print() const
-{
-	sp_log(Log::Info) << "CoverLocation: " << _m->cover_path;
-	sp_log(Log::Info) << "CoverLocation: " << _m->search_url;
-}
-
-QString CoverLocation::toString() const
-{
-	return QString("Location ") + _m->cover_path + " Url: " + _m->search_url;
-}
 
 CoverLocation CoverLocation::get_cover_location(const QString& album_name, const QString& artist_name)
 {
@@ -145,35 +137,7 @@ CoverLocation CoverLocation::get_cover_location(const QString& album_name, const
 	return get_cover_location(album_name, major_artist);
 }
 
-#include <QImage>
-CoverLocation CoverLocation::get_cover_location(int album_id, quint8 db_id)
-{
-	if(album_id < 0) {
-		return CoverLocation::getInvalidLocation();
-	}
 
-	Album album;
-	MetaDataList v_md;
-	LibraryDatabase* db = DB::getInstance(db_id);
-
-	bool success = db->getAlbumByID(album_id, album, true);
-
-	if(!success) {
-		return getInvalidLocation();
-	}
-
-	CoverLocation cl = get_cover_location(album);
-
-	db->getAllTracksByAlbum(album_id, v_md);
-	for(const MetaData& md : v_md){
-		cl._m->local_paths = LocalCoverSearcher::get_local_cover_paths_from_filename(md.filepath());
-		if(!cl._m->local_paths.isEmpty()){
-			break;
-		}
-	}
-
-	return cl;
-}
 
 // TODO: Clean me up
 // TODO: Check for albumID
@@ -204,14 +168,14 @@ CoverLocation CoverLocation::get_cover_location(const Album& album)
 		cl._m->search_url = album.cover_download_url;
 	}
 
-	cl._m->search_term = album.name + " " + ArtistList::get_major_artist(album.artists);
+
 
 	if(!cl.valid() || !QFile::exists(cl.cover_path()))
 	{
 		// TODO: Only look in the database once for covers
 		// If we check covers in the database every time,
 		// people are not amused
-		return cl;
+		//return cl;
 
 		LibraryDatabase* db = DB::getInstance(album.db_id);
 		MetaDataList v_md;
@@ -243,6 +207,7 @@ CoverLocation CoverLocation::get_cover_location(const Album& album)
 		}
 	}
 
+	cl._m->search_term = album.name + " " + ArtistList::get_major_artist(album.artists);
 
 	return cl;
 }
@@ -277,11 +242,46 @@ CoverLocation CoverLocation::get_cover_location(const QString& artist)
 }
 
 
+
+
+CoverLocation Get_cover_location(int album_id, quint8 db_id)
+{
+	if(album_id < 0) {
+		return CoverLocation::getInvalidLocation();
+	}
+
+	Album album;
+	MetaDataList v_md;
+	LibraryDatabase* db = DB::getInstance(db_id);
+
+	bool success = db->getAlbumByID(album_id, album, true);
+
+	if(!success) {
+		return CoverLocation::getInvalidLocation();
+	}
+
+	CoverLocation cl = CoverLocation::get_cover_location(album);
+
+	db->getAllTracksByAlbum(album_id, v_md);
+	for(const MetaData& md : v_md){
+		QStringList local_paths = LocalCoverSearcher::get_local_cover_paths_from_filename(md.filepath());
+		for(const QString& local_path : local_paths){
+			cl.add_local_path(local_path);
+		}
+
+		if(!cl.local_paths().isEmpty()){
+			break;
+		}
+	}
+
+	return cl;
+}
+
 CoverLocation CoverLocation::get_cover_location(const MetaData& md)
 {
 	CoverLocation cl;
 	if(md.album_id >= 0){
-		cl = get_cover_location(md.album_id, md.db_id);
+		cl = Get_cover_location(md.album_id, md.db_id);
 	}
 
 	if(!cl.valid()){
@@ -327,6 +327,11 @@ QStringList CoverLocation::local_paths() const
 	return _m->local_paths;
 }
 
+void CoverLocation::add_local_path(const QString& path)
+{
+	_m->local_paths << path;
+}
+
 QString CoverLocation::local_path(int idx) const
 {
 	if(!between(idx, _m->local_paths)){
@@ -355,4 +360,10 @@ void CoverLocation::set_search_term(const QString& search_term)
 {
 	_m->search_term = search_term;
 	_m->search_url = CoverHelper::calc_google_image_search_address(search_term);
+}
+
+QString CoverLocation::to_string() const
+{
+	return "Cover Location: Valid? " + QString::number(_m->valid) +
+			" - Cover path: " + _m->cover_path + " - " + _m->local_paths.join(",");
 }

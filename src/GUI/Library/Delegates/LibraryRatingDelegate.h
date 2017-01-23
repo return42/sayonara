@@ -22,8 +22,10 @@
 #define LIBRARY_RATING_DELEGATE_H
 
 #include <QItemDelegate>
+#include "GUI/Library/Helper/ColumnIndex.h"
 
-class LibraryRatingDelegate : public QItemDelegate
+class LibraryRatingDelegate :
+		public QItemDelegate
 {
     Q_OBJECT
 
@@ -31,9 +33,10 @@ signals:
     void sig_rating_changed(int);
 
 public:
-	LibraryRatingDelegate(QObject* parent, bool enabled);
+	LibraryRatingDelegate(QObject* parent, int rating_column, bool enabled);
 	~LibraryRatingDelegate();
 
+	void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const override;
 	QWidget* createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 	void setEditorData(QWidget *editor, const QModelIndex &index) const override;
 	void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const override;
@@ -43,6 +46,7 @@ private slots:
 
 protected:
 	bool			_enabled;
+	int				_rating_column;
     
 };
 

@@ -32,9 +32,6 @@ SET(SOURCES
 
 	SearchableWidget/SearchableView.cpp
 	SearchableWidget/AbstractSearchModel.cpp
-	SearchableWidget/SearchableListView.cpp
-	SearchableWidget/SearchableTableView.cpp
-	SearchableWidget/SearchableTreeView.cpp
 	SearchableWidget/SearchableFileTreeModel.cpp
 	SearchableWidget/SayonaraSelectionView.cpp
 	SearchableWidget/MiniSearcher.cpp

@@ -25,6 +25,7 @@
 #include "Helper/Language.h"
 #include "Helper/MetaData/MetaDataList.h"
 #include "Helper/Settings/Settings.h"
+#include "Helper/MetaData/Album.h"
 
 #include "Components/Covers/CoverLocation.h"
 #include "Database/DatabaseHandler.h"
@@ -183,8 +184,12 @@ void MetaDataInfo::set_cover_location(const MetaDataList& lst)
 	}
 
 	else if(_album_ids.size() == 1){
-		AlbumID album_id = _album_ids.first();
-		_cover_location = CoverLocation::get_cover_location(album_id, _db->get_id());
+		Album album;
+		album.id = _album_ids.first();
+		album.name = _albums.first();
+		album.artists = _artists.toList();
+		album.db_id = lst[0].db_id;
+		_cover_location = CoverLocation::get_cover_location(album);
 	}
 
 	else if(_albums.size() == 1 && _artists.size() == 1){

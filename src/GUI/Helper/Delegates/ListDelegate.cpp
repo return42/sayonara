@@ -22,15 +22,16 @@
 /* ListDelegate.cpp */
 
 #include "ListDelegate.h"
-#include <QPalette>
-#include <QColor>
-#include <QStyle>
-#include <QPainter>
+
+#include <QListView>
+#include <QModelIndex>
+#include <QSize>
+#include <QStyleOptionViewItem>
 
 ListDelegate::ListDelegate(QListView* parent) :
 	QItemDelegate(parent)
 {
-	_parent = parent;
+
 }
 
 ListDelegate::~ListDelegate() {}

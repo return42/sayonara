@@ -14,15 +14,12 @@ SET(SOURCES
     Models/DateSearchModel.cpp
     Models/AlbumCoverModel.cpp
 
-    Delegates/LibraryItemDelegateAlbums.cpp
-    Delegates/LibraryItemDelegateTracks.cpp
     Delegates/LibraryRatingDelegate.cpp
 
     Views/LibraryDateSearchView.cpp
     Views/LibraryGenreView.cpp
     Views/LibraryViewAlbum.cpp
     Views/LibraryView.cpp
-    Views/LibraryViewEvents.cpp
     Views/LibraryTableView.cpp
     Views/HeaderView.cpp
     Views/AlbumCoverView.cpp

@@ -21,7 +21,7 @@
 #ifndef FILELISTVIEW_H
 #define FILELISTVIEW_H
 
-#include "GUI/Helper/SearchableWidget/SearchableListView.h"
+#include "GUI/Helper/SearchableWidget/SearchableView.h"
 #include "GUI/Helper/Dragable/Dragable.h"
 
 class FileListModel;

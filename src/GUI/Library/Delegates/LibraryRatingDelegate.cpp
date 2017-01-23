@@ -22,17 +22,38 @@
 #include "GUI/Helper/RatingLabel/RatingLabel.h"
 
 #include <QFontMetrics>
+#include <QPainter>
 
-LibraryRatingDelegate::LibraryRatingDelegate(QObject* parent, bool enabled) :
+LibraryRatingDelegate::LibraryRatingDelegate(QObject* parent, int rating_column, bool enabled) :
 	QItemDelegate(parent)
 {
 	_enabled = enabled;
+	_rating_column = rating_column;
 }
 
 LibraryRatingDelegate::~LibraryRatingDelegate() {}
 
+void LibraryRatingDelegate::paint(QPainter *painter, const QStyleOptionViewItem & option, const QModelIndex & index) const
+{
+	if(!index.isValid()) return;
 
-QWidget *LibraryRatingDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem & option, const QModelIndex & index) const
+	if(index.column() == _rating_column)
+	{
+		RatingLabel label(nullptr, true);
+		label.set_rating(index.data().toInt());
+		label.setGeometry(option.rect);
+
+		painter->save();
+		painter->translate(option.rect.left(), option.rect.top() );
+		label.render(painter);
+		painter->restore();
+		return;
+	}
+
+	QItemDelegate::paint(painter, option, index);
+}
+
+QWidget* LibraryRatingDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem & option, const QModelIndex & index) const
 {
 	Q_UNUSED(option)
 

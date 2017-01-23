@@ -25,8 +25,6 @@
 #include "Helper/MetaData/MetaDataFwd.h"
 
 #include <QMimeData>
-#include <QUrl>
-
 
 /**
  * @brief Mimedata class for drag and dropping metadata

@@ -51,7 +51,7 @@ QString DatabaseAlbums::fetch_query_albums(bool also_empty) const
 	}
 
 	sql +=	join + " tracks ON tracks.albumID = albums.albumID " +
-			join + " artists ON tracks."+ _artistid_field + " = artists.artistID ";
+			join + " artists ON tracks.artistID = artists.artistID ";
 
 	return sql;
 }
@@ -256,8 +256,14 @@ bool DatabaseAlbums::getAllAlbumsByArtist(IDList artists, AlbumList& result, con
 								"	UNION SELECT t4.trackID " 		// artist title is like filter
 								"	FROM tracks t4 "
 								"   INNER JOIN albums ON t4.albumID = albums.albumID "
-								"   INNER JOIN artists ON t4." + _artistid_field + " = artists.artistID "
+								"   INNER JOIN artists ON t4.albumArtistID = artists.artistID "
 								"	AND artists.cissearch LIKE :filter3 "
+
+							   "	UNION SELECT t5.trackID " 		// artist title is like filter
+							   "	FROM tracks t5 "
+							   "    INNER JOIN albums ON t5.albumID = albums.albumID "
+							   "    INNER JOIN artists ON t5.artistID = artists.artistID "
+							   "	AND artists.cissearch LIKE :filter3 "
 								") foundTracks ON tracks.trackID = foundTracks.trackID WHERE ";
 				break;
 		}
@@ -361,7 +367,6 @@ bool DatabaseAlbums::getAllAlbumsBySearchString(const Library::Filter& filter, A
 						+ fetch_query_albums() +
 						"WHERE artists.cissearch LIKE :search_in_artist "
 						"GROUP BY albums.albumid, albums.name "
-
 					") foundAlbums ON albums.albumID=foundAlbums.albumID "
 					"GROUP BY albums.albumID, albumName ";
 			break;

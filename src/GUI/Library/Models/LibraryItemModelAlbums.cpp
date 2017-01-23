@@ -89,7 +89,7 @@ CoverLocation LibraryItemModelAlbums::get_cover(const SP::Set<int>& indexes) con
 	}
 
 	const Album& album = _m->albums[idx];
-	return CoverLocation::get_cover_location(album.id, album.db_id);
+	return CoverLocation::get_cover_location(album);
 }
 
 

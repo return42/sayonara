@@ -28,6 +28,7 @@
 #include "Helper/Logger/Logger.h"
 
 #include <algorithm>
+#include <QUrl>
 
 struct LibraryItemModel::Private
 {

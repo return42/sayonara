@@ -89,16 +89,23 @@ void AlbumInfo::set_subheader()
 	_subheader = Lang::get(Lang::By).toLower() + " " + calc_artist_str();
 }
 
+#include "Helper/Logger/Logger.h"
 void AlbumInfo::set_cover_location()
 {
 	if(_album_ids.size() == 1){
-		int album_id = _album_ids.first();
-		_cover_location = CoverLocation::get_cover_location(album_id, _db->get_id());
+		Album album;
+		album.id = _album_ids.first();
+		album.name = _albums.first();
+		album.db_id = _db->get_id();
+		album.artists = _artists.toList();
+
+		_cover_location = CoverLocation::get_cover_location(album);
 	}
 
 	else if( _albums.size() == 1){
 		QString album = _albums.first();
 		_cover_location = CoverLocation::get_cover_location(album, _artists.toList());
+		sp_log(Log::Debug) << album << " 2 -> " << _cover_location.to_string();
 	}
 
 	else{

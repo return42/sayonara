@@ -26,18 +26,19 @@
 
 #include <QObject>
 #include <QList>
-#include <QMap>
-#include <QSettings>
+
+#include "Helper/Pimpl.h"
 
 class SomaFMStation;
 class SomaFMLibrary : public QObject
 {
 	Q_OBJECT
 
+	PIMPL(SomaFMLibrary)
+
 signals:
 	void sig_stations_loaded(const QList<SomaFMStation>& stations);
 	void sig_station_changed(const SomaFMStation& station);
-
 
 public:
 	explicit SomaFMLibrary(QObject* parent=nullptr);
@@ -54,12 +55,6 @@ private slots:
 	void soma_website_fetched(bool success);
 	void soma_playlist_content_fetched(bool success);
 	void soma_station_playlists_fetched(bool success);
-
-
-private:
-	QMap<QString, SomaFMStation> 	_station_map;
-	QString 						_requested_station;
-	QSettings*						_qsettings=nullptr;
 
 private:
 	void sort_stations(QList<SomaFMStation>& stations);

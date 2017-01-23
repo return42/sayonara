@@ -30,7 +30,8 @@
 // We need this for eventual disambiguation between the
 // table itself and this interface
 // in the Searchable View class
-class SearchModelInterface
+
+class SearchModelFunctionality
 {
 public:
 	virtual QModelIndex getFirstRowIndexOf(const QString& substr)=0;
@@ -42,33 +43,30 @@ public:
 	virtual Library::SearchModeMask search_mode() const final;
 
 protected:
-	SearchModelInterface();
-	virtual ~SearchModelInterface();
+	SearchModelFunctionality();
+	virtual ~SearchModelFunctionality();
 
 private:
 	Library::SearchModeMask _search_mode;
 };
 
 
-// Searchable Model for tables
-class AbstractSearchTableModel :
-	public QAbstractTableModel,
-	public SearchModelInterface
+template <typename AbstractModel> 
+class SearchModelInterface : 
+	public SearchModelFunctionality,
+	public AbstractModel
 {
-protected:
-	explicit AbstractSearchTableModel(QObject* parent=nullptr);
-	virtual ~AbstractSearchTableModel();
+	public:
+
+	SearchModelInterface(QObject* parent=nullptr) : 
+		SearchModelFunctionality(),
+		AbstractModel(parent)
+	{}
+
+	virtual ~SearchModelInterface() {}
 };
 
-
-// Searchable Model for lists
-class AbstractSearchListModel :
-		public QAbstractListModel,
-		public SearchModelInterface
-{
-protected:
-	 explicit AbstractSearchListModel(QObject* parent=nullptr);
-	 virtual ~AbstractSearchListModel();
-};
+typedef SearchModelInterface<QAbstractTableModel> AbstractSearchTableModel;
+typedef SearchModelInterface<QAbstractListModel> AbstractSearchListModel;
 
 #endif

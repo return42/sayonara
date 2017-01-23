@@ -25,11 +25,11 @@
 #define LISTDELEGATE_H_
 
 #include <QItemDelegate>
-#include <QSize>
-#include <QStyleOptionViewItem>
-#include <QModelIndex>
-#include <QListView>
 
+class QSize;
+class QStyleOptionViewItem;
+class QListView;
+class QModelIndex;
 /**
  * @brief The ListDelegate class. Only used for size hinting
  * @ingroup GUIHelper
@@ -38,9 +38,6 @@ class ListDelegate :
 	public QItemDelegate
 {
 	Q_OBJECT
-
-protected:
-	QListView*		_parent=nullptr;
 
 public:
 	explicit ListDelegate(QListView* parent=nullptr);

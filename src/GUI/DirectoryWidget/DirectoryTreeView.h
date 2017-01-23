@@ -21,7 +21,7 @@
 #ifndef DIRECTORYTREEVIEW_H
 #define DIRECTORYTREEVIEW_H
 
-#include "GUI/Helper/SearchableWidget/SearchableTreeView.h"
+#include "GUI/Helper/SearchableWidget/SearchableView.h"
 #include "GUI/Helper/Dragable/Dragable.h"
 
 #include <QTreeView>

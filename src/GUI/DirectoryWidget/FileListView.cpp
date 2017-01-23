@@ -30,7 +30,6 @@
 #include "Helper/DirectoryReader/DirectoryReader.h"
 #include "Helper/Settings/Settings.h"
 
-
 #include <QDrag>
 #include <QDragEnterEvent>
 #include <QDragMoveEvent>
@@ -38,12 +37,11 @@
 #include <QMimeData>
 #include <QApplication>
 
-
 FileListView::FileListView(QWidget* parent) :
 	SearchableListView(parent),
 	Dragable(this)
 {
-	QString lib_path = _settings->get(Set::Lib_Path);
+	QString lib_path = Settings::getInstance()->get(Set::Lib_Path);
 
 	_model = new FileListModel(this);
 	_model->set_parent_directory(lib_path);

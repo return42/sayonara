@@ -24,21 +24,22 @@
 #include "GUI/Helper/SearchableWidget/SayonaraSelectionView.h"
 #include "Helper/Pimpl.h"
 
-#include <QAbstractItemView>
+#include <QListView>
+#include <QTableView>
+#include <QTreeView>
+#include <QKeyEvent>
 
 class QItemSelectionModel;
-class MiniSearcher;
-class SearchModelInterface;
-class Settings;
+class SearchModelFunctionality;
 
 /**
  * @brief The SearchViewInterface class
  * @ingroup GUIInterfaces
  */
-class SearchViewInterface :
+class SearchViewFunctionality :
 		public SayonaraSelectionView
 {
-	PIMPL(SearchViewInterface)
+	PIMPL(SearchViewFunctionality)
 
 protected:
 	enum class SearchDirection : unsigned char
@@ -48,12 +49,11 @@ protected:
 		Prev
 	};
 
-
 public:
-	explicit SearchViewInterface(QAbstractItemView* view);
-	virtual ~SearchViewInterface();
+	explicit SearchViewFunctionality(QAbstractItemView* view);
+	virtual ~SearchViewFunctionality();
 
-	virtual void setSearchModel(SearchModelInterface* model) final;
+	virtual void setSearchModel(SearchModelFunctionality* model) final;
 
 	virtual QModelIndex get_index(int row, int col, const QModelIndex& parent=QModelIndex()) const override final;
 	virtual int get_row_count(const QModelIndex& parent=QModelIndex()) const override final;
@@ -62,17 +62,36 @@ public:
 	virtual QItemSelectionModel* get_selection_model() const override final;
 	virtual void set_current_index(int idx) override final;
 
-
-protected:
-	Settings*					_settings=nullptr;
-
-
-protected:
-	virtual MiniSearcher*		mini_searcher() const=0;
-
+private:
 	QModelIndex get_match_index(const QString& str, SearchDirection direction) const;
 	void select_match(const QString& str, SearchDirection direction);
+
+protected:
 	void handleKeyPress(QKeyEvent* e);
 };
+
+
+template<typename AbstractView>
+class SearchViewInterface :
+		public AbstractView,
+		public SearchViewFunctionality
+{
+public:
+	SearchViewInterface(QWidget* parent=nullptr) :
+		AbstractView(parent),
+		SearchViewFunctionality(this) {}
+
+	virtual ~SearchViewInterface() {}
+
+protected:
+	void keyPressEvent(QKeyEvent* e) override
+	{
+		handleKeyPress(e);
+	}
+};
+
+typedef SearchViewInterface<QTableView> SearchableTableView;
+typedef SearchViewInterface<QListView> SearchableListView;
+typedef SearchViewInterface<QTreeView> SearchableTreeView;
 
 #endif // SEARCHABLEVIEW_H

@@ -34,7 +34,7 @@
 #include "GUI/Library/Models/AlbumCoverModel.h"
 
 #include "GUI/Helper/Library/LibraryDeleteDialog.h"
-#include "GUI/Helper/SearchableWidget/SearchableListView.h"
+#include "GUI/Helper/SearchableWidget/SearchableView.h"
 
 #include "Components/Library/LocalLibrary.h"
 #include "InfoBox/GUI_LibraryInfoBox.h"
@@ -549,7 +549,7 @@ void GUI_LocalLibrary::init_album_cover_view()
 }
 
 
-
+#include "Helper/Logger/Logger.h"
 void GUI_LocalLibrary::lib_fill_albums(const AlbumList& albums)
 {
 	GUI_AbstractLibrary::lib_fill_albums(albums);
@@ -564,7 +564,8 @@ void GUI_LocalLibrary::lib_fill_albums(const AlbumList& albums)
 		// TODO: Do not look inside the CoverLocation class every time
 		// TODO: Make covers downloadable
 		// TODO: Adjust size of that thing
-		covers << CoverLocation::get_cover_location(album);
+		CoverLocation cl = CoverLocation::get_cover_location(album);
+		covers << cl;
 	}
 
 	_acm->set_data(albums, covers);

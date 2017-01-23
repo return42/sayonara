@@ -38,6 +38,7 @@
 #include "Helper/globals.h"
 #include "Helper/Language.h"
 
+#include <QUrl>
 
 PlaylistItemModel::PlaylistItemModel(PlaylistPtr pl, QObject* parent) :
 	AbstractSearchListModel(parent),

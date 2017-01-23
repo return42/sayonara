@@ -32,7 +32,7 @@
 #include "Helper/Settings/SayonaraClass.h"
 #include "Helper/SetFwd.h"
 
-#include "GUI/Helper/SearchableWidget/SearchableTableView.h"
+#include "GUI/Helper/SearchableWidget/SearchableView.h"
 #include "GUI/Helper/Dragable/Dragable.h"
 #include "GUI/InfoDialog/InfoDialogContainer.h"
 #include "GUI/Library/Models/LibraryItemModel.h"
