@@ -540,6 +540,7 @@ void GUI_LocalLibrary::init_album_cover_view()
 	_acm = new AlbumCoverModel(_acv);
 
 	_acv->setModel(_acm);
+	_acv->setSearchModel(_acm);
 	_acv->show();
 
 	connect(_acv, &LibraryView::doubleClicked, this, &GUI_LocalLibrary::album_dbl_clicked);

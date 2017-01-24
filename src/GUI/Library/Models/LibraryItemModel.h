@@ -51,9 +51,9 @@ public:
 	bool		removeRows(int position, int rows, const QModelIndex& index=QModelIndex()) override;
 	bool		insertRows(int row, int count, const QModelIndex &parent=QModelIndex()) override;
 
-	QModelIndex	getFirstRowIndexOf(const QString& substr) override;
-	QModelIndex getNextRowIndexOf(const QString& substr, int row, const QModelIndex& parent=QModelIndex()) override;
-	QModelIndex getPrevRowIndexOf(const QString& substr, int row, const QModelIndex& parent=QModelIndex()) override;
+	virtual QModelIndex	getFirstRowIndexOf(const QString& substr) override;
+	virtual QModelIndex getNextRowIndexOf(const QString& substr, int row, const QModelIndex& parent=QModelIndex()) override;
+	virtual QModelIndex getPrevRowIndexOf(const QString& substr, int row, const QModelIndex& parent=QModelIndex()) override;
 
 	virtual void			add_selections(const SP::Set<int>& rows) final;
 	virtual bool			is_selected(int id) const final;

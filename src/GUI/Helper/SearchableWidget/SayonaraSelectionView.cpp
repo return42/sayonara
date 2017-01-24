@@ -170,7 +170,9 @@ void SayonaraSelectionView::select_items(const SP::Set<int>& items)
 
 	QItemSelection sel;
 	for(auto it = items.begin(); it != items.end(); it++){
-		sel.select( get_model_index_by_index(*it), get_model_index_by_index(*it) );
+		sel.select( get_model_index_by_index(*it),
+					get_model_index_by_index(*it)
+		);
 	}
 
 	sel_model->select(sel, QItemSelectionModel::ClearAndSelect);

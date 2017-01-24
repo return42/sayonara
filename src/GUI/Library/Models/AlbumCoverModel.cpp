@@ -1,7 +1,6 @@
 #include "AlbumCoverModel.h"
 #include "Components/Covers/CoverLocation.h"
 #include "Helper/MetaData/Album.h"
-#include "Helper/Logger/Logger.h"
 
 #include <QPixmap>
 #include <QVector>
@@ -139,16 +138,44 @@ void AlbumCoverModel::set_zoom(int zoom)
 
 QModelIndex AlbumCoverModel::getFirstRowIndexOf(const QString& substr)
 {
-	return QModelIndex();
+	return getNextRowIndexOf(substr, 0);
 }
 
 QModelIndex AlbumCoverModel::getNextRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent)
 {
+	for(int i=0; i<_m->albums.size(); i++){
+		int idx = (i + cur_row) % _m->albums.size();
+		QString title = get_string(idx);
+		title = Library::convert_search_string(title, search_mode());
+
+		if(title.contains(substr))
+		{
+			return this->index(idx / columnCount(), idx % columnCount());
+		}
+	}
+
 	return QModelIndex();
 }
 
-QModelIndex AlbumCoverModel::getPrevRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent)
+QModelIndex AlbumCoverModel::getPrevRowIndexOf(const QString& substr, int row, const QModelIndex& parent)
 {
+	int len = _m->albums.size();
+	for(int i=0; i<_m->albums.size(); i++){
+
+		if(row - i < 0){
+			row = len - 1;
+		}
+
+		int row_idx = (row - i) % len;
+
+		QString title = get_string(row_idx);
+		title = Library::convert_search_string(title, search_mode());
+		if(title.contains(substr))
+		{
+			return this->index(row_idx / columnCount(), row_idx % columnCount());
+		}
+	}
+
 	return QModelIndex();
 }
 
@@ -165,7 +192,7 @@ int AlbumCoverModel::get_searchable_column() const
 
 QString AlbumCoverModel::get_string(int row) const
 {
-	return QString();
+	return _m->albums[row].name;
 }
 
 int AlbumCoverModel::get_id_by_row(int row)

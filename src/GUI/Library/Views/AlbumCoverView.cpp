@@ -1,5 +1,4 @@
 #include "AlbumCoverView.h"
-#include "Helper/Logger/Logger.h"
 
 #include <QHeaderView>
 #include <QWheelEvent>
@@ -44,7 +43,7 @@ int AlbumCoverView::get_index_by_model_index(const QModelIndex& idx) const
 QModelIndex AlbumCoverView::get_model_index_by_index(int idx) const
 {
 	int row = idx / model()->columnCount();
-	int col = idx / model()->columnCount();
+	int col = idx % model()->columnCount();
 
 	return model()->index(row, col);
 }
@@ -58,7 +57,6 @@ void AlbumCoverView::wheelEvent(QWheelEvent* e)
 {
 	if(e->modifiers() & Qt::ControlModifier){
 
-		sp_log(Log::Debug) << "Zoom changed";
 		if(e->delta() > 0){
 			_m->zoom = std::min(_m->zoom + 10, 200);
 		}
