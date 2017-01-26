@@ -63,6 +63,10 @@ SET(SOURCES
     Tagging/ID3v2/Popularimeter.cpp
     Tagging/ID3v2/Cover.cpp
     Tagging/ID3v2/AlbumArtist.cpp
+	Tagging/MP4/AbstractFrame.cpp
+	Tagging/MP4/DiscnumberFrame.cpp
+	Tagging/MP4/AlbumArtist.cpp
+	Tagging/MP4/PopularimeterFrame.cpp
     Tagging/Xiph/AlbumArtist.cpp
     Tagging/Xiph/DiscnumberFrame.cpp
     Tagging/Xiph/PopularimeterFrame.cpp

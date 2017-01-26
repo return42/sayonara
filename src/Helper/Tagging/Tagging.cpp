@@ -26,6 +26,10 @@
 #include "Xiph/AlbumArtist.h"
 #include "Xiph/PopularimeterFrame.h"
 #include "Xiph/DiscnumberFrame.h"
+#include "MP4/AbstractFrame.h"
+#include "MP4/AlbumArtist.h"
+#include "MP4/DiscnumberFrame.h"
+#include "MP4/PopularimeterFrame.h"
 
 #include "Helper/Helper.h"
 #include "Helper/FileHelper.h"
@@ -137,7 +141,7 @@ bool Tagging::getMetaDataOfFile(MetaData& md, Tagging::Quality quality)
 		}
 	}
 
-	if(tag_type == Tagging::TagType::Xiph)
+	else if(tag_type == Tagging::TagType::Xiph)
 	{
 		Xiph::AlbumArtistFrame album_artist_frame(tag);
 		success = album_artist_frame.read(album_artist);
@@ -157,6 +161,32 @@ bool Tagging::getMetaDataOfFile(MetaData& md, Tagging::Quality quality)
 			md.discnumber = discnumber.disc;
 			md.n_discs = discnumber.n_discs;
 		}
+	}
+
+	else if(tag_type == Tagging::TagType::MP4)
+	{
+		MP4::AlbumArtistFrame album_artist_frame(tag);
+		success = album_artist_frame.read(album_artist);
+		if(success){
+			md.set_album_artist(album_artist);
+		}
+
+
+		MP4::DiscnumberFrame discnumber_frame(tag);
+		success = discnumber_frame.read(discnumber);
+		if(success){
+			md.discnumber = discnumber.disc;
+			md.n_discs = discnumber.n_discs;
+		}
+
+		MP4::PopularimeterFrame popularimeter_frame(tag);
+
+		success = popularimeter_frame.read(popularimeter);
+		if(success){
+			md.rating = popularimeter.get_sayonara_rating();
+		}
+
+		sp_log(Log::Debug) << "Read rating " << (int) md.rating << ": " << success;
 	}
 
 	uint year = tag->year();
@@ -217,6 +247,8 @@ bool Tagging::setMetaDataOfFile(const MetaData& md)
 		return false;
 	}
 
+	bool success;
+
 	TagLib::String album(md.album.toUtf8().data(), TagLib::String::UTF8);
 	TagLib::String artist(md.artist.toUtf8().data(), TagLib::String::UTF8);
 	TagLib::String title(md.title.toUtf8().data(), TagLib::String::UTF8);
@@ -232,12 +264,12 @@ bool Tagging::setMetaDataOfFile(const MetaData& md)
 	tag->setTrack(md.track_num);
 
 	Models::Popularimeter popularimeter("sayonara player", 0, 0);
+	popularimeter.set_sayonara_rating(md.rating);
 	Models::Discnumber discnumber(md.discnumber, md.n_discs);
 
 	if(tag_type == Tagging::TagType::ID3v2)
 	{
 		ID3v2Frame::PopularimeterFrame popularimeter_frame(f);
-		popularimeter.set_sayonara_rating(md.rating);
 		popularimeter_frame.write(popularimeter);
 
 		ID3v2Frame::DiscnumberFrame discnumber_frame(f);
@@ -250,7 +282,6 @@ bool Tagging::setMetaDataOfFile(const MetaData& md)
 	else if(tag_type == Tagging::TagType::Xiph)
 	{
 		Xiph::PopularimeterFrame popularimeter_frame(tag);
-		popularimeter.set_sayonara_rating(md.rating);
 		popularimeter_frame.write(popularimeter);
 
 		Xiph::DiscnumberFrame discnumber_frame(tag);
@@ -260,7 +291,23 @@ bool Tagging::setMetaDataOfFile(const MetaData& md)
 		album_artist_frame.write(md.album_artist());
 	}
 
-	f.save();
+	else if(tag_type == Tagging::TagType::MP4)
+	{
+		MP4::AlbumArtistFrame album_artist_frame(tag);
+		album_artist_frame.write(md.album_artist());
+
+		MP4::DiscnumberFrame discnumber_frame(tag);
+		discnumber_frame.write(discnumber);
+
+		MP4::PopularimeterFrame popularimeter_frame(tag);
+		success = popularimeter_frame.write(popularimeter);
+		sp_log(Log::Debug) << "Write rating " << (int) popularimeter.rating_byte  << ": " << success;
+	}
+
+	success = f.save();
+	if(!success){
+		sp_log(Log::Warning) << "Could not save " << md.filepath();
+	}
 
 	return true;
 }
