@@ -18,14 +18,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef SETTING_H
-#define SETTING_H
+#pragma once
+#ifndef SAYONARA_SETTING_H_
+#define SAYONARA_SETTING_H_
+
 
 #include "Helper/Settings/SettingKey.h"
 #include "Helper/Settings/SettingConverter.h"
-#include "Helper/Settings/SettingNotifier.h"
-#include "Database/DatabaseSettings.h"
+#include "Helper/Pimpl.h"
 
+class DatabaseSettings;
 
 /**
  * @brief The AbstrSetting class\n
@@ -35,16 +37,16 @@
  */
 class AbstrSetting
 {
-	protected:
-		SK::SettingKey	_key;
-		QString			_db_key;
+	PIMPL(AbstrSetting)
 
+	private:
 		AbstrSetting();
-		AbstrSetting(const AbstrSetting&);
-		AbstrSetting(SK::SettingKey key, const char* db_key);
+		AbstrSetting(const AbstrSetting& other);
+		AbstrSetting& operator=(const AbstrSetting& other);
 
-		void print_info(const QString& str) const;
-		void print_warning(const QString& str) const;
+	protected:
+		AbstrSetting(SK::SettingKey key);
+		AbstrSetting(SK::SettingKey key, const char* db_key);
 
 	public:
 		virtual ~AbstrSetting();
@@ -52,8 +54,12 @@ class AbstrSetting
 		SK::SettingKey get_key() const;
 
 		/* Pure virtual function for DB load/save */
-		virtual void load_db(DatabaseSettings* db)=0;
-		virtual void store_db(DatabaseSettings* db)=0;
+		void load_db(DatabaseSettings* db);
+		void store_db(DatabaseSettings* db);
+
+		virtual bool load_value_from_string(const QString& str)=0;
+		virtual QString value_to_string() const=0;
+		virtual void assign_default_value()=0;
 };
 
 
@@ -72,8 +78,6 @@ class Setting : public AbstrSetting
 
 		T _val;
 		T _default_val;
-        bool _db_setting;
-
 
 	public:
 
@@ -85,68 +89,49 @@ class Setting : public AbstrSetting
 			Q_UNUSED(key);
 			_default_val = def;
 			_val = def;
-            _db_setting = true;
 		}
 
         template<typename SK::SettingKey S>
 		Setting(const SettingKey<T, S>& key, T def) :
-            AbstrSetting(S, "")
+			AbstrSetting(S)
         {
             Q_UNUSED(key);
             _default_val = def;
             _val = def;
-            _db_setting = false;
         }
 
 		/* Destructor */
 		~Setting() {}
 
-
-		/* Load setting from DB */
-		void load_db(DatabaseSettings* db) override
+		void assign_default_value() override
 		{
-            if(!_db_setting) return;
-
-			QString s;
-			bool success = db->load_setting(_db_key, s);
-
-			if(!success){
-				print_info("Setting " + _db_key + ": Not found. Use default value...");
-				_val = _default_val;
-				print_info("Load Setting " + _db_key + ": " + SC<T>::cvt_to_string(_val));
-				return;
-			}
-
-			success = SC<T>::cvt_from_string(s, _val);
-			if(!success){
-				print_warning("Setting " + _db_key + ": Cannot convert. Use default value...");
-				_val = _default_val;
-			}
+			_val = _default_val;
 		}
 
-		/* Save setting to DB */
-		void store_db(DatabaseSettings* db) override
+		QString value_to_string() const override
 		{
-            if(!_db_setting) return;
+			 return SC<T>::cvt_to_string(_val);
+		}
 
-            QString s = SC<T>::cvt_to_string(_val);
-			db->store_setting(_db_key, s);
+		bool load_value_from_string(const QString& str) override
+		{
+			return SC<T>::cvt_from_string(str, _val);
 		}
 
 		/* ... */
-		const T& getValue() const
+		const T& value() const
 		{
 			return _val;
 		}
 
 		/* ... */
-		const T& getDefaultValue() const 
+		const T& default_value() const
 		{
 			return _default_val;
 		}
 
 		/* ... */
-		bool setValue(const T& val)
+		bool set_value(const T& val)
 		{
 			if( _val == val ){
 				return false;
@@ -157,4 +142,4 @@ class Setting : public AbstrSetting
 		}
 };
 
-#endif // SETTING_H
+#endif // SAYONARA_SETTING_H_

@@ -22,13 +22,14 @@
 #define SAYONARASLIDER_H
 
 #include <QSlider>
-#include <QLabel>
 
 /**
  * @brief The SayonaraSlider class
  * @ingroup Widgets
  */
-class SayonaraSlider : public QSlider {
+class SayonaraSlider :
+		public QSlider
+{
 	Q_OBJECT
 
 	signals:

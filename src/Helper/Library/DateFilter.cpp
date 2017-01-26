@@ -22,6 +22,7 @@
 #include "Helper/Helper.h"
 
 #include <QStringList>
+#include <QDateTime>
 
 static QDateTime substract_span(const QDateTime& t, Library::DateFilter::TimeSpan span, int val)
 {

@@ -273,7 +273,7 @@ void DatabaseArtists::updateArtistCissearch()
 	DatabaseSearchMode::update_search_mode();
 
 	ArtistList artists;
-	getAllArtists(artists);
+	getAllArtists(artists, true);
 
 	_db.transaction();
 	for(const Artist& artist : artists) {

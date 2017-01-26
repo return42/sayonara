@@ -18,8 +18,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PIMPL_H
-#define PIMPL_H
+#pragma once
+
+#ifndef SAYONARA_PIMPL_H_
+#define SAYONARA_PIMPL_H_
 
 #include <memory>
 
@@ -48,4 +50,4 @@ namespace Pimpl
     }
 }
 
-#endif // PIMPL_H
+#endif // SAYONARA_PIMPL_H_

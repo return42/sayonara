@@ -21,6 +21,9 @@
 #include "SayonaraDialog.h"
 #include "Helper/Settings/Settings.h"
 
+#include <QDialog>
+#include <QCloseEvent>
+
 SayonaraDialog::SayonaraDialog(QWidget* parent) :
 	SayonaraWidgetTemplate<QDialog>(parent)
 {

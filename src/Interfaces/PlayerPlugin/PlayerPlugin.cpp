@@ -21,29 +21,43 @@
 #include "PlayerPlugin.h"
 #include "GUI/Helper/Shortcuts/Shortcut.h"
 #include "GUI/Helper/Shortcuts/ShortcutHandler.h"
+#include "Helper/Settings/Settings.h"
 
+#include <QAction>
 #include <QLayout>
 #include <QCloseEvent>
+
+struct PlayerPluginInterface::Private
+{
+	bool		is_initialized;
+	QAction*	pp_action=nullptr;
+
+	Private()
+	{
+		is_initialized = false;
+		pp_action = new QAction(nullptr);
+		pp_action->setCheckable(true);
+	}
+
+	~Private()
+	{
+		delete pp_action; pp_action = nullptr;
+	}
+};
 
 PlayerPluginInterface::PlayerPluginInterface(QWidget *parent) :
 	SayonaraWidget(parent),
 	ShortcutWidget()
 {
-	_is_initialized = false;
+	_m = Pimpl::make<Private>();
 
-	_pp_action = new QAction(nullptr);
-	_pp_action->setCheckable(true);
-
-	connect(_pp_action, &QAction::triggered, this, &PlayerPluginInterface::action_triggered);
+	connect(_m->pp_action, &QAction::triggered, this, &PlayerPluginInterface::action_triggered);
 
 	hide();
 }
 
 
-PlayerPluginInterface::~PlayerPluginInterface()
-{
-	delete _pp_action; _pp_action = nullptr;
-}
+PlayerPluginInterface::~PlayerPluginInterface() {}
 
 
 bool PlayerPluginInterface::is_title_shown() const
@@ -64,8 +78,8 @@ QString PlayerPluginInterface::get_shortcut_text(const QString& shortcut_identif
 
 QAction* PlayerPluginInterface::get_action() const 
 {
-	_pp_action->setText( this->get_display_name() );
-	return _pp_action;
+	_m->pp_action->setText( this->get_display_name() );
+	return _m->pp_action;
 }
 
 
@@ -100,13 +114,13 @@ void PlayerPluginInterface::finalize_initialization()
 
 bool PlayerPluginInterface::is_ui_initialized() const
 {
-	return _is_initialized;
+	return _m->is_initialized;
 }
 
 
 void PlayerPluginInterface::set_ui_initialized()
 {
-	_is_initialized = true;
+	_m->is_initialized = true;
 }
 
 
@@ -124,7 +138,7 @@ void PlayerPluginInterface::closeEvent(QCloseEvent* e)
 {
 	SayonaraWidget::closeEvent(e);
 
-	_pp_action->setChecked(false);
+	_m->pp_action->setChecked(false);
 
 	emit sig_closed();
 }
@@ -132,7 +146,7 @@ void PlayerPluginInterface::closeEvent(QCloseEvent* e)
 
 void PlayerPluginInterface::action_triggered(bool b) 
 {
-	_pp_action->setChecked(b);
+	_m->pp_action->setChecked(b);
 
 	emit sig_action_triggered(this, b);
 

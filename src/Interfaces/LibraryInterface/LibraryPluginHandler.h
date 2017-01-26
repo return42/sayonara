@@ -22,11 +22,10 @@
 #define LIBRARYPLUGINLOADER_H
 
 #include "Helper/Settings/SayonaraClass.h"
+#include "Helper/Pimpl.h"
 
 #include <QList>
-#include <QPair>
 #include <QObject>
-#include <QIcon>
 
 class LibraryContainerInterface;
 /**
@@ -43,11 +42,7 @@ signals:
 	void sig_idx_changed(int);
 
 private:
-	QList<LibraryContainerInterface*>	_libraries;
-	QList<QPair<QString, QIcon>>		_library_entries;
-
-	int									_cur_idx;
-	QWidget*							_library_parent=nullptr;
+	PIMPL(LibraryPluginHandler)
 
 	/**
 	 * @brief Init a library. This is used at startup for the current library

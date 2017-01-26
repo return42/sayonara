@@ -32,6 +32,9 @@
 #include "Helper/MetaData/MetaData.h"
 #include "Helper/Logger/Logger.h"
 
+#include <taglib/tag.h>
+#include <taglib/taglib.h>
+#include <taglib/fileref.h>
 #include <taglib/mpegfile.h>
 #include <taglib/oggfile.h>
 #include <taglib/oggflacfile.h>
@@ -44,6 +47,9 @@
 
 #include <QFile>
 #include <QFileInfo>
+#include <QImage>
+
+static Tagging::TagType tag_type_from_fileref(const TagLib::FileRef& f);
 
 bool Tagging::is_valid_file(const TagLib::FileRef& f)
 {
@@ -99,7 +105,7 @@ bool Tagging::getMetaDataOfFile(MetaData& md, Tagging::Quality quality)
 	}
 
 	TagLib::Tag* tag = f.tag();
-	Tagging::TagType tag_type = get_tag_type(f);
+	Tagging::TagType tag_type = tag_type_from_fileref(f);
 
 	QString artist = QString::fromUtf8(tag->artist().toCString(true));
 	QString album = QString::fromUtf8(tag->album().toCString(true));
@@ -216,7 +222,7 @@ bool Tagging::setMetaDataOfFile(const MetaData& md)
 	TagLib::String title(md.title.toUtf8().data(), TagLib::String::UTF8);
 	TagLib::String genre(md.genres.join(",").toUtf8().data(), TagLib::String::UTF8);
 	TagLib::Tag* tag = f.tag();
-	Tagging::TagType tag_type = get_tag_type(f);
+	Tagging::TagType tag_type = tag_type_from_fileref(f);
 
 	tag->setAlbum(album);
 	tag->setArtist(artist);
@@ -344,7 +350,7 @@ bool Tagging::extract_cover(const MetaData &md, QByteArray& cover_data, QString&
 	return !(cover_data.isEmpty());
 }
 
-Tagging::TagType Tagging::get_tag_type(const TagLib::FileRef& f)
+static Tagging::TagType tag_type_from_fileref(const TagLib::FileRef& f)
 {
 	TagLib::MPEG::File* mpg = dynamic_cast<TagLib::MPEG::File*>(f.file());
 	if(mpg)
@@ -398,10 +404,10 @@ Tagging::TagType Tagging::get_tag_type(const QString &filepath)
 		return Tagging::TagType::Unknown;
 	}
 
-	return get_tag_type(f);
+	return tag_type_from_fileref(f);
 }
 
-QString Tagging::cvt_tag_type(Tagging::TagType type)
+QString Tagging::tag_type_to_string(Tagging::TagType type)
 {
 	switch(type){
 		case Tagging::TagType::ID3v1:

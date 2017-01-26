@@ -24,10 +24,11 @@
 #include "Helper/Pimpl.h"
 
 #include <QString>
-#include <QDateTime>
 #include <QList>
 #include <QPair>
 
+
+class QDateTime;
 namespace Library
 {
 	/**
@@ -69,7 +70,7 @@ namespace Library
 
     public:
 
-		DateFilter(const QString& name=QString());
+		explicit DateFilter(const QString& name=QString());
 		DateFilter(const DateFilter& other);
 		void operator=(const DateFilter& other);
 		bool operator==(const DateFilter& other) const;

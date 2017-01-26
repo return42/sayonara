@@ -21,13 +21,14 @@
 #ifndef ASYNCWEBACCESS_H_
 #define ASYNCWEBACCESS_H_
 
-#include <QNetworkAccessManager>
-#include <QNetworkReply>
-#include <QString>
-#include <QByteArray>
-#include <QImage>
-#include <QTimer>
+#include <QMap>
+#include <QObject>
 
+#include "Helper/Pimpl.h"
+
+class QImage;
+class QString;
+class QNetworkReply;
 /**
  * @brief Asynchgronous web access class
  * @ingroup Helper
@@ -126,17 +127,7 @@ private slots:
 	void timeout();
 
 private:
-
-	QNetworkAccessManager*	_nam=nullptr;
-	QString					_url;
-	QByteArray				_data;
-	AsyncWebAccess::Behavior _behavior;
-
-
-	QTimer*					_timer=nullptr;
-	QNetworkReply*			_reply=nullptr;
-
-	QMap<QByteArray, QByteArray> _header;
+	PIMPL(AsyncWebAccess)
 };
 
 #endif

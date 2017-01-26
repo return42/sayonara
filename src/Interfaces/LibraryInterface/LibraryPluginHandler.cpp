@@ -29,16 +29,30 @@
 #include "Helper/Logger/Logger.h"
 
 #include <QDir>
+#include <QIcon>
+#include <QPair>
 #include <QLayout>
 #include <QComboBox>
 #include <QPluginLoader>
+
+struct LibraryPluginHandler::Private
+{
+	QList<LibraryContainerInterface*>	libraries;
+	QList<QPair<QString, QIcon>>		library_entries;
+	int									cur_idx;
+	QWidget*							library_parent=nullptr;
+
+	Private()
+	{
+		cur_idx = -1;
+	}
+};
 
 LibraryPluginHandler::LibraryPluginHandler(QObject* parent) :
 	QObject(parent),
 	SayonaraClass()
 {
-	_cur_idx = -1;
-	_library_parent = nullptr;
+	_m = Pimpl::make<Private>();
 	REGISTER_LISTENER(Set::Player_Language, language_changed);
 }
 
@@ -59,7 +73,7 @@ void LibraryPluginHandler::init(const QList<LibraryContainerInterface*>& contain
 
 		sp_log(Log::Debug) << "Add plugin " << container->get_display_name();
 
-		_libraries << container;
+		_m->libraries << container;
 	}
 
 	for(const QString& filename : dll_filenames) {
@@ -82,15 +96,15 @@ void LibraryPluginHandler::init(const QList<LibraryContainerInterface*>& contain
 		}
 
 		sp_log(Log::Info) << "Found library plugin " << container->get_display_name();
-		_libraries << container;
+		_m->libraries << container;
 	}
 
-	sp_log(Log::Info) << "Found " << _libraries.size() << " library types";
+	sp_log(Log::Info) << "Found " << _m->libraries.size() << " library types";
 
 	int i=0;
-	for(LibraryContainerInterface* container : _libraries ){
+	for(LibraryContainerInterface* container : _m->libraries ){
 		if(cur_plugin == container->get_name()){
-			_cur_idx = i;
+			_m->cur_idx = i;
 			init_library(i);
 			emit sig_idx_changed(i);
 			break;
@@ -103,7 +117,7 @@ void LibraryPluginHandler::init(const QList<LibraryContainerInterface*>& contain
 
 void LibraryPluginHandler::init_library(int idx)
 {
-	LibraryContainerInterface* library = _libraries[idx];
+	LibraryContainerInterface* library = _m->libraries[idx];
 	if(library->is_initialized()){
 		return;
 	}
@@ -115,7 +129,7 @@ void LibraryPluginHandler::init_library(int idx)
 	library->init_ui();
 	library->set_initialized();
 	ui = library->get_ui();
-	ui->setParent(_library_parent);
+	ui->setParent(_m->library_parent);
 
 	layout = ui->layout();
 	if(layout){
@@ -128,7 +142,7 @@ void LibraryPluginHandler::init_library(int idx)
 	libchooser->setMaximumWidth(200);
 	libchooser->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 
-	for(LibraryContainerInterface* other_library : _libraries){
+	for(LibraryContainerInterface* other_library : _m->libraries){
 		libchooser->addItem(other_library->get_icon(), other_library->get_display_name());
 	}
 
@@ -141,43 +155,37 @@ void LibraryPluginHandler::init_library(int idx)
 
 void LibraryPluginHandler::index_changed(int idx)
 {
-	_cur_idx = idx;
+	_m->cur_idx = idx;
 
-	init_library(_cur_idx);
+	init_library(_m->cur_idx);
 
 	int i=0;
-	for(LibraryContainerInterface* container : _libraries){
+	for(LibraryContainerInterface* container : _m->libraries)
+	{
 		if(!container->is_initialized()){
 			i++;
 			continue;
 		}
-
 	
-		QWidget* ui, *parent;
-		QString name;
-
 		QComboBox* libchooser = container->get_libchooser();
 		libchooser->setItemIcon(i, container->get_icon());
 
-		ui = container->get_ui();
-		parent = ui->parentWidget();
-		name = container->get_display_name();
+		QWidget* ui = container->get_ui();
+		QWidget* parent = ui->parentWidget();
+		QString name = container->get_display_name();
+
+		ui->setVisible(i == idx);
+
 		if(i == idx){
-			ui->setVisible(true);
 
 			libchooser->setCurrentIndex(i);
 
 			if(parent){
 				ui->resize(parent->size());
 			}
+			_settings->set(Set::Lib_CurPlugin, container->get_name());
 
 			ui->update();
-
-			_settings->set(Set::Lib_CurPlugin, container->get_name());
-		}
-
-		else{
-			ui->setVisible(false);
 		}
 
 		i++;
@@ -188,23 +196,23 @@ void LibraryPluginHandler::index_changed(int idx)
 
 LibraryContainerInterface* LibraryPluginHandler::get_cur_library() const
 {
-	if(!between(_cur_idx, _libraries)) {
+	if(!between(_m->cur_idx, _m->libraries)) {
 		return nullptr;
 	}
 
-	return _libraries[_cur_idx];
+	return _m->libraries[_m->cur_idx];
 }
 
 int LibraryPluginHandler::get_cur_library_idx() const
 {
-	return _cur_idx;
+	return _m->cur_idx;
 }
 
 void LibraryPluginHandler::set_library_parent(QWidget* parent)
 {
-	_library_parent = parent;
+	_m->library_parent = parent;
 
-	for(LibraryContainerInterface* container : _libraries){
+	for(LibraryContainerInterface* container : _m->libraries){
 		if(container->is_initialized()){
 			container->get_ui()->setParent(parent);
 		}
@@ -213,7 +221,7 @@ void LibraryPluginHandler::set_library_parent(QWidget* parent)
 
 void LibraryPluginHandler::language_changed()
 {
-	for(LibraryContainerInterface* container : _libraries){
+	for(LibraryContainerInterface* container : _m->libraries){
 		if(!container->is_initialized()){
 			continue;
 		}
@@ -221,7 +229,7 @@ void LibraryPluginHandler::language_changed()
 		QComboBox* libchooser = container->get_libchooser();
 		int i=0;
 
-		for(LibraryContainerInterface* container2 : _libraries){
+		for(LibraryContainerInterface* container2 : _m->libraries){
 			libchooser->setItemText(i, container2->get_display_name());
 			i++;
 		}
@@ -231,6 +239,6 @@ void LibraryPluginHandler::language_changed()
 
 QList<LibraryContainerInterface*> LibraryPluginHandler::get_libraries() const
 {
-	return _libraries;
+	return _m->libraries;
 }
 

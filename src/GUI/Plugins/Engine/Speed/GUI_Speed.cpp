@@ -20,6 +20,7 @@
 
 #include "GUI_Speed.h"
 #include "GUI/Plugins/Engine/ui_GUI_Speed.h"
+#include "Helper/Settings/Settings.h"
 
 #include <QToolTip>
 #include <QCursor>

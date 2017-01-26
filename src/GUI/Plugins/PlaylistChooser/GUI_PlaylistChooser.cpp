@@ -30,6 +30,7 @@
 #include "Helper/Helper.h"
 #include "Helper/Playlist/CustomPlaylist.h"
 #include "Helper/Language.h"
+#include "Helper/Settings/Settings.h"
 
 #include <algorithm>
 

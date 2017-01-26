@@ -24,13 +24,13 @@
 #include "Helper/Message/Message.h"
 #include "Helper/Logger/Logger.h"
 #include "Helper/Language.h"
+#include "Helper/Settings/Settings.h"
 
 #include "Components/Engine/EngineHandler.h"
 #include "Components/Engine/Convert/LameBitrate.h"
 #include "Components/PlayManager/PlayManager.h"
 
 #include <QFileDialog>
-
 
 GUI_AudioConverter::GUI_AudioConverter(QWidget *parent) :
 	PlayerPluginInterface(parent)

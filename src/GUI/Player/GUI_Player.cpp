@@ -42,6 +42,9 @@
 #include "Interfaces/PlayerPlugin/PlayerPlugin.h"
 #include "Interfaces/PreferenceDialog/PreferenceDialogInterface.h"
 
+#include <QDateTime>
+#include <QTranslator>
+
 GUI_Player::GUI_Player(QTranslator* translator, QWidget *parent) :
 	SayonaraMainWindow(parent),
 	ShortcutWidget(),
@@ -176,7 +179,7 @@ void GUI_Player::set_info_labels()
 
 void GUI_Player::set_title_label()
 {
-	QString text = elide_text(_md.title, lab_title, 2);
+	QString text = GUI::elide_text(_md.title, lab_title, 2);
 	lab_title->setText(text);
 }
 

@@ -19,6 +19,7 @@
  */
 
 #include "SearchMode.h"
+#include "Helper/Logger/Logger.h"
 
 #include <QRegExp>
 #include <QMap>
@@ -100,6 +101,10 @@ static void init_diacritic_chars()
 
 QString Library::convert_search_string(const QString& str, Library::SearchModeMask mode, const QList<QChar>& ignored_chars)
 {
+	if(diacritic_chars.isEmpty()){
+		init_diacritic_chars();
+	}
+
 	QString ret = str;
 	if(mode & Library::CaseInsensitve)
 	{
@@ -122,10 +127,6 @@ QString Library::convert_search_string(const QString& str, Library::SearchModeMa
 	{
 		QString cleaned_string;
 		
-		if (diacritic_chars.isEmpty()) {
-			init_diacritic_chars();
-		}
-
 		for (int i = 0; i < ret.length(); i++) 
 		{
 			QString c = QString(ret[i]);
@@ -149,6 +150,8 @@ QString Library::convert_search_string(const QString& str, Library::SearchModeMa
 
 		ret = cleaned_string;
 	}
+
+//	sp_log(Log::Debug) << "Cleaned string: " << ret;
 
 	return ret;
 }

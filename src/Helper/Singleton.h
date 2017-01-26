@@ -18,8 +18,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef SINGLETON_H
-#define SINGLETON_H
+#pragma once
+#ifndef SAYONARA_SINGLETON_H
+#define SAYONARA_SINGLETON_H
 
 #define _SINGLETON_BASIC_(class_name) protected: \
 				class_name( const class_name& other ) = delete; \
@@ -42,8 +43,4 @@
 				private:
 
 
-
-
-
-
-#endif
+#endif // SAYONARA_SINGLETON_H

@@ -21,9 +21,9 @@
 #ifndef SAYONARAWIDGET_H
 #define SAYONARAWIDGET_H
 
-#include <QMainWindow>
 #include "SayonaraWidgetTemplate.h"
-
+#include <QWidget>
+#include <QMainWindow>
 
 class SayonaraDialog;
 

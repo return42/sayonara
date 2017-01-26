@@ -30,7 +30,8 @@
  * @brief The SayonaraLoadingBar class
  * @ingroup Widgets
  */
-class SayonaraLoadingBar : public QProgressBar
+class SayonaraLoadingBar :
+		public QProgressBar
 {
 private:
 	QWidget*	_parent=nullptr;

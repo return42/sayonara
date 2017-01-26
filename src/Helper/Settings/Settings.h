@@ -17,12 +17,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#pragma once
+#ifndef SAYONARA_SETTINGS_H_
+#define SAYONARA_SETTINGS_H_
 
-#ifndef Settings_H
-#define Settings_H
 
 #include "Helper/Settings/Setting.h"
+#include "Helper/Settings/SettingNotifier.h"
 #include "Helper/Singleton.h"
+
 
 /**
  * @brief The Settings class
@@ -31,13 +34,10 @@
 class Settings : public QObject
 {
 	SINGLETON(Settings)
+	PIMPL(Settings)
 
 private:
-
-	QString _db_file;
-	QString _version;
-
-	AbstrSetting* _settings[SK::Num_Setting_Keys + 1];
+	AbstrSetting* setting(SK::SettingKey key) const;
 
 public:
 
@@ -58,8 +58,8 @@ public:
 	const T& get(const SettingKey<T,S>& k) const
 	{
 		Q_UNUSED(k);
-		Setting<T>* s = (Setting<T>*) _settings[(int) S];
-		return s->getValue();
+		Setting<T>* s = (Setting<T>*) setting(S);
+		return s->value();
 	}
 
 	/* set a setting, define by a unique, REGISTERED key */
@@ -67,9 +67,9 @@ public:
 	void set(const SettingKey<T,S>& key, const T& val)
 	{
 		Q_UNUSED(key)
-		Setting<T>* s = (Setting<T>*) _settings[(int) S];
+		Setting<T>* s = (Setting<T>*) setting(S);
 
-		if( s->setValue(val)) {
+		if( s->set_value(val)) {
 			SettingNotifier< SettingKey<T, S> >* sn = SettingNotifier< SettingKey<T, S> >::getInstance();
 			sn->val_changed();
 		}
@@ -85,4 +85,4 @@ public:
 	}
 };
 
-#endif // Settings_H
+#endif // SAYONARA_SETTINGS_H_

@@ -26,6 +26,7 @@
 
 #include <QSize>
 
+class QWidget;
 class QPixmap;
 class QString;
 class QIcon;
@@ -66,6 +67,9 @@ namespace GUI
 	 * @return main window of application
 	 */
 	QMainWindow* get_main_window();
+
+
+	QString elide_text(const QString &text, QWidget *widget, int max_lines);
 }
 
 #endif // GUI_HELPER_H

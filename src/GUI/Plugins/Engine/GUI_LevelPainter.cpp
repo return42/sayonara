@@ -25,6 +25,7 @@
 #include "Components/Engine/Playback/PlaybackEngine.h"
 #include "Components/Engine/EngineHandler.h"
 #include "Helper/Logger/Logger.h"
+#include "Helper/Settings/Settings.h"
 
 #include <QPainter>
 #include <QBrush>

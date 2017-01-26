@@ -22,8 +22,8 @@
 #define DATABASESETTINGS_H
 
 #include "Database/DatabaseModule.h"
-#include <QVariant>
 
+class QVariant;
 class DatabaseSettings : private DatabaseModule
 {
 public:

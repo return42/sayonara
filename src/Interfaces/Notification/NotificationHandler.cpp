@@ -29,11 +29,13 @@ NotificationHandler::NotificationHandler(QObject* parent) :
 
 NotificationHandler::~NotificationHandler() {}
 
-void NotificationHandler::notify(const MetaData& md){
+void NotificationHandler::notify(const MetaData& md)
+{
 	get()->notify(md);
 }
 
-void NotificationHandler::notify(const QString& title, const QString& message, const QString& image_path){
+void NotificationHandler::notify(const QString& title, const QString& message, const QString& image_path)
+{
 	get()->notify(title, message, image_path);
 }
 

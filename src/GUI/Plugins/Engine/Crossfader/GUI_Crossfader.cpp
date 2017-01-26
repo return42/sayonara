@@ -21,6 +21,7 @@
 #include "GUI_Crossfader.h"
 #include "GUI/Plugins/Engine/ui_GUI_Crossfader.h"
 #include "Helper/Playlist/PlaylistMode.h"
+#include "Helper/Settings/Settings.h"
 
 
 GUI_Crossfader::GUI_Crossfader(QWidget *parent) :

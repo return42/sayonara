@@ -21,12 +21,12 @@
 #ifndef PLAYERPLUGIN_H
 #define PLAYERPLUGIN_H
 
-#include <QAction>
+#include "Helper/Pimpl.h"
 
-#include "Helper/Settings/Settings.h"
 #include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
 #include "GUI/Helper/Shortcuts/ShortcutWidget.h"
 
+class QAction;
 class PlayerPluginHandler;
 
 /**
@@ -44,8 +44,7 @@ class PlayerPluginInterface :
     Q_OBJECT
 
 private:
-	bool		_is_initialized;
-	QAction*	_pp_action=nullptr;
+	PIMPL(PlayerPluginInterface)
 
 
 public:

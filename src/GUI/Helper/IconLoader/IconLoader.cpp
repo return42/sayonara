@@ -28,6 +28,8 @@
 #include <QIcon>
 #include <QFile>
 #include <QRegExp>
+#include <QMap>
+#include <QIcon>
 
 struct IconLoader::Private
 {

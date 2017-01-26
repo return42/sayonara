@@ -35,6 +35,8 @@
 #include <QMenu>
 #include <QAction>
 
+class EQ_Setting;
+
 namespace Ui { class GUI_Equalizer; }
 
 class EqSlider;

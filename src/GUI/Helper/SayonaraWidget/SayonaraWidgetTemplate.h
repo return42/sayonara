@@ -21,14 +21,13 @@
 #ifndef SAYONARAWIDGETTEMPLATE_H
 #define SAYONARAWIDGETTEMPLATE_H
 
-#include <QWidget>
-#include <QStringList>
-
 #include "Helper/Settings/SayonaraClass.h"
+class QWidget;
 
 #define combo_current_index_changed_int	static_cast<void (QComboBox::*) (int)>(&QComboBox::currentIndexChanged)
 #define combo_activated_int	static_cast<void (QComboBox::*) (int)>(&QComboBox::activated)
 #define spinbox_value_changed_int	static_cast<void (QSpinBox::*) (int)>(&QSpinBox::valueChanged)
+
 
 template<typename T>
 /**
@@ -51,56 +50,6 @@ public:
 	{}
 
 	virtual ~SayonaraWidgetTemplate() {}
-
-protected:
-
-
-	QString elide_text(const QString &text, QWidget *widget, int max_lines){
-		QFontMetrics metric = widget->fontMetrics();
-		int width = widget->width();
-
-		QStringList splitted = text.split(" ");
-		QStringList ret;
-		QString tmp;
-		QString line;
-
-		for( const QString& str : splitted){
-			tmp = line + str;
-
-			if(metric.boundingRect(tmp).width() > width){
-				ret << line;
-
-				if(ret.size() == max_lines){
-					line = "";
-					break;
-				}
-
-				line = str;
-			}
-
-			else{
-				line += str + " ";
-			}
-		}
-
-
-		QString final_str;
-		if(ret.isEmpty()){
-			final_str = text;
-		}
-
-		else if(line.isEmpty()){
-			final_str = ret.join("\n");
-			final_str += "...";
-		}
-
-		else {
-			final_str = ret.join("\n") + line;
-		}
-
-
-		return final_str;
-	}
 };
 
 #endif // SAYONARAWIDGETTEMPLATE_H

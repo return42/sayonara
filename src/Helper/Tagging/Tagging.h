@@ -21,14 +21,16 @@
 #ifndef TAGGING_H_
 #define TAGGING_H_
 
-#include <taglib/tag.h>
-#include <taglib/taglib.h>
-#include <taglib/fileref.h>
+#include <taglib/audioproperties.h>
 
-#include <QtGlobal>
-#include <QImage>
+namespace TagLib { class FileRef; }
 
+class QString;
+class QImage;
 class MetaData;
+class QString;
+class QByteArray;
+
 /**
  * @brief Tagging namespace
  * @ingroup Tagging
@@ -38,14 +40,15 @@ namespace Tagging
 	/**
 	 * @brief The Quality enum
 	 */
-	enum class Quality : quint8 {
+	enum class Quality : unsigned char
+	{
 		Fast=TagLib::AudioProperties::Fast,
 		Standard=TagLib::AudioProperties::Average,
 		Quality=TagLib::AudioProperties::Accurate,
 		Dirty
 	};
 
-	enum class TagType : quint8 
+	enum class TagType : unsigned char
 	{
 		ID3v1=0,
 		ID3v2,
@@ -77,9 +80,8 @@ namespace Tagging
 
 	bool is_valid_file(const TagLib::FileRef& f);
 
-	Tagging::TagType get_tag_type(const TagLib::FileRef& f);
 	Tagging::TagType get_tag_type(const QString& filepath);
-	QString cvt_tag_type(Tagging::TagType);
+	QString tag_type_to_string(Tagging::TagType);
 }
 
 #endif

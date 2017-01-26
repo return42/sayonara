@@ -24,6 +24,7 @@
 #include "Helper/Message/Message.h"
 #include "Helper/Logger/Logger.h"
 #include "Helper/Language.h"
+#include "Helper/Settings/Settings.h"
 
 #include "GUI/Helper/Delegates/ComboBoxDelegate.h"
 

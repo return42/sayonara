@@ -30,12 +30,6 @@
 #include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
 #include "GUI/Helper/Shortcuts/ShortcutWidget.h"
 
-#include <QMessageBox>
-#include <QMainWindow>
-#include <QTranslator>
-#include <QKeySequence>
-
-#include <QAction>
 #include <QSystemTrayIcon>
 
 class GUI_TrayIcon;
@@ -45,6 +39,8 @@ class PlayerPluginHandler;
 class LibraryPluginHandler;
 class PreferenceDialogInterface;
 class IconLoader;
+class QTranslator;
+class QMessageBox;
 
 #ifdef WITH_MTP
 	class GUI_MTP;

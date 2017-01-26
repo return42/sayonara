@@ -85,6 +85,14 @@ struct PlayManager::Private
 	int						cur_idx;
 	quint64					initial_position_ms;
 	PlayState				playstate;
+
+	Private()
+	{
+		initial_position_ms = 0;
+		position_ms = 0;
+		cur_idx = -1;
+		playstate = PlayState::Stopped;
+	}
 };
 
 
@@ -92,10 +100,7 @@ PlayManager::PlayManager(QObject* parent) :
 	QObject(parent),
 	SayonaraClass()
 {
-	_m = Pimpl::make<PlayManager::Private>();
-	_m->position_ms = 0;
-	_m->cur_idx = -1;
-	_m->playstate = PlayState::Stopped;
+	_m = Pimpl::make<Private>();
 
 	bool load_playlist = (_settings->get(Set::PL_LoadSavedPlaylists) || _settings->get(Set::PL_LoadTemporaryPlaylists));
 	bool load_last_track = _settings->get(Set::PL_LoadLastTrack);

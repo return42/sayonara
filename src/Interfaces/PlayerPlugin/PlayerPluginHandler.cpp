@@ -21,6 +21,7 @@
 #include "PlayerPlugin.h"
 #include "PlayerPluginHandler.h"
 #include "Helper/Logger/Logger.h"
+#include "Helper/Settings/Settings.h"
 
 #include <QAction>
 

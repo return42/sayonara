@@ -45,6 +45,7 @@
 #include <QMap>
 #include <QStringList>
 #include <QUrl>
+#include <QHash>
 
 struct LFMTrackChangedThread::Private
 {

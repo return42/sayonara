@@ -22,6 +22,7 @@
 #include "InstanceThread.h"
 #include "Helper/Macros.h"
 #include "Helper/Language.h"
+#include "Helper/Settings/Settings.h"
 
 #ifdef WITH_DBUS
 	#include "Components/DBus/DBusHandler.h"

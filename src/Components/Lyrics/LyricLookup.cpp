@@ -30,6 +30,7 @@
 
 #include "Helper/WebAccess/AsyncWebAccess.h"
 
+#include <QStringList>
 #include <QRegExp>
 #include <QMap>
 
@@ -383,7 +384,7 @@ QString LyricLookupThread::parse_webpage(const QByteArray& raw, const ServerTemp
 		if(t.is_numeric) {
 			QRegExp rx("&#(\\d+);|<br />|</span>|</p>");
 
-			QStringList tmplist;;
+			QStringList tmplist;
 			int pos = 0;
 			while ((pos = rx.indexIn(content, pos)) != -1) {
 				QString str = rx.cap(1);

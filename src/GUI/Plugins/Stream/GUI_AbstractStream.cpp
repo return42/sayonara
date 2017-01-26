@@ -30,6 +30,7 @@
 #include "Helper/Logger/Logger.h"
 #include "Helper/Language.h"
 #include "Helper/Message/Message.h"
+#include "Helper/Settings/Settings.h"
 
 #include "Components/StreamPlugins/Streams/AbstractStreamHandler.h"
 

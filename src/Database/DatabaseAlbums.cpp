@@ -51,7 +51,7 @@ QString DatabaseAlbums::fetch_query_albums(bool also_empty) const
 	}
 
 	sql +=	join + " tracks ON tracks.albumID = albums.albumID " +
-			join + " artists ON tracks.artistID = artists.artistID ";
+			join + " artists ON (tracks.artistID = artists.artistID OR tracks.albumArtistID = artists.artistID) ";
 
 	return sql;
 }
@@ -433,7 +433,7 @@ void DatabaseAlbums::updateAlbumCissearch()
 	DatabaseSearchMode::update_search_mode();
 
 	AlbumList albums;
-	getAllAlbums(albums);
+	getAllAlbums(albums, true);
 
 	_db.transaction();
 

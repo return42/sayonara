@@ -22,23 +22,41 @@
 #include "Helper/Settings/Settings.h"
 #include "Helper/typedefs.h"
 
+struct Settings::Private
+{
+	QString			db_file;
+	QString			version;
+	AbstrSetting*	settings[SK::Num_Setting_Keys + 1];
+
+	Private()
+	{
+		db_file = "player.db";
+		memset(settings, 0, SK::Num_Setting_Keys + 1);
+	}
+};
+
 Settings::Settings()
 {
-	_db_file = "player.db";
-	memset(_settings, 0, SK::Num_Setting_Keys + 1);
+	_m = Pimpl::make<Private>();
 }
 
 Settings::~Settings () {}
 
+
+AbstrSetting* Settings::setting(SK::SettingKey key) const
+{
+	return _m->settings[(int) key];
+}
+
 AbstrSetting** Settings::get_settings()
 {
-	return _settings;
+	return _m->settings;
 }
 
 void Settings::register_setting(AbstrSetting* s)
 {
 	SK::SettingKey key  = s->get_key();
-	_settings[ (int) key ] = s;
+	_m->settings[ (int) key ] = s;
 }
 
 
@@ -46,7 +64,7 @@ bool Settings::check_settings()
 {
 	IntList un_init;
 	for(int i=0; i<SK::Num_Setting_Keys; i++){
-		if(! _settings[i] ){
+		if(! _m->settings[i] ){
 			un_init << i;
 		}
 	}

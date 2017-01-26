@@ -101,13 +101,14 @@ void LocalLibrary::reload_thread_finished()
 
 void LocalLibrary::_sl_search_mode_changed()
 {
-	sp_log(Log::Debug) << "Updating cissearch...";
+	sp_log(Log::Debug) << "Updating cissearch... " << _settings->get(Set::Lib_SearchMode);
 
 	_db->updateArtistCissearch();
 	_db->updateAlbumCissearch();
 	_db->updateTrackCissearch();
 
-	sp_log(Log::Debug) << "Updating cissearch finished";
+	sp_log(Log::Debug) << "Updating cissearch finished" << _settings->get(Set::Lib_SearchMode);
+
 }
 
 void LocalLibrary::_sl_auto_update_changed()

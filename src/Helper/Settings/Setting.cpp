@@ -20,36 +20,95 @@
 
 #include "Setting.h"
 #include "Helper/Logger/Logger.h"
+#include "Database/DatabaseSettings.h"
 
-AbstrSetting::AbstrSetting() {}
+#include <QVariant>
 
-AbstrSetting::AbstrSetting(const AbstrSetting& other)
+struct AbstrSetting::Private
 {
-	_key = other._key;
-	_db_key = other._db_key;
+	SK::SettingKey	key;
+	QString			db_key;
+	bool			db_setting;
+};
+
+
+AbstrSetting::AbstrSetting()
+{
+	_m = Pimpl::make<Private>();
 }
 
-AbstrSetting::AbstrSetting(SK::SettingKey key, const char* db_key)
+AbstrSetting::AbstrSetting(SK::SettingKey key) :
+	AbstrSetting()
 {
-	_key = key;
-	_db_key = db_key;
+	_m->key = key;
+	_m->db_setting = false;
+}
+
+AbstrSetting::AbstrSetting(SK::SettingKey key, const char* db_key) :
+	AbstrSetting(key)
+{
+	_m->db_key = db_key;
+	_m->db_setting = true;
+}
+
+
+AbstrSetting::AbstrSetting(const AbstrSetting& other) :
+	AbstrSetting()
+{
+	_m->key = other._m->key;
+	_m->db_key = other._m->db_key;
+	_m->db_setting = other._m->db_setting;
+}
+
+AbstrSetting& AbstrSetting::operator=(const AbstrSetting& other)
+{
+	_m->key = other._m->key;
+	_m->db_key = other._m->db_key;
+	_m->db_setting = other._m->db_setting;
+
+	return *this;
 }
 
 AbstrSetting::~AbstrSetting() {}
 
 SK::SettingKey AbstrSetting::get_key() const
 {
-	return _key;
+	return _m->key;
 }
 
-void AbstrSetting::print_info(const QString &str) const
+void AbstrSetting::load_db(DatabaseSettings *db)
 {
-	sp_log(Log::Info) << str;
+	if(!_m->db_setting) return;
+
+	QString s;
+	bool success = db->load_setting(_m->db_key, s);
+
+	if(!success){
+		sp_log(Log::Info) << "Setting " << _m->db_key << ": Not found. Use default value...";
+
+		assign_default_value();
+
+		sp_log(Log::Info) << "Load Setting " << _m->db_key << ": " << value_to_string();
+
+		return;
+	}
+
+	success = load_value_from_string(s);
+
+	if(!success){
+		sp_log(Log::Warning) << "Setting " << _m->db_key << ": Cannot convert. Use default value...";
+
+		assign_default_value();
+	}
 }
 
-void AbstrSetting::print_warning(const QString& str) const
+void AbstrSetting::store_db(DatabaseSettings* db)
 {
-	sp_log(Log::Warning) << str;
+	if(_m->db_setting){
+		QString val_as_string = value_to_string();
+		db->store_setting(_m->db_key, val_as_string);
+	}
 }
+
 
 

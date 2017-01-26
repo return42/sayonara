@@ -268,7 +268,7 @@ void GUI_TagEdit::track_idx_changed()
 	);
 
 	ui->lab_tag_type->setText(tr("Tag") + ": " +
-					Tagging::cvt_tag_type(
+					Tagging::tag_type_to_string(
 						 Tagging::get_tag_type(md.filepath())
 					)
 	);

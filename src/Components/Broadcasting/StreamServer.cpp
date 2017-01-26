@@ -32,6 +32,7 @@
 
 #include <QHostAddress>
 #include <QTcpServer>
+#include <QTcpSocket>
 
 struct StreamServer::Private
 {
