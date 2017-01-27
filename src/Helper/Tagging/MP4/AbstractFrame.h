@@ -102,7 +102,7 @@ namespace MP4
 					}
 
 					bool success = map_model_to_tag( model, _tag );
-					success = _tag->save();
+
 					return success;
 				}
 		};

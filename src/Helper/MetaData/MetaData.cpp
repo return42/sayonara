@@ -127,12 +127,15 @@ MetaData::~MetaData()
 
 QString MetaData::to_string() const
 {
-	return	title + " by " +
-			artist + " from " +
-			album +
-			//" (" + QString::number(length_ms) + " m_sec) :: " +
-			//_filepath +
-			"";
+	QStringList lst;
+	lst << title;
+	lst << "by " << artist << " (" << album_artist() << ")";
+	lst << "on " << album;
+	lst << "Rating: " << QString::number(rating);
+	lst << "Disc: " << QString::number(discnumber);
+	lst << "Filepath: " << filepath();
+
+	return lst.join(" - ");
 }
 
 QVariant MetaData::toVariant(const MetaData& md) {

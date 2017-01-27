@@ -14,13 +14,15 @@ namespace Models
 	public:
 
 	    QString		email;
-	    quint8		rating_byte;	// value between 0 and 0xff
-	    int			playcount;
+		int			rating;
+		int			playcount;
 
 	    Popularimeter();
-	    Popularimeter(const QString& email_, quint8 rating_byte_, int playcount);
-	    void set_sayonara_rating(quint8 max_5);
-	    quint8 get_sayonara_rating() const;
+		Popularimeter(const QString& email_, quint8 rating_byte_, int playcount);
+		void set_rating(quint8 max_5);
+		void set_rating_byte(quint8 byte);
+		quint8 get_rating() const;
+		quint8 get_rating_byte() const;
 	    QString to_string();
     };
 }

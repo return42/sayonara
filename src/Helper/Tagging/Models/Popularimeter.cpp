@@ -3,61 +3,73 @@
 Models::Popularimeter::Popularimeter()
 {
     email = "sayonara player";
-    rating_byte = 0x00;
+	rating = 0x00;
     playcount = 0;
 }
 
-Models::Popularimeter::Popularimeter(const QString& email_, quint8 rating_byte_, int playcount_)
+Models::Popularimeter::Popularimeter(const QString& email_, quint8 rating_, int playcount_)
 {
     playcount = playcount_;
-    rating_byte = rating_byte_;
+	rating = rating_;
     email = email_;
 }
 
 
-void Models::Popularimeter::set_sayonara_rating(quint8 max_5)
+void Models::Popularimeter::set_rating(quint8 max_5)
 {
-    if(max_5 >= 5){
-	rating_byte = 255;
-    }
-    else if(max_5 == 4){
-	rating_byte =  196;
-    }
-    else if(max_5 == 3){
-	rating_byte =  128;
-    }
-    else if(max_5 == 2){
-	rating_byte =  64;
-    }
-    else if(max_5 == 1){
-	rating_byte =  1;
-    }
-    else{
-	rating_byte = 0;
-    }
+	rating = max_5;
 }
 
-quint8 Models::Popularimeter::get_sayonara_rating() const
+void Models::Popularimeter::set_rating_byte(quint8 byte)
 {
-    if(rating_byte > 224){
-	return 5;
-    }
-    else if(rating_byte > 160){
-	return 4;
-    }
-    else if(rating_byte > 96){
-	return 3;
-    }
-    else if(rating_byte > 32){
-	return 2;
-    }
-    else if(rating_byte > 0){
-	return 1;
-    }
-    return 0;
+	if(byte < 0x30){		//48
+		rating = 1;
+	}
+	else if(byte < 0x60){	// 92
+		rating = 2;
+	}
+	else if(byte < 0xA0){	// 160
+		rating = 3;
+	}
+	else if(byte < 0xD8){	// 216
+		rating = 4;
+	}
+	else{
+		rating = 5;			// 255
+	}
+}
+
+quint8 Models::Popularimeter::get_rating() const
+{
+	return rating;
+}
+
+quint8 Models::Popularimeter::get_rating_byte() const
+{
+	quint8 rating_byte;
+
+	switch(rating)
+	{
+		case 1:
+			rating_byte = 0x01; // 1
+			break;
+		case 2:
+			rating_byte = 0x40; // 64
+			break;
+		case 3:
+			rating_byte = 0x7F; // 128
+			break;
+		case 4:
+			rating_byte = 0xC0; // 192
+			break;
+		default:
+			rating_byte = 0xFF; // 255
+	}
+
+	return rating_byte;
 }
 
 QString Models::Popularimeter::to_string()
 {
-    return QString("POPM: ") + email + " " + QString::number(rating_byte) + " " + QString::number(playcount);
+	return QString("POPM: ") + email + " " + QString::number(get_rating_byte()) + " " + QString::number(playcount);
 }

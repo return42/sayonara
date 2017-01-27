@@ -5,6 +5,8 @@ ADD_SUBDIRECTORY(MetaDataInfo)
 ADD_SUBDIRECTORY(Settings)
 ADD_SUBDIRECTORY(Compressor)
 
+INCLUDE_DIRECTORIES(.)
+
 IF(NOT WIN32 OR NOT DEFINED WIN32)
     ADD_SUBDIRECTORY(Shutdown)
 ENDIF()
@@ -74,6 +76,7 @@ SET(SOURCES
     Tagging/Models/Discnumber.cpp
     Tagging/Models/Cover.cpp
     Tagging/Models/Popularimeter.cpp
+	taglib-1.10
 
     WebAccess/AsyncWebAccess.cpp
 )

@@ -130,7 +130,7 @@ bool Tagging::getMetaDataOfFile(MetaData& md, Tagging::Quality quality)
 		ID3v2Frame::PopularimeterFrame popularimeter_frame(f);
 		success = popularimeter_frame.read(popularimeter);
 		if(success){
-			md.rating = popularimeter.get_sayonara_rating();
+			md.rating = popularimeter.get_rating();
 		}
 
 		ID3v2Frame::DiscnumberFrame discnumber_frame(f);
@@ -152,7 +152,7 @@ bool Tagging::getMetaDataOfFile(MetaData& md, Tagging::Quality quality)
 		Xiph::PopularimeterFrame popularimeter_frame(tag);
 		success = popularimeter_frame.read(popularimeter);
 		if(success){
-			md.rating = popularimeter.get_sayonara_rating();
+			md.rating = popularimeter.get_rating();
 		}
 
 		Xiph::DiscnumberFrame discnumber_frame(tag);
@@ -183,7 +183,7 @@ bool Tagging::getMetaDataOfFile(MetaData& md, Tagging::Quality quality)
 
 		success = popularimeter_frame.read(popularimeter);
 		if(success){
-			md.rating = popularimeter.get_sayonara_rating();
+			md.rating = popularimeter.get_rating();
 		}
 
 		sp_log(Log::Debug) << "Read rating " << (int) md.rating << ": " << success;
@@ -220,7 +220,7 @@ bool Tagging::getMetaDataOfFile(MetaData& md, Tagging::Quality quality)
 	md.genres = genres;
 	md.discnumber = discnumber.disc;
 	md.n_discs = discnumber.n_discs;
-	md.rating = popularimeter.get_sayonara_rating();
+	md.rating = popularimeter.get_rating();
 
 	if(md.title.length() == 0) {
 		QString dir, filename;
@@ -264,7 +264,7 @@ bool Tagging::setMetaDataOfFile(const MetaData& md)
 	tag->setTrack(md.track_num);
 
 	Models::Popularimeter popularimeter("sayonara player", 0, 0);
-	popularimeter.set_sayonara_rating(md.rating);
+	popularimeter.set_rating(md.rating);
 	Models::Discnumber discnumber(md.discnumber, md.n_discs);
 
 	if(tag_type == Tagging::TagType::ID3v2)
@@ -301,12 +301,25 @@ bool Tagging::setMetaDataOfFile(const MetaData& md)
 
 		MP4::PopularimeterFrame popularimeter_frame(tag);
 		success = popularimeter_frame.write(popularimeter);
-		sp_log(Log::Debug) << "Write rating " << (int) popularimeter.rating_byte  << ": " << success;
+		sp_log(Log::Debug) << "Write rating " << (int) popularimeter.get_rating()  << ": " << success;
 	}
 
 	success = f.save();
 	if(!success){
 		sp_log(Log::Warning) << "Could not save " << md.filepath();
+	}
+
+	else{
+
+		MetaData md_new;
+		md_new.set_filepath(md.filepath());
+		getMetaDataOfFile(md_new);
+
+		if(md_new.to_string().compare(md.to_string(), Qt::CaseInsensitive) != 0){
+			sp_log(Log::Warning) << "Could not update track correctly";
+			sp_log(Log::Warning) << "Orig: " << md.to_string();
+			sp_log(Log::Warning) << "New:  " << md_new.to_string();
+		}
 	}
 
 	return true;

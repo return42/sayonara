@@ -17,11 +17,11 @@ bool Xiph::PopularimeterFrame::map_tag_to_model(const TagLib::String& value, Mod
 
 	quint8 rating = (quint8) str.toInt();
 	if(rating < 10){
-		model.set_sayonara_rating(rating);
+		model.set_rating(rating);
 	}
 
 	else{
-		model.rating_byte = rating;
+		model.set_rating_byte(rating);
 	}
 
 	return true;
@@ -29,7 +29,7 @@ bool Xiph::PopularimeterFrame::map_tag_to_model(const TagLib::String& value, Mod
 
 bool Xiph::PopularimeterFrame::map_model_to_tag(const Models::Popularimeter& model, TagLib::Ogg::XiphComment* tag)
 {
-	quint8 rating = model.get_sayonara_rating();
+	quint8 rating = model.get_rating();
 	QString str = QString::number(rating);
 	tag->addField( cvt_string(key()), cvt_string(str), true );
 

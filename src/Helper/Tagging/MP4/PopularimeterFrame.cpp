@@ -19,11 +19,11 @@ bool MP4::PopularimeterFrame::map_tag_to_model(TagLib::MP4::Tag* tag, Models::Po
 	if(item.isValid()){
 		int rating = item.toInt();
 		if(rating < 10){
-			model.set_sayonara_rating(rating);
+			model.set_rating(rating);
 		}
 
 		else{
-			model.rating_byte = rating;
+			model.set_rating_byte(rating);
 		}
 
 		return true;
@@ -37,7 +37,7 @@ bool MP4::PopularimeterFrame::map_model_to_tag(const Models::Popularimeter& mode
 {
 	TagLib::MP4::ItemListMap& ilm = tag->itemListMap();
 	TagLib::String key_str = cvt_string( key() );
-	TagLib::MP4::Item item((int) model.get_sayonara_rating());
+	TagLib::MP4::Item item((int) model.get_rating());
 
 	ilm.insert(key_str, item);
 
