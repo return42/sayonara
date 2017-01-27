@@ -4,6 +4,7 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.7)
 ADD_SUBDIRECTORY(MetaDataInfo)
 ADD_SUBDIRECTORY(Settings)
 ADD_SUBDIRECTORY(Compressor)
+ADD_SUBDIRECTORY(Taglib)
 
 INCLUDE_DIRECTORIES(.)
 
@@ -76,7 +77,6 @@ SET(SOURCES
     Tagging/Models/Discnumber.cpp
     Tagging/Models/Cover.cpp
     Tagging/Models/Popularimeter.cpp
-	taglib-1.10
 
     WebAccess/AsyncWebAccess.cpp
 )
