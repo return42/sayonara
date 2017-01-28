@@ -44,7 +44,6 @@ namespace ID3v2Frame
 	class AbstractFrame
 	{
 		protected:
-			const char*				_four=nullptr;
 			TagLib::ID3v2::Tag*		_tag=nullptr;
 			ModelType_t				_data_model;
 			FrameType_t*			_frame=nullptr;
@@ -72,7 +71,6 @@ namespace ID3v2Frame
 		public:
 			// constructor
 			AbstractFrame(const TagLib::FileRef& f, const char* four) :
-				_four(four),
 				_frame(nullptr)
 			{
 				TagLib::MPEG::File* mpeg = dynamic_cast<TagLib::MPEG::File*>(f.file());
@@ -86,8 +84,9 @@ namespace ID3v2Frame
 				}
 
 				// map, containing [four][frame list]
+				TagLib::ByteVector vec(four, 4);
 				TagLib::ID3v2::FrameListMap map = _tag->frameListMap();
-				TagLib::ID3v2::FrameList frame_list = map[_four];
+				TagLib::ID3v2::FrameList frame_list = map[vec];
 				if(!frame_list.isEmpty()) {
 					_frame = dynamic_cast<FrameType_t*> (frame_list.front());
 				}
