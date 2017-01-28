@@ -387,6 +387,8 @@ bool Tagging::write_cover(const MetaData& md, const QString& cover_image_path)
 
 bool Tagging::extract_cover(const MetaData &md, QByteArray& cover_data, QString& mime_type)
 {
+	return false;
+
 	QString error_msg = "Cannot fetch cover. ";
 	QString filepath = md.filepath();
 	TagLib::FileRef f(TagLib::FileName(filepath.toUtf8()));
