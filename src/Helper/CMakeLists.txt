@@ -4,9 +4,6 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.7)
 ADD_SUBDIRECTORY(MetaDataInfo)
 ADD_SUBDIRECTORY(Settings)
 ADD_SUBDIRECTORY(Compressor)
-ADD_SUBDIRECTORY(Taglib)
-
-INCLUDE_DIRECTORIES(.)
 
 IF(NOT WIN32 OR NOT DEFINED WIN32)
     ADD_SUBDIRECTORY(Shutdown)
@@ -14,7 +11,6 @@ ENDIF()
 
 
 SET(SOURCES
-
     EqualizerPresets.cpp
     FileHelper.cpp
     Helper.cpp
@@ -66,10 +62,10 @@ SET(SOURCES
     Tagging/ID3v2/Popularimeter.cpp
     Tagging/ID3v2/Cover.cpp
     Tagging/ID3v2/AlbumArtist.cpp
-	Tagging/MP4/AbstractFrame.cpp
-	Tagging/MP4/DiscnumberFrame.cpp
-	Tagging/MP4/AlbumArtist.cpp
-	Tagging/MP4/PopularimeterFrame.cpp
+    Tagging/MP4/AbstractFrame.cpp
+    Tagging/MP4/DiscnumberFrame.cpp
+    Tagging/MP4/AlbumArtist.cpp
+    Tagging/MP4/PopularimeterFrame.cpp
     Tagging/Xiph/AlbumArtist.cpp
     Tagging/Xiph/DiscnumberFrame.cpp
     Tagging/Xiph/PopularimeterFrame.cpp
