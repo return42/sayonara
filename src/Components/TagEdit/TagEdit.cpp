@@ -134,6 +134,11 @@ void TagEdit::set_metadata(const MetaDataList& v_md)
 	emit sig_metadata_received(_m->v_md);
 }
 
+bool TagEdit::is_cover_supported(int idx) const
+{
+	return Tagging::is_cover_supported( _m->v_md[idx].filepath() );
+}
+
 void TagEdit::check_for_new_artists_and_albums(QStringList& new_artists, QStringList& new_albums)
 {
 	QStringList artists;
@@ -216,12 +221,8 @@ void TagEdit::update_cover(int idx, const QImage& cover)
 		return;
 	}
 
-	Tagging::TagType t = Tagging::get_tag_type(_m->v_md[idx].filepath());
-	if(t != Tagging::TagType::ID3v2) {
-		return;
-	}
-
-	if(!is_id3v2_tag(idx)){
+	bool cover_supported = is_cover_supported(idx);
+	if(!cover_supported) {
 		return;
 	}
 
@@ -232,17 +233,6 @@ void TagEdit::update_cover(int idx, const QImage& cover)
 bool TagEdit::has_cover_replacement(int idx) const
 {
 	return _m->cover_map.contains(idx);
-}
-
-bool TagEdit::is_id3v2_tag(int idx) const
-{
-	if(!between(idx, _m->v_md)){
-		return false;
-	}
-
-	Tagging::TagType t = Tagging::get_tag_type(_m->v_md[idx].filepath());
-
-	return (t == Tagging::TagType::ID3v2);
 }
 
 void TagEdit::run()

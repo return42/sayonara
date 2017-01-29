@@ -5,17 +5,6 @@ ADD_SUBDIRECTORY(MetaDataInfo)
 ADD_SUBDIRECTORY(Settings)
 ADD_SUBDIRECTORY(Compressor)
 
-IF(OWN_TAGLIB)
-
-    ADD_SUBDIRECTORY(taglib)
-    INCLUDE_DIRECTORIES(
-	${CMAKE_CURRENT_SOURCE_DIR}
-	${CMAKE_CURRENT_BINARY_DIR}
-	${CMAKE_CURRENT_BINARY_DIR}/taglib
-	${CMAKE_CURRENT_BINARY_DIR}/taglib/taglib
-    )
-ENDIF()
-
 IF(NOT WIN32 OR NOT DEFINED WIN32)
     ADD_SUBDIRECTORY(Shutdown)
 ENDIF()
@@ -74,6 +63,7 @@ SET(SOURCES
     Tagging/ID3v2/Cover.cpp
     Tagging/ID3v2/AlbumArtist.cpp
     Tagging/MP4/AbstractFrame.cpp
+	Tagging/MP4/Cover.cpp
     Tagging/MP4/DiscnumberFrame.cpp
     Tagging/MP4/AlbumArtist.cpp
     Tagging/MP4/PopularimeterFrame.cpp

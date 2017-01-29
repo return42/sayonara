@@ -28,6 +28,7 @@
 #include "Xiph/DiscnumberFrame.h"
 #include "MP4/AbstractFrame.h"
 #include "MP4/AlbumArtist.h"
+#include "MP4/Cover.h"
 #include "MP4/DiscnumberFrame.h"
 #include "MP4/PopularimeterFrame.h"
 
@@ -186,7 +187,7 @@ bool Tagging::getMetaDataOfFile(MetaData& md, Tagging::Quality quality)
 			md.rating = popularimeter.get_rating();
 		}
 
-		sp_log(Log::Debug) << "Read rating " << (int) md.rating << ": " << success;
+		//sp_log(Log::Debug) << "Read rating " << (int) md.rating << ": " << success;
 	}
 
 	uint year = tag->year();
@@ -301,7 +302,6 @@ bool Tagging::setMetaDataOfFile(const MetaData& md)
 
 		MP4::PopularimeterFrame popularimeter_frame(tag);
 		success = popularimeter_frame.write(popularimeter);
-		sp_log(Log::Debug) << "Write rating " << (int) popularimeter.get_rating()  << ": " << success;
 	}
 
 	success = f.save();
@@ -310,15 +310,40 @@ bool Tagging::setMetaDataOfFile(const MetaData& md)
 	}
 
 	else{
+		bool update_success = false;
+		bool first_try = true;
 
-		MetaData md_new;
-		md_new.set_filepath(md.filepath());
-		getMetaDataOfFile(md_new);
+		/*
+		 * Hell yeah, that's engineering at its finest
+		 * If it's not working, try again. But if it
+		 * looks stupid and it's working, it isn't actually
+		 * stupid
+		 */
+		for(int i=0; i<3; i++){
+			MetaData md_new;
+			md_new.set_filepath(md.filepath());
+			getMetaDataOfFile(md_new);
 
-		if(md_new.to_string().compare(md.to_string(), Qt::CaseInsensitive) != 0){
-			sp_log(Log::Warning) << "Could not update track correctly";
-			sp_log(Log::Warning) << "Orig: " << md.to_string();
-			sp_log(Log::Warning) << "New:  " << md_new.to_string();
+			if(md_new.to_string().compare(md.to_string(), Qt::CaseInsensitive) == 0){
+				update_success = true;
+				if(!first_try){
+					sp_log(Log::Info) << "Success";
+				}
+				break;
+			}
+
+			else{
+				sp_log(Log::Warning) << "Could not update track correctly";
+				sp_log(Log::Warning) << "Orig: " << md.to_string();
+				sp_log(Log::Warning) << "New:  " << md_new.to_string();
+				sp_log(Log::Info) << "Retry...";
+				first_try = false;
+				f.save();
+			}
+		}
+
+		if(!update_success){
+			sp_log(Log::Error) << "Could not update track correctly";
 		}
 	}
 
@@ -355,7 +380,6 @@ bool Tagging::write_cover(const MetaData& md, const QString& cover_image_path)
 		return false;
 	}
 
-
 	QByteArray data;
 	bool success = Helper::File::read_file_into_byte_arr(cover_image_path, data);
 	if(data.isEmpty() || !success){
@@ -379,17 +403,24 @@ bool Tagging::write_cover(const MetaData& md, const QString& cover_image_path)
 	}
 
 	Models::Cover cover(mime_type, data);
-	ID3v2Frame::CoverFrame cover_frame(f);
+	Tagging::TagType tag_type = get_tag_type(md.filepath());
+	if(tag_type == Tagging::TagType::ID3v2){
+		ID3v2Frame::CoverFrame cover_frame(f);
+		cover_frame.write(cover);
+	}
 
-	cover_frame.write(cover);
+	else if(tag_type == Tagging::TagType::MP4){
+		MP4::CoverFrame cover_frame(f.tag());
+		if(!cover_frame.write(cover)){
+			return false;
+		}
+	}
+
 	return f.save();
 }
 
 bool Tagging::extract_cover(const MetaData &md, QByteArray& cover_data, QString& mime_type)
 {
-	return false;
-
-	QString error_msg = "Cannot fetch cover. ";
 	QString filepath = md.filepath();
 	TagLib::FileRef f(TagLib::FileName(filepath.toUtf8()));
 
@@ -399,13 +430,36 @@ bool Tagging::extract_cover(const MetaData &md, QByteArray& cover_data, QString&
 	}
 
 	Models::Cover cover;
-	ID3v2Frame::CoverFrame cover_frame(f);
+	Tagging::TagType tag_type = get_tag_type(md.filepath());
+	switch(tag_type){
 
-	if(!cover_frame.is_frame_found()){
-		return false;
+		case Tagging::TagType::ID3v2:
+			{
+				ID3v2Frame::CoverFrame cover_frame(f);
+
+				if(!cover_frame.is_frame_found()){
+					return false;
+				}
+
+				cover_frame.read(cover);
+			}
+
+			break;
+
+		case Tagging::TagType::MP4:
+			{
+				MP4::CoverFrame cover_frame(f.tag());
+				if(!cover_frame.read(cover)){
+					return false;
+				}
+			}
+
+			break;
+
+		default:
+			return false;
 	}
 
-	cover_frame.read(cover);
 	cover_data = cover.image_data;
 	mime_type = cover.mime_type;
 
@@ -485,4 +539,10 @@ QString Tagging::tag_type_to_string(Tagging::TagType type)
 		default:
 			return "Partially unsupported";
 	}
+}
+
+bool Tagging::is_cover_supported(const QString& filepath)
+{
+	Tagging::TagType type = get_tag_type(filepath);
+	return (type == Tagging::TagType::ID3v2 || type == Tagging::TagType::MP4);
 }

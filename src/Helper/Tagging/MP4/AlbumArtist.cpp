@@ -27,7 +27,7 @@ bool MP4::AlbumArtistFrame::map_tag_to_model(TagLib::MP4::Tag* tag, QString& mod
 	TagLib::StringList items = item.toStringList();
 	if(items.size() > 0){
 		model = cvt_string( *items.begin() );
-		sp_log(Log::Debug) << "Album artist = " << model;
+		//sp_log(Log::Debug) << "Album artist = " << model;
 		return true;
 	}
 

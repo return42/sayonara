@@ -79,6 +79,7 @@ namespace Tagging
 	bool extract_cover(const MetaData& md, QByteArray& cover_data, QString& mime_type);
 
 	bool is_valid_file(const TagLib::FileRef& f);
+	bool is_cover_supported(const QString& filepath);
 
 	Tagging::TagType get_tag_type(const QString& filepath);
 	QString tag_type_to_string(Tagging::TagType);

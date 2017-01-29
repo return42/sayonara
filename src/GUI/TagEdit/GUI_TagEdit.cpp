@@ -254,8 +254,8 @@ void GUI_TagEdit::track_idx_changed()
 		}
 	}
 
-	bool is_id3v2 =_m->tag_edit->is_id3v2_tag(_m->cur_idx);
-	ui->frame_cover->setVisible(is_id3v2);
+	bool is_cover_supported = _m->tag_edit->is_cover_supported(_m->cur_idx);
+	ui->frame_cover->setVisible(is_cover_supported);
 
 	ui->sb_track_num->setValue(md.track_num);
 

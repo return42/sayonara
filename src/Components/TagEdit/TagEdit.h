@@ -124,19 +124,14 @@ public:
 	 */
 	bool has_cover_replacement(int idx) const;
 
-	/**
-	 * @brief checks, if the tracks' tag is an id3v2 tag
-	 * @param idx track index
-	 * @return
-	 */
-	bool is_id3v2_tag(int idx) const;
-
 
 	/**
 	 * @brief initializes the TagEdit object with a MetaDataList
 	 * @param v_md new MetaDataList
 	 */
 	void set_metadata(const MetaDataList& v_md);
+
+	bool is_cover_supported(int idx) const;
 
 
 public slots:
