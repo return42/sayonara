@@ -57,12 +57,11 @@ SET(SOURCES
 
     Tagging/Tagging.cpp
 
-    Tagging/ID3v2/AbstractFrame.cpp
+	Tagging/AbstractFrame.cpp
     Tagging/ID3v2/Discnumber.cpp
     Tagging/ID3v2/Popularimeter.cpp
     Tagging/ID3v2/Cover.cpp
     Tagging/ID3v2/AlbumArtist.cpp
-    Tagging/MP4/AbstractFrame.cpp
 	Tagging/MP4/Cover.cpp
     Tagging/MP4/DiscnumberFrame.cpp
     Tagging/MP4/AlbumArtist.cpp

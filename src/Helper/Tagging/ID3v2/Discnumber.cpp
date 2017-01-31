@@ -20,21 +20,21 @@
 
 #include "Discnumber.h"
 
-ID3v2Frame::DiscnumberFrame::DiscnumberFrame(const TagLib::FileRef& f) :
-	AbstractFrame<Models::Discnumber, TagLib::ID3v2::TextIdentificationFrame>(f, "TPOS") {}
+ID3v2::DiscnumberFrame::DiscnumberFrame(const TagLib::FileRef& f) :
+	ID3v2Frame<Models::Discnumber, TagLib::ID3v2::TextIdentificationFrame>(f, "TPOS") {}
 
-ID3v2Frame::DiscnumberFrame::~DiscnumberFrame() {}
+ID3v2::DiscnumberFrame::~DiscnumberFrame() {}
 
-void ID3v2Frame::DiscnumberFrame::map_model_to_frame()
+void ID3v2::DiscnumberFrame::map_model_to_frame(const Models::Discnumber& model, TagLib::ID3v2::TextIdentificationFrame* frame)
 {
 	QByteArray byte_arr_header, byte_arr_body;
 	TagLib::ByteVector data;
 
 	int size;
 
-	byte_arr_body.push_back(QString::number(_data_model.disc).toLatin1());
+	byte_arr_body.push_back(QString::number(model.disc).toLatin1());
 	byte_arr_body.push_back('/');
-	byte_arr_body.push_back(QString::number(_data_model.disc).toLatin1());
+	byte_arr_body.push_back(QString::number(model.disc).toLatin1());
 	byte_arr_body.push_back((char) 0x00);
 
 	size = byte_arr_body.size();
@@ -50,12 +50,12 @@ void ID3v2Frame::DiscnumberFrame::map_model_to_frame()
 	byte_arr_header.push_back(byte_arr_body);
 
 	data.setData(byte_arr_header.data(), byte_arr_header.size());
-	_frame->setData(data);
+	frame->setData(data);
 }
 
-void ID3v2Frame::DiscnumberFrame::map_frame_to_model()
+void ID3v2::DiscnumberFrame::map_frame_to_model(const TagLib::ID3v2::TextIdentificationFrame* frame, Models::Discnumber& model)
 {
-	TagLib::ByteVector vec = _frame->render();
+	TagLib::ByteVector vec = frame->render();
 	quint32 i, size;
 	quint8 disc, n_discs;
 
@@ -90,11 +90,11 @@ void ID3v2Frame::DiscnumberFrame::map_frame_to_model()
 		i++;
 	}
 
-	_data_model.disc = disc;
-	_data_model.n_discs = n_discs;
+	model.disc = disc;
+	model.n_discs = n_discs;
 }
 
-TagLib::ID3v2::Frame* ID3v2Frame::DiscnumberFrame::create_id3v2_frame()
+TagLib::ID3v2::Frame* ID3v2::DiscnumberFrame::create_id3v2_frame()
 {
 	return new TagLib::ID3v2::TextIdentificationFrame(TagLib::ByteVector());
 }

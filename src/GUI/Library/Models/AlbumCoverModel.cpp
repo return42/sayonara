@@ -30,6 +30,8 @@ static QString get_hash(const Album& album)
 AlbumCoverModel::AlbumCoverModel(QObject* parent) :
 	LibraryItemModel()
 {
+	// TODO: Not good, parent should be delegated through LibraryItemModel
+	Q_UNUSED(parent);
 	_m = Pimpl::make<Private>();
 }
 
@@ -38,11 +40,13 @@ AlbumCoverModel::~AlbumCoverModel() {}
 
 int AlbumCoverModel::rowCount(const QModelIndex& parent) const
 {
+	Q_UNUSED(parent);
 	return (_m->albums.size() + columnCount() - 1 )/ columnCount();
 }
 
 int AlbumCoverModel::columnCount(const QModelIndex& parent) const
 {
+	Q_UNUSED(parent);
 	return _m->columns;
 }
 
@@ -143,6 +147,8 @@ QModelIndex AlbumCoverModel::getFirstRowIndexOf(const QString& substr)
 
 QModelIndex AlbumCoverModel::getNextRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent)
 {
+	Q_UNUSED(parent)
+
 	for(int i=0; i<_m->albums.size(); i++){
 		int idx = (i + cur_row) % _m->albums.size();
 		QString title = get_string(idx);
@@ -159,6 +165,8 @@ QModelIndex AlbumCoverModel::getNextRowIndexOf(const QString& substr, int cur_ro
 
 QModelIndex AlbumCoverModel::getPrevRowIndexOf(const QString& substr, int row, const QModelIndex& parent)
 {
+	Q_UNUSED(parent)
+
 	int len = _m->albums.size();
 	for(int i=0; i<_m->albums.size(); i++){
 
@@ -197,10 +205,14 @@ QString AlbumCoverModel::get_string(int row) const
 
 int AlbumCoverModel::get_id_by_row(int row)
 {
+	// TODO: Implement me. Maybe get id by index?
+	Q_UNUSED(row)
 	return -1;
 }
 
 CoverLocation AlbumCoverModel::get_cover(const SP::Set<int>& indexes) const
 {
+	// TODO: Implement me
+	Q_UNUSED(indexes)
 	return CoverLocation::getInvalidLocation();
 }

@@ -21,16 +21,16 @@
 #ifndef ALBUMARTIST_H
 #define ALBUMARTIST_H
 
-#include "AbstractFrame.h"
+#include "ID3v2Frame.h"
 
-namespace ID3v2Frame
+namespace ID3v2
 {
 	/**
 	 * @brief The AlbumArtistFrame class
 	 * @ingroup ID3v2
 	 */
 	class AlbumArtistFrame :
-			public AbstractFrame<QString, TagLib::ID3v2::TextIdentificationFrame>
+			public ID3v2Frame<QString, TagLib::ID3v2::TextIdentificationFrame>
 	{
 		public:
 			explicit AlbumArtistFrame(const TagLib::FileRef& f);
@@ -39,8 +39,8 @@ namespace ID3v2Frame
 		protected:
 			TagLib::ID3v2::Frame* create_id3v2_frame() override;
 
-			void map_model_to_frame() override;
-			void map_frame_to_model() override;
+			void map_model_to_frame(const QString& model, TagLib::ID3v2::TextIdentificationFrame* frame) override;
+			void map_frame_to_model(const TagLib::ID3v2::TextIdentificationFrame* frame, QString& model) override;
 	};
 }
 

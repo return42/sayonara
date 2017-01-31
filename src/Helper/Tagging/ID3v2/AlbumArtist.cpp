@@ -21,22 +21,22 @@
 #include "AlbumArtist.h"
 #include <taglib/textidentificationframe.h>
 
-ID3v2Frame::AlbumArtistFrame::AlbumArtistFrame(const TagLib::FileRef& f) :
-	AbstractFrame<QString, TagLib::ID3v2::TextIdentificationFrame>(f, "TPE2") {}
+ID3v2::AlbumArtistFrame::AlbumArtistFrame(const TagLib::FileRef& f) :
+	ID3v2Frame<QString, TagLib::ID3v2::TextIdentificationFrame>(f, "TPE2") {}
 
-ID3v2Frame::AlbumArtistFrame::~AlbumArtistFrame() {}
+ID3v2::AlbumArtistFrame::~AlbumArtistFrame() {}
 
-TagLib::ID3v2::Frame* ID3v2Frame::AlbumArtistFrame::create_id3v2_frame()
+TagLib::ID3v2::Frame* ID3v2::AlbumArtistFrame::create_id3v2_frame()
 {
 	return new TagLib::ID3v2::TextIdentificationFrame(TagLib::ByteVector());
 }
 
-void ID3v2Frame::AlbumArtistFrame::map_model_to_frame()
+void ID3v2::AlbumArtistFrame::map_model_to_frame(const QString& model, TagLib::ID3v2::TextIdentificationFrame* frame)
 {
 	QByteArray byte_arr_header, byte_arr_body;
 	TagLib::ByteVector data;
 
-	byte_arr_body = QByteArray((const char*) _data_model.utf16(), _data_model.size() * 2);
+	byte_arr_body = QByteArray((const char*) model.utf16(), model.size() * 2);
 	int size = byte_arr_body.size() + 3;
 
 	byte_arr_header.push_back("TPE2");
@@ -54,12 +54,12 @@ void ID3v2Frame::AlbumArtistFrame::map_model_to_frame()
 
 	data.setData(byte_arr_header.data(), byte_arr_header.size());
 
-	_frame->setData(data);
+	frame->setData(data);
 }
 
-void ID3v2Frame::AlbumArtistFrame::map_frame_to_model()
+void ID3v2::AlbumArtistFrame::map_frame_to_model(const TagLib::ID3v2::TextIdentificationFrame* frame, QString& model)
 {
-	TagLib::String tag_str = _frame->toString();
+	TagLib::String tag_str = frame->toString();
 	QString str = QString::fromUtf8( tag_str.toCString(true) );
-	_data_model = str;
+	model = str;
 }

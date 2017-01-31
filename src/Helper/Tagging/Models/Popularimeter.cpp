@@ -3,7 +3,7 @@
 Models::Popularimeter::Popularimeter()
 {
     email = "sayonara player";
-	rating = 0x00;
+	rating = 0;
     playcount = 0;
 }
 
@@ -22,7 +22,10 @@ void Models::Popularimeter::set_rating(quint8 max_5)
 
 void Models::Popularimeter::set_rating_byte(quint8 byte)
 {
-	if(byte < 0x30){		//48
+	if(byte == 0x00){
+		rating = 0;
+	}
+	else if(byte < 0x30){		//48
 		rating = 1;
 	}
 	else if(byte < 0x60){	// 92
@@ -50,6 +53,9 @@ quint8 Models::Popularimeter::get_rating_byte() const
 
 	switch(rating)
 	{
+		case 0:
+			rating_byte = 0x00;
+			break;
 		case 1:
 			rating_byte = 0x01; // 1
 			break;

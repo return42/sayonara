@@ -21,28 +21,28 @@
 #ifndef COVER_H
 #define COVER_H
 
-#include "AbstractFrame.h"
+#include "ID3v2Frame.h"
 #include "Helper/Tagging/Models/Cover.h"
 
 #include <QByteArray>
 #include <QString>
 #include <taglib/attachedpictureframe.h>
 
-namespace ID3v2Frame
+namespace ID3v2
 {
 	/**
 	 * @brief The DiscnumberFrame class
 	 * @ingroup ID3v2
 	 */
 	class CoverFrame :
-			public AbstractFrame<Models::Cover, TagLib::ID3v2::AttachedPictureFrame>
+			public ID3v2Frame<Models::Cover, TagLib::ID3v2::AttachedPictureFrame>
 	{
 		public:
 			CoverFrame(const TagLib::FileRef& f);
 			~CoverFrame();
 
-			void map_model_to_frame() override;
-			void map_frame_to_model() override;
+			void map_model_to_frame(const Models::Cover& model, TagLib::ID3v2::AttachedPictureFrame* frame) override;
+			void map_frame_to_model(const TagLib::ID3v2::AttachedPictureFrame* frame, Models::Cover& model) override;
 
 			TagLib::ID3v2::Frame* create_id3v2_frame() override;
 	};

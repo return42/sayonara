@@ -1,7 +1,7 @@
 #ifndef POPULARIMETERFRAME_H
 #define POPULARIMETERFRAME_H
 
-#include "Helper/Tagging/Xiph/AbstractFrame.h"
+#include "Helper/Tagging/Xiph/XiphFrame.h"
 #include "Helper/Tagging/Models/Popularimeter.h"
 
 /**
@@ -14,15 +14,15 @@ namespace Xiph
 	 * @ingroup Xiph
 	 */
 	class PopularimeterFrame :
-			public AbstractFrame<Models::Popularimeter>
+			public XiphFrame<Models::Popularimeter>
 	{
 	public:
 		PopularimeterFrame(TagLib::Tag* tag);
 		~PopularimeterFrame();
 
 	protected:
-		bool map_tag_to_model(const TagLib::String& value, Models::Popularimeter& model);
-		bool map_model_to_tag(const Models::Popularimeter& model, TagLib::Ogg::XiphComment* tag);
+		bool map_tag_to_model(Models::Popularimeter& model) override;
+		bool map_model_to_tag(const Models::Popularimeter& model) override;
 	};
 }
 

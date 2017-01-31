@@ -2,21 +2,23 @@
 #include <QString>
 
 Xiph::AlbumArtistFrame::AlbumArtistFrame(TagLib::Tag* tag) :
-    Xiph::AbstractFrame<QString>(tag, "ALBUMARTIST")
-{
-
-}
+	Xiph::XiphFrame<QString>(tag, "ALBUMARTIST") {}
 
 Xiph::AlbumArtistFrame::~AlbumArtistFrame() {}
 
-bool Xiph::AlbumArtistFrame::map_tag_to_model(const TagLib::String& value, QString& model)
+bool Xiph::AlbumArtistFrame::map_tag_to_model(QString& model)
 {
-    model = cvt_string(value);
-    return true;
+	TagLib::String str;
+	bool success = value(str);
+	if(success){
+		model = cvt_string(str);
+	}
+
+	return success;
 }
 
-bool Xiph::AlbumArtistFrame::map_model_to_tag(const QString& model, TagLib::Ogg::XiphComment* tag)
+bool Xiph::AlbumArtistFrame::map_model_to_tag(const QString& model)
 {
-    tag->addField( cvt_string(key()), cvt_string(model), true);
+	set_value(model);
     return true;
 }

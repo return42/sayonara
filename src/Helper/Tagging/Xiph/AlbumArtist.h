@@ -1,7 +1,7 @@
 #ifndef XIPH_ALBUMARTIST_H_
 #define XIPH_ALBUMARTIST_H_
 
-#include "AbstractFrame.h"
+#include "XiphFrame.h"
 #include <QString>
 
 /**
@@ -14,15 +14,15 @@ namespace Xiph
 	 * @ingroup Xiph
 	 */
 	class AlbumArtistFrame :
-	    public Xiph::AbstractFrame<QString>
+		public Xiph::XiphFrame<QString>
     {
 	public:
 	    AlbumArtistFrame(TagLib::Tag* tag);
 		~AlbumArtistFrame();
 
 	protected:
-		bool map_tag_to_model(const TagLib::String& value, QString& model);
-	    bool map_model_to_tag(const QString& model, TagLib::Ogg::XiphComment* tag);
+		bool map_tag_to_model(QString& model) override;
+		bool map_model_to_tag(const QString& model) override;
     };
 }
 

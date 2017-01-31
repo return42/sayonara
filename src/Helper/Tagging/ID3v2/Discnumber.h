@@ -21,26 +21,26 @@
 #ifndef DISCNUMBER_H
 #define DISCNUMBER_H
 
-#include "AbstractFrame.h"
-#include "Tagging/Models/Discnumber.h"
+#include "ID3v2Frame.h"
+#include "Helper/Tagging/Models/Discnumber.h"
 
 #include <taglib/textidentificationframe.h>
 
-namespace ID3v2Frame
+namespace ID3v2
 {
 	/**
 	 * @brief The DiscnumberFrame class
 	 * @ingroup ID3v2
 	 */
 	class DiscnumberFrame :
-			public AbstractFrame<Models::Discnumber, TagLib::ID3v2::TextIdentificationFrame>
+			public ID3v2Frame<Models::Discnumber, TagLib::ID3v2::TextIdentificationFrame>
 	{
 		public:
 			DiscnumberFrame(const TagLib::FileRef& f);
 			~DiscnumberFrame();
 
-			void map_model_to_frame() override;
-			void map_frame_to_model() override;
+			void map_model_to_frame(const Models::Discnumber& model, TagLib::ID3v2::TextIdentificationFrame* frame) override;
+			void map_frame_to_model(const TagLib::ID3v2::TextIdentificationFrame* frame, Models::Discnumber& model) override;
 
 			TagLib::ID3v2::Frame* create_id3v2_frame() override;
 	};

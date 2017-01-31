@@ -18,8 +18,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ABSTRACTFRAME_H
-#define ABSTRACTFRAME_H
+#ifndef ID3V2_FRAME_H_
+#define ID3V2_FRAME_H_
+
+#include "Helper/Tagging/AbstractFrame.h"
 
 #include <taglib/fileref.h>
 #include <taglib/mpegfile.h>
@@ -32,7 +34,7 @@
  * @brief ID3v2Frame namespace
  * @ingroup Tagging
  */
-namespace ID3v2Frame
+namespace ID3v2
 {
 	template<typename ModelType_t, typename FrameType_t>
 	/**
@@ -41,13 +43,11 @@ namespace ID3v2Frame
 	 * AbstractFrame<Discnumber, TagLib::ID3v2::TextIdentificationFrame>
 	 * @ingroup ID3v2
 	 */
-	class AbstractFrame
+	class ID3v2Frame :
+			protected Tagging::AbstractFrame<TagLib::ID3v2::Tag>
 	{
 		protected:
-			TagLib::ID3v2::Tag*		_tag=nullptr;
-			ModelType_t				_data_model;
 			FrameType_t*			_frame=nullptr;
-
 
 		protected:
 
@@ -64,28 +64,29 @@ namespace ID3v2Frame
 			 * maps the model to the frame and vice versa
 			 * so the frame knows how to get/set data
 			 */
-			virtual void map_model_to_frame()=0;
-			virtual void map_frame_to_model()=0;
+			virtual void map_model_to_frame(const ModelType_t& model, FrameType_t* frame)=0;
+			virtual void map_frame_to_model(const FrameType_t* frame, ModelType_t& model)=0;
 
 
 		public:
 			// constructor
-			AbstractFrame(const TagLib::FileRef& f, const char* four) :
-				_frame(nullptr)
+			ID3v2Frame(const TagLib::FileRef& f, const char* four) :
+				Tagging::AbstractFrame<TagLib::ID3v2::Tag>(nullptr, four)
 			{
 				TagLib::MPEG::File* mpeg = dynamic_cast<TagLib::MPEG::File*>(f.file());
 				if(!mpeg){
 					return;
 				}
 
-				_tag = mpeg->ID3v2Tag(true);
-				if(!_tag){
+				TagLib::ID3v2::Tag* tag = mpeg->ID3v2Tag(true);
+				this->set_tag(tag);
+				if(!tag){
 					return;
 				}
 
 				// map, containing [four][frame list]
 				TagLib::ByteVector vec(four, 4);
-				TagLib::ID3v2::FrameListMap map = _tag->frameListMap();
+				TagLib::ID3v2::FrameListMap map = tag->frameListMap();
 				TagLib::ID3v2::FrameList frame_list = map[vec];
 				if(!frame_list.isEmpty()) {
 					_frame = dynamic_cast<FrameType_t*> (frame_list.front());
@@ -93,7 +94,7 @@ namespace ID3v2Frame
 			}
 
 			// destructor
-			virtual ~AbstractFrame() {}
+			virtual ~ID3v2Frame() {}
 
 
 			//
@@ -108,8 +109,7 @@ namespace ID3v2Frame
 					return false;
 				}
 
-				map_frame_to_model();
-				data = _data_model;
+				map_frame_to_model(_frame, data);
 
 				return true;
 			}
@@ -125,7 +125,8 @@ namespace ID3v2Frame
 			{
 				bool created = false;
 
-				if(!_tag){
+				TagLib::ID3v2::Tag* tag = this->tag();
+				if(!tag){
 					return false;
 				}
 
@@ -138,13 +139,11 @@ namespace ID3v2Frame
 					created = true;
 				}
 
-				_data_model = data_model;
-
-				map_model_to_frame();
+				map_model_to_frame(data_model, _frame);
 
 				if(created){
 					// after that, no need to delete _frame
-					_tag->addFrame(_frame);
+					tag->addFrame(_frame);
 				}
 
 				return true;

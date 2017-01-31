@@ -1,21 +1,22 @@
 #include "PopularimeterFrame.h"
 
 Xiph::PopularimeterFrame::PopularimeterFrame(TagLib::Tag* tag) :
-	AbstractFrame<Models::Popularimeter>(tag, "RATING")
+	XiphFrame<Models::Popularimeter>(tag, "RATING")
 {
 
 }
 
 Xiph::PopularimeterFrame::~PopularimeterFrame() {}
 
-bool Xiph::PopularimeterFrame::map_tag_to_model(const TagLib::String& value, Models::Popularimeter& model)
+bool Xiph::PopularimeterFrame::map_tag_to_model(Models::Popularimeter& model)
 {
-	QString str = cvt_string(value);
-	if(str.isEmpty()){
+	TagLib::String str;
+	bool success = this->value(str);
+	if(!success){
 		return false;
 	}
 
-	quint8 rating = (quint8) str.toInt();
+	quint8 rating = (quint8) cvt_string(str).toInt();
 	if(rating < 10){
 		model.set_rating(rating);
 	}
@@ -27,11 +28,9 @@ bool Xiph::PopularimeterFrame::map_tag_to_model(const TagLib::String& value, Mod
 	return true;
 }
 
-bool Xiph::PopularimeterFrame::map_model_to_tag(const Models::Popularimeter& model, TagLib::Ogg::XiphComment* tag)
+bool Xiph::PopularimeterFrame::map_model_to_tag(const Models::Popularimeter& model)
 {
 	quint8 rating = model.get_rating();
-	QString str = QString::number(rating);
-	tag->addField( cvt_string(key()), cvt_string(str), true );
-
+	set_value(QString::number(rating));
 	return true;
 }

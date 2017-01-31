@@ -19,51 +19,51 @@
 
 #include "Cover.h"
 
-ID3v2Frame::CoverFrame::CoverFrame(const TagLib::FileRef& f) :
-	AbstractFrame<Models::Cover, TagLib::ID3v2::AttachedPictureFrame>(f, "APIC") {}
+ID3v2::CoverFrame::CoverFrame(const TagLib::FileRef& f) :
+	ID3v2Frame<Models::Cover, TagLib::ID3v2::AttachedPictureFrame>(f, "APIC") {}
 
-ID3v2Frame::CoverFrame::~CoverFrame() {}
+ID3v2::CoverFrame::~CoverFrame() {}
 
-void  ID3v2Frame::CoverFrame::map_model_to_frame()
+void  ID3v2::CoverFrame::map_model_to_frame(const Models::Cover& model, TagLib::ID3v2::AttachedPictureFrame* frame)
 {
 	TagLib::String description = TagLib::String("Cover by Sayonara Player");
 	TagLib::String::Type encoding = TagLib::String::Latin1;
-	TagLib::String mime_type = TagLib::String(_data_model.mime_type.toLatin1().constData());
+	TagLib::String mime_type = TagLib::String(model.mime_type.toLatin1().constData());
 	TagLib::ID3v2::AttachedPictureFrame::Type type = TagLib::ID3v2::AttachedPictureFrame::FrontCover;
 
 	TagLib::ByteVector taglib_image_data;
-	const QByteArray& image_data = _data_model.image_data;
+	const QByteArray& image_data = model.image_data;
 
 	taglib_image_data.setData(image_data.data(), image_data.size());
 
 	TagLib::ByteVector vec, vec_header;
 	vec_header = TagLib::ByteVector("APIC", 4);
 
-	_frame->setDescription(description);
-	_frame->setTextEncoding(encoding);
-	_frame->setMimeType(mime_type);
-	_frame->setType(type);
-	_frame->setPicture(taglib_image_data);
+	frame->setDescription(description);
+	frame->setTextEncoding(encoding);
+	frame->setMimeType(mime_type);
+	frame->setType(type);
+	frame->setPicture(taglib_image_data);
 
-	vec = _frame->render();
+	vec = frame->render();
 
 	if( !vec.startsWith(vec_header) ){
 		vec = vec_header + vec;
 	}
 
-	_frame->setData(vec);
+	frame->setData(vec);
 }
 
-void ID3v2Frame::CoverFrame::map_frame_to_model()
+void ID3v2::CoverFrame::map_frame_to_model(const TagLib::ID3v2::AttachedPictureFrame* frame, Models::Cover& model)
 {
-	TagLib::ByteVector taglib_image_data = _frame->picture();
-	TagLib::String mime_type = _frame->mimeType();
+	TagLib::ByteVector taglib_image_data = frame->picture();
+	TagLib::String mime_type = frame->mimeType();
 
-	_data_model.image_data = QByteArray(taglib_image_data.data(), taglib_image_data.size());
-	_data_model.mime_type = QString::fromLatin1(mime_type.toCString(), mime_type.length());
+	model.image_data = QByteArray(taglib_image_data.data(), taglib_image_data.size());
+	model.mime_type = QString::fromLatin1(mime_type.toCString(), mime_type.length());
 }
 
-TagLib::ID3v2::Frame* ID3v2Frame::CoverFrame::create_id3v2_frame()
+TagLib::ID3v2::Frame* ID3v2::CoverFrame::create_id3v2_frame()
 {
 	return new TagLib::ID3v2::AttachedPictureFrame(TagLib::ByteVector());
 }

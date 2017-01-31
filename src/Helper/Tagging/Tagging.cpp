@@ -26,7 +26,6 @@
 #include "Xiph/AlbumArtist.h"
 #include "Xiph/PopularimeterFrame.h"
 #include "Xiph/DiscnumberFrame.h"
-#include "MP4/AbstractFrame.h"
 #include "MP4/AlbumArtist.h"
 #include "MP4/Cover.h"
 #include "MP4/DiscnumberFrame.h"
@@ -122,19 +121,19 @@ bool Tagging::getMetaDataOfFile(MetaData& md, Tagging::Quality quality)
 	Models::Popularimeter popularimeter;
 	if(tag_type == Tagging::TagType::ID3v2)
 	{
-		ID3v2Frame::AlbumArtistFrame album_artist_frame(f);
+		ID3v2::AlbumArtistFrame album_artist_frame(f);
 		success = album_artist_frame.read(album_artist);
 		if(success){
 			md.set_album_artist(album_artist);
 		}
 
-		ID3v2Frame::PopularimeterFrame popularimeter_frame(f);
+		ID3v2::PopularimeterFrame popularimeter_frame(f);
 		success = popularimeter_frame.read(popularimeter);
 		if(success){
 			md.rating = popularimeter.get_rating();
 		}
 
-		ID3v2Frame::DiscnumberFrame discnumber_frame(f);
+		ID3v2::DiscnumberFrame discnumber_frame(f);
 		success = discnumber_frame.read(discnumber);
 		if(success){
 			md.discnumber = discnumber.disc;
@@ -270,13 +269,13 @@ bool Tagging::setMetaDataOfFile(const MetaData& md)
 
 	if(tag_type == Tagging::TagType::ID3v2)
 	{
-		ID3v2Frame::PopularimeterFrame popularimeter_frame(f);
+		ID3v2::PopularimeterFrame popularimeter_frame(f);
 		popularimeter_frame.write(popularimeter);
 
-		ID3v2Frame::DiscnumberFrame discnumber_frame(f);
+		ID3v2::DiscnumberFrame discnumber_frame(f);
 		discnumber_frame.write(discnumber);
 
-		ID3v2Frame::AlbumArtistFrame album_artist_frame(f);
+		ID3v2::AlbumArtistFrame album_artist_frame(f);
 		album_artist_frame.write(md.album_artist());
 	}
 
@@ -405,7 +404,7 @@ bool Tagging::write_cover(const MetaData& md, const QString& cover_image_path)
 	Models::Cover cover(mime_type, data);
 	Tagging::TagType tag_type = get_tag_type(md.filepath());
 	if(tag_type == Tagging::TagType::ID3v2){
-		ID3v2Frame::CoverFrame cover_frame(f);
+		ID3v2::CoverFrame cover_frame(f);
 		cover_frame.write(cover);
 	}
 
@@ -435,7 +434,7 @@ bool Tagging::extract_cover(const MetaData &md, QByteArray& cover_data, QString&
 
 		case Tagging::TagType::ID3v2:
 			{
-				ID3v2Frame::CoverFrame cover_frame(f);
+				ID3v2::CoverFrame cover_frame(f);
 
 				if(!cover_frame.is_frame_found()){
 					return false;

@@ -2,7 +2,7 @@
 #define DISCNUMBERXIPHFRAME_H
 
 #include "Helper/Tagging/Models/Discnumber.h"
-#include "AbstractFrame.h"
+#include "XiphFrame.h"
 
 /**
  * @ingroup Tagging
@@ -14,15 +14,15 @@ namespace Xiph
 	 * @ingroup Xiph
 	 */
 	class DiscnumberFrame :
-		public Xiph::AbstractFrame<Models::Discnumber>
+		public Xiph::XiphFrame<Models::Discnumber>
 	{
 	public:
 		DiscnumberFrame(TagLib::Tag* tag);
 		~DiscnumberFrame();
 
 	protected:
-		bool map_tag_to_model(const TagLib::String& value, Models::Discnumber& model);
-		bool map_model_to_tag(const Models::Discnumber& model, TagLib::Ogg::XiphComment* tag);
+		bool map_tag_to_model(Models::Discnumber& model);
+		bool map_model_to_tag(const Models::Discnumber& model);
 	};
 }
 

@@ -2,23 +2,22 @@
 
 
 MP4::PopularimeterFrame::PopularimeterFrame(TagLib::Tag* tag) :
-	MP4::AbstractFrame<Models::Popularimeter>(tag, "rtng")
+	MP4::MP4Frame<Models::Popularimeter>(tag, "rtng")
 {
 
 }
 
 MP4::PopularimeterFrame::~PopularimeterFrame() {}
 
-bool MP4::PopularimeterFrame::map_tag_to_model(TagLib::MP4::Tag* tag, Models::Popularimeter& model)
+bool MP4::PopularimeterFrame::map_tag_to_model(Models::Popularimeter& model)
 {
+	TagLib::MP4::Tag* tag = this->tag();
 	TagLib::MP4::ItemListMap ilm = tag->itemListMap();
-	TagLib::String key_str = cvt_string( key() );
-	TagLib::MP4::Item item = ilm[key_str];
-
+	TagLib::MP4::Item item = ilm[tag_key()];
 
 	if(item.isValid()){
-		int rating = item.toInt();
-		if(rating < 10){
+		quint8 rating = (quint8) item.toByte();
+		if(rating <= 5){
 			model.set_rating(rating);
 		}
 
@@ -33,13 +32,13 @@ bool MP4::PopularimeterFrame::map_tag_to_model(TagLib::MP4::Tag* tag, Models::Po
 }
 
 
-bool MP4::PopularimeterFrame::map_model_to_tag(const Models::Popularimeter& model, TagLib::MP4::Tag* tag)
+bool MP4::PopularimeterFrame::map_model_to_tag(const Models::Popularimeter& model)
 {
+	TagLib::MP4::Tag* tag = this->tag();
 	TagLib::MP4::ItemListMap& ilm = tag->itemListMap();
-	TagLib::String key_str = cvt_string( key() );
-	TagLib::MP4::Item item((int) model.get_rating());
+	TagLib::MP4::Item item((uchar) model.get_rating_byte());
 
-	ilm.insert(key_str, item);
+	ilm.insert(tag_key(), item);
 
 	return true;
 }

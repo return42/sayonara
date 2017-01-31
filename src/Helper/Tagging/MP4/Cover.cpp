@@ -1,19 +1,14 @@
 #include "Cover.h"
 
 MP4::CoverFrame::CoverFrame(TagLib::Tag* tag) :
-	AbstractFrame<Models::Cover>(tag, "covr")
+	MP4Frame<Models::Cover>(tag, "covr") {}
+
+MP4::CoverFrame::~CoverFrame() {}
+
+bool MP4::CoverFrame::map_tag_to_model(Models::Cover& model)
 {
+	TagLib::MP4::Tag* tag = this->tag();
 
-}
-
-MP4::CoverFrame::~CoverFrame()
-{
-
-}
-
-
-bool MP4::CoverFrame::map_tag_to_model(TagLib::MP4::Tag* tag, Models::Cover& model)
-{
 	const TagLib::MP4::ItemListMap& ilm = tag->itemListMap();
 	TagLib::MP4::ItemListMap::ConstIterator it = find_key(ilm);
 	if(it == ilm.end()){
@@ -36,11 +31,12 @@ bool MP4::CoverFrame::map_tag_to_model(TagLib::MP4::Tag* tag, Models::Cover& mod
 	return true;
 }
 
-bool MP4::CoverFrame::map_model_to_tag(const Models::Cover& model, TagLib::MP4::Tag* tag)
+bool MP4::CoverFrame::map_model_to_tag(const Models::Cover& model)
 {
+	TagLib::MP4::Tag* tag = this->tag();
 	const QByteArray& image_data = model.image_data;
-	TagLib::ByteVector taglib_data;
 
+	TagLib::ByteVector taglib_data;
 	taglib_data.setData(image_data.data(), image_data.size());
 
 	TagLib::MP4::CoverArt::Format format;
