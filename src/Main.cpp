@@ -31,7 +31,6 @@
 #include "Helper/Settings/SettingRegistry.h"
 #include "Helper/Settings/Settings.h"
 #include "Helper/Logger/Logger.h"
-
 #include "GUI/Helper/GUI_Helper.h"
 
 #include <QSharedMemory>
