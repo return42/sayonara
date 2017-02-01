@@ -62,6 +62,8 @@ public:
 	virtual QItemSelectionModel* get_selection_model() const override final;
 	virtual void set_current_index(int idx) override final;
 
+	bool is_minisearcher_active() const;
+
 private:
 	QModelIndex get_match_index(const QString& str, SearchDirection direction) const;
 	void select_match(const QString& str, SearchDirection direction);
@@ -87,6 +89,7 @@ protected:
 	void keyPressEvent(QKeyEvent* e) override
 	{
 		handleKeyPress(e);
+		AbstractView::keyPressEvent(e);
 	}
 };
 

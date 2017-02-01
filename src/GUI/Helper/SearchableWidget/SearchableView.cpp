@@ -37,7 +37,7 @@ struct SearchViewFunctionality::Private :
 
 public:
 	Settings*					settings=nullptr;
-	SearchModelFunctionality*		search_model=nullptr;
+	SearchModelFunctionality*	search_model=nullptr;
 	SearchViewFunctionality*	search_view=nullptr;
 	QAbstractItemView*			view=nullptr;
 	MiniSearcher*				mini_searcher=nullptr;
@@ -74,6 +74,15 @@ SearchViewFunctionality::SearchViewFunctionality(QAbstractItemView* view) :
 
 
 SearchViewFunctionality::~SearchViewFunctionality() {}
+
+bool SearchViewFunctionality::is_minisearcher_active() const
+{
+	if(!_m->search_model){
+		return false;
+	}
+
+	return _m->mini_searcher->isVisible();
+}
 
 
 void SearchViewFunctionality::setSearchModel(SearchModelFunctionality* model)
@@ -182,17 +191,14 @@ void SearchViewFunctionality::set_current_index(int idx)
 	_m->view->setCurrentIndex(index);
 }
 
-
 void SearchViewFunctionality::handleKeyPress(QKeyEvent* e)
 {
-	if(!_m->search_model)
-	{
+	if(!_m->search_model){
 		return;
 	}
 
 	Library::SearchModeMask search_mode = _m->settings->get(Set::Lib_SearchMode);
 	_m->search_model->set_search_mode(search_mode);
-
 
 	bool was_initialized = _m->mini_searcher->isVisible();
 	bool initialized = _m->mini_searcher->check_and_init(e);
@@ -203,11 +209,8 @@ void SearchViewFunctionality::handleKeyPress(QKeyEvent* e)
 
 	if(initialized || was_initialized) {
 		_m->mini_searcher->keyPressEvent(e);
-		e->setAccepted(false);
 		return;
 	}
-
-	e->setAccepted(true);
 }
 
 

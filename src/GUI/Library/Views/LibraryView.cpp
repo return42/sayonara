@@ -322,6 +322,7 @@ void LibraryView::mouseReleaseEvent(QMouseEvent* event)
 // mouse events end
 
 // keyboard events
+#include "Helper/Logger/Logger.h"
 void LibraryView::keyPressEvent(QKeyEvent* event)
 {
 	int key = event->key();
@@ -349,14 +350,16 @@ void LibraryView::keyPressEvent(QKeyEvent* event)
 	}
 
 	SearchableTableView::keyPressEvent(event);
-	if(!event->isAccepted()) return;
+	if(is_minisearcher_active()) {
+		return;
+	}
 
 	SP::Set<int> selections = get_selected_items();
 
-	switch(key) {
+	switch(key) 
+	{
 		case Qt::Key_Return:
 		case Qt::Key_Enter:
-
 			if(selections.isEmpty() || ctrl_pressed){
 				break;
 			}
