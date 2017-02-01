@@ -216,6 +216,7 @@ int main(int argc, char *argv[])
 	}
 
 	Q_INIT_RESOURCE(Icons);
+	Q_INIT_RESOURCE(QML);
 
 #ifdef Q_OS_WIN
 	Q_INIT_RESOURCE(IconsWindows);

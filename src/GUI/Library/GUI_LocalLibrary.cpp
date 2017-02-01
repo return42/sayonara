@@ -53,6 +53,9 @@
 #include <QShortcut>
 #include <QInputDialog>
 #include <QMessageBox>
+#include <QtQml/QQmlContext>
+#include <QtQuick/QQuickView>
+#include <QStringListModel>
 
 
 GUI_LocalLibrary::GUI_LocalLibrary(QWidget* parent) :
@@ -224,9 +227,7 @@ void GUI_LocalLibrary::switch_album_view()
 
 void GUI_LocalLibrary::album_view_zoom_changed(int zoom)
 {
-	if(_acm){
-		_acm->set_zoom(zoom);
-	}
+
 }
 
 
@@ -531,34 +532,60 @@ void GUI_LocalLibrary::splitter_date_moved(int pos, int idx)
 }
 
 
-
-void GUI_LocalLibrary::init_album_cover_view()
+int GUI_LocalLibrary::selectedAlbum() const
 {
-	_acv = new AlbumCoverView(ui->page_4);
-	ui->page_4->layout()->addWidget(_acv);
+	return m_selectedAlbum;
+}
 
-	_acm = new AlbumCoverModel(_acv);
+void GUI_LocalLibrary::setSelectedAlbum(int selectedAlbum)
+{
+	if (m_selectedAlbum == selectedAlbum)
+		return;
 
-	_acv->setModel(_acm);
-	_acv->setSearchModel(_acm);
-	_acv->show();
+	m_selectedAlbum = selectedAlbum;
 
-	connect(_acv, &LibraryView::doubleClicked, this, &GUI_LocalLibrary::album_dbl_clicked);
-	connect(_acv, &LibraryView::sig_sel_changed, this, &GUI_LocalLibrary::album_sel_changed);
-	connect(_acv, &LibraryView::sig_middle_button_clicked, this, &GUI_LocalLibrary::album_middle_clicked);
-	connect(_acv, &AlbumCoverView::sig_zoom_changed, _acm, &AlbumCoverModel::set_zoom);
+	emit selectedAlbumChanged(selectedAlbum);
+
+	_library->psl_selected_albums_changed(SP::Set<int>(m_selectedAlbum));
+}
+
+void GUI_LocalLibrary::setDoubleClicked(int selectedAlbum)
+{
+	setSelectedAlbum(selectedAlbum);
+	_library->psl_prepare_album_for_playlist(selectedAlbum, false);
 }
 
 
-#include "Helper/Logger/Logger.h"
+
+void GUI_LocalLibrary::init_album_cover_view()
+{
+	if(_acv){
+		return;
+	}
+
+	_acv = new QQuickView();
+	_acv->setSource(QUrl("qrc:///qml/main.qml"));
+
+
+	QWidget *container = QWidget::createWindowContainer(_acv, this);
+	container->setParent(ui->page_4);
+	this->ui->page_4->layout()->addWidget(container);
+	_acv->setResizeMode(QQuickView::SizeRootObjectToView);
+
+	QQmlContext* ctx = _acv->rootContext();
+	ctx->setContextProperty("interpreter", this);
+	container->show();
+}
+
+
+
 void GUI_LocalLibrary::lib_fill_albums(const AlbumList& albums)
 {
-	GUI_AbstractLibrary::lib_fill_albums(albums);
 	if(!_acv){
 		return;
 	}
 
-	QList<CoverLocation> covers;
+	QList<QObject*> covers;
 
 	for(const Album& album : albums){
 		// TODO: Maybe we should try some Pool of covers
@@ -566,21 +593,17 @@ void GUI_LocalLibrary::lib_fill_albums(const AlbumList& albums)
 		// TODO: Make covers downloadable
 		// TODO: Adjust size of that thing
 		CoverLocation cl = CoverLocation::get_cover_location(album);
-		covers << cl;
+
+		covers << new AlbumCoverModel(album.name, cl.preferred_path());
 	}
 
-	_acm->set_data(albums, covers);
-	_acv->resizeRowsToContents();
-	_acv->resizeColumnsToContents();
+	QQmlContext* ctx = _acv->rootContext();
+	ctx->setContextProperty("myModel", QVariant::fromValue(covers));
 }
 
 
 void GUI_LocalLibrary::lib_fill_tracks(const MetaDataList& v_md)
 {
 	GUI_AbstractLibrary::lib_fill_tracks(v_md);
-
-	if(_acm){
-		_acm->set_mimedata(v_md);
-	}
 }
 

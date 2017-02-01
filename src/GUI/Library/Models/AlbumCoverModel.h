@@ -1,43 +1,35 @@
 #ifndef ALBUMCOVERMODEL_H
 #define ALBUMCOVERMODEL_H
 
-#include "GUI/Library/Models/LibraryItemModel.h"
-#include "Helper/Pimpl.h"
+#include <QObject>
 
-class AlbumList;
-class CoverLocation;
 class AlbumCoverModel :
-		public LibraryItemModel
+		public QObject
 {
 	Q_OBJECT
-	PIMPL(AlbumCoverModel)
+
+	Q_PROPERTY(QString coverPath READ coverPath WRITE setCoverPath NOTIFY coverPathChanged)
+	Q_PROPERTY(QString albumName READ albumName WRITE setAlbumName NOTIFY albumNameChanged)
 
 public:
-	explicit AlbumCoverModel(QObject* parent=nullptr);
-	virtual ~AlbumCoverModel();
+	AlbumCoverModel(const QString& album_name, const QString& cover_path);
+	~AlbumCoverModel();
 
-	void set_data(const AlbumList& albums, const QList<CoverLocation>& cover_locations);
+private:
+	QString _cover_path;
+	QString _album_name;
 
-	// QAbstractItemModel interface
+signals:
+	void coverPathChanged(const QString& coverPath);
+	void albumNameChanged(const QString& albumName);
+
 public:
-	int rowCount(const QModelIndex& parent=QModelIndex()) const override;
-	int columnCount(const QModelIndex& paren=QModelIndex()) const override;
-	QVariant data(const QModelIndex& index, int role) const override;
-
-	QModelIndex getFirstRowIndexOf(const QString& substr) override;
-	QModelIndex getNextRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent=QModelIndex()) override;
-	QModelIndex getPrevRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent=QModelIndex()) override;
-	QMap<QChar, QString> getExtraTriggers() override;
-
-	int get_searchable_column() const override;
-	QString get_string(int row) const override;
-	int get_id_by_row(int row) override;
-	CoverLocation get_cover(const SP::Set<int>& indexes) const override;
-
-	void set_max_columns(int columns);
+	QString coverPath() const;
+	QString albumName() const;
 
 public slots:
-	void set_zoom(int zoom);
+	void setCoverPath(const QString& coverPath);
+	void setAlbumName(const QString& albumName);
 };
 
 #endif // ALBUMCOVERMODEL_H

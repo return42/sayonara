@@ -5,6 +5,7 @@ ADD_SUBDIRECTORY(Icons)
 
 SET(RESOURCES
 	Icons.qrc
+	QML.qrc
 )
 
 IF(WIN32)

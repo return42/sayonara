@@ -31,6 +31,8 @@
 
 #include "GUI_AbstractLibrary.h"
 
+class QQuickView;
+class QStringListModel;
 class GUI_LibraryInfoBox;
 class GUI_ImportFolder;
 class LocalLibraryMenu;
@@ -45,6 +47,8 @@ class GUI_LocalLibrary :
 
 	Q_OBJECT
 
+	Q_PROPERTY(int selectedAlbum READ selectedAlbum WRITE setSelectedAlbum NOTIFY selectedAlbumChanged)
+
 public:
 
 	explicit GUI_LocalLibrary(QWidget* parent=nullptr);
@@ -53,6 +57,15 @@ public:
 	QComboBox*	get_libchooser() const;
 	QMenu*		get_menu() const;
 
+
+	int selectedAlbum() const;
+
+public slots:
+	void setSelectedAlbum(int selectedAlbum);
+	void setDoubleClicked(int selectedAlbum);
+
+signals:
+	void selectedAlbumChanged(int selectedAlbum);
 
 protected:
 	void showEvent(QShowEvent* e) override;
@@ -112,10 +125,13 @@ private:
 	GUI_ImportFolder*		_ui_importer=nullptr;
 	LocalLibraryMenu*		_local_library_menu=nullptr;
 
-	AlbumCoverView*			_acv = nullptr;
+	QQuickView*				_acv = nullptr;
 	AlbumCoverModel*		_acm = nullptr;
 
+		int m_selectedAlbum;
+
 	void init_album_cover_view();
+
 };
 
 

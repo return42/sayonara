@@ -47,6 +47,7 @@ SET(SOURCES
 ADD_LIBRARY(${PROJECT_NAME} STATIC ${SOURCES})
 TARGET_LINK_LIBRARIES(${PROJECT_NAME}
 	Qt5::Widgets
+	Qt5::Quick
 	say_helper_settings
 )
 
