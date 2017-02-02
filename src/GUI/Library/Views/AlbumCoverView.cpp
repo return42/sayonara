@@ -1,5 +1,6 @@
 #include "AlbumCoverView.h"
 #include "GUI/Library/Models/AlbumCoverModel.h"
+#include "GUI/Library/Delegates/AlbumCoverDelegate.h"
 
 #include <QHeaderView>
 #include <QWheelEvent>
@@ -24,6 +25,7 @@ AlbumCoverView::AlbumCoverView(QWidget* parent) :
 	this->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 	this->setSelectionBehavior( QAbstractItemView::SelectItems );
 	this->setShowGrid(false);
+	this->setItemDelegate(new AlbumCoverDelegate(this));
 
 	if(horizontalHeader()){
 		horizontalHeader()->hide();
@@ -74,6 +76,8 @@ void AlbumCoverView::wheelEvent(QWheelEvent* e)
 	}
 
 	LibraryView::wheelEvent(e);
+	this->resizeColumnsToContents();
+	this->resizeRowsToContents();
 }
 
 
@@ -82,10 +86,21 @@ void AlbumCoverView::resizeEvent(QResizeEvent* e)
 	int width = e->size().width();
 	AlbumCoverModel* m = dynamic_cast<AlbumCoverModel*>(model());
 	if(m) {
-		m->set_max_columns( width / (_m->zoom + 100) );
+		m->set_max_columns( width / (_m->zoom + 50) );
 	}	
 
 	LibraryView::resizeEvent(e);
 	this->resizeRowsToContents();
 	this->resizeColumnsToContents();
+}
+
+
+QStyleOptionViewItem AlbumCoverView::viewOptions() const
+{
+	QStyleOptionViewItem option = LibraryView::viewOptions();
+	option.decorationAlignment = Qt::AlignHCenter;
+	option.displayAlignment = Qt::AlignHCenter;
+	option.decorationPosition = QStyleOptionViewItem::Top;
+
+	return option;
 }

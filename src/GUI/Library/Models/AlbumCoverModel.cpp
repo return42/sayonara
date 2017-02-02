@@ -52,7 +52,6 @@ int AlbumCoverModel::columnCount(const QModelIndex& parent) const
 
 void AlbumCoverModel::set_max_columns(int columns)
 {
-
 	if(columns == _m->columns){
 		return;
 	}
@@ -114,6 +113,9 @@ QVariant AlbumCoverModel::data(const QModelIndex& index, int role) const
 		case Qt::DisplayRole:
 			return _m->albums[idx].name;
 
+		case Qt::TextAlignmentRole:
+			return Qt::AlignHCenter;
+
 		case Qt::DecorationRole:
 			{
 				QPixmap p;
@@ -137,7 +139,7 @@ QVariant AlbumCoverModel::data(const QModelIndex& index, int role) const
 			}
 
 		case Qt::SizeHintRole:
-			return QSize(_m->size + 100, _m->size + 10);
+			return QSize(_m->size + 50, _m->size + 50);
 
 		default:
 			return QVariant();

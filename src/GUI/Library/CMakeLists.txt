@@ -15,6 +15,7 @@ SET(SOURCES
     Models/AlbumCoverModel.cpp
 
     Delegates/LibraryRatingDelegate.cpp
+	Delegates/AlbumCoverDelegate.cpp
 
     Views/LibraryDateSearchView.cpp
     Views/LibraryGenreView.cpp

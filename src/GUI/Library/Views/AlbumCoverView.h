@@ -27,6 +27,7 @@ protected:
 	void wheelEvent(QWheelEvent* e) override;
 	void resizeEvent(QResizeEvent* e) override;
 
+	QStyleOptionViewItem viewOptions() const override;
 private:
 	PIMPL(AlbumCoverView)
 };
