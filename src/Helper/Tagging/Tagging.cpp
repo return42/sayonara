@@ -308,44 +308,6 @@ bool Tagging::setMetaDataOfFile(const MetaData& md)
 		sp_log(Log::Warning) << "Could not save " << md.filepath();
 	}
 
-	else{
-		bool update_success = false;
-		bool first_try = true;
-
-		/*
-		 * Hell yeah, that's engineering at its finest
-		 * If it's not working, try again. But if it
-		 * looks stupid and it's working, it isn't actually
-		 * stupid
-		 */
-		for(int i=0; i<3; i++){
-			MetaData md_new;
-			md_new.set_filepath(md.filepath());
-			getMetaDataOfFile(md_new);
-
-			if(md_new.to_string().compare(md.to_string(), Qt::CaseInsensitive) == 0){
-				update_success = true;
-				if(!first_try){
-					sp_log(Log::Info) << "Success";
-				}
-				break;
-			}
-
-			else{
-				sp_log(Log::Warning) << "Could not update track correctly";
-				sp_log(Log::Warning) << "Orig: " << md.to_string();
-				sp_log(Log::Warning) << "New:  " << md_new.to_string();
-				sp_log(Log::Info) << "Retry...";
-				first_try = false;
-				f.save();
-			}
-		}
-
-		if(!update_success){
-			sp_log(Log::Error) << "Could not update track correctly";
-		}
-	}
-
 	return true;
 }
 
