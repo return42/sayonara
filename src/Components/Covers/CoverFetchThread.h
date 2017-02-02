@@ -29,11 +29,15 @@
 #ifndef COVERFETCHTHREAD_H_
 #define COVERFETCHTHREAD_H_
 
-#include <QImage>
-#include <QStringList>
+#include <QObject>
+#include "Helper/Pimpl.h"
 
+class QImage;
 class CoverLocation;
+class QStringList;
 class AsyncWebAccess;
+
+
 /**
  * @brief The CoverFetchThread class, This is not a real QThread class, but behaves like one because of AsyncWebAccess
  * @ingroup Covers
@@ -42,7 +46,6 @@ class CoverFetchThread :
 		public QObject
 {
 	Q_OBJECT
-
 
 signals:
 	/**
@@ -59,8 +62,9 @@ signals:
 
 
 public:
+	CoverFetchThread();
 	CoverFetchThread(QObject* parent, const CoverLocation& cl, const int n_covers);
-	~CoverFetchThread();
+	virtual ~CoverFetchThread();
 
 	/**
 	 * @brief start fetching covers, if the url does not contain "google",
@@ -77,45 +81,7 @@ public:
 
 
 private:
-
-	AsyncWebAccess*		_single_img_fetcher=nullptr;
-	AsyncWebAccess*		_multi_img_fetcher=nullptr;
-	AsyncWebAccess*		_content_fetcher=nullptr;
-
-	QString				_url;
-	QString				_target_file;
-	QStringList			_addresses;
-
-	/**
-	 * @brief _n_covers number of covers to fetch
-	 */
-	int					_n_covers;
-
-	/**
-	 * @brief _covers_found number of covers found
-	 */
-	int					_covers_found;
-
-
-	/**
-	 * @brief calc_addresses extracs png addresses from the website
-	 * @param num number of covers to fetch
-	 * @param website website content
-	 * @param regex the regular expression used to extract the covers
-	 * @return a list of png addresses
-	 */
-	QStringList calc_addresses(int num,
-							  const QByteArray& website,
-							  const QString& regex) const;
-
-	/**
-	 * @brief calc_addresses_from_google extracs png addresses from the Google website
-	 * @param num number of covers to fetch
-	 * @param website website content
-	 * @return a list of png addresses
-	 */
-	QStringList calc_addresses_from_google(int num,
-										  const QByteArray& website) const;
+	PIMPL(CoverFetchThread)
 
 	/**
 	 * @brief save_and_emit_image saves the image to disc, creates CoverLocation object and emits the sig_cover_found signal
@@ -146,6 +112,21 @@ private slots:
 	 * @param success indicates if content could be fetched
 	 */
 	void content_fetched(bool success);
+
+
+public:
+	virtual bool can_fetch_cover_directly() const=0;
+	virtual QStringList calc_addresses_from_website(const QByteArray& website, int n_covers) const=0;
+
+	virtual QString get_artist_address(const QString& artist) const=0;
+	virtual QString get_album_address(const QString& artist, const QString& album) const=0;
+	virtual QString get_search_address(const QString& str) const=0;
+
+	virtual bool is_search_supported() const=0;
+	virtual bool is_album_supported() const=0;
+	virtual bool is_artist_supported() const=0;
+
+	virtual int get_estimated_size() const=0;
 };
 
 #endif /* COVERFETCHTHREAD_H_ */

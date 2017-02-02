@@ -35,15 +35,42 @@
 
 #include <QFile>
 #include <QDir>
+#include <QImage>
+#include <QStringList>
+
+struct CoverFetchThread::Private
+{
+	AsyncWebAccess*		single_img_fetcher=nullptr;
+	AsyncWebAccess*		multi_img_fetcher=nullptr;
+	AsyncWebAccess*		content_fetcher=nullptr;
+
+	QString				url;
+	QString				target_file;
+	QStringList			addresses;
+	int					n_covers;
+	int					n_covers_found;
+
+	Private()
+	{
+		n_covers_found = 0;
+	}
+};
+
+CoverFetchThread::CoverFetchThread() {}
 
 CoverFetchThread::CoverFetchThread(QObject* parent, const CoverLocation& cl, const int n_covers) :
 	QObject(parent)
 {
-	_covers_found = 0;
-	_n_covers = n_covers;
-	_url = cl.search_url();
+	_m = Pimpl::make<Private>();
 
-	_target_file = cl.cover_path();
+	_m->n_covers = n_covers;
+	_m->url = QString();
+
+	if(cl.has_search_urls()){
+		_m->url = cl.search_urls().first();
+	}
+
+	_m->target_file = cl.cover_path();
 }
 
 
@@ -51,35 +78,41 @@ CoverFetchThread::~CoverFetchThread() {}
 
 bool CoverFetchThread::start()
 {
-	_covers_found = 0;
+	_m->n_covers_found = 0;
 
-	if(!_url.contains("google", Qt::CaseInsensitive))
+	if( can_fetch_cover_directly() )
 	{
-		_addresses.clear();
-		_addresses << _url;
+		_m->addresses.clear();
+		_m->addresses << _m->url;
+
 		more();
-		return true;
 	}
 
-	AsyncWebAccess* awa = new AsyncWebAccess(this);
-	connect(awa, &AsyncWebAccess::sig_finished, this, &CoverFetchThread::content_fetched);
+	else
+	{
+		AsyncWebAccess* awa = new AsyncWebAccess(this);
+		connect(awa, &AsyncWebAccess::sig_finished, this, &CoverFetchThread::content_fetched);
 
-	awa->run(_url);
+		sp_log(Log::Debug) << "Try to fetch cover from " << _m->url;
+		awa->run(_m->url);
+	}
+
 	return true;
 }
 
 
-bool CoverFetchThread::more()
+bool
+CoverFetchThread::more()
 {
-	if(_n_covers == _covers_found || _addresses.isEmpty()){
+	if(_m->n_covers == _m->n_covers_found || _m->addresses.isEmpty()){
 		emit sig_finished(true);
 		return false;
 	}
 
-	QString address = _addresses.first();
+	QString address = _m->addresses.takeFirst();
 	AsyncWebAccess* awa = new AsyncWebAccess(this);
 
-	if(_n_covers == 1){
+	if(_m->n_covers == 1){
 		connect(awa, &AsyncWebAccess::sig_finished, this, &CoverFetchThread::single_image_fetched);
 	}
 
@@ -87,15 +120,16 @@ bool CoverFetchThread::more()
 		connect(awa, &AsyncWebAccess::sig_finished, this, &CoverFetchThread::multi_image_fetched);
 	}
 
-
+	sp_log(Log::Debug) << "2 Try to fetch cover from " << address;
 	awa->run(address);
-	_addresses.pop_front();
 
 	return true;
 }
 
 
-void CoverFetchThread::content_fetched(bool success){
+void
+CoverFetchThread::content_fetched(bool success)
+{
 	if(!success){
 		sp_log(Log::Warning) << "Could not fetch content";
 		return;
@@ -104,9 +138,10 @@ void CoverFetchThread::content_fetched(bool success){
 	AsyncWebAccess* awa = static_cast<AsyncWebAccess*>(sender());
 	QByteArray website = awa->get_data();
 
-	_addresses = calc_addresses_from_google(10, website);
+	_m->addresses = calc_addresses_from_website(website, 10);
 
-	if(_addresses.isEmpty()){
+	if(_m->addresses.isEmpty())
+	{
 		emit sig_finished(false);
 		return;
 	}
@@ -115,7 +150,9 @@ void CoverFetchThread::content_fetched(bool success){
 }
 
 
-void CoverFetchThread::single_image_fetched(bool success){
+void
+CoverFetchThread::single_image_fetched(bool success)
+{
 	if(!success){
 		sp_log(Log::Warning) << "Could not fetch cover";
 		return;
@@ -125,15 +162,17 @@ void CoverFetchThread::single_image_fetched(bool success){
 	QImage img  = awa->get_image();
 
 	if(!img.isNull()){
-		_covers_found++;
-		save_and_emit_image(_target_file, img);
+		_m->n_covers_found++;
+		save_and_emit_image(_m->target_file, img);
 	}
 
 	awa->deleteLater();
 }
 
 
-void CoverFetchThread::multi_image_fetched(bool success){
+void
+CoverFetchThread::multi_image_fetched(bool success)
+{
 	if(!success){
 		sp_log(Log::Warning) << "Could not fetch cover";
 		return;
@@ -141,24 +180,23 @@ void CoverFetchThread::multi_image_fetched(bool success){
 
 	AsyncWebAccess* awa = static_cast<AsyncWebAccess*>(sender());
 	QImage img  = awa->get_image();
+	awa->deleteLater();
 
-	if(!img.isNull()){
-		QString filename, dir;
-		Helper::File::split_filename(_target_file, dir, filename);
-
-		QString cover_path = dir + "/" + QString::number(_covers_found) + "_" + filename;
-
-		save_and_emit_image(cover_path, img);
-
-		_covers_found++;
+	if(img.isNull()){
+		return;
 	}
 
-	awa->deleteLater();
+	QString filename, dir;
+	Helper::File::split_filename(_m->target_file, dir, filename);
+	QString cover_path = dir + "/" + QString::number(_m->n_covers_found) + "_" + filename;
+	save_and_emit_image(cover_path, img);
+
+	_m->n_covers_found++;
 }
 
 
-void CoverFetchThread::save_and_emit_image(const QString& filepath,
-										   const QImage& img)
+void
+CoverFetchThread::save_and_emit_image(const QString& filepath, const QImage& img)
 {
 	QString filename = filepath;
 	QString ext = Helper::File::calc_file_extension(filepath);
@@ -177,47 +215,4 @@ void CoverFetchThread::save_and_emit_image(const QString& filepath,
 	else{
 		emit sig_cover_found(filename);
 	}
-}
-
-
-QStringList CoverFetchThread::calc_addresses(int num,
-											const QByteArray& website,
-											const QString& regex)
-const
-{
-	QStringList addresses;
-	if (website.isEmpty()) {
-		sp_log(Log::Error) << "Cover Fetch Thread: website empty";
-		return addresses;
-	}
-
-	int n_covers = 0;
-	int idx=50000;
-
-
-	QString website_str = QString::fromLocal8Bit(website);
-
-	while(n_covers < num) {
-		QRegExp re(regex);
-		re.setMinimal(true);
-		idx = re.indexIn(website_str, idx);
-
-		if(idx == -1) break;
-
-		QString str = re.cap(0);
-
-		idx += str.length();
-		str.remove("\"");
-		addresses << str;
-		n_covers++;
-	}
-
-	return addresses;
-}
-
-QStringList CoverFetchThread::calc_addresses_from_google(int num,
-														const QByteArray& website)
-const
-{
-	return calc_addresses(num, website, QString("(https://encrypted-tbn)(\\S)+(\")"));
 }

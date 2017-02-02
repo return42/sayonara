@@ -30,13 +30,14 @@
 #include "CoverHelper.h"
 #include "CoverFetchThread.h"
 #include "CoverLocation.h"
+#include "GoogleCoverFetcher.h"
+#include "StandardCoverFetcher.h"
+#include "LFMCoverFetcher.h"
 
 #include "Database/DatabaseConnector.h"
 
 #include "Helper/MetaData/MetaData.h"
 #include "Helper/MetaData/Album.h"
-#include "Helper/MetaData/Artist.h"
-
 
 #include <QFile>
 #include <QImage>
@@ -54,8 +55,27 @@ CoverLookup::CoverLookup(QObject* parent, int n_covers) :
 
 CoverLookup::~CoverLookup() {}
 
-void CoverLookup::start_new_thread(const CoverLocation& cl ) {
-	CoverFetchThread* cft = new CoverFetchThread(this, cl, _n_covers);
+void CoverLookup::start_new_thread(const CoverLocation& cl )
+{
+	// TODO:
+	if(!cl.has_search_urls()){
+		return;
+	}
+
+	QString url = cl.search_urls().first();
+	CoverFetchThread* cft;
+	if(url.contains("google", Qt::CaseInsensitive)){
+		cft = new GoogleCoverFetcher(this, cl, _n_covers);
+	}
+
+	else if(url.contains("audioscrobbler")){
+		cft = new LFMCoverFetcher(this, cl, _n_covers);
+	}
+
+	else{
+		cft = new StandardCoverFetcher(this, cl, _n_covers);
+	}
+
 	connect(cft, &CoverFetchThread::sig_cover_found, this, &CoverLookup::cover_found);
 	connect(cft, &CoverFetchThread::sig_finished, this, &CoverLookup::finished);
 
@@ -85,16 +105,22 @@ bool CoverLookup::fetch_cover(const CoverLocation& cl)
 	return true;
 }
 
-bool CoverLookup::fetch_album_cover(const Album& album) {
+
+bool CoverLookup::fetch_album_cover(const Album& album)
+{
 	CoverLocation cl = CoverLocation::get_cover_location(album);
 	return fetch_cover(cl);
 }
 
-void CoverLookup::finished(bool success) {
+
+void CoverLookup::finished(bool success)
+{
     emit sig_finished(success);
 }
 
-void CoverLookup::cover_found(const QString& file_path) {
+
+void CoverLookup::cover_found(const QString& file_path)
+{
 	CoverFetchThread* cft = static_cast<CoverFetchThread*>(sender());
     emit sig_cover_found(file_path);
 

@@ -20,6 +20,7 @@
 
 #include "CoverLocation.h"
 #include "CoverHelper.h"
+#include "CoverFetcher.h"
 #include "LocalCoverSearcher.h"
 #include "Helper/Helper.h"
 #include "Helper/FileHelper.h"
@@ -39,7 +40,7 @@
 struct CoverLocation::Private
 {
 	QString			search_term;  // Term provided to search engine
-	QString			search_url; // Search url where to fetch covers
+	QStringList		search_urls; // Search url where to fetch covers
 	QString			cover_path;  // cover_path path, in .Sayonara, where cover is stored. Ignored if local_paths are not empty
 	QStringList		local_paths; // local_paths paths where images can be fetched from if they should not be fetched from the .Sayonara directory
 	bool			valid; // valid if CoverLocation object contains a valid download url
@@ -102,7 +103,7 @@ CoverLocation CoverLocation::getInvalidLocation()
 {
 	CoverLocation cl;
 	cl._m->cover_path = Helper::get_share_path("logo.png");
-	cl._m->search_url = "";
+	cl._m->search_urls.clear();
 	cl._m->search_term = "";
 	cl._m->valid = false;
 	return cl;
@@ -125,7 +126,8 @@ CoverLocation CoverLocation::get_cover_location(const QString& album_name, const
 	CoverLocation ret;
 	ret._m->cover_path = cover_path;
 	ret._m->search_term = artist_name + " " + album_name;
-	ret._m->search_url = CoverHelper::calc_google_album_address(artist_name, album_name);
+	ret._m->search_urls.clear();
+	ret._m->search_urls << CoverFetcher::getInstance()->get_album_addresses(artist_name, album_name);
 	ret._m->valid = true;
 
 	return ret;
@@ -165,7 +167,8 @@ CoverLocation CoverLocation::get_cover_location(const Album& album)
 	}
 
 	if(!album.cover_download_url.isEmpty()){
-		cl._m->search_url = album.cover_download_url;
+		cl._m->search_urls.clear();
+		cl._m->search_urls << album.cover_download_url;
 	}
 
 
@@ -212,11 +215,13 @@ CoverLocation CoverLocation::get_cover_location(const Album& album)
 	return cl;
 }
 
-CoverLocation CoverLocation::get_cover_location(const Artist& artist) {
+CoverLocation CoverLocation::get_cover_location(const Artist& artist)
+{
 	CoverLocation cl = CoverLocation::get_cover_location(artist.name);
 
 	if(!artist.cover_download_url.isEmpty()){
-		cl._m->search_url = artist.cover_download_url;
+		cl._m->search_urls.clear();
+		cl._m->search_urls << artist.cover_download_url;
 	}
 
 	cl._m->search_term = artist.name;
@@ -234,7 +239,7 @@ CoverLocation CoverLocation::get_cover_location(const QString& artist)
 
 	CoverLocation ret;
 	ret._m->cover_path = cover_path;
-	ret._m->search_url = CoverHelper::calc_google_artist_address(artist);
+	ret._m->search_urls = CoverFetcher::getInstance()->get_artist_addresses(artist);
 	ret._m->search_term = artist;
 	ret._m->valid = true;
 
@@ -298,8 +303,8 @@ CoverLocation CoverLocation::get_cover_location(const MetaData& md)
 		cl = get_cover_location(QUrl(md.cover_download_url), cover_path);
 	}
 
-	if(cl._m->search_url.isEmpty()){
-		cl._m->search_url = md.cover_download_url;
+	if(cl._m->search_urls.isEmpty()){
+		cl._m->search_urls = QStringList(md.cover_download_url);
 	}
 
 	return cl;
@@ -310,7 +315,7 @@ CoverLocation CoverLocation::get_cover_location(const QUrl& url, const QString& 
 {
 	CoverLocation cl;
 	cl._m->cover_path = target_path;
-	cl._m->search_url = url.toString();
+	cl._m->search_urls = QStringList(url.toString());
 	cl._m->valid = true;
 
 	return cl;
@@ -346,9 +351,14 @@ QString CoverLocation::cover_path() const
 	return _m->cover_path;
 }
 
-QString CoverLocation::search_url() const
+QStringList CoverLocation::search_urls() const
 {
-	return _m->search_url;
+	return _m->search_urls;
+}
+
+bool CoverLocation::has_search_urls() const
+{
+	return !(_m->search_urls.isEmpty());
 }
 
 QString CoverLocation::search_term() const
@@ -359,7 +369,7 @@ QString CoverLocation::search_term() const
 void CoverLocation::set_search_term(const QString& search_term)
 {
 	_m->search_term = search_term;
-	_m->search_url = CoverHelper::calc_google_image_search_address(search_term);
+	_m->search_urls = CoverFetcher::getInstance()->get_search_addresses(search_term);
 }
 
 QString CoverLocation::to_string() const

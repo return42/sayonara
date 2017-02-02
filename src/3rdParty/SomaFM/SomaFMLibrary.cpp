@@ -134,7 +134,11 @@ void SomaFMLibrary::soma_station_playlists_fetched(bool success)
 
 	MetaDataList v_md  = parser->get_metadata();
 	SomaFMStation station = _m->station_map[_m->requested_station];
-	QString cover_url = station.get_cover_location().search_url();
+	QString cover_url;
+	CoverLocation cl = station.get_cover_location();
+	if(cl.has_search_urls()){
+		cover_url = cl.search_urls().first();
+	}
 
 	for(auto it = v_md.begin(); it != v_md.end(); it++){
 		it->cover_download_url = cover_url;
@@ -183,7 +187,11 @@ void SomaFMLibrary::soma_playlist_content_fetched(bool success)
 	MetaDataList v_md = parser->get_metadata();
 
 	SomaFMStation station = _m->station_map[_m->requested_station];
-	QString cover_url = station.get_cover_location().search_url();
+	CoverLocation cl = station.get_cover_location();
+	QString cover_url;
+	if(cl.has_search_urls()){
+		cover_url = cl.search_urls().first();
+	}
 
 	for(auto it = v_md.begin(); it != v_md.end(); it++){
 		it->cover_download_url = cover_url;

@@ -199,3 +199,10 @@ bool AlternativeCoverItemModel::is_valid(int row, int col)
 
 	return ( !CoverLocation::isInvalidLocation(_pathlist[ idx ]) );
 }
+
+QSize AlternativeCoverItemModel::get_cover_size(const QModelIndex& idx) const
+{
+	QString cover_path = idx.data(Qt::UserRole).toString();
+	QPixmap cover(cover_path);
+	return cover.size();
+}

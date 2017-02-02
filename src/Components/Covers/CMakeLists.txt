@@ -2,11 +2,15 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 PROJECT(say_comp_covers)
 
 SET(SOURCES
+    GoogleCoverFetcher.cpp
+    LFMCoverFetcher.cpp
+    StandardCoverFetcher.cpp
     CoverHelper.cpp
     CoverLookup.cpp
     CoverLookupAlternative.cpp
     CoverLookupAll.cpp
     CoverFetchThread.cpp
+    CoverFetcher.cpp
     CoverLocation.cpp
     LocalCoverSearcher.cpp
 )

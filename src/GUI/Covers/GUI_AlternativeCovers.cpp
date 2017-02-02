@@ -251,11 +251,15 @@ void GUI_AlternativeCovers::cover_pressed(const QModelIndex& idx)
 {
 	int row = idx.row();
 	int col = idx.column();
+	QSize sz = _m->model->get_cover_size(idx);
 	bool valid = _m->model->is_valid(row, col);
 	_m->cur_idx = _m->model->cvt_2_idx(row, col);
 
 	ui->btn_ok->setEnabled(valid);
 	ui->btn_apply->setEnabled(valid);
+
+	QString size_str = QString("%1x%2").arg(sz.width()).arg(sz.height());
+	ui->lab_img_size->setText( size_str );
 }
 
 

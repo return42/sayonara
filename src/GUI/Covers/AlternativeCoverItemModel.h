@@ -73,6 +73,7 @@ public:
 	bool removeRows(int position, int rows, const QModelIndex &index=QModelIndex()) override;
 
 	bool is_valid(int row, int col);
+	QSize get_cover_size(const QModelIndex& idx) const;
 
 
 	RowColumn cvt_2_row_col(int idx) const ;
