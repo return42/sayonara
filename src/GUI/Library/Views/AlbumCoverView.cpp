@@ -1,4 +1,5 @@
 #include "AlbumCoverView.h"
+#include "GUI/Library/Models/AlbumCoverModel.h"
 
 #include <QHeaderView>
 #include <QWheelEvent>
@@ -19,9 +20,11 @@ AlbumCoverView::AlbumCoverView(QWidget* parent) :
 	_m = Pimpl::make<Private>();
 
 	set_selection_type( SayonaraSelectionView::SelectionType::Items );
-	this->setSelectionBehavior( QAbstractItemView::SelectItems );
 
+	this->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+	this->setSelectionBehavior( QAbstractItemView::SelectItems );
 	this->setShowGrid(false);
+
 	if(horizontalHeader()){
 		horizontalHeader()->hide();
 	}
@@ -31,14 +34,15 @@ AlbumCoverView::AlbumCoverView(QWidget* parent) :
 	}
 }
 
-AlbumCoverView::~AlbumCoverView() {}
 
+AlbumCoverView::~AlbumCoverView() {}
 
 
 int AlbumCoverView::get_index_by_model_index(const QModelIndex& idx) const
 {
 	return idx.row() * model()->columnCount() + idx.column();
 }
+
 
 QModelIndex AlbumCoverView::get_model_index_by_index(int idx) const
 {
@@ -48,10 +52,12 @@ QModelIndex AlbumCoverView::get_model_index_by_index(int idx) const
 	return model()->index(row, col);
 }
 
+
 MD::Interpretation AlbumCoverView::get_metadata_interpretation() const
 {
 	return MD::Interpretation::Albums;
 }
+
 
 void AlbumCoverView::wheelEvent(QWheelEvent* e)
 {
@@ -68,5 +74,18 @@ void AlbumCoverView::wheelEvent(QWheelEvent* e)
 	}
 
 	LibraryView::wheelEvent(e);
+}
 
+
+void AlbumCoverView::resizeEvent(QResizeEvent* e)
+{
+	int width = e->size().width();
+	AlbumCoverModel* m = dynamic_cast<AlbumCoverModel*>(model());
+	if(m) {
+		m->set_max_columns( width / (_m->zoom + 100) );
+	}	
+
+	LibraryView::resizeEvent(e);
+	this->resizeRowsToContents();
+	this->resizeColumnsToContents();
 }

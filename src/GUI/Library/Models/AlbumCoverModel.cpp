@@ -52,7 +52,45 @@ int AlbumCoverModel::columnCount(const QModelIndex& parent) const
 
 void AlbumCoverModel::set_max_columns(int columns)
 {
-	_m->columns = columns;
+
+	if(columns == _m->columns){
+		return;
+	}
+
+	int old_rows = rowCount();
+	int rows = (_m->albums.size() / columns) + 1;
+
+	int diff = columns - _m->columns;
+	int first, last;
+	if(diff > 0) {
+		first = _m->columns;
+		last = first + diff;
+
+		_m->columns = columns;
+
+		diff = old_rows - rows;
+		beginRemoveRows(QModelIndex(), rows - diff, rows);
+		endRemoveRows();
+
+		beginInsertColumns(QModelIndex(), first, last);
+		endInsertColumns();
+	}
+
+	else {
+		diff = -diff;
+		first = _m->columns - diff;
+		last = _m->columns;
+
+		beginRemoveColumns(QModelIndex(), first, last);
+		_m->columns = columns;
+		endRemoveColumns();
+
+		diff = rows - old_rows;
+		beginInsertRows(QModelIndex(), rows, rows + diff);
+		endInsertRows();
+	}
+
+	emit dataChanged(index(0, 0), index(rowCount() - 1, columnCount() - 1));
 }
 
 QVariant AlbumCoverModel::data(const QModelIndex& index, int role) const
