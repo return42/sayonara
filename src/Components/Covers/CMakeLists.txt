@@ -5,6 +5,7 @@ SET(SOURCES
     GoogleCoverFetcher.cpp
     LFMCoverFetcher.cpp
     StandardCoverFetcher.cpp
+	DiscogsCoverFetcher.cpp
     CoverHelper.cpp
     CoverLookup.cpp
     CoverLookupAlternative.cpp

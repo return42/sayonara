@@ -1,6 +1,7 @@
 #include "GoogleCoverFetcher.h"
 #include "Helper/Logger/Logger.h"
 
+#include <QStringList>
 #include <QRegExp>
 #include <QString>
 #include <QUrl>

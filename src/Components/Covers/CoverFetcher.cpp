@@ -3,6 +3,7 @@
 #include "GoogleCoverFetcher.h"
 #include "LFMCoverFetcher.h"
 #include "StandardCoverFetcher.h"
+#include "DiscogsCoverFetcher.h"
 
 #include <QStringList>
 
@@ -49,6 +50,7 @@ static QStringList sort_urls(QList<CoverFetchTupel>& lst)
 CoverFetcher::CoverFetcher()
 {
 	_m = Pimpl::make<Private>();
+	_m->cover_fetcher << new DiscogsCoverFetcher();
 	_m->cover_fetcher << new LFMCoverFetcher();
 	_m->cover_fetcher << new GoogleCoverFetcher();
 	_m->cover_fetcher << new StandardCoverFetcher();

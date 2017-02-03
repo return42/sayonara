@@ -33,6 +33,7 @@
 #include "GoogleCoverFetcher.h"
 #include "StandardCoverFetcher.h"
 #include "LFMCoverFetcher.h"
+#include "DiscogsCoverFetcher.h"
 
 #include "Database/DatabaseConnector.h"
 
@@ -66,6 +67,10 @@ void CoverLookup::start_new_thread(const CoverLocation& cl )
 	CoverFetchThread* cft;
 	if(url.contains("google", Qt::CaseInsensitive)){
 		cft = new GoogleCoverFetcher(this, cl, _n_covers);
+	}
+
+	else if(url.contains("discogs")){
+		cft = new DiscogsCoverFetcher(this, cl, _n_covers);
 	}
 
 	else if(url.contains("audioscrobbler")){

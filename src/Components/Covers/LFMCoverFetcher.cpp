@@ -2,6 +2,7 @@
 #include "Helper/Helper.h"
 #include "Components/StreamPlugins/LastFM/LFMGlobals.h"
 
+#include <QStringList>
 #include <QDomDocument>
 #include <QDomElement>
 #include <QDomNode>
@@ -53,7 +54,7 @@ QStringList LFMCoverFetcher::calc_addresses_from_website(const QByteArray& websi
 		return QStringList();
 	}
 
-	QStringList attributes; attributes << "mega" << "extralarge" << "large" << "";
+	QStringList attributes; attributes << "extralarge" << "large" << "";
 	QMap<QString, QString> lfm_covers;
 
 	for(int i=0; i<nodes.size(); i++){
@@ -125,5 +126,5 @@ bool LFMCoverFetcher::is_artist_supported() const
 
 int LFMCoverFetcher::get_estimated_size() const
 {
-	return 1000;
+	return 300;
 }

@@ -1,4 +1,5 @@
 #include "StandardCoverFetcher.h"
+#include <QStringList>
 
 bool StandardCoverFetcher::can_fetch_cover_directly() const
 {

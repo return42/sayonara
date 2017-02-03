@@ -91,10 +91,11 @@ bool CoverFetchThread::start()
 	else
 	{
 		AsyncWebAccess* awa = new AsyncWebAccess(this);
+		awa->set_behavior(AsyncWebAccess::Behavior::AsSayonara);
 		connect(awa, &AsyncWebAccess::sig_finished, this, &CoverFetchThread::content_fetched);
 
 		sp_log(Log::Debug) << "Try to fetch cover from " << _m->url;
-		awa->run(_m->url);
+		awa->run(_m->url, 10000);
 	}
 
 	return true;
@@ -111,6 +112,7 @@ CoverFetchThread::more()
 
 	QString address = _m->addresses.takeFirst();
 	AsyncWebAccess* awa = new AsyncWebAccess(this);
+	awa->set_behavior(AsyncWebAccess::Behavior::AsSayonara);
 
 	if(_m->n_covers == 1){
 		connect(awa, &AsyncWebAccess::sig_finished, this, &CoverFetchThread::single_image_fetched);
@@ -121,7 +123,7 @@ CoverFetchThread::more()
 	}
 
 	sp_log(Log::Debug) << "2 Try to fetch cover from " << address;
-	awa->run(address);
+	awa->run(address, 10000);
 
 	return true;
 }
