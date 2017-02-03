@@ -113,7 +113,8 @@ QString GUI_Spectrum::get_display_name() const
 
 void GUI_Spectrum::language_changed() {}
 
-
+#include "Helper/Logger/Logger.h"
+typedef QList<float>::const_iterator lstit;
 void GUI_Spectrum::set_spectrum(const QList<float>& lst)
 {
 	if(!is_ui_initialized() || !isVisible()){
@@ -123,6 +124,13 @@ void GUI_Spectrum::set_spectrum(const QList<float>& lst)
 	if(!_timer_stopped) {
 		_timer->stop();
 	}
+
+
+	lstit min = std::min(lst.begin(), lst.end());
+	lstit max = std::max(lst.begin(), lst.end());
+
+	sp_log(Log::Debug) << "minimum: " << *min;
+	sp_log(Log::Debug) << "maximum: " << *max;
 
     _spec = lst;
 
