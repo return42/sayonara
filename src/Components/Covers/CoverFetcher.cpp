@@ -6,6 +6,7 @@
 #include "DiscogsCoverFetcher.h"
 
 #include <QStringList>
+#include <QMap>
 
 struct CoverFetchTupel
 {
@@ -23,11 +24,6 @@ struct CoverFetchTupel
 	}
 };
 
-
-struct CoverFetcher::Private
-{
-	QList<CoverFetchThread*> cover_fetcher;
-};
 
 static QStringList sort_urls(QList<CoverFetchTupel>& lst)
 {
@@ -47,13 +43,27 @@ static QStringList sort_urls(QList<CoverFetchTupel>& lst)
 }
 
 
+
+struct CoverFetcher::Private
+{
+	CoverFetchThread* standard_cover_fetcher=nullptr;
+	QList<CoverFetchThread*> cover_fetcher;
+
+	Private()
+	{
+		standard_cover_fetcher = new StandardCoverFetcher();
+	}
+};
+
+
+
 CoverFetcher::CoverFetcher()
 {
 	_m = Pimpl::make<Private>();
+
 	_m->cover_fetcher << new DiscogsCoverFetcher();
 	_m->cover_fetcher << new LFMCoverFetcher();
 	_m->cover_fetcher << new GoogleCoverFetcher();
-	_m->cover_fetcher << new StandardCoverFetcher();
 }
 
 CoverFetcher::~CoverFetcher() {}
@@ -67,7 +77,8 @@ QStringList CoverFetcher::get_artist_addresses(const QString& artist) const
 {
 	QList<CoverFetchTupel> urls;
 
-	for(const CoverFetchThread* cft : _m->cover_fetcher){
+	for(const CoverFetchThread* cft : _m->cover_fetcher)
+	{
 		if(cft->is_artist_supported()){
 			urls << CoverFetchTupel(cft->get_artist_address(artist), cft->get_estimated_size());
 		}
@@ -80,7 +91,8 @@ QStringList CoverFetcher::get_album_addresses(const QString& artist, const QStri
 {
 	QList<CoverFetchTupel> urls;
 
-	for(const CoverFetchThread* cft : _m->cover_fetcher){
+	for(const CoverFetchThread* cft : _m->cover_fetcher)
+	{
 		if(cft->is_album_supported()){
 			urls << CoverFetchTupel(cft->get_album_address(artist, album), cft->get_estimated_size());
 		}
@@ -93,12 +105,27 @@ QStringList CoverFetcher::get_search_addresses(const QString& str) const
 {
 	QList<CoverFetchTupel> urls;
 
-	for(const CoverFetchThread* cft : _m->cover_fetcher){
+	for(const CoverFetchThread* cft : _m->cover_fetcher)
+	{
 		if(cft->is_search_supported()){
 			urls << CoverFetchTupel(cft->get_search_address(str), cft->get_estimated_size());
 		}
 	}
 
 	return sort_urls(urls);
+}
+
+CoverFetchThread* CoverFetcher::get_by_url(const QString& url) const
+{
+	for(CoverFetchThread* cft : _m->cover_fetcher)
+	{
+		QString identifier = cft->get_unique_url_identifier();
+
+		if(!identifier.isEmpty() && url.contains(identifier)){
+			return cft;
+		}
+	}
+
+	return _m->standard_cover_fetcher;
 }
 

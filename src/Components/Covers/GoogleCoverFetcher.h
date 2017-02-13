@@ -25,6 +25,7 @@ public:
 	bool is_artist_supported() const override;
 
 	int get_estimated_size() const override;
+	QString get_unique_url_identifier() const override;
 };
 
 #endif // GOOGLECOVERFETCHER_H

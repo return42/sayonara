@@ -128,3 +128,9 @@ int LFMCoverFetcher::get_estimated_size() const
 {
 	return 300;
 }
+
+
+QString LFMCoverFetcher::get_unique_url_identifier() const
+{
+	return "audioscrobbler";
+}

@@ -30,6 +30,7 @@
 #define COVERLOOKUP_H_
 
 #include <QObject>
+#include "Helper/Pimpl.h"
 
 #include <memory>
 
@@ -111,7 +112,8 @@ public:
 
 private:
 
-	int _n_covers;
+	PIMPL(CoverLookup)
+
 
 	/**
 	 * @brief Starts a new CoverFetchThread

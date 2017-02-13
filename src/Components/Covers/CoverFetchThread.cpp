@@ -52,21 +52,37 @@ struct CoverFetchThread::Private
 
 	Private()
 	{
+		n_covers = 1;
 		n_covers_found = 0;
 	}
 };
 
-CoverFetchThread::CoverFetchThread() {}
-
-CoverFetchThread::CoverFetchThread(QObject* parent, const CoverLocation& cl, const int n_covers) :
+CoverFetchThread::CoverFetchThread(QObject* parent) :
 	QObject(parent)
 {
 	_m = Pimpl::make<Private>();
-
-	_m->n_covers = n_covers;
 	_m->url = QString();
+}
 
-	if(cl.has_search_urls()){
+CoverFetchThread::CoverFetchThread(QObject* parent, const CoverLocation& cl, const int n_covers) :
+	CoverFetchThread(parent)
+{
+	set_n_covers(n_covers);
+	set_cover_location(cl);
+}
+
+
+CoverFetchThread::~CoverFetchThread() {}
+
+
+void CoverFetchThread::set_n_covers(int n_covers)
+{
+	_m->n_covers = n_covers;
+}
+
+void CoverFetchThread::set_cover_location(const CoverLocation &cl)
+{
+	if(cl.has_search_urls()) {
 		_m->url = cl.search_urls().first();
 	}
 
@@ -74,7 +90,6 @@ CoverFetchThread::CoverFetchThread(QObject* parent, const CoverLocation& cl, con
 }
 
 
-CoverFetchThread::~CoverFetchThread() {}
 
 bool CoverFetchThread::start()
 {
@@ -94,7 +109,7 @@ bool CoverFetchThread::start()
 		awa->set_behavior(AsyncWebAccess::Behavior::AsSayonara);
 		connect(awa, &AsyncWebAccess::sig_finished, this, &CoverFetchThread::content_fetched);
 
-		sp_log(Log::Debug) << "Try to fetch cover from " << _m->url;
+		//sp_log(Log::Debug) << "Try to fetch cover from " << _m->url;
 		awa->run(_m->url, 10000);
 	}
 
@@ -127,6 +142,7 @@ CoverFetchThread::more()
 
 	return true;
 }
+
 
 
 void

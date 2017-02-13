@@ -62,7 +62,7 @@ signals:
 
 
 public:
-	CoverFetchThread();
+	CoverFetchThread(QObject* parent=nullptr);
 	CoverFetchThread(QObject* parent, const CoverLocation& cl, const int n_covers);
 	virtual ~CoverFetchThread();
 
@@ -78,6 +78,9 @@ public:
 	 * @return false, if there are no more covers to fetch
 	 */
 	bool more();
+
+	void set_n_covers(int n_covers);
+	void set_cover_location(const CoverLocation& cl);
 
 
 private:
@@ -121,12 +124,14 @@ public:
 	virtual QString get_artist_address(const QString& artist) const=0;
 	virtual QString get_album_address(const QString& artist, const QString& album) const=0;
 	virtual QString get_search_address(const QString& str) const=0;
+	virtual QString get_unique_url_identifier() const=0;
 
 	virtual bool is_search_supported() const=0;
 	virtual bool is_album_supported() const=0;
 	virtual bool is_artist_supported() const=0;
 
 	virtual int get_estimated_size() const=0;
+
 };
 
 #endif /* COVERFETCHTHREAD_H_ */

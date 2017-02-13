@@ -8,6 +8,8 @@ bool StandardCoverFetcher::can_fetch_cover_directly() const
 
 QStringList StandardCoverFetcher::calc_addresses_from_website(const QByteArray& website, int n_covers) const
 {
+	Q_UNUSED(website)
+	Q_UNUSED(n_covers)
     return QStringList();
 }
 
@@ -50,4 +52,10 @@ bool StandardCoverFetcher::is_artist_supported() const
 int StandardCoverFetcher::get_estimated_size() const
 {
 	return -1;
+}
+
+
+QString StandardCoverFetcher::get_unique_url_identifier() const
+{
+	return QString();
 }

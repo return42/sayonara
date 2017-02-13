@@ -22,7 +22,6 @@ bool DiscogsCoverFetcher::can_fetch_cover_directly() const
 
 QStringList DiscogsCoverFetcher::calc_addresses_from_website(const QByteArray& website, int n_covers) const
 {
-
 	QStringList ret;
 	QRegExp re("class=\"thumbnail_center\">\\s*<img\\s*data-src\\s*=\\s*\"(.+)\"");
 	re.setMinimal(true);
@@ -73,4 +72,10 @@ bool DiscogsCoverFetcher::is_artist_supported() const
 int DiscogsCoverFetcher::get_estimated_size() const
 {
 	return 350;
+}
+
+
+QString DiscogsCoverFetcher::get_unique_url_identifier() const
+{
+	return "discogs";
 }

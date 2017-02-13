@@ -29,12 +29,8 @@
 #include "CoverLookup.h"
 #include "CoverHelper.h"
 #include "CoverFetchThread.h"
+#include "CoverFetcher.h"
 #include "CoverLocation.h"
-#include "GoogleCoverFetcher.h"
-#include "StandardCoverFetcher.h"
-#include "LFMCoverFetcher.h"
-#include "DiscogsCoverFetcher.h"
-
 #include "Database/DatabaseConnector.h"
 
 #include "Helper/MetaData/MetaData.h"
@@ -42,6 +38,11 @@
 
 #include <QFile>
 #include <QImage>
+
+struct CoverLookup::Private
+{
+	int				n_covers;
+};
 
 CoverLookupInterface::CoverLookupInterface(QObject* parent):
 	QObject(parent) {}
@@ -51,12 +52,15 @@ CoverLookupInterface::~CoverLookupInterface() {}
 CoverLookup::CoverLookup(QObject* parent, int n_covers) :
 	CoverLookupInterface(parent)
 {
-	_n_covers = n_covers;
+	_m = Pimpl::make<Private>();
+
+	_m->n_covers = n_covers;
 }
 
 CoverLookup::~CoverLookup() {}
 
-void CoverLookup::start_new_thread(const CoverLocation& cl )
+
+void CoverLookup::start_new_thread(const CoverLocation& cl)
 {
 	// TODO:
 	if(!cl.has_search_urls()){
@@ -64,22 +68,11 @@ void CoverLookup::start_new_thread(const CoverLocation& cl )
 	}
 
 	QString url = cl.search_urls().first();
-	CoverFetchThread* cft;
-	if(url.contains("google", Qt::CaseInsensitive)){
-		cft = new GoogleCoverFetcher(this, cl, _n_covers);
-	}
 
-	else if(url.contains("discogs")){
-		cft = new DiscogsCoverFetcher(this, cl, _n_covers);
-	}
-
-	else if(url.contains("audioscrobbler")){
-		cft = new LFMCoverFetcher(this, cl, _n_covers);
-	}
-
-	else{
-		cft = new StandardCoverFetcher(this, cl, _n_covers);
-	}
+	CoverFetcherPtr cover_fetcher = CoverFetcherPtr(new CoverFetcher());
+	CoverFetchThread* cft = cover_fetcher->get_by_url(url);
+		cft->set_cover_location(cl);
+		cft->set_n_covers(_m->n_covers);
 
 	connect(cft, &CoverFetchThread::sig_cover_found, this, &CoverLookup::cover_found);
 	connect(cft, &CoverFetchThread::sig_finished, this, &CoverLookup::finished);
@@ -91,14 +84,14 @@ void CoverLookup::start_new_thread(const CoverLocation& cl )
 bool CoverLookup::fetch_cover(const CoverLocation& cl)
 {
 	// Look, if cover exists in .Sayonara/covers
-	if( QFile::exists(cl.cover_path()) && _n_covers == 1 )
+	if( QFile::exists(cl.cover_path()) && _m->n_covers == 1 )
 	{
 		emit sig_cover_found(cl.cover_path());
 		return true;
 	}
 
 	// For one cover, we also can use the local cover path
-	if(!cl.local_paths().isEmpty() && _n_covers == 1)
+	if(!cl.local_paths().isEmpty() && _m->n_covers == 1)
 	{
 		emit sig_cover_found(cl.local_path(0));
 		return true;
@@ -120,6 +113,11 @@ bool CoverLookup::fetch_album_cover(const Album& album)
 
 void CoverLookup::finished(bool success)
 {
+	CoverFetchThread* cft = dynamic_cast<CoverFetchThread*>(sender());
+
+	disconnect(cft, &CoverFetchThread::sig_cover_found, this, &CoverLookup::cover_found);
+	disconnect(cft, &CoverFetchThread::sig_finished, this, &CoverLookup::finished);
+
     emit sig_finished(success);
 }
 

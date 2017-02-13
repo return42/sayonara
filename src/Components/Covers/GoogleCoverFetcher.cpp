@@ -116,3 +116,9 @@ int GoogleCoverFetcher::get_estimated_size() const
 {
 	return 150;
 }
+
+
+QString GoogleCoverFetcher::get_unique_url_identifier() const
+{
+	return "google";
+}

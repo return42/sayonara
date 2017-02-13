@@ -27,7 +27,6 @@
 #include "Helper/MetaData/MetaDataList.h"
 #include "Helper/MetaData/Album.h"
 #include "Helper/MetaData/Artist.h"
-#include "Helper/Logger/Logger.h"
 #include "Helper/globals.h"
 
 #include "Database/DatabaseHandler.h"
@@ -147,14 +146,16 @@ CoverLocation CoverLocation::get_cover_location(const QString& album_name, const
 // TODO: Make this class nicer: e.g. valid(), isInvalidLocation()
 CoverLocation CoverLocation::get_cover_location(const Album& album)
 {
-	int n_artists;
-
-	n_artists = album.artists.size();
-
+	int n_artists = album.artists.size();
+	int n_album_artists = album.album_artists().size();
 
 	CoverLocation cl;
 
-	if( n_artists > 1 ) {
+	if( n_album_artists == 1) {
+		cl = CoverLocation::get_cover_location(album.name, album.album_artists().first());
+	}
+
+	else if( n_artists > 1 ) {
 		cl = CoverLocation::get_cover_location(album.name, album.artists);
 	}
 
@@ -166,11 +167,10 @@ CoverLocation CoverLocation::get_cover_location(const Album& album)
 		cl = CoverLocation::get_cover_location(album.name, "");
 	}
 
-	if(!album.cover_download_url.isEmpty()){
+	if(!album.cover_download_url.isEmpty()) {
 		cl._m->search_urls.clear();
 		cl._m->search_urls << album.cover_download_url;
 	}
-
 
 
 	if(!cl.valid() || !QFile::exists(cl.cover_path()))
@@ -182,19 +182,28 @@ CoverLocation CoverLocation::get_cover_location(const Album& album)
 
 		LibraryDatabase* db = DB::getInstance(album.db_id);
 		MetaDataList v_md;
+
 		db->getAllTracksByAlbum(album.id, v_md);
-		for(const MetaData& md : v_md){
-			cl._m->local_paths = LocalCoverSearcher::get_local_cover_paths_from_filename(md.filepath());
-			if(!cl._m->local_paths.isEmpty()){
+		for(const MetaData& md : v_md)
+		{
+			QStringList local_paths = LocalCoverSearcher::get_local_cover_paths_from_filename(md.filepath());
+
+			if(cl._m->local_paths.isEmpty()){
+				cl._m->local_paths = local_paths;
 				break;
 			}
 		}
 
 		CoverLocation tmpcl;
-		if(!CoverLocation::isInvalidLocation(cl.preferred_path())){
+		if(!CoverLocation::isInvalidLocation(cl.preferred_path()))
+		{
 			QImage img(cl.preferred_path());
 
-			if( n_artists > 1){
+			if( n_album_artists == 1){
+				tmpcl = CoverLocation::get_cover_location(album.name, album.album_artists().first());
+			}
+
+			else if( n_artists > 1){
 				tmpcl = CoverLocation::get_cover_location(album.name, album.artists);
 			}
 
@@ -210,7 +219,14 @@ CoverLocation CoverLocation::get_cover_location(const Album& album)
 		}
 	}
 
-	cl._m->search_term = album.name + " " + ArtistList::get_major_artist(album.artists);
+
+	if(n_album_artists == 1){
+		cl._m->search_term = album.name + " " + album.album_artists().first();
+	}
+
+	else{
+		cl._m->search_term = album.name + " " + ArtistList::get_major_artist(album.artists);
+	}
 
 	return cl;
 }
@@ -245,9 +261,6 @@ CoverLocation CoverLocation::get_cover_location(const QString& artist)
 
 	return ret;
 }
-
-
-
 
 CoverLocation Get_cover_location(int album_id, quint8 db_id)
 {
