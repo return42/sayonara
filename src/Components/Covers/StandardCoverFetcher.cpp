@@ -6,10 +6,9 @@ bool StandardCoverFetcher::can_fetch_cover_directly() const
     return true;
 }
 
-QStringList StandardCoverFetcher::calc_addresses_from_website(const QByteArray& website, int n_covers) const
+QStringList StandardCoverFetcher::calc_addresses_from_website(const QByteArray& website) const
 {
 	Q_UNUSED(website)
-	Q_UNUSED(n_covers)
     return QStringList();
 }
 

@@ -20,19 +20,19 @@ bool DiscogsCoverFetcher::can_fetch_cover_directly() const
 	return false;
 }
 
-QStringList DiscogsCoverFetcher::calc_addresses_from_website(const QByteArray& website, int n_covers) const
+QStringList DiscogsCoverFetcher::calc_addresses_from_website(const QByteArray& website) const
 {
 	QStringList ret;
 	QRegExp re("class=\"thumbnail_center\">\\s*<img\\s*data-src\\s*=\\s*\"(.+)\"");
 	re.setMinimal(true);
 	QString website_str = QString::fromLocal8Bit(website);
+
 	int idx = re.indexIn(website_str);
-	while(idx > 0){
+	while(idx >= 0)
+	{
 		ret << re.cap(1);
 		website_str.remove(0, idx + 5);
 		idx = re.indexIn(website_str);
-
-		sp_log(Log::Debug) << ret;
 	}
 
 	return ret;

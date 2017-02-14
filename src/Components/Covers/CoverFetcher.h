@@ -8,10 +8,12 @@
 class CoverFetchThread;
 class QStringList;
 class QString;
+class CoverFetcher;
+
+
 class CoverFetcher
 {
     PIMPL(CoverFetcher)
-
 
 public:
 	CoverFetcher();
@@ -26,7 +28,6 @@ public:
 	CoverFetchThread* get_by_url(const QString& url) const;
 };
 
-typedef std::shared_ptr<CoverFetcher> CoverFetcherPtr;
 
 
 #endif // COVERFETCHER_H

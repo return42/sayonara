@@ -121,12 +121,13 @@ CoverLocation CoverLocation::get_cover_location(const QString& album_name, const
 {
 	QString cover_token = CoverHelper::calc_cover_token(artist_name, album_name);
 	QString cover_path = get_cover_directory( cover_token + ".jpg" );
-
+	CoverFetcher cover_fetcher;
 	CoverLocation ret;
+
 	ret._m->cover_path = cover_path;
 	ret._m->search_term = artist_name + " " + album_name;
 	ret._m->search_urls.clear();
-	ret._m->search_urls << CoverFetcher::getInstance()->get_album_addresses(artist_name, album_name);
+	ret._m->search_urls << cover_fetcher.get_album_addresses(artist_name, album_name);
 	ret._m->valid = true;
 
 	return ret;
@@ -252,10 +253,11 @@ CoverLocation CoverLocation::get_cover_location(const QString& artist)
 
 	QString cover_token = QString("artist_") + CoverHelper::calc_cover_token(artist, "");
 	QString cover_path = get_cover_directory(cover_token + ".jpg");
+	CoverFetcher cover_fetcher;
 
 	CoverLocation ret;
 	ret._m->cover_path = cover_path;
-	ret._m->search_urls = CoverFetcher::getInstance()->get_artist_addresses(artist);
+	ret._m->search_urls = cover_fetcher.get_artist_addresses(artist);
 	ret._m->search_term = artist;
 	ret._m->valid = true;
 
@@ -381,8 +383,9 @@ QString CoverLocation::search_term() const
 
 void CoverLocation::set_search_term(const QString& search_term)
 {
+	CoverFetcher cover_fetcher;
 	_m->search_term = search_term;
-	_m->search_urls = CoverFetcher::getInstance()->get_search_addresses(search_term);
+	_m->search_urls = cover_fetcher.get_search_addresses(search_term);
 }
 
 QString CoverLocation::to_string() const

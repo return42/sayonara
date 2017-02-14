@@ -79,8 +79,7 @@ public:
 	 */
 	bool more();
 
-	void set_n_covers(int n_covers);
-	void set_cover_location(const CoverLocation& cl);
+	void init(const CoverLocation& cl, int n_covers);
 
 
 private:
@@ -119,7 +118,7 @@ private slots:
 
 public:
 	virtual bool can_fetch_cover_directly() const=0;
-	virtual QStringList calc_addresses_from_website(const QByteArray& website, int n_covers) const=0;
+	virtual QStringList calc_addresses_from_website(const QByteArray& website) const=0;
 
 	virtual QString get_artist_address(const QString& artist) const=0;
 	virtual QString get_album_address(const QString& artist, const QString& album) const=0;

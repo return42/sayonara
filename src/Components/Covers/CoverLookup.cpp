@@ -69,10 +69,9 @@ void CoverLookup::start_new_thread(const CoverLocation& cl)
 
 	QString url = cl.search_urls().first();
 
-	CoverFetcherPtr cover_fetcher = CoverFetcherPtr(new CoverFetcher());
+	CoverFetcher* cover_fetcher = new CoverFetcher();
 	CoverFetchThread* cft = cover_fetcher->get_by_url(url);
-		cft->set_cover_location(cl);
-		cft->set_n_covers(_m->n_covers);
+	cft->init(cl, _m->n_covers);
 
 	connect(cft, &CoverFetchThread::sig_cover_found, this, &CoverLookup::cover_found);
 	connect(cft, &CoverFetchThread::sig_finished, this, &CoverLookup::finished);

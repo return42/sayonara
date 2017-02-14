@@ -67,22 +67,18 @@ CoverFetchThread::CoverFetchThread(QObject* parent) :
 CoverFetchThread::CoverFetchThread(QObject* parent, const CoverLocation& cl, const int n_covers) :
 	CoverFetchThread(parent)
 {
-	set_n_covers(n_covers);
-	set_cover_location(cl);
+	init(cl, n_covers);
 }
 
 
 CoverFetchThread::~CoverFetchThread() {}
 
 
-void CoverFetchThread::set_n_covers(int n_covers)
+void CoverFetchThread::init(const CoverLocation& cl, int n_covers)
 {
 	_m->n_covers = n_covers;
-}
 
-void CoverFetchThread::set_cover_location(const CoverLocation &cl)
-{
-	if(cl.has_search_urls()) {
+	if(cl.has_search_urls()){
 		_m->url = cl.search_urls().first();
 	}
 
@@ -117,8 +113,7 @@ bool CoverFetchThread::start()
 }
 
 
-bool
-CoverFetchThread::more()
+bool CoverFetchThread::more()
 {
 	if(_m->n_covers == _m->n_covers_found || _m->addresses.isEmpty()){
 		emit sig_finished(true);
@@ -144,9 +139,7 @@ CoverFetchThread::more()
 }
 
 
-
-void
-CoverFetchThread::content_fetched(bool success)
+void CoverFetchThread::content_fetched(bool success)
 {
 	if(!success){
 		sp_log(Log::Warning) << "Could not fetch content";
@@ -156,7 +149,7 @@ CoverFetchThread::content_fetched(bool success)
 	AsyncWebAccess* awa = static_cast<AsyncWebAccess*>(sender());
 	QByteArray website = awa->get_data();
 
-	_m->addresses = calc_addresses_from_website(website, 10);
+	_m->addresses = calc_addresses_from_website(website);
 
 	if(_m->addresses.isEmpty())
 	{
@@ -168,8 +161,7 @@ CoverFetchThread::content_fetched(bool success)
 }
 
 
-void
-CoverFetchThread::single_image_fetched(bool success)
+void CoverFetchThread::single_image_fetched(bool success)
 {
 	if(!success){
 		sp_log(Log::Warning) << "Could not fetch cover";
@@ -188,8 +180,7 @@ CoverFetchThread::single_image_fetched(bool success)
 }
 
 
-void
-CoverFetchThread::multi_image_fetched(bool success)
+void CoverFetchThread::multi_image_fetched(bool success)
 {
 	if(!success){
 		sp_log(Log::Warning) << "Could not fetch cover";
@@ -213,8 +204,7 @@ CoverFetchThread::multi_image_fetched(bool success)
 }
 
 
-void
-CoverFetchThread::save_and_emit_image(const QString& filepath, const QImage& img)
+void CoverFetchThread::save_and_emit_image(const QString& filepath, const QImage& img)
 {
 	QString filename = filepath;
 	QString ext = Helper::File::calc_file_extension(filepath);

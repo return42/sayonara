@@ -11,7 +11,7 @@ bool GoogleCoverFetcher::can_fetch_cover_directly() const
     return false;
 }
 
-QStringList GoogleCoverFetcher::calc_addresses_from_website(const QByteArray& website, int n_covers) const
+QStringList GoogleCoverFetcher::calc_addresses_from_website(const QByteArray& website) const
 {
     QString regex = "(https://encrypted-tbn)(\\S)+(\")";
     QStringList addresses;
@@ -21,29 +21,25 @@ QStringList GoogleCoverFetcher::calc_addresses_from_website(const QByteArray& we
 	return addresses;
     }
 
-    int found_covers = 0;
-    int idx=50000;
-
-
     QString website_str = QString::fromLocal8Bit(website);
 
-    while(found_covers < n_covers)
-    {
-	QRegExp re(regex);
-	re.setMinimal(true);
-	idx = re.indexIn(website_str, idx);
+	int idx;
+	do {
+		QRegExp re(regex);
+		re.setMinimal(true);
+		idx = re.indexIn(website_str, idx);
 
-	if(idx == -1) {
-	    break;
-	}
+		if(idx == -1) {
+			break;
+		}
 
-	QString str = re.cap(0);
+		QString str = re.cap(0);
 
-	idx += str.length();
-	str.remove("\"");
-	addresses << str;
-	found_covers++;
-    }
+		idx += str.length();
+		str.remove("\"");
+		addresses << str;
+
+	} while(idx >= 0);
 
     return addresses;
 }
