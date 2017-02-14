@@ -88,6 +88,7 @@ protected:
 	void		get_artist_by_id(int artist_id, Artist& artist) override;
 
 	void		update_track(const MetaData& md) override;
+	void 		update_tracks(const MetaDataList& v_md) override;
 	void		update_album(const Album& album) override;
 
 	void		insert_tracks(const MetaDataList& v_md) override;

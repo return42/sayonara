@@ -287,6 +287,11 @@ void LocalLibrary::update_track(const MetaData& md)
 	_db->updateTrack(md);
 }
 
+void LocalLibrary::update_tracks(const MetaDataList& v_md)
+{
+	_db->updateTracks(v_md);
+}
+
 
 void LocalLibrary::update_album(const Album& album)
 {

@@ -133,6 +133,7 @@ public slots:
 	virtual void delete_tracks_by_idx(const SP::Set<int>& indexes, Library::TrackDeletionMode mode);
 	virtual void delete_all_tracks();
 	virtual void delete_current_tracks(Library::TrackDeletionMode mode);
+	virtual void delete_genre(const QString& genre);
 
 	virtual void insert_tracks(const MetaDataList& v_md);
 	virtual void import_files(const QStringList& files);
@@ -188,6 +189,7 @@ protected:
 	virtual void		get_artist_by_id(int artist_id, Artist& artist)=0;
 
 	virtual void		update_track(const MetaData& md)=0;
+	virtual void		update_tracks(const MetaDataList& v_md);
 	virtual void		update_album(const Album& album)=0;
 
 

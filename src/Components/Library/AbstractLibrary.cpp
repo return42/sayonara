@@ -607,6 +607,14 @@ void AbstractLibrary::psl_metadata_id3_changed(const MetaDataList& v_md_old, con
 	emit_stuff();
 }
 
+void AbstractLibrary::update_tracks(const MetaDataList& v_md)
+{
+	for(const MetaData& md : v_md){
+		update_track(md);
+	}
+
+	refresh();
+}
 
 void AbstractLibrary::insert_tracks(const MetaDataList &v_md)
 {
@@ -668,7 +676,8 @@ void AbstractLibrary::delete_tracks(const MetaDataList& v_md, Library::TrackDele
 }
 
 
-void AbstractLibrary::delete_tracks_by_idx(const SP::Set<int>& indexes, Library::TrackDeletionMode mode){
+void AbstractLibrary::delete_tracks_by_idx(const SP::Set<int>& indexes, Library::TrackDeletionMode mode)
+{
 	if(mode == Library::TrackDeletionMode::None) return;
 
 	MetaDataList v_md;
@@ -679,3 +688,21 @@ void AbstractLibrary::delete_tracks_by_idx(const SP::Set<int>& indexes, Library:
 
 	delete_tracks(v_md, mode);
 }
+
+
+void AbstractLibrary::delete_genre(const QString& genre)
+{
+	MetaDataList v_md;
+	get_all_tracks(v_md, Library::Sortings());
+
+	for(MetaData& md : v_md){
+		md.genres.removeAll(genre);
+	}
+
+	update_tracks(v_md);
+	refresh();
+}
+
+
+
+
