@@ -345,19 +345,26 @@ void LocalLibrary::merge_artists(int target_artist)
 		return;
 	}
 
-	bool success;
+	bool show_album_artists = _settings->get(Set::Lib_ShowAlbumArtists);
 
 	Artist artist;
-	success =_db->getArtistByID(target_artist, artist);
+	bool success =_db->getArtistByID(target_artist, artist);
 	if(!success){
 		return;
 	}
 
 	MetaDataList v_md;
 	get_all_tracks_by_artist(_selected_artists.toList(), v_md, _filter, _sortorder);
-	for(MetaData& md : v_md){
-		md.artist_id = artist.id;
-		md.artist = artist.name;
+
+	for(MetaData& md : v_md) {
+		if(show_album_artists){
+			md.set_album_artist(artist.name, artist.id);
+		}
+
+		else{
+			md.artist_id = artist.id;
+			md.artist = artist.name;
+		}
 	}
 
 	_db->updateTracks(v_md);
