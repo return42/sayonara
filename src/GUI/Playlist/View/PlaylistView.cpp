@@ -375,7 +375,6 @@ void PlaylistView::rating_changed(int rating)
 	MetaDataList v_md_old;
 	v_md_old << md;
 
-
 	TagEdit* te = new TagEdit(v_md_old);
 	md.rating = rating;
 	te->update_track(0, md);

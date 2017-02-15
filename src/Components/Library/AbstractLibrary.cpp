@@ -693,35 +693,54 @@ void AbstractLibrary::delete_tracks_by_idx(const SP::Set<int>& indexes, Library:
 void AbstractLibrary::delete_genre(const QString& genre)
 {
 	MetaDataList v_md;
+	MetaDataList v_md_changed;
 	get_all_tracks(v_md, Library::Sortings());
 
-	for(MetaData& md : v_md){
-		md.genres.removeAll(genre);
+	for(MetaData& md : v_md)
+	{
+		bool changed = false;
+		for(int i=md.genres.size(); i>=0; i--)
+		{
+			const QString& g = md.genres[i];
+			if(g.compare(genre, Qt::CaseInsensitive) == 0 && !changed){
+				changed = true;
+				md.genres.removeAt(i);
+				v_md_changed << md;
+			}
+		}
 	}
 
-	update_tracks(v_md);
+	update_tracks(v_md_changed);
+
 	refresh();
 }
 
 void AbstractLibrary::rename_genre(const QString& genre, const QString& new_name)
 {
 	MetaDataList v_md;
+	MetaDataList v_md_changed;
 	get_all_tracks(v_md, Library::Sortings());
 
-	for(MetaData& md : v_md){
-		bool found = false;
+	for(MetaData& md : v_md)
+	{
+		bool changed = false;
+		for(int i=md.genres.size(); i>=0; i--)
+		{
+			const QString& g = md.genres[i];
 
-		for(int i=0; i<md.genres.size(); i++){
-			if(md.genres[i].compare(genre, Qt::CaseInsensitive) == 0) {
-				md.genres[i] = new_name;
-				break;
+			if(g.compare(genre, Qt::CaseInsensitive) == 0 && !changed){
+				changed = true;
+				md.genres.removeAt(i);
+				v_md_changed << md;
 			}
 		}
 
-		md.genres.removeDuplicates();
+		if(changed){
+			md.genres << new_name;
+		}
 	}
 
-	update_tracks(v_md);
+	update_tracks(v_md_changed);
 	refresh();
 }
 

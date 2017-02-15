@@ -63,7 +63,7 @@ private:
 	void fill_list(const QStringList& genres);
 	void init_data(const QStringList& genres);
 	void insert_genres(QTreeWidgetItem* parent_item, GenreNode* node);
-	QModelIndex find_genre(const QString& genre);
+	QTreeWidgetItem* find_genre(const QString& genre);
 
 private slots:
 	void update_genre_tags_finished();

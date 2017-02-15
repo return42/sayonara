@@ -94,7 +94,7 @@ int TagEdit::get_n_tracks() const
 	return _m->v_md.size();
 }
 
-void TagEdit::add_genre_to_metadata(const QString &genre)
+void TagEdit::add_genre(const QString &genre)
 {
 	int i=0;
 	for(MetaData& md : _m->v_md) {
@@ -111,6 +111,48 @@ void TagEdit::add_genre_to_metadata(const QString &genre)
 		}
 
 		i++;
+	}
+}
+
+void TagEdit::delete_genre(const QString& genre)
+{
+	int md_idx=0;
+	for(MetaData& md : _m->v_md)
+	{
+		for(int i=md.genres.size() - 1; i>=0; i--){
+			if(md.genres[i].compare(genre, Qt::CaseInsensitive) == 0){
+				md.genres.removeAt(i);
+				_m->changed_md[md_idx] = true;
+			}
+		}
+
+		md_idx++;
+	}
+}
+
+void TagEdit::rename_genre(const QString &genre, const QString &new_name)
+{
+	int md_idx=0;
+	for(MetaData& md : _m->v_md)
+	{
+		bool contains=false;
+		for(int i=md.genres.size() - 1; i>=0; i--){
+			if(md.genres[i].compare(genre, Qt::CaseInsensitive) == 0){
+				md.genres.removeAt(i);
+				_m->changed_md[md_idx] = true;
+			}
+
+			if(md.genres[i].compare(new_name, Qt::CaseInsensitive) == 0){
+				contains = true;
+			}
+		}
+
+		if(!contains){
+			md.genres << new_name;
+			_m->changed_md[md_idx] = true;
+		}
+
+		md_idx++;
 	}
 }
 

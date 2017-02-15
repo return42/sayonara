@@ -31,6 +31,7 @@
 
 #include "Helper/Helper.h"
 #include "Helper/Tree.h"
+#include "Helper/Set.h"
 #include "Helper/MetaData/MetaDataList.h"
 #include "Helper/Logger/Logger.h"
 #include "Helper/Language.h"
@@ -39,6 +40,7 @@
 #include <QContextMenuEvent>
 #include <QInputDialog>
 
+typedef SP::Set<QString> StringSet;
 
 struct LibraryGenreView::Private
 {
@@ -58,9 +60,6 @@ struct LibraryGenreView::Private
 		filled = false;
 
 		context_menu->show_actions( ContextMenu::EntryDelete | ContextMenu::EntryRename );
-
-		// TODO: Select new genre
-		//genres->
 	}
 
 	~Private()
@@ -253,24 +252,32 @@ void LibraryGenreView::progress_changed(int progress)
 
 void LibraryGenreView::rename_pressed()
 {
+
 	QList<QTreeWidgetItem*> selected_items = this->selectedItems();
 	if(selected_items.isEmpty()){
 		return;
 	}
 
+	bool ok;
+	QString new_name;
 	for(const QTreeWidgetItem* item : selected_items) {
 		QString text = item->text(0);
-		bool ok;
-		QString new_name = QInputDialog::getText(this,
+
+		new_name = QInputDialog::getText(this,
 												Lang::get(Lang::Rename),
 												Lang::get(Lang::Rename) + " " + text + ": ",
 												QLineEdit::Normal, QString(), &ok);
 		if(ok && !new_name.isEmpty()){
 			emit sig_rename(text, new_name);
 		}
+
+		else{
+			return;
+		}
 	}
 
 	reload_genres();
+	this->setCurrentItem( find_genre(new_name) );
 }
 
 void LibraryGenreView::delete_pressed()
@@ -280,10 +287,8 @@ void LibraryGenreView::delete_pressed()
 		return;
 	}
 
-	for(const QTreeWidgetItem* item : selected_items) {
-		QString text = item->text(0);
-		emit sig_delete(text);
-	}
+	QTreeWidgetItem* item = selected_items.first();
+	emit sig_delete(item->text(0));
 
 	reload_genres();
 }
@@ -338,111 +343,85 @@ void LibraryGenreView::insert_genres(QTreeWidgetItem* parent_item, GenreNode* no
 	}
 }
 
-QModelIndex LibraryGenreView::find_genre(const QString& genre)
+QTreeWidgetItem* LibraryGenreView::find_genre(const QString& genre)
 {
-	// TODO
-	return QModelIndex();
+	QList<QTreeWidgetItem*> items = this->findItems(genre, Qt::MatchRecursive);
+
+	if(items.isEmpty()){
+		sp_log(Log::Warning) << "Could not find item " << genre;
+		return nullptr;
+	}
+
+	return items.first();
+}
+
+
+static void build_genre_node(GenreNode* node, const QMap<QString, StringSet>& parent_nodes)
+{
+	QString value = node->data;
+	if(!parent_nodes.contains(value)){
+		return;
+	}
+
+	const StringSet& children = parent_nodes[value];
+	if(children.isEmpty()){
+		return;
+	}
+
+	for(const QString& str : children){
+		GenreNode* new_child = new GenreNode(str);
+		build_genre_node( new_child, parent_nodes );
+		node->add_child(new_child);
+	}
 }
 
 
 void LibraryGenreView::init_data(const QStringList& genres)
 {
-	QStringList genre_copy;
-
-	// just needed for the first 2 steps
-	QMap<int, QList<int>> item_parent_map;
-
-	// stores the index in genres and the corresponding node
-	QMap<int, GenreNode*> item_node_map;
-
-	genre_copy = genres;
-	if(!genre_copy.contains("")){
-		genre_copy << "";
+	SP::Set<QString> genre_set;
+	if(_m->genres){
+		delete _m->genres;
 	}
 
+	_m->genres = new GenreNode("");
+	QMap<QString, StringSet> children;
 
-	// find all parents of all genres ( O(n²) )
-	for(auto it = genre_copy.begin(); it != genre_copy.end(); it++) {
-		QString genre = *it;
-		int idx = (it - genre_copy.begin());
+	for(const QString& s : genres) {
+		genre_set.insert(s);
+	}
 
-		if(genre.isEmpty()){
+	for(auto it=genre_set.begin(); it != genre_set.end(); it++) 
+	{
+		bool found_parent = false;
+		QString genre_name(*it);
+		if(genre_name.isEmpty()){
 			continue;
 		}
 
-		for(auto subit = genre_copy.begin(); subit != genre_copy.end(); subit++) {
-			int subidx = (subit - genre_copy.begin());
-			QString sub_genre = *subit;
+		for(auto subit=genre_set.begin(); subit != genre_set.end(); subit++)
+		{
+			QString parent(*subit);
 
-			if( ( sub_genre.contains(genre, Qt::CaseInsensitive) ) &&
-					( sub_genre.compare(genre, Qt::CaseInsensitive) != 0) )
-
+			if( parent.isEmpty() ||
+				genre_name.compare(parent, Qt::CaseInsensitive) == 0)
 			{
-				QList<int> parents = item_parent_map[subidx];
+				continue;
+			}
 
-				parents << idx;
-
-				item_parent_map[subidx] = parents;
+			if( genre_name.contains(parent, Qt::CaseInsensitive) ) {
+				StringSet& child_genres = children[parent];
+				child_genres.insert(genre_name);
+				found_parent = true;
 			}
 		}
+
+		if(!found_parent) {
+			_m->genres->add_child(genre_name);
+		}
 	}
 
-	int original_genre_size = genre_copy.size();
-	// create new entries for all items with more than one parent
-	// append them to to the end of genre_copy
-	for(int idx=0; idx<original_genre_size; idx++)
-	{
-		QString genre = genre_copy[idx];
-		QList<int> parent_idxs = item_parent_map[idx];
-
-		GenreNode* node = new GenreNode(genre.toLower());
-		item_node_map[idx] = node;
-
-		for(int i=parent_idxs.size() - 1; i>=1; i--){
-			GenreNode* new_node = new GenreNode(genre.toLower());
-			QList<int> new_parent_idxs;
-
-			int new_idx = genre_copy.size();
-			int parent_idx = parent_idxs.takeLast();
-
-			new_parent_idxs << new_idx;
-			item_parent_map[new_idx] << parent_idx;
-
-			item_node_map[new_idx] = new_node;
-
-			genre_copy << genre;
-		}
-
-		item_parent_map[idx] = parent_idxs;
-	}
-
-
-	// get all parents and add the children
-	for(auto it = genre_copy.begin(); it != genre_copy.end(); it++){
-		int idx = (it - genre_copy.begin());
-		QList<int> parent_idxs; // should have at most 1 element
-		GenreNode* node;		// corresponding node to genre_copy
-		GenreNode* parent_node = nullptr;	// parent
-
-		node = item_node_map[idx];
-		parent_idxs = item_parent_map[idx];
-
-		if(parent_idxs.isEmpty()){
-			parent_node = _m->genres;
-		}
-
-		else{
-			int first_parent_idx;
-			first_parent_idx = parent_idxs.first();
-			parent_node = item_node_map[ first_parent_idx ];
-		}
-
-		if(node != nullptr){
-			parent_node->add_child(node);
-		}
-		else{
-			sp_log(Log::Debug) << "node ist null";
-		}
+	for(GenreNode* base_genre : _m->genres->children){
+		build_genre_node(base_genre, children);
 	}
 
 	_m->genres->sort(true);

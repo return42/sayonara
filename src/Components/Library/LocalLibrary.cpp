@@ -26,6 +26,7 @@
 #include "Threads/UpdateDatesThread.h"
 #include "Database/DatabaseConnector.h"
 #include "Components/Playlist/PlaylistHandler.h"
+#include "Components/TagEdit/MetaDataChangeNotifier.h"
 
 #include "Helper/Tagging/Tagging.h"
 #include "Helper/Settings/Settings.h"
@@ -285,13 +286,16 @@ void LocalLibrary::get_artist_by_id(int artist_id, Artist& artist)
 void LocalLibrary::update_track(const MetaData& md)
 {
 	_db->updateTrack(md);
+	Tagging::setMetaDataOfFile(md);
 }
 
 void LocalLibrary::update_tracks(const MetaDataList& v_md)
 {
 	_db->updateTracks(v_md);
+	for(const MetaData& md : v_md){
+		Tagging::setMetaDataOfFile(md);
+	}
 }
-
 
 void LocalLibrary::update_album(const Album& album)
 {
@@ -366,13 +370,13 @@ void LocalLibrary::merge_artists(int target_artist)
 			md.set_album_artist(artist.name, artist.id);
 		}
 
-		else{
+		else {
 			md.artist_id = artist.id;
 			md.artist = artist.name;
 		}
 	}
 
-	_db->updateTracks(v_md);
+	update_tracks(v_md);
 	refresh();
 }
 
@@ -397,6 +401,7 @@ void LocalLibrary::merge_albums(int target_album)
 		md.album = album.name;
 	}
 
-	_db->updateTracks(v_md);
+	update_tracks(v_md);
 	refresh();
 }
+

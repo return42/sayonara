@@ -91,7 +91,6 @@ public slots:
 
 
 	// Those two functions are identical (1) calls (2)
-//	virtual void psl_prepare_track_for_playlist(int idx, bool new_playlist);
 	virtual void psl_prepare_tracks_for_playlist(bool new_playlist);
 	virtual void psl_prepare_tracks_for_playlist(const SP::Set<int>& indexes, bool new_playlist);
 	virtual void psl_prepare_tracks_for_playlist(const QStringList& file_paths, bool new_playlist);
@@ -105,14 +104,6 @@ public slots:
 	/* append tracks after last track in playlist */
 	virtual void psl_append_all_tracks();
 	virtual void psl_append_tracks(const SP::Set<int>& idx_lst);
-
-
-	/* triggered from outside, when something important has been changed*/
-//	virtual void psl_metadata_changed(const MetaData&);
-
-	/* triggered from outside, when playing time*/
-//	virtual void psl_dur_changed(const MetaData&);
-
 
 	/* triggered by tagedit */
 	virtual void psl_metadata_id3_changed(const MetaDataList&, const MetaDataList&);
@@ -129,7 +120,6 @@ public slots:
 
 
 	virtual void delete_tracks(const MetaDataList& v_md, Library::TrackDeletionMode mode)=0;
-
 	virtual void delete_tracks_by_idx(const SP::Set<int>& indexes, Library::TrackDeletionMode mode);
 	virtual void delete_all_tracks();
 	virtual void delete_current_tracks(Library::TrackDeletionMode mode);
