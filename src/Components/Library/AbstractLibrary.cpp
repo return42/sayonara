@@ -703,6 +703,28 @@ void AbstractLibrary::delete_genre(const QString& genre)
 	refresh();
 }
 
+void AbstractLibrary::rename_genre(const QString& genre, const QString& new_name)
+{
+	MetaDataList v_md;
+	get_all_tracks(v_md, Library::Sortings());
+
+	for(MetaData& md : v_md){
+		bool found = false;
+
+		for(int i=0; i<md.genres.size(); i++){
+			if(md.genres[i].compare(genre, Qt::CaseInsensitive) == 0) {
+				md.genres[i] = new_name;
+				break;
+			}
+		}
+
+		md.genres.removeDuplicates();
+	}
+
+	update_tracks(v_md);
+	refresh();
+}
+
 
 
 

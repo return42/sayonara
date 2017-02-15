@@ -27,24 +27,54 @@
 
 #include "GUI/Helper/CustomMimeData.h"
 #include "GUI/Helper/Delegates/TreeDelegate.h"
+#include "GUI/Helper/ContextMenu/ContextMenu.h"
 
 #include "Helper/Helper.h"
 #include "Helper/Tree.h"
 #include "Helper/MetaData/MetaDataList.h"
 #include "Helper/Logger/Logger.h"
+#include "Helper/Language.h"
 
 #include <QDropEvent>
+#include <QContextMenuEvent>
+#include <QInputDialog>
+
+
+struct LibraryGenreView::Private
+{
+	ContextMenu*			context_menu=nullptr;
+	GenreNode*				genres=nullptr;
+	TreeDelegate*			delegate=nullptr;
+	TagEdit*				tag_edit=nullptr;
+	QStringList				expanded_items;
+	bool					filled;
+
+	Private(QWidget* parent)
+	{
+		context_menu = new ContextMenu(parent);
+		genres = new GenreNode("root");
+		delegate = new TreeDelegate(parent);
+		tag_edit = new TagEdit(parent);
+		filled = false;
+
+		context_menu->show_actions( ContextMenu::EntryDelete | ContextMenu::EntryRename );
+
+		// TODO: Select new genre
+		//genres->
+	}
+
+	~Private()
+	{
+		delete genres; genres=nullptr;
+	}
+};
 
 LibraryGenreView::LibraryGenreView(QWidget* parent) :
 	QTreeWidget(parent)
 {
 	QStringList genres;
 
-	_genres = new GenreNode("root");
-	_delegate = new TreeDelegate(this);
-	_tag_edit = new TagEdit(this);
-	_filled = false;
-
+	_m = Pimpl::make<Private>(this);
 
 	MetaDataChangeNotifier* mcn = MetaDataChangeNotifier::getInstance();
 
@@ -52,7 +82,7 @@ LibraryGenreView::LibraryGenreView(QWidget* parent) :
 	this->setDragDropMode(LibraryGenreView::DragDrop);
 
 	this->setAlternatingRowColors(true);
-	this->setItemDelegate(_delegate);
+	this->setItemDelegate(_m->delegate);
 
 	connect(this, &QTreeWidget::itemCollapsed, this, &LibraryGenreView::item_collapsed);
 	connect(this, &QTreeWidget::itemExpanded, this, &LibraryGenreView::item_expanded);
@@ -60,17 +90,17 @@ LibraryGenreView::LibraryGenreView(QWidget* parent) :
 	connect(mcn, &MetaDataChangeNotifier::sig_metadata_changed, this, &LibraryGenreView::metadata_changed);
 	connect(mcn, &MetaDataChangeNotifier::sig_metadata_deleted, this, &LibraryGenreView::metadata_deleted);
 
-	connect(_tag_edit, &QThread::finished, this, &LibraryGenreView::update_genre_tags_finished);
-	connect(_tag_edit, &TagEdit::sig_progress, this, &LibraryGenreView::progress_changed);
+	connect(_m->tag_edit, &QThread::finished, this, &LibraryGenreView::update_genre_tags_finished);
+	connect(_m->tag_edit, &TagEdit::sig_progress, this, &LibraryGenreView::progress_changed);
+
+	connect( _m->context_menu, &ContextMenu::sig_delete, this, &LibraryGenreView::delete_pressed);
+	connect( _m->context_menu, &ContextMenu::sig_rename, this, &LibraryGenreView::rename_pressed);
 
 	genres = DatabaseConnector::getInstance()->getAllGenres();
 	fill_list(genres);
 }
 
-LibraryGenreView::~LibraryGenreView()
-{
-	delete _genres; _genres = nullptr;
-}
+LibraryGenreView::~LibraryGenreView() {}
 
 
 QSize LibraryGenreView::sizeHint() const
@@ -82,15 +112,15 @@ QSize LibraryGenreView::sizeHint() const
 
 void LibraryGenreView::reload_genres()
 {
-	for(GenreNode* n : _genres->children){
-		_genres->remove_child(n);
+	for(GenreNode* n : _m->genres->children){
+		_m->genres->remove_child(n);
 		delete n; n=nullptr;
 	}
 
 	this->clear();
 
 	// fill it on next show event
-	_filled = false;
+	_m->filled = false;
 
 	DatabaseConnector* db = DatabaseConnector::getInstance();
 	QStringList genres = db->getAllGenres();
@@ -99,20 +129,21 @@ void LibraryGenreView::reload_genres()
 
 int LibraryGenreView::get_row_count() const
 {
-	int n_rows = _genres->children.size();
+	int n_rows = _m->genres->children.size();
 	return n_rows;
 }
 
 
-void LibraryGenreView::fill_list(const QStringList& genres){
-	if(_filled){
+void LibraryGenreView::fill_list(const QStringList& genres)
+{
+	if(_m->filled){
 		return;
 	}
 
-	_filled = true;
+	_m->filled = true;
 
 	this->init_data(genres);
-	this->insert_genres(nullptr, _genres);
+	this->insert_genres(nullptr, _m->genres);
 }
 
 
@@ -179,11 +210,19 @@ void LibraryGenreView::dropEvent(QDropEvent *e)
 
 	sp_log(Log::Debug) << "Will apply " << genre << " to " << v_md.size() << " tracks";
 
-	_tag_edit->set_metadata(v_md);
-	_tag_edit->add_genre_to_metadata(genre);
-	_tag_edit->commit();
+	_m->tag_edit->set_metadata(v_md);
+	_m->tag_edit->add_genre_to_metadata(genre);
+	_m->tag_edit->commit();
 
 	emit sig_progress(tr("Updating genres"), 0);
+}
+
+void LibraryGenreView::contextMenuEvent(QContextMenuEvent* e)
+{
+	//e->pos();
+	ContextMenu* context_menu = _m->context_menu;
+	context_menu->exec(e->globalPos());
+	QTreeView::contextMenuEvent(e);
 }
 
 
@@ -199,17 +238,54 @@ void LibraryGenreView::update_genre_tags_finished()
 
 void LibraryGenreView::item_expanded(QTreeWidgetItem* item)
 {
-	_expanded_items << item->text(0);
+	_m->expanded_items << item->text(0);
 }
 
 void LibraryGenreView::item_collapsed(QTreeWidgetItem* item)
 {
-	_expanded_items.removeAll(item->text(0));
+	_m->expanded_items.removeAll(item->text(0));
 }
 
 void LibraryGenreView::progress_changed(int progress)
 {
 	emit sig_progress(tr("Updating genres"), progress);
+}
+
+void LibraryGenreView::rename_pressed()
+{
+	QList<QTreeWidgetItem*> selected_items = this->selectedItems();
+	if(selected_items.isEmpty()){
+		return;
+	}
+
+	for(const QTreeWidgetItem* item : selected_items) {
+		QString text = item->text(0);
+		bool ok;
+		QString new_name = QInputDialog::getText(this,
+												Lang::get(Lang::Rename),
+												Lang::get(Lang::Rename) + " " + text + ": ",
+												QLineEdit::Normal, QString(), &ok);
+		if(ok && !new_name.isEmpty()){
+			emit sig_rename(text, new_name);
+		}
+	}
+
+	reload_genres();
+}
+
+void LibraryGenreView::delete_pressed()
+{
+	QList<QTreeWidgetItem*> selected_items = this->selectedItems();
+	if(selected_items.isEmpty()){
+		return;
+	}
+
+	for(const QTreeWidgetItem* item : selected_items) {
+		QString text = item->text(0);
+		emit sig_delete(text);
+	}
+
+	reload_genres();
 }
 
 void LibraryGenreView::metadata_changed(const MetaDataList& v_md_old, const MetaDataList& v_md_new)
@@ -240,11 +316,12 @@ void LibraryGenreView::keyPressEvent(QKeyEvent* e)
 }
 
 
-void LibraryGenreView::insert_genres(QTreeWidgetItem* parent_item, GenreNode* node){
+void LibraryGenreView::insert_genres(QTreeWidgetItem* parent_item, GenreNode* node)
+{
 	QTreeWidgetItem* item;
 	QStringList text = { Helper::cvt_str_to_first_upper(node->data) };
 
-	if(node->parent == _genres){
+	if(node->parent == _m->genres){
 		item = new QTreeWidgetItem(this, text);
 	}
 
@@ -256,13 +333,20 @@ void LibraryGenreView::insert_genres(QTreeWidgetItem* parent_item, GenreNode* no
 		insert_genres(item, child);
 	}
 
-	if(_expanded_items.contains(node->data, Qt::CaseInsensitive)){
+	if(_m->expanded_items.contains(node->data, Qt::CaseInsensitive)){
 		item->setExpanded(true);
 	}
 }
 
+QModelIndex LibraryGenreView::find_genre(const QString& genre)
+{
+	// TODO
+	return QModelIndex();
+}
 
-void LibraryGenreView::init_data(const QStringList& genres){
+
+void LibraryGenreView::init_data(const QStringList& genres)
+{
 	QStringList genre_copy;
 
 	// just needed for the first 2 steps
@@ -278,7 +362,7 @@ void LibraryGenreView::init_data(const QStringList& genres){
 
 
 	// find all parents of all genres ( O(n²) )
-	for(auto it = genre_copy.begin(); it != genre_copy.end(); it++){
+	for(auto it = genre_copy.begin(); it != genre_copy.end(); it++) {
 		QString genre = *it;
 		int idx = (it - genre_copy.begin());
 
@@ -286,7 +370,7 @@ void LibraryGenreView::init_data(const QStringList& genres){
 			continue;
 		}
 
-		for(auto subit = genre_copy.begin(); subit != genre_copy.end(); subit++){
+		for(auto subit = genre_copy.begin(); subit != genre_copy.end(); subit++) {
 			int subidx = (subit - genre_copy.begin());
 			QString sub_genre = *subit;
 
@@ -306,7 +390,8 @@ void LibraryGenreView::init_data(const QStringList& genres){
 	int original_genre_size = genre_copy.size();
 	// create new entries for all items with more than one parent
 	// append them to to the end of genre_copy
-	for(int idx=0; idx<original_genre_size; idx++){
+	for(int idx=0; idx<original_genre_size; idx++)
+	{
 		QString genre = genre_copy[idx];
 		QList<int> parent_idxs = item_parent_map[idx];
 
@@ -343,7 +428,7 @@ void LibraryGenreView::init_data(const QStringList& genres){
 		parent_idxs = item_parent_map[idx];
 
 		if(parent_idxs.isEmpty()){
-			parent_node = _genres;
+			parent_node = _m->genres;
 		}
 
 		else{
@@ -360,5 +445,5 @@ void LibraryGenreView::init_data(const QStringList& genres){
 		}
 	}
 
-	_genres->sort(true);
+	_m->genres->sort(true);
 }

@@ -134,6 +134,7 @@ public slots:
 	virtual void delete_all_tracks();
 	virtual void delete_current_tracks(Library::TrackDeletionMode mode);
 	virtual void delete_genre(const QString& genre);
+	virtual void rename_genre(const QString& genre, const QString& new_name);
 
 	virtual void insert_tracks(const MetaDataList& v_md);
 	virtual void import_files(const QStringList& files);
