@@ -207,10 +207,10 @@ void LibraryGenreView::dropEvent(QDropEvent *e)
 	genre = idx.data().toString();
 	v_md = cmd->getMetaData();
 
-	sp_log(Log::Debug) << "Will apply " << genre << " to " << v_md.size() << " tracks";
-
 	_m->tag_edit->set_metadata(v_md);
-	_m->tag_edit->add_genre_to_metadata(genre);
+	for(int i=0; i<v_md.size(); i++){
+		_m->tag_edit->add_genre(i, genre);
+	}
 	_m->tag_edit->commit();
 
 	emit sig_progress(tr("Updating genres"), 0);
@@ -218,7 +218,6 @@ void LibraryGenreView::dropEvent(QDropEvent *e)
 
 void LibraryGenreView::contextMenuEvent(QContextMenuEvent* e)
 {
-	//e->pos();
 	ContextMenu* context_menu = _m->context_menu;
 	context_menu->exec(e->globalPos());
 	QTreeView::contextMenuEvent(e);
@@ -252,7 +251,6 @@ void LibraryGenreView::progress_changed(int progress)
 
 void LibraryGenreView::rename_pressed()
 {
-
 	QList<QTreeWidgetItem*> selected_items = this->selectedItems();
 	if(selected_items.isEmpty()){
 		return;

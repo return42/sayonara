@@ -203,7 +203,13 @@ void LibraryView::merge_action_triggered()
 	QAction* action = dynamic_cast<QAction*>(sender());
 	int id = action->data().toInt();
 
-	emit sig_merge(id);
+	SP::Set<int> selected_rows = this->get_selected_items();
+	SP::Set<ID> ids;
+	for(auto it=selected_rows.begin(); it!=selected_rows.end(); it++){
+		ids.insert(_model->get_id_by_row(*it));
+	}
+
+	emit sig_merge(ids, id);
 }
 
 

@@ -23,6 +23,7 @@
 
 #include "AbstractLibrary.h"
 #include "Helper/Singleton.h"
+#include "Helper/Pimpl.h"
 
 class ReloadThread;
 class DatabaseConnector;
@@ -32,7 +33,7 @@ class LocalLibrary : public AbstractLibrary
 {
     Q_OBJECT
 	SINGLETON_QOBJECT(LocalLibrary)
-
+	PIMPL(LocalLibrary)
 
 signals:
 	void sig_no_library_path();
@@ -45,15 +46,15 @@ public slots:
 
 	// emits new tracks, very similar to psl_selected_albums_changed
 	void psl_disc_pressed(int);
-	void psl_track_rating_changed(int idx, int rating) override;
+	void change_track_rating(int idx, int rating) override;
 
 	void refresh_artist() override;
 	void refresh_albums() override;
 	void refresh_tracks() override;
 
 	void import_files(const QStringList& files) override;
-	void merge_artists(int target_artist_id);
-	void merge_albums(int target_album_id);
+	void merge_artists(const SP::Set<ArtistID>& artist_ids, ArtistID target_artist_id);
+	void merge_albums(const SP::Set<AlbumID>& albums_ids, AlbumID target_album_id);
 
 
 protected slots:
@@ -65,11 +66,7 @@ protected slots:
 	void indexing_finished();
 
 
-protected:
-
-	DatabaseConnector*	_db=nullptr;
-	ReloadThread* 		_reload_thread=nullptr;
-	FileSystemWatcher*	_fsw=nullptr;
+private:
 
 	void		get_all_artists(ArtistList& artists, Library::Sortings so) override;
 	void		get_all_artists_by_searchstring(Library::Filter filter, ArtistList& artists, Library::Sortings so) override;

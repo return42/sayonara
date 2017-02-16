@@ -94,65 +94,63 @@ int TagEdit::get_n_tracks() const
 	return _m->v_md.size();
 }
 
-void TagEdit::add_genre(const QString &genre)
+void TagEdit::add_genre(int idx, const QString &genre)
 {
-	int i=0;
-	for(MetaData& md : _m->v_md) {
-		bool already_there;
+	if(idx < 0 || idx >= _m->v_md.size()){
+		return;
+	}
 
-		already_there = std::any_of(md.genres.cbegin(), md.genres.cend(), [&genre](const QString& g)
-		{
-			return (g.compare(genre, Qt::CaseInsensitive) == 0);
-		});
+	MetaData& md = _m->v_md[idx];
+	bool already_there;
 
-		if(!already_there){
-			md.genres << genre;
-			_m->changed_md[i] = true;
-		}
+	already_there = std::any_of(md.genres.cbegin(), md.genres.cend(), [&genre](const QString& g)
+	{
+		return (g.compare(genre, Qt::CaseInsensitive) == 0);
+	});
 
-		i++;
+	if(!already_there){
+		md.genres << genre;
+		_m->changed_md[idx] = true;
 	}
 }
 
-void TagEdit::delete_genre(const QString& genre)
+void TagEdit::delete_genre(int idx, const QString& genre)
 {
-	int md_idx=0;
-	for(MetaData& md : _m->v_md)
-	{
-		for(int i=md.genres.size() - 1; i>=0; i--){
-			if(md.genres[i].compare(genre, Qt::CaseInsensitive) == 0){
-				md.genres.removeAt(i);
-				_m->changed_md[md_idx] = true;
-			}
-		}
+	if(idx < 0 || idx >= _m->v_md.size()){
+		return;
+	}
 
-		md_idx++;
+	MetaData& md = _m->v_md[idx];
+	for(int i=md.genres.size() - 1; i>=0; i--){
+		if(md.genres[i].compare(genre, Qt::CaseInsensitive) == 0){
+			md.genres.removeAt(i);
+			_m->changed_md[idx] = true;
+		}
 	}
 }
 
-void TagEdit::rename_genre(const QString &genre, const QString &new_name)
+void TagEdit::rename_genre(int idx, const QString &genre, const QString &new_name)
 {
-	int md_idx=0;
-	for(MetaData& md : _m->v_md)
-	{
-		bool contains=false;
-		for(int i=md.genres.size() - 1; i>=0; i--){
-			if(md.genres[i].compare(genre, Qt::CaseInsensitive) == 0){
-				md.genres.removeAt(i);
-				_m->changed_md[md_idx] = true;
-			}
+	if(idx < 0 || idx >= _m->v_md.size()){
+		return;
+	}
 
-			if(md.genres[i].compare(new_name, Qt::CaseInsensitive) == 0){
-				contains = true;
-			}
+	MetaData& md = _m->v_md[idx];
+	bool contains=false;
+	for(int i=md.genres.size() - 1; i>=0; i--){
+		if(md.genres[i].compare(genre, Qt::CaseInsensitive) == 0){
+			md.genres.removeAt(i);
+			_m->changed_md[idx] = true;
 		}
 
-		if(!contains){
-			md.genres << new_name;
-			_m->changed_md[md_idx] = true;
+		if(md.genres[i].compare(new_name, Qt::CaseInsensitive) == 0){
+			contains = true;
 		}
+	}
 
-		md_idx++;
+	if(!contains){
+		md.genres << new_name;
+		_m->changed_md[idx] = true;
 	}
 }
 

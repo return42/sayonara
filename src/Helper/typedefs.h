@@ -38,6 +38,7 @@ typedef QList<bool> BoolList;
 typedef qint32 ArtistID;
 typedef qint32 AlbumID;
 typedef qint32 TrackID;
+typedef qint32 ID;
 
 
 #endif

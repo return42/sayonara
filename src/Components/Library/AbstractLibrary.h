@@ -111,24 +111,25 @@ public slots:
 	// calls fetch_by_filter and emits
 	virtual void psl_filter_changed(const Library::Filter&, bool force=false);
 
-	/* write new rating to database */
-	virtual void psl_track_rating_changed(int idx, int rating);
-	virtual void psl_album_rating_changed(int idx, int rating);
 
 	/* a searchfilter has been entered, nothing is emitted */
 	virtual void fetch_by_filter(const Library::Filter& filter, bool force);
-
 
 	virtual void delete_tracks(const MetaDataList& v_md, Library::TrackDeletionMode mode)=0;
 	virtual void delete_tracks_by_idx(const SP::Set<int>& indexes, Library::TrackDeletionMode mode);
 	virtual void delete_all_tracks();
 	virtual void delete_current_tracks(Library::TrackDeletionMode mode);
-	virtual void delete_genre(const QString& genre);
-	virtual void rename_genre(const QString& genre, const QString& new_name);
 
 	virtual void insert_tracks(const MetaDataList& v_md);
 	virtual void import_files(const QStringList& files);
 
+	/* write new rating to database */
+	virtual void change_track_rating(int idx, int rating);
+	virtual void change_album_rating(int idx, int rating);
+
+	virtual void add_genre(const SP::Set<ID> ids, const QString& genre);
+	virtual void delete_genre(const QString& genre);
+	virtual void rename_genre(const QString& genre, const QString& new_name);
 
 	/* Check for current selected artist if out of date and
 	 * fetch new data */

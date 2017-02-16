@@ -112,6 +112,10 @@ public:
 	bool is_equal(const MetaData& md) const;
 	bool is_equal_deep(const MetaData& md) const;
 
+	bool has_genre(const QString& genre) const;
+	bool remove_genre(const QString& genre);
+	bool add_genre(const QString& genre);
+
 	QString to_string() const;
 
 	static QVariant toVariant(const MetaData& md);

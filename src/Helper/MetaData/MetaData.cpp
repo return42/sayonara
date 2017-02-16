@@ -218,6 +218,41 @@ bool MetaData::is_equal_deep(const MetaData& md) const
 			 );
 }
 
+bool MetaData::has_genre(const QString& genre) const
+{
+	for(const QString& g : genres){
+		if(g.compare(genre, Qt::CaseInsensitive) == 0){
+			return true;
+		}
+	}
+
+	return false;
+}
+
+bool MetaData::remove_genre(const QString& genre)
+{
+	bool has_genre = false;
+	for(int i=genres.size(); i>=0; i--){
+		const QString& g = genres[i];
+		if(g.compare(genre, Qt::CaseInsensitive) == 0){
+			genres.removeAt(i);
+			has_genre = true;
+		}
+	}
+
+	return has_genre;
+}
+
+void MetaData::add_genre(const QString& genre)
+{
+	if(has_genre(genre)){
+		return false;
+	}
+
+	genres << genre;
+	return true;
+}
+
 QString MetaData::filepath() const
 {
 	return _filepath;

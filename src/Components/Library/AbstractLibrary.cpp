@@ -558,13 +558,14 @@ void AbstractLibrary::_sl_sortorder_changed()
 }
 
 
-void AbstractLibrary::psl_track_rating_changed(int idx, int rating)
+void AbstractLibrary::change_track_rating(int idx, int rating)
 {
 	_vec_md[idx].rating = rating;
 	update_track(_vec_md[idx]);
 }
 
-void AbstractLibrary::psl_album_rating_changed(int idx, int rating)
+
+void AbstractLibrary::change_album_rating(int idx, int rating)
 {
 	_vec_albums[idx].rating = rating;
 	update_album(_vec_albums[idx]);
@@ -689,6 +690,21 @@ void AbstractLibrary::delete_tracks_by_idx(const SP::Set<int>& indexes, Library:
 	delete_tracks(v_md, mode);
 }
 
+void AbstractLibrary::add_genre(SP::Set<ID> ids, const QString& genre)
+{
+	MetaDataList v_md, v_md_org, v_md_new;
+	get_all_tracks(v_md, Library::Sortings());
+	for(MetaData& md : v_md){
+		if(ids.contains(md.id)){
+			md.add_genre(genre);
+			v_md_new << md;
+		}
+	}
+
+	update_tracks(v_md_new);
+	refresh();
+}
+
 
 void AbstractLibrary::delete_genre(const QString& genre)
 {
@@ -698,20 +714,13 @@ void AbstractLibrary::delete_genre(const QString& genre)
 
 	for(MetaData& md : v_md)
 	{
-		bool changed = false;
-		for(int i=md.genres.size(); i>=0; i--)
-		{
-			const QString& g = md.genres[i];
-			if(g.compare(genre, Qt::CaseInsensitive) == 0 && !changed){
-				changed = true;
-				md.genres.removeAt(i);
-				v_md_changed << md;
-			}
+		bool had_genre = md.remove_genre(genre);
+		if(had_genre){
+			v_md_changed << md;
 		}
 	}
 
 	update_tracks(v_md_changed);
-
 	refresh();
 }
 
@@ -723,20 +732,10 @@ void AbstractLibrary::rename_genre(const QString& genre, const QString& new_name
 
 	for(MetaData& md : v_md)
 	{
-		bool changed = false;
-		for(int i=md.genres.size(); i>=0; i--)
-		{
-			const QString& g = md.genres[i];
-
-			if(g.compare(genre, Qt::CaseInsensitive) == 0 && !changed){
-				changed = true;
-				md.genres.removeAt(i);
-				v_md_changed << md;
-			}
-		}
-
-		if(changed){
-			md.genres << new_name;
+		bool had_genre = md.remove_genre(genre);
+		had_genre |= md.add_genre(new_genre);
+		if(had_genre){
+			v_md_changed << md;
 		}
 	}
 
