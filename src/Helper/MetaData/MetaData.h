@@ -29,9 +29,11 @@
 #define METADATA_H_
 
 #include "Helper/MetaData/LibraryItem.h"
+#include "Helper/Set.h"
 
 #include <QMetaType>
 #include <QStringList>
+
 
 /**
  * @brief The RadioMode enum
@@ -44,6 +46,7 @@ enum class RadioMode : quint8
 	Soundcloud
 };
 
+class Genre;
 
 /**
  * @brief The MetaData class
@@ -69,7 +72,7 @@ public:
 	qint32 album_id;
 	QString album;          // if radio station: name of radio station
 
-	QStringList genres;
+	SP::Set<Genre> genres;
 	quint8 rating;
 	quint64 length_ms;
 	quint16 year;
@@ -112,9 +115,12 @@ public:
 	bool is_equal(const MetaData& md) const;
 	bool is_equal_deep(const MetaData& md) const;
 
-	bool has_genre(const QString& genre) const;
-	bool remove_genre(const QString& genre);
-	bool add_genre(const QString& genre);
+	bool has_genre(const Genre& genre) const;
+	bool remove_genre(const Genre& genre);
+	bool add_genre(const Genre& genre);
+	void set_genres(const QStringList& genres);
+	QString genres_to_string() const;
+	QStringList genres_to_list() const;
 
 	QString to_string() const;
 

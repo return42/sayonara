@@ -25,6 +25,7 @@
 #include "Helper/MetaData/Artist.h"
 #include "Helper/MetaData/Album.h"
 #include "Helper/MetaData/MetaDataList.h"
+#include "Helper/MetaData/Genre.h"
 #include "Helper/Settings/Settings.h"
 #include "Helper/Logger/Logger.h"
 #include "Helper/Language.h"
@@ -181,7 +182,7 @@ bool SoundcloudJsonParser::parse_track(Artist& artist, MetaData& md, QJsonObject
 
 	QString genre;
 	if(get_string("genre", object, genre)){
-		md.genres << genre;
+		md.genres << Genre(genre);
 	}
 
 	QString purchase_url;

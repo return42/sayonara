@@ -22,11 +22,13 @@
 #define LIBRARYGENREVIEW_H
 
 #include <QTreeWidget>
+#include "GUI/Helper/SayonaraWidget/SayonaraWidgetTemplate.h"
 #include "Helper/Pimpl.h"
 
 class MetaDataList;
 class TagEdit;
 class TreeDelegate;
+class QStringList;
 
 namespace SP
 {
@@ -38,7 +40,7 @@ namespace SP
 typedef SP::Tree<QString> GenreNode;
 
 class LibraryGenreView :
-		public QTreeWidget
+		public SayonaraWidgetTemplate<QTreeWidget>
 {
 	Q_OBJECT
 
@@ -53,6 +55,7 @@ public:
 
 	QSize sizeHint() const override;
 	void reload_genres();
+	void reload_genres(const QStringList& additional_genres);
 	int get_row_count() const;
 
 
@@ -72,11 +75,16 @@ private slots:
 
 	void progress_changed(int progress);
 
+	void new_pressed();
 	void rename_pressed();
 	void delete_pressed();
 
 	void metadata_changed(const MetaDataList& v_md_old, const MetaDataList& v_md_new);
 	void metadata_deleted(const MetaDataList& v_md_deleted);
+
+	void tree_action_toggled(bool b);
+
+	void language_changed();
 
 
 protected:

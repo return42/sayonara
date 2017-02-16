@@ -26,12 +26,11 @@
 #include "Helper/Library/Filter.h"
 #include "Helper/Settings/SayonaraClass.h"
 #include "Helper/typedefs.h"
-#include "Helper/SetFwd.h"
+#include "Helper/Pimpl.h"
 
 #include "Helper/MetaData/Artist.h"
 #include "Helper/MetaData/Album.h"
 #include "Helper/MetaData/MetaDataList.h"
-#include "Helper/Set.h"
 
 #include "Helper/Library/Sorting.h"
 
@@ -45,6 +44,7 @@ class PlaylistHandler;
 class AbstractLibrary : public QObject, protected SayonaraClass
 {
 	Q_OBJECT
+	PIMPL(AbstractLibrary)
 
 public:
 

@@ -22,6 +22,7 @@
 #include "Helper/FileHelper.h"
 #include "Helper/Tagging/Tagging.h"
 #include "Helper/MetaData/MetaData.h"
+#include "Helper/MetaData/Genre.h"
 #include "Helper/Logger/Logger.h"
 
 
@@ -74,7 +75,7 @@ void MTP_Track::read_metadata(const MetaData &md)
 
 	_track->filename = strndup(filename.toUtf8().data(), filename.size());
 
-	QString genre = md.genres.join(",");
+	QString genre = md.genres_to_string();
 	_track->genre = strndup(genre.toUtf8().data(), genre.size());
 
 	// _track->item_id

@@ -21,12 +21,16 @@
 #include "TagEdit.h"
 #include "MetaDataChangeNotifier.h"
 #include "Helper/Tagging/Tagging.h"
+#include "Helper/MetaData/Genre.h"
 #include "Helper/MetaData/MetaDataList.h"
 #include "Helper/globals.h"
+#include "Helper/Logger/Logger.h"
 #include "Database/LibraryDatabase.h"
 #include "Database/DatabaseConnector.h"
 
+#include <QHash>
 #include <algorithm>
+
 
 struct TagEdit::Private
 {
@@ -38,8 +42,32 @@ struct TagEdit::Private
 	QList<bool>				changed_md;	// indicates if metadata at idx was changed
 	QMap<int, QImage>		cover_map;
 
+	QHash<QString, ArtistID> artist_map;
+	QHash<QString, AlbumID> album_map;
+
 	LibraryDatabase*		ldb=nullptr;	// database of LocalLibrary
 	bool					notify;
+
+	ArtistID get_artist_id(const QString& artist_name)
+	{
+		if(artist_map.contains(artist_name)){
+			return artist_map[artist_name];
+		} else {
+			int id = ldb->getArtistID(artist_name);
+			artist_map[artist_name] = id;
+			return id;
+		}
+	}
+
+	AlbumID get_album_id(const QString& album_name){
+		if(album_map.contains(album_name)){
+			return album_map[album_name];
+		} else {
+			int id = ldb->getAlbumID(album_name);
+			album_map[album_name] = id;
+			return id;
+		}
+	}
 };
 
 TagEdit::TagEdit(QObject *parent) :
@@ -96,60 +124,41 @@ int TagEdit::get_n_tracks() const
 
 void TagEdit::add_genre(int idx, const QString &genre)
 {
-	if(idx < 0 || idx >= _m->v_md.size()){
+	if(!between(idx, _m->v_md)){
 		return;
 	}
 
 	MetaData& md = _m->v_md[idx];
-	bool already_there;
 
-	already_there = std::any_of(md.genres.cbegin(), md.genres.cend(), [&genre](const QString& g)
-	{
-		return (g.compare(genre, Qt::CaseInsensitive) == 0);
-	});
-
-	if(!already_there){
-		md.genres << genre;
+	if(md.add_genre(Genre(genre))){
 		_m->changed_md[idx] = true;
 	}
 }
 
 void TagEdit::delete_genre(int idx, const QString& genre)
 {
-	if(idx < 0 || idx >= _m->v_md.size()){
+	if(!between(idx, _m->v_md)){
 		return;
 	}
 
 	MetaData& md = _m->v_md[idx];
-	for(int i=md.genres.size() - 1; i>=0; i--){
-		if(md.genres[i].compare(genre, Qt::CaseInsensitive) == 0){
-			md.genres.removeAt(i);
-			_m->changed_md[idx] = true;
-		}
+	if(md.remove_genre(Genre(genre))){
+		_m->changed_md[idx] = true;
 	}
 }
 
-void TagEdit::rename_genre(int idx, const QString &genre, const QString &new_name)
+void TagEdit::rename_genre(int idx, const QString& genre, const QString& new_name)
 {
-	if(idx < 0 || idx >= _m->v_md.size()){
+	if(!between(idx, _m->v_md)){
 		return;
 	}
 
 	MetaData& md = _m->v_md[idx];
-	bool contains=false;
-	for(int i=md.genres.size() - 1; i>=0; i--){
-		if(md.genres[i].compare(genre, Qt::CaseInsensitive) == 0){
-			md.genres.removeAt(i);
-			_m->changed_md[idx] = true;
-		}
-
-		if(md.genres[i].compare(new_name, Qt::CaseInsensitive) == 0){
-			contains = true;
-		}
+	if(md.remove_genre(Genre(genre))){
+		_m->changed_md[idx] = true;
 	}
 
-	if(!contains){
-		md.genres << new_name;
+	if(md.add_genre(Genre(new_name))){
 		_m->changed_md[idx] = true;
 	}
 }
@@ -185,8 +194,16 @@ void TagEdit::check_for_new_artists_and_albums(QStringList& new_artists, QString
 	QStringList albums;
 
 	// first gather all artists and albums
-	for(const MetaData& md : _m->v_md){
-		if(md.is_extern) continue;
+	int idx=-1;
+	for(const MetaData& md : _m->v_md) {
+		idx++;
+		if(_m->changed_md[idx] == false){
+			continue;
+		}
+
+		if(md.is_extern) {
+			continue;
+		}
 
 		if(!artists.contains(md.artist)){
 			artists << md.artist;
@@ -201,16 +218,15 @@ void TagEdit::check_for_new_artists_and_albums(QStringList& new_artists, QString
 		}
 	}
 
-	for(const QString& album_name : albums){
-		int id = _m->ldb->getAlbumID(album_name);
-
+	for(const QString& album_name : albums) {
+		AlbumID id = _m->get_album_id(album_name);
 		if(id < 0) {
 			new_albums << album_name;
 		}
 	}
 
 	for(const QString& artist_name : artists){
-		int id = _m->ldb->getArtistID(artist_name);
+		ArtistID id = _m->get_artist_id(artist_name);
 		if(id < 0) {
 			new_artists << artist_name;
 		}
@@ -221,32 +237,40 @@ void TagEdit::check_for_new_artists_and_albums(QStringList& new_artists, QString
 void TagEdit::insert_new_artists(const QStringList& artists)
 {
 	for(const QString& a : artists){
-		_m->ldb->insertArtistIntoDatabase(a);
+		ArtistID id = _m->ldb->insertArtistIntoDatabase(a);
+		if(!_m->artist_map.contains(a)){
+			_m->artist_map[a] = id;
+		}
 	}
 }
 
 void TagEdit::insert_new_albums(const QStringList& albums)
 {
 	for(const QString& a : albums){
-		_m->ldb->insertAlbumIntoDatabase(a);
+		AlbumID id = _m->ldb->insertAlbumIntoDatabase(a);
+		if(!_m->album_map.contains(a)){
+			_m->album_map[a] = id;
+		}
 	}
 }
 
 void TagEdit::apply_artists_and_albums_to_md()
 {
-	for(int i=0; i<_m->v_md.size(); i++){
+	for(int i=0; i<_m->v_md.size(); i++) {
+
 		if( _m->changed_md[i] == false ) {
 			continue;
 		}
 
-		int artist_id, album_id, album_artist_id;
-		artist_id = _m->ldb->getArtistID(_m->v_md[i].artist);
-		album_id = _m->ldb->getAlbumID(_m->v_md[i].album);
-		album_artist_id = _m->ldb->getArtistID(_m->v_md[i].album_artist());
+		MetaData& md = _m->v_md[i];
 
-		_m->v_md[i].album_id = album_id;
-		_m->v_md[i].artist_id = artist_id;
-		_m->v_md[i].set_album_artist_id(album_artist_id);
+		ArtistID artist_id = _m->get_artist_id(md.artist);
+		AlbumID album_id = _m->get_album_id(md.album);
+		ArtistID album_artist_id = _m->get_artist_id(md.album_artist());
+
+		md.album_id = album_id;
+		md.artist_id = artist_id;
+		md.set_album_artist_id(album_artist_id);
 	}
 }
 
@@ -282,16 +306,24 @@ void TagEdit::run()
 	DatabaseConnector* db;
 	QStringList new_artists, new_albums;
 
+	sp_log(Log::Debug) << "Check for new albums";
 	check_for_new_artists_and_albums(new_artists, new_albums);
 
+	sp_log(Log::Debug) << "Insert new albums";
 	insert_new_albums(new_albums);
 	insert_new_artists(new_artists);
 
+	sp_log(Log::Debug) << "Apply albums and artists";
 	apply_artists_and_albums_to_md();
+
+	sp_log(Log::Debug) << "Have to change" <<
+						  std::count(_m->changed_md.begin(), _m->changed_md.end(), true)
+					   << " tracks";
 
 	int i=0;
 	int n_operations = _m->v_md.size() + _m->cover_map.size();
-	for(i=0; i<_m->v_md.size(); i++){
+	for(i=0; i<_m->v_md.size(); i++)
+	{
 		MetaData md = _m->v_md[i];
 		emit sig_progress( (i * 100) / n_operations);
 
@@ -300,7 +332,6 @@ void TagEdit::run()
 		}
 
 		bool success = Tagging::setMetaDataOfFile(md);
-
 		if( !success ) {
 			continue;
 		}
