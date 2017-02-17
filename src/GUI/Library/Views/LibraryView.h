@@ -67,7 +67,7 @@ signals:
 	void sig_import_files(const QStringList& files);
 	void sig_double_clicked(const SP::Set<int>& indexes);
 	void sig_sel_changed(const SP::Set<int>& indexes);
-	void sig_merge(int target_id);
+	void sig_merge(const SP::Set<ID>& ids, int target_id);
 
 
 public:

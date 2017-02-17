@@ -87,7 +87,13 @@ public:
 	 * @brief Add a genre to all (changed) metdata
 	 * @param genre the genre name
 	 */
-	void add_genre_to_metadata(const QString& genre);
+	void add_genre(int idx, const QString& genre);
+
+
+	void delete_genre(int idx, const QString& genre);
+
+	void rename_genre(int idx, const QString& genre, const QString& new_name);
+
 
 
 	/**

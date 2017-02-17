@@ -36,6 +36,7 @@
 #include "Helper/MetaData/MetaDataList.h"
 #include "Helper/MetaData/Album.h"
 #include "Helper/MetaData/Artist.h"
+#include "Helper/MetaData/Genre.h"
 #include "Helper/Language.h"
 #include "Database/DatabaseConnector.h"
 
@@ -218,14 +219,7 @@ void GUI_TagEdit::track_idx_changed()
 	}
 
 	if(!ui->cb_genre_all->isChecked()){
-		QStringList genres;
-		for(const QString& genre : md.genres){
-			if(!genre.trimmed().isEmpty()){
-				genres << genre;
-			}
-		}
-
-		ui->le_genre->setText( genres.join(", ") );
+		ui->le_genre->setText( md.genres_to_list().join(", ") );
 	}
 
 	if(!ui->cb_year_all->isChecked()){
@@ -436,7 +430,7 @@ void GUI_TagEdit::write_changes(int idx)
 	md.artist = ui->le_artist->text();
 	md.album = ui->le_album->text();
 	md.set_album_artist(ui->le_album_artist->text());
-	md.genres = ui->le_genre->text().split(", ");
+	md.set_genres(ui->le_genre->text().split(", "));
 	md.discnumber = ui->sb_discnumber->value();
 	md.year = ui->sb_year->value();
 	md.track_num = ui->sb_track_num->value();
@@ -476,7 +470,11 @@ void GUI_TagEdit::commit()
 			md.set_album_artist(ui->le_album_artist->text());
 		}
 		if( ui->cb_genre_all->isChecked()){
-			md.genres = ui->le_genre->text().split(", ");
+			QStringList genres = ui->le_genre->text().split(", ");
+			md.genres.clear();
+			for(const QString& genre : genres){
+				md.genres << Genre(genre);
+			}
 		}
 
 		if( ui->cb_discnumber_all->isChecked() ){

@@ -22,10 +22,13 @@
 #define LIBRARYGENREVIEW_H
 
 #include <QTreeWidget>
+#include "GUI/Helper/SayonaraWidget/SayonaraWidgetTemplate.h"
+#include "Helper/Pimpl.h"
 
 class MetaDataList;
 class TagEdit;
 class TreeDelegate;
+class QStringList;
 
 namespace SP
 {
@@ -36,12 +39,15 @@ namespace SP
 
 typedef SP::Tree<QString> GenreNode;
 
-class LibraryGenreView : public QTreeWidget
+class LibraryGenreView :
+		public SayonaraWidgetTemplate<QTreeWidget>
 {
 	Q_OBJECT
 
 signals:
 	void sig_progress(const QString& message, int progress);
+	void sig_rename(const QString& genre, const QString& new_name);
+	void sig_delete(const QString& genre);
 
 public:
 	explicit LibraryGenreView(QWidget* parent=nullptr);
@@ -49,21 +55,18 @@ public:
 
 	QSize sizeHint() const override;
 	void reload_genres();
+	void reload_genres(const QStringList& additional_genres);
 	int get_row_count() const;
 
 
 private:
-
-	GenreNode*				_genres=nullptr;
-	TreeDelegate*			_delegate=nullptr;
-	TagEdit*				_tag_edit=nullptr;
-	QStringList				_expanded_items;
-	bool					_filled;
+	PIMPL(LibraryGenreView)
 
 private:
 	void fill_list(const QStringList& genres);
 	void init_data(const QStringList& genres);
 	void insert_genres(QTreeWidgetItem* parent_item, GenreNode* node);
+	QTreeWidgetItem* find_genre(const QString& genre);
 
 private slots:
 	void update_genre_tags_finished();
@@ -72,8 +75,16 @@ private slots:
 
 	void progress_changed(int progress);
 
+	void new_pressed();
+	void rename_pressed();
+	void delete_pressed();
+
 	void metadata_changed(const MetaDataList& v_md_old, const MetaDataList& v_md_new);
 	void metadata_deleted(const MetaDataList& v_md_deleted);
+
+	void tree_action_toggled(bool b);
+
+	void language_changed();
 
 
 protected:
@@ -82,6 +93,7 @@ protected:
 	void dragMoveEvent(QDragMoveEvent* e) override;
 	void dragLeaveEvent(QDragLeaveEvent* e) override;
 	void dropEvent(QDropEvent* e) override;
+	void contextMenuEvent(QContextMenuEvent* e) override;
 };
 
 #endif // LIBRARYGENREVIEW_H

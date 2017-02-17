@@ -164,7 +164,7 @@ bool SoundcloudData::db_fetch_tracks(SayonaraQuery& q, MetaDataList& result)
 		data.artist_id = q.value(8).toInt();
 		data.album = 	 q.value(9).toString().trimmed();
 		data.artist = 	 q.value(10).toString().trimmed();
-		data.genres =	 q.value(11).toString().split(",");
+		data.set_genres(q.value(11).toString().split(","));
 		data.filesize =  q.value(12).toInt();
 		data.discnumber = q.value(13).toInt();
 		data.add_custom_field("purchase_url", tr("Purchase Url"), q.value(14).toString());
@@ -433,7 +433,7 @@ bool SoundcloudData::updateTrack(const MetaData& md)
 	q.bindValue(":title", md.title);
 	q.bindValue(":track", md.track_num);
 	q.bindValue(":bitrate", md.bitrate);
-	q.bindValue(":genre", md.genres.join(","));
+	q.bindValue(":genre", md.genres_to_list().join(","));
 	q.bindValue(":filesize", md.filesize);
 	q.bindValue(":discnumber", md.discnumber);
 	q.bindValue(":cissearch", md.title.toLower());
@@ -481,7 +481,7 @@ bool SoundcloudData::insertTrackIntoDatabase(const MetaData &md, int artist_id, 
 	q.bindValue(":title", md.title);
 	q.bindValue(":track", md.track_num);
 	q.bindValue(":bitrate", md.bitrate);
-	q.bindValue(":genre", md.genres.join(","));
+	q.bindValue(":genre", md.genres_to_list().join(","));
 	q.bindValue(":filesize", md.filesize);
 	q.bindValue(":discnumber", md.discnumber);
 	q.bindValue(":cissearch", md.title.toLower());
