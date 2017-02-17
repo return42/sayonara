@@ -30,26 +30,30 @@ namespace SP
 	 * @brief The Tree class
 	 * @ingroup Helper
 	 */
-	class Tree final
+	class Tree
 	{
 		public:
-		Tree* parent=nullptr;
 
-		QList<Tree*> children;
+		Tree* parent=nullptr;
 		T data;
+		QList<Tree*> children;
+
+		Tree()
+		{
+			parent = nullptr;
+		}
 
 		/**
-				 * @brief Tree constructor
-				 * @param data_ set the root element
-				 */
-		Tree(const T& data_){
+		 * @brief Tree constructor
+		 * @param data_ set the root element
+		 */
+		Tree(const T& data_) : Tree()
+		{
 			data = data_;
-			parent = nullptr;
-			children.clear();
 		}
 
 		~Tree()
-{
+		{
 			for(Tree* child : children){
 				delete child; child = nullptr;
 			}
@@ -59,10 +63,10 @@ namespace SP
 		}
 
 		/**
-				 * copy the entire tree. Has to be deleted afterwards
-				 */
-		Tree* copy()
-{
+		 * copy the entire tree. Has to be deleted afterwards
+		 */
+		Tree* copy() 
+		{
 			Tree* node = new Tree(this->data);
 
 			for(Tree* child : children){
@@ -72,19 +76,26 @@ namespace SP
 			return node;
 		}
 
-
+		
 		/**
 		 * @brief adds a child to the given node
 		 * @param node the parent node
 		 * @return pointer to inserted node
 		 */
-		Tree* add_child(Tree* node){
+		Tree* add_child(Tree* node)
+		{
 			node->parent = this;
-			this->children << node;
 
+			this->children << node;
 			this->sort(false);
 
 			return node;
+		}
+
+		Tree* add_child(const T& data)
+		{
+			Tree* node = new Tree(data);
+			return add_child(node);
 		}
 
 
@@ -93,7 +104,8 @@ namespace SP
 		 * @param deleted_node node to remove
 		 * @return pointer to deleted_node
 		 */
-		Tree* remove_child(Tree* deleted_node){
+		Tree* remove_child(Tree* deleted_node)
+		{
 			deleted_node->parent = nullptr;
 
 			for(int i=0; i < children.size(); i++){
@@ -113,7 +125,8 @@ namespace SP
 		 * @brief move current node to a new parent
 		 * @param new_parent new parent of node
 		 */
-		void move(Tree* new_parent){
+		void move(Tree* new_parent)
+		{
 			parent->remove_child(data);
 			new_parent->add_child(this);
 		}
@@ -122,7 +135,8 @@ namespace SP
 		 * @brief sort children of all nodes in ascending way according to their data
 		 * @param recursive if set to true, do it for all subnodes, too
 		 */
-		void sort(bool recursive){
+		void sort(bool recursive)
+		{
 			int i;
 
 			if(children.isEmpty()){

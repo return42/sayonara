@@ -23,6 +23,7 @@
 #include "Helper/Logger/Logger.h"
 #include "Helper/MetaData/MetaDataList.h"
 #include "Helper/Playlist/CustomPlaylist.h"
+#include "Helper/MetaData/Genre.h"
 
 DatabasePlaylist::DatabasePlaylist(const QSqlDatabase& db, quint8 db_id) :
 	DatabaseModule(db, db_id) {}
@@ -215,7 +216,10 @@ bool DatabasePlaylist::getPlaylistById(CustomPlaylist& pl)
 			data.artist_id = q.value(8).toInt();
 			data.album = 	 q.value(9).toString().trimmed();
 			data.artist = 	 q.value(10).toString().trimmed();
-			data.genres =	 q.value(11).toString().split(",");
+			QStringList genres = q.value(11).toString().split(",");
+			for(const QString& genre : genres){
+				data.genres << Genre(genre);
+			}
 			data.filesize =  q.value(12).toInt();
 			data.discnumber = q.value(13).toInt();
 			data.rating = q.value(14).toInt();

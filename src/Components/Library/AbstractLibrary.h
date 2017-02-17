@@ -26,12 +26,11 @@
 #include "Helper/Library/Filter.h"
 #include "Helper/Settings/SayonaraClass.h"
 #include "Helper/typedefs.h"
-#include "Helper/SetFwd.h"
+#include "Helper/Pimpl.h"
 
 #include "Helper/MetaData/Artist.h"
 #include "Helper/MetaData/Album.h"
 #include "Helper/MetaData/MetaDataList.h"
-#include "Helper/Set.h"
 
 #include "Helper/Library/Sorting.h"
 
@@ -45,6 +44,7 @@ class PlaylistHandler;
 class AbstractLibrary : public QObject, protected SayonaraClass
 {
 	Q_OBJECT
+	PIMPL(AbstractLibrary)
 
 public:
 
@@ -91,7 +91,6 @@ public slots:
 
 
 	// Those two functions are identical (1) calls (2)
-//	virtual void psl_prepare_track_for_playlist(int idx, bool new_playlist);
 	virtual void psl_prepare_tracks_for_playlist(bool new_playlist);
 	virtual void psl_prepare_tracks_for_playlist(const SP::Set<int>& indexes, bool new_playlist);
 	virtual void psl_prepare_tracks_for_playlist(const QStringList& file_paths, bool new_playlist);
@@ -106,30 +105,17 @@ public slots:
 	virtual void psl_append_all_tracks();
 	virtual void psl_append_tracks(const SP::Set<int>& idx_lst);
 
-
-	/* triggered from outside, when something important has been changed*/
-//	virtual void psl_metadata_changed(const MetaData&);
-
-	/* triggered from outside, when playing time*/
-//	virtual void psl_dur_changed(const MetaData&);
-
-
 	/* triggered by tagedit */
 	virtual void psl_metadata_id3_changed(const MetaDataList&, const MetaDataList&);
 
 	// calls fetch_by_filter and emits
 	virtual void psl_filter_changed(const Library::Filter&, bool force=false);
 
-	/* write new rating to database */
-	virtual void psl_track_rating_changed(int idx, int rating);
-	virtual void psl_album_rating_changed(int idx, int rating);
 
 	/* a searchfilter has been entered, nothing is emitted */
 	virtual void fetch_by_filter(const Library::Filter& filter, bool force);
 
-
 	virtual void delete_tracks(const MetaDataList& v_md, Library::TrackDeletionMode mode)=0;
-
 	virtual void delete_tracks_by_idx(const SP::Set<int>& indexes, Library::TrackDeletionMode mode);
 	virtual void delete_all_tracks();
 	virtual void delete_current_tracks(Library::TrackDeletionMode mode);
@@ -137,6 +123,13 @@ public slots:
 	virtual void insert_tracks(const MetaDataList& v_md);
 	virtual void import_files(const QStringList& files);
 
+	/* write new rating to database */
+	virtual void change_track_rating(int idx, int rating);
+	virtual void change_album_rating(int idx, int rating);
+
+	virtual void add_genre(const SP::Set<ID> ids, const QString& genre);
+	virtual void delete_genre(const QString& genre);
+	virtual void rename_genre(const QString& genre, const QString& new_name);
 
 	/* Check for current selected artist if out of date and
 	 * fetch new data */
@@ -188,6 +181,7 @@ protected:
 	virtual void		get_artist_by_id(int artist_id, Artist& artist)=0;
 
 	virtual void		update_track(const MetaData& md)=0;
+	virtual void		update_tracks(const MetaDataList& v_md);
 	virtual void		update_album(const Album& album)=0;
 
 

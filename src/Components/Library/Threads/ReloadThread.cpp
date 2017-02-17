@@ -34,6 +34,7 @@
 #include "Helper/FileHelper.h"
 #include "Helper/DirectoryReader/DirectoryReader.h"
 #include "Helper/MetaData/MetaDataList.h"
+#include "Helper/MetaData/Genre.h"
 #include "Helper/Settings/Settings.h"
 #include "Helper/Logger/Logger.h"
 #include "Helper/Language.h"
@@ -69,21 +70,23 @@ ReloadThread::~ReloadThread() {}
 
 bool ReloadThread::compare_md(const MetaData& md1, const MetaData& md2)
 {
-	QStringList genres1 = md1.genres;
-	QStringList genres2 = md2.genres;
+	if(md1.genres.count() != md2.genres.count()){
+		return false;
+	}
 
-	genres1.removeAll("");
-	genres1.removeDuplicates();
-
-	genres2.removeAll("");
-	genres2.removeDuplicates();
+	auto it1 = md1.genres.begin();
+	auto it2 = md2.genres.begin();
+	for(int i=0; i<md1.genres.count(); i++, it1++, it2++){
+		if(!it1->is_equal(*it2)){
+			return false;
+		}
+	}
 
 	return (md1.title == md2.title &&
 			md1.album == md2.album &&
 			md1.artist == md2.artist &&
 			md1.year == md2.year &&
 			md1.rating == md2.rating &&
-			genres1 == genres2 &&
 			md1.discnumber == md2.discnumber &&
 			md1.track_num == md2.track_num &&
 			md1.album_artist() == md2.album_artist() &&

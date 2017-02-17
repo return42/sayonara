@@ -26,6 +26,7 @@
 #include "Helper/MetaData/MetaDataList.h"
 #include "Helper/Settings/Settings.h"
 #include "Helper/MetaData/Album.h"
+#include "Helper/MetaData/Genre.h"
 
 #include "Components/Covers/CoverLocation.h"
 #include "Database/DatabaseHandler.h"
@@ -101,14 +102,7 @@ MetaDataInfo::MetaDataInfo(const MetaDataList& v_md) :
 		}
 
 		// genre
-		for(const QString& genre : md.genres){
-			QString first_upper = Helper::cvt_str_to_first_upper(genre).trimmed();
-
-			if(first_upper.size() == 0) continue;
-			if(genres.contains( first_upper ) ) continue;
-
-			genres.append(first_upper.trimmed());
-		}
+		genres = md.genres_to_list();
 
 		// paths
 		if(!Helper::File::is_www(md.filepath())){

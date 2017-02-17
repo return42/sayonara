@@ -106,9 +106,8 @@ void ContextMenu::skin_changed()
 
 void ContextMenu::register_action(QAction *action){
 	_actions << action;
-
-	clear();
-	addActions(_actions);
+	addSeparator();
+	addAction(action);
 }
 
 void ContextMenu::show_actions(ContextMenuEntries entries){

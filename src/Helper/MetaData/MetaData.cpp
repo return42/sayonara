@@ -18,6 +18,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "Helper/MetaData/Genre.h"
 #include "Helper/MetaData/MetaData.h"
 #include "Helper/Logger/Logger.h"
 
@@ -216,6 +217,62 @@ bool MetaData::is_equal_deep(const MetaData& md) const
 			 ( pl_playing == md.pl_playing ) &&
 			 ( is_disabled == md.is_disabled )
 			 );
+}
+
+bool MetaData::has_genre(const Genre& genre) const
+{
+	for(const Genre& g : genres){
+		if(g == genre){
+			return true;
+		}
+	}
+
+	return false;
+}
+
+bool MetaData::remove_genre(const Genre& genre)
+{
+	bool has_genre = false;
+	auto it = genres.find(genre);
+	if(it != genres.end()){
+		has_genre = true;
+		genres.erase(it);
+	}
+
+	return has_genre;
+}
+
+bool MetaData::add_genre(const Genre& genre)
+{
+	if(has_genre(genre)){
+		return false;
+	}
+
+	genres << genre;
+	return true;
+}
+
+void MetaData::set_genres(const QStringList& new_genres)
+{
+	this->genres.clear();
+	for(const QString& genre : new_genres){
+		this->genres << Genre(genre);
+	}
+}
+
+QString MetaData::genres_to_string() const
+{
+	return genres_to_list().join(",");
+}
+
+QStringList MetaData::genres_to_list() const
+{
+	QStringList new_genres;
+	for(const Genre& genre : genres){
+		new_genres << genre.name();
+	}
+
+	return new_genres;
 }
 
 QString MetaData::filepath() const

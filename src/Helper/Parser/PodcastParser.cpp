@@ -23,6 +23,7 @@
 #include "Helper/MetaData/MetaDataList.h"
 #include "Helper/Parser/PodcastParser.h"
 #include "Helper/MetaData/MetaData.h"
+#include "Helper/MetaData/Genre.h"
 
 #include <algorithm>
 
@@ -131,9 +132,9 @@ bool  PodcastParser::parse_podcast_xml_file_content(const QString& content, Meta
 
             MetaData md;
 			int n_chapters=0;
-            md.genres.push_back("Podcasts");
-            md.genres.append(categories);
 
+			md.set_genres(categories);
+			md.genres << Genre("Podcasts");
             md.album = QString::fromUtf8(album.toStdString().c_str());
             md.artist = QString::fromUtf8(author.toStdString().c_str());
 
