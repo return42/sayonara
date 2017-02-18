@@ -56,6 +56,16 @@ CoverLookup::CoverLookup(QObject* parent, int n_covers) :
 
 CoverLookup::~CoverLookup() {}
 
+void CoverLookup::set_identifier(const QString& id)
+{
+	_id = id;
+}
+
+QString CoverLookup::identifier() const
+{
+	return _id;
+}
+
 void CoverLookup::start_new_thread(const CoverLocation& cl )
 {
 	// TODO:
@@ -94,13 +104,15 @@ bool CoverLookup::fetch_cover(const CoverLocation& cl)
 	if( QFile::exists(cl.cover_path()) && _n_covers == 1 )
 	{
 		emit sig_cover_found(cl.cover_path());
+		emit sig_finished(true);
 		return true;
 	}
 
 	// For one cover, we also can use the local cover path
 	if(!cl.local_paths().isEmpty() && _n_covers == 1)
-	{
+	{	
 		emit sig_cover_found(cl.local_path(0));
+		emit sig_finished(true);
 		return true;
 	}
 

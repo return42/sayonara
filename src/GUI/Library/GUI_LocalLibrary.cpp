@@ -552,7 +552,6 @@ void GUI_LocalLibrary::init_album_cover_view()
 }
 
 
-#include "Helper/Logger/Logger.h"
 void GUI_LocalLibrary::lib_fill_albums(const AlbumList& albums)
 {
 	GUI_AbstractLibrary::lib_fill_albums(albums);
@@ -560,18 +559,7 @@ void GUI_LocalLibrary::lib_fill_albums(const AlbumList& albums)
 		return;
 	}
 
-	QList<CoverLocation> covers;
-
-	for(const Album& album : albums){
-		// TODO: Maybe we should try some Pool of covers
-		// TODO: Do not look inside the CoverLocation class every time
-		// TODO: Make covers downloadable
-		// TODO: Adjust size of that thing
-		CoverLocation cl = CoverLocation::get_cover_location(album);
-		covers << cl;
-	}
-
-	_acm->set_data(albums, covers);
+	_acm->set_data(albums);
 	_acv->resizeRowsToContents();
 	_acv->resizeColumnsToContents();
 }

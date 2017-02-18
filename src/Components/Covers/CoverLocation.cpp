@@ -147,10 +147,7 @@ CoverLocation CoverLocation::get_cover_location(const QString& album_name, const
 // TODO: Make this class nicer: e.g. valid(), isInvalidLocation()
 CoverLocation CoverLocation::get_cover_location(const Album& album)
 {
-	int n_artists;
-
-	n_artists = album.artists.size();
-
+	int n_artists = album.artists.size();
 
 	CoverLocation cl;
 
@@ -172,7 +169,6 @@ CoverLocation CoverLocation::get_cover_location(const Album& album)
 	}
 
 
-
 	if(!cl.valid() || !QFile::exists(cl.cover_path()))
 	{
 		// TODO: Only look in the database once for covers
@@ -181,6 +177,7 @@ CoverLocation CoverLocation::get_cover_location(const Album& album)
 		//return cl;
 
 		LibraryDatabase* db = DB::getInstance(album.db_id);
+
 		MetaDataList v_md;
 		db->getAllTracksByAlbum(album.id, v_md);
 		for(const MetaData& md : v_md){

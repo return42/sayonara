@@ -16,7 +16,7 @@ public:
 	explicit AlbumCoverModel(QObject* parent=nullptr);
 	virtual ~AlbumCoverModel();
 
-	void set_data(const AlbumList& albums, const QList<CoverLocation>& cover_locations);
+	void set_data(const AlbumList& albums);
 
 	// QAbstractItemModel interface
 public:
@@ -38,6 +38,10 @@ public:
 
 public slots:
 	void set_zoom(int zoom);
+
+private slots:
+	void cover_found(const QString& filepath);
+	void clu_finished(bool b);
 };
 
 #endif // ALBUMCOVERMODEL_H

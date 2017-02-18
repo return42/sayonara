@@ -128,6 +128,7 @@ bool SettingRegistry::init()
 	register_setting( Set::Lib_AutoUpdate, "lib_auto_update", false);
 	register_setting( Set::Lib_DateFilters, "lib_date_filters", get_date_filters());
 	register_setting( Set::Lib_ShowAlbumArtists, "lib_show_album_artists", false);
+	register_setting( Set::Lib_CoversGathered, "lib_covers_gathered", false);
 
 
 #ifdef Q_OS_WIN

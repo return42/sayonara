@@ -85,6 +85,10 @@ public:
 	CoverLookup(QObject* parent=nullptr, int n_covers=1);
 	~CoverLookup();
 
+	void set_identifier(const QString& id);
+	QString identifier() const;
+
+
 	/**
 	 * @brief fetches cover for a CoverLocation.
 	 *   1. Looks up CoverLocation::cover_path
@@ -111,7 +115,8 @@ public:
 
 private:
 
-	int _n_covers;
+	int		_n_covers;
+	QString _id;
 
 	/**
 	 * @brief Starts a new CoverFetchThread

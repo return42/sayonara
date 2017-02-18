@@ -1,24 +1,31 @@
 #include "AlbumCoverModel.h"
 #include "Components/Covers/CoverLocation.h"
+#include "Components/Covers/CoverLookup.h"
 #include "Helper/MetaData/Album.h"
+#include "Helper/Helper.h"
 
 #include <QPixmap>
 #include <QVector>
 
 
 struct AlbumCoverModel::Private
-{
-	QList<CoverLocation> cover_locations;
+{	
+	bool blocked;
 	AlbumList albums;
 	QHash<QString, QPixmap> pixmaps;
+	QHash<QString, int> hash_album_map;
+	QMap<CoverLookup*, Album> clu_buffer;
 
 	int size;
 	int columns;
+	int n_threads_running;
 
 	Private()
 	{
+		blocked = false;
 		size = 100;
 		columns = 10;
+		n_threads_running = 0;
 	}
 };
 
@@ -102,36 +109,44 @@ QVariant AlbumCoverModel::data(const QModelIndex& index, int role) const
 	int col = index.column();
 
 	int n_columns = columnCount();
-
-	int idx = (row * n_columns) + col;
-	if(idx >= _m->cover_locations.size()){
+	int lin_idx = (row * n_columns) + col;
+	if(lin_idx >= _m->albums.size()){
 		return QVariant();
 	}
+
 
 	switch(role)
 	{
 		case Qt::DisplayRole:
-			return _m->albums[idx].name;
+			return _m->albums[lin_idx].name;
 
 		case Qt::TextAlignmentRole:
 			return Qt::AlignHCenter;
 
 		case Qt::DecorationRole:
 			{
+				const Album& album = _m->albums[lin_idx];
+				QString hash = get_hash(album);
 				QPixmap p;
-				QString hash = get_hash(_m->albums[idx]);
+				if(!_m->pixmaps.contains(hash)){
 
-				if( !_m->pixmaps.contains(hash) )
-				{
-					const CoverLocation& cl = _m->cover_locations[idx];
-					QString preferred = cl.preferred_path();
-					p = QPixmap(preferred);
-					if(cl.valid() && !CoverLocation::isInvalidLocation(cl.preferred_path())){
-						_m->pixmaps[hash] = p;
+					p = QPixmap(CoverLocation().preferred_path());
+					CoverLookup* clu = new CoverLookup(nullptr, 1);
+					clu->set_identifier(hash);
+					connect(clu, &CoverLookup::sig_cover_found, this, &AlbumCoverModel::cover_found);
+					connect(clu, &CoverLookup::sig_finished, this, &AlbumCoverModel::clu_finished);
+
+					if(_m->n_threads_running < 20){
+						clu->fetch_album_cover(album);
+						_m->n_threads_running++;
+					}
+
+					else{
+						_m->clu_buffer.insert(clu, album);
 					}
 				}
 
-				else {
+				else{
 					p = _m->pixmaps[hash];
 				}
 
@@ -149,7 +164,7 @@ QVariant AlbumCoverModel::data(const QModelIndex& index, int role) const
 }
 
 
-void AlbumCoverModel::set_data(const AlbumList& albums, const QList<CoverLocation>& cover_locations)
+void AlbumCoverModel::set_data(const AlbumList& albums)
 {
 	beginRemoveRows(QModelIndex(), 0, rowCount());
 	endRemoveRows();
@@ -157,8 +172,11 @@ void AlbumCoverModel::set_data(const AlbumList& albums, const QList<CoverLocatio
 	beginRemoveColumns(QModelIndex(), 0, columnCount());
 	endRemoveColumns();
 
-	_m->cover_locations = cover_locations;
 	_m->albums = albums;
+	for(int i=0; i<albums.size(); i++){
+		QString hash = get_hash(_m->albums[i]);
+		_m->hash_album_map[hash] = i;
+	}
 
 	beginInsertRows(QModelIndex(), 0, rowCount());
 	endInsertRows();
@@ -255,4 +273,42 @@ CoverLocation AlbumCoverModel::get_cover(const SP::Set<int>& indexes) const
 	// TODO: Implement me
 	Q_UNUSED(indexes)
 	return CoverLocation::getInvalidLocation();
+}
+
+
+void AlbumCoverModel::cover_found(const QString& filepath)
+{
+	CoverLookup* clu = dynamic_cast<CoverLookup*>(sender());
+	QString hash = clu->identifier();
+	int idx = _m->hash_album_map[hash];
+	int row = idx / columnCount();
+	int col = idx % columnCount();
+	QModelIndex midx = index(row, col);
+
+	QPixmap p(filepath);
+	_m->pixmaps[hash] = p;
+
+	emit dataChanged(midx, midx);
+}
+
+void AlbumCoverModel::clu_finished(bool b)
+{
+	CoverLookup* clu = dynamic_cast<CoverLookup*>(sender());
+	while(_m->blocked){
+		Helper::sleep_ms(10);
+	}
+
+	_m->blocked = true;
+	_m->n_threads_running--;
+
+	if(!_m->clu_buffer.isEmpty()){
+		CoverLookup* clu_key = _m->clu_buffer.firstKey();
+		Album album = _m->clu_buffer.take(clu_key);
+		clu_key->fetch_album_cover(album);
+		_m->n_threads_running++;
+	}
+
+	_m->blocked = false;
+
+	clu->deleteLater();
 }
