@@ -467,7 +467,7 @@ void GUI_AbstractLibrary::album_rating_changed(int rating)
 
 	int first = indexes.first();
 
-	_library->psl_album_rating_changed(first, rating);
+	_library->change_album_rating(first, rating);
 }
 
 
@@ -480,7 +480,7 @@ void GUI_AbstractLibrary::title_rating_changed(int rating)
 
 	int first = indexes.first();
 
-	_library->psl_track_rating_changed(first, rating);
+	_library->change_track_rating(first, rating);
 }
 
 void GUI_AbstractLibrary::append()

@@ -111,6 +111,11 @@ namespace SP {
 			}
 		}
 
+		SP::Set<T>& operator<<(const T& t){
+			this->insert(t);
+			return *this;
+		}
+
 		int count() const
 		{
 			return static_cast<int>(this->size());
