@@ -30,39 +30,19 @@
 #define COVERLOOKUP_H_
 
 #include <QObject>
+#include "AbstractCoverLookup.h"
 
 #include <memory>
 
 class Album;
 class CoverLocation;
-/**
- * @brief The CoverLookupInterface class
- * @ingroup Covers
- */
-class CoverLookupInterface :
-		public QObject
-{
-	Q_OBJECT
-
-signals:
-	void sig_cover_found(const QString& file_path);
-	void sig_finished(bool success);
-
-public slots:
-	virtual void stop()=0;
-
-public:
-	explicit CoverLookupInterface(QObject* parent=nullptr);
-	virtual ~CoverLookupInterface();
-};
-
 
 /**
  * @brief The CoverLookup class
  * @ingroup Covers
  */
 class CoverLookup :
-		public CoverLookupInterface
+		public AbstractCoverLookup
 {
 	Q_OBJECT
 

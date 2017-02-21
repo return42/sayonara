@@ -66,7 +66,7 @@ public:
 
 	Qt::ItemFlags flags(const QModelIndex &index) const override;
 
-	bool setData(const QModelIndex &index, const QVariant &value, int role=Qt::DisplayRole) override;
+	bool set_cover(int row, int column, const QString& cover);
 	void reset();
 
 	bool insertRows(int position, int rows, const QModelIndex &index=QModelIndex()) override;

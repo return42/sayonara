@@ -51,42 +51,55 @@ void AlbumCoverFetchThread::run()
 			break;
 		}
 
-		std::lock_guard<std::mutex> guard(_m->mutex);
+		for(int i=0; i<5; i++){
+			if(_m->hashes.isEmpty()){
+				break;
+			}
 
-		_m->current_hash = _m->hashes.takeFirst();
-		_m->current_cl = _m->cover_locations.takeFirst();
+			if(i > 0) {
+				Helper::sleep_ms(100);
+			}
 
-		emit sig_next(_m->current_hash, _m->current_cl);
+			try{
+				std::lock_guard<std::mutex> guard(_m->mutex);
+				_m->current_hash = _m->hashes.takeFirst();
+				_m->current_cl = _m->cover_locations.takeFirst();
+
+				emit sig_next(_m->current_hash, _m->current_cl);
+
+			} catch(std::exception* e) {
+				sp_log(Log::Warning, this) << "1 Exception" << e->what();
+				Helper::sleep_ms(10);
+			}
+		}
 	}
 }
 
 
 void AlbumCoverFetchThread::add_data(const QString& hash, const CoverLocation& cl)
 {
+
 	if(!_m->hashes.contains(hash)) {
 
-		std::lock_guard<std::mutex> guard(_m->mutex);
+		bool done = false;
+		while(!done){
+			try{
+				std::lock_guard<std::mutex> guard(_m->mutex);
+				_m->hashes.push_front(hash);
+				_m->cover_locations.push_front(cl);
+				done = true;
 
-		_m->hashes.push_front(hash);
-		_m->cover_locations.push_front(cl);
+			} catch(std::exception* e) {
+				sp_log(Log::Warning, this) << "2 Exception" << e->what();
+				Helper::sleep_ms(10);
+			}
+		}
 	}
 }
 
 void AlbumCoverFetchThread::done(bool success)
 {
 	Q_UNUSED(success)
-	/*if(!success) {
-
-		std::lock_guard<std::mutex> guard(_m->mutex);
-
-		_m->current_cl.remove_first_search_url();
-
-		if( _m->current_cl.has_search_urls()) 
-		{
-			_m->hashes.push_front(_m->current_hash);
-			_m->cover_locations.push_front(_m->current_cl);
-		}
-	}*/
 
 	_m->goon = true;
 }

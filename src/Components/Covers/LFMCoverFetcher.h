@@ -1,10 +1,10 @@
 #ifndef LFMCOVERFETCHER_H
 #define LFMCOVERFETCHER_H
 
-#include "AbstractCoverFetcher.h"
+#include "CoverFetcherInterface.h"
 
 class LFMCoverFetcher :
-		public AbstractCoverFetcher
+		public CoverFetcherInterface
 {
 
 public:

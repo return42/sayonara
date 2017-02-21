@@ -1,10 +1,10 @@
 #ifndef STANDARDCOVERFETCHER_H
 #define STANDARDCOVERFETCHER_H
 
-#include "AbstractCoverFetcher.h"
+#include "CoverFetcherInterface.h"
 
 class StandardCoverFetcher :
-	public AbstractCoverFetcher
+	public CoverFetcherInterface
 {
 public:
     bool can_fetch_cover_directly() const override;

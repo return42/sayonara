@@ -5,7 +5,7 @@ class QString;
 class QByteArray;
 class QStringList;
 
-class AbstractCoverFetcher
+class CoverFetcherInterface
 {
 
 public:

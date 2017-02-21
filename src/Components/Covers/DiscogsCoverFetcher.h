@@ -1,10 +1,10 @@
 #ifndef DISCOGSCOVERFETCHER_H
 #define DISCOGSCOVERFETCHER_H
 
-#include "AbstractCoverFetcher.h"
+#include "CoverFetcherInterface.h"
 
 class DiscogsCoverFetcher :
-		public AbstractCoverFetcher
+		public CoverFetcherInterface
 {
 
 public:

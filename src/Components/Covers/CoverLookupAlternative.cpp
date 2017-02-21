@@ -18,9 +18,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "CoverLookup.h"
 #include "CoverLookupAlternative.h"
 #include "CoverLocation.h"
 #include "Database/DatabaseHandler.h"
+
 
 struct CoverLookupAlternative::Private
 {
@@ -31,13 +33,13 @@ struct CoverLookupAlternative::Private
 	bool				run;
 
 	~Private()
-{
+	{
 		cl->stop();
 	}
 };
 
 CoverLookupAlternative::CoverLookupAlternative(QObject* parent, int n_covers) :
-    CoverLookupInterface(parent)
+	AbstractCoverLookup(parent)
 {
 	_m = Pimpl::make<CoverLookupAlternative::Private>();
 	_m->run = true;
@@ -71,12 +73,12 @@ void CoverLookupAlternative::start()
 
 void CoverLookupAlternative::cover_found(const QString& cover_path)
 {
-    emit sig_cover_found(cover_path);
+	emit sig_cover_found(cover_path);
 }
 
 void CoverLookupAlternative::finished(bool success)
 {
-    emit sig_finished(success);
+	emit sig_finished(success);
 }
 
 

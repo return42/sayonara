@@ -37,8 +37,12 @@
 #include <QPixmap>
 #include <QIcon>
 
-AlternativeCoverItemModel::AlternativeCoverItemModel(QObject* parent) : QAbstractTableModel(parent) {
-	_pathlist.reserve(10);
+AlternativeCoverItemModel::AlternativeCoverItemModel(QObject* parent) :
+	QAbstractTableModel(parent)
+{
+	for(int i=0; i<(5 * columnCount()); i++){
+		_pathlist << QString();
+	}
 }
 
 AlternativeCoverItemModel::~AlternativeCoverItemModel() {}
@@ -72,7 +76,8 @@ int AlternativeCoverItemModel::cvt_2_idx(int row, int col) const
 int AlternativeCoverItemModel::rowCount(const QModelIndex &parent) const
 {
 	Q_UNUSED(parent)
-	return 2;
+
+	return (_pathlist.size() + columnCount() - 1) /  columnCount();
 }
 
 
@@ -86,7 +91,9 @@ int AlternativeCoverItemModel::columnCount(const QModelIndex &parent) const
 QVariant AlternativeCoverItemModel::data(const QModelIndex &index, int role) const
 {
 	int lin_idx = this->cvt_2_idx(index.row(), index.column());
-    if(lin_idx < 0) return QVariant();
+	if(lin_idx < 0) {
+		return QVariant();
+	}
 
 	 if ( !index.isValid() || !between(lin_idx, _pathlist) ) {
          return QVariant();
@@ -123,27 +130,21 @@ Qt::ItemFlags AlternativeCoverItemModel::flags(const QModelIndex &index) const
 	return QAbstractItemModel::flags(index);
 }
 
-
-bool AlternativeCoverItemModel::setData(const QModelIndex &index, const QVariant &value, int role)
+bool AlternativeCoverItemModel::set_cover(int row, int column, const QString& cover)
 {
-	if (!index.isValid()){
-		 return false;
+	int lin_idx = cvt_2_idx(row, column);
+	if(lin_idx >= _pathlist.size() || lin_idx < 0){
+		return false;
 	}
 
-	int lin_idx = cvt_2_idx(index.row(), index.column());
+	_pathlist[lin_idx] = cover;
 
-    if(lin_idx >= _pathlist.size() || lin_idx < 0)
-        return false;
+	QModelIndex idx = index(row, column);
+	emit dataChanged(idx, idx);
 
-	 if(role == Qt::DisplayRole) {
-		_pathlist[lin_idx] = value.toString();
-
-		 emit dataChanged(index, index);
-		 return true;
-	 }
-
-	 return false;
+	return true;
 }
+
 
 
 void AlternativeCoverItemModel::reset()

@@ -21,15 +21,17 @@
 #ifndef COVERLOOKUPALTERNATIVE_H
 #define COVERLOOKUPALTERNATIVE_H
 
-#include "CoverLookup.h"
+#include "AbstractCoverLookup.h"
 #include "Helper/Pimpl.h"
+
+class CoverLocation;
 
 /**
  * @brief The CoverLookupAlternative class
  * @ingroup Covers
  */
 class CoverLookupAlternative :
-		public CoverLookupInterface
+		public AbstractCoverLookup
 {
     Q_OBJECT
 	PIMPL(CoverLookupAlternative)

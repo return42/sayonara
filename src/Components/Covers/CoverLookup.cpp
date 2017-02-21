@@ -30,7 +30,6 @@
 #include "CoverHelper.h"
 #include "CoverFetchThread.h"
 #include "CoverLocation.h"
-#include "CoverFetcher.h"
 #include "GoogleCoverFetcher.h"
 #include "StandardCoverFetcher.h"
 #include "LFMCoverFetcher.h"
@@ -44,13 +43,9 @@
 #include <QFile>
 #include <QImage>
 
-CoverLookupInterface::CoverLookupInterface(QObject* parent):
-	QObject(parent) {}
-
-CoverLookupInterface::~CoverLookupInterface() {}
 
 CoverLookup::CoverLookup(QObject* parent, int n_covers) :
-	CoverLookupInterface(parent)
+	AbstractCoverLookup(parent)
 {
 	_n_covers = n_covers;
 }

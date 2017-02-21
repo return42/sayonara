@@ -1,10 +1,10 @@
 #ifndef GOOGLECOVERFETCHER_H
 #define GOOGLECOVERFETCHER_H
 
-#include "AbstractCoverFetcher.h"
+#include "CoverFetcherInterface.h"
 
 class GoogleCoverFetcher :
-	public AbstractCoverFetcher
+	public CoverFetcherInterface
 {
 
 public:

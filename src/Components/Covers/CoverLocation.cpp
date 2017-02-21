@@ -20,7 +20,7 @@
 
 #include "CoverLocation.h"
 #include "CoverHelper.h"
-#include "CoverFetcher.h"
+#include "CoverFetchManager.h"
 #include "LocalCoverSearcher.h"
 #include "Helper/Helper.h"
 #include "Helper/FileHelper.h"

@@ -148,11 +148,16 @@ void AsyncWebAccess::finished(QNetworkReply *reply)
 
 	reply->close();
 
+	_m->timer->stop();
+
 	emit sig_finished(success);
 }
 
 void AsyncWebAccess::timeout()
 {
+	if(!_m->reply->isOpen()){
+		return;
+	}
 	if(_m->reply->bytesAvailable() > 0){
 		emit sig_finished( true );
 	}
