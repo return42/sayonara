@@ -1,28 +1,34 @@
 #include "AlbumCoverModel.h"
+#include "AlbumCoverFetchThread.h"
+
 #include "Components/Covers/CoverLocation.h"
 #include "Components/Covers/CoverLookup.h"
 #include "Helper/MetaData/Album.h"
 #include "Helper/Helper.h"
+#include "Helper/Logger/Logger.h"
 
+#include <QStringList>
 #include <QPixmap>
 #include <QVector>
+#include <QThread>
 
 
 struct AlbumCoverModel::Private
-{	
-	bool blocked;
+{
+	AlbumCoverFetchThread* cover_thread=nullptr;
 	AlbumList albums;
 	QHash<QString, QPixmap> pixmaps;
-	QHash<QString, int> hash_album_map;
-	QMap<CoverLookup*, Album> clu_buffer;
+	QHash<QString, CoverLocation> cover_locations;
+	QHash<QString, QModelIndex> indexes;
 
 	int size;
 	int columns;
 	int n_threads_running;
 
-	Private()
+	Private(QObject* parent)
 	{
-		blocked = false;
+		cover_thread = new AlbumCoverFetchThread(parent);
+
 		size = 100;
 		columns = 10;
 		n_threads_running = 0;
@@ -39,7 +45,9 @@ AlbumCoverModel::AlbumCoverModel(QObject* parent) :
 {
 	// TODO: Not good, parent should be delegated through LibraryItemModel
 	Q_UNUSED(parent);
-	_m = Pimpl::make<Private>();
+	_m = Pimpl::make<Private>(this);
+
+	connect(_m->cover_thread, &AlbumCoverFetchThread::sig_next, this, &AlbumCoverModel::next_hash);
 }
 
 AlbumCoverModel::~AlbumCoverModel() {}
@@ -128,21 +136,29 @@ QVariant AlbumCoverModel::data(const QModelIndex& index, int role) const
 				const Album& album = _m->albums[lin_idx];
 				QString hash = get_hash(album);
 				QPixmap p;
-				if(!_m->pixmaps.contains(hash)){
-
-					p = QPixmap(CoverLocation().preferred_path());
-					CoverLookup* clu = new CoverLookup(nullptr, 1);
-					clu->set_identifier(hash);
-					connect(clu, &CoverLookup::sig_cover_found, this, &AlbumCoverModel::cover_found);
-					connect(clu, &CoverLookup::sig_finished, this, &AlbumCoverModel::clu_finished);
-
-					if(_m->n_threads_running < 20){
-						clu->fetch_album_cover(album);
-						_m->n_threads_running++;
+				if(!_m->pixmaps.contains(hash)) {
+					CoverLocation cl;
+					if(!_m->cover_locations.contains(hash)){
+						cl = CoverLocation::get_cover_location(album);
+						_m->cover_locations[hash] = cl;
 					}
 
 					else{
-						_m->clu_buffer.insert(clu, album);
+						cl = _m->cover_locations[hash];
+					}
+
+					p = QPixmap(cl.preferred_path());
+					if(!CoverLocation::isInvalidLocation(cl.preferred_path())){
+						_m->pixmaps[hash] = p;
+					}
+
+					else {
+						if(!_m->cover_thread->isRunning()){
+							_m->cover_thread->start();
+						}
+
+						_m->indexes[hash] = index;
+						_m->cover_thread->add_data(hash, cl);
 					}
 				}
 
@@ -173,10 +189,6 @@ void AlbumCoverModel::set_data(const AlbumList& albums)
 	endRemoveColumns();
 
 	_m->albums = albums;
-	for(int i=0; i<albums.size(); i++){
-		QString hash = get_hash(_m->albums[i]);
-		_m->hash_album_map[hash] = i;
-	}
 
 	beginInsertRows(QModelIndex(), 0, rowCount());
 	endInsertRows();
@@ -195,6 +207,26 @@ void AlbumCoverModel::set_zoom(int zoom)
 	emit dataChanged(index(0, 0),
 					 index(rowCount(), columnCount())
 					 );
+}
+
+
+void AlbumCoverModel::next_hash(const QString& hash, const CoverLocation& cl)
+{
+	AlbumCoverFetchThread* acft = dynamic_cast<AlbumCoverFetchThread*>(sender());
+	QModelIndex idx = _m->indexes[hash];
+
+	CoverLookup* clu = new CoverLookup(this, 1);
+	connect(clu, &CoverLookup::sig_finished, this, [=](bool success){
+
+		if(success){
+			emit dataChanged(idx, idx);
+		}
+
+		acft->done(success);
+		clu->deleteLater();
+	});
+
+	clu->fetch_cover(cl);
 }
 
 
@@ -275,40 +307,3 @@ CoverLocation AlbumCoverModel::get_cover(const SP::Set<int>& indexes) const
 	return CoverLocation::getInvalidLocation();
 }
 
-
-void AlbumCoverModel::cover_found(const QString& filepath)
-{
-	CoverLookup* clu = dynamic_cast<CoverLookup*>(sender());
-	QString hash = clu->identifier();
-	int idx = _m->hash_album_map[hash];
-	int row = idx / columnCount();
-	int col = idx % columnCount();
-	QModelIndex midx = index(row, col);
-
-	QPixmap p(filepath);
-	_m->pixmaps[hash] = p;
-
-	emit dataChanged(midx, midx);
-}
-
-void AlbumCoverModel::clu_finished(bool b)
-{
-	CoverLookup* clu = dynamic_cast<CoverLookup*>(sender());
-	while(_m->blocked){
-		Helper::sleep_ms(10);
-	}
-
-	_m->blocked = true;
-	_m->n_threads_running--;
-
-	if(!_m->clu_buffer.isEmpty()){
-		CoverLookup* clu_key = _m->clu_buffer.firstKey();
-		Album album = _m->clu_buffer.take(clu_key);
-		clu_key->fetch_album_cover(album);
-		_m->n_threads_running++;
-	}
-
-	_m->blocked = false;
-
-	clu->deleteLater();
-}

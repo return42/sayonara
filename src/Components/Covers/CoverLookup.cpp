@@ -98,7 +98,7 @@ void CoverLookup::start_new_thread(const CoverLocation& cl )
 }
 
 
-bool CoverLookup::fetch_cover(const CoverLocation& cl)
+bool CoverLookup::fetch_cover(const CoverLocation& cl, bool also_www)
 {
 	// Look, if cover exists in .Sayonara/covers
 	if( QFile::exists(cl.cover_path()) && _n_covers == 1 )
@@ -117,16 +117,22 @@ bool CoverLookup::fetch_cover(const CoverLocation& cl)
 	}
 
 	// we have to fetch the cover from the internet
-	start_new_thread( cl );
+	if(also_www){
+		start_new_thread( cl );
+	}
+
+	else{
+		return false;
+	}
 
 	return true;
 }
 
 
-bool CoverLookup::fetch_album_cover(const Album& album)
+bool CoverLookup::fetch_album_cover(const Album& album, bool also_www)
 {
 	CoverLocation cl = CoverLocation::get_cover_location(album);
-	return fetch_cover(cl);
+	return fetch_cover(cl, also_www);
 }
 
 

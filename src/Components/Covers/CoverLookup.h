@@ -97,14 +97,14 @@ public:
 	 * @param cl CoverLocation of interest
 	 * @return always true
 	 */
-	bool fetch_cover(const CoverLocation& cl);
+	bool fetch_cover(const CoverLocation& cl, bool also_www=true);
 
 	/**
 	 * @brief uses CoverLocation(const Album& album)
 	 * @param album Album object
 	 * @return true
 	 */
-	bool fetch_album_cover(const Album& album);
+	bool fetch_album_cover(const Album& album, bool also_www=true);
 
 
 	/**

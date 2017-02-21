@@ -3,14 +3,19 @@
 
 #include "GUI/Library/Models/LibraryItemModel.h"
 #include "Helper/Pimpl.h"
+#include <QThread>
 
+class Album;
 class AlbumList;
 class CoverLocation;
+class CoverLookup;
 class AlbumCoverModel :
 		public LibraryItemModel
 {
 	Q_OBJECT
 	PIMPL(AlbumCoverModel)
+
+private:
 
 public:
 	explicit AlbumCoverModel(QObject* parent=nullptr);
@@ -40,8 +45,8 @@ public slots:
 	void set_zoom(int zoom);
 
 private slots:
-	void cover_found(const QString& filepath);
-	void clu_finished(bool b);
+	void next_hash(const QString& hash, const CoverLocation& cl);
+
 };
 
 #endif // ALBUMCOVERMODEL_H

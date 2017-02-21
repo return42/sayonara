@@ -73,11 +73,17 @@ void AlbumCoverView::wheelEvent(QWheelEvent* e)
 		}
 
 		emit sig_zoom_changed(_m->zoom);
+
+		LibraryView::wheelEvent(e);
+		this->resizeColumnsToContents();
+		this->resizeRowsToContents();
 	}
 
-	LibraryView::wheelEvent(e);
-	this->resizeColumnsToContents();
-	this->resizeRowsToContents();
+	else{
+		LibraryView::wheelEvent(e);
+	}
+
+
 }
 
 

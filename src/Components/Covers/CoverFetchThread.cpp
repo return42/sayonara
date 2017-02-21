@@ -95,7 +95,7 @@ bool CoverFetchThread::start()
 		connect(awa, &AsyncWebAccess::sig_finished, this, &CoverFetchThread::content_fetched);
 
 		sp_log(Log::Debug) << "Try to fetch cover from " << _m->url;
-		awa->run(_m->url, 10000);
+		awa->run(_m->url, 3000);
 	}
 
 	return true;

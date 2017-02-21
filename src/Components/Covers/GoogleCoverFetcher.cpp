@@ -8,44 +8,49 @@
 
 bool GoogleCoverFetcher::can_fetch_cover_directly() const
 {
-    return false;
+	return false;
 }
 
 QStringList GoogleCoverFetcher::calc_addresses_from_website(const QByteArray& website, int n_covers) const
 {
-    QString regex = "(https://encrypted-tbn)(\\S)+(\")";
-    QStringList addresses;
+	QString regex = "(https://encrypted-tbn.+)\"";
+	QStringList addresses;
 
-    if (website.isEmpty()) {
-	sp_log(Log::Error) << "Cover Fetch Thread: website empty";
-	return addresses;
-    }
-
-    int found_covers = 0;
-    int idx=50000;
-
-
-    QString website_str = QString::fromLocal8Bit(website);
-
-    while(found_covers < n_covers)
-    {
-	QRegExp re(regex);
-	re.setMinimal(true);
-	idx = re.indexIn(website_str, idx);
-
-	if(idx == -1) {
-	    break;
+	if (website.isEmpty()) {
+		sp_log(Log::Error) << "Cover Fetch Thread: website empty";
+		return addresses;
 	}
 
-	QString str = re.cap(0);
+	int found_covers = 0;
+	int idx=500;
 
-	idx += str.length();
-	str.remove("\"");
-	addresses << str;
-	found_covers++;
-    }
 
-    return addresses;
+	QString website_str = QString::fromLocal8Bit(website);
+
+	while(found_covers < n_covers)
+	{
+		QRegExp re(regex);
+		re.setMinimal(true);
+		idx = re.indexIn(website_str, idx);
+
+		if(idx == -1) {
+			break;
+		}
+
+		QString str = re.cap(0);
+
+		idx += str.length();
+		str.remove("\"");
+		addresses << str;
+		found_covers++;
+	}
+
+	sp_log(Log::Debug) << "Google cover fetcher: got " << addresses.size() << " Addresses";
+	if(addresses.size() == 0){
+		sp_log(Log::Debug) << website_str;
+	}
+
+	return addresses;
 }
 
 

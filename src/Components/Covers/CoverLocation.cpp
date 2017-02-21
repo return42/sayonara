@@ -353,6 +353,13 @@ QStringList CoverLocation::search_urls() const
 	return _m->search_urls;
 }
 
+void CoverLocation::remove_first_search_url()
+{
+	if(!_m->search_urls.isEmpty()){
+		_m->search_urls.removeFirst();
+	}
+}
+
 bool CoverLocation::has_search_urls() const
 {
 	return !(_m->search_urls.isEmpty());

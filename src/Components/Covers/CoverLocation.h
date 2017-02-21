@@ -50,6 +50,8 @@ public:
 	QString local_path(int idx) const;
 	QString cover_path() const;
 	QStringList search_urls() const;
+	void remove_first_search_url();
+
 	bool has_search_urls() const;
 	QString search_term() const;
 	void set_search_term(const QString& search_term);
