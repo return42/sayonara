@@ -22,6 +22,8 @@
 #define LOGGER_H
 
 #include <iosfwd>
+#include <typeinfo>
+#include <type_traits>
 
 /**
  * @brief The Log enum
@@ -32,6 +34,7 @@ class QStringList;
 class QByteArray;
 class QPoint;
 class QChar;
+class QObject;
 enum class Log : unsigned char
 {
 	Warning,
@@ -83,6 +86,13 @@ public:
 };
 
 Logger sp_log(Log type);
-Logger sp_log(Log type, const QString& module);
+Logger sp_log(Log type, const char* data);
+
+template<typename T>
+typename std::enable_if< std::is_class<T>::value, Logger>::type
+sp_log(Log type, const T*)
+{
+	return sp_log(type, typeid(T).name());
+}
 
 #endif // LOGGER_H

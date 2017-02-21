@@ -11,23 +11,21 @@ bool GoogleCoverFetcher::can_fetch_cover_directly() const
 	return false;
 }
 
-QStringList GoogleCoverFetcher::calc_addresses_from_website(const QByteArray& website, int n_covers) const
+QStringList GoogleCoverFetcher::calc_addresses_from_website(const QByteArray& website) const
 {
 	QString regex = "(https://encrypted-tbn.+)\"";
 	QStringList addresses;
 
 	if (website.isEmpty()) {
-		sp_log(Log::Error) << "Cover Fetch Thread: website empty";
+		sp_log(Log::Error, this) << "Website empty";
 		return addresses;
 	}
 
-	int found_covers = 0;
 	int idx=500;
-
 
 	QString website_str = QString::fromLocal8Bit(website);
 
-	while(found_covers < n_covers)
+	while(true)
 	{
 		QRegExp re(regex);
 		re.setMinimal(true);
@@ -42,13 +40,9 @@ QStringList GoogleCoverFetcher::calc_addresses_from_website(const QByteArray& we
 		idx += str.length();
 		str.remove("\"");
 		addresses << str;
-		found_covers++;
 	}
 
-	sp_log(Log::Debug) << "Google cover fetcher: got " << addresses.size() << " Addresses";
-	if(addresses.size() == 0){
-		sp_log(Log::Debug) << website_str;
-	}
+	sp_log(Log::Debug, this) << "Got " << addresses.size() << " Addresses";
 
 	return addresses;
 }
@@ -120,4 +114,10 @@ bool GoogleCoverFetcher::is_artist_supported() const
 int GoogleCoverFetcher::get_estimated_size() const
 {
 	return 150;
+}
+
+
+QString GoogleCoverFetcher::get_keyword() const
+{
+	return "google";
 }

@@ -30,6 +30,7 @@
 #include "CoverHelper.h"
 #include "CoverFetchThread.h"
 #include "CoverLocation.h"
+#include "CoverFetcher.h"
 #include "GoogleCoverFetcher.h"
 #include "StandardCoverFetcher.h"
 #include "LFMCoverFetcher.h"
@@ -73,23 +74,7 @@ void CoverLookup::start_new_thread(const CoverLocation& cl )
 		return;
 	}
 
-	QString url = cl.search_urls().first();
-	CoverFetchThread* cft;
-	if(url.contains("google", Qt::CaseInsensitive)){
-		cft = new GoogleCoverFetcher(this, cl, _n_covers);
-	}
-
-	else if(url.contains("discogs")){
-		cft = new DiscogsCoverFetcher(this, cl, _n_covers);
-	}
-
-	else if(url.contains("audioscrobbler")){
-		cft = new LFMCoverFetcher(this, cl, _n_covers);
-	}
-
-	else{
-		cft = new StandardCoverFetcher(this, cl, _n_covers);
-	}
+	CoverFetchThread* cft = new CoverFetchThread(this, cl, _n_covers);
 
 	connect(cft, &CoverFetchThread::sig_cover_found, this, &CoverLookup::cover_found);
 	connect(cft, &CoverFetchThread::sig_finished, this, &CoverLookup::finished);

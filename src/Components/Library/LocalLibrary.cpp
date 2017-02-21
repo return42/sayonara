@@ -86,12 +86,13 @@ void LocalLibrary::apply_db_fixes()
 
 void LocalLibrary::psl_reload_library(bool clear_first, Library::ReloadQuality quality)
 {
-	ReloadThread* reload_thread = _m->reload_thread;
-	if(reload_thread && reload_thread->is_running()){
+	if(_m->reload_thread && _m->reload_thread->is_running()){
 		return;
 	}
 
-	init_reload_thread();
+	if(!_m->reload_thread){
+		init_reload_thread();
+	}
 
 	QString library_path = _settings->get(Set::Lib_Path);
 
@@ -104,9 +105,9 @@ void LocalLibrary::psl_reload_library(bool clear_first, Library::ReloadQuality q
 		delete_all_tracks();
 	}
 
-	reload_thread->set_quality(quality);
-	reload_thread->set_lib_path(library_path);
-	reload_thread->start();
+	_m->reload_thread->set_quality(quality);
+	_m->reload_thread->set_lib_path(library_path);
+	_m->reload_thread->start();
 }
 
 
@@ -377,6 +378,11 @@ void LocalLibrary::merge_artists(const SP::Set<ArtistID>& artist_ids, ArtistID t
 		return;
 	}
 
+	if(target_artist < 0){
+		sp_log(Log::Warning, this) << "Cannot merge artist: Target artist id < 0";
+		return;
+	}
+
 	bool show_album_artists = _settings->get(Set::Lib_ShowAlbumArtists);
 
 	Artist artist;
@@ -414,11 +420,14 @@ void LocalLibrary::merge_albums(const SP::Set<AlbumID>& album_ids, AlbumID targe
 		return;
 	}
 
-	bool success;
+	if(target_album < 0){
+		sp_log(Log::Warning, this) << "Cannot merge albums: Target album id < 0";
+		return;
+	}
 
 	Album album;
-	success = _m->db->getAlbumByID(target_album, album, true);
-	if(!success){
+	bool success = _m->db->getAlbumByID(target_album, album, true);
+	if(!success) {
 		return;
 	}
 

@@ -149,27 +149,6 @@ public slots:
 
 
 private:
-
-	/**
-	 * @brief checks for new artists and albums
-	 * @param new_artists returns new artists
-	 * @param new_albums return new albums
-	 */
-	void check_for_new_artists_and_albums(QStringList& new_artists, QStringList& new_albums);
-
-	/**
-	 * @brief inserts new artists into db
-	 * @param artists list of new artists
-	 */
-	void insert_new_artists(const QStringList& artists);
-
-	/**
-	 * @brief inserts new albums into db
-	 * @param albums list of new albums
-	 */
-	void insert_new_albums(const QStringList& albums);
-
-
 	/**
 	 * @brief applies the new artists and albums to the original metadata
 	 */

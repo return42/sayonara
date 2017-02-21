@@ -54,16 +54,23 @@ struct TagEdit::Private
 			return artist_map[artist_name];
 		} else {
 			int id = ldb->getArtistID(artist_name);
+			if(id < 0){
+				id = ldb->insertArtistIntoDatabase(artist_name);
+			}
 			artist_map[artist_name] = id;
 			return id;
 		}
 	}
 
-	AlbumID get_album_id(const QString& album_name){
+	AlbumID get_album_id(const QString& album_name)
+	{
 		if(album_map.contains(album_name)){
 			return album_map[album_name];
 		} else {
 			int id = ldb->getAlbumID(album_name);
+			if(id < 0){
+				id = ldb->insertAlbumIntoDatabase(album_name);
+			}
 			album_map[album_name] = id;
 			return id;
 		}
@@ -188,71 +195,7 @@ bool TagEdit::is_cover_supported(int idx) const
 	return Tagging::is_cover_supported( _m->v_md[idx].filepath() );
 }
 
-void TagEdit::check_for_new_artists_and_albums(QStringList& new_artists, QStringList& new_albums)
-{
-	QStringList artists;
-	QStringList albums;
 
-	// first gather all artists and albums
-	int idx=-1;
-	for(const MetaData& md : _m->v_md) {
-		idx++;
-		if(_m->changed_md[idx] == false){
-			continue;
-		}
-
-		if(md.is_extern) {
-			continue;
-		}
-
-		if(!artists.contains(md.artist)){
-			artists << md.artist;
-		}
-
-		if(!artists.contains(md.album_artist())){
-			artists << md.album_artist();
-		}
-
-		if(!albums.contains(md.album)){
-			albums << md.album;
-		}
-	}
-
-	for(const QString& album_name : albums) {
-		AlbumID id = _m->get_album_id(album_name);
-		if(id < 0) {
-			new_albums << album_name;
-		}
-	}
-
-	for(const QString& artist_name : artists){
-		ArtistID id = _m->get_artist_id(artist_name);
-		if(id < 0) {
-			new_artists << artist_name;
-		}
-	}
-}
-
-
-void TagEdit::insert_new_artists(const QStringList& artists)
-{
-	for(const QString& a : artists){
-		ArtistID id = _m->ldb->insertArtistIntoDatabase(a);
-		if(!_m->artist_map.contains(a)){
-			_m->artist_map[a] = id;
-		}
-	}
-}
-
-void TagEdit::insert_new_albums(const QStringList& albums)
-{
-	for(const QString& a : albums){
-		AlbumID id = _m->ldb->insertAlbumIntoDatabase(a);
-		if(!_m->album_map.contains(a)){
-			_m->album_map[a] = id;
-		}
-	}
-}
 
 void TagEdit::apply_artists_and_albums_to_md()
 {
@@ -304,14 +247,6 @@ void TagEdit::run()
 	MetaDataList v_md;
 	MetaDataList v_md_orig;
 	DatabaseConnector* db;
-	QStringList new_artists, new_albums;
-
-	sp_log(Log::Debug) << "Check for new albums";
-	check_for_new_artists_and_albums(new_artists, new_albums);
-
-	sp_log(Log::Debug) << "Insert new albums";
-	insert_new_albums(new_albums);
-	insert_new_artists(new_artists);
 
 	sp_log(Log::Debug) << "Apply albums and artists";
 	apply_artists_and_albums_to_md();

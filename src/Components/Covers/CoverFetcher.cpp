@@ -1,5 +1,6 @@
 #include "CoverFetcher.h"
 #include "CoverFetchThread.h"
+#include "AbstractCoverFetcher.h"
 #include "GoogleCoverFetcher.h"
 #include "LFMCoverFetcher.h"
 #include "StandardCoverFetcher.h"
@@ -24,9 +25,9 @@ struct CoverFetchTupel
 };
 
 
-struct CoverFetcher::Private
+struct CoverFetchManager::Private
 {
-	QList<CoverFetchThread*> cover_fetcher;
+	QList<AbstractCoverFetcher*> cover_fetcher;
 };
 
 static QStringList sort_urls(QList<CoverFetchTupel>& lst)
@@ -47,7 +48,7 @@ static QStringList sort_urls(QList<CoverFetchTupel>& lst)
 }
 
 
-CoverFetcher::CoverFetcher()
+CoverFetchManager::CoverFetchManager()
 {
 	_m = Pimpl::make<Private>();
 	_m->cover_fetcher << new DiscogsCoverFetcher();
@@ -56,49 +57,70 @@ CoverFetcher::CoverFetcher()
 	_m->cover_fetcher << new StandardCoverFetcher();
 }
 
-CoverFetcher::~CoverFetcher() {}
+CoverFetchManager::~CoverFetchManager() {}
 
-void CoverFetcher::register_cover_fetcher(CoverFetchThread *t)
+void CoverFetchManager::register_cover_fetcher(AbstractCoverFetcher *t)
 {
 	_m->cover_fetcher << t;
 }
 
-QStringList CoverFetcher::get_artist_addresses(const QString& artist) const
+QStringList CoverFetchManager::get_artist_addresses(const QString& artist) const
 {
 	QList<CoverFetchTupel> urls;
 
-	for(const CoverFetchThread* cft : _m->cover_fetcher){
-		if(cft->is_artist_supported()){
-			urls << CoverFetchTupel(cft->get_artist_address(artist), cft->get_estimated_size());
+	for(const AbstractCoverFetcher* acf : _m->cover_fetcher){
+		if(acf->is_artist_supported()){
+			urls << CoverFetchTupel(acf->get_artist_address(artist), acf->get_estimated_size());
 		}
 	}
 
 	return sort_urls(urls);
 }
 
-QStringList CoverFetcher::get_album_addresses(const QString& artist, const QString& album) const
+QStringList CoverFetchManager::get_album_addresses(const QString& artist, const QString& album) const
 {
 	QList<CoverFetchTupel> urls;
 
-	for(const CoverFetchThread* cft : _m->cover_fetcher){
-		if(cft->is_album_supported()){
-			urls << CoverFetchTupel(cft->get_album_address(artist, album), cft->get_estimated_size());
+	for(const AbstractCoverFetcher* acf : _m->cover_fetcher){
+		if(acf->is_album_supported()){
+			urls << CoverFetchTupel(acf->get_album_address(artist, album), acf->get_estimated_size());
 		}
 	}
 
 	return sort_urls(urls);
 }
 
-QStringList CoverFetcher::get_search_addresses(const QString& str) const
+QStringList CoverFetchManager::get_search_addresses(const QString& str) const
 {
 	QList<CoverFetchTupel> urls;
 
-	for(const CoverFetchThread* cft : _m->cover_fetcher){
-		if(cft->is_search_supported()){
-			urls << CoverFetchTupel(cft->get_search_address(str), cft->get_estimated_size());
+	for(const AbstractCoverFetcher* acf : _m->cover_fetcher){
+		if(acf->is_search_supported()){
+			urls << CoverFetchTupel(acf->get_search_address(str), acf->get_estimated_size());
 		}
 	}
 
 	return sort_urls(urls);
+}
+
+AbstractCoverFetcher* CoverFetchManager::get_coverfetcher(const QString& url) const
+{
+	for(AbstractCoverFetcher* acf : _m->cover_fetcher)
+	{
+		QString keyword = acf->get_keyword();
+		if(!keyword.isEmpty()){
+			if(url.contains(keyword, Qt::CaseInsensitive)){
+				return acf;
+			}
+		}
+
+		else {
+			if(url.isEmpty()){
+				return acf;
+			}
+		}
+	}
+
+	return nullptr;
 }
 

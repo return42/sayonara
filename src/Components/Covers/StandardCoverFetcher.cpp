@@ -6,8 +6,9 @@ bool StandardCoverFetcher::can_fetch_cover_directly() const
     return true;
 }
 
-QStringList StandardCoverFetcher::calc_addresses_from_website(const QByteArray& website, int n_covers) const
+QStringList StandardCoverFetcher::calc_addresses_from_website(const QByteArray& website) const
 {
+	Q_UNUSED(website)
     return QStringList();
 }
 
@@ -50,4 +51,9 @@ bool StandardCoverFetcher::is_artist_supported() const
 int StandardCoverFetcher::get_estimated_size() const
 {
 	return -1;
+}
+
+QString StandardCoverFetcher::get_keyword() const
+{
+	return QString();
 }

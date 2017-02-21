@@ -35,10 +35,8 @@ QDomNode find_artist_node(const QDomNode& node, const QString& prefix)
 	}
 }
 
-QStringList LFMCoverFetcher::calc_addresses_from_website(const QByteArray& website, int n_covers) const
+QStringList LFMCoverFetcher::calc_addresses_from_website(const QByteArray& website) const
 {
-	Q_UNUSED(n_covers)
-
 	QDomDocument doc("LastFM Cover");
 	doc.setContent(website);
 
@@ -123,8 +121,12 @@ bool LFMCoverFetcher::is_artist_supported() const
 	return true;
 }
 
-
 int LFMCoverFetcher::get_estimated_size() const
 {
 	return 300;
+}
+
+QString LFMCoverFetcher::get_keyword() const
+{
+	return "audioscrobbler";
 }

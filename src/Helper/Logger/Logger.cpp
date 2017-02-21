@@ -163,10 +163,10 @@ Logger& Logger::operator << (const char* str)
  * ***********************/
 Logger sp_log(Log type)
 {
-	return sp_log(type, QString());
+	return sp_log(type, nullptr);
 }
 
-Logger sp_log(Log type, const QString& module)
+Logger sp_log(Log type, const char* data)
 {
 	QString type_str;
 	switch(type)
@@ -174,27 +174,23 @@ Logger sp_log(Log type, const QString& module)
 		case Log::Info:
 			break;
 		case Log::Debug:
-			type_str = "Debug";
+			type_str = "Debug: ";
 			break;
 		case Log::Warning:
-			type_str = "Warning";
+			type_str = "Warning: ";
 			break;
 		case Log::Error:
-			type_str = "Error";
+			type_str = "Error: ";
 			break;
 		default:
-			type_str = "Debug";
+			type_str = "Debug: ";
 			break;
 	}
 
-	if(!module.isEmpty()){
-		type_str += ": " + module;
-	}
-
-	if(!type_str.isEmpty()){
-		type_str += ": ";
+	if(data){
+		type_str += QString(data) + ":";
 	}
 
 	return Logger(type_str.toLocal8Bit().data());
-}
 
+}

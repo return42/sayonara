@@ -725,7 +725,11 @@ void DatabaseTracks::updateTrackCissearch()
 
 bool DatabaseTracks::updateTrack(const MetaData& md)
 {
-	if(md.id < 0) {
+	if(md.id < 0 || md.album_id < 0 || md.artist_id < 0) {
+		sp_log(Log::Warning, this) << "Cannot update track: "
+								   << " ArtistID: " << md.artist_id
+								   << " AlbumID: " << md.album_id
+								   << " TrackID: " << md.id;
 		return false;
 	}
 

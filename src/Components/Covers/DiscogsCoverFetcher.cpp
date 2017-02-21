@@ -13,17 +13,15 @@ static QString get_basic_url(const QString& str)
 			QUrl::toPercentEncoding(str2);
 }
 
-
-
 bool DiscogsCoverFetcher::can_fetch_cover_directly() const
 {
 	return false;
 }
 
-QStringList DiscogsCoverFetcher::calc_addresses_from_website(const QByteArray& website, int n_covers) const
+QStringList DiscogsCoverFetcher::calc_addresses_from_website(const QByteArray& website) const
 {
-
 	QStringList ret;
+
 	QRegExp re("class=\"thumbnail_center\">\\s*<img\\s*data-src\\s*=\\s*\"(.+)\"");
 	re.setMinimal(true);
 	QString website_str = QString::fromLocal8Bit(website);
@@ -32,8 +30,6 @@ QStringList DiscogsCoverFetcher::calc_addresses_from_website(const QByteArray& w
 		ret << re.cap(1);
 		website_str.remove(0, idx + 5);
 		idx = re.indexIn(website_str);
-
-		sp_log(Log::Debug) << ret;
 	}
 
 	return ret;
@@ -73,4 +69,9 @@ bool DiscogsCoverFetcher::is_artist_supported() const
 int DiscogsCoverFetcher::get_estimated_size() const
 {
 	return 350;
+}
+
+QString DiscogsCoverFetcher::get_keyword() const
+{
+	return "discogs";
 }
