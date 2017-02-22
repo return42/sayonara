@@ -31,6 +31,7 @@ class DateSearchModel :
 	public AbstractSearchListModel
 {
     Q_OBJECT
+	PIMPL(DateSearchModel)
 
 public:
 	DateSearchModel(QObject* parent=nullptr);
@@ -51,9 +52,6 @@ public:
 	QMap<QChar, QString> getExtraTriggers();
 
 	Library::DateFilter get_filter(int row) const;
-
-private:
-	PIMPL(DateSearchModel)
 };
 
 #endif // DATESEARCHMODEL_H

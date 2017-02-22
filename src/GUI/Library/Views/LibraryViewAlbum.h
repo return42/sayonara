@@ -23,12 +23,14 @@
 
 #include "Helper/MetaData/Album.h"
 #include "GUI/Library/Views/LibraryTableView.h"
+#include <QList>
 #include <QModelIndex>
 
 class DiscPopupMenu;
 class LibraryViewAlbum : public LibraryTableView
 {
 	Q_OBJECT
+	PIMPL(LibraryViewAlbum)
 
 signals:
 	void sig_disc_pressed(int);
@@ -40,31 +42,28 @@ public:
 	explicit LibraryViewAlbum(QWidget *parent=nullptr);
 	virtual ~LibraryViewAlbum();
 
-
-protected:
-	QList< QList<quint8> >		_discnumbers;
-	DiscPopupMenu*				_discmenu=nullptr;
-	QPoint						_discmenu_point;
-
-	virtual void calc_discmenu_point(QModelIndex idx);
-	virtual void delete_discmenu();
-	virtual void init_discmenu(QModelIndex idx);
-	virtual void show_discmenu();
-
-	virtual void rc_menu_show(const QPoint& p);
+private:
+	void clear_discnumbers();
+	void add_discnumbers(const QList<quint8>& dns);
+	void calc_discmenu_point(QModelIndex idx);
+	void delete_discmenu();
+	void init_discmenu(QModelIndex idx);
+	void show_discmenu();
+	void rc_menu_show(const QPoint& p);
 
 public:
 	template <typename T, typename ModelType>
 	void fill(const T& input_data)
 	{
-		_discnumbers.clear();
+		clear_discnumbers();
 
-		for(const Album& album: input_data){
-			_discnumbers << album.discnumbers;
+		for(const Album& album : input_data){
+			add_discnumbers(album.discnumbers);
 		}
 
 		LibraryView::fill<T, ModelType>(input_data);
 	}
 };
+
 
 #endif // LIBRARYVIEWALBUM_H

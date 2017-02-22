@@ -36,10 +36,10 @@ class MetaDataList;
 class LibraryItemModelTracks :
 		public LibraryItemModel
 {
-Q_OBJECT
+	Q_OBJECT
+	PIMPL(LibraryItemModelTracks)
 
 public:
-
 	LibraryItemModelTracks();
 	virtual ~LibraryItemModelTracks();
 
@@ -55,11 +55,6 @@ public:
 
 	CoverLocation get_cover(const SP::Set<int>& indexes) const override;
 	int get_searchable_column() const override;
-
-
-private:
-	PIMPL(LibraryItemModelTracks)
-
 };
 
 #endif /* LIBRARYITEMMODELTRACKS_H_ */

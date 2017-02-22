@@ -62,7 +62,7 @@ void GUI_Player::setup_connections()
 
 #ifdef WITH_MTP
 	connect(action_devices, &QAction::triggered, this, [=]()
-{
+	{
 		if(!_mtp){
 			_mtp = new GUI_MTP(this);
 		}

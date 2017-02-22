@@ -19,9 +19,9 @@
  */
 
 #include "PipelineProbes.h"
+#include "StreamRecorderData.h"
 #include "Helper/Logger/Logger.h"
 #include "Helper/Helper.h"
-
 
 GstPadProbeReturn
 Probing::level_probed(GstPad *pad, GstPadProbeInfo *info, gpointer user_data){

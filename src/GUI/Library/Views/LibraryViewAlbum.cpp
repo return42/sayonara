@@ -24,9 +24,17 @@
 
 #include <QHeaderView>
 
+struct LibraryViewAlbum::Private
+{
+	QList< QList<quint8> >	discnumbers;
+	DiscPopupMenu*			discmenu=nullptr;
+	QPoint					discmenu_point;
+};
+
 LibraryViewAlbum::LibraryViewAlbum(QWidget *parent) :
 	LibraryTableView(parent)
 {
+	_m = Pimpl::make<Private>();
 	connect(this, &QTableView::clicked, this, &LibraryViewAlbum::index_clicked);
 }
 
@@ -54,71 +62,83 @@ void LibraryViewAlbum::index_clicked(const QModelIndex &idx){
 
 
 /* where to show the popup */
-void LibraryViewAlbum::calc_discmenu_point(QModelIndex idx){
-	_discmenu_point = QCursor::pos();
+void LibraryViewAlbum::calc_discmenu_point(QModelIndex idx)
+{
+	_m->discmenu_point = QCursor::pos();
 
 	QRect box = this->geometry();
 	box.moveTopLeft(this->parentWidget()->mapToGlobal(box.topLeft()));
 
-	if(!box.contains(_discmenu_point)){
-		_discmenu_point.setX(box.x() + (box.width() * 2) / 3);
-		_discmenu_point.setY(box.y());
+	if(!box.contains(_m->discmenu_point)){
+		_m->discmenu_point.setX(box.x() + (box.width() * 2) / 3);
+		_m->discmenu_point.setY(box.y());
 
 		QPoint dmp_tmp = parentWidget()->pos();
 		dmp_tmp.setY(dmp_tmp.y() - this->verticalHeader()->sizeHint().height());
 
 		while(idx.row() != indexAt(dmp_tmp).row()){
 			  dmp_tmp.setY(dmp_tmp.y() + 10);
-			  _discmenu_point.setY(_discmenu_point.y() + 10);
+			  _m->discmenu_point.setY(_m->discmenu_point.y() + 10);
 		}
 	}
 }
 
-void LibraryViewAlbum::init_discmenu(QModelIndex idx){
+void LibraryViewAlbum::init_discmenu(QModelIndex idx)
+{
 	int row = idx.row();
 	QList<quint8> discnumbers;
 	delete_discmenu();
 
 	if( !idx.isValid() ||
-		(row > _discnumbers.size()) ||
+		(row > _m->discnumbers.size()) ||
 		(row < 0) )
 	{
 		return;
 	}
 
-	discnumbers = _discnumbers[row];
+	discnumbers = _m->discnumbers[row];
 	if(discnumbers.size() < 2) {
 		return;
 	}
 
 	calc_discmenu_point(idx);
 
-	_discmenu = new DiscPopupMenu(this, discnumbers);
+	_m->discmenu = new DiscPopupMenu(this, discnumbers);
 
-	connect(_discmenu, &DiscPopupMenu::sig_disc_pressed, this, &LibraryViewAlbum::sig_disc_pressed);
+	connect(_m->discmenu, &DiscPopupMenu::sig_disc_pressed, this, &LibraryViewAlbum::sig_disc_pressed);
 }
 
 
 void LibraryViewAlbum::delete_discmenu()
 {
-	if(!_discmenu) {
+	if(!_m->discmenu) {
 		return;
 	}
 
-	_discmenu->hide();
-	_discmenu->close();
+	_m->discmenu->hide();
+	_m->discmenu->close();
 
-	disconnect(_discmenu, &DiscPopupMenu::sig_disc_pressed, this, &LibraryViewAlbum::sig_disc_pressed);
+	disconnect(_m->discmenu, &DiscPopupMenu::sig_disc_pressed, this, &LibraryViewAlbum::sig_disc_pressed);
 
-	_discmenu->deleteLater();
-	_discmenu = nullptr;
+	_m->discmenu->deleteLater();
+	_m->discmenu = nullptr;
 }
 
 
 void LibraryViewAlbum::show_discmenu()
 {
-	if(!_discmenu) return;
+	if(!_m->discmenu) return;
 
-	_discmenu->popup(_discmenu_point);
+	_m->discmenu->popup(_m->discmenu_point);
 }
 
+
+void LibraryViewAlbum::clear_discnumbers()
+{
+	_m->discnumbers.clear();
+}
+
+void LibraryViewAlbum::add_discnumbers(const QList<quint8>& dns)
+{
+	_m->discnumbers << dns;
+}

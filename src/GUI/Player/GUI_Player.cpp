@@ -54,9 +54,7 @@ GUI_Player::GUI_Player(QTranslator* translator, QWidget *parent) :
 	setupUi(this);
 
 	_translator = translator;
-
 	_play_manager = PlayManager::getInstance();
-	_icon_loader = IconLoader::getInstance();
 
 	GlobalMessage::getInstance()->register_receiver(this);
 
@@ -277,30 +275,29 @@ void GUI_Player::id3_tags_changed(const MetaDataList& v_md_old, const MetaDataLi
 
 void GUI_Player::skin_changed()
 {
+	IconLoader* icon_loader = IconLoader::getInstance();
 	bool dark = (_settings->get(Set::Player_Style) == 1);
 
 	QString stylesheet = Style::get_style(dark);
 
 	this->setStyleSheet(stylesheet);
 
-	btn_fw->setIcon(_icon_loader->get_icon("media-skip-forward", "fwd"));
-	btn_bw->setIcon(_icon_loader->get_icon("media-skip-backward", "bwd"));
+	btn_fw->setIcon(icon_loader->get_icon("media-skip-forward", "fwd"));
+	btn_bw->setIcon(icon_loader->get_icon("media-skip-backward", "bwd"));
 
 	if(_play_manager->get_play_state() == PlayState::Playing){
-		btn_play->setIcon(_icon_loader->get_icon("media-playback-pause", "pause"));
+		btn_play->setIcon(icon_loader->get_icon("media-playback-pause", "pause"));
 	}
 
 	else{
-		btn_play->setIcon(_icon_loader->get_icon("media-playback-start", "play"));
+		btn_play->setIcon(icon_loader->get_icon("media-playback-start", "play"));
 	}
 
-
-	btn_stop->setIcon(_icon_loader->get_icon("media-playback-stop", "stop"));
-	btn_rec->setIcon(_icon_loader->get_icon("media-record", "rec"));
-
-	action_OpenFile->setIcon(_icon_loader->get_icon("document-open", "play"));
-	action_OpenFolder->setIcon(_icon_loader->get_icon("document-open", "play"));
-	action_Close->setIcon(_icon_loader->get_icon("window-close", "power_off"));
+	btn_stop->setIcon(icon_loader->get_icon("media-playback-stop", "stop"));
+	btn_rec->setIcon(icon_loader->get_icon("media-record", "rec"));
+	action_OpenFile->setIcon(icon_loader->get_icon("document-open", "play"));
+	action_OpenFolder->setIcon(icon_loader->get_icon("document-open", "play"));
+	action_Close->setIcon(icon_loader->get_icon("window-close", "power_off"));
 
 	setup_volume_button(sli_volume->value());
 }

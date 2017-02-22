@@ -36,28 +36,25 @@
 class LibraryItemModelArtists :
 		public LibraryItemModel
 {
-Q_OBJECT
-public:
-	LibraryItemModelArtists();
-	virtual ~LibraryItemModelArtists();
-
-	QVariant data(const QModelIndex &index, int role=Qt::DisplayRole) const override;
-
-	Qt::ItemFlags flags(const QModelIndex &index) const override;
-
-	bool setData(const QModelIndex &index, const QVariant &value, int role=Qt::DisplayRole) override;
-	bool setData(const QModelIndex &index, const ArtistList& artists, int role=Qt::DisplayRole);
-
-	int get_id_by_row(int row) override;
-	QString get_string(int row) const override;
-
-	CoverLocation get_cover(const SP::Set<int>& indexes) const override;
-	int get_searchable_column() const override;
-
-
-private:
+	Q_OBJECT
 	PIMPL(LibraryItemModelArtists)
 
+	public:
+		LibraryItemModelArtists();
+		virtual ~LibraryItemModelArtists();
+
+		QVariant data(const QModelIndex &index, int role=Qt::DisplayRole) const override;
+
+		Qt::ItemFlags flags(const QModelIndex &index) const override;
+
+		bool setData(const QModelIndex &index, const QVariant &value, int role=Qt::DisplayRole) override;
+		bool setData(const QModelIndex &index, const ArtistList& artists, int role=Qt::DisplayRole);
+
+		int get_id_by_row(int row) override;
+		QString get_string(int row) const override;
+
+		CoverLocation get_cover(const SP::Set<int>& indexes) const override;
+		int get_searchable_column() const override;
 };
 
 #endif /* LIBRARYITEMMODELARTISTS_H_ */

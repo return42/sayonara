@@ -44,15 +44,29 @@
 #include <QMouseEvent>
 #include <QDrag>
 
+struct LibraryView::Private
+{
+	bool				cur_filling;
+	QAction*			merge_action=nullptr;
+	QMenu*				merge_menu=nullptr;
+	LibraryContextMenu*	rc_menu=nullptr;
+	MD::Interpretation	type;
+
+	Private()
+	{
+		cur_filling = false;
+		type = MD::Interpretation::None;
+	}
+};
+
 LibraryView::LibraryView(QWidget* parent) :
 	SearchableTableView(parent),
 	SayonaraClass(),
 	InfoDialogContainer(),
 	Dragable(this)
 {
-	_type = MD::Interpretation::None;
-	_cur_filling = false;
 	_model = nullptr;
+	_m = Pimpl::make<Private>();
 
 	setAcceptDrops(true);
 	setSelectionBehavior(QAbstractItemView::SelectRows);
@@ -60,9 +74,7 @@ LibraryView::LibraryView(QWidget* parent) :
 	clearSelection();
 }
 
-
 LibraryView::~LibraryView() {}
-
 
 void LibraryView::setModel(LibraryItemModel * model)
 {
@@ -73,7 +85,7 @@ void LibraryView::setModel(LibraryItemModel * model)
 
 void LibraryView::selectionChanged(const QItemSelection& selected, const QItemSelection& deselected )
 {
-	if(_cur_filling) {
+	if(_m->cur_filling) {
 		return;
 	}
 
@@ -95,9 +107,9 @@ void LibraryView::save_selections()
 // Right click stuff
 void LibraryView::rc_menu_init()
 {
-	_rc_menu = new LibraryContextMenu(this);
+	_m->rc_menu = new LibraryContextMenu(this);
 
-	_rc_menu->show_actions(
+	_m->rc_menu->show_actions(
 				LibraryContextMenu::EntryPlayNext |
 				LibraryContextMenu::EntryInfo |
 				LibraryContextMenu::EntryDelete |
@@ -105,29 +117,29 @@ void LibraryView::rc_menu_init()
 				LibraryContextMenu::EntryAppend
 	);
 
-	_merge_menu = new QMenu(tr("Merge"), _rc_menu);
-	_merge_action = _rc_menu->addMenu(_merge_menu);
-	_merge_action->setVisible(false);
+	_m->merge_menu = new QMenu(tr("Merge"), _m->rc_menu);
+	_m->merge_action = _m->rc_menu->addMenu(_m->merge_menu);
+	_m->merge_action->setVisible(false);
 
-	connect(_rc_menu, &LibraryContextMenu::sig_edit_clicked, this, [=]()
+	connect(_m->rc_menu, &LibraryContextMenu::sig_edit_clicked, this, [=]()
 {show_edit();});
-	connect(_rc_menu, &LibraryContextMenu::sig_info_clicked, this, [=]()
+	connect(_m->rc_menu, &LibraryContextMenu::sig_info_clicked, this, [=]()
 {show_info();});
-	connect(_rc_menu, &LibraryContextMenu::sig_lyrics_clicked, this, [=]()
+	connect(_m->rc_menu, &LibraryContextMenu::sig_lyrics_clicked, this, [=]()
 {show_lyrics();});
-	connect(_rc_menu, &LibraryContextMenu::sig_delete_clicked, this, &LibraryView::sig_delete_clicked);
-	connect(_rc_menu, &LibraryContextMenu::sig_play_next_clicked, this, &LibraryView::sig_play_next_clicked);
-	connect(_rc_menu, &LibraryContextMenu::sig_append_clicked, this, &LibraryView::sig_append_clicked);
-	connect(_rc_menu, &LibraryContextMenu::sig_refresh_clicked, this, &LibraryView::sig_refresh_clicked);
+	connect(_m->rc_menu, &LibraryContextMenu::sig_delete_clicked, this, &LibraryView::sig_delete_clicked);
+	connect(_m->rc_menu, &LibraryContextMenu::sig_play_next_clicked, this, &LibraryView::sig_play_next_clicked);
+	connect(_m->rc_menu, &LibraryContextMenu::sig_append_clicked, this, &LibraryView::sig_append_clicked);
+	connect(_m->rc_menu, &LibraryContextMenu::sig_refresh_clicked, this, &LibraryView::sig_refresh_clicked);
 }
 
 void LibraryView::show_rc_menu_actions(int entries)
 {
-	if(!_rc_menu){
+	if(!_m->rc_menu){
 		rc_menu_init();
 	}
 
-	_rc_menu->show_actions(entries);
+	_m->rc_menu->show_actions(entries);
 }
 
 QMimeData* LibraryView::get_mimedata() const
@@ -178,13 +190,13 @@ MetaDataList LibraryView::get_selected_metadata() const
 
 
 void LibraryView::rc_menu_show(const QPoint& p) {
-	_rc_menu->exec(p);
+	_m->rc_menu->exec(p);
 }
 
 
 void LibraryView::set_type(MD::Interpretation type)
 {
-	_type = type;
+	_m->type = type;
 }
 
 MetaDataList LibraryView::get_data_for_info_dialog() const
@@ -195,7 +207,7 @@ MetaDataList LibraryView::get_data_for_info_dialog() const
 
 MD::Interpretation LibraryView::get_metadata_interpretation() const
 {
-	return _type;
+	return _m->type;
 }
 
 void LibraryView::merge_action_triggered()
@@ -217,7 +229,7 @@ bool LibraryView::event(QEvent* e)
 {
 	if(e->type() == QEvent::ContextMenu)
 	{
-		if(!_rc_menu) {
+		if(!_m->rc_menu) {
 			rc_menu_init();
 		}
 
@@ -226,35 +238,35 @@ bool LibraryView::event(QEvent* e)
 		QContextMenuEvent* cme = dynamic_cast<QContextMenuEvent*>(e);
 		QPoint pos = cme->globalPos();
 
-		if(_type == MD::Interpretation::Tracks && selections.size() == 1)
+		if(_m->type == MD::Interpretation::Tracks && selections.size() == 1)
 		{
-			_rc_menu->show_action(LibraryContextMenu::EntryLyrics, true);
+			_m->rc_menu->show_action(LibraryContextMenu::EntryLyrics, true);
 		}
 		else{
-			_rc_menu->show_action(LibraryContextMenu::EntryLyrics, false);
+			_m->rc_menu->show_action(LibraryContextMenu::EntryLyrics, false);
 		}
 
 		bool is_right_type =
-			(_type == MD::Interpretation::Artists ||
-			_type == MD::Interpretation::Albums);
+			(_m->type == MD::Interpretation::Artists ||
+			_m->type == MD::Interpretation::Albums);
 
 		if(is_right_type){
 			bool has_selections = (selections.size() > 1);
 
-			_merge_action->setVisible(has_selections);
+			_m->merge_action->setVisible(has_selections);
 
 			if(has_selections){
-				_merge_menu->clear();
+				_m->merge_menu->clear();
 
 				for(int i : selections)
 				{
 					QString name = _model->get_string(i);
 					name.replace("&", "&&");
 					int id = _model->get_id_by_row(i);
-					QAction* action = new QAction(name, _merge_menu);
+					QAction* action = new QAction(name, _m->merge_menu);
 					action->setData(id);
 
-					_merge_menu->addAction(action);
+					_m->merge_menu->addAction(action);
 					connect(action, &QAction::triggered, this, &LibraryView::merge_action_triggered);
 				}
 			}

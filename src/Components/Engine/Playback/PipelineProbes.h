@@ -23,38 +23,7 @@
 
 #include <gst/gst.h>
 
-/**
- * @brief The StreamRecorderData struct
- * @ingroup Engine
- */
-struct StreamRecorderData
-{
-	GstElement* queue=nullptr;
-	GstElement* sink=nullptr;
-	gchar* filename=nullptr;
-
-	bool active;
-	int probe_id;
-	bool busy;
-	bool has_empty_filename;
-
-	StreamRecorderData()
-	{
-		probe_id=0;
-		busy = false;
-		active = false;
-		has_empty_filename = true;
-	}
-
-	~StreamRecorderData()
-	{
-		if(filename){
-			g_free(filename);
-			filename = nullptr;
-		}
-	}
-};
-
+struct StreamRecorderData;
 /**
  * @ingroup Engine
  */

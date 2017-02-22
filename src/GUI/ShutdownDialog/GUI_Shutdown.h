@@ -23,7 +23,6 @@
 
 #include "GUI/ShutdownDialog/ui_GUI_Shutdown.h"
 #include "GUI/Helper/SayonaraWidget/SayonaraDialog.h"
-
 #include "Helper/Shutdown/Shutdown.h"
 
 #ifdef WITH_SHUTDOWN
@@ -38,7 +37,6 @@ signals:
 	void sig_closed();
 
 private slots:
-
 	void ok_clicked();
 	void cancel_clicked();
 	void rb_after_finished_clicked(bool b);

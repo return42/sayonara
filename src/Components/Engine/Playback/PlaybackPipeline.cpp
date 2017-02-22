@@ -20,6 +20,7 @@
 
 #include "PlaybackPipeline.h"
 #include "PipelineProbes.h"
+#include "StreamRecorderData.h"
 
 #include "Components/Engine/Callbacks/PipelineCallbacks.h"
 #include "Helper/globals.h"
@@ -37,9 +38,6 @@ PlaybackPipeline::PlaybackPipeline(Engine* engine, QObject *parent) :
 	CrossFader(),
 	ChangeablePipeline()
 {
-	_speed_val = 1.0f;
-	_speed_active = false;
-
 	_vol = 0;
 
 	_level_probe = 0;
@@ -57,7 +55,8 @@ PlaybackPipeline::PlaybackPipeline(Engine* engine, QObject *parent) :
 
 PlaybackPipeline::~PlaybackPipeline() {}
 
-bool PlaybackPipeline::init(GstState state){
+bool PlaybackPipeline::init(GstState state)
+{
 	if(!AbstractPipeline::init(state)){
 		return false;
 	}
@@ -479,7 +478,6 @@ void PlaybackPipeline::set_speed(float speed, double pitch, bool preserve_pitch)
 void PlaybackPipeline::_sl_show_level_changed()
 {
 	_show_level = _settings->get(Set::Engine_ShowLevel);
-
 	Probing::handle_probe(&_show_level, _level_queue, &_level_probe, Probing::level_probed);
 }
 
@@ -616,7 +614,6 @@ void PlaybackPipeline::_sl_speed_active_changed()
 							GST_FORMAT_TIME,
 							(GstSeekFlags)(GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_SNAP_NEAREST),
 							pos);
-
 	}
 }
 
@@ -627,6 +624,5 @@ void PlaybackPipeline::_sl_speed_changed()
 		_settings->get(Set::Engine_Speed),
 		_settings->get(Set::Engine_Pitch) / 440.0,
 		_settings->get(Set::Engine_PreservePitch)
-
 	);
 }

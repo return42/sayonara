@@ -60,13 +60,15 @@ void GUI_Player::play_clicked()
 
 void GUI_Player::played()
 {
-	btn_play->setIcon(_icon_loader->get_icon("media-playback-pause", "pause"));
+	IconLoader* icon_loader = IconLoader::getInstance();
+	btn_play->setIcon(icon_loader->get_icon("media-playback-pause", "pause"));
 }
 
 
 void GUI_Player::paused()
 {
-	btn_play->setIcon(_icon_loader->get_icon("media-playback-start", "play"));
+	IconLoader* icon_loader = IconLoader::getInstance();
+	btn_play->setIcon(icon_loader->get_icon("media-playback-start", "play"));
 }
 
 
@@ -78,9 +80,11 @@ void GUI_Player::stop_clicked()
 
 void GUI_Player::stopped()
 {
+	IconLoader* icon_loader = IconLoader::getInstance();
+
 	setWindowTitle("Sayonara");
 
-	btn_play->setIcon(_icon_loader->get_icon("media-playback-start", "play"));
+	btn_play->setIcon(icon_loader->get_icon("media-playback-start", "play"));
 
 	progress_widget->setCurrentIndex(0);
 
@@ -288,6 +292,8 @@ void GUI_Player::decrease_volume()
 
 void GUI_Player::setup_volume_button(int percent)
 {
+	IconLoader* icon_loader = IconLoader::getInstance();
+
 	QString but_name = "vol_";
 	QString but_std_name = "vol_";
 
@@ -311,7 +317,7 @@ void GUI_Player::setup_volume_button(int percent)
 		but_std_name = QString("audio-volume-high");
 	}
 
-	btn_mute->setIcon( _icon_loader->get_icon(but_std_name, but_name));
+	btn_mute->setIcon( icon_loader->get_icon(but_std_name, but_name));
 }
 
 

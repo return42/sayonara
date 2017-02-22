@@ -38,7 +38,6 @@ class PlayerPluginInterface;
 class PlayerPluginHandler;
 class LibraryPluginHandler;
 class PreferenceDialogInterface;
-class IconLoader;
 class QTranslator;
 class QMessageBox;
 
@@ -57,9 +56,7 @@ class GUI_Player :
 signals:
 	void sig_player_closed();
 
-
 public:
-
 	explicit GUI_Player(QTranslator* translator, QWidget *parent=nullptr);
     ~GUI_Player();
 
@@ -73,7 +70,6 @@ public:
 
 
 private:
-
 	PlayerPluginHandler*		_pph=nullptr;
 	LibraryPluginHandler*		_lph=nullptr;
 
@@ -90,7 +86,6 @@ private:
 	QMessageBox*				_about_box=nullptr;
 
 	MetaData					_md;
-	IconLoader*					_icon_loader=nullptr;
 
 
 private:
@@ -128,7 +123,6 @@ private:
 
 
 private slots:
-
 	void play_clicked();
 	void stop_clicked();
 	void prev_clicked();

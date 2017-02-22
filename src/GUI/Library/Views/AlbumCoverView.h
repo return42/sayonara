@@ -8,6 +8,7 @@ class AlbumCoverView :
 		public LibraryView
 {
 	Q_OBJECT
+	PIMPL(AlbumCoverView)
 
 signals:
 	void sig_zoom_changed(int zoom);
@@ -28,8 +29,6 @@ protected:
 	void resizeEvent(QResizeEvent* e) override;
 
 	QStyleOptionViewItem viewOptions() const override;
-private:
-	PIMPL(AlbumCoverView)
 };
 
 #endif // ALBUMCOVERVIEW_H

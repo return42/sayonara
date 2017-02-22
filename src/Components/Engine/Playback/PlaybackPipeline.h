@@ -43,7 +43,6 @@ class PlaybackPipeline :
 
 
 public:
-
 	explicit PlaybackPipeline(Engine* engine, QObject *parent=nullptr);
 	virtual ~PlaybackPipeline();
 
@@ -60,29 +59,23 @@ public:
 
 
 public slots:
-
 	void play() override;
 	void pause() override;
 	void stop() override;
 
-
 	void set_eq_band(const QString& band_name, double val);
 	void set_speed(float speed, double pitch, bool preserve_pitch);
 	void set_streamrecorder_path(const QString& session_path);
-//	void change_pitch(int a_frequency);
 
 	gint64 seek_rel(double percent, gint64 ref_ns);
 	gint64 seek_abs(gint64 ns );
 
 
 private:
-
 	int					_vol;
-	bool				_speed_active;
-	float				_speed_val;
+
 	QString				_sr_path;
 	StreamRecorderData* _sr_data=nullptr;
-
 
 	GstElement*			_audio_src=nullptr;
 	GstElement*			_audio_convert=nullptr;

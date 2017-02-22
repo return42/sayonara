@@ -30,7 +30,6 @@ class LibraryDateSearchView :
 		public SearchableListView
 {
 	Q_OBJECT
-
 	PIMPL(LibraryDateSearchView)
 
 public:
@@ -38,6 +37,8 @@ public:
 	~LibraryDateSearchView();
 
 	Library::DateFilter get_filter(int row) const;
+	int get_index_by_model_index(const QModelIndex& idx) const override;
+	QModelIndex get_model_index_by_index(int idx) const override;
 
 protected:
 	void contextMenuEvent(QContextMenuEvent* e) override;
@@ -49,8 +50,7 @@ protected slots:
 
 	// SayonaraSelectionView interface
 public:
-	int get_index_by_model_index(const QModelIndex& idx) const override;
-	QModelIndex get_model_index_by_index(int idx) const override;
+
 };
 
 #endif // LIBRARYDATESEARCHVIEW_H

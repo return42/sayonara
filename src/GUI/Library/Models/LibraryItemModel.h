@@ -34,6 +34,7 @@ class LibraryItemModel :
 		public AbstractSearchTableModel
 {
 	Q_OBJECT
+	PIMPL(LibraryItemModel)
 
 public:
 
@@ -71,11 +72,6 @@ public:
 	void set_mimedata(const MetaDataList& v_md);
 
 	CustomMimeData* get_mimedata() const;
-
-
-protected:
-	PIMPL(LibraryItemModel)
-
 };
 
 #endif /* LIBRARYITEMMODEL_H_ */

@@ -37,7 +37,8 @@ class AlbumList;
 class LibraryItemModelAlbums :
 		public LibraryItemModel
 {
-Q_OBJECT
+	Q_OBJECT
+	PIMPL(LibraryItemModelAlbums)
 
 public:
 	LibraryItemModelAlbums();
@@ -55,15 +56,7 @@ public:
 	QString get_string(int row) const override;
 
 	CoverLocation get_cover(const SP::Set<int>& indexes) const override;
-
-
-private:
-	PIMPL(LibraryItemModelAlbums)
-
-
-	// LibraryItemModel interface
-	public:
-		int get_searchable_column() const override;
+	int get_searchable_column() const override;
 };
 
 #endif /* LIBRARYITEMMODELALBUMS_H_ */

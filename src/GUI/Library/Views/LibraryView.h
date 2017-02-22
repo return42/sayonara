@@ -41,6 +41,8 @@
 #include "Helper/typedefs.h"
 #include "Helper/Set.h"
 
+#include "Helper/Pimpl.h"
+
 #include <QAction>
 #include <QMenu>
 #include <QStringList>
@@ -55,6 +57,7 @@ class LibraryView :
 		protected Dragable
 {
 	Q_OBJECT
+	PIMPL(LibraryView)
 
 signals:
 
@@ -69,6 +72,9 @@ signals:
 	void sig_sel_changed(const SP::Set<int>& indexes);
 	void sig_merge(const SP::Set<ID>& ids, int target_id);
 
+private:
+	LibraryView(const LibraryView& other)=delete;
+	LibraryView& operator =(const LibraryView& other)=delete;
 
 public:
 	explicit LibraryView(QWidget* parent=nullptr);
@@ -110,12 +116,7 @@ protected:
 
 
 protected:
-	bool						_cur_filling;
 	LibraryItemModel*			_model=nullptr;
-	QAction*					_merge_action=nullptr;
-	QMenu*						_merge_menu=nullptr;
-	LibraryContextMenu*			_rc_menu=nullptr;
-	MD::Interpretation			_type;
 
 
 protected slots:
@@ -132,7 +133,7 @@ public:
 
 		clearSelection();
 
-		_cur_filling = true;
+		//_m->cur_filling = true;
 
 		old_size = _model->rowCount();
 		new_size = input_data.size();
@@ -161,7 +162,7 @@ public:
 
 		select_rows(indexes, 0, _model->columnCount() - 1);
 
-		_cur_filling = false;
+		//_m->cur_filling = false;
 	}
 };
 

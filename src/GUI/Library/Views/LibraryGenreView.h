@@ -43,6 +43,7 @@ class LibraryGenreView :
 		public SayonaraWidgetTemplate<QTreeWidget>
 {
 	Q_OBJECT
+	PIMPL(LibraryGenreView)
 
 signals:
 	void sig_progress(const QString& message, int progress);
@@ -58,9 +59,6 @@ public:
 	void reload_genres(const QStringList& additional_genres);
 	int get_row_count() const;
 
-
-private:
-	PIMPL(LibraryGenreView)
 
 private:
 	void fill_list(const QStringList& genres);
