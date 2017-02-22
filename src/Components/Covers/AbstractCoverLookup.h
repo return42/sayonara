@@ -2,7 +2,6 @@
 #define ABSTRACTCOVERLOOKUP_H
 
 #include <QObject>
-class QString;
 
 /**
  * @brief The CoverLookupInterface class

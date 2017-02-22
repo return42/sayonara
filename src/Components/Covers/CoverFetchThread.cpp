@@ -119,10 +119,10 @@ bool CoverFetchThread::more()
 	}
 
 	// we have no more addresses and not all our covers
-	if(_m->addresses.isEmpty()) {
+	if(_m->addresses.isEmpty())
+	{
 		bool success = start();
-
-		if(!success){
+		if(!success) {
 			emit sig_finished(false);
 		}
 

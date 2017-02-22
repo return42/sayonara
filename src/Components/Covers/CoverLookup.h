@@ -29,10 +29,8 @@
 #ifndef COVERLOOKUP_H_
 #define COVERLOOKUP_H_
 
-#include <QObject>
 #include "AbstractCoverLookup.h"
-
-#include <memory>
+#include "Helper/Pimpl.h"
 
 class Album;
 class CoverLocation;
@@ -45,7 +43,7 @@ class CoverLookup :
 		public AbstractCoverLookup
 {
 	Q_OBJECT
-
+	PIMPL(CoverLookup)
 
 private slots:
 	/**
@@ -94,9 +92,6 @@ public:
 
 
 private:
-
-	int		_n_covers;
-	QString _id;
 
 	/**
 	 * @brief Starts a new CoverFetchThread

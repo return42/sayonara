@@ -27,13 +27,8 @@
  */
 
 #include "CoverLookup.h"
-#include "CoverHelper.h"
 #include "CoverFetchThread.h"
 #include "CoverLocation.h"
-#include "GoogleCoverFetcher.h"
-#include "StandardCoverFetcher.h"
-#include "LFMCoverFetcher.h"
-#include "DiscogsCoverFetcher.h"
 
 #include "Database/DatabaseConnector.h"
 
@@ -43,24 +38,25 @@
 #include <QFile>
 #include <QImage>
 
+struct CoverLookup::Private
+{
+	int		n_covers;
+	QString id;
+
+	Private()
+	{
+		n_covers = 0;
+	}
+};
 
 CoverLookup::CoverLookup(QObject* parent, int n_covers) :
 	AbstractCoverLookup(parent)
 {
-	_n_covers = n_covers;
+
+	_m->n_covers = n_covers;
 }
 
 CoverLookup::~CoverLookup() {}
-
-void CoverLookup::set_identifier(const QString& id)
-{
-	_id = id;
-}
-
-QString CoverLookup::identifier() const
-{
-	return _id;
-}
 
 void CoverLookup::start_new_thread(const CoverLocation& cl )
 {
@@ -69,7 +65,7 @@ void CoverLookup::start_new_thread(const CoverLocation& cl )
 		return;
 	}
 
-	CoverFetchThread* cft = new CoverFetchThread(this, cl, _n_covers);
+	CoverFetchThread* cft = new CoverFetchThread(this, cl, _m->n_covers);
 
 	connect(cft, &CoverFetchThread::sig_cover_found, this, &CoverLookup::cover_found);
 	connect(cft, &CoverFetchThread::sig_finished, this, &CoverLookup::finished);
@@ -81,7 +77,7 @@ void CoverLookup::start_new_thread(const CoverLocation& cl )
 bool CoverLookup::fetch_cover(const CoverLocation& cl, bool also_www)
 {
 	// Look, if cover exists in .Sayonara/covers
-	if( QFile::exists(cl.cover_path()) && _n_covers == 1 )
+	if( QFile::exists(cl.cover_path()) && _m->n_covers == 1 )
 	{
 		emit sig_cover_found(cl.cover_path());
 		emit sig_finished(true);
@@ -89,7 +85,7 @@ bool CoverLookup::fetch_cover(const CoverLocation& cl, bool also_www)
 	}
 
 	// For one cover, we also can use the local cover path
-	if(!cl.local_paths().isEmpty() && _n_covers == 1)
+	if(!cl.local_paths().isEmpty() && _m->n_covers == 1)
 	{	
 		emit sig_cover_found(cl.local_path(0));
 		emit sig_finished(true);
@@ -134,4 +130,14 @@ void CoverLookup::cover_found(const QString& file_path)
 
 void CoverLookup::stop() {}
 
+
+void CoverLookup::set_identifier(const QString& id)
+{
+	_m->id = id;
+}
+
+QString CoverLookup::identifier() const
+{
+	return _m->id;
+}
 
