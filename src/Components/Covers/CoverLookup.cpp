@@ -52,7 +52,7 @@ struct CoverLookup::Private
 CoverLookup::CoverLookup(QObject* parent, int n_covers) :
 	AbstractCoverLookup(parent)
 {
-
+	_m = Pimpl::make<Private>();
 	_m->n_covers = n_covers;
 }
 

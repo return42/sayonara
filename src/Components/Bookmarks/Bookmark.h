@@ -31,8 +31,7 @@
 class QString;
 class Bookmark 
 {
-	private:
-		PIMPL(Bookmark)
+	PIMPL(Bookmark)
 
 	public:
 		explicit Bookmark(quint32 time, const QString& name, bool valid=false);

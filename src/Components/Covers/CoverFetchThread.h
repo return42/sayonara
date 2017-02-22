@@ -46,6 +46,7 @@ class CoverFetchThread :
 		public QObject
 {
 	Q_OBJECT
+	PIMPL(CoverFetchThread)
 
 signals:
 	/**
@@ -81,8 +82,6 @@ public:
 
 
 private:
-	PIMPL(CoverFetchThread)
-
 	/**
 	 * @brief save_and_emit_image saves the image to disc, creates CoverLocation object and emits the sig_cover_found signal
 	 * @param filepath where to save the image on disc

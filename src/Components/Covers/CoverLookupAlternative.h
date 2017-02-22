@@ -39,7 +39,6 @@ class CoverLookupAlternative :
 private:
     CoverLookupAlternative(QObject* parent, int n_covers);
 
-
 public:
 	CoverLookupAlternative(QObject* parent, const CoverLocation& cl, int n_covers);
 	~CoverLookupAlternative();

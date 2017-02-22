@@ -45,17 +45,7 @@ class CoverLookup :
 	Q_OBJECT
 	PIMPL(CoverLookup)
 
-private slots:
-	/**
-	 * @brief called when CoverFetchThread has found cover
-	 * @param cl
-	 */
-	void cover_found(const QString& cover_path);
 
-	/**
-	 * @brief called when CoverFetchThread has finished
-	 */
-	void finished(bool);
 
 
 public:
@@ -92,12 +82,24 @@ public:
 
 
 private:
-
 	/**
 	 * @brief Starts a new CoverFetchThread
 	 * @param cl CoverLocation object
 	 */
 	void start_new_thread(const CoverLocation& cl);
+
+
+private slots:
+	/**
+	 * @brief called when CoverFetchThread has found cover
+	 * @param cl
+	 */
+	void cover_found(const QString& cover_path);
+
+	/**
+	 * @brief called when CoverFetchThread has finished
+	 */
+	void finished(bool);
 };
 
 /**

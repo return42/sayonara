@@ -31,6 +31,8 @@
 class QString;
 class StreamHttpParser
 {
+	PIMPL(StreamHttpParser)
+
 public:
 	/**
 	 * @brief The HttpAnswer enum
@@ -50,10 +52,6 @@ public:
 	};
 
 
-private:
-	PIMPL(StreamHttpParser)
-
-public:
 	StreamHttpParser();
 	~StreamHttpParser();
 

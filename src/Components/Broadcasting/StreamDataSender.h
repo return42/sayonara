@@ -33,9 +33,9 @@ class QTcpSocket;
  */
 class StreamDataSender
 {
-private:
 	PIMPL(StreamDataSender)
 
+private:
 	bool send_icy_metadata(const QString& stream_title);
 
 public:

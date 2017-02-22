@@ -35,6 +35,7 @@ class QIcon;
 class CoverButton : public QPushButton
 {
 	Q_OBJECT
+	PIMPL(CoverButton)
 
 signals:
 	void sig_cover_replaced();
@@ -46,10 +47,6 @@ public:
 
 	void set_cover_location(const CoverLocation& cl);
 	void force_icon(const QIcon& icon);
-
-private:
-	PIMPL(CoverButton)
-
 
 private slots:
 	void cover_button_clicked();

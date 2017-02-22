@@ -37,6 +37,7 @@ class StreamServer :
 		protected SayonaraClass
 {
 	Q_OBJECT
+	PIMPL(StreamServer)
 
 	signals:
 		void sig_new_connection(const QString& ip);
@@ -48,8 +49,6 @@ class StreamServer :
 		~StreamServer();
 
 	private:
-		PIMPL(StreamServer)
-
 		// create new server and listen
 		void create_server();
 
@@ -58,7 +57,7 @@ class StreamServer :
 
 
 	protected:
-		void run();
+		void run() override;
 
 
 	public slots:

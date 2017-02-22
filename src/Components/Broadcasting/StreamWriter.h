@@ -25,7 +25,6 @@
 #include "Interfaces/RawSoundReceiver/RawSoundReceiverInterface.h"
 #include "Helper/Pimpl.h"
 
-#include <memory>
 #include <QObject>
 
 class StreamDataSender;
@@ -45,27 +44,23 @@ class StreamWriter :
 
 {
 	Q_OBJECT
-
 	PIMPL(StreamWriter)
-
-public:
-
-	enum class Type : quint8 
-	{
-		Undefined,
-		Standard,
-		Invalid,
-		Streaming
-	};
 
 	signals:
 		void sig_new_connection(const QString& ip);
 		void sig_disconnected(StreamWriter* sw);
 
-	private:
-		void reset();
 
 	public:
+		enum class Type : quint8
+		{
+			Undefined,
+			Standard,
+			Invalid,
+			Streaming
+		};
+
+
 		/**
 		 * @brief StreamWriter
 		 * @param socket
@@ -144,6 +139,8 @@ public:
 		 */
 		void new_audio_data(const uchar* data, quint64 size) override;
 
+	private:
+		void reset();
 
 	private slots:
 		void socket_disconnected();

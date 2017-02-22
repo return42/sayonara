@@ -25,7 +25,6 @@
 #include "Helper/Pimpl.h"
 
 #include <QObject>
-#include <QPair>
 #include <QList>
 
 class Bookmark;
@@ -39,6 +38,7 @@ class Bookmarks :
 		public QObject
 {
 	Q_OBJECT
+	PIMPL(Bookmarks)
 
 signals:
 	/**
@@ -148,10 +148,6 @@ private slots:
 	 * @param state new playstate
 	 */
 	void playstate_changed(PlayState state);
-
-
-private:
-	PIMPL(Bookmarks)
 
 
 private:
