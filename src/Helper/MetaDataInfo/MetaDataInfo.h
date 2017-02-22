@@ -78,8 +78,11 @@ protected:
 
 	SP::Set<QString>			_albums;
 	SP::Set<QString>			_artists;
+	SP::Set<QString>			_album_artists;
 	SP::Set<AlbumID>			_album_ids;
 	SP::Set<ArtistID>			_artist_ids;
+	SP::Set<ArtistID>			_album_artist_ids;
+
 
 	LibraryDatabase*			_db=nullptr;
 

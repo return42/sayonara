@@ -43,6 +43,7 @@ QString DatabaseAlbums::fetch_query_albums(bool also_empty) const
 			", MAX(tracks.year) AS albumYear"
 			", GROUP_CONCAT(DISTINCT artists.name)"
 			", GROUP_CONCAT(DISTINCT tracks.discnumber)"
+			", GROUP_CONCAT(DISTINCT albumArtists.name)"
 			" FROM albums ";
 
 	QString join = " INNER JOIN ";
@@ -51,7 +52,12 @@ QString DatabaseAlbums::fetch_query_albums(bool also_empty) const
 	}
 
 	sql +=	join + " tracks ON tracks.albumID = albums.albumID " +
-			join + " artists ON (tracks.artistID = artists.artistID OR tracks.albumArtistID = artists.artistID) ";
+			join + " artists ON ("
+				   "    tracks.artistID = artists.artistID OR "
+				   "    tracks.albumArtistID = artists.artistID"
+				   " ) " +
+			" LEFT OUTER JOIN artists albumArtists ON "
+			"    tracks.albumArtistID = albumArtists.artistID ";
 
 	return sql;
 }
@@ -81,6 +87,7 @@ bool DatabaseAlbums::db_fetch_albums(SayonaraQuery& q, AlbumList& result)
 		album.num_songs =	q.value(4).toInt();
 		album.year =		q.value(5).toInt();
 		album.artists =		q.value(6).toString().split(',');
+		album.set_album_artists(q.value(8).toString().split(','));
 
 		album.discnumbers.clear();
 		QStringList discs =	q.value(7).toString().split(',');
@@ -93,8 +100,6 @@ bool DatabaseAlbums::db_fetch_albums(SayonaraQuery& q, AlbumList& result)
 		if(album.discnumbers.isEmpty()) {
 			album.discnumbers << 1;
 		}
-
-		//album.set_album_artist(q.value(8).toString());
 
 		album.n_discs = album.discnumbers.size();
 		album.is_sampler = (album.artists.size() > 1);
