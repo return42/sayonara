@@ -37,6 +37,7 @@ SET(SOURCES
     MetaData/MetaDataList.cpp
     MetaData/Album.cpp
     MetaData/Artist.cpp
+	MetaData/Genre.cpp
 
     Parser/AbstractPlaylistParser.cpp
     Parser/M3UParser.cpp

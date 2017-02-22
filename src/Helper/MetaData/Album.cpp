@@ -33,6 +33,7 @@
 	n_discs = other.n_discs; \
 	rating = other.rating; \
 	is_sampler = other.is_sampler; \
+	_album_artists = other._album_artists;
 
 Album::Album() : LibraryItem()
 {
@@ -58,7 +59,8 @@ Album::Album(Album&& other) :
 	ALBUM_DO_COPY
 }
 
-Album& Album::operator=(const Album& other){
+Album& Album::operator=(const Album& other)
+{
 	LibraryItem::operator =(other);
 	ALBUM_DO_COPY
 	return *this;
@@ -66,6 +68,28 @@ Album& Album::operator=(const Album& other){
 
 
 Album::~Album() {}
+
+
+bool Album::has_album_artists() const
+{
+	return (_album_artists.size() > 0);
+}
+
+QStringList Album::album_artists() const
+{
+	return _album_artists;
+}
+
+void Album::set_album_artists(const QStringList& artists)
+{
+	_album_artists.clear();
+	for(const QString& artist : artists){
+		if(!artist.trimmed().isEmpty()){
+			_album_artists << artist;
+		}
+	}
+}
+
 
 QVariant Album::toVariant(const Album& album)
 {
@@ -79,22 +103,6 @@ bool Album::fromVariant(const QVariant& v, Album& album) {
 	if( !v.canConvert<Album>() ) return false;
 	album =	v.value<Album>();
 	return true;
-}
-
-
-QString Album::album_artist() const
-{
-	return _album_artist;
-}
-
-bool Album::has_album_artist() const
-{
-	return (!_album_artist.isEmpty());
-}
-
-void Album::set_album_artist(const QString& album_artist)
-{
-	_album_artist = album_artist;
 }
 
 

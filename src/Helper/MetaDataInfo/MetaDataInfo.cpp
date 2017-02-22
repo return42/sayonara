@@ -26,6 +26,7 @@
 #include "Helper/MetaData/MetaDataList.h"
 #include "Helper/Settings/Settings.h"
 #include "Helper/MetaData/Album.h"
+#include "Helper/MetaData/Genre.h"
 
 #include "Components/Covers/CoverLocation.h"
 #include "Database/DatabaseHandler.h"
@@ -54,11 +55,15 @@ MetaDataInfo::MetaDataInfo(const MetaDataList& v_md) :
 
 	_db = DB::getInstance(v_md[0]);
 
-	for(const MetaData& md : v_md ){
+	for(const MetaData& md : v_md )
+	{
 		_artists.insert(md.artist);
 		_albums.insert(md.album);
+		_album_artists.insert(md.album_artist());
+
 		_album_ids.insert(md.album_id);
 		_artist_ids.insert(md.artist_id);
+		_album_artist_ids.insert(md.album_artist_id());
 
 		length += md.length_ms;
 		filesize += md.filesize;
@@ -97,14 +102,7 @@ MetaDataInfo::MetaDataInfo(const MetaDataList& v_md) :
 		}
 
 		// genre
-		for(const QString& genre : md.genres){
-			QString first_upper = Helper::cvt_str_to_first_upper(genre).trimmed();
-
-			if(first_upper.size() == 0) continue;
-			if(genres.contains( first_upper ) ) continue;
-
-			genres.append(first_upper.trimmed());
-		}
+		genres = md.genres_to_list();
 
 		// paths
 		if(!Helper::File::is_www(md.filepath())){
@@ -188,6 +186,7 @@ void MetaDataInfo::set_cover_location(const MetaDataList& lst)
 		album.id = _album_ids.first();
 		album.name = _albums.first();
 		album.artists = _artists.toList();
+		album.set_album_artists(_album_artists.toList());
 		album.db_id = lst[0].db_id;
 		_cover_location = CoverLocation::get_cover_location(album);
 	}
@@ -213,7 +212,11 @@ QString MetaDataInfo::calc_artist_str() const
 {
 	QString str;
 
-	if( _artists.size() == 1 ){
+	if( _album_artists.size() == 1){
+		str = _album_artists.first();
+	}
+
+	else if( _artists.size() == 1 ){
 		str = _artists.first();
 	}
 

@@ -13,8 +13,10 @@ SET(SOURCES
     Models/LibraryItemModelTracks.cpp
     Models/DateSearchModel.cpp
     Models/AlbumCoverModel.cpp
+    Models/AlbumCoverFetchThread.cpp
 
     Delegates/LibraryRatingDelegate.cpp
+    Delegates/AlbumCoverDelegate.cpp
 
     Views/LibraryDateSearchView.cpp
     Views/LibraryGenreView.cpp

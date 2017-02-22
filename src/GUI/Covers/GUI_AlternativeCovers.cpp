@@ -128,7 +128,7 @@ void GUI_AlternativeCovers::connect_and_start(const CoverLocation& cl)
 	delete_all_files();
 
 	_m->cover_location = cl;
-	_m->cl_alternative = new CoverLookupAlternative(this, cl, 10);
+	_m->cl_alternative = new CoverLookupAlternative(this, cl, _m->model->rowCount() * _m->model->columnCount() + 5);
 
 	connect(_m->cl_alternative, &CoverLookupAlternative::sig_cover_found, this, &GUI_AlternativeCovers::cl_new_cover);
 	connect(_m->cl_alternative, &CoverLookupAlternative::sig_finished, this, &GUI_AlternativeCovers::cl_finished);
@@ -223,10 +223,9 @@ void GUI_AlternativeCovers::cl_new_cover(const QString& cover_path)
 
 	RowColumn rc_last =     _m->model->cvt_2_row_col( n_files - 1 );
 	RowColumn rc_cur_idx =  _m->model->cvt_2_row_col( _m->cur_idx );
-	QModelIndex model_idx = _m->model->index(rc_last.row, rc_last.col);
 	bool is_valid =         _m->model->is_valid(rc_cur_idx.row, rc_cur_idx.col);
 
-	_m->model->setData(model_idx, cover_path);
+	_m->model->set_cover(rc_last.row, rc_last.col, cover_path);
 
 	ui->btn_ok->setEnabled(is_valid);
 	ui->btn_apply->setEnabled(is_valid);
@@ -251,11 +250,15 @@ void GUI_AlternativeCovers::cover_pressed(const QModelIndex& idx)
 {
 	int row = idx.row();
 	int col = idx.column();
+	QSize sz = _m->model->get_cover_size(idx);
 	bool valid = _m->model->is_valid(row, col);
 	_m->cur_idx = _m->model->cvt_2_idx(row, col);
 
 	ui->btn_ok->setEnabled(valid);
 	ui->btn_apply->setEnabled(valid);
+
+	QString size_str = QString("%1x%2").arg(sz.width()).arg(sz.height());
+	ui->lab_img_size->setText( size_str );
 }
 
 

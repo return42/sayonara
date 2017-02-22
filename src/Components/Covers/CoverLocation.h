@@ -49,7 +49,10 @@ public:
 	void add_local_path(const QString& path);
 	QString local_path(int idx) const;
 	QString cover_path() const;
-	QString search_url() const;
+	QStringList search_urls() const;
+	void remove_first_search_url();
+
+	bool has_search_urls() const;
 	QString search_term() const;
 	void set_search_term(const QString& search_term);
 	QString to_string() const;

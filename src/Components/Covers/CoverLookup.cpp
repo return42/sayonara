@@ -27,7 +27,6 @@
  */
 
 #include "CoverLookup.h"
-#include "CoverHelper.h"
 #include "CoverFetchThread.h"
 #include "CoverLocation.h"
 
@@ -35,27 +34,39 @@
 
 #include "Helper/MetaData/MetaData.h"
 #include "Helper/MetaData/Album.h"
-#include "Helper/MetaData/Artist.h"
-
 
 #include <QFile>
 #include <QImage>
 
-CoverLookupInterface::CoverLookupInterface(QObject* parent):
-	QObject(parent) {}
+struct CoverLookup::Private
+{
+	int		n_covers;
+	QString id;
 
-CoverLookupInterface::~CoverLookupInterface() {}
+	Private()
+	{
+		n_covers = 0;
+	}
+};
 
 CoverLookup::CoverLookup(QObject* parent, int n_covers) :
-	CoverLookupInterface(parent)
+	AbstractCoverLookup(parent)
 {
-	_n_covers = n_covers;
+
+	_m->n_covers = n_covers;
 }
 
 CoverLookup::~CoverLookup() {}
 
-void CoverLookup::start_new_thread(const CoverLocation& cl ) {
-	CoverFetchThread* cft = new CoverFetchThread(this, cl, _n_covers);
+void CoverLookup::start_new_thread(const CoverLocation& cl )
+{
+	// TODO:
+	if(!cl.has_search_urls()){
+		return;
+	}
+
+	CoverFetchThread* cft = new CoverFetchThread(this, cl, _m->n_covers);
+
 	connect(cft, &CoverFetchThread::sig_cover_found, this, &CoverLookup::cover_found);
 	connect(cft, &CoverFetchThread::sig_finished, this, &CoverLookup::finished);
 
@@ -63,38 +74,52 @@ void CoverLookup::start_new_thread(const CoverLocation& cl ) {
 }
 
 
-bool CoverLookup::fetch_cover(const CoverLocation& cl)
+bool CoverLookup::fetch_cover(const CoverLocation& cl, bool also_www)
 {
 	// Look, if cover exists in .Sayonara/covers
-	if( QFile::exists(cl.cover_path()) && _n_covers == 1 )
+	if( QFile::exists(cl.cover_path()) && _m->n_covers == 1 )
 	{
 		emit sig_cover_found(cl.cover_path());
+		emit sig_finished(true);
 		return true;
 	}
 
 	// For one cover, we also can use the local cover path
-	if(!cl.local_paths().isEmpty() && _n_covers == 1)
-	{
+	if(!cl.local_paths().isEmpty() && _m->n_covers == 1)
+	{	
 		emit sig_cover_found(cl.local_path(0));
+		emit sig_finished(true);
 		return true;
 	}
 
 	// we have to fetch the cover from the internet
-	start_new_thread( cl );
+	if(also_www){
+		start_new_thread( cl );
+	}
+
+	else{
+		return false;
+	}
 
 	return true;
 }
 
-bool CoverLookup::fetch_album_cover(const Album& album) {
+
+bool CoverLookup::fetch_album_cover(const Album& album, bool also_www)
+{
 	CoverLocation cl = CoverLocation::get_cover_location(album);
-	return fetch_cover(cl);
+	return fetch_cover(cl, also_www);
 }
 
-void CoverLookup::finished(bool success) {
+
+void CoverLookup::finished(bool success)
+{
     emit sig_finished(success);
 }
 
-void CoverLookup::cover_found(const QString& file_path) {
+
+void CoverLookup::cover_found(const QString& file_path)
+{
 	CoverFetchThread* cft = static_cast<CoverFetchThread*>(sender());
     emit sig_cover_found(file_path);
 
@@ -105,4 +130,14 @@ void CoverLookup::cover_found(const QString& file_path) {
 
 void CoverLookup::stop() {}
 
+
+void CoverLookup::set_identifier(const QString& id)
+{
+	_m->id = id;
+}
+
+QString CoverLookup::identifier() const
+{
+	return _m->id;
+}
 

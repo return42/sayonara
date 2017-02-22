@@ -28,10 +28,6 @@ class QString;
 namespace CoverHelper
 {
 	QString calc_cover_token(const QString& artist, const QString& album);
-
-	QString calc_google_image_search_address(const QString& searchstring);
-	QString calc_google_artist_address(const QString& artist);
-	QString calc_google_album_address(const QString& artist, const QString& album);
 }
 
 #endif // COVERHELPER_H

@@ -38,8 +38,9 @@ Q_DECLARE_METATYPE(Album)
 class Album :
 		public LibraryItem
 {
+
 private:
-	QString _album_artist;
+	QStringList _album_artists;
 
 public:
     QString name;
@@ -47,7 +48,6 @@ public:
     quint16 num_songs;
     quint32 length_sec;
     quint16	year;
-
 
     QStringList artists;
 
@@ -66,9 +66,9 @@ public:
 	static QVariant toVariant(const Album& album);
 	static bool fromVariant(const QVariant& v, Album& album);
 
-	QString album_artist() const;
-	bool has_album_artist() const;
-	void set_album_artist(const QString& album_artist);
+	bool has_album_artists() const;
+	QStringList album_artists() const;
+	void set_album_artists(const QStringList& artists);
 };
 
 

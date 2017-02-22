@@ -251,7 +251,10 @@ QMimeData* SomaFMStationModel::mimeData(const QModelIndexList& indexes) const
 
 		for(const QString& str_url : str_urls){
 			urls << QUrl(str_url);
-			cover_url = _m->stations[row].get_cover_location().search_url();
+			CoverLocation cl = _m->stations[row].get_cover_location();
+			if(cl.has_search_urls()){
+				cover_url = cl.search_urls().first();
+			}
 		}
 	}
 

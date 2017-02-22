@@ -22,6 +22,7 @@
 #include "Database/DatabaseTracks.h"
 #include "Database/DatabaseLibrary.h"
 #include "Helper/MetaData/MetaDataList.h"
+#include "Helper/MetaData/Genre.h"
 #include "Helper/Logger/Logger.h"
 #include "Helper/Helper.h"
 #include "Helper/FileHelper.h"
@@ -101,7 +102,7 @@ bool DatabaseTracks::db_fetch_tracks(SayonaraQuery& q, MetaDataList& result)
 		data.artist_id = q.value(8).toInt();
 		data.album = 	 q.value(9).toString().trimmed();
 		data.artist = 	 q.value(10).toString().trimmed();
-		data.genres =	 q.value(11).toString().split(",");
+		data.set_genres(q.value(11).toString().split(","));
 		data.filesize =  q.value(12).toInt();
 		data.discnumber = q.value(13).toInt();
 		data.rating = q.value(14).toInt();
@@ -724,19 +725,17 @@ void DatabaseTracks::updateTrackCissearch()
 
 bool DatabaseTracks::updateTrack(const MetaData& md)
 {
-	if(md.id < 0) {
+	if(md.id < 0 || md.album_id < 0 || md.artist_id < 0) {
+		sp_log(Log::Warning, this) << "Cannot update track: "
+								   << " ArtistID: " << md.artist_id
+								   << " AlbumID: " << md.album_id
+								   << " TrackID: " << md.id;
 		return false;
 	}
 
 	SayonaraQuery q(_db);
 
 	QString cissearch = Library::convert_search_string(md.title, search_mode());
-	QStringList genres;
-	for(const QString& genre : md.genres){
-		if(!genre.trimmed().isEmpty()){
-			genres << genre;
-		}
-	}
 
 	q.prepare("UPDATE Tracks "
 			  "SET albumID=:albumID, "
@@ -765,7 +764,7 @@ bool DatabaseTracks::updateTrack(const MetaData& md)
 	q.bindValue(":bitrate",			md.bitrate);
 	q.bindValue(":year",			md.year);
 	q.bindValue(":trackID",			md.id);
-	q.bindValue(":genre",			genres.join(","));
+	q.bindValue(":genre",			md.genres_to_string());
 	q.bindValue(":filesize",		md.filesize);
 	q.bindValue(":discnumber",		md.discnumber);
 	q.bindValue(":cissearch",		cissearch);
@@ -818,13 +817,6 @@ bool DatabaseTracks::insertTrackIntoDatabase (const MetaData& md, int artist_id,
 		return updateTrack(track_copy);
 	}
 
-	QStringList genres;
-	for(const QString& genre : md.genres){
-		if(!genre.trimmed().isEmpty()){
-			genres << genre;
-		}
-	}
-
 	QString cissearch = Library::convert_search_string(md.title, search_mode());
 	QString querytext =
 			"INSERT INTO tracks "
@@ -844,7 +836,7 @@ bool DatabaseTracks::insertTrackIntoDatabase (const MetaData& md, int artist_id,
 	q.bindValue(":title",			md.title);
 	q.bindValue(":track",			md.track_num);
 	q.bindValue(":bitrate",			md.bitrate);
-	q.bindValue(":genre",			genres.join(","));
+	q.bindValue(":genre",			md.genres_to_string());
 	q.bindValue(":filesize",		md.filesize);
 	q.bindValue(":discnumber",		md.discnumber);
 	q.bindValue(":rating",			md.rating);

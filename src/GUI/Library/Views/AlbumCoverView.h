@@ -24,8 +24,10 @@ public:
 	MD::Interpretation get_metadata_interpretation() const override;
 
 protected:
-	void wheelEvent(QWheelEvent *e) override;
+	void wheelEvent(QWheelEvent* e) override;
+	void resizeEvent(QResizeEvent* e) override;
 
+	QStyleOptionViewItem viewOptions() const override;
 private:
 	PIMPL(AlbumCoverView)
 };

@@ -114,7 +114,6 @@ private slots:
 	void _sl_libpath_changed();
 	void clear_button_pressed() override;
 
-
 protected slots:
 	void lib_fill_albums(const AlbumList& albums) override;
 	void lib_fill_tracks(const MetaDataList& v_md) override;

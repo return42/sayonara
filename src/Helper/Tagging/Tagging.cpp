@@ -34,6 +34,7 @@
 #include "Helper/Helper.h"
 #include "Helper/FileHelper.h"
 #include "Helper/MetaData/MetaData.h"
+#include "Helper/MetaData/Genre.h"
 #include "Helper/Logger/Logger.h"
 
 #include <taglib/tag.h>
@@ -52,6 +53,7 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QImage>
+
 
 static Tagging::TagType tag_type_from_fileref(const TagLib::FileRef& f);
 
@@ -217,7 +219,7 @@ bool Tagging::getMetaDataOfFile(MetaData& md, Tagging::Quality quality)
 	md.year = year;
 	md.track_num = track;
 	md.bitrate = bitrate;
-	md.genres = genres;
+	md.set_genres(genres);
 	md.discnumber = discnumber.disc;
 	md.n_discs = discnumber.n_discs;
 	md.rating = popularimeter.get_rating();
@@ -252,7 +254,7 @@ bool Tagging::setMetaDataOfFile(const MetaData& md)
 	TagLib::String album(md.album.toUtf8().data(), TagLib::String::UTF8);
 	TagLib::String artist(md.artist.toUtf8().data(), TagLib::String::UTF8);
 	TagLib::String title(md.title.toUtf8().data(), TagLib::String::UTF8);
-	TagLib::String genre(md.genres.join(",").toUtf8().data(), TagLib::String::UTF8);
+	TagLib::String genre(md.genres_to_string().toUtf8().data(), TagLib::String::UTF8);
 	TagLib::Tag* tag = f.tag();
 	Tagging::TagType tag_type = tag_type_from_fileref(f);
 

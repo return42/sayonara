@@ -28,8 +28,4 @@
 #define LFM_API_KEY 	QByteArray("51d6f9eaef806f603f346844bef326ba")
 #define LFM_API_SECRET	QByteArray("1093d769e54858cb0d21d42b35a8f603")
 
-#include <QMap>
-#include <QByteArray>
-
-
 #endif /* LFMGLOBALS_H_ */

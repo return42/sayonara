@@ -29,43 +29,21 @@
 #ifndef COVERLOOKUP_H_
 #define COVERLOOKUP_H_
 
-#include <QObject>
-
-#include <memory>
+#include "AbstractCoverLookup.h"
+#include "Helper/Pimpl.h"
 
 class Album;
 class CoverLocation;
-/**
- * @brief The CoverLookupInterface class
- * @ingroup Covers
- */
-class CoverLookupInterface :
-		public QObject
-{
-	Q_OBJECT
-
-signals:
-	void sig_cover_found(const QString& file_path);
-	void sig_finished(bool success);
-
-public slots:
-	virtual void stop()=0;
-
-public:
-	explicit CoverLookupInterface(QObject* parent=nullptr);
-	virtual ~CoverLookupInterface();
-};
-
 
 /**
  * @brief The CoverLookup class
  * @ingroup Covers
  */
 class CoverLookup :
-		public CoverLookupInterface
+		public AbstractCoverLookup
 {
 	Q_OBJECT
-
+	PIMPL(CoverLookup)
 
 private slots:
 	/**
@@ -85,6 +63,10 @@ public:
 	CoverLookup(QObject* parent=nullptr, int n_covers=1);
 	~CoverLookup();
 
+	void set_identifier(const QString& id);
+	QString identifier() const;
+
+
 	/**
 	 * @brief fetches cover for a CoverLocation.
 	 *   1. Looks up CoverLocation::cover_path
@@ -93,14 +75,14 @@ public:
 	 * @param cl CoverLocation of interest
 	 * @return always true
 	 */
-	bool fetch_cover(const CoverLocation& cl);
+	bool fetch_cover(const CoverLocation& cl, bool also_www=true);
 
 	/**
 	 * @brief uses CoverLocation(const Album& album)
 	 * @param album Album object
 	 * @return true
 	 */
-	bool fetch_album_cover(const Album& album);
+	bool fetch_album_cover(const Album& album, bool also_www=true);
 
 
 	/**
@@ -110,8 +92,6 @@ public:
 
 
 private:
-
-	int _n_covers;
 
 	/**
 	 * @brief Starts a new CoverFetchThread
