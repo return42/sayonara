@@ -315,7 +315,11 @@
             </layout>
            </widget>
            <widget class="QWidget" name="page_4">
-            <layout class="QGridLayout" name="gridLayout_8"/>
+            <layout class="QGridLayout" name="gridLayout_8">
+             <property name="margin">
+              <number>0</number>
+             </property>
+            </layout>
            </widget>
           </widget>
           <widget class="LibraryTableView" name="tb_title">
