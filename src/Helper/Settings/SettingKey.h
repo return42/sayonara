@@ -84,7 +84,7 @@ namespace SK {
 	Lib_AutoUpdate,
 	Lib_DateFilters,
 	Lib_ShowAlbumArtists,
-	Lib_CoversGathered,
+	Lib_ShowAlbumCovers,
 
 	Player_Version,
 	Player_Language,
@@ -230,7 +230,7 @@ namespace Set
     INST(bool,				Lib_AutoUpdate);			/* Automatic update of library */
     INST(QList<Library::DateFilter>,	Lib_DateFilters);			/* Date filters appearing in library window */
     INST(bool,				Lib_ShowAlbumArtists);			/* Show album artists instead of artists */
-	INST(bool,				Lib_CoversGathered);		/* Are all covers gathered and moved to the covers directory? */
+	INST(bool,				Lib_ShowAlbumCovers);		/* Show album cover view */
 
 
     INST(QString,			Player_Version);			/* Version string of player */

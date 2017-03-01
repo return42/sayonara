@@ -76,7 +76,7 @@ LibraryView::LibraryView(QWidget* parent) :
 
 LibraryView::~LibraryView() {}
 
-void LibraryView::setModel(LibraryItemModel * model)
+void LibraryView::setModel(LibraryItemModel* model)
 {
 	SearchableTableView::setModel(model);
 	_model = model;
@@ -115,18 +115,18 @@ void LibraryView::rc_menu_init()
 				LibraryContextMenu::EntryDelete |
 				LibraryContextMenu::EntryEdit |
 				LibraryContextMenu::EntryAppend
-	);
+				);
 
 	_m->merge_menu = new QMenu(tr("Merge"), _m->rc_menu);
 	_m->merge_action = _m->rc_menu->addMenu(_m->merge_menu);
 	_m->merge_action->setVisible(false);
 
 	connect(_m->rc_menu, &LibraryContextMenu::sig_edit_clicked, this, [=]()
-{show_edit();});
+	{show_edit();});
 	connect(_m->rc_menu, &LibraryContextMenu::sig_info_clicked, this, [=]()
-{show_info();});
+	{show_info();});
 	connect(_m->rc_menu, &LibraryContextMenu::sig_lyrics_clicked, this, [=]()
-{show_lyrics();});
+	{show_lyrics();});
 	connect(_m->rc_menu, &LibraryContextMenu::sig_delete_clicked, this, &LibraryView::sig_delete_clicked);
 	connect(_m->rc_menu, &LibraryContextMenu::sig_play_next_clicked, this, &LibraryView::sig_play_next_clicked);
 	connect(_m->rc_menu, &LibraryContextMenu::sig_append_clicked, this, &LibraryView::sig_append_clicked);
@@ -150,8 +150,8 @@ QMimeData* LibraryView::get_mimedata() const
 QPixmap LibraryView::get_pixmap() const
 {
 	CoverLocation cl = _model->get_cover(
-			get_selected_items()
-	);
+				get_selected_items()
+				);
 
 	QString cover_path = cl.preferred_path();
 	if(cl.valid()){
@@ -194,7 +194,7 @@ void LibraryView::rc_menu_show(const QPoint& p) {
 }
 
 
-void LibraryView::set_type(MD::Interpretation type)
+void LibraryView::set_metadata_interpretation(MD::Interpretation type)
 {
 	_m->type = type;
 }
@@ -224,59 +224,6 @@ void LibraryView::merge_action_triggered()
 	emit sig_merge(ids, id);
 }
 
-
-bool LibraryView::event(QEvent* e)
-{
-	if(e->type() == QEvent::ContextMenu)
-	{
-		if(!_m->rc_menu) {
-			rc_menu_init();
-		}
-
-		SP::Set<int> selections = get_selected_items();
-
-		QContextMenuEvent* cme = dynamic_cast<QContextMenuEvent*>(e);
-		QPoint pos = cme->globalPos();
-
-		if(_m->type == MD::Interpretation::Tracks && selections.size() == 1)
-		{
-			_m->rc_menu->show_action(LibraryContextMenu::EntryLyrics, true);
-		}
-		else{
-			_m->rc_menu->show_action(LibraryContextMenu::EntryLyrics, false);
-		}
-
-		bool is_right_type =
-			(_m->type == MD::Interpretation::Artists ||
-			_m->type == MD::Interpretation::Albums);
-
-		if(is_right_type){
-			bool has_selections = (selections.size() > 1);
-
-			_m->merge_action->setVisible(has_selections);
-
-			if(has_selections){
-				_m->merge_menu->clear();
-
-				for(int i : selections)
-				{
-					QString name = _model->get_string(i);
-					name.replace("&", "&&");
-					int id = _model->get_id_by_row(i);
-					QAction* action = new QAction(name, _m->merge_menu);
-					action->setData(id);
-
-					_m->merge_menu->addAction(action);
-					connect(action, &QAction::triggered, this, &LibraryView::merge_action_triggered);
-				}
-			}
-		}
-
-		rc_menu_show(pos);
-	}
-
-	return SearchableTableView::event(e);
-}
 
 // mouse events
 void LibraryView::mousePressEvent(QMouseEvent* event)
@@ -311,7 +258,7 @@ void LibraryView::mouseMoveEvent(QMouseEvent* event)
 	if(drag)
 	{
 		connect(drag, &QDrag::destroyed, this, [=]()
-{
+		{
 			this->drag_released(Dragable::ReleaseReason::Destroyed);
 		});
 	}
@@ -374,7 +321,7 @@ void LibraryView::keyPressEvent(QKeyEvent* event)
 
 	SP::Set<int> selections = get_selected_items();
 
-	switch(key) 
+	switch(key)
 	{
 		case Qt::Key_Return:
 		case Qt::Key_Enter:
@@ -413,6 +360,64 @@ void LibraryView::keyPressEvent(QKeyEvent* event)
 		default:
 			break;
 	}
+}
+
+void LibraryView::contextMenuEvent(QContextMenuEvent* event)
+{
+	if(!_m->rc_menu) {
+		rc_menu_init();
+	}
+
+	SP::Set<int> selections = get_selected_items();
+
+	QPoint pos = event->globalPos();
+
+	if(_m->type == MD::Interpretation::Tracks && selections.size() == 1)
+	{
+		_m->rc_menu->show_action(LibraryContextMenu::EntryLyrics, true);
+	}
+	else{
+		_m->rc_menu->show_action(LibraryContextMenu::EntryLyrics, false);
+	}
+
+	bool is_right_type =
+			(_m->type == MD::Interpretation::Artists ||
+			 _m->type == MD::Interpretation::Albums);
+
+	if(is_right_type) {
+		size_t n_selections = selections.size();
+
+		if(n_selections > 1){
+			_m->merge_menu->clear();
+
+			for(int i : selections)
+			{
+				int id = _model->get_id_by_row(i);
+				if(id < 0){
+					n_selections--;
+					if(n_selections <= 1) {
+						break;
+					}
+
+					continue;
+				}
+
+				QString name = _model->get_string(i);
+				name.replace("&", "&&");
+
+				QAction* action = new QAction(name, _m->merge_menu);
+				action->setData(id);
+				_m->merge_menu->addAction(action);
+				connect(action, &QAction::triggered, this, &LibraryView::merge_action_triggered);
+			}
+
+			_m->merge_action->setVisible(n_selections > 1);
+		}
+	}
+
+	rc_menu_show(pos);
+
+	QTableView::contextMenuEvent(event);
 }
 // keyboard end
 

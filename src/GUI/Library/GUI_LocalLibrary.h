@@ -64,7 +64,6 @@ protected:
 private slots:
 
 	void switch_album_view();
-	void album_view_zoom_changed(int zoom);
 
 	void disc_pressed(int disc);
 	void lib_no_lib_path();

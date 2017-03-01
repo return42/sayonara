@@ -53,6 +53,8 @@
 #include <QShortcut>
 #include <QInputDialog>
 #include <QMessageBox>
+#include <QTreeView>
+#include <QStandardPaths>
 
 
 GUI_LocalLibrary::GUI_LocalLibrary(QWidget* parent) :
@@ -103,8 +105,6 @@ GUI_LocalLibrary::GUI_LocalLibrary(QWidget* parent) :
 	connect(library, &LocalLibrary::sig_no_library_path, this, &GUI_LocalLibrary::lib_no_lib_path);
 	connect(library, &LocalLibrary::sig_import_dialog_requested, this, &GUI_LocalLibrary::import_dialog_requested);
 
-	new QShortcut(QKeySequence("Ctrl+."), this, SLOT(switch_album_view()));
-
 	setAcceptDrops(true);
 
 	QTimer::singleShot(0, library, SLOT(load()));
@@ -118,6 +118,7 @@ GUI_LocalLibrary::GUI_LocalLibrary(QWidget* parent) :
 	}
 
 	REGISTER_LISTENER(Set::Lib_Path, _sl_libpath_changed);
+	REGISTER_LISTENER(Set::Lib_ShowAlbumCovers, switch_album_view);
 }
 
 
@@ -214,21 +215,17 @@ Library::ReloadQuality GUI_LocalLibrary::show_quality_dialog()
 
 void GUI_LocalLibrary::switch_album_view()
 {
-	int idx = (ui->stackedWidget->currentIndex() + 1) % 2;
+	bool show_cover_view = _settings->get(Set::Lib_ShowAlbumCovers);
+	int idx = 0;
+	if(show_cover_view){
+		idx = 1;
+		if(!_acv){
+			init_album_cover_view();
+		}
+	}
 
 	ui->stackedWidget->setCurrentIndex( idx );
-
-	if(idx == 1 && ! _acv){
-		init_album_cover_view();
-		clear_button_pressed();
-	}
-}
-
-void GUI_LocalLibrary::album_view_zoom_changed(int zoom)
-{
-	if(_acm){
-		_acm->set_zoom(zoom);
-	}
+	clear_button_pressed();
 }
 
 
@@ -365,9 +362,7 @@ void GUI_LocalLibrary::show_info_box()
 	_library_info_box->psl_refresh();
 }
 
-#include <QListView>
-#include <QTreeView>
-#include <QStandardPaths>
+
 void GUI_LocalLibrary::import_dirs_requested()
 {
 	QStringList dirs;
@@ -536,19 +531,28 @@ void GUI_LocalLibrary::splitter_date_moved(int pos, int idx)
 
 void GUI_LocalLibrary::init_album_cover_view()
 {
+	if(_acv){
+		return;
+	}
+
+	LocalLibrary* library = LocalLibrary::getInstance();
 	_acv = new AlbumCoverView(ui->page_4);
-	ui->page_4->layout()->addWidget(_acv);
+	QLayout* layout = ui->page_4->layout();
+	if(layout){
+		layout->addWidget(_acv);
+	}
 
 	_acm = new AlbumCoverModel(_acv);
-
 	_acv->setModel(_acm);
-	_acv->setSearchModel(_acm);
-	_acv->show();
 
 	connect(_acv, &LibraryView::doubleClicked, this, &GUI_LocalLibrary::album_dbl_clicked);
 	connect(_acv, &LibraryView::sig_sel_changed, this, &GUI_LocalLibrary::album_sel_changed);
 	connect(_acv, &LibraryView::sig_middle_button_clicked, this, &GUI_LocalLibrary::album_middle_clicked);
-	connect(_acv, &AlbumCoverView::sig_zoom_changed, _acm, &AlbumCoverModel::set_zoom);
+	connect(_acv, &LibraryView::sig_play_next_clicked, this, &GUI_LocalLibrary::play_next);
+	connect(_acv, &LibraryView::sig_append_clicked, this, &GUI_LocalLibrary::append);
+	connect(_acv, &LibraryView::sig_merge, library, &LocalLibrary::merge_albums);
+
+	_acv->show();
 }
 
 
@@ -560,8 +564,7 @@ void GUI_LocalLibrary::lib_fill_albums(const AlbumList& albums)
 	}
 
 	_acm->set_data(albums);
-	_acv->resizeRowsToContents();
-	_acv->resizeColumnsToContents();
+	_acv->refresh();
 }
 
 

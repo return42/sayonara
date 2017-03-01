@@ -4,31 +4,34 @@
 #include "GUI/Library/Views/LibraryView.h"
 #include "Helper/Pimpl.h"
 
+class AlbumCoverModel;
 class AlbumCoverView :
 		public LibraryView
 {
 	Q_OBJECT
 	PIMPL(AlbumCoverView)
 
-signals:
-	void sig_zoom_changed(int zoom);
-
 public:
 	explicit AlbumCoverView(QWidget* parent=nullptr);
 	virtual ~AlbumCoverView();
 
-	// SayonaraSelectionView interface
-public:
 	int get_index_by_model_index(const QModelIndex& idx) const override;
 	QModelIndex get_model_index_by_index(int idx) const override;
 
-	MD::Interpretation get_metadata_interpretation() const override;
+	void setModel(AlbumCoverModel* model);
+	void refresh();
 
 protected:
 	void wheelEvent(QWheelEvent* e) override;
 	void resizeEvent(QResizeEvent* e) override;
 
 	QStyleOptionViewItem viewOptions() const override;
+
+private:
+	void change_zoom(int zoom=-1);
+
+	void setModel(QAbstractItemModel* m) override;
+	void setModel(LibraryItemModel* m) override;
 };
 
 #endif // ALBUMCOVERVIEW_H

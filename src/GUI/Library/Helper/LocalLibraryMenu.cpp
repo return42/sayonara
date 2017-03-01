@@ -48,6 +48,10 @@ LocalLibraryMenu::LocalLibraryMenu(QWidget* parent) :
 	_show_album_artists_action->setCheckable(true);
 	_show_album_artists_action->setChecked(_settings->get(Set::Lib_ShowAlbumArtists));
 
+	_show_album_cover_view = new QAction(QIcon(), QString(), this);
+	_show_album_cover_view->setCheckable(true);
+	_show_album_cover_view->setChecked(_settings->get(Set::Lib_ShowAlbumCovers));
+
 	connect(_reload_library_action, &QAction::triggered, this, &LocalLibraryMenu::sig_reload_library);
 	connect(_import_file_action, &QAction::triggered, this, &LocalLibraryMenu::sig_import_file);
 	connect(_import_folder_action, &QAction::triggered, this, &LocalLibraryMenu::sig_import_folder);
@@ -56,6 +60,7 @@ LocalLibraryMenu::LocalLibraryMenu(QWidget* parent) :
 	connect(_realtime_search_action, &QAction::triggered, this, &LocalLibraryMenu::realtime_search_changed);
 	connect(_auto_update, &QAction::triggered, this, &LocalLibraryMenu::auto_update_changed);
 	connect(_show_album_artists_action, &QAction::triggered, this, &LocalLibraryMenu::show_album_artists_changed);
+	connect(_show_album_cover_view, &QAction::triggered, this, &LocalLibraryMenu::show_album_cover_view_changed);
 
 	_actions <<_library_path_action <<
 				this->addSeparator() <<
@@ -66,6 +71,7 @@ LocalLibraryMenu::LocalLibraryMenu(QWidget* parent) :
 				_import_folder_action <<
 				_reload_library_action <<
 				this->addSeparator() <<
+				_show_album_cover_view <<
 				_realtime_search_action <<
 				_auto_update <<
 				_show_album_artists_action;
@@ -78,6 +84,7 @@ LocalLibraryMenu::LocalLibraryMenu(QWidget* parent) :
 
 LocalLibraryMenu::~LocalLibraryMenu() {}
 
+
 void LocalLibraryMenu::language_changed()
 {
 	_reload_library_action->setText(Lang::get(Lang::ReloadLibrary));
@@ -88,6 +95,7 @@ void LocalLibraryMenu::language_changed()
 	_realtime_search_action->setText(tr("Live search"));
 	_auto_update->setText(tr("Auto update"));
 	_show_album_artists_action->setText(Lang::get(Lang::ShowAlbumArtists));
+	_show_album_cover_view->setText(tr("Show album covers"));
 }
 
 void LocalLibraryMenu::skin_changed()
@@ -108,6 +116,12 @@ void LocalLibraryMenu::auto_update_changed()
 {
 	_settings->set(Set::Lib_AutoUpdate, _auto_update->isChecked());
 }
+
+void LocalLibraryMenu::show_album_cover_view_changed()
+{
+	_settings->set(Set::Lib_ShowAlbumCovers, _show_album_cover_view->isChecked());
+}
+
 
 void LocalLibraryMenu::show_album_artists_changed()
 {

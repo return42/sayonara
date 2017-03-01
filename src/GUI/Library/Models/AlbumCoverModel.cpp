@@ -6,6 +6,7 @@
 #include "Helper/MetaData/Album.h"
 #include "Helper/Helper.h"
 #include "Helper/Logger/Logger.h"
+#include "Helper/Set.h"
 
 #include <QStringList>
 #include <QPixmap>
@@ -67,6 +68,10 @@ int AlbumCoverModel::columnCount(const QModelIndex& parent) const
 
 void AlbumCoverModel::set_max_columns(int columns)
 {
+	if(columns == 0){
+		return;
+	}
+
 	if(columns == _m->columns){
 		return;
 	}
@@ -122,7 +127,6 @@ QVariant AlbumCoverModel::data(const QModelIndex& index, int role) const
 		return QVariant();
 	}
 
-
 	switch(role)
 	{
 		case Qt::DisplayRole:
@@ -170,13 +174,18 @@ QVariant AlbumCoverModel::data(const QModelIndex& index, int role) const
 			}
 
 		case Qt::SizeHintRole:
-			return QSize(_m->size + 50, _m->size + 50);
+			return get_item_size();
 
 		default:
 			return QVariant();
 	}
 
 	return QVariant();
+}
+
+QSize AlbumCoverModel::get_item_size() const
+{
+	return QSize(_m->size + 50, _m->size + 50);
 }
 
 
@@ -206,7 +215,7 @@ void AlbumCoverModel::set_zoom(int zoom)
 	_m->size = zoom;
 	emit dataChanged(index(0, 0),
 					 index(rowCount(), columnCount())
-					 );
+	);
 }
 
 
@@ -248,6 +257,14 @@ QModelIndex AlbumCoverModel::getNextRowIndexOf(const QString& substr, int cur_ro
 		{
 			return this->index(idx / columnCount(), idx % columnCount());
 		}
+
+		for(const QString& artist : _m->albums[idx].artists) {
+			QString cvt_artist = Library::convert_search_string(artist, search_mode());
+
+			if(cvt_artist.contains(substr)){
+				return this->index(idx / columnCount(), idx % columnCount());
+			}
+		}
 	}
 
 	return QModelIndex();
@@ -264,13 +281,21 @@ QModelIndex AlbumCoverModel::getPrevRowIndexOf(const QString& substr, int row, c
 			row = len - 1;
 		}
 
-		int row_idx = (row - i) % len;
+		int idx = (row - i) % len;
 
-		QString title = get_string(row_idx);
+		QString title = get_string(idx);
 		title = Library::convert_search_string(title, search_mode());
 		if(title.contains(substr))
 		{
-			return this->index(row_idx / columnCount(), row_idx % columnCount());
+			return this->index(idx / columnCount(), idx % columnCount());
+		}
+
+		for(const QString& artist : _m->albums[idx].artists) {
+			QString cvt_artist = Library::convert_search_string(artist, search_mode());
+
+			if(cvt_artist.contains(substr)){
+				return this->index(idx / columnCount(), idx % columnCount());
+			}
 		}
 	}
 
@@ -288,22 +313,41 @@ int AlbumCoverModel::get_searchable_column() const
 	return 0;
 }
 
-QString AlbumCoverModel::get_string(int row) const
+QString AlbumCoverModel::get_string(int idx) const
 {
-	return _m->albums[row].name;
+	if(idx < 0 || idx >= _m->albums.size()){
+		return QString();
+	}
+
+	return _m->albums[idx].name;
 }
 
-int AlbumCoverModel::get_id_by_row(int row)
+int AlbumCoverModel::get_id_by_row(int idx)
 {
-	// TODO: Implement me. Maybe get id by index?
-	Q_UNUSED(row)
-	return -1;
+	if(idx < 0 || idx >= _m->albums.size()){
+		return -1;
+	}
+
+	return _m->albums[idx].id;
 }
 
 CoverLocation AlbumCoverModel::get_cover(const SP::Set<int>& indexes) const
 {
-	// TODO: Implement me
-	Q_UNUSED(indexes)
-	return CoverLocation::getInvalidLocation();
+	if(indexes.size() != 1){
+		return CoverLocation::getInvalidLocation();
+	}
+
+	int idx = indexes.first();
+	if(idx < 0 || idx >= _m->albums.size() ){
+		return CoverLocation::getInvalidLocation();
+	}
+
+	QString hash = get_hash( _m->albums[idx] );
+	if(!_m->cover_locations.contains(hash)){
+		return CoverLocation::getInvalidLocation();
+	}
+
+	return _m->cover_locations[hash];
 }
+
 

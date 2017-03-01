@@ -86,23 +86,22 @@ public:
 	virtual void setModel(LibraryItemModel* model);
 	virtual MetaDataList get_selected_metadata() const;
 
-	void set_type(MD::Interpretation type);
-
 	void show_rc_menu_actions(int entries);
 	QMimeData* get_mimedata() const override;
 	QPixmap get_pixmap() const override;
 
+	void set_metadata_interpretation(MD::Interpretation type);
 	void set_selection_type(SayonaraSelectionView::SelectionType type) override;
 
 
 protected:
 	// Events implemented in LibraryViewEvents.cpp
-	virtual bool event(QEvent* event) override;
 	virtual void mousePressEvent(QMouseEvent* event) override;
 	virtual void mouseReleaseEvent(QMouseEvent* event) override;
 	virtual void mouseMoveEvent(QMouseEvent* event) override;
 	virtual void mouseDoubleClickEvent(QMouseEvent *event) override;
 	virtual void keyPressEvent(QKeyEvent* event) override;
+	virtual void contextMenuEvent(QContextMenuEvent* event) override;
 
 	virtual void dragEnterEvent(QDragEnterEvent *event) override;
 	virtual void dragMoveEvent(QDragMoveEvent *event) override;
@@ -111,7 +110,7 @@ protected:
 	virtual void selectionChanged (const QItemSelection& selected, const QItemSelection& deselected ) override;
 	virtual void rc_menu_init();
 
-	MD::Interpretation get_metadata_interpretation() const override;
+	virtual MD::Interpretation get_metadata_interpretation() const override final;
 	MetaDataList get_data_for_info_dialog() const override;
 
 

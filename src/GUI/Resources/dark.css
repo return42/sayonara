@@ -110,6 +110,7 @@ QTreeView,
 QListWidget,
 QTreeWidget,
 LibraryGenreView
+LibraryDateSearchView
 {
 	border: 1px solid #282828;
 	color: #D8D8D8;
@@ -123,7 +124,8 @@ SearchableListView,
 LibraryView,
 LibraryGenreView,
 DirectoryTreeView,
-FileListView
+FileListView,
+LibraryDateSearchView
 {
     font-size: <<FONT_SIZE_LIB>>pt;
 	font-weight: <<FONT_WEIGHT_LIB>>;

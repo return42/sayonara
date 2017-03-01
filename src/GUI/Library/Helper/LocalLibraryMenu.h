@@ -54,6 +54,7 @@ private:
 	QAction* _realtime_search_action=nullptr;
 	QAction* _auto_update=nullptr;
 	QAction* _show_album_artists_action=nullptr;
+	QAction* _show_album_cover_view=nullptr;
 
 	IconLoader* _icon_loader=nullptr;
 
@@ -61,6 +62,7 @@ private:
 
 
 private slots:
+	void show_album_cover_view_changed();
 	void show_album_artists_changed();
 	void language_changed();
 	void skin_changed();

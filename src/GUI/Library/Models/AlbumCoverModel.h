@@ -28,6 +28,7 @@ public:
 	int rowCount(const QModelIndex& parent=QModelIndex()) const override;
 	int columnCount(const QModelIndex& paren=QModelIndex()) const override;
 	QVariant data(const QModelIndex& index, int role) const override;
+	QSize get_item_size() const;
 
 	QModelIndex getFirstRowIndexOf(const QString& substr) override;
 	QModelIndex getNextRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent=QModelIndex()) override;
@@ -35,8 +36,8 @@ public:
 	QMap<QChar, QString> getExtraTriggers() override;
 
 	int get_searchable_column() const override;
-	QString get_string(int row) const override;
-	int get_id_by_row(int row) override;
+	QString get_string(int idx) const override;
+	int get_id_by_row(int idx) override;
 	CoverLocation get_cover(const SP::Set<int>& indexes) const override;
 
 	void set_max_columns(int columns);
