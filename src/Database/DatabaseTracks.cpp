@@ -48,27 +48,26 @@ DatabaseTracks::DatabaseTracks(const QSqlDatabase& db, quint8 db_id) :
 QString DatabaseTracks::fetch_query_tracks() const
 {
 	return "SELECT "
-		   "tracks.trackID AS trackID "
-		   ", tracks.title AS trackTitle "
-		   ", tracks.length AS trackLength "
-		   ", tracks.year AS trackYear "
-		   ", tracks.bitrate AS trackBitrate "
-		   ", tracks.filename AS trackFilename "
-		   ", tracks.track AS trackNum "
-		   ", albums.albumID AS albumID "
-		   ", artists.artistID AS artistID "
-		   ", albums.name AS albumName "
-		   ", artists2.name AS artistName "
-		   ", tracks.genre AS genrename "
-		   ", tracks.filesize AS filesize "
-		   ", tracks.discnumber AS discnumber "
-		   ", tracks.rating AS rating "
-		   ", tracks.albumArtistID "
-		   ", albumartists.name "
+		   "tracks.trackID AS trackID "				// 0
+		   ", tracks.title AS trackTitle "			// 1
+		   ", tracks.length AS trackLength "		// 2
+		   ", tracks.year AS trackYear "			// 3
+		   ", tracks.bitrate AS trackBitrate "		// 4
+		   ", tracks.filename AS trackFilename "	// 5
+		   ", tracks.track AS trackNum "			// 6
+		   ", albums.albumID AS albumID "			// 7
+		   ", artists.artistID AS artistID "		// 8
+		   ", albums.name AS albumName "			// 9
+		   ", artists.name AS artistName "			// 10
+		   ", tracks.genre AS genrename "			// 11
+		   ", tracks.filesize AS filesize "			// 12
+		   ", tracks.discnumber AS discnumber "		// 13
+		   ", tracks.rating AS rating "				//14
+		   ", tracks.albumArtistID "				// 15
+		   ", albumartists.name "					// 16
 		   "FROM tracks "
 		   "INNER JOIN albums ON tracks.albumID = albums.albumID "
-		   "INNER JOIN artists ON tracks." + _artistid_field + " = artists.artistID "
-		   "INNER JOIN artists artists2 ON tracks.artistID = artists2.artistID "
+		   "INNER JOIN artists ON tracks.artistID = artists.artistID "
 		   "LEFT OUTER JOIN artists albumartists ON tracks.albumArtistID = albumartists.artistID "
 		   //"WHERE filetype is null "
 			;
@@ -106,8 +105,7 @@ bool DatabaseTracks::db_fetch_tracks(SayonaraQuery& q, MetaDataList& result)
 		data.filesize =  q.value(12).toInt();
 		data.discnumber = q.value(13).toInt();
 		data.rating = q.value(14).toInt();
-		data.set_album_artist_id(q.value(15).toInt());
-		data.set_album_artist(q.value(16).toString());
+		data.set_album_artist(q.value(16).toString(), q.value(15).toInt());
 		data.db_id = _module_db_id;
 
 		result << data;
@@ -312,7 +310,7 @@ bool DatabaseTracks::getAllTracksByAlbum(IDList albums, MetaDataList& returndata
 								"   ON tracks.albumID = albums.albumID "
 								"   INNER JOIN artists "
 								"   ON tracks.albumArtistID = artists.artistID "
-								"   WHERE artists.cissearch LIKE :filter3 "
+								"   WHERE artists.cissearch LIKE :filter4 "
 								") foundTracks ON tracks.trackID = foundTracks.trackID WHERE "
 						;
 				break;
@@ -360,6 +358,7 @@ bool DatabaseTracks::getAllTracksByAlbum(IDList albums, MetaDataList& returndata
 			case Library::Filter::Fulltext:
 				q.bindValue(":filter2", filtertext);
 				q.bindValue(":filter3", filtertext);
+				q.bindValue(":filter4", filtertext);
 
 			default:
 				q.bindValue(":filter1", filtertext);

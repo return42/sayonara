@@ -381,6 +381,7 @@ void AbstractLibrary::psl_selected_artists_changed(const SP::Set<int>& indexes)
 void AbstractLibrary::change_album_selection(const SP::Set<int>& indexes)
 {
 	SP::Set<AlbumID> selected_albums;
+	bool show_album_artists = _settings->get(Set::Lib_ShowAlbumArtists);
 
 	for(auto it=indexes.begin(); it != indexes.end(); it++){
 		int idx = *it;
@@ -405,7 +406,16 @@ void AbstractLibrary::change_album_selection(const SP::Set<int>& indexes)
 			// filter by artist
 
 			for(const MetaData& md : v_md) {
-				if(_selected_artists.contains(md.artist_id)){
+				ArtistID artist_id;
+				if(show_album_artists){
+					artist_id = md.album_artist_id();
+				}
+
+				else{
+					artist_id = md.artist_id;
+				}
+
+				if(_selected_artists.contains(artist_id)){
 					_vec_md << std::move(md);
 				}
 			}
