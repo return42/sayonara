@@ -58,7 +58,11 @@ QString GoogleCoverFetcher::get_album_address(const QString& artist, const QStri
 	QString new_album, searchstring;
 	QRegExp regex;
 
-	searchstring = QUrl::toPercentEncoding(artist);
+
+	if(searchstring.compare("various", Qt::CaseInsensitive) != 0){
+		searchstring = QUrl::toPercentEncoding(artist);
+	}
+
 	new_album = album;
 
 	regex = QRegExp(QString("(\\s)?-?(\\s)?((cd)|(CD)|((d|D)((is)|(IS))(c|C|k|K)))(\\d|(\\s\\d))"));

@@ -124,6 +124,9 @@ namespace Helper
 	int get_random_number(int min, int max);
 
 
+	QString get_random_string(int max_chars);
+
+
 	/**
 	 * @brief gets value out of tag
 	 * @param tag form: grandparent.parent.child

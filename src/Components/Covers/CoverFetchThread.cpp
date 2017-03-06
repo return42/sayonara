@@ -34,9 +34,12 @@
 #include "Helper/Logger/Logger.h"
 #include "Helper/WebAccess/AsyncWebAccess.h"
 #include "Helper/FileHelper.h"
+#include "Helper/Helper.h"
 
 #include <QImage>
 #include <QStringList>
+
+const int Timeout = 10000;
 
 struct CoverFetchThread::Private
 {
@@ -48,6 +51,7 @@ struct CoverFetchThread::Private
 	CoverFetcherInterface* acf=nullptr;
 
 	QString				url;
+	QString				id;
 	QStringList			addresses;
 	int					n_covers;
 	int					n_covers_found;
@@ -67,6 +71,7 @@ CoverFetchThread::CoverFetchThread(QObject* parent, const CoverLocation& cl, con
 
 	_m->n_covers = n_covers;
 	_m->cl = cl;
+	_m->id = Helper::get_random_string(8);
 }
 
 CoverFetchThread::~CoverFetchThread() {}
@@ -101,9 +106,9 @@ bool CoverFetchThread::start()
 	{
 		AsyncWebAccess* awa = new AsyncWebAccess(this);
 		awa->setObjectName(_m->acf->get_keyword());
-		awa->set_behavior(AsyncWebAccess::Behavior::AsSayonara);
+		awa->set_behavior(AsyncWebAccess::Behavior::AsBrowser);
 		connect(awa, &AsyncWebAccess::sig_finished, this, &CoverFetchThread::content_fetched);
-		awa->run(_m->url, 5000);
+		awa->run(_m->url, Timeout);
 	}
 
 	return true;
@@ -126,12 +131,12 @@ bool CoverFetchThread::more()
 			emit sig_finished(false);
 		}
 
-		return false;
+		return success;
 	}
 
 	QString address = _m->addresses.takeFirst();
 	AsyncWebAccess* awa = new AsyncWebAccess(this);
-	awa->set_behavior(AsyncWebAccess::Behavior::AsSayonara);
+	awa->set_behavior(AsyncWebAccess::Behavior::AsBrowser);
 
 	if(_m->n_covers == 1) {
 		connect(awa, &AsyncWebAccess::sig_finished, this, &CoverFetchThread::single_image_fetched);
@@ -141,7 +146,7 @@ bool CoverFetchThread::more()
 		connect(awa, &AsyncWebAccess::sig_finished, this, &CoverFetchThread::multi_image_fetched);
 	}
 
-	awa->run(address, 5000);
+	awa->run(address, Timeout);
 
 	return true;
 }
@@ -155,10 +160,6 @@ void CoverFetchThread::content_fetched(bool success)
 		if(success) {
 			QByteArray website = awa->get_data();
 			_m->addresses = _m->acf->calc_addresses_from_website(website);
-		}
-
-		else {
-			sp_log(Log::Warning, this) << "Could not fetch content from " << _m->acf->get_keyword();
 		}
 	}
 
@@ -177,11 +178,17 @@ void CoverFetchThread::single_image_fetched(bool success)
 			QString target_file = _m->cl.cover_path();
 			_m->n_covers_found++;
 			save_and_emit_image(target_file, img);
+			emit sig_finished(true);
 		}
+
+		sp_log(Log::Info, this) << "Found cover in " << _m->acf->get_keyword() << " for " << _m->cl.identifer();
 	}
 
 	else {
 		sp_log(Log::Warning, this) << "Could not fetch cover from " << _m->acf->get_keyword();
+		if(!more()){
+			emit sig_finished(false);
+		}
 	}
 
 	awa->deleteLater();

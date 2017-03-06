@@ -43,6 +43,7 @@ struct CoverLocation::Private
 	QStringList		search_urls; // Search url where to fetch covers
 	QString			cover_path;  // cover_path path, in .Sayonara, where cover is stored. Ignored if local_paths are not empty
 	QStringList		local_paths; // local_paths paths where images can be fetched from if they should not be fetched from the .Sayonara directory
+	QString			identifier;
 	bool			valid; // valid if CoverLocation object contains a valid download url
 };
 
@@ -106,6 +107,7 @@ CoverLocation CoverLocation::getInvalidLocation()
 	cl._m->search_urls.clear();
 	cl._m->search_term = "";
 	cl._m->valid = false;
+	cl._m->identifier = "Invalid location";
 	return cl;
 }
 
@@ -130,6 +132,8 @@ CoverLocation CoverLocation::get_cover_location(const QString& album_name, const
 	ret._m->search_urls.clear();
 	ret._m->search_urls << cfm->get_album_addresses(artist_name, album_name);
 	ret._m->valid = true;
+
+	ret._m->identifier = "CL:By album: " + album_name + " by " + artist_name;
 
 	return ret;
 }
@@ -223,6 +227,7 @@ CoverLocation CoverLocation::get_cover_location(const Artist& artist)
 	}
 
 	cl._m->search_term = artist.name;
+	cl._m->identifier = "CL:By artist: " + artist.name;
 
 	return cl;
 }
@@ -242,6 +247,7 @@ CoverLocation CoverLocation::get_cover_location(const QString& artist)
 	ret._m->search_urls = cfm->get_artist_addresses(artist);
 	ret._m->search_term = artist;
 	ret._m->valid = true;
+	ret._m->identifier = "CL:By artist name: " + artist;
 
 	return ret;
 }
@@ -285,6 +291,8 @@ CoverLocation Get_cover_location(int album_id, quint8 db_id)
 CoverLocation CoverLocation::get_cover_location(const MetaData& md)
 {
 	CoverLocation cl;
+
+
 	if(md.album_id >= 0){
 		cl = Get_cover_location(md.album_id, md.db_id);
 	}
@@ -307,6 +315,9 @@ CoverLocation CoverLocation::get_cover_location(const MetaData& md)
 		cl._m->search_urls = QStringList(md.cover_download_url);
 	}
 
+	cl._m->local_paths << LocalCoverSearcher::get_local_cover_paths_from_filename(md.filepath());
+	cl._m->identifier = "CL:By metadata: " + md.album + " by " + md.artist;
+
 	return cl;
 }
 
@@ -317,6 +328,7 @@ CoverLocation CoverLocation::get_cover_location(const QUrl& url, const QString& 
 	cl._m->cover_path = target_path;
 	cl._m->search_urls = QStringList(url.toString());
 	cl._m->valid = true;
+	cl._m->identifier = "CL:By direct download url: " + url.toString();
 
 	return cl;
 }
@@ -349,6 +361,11 @@ QString CoverLocation::local_path(int idx) const
 QString CoverLocation::cover_path() const
 {
 	return _m->cover_path;
+}
+
+QString CoverLocation::identifer() const
+{
+	return _m->identifier;
 }
 
 QStringList CoverLocation::search_urls() const

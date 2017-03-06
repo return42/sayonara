@@ -21,6 +21,7 @@
 
 #include "Helper/WebAccess/AsyncWebAccess.h"
 #include "Helper/Logger/Logger.h"
+#include "Helper/Helper.h"
 
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
@@ -38,6 +39,20 @@ struct AsyncWebAccess::Private
 	QByteArray				data;
 	AsyncWebAccess::Behavior behavior;
 	QMap<QByteArray, QByteArray> header;
+
+	void abort_request()
+	{
+		if(reply && reply->isRunning() ){
+			reply->abort();
+			reply->close();
+
+			sp_log(Log::Warning) << "Request was stopped: " << url;
+		}
+
+		if(timer){
+			timer->stop();
+		}
+	}
 };
 
 AsyncWebAccess::AsyncWebAccess(QObject* parent, const QByteArray& header, AsyncWebAccess::Behavior behavior) :
@@ -70,13 +85,27 @@ void AsyncWebAccess::run(const QString& url, int timeout)
 
 	QNetworkRequest request;
 	request.setUrl(_m->url);
+	QString user_agent;
 
-	if(_m->behavior == AsyncWebAccess::Behavior::AsSayonara){
-		request.setHeader(QNetworkRequest::UserAgentHeader, "sayonara");
+	switch(_m->behavior){
+		case AsyncWebAccess::Behavior::AsSayonara:
+			user_agent = "sayonara";
+			break;
+
+		case AsyncWebAccess::Behavior::Random:
+			user_agent = Helper::get_random_string(Helper::get_random_number(8, 16));
+			break;
+
+		default:
+			break;
 	}
 
+	request.setHeader(QNetworkRequest::UserAgentHeader, user_agent);
+
 	_m->reply = _m->nam->get(request);
-	_m->timer->start(timeout);
+	if(timeout > 0){
+		_m->timer->start(timeout);
+	}
 }
 
 void AsyncWebAccess::run_post(const QString &url, const QByteArray &post_data, int timeout)
@@ -112,16 +141,19 @@ void AsyncWebAccess::finished(QNetworkReply *reply)
 
 	QString redirect_url = reply->attribute(QNetworkRequest::RedirectionTargetAttribute).toString();
 
-	if(!redirect_url.isEmpty() && redirect_url != _m->url){
+	if(!redirect_url.isEmpty() && redirect_url != _m->url) {
+
 		QUrl url(_m->url);
 
 		if(redirect_url.startsWith("/")){
 			redirect_url.prepend(url.scheme() + "://" + url.host());
 		}
 
+		_m->abort_request();
 		_m->url = redirect_url;
+
 		run(redirect_url);
-		reply->close();
+
 		return;
 	}
 
@@ -146,8 +178,7 @@ void AsyncWebAccess::finished(QNetworkReply *reply)
 		_m->data.clear();
 	}
 
-	reply->close();
-
+	_m->abort_request();
 	_m->timer->stop();
 
 	emit sig_finished(success);
@@ -156,15 +187,17 @@ void AsyncWebAccess::finished(QNetworkReply *reply)
 void AsyncWebAccess::timeout()
 {
 	if(!_m->reply->isOpen()){
+		_m->abort_request();
 		return;
 	}
-	if(_m->reply->bytesAvailable() > 0){
-		emit sig_finished( true );
+
+	if(_m->reply->bytesAvailable() <= 0) {
+		_m->abort_request();
+		emit sig_finished(false);
 	}
 
 	else{
-		_m->reply->abort();
-		emit sig_finished(false);
+		//emit sig_finished( true );
 	}
 
 	_m->timer->stop();

@@ -50,7 +50,8 @@ public:
 	enum class Behavior : quint8 
 	{
 		AsBrowser=0,
-		AsSayonara
+		AsSayonara,
+		Random
 	};
 
 	/**

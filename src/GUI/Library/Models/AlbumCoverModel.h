@@ -46,7 +46,7 @@ public slots:
 	void set_zoom(int zoom);
 
 private slots:
-	void next_hash(const QString& hash, const CoverLocation& cl);
+	void next_hash();
 
 };
 

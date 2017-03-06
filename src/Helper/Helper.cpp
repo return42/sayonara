@@ -367,3 +367,14 @@ void Helper::set_environment(const QString& key, const QString& value)
 	setenv(key.toLocal8Bit().constData(), value.toLocal8Bit().constData(), 1);
 #endif
 }
+
+QString Helper::get_random_string(int max_chars)
+{
+	QString ret;
+	for(int i=0; i<max_chars; i++){
+		char c = get_random_number(97, 123);
+		ret.append(QChar(c));
+	}
+
+	return ret;
+}

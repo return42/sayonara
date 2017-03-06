@@ -1,5 +1,6 @@
 #include "LFMCoverFetcher.h"
 #include "Helper/Helper.h"
+#include "Helper/Logger/Logger.h"
 #include "Components/StreamPlugins/LastFM/LFMGlobals.h"
 
 #include <QStringList>
@@ -76,6 +77,7 @@ QStringList LFMCoverFetcher::calc_addresses_from_website(const QByteArray& websi
 		}
 	}
 
+	sp_log(Log::Debug, this) << "Got " << ret.size() << " addresses";
 	return ret;
 }
 

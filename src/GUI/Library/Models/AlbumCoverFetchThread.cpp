@@ -22,8 +22,17 @@ struct AlbumCoverFetchThread::Private
 
 	Private()
 	{
+		init();
+	}
+
+	void init()
+	{
 		may_run = true;
 		goon = true;
+		hashes.clear();
+		cover_locations.clear();
+		current_hash = QString();
+		current_cl = CoverLocation();
 	}
 };
 
@@ -39,10 +48,14 @@ AlbumCoverFetchThread::~AlbumCoverFetchThread() {}
 
 void AlbumCoverFetchThread::run()
 {
+	_m->init();
+	const int PauseBetweenRequests = 300;
+	const int NumParallelRequests = 10;
+
 	while(_m->may_run) {
 
 		while(_m->hashes.isEmpty() || !_m->goon) {
-			Helper::sleep_ms(100);
+			Helper::sleep_ms(PauseBetweenRequests);
 		}
 
 		_m->goon = false;
@@ -51,13 +64,13 @@ void AlbumCoverFetchThread::run()
 			break;
 		}
 
-		for(int i=0; i<5; i++){
-			if(_m->hashes.isEmpty()){
+		for(int i=0; i<NumParallelRequests; i++){
+			if(_m->hashes.isEmpty()) {
 				break;
 			}
 
 			if(i > 0) {
-				Helper::sleep_ms(100);
+				Helper::sleep_ms(PauseBetweenRequests);
 			}
 
 			try{
@@ -65,11 +78,11 @@ void AlbumCoverFetchThread::run()
 				_m->current_hash = _m->hashes.takeFirst();
 				_m->current_cl = _m->cover_locations.takeFirst();
 
-				emit sig_next(_m->current_hash, _m->current_cl);
+				emit sig_next();
 
 			} catch(std::exception* e) {
 				sp_log(Log::Warning, this) << "1 Exception" << e->what();
-				Helper::sleep_ms(10);
+				Helper::sleep_ms(PauseBetweenRequests);
 			}
 		}
 	}
@@ -78,12 +91,11 @@ void AlbumCoverFetchThread::run()
 
 void AlbumCoverFetchThread::add_data(const QString& hash, const CoverLocation& cl)
 {
-
-	if(!_m->hashes.contains(hash)) {
-
+	if(!_m->hashes.contains(hash) && (_m->current_hash.compare(hash) != 0))
+	{
 		bool done = false;
-		while(!done){
-			try{
+		while(!done) {
+			try {
 				std::lock_guard<std::mutex> guard(_m->mutex);
 				_m->hashes.push_front(hash);
 				_m->cover_locations.push_front(cl);
@@ -97,10 +109,27 @@ void AlbumCoverFetchThread::add_data(const QString& hash, const CoverLocation& c
 	}
 }
 
+
+QString AlbumCoverFetchThread::current_hash() const
+{
+	return _m->current_hash;
+}
+
+CoverLocation AlbumCoverFetchThread::current_cover_location() const
+{
+	return _m->current_cl;
+}
+
+
 void AlbumCoverFetchThread::done(bool success)
 {
 	Q_UNUSED(success)
 
 	_m->goon = true;
+}
+
+void AlbumCoverFetchThread::stop()
+{
+	_m->may_run = false;
 }
 

@@ -51,7 +51,12 @@ AlbumCoverModel::AlbumCoverModel(QObject* parent) :
 	connect(_m->cover_thread, &AlbumCoverFetchThread::sig_next, this, &AlbumCoverModel::next_hash);
 }
 
-AlbumCoverModel::~AlbumCoverModel() {}
+AlbumCoverModel::~AlbumCoverModel()
+{
+	if(_m->cover_thread){
+		_m->cover_thread->stop();
+	}
+}
 
 
 int AlbumCoverModel::rowCount(const QModelIndex& parent) const
@@ -162,6 +167,9 @@ QVariant AlbumCoverModel::data(const QModelIndex& index, int role) const
 						}
 
 						_m->indexes[hash] = index;
+						/*sp_log(Log::Debug, this) << "";
+						sp_log(Log::Debug, this) << " **** " << "Fetch cover for " << album.name;
+						sp_log(Log::Debug, this) << "";*/
 						_m->cover_thread->add_data(hash, cl);
 					}
 				}
@@ -219,9 +227,12 @@ void AlbumCoverModel::set_zoom(int zoom)
 }
 
 
-void AlbumCoverModel::next_hash(const QString& hash, const CoverLocation& cl)
+void AlbumCoverModel::next_hash()
 {
 	AlbumCoverFetchThread* acft = dynamic_cast<AlbumCoverFetchThread*>(sender());
+	QString hash = acft->current_hash();
+	CoverLocation cl = acft->current_cover_location();
+
 	QModelIndex idx = _m->indexes[hash];
 
 	CoverLookup* clu = new CoverLookup(this, 1);
