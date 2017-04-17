@@ -46,8 +46,6 @@ class CoverLookup :
 	PIMPL(CoverLookup)
 
 
-
-
 public:
 
 	CoverLookup(QObject* parent=nullptr, int n_covers=1);
@@ -86,7 +84,7 @@ private:
 	 * @brief Starts a new CoverFetchThread
 	 * @param cl CoverLocation object
 	 */
-	void start_new_thread(const CoverLocation& cl);
+	bool start_new_thread(const CoverLocation& cl);
 
 
 private slots:

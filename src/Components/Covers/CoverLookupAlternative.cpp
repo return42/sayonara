@@ -23,6 +23,8 @@
 #include "CoverLocation.h"
 #include "Database/DatabaseHandler.h"
 
+#include "Helper/Logger/Logger.h"
+
 
 struct CoverLookupAlternative::Private
 {
@@ -50,6 +52,8 @@ CoverLookupAlternative::CoverLookupAlternative(QObject* parent, const CoverLocat
 	CoverLookupAlternative(parent, n_covers)
 {
 	_m->cover_location = cl;
+
+	sp_log(Log::Debug, this) << cl.search_urls();
 }
 
 CoverLookupAlternative::~CoverLookupAlternative() {}
@@ -68,7 +72,10 @@ void CoverLookupAlternative::start()
 	connect(_m->cl.get(), &CoverLookup::sig_cover_found, this, &CoverLookupAlternative::cover_found);
 	connect(_m->cl.get(), &CoverLookup::sig_finished, this, &CoverLookupAlternative::finished);
 
-	_m->cl->fetch_cover(_m->cover_location);
+	bool can_fetch = _m->cl->fetch_cover(_m->cover_location, true);
+	if(!can_fetch){
+		emit sig_finished(false);
+	}
 }
 
 void CoverLookupAlternative::cover_found(const QString& cover_path)

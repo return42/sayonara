@@ -40,8 +40,9 @@
 
 struct CoverLookup::Private
 {
-	int		n_covers;
-	QString id;
+	int					n_covers;
+	QString				id;
+	CoverFetchThread*	cft=nullptr;
 
 	Private()
 	{
@@ -58,11 +59,10 @@ CoverLookup::CoverLookup(QObject* parent, int n_covers) :
 
 CoverLookup::~CoverLookup() {}
 
-void CoverLookup::start_new_thread(const CoverLocation& cl )
+bool CoverLookup::start_new_thread(const CoverLocation& cl )
 {
-	// TODO:
 	if(!cl.has_search_urls()){
-		return;
+		return false;
 	}
 
 	CoverFetchThread* cft = new CoverFetchThread(this, cl, _m->n_covers);
@@ -71,6 +71,10 @@ void CoverLookup::start_new_thread(const CoverLocation& cl )
 	connect(cft, &CoverFetchThread::sig_finished, this, &CoverLookup::finished);
 
 	cft->start();
+
+	_m->cft = cft;
+
+	return true;
 }
 
 
@@ -94,7 +98,9 @@ bool CoverLookup::fetch_cover(const CoverLocation& cl, bool also_www)
 
 	// we have to fetch the cover from the internet
 	if(also_www){
-		start_new_thread( cl );
+		if(!start_new_thread( cl )){
+			return false;
+		}
 	}
 
 	else{
@@ -114,6 +120,7 @@ bool CoverLookup::fetch_album_cover(const Album& album, bool also_www)
 
 void CoverLookup::finished(bool success)
 {
+	_m->cft = nullptr;
     emit sig_finished(success);
 }
 
@@ -128,7 +135,13 @@ void CoverLookup::cover_found(const QString& file_path)
 	}
 }
 
-void CoverLookup::stop() {}
+void CoverLookup::stop()
+{
+	if(_m->cft){
+		_m->cft->stop();
+		emit sig_finished(true);
+	}
+}
 
 
 void CoverLookup::set_identifier(const QString& id)

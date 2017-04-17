@@ -80,6 +80,11 @@ public:
 	 */
 	bool more();
 
+	/**
+	 * @brief stops the current search
+	 */
+	void stop();
+
 
 private:
 	/**

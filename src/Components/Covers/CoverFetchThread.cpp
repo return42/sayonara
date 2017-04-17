@@ -55,10 +55,12 @@ struct CoverFetchThread::Private
 	QStringList			addresses;
 	int					n_covers;
 	int					n_covers_found;
+	bool				may_run;
 
 	Private()
 	{
 		n_covers_found = 0;
+		may_run = true;
 	}
 };
 
@@ -78,6 +80,8 @@ CoverFetchThread::~CoverFetchThread() {}
 
 bool CoverFetchThread::start()
 {
+	_m->may_run = true;
+
 	if(_m->cl.has_search_urls()){
 		_m->url = _m->cl.search_urls().first();
 		_m->cl.remove_first_search_url();
@@ -106,7 +110,7 @@ bool CoverFetchThread::start()
 	{
 		AsyncWebAccess* awa = new AsyncWebAccess(this);
 		awa->setObjectName(_m->acf->get_keyword());
-		awa->set_behavior(AsyncWebAccess::Behavior::AsBrowser);
+		awa->set_behavior(AsyncWebAccess::Behavior::AsSayonara);
 		connect(awa, &AsyncWebAccess::sig_finished, this, &CoverFetchThread::content_fetched);
 		awa->run(_m->url, Timeout);
 	}
@@ -117,6 +121,10 @@ bool CoverFetchThread::start()
 
 bool CoverFetchThread::more()
 {
+	if(_m->may_run == false){
+		return false;
+	}
+
 	// we have all our covers
 	if(_m->n_covers == _m->n_covers_found){
 		emit sig_finished(true);
@@ -134,6 +142,7 @@ bool CoverFetchThread::more()
 		return success;
 	}
 
+
 	QString address = _m->addresses.takeFirst();
 	AsyncWebAccess* awa = new AsyncWebAccess(this);
 	awa->set_behavior(AsyncWebAccess::Behavior::AsBrowser);
@@ -149,6 +158,12 @@ bool CoverFetchThread::more()
 	awa->run(address, Timeout);
 
 	return true;
+}
+
+void CoverFetchThread::stop()
+{
+	_m->may_run = false;
+	emit sig_finished(false);
 }
 
 

@@ -77,7 +77,7 @@ bool StreamParser::parse_next()
 	AsyncWebAccess* awa = new AsyncWebAccess(this);
 	awa->set_behavior(AsyncWebAccess::Behavior::AsSayonara);
 	connect(awa, &AsyncWebAccess::sig_finished, this, &StreamParser::awa_finished);
-	awa->run(url, 3000);
+	awa->run(url, 5000);
 
 	return true;
 }

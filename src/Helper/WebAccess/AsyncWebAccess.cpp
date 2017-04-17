@@ -92,6 +92,10 @@ void AsyncWebAccess::run(const QString& url, int timeout)
 			user_agent = "sayonara";
 			break;
 
+		case AsyncWebAccess::Behavior::AsBrowser:
+			user_agent = "Mozilla/5.0 (Linux; rv:35.0) Gecko/20100101 Firefox/35.0";
+			break;
+
 		case AsyncWebAccess::Behavior::Random:
 			user_agent = Helper::get_random_string(Helper::get_random_number(8, 16));
 			break;
@@ -133,15 +137,18 @@ void AsyncWebAccess::run_post(const QString &url, const QByteArray &post_data, i
 void AsyncWebAccess::finished(QNetworkReply *reply)
 {
 	QNetworkReply::NetworkError error = reply->error();
+	sp_log(Log::Debug, this) << "Finished " << _m->url << " after " << _m->timer->interval() - _m->timer->remainingTime();
 
 	bool success = (error == QNetworkReply::NoError);
 	if(!success){
 		sp_log(Log::Warning, this) << "Cannot open " << _m->url << ": " << reply->errorString();
+		return;
 	}
 
 	QString redirect_url = reply->attribute(QNetworkRequest::RedirectionTargetAttribute).toString();
 
 	if(!redirect_url.isEmpty() && redirect_url != _m->url) {
+
 
 		QUrl url(_m->url);
 
@@ -152,6 +159,7 @@ void AsyncWebAccess::finished(QNetworkReply *reply)
 		_m->abort_request();
 		_m->url = redirect_url;
 
+		sp_log(Log::Debug, this) << "Redirect: " << _m->url;
 		run(redirect_url);
 
 		return;

@@ -27,6 +27,12 @@ class QString;
  */
 namespace CoverHelper
 {
+	/**
+	 * @brief calc_cover_token calculate the hash for a cover
+	 * @param artist artist name
+	 * @param album album name
+	 * @return hash of cover name
+	 */
 	QString calc_cover_token(const QString& artist, const QString& album);
 }
 

@@ -1,3 +1,25 @@
+/* CoverFetchManager.cpp */
+
+/* Copyright (C) 2011-2017  Lucio Carreras
+ *
+ * This file is part of sayonara player
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+
+
 #include "CoverFetchManager.h"
 #include "CoverFetcherInterface.h"
 #include "GoogleCoverFetcher.h"
@@ -40,12 +62,12 @@ struct CoverFetchManager::Private
 static QStringList sort_urls(QList<CoverFetchTupel>& lst)
 {
 	QStringList ret;
-	std::sort(lst.begin(), lst.end(), [](const CoverFetchTupel& t1, const CoverFetchTupel& t2){
+	/*std::sort(lst.begin(), lst.end(), [](const CoverFetchTupel& t1, const CoverFetchTupel& t2) {
 		uint rating1 = (uint) (t1.rating);
 		uint rating2 = (uint) (t2.rating);
 
 		return (rating1 > rating2);
-	});
+	});*/
 
 	for(const CoverFetchTupel& t : lst){
 		ret << t.url;
@@ -58,9 +80,10 @@ static QStringList sort_urls(QList<CoverFetchTupel>& lst)
 CoverFetchManager::CoverFetchManager()
 {
 	_m = Pimpl::make<Private>();
-	_m->cover_fetcher << new DiscogsCoverFetcher();
+
+	//_m->cover_fetcher << new GoogleCoverFetcher();
+	//_m->cover_fetcher << new DiscogsCoverFetcher();
 	_m->cover_fetcher << new LFMCoverFetcher();
-	_m->cover_fetcher << new GoogleCoverFetcher();
 	_m->cover_fetcher << _m->std_cover_fetcher;
 }
 
