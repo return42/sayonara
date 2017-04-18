@@ -150,6 +150,7 @@ public:
 		Track,
 		TrackOn,
 		Tracks,
+		Tree,
 		Undo,
 		Various,
 		VariousAlbums,

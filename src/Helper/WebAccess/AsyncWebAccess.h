@@ -129,6 +129,7 @@ private slots:
 
 private:
 	PIMPL(AsyncWebAccess)
+	void redirect_request(const QString& redirect_url);
 };
 
 #endif

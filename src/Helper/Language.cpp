@@ -274,6 +274,8 @@ LanguageString Lang::get(Lang::Term term, bool* ok)
 			return l.tr("track on");
 		case Tracks:
 			return l.tr("tracks");
+		case Tree:
+			return l.tr("Tree");
 		case Undo:
 			return l.tr("Undo");
 		case Various:

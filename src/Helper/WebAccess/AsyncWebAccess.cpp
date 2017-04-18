@@ -46,13 +46,17 @@ struct AsyncWebAccess::Private
 			reply->abort();
 			reply->close();
 
-			sp_log(Log::Warning) << "Request was stopped: " << url;
+			sp_log(Log::Warning, this) << "Request was stopped: " << url;
 		}
 
 		if(timer){
 			timer->stop();
 		}
 	}
+
+
+
+
 };
 
 AsyncWebAccess::AsyncWebAccess(QObject* parent, const QByteArray& header, AsyncWebAccess::Behavior behavior) :
@@ -133,13 +137,9 @@ void AsyncWebAccess::run_post(const QString &url, const QByteArray &post_data, i
 	_m->timer->start(timeout);
 }
 
-
 void AsyncWebAccess::finished(QNetworkReply *reply)
 {
-	QNetworkReply::NetworkError error = reply->error();
-	sp_log(Log::Debug, this) << "Finished " << _m->url << " after " << _m->timer->interval() - _m->timer->remainingTime();
-
-	bool success = (error == QNetworkReply::NoError);
+	bool success = (reply->error() == QNetworkReply::NoError);
 	if(!success){
 		sp_log(Log::Warning, this) << "Cannot open " << _m->url << ": " << reply->errorString();
 		return;
@@ -148,20 +148,7 @@ void AsyncWebAccess::finished(QNetworkReply *reply)
 	QString redirect_url = reply->attribute(QNetworkRequest::RedirectionTargetAttribute).toString();
 
 	if(!redirect_url.isEmpty() && redirect_url != _m->url) {
-
-
-		QUrl url(_m->url);
-
-		if(redirect_url.startsWith("/")){
-			redirect_url.prepend(url.scheme() + "://" + url.host());
-		}
-
-		_m->abort_request();
-		_m->url = redirect_url;
-
-		sp_log(Log::Debug, this) << "Redirect: " << _m->url;
-		run(redirect_url);
-
+		redirect_request(redirect_url);
 		return;
 	}
 
@@ -187,28 +174,36 @@ void AsyncWebAccess::finished(QNetworkReply *reply)
 	}
 
 	_m->abort_request();
-	_m->timer->stop();
 
 	emit sig_finished(success);
 }
+
 
 void AsyncWebAccess::timeout()
 {
 	if(!_m->reply->isOpen()){
 		_m->abort_request();
-		return;
 	}
 
-	if(_m->reply->bytesAvailable() <= 0) {
+	else if(_m->reply->bytesAvailable() <= 0) {
 		_m->abort_request();
 		emit sig_finished(false);
 	}
+}
 
-	else{
-		//emit sig_finished( true );
+
+void AsyncWebAccess::redirect_request(const QString& redirect_url)
+{
+	if(redirect_url.startsWith("/")){
+		QUrl new_url(_m->url);
+		redirect_url.prepend(url.scheme() + "://" + new_url.host());
 	}
 
-	_m->timer->stop();
+	_m->abort_request();
+	_m->url = redirect_url;
+
+	sp_log(Log::Debug, this) << "Redirect: " << this->url;
+	run(redirect_url);
 }
 
 

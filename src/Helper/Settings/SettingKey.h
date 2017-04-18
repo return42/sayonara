@@ -85,6 +85,7 @@ namespace SK {
 	Lib_DateFilters,
 	Lib_ShowAlbumArtists,
 	Lib_ShowAlbumCovers,
+	Lib_CoverZoom,
 
 	Player_Version,
 	Player_Language,
@@ -233,6 +234,7 @@ namespace Set
     INST(QList<Library::DateFilter>,	Lib_DateFilters);			/* Date filters appearing in library window */
     INST(bool,				Lib_ShowAlbumArtists);			/* Show album artists instead of artists */
 	INST(bool,				Lib_ShowAlbumCovers);		/* Show album cover view */
+	INST(int,				Lib_CoverZoom);				/* Zoom of album cover view */
 
 
     INST(QString,			Player_Version);			/* Version string of player */

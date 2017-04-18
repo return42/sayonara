@@ -33,7 +33,6 @@ class CoverFetcherInterface;
 class QStringList;
 class QString;
 
-
 /**
  * @brief Retrieve Download Urls for Cover Searcher.
  * CoverFetcherInterface can be registered, so for
@@ -46,7 +45,6 @@ class CoverFetchManager :
 		public QObject,
 		public SayonaraClass
 {
-
 	Q_OBJECT
 
 	SINGLETON(CoverFetchManager)
@@ -60,6 +58,10 @@ public:
 	 */
 	void register_coverfetcher(CoverFetcherInterface* t);
 
+	/**
+	 * @brief activate coverfetchers by their keywords
+	 * @param coverfetchers list of cover fetcher keywords.
+	 */
 	void activate_coverfetchers(const QStringList& coverfetchers);
 
 	/**
@@ -90,6 +92,12 @@ public:
 	 * @return null, if there's no suitable CoverFetcherInterface registered
 	 */
 	CoverFetcherInterface* get_available_coverfetcher(const QString& url) const;
+
+	/**
+	 * @brief get an activated coverfetcher
+	 * @param url cover search url
+	 * @return null, if there's no suitable CoverFetcherInterface activated
+	 */
 	CoverFetcherInterface* get_active_coverfetcher(const QString& url) const;
 
 
@@ -105,9 +113,9 @@ public:
 	 */
 	QList<CoverFetcherInterface*> get_active_coverfetchers() const;
 
+
 private slots:
 	void active_changed();
-
 };
 
 

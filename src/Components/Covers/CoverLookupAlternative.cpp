@@ -22,8 +22,9 @@
 #include "CoverLookupAlternative.h"
 #include "CoverLocation.h"
 #include "Database/DatabaseHandler.h"
-
 #include "Helper/Logger/Logger.h"
+
+#include <QStringList>
 
 
 struct CoverLookupAlternative::Private
