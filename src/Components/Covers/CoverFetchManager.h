@@ -25,10 +25,14 @@
 
 #include "Helper/Singleton.h"
 #include "Helper/Pimpl.h"
+#include "Helper/Settings/SayonaraClass.h"
+#include <QList>
+#include <QObject>
 
 class CoverFetcherInterface;
 class QStringList;
 class QString;
+
 
 /**
  * @brief Retrieve Download Urls for Cover Searcher.
@@ -38,8 +42,13 @@ class QString;
  * the get_coverfetcher method.
  * @ingroup Covers
  */
-class CoverFetchManager
+class CoverFetchManager :
+		public QObject,
+		public SayonaraClass
 {
+
+	Q_OBJECT
+
 	SINGLETON(CoverFetchManager)
 	PIMPL(CoverFetchManager)
 
@@ -49,7 +58,9 @@ public:
 	 * there is one for Discogs, last.fm and Google
 	 * @param t an instance of a CoverFetcherInterface
 	 */
-	void register_cover_fetcher(CoverFetcherInterface* t);
+	void register_coverfetcher(CoverFetcherInterface* t);
+
+	void activate_coverfetchers(const QStringList& coverfetchers);
 
 	/**
 	 * @brief get urls for a artist search query
@@ -78,7 +89,25 @@ public:
 	 * @param url cover search url
 	 * @return null, if there's no suitable CoverFetcherInterface registered
 	 */
-	CoverFetcherInterface* get_coverfetcher(const QString& url) const;
+	CoverFetcherInterface* get_available_coverfetcher(const QString& url) const;
+	CoverFetcherInterface* get_active_coverfetcher(const QString& url) const;
+
+
+	/**
+	 * @brief fetches all available cover fetcher
+	 * @return
+	 */
+	QList<CoverFetcherInterface*> get_available_coverfetchers() const;
+
+	/**
+	 * @brief fetches all active cover fetchers
+	 * @return
+	 */
+	QList<CoverFetcherInterface*> get_active_coverfetchers() const;
+
+private slots:
+	void active_changed();
+
 };
 
 

@@ -160,6 +160,8 @@ namespace SK {
 	Lyrics_Zoom,
 	Lyrics_Server,
 
+	Cover_Server,
+
 	Num_Setting_Keys
     };
 }
@@ -300,6 +302,8 @@ namespace Set
 
     INST(int,				Lyrics_Zoom);				/* Zoom factor in lyrics window */
     INST(QString,			Lyrics_Server);				/* Lyrics server */
+
+    INST(QStringList,			Cover_Server);				/* Cover server */
 
 
 }

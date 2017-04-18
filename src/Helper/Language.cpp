@@ -100,6 +100,8 @@ LanguageString Lang::get(Lang::Term term, bool* ok)
 			return l.tr("Close tab");
 		case Continue:
 			return l.tr("Continue");
+		case Covers:
+			return l.tr("Covers");
 		case Days:
 		case DaysShort:
 			return l.tr("d");

@@ -72,6 +72,7 @@
 #include "GUI/Preferences/Shortcuts/GUI_Shortcuts.h"
 #include "GUI/Preferences/PlayerPreferences/GUI_PlayerPreferences.h"
 #include "GUI/Preferences/PreferenceDialog/GUI_PreferenceDialog.h"
+#include "GUI/Preferences/Covers/GUI_Covers.h"
 
 #include "Helper/FileHelper.h"
 #include "Helper/Helper.h"
@@ -262,6 +263,7 @@ bool Application::init(QTranslator* translator, const QStringList& files_to_play
 	preferences->register_preference_dialog(new GUI_StreamRecorder());
 	preferences->register_preference_dialog(new GUI_BroadcastSetup());
 	preferences->register_preference_dialog(new GUI_RemoteControl());
+	preferences->register_preference_dialog(new GUI_Covers());
 
 	EngineHandler::getInstance()->init();
 

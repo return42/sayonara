@@ -207,6 +207,8 @@ bool SettingRegistry::init()
 	register_setting( Set::Lyrics_Server, "lyrics_server", QString());
 	register_setting( Set::Lyrics_Zoom, "lyrics_zoom", 100);
 
+	register_setting( Set::Cover_Server, "cover_server", QStringList());
+
 	register_setting( SetNoDB::MP3enc_found, true );
 	register_setting( SetNoDB::Pitch_found, true );
 	register_setting( SetNoDB::Player_Quit, false );

@@ -16,6 +16,7 @@ SET(SOURCES
     Shortcuts/GUI_ShortcutEntry.cpp
     Shortcuts/ShortcutLineEdit.cpp
     StreamRecorder/GUI_StreamRecorder.cpp
+    Covers/GUI_Covers.cpp
 )
 
 QT5_WRAP_UI(UI_FILES
@@ -32,11 +33,13 @@ QT5_WRAP_UI(UI_FILES
     Shortcuts/GUI_Shortcuts.ui
     Shortcuts/GUI_ShortcutEntry.ui
     StreamRecorder/GUI_StreamRecorder.ui
+    Covers/GUI_Covers.ui
 )
 
 ADD_LIBRARY(${PROJECT_NAME} STATIC ${SOURCES} ${UI_FILES})
 TARGET_LINK_LIBRARIES(${PROJECT_NAME}
     say_comp_streamplugins_lastfm
+    say_comp_covers
     say_interfaces_preference_dialog
 )
 

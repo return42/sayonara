@@ -57,6 +57,7 @@ public:
 		By,
 		CannotFindLame,
 		Continue,
+		Covers,
 		Clear,
 		Close,
 		CloseOthers,

@@ -145,5 +145,6 @@ int GoogleCoverFetcher::get_estimated_size() const
 
 QString GoogleCoverFetcher::get_keyword() const
 {
+	// DO NOT EDIT THAT! It's also used in CoverFetchManager
 	return "google";
 }
