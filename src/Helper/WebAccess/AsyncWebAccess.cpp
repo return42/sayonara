@@ -53,10 +53,6 @@ struct AsyncWebAccess::Private
 			timer->stop();
 		}
 	}
-
-
-
-
 };
 
 AsyncWebAccess::AsyncWebAccess(QObject* parent, const QByteArray& header, AsyncWebAccess::Behavior behavior) :
@@ -192,17 +188,17 @@ void AsyncWebAccess::timeout()
 }
 
 
-void AsyncWebAccess::redirect_request(const QString& redirect_url)
+void AsyncWebAccess::redirect_request(QString redirect_url)
 {
 	if(redirect_url.startsWith("/")){
 		QUrl new_url(_m->url);
-		redirect_url.prepend(url.scheme() + "://" + new_url.host());
+		redirect_url.prepend(new_url.scheme() + "://" + new_url.host());
 	}
 
 	_m->abort_request();
 	_m->url = redirect_url;
 
-	sp_log(Log::Debug, this) << "Redirect: " << this->url;
+	sp_log(Log::Debug, this) << "Redirect: " << _m->url;
 	run(redirect_url);
 }
 
