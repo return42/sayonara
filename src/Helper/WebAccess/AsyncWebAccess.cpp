@@ -53,10 +53,6 @@ struct AsyncWebAccess::Private
 			timer->stop();
 		}
 	}
-
-
-
-
 };
 
 AsyncWebAccess::AsyncWebAccess(QObject* parent, const QByteArray& header, AsyncWebAccess::Behavior behavior) :
@@ -137,6 +133,7 @@ void AsyncWebAccess::run_post(const QString &url, const QByteArray &post_data, i
 	_m->timer->start(timeout);
 }
 
+
 void AsyncWebAccess::finished(QNetworkReply *reply)
 {
 	bool success = (reply->error() == QNetworkReply::NoError);
@@ -196,10 +193,7 @@ void AsyncWebAccess::redirect_request(QString redirect_url)
 {
 	if(redirect_url.startsWith("/")){
 		QUrl new_url(_m->url);
-
-		redirect_url.prepend(new_url.scheme() +
-							 "://" +
-							 new_url.host());
+		redirect_url.prepend(new_url.scheme() + "://" + new_url.host());
 	}
 
 	_m->abort_request();
