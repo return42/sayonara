@@ -34,23 +34,6 @@
 #include <QMap>
 #include <algorithm>
 
-struct CoverFetchTupel
-{
-	QString url;
-	int rating;
-
-	CoverFetchTupel(){
-		rating = 0;
-	}
-
-	CoverFetchTupel(const QString& url_, int rating_)
-	{
-		url = url_;
-		rating = rating_;
-	}
-};
-
-
 struct CoverFetchManager::Private
 {
 	QMap<QString, int> cf_order;
@@ -181,46 +164,6 @@ void CoverFetchManager::activate_coverfetchers(const QStringList& coverfetchers)
 	}
 }
 
-QStringList CoverFetchManager::get_artist_addresses(const QString& artist) const
-{
-	QStringList urls;
-
-	for(const CoverFetcherInterface* acf : _m->active_coverfetchers){
-		if(acf->is_artist_supported()){
-			urls << acf->get_artist_address(artist);
-		}
-	}
-
-	return urls;
-}
-
-QStringList CoverFetchManager::get_album_addresses(const QString& artist, const QString& album) const
-{
-	QStringList urls;
-
-	for(const CoverFetcherInterface* acf : _m->active_coverfetchers){
-		if(acf->is_album_supported()){
-			urls << acf->get_album_address(artist, album);
-		}
-	}
-
-	return urls;
-}
-
-QStringList CoverFetchManager::get_search_addresses(const QString& str) const
-{
-	QStringList urls;
-
-	for(const CoverFetcherInterface* acf : _m->active_coverfetchers){
-		if(acf->is_search_supported()){
-			urls << acf->get_search_address(str);
-		}
-	}
-
-	return urls;
-}
-
-
 CoverFetcherInterface* CoverFetchManager::get_available_coverfetcher(const QString& url) const
 {
 	CoverFetcherInterface* cfi = get_coverfetcher_by_url(url, _m->coverfetchers);
@@ -258,3 +201,43 @@ void CoverFetchManager::active_changed()
 	activate_coverfetchers(active);
 }
 
+
+
+QStringList CoverFetchManager::get_artist_addresses(const QString& artist) const
+{
+	QStringList urls;
+
+	for(const CoverFetcherInterface* cfi : _m->active_coverfetchers){
+		if(cfi->is_artist_supported()){
+			urls << cfi->get_artist_address(artist);
+		}
+	}
+
+	return urls;
+}
+
+QStringList CoverFetchManager::get_album_addresses(const QString& artist, const QString& album) const
+{
+	QStringList urls;
+
+	for(const CoverFetcherInterface* cfi : _m->active_coverfetchers){
+		if(cfi->is_album_supported()){
+			urls << cfi->get_album_address(artist, album);
+		}
+	}
+
+	return urls;
+}
+
+QStringList CoverFetchManager::get_search_addresses(const QString& str) const
+{
+	QStringList urls;
+
+	for(const CoverFetcherInterface* cfi : _m->active_coverfetchers){
+		if(cfi->is_search_supported()){
+			urls << cfi->get_search_address(str);
+		}
+	}
+
+	return urls;
+}

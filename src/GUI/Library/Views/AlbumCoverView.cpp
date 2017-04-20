@@ -18,17 +18,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "AlbumCoverView.h"
-#include "Models/AlbumCoverModel.h"
 #include "GUI/Library/Models/AlbumCoverModel.h"
 #include "GUI/Library/Delegates/AlbumCoverDelegate.h"
+#include "Helper/Settings/Settings.h"
 #include "Helper/Logger/Logger.h"
 
 #include <QHeaderView>
 #include <QWheelEvent>
 #include <QTimer>
+
 #include <atomic>
 
 struct AlbumCoverView::Private
@@ -36,14 +35,13 @@ struct AlbumCoverView::Private
 	int zoom;
 	AlbumCoverModel* model=nullptr;
 	QTimer* buffer_timer=nullptr;
-	std::atomic<int> needs_refresh;
 
 	Private()
 	{
 		zoom = 100;
 		buffer_timer = new QTimer();
-		buffer_timer->setInterval(500);
-		needs_refresh = 0;
+		buffer_timer->setInterval(100);
+		buffer_timer->setSingleShot(true);
 	}
 };
 
@@ -70,27 +68,21 @@ AlbumCoverView::AlbumCoverView(QWidget* parent) :
 	}
 
 	connect(_m->buffer_timer, &QTimer::timeout, this, [=](){
-		if(_m->needs_refresh > 0){
 
-			this->resizeRowsToContents();
+		this->resizeRowsToContents();
 
-			// this->resizeColumnsToContents();
-			// Todo: Workaround. maybe player won't crash anymore
-			for(int i=0; i<_m->model->columnCount(); i++){
-				this->resizeColumnToContents(i);
-			}
-
-			_m->needs_refresh = 0;
-			if(_m->needs_refresh == 0){
-				_m->buffer_timer->stop();
-				sp_log(Log::Debug, this) << " Kill timer";
-			}
-
-			if(_m->needs_refresh < 0){
-				sp_log(Log::Warning, this) << " Timer too small";
-			}
+		// this->resizeColumnsToContents();
+		// Todo: Workaround. maybe player won't crash anymore
+		for(int i=0; i<_m->model->columnCount(); i++){
+			this->resizeColumnToContents(i);
 		}
+
+		_m->buffer_timer->stop();
+
+		sp_log(Log::Debug, this) << " Kill timer";
 	});
+
+	_m->zoom = _settings->get(Set::Lib_CoverZoom);
 }
 
 
@@ -134,26 +126,18 @@ void AlbumCoverView::change_zoom(int zoom)
 
 	_m->zoom = zoom;
 	_m->model->set_zoom(_m->zoom);
+	_settings->set(Set::Lib_CoverZoom, _m->zoom);
 
 	int col_width = _m->model->get_item_size().width();
 	int n_cols_target = (this->width() + (col_width / 10)) / col_width;
 
 	_m->model->set_max_columns(n_cols_target);
-	_m->needs_refresh++;
-
-	if(_m->needs_refresh == 1){
-		sp_log(Log::Debug, this) << " Start timer";
-		_m->buffer_timer->start();
-	}
+	_m->buffer_timer->start();
 }
 
 void AlbumCoverView::refresh()
 {
-	_m->needs_refresh ++;
-	if(_m->needs_refresh == 1){
-		sp_log(Log::Debug, this) << " Start timer";
-		_m->buffer_timer->start();
-	}
+	_m->buffer_timer->start();
 }
 
 
@@ -174,7 +158,7 @@ void AlbumCoverView::wheelEvent(QWheelEvent* e)
 		change_zoom(zoom);
 	}
 
-	else{
+	else {
 		LibraryView::wheelEvent(e);
 	}
 }
@@ -183,6 +167,12 @@ void AlbumCoverView::resizeEvent(QResizeEvent* e)
 {		 
 	LibraryView::resizeEvent(e);
 	change_zoom();
+}
+
+void AlbumCoverView::showEvent(QShowEvent* e)
+{
+	LibraryView::showEvent(e);
+	refresh();
 }
 
 QStyleOptionViewItem AlbumCoverView::viewOptions() const

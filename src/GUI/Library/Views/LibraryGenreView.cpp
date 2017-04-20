@@ -180,7 +180,7 @@ void LibraryGenreView::dragMoveEvent(QDragMoveEvent *e)
 
 	idx = this->indexAt(e->pos());
 	if(!idx.isValid()){
-		sp_log(Log::Debug) << "Invalid index";
+		sp_log(Log::Debug, this) << "drag: Invalid index";
 		return;
 	}
 
@@ -214,13 +214,13 @@ void LibraryGenreView::dropEvent(QDropEvent *e)
 
 	cmd = static_cast<const CustomMimeData*>(mime_data);
 	if(!cmd){
-		sp_log(Log::Debug) << "Cannot apply genre to data";
+		sp_log(Log::Debug, this) << "Cannot apply genre to data";
 		return;
 	}
 
 	idx = this->indexAt(e->pos());
 	if(!idx.isValid()){
-		sp_log(Log::Debug) << "Invalid index";
+		sp_log(Log::Debug, this) << "drop: Invalid index";
 		return;
 	}
 
@@ -346,12 +346,14 @@ void LibraryGenreView::metadata_deleted(const MetaDataList& v_md_deleted)
 
 void LibraryGenreView::tree_action_toggled(bool b)
 {
+	Q_UNUSED(b)
+
 	reload_genres();
 }
 
 void LibraryGenreView::language_changed()
 {
-	_m->toggle_tree_action->setText("Tree");
+	_m->toggle_tree_action->setText(Lang::get(Lang::Tree));
 }
 
 void LibraryGenreView::keyPressEvent(QKeyEvent* e)
@@ -394,7 +396,7 @@ QTreeWidgetItem* LibraryGenreView::find_genre(const QString& genre)
 	QList<QTreeWidgetItem*> items = this->findItems(genre, Qt::MatchRecursive);
 
 	if(items.isEmpty()){
-		sp_log(Log::Warning) << "Could not find item " << genre;
+		sp_log(Log::Warning, this) << "Could not find item " << genre;
 		return nullptr;
 	}
 
