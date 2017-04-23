@@ -47,6 +47,12 @@ struct StreamServer::Private
 	QList<StreamWriterPtr>				lst_sw;				// all open streams
 	QStringList							allowed_ips;			// IPs without prompt
 	QStringList							discmissed_ips;		// dismissed IPs
+
+	Private()
+	{
+		asking = false;
+		mp3_enc_available = false;
+	}
 };
 
 
@@ -55,8 +61,6 @@ StreamServer::StreamServer(QObject* parent) :
 	SayonaraClass()
 {
 	_m = Pimpl::make<StreamServer::Private>();
-	_m->asking = false;
-	_m->mp3_enc_available = false;
 
 	create_server();
 
@@ -64,7 +68,6 @@ StreamServer::StreamServer(QObject* parent) :
 	EngineHandler* engine = EngineHandler::getInstance();
 
 	connect(play_manager, &PlayManager::sig_track_changed, this, &StreamServer::track_changed);
-
 	connect(engine, &EngineHandler::destroyed, this, &StreamServer::stop);
 
 	REGISTER_LISTENER(Set::Broadcast_Active, _sl_active_changed);

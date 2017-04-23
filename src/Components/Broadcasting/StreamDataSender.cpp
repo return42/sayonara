@@ -41,50 +41,54 @@ struct StreamDataSender::Private
 	QByteArray		header;
 	QByteArray		icy_header;
 	QByteArray		reject_header;
+
+	Private(QTcpSocket* out_socket)
+	{
+		sent_data_bytes = 0;
+		socket = out_socket;
+		header = QByteArray(
+					"ICY 200 Ok\r\n"
+					"icy-notice1:Bliblablupp\r\n"
+					"icy-notice2:asdfasd\r\n"
+					"icy-name:Sayonara Player Radio\r\n"
+					"icy-genre:Angry songs\r\n"
+					"icy-url:http://sayonara-player.com\r\n"
+					"icy-pub:1\r\n"
+					"icy-br:192\r\n"
+					"Accept-Ranges:none\r\n"
+					"content-type:audio/mpeg\r\n"
+					"connection:keep-alive\r\n"
+					);
+
+		icy_header = QByteArray(
+					"ICY 200 Ok\r\n"
+					"icy-notice1:Bliblablupp\r\n"
+					"icy-notice2:asdfasd\r\n"
+					"icy-name:Sayonara Player Radio\r\n"
+					"icy-genre:Angry songs\r\n"
+					"icy-url:http://sayonara-player.com\r\n"
+					"icy-pub:1\r\n"
+					"icy-br:192\r\n"
+					"icy-metaint:8192\r\n"
+					"Accept-Ranges:none\r\n"
+					"content-type:audio/mpeg\r\n"
+					"connection:keep-alive\r\n"
+					);
+
+
+		reject_header = QByteArray("HTTP/1.1 501 Not Implemented\r\nConnection: close\r\n");
+
+		header.append("\r\n");
+		icy_header.append("\r\n");
+		reject_header.append("\r\n");
+	}
 };
 
 StreamDataSender::StreamDataSender(QTcpSocket* socket)
 {
 	memset(padding, 0, 256);
 
-	_m->sent_data_bytes = 0;
-	_m->socket = socket;
-
-	_m->header = QByteArray(
-				"ICY 200 Ok\r\n"
-				"icy-notice1:Bliblablupp\r\n"
-				"icy-notice2:asdfasd\r\n"
-				"icy-name:Sayonara Player Radio\r\n"
-				"icy-genre:Angry songs\r\n"
-				"icy-url:http://sayonara-player.com\r\n"
-				"icy-pub:1\r\n"
-				"icy-br:192\r\n"
-				"Accept-Ranges:none\r\n"
-				"content-type:audio/mpeg\r\n"
-				"connection:keep-alive\r\n"
-				);
-
-	_m->icy_header = QByteArray(
-				"ICY 200 Ok\r\n"
-				"icy-notice1:Bliblablupp\r\n"
-				"icy-notice2:asdfasd\r\n"
-				"icy-name:Sayonara Player Radio\r\n"
-				"icy-genre:Angry songs\r\n"
-				"icy-url:http://sayonara-player.com\r\n"
-				"icy-pub:1\r\n"
-				"icy-br:192\r\n"
-				"icy-metaint:8192\r\n"
-				"Accept-Ranges:none\r\n"
-				"content-type:audio/mpeg\r\n"
-				"connection:keep-alive\r\n"
-				);
-
-
-	_m->reject_header = QByteArray("HTTP/1.1 501 Not Implemented\r\nConnection: close\r\n");
-
-	_m->header.append("\r\n");
-	_m->icy_header.append("\r\n");
-	_m->reject_header.append("\r\n");
+	_m = Pimpl::make<Private>(socket);
 }
 
 StreamDataSender::~StreamDataSender() {}
