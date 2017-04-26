@@ -52,7 +52,8 @@ void AbstractStreamHandler::clear()
 	_m->station_contents.clear();
 }
 
-bool AbstractStreamHandler::parse_station(const QString& url, const QString& station_name){
+bool AbstractStreamHandler::parse_station(const QString& url, const QString& station_name)
+{
 	if(_m->blocked) {
 		return false;
 	}
@@ -67,7 +68,8 @@ bool AbstractStreamHandler::parse_station(const QString& url, const QString& sta
 	return true;
 }
 
-void AbstractStreamHandler::stream_parser_finished(bool success){
+void AbstractStreamHandler::stream_parser_finished(bool success)
+{
 	if(!success){
 		emit sig_error();
 		_m->blocked = false;
@@ -84,11 +86,6 @@ void AbstractStreamHandler::stream_parser_finished(bool success){
 	_m->playlist->create_playlist(v_md, _m->station_name, true, Playlist::Type::Stream);
 	_m->blocked = false;
 }
-/* TODO
-MetaDataList AbstractStreamHandler::get_tracks(const QString& station_name){
-	return _m->station_contents[station_name];
-}
-*/
 
 void AbstractStreamHandler::save(const QString& station_name, const QString& url)
 {

@@ -34,13 +34,15 @@
 #include <QCryptographicHash>
 
 
-void LFMWebAccess::call_url(const QString& url) {
+void LFMWebAccess::call_url(const QString& url)
+{
 	AsyncWebAccess* awa = new AsyncWebAccess(this);
 	connect(awa, &AsyncWebAccess::sig_finished, this, &LFMWebAccess::awa_finished);
 	awa->run(url, 10000);
 }
 
-void LFMWebAccess::call_post_url(const QString& url, const QByteArray& post_data) {
+void LFMWebAccess::call_post_url(const QString& url, const QByteArray& post_data)
+{
 	AsyncWebAccess* awa = new AsyncWebAccess(this);
 	connect(awa, &AsyncWebAccess::sig_finished, this, &LFMWebAccess::awa_finished);
 
@@ -52,18 +54,24 @@ void LFMWebAccess::call_post_url(const QString& url, const QByteArray& post_data
 }
 
 
-void LFMWebAccess::awa_finished(bool success){
+void LFMWebAccess::awa_finished()
+{
 	AsyncWebAccess* awa = static_cast<AsyncWebAccess*>(sender());
-	QByteArray data = awa->get_data();
-
-	if(check_error(data, success)){
+	if(awa->status() != AsyncWebAccess::Status::GotData){
 		return;
 	}
 
-	emit sig_response(data);
+	QByteArray data = awa->get_data();
+	bool error = check_error(data);
+
+	if(!error)
+	{
+		emit sig_response(data);
+	}
 }
 
-QString LFMWebAccess::LFMWebAccess::create_std_url(const QString& base_url, const UrlParams& data) {
+QString LFMWebAccess::LFMWebAccess::create_std_url(const QString& base_url, const UrlParams& data)
+{
 	QByteArray post_data;
 
 	QString url = create_std_url_post(base_url, data, post_data);
@@ -73,7 +81,8 @@ QString LFMWebAccess::LFMWebAccess::create_std_url(const QString& base_url, cons
 	return url;
 }
 
-QString LFMWebAccess::create_std_url_post(const QString& base_url, const UrlParams& sig_data, QByteArray& post_data) {
+QString LFMWebAccess::create_std_url_post(const QString& base_url, const UrlParams& sig_data, QByteArray& post_data)
+{
 	QString url = base_url;
 
 	post_data.clear();
@@ -92,21 +101,19 @@ QString LFMWebAccess::create_std_url_post(const QString& base_url, const UrlPara
 }
 
 
-bool LFMWebAccess::check_error(const QByteArray& data, bool success){
+bool LFMWebAccess::check_error(const QByteArray& data)
+{
 	QString error_str = parse_error_message(data);
 	if(!error_str.isEmpty()){
 		emit sig_error(error_str);
 		return true;
 	}
 
-	else if(!success){
-		return true;
-	}
-
 	return false;
 }
 
-QString LFMWebAccess::parse_error_message(const QString& response) {
+QString LFMWebAccess::parse_error_message(const QString& response)
+{
 	if(response.isEmpty()){
 		return "";
 	}

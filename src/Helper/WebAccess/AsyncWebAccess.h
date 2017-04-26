@@ -38,10 +38,6 @@ class AsyncWebAccess :
 {
 	Q_OBJECT
 
-signals:
-
-	void sig_finished(bool success);
-
 public:
 
 	/**
@@ -51,8 +47,24 @@ public:
 	{
 		AsBrowser=0,
 		AsSayonara,
-		Random
+		Random,
+		None
 	};
+
+
+	enum class Status : quint8
+	{
+		GotData,
+		Stream,
+		NoData,
+		Timeout,
+		Error
+	};
+
+signals:
+	void sig_finished();
+
+public:
 
 	/**
 	 * @brief AsyncWebAccess constructor
@@ -112,8 +124,18 @@ public:
 	 */
 	void set_raw_header(const QMap<QByteArray, QByteArray>& header);
 
+	/**
+	 * @brief Request Status
+	 * @return
+	 */
+	AsyncWebAccess::Status status() const;
+
+	bool has_data() const;
+
 
 private slots:
+
+	void data_available();
 
 	/**
 	 * @brief Called when request has finished. Emits sig_finished(bool success)

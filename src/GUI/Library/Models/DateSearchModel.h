@@ -49,7 +49,7 @@ public:
 	QModelIndex getFirstRowIndexOf(const QString& substr) override;
 	QModelIndex getNextRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent=QModelIndex()) override;
 	QModelIndex getPrevRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent=QModelIndex()) override;
-	QMap<QChar, QString> getExtraTriggers();
+	QMap<QChar, QString> getExtraTriggers() override;
 
 	Library::DateFilter get_filter(int row) const;
 };

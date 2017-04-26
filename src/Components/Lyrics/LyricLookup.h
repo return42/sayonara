@@ -69,7 +69,7 @@ private:
 
 
 private slots:
-	void content_fetched(bool success);
+	void content_fetched();
 };
 
 #endif /* LYRICLOOKUP_H_ */

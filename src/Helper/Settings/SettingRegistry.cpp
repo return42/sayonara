@@ -169,6 +169,7 @@ bool SettingRegistry::init()
 	register_setting( Set::PL_ShowNumbers, "show_playlist_numbers", true );
 	register_setting( Set::PL_EntryLook, "playlist_look", QString("*%title%* - %artist%"));
 	register_setting( Set::PL_FontSize, "playlist_font_size", -1);
+	register_setting( Set::PL_ShowClearButton, "playlist_show_clear_button", false);
 
 	register_setting( Set::Notification_Show, "show_notifications", true );
 	register_setting( Set::Notification_Timeout, "notification_timeout", 5000 );

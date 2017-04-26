@@ -50,9 +50,9 @@ public:
 
 private slots:
 
-	void artists_fetched(bool success);
-	void playlist_tracks_fetched(bool success);
-	void tracks_fetched(bool success);
+	void artists_fetched();
+	void playlist_tracks_fetched();
+	void tracks_fetched();
 
 private:
 	PIMPL(SoundcloudDataFetcher)

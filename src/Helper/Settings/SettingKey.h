@@ -117,6 +117,7 @@ namespace SK {
 	PL_ShowNumbers,
 	PL_EntryLook,
 	PL_FontSize,
+	PL_ShowClearButton,
 
 	Notification_Show,
 	Notification_Timeout,
@@ -265,6 +266,7 @@ namespace Set
     INST(int,				PL_LastPlaylist);			/* last Playlist id, where LastTrack has been played */
     INST(QString,			PL_EntryLook);				/* formatting of playlist entry */
     INST(int,				PL_FontSize);				/* current playlist font size */
+	INST(bool,				PL_ShowClearButton);		/* show clear button in playlist */
 
     INST(Playlist::Mode,	PL_Mode);				/* playlist mode: rep1, repAll, shuffle... */
     INST(bool,				PL_ShowNumbers);			/* show numbers in playlist */

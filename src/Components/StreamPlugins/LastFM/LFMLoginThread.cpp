@@ -31,32 +31,8 @@ LFMLoginThread::LFMLoginThread(QObject *parent) :
 
 LFMLoginThread::~LFMLoginThread() {}
 
-bool LFMLoginThread::request_authorization()
+void LFMLoginThread::login(const QString& username, const QString& password)
 {
-    UrlParams signature_data;
-        signature_data["api_key"] = LFM_API_KEY;
-		signature_data["token"] = _login_info.token.toLocal8Bit();
-
-	sp_log(Log::Debug) << "auth: token = " << _login_info.token;
-
-	QString url = LFMWebAccess::create_std_url("https://www.last.fm/api/auth/", signature_data);
-
-	QString message_str =  QString("<b>First login to Last.fm from Sayonara</b><br /><br />") +
-			"You will be redirected to this link when clicking on it<br /><br />" +
-			"<a href=\"" + url + "\">"+ url + "</a><br /><br />" +
-			"When you finished authorization, click OK";
-
-	GlobalMessage::Answer answer = Message::question_ok(message_str, "Last.fm");
-
-	if(answer == GlobalMessage::Answer::Ok) {
-		return true;
-	}
-
-    return false;
-}
-
-
-void LFMLoginThread::login(const QString& username, const QString& password) {
 	LFMWebAccess* lfm_wa = new LFMWebAccess();
 	connect(lfm_wa, &LFMWebAccess::sig_response, this, &LFMLoginThread::wa_response);
 	connect(lfm_wa, &LFMWebAccess::sig_error, this, &LFMLoginThread::wa_error);
@@ -81,15 +57,13 @@ void LFMLoginThread::login(const QString& username, const QString& password) {
 }
 
 
-void LFMLoginThread::wa_response(const QByteArray& data){
+void LFMLoginThread::wa_response(const QByteArray& data)
+{
 	LFMWebAccess* lfm_wa = static_cast<LFMWebAccess*>(sender());
 	QString str = QString::fromUtf8(data);
 
 	_login_info.logged_in = true;
 	_login_info.session_key = Helper::easy_tag_finder("lfm.session.key", str);
-
-	sp_log(Log::Debug) << "Last.fm Got session key: " << _login_info.session_key;
-
 	_login_info.subscriber = (Helper::easy_tag_finder("lfm.session.subscriber", str).toInt() == 1);
 	_login_info.error = str;
 
@@ -105,11 +79,12 @@ void LFMLoginThread::wa_response(const QByteArray& data){
 }
 
 
-void LFMLoginThread::wa_error(const QString& error){
+void LFMLoginThread::wa_error(const QString& error)
+{
 	LFMWebAccess* lfm_wa = static_cast<LFMWebAccess*>(sender());
 
-	sp_log(Log::Warning) << "LastFM: Cannot login";
-	sp_log(Log::Warning) << error;
+	sp_log(Log::Warning, this) << "LastFM: Cannot login";
+	sp_log(Log::Warning, this) << error;
 
 	emit sig_error(error);
 

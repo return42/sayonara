@@ -24,7 +24,6 @@
 #include "Helper/MetaData/Artist.h"
 #include "Helper/Library/Filter.h"
 #include "Helper/Library/DateFilter.h"
-#include "Helper/Logger/Logger.h"
 
 DatabaseArtists::DatabaseArtists(const QSqlDatabase& db, quint8 db_id) :
 	DatabaseModule(db, db_id),
@@ -66,8 +65,6 @@ bool DatabaseArtists::db_fetch_artists(SayonaraQuery& q, ArtistList& result)
 	if(!q.last()){
 		return true;
 	}
-
-	sp_log(Log::Debug) << q.get_query_string();
 
 	for(bool is_element=q.first(); is_element; is_element = q.next()){
 		Artist artist;

@@ -108,7 +108,6 @@ bool LastFM::is_logged_in()
 void LastFM::psl_login()
 {
 	_m->active = _settings->get(Set::LFM_Active);
-
 	if(!_m->active){
 		return;
 	}
@@ -134,10 +133,10 @@ void LastFM::sl_login_thread_finished(bool success) {
 
 	_settings->set(Set::LFM_SessionKey, _m->session_key);
 
-	sp_log(Log::Debug, "LastFM") << "Got session key";
+	sp_log(Log::Debug, this) << "Got session key";
 
 	if(!_m->logged_in){
-		sp_log(Log::Warning, "LastFM") << "Cannot login";
+		sp_log(Log::Warning, this) << "Cannot login";
 	}
 
 	emit sig_logged_in(_m->logged_in);
@@ -321,5 +320,5 @@ void LastFM::sl_scrobble_response(const QByteArray& data){
 }
 
 void LastFM::sl_scrobble_error(const QString& error){
-	sp_log(Log::Warning, "LastFM") << "Scrobble: " << error;
+	sp_log(Log::Warning, this) << "Scrobble: " << error;
 }

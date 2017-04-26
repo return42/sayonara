@@ -90,11 +90,11 @@ void SoundcloudDataFetcher::get_tracks_by_artist(int artist_id)
 }
 
 
-void SoundcloudDataFetcher::artists_fetched(bool success)
+void SoundcloudDataFetcher::artists_fetched()
 {
 	ArtistList artists;
 	AsyncWebAccess* awa = static_cast<AsyncWebAccess*>(sender());
-	if(!success){
+	if(awa->status() != AsyncWebAccess::Status::GotData) {
 		awa->deleteLater();
 		return;
 	}
@@ -108,11 +108,11 @@ void SoundcloudDataFetcher::artists_fetched(bool success)
 }
 
 
-void SoundcloudDataFetcher::playlist_tracks_fetched(bool success)
+void SoundcloudDataFetcher::playlist_tracks_fetched()
 {
 	AsyncWebAccess* awa = static_cast<AsyncWebAccess*>(sender());
 
-	if(!success){
+	if(awa->status() != AsyncWebAccess::Status::GotData) {
 		awa->deleteLater();
 		return;
 	}
@@ -130,13 +130,13 @@ void SoundcloudDataFetcher::playlist_tracks_fetched(bool success)
 	awa->deleteLater();
 }
 
-void SoundcloudDataFetcher::tracks_fetched(bool success)
+void SoundcloudDataFetcher::tracks_fetched()
 {
 	MetaDataList v_md;
 	ArtistList artists;
 	AsyncWebAccess* awa = static_cast<AsyncWebAccess*>(sender());
 
-	if(!success){
+	if(awa->status() != AsyncWebAccess::Status::GotData) {
 		awa->deleteLater();
 		return;
 	}

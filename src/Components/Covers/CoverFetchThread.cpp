@@ -167,12 +167,13 @@ void CoverFetchThread::stop()
 }
 
 
-void CoverFetchThread::content_fetched(bool success)
+void CoverFetchThread::content_fetched()
 {
 	AsyncWebAccess* awa = static_cast<AsyncWebAccess*>(sender());
 
-	if(awa->objectName() == _m->acf->get_keyword()){
-		if(success) {
+	if(awa->objectName() == _m->acf->get_keyword()) {
+		if(awa->status() == AsyncWebAccess::Status::GotData)
+		{
 			QByteArray website = awa->get_data();
 			_m->addresses = _m->acf->calc_addresses_from_website(website);
 		}
@@ -182,11 +183,12 @@ void CoverFetchThread::content_fetched(bool success)
 	more();
 }
 
-void CoverFetchThread::single_image_fetched(bool success)
+void CoverFetchThread::single_image_fetched()
 {
 	AsyncWebAccess* awa = static_cast<AsyncWebAccess*>(sender());
 
-	if(success) {
+	if(awa->status() == AsyncWebAccess::Status::GotData)
+	{
 		QImage img  = awa->get_image();
 
 		if(!img.isNull()) {
@@ -211,11 +213,11 @@ void CoverFetchThread::single_image_fetched(bool success)
 
 
 void
-CoverFetchThread::multi_image_fetched(bool success)
+CoverFetchThread::multi_image_fetched()
 {
 	AsyncWebAccess* awa = static_cast<AsyncWebAccess*>(sender());
 
-	if(success){
+	if(awa->status() == AsyncWebAccess::Status::GotData){
 
 		QImage img  = awa->get_image();
 

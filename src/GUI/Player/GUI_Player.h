@@ -168,8 +168,8 @@ private slots:
 
 	void cover_changed(const QImage& cover);
 
-	void awa_version_finished(bool success);
-	void awa_translators_finished(bool success);
+	void awa_version_finished();
+	void awa_translators_finished();
 
 	void id3_tags_changed(const MetaDataList& v_md_old, const MetaDataList& v_md_new);
 

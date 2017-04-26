@@ -25,28 +25,45 @@
 
 #include <algorithm>
 
-
-static int split_line(const QString& line, QString& key, QString& val)
+struct LineEntry
 {
-	int idx;
+	QString key;
+	QString value;
+	int track_idx;
+
+	LineEntry()
+	{
+		track_idx = -1;
+	}
+};
+
+
+static LineEntry split_line(const QString& line)
+{
+	LineEntry ret;
+
 	int pos_idx;
 	QRegExp re_idx("(\\S+)([0-9]+)");
 	QStringList splitted = line.split("=");
 
 	if(splitted.size() < 2){
-		return -1;
+		return ret;
 	}
 
 	pos_idx = re_idx.indexIn(splitted[0]);
 	if(pos_idx < 0){
-		return -1;
+		ret.key = splitted[0];
+		ret.value = splitted[1];
+		ret.track_idx = 1;
 	}
 
-	key = re_idx.cap(1).toLower();
-	val = splitted[1];
-	idx = re_idx.cap(2).toInt();
+	else {
+		ret.key = re_idx.cap(1).toLower();
+		ret.value = splitted[1];
+		ret.track_idx = re_idx.cap(2).toInt();
+	}
 
-	return idx;
+	return ret;
 }
 
 
@@ -63,45 +80,45 @@ void PLSParser::parse()
 	int cur_track_idx = -1;
 
 	for(QString line : lines) {
-		QString key, val;
-		int track_idx;
-
 		line = line.trimmed();
 		if(line.isEmpty() || line.startsWith("#")){
 			continue;
 		}
 
-		track_idx = split_line(line, key, val);
+		LineEntry line_entry = split_line(line);
 
-		if(track_idx < 0){
+		if(line_entry.track_idx < 0){
 			continue;
 		}
 
+		if(line_entry.track_idx != cur_track_idx){
 
-		if(track_idx != cur_track_idx){
 			if(cur_track_idx > 0){
 				add_track(md);
 			}
 
 			md = MetaData();
-			cur_track_idx = track_idx;
+			cur_track_idx = line_entry.track_idx;
 		}
 
 
-		md.track_num = track_idx;
+		md.track_num = line_entry.track_idx;
 
-		if(key.startsWith("file")) {
-			QString filepath = get_absolute_filename(val);
+		if(line_entry.key.startsWith("file", Qt::CaseInsensitive))
+		{
+			QString filepath = get_absolute_filename(line_entry.value);
 			md.set_filepath(filepath);
 			md.artist = filepath;
 		}
 
-		else if(key.startsWith("title")){
-			md.title = val;
+		else if(line_entry.key.startsWith("title", Qt::CaseInsensitive))
+		{
+			md.title = line_entry.value;
 		}
 
-		else if(key.startsWith("length")) {
-			int len = val.toInt();
+		else if(line_entry.key.startsWith("length", Qt::CaseInsensitive))
+		{
+			int len = line_entry.value.toInt();
 
 			len = std::max(0, len);
 			md.length_ms = len * 1000;

@@ -92,8 +92,11 @@ GUI_Playlist::GUI_Playlist(QWidget *parent) :
 	connect(ui->tw_playlists, &PlaylistTabWidget::sig_open_file, this, &GUI_Playlist::open_file_clicked);
 	connect(ui->tw_playlists, &PlaylistTabWidget::sig_open_dir, this, &GUI_Playlist::open_dir_clicked);
 
+	connect(ui->btn_clear, &QPushButton::clicked, this, &GUI_Playlist::clear_button_pressed);
+
 	REGISTER_LISTENER(Set::Lib_Path, _sl_library_path_changed);
 	REGISTER_LISTENER(Set::PL_ShowNumbers, _sl_show_numbers_changed);
+	REGISTER_LISTENER(Set::PL_ShowClearButton, _sl_show_clear_button_changed);
 
 	init_shortcuts();
 	load_old_playlists();
@@ -400,6 +403,11 @@ void GUI_Playlist::_sl_show_numbers_changed()
 	if( cur_view ){
 	   cur_view->reset();
 	}
+}
+
+void GUI_Playlist::_sl_show_clear_button_changed()
+{
+	ui->btn_clear->setVisible(_settings->get(Set::PL_ShowClearButton));
 }
 
 void GUI_Playlist::delete_tracks_clicked(const SP::Set<int>& rows)

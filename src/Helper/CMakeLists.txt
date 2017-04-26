@@ -76,6 +76,7 @@ SET(SOURCES
     Tagging/Models/Popularimeter.cpp
 
     WebAccess/AsyncWebAccess.cpp
+    WebAccess/IcyWebAccess.cpp
 )
 
 #ADD_DEFINITIONS( -DSMART_COMPARE" )

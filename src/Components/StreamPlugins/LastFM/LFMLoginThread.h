@@ -25,7 +25,8 @@
 #include "Helper/globals.h"
 
 
-struct LFMLoginStuff{
+struct LFMLoginStuff
+{
 	QString token;
 	QString session_key;
 	bool logged_in;
@@ -33,7 +34,7 @@ struct LFMLoginStuff{
 	QString error;
 
 	LFMLoginStuff()
-{
+	{
 		logged_in = false;
 		subscriber = false;
 	}
@@ -55,7 +56,6 @@ public:
 	~LFMLoginThread();
 
 	void login(const QString& username, const QString& password);
-	bool request_authorization();
 
     LFMLoginStuff getLoginStuff();
 
@@ -64,7 +64,6 @@ private slots:
 	void wa_error(const QString& response);
 
 private:
-
 	LFMLoginStuff _login_info;
 };
 

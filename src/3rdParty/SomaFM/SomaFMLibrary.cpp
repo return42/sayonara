@@ -76,12 +76,12 @@ SomaFMStation SomaFMLibrary::get_station(const QString& name)
 }
 
 
-void SomaFMLibrary::soma_website_fetched(bool success)
+void SomaFMLibrary::soma_website_fetched()
 {
 	AsyncWebAccess* awa = static_cast<AsyncWebAccess*>(sender());
 	QList<SomaFMStation> stations;
 
-	if(!success){
+	if(awa->status() != AsyncWebAccess::Status::GotData){
 		awa->deleteLater();
 		emit sig_stations_loaded(stations);
 		return;

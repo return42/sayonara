@@ -22,6 +22,7 @@
 #include "Helper/Random/RandomGenerator.h"
 #include "Helper/Set.h"
 #include "Helper/globals.h"
+#include "Helper/Logger/Logger.h"
 
 #include <algorithm>
 
@@ -39,7 +40,8 @@ MetaDataList::MetaDataList(const MetaDataList& lst) :
 
 MetaDataList::~MetaDataList() {}
 
-void MetaDataList::set_cur_play_track(int idx) {
+void MetaDataList::set_cur_play_track(int idx)
+{
 	_cur_played_track = -1;
 	if( !between(idx, this)) {
 		return;
@@ -54,7 +56,8 @@ void MetaDataList::set_cur_play_track(int idx) {
 	_cur_played_track = idx;
 }
 
-MetaDataList& MetaDataList::insert_tracks(const MetaDataList& v_md, int tgt_idx){
+MetaDataList& MetaDataList::insert_tracks(const MetaDataList& v_md, int tgt_idx)
+{
 	if(v_md.isEmpty()) {
 		return *this;
 	}
@@ -78,7 +81,8 @@ MetaDataList& MetaDataList::insert_tracks(const MetaDataList& v_md, int tgt_idx)
 	return *this;
 }
 
-MetaDataList& MetaDataList::copy_tracks(const SP::Set<int>& indexes, int tgt_idx){
+MetaDataList& MetaDataList::copy_tracks(const SP::Set<int>& indexes, int tgt_idx)
+{
 	MetaDataList v_md;
 	for(int idx : indexes){
 		v_md << this->operator[](idx);
@@ -88,72 +92,68 @@ MetaDataList& MetaDataList::copy_tracks(const SP::Set<int>& indexes, int tgt_idx
 }
 
 
-MetaDataList& MetaDataList::move_tracks(const SP::Set<int>& indexes, int tgt_idx){
+MetaDataList& MetaDataList::move_tracks(const SP::Set<int>& indexes, int tgt_idx)
+{
 	MetaDataList v_md_to_move;
 	MetaDataList v_md_before_tgt;
 	MetaDataList v_md_after_tgt;
 
-	int n_tracks_before_cur_idx =
-		std::count_if(indexes.begin(), indexes.end(), [=](int idx){
-			return idx < _cur_played_track;
-		});
-
-	int n_tracks_after_cur_idx =
-		std::count_if(indexes.begin(), indexes.end(), [=](int idx){
-			return idx > _cur_played_track;
-		});
-
-
 	int i=0;
+	int n_tracks_after_cur_idx = 0;
+	int n_tracks_before_cur_idx = 0;
+
+	bool contains_cur_track = false;
+
 	for(auto it=this->begin(); it!=this->end(); it++, i++)
 	{
 		const MetaData& md = *it;
+
 		it->pl_playing = (i == _cur_played_track);
 
 		bool contains_i = indexes.contains(i);
 
-		if(!contains_i && i < tgt_idx){
-			v_md_before_tgt << std::move( md );
-		}
-
-		else if(!contains_i && i >= tgt_idx){
-			v_md_after_tgt << std::move( md );
-		}
-
-		else if(contains_i){
+		if(!contains_i) {
+			if(i<tgt_idx) {
+				v_md_before_tgt << std::move( md );
+			} else {
+				v_md_after_tgt << std::move( md );
+			}
+		} else {
+			contains_cur_track |= (i == _cur_played_track);
 			v_md_to_move << std::move( md );
+			if(i < _cur_played_track){
+				n_tracks_before_cur_idx++;
+			}
+
+			else if(i > _cur_played_track){
+				n_tracks_after_cur_idx++;
+			}
 		}
 	}
 
 	int start_idx = 0;
 
 	std::move(v_md_before_tgt.begin(), v_md_before_tgt.end(), this->begin());
-
 	start_idx += v_md_before_tgt.size();
 
 	std::move(v_md_to_move.begin(), v_md_to_move.end(), this->begin() + start_idx);
-
 	start_idx += v_md_to_move.size();
 
 	std::move(v_md_after_tgt.begin(), v_md_after_tgt.end(), this->begin() + start_idx);
 
-	i=0;
-	for(auto it=this->begin(); it!=this->end(); it++, i++)
-	{
-		if(it->pl_playing){
-			_cur_played_track = i;
-			break;
+	if(contains_cur_track) {
+		_cur_played_track = (n_tracks_before_cur_idx) + v_md_before_tgt.size();
+	}
+
+	if(!contains_cur_track) {
+		if(tgt_idx <= _cur_played_track) {
+			_cur_played_track += n_tracks_after_cur_idx;
+		}
+
+		else {
+			_cur_played_track -= n_tracks_before_cur_idx;
 		}
 	}
-
-	if(tgt_idx < _cur_played_track){
-		_cur_played_track += n_tracks_after_cur_idx;
-	}
-
-	else if(tgt_idx > _cur_played_track){
-		_cur_played_track -= n_tracks_before_cur_idx;
-	}
-
 
 	return *this;
 }

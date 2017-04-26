@@ -102,20 +102,20 @@ private slots:
 	 *   calls save_and_emit_image
 	 * @param success indicates if image could be fetched successfully
 	 */
-	void single_image_fetched(bool success);
+	void single_image_fetched();
 
 	/**
 	 * @brief multi_image_fetched (reached when _n_covers was set to > 1),
 	 *   calls save_and_emit_image for first image;
 	 * @param success indicates if images could be fetched successfully
 	 */
-	void multi_image_fetched(bool success);
+	void multi_image_fetched();
 
 	/**
 	 * @brief The website content has been fetched
 	 * @param success indicates if content could be fetched
 	 */
-	void content_fetched(bool success);
+	void content_fetched();
 };
 
 #endif /* COVERFETCHTHREAD_H_ */

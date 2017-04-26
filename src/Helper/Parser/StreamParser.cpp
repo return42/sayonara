@@ -29,14 +29,16 @@
 #include "Helper/UrlHelper.h"
 #include "Helper/Logger/Logger.h"
 #include "Helper/Language.h"
+#include "Helper/WebAccess/IcyWebAccess.h"
 
 #include <QFile>
 #include <QDir>
+#include <QUrl>
 
-struct StreamParser::Private{
+struct StreamParser::Private
+{
 	QStringList 	urls;
 	QString			last_url;
-	QStringList		stream_buffer;
 	QString			station_name;
 	QString			cover_url;
 	MetaDataList	v_md;
@@ -83,90 +85,95 @@ bool StreamParser::parse_next()
 }
 
 
-void StreamParser::awa_finished(bool success)
+void StreamParser::awa_finished()
 {
 	AsyncWebAccess* awa = static_cast<AsyncWebAccess*>(sender());
+	AsyncWebAccess::Status status = awa->status();
+	_m->last_url = awa->get_url();
 
-	if(!success)
-	{
-		sp_log(Log::Warning) << "Stream error: "<< awa->get_url();
+	MetaDataList v_md;
+	awa->deleteLater();
 
-		awa->deleteLater();
-
-		if(!_m->stream_buffer.isEmpty()){
-			QString new_station = _m->stream_buffer.takeFirst();
-			sp_log(Log::Debug) << "Try out another one: "<< new_station;
-			parse_stream(new_station);
-		}
-
-		else {
-			parse_next();
-		}
-
+	// Maybe it's an Icy Stream?
+	if( status == AsyncWebAccess::Status::Error) {
+		IcyWebAccess* iwa = new IcyWebAccess(this);
+		connect(iwa, &IcyWebAccess::sig_finished, this, &StreamParser::icy_finished);
+		iwa->check(QUrl(_m->last_url));
 		return;
 	}
 
-	_m->stream_buffer.clear();
-	_m->last_url = awa->get_url();
+	else if( status == AsyncWebAccess::Status::Timeout ||
+			status == AsyncWebAccess::Status::NoData)
+	{
+		// nothing
+	}
 
-	QByteArray data = awa->get_data();
-	MetaDataList v_md;
+	else if(status == AsyncWebAccess::Status::GotData)
+	{
+		QByteArray data = awa->get_data();
 
-	awa->deleteLater();
-
-	/** Let's look what's inside data **/
-	if(!data.isEmpty()){
 		v_md = parse_content(data);
-		if(v_md.isEmpty()){
-			parse_next();
-			return;
+
+		for(MetaData& md : v_md) {
+			tag_metadata(md, _m->last_url);
+			if(!_m->cover_url.isEmpty()) {
+				md.cover_download_url = _m->cover_url;
+			}
 		}
+
+		_m->v_md << v_md;
 	}
 
-	/** This is an ordianry stream and is tagged lateri **/
-	else {
+	else if(status == AsyncWebAccess::Status::Stream)
+	{
 		MetaData md;
-		v_md << md;
-	}
-
-	for(MetaData& md : v_md){
 		tag_metadata(md, _m->last_url);
-		if(!_m->cover_url.isEmpty()){
+		if(!_m->cover_url.isEmpty()) {
 			md.cover_download_url = _m->cover_url;
 		}
-	}
 
-	_m->v_md << v_md;
+		_m->v_md << md;
+	}
 
 	parse_next();
 }
 
 
-MetaDataList StreamParser::parse_content(const QByteArray& data){
+void StreamParser::icy_finished()
+{
+	IcyWebAccess* iwa = static_cast<IcyWebAccess*>(sender());
+	IcyWebAccess::Status status = iwa->status();
+
+	if(status == IcyWebAccess::Status::Success) {
+		sp_log(Log::Debug) << "Stream is icy stream";
+		MetaData md;
+		tag_metadata(md, _m->last_url);
+		if(!_m->cover_url.isEmpty()) {
+			md.cover_download_url = _m->cover_url;
+		}
+
+		_m->v_md << md;
+	} else {
+		sp_log(Log::Warning) << "Stream is no icy stream";
+	}
+
+	iwa->deleteLater();
+
+	parse_next();
+}
+
+MetaDataList StreamParser::parse_content(const QByteArray& data)
+{
 	MetaDataList v_md;
 
 	/** 1. try if podcast file **/
 	PodcastParser::parse_podcast_xml_file_content(data, v_md);
 
 	/** 2. try if playlist file **/
-	if(v_md.isEmpty()){
+	if(v_md.isEmpty()) {
 		QString filename = write_playlist_file(data);
 		PlaylistParser::parse_playlist(filename, v_md);
 		QFile::remove(filename);
-	}
-
-	/** 3. search for a playlist file on website **/
-	if(v_md.isEmpty()){
-		_m->stream_buffer = search_for_playlist_files(data);
-		if(_m->stream_buffer.isEmpty()){
-			return MetaDataList();
-		}
-
-		QString playlist_file = _m->stream_buffer.takeFirst();
-		sp_log(Log::Debug) << "try out " << playlist_file;
-		parse_stream(playlist_file);
-
-		return MetaDataList();
 	}
 
 	return v_md;
@@ -211,34 +218,6 @@ QString StreamParser::write_playlist_file(const QByteArray& data) const
 
 	Helper::File::write_file(data, filename);
 	return filename;
-}
-
-
-QStringList StreamParser::search_for_playlist_files(const QByteArray& data) const
-{
-	QStringList playlist_strings;
-	QString base_url = Helper::Url::get_base_url(_m->last_url);
-
-	QRegExp re("href=\"([^<]+\\.(pls|m3u|asx))\"");
-	re.setMinimal(true);
-
-	QString utf8_data = QString::fromUtf8(data);
-	int idx = re.indexIn(utf8_data);
-
-	while(idx > 0){
-		QString playlist = re.cap(1);
-		if(!playlist.startsWith("http")){
-			playlist = base_url + "/" + playlist;
-		}
-
-		sp_log(Log::Debug) << "Found a playlist on website: " << playlist;
-		playlist_strings << playlist;
-
-		idx = re.indexIn(utf8_data, idx+1);
-	}
-
-	sp_log(Log::Debug) << "Found " << playlist_strings.size() << " playlists on website: ";
-	return playlist_strings;
 }
 
 MetaDataList StreamParser::get_metadata() const

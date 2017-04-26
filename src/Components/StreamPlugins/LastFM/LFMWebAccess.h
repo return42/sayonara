@@ -55,12 +55,12 @@ public:
 	void call_post_url(const QString& url, const QByteArray& post_data);
 
 private slots:
-	void awa_finished(bool success);
+	void awa_finished();
 
 
 private:
 	QString parse_error_message(const QString& response);
-	bool check_error(const QByteArray& data, bool success);
+	bool check_error(const QByteArray& data);
 
 public:
 	static QString parse_token_answer(const QString& content);

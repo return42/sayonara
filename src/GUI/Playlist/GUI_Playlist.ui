@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>563</width>
-    <height>312</height>
+    <width>392</width>
+    <height>459</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -61,32 +61,7 @@
    <property name="verticalSpacing">
     <number>4</number>
    </property>
-   <item row="2" column="0">
-    <widget class="QLabel" name="lab_totalTime">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="font">
-      <font>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="focusPolicy">
-      <enum>Qt::NoFocus</enum>
-     </property>
-     <property name="text">
-      <string notr="true">0m 0s</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="0">
+   <item row="5" column="0">
     <widget class="GUI_PlaylistBottomBar" name="bottom_bar" native="true">
      <property name="sizePolicy">
       <sizepolicy hsizetype="MinimumExpanding" vsizetype="Maximum">
@@ -96,7 +71,7 @@
      </property>
     </widget>
    </item>
-   <item row="3" column="0">
+   <item row="2" column="0" colspan="2">
     <widget class="PlaylistTabWidget" name="tw_playlists">
      <property name="focusPolicy">
       <enum>Qt::NoFocus</enum>
@@ -119,6 +94,49 @@
      </widget>
     </widget>
    </item>
+   <item row="1" column="0">
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QLabel" name="lab_totalTime">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="font">
+        <font>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
+       </property>
+       <property name="text">
+        <string notr="true">0m 0s</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btn_clear">
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="../Resources/Icons.qrc">
+         <normaloff>:/Icons/broom.png</normaloff>:/Icons/broom.png</iconset>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
   </layout>
  </widget>
  <customwidgets>
@@ -135,6 +153,8 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="../Resources/Icons.qrc"/>
+ </resources>
  <connections/>
 </ui>

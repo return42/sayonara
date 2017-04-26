@@ -22,6 +22,8 @@
 #include "Helper/WebAccess/AsyncWebAccess.h"
 #include "Helper/Logger/Logger.h"
 #include "Helper/Helper.h"
+#include "Helper/FileHelper.h"
+#include "Helper/Macros.h"
 
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
@@ -38,6 +40,7 @@ struct AsyncWebAccess::Private
 	QString					url;
 	QByteArray				data;
 	AsyncWebAccess::Behavior behavior;
+	AsyncWebAccess::Status status;
 	QMap<QByteArray, QByteArray> header;
 
 	void abort_request()
@@ -64,6 +67,7 @@ AsyncWebAccess::AsyncWebAccess(QObject* parent, const QByteArray& header, AsyncW
 	_m->nam = new QNetworkAccessManager(this);
 	_m->timer = new QTimer();
 	_m->behavior = behavior;
+	_m->status = AsyncWebAccess::Status::NoData;
 
 	connect(_m->timer, &QTimer::timeout, this, &AsyncWebAccess::timeout);
 	connect(_m->nam, &QNetworkAccessManager::finished, this, &AsyncWebAccess::finished);
@@ -73,6 +77,7 @@ AsyncWebAccess::~AsyncWebAccess() {}
 
 void AsyncWebAccess::run(const QString& url, int timeout)
 {
+	_m->status = AsyncWebAccess::Status::NoData;
 	_m->header.clear();
 	_m->data.clear();
 	_m->url = url;
@@ -85,11 +90,12 @@ void AsyncWebAccess::run(const QString& url, int timeout)
 
 	QNetworkRequest request;
 	request.setUrl(_m->url);
+
 	QString user_agent;
 
 	switch(_m->behavior){
 		case AsyncWebAccess::Behavior::AsSayonara:
-			user_agent = "sayonara";
+			user_agent = "Sayonara/" + QString(SAYONARA_VERSION) ;
 			break;
 
 		case AsyncWebAccess::Behavior::AsBrowser:
@@ -99,7 +105,7 @@ void AsyncWebAccess::run(const QString& url, int timeout)
 		case AsyncWebAccess::Behavior::Random:
 			user_agent = Helper::get_random_string(Helper::get_random_number(8, 16));
 			break;
-
+		case AsyncWebAccess::Behavior::None:
 		default:
 			break;
 	}
@@ -107,6 +113,8 @@ void AsyncWebAccess::run(const QString& url, int timeout)
 	request.setHeader(QNetworkRequest::UserAgentHeader, user_agent);
 
 	_m->reply = _m->nam->get(request);
+	connect(_m->reply, &QNetworkReply::readyRead, this, &AsyncWebAccess::data_available);
+
 	if(timeout > 0){
 		_m->timer->start(timeout);
 	}
@@ -137,15 +145,30 @@ void AsyncWebAccess::run_post(const QString &url, const QByteArray &post_data, i
 void AsyncWebAccess::finished(QNetworkReply *reply)
 {
 	bool success = (reply->error() == QNetworkReply::NoError);
-	if(!success){
+
+	if(!success)
+	{
 		sp_log(Log::Warning, this) << "Cannot open " << _m->url << ": " << reply->errorString();
+
+		if(reply->error() == QNetworkReply::OperationCanceledError ||
+		   reply->error() == QNetworkReply::TimeoutError)
+		{
+			_m->status = AsyncWebAccess::Status::Timeout;
+		} else {
+			_m->status = AsyncWebAccess::Status::Error;
+		}
+
+		_m->abort_request();
+		emit sig_finished();
 		return;
 	}
 
 	QString redirect_url = reply->attribute(QNetworkRequest::RedirectionTargetAttribute).toString();
 
 	if(!redirect_url.isEmpty() && redirect_url != _m->url) {
+		_m->abort_request();
 		redirect_request(redirect_url);
+
 		return;
 	}
 
@@ -157,35 +180,23 @@ void AsyncWebAccess::finished(QNetworkReply *reply)
 		bytes_available > 0)
 	{
 		_m->data = reply->readAll();
-	}
-
-	else if(is_readable)
-	{
-		success = true;
-		_m->data.clear();
+		_m->status = AsyncWebAccess::Status::GotData;
 	}
 
 	else {
-		success = false;
+		_m->status = AsyncWebAccess::Status::NoData;
 		_m->data.clear();
 	}
 
 	_m->abort_request();
 
-	emit sig_finished(success);
+	emit sig_finished();
 }
 
 
 void AsyncWebAccess::timeout()
 {
-	if(!_m->reply->isOpen()){
-		_m->abort_request();
-	}
-
-	else if(_m->reply->bytesAvailable() <= 0) {
-		_m->abort_request();
-		emit sig_finished(false);
-	}
+	_m->abort_request();
 }
 
 
@@ -228,5 +239,32 @@ void AsyncWebAccess::set_behavior(AsyncWebAccess::Behavior behavior)
 
 void AsyncWebAccess::set_raw_header(const QMap<QByteArray, QByteArray>& header){
 	_m->header = header;
+}
+
+AsyncWebAccess::Status AsyncWebAccess::status() const
+{
+	return _m->status;
+}
+
+bool AsyncWebAccess::has_data() const
+{
+	return (_m->status == AsyncWebAccess::Status::GotData);
+}
+
+void AsyncWebAccess::data_available()
+{
+	int content_length = _m->reply->header(QNetworkRequest::ContentLengthHeader).toInt();
+	QString content_type = _m->reply->header(QNetworkRequest::ContentTypeHeader).toString();
+	QString url_file = QUrl(_m->url).fileName();
+
+	if(content_type.contains("audio/", Qt::CaseInsensitive) &&
+	   content_length <= 0 &&
+	   !Helper::File::is_playlistfile(url_file))
+	{
+		disconnect(_m->nam, &QNetworkAccessManager::finished, this, &AsyncWebAccess::finished);
+		_m->abort_request();
+		_m->status = AsyncWebAccess::Status::Stream;
+		emit sig_finished();
+	}
 }
 

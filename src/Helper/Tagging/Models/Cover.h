@@ -37,8 +37,6 @@ namespace Models
     class Cover
     {
 		private:
-			unsigned char text_encoding;
-			unsigned char picture_type;
 			QString description;
 
 		public:

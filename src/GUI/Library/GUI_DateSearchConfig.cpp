@@ -117,7 +117,7 @@ void GUI_DateSearchConfig::commit()
 	{
 		case 0:
 		{
-			Library::DateFilter::TimeSpan time_span;
+			Library::DateFilter::TimeSpan time_span = Library::DateFilter::TimeSpan::Years;
 
 			if(ui->rb_nt_days->isChecked()){
 				time_span = Library::DateFilter::TimeSpan::Days;
@@ -139,7 +139,7 @@ void GUI_DateSearchConfig::commit()
 
 		case 1:
 		{
-			Library::DateFilter::TimeSpan time_span;
+			Library::DateFilter::TimeSpan time_span = Library::DateFilter::TimeSpan::Years;
 
 			if(ui->rb_ot_days->isChecked()){
 				time_span = Library::DateFilter::TimeSpan::Days;
@@ -161,7 +161,8 @@ void GUI_DateSearchConfig::commit()
 
 		case 2:
 		{
-			Library::DateFilter::TimeSpan time_span_from, time_span_to;
+			Library::DateFilter::TimeSpan time_span_from = Library::DateFilter::TimeSpan::Years;
+			Library::DateFilter::TimeSpan time_span_to = Library::DateFilter::TimeSpan::Years;
 
 			if(ui->rb_bwf_days->isChecked()){
 				time_span_from = Library::DateFilter::TimeSpan::Days;

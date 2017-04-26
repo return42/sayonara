@@ -44,7 +44,8 @@ class StreamParser : public QObject
 		MetaDataList get_metadata() const;
 
 	private slots:
-		void awa_finished(bool success);
+		void awa_finished();
+		void icy_finished();
 
 
 	private:
@@ -52,12 +53,6 @@ class StreamParser : public QObject
 		StreamParser::Private*	_m = nullptr;
 
 	private:
-		/**
-		 * @brief Search for a playlist file in website data
-		 * @param data website data
-		 * @return list of playlist files found in website data
-		 */
-		QStringList search_for_playlist_files(const QByteArray& data) const;
 		
 		/**
 		 * @brief Writes a temporary playlist file into the file system which is parsed later

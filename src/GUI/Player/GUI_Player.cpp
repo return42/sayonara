@@ -569,14 +569,14 @@ void GUI_Player::ui_loaded()
 }
 
 
-void GUI_Player::awa_version_finished(bool success)
+void GUI_Player::awa_version_finished()
 {
 	AsyncWebAccess* awa = static_cast<AsyncWebAccess*>(sender());
 	if(!awa){
 		return;
 	}
 
-	if(!success) {
+	if(awa->status() != AsyncWebAccess::Status::GotData) {
 		awa->deleteLater();
 		return;
 	}
@@ -602,14 +602,14 @@ void GUI_Player::awa_version_finished(bool success)
 }
 
 
-void GUI_Player::awa_translators_finished(bool success)
+void GUI_Player::awa_translators_finished()
 {
 	AsyncWebAccess* awa = static_cast<AsyncWebAccess*>(sender());
 	if(!awa){
 		return;
 	}
 
-	if(!success) {
+	if(awa->status() != AsyncWebAccess::Status::GotData) {
 		awa->deleteLater();
 		return;
 	}

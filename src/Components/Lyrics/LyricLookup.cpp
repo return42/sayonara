@@ -144,12 +144,13 @@ void LyricLookupThread::run(const QString& artist, const QString& title, int ser
 }
 
 
-void LyricLookupThread::content_fetched(bool success)
+void LyricLookupThread::content_fetched()
 {
 	AsyncWebAccess* awa = static_cast<AsyncWebAccess*>(sender());
 	QString url = awa->get_url();
 
-	if(!success){
+	if(!awa->has_data())
+	{
 		_m->final_wp = tr("Sorry, could not fetch lyrics from %1").arg(awa->get_url());
 		emit sig_finished();
 		return;

@@ -69,9 +69,9 @@ private slots:
 	void language_changed() override;
 
 protected:
-	void showEvent(QShowEvent* e);
-	void wheelEvent(QWheelEvent* e);
-	void keyPressEvent(QKeyEvent* e);
+	void showEvent(QShowEvent* e) override;
+	void wheelEvent(QWheelEvent* e) override;
+	void keyPressEvent(QKeyEvent* e) override;
 };
 
 

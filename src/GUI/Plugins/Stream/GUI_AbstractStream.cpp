@@ -179,9 +179,10 @@ void GUI_AbstractStream::listen_clicked()
 
 	url = url.trimmed();
 	if(url.size() > 5) {
-		play(url, name);
 		_m->btn_play->setDisabled(true);
 		_m->lab_listen->setText(tr("Busy..."));
+
+		play(url, name);
 	}
 }
 
