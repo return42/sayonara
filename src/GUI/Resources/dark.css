@@ -920,7 +920,8 @@ QProgressBar::chunk
 	margin: 0.5px;
 }
 
-QProgressBar#loading_bar
+QProgressBar#loading_bar,
+QProgressBar#sli_buffer
 {
 	border: 1px solid #202020;
 	background: #282828;
@@ -929,7 +930,8 @@ QProgressBar#loading_bar
 	padding-bottom: 2px;
 }
 
-QProgressBar#loading_bar::chunk
+QProgressBar#loading_bar::chunk,
+QProgressBar#sli_buffer::chunk
 {
 	width: 8px;
 	background: #e8841a; 
