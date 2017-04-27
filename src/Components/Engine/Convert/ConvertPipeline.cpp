@@ -95,7 +95,7 @@ bool ConvertPipeline::set_uri(gchar* uri) {
 	if(!uri) return false;
 	if(!_pipeline) return false;
 	stop();
-	sp_log(Log::Debug) << "Pipeline: " << uri;
+	sp_log(Log::Debug, this) << "Pipeline: " << uri;
 	g_object_set(G_OBJECT(_audio_src), "uri", uri, nullptr);
 
 	return true;
@@ -105,7 +105,7 @@ bool ConvertPipeline::set_target_uri(gchar* uri) {
 	if(!_pipeline) return false;
 
 	stop();
-	sp_log(Log::Debug) << "Set target uri = " << uri;
+	sp_log(Log::Debug, this) << "Set target uri = " << uri;
 	g_object_set(G_OBJECT(_audio_sink), "location", uri, nullptr);
 	return true;
 }
@@ -118,7 +118,7 @@ void ConvertPipeline::play()
 	LameBitrate q = (LameBitrate) _settings->get(Set::Engine_ConvertQuality);
 	set_quality(q);
 
-	sp_log(Log::Debug) << "Convert pipeline: play";
+	sp_log(Log::Debug, this) << "Convert pipeline: play";
 	gst_element_set_state(GST_ELEMENT(_pipeline), GST_STATE_PLAYING);
 	g_timeout_add(200, (GSourceFunc) PipelineCallbacks::position_changed, this);
 }

@@ -746,9 +746,9 @@ void AbstractLibrary::delete_genre(const QString& genre)
 {
 	MetaDataList v_md;
 
-	sp_log(Log::Debug) << "Delete genre: Fetch all tracks";
+	sp_log(Log::Debug, this) << "Delete genre: Fetch all tracks";
 	get_all_tracks(v_md, Library::Sortings());
-	sp_log(Log::Debug) << "Delete genre: Set Metadata";
+	sp_log(Log::Debug, this) << "Delete genre: Set Metadata";
 	_m->tag_edit->set_metadata(v_md);
 
 	for(int i=0; i<v_md.size(); i++)
@@ -764,7 +764,7 @@ void AbstractLibrary::rename_genre(const QString& genre, const QString& new_genr
 	MetaDataList v_md;
 	Genre g(genre);
 
-	sp_log(Log::Debug) << "Rename genre: Fetch all tracks";
+	sp_log(Log::Debug, this) << "Rename genre: Fetch all tracks";
 	get_all_tracks(v_md, Library::Sortings());
 	_m->tag_edit->set_metadata(v_md);
 

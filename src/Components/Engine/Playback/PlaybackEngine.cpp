@@ -135,7 +135,7 @@ void PlaybackEngine::change_track_gapless(const MetaData& md)
 			 _gapless_timer->setInterval(time_to_go);
 			 _gapless_timer->start();
 
-			 sp_log(Log::Debug) << "Will start playing in " << time_to_go << "msec";
+			 sp_log(Log::Debug, this) << "Will start playing in " << time_to_go << "msec";
 		 }
 	}
 
@@ -372,7 +372,7 @@ void PlaybackEngine::set_about_to_finish(qint64 time2go)
 		return;
 	}
 
-	sp_log(Log::Debug) << "About to finish: " << (int) _gapless_state << " (" << time2go << "ms)";
+	sp_log(Log::Debug, this) << "About to finish: " << (int) _gapless_state << " (" << time2go << "ms)";
 	change_gapless_state(GaplessState::AboutToFinish);
 
 	bool crossfade = _settings->get(Set::Engine_CrossFaderActive);
@@ -400,7 +400,7 @@ void PlaybackEngine::set_track_finished(GstElement* src)
 	}
 
 	if(_other_pipeline && _other_pipeline->has_element(src)){
-		sp_log(Log::Debug) << "Old track finished";
+		sp_log(Log::Debug, this) << "Old track finished";
 
 		_other_pipeline->stop();
 		_cur_pos_ms = 0;
@@ -507,13 +507,26 @@ void PlaybackEngine::update_md(const MetaData& md, GstElement* src)
 		return;
 	}
 
-	if(	md.title == _md.title)
+	QString title = md.title;
+	QStringList splitted = md.title.split("-");
+	if(splitted.size() == 2) {
+		title = splitted[1].trimmed();
+	}
+
+	if(	title == _md.title)
 	{
 		return;
 	}
 
 	_cur_pos_ms = 0;
-	_md.title = md.title;
+	if(splitted.size() == 2){
+		_md.artist = splitted[0].trimmed();
+		_md.title = splitted[1].trimmed();
+	}
+
+	else {
+		_md.title = md.title;
+	}
 
 	emit sig_md_changed(_md);
 

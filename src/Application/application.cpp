@@ -178,7 +178,7 @@ bool Application::init(QTranslator* translator, const QStringList& files_to_play
 	_plh = PlaylistHandler::getInstance();
 	_db = DatabaseConnector::getInstance();
 
-	sp_log(Log::Debug) << "Init application: " << _timer->elapsed() << "ms";
+	sp_log(Log::Debug, this) << "Init application: " << _timer->elapsed() << "ms";
 
 	bool success = this->installTranslator(translator);
 	if(!success){
@@ -190,13 +190,13 @@ bool Application::init(QTranslator* translator, const QStringList& files_to_play
 	QString version = QString(SAYONARA_VERSION);
 	_settings->set(Set::Player_Version, version);
 
-	sp_log(Log::Debug) << "Start player: " << _timer->elapsed() << "ms";
+	sp_log(Log::Debug, this) << "Start player: " << _timer->elapsed() << "ms";
 	player = new GUI_Player(translator);
 	GUI::set_main_window(player);
 
 	connect(player, &GUI_Player::sig_player_closed, this, &QCoreApplication::quit);
 
-	sp_log(Log::Debug) << "Init player: " << _timer->elapsed() << "ms";
+	sp_log(Log::Debug, this) << "Init player: " << _timer->elapsed() << "ms";
 
 #ifdef WITH_DBUS
 	DBusHandler* dbus	= new DBusHandler(player, this);
@@ -213,7 +213,7 @@ bool Application::init(QTranslator* translator, const QStringList& files_to_play
 												   Helper::get_share_path("logo.png"));
 	}
 
-	sp_log(Log::Debug) << "Init plugins: " << _timer->elapsed() << "ms";
+	sp_log(Log::Debug, this) << "Init plugins: " << _timer->elapsed() << "ms";
 	PlayerPluginHandler* pph = new PlayerPluginHandler(this);
 
 	pph->add_plugin(new GUI_LevelPainter());
@@ -228,7 +228,7 @@ bool Application::init(QTranslator* translator, const QStringList& files_to_play
 	pph->add_plugin(new GUI_Broadcast());
 	pph->add_plugin(new GUI_Crossfader());
 
-	sp_log(Log::Debug) << "Plugins finsihed: " << _timer->elapsed() << "ms";
+	sp_log(Log::Debug, this) << "Plugins finsihed: " << _timer->elapsed() << "ms";
 
 	QList<LibraryContainerInterface*> library_containers;
 	DirectoryLibraryContainer* directory_container = new DirectoryLibraryContainer(this);
@@ -246,7 +246,7 @@ bool Application::init(QTranslator* translator, const QStringList& files_to_play
 #endif
 	library_plugin_loader->init(library_containers);
 
-	sp_log(Log::Debug) << "Libraries loaded: " << _timer->elapsed() << "ms";
+	sp_log(Log::Debug, this) << "Libraries loaded: " << _timer->elapsed() << "ms";
 
 	GUI_PreferenceDialog* preferences = new GUI_PreferenceDialog(player);
 
@@ -267,7 +267,7 @@ bool Application::init(QTranslator* translator, const QStringList& files_to_play
 
 	EngineHandler::getInstance()->init();
 
-	sp_log(Log::Debug) << "Preference dialogs loaded: " << _timer->elapsed() << "ms";
+	sp_log(Log::Debug, this) << "Preference dialogs loaded: " << _timer->elapsed() << "ms";
 
 	player->set_libraries(library_plugin_loader);
 	player->register_player_plugin_handler(pph);
@@ -280,7 +280,7 @@ bool Application::init(QTranslator* translator, const QStringList& files_to_play
 
 	init_single_instance_thread();
 
-	sp_log(Log::Debug) << "Time to start: " << _timer->elapsed() << "ms";
+	sp_log(Log::Debug, this) << "Time to start: " << _timer->elapsed() << "ms";
 
 	return true;
 }

@@ -160,7 +160,7 @@ void AbstractPipeline::set_data(uchar* data, quint64 size){
 
 /*
 static void show_time_info(gint64 pos, gint64 dur){
-	sp_log(Log::Debug) << "Difference: "
+	sp_log(Log::Debug, this) << "Difference: "
 					   << dur - pos << ": "
 					   << pos << " - "
 					   << dur;

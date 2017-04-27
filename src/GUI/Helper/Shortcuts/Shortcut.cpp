@@ -162,7 +162,7 @@ QList<QShortcut*> Shortcut::init_qt_shortcut(QWidget* parent)
 {
 	QList<QShortcut*> lst;
 	if(get_sequences().size() > 1){
-		sp_log(Log::Debug) << "Number of shortcuts: " << get_sequences().size();
+		sp_log(Log::Debug, this) << "Number of shortcuts: " << get_sequences().size();
 	}
 
 	for(const QKeySequence& sequence : get_sequences()){

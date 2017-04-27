@@ -33,16 +33,30 @@
 class SayonaraLoadingBar :
 		public QProgressBar
 {
+
+public:
+	enum class Orientation
+	{
+		Top=0,
+		Middle,
+		Bottom
+	};
+
 private:
 	QWidget*	_parent=nullptr;
 	int			_fixed_height;
+	Orientation _orientation;
 
 public:
 	explicit SayonaraLoadingBar(QWidget* parent);
 	virtual ~SayonaraLoadingBar();
 
+	void set_orientation(SayonaraLoadingBar::Orientation o);
+
 protected:
 	void showEvent(QShowEvent* e) override;
 };
+
+
 
 #endif // SAYONARALOADINGBAR_H

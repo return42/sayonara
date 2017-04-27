@@ -125,8 +125,16 @@ void GUI_AbstractStream::error()
 	_m->btn_play->setDisabled(false);
 	_m->lab_listen->setText(Lang::get(Lang::Listen));
 
-	sp_log(Log::Info) << "Stream Handler error";
-	Message::warning(tr("Cannot open stream") + "\n" + _m->le_url->text());
+	sp_log(Log::Warning, this) << "Stream Handler error";
+	GlobalMessage::Answer answer =
+			Message::question_yn(
+				tr("Cannot open stream") + "\n" +
+				_m->le_url->text() + "\n\n" +
+				Lang::get(Lang::Retry).question());
+
+	if(answer == GlobalMessage::Answer::Yes){
+		listen_clicked();
+	}
 }
 
 void GUI_AbstractStream::data_available()
@@ -155,7 +163,7 @@ void GUI_AbstractStream::play(QString url, QString station_name)
 {
 	bool success = _m->stream_handler->parse_station(url, station_name);
 	if(!success){
-		sp_log(Log::Info) << "Stream Handler busy";
+		sp_log(Log::Warning, this) << "Stream Handler busy";
 		_m->btn_play->setEnabled(true);
 		_m->lab_listen->setEnabled(true);
 		_m->lab_listen->setText(Lang::get(Lang::Play));
@@ -247,7 +255,7 @@ void GUI_AbstractStream::delete_clicked()
 	if(ret == GlobalMessage::Answer::Yes) {
 		if( _m->stream_handler->delete_stream(cur_station_name) ) {
 			StreamMap map;
-			sp_log(Log::Info) << cur_station_name << "successfully deleted";
+			sp_log(Log::Info, this) << cur_station_name << "successfully deleted";
 
 			if( _m->stream_handler->get_all_streams(map) ) {
 				setup_stations(map);

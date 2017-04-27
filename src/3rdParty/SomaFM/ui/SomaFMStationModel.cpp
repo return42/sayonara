@@ -74,7 +74,7 @@ QVariant SomaFMStationModel::data(const QModelIndex& index, int role) const
 	int col = index.column();
 
 	if(!index.isValid()){
-		sp_log(Log::Debug) << "Index not valid";
+		sp_log(Log::Debug, this) << "Index not valid";
 		return QVariant();
 	}
 

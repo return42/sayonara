@@ -102,7 +102,7 @@ void CopyThread::copy()
 			continue;
 		}
 
-		sp_log(Log::Debug) << "copy " << filename << " to \n\t" << target_filename;
+		sp_log(Log::Debug, this) << "copy " << filename << " to \n\t" << target_filename;
 
 		QFile f(filename);
 		success = f.copy(target_filename);
@@ -114,7 +114,7 @@ void CopyThread::copy()
 		MetaData md = _m->cache.get_metadata(filename);
 
 		if(!md.filepath().isEmpty()){
-			sp_log(Log::Debug) << "Set new filename: " << target_filename;
+			sp_log(Log::Debug, this) << "Set new filename: " << target_filename;
 			md.set_filepath(target_filename);
 			_m->v_md << md;
 		}

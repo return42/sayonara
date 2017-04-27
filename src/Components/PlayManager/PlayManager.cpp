@@ -38,12 +38,12 @@ class RingBuffer {
 
 	public:
 		RingBuffer()
-{
+		{
 			clear();
 		}
 
 		void clear()
-{
+		{
 			_cur_idx = 0;
 			_n_items = 0;
 		}
@@ -55,7 +55,7 @@ class RingBuffer {
 		}
 
 		bool has_item(const T& item) const
-{
+		{
 			for(int i=0; i<_n_items; i++){
 				if(_data[i] == item){
 					return true;
@@ -79,20 +79,20 @@ class RingBuffer {
 
 struct PlayManager::Private
 {
-	MetaData				md;
-	RingBuffer<QString, 3>	ring_buffer;
-	quint64					position_ms;
-	int						cur_idx;
-	quint64					initial_position_ms;
-	PlayState				playstate;
+		MetaData				md;
+		RingBuffer<QString, 3>	ring_buffer;
+		quint64					position_ms;
+		int						cur_idx;
+		quint64					initial_position_ms;
+		PlayState				playstate;
 
-	Private()
-	{
-		initial_position_ms = 0;
-		position_ms = 0;
-		cur_idx = -1;
-		playstate = PlayState::Stopped;
-	}
+		Private()
+		{
+			initial_position_ms = 0;
+			position_ms = 0;
+			cur_idx = -1;
+			playstate = PlayState::Stopped;
+		}
 };
 
 
@@ -119,7 +119,7 @@ PlayManager::PlayManager(QObject* parent) :
 
 PlayManager::~PlayManager()
 {
-	 _settings->set(Set::Engine_CurTrackPos_s, (int) (_m->position_ms / 1000));
+	_settings->set(Set::Engine_CurTrackPos_s, (int) (_m->position_ms / 1000));
 }
 
 PlayState PlayManager::get_play_state() const
@@ -222,7 +222,7 @@ void PlayManager::stop()
 
 void PlayManager::record(bool b)
 {
-    emit sig_record(b);
+	emit sig_record(b);
 }
 
 void PlayManager::seek_rel(double percent)
@@ -302,7 +302,7 @@ void PlayManager::change_track(const MetaData& md, int playlist_idx)
 void PlayManager::set_track_ready()
 {
 	if(_m->initial_position_ms > 0){
-		sp_log(Log::Debug) << "Track ready, " << (int) (_m->initial_position_ms / 1000);
+		sp_log(Log::Debug, this) << "Track ready, " << (int) (_m->initial_position_ms / 1000);
 		this->seek_abs_ms(_m->initial_position_ms);
 		_m->initial_position_ms = 0;
 	}
@@ -359,7 +359,6 @@ void PlayManager::change_metadata(const MetaData& md)
 
 		if( _m->ring_buffer.count() > 0 ){
 			md_old.album = "";
-			md_old.artist = "";
 			md_old.is_disabled = true;
 			md_old.set_filepath("");
 

@@ -118,6 +118,7 @@ public:
 		PlayNext,
 		PreviousTrack,
 		Radio,
+		Retry,
 		Rating,
 		Really,
 		ReloadLibrary,

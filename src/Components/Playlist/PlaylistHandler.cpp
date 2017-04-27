@@ -92,7 +92,7 @@ void PlaylistHandler::emit_cur_track_changed()
 
 int PlaylistHandler::load_old_playlists()
 {
-	sp_log(Log::Debug) << "Loading playlists...";
+	sp_log(Log::Debug, this) << "Loading playlists...";
 
 	int last_track_idx=-1;
 	int last_playlist_idx;

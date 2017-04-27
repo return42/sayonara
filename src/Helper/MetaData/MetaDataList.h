@@ -71,6 +71,7 @@ public:
 	MetaDataList& operator <<(const MetaData& md);
 
 	bool contains(qint32 id) const;
+	void remove_duplicates();
 };
 
 #endif // METADATALIST_H

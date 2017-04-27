@@ -145,7 +145,7 @@ bool SoundcloudJsonParser::parse_track_list(ArtistList& artists, MetaDataList &v
 			}
 
 			else{
-				sp_log(Log::Debug) << "Invalid md found";
+				sp_log(Log::Debug, this) << "Invalid md found";
 			}
 		}
 	}

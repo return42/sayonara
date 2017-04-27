@@ -248,10 +248,10 @@ void TagEdit::run()
 	MetaDataList v_md_orig;
 	DatabaseConnector* db;
 
-	sp_log(Log::Debug) << "Apply albums and artists";
+	sp_log(Log::Debug, this) << "Apply albums and artists";
 	apply_artists_and_albums_to_md();
 
-	sp_log(Log::Debug) << "Have to change" <<
+	sp_log(Log::Debug, this) << "Have to change" <<
 						  std::count(_m->changed_md.begin(), _m->changed_md.end(), true)
 					   << " tracks";
 

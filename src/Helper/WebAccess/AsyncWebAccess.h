@@ -55,7 +55,8 @@ public:
 	enum class Status : quint8
 	{
 		GotData,
-		Stream,
+		AudioStream,
+		NoHttp,
 		NoData,
 		Timeout,
 		Error
@@ -80,20 +81,27 @@ public:
 	 * @brief get fetched data
 	 * @return fetched data
 	 */
-	QByteArray get_data() const;
+	QByteArray data() const;
+
+	/**
+	 * @brief indicates, if data is avaialbe
+	 * @return
+	 */
+	bool has_data() const;
 
 	/**
 	 * @brief get fetched data formatted as image
 	 * @return image
 	 */
-	QImage get_image() const;
+	QImage image() const;
+
 
 	/**
 	 * @brief get last called url. \n
 	 * This url may differ from the originally called url when request has been redirected.
 	 * @return url string
 	 */
-	QString	get_url() const;
+	QString	url() const;
 
 	/**
 	 * @brief Set the behaviour how sayonara should be recognized by the server. This variable will set
@@ -130,7 +138,13 @@ public:
 	 */
 	AsyncWebAccess::Status status() const;
 
-	bool has_data() const;
+	/**
+	 * @brief Indicates if error
+	 * @return
+	 */
+	bool has_error() const;
+
+
 
 
 private slots:
@@ -142,6 +156,9 @@ private slots:
 	 * @param reply information about redirection, success or errors
 	 */
 	void finished(QNetworkReply* reply);
+	void reply_finished();
+
+	void redirected(const QUrl& url);
 
 	/**
 	 * @brief Request has timed out. Emits sig_finished(false);\n

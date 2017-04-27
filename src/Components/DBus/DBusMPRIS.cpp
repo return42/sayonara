@@ -58,7 +58,7 @@ void DBusAdaptor::create_message(QString name, QVariant val){
 	success = QDBusConnection::sessionBus().send(sig);
 	Q_UNUSED(success)
 	/*QDBusError err = QDBusConnection::sessionBus().lastError();
-	sp_log(Log::Debug) << "Send signal: " << name << ": " << success << ": " << err.message();*/
+	sp_log(Log::Debug, this) << "Send signal: " << name << ": " << success << ": " << err.message();*/
 
 
 }
@@ -205,7 +205,7 @@ void DBusMPRIS::MediaPlayer2::Quit()
 
 void DBusMPRIS::MediaPlayer2::Raise()
 {
-	sp_log(Log::Debug) << "Raise";
+	sp_log(Log::Debug, this) << "Raise";
 	_player->show();
 	_player->raise();
 	_player->show();

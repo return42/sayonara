@@ -100,7 +100,7 @@ QComboBox* GUI_SomaFM::get_libchooser() const
 
 void GUI_SomaFM::stations_loaded(const QList<SomaFMStation>& stations)
 {
-	sp_log(Log::Debug) << "Stations loaded";
+	sp_log(Log::Debug, this) << "Stations loaded";
 	SomaFMStationModel* model = static_cast<SomaFMStationModel*>(ui->tv_stations->model());
 	model->set_stations(stations);
 

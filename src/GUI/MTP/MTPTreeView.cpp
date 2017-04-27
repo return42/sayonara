@@ -36,11 +36,11 @@ bool MTPTreeView::dropMimeData(QTreeWidgetItem* parent, int index, const QMimeDa
 	parent->setSelected(true);
 	const CustomMimeData* cmd = dynamic_cast<const CustomMimeData*>(data);
 	if(!cmd){
-		sp_log(Log::Debug) << "Cannot drop mimedata";
+		sp_log(Log::Debug, this) << "Cannot drop mimedata";
 		return false;
 	}
 
-	sp_log(Log::Debug) << "Successfully dropped metadata";
+	sp_log(Log::Debug, this) << "Successfully dropped metadata";
 
 	MetaDataList v_md = cmd->getMetaData();
 	emit sig_metadata_dropped(v_md, index);

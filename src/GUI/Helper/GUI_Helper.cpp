@@ -119,7 +119,7 @@ QString GUI::elide_text(const QString &text, QWidget *widget, int max_lines)
 				break;
 			}
 
-			line = str;
+			line = str + " ";
 		}
 
 		else{

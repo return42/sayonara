@@ -37,7 +37,7 @@ PlayerPluginHandler::~PlayerPluginHandler() {}
 
 PlayerPluginInterface* PlayerPluginHandler::find_plugin(const QString& name) 
 {
-	sp_log(Log::Debug) << "Search for plugin " << name;
+	sp_log(Log::Debug, this) << "Search for plugin " << name;
 
 	for(PlayerPluginInterface* p : _plugins) {
 		if(p->get_name().compare(name) == 0){

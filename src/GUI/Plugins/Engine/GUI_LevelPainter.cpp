@@ -159,7 +159,7 @@ void GUI_LevelPainter::paintEvent(QPaintEvent* e) {
 		for(int r=0; r<n_rects; r++) {
 			if(r < n_colored_rects) {
 				if(!_cur_style.style[r].contains(-1)){
-					sp_log(Log::Debug) << "Style does not contain -1";
+					sp_log(Log::Debug, this) << "Style does not contain -1";
 				}
 
 				painter.fillRect(rect, _cur_style.style[r].value(-1) );
@@ -169,7 +169,7 @@ void GUI_LevelPainter::paintEvent(QPaintEvent* e) {
 
 			else{
 				if(!_cur_style.style[r].contains(_steps[c][r])){
-					sp_log(Log::Debug) << "2 Style does not contain " << _steps[c][r] << ", " << c << ", " << r;
+					sp_log(Log::Debug, this) << "2 Style does not contain " << _steps[c][r] << ", " << c << ", " << r;
 				}
 
 				painter.fillRect(rect, _cur_style.style[r].value(_steps[c][r]) );

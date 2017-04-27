@@ -146,7 +146,7 @@ void init_gio()
 	g_io_extension_point_register("gio-tls-backend");
 	g_io_modules_load_all_in_directory(gio_path.toLocal8Bit().data());
 
-	sp_log(Log::Debug) << "Done " << gio_path;
+	sp_log(Log::Debug, this) << "Done " << gio_path;
 }
 #endif
 

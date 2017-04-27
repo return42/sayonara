@@ -70,7 +70,7 @@ static bool parse_image(GstTagList* tags, QImage& img)
 
 	QString mime(mimetype);
 	g_free(mimetype); mimetype = nullptr;
-	//sp_log(Log::Debug) << "Mime type: " << mimetype;
+	//sp_log(Log::Debug, this) << "Mime type: " << mimetype;
 	QRegExp re(".*(image/[a-z|A-Z]+).*");
 	if(re.indexIn(mime) >= 0){
 		mime = re.cap(1);
@@ -204,7 +204,7 @@ gboolean EngineCallbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpoint
 			GstState old_state, new_state, pending_state;
 
 			gst_message_parse_state_changed(msg, &old_state, &new_state, &pending_state);
-			/*sp_log(Log::Debug) << GST_MESSAGE_SRC_NAME(msg) << ": "
+			/*sp_log(Log::Debug, this) << GST_MESSAGE_SRC_NAME(msg) << ": "
 							   << "State changed from "
 							   << gst_element_state_get_name(old_state)
 							   << " to "
@@ -235,7 +235,7 @@ gboolean EngineCallbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpoint
 			gst_message_parse_buffering(msg, &percent);
 			gst_message_parse_buffering_stats(msg, &mode, &avg_in, &avg_out, &buffering_left );
 
-/*			sp_log(Log::Debug) << "Buffering " << percent;
+			/*sp_log(Log::Debug) << "Buffering " << percent;
 			sp_log(Log::Debug) << "Buffering State: " << (int) mode << " avg in: " << avg_in << " avg out: " << avg_out << " todo: " << buffering_left;*/
 
 			engine->set_buffer_state(percent, src);

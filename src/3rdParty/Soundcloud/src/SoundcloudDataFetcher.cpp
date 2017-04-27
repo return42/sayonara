@@ -99,7 +99,7 @@ void SoundcloudDataFetcher::artists_fetched()
 		return;
 	}
 
-	QByteArray data = awa->get_data();
+	QByteArray data = awa->data();
 	SoundcloudJsonParser parser(data);
 	parser.parse_artists(artists);
 
@@ -117,7 +117,7 @@ void SoundcloudDataFetcher::playlist_tracks_fetched()
 		return;
 	}
 
-	QByteArray data = awa->get_data();
+	QByteArray data = awa->data();
 	SoundcloudJsonParser parser(data);
 	parser.parse_playlists(_m->artists, _m->playlists, _m->playlist_tracks);
 
@@ -141,7 +141,7 @@ void SoundcloudDataFetcher::tracks_fetched()
 		return;
 	}
 
-	QByteArray data = awa->get_data();
+	QByteArray data = awa->data();
 	SoundcloudJsonParser parser(data);
 	parser.parse_tracks(artists, v_md);
 

@@ -52,7 +52,7 @@ DatabaseConnector::~DatabaseConnector() {}
 bool DatabaseConnector::updateAlbumCissearchFix()
 {
 #ifdef DEBUG_DB
-	sp_log(Log::Debug) << Q_FUNC_INFO;
+	sp_log(Log::Debug, this) << Q_FUNC_INFO;
 #endif
 
 	AlbumList albums;

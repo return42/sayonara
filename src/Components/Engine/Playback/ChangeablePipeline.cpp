@@ -80,10 +80,10 @@ void ChangeablePipeline::add_element(GstElement* element, GstElement* first_elem
 	GstElement* pipeline = get_pipeline();
 	gchar* element_name = gst_element_get_name(element);
 
-	sp_log(Log::Debug) << "Add " << element_name << " to pipeline";
+	sp_log(Log::Debug, this) << "Add " << element_name << " to pipeline";
 
 	if(gst_bin_get_by_name((GstBin*)pipeline, element_name) != nullptr){
-		sp_log(Log::Debug) << "Element already in pipeline";
+		sp_log(Log::Debug, this) << "Element already in pipeline";
 		return;
 	}
 
@@ -101,7 +101,7 @@ void ChangeablePipeline::add_element(GstElement* element, GstElement* first_elem
 		gst_bin_add((GstBin*)pipeline, data->element_of_interest);
 		gst_element_link_many(data->first_element, data->element_of_interest, data->second_element, nullptr);
 
-		sp_log(Log::Debug) << "Pipeline not playing, added " << element_name << " immediately";
+		sp_log(Log::Debug, this) << "Pipeline not playing, added " << element_name << " immediately";
 
 		return;
 	}
@@ -119,7 +119,7 @@ void ChangeablePipeline::add_element(GstElement* element, GstElement* first_elem
 		Helper::sleep_ms(SleepInterval);
 	}
 
-	sp_log(Log::Debug) << "Element " << element_name << " added.";
+	sp_log(Log::Debug, this) << "Element " << element_name << " added.";
 
 	delete data; data = nullptr;
 }
@@ -187,7 +187,7 @@ void ChangeablePipeline::remove_element(GstElement* element, GstElement* first_e
 	char* element_name = gst_element_get_name(element);
 
 	if(!gst_bin_get_by_name((GstBin*)pipeline, element_name)){
-		sp_log(Log::Debug) << "Element " << element_name << " not in pipeline";
+		sp_log(Log::Debug, this) << "Element " << element_name << " not in pipeline";
 		return;
 	}
 
@@ -207,7 +207,7 @@ void ChangeablePipeline::remove_element(GstElement* element, GstElement* first_e
 		gst_bin_remove((GstBin*) pipeline, element);
 		gst_element_link(first_element, second_element);
 
-		sp_log(Log::Debug) << "Pipeline not playing, removed " << element_name << " immediately";
+		sp_log(Log::Debug, this) << "Pipeline not playing, removed " << element_name << " immediately";
 
 		return;
 
@@ -225,7 +225,7 @@ void ChangeablePipeline::remove_element(GstElement* element, GstElement* first_e
 		Helper::sleep_ms(SleepInterval);
 	}
 
-	sp_log(Log::Debug) << "Element " << gst_element_get_name(element) << " removed.";
+	sp_log(Log::Debug, this) << "Element " << gst_element_get_name(element) << " removed.";
 
 	delete data; data = nullptr;
 }

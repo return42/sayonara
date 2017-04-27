@@ -60,14 +60,14 @@
 {
 		c++;
 		m=std::max(c, m);
-		sp_log(Log::Debug) << "Num MD: " << c << " / " <<  m;
+		sp_log(Log::Debug, this) << "Num MD: " << c << " / " <<  m;
 	}
 
 	void decrease()
 {
 		c--;
 		m=std::max(c, m);
-		sp_log(Log::Debug) << "Num MD: " << c << " / " <<  m;
+		sp_log(Log::Debug, this) << "Num MD: " << c << " / " <<  m;
 	}
 };
 

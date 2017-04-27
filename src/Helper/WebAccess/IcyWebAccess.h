@@ -12,20 +12,20 @@ class IcyWebAccess : public QObject
     PIMPL(IcyWebAccess)
 
 public:
-    explicit IcyWebAccess(QObject *parent = 0);
-    virtual ~IcyWebAccess();
+	explicit IcyWebAccess(QObject *parent = nullptr);
+	~IcyWebAccess();
 
-    void check(const QUrl& url);
-
-    enum class Status : quint8
+	enum class Status : quint8
     {
-	WriteError=0,
-	WrongAnswer,
-	OtherError,
-	Success
+		WriteError=0,
+		WrongAnswer,
+		OtherError,
+		NotExecuted,
+		Success
     };
 
     IcyWebAccess::Status status() const;
+	void check(const QUrl& url);
 
 
 signals:
@@ -34,7 +34,7 @@ signals:
 private slots:
     void connected();
     void disconnected();
-    void error_received(QAbstractSocket::SocketState socket_state);
+	void error_received(QAbstractSocket::SocketError socket_state);
     void data_available();
 
 };

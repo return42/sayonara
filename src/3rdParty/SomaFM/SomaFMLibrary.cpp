@@ -87,7 +87,7 @@ void SomaFMLibrary::soma_website_fetched()
 		return;
 	}
 
-	QString content = QString::fromUtf8(awa->get_data());
+	QString content = QString::fromUtf8(awa->data());
 	QStringList station_contents = content.split("<li");
 
 

@@ -78,7 +78,7 @@ GUI_Player::GUI_Player(QTranslator* translator, QWidget *parent) :
 
 GUI_Player::~GUI_Player()
 {
-	sp_log(Log::Debug) << "Player closed.";
+	sp_log(Log::Debug, this) << "Player closed.";
 }
 
 
@@ -142,6 +142,7 @@ void GUI_Player::init_gui()
 void GUI_Player::track_changed(const MetaData & md)
 {
 	_md = md;
+
 
 	lab_sayonara->hide();
 	lab_title->show();
@@ -247,9 +248,12 @@ void GUI_Player::md_changed(const MetaData& md)
 	md.print();
 
 	_md = md;
-	_md.title = md.title;
 
-	lab_title->setText(md.title);
+	if(md.radio_mode() == RadioMode::Station){
+		_md.album = _md.album + " (" + _md.filepath() + ")";
+	}
+
+	set_info_labels();
 }
 
 
@@ -471,10 +475,12 @@ void GUI_Player::set_radio_mode(RadioMode radio)
 	btn_play->setVisible(!btn_rec_visible);
 	btn_rec->setVisible(btn_rec_visible);
 	_tray_icon->set_enable_fwd(true);
-
 	sli_progress->setEnabled( (_md.length_ms / 1000) > 0 );
-
 	_play_manager->record(btn_rec->isChecked() && btn_rec->isVisible());
+
+	if(radio != RadioMode::Off){
+		buffering(0);
+	}
 }
 
 
@@ -581,7 +587,7 @@ void GUI_Player::awa_version_finished()
 		return;
 	}
 
-	QString new_version(awa->get_data());
+	QString new_version(awa->data());
 	QString cur_version = _settings->get(Set::Player_Version);
 	bool notify_new_version = _settings->get(Set::Player_NotifyNewVersion);
 	bool dark = (_settings->get(Set::Player_Style) == 1);
@@ -614,7 +620,7 @@ void GUI_Player::awa_translators_finished()
 		return;
 	}
 
-	QString data(awa->get_data());
+	QString data(awa->data());
 	QStringList translators = data.split('\n');
 
 	_translators.clear();

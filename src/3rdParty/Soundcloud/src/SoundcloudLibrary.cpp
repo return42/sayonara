@@ -118,7 +118,7 @@ void SoundcloudLibrary::refresh_artist()
 	get_all_tracks_by_artist(artist_ids, v_md, Library::Filter(), Library::Sortings());
 
 	delete_tracks(v_md, Library::TrackDeletionMode::OnlyLibrary);
-	sp_log(Log::Debug) << "Deleted " << v_md.size() << " soundcloud tracks";
+	sp_log(Log::Debug, this) << "Deleted " << v_md.size() << " soundcloud tracks";
 
 	SoundcloudDataFetcher* fetcher = new SoundcloudDataFetcher(this);
 
@@ -137,7 +137,7 @@ void SoundcloudLibrary::refresh_tracks() {}
 void SoundcloudLibrary::cover_found(const CoverLocation& cl)
 {
 	Q_UNUSED(cl)
-	//sp_log(Log::Debug) << "Saved sound cloud cover: " << cl.toString();
+	//sp_log(Log::Debug, this) << "Saved sound cloud cover: " << cl.toString();
 }
 
 
@@ -153,15 +153,15 @@ void SoundcloudLibrary::insert_tracks(const MetaDataList& v_md, const ArtistList
 	for(const Artist& artist : artists){
 		if(!_scd->getArtistByID(artist.id, artist_tmp) || artist.id != artist_tmp.id){
 			int id = _scd->insertArtistIntoDatabase(artist);
-			sp_log(Log::Debug) << "Insert artist into database: " << id;
+			sp_log(Log::Debug, this) << "Insert artist into database: " << id;
 		}
 	}
 
 	for(const Album& album : albums){
-		sp_log(Log::Debug) << "Try to fetch album " << album.id;
+		sp_log(Log::Debug, this) << "Try to fetch album " << album.id;
 		if(!_scd->getAlbumByID(album.id, album_tmp) || album.id != album_tmp.id){
 			int id = _scd->insertAlbumIntoDatabase(album);
-			sp_log(Log::Debug) << "Insert album into database: " << id;
+			sp_log(Log::Debug, this) << "Insert album into database: " << id;
 		}
 
 		else{

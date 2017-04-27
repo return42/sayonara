@@ -174,7 +174,7 @@ void CoverFetchThread::content_fetched()
 	if(awa->objectName() == _m->acf->get_keyword()) {
 		if(awa->status() == AsyncWebAccess::Status::GotData)
 		{
-			QByteArray website = awa->get_data();
+			QByteArray website = awa->data();
 			_m->addresses = _m->acf->calc_addresses_from_website(website);
 		}
 	}
@@ -189,7 +189,7 @@ void CoverFetchThread::single_image_fetched()
 
 	if(awa->status() == AsyncWebAccess::Status::GotData)
 	{
-		QImage img  = awa->get_image();
+		QImage img  = awa->image();
 
 		if(!img.isNull()) {
 			QString target_file = _m->cl.cover_path();
@@ -219,7 +219,7 @@ CoverFetchThread::multi_image_fetched()
 
 	if(awa->status() == AsyncWebAccess::Status::GotData){
 
-		QImage img  = awa->get_image();
+		QImage img  = awa->image();
 
 		if(!img.isNull()){
 

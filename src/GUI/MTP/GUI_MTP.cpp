@@ -76,11 +76,11 @@ GUI_MTP::GUI_MTP(QWidget* parent) :
 GUI_MTP::~GUI_MTP()
 {
 	if(_m->open_devices.size() > 0){
-		sp_log(Log::Debug) << "Devices open: " << _m->open_devices.first().use_count();
+		sp_log(Log::Debug, this) << "Devices open: " << _m->open_devices.first().use_count();
 	}
 
 	if(_m->raw_devices.size() > 0){
-		sp_log(Log::Debug) << "Raw Devices open: " << _m->raw_devices.first().use_count();
+		sp_log(Log::Debug, this) << "Raw Devices open: " << _m->raw_devices.first().use_count();
 	}
 
 	if(_m->mtp_copy_files){
@@ -170,7 +170,7 @@ void GUI_MTP::scan_thread_finished()
 {
 	ui->combo_devices->clear();
 
-	sp_log(Log::Debug) << "Scan thread finished";
+	sp_log(Log::Debug, this) << "Scan thread finished";
 
 	ui->btn_go->setEnabled(true);
 	ui->btn_go->setText("Refresh");
@@ -224,11 +224,11 @@ void GUI_MTP::device_opened(MTP_DevicePtr device)
 	_m->open_devices << device;
 
 	QList<MTP_StoragePtr> storages = device->storages();
-	sp_log(Log::Debug) << "Device " << device->id() << " has " << storages.size() << " storages";
+	sp_log(Log::Debug, this) << "Device " << device->id() << " has " << storages.size() << " storages";
 
 	for(MTP_StoragePtr storage : storages){
 		QString name = storage->name() + ": " + storage->identifier();
-		sp_log(Log::Debug) << "New Storage: " << name;
+		sp_log(Log::Debug, this) << "New Storage: " << name;
 		_m->storages << storage;
 		ui->combo_storages->addItem(name);
 	}
@@ -248,7 +248,7 @@ void GUI_MTP::storage_idx_changed(int idx)
 	ui->tree_view->clear();
 
 	QList<MTP_FolderPtr> folders = storage->folders();
-	sp_log(Log::Debug) << "Storage has " << folders.size() << " folders";
+	sp_log(Log::Debug, this) << "Storage has " << folders.size() << " folders";
 	enable_drag_drop(folders.size() > 0);
 
 	for(MTP_FolderPtr folder : folders)
@@ -383,11 +383,11 @@ void GUI_MTP::dropEvent(QDropEvent* e)
 	}
 
 	folder = _m->folders[folder_id];
-	sp_log(Log::Debug) << "Will drop into folder " << folder->name();
+	sp_log(Log::Debug, this) << "Will drop into folder " << folder->name();
 
 	mime_data = e->mimeData();
 	if(!mime_data){
-		sp_log(Log::Debug) << "Cannot drop metadata";
+		sp_log(Log::Debug, this) << "Cannot drop metadata";
 		return;
 	}
 
@@ -414,12 +414,12 @@ void GUI_MTP::dropEvent(QDropEvent* e)
 			}
 
 			_m->mtp_copy_files = new MTP_CopyFiles(str_urls, folder, nullptr);
-			sp_log(Log::Debug) << "Will drop " << str_urls.size() << " files ";
+			sp_log(Log::Debug, this) << "Will drop " << str_urls.size() << " files ";
 		}
 
 		else{
 			_m->mtp_copy_files = new MTP_CopyFiles(v_md, folder, nullptr);
-			sp_log(Log::Debug) << "Will drop " << v_md.size() << " Tracks ";
+			sp_log(Log::Debug, this) << "Will drop " << v_md.size() << " Tracks ";
 		}
 
 		ui->btn_delete->setEnabled(false);

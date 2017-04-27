@@ -95,10 +95,10 @@ void EngineHandler::end_convert()
 {
 	stop();
 
-	sp_log(Log::Debug) << "Engine end convert";
+	sp_log(Log::Debug, this) << "Engine end convert";
 
 	if( _cur_engine->get_name() != EngineName::PlaybackEngine ) {
-		sp_log(Log::Debug) << "Change to playback engine";
+		sp_log(Log::Debug, this) << "Change to playback engine";
 		switch_engine(EngineName::PlaybackEngine);
 	}
 

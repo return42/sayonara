@@ -98,7 +98,7 @@ StreamHttpParser::HttpAnswer StreamWriter::parse_message()
 	StreamHttpParser::HttpAnswer status;
 	status = _m->parser->parse(_m->socket->readAll());
 
-	sp_log(Log::Debug) << "Parse message " << (int) status;
+	sp_log(Log::Debug, this) << "Parse message " << (int) status;
 
 	return status;
 }
@@ -192,44 +192,44 @@ void StreamWriter::data_available()
 		case StreamHttpParser::HttpAnswer::Reject:
 
 			_m->type = StreamWriter::Type::Invalid;
-			//sp_log(Log::Debug) << "Rejected: " << _parser->get_user_agent() << ": " << get_ip();
+			//sp_log(Log::Debug, this) << "Rejected: " << _parser->get_user_agent() << ": " << get_ip();
 			send_header(true);
 			break;
 
 		case StreamHttpParser::HttpAnswer::Ignore:
-			//sp_log(Log::Debug) << "ignore...";
+			//sp_log(Log::Debug, this) << "ignore...";
 			break;
 
 		case StreamHttpParser::HttpAnswer::Playlist:
-			//sp_log(Log::Debug) << "Asked for playlist";
+			//sp_log(Log::Debug, this) << "Asked for playlist";
 			send_playlist();
 			break;
 
 		case StreamHttpParser::HttpAnswer::HTML5:
-			//sp_log(Log::Debug) << "Asked for html5";
+			//sp_log(Log::Debug, this) << "Asked for html5";
 			send_html5();
 
 			break;
 
 		case StreamHttpParser::HttpAnswer::BG:
-			//sp_log(Log::Debug) << "Asked for background";
+			//sp_log(Log::Debug, this) << "Asked for background";
 			send_bg();
 			break;
 
 		case StreamHttpParser::HttpAnswer::Favicon:
-			//sp_log(Log::Debug) << "Asked for favicon";
+			//sp_log(Log::Debug, this) << "Asked for favicon";
 			send_favicon();
 			break;
 
 		case StreamHttpParser::HttpAnswer::MetaData:
-			//sp_log(Log::Debug) << "Asked for metadata";
+			//sp_log(Log::Debug, this) << "Asked for metadata";
 			send_metadata();
 			break;
 
 		default:
 			_m->type = StreamWriter::Type::Streaming;
 			close_connection = false;
-			//sp_log(Log::Debug) << "Accepted: " << _parser->get_user_agent() << ": " << ip;
+			//sp_log(Log::Debug, this) << "Accepted: " << _parser->get_user_agent() << ": " << ip;
 			success = send_header(false);
 
 			if(success){

@@ -22,9 +22,11 @@
 
 #include "Database/DatabaseConnector.h"
 #include "Components/Playlist/PlaylistHandler.h"
+#include "Components/PlayManager/PlayManager.h"
 #include "Helper/WebAccess/AsyncWebAccess.h"
 #include "Helper/Parser/StreamParser.h"
 #include "Helper/MetaData/MetaDataList.h"
+#include "Helper/Logger/Logger.h"
 
 struct AbstractStreamHandler::Private
 {
@@ -71,19 +73,22 @@ bool AbstractStreamHandler::parse_station(const QString& url, const QString& sta
 void AbstractStreamHandler::stream_parser_finished(bool success)
 {
 	if(!success){
-		emit sig_error();
+		sp_log(Log::Debug, this) << "Stream parser finished with error";
 		_m->blocked = false;
+		emit sig_error();
 		return;
 	}
 
 	StreamParser* stream_parser = static_cast<StreamParser*>(sender());
 	MetaDataList v_md = stream_parser->get_metadata();
-
 	_m->station_contents[_m->station_name] = v_md;
-
 	emit sig_data_available();
 
-	_m->playlist->create_playlist(v_md, _m->station_name, true, Playlist::Type::Stream);
+	if(!v_md.isEmpty()){
+		int idx = _m->playlist->create_playlist(v_md, _m->station_name, true, Playlist::Type::Stream);
+		_m->playlist->change_track(0, idx);
+	}
+
 	_m->blocked = false;
 }
 

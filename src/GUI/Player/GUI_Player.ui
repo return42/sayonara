@@ -905,7 +905,7 @@
              <number>0</number>
             </property>
             <property name="currentIndex">
-             <number>0</number>
+             <number>1</number>
             </property>
             <widget class="QWidget" name="page">
              <layout class="QGridLayout" name="gridLayout_5">
@@ -924,52 +924,10 @@
               <property name="verticalSpacing">
                <number>2</number>
               </property>
-              <item row="1" column="0">
+              <item row="0" column="0">
                <widget class="SearchSlider" name="sli_progress">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>51</width>
-                  <height>20</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>16777215</width>
-                  <height>20</height>
-                 </size>
-                </property>
-                <property name="sizeIncrement">
-                 <size>
-                  <width>3</width>
-                  <height>0</height>
-                 </size>
-                </property>
-                <property name="focusPolicy">
-                 <enum>Qt::ClickFocus</enum>
-                </property>
-                <property name="maximum">
-                 <number>1000</number>
-                </property>
                 <property name="orientation">
                  <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="invertedAppearance">
-                 <bool>false</bool>
-                </property>
-                <property name="invertedControls">
-                 <bool>false</bool>
-                </property>
-                <property name="tickPosition">
-                 <enum>QSlider::NoTicks</enum>
-                </property>
-                <property name="tickInterval">
-                 <number>20</number>
                 </property>
                </widget>
               </item>
@@ -990,33 +948,12 @@
                <number>0</number>
               </property>
               <item row="0" column="0">
-               <widget class="QSlider" name="sli_buffer">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>51</width>
-                  <height>20</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>16777215</width>
-                  <height>20</height>
-                 </size>
-                </property>
+               <widget class="SayonaraLoadingBar" name="sli_buffer">
                 <property name="maximum">
-                 <number>100</number>
+                 <number>0</number>
                 </property>
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
+                <property name="value">
+                 <number>-1</number>
                 </property>
                </widget>
               </item>
@@ -1047,7 +984,7 @@
      <x>0</x>
      <y>0</y>
      <width>1038</width>
-     <height>24</height>
+     <height>19</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFle">
@@ -1200,6 +1137,11 @@
    <class>CoverButton</class>
    <extends>QPushButton</extends>
    <header>GUI/Covers/CoverButton.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SayonaraLoadingBar</class>
+   <extends>QProgressBar</extends>
+   <header>GUI/Helper/SayonaraWidget/SayonaraLoadingBar.h</header>
   </customwidget>
  </customwidgets>
  <resources>

@@ -258,7 +258,7 @@ void ReloadThread::run()
 	db->deleteInvalidTracks();
 	db->getAllTracks(v_md);
 
-	sp_log(Log::Debug) << "Have " << v_md.size() << " tracks";
+	sp_log(Log::Debug, this) << "Have " << v_md.size() << " tracks";
 
 	// find orphaned tracks in library && delete them
 	for(const MetaData& md : v_md){

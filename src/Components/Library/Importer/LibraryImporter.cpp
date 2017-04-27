@@ -150,7 +150,7 @@ void LibraryImporter::copy_thread_finished()
 	}
 
 	// copy was cancelled
-	sp_log(Log::Debug) << "Copy folder thread finished " << _m->copy_thread->was_cancelled();
+	sp_log(Log::Debug, this) << "Copy folder thread finished " << _m->copy_thread->was_cancelled();
 	if(copy_thread->was_cancelled()) {
 		copy_thread->set_mode(CopyThread::Mode::Rollback);
 		copy_thread->start();

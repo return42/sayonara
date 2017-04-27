@@ -151,7 +151,7 @@ QString Library::convert_search_string(const QString& str, Library::SearchModeMa
 		ret = cleaned_string;
 	}
 
-//	sp_log(Log::Debug) << "Cleaned string: " << ret;
+//	sp_log(Log::Debug, this) << "Cleaned string: " << ret;
 
 	return ret;
 }

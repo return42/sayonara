@@ -692,7 +692,7 @@ bool GUI_TagEdit::replace_selected_tag_text(Tag t, bool b)
 	TextSelection ts = ui->le_tag->get_text_selection();
 
 	if(ts.selection_start < 0 && b) {
-		sp_log(Log::Debug) << "Nothing selected...";
+		sp_log(Log::Debug, this) << "Nothing selected...";
 		return false;
 	}
 

@@ -657,15 +657,15 @@ bool DatabaseTracks::deleteInvalidTracks()
 		idx++;
 	}
 
-	sp_log(Log::Debug) << "Will delete " << to_delete.size() << " tracks";
+	sp_log(Log::Debug, this) << "Will delete " << to_delete.size() << " tracks";
 	success = deleteTracks(to_delete);
-	sp_log(Log::Debug) << "delete tracks: " << success;
+	sp_log(Log::Debug, this) << "delete tracks: " << success;
 
 	success = deleteTracks(v_md_update);
-	sp_log(Log::Debug) << "delete other tracks: " << success;
+	sp_log(Log::Debug, this) << "delete other tracks: " << success;
 
 	success = db_library.storeMetadata(v_md_update);
-	sp_log(Log::Debug) << "update tracks: " << success;
+	sp_log(Log::Debug, this) << "update tracks: " << success;
 
 	return false;
 }

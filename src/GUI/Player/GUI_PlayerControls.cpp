@@ -24,6 +24,7 @@
 #include "Components/PlayManager/PlayManager.h"
 #include "Helper/Helper.h"
 #include "Helper/Settings/Settings.h"
+#include "Helper/Logger/Logger.h"
 
 #include <QFileDialog>
 #include <QToolTip>
@@ -134,12 +135,20 @@ void GUI_Player::rec_clicked(bool b)
 
 void GUI_Player::buffering(int progress)
 {
+	sli_buffer->setVisible(true);
+	sli_buffer->setEnabled(true);
+	sli_buffer->set_orientation(SayonaraLoadingBar::Orientation::Middle);
+
 	if(progress >= 0 && progress < 100){
+		sli_progress->setMinimum(0);
+		sli_progress->setMaximum(100);
 		progress_widget->setCurrentIndex(1);
 		sli_buffer->setValue(progress);
 	}
 
 	else{
+		sli_progress->setMinimum(0);
+		sli_progress->setMaximum(0);
 		progress_widget->setCurrentIndex(0);
 	}
 }

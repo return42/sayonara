@@ -66,7 +66,7 @@ bool MTP_Folder::send_track(MTP_TrackPtr track) const
 {
 	QString lib_path = Settings::getInstance()->get(Set::Lib_Path);
 	QString track_path = track->src_filename();
-	sp_log(Log::Debug) << "Track path = " << track_path;
+	sp_log(Log::Debug, this) << "Track path = " << track_path;
 
 	int ret;
 
@@ -106,7 +106,7 @@ bool MTP_Folder::send_track(MTP_TrackPtr track) const
 			if(child->name().compare(subpath) == 0){
 				track->set_folder_id(child->id());
 				ptr = child;
-				sp_log(Log::Debug) << "Change into " << ptr->name();
+				sp_log(Log::Debug, this) << "Change into " << ptr->name();
 				track_path.remove(0, idx + 1);
 				exists = true;
 				break;
@@ -118,7 +118,7 @@ bool MTP_Folder::send_track(MTP_TrackPtr track) const
 
 		int id = ptr->create_folder(subpath);
 		if(id != 0){
-			sp_log(Log::Debug) << "Will copy to " << subpath;
+			sp_log(Log::Debug, this) << "Will copy to " << subpath;
 
 			MTPIntern_Folder* f = LIBMTP_new_folder_t();
 			f->sibling = ptr->_folder->child;
@@ -129,15 +129,15 @@ bool MTP_Folder::send_track(MTP_TrackPtr track) const
 			f->name = strndup(subpath.toUtf8().data(), subpath.size());
 			f->folder_id = id;
 
-			sp_log(Log::Debug) << "Subpath = " << subpath << ": f->name = " << f->name;
+			sp_log(Log::Debug, this) << "Subpath = " << subpath << ": f->name = " << f->name;
 
 			children = ptr->children();
 			for(MTP_FolderPtr child : children){
-				sp_log(Log::Debug) << "Created " << subpath << " child = " << child->name();
+				sp_log(Log::Debug, this) << "Created " << subpath << " child = " << child->name();
 				if(child->name().compare(subpath) == 0){
 					track->set_folder_id(id);
 					ptr = child;
-					sp_log(Log::Debug) << "Change into " << ptr->name();
+					sp_log(Log::Debug, this) << "Change into " << ptr->name();
 					break;
 				}
 			}

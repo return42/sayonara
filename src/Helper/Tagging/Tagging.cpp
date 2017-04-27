@@ -188,7 +188,7 @@ bool Tagging::getMetaDataOfFile(MetaData& md, Tagging::Quality quality)
 			md.rating = popularimeter.get_rating();
 		}
 
-		//sp_log(Log::Debug) << "Read rating " << (int) md.rating << ": " << success;
+		//sp_log(Log::Debug, this) << "Read rating " << (int) md.rating << ": " << success;
 	}
 
 	uint year = tag->year();

@@ -38,7 +38,7 @@ void InstanceThread::run()
 
 	while(_may_run) {
 		if((*_instance_message) != InstanceMessageNone){
-			sp_log(Log::Debug) << "Kill signal received";
+			sp_log(Log::Debug, this) << "Kill signal received";
 
 			emit sig_player_raise();
 
@@ -63,11 +63,11 @@ void InstanceThread::stop()
 void InstanceThread::parse_memory()
 {
 	if(_memory.isAttached()){
-		sp_log(Log::Debug) << "memory already attached";
+		sp_log(Log::Debug, this) << "memory already attached";
 	}
 
 	else if(!_memory.attach()){
-		sp_log(Log::Debug) << "Cannot attach shared memory " << _memory.errorString();
+		sp_log(Log::Debug, this) << "Cannot attach shared memory " << _memory.errorString();
 		return;
 	}
 
@@ -82,7 +82,7 @@ void InstanceThread::parse_memory()
 
 		for(const QByteArray& arr : strings){
 			QString filename = QString::fromUtf8(arr);
-			sp_log(Log::Debug) << "Add file " << filename;
+			sp_log(Log::Debug, this) << "Add file " << filename;
 
 			if(!filename.isEmpty()){
 				file_list << filename;

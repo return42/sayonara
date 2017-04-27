@@ -71,7 +71,7 @@ void LibraryPluginHandler::init(const QList<LibraryContainerInterface*>& contain
 			continue;
 		}
 
-		sp_log(Log::Debug) << "Add plugin " << container->get_display_name();
+		sp_log(Log::Debug, this) << "Add plugin " << container->get_display_name();
 
 		_m->libraries << container;
 	}

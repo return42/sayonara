@@ -159,7 +159,7 @@ bool StreamDataSender::send_icy_data(const uchar* data, quint64 size, const QStr
 		n_bytes = _m->socket->write( (const char*) data, size);
 		_m->sent_data_bytes += n_bytes;
 		if(_m->sent_data_bytes > IcySize){
-			sp_log(Log::Debug) << "Something is wrong";
+			sp_log(Log::Debug, this) << "Something is wrong";
 		}
 	}
 

@@ -95,7 +95,7 @@ Playlist::Mode::~Mode() {}
 
 void Playlist::Mode::print()
 {
-	sp_log(Log::Debug) << "rep1 = "   << (int) _rep1 << ", "
+	sp_log(Log::Debug, this) << "rep1 = "   << (int) _rep1 << ", "
 		<< "repAll = "  << (int) _repAll << ", "
 		<< "append = "  << (int) _append <<", "
 		<< "dynamic = " << (int) _dynamic << ","

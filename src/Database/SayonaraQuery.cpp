@@ -72,7 +72,7 @@ bool SayonaraQuery::exec()
 	bool success = QSqlQuery::exec();
 
 #ifdef DB_DEBUG
-	sp_log(Log::Debug) << _query_string << ": " << timer.elapsed() << "ms";
+	sp_log(Log::Debug, this) << _query_string << ": " << timer.elapsed() << "ms";
 #endif
 
 	return success;
@@ -85,7 +85,7 @@ QString SayonaraQuery::get_query_string() const
 
 void SayonaraQuery::show_query() const
 {
-	sp_log(Log::Debug) << _query_string;
+	sp_log(Log::Debug, this) << _query_string;
 }
 
 void SayonaraQuery::show_error(const QString& err_msg) const

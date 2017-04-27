@@ -61,7 +61,7 @@ void LFMWebAccess::awa_finished()
 		return;
 	}
 
-	QByteArray data = awa->get_data();
+	QByteArray data = awa->data();
 	bool error = check_error(data);
 
 	if(!error)

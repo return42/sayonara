@@ -67,7 +67,7 @@ IconLoader::IconLoader()
 	}
 #endif
 
-	sp_log(Log::Debug) << "Theme paths " << _m->theme_paths;
+	sp_log(Log::Debug, this) << "Theme paths " << _m->theme_paths;
 }
 
 IconLoader::~IconLoader() {}
@@ -121,7 +121,7 @@ void IconLoader::add_icon_names(const QStringList& icon_names)
 		QIcon icon = QIcon::fromTheme(icon_name);
 		if( !icon.isNull() ){
 			_m->icons[icon_name] = icon;
-			//sp_log(Log::Debug) << "Could load icon from theme: " << icon_name;
+			//sp_log(Log::Debug, this) << "Could load icon from theme: " << icon_name;
 			continue;
 		}
 
@@ -131,11 +131,11 @@ void IconLoader::add_icon_names(const QStringList& icon_names)
 
 
 			QDir full_theme_dir(full_theme_path);
-			//sp_log(Log::Debug) << full_theme_dir.canonicalPath();
+			//sp_log(Log::Debug, this) << full_theme_dir.canonicalPath();
 
 
 			QStringList files = dir_reader.find_files_rec(full_theme_dir, icon_name);
-			//sp_log(Log::Debug) << "Search for " << icon_name << " in " << full_theme_path << ": " << files;
+			//sp_log(Log::Debug, this) << "Search for " << icon_name << " in " << full_theme_path << ": " << files;
 
 			for(const QString& file : files){
 				if(file.contains("48")){
@@ -152,7 +152,7 @@ void IconLoader::add_icon_names(const QStringList& icon_names)
 				}
 
 				if(found){
-					//sp_log(Log::Debug) << "Found icon " << icon_name << " in " << file;
+					//sp_log(Log::Debug, this) << "Found icon " << icon_name << " in " << file;
 					_m->icons[icon_name] = QIcon(file);
 					break;
 				}

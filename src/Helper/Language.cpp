@@ -215,6 +215,8 @@ LanguageString Lang::get(Lang::Term term, bool* ok)
 			return l.tr("Rating");
 		case Really:
 			return l.tr("Really");
+		case Refresh:
+			return l.tr("Refresh");
 		case ReloadLibrary:
 			return l.tr("Reload library");
 		case Remove:
@@ -227,8 +229,8 @@ LanguageString Lang::get(Lang::Term term, bool* ok)
 			return l.tr("Repeat all");
 		case Reset:
 			return l.tr("Reset");
-		case Refresh:
-			return l.tr("Refresh");
+		case Retry:
+			return l.tr("Retry");
 		case Sampler:
 			return l.tr("Sampler");
 		case Shuffle:

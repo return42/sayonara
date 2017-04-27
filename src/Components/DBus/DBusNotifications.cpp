@@ -38,7 +38,7 @@ DBusNotifications::DBusNotifications(QObject* parent) :
 
 	if (!QDBusConnection::sessionBus().interface()->isServiceRegistered("org.freedesktop.Notifications"))
 	{
-		sp_log(Log::Debug) << "DBus: Notification service is not registered";
+		sp_log(Log::Debug, this) << "DBus: Notification service is not registered";
 
 	}
 

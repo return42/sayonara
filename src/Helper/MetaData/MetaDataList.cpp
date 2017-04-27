@@ -312,3 +312,35 @@ bool MetaDataList::contains(qint32 id) const
 
 	return (it != this->end());
 }
+
+void MetaDataList::remove_duplicates()
+{
+	for(auto it=this->begin(); it!=this->end(); it++){
+		auto it_next = it + 1;
+
+		if(it_next == this->end()){
+			break;
+		}
+
+		auto last_it2 = it;
+		for(auto it2=it_next; it2 != this->end(); it2++) {
+
+			if(it->filepath().compare(it2->filepath()) == 0){
+				auto it2_next = it2 + 1;
+				if(it2_next != this->end()){
+					std::move(it2_next, this->end(), it2);
+				}
+
+				this->removeLast();
+				it2 = last_it2 + 1;
+				if(it2 == this->end()){
+					break;
+				}
+			}
+
+			else {
+				last_it2 = it2;
+			}
+		}
+	}
+}

@@ -147,16 +147,16 @@ void LyricLookupThread::run(const QString& artist, const QString& title, int ser
 void LyricLookupThread::content_fetched()
 {
 	AsyncWebAccess* awa = static_cast<AsyncWebAccess*>(sender());
-	QString url = awa->get_url();
+	QString url = awa->url();
 
 	if(!awa->has_data())
 	{
-		_m->final_wp = tr("Sorry, could not fetch lyrics from %1").arg(awa->get_url());
+		_m->final_wp = tr("Sorry, could not fetch lyrics from %1").arg(awa->url());
 		emit sig_finished();
 		return;
 	}
 
-	_m->final_wp = parse_webpage(awa->get_data(), _m->server_list[_m->cur_server]);
+	_m->final_wp = parse_webpage(awa->data(), _m->server_list[_m->cur_server]);
 
 	if ( _m->final_wp.isEmpty() )
 	{
@@ -166,7 +166,7 @@ void LyricLookupThread::content_fetched()
 	}
 
 	_m->final_wp.push_front(_m->server_list[_m->cur_server].display_str + "<br /><br />");
-	_m->final_wp.push_front(awa->get_url() + "<br /><br />");
+	_m->final_wp.push_front(awa->url() + "<br /><br />");
 	_m->final_wp.push_front(
 						//"<font size=\"5\" color=\"#F3841A\">"
 						"<b>" +

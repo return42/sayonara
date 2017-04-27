@@ -46,14 +46,14 @@ void MTP::run_raw_devices()
 	}
 
 
-	sp_log(Log::Debug) << "Scan  for devices: " << n_devices;
+	sp_log(Log::Debug, this) << "Scan  for devices: " << n_devices;
 	for(int i=0; i<n_devices; i++){
 		MTPIntern_RawDevice* raw_device = (raw_device_ptr + i);
 		if(!raw_device){
 			continue;
 		}
 
-		sp_log(Log::Debug) << "Add device " << i;
+		sp_log(Log::Debug, this) << "Add device " << i;
 		_raw_devices << MTP_RawDevicePtr( new MTP_RawDevice(raw_device) );
 	}
 }

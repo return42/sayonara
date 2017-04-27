@@ -28,6 +28,7 @@ SayonaraLoadingBar::SayonaraLoadingBar(QWidget* parent) :
 {
 	_parent = parent;
 
+	_orientation = SayonaraLoadingBar::Orientation::Bottom;
 	_fixed_height = 5;
 
 	this->setEnabled(false);
@@ -40,10 +41,31 @@ SayonaraLoadingBar::SayonaraLoadingBar(QWidget* parent) :
 
 SayonaraLoadingBar::~SayonaraLoadingBar() {}
 
+void SayonaraLoadingBar::set_orientation(SayonaraLoadingBar::Orientation o)
+{
+	_orientation = o;
+}
+
 void SayonaraLoadingBar::showEvent(QShowEvent* e)
 {
+
+	int y;
+	switch(_orientation)
+	{
+		case SayonaraLoadingBar::Orientation::Top:
+			 y = 0;
+			break;
+		case SayonaraLoadingBar::Orientation::Middle:
+			y = (_parent->height() - _fixed_height) / 2;
+			break;
+		case SayonaraLoadingBar::Orientation::Bottom:
+		default:
+			 y = _parent->height() - _fixed_height;
+			break;
+	}
+
 	this->setGeometry(0,
-					  _parent->height() - _fixed_height,
+					  y,
 					  _parent->width(),
 					  _fixed_height);
 

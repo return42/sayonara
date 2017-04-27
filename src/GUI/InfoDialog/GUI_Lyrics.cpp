@@ -298,7 +298,7 @@ void GUI_Lyrics::wheelEvent(QWheelEvent* e)
 {
 	e->accept();
 
-	sp_log(Log::Debug) << (int) e->modifiers();
+	sp_log(Log::Debug, this) << (int) e->modifiers();
 	if( (e->modifiers() & Qt::ShiftModifier) ||
 		(e->modifiers() & Qt::ControlModifier))
 	{

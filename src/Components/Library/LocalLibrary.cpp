@@ -125,13 +125,13 @@ void LocalLibrary::reload_thread_finished()
 
 void LocalLibrary::_sl_search_mode_changed()
 {
-	sp_log(Log::Debug) << "Updating cissearch... " << _settings->get(Set::Lib_SearchMode);
+	sp_log(Log::Debug, this) << "Updating cissearch... " << _settings->get(Set::Lib_SearchMode);
 
 	_m->db->updateArtistCissearch();
 	_m->db->updateAlbumCissearch();
 	_m->db->updateTrackCissearch();
 
-	sp_log(Log::Debug) << "Updating cissearch finished" << _settings->get(Set::Lib_SearchMode);
+	sp_log(Log::Debug, this) << "Updating cissearch finished" << _settings->get(Set::Lib_SearchMode);
 
 }
 
@@ -150,7 +150,7 @@ void LocalLibrary::_sl_auto_update_changed()
 		if(_m->fsw){
 			_m->fsw->stop();
 
-			sp_log(Log::Debug) << "Removed filesystem watcher";
+			sp_log(Log::Debug, this) << "Removed filesystem watcher";
 		}
 	}
 }
@@ -176,7 +176,7 @@ void LocalLibrary::indexing_finished()
 
 	thread->deleteLater();
 
-	sp_log(Log::Debug) << "Added filesystem watcher";
+	sp_log(Log::Debug, this) << "Added filesystem watcher";
 }
 
 void LocalLibrary::library_reloading_state_new_block()

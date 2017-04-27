@@ -206,7 +206,7 @@ void StreamRecorder::record(bool b)
 		return;
 	}
 
-	sp_log(Log::Debug) << "Stream recorder: activate: " << b;
+	sp_log(Log::Debug, this) << "Stream recorder: activate: " << b;
 
     if(b){
         new_session();

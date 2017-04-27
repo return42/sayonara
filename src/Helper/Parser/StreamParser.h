@@ -73,6 +73,7 @@ class StreamParser : public QObject
 		 */
 
 		MetaDataList parse_content(const QByteArray& data);
+		MetaDataList parse_website(const QByteArray& arr);
 
 		/**
 		 * @brief Sset up missing fields in metadata: album, artist, title and filepath\n
@@ -83,6 +84,7 @@ class StreamParser : public QObject
 
 
 		bool parse_next();
+
 };
 
 #endif

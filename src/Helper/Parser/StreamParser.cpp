@@ -38,10 +38,32 @@
 struct StreamParser::Private
 {
 	QStringList 	urls;
+
+	// If an url leads me to some website content and I have to parse it
+	// and this Url is found again during parsing, it cannot be a stream
+	// and so, it cannot be a metadata object
+	QStringList		forbidden_urls;
 	QString			last_url;
 	QString			station_name;
 	QString			cover_url;
 	MetaDataList	v_md;
+
+	bool is_url_forbidden(const QUrl& url) const
+	{
+		QString host = url.host();
+		for(const QString& forbidden_url_str : forbidden_urls)
+		{
+			QUrl forbidden_url(forbidden_url_str);
+			QString forbidden_host = forbidden_url.host();
+			if ((forbidden_host.compare(host, Qt::CaseInsensitive) == 0) &&
+			   (forbidden_url.port(80) == url.port(80)))
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
 };
 
 StreamParser::StreamParser(const QString& station_name, QObject* parent) : 
@@ -60,6 +82,7 @@ void StreamParser::parse_streams(const QStringList& urls)
 {
 	_m->v_md.clear();
 	_m->urls = urls;
+
 	parse_next();
 }
 
@@ -70,8 +93,15 @@ void StreamParser::parse_stream(const QString& url)
 
 bool StreamParser::parse_next()
 {
-	if(_m->urls.isEmpty()){
+	sp_log(Log::Debug, this) << "Parse next - Already found: ";
+	for(const MetaData& md : _m->v_md){
+		sp_log(Log::Debug, this) << md.title << ": " << md.filepath();
+	}
+
+	if(_m->urls.isEmpty()) {
+		sp_log(Log::Debug, this) << "No more urls to parse";
 		emit sig_finished( _m->v_md.size() > 0);
+
 		return false;
 	}
 
@@ -89,28 +119,16 @@ void StreamParser::awa_finished()
 {
 	AsyncWebAccess* awa = static_cast<AsyncWebAccess*>(sender());
 	AsyncWebAccess::Status status = awa->status();
-	_m->last_url = awa->get_url();
+	_m->last_url = awa->url();
 
 	MetaDataList v_md;
 	awa->deleteLater();
 
-	// Maybe it's an Icy Stream?
-	if( status == AsyncWebAccess::Status::Error) {
-		IcyWebAccess* iwa = new IcyWebAccess(this);
-		connect(iwa, &IcyWebAccess::sig_finished, this, &StreamParser::icy_finished);
-		iwa->check(QUrl(_m->last_url));
-		return;
-	}
-
-	else if( status == AsyncWebAccess::Status::Timeout ||
-			status == AsyncWebAccess::Status::NoData)
+	if(status == AsyncWebAccess::Status::GotData)
 	{
-		// nothing
-	}
-
-	else if(status == AsyncWebAccess::Status::GotData)
-	{
-		QByteArray data = awa->get_data();
+		_m->forbidden_urls << _m->last_url;
+		sp_log(Log::Warning, this) << "Got data. Try to parse content";
+		QByteArray data = awa->data();
 
 		v_md = parse_content(data);
 
@@ -122,10 +140,20 @@ void StreamParser::awa_finished()
 		}
 
 		_m->v_md << v_md;
+		_m->v_md.remove_duplicates();
 	}
 
-	else if(status == AsyncWebAccess::Status::Stream)
+	else if( status == AsyncWebAccess::Status::NoHttp) {
+		sp_log(Log::Warning, this) << "No correct http was found. Maybe Icy?";
+		IcyWebAccess* iwa = new IcyWebAccess(this);
+		connect(iwa, &IcyWebAccess::sig_finished, this, &StreamParser::icy_finished);
+		iwa->check(QUrl(_m->last_url));
+		return;
+	}
+
+	else if(status == AsyncWebAccess::Status::AudioStream)
 	{
+		sp_log(Log::Warning, this) << "Found audio stream";
 		MetaData md;
 		tag_metadata(md, _m->last_url);
 		if(!_m->cover_url.isEmpty()) {
@@ -133,6 +161,11 @@ void StreamParser::awa_finished()
 		}
 
 		_m->v_md << md;
+		_m->v_md.remove_duplicates();
+	}
+
+	else {
+		sp_log(Log::Warning, this) << "Web Access finished: " << (int) status;
 	}
 
 	parse_next();
@@ -145,7 +178,7 @@ void StreamParser::icy_finished()
 	IcyWebAccess::Status status = iwa->status();
 
 	if(status == IcyWebAccess::Status::Success) {
-		sp_log(Log::Debug) << "Stream is icy stream";
+		sp_log(Log::Debug, this) << "Stream is icy stream";
 		MetaData md;
 		tag_metadata(md, _m->last_url);
 		if(!_m->cover_url.isEmpty()) {
@@ -153,6 +186,7 @@ void StreamParser::icy_finished()
 		}
 
 		_m->v_md << md;
+		_m->v_md.remove_duplicates();
 	} else {
 		sp_log(Log::Warning) << "Stream is no icy stream";
 	}
@@ -166,6 +200,8 @@ MetaDataList StreamParser::parse_content(const QByteArray& data)
 {
 	MetaDataList v_md;
 
+	sp_log(Log::Debug, this) << data;
+
 	/** 1. try if podcast file **/
 	PodcastParser::parse_podcast_xml_file_content(data, v_md);
 
@@ -176,12 +212,62 @@ MetaDataList StreamParser::parse_content(const QByteArray& data)
 		QFile::remove(filename);
 	}
 
+	if(v_md.isEmpty()){
+		v_md = parse_website(data);
+	}
+
+	v_md.remove_duplicates();
+	return v_md;
+}
+
+MetaDataList StreamParser::parse_website(const QByteArray& arr)
+{
+	MetaDataList v_md;
+	QString website = QString::fromUtf8(arr);
+	QList<QRegExp> regular_expressions;
+	QStringList valid_extensions;
+	valid_extensions << Helper::get_soundfile_extensions();
+	valid_extensions << Helper::get_playlistfile_extensions();
+
+	for(QString& ext : valid_extensions){
+		ext.remove("*.");
+	}
+
+	QStringList found_strings;
+	QString re_string = "(http[s]*://\\S+\\.(" + valid_extensions.join("|") + "))";
+	sp_log(Log::Debug, this) <<  "Regular expression: " << re_string;
+
+	QRegExp reg_exp(re_string);
+	//reg_exp.setMinimal(true);
+
+	int idx = reg_exp.indexIn(website);
+	while(idx >= 0) {
+
+		QStringList found_urls = reg_exp.capturedTexts();
+		for(const QString& str : found_urls){
+			QUrl found_url(str);
+			if(str.size() > 7 && !_m->is_url_forbidden(found_url)){
+				found_strings << str;
+			}
+		}
+
+		idx = reg_exp.indexIn(website, idx + 1);
+	}
+
+	found_strings.removeDuplicates();
+
+	for(const QString& found_str : found_strings){
+		MetaData md;
+		md.set_filepath(found_str);
+		v_md << md;
+	}
+
 	return v_md;
 }
 
 void StreamParser::tag_metadata(MetaData &md, const QString& stream_url) const
 {
-	if(_m->station_name.isEmpty()){
+	if(_m->station_name.isEmpty()) {
 		md.album = stream_url;
 		if(md.title.isEmpty()){
 			md.title = Lang::get(Lang::Radio);
@@ -230,7 +316,7 @@ void StreamParser::set_cover_url(const QString& url)
 	_m->cover_url = url;
 
 	if(!_m->v_md.isEmpty()){
-	
+
 		for(MetaData& md : _m->v_md){
 			md.cover_download_url = url;
 		}

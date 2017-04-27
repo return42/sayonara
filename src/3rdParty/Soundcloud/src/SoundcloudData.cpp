@@ -505,7 +505,7 @@ bool SoundcloudData::storeMetadata(const MetaDataList& v_md)
 	_database.transaction();
 
 	for(const MetaData& md : v_md) {
-		sp_log(Log::Debug) << "Looking for " << md.artist << " and " << md.album;
+		sp_log(Log::Debug, this) << "Looking for " << md.artist << " and " << md.album;
 		if(md.album_id == -1 || md.artist_id == -1){
 			sp_log(Log::Warning) << "AlbumID = " << md.album_id << " - ArtistID = " << md.artist_id;
 			continue;

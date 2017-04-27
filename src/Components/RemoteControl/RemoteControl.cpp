@@ -127,7 +127,7 @@ void RemoteControl::new_connection()
 		return;
 	}
 
-	sp_log(Log::Debug) << "Got new connection";
+	sp_log(Log::Debug, this) << "Got new connection";
 
 	connect(_socket, &QTcpSocket::readyRead, this, &RemoteControl::new_request);
 	connect(_socket, &QTcpSocket::disconnected, this, &RemoteControl::socket_disconnected);
@@ -305,7 +305,7 @@ void RemoteControl::write_cur_track()
 	int cur_track_idx = pl->get_cur_track_idx();
 
 
-	sp_log(Log::Debug) << "Send cur track idx: " << cur_track_idx;
+	sp_log(Log::Debug, this) << "Send cur track idx: " << cur_track_idx;
 
 	write("curIdx:" + QString::number(cur_track_idx).toUtf8());
 	write("title:" + md.title.toUtf8());
@@ -395,7 +395,7 @@ void RemoteControl::write_broadcast_info()
 			QByteArray::number(_settings->get(Set::Broadcast_Active)) + '\t' +
 			QByteArray::number(_settings->get(Set::Broadcast_Port));
 
-	sp_log(Log::Debug) << "Write broadcast " << data;
+	sp_log(Log::Debug, this) << "Write broadcast " << data;
 
 	write(data);
 }
