@@ -143,6 +143,7 @@ namespace SK {
 	Engine_SR_Warning,
 	Engine_SR_Path,
 	Engine_SR_SessionPath,
+	Engine_SR_AutoRecord,
 
 
 	Spectrum_Style,
@@ -235,7 +236,7 @@ namespace Set
     INST(QList<Library::DateFilter>,	Lib_DateFilters);			/* Date filters appearing in library window */
     INST(bool,				Lib_ShowAlbumArtists);			/* Show album artists instead of artists */
 	INST(bool,				Lib_ShowAlbumCovers);		/* Show album cover view */
-	INST(int,				Lib_CoverZoom);				/* Zoom of album cover view */
+    INST(int,				Lib_CoverZoom);				/* Zoom of album cover view */
 
 
     INST(QString,			Player_Version);			/* Version string of player */
@@ -253,10 +254,10 @@ namespace Set
     INST(bool,				Player_ShowTrayIcon);			/* Show/hide the tray icon */
     INST(bool,				Player_StartInTray);			/* start in tray */
     INST(bool,				Player_NotifyNewVersion);		/* check for new version on startup */
-    INST(QByteArray,		Player_SplitterState);			/* spliter state between playlist and library */
-    INST(RawShortcutMap,	Player_Shortcuts);			/* player shortcuts */
+    INST(QByteArray,			Player_SplitterState);			/* spliter state between playlist and library */
+    INST(RawShortcutMap,		Player_Shortcuts);			/* player shortcuts */
 
-    INST(QStringList,		PL_Playlist);				/* old playlist: list of integers in case of library tracks, if no library track, filepath */
+    INST(QStringList,			PL_Playlist);				/* old playlist: list of integers in case of library tracks, if no library track, filepath */
     INST(bool,				PL_LoadSavedPlaylists);			/* load saved playlists on startup */
     INST(bool,				PL_LoadTemporaryPlaylists);		/* load temporary playlists on startup */
     INST(bool,				PL_LoadLastTrack);			/* load last track on startup */
@@ -266,9 +267,9 @@ namespace Set
     INST(int,				PL_LastPlaylist);			/* last Playlist id, where LastTrack has been played */
     INST(QString,			PL_EntryLook);				/* formatting of playlist entry */
     INST(int,				PL_FontSize);				/* current playlist font size */
-	INST(bool,				PL_ShowClearButton);		/* show clear button in playlist */
+    INST(bool,				PL_ShowClearButton);		/* show clear button in playlist */
 
-    INST(Playlist::Mode,	PL_Mode);				/* playlist mode: rep1, repAll, shuffle... */
+    INST(Playlist::Mode,		PL_Mode);				/* playlist mode: rep1, repAll, shuffle... */
     INST(bool,				PL_ShowNumbers);			/* show numbers in playlist */
     INST(bool,				Notification_Show);			/* show notifications */
     INST(int,				Notification_Timeout);			/* notification timeout */
@@ -294,6 +295,7 @@ namespace Set
     INST(bool,				Engine_SR_Warning);			/* streamripper warnings */
     INST(QString,			Engine_SR_Path);			/* streamripper paths */
     INST(bool,				Engine_SR_SessionPath);			/* streamripper session path */
+    INST(bool,				Engine_SR_AutoRecord);			/* streamripper automatic recording */
 
     INST(int,				Spectrum_Style);			/* index of spectrum style */
     INST(int,				Level_Style);				/* index of level style */

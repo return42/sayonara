@@ -67,6 +67,7 @@ void GUI_StreamRecorder::sl_cb_activate_toggled(bool b)
 {
 	ui->le_path->setEnabled(b);
 	ui->btn_path->setEnabled(b);
+	ui->cb_auto_rec->setEnabled(b);
 	ui->cb_create_session_path->setEnabled(b);
 }
 
@@ -103,6 +104,8 @@ void GUI_StreamRecorder::commit()
     }
 
 	_settings->set(Set::Engine_SR_Path, str);
+	_settings->set(Set::Engine_SR_AutoRecord, ui->cb_auto_rec->isChecked());
+	_settings->set(Set::Engine_SR_SessionPath, ui->cb_create_session_path->isChecked());
 }
 
 void GUI_StreamRecorder::revert()
@@ -110,14 +113,17 @@ void GUI_StreamRecorder::revert()
 	QString path = _settings->get(Set::Engine_SR_Path);
 	bool active = _settings->get(Set::Engine_SR_Active);
 	bool create_session_path = _settings->get(Set::Engine_SR_SessionPath);
+	bool auto_rec = _settings->get(Set::Engine_SR_AutoRecord);
 
 	ui->le_path->setText(path);
 	ui->cb_activate->setChecked(active);
 	ui->cb_create_session_path->setChecked(create_session_path);
+	ui->cb_auto_rec->setChecked(auto_rec);
 
 	ui->cb_create_session_path->setEnabled(active);
 	ui->btn_path->setEnabled(active);
 	ui->le_path->setEnabled(active);
+	ui->cb_auto_rec->setEnabled(active);
 }
 
 

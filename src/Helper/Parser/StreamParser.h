@@ -23,6 +23,11 @@
 
 #include <QObject>
 #include <QStringList>
+#include <QPair>
+
+#include "Helper/Pimpl.h"
+
+typedef QStringList PlaylistFiles;
 
 class MetaDataList;
 class MetaData;
@@ -32,14 +37,17 @@ class StreamParser : public QObject
 
 	signals:
 		void sig_finished(bool);
+		void sig_stopped();
+		void sig_too_many_urls_found(int n_urls, int n_max_urls);
 
 	public:
 		explicit StreamParser(const QString& station_name=QString(), QObject* parent=nullptr);
-		virtual ~StreamParser();
+		~StreamParser();
 
 		void parse_stream(const QString& url);
 		void parse_streams(const QStringList& urls);
 		void set_cover_url(const QString& cover_url);
+		void stop();
 
 		MetaDataList get_metadata() const;
 
@@ -47,20 +55,16 @@ class StreamParser : public QObject
 		void awa_finished();
 		void icy_finished();
 
+	private:
+		PIMPL(StreamParser)
 
 	private:
-		struct Private;
-		StreamParser::Private*	_m = nullptr;
-
-	private:
-		
 		/**
 		 * @brief Writes a temporary playlist file into the file system which is parsed later
 		 * @param data Raw data extracted from the website
 		 * @return filename where the playlist has been written at
 		 */
 		QString write_playlist_file(const QByteArray& data) const;
-
 
 		/**
 		 * @brief Parse content out of website data.
@@ -72,18 +76,29 @@ class StreamParser : public QObject
 		 * @return list of tracks found in the website data
 		 */
 
-		MetaDataList parse_content(const QByteArray& data);
-		MetaDataList parse_website(const QByteArray& arr);
+		QPair<MetaDataList, PlaylistFiles> parse_content(const QByteArray& data) const;
+
+		/**
+		 * @brief Parse website for playlist files and streams
+		 * @param arr website data
+		 * @return metadata list of found streams and a list of urls with playlist files
+		 */
+		QPair<MetaDataList, PlaylistFiles> parse_website(const QByteArray& arr) const;
 
 		/**
 		 * @brief Sset up missing fields in metadata: album, artist, title and filepath\n
 		 * @param md reference to a MetaData structure
 		 * @param stream_url url used to fill album/artist/filepath
 		 */
-		void tag_metadata(MetaData& md, const QString& stream_url) const;
+		void tag_metadata(MetaData& md, const QString& stream_url, const QString& cover_url=QString()) const;
 
+		/**
+		 * @brief Parse the next Url in the queue. These urls may come from
+		 * parsed playlist files or by using parse_streams(const QStringList& urls)
+		 * @return
+		 */
+		bool parse_next_url();
 
-		bool parse_next();
 
 };
 

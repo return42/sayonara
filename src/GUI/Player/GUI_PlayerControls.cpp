@@ -104,8 +104,8 @@ void GUI_Player::stopped()
 	sli_progress->setValue(0);
 	sli_progress->setEnabled(false);
 
-	curTime->setText("00:00");
-	maxTime->setText("");
+	lab_cur_time->setText("00:00");
+	lab_max_time->setText("");
 
 	set_standard_cover();
 
@@ -132,24 +132,47 @@ void GUI_Player::rec_clicked(bool b)
     _play_manager->record(b);
 }
 
+void GUI_Player::rec_changed(bool b)
+{
+	btn_rec->setChecked(b);
+}
+
 
 void GUI_Player::buffering(int progress)
 {
-	sli_buffer->setVisible(true);
-	sli_buffer->setEnabled(true);
 	sli_buffer->set_orientation(SayonaraLoadingBar::Orientation::Middle);
 
-	if(progress >= 0 && progress < 100){
-		sli_progress->setMinimum(0);
-		sli_progress->setMaximum(100);
+	if(progress > 0 && progress < 100){
 		progress_widget->setCurrentIndex(1);
+
+		sli_buffer->setMinimum(0);
+		sli_buffer->setMaximum(100);
 		sli_buffer->setValue(progress);
+
+		lab_cur_time->setText(QString("%1%").arg(progress));
+		lab_max_time->setVisible(false);
 	}
 
+	else if(progress == 0){
+		progress_widget->setCurrentIndex(1);
+
+		sli_buffer->setMinimum(0);
+		sli_buffer->setMaximum(0);
+		sli_buffer->setValue(progress);
+
+		lab_cur_time->setText("0%");
+		lab_max_time->setVisible(false);
+	}
+
+
 	else{
-		sli_progress->setMinimum(0);
-		sli_progress->setMaximum(0);
 		progress_widget->setCurrentIndex(0);
+
+		sli_buffer->setMinimum(0);
+		sli_buffer->setMaximum(0);
+
+		lab_cur_time->setText("");
+		lab_max_time->setVisible(true);
 	}
 }
 
@@ -169,7 +192,8 @@ void GUI_Player::set_progress_tooltip(int val)
 }
 
 
-void GUI_Player::set_cur_pos_label(int val){
+void GUI_Player::set_cur_pos_label(int val)
+{
 	int max = sli_progress->maximum();
 
 	val = std::max(val, 0);
@@ -179,11 +203,12 @@ void GUI_Player::set_cur_pos_label(int val){
 	quint64 cur_pos_ms =  (quint64) (percent * _md.length_ms);
 	QString cur_pos_string = Helper::cvt_ms_to_string(cur_pos_ms);
 
-	curTime->setText(cur_pos_string);
+	lab_cur_time->setText(cur_pos_string);
 }
 
 
-void GUI_Player::set_total_time_label(qint64 total_time) {
+void GUI_Player::set_total_time_label(qint64 total_time)
+{
 	_md.length_ms = total_time;
 
 	QString length_str;
@@ -191,7 +216,7 @@ void GUI_Player::set_total_time_label(qint64 total_time) {
 		length_str = Helper::cvt_ms_to_string(total_time, true);
 	}
 
-	maxTime->setText(length_str);
+	lab_max_time->setText(length_str);
 	sli_progress->setEnabled(total_time > 0);
 }
 
@@ -257,7 +282,7 @@ void GUI_Player::cur_pos_changed(quint64 pos_ms)
 
 	if(!sli_progress->is_busy()){
 		QString cur_pos_string = Helper::cvt_ms_to_string(pos_ms);
-		curTime->setText(cur_pos_string);
+		lab_cur_time->setText(cur_pos_string);
 		sli_progress->setValue(new_val);
 	}
 }

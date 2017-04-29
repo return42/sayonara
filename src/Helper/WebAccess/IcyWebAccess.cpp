@@ -65,7 +65,6 @@ void IcyWebAccess::check(const QUrl& url)
 	connect(_m->tcp, &QTcpSocket::connected, this, &IcyWebAccess::connected);
 	connect(_m->tcp, &QTcpSocket::disconnected, this, &IcyWebAccess::disconnected);
 	connect(_m->tcp, &QTcpSocket::readyRead, this, &IcyWebAccess::data_available);
-	//connect(_m->tcp, &QAbstractSocket::error, this, &IcyWebAccess::error_received);
 
 	connect(_m->tcp, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(error_received(QAbstractSocket::SocketError)));
 
@@ -75,7 +74,15 @@ void IcyWebAccess::check(const QUrl& url)
 						   QAbstractSocket::AnyIPProtocol
 	);
 
-	sp_log(Log::Debug, this) << "Start ICY Request";
+	sp_log(Log::Develop, this) << "Start ICY Request";
+}
+
+void IcyWebAccess::stop()
+{
+	if(_m->tcp && _m->tcp->isOpen() && _m->tcp->isValid()){
+		_m->tcp->abort();
+		_m->tcp->close();
+	}
 }
 
 IcyWebAccess::Status IcyWebAccess::status() const
@@ -86,7 +93,7 @@ IcyWebAccess::Status IcyWebAccess::status() const
 
 void IcyWebAccess::connected()
 {
-	QString user_agent = QString("SaYONOARyonara/") + SAYONARA_VERSION;
+	QString user_agent = QString("Sayonara/") + SAYONARA_VERSION;
 	QByteArray data(
 				"GET " + _m->concat_dir_and_filename().toLocal8Bit() + " HTTP/1.1\r\n"
 				"User-Agent: " + user_agent.toLocal8Bit() + "\r\n"
@@ -98,7 +105,7 @@ void IcyWebAccess::connected()
 				QString::number(_m->port).toLocal8Bit() + "\r\n\r\n"
 	);
 
-	sp_log(Log::Debug, this) << data;
+	sp_log(Log::Develop, this) << data;
 
 	qint64 bytes_written = _m->tcp->write(data.data(), data.size());
 	if(bytes_written != data.size())
@@ -112,13 +119,15 @@ void IcyWebAccess::connected()
 
 void IcyWebAccess::disconnected()
 {
-	sp_log(Log::Debug, this) << "Disconnected";
+	sp_log(Log::Develop, this) << "Disconnected";
 	if(_m->status == IcyWebAccess::Status::NotExecuted) {
 		_m->status = IcyWebAccess::Status::OtherError;
 		emit sig_finished();
 	}
 
 	_m->close_tcp();
+
+	sender()->deleteLater();
 }
 
 void IcyWebAccess::error_received(QAbstractSocket::SocketError socket_state)

@@ -137,10 +137,7 @@ MetaDataList DirectoryReader::get_md_from_filelist(const QStringList& lst)
 	}
 
 	for(const QString& playlist_file : playlist_files){
-		MetaDataList v_md_tmp;
-		PlaylistParser::parse_playlist(playlist_file, v_md_tmp);
-
-		v_md << v_md_tmp;
+		v_md << PlaylistParser::parse_playlist(playlist_file);
 	}
 
 	return v_md;

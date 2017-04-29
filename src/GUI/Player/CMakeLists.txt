@@ -11,11 +11,13 @@ SET(SOURCES
     GUI_PlayerConnections.cpp
     GUI_PlayerMessages.cpp
     GUI_TrayIcon.cpp
+    GUI_Logger.cpp
     SearchSlider.cpp
 )
 
 QT5_WRAP_UI(FORMS_UIC
     GUI_Player.ui
+    GUI_Logger.ui
 )
 
 SET(PLAYER_LIBRARIES

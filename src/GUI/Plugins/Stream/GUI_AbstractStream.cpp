@@ -49,6 +49,7 @@ struct GUI_AbstractStream::Private
 	MenuToolButton*			btn_tool=nullptr;
 	AbstractStreamHandler*	stream_handler=nullptr;
 	QMap<QString, QString>	stations;
+	bool					searching;
 };
 
 GUI_AbstractStream::GUI_AbstractStream(AbstractStreamHandler* stream_handler, QWidget* parent) :
@@ -56,6 +57,10 @@ GUI_AbstractStream::GUI_AbstractStream(AbstractStreamHandler* stream_handler, QW
 {
 	_m = Pimpl::make<Private>();
 	_m->stream_handler = stream_handler;
+	_m->searching = false;
+
+	connect(_m->stream_handler, &AbstractStreamHandler::sig_too_many_urls_found,
+			this, &GUI_AbstractStream::too_many_urls_found);
 }
 
 
@@ -86,6 +91,7 @@ void GUI_AbstractStream::init_connections()
 
 	connect(_m->stream_handler, &AbstractStreamHandler::sig_error, this, &GUI_AbstractStream::error);
 	connect(_m->stream_handler, &AbstractStreamHandler::sig_data_available, this, &GUI_AbstractStream::data_available);
+	connect(_m->stream_handler, &AbstractStreamHandler::sig_stopped, this, &GUI_AbstractStream::stopped);
 }
 
 void GUI_AbstractStream::init_streams()
@@ -113,17 +119,16 @@ void GUI_AbstractStream::init_ui()
 	init_streams();
 	skin_changed();
 
+	set_searching(false);
+
 	REGISTER_LISTENER(Set::Player_Style, _sl_skin_changed);
 }
 
-
 void GUI_AbstractStream::language_changed() {}
-
 
 void GUI_AbstractStream::error()
 {
-	_m->btn_play->setDisabled(false);
-	_m->lab_listen->setText(Lang::get(Lang::Listen));
+	set_searching(false);
 
 	sp_log(Log::Warning, this) << "Stream Handler error";
 	GlobalMessage::Answer answer =
@@ -139,8 +144,27 @@ void GUI_AbstractStream::error()
 
 void GUI_AbstractStream::data_available()
 {
+	set_searching(false);
+}
+
+void GUI_AbstractStream::stopped()
+{
+	set_searching(false);
+}
+
+void GUI_AbstractStream::set_searching(bool searching)
+{
 	_m->btn_play->setDisabled(false);
-	_m->lab_listen->setText(Lang::get(Lang::Listen));
+
+	if(!searching) {
+		_m->btn_play->setIcon( IconLoader::getInstance()->get_icon("media-playback-start", "play"));
+		_m->lab_listen->setText(Lang::get(Lang::Listen));
+	} else {
+		_m->btn_play->setIcon( IconLoader::getInstance()->get_icon("media-playback-stop", "stop"));
+		_m->lab_listen->setText(Lang::get(Lang::Stop));
+	}
+
+	_m->searching = searching;
 }
 
 void GUI_AbstractStream::_sl_skin_changed()
@@ -149,13 +173,13 @@ void GUI_AbstractStream::_sl_skin_changed()
 		return;
 	}
 
-	_m->btn_play->setIcon( IconLoader::getInstance()->get_icon("media-playback-start", "play"));
-
 	QAbstractItemView* view = _m->combo_stream->view();
 
 	view->parentWidget()->setStyleSheet("margin: 0px; padding: -4px -1px; border: 1px solid #282828; background: none;");
 	view->setStyleSheet(Style::get_current_style());
 	view->setMinimumHeight(20 * view->model()->rowCount());
+
+	set_searching(_m->searching);
 }
 
 
@@ -164,9 +188,7 @@ void GUI_AbstractStream::play(QString url, QString station_name)
 	bool success = _m->stream_handler->parse_station(url, station_name);
 	if(!success){
 		sp_log(Log::Warning, this) << "Stream Handler busy";
-		_m->btn_play->setEnabled(true);
-		_m->lab_listen->setEnabled(true);
-		_m->lab_listen->setText(Lang::get(Lang::Play));
+		set_searching(false);
 	}
 }
 
@@ -174,6 +196,12 @@ void GUI_AbstractStream::play(QString url, QString station_name)
 void GUI_AbstractStream::listen_clicked()
 {
 	QString name, url;
+
+	if(_m->searching){
+		_m->btn_play->setDisabled(true);
+		_m->stream_handler->stop();
+		return;
+	}
 
 	if( _m->combo_stream->currentIndex() <= 0) {
 		url = _m->le_url->text();
@@ -187,9 +215,7 @@ void GUI_AbstractStream::listen_clicked()
 
 	url = url.trimmed();
 	if(url.size() > 5) {
-		_m->btn_play->setDisabled(true);
-		_m->lab_listen->setText(tr("Busy..."));
-
+		set_searching(true);
 		play(url, name);
 	}
 }
@@ -198,7 +224,6 @@ void GUI_AbstractStream::combo_idx_changed(int idx)
 {
 	QString cur_station_name = _m->combo_stream->currentText();
 	QString address = _m->stations[cur_station_name];
-	bool listen_enabled;
 
 	if(address.size() > 0) {
 		_m->le_url->setText(address);
@@ -208,12 +233,12 @@ void GUI_AbstractStream::combo_idx_changed(int idx)
 		_m->le_url->setText("");
 	}
 
-	listen_enabled = (_m->le_url->text().size() > 5);
-
 	_m->btn_tool->show_action(ContextMenu::EntryDelete, idx > 0);
-	_m->btn_play->setEnabled(listen_enabled);
-	_m->lab_listen->setEnabled(listen_enabled);
 	_m->combo_stream->setToolTip(address);
+
+	QString text = _m->le_url->text();
+	bool listen_disabled = (text.size() < 8 && !_m->searching);
+	_m->btn_play->setDisabled(listen_disabled);
 }
 
 void GUI_AbstractStream::new_clicked()
@@ -241,7 +266,16 @@ void GUI_AbstractStream::text_changed(const QString& str)
 	_m->lab_listen->setEnabled(listen_enabled);
 
 	_m->btn_tool->show_action(ContextMenu::EntrySave,  listen_enabled &&
-						  !_m->combo_stream->currentText().isEmpty());
+							  !_m->combo_stream->currentText().isEmpty());
+}
+
+void GUI_AbstractStream::too_many_urls_found(int n_urls, int n_max_urls)
+{
+	Message::error(QString("Found %1 urls").arg(n_urls) + "<br />" +
+				   QString("Maximum number is %1").arg(n_max_urls)
+	);
+
+	set_searching(false);
 }
 
 void GUI_AbstractStream::delete_clicked()
@@ -275,7 +309,6 @@ void GUI_AbstractStream::save_clicked()
 	}
 
 	StreamMap map;
-
 
 	for(int i=0; i<_m->combo_stream->count(); i++)
 	{

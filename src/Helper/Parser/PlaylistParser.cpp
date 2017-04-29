@@ -33,12 +33,13 @@
 #include <QDir>
 #include <QFile>
 
-int PlaylistParser::parse_playlist(const QString& local_filename, MetaDataList& v_md)
+MetaDataList PlaylistParser::parse_playlist(const QString& local_filename)
 {
 	if(Helper::File::is_www(local_filename)){
-		return 0;
+		return MetaDataList();
 	}
 
+	MetaDataList result;
 	MetaDataList v_md_tmp;
 	MetaDataList v_md_to_delete;
 	AbstractPlaylistParser* playlist_parser;
@@ -79,7 +80,7 @@ int PlaylistParser::parse_playlist(const QString& local_filename, MetaDataList& 
 
 	for(const MetaData& md : v_md_tmp) {
 		if( Helper::File::check_file(md.filepath()) ){
-			v_md << md;
+			result << md;
 		}
 
 		else{
@@ -95,7 +96,9 @@ int PlaylistParser::parse_playlist(const QString& local_filename, MetaDataList& 
 		delete playlist_parser; playlist_parser = nullptr;
 	}
 
-	return v_md.size();
+	result.remove_duplicates();
+
+	return result;
 }
 
 

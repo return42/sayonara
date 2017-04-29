@@ -456,7 +456,8 @@ void PlaybackEngine::_streamrecorder_active_changed()
 }
 
 
-void PlaybackEngine::set_streamrecorder_recording(bool b){
+void PlaybackEngine::set_streamrecorder_recording(bool b)
+{
 	QString dst_file;
 
 	if(_stream_recorder->is_recording() != b){

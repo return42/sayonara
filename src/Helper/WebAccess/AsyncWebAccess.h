@@ -24,7 +24,9 @@
 #include <QMap>
 #include <QObject>
 
+#include "AbstractWebAccess.h"
 #include "Helper/Pimpl.h"
+
 
 class QImage;
 class QString;
@@ -34,7 +36,8 @@ class QNetworkReply;
  * @ingroup Helper
  */
 class AsyncWebAccess :
-		public QObject
+		public QObject,
+		public AbstractWebAccess
 {
 	Q_OBJECT
 
@@ -144,7 +147,7 @@ public:
 	 */
 	bool has_error() const;
 
-
+	void stop() override;
 
 
 private slots:
@@ -155,8 +158,7 @@ private slots:
 	 * @brief Called when request has finished. Emits sig_finished(bool success)
 	 * @param reply information about redirection, success or errors
 	 */
-	void finished(QNetworkReply* reply);
-	void reply_finished();
+	void finished();
 
 	void redirected(const QUrl& url);
 

@@ -273,6 +273,12 @@ void PlayManager::change_track(const MetaData& md, int playlist_idx)
 		emit sig_track_idx_changed(_m->cur_idx);
 
 		play();
+		if( (md.radio_mode() != RadioMode::Off) &&
+			_settings->get(Set::Engine_SR_Active) &&
+			_settings->get(Set::Engine_SR_AutoRecord) )
+		{
+			record(true);
+		}
 	}
 
 	else {
@@ -349,7 +355,7 @@ void PlayManager::change_metadata(const MetaData& md)
 	MetaData md_old = _m->md;
 	_m->md = md;
 
-	QString str = md.title + md.artist;
+	QString str = md.title + md.artist + md.album;
 	bool has_data = _m->ring_buffer.has_item(str);
 
 	if(!has_data){
@@ -357,7 +363,7 @@ void PlayManager::change_metadata(const MetaData& md)
 			NotificationHandler::getInstance()->notify(_m->md);
 		}
 
-		if( _m->ring_buffer.count() > 0 ){
+		if( _m->ring_buffer.count() > 0 ) {
 			md_old.album = "";
 			md_old.is_disabled = true;
 			md_old.set_filepath("");

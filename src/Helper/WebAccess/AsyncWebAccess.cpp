@@ -47,21 +47,30 @@ struct AsyncWebAccess::Private
 		void abort_request(bool ignore_finished_slot=false)
 		{
 			ignore_finished = ignore_finished_slot;
-			if(reply && reply->isRunning() ){
-				reply->abort();
-				reply->close();
+			if(reply) {
+				if(reply->isRunning() ){
+					reply->abort();
 
-				sp_log(Log::Warning, this) << "Request was aborted: " << url;
+					sp_log(Log::Warning, this) << "Request was aborted: " << url;
+				}
 			}
 
 			if(timer){
 				timer->stop();
 			}
 		}
+
+		void delete_reply()
+		{
+			if(reply){
+				reply->deleteLater(); reply = nullptr;
+			}
+		}
 };
 
 AsyncWebAccess::AsyncWebAccess(QObject* parent, const QByteArray& header, AsyncWebAccess::Behavior behavior) :
-	QObject(parent)
+	QObject(parent),
+	AbstractWebAccess()
 {
 	Q_UNUSED(header)
 
@@ -115,20 +124,19 @@ void AsyncWebAccess::run(const QString& url, int timeout)
 	request.setHeader(QNetworkRequest::UserAgentHeader, user_agent);
 
 	sp_log(Log::Debug, this) << "Call " << request.url().toString();
-	QNetworkReply* reply = _m->nam->get(request);
+	_m->reply = _m->nam->get(request);
 
-	connect(reply, &QNetworkReply::readyRead, this, &AsyncWebAccess::data_available);
-	connect(reply, &QNetworkReply::finished, this, &AsyncWebAccess::reply_finished);
-
-	_m->reply = reply;
+	connect(_m->reply, &QNetworkReply::readyRead, this, &AsyncWebAccess::data_available);
+	connect(_m->reply, &QNetworkReply::finished, this, &AsyncWebAccess::finished);
 
 	if(timeout > 0){
-		//_m->timer->start(timeout);
+		_m->timer->start(timeout);
 	}
 }
 
 void AsyncWebAccess::run_post(const QString &url, const QByteArray &post_data, int timeout)
 {
+	_m->status = AsyncWebAccess::Status::NoData;
 	_m->header.clear();
 	_m->data.clear();
 	_m->url = url;
@@ -145,16 +153,17 @@ void AsyncWebAccess::run_post(const QString &url, const QByteArray &post_data, i
 		}
 	}
 
-	QNetworkReply* reply = _m->nam->post(request, post_data);
-	connect(reply, &QNetworkReply::finished, this, &AsyncWebAccess::reply_finished);
+	_m->reply  = _m->nam->post(request, post_data);
+	connect(_m->reply , &QNetworkReply::finished, this, &AsyncWebAccess::finished);
 
-	_m->reply = reply;
-	_m->timer->start(timeout);
+	if(timeout > 0){
+		_m->timer->start(timeout);
+	}
 }
 
 void AsyncWebAccess::data_available()
 {
-	sp_log(Log::Debug, this) << "Data available";
+	sp_log(Log::Develop, this) << "Data available";
 	QNetworkReply* reply = static_cast<QNetworkReply*>(sender());
 
 	int content_length = reply->header(QNetworkRequest::ContentLengthHeader).toInt();
@@ -176,16 +185,14 @@ void AsyncWebAccess::redirected(const QUrl& url)
 	Q_UNUSED(url)
 }
 
-void AsyncWebAccess::reply_finished()
+
+void AsyncWebAccess::finished()
 {
 	QNetworkReply* reply = static_cast<QNetworkReply*>(sender());
-	finished(reply);
-}
 
-void AsyncWebAccess::finished(QNetworkReply *reply)
-{
 	if(_m->ignore_finished){
-		reply->deleteLater();
+		_m->abort_request();
+		_m->delete_reply();
 		return;
 	}
 
@@ -239,6 +246,8 @@ void AsyncWebAccess::finished(QNetworkReply *reply)
 	}
 
 	_m->abort_request();
+	_m->delete_reply();
+
 	emit sig_finished();
 }
 
@@ -260,6 +269,8 @@ void AsyncWebAccess::redirect_request(QString redirect_url)
 	sp_log(Log::Debug, this) << "Redirect from " << _m->url << " to " << redirect_url;
 
 	_m->abort_request();
+	_m->delete_reply();
+
 	_m->url = redirect_url;
 
 	run(redirect_url);
@@ -315,4 +326,9 @@ bool AsyncWebAccess::has_error() const
 		default:
 			return false;
 	}
+}
+
+void AsyncWebAccess::stop()
+{
+	_m->abort_request();
 }

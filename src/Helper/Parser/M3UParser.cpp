@@ -55,8 +55,7 @@ void M3UParser::parse()
 		}
 
 		if(Helper::File::is_playlistfile(line)){
-			MetaDataList v_md;
-			PlaylistParser::parse_playlist(line, v_md);
+			MetaDataList v_md = PlaylistParser::parse_playlist(line);
 			add_tracks(v_md);
 			continue;
 		}

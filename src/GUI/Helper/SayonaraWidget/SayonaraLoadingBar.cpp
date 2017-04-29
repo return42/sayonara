@@ -34,9 +34,10 @@ SayonaraLoadingBar::SayonaraLoadingBar(QWidget* parent) :
 	this->setEnabled(false);
 	this->setObjectName("loading_bar");
 
+	this->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+	this->setMaximumHeight(_fixed_height);
 	this->setMinimum(0);
 	this->setMaximum(0);
-	this->setVisible(false);
 }
 
 SayonaraLoadingBar::~SayonaraLoadingBar() {}
@@ -48,7 +49,6 @@ void SayonaraLoadingBar::set_orientation(SayonaraLoadingBar::Orientation o)
 
 void SayonaraLoadingBar::showEvent(QShowEvent* e)
 {
-
 	int y;
 	switch(_orientation)
 	{

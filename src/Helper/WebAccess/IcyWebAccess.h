@@ -4,9 +4,12 @@
 #include <QObject>
 #include <QAbstractSocket>
 #include "Helper/Pimpl.h"
+#include "AbstractWebAccess.h"
 
 class QUrl;
-class IcyWebAccess : public QObject
+class IcyWebAccess :
+		public QObject,
+		public AbstractWebAccess
 {
     Q_OBJECT
     PIMPL(IcyWebAccess)
@@ -26,6 +29,7 @@ public:
 
     IcyWebAccess::Status status() const;
 	void check(const QUrl& url);
+	void stop() override;
 
 
 signals:

@@ -58,7 +58,7 @@ static QString get_time_str()
     QString hr = QString("%1").arg(cur.time().hour(), 2, 10, QLatin1Char('0'));
     QString min = QString("%1").arg(cur.time().minute(), 2, 10, QLatin1Char('0'));
 
-    time_str = weekday + "_" + year + "-" + month + "-" + day + "_" + hr + "h" + min;
+	time_str = weekday + "_" + year + "-" + month + "-" + day + "_" + hr + "h" + min;
     return time_str;
 }
 
@@ -121,7 +121,10 @@ QString StreamRecorder::change_track(const MetaData& md)
 		return _m->sr_recording_dst;
 	}
 
-	save();
+	bool saved = save();
+	if(saved){
+		_m->cur_idx++;
+	}
 
 	if(!Helper::File::is_www(md.filepath())) {
 		_m->recording = false;
@@ -133,8 +136,11 @@ QString StreamRecorder::change_track(const MetaData& md)
 	_m->md.year = QDateTime::currentDateTime().date().year();
 	_m->md.track_num = _m->cur_idx;
 	
-	title = QString("%1").arg(_m->cur_idx, 3, 10, QLatin1Char('0')) + "_" + md.title;
-	title.replace(" ", "_");
+	title = QString("%1 - %2 - %3")
+			.arg(_m->cur_idx, 3, 10, QLatin1Char('0'))
+			.arg(md.artist)
+			.arg(md.title);
+
 	title.replace("/", "_");
 	title.replace("\\", "_");
 	title.replace(":", "");
@@ -153,8 +159,6 @@ QString StreamRecorder::change_track(const MetaData& md)
 		_m->sr_recording_dst = session_path + "/" + title + ".mp3";
 	}
 
-	_m->cur_idx++;
-
 	return _m->sr_recording_dst;
 }
 
@@ -164,6 +168,11 @@ bool  StreamRecorder::save()
 	if(!QFile::exists(_m->sr_recording_dst)){
         return false;
     }
+
+	QFileInfo file_info(_m->sr_recording_dst);
+	if(file_info.size() < 20000){
+		return false;
+	}
 
 	sp_log(Log::Info) << "Finalize file " << _m->sr_recording_dst;
 

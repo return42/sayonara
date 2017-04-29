@@ -69,7 +69,9 @@ protected slots:
 	void save_clicked();
 	void new_clicked();
 	void text_changed(const QString& str);
+	void too_many_urls_found(int n_urls, int n_max_urls);
 
+	void stopped();
 	void error();
 	void data_available();
 	void _sl_skin_changed();
@@ -85,6 +87,8 @@ private:
 	void set_btn_play(QPushButton* btn_play);
 	void set_btn_tool(MenuToolButton* btn_tool);
 	void set_lab_listen(QLabel* lab_listen);
+
+	void set_searching(bool searching);
 
 	virtual void init_ui() override;
 };

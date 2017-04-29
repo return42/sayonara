@@ -24,6 +24,7 @@
 #include <iosfwd>
 #include <typeinfo>
 #include <type_traits>
+#include <QList>
 
 /**
  * @brief The Log enum
@@ -35,12 +36,14 @@ class QByteArray;
 class QPoint;
 class QChar;
 class QObject;
+class LogListener;
 enum class Log : unsigned char
 {
 	Warning,
 	Error,
 	Info,
-	Debug
+	Debug,
+	Develop
 };
 
 /**
@@ -50,6 +53,9 @@ enum class Log : unsigned char
 class Logger
 {
 
+
+
+
 private:
 	struct Private;
 	Private* _m=nullptr;
@@ -57,10 +63,14 @@ private:
 	std::ostream& out();
 
 public:
-	explicit Logger();
-	explicit Logger(const char* msg);
+	explicit Logger(bool ignore=false);
+	explicit Logger(const char* msg, bool ignore=false);
 
 	~Logger();
+
+	static void register_log_listener(LogListener* log_listener);
+	static void clear_log_listeners();
+	static void clear_log_listener(LogListener* log_listener);
 
 	Logger& operator << (const QString& msg);
 	Logger& operator << (const QChar& c);

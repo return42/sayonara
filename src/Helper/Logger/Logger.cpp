@@ -19,6 +19,7 @@
  */
 
 #include "Helper/Logger/Logger.h"
+#include "Helper/Logger/LogListener.h"
 #include "Helper/Helper.h"
 #include "Helper/Pimpl.h"
 
@@ -32,44 +33,43 @@
 #include <fstream>
 #include <sstream>
 
-static std::ofstream f;
+static QList<LogListener*> log_listeners;
 
 struct Logger::Private
 {
-	std::stringstream buffer;
-
-	Private(const char* filename)
-	{
-		if(!f.is_open())
-		{
-			f.open(filename, std::ios_base::out);
-		}
-	}
+	std::stringstream	buffer;
+	bool				ignore;
 
 	~Private()
 	{
-		std::string str(buffer.str());
-		std::clog << str;
-		std::clog << std::endl;
-
-		if(f.is_open()){
-			f << str << std::endl;
-			f.flush();
-			f.close();
+		if(!ignore){
+			std::string str(buffer.str());
+			std::clog << str;
+			std::clog << std::endl;
 		}
+
+		for(LogListener* log_listener : log_listeners)
+		{
+			if(log_listener) {
+				log_listener->add_log_line(buffer.str().data());
+			}
+		}
+
+		buffer.clear();
 	}
 };
 
 
-
-Logger::Logger()
+Logger::Logger(bool ignore)
 {
-	_m = new Logger::Private(Helper::get_sayonara_path("log.out").toUtf8().data());
+	_m = new Logger::Private();
+	_m->ignore = ignore;
 }
 
-Logger::Logger(const char* msg)
+Logger::Logger(const char* msg, bool ignore)
 {
-	_m = new Logger::Private(Helper::get_sayonara_path("log.out").toUtf8().data());
+	_m = new Logger::Private();
+	_m->ignore = ignore;
 	_m->buffer << msg;
 }
 
@@ -77,6 +77,22 @@ Logger::~Logger()
 {
 	delete _m;
 	_m = nullptr;
+}
+
+//static
+void Logger::register_log_listener(LogListener* log_listener)
+{
+	log_listeners << log_listener;
+}
+
+void Logger::clear_log_listeners()
+{
+	log_listeners.clear();
+}
+
+void Logger::clear_log_listener(LogListener* log_listener)
+{
+	log_listeners.removeAll(log_listener);
 }
 
 std::ostream& Logger::out()
@@ -169,6 +185,7 @@ Logger sp_log(Log type)
 Logger sp_log(Log type, const char* data)
 {
 	QString type_str;
+	bool ignore=false;
 	switch(type)
 	{
 		case Log::Info:
@@ -182,6 +199,12 @@ Logger sp_log(Log type, const char* data)
 		case Log::Error:
 			type_str = "Error: ";
 			break;
+		case Log::Develop:
+			type_str = "Dev: ";
+#ifndef DEBUG
+			ignore = true;
+#endif
+			break;
 		default:
 			type_str = "Debug: ";
 			break;
@@ -191,6 +214,5 @@ Logger sp_log(Log type, const char* data)
 		type_str += QString(data) + ":";
 	}
 
-	return Logger(type_str.toLocal8Bit().data());
-
+	return Logger(type_str.toLocal8Bit().data(), ignore);
 }

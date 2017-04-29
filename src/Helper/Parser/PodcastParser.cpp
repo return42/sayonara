@@ -66,8 +66,9 @@ int parse_length_s(const QString& str)
 }
 
 
-bool  PodcastParser::parse_podcast_xml_file_content(const QString& content, MetaDataList& v_md) {
-    v_md.clear();
+MetaDataList PodcastParser::parse_podcast_xml_file_content(const QString& content)
+{
+	MetaDataList result;
 
     QDomDocument doc("PodcastFile");
     doc.setContent(content);
@@ -75,7 +76,9 @@ bool  PodcastParser::parse_podcast_xml_file_content(const QString& content, Meta
     QDomElement docElement = doc.documentElement();
 	QDomNode first_channel_node = docElement.firstChildElement("channel");
 
-	if(!first_channel_node.hasChildNodes()) return false;
+	if(!first_channel_node.hasChildNodes()) {
+		return MetaDataList();
+	}
 
     QString author;
     QStringList categories;
@@ -249,12 +252,12 @@ bool  PodcastParser::parse_podcast_xml_file_content(const QString& content, Meta
 			md.cover_download_url = cover_url;
 
 			if( !md.filepath().isEmpty() ){
-				v_md << std::move(md);
+				result << std::move(md);
 			}
         } // item
     }
 
-    return (v_md.size() > 0);
+	return result;
 }
 
 

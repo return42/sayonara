@@ -30,7 +30,7 @@ class MetaDataList;
  */
 namespace PlaylistParser 
 {
-	int parse_playlist(const QString& playlist_file, MetaDataList& md);
+	MetaDataList parse_playlist(const QString& playlist_file);
 	void save_playlist(const QString& filename, const MetaDataList& md, bool relative);
 }
 

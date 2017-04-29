@@ -29,6 +29,7 @@
 #include "Helper/Message/GlobalMessageReceiverInterface.h"
 #include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
 #include "GUI/Helper/Shortcuts/ShortcutWidget.h"
+#include "GUI_Logger.h"
 
 #include <QSystemTrayIcon>
 
@@ -84,6 +85,7 @@ private:
 
 	PlayManager*				_play_manager=nullptr;
 	QMessageBox*				_about_box=nullptr;
+	GUI_Logger*					_logger=nullptr;
 
 	MetaData					_md;
 
@@ -144,6 +146,7 @@ private slots:
 	void volume_slider_moved(int val);
 	void volume_changed(int val);
 	void mute_changed(bool mute);
+	void rec_changed(bool on);
 	void change_volume_by_tick(int val);
 	void increase_volume();
 	void decrease_volume();

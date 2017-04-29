@@ -44,9 +44,11 @@ class AbstractStreamHandler : public QObject
 		explicit AbstractStreamHandler(QObject *parent=nullptr);
 		virtual ~AbstractStreamHandler();
 
-signals:
+	signals:
+		void sig_stopped();
 		void sig_error();
 		void sig_data_available();
+		void sig_too_many_urls_found(int n_urls, int max_n_urls);
 
 	public:
 		/**
@@ -108,16 +110,17 @@ signals:
 		 */
 		void clear();
 
+		void stop();
+
 	private:
 		PIMPL(AbstractStreamHandler)
-
 
 	protected:
 		DatabaseConnector*				_db=nullptr;
 
-
 	private slots:
 		void stream_parser_finished(bool success);
+		void stopped();
 };
 
 #endif // AbstractStreamHandler_H

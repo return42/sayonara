@@ -39,7 +39,7 @@ void GUI_Player::setup_connections()
 	connect(btn_bw,		&QPushButton::clicked,	this, &GUI_Player::prev_clicked);
 	connect(btn_stop,	&QPushButton::clicked,	this, &GUI_Player::stop_clicked);
 	connect(btn_mute,	&QPushButton::released,	this, &GUI_Player::mute_button_clicked);
-	connect(btn_rec,	&QPushButton::toggled, this, &GUI_Player::rec_clicked);
+	connect(btn_rec,	&QPushButton::clicked, this, &GUI_Player::rec_clicked);
 
 	connect(_play_manager, &PlayManager::sig_playstate_changed, this, &GUI_Player::playstate_changed);
 	connect(_play_manager, &PlayManager::sig_track_changed, this, &GUI_Player::track_changed);
@@ -47,6 +47,7 @@ void GUI_Player::setup_connections()
 	connect(_play_manager, &PlayManager::sig_buffer, this, &GUI_Player::buffering);
 	connect(_play_manager, &PlayManager::sig_volume_changed, this, &GUI_Player::volume_changed);
 	connect(_play_manager, &PlayManager::sig_mute_changed, this, &GUI_Player::mute_changed);
+	connect(_play_manager, &PlayManager::sig_record, this, &GUI_Player::rec_changed);
 
 	// engine
 	EngineHandler* engine = EngineHandler::getInstance();
@@ -75,6 +76,7 @@ void GUI_Player::setup_connections()
 	connect(action_viewLibrary, &QAction::toggled, this, &GUI_Player::show_library);
 	connect(action_Dark, &QAction::toggled, this, &GUI_Player::skin_toggled);
 	connect(action_Fullscreen, &QAction::toggled, this, &GUI_Player::show_fullscreen_toggled);
+	connect(action_logger, &QAction::triggered, _logger, &GUI_Logger::show);
 
 	connect(splitter, &QSplitter::splitterMoved, this, &GUI_Player::main_splitter_moved);
 

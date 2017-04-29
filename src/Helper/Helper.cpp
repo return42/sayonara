@@ -219,22 +219,26 @@ QString Helper::create_link(const QString& name, bool dark, const QString& targe
 }
 
 
-QStringList Helper::get_soundfile_extensions() 
+QStringList Helper::get_soundfile_extensions(bool with_asterisk)
 {
 	QStringList filters;
-	filters << "*.mp3"
-			<< "*.ogg"
-			<< "*.opus"
-			<< "*.oga"
-			<< "*.m4a"
-			<< "*.wav"
-			<< "*.flac"
-			<< "*.aac"
-			<< "*.wma"
-			<< "*.mpc";
+	filters << "mp3"
+			<< "ogg"
+			<< "opus"
+			<< "oga"
+			<< "m4a"
+			<< "wav"
+			<< "flac"
+			<< "aac"
+			<< "wma"
+			<< "mpc";
 
 	QStringList upper_filters;
-	for(const QString& filter : filters) {
+	for(QString& filter : filters) {
+		if(with_asterisk) {
+			filter.prepend("*.");
+		}
+
 		upper_filters << filter.toUpper();
 	}
 
@@ -245,17 +249,20 @@ QStringList Helper::get_soundfile_extensions()
 }
 
 
-QStringList Helper::get_playlistfile_extensions() 
+QStringList Helper::get_playlistfile_extensions(bool with_asterisk)
 {
 	QStringList filters;
 
-	filters << "*.pls"
-			<< "*.m3u"
-			<< "*.ram"
-			<< "*.asx";
+	filters << "pls"
+			<< "m3u"
+			<< "ram"
+			<< "asx";
 
 	QStringList upper_filters;
-	for(const QString& filter : filters) {
+	for(QString& filter : filters) {
+		if(with_asterisk) {
+			filter.prepend("*.");
+		}
 		upper_filters << filter.toUpper();
 	}
 
@@ -265,15 +272,18 @@ QStringList Helper::get_playlistfile_extensions()
 }
 
 
-QStringList Helper::get_podcast_extensions() 
+QStringList Helper::get_podcast_extensions(bool with_asterisk)
 {
 	QStringList filters;
 
-	filters << "*.xml"
-			<< "*.rss";
+	filters << "xml"
+			<< "rss";
 
 	QStringList upper_filters;
-	for(const QString& filter : filters) {
+	for(QString& filter : filters) {
+		if(with_asterisk) {
+			filter.prepend("*.");
+		}
 		upper_filters << filter.toUpper();
 	}
 

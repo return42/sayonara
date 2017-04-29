@@ -100,19 +100,19 @@ namespace Helper
 	 * @brief get all supported sound file extensions
 	 * @return
 	 */
-	QStringList get_soundfile_extensions();
+	QStringList get_soundfile_extensions(bool with_asterisk=true);
 
 	/**
 	 * @brief get all supported playlist file extensions
 	 * @return
 	 */
-	QStringList get_playlistfile_extensions();
+	QStringList get_playlistfile_extensions(bool with_asterisk=true);
 
 	/**
 	 * @brief get all supported podcast file extensions
 	 * @return
 	 */
-    QStringList get_podcast_extensions();
+	QStringList get_podcast_extensions(bool with_asterisk=true);
 
 
 	/**

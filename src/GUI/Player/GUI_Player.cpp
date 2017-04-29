@@ -79,6 +79,8 @@ GUI_Player::GUI_Player(QTranslator* translator, QWidget *parent) :
 GUI_Player::~GUI_Player()
 {
 	sp_log(Log::Debug, this) << "Player closed.";
+
+	delete _logger;
 }
 
 
@@ -135,6 +137,9 @@ void GUI_Player::init_gui()
 
 	plugin_widget->resize(plugin_widget->width(), 0);
 	plugin_widget->hide();
+
+	_logger = new GUI_Logger();
+	Logger::register_log_listener(_logger->get_log_listener());
 }
 
 

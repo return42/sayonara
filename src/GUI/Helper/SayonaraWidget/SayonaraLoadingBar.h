@@ -49,7 +49,7 @@ private:
 
 public:
 	explicit SayonaraLoadingBar(QWidget* parent);
-	virtual ~SayonaraLoadingBar();
+	~SayonaraLoadingBar();
 
 	void set_orientation(SayonaraLoadingBar::Orientation o);
 
