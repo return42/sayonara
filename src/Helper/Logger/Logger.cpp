@@ -85,16 +85,6 @@ void Logger::register_log_listener(LogListener* log_listener)
 	log_listeners << log_listener;
 }
 
-void Logger::clear_log_listeners()
-{
-	log_listeners.clear();
-}
-
-void Logger::clear_log_listener(LogListener* log_listener)
-{
-	log_listeners.removeAll(log_listener);
-}
-
 std::ostream& Logger::out()
 {
 	return _m->buffer;

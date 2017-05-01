@@ -46,6 +46,7 @@ protected:
 
 	virtual QString		get_title_fallback_name() const=0;
 	void				setup_stations(const QMap<QString, QString>&);
+	bool				has_loading_bar() const override;
 
 	template<typename T, typename UiType>
 	void setup_parent(T* subclass, UiType** uiptr)

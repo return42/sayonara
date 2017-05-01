@@ -65,6 +65,11 @@ bool PlayerPluginInterface::is_title_shown() const
 	return true;
 }
 
+bool PlayerPluginInterface::has_loading_bar() const
+{
+	return false;
+}
+
 
 QString PlayerPluginInterface::get_shortcut_text(const QString& shortcut_identifier) const
 {
@@ -93,7 +98,12 @@ void PlayerPluginInterface::finalize_initialization()
 {
 	QLayout* widget_layout = layout();
 	if(widget_layout){
-		widget_layout->setContentsMargins(3, 3, 3, 3);
+		int bottom = 3;
+		if(has_loading_bar()){
+			bottom = 10;
+		}
+
+		widget_layout->setContentsMargins(3, 3, 3, bottom);
 	}
 
 	ShortcutHandler* sch = ShortcutHandler::getInstance();

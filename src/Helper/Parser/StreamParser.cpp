@@ -310,7 +310,7 @@ QPair<MetaDataList, PlaylistFiles> StreamParser::parse_website(const QByteArray&
 		}
 	}
 
-	sp_log(Log::Debug) << "Found " << _m->urls.size() << " playlists and " << v_md.size() << " streams";
+	sp_log(Log::Debug, this) << "Found " << _m->urls.size() << " playlists and " << v_md.size() << " streams";
 
 	return QPair<MetaDataList, PlaylistFiles>(v_md, playlist_files);
 }

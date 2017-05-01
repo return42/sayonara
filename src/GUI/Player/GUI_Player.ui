@@ -855,7 +855,7 @@
             <property name="sizeHint" stdset="0">
              <size>
               <width>40</width>
-              <height>10</height>
+              <height>1</height>
              </size>
             </property>
            </spacer>
@@ -901,12 +901,6 @@
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
-            <property name="maximumSize">
-             <size>
-              <width>16777215</width>
-              <height>5</height>
-             </size>
-            </property>
             <property name="lineWidth">
              <number>0</number>
             </property>
@@ -940,33 +934,22 @@
              </layout>
             </widget>
             <widget class="QWidget" name="page_2">
-             <layout class="QGridLayout" name="gridLayout_7">
-              <property name="leftMargin">
-               <number>3</number>
+             <widget class="SayonaraLoadingBar" name="sli_buffer">
+              <property name="geometry">
+               <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>91</width>
+                <height>22</height>
+               </rect>
               </property>
-              <property name="topMargin">
+              <property name="maximum">
                <number>0</number>
               </property>
-              <property name="rightMargin">
-               <number>3</number>
+              <property name="value">
+               <number>-1</number>
               </property>
-              <property name="bottomMargin">
-               <number>0</number>
-              </property>
-              <item row="0" column="0">
-               <widget class="SayonaraLoadingBar" name="sli_buffer">
-                <property name="maximum">
-                 <number>0</number>
-                </property>
-                <property name="value">
-                 <number>-1</number>
-                </property>
-                <property name="textVisible">
-                 <bool>false</bool>
-                </property>
-               </widget>
-              </item>
-             </layout>
+             </widget>
             </widget>
            </widget>
           </item>
@@ -1126,7 +1109,7 @@
   </action>
   <action name="action_logger">
    <property name="text">
-    <string>Log</string>
+    <string>Logger</string>
    </property>
   </action>
  </widget>

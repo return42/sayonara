@@ -162,6 +162,13 @@ public:
 	 */ 
 	virtual bool			is_title_shown() const;
 
+	/**
+	 * @brief indicates if the widget has a loading bar. If yes, there will be reserved
+	 * some extra space at the bottom of the widget
+	 * @return
+	 */
+	virtual bool			has_loading_bar() const;
+
 
 	/**
 	 * @brief get translated text of shortcut (overridden)

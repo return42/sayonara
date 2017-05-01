@@ -53,20 +53,20 @@ void SayonaraLoadingBar::showEvent(QShowEvent* e)
 	switch(_orientation)
 	{
 		case SayonaraLoadingBar::Orientation::Top:
-			 y = 0;
+			 y = 2;
 			break;
 		case SayonaraLoadingBar::Orientation::Middle:
 			y = (_parent->height() - _fixed_height) / 2;
 			break;
 		case SayonaraLoadingBar::Orientation::Bottom:
 		default:
-			 y = _parent->height() - _fixed_height;
+			 y = _parent->height() - _fixed_height - 2;
 			break;
 	}
 
-	this->setGeometry(0,
+	this->setGeometry(2,
 					  y,
-					  _parent->width(),
+					  _parent->width() - 4,
 					  _fixed_height);
 
 	QProgressBar::showEvent(e);

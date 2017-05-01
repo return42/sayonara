@@ -199,7 +199,7 @@ void AsyncWebAccess::finished()
 	QNetworkReply::NetworkError err = reply->error();
 	bool success = (err == QNetworkReply::NoError);
 
-	sp_log(Log::Debug, this) << reply->url().toString() << " finished: " << (int) err;
+	sp_log(Log::Develop, this) << reply->url().toString() << " finished: " << (int) err;
 	if(success)
 	{
 		QString redirect_url = reply->attribute(QNetworkRequest::RedirectionTargetAttribute).toString();
@@ -212,13 +212,13 @@ void AsyncWebAccess::finished()
 
 		if( reply->bytesAvailable() > 0 )
 		{
-			sp_log(Log::Debug, this) << "Got " << reply->bytesAvailable() << " bytes";
+			sp_log(Log::Develop, this) << "Got " << reply->bytesAvailable() << " bytes";
 			_m->data = reply->readAll();
 			_m->status = AsyncWebAccess::Status::GotData;
 		}
 
 		else {
-			sp_log(Log::Debug, this) << "Answer contains no data";
+			sp_log(Log::Develop, this) << "Answer contains no data";
 			_m->status = AsyncWebAccess::Status::NoData;
 			_m->data.clear();
 		}

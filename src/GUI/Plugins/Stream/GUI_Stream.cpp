@@ -47,6 +47,7 @@ QString GUI_Stream::get_display_name() const
 void GUI_Stream::language_changed()
 {
 	if(ui){
+		GUI_AbstractStream::language_changed();
 		ui->retranslateUi(this);
 	}
 }

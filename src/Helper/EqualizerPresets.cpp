@@ -37,7 +37,8 @@ EQ_Setting::EQ_Setting(const EQ_Setting& s){
 
 EQ_Setting::~EQ_Setting() {}
 
-EQ_Setting EQ_Setting::fromString(const QString& str){
+EQ_Setting EQ_Setting::fromString(const QString& str)
+{
 	EQ_Setting eq;
 	QStringList list = str.split(':');
 	if(list.size() < 11) {

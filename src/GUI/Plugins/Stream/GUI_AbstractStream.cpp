@@ -21,6 +21,7 @@
 #include "GUI_AbstractStream.h"
 
 #include "GUI/Helper/Delegates/ComboBoxDelegate.h"
+#include "GUI/Helper/SayonaraWidget/SayonaraLoadingBar.h"
 #include "GUI/Helper/IconLoader/IconLoader.h"
 #include "GUI/Helper/MenuTool/MenuTool.h"
 #include "GUI/Helper/Style/Style.h"
@@ -42,6 +43,7 @@
 
 struct GUI_AbstractStream::Private
 {
+	SayonaraLoadingBar*		loading_bar=nullptr;
 	QComboBox*				combo_stream=nullptr;
 	QPushButton*			btn_play=nullptr;
 	QLineEdit*				le_url=nullptr;
@@ -110,21 +112,25 @@ void GUI_AbstractStream::init_ui()
 	_m->btn_play->setMaximumSize(QSize(24,24));
 	_m->btn_tool->setToolTip(Lang::get(Lang::Menu));
 	_m->btn_tool->setText(Lang::get(Lang::Menu));
-
-	_m->le_url->setPlaceholderText("Enter URL...");
-	_m->combo_stream->lineEdit()->setPlaceholderText("Enter name...");
 	_m->combo_stream->setItemDelegate(new ComboBoxDelegate(this));
+
+	_m->loading_bar = new SayonaraLoadingBar(this);
 
 	init_connections();
 	init_streams();
 	skin_changed();
+	language_changed();
 
 	set_searching(false);
 
 	REGISTER_LISTENER(Set::Player_Style, _sl_skin_changed);
 }
 
-void GUI_AbstractStream::language_changed() {}
+void GUI_AbstractStream::language_changed()
+{
+	_m->le_url->setPlaceholderText(tr("Enter URL") + "...");
+	_m->combo_stream->lineEdit()->setPlaceholderText(tr("Enter name") + "...");
+}
 
 void GUI_AbstractStream::error()
 {
@@ -154,6 +160,7 @@ void GUI_AbstractStream::stopped()
 
 void GUI_AbstractStream::set_searching(bool searching)
 {
+	_m->loading_bar->setVisible(searching);
 	_m->btn_play->setDisabled(false);
 
 	if(!searching) {
@@ -190,6 +197,11 @@ void GUI_AbstractStream::play(QString url, QString station_name)
 		sp_log(Log::Warning, this) << "Stream Handler busy";
 		set_searching(false);
 	}
+}
+
+bool GUI_AbstractStream::has_loading_bar() const
+{
+	return true;
 }
 
 

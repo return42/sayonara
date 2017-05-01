@@ -28,6 +28,7 @@
 
 #include "GUI_AlternativeCovers.h"
 #include "GUI/Covers/ui_GUI_AlternativeCovers.h"
+#include "GUI/Helper/SayonaraWidget/SayonaraLoadingBar.h"
 
 #include "AlternativeCoverItemDelegate.h"
 #include "AlternativeCoverItemModel.h"
@@ -55,6 +56,7 @@ struct GUI_AlternativeCovers::Private
 	CoverLocation			cover_location;
 	QStringList				filelist;
 	bool					is_searching;
+	SayonaraLoadingBar*		loading_bar=nullptr;
 
 	AlternativeCoverItemModel*		model=nullptr;
 	AlternativeCoverItemDelegate*	delegate=nullptr;
@@ -80,6 +82,7 @@ GUI_AlternativeCovers::GUI_AlternativeCovers(QWidget* parent) :
 	_m = Pimpl::make<GUI_AlternativeCovers::Private>();
 
 	ui->setupUi(this);
+	_m->loading_bar = new SayonaraLoadingBar(ui->tv_images);
 
 	QString lib_path = _settings->get(Set::Lib_Path);
 
@@ -142,6 +145,7 @@ void GUI_AlternativeCovers::connect_and_start(const CoverLocation& cl)
 	ui->lab_info->setText(cl.search_term());
 
 	_m->cl_alternative->start();
+	_m->loading_bar->show();
 
 	show();
 }
@@ -153,6 +157,8 @@ void GUI_AlternativeCovers::start(const CoverLocation& cl)
 	}
 
 	ui->le_search->setText( cl.search_term() );
+	ui->rb_local->setChecked(false);
+	ui->rb_online->setChecked(true);
 
 	connect_and_start(cl);
 }
@@ -243,6 +249,7 @@ void GUI_AlternativeCovers::cl_finished(bool b)
 
 	_m->cl_alternative->deleteLater();
 	_m->cl_alternative = nullptr;
+	_m->loading_bar->hide();
 }
 
 
@@ -331,6 +338,8 @@ void GUI_AlternativeCovers::closeEvent(QCloseEvent *e)
 	if(_m->cl_alternative) {
 		_m->cl_alternative->stop();
 	}
+
+	_m->loading_bar->hide();
 
 	delete_all_files();
 

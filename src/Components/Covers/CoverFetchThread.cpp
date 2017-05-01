@@ -43,9 +43,7 @@ const int Timeout = 10000;
 
 struct CoverFetchThread::Private
 {
-	AsyncWebAccess*		single_img_fetcher=nullptr;
-	AsyncWebAccess*		multi_img_fetcher=nullptr;
-	AsyncWebAccess*		content_fetcher=nullptr;
+	QList<AsyncWebAccess*> active_connections;
 
 	CoverLocation		cl;
 	CoverFetcherInterface* acf=nullptr;
@@ -112,6 +110,8 @@ bool CoverFetchThread::start()
 		awa->setObjectName(_m->acf->get_keyword());
 		awa->set_behavior(AsyncWebAccess::Behavior::AsSayonara);
 		connect(awa, &AsyncWebAccess::sig_finished, this, &CoverFetchThread::content_fetched);
+
+		_m->active_connections << awa;
 		awa->run(_m->url, Timeout);
 	}
 
@@ -156,12 +156,17 @@ bool CoverFetchThread::more()
 	}
 
 	awa->run(address, Timeout);
+	_m->active_connections << awa;
 
 	return true;
 }
 
 void CoverFetchThread::stop()
 {
+	for(AsyncWebAccess* awa : _m->active_connections){
+		awa->stop();
+	}
+
 	_m->may_run = false;
 	emit sig_finished(false);
 }
@@ -170,6 +175,7 @@ void CoverFetchThread::stop()
 void CoverFetchThread::content_fetched()
 {
 	AsyncWebAccess* awa = static_cast<AsyncWebAccess*>(sender());
+	_m->active_connections.removeAll(awa);
 
 	if(awa->objectName() == _m->acf->get_keyword()) {
 		if(awa->status() == AsyncWebAccess::Status::GotData)
@@ -186,6 +192,7 @@ void CoverFetchThread::content_fetched()
 void CoverFetchThread::single_image_fetched()
 {
 	AsyncWebAccess* awa = static_cast<AsyncWebAccess*>(sender());
+	_m->active_connections.removeAll(awa);
 
 	if(awa->status() == AsyncWebAccess::Status::GotData)
 	{
@@ -216,6 +223,7 @@ void
 CoverFetchThread::multi_image_fetched()
 {
 	AsyncWebAccess* awa = static_cast<AsyncWebAccess*>(sender());
+	_m->active_connections.removeAll(awa);
 
 	if(awa->status() == AsyncWebAccess::Status::GotData){
 

@@ -69,8 +69,6 @@ public:
 	~Logger();
 
 	static void register_log_listener(LogListener* log_listener);
-	static void clear_log_listeners();
-	static void clear_log_listener(LogListener* log_listener);
 
 	Logger& operator << (const QString& msg);
 	Logger& operator << (const QChar& c);

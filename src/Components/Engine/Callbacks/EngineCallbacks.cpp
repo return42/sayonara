@@ -235,8 +235,8 @@ gboolean EngineCallbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpoint
 			gst_message_parse_buffering(msg, &percent);
 			gst_message_parse_buffering_stats(msg, &mode, &avg_in, &avg_out, &buffering_left );
 
-			/*sp_log(Log::Debug) << "Buffering " << percent;
-			sp_log(Log::Debug) << "Buffering State: " << (int) mode << " avg in: " << avg_in << " avg out: " << avg_out << " todo: " << buffering_left;*/
+			/*sp_log(Log::Debug, this) << "Buffering " << percent;
+			sp_log(Log::Debug, this) << "Buffering State: " << (int) mode << " avg in: " << avg_in << " avg out: " << avg_out << " todo: " << buffering_left;*/
 
 			engine->set_buffer_state(percent, src);
 			break;
@@ -275,7 +275,7 @@ gboolean EngineCallbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpoint
 		case GST_MESSAGE_STREAM_STATUS:
 			/*GstStreamStatusType type;
 			gst_message_parse_stream_status(msg, &type, NULL);
-			sp_log(Log::Debug) << "Get stream status " << type;*/
+			sp_log(Log::Debug, this) << "Get stream status " << type;*/
 			break;
 
 		default:

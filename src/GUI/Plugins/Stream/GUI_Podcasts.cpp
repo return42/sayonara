@@ -52,6 +52,7 @@ void GUI_Podcasts::init_ui()
 void GUI_Podcasts::language_changed()
 {
 	if(ui){
+		GUI_AbstractStream::language_changed();
 		ui->retranslateUi(this);
 	}
 }
