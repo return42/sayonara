@@ -20,20 +20,11 @@
    <string/>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <property name="leftMargin">
-    <number>0</number>
-   </property>
-   <property name="topMargin">
-    <number>0</number>
-   </property>
-   <property name="rightMargin">
-    <number>0</number>
-   </property>
-   <property name="bottomMargin">
-    <number>0</number>
-   </property>
    <property name="horizontalSpacing">
     <number>10</number>
+   </property>
+   <property name="margin">
+    <number>0</number>
    </property>
    <item row="1" column="0">
     <widget class="DirectoryTreeView" name="tv_dirs">
@@ -142,7 +133,7 @@
         <enum>Qt::NoFocus</enum>
        </property>
        <property name="text">
-        <string>Search</string>
+        <string notr="true">Search</string>
        </property>
        <property name="icon">
         <iconset resource="../Resources/Icons.qrc">

@@ -39,6 +39,7 @@
 #include "Helper/MetaDataInfo/AlbumInfo.h"
 #include "Helper/MetaDataInfo/ArtistInfo.h"
 #include "Helper/FileHelper.h"
+#include "Helper/Language.h"
 #include "Helper/globals.h"
 
 #include <algorithm>
@@ -75,6 +76,10 @@ void GUI_InfoDialog::language_changed()
 	ui->retranslateUi(this);
 
 	prepare_info(_m->md_interpretation);
+	ui->tab_widget->setTabText(0, Lang::get(Lang::Info));
+	ui->tab_widget->setTabText(1, Lang::get(Lang::Lyrics));
+	ui->tab_widget->setTabText(2, Lang::get(Lang::Edit));
+	ui->btn_close1->setText(Lang::get(Lang::Close));
 }
 
 void GUI_InfoDialog::skin_changed()

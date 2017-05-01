@@ -220,6 +220,9 @@ void GUI_FontConfig::default_clicked()
 void GUI_FontConfig::retranslate_ui()
 {
 	ui->retranslateUi(this);
+	ui->lab_library->setText(Lang::get(Lang::Library));
+	ui->lab_playlist->setText(Lang::get(Lang::Playlist));
+	ui->btn_default->setText(Lang::get(Lang::Default));
 }
 
 

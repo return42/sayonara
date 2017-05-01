@@ -139,7 +139,6 @@ void GUI_Player::init_gui()
 	plugin_widget->hide();
 
 	_logger = new GUI_Logger();
-	Logger::register_log_listener(_logger->get_log_listener());
 }
 
 

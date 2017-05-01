@@ -63,6 +63,24 @@ GUI_DateSearchConfig::~GUI_DateSearchConfig()
 void GUI_DateSearchConfig::language_changed()
 {
 	ui->retranslateUi(this);
+
+	ui->rb_bwf_days->setText(Lang::get(Lang::Days));
+	ui->rb_bwf_months->setText(Lang::get(Lang::Months));
+	ui->rb_bwf_weeks->setText(Lang::get(Lang::Weeks));
+	ui->rb_bwf_years->setText(Lang::get(Lang::Weeks));
+
+	ui->rb_bwt_days->setText(Lang::get(Lang::Days));
+	ui->rb_bwt_months->setText(Lang::get(Lang::Months));
+	ui->rb_bwt_weeks->setText(Lang::get(Lang::Weeks));
+	ui->rb_bwt_years->setText(Lang::get(Lang::Weeks));
+
+	ui->rb_nt_days->setText(Lang::get(Lang::Days));
+	ui->rb_nt_months->setText(Lang::get(Lang::Months));
+	ui->rb_nt_weeks->setText(Lang::get(Lang::Weeks));
+	ui->rb_nt_years->setText(Lang::get(Lang::Weeks));
+
+	ui->btn_cancel->setText(Lang::get(Lang::Cancel));
+	ui->btn_save_as->setText(Lang::get(Lang::SaveAs).triplePt());
 }
 
 void GUI_DateSearchConfig::ok_clicked()

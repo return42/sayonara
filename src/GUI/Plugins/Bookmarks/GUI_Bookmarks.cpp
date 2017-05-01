@@ -63,6 +63,7 @@ void GUI_Bookmarks::language_changed()
 	}
 
 	ui->retranslateUi(this);
+	ui->btn_tool->setText(Lang::get(Lang::Menu));
 }
 
 

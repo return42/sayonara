@@ -71,6 +71,7 @@ private slots:
 	void file_append_clicked();
 	void file_play_next_clicked();
 	void file_delete_clicked();
+	void language_changed() override;
 
 	// InfoDialogContainer interface
 protected:

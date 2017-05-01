@@ -101,4 +101,6 @@ void GUI_Covers::init_ui()
 void GUI_Covers::retranslate_ui()
 {
 	ui->retranslateUi(this);
+	ui->lab_active->setText(Lang::get(Lang::Active));
+	ui->lab_inactive->setText(Lang::get(Lang::Inactive));
 }

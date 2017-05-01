@@ -43,7 +43,7 @@
         <normaloff>:/Icons/info.svg.png</normaloff>:/Icons/info.svg.png</iconset>
       </attribute>
       <attribute name="title">
-       <string>Info</string>
+       <string notr="true">Info</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_2">
        <property name="horizontalSpacing">
@@ -120,7 +120,7 @@
                  </sizepolicy>
                 </property>
                 <property name="text">
-                 <string>Paths</string>
+                 <string notr="true">Paths</string>
                 </property>
                 <property name="wordWrap">
                  <bool>true</bool>
@@ -189,7 +189,7 @@
                  </sizepolicy>
                 </property>
                 <property name="text">
-                 <string>Info</string>
+                 <string notr="true">Info</string>
                 </property>
                 <property name="wordWrap">
                  <bool>true</bool>
@@ -222,7 +222,7 @@
              </font>
             </property>
             <property name="text">
-             <string>Title</string>
+             <string notr="true">Title</string>
             </property>
             <property name="wordWrap">
              <bool>true</bool>
@@ -314,7 +314,7 @@
          <item>
           <widget class="QPushButton" name="btn_close1">
            <property name="text">
-            <string>Close</string>
+            <string notr="true">Close</string>
            </property>
           </widget>
          </item>
@@ -328,7 +328,7 @@
         <normaloff>:/Icons/lyrics.svg.png</normaloff>:/Icons/lyrics.svg.png</iconset>
       </attribute>
       <attribute name="title">
-       <string>Lyrics</string>
+       <string notr="true">Lyrics</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_3"/>
      </widget>
@@ -338,7 +338,7 @@
         <normaloff>:/Icons/edit.svg.png</normaloff>:/Icons/edit.svg.png</iconset>
       </attribute>
       <attribute name="title">
-       <string>Edit</string>
+       <string notr="true">Edit</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_8"/>
      </widget>

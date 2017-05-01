@@ -53,6 +53,8 @@ GUI_Logger::GUI_Logger(QWidget *parent) :
 {
 	connect(&log_object, &LogObject::sig_new_log,
 			this, &GUI_Logger::log_ready, Qt::QueuedConnection);
+
+	Logger::register_log_listener(this->get_log_listener());
 }
 
 GUI_Logger::~GUI_Logger()

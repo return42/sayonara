@@ -27,6 +27,7 @@
 #include "Helper/MetaData/MetaDataList.h"
 #include "Helper/Settings/Settings.h"
 #include "Helper/Message/Message.h"
+#include "Helper/Language.h"
 
 #include <QPixmap>
 #include <QScrollBar>
@@ -74,6 +75,8 @@ GUI_ImportFolder::~GUI_ImportFolder() {}
 void GUI_ImportFolder::language_changed()
 {
 	ui->retranslateUi(this);
+	ui->btn_edit->setText(Lang::get(Lang::Edit));
+	ui->btn_cancel->setText(Lang::get(Lang::Cancel));
 }
 
 void GUI_ImportFolder::set_metadata(const MetaDataList& v_md)

@@ -92,14 +92,16 @@ GUI_TagEdit::GUI_TagEdit(QWidget* parent) :
 	connect(ui->btn_disc_nr, &QPushButton::toggled, this, &GUI_TagEdit::btn_disc_nr_checked);
 	connect(ui->btn_tag_help, &QPushButton::clicked, this, &GUI_TagEdit::btn_tag_help_clicked);
 
-	connect(ui->btn_ok, &QPushButton::clicked, this, &GUI_TagEdit::commit);
+	connect(ui->btn_save, &QPushButton::clicked, this, &GUI_TagEdit::commit);
 	connect(ui->btn_undo, &QPushButton::clicked, this, &GUI_TagEdit::undo_clicked);
 	connect(ui->btn_undo_all, &QPushButton::clicked, this, &GUI_TagEdit::undo_all_clicked);
-	connect(ui->btn_cancel, &QPushButton::clicked, this, &GUI_TagEdit::sig_cancelled);
+	connect(ui->btn_close, &QPushButton::clicked, this, &GUI_TagEdit::sig_cancelled);
 
 	connect(_m->tag_edit, &TagEdit::sig_progress, this, &GUI_TagEdit::progress_changed);
 	connect(_m->tag_edit, &TagEdit::sig_metadata_received, this, &GUI_TagEdit::metadata_changed);
 	connect(_m->tag_edit, &TagEdit::finished, this, &GUI_TagEdit::commit_finished);
+
+	language_changed();
 
 	reset();
 }
@@ -111,12 +113,36 @@ GUI_TagEdit::~GUI_TagEdit() {}
 void GUI_TagEdit::language_changed()
 {
 	ui->retranslateUi(this);
+	ui->btn_title->setText(Lang::get(Lang::Title));
+	ui->btn_album->setText(Lang::get(Lang::Album));
+	ui->btn_artist->setText(Lang::get(Lang::Artist));
+	ui->btn_year->setText(Lang::get(Lang::Year));
+	ui->btn_apply_tag->setText(Lang::get(Lang::Apply));
+	ui->lab_track_title->setText(Lang::get(Lang::Title));
+	ui->lab_album->setText(Lang::get(Lang::Album));
+	ui->lab_artist->setText(Lang::get(Lang::Artist));
+	ui->lab_year->setText(Lang::get(Lang::Year));
+	ui->lab_genres->setText(Lang::get(Lang::Genres));
+	ui->lab_rating_descr->setText(Lang::get(Lang::Rating));
+
+	ui->cb_album_all->setText(Lang::get(Lang::All));
+	ui->cb_artist_all->setText(Lang::get(Lang::All));
+	ui->cb_album_artist_all->setText(Lang::get(Lang::All));
+	ui->cb_genre_all->setText(Lang::get(Lang::All));
+	ui->cb_year_all->setText(Lang::get(Lang::All));
+	ui->cb_discnumber_all->setText(Lang::get(Lang::All));
+	ui->cb_rating_all->setText(Lang::get(Lang::All));
+	ui->cb_cover_all->setText(Lang::get(Lang::All));
+
+	ui->btn_undo->setText(Lang::get(Lang::Undo));
+	ui->btn_close->setText(Lang::get(Lang::Close));
+	ui->btn_save->setText(Lang::get(Lang::Save));
 }
 
 
 void GUI_TagEdit::commit_finished()
 {
-	ui->btn_ok->setEnabled(true);
+	ui->btn_save->setEnabled(true);
 }
 
 
@@ -445,11 +471,11 @@ void GUI_TagEdit::write_changes(int idx)
 
 void GUI_TagEdit::commit()
 {
-	if(!ui->btn_ok->isEnabled()){
+	if(!ui->btn_save->isEnabled()){
 		return;
 	}
 
-	ui->btn_ok->setEnabled(false);
+	ui->btn_save->setEnabled(false);
 	ui->btn_undo->setEnabled(false);
 	ui->btn_undo_all->setEnabled(false);
 
@@ -501,7 +527,7 @@ void GUI_TagEdit::commit()
 
 void GUI_TagEdit::show_close_button(bool show)
 {
-	ui->btn_cancel->setVisible(show);
+	ui->btn_close->setVisible(show);
 }
 
 

@@ -66,6 +66,10 @@ LanguageString Lang::get(Lang::Term term, bool* ok)
 			return l.tr("Action");
 		case Actions:
 			return l.tr("Actions");
+		case Activate:
+			return l.tr("Activate");
+		case Active:
+			return l.tr("Active");
 		case AddTab:
 			return l.tr("Add tab");
 		case Album:
@@ -74,8 +78,12 @@ LanguageString Lang::get(Lang::Term term, bool* ok)
 			return l.tr("Album artists");
 		case Albums:
 			return l.tr("Albums");
+		case All:
+			return l.tr("All");
 		case Append:
 			return l.tr("Append");
+		case Apply:
+			return l.tr("Apply");
 		case Artist:
 			return l.tr("Artist");
 		case Artists:
@@ -88,6 +96,8 @@ LanguageString Lang::get(Lang::Term term, bool* ok)
 			return l.tr("Broadcast");
 		case By:
 			return l.tr("by");
+		case Cancel:
+			return l.tr("Cancel");
 		case CannotFindLame:
 			return l.tr("Cannot find Lame MP3 encoder");
 		case Clear:
@@ -154,6 +164,8 @@ LanguageString Lang::get(Lang::Term term, bool* ok)
 			return l.tr("Import directory");
 		case ImportFiles:
 			return l.tr("Import files");
+		case Inactive:
+			return l.tr("Inactive");
 		case Info:
 			return l.tr("Info");
 		case Library:
@@ -169,6 +181,8 @@ LanguageString Lang::get(Lang::Term term, bool* ok)
 		case Minutes:
 		case MinutesShort:
 			return l.tr("m");
+		case Months:
+			return l.tr("Months");
 		case MuteOn:
 			return l.tr("Mute on");
 		case MuteOff:
@@ -262,6 +276,8 @@ LanguageString Lang::get(Lang::Term term, bool* ok)
 			return l.tr("Similar artists");
 		case Stop:
 			return l.tr("Stop");
+		case StreamUrl:
+			return l.tr("Stream URL");
 		case Success:
 			return l.tr("Success");
 		case Th:
@@ -296,8 +312,12 @@ LanguageString Lang::get(Lang::Term term, bool* ok)
 			return l.tr("Volume up");
 		case Warning:
 			return l.tr("Warning");
+		case Weeks:
+			return l.tr("Weeks");
 		case Year:
 			return l.tr("Year");
+		case Years:
+			return l.tr("Years");
 		case Yes:
 			return l.tr("Yes");
 		case Zoom:

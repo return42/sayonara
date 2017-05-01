@@ -32,6 +32,7 @@
 #include "Helper/MetaData/MetaDataList.h"
 #include "Helper/MetaData/Album.h"
 #include "Helper/MetaData/Artist.h"
+#include "Helper/Language.h"
 #include "GUI/Helper/IconLoader/IconLoader.h"
 
 #include <QMap>
@@ -55,6 +56,12 @@ GUI_LibraryInfoBox::~GUI_LibraryInfoBox() {}
 void GUI_LibraryInfoBox::language_changed()
 {
 	ui->retranslateUi(this);
+	ui->lab_tracks->setText(Lang::get(Lang::Tracks).toFirstUpper());
+	ui->lab_artists->setText(Lang::get(Lang::Artists));
+	ui->lab_albums->setText(Lang::get(Lang::Albums));
+	ui->lab_duration->setText(Lang::get(Lang::Duration));
+	ui->lab_filesize_descr->setText(Lang::get(Lang::Filesize));
+	ui->btn_close->setText(Lang::get(Lang::Close));
 }
 
 void GUI_LibraryInfoBox::skin_changed()
@@ -101,6 +108,3 @@ void GUI_LibraryInfoBox::psl_refresh()
 
 	show();
 }
-
-
-

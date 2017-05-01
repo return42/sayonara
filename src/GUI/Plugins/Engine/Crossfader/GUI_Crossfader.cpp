@@ -22,6 +22,7 @@
 #include "GUI/Plugins/Engine/ui_GUI_Crossfader.h"
 #include "Helper/Playlist/PlaylistMode.h"
 #include "Helper/Settings/Settings.h"
+#include "Helper/Language.h"
 
 
 GUI_Crossfader::GUI_Crossfader(QWidget *parent) :
@@ -61,6 +62,7 @@ void GUI_Crossfader::language_changed()
 	}
 
 	ui->retranslateUi(this);
+	ui->cb_active->setText(Lang::get(Lang::Active));
 }
 
 

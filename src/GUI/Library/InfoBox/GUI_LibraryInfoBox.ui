@@ -30,7 +30,7 @@
       </font>
      </property>
      <property name="text">
-      <string>Artists</string>
+      <string notr="true">Artists</string>
      </property>
     </widget>
    </item>
@@ -43,7 +43,7 @@
       </font>
      </property>
      <property name="text">
-      <string>Tracks</string>
+      <string notr="true">Tracks</string>
      </property>
     </widget>
    </item>
@@ -77,7 +77,7 @@
       </font>
      </property>
      <property name="text">
-      <string>Duration</string>
+      <string notr="true">Duration</string>
      </property>
     </widget>
    </item>
@@ -89,7 +89,7 @@
     </widget>
    </item>
    <item row="4" column="2">
-    <widget class="QLabel" name="label">
+    <widget class="QLabel" name="lab_filesize_descr">
      <property name="font">
       <font>
        <weight>75</weight>
@@ -97,7 +97,7 @@
       </font>
      </property>
      <property name="text">
-      <string>Filesize</string>
+      <string notr="true">Filesize</string>
      </property>
     </widget>
    </item>
@@ -117,7 +117,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="btn_cancel">
+      <widget class="QPushButton" name="btn_close">
        <property name="maximumSize">
         <size>
          <width>5465</width>
@@ -131,7 +131,7 @@
         <enum>Qt::RightToLeft</enum>
        </property>
        <property name="text">
-        <string>Close</string>
+        <string notr="true">Close</string>
        </property>
       </widget>
      </item>
@@ -146,7 +146,7 @@
       </font>
      </property>
      <property name="text">
-      <string>Albums</string>
+      <string notr="true">Albums</string>
      </property>
     </widget>
    </item>
@@ -188,7 +188,7 @@
  </resources>
  <connections>
   <connection>
-   <sender>btn_cancel</sender>
+   <sender>btn_close</sender>
    <signal>clicked()</signal>
    <receiver>GUI_LibraryInfoBox</receiver>
    <slot>close()</slot>

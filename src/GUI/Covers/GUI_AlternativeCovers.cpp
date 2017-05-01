@@ -108,7 +108,9 @@ GUI_AlternativeCovers::GUI_AlternativeCovers(QWidget* parent) :
 	connect(ui->btn_search, &QPushButton::clicked, this, &GUI_AlternativeCovers::search_clicked);
 	connect(ui->tv_images, &QTableView::pressed, this, &GUI_AlternativeCovers::cover_pressed);	
 	connect(ui->btn_file, &QPushButton::clicked, this, &GUI_AlternativeCovers::open_file_dialog);
-	connect(ui->btn_cancel, &QPushButton::clicked, this, &SayonaraDialog::close);
+	connect(ui->btn_close, &QPushButton::clicked, this, &SayonaraDialog::close);
+
+	language_changed();
 }
 
 
@@ -123,6 +125,9 @@ GUI_AlternativeCovers::~GUI_AlternativeCovers()
 void GUI_AlternativeCovers::language_changed()
 {
 	ui->retranslateUi(this);
+	ui->btn_search->setText(Lang::get(Lang::Search));
+	ui->btn_close->setText(Lang::get(Lang::Close));
+	ui->btn_apply->setText(Lang::get(Lang::Apply));
 }
 
 void GUI_AlternativeCovers::connect_and_start(const CoverLocation& cl)

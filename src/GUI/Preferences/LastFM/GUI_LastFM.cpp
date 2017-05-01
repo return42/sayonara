@@ -28,6 +28,7 @@
 
 #include "GUI_LastFM.h"
 #include "GUI/Preferences/ui_GUI_LastFM.h"
+#include "Helper/Language.h"
 
 #include "Helper/Settings/Settings.h"
 #include "Components/StreamPlugins/LastFM/LastFM.h"
@@ -68,6 +69,9 @@ QString GUI_LastFM::get_action_name() const
 void GUI_LastFM::retranslate_ui()
 {
 	ui->retranslateUi(this);
+	ui->lab_activate->setText(Lang::get(Lang::Activate));
+	ui->lab_sec->setText(Lang::get(Lang::Seconds));
+
 }
 
 void GUI_LastFM::commit()

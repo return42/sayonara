@@ -22,7 +22,7 @@
     <widget class="QComboBox" name="combo_lib_size"/>
    </item>
    <item row="10" column="0">
-    <widget class="QLabel" name="label_4">
+    <widget class="QLabel" name="lab_playlist">
      <property name="font">
       <font>
        <pointsize>11</pointsize>
@@ -31,12 +31,12 @@
       </font>
      </property>
      <property name="text">
-      <string>Playlist</string>
+      <string notr="true">Playlist</string>
      </property>
     </widget>
    </item>
    <item row="5" column="0">
-    <widget class="QLabel" name="label_3">
+    <widget class="QLabel" name="lab_library">
      <property name="font">
       <font>
        <pointsize>11</pointsize>
@@ -45,7 +45,7 @@
       </font>
      </property>
      <property name="text">
-      <string>Library</string>
+      <string notr="true">Library</string>
      </property>
     </widget>
    </item>

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>737</width>
-    <height>635</height>
+    <width>740</width>
+    <height>642</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout">
@@ -42,27 +42,27 @@
      <item>
       <widget class="QPushButton" name="btn_undo">
        <property name="text">
-        <string>Undo</string>
+        <string notr="true">Undo</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="btn_cancel">
+      <widget class="QPushButton" name="btn_close">
        <property name="focusPolicy">
         <enum>Qt::StrongFocus</enum>
        </property>
        <property name="text">
-        <string>Close</string>
+        <string notr="true">Close</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="btn_ok">
+      <widget class="QPushButton" name="btn_save">
        <property name="focusPolicy">
         <enum>Qt::StrongFocus</enum>
        </property>
        <property name="text">
-        <string>Save</string>
+        <string notr="true">Save</string>
        </property>
       </widget>
      </item>
@@ -146,7 +146,7 @@
         <item row="0" column="4" rowspan="3">
          <widget class="QCheckBox" name="cb_cover_all">
           <property name="text">
-           <string>all</string>
+           <string notr="true">all</string>
           </property>
          </widget>
         </item>
@@ -348,7 +348,7 @@
          <enum>Qt::NoFocus</enum>
         </property>
         <property name="text">
-         <string>Apply</string>
+         <string notr="true">Apply</string>
         </property>
        </widget>
       </item>
@@ -363,7 +363,7 @@
            <enum>Qt::ClickFocus</enum>
           </property>
           <property name="text">
-           <string>Title</string>
+           <string notr="true">Title</string>
           </property>
           <property name="checkable">
            <bool>true</bool>
@@ -376,7 +376,7 @@
            <enum>Qt::ClickFocus</enum>
           </property>
           <property name="text">
-           <string>Album</string>
+           <string notr="true">Album</string>
           </property>
           <property name="checkable">
            <bool>true</bool>
@@ -389,7 +389,7 @@
            <enum>Qt::ClickFocus</enum>
           </property>
           <property name="text">
-           <string>Artist</string>
+           <string notr="true">Artist</string>
           </property>
           <property name="checkable">
            <bool>true</bool>
@@ -402,7 +402,7 @@
            <enum>Qt::ClickFocus</enum>
           </property>
           <property name="text">
-           <string>Year</string>
+           <string notr="true">Year</string>
           </property>
           <property name="checkable">
            <bool>true</bool>
@@ -556,7 +556,7 @@
         </widget>
        </item>
        <item row="1" column="1">
-        <widget class="QLabel" name="label_7">
+        <widget class="QLabel" name="lab_year">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
            <horstretch>0</horstretch>
@@ -564,7 +564,7 @@
           </sizepolicy>
          </property>
          <property name="text">
-          <string>Year</string>
+          <string notr="true">Year</string>
          </property>
         </widget>
        </item>
@@ -580,7 +580,7 @@
           <enum>Qt::StrongFocus</enum>
          </property>
          <property name="text">
-          <string>all</string>
+          <string notr="true">all</string>
          </property>
         </widget>
        </item>
@@ -593,7 +593,7 @@
           </sizepolicy>
          </property>
          <property name="text">
-          <string>all</string>
+          <string notr="true">all</string>
          </property>
         </widget>
        </item>
@@ -611,7 +611,7 @@
         </widget>
        </item>
        <item row="3" column="1">
-        <widget class="QLabel" name="label_10">
+        <widget class="QLabel" name="lab_rating_descr">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
            <horstretch>0</horstretch>
@@ -619,7 +619,7 @@
           </sizepolicy>
          </property>
          <property name="text">
-          <string>Rating</string>
+          <string notr="true">Rating</string>
          </property>
         </widget>
        </item>
@@ -666,7 +666,7 @@
           <enum>Qt::LeftToRight</enum>
          </property>
          <property name="text">
-          <string>all</string>
+          <string notr="true">all</string>
          </property>
         </widget>
        </item>
@@ -694,23 +694,23 @@
         <number>5</number>
        </property>
        <item row="4" column="0">
-        <widget class="QLabel" name="label_6">
+        <widget class="QLabel" name="lab_genres">
          <property name="text">
-          <string>Genres</string>
+          <string notr="true">Genres</string>
          </property>
         </widget>
        </item>
        <item row="0" column="0">
         <widget class="QLabel" name="lab_track_title">
          <property name="text">
-          <string>Title</string>
+          <string notr="true">Title</string>
          </property>
         </widget>
        </item>
        <item row="1" column="0">
-        <widget class="QLabel" name="label_3">
+        <widget class="QLabel" name="lab_album">
          <property name="text">
-          <string>Album</string>
+          <string notr="true">Album</string>
          </property>
         </widget>
        </item>
@@ -725,9 +725,9 @@
         </widget>
        </item>
        <item row="2" column="0">
-        <widget class="QLabel" name="label_4">
+        <widget class="QLabel" name="lab_artist">
          <property name="text">
-          <string>Artist</string>
+          <string notr="true">Artist</string>
          </property>
         </widget>
        </item>
@@ -772,7 +772,7 @@
         </widget>
        </item>
        <item row="3" column="0">
-        <widget class="QLabel" name="label_12">
+        <widget class="QLabel" name="lab_album_artist">
          <property name="text">
           <string>Album artist</string>
          </property>
@@ -784,7 +784,7 @@
           <enum>Qt::StrongFocus</enum>
          </property>
          <property name="text">
-          <string>all</string>
+          <string notr="true">all</string>
          </property>
         </widget>
        </item>
@@ -794,14 +794,14 @@
           <enum>Qt::StrongFocus</enum>
          </property>
          <property name="text">
-          <string>all</string>
+          <string notr="true">all</string>
          </property>
         </widget>
        </item>
        <item row="3" column="2">
         <widget class="QCheckBox" name="cb_album_artist_all">
          <property name="text">
-          <string>all</string>
+          <string notr="true">all</string>
          </property>
         </widget>
        </item>
@@ -811,7 +811,7 @@
           <enum>Qt::StrongFocus</enum>
          </property>
          <property name="text">
-          <string>all</string>
+          <string notr="true">all</string>
          </property>
         </widget>
        </item>
@@ -869,8 +869,8 @@
   <tabstop>btn_next</tabstop>
   <tabstop>btn_undo_all</tabstop>
   <tabstop>btn_undo</tabstop>
-  <tabstop>btn_cancel</tabstop>
-  <tabstop>btn_ok</tabstop>
+  <tabstop>btn_close</tabstop>
+  <tabstop>btn_save</tabstop>
  </tabstops>
  <resources/>
  <connections>

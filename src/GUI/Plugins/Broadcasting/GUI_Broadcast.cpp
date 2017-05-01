@@ -66,7 +66,7 @@ QString GUI_Broadcast::get_name() const
 
 QString GUI_Broadcast::get_display_name() const
 {
-	return tr("Broadcast");
+	return Lang::get(Lang::Broadcast);
 }
 
 
@@ -75,6 +75,7 @@ void GUI_Broadcast::language_changed()
 	if(is_ui_initialized()){
 		ui->retranslateUi(this);
 		set_status_label();
+		ui->btn_retry->setText(Lang::get(Lang::Retry));
 	}
 }
 
