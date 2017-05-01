@@ -222,7 +222,11 @@ void PlayManager::stop()
 
 void PlayManager::record(bool b)
 {
-	emit sig_record(b);
+	if(_settings->get(SetNoDB::MP3enc_found)){
+		emit sig_record(b);
+	} else {
+		emit sig_record(false);
+	}
 }
 
 void PlayManager::seek_rel(double percent)

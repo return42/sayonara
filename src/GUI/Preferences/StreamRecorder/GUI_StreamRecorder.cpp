@@ -25,9 +25,10 @@
 #include "GUI_StreamRecorder.h"
 #include "GUI/Preferences/ui_GUI_StreamRecorder.h"
 
-#include "Helper/Message/Message.h"
 #include "Database/DatabaseConnector.h"
+#include "Helper/Message/Message.h"
 #include "Helper/Settings/Settings.h"
+#include "Helper/Language.h"
 
 #include <QFileDialog>
 #include <QDir>
@@ -110,11 +111,14 @@ void GUI_StreamRecorder::commit()
 
 void GUI_StreamRecorder::revert()
 {
+	bool lame_available = _settings->get(SetNoDB::MP3enc_found);
+
 	QString path = _settings->get(Set::Engine_SR_Path);
-	bool active = _settings->get(Set::Engine_SR_Active);
+	bool active = _settings->get(Set::Engine_SR_Active) && lame_available;
 	bool create_session_path = _settings->get(Set::Engine_SR_SessionPath);
 	bool auto_rec = _settings->get(Set::Engine_SR_AutoRecord);
 
+	ui->cb_activate->setEnabled(lame_available);
 	ui->le_path->setText(path);
 	ui->cb_activate->setChecked(active);
 	ui->cb_create_session_path->setChecked(create_session_path);
@@ -124,6 +128,13 @@ void GUI_StreamRecorder::revert()
 	ui->btn_path->setEnabled(active);
 	ui->le_path->setEnabled(active);
 	ui->cb_auto_rec->setEnabled(active);
+
+	if(!lame_available){
+		ui->lab_warning->setText(Lang::get(Lang::CannotFindLame));
+	}
+	else{
+		ui->lab_warning->setText("");
+	}
 }
 
 

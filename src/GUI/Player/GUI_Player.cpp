@@ -474,13 +474,15 @@ void GUI_Player::register_preference_dialog(PreferenceDialogInterface* dialog)
 
 void GUI_Player::set_radio_mode(RadioMode radio)
 {
-	bool sr_active = _settings->get(Set::Engine_SR_Active);
+	bool lame_available = _settings->get(SetNoDB::MP3enc_found);
+	bool sr_active = (_settings->get(Set::Engine_SR_Active)) && lame_available;
 	bool btn_rec_visible = ((radio != RadioMode::Off) && sr_active);
 
 	btn_play->setVisible(!btn_rec_visible);
 	btn_rec->setVisible(btn_rec_visible);
 	_tray_icon->set_enable_fwd(true);
 	sli_progress->setEnabled( (_md.length_ms / 1000) > 0 );
+
 	_play_manager->record(btn_rec->isChecked() && btn_rec->isVisible());
 
 	if(radio != RadioMode::Off){
