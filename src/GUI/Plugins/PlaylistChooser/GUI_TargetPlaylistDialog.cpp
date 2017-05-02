@@ -20,6 +20,8 @@
 
 #include "GUI_TargetPlaylistDialog.h"
 #include "Helper/Settings/Settings.h"
+#include "Helper/Language.h"
+
 #include <QFileDialog>
 
 GUI_TargetPlaylistDialog::GUI_TargetPlaylistDialog(QWidget *parent) :
@@ -46,7 +48,7 @@ void GUI_TargetPlaylistDialog::search_button_clicked()
 	QString lib_path = _settings->get(Set::Lib_Path);
 
     QString target_filename = QFileDialog::getSaveFileName(this,
-                                                           tr("Choose target file"),
+														   Lang::get(Lang::SaveAs),
 															lib_path,
                                                            "*.m3u");
 

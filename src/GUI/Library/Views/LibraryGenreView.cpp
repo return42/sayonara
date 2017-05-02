@@ -64,7 +64,6 @@ struct LibraryGenreView::Private
 
 		toggle_tree_action = new QAction(context_menu);
 		toggle_tree_action->setCheckable(true);
-		//toggle_tree_action->setChecked(true);
 
 		context_menu->show_actions(
 					ContextMenu::EntryDelete |
@@ -89,7 +88,6 @@ LibraryGenreView::LibraryGenreView(QWidget* parent) :
 
 	this->setAcceptDrops(true);
 	this->setDragDropMode(LibraryGenreView::DragDrop);
-
 	this->setAlternatingRowColors(true);
 	this->setItemDelegate(_m->delegate);
 
@@ -108,8 +106,9 @@ LibraryGenreView::LibraryGenreView(QWidget* parent) :
 
 	connect( _m->toggle_tree_action, &QAction::triggered, this, &LibraryGenreView::tree_action_toggled);
 
-	QStringList genres = DatabaseConnector::getInstance()->getAllGenres();
-	fill_list(genres);
+	bool show_tree = _settings->get(Set::Lib_GenreTree);
+	_m->toggle_tree_action->setChecked(show_tree);
+	tree_action_toggled(show_tree);
 
 	REGISTER_LISTENER(Set::Player_Language, language_changed);
 }
@@ -348,6 +347,7 @@ void LibraryGenreView::tree_action_toggled(bool b)
 {
 	Q_UNUSED(b)
 
+	_settings->set(Set::Lib_GenreTree, b);
 	reload_genres();
 }
 

@@ -11,16 +11,7 @@
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <property name="leftMargin">
-    <number>0</number>
-   </property>
-   <property name="topMargin">
-    <number>0</number>
-   </property>
-   <property name="rightMargin">
-    <number>0</number>
-   </property>
-   <property name="bottomMargin">
+   <property name="margin">
     <number>0</number>
    </property>
    <item row="0" column="0">
@@ -101,7 +92,7 @@
        <item row="4" column="1">
         <widget class="QPushButton" name="btn_default">
          <property name="text">
-          <string>Default</string>
+          <string notr="true">Default</string>
          </property>
         </widget>
        </item>
@@ -176,9 +167,9 @@
           </widget>
          </item>
          <item row="0" column="3">
-          <widget class="QLabel" name="label_10">
+          <widget class="QLabel" name="lab_trackno">
            <property name="text">
-            <string>track number</string>
+            <string notr="true">track number</string>
            </property>
           </widget>
          </item>
@@ -197,23 +188,23 @@
           </widget>
          </item>
          <item row="1" column="3">
-          <widget class="QLabel" name="label_11">
+          <widget class="QLabel" name="lab_title">
            <property name="text">
-            <string>title</string>
+            <string notr="true">title</string>
            </property>
           </widget>
          </item>
          <item row="2" column="3">
-          <widget class="QLabel" name="label_12">
+          <widget class="QLabel" name="lab_artist">
            <property name="text">
-            <string>artist</string>
+            <string notr="true">artist</string>
            </property>
           </widget>
          </item>
          <item row="3" column="3">
-          <widget class="QLabel" name="label_13">
+          <widget class="QLabel" name="lab_album">
            <property name="text">
-            <string>album</string>
+            <string notr="true">album</string>
            </property>
           </widget>
          </item>

@@ -29,7 +29,6 @@
 #include "Helper/Message/GlobalMessageReceiverInterface.h"
 #include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
 #include "GUI/Helper/Shortcuts/ShortcutWidget.h"
-#include "GUI_Logger.h"
 
 #include <QSystemTrayIcon>
 
@@ -41,6 +40,7 @@ class LibraryPluginHandler;
 class PreferenceDialogInterface;
 class QTranslator;
 class QMessageBox;
+class GUI_Logger;
 
 #ifdef WITH_MTP
 	class GUI_MTP;
@@ -160,6 +160,7 @@ private slots:
 	void show_library(bool);
 	void show_fullscreen_toggled(bool);
 	void skin_toggled(bool);
+
 
 	void main_splitter_moved(int pos, int idx);
 

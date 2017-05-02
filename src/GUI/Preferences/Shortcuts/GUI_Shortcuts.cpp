@@ -22,6 +22,7 @@
 #include "GUI_ShortcutEntry.h"
 #include "GUI/Preferences/ui_GUI_Shortcuts.h"
 #include "GUI/Helper/Shortcuts/ShortcutHandler.h"
+#include "Helper/Language.h"
 
 #include <QLineEdit>
 #include <QPushButton>
@@ -74,7 +75,7 @@ void GUI_Shortcuts::init_ui()
 	connect(ui->cb_test, &QCheckBox::toggled, ui->cb_test, [=]()
 	{
 		if(ui->cb_test->isChecked()){
-			ui->cb_test->setText(tr("Success"));
+			ui->cb_test->setText(Lang::get(Lang::Success));
 			QTimer::singleShot(2500, ui->cb_test, SLOT(hide()));
 		}
 	});

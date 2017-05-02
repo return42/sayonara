@@ -428,7 +428,7 @@
            <enum>Qt::ClickFocus</enum>
           </property>
           <property name="text">
-           <string># Track</string>
+           <string notr="true"># Track</string>
           </property>
           <property name="checkable">
            <bool>true</bool>
@@ -503,7 +503,7 @@
           </sizepolicy>
          </property>
          <property name="text">
-          <string># Track</string>
+          <string notr="true"># Track</string>
          </property>
         </widget>
        </item>

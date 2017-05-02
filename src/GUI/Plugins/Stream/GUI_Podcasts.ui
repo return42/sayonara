@@ -25,9 +25,6 @@
      <property name="focusPolicy">
       <enum>Qt::StrongFocus</enum>
      </property>
-     <property name="toolTip">
-      <string>Type name you want to save the stream as</string>
-     </property>
      <property name="editable">
       <bool>true</bool>
      </property>
@@ -37,9 +34,6 @@
     <widget class="QLineEdit" name="le_url">
      <property name="focusPolicy">
       <enum>Qt::ClickFocus</enum>
-     </property>
-     <property name="toolTip">
-      <string>Enter stream url</string>
      </property>
     </widget>
    </item>
@@ -51,7 +45,7 @@
      <item>
       <widget class="MenuToolButton" name="btn_tool">
        <property name="text">
-        <string>Menu</string>
+        <string notr="true">Menu</string>
        </property>
       </widget>
      </item>
@@ -106,7 +100,7 @@
      <item>
       <widget class="QLabel" name="lab_listen">
        <property name="text">
-        <string>Listen</string>
+        <string notr="true">Listen</string>
        </property>
       </widget>
      </item>

@@ -19,6 +19,7 @@
  */
 
 #include "GUI_Player.h"
+#include "GUI_Logger.h"
 
 #include "Components/TagEdit/MetaDataChangeNotifier.h"
 #include "Components/Engine/EngineHandler.h"

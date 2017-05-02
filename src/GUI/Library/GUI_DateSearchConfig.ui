@@ -43,7 +43,7 @@
    <item row="0" column="0">
     <widget class="QLineEdit" name="le_title">
      <property name="text">
-      <string>New</string>
+      <string/>
      </property>
     </widget>
    </item>

@@ -53,6 +53,7 @@ private slots:
 	void rep_all_checked(bool checked);
 	void shuffle_checked(bool checked);
 	void playlist_mode_changed();
+	void language_changed() override;
 
 	void _sl_playlist_mode_changed();
 

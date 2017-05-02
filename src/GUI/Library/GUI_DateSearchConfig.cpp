@@ -35,6 +35,10 @@ struct GUI_DateSearchConfig::Private
 
 static bool check_name(const QString& name)
 {
+	if(name.isEmpty()){
+		return false;
+	}
+
 	return (!name.contains(",") && !name.contains(";"));
 }
 
@@ -53,6 +57,8 @@ GUI_DateSearchConfig::GUI_DateSearchConfig(QWidget* parent) :
 	connect(ui->btn_ok, &QPushButton::clicked, this, &GUI_DateSearchConfig::ok_clicked);
 	connect(ui->btn_save_as, &QPushButton::clicked, this, &GUI_DateSearchConfig::save_as_clicked);
 	connect(ui->btn_cancel, &QPushButton::clicked, this, &GUI_DateSearchConfig::cancel_clicked);
+
+	language_changed();
 }
 
 GUI_DateSearchConfig::~GUI_DateSearchConfig()
@@ -81,11 +87,13 @@ void GUI_DateSearchConfig::language_changed()
 
 	ui->btn_cancel->setText(Lang::get(Lang::Cancel));
 	ui->btn_save_as->setText(Lang::get(Lang::SaveAs).triplePt());
+	ui->le_title->setPlaceholderText(Lang::get(Lang::EnterName));
 }
 
 void GUI_DateSearchConfig::ok_clicked()
 {
 	if(!check_name(ui->le_title->text())){
+		ui->le_title->setFocus();
 		return;
 	}
 

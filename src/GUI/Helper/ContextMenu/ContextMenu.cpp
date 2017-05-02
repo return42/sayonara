@@ -84,7 +84,7 @@ void ContextMenu::language_changed()
 	 _action_edit->setText(Lang::get(Lang::Edit));
 	 _action_open->setText(Lang::get(Lang::Open));
 	 _action_save->setText(Lang::get(Lang::Save));
-	 _action_save_as->setText(Lang::get(Lang::SaveAs));
+	 _action_save_as->setText(Lang::get(Lang::SaveAs).triplePt());
 	 _action_rename->setText(Lang::get(Lang::Rename));
 	 _action_undo->setText(Lang::get(Lang::Undo));
 	 _action_default->setText(Lang::get(Lang::Default));

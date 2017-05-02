@@ -95,6 +95,7 @@ LanguageString Lang::get(Lang::Term term, bool* ok)
 		case Broadcast:
 			return l.tr("Broadcast");
 		case By:
+			// "Beat it" by "Michael Jackson"
 			return l.tr("by");
 		case Cancel:
 			return l.tr("Cancel");
@@ -113,7 +114,9 @@ LanguageString Lang::get(Lang::Term term, bool* ok)
 		case Covers:
 			return l.tr("Covers");
 		case Days:
+			return l.tr("days");
 		case DaysShort:
+			// short form of day
 			return l.tr("d");
 		case Default:
 			return l.tr("Default");
@@ -126,11 +129,16 @@ LanguageString Lang::get(Lang::Term term, bool* ok)
 		case Duration:
 			return l.tr("Duration");
 		case DurationShort:
+			// short form of duration
 			return l.tr("Dur.");
 		case DynamicPlayback:
 			return l.tr("Dynamic playback");
 		case Edit:
 			return l.tr("Edit");
+		case EnterName:
+			return l.tr("Enter name");
+		case EnterUrl:
+			return l.tr("Enter URL");
 		case Entry:
 			return l.tr("Entry");
 		case Entries:
@@ -158,7 +166,9 @@ LanguageString Lang::get(Lang::Term term, bool* ok)
 		case Genres:
 			return l.tr("Genres");
 		case Hours:
+			return l.tr("hours");
 		case HoursShort:
+			// short form of hours
 			return l.tr("h");
 		case ImportDir:
 			return l.tr("Import directory");
@@ -174,12 +184,16 @@ LanguageString Lang::get(Lang::Term term, bool* ok)
 			return l.tr("Library path");
 		case Listen:
 			return l.tr("Listen");
+		case Logger:
+			return l.tr("Logger");
 		case Lyrics:
 			return l.tr("Lyrics");
 		case Menu:
 			return l.tr("Menu");
 		case Minutes:
+			return l.tr("minutes");
 		case MinutesShort:
+			// short form of minutes
 			return l.tr("m");
 		case Months:
 			return l.tr("Months");
@@ -198,6 +212,7 @@ LanguageString Lang::get(Lang::Term term, bool* ok)
 		case NumTracks:
 			return QString("#") + l.tr("Tracks");
 		case On:
+			// 5th track on "Thriller"
 			return l.tr("on");
 		case Open:
 			return l.tr("Open");
@@ -262,7 +277,9 @@ LanguageString Lang::get(Lang::Term term, bool* ok)
 		case Second:
 			return l.tr("2nd");
 		case Seconds:
+			return l.tr("seconds");
 		case SecondsShort:
+			// short form of seconds
 			return l.tr("s");
 		case SeekBackward:
 			return l.tr("Seek backward");
@@ -288,6 +305,8 @@ LanguageString Lang::get(Lang::Term term, bool* ok)
 			return l.tr("Title");
 		case Track:
 			return l.tr("track");
+		case TrackNo:
+			return l.tr("track number");
 		case TrackOn:
 			return l.tr("track on");
 		case Tracks:

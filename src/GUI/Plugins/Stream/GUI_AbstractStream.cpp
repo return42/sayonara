@@ -128,8 +128,15 @@ void GUI_AbstractStream::init_ui()
 
 void GUI_AbstractStream::language_changed()
 {
-	_m->le_url->setPlaceholderText(tr("Enter URL") + "...");
-	_m->combo_stream->lineEdit()->setPlaceholderText(tr("Enter name") + "...");
+	_m->le_url->setPlaceholderText(Lang::get(Lang::EnterUrl).triplePt());
+	_m->combo_stream->lineEdit()->setPlaceholderText(Lang::get(Lang::EnterName).triplePt());
+	_m->btn_tool->setText(Lang::get(Lang::Menu));
+
+	if(_m->searching){
+		_m->lab_listen->setText(Lang::get(Lang::Stop));
+	} else {
+		_m->lab_listen->setText(Lang::get(Lang::Listen));
+	}
 }
 
 void GUI_AbstractStream::error()
