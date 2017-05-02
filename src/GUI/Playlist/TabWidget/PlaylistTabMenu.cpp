@@ -82,13 +82,13 @@ PlaylistTabMenu::~PlaylistTabMenu()
 
 void PlaylistTabMenu::language_changed()
 {
-	_action_open_file->setText(Lang::get(Lang::OpenFile));
-	_action_open_dir->setText(Lang::get(Lang::OpenDir));
+	_action_open_file->setText(Lang::get(Lang::OpenFile).triplePt());
+	_action_open_dir->setText(Lang::get(Lang::OpenDir).triplePt());
 	_action_reset->setText(Lang::get(Lang::Reset));
-	_action_rename->setText(Lang::get(Lang::Rename));
+	_action_rename->setText(Lang::get(Lang::Rename).triplePt());
 	_action_delete->setText(Lang::get(Lang::Delete));
 	_action_save->setText(Lang::get(Lang::Save));
-	_action_save_as->setText(Lang::get(Lang::SaveAs));
+	_action_save_as->setText(Lang::get(Lang::SaveAs).triplePt());
 	_action_clear->setText(Lang::get(Lang::Clear));
 	_action_close->setText(Lang::get(Lang::Close));
 	_action_close_others->setText(Lang::get(Lang::CloseOthers));

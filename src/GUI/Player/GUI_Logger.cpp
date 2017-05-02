@@ -78,6 +78,7 @@ void GUI_Logger::init_ui()
 	}
 
 	_buffer.clear();
+	language_changed();
 
 	connect(ui->btn_close, &QPushButton::clicked, this, &QWidget::close);
 	connect(ui->btn_save, &QPushButton::clicked, this, &GUI_Logger::save_clicked);
@@ -87,6 +88,9 @@ void GUI_Logger::language_changed()
 {
 	if(ui){
 		ui->retranslateUi(this);
+		ui->btn_close->setText(Lang::get(Lang::Close));
+		ui->btn_save->setText(Lang::get(Lang::SaveAs).triplePt());
+		this->setWindowTitle(Lang::get(Lang::Logger));
 	}
 }
 
@@ -114,6 +118,10 @@ void GUI_Logger::save_clicked()
 						   this,
 						   Lang::get(Lang::SaveAs),
 						   QDir::homePath(), "*.log");
+
+	if(filename.isEmpty()){
+		return;
+	}
 
 	QFile f(filename);
 	bool is_open = f.open(QFile::WriteOnly);

@@ -23,6 +23,7 @@
 
 #include "Helper/Library/SearchMode.h"
 #include "Helper/Settings/Settings.h"
+#include "Helper/Language.h"
 
 GUI_LibraryPreferences::GUI_LibraryPreferences(QWidget* parent) :
 	PreferenceWidgetInterface(parent) {}
@@ -44,7 +45,7 @@ void GUI_LibraryPreferences::init_ui()
 
 QString GUI_LibraryPreferences::get_action_name() const
 {
-	return tr("Library");
+	return Lang::get(Lang::Library);
 }
 
 

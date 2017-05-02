@@ -21,6 +21,7 @@
 #include "GUI_Speed.h"
 #include "GUI/Plugins/Engine/ui_GUI_Speed.h"
 #include "Helper/Settings/Settings.h"
+#include "Helper/Language.h"
 
 #include <QToolTip>
 #include <QCursor>
@@ -42,6 +43,9 @@ void GUI_Speed::language_changed()
 	}
 
 	ui->retranslateUi(this);
+	ui->btn_revert_pitch->setText(Lang::get(Lang::Default));
+	ui->btn_revert_speed->setText(Lang::get(Lang::Default));
+	ui->cb_active->setText(Lang::get(Lang::Activate));
 }
 
 void GUI_Speed::init_ui()

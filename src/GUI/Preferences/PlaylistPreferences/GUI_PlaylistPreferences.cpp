@@ -108,6 +108,11 @@ QString GUI_PlaylistPreferences::get_action_name() const
 void GUI_PlaylistPreferences::retranslate_ui()
 {
 	ui->retranslateUi(this);
+	ui->lab_album->setText(Lang::get(Lang::Album));
+	ui->lab_artist->setText(Lang::get(Lang::Artist));
+	ui->lab_title->setText(Lang::get(Lang::Title));
+	ui->lab_trackno->setText(Lang::get(Lang::TrackNo));
+	ui->btn_default->setText(Lang::get(Lang::Default));
 }
 
 void GUI_PlaylistPreferences::cb_toggled(bool b) {

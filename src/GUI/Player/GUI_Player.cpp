@@ -19,6 +19,7 @@
  */
 
 #include "GUI_Player.h"
+#include "GUI_Logger.h"
 #include "GUI_TrayIcon.h"
 #include "GUI/Playlist/GUI_Playlist.h"
 #include "GUI/Helper/IconLoader/IconLoader.h"
@@ -45,7 +46,7 @@
 #include <QDateTime>
 #include <QTranslator>
 
-GUI_Player::GUI_Player(QTranslator* translator, QWidget *parent) :
+GUI_Player::GUI_Player(QTranslator* translator, QWidget* parent) :
 	SayonaraMainWindow(parent),
 	ShortcutWidget(),
 	GlobalMessageReceiverInterface("Player Main Window"),
@@ -55,6 +56,7 @@ GUI_Player::GUI_Player(QTranslator* translator, QWidget *parent) :
 
 	_translator = translator;
 	_play_manager = PlayManager::getInstance();
+	_logger = new GUI_Logger();
 
 	GlobalMessage::getInstance()->register_receiver(this);
 
@@ -79,17 +81,7 @@ GUI_Player::GUI_Player(QTranslator* translator, QWidget *parent) :
 GUI_Player::~GUI_Player()
 {
 	sp_log(Log::Debug, this) << "Player closed.";
-
-	delete _logger;
-}
-
-
-void GUI_Player::language_changed()
-{
-	QString language = _settings->get(Set::Player_Language);
-	_translator->load(language, Helper::get_share_path("translations/"));
-
-	retranslateUi(this);
+	delete _logger; _logger=nullptr;
 }
 
 
@@ -138,7 +130,24 @@ void GUI_Player::init_gui()
 	plugin_widget->resize(plugin_widget->width(), 0);
 	plugin_widget->hide();
 
-	_logger = new GUI_Logger();
+	language_changed();
+}
+
+
+void GUI_Player::language_changed()
+{
+	QString language = _settings->get(Set::Player_Language);
+	_translator->load(language, Helper::get_share_path("translations/"));
+
+	retranslateUi(this);
+
+	menu_file->setTitle(Lang::get(Lang::File));
+	action_OpenFile->setText(Lang::get(Lang::OpenFile).triplePt());
+	action_OpenFolder->setText(Lang::get(Lang::OpenDir).triplePt());
+	action_Close->setText(Lang::get(Lang::Close));
+	action_viewLibrary->setText(Lang::get(Lang::Library));
+	action_logger->setText(Lang::get(Lang::Logger));
+	action_about->setText(Lang::get(Lang::About).triplePt());
 }
 
 
@@ -459,15 +468,13 @@ void GUI_Player::register_player_plugin_handler(PlayerPluginHandler* pph)
 
 
 /** LIBRARY AND PLAYLIST END **/
-
-
 void GUI_Player::register_preference_dialog(PreferenceDialogInterface* dialog)
 {
-	QList<QAction*> actions = menuFle->actions();
+	QList<QAction*> actions = menu_file->actions();
 	QAction* sep = actions[actions.size() - 4];
 
 	dialog->setParent(this);
-	menuFle->insertAction(sep, dialog->get_action());
+	menu_file->insertAction(sep, dialog->get_action());
 }
 
 

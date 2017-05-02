@@ -117,6 +117,7 @@ void GUI_TagEdit::language_changed()
 	ui->btn_album->setText(Lang::get(Lang::Album));
 	ui->btn_artist->setText(Lang::get(Lang::Artist));
 	ui->btn_year->setText(Lang::get(Lang::Year));
+	ui->btn_track_nr->setText(Lang::get(Lang::TrackNo));
 	ui->btn_apply_tag->setText(Lang::get(Lang::Apply));
 	ui->lab_track_title->setText(Lang::get(Lang::Title));
 	ui->lab_album->setText(Lang::get(Lang::Album));
@@ -124,6 +125,7 @@ void GUI_TagEdit::language_changed()
 	ui->lab_year->setText(Lang::get(Lang::Year));
 	ui->lab_genres->setText(Lang::get(Lang::Genres));
 	ui->lab_rating_descr->setText(Lang::get(Lang::Rating));
+	ui->lab_track_num->setText(Lang::get(Lang::TrackNo));
 
 	ui->cb_album_all->setText(Lang::get(Lang::All));
 	ui->cb_artist_all->setText(Lang::get(Lang::All));

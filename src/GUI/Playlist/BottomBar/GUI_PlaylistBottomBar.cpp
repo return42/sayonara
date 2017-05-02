@@ -106,6 +106,7 @@ GUI_PlaylistBottomBar::GUI_PlaylistBottomBar(QWidget *parent) :
 	connect(_m->ui_shutdown, &GUI_Shutdown::sig_closed, this, &GUI_PlaylistBottomBar::shutdown_closed);
 #endif
 
+	language_changed();
 	REGISTER_LISTENER(Set::PL_Mode, _sl_playlist_mode_changed);
 }
 
@@ -166,6 +167,21 @@ void GUI_PlaylistBottomBar::playlist_mode_changed()
 	_m->plm = plm;
 
 	_settings->set(Set::PL_Mode, _m->plm);
+}
+
+void GUI_PlaylistBottomBar::language_changed()
+{
+	if(!ui){
+		return;
+	}
+
+	ui->btn_append->setToolTip(Lang::get(Lang::Append));
+	ui->btn_dynamic->setToolTip(Lang::get(Lang::DynamicPlayback));
+	ui->btn_gapless->setToolTip(Lang::get(Lang::GaplessPlayback));
+	ui->btn_rep1->setToolTip(Lang::get(Lang::Repeat1));
+	ui->btn_repAll->setToolTip(Lang::get(Lang::RepeatAll));
+	ui->btn_shuffle->setToolTip(Lang::get(Lang::Shuffle));
+	ui->btn_shutdown->setToolTip(Lang::get(Lang::Shutdown) + ": " + Lang::get(Lang::Cancel));
 }
 
 // setting slot

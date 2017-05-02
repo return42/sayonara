@@ -56,17 +56,7 @@
 <context>
     <name>GUI_AbstractStream</name>
     <message>
-        <location filename="../GUI/Plugins/Stream/GUI_AbstractStream.cpp" line="+131"/>
-        <source>Enter URL</source>
-        <translation>Stream URL</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Enter name</source>
-        <translation>Stream Name</translation>
-    </message>
-    <message>
-        <location line="+10"/>
+        <location filename="../GUI/Plugins/Stream/GUI_AbstractStream.cpp" line="+151"/>
         <source>Cannot open stream</source>
         <translation>Stream kann nicht geöffnet werden</translation>
     </message>
@@ -259,14 +249,8 @@
         <translation>Zwischen</translation>
     </message>
     <message>
-        <location line="+15"/>
-        <location filename="../../build-debug/src/GUI/Library/ui_GUI_DateSearchConfig.h" line="+2"/>
-        <source>New</source>
-        <translation>Neu</translation>
-    </message>
-    <message>
-        <location line="+36"/>
-        <location filename="../../build-debug/src/GUI/Library/ui_GUI_DateSearchConfig.h" line="+1"/>
+        <location line="+51"/>
+        <location filename="../../build-debug/src/GUI/Library/ui_GUI_DateSearchConfig.h" line="+3"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
@@ -586,11 +570,6 @@
         <source>Library-Playlist Interaction</source>
         <translation>Bibliothek und Wiedergabeliste</translation>
     </message>
-    <message>
-        <location filename="../GUI/Preferences/LibraryPreferences/GUI_LibraryPreferences.cpp" line="+47"/>
-        <source>Library</source>
-        <translation>Musiksammlung</translation>
-    </message>
 </context>
 <context>
     <name>GUI_LocalLibrary</name>
@@ -703,25 +682,7 @@
 <context>
     <name>GUI_Logger</name>
     <message>
-        <location filename="../GUI/Player/GUI_Logger.ui" line="+14"/>
-        <location filename="../../build-debug/src/GUI/Player/ui_GUI_Logger.h" line="+75"/>
-        <source>Logger</source>
-        <translation>Logger</translation>
-    </message>
-    <message>
-        <location line="+11"/>
-        <location filename="../../build-debug/src/GUI/Player/ui_GUI_Logger.h" line="+1"/>
-        <source>Save</source>
-        <translation>Speichern</translation>
-    </message>
-    <message>
-        <location line="+20"/>
-        <location filename="../../build-debug/src/GUI/Player/ui_GUI_Logger.h" line="+1"/>
-        <source>Close</source>
-        <translation>Schließen</translation>
-    </message>
-    <message>
-        <location filename="../GUI/Player/GUI_Logger.cpp" line="+126"/>
+        <location filename="../GUI/Player/GUI_Logger.cpp" line="+130"/>
         <source>Cannot open file</source>
         <translation>Datei konnte nicht geöffnet werden</translation>
     </message>
@@ -828,7 +789,7 @@
 <context>
     <name>GUI_Player</name>
     <message>
-        <location filename="../GUI/Player/GUI_Player.cpp" line="+102"/>
+        <location filename="../GUI/Player/GUI_Player.cpp" line="+110"/>
         <source>Sayonara Player</source>
         <translation>Sayonara Player</translation>
     </message>
@@ -843,7 +804,7 @@
         <translation>Copyright</translation>
     </message>
     <message>
-        <location line="+505"/>
+        <location line="+503"/>
         <source>A new version is available!</source>
         <translation>Eine neue Version ist verfügbar!</translation>
     </message>
@@ -948,12 +909,7 @@
         <translation>Name existiert bereits</translation>
     </message>
     <message>
-        <location line="+11"/>
-        <source>Really</source>
-        <translation>Wirklich</translation>
-    </message>
-    <message>
-        <location line="+108"/>
+        <location line="+119"/>
         <source>Cannot save playlist.</source>
         <translation>Playlist konnte nicht gespeichert werden.</translation>
     </message>
@@ -963,12 +919,7 @@
         <translation>Playlist existiert bereits</translation>
     </message>
     <message>
-        <location line="+0"/>
-        <source>Overwrite?</source>
-        <translation>Überschreiben?</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+4"/>
         <source>Playlists are currently only supported for library tracks.</source>
         <translation>Playlisten können momentan nur für Musiksammlungs-Tracks erstellt werden.</translation>
     </message>
@@ -981,59 +932,23 @@
 <context>
     <name>GUI_PlaylistBottomBar</name>
     <message>
-        <location filename="../GUI/Playlist/BottomBar/GUI_PlaylistBottomBar.ui" line="+69"/>
-        <location filename="../../build-debug/src/GUI/Playlist/ui_GUI_PlaylistBottomBar.h" line="+167"/>
-        <source>Repeat 1</source>
-        <translation>Wiederhole 1</translation>
-    </message>
-    <message>
-        <location line="+17"/>
-        <location line="+42"/>
-        <location line="+42"/>
-        <location line="+42"/>
+        <location filename="../GUI/Playlist/BottomBar/GUI_PlaylistBottomBar.ui" line="+83"/>
+        <location line="+39"/>
+        <location line="+39"/>
+        <location line="+39"/>
+        <location line="+38"/>
         <location line="+41"/>
-        <location line="+44"/>
-        <location filename="../../build-debug/src/GUI/Playlist/ui_GUI_PlaylistBottomBar.h" line="+3"/>
-        <location line="+5"/>
-        <location line="+5"/>
-        <location line="+5"/>
-        <location line="+5"/>
-        <location line="+5"/>
+        <location filename="../../build-debug/src/GUI/Playlist/ui_GUI_PlaylistBottomBar.h" line="+167"/>
+        <location line="+2"/>
+        <location line="+2"/>
+        <location line="+2"/>
+        <location line="+2"/>
+        <location line="+2"/>
         <source>Enter</source>
         <translation>Enter</translation>
     </message>
     <message>
-        <location line="-186"/>
-        <location filename="../../build-debug/src/GUI/Playlist/ui_GUI_PlaylistBottomBar.h" line="-23"/>
-        <source>Repeat All</source>
-        <translation>Wiederhole alle</translation>
-    </message>
-    <message>
-        <location line="+42"/>
-        <location filename="../../build-debug/src/GUI/Playlist/ui_GUI_PlaylistBottomBar.h" line="+5"/>
-        <source>Shuffle</source>
-        <translation>Zufallsmodus</translation>
-    </message>
-    <message>
-        <location line="+42"/>
-        <location filename="../../build-debug/src/GUI/Playlist/ui_GUI_PlaylistBottomBar.h" line="+5"/>
-        <source>Dynamic playing</source>
-        <translation>Dynamische Wiedergabeliste</translation>
-    </message>
-    <message>
-        <location line="+42"/>
-        <location filename="../../build-debug/src/GUI/Playlist/ui_GUI_PlaylistBottomBar.h" line="+5"/>
-        <source>Append when adding new tracks</source>
-        <translation>Füge neue Titel am Ende an</translation>
-    </message>
-    <message>
-        <location line="+41"/>
-        <location filename="../../build-debug/src/GUI/Playlist/ui_GUI_PlaylistBottomBar.h" line="+5"/>
-        <source>Gapless playback</source>
-        <translation>Lückenlose Wiedergabe</translation>
-    </message>
-    <message>
-        <location filename="../GUI/Playlist/BottomBar/GUI_PlaylistBottomBar.cpp" line="+201"/>
+        <location filename="../GUI/Playlist/BottomBar/GUI_PlaylistBottomBar.cpp" line="+217"/>
         <source>Please set library path first</source>
         <translation>Bitte Pfad für Musiksammlung angeben</translation>
     </message>
@@ -1066,7 +981,7 @@
 <context>
     <name>GUI_PlaylistPreferences</name>
     <message>
-        <location filename="../GUI/Preferences/PlaylistPreferences/GUI_PlaylistPreferences.ui" line="+259"/>
+        <location filename="../GUI/Preferences/PlaylistPreferences/GUI_PlaylistPreferences.ui" line="+250"/>
         <location filename="../../build-debug/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+273"/>
         <source>Show numbers</source>
         <translation>Nummerierung anzeigen</translation>
@@ -1079,7 +994,7 @@
     </message>
     <message>
         <location line="-65"/>
-        <location filename="../../build-debug/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="-11"/>
+        <location filename="../../build-debug/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="-6"/>
         <source>Start up</source>
         <translation>Startoptionen</translation>
     </message>
@@ -1115,7 +1030,7 @@
     </message>
     <message>
         <location line="+63"/>
-        <location filename="../../build-debug/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+3"/>
+        <location filename="../../build-debug/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+2"/>
         <source>&apos;italic text&apos;</source>
         <translation>&apos;kursiver Text&apos;</translation>
     </message>
@@ -1132,71 +1047,17 @@
         <translation>*fetter Text*</translation>
     </message>
     <message>
-        <location line="+7"/>
-        <location filename="../../build-debug/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
-        <source>track number</source>
-        <translation>Titelnummern</translation>
-    </message>
-    <message>
-        <location line="+21"/>
-        <location filename="../../build-debug/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
-        <source>title</source>
-        <translation>Titel</translation>
-    </message>
-    <message>
-        <location line="+7"/>
-        <location filename="../../build-debug/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
-        <source>artist</source>
-        <translation>Künstler</translation>
-    </message>
-    <message>
-        <location line="+7"/>
-        <location filename="../../build-debug/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
-        <source>album</source>
-        <translation>Album</translation>
-    </message>
-    <message>
-        <location line="+50"/>
+        <location line="+92"/>
         <location filename="../../build-debug/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+2"/>
         <source>Show clear button</source>
         <translation>&quot;Leeren&quot; Knopf anzeigen</translation>
-    </message>
-    <message>
-        <location line="-162"/>
-        <location filename="../../build-debug/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="-9"/>
-        <source>Default</source>
-        <translation>Standard</translation>
     </message>
 </context>
 <context>
     <name>GUI_Podcasts</name>
     <message>
-        <location filename="../GUI/Plugins/Stream/GUI_Podcasts.ui" line="+29"/>
-        <location filename="../../build-debug/src/GUI/Plugins/Stream/ui_GUI_Podcasts.h" line="+104"/>
-        <source>Type name you want to save the stream as</source>
-        <translation>Speichern als</translation>
-    </message>
-    <message>
-        <location line="+25"/>
-        <location filename="../../build-debug/src/GUI/Plugins/Stream/ui_GUI_Podcasts.h" line="+5"/>
-        <source>Menu</source>
-        <translation>Menü</translation>
-    </message>
-    <message>
-        <location line="-12"/>
-        <location filename="../../build-debug/src/GUI/Plugins/Stream/ui_GUI_Podcasts.h" line="-2"/>
-        <source>Enter stream url</source>
-        <translation>Stream url eingeben</translation>
-    </message>
-    <message>
-        <location line="+67"/>
-        <location filename="../../build-debug/src/GUI/Plugins/Stream/ui_GUI_Podcasts.h" line="+7"/>
-        <source>Listen</source>
-        <translation>Starten</translation>
-    </message>
-    <message>
-        <location line="-23"/>
-        <location filename="../../build-debug/src/GUI/Plugins/Stream/ui_GUI_Podcasts.h" line="-3"/>
+        <location filename="../GUI/Plugins/Stream/GUI_Podcasts.ui" line="+80"/>
+        <location filename="../../build-debug/src/GUI/Plugins/Stream/ui_GUI_Podcasts.h" line="+106"/>
         <source>Start stream</source>
         <translation>Stream starten</translation>
     </message>
@@ -1289,7 +1150,7 @@
     <message>
         <location filename="../GUI/Preferences/Shortcuts/GUI_Shortcuts.ui" line="+41"/>
         <location filename="../../build-debug/src/GUI/Preferences/ui_GUI_Shortcuts.h" line="+85"/>
-        <location filename="../GUI/Preferences/Shortcuts/GUI_Shortcuts.cpp" line="+109"/>
+        <location filename="../GUI/Preferences/Shortcuts/GUI_Shortcuts.cpp" line="+110"/>
         <source>Press shortcut</source>
         <translation>Shortcut eingeben</translation>
     </message>
@@ -1297,11 +1158,6 @@
         <location filename="../GUI/Preferences/Shortcuts/GUI_Shortcuts.cpp" line="-23"/>
         <source>Shortcuts</source>
         <translation>Shortcuts</translation>
-    </message>
-    <message>
-        <location line="-9"/>
-        <source>Success</source>
-        <translation>Erfolg</translation>
     </message>
 </context>
 <context>
@@ -1470,44 +1326,24 @@
 <context>
     <name>GUI_Speed</name>
     <message>
-        <location filename="../GUI/Plugins/Engine/Speed/GUI_Speed.ui" line="+57"/>
-        <location filename="../../build-debug/src/GUI/Plugins/Engine/ui_GUI_Speed.h" line="+146"/>
-        <source>1.0</source>
-        <translation>1.0</translation>
-    </message>
-    <message>
-        <location line="-12"/>
-        <location filename="../../build-debug/src/GUI/Plugins/Engine/ui_GUI_Speed.h" line="+3"/>
-        <location filename="../GUI/Plugins/Engine/Speed/GUI_Speed.cpp" line="+89"/>
+        <location filename="../GUI/Plugins/Engine/Speed/GUI_Speed.ui" line="+45"/>
+        <location filename="../../build-debug/src/GUI/Plugins/Engine/ui_GUI_Speed.h" line="+151"/>
+        <location filename="../GUI/Plugins/Engine/Speed/GUI_Speed.cpp" line="+93"/>
         <source>Speed</source>
         <translation>Geschwindigkeit</translation>
     </message>
     <message>
-        <location line="+22"/>
-        <location line="+84"/>
-        <location filename="../../build-debug/src/GUI/Plugins/Engine/ui_GUI_Speed.h" line="-2"/>
-        <location line="+3"/>
-        <source>Default</source>
-        <translation>Standard</translation>
-    </message>
-    <message>
-        <location line="-52"/>
-        <location filename="../../build-debug/src/GUI/Plugins/Engine/ui_GUI_Speed.h" line="-2"/>
+        <location line="+54"/>
+        <location filename="../../build-debug/src/GUI/Plugins/Engine/ui_GUI_Speed.h" line="-1"/>
         <source>Preserve pitch</source>
         <translation>Tonhöhe beibehalten</translation>
     </message>
     <message>
         <location line="+8"/>
-        <location filename="../../build-debug/src/GUI/Plugins/Engine/ui_GUI_Speed.h" line="+3"/>
+        <location filename="../../build-debug/src/GUI/Plugins/Engine/ui_GUI_Speed.h" line="+2"/>
         <location filename="../GUI/Plugins/Engine/Speed/GUI_Speed.cpp" line="+0"/>
         <source>Pitch</source>
         <translation>Tonhöhe</translation>
-    </message>
-    <message>
-        <location line="+55"/>
-        <location filename="../../build-debug/src/GUI/Plugins/Engine/ui_GUI_Speed.h" line="+1"/>
-        <source>Active</source>
-        <translation>Aktivieren</translation>
     </message>
     <message>
         <location filename="../GUI/Plugins/Engine/Speed/GUI_Speed.cpp" line="+62"/>
@@ -1555,37 +1391,13 @@
 <context>
     <name>GUI_Stream</name>
     <message>
-        <location filename="../GUI/Plugins/Stream/GUI_Stream.ui" line="+100"/>
-        <location filename="../../build-debug/src/GUI/Plugins/Stream/ui_GUI_Stream.h" line="+112"/>
-        <source>Listen</source>
-        <translation>Starten</translation>
-    </message>
-    <message>
         <location filename="../GUI/Plugins/Stream/GUI_Stream.cpp" line="+44"/>
         <source>Webstreams</source>
         <translation>Online Streams</translation>
     </message>
     <message>
-        <location filename="../GUI/Plugins/Stream/GUI_Stream.ui" line="-80"/>
-        <location filename="../../build-debug/src/GUI/Plugins/Stream/ui_GUI_Stream.h" line="-10"/>
-        <source>Type name you want to save the stream as</source>
-        <translation>Speichern als</translation>
-    </message>
-    <message>
-        <location line="+25"/>
-        <location filename="../../build-debug/src/GUI/Plugins/Stream/ui_GUI_Stream.h" line="+5"/>
-        <source>Menu</source>
-        <translation>Menü</translation>
-    </message>
-    <message>
-        <location line="-12"/>
-        <location filename="../../build-debug/src/GUI/Plugins/Stream/ui_GUI_Stream.h" line="-2"/>
-        <source>Enter stream url</source>
-        <translation>Bitte Stream Url eingeben</translation>
-    </message>
-    <message>
-        <location line="+44"/>
-        <location filename="../../build-debug/src/GUI/Plugins/Stream/ui_GUI_Stream.h" line="+4"/>
+        <location filename="../GUI/Plugins/Stream/GUI_Stream.ui" line="+71"/>
+        <location filename="../../build-debug/src/GUI/Plugins/Stream/ui_GUI_Stream.h" line="+104"/>
         <source>Start stream</source>
         <translation>Starte Stream</translation>
     </message>
@@ -1600,25 +1412,19 @@
     </message>
     <message>
         <location line="-69"/>
-        <location filename="../../build-debug/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="-5"/>
+        <location filename="../../build-debug/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="-4"/>
         <source>Activate</source>
         <translation>Aktivieren</translation>
     </message>
     <message>
-        <location line="+62"/>
-        <location filename="../../build-debug/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="+4"/>
-        <source>...</source>
-        <translation>...</translation>
-    </message>
-    <message>
-        <location line="+14"/>
-        <location filename="../../build-debug/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="+2"/>
+        <location line="+76"/>
+        <location filename="../../build-debug/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="+5"/>
         <source>Automatic recording</source>
         <translation>Automatsch aufnehmen</translation>
     </message>
     <message>
         <location line="-40"/>
-        <location filename="../../build-debug/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="-4"/>
+        <location filename="../../build-debug/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="-3"/>
         <source>Create session folder</source>
         <translation>Sitzungsverzeichnis erstellen</translation>
     </message>
@@ -1762,7 +1568,7 @@ Bitte ein anderes Verzeichnis wählen</translation>
     <name>GUI_TagEdit</name>
     <message>
         <location filename="../GUI/TagEdit/GUI_TagEdit.ui" line="+272"/>
-        <location filename="../../build-debug/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+666"/>
+        <location filename="../../build-debug/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+668"/>
         <source>&lt;</source>
         <translation>&lt;</translation>
     </message>
@@ -1780,7 +1586,7 @@ Bitte ein anderes Verzeichnis wählen</translation>
     </message>
     <message>
         <location line="+42"/>
-        <location filename="../../build-debug/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+3"/>
+        <location filename="../../build-debug/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+2"/>
         <source>Expression</source>
         <translation>Ausdruck</translation>
     </message>
@@ -1791,22 +1597,14 @@ Bitte ein anderes Verzeichnis wählen</translation>
         <translation>?</translation>
     </message>
     <message>
-        <location line="-22"/>
-        <location line="+75"/>
-        <location filename="../../build-debug/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-1"/>
-        <location line="+3"/>
-        <source># Track</source>
-        <translation># Titel</translation>
-    </message>
-    <message>
-        <location line="+271"/>
-        <location filename="../../build-debug/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+3"/>
+        <location line="+324"/>
+        <location filename="../../build-debug/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+4"/>
         <source>Album artist</source>
         <translation>Albumkünstler</translation>
     </message>
     <message>
         <location line="-635"/>
-        <location filename="../../build-debug/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-19"/>
+        <location filename="../../build-debug/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-17"/>
         <source>Original</source>
         <translation>Original</translation>
     </message>
@@ -1854,12 +1652,12 @@ Bitte ein anderes Verzeichnis wählen</translation>
     </message>
     <message>
         <location line="+481"/>
-        <location filename="../../build-debug/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+20"/>
+        <location filename="../../build-debug/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+18"/>
         <source>Discnumber</source>
         <translation>CD Nummer</translation>
     </message>
     <message>
-        <location filename="../GUI/TagEdit/GUI_TagEdit.cpp" line="+290"/>
+        <location filename="../GUI/TagEdit/GUI_TagEdit.cpp" line="+292"/>
         <source>Tag</source>
         <translation>Tag</translation>
     </message>
@@ -1916,11 +1714,6 @@ Bitte ein anderes Verzeichnis wählen</translation>
         <location filename="../../build-debug/src/GUI/Plugins/PlaylistChooser/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
         <source>Save playlist as...</source>
         <translation>Speichern unter...</translation>
-    </message>
-    <message>
-        <location filename="../GUI/Plugins/PlaylistChooser/GUI_TargetPlaylistDialog.cpp" line="+49"/>
-        <source>Choose target file</source>
-        <translation>Zieldatei</translation>
     </message>
 </context>
 <context>
@@ -2031,7 +1824,7 @@ Bitte ein anderes Verzeichnis wählen</translation>
         <translation>Radiostation</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>by</source>
         <translation>von</translation>
     </message>
@@ -2066,7 +1859,7 @@ Bitte ein anderes Verzeichnis wählen</translation>
         <translation>Weiter</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+7"/>
         <source>d</source>
         <translation>d</translation>
     </message>
@@ -2091,17 +1884,17 @@ Bitte ein anderes Verzeichnis wählen</translation>
         <translation>Verzeichnisse</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>Dur.</source>
         <translation>Länge</translation>
     </message>
     <message>
-        <location line="-2"/>
+        <location line="-3"/>
         <source>Duration</source>
         <translation>Dauer</translation>
     </message>
     <message>
-        <location line="-57"/>
+        <location line="-60"/>
         <source>Activate</source>
         <translation>Aktivieren</translation>
     </message>
@@ -2126,7 +1919,7 @@ Bitte ein anderes Verzeichnis wählen</translation>
         <translation>Anwenden</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+15"/>
         <source>Cancel</source>
         <translation>Abbrechen</translation>
     </message>
@@ -2136,7 +1929,12 @@ Bitte ein anderes Verzeichnis wählen</translation>
         <translation>Covers</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+2"/>
+        <source>days</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+18"/>
         <source>Dynamic playback</source>
         <translation>Dynamische Wiedergabe</translation>
     </message>
@@ -2144,6 +1942,16 @@ Bitte ein anderes Verzeichnis wählen</translation>
         <location line="+2"/>
         <source>Edit</source>
         <translation>Bearbeiten</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Enter name</source>
+        <translation>Name eingeben</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Enter URL</source>
+        <translation>URL eingeben</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2212,6 +2020,11 @@ Bitte ein anderes Verzeichnis wählen</translation>
         <translation>Genres</translation>
     </message>
     <message>
+        <location line="+2"/>
+        <source>hours</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location line="+3"/>
         <source>h</source>
         <translation>h</translation>
@@ -2253,6 +2066,11 @@ Bitte ein anderes Verzeichnis wählen</translation>
     </message>
     <message>
         <location line="+2"/>
+        <source>Logger</source>
+        <translation>Logger</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Lyrics</source>
         <translation>Texte</translation>
     </message>
@@ -2260,6 +2078,11 @@ Bitte ein anderes Verzeichnis wählen</translation>
         <location line="+2"/>
         <source>Menu</source>
         <translation>Menü</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>minutes</source>
+        <translation type="unfinished">Minuten</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -2307,7 +2130,7 @@ Bitte ein anderes Verzeichnis wählen</translation>
         <translation>Titel</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+3"/>
         <source>on</source>
         <translation>auf</translation>
     </message>
@@ -2417,12 +2240,22 @@ Bitte ein anderes Verzeichnis wählen</translation>
         <translation>Neu laden</translation>
     </message>
     <message>
-        <location line="+35"/>
+        <location line="+20"/>
+        <source>seconds</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+17"/>
         <source>Stream URL</source>
         <translation>Stream URL</translation>
     </message>
     <message>
-        <location line="+36"/>
+        <location line="+12"/>
+        <source>track number</source>
+        <translation>Titelnummer</translation>
+    </message>
+    <message>
+        <location line="+26"/>
         <source>Weeks</source>
         <translation>Wochen</translation>
     </message>
@@ -2437,7 +2270,7 @@ Bitte ein anderes Verzeichnis wählen</translation>
         <translation>Vergrößern</translation>
     </message>
     <message>
-        <location line="-91"/>
+        <location line="-95"/>
         <source>Refresh</source>
         <translation>Aktualisieren</translation>
     </message>
@@ -2487,7 +2320,7 @@ Bitte ein anderes Verzeichnis wählen</translation>
         <translation>2.</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+5"/>
         <source>s</source>
         <translation>s</translation>
     </message>
@@ -2547,7 +2380,7 @@ Bitte ein anderes Verzeichnis wählen</translation>
         <translation>Titel</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+4"/>
         <source>track on</source>
         <translation>Titel auf</translation>
     </message>
@@ -2633,7 +2466,7 @@ Bitte ein anderes Verzeichnis wählen</translation>
 <context>
     <name>LibraryGenreView</name>
     <message>
-        <location filename="../GUI/Library/Views/LibraryGenreView.cpp" line="+238"/>
+        <location filename="../GUI/Library/Views/LibraryGenreView.cpp" line="+237"/>
         <location line="+33"/>
         <source>Updating genres</source>
         <translation>Aktualisiere Genres</translation>
@@ -2745,89 +2578,45 @@ Bitte ein anderes Verzeichnis wählen</translation>
     <name>Sayonara</name>
     <message>
         <location filename="../GUI/Player/GUI_Player.ui" line="+29"/>
-        <location line="+482"/>
-        <location filename="../../build-debug/src/GUI/Player/ui_GUI_Player.h" line="+616"/>
-        <location line="+19"/>
+        <location filename="../../build-debug/src/GUI/Player/ui_GUI_Player.h" line="+624"/>
         <source>Sayonara Player</source>
         <translation>Sayonara Player</translation>
     </message>
     <message>
-        <location line="+139"/>
-        <location filename="../../build-debug/src/GUI/Player/ui_GUI_Player.h" line="+2"/>
+        <location line="+609"/>
+        <location filename="../../build-debug/src/GUI/Player/ui_GUI_Player.h" line="+13"/>
         <source>Written by Lucio Carreras</source>
         <translation>Von Lucio Carreras</translation>
     </message>
     <message>
-        <location line="-356"/>
-        <location filename="../../build-debug/src/GUI/Player/ui_GUI_Player.h" line="-5"/>
-        <source>Ctrl+S</source>
-        <translation>Strg+S</translation>
-    </message>
-    <message>
-        <location line="+419"/>
-        <location filename="../../build-debug/src/GUI/Player/ui_GUI_Player.h" line="+6"/>
+        <location line="+63"/>
+        <location filename="../../build-debug/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
         <source>Copyright 2011-2017</source>
         <translation>Copyright 2011-2017</translation>
     </message>
     <message>
-        <location line="+271"/>
+        <location line="+277"/>
         <location filename="../../build-debug/src/GUI/Player/ui_GUI_Player.h" line="+2"/>
-        <source>File</source>
-        <translation>Datei</translation>
-    </message>
-    <message>
-        <location line="+15"/>
-        <location filename="../../build-debug/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
         <source>View</source>
         <translation>Ansicht</translation>
     </message>
     <message>
         <location line="+10"/>
         <location line="+55"/>
-        <location filename="../../build-debug/src/GUI/Player/ui_GUI_Player.h" line="-20"/>
-        <location line="+21"/>
+        <location filename="../../build-debug/src/GUI/Player/ui_GUI_Player.h" line="-14"/>
+        <location line="+15"/>
         <source>Help</source>
         <translation>Hilfe</translation>
     </message>
     <message>
-        <location line="-40"/>
-        <location filename="../../build-debug/src/GUI/Player/ui_GUI_Player.h" line="-25"/>
-        <source>Open File</source>
-        <translation>Datei öffnen</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <location filename="../../build-debug/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
-        <source>Open Folder</source>
-        <translation>Verzeichnis öffnen</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <location filename="../../build-debug/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
-        <source>Close</source>
-        <translation>Schließen</translation>
-    </message>
-    <message>
-        <location line="+11"/>
-        <location filename="../../build-debug/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
+        <location line="-5"/>
+        <location filename="../../build-debug/src/GUI/Player/ui_GUI_Player.h" line="-16"/>
         <source>Dark</source>
         <translation>Dunkel</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+38"/>
         <location filename="../../build-debug/src/GUI/Player/ui_GUI_Player.h" line="+2"/>
-        <source>About</source>
-        <translation>Über</translation>
-    </message>
-    <message>
-        <location line="+11"/>
-        <location filename="../../build-debug/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
-        <source>Library</source>
-        <translation>Musiksammlung</translation>
-    </message>
-    <message>
-        <location line="+14"/>
-        <location filename="../../build-debug/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
         <source>Fullscreen </source>
         <translation>Vollbild</translation>
     </message>
@@ -2842,12 +2631,6 @@ Bitte ein anderes Verzeichnis wählen</translation>
         <location filename="../../build-debug/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
         <source>Donate</source>
         <translation>Spenden</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <location filename="../../build-debug/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
-        <source>Logger</source>
-        <translation>Logger</translation>
     </message>
 </context>
 <context>
@@ -2908,14 +2691,6 @@ Bitte ein anderes Verzeichnis wählen</translation>
         <location line="-193"/>
         <source>Followers/Following</source>
         <translation>Followers/Folgt</translation>
-    </message>
-</context>
-<context>
-    <name>SoundcloudLibraryContainer</name>
-    <message>
-        <location filename="../3rdParty/Soundcloud/SoundcloudLibraryContainer.cpp" line="+43"/>
-        <source>Soundcloud</source>
-        <translation>Soundcloud</translation>
     </message>
 </context>
 <context>

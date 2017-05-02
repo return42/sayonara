@@ -228,7 +228,7 @@ void GUI_Playlist::tab_rename_clicked(int idx, const QString& str)
 
 void GUI_Playlist::tab_delete_playlist_clicked(int idx)
 {
-	GlobalMessage::Answer answer = Message::question_yn(tr("Really"), Lang::get(Lang::Delete));
+	GlobalMessage::Answer answer = Message::question_yn(Lang::get(Lang::Really).question(), Lang::get(Lang::Delete));
 
 	if(answer == GlobalMessage::Answer::No) {
 		return;
@@ -340,7 +340,8 @@ GlobalMessage::Answer GUI_Playlist::show_save_message_box(PlaylistDBInterface::S
 			break;
 
 		case PlaylistDBInterface::SaveAsAnswer::AlreadyThere:
-			return Message::question_yn(tr("Playlist exists") + "\n" + tr("Overwrite?"), Lang::get(Lang::SaveAs));
+			return Message::question_yn(tr("Playlist exists") + "\n" + Lang::get(Lang::Overwrite).question(),
+										Lang::get(Lang::SaveAs));
 
 		case PlaylistDBInterface::SaveAsAnswer::ExternTracksError:
 			return Message::warning(tr("Playlists are currently only supported for library tracks."), tr("Save playlist"));

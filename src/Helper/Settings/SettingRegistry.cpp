@@ -130,6 +130,7 @@ bool SettingRegistry::init()
 	register_setting( Set::Lib_ShowAlbumArtists, "lib_show_album_artists", false);
 	register_setting( Set::Lib_ShowAlbumCovers, "lib_show_album_covers", false);
 	register_setting( Set::Lib_CoverZoom, "lib_cover_zoom", 100);
+	register_setting( Set::Lib_GenreTree, "lib_show_genre_tree", true);
 
 #ifdef Q_OS_WIN
 	register_setting( Set::Lib_FontBold ,"lib_font_bold", false);

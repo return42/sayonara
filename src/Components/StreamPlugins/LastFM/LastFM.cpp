@@ -92,7 +92,8 @@ LastFM::LastFM() :
 
 LastFM::~LastFM() {}
 
-void LastFM::get_login(QString& user, QString& pw){
+void LastFM::get_login(QString& user, QString& pw)
+{
 	StringPair user_pw = Settings::getInstance()->get(Set::LFM_Login);
 	user = user_pw.first;
 	pw = user_pw.second;
@@ -120,7 +121,8 @@ void LastFM::psl_login()
 }
 
 
-void LastFM::sl_login_thread_finished(bool success) {
+void LastFM::sl_login_thread_finished(bool success)
+{
 	if(!success){
 		return;
 	}
@@ -142,7 +144,8 @@ void LastFM::sl_login_thread_finished(bool success) {
 	emit sig_logged_in(_m->logged_in);
 }
 
-void LastFM::sl_track_changed(const MetaData& md) {
+void LastFM::sl_track_changed(const MetaData& md)
+{
 	Playlist::Mode pl_mode = _settings->get(Set::PL_Mode);
 	if( Playlist::Mode::isActiveAndEnabled(pl_mode.dynamic())) {
 		_m->track_changed_thread->search_similar_artists(md);
@@ -226,7 +229,8 @@ bool LastFM::check_scrobble(quint64 pos_ms)
 	return _m->scrobbled;
 }
 
-void LastFM::scrobble(const MetaData& metadata) {
+void LastFM::scrobble(const MetaData& md)
+{
 	_m->scrobbled = true;
 
 	if(!_m->active) {
@@ -246,13 +250,13 @@ void LastFM::scrobble(const MetaData& metadata) {
 	struct tm* ptm = localtime(&rawtime);
 	started = mktime(ptm);
 
-	QString artist = metadata.artist;
-	QString title = metadata.title;
+	QString artist = md.artist;
+	QString title = md.title;
 
 	UrlParams sig_data;
 	sig_data["api_key"] = LFM_API_KEY;
 	sig_data["artist"] = artist.toLocal8Bit();
-	sig_data["duration"] = QString::number(metadata.length_ms / 1000).toLocal8Bit();
+	sig_data["duration"] = QString::number(md.length_ms / 1000).toLocal8Bit();
 	sig_data["method"] = "track.scrobble";
 	sig_data["sk"] = _m->session_key.toLocal8Bit();
 	sig_data["timestamp"] = QString::number(started).toLocal8Bit();

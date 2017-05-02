@@ -40,7 +40,7 @@ QString SoundcloudLibraryContainer::get_name() const
 
 QString SoundcloudLibraryContainer::get_display_name() const
 {
-	return tr("Soundcloud");
+	return "Soundcloud";
 }
 
 QIcon SoundcloudLibraryContainer::get_icon() const

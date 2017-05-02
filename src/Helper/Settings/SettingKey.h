@@ -86,6 +86,7 @@ namespace SK {
 	Lib_ShowAlbumArtists,
 	Lib_ShowAlbumCovers,
 	Lib_CoverZoom,
+	Lib_GenreTree,
 
 	Player_Version,
 	Player_Language,
@@ -201,14 +202,14 @@ namespace Set
     //typedef SettingKey<bool, SK::LFM_Active> LFM_Active_t; const LFM_Active_t LFM_Active
     INST(bool,				LFM_Active);				/* is lastFM active? */
     INST(int,				LFM_ScrobbleTimeSec);			/* time in sec when to scrobble */
-    INST(StringPair,		LFM_Login);				/* 2-Tupel, username, password */
+    INST(StringPair,			LFM_Login);				/* 2-Tupel, username, password */
 
     INST(bool,				LFM_Corrections);			/* propose lfm corrections */
     INST(bool,				LFM_ShowErrors);			/* get error message, if there are lfm problems */
     INST(QString,			LFM_SessionKey);			/* lfm session key */
 
     INST(int,				Eq_Last);				/* last equalizer index */
-    INST(QList<EQ_Setting>,	Eq_List);				/* All equalizers */
+    INST(QList<EQ_Setting>,		Eq_List);				/* All equalizers */
     INST(bool,				Eq_Gauss);				/* do curve, when changing eq setting */
 
     INST(bool,				Lib_Show);				/* show library */
@@ -217,12 +218,12 @@ namespace Set
     INST(BoolList,			Lib_ColsArtist);			/* shown columns artist */
     INST(BoolList,			Lib_ColsAlbum);				/* shown columns albums */
     INST(bool,				Lib_LiveSearch);			/* library live search */
-    INST(Library::Sortings,	Lib_Sorting);				/* how to sort in lib */
+    INST(Library::Sortings,		Lib_Sorting);				/* how to sort in lib */
     INST(QString,			Lib_CurPlugin);				/* Current shown library plugin */
-    INST(QByteArray,		Lib_SplitterStateArtist);		/* Splitter state between artists and albums */
-    INST(QByteArray,		Lib_SplitterStateTrack);		/* Splitter state between artists and tracks */
-    INST(QByteArray,		Lib_SplitterStateGenre);		/* Splitter state between tracks and genres */
-    INST(QByteArray,		Lib_SplitterStateDate);			/* Splitter state between tracks and genres */
+    INST(QByteArray,			Lib_SplitterStateArtist);		/* Splitter state between artists and albums */
+    INST(QByteArray,			Lib_SplitterStateTrack);		/* Splitter state between artists and tracks */
+    INST(QByteArray,			Lib_SplitterStateGenre);		/* Splitter state between tracks and genres */
+    INST(QByteArray,			Lib_SplitterStateDate);			/* Splitter state between tracks and genres */
     INST(int,				Lib_OldWidth);				/* Old library width when hiding library */
     INST(bool,				Lib_DC_DoNothing);			/* when double clicked, create playlist and do nothing*/
     INST(bool,				Lib_DC_PlayIfStopped);			/* when double clicked, play if stopped */
@@ -235,8 +236,9 @@ namespace Set
     INST(bool,				Lib_AutoUpdate);			/* Automatic update of library */
     INST(QList<Library::DateFilter>,	Lib_DateFilters);			/* Date filters appearing in library window */
     INST(bool,				Lib_ShowAlbumArtists);			/* Show album artists instead of artists */
-	INST(bool,				Lib_ShowAlbumCovers);		/* Show album cover view */
+    INST(bool,				Lib_ShowAlbumCovers);			/* Show album cover view */
     INST(int,				Lib_CoverZoom);				/* Zoom of album cover view */
+    INST(bool,				Lib_GenreTree);				/* Show tree view of genres */
 
 
     INST(QString,			Player_Version);			/* Version string of player */
@@ -267,7 +269,7 @@ namespace Set
     INST(int,				PL_LastPlaylist);			/* last Playlist id, where LastTrack has been played */
     INST(QString,			PL_EntryLook);				/* formatting of playlist entry */
     INST(int,				PL_FontSize);				/* current playlist font size */
-    INST(bool,				PL_ShowClearButton);		/* show clear button in playlist */
+    INST(bool,				PL_ShowClearButton);			/* show clear button in playlist */
 
     INST(Playlist::Mode,		PL_Mode);				/* playlist mode: rep1, repAll, shuffle... */
     INST(bool,				PL_ShowNumbers);			/* show numbers in playlist */

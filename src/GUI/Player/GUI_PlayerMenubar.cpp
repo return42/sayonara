@@ -24,6 +24,7 @@
  */
 
 #include "GUI_Player.h"
+
 #include "Helper/Message/Message.h"
 #include "GUI/Helper/GUI_Helper.h"
 
@@ -33,6 +34,7 @@
 
 #include "Components/Playlist/PlaylistHandler.h"
 #include "Helper/WebAccess/AsyncWebAccess.h"
+
 
 #include <QDir>
 #include <QFileDialog>
