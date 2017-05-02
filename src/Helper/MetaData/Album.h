@@ -38,25 +38,24 @@ Q_DECLARE_METATYPE(Album)
 class Album :
 		public LibraryItem
 {
+public:
+	quint8 n_discs;
+	quint8 rating;
+	bool is_sampler;
+
+	qint32	id;
+    quint32 length_sec;
+	quint16 num_songs;
+    quint16	year;
+
+	QString name;
+	QStringList artists;
+	QList<quint8> discnumbers;
 
 private:
 	QStringList _album_artists;
 
 public:
-    QString name;
-	qint32	id;
-    quint16 num_songs;
-    quint32 length_sec;
-    quint16	year;
-
-    QStringList artists;
-
-    QList<quint8> discnumbers;
-    quint8 n_discs;
-    quint8 rating;
-
-    bool is_sampler;
-
     Album();
 	Album(const Album& other);
 	Album(Album&& other);

@@ -32,12 +32,14 @@
 
 struct AlbumCoverView::Private
 {
-	int zoom;
 	AlbumCoverModel* model=nullptr;
 	QTimer* buffer_timer=nullptr;
+	std::atomic<bool> blocked;
+	int zoom;
 
 	Private()
 	{
+		blocked = false;
 		zoom = 100;
 		buffer_timer = new QTimer();
 		buffer_timer->setInterval(100);
@@ -67,20 +69,7 @@ AlbumCoverView::AlbumCoverView(QWidget* parent) :
 		verticalHeader()->hide();
 	}
 
-	connect(_m->buffer_timer, &QTimer::timeout, this, [=](){
-
-		this->resizeRowsToContents();
-
-		// this->resizeColumnsToContents();
-		// Todo: Workaround. maybe player won't crash anymore
-		for(int i=0; i<_m->model->columnCount(); i++){
-			this->resizeColumnToContents(i);
-		}
-
-		_m->buffer_timer->stop();
-
-		sp_log(Log::Debug, this) << " Kill timer";
-	});
+	connect(_m->buffer_timer, &QTimer::timeout, this, &AlbumCoverView::timed_out, Qt::QueuedConnection);
 
 	_m->zoom = _settings->get(Set::Lib_CoverZoom);
 }
@@ -138,6 +127,24 @@ void AlbumCoverView::change_zoom(int zoom)
 void AlbumCoverView::refresh()
 {
 	_m->buffer_timer->start();
+}
+
+void AlbumCoverView::timed_out()
+{
+	if(_m->blocked){
+		return;
+	}
+
+	_m->blocked = true;
+
+	this->horizontalHeader()->setDefaultSectionSize(_m->zoom + 50);
+	this->verticalHeader()->setDefaultSectionSize(_m->zoom + 50);
+
+	_m->blocked = false;
+
+	_m->buffer_timer->stop();
+
+	sp_log(Log::Debug, this) << " Kill timer";
 }
 
 

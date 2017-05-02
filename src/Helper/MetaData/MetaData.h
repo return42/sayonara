@@ -50,45 +50,47 @@ class Genre;
 
 /**
  * @brief The MetaData class
- * @ingoup MetaDataHelper
+ * @ingroup MetaDataHelper
  */
 class MetaData :
 		public LibraryItem
 {
-private:
-	QString		_filepath;
-	RadioMode	_radio_mode;
-
-	qint32		_album_artist_id;
-	QString		_album_artist;
-
 public:
 	qint32 id;
-	QString title;
-
 	qint32 artist_id;
-	QString artist;
-
 	qint32 album_id;
-	QString album;          // if radio station: name of radio station
 
+public:
+	QString title;
+	QString artist;
+	QString album;
+
+	// if radio station: name of radio station
 	SP::Set<Genre> genres;
-	quint8 rating;
-	quint64 length_ms;
-	quint16 year;
 
 	quint16 track_num;
+	quint16 year;
 	quint32 bitrate;
+	quint64 length_ms;
 	quint64 filesize;
-
-	quint8 discnumber;
-	quint8 n_discs;
 
 	bool played;
 	bool is_extern;
 	bool pl_playing;
 	bool is_disabled;
 
+	quint8 rating;
+	quint8 discnumber;
+	quint8 n_discs;
+
+private:
+	RadioMode	_radio_mode;
+	QString		_album_artist;
+	QString		_filepath;
+	qint32		_album_artist_id;
+
+
+public:
 	MetaData ();
 	MetaData (const MetaData& );
 	MetaData ( MetaData&& );

@@ -59,10 +59,8 @@ private:
 	QList<CustomField>	_additional_data;
 
 public:
-
-	quint8 db_id;
 	QString	cover_download_url;
-
+	quint8 db_id;
 
 	LibraryItem();
 	LibraryItem(const LibraryItem& other);

@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "AlbumCoverModel.h"
 #include "AlbumCoverFetchThread.h"
 
@@ -84,7 +82,7 @@ AlbumCoverModel::~AlbumCoverModel()
 int AlbumCoverModel::rowCount(const QModelIndex& parent) const
 {
 	Q_UNUSED(parent);
-	return (_m->albums.size() + columnCount() - 1 )/ columnCount();
+	return (_m->albums.size() / columnCount()) + 1;
 }
 
 int AlbumCoverModel::columnCount(const QModelIndex& parent) const
@@ -99,41 +97,31 @@ void AlbumCoverModel::set_max_columns(int columns)
 		return;
 	}
 
-	if(columns == _m->columns){
-		return;
-	}
-
+	int old_columns = columnCount();
 	int old_rows = rowCount();
 	int rows = (_m->albums.size() / columns) + 1;
 
-	int diff = columns - _m->columns;
-	int first, last;
-	if(diff > 0) {
-		first = _m->columns;
-		last = first + diff;
+	_m->columns = columns;
 
-		_m->columns = columns;
-
-		diff = old_rows - rows;
-		beginRemoveRows(QModelIndex(), rows - diff, rows);
-		endRemoveRows();
-
-		beginInsertColumns(QModelIndex(), first, last);
+	if(columns > old_columns) {
+		beginInsertColumns(QModelIndex(), 0, columns - old_columns - 1);
 		endInsertColumns();
 	}
 
-	else {
-		diff = -diff;
-		first = _m->columns - diff;
-		last = _m->columns;
+	else if(columns < old_columns) {
 
-		beginRemoveColumns(QModelIndex(), first, last);
-		_m->columns = columns;
+		beginRemoveColumns(QModelIndex(), 0, old_columns - columns - 1);
 		endRemoveColumns();
+	}
 
-		diff = rows - old_rows;
-		beginInsertRows(QModelIndex(), rows, rows + diff);
+	if(rows > old_rows)	{
+		beginInsertRows(QModelIndex(), 0, rows - old_rows - 1);
 		endInsertRows();
+	}
+
+	else if(rows < old_rows) {
+		beginRemoveRows(QModelIndex(), 0, old_rows - rows - 1);
+		endRemoveRows();
 	}
 
 	emit dataChanged(index(0, 0), index(rowCount() - 1, columnCount() - 1));
@@ -221,31 +209,13 @@ QSize AlbumCoverModel::get_item_size() const
 
 void AlbumCoverModel::set_data(const AlbumList& albums)
 {
-	beginRemoveRows(QModelIndex(), 0, rowCount());
-	endRemoveRows();
-
-	beginRemoveColumns(QModelIndex(), 0, columnCount());
-	endRemoveColumns();
-
 	_m->albums = albums;
-
-	beginInsertRows(QModelIndex(), 0, rowCount());
-	endInsertRows();
-
-	beginInsertColumns(QModelIndex(), 0, columnCount());
-	endInsertColumns();
-
-	emit dataChanged(index(0, 0),
-					 index(rowCount(), columnCount())
-					 );
+	set_max_columns(_m->columns);
 }
 
 void AlbumCoverModel::set_zoom(int zoom)
 {
 	_m->size = zoom;
-	emit dataChanged(index(0, 0),
-					 index(rowCount(), columnCount())
-	);
 }
 
 

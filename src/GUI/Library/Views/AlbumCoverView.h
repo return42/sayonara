@@ -55,6 +55,9 @@ private:
 
 	void setModel(QAbstractItemModel* m) override;
 	void setModel(LibraryItemModel* m) override;
+
+private slots:
+	void timed_out();
 };
 
 #endif // ALBUMCOVERVIEW_H

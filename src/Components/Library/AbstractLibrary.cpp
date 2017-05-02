@@ -385,6 +385,10 @@ void AbstractLibrary::change_album_selection(const SP::Set<int>& indexes)
 
 	for(auto it=indexes.begin(); it != indexes.end(); it++){
 		int idx = *it;
+		if(idx >= _vec_albums.size()){
+			break;
+		}
+
 		const Album& album = _vec_albums[idx];
 		selected_albums.insert(album.id);
 	}

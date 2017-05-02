@@ -45,9 +45,9 @@ class LibraryContainerInterface :
 	friend class LibraryPluginHandler;
 
 private:
-	bool		_initialized;
 	QAction*	_action=nullptr;
 	Settings*	_settings=nullptr;
+	bool		_initialized;
 
 	/**
 	 * @brief Called by LibraryPluginHandler

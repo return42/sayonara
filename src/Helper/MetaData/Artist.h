@@ -34,12 +34,10 @@ class Artist :
 		public LibraryItem
 {
 public:
-
     qint32 id;                                                                                                                                       
-    QString name;                                                                                                                                                      
-    quint16 num_songs;                                                                                                           
+	QString name;
 	quint16 num_albums;
-	//QString mb_id;
+	quint16 num_songs;
 
 	Artist();
 	Artist(const Artist& other);

@@ -45,12 +45,12 @@ public:
 	QVariant 	headerData ( int section, Qt::Orientation orientation, int role=Qt::DisplayRole ) const override;
 	bool		setHeaderData(int section, Qt::Orientation orientation, const QVariant &value, int role) override;
 
-	int			rowCount(const QModelIndex &parent=QModelIndex()) const override;
-	int 		columnCount(const QModelIndex& parent=QModelIndex()) const override;
-	bool 		insertColumns(int position, int cols, const QModelIndex &index=QModelIndex()) override;
-	bool 		removeColumns(int position, int cols, const QModelIndex &index=QModelIndex()) override;
-	bool		removeRows(int position, int rows, const QModelIndex& index=QModelIndex()) override;
-	bool		insertRows(int row, int count, const QModelIndex &parent=QModelIndex()) override;
+	virtual int			rowCount(const QModelIndex &parent=QModelIndex()) const override;
+	virtual int 		columnCount(const QModelIndex& parent=QModelIndex()) const override;
+	virtual bool 		insertColumns(int position, int cols, const QModelIndex &index=QModelIndex()) override;
+	virtual bool 		removeColumns(int position, int cols, const QModelIndex &index=QModelIndex()) override;
+	virtual bool		removeRows(int position, int rows, const QModelIndex& index=QModelIndex()) override;
+	virtual bool		insertRows(int row, int count, const QModelIndex &parent=QModelIndex()) override;
 
 	virtual QModelIndex	getFirstRowIndexOf(const QString& substr) override;
 	virtual QModelIndex getNextRowIndexOf(const QString& substr, int row, const QModelIndex& parent=QModelIndex()) override;
