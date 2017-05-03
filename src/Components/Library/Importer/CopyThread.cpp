@@ -131,9 +131,6 @@ void CopyThread::rollback()
 	int n_operations = _m->lst_copied_files.size();
     int n_ops_todo = n_operations;
 
-	QString lib_dir = _settings->get(Set::Lib_Path);
-	QDir dir(lib_dir);
-
 	for(const QString& f : _m->lst_copied_files) {
         QFile file(f);
         file.remove();

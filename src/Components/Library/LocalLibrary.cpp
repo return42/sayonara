@@ -95,7 +95,6 @@ void LocalLibrary::psl_reload_library(bool clear_first, Library::ReloadQuality q
 	}
 
 	QString library_path = _settings->get(Set::Lib_Path);
-
 	if(library_path.isEmpty()) {
 		emit sig_no_library_path();
 		return;

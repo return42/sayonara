@@ -50,6 +50,14 @@ struct ReloadThread::Private
 	Library::ReloadQuality	quality;
 	bool					paused;
 	bool					running;
+
+	Private()
+	{
+		paused = false;
+		running = false;
+		quality = Library::ReloadQuality::Fast;
+		db = DatabaseConnector::getInstance();
+	}
 };
 
 ReloadThread::ReloadThread(QObject *parent) :
@@ -57,18 +65,12 @@ ReloadThread::ReloadThread(QObject *parent) :
 	SayonaraClass()
 {
 	_m = Pimpl::make<ReloadThread::Private>();
-	_m->db = DatabaseConnector::getInstance();
-
-	_m->paused = false;
-	_m->running = false;
-
-	_m->library_path = _settings->get(Set::Lib_Path);
-	_m->quality = Library::ReloadQuality::Fast;
 }
 
 ReloadThread::~ReloadThread() {}
 
-bool ReloadThread::compare_md(const MetaData& md1, const MetaData& md2)
+static
+bool compare_md(const MetaData& md1, const MetaData& md2)
 {
 	if(md1.genres.count() != md2.genres.count()){
 		return false;
@@ -241,6 +243,12 @@ void ReloadThread::set_quality(Library::ReloadQuality quality)
 
 void ReloadThread::run() 
 {
+	if(_m->library_path.isEmpty())
+	{
+		sp_log(Log::Warning, this) << "No Library path given";
+		return;
+	}
+
 	if(_m->running){
 		return;
 	}

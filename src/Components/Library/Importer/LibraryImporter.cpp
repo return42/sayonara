@@ -46,7 +46,6 @@ struct LibraryImporter::Private
 	LibraryImporter::ImportStatus
 							status;
 
-	QString                 lib_path;
 	QString					src_dir;
 
 	Private()
@@ -62,9 +61,7 @@ LibraryImporter::LibraryImporter(QObject* parent) :
 	QObject(parent),
 	SayonaraClass()
 {
-	_m = Pimpl::make<LibraryImporter::Private>();
-
-	_m->lib_path = _settings->get(Set::Lib_Path);
+	_m = Pimpl::make<Private>();
 
 	MetaDataChangeNotifier* md_change_notifier = MetaDataChangeNotifier::getInstance();
 	connect(md_change_notifier, &MetaDataChangeNotifier::sig_metadata_changed,

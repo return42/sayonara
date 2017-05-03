@@ -31,6 +31,7 @@
 #include "Helper/Playlist/CustomPlaylist.h"
 #include "Helper/Language.h"
 #include "Helper/Settings/Settings.h"
+#include "Helper/FileHelper.h"
 
 #include <algorithm>
 
@@ -204,21 +205,16 @@ void GUI_PlaylistChooser::load_button_pressed()
                     _last_dir,
                     Helper::get_playlistfile_extensions().join(" "));
 
-	QString lab_text;
+	QStringList lab_texts;
 	for(const QString& filename : filelist) {
-		int last_index_of_sep = filename.lastIndexOf(QDir::separator());
-        _last_dir = filename.left(last_index_of_sep);
+		QString pure_filename;
+		Helper::File::split_filename(filename, _last_dir, pure_filename);
 
-        QString trimmed_filename = filename.right(filename.size() - last_index_of_sep - 1);
-        trimmed_filename = trimmed_filename.left(trimmed_filename.lastIndexOf('.'));
-        lab_text += trimmed_filename + ", ";
+		pure_filename = pure_filename.left(pure_filename.lastIndexOf('.'));
+		lab_texts << pure_filename;
     }
 
-	if(lab_text.size() > 2){
-		lab_text = lab_text.left(lab_text.size() - 2);
-	}
-
-	ui->le_playlist_file->setText(lab_text);
+	ui->le_playlist_file->setText(lab_texts.join(", "));
 
     if(filelist.size() > 0) {
 		_playlist_chooser->playlist_files_selected(filelist);
