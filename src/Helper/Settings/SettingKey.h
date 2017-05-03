@@ -27,6 +27,7 @@ class QString;
 class QStringList;
 class QPoint;
 class QSize;
+class LibraryInfo;
 
 class EQ_Setting;
 struct RawShortcutMap;
@@ -87,6 +88,8 @@ namespace SK {
 	Lib_ShowAlbumCovers,
 	Lib_CoverZoom,
 	Lib_GenreTree,
+	Lib_CurIndex,
+	Lib_AllLibraries,
 
 	Player_Version,
 	Player_Language,
@@ -239,6 +242,8 @@ namespace Set
     INST(bool,				Lib_ShowAlbumCovers);			/* Show album cover view */
     INST(int,				Lib_CoverZoom);				/* Zoom of album cover view */
     INST(bool,				Lib_GenreTree);				/* Show tree view of genres */
+	INST(QList<LibraryInfo>,	Lib_AllLibraries);
+	INST(int,				Lib_CurIndex);
 
 
     INST(QString,			Player_Version);			/* Version string of player */
@@ -256,10 +261,10 @@ namespace Set
     INST(bool,				Player_ShowTrayIcon);			/* Show/hide the tray icon */
     INST(bool,				Player_StartInTray);			/* start in tray */
     INST(bool,				Player_NotifyNewVersion);		/* check for new version on startup */
-    INST(QByteArray,			Player_SplitterState);			/* spliter state between playlist and library */
-    INST(RawShortcutMap,		Player_Shortcuts);			/* player shortcuts */
+	INST(QByteArray,		Player_SplitterState);			/* spliter state between playlist and library */
+	INST(RawShortcutMap,	Player_Shortcuts);			/* player shortcuts */
 
-    INST(QStringList,			PL_Playlist);				/* old playlist: list of integers in case of library tracks, if no library track, filepath */
+	INST(QStringList,		PL_Playlist);				/* old playlist: list of integers in case of library tracks, if no library track, filepath */
     INST(bool,				PL_LoadSavedPlaylists);			/* load saved playlists on startup */
     INST(bool,				PL_LoadTemporaryPlaylists);		/* load temporary playlists on startup */
     INST(bool,				PL_LoadLastTrack);			/* load last track on startup */
@@ -269,25 +274,25 @@ namespace Set
     INST(int,				PL_LastPlaylist);			/* last Playlist id, where LastTrack has been played */
     INST(QString,			PL_EntryLook);				/* formatting of playlist entry */
     INST(int,				PL_FontSize);				/* current playlist font size */
-    INST(bool,				PL_ShowClearButton);			/* show clear button in playlist */
-
-    INST(Playlist::Mode,		PL_Mode);				/* playlist mode: rep1, repAll, shuffle... */
+	INST(bool,				PL_ShowClearButton);		/* show clear button in playlist */
+	INST(Playlist::Mode,	PL_Mode);					/* playlist mode: rep1, repAll, shuffle... */
     INST(bool,				PL_ShowNumbers);			/* show numbers in playlist */
+
     INST(bool,				Notification_Show);			/* show notifications */
-    INST(int,				Notification_Timeout);			/* notification timeout */
+	INST(int,				Notification_Timeout);		/* notification timeout */
     INST(QString,			Notification_Name);			/* type of notifications: libnotify or empty for native baloons :( */
 
     INST(QString,			Engine_Name);				/* Deprecated: Engine name */
     INST(int,				Engine_Vol);				/* Volume */
     INST(bool,				Engine_Mute);				/* Muted/unmuted */
-    INST(int,				Engine_CurTrackPos_s);			/* position of track (used to load old position) */
-    INST(int,				Engine_ConvertQuality);			/* Convert quality, 1-10 for variable, > 64 for fixed bitrate */
-    INST(QString,			Engine_CovertTargetPath);		/* last convert path */
-    INST(int,				Engine_SpectrumBins);			/* number of spectrum bins */
-    INST(bool,				Engine_ShowSpectrum);			/* show spectrum */
+	INST(int,				Engine_CurTrackPos_s);		/* position of track (used to load old position) */
+	INST(int,				Engine_ConvertQuality);		/* Convert quality, 1-10 for variable, > 64 for fixed bitrate */
+	INST(QString,			Engine_CovertTargetPath);	/* last convert path */
+	INST(int,				Engine_SpectrumBins);		/* number of spectrum bins */
+	INST(bool,				Engine_ShowSpectrum);		/* show spectrum */
     INST(bool,				Engine_ShowLevel);			/* show level */
-    INST(bool,				Engine_CrossFaderActive);		/* crossfader active */
-    INST(int,				Engine_CrossFaderTime);			/* crossfader overlap time */
+	INST(bool,				Engine_CrossFaderActive);	/* crossfader active */
+	INST(int,				Engine_CrossFaderTime);		/* crossfader overlap time */
     INST(int, 				Engine_Pitch);				/* hertz of a */
     INST(bool, 				Engine_SpeedActive);			/* is speed control active? */
     INST(float,				Engine_Speed);				/* if yes, set speed */

@@ -19,6 +19,8 @@
  */
 
 #include "ImportCache.h"
+#include "Components/Library/LibraryManager.h"
+#include "Helper/Library/LibraryInfo.h"
 #include "Helper/Settings/Settings.h"
 #include "Helper/FileHelper.h"
 #include "Helper/MetaData/MetaDataList.h"
@@ -103,7 +105,11 @@ MetaDataList ImportCache::get_soundfiles() const
 
 QString ImportCache::get_target_filename(const QString &src_filename, const QString& target_directory) const
 {
-	QString library_path = Settings::getInstance()->get(Set::Lib_Path);
+	QString library_path = LibraryManager::getInstance()->get_current_library().path();
+	if(library_path.isEmpty()){
+		return QString();
+	}
+
 	return library_path + "/" + target_directory + "/" + _m->src_dst_map[src_filename];
 }
 

@@ -37,6 +37,7 @@
 #include "GUI/Helper/SearchableWidget/SearchableView.h"
 
 #include "Components/Library/LocalLibrary.h"
+#include "Components/Library/LibraryManager.h"
 #include "InfoBox/GUI_LibraryInfoBox.h"
 #include "ImportFolderDialog/GUI_ImportFolder.h"
 
@@ -58,11 +59,11 @@
 
 
 GUI_LocalLibrary::GUI_LocalLibrary(QWidget* parent) :
-	GUI_AbstractLibrary(LocalLibrary::getInstance(), parent)
+	GUI_AbstractLibrary(LibraryManager::getInstance()->get_library_instance(0), parent)
 {
 	setup_parent(this, &ui);
 
-	LocalLibrary* library = LocalLibrary::getInstance();
+	LocalLibrary* library = LibraryManager::getInstance()->get_library_instance(0);
 
 	_local_library_menu = new LocalLibraryMenu(this);
 
@@ -535,7 +536,7 @@ void GUI_LocalLibrary::init_album_cover_view()
 		return;
 	}
 
-	LocalLibrary* library = LocalLibrary::getInstance();
+	LocalLibrary* library = LibraryManager::getInstance()->get_library_instance(0);
 	_acv = new AlbumCoverView(ui->page_4);
 	QLayout* layout = ui->page_4->layout();
 	if(layout){

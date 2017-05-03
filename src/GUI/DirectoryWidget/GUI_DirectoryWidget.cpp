@@ -26,6 +26,7 @@
 #include "GUI/Helper/SearchableWidget/SearchableFileTreeModel.h"
 #include "GUI/Helper/ContextMenu/LibraryContextMenu.h"
 
+#include "Components/Library/LibraryManager.h"
 #include "Components/Library/LocalLibrary.h"
 #include "Components/Playlist/PlaylistHandler.h"
 
@@ -69,7 +70,7 @@ GUI_DirectoryWidget::GUI_DirectoryWidget(QWidget *parent) :
 	_m = Pimpl::make<GUI_DirectoryWidget::Private>();
 
 	_m->selected_widget = Private::SelectedWidget::None;
-	_m->local_library = LocalLibrary::getInstance();
+	_m->local_library = LibraryManager::getInstance()->get_library_instance(0);
 	_m->dir_model = ui->tv_dirs->get_model();
 
 	connect(ui->tv_dirs, &QTreeView::clicked, this, &GUI_DirectoryWidget::dir_clicked);

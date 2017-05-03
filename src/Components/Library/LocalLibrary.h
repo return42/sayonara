@@ -29,15 +29,19 @@ class ReloadThread;
 class DatabaseConnector;
 class FileSystemWatcher;
 
-class LocalLibrary : public AbstractLibrary
+class LocalLibrary :
+		public AbstractLibrary
 {
     Q_OBJECT
-	SINGLETON_QOBJECT(LocalLibrary)
 	PIMPL(LocalLibrary)
 
 signals:
 	void sig_no_library_path();
 	void sig_import_dialog_requested();
+
+public:
+	LocalLibrary(QObject* parent=nullptr);
+	virtual ~LocalLibrary();
 
 
 public slots:
@@ -58,7 +62,6 @@ public slots:
 
 
 protected slots:
-
 	void library_reloading_state_new_block();
 	void reload_thread_finished();
 	void _sl_search_mode_changed();
@@ -67,7 +70,6 @@ protected slots:
 
 
 private:
-
 	void		get_all_artists(ArtistList& artists, Library::Sortings so) override;
 	void		get_all_artists_by_searchstring(Library::Filter filter, ArtistList& artists, Library::Sortings so) override;
 
@@ -90,8 +92,6 @@ private:
 
 	void		insert_tracks(const MetaDataList& v_md) override;
 	void		apply_db_fixes();
-
-private:
 	void		init_reload_thread();
 };
 

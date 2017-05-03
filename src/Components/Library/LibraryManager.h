@@ -8,6 +8,7 @@
 #include <QList>
 
 class LibraryInfo;
+class LocalLibrary;
 
 class LibraryManager :
 		public SayonaraClass
@@ -22,7 +23,11 @@ public:
 	LibraryInfo get_current_library() const;
 	QList<LibraryInfo> get_all_libraries() const;
 	int count() const;
+	int change_library(int idx);
+	QString get_current_library_path() const;
 
+	LocalLibrary* get_library_instance(int idx) const;
+	LocalLibrary* get_current_library_instance() const;
 };
 
 

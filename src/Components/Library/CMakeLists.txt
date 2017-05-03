@@ -5,7 +5,6 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.7)
 SET(SOURCES
     AbstractLibrary.cpp
     LocalLibrary.cpp
-	LibraryInfo.cpp
 	LibraryManager.cpp
 
     Importer/ImportCache.cpp

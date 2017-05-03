@@ -25,6 +25,7 @@ SET(SOURCES
     Library/Filter.cpp
     Library/SearchMode.cpp
     Library/Sorting.cpp
+	Library/LibraryInfo.cpp
 
     Logger/Logger.cpp
 
