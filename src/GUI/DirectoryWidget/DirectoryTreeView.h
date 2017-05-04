@@ -23,6 +23,7 @@
 
 #include "GUI/Helper/SearchableWidget/SearchableView.h"
 #include "GUI/Helper/Dragable/Dragable.h"
+#include "Helper/Pimpl.h"
 
 #include <QTreeView>
 #include <QModelIndexList>
@@ -31,12 +32,14 @@ class LibraryContextMenu;
 class SearchableFileTreeModel;
 class MetaDataList;
 class IconProvider;
+class LibraryInfo;
 
 class DirectoryTreeView :
 		public SearchableTreeView,
 		protected Dragable
 {
 	Q_OBJECT
+	PIMPL(DirectoryTreeView)
 
 signals:
 	void sig_info_clicked();
@@ -56,10 +59,6 @@ public:
 
 	QMimeData*			get_mimedata() const override;
 
-private:
-	LibraryContextMenu*			_context_menu=nullptr;
-	SearchableFileTreeModel*	_model = nullptr;
-	IconProvider*				_icon_provider = nullptr;
 
 private:
 	void mousePressEvent(QMouseEvent* event) override;
@@ -67,13 +66,12 @@ private:
 	void init_context_menu();
 
 
-private slots:
-	void _sl_library_path_changed();
-
 	// SayonaraSelectionView interface
 public:
 	int get_index_by_model_index(const QModelIndex& idx) const override;
 	QModelIndex get_model_index_by_index(int idx) const override;
+
+	void set_cur_library(const QString& library_path);
 };
 
 #endif // DIRECTORYTREEVIEW_H

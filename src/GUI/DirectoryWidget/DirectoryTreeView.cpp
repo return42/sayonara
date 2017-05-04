@@ -28,40 +28,50 @@
 #include "Helper/DirectoryReader/DirectoryReader.h"
 #include "Helper/MetaData/MetaDataList.h"
 #include "Helper/Settings/Settings.h"
+#include "Helper/Library/LibraryInfo.h"
 
 #include <QDir>
 #include <QMouseEvent>
 #include <QDrag>
 
+struct DirectoryTreeView::Private
+{
+	LibraryContextMenu*			context_menu=nullptr;
+	SearchableFileTreeModel*	model = nullptr;
+	IconProvider*				icon_provider = nullptr;
+
+	Private()
+	{
+		icon_provider = new IconProvider();
+	}
+
+	~Private()
+	{
+		delete icon_provider; icon_provider = nullptr;
+	}
+};
+
+
 DirectoryTreeView::DirectoryTreeView(QWidget *parent) :
 	SearchableTreeView(parent),
 	Dragable(this)
 {
-	QString lib_path = Settings::getInstance()->get(Set::Lib_Path);
+	_m = Pimpl::make<Private>();
 
-	_icon_provider = new IconProvider();
+	_m->model = new SearchableFileTreeModel(this);
+	_m->model->setFilter(QDir::NoDotAndDotDot | QDir::Dirs);
+	_m->model->setIconProvider(_m->icon_provider);
 
-	_model = new SearchableFileTreeModel(this);
-	_model->setRootPath(lib_path);
-	_model->setFilter(QDir::NoDotAndDotDot | QDir::Dirs);
-	_model->setIconProvider(_icon_provider);
-
-	this->setModel(_model);
+	this->setModel(_m->model);
 	this->setItemDelegate(new DirectoryDelegate(this));
-	this->setRootIndex(_model->index(lib_path));
 	this->setDragEnabled(true);
 
 	for(int i=1; i<4; i++){
 		this->hideColumn(i);
 	}
-
-	REGISTER_LISTENER(Set::Lib_Path, _sl_library_path_changed);
 }
 
-DirectoryTreeView::~DirectoryTreeView()
-{
-	delete _icon_provider; _icon_provider = nullptr;
-}
+DirectoryTreeView::~DirectoryTreeView() {}
 
 
 void DirectoryTreeView::mousePressEvent(QMouseEvent* event)
@@ -76,11 +86,11 @@ void DirectoryTreeView::mousePressEvent(QMouseEvent* event)
 	if(event->button() & Qt::RightButton){
 		QPoint pos = QWidget::mapToGlobal( event->pos() );
 
-		if(!_context_menu){
+		if(!_m->context_menu){
 			init_context_menu();
 		}
 
-		_context_menu->exec(pos);
+		_m->context_menu->exec(pos);
 	}
 }
 
@@ -101,14 +111,14 @@ QMimeData* DirectoryTreeView::get_mimedata() const
 	QItemSelectionModel* sel_model = this->selectionModel();
 	if(sel_model)
 	{
-		return _model->mimeData(sel_model->selectedIndexes());
+		return _m->model->mimeData(sel_model->selectedIndexes());
 	}
 
 	return nullptr;
 }
 void DirectoryTreeView::init_context_menu()
 {
-	_context_menu = new LibraryContextMenu(this);
+	_m->context_menu = new LibraryContextMenu(this);
 
 	LibraryContexMenuEntries entries =
 			(LibraryContextMenu::EntryDelete |
@@ -116,26 +126,17 @@ void DirectoryTreeView::init_context_menu()
 			LibraryContextMenu::EntryAppend |
 			LibraryContextMenu::EntryPlayNext);
 
-	_context_menu->show_actions(entries);
+	_m->context_menu->show_actions(entries);
 
-	connect(_context_menu, &LibraryContextMenu::sig_info_clicked, this, &DirectoryTreeView::sig_info_clicked);
-	connect(_context_menu, &LibraryContextMenu::sig_delete_clicked, this, &DirectoryTreeView::sig_delete_clicked);
-	connect(_context_menu, &LibraryContextMenu::sig_play_next_clicked, this, &DirectoryTreeView::sig_play_next_clicked);
-	connect(_context_menu, &LibraryContextMenu::sig_append_clicked, this, &DirectoryTreeView::sig_append_clicked);
+	connect(_m->context_menu, &LibraryContextMenu::sig_info_clicked, this, &DirectoryTreeView::sig_info_clicked);
+	connect(_m->context_menu, &LibraryContextMenu::sig_delete_clicked, this, &DirectoryTreeView::sig_delete_clicked);
+	connect(_m->context_menu, &LibraryContextMenu::sig_play_next_clicked, this, &DirectoryTreeView::sig_play_next_clicked);
+	connect(_m->context_menu, &LibraryContextMenu::sig_append_clicked, this, &DirectoryTreeView::sig_append_clicked);
 }
 
 SearchableFileTreeModel* DirectoryTreeView::get_model() const
 {
-	return _model;
-}
-
-
-void DirectoryTreeView::_sl_library_path_changed()
-{
-	Settings* settings = Settings::getInstance();
-	QString lib_path = settings->get(Set::Lib_Path);
-
-	this->setRootIndex(_model->index(lib_path));
+	return _m->model;
 }
 
 
@@ -164,13 +165,11 @@ QStringList DirectoryTreeView::get_selected_paths() const
 
 	QStringList paths;
 	for(const QModelIndex& idx : idx_list){
-		paths << _model->fileInfo(idx).absoluteFilePath();
+		paths << _m->model->fileInfo(idx).absoluteFilePath();
 	}
 
 	return paths;
 }
-
-
 
 int DirectoryTreeView::get_index_by_model_index(const QModelIndex& idx) const
 {
@@ -179,5 +178,11 @@ int DirectoryTreeView::get_index_by_model_index(const QModelIndex& idx) const
 
 QModelIndex DirectoryTreeView::get_model_index_by_index(int idx) const
 {
-	return _model->index(idx, 0);
+	return _m->model->index(idx, 0);
+}
+
+void DirectoryTreeView::set_cur_library(const QString& library_path)
+{
+	_m->model->setRootPath(library_path);
+	this->setRootIndex(_m->model->index(library_path));
 }

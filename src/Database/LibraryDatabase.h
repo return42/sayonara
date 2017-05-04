@@ -27,11 +27,12 @@
 #include "Database/DatabaseTracks.h"
 #include "Database/DatabaseLibrary.h"
 
-class LibraryDatabase : public AbstractDatabase,
-		 public DatabaseAlbums,
-		 public DatabaseArtists,
-		 public DatabaseTracks,
-		 public DatabaseLibrary
+class LibraryDatabase :
+		public AbstractDatabase,
+		public DatabaseAlbums,
+		public DatabaseArtists,
+		public DatabaseTracks,
+		public DatabaseLibrary
 {
 public:
 
@@ -41,13 +42,10 @@ public:
 		ArtistID
 	};
 
-	LibraryDatabase(quint8 db_id, const QString& db_dir, const QString& db_name);
+	LibraryDatabase(quint8 db_id, const QString& db_dir, const QString& db_name, qint8 library_id);
 	virtual ~LibraryDatabase();
 
 	void change_artistid_field(ArtistIDField field);
-
-protected:
-	virtual bool apply_fixes()=0;
 };
 
 #include "DatabaseHandler.h"

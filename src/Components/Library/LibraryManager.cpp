@@ -6,10 +6,8 @@
 
 #include <QMap>
 
-
 struct LibraryManager::Private
 {
-	int cur_lib_idx;
 	QList<LibraryInfo> all_libs;
 	QMap<int, LocalLibrary*> lib_map;
 
@@ -18,11 +16,6 @@ struct LibraryManager::Private
 		return std::any_of(all_libs.begin(), all_libs.end(), [=](const LibraryInfo& li){
 			return (li == path);
 		});
-	}
-
-	bool has_current_library() const
-	{
-		return (cur_lib_idx >= 0 && cur_lib_idx <= all_libs.size());
 	}
 
 	int get_next_id() const
@@ -40,18 +33,36 @@ struct LibraryManager::Private
 		return id;
 	}
 
-	LocalLibrary* get_library(int idx)
+	LocalLibrary* get_library(qint8 library_id)
 	{
-		if(idx >= 0 && idx < all_libs.size()){
-			LocalLibrary* lib = new LocalLibrary(all_libs[idx].path());
-			lib_map[idx] = lib;
+		for(const LibraryInfo& li : all_libs)
+		{
+			if(li.id() == library_id){
+				if(lib_map.contains(library_id)){
+					return lib_map[library_id];
+				}
+
+				else {
+					LocalLibrary* lib = new LocalLibrary(library_id, li.path());
+					lib_map[library_id] = lib;
+					return lib;
+				}
+			}
 		}
 
-		if(!lib_map.contains(idx)){
-			return nullptr;
+		return nullptr;
+	}
+
+	LibraryInfo get_library_info(int id)
+	{
+		for(const LibraryInfo& li : all_libs)
+		{
+			if(li.id() == id){
+				return li;
+			}
 		}
 
-		return lib_map[idx];
+		return LibraryInfo();
 	}
 };
 
@@ -60,8 +71,6 @@ LibraryManager::LibraryManager() :
 	SayonaraClass()
 {
 	_m = Pimpl::make<Private>();
-
-	_m->cur_lib_idx = _settings->get(Set::Lib_CurIndex);
 	_m->all_libs = _settings->get(Set::Lib_AllLibraries);
 
 	if(_m->all_libs.isEmpty()){
@@ -69,9 +78,6 @@ LibraryManager::LibraryManager() :
 		if(!old_path.isEmpty()) {
 			LibraryInfo li("Local Library", old_path, 0);
 			_m->all_libs << li;
-			_m->cur_lib_idx = 0;
-
-			_settings->set(Set::Lib_CurIndex, 0);
 			_settings->set(Set::Lib_AllLibraries, _m->all_libs);
 		}
 	}
@@ -101,36 +107,16 @@ bool LibraryManager::add_library(const QString& name, const QString& path)
 	return true;
 }
 
-void LibraryManager::remove_library(int index)
+void LibraryManager::remove_library(int id)
 {
-	if(index < 0 || index >= _m->all_libs.size()) {
-		return;
-	}
-
-	_m->all_libs.removeAt(index);
-
-	if(index == _m->cur_lib_idx) {
-		if(_m->all_libs.size() > 1) {
-			_m->cur_lib_idx = 0;
+	for(int i=0; i<_m->all_libs.size(); i++){
+		if(_m->all_libs[i].id() == id){
+			_m->all_libs.removeAt(i);
+			break;
 		}
-
-		else {
-			_m->cur_lib_idx = -1;
-		}
-
-		_settings->set(Set::Lib_CurIndex, _m->cur_lib_idx);
 	}
 
 	_settings->set(Set::Lib_AllLibraries, _m->all_libs);
-}
-
-LibraryInfo LibraryManager::get_current_library() const
-{
-	if(_m->has_current_library()){
-		return _m->all_libs[_m->cur_lib_idx];
-	}
-
-	return LibraryInfo();
 }
 
 QList<LibraryInfo> LibraryManager::get_all_libraries() const
@@ -138,36 +124,19 @@ QList<LibraryInfo> LibraryManager::get_all_libraries() const
 	return _m->all_libs;
 }
 
+
 int LibraryManager::count() const
 {
 	return _m->all_libs.size();
 }
 
-LocalLibrary* LibraryManager::get_library_instance(int idx) const
+LibraryInfo LibraryManager::get_library(int id) const
 {
-	return _m->get_library(idx);
+	return _m->get_library_info(id);
 }
 
-LocalLibrary* LibraryManager::get_current_library_instance() const
+LocalLibrary* LibraryManager::get_library_instance(int id) const
 {
-	return _m->get_library(_m->cur_lib_idx);
+	return _m->get_library(id);
 }
-
-int LibraryManager::change_library(int idx)
-{
-	if(idx < 0 || idx >= count()){
-		return _m->cur_lib_idx;
-	}
-
-	_m->cur_lib_idx = idx;
-	_settings->set(Set::Lib_CurIndex, idx);
-	return idx;
-}
-
-QString LibraryManager::get_current_library_path() const
-{
-	return get_current_library().path();
-}
-
-
 

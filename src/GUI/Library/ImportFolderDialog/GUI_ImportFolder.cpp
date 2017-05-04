@@ -23,6 +23,7 @@
 #include "GUI/TagEdit/GUI_TagEdit.h"
 
 #include "Components/TagEdit/TagEdit.h"
+#include "Components/Library/LocalLibrary.h"
 
 #include "Helper/MetaData/MetaDataList.h"
 #include "Helper/Settings/Settings.h"
@@ -36,14 +37,13 @@
 #include <QShowEvent>
 
 // TODO: Pimpl
-GUI_ImportFolder::GUI_ImportFolder(const QString& library_path, bool copy_enabled, QWidget* parent) :
+GUI_ImportFolder::GUI_ImportFolder(const LocalLibrary* library, bool copy_enabled, QWidget* parent) :
 	SayonaraDialog(parent)
 {
 	ui = new Ui::ImportFolder();
 	ui->setupUi(this);
 
-	_importer = LibraryImporter::getInstance();
-	_library_path = library_path;
+	_library_path = library->library_path();
 
 	ui->lab_target_path->setVisible(copy_enabled);
 	ui->lab_target_info->setVisible(copy_enabled);

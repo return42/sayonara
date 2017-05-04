@@ -46,7 +46,6 @@ class DatabaseConnector :
 {
 	SINGLETON(DatabaseConnector)
 
-
 protected:
 	bool updateAlbumCissearchFix();
 	bool updateArtistCissearchFix();

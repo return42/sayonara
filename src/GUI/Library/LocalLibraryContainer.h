@@ -22,20 +22,17 @@
 #define LOCALLIBRARYCONTAINER_H
 
 #include "Interfaces/LibraryInterface/LibraryContainer/LibraryContainer.h"
+#include "Helper/Pimpl.h"
 
-class GUI_LocalLibrary;
-
+class LibraryInfo;
 class LocalLibraryContainer :
 	public LibraryContainerInterface
 {
 	Q_OBJECT
-
-private:
-	GUI_LocalLibrary*   _ui=nullptr;
+	PIMPL(LocalLibraryContainer)
 
 public:
-
-	explicit LocalLibraryContainer(QObject* parent=nullptr);
+	explicit LocalLibraryContainer(const LibraryInfo& library, QObject* parent=nullptr);
 	virtual ~LocalLibraryContainer();
 
 	// override from LibraryViewInterface

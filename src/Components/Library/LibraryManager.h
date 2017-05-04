@@ -9,6 +9,7 @@
 
 class LibraryInfo;
 class LocalLibrary;
+class LocalLibraryContainer;
 
 class LibraryManager :
 		public SayonaraClass
@@ -18,16 +19,13 @@ class LibraryManager :
 
 public:
 	bool add_library(const QString& name, const QString& path);
-	void remove_library(int index);
+	void remove_library(int id);
 
-	LibraryInfo get_current_library() const;
 	QList<LibraryInfo> get_all_libraries() const;
+	LibraryInfo get_library(int id) const;
 	int count() const;
-	int change_library(int idx);
-	QString get_current_library_path() const;
 
-	LocalLibrary* get_library_instance(int idx) const;
-	LocalLibrary* get_current_library_instance() const;
+	LocalLibrary* get_library_instance(int id) const;
 };
 
 

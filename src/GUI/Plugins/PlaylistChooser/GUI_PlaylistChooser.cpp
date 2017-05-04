@@ -56,7 +56,7 @@ void GUI_PlaylistChooser::init_ui()
 {
 	setup_parent(this, &ui);
 
-	_last_dir = _settings->get(Set::Lib_Path);
+	_last_dir = QDir::homePath();
 
 	ui->combo_playlistchooser->setItemDelegate(new ComboBoxDelegate(this));
 

@@ -39,7 +39,9 @@ class DatabaseTracks :
 
 {
 private:
+	QString _track_view_name;
 	QString _artistid_field;
+	qint8 _library_id;
 
 	virtual QString fetch_query_tracks() const;
 
@@ -51,7 +53,7 @@ protected:
 
 public:
 
-	DatabaseTracks(const QSqlDatabase& db, quint8 db_id);
+	DatabaseTracks(const QSqlDatabase& db, quint8 db_id, qint8 _library_id);
 
 	virtual bool db_fetch_tracks(SayonaraQuery& q, MetaDataList& result);
 

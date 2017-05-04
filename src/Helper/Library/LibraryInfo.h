@@ -7,7 +7,7 @@ class LibraryInfo
 {
 	QString _path;
 	QString _name;
-	int _id;
+	qint8 _id;
 
 public:
 	LibraryInfo();
@@ -15,7 +15,7 @@ public:
 
 	QString name() const;
 	QString path() const;
-	int id() const;
+	qint8 id() const;
 	bool valid() const;
 
 	static LibraryInfo fromString(const QString& str);

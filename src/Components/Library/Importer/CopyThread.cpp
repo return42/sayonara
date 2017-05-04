@@ -38,16 +38,18 @@ struct CopyThread::Private
 	int				percent;
 	bool			cancelled;
 
-	ImportCache		cache;
+	const ImportCache*	cache=nullptr;
 	CopyThread::Mode	mode;
+
+	Private(const ImportCache* c) : cache(c) {}
 };
 
 
-CopyThread::CopyThread(const QString& target_dir, const ImportCache& cache, QObject *parent) :
+CopyThread::CopyThread(const QString& target_dir, const ImportCache* cache, QObject *parent) :
 	QThread(parent),
 	SayonaraClass()
 {
-	_m = Pimpl::make<CopyThread::Private>();
+	_m = Pimpl::make<CopyThread::Private>(cache);
 	_m->cache = cache;
 	_m->target_dir = target_dir;
 
@@ -80,7 +82,7 @@ void CopyThread::copy()
 {
 	clear();
 
-	QStringList files = _m->cache.get_files();
+	QStringList files = _m->cache->get_files();
 
 	for(const QString& filename : files){
 		if(_m->cancelled){
@@ -90,7 +92,7 @@ void CopyThread::copy()
 		bool success;
 		QString target_filename, target_dir;
 
-		target_filename = _m->cache.get_target_filename(filename, _m->target_dir);
+		target_filename = _m->cache->get_target_filename(filename, _m->target_dir);
 		if(target_filename.isEmpty()){
 			continue;
 		}
@@ -111,7 +113,7 @@ void CopyThread::copy()
 			continue;
 		}
 
-		MetaData md = _m->cache.get_metadata(filename);
+		MetaData md = _m->cache->get_metadata(filename);
 
 		if(!md.filepath().isEmpty()){
 			sp_log(Log::Debug, this) << "Set new filename: " << target_filename;

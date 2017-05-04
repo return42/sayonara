@@ -53,7 +53,6 @@
 struct GUI_AlternativeCovers::Private
 {
 	int						cur_idx;
-	QString					last_path;
 	CoverLocation			cover_location;
 	QStringList				filelist;
 	bool					is_searching;
@@ -83,22 +82,8 @@ GUI_AlternativeCovers::GUI_AlternativeCovers(QWidget* parent) :
 	_m = Pimpl::make<GUI_AlternativeCovers::Private>();
 
 	ui->setupUi(this);
+
 	_m->loading_bar = new SayonaraLoadingBar(ui->tv_images);
-
-	// TODO: LibraryManager
-	// Have you thoght, that there may be different tracks from different libraries?
-	// e.g. in the playlist
-	// But probably, it's ok to take the current library path
-	QString lib_path = LibraryManager::getInstance()->get_current_library_path();
-
-	if(QFile::exists(lib_path)){
-		_m->last_path = lib_path;
-	}
-
-	else {
-		_m->last_path = QDir::homePath();
-	}
-
 	_m->cur_idx = -1;
 	_m->is_searching = false;
 
@@ -288,39 +273,14 @@ void GUI_AlternativeCovers::reset_model()
 
 void GUI_AlternativeCovers::open_file_dialog()
 {
-	// TODO: LibraryManager
-	// Have you thoght, that there may be different tracks from different libraries?
-	// e.g. in the playlist
-	// But probably, it's ok to take the current library path
-	QString lib_path = LibraryManager::getInstance()->get_current_library_path();
-
-	if(QFile::exists(lib_path)){
-		_m->last_path = lib_path;
-	}
-
-	else {
-		_m->last_path = QDir::homePath();
-	}
-
-
-
-	QDir dir( lib_path );
-
     QStringList filters;
         filters << "*.jpg";
         filters << "*.png";
         filters << "*.gif";
 
-	dir.setFilter(QDir::Files);
-	dir.setNameFilters(filters);
-
-	for(const QString& f : dir.entryList()) {
-		QFile::remove(dir.absoluteFilePath(f));
-	}
-
     QStringList lst = QFileDialog::getOpenFileNames(this,
                                   tr("Open image files"),
-								  _m->last_path,
+								  QDir::homePath(),
                                   filters.join(" "));
 	if(lst.isEmpty())
 	{

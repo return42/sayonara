@@ -46,11 +46,9 @@ void GUI_TargetPlaylistDialog::language_changed()
 
 void GUI_TargetPlaylistDialog::search_button_clicked()
 {
-	QString lib_path = LibraryManager::getInstance()->get_current_library_path();
-
     QString target_filename = QFileDialog::getSaveFileName(this,
 														   Lang::get(Lang::SaveAs),
-															lib_path,
+															QDir::homePath(),
                                                            "*.m3u");
 
     if(!target_filename.endsWith("m3u", Qt::CaseInsensitive)) target_filename.append(".m3u");

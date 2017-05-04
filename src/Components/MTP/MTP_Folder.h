@@ -49,7 +49,7 @@ public:
 
 	QList<MTP_FolderPtr> children() const;
 
-	bool send_track(MTP_TrackPtr track) const;
+	bool send_track(MTP_TrackPtr track, const QString& lib_path) const;
 	bool remove() const;
 	quint32 create_folder(const QString& name) const;
 };

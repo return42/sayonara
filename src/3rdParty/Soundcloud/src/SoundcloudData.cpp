@@ -28,7 +28,7 @@
 #include "Helper/Logger/Logger.h"
 
 SoundcloudData::SoundcloudData() :
-	LibraryDatabase(1, "", "soundcloud.db") {}
+	LibraryDatabase(1, "", "soundcloud.db", -1) {}
 
 SoundcloudData::~SoundcloudData() {}
 

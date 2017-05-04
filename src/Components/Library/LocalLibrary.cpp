@@ -37,15 +37,17 @@
 
 struct LocalLibrary::Private
 {
+
 	DatabaseConnector*	db=nullptr;
 	ReloadThread* 		reload_thread=nullptr;
 	FileSystemWatcher*	fsw=nullptr;
 	TagEdit*			tag_edit=nullptr;
+	LibraryImporter*	library_importer=nullptr;
 	QString				library_path;
 
 	Private()
 	{
-		db = DatabaseConnector::getInstance();
+
 		tag_edit = new TagEdit(nullptr);
 	}
 
@@ -55,11 +57,12 @@ struct LocalLibrary::Private
 	}
 };
 
-LocalLibrary::LocalLibrary(const QString& library_path, QObject *parent) :
+LocalLibrary::LocalLibrary(qint8 id, const QString& library_path, QObject *parent) :
 	AbstractLibrary(parent)
 {
 	_m = Pimpl::make<Private>();
 	_m->library_path = library_path;
+	_m->db = DatabaseConnector::getInstance();
 
 	apply_db_fixes();
 
@@ -75,7 +78,7 @@ LocalLibrary::~LocalLibrary() {}
 void LocalLibrary::apply_db_fixes()
 {
 	QString str_val;
-	_m->db->load_setting("version", str_val);
+	DatabaseConnector::getInstance()->load_setting("version", str_val);
 
 	int version = str_val.toInt();
 	if(version < 11){
@@ -154,7 +157,7 @@ void LocalLibrary::indexing_finished()
 {
 	IndexDirectoriesThread* thread = dynamic_cast<IndexDirectoriesThread*>(sender());
 
-	_m->fsw = new FileSystemWatcher(filepath(), this);
+	_m->fsw = new FileSystemWatcher(library_path(), this);
 
 	connect(_m->fsw, &QThread::finished, _m->fsw, &QObject::deleteLater);
 	connect(_m->fsw, &QThread::destroyed, this, [=](){
@@ -349,7 +352,11 @@ void LocalLibrary::refresh_tracks() {}
 
 void LocalLibrary::import_files(const QStringList& files)
 {
-	LibraryImporter::getInstance()->import_files(files);
+	if(!_m->library_importer){
+		_m->library_importer = new LibraryImporter(this->library_path(), this);
+	}
+
+	_m->library_importer->import_files(files);
 	emit sig_import_dialog_requested();
 }
 
@@ -458,4 +465,13 @@ void LocalLibrary::change_track_rating(int idx, int rating)
 QString LocalLibrary::library_path() const
 {
 	return _m->library_path;
+}
+
+LibraryImporter* LocalLibrary::importer()
+{
+	if(!_m->library_importer){
+		_m->library_importer = new LibraryImporter(this->library_path(), this);
+	}
+
+	return _m->library_importer;
 }

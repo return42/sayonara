@@ -34,6 +34,7 @@ class DatabaseArtists :
 		private DatabaseSearchMode
 {
 private:
+	QString _track_view_name;
 	QString _artistid_field;
 	QString _create_order_string(Library::SortOrder sort);
 
@@ -43,7 +44,7 @@ protected:
 
 public:
 
-	DatabaseArtists(const QSqlDatabase& db, quint8 db_id);
+	DatabaseArtists(const QSqlDatabase& db, quint8 db_id, qint8 library_id);
 
 	virtual bool db_fetch_artists(SayonaraQuery& q, ArtistList& result);
 

@@ -25,11 +25,15 @@
 #include "Helper/Library/Filter.h"
 #include "Helper/Library/DateFilter.h"
 
-DatabaseArtists::DatabaseArtists(const QSqlDatabase& db, quint8 db_id) :
+DatabaseArtists::DatabaseArtists(const QSqlDatabase& db, quint8 db_id, qint8 library_id) :
 	DatabaseModule(db, db_id),
 	DatabaseSearchMode(db)
 {
 	_artistid_field = "artistID";
+	_track_view_name = QString("track_view_") + QString::number(library_id);
+	if(library_id < 0){
+		_track_view_name = QString("tracks");
+	}
 }
 
 QString DatabaseArtists::fetch_query_artists(bool also_empty) const
@@ -38,7 +42,7 @@ QString DatabaseArtists::fetch_query_artists(bool also_empty) const
 			"SELECT "
 			"artists.artistID AS artistID "
 			", artists.name AS artistName "
-			", COUNT(DISTINCT tracks.trackid) AS trackCount "
+			", COUNT(DISTINCT " + _track_view_name + ".trackid) AS trackCount "
 			" FROM artists ";
 
 	QString join = " INNER JOIN ";
@@ -47,8 +51,8 @@ QString DatabaseArtists::fetch_query_artists(bool also_empty) const
 	}
 
 
-	sql += join + " tracks ON tracks." + _artistid_field + " = artists.artistID ";
-	sql += join + " albums ON tracks.albumID = albums.albumID ";
+	sql += join + " " + _track_view_name + " ON " + _track_view_name + "." + _artistid_field + " = artists.artistID ";
+	sql += join + " albums ON " + _track_view_name + ".albumID = albums.albumID ";
 
 	return sql;
 }
@@ -171,19 +175,19 @@ bool DatabaseArtists::getAllArtistsBySearchString(const Library::Filter& filter,
 	{
 		case Library::Filter::Date:
 			query = fetch_query_artists() +
-					" AND (" + filter.date_filter().get_sql_filter("tracks") + ") "
+					" AND (" + filter.date_filter().get_sql_filter(_track_view_name) + ") "
 					" GROUP BY artists.artistID, artists.name ";
 			break;
 
 		case Library::Filter::Genre:
 			query = fetch_query_artists() +
-					"   AND tracks.genre LIKE :searchstring "
+					"   AND " + _track_view_name + ".genre LIKE :searchstring "
 					"	GROUP BY artists.artistID, artists.name ";
 			break;
 
 		case Library::Filter::Filename:
 			query = fetch_query_artists() +
-					"   AND tracks.filename LIKE :searchstring "
+					"   AND " + _track_view_name + ".filename LIKE :searchstring "
 					"	GROUP BY artists.artistID, artists.name ";
 			break;
 
@@ -199,7 +203,7 @@ bool DatabaseArtists::getAllArtistsBySearchString(const Library::Filter& filter,
 					" GROUP BY artists.artistID, artists.name "
 					" UNION "
 					+ fetch_query_artists() +
-					" AND tracks.cissearch LIKE :searchstring "
+					" AND " + _track_view_name + ".cissearch LIKE :searchstring "
 					" GROUP BY artists.artistID, artists.name "
 					") "
 					"GROUP BY artistID, artistName ";

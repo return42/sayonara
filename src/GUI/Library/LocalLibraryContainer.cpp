@@ -21,20 +21,36 @@
 #include "LocalLibraryContainer.h"
 #include "GUI/Library/GUI_LocalLibrary.h"
 #include "GUI/Helper/GUI_Helper.h"
+#include "Helper/Library/LibraryInfo.h"
 
-LocalLibraryContainer::LocalLibraryContainer(QObject* parent) :
-	LibraryContainerInterface(parent) {}
+struct LocalLibraryContainer::Private
+{
+	GUI_LocalLibrary*   ui=nullptr;
+	LibraryInfo			library;
+	QString name;
+	QString library_path;
+};
+
+LocalLibraryContainer::LocalLibraryContainer(const LibraryInfo& library, QObject* parent) :
+	LibraryContainerInterface(parent)
+{
+	_m = Pimpl::make<Private>();
+	_m->library = library;
+}
 
 LocalLibraryContainer::~LocalLibraryContainer() {}
 
 QString LocalLibraryContainer::get_name() const
 {
-	return "local_library";
+	QString name = get_display_name();
+	name = name.toLower();
+	name.replace(" ", "-");
+	return name;
 }
 
 QString LocalLibraryContainer::get_display_name() const
 {
-	return tr("Local Library");
+	return _m->library.name();
 }
 
 QIcon LocalLibraryContainer::get_icon() const
@@ -44,18 +60,18 @@ QIcon LocalLibraryContainer::get_icon() const
 
 QWidget* LocalLibraryContainer::get_ui() const
 {
-	return static_cast<QWidget*>(_ui);
+	return static_cast<QWidget*>(_m->ui);
 }
 
 QComboBox* LocalLibraryContainer::get_libchooser()
 {
-	return _ui->get_libchooser();
+	return _m->ui->get_libchooser();
 }
 
 QMenu*LocalLibraryContainer::get_menu()
 {
-	if(_ui){
-		return _ui->get_menu();
+	if(_m->ui){
+		return _m->ui->get_menu();
 	}
 
 	return nullptr;
@@ -63,5 +79,5 @@ QMenu*LocalLibraryContainer::get_menu()
 
 void LocalLibraryContainer::init_ui()
 {
-	_ui = new GUI_LocalLibrary();
+	_m->ui = new GUI_LocalLibrary(_m->library.id());
 }

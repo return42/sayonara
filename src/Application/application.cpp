@@ -232,10 +232,8 @@ bool Application::init(QTranslator* translator, const QStringList& files_to_play
 
 	QList<LibraryContainerInterface*> library_containers;
 	DirectoryLibraryContainer* directory_container = new DirectoryLibraryContainer(this);
-	LocalLibraryContainer* local_library_container = new LocalLibraryContainer(this);
-	LibraryPluginHandler* library_plugin_loader = new LibraryPluginHandler(this);
 
-	library_containers << static_cast<LibraryContainerInterface*>(local_library_container);
+	LibraryPluginHandler* library_plugin_loader = new LibraryPluginHandler(this);
 	library_containers << static_cast<LibraryContainerInterface*>(directory_container);
 
 #ifdef Q_OS_WIN

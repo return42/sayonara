@@ -36,7 +36,7 @@
 
 DatabaseConnector::DatabaseConnector() :
 
-	LibraryDatabase(0, "", QString("player.db")),
+	LibraryDatabase(0, "", QString("player.db"), -1),
 	DatabaseBookmarks(_database, _db_id),
 	DatabasePlaylist(_database, _db_id),
 	DatabasePodcasts(_database, _db_id),
@@ -113,7 +113,7 @@ bool DatabaseConnector::apply_fixes()
 	QString str_version;
 	int version;
 	bool success;
-	const int LatestVersion = 13;
+	const int LatestVersion = 14;
 
 	success = load_setting("version", str_version);
 	version = str_version.toInt(&success);
@@ -299,6 +299,17 @@ bool DatabaseConnector::apply_fixes()
 
 		if(success){
 			store_setting("version", 13);
+		}
+	}
+
+	if(version < 14){
+		bool success=check_and_insert_column("tracks", "libraryIndex", "integer", "0");
+		SayonaraQuery q(_database);
+		q.prepare("UPDATE tracks SET libraryIndex=0;");
+		success = success && q.exec();
+
+		if(success){
+			store_setting("version", 14);
 		}
 	}
 

@@ -41,7 +41,7 @@ private:
 
 public:
 
-	ImportCache();
+	ImportCache(const QString& library_path);
 	virtual ~ImportCache();
 
 	ImportCache(const ImportCache& other);

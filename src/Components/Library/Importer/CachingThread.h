@@ -41,12 +41,12 @@ signals:
 
 
 public:
-	explicit CachingThread(const QStringList& file_list, QObject *parent=nullptr);
+	explicit CachingThread(const QStringList& file_list, const QString& library_path, QObject *parent=nullptr);
 	virtual ~CachingThread();
 
 	void			cancel();
 	bool			is_cancelled() const;
-	ImportCache		get_cache() const;
+	const ImportCache*	get_cache() const;
 	void			change_metadata(const MetaDataList& v_md_old, const MetaDataList& v_md_new);
 
 

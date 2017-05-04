@@ -27,6 +27,8 @@
 #include "Helper/Settings/Settings.h"
 #include "Helper/MetaData/Album.h"
 #include "Helper/MetaData/Genre.h"
+#include "Components/Library/LibraryManager.h"
+#include "Helper/Library/LibraryInfo.h"
 
 #include "Components/Covers/CoverLocation.h"
 #include "Database/DatabaseHandler.h"
@@ -349,20 +351,35 @@ QString MetaDataInfo::get_additional_info_as_string() const
 
 QString MetaDataInfo::get_paths_as_string() const
 {
-	QString str;
-	QString lib_path = _settings->get(Set::Lib_Path);
+	QString ret;
+	QList<LibraryInfo> lib_infos = LibraryManager::getInstance()->get_all_libraries();
+	QStringList lib_paths;
+	for(const LibraryInfo& li : lib_infos){
+		lib_paths << li.path();
+	}
+
+	std::sort(lib_paths.begin(), lib_paths.end(), [](const QString& lp1, const QString& lp2){
+		return (lp1.length() > lp2.length());
+	});
+
+
 	bool dark = (_settings->get(Set::Player_Style) == 1);
 
 	for(const QString& path : _paths){
 		QString name = path;
-		name.replace(lib_path, "...");
 
+		for(const QString& lp : lib_paths){
+			if(name.contains(lp)){
+				name.replace(lp, "...");
+				break;
+			}
+		}
 
 		QString link = Helper::create_link(name, dark, path, false);
-		str += link + CAR_RET;
+		ret += link + CAR_RET;
 	}
 
-	return str;
+	return ret;
 }
 
 CoverLocation MetaDataInfo::get_cover_location() const

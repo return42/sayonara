@@ -132,7 +132,7 @@ bool SettingRegistry::init()
 	register_setting( Set::Lib_ShowAlbumCovers, "lib_show_album_covers", false);
 	register_setting( Set::Lib_CoverZoom, "lib_cover_zoom", 100);
 	register_setting( Set::Lib_GenreTree, "lib_show_genre_tree", true);
-	register_setting( Set::Lib_CurIndex, "lib_cur_idx", -1);
+	register_setting( Set::Lib_LastIndex, "lib_last_idx", -1);
 	register_setting( Set::Lib_AllLibraries, "lib_all_libraries", QList<LibraryInfo>());
 
 #ifdef Q_OS_WIN

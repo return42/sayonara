@@ -27,15 +27,17 @@
 
 struct ImportCache::Private
 {
+	QString					library_path;
 	MetaDataList			v_md;
 	QMap<QString, MetaData> src_md_map;
 	QMap<QString, QString>	src_dst_map;
 	QStringList				files;
 };
 
-ImportCache::ImportCache()
+ImportCache::ImportCache(const QString& library_path)
 {
 	_m = Pimpl::make<ImportCache::Private>();
+	_m->library_path = library_path;
 }
 
 ImportCache::~ImportCache() {}
@@ -105,12 +107,11 @@ MetaDataList ImportCache::get_soundfiles() const
 
 QString ImportCache::get_target_filename(const QString &src_filename, const QString& target_directory) const
 {
-	QString library_path = LibraryManager::getInstance()->get_current_library().path();
-	if(library_path.isEmpty()){
+	if(_m->library_path.isEmpty()){
 		return QString();
 	}
 
-	return library_path + "/" + target_directory + "/" + _m->src_dst_map[src_filename];
+	return _m->library_path + "/" + target_directory + "/" + _m->src_dst_map[src_filename];
 }
 
 MetaData ImportCache::get_metadata(const QString& filename) const

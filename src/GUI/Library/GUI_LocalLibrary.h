@@ -30,6 +30,7 @@
 #define GUI_LOCAL_LIBRARY_H_
 
 #include "GUI_AbstractLibrary.h"
+#include "Helper/Pimpl.h"
 
 class GUI_LibraryInfoBox;
 class GUI_ImportFolder;
@@ -43,10 +44,11 @@ class GUI_LocalLibrary :
 		public GUI_AbstractLibrary
 {
 	Q_OBJECT
+	PIMPL(GUI_LocalLibrary)
 
 public:
 
-	explicit GUI_LocalLibrary(QWidget* parent=nullptr);
+	explicit GUI_LocalLibrary(int id, QWidget* parent=nullptr);
 	virtual ~GUI_LocalLibrary();
 
 	QComboBox*	get_libchooser() const;
@@ -65,7 +67,6 @@ private slots:
 	void switch_album_view();
 
 	void disc_pressed(int disc);
-	void lib_no_lib_path();
 	void progress_changed(const QString& type, int progress);
 
 	void genre_selection_changed(const QModelIndex& index);
@@ -95,24 +96,17 @@ private slots:
 
 	// reimplemented from Sayonara widget
 	void language_changed() override;
-
-	void _sl_libpath_changed();
 	void clear_button_pressed() override;
+
+	void _sl_all_libraries_changed();
 
 protected slots:
 	void lib_fill_albums(const AlbumList& albums) override;
 	void lib_fill_tracks(const MetaDataList& v_md) override;
 
 private:
-	Ui::GUI_LocalLibrary*	ui=nullptr;
-	GUI_LibraryInfoBox*		_library_info_box=nullptr;
-	GUI_ImportFolder*		_ui_importer=nullptr;
-	LocalLibraryMenu*		_local_library_menu=nullptr;
-
-	AlbumCoverView*			_acv = nullptr;
-	AlbumCoverModel*		_acm = nullptr;
-
 	void init_album_cover_view();
+	Ui::GUI_LocalLibrary*	ui=nullptr;
 };
 
 

@@ -25,9 +25,11 @@
 #include "Helper/Singleton.h"
 #include "Helper/Pimpl.h"
 
+
 class ReloadThread;
 class DatabaseConnector;
 class FileSystemWatcher;
+class LibraryImporter;
 
 class LocalLibrary :
 		public AbstractLibrary
@@ -40,7 +42,7 @@ signals:
 	void sig_import_dialog_requested();
 
 public:
-	LocalLibrary(const QString& library_path, QObject* parent=nullptr);
+	LocalLibrary(qint8 id, const QString& library_path, QObject* parent=nullptr);
 	virtual ~LocalLibrary();
 
 
@@ -96,6 +98,7 @@ private:
 
 public:
 	QString		library_path() const;
+	LibraryImporter* importer();
 };
 
 #endif // LocalLibrary_H

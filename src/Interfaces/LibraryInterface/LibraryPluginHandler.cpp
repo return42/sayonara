@@ -22,6 +22,9 @@
 #include "GUI/Helper/Delegates/ComboBoxDelegate.h"
 #include "GUI/Helper/SayonaraWidget/SayonaraWidgetTemplate.h"
 #include "LibraryContainer/LibraryContainer.h"
+#include "Components/Library/LibraryManager.h"
+#include "Helper/Library/LibraryInfo.h"
+#include "GUI/Library/LocalLibraryContainer.h"
 
 #include "Helper/globals.h"
 #include "Helper/Helper.h"
@@ -66,6 +69,16 @@ void LibraryPluginHandler::init(const QList<LibraryContainerInterface*>& contain
 	QString cur_plugin = _settings->get(Set::Lib_CurPlugin);
 
 
+	QList<LibraryInfo> library_infos = LibraryManager::getInstance()->get_all_libraries();
+	for(const LibraryInfo& library_info : library_infos){
+		sp_log(Log::Debug, this) << "Add local library "
+								 << library_info.name() << ": "
+								 << library_info.path();
+
+		_m->libraries << new LocalLibraryContainer(library_info);
+	}
+
+
 	for(LibraryContainerInterface* container : containers){
 		if(!container){
 			continue;
@@ -102,15 +115,24 @@ void LibraryPluginHandler::init(const QList<LibraryContainerInterface*>& contain
 	sp_log(Log::Info) << "Found " << _m->libraries.size() << " library types";
 
 	int i=0;
-	for(LibraryContainerInterface* container : _m->libraries ){
+	bool found = false;
+	for(LibraryContainerInterface* container : _m->libraries )
+	{
 		if(cur_plugin == container->get_name()){
 			_m->cur_idx = i;
 			init_library(i);
 			emit sig_idx_changed(i);
+			found = true;
 			break;
 		}
 
 		i++;
+	}
+
+	if(!found){
+		_m->cur_idx = 0;
+		init_library(0);
+		emit sig_idx_changed(0);
 	}
 }
 

@@ -36,10 +36,11 @@ class LibraryImporter :
 		protected SayonaraClass
 {
 	Q_OBJECT
-
-	SINGLETON_QOBJECT(LibraryImporter)
+	PIMPL(LibraryImporter)
 
 public:
+	LibraryImporter(const QString& library_path, QObject* parent=nullptr);
+	~LibraryImporter();
 
 	enum class ImportStatus : quint8 
 	{
@@ -72,9 +73,6 @@ private slots:
 	void copy_thread_finished();
 	void emit_status(LibraryImporter::ImportStatus status);
 	void metadata_changed(const MetaDataList& old_md, const MetaDataList& new_md);
-
-private:
-	PIMPL(LibraryImporter)
 
 };
 

@@ -36,37 +36,35 @@
 
 struct LibraryImporter::Private
 {
+	QString					library_path;
 	CachingThread*			cache_thread=nullptr;
 	CopyThread*				copy_thread=nullptr;
-
-	ImportCache				import_cache;
+	const ImportCache*		import_cache=nullptr;
 
 	DatabaseConnector*		db=nullptr;
 
-	LibraryImporter::ImportStatus
-							status;
-
+	LibraryImporter::ImportStatus status;
 	QString					src_dir;
 
-	Private()
+	Private(const QString& lp)
 	{
 		db = DatabaseConnector::getInstance();
 		status = LibraryImporter::ImportStatus::NoTracks;
-		cache_thread = nullptr;
-		copy_thread = nullptr;
+		library_path = lp;
 	}
 };
 
-LibraryImporter::LibraryImporter(QObject* parent) :
+LibraryImporter::LibraryImporter(const QString& library_path, QObject* parent) :
 	QObject(parent),
 	SayonaraClass()
 {
-	_m = Pimpl::make<Private>();
+	_m = Pimpl::make<Private>(library_path);
 
 	MetaDataChangeNotifier* md_change_notifier = MetaDataChangeNotifier::getInstance();
 	connect(md_change_notifier, &MetaDataChangeNotifier::sig_metadata_changed,
 			this, &LibraryImporter::metadata_changed);
 }
+
 
 LibraryImporter::~LibraryImporter() {}
 
@@ -74,7 +72,7 @@ void LibraryImporter::import_files(const QStringList& files)
 {
 	emit_status(ImportStatus::Caching);
 
-	CachingThread* thread = new CachingThread(files);
+	CachingThread* thread = new CachingThread(files, _m->library_path);
 
 	connect(thread, &CachingThread::finished, this, &LibraryImporter::caching_thread_finished);
 	connect(thread, &CachingThread::sig_progress, this, &LibraryImporter::sig_progress);
@@ -95,8 +93,13 @@ void LibraryImporter::caching_thread_finished()
 	MetaDataList v_md ;
 
 	_m->import_cache = thread->get_cache();
+	if(!_m->import_cache){
+		emit_status(ImportStatus::NoTracks);
+	}
 
-	v_md = _m->import_cache.get_soundfiles();
+	else {
+		v_md = _m->import_cache->get_soundfiles();
+	}
 
 	if(v_md.isEmpty() || thread->is_cancelled()){
 		emit_status(ImportStatus::NoTracks);
@@ -159,7 +162,7 @@ void LibraryImporter::copy_thread_finished()
 	// store to db
 	bool success = _m->db->storeMetadata(v_md);
 	int n_files_copied = copy_thread->get_n_copied_files();
-	int n_files_to_copy = _m->import_cache.get_files().size();
+	int n_files_to_copy = _m->import_cache->get_files().size();
 
 	// error and success messages
 	if(success) {
@@ -200,8 +203,6 @@ void LibraryImporter::metadata_changed(const MetaDataList& old_md, const MetaDat
 	if(_m->cache_thread){
 		_m->cache_thread->change_metadata(old_md, new_md);
 	}
-
-	_m->import_cache.change_metadata(old_md, new_md);
 }
 
 

@@ -98,7 +98,6 @@ GUI_Playlist::GUI_Playlist(QWidget *parent) :
 	// But we should look, if there are still libraries available
 	// How should dynamic playback look? Should we use all libraries?
 	// Make it configurable?
-	REGISTER_LISTENER(Set::Lib_Path, _sl_library_path_changed);
 	REGISTER_LISTENER(Set::PL_ShowNumbers, _sl_show_numbers_changed);
 	REGISTER_LISTENER(Set::PL_ShowClearButton, _sl_show_clear_button_changed);
 

@@ -20,6 +20,8 @@
 #include "MTP_CopyFiles.h"
 
 #include "Helper/DirectoryReader/DirectoryReader.h"
+#include "Components/Library/LibraryManager.h"
+#include "Helper/Library/LibraryInfo.h"
 #include <QFileInfo>
 
 MTP_CopyFiles::MTP_CopyFiles(const MetaDataList& v_md, MTP_FolderPtr folder, QObject *parent) :
@@ -43,8 +45,12 @@ void MTP_CopyFiles::run()
 		int progress;
 
 		MTP_TrackPtr track = MTP_TrackPtr(new MTP_Track(md));
+		LibraryInfo info = LibraryManager::getInstance()->get_library(md.library_id);
+		if(!info.valid()){
+			continue;
+		}
 
-		_folder->send_track(track);
+		_folder->send_track(track, info.path());
 
 		progress = (i * 100) / _v_md.size();
 

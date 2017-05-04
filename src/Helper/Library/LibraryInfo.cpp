@@ -26,7 +26,7 @@ QString LibraryInfo::path() const
 	return _path;
 }
 
-int LibraryInfo::id() const
+qint8 LibraryInfo::id() const
 {
 	return _id;
 }

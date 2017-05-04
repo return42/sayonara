@@ -25,9 +25,12 @@
 #include "Helper/Tagging/Tagging.h"
 #include "Helper/FileHelper.h"
 #include "Helper/MetaData/MetaDataList.h"
+#include "Helper/Logger/Logger.h"
 
-struct CachingThread::Private {
-	ImportCache		cache;
+struct CachingThread::Private
+{
+	QString			library_path;
+	ImportCache*	cache=nullptr;
 	QStringList		file_list;
 	bool			cancelled;
 
@@ -37,9 +40,10 @@ struct CachingThread::Private {
 		DirectoryReader dr;
 		dr.set_filter("*");
 
-		for(const QString& filename : file_list){
+		for(const QString& filename : file_list)
+		{
 			if(cancelled){
-				cache.clear();
+				cache->clear();
 				return;
 			}
 
@@ -50,36 +54,38 @@ struct CachingThread::Private {
 				dr.get_files_in_dir_rec(dir, dir_files);
 
 				for(const QString& dir_file : dir_files){
-					cache.add_standard_file(dir_file, filename);
+					cache->add_standard_file(dir_file, filename);
 				}
 			}
 
 			else{
-				cache.add_standard_file(filename);
+				cache->add_standard_file(filename);
 			}
 		}
 	}
 
 	void extract_soundfiles()
 	{
-		for(const QString& filename : cache.get_files()){
+		for(const QString& filename : cache->get_files()){
 			if(Helper::File::is_soundfile(filename)){
 				MetaData md(filename);
 
 				bool success = Tagging::getMetaDataOfFile(md);
 				if(success){
-					cache.add_soundfile(md);
+					cache->add_soundfile(md);
 				}
 			}
 		}
 	}
 };
 
-CachingThread::CachingThread(const QStringList& file_list, QObject *parent) :
+CachingThread::CachingThread(const QStringList& file_list, const QString& library_path, QObject *parent) :
 	QThread(parent)
 {
 	_m = Pimpl::make<CachingThread::Private>();
 
+	_m->cache = new ImportCache(library_path);
+	_m->library_path = library_path;
 	_m->file_list = file_list;
 	_m->cancelled = false;
 }
@@ -88,7 +94,7 @@ CachingThread::~CachingThread() {}
 
 void CachingThread::run()
 {
-	_m->cache.clear();
+	_m->cache->clear();
 
 	_m->read_files();
 	_m->extract_soundfiles();
@@ -97,12 +103,19 @@ void CachingThread::run()
 }
 
 
-void CachingThread::change_metadata(const MetaDataList& v_md_old, const MetaDataList& v_md_new){
-	_m->cache.change_metadata(v_md_old, v_md_new);
+void CachingThread::change_metadata(const MetaDataList& v_md_old, const MetaDataList& v_md_new)
+{
+	if(_m->cache) {
+		_m->cache->change_metadata(v_md_old, v_md_new);
+	}
+
+	else{
+		sp_log(Log::Debug, this) << "Could not change metadata because cache was not created yet";
+	}
 }
 
 
-ImportCache CachingThread::get_cache() const
+const ImportCache* CachingThread::get_cache() const
 {
 	return _m->cache;
 }

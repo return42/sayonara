@@ -38,37 +38,43 @@
 
 static MetaDataList all_tracks;
 
-DatabaseTracks::DatabaseTracks(const QSqlDatabase& db, quint8 db_id) :
+DatabaseTracks::DatabaseTracks(const QSqlDatabase& db, quint8 db_id, qint8 library_id) :
 	DatabaseModule(db, db_id),
 	DatabaseSearchMode(db)
 {
 	_artistid_field = "artistID";
+	_library_id = library_id;
+	_track_view_name = QString("track_view_") + QString::number(library_id);
+
+	if(library_id < 0) {
+		_track_view_name = QString("tracks");
+	}
 }
 
 QString DatabaseTracks::fetch_query_tracks() const
 {
 	return "SELECT "
-		   "tracks.trackID AS trackID "				// 0
-		   ", tracks.title AS trackTitle "			// 1
-		   ", tracks.length AS trackLength "		// 2
-		   ", tracks.year AS trackYear "			// 3
-		   ", tracks.bitrate AS trackBitrate "		// 4
-		   ", tracks.filename AS trackFilename "	// 5
-		   ", tracks.track AS trackNum "			// 6
+		   "  " + _track_view_name + ".trackID AS trackID "			// 0
+		   ", " + _track_view_name + ".title AS trackTitle "			// 1
+		   ", " + _track_view_name + ".length AS trackLength "		// 2
+		   ", " + _track_view_name + ".year AS trackYear "			// 3
+		   ", " + _track_view_name + ".bitrate AS trackBitrate "		// 4
+		   ", " + _track_view_name + ".filename AS trackFilename "	// 5
+		   ", " + _track_view_name + ".track AS trackNum "			// 6
 		   ", albums.albumID AS albumID "			// 7
 		   ", artists.artistID AS artistID "		// 8
 		   ", albums.name AS albumName "			// 9
 		   ", artists.name AS artistName "			// 10
-		   ", tracks.genre AS genrename "			// 11
-		   ", tracks.filesize AS filesize "			// 12
-		   ", tracks.discnumber AS discnumber "		// 13
-		   ", tracks.rating AS rating "				//14
-		   ", tracks.albumArtistID "				// 15
+		   ", " + _track_view_name + ".genre AS genrename "			// 11
+		   ", " + _track_view_name + ".filesize AS filesize "			// 12
+		   ", " + _track_view_name + ".discnumber AS discnumber "		// 13
+		   ", " + _track_view_name + ".rating AS rating "				//14
+		   ", " + _track_view_name + ".albumArtistID "				// 15
 		   ", albumartists.name "					// 16
-		   "FROM tracks "
-		   "INNER JOIN albums ON tracks.albumID = albums.albumID "
-		   "INNER JOIN artists ON tracks.artistID = artists.artistID "
-		   "LEFT OUTER JOIN artists albumartists ON tracks.albumArtistID = albumartists.artistID "
+		   "FROM " + _track_view_name + " "
+		   "INNER JOIN albums ON " + _track_view_name + ".albumID = albums.albumID "
+		   "INNER JOIN artists ON " + _track_view_name + ".artistID = artists.artistID "
+		   "LEFT OUTER JOIN artists albumartists ON " + _track_view_name + ".albumArtistID = albumartists.artistID "
 		   //"WHERE filetype is null "
 			;
 }
@@ -160,7 +166,7 @@ MetaData DatabaseTracks::getTrackByPath(const QString& path)
 {
 	SayonaraQuery q(_db);
 
-	QString querytext = fetch_query_tracks() + " WHERE tracks.filename LIKE :filename;";
+	QString querytext = fetch_query_tracks() + " WHERE " + _track_view_name + ".filename LIKE :filename;";
 	q.prepare(querytext);
 	q.bindValue(":filename", path);
 
@@ -185,7 +191,7 @@ MetaData DatabaseTracks::getTrackByPath(const QString& path)
 MetaData DatabaseTracks::getTrackById(int id)
 {
 	SayonaraQuery q(_db);
-	QString querytext = fetch_query_tracks() + " WHERE tracks.trackID = :track_id;";
+	QString querytext = fetch_query_tracks() + " WHERE " + _track_view_name + ".trackID = :track_id;";
 
 	q.prepare(querytext);
 	q.bindValue(":track_id", QVariant(id));
@@ -270,15 +276,15 @@ bool DatabaseTracks::getAllTracksByAlbum(IDList albums, MetaDataList& returndata
 		switch(filter.mode())
 		{
 			case Library::Filter::Date:
-				querytext += "WHERE " + filter.date_filter().get_sql_filter("tracks") + " AND ";
+				querytext += "WHERE " + filter.date_filter().get_sql_filter(_track_view_name) + " AND ";
 				break;
 
 			case Library::Filter::Genre:
-				querytext += "WHERE tracks.genre LIKE :filter1 AND ";
+				querytext += "WHERE " + _track_view_name + ".genre LIKE :filter1 AND ";
 				break;
 
 			case Library::Filter::Filename:
-				querytext += "WHERE tracks.filename LIKE :filter1 AND ";
+				querytext += "WHERE " + _track_view_name + ".filename LIKE :filter1 AND ";
 				break;
 
 			case Library::Filter::Fulltext:
@@ -286,32 +292,32 @@ bool DatabaseTracks::getAllTracksByAlbum(IDList albums, MetaDataList& returndata
 				// union the case that the search string may fit to the album
 				querytext +=
 								" INNER JOIN ( "
-								"	SELECT tracks.trackID "
-								"	FROM tracks "
-								"	WHERE tracks.cissearch LIKE :filter1 "
+								"	SELECT " + _track_view_name + ".trackID "
+								"	FROM " + _track_view_name + " "
+								"	WHERE " + _track_view_name + ".cissearch LIKE :filter1 "
 
-								"	UNION SELECT tracks.trackID "
-								"	FROM tracks "
+								"	UNION SELECT " + _track_view_name + ".trackID "
+								"	FROM " + _track_view_name + " "
 								"   INNER JOIN albums "
-								"   ON tracks.albumID = albums.albumID "
+								"   ON " + _track_view_name + ".albumID = albums.albumID "
 								"	WHERE albums.cissearch LIKE :filter2 "
 
-								"	UNION SELECT tracks.trackID "
-								"	FROM tracks "
+								"	UNION SELECT " + _track_view_name + ".trackID "
+								"	FROM " + _track_view_name + " "
 								"   INNER JOIN albums "
-								"   ON tracks.albumID = albums.albumID "
+								"   ON " + _track_view_name + ".albumID = albums.albumID "
 								"   INNER JOIN artists "
-								"   ON tracks.artistID = artists.artistID "
+								"   ON " + _track_view_name + ".artistID = artists.artistID "
 								"   WHERE artists.cissearch LIKE :filter3 "
 
-								"	UNION SELECT tracks.trackID "
-								"	FROM tracks "
+								"	UNION SELECT " + _track_view_name + ".trackID "
+								"	FROM " + _track_view_name + " "
 								"   INNER JOIN albums "
-								"   ON tracks.albumID = albums.albumID "
+								"   ON " + _track_view_name + ".albumID = albums.albumID "
 								"   INNER JOIN artists "
-								"   ON tracks.albumArtistID = artists.artistID "
+								"   ON " + _track_view_name + ".albumArtistID = artists.artistID "
 								"   WHERE artists.cissearch LIKE :filter4 "
-								") foundTracks ON tracks.trackID = foundTracks.trackID WHERE "
+								") foundTracks ON " + _track_view_name + ".trackID = foundTracks.trackID WHERE "
 						;
 				break;
 
@@ -325,13 +331,13 @@ bool DatabaseTracks::getAllTracksByAlbum(IDList albums, MetaDataList& returndata
 	}
 
 	if(albums.size() == 1) {
-		querytext += " tracks.albumID=:albumid ";
+		querytext += " " + _track_view_name + ".albumID=:albumid ";
 	}
 
 	else {
-		querytext += " (tracks.albumID=:albumid ";
+		querytext += " (" + _track_view_name + ".albumID=:albumid ";
 		for(int i=1; i<albums.size(); i++) {
-			querytext += "OR tracks.albumID=:albumid_" + QString::number(i) + " ";
+			querytext += "OR " + _track_view_name + ".albumID=:albumid_" + QString::number(i) + " ";
 		}
 
 		querytext += ") ";
@@ -400,42 +406,42 @@ bool DatabaseTracks::getAllTracksByArtist(IDList artists, MetaDataList& returnda
 		switch( filter.mode() )
 		{
 			case Library::Filter::Date:
-				querytext += "WHERE " + filter.date_filter().get_sql_filter("tracks") + " AND ";
+				querytext += "WHERE " + filter.date_filter().get_sql_filter(_track_view_name) + " AND ";
 				break;
 
 			case Library::Filter::Genre:
-				querytext += "WHERE tracks.genre LIKE :filter1 AND " ;
+				querytext += "WHERE " + _track_view_name + ".genre LIKE :filter1 AND " ;
 				break;
 
 			case Library::Filter::Filename:
-				querytext += "AND tracks.filename LIKE :filter1 AND ";
+				querytext += "AND " + _track_view_name + ".filename LIKE :filter1 AND ";
 				break;
 
 			case Library::Filter::Fulltext:
 			default:
 				querytext += "INNER JOIN ( "
-							 "	SELECT tracks.trackid "
-							 "	FROM tracks "
-							 "	WHERE tracks.cissearch LIKE :filter1 "
+							 "	SELECT " + _track_view_name + ".trackid "
+							 "	FROM " + _track_view_name + " "
+							 "	WHERE " + _track_view_name + ".cissearch LIKE :filter1 "
 
-							 "	UNION SELECT tracks.trackID "
-							 "	FROM tracks "
+							 "	UNION SELECT " + _track_view_name + ".trackID "
+							 "	FROM " + _track_view_name + " "
 							 "	INNER JOIN albums ON "
-							 "	albums.albumID = tracks.albumID "
+							 "	albums.albumID = " + _track_view_name + ".albumID "
 							 "  AND albums.cissearch LIKE :filter2 "
 
-							 "	UNION SELECT tracks.trackID "
-							 "	FROM tracks "
+							 "	UNION SELECT " + _track_view_name + ".trackID "
+							 "	FROM " + _track_view_name + " "
 							 "  INNER JOIN artists ON "
-							 "  tracks.artistID = artists.artistID "
+							 "  " + _track_view_name + ".artistID = artists.artistID "
 							 "  AND artists.cissearch LIKE :filter3"
 
-							 "	UNION SELECT tracks.trackID "
-							 "	FROM tracks "
+							 "	UNION SELECT " + _track_view_name + ".trackID "
+							 "	FROM " + _track_view_name + " "
 							 "  INNER JOIN artists albumArtists "
-							 "  ON tracks.albumArtistID = albumArtists.artistID "
+							 "  ON " + _track_view_name + ".albumArtistID = albumArtists.artistID "
 							 "  AND albumArtists.cissearch LIKE :filter4 "
-							 ") foundTracks ON tracks.trackID = foundTracks.trackID WHERE ";
+							 ") foundTracks ON " + _track_view_name + ".trackID = foundTracks.trackID WHERE ";
 				break;
 		}
 	}
@@ -445,13 +451,13 @@ bool DatabaseTracks::getAllTracksByArtist(IDList artists, MetaDataList& returnda
 	}
 
 	if(artists.size() == 1) {
-		querytext += " tracks." + _artistid_field + "=:artist_id ";
+		querytext += " " + _track_view_name + "." + _artistid_field + "=:artist_id ";
 	}
 
 	else {
-		querytext += " (tracks." + _artistid_field + "=:artist_id ";
+		querytext += " (" + _track_view_name + "." + _artistid_field + "=:artist_id ";
 		for(int i=1; i<artists.size(); i++) {
-			querytext += "OR tracks." + _artistid_field + "=:artist_id_" + QString::number(i) + " ";
+			querytext += "OR " + _track_view_name + "." + _artistid_field + "=:artist_id_" + QString::number(i) + " ";
 		}
 
 		querytext += ") ";
@@ -496,7 +502,7 @@ bool DatabaseTracks::getAllTracksBySearchString(const Library::Filter& filter, M
 	switch(filter.mode())
 	{
 		case Library::Filter::Date:
-			querytext = fetch_query_tracks() + " WHERE " + filter.date_filter().get_sql_filter("tracks");
+			querytext = fetch_query_tracks() + " WHERE " + filter.date_filter().get_sql_filter(_track_view_name);
 			break;
 
 		case Library::Filter::Genre:
@@ -506,37 +512,37 @@ bool DatabaseTracks::getAllTracksBySearchString(const Library::Filter& filter, M
 
 		case Library::Filter::Filename:
 			querytext = fetch_query_tracks() +
-					"WHERE tracks.filename LIKE :search_in_filename ";
+					"WHERE " + _track_view_name + ".filename LIKE :search_in_filename ";
 			break;
 
 		case Library::Filter::Fulltext:
 			querytext = fetch_query_tracks() +
 					"INNER JOIN ("
-					"SELECT tracks.trackID "
-					"FROM tracks "
-					"WHERE tracks.cissearch LIKE :search_in_title "
+					"SELECT " + _track_view_name + ".trackID "
+					"FROM " + _track_view_name + " "
+					"WHERE " + _track_view_name + ".cissearch LIKE :search_in_title "
 
 					"UNION "
-					"SELECT tracks.trackID "
-					"FROM tracks "
-					"INNER JOIN albums ON tracks.albumID = albums.albumID "
+					"SELECT " + _track_view_name + ".trackID "
+					"FROM " + _track_view_name + " "
+					"INNER JOIN albums ON " + _track_view_name + ".albumID = albums.albumID "
 					"AND albums.cissearch LIKE :search_in_album "
 
 					"UNION "
-					"SELECT tracks.trackID "
-					"FROM tracks "
+					"SELECT " + _track_view_name + ".trackID "
+					"FROM " + _track_view_name + " "
 					"INNER JOIN artists ON "
-					"tracks.artistID = artists.artistID "
+					"" + _track_view_name + ".artistID = artists.artistID "
 					"AND artists.cissearch LIKE :search_in_artist "
 
 					"UNION "
-					"SELECT tracks.trackID "
-					"FROM tracks "
+					"SELECT " + _track_view_name + ".trackID "
+					"FROM " + _track_view_name + " "
 					"INNER JOIN artists ON "
-					"tracks.albumArtistID = artists.artistID "
+					"" + _track_view_name + ".albumArtistID = artists.artistID "
 					"AND artists.cissearch LIKE :search_in_artist "
 
-					") foundTracks ON tracks.trackID = foundTracks.trackID";
+					") foundTracks ON " + _track_view_name + ".trackID = foundTracks.trackID";
 
 			break;
 	}
@@ -633,7 +639,7 @@ bool DatabaseTracks::deleteInvalidTracks()
 	MetaDataList v_md_update;
 
 	SayonaraQuery q(_db);
-	DatabaseLibrary db_library(_db, _module_db_id);
+	DatabaseLibrary db_library(_db, _module_db_id, _library_id);
 
 	if(!getAllTracks(v_md)){
 		sp_log(Log::Error) << "Cannot get tracks from db";
@@ -751,7 +757,8 @@ bool DatabaseTracks::updateTrack(const MetaData& md)
 			  "discnumber=:discnumber, "
 			  "cissearch=:cissearch, "
 			  "rating=:rating, "
-			  "modifydate=:modifydate "
+			  "modifydate=:modifydate, "
+			  "libraryID=:libraryID, "
 			  "WHERE TrackID = :trackID;");
 
 	q.bindValue(":albumID",			md.album_id);
@@ -769,6 +776,7 @@ bool DatabaseTracks::updateTrack(const MetaData& md)
 	q.bindValue(":cissearch",		cissearch);
 	q.bindValue(":rating",			md.rating);
 	q.bindValue(":modifydate",		Helper::current_date_to_int());
+	q.bindValue(":libraryID",		md.library_id);
 
 	if (!q.exec()) {
 		q.show_error(QString("Cannot update track ") + md.filepath());
@@ -819,9 +827,9 @@ bool DatabaseTracks::insertTrackIntoDatabase (const MetaData& md, int artist_id,
 	QString cissearch = Library::convert_search_string(md.title, search_mode());
 	QString querytext =
 			"INSERT INTO tracks "
-			"(filename,albumID,artistID,albumArtistID,title,year,length,track,bitrate,genre,filesize,discnumber,rating,cissearch,createdate,modifydate) "
+			"(filename,albumID,artistID,albumArtistID,title,year,length,track,bitrate,genre,filesize,discnumber,rating,cissearch,createdate,modifydate,libraryID) "
 			"VALUES "
-			"(:filename,:albumID,:artistID,:albumArtistID,:title,:year,:length,:track,:bitrate,:genre,:filesize,:discnumber,:rating,:cissearch,:createdate,:modifydate); ";
+			"(:filename,:albumID,:artistID,:albumArtistID,:title,:year,:length,:track,:bitrate,:genre,:filesize,:discnumber,:rating,:cissearch,:createdate,:modifydate,:libraryID); ";
 
 	quint64 current_time = Helper::current_date_to_int();
 	q.prepare(querytext);
@@ -842,6 +850,7 @@ bool DatabaseTracks::insertTrackIntoDatabase (const MetaData& md, int artist_id,
 	q.bindValue(":cissearch",		cissearch);
 	q.bindValue(":createdate",		current_time);
 	q.bindValue(":modifydate",		current_time);
+	q.bindValue(":libraryID",		md.library_id);
 
 	if (!q.exec()) {
 		q.show_error(QString("Cannot insert track into database ") + md.filepath());

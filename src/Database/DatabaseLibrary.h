@@ -25,13 +25,15 @@
 
 class MetaDataList;
 
-
 class DatabaseLibrary :
 		private DatabaseModule
 {
-public:
 
-	DatabaseLibrary(const QSqlDatabase& db, quint8 db_id);
+private:
+	quint8 _library_id;
+
+public:
+	DatabaseLibrary(const QSqlDatabase& db, quint8 db_id, qint8 library_id);
 
 	virtual void dropIndexes();
 	virtual void createIndexes();

@@ -24,6 +24,8 @@
 #include "GUI/Helper/SearchableWidget/SearchableView.h"
 #include "GUI/Helper/Dragable/Dragable.h"
 
+#include "Helper/Pimpl.h"
+
 class FileListModel;
 class MetaDataList;
 class LibraryContextMenu;
@@ -33,6 +35,7 @@ class FileListView :
 		private Dragable
 {
 	Q_OBJECT
+	PIMPL(FileListView)
 
 signals:
 	void sig_info_clicked();
@@ -51,22 +54,13 @@ public:
 	void set_parent_directory(const QString& dir);
 
 	QMimeData* get_mimedata() const override;
-
-private:
-	LibraryContextMenu*	_context_menu=nullptr;
-	FileListModel*		_model=nullptr;
-
+	int get_index_by_model_index(const QModelIndex& idx) const override;
+	QModelIndex get_model_index_by_index(int idx) const override;
 
 private:
 	void mousePressEvent(QMouseEvent* event) override;
 	void mouseMoveEvent(QMouseEvent* event) override;
-
 	void init_context_menu();
-
-	// SayonaraSelectionView interface
-public:
-	int get_index_by_model_index(const QModelIndex& idx) const override;
-	QModelIndex get_model_index_by_index(int idx) const override;
 };
 
 #endif // FILELISTVIEW_H

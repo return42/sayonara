@@ -59,6 +59,7 @@ public:
 	qint32 id;
 	qint32 artist_id;
 	qint32 album_id;
+	qint8 library_id;
 
 public:
 	QString title;

@@ -31,6 +31,7 @@
 	id = other.id; \
 	artist_id = other.artist_id; \
 	album_id = other.album_id; \
+	library_id = other.library_id; \
 	_album_artist_id = other._album_artist_id ; \
 	title = other.title; \
 	artist = other.artist; \
@@ -82,6 +83,7 @@ MetaData::MetaData() :
 	id = -1;
 	artist_id = -1;
 	album_id = -1;
+	library_id = -1;
 	_album_artist_id = -1;
 	rating = 0;
 	length_ms = 0;
@@ -197,6 +199,7 @@ bool MetaData::is_equal_deep(const MetaData& md) const
 	return ( (id == md.id)  &&
 			 ( artist_id == md.artist_id ) &&
 			 ( album_id == md.album_id ) &&
+			 ( library_id == md.library_id) &&
 			 ( album_artist_id() == md.album_artist_id() ) &&
 			 ( title == md.title ) &&
 			 ( artist == md.artist ) &&

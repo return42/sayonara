@@ -88,7 +88,7 @@ namespace SK {
 	Lib_ShowAlbumCovers,
 	Lib_CoverZoom,
 	Lib_GenreTree,
-	Lib_CurIndex,
+	Lib_LastIndex,
 	Lib_AllLibraries,
 
 	Player_Version,
@@ -242,8 +242,8 @@ namespace Set
     INST(bool,				Lib_ShowAlbumCovers);			/* Show album cover view */
     INST(int,				Lib_CoverZoom);				/* Zoom of album cover view */
     INST(bool,				Lib_GenreTree);				/* Show tree view of genres */
-	INST(QList<LibraryInfo>,	Lib_AllLibraries);
-	INST(int,				Lib_CurIndex);
+    INST(QList<LibraryInfo>,		Lib_AllLibraries);
+    INST(int,				Lib_LastIndex);
 
 
     INST(QString,			Player_Version);			/* Version string of player */
@@ -261,10 +261,10 @@ namespace Set
     INST(bool,				Player_ShowTrayIcon);			/* Show/hide the tray icon */
     INST(bool,				Player_StartInTray);			/* start in tray */
     INST(bool,				Player_NotifyNewVersion);		/* check for new version on startup */
-	INST(QByteArray,		Player_SplitterState);			/* spliter state between playlist and library */
-	INST(RawShortcutMap,	Player_Shortcuts);			/* player shortcuts */
+    INST(QByteArray,			Player_SplitterState);			/* spliter state between playlist and library */
+    INST(RawShortcutMap,		Player_Shortcuts);			/* player shortcuts */
 
-	INST(QStringList,		PL_Playlist);				/* old playlist: list of integers in case of library tracks, if no library track, filepath */
+    INST(QStringList,			PL_Playlist);				/* old playlist: list of integers in case of library tracks, if no library track, filepath */
     INST(bool,				PL_LoadSavedPlaylists);			/* load saved playlists on startup */
     INST(bool,				PL_LoadTemporaryPlaylists);		/* load temporary playlists on startup */
     INST(bool,				PL_LoadLastTrack);			/* load last track on startup */

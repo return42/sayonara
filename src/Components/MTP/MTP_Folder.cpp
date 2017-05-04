@@ -21,6 +21,7 @@
 #include "MTP_Track.h"
 #include "Helper/Settings/Settings.h"
 #include "Helper/Logger/Logger.h"
+#include "Components/Library/LibraryManager.h"
 
 #include <QDir>
 
@@ -62,9 +63,8 @@ QList<MTP_FolderPtr> MTP_Folder::children() const
 }
 
 
-bool MTP_Folder::send_track(MTP_TrackPtr track) const
+bool MTP_Folder::send_track(MTP_TrackPtr track, const QString& lib_path) const
 {
-	QString lib_path = LibraryManager::getInstance()->get_current_library_path();
 	if(lib_path.isEmpty()){
 		return false;
 	}

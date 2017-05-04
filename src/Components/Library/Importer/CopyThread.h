@@ -48,7 +48,7 @@ public:
 		Rollback
 	};
 
-	CopyThread(const QString& target_dir, const ImportCache& cache, QObject *parent=nullptr);
+	CopyThread(const QString& target_dir, const ImportCache* cache, QObject *parent=nullptr);
 	virtual ~CopyThread();
 
 	int get_n_copied_files() const;

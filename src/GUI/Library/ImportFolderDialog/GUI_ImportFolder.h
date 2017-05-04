@@ -28,6 +28,7 @@ namespace Ui { class ImportFolder; }
 
 class MetaDataList;
 class GUI_TagEdit;
+class LocalLibrary;
 class GUI_ImportFolder :
 		public SayonaraDialog
 {
@@ -37,7 +38,7 @@ signals:
 	void sig_progress(int);
 
 public:
-	GUI_ImportFolder(const QString& library_path, bool copy_enabled, QWidget* parent);
+	GUI_ImportFolder(const LocalLibrary* library, bool copy_enabled, QWidget* parent);
 	virtual ~GUI_ImportFolder();
 
 private slots:
