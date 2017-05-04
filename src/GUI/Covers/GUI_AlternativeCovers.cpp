@@ -35,6 +35,7 @@
 
 #include "Components/Covers/CoverLocation.h"
 #include "Components/Covers/CoverLookupAlternative.h"
+#include "Components/Library/LibraryManager.h"
 
 #include "Helper/Message/Message.h"
 #include "Helper/Language.h"
@@ -84,7 +85,11 @@ GUI_AlternativeCovers::GUI_AlternativeCovers(QWidget* parent) :
 	ui->setupUi(this);
 	_m->loading_bar = new SayonaraLoadingBar(ui->tv_images);
 
-	QString lib_path = _settings->get(Set::Lib_Path);
+	// TODO: LibraryManager
+	// Have you thoght, that there may be different tracks from different libraries?
+	// e.g. in the playlist
+	// But probably, it's ok to take the current library path
+	QString lib_path = LibraryManager::getInstance()->get_current_library_path();
 
 	if(QFile::exists(lib_path)){
 		_m->last_path = lib_path;
@@ -283,7 +288,21 @@ void GUI_AlternativeCovers::reset_model()
 
 void GUI_AlternativeCovers::open_file_dialog()
 {
-	QString lib_path = _settings->get(Set::Lib_Path);
+	// TODO: LibraryManager
+	// Have you thoght, that there may be different tracks from different libraries?
+	// e.g. in the playlist
+	// But probably, it's ok to take the current library path
+	QString lib_path = LibraryManager::getInstance()->get_current_library_path();
+
+	if(QFile::exists(lib_path)){
+		_m->last_path = lib_path;
+	}
+
+	else {
+		_m->last_path = QDir::homePath();
+	}
+
+
 
 	QDir dir( lib_path );
 

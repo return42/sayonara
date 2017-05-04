@@ -448,7 +448,7 @@ void GUI_LocalLibrary::import_files(const QStringList& files)
 void GUI_LocalLibrary::import_dialog_requested()
 {
 	if(!_ui_importer){
-		_ui_importer = new GUI_ImportFolder(this, true);
+		_ui_importer = new GUI_ImportFolder(_m->library_path, true, this);
 	}
 
 	_ui_importer->show();

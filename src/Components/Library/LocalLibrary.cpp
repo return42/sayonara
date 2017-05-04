@@ -41,6 +41,7 @@ struct LocalLibrary::Private
 	ReloadThread* 		reload_thread=nullptr;
 	FileSystemWatcher*	fsw=nullptr;
 	TagEdit*			tag_edit=nullptr;
+	QString				library_path;
 
 	Private()
 	{
@@ -54,10 +55,11 @@ struct LocalLibrary::Private
 	}
 };
 
-LocalLibrary::LocalLibrary(QObject *parent) :
+LocalLibrary::LocalLibrary(const QString& library_path, QObject *parent) :
 	AbstractLibrary(parent)
 {
 	_m = Pimpl::make<Private>();
+	_m->library_path = library_path;
 
 	apply_db_fixes();
 
@@ -94,18 +96,12 @@ void LocalLibrary::psl_reload_library(bool clear_first, Library::ReloadQuality q
 		init_reload_thread();
 	}
 
-	QString library_path = _settings->get(Set::Lib_Path);
-	if(library_path.isEmpty()) {
-		emit sig_no_library_path();
-		return;
-	}
-
 	if(clear_first) {
 		delete_all_tracks();
 	}
 
 	_m->reload_thread->set_quality(quality);
-	_m->reload_thread->set_lib_path(library_path);
+	_m->reload_thread->set_lib_path(library_path());
 	_m->reload_thread->start();
 }
 
@@ -158,7 +154,7 @@ void LocalLibrary::indexing_finished()
 {
 	IndexDirectoriesThread* thread = dynamic_cast<IndexDirectoriesThread*>(sender());
 
-	_m->fsw = new FileSystemWatcher(_settings->get(Set::Lib_Path), this);
+	_m->fsw = new FileSystemWatcher(filepath(), this);
 
 	connect(_m->fsw, &QThread::finished, _m->fsw, &QObject::deleteLater);
 	connect(_m->fsw, &QThread::destroyed, this, [=](){
@@ -457,4 +453,9 @@ void LocalLibrary::change_track_rating(int idx, int rating)
 	_m->tag_edit->set_metadata(v_md);
 	_m->tag_edit->update_track(0, md_new);
 	_m->tag_edit->commit();
+}
+
+QString LocalLibrary::library_path() const
+{
+	return _m->library_path;
 }

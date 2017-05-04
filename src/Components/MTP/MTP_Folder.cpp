@@ -64,7 +64,11 @@ QList<MTP_FolderPtr> MTP_Folder::children() const
 
 bool MTP_Folder::send_track(MTP_TrackPtr track) const
 {
-	QString lib_path = Settings::getInstance()->get(Set::Lib_Path);
+	QString lib_path = LibraryManager::getInstance()->get_current_library_path();
+	if(lib_path.isEmpty()){
+		return false;
+	}
+
 	QString track_path = track->src_filename();
 	sp_log(Log::Debug, this) << "Track path = " << track_path;
 

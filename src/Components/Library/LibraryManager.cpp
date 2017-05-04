@@ -43,7 +43,7 @@ struct LibraryManager::Private
 	LocalLibrary* get_library(int idx)
 	{
 		if(idx >= 0 && idx < all_libs.size()){
-			LocalLibrary* lib = new LocalLibrary();
+			LocalLibrary* lib = new LocalLibrary(all_libs[idx].path());
 			lib_map[idx] = lib;
 		}
 

@@ -94,6 +94,10 @@ GUI_Playlist::GUI_Playlist(QWidget *parent) :
 
 	connect(ui->btn_clear, &QPushButton::clicked, this, &GUI_Playlist::clear_button_pressed);
 
+	// TODO: We do need this anymore
+	// But we should look, if there are still libraries available
+	// How should dynamic playback look? Should we use all libraries?
+	// Make it configurable?
 	REGISTER_LISTENER(Set::Lib_Path, _sl_library_path_changed);
 	REGISTER_LISTENER(Set::PL_ShowNumbers, _sl_show_numbers_changed);
 	REGISTER_LISTENER(Set::PL_ShowClearButton, _sl_show_clear_button_changed);
@@ -420,11 +424,6 @@ void GUI_Playlist::delete_tracks_clicked(const SP::Set<int>& rows)
 	}
 
 	_playlist->delete_tracks(rows, deletion_mode);
-}
-
-void GUI_Playlist::_sl_library_path_changed()
-{
-	ui->bottom_bar->check_dynamic_play_button();
 }
 
 void GUI_Playlist::load_old_playlists()

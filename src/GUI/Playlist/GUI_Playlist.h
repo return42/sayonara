@@ -126,7 +126,6 @@ private slots:
 
 	void _sl_show_numbers_changed();
 	void _sl_show_clear_button_changed();
-	void _sl_library_path_changed();
 };
 
 #endif /* GUI_PLAYLIST_H_ */

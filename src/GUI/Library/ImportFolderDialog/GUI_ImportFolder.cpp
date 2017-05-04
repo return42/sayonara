@@ -35,13 +35,15 @@
 #include <QCloseEvent>
 #include <QShowEvent>
 
-GUI_ImportFolder::GUI_ImportFolder(QWidget* parent, bool copy_enabled) :
+// TODO: Pimpl
+GUI_ImportFolder::GUI_ImportFolder(const QString& library_path, bool copy_enabled, QWidget* parent) :
 	SayonaraDialog(parent)
 {
 	ui = new Ui::ImportFolder();
 	ui->setupUi(this);
 
 	_importer = LibraryImporter::getInstance();
+	_library_path = library_path;
 
 	ui->lab_target_path->setVisible(copy_enabled);
 	ui->lab_target_info->setVisible(copy_enabled);
@@ -50,9 +52,7 @@ GUI_ImportFolder::GUI_ImportFolder(QWidget* parent, bool copy_enabled) :
 	tag_edit->hide();
 
 	ui->btn_edit->setVisible(false);
-
-	QString libpath = _settings->get(Set::Lib_Path);
-	ui->lab_target_path->setText( libpath );
+	ui->lab_target_path->setText( _library_path );
 
 	connect(ui->btn_ok, &QPushButton::clicked, this, &GUI_ImportFolder::bb_accepted);
 	connect(ui->btn_choose_dir, &QPushButton::clicked, this, &GUI_ImportFolder::choose_dir);
@@ -187,12 +187,11 @@ void GUI_ImportFolder::bb_rejected()
 
 void GUI_ImportFolder::choose_dir()
 {
-	QString lib_path = _settings->get(Set::Lib_Path);
 	QString dialog_title = tr("Choose target directory");
 	QString dir =
 	QFileDialog::getExistingDirectory(	this,
 										dialog_title,
-										lib_path,
+										_library_path,
 										QFileDialog::ShowDirsOnly
 	);
 
@@ -201,13 +200,13 @@ void GUI_ImportFolder::choose_dir()
 		return;
 	}
 
-	if(!dir.contains(lib_path)) {
+	if(!dir.contains(_library_path)) {
 		Message::warning(tr("%1<br />is no library directory").arg(dir));
 		ui->le_directory->clear();
 		return;
 	}
 
-	dir.replace(lib_path, "");
+	dir.replace(_library_path, "");
 	while(dir.startsWith(QDir::separator())){
 		dir.remove(0, 1);
 	}

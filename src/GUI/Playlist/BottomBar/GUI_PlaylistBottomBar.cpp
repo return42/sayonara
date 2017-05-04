@@ -21,6 +21,8 @@
 #include "GUI/Playlist/ui_GUI_PlaylistBottomBar.h"
 #include "GUI/Playlist/PlaylistMenu.h"
 #include "GUI/Helper/IconLoader/IconLoader.h"
+// TODO: Think about Cmake
+#include "Components/Library/LibraryManager.cpp"
 
 #include "Helper/Playlist/PlaylistMode.h"
 #include "Helper/Settings/Settings.h"
@@ -211,9 +213,11 @@ void GUI_PlaylistBottomBar::_sl_playlist_mode_changed()
 
 void GUI_PlaylistBottomBar::check_dynamic_play_button()
 {
-	QString lib_path = _settings->get(Set::Lib_Path);
+	QString lib_path = LibraryManager::getInstance()->count();
 
-	if(lib_path.isEmpty() || !QFile::exists(lib_path)) {
+	// TODO: Dynamic playback:
+	// Use all artists from all libraries
+	if(count() > 0) {
 		ui->btn_dynamic->setToolTip(tr("Please set library path first"));
 	}
 

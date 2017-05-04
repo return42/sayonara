@@ -37,7 +37,7 @@ signals:
 	void sig_progress(int);
 
 public:
-	GUI_ImportFolder(QWidget* parent, bool copy_enabled);
+	GUI_ImportFolder(const QString& library_path, bool copy_enabled, QWidget* parent);
 	virtual ~GUI_ImportFolder();
 
 private slots:
@@ -59,6 +59,7 @@ private:
 	Ui::ImportFolder*	ui=nullptr;
 	LibraryImporter*	_importer=nullptr;
 	GUI_TagEdit*		tag_edit=nullptr;
+	QString				_library_path;
 };
 
 #endif /* GUIIMPORTFOLDER_H_ */

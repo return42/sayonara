@@ -40,7 +40,7 @@ signals:
 	void sig_import_dialog_requested();
 
 public:
-	LocalLibrary(QObject* parent=nullptr);
+	LocalLibrary(const QString& library_path, QObject* parent=nullptr);
 	virtual ~LocalLibrary();
 
 
@@ -93,6 +93,9 @@ private:
 	void		insert_tracks(const MetaDataList& v_md) override;
 	void		apply_db_fixes();
 	void		init_reload_thread();
+
+public:
+	QString		library_path() const;
 };
 
 #endif // LocalLibrary_H
