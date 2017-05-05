@@ -24,6 +24,7 @@
 #include "Helper/Tagging/Tagging.h"
 #include "Helper/MetaData/MetaDataList.h"
 #include "Database/DatabaseConnector.h"
+#include "Database/LibraryDatabase.h"
 
 #include <QRegExp>
 
@@ -96,13 +97,15 @@ void M3UParser::parse_local_file(const QString& line, MetaData& md)
 {
 	MetaData md_db;
 	DatabaseConnector* db = DatabaseConnector::getInstance();
+	LibraryDatabase* lib_db = db->library_db(-1, 0);
+
 	QString abs_filename = get_absolute_filename(line);
 
 	if(abs_filename.isEmpty()){
 		return;
 	}
 
-	md_db = db->getTrackByPath(abs_filename);
+	md_db = lib_db->getTrackByPath(abs_filename);
 
 	if( md_db.id >= 0 ) {
 		md = md_db;

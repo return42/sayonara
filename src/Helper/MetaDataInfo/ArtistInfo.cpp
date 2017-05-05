@@ -20,10 +20,13 @@
 
 #include "ArtistInfo.h"
 
+#include "Database/DatabaseConnector.h"
 #include "Database/LibraryDatabase.h"
 
 
 #include "Helper/MetaData/Artist.h"
+#include "Helper/MetaData/MetaData.h"
+#include "Helper/MetaData/MetaDataList.h"
 #include "Helper/Helper.h"
 #include "Helper/globals.h"
 #include "Helper/FileHelper.h"
@@ -35,18 +38,24 @@
 ArtistInfo::ArtistInfo(const MetaDataList& v_md) :
 	MetaDataInfo(v_md)
 {
+	_db_id = v_md.first().db_id;
 	insert_number(InfoStrings::nAlbums, _albums.count());
 
 	// clear, because it's from Metadata. We are not interested in these
 	// rather fetch artists' additional data, if there's only one artist
 	_additional_info.clear();
 
-	if(_artist_ids.size() == 1){
+	if(_artist_ids.size() == 1)
+	{
 		Artist artist;
 		bool success;
 
 		int artist_id = _artist_ids.first();
-		success = _db->getArtistByID(artist_id, artist);
+
+		DatabaseConnector* db = DatabaseConnector::getInstance();
+		LibraryDatabase* lib_db = db->library_db(-1, _db_id);
+
+		success = lib_db->getArtistByID(artist_id, artist);
 
 		if(success){
 			_additional_info.clear();
@@ -146,8 +155,10 @@ QString ArtistInfo::get_additional_info_as_string() const
 		}
 
 		QString artist_name = _additional_info[sim_artist];
+		DatabaseConnector* db = DatabaseConnector::getInstance();
+		LibraryDatabase* lib_db = db->library_db(-1, _db_id);
 
-		int id = _db->getArtistID(artist_name);
+		int id = lib_db->getArtistID(artist_name);
 
 		if( id >= 0 ){
 			artist_list << BOLD(artist_name);

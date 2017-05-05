@@ -98,6 +98,7 @@ private:
 
 public:
 	QString		library_path() const;
+	qint8		library_id() const;
 	LibraryImporter* importer();
 };
 

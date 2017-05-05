@@ -35,7 +35,7 @@ class GUI_LibraryInfoBox :
 	Q_OBJECT
 
 public:
-	explicit GUI_LibraryInfoBox(QWidget* parent=nullptr);
+	explicit GUI_LibraryInfoBox(qint8 library_id, QWidget* parent=nullptr);
 	virtual ~GUI_LibraryInfoBox();
 
 public slots:
@@ -47,6 +47,7 @@ protected:
 
 private:
 	Ui::GUI_LibraryInfoBox*	ui=nullptr;
+	qint8 _library_id;
 };
 
 #endif /* GUILIBRARYINFOBOX_H_ */

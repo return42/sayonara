@@ -55,8 +55,6 @@ MetaDataInfo::MetaDataInfo(const MetaDataList& v_md) :
 	QStringList genres;
 	QMap<QString, QStringList> values;
 
-	_db = DB::getInstance(v_md[0]);
-
 	for(const MetaData& md : v_md )
 	{
 		_artists.insert(md.artist);

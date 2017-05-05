@@ -23,12 +23,18 @@
 #include "Helper/MetaData/Album.h"
 #include "Helper/MetaData/Artist.h"
 #include "Helper/MetaData/MetaDataList.h"
-#include "Helper/globals.h"
-#include "Database/SayonaraQuery.h"
 #include "Helper/Logger/Logger.h"
+#include "Helper/globals.h"
+
+#include "Database/SayonaraQuery.h"
+#include "Database/DatabaseConnector.h"
+#include "Database/LibraryDatabase.h"
 
 SoundcloudData::SoundcloudData() :
-	LibraryDatabase(1, "", "soundcloud.db", -1) {}
+	LibraryDatabase("soundcloud.db", 1, -1)
+{
+
+}
 
 SoundcloudData::~SoundcloudData() {}
 

@@ -58,6 +58,7 @@ public:
 	void reload_genres();
 	void reload_genres(const QStringList& additional_genres);
 	int get_row_count() const;
+	void set_library_id(qint8 library_id);
 
 
 private:

@@ -38,7 +38,9 @@
 #include "Helper/Settings/Settings.h"
 #include "Helper/Logger/Logger.h"
 #include "Helper/Language.h"
+
 #include "Database/DatabaseConnector.h"
+#include "Database/LibraryDatabase.h"
 
 #include <utility>
 
@@ -46,6 +48,7 @@ struct ReloadThread::Private
 {
 	DatabaseConnector*		db=nullptr;
 	QString					library_path;
+	qint8					library_id;
 	MetaDataList			v_md;
 	Library::ReloadQuality	quality;
 	bool					paused;
@@ -105,6 +108,7 @@ int ReloadThread::get_and_save_all_files(const QHash<QString, MetaData>& md_map_
 	}
 
 	DatabaseConnector* db = _m->db;
+	LibraryDatabase* lib_db = db->library_db(_m->library_id, 0);
 	QDir dir(library_path);
 
 	MetaDataList v_md_to_store;
@@ -143,20 +147,20 @@ int ReloadThread::get_and_save_all_files(const QHash<QString, MetaData>& md_map_
 			v_md_to_store << md;
 
 			if(v_md_to_store.size() >= N_FILES_TO_STORE){
-				db->storeMetadata(v_md_to_store);
+				lib_db->storeMetadata(v_md_to_store);
 				v_md_to_store.clear();
 			}
 		}
 	}
 
 	if(!v_md_to_store.isEmpty()){
-		db->storeMetadata(v_md_to_store);
+		lib_db->storeMetadata(v_md_to_store);
 		v_md_to_store.clear();
 	}
 
-	db->addAlbumArtists();
-	db->createIndexes();
-	db->clean_up();
+	lib_db->addAlbumArtists();
+	lib_db->createIndexes();
+	DatabaseConnector::getInstance()->clean_up();
 
 	return v_md_to_store.size();
 }
@@ -253,7 +257,7 @@ void ReloadThread::run()
 		return;
 	}
 
-	DatabaseConnector* db = _m->db;
+	LibraryDatabase* lib_db = _m->db->library_db(_m->library_id, 0);
 
 	_m->running = true;
     _m->paused = false;
@@ -263,8 +267,8 @@ void ReloadThread::run()
 
 	emit sig_reloading_library(tr("Delete orphaned tracks..."), 0);
 
-	db->deleteInvalidTracks();
-	db->getAllTracks(v_md);
+	lib_db->deleteInvalidTracks();
+	lib_db->getAllTracks(v_md);
 
 	sp_log(Log::Debug, this) << "Have " << v_md.size() << " tracks";
 
@@ -280,7 +284,7 @@ void ReloadThread::run()
 	}
 
 	if(!v_to_delete.isEmpty()){
-		db->deleteTracks(v_to_delete);
+		lib_db->deleteTracks(v_to_delete);
 	}
 
 	get_and_save_all_files(v_md_map);
@@ -289,8 +293,9 @@ void ReloadThread::run()
 	_m->running = false;
 }
 
-void ReloadThread::set_lib_path(const QString& library_path) 
+void ReloadThread::set_library(qint8 library_id, const QString& library_path)
 {
 	_m->library_path = library_path;
+	_m->library_id = library_id;
 }
 

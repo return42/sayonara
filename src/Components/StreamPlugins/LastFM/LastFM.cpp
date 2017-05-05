@@ -41,7 +41,9 @@
 #include "Components/PlayManager/PlayManager.h"
 #include "Components/Playlist/PlaylistHandler.h"
 #include "Components/Playlist/AbstractPlaylist.h"
+
 #include "Database/DatabaseConnector.h"
+#include "Database/LibraryDatabase.h"
 
 #include <QDomDocument>
 #include <QUrl>
@@ -272,12 +274,15 @@ void LastFM::scrobble(const MetaData& md)
 
 
 // private slot
-void LastFM::sl_similar_artists_available(IDList artist_ids) {
+void LastFM::sl_similar_artists_available(IDList artist_ids)
+{
 	if(artist_ids.isEmpty()){
 		return;
 	}
 
 	DatabaseConnector* db = DatabaseConnector::getInstance();
+	LibraryDatabase* lib_db = db->library_db(-1, 0);
+
 	PlaylistHandler* plh = PlaylistHandler::getInstance();
 
 	PlaylistConstPtr active_playlist;
@@ -293,8 +298,7 @@ void LastFM::sl_similar_artists_available(IDList artist_ids) {
 	for( auto it=artist_ids.begin(); it != artist_ids.end(); it++ )
 	{
 		MetaDataList artist_tracks;
-
-		db->getAllTracksByArtist(*it, artist_tracks);
+		lib_db->getAllTracksByArtist(*it, artist_tracks);
 
 		std::random_shuffle(artist_tracks.begin(), artist_tracks.end());
 

@@ -34,6 +34,11 @@ class LibraryDatabase :
 		public DatabaseTracks,
 		public DatabaseLibrary
 {
+
+private:
+	qint8 _library_id;
+	int _db_id;
+
 public:
 
 	enum class ArtistIDField : quint8
@@ -42,12 +47,14 @@ public:
 		ArtistID
 	};
 
-	LibraryDatabase(quint8 db_id, const QString& db_dir, const QString& db_name, qint8 library_id);
+	LibraryDatabase(const QString& db_name, int db_id, qint8 library_id);
 	virtual ~LibraryDatabase();
 
 	void change_artistid_field(ArtistIDField field);
-};
+	bool apply_fixes() override { return false; }
 
-#include "DatabaseHandler.h"
+	qint8 library_id() const;
+	int db_id() const;
+};
 
 #endif // LIBRARYDATABASE_H

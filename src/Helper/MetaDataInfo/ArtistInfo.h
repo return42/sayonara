@@ -32,7 +32,9 @@ class ArtistInfo :
 	public MetaDataInfo 
 {
 private:
+	quint8 _db_id;
 
+private:
 	void set_cover_location() override;
 	void set_subheader() override;
 	void set_header() override;

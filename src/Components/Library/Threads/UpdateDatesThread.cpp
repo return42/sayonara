@@ -20,6 +20,7 @@
 
 #include "UpdateDatesThread.h"
 #include "Database/DatabaseConnector.h"
+#include "Database/LibraryDatabase.h"
 #include <QVariant>
 
 UpdateDatesThread::UpdateDatesThread(QObject* parent) :
@@ -30,7 +31,8 @@ UpdateDatesThread::~UpdateDatesThread() {}
 void UpdateDatesThread::run()
 {
     DatabaseConnector* db = DatabaseConnector::getInstance();
-    if(db->updateTrackDates()){
+	LibraryDatabase* lib_db = db->library_db(-1, 0);
+	if(lib_db->updateTrackDates()){
 		db->store_setting("version", 11);
     }
 }

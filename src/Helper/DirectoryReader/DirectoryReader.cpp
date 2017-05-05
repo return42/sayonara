@@ -28,6 +28,7 @@
 #include "Helper/MetaData/MetaData.h"
 #include "Helper/MetaData/MetaDataList.h"
 #include "Database/DatabaseConnector.h"
+#include "Database/LibraryDatabase.h"
 
 #include <QDirIterator>
 #include <QFileInfo>
@@ -83,8 +84,6 @@ MetaDataList DirectoryReader::get_md_from_filelist(const QStringList& lst)
 	MetaDataList v_md;
 	QStringList sound_files, playlist_files;
 
-	DatabaseConnector* db;
-
 	// fetch sound and playlist files
 	QStringList filter;
 	filter << Helper::get_soundfile_extensions();
@@ -119,8 +118,10 @@ MetaDataList DirectoryReader::get_md_from_filelist(const QStringList& lst)
 		}
 	}
 
-	db = DatabaseConnector::getInstance();
-	db->getMultipleTracksByPath(sound_files, v_md);
+	DatabaseConnector* db = DatabaseConnector::getInstance();
+	LibraryDatabase* lib_db = db->library_db(-1, 0);
+
+	lib_db->getMultipleTracksByPath(sound_files, v_md);
 
 	auto it=v_md.begin();
 	while(it != v_md.end()){

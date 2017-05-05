@@ -260,7 +260,7 @@ bool AbstractDatabase::check_and_create_table(const QString& tablename, const QS
 	return true;
 }
 
-quint8 AbstractDatabase::get_id()
+quint8 AbstractDatabase::get_id() const
 {
 	return _db_id;
 }

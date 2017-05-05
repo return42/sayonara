@@ -30,7 +30,8 @@
 #include "Helper/Logger/Logger.h"
 #include "Helper/globals.h"
 
-#include "Database/DatabaseHandler.h"
+#include "Database/DatabaseConnector.h"
+#include "Database/LibraryDatabase.h"
 
 #include <QDir>
 #include <QUrl>
@@ -181,10 +182,12 @@ CoverLocation CoverLocation::get_cover_location(const Album& album)
 		// people are not amused
 		//return cl;
 
-		LibraryDatabase* db = DB::getInstance(album.db_id);
+		DatabaseConnector* db = DatabaseConnector::getInstance();
+		LibraryDatabase* lib_db = db->library_db(-1, 0);
 
 		MetaDataList v_md;
-		db->getAllTracksByAlbum(album.id, v_md);
+		lib_db->getAllTracksByAlbum(album.id, v_md);
+
 		for(const MetaData& md : v_md){
 			cl._m->local_paths = LocalCoverSearcher::get_local_cover_paths_from_filename(md.filepath());
 			if(!cl._m->local_paths.isEmpty()){
@@ -263,9 +266,11 @@ CoverLocation Get_cover_location(int album_id, quint8 db_id)
 
 	Album album;
 	MetaDataList v_md;
-	LibraryDatabase* db = DB::getInstance(db_id);
 
-	bool success = db->getAlbumByID(album_id, album, true);
+	DatabaseConnector* db = DatabaseConnector::getInstance();
+	LibraryDatabase* lib_db = db->library_db(-1, db_id);
+
+	bool success = lib_db->getAlbumByID(album_id, album, true);
 
 	if(!success) {
 		return CoverLocation::getInvalidLocation();
@@ -273,7 +278,7 @@ CoverLocation Get_cover_location(int album_id, quint8 db_id)
 
 	CoverLocation cl = CoverLocation::get_cover_location(album);
 
-	db->getAllTracksByAlbum(album_id, v_md);
+	lib_db->getAllTracksByAlbum(album_id, v_md);
 	for(const MetaData& md : v_md){
 		QStringList local_paths = LocalCoverSearcher::get_local_cover_paths_from_filename(md.filepath());
 		for(const QString& local_path : local_paths){

@@ -21,8 +21,7 @@
 #ifndef DatabaseConnector_H
 #define DatabaseConnector_H
 
-#include "Database/LibraryDatabase.h"
-
+#include "Database/AbstractDatabase.h"
 #include "Database/DatabaseBookmarks.h"
 #include "Database/DatabaseModule.h"
 #include "Database/DatabasePlaylist.h"
@@ -30,13 +29,18 @@
 #include "Database/DatabaseSettings.h"
 #include "Database/DatabaseStreams.h"
 #include "Database/DatabaseVisStyles.h"
+#include "Database/LibraryDatabase.h"
 
+#include "Helper/Singleton.h"
+
+#include <QList>
 
 #define INDEX_SIZE 3
 
-
+class LibraryDatabase;
+class LocalLibraryDatabase;
 class DatabaseConnector :
-		public LibraryDatabase,
+		public AbstractDatabase,
 		public DatabaseBookmarks,
 		public DatabasePlaylist,
 		public DatabasePodcasts,
@@ -45,6 +49,11 @@ class DatabaseConnector :
 		public DatabaseVisStyles
 {
 	SINGLETON(DatabaseConnector)
+
+private:
+	QList<LibraryDatabase*> _library_dbs;
+	LocalLibraryDatabase*	_local_library=nullptr;
+
 
 protected:
 	bool updateAlbumCissearchFix();
@@ -55,6 +64,25 @@ protected:
 
 public:
 	virtual void clean_up();
+	void register_library_db(qint8 library_id);
+	QList<LibraryDatabase*> library_dbs() const;
+	LibraryDatabase* library_db(qint8 library_id, quint8 db_id);
+
+	template<typename T>
+	LibraryDatabase* register_library_db(qint8 library_id)
+	{
+		for(int i=0; i<_library_dbs.size(); i++){
+			LibraryDatabase* db = _library_dbs[i];
+			if(db->library_id() == library_id && db->db_id() == _db_id){
+				return db;
+			}
+		}
+
+		LibraryDatabase* lib_db = new T(library_id);
+		_library_dbs << lib_db;
+		return lib_db;
+	}
+
 };
 
 #endif // DatabaseConnector_H

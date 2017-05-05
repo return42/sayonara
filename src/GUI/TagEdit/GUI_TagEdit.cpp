@@ -39,6 +39,7 @@
 #include "Helper/MetaData/Genre.h"
 #include "Helper/Language.h"
 #include "Database/DatabaseConnector.h"
+#include "Database/LibraryDatabase.h"
 
 #include <QDir>
 #include <QDesktopServices>
@@ -363,9 +364,10 @@ void GUI_TagEdit::init_completer()
 	QStringList albumstr, artiststr;
 
 	DatabaseConnector* db = DatabaseConnector::getInstance();
+	LibraryDatabase* lib_db = db->library_db(-1, 0);
 
-	db->getAllAlbums(albums, true);
-	db->getAllArtists(artists, true);
+	lib_db->getAllAlbums(albums, true);
+	lib_db->getAllArtists(artists, true);
 
 	for(const Album& album : albums){
 		albumstr << album.name;

@@ -22,10 +22,16 @@
 #include "MetaDataInfo.h"
 #include "Helper/Language.h"
 #include "Helper/MetaData/Album.h"
+#include "Helper/MetaData/MetaData.h"
+#include "Helper/MetaData/MetaDataList.h"
 #include "Database/LibraryDatabase.h"
+#include "Database/DatabaseConnector.h"
+
 
 AlbumInfo::AlbumInfo(const MetaDataList& v_md) :
-	MetaDataInfo(v_md){
+	MetaDataInfo(v_md)
+{
+	_db_id = v_md.first().db_id;
 	QString str_sampler;
 
 	// clear, because it's from Metadata. We are not interested in
@@ -54,7 +60,10 @@ AlbumInfo::AlbumInfo(const MetaDataList& v_md) :
 		}
 
 		int album_id = _album_ids.first();
-		success = _db->getAlbumByID(album_id, album);
+
+		DatabaseConnector* db = DatabaseConnector::getInstance();
+		LibraryDatabase* lib_db = db->library_db(-1, _db_id);
+		success = lib_db->getAlbumByID(album_id, album);
 
 		if(success){
 			_additional_info.clear();
@@ -91,11 +100,15 @@ void AlbumInfo::set_subheader()
 
 void AlbumInfo::set_cover_location()
 {
-	if(_album_ids.size() == 1){
+	if(_album_ids.size() == 1) {
+
+		DatabaseConnector* db = DatabaseConnector::getInstance();
+		LibraryDatabase* lib_db = db->library_db(-1, _db_id);
+
 		Album album;
 		album.id = _album_ids.first();
 		album.name = _albums.first();
-		album.db_id = _db->get_id();
+		album.db_id = lib_db->get_id();
 		album.artists = _artists.toList();
 		album.set_album_artists(_album_artists.toList());
 

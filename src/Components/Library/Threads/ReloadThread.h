@@ -47,7 +47,6 @@ class ReloadThread :
 	Q_OBJECT
 	SINGLETON_QOBJECT(ReloadThread)
 
-
 signals:
 	void sig_reloading_library(const QString& message, int progress);
     void sig_new_block_saved();
@@ -58,7 +57,7 @@ public:
     void goon();
 	bool is_running() const;
 	void set_quality(Library::ReloadQuality quality);
-	void set_lib_path(const QString& library_path);
+	void set_library(qint8 lib_id, const QString& library_path);
 
 
 protected:

@@ -28,6 +28,7 @@
 
 #include "Components/TagEdit/MetaDataChangeNotifier.h"
 #include "Database/DatabaseConnector.h"
+#include "Database/LibraryDatabase.h"
 #include "CachingThread.h"
 #include "CopyThread.h"
 
@@ -36,6 +37,7 @@
 
 struct LibraryImporter::Private
 {
+	qint8					lib_id;
 	QString					library_path;
 	CachingThread*			cache_thread=nullptr;
 	CopyThread*				copy_thread=nullptr;
@@ -46,19 +48,21 @@ struct LibraryImporter::Private
 	LibraryImporter::ImportStatus status;
 	QString					src_dir;
 
-	Private(const QString& lp)
+	Private(qint8 lid, const QString& lp)
 	{
 		db = DatabaseConnector::getInstance();
 		status = LibraryImporter::ImportStatus::NoTracks;
 		library_path = lp;
+		lib_id = lid;
 	}
 };
 
-LibraryImporter::LibraryImporter(const QString& library_path, QObject* parent) :
+LibraryImporter::LibraryImporter(qint8 lib_id, const QString& library_path, QObject* parent) :
 	QObject(parent),
 	SayonaraClass()
 {
-	_m = Pimpl::make<Private>(library_path);
+	_m = Pimpl::make<Private>(lib_id, library_path);
+
 
 	MetaDataChangeNotifier* md_change_notifier = MetaDataChangeNotifier::getInstance();
 	connect(md_change_notifier, &MetaDataChangeNotifier::sig_metadata_changed,
@@ -160,7 +164,8 @@ void LibraryImporter::copy_thread_finished()
 	}
 
 	// store to db
-	bool success = _m->db->storeMetadata(v_md);
+	LibraryDatabase* lib_db = _m->db->library_db(_m->lib_id, 0);
+	bool success = lib_db->storeMetadata(v_md);
 	int n_files_copied = copy_thread->get_n_copied_files();
 	int n_files_to_copy = _m->import_cache->get_files().size();
 

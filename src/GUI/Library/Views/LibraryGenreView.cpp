@@ -19,8 +19,9 @@
  */
 
 #include "LibraryGenreView.h"
-#include "Database/DatabaseHandler.h"
+
 #include "Database/DatabaseConnector.h"
+#include "Database/LibraryDatabase.h"
 
 #include "Components/TagEdit/TagEdit.h"
 #include "Components/TagEdit/MetaDataChangeNotifier.h"
@@ -52,10 +53,12 @@ struct LibraryGenreView::Private
 	TagEdit*				tag_edit=nullptr;
 	QAction*				toggle_tree_action=nullptr;
 	QStringList				expanded_items;
+	qint8					library_id;
 	bool					filled;
 
 	Private(QWidget* parent)
 	{
+		library_id = -2;
 		context_menu = new ContextMenu(parent);
 		genres = new GenreNode("root");
 		delegate = new TreeDelegate(parent);
@@ -141,7 +144,10 @@ void LibraryGenreView::reload_genres(const QStringList& additional_genres)
 	_m->filled = false;
 
 	DatabaseConnector* db = DatabaseConnector::getInstance();
-	QStringList genres = db->getAllGenres();
+	LibraryDatabase* lib_db = db->library_db(_m->library_id, 0);
+
+	QStringList genres = lib_db->getAllGenres();
+
 	genres << additional_genres;
 
 	fill_list(genres);
@@ -151,6 +157,13 @@ int LibraryGenreView::get_row_count() const
 {
 	int n_rows = _m->genres->children.size();
 	return n_rows;
+}
+
+void LibraryGenreView::set_library_id(qint8 library_id)
+{
+	_m->library_id = library_id;
+
+	reload_genres();
 }
 
 
@@ -348,7 +361,10 @@ void LibraryGenreView::tree_action_toggled(bool b)
 	Q_UNUSED(b)
 
 	_settings->set(Set::Lib_GenreTree, b);
-	reload_genres();
+
+	if(_m->library_id != -2){
+		reload_genres();
+	}
 }
 
 void LibraryGenreView::language_changed()
@@ -382,7 +398,7 @@ void LibraryGenreView::insert_genres(QTreeWidgetItem* parent_item, GenreNode* no
 		item = new QTreeWidgetItem(parent_item, text);
 	}
 
-	for(GenreNode* child : node->children){
+	for(GenreNode* child : node->children) {
 		insert_genres(item, child);
 	}
 

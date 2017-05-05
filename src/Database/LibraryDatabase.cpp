@@ -21,17 +21,17 @@
 #include "LibraryDatabase.h"
 #include "SayonaraQuery.h"
 
-LibraryDatabase::LibraryDatabase(quint8 db_id, const QString& db_dir, const QString& db_name, qint8 library_id) :
-	AbstractDatabase(db_id, db_dir, db_name),
+LibraryDatabase::LibraryDatabase(const QString& db_name, int db_id, qint8 library_id) :
+	AbstractDatabase(db_id, "", db_name),
 	DatabaseAlbums(_database, db_id, library_id),
 	DatabaseArtists(_database, db_id, library_id),
 	DatabaseTracks(_database, db_id, library_id),
 	DatabaseLibrary(_database, db_id, library_id)
 {
-	DB::getInstance()->add(this);
+	_library_id = library_id;
+	_db_id = db_id;
 
 	bool show_album_artists = false;
-	_database.open();
 	SayonaraQuery q(_database);
 	QString querytext = "SELECT value FROM settings WHERE key = 'lib_show_album_artists';";
 	q.prepare(querytext);
@@ -67,4 +67,14 @@ void LibraryDatabase::change_artistid_field(LibraryDatabase::ArtistIDField field
 	DatabaseAlbums::change_artistid_field(str);
 	DatabaseArtists::change_artistid_field(str);
 	DatabaseTracks::change_artistid_field(str);
+}
+
+qint8 LibraryDatabase::library_id() const
+{
+	return _library_id;
+}
+
+int LibraryDatabase::db_id() const
+{
+	return _db_id;
 }

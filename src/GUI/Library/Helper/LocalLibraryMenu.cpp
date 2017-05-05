@@ -23,7 +23,8 @@
 #include "GUI/Helper/IconLoader/IconLoader.h"
 #include "Helper/Settings/Settings.h"
 #include "Helper/Language.h"
-#include "Database/DatabaseHandler.h"
+#include "Database/DatabaseConnector.h"
+#include "Database/LibraryDatabase.h"
 
 LocalLibraryMenu::LocalLibraryMenu(QWidget* parent) :
 	QMenu(parent),
@@ -122,18 +123,24 @@ void LocalLibraryMenu::show_album_cover_view_changed()
 	_settings->set(Set::Lib_ShowAlbumCovers, _show_album_cover_view->isChecked());
 }
 
-
+// TODO: This has nothing to do with GUI.
+// TODO: MOve database operations to LocalLibrary
 void LocalLibraryMenu::show_album_artists_changed()
 {
 	bool show_album_artist = _show_album_artists_action->isChecked();
 	_settings->set(Set::Lib_ShowAlbumArtists, show_album_artist);
 
-	if(show_album_artist){
-		DB::getInstance()->get_std()->change_artistid_field(LibraryDatabase::ArtistIDField::AlbumArtistID);
-	}
+	QList<LibraryDatabase*> dbs = DatabaseConnector::getInstance()->library_dbs();
+	for(LibraryDatabase* lib_db : dbs){
+		if(lib_db->get_id() == 0){
+			if(show_album_artist){
+				lib_db->change_artistid_field(LibraryDatabase::ArtistIDField::AlbumArtistID);
+			}
 
-	else{
-		DB::getInstance()->get_std()->change_artistid_field(LibraryDatabase::ArtistIDField::ArtistID);
+			else{
+				lib_db->change_artistid_field(LibraryDatabase::ArtistIDField::ArtistID);
+			}
+		}
 	}
 
 	emit sig_show_album_artists_changed();

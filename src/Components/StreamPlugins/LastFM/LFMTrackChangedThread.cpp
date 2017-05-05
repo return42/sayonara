@@ -68,7 +68,10 @@ LFMTrackChangedThread::LFMTrackChangedThread(const QString& username, const QStr
 	_m->session_key = session_key;
 
 	ArtistList artists;
-	DatabaseConnector::getInstance()->getAllArtists(artists);
+	DatabaseConnector* db = DatabaseConnector::getInstance();
+	LibraryDatabase* lib_db = db->library_db(-1, 0);
+
+	lib_db->getAllArtists(artists);
 
 #ifdef SMART_COMPARE
 	_smart_comparison = new SmartCompare(artists);
@@ -244,8 +247,8 @@ void LFMTrackChangedThread::evaluate_artist_match(const ArtistMatch& artist_matc
 }
 
 
-QMap<QString, int> LFMTrackChangedThread::filter_available_artists(const ArtistMatch& artist_match, ArtistMatch::Quality quality) {
-	DatabaseConnector* db = DatabaseConnector::getInstance();
+QMap<QString, int> LFMTrackChangedThread::filter_available_artists(const ArtistMatch& artist_match, ArtistMatch::Quality quality)
+{
 	QMap<ArtistMatch::ArtistDesc, double> bin = artist_match.get(quality);
 	QMap<QString, int> possible_artists;
 
@@ -262,7 +265,9 @@ QMap<QString, int> LFMTrackChangedThread::filter_available_artists(const ArtistM
 		}
 
 #else
-		int artist_id = db->getArtistID(key.artist_name);
+		DatabaseConnector* db = DatabaseConnector::getInstance();
+		LibraryDatabase* lib_db = db->library_db(-1, 0);
+		int artist_id = lib_db->getArtistID(key.artist_name);
 		if(artist_id >= 0 ){
 			possible_artists[key.artist_name] = artist_id;
 		}

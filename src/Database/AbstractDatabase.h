@@ -37,7 +37,7 @@ public:
 	virtual void commit();
 	virtual void rollback();
 
-	quint8 get_id();
+	quint8 get_id() const;
 
 
 protected:

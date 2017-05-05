@@ -358,7 +358,9 @@ void GUI_LocalLibrary::reload_finished()
 void GUI_LocalLibrary::show_info_box()
 {
 	if(!_m->library_info_box){
-		_m->library_info_box = new GUI_LibraryInfoBox(this);
+		_m->library_info_box = new GUI_LibraryInfoBox(
+					_m->library->library_id(),
+					this);
 	}
 
 	_m->library_info_box->psl_refresh();

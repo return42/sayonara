@@ -68,7 +68,6 @@ void LibraryPluginHandler::init(const QList<LibraryContainerInterface*>& contain
 	QStringList dll_filenames = plugin_dir.entryList(QDir::Files);
 	QString cur_plugin = _settings->get(Set::Lib_CurPlugin);
 
-
 	QList<LibraryInfo> library_infos = LibraryManager::getInstance()->get_all_libraries();
 	for(const LibraryInfo& library_info : library_infos){
 		sp_log(Log::Debug, this) << "Add local library "

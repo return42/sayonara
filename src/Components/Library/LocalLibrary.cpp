@@ -25,6 +25,7 @@
 #include "Threads/FileSystemWatcher.h"
 #include "Threads/UpdateDatesThread.h"
 #include "Database/DatabaseConnector.h"
+#include "Database/LocalLibraryDatabase.h"
 #include "Components/Playlist/PlaylistHandler.h"
 #include "Components/TagEdit/TagEdit.h"
 
@@ -37,8 +38,9 @@
 
 struct LocalLibrary::Private
 {
-
 	DatabaseConnector*	db=nullptr;
+	LibraryDatabase*	lib_db=nullptr;
+	qint8				lib_id;
 	ReloadThread* 		reload_thread=nullptr;
 	FileSystemWatcher*	fsw=nullptr;
 	TagEdit*			tag_edit=nullptr;
@@ -60,9 +62,13 @@ struct LocalLibrary::Private
 LocalLibrary::LocalLibrary(qint8 id, const QString& library_path, QObject *parent) :
 	AbstractLibrary(parent)
 {
+	DatabaseConnector::getInstance()->register_library_db<LocalLibraryDatabase>(id);
+
 	_m = Pimpl::make<Private>();
 	_m->library_path = library_path;
 	_m->db = DatabaseConnector::getInstance();
+	_m->lib_db = _m->db->library_db(id, 0);
+	_m->lib_id = id;
 
 	apply_db_fixes();
 
@@ -104,7 +110,7 @@ void LocalLibrary::psl_reload_library(bool clear_first, Library::ReloadQuality q
 	}
 
 	_m->reload_thread->set_quality(quality);
-	_m->reload_thread->set_lib_path(library_path());
+	_m->reload_thread->set_library(_m->lib_id, library_path());
 	_m->reload_thread->start();
 }
 
@@ -125,9 +131,9 @@ void LocalLibrary::_sl_search_mode_changed()
 {
 	sp_log(Log::Debug, this) << "Updating cissearch... " << _settings->get(Set::Lib_SearchMode);
 
-	_m->db->updateArtistCissearch();
-	_m->db->updateAlbumCissearch();
-	_m->db->updateTrackCissearch();
+	_m->lib_db->updateArtistCissearch();
+	_m->lib_db->updateAlbumCissearch();
+	_m->lib_db->updateTrackCissearch();
 
 	sp_log(Log::Debug, this) << "Updating cissearch finished" << _settings->get(Set::Lib_SearchMode);
 
@@ -181,9 +187,9 @@ void LocalLibrary::library_reloading_state_new_block()
 {
 	_m->reload_thread->pause();
 
-	_m->db->getAllAlbums(_vec_albums, _sortorder.so_albums);
-	_m->db->getAllArtists(_vec_artists, _sortorder.so_artists);
-	_m->db->getAllTracks(_vec_md, _sortorder.so_tracks);
+	_m->lib_db->getAllAlbums(_vec_albums, _sortorder.so_albums);
+	_m->lib_db->getAllArtists(_vec_artists, _sortorder.so_artists);
+	_m->lib_db->getAllTracks(_vec_md, _sortorder.so_tracks);
 
 	emit_stuff();
 
@@ -200,13 +206,13 @@ void LocalLibrary::psl_disc_pressed(int disc)
 
 	MetaDataList v_md;
 
-	if(disc < 0){
-		_m->db->getAllTracksByAlbum(_selected_albums.first(), _vec_md, _filter, _sortorder.so_tracks);
+	if(disc < 0) {
+		_m->lib_db->getAllTracksByAlbum(_selected_albums.first(), _vec_md, _filter, _sortorder.so_tracks);
 		emit sig_all_tracks_loaded(_vec_md);
 		return;
 	}
 
-	_m->db->getAllTracksByAlbum(_selected_albums.first(), v_md, _filter, _sortorder.so_tracks);
+	_m->lib_db->getAllTracksByAlbum(_selected_albums.first(), v_md, _filter, _sortorder.so_tracks);
 
 	_vec_md.clear();
 
@@ -226,94 +232,94 @@ void LocalLibrary::psl_disc_pressed(int disc)
 
 void LocalLibrary::get_all_artists(ArtistList& artists, Library::Sortings so)
 {
-	_m->db->getAllArtists(artists, so.so_artists);
+	_m->lib_db->getAllArtists(artists, so.so_artists);
 }
 
 void LocalLibrary::get_all_artists_by_searchstring(Library::Filter filter, ArtistList& artists, Library::Sortings so)
 {
-	_m->db->getAllArtistsBySearchString(filter, artists, so.so_artists);
+	_m->lib_db->getAllArtistsBySearchString(filter, artists, so.so_artists);
 }
 
 
 void LocalLibrary::get_all_albums(AlbumList& albums, Library::Sortings so)
 {
-	_m->db->getAllAlbums(albums, so.so_albums);
+	_m->lib_db->getAllAlbums(albums, so.so_albums);
 }
 
 
 void LocalLibrary::get_all_albums_by_artist(IDList artist_ids, AlbumList& albums, Library::Filter filter, Library::Sortings so)
 {
-	_m->db->getAllAlbumsByArtist(artist_ids, albums, filter, so.so_albums)	;
+	_m->lib_db->getAllAlbumsByArtist(artist_ids, albums, filter, so.so_albums)	;
 }
 
 
 void LocalLibrary::get_all_albums_by_searchstring(Library::Filter filter, AlbumList& albums, Library::Sortings so)
 {
-	_m->db->getAllAlbumsBySearchString(filter, albums, so.so_albums);
+	_m->lib_db->getAllAlbumsBySearchString(filter, albums, so.so_albums);
 }
 
 
 void LocalLibrary::get_all_tracks(MetaDataList& v_md, Library::Sortings so)
 {
-	_m->db->getAllTracks(v_md, so.so_tracks);
+	_m->lib_db->getAllTracks(v_md, so.so_tracks);
 }
 
 
 void LocalLibrary::get_all_tracks(const QStringList& paths, MetaDataList& v_md)
 {
-	_m->db->getMultipleTracksByPath(paths, v_md);
+	_m->lib_db->getMultipleTracksByPath(paths, v_md);
 }
 
 
 void LocalLibrary::get_all_tracks_by_artist(IDList artist_ids, MetaDataList& v_md, Library::Filter filter, Library::Sortings so)
 {
-	_m->db->getAllTracksByArtist(artist_ids, v_md, filter, so.so_tracks);
+	_m->lib_db->getAllTracksByArtist(artist_ids, v_md, filter, so.so_tracks);
 }
 
 
 void LocalLibrary::get_all_tracks_by_album(IDList album_ids, MetaDataList& v_md, Library::Filter filter, Library::Sortings so)
 {
-	_m->db->getAllTracksByAlbum(album_ids, v_md, filter, so.so_tracks);
+	_m->lib_db->getAllTracksByAlbum(album_ids, v_md, filter, so.so_tracks);
 }
 
 
 void LocalLibrary::get_all_tracks_by_searchstring(Library::Filter filter, MetaDataList& v_md, Library::Sortings so)
 {
-	_m->db->getAllTracksBySearchString(filter, v_md, so.so_tracks);
+	_m->lib_db->getAllTracksBySearchString(filter, v_md, so.so_tracks);
 }
 
 
 void LocalLibrary::get_album_by_id(int album_id, Album& album)
 {
-	_m->db->getAlbumByID(album_id, album);
+	_m->lib_db->getAlbumByID(album_id, album);
 }
 
 
 void LocalLibrary::get_artist_by_id(int artist_id, Artist& artist)
 {
-	_m->db->getArtistByID(artist_id, artist);
+	_m->lib_db->getArtistByID(artist_id, artist);
 }
 
 
 void LocalLibrary::update_track(const MetaData& md)
 {
-	_m->db->updateTrack(md);
+	_m->lib_db->updateTrack(md);
 }
 
 void LocalLibrary::update_tracks(const MetaDataList& v_md)
 {
-	_m->db->updateTracks(v_md);
+	_m->lib_db->updateTracks(v_md);
 }
 
 void LocalLibrary::update_album(const Album& album)
 {
-	_m->db->updateAlbum(album);
+	_m->lib_db->updateAlbum(album);
 }
 
 
 void LocalLibrary::insert_tracks(const MetaDataList &v_md)
 {
-	_m->db->storeMetadata(v_md);
+	_m->lib_db->storeMetadata(v_md);
 	AbstractLibrary::insert_tracks(v_md);
 }
 
@@ -339,7 +345,7 @@ void LocalLibrary::init_reload_thread()
 
 void LocalLibrary::delete_tracks(const MetaDataList &v_md, Library::TrackDeletionMode mode)
 {
-	_m->db->deleteTracks(v_md);
+	_m->lib_db->deleteTracks(v_md);
 
 	AbstractLibrary::delete_tracks(v_md, mode);
 }
@@ -353,7 +359,7 @@ void LocalLibrary::refresh_tracks() {}
 void LocalLibrary::import_files(const QStringList& files)
 {
 	if(!_m->library_importer){
-		_m->library_importer = new LibraryImporter(this->library_path(), this);
+		_m->library_importer = new LibraryImporter(_m->lib_id, _m->library_path, this);
 	}
 
 	_m->library_importer->import_files(files);
@@ -388,7 +394,7 @@ void LocalLibrary::merge_artists(const SP::Set<ArtistID>& artist_ids, ArtistID t
 	bool show_album_artists = _settings->get(Set::Lib_ShowAlbumArtists);
 
 	Artist artist;
-	bool success = _m->db->getArtistByID(target_artist, artist);
+	bool success = _m->lib_db->getArtistByID(target_artist, artist);
 	if(!success){
 		return;
 	}
@@ -428,7 +434,7 @@ void LocalLibrary::merge_albums(const SP::Set<AlbumID>& album_ids, AlbumID targe
 	}
 
 	Album album;
-	bool success = _m->db->getAlbumByID(target_album, album, true);
+	bool success = _m->lib_db->getAlbumByID(target_album, album, true);
 	if(!success) {
 		return;
 	}
@@ -467,10 +473,15 @@ QString LocalLibrary::library_path() const
 	return _m->library_path;
 }
 
+qint8 LocalLibrary::library_id() const
+{
+	return _m->lib_id;
+}
+
 LibraryImporter* LocalLibrary::importer()
 {
 	if(!_m->library_importer){
-		_m->library_importer = new LibraryImporter(this->library_path(), this);
+		_m->library_importer = new LibraryImporter(_m->lib_id, _m->library_path, this);
 	}
 
 	return _m->library_importer;

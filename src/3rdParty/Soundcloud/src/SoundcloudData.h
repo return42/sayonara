@@ -37,7 +37,6 @@ class SayonaraQuery;
 class SoundcloudData :
 		public LibraryDatabase
 {
-	Q_OBJECT
 	SINGLETON(SoundcloudData)
 
 public:

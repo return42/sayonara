@@ -26,6 +26,7 @@
 #include "GUI/Library/ui_GUI_LibraryInfoBox.h"
 
 #include "Database/DatabaseConnector.h"
+#include "Database/LibraryDatabase.h"
 
 #include "Helper/Helper.h"
 #include "Helper/FileHelper.h"
@@ -39,11 +40,13 @@
 #include <QPixmap>
 
 
-GUI_LibraryInfoBox::GUI_LibraryInfoBox(QWidget* parent) :
+GUI_LibraryInfoBox::GUI_LibraryInfoBox(qint8 library_id, QWidget* parent) :
 	SayonaraDialog(parent)
 {
 	ui = new Ui::GUI_LibraryInfoBox();
 	ui->setupUi(this);
+
+	_library_id = library_id;
 
     hide();
 
@@ -78,13 +81,15 @@ void GUI_LibraryInfoBox::skin_changed()
 void GUI_LibraryInfoBox::psl_refresh()
 {
 	DatabaseConnector* db = DatabaseConnector::getInstance();
+	LibraryDatabase* lib_db = db->library_db(_library_id, 0);
+
     MetaDataList v_md;
 	AlbumList v_albums;
 	ArtistList v_artists;
 
-	db->getAllTracks(v_md);
-	db->getAllAlbums(v_albums);
-	db->getAllArtists(v_artists);
+	lib_db->getAllTracks(v_md);
+	lib_db->getAllAlbums(v_albums);
+	lib_db->getAllArtists(v_artists);
 
 	int n_tracks = v_md.size();
 	int n_albums = v_albums.size();

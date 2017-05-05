@@ -20,6 +20,9 @@
 
 #include "Database/SayonaraQuery.h"
 #include "Database/DatabaseConnector.h"
+#include "Database/LibraryDatabase.h"
+#include "Database/LocalLibraryDatabase.h"
+
 #include "Helper/MetaData/Album.h"
 #include "Helper/MetaData/Artist.h"
 #include "Helper/MetaData/MetaDataList.h"
@@ -35,8 +38,7 @@
 #include <algorithm>
 
 DatabaseConnector::DatabaseConnector() :
-
-	LibraryDatabase(0, "", QString("player.db"), -1),
+	AbstractDatabase(0, "", QString("player.db"), nullptr),
 	DatabaseBookmarks(_database, _db_id),
 	DatabasePlaylist(_database, _db_id),
 	DatabasePodcasts(_database, _db_id),
@@ -56,7 +58,9 @@ bool DatabaseConnector::updateAlbumCissearchFix()
 #endif
 
 	AlbumList albums;
-	getAllAlbums(albums);
+
+	LibraryDatabase* lib_db = library_db(-1, 0);
+	lib_db->getAllAlbums(albums);
 	for(const Album& album : albums) {
 		QString str = "UPDATE albums SET cissearch=:cissearch WHERE albumID=:id;";
 		SayonaraQuery q(_database);
@@ -76,7 +80,8 @@ bool DatabaseConnector::updateAlbumCissearchFix()
 bool DatabaseConnector::updateArtistCissearchFix()
 {
 	ArtistList artists;
-	getAllArtists(artists);
+	LibraryDatabase* lib_db = library_db(-1, 0);
+	lib_db->getAllArtists(artists);
 	for(const Artist& artist : artists)
 	{
 		QString str =
@@ -98,9 +103,10 @@ bool DatabaseConnector::updateArtistCissearchFix()
 bool DatabaseConnector::updateTrackCissearchFix()
 {
 	MetaDataList v_md;
-	getAllTracks(v_md);
+	LibraryDatabase* lib_db = library_db(-1, 0);
+	lib_db->getAllTracks(v_md);
 	for(const MetaData& md : v_md) {
-		updateTrack(md);
+		lib_db->updateTrack(md);
 	}
 
 	return true;
@@ -325,4 +331,28 @@ void DatabaseConnector::clean_up()
 	QString querytext = "VACUUM;";
 	q.prepare(querytext);
 	q.exec();
+}
+
+QList<LibraryDatabase*> DatabaseConnector::library_dbs() const
+{
+	return _library_dbs;
+}
+
+
+LibraryDatabase* DatabaseConnector::library_db(qint8 library_id, quint8 db_id)
+{
+	for(LibraryDatabase* db : _library_dbs){
+		if((db->library_id() == library_id) && (db->db_id() == db_id)){
+			return db;
+		}
+	}
+
+	if(db_id == 0 && library_id == -1){
+		if(_local_library == nullptr){
+			return register_library_db<LocalLibraryDatabase>(-1);
+		}
+	}
+
+	sp_log(Log::Debug, this) << "Could not find db with ID=" << db_id << " and LibraryID= " << library_id;
+	return nullptr;
 }

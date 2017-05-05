@@ -31,42 +31,49 @@ DB::DB() {}
 
 DB::~DB() {}
 
-LibraryDatabase* DB::getInstance(quint8 db_id){
-	return getInstance()->get(db_id);
+LibraryDatabase* DB::getInstance(quint8 db_id, qint8 library_db)
+{
+	return getInstance()->get(db_id, library_id);
 }
 
-LibraryDatabase* DB::getInstance(const Album& album){
-	return getInstance()->get(album);
+LibraryDatabase* DB::getInstance(const Album& album, qint8 library_db)
+{
+	return getInstance()->get(album, library_id);
 }
 
-LibraryDatabase* DB::getInstance(const MetaData& md){
-	return getInstance()->get(md);
+LibraryDatabase* DB::getInstance(const MetaData& md)
+{
+	return getInstance()->get(md, library_db);
 }
 
-LibraryDatabase* DB::getInstance(const Artist& artist){
+LibraryDatabase* DB::getInstance(const Artist& artist, qint8 library_db)
+{
 	return getInstance()->get(artist);
 }
 
 
-void DB::add(LibraryDatabase *db){
+void DB::add(LibraryDatabase *db, qint8 library_db)
+{
 	_dbs.insert(db->get_id(), db);
 }
 
-LibraryDatabase* DB::get(quint8 db_id){
+LibraryDatabase* DB::get(quint8 db_id)
+{
 	if(_dbs.size() == 0){
-		sp_log(Log::Warning) << "There are no Databases available";
+		sp_log(Log::Warning, this) << "There are no Databases available";
 		return get_std();
 	}
 
 	if(!_dbs.contains(db_id)){
-		sp_log(Log::Warning) << "Database " << (int) db_id << " is not available";
+		sp_log(Log::Warning, this) << "Database " << (int) db_id << " is not available";
 		return get_std();
 	}
 
 	return _dbs[db_id];
 }
 
-LibraryDatabase* DB::get(const Album& album){
+LibraryDatabase* DB::get(const Album& album)
+{
 	if(album.id < 0){
 		return get(0);
 	}
@@ -74,7 +81,8 @@ LibraryDatabase* DB::get(const Album& album){
 	return get(album.db_id);
 }
 
-LibraryDatabase* DB::get(const MetaData& md){
+LibraryDatabase* DB::get(const MetaData& md)
+{
 	if(md.id < 0){
 		return get(0);
 	}
@@ -82,10 +90,12 @@ LibraryDatabase* DB::get(const MetaData& md){
 	return get(md.db_id);
 }
 
-LibraryDatabase* DB::get(const Artist& artist){
+LibraryDatabase* DB::get(const Artist& artist)
+{
 	if(artist.id < 0){
 		return get(0);
 	}
+
 	return get(artist.db_id);
 }
 

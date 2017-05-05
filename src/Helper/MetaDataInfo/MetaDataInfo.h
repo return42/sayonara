@@ -83,9 +83,6 @@ protected:
 	SP::Set<ArtistID>			_artist_ids;
 	SP::Set<ArtistID>			_album_artist_ids;
 
-
-	LibraryDatabase*			_db=nullptr;
-
 	QString calc_tracknum_str( quint16 tracknum );
 	QString calc_artist_str() const;
 	QString calc_album_str();

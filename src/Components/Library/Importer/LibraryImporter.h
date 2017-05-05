@@ -39,7 +39,7 @@ class LibraryImporter :
 	PIMPL(LibraryImporter)
 
 public:
-	LibraryImporter(const QString& library_path, QObject* parent=nullptr);
+	LibraryImporter(qint8 lib_db, const QString& library_path, QObject* parent=nullptr);
 	~LibraryImporter();
 
 	enum class ImportStatus : quint8 
