@@ -104,13 +104,10 @@ QString GUI_AudioConverter::get_display_name() const
 }
 
 
-void GUI_AudioConverter::language_changed()
+void GUI_AudioConverter::retranslate_ui()
 {
-	if(!is_ui_initialized()){
-		return;
-	}
-
 	ui->retranslateUi(this);
+	ui->cb_active->setText(Lang::get(Lang::Activate));
 }
 
 

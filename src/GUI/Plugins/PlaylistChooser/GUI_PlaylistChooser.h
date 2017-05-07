@@ -59,7 +59,7 @@ public slots:
 
 
 private:
-	void language_changed() override;
+	void retranslate_ui() override;
 	void init_ui() override;
 
 

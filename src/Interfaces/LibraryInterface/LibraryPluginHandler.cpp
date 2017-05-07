@@ -102,15 +102,24 @@ void LibraryPluginHandler::init(const QList<LibraryContainerInterface*>& contain
 	sp_log(Log::Info) << "Found " << _m->libraries.size() << " library types";
 
 	int i=0;
-	for(LibraryContainerInterface* container : _m->libraries ){
+	bool found = false;
+	for(LibraryContainerInterface* container : _m->libraries )
+	{
 		if(cur_plugin == container->get_name()){
 			_m->cur_idx = i;
 			init_library(i);
 			emit sig_idx_changed(i);
+			found = true;
 			break;
 		}
 
 		i++;
+	}
+
+	if(!found){
+		_m->cur_idx = 0;
+		init_library(0);
+		emit sig_idx_changed(0);
 	}
 }
 

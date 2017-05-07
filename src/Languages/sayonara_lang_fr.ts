@@ -4,7 +4,7 @@
 <context>
     <name>AbstractLibrary</name>
     <message>
-        <location filename="../Components/Library/AbstractLibrary.cpp" line="+699"/>
+        <location filename="../Components/Library/AbstractLibrary.cpp" line="+703"/>
         <source>All %1 could be removed</source>
         <translation>Tous les %1 ont été effacé</translation>
     </message>
@@ -56,7 +56,7 @@
 <context>
     <name>GUI_AbstractStream</name>
     <message>
-        <location filename="../GUI/Plugins/Stream/GUI_AbstractStream.cpp" line="+151"/>
+        <location filename="../GUI/Plugins/Stream/GUI_AbstractStream.cpp" line="+149"/>
         <source>Cannot open stream</source>
         <translation>Incapable d&apos;ouvrir le flux</translation>
     </message>
@@ -97,7 +97,7 @@
         <translation>Convertisseur audio</translation>
     </message>
     <message>
-        <location line="+44"/>
+        <location line="+45"/>
         <source>0 (Best)</source>
         <translation>0 (Meilleur)</translation>
     </message>
@@ -107,14 +107,8 @@
         <translation>9 (Pire)</translation>
     </message>
     <message>
-        <location filename="../GUI/Plugins/Engine/AudioConverter/GUI_AudioConverter.ui" line="+32"/>
-        <location filename="../../build-debug/src/GUI/Plugins/Engine/ui_GUI_AudioConverter.h" line="+90"/>
-        <source>Activate</source>
-        <translation>Activer</translation>
-    </message>
-    <message>
-        <location line="+29"/>
-        <location filename="../../build-debug/src/GUI/Plugins/Engine/ui_GUI_AudioConverter.h" line="+1"/>
+        <location filename="../GUI/Plugins/Engine/AudioConverter/GUI_AudioConverter.ui" line="+61"/>
+        <location filename="../../build-debug/src/GUI/Plugins/Engine/ui_GUI_AudioConverter.h" line="+91"/>
         <source>Variable Bitrate</source>
         <translation>Débit variable</translation>
     </message>
@@ -154,20 +148,14 @@
 <context>
     <name>GUI_Broadcast</name>
     <message>
-        <location filename="../GUI/Plugins/Broadcasting/GUI_Broadcast.ui" line="+53"/>
+        <location filename="../GUI/Plugins/Broadcasting/GUI_Broadcast.ui" line="+62"/>
         <location filename="../../build-debug/src/GUI/Plugins/Broadcasting/ui_GUI_Broadcast.h" line="+130"/>
         <source>Cannot Broadcast</source>
         <translation>Incapable de radiodiffuser</translation>
     </message>
     <message>
-        <location line="-13"/>
-        <location filename="../../build-debug/src/GUI/Plugins/Broadcasting/ui_GUI_Broadcast.h" line="-1"/>
-        <source>3 users listening</source>
-        <translation>3 utilisateurs écoutant</translation>
-    </message>
-    <message>
-        <location line="+60"/>
-        <location filename="../../build-debug/src/GUI/Plugins/Broadcasting/ui_GUI_Broadcast.h" line="+2"/>
+        <location line="+47"/>
+        <location filename="../../build-debug/src/GUI/Plugins/Broadcasting/ui_GUI_Broadcast.h" line="+1"/>
         <source>Dismiss</source>
         <translation>Rejeter</translation>
     </message>
@@ -258,18 +246,12 @@
     <name>GUI_Equalizer</name>
     <message>
         <location filename="../GUI/Plugins/Engine/Equalizer/GUI_Equalizer.ui" line="+378"/>
-        <location filename="../../build-debug/src/GUI/Plugins/Engine/ui_GUI_Equalizer.h" line="+543"/>
+        <location filename="../../build-debug/src/GUI/Plugins/Engine/ui_GUI_Equalizer.h" line="+544"/>
         <source>curve</source>
         <translation>courbe</translation>
     </message>
     <message>
-        <location line="+378"/>
-        <location filename="../../build-debug/src/GUI/Plugins/Engine/ui_GUI_Equalizer.h" line="+1"/>
-        <source>Menu</source>
-        <translation>Menu</translation>
-    </message>
-    <message>
-        <location filename="../GUI/Plugins/Engine/Equalizer/GUI_Equalizer.cpp" line="+125"/>
+        <location filename="../GUI/Plugins/Engine/Equalizer/GUI_Equalizer.cpp" line="+126"/>
         <source>Equalizer</source>
         <translation>Égaliseur</translation>
     </message>
@@ -280,7 +262,7 @@
         <location filename="../GUI/Preferences/Fonts/GUI_FontConfig.ui" line="+58"/>
         <location line="+7"/>
         <location line="+28"/>
-        <location filename="../../build-debug/src/GUI/Preferences/ui_GUI_FontConfig.h" line="+172"/>
+        <location filename="../../build-debug/src/GUI/Preferences/ui_GUI_FontConfig.h" line="+173"/>
         <location line="+1"/>
         <location line="+2"/>
         <source>Font size</source>
@@ -297,12 +279,6 @@
         <location filename="../../build-debug/src/GUI/Preferences/ui_GUI_FontConfig.h" line="-5"/>
         <source>Bold</source>
         <translation>Gras</translation>
-    </message>
-    <message>
-        <location line="+105"/>
-        <location filename="../../build-debug/src/GUI/Preferences/ui_GUI_FontConfig.h" line="+6"/>
-        <source>Default</source>
-        <translation>Par défaut</translation>
     </message>
     <message>
         <location filename="../GUI/Preferences/Fonts/GUI_FontConfig.cpp" line="+113"/>
@@ -377,13 +353,13 @@
         <translation>Langue</translation>
     </message>
     <message>
-        <location filename="../GUI/Preferences/Language/GUI_LanguageChooser.ui" line="+28"/>
-        <location filename="../../build-debug/src/GUI/Preferences/ui_GUI_LanguageChooser.h" line="+60"/>
+        <location filename="../GUI/Preferences/Language/GUI_LanguageChooser.ui" line="+31"/>
+        <location filename="../../build-debug/src/GUI/Preferences/ui_GUI_LanguageChooser.h" line="+61"/>
         <source>English</source>
         <translation>Anglais</translation>
     </message>
     <message>
-        <location line="-11"/>
+        <location line="-14"/>
         <location filename="../../build-debug/src/GUI/Preferences/ui_GUI_LanguageChooser.h" line="-3"/>
         <source>For new languages I am always looking for translators</source>
         <translation>Je recherche toujours des traducteurs pour d&apos;autres langues</translation>
@@ -400,11 +376,6 @@
         <location line="+4"/>
         <source>Not logged in</source>
         <translation>Non connecté</translation>
-    </message>
-    <message>
-        <location line="-87"/>
-        <source>Last.fm</source>
-        <translation>Last.fm</translation>
     </message>
     <message>
         <location filename="../GUI/Preferences/LastFM/GUI_LastFM.ui" line="+34"/>
@@ -432,58 +403,11 @@
     </message>
 </context>
 <context>
-    <name>GUI_LastFM_Dialog</name>
-    <message>
-        <location filename="../GUI/Preferences/LastFM/GUI_LastFM_Dialog.ui" line="+14"/>
-        <source>Last.fm Preferences</source>
-        <translation>Préférences Last.fm</translation>
-    </message>
-    <message>
-        <location line="+16"/>
-        <source>Username</source>
-        <translation>Nom d&apos;utilisateur</translation>
-    </message>
-    <message>
-        <location line="+7"/>
-        <source>Activate</source>
-        <translation>Activer</translation>
-    </message>
-    <message>
-        <location line="+7"/>
-        <source>Password</source>
-        <translation>Mot de passe</translation>
-    </message>
-    <message>
-        <location line="+7"/>
-        <source>Login now</source>
-        <translation>Connecter maintenant</translation>
-    </message>
-    <message>
-        <location line="+17"/>
-        <source>OK</source>
-        <translation>Ok</translation>
-    </message>
-    <message>
-        <location line="-45"/>
-        <source>Cancel</source>
-        <translation>Annuler</translation>
-    </message>
-</context>
-<context>
     <name>GUI_LevelPainter</name>
     <message>
         <location filename="../GUI/Plugins/Engine/GUI_LevelPainter.cpp" line="+103"/>
         <source>Level</source>
         <translation>Niveau</translation>
-    </message>
-</context>
-<context>
-    <name>GUI_LibraryInfoBox</name>
-    <message>
-        <location filename="../GUI/Library/InfoBox/GUI_LibraryInfoBox.ui" line="+14"/>
-        <location filename="../../build-debug/src/GUI/Library/ui_GUI_LibraryInfoBox.h" line="+152"/>
-        <source>Info</source>
-        <translation>Info</translation>
     </message>
 </context>
 <context>
@@ -573,13 +497,13 @@
     <name>GUI_LocalLibrary</name>
     <message>
         <location filename="../GUI/Library/GUI_LocalLibrary.ui" line="+26"/>
-        <location filename="../../build-debug/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+460"/>
+        <location filename="../../build-debug/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+459"/>
         <source>Library</source>
         <translation>Bibliothèque</translation>
     </message>
     <message>
-        <location line="+485"/>
-        <location filename="../../build-debug/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+19"/>
+        <location line="+536"/>
+        <location filename="../../build-debug/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+15"/>
         <source>No genres found</source>
         <translation>Incapable de trouver des genres</translation>
     </message>
@@ -590,10 +514,10 @@
         <translation>Recharger la bibliothèque</translation>
     </message>
     <message>
-        <location line="-447"/>
-        <location line="+478"/>
-        <location filename="../../build-debug/src/GUI/Library/ui_GUI_LocalLibrary.h" line="-14"/>
-        <location line="+15"/>
+        <location line="-501"/>
+        <location line="+532"/>
+        <location filename="../../build-debug/src/GUI/Library/ui_GUI_LocalLibrary.h" line="-10"/>
+        <location line="+11"/>
         <source>Date</source>
         <translation>Date</translation>
     </message>
@@ -610,14 +534,8 @@
         <translation>Définir le chemin de la bibliothèque</translation>
     </message>
     <message>
-        <location line="-603"/>
-        <location filename="../../build-debug/src/GUI/Library/ui_GUI_LocalLibrary.h" line="-14"/>
-        <source>Shortcuts: &lt;br /&gt;Search &lt;span style=&quot; font-weight:600;&quot;&gt;s: &lt;br /&gt; &lt;/span&gt;Genre &lt;span style=&quot; font-weight:600;&quot;&gt;g: &lt;br /&gt;&lt;/span&gt;Path &lt;span style=&quot; font-weight:600;&quot;&gt;p:&lt;br/&gt;</source>
-        <translation>Raccourcis : &lt;br /&gt;Recherche&lt;span style=&quot; font-weight:600;&quot;&gt;s: &lt;br /&gt; &lt;/span&gt;Genre &lt;span style=&quot; font-weight:600;&quot;&gt;g: &lt;br /&gt;&lt;/span&gt;Chemin &lt;span style=&quot; font-weight:600;&quot;&gt;p:&lt;br/&gt;</translation>
-    </message>
-    <message>
-        <location line="+13"/>
-        <location filename="../../build-debug/src/GUI/Library/ui_GUI_LocalLibrary.h" line="-6"/>
+        <location line="-644"/>
+        <location filename="../../build-debug/src/GUI/Library/ui_GUI_LocalLibrary.h" line="-16"/>
         <source>Search</source>
         <translation>Chercher</translation>
     </message>
@@ -635,7 +553,7 @@
     </message>
     <message>
         <location line="+22"/>
-        <location filename="../../build-debug/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+7"/>
+        <location filename="../../build-debug/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+4"/>
         <source>Search for title, interprets and albums</source>
         <translation>Rechercher des titres, interprètes et albums</translation>
     </message>
@@ -644,12 +562,6 @@
         <location filename="../../build-debug/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+3"/>
         <source>Show all interprets, albums, tracks</source>
         <translation>Afficher tous les interprètes, albums et pistes</translation>
-    </message>
-    <message>
-        <location line="+302"/>
-        <location filename="../../build-debug/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+3"/>
-        <source>Genres</source>
-        <translation>Genres</translation>
     </message>
     <message>
         <location filename="../GUI/Library/GUI_LocalLibrary.cpp" line="+186"/>
@@ -667,7 +579,17 @@
         <translation>Choisissez la mode de recharger</translation>
     </message>
     <message>
-        <location line="+108"/>
+        <location line="+46"/>
+        <source>Shortcuts</source>
+        <translation>Raccourcis clavier</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>File path</source>
+        <translation>Emplacement</translation>
+    </message>
+    <message>
+        <location line="+66"/>
         <source>Please select your library path first and reload again.</source>
         <translation>Veuillez d&apos;abord sélectionner le chemin d&apos;accès de la bibliothèque. </translation>
     </message>
@@ -680,7 +602,7 @@
 <context>
     <name>GUI_Logger</name>
     <message>
-        <location filename="../GUI/Player/GUI_Logger.cpp" line="+130"/>
+        <location filename="../GUI/Player/GUI_Logger.cpp" line="+134"/>
         <source>Cannot open file</source>
         <translation>Impossible d&apos;ouvrir le fichier</translation>
     </message>
@@ -787,7 +709,7 @@
 <context>
     <name>GUI_Player</name>
     <message>
-        <location filename="../GUI/Player/GUI_Player.cpp" line="+110"/>
+        <location filename="../GUI/Player/GUI_Player.cpp" line="+94"/>
         <source>Sayonara Player</source>
         <translation>Sayonara Player</translation>
     </message>
@@ -802,12 +724,12 @@
         <translation>Copyright</translation>
     </message>
     <message>
-        <location line="+503"/>
+        <location line="+520"/>
         <source>A new version is available!</source>
         <translation>Une nouvelle version est disponible !</translation>
     </message>
     <message>
-        <location filename="../GUI/Player/GUI_PlayerMenubar.cpp" line="+49"/>
+        <location filename="../GUI/Player/GUI_PlayerMenubar.cpp" line="+51"/>
         <source>Media files</source>
         <translation>Fichiers multimédia</translation>
     </message>
@@ -971,7 +893,7 @@
         <translation>Fichiers</translation>
     </message>
     <message>
-        <location filename="../GUI/Plugins/PlaylistChooser/GUI_PlaylistChooser.cpp" line="+203"/>
+        <location filename="../GUI/Plugins/PlaylistChooser/GUI_PlaylistChooser.cpp" line="+204"/>
         <source>Open Playlist files</source>
         <translation>Ouvrir les fichiers de liste de lecture</translation>
     </message>
@@ -1344,7 +1266,7 @@
         <translation>Tonalité</translation>
     </message>
     <message>
-        <location filename="../GUI/Plugins/Engine/Speed/GUI_Speed.cpp" line="+62"/>
+        <location filename="../GUI/Plugins/Engine/Speed/GUI_Speed.cpp" line="+64"/>
         <location line="+1"/>
         <source>%1 not found</source>
         <translation>%1 ne pas trouvée</translation>
@@ -1655,17 +1577,12 @@ Veuillez choisir un autre dossier</translation>
         <translation>Annuler tout</translation>
     </message>
     <message>
-        <location filename="../GUI/TagEdit/GUI_TagEdit.cpp" line="+292"/>
+        <location filename="../GUI/TagEdit/GUI_TagEdit.cpp" line="+293"/>
         <source>Tag</source>
         <translation>Étiquette</translation>
     </message>
     <message>
-        <location line="+20"/>
-        <source>Track </source>
-        <translation>Piste </translation>
-    </message>
-    <message>
-        <location line="+369"/>
+        <location line="+389"/>
         <source>Cannot apply tag for</source>
         <translation>Incapable d&apos;appliquer l&apos;expression</translation>
     </message>
@@ -1717,7 +1634,7 @@ Veuillez choisir un autre dossier</translation>
 <context>
     <name>GUI_TrayIcon</name>
     <message>
-        <location filename="../GUI/Player/GUI_TrayIcon.cpp" line="+76"/>
+        <location filename="../GUI/Player/GUI_TrayIcon.cpp" line="+75"/>
         <location line="+20"/>
         <source>Current song</source>
         <translation>Chanson en cours</translation>
@@ -2472,7 +2389,7 @@ Veuillez choisir un autre dossier</translation>
 <context>
     <name>LibraryImporter</name>
     <message>
-        <location filename="../Components/Library/Importer/LibraryImporter.cpp" line="+173"/>
+        <location filename="../Components/Library/Importer/LibraryImporter.cpp" line="+170"/>
         <source>All files could be imported</source>
         <translation>Tous les fichiers ont été importés</translation>
     </message>
@@ -2561,12 +2478,12 @@ Veuillez choisir un autre dossier</translation>
 <context>
     <name>ReloadThread</name>
     <message>
-        <location filename="../Components/Library/Threads/ReloadThread.cpp" line="+166"/>
+        <location filename="../Components/Library/Threads/ReloadThread.cpp" line="+169"/>
         <source>Reading files from file system</source>
         <translation>Lecture de fichiers</translation>
     </message>
     <message>
-        <location line="+90"/>
+        <location line="+96"/>
         <source>Delete orphaned tracks...</source>
         <translation>Supprimer les pistes orphelines...</translation>
     </message>

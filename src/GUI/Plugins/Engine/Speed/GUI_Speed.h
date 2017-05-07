@@ -40,7 +40,7 @@ public:
 	QString get_display_name() const override;
 
 private:
-	void language_changed() override;
+	void retranslate_ui() override;
 	void init_ui() override;
 
 private slots:

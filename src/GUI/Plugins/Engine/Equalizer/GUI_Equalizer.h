@@ -74,8 +74,8 @@ private:
 	int find_combo_text(QString txt);
 
 private:
-	void language_changed() override;
 	void init_ui() override;
+	void retranslate_ui() override;
 
 private slots:
 	void sli_changed(int idx, int value);

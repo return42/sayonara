@@ -46,8 +46,8 @@ protected:
 	void paintEvent(QPaintEvent* e) override;
 	void showEvent(QShowEvent*) override;
 	void closeEvent(QCloseEvent*) override;
-	void language_changed() override;
 	void init_ui() override;
+	void retranslate_ui() override;
 
 
 protected slots:

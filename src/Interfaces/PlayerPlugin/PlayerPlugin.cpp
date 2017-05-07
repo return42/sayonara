@@ -93,7 +93,6 @@ QSize PlayerPluginInterface::get_size() const
 	return this->minimumSize();
 }
 
-
 void PlayerPluginInterface::finalize_initialization()
 {
 	QLayout* widget_layout = layout();
@@ -118,7 +117,17 @@ void PlayerPluginInterface::finalize_initialization()
 
 	REGISTER_LISTENER(Set::Player_Style, skin_changed);
 
-	this->set_ui_initialized();
+	set_ui_initialized();
+	retranslate_ui();
+}
+
+void PlayerPluginInterface::assign_ui_vars() {}
+
+void PlayerPluginInterface::language_changed()
+{
+	if(is_ui_initialized()){
+		retranslate_ui();
+	}
 }
 
 

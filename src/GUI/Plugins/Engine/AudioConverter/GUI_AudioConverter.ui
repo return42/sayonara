@@ -29,7 +29,7 @@
       <enum>Qt::StrongFocus</enum>
      </property>
      <property name="text">
-      <string>Activate</string>
+      <string notr="true">Activate</string>
      </property>
     </widget>
    </item>

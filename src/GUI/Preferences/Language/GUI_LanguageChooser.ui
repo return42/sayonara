@@ -23,6 +23,9 @@
    </item>
    <item row="0" column="0">
     <widget class="QComboBox" name="combo_lang">
+     <property name="currentText">
+      <string notr="true">English</string>
+     </property>
      <item>
       <property name="text">
        <string>English</string>

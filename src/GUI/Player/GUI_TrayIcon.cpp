@@ -40,7 +40,6 @@
 
 
 GUI_TrayIcon::GUI_TrayIcon (QObject *parent) :
-
 	QSystemTrayIcon (parent),
 	NotificationInterface("Standard"),
 	SayonaraClass()
@@ -59,7 +58,7 @@ GUI_TrayIcon::GUI_TrayIcon (QObject *parent) :
 
 	NotificationHandler::getInstance()->register_notificator(this);
 
-	//REGISTER_LISTENER(Set::Player_ShowTrayIcon, _sl_show_tray_icon);
+	REGISTER_LISTENER(Set::Player_Language, language_changed);
 }
 
 GUI_TrayIcon::~GUI_TrayIcon() {}

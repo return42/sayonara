@@ -81,12 +81,8 @@ void GUI_PlaylistChooser::init_ui()
 }
 
 
-void GUI_PlaylistChooser::language_changed()
+void GUI_PlaylistChooser::retranslate_ui()
 {
-	if(!is_ui_initialized()){
-		return;
-	}
-
 	ui->retranslateUi(this);
 }
 

@@ -42,11 +42,9 @@ namespace Ui { class GUI_LocalLibrary; }
 class GUI_LocalLibrary :
 		public GUI_AbstractLibrary
 {
-
 	Q_OBJECT
 
 public:
-
 	explicit GUI_LocalLibrary(QWidget* parent=nullptr);
 	virtual ~GUI_LocalLibrary();
 

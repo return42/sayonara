@@ -119,14 +119,13 @@ void GUI_AbstractStream::init_ui()
 	init_connections();
 	init_streams();
 	skin_changed();
-	language_changed();
 
 	set_searching(false);
 
 	REGISTER_LISTENER(Set::Player_Style, _sl_skin_changed);
 }
 
-void GUI_AbstractStream::language_changed()
+void GUI_AbstractStream::retranslate_ui()
 {
 	_m->le_url->setPlaceholderText(Lang::get(Lang::EnterUrl).triplePt());
 	_m->combo_stream->lineEdit()->setPlaceholderText(Lang::get(Lang::EnterName).triplePt());
@@ -380,28 +379,11 @@ void GUI_AbstractStream::setup_stations(const StreamMap& stations)
 	_m->le_url->setText(old_url);
 }
 
-
-void GUI_AbstractStream::set_le_url(QLineEdit* le_url)
+void GUI_AbstractStream::assign_ui_vars()
 {
-	_m->le_url = le_url;
-}
-
-void GUI_AbstractStream::set_combo_stream(QComboBox* combo_stream)
-{
-	_m->combo_stream = combo_stream;
-}
-
-void GUI_AbstractStream::set_btn_play(QPushButton* btn_play)
-{
-	_m->btn_play = btn_play;
-}
-
-void GUI_AbstractStream::set_btn_tool(MenuToolButton* btn_tool)
-{
-	_m->btn_tool = btn_tool;
-}
-
-void GUI_AbstractStream::set_lab_listen(QLabel* lab_listen)
-{
-	_m->lab_listen = lab_listen;
+	_m->combo_stream=combo_stream();
+	_m->btn_play=btn_play();
+	_m->le_url = le_url();
+	_m->lab_listen = lab_listen();
+	_m->btn_tool = btn_menu();
 }

@@ -44,12 +44,10 @@ QString GUI_Stream::get_display_name() const
 	return tr("Webstreams");
 }
 
-void GUI_Stream::language_changed()
+void GUI_Stream::retranslate_ui()
 {
-	if(ui){
-		GUI_AbstractStream::language_changed();
-		ui->retranslateUi(this);
-	}
+	GUI_AbstractStream::retranslate_ui();
+	ui->retranslateUi(this);
 }
 
 void GUI_Stream::init_ui()
@@ -61,4 +59,30 @@ void GUI_Stream::init_ui()
 QString GUI_Stream::get_title_fallback_name() const
 {
 	return Lang::get(Lang::Radio);
+}
+
+
+QLineEdit* GUI_Stream::le_url()
+{
+	return ui->le_url;
+}
+
+QComboBox* GUI_Stream::combo_stream()
+{
+	return ui->combo_stream;
+}
+
+QPushButton* GUI_Stream::btn_play()
+{
+	return ui->btn_play;
+}
+
+MenuToolButton* GUI_Stream::btn_menu()
+{
+	return ui->btn_tool;
+}
+
+QLabel* GUI_Stream::lab_listen()
+{
+	return ui->lab_listen;
 }

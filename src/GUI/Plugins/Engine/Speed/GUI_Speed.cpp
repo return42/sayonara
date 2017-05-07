@@ -36,12 +36,8 @@ GUI_Speed::~GUI_Speed()
 	}
 }
 
-void GUI_Speed::language_changed()
+void GUI_Speed::retranslate_ui()
 {
-	if(!is_ui_initialized()){
-		return;
-	}
-
 	ui->retranslateUi(this);
 	ui->btn_revert_pitch->setText(Lang::get(Lang::Default));
 	ui->btn_revert_speed->setText(Lang::get(Lang::Default));
@@ -94,7 +90,8 @@ QString GUI_Speed::get_display_name() const
 }
 
 
-void GUI_Speed::speed_changed(int val) {
+void GUI_Speed::speed_changed(int val)
+{
 	float val_f = val / 100.0f;
 
 	ui->lab_speed->setText(QString::number(val_f, 'f', 2));
@@ -102,7 +99,8 @@ void GUI_Speed::speed_changed(int val) {
 }
 
 
-void GUI_Speed::active_changed(bool active) {
+void GUI_Speed::active_changed(bool active)
+{
 	ui->cb_active->setChecked(active);
 
 	ui->sli_speed->setEnabled( active);

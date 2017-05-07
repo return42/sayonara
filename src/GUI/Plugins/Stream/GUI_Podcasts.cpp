@@ -49,15 +49,39 @@ void GUI_Podcasts::init_ui()
 	setup_parent(this, &ui);	
 }
 
-void GUI_Podcasts::language_changed()
+void GUI_Podcasts::retranslate_ui()
 {
-	if(ui){
-		GUI_AbstractStream::language_changed();
-		ui->retranslateUi(this);
-	}
+	GUI_AbstractStream::retranslate_ui();
+	ui->retranslateUi(this);
 }
 
 QString GUI_Podcasts::get_title_fallback_name() const
 {
 	return tr("Podcast");
+}
+
+
+QLineEdit* GUI_Podcasts::le_url()
+{
+	return ui->le_url;
+}
+
+QComboBox* GUI_Podcasts::combo_stream()
+{
+	return ui->combo_stream;
+}
+
+QPushButton* GUI_Podcasts::btn_play()
+{
+	return ui->btn_play;
+}
+
+MenuToolButton* GUI_Podcasts::btn_menu()
+{
+	return ui->btn_tool;
+}
+
+QLabel*GUI_Podcasts::lab_listen()
+{
+	return ui->lab_listen;
 }

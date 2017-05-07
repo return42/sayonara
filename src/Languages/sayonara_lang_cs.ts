@@ -4,7 +4,7 @@
 <context>
     <name>AbstractLibrary</name>
     <message>
-        <location filename="../Components/Library/AbstractLibrary.cpp" line="+699"/>
+        <location filename="../Components/Library/AbstractLibrary.cpp" line="+703"/>
         <source>All %1 could be removed</source>
         <translation>Všech %1 se podařilo smazat</translation>
     </message>
@@ -56,7 +56,7 @@
 <context>
     <name>GUI_AbstractStream</name>
     <message>
-        <location filename="../GUI/Plugins/Stream/GUI_AbstractStream.cpp" line="+151"/>
+        <location filename="../GUI/Plugins/Stream/GUI_AbstractStream.cpp" line="+149"/>
         <source>Cannot open stream</source>
         <translation>Nelze otevřít proud</translation>
     </message>
@@ -97,7 +97,7 @@
         <translation>Převodník zvuku</translation>
     </message>
     <message>
-        <location line="+44"/>
+        <location line="+45"/>
         <source>0 (Best)</source>
         <translation>0 (Nejlepší)</translation>
     </message>
@@ -107,14 +107,8 @@
         <translation>9 (Nejhorší)</translation>
     </message>
     <message>
-        <location filename="../GUI/Plugins/Engine/AudioConverter/GUI_AudioConverter.ui" line="+32"/>
-        <location filename="../../build-debug/src/GUI/Plugins/Engine/ui_GUI_AudioConverter.h" line="+90"/>
-        <source>Activate</source>
-        <translation>Aktivovat</translation>
-    </message>
-    <message>
-        <location line="+29"/>
-        <location filename="../../build-debug/src/GUI/Plugins/Engine/ui_GUI_AudioConverter.h" line="+1"/>
+        <location filename="../GUI/Plugins/Engine/AudioConverter/GUI_AudioConverter.ui" line="+61"/>
+        <location filename="../../build-debug/src/GUI/Plugins/Engine/ui_GUI_AudioConverter.h" line="+91"/>
         <source>Variable Bitrate</source>
         <translation>Proměnlivý datový tok</translation>
     </message>
@@ -154,20 +148,14 @@
 <context>
     <name>GUI_Broadcast</name>
     <message>
-        <location filename="../GUI/Plugins/Broadcasting/GUI_Broadcast.ui" line="+53"/>
+        <location filename="../GUI/Plugins/Broadcasting/GUI_Broadcast.ui" line="+62"/>
         <location filename="../../build-debug/src/GUI/Plugins/Broadcasting/ui_GUI_Broadcast.h" line="+130"/>
         <source>Cannot Broadcast</source>
         <translation>Nelze vysílat</translation>
     </message>
     <message>
-        <location line="-13"/>
-        <location filename="../../build-debug/src/GUI/Plugins/Broadcasting/ui_GUI_Broadcast.h" line="-1"/>
-        <source>3 users listening</source>
-        <translation>Poslouchají 3 uživatelé</translation>
-    </message>
-    <message>
-        <location line="+60"/>
-        <location filename="../../build-debug/src/GUI/Plugins/Broadcasting/ui_GUI_Broadcast.h" line="+2"/>
+        <location line="+47"/>
+        <location filename="../../build-debug/src/GUI/Plugins/Broadcasting/ui_GUI_Broadcast.h" line="+1"/>
         <source>Dismiss</source>
         <translation>Odmítnout</translation>
     </message>
@@ -233,19 +221,19 @@
         <location line="+7"/>
         <location filename="../../build-debug/src/GUI/Library/ui_GUI_DateSearchConfig.h" line="+3"/>
         <source>Newer than</source>
-        <translation type="unfinished"></translation>
+        <translation>Novější než</translation>
     </message>
     <message>
         <location line="+5"/>
         <location filename="../../build-debug/src/GUI/Library/ui_GUI_DateSearchConfig.h" line="+1"/>
         <source>Older than</source>
-        <translation type="unfinished"></translation>
+        <translation>Starší než</translation>
     </message>
     <message>
         <location line="+5"/>
         <location filename="../../build-debug/src/GUI/Library/ui_GUI_DateSearchConfig.h" line="+1"/>
         <source>Between</source>
-        <translation type="unfinished"></translation>
+        <translation>Mezi</translation>
     </message>
     <message>
         <location line="+51"/>
@@ -258,18 +246,12 @@
     <name>GUI_Equalizer</name>
     <message>
         <location filename="../GUI/Plugins/Engine/Equalizer/GUI_Equalizer.ui" line="+378"/>
-        <location filename="../../build-debug/src/GUI/Plugins/Engine/ui_GUI_Equalizer.h" line="+543"/>
+        <location filename="../../build-debug/src/GUI/Plugins/Engine/ui_GUI_Equalizer.h" line="+544"/>
         <source>curve</source>
         <translation>Křivka</translation>
     </message>
     <message>
-        <location line="+378"/>
-        <location filename="../../build-debug/src/GUI/Plugins/Engine/ui_GUI_Equalizer.h" line="+1"/>
-        <source>Menu</source>
-        <translation>Nabídky</translation>
-    </message>
-    <message>
-        <location filename="../GUI/Plugins/Engine/Equalizer/GUI_Equalizer.cpp" line="+125"/>
+        <location filename="../GUI/Plugins/Engine/Equalizer/GUI_Equalizer.cpp" line="+126"/>
         <source>Equalizer</source>
         <translation>Ekvalizér</translation>
     </message>
@@ -280,7 +262,7 @@
         <location filename="../GUI/Preferences/Fonts/GUI_FontConfig.ui" line="+58"/>
         <location line="+7"/>
         <location line="+28"/>
-        <location filename="../../build-debug/src/GUI/Preferences/ui_GUI_FontConfig.h" line="+172"/>
+        <location filename="../../build-debug/src/GUI/Preferences/ui_GUI_FontConfig.h" line="+173"/>
         <location line="+1"/>
         <location line="+2"/>
         <source>Font size</source>
@@ -297,12 +279,6 @@
         <location filename="../../build-debug/src/GUI/Preferences/ui_GUI_FontConfig.h" line="-5"/>
         <source>Bold</source>
         <translation>Tučné</translation>
-    </message>
-    <message>
-        <location line="+105"/>
-        <location filename="../../build-debug/src/GUI/Preferences/ui_GUI_FontConfig.h" line="+6"/>
-        <source>Default</source>
-        <translation>Výchozí</translation>
     </message>
     <message>
         <location filename="../GUI/Preferences/Fonts/GUI_FontConfig.cpp" line="+113"/>
@@ -377,13 +353,13 @@
         <translation>Jazyk</translation>
     </message>
     <message>
-        <location filename="../GUI/Preferences/Language/GUI_LanguageChooser.ui" line="+28"/>
-        <location filename="../../build-debug/src/GUI/Preferences/ui_GUI_LanguageChooser.h" line="+60"/>
+        <location filename="../GUI/Preferences/Language/GUI_LanguageChooser.ui" line="+31"/>
+        <location filename="../../build-debug/src/GUI/Preferences/ui_GUI_LanguageChooser.h" line="+61"/>
         <source>English</source>
         <translation>Angličtina</translation>
     </message>
     <message>
-        <location line="-11"/>
+        <location line="-14"/>
         <location filename="../../build-debug/src/GUI/Preferences/ui_GUI_LanguageChooser.h" line="-3"/>
         <source>For new languages I am always looking for translators</source>
         <translation>Vždy hledám překladatele programu do dalších jazyků</translation>
@@ -402,11 +378,6 @@
         <translation>Nepřihlášen</translation>
     </message>
     <message>
-        <location line="-87"/>
-        <source>Last.fm</source>
-        <translation>Last.fm</translation>
-    </message>
-    <message>
         <location filename="../GUI/Preferences/LastFM/GUI_LastFM.ui" line="+34"/>
         <location filename="../../build-debug/src/GUI/Preferences/ui_GUI_LastFM.h" line="+135"/>
         <source>Password</source>
@@ -422,51 +393,13 @@
         <location line="+46"/>
         <location filename="../../build-debug/src/GUI/Preferences/ui_GUI_LastFM.h" line="+2"/>
         <source>Login now</source>
-        <translation>Přihlášení nyní</translation>
+        <translation>Přihlásit nyní</translation>
     </message>
     <message>
         <location line="-73"/>
         <location filename="../../build-debug/src/GUI/Preferences/ui_GUI_LastFM.h" line="-5"/>
         <source>Username</source>
         <translation>Uživatelské jméno</translation>
-    </message>
-</context>
-<context>
-    <name>GUI_LastFM_Dialog</name>
-    <message>
-        <location filename="../GUI/Preferences/LastFM/GUI_LastFM_Dialog.ui" line="+14"/>
-        <source>Last.fm Preferences</source>
-        <translation>Nastavení Last.fm</translation>
-    </message>
-    <message>
-        <location line="+16"/>
-        <source>Username</source>
-        <translation>Uživatelské jméno</translation>
-    </message>
-    <message>
-        <location line="+7"/>
-        <source>Activate</source>
-        <translation>Zapnout</translation>
-    </message>
-    <message>
-        <location line="+7"/>
-        <source>Password</source>
-        <translation>Heslo</translation>
-    </message>
-    <message>
-        <location line="+7"/>
-        <source>Login now</source>
-        <translation>Přihlášení nyní</translation>
-    </message>
-    <message>
-        <location line="+17"/>
-        <source>OK</source>
-        <translation>OK</translation>
-    </message>
-    <message>
-        <location line="-45"/>
-        <source>Cancel</source>
-        <translation>Zrušit</translation>
     </message>
 </context>
 <context>
@@ -478,21 +411,12 @@
     </message>
 </context>
 <context>
-    <name>GUI_LibraryInfoBox</name>
-    <message>
-        <location filename="../GUI/Library/InfoBox/GUI_LibraryInfoBox.ui" line="+14"/>
-        <location filename="../../build-debug/src/GUI/Library/ui_GUI_LibraryInfoBox.h" line="+152"/>
-        <source>Info</source>
-        <translation>Informace</translation>
-    </message>
-</context>
-<context>
     <name>GUI_LibraryPreferences</name>
     <message>
         <location filename="../GUI/Preferences/LibraryPreferences/GUI_LibraryPreferences.ui" line="+24"/>
         <location filename="../../build-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+216"/>
         <source>Search</source>
-        <translation>Hledat</translation>
+        <translation>Hledání</translation>
     </message>
     <message>
         <location line="+15"/>
@@ -504,25 +428,25 @@
         <location line="+7"/>
         <location filename="../../build-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
         <source>Case insensitive</source>
-        <translation type="unfinished"></translation>
+        <translation>Rozlišovat velká a malá písmena</translation>
     </message>
     <message>
         <location line="+36"/>
         <location filename="../../build-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
         <source>Option</source>
-        <translation>Možnost</translation>
+        <translation>Volba</translation>
     </message>
     <message>
         <location line="+10"/>
         <location filename="../../build-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
         <source>Ignore special characters</source>
-        <translation type="unfinished"></translation>
+        <translation>Přehlížet zvláštní znaky</translation>
     </message>
     <message>
         <location line="+20"/>
         <location filename="../../build-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
         <source>Ignore accents</source>
-        <translation type="unfinished"></translation>
+        <translation>Přehlížet diakritická znaménka</translation>
     </message>
     <message>
         <location line="+34"/>
@@ -573,19 +497,13 @@
     <name>GUI_LocalLibrary</name>
     <message>
         <location filename="../GUI/Library/GUI_LocalLibrary.ui" line="+26"/>
-        <location filename="../../build-debug/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+460"/>
+        <location filename="../../build-debug/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+459"/>
         <source>Library</source>
         <translation>Sbírka</translation>
     </message>
     <message>
-        <location line="+389"/>
-        <location filename="../../build-debug/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+18"/>
-        <source>Genres</source>
-        <translation>Žánry</translation>
-    </message>
-    <message>
-        <location line="+96"/>
-        <location filename="../../build-debug/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+1"/>
+        <location line="+536"/>
+        <location filename="../../build-debug/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+15"/>
         <source>No genres found</source>
         <translation>Nenalezeny žádné žánry</translation>
     </message>
@@ -596,10 +514,10 @@
         <translation>Nahrát sbírku znovu</translation>
     </message>
     <message>
-        <location line="-447"/>
-        <location line="+478"/>
-        <location filename="../../build-debug/src/GUI/Library/ui_GUI_LocalLibrary.h" line="-14"/>
-        <location line="+15"/>
+        <location line="-501"/>
+        <location line="+532"/>
+        <location filename="../../build-debug/src/GUI/Library/ui_GUI_LocalLibrary.h" line="-10"/>
+        <location line="+11"/>
         <source>Date</source>
         <translation>Datum</translation>
     </message>
@@ -613,17 +531,11 @@
         <location line="+38"/>
         <location filename="../../build-debug/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+1"/>
         <source>Set library path</source>
-        <translation>Nastavit cestu k hudební sbírce</translation>
+        <translation>Nastavit cestu ke sbírce</translation>
     </message>
     <message>
-        <location line="-603"/>
-        <location filename="../../build-debug/src/GUI/Library/ui_GUI_LocalLibrary.h" line="-14"/>
-        <source>Shortcuts: &lt;br /&gt;Search &lt;span style=&quot; font-weight:600;&quot;&gt;s: &lt;br /&gt; &lt;/span&gt;Genre &lt;span style=&quot; font-weight:600;&quot;&gt;g: &lt;br /&gt;&lt;/span&gt;Path &lt;span style=&quot; font-weight:600;&quot;&gt;p:&lt;br/&gt;</source>
-        <translation>Zkratky: &lt;br /&gt;Hledat &lt;span style=&quot; font-weight:600;&quot;&gt;s: &lt;br /&gt; &lt;/span&gt;Žánr &lt;span style=&quot; font-weight:600;&quot;&gt;g: &lt;br /&gt;&lt;/span&gt;Cesta &lt;span style=&quot; font-weight:600;&quot;&gt;p:&lt;br/&gt;</translation>
-    </message>
-    <message>
-        <location line="+13"/>
-        <location filename="../../build-debug/src/GUI/Library/ui_GUI_LocalLibrary.h" line="-6"/>
+        <location line="-644"/>
+        <location filename="../../build-debug/src/GUI/Library/ui_GUI_LocalLibrary.h" line="-16"/>
         <source>Search</source>
         <translation>Hledat</translation>
     </message>
@@ -641,7 +553,7 @@
     </message>
     <message>
         <location line="+22"/>
-        <location filename="../../build-debug/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+7"/>
+        <location filename="../../build-debug/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+4"/>
         <source>Search for title, interprets and albums</source>
         <translation>Hledat názvy, umělce a alba</translation>
     </message>
@@ -667,7 +579,17 @@
         <translation>Vyberte znovunahrávací režim</translation>
     </message>
     <message>
-        <location line="+108"/>
+        <location line="+46"/>
+        <source>Shortcuts</source>
+        <translation>Klávesové zkratky</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>File path</source>
+        <translation>Cesta</translation>
+    </message>
+    <message>
+        <location line="+66"/>
         <source>Please select your library path first and reload again.</source>
         <translation>Nejprve, prosím, zadejte cestu k hudební sbírce a znovu ji nahrajte.</translation>
     </message>
@@ -680,9 +602,9 @@
 <context>
     <name>GUI_Logger</name>
     <message>
-        <location filename="../GUI/Player/GUI_Logger.cpp" line="+130"/>
+        <location filename="../GUI/Player/GUI_Logger.cpp" line="+134"/>
         <source>Cannot open file</source>
-        <translation type="unfinished"></translation>
+        <translation>Nelze otevřít soubor</translation>
     </message>
 </context>
 <context>
@@ -787,7 +709,7 @@
 <context>
     <name>GUI_Player</name>
     <message>
-        <location filename="../GUI/Player/GUI_Player.cpp" line="+110"/>
+        <location filename="../GUI/Player/GUI_Player.cpp" line="+94"/>
         <source>Sayonara Player</source>
         <translation>Přehrávač Sayonara</translation>
     </message>
@@ -802,12 +724,12 @@
         <translation>Autorské právo</translation>
     </message>
     <message>
-        <location line="+503"/>
+        <location line="+520"/>
         <source>A new version is available!</source>
         <translation>Je dostupná nová verze!</translation>
     </message>
     <message>
-        <location filename="../GUI/Player/GUI_PlayerMenubar.cpp" line="+49"/>
+        <location filename="../GUI/Player/GUI_PlayerMenubar.cpp" line="+51"/>
         <source>Media files</source>
         <translation>Zvukové soubory a seznamy skladeb</translation>
     </message>
@@ -870,7 +792,7 @@
         <location line="+7"/>
         <location filename="../../build-debug/src/GUI/Preferences/ui_GUI_PlayerPreferences.h" line="+1"/>
         <source>Show system tray icon</source>
-        <translation>Zobrazit ikonu v systémové liště</translation>
+        <translation>Ukázat ikonu v oznamovací oblasti panelu</translation>
     </message>
     <message>
         <location line="-21"/>
@@ -971,7 +893,7 @@
         <translation>Soubor se seznamem skladeb</translation>
     </message>
     <message>
-        <location filename="../GUI/Plugins/PlaylistChooser/GUI_PlaylistChooser.cpp" line="+203"/>
+        <location filename="../GUI/Plugins/PlaylistChooser/GUI_PlaylistChooser.cpp" line="+204"/>
         <source>Open Playlist files</source>
         <translation>Otevřít soubory se seznamy skladeb</translation>
     </message>
@@ -994,7 +916,7 @@
         <location line="-65"/>
         <location filename="../../build-debug/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="-6"/>
         <source>Start up</source>
-        <translation>Volby pro spuštění</translation>
+        <translation>Spuštění programu</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -1048,7 +970,7 @@
         <location line="+92"/>
         <location filename="../../build-debug/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+2"/>
         <source>Show clear button</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukázat tlačítko pro vyprázdnění</translation>
     </message>
 </context>
 <context>
@@ -1067,7 +989,7 @@
     <message>
         <location line="+18"/>
         <source>Podcast</source>
-        <translation type="unfinished"></translation>
+        <translation>Zvukový záznam</translation>
     </message>
 </context>
 <context>
@@ -1251,7 +1173,7 @@
     <message>
         <location filename="../3rdParty/Soundcloud/ui/GUI_SoundcloudArtistSearch.cpp" line="+76"/>
         <source>Query too short</source>
-        <translation type="unfinished"></translation>
+        <translation>Dotaz příliš krátký</translation>
     </message>
     <message>
         <location line="+79"/>
@@ -1344,7 +1266,7 @@
         <translation>Výška tónu</translation>
     </message>
     <message>
-        <location filename="../GUI/Plugins/Engine/Speed/GUI_Speed.cpp" line="+62"/>
+        <location filename="../GUI/Plugins/Engine/Speed/GUI_Speed.cpp" line="+64"/>
         <location line="+1"/>
         <source>%1 not found</source>
         <translation>%1 nenalezeno</translation>
@@ -1418,7 +1340,7 @@
         <location line="+76"/>
         <location filename="../../build-debug/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="+5"/>
         <source>Automatic recording</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatické nahrávání</translation>
     </message>
     <message>
         <location line="-40"/>
@@ -1656,17 +1578,12 @@ Vyberte, prosím, jinou složku</translation>
         <translation>Číslo disku</translation>
     </message>
     <message>
-        <location filename="../GUI/TagEdit/GUI_TagEdit.cpp" line="+292"/>
+        <location filename="../GUI/TagEdit/GUI_TagEdit.cpp" line="+293"/>
         <source>Tag</source>
-        <translation type="unfinished"></translation>
+        <translation>Značka</translation>
     </message>
     <message>
-        <location line="+20"/>
-        <source>Track </source>
-        <translation>Skladba </translation>
-    </message>
-    <message>
-        <location line="+369"/>
+        <location line="+389"/>
         <source>Cannot apply tag for</source>
         <translation>Nelze použít značku pro</translation>
     </message>
@@ -1718,7 +1635,7 @@ Vyberte, prosím, jinou složku</translation>
 <context>
     <name>GUI_TrayIcon</name>
     <message>
-        <location filename="../GUI/Player/GUI_TrayIcon.cpp" line="+76"/>
+        <location filename="../GUI/Player/GUI_TrayIcon.cpp" line="+75"/>
         <location line="+20"/>
         <source>Current song</source>
         <translatorcomment>This should not be so long because it&apos;s in the tray icon context menu. When clicked, the current song will appear in a notification</translatorcomment>
@@ -1758,7 +1675,7 @@ Vyberte, prosím, jinou složku</translation>
         <location filename="../GUI/InfoDialog/GUI_InfoDialog.ui" line="+20"/>
         <location filename="../../build-debug/src/GUI/InfoDialog/ui_GUI_InfoDialog.h" line="+264"/>
         <source>Info / Edit</source>
-        <translation>Informace/Upravit</translation>
+        <translation>Informace/Úpravy</translation>
     </message>
 </context>
 <context>
@@ -1766,7 +1683,7 @@ Vyberte, prosím, jinou složku</translation>
     <message>
         <location filename="../Helper/Language.cpp" line="+64"/>
         <source>About</source>
-        <translation>O aplikaci</translation>
+        <translation>O programu</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -1831,7 +1748,7 @@ Vyberte, prosím, jinou složku</translation>
     <message>
         <location line="+4"/>
         <source>Cannot find Lame MP3 encoder</source>
-        <translation type="unfinished"></translation>
+        <translation>Nelze najít kodér MP3 Lame</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -1886,7 +1803,7 @@ Vyberte, prosím, jinou složku</translation>
     <message>
         <location line="+5"/>
         <source>Dur.</source>
-        <translation type="unfinished">Doba trvání</translation>
+        <translation>Doba</translation>
     </message>
     <message>
         <location line="-3"/>
@@ -1896,17 +1813,17 @@ Vyberte, prosím, jinou složku</translation>
     <message>
         <location line="-60"/>
         <source>Activate</source>
-        <translation>Aktivovat</translation>
+        <translation>Zapnout</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Active</source>
-        <translation>Aktivní</translation>
+        <translation>Činný</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Album artists</source>
-        <translation>Uměleci alba</translation>
+        <translation>Umělci alba</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -1926,12 +1843,12 @@ Vyberte, prosím, jinou složku</translation>
     <message>
         <location line="+14"/>
         <source>Covers</source>
-        <translation type="unfinished"></translation>
+        <translation>Obaly</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>days</source>
-        <translation type="unfinished"></translation>
+        <translation>dnů</translation>
     </message>
     <message>
         <location line="+18"/>
@@ -1946,22 +1863,22 @@ Vyberte, prosím, jinou složku</translation>
     <message>
         <location line="+2"/>
         <source>Enter name</source>
-        <translation type="unfinished"></translation>
+        <translation>Zadat název</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Enter URL</source>
-        <translation type="unfinished"></translation>
+        <translation>Zadat adresu (URL)</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Entry</source>
-        <translation type="unfinished"></translation>
+        <translation>Záznam</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Entries</source>
-        <translation type="unfinished"></translation>
+        <translation>Záznamy</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2021,7 +1938,7 @@ Vyberte, prosím, jinou složku</translation>
     <message>
         <location line="+2"/>
         <source>hours</source>
-        <translation type="unfinished"></translation>
+        <translation>hodin</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -2041,7 +1958,7 @@ Vyberte, prosím, jinou složku</translation>
     <message>
         <location line="+2"/>
         <source>Inactive</source>
-        <translation>Neaktivní</translation>
+        <translation>Nečinný</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2066,7 +1983,7 @@ Vyberte, prosím, jinou složku</translation>
     <message>
         <location line="+2"/>
         <source>Logger</source>
-        <translation type="unfinished">Záznam</translation>
+        <translation>Záznam</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2076,12 +1993,12 @@ Vyberte, prosím, jinou složku</translation>
     <message>
         <location line="+2"/>
         <source>Menu</source>
-        <translation>Nabídky</translation>
+        <translation>Nabídka</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>minutes</source>
-        <translation type="unfinished">minutách</translation>
+        <translation>minut</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -2096,12 +2013,12 @@ Vyberte, prosím, jinou složku</translation>
     <message>
         <location line="+2"/>
         <source>Mute on</source>
-        <translation type="unfinished"></translation>
+        <translation>Ztlumit</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Mute off</source>
-        <translation type="unfinished"></translation>
+        <translation>Zhlasit</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2131,7 +2048,7 @@ Vyberte, prosím, jinou složku</translation>
     <message>
         <location line="+3"/>
         <source>on</source>
-        <translation type="unfinished">na</translation>
+        <translation>na</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2241,27 +2158,27 @@ Vyberte, prosím, jinou složku</translation>
     <message>
         <location line="+20"/>
         <source>seconds</source>
-        <translation type="unfinished"></translation>
+        <translation>sekundách</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Stream URL</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresa (URL) proudu</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>track number</source>
-        <translation type="unfinished">Číslo skladby</translation>
+        <translation>Číslo skladby</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>Weeks</source>
-        <translation type="unfinished">Týdny</translation>
+        <translation>Týdny</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Years</source>
-        <translation type="unfinished">Roky</translation>
+        <translation>Roky</translation>
     </message>
     <message>
         <location line="+4"/>
@@ -2281,7 +2198,7 @@ Vyberte, prosím, jinou složku</translation>
     <message>
         <location line="+2"/>
         <source>Sampler</source>
-        <translation type="unfinished"></translation>
+        <translation>Míchání hudby </translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2341,7 +2258,7 @@ Vyberte, prosím, jinou složku</translation>
     <message>
         <location line="+2"/>
         <source>Show album artists</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukázat umělce alba</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2406,7 +2323,7 @@ Vyberte, prosím, jinou složku</translation>
     <message>
         <location line="+2"/>
         <source>Various albums</source>
-        <translation type="unfinished"></translation>
+        <translation>Různá alba</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2475,7 +2392,7 @@ Vyberte, prosím, jinou složku</translation>
 <context>
     <name>LibraryImporter</name>
     <message>
-        <location filename="../Components/Library/Importer/LibraryImporter.cpp" line="+173"/>
+        <location filename="../Components/Library/Importer/LibraryImporter.cpp" line="+170"/>
         <source>All files could be imported</source>
         <translation>Všechny soubory se podařilo zavést</translation>
     </message>
@@ -2517,18 +2434,18 @@ Vyberte, prosím, jinou složku</translation>
         <location filename="../GUI/Library/Helper/LocalLibraryMenu.cpp" line="+40"/>
         <location line="+55"/>
         <source>Live search</source>
-        <translation>Hledání ve skutečném čase</translation>
+        <translation>Hledat ve skutečném čase</translation>
     </message>
     <message>
         <location line="-52"/>
         <location line="+53"/>
         <source>Auto update</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktualizovat automaticky</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Show album covers</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukázat obaly alb</translation>
     </message>
 </context>
 <context>
@@ -2564,12 +2481,12 @@ Vyberte, prosím, jinou složku</translation>
 <context>
     <name>ReloadThread</name>
     <message>
-        <location filename="../Components/Library/Threads/ReloadThread.cpp" line="+166"/>
+        <location filename="../Components/Library/Threads/ReloadThread.cpp" line="+169"/>
         <source>Reading files from file system</source>
         <translation>Čtou se soubory ze souborového systému</translation>
     </message>
     <message>
-        <location line="+90"/>
+        <location line="+96"/>
         <source>Delete orphaned tracks...</source>
         <translation>Smazat osiřelé skladby...</translation>
     </message>

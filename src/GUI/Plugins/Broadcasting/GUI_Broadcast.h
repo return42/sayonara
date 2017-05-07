@@ -59,7 +59,7 @@ private:
 	void dismiss_at(int idx);
 	void set_status_label();
 
-	void language_changed() override;
+	void retranslate_ui() override;
 	void init_ui() override;
 };
 

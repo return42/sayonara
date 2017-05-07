@@ -52,7 +52,6 @@ private slots:
 
 	
 private:
-
 	Ui::GUI_AudioConverter*	ui=nullptr;
 	EngineHandler*		_engine=nullptr;
 	Playlist::Mode		_pl_mode;
@@ -65,8 +64,8 @@ private:
 	void pl_mode_backup();
 	void pl_mode_restore();
 
-	void language_changed() override;
-	virtual void init_ui() override;
+	void retranslate_ui() override;
+	void init_ui() override;
 };
 
 #endif // GUI_AUDIOCONVERTER_H

@@ -56,12 +56,15 @@ GUI_LibraryInfoBox::~GUI_LibraryInfoBox() {}
 void GUI_LibraryInfoBox::language_changed()
 {
 	ui->retranslateUi(this);
+
 	ui->lab_tracks->setText(Lang::get(Lang::Tracks).toFirstUpper());
 	ui->lab_artists->setText(Lang::get(Lang::Artists));
 	ui->lab_albums->setText(Lang::get(Lang::Albums));
 	ui->lab_duration->setText(Lang::get(Lang::Duration));
 	ui->lab_filesize_descr->setText(Lang::get(Lang::Filesize));
 	ui->btn_close->setText(Lang::get(Lang::Close));
+
+	this->setWindowTitle(Lang::get(Lang::Info));
 }
 
 void GUI_LibraryInfoBox::skin_changed()

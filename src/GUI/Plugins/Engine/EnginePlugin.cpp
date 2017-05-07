@@ -226,15 +226,18 @@ void EnginePlugin::resizeEvent(QResizeEvent* e)
 
 void EnginePlugin::mousePressEvent(QMouseEvent *e)
 {
-	switch(e->button()){
+	switch(e->button())
+	{
 		case Qt::LeftButton:
 			next_clicked();
 			break;
+
 		case Qt::MidButton:
 			if(this->parentWidget()){
 				this->parentWidget()->close();
 			}
 			break;
+
 		case Qt::RightButton:
 			_ui_style_settings->show(_cur_style_idx);
 			break;
