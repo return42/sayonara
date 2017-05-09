@@ -5,7 +5,8 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.7)
 SET(SOURCES
     AbstractLibrary.cpp
     LocalLibrary.cpp
-	LibraryManager.cpp
+    LibraryManager.cpp
+    GenreFetcher.cpp
 
     Importer/ImportCache.cpp
     Importer/CachingThread.cpp
@@ -16,12 +17,12 @@ SET(SOURCES
     Threads/IndexDirectoriesThread.cpp
     Threads/FileSystemWatcher.cpp
     Threads/UpdateDatesThread.cpp
-)
+    )
 
 
 ADD_LIBRARY(${PROJECT_NAME} STATIC ${SOURCES})
 TARGET_LINK_LIBRARIES(${PROJECT_NAME}
     say_comp_tagedit
     say_comp_playlist
-)
+    )
 

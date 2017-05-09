@@ -148,8 +148,8 @@ void GUI_FontConfig::commit()
 	if(!ok){
 		font_size = -1;
 	}
-	_settings->set(Set::PL_FontSize, font_size);
 
+	_settings->set(Set::PL_FontSize, font_size);
 	_settings->set(Set::Lib_FontBold, ui->cb_lib_bold->isChecked());
 
 	_cur_font_size = font_size;

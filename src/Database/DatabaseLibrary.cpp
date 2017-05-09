@@ -122,8 +122,9 @@ bool DatabaseLibrary::storeMetadata(const MetaDataList& v_md)
 
 		md.album_id = album_id;
 		md.artist_id = artist_id;
+		md.library_id = _library_id;
 
-		if(album_id == -1 || artist_id == -1){
+		if(album_id == -1 || artist_id == -1 || md.library_id == -1){
 			sp_log(Log::Warning) << "Cannot insert artist or album of " << md.filepath();
 			continue;
 		}

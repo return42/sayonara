@@ -15,6 +15,23 @@ LibraryInfo::LibraryInfo(const QString& name, const QString& path, int id)
 	_id = id;
 }
 
+LibraryInfo::LibraryInfo(const LibraryInfo& other) :
+	LibraryInfo()
+{
+	_name = other.name();
+	_path = other.path();
+	_id = other.id();
+}
+
+LibraryInfo& LibraryInfo::operator =(const LibraryInfo& other)
+{
+	_name = other.name();
+	_path = other.path();
+	_id = other.id();
+
+	return *this;
+}
+
 
 QString LibraryInfo::name() const
 {

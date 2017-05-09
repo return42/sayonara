@@ -28,6 +28,8 @@
 #include <QSize>
 #include <QStyleOptionViewItem>
 
+// #include "GUI/Helper/Style/Style.h"
+
 ListDelegate::ListDelegate(QListView* parent) :
 	QItemDelegate(parent)
 {

@@ -309,7 +309,7 @@ bool DatabaseConnector::apply_fixes()
 	}
 
 	if(version < 14){
-		bool success=check_and_insert_column("tracks", "libraryIndex", "integer", "0");
+		bool success=check_and_insert_column("tracks", "libraryID", "integer", "0");
 		SayonaraQuery q(db());
 		q.prepare("UPDATE tracks SET libraryIndex=0;");
 		success = success && q.exec();

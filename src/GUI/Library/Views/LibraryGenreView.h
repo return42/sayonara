@@ -29,6 +29,7 @@ class MetaDataList;
 class TagEdit;
 class TreeDelegate;
 class QStringList;
+class LocalLibrary;
 
 namespace SP
 {
@@ -47,19 +48,16 @@ class LibraryGenreView :
 
 signals:
 	void sig_progress(const QString& message, int progress);
-	void sig_rename(const QString& genre, const QString& new_name);
-	void sig_delete(const QString& genre);
 
 public:
 	explicit LibraryGenreView(QWidget* parent=nullptr);
 	~LibraryGenreView();
 
 	QSize sizeHint() const override;
-	void reload_genres();
-	void reload_genres(const QStringList& additional_genres);
-	int get_row_count() const;
-	void set_library_id(qint8 library_id);
 
+	void reload_genres();
+	int row_count() const;
+	void set_local_library(LocalLibrary* library);
 
 private:
 	void fill_list(const QStringList& genres);
@@ -68,21 +66,17 @@ private:
 	QTreeWidgetItem* find_genre(const QString& genre);
 
 private slots:
-	void update_genre_tags_finished();
 	void item_expanded(QTreeWidgetItem* item);
 	void item_collapsed(QTreeWidgetItem* item);
 
 	void progress_changed(int progress);
+	void update_finished();
 
 	void new_pressed();
 	void rename_pressed();
 	void delete_pressed();
 
-	void metadata_changed(const MetaDataList& v_md_old, const MetaDataList& v_md_new);
-	void metadata_deleted(const MetaDataList& v_md_deleted);
-
 	void tree_action_toggled(bool b);
-
 	void language_changed();
 
 

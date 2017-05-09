@@ -97,6 +97,7 @@ private:
 	void		init_reload_thread();
 
 public:
+	void		set_library_path(const QString& library_path);
 	QString		library_path() const;
 	qint8		library_id() const;
 	LibraryImporter* importer();

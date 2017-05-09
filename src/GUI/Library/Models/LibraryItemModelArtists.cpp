@@ -32,6 +32,7 @@
 #include "GUI/Library/Helper/ColumnIndex.h"
 
 #include "GUI/Helper/GUI_Helper.h"
+//#include "GUI/Helper/Style/Style.h"
 #include "Helper/Library/SearchMode.h"
 #include "Helper/MetaData/Artist.h"
 #include "Helper/Language.h"

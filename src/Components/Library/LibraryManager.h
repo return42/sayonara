@@ -14,18 +14,19 @@ class LocalLibraryContainer;
 class LibraryManager :
 		public SayonaraClass
 {
-	PIMPL(LibraryManager)
-	SINGLETON(LibraryManager)
+    PIMPL(LibraryManager)
+    SINGLETON(LibraryManager)
 
 public:
-	bool add_library(const QString& name, const QString& path);
-	void remove_library(int id);
+    bool add_library(const QString& name, const QString& path);
+    void remove_library(int id);
 
-	QList<LibraryInfo> get_all_libraries() const;
-	LibraryInfo get_library(int id) const;
-	int count() const;
+    QList<LibraryInfo> get_all_libraries() const;
+    LibraryInfo get_library(int id) const;
+    int count() const;
 
-	LocalLibrary* get_library_instance(int id) const;
+    LocalLibrary* get_library_instance(int id) const;
+    void set_library_path(qint8 library_id, const QString& library_path);
 };
 
 

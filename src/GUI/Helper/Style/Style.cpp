@@ -34,6 +34,7 @@
 
 #include <QApplication>
 #include <QFont>
+#include <QFontMetrics>
 #include <QStyle>
 
 #define NEWLINE "\n";
@@ -85,8 +86,45 @@ QString Style::get_style(bool dark)
     return style;
 }
 
+QFont Style::get_current_font()
+{
+	Settings* settings = Settings::getInstance();
+	QFont std_font = QApplication::font();
+	QString font_family =	settings->get(Set::Player_FontName);
+	int font_size =			settings->get(Set::Player_FontSize);
+	int font_size_lib =		settings->get(Set::Lib_FontSize);
+	int font_size_pl =		settings->get(Set::PL_FontSize);
+	bool lib_bold =			settings->get(Set::Lib_FontBold);
+
+	if(font_family.isEmpty()){
+		font_family = std_font.family();
+	}
+
+	if(font_size <= 0){
+		font_size = std_font.pointSize();
+	}
+
+	if(font_size_lib <= 0){
+		font_size_lib = font_size;
+	}
+
+	if(font_size_pl <= 0){
+		font_size_pl = font_size;
+	}
+
+	return QFont(font_family, font_size);
+}
+
 QString Style::get_current_style()
 {
 	bool dark = (Settings::getInstance()->get(Set::Player_Style) == 1);
 	return get_style(dark);
+}
+
+int Style::get_recommended_height()
+{
+
+	QFontMetrics fm(get_current_font());
+	int h = fm.height();
+	return h;
 }

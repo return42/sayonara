@@ -20,6 +20,7 @@
 
 #include "LibraryRatingDelegate.h"
 #include "GUI/Helper/RatingLabel/RatingLabel.h"
+//#include "GUI/Helper/Style/Style.h"
 
 #include <QFontMetrics>
 #include <QPainter>

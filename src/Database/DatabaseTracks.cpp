@@ -71,6 +71,7 @@ QString DatabaseTracks::fetch_query_tracks() const
 		   ", " + _track_view_name + ".rating AS rating "				//14
 		   ", " + _track_view_name + ".albumArtistID "				// 15
 		   ", albumartists.name "					// 16
+		   ", " + _track_view_name + ".libraryID " //17
 		   "FROM " + _track_view_name + " "
 		   "INNER JOIN albums ON " + _track_view_name + ".albumID = albums.albumID "
 		   "INNER JOIN artists ON " + _track_view_name + ".artistID = artists.artistID "
@@ -112,6 +113,7 @@ bool DatabaseTracks::db_fetch_tracks(SayonaraQuery& q, MetaDataList& result)
 		data.discnumber = q.value(13).toInt();
 		data.rating = q.value(14).toInt();
 		data.set_album_artist(q.value(16).toString(), q.value(15).toInt());
+		data.library_id = q.value(17).toInt();
 		data.db_id = _module_db_id;
 
 		result << data;
@@ -167,6 +169,7 @@ MetaData DatabaseTracks::getTrackByPath(const QString& path)
 	SayonaraQuery q(_db);
 
 	QString querytext = fetch_query_tracks() + " WHERE " + _track_view_name + ".filename LIKE :filename;";
+	sp_log(Log::Debug, this) << __FUNCTION__ << fetch_query_tracks();
 	q.prepare(querytext);
 	q.bindValue(":filename", path);
 
@@ -730,11 +733,12 @@ void DatabaseTracks::updateTrackCissearch()
 
 bool DatabaseTracks::updateTrack(const MetaData& md)
 {
-	if(md.id < 0 || md.album_id < 0 || md.artist_id < 0) {
+	if(md.id < 0 || md.album_id < 0 || md.artist_id < 0 || md.library_id < 0) {
 		sp_log(Log::Warning, this) << "Cannot update track: "
 								   << " ArtistID: " << md.artist_id
 								   << " AlbumID: " << md.album_id
-								   << " TrackID: " << md.id;
+								   << " TrackID: " << md.id
+								   << " LibraryID: " << md.library_id;
 		return false;
 	}
 
@@ -758,7 +762,7 @@ bool DatabaseTracks::updateTrack(const MetaData& md)
 			  "cissearch=:cissearch, "
 			  "rating=:rating, "
 			  "modifydate=:modifydate, "
-			  "libraryID=:libraryID, "
+			  "libraryID=:libraryID "
 			  "WHERE TrackID = :trackID;");
 
 	q.bindValue(":albumID",			md.album_id);
@@ -803,12 +807,12 @@ bool DatabaseTracks::updateTracks(const MetaDataList& lst)
 	return success && (n_files == lst.size());
 }
 
-bool DatabaseTracks::insertTrackIntoDatabase (const MetaData& md, int artist_id, int album_id)
+bool DatabaseTracks::insertTrackIntoDatabase(const MetaData& md, int artist_id, int album_id)
 {
 	return insertTrackIntoDatabase(md, artist_id, album_id, artist_id);
 }
 
-bool DatabaseTracks::insertTrackIntoDatabase (const MetaData& md, int artist_id, int album_id, int album_artist_id)
+bool DatabaseTracks::insertTrackIntoDatabase(const MetaData& md, int artist_id, int album_id, int album_artist_id)
 {
 	SayonaraQuery q(_db);
 
@@ -827,9 +831,9 @@ bool DatabaseTracks::insertTrackIntoDatabase (const MetaData& md, int artist_id,
 	QString cissearch = Library::convert_search_string(md.title, search_mode());
 	QString querytext =
 			"INSERT INTO tracks "
-			"(filename,albumID,artistID,albumArtistID,title,year,length,track,bitrate,genre,filesize,discnumber,rating,cissearch,createdate,modifydate,libraryID) "
+			"(filename,  albumID, artistID, albumArtistID,  title,  year,  length,  track,  bitrate,  genre,  filesize,  discnumber,  rating,  cissearch,  createdate,  modifydate,  libraryID) "
 			"VALUES "
-			"(:filename,:albumID,:artistID,:albumArtistID,:title,:year,:length,:track,:bitrate,:genre,:filesize,:discnumber,:rating,:cissearch,:createdate,:modifydate,:libraryID); ";
+			"(:filename,:albumID,:artistID, :albumArtistID, :title, :year, :length, :track, :bitrate, :genre, :filesize, :discnumber, :rating, :cissearch, :createdate, :modifydate, :libraryID); ";
 
 	quint64 current_time = Helper::current_date_to_int();
 	q.prepare(querytext);
@@ -838,9 +842,9 @@ bool DatabaseTracks::insertTrackIntoDatabase (const MetaData& md, int artist_id,
 	q.bindValue(":albumID",			album_id);
 	q.bindValue(":artistID",		artist_id);
 	q.bindValue(":albumArtistID",	album_artist_id);
-	q.bindValue(":length",			md.length_ms);
-	q.bindValue(":year",			md.year);
 	q.bindValue(":title",			md.title);
+	q.bindValue(":year",			md.year);
+	q.bindValue(":length",			md.length_ms);
 	q.bindValue(":track",			md.track_num);
 	q.bindValue(":bitrate",			md.bitrate);
 	q.bindValue(":genre",			md.genres_to_string());

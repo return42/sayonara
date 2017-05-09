@@ -20,6 +20,7 @@
 
 #include "TreeDelegate.h"
 #include <QPainter>
+//#include "GUI/Helper/Style/Style.h"
 
 TreeDelegate::TreeDelegate(QObject* parent) :
 	QItemDelegate(parent) {}

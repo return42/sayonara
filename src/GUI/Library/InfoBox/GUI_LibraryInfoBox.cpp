@@ -25,15 +25,18 @@
 #include "GUI_LibraryInfoBox.h"
 #include "GUI/Library/ui_GUI_LibraryInfoBox.h"
 
+#include "Components/Library/LibraryManager.h"
 #include "Database/DatabaseConnector.h"
 #include "Database/LibraryDatabase.h"
 
-#include "Helper/Helper.h"
 #include "Helper/FileHelper.h"
-#include "Helper/MetaData/MetaDataList.h"
+#include "Helper/Helper.h"
+#include "Helper/Language.h"
+#include "Helper/Library/LibraryInfo.h"
 #include "Helper/MetaData/Album.h"
 #include "Helper/MetaData/Artist.h"
-#include "Helper/Language.h"
+#include "Helper/MetaData/MetaDataList.h"
+
 #include "GUI/Helper/IconLoader/IconLoader.h"
 
 #include <QMap>
@@ -66,6 +69,10 @@ void GUI_LibraryInfoBox::language_changed()
 	ui->lab_duration->setText(Lang::get(Lang::Duration));
 	ui->lab_filesize_descr->setText(Lang::get(Lang::Filesize));
 	ui->btn_close->setText(Lang::get(Lang::Close));
+
+	ui->lab_path->setText(
+				LibraryManager::getInstance()->get_library(_library_id).path()
+	);
 
 	this->setWindowTitle(Lang::get(Lang::Info));
 }

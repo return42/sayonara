@@ -30,6 +30,7 @@
 #define STYLE_H_
 
 class QString;
+class QFont;
 
 /**
  * @define the Style namespace
@@ -44,6 +45,10 @@ namespace Style
 	QString get_style(bool dark);
 
 	QString get_current_style();
+
+	QFont get_current_font();
+
+	int get_recommended_height();
 }
 
 #endif /* STYLE_H_ */

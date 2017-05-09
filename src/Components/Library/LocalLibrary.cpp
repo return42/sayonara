@@ -19,6 +19,7 @@
  */
 
 #include "LocalLibrary.h"
+#include "LibraryManager.h"
 #include "Importer/LibraryImporter.h"
 #include "Threads/ReloadThread.h"
 #include "Threads/IndexDirectoriesThread.h"
@@ -466,6 +467,14 @@ void LocalLibrary::change_track_rating(int idx, int rating)
 	_m->tag_edit->set_metadata(v_md);
 	_m->tag_edit->update_track(0, md_new);
 	_m->tag_edit->commit();
+}
+
+void LocalLibrary::set_library_path(const QString& library_path)
+{
+	LibraryManager* library_manager = LibraryManager::getInstance();
+	library_manager->set_library_path(this->library_id(), library_path);
+
+	_m->library_path = library_path;
 }
 
 QString LocalLibrary::library_path() const

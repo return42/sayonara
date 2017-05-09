@@ -12,6 +12,9 @@ class LibraryInfo
 public:
 	LibraryInfo();
 	LibraryInfo(const QString& name, const QString& path, int id);
+	LibraryInfo(const LibraryInfo& other);
+
+	LibraryInfo& operator =(const LibraryInfo& other);
 
 	QString name() const;
 	QString path() const;
