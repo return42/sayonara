@@ -70,6 +70,9 @@ void LibraryPluginHandler::init(const QList<LibraryContainerInterface*>& contain
 
 	QList<LibraryInfo> library_infos = LibraryManager::getInstance()->get_all_libraries();
 	for(const LibraryInfo& library_info : library_infos){
+		if(library_info.id() < 0){
+			continue;
+		}
 		sp_log(Log::Debug, this) << "Add local library "
 								 << library_info.name() << ": "
 								 << library_info.path();

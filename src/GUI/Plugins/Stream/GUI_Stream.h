@@ -41,8 +41,16 @@ private:
 	Ui::GUI_Stream* ui=nullptr;
 
 	void init_ui() override;
-	void language_changed() override;
+	void retranslate_ui() override;
 	QString get_title_fallback_name() const override;
+
+	// GUI_AbstractStream interface
+	protected:
+	QLineEdit* le_url() override;
+	QComboBox* combo_stream() override;
+	QPushButton* btn_play() override;
+	MenuToolButton* btn_menu() override;
+	QLabel* lab_listen() override;
 };
 
 #endif /* GUI_STREAM_H_ */

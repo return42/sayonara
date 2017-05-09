@@ -68,6 +68,7 @@ ReloadThread::ReloadThread(QObject *parent) :
 	SayonaraClass()
 {
 	_m = Pimpl::make<ReloadThread::Private>();
+	_m->library_path = _settings->get(Set::Lib_Path);
 }
 
 ReloadThread::~ReloadThread() {}

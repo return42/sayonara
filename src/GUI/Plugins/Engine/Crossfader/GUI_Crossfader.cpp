@@ -55,12 +55,8 @@ void GUI_Crossfader::init_ui()
 }
 
 
-void GUI_Crossfader::language_changed()
+void GUI_Crossfader::retranslate_ui()
 {
-	if(!is_ui_initialized()){
-		return;
-	}
-
 	ui->retranslateUi(this);
 	ui->cb_active->setText(Lang::get(Lang::Active));
 }

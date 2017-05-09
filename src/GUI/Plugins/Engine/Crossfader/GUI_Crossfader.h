@@ -46,7 +46,7 @@ private slots:
 	void slider_changed(int);
 	void active_changed(bool);
 	
-	void language_changed() override;
+	void retranslate_ui() override;
 	void init_ui() override;
 };
 

@@ -28,6 +28,7 @@
 #include <QFile>
 #include <QDir>
 
+static QMap<quint8, QSqlDatabase> _databases;
 
 AbstractDatabase::AbstractDatabase(quint8 db_id, const QString& db_dir, const QString& db_name, QObject *parent) : QObject(parent)
 {
@@ -63,29 +64,37 @@ bool AbstractDatabase::is_initialized()
 
 bool AbstractDatabase::open_db()
 {
-	_database = QSqlDatabase::addDatabase("QSQLITE", _db_path);
-	_database.setDatabaseName( _db_path );
+	if(_databases.contains(_db_id)){
+		return true;
+	}
 
-	bool success = _database.open();
+
+	QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE", _db_path);
+	db.setDatabaseName( _db_path );
+
+	bool success = db.open();
 	if (!success) {
 		sp_log(Log::Error) << "DatabaseConnector database cannot be opened!";
-		QSqlError er = _database.lastError();
+		QSqlError er = db.lastError();
 		sp_log(Log::Error) << er.driverText();
 		sp_log(Log::Error) << er.databaseText();
 	}
 
+	_databases.insert(_db_id, db);
 	return success;
 }
 
 void AbstractDatabase::close_db()
 {
-	if(!_database.isOpen()){
+	if(!_databases.contains(_db_id)){
 		return;
 	}
 
 	sp_log(Log::Info) << "close database " << _db_name << "...";
 
-	_database.close();
+	if(db().isOpen()){
+		db().close();
+	}
 }
 
 
@@ -109,7 +118,8 @@ bool AbstractDatabase::exists()
 	success = open_db();
 
 	if (success){
-		_database.close();
+		QSqlDatabase& db = _databases[_db_id];
+		db.close();
 	}
 
 	else{
@@ -175,28 +185,28 @@ bool AbstractDatabase::create_db()
 
 void AbstractDatabase::transaction()
 {
-	DB_RETURN_NOT_OPEN_VOID(_database);
-	_database.transaction();
+	DB_RETURN_NOT_OPEN_VOID(db());
+	db().transaction();
 }
 
 void AbstractDatabase::commit()
 {
-	DB_RETURN_NOT_OPEN_VOID(_database);
-	_database.commit();
+	DB_RETURN_NOT_OPEN_VOID(db());
+	db().commit();
 }
 
 void AbstractDatabase::rollback()
 {
-	DB_RETURN_NOT_OPEN_VOID(_database);
-	_database.rollback();
+	DB_RETURN_NOT_OPEN_VOID(db());
+	db().rollback();
 }
 
 
 bool AbstractDatabase::check_and_drop_table(const QString& tablename)
 {
-	DB_RETURN_NOT_OPEN_BOOL(_database);
+	DB_RETURN_NOT_OPEN_BOOL(db());
 
-	SayonaraQuery q(_database);
+	SayonaraQuery q(db());
 	QString querytext = "DROP TABLE " +  tablename + ";";
 	q.prepare(querytext);
 
@@ -208,16 +218,21 @@ bool AbstractDatabase::check_and_drop_table(const QString& tablename)
 	return true;
 }
 
+QSqlDatabase& AbstractDatabase::db() const
+{
+	return _databases[_db_id];
+}
+
 bool AbstractDatabase::check_and_insert_column(const QString& tablename, const QString& column, const QString& sqltype, const QString& default_value)
 {
-	DB_RETURN_NOT_OPEN_BOOL(_database);
+	DB_RETURN_NOT_OPEN_BOOL(db());
 
-	SayonaraQuery q(_database);
+	SayonaraQuery q(db());
 	QString querytext = "SELECT " + column + " FROM " + tablename + ";";
 	q.prepare(querytext);
 
 	if(!q.exec()) {
-		SayonaraQuery q2 (_database);
+		SayonaraQuery q2 (db());
 		querytext = "ALTER TABLE " + tablename + " ADD COLUMN " + column + " " + sqltype;
 		if(!default_value.isEmpty()){
 			querytext += " DEFAULT " + default_value;
@@ -240,15 +255,15 @@ bool AbstractDatabase::check_and_insert_column(const QString& tablename, const Q
 
 bool AbstractDatabase::check_and_create_table(const QString& tablename, const QString& sql_create_str)
 {
-	DB_RETURN_NOT_OPEN_BOOL(_database);
+	DB_RETURN_NOT_OPEN_BOOL(db());
 
-	SayonaraQuery q(_database);
+	SayonaraQuery q(db());
 	QString querytext = "SELECT * FROM " + tablename + ";";
 	q.prepare(querytext);
 
 	if(!q.exec())
 	{
-		SayonaraQuery q2 (_database);
+		SayonaraQuery q2 (db());
 		q2.prepare(sql_create_str);
 
 		if(!q2.exec()){

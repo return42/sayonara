@@ -23,16 +23,16 @@
 
 LibraryDatabase::LibraryDatabase(const QString& db_name, int db_id, qint8 library_id) :
 	AbstractDatabase(db_id, "", db_name),
-	DatabaseAlbums(_database, db_id, library_id),
-	DatabaseArtists(_database, db_id, library_id),
-	DatabaseTracks(_database, db_id, library_id),
-	DatabaseLibrary(_database, db_id, library_id)
+	DatabaseAlbums(db(), db_id, library_id),
+	DatabaseArtists(db(), db_id, library_id),
+	DatabaseTracks(db(), db_id, library_id),
+	DatabaseLibrary(db(), db_id, library_id)
 {
 	_library_id = library_id;
 	_db_id = db_id;
 
 	bool show_album_artists = false;
-	SayonaraQuery q(_database);
+	SayonaraQuery q(db());
 	QString querytext = "SELECT value FROM settings WHERE key = 'lib_show_album_artists';";
 	q.prepare(querytext);
 	if(q.exec()){

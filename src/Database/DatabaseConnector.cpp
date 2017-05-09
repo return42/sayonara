@@ -39,12 +39,12 @@
 
 DatabaseConnector::DatabaseConnector() :
 	AbstractDatabase(0, "", QString("player.db"), nullptr),
-	DatabaseBookmarks(_database, _db_id),
-	DatabasePlaylist(_database, _db_id),
-	DatabasePodcasts(_database, _db_id),
-	DatabaseSettings(_database, _db_id),
-	DatabaseStreams(_database, _db_id),
-	DatabaseVisStyles(_database, _db_id)
+	DatabaseBookmarks(db(), _db_id),
+	DatabasePlaylist(db(), _db_id),
+	DatabasePodcasts(db(), _db_id),
+	DatabaseSettings(db(), _db_id),
+	DatabaseStreams(db(), _db_id),
+	DatabaseVisStyles(db(), _db_id)
 {
 	apply_fixes();
 }
@@ -63,7 +63,7 @@ bool DatabaseConnector::updateAlbumCissearchFix()
 	lib_db->getAllAlbums(albums);
 	for(const Album& album : albums) {
 		QString str = "UPDATE albums SET cissearch=:cissearch WHERE albumID=:id;";
-		SayonaraQuery q(_database);
+		SayonaraQuery q(db());
 		q.prepare(str);
 		q.bindValue(":cissearch", album.name.toLower());
 		q.bindValue(":id", album.id);
@@ -87,7 +87,7 @@ bool DatabaseConnector::updateArtistCissearchFix()
 		QString str =
 				"UPDATE artists SET cissearch=:cissearch WHERE artistID=:id;";
 
-		SayonaraQuery q(_database);
+		SayonaraQuery q(db());
 		q.prepare(str);
 		q.bindValue(":cissearch", artist.name.toLower());
 		q.bindValue(":id", artist.id);
@@ -114,7 +114,7 @@ bool DatabaseConnector::updateTrackCissearchFix()
 
 bool DatabaseConnector::apply_fixes()
 {
-	DB_RETURN_NOT_OPEN_BOOL(_database);
+	DB_RETURN_NOT_OPEN_BOOL(db());
 
 	QString str_version;
 	int version;
@@ -160,7 +160,7 @@ bool DatabaseConnector::apply_fixes()
 	}
 
 	if(version < 3) {
-		_database.transaction();
+		db().transaction();
 
 		bool success = true;
 		success &= check_and_insert_column("tracks", "cissearch", "VARCHAR(512)");
@@ -173,7 +173,7 @@ bool DatabaseConnector::apply_fixes()
 		updateArtistCissearchFix();
 		updateTrackCissearchFix();
 
-		_database.commit();
+		db().commit();
 	}
 
 
@@ -233,7 +233,7 @@ bool DatabaseConnector::apply_fixes()
 		bool success = check_and_insert_column("playlists", "temporary", "integer");
 
 		if(success) {
-			SayonaraQuery q(_database);
+			SayonaraQuery q(db());
 			QString querytext = "UPDATE playlists SET temporary=0;";
 			q.prepare(querytext);
 			if(q.exec()){
@@ -245,8 +245,8 @@ bool DatabaseConnector::apply_fixes()
 	if(version < 10){
 		bool success = check_and_insert_column("playlisttotracks", "db_id", "integer");
 		if(success) {
-			SayonaraQuery q(_database);
-			SayonaraQuery q_index(_database);
+			SayonaraQuery q(db());
+			SayonaraQuery q_index(db());
 			QString querytext = "UPDATE playlisttotracks SET db_id = (CASE WHEN trackid > 0 THEN 0 ELSE -1 END)";
 			QString index_query = "CREATE INDEX album_search ON albums(cissearch, albumID);"
 					"CREATE INDEX artist_search ON artists(cissearch, artistID);"
@@ -288,7 +288,7 @@ bool DatabaseConnector::apply_fixes()
 				"GROUP BY albums.albumID, albums.name";
 			;
 
-		SayonaraQuery q(_database);
+		SayonaraQuery q(db());
 		q.prepare(querytext);
 
 		if(q.exec()){
@@ -299,7 +299,7 @@ bool DatabaseConnector::apply_fixes()
 	if(version < 13){
 		bool success = check_and_insert_column("tracks", "albumArtistID", "integer", "-1");
 
-		SayonaraQuery q(_database);
+		SayonaraQuery q(db());
 		q.prepare("UPDATE tracks SET albumArtistID=artistID;");
 		success = success && q.exec();
 
@@ -310,7 +310,7 @@ bool DatabaseConnector::apply_fixes()
 
 	if(version < 14){
 		bool success=check_and_insert_column("tracks", "libraryIndex", "integer", "0");
-		SayonaraQuery q(_database);
+		SayonaraQuery q(db());
 		q.prepare("UPDATE tracks SET libraryIndex=0;");
 		success = success && q.exec();
 
@@ -325,9 +325,9 @@ bool DatabaseConnector::apply_fixes()
 
 void DatabaseConnector::clean_up()
 {
-	DB_RETURN_NOT_OPEN_VOID(_database);
+	DB_RETURN_NOT_OPEN_VOID(db());
 
-	SayonaraQuery q(_database);
+	SayonaraQuery q(db());
 	QString querytext = "VACUUM;";
 	q.prepare(querytext);
 	q.exec();

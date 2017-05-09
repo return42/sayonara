@@ -63,7 +63,7 @@ void GUI_LastFM::init_ui()
 
 QString GUI_LastFM::get_action_name() const
 {
-	return tr("Last.fm");
+	return "Last.fm";
 }
 
 void GUI_LastFM::retranslate_ui()

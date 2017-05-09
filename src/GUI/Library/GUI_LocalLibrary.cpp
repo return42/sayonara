@@ -130,6 +130,8 @@ GUI_LocalLibrary::GUI_LocalLibrary(int id, QWidget* parent) :
 
 	REGISTER_LISTENER(Set::Lib_AllLibraries, _sl_all_libraries_changed);
 	REGISTER_LISTENER(Set::Lib_ShowAlbumCovers, switch_album_view);
+
+	language_changed();
 }
 
 
@@ -243,6 +245,13 @@ void GUI_LocalLibrary::switch_album_view()
 void GUI_LocalLibrary::language_changed()
 {
 	ui->retranslateUi(this);
+	ui->gb_genres->setTitle(Lang::get(Lang::Genres));
+	ui->combo_searchfilter->setToolTip(
+				tr("Shortcuts") + ":" + "<br />" +
+				Lang::get(Lang::Search) + "<span style=\"font-weight:600;\"> s:</span><br />" +
+				Lang::get(Lang::Genre) +  "<span style=\"font-weight:600;\"> g:</span><br />" +
+				tr("File path") + "<span style=\"font-weight:600;\"> p:</span><br />"
+	);
 
 	GUI_AbstractLibrary::language_changed();
 }

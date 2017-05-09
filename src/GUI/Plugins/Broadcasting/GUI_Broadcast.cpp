@@ -70,13 +70,11 @@ QString GUI_Broadcast::get_display_name() const
 }
 
 
-void GUI_Broadcast::language_changed()
+void GUI_Broadcast::retranslate_ui()
 {
-	if(is_ui_initialized()){
-		ui->retranslateUi(this);
-		set_status_label();
-		ui->btn_retry->setText(Lang::get(Lang::Retry));
-	}
+	ui->retranslateUi(this);
+	set_status_label();
+	ui->btn_retry->setText(Lang::get(Lang::Retry));
 }
 
 

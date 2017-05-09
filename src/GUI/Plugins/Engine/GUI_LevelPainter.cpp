@@ -104,17 +104,14 @@ QString GUI_LevelPainter::get_display_name() const
 }
 
 
-void GUI_LevelPainter::language_changed()
+void GUI_LevelPainter::retranslate_ui()
 {
-	if(!is_ui_initialized()){
-		return;
-	}
-
 	ui->retranslateUi(this);
 }
 
 
-void GUI_LevelPainter::set_level(float level_l, float level_r) {
+void GUI_LevelPainter::set_level(float level_l, float level_r)
+{
 	if(!is_ui_initialized() || !isVisible()){
 		return;
 	}

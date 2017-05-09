@@ -41,7 +41,6 @@ public:
 
 
 protected:
-	QSqlDatabase	_database;
 	QString			_db_path;
 	QString			_db_name;
 	QString			_db_dir;
@@ -61,6 +60,8 @@ protected:
 	virtual bool check_and_insert_column(const QString& tablename, const QString& column, const QString& sqltype, const QString& default_value=QString());
 	virtual bool check_and_create_table(const QString& tablename, const QString& sql_create_str);
 	virtual bool check_and_drop_table(const QString& tablename);
+
+	QSqlDatabase& db() const;
 };
 
 #endif // ABSTRACTDATABASE_H

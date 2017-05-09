@@ -114,6 +114,7 @@ GUI_TagEdit::~GUI_TagEdit() {}
 void GUI_TagEdit::language_changed()
 {
 	ui->retranslateUi(this);
+
 	ui->btn_title->setText(Lang::get(Lang::Title));
 	ui->btn_album->setText(Lang::get(Lang::Album));
 	ui->btn_artist->setText(Lang::get(Lang::Artist));
@@ -285,7 +286,7 @@ void GUI_TagEdit::track_idx_changed()
 	ui->lab_filepath->clear();
 
 	ui->lab_filepath->setText( md.filepath());
-	ui->lab_track_num->setText(
+	ui->lab_track_index->setText(
 			Lang::get(Lang::Track).space() +
 			QString::number(_m->cur_idx+1 ) + "/" + QString::number( n_tracks )
 	);
@@ -310,7 +311,7 @@ void GUI_TagEdit::reset()
 	ui->cb_year_all->setChecked(false);
 	ui->cb_cover_all->setChecked(false);
 
-	ui->lab_track_num ->setText(tr("Track ") + "0/0");
+	ui->lab_track_index ->setText(Lang::get(Lang::Track) + " 0/0");
 	ui->btn_prev->setEnabled(false);
 	ui->btn_next->setEnabled(false);
 

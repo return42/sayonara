@@ -56,12 +56,8 @@ QString GUI_Bookmarks::get_display_name() const
 }
 
 
-void GUI_Bookmarks::language_changed()
+void GUI_Bookmarks::retranslate_ui()
 {
-	if(!is_ui_initialized()){
-		return;
-	}
-
 	ui->retranslateUi(this);
 	ui->btn_tool->setText(Lang::get(Lang::Menu));
 }

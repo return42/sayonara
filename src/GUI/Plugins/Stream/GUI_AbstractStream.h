@@ -41,7 +41,7 @@ public:
 	virtual ~GUI_AbstractStream();
 
 protected:
-	virtual void		language_changed() override;
+	virtual void		retranslate_ui() override;
 	virtual void		play(QString url, QString station_name);
 
 	virtual QString		get_title_fallback_name() const=0;
@@ -52,14 +52,6 @@ protected:
 	void setup_parent(T* subclass, UiType** uiptr)
 	{
 		PlayerPluginInterface::setup_parent(subclass, uiptr);
-
-		UiType* ui = *uiptr;
-		set_le_url( ui->le_url );
-		set_combo_stream( ui->combo_stream );
-		set_btn_play( ui->btn_play );
-		set_btn_tool( ui->btn_tool );
-		set_lab_listen( ui->lab_listen );
-
 		GUI_AbstractStream::init_ui();
 	}
 
@@ -77,8 +69,19 @@ protected slots:
 	void data_available();
 	void _sl_skin_changed();
 
+
+protected:
+	virtual QLineEdit* le_url()=0;
+	virtual QComboBox* combo_stream()=0;
+	virtual QPushButton* btn_play()=0;
+	virtual MenuToolButton* btn_menu()=0;
+	virtual QLabel* lab_listen()=0;
+
+
 private:
 	PIMPL(GUI_AbstractStream)
+
+	void assign_ui_vars() override;
 
 	void init_connections();
 	void init_streams();

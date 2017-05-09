@@ -31,6 +31,7 @@
 
 #include "Helper/EqualizerPresets.h"
 #include "Helper/Settings/Settings.h"
+#include "Helper/Language.h"
 #include "Components/Engine/EngineHandler.h"
 #include "GUI/Helper/Delegates/ComboBoxDelegate.h"
 #include "GUI/Plugins/Engine/ui_GUI_Equalizer.h"
@@ -126,13 +127,10 @@ QString GUI_Equalizer::get_display_name() const
 }
 
 
-void GUI_Equalizer::language_changed()
+void GUI_Equalizer::retranslate_ui()
 {
-	if(!is_ui_initialized()){
-		return;
-	}
-
 	ui->retranslateUi(this);
+	ui->btn_tool->setText(Lang::get(Lang::Menu));
 }
 
 

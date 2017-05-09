@@ -120,7 +120,7 @@ QString SoundcloudData::fetch_query_tracks() const
 
 QString SoundcloudData::load_setting(const QString& key)
 {
-	SayonaraQuery q(_database);
+	SayonaraQuery q(db());
 	q.prepare("SELECT :value FROM Settings WHERE key=:key;");
 	q.bindValue(":key", key);
 	if(!q.exec()){
@@ -136,7 +136,7 @@ QString SoundcloudData::load_setting(const QString& key)
 
 bool SoundcloudData::save_setting(const QString& key, const QString& value)
 {
-	SayonaraQuery q(_database);
+	SayonaraQuery q(db());
 	q.prepare("UPDATE Settings SET value=:value WHERE key=:key;");
 	q.bindValue(":key", key);
 	q.bindValue(":value", value);
@@ -270,7 +270,7 @@ bool SoundcloudData::db_fetch_artists(SayonaraQuery& q, ArtistList& result)
 
 int SoundcloudData::updateArtist(const Artist& artist)
 {
-	SayonaraQuery q(_database);
+	SayonaraQuery q(db());
 
 	QString query_text = QString("UPDATE artists SET ") +
 			"name = :name, "
@@ -306,7 +306,7 @@ int SoundcloudData::insertArtistIntoDatabase (const QString& artist)
 
 int SoundcloudData::insertArtistIntoDatabase (const Artist& artist)
 {
-	SayonaraQuery q(_database);
+	SayonaraQuery q(db());
 
 	Artist tmp_artist;
 	if(getArtistByID(artist.id, tmp_artist)){
@@ -340,7 +340,7 @@ int SoundcloudData::insertArtistIntoDatabase (const Artist& artist)
 
 int SoundcloudData::updateAlbum(const Album& album)
 {
-	SayonaraQuery q(_database);
+	SayonaraQuery q(db());
 
 	QString query_text = QString("UPDATE albums SET ") +
 			"name = :name, "
@@ -376,7 +376,7 @@ int SoundcloudData::insertAlbumIntoDatabase (const QString& album)
 
 int SoundcloudData::insertAlbumIntoDatabase (const Album& album)
 {
-	SayonaraQuery q(_database);
+	SayonaraQuery q(db());
 
 	Album tmp_album;
 	if(getAlbumByID(album.id, tmp_album) && tmp_album.id > 0){
@@ -407,7 +407,7 @@ int SoundcloudData::insertAlbumIntoDatabase (const Album& album)
 
 bool SoundcloudData::updateTrack(const MetaData& md)
 {
-	SayonaraQuery q(_database);
+	SayonaraQuery q(db());
 
 	sp_log(Log::Info) << "insert new track: " << md.filepath();
 
@@ -462,7 +462,7 @@ bool SoundcloudData::insertTrackIntoDatabase(const MetaData& md, int artist_id, 
 
 bool SoundcloudData::insertTrackIntoDatabase(const MetaData &md, int artist_id, int album_id)
 {
-	SayonaraQuery q(_database);
+	SayonaraQuery q(db());
 
 	int new_id = getTrackById(md.id).id;
 	if(new_id > 0){
@@ -508,7 +508,7 @@ bool SoundcloudData::storeMetadata(const MetaDataList& v_md)
 {
 	if(v_md.isEmpty()) return true;
 
-	_database.transaction();
+	db().transaction();
 
 	for(const MetaData& md : v_md) {
 		sp_log(Log::Debug, this) << "Looking for " << md.artist << " and " << md.album;
@@ -520,7 +520,7 @@ bool SoundcloudData::storeMetadata(const MetaDataList& v_md)
 		insertTrackIntoDatabase (md, md.artist_id, md.album_id);
 	}
 
-	return _database.commit();
+	return db().commit();
 }
 
 

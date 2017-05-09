@@ -90,9 +90,9 @@ private:
 	void finalize_initialization();
 
 	/**
-	 * @brief language_changed Has to be implemented and is called when language has changed
+	 * @brief language_changed. Calls retranslate_ui in subclasses
 	 */
-	virtual void language_changed() override=0;
+	virtual void language_changed() final override;
 
 	/**
 	 * @brief GUI will be initialized on first show up. Please use this to make Sayonara starting fast
@@ -107,10 +107,13 @@ protected:
 	 * @return
 	 */
 	bool is_ui_initialized() const;
+	virtual void assign_ui_vars();
 
+	virtual void retranslate_ui()=0;
 
 	template<typename T, typename UiClass>
-	void setup_parent(T* widget, UiClass** ui){
+	void setup_parent(T* widget, UiClass** ui)
+	{
 		if(is_ui_initialized()){
 			return;
 		}
@@ -118,6 +121,7 @@ protected:
 		*ui = new UiClass();
 		(*ui)->setupUi(widget);
 
+		assign_ui_vars();
 		finalize_initialization();
 	}
 
