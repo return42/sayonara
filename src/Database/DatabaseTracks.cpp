@@ -49,42 +49,6 @@ DatabaseTracks::DatabaseTracks(const QSqlDatabase& db, quint8 db_id, qint8 libra
 	if(library_id < 0) {
 		_track_view_name = QString("tracks");
 	} 
-	
-	else {
-		QString sql_string = "CREATE VIEW " + _track_view_name +
-			"  AS "
-			"  SELECT "
-			"  tracks.trackID "
-			", tracks.title "
-			", tracks.length AS trackLength "
-			", tracks.year "
-			", tracks.bitrate "
-			", tracks.filename "
-			", tracks.track "
-			", tracks.albumID "
-			", tracks.artistID "
-			", tracks.albumArtistID "
-			", tracks.genre "
-			", tracks.filesize "
-			", tracks.discnumber "
-			", tracks.rating "
-			", tracks.length "
-			", tracks.libraryID "
-			"FROM tracks WHERE libraryID = :libraryID;";
-
-		if(!_db.isOpen()){
-			_db.open();
-		}
-
-/*		SayonaraQuery q(_db);
-		
-		q.prepare(sql_string);
-		q.bindValue(":libraryID", library_id);
-		bool success = q.exec();
-		if(!success) {
-			q.show_error("Cannot create " + _track_view_name);
-		}*/
-	}
 }
 
 QString DatabaseTracks::fetch_query_tracks() const
