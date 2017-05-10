@@ -20,6 +20,7 @@
 
 #include "LibraryDatabase.h"
 #include "SayonaraQuery.h"
+#include "Helper/Logger/Logger.h"
 
 LibraryDatabase::LibraryDatabase(const QString& db_name, int db_id, qint8 library_id) :
 	AbstractDatabase(db_id, "", db_name),
@@ -30,6 +31,7 @@ LibraryDatabase::LibraryDatabase(const QString& db_name, int db_id, qint8 librar
 {
 	_library_id = library_id;
 	_db_id = db_id;
+	db().open();
 
 	bool show_album_artists = false;
 	SayonaraQuery q(db());
@@ -49,6 +51,8 @@ LibraryDatabase::LibraryDatabase(const QString& db_name, int db_id, qint8 librar
 	else{
 		change_artistid_field(LibraryDatabase::ArtistIDField::ArtistID);
 	}
+
+	apply_fixes();
 }
 
 LibraryDatabase::~LibraryDatabase() {}
@@ -77,4 +81,46 @@ qint8 LibraryDatabase::library_id() const
 int LibraryDatabase::db_id() const
 {
 	return _db_id;
+}
+
+bool LibraryDatabase::apply_fixes()
+{
+	if(_library_id < 0) { 
+		return true;
+	}
+
+	QString track_view_name = "track_view_" + QString::number(_library_id);
+	QString sql_string = "CREATE VIEW IF NOT EXISTS " + track_view_name +
+        "  AS "
+        "  SELECT "
+        "  trackID "
+        ", title "
+        ", length "
+        ", year "
+        ", bitrate "
+        ", filename "
+        ", track "
+        ", albumID "
+        ", artistID "
+        ", albumArtistID "
+        ", genre "
+        ", filesize "
+        ", discnumber "
+        ", rating "
+        ", length "
+        ", libraryID "
+        "FROM tracks WHERE libraryID =" + QString::number(_library_id).left(2) + ";";
+
+    if(!db().isOpen()){
+        db().open();
+    }
+
+    SayonaraQuery q(db());
+    q.prepare(sql_string);
+    bool success = q.exec();
+    if(!success) {
+        q.show_error("Cannot create " + track_view_name);
+    }
+
+	return success;
 }

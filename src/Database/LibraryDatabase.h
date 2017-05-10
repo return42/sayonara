@@ -51,7 +51,7 @@ public:
 	virtual ~LibraryDatabase();
 
 	void change_artistid_field(ArtistIDField field);
-	bool apply_fixes() override { return false; }
+	bool apply_fixes() override;
 
 	qint8 library_id() const;
 	int db_id() const;

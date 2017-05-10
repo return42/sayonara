@@ -68,16 +68,18 @@ bool AbstractDatabase::open_db()
 		return true;
 	}
 
-
 	QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE", _db_path);
 	db.setDatabaseName( _db_path );
 
 	bool success = db.open();
 	if (!success) {
-		sp_log(Log::Error) << "DatabaseConnector database cannot be opened!";
+		sp_log(Log::Error, this) << "DatabaseConnector database cannot be opened!";
 		QSqlError er = db.lastError();
 		sp_log(Log::Error) << er.driverText();
 		sp_log(Log::Error) << er.databaseText();
+	}
+	else{
+		sp_log(Log::Info, this) << "Opened Database " << _db_name;
 	}
 
 	_databases.insert(_db_id, db);

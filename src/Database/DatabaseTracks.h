@@ -52,7 +52,6 @@ protected:
 	QString append_track_sort_string(QString querytext, Library::SortOrder sort);
 
 public:
-
 	DatabaseTracks(const QSqlDatabase& db, quint8 db_id, qint8 _library_id);
 
 	virtual bool db_fetch_tracks(SayonaraQuery& q, MetaDataList& result);

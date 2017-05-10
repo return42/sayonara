@@ -25,7 +25,6 @@
  *      Author: Lucio Carreras
  */
 
-
 #include "Application/application.h"
 #include "Helper/Helper.h"
 #include "Helper/Parser/CommandLineParser.h"
@@ -56,6 +55,9 @@
 	
 #endif
 
+#define DO_PRAGMA(x) _Pragma(#x)
+#define TODO(x) DO_PRAGMA(message("TODO - " #x))
+
 int check_for_another_instance(qint64 own_pid) 
 {
 #ifdef Q_OS_LINUX
@@ -64,6 +66,7 @@ int check_for_another_instance(qint64 own_pid)
 	dir.cd(".");
 	QStringList lst = dir.entryList(QDir::Dirs);
 
+	TODO("Mach was gutes")
 	for(const QString& dirname : lst) {
 		bool ok;
 		int tmp_pid = dirname.toInt(&ok);
