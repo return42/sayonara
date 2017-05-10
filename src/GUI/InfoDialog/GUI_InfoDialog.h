@@ -42,6 +42,7 @@ class GUI_InfoDialog :
 		public SayonaraDialog
 {
 	Q_OBJECT
+	PIMPL(GUI_InfoDialog)
 
 public:
 
@@ -80,8 +81,6 @@ private:
 
 
 private:
-
-	PIMPL(GUI_InfoDialog)
 	Ui::InfoDialog*	ui=nullptr;
 };
 

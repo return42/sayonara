@@ -24,6 +24,7 @@
 #include "GUI_Helper.h"
 #include "Helper/Logger/Logger.h"
 
+#include <QFontMetrics>
 #include <QIcon>
 #include <QString>
 #include <QPixmap>

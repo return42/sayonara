@@ -34,9 +34,6 @@
 #include <QWheelEvent>
 #include <QHoverEvent>
 #include <QIcon>
-#include <QPixmap>
-#include <QTimer>
-#include <QFont>
 
 
 GUI_TrayIcon::GUI_TrayIcon (QObject *parent) :
@@ -58,6 +55,7 @@ GUI_TrayIcon::GUI_TrayIcon (QObject *parent) :
 
 	NotificationHandler::getInstance()->register_notificator(this);
 
+	REGISTER_LISTENER(Set::Player_Style, skin_changed);
 	REGISTER_LISTENER(Set::Player_Language, language_changed);
 }
 

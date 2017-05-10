@@ -20,9 +20,6 @@
 
 #include "LibraryRatingDelegate.h"
 #include "GUI/Helper/RatingLabel/RatingLabel.h"
-//#include "GUI/Helper/Style/Style.h"
-
-#include <QFontMetrics>
 #include <QPainter>
 
 LibraryRatingDelegate::LibraryRatingDelegate(QObject* parent, int rating_column, bool enabled) :

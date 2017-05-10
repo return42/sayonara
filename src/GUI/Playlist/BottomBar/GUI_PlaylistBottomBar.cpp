@@ -21,9 +21,6 @@
 #include "GUI/Playlist/ui_GUI_PlaylistBottomBar.h"
 #include "GUI/Playlist/PlaylistMenu.h"
 #include "GUI/Helper/IconLoader/IconLoader.h"
-// TODO: Think about Cmake
-#include "Components/Library/LibraryManager.h"
-
 #include "Helper/Playlist/PlaylistMode.h"
 #include "Helper/Settings/Settings.h"
 #include "Helper/Language.h"
@@ -33,6 +30,9 @@
 #ifdef WITH_SHUTDOWN
 	#include "GUI/ShutdownDialog/GUI_Shutdown.h"
 #endif
+
+// Think about CMake
+#include "Components/Library/LibraryManager.h"
 
 #include <QFile>
 
@@ -215,8 +215,10 @@ void GUI_PlaylistBottomBar::check_dynamic_play_button()
 {
 	int n_libs = LibraryManager::getInstance()->count();
 
-	// TODO: Dynamic playback:
-	// Use all artists from all libraries
+	/* TODO: */
+	/* 	Dynamic playback */
+	/* 	Use all artists from all libraries */
+
 	if(n_libs > 0) {
 		ui->btn_dynamic->setToolTip(tr("Please set library path first"));
 	}

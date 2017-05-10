@@ -97,6 +97,8 @@ void AbstractDatabase::close_db()
 	if(db().isOpen()){
 		db().close();
 	}
+
+	_databases.remove(_db_id);
 }
 
 

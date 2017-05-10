@@ -22,9 +22,7 @@
 #define TAGEXPRESSION_H
 
 #include <QMap>
-#include <QString>
-#include <QStringList>
-
+#include "Helper/Pimpl.h"
 
 #define TAG_NONE
 #define TAG_TITLE QString("<t>")
@@ -35,6 +33,9 @@
 #define TAG_DISC QString("<d>")
 #define TAG_IGNORE QString("<ign>")
 
+class QString;
+class QStringList;
+
 typedef QString Tag;
 typedef QString ReplacedString;
 
@@ -44,18 +45,9 @@ typedef QString ReplacedString;
  */
 class TagExpression 
 {
+	PIMPL(TagExpression)
+
 private:
-
-	/**
-	 * @brief _cap_map contains the Tag and the text that fits the regular expression
-	 */
-	QMap<Tag, ReplacedString>	_cap_map;
-
-	/**
-	 * @brief _tag_regex_map keys = the tag (e.g. <t>) and the corresponding regular expression
-	 */
-	QMap<Tag, QString>		_tag_regex_map;
-	bool					_valid;
 
 	/**
 	 * @brief prepends a "\\" before special characters

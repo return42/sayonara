@@ -3,6 +3,8 @@ INCLUDE(CheckCXXCompilerFlag)
 CHECK_CXX_COMPILER_FLAG("-std=c++11" CXX_CAN_11)
 CHECK_CXX_COMPILER_FLAG("-std=c++0x" CXX_CAN_0X)
 
+SET(COMMON_FLAGS "-fno-diagnostics-show-caret -ftrack-macro-expansion=0")
+
 IF( ${CXX_CAN_11} )
 	MESSAGE("Your Compiler supports C++11")
 	SET(COMMON_FLAGS "-std=c++11")
@@ -31,6 +33,7 @@ IF(NOT WIN32 OR NOT DEFINED WIN32)
 		"-fPIC"
 	)
 ENDIF()
+
 
 FOREACH(FLAG ${COMMON_FLAGS_TEST})
 		CHECK_CXX_COMPILER_FLAG(${FLAG} CXX_COMPILER_FLAG_AVAILABLE)

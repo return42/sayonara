@@ -20,21 +20,41 @@
 
 #include "TagExpression.h"
 #include "Helper/FileHelper.h"
+#include "Helper/Logger/Logger.h"
+#include <QString>
+#include <QStringList>
 #include <QRegExp>
 #include <QMap>
-#include "Helper/Logger/Logger.h"
+
+struct TagExpression::Private
+{
+	/**
+	 * @brief _m->cap_map contains the Tag and the text that fits the regular expression
+	 */
+	QMap<Tag, ReplacedString>	cap_map;
+
+	/**
+	 * @brief _m->tag_regex_map keys = the tag (e.g. <t>) and the corresponding regular expression
+	 */
+	QMap<Tag, QString>		tag_regex_map;
+	bool					valid;
+
+	Private()
+	{
+		valid = false;
+		tag_regex_map.insert(TAG_TITLE, QString("(.+)"));
+		tag_regex_map.insert(TAG_ALBUM, QString ("(.+)"));
+		tag_regex_map.insert(TAG_ARTIST, QString("(.+)"));
+		tag_regex_map.insert(TAG_TRACK_NUM, QString("(\\d+)"));
+		tag_regex_map.insert(TAG_YEAR, QString("(\\d{4})"));
+		tag_regex_map.insert(TAG_DISC, QString("(\\d{1,3})"));
+		tag_regex_map.insert(TAG_IGNORE, QString("(.+)"));
+	}
+};
 
 TagExpression::TagExpression()
 {
-	_valid = false;
-
-	_tag_regex_map.insert(TAG_TITLE, QString("(.+)"));
-	_tag_regex_map.insert(TAG_ALBUM, QString ("(.+)"));
-	_tag_regex_map.insert(TAG_ARTIST, QString("(.+)"));
-	_tag_regex_map.insert(TAG_TRACK_NUM, QString("(\\d+)"));
-	_tag_regex_map.insert(TAG_YEAR, QString("(\\d{4})"));
-	_tag_regex_map.insert(TAG_DISC, QString("(\\d{1,3})"));
-	_tag_regex_map.insert(TAG_IGNORE, QString("(.+)"));
+	_m = Pimpl::make<Private>();
 }
 
 TagExpression::TagExpression(const QString& tag_str, const QString& filepath) :
@@ -109,8 +129,8 @@ QString TagExpression::calc_regex_string(const QStringList& splitted_str) const
 		if(s.isEmpty()) continue;
 
 
-		if( _tag_regex_map.contains(s) ){
-			re_str += _tag_regex_map[s];
+		if( _m->tag_regex_map.contains(s) ){
+			re_str += _m->tag_regex_map[s];
 		}
 
 		else{
@@ -123,7 +143,7 @@ QString TagExpression::calc_regex_string(const QStringList& splitted_str) const
 
 
 bool TagExpression::update_tag(const QString& tag_str, const QString& filepath){
-	_cap_map.clear();
+	_m->cap_map.clear();
 
 	bool valid;
 	QStringList captured_texts;
@@ -170,7 +190,7 @@ bool TagExpression::update_tag(const QString& tag_str, const QString& filepath){
 			}
 
 
-			_cap_map[tag] = cap;
+			_m->cap_map[tag] = cap;
 		}
 	}
 
@@ -178,12 +198,12 @@ bool TagExpression::update_tag(const QString& tag_str, const QString& filepath){
 }
 
 bool TagExpression::check_tag(const Tag& tag, const QString& str){
-	if(!_tag_regex_map.contains(tag)) {
+	if(!_m->tag_regex_map.contains(tag)) {
 		return false;
 	}
 
 	QString escape_str = escape_special_chars(str);
-	QRegExp re(_tag_regex_map[tag]);
+	QRegExp re(_m->tag_regex_map[tag]);
 
 	if(re.indexIn(escape_str) != 0 ) {
 		return false;
@@ -194,5 +214,5 @@ bool TagExpression::check_tag(const Tag& tag, const QString& str){
 
 QMap<Tag, ReplacedString> TagExpression::get_tag_val_map() const
 {
-	return _cap_map;
+	return _m->cap_map;
 }

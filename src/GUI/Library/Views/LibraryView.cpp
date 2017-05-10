@@ -287,7 +287,6 @@ void LibraryView::mouseReleaseEvent(QMouseEvent* event)
 // mouse events end
 
 // keyboard events
-#include "Helper/Logger/Logger.h"
 void LibraryView::keyPressEvent(QKeyEvent* event)
 {
 	int key = event->key();

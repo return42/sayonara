@@ -44,6 +44,7 @@ class GUI_AlternativeCovers :
 		public SayonaraDialog
 {
 	Q_OBJECT
+	PIMPL(GUI_AlternativeCovers)
 
 public:
 	explicit GUI_AlternativeCovers(QWidget* parent=nullptr);
@@ -65,10 +66,7 @@ private slots:
 	void cl_finished(bool);
 
 private:
-
-	PIMPL(GUI_AlternativeCovers)
 	Ui::AlternativeCovers*			ui=nullptr;
-
 
 private:
 	void reset_model();

@@ -42,7 +42,6 @@ class TagEdit :
 		public QThread
 {
 	Q_OBJECT
-
 	PIMPL(TagEdit)
 
 signals:

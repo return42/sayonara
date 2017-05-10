@@ -81,7 +81,7 @@ GUI_Playlist::GUI_Playlist(QWidget *parent) :
 
 	connect(ui->tw_playlists, &PlaylistTabWidget::sig_add_tab_clicked, this, &GUI_Playlist::add_playlist_button_pressed);
 	connect(ui->tw_playlists, &PlaylistTabWidget::tabCloseRequested, this, &GUI_Playlist::tab_close_playlist_clicked);
-	connect(ui->tw_playlists, &PlaylistTabWidget::currentChanged, _playlist, &PlaylistHandler::set_current_idx);
+		connect(ui->tw_playlists, &PlaylistTabWidget::currentChanged, _playlist, &PlaylistHandler::set_current_idx);
 	connect(ui->tw_playlists, &PlaylistTabWidget::sig_tab_delete, this, &GUI_Playlist::tab_delete_playlist_clicked);
 	connect(ui->tw_playlists, &PlaylistTabWidget::sig_tab_save, this, &GUI_Playlist::tab_save_playlist_clicked);
 	connect(ui->tw_playlists, &PlaylistTabWidget::sig_tab_save_as, this, &GUI_Playlist::tab_save_playlist_as_clicked);
@@ -93,11 +93,13 @@ GUI_Playlist::GUI_Playlist(QWidget *parent) :
 	connect(ui->tw_playlists, &PlaylistTabWidget::sig_open_dir, this, &GUI_Playlist::open_dir_clicked);
 
 	connect(ui->btn_clear, &QPushButton::clicked, this, &GUI_Playlist::clear_button_pressed);
-
-	// TODO: We do need this anymore
-	// But we should look, if there are still libraries available
-	// How should dynamic playback look? Should we use all libraries?
-	// Make it configurable?
+	
+	/* TODO: */ 
+	/* 	We do need this anymore */
+	/* 	But we should look, if there are still libraries available */
+	/* 	How should dynamic playback look? Should we use all libraries? */
+	/* 	Make it configurable? */
+	
 	REGISTER_LISTENER(Set::PL_ShowNumbers, _sl_show_numbers_changed);
 	REGISTER_LISTENER(Set::PL_ShowClearButton, _sl_show_clear_button_changed);
 

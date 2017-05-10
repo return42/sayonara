@@ -24,9 +24,7 @@
 #include "Components/PlayManager/PlayManager.h"
 #include "Helper/Helper.h"
 #include "Helper/Settings/Settings.h"
-#include "Helper/Logger/Logger.h"
 
-#include <QFileDialog>
 #include <QToolTip>
 
 #include <algorithm>

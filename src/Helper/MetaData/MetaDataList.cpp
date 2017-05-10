@@ -22,7 +22,6 @@
 #include "Helper/Random/RandomGenerator.h"
 #include "Helper/Set.h"
 #include "Helper/globals.h"
-#include "Helper/Logger/Logger.h"
 
 #include <algorithm>
 

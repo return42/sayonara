@@ -20,7 +20,6 @@
 
 #include "SayonaraWidget.h"
 #include "SayonaraDialog.h"
-#include <QFontMetrics>
 #include <QFormLayout>
 
 #include "Helper/Settings/Settings.h"

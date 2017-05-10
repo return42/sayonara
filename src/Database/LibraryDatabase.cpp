@@ -20,7 +20,6 @@
 
 #include "LibraryDatabase.h"
 #include "SayonaraQuery.h"
-#include "Helper/Logger/Logger.h"
 
 LibraryDatabase::LibraryDatabase(const QString& db_name, int db_id, qint8 library_id) :
 	AbstractDatabase(db_id, "", db_name),

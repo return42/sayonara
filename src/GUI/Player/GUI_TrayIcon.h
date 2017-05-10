@@ -62,9 +62,6 @@ public:
    void notify(const QString &title, const QString &message, const QString &image_path) override;
 
 
-public slots:
-
-	void skin_changed();
 
 signals:
 
@@ -92,10 +89,10 @@ private slots:
 
 	void mute_changed(bool muted);
 	void _sl_show_tray_icon();
+	
+	void language_changed();
+	void skin_changed();
 
-
-protected:
-	virtual void  language_changed();
 
 private:
 	// some shared actions
