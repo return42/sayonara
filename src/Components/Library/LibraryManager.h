@@ -19,6 +19,7 @@ class LibraryManager :
 
 public:
 	qint8 add_library(const QString& name, const QString& path);
+	void rename_library(qint8 id, const QString& name);
 	void remove_library(qint8 id);
 
     QList<LibraryInfo> get_all_libraries() const;

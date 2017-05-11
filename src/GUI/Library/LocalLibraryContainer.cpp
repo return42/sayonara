@@ -31,7 +31,10 @@ struct LocalLibraryContainer::Private
 	QString				library_path;
 
 	Private(const LibraryInfo& library) :
-		library(library) {}
+		library(library)
+	{
+		name = library.name();
+	}
 };
 
 LocalLibraryContainer::LocalLibraryContainer(const LibraryInfo& library, QObject* parent) :
@@ -57,7 +60,7 @@ QString LocalLibraryContainer::get_name() const
 
 QString LocalLibraryContainer::get_display_name() const
 {
-	return _m->library.name();
+	return _m->name;
 }
 
 QIcon LocalLibraryContainer::get_icon() const
@@ -92,4 +95,9 @@ void LocalLibraryContainer::init_ui()
 qint8 LocalLibraryContainer::get_id()
 {
 	return _m->library.id();
+}
+
+void LocalLibraryContainer::set_name(const QString& name)
+{
+	_m->name = name;
 }

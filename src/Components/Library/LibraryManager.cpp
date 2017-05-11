@@ -6,6 +6,9 @@
 #include "LocalLibrary.h"
 
 #include <QMap>
+#include <QObject>
+#include <QString>
+
 
 struct LibraryManager::Private
 {
@@ -20,10 +23,30 @@ struct LibraryManager::Private
 
 	bool contains_path(const QString& path) const
 	{
-		return std::any_of(all_libs.begin(), all_libs.end(), [=](const LibraryInfo& li){
-			return (li == path);
-		});
+
+		for(const LibraryInfo& info : all_libs){
+			//QString info_path = info.path();
+			if(path.compare(info.path(), Qt::CaseInsensitive) == 0){
+				return true;
+			}
+		}
+
+		return false;
 	}
+
+	void rename_library(qint8 library_id, const QString& name)
+	{
+		for(int i=0; i<all_libs.size(); i++)
+		{
+			qint8 id = all_libs[i].id();
+			QString path = all_libs[i].path();
+			if(id == library_id){
+				all_libs[i] = LibraryInfo(name, path, id);
+				break;
+			}
+		}
+	}
+
 
 	void set_library_path(qint8 library_id, const QString& library_path)
 	{
@@ -119,6 +142,14 @@ qint8 LibraryManager::add_library(const QString& name, const QString& path)
 	_settings->set(Set::Lib_AllLibraries, _m->all_libs);
 
 	return id;
+}
+
+void LibraryManager::rename_library(qint8 id, const QString& new_name)
+{
+	_m->rename_library(id, new_name);
+	_m->lph->rename_local_library(id, new_name);
+	QList<LibraryInfo> infos = _m->all_libs;
+	_settings->set(Set::Lib_AllLibraries, infos);
 }
 
 void LibraryManager::remove_library(qint8 id)

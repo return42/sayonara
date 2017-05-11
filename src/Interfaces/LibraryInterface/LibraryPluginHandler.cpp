@@ -301,8 +301,42 @@ void LibraryPluginHandler::add_local_library(const LibraryInfo& library, int idx
 	}
 }
 
+void LibraryPluginHandler::rename_local_library(qint8 library_id, const QString& new_name)
+{
+	int idx = -1;
+	int i=0;
+	for(LibraryContainerInterface* container : _m->libraries)
+	{
+		LocalLibraryContainer* llc = dynamic_cast<LocalLibraryContainer*>(container);
+		if(llc){
+			if(llc->get_id() == library_id) {
+				llc->set_name(new_name);
+				idx = i;
+				break;
+			}
+
+			i++;
+		}
+	}
+
+	if(idx < 0) {
+		return;
+	}
+
+	for(LibraryContainerInterface* container : _m->libraries)
+	{
+		if(!container->is_initialized()){
+			continue;
+		}
+
+		QComboBox* lib_chooser = container->get_libchooser();
+		lib_chooser->setItemText(idx, new_name);
+	}
+}
+
 void LibraryPluginHandler::remove_local_library(qint8 library_id)
 {
+
 	int idx = -1;
 	int i=0;
 	for(LibraryContainerInterface* container : _m->libraries)
@@ -320,6 +354,16 @@ void LibraryPluginHandler::remove_local_library(qint8 library_id)
 
 	if(idx < 0) {
 		return;
+	}
+
+	if(idx == _m->cur_idx){
+		if(idx != 0) {
+			this->index_changed(0);
+		}
+
+		else {
+			this->index_changed(1);
+		}
 	}
 
 	_m->libraries.removeAt(idx);

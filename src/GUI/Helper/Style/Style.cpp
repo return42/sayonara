@@ -68,7 +68,7 @@ QString Style::get_style(bool dark)
 
     QString style;
 
-	if(!dark){
+	if(!dark) {
 		Helper::File::read_file_into_str( Helper::get_share_path("standard.css"), style );
 	}
 

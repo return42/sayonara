@@ -26,6 +26,7 @@
 
 namespace Ui { class GUI_LibraryPreferences; }
 
+class QModelIndex;
 class GUI_LibraryPreferences :
 		public PreferenceWidgetInterface
 {
@@ -47,6 +48,7 @@ protected:
 
 private slots:
 	void new_clicked();
+	void rename_clicked();
 	void delete_clicked();
 	void add_clicked();
 	void clear_clicked();

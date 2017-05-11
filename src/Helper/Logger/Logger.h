@@ -24,7 +24,6 @@
 #include <iosfwd>
 #include <typeinfo>
 #include <type_traits>
-#include <QList>
 
 /**
  * @brief The Log enum

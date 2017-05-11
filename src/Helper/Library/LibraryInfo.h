@@ -24,8 +24,7 @@ public:
 	static LibraryInfo fromString(const QString& str);
 	QString toString() const;
 
-	bool operator==(const QString& path) const;
-	bool operator==(const LibraryInfo& li) const;
+	bool operator==(const LibraryInfo& other) const;
 };
 
 #endif // LIBRARYINFO_H

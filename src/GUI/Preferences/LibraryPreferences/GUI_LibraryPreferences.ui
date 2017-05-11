@@ -47,6 +47,13 @@
           </widget>
          </item>
          <item>
+          <widget class="QPushButton" name="btn_rename">
+           <property name="text">
+            <string>Rename</string>
+           </property>
+          </widget>
+         </item>
+         <item>
           <widget class="QPushButton" name="btn_delete">
            <property name="text">
             <string>Delete</string>

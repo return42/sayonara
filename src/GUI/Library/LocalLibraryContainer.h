@@ -44,6 +44,7 @@ public:
 	QMenu*      get_menu() override;
 	void        init_ui() override;
 	qint8		get_id();
+	void		set_name(const QString& name);
 };
 
 #endif // LOCALLIBRARYCONTAINER_H

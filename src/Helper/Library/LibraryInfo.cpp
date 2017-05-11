@@ -81,15 +81,7 @@ QString LibraryInfo::toString() const
 	return lst.join("::");
 }
 
-
-bool LibraryInfo::operator==(const QString& path) const
+bool LibraryInfo::operator==(const LibraryInfo& other) const
 {
-	QString cleaned_path = Helper::File::clean_filename(path);
-	return (cleaned_path.compare(_path, Qt::CaseInsensitive) == 0);
-}
-
-bool LibraryInfo::operator==(const LibraryInfo& li) const
-{
-	QString cleaned_path = Helper::File::clean_filename(li.path());
-	return (cleaned_path.compare(_path, Qt::CaseInsensitive) == 0);
+	return (other.toString() == this->toString());
 }

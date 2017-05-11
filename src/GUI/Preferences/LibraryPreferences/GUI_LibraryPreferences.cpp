@@ -22,11 +22,16 @@
 #include "GUI/Preferences/ui_GUI_LibraryPreferences.h"
 #include "LibraryListModel.h"
 
+#include "GUI/Helper/Delegates/ListDelegate.h"
+#include "Helper/Helper.h"
+#include "Helper/FileHelper.h"
 #include "Helper/Library/SearchMode.h"
 #include "Helper/Settings/Settings.h"
 #include "Helper/Language.h"
+#include "Helper/Logger/Logger.h"
 
 #include <QFileDialog>
+#include <QInputDialog>
 
 struct GUI_LibraryPreferences::Private
 {
@@ -53,14 +58,16 @@ void GUI_LibraryPreferences::init_ui()
 
 	_m->model = new LibraryListModel(ui->lv_libs);
 	ui->lv_libs->setModel(_m->model);
+	ui->lv_libs->setItemDelegate(new ListDelegate(ui->lv_libs));
 
-	connect(ui->btn_add, &QPushButton::clicked, this, &GUI_LibraryPreferences::add_clicked);
-	connect(ui->btn_delete, &QPushButton::clicked, this, &GUI_LibraryPreferences::delete_clicked);
-	connect(ui->btn_clear, &QPushButton::clicked, this, &GUI_LibraryPreferences::clear_clicked);
 	connect(ui->btn_new, &QPushButton::clicked, this, &GUI_LibraryPreferences::new_clicked);
+	connect(ui->btn_rename, &QPushButton::clicked, this, &GUI_LibraryPreferences::rename_clicked);
+	connect(ui->btn_delete, &QPushButton::clicked, this, &GUI_LibraryPreferences::delete_clicked);
+	connect(ui->btn_add, &QPushButton::clicked, this, &GUI_LibraryPreferences::add_clicked);
+	connect(ui->btn_clear, &QPushButton::clicked, this, &GUI_LibraryPreferences::clear_clicked);
 
-	connect(ui->le_name, SIGNAL(textChanged(const QString&)), this, SLOT(library_text_changed(const QString&)));
-	connect(ui->le_path, SIGNAL(textChanged(const QString&)), this, SLOT(library_text_changed(const QString&)));
+	connect(ui->le_name, &QLineEdit::textChanged, this, &GUI_LibraryPreferences::library_text_changed);
+	connect(ui->le_path, &QLineEdit::textChanged, this, &GUI_LibraryPreferences::library_text_changed);
 
 	ui->gb_new_library->setVisible(false);
 
@@ -94,33 +101,23 @@ void GUI_LibraryPreferences::commit()
 	_settings->set(Set::Lib_DD_DoNothing, ui->rb_dd_do_nothing->isChecked());
 	_settings->set(Set::Lib_DD_PlayIfStoppedAndEmpty, ui->rb_dd_start_if_stopped_and_empty->isChecked());
 	_settings->set(Set::Lib_SearchMode, mask);
+
+	_m->model->commit();
 }
 
 void GUI_LibraryPreferences::revert()
 {
 	Library::SearchModeMask mask = _settings->get(Set::Lib_SearchMode);
 
-	if(mask & Library::CaseInsensitve){
-		ui->cb_case_insensitive->setChecked(true);
-	}
-
-	if(mask & Library::NoSpecialChars){
-		ui->cb_no_special_chars->setChecked(true);
-	}
-
-	if(mask & Library::NoDiacriticChars){
-		ui->cb_no_accents->setChecked(true);
-	}
+	ui->cb_case_insensitive->setChecked(mask & Library::CaseInsensitve);
+	ui->cb_no_special_chars->setChecked(mask & Library::NoSpecialChars);
+	ui->cb_no_accents->setChecked(mask & Library::NoDiacriticChars);
 
 	ui->rb_dc_do_nothing->setChecked(_settings->get(Set::Lib_DC_DoNothing));
 	ui->rb_dc_play_if_stopped->setChecked(_settings->get(Set::Lib_DC_PlayIfStopped));
 	ui->rb_dc_play_immediately->setChecked(_settings->get(Set::Lib_DC_PlayImmediately));
 	ui->rb_dd_do_nothing->setChecked(_settings->get(Set::Lib_DD_DoNothing));
 	ui->rb_dd_start_if_stopped_and_empty->setChecked(_settings->get(Set::Lib_DD_PlayIfStoppedAndEmpty));
-
-	ui->cb_case_insensitive->setChecked(false);
-	ui->cb_no_special_chars->setChecked(false);
-	ui->cb_no_accents->setChecked(false);
 
 	_m->model->reset();
 }
@@ -144,13 +141,40 @@ void GUI_LibraryPreferences::new_clicked()
 		return;
 	}
 
-	ui->le_name->clear();
+	QDir d(dir);
+	QString dir_proposal = Helper::cvt_str_to_first_upper(d.dirName());
+
+	ui->le_name->setText(dir_proposal);
 	ui->le_path->setText(dir);
 	ui->gb_new_library->setVisible(true);
 
 	ui->btn_new->setEnabled(false);
 	ui->btn_delete->setEnabled(false);
 	ui->lv_libs->setEnabled(false);
+}
+
+void GUI_LibraryPreferences::rename_clicked()
+{
+	QModelIndex idx = ui->lv_libs->currentIndex();
+	if(!idx.isValid()){
+		return;
+	}
+
+	QString current_text = _m->model->data(idx, Qt::DisplayRole).toString();
+
+	QString new_name = QInputDialog::getText(this,
+						  Lang::get(Lang::EnterName),
+						  Lang::get(Lang::EnterName),
+						  QLineEdit::Normal,
+						  current_text);
+
+	if(new_name.isEmpty() ||
+	   new_name.compare(current_text, Qt::CaseInsensitive) == 0)
+	{
+		return;
+	}
+
+	_m->model->rename_row(idx.row(), new_name);
 }
 
 void GUI_LibraryPreferences::delete_clicked()
@@ -184,8 +208,13 @@ void GUI_LibraryPreferences::library_text_changed(const QString& str)
 {
 	Q_UNUSED(str)
 
+	QStringList names = _m->model->get_all_names();
+	QStringList paths = _m->model->get_all_paths();
+
 	ui->btn_add->setDisabled(
 				(ui->le_name->text().isEmpty()) ||
-				(ui->le_path->text().isEmpty())
+				(ui->le_path->text().isEmpty()) ||
+				(names.contains(str, Qt::CaseInsensitive)) ||
+				(paths.contains(str, Qt::CaseInsensitive))
 	);
 }

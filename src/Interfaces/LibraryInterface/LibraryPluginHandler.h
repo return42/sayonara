@@ -89,8 +89,8 @@ public:
 
 
 	void add_local_library(const LibraryInfo& library, int idx);
-
-	void remove_local_library(qint8 library_info);
+	void rename_local_library(qint8 library_id, const QString& new_name);
+	void remove_local_library(qint8 library_id);
 
 
 private slots:
