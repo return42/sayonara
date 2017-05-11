@@ -130,6 +130,7 @@ void GUI_LibraryPreferences::retranslate_ui()
 	ui->btn_new->setText(Lang::get(Lang::New));
 	ui->btn_clear->setText(Lang::get(Lang::Clear));
 	ui->btn_delete->setText(Lang::get(Lang::Remove));
+	ui->btn_rename->setText(Lang::get(Lang::Rename));
 }
 
 

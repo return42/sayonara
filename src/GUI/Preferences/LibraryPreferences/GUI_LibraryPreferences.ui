@@ -49,7 +49,7 @@
          <item>
           <widget class="QPushButton" name="btn_rename">
            <property name="text">
-            <string>Rename</string>
+            <string notr="true">Rename</string>
            </property>
           </widget>
          </item>
