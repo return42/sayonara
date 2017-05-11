@@ -108,6 +108,7 @@ bool LibraryDatabase::apply_fixes()
         ", rating "
         ", length "
         ", libraryID "
+        ", cissearch "
         "FROM tracks WHERE libraryID =" + QString::number(_library_id).left(2) + ";";
 
     if(!db().isOpen()){
