@@ -7,6 +7,7 @@ SET(SOURCES
     Language/GUI_LanguageChooser.cpp
     LastFM/GUI_LastFM.cpp
     LibraryPreferences/GUI_LibraryPreferences.cpp
+	LibraryPreferences/LibraryListModel.cpp
     Notifications/GUI_Notifications.cpp
     PlayerPreferences/GUI_PlayerPreferences.cpp
     PlaylistPreferences/GUI_PlaylistPreferences.cpp
@@ -40,6 +41,7 @@ ADD_LIBRARY(${PROJECT_NAME} STATIC ${SOURCES} ${UI_FILES})
 TARGET_LINK_LIBRARIES(${PROJECT_NAME}
     say_comp_streamplugins_lastfm
     say_comp_covers
+	say_comp_library
     say_interfaces_preference_dialog
 )
 

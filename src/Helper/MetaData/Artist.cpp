@@ -32,13 +32,12 @@
 	num_albums = other.num_albums;
 
 
-Artist::Artist() : LibraryItem()
-{
-    id = -1;
-	//name = QString();
-    num_songs = 0;
-    num_albums = 0;
-}
+Artist::Artist() :
+	LibraryItem(),
+	id(-1),
+	num_albums(0),
+	num_songs(0)
+{}
 
 Artist::Artist(const Artist& other) :
 	LibraryItem(other)

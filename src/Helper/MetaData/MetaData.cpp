@@ -76,37 +76,57 @@
 static MDCounter mdc;*/
 
 MetaData::MetaData() :
-	LibraryItem()
+	LibraryItem(),
+	id(-1),
+	artist_id(-1),
+	album_id(-1),
+	library_id(-1),
+	track_num(0),
+	year(0),
+	bitrate(0),
+	length_ms(0),
+	filesize(0),
+	played(false),
+	is_extern(false),
+	pl_playing(false),
+	is_disabled(false),
+	rating(0),
+	discnumber(0),
+	n_discs(0),
+	_radio_mode(RadioMode::Off),
+	_album_artist_id(-1)
 {
 //	mdc.increase();
-	
-	id = -1;
-	artist_id = -1;
-	album_id = -1;
-	library_id = -1;
-	_album_artist_id = -1;
-	rating = 0;
-	length_ms = 0;
-	year = 0;
-	track_num = 0;
-	bitrate = 0;
-	is_extern = false;
-	_radio_mode = RadioMode::Off;
-	filesize = 0;
-	discnumber = 0;
-	n_discs = 0;
-	pl_playing = false;
-	is_disabled = false;
-	is_extern = false;
-	played = false;
 }
 
 MetaData::MetaData(const MetaData & other) :
-	LibraryItem(other)
+	LibraryItem(other),
+	id(other.id),
+	artist_id(other.artist_id),
+	album_id(other.album_id),
+	library_id(other.library_id),
+	title(other.title),
+	artist(other.artist),
+	album(other.album),
+	genres(other.genres),
+	track_num(other.track_num),
+	year(other.year),
+	bitrate(other.bitrate),
+	length_ms(other.length_ms),
+	filesize(other.filesize),
+	played(other.played),
+	is_extern(other.is_extern),
+	pl_playing(other.pl_playing),
+	is_disabled(other.is_disabled),
+	rating(other.rating),
+	discnumber(other.discnumber),
+	n_discs(other.n_discs),
+	_radio_mode(other._radio_mode),
+	_album_artist(other._album_artist),
+	_filepath(other._filepath),
+	_album_artist_id(other._album_artist_id)
 {
-	MD_DO_COPY
-	
-//	mdc.increase();
+
 }
 
 

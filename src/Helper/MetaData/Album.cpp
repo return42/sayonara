@@ -35,17 +35,16 @@
 	is_sampler = other.is_sampler; \
 	_album_artists = other._album_artists;
 
-Album::Album() : LibraryItem()
-{
-    name = "";
-    id = -1;
-    num_songs = 0;
-    length_sec = 0;
-    year = 0;
-    n_discs = 1;
-    is_sampler = false;
-    rating = 0;
-}
+Album::Album() :
+	LibraryItem(),
+	n_discs(1),
+	rating(0),
+	is_sampler(false),
+	id(-1),
+	length_sec(0),
+	num_songs(0),
+	year(0) {}
+
 
 Album::Album(const Album& other) :
 	LibraryItem(other)

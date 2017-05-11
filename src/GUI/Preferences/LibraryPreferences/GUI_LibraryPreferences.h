@@ -22,6 +22,7 @@
 #define GUI_LIBRARYPREFERENCES_H
 
 #include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
+#include "Helper/Pimpl.h"
 
 namespace Ui { class GUI_LibraryPreferences; }
 
@@ -29,6 +30,7 @@ class GUI_LibraryPreferences :
 		public PreferenceWidgetInterface
 {
 	Q_OBJECT
+	PIMPL(GUI_LibraryPreferences)
 
 public:
 	explicit GUI_LibraryPreferences(QWidget* parent=nullptr);
@@ -42,6 +44,13 @@ public:
 protected:
 	void init_ui() override;
 	void retranslate_ui() override;
+
+private slots:
+	void new_clicked();
+	void delete_clicked();
+	void add_clicked();
+	void clear_clicked();
+	void library_text_changed(const QString& string);
 
 private:
 	Ui::GUI_LibraryPreferences*	ui=nullptr;

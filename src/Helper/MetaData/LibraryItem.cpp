@@ -26,13 +26,15 @@
 	_additional_data = other._additional_data;
 
 
-CustomField::CustomField(const QString& id, const QString& display_name, const QString& value){
+CustomField::CustomField(const QString& id, const QString& display_name, const QString& value)
+{
 	_id = id;
 	_display_name = display_name;
 	_value = value;
 }
 
-CustomField::CustomField(const CustomField &copy){
+CustomField::CustomField(const CustomField &copy)
+{
 	_id = copy._id;
 	_display_name = copy._display_name;
 	_value = copy._value;
@@ -56,19 +58,23 @@ QString CustomField::get_value() const
 }
 
 
-LibraryItem::LibraryItem()  {
+LibraryItem::LibraryItem()
+{
 	db_id = -1;
 }
 
-LibraryItem::LibraryItem(const LibraryItem& other){
+LibraryItem::LibraryItem(const LibraryItem& other)
+{
 	LI_DO_COPY
 }
 
-LibraryItem::LibraryItem(LibraryItem&& other){
+LibraryItem::LibraryItem(LibraryItem&& other)
+{
 	LI_DO_COPY
 }
 
-LibraryItem& LibraryItem::operator=(const LibraryItem& other){
+LibraryItem& LibraryItem::operator=(const LibraryItem& other)
+{
 	LI_DO_COPY
 	return *this;
 }

@@ -20,13 +20,24 @@
 
 #include "GUI_LibraryPreferences.h"
 #include "GUI/Preferences/ui_GUI_LibraryPreferences.h"
+#include "LibraryListModel.h"
 
 #include "Helper/Library/SearchMode.h"
 #include "Helper/Settings/Settings.h"
 #include "Helper/Language.h"
 
+#include <QFileDialog>
+
+struct GUI_LibraryPreferences::Private
+{
+	LibraryListModel* model = nullptr;
+};
+
 GUI_LibraryPreferences::GUI_LibraryPreferences(QWidget* parent) :
-	PreferenceWidgetInterface(parent) {}
+	PreferenceWidgetInterface(parent)
+{
+	_m = Pimpl::make<Private>();
+}
 
 GUI_LibraryPreferences::~GUI_LibraryPreferences()
 {
@@ -39,6 +50,19 @@ GUI_LibraryPreferences::~GUI_LibraryPreferences()
 void GUI_LibraryPreferences::init_ui()
 {
 	setup_parent(this, &ui);
+
+	_m->model = new LibraryListModel(ui->lv_libs);
+	ui->lv_libs->setModel(_m->model);
+
+	connect(ui->btn_add, &QPushButton::clicked, this, &GUI_LibraryPreferences::add_clicked);
+	connect(ui->btn_delete, &QPushButton::clicked, this, &GUI_LibraryPreferences::delete_clicked);
+	connect(ui->btn_clear, &QPushButton::clicked, this, &GUI_LibraryPreferences::clear_clicked);
+	connect(ui->btn_new, &QPushButton::clicked, this, &GUI_LibraryPreferences::new_clicked);
+
+	connect(ui->le_name, SIGNAL(textChanged(const QString&)), this, SLOT(library_text_changed(const QString&)));
+	connect(ui->le_path, SIGNAL(textChanged(const QString&)), this, SLOT(library_text_changed(const QString&)));
+
+	ui->gb_new_library->setVisible(false);
 
 	revert();
 }
@@ -74,10 +98,6 @@ void GUI_LibraryPreferences::commit()
 
 void GUI_LibraryPreferences::revert()
 {
-	ui->cb_case_insensitive->setChecked(false);
-	ui->cb_no_special_chars->setChecked(false);
-	ui->cb_no_accents->setChecked(false);
-
 	Library::SearchModeMask mask = _settings->get(Set::Lib_SearchMode);
 
 	if(mask & Library::CaseInsensitve){
@@ -97,9 +117,75 @@ void GUI_LibraryPreferences::revert()
 	ui->rb_dc_play_immediately->setChecked(_settings->get(Set::Lib_DC_PlayImmediately));
 	ui->rb_dd_do_nothing->setChecked(_settings->get(Set::Lib_DD_DoNothing));
 	ui->rb_dd_start_if_stopped_and_empty->setChecked(_settings->get(Set::Lib_DD_PlayIfStoppedAndEmpty));
+
+	ui->cb_case_insensitive->setChecked(false);
+	ui->cb_no_special_chars->setChecked(false);
+	ui->cb_no_accents->setChecked(false);
+
+	_m->model->reset();
 }
 
 void GUI_LibraryPreferences::retranslate_ui()
 {
 	ui->retranslateUi(this);
+
+	ui->le_name->setPlaceholderText(Lang::get(Lang::EnterName));
+	ui->btn_new->setText(Lang::get(Lang::New));
+	ui->btn_clear->setText(Lang::get(Lang::Clear));
+	ui->btn_delete->setText(Lang::get(Lang::Remove));
+}
+
+
+void GUI_LibraryPreferences::new_clicked()
+{
+	QString dir = QFileDialog::getExistingDirectory(this, tr("New Library"), QDir::homePath());
+
+	if(dir.isEmpty()){
+		return;
+	}
+
+	ui->le_name->clear();
+	ui->le_path->setText(dir);
+	ui->gb_new_library->setVisible(true);
+
+	ui->btn_new->setEnabled(false);
+	ui->btn_delete->setEnabled(false);
+	ui->lv_libs->setEnabled(false);
+}
+
+void GUI_LibraryPreferences::delete_clicked()
+{
+	QModelIndex idx = ui->lv_libs->currentIndex();
+	if(!idx.isValid()){
+		return;
+	}
+
+	_m->model->remove_row(idx.row());
+}
+
+void GUI_LibraryPreferences::add_clicked()
+{
+	_m->model->append_row(ui->le_name->text(), ui->le_path->text());
+	clear_clicked();
+}
+
+void GUI_LibraryPreferences::clear_clicked()
+{
+	ui->gb_new_library->setVisible(false);
+	ui->le_name->clear();
+	ui->le_path->clear();
+
+	ui->btn_new->setEnabled(true);
+	ui->btn_delete->setEnabled(true);
+	ui->lv_libs->setEnabled(true);
+}
+
+void GUI_LibraryPreferences::library_text_changed(const QString& str)
+{
+	Q_UNUSED(str)
+
+	ui->btn_add->setDisabled(
+				(ui->le_name->text().isEmpty()) ||
+				(ui->le_path->text().isEmpty())
+	);
 }

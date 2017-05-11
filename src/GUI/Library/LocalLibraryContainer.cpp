@@ -27,18 +27,25 @@ struct LocalLibraryContainer::Private
 {
 	GUI_LocalLibrary*   ui=nullptr;
 	LibraryInfo			library;
-	QString name;
-	QString library_path;
+	QString				name;
+	QString				library_path;
+
+	Private(const LibraryInfo& library) :
+		library(library) {}
 };
 
 LocalLibraryContainer::LocalLibraryContainer(const LibraryInfo& library, QObject* parent) :
 	LibraryContainerInterface(parent)
 {
-	_m = Pimpl::make<Private>();
-	_m->library = library;
+	_m = Pimpl::make<Private>(library);
 }
 
-LocalLibraryContainer::~LocalLibraryContainer() {}
+LocalLibraryContainer::~LocalLibraryContainer()
+{
+	if(_m->ui) {
+		delete _m->ui; _m->ui=nullptr;
+	}
+}
 
 QString LocalLibraryContainer::get_name() const
 {
@@ -80,4 +87,9 @@ QMenu*LocalLibraryContainer::get_menu()
 void LocalLibraryContainer::init_ui()
 {
 	_m->ui = new GUI_LocalLibrary(_m->library.id());
+}
+
+qint8 LocalLibraryContainer::get_id()
+{
+	return _m->library.id();
 }

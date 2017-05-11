@@ -78,7 +78,7 @@ public:
 	 * @brief Should return the translated name displayed in the library view combobox
 	 * @return display name
 	 */
-	virtual QString				get_display_name() const=0;
+	virtual QString				get_display_name() const;
 
 	/**
 	 * @brief Should return the UI for the library view

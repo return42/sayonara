@@ -22,11 +22,13 @@
 #define LIBRARYPLUGINLOADER_H
 
 #include "Helper/Settings/SayonaraClass.h"
+#include "Helper/Singleton.h"
 #include "Helper/Pimpl.h"
 
 #include <QList>
 #include <QObject>
 
+class LibraryInfo;
 class LibraryContainerInterface;
 /**
  * @brief Library Plugin Manager
@@ -37,13 +39,13 @@ class LibraryPluginHandler :
 		protected SayonaraClass
 {
 	Q_OBJECT
+	PIMPL(LibraryPluginHandler)
+	SINGLETON(LibraryPluginHandler)
 
 signals:
 	void sig_idx_changed(int);
 
 private:
-	PIMPL(LibraryPluginHandler)
-
 	/**
 	 * @brief Init a library. This is used at startup for the current library
 	 * or when the index has changed
@@ -53,10 +55,6 @@ private:
 
 
 public:
-	explicit LibraryPluginHandler(QObject* parent=nullptr);
-	~LibraryPluginHandler();
-
-
 	/**
 	 * @brief Search for plugins and add some predefined plugins
 	 * @param containers Some predefined plugins
@@ -88,6 +86,11 @@ public:
 	 * @return current library index
 	 */
 	int get_cur_library_idx() const;
+
+
+	void add_local_library(const LibraryInfo& library, int idx);
+
+	void remove_local_library(qint8 library_info);
 
 
 private slots:

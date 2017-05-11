@@ -43,6 +43,7 @@ public:
 	QComboBox*  get_libchooser() override;
 	QMenu*      get_menu() override;
 	void        init_ui() override;
+	qint8		get_id();
 };
 
 #endif // LOCALLIBRARYCONTAINER_H

@@ -35,6 +35,11 @@ LibraryContainerInterface::LibraryContainerInterface(QObject* parent) :
 
 LibraryContainerInterface::~LibraryContainerInterface() {}
 
+QString LibraryContainerInterface::get_display_name() const
+{
+	return get_name();
+}
+
 QMenu* LibraryContainerInterface::get_menu()
 {
 	return nullptr;

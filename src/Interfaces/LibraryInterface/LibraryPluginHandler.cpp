@@ -44,18 +44,81 @@ struct LibraryPluginHandler::Private
 	QList<QPair<QString, QIcon>>		library_entries;
 	int									cur_idx;
 	QWidget*							library_parent=nullptr;
+	LibraryPluginHandler*				plugin_handler=nullptr;
 
-	Private()
+	Private(LibraryPluginHandler* plugin_handler) :
+		cur_idx(-1),
+		plugin_handler(plugin_handler) {}
+
+
+
+	void insert_local_libraries()
 	{
-		cur_idx = -1;
+		QList<LibraryInfo> library_infos = LibraryManager::getInstance()->get_all_libraries();
+		for(const LibraryInfo& library_info : library_infos)
+		{
+			if(library_info.id() < 0){
+				continue;
+			}
+
+			sp_log(Log::Debug, plugin_handler) << "Add local library "
+									 << library_info.name() << ": "
+									 << library_info.path();
+
+			libraries << new LocalLibraryContainer(library_info);
+		}
+	}
+
+	void insert_dll_libraries()
+	{
+		QDir plugin_dir = QDir(Helper::get_lib_path());
+		QStringList dll_filenames = plugin_dir.entryList(QDir::Files);
+
+		for(const QString& filename : dll_filenames)
+		{
+			QObject* raw_plugin;
+			LibraryContainerInterface* container;
+
+			QPluginLoader loader(plugin_dir.absoluteFilePath(filename));
+
+			raw_plugin = loader.instance();
+			if(!raw_plugin) {
+				sp_log(Log::Warning, plugin_handler) << "Cannot load plugin: " << filename << ": " << loader.errorString();
+				loader.unload();
+				continue;
+			}
+
+			container = dynamic_cast<LibraryContainerInterface*>(raw_plugin);
+			if(!container) {
+				loader.unload();
+				continue;
+			}
+
+			sp_log(Log::Info, plugin_handler) << "Found library plugin " << container->get_display_name();
+			libraries << container;
+		}
+	}
+
+	void insert_containers(const QList<LibraryContainerInterface*>& containers)
+	{
+		for(LibraryContainerInterface* container : containers)
+		{
+			if(!container){
+				continue;
+			}
+
+			sp_log(Log::Debug, plugin_handler) << "Add plugin " << container->get_display_name();
+			libraries << container;
+		}
 	}
 };
 
-LibraryPluginHandler::LibraryPluginHandler(QObject* parent) :
-	QObject(parent),
+LibraryPluginHandler::LibraryPluginHandler() :
+	QObject(nullptr),
 	SayonaraClass()
 {
-	_m = Pimpl::make<Private>();
+	_m = Pimpl::make<Private>(this);
+
 	REGISTER_LISTENER(Set::Player_Language, language_changed);
 }
 
@@ -63,64 +126,20 @@ LibraryPluginHandler::~LibraryPluginHandler() {}
 
 void LibraryPluginHandler::init(const QList<LibraryContainerInterface*>& containers)
 {
-	QString lib_dir = Helper::get_lib_path();
-	QDir plugin_dir = QDir(lib_dir);
-	QStringList dll_filenames = plugin_dir.entryList(QDir::Files);
 	QString cur_plugin = _settings->get(Set::Lib_CurPlugin);
 
-	QList<LibraryInfo> library_infos = LibraryManager::getInstance()->get_all_libraries();
-	for(const LibraryInfo& library_info : library_infos){
-		if(library_info.id() < 0){
-			continue;
-		}
-		sp_log(Log::Debug, this) << "Add local library "
-								 << library_info.name() << ": "
-								 << library_info.path();
+	_m->insert_local_libraries();
+	_m->insert_containers(containers);
+	_m->insert_dll_libraries();
 
-		_m->libraries << new LocalLibraryContainer(library_info);
-	}
-
-
-	for(LibraryContainerInterface* container : containers){
-		if(!container){
-			continue;
-		}
-
-		sp_log(Log::Debug, this) << "Add plugin " << container->get_display_name();
-
-		_m->libraries << container;
-	}
-
-	for(const QString& filename : dll_filenames) {
-		QObject* raw_plugin;
-		LibraryContainerInterface* container;
-
-		QPluginLoader loader(plugin_dir.absoluteFilePath(filename));
-
-		raw_plugin = loader.instance();
-		if(!raw_plugin) {
-			sp_log(Log::Warning) << "Cannot load plugin: " << filename << ": " << loader.errorString();
-			loader.unload();
-			continue;
-		}
-
-		container = dynamic_cast<LibraryContainerInterface*>(raw_plugin);
-		if(!container) {
-			loader.unload();
-			continue;
-		}
-
-		sp_log(Log::Info) << "Found library plugin " << container->get_display_name();
-		_m->libraries << container;
-	}
-
-	sp_log(Log::Info) << "Found " << _m->libraries.size() << " library types";
+	sp_log(Log::Info, this) << "Found " << _m->libraries.size() << " library types";
 
 	int i=0;
 	bool found = false;
 	for(LibraryContainerInterface* container : _m->libraries )
 	{
-		if(cur_plugin == container->get_name()){
+		if(cur_plugin == container->get_name())
+		{
 			_m->cur_idx = i;
 			init_library(i);
 			emit sig_idx_changed(i);
@@ -131,7 +150,8 @@ void LibraryPluginHandler::init(const QList<LibraryContainerInterface*>& contain
 		i++;
 	}
 
-	if(!found){
+	if(!found)
+	{
 		_m->cur_idx = 0;
 		init_library(0);
 		emit sig_idx_changed(0);
@@ -186,7 +206,7 @@ void LibraryPluginHandler::index_changed(int idx)
 	int i=0;
 	for(LibraryContainerInterface* container : _m->libraries)
 	{
-		if(!container->is_initialized()){
+		if(!container->is_initialized()) {
 			i++;
 			continue;
 		}
@@ -196,7 +216,6 @@ void LibraryPluginHandler::index_changed(int idx)
 
 		QWidget* ui = container->get_ui();
 		QWidget* parent = ui->parentWidget();
-		QString name = container->get_display_name();
 
 		ui->setVisible(i == idx);
 
@@ -207,6 +226,7 @@ void LibraryPluginHandler::index_changed(int idx)
 			if(parent){
 				ui->resize(parent->size());
 			}
+
 			_settings->set(Set::Lib_CurPlugin, container->get_name());
 
 			ui->update();
@@ -232,6 +252,8 @@ int LibraryPluginHandler::get_cur_library_idx() const
 	return _m->cur_idx;
 }
 
+
+
 void LibraryPluginHandler::set_library_parent(QWidget* parent)
 {
 	_m->library_parent = parent;
@@ -245,8 +267,10 @@ void LibraryPluginHandler::set_library_parent(QWidget* parent)
 
 void LibraryPluginHandler::language_changed()
 {
-	for(LibraryContainerInterface* container : _m->libraries){
+	for(LibraryContainerInterface* container : _m->libraries)
+	{
 		if(!container->is_initialized()){
+			sp_log(Log::Debug, this) << container->get_display_name() << " is not initialized ";
 			continue;
 		}
 
@@ -257,6 +281,56 @@ void LibraryPluginHandler::language_changed()
 			libchooser->setItemText(i, container2->get_display_name());
 			i++;
 		}
+	}
+}
+
+
+void LibraryPluginHandler::add_local_library(const LibraryInfo& library, int idx)
+{
+	LocalLibraryContainer* llc = new LocalLibraryContainer(library);
+	_m->libraries.insert(idx, llc);
+
+	for(LibraryContainerInterface* container : _m->libraries)
+	{
+		if(!container->is_initialized()){
+			continue;
+		}
+
+		QComboBox* lib_chooser = container->get_libchooser();
+		lib_chooser->insertItem(idx, llc->get_icon(), llc->get_display_name());
+	}
+}
+
+void LibraryPluginHandler::remove_local_library(qint8 library_id)
+{
+	int idx = -1;
+	int i=0;
+	for(LibraryContainerInterface* container : _m->libraries)
+	{
+		LocalLibraryContainer* llc = dynamic_cast<LocalLibraryContainer*>(container);
+		if(llc){
+			if(llc->get_id() == library_id){
+				idx = i;
+				break;
+			}
+
+			i++;
+		}
+	}
+
+	if(idx < 0) {
+		return;
+	}
+
+	_m->libraries.removeAt(idx);
+	for(LibraryContainerInterface* container : _m->libraries)
+	{
+		if(!container->is_initialized()){
+			continue;
+		}
+
+		QComboBox* lib_chooser = container->get_libchooser();
+		lib_chooser->removeItem(idx);
 	}
 }
 
