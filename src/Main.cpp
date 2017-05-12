@@ -25,7 +25,7 @@
  *      Author: Lucio Carreras
  */
 
-#include "Application/application.h"
+#include "Application/Application.h"
 #include "Helper/Helper.h"
 #include "Helper/Parser/CommandLineParser.h"
 #include "Helper/Settings/SettingRegistry.h"

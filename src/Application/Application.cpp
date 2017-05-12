@@ -18,7 +18,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "application.h"
+#include "Application.h"
 #include "InstanceThread.h"
 #include "Helper/Macros.h"
 #include "Helper/Language.h"
@@ -255,13 +255,13 @@ bool Application::init(QTranslator* translator, const QStringList& files_to_play
 	preferences->register_preference_dialog(new GUI_PlayerPreferences());
 	preferences->register_preference_dialog(new GUI_PlaylistPreferences());
 	preferences->register_preference_dialog(new GUI_LibraryPreferences());
-	preferences->register_preference_dialog(new GUI_Shortcuts());
-	preferences->register_preference_dialog(new GUI_Notifications());
-	preferences->register_preference_dialog(new GUI_LastFM());
+	preferences->register_preference_dialog(new GUI_Covers());
 	preferences->register_preference_dialog(new GUI_StreamRecorder());
 	preferences->register_preference_dialog(new GUI_BroadcastSetup());
+	preferences->register_preference_dialog(new GUI_Shortcuts());
+	preferences->register_preference_dialog(new GUI_Notifications());
 	preferences->register_preference_dialog(new GUI_RemoteControl());
-	preferences->register_preference_dialog(new GUI_Covers());
+	preferences->register_preference_dialog(new GUI_LastFM());
 
 	EngineHandler::getInstance()->init();
 

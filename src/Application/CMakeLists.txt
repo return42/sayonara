@@ -7,7 +7,7 @@ INCLUDE_DIRECTORIES(
 )
 
 SET(SOURCES
-    application.cpp
+	Application.cpp
     InstanceThread.cpp
 )
 
