@@ -5,15 +5,18 @@
 #include "Helper/globals.h"
 
 #include <QList>
+#include <QPair>
 
+typedef QPair<int, int> MoveOperation;
 struct LibraryListModel::Private
 {
 	LibraryManager* library_manager=nullptr;
 	QList<LibraryInfo> library_info;
 	QList<LibraryInfo> shown_library_info;
+	QList<MoveOperation> move_operations;
 
 	QMap<LibName, LibPath> new_lib_map;
-	QMap<LibName, qint8> renamed_lib_map;
+	QMap<qint8, LibName> renamed_lib_map;
 
 	QList<qint8> delete_libs;
 	QMap<LibName, qint8> delete_lib_map;
@@ -90,13 +93,16 @@ void LibraryListModel::rename_row(int row, const LibName& new_name)
 		_m->shown_library_info[row] =
 				LibraryInfo(new_name, info.path(), info.id());
 
-		_m->renamed_lib_map[new_name] = info.id();
+		_m->renamed_lib_map[info.id()] = new_name;
 	}
 }
 
 void LibraryListModel::move_row(int row_idx, int new_idx)
 {
-	// TODO: Implement me
+	_m->shown_library_info.move(row_idx, new_idx);
+	_m->move_operations << MoveOperation(row_idx, new_idx);
+
+	emit dataChanged(index(0), index(rowCount()));
 }
 
 void LibraryListModel::remove_row(int row_idx)
@@ -152,6 +158,7 @@ void LibraryListModel::reset()
 	_m->renamed_lib_map.clear();
 	_m->delete_lib_map.clear();
 	_m->delete_libs.clear();
+	_m->move_operations.clear();
 
 	emit dataChanged(index(0), index(rowCount()));
 }
@@ -168,10 +175,14 @@ void LibraryListModel::commit()
 		_m->library_manager->remove_library(library_id);
 	}
 
-	for(const LibName& name : _m->renamed_lib_map.keys())
+	for(qint8 library_id : _m->renamed_lib_map.keys())
 	{
-		qint8 library_id = _m->renamed_lib_map[name];
+		QString name = _m->renamed_lib_map[library_id];
 		_m->library_manager->rename_library(library_id, name);
+	}
+
+	for(const MoveOperation& op : _m->move_operations){
+		_m->library_manager->move_library(op.first, op.second);
 	}
 
 	_m->new_lib_map.clear();
@@ -181,3 +192,4 @@ void LibraryListModel::commit()
 
 	_m->refresh_info();
 }
+

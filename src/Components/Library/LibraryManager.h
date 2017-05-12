@@ -21,6 +21,7 @@ public:
 	qint8 add_library(const QString& name, const QString& path);
 	void rename_library(qint8 id, const QString& name);
 	void remove_library(qint8 id);
+	void move_library(int old_row, int new_row);
 
     QList<LibraryInfo> get_all_libraries() const;
 	LibraryInfo get_library(qint8 id) const;

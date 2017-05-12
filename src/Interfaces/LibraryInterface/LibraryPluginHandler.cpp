@@ -336,7 +336,6 @@ void LibraryPluginHandler::rename_local_library(qint8 library_id, const QString&
 
 void LibraryPluginHandler::remove_local_library(qint8 library_id)
 {
-
 	int idx = -1;
 	int i=0;
 	for(LibraryContainerInterface* container : _m->libraries)
@@ -376,6 +375,32 @@ void LibraryPluginHandler::remove_local_library(qint8 library_id)
 		QComboBox* lib_chooser = container->get_libchooser();
 		lib_chooser->removeItem(idx);
 	}
+}
+
+void LibraryPluginHandler::move_local_library(int old_row, int new_row)
+{
+	for(LibraryContainerInterface* container : _m->libraries)
+	{
+		if(!container->is_initialized()){
+			continue;
+		}
+
+		QComboBox* lib_chooser = container->get_libchooser();
+
+		QIcon icon = lib_chooser->itemIcon(old_row);
+		QString text = lib_chooser->itemText(old_row);
+		lib_chooser->removeItem(old_row);
+
+		if(new_row > old_row){
+			new_row--;
+		}
+
+		lib_chooser->insertItem(new_row,
+								icon,
+								text);
+	}
+
+	_m->libraries.move(old_row, new_row);
 }
 
 

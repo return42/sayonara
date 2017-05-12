@@ -69,6 +69,9 @@ void GUI_LibraryPreferences::init_ui()
 	connect(ui->le_name, &QLineEdit::textChanged, this, &GUI_LibraryPreferences::library_text_changed);
 	connect(ui->le_path, &QLineEdit::textChanged, this, &GUI_LibraryPreferences::library_text_changed);
 
+	connect(ui->btn_up, &QPushButton::clicked, this, &GUI_LibraryPreferences::up_clicked);
+	connect(ui->btn_down, &QPushButton::clicked, this, &GUI_LibraryPreferences::down_clicked);
+
 	ui->gb_new_library->setVisible(false);
 
 	revert();
@@ -218,4 +221,27 @@ void GUI_LibraryPreferences::library_text_changed(const QString& str)
 				(names.contains(str, Qt::CaseInsensitive)) ||
 				(paths.contains(str, Qt::CaseInsensitive))
 	);
+}
+
+
+void GUI_LibraryPreferences::up_clicked()
+{
+	int row = ui->lv_libs->currentIndex().row();
+	if(row <= 0 || row > _m->model->rowCount() - 1){
+		return;
+	}
+
+	_m->model->move_row(row, row-1);
+	ui->lv_libs->setCurrentIndex(_m->model->index(row - 1));
+}
+
+void GUI_LibraryPreferences::down_clicked()
+{
+	int row = ui->lv_libs->currentIndex().row();
+	if(row >= _m->model->rowCount() - 1 || row < 0){
+		return;
+	}
+
+	_m->model->move_row(row, row+1);
+	ui->lv_libs->setCurrentIndex(_m->model->index(row + 1));
 }

@@ -23,7 +23,6 @@ struct LibraryManager::Private
 
 	bool contains_path(const QString& path) const
 	{
-
 		for(const LibraryInfo& info : all_libs){
 			//QString info_path = info.path();
 			if(path.compare(info.path(), Qt::CaseInsensitive) == 0){
@@ -111,6 +110,11 @@ struct LibraryManager::Private
 
 		return LibraryInfo();
 	}
+
+	void move_library(int row, int new_row)
+	{
+		all_libs.move(row, new_row);
+	}
 };
 
 
@@ -148,27 +152,38 @@ void LibraryManager::rename_library(qint8 id, const QString& new_name)
 {
 	_m->rename_library(id, new_name);
 	_m->lph->rename_local_library(id, new_name);
-	QList<LibraryInfo> infos = _m->all_libs;
-	_settings->set(Set::Lib_AllLibraries, infos);
+	_settings->set(Set::Lib_AllLibraries, _m->all_libs);
 }
 
 void LibraryManager::remove_library(qint8 id)
 {
-	for(int i=0; i<_m->all_libs.size(); i++){
-		if(_m->all_libs[i].id() == id) {
-			_m->lph->remove_local_library(id);
-
-			LibraryInfo info = _m->all_libs.takeAt(i);
-			LocalLibrary* library = _m->lib_map.take(info.id());
-			if(library){
-				delete library; library=nullptr;
-			}
-
-			_settings->set(Set::Lib_AllLibraries, _m->all_libs);
-			break;
+	for(int i=0; i<_m->all_libs.size(); i++)
+	{
+		if(_m->all_libs[i].id() != id) {
+			continue;
 		}
+
+		_m->lph->remove_local_library(id);
+
+		LibraryInfo info = _m->all_libs.takeAt(i);
+		LocalLibrary* library = _m->lib_map.take(info.id());
+		if(library){
+			delete library; library=nullptr;
+		}
+
+		_settings->set(Set::Lib_AllLibraries, _m->all_libs);
+		break;
 	}
 }
+
+void LibraryManager::move_library(int old_row, int new_row)
+{
+	_m->move_library(old_row, new_row);
+	_m->lph->move_local_library(old_row, new_row);
+	_settings->set(Set::Lib_AllLibraries, _m->all_libs);
+}
+
+
 
 QList<LibraryInfo> LibraryManager::get_all_libraries() const
 {

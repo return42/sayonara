@@ -53,9 +53,12 @@ private slots:
 	void add_clicked();
 	void clear_clicked();
 	void library_text_changed(const QString& string);
+	void up_clicked();
+	void down_clicked();
 
 private:
 	Ui::GUI_LibraryPreferences*	ui=nullptr;
 };
+
 
 #endif // GUI_LIBRARYPREFERENCES_H
