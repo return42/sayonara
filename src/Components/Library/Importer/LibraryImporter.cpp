@@ -41,7 +41,7 @@ struct LibraryImporter::Private
 	QString					library_path;
 	CachingThread*			cache_thread=nullptr;
 	CopyThread*				copy_thread=nullptr;
-	const ImportCache*		import_cache=nullptr;
+	ImportCachePtr			import_cache=nullptr;
 
 	DatabaseConnector*		db=nullptr;
 
@@ -62,7 +62,6 @@ LibraryImporter::LibraryImporter(qint8 lib_id, const QString& library_path, QObj
 	SayonaraClass()
 {
 	_m = Pimpl::make<Private>(lib_id, library_path);
-
 
 	MetaDataChangeNotifier* md_change_notifier = MetaDataChangeNotifier::getInstance();
 	connect(md_change_notifier, &MetaDataChangeNotifier::sig_metadata_changed,
@@ -94,9 +93,9 @@ void LibraryImporter::import_files(const QStringList& files)
 void LibraryImporter::caching_thread_finished()
 {
 	CachingThread* thread = static_cast<CachingThread*>(sender());
-	MetaDataList v_md ;
+	MetaDataList v_md;
 
-	_m->import_cache = thread->get_cache();
+	_m->import_cache = thread->cache();
 	if(!_m->import_cache){
 		emit_status(ImportStatus::NoTracks);
 	}

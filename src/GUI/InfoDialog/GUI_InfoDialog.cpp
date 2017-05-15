@@ -187,7 +187,7 @@ void GUI_InfoDialog::tab_index_changed(GUI_InfoDialog::Tab idx)
 					}
 				}
 
-				if(local_md.size() > 0){
+				if(local_md.size() > 0) {
 					_m->ui_tag_edit->get_tag_edit()->set_metadata(local_md);
 				}
 			}

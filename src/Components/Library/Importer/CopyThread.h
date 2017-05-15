@@ -28,6 +28,7 @@
 
 class QString;
 class ImportCache;
+typedef std::shared_ptr<ImportCache> ImportCachePtr;
 class MetaDataList;
 
 /**
@@ -48,7 +49,7 @@ public:
 		Rollback
 	};
 
-	CopyThread(const QString& target_dir, const ImportCache* cache, QObject *parent=nullptr);
+	CopyThread(const QString& target_dir, ImportCachePtr cache, QObject *parent=nullptr);
 	virtual ~CopyThread();
 
 	int get_n_copied_files() const;

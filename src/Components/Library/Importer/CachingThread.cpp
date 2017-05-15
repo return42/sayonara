@@ -30,7 +30,7 @@
 struct CachingThread::Private
 {
 	QString			library_path;
-	ImportCache*	cache=nullptr;
+	ImportCachePtr	cache=nullptr;
 	QStringList		file_list;
 	bool			cancelled;
 
@@ -84,7 +84,8 @@ CachingThread::CachingThread(const QStringList& file_list, const QString& librar
 {
 	_m = Pimpl::make<CachingThread::Private>();
 
-	_m->cache = new ImportCache(library_path);
+	_m->cache = std::shared_ptr<ImportCache>(new ImportCache(library_path));
+
 	_m->library_path = library_path;
 	_m->file_list = file_list;
 	_m->cancelled = false;
@@ -115,7 +116,7 @@ void CachingThread::change_metadata(const MetaDataList& v_md_old, const MetaData
 }
 
 
-const ImportCache* CachingThread::get_cache() const
+ImportCachePtr CachingThread::cache() const
 {
 	return _m->cache;
 }

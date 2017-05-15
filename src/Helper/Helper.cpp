@@ -231,7 +231,8 @@ QStringList Helper::get_soundfile_extensions(bool with_asterisk)
 			<< "flac"
 			<< "aac"
 			<< "wma"
-			<< "mpc";
+			<< "mpc"
+			<< "aiff";
 
 	QStringList upper_filters;
 	for(QString& filter : filters) {

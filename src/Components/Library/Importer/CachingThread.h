@@ -27,6 +27,8 @@
 class ImportCache;
 class MetaDataList;
 
+typedef std::shared_ptr<ImportCache> ImportCachePtr;
+
 /**
  * @brief The CachingThread class
  * @ingroup Library
@@ -46,12 +48,11 @@ public:
 
 	void			cancel();
 	bool			is_cancelled() const;
-	const ImportCache*	get_cache() const;
+	ImportCachePtr	cache() const;
 	void			change_metadata(const MetaDataList& v_md_old, const MetaDataList& v_md_new);
 
 
 private:
-
 	PIMPL(CachingThread)
 
 private:

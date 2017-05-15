@@ -23,6 +23,7 @@
 
 #include "GUI/Helper/SayonaraWidget/SayonaraDialog.h"
 #include "Components/Library/Importer/LibraryImporter.h"
+#include "Helper/Pimpl.h"
 
 namespace Ui { class ImportFolder; }
 
@@ -33,6 +34,7 @@ class GUI_ImportFolder :
 		public SayonaraDialog
 {
 	Q_OBJECT
+	PIMPL(GUI_ImportFolder)
 
 signals:
 	void sig_progress(int);
@@ -55,12 +57,8 @@ private:
 	void showEvent(QShowEvent* e) override;
 	void language_changed() override;
 
-
 private:
 	Ui::ImportFolder*	ui=nullptr;
-	LibraryImporter*	_importer=nullptr;
-	GUI_TagEdit*		tag_edit=nullptr;
-	QString				_library_path;
 };
 
 #endif /* GUIIMPORTFOLDER_H_ */

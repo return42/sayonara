@@ -38,19 +38,18 @@ struct CopyThread::Private
 	int				percent;
 	bool			cancelled;
 
-	const ImportCache*	cache=nullptr;
+	ImportCachePtr		cache=nullptr;
 	CopyThread::Mode	mode;
 
-	Private(const ImportCache* c) : cache(c) {}
+	Private(ImportCachePtr c) : cache(c) {}
 };
 
 
-CopyThread::CopyThread(const QString& target_dir, const ImportCache* cache, QObject *parent) :
+CopyThread::CopyThread(const QString& target_dir, ImportCachePtr cache, QObject *parent) :
 	QThread(parent),
 	SayonaraClass()
 {
 	_m = Pimpl::make<CopyThread::Private>(cache);
-	_m->cache = cache;
 	_m->target_dir = target_dir;
 
 	clear();
