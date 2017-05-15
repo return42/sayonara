@@ -23,8 +23,11 @@
 
 #include <QThread>
 
-class UpdateDatesThread : public QThread
+class UpdateDatesThread :
+		public QThread
 {
+	Q_OBJECT
+
 public:
 	UpdateDatesThread(QObject* parent=nullptr);
 	~UpdateDatesThread();

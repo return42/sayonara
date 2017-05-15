@@ -22,8 +22,8 @@
 #define LIBRARYIMPORTER_H
 
 #include "Helper/Settings/SayonaraClass.h"
-#include "Helper/Singleton.h"
 #include "Helper/Pimpl.h"
+
 #include <QObject>
 
 class MetaDataList;
@@ -32,8 +32,7 @@ class MetaDataList;
  * @ingroup Library
  */
 class LibraryImporter :
-		public QObject,
-		protected SayonaraClass
+		public QObject
 {
 	Q_OBJECT
 	PIMPL(LibraryImporter)

@@ -39,7 +39,7 @@
 #define prepare_tracks_for_playlist_files static_cast<void (AbstractLibrary::*) (const QStringList&)>(&AbstractLibrary::psl_prepare_tracks_for_playlist)
 #define prepare_tracks_for_playlist_idxs static_cast<void (AbstractLibrary::*) (const IdxList&)>(&AbstractLibrary::psl_prepare_tracks_for_playlist)
 
-
+class TagEdit;
 class PlaylistHandler;
 class AbstractLibrary : public QObject, protected SayonaraClass
 {
@@ -183,9 +183,12 @@ protected:
 	virtual void		update_track(const MetaData& md)=0;
 	virtual void		update_tracks(const MetaDataList& v_md);
 	virtual void		update_album(const Album& album)=0;
+	TagEdit*			tag_edit();
 
 
 private:
+
+	void tag_edit_commit();
 	void set_playlist_action_after_double_click();
 
 //	virtual void restore_artist_selection();

@@ -44,8 +44,7 @@ struct GUI_ImportFolder::Private
 	QString				library_path;
 };
 
-// TODO: Pimpl
-GUI_ImportFolder::GUI_ImportFolder(const LocalLibrary* library, bool copy_enabled, QWidget* parent) :
+GUI_ImportFolder::GUI_ImportFolder(LocalLibrary* library, bool copy_enabled, QWidget* parent) :
 	SayonaraDialog(parent)
 {
 	_m = Pimpl::make<Private>();
@@ -53,19 +52,16 @@ GUI_ImportFolder::GUI_ImportFolder(const LocalLibrary* library, bool copy_enable
 	ui->setupUi(this);
 
 	_m->library_path = library->library_path();
-
-	ui->lab_target_path->setVisible(copy_enabled);
-	ui->lab_target_info->setVisible(copy_enabled);
-
 	_m->tag_edit = new GUI_TagEdit(this);
 	_m->tag_edit->hide();
+	_m->importer = library->importer();
 
-	ui->btn_edit->setVisible(false);
 	ui->lab_target_path->setText( _m->library_path );
-
-	_m->importer = new LibraryImporter(library->library_id(),
-									library->library_path(),
-									this);
+	ui->lab_target_path->setVisible(copy_enabled);
+	ui->lab_target_info->setVisible(copy_enabled);
+	ui->pb_progress->setValue(0);
+	ui->pb_progress->setVisible(false);
+	//ui->btn_edit->setVisible(false);
 
 	connect(ui->btn_ok, &QPushButton::clicked, this, &GUI_ImportFolder::bb_accepted);
 	connect(ui->btn_choose_dir, &QPushButton::clicked, this, &GUI_ImportFolder::choose_dir);
@@ -76,9 +72,6 @@ GUI_ImportFolder::GUI_ImportFolder(const LocalLibrary* library, bool copy_enable
 	connect(_m->importer, &LibraryImporter::sig_status_changed, this, &GUI_ImportFolder::set_status);
 	connect(_m->importer, &LibraryImporter::sig_progress, this, &GUI_ImportFolder::set_progress);
 	connect(_m->importer, &LibraryImporter::sig_triggered, this, &GUI_ImportFolder::show);
-
-	ui->pb_progress->setValue(0);
-	ui->pb_progress->setVisible(false);
 
 	setModal(true);
 }

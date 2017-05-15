@@ -19,7 +19,6 @@
  */
 
 #include "CachingThread.h"
-#include "ImportCache.h"
 
 #include "Helper/DirectoryReader/DirectoryReader.h"
 #include "Helper/Tagging/Tagging.h"
@@ -33,7 +32,6 @@ struct CachingThread::Private
 	ImportCachePtr	cache=nullptr;
 	QStringList		file_list;
 	bool			cancelled;
-
 
 	void read_files()
 	{
@@ -85,7 +83,6 @@ CachingThread::CachingThread(const QStringList& file_list, const QString& librar
 	_m = Pimpl::make<CachingThread::Private>();
 
 	_m->cache = std::shared_ptr<ImportCache>(new ImportCache(library_path));
-
 	_m->library_path = library_path;
 	_m->file_list = file_list;
 	_m->cancelled = false;

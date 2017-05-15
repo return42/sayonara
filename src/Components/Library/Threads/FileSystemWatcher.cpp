@@ -28,58 +28,73 @@
 
 const int SleepingTimeSec = 15;
 
+struct FileSystemWatcher::Private
+{
+	QStringList	indexed_files;
+	QString	library_path;
+	bool may_run;
+	bool refresh;
+	bool waiting;
+
+	Private(const QString& library_path) :
+		library_path(library_path),
+		may_run(true),
+		refresh(false),
+		waiting(false)
+	{}
+
+};
+
 FileSystemWatcher::FileSystemWatcher(const QString& library_path, QObject* parent) :
 	QThread(parent)
 {
-	_library_path = library_path;
-
-	_may_run = true;
-	_refresh = false;
-	_waiting = false;
+	_m = Pimpl::make<Private>(library_path);
 }
+
+FileSystemWatcher::~FileSystemWatcher() {}
 
 void FileSystemWatcher::run()
 {
-	_may_run = true;
-	_refresh = false;
-	_waiting = false;
+	_m->may_run = true;
+	_m->refresh = false;
+	_m->waiting = false;
 
-	_indexed_files = index_files(_library_path);
+	_m->indexed_files = index_files(_m->library_path);
 
-	while(_may_run)
+	while(_m->may_run)
 	{
 		bool changed = false;
 
-		if(_refresh)
+		if(_m->refresh)
 		{
-			if(!_may_run){
+			if(!_m->may_run){
 				break;
 			}
 
-			_indexed_files = index_files(_library_path);
-			_refresh = false;
-			_waiting = false;
+			_m->indexed_files = index_files(_m->library_path);
+			_m->refresh = false;
+			_m->waiting = false;
 		}
 
-		if(!_waiting)
+		if(!_m->waiting)
 		{
-			if(!_may_run){
+			if(!_m->may_run){
 				break;
 			}
 
-			QStringList actual_files = index_files(_library_path);
+			QStringList actual_files = index_files(_m->library_path);
 
-			if(actual_files.size() != _indexed_files.size()){
+			if(actual_files.size() != _m->indexed_files.size()){
 				changed = true;
 			}
 
 			else
 			{
-				auto it1 = _indexed_files.begin();
+				auto it1 = _m->indexed_files.begin();
 				auto it2 = actual_files.begin();
 
-				for(; it1 != _indexed_files.end(); it1++, it2++){
-					if(!_may_run){
+				for(; it1 != _m->indexed_files.end(); it1++, it2++){
+					if(!_m->may_run){
 						break;
 					}
 
@@ -91,20 +106,20 @@ void FileSystemWatcher::run()
 			}
 		}
 
-		if(changed && _may_run){
-			_waiting = true;
+		if(changed && _m->may_run){
+			_m->waiting = true;
 			emit sig_changed();
 		}
 
 		for(int i=0; i<SleepingTimeSec; i++){
-			if(!_may_run){
+			if(!_m->may_run){
 				break;
 			}
 
 			QThread::msleep(1000);
 		}
 
-		if(!_may_run){
+		if(!_m->may_run){
 			break;
 		}
 	}
@@ -121,7 +136,7 @@ QStringList FileSystemWatcher::index_files(const QString& root)
 	QStringList files;
 	reader.get_files_in_dir_rec(QDir(root), files);
 
-	if(!_may_run){
+	if(!_m->may_run){
 		return QStringList();
 	}
 
@@ -132,10 +147,10 @@ QStringList FileSystemWatcher::index_files(const QString& root)
 
 void FileSystemWatcher::refresh()
 {
-	_refresh = true;
+	_m->refresh = true;
 }
 
 void FileSystemWatcher::stop()
 {
-	_may_run = false;
+	_m->may_run = false;
 }

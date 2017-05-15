@@ -22,7 +22,8 @@
 #include "Helper/Logger/Logger.h"
 #include <QStringList>
 
-EQ_Setting::EQ_Setting(const QString& name){
+EQ_Setting::EQ_Setting(const QString& name)
+{
 	_name = name;
 
 	for(int i=0; i<10; i++){
@@ -30,7 +31,8 @@ EQ_Setting::EQ_Setting(const QString& name){
 	}
 }
 
-EQ_Setting::EQ_Setting(const EQ_Setting& s){
+EQ_Setting::EQ_Setting(const EQ_Setting& s)
+{
 	_values = s.values();
 	_name = s.name();
 }

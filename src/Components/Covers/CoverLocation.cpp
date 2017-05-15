@@ -45,6 +45,11 @@ struct CoverLocation::Private
 	QStringList		local_paths; // local_paths paths where images can be fetched from if they should not be fetched from the .Sayonara directory
 	QString			identifier;
 	bool			valid; // valid if CoverLocation object contains a valid download url
+
+	Private()
+	{
+		valid = false;
+	}
 };
 
 
@@ -53,7 +58,6 @@ CoverLocation::CoverLocation()
 	qRegisterMetaType<CoverLocation>("CoverLocation");
 
 	_m = Pimpl::make<CoverLocation::Private>();
-	_m->valid = false;
 }
 
 CoverLocation::~CoverLocation() {}

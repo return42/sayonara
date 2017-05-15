@@ -23,16 +23,20 @@
 
 #include <QThread>
 #include <QStringList>
+#include "Helper/Pimpl.h"
 
 class FileSystemWatcher : public QThread
 {
 	Q_OBJECT
+	PIMPL(FileSystemWatcher)
 
 signals:
 	void sig_changed();
 
 public:
-	FileSystemWatcher(const QString& library_path, QObject* parent);
+	explicit FileSystemWatcher(const QString& library_path, QObject* parent=nullptr);
+	~FileSystemWatcher();
+
 	void refresh();
 	void stop();
 
@@ -40,12 +44,6 @@ protected:
 	void run() override;
 
 private:
-	QStringList			_indexed_files;
-	QString				_library_path;
-	bool				_may_run;
-	bool				_refresh;
-	bool				_waiting;
-
 	QStringList index_files(const QString& root);
 };
 

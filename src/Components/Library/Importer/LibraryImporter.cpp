@@ -20,8 +20,9 @@
 
 #include "LibraryImporter.h"
 #include "ImportCache.h"
+#include "CachingThread.h"
+#include "CopyThread.h"
 
-#include "Helper/Settings/Settings.h"
 #include "Helper/MetaData/MetaDataList.h"
 #include "Helper/Message/Message.h"
 #include "Helper/Logger/Logger.h"
@@ -29,8 +30,6 @@
 #include "Components/TagEdit/MetaDataChangeNotifier.h"
 #include "Database/DatabaseConnector.h"
 #include "Database/LibraryDatabase.h"
-#include "CachingThread.h"
-#include "CopyThread.h"
 
 #include <QMap>
 #include <QDir>
@@ -58,8 +57,7 @@ struct LibraryImporter::Private
 };
 
 LibraryImporter::LibraryImporter(qint8 lib_id, const QString& library_path, QObject* parent) :
-	QObject(parent),
-	SayonaraClass()
+	QObject(parent)
 {
 	_m = Pimpl::make<Private>(lib_id, library_path);
 
@@ -76,7 +74,6 @@ void LibraryImporter::import_files(const QStringList& files)
 	emit_status(ImportStatus::Caching);
 
 	CachingThread* thread = new CachingThread(files, _m->library_path);
-
 	connect(thread, &CachingThread::finished, this, &LibraryImporter::caching_thread_finished);
 	connect(thread, &CachingThread::sig_progress, this, &LibraryImporter::sig_progress);
 	connect(thread, &CachingThread::destroyed, [=]()
@@ -169,15 +166,16 @@ void LibraryImporter::copy_thread_finished()
 	int n_files_to_copy = _m->import_cache->get_files().size();
 
 	// error and success messages
-	if(success) {
+	if(success)
+	{
 		_m->db->clean_up();
 
 		QString str = "";
-		if(n_files_to_copy == n_files_copied){
+		if(n_files_to_copy == n_files_copied) {
 			str =  tr("All files could be imported");
 		}
 
-		else{
+		else {
 			str = tr("%1 of %2 files could be imported")
 					.arg(n_files_copied)
 					.arg(n_files_to_copy);
@@ -190,11 +188,8 @@ void LibraryImporter::copy_thread_finished()
 		MetaDataChangeNotifier::getInstance()->change_metadata(MetaDataList(), MetaDataList());
 	}
 
-	else{
-		QString warning = tr("Sorry, but tracks could not be imported") +
-					"<br />" +
-					tr("Please use the import function of the file menu<br /> or move tracks to library and use 'Reload library'");
-
+	else {
+		QString warning = tr("Could not import tracks");
 		Message::warning(warning);
 	}
 

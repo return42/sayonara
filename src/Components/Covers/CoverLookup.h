@@ -51,9 +51,6 @@ public:
 	CoverLookup(QObject* parent=nullptr, int n_covers=1);
 	~CoverLookup();
 
-	void set_identifier(const QString& id);
-	QString identifier() const;
-
 
 	/**
 	 * @brief fetches cover for a CoverLocation.

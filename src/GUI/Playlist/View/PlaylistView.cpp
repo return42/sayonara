@@ -371,7 +371,7 @@ void PlaylistView::rating_changed(int rating)
 	}
 
 	int row = selections.first();
-	MetaData md = _model->get_md(row);
+	MetaData md(_model->get_md(row));
 	MetaDataList v_md_old;
 	v_md_old << md;
 

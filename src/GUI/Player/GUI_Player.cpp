@@ -156,7 +156,6 @@ void GUI_Player::track_changed(const MetaData & md)
 {
 	_md = md;
 
-
 	lab_sayonara->hide();
 	lab_title->show();
 
@@ -542,7 +541,7 @@ void GUI_Player::ui_loaded()
 
 
 	if(_play_manager->get_play_state() != PlayState::Stopped){
-		MetaData md = _play_manager->get_cur_track();
+		MetaData md(_play_manager->get_cur_track());
 		track_changed(md);
 	}
 

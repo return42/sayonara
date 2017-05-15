@@ -52,7 +52,7 @@ signals:
 public:
 	explicit TagEdit(QObject* parent=nullptr);
 	explicit TagEdit(const MetaDataList& v_md, QObject* parent=nullptr);
-	virtual ~TagEdit();
+	~TagEdit();
 
 
 	/**

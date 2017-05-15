@@ -23,12 +23,11 @@
 
 #include <QThread>
 
-#include "Helper/Settings/SayonaraClass.h"
+#include "ImportCache.h"
 #include "Helper/Pimpl.h"
 
 class QString;
 class ImportCache;
-typedef std::shared_ptr<ImportCache> ImportCachePtr;
 class MetaDataList;
 
 /**
@@ -36,10 +35,10 @@ class MetaDataList;
  * @ingroup Library
  */
 class CopyThread :
-		public QThread,
-		protected SayonaraClass
+		public QThread
 {
     Q_OBJECT
+	PIMPL(CopyThread)
 
 public:
 
@@ -61,8 +60,6 @@ public:
 
 	void set_mode(CopyThread::Mode mode);
 
-private:
-	PIMPL(CopyThread)
 
 private:
 

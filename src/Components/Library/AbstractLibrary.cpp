@@ -35,15 +35,6 @@
 struct AbstractLibrary::Private
 {
 	TagEdit* tag_edit=nullptr;
-	Private()
-	{
-		tag_edit = new TagEdit();
-	}
-
-	~Private()
-	{
-		delete tag_edit;
-	}
 };
 
 AbstractLibrary::AbstractLibrary(QObject *parent) :
@@ -51,11 +42,6 @@ AbstractLibrary::AbstractLibrary(QObject *parent) :
 	SayonaraClass()
 {
 	_m = Pimpl::make<Private>();
-
-	connect(_m->tag_edit, &TagEdit::finished, this, &AbstractLibrary::refresh);
-	connect(_m->tag_edit, &TagEdit::sig_progress, this, [=](int progress){
-		emit sig_reloading_library(Lang::get(Lang::ReloadLibrary), progress);
-	});
 
 	_playlist = PlaylistHandler::getInstance();
 	_sortorder = _settings->get(Set::Lib_Sorting);
@@ -654,6 +640,19 @@ void AbstractLibrary::update_tracks(const MetaDataList& v_md)
 	refresh();
 }
 
+TagEdit*AbstractLibrary::tag_edit()
+{
+	if(!_m->tag_edit){
+		_m->tag_edit = new TagEdit(this);
+		connect(_m->tag_edit, &TagEdit::finished, this, &AbstractLibrary::refresh);
+		connect(_m->tag_edit, &TagEdit::sig_progress, this, [=](int progress){
+			emit sig_reloading_library(Lang::get(Lang::ReloadLibrary), progress);
+		});
+	}
+
+	return _m->tag_edit;
+}
+
 void AbstractLibrary::insert_tracks(const MetaDataList &v_md)
 {
 	Q_UNUSED(v_md)
@@ -733,16 +732,18 @@ void AbstractLibrary::add_genre(SP::Set<ID> ids, const QString& genre)
 	Genre g(genre);
 	MetaDataList v_md;
 	get_all_tracks(v_md, Library::Sortings());
-	_m->tag_edit->set_metadata(v_md);
+
+
+	tag_edit()->set_metadata(v_md);
 
 	for(int i=0; i<v_md.size(); i++)
 	{
 		if( ids.contains(v_md[i].id) ){
-			_m->tag_edit->add_genre(i, genre);
+			tag_edit()->add_genre(i, genre);
 		}
 	}
 
-	_m->tag_edit->commit();
+	tag_edit()->commit();
 }
 
 
@@ -753,14 +754,14 @@ void AbstractLibrary::delete_genre(const QString& genre)
 	sp_log(Log::Debug, this) << "Delete genre: Fetch all tracks";
 	get_all_tracks(v_md, Library::Sortings());
 	sp_log(Log::Debug, this) << "Delete genre: Set Metadata";
-	_m->tag_edit->set_metadata(v_md);
+	tag_edit()->set_metadata(v_md);
 
 	for(int i=0; i<v_md.size(); i++)
 	{
-		_m->tag_edit->delete_genre(i, genre);
+		tag_edit()->delete_genre(i, genre);
 	}
 
-	_m->tag_edit->commit();
+	tag_edit()->commit();
 }
 
 void AbstractLibrary::rename_genre(const QString& genre, const QString& new_genre)
@@ -770,15 +771,15 @@ void AbstractLibrary::rename_genre(const QString& genre, const QString& new_genr
 
 	sp_log(Log::Debug, this) << "Rename genre: Fetch all tracks";
 	get_all_tracks(v_md, Library::Sortings());
-	_m->tag_edit->set_metadata(v_md);
+	tag_edit()->set_metadata(v_md);
 
 	for(int i=0; i<v_md.size(); i++)
 	{
 		if(v_md[i].has_genre(g)){
-			_m->tag_edit->delete_genre(i, genre);
-			_m->tag_edit->add_genre(i, new_genre);
+			tag_edit()->delete_genre(i, genre);
+			tag_edit()->add_genre(i, new_genre);
 		}
 	}
 
-	_m->tag_edit->commit();
+	tag_edit()->commit();
 }

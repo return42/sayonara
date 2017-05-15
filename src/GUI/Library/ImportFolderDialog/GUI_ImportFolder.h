@@ -40,7 +40,7 @@ signals:
 	void sig_progress(int);
 
 public:
-	GUI_ImportFolder(const LocalLibrary* library, bool copy_enabled, QWidget* parent);
+	GUI_ImportFolder(LocalLibrary* library, bool copy_enabled, QWidget* parent);
 	virtual ~GUI_ImportFolder();
 
 private slots:

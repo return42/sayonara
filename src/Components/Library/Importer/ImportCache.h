@@ -21,12 +21,10 @@
 #ifndef IMPORTCACHE_H
 #define IMPORTCACHE_H
 
-#include <QMap>
-#include <QString>
-#include <QStringList>
-
 #include "Helper/Pimpl.h"
 
+class QString;
+class QStringList;
 class MetaData;
 class MetaDataList;
 
@@ -40,7 +38,6 @@ private:
 	PIMPL(ImportCache)
 
 public:
-
 	ImportCache(const QString& library_path);
 	virtual ~ImportCache();
 
@@ -50,7 +47,8 @@ public:
 	void			clear();
 
 	void			add_soundfile(const MetaData& md);
-	void			add_standard_file(const QString& filename, const QString& parent_dir=QString());
+	void			add_standard_file(const QString& filename);
+	void			add_standard_file(const QString& filename, const QString& parent_dir);
 
 	QStringList		get_files() const;
 	MetaDataList	get_soundfiles() const;

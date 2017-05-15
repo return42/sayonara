@@ -36,6 +36,11 @@ struct AbstractPlaylist::Private
 {
 	MetaDataList    v_md;
 	bool			playlist_changed;
+
+	Private()
+	{
+		playlist_changed = false;
+	}
 };
 
 AbstractPlaylist::AbstractPlaylist(int idx, const QString& name) :
@@ -46,11 +51,9 @@ AbstractPlaylist::AbstractPlaylist(int idx, const QString& name) :
 	EngineHandler* engine = EngineHandler::getInstance();
 
 	_m = Pimpl::make<AbstractPlaylist::Private>();
-	_m->playlist_changed = false;
 
 	_playlist_idx = idx;
 	_playlist_mode = _settings->get(Set::PL_Mode);
-
 	_is_storable = false;
 
 	connect(md_change_notifier, &MetaDataChangeNotifier::sig_metadata_changed, this, &AbstractPlaylist::metadata_changed);

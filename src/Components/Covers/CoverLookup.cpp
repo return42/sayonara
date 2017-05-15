@@ -41,20 +41,17 @@
 struct CoverLookup::Private
 {
 	int					n_covers;
-	QString				id;
 	CoverFetchThread*	cft=nullptr;
 
-	Private()
-	{
-		n_covers = 0;
-	}
+	Private(int n_covers) :
+		n_covers(n_covers)
+	{}
 };
 
 CoverLookup::CoverLookup(QObject* parent, int n_covers) :
 	AbstractCoverLookup(parent)
 {
-	_m = Pimpl::make<Private>();
-	_m->n_covers = n_covers;
+	_m = Pimpl::make<Private>(n_covers);
 }
 
 CoverLookup::~CoverLookup() {}
@@ -142,15 +139,3 @@ void CoverLookup::stop()
 		emit sig_finished(true);
 	}
 }
-
-
-void CoverLookup::set_identifier(const QString& id)
-{
-	_m->id = id;
-}
-
-QString CoverLookup::identifier() const
-{
-	return _m->id;
-}
-

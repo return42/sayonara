@@ -46,11 +46,11 @@ class ReloadThread :
 {
 	Q_OBJECT
 	SINGLETON_QOBJECT(ReloadThread)
+	PIMPL(ReloadThread)
 
 signals:
 	void sig_reloading_library(const QString& message, int progress);
     void sig_new_block_saved();
-
 
 public:
 	void pause();
@@ -59,14 +59,10 @@ public:
 	void set_quality(Library::ReloadQuality quality);
 	void set_library(qint8 lib_id, const QString& library_path);
 
-
 protected:
 	virtual void run() override;
 
-
 private:
-	PIMPL(ReloadThread)
-
 	int				get_and_save_all_files(const QHash<QString, MetaData>& v_md_map);
 	QStringList		get_files_recursive (QDir base_dir);
 	QStringList		process_sub_files(const QDir& dir, const QStringList& sub_files);

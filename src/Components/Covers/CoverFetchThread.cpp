@@ -55,11 +55,13 @@ struct CoverFetchThread::Private
 	int					n_covers_found;
 	bool				may_run;
 
-	Private()
-	{
-		n_covers_found = 0;
-		may_run = true;
-	}
+	Private(const CoverLocation& cl, int n_covers) :
+		cl(cl),
+		id(Helper::get_random_string(8)),
+		n_covers(n_covers),
+		n_covers_found(0),
+		may_run(true)
+	{}
 };
 
 CoverFetchThread::CoverFetchThread() {}
@@ -67,11 +69,7 @@ CoverFetchThread::CoverFetchThread() {}
 CoverFetchThread::CoverFetchThread(QObject* parent, const CoverLocation& cl, const int n_covers) :
 	QObject(parent)
 {
-	_m = Pimpl::make<Private>();
-
-	_m->n_covers = n_covers;
-	_m->cl = cl;
-	_m->id = Helper::get_random_string(8);
+	_m = Pimpl::make<Private>(cl, n_covers);
 }
 
 CoverFetchThread::~CoverFetchThread() {}

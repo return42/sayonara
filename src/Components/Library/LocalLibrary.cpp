@@ -44,37 +44,27 @@ struct LocalLibrary::Private
 	qint8				lib_id;
 	ReloadThread* 		reload_thread=nullptr;
 	FileSystemWatcher*	fsw=nullptr;
-	TagEdit*			tag_edit=nullptr;
 	LibraryImporter*	library_importer=nullptr;
 	QString				library_path;
 
-	Private()
-	{
-
-		tag_edit = new TagEdit(nullptr);
-	}
-
-	~Private()
-	{
-		delete tag_edit; tag_edit = nullptr;
-	}
+	Private(const QString& library_path, qint8 lib_id) :
+		db(DatabaseConnector::getInstance()),
+		lib_db(db->library_db(lib_id, 0)),
+		lib_id(lib_id),
+		library_path(library_path)
+	{}
 };
 
-LocalLibrary::LocalLibrary(qint8 id, const QString& library_path, QObject *parent) :
+LocalLibrary::LocalLibrary(qint8 lib_id, const QString& library_path, QObject *parent) :
 	AbstractLibrary(parent)
 {
-	DatabaseConnector::getInstance()->register_library_db<LocalLibraryDatabase>(id);
+	DatabaseConnector::getInstance()->register_library_db<LocalLibraryDatabase>(lib_id);
 
-	_m = Pimpl::make<Private>();
-	_m->library_path = library_path;
-	_m->db = DatabaseConnector::getInstance();
-	_m->lib_db = _m->db->library_db(id, 0);
-	_m->lib_id = id;
+	_m = Pimpl::make<Private>(library_path, lib_id);
 
 	apply_db_fixes();
 
 	connect(_playlist, &PlaylistHandler::sig_track_deletion_requested, this, &LocalLibrary::delete_tracks);
-	connect(_m->tag_edit, &TagEdit::finished, this, &LocalLibrary::refresh);
 
 	REGISTER_LISTENER_NO_CALL(Set::Lib_SearchMode, _sl_search_mode_changed);
 	REGISTER_LISTENER(Set::Lib_AutoUpdate, _sl_auto_update_changed);
@@ -403,11 +393,11 @@ void LocalLibrary::merge_artists(const SP::Set<ArtistID>& artist_ids, ArtistID t
 	MetaDataList v_md;
 
 	get_all_tracks_by_artist(artist_ids.toList(), v_md, _filter, _sortorder);
-	_m->tag_edit->set_metadata(v_md);
+	tag_edit()->set_metadata(v_md);
 
 	for(int idx=0; idx<v_md.size(); idx++)
 	{
-		MetaData md = v_md[idx];
+		MetaData md(v_md[idx]);
 		if(show_album_artists){
 			md.set_album_artist(artist.name, artist.id);
 		}
@@ -417,10 +407,10 @@ void LocalLibrary::merge_artists(const SP::Set<ArtistID>& artist_ids, ArtistID t
 			md.artist = artist.name;
 		}
 
-		_m->tag_edit->update_track(idx, md);
+		tag_edit()->update_track(idx, md);
 	}
 
-	_m->tag_edit->commit();
+	tag_edit()->commit();
 }
 
 void LocalLibrary::merge_albums(const SP::Set<AlbumID>& album_ids, AlbumID target_album)
@@ -443,17 +433,17 @@ void LocalLibrary::merge_albums(const SP::Set<AlbumID>& album_ids, AlbumID targe
 	MetaDataList v_md;
 	get_all_tracks_by_album(album_ids.toList(), v_md, _filter, _sortorder);
 
-	_m->tag_edit->set_metadata(v_md);
+	tag_edit()->set_metadata(v_md);
 	for(int idx=0; idx<v_md.size(); idx++)
 	{
-		MetaData md = v_md[idx];
+		MetaData md(v_md[idx]);
 		md.album_id = album.id;
 		md.album = album.name;
 
-		_m->tag_edit->update_track(idx, md);
+		tag_edit()->update_track(idx, md);
 	}
 
-	_m->tag_edit->commit();
+	tag_edit()->commit();
 }
 
 void LocalLibrary::change_track_rating(int idx, int rating)
@@ -464,9 +454,9 @@ void LocalLibrary::change_track_rating(int idx, int rating)
 	AbstractLibrary::change_track_rating(idx, rating);
 	MetaData md_new = _vec_md[idx];
 
-	_m->tag_edit->set_metadata(v_md);
-	_m->tag_edit->update_track(0, md_new);
-	_m->tag_edit->commit();
+	tag_edit()->set_metadata(v_md);
+	tag_edit()->update_track(0, md_new);
+	tag_edit()->commit();
 }
 
 void LocalLibrary::set_library_path(const QString& library_path)

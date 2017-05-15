@@ -29,6 +29,9 @@ class MetaDataList;
 class IndexDirectoriesThread :
 		public QThread
 {
+	Q_OBJECT
+	PIMPL(IndexDirectoriesThread)
+
 public:
 	explicit IndexDirectoriesThread(const MetaDataList& v_md);
 	virtual ~IndexDirectoriesThread();
@@ -37,10 +40,6 @@ public:
 
 protected:
 	void run() override;
-
-private:
-	PIMPL(IndexDirectoriesThread)
-
 };
 
 #endif // INDEXDIRECTORIESTHREAD_H

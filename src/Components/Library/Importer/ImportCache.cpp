@@ -25,6 +25,10 @@
 #include "Helper/FileHelper.h"
 #include "Helper/MetaData/MetaDataList.h"
 
+#include <QMap>
+#include <QString>
+#include <QStringList>
+
 struct ImportCache::Private
 {
 	QString					library_path;
@@ -71,6 +75,11 @@ void ImportCache::add_soundfile(const MetaData& md)
 
 	_m->v_md << md;
 	_m->src_md_map[md.filepath()] = md;
+}
+
+void ImportCache::add_standard_file(const QString& filename)
+{
+	add_standard_file(filename, QString());
 }
 
 void ImportCache::add_standard_file(const QString& filename, const QString& parent_dir)

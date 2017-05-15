@@ -19,11 +19,9 @@
  */
 
 #include "CopyThread.h"
-#include "ImportCache.h"
 #include "Helper/MetaData/MetaDataList.h"
 #include "Helper/FileHelper.h"
 #include "Helper/Logger/Logger.h"
-#include "Helper/Settings/Settings.h"
 
 #include <QFile>
 #include <QDir>
@@ -46,8 +44,7 @@ struct CopyThread::Private
 
 
 CopyThread::CopyThread(const QString& target_dir, ImportCachePtr cache, QObject *parent) :
-	QThread(parent),
-	SayonaraClass()
+	QThread(parent)
 {
 	_m = Pimpl::make<CopyThread::Private>(cache);
 	_m->target_dir = target_dir;

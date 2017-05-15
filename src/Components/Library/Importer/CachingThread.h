@@ -22,12 +22,12 @@
 #define IMPORTFOLDERTHREAD_H
 
 #include <QThread>
+
+#include "ImportCache.h"
 #include "Helper/Pimpl.h"
 
 class ImportCache;
 class MetaDataList;
-
-typedef std::shared_ptr<ImportCache> ImportCachePtr;
 
 /**
  * @brief The CachingThread class
@@ -37,10 +37,10 @@ class CachingThread :
 		public QThread
 {
 	Q_OBJECT
+	PIMPL(CachingThread)
 
 signals:
 	void			sig_progress(int);
-
 
 public:
 	explicit CachingThread(const QStringList& file_list, const QString& library_path, QObject *parent=nullptr);
@@ -50,10 +50,6 @@ public:
 	bool			is_cancelled() const;
 	ImportCachePtr	cache() const;
 	void			change_metadata(const MetaDataList& v_md_old, const MetaDataList& v_md_new);
-
-
-private:
-	PIMPL(CachingThread)
 
 private:
 	void run() override;
