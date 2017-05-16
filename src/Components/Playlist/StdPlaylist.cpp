@@ -61,7 +61,7 @@ int StdPlaylist::create_playlist(const MetaDataList& v_md)
 
 bool StdPlaylist::change_track(int idx) 
 {
-	metadata().set_cur_play_track(idx);
+	metadata().set_current_track(idx);
 
 	// ERROR: invalid idx
 	if( !between(idx, metadata()) ) {
@@ -89,8 +89,8 @@ void StdPlaylist::play()
 		return;
 	}
 
-	if(metadata().get_cur_play_track() == -1) {
-		metadata().set_cur_play_track(0);
+	if(metadata().current_track() == -1) {
+		metadata().set_current_track(0);
 	}
 }
 
@@ -100,7 +100,7 @@ void StdPlaylist::pause() {}
 
 void StdPlaylist::stop() 
 {
-	metadata().set_cur_play_track(-1);
+	metadata().set_current_track(-1);
 
 	for(MetaData& md : metadata()){
 		md.played = false;
@@ -121,14 +121,14 @@ void StdPlaylist::fwd()
 
 void StdPlaylist::bwd() 
 {
-	int cur_idx = metadata().get_cur_play_track();
+	int cur_idx = metadata().current_track();
 	change_track( cur_idx - 1 );
 }
 
 
 void StdPlaylist::next() 
 {
-	int cur_track = metadata().get_cur_play_track();
+	int cur_track = metadata().current_track();
 	int track_num = -1;
 
 	// no track

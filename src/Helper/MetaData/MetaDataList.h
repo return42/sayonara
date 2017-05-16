@@ -24,34 +24,29 @@
 #include "MetaData.h"
 #include "MetaDataFwd.h"
 #include "Helper/typedefs.h"
+#include "Helper/SetFwd.h"
+#include "Helper/Pimpl.h"
 
 /**
  * @brief The MetaDataList class
  * @ingroup MetaDataHelper
  */
 
-namespace SP
-{
-	template<typename T>
-	class Set;
-}
-
 class MetaDataList :
 		public QList<MetaData>
 {
-private:
-	int _cur_played_track;
+	PIMPL(MetaDataList)
 
 public:
-
 	MetaDataList();
 	MetaDataList(const MetaDataList&);
 
 	~MetaDataList();
 
-	void set_cur_play_track(int idx);
-	int get_cur_play_track() const;
+	MetaDataList& operator=(const MetaDataList& other);
 
+	void set_current_track(int idx);
+	int current_track() const;
 
 	bool contains(const MetaData& md) const;
 	MetaDataList& remove_track(int idx);

@@ -191,13 +191,13 @@ quint64 AbstractPlaylist::get_running_time() const
 
 int AbstractPlaylist::get_cur_track_idx() const 
 {
-	return _m->v_md.get_cur_play_track();
+	return _m->v_md.current_track();
 }
 
 
 bool AbstractPlaylist::get_cur_track(MetaData &md) const 
 {
-	int cur_play_idx = _m->v_md.get_cur_play_track();
+	int cur_play_idx = _m->v_md.current_track();
 
 	if(cur_play_idx < 0){
 		return false;

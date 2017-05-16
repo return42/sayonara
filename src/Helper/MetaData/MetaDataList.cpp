@@ -25,23 +25,47 @@
 
 #include <algorithm>
 
+struct MetaDataList::Private
+{
+	int current_track;
+	Private()
+	{
+		current_track = -1;
+	}
+};
+
 MetaDataList::MetaDataList() :
 	QList<MetaData>()
 {
-	_cur_played_track = -1;
+	_m = Pimpl::make<Private>();
 }
 
-MetaDataList::MetaDataList(const MetaDataList& lst) :
-	QList(lst)
+MetaDataList::MetaDataList(const MetaDataList& other) :
+	QList(other)
 {
-	_cur_played_track = lst._cur_played_track;
+	_m = Pimpl::make<Private>();
+	_m->current_track = other.current_track();
 }
 
 MetaDataList::~MetaDataList() {}
 
-void MetaDataList::set_cur_play_track(int idx)
+MetaDataList& MetaDataList::operator=(const MetaDataList& other)
 {
-	_cur_played_track = -1;
+	this->clear();
+	for(auto it=other.begin(); it!=other.end(); it++)
+	{
+		this->push_back(*it);
+	}
+
+	_m->current_track = other.current_track();
+
+	return *this;
+}
+
+void MetaDataList::set_current_track(int idx)
+{
+	_m->current_track = -1;
+
 	if( !between(idx, this)) {
 		return;
 	}
@@ -52,7 +76,7 @@ void MetaDataList::set_cur_play_track(int idx)
 		tmp_idx++;
 	}
 
-	_cur_played_track = idx;
+	_m->current_track = idx;
 }
 
 MetaDataList& MetaDataList::insert_tracks(const MetaDataList& v_md, int tgt_idx)
@@ -61,7 +85,7 @@ MetaDataList& MetaDataList::insert_tracks(const MetaDataList& v_md, int tgt_idx)
 		return *this;
 	}
 
-	int cur_track = this->get_cur_play_track();
+	int cur_track = this->current_track();
 
 	tgt_idx = std::max(0, tgt_idx);
 	tgt_idx = std::min(this->size(), tgt_idx);
@@ -74,7 +98,7 @@ MetaDataList& MetaDataList::insert_tracks(const MetaDataList& v_md, int tgt_idx)
 	}
 
 	if(cur_track >= old_tgt_idx){
-		set_cur_play_track(cur_track + v_md.size());
+		set_current_track(cur_track + v_md.size());
 	}
 
 	return *this;
@@ -107,7 +131,7 @@ MetaDataList& MetaDataList::move_tracks(const SP::Set<int>& indexes, int tgt_idx
 	{
 		const MetaData& md = *it;
 
-		it->pl_playing = (i == _cur_played_track);
+		it->pl_playing = (i == _m->current_track);
 
 		bool contains_i = indexes.contains(i);
 
@@ -118,13 +142,13 @@ MetaDataList& MetaDataList::move_tracks(const SP::Set<int>& indexes, int tgt_idx
 				v_md_after_tgt << std::move( md );
 			}
 		} else {
-			contains_cur_track |= (i == _cur_played_track);
+			contains_cur_track |= (i == _m->current_track);
 			v_md_to_move << std::move( md );
-			if(i < _cur_played_track){
+			if(i < _m->current_track){
 				n_tracks_before_cur_idx++;
 			}
 
-			else if(i > _cur_played_track){
+			else if(i > _m->current_track){
 				n_tracks_after_cur_idx++;
 			}
 		}
@@ -141,16 +165,16 @@ MetaDataList& MetaDataList::move_tracks(const SP::Set<int>& indexes, int tgt_idx
 	std::move(v_md_after_tgt.begin(), v_md_after_tgt.end(), this->begin() + start_idx);
 
 	if(contains_cur_track) {
-		_cur_played_track = (n_tracks_before_cur_idx) + v_md_before_tgt.size();
+		_m->current_track = (n_tracks_before_cur_idx) + v_md_before_tgt.size();
 	}
 
 	if(!contains_cur_track) {
-		if(tgt_idx <= _cur_played_track) {
-			_cur_played_track += n_tracks_after_cur_idx;
+		if(tgt_idx <= _m->current_track) {
+			_m->current_track += n_tracks_after_cur_idx;
 		}
 
 		else {
-			_cur_played_track -= n_tracks_before_cur_idx;
+			_m->current_track -= n_tracks_before_cur_idx;
 		}
 	}
 
@@ -176,12 +200,12 @@ MetaDataList& MetaDataList::remove_tracks(int first, int last)
 		this->removeAt(first);
 	}
 
-	if(_cur_played_track >= first && _cur_played_track <= last){
-		set_cur_play_track(-1);
+	if(_m->current_track >= first && _m->current_track <= last){
+		set_current_track(-1);
 	}
 
-	if(_cur_played_track > last){
-		set_cur_play_track( _cur_played_track - (last - first + 1) );
+	if(_m->current_track > last){
+		set_current_track( _m->current_track - (last - first + 1) );
 	}
 
 	return *this;
@@ -193,24 +217,24 @@ MetaDataList& MetaDataList::remove_tracks(const SP::Set<int>& indexes)
 		this->removeAt(*it);
 	}
 
-	if(indexes.contains(_cur_played_track)){
-		_cur_played_track = -1;
+	if(indexes.contains(_m->current_track)){
+		_m->current_track = -1;
 	}
 
 	else{
 		int n_tracks_before_cur_track = std::count_if(indexes.begin(), indexes.end(), [=](int idx){
-			return (idx < _cur_played_track);
+			return (idx < _m->current_track);
 		});
 
-		_cur_played_track -= n_tracks_before_cur_track;
+		_m->current_track -= n_tracks_before_cur_track;
 	}
 
 	return *this;
 }
 
-int MetaDataList::get_cur_play_track() const
+int MetaDataList::current_track() const
 {
-	return _cur_played_track;
+	return _m->current_track;
 }
 
 
