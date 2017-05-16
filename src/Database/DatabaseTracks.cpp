@@ -36,7 +36,6 @@
 #include <utility>
 #include <tuple>
 
-static MetaDataList all_tracks;
 
 DatabaseTracks::DatabaseTracks(const QSqlDatabase& db, quint8 db_id, qint8 library_id) :
 	DatabaseModule(db, db_id),
@@ -94,29 +93,30 @@ bool DatabaseTracks::db_fetch_tracks(SayonaraQuery& q, MetaDataList& result)
 		return true;
 	}
 
-	for(bool is_element = q.first(); is_element; is_element = q.next()){
+	for(bool is_element = q.first(); is_element; is_element = q.next())
+	{
 		MetaData data;
 
-		data.id = 		 q.value(0).toInt();
-		data.title = 	 q.value(1).toString();
-		data.length_ms = q.value(2).toInt();
-		data.year = 	 q.value(3).toInt();
-		data.bitrate = 	 q.value(4).toInt();
+		data.id = 		 	q.value(0).toInt();
+		data.title = 	 	q.value(1).toString();
+		data.length_ms = 	q.value(2).toInt();
+		data.year = 	 	q.value(3).toInt();
+		data.bitrate = 	 	q.value(4).toInt();
 		data.set_filepath(q.value(5).toString());
-		data.track_num = q.value(6).toInt();
-		data.album_id =  q.value(7).toInt();
-		data.artist_id = q.value(8).toInt();
-		data.album = 	 q.value(9).toString().trimmed();
-		data.artist = 	 q.value(10).toString().trimmed();
+		data.track_num = 	q.value(6).toInt();
+		data.album_id =  	q.value(7).toInt();
+		data.artist_id = 	q.value(8).toInt();
+		data.album = 	 	q.value(9).toString().trimmed();
+		data.artist = 	 	q.value(10).toString().trimmed();
 		data.set_genres(q.value(11).toString().split(","));
-		data.filesize =  q.value(12).toInt();
-		data.discnumber = q.value(13).toInt();
-		data.rating = q.value(14).toInt();
+		data.filesize =  	q.value(12).toInt();
+		data.discnumber = 	q.value(13).toInt();
+		data.rating = 		q.value(14).toInt();
 		data.set_album_artist(q.value(16).toString(), q.value(15).toInt());
-		data.library_id = q.value(17).toInt();
+		data.library_id = 	q.value(17).toInt();
 		data.db_id = _module_db_id;
 
-		result << data;
+		result.append(data);
 	}
 
 	return true;

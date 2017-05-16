@@ -30,6 +30,7 @@
 
 #include "Helper/MetaData/LibraryItem.h"
 #include "Helper/Set.h"
+#include "Helper/Pimpl.h"
 
 #include <QMetaType>
 #include <QStringList>
@@ -55,25 +56,24 @@ class Genre;
 class MetaData :
 		public LibraryItem
 {
-public:
-	qint32 id;
-	qint32 artist_id;
-	qint32 album_id;
-	qint8 library_id;
+	PIMPL(MetaData)
 
 public:
 	QString title;
 	QString artist;
 	QString album;
 
-	// if radio station: name of radio station
 	SP::Set<Genre> genres;
-
-	quint16 track_num;
-	quint16 year;
-	quint32 bitrate;
 	quint64 length_ms;
 	quint64 filesize;
+
+  	qint32 id;
+	qint32 artist_id;
+	qint32 album_id;
+
+	quint32 bitrate;
+	quint16 track_num;
+	quint16 year;
 
 	bool played;
 	bool is_extern;
@@ -83,13 +83,7 @@ public:
 	quint8 rating;
 	quint8 discnumber;
 	quint8 n_discs;
-
-private:
-	RadioMode	_radio_mode;
-	QString		_album_artist;
-	QString		_filepath;
-	qint32		_album_artist_id;
-
+	qint8 library_id;
 
 public:
 	MetaData ();

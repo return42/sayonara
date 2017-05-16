@@ -133,7 +133,8 @@ Qt::ItemFlags LibraryItemModelTracks::flags(const QModelIndex &index = QModelInd
 	return QAbstractItemModel::flags(index);
 }
 
-bool LibraryItemModelTracks::setData(const QModelIndex &index, const QVariant &value, int role) {
+bool LibraryItemModelTracks::setData(const QModelIndex &index, const QVariant &value, int role) 
+{
 	if(!index.isValid()){
 		return false;
 	}

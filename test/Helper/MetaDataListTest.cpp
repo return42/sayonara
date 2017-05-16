@@ -43,10 +43,10 @@ void MetaDataListTest::cur_idx_test()
 	int cur_track = 10;
 	MetaDataList v_md = create_v_md(0, 53);
 
-	QVERIFY(v_md.get_cur_play_track() == -1);
+	QVERIFY(v_md.current_track() == -1);
 
-	v_md.set_cur_play_track(cur_track);
-	QVERIFY(v_md.get_cur_play_track() == cur_track);
+	v_md.set_current_track(cur_track);
+	QVERIFY(v_md.current_track() == cur_track);
 
 	int i=0;
 	for(const MetaData& md : v_md)
@@ -66,13 +66,13 @@ void MetaDataListTest::insert_test()
 	int old_size = v_md.size();
 	int cur_track = 10;
 
-	v_md.set_cur_play_track(cur_track);
+	v_md.set_current_track(cur_track);
 
 	v_md.insert_tracks(inserted_md, insert_idx);
 	QVERIFY(v_md.size() == old_size + inserted_md.size());
 
 	cur_track += inserted_md.size();
-	QVERIFY(v_md.get_cur_play_track() == cur_track);
+	QVERIFY(v_md.current_track() == cur_track);
 
 	int i=0;
 	for(const MetaData& md : v_md)
@@ -107,7 +107,7 @@ void MetaDataListTest::remove_test()
 
 	SP::Set<int> remove_indexes = create_idx_set(15, v_md.size(), cur_track);
 
-	v_md.set_cur_play_track(cur_track);
+	v_md.set_current_track(cur_track);
 
 	int n_tracks_before_cur_track = std::count_if(remove_indexes.begin(), remove_indexes.end(), [&cur_track](int idx){
 		return (idx <= cur_track);
@@ -117,7 +117,7 @@ void MetaDataListTest::remove_test()
 	cur_track -= n_tracks_before_cur_track;
 
 	QVERIFY(v_md.size() == (int) (old_size - remove_indexes.size()));
-	QVERIFY(v_md.get_cur_play_track() == cur_track);
+	QVERIFY(v_md.current_track() == cur_track);
 
 	int i=0;
 	for(const MetaData& md : v_md)
@@ -130,7 +130,7 @@ void MetaDataListTest::remove_test()
 	v_md.remove_track(cur_track);
 	cur_track = -1;
 
-	QVERIFY(v_md.get_cur_play_track() == cur_track);
+	QVERIFY(v_md.current_track() == cur_track);
 
 	i=0;
 	for(const MetaData& md : v_md)
@@ -159,7 +159,7 @@ void MetaDataListTest::write_move_stuff()
 		}
 
 		MetaDataList v_md = create_v_md(0, sz);
-		v_md.set_cur_play_track(cur_play_idx);
+		v_md.set_current_track(cur_play_idx);
 
 
 		int n_tracks_before_cur_track =
@@ -190,7 +190,7 @@ void MetaDataListTest::write_move_stuff()
 
 		v_md.move_tracks(idxs, target_idx);
 
-		lst << v_md.get_cur_play_track();
+		lst << v_md.current_track();
 
 		QStringList str_lst;
 		for(int i : lst)
@@ -221,7 +221,7 @@ void MetaDataListTest::move_test()
 		}
 
 		int cur_track = 5;
-		v_md.set_cur_play_track(cur_track);
+		v_md.set_current_track(cur_track);
 
 		int old_size = v_md.size();
 
@@ -247,17 +247,17 @@ void MetaDataListTest::move_test()
 		}
 
 		if(n_tracks_before_cur_track == 0){
-			QVERIFY(v_md.get_cur_play_track() == cur_track);
+			QVERIFY(v_md.current_track() == cur_track);
 		}
 
 		else if(target_idx <= cur_track){
 			int new_cur_track = cur_track - n_tracks_before_cur_track + move_indexes.size();
-			QVERIFY(v_md.get_cur_play_track() == new_cur_track);
+			QVERIFY(v_md.current_track() == new_cur_track);
 		}
 
 		else if(target_idx > cur_track){
 			int new_cur_track = cur_track - n_tracks_before_cur_track;
-			QVERIFY(v_md.get_cur_play_track() == new_cur_track);
+			QVERIFY(v_md.current_track() == new_cur_track);
 		}
 	}*/
 }

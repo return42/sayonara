@@ -29,4 +29,5 @@ INCLUDE("new_test.cmake")
 NEW_TEST(Helper/FileHelperTest.cpp)
 NEW_TEST(Helper/MetaDataListTest.cpp)
 NEW_TEST(Helper/LanguageKeyTest.cpp)
+NEW_TEST(Helper/MetaDataTest.cpp)
 

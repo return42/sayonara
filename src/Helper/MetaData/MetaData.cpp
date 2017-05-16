@@ -26,32 +26,10 @@
 #include <QUrl>
 #include <QVariant>
 
-
-#define MD_DO_COPY \
-	id = other.id; \
-	artist_id = other.artist_id; \
-	album_id = other.album_id; \
-	library_id = other.library_id; \
-	_album_artist_id = other._album_artist_id ; \
-	title = other.title; \
-	artist = other.artist; \
-	album = other.album; \
-	_album_artist = other._album_artist; \
-	genres = other.genres; \
-	rating = other.rating; \
-	length_ms = other.length_ms; \
-	year = other.year; \
-	_filepath = other.filepath(); \
-	track_num = other.track_num; \
-	bitrate = other.bitrate; \
-	is_extern = other.is_extern; \
-	_radio_mode = other.radio_mode(); \
-	filesize = other.filesize; \
-	discnumber = other.discnumber; \
-	n_discs = other.n_discs; \
-	pl_playing = other.pl_playing; \
-	is_disabled = other.is_disabled; \
-	played = other.played;
+#define MD_INIT(x) x(other.x)
+#define MD_MOVE(x) x(std::move(other.x))
+#define MD_ASSIGN(x) x = other.x
+#define MD_CMP(x) (x == other.x)
 
 /*struct MDCounter
 {
@@ -75,65 +53,132 @@
 
 static MDCounter mdc;*/
 
+struct MetaData::Private
+{
+	QString		album_artist;
+	QString		filepath;
+	qint32 		album_artist_id;
+	RadioMode	radio_mode;
+
+	Private() :
+		album_artist_id(-1),
+		radio_mode(RadioMode::Off)
+	{}
+
+	Private(const Private& other) :
+		MD_INIT(album_artist),
+		MD_INIT(filepath),
+		MD_INIT(album_artist_id),
+		MD_INIT(radio_mode)
+	{}
+
+	Private(Private&& other) :
+		MD_MOVE(album_artist),
+		MD_MOVE(filepath),
+		MD_MOVE(album_artist_id),
+		MD_MOVE(radio_mode)
+	{}
+
+	Private& operator=(const Private& other)
+	{
+		MD_ASSIGN(album_artist);
+		MD_ASSIGN(filepath);
+		MD_ASSIGN(album_artist_id);
+		MD_ASSIGN(radio_mode);
+
+		return *this;
+	}
+
+	bool is_equal(const Private& other) const
+	{
+		return(
+			MD_CMP(album_artist) &&
+			MD_CMP(filepath) &&
+			MD_CMP(album_artist_id) &&
+			MD_CMP(radio_mode)
+		);
+	}
+};
+
 MetaData::MetaData() :
 	LibraryItem(),
+	length_ms(0),
+	filesize(0),
+
 	id(-1),
 	artist_id(-1),
 	album_id(-1),
-	library_id(-1),
+
+	bitrate(0),
 	track_num(0),
 	year(0),
-	bitrate(0),
-	length_ms(0),
-	filesize(0),
+
 	played(false),
 	is_extern(false),
 	pl_playing(false),
 	is_disabled(false),
+
 	rating(0),
 	discnumber(0),
 	n_discs(0),
-	_radio_mode(RadioMode::Off),
-	_album_artist_id(-1)
+
+	library_id(-1)
 {
-//	mdc.increase();
+	_m = Pimpl::make<Private>();
 }
 
-MetaData::MetaData(const MetaData & other) :
+MetaData::MetaData(const MetaData& other) :
 	LibraryItem(other),
-	id(other.id),
-	artist_id(other.artist_id),
-	album_id(other.album_id),
-	library_id(other.library_id),
-	title(other.title),
-	artist(other.artist),
-	album(other.album),
-	genres(other.genres),
-	track_num(other.track_num),
-	year(other.year),
-	bitrate(other.bitrate),
-	length_ms(other.length_ms),
-	filesize(other.filesize),
-	played(other.played),
-	is_extern(other.is_extern),
-	pl_playing(other.pl_playing),
-	is_disabled(other.is_disabled),
-	rating(other.rating),
-	discnumber(other.discnumber),
-	n_discs(other.n_discs),
-	_radio_mode(other._radio_mode),
-	_album_artist(other._album_artist),
-	_filepath(other._filepath),
-	_album_artist_id(other._album_artist_id)
-{
+	MD_INIT(title),
+	MD_INIT(artist),
+	MD_INIT(album),
+	MD_INIT(genres),
+	MD_INIT(length_ms),
+	MD_INIT(filesize),
+	MD_INIT(id),
+	MD_INIT(artist_id),
+	MD_INIT(album_id),
+	MD_INIT(bitrate),
+	MD_INIT(track_num),
+	MD_INIT(year),
+	MD_INIT(played),
+	MD_INIT(is_extern),
+	MD_INIT(pl_playing),
+	MD_INIT(is_disabled),
+	MD_INIT(rating),
+	MD_INIT(discnumber),
+	MD_INIT(n_discs),
+	MD_INIT(library_id)
 
+{
+	_m = Pimpl::make<Private>(*(other._m));
 }
 
 
 MetaData::MetaData(MetaData&& other) :
-	LibraryItem(other)
+	LibraryItem(other),
+	MD_MOVE(title),
+	MD_MOVE(artist),
+	MD_MOVE(album),
+	MD_MOVE(genres),
+	MD_MOVE(length_ms),
+	MD_MOVE(filesize),
+	MD_MOVE(id),
+	MD_MOVE(artist_id),
+	MD_MOVE(album_id),
+	MD_MOVE(bitrate),
+	MD_MOVE(track_num),
+	MD_MOVE(year),
+	MD_MOVE(played),
+	MD_MOVE(is_extern),
+	MD_MOVE(pl_playing),
+	MD_MOVE(is_disabled),
+	MD_MOVE(rating),
+	MD_MOVE(discnumber),
+	MD_MOVE(n_discs),
+	MD_MOVE(library_id)
 {
-	MD_DO_COPY
+	_m = Pimpl::make<Private>(*(other._m));
 }
 
 MetaData::MetaData(const QString& path) :
@@ -161,7 +206,8 @@ QString MetaData::to_string() const
 	return lst.join(" - ");
 }
 
-QVariant MetaData::toVariant(const MetaData& md) {
+QVariant MetaData::toVariant(const MetaData& md) 
+{
 	QVariant v;
 
 	v.setValue<MetaData>(md);
@@ -169,8 +215,9 @@ QVariant MetaData::toVariant(const MetaData& md) {
 	return v;
 }
 
-bool MetaData::fromVariant(const QVariant& v, MetaData& md) {
-	if(! v.canConvert<MetaData>() ) {
+bool MetaData::fromVariant(const QVariant& v, MetaData& md) 
+{
+	if(!v.canConvert<MetaData>() ) {
 		return false;
 	}
 
@@ -181,7 +228,30 @@ bool MetaData::fromVariant(const QVariant& v, MetaData& md) {
 MetaData& MetaData::operator=(const MetaData& other)
 {
 	LibraryItem::operator=(other);
-	MD_DO_COPY
+
+	MD_ASSIGN(title);
+	MD_ASSIGN(artist);
+	MD_ASSIGN(album);
+	MD_ASSIGN(genres);
+	MD_ASSIGN(length_ms);
+	MD_ASSIGN(filesize);
+	MD_ASSIGN(id);
+	MD_ASSIGN(artist_id);
+	MD_ASSIGN(album_id);
+	MD_ASSIGN(bitrate);
+	MD_ASSIGN(track_num);
+	MD_ASSIGN(year);
+	MD_ASSIGN(played);
+	MD_ASSIGN(is_extern);
+	MD_ASSIGN(pl_playing);
+	MD_ASSIGN(is_disabled);
+	MD_ASSIGN(rating);
+	MD_ASSIGN(discnumber);
+	MD_ASSIGN(n_discs);
+	MD_ASSIGN(library_id);
+
+	*(_m) = *(other._m);
+
 	return *this;
 }
 
@@ -200,7 +270,7 @@ bool MetaData::operator!=(const MetaData& md) const
 
 bool MetaData::is_equal(const MetaData& md) const
 {
-	QDir first_path(_filepath);
+	QDir first_path(_m->filepath);
 	QDir other_path(md.filepath());
 
 	QString s_first_path = first_path.absolutePath();
@@ -214,32 +284,32 @@ bool MetaData::is_equal(const MetaData& md) const
 
 }
 
-bool MetaData::is_equal_deep(const MetaData& md) const
+bool MetaData::is_equal_deep(const MetaData& other) const
 {
-	return ( (id == md.id)  &&
-			 ( artist_id == md.artist_id ) &&
-			 ( album_id == md.album_id ) &&
-			 ( library_id == md.library_id) &&
-			 ( album_artist_id() == md.album_artist_id() ) &&
-			 ( title == md.title ) &&
-			 ( artist == md.artist ) &&
-			 ( album == md.album ) &&
-			 ( album_artist() == md.album_artist() ) &&
-			 ( genres == md.genres ) &&
-			 ( rating == md.rating ) &&
-			 ( length_ms == md.length_ms ) &&
-			 ( year == md.year ) &&
-			 ( filepath() == md.filepath() ) &&
-			 ( track_num == md.track_num ) &&
-			 ( bitrate == md.bitrate ) &&
-			 ( is_extern == md.is_extern ) &&
-			 ( _radio_mode == md.radio_mode() ) &&
-			 ( filesize == md.filesize ) &&
-			 ( discnumber == md.discnumber ) &&
-			 ( n_discs == md.n_discs ) &&
-			 ( pl_playing == md.pl_playing ) &&
-			 ( is_disabled == md.is_disabled )
-			 );
+	return 
+	(
+			MD_CMP(title) &&
+			MD_CMP(artist) &&
+			MD_CMP(album) &&
+			MD_CMP(genres) &&
+			MD_CMP(length_ms) &&
+			MD_CMP(filesize) &&
+			MD_CMP(id) &&
+			MD_CMP(artist_id) &&
+			MD_CMP(album_id) &&
+			MD_CMP(bitrate) &&
+			MD_CMP(track_num) &&
+			MD_CMP(year) &&
+			MD_CMP(played) &&
+			MD_CMP(is_extern) &&
+			MD_CMP(pl_playing) &&
+			MD_CMP(is_disabled) &&
+			MD_CMP(rating) &&
+			MD_CMP(discnumber) &&
+			MD_CMP(n_discs) &&
+			MD_CMP(library_id) &&
+			_m->is_equal(*(other._m))
+	);
 }
 
 bool MetaData::has_genre(const Genre& genre) const
@@ -300,7 +370,7 @@ QStringList MetaData::genres_to_list() const
 
 QString MetaData::filepath() const
 {
-	return _filepath;
+	return _m->filepath;
 }
 
 
@@ -320,58 +390,58 @@ QString MetaData::set_filepath(QString filepath)
 
 	if(is_local_path){
 		QDir dir(filepath);
-		_filepath = dir.absolutePath();
-		_radio_mode = RadioMode::Off;
+		_m->filepath = dir.absolutePath();
+		_m->radio_mode = RadioMode::Off;
 	}
 
 	else if(filepath.contains("soundcloud.com")){
-		_filepath = filepath;
-		_radio_mode = RadioMode::Soundcloud;
+		_m->filepath = filepath;
+		_m->radio_mode = RadioMode::Soundcloud;
 	}
 
 	else{
-		_filepath = filepath;
-		_radio_mode = RadioMode::Station;
+		_m->filepath = filepath;
+		_m->radio_mode = RadioMode::Station;
 	}
 
-	return _filepath;
+	return _m->filepath;
 }
 
 
 RadioMode MetaData::radio_mode() const
 {
-	return _radio_mode;
+	return _m->radio_mode;
 }
 
 
 qint32 MetaData::album_artist_id() const
 {
-	if(_album_artist_id < 0){
+	if(_m->album_artist_id < 0){
 		return artist_id;
 	}
 
-	return _album_artist_id;
+	return _m->album_artist_id;
 }
 
 QString MetaData::album_artist() const
 {
-	return _album_artist;
+	return _m->album_artist;
 }
 
 void MetaData::set_album_artist(const QString& album_artist, qint32 id)
 {
-	_album_artist = album_artist;
-	_album_artist_id = id;
+	_m->album_artist = album_artist;
+	_m->album_artist_id = id;
 }
 
 void MetaData::set_album_artist_id(qint32 id)
 {
-	_album_artist_id = id;
+	_m->album_artist_id = id;
 }
 
 bool MetaData::has_album_artist() const
 {
-	return (!_album_artist.isEmpty() && _album_artist_id >= 0);
+	return (!_m->album_artist.isEmpty() && _m->album_artist_id >= 0);
 }
 
 
