@@ -22,20 +22,16 @@
 #define APPLICATION_H
 
 #include <QApplication>
-#include <QTranslator>
-#include <QTime>
-#include <QStringList>
+#include "Helper/Pimpl.h"
 
-class InstanceThread;
-class DatabaseConnector;
-class PlaylistHandler;
-class GUI_Player;
-class Settings;
+class QTranslator;
+class QStringList;
 
 class Application :
 		public QApplication
 {
     Q_OBJECT
+	PIMPL(Application)
 
 public:
 	Application(int& argc, char** argv);
@@ -47,14 +43,6 @@ public:
 private:
 //	void check_for_crash();
 	void init_single_instance_thread();
-
-	QTime*			_timer=nullptr;
-	Settings*		_settings = nullptr;
-	GUI_Player*		player=nullptr;
-
-	PlaylistHandler*	_plh=nullptr;
-	DatabaseConnector*	_db=nullptr;
-	InstanceThread*		_instance_thread=nullptr;
 };
 
 #endif // APPLICATION_H
