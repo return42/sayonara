@@ -35,7 +35,7 @@ class SayonaraLoadingBar :
 {
 
 public:
-	enum class Orientation
+	enum class Position
 	{
 		Top=0,
 		Middle,
@@ -45,13 +45,13 @@ public:
 private:
 	QWidget*	_parent=nullptr;
 	int			_fixed_height;
-	Orientation _orientation;
+	Position	_position;
 
 public:
 	explicit SayonaraLoadingBar(QWidget* parent);
 	~SayonaraLoadingBar();
 
-	void set_orientation(SayonaraLoadingBar::Orientation o);
+	void set_position(SayonaraLoadingBar::Position o);
 
 protected:
 	void showEvent(QShowEvent* e) override;

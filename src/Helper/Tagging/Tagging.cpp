@@ -23,9 +23,11 @@
 #include "ID3v2/Discnumber.h"
 #include "ID3v2/Cover.h"
 #include "ID3v2/AlbumArtist.h"
+#include "ID3v2/Lyrics.h"
 #include "Xiph/AlbumArtist.h"
 #include "Xiph/PopularimeterFrame.h"
 #include "Xiph/DiscnumberFrame.h"
+#include "Xiph/LyricsFrame.h"
 #include "MP4/AlbumArtist.h"
 #include "MP4/Cover.h"
 #include "MP4/DiscnumberFrame.h"
@@ -119,6 +121,7 @@ bool Tagging::getMetaDataOfFile(MetaData& md, Tagging::Quality quality)
 	QString genre = QString::fromUtf8(tag->genre().toCString(true));
 
 	QString album_artist;
+	QString lyrics;
 	Models::Discnumber discnumber;
 	Models::Popularimeter popularimeter;
 	if(tag_type == Tagging::TagType::ID3v2)
@@ -429,6 +432,105 @@ bool Tagging::extract_cover(const MetaData &md, QByteArray& cover_data, QString&
 	return !(cover_data.isEmpty());
 }
 
+bool Tagging::is_cover_supported(const QString& filepath)
+{
+	Tagging::TagType type = get_tag_type(filepath);
+	return (type == Tagging::TagType::ID3v2 || type == Tagging::TagType::MP4);
+}
+
+
+
+bool Tagging::write_lyrics(const MetaData& md, const QString& lyrics_data)
+{
+	QString filepath = md.filepath();
+	TagLib::FileRef f(TagLib::FileName(filepath.toUtf8()));
+	if(!is_valid_file(f)){
+		sp_log(Log::Warning) << "Cannot open tags for " << md.filepath();
+		return false;
+	}
+
+	bool success = false;
+
+	Tagging::TagType tag_type = get_tag_type(md.filepath());
+	switch(tag_type){
+
+		case Tagging::TagType::ID3v2:
+			{
+				ID3v2::LyricsFrame lyrics_frame(f);
+				success = lyrics_frame.write(lyrics_data);
+			}
+
+			break;
+
+		case Tagging::TagType::Xiph:
+			{
+				Xiph::LyricsFrame lyrics_frame(f.tag());
+				success = lyrics_frame.write(lyrics_data);
+			}
+
+			break;
+
+		default:
+			return false;
+	}
+
+	return f.save();
+}
+
+
+bool Tagging::extract_lyrics(const MetaData& md, QString& lyrics_data)
+{
+	lyrics_data.clear();
+
+	QString filepath = md.filepath();
+	TagLib::FileRef f(TagLib::FileName(filepath.toUtf8()));
+
+	if(!is_valid_file(f)){
+		sp_log(Log::Warning) << "Cannot open tags for " << md.filepath();
+		return false;
+	}
+
+	Tagging::TagType tag_type = get_tag_type(md.filepath());
+
+	switch(tag_type)
+	{
+		case Tagging::TagType::ID3v2:
+			{
+				ID3v2::LyricsFrame lyrics_frame(f);
+
+				if(!lyrics_frame.is_frame_found()){
+					return false;
+				}
+
+				lyrics_frame.read(lyrics_data);
+			}
+
+			break;
+
+		case Tagging::TagType::Xiph:
+			{
+				Xiph::LyricsFrame lyrics_frame(f.tag());
+				lyrics_frame.read(lyrics_data);
+			}
+
+			break;
+
+		default:
+			return false;
+	}
+
+	return !(lyrics_data.isEmpty());
+}
+
+
+bool Tagging::is_lyrics_supported(const QString& filepath)
+{
+	Tagging::TagType type = get_tag_type(filepath);
+	return ((type == Tagging::TagType::ID3v2) ||
+			(type == Tagging::TagType::Xiph));
+}
+
+
 static Tagging::TagType tag_type_from_fileref(const TagLib::FileRef& f)
 {
 	TagLib::MPEG::File* mpg = dynamic_cast<TagLib::MPEG::File*>(f.file());
@@ -504,8 +606,3 @@ QString Tagging::tag_type_to_string(Tagging::TagType type)
 	}
 }
 
-bool Tagging::is_cover_supported(const QString& filepath)
-{
-	Tagging::TagType type = get_tag_type(filepath);
-	return (type == Tagging::TagType::ID3v2 || type == Tagging::TagType::MP4);
-}

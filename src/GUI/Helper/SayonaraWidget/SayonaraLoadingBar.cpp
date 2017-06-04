@@ -28,7 +28,7 @@ SayonaraLoadingBar::SayonaraLoadingBar(QWidget* parent) :
 {
 	_parent = parent;
 
-	_orientation = SayonaraLoadingBar::Orientation::Bottom;
+	_position = SayonaraLoadingBar::Position::Bottom;
 	_fixed_height = 5;
 
 	this->setEnabled(false);
@@ -42,23 +42,25 @@ SayonaraLoadingBar::SayonaraLoadingBar(QWidget* parent) :
 
 SayonaraLoadingBar::~SayonaraLoadingBar() {}
 
-void SayonaraLoadingBar::set_orientation(SayonaraLoadingBar::Orientation o)
+void SayonaraLoadingBar::set_position(SayonaraLoadingBar::Position o)
 {
-	_orientation = o;
+	_position = o;
 }
 
 void SayonaraLoadingBar::showEvent(QShowEvent* e)
 {
+	QProgressBar::showEvent(e);
+
 	int y;
-	switch(_orientation)
+	switch(_position)
 	{
-		case SayonaraLoadingBar::Orientation::Top:
+		case SayonaraLoadingBar::Position::Top:
 			 y = 2;
 			break;
-		case SayonaraLoadingBar::Orientation::Middle:
+		case SayonaraLoadingBar::Position::Middle:
 			y = (_parent->height() - _fixed_height) / 2;
 			break;
-		case SayonaraLoadingBar::Orientation::Bottom:
+		case SayonaraLoadingBar::Position::Bottom:
 		default:
 			 y = _parent->height() - _fixed_height - 2;
 			break;
@@ -68,6 +70,4 @@ void SayonaraLoadingBar::showEvent(QShowEvent* e)
 					  y,
 					  _parent->width() - 4,
 					  _fixed_height);
-
-	QProgressBar::showEvent(e);
 }

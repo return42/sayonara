@@ -18,16 +18,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "GUI_Lyrics.h"
-
 #include "GUI/InfoDialog/ui_GUI_Lyrics.h"
-#include "Helper/Logger/Logger.h"
-#include "GUI/Helper/SayonaraWidget/SayonaraCompleter.h"
+#include "GUI/Helper/SayonaraWidget/SayonaraLoadingBar.h"
+
+#include "Components/Lyrics/Lyrics.h"
 #include "Components/Lyrics/LyricLookup.h"
-#include "Helper/MetaData/MetaData.h"
+
+#include "GUI/Helper/SayonaraWidget/SayonaraCompleter.h"
 #include "GUI/Helper/SayonaraWidget/SayonaraWidgetTemplate.h"
+
+#include "Helper/MetaData/MetaData.h"
 #include "Helper/Language.h"
 #include "Helper/Settings/Settings.h"
 
@@ -38,9 +39,20 @@
 
 struct GUI_Lyrics::Private
 {
-	MetaData md;
+	Lyrics*	lyrics=nullptr;
+	SayonaraLoadingBar* loading_bar=nullptr;
 	qreal font_size;
 	qreal initial_font_size;
+
+	Private()
+	{
+		lyrics = new Lyrics();
+	}
+
+	~Private()
+	{
+		delete lyrics; lyrics = nullptr;
+	}
 };
 
 GUI_Lyrics::GUI_Lyrics(QWidget *parent) :
@@ -54,6 +66,7 @@ GUI_Lyrics::~GUI_Lyrics()
 	if(ui){
 		delete ui;
 	}
+
 	ui = nullptr;
 }
 
@@ -69,13 +82,14 @@ void GUI_Lyrics::init()
 
 	ui->te_lyrics->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 	ui->te_lyrics->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-	ui->te_lyrics->setReadOnly(true);
 
-	ui->pb_progress->hide();
+	_m->loading_bar = new SayonaraLoadingBar(ui->te_lyrics);
+	_m->loading_bar->set_position(SayonaraLoadingBar::Position::Bottom);
+	_m->loading_bar->setVisible(false);
 
 	QString server = _settings->get(Set::Lyrics_Server);
-	LyricLookupThread* lyric_thread = new LyricLookupThread();
-	QStringList servers = lyric_thread->get_servers();
+	QStringList servers = _m->lyrics->servers();
+
 	ui->combo_servers->addItems(servers);
 	int idx = ui->combo_servers->findText(server);
 	if(idx < 0){
@@ -83,17 +97,18 @@ void GUI_Lyrics::init()
 	}
 
 	ui->combo_servers->setCurrentIndex(idx);
+	ui->le_artist->setText(_m->lyrics->artist());
+	ui->le_title->setText(_m->lyrics->title());
 
-	delete lyric_thread; lyric_thread = nullptr;
-
+	int zoom_factor = _settings->get(Set::Lyrics_Zoom);
 	_m->font_size = QApplication::font().pointSizeF();
 	_m->initial_font_size = QApplication::font().pointSizeF();
-	int percent = _settings->get(Set::Lyrics_Zoom);
-	ui->sb_zoom->setValue(percent);
-	zoom( (percent * _m->initial_font_size) / 100.0 );
+	ui->sb_zoom->setValue(zoom_factor);
 
-	connect(ui->combo_servers, combo_current_index_changed_int, this, &GUI_Lyrics::lyric_server_changed);
-	connect(ui->btn_search, &QPushButton::clicked, this, &GUI_Lyrics::lyric_search_button_pressed);
+	zoom( (zoom_factor * _m->initial_font_size) / 100.0 );
+
+	connect(ui->combo_servers, combo_activated_int, this, &GUI_Lyrics::lyric_server_changed);
+	connect(ui->btn_search, &QPushButton::clicked, this, &GUI_Lyrics::prepare_lyrics);
 	connect(ui->btn_close, &QPushButton::clicked, this, &GUI_Lyrics::sig_closed);
 	connect(ui->btn_close, &QPushButton::clicked, this, &GUI_Lyrics::close);
 	connect(ui->btn_switch, &QPushButton::clicked, this, &GUI_Lyrics::switch_pressed);
@@ -101,8 +116,11 @@ void GUI_Lyrics::init()
 		zoom( (percent * _m->initial_font_size) / 100.0 );
 	});
 
-	set_metadata(_m->md);
+	connect(ui->btn_save_lyrics, &QPushButton::clicked, this, &GUI_Lyrics::save_lyrics_clicked);
+	connect(_m->lyrics, &Lyrics::sig_lyrics_fetched, this, &GUI_Lyrics::lyrics_fetched);
+
 	language_changed();
+	prepare_lyrics();
 }
 
 
@@ -110,13 +128,19 @@ void GUI_Lyrics::lyric_server_changed(int idx)
 {
 	Q_UNUSED(idx)
 
-	_settings->set(Set::Lyrics_Server, ui->combo_servers->currentText());
+	if(ui->combo_servers->currentData().toInt() >= 0) {
+		_settings->set(Set::Lyrics_Server, ui->combo_servers->currentText());
+	}
+
 	prepare_lyrics();
 }
 
-void GUI_Lyrics::lyric_search_button_pressed()
+void GUI_Lyrics::save_lyrics_clicked()
 {
-	prepare_lyrics();
+	_m->lyrics->save_lyrics(ui->te_lyrics->toPlainText());
+
+	setup_sources();
+	set_save_button_text();
 }
 
 void GUI_Lyrics::prepare_lyrics()
@@ -127,76 +151,71 @@ void GUI_Lyrics::prepare_lyrics()
 
 	ui->te_lyrics->clear();
 
-	QString artist, title;
-	artist = ui->le_artist->text();
-	title = ui->le_title->text();
-
-	if(artist.isEmpty() || title.isEmpty()){
-		return;
+	int current_server_index = ui->combo_servers->currentData().toInt();
+	if(current_server_index < 0){
+		show_local_lyrics();
 	}
 
-	int cur_idx = ui->combo_servers->currentIndex();
+	else {
 
-	LyricLookupThread* lyric_thread = new LyricLookupThread(this);
-	connect(lyric_thread, &LyricLookupThread::sig_finished, this, &GUI_Lyrics::lyrics_fetched);
+		bool running = _m->lyrics->fetch_lyrics(
+					ui->le_artist->text(),
+					ui->le_title->text(),
+					current_server_index
+		);
 
-	if(ui->combo_servers->count() == 0){
-		QStringList lyric_server_list = lyric_thread->get_servers();
-		for(const QString& server : lyric_server_list) {
-			ui->combo_servers->addItem(server);
+		if(running) {
+			_m->loading_bar->show();
+			_m->loading_bar->setVisible(true);
+			ui->btn_search->setEnabled(false);
+			ui->combo_servers->setEnabled(false);
+			ui->btn_save_lyrics->setEnabled(false);
 		}
-
-		cur_idx = 0;
 	}
-
-	ui->pb_progress->setVisible(true);
-	ui->btn_search->setEnabled(false);
-	ui->combo_servers->setEnabled(false);
-
-	lyric_thread->run(artist, title, cur_idx);
 }
 
-void GUI_Lyrics::language_changed()
+void GUI_Lyrics::show_lyrics(const QString& lyrics, const QString& header, bool rich)
 {
 	if(!ui){
 		return;
 	}
 
-	ui->lab_artist->setText(Lang::get(Lang::Artist));
-	ui->lab_tit->setText(Lang::get(Lang::Title));
-	ui->lab_zoom->setText(Lang::get(Lang::Zoom));
-	ui->lab_server->setText(tr("Server"));
+	if(rich){
+		ui->te_lyrics->setHtml(lyrics);
+	}
+	else {
+		ui->te_lyrics->setPlainText(lyrics);
+	}
+
+	ui->lab_header->setText(header);
+	ui->btn_search->setEnabled(true);
+	ui->combo_servers->setEnabled(true);
+	ui->btn_save_lyrics->setEnabled(true);
+	_m->loading_bar->setVisible(false);
+}
+
+void GUI_Lyrics::show_local_lyrics()
+{
+	show_lyrics(_m->lyrics->local_lyrics(), _m->lyrics->local_lyric_header(), false);
 }
 
 
 void GUI_Lyrics::lyrics_fetched()
 {
-	LyricLookupThread* lyric_thread = static_cast<LyricLookupThread*>(sender());
-
-	if(!ui){
-		lyric_thread->deleteLater();
-		return;
-	}
-
-	QString lyrics = lyric_thread->get_lyric_data().trimmed();
-
-	ui->te_lyrics->setHtml(lyrics);
-
-	ui->pb_progress->setVisible(false);
-	ui->btn_search->setEnabled(true);
-	ui->combo_servers->setEnabled(true);
-
-	sender()->deleteLater();
+	show_lyrics(_m->lyrics->lyrics(), _m->lyrics->lyric_header(), true);
 }
 
 void GUI_Lyrics::set_metadata(const MetaData &md)
 {
-	_m->md = md;
+	_m->lyrics->set_metadata(md);
+
 	if(!ui){
 		return;
 	}
 
-	guess_artist_and_title(md);
+	ui->le_artist->setText(_m->lyrics->artist());
+	ui->le_title->setText(_m->lyrics->title());
+	ui->btn_save_lyrics->setVisible(_m->lyrics->is_lyric_tag_supported());
 
 	QStringList completer_entries;
 	completer_entries << md.artist << md.album_artist();
@@ -208,51 +227,9 @@ void GUI_Lyrics::set_metadata(const MetaData &md)
 
 	ui->le_artist->setCompleter( new SayonaraCompleter(completer_entries, ui->le_artist) );
 
-	if(this->isVisible()){
-		prepare_lyrics();
-	}
-}
-
-void GUI_Lyrics::guess_artist_and_title(const MetaData& md)
-{
-	bool guessed = false;
-
-	if(md.radio_mode() == RadioMode::Station &&
-			md.artist.contains("://"))
-	{
-		if(md.title.contains("-")){
-			QStringList lst = md.title.split("-");
-			ui->le_artist->setText( lst.takeFirst().trimmed() );
-			ui->le_title->setText(lst.join("-").trimmed());
-			guessed = true;
-		}
-
-		else if(md.title.contains(":")){
-			QStringList lst = md.title.split(":");
-			ui->le_artist->setText( lst.takeFirst().trimmed() );
-			ui->le_title->setText(lst.join(":").trimmed());
-			guessed = true;
-		}
-	}
-
-	if(guessed == false) {
-		if(!md.artist.isEmpty()) {
-			ui->le_artist->setText( md.artist );
-			ui->le_title->setText( md.title );
-		}
-
-		else if(!md.album_artist().isEmpty()) {
-			ui->le_artist->setText( md.album_artist() );
-			ui->le_title->setText( md.title );
-		}
-
-		else {
-			ui->le_artist->setText(md.artist);
-			ui->le_title->setText(md.title);
-		}
-	}
-
-	ui->btn_switch->setVisible(guessed);
+	setup_sources();
+	prepare_lyrics();
+	set_save_button_text();
 }
 
 void GUI_Lyrics::switch_pressed()
@@ -273,6 +250,32 @@ void GUI_Lyrics::zoom(qreal font_size)
 	_settings->set(Set::Lyrics_Zoom, ui->sb_zoom->value());
 }
 
+void GUI_Lyrics::setup_sources()
+{
+	ui->combo_servers->clear();
+	if(_m->lyrics->is_lyric_tag_available()){
+		ui->combo_servers->addItem(Lang::get(Lang::File), -1);
+		ui->combo_servers->insertSeparator(1);
+	}
+
+	int i=0;
+	for(const QString& str : _m->lyrics->servers()){
+		ui->combo_servers->addItem(str, i++);
+	}
+
+	choose_source();
+}
+
+void GUI_Lyrics::choose_source()
+{
+	int new_index = 0;
+	if(!_m->lyrics->is_lyric_tag_available()){
+		QString last_server = _settings->get(Set::Lyrics_Server);
+		new_index = std::max(0, ui->combo_servers->findText(last_server));
+	}
+
+	ui->combo_servers->setCurrentIndex(new_index);
+}
 
 void GUI_Lyrics::zoom_in()
 {
@@ -284,21 +287,46 @@ void GUI_Lyrics::zoom_out()
 	zoom(_m->font_size - 1.0);
 }
 
+void GUI_Lyrics::set_save_button_text()
+{
+	if(_m->lyrics->is_lyric_tag_available()) {
+		ui->btn_save_lyrics->setText(tr("Overwrite lyrics"));
+	}
+
+	else {
+		ui->btn_save_lyrics->setText(tr("Save lyrics"));
+	}
+}
+
+
+void GUI_Lyrics::language_changed()
+{
+	if(!ui){
+		return;
+	}
+
+	ui->lab_artist->setText(Lang::get(Lang::Artist));
+	ui->lab_tit->setText(Lang::get(Lang::Title));
+	ui->lab_zoom->setText(Lang::get(Lang::Zoom));
+	ui->lab_source->setText(tr("Source"));
+	ui->btn_close->setText(Lang::get(Lang::Close));
+	ui->btn_search->setText(Lang::get(Lang::Search));
+
+	setup_sources();
+	set_save_button_text();
+}
 
 void GUI_Lyrics::showEvent(QShowEvent* e)
 {
 	init();
 
 	QWidget::showEvent(e);
-
-	prepare_lyrics();
 }
 
 void GUI_Lyrics::wheelEvent(QWheelEvent* e)
 {
 	e->accept();
 
-	sp_log(Log::Debug, this) << (int) e->modifiers();
 	if( (e->modifiers() & Qt::ShiftModifier) ||
 		(e->modifiers() & Qt::ControlModifier))
 	{

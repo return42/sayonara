@@ -35,7 +35,7 @@ Models::Discnumber::Discnumber(quint8 disc_, quint8 n_discs_)
 }
 
 
-QString Models::Discnumber::to_string()
+QString Models::Discnumber::to_string() const
 {
-	return QString("TPOS: ") + QString::number(disc) + "/" + QString::number(n_discs);
+	return QString::number(disc) + "/" + QString::number(n_discs);
 }

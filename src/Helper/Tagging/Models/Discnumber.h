@@ -40,7 +40,7 @@ namespace Models
 
 		Discnumber();
 		Discnumber(quint8 disc, quint8 n_discs=1);
-		QString to_string();
+		QString to_string() const;
 	};
 }
 

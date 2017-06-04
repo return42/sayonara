@@ -2,6 +2,7 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 PROJECT(say_comp_lyrics)
 
 SET(SOURCES
+        Lyrics.cpp
 	LyricLookup.cpp
 	LyricServer.cpp
 )

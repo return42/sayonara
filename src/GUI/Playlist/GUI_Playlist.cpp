@@ -106,6 +106,7 @@ GUI_Playlist::GUI_Playlist(QWidget *parent) :
 	init_shortcuts();
 	load_old_playlists();
 
+
 	for(int i=0; i<ui->tw_playlists->count(); i++){
 		PlaylistView* plv = get_view_by_idx(i);
 		if(!plv){
