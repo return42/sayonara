@@ -36,6 +36,7 @@ class GUI_Lyrics :
 		public SayonaraWidget
 {
 	Q_OBJECT
+	PIMPL(GUI_Lyrics)
 
 signals:
 	void sig_closed();
@@ -47,13 +48,17 @@ public:
 	void set_metadata(const MetaData& md);
 
 private:
-	PIMPL(GUI_Lyrics)
 	Ui::GUI_Lyrics *ui=nullptr;
 
-	void guess_artist_and_title(const MetaData& md);
+
 	void init();
 
 	void zoom(qreal font_size);
+	void setup_sources();
+	void choose_source();
+	void show_lyrics(const QString& lyrics, const QString& header, bool rich);
+	void show_local_lyrics();
+	void set_save_button_text();
 
 private slots:
 	void zoom_in();
@@ -62,9 +67,9 @@ private slots:
 	void lyrics_fetched();
 	void lyric_server_changed(int idx);
 
-	void lyric_search_button_pressed();
 	void switch_pressed();
 	void prepare_lyrics();
+	void save_lyrics_clicked();
 
 	void language_changed() override;
 

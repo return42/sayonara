@@ -6,7 +6,7 @@ ADD_SUBDIRECTORY(Settings)
 ADD_SUBDIRECTORY(Compressor)
 
 IF(NOT WIN32 OR NOT DEFINED WIN32)
-    ADD_SUBDIRECTORY(Shutdown)
+ADD_SUBDIRECTORY(Shutdown)
 ENDIF()
 
 
@@ -37,7 +37,7 @@ SET(SOURCES
     MetaData/MetaDataList.cpp
     MetaData/Album.cpp
     MetaData/Artist.cpp
-	MetaData/Genre.cpp
+    MetaData/Genre.cpp
 
     Parser/AbstractPlaylistParser.cpp
     Parser/M3UParser.cpp
@@ -58,18 +58,20 @@ SET(SOURCES
 
     Tagging/Tagging.cpp
 
-	Tagging/AbstractFrame.cpp
+    Tagging/AbstractFrame.cpp
     Tagging/ID3v2/Discnumber.cpp
     Tagging/ID3v2/Popularimeter.cpp
     Tagging/ID3v2/Cover.cpp
     Tagging/ID3v2/AlbumArtist.cpp
-	Tagging/MP4/Cover.cpp
+    Tagging/ID3v2/Lyrics.cpp
+    Tagging/MP4/Cover.cpp
     Tagging/MP4/DiscnumberFrame.cpp
     Tagging/MP4/AlbumArtist.cpp
     Tagging/MP4/PopularimeterFrame.cpp
     Tagging/Xiph/AlbumArtist.cpp
     Tagging/Xiph/DiscnumberFrame.cpp
     Tagging/Xiph/PopularimeterFrame.cpp
+    Tagging/Xiph/LyricsFrame.cpp
 
     Tagging/Models/Discnumber.cpp
     Tagging/Models/Cover.cpp
@@ -92,5 +94,5 @@ TARGET_LINK_LIBRARIES(${PROJECT_NAME}
 )
 
 IF( WITH_COTIRE )
-    cotire(${PROJECT_NAME})
+cotire(${PROJECT_NAME})
 ENDIF()

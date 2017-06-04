@@ -8,6 +8,10 @@ SET(CMAKE_AUTOMOC ON)
 SET(CMAKE_AUTOUIC ON)
 SET(CMAKE_INCLUDE_CURRENT_DIR ON)
 
+SET(RESOURCES
+        resources/Test.qrc
+)
+
 INCLUDE_DIRECTORIES(${Qt5Core_INCLUDE_DIRS})
 INCLUDE_DIRECTORIES(${Qt5Widgets_INCLUDE_DIRS})
 INCLUDE_DIRECTORIES(${Qt5Xml_INCLUDE_DIRS})
@@ -26,7 +30,14 @@ INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/test)
 INCLUDE_DIRECTORIES(${CMAKE_BINARY_DIR}/test)
 
 INCLUDE("new_test.cmake")
+QT5_ADD_RESOURCES(RESOURCES_RCC
+        ${RESOURCES}
+)
+
 NEW_TEST(Helper/FileHelperTest.cpp)
 NEW_TEST(Helper/MetaDataListTest.cpp)
 NEW_TEST(Helper/LanguageKeyTest.cpp)
+NEW_TEST(Tagging/LyricsTest.cpp ${RESOURCES_RCC} Tagging/AbstractTaggingTest.cpp)
+NEW_TEST(Tagging/AlbumArtistTest.cpp ${RESOURCES_RCC} Tagging/AbstractTaggingTest.cpp)
+NEW_TEST(Tagging/DiscnumberTest.cpp ${RESOURCES_RCC} Tagging/AbstractTaggingTest.cpp)
 

@@ -19,6 +19,7 @@
  */
 
 #include "Discnumber.h"
+#include <QStringList>
 
 ID3v2::DiscnumberFrame::DiscnumberFrame(const TagLib::FileRef& f) :
 	ID3v2Frame<Models::Discnumber, TagLib::ID3v2::TextIdentificationFrame>(f, "TPOS") {}
@@ -27,75 +28,29 @@ ID3v2::DiscnumberFrame::~DiscnumberFrame() {}
 
 void ID3v2::DiscnumberFrame::map_model_to_frame(const Models::Discnumber& model, TagLib::ID3v2::TextIdentificationFrame* frame)
 {
-	QByteArray byte_arr_header, byte_arr_body;
-	TagLib::ByteVector data;
-
-	int size;
-
-	byte_arr_body.push_back(QString::number(model.disc).toLatin1());
-	byte_arr_body.push_back('/');
-	byte_arr_body.push_back(QString::number(model.disc).toLatin1());
-	byte_arr_body.push_back((char) 0x00);
-
-	size = byte_arr_body.size();
-
-	byte_arr_header.push_back("TPOS");
-	byte_arr_header.push_back((char) 0x00);
-	byte_arr_header.push_back((char) 0x00);
-	byte_arr_header.push_back((char) 0x00);
-	byte_arr_header.push_back((quint8) size);
-	byte_arr_header.push_back((char) 0x00);
-	byte_arr_header.push_back((char) 0x00);
-
-	byte_arr_header.push_back(byte_arr_body);
-
-	data.setData(byte_arr_header.data(), byte_arr_header.size());
-	frame->setData(data);
+	TagLib::String str(model.to_string().toLatin1().constData(), TagLib::String::Latin1);
+	frame->setText(str);
 }
 
 void ID3v2::DiscnumberFrame::map_frame_to_model(const TagLib::ID3v2::TextIdentificationFrame* frame, Models::Discnumber& model)
 {
-	TagLib::ByteVector vec = frame->render();
-	quint32 i, size;
-	quint8 disc, n_discs;
+	TagLib::String text = frame->toString();
+	QString str = QString::fromLatin1(text.toCString());
 
-	size  = ((int) vec[4]) << 21;
-	size += ((int) vec[5]) << 14;
-	size += ((int) vec[6]) << 7;
-	size += ((int) vec[7]);
-
-	disc=0;
-	for(i=10; i<size; i++){
-		if(i==vec.size()){
-			break;
-		}
-
-		char c = vec.at(i);
-		if(c == '/'){
-			i++;
-			break;
-		}
-
-		if(c >= '0' && c <='9'){
-			disc = (disc * 10) + (c - '0');
-		}
+	QStringList lst = str.split('/');
+	if(lst.size() > 0)
+	{
+		model.disc = lst[0].toInt();
 	}
 
-	n_discs = 0;
-	while(i<size && i<vec.size()){
-		char c = vec.at(i);
-		if(c >= '0' && c <='9'){
-			n_discs = (n_discs * 10) + (c - '0');
-		}
-		i++;
+	if(lst.size() > 1)
+	{
+		model.n_discs = lst[1].toInt();
 	}
-
-	model.disc = disc;
-	model.n_discs = n_discs;
 }
 
 TagLib::ID3v2::Frame* ID3v2::DiscnumberFrame::create_id3v2_frame()
 {
-	return new TagLib::ID3v2::TextIdentificationFrame(TagLib::ByteVector());
+	return new TagLib::ID3v2::TextIdentificationFrame("TPOS", TagLib::String::Latin1);
 }
 

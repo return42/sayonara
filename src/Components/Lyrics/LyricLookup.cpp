@@ -39,12 +39,21 @@
 
 struct LyricLookupThread::Private
 {
+	bool					has_error;
 	QString					artist;
 	QString					title;
 	int						cur_server;
 	QList<ServerTemplate>	server_list;
 	QString					final_wp;
 	QMap<QString, QString>  regex_conversions;
+	QString					lyric_header;
+	AsyncWebAccess*			current_awa=nullptr;
+
+	Private()
+	{
+		cur_server = -1;
+		has_error = false;
+	}
 };
 
 
@@ -138,9 +147,11 @@ void LyricLookupThread::run(const QString& artist, const QString& title, int ser
 
 	QString url = this->calc_server_url(_m->artist, _m->title);
 
-	AsyncWebAccess* awa = new AsyncWebAccess(this);
-	connect(awa, &AsyncWebAccess::sig_finished, this, &LyricLookupThread::content_fetched);
-	awa->run(url);
+	stop();
+	_m->current_awa = new AsyncWebAccess(this);
+	connect(_m->current_awa, &AsyncWebAccess::sig_finished, this, &LyricLookupThread::content_fetched);
+
+	_m->current_awa->run(url);
 }
 
 
@@ -148,10 +159,17 @@ void LyricLookupThread::content_fetched()
 {
 	AsyncWebAccess* awa = static_cast<AsyncWebAccess*>(sender());
 	QString url = awa->url();
+	_m->current_awa = nullptr;
 
-	if(!awa->has_data())
+	_m->lyric_header =
+			"<b>" + _m->artist + " - " +  _m->title + " </b><br />" +
+			_m->server_list[_m->cur_server].display_str + ": " + url;
+
+
+	if(!awa->has_data() || awa->has_error())
 	{
 		_m->final_wp = tr("Sorry, could not fetch lyrics from %1").arg(awa->url());
+		_m->has_error = true;
 		emit sig_finished();
 		return;
 	}
@@ -161,21 +179,30 @@ void LyricLookupThread::content_fetched()
 	if ( _m->final_wp.isEmpty() )
 	{
 		_m->final_wp = tr("Sorry, no lyrics found") + "<br />" + url;
+		_m->has_error = true;
+
 		emit sig_finished();
+
 		return;
 	}
 
-	_m->final_wp.push_front(_m->server_list[_m->cur_server].display_str + "<br /><br />");
-	_m->final_wp.push_front(awa->url() + "<br /><br />");
-	_m->final_wp.push_front(
-						//"<font size=\"5\" color=\"#F3841A\">"
-						"<b>" +
-						 _m->artist + " - " +  _m->title +
-						 "</b>"
-						 //"</font><br /><br />"
-				);
-
+	_m->has_error = false;
 	emit sig_finished();
+}
+
+void LyricLookupThread::stop()
+{
+	if(_m->current_awa){
+		disconnect(_m->current_awa, &AsyncWebAccess::sig_finished,
+				   this, &LyricLookupThread::content_fetched);
+
+		_m->current_awa->stop();
+	}
+}
+
+bool LyricLookupThread::has_error() const
+{
+	return _m->has_error;
 }
 
 void LyricLookupThread::init_server_list()
@@ -197,7 +224,10 @@ void LyricLookupThread::init_server_list()
 	ServerTemplate wikia;
 	wikia.display_str = "Wikia.com";
 	wikia.server_address = QString("http://lyrics.wikia.com");
+	wikia.addReplacement("'", "");
+	wikia.addReplacement("ö", "o");
 	wikia.addReplacement(" ", "_");
+	wikia.addReplacement("!", "");
 	wikia.addReplacement("&", "%26");
 	wikia.call_policy = QString("<SERVER>/wiki/<ARTIST>:<TITLE>");
 	wikia.start_end_tag.insert("<div class='lyricbox'>", "<!--");
@@ -328,7 +358,7 @@ void LyricLookupThread::init_server_list()
 
 }
 
-QStringList LyricLookupThread::get_servers() const
+QStringList LyricLookupThread::servers() const
 {
 	QStringList lst;
 	for(const ServerTemplate& t : _m->server_list) {
@@ -338,7 +368,12 @@ QStringList LyricLookupThread::get_servers() const
 	return lst;
 }
 
-QString LyricLookupThread::get_lyric_data() const
+QString LyricLookupThread::lyric_header() const
+{
+	return _m->lyric_header;
+}
+
+QString LyricLookupThread::lyric_data() const
 {
 	return _m->final_wp;
 }

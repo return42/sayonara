@@ -52,10 +52,14 @@ public:
 	explicit LyricLookupThread(QObject* parent=nullptr);
 	virtual	~LyricLookupThread();
 
-	QString	get_lyric_data() const;
-	QStringList get_servers() const;
+	QString	lyric_data() const;
+	QString lyric_header() const;
+	QStringList servers() const;
 
 	void run(const QString& artist, const QString& title, int server_idx);
+	void stop();
+	bool has_error() const;
+
 
 
 private:

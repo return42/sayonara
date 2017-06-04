@@ -1,9 +1,9 @@
-function(NEW_TEST SOURCE_FILE)
+function(NEW_TEST ...)
 
-	STRING(REGEX MATCH "^(.*/)*(.*)\\.[^.]*$" dummy ${SOURCE_FILE})
+        STRING(REGEX MATCH "^(.*/)*(.*)\\.[^.]*$" dummy ${ARGV0})
 	SET(TEST_NAME ${CMAKE_MATCH_2})
 
-	ADD_EXECUTABLE(${TEST_NAME} ${SOURCE_FILE})
+	ADD_EXECUTABLE(${TEST_NAME} ${ARGV})
 	TARGET_LINK_LIBRARIES(${TEST_NAME}
 		sayonara_test
 		Qt5::Test
@@ -13,3 +13,4 @@ function(NEW_TEST SOURCE_FILE)
 	MESSAGE("Add test ${TEST_NAME}")
 
 endfunction()
+

@@ -147,6 +147,7 @@ public:
 	 */
 	bool has_error() const;
 
+public slots:
 	void stop() override;
 
 

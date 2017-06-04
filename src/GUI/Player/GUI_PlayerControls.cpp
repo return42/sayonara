@@ -140,7 +140,7 @@ void GUI_Player::rec_changed(bool b)
 
 void GUI_Player::buffering(int progress)
 {
-	sli_buffer->set_orientation(SayonaraLoadingBar::Orientation::Middle);
+	sli_buffer->set_position(SayonaraLoadingBar::Position::Middle);
 
 	if(progress > 0 && progress < 100){
 		progress_widget->setCurrentIndex(1);

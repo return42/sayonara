@@ -75,11 +75,15 @@ namespace Tagging
 
 	bool write_cover(const MetaData& md, const QImage& image);
 	bool write_cover(const MetaData& md, const QString& image_path);
-
 	bool extract_cover(const MetaData& md, QByteArray& cover_data, QString& mime_type);
+	bool is_cover_supported(const QString& filepath);
+
+	bool write_lyrics(const MetaData& md, const QString& lyrics);
+	bool extract_lyrics(const MetaData& md, QString& lyrics);
+	bool is_lyrics_supported(const QString& filepath);
 
 	bool is_valid_file(const TagLib::FileRef& f);
-	bool is_cover_supported(const QString& filepath);
+
 
 	Tagging::TagType get_tag_type(const QString& filepath);
 	QString tag_type_to_string(Tagging::TagType);

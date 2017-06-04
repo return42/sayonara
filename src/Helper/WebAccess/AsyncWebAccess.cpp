@@ -81,6 +81,7 @@ AsyncWebAccess::AsyncWebAccess(QObject* parent, const QByteArray& header, AsyncW
 	_m->status = AsyncWebAccess::Status::NoData;
 
 	connect(_m->timer, &QTimer::timeout, this, &AsyncWebAccess::timeout);
+	connect(parent, &QObject::destroyed, this, &AsyncWebAccess::stop);
 }
 
 AsyncWebAccess::~AsyncWebAccess() {}

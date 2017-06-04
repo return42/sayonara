@@ -48,6 +48,7 @@ CommandLineData CommandLineParser::parse(int argc, char** argv)
 		if(str.compare("--multi-instances") == 0)
 		{
 			data.multiple_instances = true;
+			continue;
 		}
 
 		if(re.indexIn(str) >= 0)
