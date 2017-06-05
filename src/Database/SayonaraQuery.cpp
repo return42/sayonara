@@ -80,12 +80,59 @@ bool SayonaraQuery::exec()
 
 QString SayonaraQuery::get_query_string() const
 {
-	return _query_string;
+	QString str = _query_string;
+	str.prepend("\n");
+	str.replace("SELECT ", "SELECT\n", Qt::CaseInsensitive);
+	str.replace("FROM", "\nFROM", Qt::CaseInsensitive);
+	str.replace(",", ",\n", Qt::CaseInsensitive);
+	str.replace("INNER JOIN", "\nINNER JOIN", Qt::CaseInsensitive);
+	str.replace("LEFT OUTER JOIN", "\nLEFT OUTER JOIN", Qt::CaseInsensitive);
+	str.replace("UNION", "\nUNION", Qt::CaseInsensitive);
+	str.replace("GROUP BY", "\nGROUP BY", Qt::CaseInsensitive);
+	str.replace("ORDER BY", "\nORDER BY", Qt::CaseInsensitive);
+	str.replace("WHERE", "\nWHERE", Qt::CaseInsensitive);
+	str.replace("(", "\n(\n");
+	str.replace(")", "\n)\n");
+
+	int idx = str.indexOf("(");
+	while(idx >= 0){
+		int idx_close = str.indexOf(")", idx);
+		int nl = str.indexOf("\n", idx);
+		while(nl > 0 && nl < idx_close)
+		{
+			str.insert(nl + 1, '\t');
+			nl = str.indexOf("\n", nl + 2);
+		}
+
+		idx = str.indexOf("(", idx_close);
+	}
+
+	while(str.contains("\n ")){
+		str.replace("\n ", "\n");
+	}
+
+	while(str.contains(", ")){
+		str.replace(", ", ",");
+	}
+
+	while(str.contains(" ,")){
+		str.replace(" ,", ",");
+	}
+
+	while(str.contains("  ")){
+		str.replace("  ", " ");
+	}
+
+	while(str.contains("\n\n")){
+		str.replace("\n\n", "\n");
+	}
+
+	return str;
 }
 
 void SayonaraQuery::show_query() const
 {
-	sp_log(Log::Debug, this) << _query_string;
+	sp_log(Log::Debug, this) << get_query_string();
 }
 
 void SayonaraQuery::show_error(const QString& err_msg) const

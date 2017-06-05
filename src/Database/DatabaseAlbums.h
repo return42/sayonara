@@ -36,6 +36,7 @@ class DatabaseAlbums :
 private:
 	QString _artistid_field;
 	QString _track_view_name;
+	QString _search_view_name;
 
 	QString _create_order_string(Library::SortOrder order);
 	virtual QString fetch_query_albums(bool also_empty=false) const;

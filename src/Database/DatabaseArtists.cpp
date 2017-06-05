@@ -30,6 +30,7 @@ DatabaseArtists::DatabaseArtists(const QSqlDatabase& db, quint8 db_id, qint8 lib
 	DatabaseSearchMode(db)
 {
 	_artistid_field = "artistID";
+	_search_view_name = "search_view_" + QString::number(library_id);
 	_track_view_name = QString("track_view_") + QString::number(library_id);
 	if(library_id < 0){
 		_track_view_name = QString("tracks");
@@ -166,10 +167,17 @@ bool DatabaseArtists::getAllArtists(ArtistList& result, Library::SortOrder sorto
 	return db_fetch_artists(q, result);
 }
 
+
 bool DatabaseArtists::getAllArtistsBySearchString(const Library::Filter& filter, ArtistList& result, Library::SortOrder sortorder)
 {
 	SayonaraQuery q(_db);
 	QString query;
+	QString select = "SELECT artistID, "
+					 "artistName, "
+					 "COUNT(DISTINCT trackID) AS trackCount "
+					 "FROM " + _search_view_name + " ";
+
+	QString search_field;
 
 	switch(filter.mode())
 	{
@@ -180,44 +188,33 @@ bool DatabaseArtists::getAllArtistsBySearchString(const Library::Filter& filter,
 			break;
 
 		case Library::Filter::Genre:
-			query = fetch_query_artists() +
-					"   AND " + _track_view_name + ".genre LIKE :searchstring "
-					"	GROUP BY artists.artistID, artists.name ";
+			search_field = "genreName";
 			break;
 
 		case Library::Filter::Filename:
-			query = fetch_query_artists() +
-					"   AND " + _track_view_name + ".filename LIKE :searchstring "
-					"	GROUP BY artists.artistID, artists.name ";
+			search_field = "filename";
 			break;
 
 		case Library::Filter::Fulltext:
 		default:
-			query = "SELECT * FROM ("
-					+ fetch_query_artists() +
-					" AND artists.cissearch LIKE :searchstring "
-					" GROUP BY artists.artistID, artists.name "
-					" UNION "
-					+ fetch_query_artists() +
-					" AND albums.cissearch LIKE :searchstring "
-					" GROUP BY artists.artistID, artists.name "
-					" UNION "
-					+ fetch_query_artists() +
-					" AND " + _track_view_name + ".cissearch LIKE :searchstring "
-					" GROUP BY artists.artistID, artists.name "
-					") "
-					"GROUP BY artistID, artistName ";
+			search_field = "allCissearch";
 			break;
 	}
 
+	if(query.isEmpty()){
+			query = select +
+					"WHERE " + search_field + " LIKE :searchterm "
+					"GROUP BY artistID, artistName ";
+	}
 
 	query += _create_order_string(sortorder) + ";";
 
 	q.prepare(query);
+	q.bindValue(":searchterm", filter.filtertext());
 
-	q.bindValue(":searchstring", filter.filtertext());
 	return db_fetch_artists(q, result);
 }
+
 
 int DatabaseArtists::insertArtistIntoDatabase (const QString& artist)
 {

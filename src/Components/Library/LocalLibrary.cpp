@@ -36,6 +36,7 @@
 #include "Helper/globals.h"
 
 #include <utility>
+#include <QTime>
 
 struct LocalLibrary::Private
 {

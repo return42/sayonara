@@ -34,6 +34,7 @@ class DatabaseArtists :
 		private DatabaseSearchMode
 {
 private:
+	QString _search_view_name;
 	QString _track_view_name;
 	QString _artistid_field;
 	QString _create_order_string(Library::SortOrder sort);
