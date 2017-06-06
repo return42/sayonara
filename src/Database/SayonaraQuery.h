@@ -27,12 +27,14 @@
 #include <QSqlDatabase>
 #include <QSqlError>
 
+#include "Helper/Pimpl.h"
+
 class SayonaraQuery : public QSqlQuery 
 {
-private:
-	QString _query_string;
+	PIMPL(SayonaraQuery)
 
 public:
+
 	explicit SayonaraQuery(const QString& query=QString(), const QSqlDatabase& db = QSqlDatabase());
 	explicit SayonaraQuery(QSqlResult * result);
 	explicit SayonaraQuery(const QSqlDatabase& db);

@@ -20,19 +20,40 @@
 
 #include "Database/SayonaraQuery.h"
 #include "Helper/Logger/Logger.h"
+#include <QSqlDriver>
+
+struct SayonaraQuery::Private
+{
+	QString query_string;
+	bool is_open;
+
+	Private(const QString& query=QString())
+	{
+		query_string = query;
+		is_open = false;
+	}
+};
 
 SayonaraQuery::SayonaraQuery(const QString& query, const QSqlDatabase& db) :
 	QSqlQuery(query, db)
 {
-	_query_string = query;
+	_m = Pimpl::make<Private>(query);
+	_m->is_open = db.isOpen();
 }
 
 SayonaraQuery::SayonaraQuery(QSqlResult * result) :
-	QSqlQuery(result) {}
+	QSqlQuery(result)
+{
+	_m = Pimpl::make<Private>();
+}
 
 
 SayonaraQuery::SayonaraQuery(const QSqlDatabase& db) :
-	QSqlQuery(db) {}
+	QSqlQuery(db)
+{
+	_m = Pimpl::make<Private>();
+	_m->is_open = db.isOpen();
+}
 
 SayonaraQuery::SayonaraQuery(const QSqlQuery & other) :
 	QSqlQuery(other) {}
@@ -41,7 +62,7 @@ SayonaraQuery::~SayonaraQuery() {}
 
 bool SayonaraQuery::prepare(const QString& query)
 {
-	_query_string = query;
+	_m->query_string = query;
 
 	return QSqlQuery::prepare(query);
 }
@@ -50,10 +71,10 @@ void SayonaraQuery::bindValue(const QString& placeholder, const QVariant& val, Q
 {
 	QString replace_str = QString("'") + val.toString() + "'";
 
-	_query_string.replace(placeholder + " ", replace_str + " ");
-	_query_string.replace(placeholder + ",", replace_str + ",");
-	_query_string.replace(placeholder + ";", replace_str + ";");
-	_query_string.replace(placeholder + ")", replace_str + ")");
+	_m->query_string.replace(placeholder + " ", replace_str + " ");
+	_m->query_string.replace(placeholder + ",", replace_str + ",");
+	_m->query_string.replace(placeholder + ";", replace_str + ";");
+	_m->query_string.replace(placeholder + ")", replace_str + ")");
 
 	QSqlQuery::bindValue(placeholder, val, param_type);
 }
@@ -80,7 +101,7 @@ bool SayonaraQuery::exec()
 
 QString SayonaraQuery::get_query_string() const
 {
-	QString str = _query_string;
+	QString str = _m->query_string;
 	str.prepend("\n");
 	str.replace("SELECT ", "SELECT\n", Qt::CaseInsensitive);
 	str.replace("FROM", "\nFROM", Qt::CaseInsensitive);
@@ -137,8 +158,12 @@ void SayonaraQuery::show_query() const
 
 void SayonaraQuery::show_error(const QString& err_msg) const
 {
-	sp_log(Log::Error) << "SQL ERROR: " << err_msg;
+	sp_log(Log::Error) << "SQL ERROR: " << err_msg << ": " << (int) this->lastError().type();
 	sp_log(Log::Error) << this->lastError().text();
+	sp_log(Log::Error) << this->lastError().driverText();
 	sp_log(Log::Error) << this->lastError().databaseText();
+#ifdef DEBUG
+	sp_log(Log::Error) << _m->query_string;
+#endif
 	sp_log(Log::Error) << this->get_query_string();
 }

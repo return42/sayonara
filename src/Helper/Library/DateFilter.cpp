@@ -215,8 +215,8 @@ QString Library::DateFilter::get_sql_filter(const QString& track_prefix) const
 	QStringList change_modes;
 	QStringList change_modes_results;
 
-	if(_m->change_mode == ChangeMode::Modified ||
-			_m->change_mode == ChangeMode::ModifiedOrCreated)
+	if( _m->change_mode == ChangeMode::Modified ||
+		_m->change_mode == ChangeMode::ModifiedOrCreated)
 	{
 		if(track_prefix.isEmpty()){
 			change_modes << "modifydate";
@@ -227,7 +227,7 @@ QString Library::DateFilter::get_sql_filter(const QString& track_prefix) const
 	}
 
 	if(_m->change_mode == ChangeMode::Created ||
-			_m->change_mode == ChangeMode::ModifiedOrCreated)
+	   _m->change_mode == ChangeMode::ModifiedOrCreated)
 	{
 		if(track_prefix.isEmpty()){
 			change_modes << "createdate";

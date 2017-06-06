@@ -30,7 +30,7 @@ DatabaseAlbums::DatabaseAlbums(QSqlDatabase db, quint8 db_id, qint8 library_id) 
 {
 	_artistid_field = "artistID";
 	_track_view_name = QString("track_view_%1").arg(library_id);
-	_search_view_name = QString("search_view_%1").arg(library_id);
+	_search_view_name = QString("track_search_view_%1").arg(library_id);
 
 	if(library_id < 0){
 		_track_view_name = QString("tracks");
@@ -236,10 +236,10 @@ bool DatabaseAlbums::getAllAlbumsByArtist(IDList artists, AlbumList& result, con
 	QString select = "SELECT "
 					 "  albumID"
 					 ", albumName"
-					 ", SUM(trackLength) / 1000 AS albumLength"
+					 ", SUM(length) / 1000 AS albumLength"
 					 ", albumRating"
 					 ", COUNT(DISTINCT trackID) AS trackCount"
-					 ", MAX(trackYear) AS albumYear"
+					 ", MAX(year) AS albumYear"
 					 ", GROUP_CONCAT(DISTINCT artistName)"
 					 ", GROUP_CONCAT(DISTINCT discnumber)"
 					 ", GROUP_CONCAT(DISTINCT albumArtistName)"
@@ -319,10 +319,10 @@ bool DatabaseAlbums::getAllAlbumsBySearchString(const Library::Filter& filter, A
 	QString select = "SELECT "
 					 "  albumID"
 					 ", albumName"
-					 ", SUM(trackLength) / 1000 AS albumLength"
+					 ", SUM(length) / 1000 AS albumLength"
 					 ", albumRating"
 					 ", COUNT(DISTINCT trackID) AS trackCount"
-					 ", MAX(trackYear) AS albumYear"
+					 ", MAX(year) AS albumYear"
 					 ", GROUP_CONCAT(DISTINCT artistName)"
 					 ", GROUP_CONCAT(DISTINCT discnumber)"
 					 ", GROUP_CONCAT(DISTINCT albumArtistName)"

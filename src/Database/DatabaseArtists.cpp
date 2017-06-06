@@ -30,10 +30,14 @@ DatabaseArtists::DatabaseArtists(const QSqlDatabase& db, quint8 db_id, qint8 lib
 	DatabaseSearchMode(db)
 {
 	_artistid_field = "artistID";
-	_search_view_name = "search_view_" + QString::number(library_id);
-	_track_view_name = QString("track_view_") + QString::number(library_id);
-	if(library_id < 0){
+	_search_view_name = "track_search_view_" + QString::number(library_id);
+
+	if(library_id < 0) {
 		_track_view_name = QString("tracks");
+	}
+
+	else {
+		_track_view_name = QString("track_view_%1").arg(library_id);
 	}
 }
 
@@ -43,7 +47,7 @@ QString DatabaseArtists::fetch_query_artists(bool also_empty) const
 			"SELECT "
 			"artists.artistID AS artistID "
 			", artists.name AS artistName "
-			", COUNT(DISTINCT " + _track_view_name + ".trackid) AS trackCount "
+			", COUNT(DISTINCT " + _track_view_name + ".trackID) AS trackCount "
 			" FROM artists ";
 
 	QString join = " INNER JOIN ";

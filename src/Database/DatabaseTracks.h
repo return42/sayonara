@@ -25,6 +25,7 @@
 #include "Database/DatabaseModule.h"
 #include "Helper/typedefs.h"
 #include "Helper/Library/Sortorder.h"
+#include "Helper/Pimpl.h"
 
 #include <QString>
 
@@ -38,21 +39,21 @@ class DatabaseTracks :
 		private DatabaseSearchMode
 
 {
-private:
-	QString _track_view_name;
-	QString _artistid_field;
-	qint8 _library_id;
-
-	virtual QString fetch_query_tracks() const;
+	PIMPL(DatabaseTracks)
 
 protected:
 	void change_artistid_field(const QString& field);
+
+	void check_track_views(qint8 library_id);
+	void check_track_view(qint8 library_id);
+	void check_track_search_view(const QString& track_view, const QString& track_search_view);
 
 protected:
 	QString append_track_sort_string(QString querytext, Library::SortOrder sort);
 
 public:
 	DatabaseTracks(const QSqlDatabase& db, quint8 db_id, qint8 _library_id);
+	~DatabaseTracks();
 
 	virtual bool db_fetch_tracks(SayonaraQuery& q, MetaDataList& result);
 
@@ -82,6 +83,7 @@ public:
 	virtual bool deleteTracks(const MetaDataList&);
 	virtual bool deleteTracks(const IDList& ids);
 	virtual bool deleteInvalidTracks();
+	virtual QString fetch_query_tracks() const;
 
 	virtual QStringList getAllGenres();
 	virtual void updateTrackCissearch();

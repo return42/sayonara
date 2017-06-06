@@ -84,43 +84,5 @@ int LibraryDatabase::db_id() const
 
 bool LibraryDatabase::apply_fixes()
 {
-	if(_library_id < 0) { 
-		return true;
-	}
-
-	QString track_view_name = "track_view_" + QString::number(_library_id);
-	QString sql_string = "CREATE VIEW IF NOT EXISTS " + track_view_name +
-        "  AS "
-        "  SELECT "
-        "  trackID "
-        ", title "
-        ", length "
-        ", year "
-        ", bitrate "
-        ", filename "
-        ", track "
-        ", albumID "
-        ", artistID "
-        ", albumArtistID "
-        ", genre "
-        ", filesize "
-        ", discnumber "
-        ", rating "
-        ", length "
-        ", libraryID "
-        ", cissearch "
-        "FROM tracks WHERE libraryID =" + QString::number(_library_id).left(2) + ";";
-
-    if(!db().isOpen()){
-        db().open();
-    }
-
-    SayonaraQuery q(db());
-    q.prepare(sql_string);
-    bool success = q.exec();
-    if(!success) {
-        q.show_error("Cannot create " + track_view_name);
-    }
-
-	return success;
+	return true;
 }

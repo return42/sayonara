@@ -36,47 +36,115 @@
 #include <utility>
 #include <tuple>
 
+struct DatabaseTracks::Private
+{
+	QString track_view_name;
+	QString track_search_view_name;
+	QString artistid_field;
+	qint8 library_id;
+};
 
 DatabaseTracks::DatabaseTracks(const QSqlDatabase& db, quint8 db_id, qint8 library_id) :
 	DatabaseModule(db, db_id),
 	DatabaseSearchMode(db)
 {
-	_artistid_field = "artistID";
-	_library_id = library_id;
-	_track_view_name = QString("track_view_") + QString::number(library_id);
+	_m = Pimpl::make<Private>();
 
+	_m->artistid_field = "artistID";
+	_m->library_id = library_id;
+
+	check_track_view(library_id);
+}
+
+DatabaseTracks::~DatabaseTracks() {}
+
+
+void DatabaseTracks::check_track_view(qint8 library_id)
+{
 	if(library_id < 0) {
-		_track_view_name = QString("tracks");
-	} 
+		_m->track_view_name = QString("tracks");
+		_m->track_search_view_name = QString("track_search_view");
+	}
+
+	else {
+		_m->track_view_name = QString("track_view_%1").arg(library_id);
+		_m->track_search_view_name = QString("track_search_view_%1").arg(library_id);
+	}
+
+	QString select = "SELECT "
+					"trackID, "									// 0
+					"title, "									// 1
+					"length, "									// 2
+					"year, "									// 3
+					"bitrate, "									// 4
+					"filename, "								// 5
+					"filesize, "								// 6
+					"track AS trackNum, "						// 7
+					"genre, "									// 8
+					"discnumber, "								// 9
+					"tracks.rating, "							// 10
+					"tracks.albumID AS albumID, "				// 11
+					"tracks.artistID AS artistID, "				// 12
+					"tracks.albumArtistID AS albumArtistID, "	// 13
+					"createDate, "								// 14
+					"modifyDate, "								// 15
+					"tracks.libraryID AS trackLibraryID "		// 16
+	;
+
+	QString view_query =
+					"CREATE "
+					"VIEW "
+					"IF NOT EXISTS "
+					+ _m->track_view_name + " "
+					"AS " + select + " "
+					"FROM tracks "
+	;
+
+	QString search_view_query =
+			"CREATE "
+			"VIEW "
+			"IF NOT EXISTS "
+			+ _m->track_search_view_name + " "
+			"AS "
+			+ select + ", "
+			"albums.name AS albumName, "				// 17
+			"albums.rating AS albumRating, "			// 18
+			"artists.name AS artistName, "				// 19
+			"albumArtists.name AS albumArtistName, "	// 20
+			"(albums.cissearch || ',' || artists.cissearch || ',' || tracks.cissearch) AS allCissearch " // 21
+			"FROM tracks "
+			"INNER JOIN albums ON tracks.albumID = albums.albumID "
+			"INNER JOIN artists ON tracks.artistID = artists.artistID "
+			"LEFT OUTER JOIN artists albumArtists ON tracks.albumArtistID = albumArtists.artistID ";
+	;
+
+	if(_m->library_id >= 0){
+		view_query += "WHERE libraryID=" + QString::number(library_id) + "; ";
+		search_view_query += "WHERE libraryID=" + QString::number(library_id) + "; ";
+	}
+
+	SayonaraQuery view_q(_db);
+	SayonaraQuery search_view_q(_db);
+
+	view_q.prepare(view_query);
+	search_view_q.prepare(search_view_query);
+
+	if(library_id >= 0){
+		if(!view_q.exec())
+		{
+			view_q.show_error("Cannot create track view");
+		}
+	}
+
+	if(!search_view_q.exec())
+	{
+		search_view_q.show_error("Cannot create track search view");
+	}
 }
 
 QString DatabaseTracks::fetch_query_tracks() const
 {
-	return "SELECT "
-		   "  " + _track_view_name + ".trackID AS trackID "			// 0
-		   ", " + _track_view_name + ".title AS trackTitle "			// 1
-		   ", " + _track_view_name + ".length AS trackLength "		// 2
-		   ", " + _track_view_name + ".year AS trackYear "			// 3
-		   ", " + _track_view_name + ".bitrate AS trackBitrate "		// 4
-		   ", " + _track_view_name + ".filename AS trackFilename "	// 5
-		   ", " + _track_view_name + ".track AS trackNum "			// 6
-		   ", albums.albumID AS albumID "			// 7
-		   ", artists.artistID AS artistID "		// 8
-		   ", albums.name AS albumName "			// 9
-		   ", artists.name AS artistName "			// 10
-		   ", " + _track_view_name + ".genre AS genrename "			// 11
-		   ", " + _track_view_name + ".filesize AS filesize "			// 12
-		   ", " + _track_view_name + ".discnumber AS discnumber "		// 13
-		   ", " + _track_view_name + ".rating AS rating "				//14
-		   ", " + _track_view_name + ".albumArtistID "				// 15
-		   ", albumartists.name "					// 16
-		   ", " + _track_view_name + ".libraryID " //17
-		   "FROM " + _track_view_name + " "
-		   "INNER JOIN albums ON " + _track_view_name + ".albumID = albums.albumID "
-		   "INNER JOIN artists ON " + _track_view_name + ".artistID = artists.artistID "
-		   "LEFT OUTER JOIN artists albumartists ON " + _track_view_name + ".albumArtistID = albumartists.artistID "
-		   //"WHERE filetype is null "
-			;
+	return "SELECT * FROM " + _m->track_search_view_name + " ";
 }
 
 
@@ -99,17 +167,17 @@ bool DatabaseTracks::db_fetch_tracks(SayonaraQuery& q, MetaDataList& result)
 		data.year = 	 	q.value(3).toInt();
 		data.bitrate = 	 	q.value(4).toInt();
 		data.set_filepath(q.value(5).toString());
-		data.track_num = 	q.value(6).toInt();
-		data.album_id =  	q.value(7).toInt();
-		data.artist_id = 	q.value(8).toInt();
-		data.album = 	 	q.value(9).toString().trimmed();
-		data.artist = 	 	q.value(10).toString().trimmed();
-		data.set_genres(q.value(11).toString().split(","));
-		data.filesize =  	q.value(12).toInt();
-		data.discnumber = 	q.value(13).toInt();
-		data.rating = 		q.value(14).toInt();
-		data.set_album_artist(q.value(16).toString(), q.value(15).toInt());
-		data.library_id = 	q.value(17).toInt();
+		data.filesize =  	q.value(6).toInt();
+		data.track_num = 	q.value(7).toInt();
+		data.set_genres(q.value(8).toString().split(","));
+		data.discnumber = 	q.value(9).toInt();
+		data.rating = 		q.value(10).toInt();
+		data.album_id =  	q.value(11).toInt();
+		data.album = 	 	q.value(17).toString().trimmed();
+		data.artist_id = 	q.value(12).toInt();
+		data.artist = 	 	q.value(19).toString().trimmed();
+		data.set_album_artist(q.value(20).toString(), q.value(13).toInt());
+		data.library_id = 	q.value(16).toInt();
 		data.db_id = _module_db_id;
 
 		result.append(data);
@@ -164,8 +232,8 @@ MetaData DatabaseTracks::getTrackByPath(const QString& path)
 {
 	SayonaraQuery q(_db);
 
-	QString querytext = fetch_query_tracks() + " WHERE " + _track_view_name + ".filename LIKE :filename;";
-	sp_log(Log::Debug, this) << __FUNCTION__ << fetch_query_tracks();
+	QString querytext = fetch_query_tracks() +
+						"WHERE filename LIKE :filename;";
 	q.prepare(querytext);
 	q.bindValue(":filename", path);
 
@@ -190,10 +258,10 @@ MetaData DatabaseTracks::getTrackByPath(const QString& path)
 MetaData DatabaseTracks::getTrackById(int id)
 {
 	SayonaraQuery q(_db);
-	QString querytext = fetch_query_tracks() + " WHERE " + _track_view_name + ".trackID = :track_id;";
+	QString querytext = fetch_query_tracks() + "WHERE trackID = :track_id;";
 
 	q.prepare(querytext);
-	q.bindValue(":track_id", QVariant(id));
+	q.bindValue(":track_id", id);
 
 	MetaDataList v_md;
 	if(!db_fetch_tracks(q, v_md)) {
@@ -214,7 +282,8 @@ bool DatabaseTracks::getAllTracks(MetaDataList& returndata, Library::SortOrder s
 {
 	SayonaraQuery q(_db);
 
-	QString querytext = append_track_sort_string(fetch_query_tracks(), sort);
+	QString querytext = fetch_query_tracks();
+	querytext = append_track_sort_string(querytext, sort);
 
 	q.prepare(querytext);
 
@@ -268,23 +337,23 @@ bool DatabaseTracks::getAllTracksByAlbum(IDList albums, MetaDataList& returndata
 	}
 
 	SayonaraQuery q(_db);
-	QString search_view_name = "search_view_" + QString::number(_library_id);
-	QString querytext = "SELECT * FROM " + search_view_name + " ";
+
+	QString querytext = fetch_query_tracks();
 
 	if( !filter.cleared() )
 	{
 		switch( filter.mode() )
 		{
 			case Library::Filter::Date:
-				querytext += "WHERE " + filter.date_filter().get_sql_filter(_track_view_name) + " AND ";
+				querytext += "WHERE " + filter.date_filter().get_sql_filter(_m->track_view_name) + " AND ";
 				break;
 
 			case Library::Filter::Genre:
-				querytext += "WHERE genreName LIKE :searchterm AND ";
+				querytext += "WHERE genre LIKE :searchterm AND ";
 				break;
 
 			case Library::Filter::Filename:
-				querytext += "WHERE fileName LIKE :searchterm AND ";
+				querytext += "WHERE filename LIKE :searchterm AND ";
 				break;
 
 			case Library::Filter::Fulltext:
@@ -298,12 +367,8 @@ bool DatabaseTracks::getAllTracksByAlbum(IDList albums, MetaDataList& returndata
 		querytext += " WHERE ";
 	}
 
-	if(albums.size() == 1) {
-		querytext += " albumID=:albumid ";
-	}
-
-	else {
-		querytext += " (albumID=:albumid ";
+	if(albums.size() > 0) {
+		querytext += " (albumID=:albumid_0 ";
 		for(int i=1; i<albums.size(); i++) {
 			querytext += "OR albumID=:albumid_" + QString::number(i) + " ";
 		}
@@ -315,11 +380,10 @@ bool DatabaseTracks::getAllTracksByAlbum(IDList albums, MetaDataList& returndata
 	querytext = append_track_sort_string(querytext, sort);
 
 	q.prepare(querytext);
-	q.bindValue(":albumid", QVariant(albums.first()));
-	for(int i=1; i<albums.size(); i++) {
+
+	for(int i=0; i<albums.size(); i++) {
 		q.bindValue(QString(":albumid_") + QString::number(i), albums[i]);
 	}
-
 
 	if( !filter.cleared() )
 	{
@@ -362,23 +426,22 @@ bool DatabaseTracks::getAllTracksByArtist(IDList artists, MetaDataList& returnda
 	}
 
 	SayonaraQuery q(_db);
-	QString search_view_name = "search_view_" + QString::number(_library_id);
-	QString querytext = "SELECT * FROM " + search_view_name + " ";
 
+	QString querytext = fetch_query_tracks();
 	if( !filter.cleared() )
 	{
 		switch( filter.mode() )
 		{
 			case Library::Filter::Date:
-				querytext += "WHERE " + filter.date_filter().get_sql_filter(_track_view_name) + " AND ";
+				querytext += "WHERE " + filter.date_filter().get_sql_filter() + " AND ";
 				break;
 
 			case Library::Filter::Genre:
-				querytext += "WHERE genreName LIKE :searchterm AND ";
+				querytext += "WHERE genre LIKE :searchterm AND ";
 				break;
 
 			case Library::Filter::Filename:
-				querytext += "WHERE fileName LIKE :searchterm AND ";
+				querytext += "WHERE filename LIKE :searchterm AND ";
 				break;
 
 			case Library::Filter::Fulltext:
@@ -392,14 +455,11 @@ bool DatabaseTracks::getAllTracksByArtist(IDList artists, MetaDataList& returnda
 		querytext += " WHERE ";
 	}
 
-	if(artists.size() == 1) {
-		querytext += " " + _artistid_field + "=:artist_id ";
-	}
-
-	else {
-		querytext += " (" + _artistid_field + "=:artist_id ";
+	if(artists.size() > 0)
+	{
+		querytext += " (" + _m->artistid_field + "=:artist_id_0 ";
 		for(int i=1; i<artists.size(); i++) {
-			querytext += "OR " + _artistid_field + "=:artist_id_" + QString::number(i) + " ";
+			querytext += "OR " + _m->artistid_field + "=:artist_id_" + QString::number(i) + " ";
 		}
 
 		querytext += ") ";
@@ -410,21 +470,12 @@ bool DatabaseTracks::getAllTracksByArtist(IDList artists, MetaDataList& returnda
 	q.prepare(querytext);
 	q.bindValue(":artist_id", QVariant(artists.first()));
 
-	for(int i=1; i<artists.size(); i++) {
+	for(int i=0; i<artists.size(); i++) {
 		q.bindValue(QString(":artist_id_") + QString::number(i), artists[i]);
 	}
 
-	if( !filter.cleared() )
-	{
-		QString filtertext = filter.filtertext();
-		switch(filter.mode())
-		{
-			case Library::Filter::Date:
-				break;
-			default:
-				q.bindValue(":searchterm", filtertext);
-		}
-	}
+
+	q.bindValue(":searchterm", filter.filtertext());
 
 	return db_fetch_tracks(q, returndata);
 }
@@ -432,26 +483,25 @@ bool DatabaseTracks::getAllTracksByArtist(IDList artists, MetaDataList& returnda
 bool DatabaseTracks::getAllTracksBySearchString(const Library::Filter& filter, MetaDataList& result, Library::SortOrder sort)
 {
 	SayonaraQuery q(_db);
-	QString search_view_name = "search_view_" + QString::number(_library_id);
-	QString querytext = "SELECT * FROM " + search_view_name + " ";
+
+	QString querytext = fetch_query_tracks();
 
 	switch(filter.mode())
 	{
 		case Library::Filter::Date:
-			querytext = fetch_query_tracks() +
-						" WHERE " + filter.date_filter().get_sql_filter(_track_view_name);
+			querytext += "WHERE " + filter.date_filter().get_sql_filter();
 			break;
 
 		case Library::Filter::Genre:
-			querytext += " WHERE genreName LIKE :searchterm ";
+			querytext += "WHERE genre LIKE :searchterm ";
 			break;
 
 		case Library::Filter::Filename:
-			querytext += " WHERE filename LIKE :searchterm ";
+			querytext += "WHERE filename LIKE :searchterm ";
 			break;
 
 		case Library::Filter::Fulltext:
-			querytext += " WHERE allCissearch LIKE :searchterm ";
+			querytext += "WHERE allCissearch LIKE :searchterm ";
 			break;
 
 		default:
@@ -534,7 +584,7 @@ bool DatabaseTracks::deleteInvalidTracks()
 	MetaDataList v_md_update;
 
 	SayonaraQuery q(_db);
-	DatabaseLibrary db_library(_db, _module_db_id, _library_id);
+	DatabaseLibrary db_library(_db, _module_db_id, _m->library_id);
 
 	if(!getAllTracks(v_md)){
 		sp_log(Log::Error) << "Cannot get tracks from db";
@@ -806,5 +856,5 @@ bool DatabaseTracks::updateTrackDates()
 
 void DatabaseTracks::change_artistid_field(const QString& field)
 {
-	_artistid_field = field;
+	_m->artistid_field = field;
 }
