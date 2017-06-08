@@ -25,6 +25,7 @@
 #include "Components/Library/LibraryManager.h"
 #include "Helper/Library/LibraryInfo.h"
 #include "GUI/Library/LocalLibraryContainer.h"
+#include "GUI/Library/EmptyLibraryContainer.h"
 
 #include "Helper/globals.h"
 #include "Helper/Helper.h"
@@ -51,7 +52,6 @@ struct LibraryPluginHandler::Private
 		plugin_handler(plugin_handler) {}
 
 
-
 	void insert_local_libraries()
 	{
 		QList<LibraryInfo> library_infos = LibraryManager::getInstance()->get_all_libraries();
@@ -67,11 +67,15 @@ struct LibraryPluginHandler::Private
 
 			libraries << new LocalLibraryContainer(library_info);
 		}
+
+		if(libraries.isEmpty()){
+			libraries << new EmptyLibraryContainer();
+		}
 	}
 
 	void insert_dll_libraries()
 	{
-		QDir plugin_dir = QDir(Helper::get_lib_path());
+		QDir plugin_dir = QDir(Helper::lib_path());
 		QStringList dll_filenames = plugin_dir.entryList(QDir::Files);
 
 		for(const QString& filename : dll_filenames)
@@ -138,8 +142,7 @@ void LibraryPluginHandler::init(const QList<LibraryContainerInterface*>& contain
 	bool found = false;
 	for(LibraryContainerInterface* container : _m->libraries )
 	{
-		if(cur_plugin == container->get_name())
-		{
+		if(cur_plugin.compare(container->get_name()) == 0){
 			_m->cur_idx = i;
 			init_library(i);
 			emit sig_idx_changed(i);
@@ -166,21 +169,17 @@ void LibraryPluginHandler::init_library(int idx)
 		return;
 	}
 
-	QWidget* ui=nullptr;
-	QLayout* layout;
-	QComboBox* libchooser;
-
 	library->init_ui();
 	library->set_initialized();
-	ui = library->get_ui();
+	QWidget* ui = library->get_ui();
 	ui->setParent(_m->library_parent);
 
-	layout = ui->layout();
+	QLayout* layout = ui->layout();
 	if(layout){
 		layout->setContentsMargins(5, 0, 8, 0);
 	}
 
-	libchooser = library->get_libchooser();
+	QComboBox* libchooser = library->get_libchooser();
 	libchooser->setIconSize(QSize(16,16));
 	libchooser->setMinimumWidth(200);
 	libchooser->setMaximumWidth(200);
@@ -401,6 +400,34 @@ void LibraryPluginHandler::move_local_library(int old_row, int new_row)
 	}
 
 	_m->libraries.move(old_row, new_row);
+}
+
+void LibraryPluginHandler::remove_index(int idx)
+{
+	for(LibraryContainerInterface* container : _m->libraries)
+	{
+		if(!container->is_initialized()) {
+			continue;
+		}
+
+		if(idx >= 0 && idx < container->get_libchooser()->count()){
+			container->get_libchooser()->removeItem(idx);
+		}
+	}
+
+	_m->cur_idx = get_cur_library()->get_libchooser()->currentIndex();
+
+}
+
+void LibraryPluginHandler::set_current_index(int idx)
+{
+	LibraryContainerInterface* container = this->get_cur_library();
+
+	if(container->is_initialized()){
+		container->get_libchooser()->setCurrentIndex(idx);
+	}
+
+	index_changed(idx);
 }
 
 

@@ -1,4 +1,4 @@
-/* Sorting.h */
+/* EmptyLibraryContainer.h */
 
 /* Copyright (C) 2011-2017  Lucio Carreras
  *
@@ -18,36 +18,32 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef LIBRARY_SORTING_H
-#define LIBRARY_SORTING_H
 
-#include <QtGlobal>
-#include "Sortorder.h"
 
-class QString;
-namespace Library
+#ifndef EMPTYLIBRARYCONTAINER_H
+#define EMPTYLIBRARYCONTAINER_H
+
+#include "Helper/Pimpl.h"
+#include "Interfaces/LibraryInterface/LibraryContainer/LibraryContainer.h"
+
+class EmptyLibraryContainer :
+		public LibraryContainerInterface
 {
-	/**
-	 * @brief The Sortings class
-	 * @ingroup LibraryHelper
-	 */
-    class Sortings
-	{
-		public:
-			Library::SortOrder so_albums;
-			Library::SortOrder so_artists;
-			Library::SortOrder so_tracks;
+	PIMPL(EmptyLibraryContainer)
 
-		Sortings();
-		Sortings(const Sortings& so);
-		~Sortings();
+	// LibraryContainerInterface interface
+public:
 
-		bool operator==(Library::Sortings so);
+	EmptyLibraryContainer(QObject* parent=nullptr);
+	~EmptyLibraryContainer();
 
-		QString toString() const;
+	QIcon get_icon() const override;
+	QString get_name() const override;
+	QString get_display_name() const override;
+	QWidget*get_ui() const override;
+	QComboBox*get_libchooser() override;
+	QMenu*get_menu() override;
+	void init_ui() override;
+};
 
-		static Library::Sortings fromString(const QString& str);
-    };
-}
-
-#endif // SORTING_H
+#endif // EMPTYLIBRARYCONTAINER_H

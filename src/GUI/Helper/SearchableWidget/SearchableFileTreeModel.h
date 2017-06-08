@@ -21,6 +21,7 @@
 #define SEARCHABLEFILETREEMODEL_H
 
 #include "AbstractSearchModel.h"
+#include "Helper/Pimpl.h"
 
 #include <QTreeView>
 #include <QThread>
@@ -33,7 +34,8 @@
 class SearchableFileTreeModel :
 	public SearchModelInterface<QFileSystemModel>
 {
-    Q_OBJECT
+	Q_OBJECT
+	PIMPL(SearchableFileTreeModel)
 
 public:
     explicit SearchableFileTreeModel(QObject* parent=nullptr);
@@ -44,10 +46,6 @@ public:
     virtual QModelIndex getNextRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent=QModelIndex()) override;
     virtual QModelIndex getPrevRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent=QModelIndex()) override;
     virtual QMap<QChar, QString> getExtraTriggers() override;
-
-private:
-    QStringList	_found_strings;
-	int			_cur_idx;
 };
 
 #endif // SEARCHABLEFileTreeView_H

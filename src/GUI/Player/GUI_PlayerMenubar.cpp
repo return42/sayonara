@@ -45,8 +45,8 @@ void GUI_Player::open_files_clicked()
 {
 	QStringList filetypes;
 
-	filetypes << Helper::get_soundfile_extensions();
-	filetypes << Helper::get_playlistfile_extensions();
+	filetypes << Helper::soundfile_extensions();
+	filetypes << Helper::playlist_extensions();
 
 	QString filetypes_str = tr("Media files") + " (" + filetypes.join(" ") + ")";
 

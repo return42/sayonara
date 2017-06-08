@@ -23,9 +23,12 @@
 
 #include "Helper/Pimpl.h"
 #include "Helper/Library/SearchMode.h"
-#include <QSqlDatabase>
+#include "Database/DatabaseModule.h"
 
-class DatabaseSearchMode
+class QSqlDatabase;
+
+class DatabaseSearchMode :
+	public DatabaseModule
 {
     PIMPL(DatabaseSearchMode)
 
@@ -33,11 +36,9 @@ private:
     void init();
 
 protected:
-    DatabaseSearchMode();
-    DatabaseSearchMode(const QSqlDatabase& db);
+	DatabaseSearchMode(const QSqlDatabase& db, quint8 db_id);
 
 public:
-
     virtual ~DatabaseSearchMode();
 
     Library::SearchModeMask search_mode();

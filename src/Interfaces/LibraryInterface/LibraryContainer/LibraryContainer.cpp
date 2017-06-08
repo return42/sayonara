@@ -23,12 +23,28 @@
 
 #include <QAction>
 
+struct LibraryContainerInterface::Private
+{
+	QAction*	action=nullptr;
+	bool		initialized;
+
+	Private()
+	{
+		initialized = false;
+	}
+
+	void set_initialized()
+	{
+		initialized = true;
+	}
+
+};
 
 LibraryContainerInterface::LibraryContainerInterface(QObject* parent) :
-	QObject(parent)
+	QObject(parent),
+	SayonaraClass()
 {
-	_initialized = false;
-	_settings = Settings::getInstance();
+	_m = Pimpl::make<Private>();
 
 	REGISTER_LISTENER(Set::Player_Language, language_changed);
 }
@@ -47,30 +63,29 @@ QMenu* LibraryContainerInterface::get_menu()
 
 void LibraryContainerInterface::set_menu_action(QAction* action)
 {
-	_action = action;
+	_m->action = action;
 }
 
 QAction* LibraryContainerInterface::get_menu_action() const
 {
-	return _action;
+	return _m->action;
 }
-
 
 void LibraryContainerInterface::set_initialized()
 {
-	_initialized = true;
+	_m->set_initialized();
 }
 
 bool LibraryContainerInterface::is_initialized() const
 {
-	return _initialized;
+	return _m->initialized;
 }
 
 
 void LibraryContainerInterface::language_changed()
 {
-	if(_action){
-		_action->setText(this->get_display_name());
+	if(_m->action){
+		_m->action->setText(this->get_display_name());
 	}
 }
 

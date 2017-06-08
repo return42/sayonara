@@ -72,7 +72,7 @@ void GUI_LibraryPreferences::init_ui()
 	connect(ui->btn_up, &QPushButton::clicked, this, &GUI_LibraryPreferences::up_clicked);
 	connect(ui->btn_down, &QPushButton::clicked, this, &GUI_LibraryPreferences::down_clicked);
 
-	ui->gb_new_library->setVisible(false);
+	ui->sw_lib_manager->setCurrentIndex(0);
 
 	revert();
 }
@@ -142,6 +142,7 @@ void GUI_LibraryPreferences::new_clicked()
 	QString dir = QFileDialog::getExistingDirectory(this, tr("New Library"), QDir::homePath());
 
 	if(dir.isEmpty()){
+		ui->sw_lib_manager->setCurrentIndex(0);
 		return;
 	}
 
@@ -150,11 +151,12 @@ void GUI_LibraryPreferences::new_clicked()
 
 	ui->le_name->setText(dir_proposal);
 	ui->le_path->setText(dir);
-	ui->gb_new_library->setVisible(true);
 
 	ui->btn_new->setEnabled(false);
 	ui->btn_delete->setEnabled(false);
 	ui->lv_libs->setEnabled(false);
+
+	ui->sw_lib_manager->setCurrentIndex(1);
 }
 
 void GUI_LibraryPreferences::rename_clicked()
@@ -193,19 +195,21 @@ void GUI_LibraryPreferences::delete_clicked()
 
 void GUI_LibraryPreferences::add_clicked()
 {
+	ui->sw_lib_manager->setCurrentIndex(0);
 	_m->model->append_row(ui->le_name->text(), ui->le_path->text());
 	clear_clicked();
 }
 
 void GUI_LibraryPreferences::clear_clicked()
 {
-	ui->gb_new_library->setVisible(false);
 	ui->le_name->clear();
 	ui->le_path->clear();
 
 	ui->btn_new->setEnabled(true);
 	ui->btn_delete->setEnabled(true);
 	ui->lv_libs->setEnabled(true);
+
+	ui->sw_lib_manager->setCurrentIndex(0);
 }
 
 void GUI_LibraryPreferences::library_text_changed(const QString& str)

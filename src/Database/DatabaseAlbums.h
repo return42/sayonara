@@ -30,7 +30,6 @@ namespace Library {class Filter;}
 class Album;
 class AlbumList;
 class DatabaseAlbums :
-		private DatabaseModule,
 		private DatabaseSearchMode
 {
 private:
@@ -47,6 +46,7 @@ protected:
 public:
 
 	DatabaseAlbums(QSqlDatabase db, quint8 db_id, qint8 library_id);
+	virtual ~DatabaseAlbums();
 
 	virtual bool db_fetch_albums(SayonaraQuery& q, AlbumList& result);
 

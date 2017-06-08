@@ -156,7 +156,7 @@ Probing::stream_recorder_probed(GstPad *pad, GstPadProbeInfo *info, gpointer use
 			gst_element_set_state(data->sink, GST_STATE_NULL);
 			g_object_set( data->sink,
 						  "location",
-						  (Helper::get_sayonara_path() + "bla.mp3").toLocal8Bit().data(),
+						  (Helper::sayonara_path() + "bla.mp3").toLocal8Bit().data(),
 						  nullptr);
 
 			data->has_empty_filename = true;

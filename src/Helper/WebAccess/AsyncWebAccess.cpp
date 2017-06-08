@@ -115,7 +115,7 @@ void AsyncWebAccess::run(const QString& url, int timeout)
 			break;
 
 		case AsyncWebAccess::Behavior::Random:
-			user_agent = Helper::get_random_string(Helper::get_random_number(8, 16));
+			user_agent = Helper::random_string(Helper::random_number(8, 16));
 			break;
 		case AsyncWebAccess::Behavior::None:
 		default:

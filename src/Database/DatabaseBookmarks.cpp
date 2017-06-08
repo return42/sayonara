@@ -25,12 +25,11 @@ DatabaseBookmarks::DatabaseBookmarks(const QSqlDatabase& db, quint8 db_id) :
 	DatabaseModule(db, db_id) {}
 
 
-bool DatabaseBookmarks::searchBookmarks(int track_id, QMap<quint32, QString>& bookmarks) {
-	DB_RETURN_NOT_OPEN_BOOL(_db);
-
+bool DatabaseBookmarks::searchBookmarks(int track_id, QMap<quint32, QString>& bookmarks)
+{
 	bookmarks.clear();
 
-	SayonaraQuery q(_db);
+	SayonaraQuery q(this);
 	q.prepare("SELECT name, timeidx FROM savedbookmarks WHERE trackid=:trackid;");
 	q.bindValue(":trackid", track_id);
 
@@ -50,10 +49,9 @@ bool DatabaseBookmarks::searchBookmarks(int track_id, QMap<quint32, QString>& bo
 }
 
 
-bool DatabaseBookmarks::insertBookmark(int track_id, quint32 time, QString name) {
-	DB_RETURN_NOT_OPEN_BOOL(_db);
-
-	SayonaraQuery q(_db);
+bool DatabaseBookmarks::insertBookmark(int track_id, quint32 time, QString name)
+{
+	SayonaraQuery q(this);
 	q.prepare("INSERT INTO savedbookmarks (trackid, name, timeidx) VALUES(:trackid, :name, :timeidx);");
 	q.bindValue(":trackid", track_id);
 	q.bindValue(":name", name);
@@ -68,10 +66,9 @@ bool DatabaseBookmarks::insertBookmark(int track_id, quint32 time, QString name)
 }
 
 
-bool DatabaseBookmarks::removeBookmark(int track_id, quint32 time) {
-	DB_RETURN_NOT_OPEN_BOOL(_db);
-
-	SayonaraQuery q(_db);
+bool DatabaseBookmarks::removeBookmark(int track_id, quint32 time)
+{
+	SayonaraQuery q(this);
 	q.prepare("DELETE FROM savedbookmarks WHERE trackid=:trackid AND timeidx=:timeidx;");
 	q.bindValue(":trackid", track_id);
 	q.bindValue(":timeidx", time);
@@ -85,10 +82,9 @@ bool DatabaseBookmarks::removeBookmark(int track_id, quint32 time) {
 }
 
 
-bool DatabaseBookmarks::removeAllBookmarks(int track_id) {
-	DB_RETURN_NOT_OPEN_BOOL(_db);
-
-	SayonaraQuery q(_db);
+bool DatabaseBookmarks::removeAllBookmarks(int track_id)
+{
+	SayonaraQuery q(this);
 	q.prepare("DELETE FROM savedbookmarks WHERE trackid=:trackid;");
 	q.bindValue(":trackid", track_id);
 

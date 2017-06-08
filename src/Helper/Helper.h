@@ -69,19 +69,19 @@ namespace Helper
 	 * @brief get sayonara path in home directory
 	 * @return
 	 */
-	QString get_sayonara_path(const QString& append_path=QString());
+	QString sayonara_path(const QString& append_path=QString());
 
 	/**
 	 * @brief get share path of sayonara
 	 * @return ./share on windows, share path of unix system
 	 */
-	QString get_share_path(const QString& append_path=QString());
+	QString share_path(const QString& append_path=QString());
 
 	/**
 	 * @brief get library path of sayonara
 	 * @return ./lib on windows, lib path of unix system
 	 */
-	QString get_lib_path(const QString& append_path=QString());
+	QString lib_path(const QString& append_path=QString());
 
 	/**
 	 * @brief create a link string
@@ -100,19 +100,19 @@ namespace Helper
 	 * @brief get all supported sound file extensions
 	 * @return
 	 */
-	QStringList get_soundfile_extensions(bool with_asterisk=true);
+	QStringList soundfile_extensions(bool with_asterisk=true);
 
 	/**
 	 * @brief get all supported playlist file extensions
 	 * @return
 	 */
-	QStringList get_playlistfile_extensions(bool with_asterisk=true);
+	QStringList playlist_extensions(bool with_asterisk=true);
 
 	/**
 	 * @brief get all supported podcast file extensions
 	 * @return
 	 */
-	QStringList get_podcast_extensions(bool with_asterisk=true);
+	QStringList podcast_extensions(bool with_asterisk=true);
 
 
 	/**
@@ -121,10 +121,10 @@ namespace Helper
 	 * @param max maximum included value
 	 * @return random number
 	 */
-	int get_random_number(int min, int max);
+	int random_number(int min, int max);
 
 
-	QString get_random_string(int max_chars);
+	QString random_string(int max_chars);
 
 
 	/**
@@ -153,7 +153,7 @@ namespace Helper
 	 * @brief get all ip addresses of the host
 	 * @return list of ip addresses
 	 */
-	QStringList get_ip_addresses();
+	QStringList ip_addresses();
 
 
 	/**

@@ -39,12 +39,12 @@
 
 DatabaseConnector::DatabaseConnector() :
 	AbstractDatabase(0, "", QString("player.db"), nullptr),
-	DatabaseBookmarks(db(), _db_id),
-	DatabasePlaylist(db(), _db_id),
-	DatabasePodcasts(db(), _db_id),
-	DatabaseSettings(db(), _db_id),
-	DatabaseStreams(db(), _db_id),
-	DatabaseVisStyles(db(), _db_id)
+	DatabaseBookmarks(db(), db_id()),
+	DatabasePlaylist(db(), db_id()),
+	DatabasePodcasts(db(), db_id()),
+	DatabaseSettings(db(), db_id()),
+	DatabaseStreams(db(), db_id()),
+	DatabaseVisStyles(db(), db_id())
 {
 	apply_fixes();
 }
@@ -114,8 +114,6 @@ bool DatabaseConnector::updateTrackCissearchFix()
 
 bool DatabaseConnector::apply_fixes()
 {
-	DB_RETURN_NOT_OPEN_BOOL(db());
-
 	QString str_version;
 	int version;
 	bool success;
@@ -136,7 +134,8 @@ bool DatabaseConnector::apply_fixes()
 
 	sp_log(Log::Info) << "Apply fixes";
 
-	if(version < 1) {
+	if(version < 1)
+	{
 		check_and_insert_column("playlisttotracks", "position", "INTEGER");
 		check_and_insert_column("playlisttotracks", "filepath", "VARCHAR(512)");
 		check_and_insert_column("tracks", "genre", "VARCHAR(1024)");
@@ -325,8 +324,6 @@ bool DatabaseConnector::apply_fixes()
 
 void DatabaseConnector::clean_up()
 {
-	DB_RETURN_NOT_OPEN_VOID(db());
-
 	SayonaraQuery q(db());
 	QString querytext = "VACUUM;";
 	q.prepare(querytext);

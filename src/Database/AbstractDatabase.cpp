@@ -30,19 +30,37 @@
 
 static QMap<quint8, QSqlDatabase> _databases;
 
+struct AbstractDatabase::Private
+{
+	QString db_name;
+	QString db_dir;
+	QString db_path;
+	quint8 db_id;
+
+	bool initialized;
+
+	Private(quint8 db_id, const QString& db_dir, const QString& db_name)
+	{
+		this->db_id = db_id;
+		this->db_dir = db_dir;
+		this->db_name = db_name;
+		this->db_path = Helper::sayonara_path(db_name);
+	}
+};
+
 AbstractDatabase::AbstractDatabase(quint8 db_id, const QString& db_dir, const QString& db_name, QObject *parent) : QObject(parent)
 {
-	_db_name = db_name;
-	_db_path = Helper::get_sayonara_path(_db_name);
+	_m = Pimpl::make<Private>(db_id, db_dir, db_name);
 
-	_db_id = db_id;
-	_db_dir = db_dir;
+	if(!exists()){
+		sp_log(Log::Info, this) << "Database not existent. Creating database...";
+		create_db();
+	}
 
-	_initialized = exists();
+	_m->initialized = open_db();
 
-	if(!_initialized) {
-		sp_log(Log::Warning) << "Database not existent. Creating database";
-		_initialized = create_db();
+	if(!_m->initialized) {
+		sp_log(Log::Error, this) << "Could not open database";
 	}
 }
 
@@ -58,18 +76,24 @@ AbstractDatabase::~AbstractDatabase()
 
 bool AbstractDatabase::is_initialized()
 {
-	return _initialized;
+	return _m->initialized;
+}
+
+bool AbstractDatabase::exists()
+{
+	return QFile::exists(_m->db_path);
 }
 
 
 bool AbstractDatabase::open_db()
 {
-	if(_databases.contains(_db_id)){
+	if(_databases.contains(_m->db_id))
+	{
 		return true;
 	}
 
-	QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE", _db_path);
-	db.setDatabaseName( _db_path );
+	QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE", _m->db_path);
+	db.setDatabaseName(_m->db_path);
 
 	bool success = db.open();
 	if (!success) {
@@ -79,58 +103,27 @@ bool AbstractDatabase::open_db()
 		sp_log(Log::Error) << er.databaseText();
 	}
 	else{
-		sp_log(Log::Info, this) << "Opened Database " << _db_name;
+		sp_log(Log::Info, this) << "Opened Database " << _m->db_name;
 	}
 
-	_databases.insert(_db_id, db);
+	_databases.insert(_m->db_id, db);
+
 	return success;
 }
 
 void AbstractDatabase::close_db()
 {
-	if(!_databases.contains(_db_id)){
+	if(!_databases.contains(_m->db_id)){
 		return;
 	}
 
-	sp_log(Log::Info) << "close database " << _db_name << "...";
+	sp_log(Log::Info) << "close database " << _m->db_name << "...";
 
 	if(db().isOpen()){
 		db().close();
 	}
 
-	_databases.remove(_db_id);
-}
-
-
-bool AbstractDatabase::exists()
-{
-	bool success;
-	success = QFile::exists(_db_path);
-	if(!success) {
-		success = create_db();
-
-		if(!success) {
-			sp_log(Log::Error) << "Database could not be created";
-			return false;
-		}
-
-		else{
-			sp_log(Log::Info) << "Database created successfully";
-		}
-	}
-
-	success = open_db();
-
-	if (success){
-		QSqlDatabase& db = _databases[_db_id];
-		db.close();
-	}
-
-	else{
-		sp_log(Log::Error) << "Could not open Database";
-	}
-
-	return success;
+	_databases.remove(_m->db_id);
 }
 
 
@@ -139,7 +132,7 @@ bool AbstractDatabase::create_db()
 	bool success;
 	QDir dir = QDir::homePath();
 
-	QString sayonara_path = Helper::get_sayonara_path();
+	QString sayonara_path = Helper::sayonara_path();
 	if(!QFile::exists(sayonara_path)) {
 		success = dir.mkdir(".Sayonara");
 		if(!success) {
@@ -160,25 +153,25 @@ bool AbstractDatabase::create_db()
 		return false;
 	}
 
-	QString source_db_file = Helper::get_share_path(_db_dir + "/" + _db_name);
+	QString source_db_file = Helper::share_path(_m->db_dir + "/" + _m->db_name);
 
-	success = QFile::exists(_db_path);
+	success = QFile::exists(_m->db_path);
 
 	if(success) {
 		return true;
 	}
 
 	if (!success) {
-		sp_log(Log::Info) << "Database " << _db_path << " not existent yet";
-		sp_log(Log::Info) << "Copy " <<  source_db_file << " to " << _db_path;
+		sp_log(Log::Info) << "Database " << _m->db_path << " not existent yet";
+		sp_log(Log::Info) << "Copy " <<  source_db_file << " to " << _m->db_path;
 
-		if (QFile::copy(source_db_file, _db_path)) {
-			sp_log(Log::Info) << "DB file has been copied to " <<   _db_path;
+		if (QFile::copy(source_db_file, _m->db_path)) {
+			sp_log(Log::Info) << "DB file has been copied to " <<   _m->db_path;
 			success = true;
 		}
 
 		else {
-			sp_log(Log::Error) << "Fatal Error: could not copy DB file to " << _db_path;
+			sp_log(Log::Error) << "Fatal Error: could not copy DB file to " << _m->db_path;
 			success = false;
 		}
 	}
@@ -189,27 +182,22 @@ bool AbstractDatabase::create_db()
 
 void AbstractDatabase::transaction()
 {
-	DB_RETURN_NOT_OPEN_VOID(db());
 	db().transaction();
 }
 
 void AbstractDatabase::commit()
 {
-	DB_RETURN_NOT_OPEN_VOID(db());
 	db().commit();
 }
 
 void AbstractDatabase::rollback()
 {
-	DB_RETURN_NOT_OPEN_VOID(db());
 	db().rollback();
 }
 
 
 bool AbstractDatabase::check_and_drop_table(const QString& tablename)
 {
-	DB_RETURN_NOT_OPEN_BOOL(db());
-
 	SayonaraQuery q(db());
 	QString querytext = "DROP TABLE " +  tablename + ";";
 	q.prepare(querytext);
@@ -222,15 +210,10 @@ bool AbstractDatabase::check_and_drop_table(const QString& tablename)
 	return true;
 }
 
-QSqlDatabase& AbstractDatabase::db() const
-{
-	return _databases[_db_id];
-}
+
 
 bool AbstractDatabase::check_and_insert_column(const QString& tablename, const QString& column, const QString& sqltype, const QString& default_value)
 {
-	DB_RETURN_NOT_OPEN_BOOL(db());
-
 	SayonaraQuery q(db());
 	QString querytext = "SELECT " + column + " FROM " + tablename + ";";
 	q.prepare(querytext);
@@ -259,8 +242,6 @@ bool AbstractDatabase::check_and_insert_column(const QString& tablename, const Q
 
 bool AbstractDatabase::check_and_create_table(const QString& tablename, const QString& sql_create_str)
 {
-	DB_RETURN_NOT_OPEN_BOOL(db());
-
 	SayonaraQuery q(db());
 	QString querytext = "SELECT * FROM " + tablename + ";";
 	q.prepare(querytext);
@@ -279,7 +260,13 @@ bool AbstractDatabase::check_and_create_table(const QString& tablename, const QS
 	return true;
 }
 
-quint8 AbstractDatabase::get_id() const
+QSqlDatabase& AbstractDatabase::db() const
 {
-	return _db_id;
+	return _databases[ db_id() ];
 }
+
+quint8 AbstractDatabase::db_id() const
+{
+	return _m->db_id;
+}
+

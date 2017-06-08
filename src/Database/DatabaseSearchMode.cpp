@@ -21,30 +21,22 @@
 #include "Database/DatabaseSearchMode.h"
 #include "Database/SayonaraQuery.h"
 
-
 struct DatabaseSearchMode::Private
-{
-	QSqlDatabase db;
+{	
 	bool initialized;
 	Library::SearchModeMask search_mode;
 
 
-	Private()
-	{
-		initialized = false;
-		search_mode = Library::CaseInsensitve;
-	}
+	Private() :
+		initialized(false),
+		search_mode(Library::CaseInsensitve)
+	{}
 };
 
-DatabaseSearchMode::DatabaseSearchMode()
+DatabaseSearchMode::DatabaseSearchMode(const QSqlDatabase& db, quint8 db_id) :
+	DatabaseModule(db, db_id)
 {
 	_m = Pimpl::make<DatabaseSearchMode::Private>();
-}
-
-DatabaseSearchMode::DatabaseSearchMode(const QSqlDatabase& db) :
-	DatabaseSearchMode()
-{
-	_m->db = db;
 }
 
 DatabaseSearchMode::~DatabaseSearchMode() {}
@@ -56,7 +48,7 @@ void DatabaseSearchMode::init()
 		return;
 	}
 
-	SayonaraQuery q(_m->db);
+	SayonaraQuery q(this);
 	q.prepare("SELECT value FROM settings WHERE key = 'lib_search_mode';");
 
 	if(q.exec()) {

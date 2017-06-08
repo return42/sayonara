@@ -22,6 +22,8 @@
 #define LIBRARYCONTAINER_H
 
 #include <QObject>
+#include "Helper/Pimpl.h"
+#include "Helper/Settings/SayonaraClass.h"
 
 class QAction;
 class QIcon;
@@ -38,20 +40,15 @@ class LibraryPluginHandler;
  */
 
 class LibraryContainerInterface :
-	public QObject
+	public QObject,
+	public SayonaraClass
 {
 	Q_OBJECT
+	PIMPL(LibraryContainerInterface)
 
 	friend class LibraryPluginHandler;
 
 private:
-	QAction*	_action=nullptr;
-	Settings*	_settings=nullptr;
-	bool		_initialized;
-
-	/**
-	 * @brief Called by LibraryPluginHandler
-	 */
 	void set_initialized();
 
 private slots:

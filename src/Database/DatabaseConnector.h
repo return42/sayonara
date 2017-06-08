@@ -71,10 +71,13 @@ public:
 	template<typename T>
 	LibraryDatabase* register_library_db(qint8 library_id)
 	{
-		for(int i=0; i<_library_dbs.size(); i++){
-			LibraryDatabase* db = _library_dbs[i];
-			if(db->library_id() == library_id && db->db_id() == _db_id){
-				return db;
+		for(int i=0; i<_library_dbs.size(); i++)
+		{
+			LibraryDatabase* lib_db = _library_dbs[i];
+			if(lib_db->library_id() == library_id &&
+			   lib_db->db_id() == db_id())
+			{
+				return lib_db;
 			}
 		}
 

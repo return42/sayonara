@@ -29,6 +29,7 @@
 #include "Helper/MetaData/MetaDataList.h"
 #include "Helper/Settings/Settings.h"
 #include "Helper/Library/LibraryInfo.h"
+#include "Helper/Helper.h"
 
 #include <QDir>
 #include <QMouseEvent>
@@ -58,9 +59,12 @@ DirectoryTreeView::DirectoryTreeView(QWidget *parent) :
 {
 	_m = Pimpl::make<Private>();
 
+	QString root_path = Helper::sayonara_path("Libraries");
+
 	_m->model = new SearchableFileTreeModel(this);
 	_m->model->setFilter(QDir::NoDotAndDotDot | QDir::Dirs);
 	_m->model->setIconProvider(_m->icon_provider);
+	_m->model->setRootPath(root_path);
 
 	this->setModel(_m->model);
 	this->setItemDelegate(new DirectoryDelegate(this));
@@ -69,6 +73,8 @@ DirectoryTreeView::DirectoryTreeView(QWidget *parent) :
 	for(int i=1; i<4; i++){
 		this->hideColumn(i);
 	}
+
+	this->setRootIndex(_m->model->index(root_path));
 }
 
 DirectoryTreeView::~DirectoryTreeView() {}
@@ -179,10 +185,4 @@ int DirectoryTreeView::get_index_by_model_index(const QModelIndex& idx) const
 QModelIndex DirectoryTreeView::get_model_index_by_index(int idx) const
 {
 	return _m->model->index(idx, 0);
-}
-
-void DirectoryTreeView::set_cur_library(const QString& library_path)
-{
-	_m->model->setRootPath(library_path);
-	this->setRootIndex(_m->model->index(library_path));
 }

@@ -176,7 +176,7 @@ QStringList ReloadThread::get_files_recursive(QDir base_dir)
     QString message = tr("Reading files from file system") + "... ";
     emit sig_reloading_library(message, 0);
 
-    QStringList soundfile_exts = Helper::get_soundfile_extensions();
+    QStringList soundfile_exts = Helper::soundfile_extensions();
     QStringList sub_dirs;
     QStringList sub_files;
 

@@ -152,7 +152,7 @@ void AlternativeCoverItemModel::reset()
 	int rows = rowCount();
 	int cols = columnCount();
 
-	QString sayonara_logo = Helper::get_share_path("logo.png");
+	QString sayonara_logo = Helper::share_path("logo.png");
 	_pathlist.clear();
 	for(int i=0; i<rows*cols; i++){
 		_pathlist << sayonara_logo;

@@ -69,7 +69,7 @@ void Shutdown::shutdown_after_end()
 
 	NotificationHandler::getInstance()->notify(Lang::get(Lang::Shutdown),
 											   tr("Computer will shutdown after playlist has finished"),
-											   Helper::get_share_path("logo.png"));
+											   Helper::share_path("logo.png"));
 }
 
 
@@ -93,7 +93,7 @@ void Shutdown::shutdown(quint64 ms){
 
 	NotificationHandler::getInstance()->notify(Lang::get(Lang::Shutdown),
 											   tr("Computer will shutdown in %1 minutes").arg(Helper::cvt_ms_to_string(ms, false, true, false)),
-											   Helper::get_share_path("logo.png"));
+											   Helper::share_path("logo.png"));
 }
 
 
@@ -118,7 +118,7 @@ void Shutdown::countdown_timeout()
 	if(_msecs2go % 60000 == 0){
 		NotificationHandler::getInstance()->notify(Lang::get(Lang::Shutdown),
 												   tr("Computer will shutdown in %1 minutes").arg(Helper::cvt_ms_to_string(_msecs2go, false, true, false)),
-												   Helper::get_share_path("logo.png"));
+												   Helper::share_path("logo.png"));
 	}
 }
 

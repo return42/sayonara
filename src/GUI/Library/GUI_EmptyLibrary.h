@@ -1,4 +1,4 @@
-/* Sorting.h */
+/* GUI_EmptyLibrary.h */
 
 /* Copyright (C) 2011-2017  Lucio Carreras
  *
@@ -18,36 +18,37 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef LIBRARY_SORTING_H
-#define LIBRARY_SORTING_H
 
-#include <QtGlobal>
-#include "Sortorder.h"
 
-class QString;
-namespace Library
+#ifndef GUI_EMPTYLIBRARY_H
+#define GUI_EMPTYLIBRARY_H
+
+#include "Helper/Pimpl.h"
+#include <QComboBox>
+
+namespace Ui
 {
-	/**
-	 * @brief The Sortings class
-	 * @ingroup LibraryHelper
-	 */
-    class Sortings
-	{
-		public:
-			Library::SortOrder so_albums;
-			Library::SortOrder so_artists;
-			Library::SortOrder so_tracks;
-
-		Sortings();
-		Sortings(const Sortings& so);
-		~Sortings();
-
-		bool operator==(Library::Sortings so);
-
-		QString toString() const;
-
-		static Library::Sortings fromString(const QString& str);
-    };
+	class GUI_EmptyLibrary;
 }
 
-#endif // SORTING_H
+class GUI_EmptyLibrary :
+    public QWidget
+{
+	Q_OBJECT
+	PIMPL(GUI_EmptyLibrary)
+
+public:
+	explicit GUI_EmptyLibrary(QWidget* parent=nullptr);
+	GUI_EmptyLibrary(const GUI_EmptyLibrary& other)  = delete;
+	~GUI_EmptyLibrary();
+
+	QComboBox* get_libchooser();
+
+private slots:
+	void set_lib_path_clicked();
+
+private:
+	Ui::GUI_EmptyLibrary* ui=nullptr;
+};
+
+#endif // GUI_EMPTYLIBRARY_H

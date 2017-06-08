@@ -132,7 +132,7 @@ void LocalLibraryMenu::show_album_artists_changed()
 
 	QList<LibraryDatabase*> dbs = DatabaseConnector::getInstance()->library_dbs();
 	for(LibraryDatabase* lib_db : dbs){
-		if(lib_db->get_id() == 0){
+		if(lib_db->db_id() == 0){
 			if(show_album_artist){
 				lib_db->change_artistid_field(LibraryDatabase::ArtistIDField::AlbumArtistID);
 			}

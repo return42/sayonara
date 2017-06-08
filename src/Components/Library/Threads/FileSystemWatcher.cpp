@@ -131,7 +131,7 @@ QStringList FileSystemWatcher::index_files(const QString& root)
 {
 	DirectoryReader reader;
 	QStringList filters;
-	filters << Helper::get_soundfile_extensions();
+	filters << Helper::soundfile_extensions();
 
 	QStringList files;
 	reader.get_files_in_dir_rec(QDir(root), files);

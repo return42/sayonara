@@ -31,7 +31,7 @@ SimilarArtists::~SimilarArtists() {}
 
 static QString get_filename(const QString& artist)
 {
-    QString sayonara_path = Helper::get_sayonara_path() + "/" + "similar_artists/";
+    QString sayonara_path = Helper::sayonara_path() + "/" + "similar_artists/";
     sayonara_path = Helper::File::clean_filename(sayonara_path);
     QDir dir(sayonara_path);
 

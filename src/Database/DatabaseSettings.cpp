@@ -26,11 +26,10 @@
 DatabaseSettings::DatabaseSettings(const QSqlDatabase& db, quint8 db_id) :
 	DatabaseModule(db, db_id) {}
 
+DatabaseSettings::~DatabaseSettings() {}
 
 bool DatabaseSettings::load_settings()
 {
-	DB_RETURN_NOT_OPEN_BOOL(_db);
-
 	Settings* _settings = Settings::getInstance();
 	AbstrSetting** settings = _settings->get_settings();
 
@@ -46,11 +45,9 @@ bool DatabaseSettings::load_settings()
 
 bool DatabaseSettings::store_settings()
 {
-	DB_RETURN_NOT_OPEN_BOOL(_db);
-
 	Settings* _settings = Settings::getInstance();
 	AbstrSetting** settings = _settings->get_settings();
-	_db.transaction();
+	module_db().transaction();
 
 	for(int i=0; i<SK::Num_Setting_Keys; i++){
 		AbstrSetting* s = settings[i];
@@ -59,16 +56,30 @@ bool DatabaseSettings::store_settings()
 		s->store_db(this);
 	}
 
-	_db.commit();
+	module_db().commit();
 	return true;
 }
 
+bool DatabaseSettings::load_all_settings(QStringList& result)
+{
+	SayonaraQuery q(this);
+	q.prepare("SELECT value FROM settings;");
+
+	if (!q.exec()) {
+		q.show_error(QString("Cannot load all settings"));
+		return false;
+	}
+
+	while(q.next()) {
+		result << q.value(0).toString();
+	}
+
+	return (result.size() > 0);
+}
 
 bool DatabaseSettings::load_setting(QString key, QString& tgt_value)
 {
-	DB_RETURN_NOT_OPEN_BOOL(_db);
-
-	SayonaraQuery q(_db);
+	SayonaraQuery q(this);
 	q.prepare("SELECT value FROM settings WHERE key = ?;");
 	q.addBindValue(QVariant(key));
 
@@ -88,9 +99,7 @@ bool DatabaseSettings::load_setting(QString key, QString& tgt_value)
 
 bool DatabaseSettings::store_setting(QString key, const QVariant& value)
 {
-	DB_RETURN_NOT_OPEN_BOOL(_db);
-
-	SayonaraQuery q(_db);
+	SayonaraQuery q(this);
 	q.prepare("SELECT value FROM settings WHERE key = :key;");
 	q.bindValue(":key", key);
 

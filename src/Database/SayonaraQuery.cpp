@@ -19,44 +19,37 @@
  */
 
 #include "Database/SayonaraQuery.h"
+#include "Database/DatabaseModule.h"
 #include "Helper/Logger/Logger.h"
 #include <QSqlDriver>
+
+//#define DB_DEBUG
 
 struct SayonaraQuery::Private
 {
 	QString query_string;
-	bool is_open;
-
-	Private(const QString& query=QString())
-	{
-		query_string = query;
-		is_open = false;
-	}
 };
 
-SayonaraQuery::SayonaraQuery(const QString& query, const QSqlDatabase& db) :
-	QSqlQuery(query, db)
-{
-	_m = Pimpl::make<Private>(query);
-	_m->is_open = db.isOpen();
-}
-
-SayonaraQuery::SayonaraQuery(QSqlResult * result) :
-	QSqlQuery(result)
+SayonaraQuery::SayonaraQuery(const DatabaseModule* module) :
+	QSqlQuery(module->module_db())
 {
 	_m = Pimpl::make<Private>();
 }
 
 
-SayonaraQuery::SayonaraQuery(const QSqlDatabase& db) :
+SayonaraQuery::SayonaraQuery(QSqlDatabase db) :
 	QSqlQuery(db)
 {
 	_m = Pimpl::make<Private>();
-	_m->is_open = db.isOpen();
 }
 
-SayonaraQuery::SayonaraQuery(const QSqlQuery & other) :
-	QSqlQuery(other) {}
+
+SayonaraQuery::SayonaraQuery(const SayonaraQuery& other) :
+	QSqlQuery(other)
+{
+	_m = Pimpl::make<Private>();
+	_m->query_string = other._m->query_string;
+}
 
 SayonaraQuery::~SayonaraQuery() {}
 
@@ -81,6 +74,9 @@ void SayonaraQuery::bindValue(const QString& placeholder, const QVariant& val, Q
 
 #ifdef DB_DEBUG
 	#include <QTime>
+	#include <QHash>
+	static int n_queries=0;
+	static QHash<QString, int> query_map;
 #endif
 
 bool SayonaraQuery::exec()
@@ -88,12 +84,30 @@ bool SayonaraQuery::exec()
 #ifdef DB_DEBUG
 	QTime timer;
 	timer.start();
+	n_queries++;
+	int val = 1;
+	int n_calls = 0;
+	if(query_map.contains(_m->query_string)){
+		val = query_map[_m->query_string] + 1;
+		n_calls = val;
+	}
+
+	query_map[_m->query_string] = val;
+
 #endif
 
 	bool success = QSqlQuery::exec();
 
 #ifdef DB_DEBUG
-	sp_log(Log::Debug, this) << _query_string << ": " << timer.elapsed() << "ms";
+	sp_log(Log::Debug, this) << QString("(%1) ").arg(n_queries)
+							 << _m->query_string << ": "
+							 << timer.elapsed() << "ms";
+
+	if(n_calls > 1){
+		sp_log(Log::Debug, this) << QString("Called %1 times").arg(val);
+	}
+
+
 #endif
 
 	return success;

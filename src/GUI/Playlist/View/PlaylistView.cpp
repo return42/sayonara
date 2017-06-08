@@ -264,7 +264,7 @@ void PlaylistView::handle_drop(QDropEvent* event)
 
 	else if( mimedata->hasUrls()) {
 		DirectoryReader reader;
-		reader.set_filter(Helper::get_soundfile_extensions());
+		reader.set_filter(Helper::soundfile_extensions());
 
 		for(const QUrl& url : mimedata->urls()) {
 			if(url.isLocalFile()){

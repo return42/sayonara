@@ -117,7 +117,7 @@ struct SomaFMStation::Private
 		int idx = re.indexIn(content);
 		if(idx > 0){
 			QString url = complete_url(re.cap(1));
-			QString cover_path = Helper::get_sayonara_path() +
+			QString cover_path = Helper::sayonara_path() +
 					"/covers/" +
 					station_name + "." + Helper::File::get_file_extension(url);
 

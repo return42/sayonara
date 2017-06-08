@@ -30,7 +30,6 @@ namespace Library {class Filter;}
 class Artist;
 class ArtistList;
 class DatabaseArtists :
-		private DatabaseModule,
 		private DatabaseSearchMode
 {
 private:

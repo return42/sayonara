@@ -137,7 +137,7 @@ void GUI_Player::init_gui()
 void GUI_Player::language_changed()
 {
 	QString language = _settings->get(Set::Player_Language);
-	_translator->load(language, Helper::get_share_path("translations/"));
+	_translator->load(language, Helper::share_path("translations/"));
 
 	retranslateUi(this);
 

@@ -24,22 +24,34 @@
 
 #include "Helper/Settings/Settings.h"
 #include "Helper/Library/SearchMode.h"
+#include "Helper/Library/LibraryInfo.h"
 
 #include <QDirIterator>
 #include <algorithm>
 
+struct SearchableFileTreeModel::Private
+{
+	QStringList	found_strings;
+	int			cur_idx;
+
+	Private()
+	{
+		cur_idx = -1;
+	}
+};
+
 SearchableFileTreeModel::SearchableFileTreeModel(QObject* parent) :
 	SearchModelInterface<QFileSystemModel>(parent)
 {
-	_cur_idx = -1;
+	_m = Pimpl::make<Private>();
 }
 
 SearchableFileTreeModel::~SearchableFileTreeModel() {}
 
 QModelIndex SearchableFileTreeModel::getFirstRowIndexOf(const QString& substr)
 {
-	_cur_idx = -1;
-	_found_strings.clear();
+	_m->cur_idx = -1;
+	_m->found_strings.clear();
 
 	Settings* settings = Settings::getInstance();
 	Library::SearchModeMask mask = settings->get(Set::Lib_SearchMode);
@@ -64,20 +76,20 @@ QModelIndex SearchableFileTreeModel::getFirstRowIndexOf(const QString& substr)
 				str = parent_folder;
 			}
 
-			_found_strings << str;
+			_m->found_strings << str;
 		}
 	}
 
 
-	if(_found_strings.size() > 0){
-		std::sort(_found_strings.begin(), _found_strings.end(), [](const QString& str1 , const QString& str2){
+	if(_m->found_strings.size() > 0){
+		std::sort(_m->found_strings.begin(), _m->found_strings.end(), [](const QString& str1 , const QString& str2){
 			return (str1 < str2);
 		});
 
-		_found_strings.removeDuplicates();
+		_m->found_strings.removeDuplicates();
 
-		str = _found_strings.first();
-		_cur_idx = 0;
+		str = _m->found_strings.first();
+		_m->cur_idx = 0;
 	}
 
 	return index(str);
@@ -92,13 +104,13 @@ QModelIndex SearchableFileTreeModel::getNextRowIndexOf(const QString& substr, in
 
 	QString str;
 
-	if(_cur_idx < 0 || _found_strings.isEmpty() ){
+	if(_m->cur_idx < 0 || _m->found_strings.isEmpty() ){
 		return QModelIndex();
 	}
 
-	_cur_idx = (_cur_idx + 1) % _found_strings.size();
+	_m->cur_idx = (_m->cur_idx + 1) % _m->found_strings.size();
 
-	str = _found_strings[_cur_idx];
+	str = _m->found_strings[_m->cur_idx];
 
 	return index(str);
 }
@@ -112,18 +124,18 @@ QModelIndex SearchableFileTreeModel::getPrevRowIndexOf(const QString& substr, in
 
 	QString str;
 
-	if(_cur_idx < 0 ){
+	if(_m->cur_idx < 0 ){
 		return QModelIndex();
 	}
 
-	if(_cur_idx == 0){
-		str = _found_strings[_cur_idx];
+	if(_m->cur_idx == 0){
+		str = _m->found_strings[_m->cur_idx];
 
 		return index(str);
 	}
 
-	_cur_idx--;
-	str = _found_strings[_cur_idx];
+	_m->cur_idx--;
+	str = _m->found_strings[_m->cur_idx];
 
 	return index(str);
 }

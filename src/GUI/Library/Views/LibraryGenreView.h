@@ -48,6 +48,7 @@ class LibraryGenreView :
 
 signals:
 	void sig_progress(const QString& message, int progress);
+	void sig_genres_reloaded();
 
 public:
 	explicit LibraryGenreView(QWidget* parent=nullptr);
@@ -76,6 +77,7 @@ private slots:
 	void rename_pressed();
 	void delete_pressed();
 
+	void tree_action_changed();
 	void tree_action_toggled(bool b);
 	void language_changed();
 

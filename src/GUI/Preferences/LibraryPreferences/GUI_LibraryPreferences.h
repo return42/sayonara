@@ -26,7 +26,6 @@
 
 namespace Ui { class GUI_LibraryPreferences; }
 
-class QModelIndex;
 class GUI_LibraryPreferences :
 		public PreferenceWidgetInterface
 {

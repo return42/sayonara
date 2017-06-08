@@ -1,6 +1,29 @@
+/* LibraryManager.cpp */
+
+/* Copyright (C) 2011-2017  Lucio Carreras
+ *
+ * This file is part of sayonara player
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+
+
 #include "LibraryManager.h"
 #include "Interfaces/LibraryInterface/LibraryPluginHandler.h"
 #include "Helper/Library/LibraryInfo.h"
+#include "Helper/Helper.h"
 #include "Helper/FileHelper.h"
 #include "Helper/Settings/Settings.h"
 #include "LocalLibrary.h"
@@ -37,10 +60,15 @@ struct LibraryManager::Private
 	{
 		for(int i=0; i<all_libs.size(); i++)
 		{
-			qint8 id = all_libs[i].id();
-			QString path = all_libs[i].path();
+			const LibraryInfo& info = all_libs[i];
+			qint8 id = info.id();
+			QString path = info.path();
 			if(id == library_id){
+				QFile::remove(info.symlink_path());
+
 				all_libs[i] = LibraryInfo(name, path, id);
+
+				Helper::File::create_symlink(all_libs[i].path(), all_libs[i].symlink_path());
 				break;
 			}
 		}
@@ -115,6 +143,21 @@ struct LibraryManager::Private
 	{
 		all_libs.move(row, new_row);
 	}
+
+	void init_symlinks()
+	{
+		QString dir = Helper::sayonara_path("Libraries");
+		Helper::File::create_directories(dir);
+
+		for(const LibraryInfo& info : all_libs)
+		{
+			QString target = info.symlink_path();
+
+			if(!(QFile::exists(target))){
+				Helper::File::create_symlink(info.path(), target);
+			}
+		}
+	}
 };
 
 
@@ -122,7 +165,9 @@ LibraryManager::LibraryManager() :
 	SayonaraClass()
 {
 	_m = Pimpl::make<Private>();
+
 	revert();
+	_m->init_symlinks();
 }
 
 LibraryManager::~LibraryManager() {}
@@ -145,6 +190,8 @@ qint8 LibraryManager::add_library(const QString& name, const QString& path)
 
 	_settings->set(Set::Lib_AllLibraries, _m->all_libs);
 
+	Helper::File::create_symlink(li.path(), li.symlink_path());
+
 	return id;
 }
 
@@ -166,12 +213,14 @@ void LibraryManager::remove_library(qint8 id)
 		_m->lph->remove_local_library(id);
 
 		LibraryInfo info = _m->all_libs.takeAt(i);
+		QFile::remove(info.symlink_path());
 		LocalLibrary* library = _m->lib_map.take(info.id());
 		if(library){
 			delete library; library=nullptr;
 		}
 
 		_settings->set(Set::Lib_AllLibraries, _m->all_libs);
+
 		break;
 	}
 }
@@ -196,7 +245,7 @@ int LibraryManager::count() const
 	return _m->all_libs.size();
 }
 
-LibraryInfo LibraryManager::get_library(qint8 id) const
+LibraryInfo LibraryManager::get_library_info(qint8 id) const
 {
 	return _m->get_library_info(id);
 }

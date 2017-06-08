@@ -28,8 +28,9 @@ class DatabaseSettings : private DatabaseModule
 {
 public:
 	DatabaseSettings(const QSqlDatabase& db, quint8 db_id);
+	~DatabaseSettings();
 
-
+	bool load_all_settings(QStringList& result);
 	bool load_setting(QString key, QString& val);
 	bool store_setting(QString key, const QVariant& val);
 

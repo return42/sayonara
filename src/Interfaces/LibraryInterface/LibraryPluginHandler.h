@@ -93,6 +93,9 @@ public:
 	void remove_local_library(qint8 library_id);
 	void move_local_library(int old_row, int new_row);
 
+	void remove_index(int idx);
+	void set_current_index(int idx);
+
 
 private slots:
 	/**

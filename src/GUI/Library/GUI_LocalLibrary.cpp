@@ -80,12 +80,10 @@ GUI_LocalLibrary::GUI_LocalLibrary(int id, QWidget* parent) :
 
 	ui->pb_progress->setVisible(false);
 	ui->lab_progress->setVisible(false);
-	ui->lv_genres->set_local_library(_m->library);
 
 	connect(_library, &LocalLibrary::sig_reloading_library, this, &GUI_LocalLibrary::progress_changed);
 	connect(_library, &LocalLibrary::sig_reloading_library_finished, this, &GUI_LocalLibrary::reload_finished);
 	connect(_library, &LocalLibrary::sig_reloading_library_finished, ui->lv_genres, &LibraryGenreView::reload_genres);
-	connect(ui->btn_setLibrary, &QPushButton::clicked, this, &GUI_LocalLibrary::set_library_path_clicked);
 
 	connect(ui->lv_album, &LibraryViewAlbum::sig_disc_pressed, this, &GUI_LocalLibrary::disc_pressed);
 	connect(ui->lv_album, &LibraryViewAlbum::sig_import_files, this, &GUI_LocalLibrary::import_files);
@@ -97,6 +95,7 @@ GUI_LocalLibrary::GUI_LocalLibrary(int id, QWidget* parent) :
 	connect(ui->lv_genres, &QAbstractItemView::clicked, this, &GUI_LocalLibrary::genre_selection_changed);
 	connect(ui->lv_genres, &QAbstractItemView::activated, this, &GUI_LocalLibrary::genre_selection_changed);
 	connect(ui->lv_genres, &LibraryGenreView::sig_progress, this, &GUI_LocalLibrary::progress_changed);
+	connect(ui->lv_genres, &LibraryGenreView::sig_genres_reloaded, this, &GUI_LocalLibrary::genres_reloaded);
 
 	connect(ui->lv_date_search, &QAbstractItemView::clicked, this, &GUI_LocalLibrary::date_selection_changed);
 	connect(ui->lv_date_search, &QAbstractItemView::activated, this, &GUI_LocalLibrary::date_selection_changed);
@@ -105,7 +104,6 @@ GUI_LocalLibrary::GUI_LocalLibrary(int id, QWidget* parent) :
 	connect(_m->library_menu, &LocalLibraryMenu::sig_import_file, this, &GUI_LocalLibrary::import_files_requested);
 	connect(_m->library_menu, &LocalLibraryMenu::sig_import_folder, this, &GUI_LocalLibrary::import_dirs_requested);
 	connect(_m->library_menu, &LocalLibraryMenu::sig_info, this, &GUI_LocalLibrary::show_info_box);
-	connect(_m->library_menu, &LocalLibraryMenu::sig_libpath_clicked, this, &GUI_LocalLibrary::set_library_path_clicked);
 	connect(_m->library_menu, &LocalLibraryMenu::sig_show_album_artists_changed, this, &GUI_LocalLibrary::refresh);
 	connect(ui->btn_reload_library, &QPushButton::clicked, this, &GUI_LocalLibrary::reload_library_requested);
 
@@ -120,17 +118,9 @@ GUI_LocalLibrary::GUI_LocalLibrary(int id, QWidget* parent) :
 
 	QTimer::singleShot(0, _m->library, SLOT(load()));
 
-	if(ui->lv_genres->row_count() <= 1){
-		ui->stacked_genre_widget->setCurrentIndex(1);
-	}
-
-	else{
-		ui->stacked_genre_widget->setCurrentIndex(0);
-	}
-
-	REGISTER_LISTENER(Set::Lib_AllLibraries, _sl_all_libraries_changed);
 	REGISTER_LISTENER(Set::Lib_ShowAlbumCovers, switch_album_view);
 
+	ui->lv_genres->set_local_library(_m->library);
 	language_changed();
 }
 
@@ -237,7 +227,7 @@ void GUI_LocalLibrary::switch_album_view()
 		}
 	}
 
-	ui->stackedWidget->setCurrentIndex( idx );
+	ui->sw_album_covers->setCurrentIndex( idx );
 	clear_button_pressed();
 }
 
@@ -254,25 +244,6 @@ void GUI_LocalLibrary::language_changed()
 				);
 
 	GUI_AbstractLibrary::language_changed();
-}
-
-
-void GUI_LocalLibrary::_sl_all_libraries_changed()
-{
-	int n_libraries = LibraryManager::getInstance()->count();
-	bool have_libs = (n_libraries > 0);
-
-	if(have_libs){
-		ui->stacked_widget->setCurrentIndex(0);
-	}
-
-	else{
-		ui->stacked_widget->setCurrentIndex(1);
-	}
-
-	ui->combo_searchfilter->setVisible(have_libs);
-	ui->le_search->setVisible(have_libs);
-	ui->btn_clear->setVisible(have_libs);
 }
 
 void GUI_LocalLibrary::clear_button_pressed()
@@ -335,6 +306,17 @@ void GUI_LocalLibrary::progress_changed(const QString& type, int progress)
 		}
 
 		ui->pb_progress->setValue(progress);
+	}
+}
+
+void GUI_LocalLibrary::genres_reloaded()
+{
+	if(ui->lv_genres->row_count() == 0){
+		ui->stacked_genre_widget->setCurrentIndex(1);
+	}
+
+	else{
+		ui->stacked_genre_widget->setCurrentIndex(0);
 	}
 }
 
@@ -439,7 +421,7 @@ void GUI_LocalLibrary::import_dirs_requested()
 
 void GUI_LocalLibrary::import_files_requested()
 {
-	QStringList extensions = Helper::get_soundfile_extensions();
+	QStringList extensions = Helper::soundfile_extensions();
 	QString filter = QString("Soundfiles (") + extensions.join(" ") + ")";
 	QStringList files = QFileDialog::getOpenFileNames(this, Lang::get(Lang::ImportFiles),
 													  QDir::homePath(), filter);
@@ -464,43 +446,6 @@ void GUI_LocalLibrary::import_dialog_requested()
 
 	_m->ui_importer->show();
 }
-
-
-void GUI_LocalLibrary::set_library_path_clicked()
-{
-	QString start_dir = QDir::homePath();
-	QString old_dir = _m->library->library_path();
-
-	if(old_dir.size() > 0 && QFile::exists(old_dir)) {
-		start_dir = old_dir;
-	}
-
-	QString dir = QFileDialog::getExistingDirectory(this, Lang::get(Lang::OpenDir),
-													start_dir, QFileDialog::ShowDirsOnly);
-
-	if(dir.isEmpty()){
-		return;
-	}
-
-	if(old_dir.compare(dir) == 0) {
-		return;
-	}
-
-	GlobalMessage::Answer answer = Message::question_yn(tr("Do you want to reload the Library?"), "Library");
-
-	if(answer == GlobalMessage::Answer::No){
-		return;
-	}
-
-	Library::ReloadQuality quality = show_quality_dialog();
-	if(quality == Library::ReloadQuality::Unknown){
-		return;
-	}
-
-	_m->library->set_library_path(dir);
-	_library->psl_reload_library(false, quality);
-}
-
 
 void GUI_LocalLibrary::splitter_artist_moved(int pos, int idx)
 {

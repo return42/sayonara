@@ -49,6 +49,7 @@ struct LibraryGenreView::Private
 	QAction*				toggle_tree_action=nullptr;
 	QStringList				expanded_items;
 	bool					filled;
+	int						default_indent;
 
 	Private(QWidget* parent)
 	{
@@ -78,11 +79,15 @@ LibraryGenreView::LibraryGenreView(QWidget* parent) :
 	SayonaraWidgetTemplate<QTreeWidget>(parent)
 {
 	_m = Pimpl::make<Private>(this);
+	_m->default_indent = this->indentation();
+
+	bool show_tree = _settings->get(Set::Lib_GenreTree);
 
 	this->setAcceptDrops(true);
 	this->setDragDropMode(LibraryGenreView::DragDrop);
 	this->setAlternatingRowColors(true);
 	this->setItemDelegate(new TreeDelegate(this));
+	_m->toggle_tree_action->setChecked(show_tree);
 
 	connect(this, &QTreeWidget::itemCollapsed, this, &LibraryGenreView::item_collapsed);
 	connect(this, &QTreeWidget::itemExpanded, this, &LibraryGenreView::item_expanded);
@@ -97,11 +102,8 @@ LibraryGenreView::LibraryGenreView(QWidget* parent) :
 
 	connect( _m->toggle_tree_action, &QAction::triggered, this, &LibraryGenreView::tree_action_toggled);
 
-	bool show_tree = _settings->get(Set::Lib_GenreTree);
-	_m->toggle_tree_action->setChecked(show_tree);
-	tree_action_toggled(show_tree);
-
 	REGISTER_LISTENER(Set::Player_Language, language_changed);
+	REGISTER_LISTENER_NO_CALL(Set::Lib_GenreTree, tree_action_changed);
 }
 
 LibraryGenreView::~LibraryGenreView() {}
@@ -115,12 +117,21 @@ QSize LibraryGenreView::sizeHint() const
 
 int LibraryGenreView::row_count() const
 {
-	return _m->genres->children.size();
+	int n_rows = _m->genres->children.size();
+	if(n_rows == 1){
+		QString data = _m->genres->children[0]->data;
+		if(data.trimmed().isEmpty()){
+			return 0;
+		}
+	}
+
+	return n_rows;
 }
 
 void LibraryGenreView::set_local_library(LocalLibrary* library)
 {
 	_m->genre_fetcher->set_local_library(library);
+	_m->genre_fetcher->reload_genres();
 }
 
 void LibraryGenreView::progress_changed(int progress)
@@ -147,6 +158,8 @@ void LibraryGenreView::reload_genres()
 	_m->filled = false;
 
 	fill_list(genres);
+
+	emit sig_genres_reloaded();
 }
 
 void LibraryGenreView::fill_list(const QStringList& genres)
@@ -218,10 +231,23 @@ void LibraryGenreView::delete_pressed()
 	_m->genre_fetcher->delete_genre(item->text(0));
 }
 
+void LibraryGenreView::tree_action_changed()
+{
+	bool show_tree = _settings->get(Set::Lib_GenreTree);
+	reload_genres();
+
+	if(!show_tree) {
+		this->setIndentation(0);
+	}
+
+	else {
+		this->setIndentation(_m->default_indent);
+	}
+}
+
 void LibraryGenreView::tree_action_toggled(bool b)
 {
 	_settings->set(Set::Lib_GenreTree, b);
-	reload_genres();
 }
 
 void LibraryGenreView::language_changed()
@@ -414,4 +440,5 @@ void LibraryGenreView::dropEvent(QDropEvent *e)
 	MetaDataList v_md = cmd->getMetaData();
 
 	_m->genre_fetcher->add_genre_to_md(v_md, genre);
+
 }

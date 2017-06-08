@@ -38,7 +38,7 @@ SoundcloudJsonParser::SoundcloudJsonParser(const QByteArray& content) :
 {
 	QJsonParseError error;
 	_json_doc = QJsonDocument::fromJson(content, &error);
-	Helper::File::write_file(_json_doc.toJson(QJsonDocument::Indented), Helper::get_sayonara_path() + "/tmp.json");
+	Helper::File::write_file(_json_doc.toJson(QJsonDocument::Indented), Helper::sayonara_path() + "/tmp.json");
 
 	QJsonParseError::ParseError pe = error.error;
 	if(pe != QJsonParseError::NoError){

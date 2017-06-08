@@ -176,7 +176,7 @@ bool SoundcloudData::db_fetch_tracks(SayonaraQuery& q, MetaDataList& result)
 		data.add_custom_field("purchase_url", tr("Purchase Url"), q.value(14).toString());
 		data.cover_download_url = q.value(15).toString();
 		data.rating = q.value(16).toInt();
-		data.db_id = this->get_id();
+		data.db_id = this->db_id();
 
 		result << data;
 	}
@@ -225,7 +225,7 @@ bool SoundcloudData::db_fetch_albums(SayonaraQuery& q, AlbumList& result)
 
 		album.n_discs = album.discnumbers.size();
 		album.is_sampler = (lst_artists.size() > 1);
-		album.db_id = this->get_id();
+		album.db_id = this->db_id();
 
 		result << album;
 	};
@@ -260,7 +260,7 @@ bool SoundcloudData::db_fetch_artists(SayonaraQuery& q, ArtistList& result)
 		artist.num_songs =				q.value(6).toInt();
 		QStringList list =				q.value(7).toString().split(',');
 		artist.num_albums =				list.size();
-		artist.db_id =					this->get_id();
+		artist.db_id =					this->db_id();
 
 		result << artist;
 	}

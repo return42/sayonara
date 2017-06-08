@@ -79,7 +79,7 @@ CoverLocation& CoverLocation::operator=(const CoverLocation& other)
 
 QString CoverLocation::get_cover_directory(const QString& append_path)
 {
-	QString cover_dir = Helper::get_sayonara_path("covers");
+	QString cover_dir = Helper::sayonara_path("covers");
 	if(!QFile::exists(cover_dir)){
 		QDir().mkdir(cover_dir);
 	}
@@ -107,7 +107,7 @@ QString CoverLocation::preferred_path() const
 CoverLocation CoverLocation::getInvalidLocation() 
 {
 	CoverLocation cl;
-	cl._m->cover_path = Helper::get_share_path("logo.png");
+	cl._m->cover_path = Helper::share_path("logo.png");
 	cl._m->search_urls.clear();
 	cl._m->search_term = "";
 	cl._m->valid = false;

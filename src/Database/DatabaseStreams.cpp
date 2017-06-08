@@ -25,12 +25,11 @@ DatabaseStreams::DatabaseStreams(const QSqlDatabase& db, quint8 db_id) :
 	DatabaseModule(db, db_id) {}
 
 
-bool DatabaseStreams::getAllStreams(QMap<QString, QString>& streams) {
-	DB_RETURN_NOT_OPEN_BOOL(_db);
-
+bool DatabaseStreams::getAllStreams(QMap<QString, QString>& streams)
+{
 	streams.clear();
 
-	SayonaraQuery q(_db);
+	SayonaraQuery q(this);
 	q.prepare("SELECT name, url FROM savedstreams;");
 
 	if (!q.exec()){
@@ -49,10 +48,9 @@ bool DatabaseStreams::getAllStreams(QMap<QString, QString>& streams) {
 }
 
 
-bool DatabaseStreams::deleteStream(const QString& name) {
-	DB_RETURN_NOT_OPEN_BOOL(_db);
-
-	SayonaraQuery q(_db);
+bool DatabaseStreams::deleteStream(const QString& name)
+{
+	SayonaraQuery q(this);
 	q.prepare("DELETE FROM savedstreams WHERE name = :name;" );
 	q.bindValue(":name", name);
 
@@ -65,10 +63,9 @@ bool DatabaseStreams::deleteStream(const QString& name) {
 }
 
 
-bool DatabaseStreams::addStream(const QString& name, const QString& url) {
-	DB_RETURN_NOT_OPEN_BOOL(_db);
-
-	SayonaraQuery q(_db);
+bool DatabaseStreams::addStream(const QString& name, const QString& url)
+{
+	SayonaraQuery q(this);
 
 	q.prepare("INSERT INTO savedstreams (name, url) VALUES (:name, :url); " );
 	q.bindValue(":name", name);
@@ -85,9 +82,7 @@ bool DatabaseStreams::addStream(const QString& name, const QString& url) {
 
 bool DatabaseStreams::updateStreamUrl(const QString& name, const QString& url)
 {
-	DB_RETURN_NOT_OPEN_BOOL(_db);
-
-	SayonaraQuery q(_db);
+	SayonaraQuery q(this);
 
 	q.prepare("UPDATE savedstreams SET url=:url WHERE name=:name;");
 	q.bindValue(":name", name);

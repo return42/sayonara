@@ -221,13 +221,12 @@ int main(int argc, char *argv[])
 	Q_INIT_RESOURCE(IconsWindows);
 #endif
 
-	if(!QFile::exists( Helper::get_sayonara_path() )) {
-		QDir().mkdir( Helper::get_sayonara_path() );
+	if(!QFile::exists( Helper::sayonara_path() )) {
+		QDir().mkdir( Helper::sayonara_path() );
 	}
 
 	language = Settings::getInstance()->get(Set::Player_Language);
-
-	translator.load(language, Helper::get_share_path("translations"));
+	translator.load(language, Helper::share_path("translations"));
 
 	if(!app.init(&translator, cmd_data.files_to_play)) {
 		return 1;

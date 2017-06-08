@@ -84,6 +84,8 @@ namespace Helper
 		 */
 		void			split_filename(const QString& src, QString& dir, QString& filename);
 
+		QStringList		split_path(const QString& path);
+
 		/**
 		 * @brief get file extension
 		 * @param filename filename to get the extension for
@@ -110,6 +112,8 @@ namespace Helper
 		 * @param path full target path
 		 */
 		bool			create_directories(const QString& path);
+
+		bool			create_symlink(const QString& source, const QString& target);
 
 
 		/**

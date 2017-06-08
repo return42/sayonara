@@ -48,7 +48,7 @@ SomaFMLibrary::SomaFMLibrary(QObject* parent) :
 	QObject(parent)
 {
 	_m = Pimpl::make<Private>();
-	QString path = Helper::get_sayonara_path("somafm.ini");
+	QString path = Helper::sayonara_path("somafm.ini");
 
 	_m->qsettings = new QSettings(path, QSettings::IniFormat, this);
 }

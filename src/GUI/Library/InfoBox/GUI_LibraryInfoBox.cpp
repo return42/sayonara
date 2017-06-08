@@ -1,6 +1,6 @@
 /* GUILibraryInfoBox.cpp
 
- * Copyright (C) 2011-2017 Lucio Carreras  
+ * Copyright (C) 2011-2017 Lucio Carreras
  *
  * This file is part of sayonara-player
  *
@@ -17,8 +17,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * created by Lucio Carreras, 
- * Sep 2, 2012 
+ * created by Lucio Carreras,
+ * Sep 2, 2012
  *
  */
 
@@ -51,7 +51,7 @@ GUI_LibraryInfoBox::GUI_LibraryInfoBox(qint8 library_id, QWidget* parent) :
 
 	_library_id = library_id;
 
-    hide();
+	hide();
 
 	skin_changed();
 	language_changed();
@@ -71,7 +71,7 @@ void GUI_LibraryInfoBox::language_changed()
 	ui->btn_close->setText(Lang::get(Lang::Close));
 
 	ui->lab_path->setText(
-				LibraryManager::getInstance()->get_library(_library_id).path()
+		LibraryManager::getInstance()->get_library_info(_library_id).path()
 	);
 
 	this->setWindowTitle(Lang::get(Lang::Info));
@@ -93,7 +93,7 @@ void GUI_LibraryInfoBox::psl_refresh()
 	DatabaseConnector* db = DatabaseConnector::getInstance();
 	LibraryDatabase* lib_db = db->library_db(_library_id, 0);
 
-    MetaDataList v_md;
+	MetaDataList v_md;
 	AlbumList v_albums;
 	ArtistList v_artists;
 

@@ -28,17 +28,20 @@
 #include <QSqlError>
 
 #include "Helper/Pimpl.h"
+class DatabaseModule;
 
 class SayonaraQuery : public QSqlQuery 
 {
 	PIMPL(SayonaraQuery)
 
-public:
+private:
+	explicit SayonaraQuery(const QString& query=QString(), const QSqlDatabase& db = QSqlDatabase()) = delete;
+	explicit SayonaraQuery(QSqlResult * result) = delete;
 
-	explicit SayonaraQuery(const QString& query=QString(), const QSqlDatabase& db = QSqlDatabase());
-	explicit SayonaraQuery(QSqlResult * result);
-	explicit SayonaraQuery(const QSqlDatabase& db);
-	SayonaraQuery(const QSqlQuery & other);
+public:
+	explicit SayonaraQuery(const DatabaseModule* module);
+	explicit SayonaraQuery(QSqlDatabase db);
+	SayonaraQuery(const SayonaraQuery& other);
 
 	virtual ~SayonaraQuery();
 

@@ -199,7 +199,7 @@ void GUI_PlaylistChooser::load_button_pressed()
                     this,
                     tr("Open Playlist files"),
                     _last_dir,
-                    Helper::get_playlistfile_extensions().join(" "));
+                    Helper::playlist_extensions().join(" "));
 
 	QStringList lab_texts;
 	for(const QString& filename : filelist) {

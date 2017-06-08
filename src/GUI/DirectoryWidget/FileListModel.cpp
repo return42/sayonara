@@ -40,8 +40,8 @@ void FileListModel::set_parent_directory(const QString& dir)
 
 	QDir base_dir(dir);
 	QStringList extensions;
-	extensions = Helper::get_soundfile_extensions();
-	extensions << Helper::get_playlistfile_extensions();
+	extensions = Helper::soundfile_extensions();
+	extensions << Helper::playlist_extensions();
 	extensions << "*";
 
 	DirectoryReader reader;

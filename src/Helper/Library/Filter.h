@@ -42,36 +42,35 @@ namespace Library
 	 */
     class Filter
     {
-	public:
+		PIMPL(Filter)
 
-	    enum Mode
-	    {
-			Fulltext=0,
-			Filename,
-			Genre,
-			Date
-	    };
+		public:
+
+			enum Mode
+			{
+				Fulltext=0,
+				Filename,
+				Genre,
+				Date
+			};
 
 
-	    Filter();
-	    ~Filter();
-	    void operator=(const Filter& other);
-	    Filter(const Filter& other);
+			Filter();
+			~Filter();
+			void operator=(const Filter& other);
+			Filter(const Filter& other);
 
-	    Library::DateFilter date_filter() const;
-	    void set_date_filter(const Library::DateFilter& filter);
+			Library::DateFilter date_filter() const;
+			void set_date_filter(const Library::DateFilter& filter);
 
-	    QString filtertext() const;
-	    void set_filtertext(const QString& str);
+			QString filtertext() const;
+			void set_filtertext(const QString& str);
 
-	    Library::Filter::Mode mode() const;
-	    void set_mode(Library::Filter::Mode mode);
+			Library::Filter::Mode mode() const;
+			void set_mode(Library::Filter::Mode mode);
 
-	    void clear();
-	    bool cleared() const;
-
-	private:
-	    PIMPL(Filter)
+			void clear();
+			bool cleared() const;
     };
 }
 

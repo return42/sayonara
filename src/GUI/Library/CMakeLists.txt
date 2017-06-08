@@ -5,7 +5,9 @@ SET(SOURCES
     GUI_AbstractLibrary.cpp
     GUI_LocalLibrary.cpp
     GUI_DateSearchConfig.cpp
+	GUI_EmptyLibrary.cpp
     LocalLibraryContainer.cpp
+	EmptyLibraryContainer.cpp
 
     Models/LibraryItemModelAlbums.cpp
     Models/LibraryItemModelArtists.cpp
@@ -37,6 +39,7 @@ SET(SOURCES
 QT5_WRAP_UI(FORMS_UIC
     GUI_DateSearchConfig.ui
     GUI_LocalLibrary.ui
+	GUI_EmptyLibrary.ui
     InfoBox/GUI_LibraryInfoBox.ui
     ImportFolderDialog/GUI_ImportFolder.ui
 )

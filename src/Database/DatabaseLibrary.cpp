@@ -36,6 +36,7 @@ DatabaseLibrary::DatabaseLibrary(const QSqlDatabase& db, quint8 db_id, qint8 lib
 	_library_id = library_id;
 }
 
+DatabaseLibrary::~DatabaseLibrary() {}
 
 bool DatabaseLibrary::storeMetadata(const MetaDataList& v_md)
 {
@@ -45,11 +46,11 @@ bool DatabaseLibrary::storeMetadata(const MetaDataList& v_md)
 		return success;
 	}
 
-	_db.transaction();
+	module_db().transaction();
 
-	DatabaseAlbums db_albums(_db, v_md.first().db_id, _library_id);
-	DatabaseArtists db_artists(_db, v_md.first().db_id, _library_id);
-	DatabaseTracks db_tracks(_db, v_md.first().db_id, _library_id);
+	DatabaseAlbums db_albums(module_db(), v_md.first().db_id, _library_id);
+	DatabaseArtists db_artists(module_db(), v_md.first().db_id, _library_id);
+	DatabaseTracks db_tracks(module_db(), v_md.first().db_id, _library_id);
 
 	AlbumList albums;
 	ArtistList artists;
@@ -132,14 +133,14 @@ bool DatabaseLibrary::storeMetadata(const MetaDataList& v_md)
 		db_tracks.insertTrackIntoDatabase(md, artist_id, album_id, album_artist_id);
 	}
 
-	success = _db.commit();
+	success = module_db().commit();
 
 	return success;
 }
 
 void DatabaseLibrary::addAlbumArtists()
 {
-	SayonaraQuery q(_db);
+	SayonaraQuery q(this);
 	QString	querytext = "UPDATE tracks SET albumArtistID = artistID WHERE albumArtistID = -1;";
 	q.prepare(querytext);
 	if(!q.exec()){
@@ -154,8 +155,9 @@ void DatabaseLibrary::dropIndexes()
 	indexes << "artist_search";
 	indexes << "track_search";
 
-	for(const QString& idx : indexes){
-		SayonaraQuery q(_db);
+	for(const QString& idx : indexes)
+	{
+		SayonaraQuery q(this);
 		QString text = "DROP INDEX " + idx + ";";
 		q.prepare(text);
 		if(!q.exec()){
@@ -174,8 +176,9 @@ void DatabaseLibrary::createIndexes()
 	indexes << std::make_tuple("artist_search", "artists", "artistID");
 	indexes << std::make_tuple("track_search", "tracks", "trackID");
 
-	for(const IndexDescription& idx : indexes){
-		SayonaraQuery q(_db);
+	for(const IndexDescription& idx : indexes)
+	{
+		SayonaraQuery q(this);
 		QString name = std::get<0>(idx);
 		QString table = std::get<1>(idx);
 		QString column = std::get<2>(idx);

@@ -35,7 +35,7 @@
 
 DirectoryReader::DirectoryReader ()
 {
-	_name_filters = Helper::get_soundfile_extensions();
+	_name_filters = Helper::soundfile_extensions();
 }
 
 DirectoryReader::~DirectoryReader () {}
@@ -86,8 +86,8 @@ MetaDataList DirectoryReader::get_md_from_filelist(const QStringList& lst)
 
 	// fetch sound and playlist files
 	QStringList filter;
-	filter << Helper::get_soundfile_extensions();
-	filter << Helper::get_playlistfile_extensions();
+	filter << Helper::soundfile_extensions();
+	filter << Helper::playlist_extensions();
 
 	set_filter(filter);
 

@@ -148,7 +148,7 @@ QString Helper::cvt_ms_to_string(quint64 msec, bool empty_zero, bool colon, bool
 }
 
 
-QString Helper::get_sayonara_path(const QString& append_path)
+QString Helper::sayonara_path(const QString& append_path)
 {
 	return Helper::File::clean_filename(
 			QDir::homePath() + "/.Sayonara/" + append_path
@@ -156,7 +156,7 @@ QString Helper::get_sayonara_path(const QString& append_path)
 }
 
 
-QString Helper::get_share_path(const QString& append_path)
+QString Helper::share_path(const QString& append_path)
 {
 	QString base_path;
 
@@ -169,7 +169,7 @@ QString Helper::get_share_path(const QString& append_path)
 	return Helper::File::clean_filename(base_path + "/" + append_path);
 }
 
-QString Helper::get_lib_path(const QString& append_path)
+QString Helper::lib_path(const QString& append_path)
 {
 	QString base_path;
 
@@ -219,7 +219,7 @@ QString Helper::create_link(const QString& name, bool dark, const QString& targe
 }
 
 
-QStringList Helper::get_soundfile_extensions(bool with_asterisk)
+QStringList Helper::soundfile_extensions(bool with_asterisk)
 {
 	QStringList filters;
 	filters << "mp3"
@@ -250,7 +250,7 @@ QStringList Helper::get_soundfile_extensions(bool with_asterisk)
 }
 
 
-QStringList Helper::get_playlistfile_extensions(bool with_asterisk)
+QStringList Helper::playlist_extensions(bool with_asterisk)
 {
 	QStringList filters;
 
@@ -273,7 +273,7 @@ QStringList Helper::get_playlistfile_extensions(bool with_asterisk)
 }
 
 
-QStringList Helper::get_podcast_extensions(bool with_asterisk)
+QStringList Helper::podcast_extensions(bool with_asterisk)
 {
 	QStringList filters;
 
@@ -344,12 +344,12 @@ void Helper::sleep_ms(quint64 ms)
 #endif
 }
 
-int Helper::get_random_number(int min, int max)
+int Helper::random_number(int min, int max)
 {
 	return RandomGenerator().get_number(min, max);
 }
 
-QStringList Helper::get_ip_addresses()
+QStringList Helper::ip_addresses()
 {
 	QStringList ret;
 	QList<QHostAddress> host_list;
@@ -379,11 +379,11 @@ void Helper::set_environment(const QString& key, const QString& value)
 #endif
 }
 
-QString Helper::get_random_string(int max_chars)
+QString Helper::random_string(int max_chars)
 {
 	QString ret;
 	for(int i=0; i<max_chars; i++){
-		char c = get_random_number(97, 123);
+		char c = random_number(97, 123);
 		ret.append(QChar(c));
 	}
 

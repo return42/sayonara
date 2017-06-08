@@ -21,16 +21,14 @@
 #include "LibraryDatabase.h"
 #include "SayonaraQuery.h"
 
-LibraryDatabase::LibraryDatabase(const QString& db_name, int db_id, qint8 library_id) :
-	AbstractDatabase(db_id, "", db_name),
-	DatabaseAlbums(db(), db_id, library_id),
-	DatabaseArtists(db(), db_id, library_id),
-	DatabaseTracks(db(), db_id, library_id),
-	DatabaseLibrary(db(), db_id, library_id)
+LibraryDatabase::LibraryDatabase(const QString& db_name, quint8 database_id, qint8 library_id) :
+	AbstractDatabase(database_id, "", db_name),
+	DatabaseAlbums(db(), db_id(), library_id),
+	DatabaseArtists(db(), db_id(), library_id),
+	DatabaseTracks(db(), db_id(), library_id),
+	DatabaseLibrary(db(), db_id(), library_id)
 {
 	_library_id = library_id;
-	_db_id = db_id;
-	db().open();
 
 	bool show_album_artists = false;
 	SayonaraQuery q(db());
@@ -75,11 +73,6 @@ void LibraryDatabase::change_artistid_field(LibraryDatabase::ArtistIDField field
 qint8 LibraryDatabase::library_id() const
 {
 	return _library_id;
-}
-
-int LibraryDatabase::db_id() const
-{
-	return _db_id;
 }
 
 bool LibraryDatabase::apply_fixes()

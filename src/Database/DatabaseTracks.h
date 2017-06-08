@@ -22,7 +22,6 @@
 #define DATABASETRACKS_H
 
 #include "Database/DatabaseSearchMode.h"
-#include "Database/DatabaseModule.h"
 #include "Helper/typedefs.h"
 #include "Helper/Library/Sortorder.h"
 #include "Helper/Pimpl.h"
@@ -35,9 +34,7 @@ class MetaData;
 class MetaDataList;
 
 class DatabaseTracks :
-		private DatabaseModule,
 		private DatabaseSearchMode
-
 {
 	PIMPL(DatabaseTracks)
 

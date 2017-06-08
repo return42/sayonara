@@ -123,7 +123,7 @@ void GUI_BroadcastSetup::port_changed(int new_val)
 QString GUI_BroadcastSetup::get_url_string() const
 {
 	int port = ui->sb_port->value();
-	QStringList ips = Helper::get_ip_addresses();
+	QStringList ips = Helper::ip_addresses();
 
 	QStringList ret;
 	for(const QString& ip : ips){

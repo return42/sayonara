@@ -20,12 +20,32 @@
 
 #include "Database/DatabaseModule.h"
 
-DatabaseModule::DatabaseModule(const QSqlDatabase& db, quint8 db_id) :
-	_db(db),
-	_module_db_id(db_id)
+struct DatabaseModule::Private
 {
-	if(!_db.isOpen()){
-		_db.open();
-	}
+	QSqlDatabase db;
+	quint8 db_id;
+
+	Private(const QSqlDatabase& db, quint8 db_id) :
+		db(db),
+		db_id(db_id)
+	{}
+};
+
+DatabaseModule::DatabaseModule(const QSqlDatabase& db, quint8 db_id)
+{
+	_m = Pimpl::make<Private>(db, db_id);
 }
+
+DatabaseModule::~DatabaseModule() {}
+
+quint8 DatabaseModule::module_db_id() const
+{
+	return _m->db_id;
+}
+
+QSqlDatabase DatabaseModule::module_db() const
+{
+	return _m->db;
+}
+
 

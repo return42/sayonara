@@ -104,6 +104,26 @@ struct Application::Private
 		if(timer){
 			delete timer; timer = nullptr;
 		}
+
+		if(instance_thread){
+			instance_thread->stop();
+			while(instance_thread->isRunning()){
+				Helper::sleep_ms(100);
+			}
+		}
+
+		if(plh){
+			plh->save_all_playlists();
+		}
+
+		if(player){
+			delete player; player=nullptr;
+		}
+
+		if(db){
+			db->store_settings();
+			db->close_db();
+		}
 	}
 };
 
@@ -236,7 +256,7 @@ bool Application::init(QTranslator* translator, const QStringList& files_to_play
 	if(_m->settings->get(Set::Notification_Show)){
 		NotificationHandler::getInstance()->notify("Sayonara Player",
 												   Lang::get(Lang::Version) + " " + SAYONARA_VERSION,
-												   Helper::get_share_path("logo.png"));
+												   Helper::share_path("logo.png"));
 	}
 
 	sp_log(Log::Debug, this) << "Init plugins: " << _m->timer->elapsed() << "ms";
@@ -311,28 +331,7 @@ bool Application::init(QTranslator* translator, const QStringList& files_to_play
 }
 
 
-Application::~Application()
-{
-	if(_m->instance_thread){
-		_m->instance_thread->stop();
-		while(_m->instance_thread->isRunning()){
-			Helper::sleep_ms(100);
-		}
-	}
-
-	/*if(player){
-		delete player; player=nullptr;
-	}*/
-
-	if(_m->plh){
-		_m->plh->save_all_playlists();
-	}
-
-	if(_m->db){
-		_m->db->store_settings();
-		_m->db->close_db();
-	}
-}
+Application::~Application() {}
 
 
 void Application::init_single_instance_thread()

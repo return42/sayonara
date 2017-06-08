@@ -69,6 +69,7 @@ private slots:
 	void disc_pressed(int disc);
 	void progress_changed(const QString& type, int progress);
 
+	void genres_reloaded();
 	void genre_selection_changed(const QModelIndex& index);
 	void date_selection_changed(const QModelIndex& index);
 
@@ -79,9 +80,6 @@ private slots:
 
 	// importer requests dialog
 	void import_dialog_requested();
-
-	// set library path clicked
-	void set_library_path_clicked();
 
 	void splitter_artist_moved(int pos, int idx);
 	void splitter_tracks_moved(int pos, int idx);
@@ -97,8 +95,6 @@ private slots:
 	// reimplemented from Sayonara widget
 	void language_changed() override;
 	void clear_button_pressed() override;
-
-	void _sl_all_libraries_changed();
 
 protected slots:
 	void lib_fill_albums(const AlbumList& albums) override;

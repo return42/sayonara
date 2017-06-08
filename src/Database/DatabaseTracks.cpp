@@ -45,8 +45,7 @@ struct DatabaseTracks::Private
 };
 
 DatabaseTracks::DatabaseTracks(const QSqlDatabase& db, quint8 db_id, qint8 library_id) :
-	DatabaseModule(db, db_id),
-	DatabaseSearchMode(db)
+	DatabaseSearchMode(db, db_id)
 {
 	_m = Pimpl::make<Private>();
 
@@ -123,8 +122,8 @@ void DatabaseTracks::check_track_view(qint8 library_id)
 		search_view_query += "WHERE libraryID=" + QString::number(library_id) + "; ";
 	}
 
-	SayonaraQuery view_q(_db);
-	SayonaraQuery search_view_q(_db);
+	SayonaraQuery view_q(this);
+	SayonaraQuery search_view_q(this);
 
 	view_q.prepare(view_query);
 	search_view_q.prepare(search_view_query);
@@ -178,7 +177,7 @@ bool DatabaseTracks::db_fetch_tracks(SayonaraQuery& q, MetaDataList& result)
 		data.artist = 	 	q.value(19).toString().trimmed();
 		data.set_album_artist(q.value(20).toString(), q.value(13).toInt());
 		data.library_id = 	q.value(16).toInt();
-		data.db_id = _module_db_id;
+		data.db_id = module_db_id();
 
 		result.append(data);
 	}
@@ -216,13 +215,13 @@ QString DatabaseTracks::append_track_sort_string(QString querytext, Library::Sor
 
 bool DatabaseTracks::getMultipleTracksByPath(const QStringList& paths, MetaDataList& v_md)
 {
-	_db.transaction();
+	module_db().transaction();
 
 	for(const QString& path : paths) {
 		v_md << getTrackByPath(path);
 	}
 
-	_db.commit();
+	module_db().commit();
 
 	return (v_md.size() == paths.size());
 }
@@ -230,7 +229,7 @@ bool DatabaseTracks::getMultipleTracksByPath(const QStringList& paths, MetaDataL
 
 MetaData DatabaseTracks::getTrackByPath(const QString& path)
 {
-	SayonaraQuery q(_db);
+	SayonaraQuery q(this);
 
 	QString querytext = fetch_query_tracks() +
 						"WHERE filename LIKE :filename;";
@@ -238,7 +237,7 @@ MetaData DatabaseTracks::getTrackByPath(const QString& path)
 	q.bindValue(":filename", path);
 
 	MetaData md(path);
-	md.db_id = _module_db_id;
+	md.db_id = module_db_id();
 
 	MetaDataList v_md;
 	if(!db_fetch_tracks(q, v_md)) {
@@ -257,7 +256,7 @@ MetaData DatabaseTracks::getTrackByPath(const QString& path)
 
 MetaData DatabaseTracks::getTrackById(int id)
 {
-	SayonaraQuery q(_db);
+	SayonaraQuery q(this);
 	QString querytext = fetch_query_tracks() + "WHERE trackID = :track_id;";
 
 	q.prepare(querytext);
@@ -280,7 +279,7 @@ MetaData DatabaseTracks::getTrackById(int id)
 
 bool DatabaseTracks::getAllTracks(MetaDataList& returndata, Library::SortOrder sort)
 {
-	SayonaraQuery q(_db);
+	SayonaraQuery q(this);
 
 	QString querytext = fetch_query_tracks();
 	querytext = append_track_sort_string(querytext, sort);
@@ -336,7 +335,7 @@ bool DatabaseTracks::getAllTracksByAlbum(IDList albums, MetaDataList& returndata
 		return false;
 	}
 
-	SayonaraQuery q(_db);
+	SayonaraQuery q(this);
 
 	QString querytext = fetch_query_tracks();
 
@@ -425,7 +424,7 @@ bool DatabaseTracks::getAllTracksByArtist(IDList artists, MetaDataList& returnda
 		return false;
 	}
 
-	SayonaraQuery q(_db);
+	SayonaraQuery q(this);
 
 	QString querytext = fetch_query_tracks();
 	if( !filter.cleared() )
@@ -482,7 +481,7 @@ bool DatabaseTracks::getAllTracksByArtist(IDList artists, MetaDataList& returnda
 
 bool DatabaseTracks::getAllTracksBySearchString(const Library::Filter& filter, MetaDataList& result, Library::SortOrder sort)
 {
-	SayonaraQuery q(_db);
+	SayonaraQuery q(this);
 
 	QString querytext = fetch_query_tracks();
 
@@ -521,7 +520,7 @@ bool DatabaseTracks::getAllTracksBySearchString(const Library::Filter& filter, M
 
 bool DatabaseTracks::deleteTrack(int id)
 {
-	SayonaraQuery q(_db);
+	SayonaraQuery q(this);
 	QString querytext = QString("DELETE FROM tracks WHERE trackID = :track_id;");
 
 	q.prepare(querytext);
@@ -541,7 +540,7 @@ bool DatabaseTracks::deleteTracks(const IDList& ids)
 	int n_files = 0;
 	bool success;
 
-	_db.transaction();
+	module_db().transaction();
 
 	for(const int& id : ids){
 		if( deleteTrack(id) ){
@@ -549,7 +548,7 @@ bool DatabaseTracks::deleteTracks(const IDList& ids)
 		};
 	}
 
-	success = _db.commit();
+	success = module_db().commit();
 
 	return success && (n_files == ids.size());
 }
@@ -559,7 +558,7 @@ bool DatabaseTracks::deleteTracks(const MetaDataList& v_md)
 {
 	int success = 0;
 
-	_db.transaction();
+	module_db().transaction();
 
 	for(const MetaData& md : v_md){
 		if( deleteTrack(md.id) ){
@@ -567,7 +566,7 @@ bool DatabaseTracks::deleteTracks(const MetaDataList& v_md)
 		};
 	}
 
-	_db.commit();
+	module_db().commit();
 
 	sp_log(Log::Info) << "Deleted " << success << " of " << v_md.size() << " tracks";
 
@@ -583,8 +582,8 @@ bool DatabaseTracks::deleteInvalidTracks()
 	IDList to_delete;
 	MetaDataList v_md_update;
 
-	SayonaraQuery q(_db);
-	DatabaseLibrary db_library(_db, _module_db_id, _m->library_id);
+	SayonaraQuery q(this);
+	DatabaseLibrary db_library(module_db(), module_db_id(), _m->library_id);
 
 	if(!getAllTracks(v_md)){
 		sp_log(Log::Error) << "Cannot get tracks from db";
@@ -626,9 +625,9 @@ QStringList DatabaseTracks::getAllGenres()
 	QString querystring;
 	bool success;
 
-	SayonaraQuery q(_db);
+	SayonaraQuery q(this);
 
-	querystring = "SELECT genre FROM tracks GROUP BY genre;";
+	querystring = "SELECT genre FROM " + _m->track_view_name + " GROUP BY genre;";
 	q.prepare(querystring);
 
 	success = q.exec();
@@ -657,10 +656,12 @@ void DatabaseTracks::updateTrackCissearch()
 	MetaDataList v_md;
 	getAllTracks(v_md);
 
-	_db.transaction();
-	for(const MetaData& md : v_md) {
+	module_db().transaction();
+
+	for(const MetaData& md : v_md)
+	{
 		QString querystring = "UPDATE tracks SET cissearch=:cissearch WHERE trackID=:id;";
-		SayonaraQuery q(_db);
+		SayonaraQuery q(this);
 		q.prepare(querystring);
 		q.bindValue(":cissearch", Library::convert_search_string(md.title, search_mode()));
 		q.bindValue(":id", md.id);
@@ -669,7 +670,8 @@ void DatabaseTracks::updateTrackCissearch()
 			q.show_error("Cannot update album cissearch");
 		}
 	}
-	_db.commit();
+
+	module_db().commit();
 }
 
 
@@ -684,7 +686,7 @@ bool DatabaseTracks::updateTrack(const MetaData& md)
 		return false;
 	}
 
-	SayonaraQuery q(_db);
+	SayonaraQuery q(this);
 
 	QString cissearch = Library::convert_search_string(md.title, search_mode());
 
@@ -737,14 +739,14 @@ bool DatabaseTracks::updateTracks(const MetaDataList& lst)
 	bool success;
 	int n_files = 0;
 
-	_db.transaction();
+	module_db().transaction();
 	for(const MetaData& md : lst){
 		if(updateTrack(md)){
 			n_files++;
 		}
 	}
 
-	success = _db.commit();
+	success = module_db().commit();
 
 	return success && (n_files == lst.size());
 }
@@ -756,7 +758,7 @@ bool DatabaseTracks::insertTrackIntoDatabase(const MetaData& md, int artist_id, 
 
 bool DatabaseTracks::insertTrackIntoDatabase(const MetaData& md, int artist_id, int album_id, int album_artist_id)
 {
-	SayonaraQuery q(_db);
+	SayonaraQuery q(this);
 
 	MetaData md_tmp = getTrackByPath( md.filepath() );
 
@@ -810,7 +812,7 @@ bool DatabaseTracks::insertTrackIntoDatabase(const MetaData& md, int artist_id, 
 bool DatabaseTracks::updateTrackDates()
 {
 	QString querytext = "SELECT trackID, filename FROM tracks;";
-	SayonaraQuery q(_db);
+	SayonaraQuery q(this);
 	q.prepare(querytext);
 	QMap<int, QString> v_md;
 
@@ -837,10 +839,11 @@ bool DatabaseTracks::updateTrackDates()
 		return false;
 	}
 
-	_db.transaction();
+	module_db().transaction();
 
-	for(auto t : lst){
-		SayonaraQuery q(_db);
+	for(auto t : lst)
+	{
+		SayonaraQuery q(this);
 		q.prepare("UPDATE tracks SET createdate=:createdate, modifydate=:modifydate WHERE trackID = :id;");
 		q.bindValue(":id", std::get<0>(t));
 		q.bindValue(":createdate", std::get<1>(t));
@@ -848,7 +851,7 @@ bool DatabaseTracks::updateTrackDates()
 		q.exec();
 	}
 
-	_db.commit();
+	module_db().commit();
 
 	sp_log(Log::Debug, "Database Tracks") << "Insert dates finished!";
 	return true;

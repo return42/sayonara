@@ -45,7 +45,7 @@ void MTP_CopyFiles::run()
 		int progress;
 
 		MTP_TrackPtr track = MTP_TrackPtr(new MTP_Track(md));
-		LibraryInfo info = LibraryManager::getInstance()->get_library(md.library_id);
+		LibraryInfo info = LibraryManager::getInstance()->get_library_info(md.library_id);
 		if(!info.valid()){
 			continue;
 		}

@@ -23,9 +23,12 @@
 
 #include <QObject>
 #include <QSqlDatabase>
+#include "Helper/Pimpl.h"
 
 class AbstractDatabase : public QObject
 {
+	PIMPL(AbstractDatabase)
+
 public:
 	explicit AbstractDatabase(quint8 db_id, const QString& db_dir, const QString& db_name, QObject *parent=nullptr);
 	virtual ~AbstractDatabase();
@@ -37,21 +40,9 @@ public:
 	virtual void commit();
 	virtual void rollback();
 
-	quint8 get_id() const;
-
+	quint8 db_id() const;
 
 protected:
-	QString			_db_path;
-	QString			_db_name;
-	QString			_db_dir;
-	quint8			_db_id;
-
-	/**
-	  * Check if db of m_databaseFileContainer is existent
-	  * @return true if we can load the db false if not
-	  */
-	bool _initialized;
-
 	virtual bool exists();
 	virtual bool create_db();
 	virtual bool open_db();
@@ -60,6 +51,7 @@ protected:
 	virtual bool check_and_insert_column(const QString& tablename, const QString& column, const QString& sqltype, const QString& default_value=QString());
 	virtual bool check_and_create_table(const QString& tablename, const QString& sql_create_str);
 	virtual bool check_and_drop_table(const QString& tablename);
+
 
 	QSqlDatabase& db() const;
 };

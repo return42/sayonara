@@ -57,7 +57,7 @@ struct CoverFetchThread::Private
 
 	Private(const CoverLocation& cl, int n_covers) :
 		cl(cl),
-		id(Helper::get_random_string(8)),
+		id(Helper::random_string(8)),
 		n_covers(n_covers),
 		n_covers_found(0),
 		may_run(true)

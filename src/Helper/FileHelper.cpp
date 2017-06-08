@@ -243,7 +243,7 @@ bool Helper::File::is_file(const QString& filename)
 
 bool Helper::File::is_soundfile(const QString& filename) 
 {
-	QStringList extensions = Helper::get_soundfile_extensions();
+	QStringList extensions = Helper::soundfile_extensions();
 	for(const QString& extension : extensions) {
 		if(filename.toLower().endsWith(extension.right(4))) {
 			return true;
@@ -255,7 +255,7 @@ bool Helper::File::is_soundfile(const QString& filename)
 
 
 bool Helper::File::is_playlistfile(const QString& filename) {
-	QStringList extensions = Helper::get_playlistfile_extensions();
+	QStringList extensions = Helper::playlist_extensions();
 	for(const QString& extension : extensions) {
 		if(filename.toLower().endsWith(extension.right(4).toLower())) {
 			return true;
@@ -387,4 +387,10 @@ bool Helper::File::check_file(const QString& filepath)
 	}
 
 	return QFile::exists(filepath);
+}
+
+bool Helper::File::create_symlink(const QString& source, const QString& target)
+{
+	QFile f(source);
+	return f.link(target);
 }

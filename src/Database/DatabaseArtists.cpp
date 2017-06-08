@@ -26,8 +26,7 @@
 #include "Helper/Library/DateFilter.h"
 
 DatabaseArtists::DatabaseArtists(const QSqlDatabase& db, quint8 db_id, qint8 library_id) :
-	DatabaseModule(db, db_id),
-	DatabaseSearchMode(db)
+	DatabaseSearchMode(db, db_id)
 {
 	_artistid_field = "artistID";
 	_search_view_name = "track_search_view_" + QString::number(library_id);
@@ -75,13 +74,14 @@ bool DatabaseArtists::db_fetch_artists(SayonaraQuery& q, ArtistList& result)
 		return true;
 	}
 
-	for(bool is_element=q.first(); is_element; is_element = q.next()){
+	for(bool is_element=q.first(); is_element; is_element = q.next())
+	{
 		Artist artist;
 
 		artist.id = q.value(0).toInt();
 		artist.name = q.value(1).toString().trimmed();
 		artist.num_songs = q.value(2).toInt();
-		artist.db_id = _module_db_id;
+		artist.db_id = module_db_id();
 
 		result << artist;
 	}
@@ -110,9 +110,7 @@ bool DatabaseArtists::getArtistByID(int id, Artist& artist, bool also_empty)
 {
 	if(id < 0) return false;
 
-	DB_RETURN_NOT_OPEN_BOOL(_db);
-
-	SayonaraQuery q(_db);
+	SayonaraQuery q(this);
 
 	ArtistList artists;
 
@@ -137,9 +135,11 @@ bool DatabaseArtists::getArtistByID(int id, Artist& artist, bool also_empty)
 
 int DatabaseArtists::getArtistID(const QString& artist)
 {
-	SayonaraQuery q(_db);
+	SayonaraQuery q(this);
+	QString query = "SELECT artistID FROM artists WHERE name = ?;";
+
 	int artistID = -1;
-	q.prepare("SELECT artistID FROM artists WHERE name = ?;");
+	q.prepare(query);
 	q.addBindValue(artist);
 
 	if (!q.exec()) {
@@ -160,7 +160,7 @@ bool DatabaseArtists::getAllArtists(ArtistList& result, bool also_empty)
 
 bool DatabaseArtists::getAllArtists(ArtistList& result, Library::SortOrder sortorder, bool also_empty)
 {
-	SayonaraQuery q(_db);
+	SayonaraQuery q(this);
 	QString query = fetch_query_artists(also_empty);
 
 	query += "GROUP BY artists.artistID, artists.name ";
@@ -174,7 +174,7 @@ bool DatabaseArtists::getAllArtists(ArtistList& result, Library::SortOrder sorto
 
 bool DatabaseArtists::getAllArtistsBySearchString(const Library::Filter& filter, ArtistList& result, Library::SortOrder sortorder)
 {
-	SayonaraQuery q(_db);
+	SayonaraQuery q(this);
 	QString query;
 	QString select = "SELECT artistID, "
 					 "artistName, "
@@ -192,7 +192,7 @@ bool DatabaseArtists::getAllArtistsBySearchString(const Library::Filter& filter,
 			break;
 
 		case Library::Filter::Genre:
-			search_field = "genreName";
+			search_field = "genre";
 			break;
 
 		case Library::Filter::Filename:
@@ -227,7 +227,7 @@ int DatabaseArtists::insertArtistIntoDatabase (const QString& artist)
 		return id;
 	}
 
-	SayonaraQuery q(_db);
+	SayonaraQuery q(this);
 
 	QString cissearch = Library::convert_search_string(artist, search_mode());
 	q.prepare("INSERT INTO artists (name, cissearch) values (:artist, :cissearch);");
@@ -255,7 +255,7 @@ int DatabaseArtists::insertArtistIntoDatabase (const Artist & artist)
 
 int DatabaseArtists::updateArtist(const Artist &artist)
 {
-	SayonaraQuery q(_db);
+	SayonaraQuery q(this);
 
 	if(artist.id < 0) return -1;
 
@@ -281,10 +281,12 @@ void DatabaseArtists::updateArtistCissearch()
 	ArtistList artists;
 	getAllArtists(artists, true);
 
-	_db.transaction();
-	for(const Artist& artist : artists) {
+	module_db().transaction();
+
+	for(const Artist& artist : artists)
+	{
 		QString str = "UPDATE artists SET cissearch=:cissearch WHERE artistID=:id;";
-		SayonaraQuery q(_db);
+		SayonaraQuery q(this);
 		q.prepare(str);
 		q.bindValue(":cissearch", Library::convert_search_string(artist.name, search_mode()));
 		q.bindValue(":id", artist.id);
@@ -293,7 +295,8 @@ void DatabaseArtists::updateArtistCissearch()
 			q.show_error("Cannot update artist cissearch");
 		}
 	}
-	_db.commit();
+
+	module_db().commit();
 }
 
 

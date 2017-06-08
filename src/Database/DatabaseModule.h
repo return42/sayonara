@@ -22,37 +22,19 @@
 #define DATABASEMODULE_H
 
 #include <QSqlDatabase>
-
-
-#define DB_TRY_OPEN(db)		if (!this -> db.isOpen()) \
-	this -> db.open()
-
-#define DB_RETURN_NOT_OPEN_VOID(db) DB_TRY_OPEN(db); \
-	if (!this -> db.isOpen()) \
-	return
-
-#define DB_RETURN_NOT_OPEN_INT(db) DB_TRY_OPEN(db); \
-	if (!this -> db.isOpen()) \
-	return -1
-
-#define DB_RETURN_NOT_OPEN_BOOL(db) DB_TRY_OPEN(db); \
-	if (!this -> db.isOpen()) \
-	return false
-
-#define DB_RETURN_NOT_OPEN_STRING(db) DB_TRY_OPEN(db); \
-	if(!this->db.isOpen()) \
-	return ""
+#include "Helper/Pimpl.h"
 
 class SayonaraQuery;
 class DatabaseModule
 {
-protected:
-
-	QSqlDatabase _db;
-	quint8 _module_db_id;
+	PIMPL(DatabaseModule)
 
 public:
 	DatabaseModule(const QSqlDatabase& db, quint8 db_id);
+	virtual ~DatabaseModule();
+
+	quint8 module_db_id() const;
+	QSqlDatabase module_db() const;
 };
 
 #endif // DATABASEMODULE_H

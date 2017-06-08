@@ -71,10 +71,10 @@ StreamRecorder::StreamRecorder(QObject *parent) :
 
 	clear();
 
-	QDir d(Helper::get_sayonara_path());
+	QDir d(Helper::sayonara_path());
 
     // delete old stream ripper files
-    QStringList lst = d.entryList(Helper::get_soundfile_extensions());
+    QStringList lst = d.entryList(Helper::soundfile_extensions());
 
 	for( const QString& str : lst)
 	{

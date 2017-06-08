@@ -34,6 +34,7 @@ private:
 
 public:
 	DatabaseLibrary(const QSqlDatabase& db, quint8 db_id, qint8 library_id);
+	~DatabaseLibrary();
 
 	virtual void dropIndexes();
 	virtual void createIndexes();

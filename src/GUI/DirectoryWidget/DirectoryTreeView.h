@@ -70,8 +70,6 @@ private:
 public:
 	int get_index_by_model_index(const QModelIndex& idx) const override;
 	QModelIndex get_model_index_by_index(int idx) const override;
-
-	void set_cur_library(const QString& library_path);
 };
 
 #endif // DIRECTORYTREEVIEW_H
