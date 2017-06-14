@@ -26,7 +26,8 @@
 #include "Helper/Pimpl.h"
 
 class CoverLocation;
-class QIcon;
+class QPixmap;
+class QResizeEvent;
 
 /**
  * @brief The CoverButton class
@@ -46,7 +47,10 @@ public:
 	virtual ~CoverButton();
 
 	void set_cover_location(const CoverLocation& cl);
-	void force_icon(const QIcon& icon);
+	void force_icon(const QPixmap& pixmap);
+
+protected:
+	void resizeEvent(QResizeEvent* e) override;
 
 private slots:
 	void cover_button_clicked();

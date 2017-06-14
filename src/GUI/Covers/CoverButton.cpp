@@ -30,6 +30,7 @@ struct CoverButton::Private
 	CoverLocation 			search_cover_location;
 	QString					text;
 	bool 					cover_forced;
+	QPixmap					current_cover;
 };
 
 
@@ -40,6 +41,7 @@ CoverButton::CoverButton(QWidget* parent) :
 
 	_m->cover_forced = false;
 	_m->search_cover_location = CoverLocation::getInvalidLocation();
+	this->setIconSize(this->size());
 
 	connect(this, &QPushButton::clicked, this, &CoverButton::cover_button_clicked);
 }
@@ -59,7 +61,8 @@ void CoverButton::cover_button_clicked()
 }
 
 
-void CoverButton::set_cover_location(const CoverLocation& cl){
+void CoverButton::set_cover_location(const CoverLocation& cl)
+{
 	_m->search_cover_location = cl;
 
 	if(!_m->cover_lookup){
@@ -71,15 +74,35 @@ void CoverButton::set_cover_location(const CoverLocation& cl){
 	_m->cover_lookup->fetch_cover(cl);
 }
 
-void CoverButton::force_icon(const QIcon& icon){
+void CoverButton::force_icon(const QPixmap& pixmap)
+{
 	_m->cover_forced = true;
+	_m->current_cover = pixmap;
+
+	QIcon icon(pixmap.scaled(this->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
 
 	this->setIcon(icon);
 	this->setToolTip("MP3 Tag");
 }
 
+void CoverButton::resizeEvent(QResizeEvent* e)
+{
+	QPushButton::resizeEvent(e);
 
-void CoverButton::alternative_cover_fetched(const CoverLocation& cl){
+	QIcon icon(_m->current_cover.scaled(this->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+
+	QSize sz = this->size();
+	sz.setHeight(sz.height() - 10);
+	sz.setWidth(sz.width() - 10);
+
+	this->setIconSize(sz);
+	this->setIcon(icon);
+
+}
+
+
+void CoverButton::alternative_cover_fetched(const CoverLocation& cl)
+{
 	if(cl.valid()){
 		emit sig_cover_replaced();
 	}
@@ -88,7 +111,8 @@ void CoverButton::alternative_cover_fetched(const CoverLocation& cl){
 }
 
 
-void CoverButton::cover_found(const CoverLocation& cl){
+void CoverButton::cover_found(const CoverLocation& cl)
+{
 	if(cl.valid()){
 		emit sig_cover_found();
 	}
@@ -97,12 +121,16 @@ void CoverButton::cover_found(const CoverLocation& cl){
 }
 
 
-void CoverButton::set_cover_image(const QString& cover_path){
+void CoverButton::set_cover_image(const QString& cover_path)
+{
 	if( _m->cover_forced && sender() == _m->cover_lookup){
 		return;
 	}
 
-	QIcon icon(cover_path);
+	QPixmap pm(cover_path);
+	_m->current_cover = pm;
+
+	QIcon icon(pm.scaled(this->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
 	this->setIcon(icon);
 	this->setToolTip("");
 }

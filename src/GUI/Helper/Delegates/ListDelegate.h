@@ -43,8 +43,8 @@ public:
 	explicit ListDelegate(QListView* parent=nullptr);
 	virtual ~ListDelegate();
 
-	virtual QSize sizeHint(const QStyleOptionViewItem &option,
-			       const QModelIndex &index) const override;
+	/*virtual QSize sizeHint(const QStyleOptionViewItem &option,
+				   const QModelIndex &index) const override;*/
 };
 
 #endif

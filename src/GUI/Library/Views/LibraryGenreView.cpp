@@ -86,7 +86,7 @@ LibraryGenreView::LibraryGenreView(QWidget* parent) :
 	this->setAcceptDrops(true);
 	this->setDragDropMode(LibraryGenreView::DragDrop);
 	this->setAlternatingRowColors(true);
-	this->setItemDelegate(new TreeDelegate(this));
+	//this->setItemDelegate(new TreeDelegate(this));
 	_m->toggle_tree_action->setChecked(show_tree);
 
 	connect(this, &QTreeWidget::itemCollapsed, this, &LibraryGenreView::item_collapsed);

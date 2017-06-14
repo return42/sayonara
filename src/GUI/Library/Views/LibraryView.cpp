@@ -40,6 +40,7 @@
 #include "GUI/Helper/ContextMenu/LibraryContextMenu.h"
 #include "GUI/Helper/SearchableWidget/MiniSearcher.h"
 
+#include <QHeaderView>
 #include <QDropEvent>
 #include <QMouseEvent>
 #include <QDrag>
@@ -70,6 +71,8 @@ LibraryView::LibraryView(QWidget* parent) :
 
 	setAcceptDrops(true);
 	setSelectionBehavior(QAbstractItemView::SelectRows);
+	setAlternatingRowColors(true);
+	setDragEnabled(true);
 
 	clearSelection();
 }
@@ -151,7 +154,7 @@ QPixmap LibraryView::get_pixmap() const
 {
 	CoverLocation cl = _model->get_cover(
 				get_selected_items()
-				);
+	);
 
 	QString cover_path = cl.preferred_path();
 	if(cl.valid()){
@@ -459,4 +462,15 @@ void LibraryView::dropEvent(QDropEvent *event)
 	}
 
 	emit sig_import_files(filelist);
+}
+
+void LibraryView::changeEvent(QEvent* event)
+{
+	SearchableTableView::changeEvent(event);
+
+	if(event->type() == QEvent::StyleChange)
+	{
+		this->verticalHeader()->setResizeContentsPrecision(1);
+		this->verticalHeader()->resizeSections(QHeaderView::ResizeToContents);
+	}
 }

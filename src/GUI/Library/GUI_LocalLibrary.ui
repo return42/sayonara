@@ -39,12 +39,6 @@
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
-       <property name="minimumSize">
-        <size>
-         <width>120</width>
-         <height>0</height>
-        </size>
-       </property>
        <property name="focusPolicy">
         <enum>Qt::ClickFocus</enum>
        </property>
@@ -261,11 +255,8 @@
             <attribute name="verticalHeaderVisible">
              <bool>false</bool>
             </attribute>
-            <attribute name="verticalHeaderDefaultSectionSize">
-             <number>20</number>
-            </attribute>
             <attribute name="verticalHeaderMinimumSectionSize">
-             <number>20</number>
+             <number>1</number>
             </attribute>
            </widget>
            <widget class="LibraryViewAlbum" name="lv_album">
@@ -320,11 +311,8 @@
             <attribute name="verticalHeaderVisible">
              <bool>false</bool>
             </attribute>
-            <attribute name="verticalHeaderDefaultSectionSize">
-             <number>20</number>
-            </attribute>
             <attribute name="verticalHeaderMinimumSectionSize">
-             <number>20</number>
+             <number>1</number>
             </attribute>
            </widget>
           </widget>
@@ -397,9 +385,6 @@
        <attribute name="horizontalHeaderHighlightSections">
         <bool>false</bool>
        </attribute>
-       <attribute name="horizontalHeaderMinimumSectionSize">
-        <number>23</number>
-       </attribute>
        <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
         <bool>true</bool>
        </attribute>
@@ -409,11 +394,8 @@
        <attribute name="verticalHeaderVisible">
         <bool>false</bool>
        </attribute>
-       <attribute name="verticalHeaderDefaultSectionSize">
-        <number>20</number>
-       </attribute>
        <attribute name="verticalHeaderMinimumSectionSize">
-        <number>20</number>
+        <number>1</number>
        </attribute>
       </widget>
      </widget>

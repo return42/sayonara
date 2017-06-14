@@ -19,6 +19,7 @@
  */
 
 #include "DirectoryWidgetContainer.h"
+#include "GUI/Helper/GUI_Helper.h"
 
 #include "GUI_DirectoryWidget.h"
 #include "GUI/Helper/IconLoader/IconLoader.h"
@@ -60,7 +61,12 @@ QFrame* DirectoryLibraryContainer::header() const
 
 QPixmap DirectoryLibraryContainer::icon() const
 {
-	QIcon icon = IconLoader::getInstance()->get_icon("folder", "folder");
+	QIcon icon = IconLoader::getInstance()->get_icon("folder", "dir_view");
+	QList<QSize> sizes = icon.availableSizes();
 
-	return icon.pixmap(32,32);
+	auto it = std::max_element(sizes.begin(), sizes.end(), [](const QSize& sz1, const QSize& sz2){
+		return (sz1.height() < sz2.height());
+	});
+
+	return icon.pixmap(*it);
 }

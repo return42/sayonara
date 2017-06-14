@@ -69,7 +69,7 @@ public:
 	 */
 	void set_library_parent(QWidget* parent);
 
-	void set_current_library(const QString& name);
+
 
 
 	/**
@@ -87,6 +87,13 @@ public:
 	QMenu* current_library_menu() const;
 
 	static bool is_local_library(const LibraryContainerInterface* container);
+
+private slots:
+	void current_library_changed(int library_idx);
+
+public slots:
+	void set_current_library(const QString& name);
+	void set_current_library(LibraryContainerInterface* container);
 };
 
 #endif // LIBRARYPLUGINLOADER_H

@@ -45,6 +45,5 @@ void GUI_Player::set_standard_cover()
 void GUI_Player::cover_changed(const QImage& img)
 {
 	QPixmap pm = QPixmap::fromImage(img);
-	QIcon icon(pm);
-	albumCover->force_icon(icon);
+	albumCover->force_icon(pm);
 }

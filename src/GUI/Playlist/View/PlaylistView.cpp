@@ -190,20 +190,6 @@ void PlaylistView::delete_cur_selected_tracks()
 }
 
 
-void PlaylistView::set_delegate_max_width(int n_items)
-{
-	int row_height = _delegate->get_row_height();
-	bool scrollbar_visible = (( n_items * row_height ) >= this->height());
-
-	int max_width = this->width();
-	if(scrollbar_visible){
-		max_width -= verticalScrollBar()->width();
-	}
-
-	_delegate->set_max_width(max_width);
-}
-
-
 // remove the black line under the titles
 void  PlaylistView::clear_drag_drop_lines(int row)
 {
@@ -355,9 +341,6 @@ void PlaylistView::handle_inner_drag_drop(int row, bool copy)
 
 void PlaylistView::fill(PlaylistPtr pl)
 {
-	int n_tracks = pl->get_count();
-	set_delegate_max_width(n_tracks);
-
 	int cur_track = pl->get_cur_track_idx();
 	this->scrollTo(_model->index(cur_track), SearchableListView::EnsureVisible);
 }

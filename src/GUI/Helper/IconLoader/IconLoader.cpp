@@ -223,7 +223,8 @@ QIcon IconLoader::get_icon(const QString& name, const QString& dark_name)
 	return GUI::get_icon(dark_name);
 }
 
-QIcon IconLoader::get_icon(const QStringList& names, const QString& dark_name){
+QIcon IconLoader::get_icon(const QStringList& names, const QString& dark_name)
+{
 	bool dark = (_m->settings->get(Set::Player_Style) == 1);
 
 	if(!dark){

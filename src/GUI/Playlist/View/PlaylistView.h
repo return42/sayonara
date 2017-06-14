@@ -100,7 +100,6 @@ private:
 private:
 
 	void init_rc_menu();
-	void set_delegate_max_width(int n_items);
 
 	// d & d
 	void clear_drag_drop_lines(int row);
@@ -126,7 +125,6 @@ private:
 	void mouseDoubleClickEvent(QMouseEvent* event) override;
 
 	void keyPressEvent(QKeyEvent *event) override;
-	void resizeEvent(QResizeEvent *e) override;
 	void selectionChanged ( const QItemSelection & selected, const QItemSelection & deselected ) override;
 
 	MD::Interpretation get_metadata_interpretation() const override;

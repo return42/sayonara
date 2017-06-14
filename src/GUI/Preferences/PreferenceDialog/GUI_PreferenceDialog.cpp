@@ -54,11 +54,11 @@ void GUI_PreferenceDialog::retranslate_ui()
 	bool is_empty = (ui->list_preferences->count() == 0);
 
 	int i=0;
-	for(PreferenceWidgetInterface* dialog : _dialogs){
+	for(PreferenceWidgetInterface* dialog : _dialogs)
+	{
 		QListWidgetItem* item;
 		if(is_empty){
 			item = new QListWidgetItem(dialog->get_action_name());
-			item->setSizeHint(QSize(item->sizeHint().width(), 20));
 			ui->list_preferences->addItem(item);
 		}
 		else{
@@ -155,7 +155,7 @@ void GUI_PreferenceDialog::init_ui()
 	setup_parent(this, &ui);
 
 	ui->list_preferences->setMouseTracking(false);
-	ui->list_preferences->setItemDelegate(new QItemDelegate(ui->list_preferences));
+	//ui->list_preferences->setItemDelegate(new QItemDelegate(ui->list_preferences));
 
 	connect(ui->list_preferences, &QListWidget::currentRowChanged, this, &GUI_PreferenceDialog::row_changed);
 	connect(ui->btn_apply, &QPushButton::clicked, this, &GUI_PreferenceDialog::commit);

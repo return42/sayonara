@@ -21,11 +21,11 @@
 #ifndef LIBRARY_RATING_DELEGATE_H
 #define LIBRARY_RATING_DELEGATE_H
 
-#include <QItemDelegate>
+#include <QStyledItemDelegate>
 #include "GUI/Library/Helper/ColumnIndex.h"
 
 class LibraryRatingDelegate :
-		public QItemDelegate
+		public QStyledItemDelegate
 {
     Q_OBJECT
 
@@ -47,7 +47,6 @@ private slots:
 protected:
 	bool			_enabled;
 	int				_rating_column;
-    
 };
 
 #endif // LibraryRatingDelegate_H

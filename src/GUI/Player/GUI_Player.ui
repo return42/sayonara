@@ -1008,14 +1008,8 @@
     <addaction name="action_help"/>
     <addaction name="action_about"/>
    </widget>
-   <widget class="LibraryPluginMenu" name="menu_library_view">
-    <property name="title">
-     <string>Library View</string>
-    </property>
-   </widget>
    <addaction name="menu_file"/>
    <addaction name="menu_view"/>
-   <addaction name="menu_library_view"/>
    <addaction name="menu_about"/>
   </widget>
   <action name="action_OpenFile">
@@ -1143,11 +1137,6 @@
    <class>SayonaraLoadingBar</class>
    <extends>QProgressBar</extends>
    <header>GUI/Helper/SayonaraWidget/SayonaraLoadingBar.h</header>
-  </customwidget>
-  <customwidget>
-   <class>LibraryPluginMenu</class>
-   <extends>QMenu</extends>
-   <header>Interfaces/LibraryInterface/LibraryPluginMenu.h</header>
   </customwidget>
  </customwidgets>
  <resources>

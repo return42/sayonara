@@ -123,11 +123,12 @@ QVariant LibraryItemModelTracks::data(const QModelIndex &index, int role) const
 
 Qt::ItemFlags LibraryItemModelTracks::flags(const QModelIndex &index = QModelIndex()) const
 {
-	if (!index.isValid())
+	if (!index.isValid()) {
 		return Qt::ItemIsEnabled;
+	}
 
 	if(index.column() == (int) ColumnIndex::Track::Rating) {
-		return QAbstractItemModel::flags(index) | Qt::ItemIsEditable;
+		return (QAbstractItemModel::flags(index) | Qt::ItemIsEditable);
 	}
 
 	return QAbstractItemModel::flags(index);

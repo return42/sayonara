@@ -62,7 +62,6 @@ void LibraryPluginMenu::setup_actions()
 
 		this->addAction(action);
 		if(current_library && current_library->name().compare(name) == 0){
-			//action->setChecked(true);
 			action->trigger();
 		}
 	}

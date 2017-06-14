@@ -19,6 +19,8 @@
  */
 
 #include "LibraryPluginHandler.h"
+#include "LibraryPluginCombobox.h"
+
 #include "GUI/Helper/GUI_Helper.h"
 #include "GUI/Helper/Delegates/ComboBoxDelegate.h"
 #include "GUI/Helper/SayonaraWidget/SayonaraWidgetTemplate.h"
@@ -27,32 +29,25 @@
 #include "Helper/Library/LibraryInfo.h"
 #include "GUI/Library/LocalLibraryContainer.h"
 #include "GUI/Library/EmptyLibraryContainer.h"
-#include "LibraryPluginMenu.h"
 
 #include "Helper/globals.h"
 #include "Helper/Helper.h"
 #include "Helper/Settings/Settings.h"
 #include "Helper/Logger/Logger.h"
 
-#include <QAction>
 #include <QDir>
 #include <QIcon>
-#include <QPair>
 #include <QLayout>
-#include <QComboBox>
 #include <QPluginLoader>
-#include <QLabel>
-#include <QPainter>
 #include <QFrame>
-#include <QHBoxLayout>
-#include <QScreen>
-#include <QGuiApplication>
+#include <QVBoxLayout>
+#include <QFontMetrics>
+#include <QSize>
 
 struct LibraryPluginHandler::Private
 {
-	LibraryContainerInterface*			current_library;
+	LibraryContainerInterface*			current_library=nullptr;
 	QList<LibraryContainerInterface*>	libraries;
-	QList<QPair<QString, QIcon>>		library_entries;
 	QWidget*							library_parent=nullptr;
 	LibraryPluginHandler*				plugin_handler=nullptr;
 
@@ -134,6 +129,7 @@ bool LibraryPluginHandler::is_local_library(const LibraryContainerInterface* con
 			(dynamic_cast<const EmptyLibraryContainer*>(container) != nullptr));
 }
 
+
 LibraryPluginHandler::LibraryPluginHandler() :
 	QObject(nullptr),
 	SayonaraClass()
@@ -152,8 +148,9 @@ void LibraryPluginHandler::init(const QList<LibraryContainerInterface*>& contain
 	_m->insert_dll_libraries();
 
 	for(LibraryContainerInterface* container : _m->libraries){
-		if(container->name().compare(cur_plugin) == 0){
-			_m->current_library = container;
+		QString name = container->name();
+		if(name.compare(cur_plugin) == 0){
+			set_current_library(container);
 			break;
 		}
 	}
@@ -182,33 +179,17 @@ void LibraryPluginHandler::init_library(LibraryContainerInterface* library)
 	QFrame* header_frame = library->header();
 	if(header_frame)
 	{
-		QPixmap pixmap = library->icon().scaled(24, 24, Qt::AspectRatioMode::KeepAspectRatio, Qt::TransformationMode::SmoothTransformation);
-		QLabel* lab_text = new QLabel(library->display_name(), header_frame);
-		QLabel* lab_image = new QLabel(header_frame);
-		QHBoxLayout* layout = new QHBoxLayout(header_frame);
+		LibraryPluginCombobox* combo_box = new LibraryPluginCombobox(library->display_name(), header_frame);
 
-		lab_text->setStyleSheet("font-weight: bold;");
-		lab_image->setPixmap(pixmap);
-
+		QLayout* layout = new QVBoxLayout(header_frame);
 		layout->setContentsMargins(0, 0, 0, 0);
-		layout->setSpacing(8);
-		layout->addWidget(lab_image);
-		layout->addWidget(lab_text);
+		layout->addWidget(combo_box);
 
+		header_frame->setFrameShape(QFrame::NoFrame);
 		header_frame->setLayout(layout);
-		header_frame->setFrameStyle(QFrame::NoFrame);
-		header_frame->setContextMenuPolicy(Qt::ContextMenuPolicy::CustomContextMenu);
 
-		LibraryPluginMenu* context_menu = new LibraryPluginMenu(header_frame);
-		context_menu->setup_actions();
-		connect(header_frame, &QWidget::customContextMenuRequested, this, [=](const QPoint& pos){
-			QPoint new_pos = header_frame->mapToGlobal(pos);
-			int y_difference = GUI::move_widget(new_pos, context_menu);
-			new_pos.setY(new_pos.y() - y_difference);
-			context_menu->popup(new_pos);
-			context_menu->move(context_menu->pos().x(),
-							   context_menu->pos().y()-y_difference);
-		});
+		connect(combo_box, SIGNAL(activated(int)),
+				this, SLOT(current_library_changed(int)));
 	}
 }
 
@@ -224,11 +205,27 @@ void LibraryPluginHandler::set_library_parent(QWidget* parent)
 	}
 }
 
+
+void LibraryPluginHandler::current_library_changed(int library_idx)
+{
+	Q_UNUSED(library_idx)
+
+	LibraryPluginCombobox* combo_box = static_cast<LibraryPluginCombobox*>(sender());
+	if(!combo_box){
+		return;
+	}
+
+	QString name = combo_box->currentData().toString();
+	set_current_library(name);
+}
+
 void LibraryPluginHandler::set_current_library(const QString& name)
 {
 	for(LibraryContainerInterface* container : _m->libraries)
 	{
-		if(container->name().compare(name) != 0) {
+		QString container_name = container->name();
+		if(container_name.compare(name) != 0)
+		{
 			if(container->is_initialized()){
 				container->widget()->setVisible(false);
 			}
@@ -250,6 +247,15 @@ void LibraryPluginHandler::set_current_library(const QString& name)
 	_settings->set(Set::Lib_CurPlugin, name);
 
 	emit sig_current_library_changed(name);
+}
+
+void LibraryPluginHandler::set_current_library(LibraryContainerInterface* container)
+{
+	if(!container){
+		return;
+	}
+
+	set_current_library(container->name());
 }
 
 

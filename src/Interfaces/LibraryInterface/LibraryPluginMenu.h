@@ -19,9 +19,6 @@ public:
 public slots:
 	void setup_actions();
 
-private:
-	void check_library_menu_action();
-
 private slots:
 	void action_triggered(bool b);
 	void current_library_changed(const QString& name);

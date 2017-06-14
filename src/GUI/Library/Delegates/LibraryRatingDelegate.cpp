@@ -23,7 +23,7 @@
 #include <QPainter>
 
 LibraryRatingDelegate::LibraryRatingDelegate(QObject* parent, int rating_column, bool enabled) :
-	QItemDelegate(parent)
+	QStyledItemDelegate(parent)
 {
 	_enabled = enabled;
 	_rating_column = rating_column;
@@ -48,7 +48,7 @@ void LibraryRatingDelegate::paint(QPainter *painter, const QStyleOptionViewItem 
 		return;
 	}
 
-	QItemDelegate::paint(painter, option, index);
+	QStyledItemDelegate::paint(painter, option, index);
 }
 
 QWidget* LibraryRatingDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem & option, const QModelIndex & index) const
@@ -65,7 +65,8 @@ QWidget* LibraryRatingDelegate::createEditor(QWidget *parent, const QStyleOption
 }
 
 
-void LibraryRatingDelegate::destroy_editor(bool save) {
+void LibraryRatingDelegate::destroy_editor(bool save)
+{
 	Q_UNUSED(save)
 
     RatingLabel *label = qobject_cast<RatingLabel *>(sender());
@@ -96,4 +97,3 @@ void LibraryRatingDelegate::setModelData(QWidget *editor, QAbstractItemModel *mo
     if(!label) return;
     model->setData(index, label->get_rating());
 }
-

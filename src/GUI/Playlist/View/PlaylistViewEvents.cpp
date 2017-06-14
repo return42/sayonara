@@ -303,10 +303,3 @@ void PlaylistView::dropEvent(QDropEvent* event)
 	handle_drop(event);
 }
 
-
-void PlaylistView::resizeEvent(QResizeEvent *e) {
-	SearchableListView::resizeEvent(e);
-
-	this->set_delegate_max_width(_model->rowCount());
-}
-

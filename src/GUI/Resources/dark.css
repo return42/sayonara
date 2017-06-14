@@ -50,7 +50,8 @@ QFrame#player_frame,
 QFrame#genre_frame
 QFrame#my_frame, 
 QFrame#my_frame_2, 
-QFrame#my_frame_3
+QFrame#my_frame_3,
+QFrame#header_frame
 {
 	padding: 0px;
 	background-repeat: no-repeat;
@@ -160,16 +161,6 @@ QTreeView::branch:open:has-children:has-siblings
 	image: url(:/Icons/arrow_filled_down.svg.png);
 }
 
-QListWidget::item
-{
-	padding: 2px 0;
-}
-
-QListWidget::item:selected
-{
-	background-color: #424e72;
-}
-
 
 QScrollBar::vertical
 {
@@ -250,16 +241,12 @@ QScrollBar::handle:horizontal:pressed
 QTableView QHeaderView::section
 {
 	background-color: #323232;
-	height: 20px;
 	color: #D8D8D8;
-	padding-left: 4px;
-	padding-top: 5px;
-	padding-bottom: 5px;
 	border: 0px;
 	border-bottom: 1px solid #242424;
 	border-right: 1px solid #242424;
-
 }
+
 
 QTableView QHeaderView::section:last
 {
@@ -367,19 +354,16 @@ QMenu::separator
 
 QComboBox
 {
-	height: 24px;
 	border: 1px solid #2B2B2B;
-	border-radius: 2px;
 	padding: 1px 3px 1px 3px;
+	padding-right: 3em;
 	background-color: #505050;
 }
 
 QComboBox::drop-down
 {
-	width: 22px;
-	border-left-width: 1px;
-	border-left-color: #242424;
-	border-left-style: solid;
+	width: 30%;
+	border-left: 1px solid #242424;
 	border-top-right-radius: 3px;
 	border-bottom-right-radius: 3px;
 }
@@ -399,11 +383,16 @@ QComboBox:focus
 
 QComboBox QAbstractItemView
 {
-	margin: 0;
+	margin-left: 0;
 	padding: 3px;
 	background: #525252;
-	border-radius: 2px;
 	border: 1px solid #282828;
+}
+
+QComboBox QAbstractItemView::item
+{
+	padding-top: 0.3em;
+	padding-bottom: 0.3em;
 }
 
 
@@ -423,7 +412,7 @@ QLineEdit,
 QSpinBox
 {
 	padding: 3px;
-	height: 24px;
+	height: 4ex;
 	border: 1px solid #2B2B2B;
 	border-radius: 2px;
 	background: #505050;
@@ -435,6 +424,11 @@ QLineEdit::focus,
 QSpinBox::focus
 {
 	border: 1px solid #e8841a;
+}
+
+QComboBoxPrivateContainer
+{
+	background: #FFFF00;
 }
 
 QTextEdit
@@ -529,16 +523,19 @@ QTabBar::tab
 	border-bottom: none;
 	border-top-left-radius: 2px;
 	border-top-right-radius: 2px;
-	min-width: 8ex;
+	min-width: 4em;
 	padding: 3px 5px 3px 5px;
-	max-height: 16px;
-	min-height: 16px;
+	/*max-height: 16px;
+	min-height: 16px;*/
+	max-height: 6ex;
+	min-height: 1ex;
+	
 }
 
 PlaylistTabBar::tab:last
 {
-	min-width: 1.5ex;
-	max-width: 1.5ex;
+	min-width: 1em;
+	max-width: 1em;
 	margin-top: 2px;
 	border-left: none;
 }
@@ -724,7 +721,7 @@ QCheckBox::indicator:disabled
 
 QPushButton
 {
-	height: 25px;
+	height: 4ex;
 	border-radius: 2px;
 }
 
@@ -849,6 +846,8 @@ QPushButton#btn_rec,
 QPushButton#btn_pause,
 QLabel#lab_rec_icon
 {
+	height: 25px;
+	width: 25px;
 	border-image: url(:/Icons/dark_bg.svg.png);
 }
 
@@ -863,26 +862,6 @@ QLabel#lab_sayonara
 	font-weight: 600;
 }
 
-
-QLabel#lab_pl_entry_title
-{
-	font-weight: 800;
-	font-size: 8pt;
-}
-
-
-QLabel#lab_pl_entry_artist, QLabel#lab_pl_entry_album
-{
-	font-size: 7pt;
-}
-
-QLabel#lab_pl_entry_time
-{
-	font-size: 7pt;
-	padding-left: 8px;
-	font-weight: 400;
-}
-
 QStackedWidget
 {
 	border: none;
@@ -891,6 +870,24 @@ QStackedWidget
 RatingLabel:focus
 {
 	border: 1px solid #e8841a;
+}
+
+QListView::item,
+QListWidget::item,
+QTableView::item,
+QTreeView::item
+{
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+
+QListView::item:selected,
+QTableView::item:selected,
+QTreeView::item:selected,
+QTreeView::branch:selected
+{
+	background: #424e72;
+/*	background: yellow;*/
 }
 
 

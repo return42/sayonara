@@ -134,7 +134,6 @@ void GUI_Player::init_gui()
 	language_changed();
 }
 
-
 void GUI_Player::language_changed()
 {
 	QString language = _settings->get(Set::Player_Language);
@@ -336,7 +335,7 @@ void GUI_Player::setup_tray_actions()
 	connect(_tray_icon, &GUI_TrayIcon::sig_wheel_changed, this, &GUI_Player::change_volume_by_tick);
 	connect(_tray_icon, &GUI_TrayIcon::activated, this, &GUI_Player::tray_icon_activated);
 	connect(_tray_icon, &QObject::destroyed, this, [=]()
-{
+	{
 		this->_tray_icon = nullptr;
 	});
 
@@ -389,6 +388,10 @@ void GUI_Player::check_library_menu_action()
 
 	LibraryPluginHandler* lph = LibraryPluginHandler::getInstance();
 	libraries = lph->get_libraries();
+	if(libraries.isEmpty()){
+		return;
+	}
+
 	library_visible = _settings->get(Set::Lib_Show);
 
 	for(LibraryContainerInterface* container : libraries)
@@ -402,14 +405,10 @@ void GUI_Player::check_library_menu_action()
 
 		if( library == container && library_visible)
 		{
-			sp_log(Log::Debug, this) << "Add menu for " << library->display_name();
 			action = menubar->insertMenu(menu_about->menuAction(), menu);
 
 			if(action){
 				action->setText(library->display_name());
-			}
-			else{
-				sp_log(Log::Debug, this) << "No success ";
 			}
 
 			library->set_menu_action(action);

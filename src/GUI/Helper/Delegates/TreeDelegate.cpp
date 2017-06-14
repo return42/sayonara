@@ -34,4 +34,3 @@ QSize TreeDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelInd
 
 	return QSize(0, 20);
 }
-

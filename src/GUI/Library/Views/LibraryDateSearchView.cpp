@@ -49,7 +49,7 @@ LibraryDateSearchView::LibraryDateSearchView(QWidget* parent) :
 
 	this->setModel(_m->model);
 	this->setSearchModel(_m->model);
-	this->setItemDelegate(new ListDelegate(this));
+	//this->setItemDelegate(new ListDelegate(this));
 }
 
 LibraryDateSearchView::~LibraryDateSearchView() {}

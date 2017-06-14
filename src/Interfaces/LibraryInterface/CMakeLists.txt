@@ -5,7 +5,7 @@ ADD_SUBDIRECTORY(LibraryContainer)
 
 SET(SOURCES
     LibraryPluginHandler.cpp
-	LibraryPluginMenu.cpp
+	LibraryPluginCombobox.cpp
 )
 
 ADD_LIBRARY(${PROJECT_NAME} STATIC ${SOURCES})

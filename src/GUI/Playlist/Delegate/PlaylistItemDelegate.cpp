@@ -35,13 +35,11 @@
 #define PLAYLIST_BOLD 70
 
 PlaylistItemDelegate::PlaylistItemDelegate(QListView* parent) :
-	QItemDelegate(parent),
+	QStyledItemDelegate(parent),
 	SayonaraClass()
 {
-	_max_width = parent->width();
 	_drag_row = -1;
 	_show_numbers = _settings->get(Set::PL_ShowNumbers);
-	_row_height = 20;
 	_entry_template = _settings->get(Set::PL_EntryLook);
 
 	REGISTER_LISTENER_NO_CALL(Set::PL_ShowNumbers, _sl_show_numbers_changed);
@@ -50,25 +48,30 @@ PlaylistItemDelegate::PlaylistItemDelegate(QListView* parent) :
 
 PlaylistItemDelegate::~PlaylistItemDelegate() {}
 
-void PlaylistItemDelegate::paint( QPainter *painter,
+void PlaylistItemDelegate::paint(QPainter *painter,
 						const QStyleOptionViewItem &option,
 						const QModelIndex &index) const
 {
-	QItemDelegate::drawBackground(painter, option, index);
-
-	if(!index.isValid()) return;
+	if(!index.isValid()) {
+		return;
+	}
 
 	painter->save();
 
 	QPalette palette = option.palette;
 	QRect rect(option.rect);
-	rect.setWidth(_max_width);
 
 	int row = index.row();
-	int y = rect.topLeft().y() +  _row_height -1;
+	int row_height = rect.height();
+	int max_width = rect.width();
+
+	int y = rect.topLeft().y() + row_height - 1;
 
 	const PlaylistItemModel* model = static_cast<const PlaylistItemModel*>(index.model());
 	const MetaData& md = model->get_md(row);
+
+	bool is_playing = md.pl_playing;
+	bool is_selected = (option.state & QStyle::State_Selected);
 
 	if(md.is_disabled)
 	{
@@ -81,16 +84,23 @@ void PlaylistItemDelegate::paint( QPainter *painter,
 		painter->setPen(pen);
 	}
 
-	if(md.pl_playing)
+	else if(is_playing || is_selected)
 	{
 		QColor col_highlight = palette.color(QPalette::Active, QPalette::Highlight);
-		col_highlight.setAlpha(160);
 
-		painter->fillRect(rect, col_highlight);
+		if(is_selected){
+			painter->fillRect(option.rect, col_highlight);
+		}
+
+		else if(is_playing)
+		{
+			col_highlight.setAlpha(160);
+			painter->fillRect(option.rect, col_highlight);
+		}
 	}
 
 	if(_drag_row == row) {
-		painter->drawLine(QLine(0, y, _max_width, y));
+		painter->drawLine(QLine(0, y, max_width, y));
 	}
 
 	QFont font = option.font;
@@ -105,6 +115,8 @@ void PlaylistItemDelegate::paint( QPainter *painter,
 	painter->translate(-4, 0);
 	font.setWeight(QFont::Normal);
 	painter->setFont(font);
+	QFontMetrics fm(font);
+	int time_width = fm.width(time_string) * 2;
 	painter->drawText(rect, Qt::AlignRight | Qt::AlignVCenter, time_string);
 	if(bold){
 		font.setWeight(PLAYLIST_BOLD);
@@ -118,21 +130,22 @@ void PlaylistItemDelegate::paint( QPainter *painter,
 	}
 
 	if(!time_string.isEmpty()){
-		rect.setWidth(rect.width() - 60);
+		QFontMetrics fm(font);
+		rect.setWidth(rect.width() - time_width);
 	}
     else {
 		rect.setWidth(rect.width() - 20);
 	}
 
 
-	for(int i=0; i<_entry_template.size(); i++){
+	for(int i=0; i<_entry_template.size(); i++)
+	{
 		bool print = (i == _entry_template.size() - 1);
 
 		QChar c = _entry_template.at(i);
 
 		if(c == '*'){
 			print = true;
-
 		}
 
 		else if(c == '\''){
@@ -181,15 +194,6 @@ void PlaylistItemDelegate::paint( QPainter *painter,
 }
 
 
-QSize PlaylistItemDelegate::sizeHint(const QStyleOptionViewItem &option,
-	                     const QModelIndex &index) const
-{
-	Q_UNUSED(option);
-	Q_UNUSED(index);
-
-	return QSize( _max_width, _row_height);
-}
-
 QWidget* PlaylistItemDelegate::createEditor(QWidget* parent,
 										   const QStyleOptionViewItem& option,
 										   const QModelIndex& index) const
@@ -202,16 +206,8 @@ QWidget* PlaylistItemDelegate::createEditor(QWidget* parent,
 }
 
 
-void PlaylistItemDelegate::set_max_width(int w) {
-	_max_width = w;
-}
-
-int PlaylistItemDelegate::get_row_height() const
+void PlaylistItemDelegate::set_drag_index(int row)
 {
-	return _row_height;
-}
-
-void PlaylistItemDelegate::set_drag_index(int row){
 	_drag_row = row;
 }
 

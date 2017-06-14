@@ -90,5 +90,6 @@
         <file>Icons/cd.png</file>
         <file>Icons/cds.png</file>
         <file>Icons/append.svg</file>
+        <file>Icons/dir_view.svg</file>
     </qresource>
 </RCC>

@@ -21,34 +21,28 @@
 #ifndef PLAYLISTITEMDELEGATE_H_
 #define PLAYLISTITEMDELEGATE_H_
 
-#include <QItemDelegate>
+#include <QStyledItemDelegate>
 
 #include "Helper/Settings/SayonaraClass.h"
 
 class QListView;
 class PlaylistItemDelegate :
-		public QItemDelegate,
+		public QStyledItemDelegate,
 		protected SayonaraClass
 {
 	Q_OBJECT
 
 public:
-	PlaylistItemDelegate(QListView *parent);
+	PlaylistItemDelegate(QListView* parent);
 	virtual ~PlaylistItemDelegate();
 
 	void paint( QPainter *painter, const QStyleOptionViewItem &option,
 						 const QModelIndex &index) const override;
 
 
-    QSize sizeHint(const QStyleOptionViewItem &option,
-						 const QModelIndex &index) const override;
-
 	QWidget* createEditor(QWidget *parent,
 						  const QStyleOptionViewItem &option,
 						  const QModelIndex &index) const override;
-
-	void set_max_width(int w);
-	int get_row_height() const;
 
 	void set_drag_index(int row);
 	bool is_drag_index(int row) const;
@@ -56,9 +50,6 @@ public:
 
 
 private:
-
-	int					_row_height;
-	int					_max_width;
 	int					_drag_row;
 	bool				_show_numbers;
 	QString				_entry_template;

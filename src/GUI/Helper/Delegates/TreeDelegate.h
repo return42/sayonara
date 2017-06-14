@@ -27,7 +27,8 @@
  * @brief The TreeDelegate class. Only used for size hinting
  * @ingroup GUIHelper
  */
-class TreeDelegate : public QItemDelegate
+class TreeDelegate :
+		public QItemDelegate
 {
 	Q_OBJECT
 
