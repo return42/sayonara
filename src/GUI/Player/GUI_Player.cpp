@@ -96,6 +96,7 @@ void GUI_Player::init_gui()
 	lab_writtenby->setText(tr("Written by") + " Lucio Carreras");
 	lab_copyright->setText(tr("Copyright") + " 2011-" + QString::number(QDateTime::currentDateTime().date().year()));
 
+	LibraryPluginHandler::getInstance()->set_library_parent(this->library_widget);
 	action_viewLibrary->setChecked(_settings->get(Set::Lib_Show));
 	action_viewLibrary->setText(Lang::get(Lang::Library));
 
@@ -376,67 +377,49 @@ void GUI_Player::tray_icon_activated (QSystemTrayIcon::ActivationReason reason)
 	}
 }
 
-
-void GUI_Player::set_libraries(LibraryPluginHandler* plugin_loader)
+void GUI_Player::current_library_changed(const QString& name)
 {
-	_lph = plugin_loader;
-
-	plugin_loader->set_library_parent(library_widget);
-	check_library_menu_action();
-
-	connect(_lph, &LibraryPluginHandler::sig_idx_changed, this, &GUI_Player::library_idx_changed);
-}
-
-
-void GUI_Player::library_idx_changed(int idx)
-{
-	Q_UNUSED(idx);
 	check_library_menu_action();
 }
-
 
 void GUI_Player::check_library_menu_action()
 {
 	QList<LibraryContainerInterface*> libraries;
 	bool library_visible;
-	int cur_idx;
 
-	if(!_lph){
-		return;
-	}
-
-	libraries = _lph->get_libraries();
+	LibraryPluginHandler* lph = LibraryPluginHandler::getInstance();
+	libraries = lph->get_libraries();
 	library_visible = _settings->get(Set::Lib_Show);
-	cur_idx = _lph->get_cur_library_idx();
 
-	for(int i=0; i<libraries.size(); i++){
-		QMenu* menu;
+	for(LibraryContainerInterface* container : libraries)
+	{
 		QAction* action;
-		LibraryContainerInterface* library;
-
-		library = libraries[i];
-		if(!library){
-			continue;
-		}
-
-		menu = library->get_menu();
+		LibraryContainerInterface* library = lph->current_library();
+		QMenu* menu = lph->current_library_menu();
 		if(!menu){
 			continue;
 		}
 
-		if(cur_idx == i && library_visible){
-			action = menubar->insertMenu(menuAbout->menuAction(), menu);
+		if( library == container && library_visible)
+		{
+			sp_log(Log::Debug, this) << "Add menu for " << library->display_name();
+			action = menubar->insertMenu(menu_about->menuAction(), menu);
 
 			if(action){
-				action->setText(library->get_display_name());
+				action->setText(library->display_name());
+			}
+			else{
+				sp_log(Log::Debug, this) << "No success ";
 			}
 
 			library->set_menu_action(action);
 		}
 
-		else {
-			action = library->get_menu_action();
+		else
+		{
+			action = container->menu_action();
 			if(action){
+				sp_log(Log::Debug, this) << "Remove menu for " << container->display_name();
 				menubar->removeAction(action);
 			}
 		}
@@ -461,8 +444,8 @@ void GUI_Player::register_player_plugin_handler(PlayerPluginHandler* pph)
 		i++;
 	}
 
-	menuView->insertActions(action_Dark, actions);
-	menuView->insertSeparator(action_Dark);
+	menu_view->insertActions(action_Dark, actions);
+	menu_view->insertSeparator(action_Dark);
 }
 
 
@@ -525,6 +508,7 @@ void GUI_Player::ui_loaded()
 
 	action_Fullscreen->setChecked(fullscreen);
 
+
 	this->setGeometry(pos.x(), pos.y(), sz.width(), sz.height());
 
 	if(fullscreen){
@@ -562,14 +546,15 @@ void GUI_Player::ui_loaded()
 
 	splitter->update();
 
-	LibraryContainerInterface* cur_interface = _lph->get_cur_library();
-	if(cur_interface){
-		QWidget* cur_library = cur_interface->get_ui();
+	LibraryPluginHandler* lph = LibraryPluginHandler::getInstance();
+	LibraryContainerInterface* current_library = lph->current_library();
+	if(current_library){
+		QWidget* current_library_widget = current_library->widget();
 
-		if(cur_library == nullptr) return;
+		if(current_library_widget == nullptr) return;
 
-		cur_library->show();
-		cur_library->resize(library_widget->size());
+		current_library_widget->show();
+		current_library_widget->resize(library_widget->size());
 	}
 
 	if(_settings->get(Set::Player_StartInTray)){
@@ -584,6 +569,8 @@ void GUI_Player::ui_loaded()
 		PlayerPluginInterface* p  = _pph->find_plugin(shown_plugin);
 		show_plugin(p);
 	}
+
+
 }
 
 

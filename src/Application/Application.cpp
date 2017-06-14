@@ -73,6 +73,7 @@
 #include "GUI/Preferences/PlayerPreferences/GUI_PlayerPreferences.h"
 #include "GUI/Preferences/PreferenceDialog/GUI_PreferenceDialog.h"
 #include "GUI/Preferences/Covers/GUI_Covers.h"
+#include "GUI/Preferences/Icons/GUI_IconPreferences.h"
 
 #include "Helper/FileHelper.h"
 #include "Helper/Helper.h"
@@ -221,6 +222,7 @@ Application::Application(int & argc, char ** argv) :
 
 bool Application::init(QTranslator* translator, const QStringList& files_to_play)
 {
+	LibraryPluginHandler* library_plugin_loader = LibraryPluginHandler::getInstance();
 	_m->db = DatabaseConnector::getInstance();
 	_m->plh = PlaylistHandler::getInstance();
 
@@ -279,7 +281,7 @@ bool Application::init(QTranslator* translator, const QStringList& files_to_play
 	QList<LibraryContainerInterface*> library_containers;
 	DirectoryLibraryContainer* directory_container = new DirectoryLibraryContainer(this);
 
-	LibraryPluginHandler* library_plugin_loader = LibraryPluginHandler::getInstance();
+
 	library_containers << static_cast<LibraryContainerInterface*>(directory_container);
 
 #ifdef Q_OS_WIN
@@ -308,12 +310,12 @@ bool Application::init(QTranslator* translator, const QStringList& files_to_play
 	preferences->register_preference_dialog(new GUI_Notifications());
 	preferences->register_preference_dialog(new GUI_RemoteControl());
 	preferences->register_preference_dialog(new GUI_LastFM());
+	preferences->register_preference_dialog(new GUI_IconPreferences());
 
 	EngineHandler::getInstance()->init();
 
 	sp_log(Log::Debug, this) << "Preference dialogs loaded: " << _m->timer->elapsed() << "ms";
 
-	_m->player->set_libraries(library_plugin_loader);
 	_m->player->register_player_plugin_handler(pph);
 	_m->player->ui_loaded();
 

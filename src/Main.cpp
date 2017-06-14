@@ -168,10 +168,11 @@ void segfault_handler(int sig)
 
 }
 
-
+#include <QScreen>
 int main(int argc, char *argv[]) 
 {
 	Application app(argc, argv);
+
 
 	QTranslator translator;
 	QString language;
@@ -220,6 +221,8 @@ int main(int argc, char *argv[])
 #ifdef Q_OS_WIN
 	Q_INIT_RESOURCE(IconsWindows);
 #endif
+
+	GUI::set_screens(app.screens());
 
 	if(!QFile::exists( Helper::sayonara_path() )) {
 		QDir().mkdir( Helper::sayonara_path() );

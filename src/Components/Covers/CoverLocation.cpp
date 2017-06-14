@@ -271,7 +271,11 @@ CoverLocation Get_cover_location(int album_id, quint8 db_id)
 	MetaDataList v_md;
 
 	DatabaseConnector* db = DatabaseConnector::getInstance();
+	// TODO: Why?
 	LibraryDatabase* lib_db = db->library_db(-1, db_id);
+	if(!lib_db){
+		return CoverLocation();
+	}
 
 	bool success = lib_db->getAlbumByID(album_id, album, true);
 

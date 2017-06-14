@@ -45,6 +45,7 @@ public:
 	void remove_library(qint8 id);
 	void move_library(int old_row, int new_row);
 
+	static QString request_library_name(const QString& path);
     QList<LibraryInfo> get_all_libraries() const;
 	LibraryInfo get_library_info(qint8 id) const;
     int count() const;

@@ -29,6 +29,8 @@
 
 #include <QtGlobal>
 
+class QFrame;
+
 namespace Ui
 {
 	class GUI_SoundcloudLibrary;
@@ -43,8 +45,8 @@ public:
 	explicit GUI_SoundCloudLibrary(SoundcloudLibrary* library, QWidget *parent=nullptr);
 	~GUI_SoundCloudLibrary();
 
-	QComboBox*	get_libchooser() const;
 	QMenu*		get_menu() const;
+	QFrame*		header_frame() const;
 
 protected:
 	Library::TrackDeletionMode show_delete_dialog(int n_tracks) override;

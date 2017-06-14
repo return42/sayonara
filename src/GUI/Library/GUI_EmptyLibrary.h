@@ -31,6 +31,7 @@ namespace Ui
 	class GUI_EmptyLibrary;
 }
 
+class QFrame;
 class GUI_EmptyLibrary :
     public QWidget
 {
@@ -42,7 +43,7 @@ public:
 	GUI_EmptyLibrary(const GUI_EmptyLibrary& other)  = delete;
 	~GUI_EmptyLibrary();
 
-	QComboBox* get_libchooser();
+	QFrame* header_frame() const;
 
 private slots:
 	void set_lib_path_clicked();

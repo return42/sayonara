@@ -27,6 +27,7 @@
 
 #include <QIcon>
 #include <QComboBox>
+#include <QPixmap>
 
 struct EmptyLibraryContainer::Private
 {
@@ -42,36 +43,22 @@ EmptyLibraryContainer::EmptyLibraryContainer(QObject* parent) :
 
 EmptyLibraryContainer::~EmptyLibraryContainer() {}
 
-QIcon EmptyLibraryContainer::get_icon() const
-{
-	return IconLoader::getInstance()->get_icon("document-new", "new");
-}
-
-QString EmptyLibraryContainer::get_name() const
+QString EmptyLibraryContainer::name() const
 {
 	return "empty-library";
 }
 
-QString EmptyLibraryContainer::get_display_name() const
+QString EmptyLibraryContainer::display_name() const
 {
 	return tr("Empty Library");
 }
 
-QWidget* EmptyLibraryContainer::get_ui() const
+QWidget* EmptyLibraryContainer::widget() const
 {
 	return static_cast<QWidget*>(_m->ui);
 }
 
-QComboBox* EmptyLibraryContainer::get_libchooser()
-{
-	if(_m->ui){
-		return _m->ui->get_libchooser();
-	}
-
-	return nullptr;
-}
-
-QMenu*EmptyLibraryContainer::get_menu()
+QMenu*EmptyLibraryContainer::menu()
 {
 	return nullptr;
 }
@@ -79,4 +66,15 @@ QMenu*EmptyLibraryContainer::get_menu()
 void EmptyLibraryContainer::init_ui()
 {
 	_m->ui = new GUI_EmptyLibrary();
+}
+
+
+QFrame* EmptyLibraryContainer::header() const
+{
+	return _m->ui->header_frame();
+}
+
+QPixmap EmptyLibraryContainer::icon() const
+{
+	return IconLoader::getInstance()->get_icon("document-new", "new").pixmap(32, 32);
 }

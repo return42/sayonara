@@ -129,15 +129,12 @@
    <item row="0" column="0">
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QComboBox" name="combo_lib_chooser">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
+      <widget class="QFrame" name="header_frame">
+       <property name="frameShape">
+        <enum>QFrame::StyledPanel</enum>
        </property>
-       <property name="focusPolicy">
-        <enum>Qt::TabFocus</enum>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
        </property>
       </widget>
      </item>
@@ -669,7 +666,6 @@
   </customwidget>
  </customwidgets>
  <tabstops>
-  <tabstop>combo_lib_chooser</tabstop>
   <tabstop>lv_artist</tabstop>
   <tabstop>lv_album</tabstop>
   <tabstop>tb_title</tabstop>

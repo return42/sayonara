@@ -28,6 +28,7 @@
 #include <QList>
 #include <QObject>
 
+class QMenu;
 class LibraryInfo;
 class LibraryContainerInterface;
 /**
@@ -43,7 +44,8 @@ class LibraryPluginHandler :
 	SINGLETON(LibraryPluginHandler)
 
 signals:
-	void sig_idx_changed(int);
+	void sig_initialized();
+	void sig_current_library_changed(const QString& name);
 
 private:
 	/**
@@ -51,7 +53,7 @@ private:
 	 * or when the index has changed
 	 * @param idx
 	 */
-	void init_library(int idx);
+	void init_library(LibraryContainerInterface* container);
 
 
 public:
@@ -67,6 +69,8 @@ public:
 	 */
 	void set_library_parent(QWidget* parent);
 
+	void set_current_library(const QString& name);
+
 
 	/**
 	 * @brief Get a list for all found plugins. The ui is not necessarily initialized
@@ -74,40 +78,15 @@ public:
 	 */
 	QList<LibraryContainerInterface*> get_libraries() const;
 
-	/**
-	 * @brief Get the current selected (and shown) library
-	 * @return current library, on failure nullptr
-	 */
-	LibraryContainerInterface* get_cur_library() const;
-
-	/**
-	 * @brief Get the current index of the library (indicated by current index
-	 * in dropdown
-	 * @return current library index
-	 */
-	int get_cur_library_idx() const;
-
-
-	void add_local_library(const LibraryInfo& library, int idx);
+	void add_local_library(const LibraryInfo& library);
 	void rename_local_library(qint8 library_id, const QString& new_name);
 	void remove_local_library(qint8 library_id);
 	void move_local_library(int old_row, int new_row);
 
-	void remove_index(int idx);
-	void set_current_index(int idx);
+	LibraryContainerInterface* current_library() const;
+	QMenu* current_library_menu() const;
 
-
-private slots:
-	/**
-	 * @brief triggered, when the index on of the comboboxes has changed
-	 * @param idx new library index
-	 */
-	void index_changed(int idx);
-
-	/**
-	 * @brief language has changed. Translate all comboboxes
-	 */
-	void language_changed();
+	static bool is_local_library(const LibraryContainerInterface* container);
 };
 
 #endif // LIBRARYPLUGINLOADER_H

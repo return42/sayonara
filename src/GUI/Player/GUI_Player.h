@@ -61,8 +61,6 @@ public:
 	explicit GUI_Player(QTranslator* translator, QWidget *parent=nullptr);
     ~GUI_Player();
 
-	void set_libraries(LibraryPluginHandler* plugin_loader);
-
 	void register_player_plugin_handler(PlayerPluginHandler* pph);
 	void register_preference_dialog(PreferenceDialogInterface* dialog);
 
@@ -72,7 +70,6 @@ public:
 
 private:
 	PlayerPluginHandler*		_pph=nullptr;
-	LibraryPluginHandler*		_lph=nullptr;
 
 #ifdef WITH_MTP
 	GUI_MTP*					_mtp=nullptr;
@@ -88,6 +85,8 @@ private:
 	GUI_Logger*					_logger=nullptr;
 
 	MetaData					_md;
+
+	QList<QAction*>				_library_actions;
 
 
 private:
@@ -164,7 +163,7 @@ private slots:
 
 	void main_splitter_moved(int pos, int idx);
 
-	void library_idx_changed(int idx);
+	void current_library_changed(const QString& name);
 	void check_library_menu_action();
 
 	void about();

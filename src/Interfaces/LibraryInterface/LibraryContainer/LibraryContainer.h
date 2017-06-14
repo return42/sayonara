@@ -25,8 +25,9 @@
 #include "Helper/Pimpl.h"
 #include "Helper/Settings/SayonaraClass.h"
 
+class QFrame;
 class QAction;
-class QIcon;
+class QPixmap;
 class QMenu;
 class QWidget;
 class QComboBox;
@@ -59,42 +60,33 @@ public:
 	virtual ~LibraryContainerInterface();
 
 	/**
-	 * @brief Should return the icon displayed in the library view combobox
-	 * @return QIcon instance
-	 */
-	virtual QIcon				get_icon() const=0;
-
-
-	/**
 	 * @brief Should return an untranslated name used for identifying this widget
 	 * @return name
 	 */
-	virtual QString				get_name() const=0;
+	virtual QString				name() const=0;
 
 	/**
 	 * @brief Should return the translated name displayed in the library view combobox
 	 * @return display name
 	 */
-	virtual QString				get_display_name() const;
+	virtual QString				display_name() const;
 
 	/**
 	 * @brief Should return the UI for the library view
 	 * @return pointer to the ui
 	 */
-	virtual QWidget*			get_ui() const=0;
+	virtual QWidget*			widget() const=0;
 
-	/**
-	 * @brief Should return the library chooser combo box
-	 * @return pointer to the combobox
-	 */
-	virtual QComboBox*			get_libchooser()=0;
+	virtual QFrame*				header() const=0;
+
+	virtual QPixmap				icon() const=0;
 
 
 	/**
 	 * @brief return actions menu (may be nullptr). The title does not have to be set
 	 * @return the translated menu relevant for the corresponding library
 	 */
-	virtual QMenu*				get_menu();
+	virtual QMenu*				menu();
 
 
 	/**
@@ -108,7 +100,7 @@ public:
 	 * @brief get the action in the player menubar.
 	 * @return pointer to action field
 	 */
-	QAction*					get_menu_action() const;
+	QAction*					menu_action() const;
 
 	
 	/**
@@ -116,12 +108,15 @@ public:
 	 */
 	virtual void				init_ui()=0;
 
-
 	/**
 	 * @brief tests, if the ui already has been initialized
 	 * @return true if ui has been initialized, false else
 	 */
 	bool						is_initialized() const;
+
+
+
+
 };
 
 Q_DECLARE_INTERFACE(LibraryContainerInterface, "com.sayonara-player.library")

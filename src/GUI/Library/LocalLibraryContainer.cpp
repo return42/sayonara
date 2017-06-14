@@ -50,35 +50,25 @@ LocalLibraryContainer::~LocalLibraryContainer()
 	}
 }
 
-QString LocalLibraryContainer::get_name() const
+QString LocalLibraryContainer::name() const
 {
-	QString name = get_display_name();
+	QString name = display_name();
 	name = name.toLower();
 	name.replace(" ", "-");
 	return name;
 }
 
-QString LocalLibraryContainer::get_display_name() const
+QString LocalLibraryContainer::display_name() const
 {
 	return _m->name;
 }
 
-QIcon LocalLibraryContainer::get_icon() const
-{
-	return GUI::get_icon("append");
-}
-
-QWidget* LocalLibraryContainer::get_ui() const
+QWidget* LocalLibraryContainer::widget() const
 {
 	return static_cast<QWidget*>(_m->ui);
 }
 
-QComboBox* LocalLibraryContainer::get_libchooser()
-{
-	return _m->ui->get_libchooser();
-}
-
-QMenu*LocalLibraryContainer::get_menu()
+QMenu*LocalLibraryContainer::menu()
 {
 	if(_m->ui){
 		return _m->ui->get_menu();
@@ -100,4 +90,14 @@ qint8 LocalLibraryContainer::get_id()
 void LocalLibraryContainer::set_name(const QString& name)
 {
 	_m->name = name;
+}
+
+QFrame* LocalLibraryContainer::header() const
+{
+	return _m->ui->header_frame();
+}
+
+QPixmap LocalLibraryContainer::icon() const
+{
+	return GUI::get_pixmap("append.svg");
 }

@@ -51,9 +51,9 @@ GUI_EmptyLibrary::GUI_EmptyLibrary(QWidget* parent) :
 
 GUI_EmptyLibrary::~GUI_EmptyLibrary() {}
 
-QComboBox* GUI_EmptyLibrary::get_libchooser()
+QFrame* GUI_EmptyLibrary::header_frame() const
 {
-	return ui->combo_libchooser;
+	return ui->header_frame;
 }
 
 void GUI_EmptyLibrary::set_lib_path_clicked()
@@ -73,11 +73,12 @@ void GUI_EmptyLibrary::set_lib_path_clicked()
 	}
 
 	LibraryManager* lib_manager = LibraryManager::getInstance();
-	qint8 id = lib_manager->add_library(tr("Local Library"), dir);
+	QString name = LibraryManager::request_library_name(dir);
+
+	qint8 id = lib_manager->add_library(name, dir);
 	LocalLibrary* library = lib_manager->get_library_instance(id);
 
 	library->psl_reload_library(false, Library::ReloadQuality::Accurate);
 
-	LibraryPluginHandler::getInstance()->set_current_index(0);
-	LibraryPluginHandler::getInstance()->remove_index(1);
+	//LibraryPluginHandler::getInstance()->set_current_index(0);
 }

@@ -114,10 +114,9 @@ GUI_DirectoryWidget::~GUI_DirectoryWidget()
 	}
 }
 
-
-QComboBox* GUI_DirectoryWidget::get_libchooser()
+QFrame* GUI_DirectoryWidget::header_frame() const
 {
-	return ui->combo_libchooser;
+	return ui->header_frame;
 }
 
 

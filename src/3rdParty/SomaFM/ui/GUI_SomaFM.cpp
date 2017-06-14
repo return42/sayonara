@@ -92,10 +92,9 @@ GUI_SomaFM::~GUI_SomaFM()
 	}
 }
 
-
-QComboBox* GUI_SomaFM::get_libchooser() const
+QFrame* GUI_SomaFM::header_frame() const
 {
-	return ui->combo_lib_chooser;
+	return ui->header_frame;
 }
 
 void GUI_SomaFM::stations_loaded(const QList<SomaFMStation>& stations)

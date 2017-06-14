@@ -39,11 +39,11 @@ public:
 	explicit DirectoryLibraryContainer(QObject* parent=nullptr);
 	virtual ~DirectoryLibraryContainer();
 
-	QIcon				get_icon() const override;
-	QString				get_display_name() const override;
-	QString				get_name() const override;
-	QWidget*			get_ui() const override;
-	QComboBox*			get_libchooser() override;
+	QString				display_name() const override;
+	QString				name() const override;
+	QWidget*			widget() const override;
+	QFrame*				header() const override;
+	QPixmap				icon() const override;
 	void				init_ui() override;
 };
 

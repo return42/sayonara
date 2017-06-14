@@ -216,9 +216,13 @@ bool SettingRegistry::init()
 
 	register_setting( Set::Cover_Server, "cover_server", QStringList());
 
+	register_setting( Set::Icon_Theme, "icon_theme", QString());
+
 	register_setting( SetNoDB::MP3enc_found, true );
 	register_setting( SetNoDB::Pitch_found, true );
 	register_setting( SetNoDB::Player_Quit, false );
+
+
 
 	bool success = settings->check_settings();
 	if (!success){

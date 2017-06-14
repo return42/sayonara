@@ -27,6 +27,8 @@
 #include <QStringList>
 #include <QByteArray>
 #include <QPoint>
+#include <QSize>
+#include <QRect>
 
 #include <ostream>
 #include <iostream>
@@ -84,6 +86,8 @@ void Logger::register_log_listener(LogListener* log_listener)
 {
 	log_listeners << log_listener;
 }
+
+
 
 std::ostream& Logger::out()
 {
@@ -160,6 +164,21 @@ Logger& Logger::operator << (const QByteArray& arr)
 Logger& Logger::operator << (const char* str)
 {
 	_m->buffer << str;
+	return *this;
+}
+
+Logger&Logger::operator <<(const QRect& rect)
+{
+	(*this) << "Rect("	<< rect.x() << "," << rect.y()
+						<< " : "
+						<< rect.width() << "x" << rect.height()
+						<< ")";
+	return *this;
+}
+
+Logger&Logger::operator <<(const QSize& size)
+{
+	(*this) << "Size(" << size.width() << "x" << size.height() << ")";
 	return *this;
 }
 

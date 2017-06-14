@@ -26,6 +26,7 @@
 #include "Helper/MetaData/MetaDataFwd.h"
 #include "Helper/Pimpl.h"
 
+class QFrame;
 class QComboBox;
 namespace Ui { class GUI_DirectoryWidget; }
 
@@ -40,8 +41,7 @@ public:
 	explicit GUI_DirectoryWidget(QWidget *parent = 0);
 	virtual ~GUI_DirectoryWidget();
 
-	QComboBox*	get_libchooser();
-	void init();
+	QFrame* header_frame() const;
 
 
 private:

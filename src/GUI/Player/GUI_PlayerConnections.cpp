@@ -28,6 +28,7 @@
 #include "GUI/Helper/Shortcuts/ShortcutHandler.h"
 #include "Helper/Language.h"
 #include "Helper/MetaData/MetaDataList.h"
+#include "Interfaces/LibraryInterface/LibraryPluginHandler.h"
 
 #ifdef WITH_MTP
 	#include "GUI/MTP/GUI_MTP.h"
@@ -35,6 +36,15 @@
 
 void GUI_Player::setup_connections()
 {
+
+	LibraryPluginHandler* lph = LibraryPluginHandler::getInstance();
+
+	connect(lph, &LibraryPluginHandler::sig_current_library_changed,
+			this, &GUI_Player::current_library_changed);
+
+	connect(lph, &LibraryPluginHandler::sig_initialized,
+			this, &GUI_Player::check_library_menu_action);
+
 	connect(btn_play,	&QPushButton::clicked,	this, &GUI_Player::play_clicked);
 	connect(btn_fw,		&QPushButton::clicked,	this, &GUI_Player::next_clicked);
 	connect(btn_bw,		&QPushButton::clicked,	this, &GUI_Player::prev_clicked);

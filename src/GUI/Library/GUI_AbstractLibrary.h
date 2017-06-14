@@ -31,13 +31,12 @@
 #include "Helper/MetaData/MetaDataFwd.h"
 #include "Helper/SetFwd.h"
 
-#include <QPoint>
 #include <QComboBox>
+#include <QPoint>
 #include <QAbstractItemView>
 
 class QItemDelegate;
 class QPushButton;
-class QComboBox;
 class AbstractLibrary;
 class LibraryTableView;
 class LibraryViewAlbum;
@@ -80,7 +79,6 @@ protected:
 	virtual Library::TrackDeletionMode show_delete_dialog(int n_tracks)=0;
 
 private:
-	QComboBox*			_combo_libchooser = nullptr;
 	LibraryTableView*	_lv_artist = nullptr;
 	LibraryViewAlbum*	_lv_album = nullptr;
 	LibraryTableView*	_lv_tracks = nullptr;
@@ -159,7 +157,6 @@ protected:
 		UI* ui_ptr = *ui;
 		ui_ptr->setupUi(subclass);
 
-		_combo_libchooser = ui_ptr->combo_lib_chooser;
 		_lv_artist = ui_ptr->lv_artist;
 		_lv_album = ui_ptr->lv_album;
 		_lv_tracks = ui_ptr->tb_title;

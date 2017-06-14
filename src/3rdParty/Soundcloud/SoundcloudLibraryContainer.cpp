@@ -24,6 +24,7 @@
 #include "ui/GUI_SoundcloudLibrary.h"
 #include "src/SoundcloudLibrary.h"
 
+#include <QPixmap>
 
 SoundcloudLibraryContainer::SoundcloudLibraryContainer(QObject *parent) :
 	LibraryContainerInterface(parent)
@@ -33,37 +34,22 @@ SoundcloudLibraryContainer::SoundcloudLibraryContainer(QObject *parent) :
 
 SoundcloudLibraryContainer::~SoundcloudLibraryContainer() {}
 
-QString SoundcloudLibraryContainer::get_name() const
+QString SoundcloudLibraryContainer::name() const
 {
 	return "soundcloud";
 }
 
-QString SoundcloudLibraryContainer::get_display_name() const
+QString SoundcloudLibraryContainer::display_name() const
 {
 	return "Soundcloud";
 }
 
-QIcon SoundcloudLibraryContainer::get_icon() const
-{
-	return QIcon(":/sc_icons/ui/icon.png");
-}
-
-
-QWidget* SoundcloudLibraryContainer::get_ui() const
+QWidget* SoundcloudLibraryContainer::widget() const
 {
 	return static_cast<QWidget*>(ui);
 }
 
-QComboBox* SoundcloudLibraryContainer::get_libchooser()
-{
-	if(ui){
-		return ui->get_libchooser();
-	}
-
-	return nullptr;
-}
-
-QMenu* SoundcloudLibraryContainer::get_menu()
+QMenu* SoundcloudLibraryContainer::menu()
 {
 	if(ui){
 		return ui->get_menu();
@@ -78,3 +64,12 @@ void SoundcloudLibraryContainer::init_ui()
 	ui = new GUI_SoundCloudLibrary(library);
 }
 
+QFrame* SoundcloudLibraryContainer::header() const
+{
+	return ui->header_frame();
+}
+
+QPixmap SoundcloudLibraryContainer::icon() const
+{
+	return QPixmap(":/sc_icons/ui/icon.png");
+}

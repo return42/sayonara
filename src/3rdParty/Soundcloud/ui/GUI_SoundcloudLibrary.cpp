@@ -69,15 +69,14 @@ GUI_SoundCloudLibrary::~GUI_SoundCloudLibrary()
 }
 
 
-QComboBox* GUI_SoundCloudLibrary::get_libchooser() const
-{
-	return ui->combo_lib_chooser;
-}
-
-
 QMenu* GUI_SoundCloudLibrary::get_menu() const
 {
 	return _m->library_menu;
+}
+
+QFrame* GUI_SoundCloudLibrary::header_frame() const
+{
+	return ui->header_frame;
 }
 
 Library::TrackDeletionMode GUI_SoundCloudLibrary::show_delete_dialog(int n_tracks){

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>GUI_IconPreferences</class>
+ <widget class="QWidget" name="GUI_IconPreferences">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>551</width>
+    <height>407</height>
+   </rect>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <property name="verticalSpacing">
+    <number>10</number>
+   </property>
+   <item row="2" column="0">
+    <widget class="Line" name="line">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QScrollArea" name="scroll_area">
+     <property name="widgetResizable">
+      <bool>true</bool>
+     </property>
+     <widget class="QWidget" name="scroll_area_widget">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>533</width>
+        <height>349</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_2"/>
+     </widget>
+    </widget>
+   </item>
+   <item row="0" column="0">
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>These settings do not apply for the dark theme</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

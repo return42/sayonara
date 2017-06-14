@@ -21,6 +21,7 @@
 #ifndef ICON_LOADER_H_
 #define ICON_LOADER_H_
 
+#include <QObject>
 #include "Helper/Singleton.h"
 #include "Helper/Pimpl.h"
 
@@ -28,24 +29,30 @@ class Settings;
 class QString;
 class QStringList;
 class QIcon;
+class QPixmap;
 
 /**
  * @brief The IconLoader class
  * @ingroup GUIHelper
  */
-class IconLoader
+class IconLoader :
+		public QObject
 {
+	Q_OBJECT
 	SINGLETON(IconLoader)
 	PIMPL(IconLoader)
 
 private:
-		QStringList load_ancestors(const QString& index_theme_file);
+	QStringList load_ancestors(const QString& index_theme_file);
+
+private slots:
+	void icon_theme_changed();
 
 public:
-		void add_icon_names(const QStringList& icon_names);
-		QIcon get_icon(const QString& name, const QString& dark_name);
-		QIcon get_icon(const QStringList& names, const QString& dark_name);
-		bool has_std_icon(const QString& name) const;
+	void add_icon_names(const QStringList& icon_names);
+	QIcon get_icon(const QString& name, const QString& dark_name);
+	QIcon get_icon(const QStringList& names, const QString& dark_name);
+	bool has_std_icon(const QString& name) const;
 };
 
 #endif

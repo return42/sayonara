@@ -51,12 +51,12 @@ LibraryContainerInterface::LibraryContainerInterface(QObject* parent) :
 
 LibraryContainerInterface::~LibraryContainerInterface() {}
 
-QString LibraryContainerInterface::get_display_name() const
+QString LibraryContainerInterface::display_name() const
 {
-	return get_name();
+	return name();
 }
 
-QMenu* LibraryContainerInterface::get_menu()
+QMenu* LibraryContainerInterface::menu()
 {
 	return nullptr;
 }
@@ -66,7 +66,7 @@ void LibraryContainerInterface::set_menu_action(QAction* action)
 	_m->action = action;
 }
 
-QAction* LibraryContainerInterface::get_menu_action() const
+QAction* LibraryContainerInterface::menu_action() const
 {
 	return _m->action;
 }
@@ -85,7 +85,7 @@ bool LibraryContainerInterface::is_initialized() const
 void LibraryContainerInterface::language_changed()
 {
 	if(_m->action){
-		_m->action->setText(this->get_display_name());
+		_m->action->setText(this->display_name());
 	}
 }
 

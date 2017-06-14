@@ -33,32 +33,22 @@ SomaFMLibraryContainer::SomaFMLibraryContainer(QObject* parent) :
 
 SomaFMLibraryContainer::~SomaFMLibraryContainer() {}
 
-QString SomaFMLibraryContainer::get_name() const
+QString SomaFMLibraryContainer::name() const
 {
 	return "SomaFM";
 }
 
-QString SomaFMLibraryContainer::get_display_name() const
+QString SomaFMLibraryContainer::display_name() const
 {
 	return "SomaFM";
 }
 
-QIcon SomaFMLibraryContainer::get_icon() const
-{
-	return QIcon(":/soma_icons/soma.png");
-}
-
-QWidget* SomaFMLibraryContainer::get_ui() const
+QWidget* SomaFMLibraryContainer::widget() const
 {
 	return ui;
 }
 
-QComboBox* SomaFMLibraryContainer::get_libchooser()
-{
-	return ui->get_libchooser();
-}
-
-QMenu* SomaFMLibraryContainer::get_menu()
+QMenu* SomaFMLibraryContainer::menu()
 {
 	return nullptr;
 }
@@ -68,3 +58,12 @@ void SomaFMLibraryContainer::init_ui()
 	ui = new GUI_SomaFM(nullptr);
 }
 
+QPixmap SomaFMLibraryContainer::icon() const
+{
+	return QPixmap(":/soma_icons/soma.png");
+}
+
+QFrame* SomaFMLibraryContainer::header() const
+{
+	return ui->header_frame();
+}

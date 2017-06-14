@@ -4,6 +4,7 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 SET(SOURCES
     Broadcast/GUI_BroadcastSetup.cpp
     Fonts/GUI_FontConfig.cpp
+	Icons/GUI_IconPreferences.cpp
     Language/GUI_LanguageChooser.cpp
     LastFM/GUI_LastFM.cpp
     LibraryPreferences/GUI_LibraryPreferences.cpp
@@ -23,6 +24,7 @@ SET(SOURCES
 QT5_WRAP_UI(UI_FILES
     Broadcast/GUI_BroadcastSetup.ui
     Fonts/GUI_FontConfig.ui
+	Icons/GUI_IconPreferences.ui
     Language/GUI_LanguageChooser.ui
     LastFM/GUI_LastFM.ui
     LibraryPreferences/GUI_LibraryPreferences.ui

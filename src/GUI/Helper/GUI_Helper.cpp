@@ -29,7 +29,11 @@
 #include <QString>
 #include <QPixmap>
 #include <QMainWindow>
+#include <QPoint>
+#include <QScreen>
 
+static QPoint _current_pos;
+static QList<QScreen*> _screens;
 
 QIcon GUI::get_icon(const QString& icon_name){
 	QString path;
@@ -48,16 +52,21 @@ QIcon GUI::get_icon(const QString& icon_name){
 
 	QIcon icon = QIcon(path);
 	if(icon.isNull()){
-		sp_log(Log::Warning) << "Icon " << path << " does not exist";
+		sp_log(Log::Warning, "GUI_Helper") << "Icon " << path << " does not exist";
 	}
 
 	return icon;
 }
 
-QPixmap GUI::get_pixmap(const QString& icon_name, QSize sz, bool keep_aspect){
+QPixmap GUI::get_pixmap(const QString& icon_name, QSize sz, bool keep_aspect)
+{
 	QString path = QString(":/Icons/") + icon_name;
 	if(path.endsWith(".png")){
 		// alles paletti
+	}
+
+	else if(path.endsWith(".svg")){
+
 	}
 
 	else if(!path.endsWith(".svg.png")){
@@ -67,7 +76,7 @@ QPixmap GUI::get_pixmap(const QString& icon_name, QSize sz, bool keep_aspect){
 	QPixmap pixmap(path);
 
 	if(pixmap.isNull()){
-		sp_log(Log::Warning) << "Pixmap " << path << " does not exist";
+		sp_log(Log::Warning, "GUI_Helper") << "Pixmap " << path << " does not exist";
 	}
 
 	if(sz.width() == 0){
@@ -145,3 +154,68 @@ QString GUI::elide_text(const QString &text, QWidget *widget, int max_lines)
 	return final_str;
 }
 
+
+void GUI::set_current_position(const QPoint& pos)
+{
+	_current_pos = pos;
+}
+
+void GUI::set_screens(const QList<QScreen*>& screens)
+{
+	_screens = screens;
+}
+
+int GUI::move_widget(const QPoint& pos, QWidget* widget)
+{
+	int y_difference = 0;
+	sp_log(Log::Debug, "GUI_Helper") << "Evaluating point at " << pos;
+	QScreen* current_screen = nullptr;
+	QScreen* left_screen=nullptr;
+	QRect current_geo, left_screen_geo;
+	for(QScreen* screen : _screens){
+		QRect geo  =screen->geometry();
+		sp_log(Log::Debug, "GUI_Helper") << "Screen geo: " << geo;
+		if(pos.x() > geo.x() &&
+		   pos.x() < geo.x() + geo.width() &&
+		   pos.y() > geo.y() &&
+		   pos.y() < geo.y() + geo.height())
+		{
+			sp_log(Log::Debug, "GUI_Helper") << "This is the current screen";
+			current_screen = screen;
+			current_geo = geo;
+		}
+
+		if(geo.x() == 0){
+			sp_log(Log::Debug, "GUI_Helper") << "This is the left screen";
+			left_screen = screen;
+			left_screen_geo = geo;
+		}
+	}
+
+	bool is_left_screen = (current_geo.x() == 0);
+	bool is_top_screen = (current_geo.y() == 0);
+
+	sp_log(Log::Debug, "GUI_Helper") << "Left screen? " << is_left_screen;
+	sp_log(Log::Debug, "GUI_Helper") << "Top screen? " << is_top_screen;
+
+
+	if(!is_left_screen && is_top_screen)
+	{
+
+		sp_log(Log::Debug, "GUI_Helper") << "Found difference " << y_difference;
+
+		y_difference = left_screen_geo.y() - pos.y();
+		if(pos.y() > 0 && (y_difference > 0)){
+
+
+			//widget->move(0, -y_difference);
+			sp_log(Log::Debug, "GUI_Helper") << "Will move widget by " << y_difference;
+		}
+
+		else {
+			y_difference = 0;
+		}
+	}
+
+	return y_difference;
+}

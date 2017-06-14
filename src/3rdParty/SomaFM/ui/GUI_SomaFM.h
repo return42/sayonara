@@ -30,6 +30,7 @@
 class SomaFMStation;
 class SomaFMLibrary;
 class QComboBox;
+class QFrame;
 
 namespace Ui
 {
@@ -50,8 +51,7 @@ public:
 	explicit GUI_SomaFM(QWidget *parent = 0);
 	~GUI_SomaFM();
 
-	QComboBox*	get_libchooser() const;
-
+	QFrame* header_frame() const;
 
 private slots:
 	void stations_loaded(const QList<SomaFMStation>& stations);

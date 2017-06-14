@@ -133,15 +133,14 @@ GUI_LocalLibrary::~GUI_LocalLibrary()
 	}
 }
 
-
-QComboBox* GUI_LocalLibrary::get_libchooser() const
-{
-	return ui->combo_lib_chooser;
-}
-
 QMenu* GUI_LocalLibrary::get_menu() const
 {
 	return _m->library_menu;
+}
+
+QFrame* GUI_LocalLibrary::header_frame() const
+{
+	return ui->header_frame;
 }
 
 void GUI_LocalLibrary::showEvent(QShowEvent* e)

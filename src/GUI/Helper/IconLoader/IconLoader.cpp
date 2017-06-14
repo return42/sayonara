@@ -37,6 +37,24 @@ struct IconLoader::Private
 	QStringList				theme_paths;
 	QMap<QString, QIcon> 	icons;
 	Settings*				settings=nullptr;
+
+	Private()
+	{
+		QString t = Settings::getInstance()->get(Set::Icon_Theme);
+
+		settings = Settings::getInstance();
+		theme_paths = QIcon::themeSearchPaths();
+
+		if(t.isEmpty()) {
+			theme = QIcon::themeName();
+		}
+
+		else {
+			theme = t;
+		}
+
+		QIcon::setThemeName(theme);
+	}
 };
 
 #ifdef Q_OS_WIN
@@ -47,12 +65,10 @@ struct IconLoader::Private
 	}
 #endif
 
-IconLoader::IconLoader()
+IconLoader::IconLoader() :
+	QObject()
 {
 	_m = Pimpl::make<Private>();
-	_m->theme = QIcon::themeName();
-	_m->theme_paths = QIcon::themeSearchPaths();
-	_m->settings = Settings::getInstance();
 
 #ifndef Q_OS_WIN
 	for(const QString& theme_path : _m->theme_paths)
@@ -67,13 +83,18 @@ IconLoader::IconLoader()
 	}
 #endif
 
+	QIcon::setThemeSearchPaths(_m->theme_paths);
 	sp_log(Log::Debug, this) << "Theme paths " << _m->theme_paths;
+
+	REGISTER_LISTENER(Set::Icon_Theme, icon_theme_changed);
 }
 
 IconLoader::~IconLoader() {}
 
 QStringList IconLoader::load_ancestors(const QString &index_theme_file)
 {
+	return QStringList();
+
 	QFile f(index_theme_file);
 	if(!f.open(QFile::ReadOnly)){
 		return QStringList();
@@ -83,7 +104,8 @@ QStringList IconLoader::load_ancestors(const QString &index_theme_file)
 
 	QStringList ancestor_list;
 
-	while(f.canReadLine()){
+	while(f.canReadLine())
+	{
 		QByteArray arr = f.readLine();
 		QString line = QString::fromLocal8Bit(arr);
 		QString ancestors;
@@ -107,6 +129,11 @@ QStringList IconLoader::load_ancestors(const QString &index_theme_file)
 	return ancestor_list;
 }
 
+void IconLoader::icon_theme_changed()
+{
+	_m->icons.clear();
+}
+
 
 void IconLoader::add_icon_names(const QStringList& icon_names)
 {
@@ -128,6 +155,7 @@ void IconLoader::add_icon_names(const QStringList& icon_names)
 		for(const QString& theme_path : _m->theme_paths){
 			bool found = false;
 			QString full_theme_path = theme_path + "/" + _m->theme;
+			//QString full_theme_path = theme_path;
 
 
 			QDir full_theme_dir(full_theme_path);
@@ -225,7 +253,6 @@ QIcon IconLoader::get_icon(const QStringList& names, const QString& dark_name){
 
 	return GUI::get_icon(dark_name);
 }
-
 
 bool IconLoader::has_std_icon(const QString& name) const
 {

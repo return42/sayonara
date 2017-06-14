@@ -24,37 +24,43 @@
 #include "GUI/Helper/IconLoader/IconLoader.h"
 #include "Helper/Language.h"
 
+#include <QIcon>
+#include <QPixmap>
+
 DirectoryLibraryContainer::DirectoryLibraryContainer(QObject* parent) :
 	LibraryContainerInterface(parent) {}
 
 DirectoryLibraryContainer::~DirectoryLibraryContainer() {}
 
-QString DirectoryLibraryContainer::get_name() const
+QString DirectoryLibraryContainer::name() const
 {
 	return "directories";
 }
 
-QString DirectoryLibraryContainer::get_display_name() const
+QString DirectoryLibraryContainer::display_name() const
 {
 	return Lang::get(Lang::Directories);
 }
 
-QIcon DirectoryLibraryContainer::get_icon() const
-{
-	return IconLoader::getInstance()->get_icon("folder", "folder");
-}
-
-QWidget* DirectoryLibraryContainer::get_ui() const
+QWidget* DirectoryLibraryContainer::widget() const
 {
 	return static_cast<QWidget*>(ui);
-}
-
-QComboBox*DirectoryLibraryContainer::get_libchooser()
-{
-	return ui->get_libchooser();
 }
 
 void DirectoryLibraryContainer::init_ui()
 {
 	ui = new GUI_DirectoryWidget(nullptr);
+}
+
+
+QFrame* DirectoryLibraryContainer::header() const
+{
+	return ui->header_frame();
+}
+
+QPixmap DirectoryLibraryContainer::icon() const
+{
+	QIcon icon = IconLoader::getInstance()->get_icon("folder", "folder");
+
+	return icon.pixmap(32,32);
 }

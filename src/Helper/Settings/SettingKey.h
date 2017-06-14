@@ -149,7 +149,6 @@ namespace SK {
 	Engine_SR_SessionPath,
 	Engine_SR_AutoRecord,
 
-
 	Spectrum_Style,
 	Level_Style,
 
@@ -168,6 +167,7 @@ namespace SK {
 	Lyrics_Server,
 
 	Cover_Server,
+	Icon_Theme,
 
 	Num_Setting_Keys
     };
@@ -316,9 +316,8 @@ namespace Set
     INST(int,				Lyrics_Zoom);				/* Zoom factor in lyrics window */
     INST(QString,			Lyrics_Server);				/* Lyrics server */
 
-    INST(QStringList,			Cover_Server);				/* Cover server */
-
-
+	INST(QStringList,		Cover_Server);				/* Cover server */
+	INST(QString,			Icon_Theme);				/* Current icon theme */
 }
 
 namespace SetNoDB

@@ -33,7 +33,6 @@
 SoundcloudData::SoundcloudData() :
 	LibraryDatabase("soundcloud.db", 1, -1)
 {
-
 }
 
 SoundcloudData::~SoundcloudData() {}

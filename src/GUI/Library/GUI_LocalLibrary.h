@@ -37,6 +37,7 @@ class GUI_ImportFolder;
 class LocalLibraryMenu;
 class AlbumCoverView;
 class AlbumCoverModel;
+class QLabel;
 
 namespace Ui { class GUI_LocalLibrary; }
 
@@ -51,8 +52,8 @@ public:
 	explicit GUI_LocalLibrary(int id, QWidget* parent=nullptr);
 	virtual ~GUI_LocalLibrary();
 
-	QComboBox*	get_libchooser() const;
 	QMenu*		get_menu() const;
+	QFrame*		header_frame() const;
 
 
 protected:

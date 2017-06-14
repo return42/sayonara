@@ -350,6 +350,18 @@ LibraryDatabase* DatabaseConnector::library_db(qint8 library_id, quint8 db_id)
 		}
 	}
 
-	sp_log(Log::Debug, this) << "Could not find db with ID=" << db_id << " and LibraryID= " << library_id;
+	sp_log(Log::Debug, this) << "Could not find Library:"
+								" DB ID = " << (int) db_id
+							 << " LibraryID = " << (int) library_id;
+
+	sp_log(Log::Develop, this) << "Available Libraries:";
+	for(LibraryDatabase* db : _library_dbs){
+
+		sp_log(Log::Develop, this) << "DB ID = " << (int) this->db_id()
+								   << " LibraryID = " << (int) db->library_id();
+
+
+	}
+
 	return nullptr;
 }

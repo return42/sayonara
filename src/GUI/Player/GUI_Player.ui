@@ -62,14 +62,23 @@
         <enum>QFrame::Raised</enum>
        </property>
        <layout class="QGridLayout" name="gridLayout">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
         <property name="horizontalSpacing">
          <number>5</number>
         </property>
         <property name="verticalSpacing">
          <number>2</number>
-        </property>
-        <property name="margin">
-         <number>0</number>
         </property>
         <item row="2" column="2">
          <widget class="QPushButton" name="btn_stop">
@@ -863,7 +872,16 @@
              <number>0</number>
             </property>
             <layout class="QGridLayout" name="gridLayout_6">
-             <property name="margin">
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
               <number>0</number>
              </property>
              <property name="spacing">
@@ -955,7 +973,7 @@
      <x>0</x>
      <y>0</y>
      <width>1038</width>
-     <height>20</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_file">
@@ -970,7 +988,7 @@
     <addaction name="separator"/>
     <addaction name="action_Close"/>
    </widget>
-   <widget class="QMenu" name="menuView">
+   <widget class="QMenu" name="menu_view">
     <property name="styleSheet">
      <string notr="true"/>
     </property>
@@ -983,16 +1001,22 @@
     <addaction name="action_Fullscreen"/>
     <addaction name="action_logger"/>
    </widget>
-   <widget class="QMenu" name="menuAbout">
+   <widget class="QMenu" name="menu_about">
     <property name="title">
      <string>Help</string>
     </property>
     <addaction name="action_help"/>
     <addaction name="action_about"/>
    </widget>
+   <widget class="LibraryPluginMenu" name="menu_library_view">
+    <property name="title">
+     <string>Library View</string>
+    </property>
+   </widget>
    <addaction name="menu_file"/>
-   <addaction name="menuView"/>
-   <addaction name="menuAbout"/>
+   <addaction name="menu_view"/>
+   <addaction name="menu_library_view"/>
+   <addaction name="menu_about"/>
   </widget>
   <action name="action_OpenFile">
    <property name="icon">
@@ -1119,6 +1143,11 @@
    <class>SayonaraLoadingBar</class>
    <extends>QProgressBar</extends>
    <header>GUI/Helper/SayonaraWidget/SayonaraLoadingBar.h</header>
+  </customwidget>
+  <customwidget>
+   <class>LibraryPluginMenu</class>
+   <extends>QMenu</extends>
+   <header>Interfaces/LibraryInterface/LibraryPluginMenu.h</header>
   </customwidget>
  </customwidgets>
  <resources>

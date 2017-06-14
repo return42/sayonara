@@ -48,13 +48,15 @@ public:
 	~SomaFMLibraryContainer();
 
 	// override from LibraryViewInterface
-	QString			get_name() const override;
-	QString			get_display_name() const override;
-	QIcon			get_icon() const override;
-	QWidget*		get_ui() const override;
-	QComboBox*		get_libchooser() override;
-	QMenu*			get_menu() override;
+	QString			name() const override;
+	QString			display_name() const override;
+	QWidget*		widget() const override;
+	QPixmap			icon() const override;
+	QMenu*			menu() override;
+	QFrame*			header() const override;
 	void			init_ui() override;
+
+
 };
 
 #endif

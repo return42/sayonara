@@ -28,6 +28,8 @@
 #include "Helper/Settings/Settings.h"
 #include "LocalLibrary.h"
 
+#include <QDir>
+#include <QFile>
 #include <QMap>
 #include <QObject>
 #include <QString>
@@ -73,7 +75,6 @@ struct LibraryManager::Private
 			}
 		}
 	}
-
 
 	void set_library_path(qint8 library_id, const QString& library_path)
 	{
@@ -146,7 +147,18 @@ struct LibraryManager::Private
 
 	void init_symlinks()
 	{
+
 		QString dir = Helper::sayonara_path("Libraries");
+		QDir d(dir);
+
+		QFileInfoList symlinks = d.entryInfoList(QDir::NoFilter);
+		for(const QFileInfo& symlink : symlinks)
+		{
+			if(symlink.isSymLink()) {
+				QFile::remove(symlink.absoluteFilePath());
+			}
+		}
+
 		Helper::File::create_directories(dir);
 
 		for(const LibraryInfo& info : all_libs)
@@ -186,7 +198,7 @@ qint8 LibraryManager::add_library(const QString& name, const QString& path)
 	LibraryInfo li(name, path, id);
 
 	_m->all_libs << li;
-	_m->lph->add_local_library(li, _m->all_libs.count() - 1);
+	_m->lph->add_local_library(li);
 
 	_settings->set(Set::Lib_AllLibraries, _m->all_libs);
 
@@ -230,6 +242,12 @@ void LibraryManager::move_library(int old_row, int new_row)
 	_m->move_library(old_row, new_row);
 	_m->lph->move_local_library(old_row, new_row);
 	_settings->set(Set::Lib_AllLibraries, _m->all_libs);
+}
+
+QString LibraryManager::request_library_name(const QString& path)
+{
+	QDir d(path);
+	return Helper::cvt_str_to_first_upper(d.dirName());
 }
 
 

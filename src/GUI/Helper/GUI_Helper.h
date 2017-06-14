@@ -25,12 +25,15 @@
 #define GUI_HELPER_H
 
 #include <QSize>
+#include <QList>
 
 class QWidget;
 class QPixmap;
 class QString;
 class QIcon;
+class QPoint;
 class QMainWindow;
+class QScreen;
 
 /**
  * @ingroup GUI
@@ -70,6 +73,11 @@ namespace GUI
 
 
 	QString elide_text(const QString &text, QWidget *widget, int max_lines);
+
+	void set_current_position(const QPoint& pos);
+	void set_screens(const QList<QScreen*>& screens);
+
+	int move_widget(const QPoint& pos, QWidget* widget);
 }
 
 #endif // GUI_HELPER_H

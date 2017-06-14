@@ -164,21 +164,22 @@ QStringList DirectoryReader::find_files_rec(QDir dir, const QString& filename)
 			continue;
 		}
 
-		QFileInfo fi(d);
+		/*QFileInfo fi(dir.absoluteFilePath(d));
 		if(!fi.isDir()){
 			continue;
-		}
+		}*/
 
-		dir.cd(d);
-		ret += find_files_rec(dir, filename);
-		dir.cdUp();
+		if(dir.cd(d)) {
+			ret += find_files_rec(dir, filename);
+			dir.cdUp();
+		}
 	}
 
 	for(const QString& file : files){
 		QFileInfo fi(file);
-		if(!fi.isFile()){
+		/*if(!fi.isFile()){
 			continue;
-		}
+		}*/
 
 		if(file.contains(filename)){
 			ret += dir.absoluteFilePath(file);

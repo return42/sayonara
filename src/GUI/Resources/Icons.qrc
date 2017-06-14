@@ -89,5 +89,6 @@
         <file>Icons/fwd_disabled.svg.png</file>
         <file>Icons/cd.png</file>
         <file>Icons/cds.png</file>
+        <file>Icons/append.svg</file>
     </qresource>
 </RCC>
