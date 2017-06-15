@@ -151,7 +151,7 @@ QDrag* Dragable::drag_moving(const QPoint& p)
 	pm_width += logo_width + 22;
 
 
-	QPixmap cover = get_pixmap();
+	QPixmap cover = pixmap();
 	if(cover.isNull()){
 		cover = GUI::get_pixmap("logo.png", logo_size, true);
 	}
@@ -199,7 +199,7 @@ void Dragable::drag_released(Dragable::ReleaseReason reason)
 }
 
 
-QPixmap Dragable::get_pixmap() const
+QPixmap Dragable::pixmap() const
 {
 	return QPixmap();
 }

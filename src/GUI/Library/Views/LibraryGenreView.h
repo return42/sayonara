@@ -54,8 +54,6 @@ public:
 	explicit LibraryGenreView(QWidget* parent=nullptr);
 	~LibraryGenreView();
 
-	QSize sizeHint() const override;
-
 	void reload_genres();
 	int row_count() const;
 	void set_local_library(LocalLibrary* library);

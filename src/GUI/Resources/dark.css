@@ -114,7 +114,6 @@ LibraryDateSearchView
 	color: #D8D8D8;
 	background-color: #282828;
 	alternate-background-color: #242424;
-	selection-color: #D8D8D8;
 	selection-background-color: #424e72;
 }
 
@@ -141,6 +140,25 @@ QListWidget:focus,
 QTreeWidget:focus
 {
 	border: 1px solid #424e72;
+}
+
+QListView::item,
+QListWidget::item,
+QTableView::item,
+QTreeView::item,
+QComboBox QAbstracItemView::item
+{
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+
+QListView::item:selected,
+QTableView::item:selected,
+QTreeView::item:selected,
+QTreeView::branch:selected
+{
+	color: #D8D8D8;
+	background: #424e72;
 }
 
 
@@ -383,29 +401,18 @@ QComboBox:focus
 
 QComboBox QAbstractItemView
 {
-	margin-left: 0;
-	padding: 3px;
 	background: #525252;
 	border: 1px solid #282828;
 }
 
-QComboBox QAbstractItemView::item
+QComboBox QAbstractItemView::item:focus,
+QComboBox QAbstractItemView::item:selected
 {
-	padding-top: 0.3em;
-	padding-bottom: 0.3em;
+	background: #e8841a;
+	color: #202020;
 }
 
 
-QComboBox QAbstractItemView::item:focus
-{
-	background-color: #e8841a;
-	color: black;
-}
-
-QComboBox QAbstractItemView:focus
-{
-	border: 1px solid #282828;
-}
 
 QComboBox:editable,
 QLineEdit,
@@ -426,10 +433,7 @@ QSpinBox::focus
 	border: 1px solid #e8841a;
 }
 
-QComboBoxPrivateContainer
-{
-	background: #FFFF00;
-}
+
 
 QTextEdit
 {
@@ -866,28 +870,15 @@ QStackedWidget
 {
 	border: none;
 }
-
+RatingLabel
+{
+	background-color: red;
+	background: red;
+}
 RatingLabel:focus
 {
 	border: 1px solid #e8841a;
 }
 
-QListView::item,
-QListWidget::item,
-QTableView::item,
-QTreeView::item
-{
-	padding-top: 2px;
-	padding-bottom: 2px;
-}
-
-QListView::item:selected,
-QTableView::item:selected,
-QTreeView::item:selected,
-QTreeView::branch:selected
-{
-	background: #424e72;
-/*	background: yellow;*/
-}
 
 

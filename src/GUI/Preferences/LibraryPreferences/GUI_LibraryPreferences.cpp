@@ -22,7 +22,7 @@
 #include "GUI/Preferences/ui_GUI_LibraryPreferences.h"
 #include "LibraryListModel.h"
 
-#include "GUI/Helper/Delegates/ListDelegate.h"
+#include "GUI/Helper/Delegates/StyledItemDelegate.h"
 #include "Helper/Helper.h"
 #include "Helper/FileHelper.h"
 #include "Helper/Library/SearchMode.h"
@@ -58,7 +58,7 @@ void GUI_LibraryPreferences::init_ui()
 
 	_m->model = new LibraryListModel(ui->lv_libs);
 	ui->lv_libs->setModel(_m->model);
-	ui->lv_libs->setItemDelegate(new ListDelegate(ui->lv_libs));
+	ui->lv_libs->setItemDelegate(new StyledItemDelegate(ui->lv_libs));
 
 	connect(ui->btn_new, &QPushButton::clicked, this, &GUI_LibraryPreferences::new_clicked);
 	connect(ui->btn_rename, &QPushButton::clicked, this, &GUI_LibraryPreferences::rename_clicked);

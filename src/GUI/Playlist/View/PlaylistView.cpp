@@ -367,13 +367,13 @@ void PlaylistView::rating_changed(int rating)
 }
 
 
-MD::Interpretation PlaylistView::get_metadata_interpretation() const
+MD::Interpretation PlaylistView::metadata_interpretation() const
 {
 	return MD::Interpretation::Tracks;
 }
 
 
-MetaDataList PlaylistView::get_data_for_info_dialog() const
+MetaDataList PlaylistView::info_dialog_data() const
 {
 	MetaDataList v_md;
 	QList<int> selected_rows = get_selected_items().toList();

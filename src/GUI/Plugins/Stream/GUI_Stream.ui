@@ -7,12 +7,12 @@
     <x>0</x>
     <y>0</y>
     <width>285</width>
-    <height>95</height>
+    <height>102</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="1" column="0" colspan="2">
-    <widget class="QComboBox" name="combo_stream">
+    <widget class="SayonaraComboBox" name="combo_stream">
      <property name="focusPolicy">
       <enum>Qt::StrongFocus</enum>
      </property>
@@ -110,6 +110,11 @@
    <extends>QWidget</extends>
    <header>Interfaces/PlayerPlugin/PlayerPlugin.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>SayonaraComboBox</class>
+   <extends>QComboBox</extends>
+   <header>GUI/Helper/SayonaraWidget/SayonaraComboBox.h</header>
   </customwidget>
  </customwidgets>
  <resources>

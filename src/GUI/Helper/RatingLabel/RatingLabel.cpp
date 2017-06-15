@@ -60,7 +60,8 @@ int RatingLabel::calc_rating(QPoint pos) const
     return rating;
 }
 
-void RatingLabel::paintEvent(QPaintEvent *e) {
+void RatingLabel::paintEvent(QPaintEvent *e)
+{
 	QLabel::paintEvent(e);
 
     QPainter painter(this);
@@ -83,7 +84,8 @@ void RatingLabel::paintEvent(QPaintEvent *e) {
 }
 
 
-void RatingLabel::mouseMoveEvent(QMouseEvent *e) {
+void RatingLabel::mouseMoveEvent(QMouseEvent *e)
+{
 	if(!_enabled) {
 		return;
 	}
@@ -97,7 +99,8 @@ void RatingLabel::mouseMoveEvent(QMouseEvent *e) {
 }
 
 
-void RatingLabel::mousePressEvent(QMouseEvent *e) {
+void RatingLabel::mousePressEvent(QMouseEvent *e)
+{
 	if(!_enabled) {
 		return;
 	}
@@ -107,7 +110,8 @@ void RatingLabel::mousePressEvent(QMouseEvent *e) {
 }
 
 
-void RatingLabel::mouseReleaseEvent(QMouseEvent *e) {
+void RatingLabel::mouseReleaseEvent(QMouseEvent *e)
+{
 	Q_UNUSED(e);
 
 	if(!_enabled) {
@@ -118,11 +122,13 @@ void RatingLabel::mouseReleaseEvent(QMouseEvent *e) {
 }
 
 
-void RatingLabel::focusInEvent(QFocusEvent* e) {
+void RatingLabel::focusInEvent(QFocusEvent* e)
+{
 	Q_UNUSED(e);
 }
 
-void RatingLabel::focusOutEvent(QFocusEvent* e) {
+void RatingLabel::focusOutEvent(QFocusEvent* e)
+{
 	Q_UNUSED(e);
 
 	if(!_enabled) {
@@ -132,12 +138,14 @@ void RatingLabel::focusOutEvent(QFocusEvent* e) {
 	emit sig_finished(false);
 }
 
-void RatingLabel::update_rating(int rating) {
+void RatingLabel::update_rating(int rating)
+{
     _rating = rating;
     update();
 }
 
-void RatingLabel::set_rating(int rating) {
+void RatingLabel::set_rating(int rating)
+{
     _rating = rating;
     update();
 }

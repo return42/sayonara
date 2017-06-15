@@ -20,7 +20,6 @@
 
 #include "GUI_AbstractStream.h"
 
-#include "GUI/Helper/Delegates/ComboBoxDelegate.h"
 #include "GUI/Helper/SayonaraWidget/SayonaraLoadingBar.h"
 #include "GUI/Helper/IconLoader/IconLoader.h"
 #include "GUI/Helper/MenuTool/MenuTool.h"
@@ -112,7 +111,6 @@ void GUI_AbstractStream::init_ui()
 	_m->btn_play->setMaximumSize(QSize(24,24));
 	_m->btn_tool->setToolTip(Lang::get(Lang::Menu));
 	_m->btn_tool->setText(Lang::get(Lang::Menu));
-	_m->combo_stream->setItemDelegate(new ComboBoxDelegate(this));
 
 	_m->loading_bar = new SayonaraLoadingBar(this);
 
@@ -370,7 +368,6 @@ void GUI_AbstractStream::setup_stations(const StreamMap& stations)
 		_m->combo_stream->addItem(it.key(), it.value());
 	}
 
-	_m->combo_stream->view()->setItemDelegate(new ComboBoxDelegate(this));
 	_m->btn_play->setEnabled(false);
 	_m->lab_listen->setEnabled(false);
 	_m->btn_tool->show_action(ContextMenu::EntrySave, false);

@@ -120,13 +120,13 @@ QFrame* GUI_DirectoryWidget::header_frame() const
 }
 
 
-MD::Interpretation GUI_DirectoryWidget::get_metadata_interpretation() const
+MD::Interpretation GUI_DirectoryWidget::metadata_interpretation() const
 {
 	return MD::Interpretation::Tracks;
 }
 
 
-MetaDataList GUI_DirectoryWidget::get_data_for_info_dialog() const
+MetaDataList GUI_DirectoryWidget::info_dialog_data() const
 {
 	MetaDataList v_md;
 

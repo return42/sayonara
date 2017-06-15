@@ -143,7 +143,7 @@
     </layout>
    </item>
    <item row="1" column="0" colspan="2">
-    <widget class="QComboBox" name="combo_clients">
+    <widget class="SayonaraComboBox" name="combo_clients">
      <property name="focusPolicy">
       <enum>Qt::ClickFocus</enum>
      </property>
@@ -151,6 +151,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>SayonaraComboBox</class>
+   <extends>QComboBox</extends>
+   <header>GUI/Helper/SayonaraWidget/SayonaraComboBox.h</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="../../Resources/Icons.qrc"/>
  </resources>

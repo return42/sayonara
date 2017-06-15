@@ -48,7 +48,8 @@ void LibraryViewAlbum::rc_menu_show(const QPoint & p)
 }
 
 
-void LibraryViewAlbum::index_clicked(const QModelIndex &idx){
+void LibraryViewAlbum::index_clicked(const QModelIndex &idx)
+{
 	if(idx.column() != static_cast<int>(ColumnIndex::Album::MultiDisc))
 	{
 		return;

@@ -21,7 +21,6 @@
 #include "GUI_LanguageChooser.h"
 #include "GUI/Preferences/ui_GUI_LanguageChooser.h"
 
-#include "GUI/Helper/Delegates/ComboBoxDelegate.h"
 #include "Helper/Helper.h"
 #include "Helper/FileHelper.h"
 #include "Helper/Settings/Settings.h"
@@ -138,8 +137,6 @@ void GUI_LanguageChooser::init_ui()
 	_map["ru"] = QString::fromUtf8("Русский");
 	_map["ua"] = QString::fromUtf8("Українська");
 	_map["zh_cn"] = QString::fromUtf8("中文");
-
-	ui->combo_lang->setItemDelegate(new ComboBoxDelegate(ui->combo_lang));
 }
 
 void GUI_LanguageChooser::showEvent(QShowEvent* e) {

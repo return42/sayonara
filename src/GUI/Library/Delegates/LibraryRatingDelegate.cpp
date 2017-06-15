@@ -21,12 +21,24 @@
 #include "LibraryRatingDelegate.h"
 #include "GUI/Helper/RatingLabel/RatingLabel.h"
 #include <QPainter>
+#include <QStyle>
+
+struct LibraryRatingDelegate::Private
+{
+	bool enabled;
+	int	rating_column;
+
+	Private(bool enabled, int rating_column)
+	{
+		this->enabled = enabled;
+		this->rating_column = rating_column;
+	}
+};
 
 LibraryRatingDelegate::LibraryRatingDelegate(QObject* parent, int rating_column, bool enabled) :
-	QStyledItemDelegate(parent)
+	StyledItemDelegate(parent)
 {
-	_enabled = enabled;
-	_rating_column = rating_column;
+	_m = Pimpl::make<Private>(enabled, rating_column);
 }
 
 LibraryRatingDelegate::~LibraryRatingDelegate() {}
@@ -35,31 +47,32 @@ void LibraryRatingDelegate::paint(QPainter *painter, const QStyleOptionViewItem 
 {
 	if(!index.isValid()) return;
 
-	if(index.column() == _rating_column)
+	QStyledItemDelegate::paint(painter, option, index);
+
+	if(index.column() == _m->rating_column)
 	{
 		RatingLabel label(nullptr, true);
-		label.set_rating(index.data().toInt());
+		label.set_rating(index.data(Qt::EditRole).toInt());
 		label.setGeometry(option.rect);
 
 		painter->save();
 		painter->translate(option.rect.left(), option.rect.top() );
-		label.render(painter);
-		painter->restore();
-		return;
-	}
 
-	QStyledItemDelegate::paint(painter, option, index);
+		label.render(painter);
+
+		painter->restore();
+	}
 }
 
 QWidget* LibraryRatingDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem & option, const QModelIndex & index) const
 {
 	Q_UNUSED(option)
 
-	RatingLabel *label = new RatingLabel(parent, _enabled);
+	RatingLabel *label = new RatingLabel(parent, _m->enabled);
 
 	connect(label, &RatingLabel::sig_finished, this, &LibraryRatingDelegate::destroy_editor);
 
-    label->set_rating(index.data().toInt());
+	label->set_rating(index.data(Qt::EditRole).toInt());
 
     return label;
 }
@@ -82,7 +95,7 @@ void LibraryRatingDelegate::destroy_editor(bool save)
 
 void LibraryRatingDelegate::setEditorData(QWidget *editor, const QModelIndex & index) const
 {
-	int rating = index.data().toInt();
+	int rating = index.data(Qt::EditRole).toInt();
 
 	RatingLabel* label = qobject_cast<RatingLabel *>(editor);
 	if(!label) return;

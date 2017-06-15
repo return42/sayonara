@@ -277,10 +277,10 @@ bool DatabaseAlbums::getAllAlbumsByArtist(IDList artists, AlbumList& result, con
 
 	if(!artists.isEmpty())
 	{
-		query += "(artistID = :artist_id_0 ";
+		query += "(" + _artistid_field + " = :artist_id_0 ";
 
 		for(int i=1; i<artists.size(); i++) {
-			query += "OR artistID = :artist_id_"
+			query += "OR " + _artistid_field + " = :artist_id_"
 					+ QString::number(i) + " ";
 		}
 

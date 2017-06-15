@@ -58,8 +58,6 @@ public:
 
 	Qt::ItemFlags flags(const QModelIndex &index) const override;
 
-	bool setData(const QModelIndex &index, const QVariant& var, int role=Qt::DisplayRole) override;
-
 	void clear();
 
 	void remove_rows(const SP::Set<int>& rows);

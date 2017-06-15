@@ -69,9 +69,6 @@ void GUI_Equalizer::init_ui()
 	setup_parent(this, &ui);
 
 	_engine = EngineHandler::getInstance();
-
-	ui->combo_presets->setItemDelegate(new ComboBoxDelegate(this));
-
 	_active_idx = -1;
 
 	ui->sli_0->setData(0, ui->label);

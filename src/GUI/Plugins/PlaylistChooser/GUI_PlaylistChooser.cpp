@@ -24,7 +24,6 @@
 
 #include "Components/PlaylistChooser/PlaylistChooser.h"
 
-#include "GUI/Helper/Delegates/ComboBoxDelegate.h"
 #include "Helper/Message/Message.h"
 
 #include "Helper/Helper.h"
@@ -57,8 +56,6 @@ void GUI_PlaylistChooser::init_ui()
 	setup_parent(this, &ui);
 
 	_last_dir = QDir::homePath();
-
-	ui->combo_playlistchooser->setItemDelegate(new ComboBoxDelegate(this));
 
 	ui->btn_tool_pl->show_action(ContextMenu::EntryDelete, false);
 	ui->btn_tool_pl->show_action(ContextMenu::EntrySave, false);

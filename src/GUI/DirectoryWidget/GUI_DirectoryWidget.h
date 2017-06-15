@@ -75,8 +75,8 @@ private slots:
 
 	// InfoDialogContainer interface
 protected:
-	MD::Interpretation get_metadata_interpretation() const override;
-	MetaDataList get_data_for_info_dialog() const override;
+	MD::Interpretation metadata_interpretation() const override;
+	MetaDataList info_dialog_data() const override;
 };
 
 #endif // GUI_DIRECTORYWIDGET_H

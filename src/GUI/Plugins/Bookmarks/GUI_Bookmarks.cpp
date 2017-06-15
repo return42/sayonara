@@ -22,7 +22,6 @@
 #include "GUI_Bookmarks.h"
 
 #include "GUI/Plugins/Bookmarks/ui_GUI_Bookmarks.h"
-#include "GUI/Helper/Delegates/ComboBoxDelegate.h"
 
 #include "Helper/Helper.h"
 #include "Helper/MetaData/MetaData.h"
@@ -72,8 +71,6 @@ void GUI_Bookmarks::init_ui()
 	_bookmarks = new Bookmarks(this);
 
 	setup_parent(this, &ui);
-
-	ui->cb_bookmarks->setItemDelegate(new ComboBoxDelegate(this));
 
 	connect(_bookmarks, &Bookmarks::sig_bookmarks_changed, this, &GUI_Bookmarks::bookmarks_changed);
 	connect(_bookmarks, &Bookmarks::sig_next_changed, this, &GUI_Bookmarks::next_changed);

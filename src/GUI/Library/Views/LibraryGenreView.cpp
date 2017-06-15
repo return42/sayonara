@@ -23,7 +23,7 @@
 #include "Components/Library/GenreFetcher.h"
 
 #include "GUI/Helper/CustomMimeData.h"
-#include "GUI/Helper/Delegates/TreeDelegate.h"
+#include "GUI/Helper/Delegates/StyledItemDelegate.h"
 #include "GUI/Helper/ContextMenu/ContextMenu.h"
 
 #include "Helper/Helper.h"
@@ -38,8 +38,10 @@
 #include <QDropEvent>
 #include <QContextMenuEvent>
 #include <QInputDialog>
+#include <QStyledItemDelegate>
 
 typedef SP::Set<QString> StringSet;
+
 
 struct LibraryGenreView::Private
 {
@@ -83,10 +85,11 @@ LibraryGenreView::LibraryGenreView(QWidget* parent) :
 
 	bool show_tree = _settings->get(Set::Lib_GenreTree);
 
-	this->setAcceptDrops(true);
-	this->setDragDropMode(LibraryGenreView::DragDrop);
-	this->setAlternatingRowColors(true);
-	//this->setItemDelegate(new TreeDelegate(this));
+	setAcceptDrops(true);
+	setDragDropMode(LibraryGenreView::DragDrop);
+	setAlternatingRowColors(true);
+	setItemDelegate(new StyledItemDelegate(this));
+
 	_m->toggle_tree_action->setChecked(show_tree);
 
 	connect(this, &QTreeWidget::itemCollapsed, this, &LibraryGenreView::item_collapsed);
@@ -108,12 +111,6 @@ LibraryGenreView::LibraryGenreView(QWidget* parent) :
 
 LibraryGenreView::~LibraryGenreView() {}
 
-QSize LibraryGenreView::sizeHint() const
-{
-	QSize sz = QTreeView::sizeHint();
-	sz.setWidth(200);
-	return sz;
-}
 
 int LibraryGenreView::row_count() const
 {

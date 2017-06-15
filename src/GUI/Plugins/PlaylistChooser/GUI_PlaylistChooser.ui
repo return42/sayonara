@@ -29,7 +29,7 @@
       </sizepolicy>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tab">
       <property name="sizePolicy">
@@ -43,7 +43,7 @@
       </attribute>
       <layout class="QGridLayout" name="gridLayout_3">
        <item row="0" column="0">
-        <widget class="QComboBox" name="combo_playlistchooser">
+        <widget class="SayonaraComboBox" name="combo_playlistchooser">
          <property name="sizePolicy">
           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -121,6 +121,11 @@
    <extends>QWidget</extends>
    <header>Interfaces/PlayerPlugin/PlayerPlugin.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>SayonaraComboBox</class>
+   <extends>QComboBox</extends>
+   <header>GUI/Helper/SayonaraWidget/SayonaraComboBox.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

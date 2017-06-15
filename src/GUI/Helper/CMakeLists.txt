@@ -10,8 +10,7 @@ SET(SOURCES
 	ContextMenu/LibraryContextMenu.cpp
 
 	Delegates/ComboBoxDelegate.cpp
-	Delegates/TreeDelegate.cpp
-	Delegates/ListDelegate.cpp
+	Delegates/StyledItemDelegate.cpp
 
 	Dragable/Dragable.cpp
 
@@ -23,6 +22,7 @@ SET(SOURCES
 
 	RatingLabel/RatingLabel.cpp
 
+	SayonaraWidget/SayonaraComboBox.cpp
 	SayonaraWidget/SayonaraCompleter.cpp
 	SayonaraWidget/SayonaraWidgetTemplate.cpp
 	SayonaraWidget/SayonaraWidget.cpp

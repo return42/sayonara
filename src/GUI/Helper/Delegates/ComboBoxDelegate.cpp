@@ -35,10 +35,9 @@ void ComboBoxDelegate::paint(QPainter *painter, const QStyleOptionViewItem & opt
 
 QSize ComboBoxDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-	Q_UNUSED(option)
 	Q_UNUSED(index)
 
-	return QStyledItemDelegate::sizeHint(option, index);
+	QFontMetrics fm = option.fontMetrics;
 
-	//return QSize(200, 20);
+	return QSize(1, std::max(std::max(fm.height() + 4, 20), option.decorationSize.height() + 4));
 }

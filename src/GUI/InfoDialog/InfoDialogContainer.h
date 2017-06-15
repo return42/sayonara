@@ -73,14 +73,14 @@ class InfoDialogContainer
 		 * considered as tracks
 		 * @return interpretation of metadata
 		 */
-		virtual MD::Interpretation get_metadata_interpretation() const=0;
+		virtual MD::Interpretation metadata_interpretation() const=0;
 
 		/**
 		 * @brief get the metadata that should be used for the info dialog
 		 * So for lists, the selected tracks are used here
 		 * @return MetaDataList
 		 */
-		virtual MetaDataList get_data_for_info_dialog() const=0;
+		virtual MetaDataList info_dialog_data() const=0;
 };
 
 #endif

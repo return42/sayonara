@@ -26,14 +26,17 @@
 #include "Models/LibraryItemModelArtists.h"
 #include "Models/LibraryItemModelTracks.h"
 
-#include "Helper/Message/Message.h"
 #include "Components/Library/AbstractLibrary.h"
+
+#include "Helper/Message/Message.h"
 #include "Helper/Library/SearchMode.h"
 #include "Helper/Settings/Settings.h"
 #include "Helper/Language.h"
 #include "Helper/MetaData/MetaDataList.h"
 
 #include "GUI/Library/Helper/ColumnHeader.h"
+#include "GUI/Library/Helper/ColumnIndex.h"
+#include "GUI/Helper/Delegates/StyledItemDelegate.h"
 
 #include <QKeySequence>
 #include <QPushButton>
@@ -160,7 +163,7 @@ void GUI_AbstractLibrary::init_headers()
 
 	_lv_artist->setModel(_artist_model);
 	_lv_artist->setSearchModel(_artist_model);
-	//_lv_artist->setItemDelegate(new QItemDelegate(_lv_artist));
+	_lv_artist->setItemDelegate(new StyledItemDelegate(_lv_artist));
 	_lv_artist->set_metadata_interpretation(MD::Interpretation::Artists);
 	_lv_artist->set_table_headers(artist_columns, _shown_cols_artist, so.so_artists);
 

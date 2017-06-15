@@ -19,7 +19,7 @@
     </widget>
    </item>
    <item row="7" column="1">
-    <widget class="QComboBox" name="combo_lib_size"/>
+    <widget class="SayonaraComboBox" name="combo_lib_size"/>
    </item>
    <item row="10" column="0">
     <widget class="QLabel" name="lab_playlist">
@@ -50,7 +50,7 @@
     </widget>
    </item>
    <item row="11" column="1">
-    <widget class="QComboBox" name="combo_pl_size"/>
+    <widget class="SayonaraComboBox" name="combo_pl_size"/>
    </item>
    <item row="7" column="0">
     <widget class="QLabel" name="label_5">
@@ -133,13 +133,20 @@
     </widget>
    </item>
    <item row="1" column="1">
-    <widget class="QComboBox" name="combo_sizes"/>
+    <widget class="SayonaraComboBox" name="combo_sizes"/>
    </item>
    <item row="0" column="1">
     <widget class="QFontComboBox" name="combo_fonts"/>
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>SayonaraComboBox</class>
+   <extends>QComboBox</extends>
+   <header>GUI/Helper/SayonaraWidget/SayonaraComboBox.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

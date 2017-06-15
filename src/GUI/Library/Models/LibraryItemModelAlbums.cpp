@@ -107,7 +107,8 @@ QVariant LibraryItemModelAlbums::data(const QModelIndex & index, int role) const
 
 	const Album& album = _m->albums[row];
 
-	if(role == Qt::TextAlignmentRole ){
+	if(role == Qt::TextAlignmentRole )
+	{
 		int alignment = Qt::AlignVCenter;
 		switch(col)
 		{
@@ -122,22 +123,28 @@ QVariant LibraryItemModelAlbums::data(const QModelIndex & index, int role) const
 		return alignment;
 	}
 
-	else if(role == Qt::TextColorRole){
-		if(col == ColumnIndex::Album::MultiDisc){
+	else if(role == Qt::TextColorRole)
+	{
+		if(col == ColumnIndex::Album::MultiDisc)
+		{
 			return QColor(0, 0, 0);
 		}
 	}
 
-	else if(role == Qt::DecorationRole){
-		if(col == ColumnIndex::Album::MultiDisc){
+	else if(role == Qt::DecorationRole)
+	{
+		if(col == ColumnIndex::Album::MultiDisc)
+		{
 			if(album.discnumbers.size() > 1){
 				return _m->pm_multi;
 			}
+
 			return _m->pm_single;
 		}
 	}
 
-	else if(role == Qt::DisplayRole || role==Qt::EditRole) {
+	else if(role == Qt::DisplayRole || role==Qt::EditRole)
+	{
 		switch(col) {
 			case ColumnIndex::Album::NumSongs:
 				return QString::number(album.num_songs) + " " + Lang::get(Lang::Tracks).toLower();

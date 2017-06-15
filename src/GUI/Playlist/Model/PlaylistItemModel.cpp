@@ -39,6 +39,7 @@
 #include "Helper/Language.h"
 
 #include <QUrl>
+#include <QColor>
 
 PlaylistItemModel::PlaylistItemModel(PlaylistPtr pl, QObject* parent) :
 	AbstractSearchListModel(parent),
@@ -70,9 +71,7 @@ QVariant PlaylistItemModel::data(const QModelIndex &index, int role) const
 		return MetaData::toVariant( _pl->at_const_ref(index.row()) );
 	}
 
-	else{
-		return QVariant();
-	}
+	return QVariant();
 }
 
 const MetaData& PlaylistItemModel::get_md(int row) const
@@ -88,24 +87,17 @@ Qt::ItemFlags PlaylistItemModel::flags(const QModelIndex &index = QModelIndex())
 		return Qt::ItemIsEnabled;
 	}
 
-	if( row >= 0 && row < _pl->get_count()){
+	if( row >= 0 && row < _pl->get_count())
+	{
 		const MetaData& md = get_md(row);
 		if(md.is_disabled){
 			return Qt::NoItemFlags;
 		}
 	}
 
-	return QAbstractItemModel::flags(index) | Qt::ItemIsEditable;
-}
 
-bool PlaylistItemModel::setData(const QModelIndex&index, const QVariant&var, int role)
-{
-	Q_UNUSED(var)
-	Q_UNUSED(role)
-	if(!index.isValid()){
-		return false;
-	}
-	return true;
+
+	return QAbstractItemModel::flags(index);
 }
 
 void PlaylistItemModel::clear()

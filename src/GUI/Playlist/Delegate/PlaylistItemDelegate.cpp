@@ -35,7 +35,7 @@
 #define PLAYLIST_BOLD 70
 
 PlaylistItemDelegate::PlaylistItemDelegate(QListView* parent) :
-	QStyledItemDelegate(parent),
+	StyledItemDelegate(parent),
 	SayonaraClass()
 {
 	_drag_row = -1;
@@ -52,6 +52,8 @@ void PlaylistItemDelegate::paint(QPainter *painter,
 						const QStyleOptionViewItem &option,
 						const QModelIndex &index) const
 {
+	//StyledItemDelegate::paint(painter, option, index);
+
 	if(!index.isValid()) {
 		return;
 	}
@@ -87,6 +89,7 @@ void PlaylistItemDelegate::paint(QPainter *painter,
 	else if(is_playing || is_selected)
 	{
 		QColor col_highlight = palette.color(QPalette::Active, QPalette::Highlight);
+		//QColor col_highlight = painter->background().color();
 
 		if(is_selected){
 			painter->fillRect(option.rect, col_highlight);

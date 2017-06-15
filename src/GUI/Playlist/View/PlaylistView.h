@@ -127,8 +127,8 @@ private:
 	void keyPressEvent(QKeyEvent *event) override;
 	void selectionChanged ( const QItemSelection & selected, const QItemSelection & deselected ) override;
 
-	MD::Interpretation get_metadata_interpretation() const override;
-	MetaDataList get_data_for_info_dialog() const override;
+	MD::Interpretation metadata_interpretation() const override;
+	MetaDataList info_dialog_data() const override;
 	QMimeData* get_mimedata() const override;
 
 

@@ -61,7 +61,7 @@ bool InfoDialogContainer::init_dialog()
 		_info_dialog = new GUI_InfoDialog(this, GUI::get_main_window());
 	}
 
-	_info_dialog->set_metadata(get_data_for_info_dialog(), get_metadata_interpretation());
+	_info_dialog->set_metadata(info_dialog_data(), metadata_interpretation());
 
 	return _info_dialog->has_metadata();
 }

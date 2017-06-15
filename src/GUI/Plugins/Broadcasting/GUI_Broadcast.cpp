@@ -26,8 +26,6 @@
 #include "Helper/Language.h"
 #include "Helper/Settings/Settings.h"
 
-#include "GUI/Helper/Delegates/ComboBoxDelegate.h"
-
 #include "GUI/Plugins/Broadcasting/ui_GUI_Broadcast.h"
 
 struct GUI_Broadcast::Private
@@ -85,8 +83,6 @@ void GUI_Broadcast::init_ui()
 	}
 
 	setup_parent(this, &ui);
-
-	ui->combo_clients->setItemDelegate(new ComboBoxDelegate(ui->combo_clients));
 
 	ui->btn_dismiss->setEnabled(false);
 	ui->btn_dismiss_all->setEnabled(false);

@@ -329,7 +329,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="QComboBox" name="combo_searchfilter">
+      <widget class="SayonaraComboBox" name="combo_searchfilter">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
          <horstretch>0</horstretch>
@@ -406,6 +406,11 @@
    <class>LibraryTableView</class>
    <extends>QTableView</extends>
    <header>GUI/Library/Views/LibraryTableView.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SayonaraComboBox</class>
+   <extends>QComboBox</extends>
+   <header>GUI/Helper/SayonaraWidget/SayonaraComboBox.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

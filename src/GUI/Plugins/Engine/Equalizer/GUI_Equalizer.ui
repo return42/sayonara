@@ -735,7 +735,7 @@
       <number>10</number>
      </property>
      <item>
-      <widget class="QComboBox" name="combo_presets">
+      <widget class="SayonaraComboBox" name="combo_presets">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -790,6 +790,11 @@
    <class>EqSlider</class>
    <extends>QSlider</extends>
    <header>GUI/Plugins/Engine/Equalizer/EqSlider.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SayonaraComboBox</class>
+   <extends>QComboBox</extends>
+   <header>GUI/Helper/SayonaraWidget/SayonaraComboBox.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

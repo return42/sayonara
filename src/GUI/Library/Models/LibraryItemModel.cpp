@@ -153,6 +153,7 @@ bool LibraryItemModel::removeRows(int row, int count, const QModelIndex& index)
 bool LibraryItemModel::insertRows(int row, int count, const QModelIndex& index)
 {
 	Q_UNUSED(index)
+
 	beginInsertRows(QModelIndex(), row, row + count - 1);
 	_m->n_rows += count;
 	endInsertRows();

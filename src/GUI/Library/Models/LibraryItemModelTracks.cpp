@@ -57,31 +57,42 @@ QVariant LibraryItemModelTracks::data(const QModelIndex &index, int role) const
 	int row = index.row();
 	int col = index.column();
 
-	if (!index.isValid())
+	if (!index.isValid()) {
 		return QVariant();
+	}
 
-	if (row >= _m->tracks.size())
+	if (row >= _m->tracks.size()) {
 		return QVariant();
+	}
 
 	ColumnIndex::Track idx_col = (ColumnIndex::Track) col;
 
-	if (role == Qt::TextAlignmentRole) {
+	if (role == Qt::TextAlignmentRole)
+	{
+		int alignment = Qt::AlignVCenter;
+
 		if (idx_col == ColumnIndex::Track::TrackNumber ||
 			idx_col == ColumnIndex::Track::Bitrate ||
 			idx_col == ColumnIndex::Track::Length ||
 			idx_col == ColumnIndex::Track::Year ||
 			idx_col == ColumnIndex::Track::Filesize)
 		{
-			return Qt::AlignRight + Qt::AlignVCenter;
+			alignment |= Qt::AlignRight;
 		}
 
-		else return Qt::AlignLeft + Qt::AlignVCenter;
+		else {
+			alignment |= Qt::AlignLeft;
+		}
+
+		return alignment;
 	}
 
-	else if (role == Qt::DisplayRole || role==Qt::EditRole) {
+	else if (role == Qt::DisplayRole || role==Qt::EditRole)
+	{
 		const MetaData& md = _m->tracks.at(row);
 
-		switch(idx_col) {
+		switch(idx_col)
+		{
 			case ColumnIndex::Track::TrackNumber:
 				return QVariant( md.track_num );
 
@@ -111,7 +122,12 @@ QVariant LibraryItemModelTracks::data(const QModelIndex &index, int role) const
 				return Helper::File::calc_filesize_str(md.filesize);
 
 			case ColumnIndex::Track::Rating:
+				if(role == Qt::DisplayRole) {
+					return QVariant();
+				}
+
 				return QVariant(md.rating);
+
 			default:
 				return QVariant();
 		}

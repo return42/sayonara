@@ -23,7 +23,7 @@
 #include "Components/MTP/MTP.h"
 #include "Components/MTP/MTP_CopyFiles.h"
 
-#include "GUI/Helper/Delegates/TreeDelegate.h"
+#include "GUI/Helper/Delegates/StyledItemDelegate.h"
 #include "GUI/Helper/GUI_Helper.h"
 #include "GUI/Helper/CustomMimeData.h"
 
@@ -443,7 +443,7 @@ void GUI_MTP::showEvent(QShowEvent* e)
 		ui->tree_view->setAnimated(true);
 		ui->tree_view->setAutoExpandDelay(100);
 		ui->tree_view->setSelectionMode(QAbstractItemView::ExtendedSelection);
-		ui->tree_view->setItemDelegate(new TreeDelegate(this));
+		ui->tree_view->setItemDelegate(new StyledItemDelegate(this));
 
 		ui->pb_progress->hide();
 

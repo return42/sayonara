@@ -18,14 +18,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
+#include "GUI/Preferences/ui_GUI_Covers.h"
 
 #include "GUI_Covers.h"
-#include "GUI/Preferences/ui_GUI_Covers.h"
+
 #include "Components/Covers/CoverFetchManager.h"
 #include "Components/Covers/CoverFetcherInterface.h"
+
 #include "Helper/Settings/Settings.h"
 #include "Helper/Language.h"
+
+#include "GUI/Helper/Delegates/StyledItemDelegate.h"
 
 #include <QListWidgetItem>
 #include <QList>
@@ -94,6 +97,9 @@ void GUI_Covers::init_ui()
 	setup_parent(this, &ui);
 	ui->lv_active->clear();
 	ui->lv_inactive->clear();
+
+	ui->lv_active->setItemDelegate(new StyledItemDelegate(ui->lv_active));
+	ui->lv_inactive->setItemDelegate(new StyledItemDelegate(ui->lv_inactive));
 
 	revert();
 }

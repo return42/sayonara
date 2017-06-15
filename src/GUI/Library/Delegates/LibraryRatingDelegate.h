@@ -21,13 +21,14 @@
 #ifndef LIBRARY_RATING_DELEGATE_H
 #define LIBRARY_RATING_DELEGATE_H
 
-#include <QStyledItemDelegate>
-#include "GUI/Library/Helper/ColumnIndex.h"
+#include "GUI/Helper/Delegates/StyledItemDelegate.h"
+#include "Helper/Pimpl.h"
 
 class LibraryRatingDelegate :
-		public QStyledItemDelegate
+		public StyledItemDelegate
 {
     Q_OBJECT
+	PIMPL(LibraryRatingDelegate)
 
 signals:
     void sig_rating_changed(int);
@@ -43,10 +44,6 @@ public:
 
 private slots:
     void destroy_editor(bool save=false);
-
-protected:
-	bool			_enabled;
-	int				_rating_column;
 };
 
 #endif // LibraryRatingDelegate_H

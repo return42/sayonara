@@ -84,11 +84,11 @@ public:
 
 	using QTableView::setModel;
 	virtual void setModel(LibraryItemModel* model);
-	virtual MetaDataList get_selected_metadata() const;
+	virtual MetaDataList selected_metadata() const;
 
 	void show_rc_menu_actions(int entries);
 	QMimeData* get_mimedata() const override;
-	QPixmap get_pixmap() const override;
+	QPixmap pixmap() const override;
 
 	void set_metadata_interpretation(MD::Interpretation type);
 	void set_selection_type(SayonaraSelectionView::SelectionType type) override;
@@ -97,9 +97,7 @@ public:
 protected:
 	// Events implemented in LibraryViewEvents.cpp
 	virtual void mousePressEvent(QMouseEvent* event) override;
-	virtual void mouseReleaseEvent(QMouseEvent* event) override;
 	virtual void mouseMoveEvent(QMouseEvent* event) override;
-	virtual void mouseDoubleClickEvent(QMouseEvent *event) override;
 	virtual void keyPressEvent(QKeyEvent* event) override;
 	virtual void contextMenuEvent(QContextMenuEvent* event) override;
 
@@ -111,8 +109,8 @@ protected:
 	virtual void selectionChanged (const QItemSelection& selected, const QItemSelection& deselected ) override;
 	virtual void rc_menu_init();
 
-	virtual MD::Interpretation get_metadata_interpretation() const override final;
-	MetaDataList get_data_for_info_dialog() const override;
+	virtual MD::Interpretation metadata_interpretation() const override final;
+	MetaDataList info_dialog_data() const override;
 
 
 protected:
@@ -129,14 +127,11 @@ public:
 	void fill(const T& input_data)
 	{
 		SP::Set<int> indexes;
-		int old_size, new_size;
 
 		clearSelection();
 
-		//_m->cur_filling = true;
-
-		old_size = _model->rowCount();
-		new_size = input_data.size();
+		int old_size = _model->rowCount();
+		int new_size = input_data.size();
 
 		if(old_size > new_size){
 			_model->removeRows(new_size, old_size - new_size);
@@ -146,7 +141,7 @@ public:
 			_model->insertRows(old_size, new_size - old_size);
 		}
 
-		for(int row=0; row < new_size; row++) 
+		for(int row=0; row < new_size; row++)
 		{
 			if(_model->is_selected(input_data[row].id)){
 				indexes.insert(row);
@@ -162,8 +157,13 @@ public:
 
 		select_rows(indexes, 0, _model->columnCount() - 1);
 
-		//_m->cur_filling = false;
+		if(new_size > old_size){
+			resize_rows_to_contents(old_size, new_size - old_size);
+		}
 	}
+
+	void resize_rows_to_contents();
+	void resize_rows_to_contents(int first_row, int count);
 };
 
 #endif /* MYLISTVIEW_H_ */

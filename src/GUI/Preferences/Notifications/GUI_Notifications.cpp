@@ -21,7 +21,6 @@
 #include "GUI_Notifications.h"
 #include "GUI/Preferences/ui_GUI_Notifications.h"
 
-#include "GUI/Helper/Delegates/ComboBoxDelegate.h"
 #include "Helper/Settings/Settings.h"
 #include "Interfaces/Notification/NotificationHandler.h"
 
@@ -89,7 +88,6 @@ void GUI_Notifications::init_ui()
 	setup_parent(this, &ui);
 
 	_notification_handler = NotificationHandler::getInstance();
-	ui->combo_notification->setItemDelegate(new ComboBoxDelegate(ui->combo_notification));
 
 	revert();
 

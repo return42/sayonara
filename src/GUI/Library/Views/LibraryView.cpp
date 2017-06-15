@@ -52,9 +52,11 @@ struct LibraryView::Private
 	QMenu*				merge_menu=nullptr;
 	LibraryContextMenu*	rc_menu=nullptr;
 	MD::Interpretation	type;
+	int					row_height;
 
 	Private()
 	{
+		row_height = 0;
 		cur_filling = false;
 		type = MD::Interpretation::None;
 	}
@@ -73,6 +75,8 @@ LibraryView::LibraryView(QWidget* parent) :
 	setSelectionBehavior(QAbstractItemView::SelectRows);
 	setAlternatingRowColors(true);
 	setDragEnabled(true);
+
+	verticalHeader()->setResizeContentsPrecision(1);
 
 	clearSelection();
 }
@@ -118,7 +122,7 @@ void LibraryView::rc_menu_init()
 				LibraryContextMenu::EntryDelete |
 				LibraryContextMenu::EntryEdit |
 				LibraryContextMenu::EntryAppend
-				);
+	);
 
 	_m->merge_menu = new QMenu(tr("Merge"), _m->rc_menu);
 	_m->merge_action = _m->rc_menu->addMenu(_m->merge_menu);
@@ -150,7 +154,7 @@ QMimeData* LibraryView::get_mimedata() const
 	return _model->get_mimedata();
 }
 
-QPixmap LibraryView::get_pixmap() const
+QPixmap LibraryView::pixmap() const
 {
 	CoverLocation cl = _model->get_cover(
 				get_selected_items()
@@ -178,7 +182,7 @@ void LibraryView::set_selection_type(SayonaraSelectionView::SelectionType type)
 	}
 }
 
-MetaDataList LibraryView::get_selected_metadata() const
+MetaDataList LibraryView::selected_metadata() const
 {
 	MetaDataList v_md;
 
@@ -202,13 +206,13 @@ void LibraryView::set_metadata_interpretation(MD::Interpretation type)
 	_m->type = type;
 }
 
-MetaDataList LibraryView::get_data_for_info_dialog() const
+MetaDataList LibraryView::info_dialog_data() const
 {
-	return get_selected_metadata();
+	return selected_metadata();
 }
 
 
-MD::Interpretation LibraryView::get_metadata_interpretation() const
+MD::Interpretation LibraryView::metadata_interpretation() const
 {
 	return _m->type;
 }
@@ -225,6 +229,34 @@ void LibraryView::merge_action_triggered()
 	}
 
 	emit sig_merge(ids, id);
+}
+
+void LibraryView::resize_rows_to_contents()
+{
+	if(_model->rowCount() == 0){
+		return;
+	}
+
+	QHeaderView* header = this->verticalHeader();
+	if(header) {
+		header->resizeSections(QHeaderView::ResizeToContents);
+	}
+
+	_m->row_height = this->rowHeight(0);
+}
+
+void LibraryView::resize_rows_to_contents(int first_row, int count)
+{
+	if(_model->rowCount() == 0){
+		return;
+	}
+
+	QHeaderView* header = this->verticalHeader();
+	if(header) {
+		for(int i=first_row; i<first_row + count; i++){
+			header->resizeSection(i, _m->row_height);
+		}
+	}
 }
 
 
@@ -264,27 +296,6 @@ void LibraryView::mouseMoveEvent(QMouseEvent* event)
 		{
 			this->drag_released(Dragable::ReleaseReason::Destroyed);
 		});
-	}
-}
-
-void LibraryView::mouseDoubleClickEvent(QMouseEvent *event)
-{
-	event->setModifiers(Qt::NoModifier);
-	QTableView::mouseDoubleClickEvent(event);
-}
-
-void LibraryView::mouseReleaseEvent(QMouseEvent* event)
-{
-	switch (event->button()) {
-		case Qt::LeftButton:
-
-			SearchableTableView::mouseReleaseEvent(event);
-			event->accept();
-
-			break;
-
-		default:
-			break;
 	}
 }
 // mouse events end
@@ -437,11 +448,13 @@ void  LibraryView::dragMoveEvent(QDragMoveEvent *event)
 void LibraryView::dropEvent(QDropEvent *event)
 {
 	event->accept();
+
 	const QMimeData* mime_data = event->mimeData();
+	if(!mime_data) {
+		return;
+	}
 
-	if(!mime_data) return;
-
-	QString text = "";
+	QString text;
 
 	if(mime_data->hasText()){
 		text = mime_data->text();
@@ -467,10 +480,10 @@ void LibraryView::dropEvent(QDropEvent *event)
 void LibraryView::changeEvent(QEvent* event)
 {
 	SearchableTableView::changeEvent(event);
+	QEvent::Type type = event->type();
 
-	if(event->type() == QEvent::StyleChange)
+	if(type == QEvent::FontChange)
 	{
-		this->verticalHeader()->setResizeContentsPrecision(1);
-		this->verticalHeader()->resizeSections(QHeaderView::ResizeToContents);
+		resize_rows_to_contents();
 	}
 }
