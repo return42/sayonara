@@ -40,6 +40,7 @@ class DatabaseTracks :
 
 protected:
 	void change_artistid_field(const QString& field);
+	void change_track_lookup_field(const QString& track_lookup_field);
 
 	void check_track_views(qint8 library_id);
 	void check_track_view(qint8 library_id);

@@ -25,27 +25,29 @@
 #include "GUI/Helper/CustomMimeData.h"
 #include "Helper/globals.h"
 
-SomaFMPlaylistModel::SomaFMPlaylistModel(QObject* parent) :
+#include <QUrl>
+
+SomaFM::PlaylistModel::PlaylistModel(QObject* parent) :
     QStringListModel(parent) {}
 
-SomaFMPlaylistModel::~SomaFMPlaylistModel() {}
+SomaFM::PlaylistModel::~PlaylistModel() {}
 
 
-void SomaFMPlaylistModel::setStation(const SomaFMStation& station)
+void SomaFM::PlaylistModel::setStation(const SomaFM::Station& station)
 {
     _station = station;
 
-    QStringList urls = station.get_urls();
+	QStringList urls = station.urls();
     QStringList entries;
 
     for(QString& url : urls){
-	    SomaFMStation::UrlType type = station.get_url_type(url);
-	    if(type == SomaFMStation::UrlType::MP3){
-		    entries << station.get_name() + " (mp3)";
+		SomaFM::Station::UrlType type = station.url_type(url);
+		if(type == SomaFM::Station::UrlType::MP3){
+			entries << station.name() + " (mp3)";
 	    }
 
-	    else if(type == SomaFMStation::UrlType::AAC){
-		    entries << station.get_name() + " (aac)";
+		else if(type == SomaFM::Station::UrlType::AAC){
+			entries << station.name() + " (aac)";
 	    }
 
 	    else{
@@ -56,7 +58,7 @@ void SomaFMPlaylistModel::setStation(const SomaFMStation& station)
     this->setStringList(entries);
 }
 
-QMimeData* SomaFMPlaylistModel::mimeData(const QModelIndexList& indexes) const
+QMimeData* SomaFM::PlaylistModel::mimeData(const QModelIndexList& indexes) const
 {
     if(indexes.isEmpty()){
 	return nullptr;
@@ -64,7 +66,7 @@ QMimeData* SomaFMPlaylistModel::mimeData(const QModelIndexList& indexes) const
 
 	int row = indexes.first().row();
 
-    QStringList urls = _station.get_urls();
+	QStringList urls = _station.urls();
 	if(!between(row, urls)){
 		return nullptr;
     }
@@ -72,7 +74,7 @@ QMimeData* SomaFMPlaylistModel::mimeData(const QModelIndexList& indexes) const
     QUrl url( urls[row] );
 
     QMimeData* mime_data = new QMimeData();
-	CoverLocation location = _station.get_cover_location();
+	CoverLocation location = _station.cover_location();
 
     mime_data->setUrls({url});
 	if(!location.search_urls().isEmpty()){

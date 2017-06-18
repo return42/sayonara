@@ -474,6 +474,7 @@ bool Tagging::write_lyrics(const MetaData& md, const QString& lyrics_data)
 			return false;
 	}
 
+    Q_UNUSED(success)
 	return f.save();
 }
 

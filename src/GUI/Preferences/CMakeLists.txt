@@ -9,6 +9,7 @@ SET(SOURCES
     LastFM/GUI_LastFM.cpp
     LibraryPreferences/GUI_LibraryPreferences.cpp
 	LibraryPreferences/LibraryListModel.cpp
+	LibraryPreferences/ChangeOperations.cpp
     Notifications/GUI_Notifications.cpp
     PlayerPreferences/GUI_PlayerPreferences.cpp
     PlaylistPreferences/GUI_PlaylistPreferences.cpp

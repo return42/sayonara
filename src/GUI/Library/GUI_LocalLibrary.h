@@ -52,7 +52,7 @@ public:
 	explicit GUI_LocalLibrary(int id, QWidget* parent=nullptr);
 	virtual ~GUI_LocalLibrary();
 
-	QMenu*		get_menu() const;
+	QMenu*		menu() const;
 	QFrame*		header_frame() const;
 
 
@@ -61,6 +61,13 @@ protected:
 	void init_shortcuts() override;
 
 	Library::ReloadQuality show_quality_dialog();
+
+	LibraryTableView* lv_artist() const override;
+	LibraryTableView* lv_album() const override;
+	LibraryTableView* lv_tracks() const override;
+	QPushButton* btn_clear() const override;
+	QLineEdit* le_search() const override;
+	QComboBox* combo_search() const override;
 
 
 private slots:

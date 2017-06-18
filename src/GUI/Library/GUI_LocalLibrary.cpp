@@ -75,15 +75,16 @@ GUI_LocalLibrary::GUI_LocalLibrary(int id, QWidget* parent) :
 	setup_parent(this, &ui);
 
 	_m = Pimpl::make<Private>();
+
 	_m->library = LibraryManager::getInstance()->get_library_instance(id);
 	_m->library_menu = new LocalLibraryMenu(this);
 
 	ui->pb_progress->setVisible(false);
 	ui->lab_progress->setVisible(false);
 
-	connect(_library, &LocalLibrary::sig_reloading_library, this, &GUI_LocalLibrary::progress_changed);
-	connect(_library, &LocalLibrary::sig_reloading_library_finished, this, &GUI_LocalLibrary::reload_finished);
-	connect(_library, &LocalLibrary::sig_reloading_library_finished, ui->lv_genres, &LibraryGenreView::reload_genres);
+	connect(_m->library, &LocalLibrary::sig_reloading_library, this, &GUI_LocalLibrary::progress_changed);
+	connect(_m->library, &LocalLibrary::sig_reloading_library_finished, this, &GUI_LocalLibrary::reload_finished);
+	connect(_m->library, &LocalLibrary::sig_reloading_library_finished, ui->lv_genres, &LibraryGenreView::reload_genres);
 
 	connect(ui->lv_album, &LibraryViewAlbum::sig_disc_pressed, this, &GUI_LocalLibrary::disc_pressed);
 	connect(ui->lv_album, &LibraryViewAlbum::sig_import_files, this, &GUI_LocalLibrary::import_files);
@@ -133,7 +134,7 @@ GUI_LocalLibrary::~GUI_LocalLibrary()
 	}
 }
 
-QMenu* GUI_LocalLibrary::get_menu() const
+QMenu* GUI_LocalLibrary::menu() const
 {
 	return _m->library_menu;
 }
@@ -267,7 +268,7 @@ void GUI_LocalLibrary::date_selection_changed(const QModelIndex& index)
 	Library::DateFilter date_filter = ui->lv_date_search->get_filter(index.row());
 	filter.set_mode(Library::Filter::Date);
 	filter.set_date_filter(date_filter);
-	_library->psl_filter_changed(filter);
+	_m->library->psl_filter_changed(filter);
 }
 
 
@@ -281,8 +282,7 @@ Library::TrackDeletionMode GUI_LocalLibrary::show_delete_dialog(int n_tracks)
 
 void GUI_LocalLibrary::disc_pressed(int disc)
 {
-	LocalLibrary* ll = dynamic_cast<LocalLibrary*>(_library);
-	ll->psl_disc_pressed(disc);
+	_m->library->psl_disc_pressed(disc);
 }
 
 
@@ -327,7 +327,7 @@ void GUI_LocalLibrary::reload_library_requested()
 		return;
 	}
 
-	_library->psl_reload_library(false, quality);
+	_m->library->psl_reload_library(false, quality);
 	ui->btn_reload_library->setEnabled(false);
 }
 
@@ -414,7 +414,7 @@ void GUI_LocalLibrary::import_dirs_requested()
 	}
 
 	if(!dirs.isEmpty()){
-		_library->import_files(dirs);
+		_m->library->import_files(dirs);
 	}
 }
 
@@ -426,14 +426,14 @@ void GUI_LocalLibrary::import_files_requested()
 													  QDir::homePath(), filter);
 
 	if(files.size() > 0) {
-		_library->import_files(files);
+		_m->library->import_files(files);
 	}
 }
 
 
 void GUI_LocalLibrary::import_files(const QStringList& files)
 {
-	_library->import_files(files);
+	_m->library->import_files(files);
 }
 
 
@@ -532,3 +532,34 @@ void GUI_LocalLibrary::lib_fill_tracks(const MetaDataList& v_md)
 	}
 }
 
+
+
+LibraryTableView* GUI_LocalLibrary::lv_artist() const
+{
+	return ui->lv_artist;
+}
+
+LibraryTableView* GUI_LocalLibrary::lv_album() const
+{
+	return ui->lv_album;
+}
+
+LibraryTableView* GUI_LocalLibrary::lv_tracks() const
+{
+	return ui->tb_title;
+}
+
+QPushButton* GUI_LocalLibrary::btn_clear() const
+{
+	return ui->btn_clear;
+}
+
+QLineEdit* GUI_LocalLibrary::le_search() const
+{
+	return ui->le_search;
+}
+
+QComboBox* GUI_LocalLibrary::combo_search() const
+{
+	return ui->combo_searchfilter;
+}

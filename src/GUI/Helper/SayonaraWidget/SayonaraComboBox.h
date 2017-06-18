@@ -15,9 +15,6 @@ public:
 
 protected:
 	void changeEvent(QEvent* e) override;
-
-private slots:
-	void style_changed();
 };
 
 #endif // SAYONARACOMBOBOX_H

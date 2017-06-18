@@ -57,6 +57,7 @@ void GUI_LibraryPreferences::init_ui()
 	setup_parent(this, &ui);
 
 	_m->model = new LibraryListModel(ui->lv_libs);
+
 	ui->lv_libs->setModel(_m->model);
 	ui->lv_libs->setItemDelegate(new StyledItemDelegate(ui->lv_libs));
 
@@ -216,8 +217,8 @@ void GUI_LibraryPreferences::library_text_changed(const QString& str)
 {
 	Q_UNUSED(str)
 
-	QStringList names = _m->model->get_all_names();
-	QStringList paths = _m->model->get_all_paths();
+	QStringList names = _m->model->all_names();
+	QStringList paths = _m->model->all_paths();
 
 	ui->btn_add->setDisabled(
 				(ui->le_name->text().isEmpty()) ||
@@ -231,9 +232,6 @@ void GUI_LibraryPreferences::library_text_changed(const QString& str)
 void GUI_LibraryPreferences::up_clicked()
 {
 	int row = ui->lv_libs->currentIndex().row();
-	if(row <= 0 || row > _m->model->rowCount() - 1){
-		return;
-	}
 
 	_m->model->move_row(row, row-1);
 	ui->lv_libs->setCurrentIndex(_m->model->index(row - 1));
@@ -242,9 +240,6 @@ void GUI_LibraryPreferences::up_clicked()
 void GUI_LibraryPreferences::down_clicked()
 {
 	int row = ui->lv_libs->currentIndex().row();
-	if(row >= _m->model->rowCount() - 1 || row < 0){
-		return;
-	}
 
 	_m->model->move_row(row, row+1);
 	ui->lv_libs->setCurrentIndex(_m->model->index(row + 1));

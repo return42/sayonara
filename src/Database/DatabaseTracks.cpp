@@ -367,9 +367,10 @@ bool DatabaseTracks::getAllTracksByAlbum(IDList albums, MetaDataList& returndata
 	}
 
 	if(albums.size() > 0) {
-		querytext += " (albumID=:albumid_0 ";
+		QString album_id_field = _m->track_search_view_name + ".albumID ";
+		querytext += " (" + album_id_field + "=:albumid_0 ";
 		for(int i=1; i<albums.size(); i++) {
-			querytext += "OR albumID=:albumid_" + QString::number(i) + " ";
+			querytext += "OR " + album_id_field + "=:albumid_" + QString::number(i) + " ";
 		}
 
 		querytext += ") ";
@@ -456,9 +457,10 @@ bool DatabaseTracks::getAllTracksByArtist(IDList artists, MetaDataList& returnda
 
 	if(artists.size() > 0)
 	{
-		querytext += " (" + _m->artistid_field + "=:artist_id_0 ";
+		QString artist_id_field = _m->track_search_view_name + "." + _m->artistid_field;
+		querytext += " (" + artist_id_field + "=:artist_id_0 ";
 		for(int i=1; i<artists.size(); i++) {
-			querytext += "OR " + _m->artistid_field + "=:artist_id_" + QString::number(i) + " ";
+			querytext += "OR " + artist_id_field + "=:artist_id_" + QString::number(i) + " ";
 		}
 
 		querytext += ") ";
@@ -860,4 +862,9 @@ bool DatabaseTracks::updateTrackDates()
 void DatabaseTracks::change_artistid_field(const QString& field)
 {
 	_m->artistid_field = field;
+}
+
+void DatabaseTracks::change_track_lookup_field(const QString& track_lookup_field)
+{
+	_m->track_search_view_name = track_lookup_field;
 }

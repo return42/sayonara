@@ -42,6 +42,7 @@ private:
 
 protected:
 	void change_artistid_field(const QString& field);
+	void change_track_lookup_field(const QString& track_lookup_field);
 
 public:
 
@@ -71,6 +72,7 @@ public:
 	virtual int updateAlbum(const Album& album);
 
 	virtual void updateAlbumCissearch();
+
 };
 
 #endif // DATABASEALBUMS_H

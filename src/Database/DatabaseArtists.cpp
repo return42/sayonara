@@ -304,3 +304,8 @@ void DatabaseArtists::change_artistid_field(const QString& field)
 {
 	_artistid_field = field;
 }
+
+void DatabaseArtists::change_track_lookup_field(const QString& track_lookup_field)
+{
+	_search_view_name = track_lookup_field;
+}

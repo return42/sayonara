@@ -29,7 +29,7 @@
 #include "Helper/MetaData/Artist.h"
 
 
-struct SoundcloudDataFetcher::Private
+struct SC::DataFetcher::Private
 {
 	MetaDataList	playlist_tracks;
 	AlbumList		playlists;
@@ -43,40 +43,40 @@ struct SoundcloudDataFetcher::Private
 };
 
 
-SoundcloudDataFetcher::SoundcloudDataFetcher(QObject* parent) :
+SC::DataFetcher::DataFetcher(QObject* parent) :
 	QObject(parent)
 {
-	_m = Pimpl::make<SoundcloudDataFetcher::Private>();
+	_m = Pimpl::make<SC::DataFetcher::Private>();
 
 	clear();
 }
 
-SoundcloudDataFetcher::~SoundcloudDataFetcher() {}
+SC::DataFetcher::~DataFetcher() {}
 
 
-void SoundcloudDataFetcher::search_artists(const QString& artist_name)
+void SC::DataFetcher::search_artists(const QString& artist_name)
 {
 	clear();
 
 	AsyncWebAccess* awa = new AsyncWebAccess(this);
 	connect(awa, &AsyncWebAccess::sig_finished,
-			this, &SoundcloudDataFetcher::artists_fetched);
-	awa->run( SoundcloudWebAccess::create_dl_get_artist(artist_name));
+			this, &SC::DataFetcher::artists_fetched);
+	awa->run( SC::WebAccess::create_dl_get_artist(artist_name));
 }
 
-void SoundcloudDataFetcher::get_artist(int artist_id)
+void SC::DataFetcher::get_artist(int artist_id)
 {
 	clear();
 
 	AsyncWebAccess* awa = new AsyncWebAccess(this);
 	connect(awa, &AsyncWebAccess::sig_finished,
-			this, &SoundcloudDataFetcher::artists_fetched);
+			this, &SC::DataFetcher::artists_fetched);
 
-	awa->run( SoundcloudWebAccess::create_dl_get_artist(artist_id) );
+	awa->run( SC::WebAccess::create_dl_get_artist(artist_id) );
 }
 
 
-void SoundcloudDataFetcher::get_tracks_by_artist(int artist_id)
+void SC::DataFetcher::get_tracks_by_artist(int artist_id)
 {
 	clear();
 
@@ -84,13 +84,13 @@ void SoundcloudDataFetcher::get_tracks_by_artist(int artist_id)
 
 	AsyncWebAccess* awa = new AsyncWebAccess(this);
 	connect(awa, &AsyncWebAccess::sig_finished,
-			this, &SoundcloudDataFetcher::playlist_tracks_fetched);
+			this, &SC::DataFetcher::playlist_tracks_fetched);
 
-	awa->run( SoundcloudWebAccess::create_dl_get_playlists(artist_id) );
+	awa->run( SC::WebAccess::create_dl_get_playlists(artist_id) );
 }
 
 
-void SoundcloudDataFetcher::artists_fetched()
+void SC::DataFetcher::artists_fetched()
 {
 	ArtistList artists;
 	AsyncWebAccess* awa = static_cast<AsyncWebAccess*>(sender());
@@ -100,7 +100,7 @@ void SoundcloudDataFetcher::artists_fetched()
 	}
 
 	QByteArray data = awa->data();
-	SoundcloudJsonParser parser(data);
+	SC::JsonParser parser(data);
 	parser.parse_artists(artists);
 
 	emit sig_artists_fetched(artists);
@@ -108,7 +108,7 @@ void SoundcloudDataFetcher::artists_fetched()
 }
 
 
-void SoundcloudDataFetcher::playlist_tracks_fetched()
+void SC::DataFetcher::playlist_tracks_fetched()
 {
 	AsyncWebAccess* awa = static_cast<AsyncWebAccess*>(sender());
 
@@ -118,19 +118,19 @@ void SoundcloudDataFetcher::playlist_tracks_fetched()
 	}
 
 	QByteArray data = awa->data();
-	SoundcloudJsonParser parser(data);
+	SC::JsonParser parser(data);
 	parser.parse_playlists(_m->artists, _m->playlists, _m->playlist_tracks);
 
 	AsyncWebAccess* awa_new = new AsyncWebAccess(this);
 	connect(awa_new, &AsyncWebAccess::sig_finished,
-			this, &SoundcloudDataFetcher::tracks_fetched);
+			this, &SC::DataFetcher::tracks_fetched);
 
-	awa_new->run( SoundcloudWebAccess::create_dl_get_tracks(_m->artist_id) );
+	awa_new->run( SC::WebAccess::create_dl_get_tracks(_m->artist_id) );
 
 	awa->deleteLater();
 }
 
-void SoundcloudDataFetcher::tracks_fetched()
+void SC::DataFetcher::tracks_fetched()
 {
 	MetaDataList v_md;
 	ArtistList artists;
@@ -142,7 +142,7 @@ void SoundcloudDataFetcher::tracks_fetched()
 	}
 
 	QByteArray data = awa->data();
-	SoundcloudJsonParser parser(data);
+	SC::JsonParser parser(data);
 	parser.parse_tracks(artists, v_md);
 
 	for(const MetaData& md : v_md){
@@ -164,7 +164,7 @@ void SoundcloudDataFetcher::tracks_fetched()
 	awa->deleteLater();
 }
 
-void SoundcloudDataFetcher::clear()
+void SC::DataFetcher::clear()
 {
 	_m->playlist_tracks.clear();
 	_m->playlists.clear();

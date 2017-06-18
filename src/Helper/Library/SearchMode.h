@@ -40,7 +40,7 @@ namespace Library
 
     typedef int SearchModeMask;
 
-	QString convert_search_string(const QString& str, Library::SearchModeMask mode, const QList<QChar>& ignored_chars=QList<QChar>());
+	QString convert_search_string(const QString& str, ::Library::SearchModeMask mode, const QList<QChar>& ignored_chars=QList<QChar>());
 }
 
 #endif // LIBRARYSEARCHMODE_H

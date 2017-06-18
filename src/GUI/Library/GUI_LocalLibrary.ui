@@ -33,44 +33,15 @@
      </property>
      <item>
       <widget class="SayonaraComboBox" name="combo_searchfilter">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
        <property name="focusPolicy">
         <enum>Qt::ClickFocus</enum>
        </property>
        <property name="currentIndex">
-        <number>0</number>
+        <number>-1</number>
        </property>
        <property name="sizeAdjustPolicy">
         <enum>QComboBox::AdjustToContents</enum>
        </property>
-       <property name="frame">
-        <bool>false</bool>
-       </property>
-       <item>
-        <property name="text">
-         <string>Search</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Genre</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Path</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Date</string>
-        </property>
-       </item>
       </widget>
      </item>
      <item>

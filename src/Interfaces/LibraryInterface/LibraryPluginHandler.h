@@ -70,8 +70,6 @@ public:
 	void set_library_parent(QWidget* parent);
 
 
-
-
 	/**
 	 * @brief Get a list for all found plugins. The ui is not necessarily initialized
 	 * @return list for all found library plugins

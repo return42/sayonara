@@ -5,10 +5,7 @@
 
 #include <QList>
 #include <QAction>
-#include <QFontMetrics>
-#include <QEvent>
 #include <QSize>
-#include <QAbstractItemView>
 
 struct LibraryPluginCombobox::Private
 {
@@ -52,6 +49,8 @@ void LibraryPluginCombobox::setup_actions()
 	{
 		this->addItem(QIcon(container->icon()), container->display_name(), container->name());
 	}
+
+	current_library_changed(_m->lph->current_library()->name());
 }
 
 void LibraryPluginCombobox::action_triggered(bool b)

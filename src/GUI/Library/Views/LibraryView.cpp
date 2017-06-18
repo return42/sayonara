@@ -233,7 +233,7 @@ void LibraryView::merge_action_triggered()
 
 void LibraryView::resize_rows_to_contents()
 {
-	if(_model->rowCount() == 0){
+	if(!_model || _model->rowCount() == 0) {
 		return;
 	}
 
@@ -247,7 +247,7 @@ void LibraryView::resize_rows_to_contents()
 
 void LibraryView::resize_rows_to_contents(int first_row, int count)
 {
-	if(_model->rowCount() == 0){
+	if(!_model || _model->rowCount() == 0) {
 		return;
 	}
 

@@ -28,35 +28,34 @@
 #include <QtGlobal>
 #include <QtPlugin>
 
-
-class GUI_SomaFM;
-
-class SomaFMLibraryContainer :
-	public LibraryContainerInterface
+namespace SomaFM
 {
-	Q_OBJECT
+	class GUI_SomaFM;
 
-	Q_PLUGIN_METADATA(IID "com.sayonara-player.somafm_library")
-	Q_INTERFACES(LibraryContainerInterface)
+	class LibraryContainer :
+		public LibraryContainerInterface
+	{
+		Q_OBJECT
 
-private:
-	GUI_SomaFM*	ui=nullptr;
+		Q_PLUGIN_METADATA(IID "com.sayonara-player.somafm_library")
+		Q_INTERFACES(LibraryContainerInterface)
 
-public:
+	private:
+		GUI_SomaFM*	ui=nullptr;
 
-	explicit SomaFMLibraryContainer(QObject* parent=nullptr);
-	~SomaFMLibraryContainer();
+	public:
 
-	// override from LibraryViewInterface
-	QString			name() const override;
-	QString			display_name() const override;
-	QWidget*		widget() const override;
-	QPixmap			icon() const override;
-	QMenu*			menu() override;
-	QFrame*			header() const override;
-	void			init_ui() override;
+		explicit LibraryContainer(QObject* parent=nullptr);
+		~LibraryContainer();
 
-
-};
-
+		// override from LibraryViewInterface
+		QString			name() const override;
+		QString			display_name() const override;
+		QWidget*		widget() const override;
+		QPixmap			icon() const override;
+		QMenu*			menu() override;
+		QFrame*			header() const override;
+		void			init_ui() override;
+	};
+}
 #endif

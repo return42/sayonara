@@ -44,9 +44,9 @@ namespace Pimpl
      */
     std::unique_ptr<T> make(Args&&... args)
     {
-	return std::unique_ptr<T>(
-		    new T(std::forward<Args>(args)...)
-	);
+		return std::unique_ptr<T>(
+				new T(std::forward<Args>(args)...)
+		);
     }
 }
 

@@ -96,6 +96,8 @@ QFont Style::get_current_font()
 	int font_size_pl =		settings->get(Set::PL_FontSize);
 	bool lib_bold =			settings->get(Set::Lib_FontBold);
 
+	Q_UNUSED(lib_bold);
+
 	if(font_family.isEmpty()){
 		font_family = std_font.family();
 	}

@@ -44,8 +44,8 @@ struct LibraryItemModelTracks::Private
 	MetaDataList tracks;
 };
 
-LibraryItemModelTracks::LibraryItemModelTracks() :
-	LibraryItemModel()
+LibraryItemModelTracks::LibraryItemModelTracks(QObject* parent) :
+	LibraryItemModel(parent)
 {
 	_m = Pimpl::make<LibraryItemModelTracks::Private>();
 }

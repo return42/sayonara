@@ -31,46 +31,48 @@
 #include <QList>
 #include <QMimeData>
 
-class SomaFMStation;
-class SomaFMStationModel :
-		public AbstractSearchTableModel
+namespace SomaFM
 {
-	Q_OBJECT
-
-public:
-	explicit SomaFMStationModel(QObject *parent = nullptr);
-	~SomaFMStationModel();
-
-private:
-	PIMPL(SomaFMStationModel)
-
-	enum class Status : char
+	class Station;
+	class StationModel :
+			public AbstractSearchTableModel
 	{
-		Waiting,
-		Error,
-		OK
+		Q_OBJECT
+		PIMPL(StationModel)
+
+	public:
+		explicit StationModel(QObject *parent = nullptr);
+		~StationModel();
+
+	private:
+		enum class Status : char
+		{
+			Waiting,
+			Error,
+			OK
+		};
+
+		// QAbstractItemModel interface
+	public:
+		int rowCount(const QModelIndex& parent=QModelIndex()) const override;
+		int columnCount(const QModelIndex& parent=QModelIndex()) const override;
+		QVariant data(const QModelIndex& index, int role=Qt::DisplayRole) const override;
+		QMimeData* mimeData(const QModelIndexList &indexes) const override;
+		Qt::ItemFlags flags(const QModelIndex &index) const override;
+
+
+		// AbstractSearchModelInterface interface
+	public:
+		QModelIndex getFirstRowIndexOf(const QString& substr) override;
+		QModelIndex getNextRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent) override;
+		QModelIndex getPrevRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent) override;
+		QMap<QChar, QString> getExtraTriggers() override;
+
+		void set_stations(const QList<SomaFM::Station>& stations);
+		void replace_station(const SomaFM::Station& station);
+		bool has_stations() const;
+		void set_waiting();
 	};
-
-	// QAbstractItemModel interface
-public:
-	int rowCount(const QModelIndex& parent=QModelIndex()) const override;
-	int columnCount(const QModelIndex& parent=QModelIndex()) const override;
-	QVariant data(const QModelIndex& index, int role=Qt::DisplayRole) const override;
-	QMimeData* mimeData(const QModelIndexList &indexes) const override;
-	Qt::ItemFlags flags(const QModelIndex &index) const override;
-
-
-	// AbstractSearchModelInterface interface
-public:
-	QModelIndex getFirstRowIndexOf(const QString& substr) override;
-	QModelIndex getNextRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent) override;
-	QModelIndex getPrevRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent) override;
-	QMap<QChar, QString> getExtraTriggers() override;
-
-	void set_stations(const QList<SomaFMStation>& stations);
-	void replace_station(const SomaFMStation& station);
-	bool has_stations() const;
-	void set_waiting();
-};
+}
 
 #endif // SomaFMStationModel_H

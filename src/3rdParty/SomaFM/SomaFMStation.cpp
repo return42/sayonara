@@ -32,11 +32,11 @@
 #include <QStringList>
 #include <QUrl>
 
-struct SomaFMStation::Private
+struct SomaFM::Station::Private
 {
 	QString			content;
 	QString			station_name;
-	QMap<QString, SomaFMStation::UrlType> urls;
+	QMap<QString, SomaFM::Station::UrlType> urls;
 	QString			description;
 	CoverLocation	cover;
 	MetaDataList	v_md;
@@ -78,7 +78,7 @@ struct SomaFMStation::Private
 			idx = re_mp3.indexIn(content, idx+1);
 			if(idx > 0){
 				QString url = complete_url(re_mp3.cap(1));
-				urls[url] = SomaFMStation::UrlType::MP3;
+				urls[url] = SomaFM::Station::UrlType::MP3;
 			}
 		} while(idx > 0);
 
@@ -88,7 +88,7 @@ struct SomaFMStation::Private
 
 			if(idx > 0){
 				QString url = complete_url(re_aac.cap(1));
-				urls[url] = SomaFMStation::UrlType::AAC;
+				urls[url] = SomaFM::Station::UrlType::AAC;
 			}
 
 		} while(idx > 0);
@@ -129,15 +129,15 @@ struct SomaFMStation::Private
 };
 
 
-SomaFMStation::SomaFMStation()
+SomaFM::Station::Station()
 {
-	_m = Pimpl::make<SomaFMStation::Private>();
+	_m = Pimpl::make<SomaFM::Station::Private>();
 	_m->cover = CoverLocation::getInvalidLocation();
 	_m->loved = false;
 }
 
-SomaFMStation::SomaFMStation(const QString& content) :
-	SomaFMStation()
+SomaFM::Station::Station(const QString& content) :
+	SomaFM::Station()
 {
 	_m->content = content;
 
@@ -147,49 +147,49 @@ SomaFMStation::SomaFMStation(const QString& content) :
 	_m->parse_urls();
 }
 
-SomaFMStation::SomaFMStation(const SomaFMStation& other)
+SomaFM::Station::Station(const SomaFM::Station& other)
 {
-	_m = Pimpl::make<SomaFMStation::Private>();
-	SomaFMStation::Private data = *(other._m.get());
+	_m = Pimpl::make<SomaFM::Station::Private>();
+	SomaFM::Station::Private data = *(other._m.get());
 	(*_m) = data;
 }
 
-SomaFMStation& SomaFMStation::operator=(const SomaFMStation& other)
+SomaFM::Station& SomaFM::Station::operator=(const SomaFM::Station& other)
 {
-	SomaFMStation::Private data = *(other._m.get());
+	SomaFM::Station::Private data = *(other._m.get());
 	(*_m) = data;
 	return *this;
 }
 
-SomaFMStation::~SomaFMStation() {}
+SomaFM::Station::~Station() {}
 
 
-QString SomaFMStation::get_name() const
+QString SomaFM::Station::name() const
 {
 	return _m->station_name;
 }
 
-QStringList SomaFMStation::get_urls() const
+QStringList SomaFM::Station::urls() const
 {
 	return _m->urls.keys();
 }
 
-SomaFMStation::UrlType SomaFMStation::get_url_type(const QString& url) const
+SomaFM::Station::UrlType SomaFM::Station::url_type(const QString& url) const
 {
 	return _m->urls[url];
 }
 
-QString SomaFMStation::get_description() const
+QString SomaFM::Station::description() const
 {
 	return _m->description;
 }
 
-CoverLocation SomaFMStation::get_cover_location() const
+CoverLocation SomaFM::Station::cover_location() const
 {
 	return _m->cover;
 }
 
-bool SomaFMStation::is_valid() const
+bool SomaFM::Station::is_valid() const
 {
 	return (!_m->station_name.isEmpty() &&
 			!_m->urls.isEmpty() &&
@@ -197,21 +197,21 @@ bool SomaFMStation::is_valid() const
 			_m->cover.valid());
 }
 
-MetaDataList SomaFMStation::get_metadata() const
+MetaDataList SomaFM::Station::metadata() const
 {
 	return _m->v_md;
 }
 
-void SomaFMStation::set_metadata(const MetaDataList& v_md)
+void SomaFM::Station::set_metadata(const MetaDataList& v_md)
 {
 	_m->v_md = v_md;
 }
 
-void SomaFMStation::set_loved(bool loved){
+void SomaFM::Station::set_loved(bool loved){
 	_m->loved = loved;
 }
 
-bool SomaFMStation::is_loved() const
+bool SomaFM::Station::is_loved() const
 {
 	return _m->loved;
 }

@@ -22,12 +22,15 @@
 #define SHOUTCASTHELPER_H
 
 class QString;
-namespace SoundcloudWebAccess
+namespace SC
 {
-	QString	create_dl_get_artist(const QString& name);
-	QString	create_dl_get_artist(int artist_id);
-	QString	create_dl_get_playlists(int artist_id);
-	QString	create_dl_get_tracks(int artist_id);
+	namespace WebAccess
+	{
+		QString	create_dl_get_artist(const QString& name);
+		QString	create_dl_get_artist(int artist_id);
+		QString	create_dl_get_playlists(int artist_id);
+		QString	create_dl_get_tracks(int artist_id);
+	}
 }
 
 #endif // SHOUTCASTHELPER_H

@@ -20,6 +20,7 @@
 
 #include "Filter.h"
 #include "DateFilter.h"
+#include "Helper/Language.h"
 
 struct Library::Filter::Private
 {
@@ -82,7 +83,24 @@ void Library::Filter::set_mode(Library::Filter::Mode mode)
 bool Library::Filter::cleared() const
 {
     return !(_m->date_filter.valid() ||
-	    _m->filtertext.size() > 0);
+			 _m->filtertext.size() > 0);
+}
+
+QString Library::Filter::get_text(Library::Filter::Mode mode)
+{
+	switch(mode)
+	{
+		case Library::Filter::Mode::Date:
+			return Lang::get(Lang::Date);
+		case Library::Filter::Mode::Filename:
+			return Lang::get(Lang::Filename);
+		case Library::Filter::Mode::Fulltext:
+			return Lang::get(Lang::Search);
+		case Library::Filter::Mode::Genre:
+			return Lang::get(Lang::Genre);
+		default:
+			return QString();
+	}
 }
 
 void Library::Filter::clear()

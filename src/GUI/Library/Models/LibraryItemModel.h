@@ -38,7 +38,7 @@ class LibraryItemModel :
 
 public:
 
-	LibraryItemModel();
+	LibraryItemModel(QObject* parent=nullptr);
 	virtual ~LibraryItemModel();
 
 	/** Overloaded from QAbstractTableModel **/

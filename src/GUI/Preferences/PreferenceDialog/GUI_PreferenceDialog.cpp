@@ -21,12 +21,11 @@
 #include "GUI_PreferenceDialog.h"
 #include "GUI/Preferences/ui_GUI_PreferenceDialog.h"
 
-#include "GUI/Helper/Delegates/ComboBoxDelegate.cpp"
+#include "GUI/Helper/Delegates/StyledItemDelegate.h"
 #include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
 #include "Helper/globals.h"
 
 #include <QLayout>
-#include <QItemDelegate>
 
 
 GUI_PreferenceDialog::GUI_PreferenceDialog(QWidget *parent) :
@@ -155,7 +154,7 @@ void GUI_PreferenceDialog::init_ui()
 	setup_parent(this, &ui);
 
 	ui->list_preferences->setMouseTracking(false);
-	//ui->list_preferences->setItemDelegate(new QItemDelegate(ui->list_preferences));
+	ui->list_preferences->setItemDelegate(new StyledItemDelegate(ui->list_preferences));
 
 	connect(ui->list_preferences, &QListWidget::currentRowChanged, this, &GUI_PreferenceDialog::row_changed);
 	connect(ui->btn_apply, &QPushButton::clicked, this, &GUI_PreferenceDialog::commit);

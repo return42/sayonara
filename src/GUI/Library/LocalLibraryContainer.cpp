@@ -71,7 +71,7 @@ QWidget* LocalLibraryContainer::widget() const
 QMenu*LocalLibraryContainer::menu()
 {
 	if(_m->ui){
-		return _m->ui->get_menu();
+		return _m->ui->menu();
 	}
 
 	return nullptr;

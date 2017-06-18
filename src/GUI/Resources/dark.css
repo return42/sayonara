@@ -289,42 +289,43 @@ QTableView QHeaderView::down-arrow
 
 QMenuBar
 {
-	color: #D8D8D8;
-	background-color: transparent;
+	margin-top: 2px;
+	border-bottom: 1px solid #282828;
 }
 
 QMenuBar::item
 {
-	height: 25px;
-	color: #D8D8D8;
-	background-color: transparent;
+	padding: 8px 6px;
 }
 
 QMenuBar::item:selected
 {
-	background: #686868;
+	background: #424e72;
+	border: 1px solid #202020;
 }
 
 
 QMenu
 {
 	border: 1px solid #202020;
-	border-radius: 2px;
 	background-color: #383838;
-	padding-left: 2px;
-	padding-right: 2px;
+	padding: 4px 2px 4px 2px;
 }
 
 QMenu::item
 {
-	padding: 2px 25px 2px 20px;
+	border-left: 5px solid transparent;
+	padding: 4px 20px 4px 25px;
 	background-color: transparent;
 }
 
 QMenu::item:selected
 {
-	background: #e8841a;
-	color: #282828;
+	border-top: 1px solid #202020;
+	border-bottom: 1px solid #202020;
+
+	background: #424e72;
+	color: white;
 }
 
 QMenu::indicator:checked
@@ -373,8 +374,6 @@ QMenu::separator
 QComboBox
 {
 	border: 1px solid #2B2B2B;
-	padding: 1px 3px 1px 3px;
-	padding-right: 3em;
 	background-color: #505050;
 }
 
@@ -394,27 +393,26 @@ QComboBox::down-arrow
 	image: url(:/Icons/arrow_down.svg.png);
 }
 
-QComboBox:focus
-{
-	border: 1px solid #e8841a;
-}
 
-QComboBox QAbstractItemView
+QComboBox QAbstractItemView,
+QComboBox QAbstractItemView:focus
 {
-	background: #525252;
-	border: 1px solid #282828;
+
+	background-color: #484848;
+	border: 1px solid #202020;
+	selection-background-color: #424e72;
 }
 
 QComboBox QAbstractItemView::item:focus,
 QComboBox QAbstractItemView::item:selected
 {
-	background: #e8841a;
-	color: #202020;
+	border-top: 1px solid #383838;;
+	border-bottom: 1px solid #383838;
+	background: #424e72;
+	color: white;
 }
 
-
-
-QComboBox:editable,
+QComboBox,
 QLineEdit,
 QSpinBox
 {
@@ -423,17 +421,21 @@ QSpinBox
 	border: 1px solid #2B2B2B;
 	border-radius: 2px;
 	background: #505050;
+	min-width: 80px;
+}
+
+QComboBox 
+{
+	padding-right: 2em;
 }
 
 
 QComboBox:editable:focus,
-QLineEdit::focus,
-QSpinBox::focus
+QLineEdit:focus,
+QSpinBox:focus
 {
 	border: 1px solid #e8841a;
 }
-
-
 
 QTextEdit
 {
@@ -666,12 +668,6 @@ QSlider::sub-page:horizontal
 	background: #e8841a; 
 }
 
-QSlider::add-page:hover
-{
-	background-color: red;
-	background: red;
-}
-
 
 QRadioButton,
 QCheckbox 
@@ -870,15 +866,10 @@ QStackedWidget
 {
 	border: none;
 }
-RatingLabel
-{
-	background-color: red;
-	background: red;
-}
+
 RatingLabel:focus
 {
 	border: 1px solid #e8841a;
 }
-
 
 

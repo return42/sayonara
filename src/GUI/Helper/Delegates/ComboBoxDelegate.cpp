@@ -39,5 +39,5 @@ QSize ComboBoxDelegate::sizeHint(const QStyleOptionViewItem &option, const QMode
 
 	QFontMetrics fm = option.fontMetrics;
 
-	return QSize(1, std::max(std::max(fm.height() + 4, 20), option.decorationSize.height() + 4));
+	return QSize(1, std::max(std::max(fm.height() + 4, 28), option.decorationSize.height() + 4));
 }

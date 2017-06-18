@@ -40,6 +40,8 @@ private:
 
 protected:
 	void change_artistid_field(const QString& field);
+	void change_track_lookup_field(const QString& track_lookup_field);
+
 	virtual QString fetch_query_artists(bool also_empty=false) const;
 
 public:

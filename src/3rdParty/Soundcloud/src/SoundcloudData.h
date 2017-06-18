@@ -34,37 +34,46 @@ class MetaDataList;
 class Artist;
 class AlbumList;
 class SayonaraQuery;
-class SoundcloudData :
-		public LibraryDatabase
+
+namespace SC
 {
-	SINGLETON(SoundcloudData)
+	class SearchInformationList;
 
-public:
-	bool db_fetch_tracks(SayonaraQuery& q, MetaDataList& result) override;
-	bool db_fetch_albums(SayonaraQuery& q, AlbumList& result) override;
-	bool db_fetch_artists(SayonaraQuery& q, ArtistList& result) override;
+	class Database :
+			public LibraryDatabase
+	{
+		SINGLETON(Database)
 
-	int updateArtist(const Artist& artist) override;
-	int insertArtistIntoDatabase (const Artist& artist) override;
-	int insertArtistIntoDatabase (const QString& artist) override;
+	public:
+		bool db_fetch_tracks(SayonaraQuery& q, MetaDataList& result) override;
+		bool db_fetch_albums(SayonaraQuery& q, AlbumList& result) override;
+		bool db_fetch_artists(SayonaraQuery& q, ArtistList& result) override;
 
-	int updateAlbum(const Album& album) override;
-	int insertAlbumIntoDatabase (const Album& album) override;
-	int insertAlbumIntoDatabase (const QString& album) override;
+		int updateArtist(const Artist& artist) override;
+		int insertArtistIntoDatabase (const Artist& artist) override;
+		int insertArtistIntoDatabase (const QString& artist) override;
 
-	bool updateTrack(const MetaData& md) override;
-	bool storeMetadata(const MetaDataList& v_md) override;
-	bool insertTrackIntoDatabase(const MetaData& md, int artist_id, int album_id, int album_artist_id) override;
-	bool insertTrackIntoDatabase(const MetaData& md, int artist_id, int album_id) override;
+		int updateAlbum(const Album& album) override;
+		int insertAlbumIntoDatabase (const Album& album) override;
+		int insertAlbumIntoDatabase (const QString& album) override;
 
-	bool apply_fixes() override;
+		bool updateTrack(const MetaData& md) override;
+		bool storeMetadata(const MetaDataList& v_md) override;
+		bool insertTrackIntoDatabase(const MetaData& md, int artist_id, int album_id, int album_artist_id) override;
+		bool insertTrackIntoDatabase(const MetaData& md, int artist_id, int album_id) override;
 
-	QString load_setting(const QString& key);
-	bool save_setting(const QString& key, const QString& value);
+		bool apply_fixes() override;
 
-	QString fetch_query_albums(bool also_empty=false) const override;
-	QString fetch_query_artists(bool also_empty=false) const override;
-	QString fetch_query_tracks() const override;
-};
+		QString load_setting(const QString& key);
+		bool save_setting(const QString& key, const QString& value);
+		bool insert_setting(const QString& key, const QString& value);
+
+		bool getSearchInformation(SC::SearchInformationList& list);
+
+		QString fetch_query_albums(bool also_empty=false) const override;
+		QString fetch_query_artists(bool also_empty=false) const override;
+		QString fetch_query_tracks() const override;
+	};
+}
 
 #endif // SOUNDCLOUDDATA_H

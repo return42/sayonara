@@ -20,31 +20,37 @@
 
 #include "3rdParty/Soundcloud/ui/GUI_SoundcloudLibrary.h"
 #include "3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h"
+#include "3rdParty/Soundcloud/src/SoundcloudLibrary.h"
 
 #include "GUI/Helper/ContextMenu/LibraryContextMenu.h"
 
 #include <QShortcut>
 
-struct GUI_SoundCloudLibrary::Private
+struct SC::GUI_Library::Private
 {
-	GUI_SoundcloudArtistSearch* artist_search=nullptr;
-	QMenu*						library_menu=nullptr;
+	SC::GUI_ArtistSearch*	artist_search=nullptr;
+	QMenu*					library_menu=nullptr;
 };
 
-GUI_SoundCloudLibrary::GUI_SoundCloudLibrary(SoundcloudLibrary* library, QWidget *parent) :
+SC::GUI_Library::GUI_Library(SC::Library* library, QWidget *parent) :
 	GUI_AbstractLibrary(library, parent)
 {
 	setup_parent(this, &ui);
-
-	_m = Pimpl::make<GUI_SoundCloudLibrary::Private>();
-	_m->artist_search = new GUI_SoundcloudArtistSearch(library, this);
-	_m->library_menu = new QMenu(this);
-
-	QAction* action_add_artist = _m->library_menu->addAction(tr("Add artist"));
-
 	setAcceptDrops(false);
 
-	connect(action_add_artist, &QAction::triggered, this, &GUI_SoundCloudLibrary::btn_add_clicked);
+	_m = Pimpl::make<SC::GUI_Library::Private>();
+
+	_m->artist_search = new SC::GUI_ArtistSearch(library, this);
+	_m->library_menu = new QMenu(this);
+
+	/* Remove search options */
+	while(ui->combo_searchfilter->count() > 1){
+		int last = ui->combo_searchfilter->count() - 1;
+		ui->combo_searchfilter->removeItem(last);
+	}
+
+	QAction* action_add_artist = _m->library_menu->addAction(tr("Add artist"));
+	connect(action_add_artist, &QAction::triggered, this, &SC::GUI_Library::btn_add_clicked);
 
 	LibraryContexMenuEntries entry_mask =
 			(LibraryContextMenu::EntryPlayNext |
@@ -60,7 +66,7 @@ GUI_SoundCloudLibrary::GUI_SoundCloudLibrary(SoundcloudLibrary* library, QWidget
 	library->load();
 }
 
-GUI_SoundCloudLibrary::~GUI_SoundCloudLibrary()
+SC::GUI_Library::~GUI_Library()
 {
 	if(ui)
 	{
@@ -69,29 +75,59 @@ GUI_SoundCloudLibrary::~GUI_SoundCloudLibrary()
 }
 
 
-QMenu* GUI_SoundCloudLibrary::get_menu() const
+QMenu* SC::GUI_Library::get_menu() const
 {
 	return _m->library_menu;
 }
 
-QFrame* GUI_SoundCloudLibrary::header_frame() const
+QFrame* SC::GUI_Library::header_frame() const
 {
 	return ui->header_frame;
 }
 
-Library::TrackDeletionMode GUI_SoundCloudLibrary::show_delete_dialog(int n_tracks){
+Library::TrackDeletionMode SC::GUI_Library::show_delete_dialog(int n_tracks)
+{
 	Q_UNUSED(n_tracks)
-	return Library::TrackDeletionMode::OnlyLibrary;
+	return ::Library::TrackDeletionMode::OnlyLibrary;
 }
 
-void GUI_SoundCloudLibrary::init_shortcuts()
+void SC::GUI_Library::init_shortcuts()
 {
 	new QShortcut(QKeySequence("Ctrl+f"), ui->le_search, SLOT(setFocus()), nullptr, Qt::WidgetWithChildrenShortcut);
 	new QShortcut(QKeySequence("Esc"), this, SLOT(clear_button_pressed()), nullptr, Qt::WidgetWithChildrenShortcut);
 }
 
-void GUI_SoundCloudLibrary::btn_add_clicked()
+void SC::GUI_Library::btn_add_clicked()
 {
 	_m->artist_search->show();
 }
 
+LibraryTableView*SC::GUI_Library::lv_artist() const
+{
+	return ui->lv_artist;
+}
+
+LibraryTableView*SC::GUI_Library::lv_album() const
+{
+	return ui->lv_album;
+}
+
+LibraryTableView*SC::GUI_Library::lv_tracks() const
+{
+	return ui->tb_title;
+}
+
+QPushButton*SC::GUI_Library::btn_clear() const
+{
+	return ui->btn_clear;
+}
+
+QLineEdit*SC::GUI_Library::le_search() const
+{
+	return ui->le_search;
+}
+
+QComboBox*SC::GUI_Library::combo_search() const
+{
+	return ui->combo_searchfilter;
+}

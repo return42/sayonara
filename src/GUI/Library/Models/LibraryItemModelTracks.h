@@ -40,7 +40,7 @@ class LibraryItemModelTracks :
 	PIMPL(LibraryItemModelTracks)
 
 public:
-	LibraryItemModelTracks();
+	LibraryItemModelTracks(QObject* parent=nullptr);
 	virtual ~LibraryItemModelTracks();
 
 	QVariant data(const QModelIndex &index, int role) const override;

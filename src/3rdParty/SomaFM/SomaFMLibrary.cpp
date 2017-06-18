@@ -37,14 +37,14 @@
 #include <QSettings>
 #include <algorithm>
 
-struct SomaFMLibrary::Private
+struct SomaFM::Library::Private
 {
-	QMap<QString, SomaFMStation> 	station_map;
+	QMap<QString, SomaFM::Station> 	station_map;
 	QString 						requested_station;
 	QSettings*						qsettings=nullptr;
 };
 
-SomaFMLibrary::SomaFMLibrary(QObject* parent) :
+SomaFM::Library::Library(QObject* parent) :
 	QObject(parent)
 {
 	_m = Pimpl::make<Private>();
@@ -53,33 +53,32 @@ SomaFMLibrary::SomaFMLibrary(QObject* parent) :
 	_m->qsettings = new QSettings(path, QSettings::IniFormat, this);
 }
 
-SomaFMLibrary::~SomaFMLibrary()
+SomaFM::Library::~Library()
 {
 	_m->qsettings->deleteLater();
 }
 
 
-void SomaFMLibrary::search_stations()
+void SomaFM::Library::search_stations()
 {
 	AsyncWebAccess* awa = new AsyncWebAccess(this);
-	connect(awa, &AsyncWebAccess::sig_finished, this, &SomaFMLibrary::soma_website_fetched);
+	connect(awa, &AsyncWebAccess::sig_finished, this, &SomaFM::Library::soma_website_fetched);
 
 	awa->run("https://somafm.com/listen/");
 }
 	
 
-SomaFMStation SomaFMLibrary::get_station(const QString& name)
+SomaFM::Station SomaFM::Library::station(const QString& name)
 {
 	_m->requested_station = name;
-	SomaFMStation station = _m->station_map[name];
-	return station;
+	return _m->station_map[name];
 }
 
 
-void SomaFMLibrary::soma_website_fetched()
+void SomaFM::Library::soma_website_fetched()
 {
 	AsyncWebAccess* awa = static_cast<AsyncWebAccess*>(sender());
-	QList<SomaFMStation> stations;
+	QList<SomaFM::Station> stations;
 
 	if(awa->status() != AsyncWebAccess::Status::GotData){
 		awa->deleteLater();
@@ -91,13 +90,14 @@ void SomaFMLibrary::soma_website_fetched()
 	QStringList station_contents = content.split("<li");
 
 
-	for(const QString& station_content : station_contents){
-		SomaFMStation station(station_content);
+	for(const QString& station_content : station_contents)
+	{
+		SomaFM::Station station(station_content);
 		if(!station.is_valid()){
 			continue;
 		}
 
-		QString station_name = station.get_name();
+		QString station_name = station.name();
 
 		bool loved = _m->qsettings->value(station_name, false).toBool();
 			
@@ -113,17 +113,17 @@ void SomaFMLibrary::soma_website_fetched()
 	awa->deleteLater();
 }
 
-void SomaFMLibrary::create_playlist_from_station(int row)
+void SomaFM::Library::create_playlist_from_station(int row)
 {
 	Q_UNUSED(row)
 
-	SomaFMStation station = _m->station_map[_m->requested_station];
-	StreamParser* parser = new StreamParser(station.get_name(), this);
-	connect(parser, &StreamParser::sig_finished, this, &SomaFMLibrary::soma_station_playlists_fetched);
-	parser->parse_streams(station.get_urls());
+	SomaFM::Station station = _m->station_map[_m->requested_station];
+	StreamParser* parser = new StreamParser(station.name(), this);
+	connect(parser, &StreamParser::sig_finished, this, &SomaFM::Library::soma_station_playlists_fetched);
+	parser->parse_streams(station.urls());
 }
 
-void SomaFMLibrary::soma_station_playlists_fetched(bool success)
+void SomaFM::Library::soma_station_playlists_fetched(bool success)
 {
 	StreamParser* parser = dynamic_cast<StreamParser*>(sender());
 
@@ -133,9 +133,9 @@ void SomaFMLibrary::soma_station_playlists_fetched(bool success)
 	}
 
 	MetaDataList v_md  = parser->get_metadata();
-	SomaFMStation station = _m->station_map[_m->requested_station];
+	SomaFM::Station station = _m->station_map[_m->requested_station];
 	QString cover_url;
-	CoverLocation cl = station.get_cover_location();
+	CoverLocation cl = station.cover_location();
 	if(cl.has_search_urls()){
 		cover_url = cl.search_urls().first();
 	}
@@ -150,7 +150,7 @@ void SomaFMLibrary::soma_station_playlists_fetched(bool success)
 
 	PlaylistHandler* plh = PlaylistHandler::getInstance();
 	plh->create_playlist(v_md,
-						 station.get_name(),
+						 station.name(),
 						 true,
 						 Playlist::Type::Stream);
 
@@ -158,24 +158,24 @@ void SomaFMLibrary::soma_station_playlists_fetched(bool success)
 }
 
 
-void SomaFMLibrary::create_playlist_from_playlist(int idx)
+void SomaFM::Library::create_playlist_from_playlist(int idx)
 {
-	SomaFMStation station = _m->station_map[_m->requested_station];
-	QStringList urls = station.get_urls();
+	SomaFM::Station station = _m->station_map[_m->requested_station];
+	QStringList urls = station.urls();
 
 	if( !between(idx, urls)) {
 		return;		
 	}
 
 	QString url = urls[idx];
-	StreamParser* stream_parser = new StreamParser(station.get_name(), this);
-	connect(stream_parser, &StreamParser::sig_finished, this, &SomaFMLibrary::soma_playlist_content_fetched);
+	StreamParser* stream_parser = new StreamParser(station.name(), this);
+	connect(stream_parser, &StreamParser::sig_finished, this, &SomaFM::Library::soma_playlist_content_fetched);
 
 	stream_parser->parse_stream(url);
 }
 
 
-void SomaFMLibrary::soma_playlist_content_fetched(bool success)
+void SomaFM::Library::soma_playlist_content_fetched(bool success)
 {
 	StreamParser* parser = static_cast<StreamParser*>(sender());
 
@@ -186,8 +186,8 @@ void SomaFMLibrary::soma_playlist_content_fetched(bool success)
 
 	MetaDataList v_md = parser->get_metadata();
 
-	SomaFMStation station = _m->station_map[_m->requested_station];
-	CoverLocation cl = station.get_cover_location();
+	SomaFM::Station station = _m->station_map[_m->requested_station];
+	CoverLocation cl = station.cover_location();
 	QString cover_url;
 	if(cl.has_search_urls()){
 		cover_url = cl.search_urls().first();
@@ -203,7 +203,7 @@ void SomaFMLibrary::soma_playlist_content_fetched(bool success)
 
 	PlaylistHandler* plh = PlaylistHandler::getInstance();
 	plh->create_playlist(v_md,
-						 station.get_name(),
+						 station.name(),
 						 true,
 						 Playlist::Type::Stream);
 
@@ -211,12 +211,12 @@ void SomaFMLibrary::soma_playlist_content_fetched(bool success)
 }
 
 
-void SomaFMLibrary::set_station_loved(const QString& station_name, bool loved)
+void SomaFM::Library::set_station_loved(const QString& station_name, bool loved)
 {
 	_m->station_map[station_name].set_loved(loved);
 	_m->qsettings->setValue(station_name, loved);
 
-	QList<SomaFMStation> stations;
+	QList<SomaFM::Station> stations;
 	for(const QString& key : _m->station_map.keys()){
 		if(key.isEmpty()){
 			continue;
@@ -230,9 +230,9 @@ void SomaFMLibrary::set_station_loved(const QString& station_name, bool loved)
 }
 
 
-void SomaFMLibrary::sort_stations(QList<SomaFMStation>& stations)
+void SomaFM::Library::sort_stations(QList<SomaFM::Station>& stations)
 {
-	auto lambda = [](const SomaFMStation& s1, const SomaFMStation& s2){
+	auto lambda = [](const SomaFM::Station& s1, const SomaFM::Station& s2){
 		if(s1.is_loved() && !s2.is_loved()){
 			return true;
 		}
@@ -241,7 +241,7 @@ void SomaFMLibrary::sort_stations(QList<SomaFMStation>& stations)
 			return false;
 		}
 
-		return s1.get_name() < s2.get_name();
+		return s1.name() < s2.name();
 	};
 
 	std::sort(stations.begin(), stations.end(), lambda);

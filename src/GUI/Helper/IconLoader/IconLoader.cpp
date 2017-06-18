@@ -78,8 +78,6 @@ IconLoader::IconLoader() :
 		if(!QFile::exists(index_path)){
 			continue;
 		}
-
-		_m->theme_paths += load_ancestors(index_path);
 	}
 #endif
 
@@ -90,44 +88,6 @@ IconLoader::IconLoader() :
 }
 
 IconLoader::~IconLoader() {}
-
-QStringList IconLoader::load_ancestors(const QString &index_theme_file)
-{
-	return QStringList();
-
-	QFile f(index_theme_file);
-	if(!f.open(QFile::ReadOnly)){
-		return QStringList();
-	}
-
-	QRegExp re_inherit(".*Inhertits\\d=\\d(.*)");
-
-	QStringList ancestor_list;
-
-	while(f.canReadLine())
-	{
-		QByteArray arr = f.readLine();
-		QString line = QString::fromLocal8Bit(arr);
-		QString ancestors;
-
-		int idx = re_inherit.indexIn(line);
-		if(idx < 0){
-			continue;
-		}
-
-		ancestors = re_inherit.cap(1);
-		ancestor_list = ancestors.split(',');
-		break;
-	}
-
-	f.close();
-
-	for(auto it=ancestor_list.begin(); it != ancestor_list.end(); it++){
-		*it = it->trimmed();
-	}
-
-	return ancestor_list;
-}
 
 void IconLoader::icon_theme_changed()
 {

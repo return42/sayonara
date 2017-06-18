@@ -1,4 +1,4 @@
-/* GUI_SoundcloudArtistSearch.cpp */
+/* SC::GUI_ArtistSearch.cpp */
 
 /* Copyright (C) 2011-2017  Lucio Carreras
  *
@@ -26,10 +26,10 @@
 #include "Helper/globals.h"
 #include "Helper/MetaData/Artist.h"
 
-struct GUI_SoundcloudArtistSearch::Private
+struct SC::GUI_ArtistSearch::Private
 {
-	SoundcloudLibrary*		library=nullptr;
-	SoundcloudDataFetcher*	fetcher=nullptr;
+	SC::Library*		library=nullptr;
+	SC::DataFetcher*	fetcher=nullptr;
 
 	MetaDataList		v_md;
 	AlbumList			albums;
@@ -38,34 +38,34 @@ struct GUI_SoundcloudArtistSearch::Private
 	quint64				cur_artist_sc_id;
 };
 
-GUI_SoundcloudArtistSearch::GUI_SoundcloudArtistSearch(SoundcloudLibrary* library, QWidget *parent) :
+SC::GUI_ArtistSearch::GUI_ArtistSearch(SC::Library* library, QWidget *parent) :
 	SayonaraDialog(parent)
 {
 	ui = new Ui::GUI_SoundcloudArtistSearch();
 	ui->setupUi(this);
 
-	_m = Pimpl::make<GUI_SoundcloudArtistSearch::Private>();
+	_m = Pimpl::make<SC::GUI_ArtistSearch::Private>();
 	_m->library = library;
-	_m->fetcher = new SoundcloudDataFetcher(this);
+	_m->fetcher = new SC::DataFetcher(this);
 
-	connect(ui->btn_search, &QPushButton::clicked, this, &GUI_SoundcloudArtistSearch::search_clicked);
-	connect(ui->btn_add, &QPushButton::clicked, this, &GUI_SoundcloudArtistSearch::add_clicked);
-	connect(ui->btn_cancel, &QPushButton::clicked, this, &GUI_SoundcloudArtistSearch::close);
-	connect(ui->btn_clear, &QPushButton::clicked, this, &GUI_SoundcloudArtistSearch::clear_clicked);
+	connect(ui->btn_search, &QPushButton::clicked, this, &SC::GUI_ArtistSearch::search_clicked);
+	connect(ui->btn_add, &QPushButton::clicked, this, &SC::GUI_ArtistSearch::add_clicked);
+	connect(ui->btn_cancel, &QPushButton::clicked, this, &SC::GUI_ArtistSearch::close);
+	connect(ui->btn_clear, &QPushButton::clicked, this, &SC::GUI_ArtistSearch::clear_clicked);
 
-	connect(ui->list_artists, &QListWidget::currentRowChanged, this, &GUI_SoundcloudArtistSearch::artist_selected);
+	connect(ui->list_artists, &QListWidget::currentRowChanged, this, &SC::GUI_ArtistSearch::artist_selected);
 
-	connect(_m->fetcher, &SoundcloudDataFetcher::sig_artists_fetched, this, &GUI_SoundcloudArtistSearch::artists_fetched);
-	connect(_m->fetcher, &SoundcloudDataFetcher::sig_ext_artists_fetched, this, &GUI_SoundcloudArtistSearch::artists_ext_fetched);
-	connect(_m->fetcher, &SoundcloudDataFetcher::sig_playlists_fetched, this, &GUI_SoundcloudArtistSearch::albums_fetched);
-	connect(_m->fetcher, &SoundcloudDataFetcher::sig_tracks_fetched, this, &GUI_SoundcloudArtistSearch::tracks_fetched);
+	connect(_m->fetcher, &SC::DataFetcher::sig_artists_fetched, this, &SC::GUI_ArtistSearch::artists_fetched);
+	connect(_m->fetcher, &SC::DataFetcher::sig_ext_artists_fetched, this, &SC::GUI_ArtistSearch::artists_ext_fetched);
+	connect(_m->fetcher, &SC::DataFetcher::sig_playlists_fetched, this, &SC::GUI_ArtistSearch::albums_fetched);
+	connect(_m->fetcher, &SC::DataFetcher::sig_tracks_fetched, this, &SC::GUI_ArtistSearch::tracks_fetched);
 
 	clear_clicked();
 }
 
-GUI_SoundcloudArtistSearch::~GUI_SoundcloudArtistSearch() {}
+SC::GUI_ArtistSearch::~GUI_ArtistSearch() {}
 
-void GUI_SoundcloudArtistSearch::search_clicked()
+void SC::GUI_ArtistSearch::search_clicked()
 {
 	QString text = ui->le_search->text();
 	clear_clicked();
@@ -82,7 +82,7 @@ void GUI_SoundcloudArtistSearch::search_clicked()
 	_m->fetcher->search_artists(text);
 }
 
-void GUI_SoundcloudArtistSearch::clear_clicked()
+void SC::GUI_ArtistSearch::clear_clicked()
 {
 	ui->list_artists->clear();
 	ui->list_playlists->clear();
@@ -101,24 +101,23 @@ void GUI_SoundcloudArtistSearch::clear_clicked()
 	_m->albums.clear();
 }
 
-void GUI_SoundcloudArtistSearch::add_clicked()
+void SC::GUI_ArtistSearch::add_clicked()
 {
 	if( _m->v_md.size() > 0 &&
-		_m->chosen_artists.size() > 0 &&
-		_m->albums.size() > 0)
+		_m->chosen_artists.size() > 0)
 	{
 		_m->library->insert_tracks(_m->v_md, _m->chosen_artists, _m->albums);
 		close();
 	}
 }
 
-void GUI_SoundcloudArtistSearch::close_clicked()
+void SC::GUI_ArtistSearch::close_clicked()
 {
 	close();
 }
 
 
-void GUI_SoundcloudArtistSearch::artist_selected(int idx)
+void SC::GUI_ArtistSearch::artist_selected(int idx)
 {
 	ui->list_playlists->clear();
 	ui->list_tracks->clear();
@@ -140,13 +139,13 @@ void GUI_SoundcloudArtistSearch::artist_selected(int idx)
 	_m->fetcher->get_tracks_by_artist(_m->cur_artist_sc_id);
 }
 
-void GUI_SoundcloudArtistSearch::language_changed()
+void SC::GUI_ArtistSearch::language_changed()
 {
 	ui->retranslateUi(this);
 }
 
 
-void GUI_SoundcloudArtistSearch::artists_fetched(const ArtistList& artists)
+void SC::GUI_ArtistSearch::artists_fetched(const ArtistList& artists)
 {
 	ui->list_artists->clear();
 	_m->searched_artists.clear();
@@ -166,13 +165,13 @@ void GUI_SoundcloudArtistSearch::artists_fetched(const ArtistList& artists)
 	}
 }
 
-void GUI_SoundcloudArtistSearch::artists_ext_fetched(const ArtistList &artists)
+void SC::GUI_ArtistSearch::artists_ext_fetched(const ArtistList &artists)
 {
 	_m->chosen_artists = artists;
 }
 
 
-void GUI_SoundcloudArtistSearch::albums_fetched(const AlbumList& albums)
+void SC::GUI_ArtistSearch::albums_fetched(const AlbumList& albums)
 {
 	ui->list_playlists->clear();
 
@@ -186,7 +185,7 @@ void GUI_SoundcloudArtistSearch::albums_fetched(const AlbumList& albums)
 }
 
 
-void GUI_SoundcloudArtistSearch::tracks_fetched(const MetaDataList& v_md)
+void SC::GUI_ArtistSearch::tracks_fetched(const MetaDataList& v_md)
 {
 	ui->list_tracks->clear();
 
@@ -202,7 +201,7 @@ void GUI_SoundcloudArtistSearch::tracks_fetched(const MetaDataList& v_md)
 }
 
 
-void GUI_SoundcloudArtistSearch::set_tracks_label(int n_tracks)
+void SC::GUI_ArtistSearch::set_tracks_label(int n_tracks)
 {
 	if(n_tracks >= 0){
 		ui->lab_n_tracks->setText( tr("%1 tracks found").arg(n_tracks) );
@@ -211,7 +210,7 @@ void GUI_SoundcloudArtistSearch::set_tracks_label(int n_tracks)
 	ui->lab_n_tracks->setVisible(n_tracks >= 0);
 }
 
-void GUI_SoundcloudArtistSearch::set_playlist_label(int n_playlists)
+void SC::GUI_ArtistSearch::set_playlist_label(int n_playlists)
 {
 	if(n_playlists >= 0){
 		ui->lab_n_playlists->setText( tr("%1 playlists found").arg(n_playlists) );

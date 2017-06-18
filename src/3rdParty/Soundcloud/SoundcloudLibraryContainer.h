@@ -27,33 +27,38 @@
 #include <QtGlobal>
 #include "Interfaces/LibraryInterface/LibraryContainer/LibraryContainer.h"
 
-class GUI_SoundCloudLibrary;
 
-class SoundcloudLibraryContainer :
-	public LibraryContainerInterface
+
+namespace SC
 {
-	Q_OBJECT
+	class GUI_Library;
 
-	Q_PLUGIN_METADATA(IID "com.sayonara-player.soundcloud_library")
-	Q_INTERFACES(LibraryContainerInterface)
-	
+	class LibraryContainer :
+		public LibraryContainerInterface
+	{
+		Q_OBJECT
 
-private:
-	GUI_SoundCloudLibrary*	ui=nullptr;
+		Q_PLUGIN_METADATA(IID "com.sayonara-player.soundcloud_library")
+		Q_INTERFACES(LibraryContainerInterface)
 
-public:
 
-	explicit SoundcloudLibraryContainer(QObject* parent=nullptr);
-	~SoundcloudLibraryContainer();
+	private:
+		SC::GUI_Library*	ui=nullptr;
 
-	// override from LibraryViewInterface
-	QString			name() const override;
-	QString			display_name() const override;
-	QWidget*		widget() const override;
-	QMenu*			menu() override;
-	QFrame*			header() const override;
-	QPixmap			icon() const override;
-	void			init_ui() override;
-};
+	public:
+
+		explicit LibraryContainer(QObject* parent=nullptr);
+		~LibraryContainer();
+
+		// override from LibraryViewInterface
+		QString			name() const override;
+		QString			display_name() const override;
+		QWidget*		widget() const override;
+		QMenu*			menu() override;
+		QFrame*			header() const override;
+		QPixmap			icon() const override;
+		void			init_ui() override;
+	};
+}
 
 #endif

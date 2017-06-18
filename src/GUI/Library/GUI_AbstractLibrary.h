@@ -24,31 +24,26 @@
 #include "GUI/Helper/Delegates/ComboBoxDelegate.h"
 #include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
 
-#include "Helper/Library/Filter.h"
-#include "Helper/Library/LibraryNamespaces.h"
 #include "Helper/typedefs.h"
-#include "Helper/Library/Sortorder.h"
-#include "Helper/MetaData/MetaDataFwd.h"
 #include "Helper/SetFwd.h"
 
-#include <QComboBox>
-#include <QPoint>
-#include <QAbstractItemView>
+#include "Helper/Library/Filter.h"
+#include "Helper/Library/Sorting.h"
+#include "Helper/Library/LibraryNamespaces.h"
+#include "Helper/MetaData/MetaDataFwd.h"
 
-class QItemDelegate;
+#include "Helper/Pimpl.h"
+
 class QPushButton;
+class QComboBox;
 class AbstractLibrary;
 class LibraryTableView;
-class LibraryViewAlbum;
-class LibraryRatingDelegate;
-class LibraryItemModelAlbums;
-class LibraryItemModelArtists;
-class LibraryItemModelTracks;
 
 class GUI_AbstractLibrary :
 		public SayonaraWidget
 {
 	Q_OBJECT
+	PIMPL(GUI_AbstractLibrary)
 
 public:
 	explicit GUI_AbstractLibrary(AbstractLibrary* library,
@@ -57,38 +52,17 @@ public:
 	virtual ~GUI_AbstractLibrary();
 
 protected:
-	AbstractLibrary*	_library = nullptr;
-
-	Library::Filter		_cur_searchfilter;
-
-	BoolList	_shown_cols_albums;
-	BoolList	_shown_cols_artist;
-	BoolList	_shown_cols_tracks;
-
-	LibraryItemModelTracks* 	_track_model = nullptr;
-	LibraryItemModelAlbums* 	_album_model = nullptr;
-	LibraryItemModelArtists*	_artist_model = nullptr;
-
-	LibraryRatingDelegate* 		_track_delegate = nullptr;
-	LibraryRatingDelegate* 		_album_delegate = nullptr;
-	QItemDelegate*				_artist_delegate = nullptr;
-
 	virtual void init_headers();
 	virtual void init_shortcuts();
 	virtual void language_changed() override;
-	virtual Library::TrackDeletionMode show_delete_dialog(int n_tracks)=0;
+	virtual ::Library::TrackDeletionMode show_delete_dialog(int n_tracks)=0;
+
+	virtual QList<::Library::Filter::Mode> search_options() const;
 
 private:
-	LibraryTableView*	_lv_artist = nullptr;
-	LibraryViewAlbum*	_lv_album = nullptr;
-	LibraryTableView*	_lv_tracks = nullptr;
-
-	QComboBox*			_combo_search = nullptr;
-	QPushButton*		_btn_clear = nullptr;
-	QLineEdit*			_le_search = nullptr;
-	QPushButton*		_btn_refresh = nullptr;
-
+	void init();
 	void init_finished();
+	void init_search_combobox();
 
 protected slots:
 	virtual void _sl_live_search_changed();
@@ -118,9 +92,9 @@ protected slots:
 	virtual void columns_album_changed(const BoolList&);
 	virtual void columns_artist_changed(const BoolList&);
 
-	virtual void sortorder_title_changed(Library::SortOrder);
-	virtual void sortorder_album_changed(Library::SortOrder);
-	virtual void sortorder_artist_changed(Library::SortOrder);
+	virtual void sortorder_title_changed(::Library::SortOrder);
+	virtual void sortorder_album_changed(::Library::SortOrder);
+	virtual void sortorder_artist_changed(::Library::SortOrder);
 
 	virtual void text_line_edited(const QString&);
 	virtual void clear_button_pressed();
@@ -150,26 +124,23 @@ public slots:
 	virtual void id3_tags_changed();
 
 protected:
+
+	virtual LibraryTableView* lv_artist() const=0;
+	virtual LibraryTableView* lv_album() const=0;
+	virtual LibraryTableView* lv_tracks() const=0;
+	virtual QPushButton* btn_clear() const=0;
+	virtual QLineEdit* le_search() const=0;
+	virtual QComboBox* combo_search() const=0;
+
 	template<typename T, typename UI>
-	void setup_parent(T* subclass, UI** ui){
+	void setup_parent(T* subclass, UI** ui)
+	{
 		*ui = new UI();
 
 		UI* ui_ptr = *ui;
 		ui_ptr->setupUi(subclass);
 
-		_lv_artist = ui_ptr->lv_artist;
-		_lv_album = ui_ptr->lv_album;
-		_lv_tracks = ui_ptr->tb_title;
-		_btn_clear = ui_ptr->btn_clear;
-		_le_search = ui_ptr->le_search;
-		_combo_search = ui_ptr->combo_searchfilter;
-
-		_combo_search->setItemDelegate(new ComboBoxDelegate(this));
-		_combo_search->setIconSize(QSize(16, 16));
-		_combo_search->view()->setIconSize(QSize(16, 16));
-
-		init_shortcuts();
-		init_finished();
+		init();
 	}
 };
 

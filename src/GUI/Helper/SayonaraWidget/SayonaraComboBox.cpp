@@ -7,36 +7,16 @@
 #include <QEvent>
 
 SayonaraComboBox::SayonaraComboBox(QWidget* parent) :
-    SayonaraWidgetTemplate<QComboBox>(parent)
+	SayonaraWidgetTemplate<QComboBox>(nullptr)
 {
-	this->setItemDelegate(new ComboBoxDelegate(this));
+	Q_UNUSED(parent)
 
-	REGISTER_LISTENER(Set::Player_Style, style_changed);
+	this->setItemDelegate(new ComboBoxDelegate(this));
 }
 
 SayonaraComboBox::~SayonaraComboBox() {}
 
-void SayonaraComboBox::style_changed()
-{
-	bool is_dark = (_settings->get(Set::Player_Style) == 1);
-	QAbstractItemView* view = this->view();
-	if(!view){
-		return;
-	}
 
-	QWidget* parent_widget = view->parentWidget();
-	if(!parent_widget){
-		return;
-	}
-
-	if(is_dark) {
-		parent_widget->setStyleSheet("background: #3c3c3c; margin: -2px; padding: 0px; border: none;");
-	}
-
-	else {
-		parent_widget->setStyleSheet("");
-	}
-}
 
 void SayonaraComboBox::changeEvent(QEvent* event)
 {

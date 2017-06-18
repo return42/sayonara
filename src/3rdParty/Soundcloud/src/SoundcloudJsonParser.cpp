@@ -30,33 +30,49 @@
 #include "Helper/Logger/Logger.h"
 #include "Helper/Language.h"
 
+#include <QJsonDocument>
+#include <QJsonParseError>
 
-SoundcloudJsonParser::SoundcloudJsonParser(const QByteArray& content) : 
-	QObject(),
-
-	_content(content)
+struct SC::JsonParser::Private
 {
-	QJsonParseError error;
-	_json_doc = QJsonDocument::fromJson(content, &error);
-	Helper::File::write_file(_json_doc.toJson(QJsonDocument::Indented), Helper::sayonara_path() + "/tmp.json");
+	QJsonDocument		json_doc;
+	QByteArray			content;
+	QJsonParseError		error;
 
-	QJsonParseError::ParseError pe = error.error;
+	Private(const QByteArray& content) :
+		content(content)
+	{
+		json_doc = QJsonDocument::fromJson(content, &error);
+	}
+};
+
+SC::JsonParser::JsonParser(const QByteArray& content) :
+	QObject()
+{
+	_m = Pimpl::make<Private>(content);
+	QString target_file = Helper::sayonara_path() + "/tmp.json";
+
+	Helper::File::write_file(
+		_m->json_doc.toJson(QJsonDocument::Indented), target_file
+	);
+
+	QJsonParseError::ParseError pe = _m->error.error;
 	if(pe != QJsonParseError::NoError){
-		sp_log(Log::Warning) << "Cannot parse json document: " << error.errorString();
+		sp_log(Log::Warning) << "Cannot parse json document: " << _m->error.errorString();
 	}
 }
 
-SoundcloudJsonParser::~SoundcloudJsonParser() {}
+SC::JsonParser::~JsonParser() {}
 
-bool SoundcloudJsonParser::parse_artists(ArtistList& artists)
+bool SC::JsonParser::parse_artists(ArtistList& artists)
 {
-	if(_json_doc.isArray()){
-		return parse_artist_list(artists, _json_doc.array());
+	if(_m->json_doc.isArray()){
+		return parse_artist_list(artists, _m->json_doc.array());
 	}
 
-	else if(_json_doc.isObject()){
+	else if(_m->json_doc.isObject()){
 		Artist artist;
-		if(parse_artist(artist, _json_doc.object())){
+		if(parse_artist(artist, _m->json_doc.object())){
 			artists << artist;
 			return true;
 		}
@@ -66,7 +82,7 @@ bool SoundcloudJsonParser::parse_artists(ArtistList& artists)
 }
 
 
-bool SoundcloudJsonParser::parse_artist_list(ArtistList& artists, QJsonArray arr){
+bool SC::JsonParser::parse_artist_list(ArtistList& artists, QJsonArray arr){
 	artists.clear();
 
 	for(auto it = arr.begin(); it != arr.end(); it++){
@@ -83,7 +99,7 @@ bool SoundcloudJsonParser::parse_artist_list(ArtistList& artists, QJsonArray arr
 }
 
 
-bool SoundcloudJsonParser::parse_artist(Artist& artist, QJsonObject object)
+bool SC::JsonParser::parse_artist(Artist& artist, QJsonObject object)
 {
 	get_int("id", object, artist.id);
 	get_string("username", object, artist.name);
@@ -115,17 +131,17 @@ bool SoundcloudJsonParser::parse_artist(Artist& artist, QJsonObject object)
 }
 
 
-bool SoundcloudJsonParser::parse_tracks(ArtistList& artists, MetaDataList &v_md)
+bool SC::JsonParser::parse_tracks(ArtistList& artists, MetaDataList &v_md)
 {
-	if(!_json_doc.isArray()){
+	if(!_m->json_doc.isArray()){
 		return false;
 	}
 
-	return parse_track_list(artists, v_md, _json_doc.array());
+	return parse_track_list(artists, v_md, _m->json_doc.array());
 }
 
 
-bool SoundcloudJsonParser::parse_track_list(ArtistList& artists, MetaDataList &v_md, QJsonArray arr){
+bool SC::JsonParser::parse_track_list(ArtistList& artists, MetaDataList &v_md, QJsonArray arr){
 	v_md.clear();
 
 	for(auto it = arr.begin(); it != arr.end(); it++){
@@ -153,7 +169,7 @@ bool SoundcloudJsonParser::parse_track_list(ArtistList& artists, MetaDataList &v
 	return true;
 }
 
-bool SoundcloudJsonParser::parse_track(Artist& artist, MetaData& md, QJsonObject object)
+bool SC::JsonParser::parse_track(Artist& artist, MetaData& md, QJsonObject object)
 {
 	get_int("id", object, md.id);
 	get_string("title", object, md.title);
@@ -207,15 +223,15 @@ bool SoundcloudJsonParser::parse_track(Artist& artist, MetaData& md, QJsonObject
 }
 
 
-bool SoundcloudJsonParser::parse_playlists(ArtistList& artists, AlbumList &albums, MetaDataList &v_md)
+bool SC::JsonParser::parse_playlists(ArtistList& artists, AlbumList &albums, MetaDataList &v_md)
 {
-	if(_json_doc.isArray()){
-		return parse_playlist_list(artists, albums, v_md, _json_doc.array());
+	if(_m->json_doc.isArray()){
+		return parse_playlist_list(artists, albums, v_md, _m->json_doc.array());
 	}
 
-	else if(_json_doc.isObject()){
+	else if(_m->json_doc.isObject()){
 		Album album;
-		if(parse_playlist(artists, album, v_md, _json_doc.object())){
+		if(parse_playlist(artists, album, v_md, _m->json_doc.object())){
 			albums << album;
 			return true;
 		}
@@ -225,7 +241,8 @@ bool SoundcloudJsonParser::parse_playlists(ArtistList& artists, AlbumList &album
 }
 
 
-bool SoundcloudJsonParser::parse_playlist_list(ArtistList& artists, AlbumList& albums, MetaDataList& v_md, QJsonArray arr){
+bool SC::JsonParser::parse_playlist_list(ArtistList& artists, AlbumList& albums, MetaDataList& v_md, QJsonArray arr)
+{
 	albums.clear();
 
 	for(auto it = arr.begin(); it != arr.end(); it++){
@@ -255,7 +272,7 @@ bool SoundcloudJsonParser::parse_playlist_list(ArtistList& artists, AlbumList& a
 }
 
 
-bool SoundcloudJsonParser::parse_playlist(ArtistList& artists, Album& album, MetaDataList& v_md, QJsonObject object)
+bool SC::JsonParser::parse_playlist(ArtistList& artists, Album& album, MetaDataList& v_md, QJsonObject object)
 {
 	Artist pl_artist;
 
@@ -335,14 +352,14 @@ bool SoundcloudJsonParser::parse_playlist(ArtistList& artists, Album& album, Met
 }
 
 
-QString SoundcloudJsonParser::create_link(const QString& name, const QString& target)
+QString SC::JsonParser::create_link(const QString& name, const QString& target)
 {
 	bool dark = (Settings::getInstance()->get(Set::Player_Style) == 1);
 	return Helper::create_link(name, dark, target);
 }
 
 
-bool SoundcloudJsonParser::get_string(const QString& key, const QJsonObject& object, QString& str)
+bool SC::JsonParser::get_string(const QString& key, const QJsonObject& object, QString& str)
 {
 	auto it = object.find(key);
 	if(it != object.end()){
@@ -359,7 +376,7 @@ bool SoundcloudJsonParser::get_string(const QString& key, const QJsonObject& obj
 	return false;
 }
 
-bool SoundcloudJsonParser::get_int(const QString& key, const QJsonObject& object, int& i)
+bool SC::JsonParser::get_int(const QString& key, const QJsonObject& object, int& i)
 {
 	auto it = object.find(key);
 	if(it != object.end()){
@@ -374,7 +391,7 @@ bool SoundcloudJsonParser::get_int(const QString& key, const QJsonObject& object
 }
 
 
-bool SoundcloudJsonParser::get_array(const QString& key, const QJsonObject& object, QJsonArray& arr)
+bool SC::JsonParser::get_array(const QString& key, const QJsonObject& object, QJsonArray& arr)
 {
 	auto it = object.find(key);
 	if(it != object.end()){
@@ -388,7 +405,7 @@ bool SoundcloudJsonParser::get_array(const QString& key, const QJsonObject& obje
 	return false;
 }
 
-bool SoundcloudJsonParser::get_object(const QString& key, const QJsonObject& object, QJsonObject& o)
+bool SC::JsonParser::get_object(const QString& key, const QJsonObject& object, QJsonObject& o)
 {
 	auto it = object.find(key);
 	if(it != object.end()){

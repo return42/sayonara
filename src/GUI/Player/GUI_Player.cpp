@@ -378,6 +378,7 @@ void GUI_Player::tray_icon_activated (QSystemTrayIcon::ActivationReason reason)
 
 void GUI_Player::current_library_changed(const QString& name)
 {
+    Q_UNUSED(name)
 	check_library_menu_action();
 }
 
@@ -639,6 +640,6 @@ void GUI_Player::really_close()
 	sp_log(Log::Info) << "closing player...";
 
 	QMainWindow::close();
-	
+
 	emit sig_player_closed();
 }

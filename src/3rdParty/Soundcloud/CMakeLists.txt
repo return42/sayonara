@@ -3,11 +3,13 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 PROJECT(sayonara_soundcloud)
 
 SET(SOURCES
+	src/SearchInformation.cpp
 	src/SoundcloudData.cpp
 	src/SoundcloudWebAccess.cpp
 	src/SoundcloudJsonParser.cpp
 	src/SoundcloudLibrary.cpp
 	src/SoundcloudDataFetcher.cpp
+	src/Sorting.cpp
 	ui/GUI_SoundcloudLibrary.cpp
 	ui/GUI_SoundcloudArtistSearch.cpp
 

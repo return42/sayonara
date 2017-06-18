@@ -28,34 +28,34 @@ class ArtistList;
 class AlbumList;
 class MetaDataList;
 
-class SoundcloudDataFetcher : public QObject
+namespace SC
 {
-	Q_OBJECT
+	class DataFetcher : public QObject
+	{
+		Q_OBJECT
+		PIMPL(DataFetcher)
 
-signals:
-	void sig_ext_artists_fetched(const ArtistList& artists);
-	void sig_artists_fetched(const ArtistList& artists);
-	void sig_playlists_fetched(const AlbumList& albums);
-	void sig_tracks_fetched(const MetaDataList& v_md);
+	signals:
+		void sig_ext_artists_fetched(const ArtistList& artists);
+		void sig_artists_fetched(const ArtistList& artists);
+		void sig_playlists_fetched(const AlbumList& albums);
+		void sig_tracks_fetched(const MetaDataList& v_md);
 
-public:
-	explicit SoundcloudDataFetcher(QObject* parent=nullptr);
-	~SoundcloudDataFetcher();
+	public:
+		explicit DataFetcher(QObject* parent=nullptr);
+		~DataFetcher();
 
-	void search_artists(const QString& artist_name);
-	void get_artist(int artist_id);
-	void get_tracks_by_artist(int artist_id);
+		void search_artists(const QString& artist_name);
+		void get_artist(int artist_id);
+		void get_tracks_by_artist(int artist_id);
 
-	void clear();
+		void clear();
 
-private slots:
-
-	void artists_fetched();
-	void playlist_tracks_fetched();
-	void tracks_fetched();
-
-private:
-	PIMPL(SoundcloudDataFetcher)
-};
+	private slots:
+		void artists_fetched();
+		void playlist_tracks_fetched();
+		void tracks_fetched();
+	};
+}
 
 #endif // SOUNDCLOUDDataFetcher_H

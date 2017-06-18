@@ -25,24 +25,26 @@
 #define SOMAFMPLAYLISTMODEL_H
 
 #include <QStringListModel>
-#include <QMimeData>
-#include <QUrl>
-
 #include "3rdParty/SomaFM/SomaFMStation.h"
 
-class SomaFMStation;
-class SomaFMPlaylistModel : public QStringListModel
+class QMimeData;
+
+namespace SomaFM
 {
-private:
-	SomaFMStation _station;
+	class Station;
+	class PlaylistModel : public QStringListModel
+	{
+	private:
+		SomaFM::Station _station;
 
-public:
-	explicit SomaFMPlaylistModel(QObject* parent=nullptr);
-	~SomaFMPlaylistModel();
+	public:
+		explicit PlaylistModel(QObject* parent=nullptr);
+		~PlaylistModel();
 
-    QMimeData* mimeData(const QModelIndexList &indexes) const override;
+		QMimeData* mimeData(const QModelIndexList &indexes) const override;
 
-    void setStation(const SomaFMStation& station);
-};
+		void setStation(const SomaFM::Station& station);
+	};
+}
 
 #endif // SOMAFMPLAYLISTMODEL_H

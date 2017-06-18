@@ -49,8 +49,8 @@ struct LibraryItemModelArtists::Private
 	QPixmap		pm_single;
 };
 
-LibraryItemModelArtists::LibraryItemModelArtists() :
-	LibraryItemModel()
+LibraryItemModelArtists::LibraryItemModelArtists(QObject* parent) :
+	LibraryItemModel(parent)
 {
 	_m = Pimpl::make<LibraryItemModelArtists::Private>();
 

@@ -41,7 +41,7 @@ class LibraryItemModelAlbums :
 	PIMPL(LibraryItemModelAlbums)
 
 public:
-	LibraryItemModelAlbums();
+	LibraryItemModelAlbums(QObject* parent=nullptr);
 	virtual ~LibraryItemModelAlbums();
 
 	Qt::ItemFlags flags(const QModelIndex &index) const override;

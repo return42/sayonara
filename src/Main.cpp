@@ -52,11 +52,11 @@
 	#include <glib-2.0/glib.h>
 	#undef signals
 	#include <gio/gio.h>
-	
+
 #endif
 
 
-int check_for_another_instance(qint64 own_pid) 
+int check_for_another_instance(qint64 own_pid)
 {
 #ifdef Q_OS_LINUX
 
@@ -169,7 +169,7 @@ void segfault_handler(int sig)
 }
 
 #include <QScreen>
-int main(int argc, char *argv[]) 
+int main(int argc, char *argv[])
 {
 	Application app(argc, argv);
 
@@ -221,8 +221,6 @@ int main(int argc, char *argv[])
 #ifdef Q_OS_WIN
 	Q_INIT_RESOURCE(IconsWindows);
 #endif
-
-	GUI::set_screens(app.screens());
 
 	if(!QFile::exists( Helper::sayonara_path() )) {
 		QDir().mkdir( Helper::sayonara_path() );

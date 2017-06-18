@@ -28,11 +28,15 @@ DatabaseAlbums::DatabaseAlbums(QSqlDatabase db, quint8 db_id, qint8 library_id) 
 	DatabaseSearchMode(db, db_id)
 {
 	_artistid_field = "artistID";
-	_track_view_name = QString("track_view_%1").arg(library_id);
-	_search_view_name = QString("track_search_view_%1").arg(library_id);
 
-	if(library_id < 0) {
+	if(library_id >= 0) {
+		_track_view_name = QString("track_view_%1").arg(library_id);
+		_search_view_name = QString("track_search_view_%1").arg(library_id);
+	}
+
+	else {
 		_track_view_name = QString("tracks");
+		_search_view_name = QString("track_search_view");
 	}
 }
 
@@ -210,7 +214,7 @@ bool DatabaseAlbums::getAllAlbums(AlbumList& result, bool also_empty)
 bool DatabaseAlbums::getAllAlbums(AlbumList& result, Library::SortOrder sortorder, bool also_empty)
 {
 	SayonaraQuery q(this);
-	QString querytext = fetch_query_albums(also_empty) ;
+	QString querytext = fetch_query_albums(also_empty);
 
 	querytext += " GROUP BY albums.albumID, albums.name, albums.rating ";
 	querytext += _create_order_string(sortorder) + ";";
@@ -277,10 +281,11 @@ bool DatabaseAlbums::getAllAlbumsByArtist(IDList artists, AlbumList& result, con
 
 	if(!artists.isEmpty())
 	{
-		query += "(" + _artistid_field + " = :artist_id_0 ";
+		QString artist_id_field = _search_view_name + "." + _artistid_field;
+		query += "(" + artist_id_field + " = :artist_id_0 ";
 
 		for(int i=1; i<artists.size(); i++) {
-			query += "OR " + _artistid_field + " = :artist_id_"
+			query += "OR " + artist_id_field + " = :artist_id_"
 					+ QString::number(i) + " ";
 		}
 
@@ -468,4 +473,9 @@ int DatabaseAlbums::insertAlbumIntoDatabase (const Album& album)
 void DatabaseAlbums::change_artistid_field(const QString& field)
 {
 	_artistid_field = field;
+}
+
+void DatabaseAlbums::change_track_lookup_field(const QString& track_lookup_field)
+{
+	_search_view_name = track_lookup_field;
 }

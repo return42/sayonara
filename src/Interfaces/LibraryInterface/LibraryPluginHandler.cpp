@@ -179,7 +179,7 @@ void LibraryPluginHandler::init_library(LibraryContainerInterface* library)
 	QFrame* header_frame = library->header();
 	if(header_frame)
 	{
-		LibraryPluginCombobox* combo_box = new LibraryPluginCombobox(library->display_name(), header_frame);
+		LibraryPluginCombobox* combo_box = new LibraryPluginCombobox(library->display_name(), nullptr);
 
 		QLayout* layout = new QVBoxLayout(header_frame);
 		layout->setContentsMargins(0, 0, 0, 0);

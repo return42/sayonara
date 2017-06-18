@@ -24,7 +24,6 @@
 #include "GUI/Library/GUI_AbstractLibrary.h"
 #include "Helper/Pimpl.h"
 
-#include "3rdParty/Soundcloud/src/SoundcloudLibrary.h"
 #include "3rdParty/Soundcloud/ui/GUI_SoundcloudArtistSearch.h"
 
 #include <QtGlobal>
@@ -36,29 +35,41 @@ namespace Ui
 	class GUI_SoundcloudLibrary;
 }
 
-class GUI_SoundCloudLibrary :
-		public GUI_AbstractLibrary
+namespace SC
 {
-	Q_OBJECT
+	class Library;
+	class GUI_ArtistSearch;
 
-public:
-	explicit GUI_SoundCloudLibrary(SoundcloudLibrary* library, QWidget *parent=nullptr);
-	~GUI_SoundCloudLibrary();
+	class GUI_Library :
+			public GUI_AbstractLibrary
+	{
+		Q_OBJECT
+		PIMPL(GUI_Library)
 
-	QMenu*		get_menu() const;
-	QFrame*		header_frame() const;
+	public:
+		explicit GUI_Library(SC::Library* library, QWidget *parent=nullptr);
+		~GUI_Library();
 
-protected:
-	Library::TrackDeletionMode show_delete_dialog(int n_tracks) override;
-	void init_shortcuts() override;
+		QMenu*		get_menu() const;
+		QFrame*		header_frame() const;
 
-protected slots:
-	void btn_add_clicked();
+	protected:
+		::Library::TrackDeletionMode show_delete_dialog(int n_tracks) override;
+		void init_shortcuts() override;
 
-	PIMPL(GUI_SoundCloudLibrary)
+		LibraryTableView* lv_artist() const override;
+		LibraryTableView* lv_album() const override;
+		LibraryTableView* lv_tracks() const override;
+		QPushButton* btn_clear() const override;
+		QLineEdit* le_search() const override;
+		QComboBox* combo_search() const override;
 
-private:
-	Ui::GUI_SoundcloudLibrary*	ui=nullptr;
-};
+	protected slots:
+		void btn_add_clicked();
 
+	private:
+		Ui::GUI_SoundcloudLibrary*	ui=nullptr;
+
+	};
+}
 #endif // GUI_SOUNDCLOUDLIBRARY_H

@@ -40,7 +40,7 @@ class LibraryItemModelArtists :
 	PIMPL(LibraryItemModelArtists)
 
 	public:
-		LibraryItemModelArtists();
+		LibraryItemModelArtists(QObject* parent=nullptr);
 		virtual ~LibraryItemModelArtists();
 
 		QVariant data(const QModelIndex &index, int role=Qt::DisplayRole) const override;

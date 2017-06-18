@@ -39,15 +39,15 @@ public:
 	virtual QModelIndex getPrevRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent=QModelIndex())=0;
     virtual QMap<QChar, QString> getExtraTriggers()=0;
 	
-	virtual void set_search_mode(Library::SearchModeMask search_mode);
-	virtual Library::SearchModeMask search_mode() const final;
+	virtual void set_search_mode(::Library::SearchModeMask search_mode);
+	virtual ::Library::SearchModeMask search_mode() const final;
 
 protected:
 	SearchModelFunctionality();
 	virtual ~SearchModelFunctionality();
 
 private:
-	Library::SearchModeMask _search_mode;
+	::Library::SearchModeMask _search_mode;
 };
 
 

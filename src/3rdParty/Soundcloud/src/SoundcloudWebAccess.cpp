@@ -28,7 +28,7 @@ const QString sc_main("https://api.soundcloud.com");
 const QString sc_users(sc_main + "/users");
 
 
-QString	SoundcloudWebAccess::create_dl_get_artist(const QString& name)
+QString	SC::WebAccess::create_dl_get_artist(const QString& name)
 {
 	QString ret = "";
 
@@ -43,7 +43,7 @@ QString	SoundcloudWebAccess::create_dl_get_artist(const QString& name)
 	return ret;
 }
 
-QString	SoundcloudWebAccess::create_dl_get_artist(int artist_id)
+QString	SC::WebAccess::create_dl_get_artist(int artist_id)
 {
 	QString ret = "";
 
@@ -58,7 +58,7 @@ QString	SoundcloudWebAccess::create_dl_get_artist(int artist_id)
 	return ret;
 }
 
-QString	SoundcloudWebAccess::create_dl_get_playlists(int artist_id)
+QString	SC::WebAccess::create_dl_get_playlists(int artist_id)
 {
 	QString ret;
 
@@ -70,7 +70,7 @@ QString	SoundcloudWebAccess::create_dl_get_playlists(int artist_id)
 	return ret;
 }
 
-QString	SoundcloudWebAccess::create_dl_get_tracks(int artist_id)
+QString	SC::WebAccess::create_dl_get_tracks(int artist_id)
 {
 	QString ret;
 

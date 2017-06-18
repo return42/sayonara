@@ -27,8 +27,7 @@
 
 #include <QItemSelection>
 
-class SomaFMStation;
-class SomaFMLibrary;
+
 class QComboBox;
 class QFrame;
 
@@ -37,37 +36,43 @@ namespace Ui
 	class GUI_SomaFM;
 }
 
-class GUI_SomaFM :
-		public SayonaraWidget
+namespace SomaFM
 {
-	Q_OBJECT
+	class Station;
+	class Library;
 
-private:
-	SomaFMLibrary*		_library=nullptr;
-	Ui::GUI_SomaFM*		ui=nullptr;
+	class GUI_SomaFM :
+			public SayonaraWidget
+	{
+		Q_OBJECT
 
-
-public:
-	explicit GUI_SomaFM(QWidget *parent = 0);
-	~GUI_SomaFM();
-
-	QFrame* header_frame() const;
-
-private slots:
-	void stations_loaded(const QList<SomaFMStation>& stations);
-	void station_changed(const SomaFMStation& station);
-
-	void station_double_clicked(const QModelIndex& idx);
-	void station_clicked(const QModelIndex& idx);
-	void station_index_changed(const QModelIndex& idx);
-	void playlist_double_clicked(const QModelIndex& idx);
-	void cover_found(const QString& cover_path);
-
-	void selection_changed(const QModelIndexList& selected);
+	private:
+		SomaFM::Library*		_library=nullptr;
+		Ui::GUI_SomaFM*		ui=nullptr;
 
 
-private:
-	SomaFMStation get_station(int row) const;
-};
+	public:
+		explicit GUI_SomaFM(QWidget *parent = 0);
+		~GUI_SomaFM();
+
+		QFrame* header_frame() const;
+
+	private slots:
+		void stations_loaded(const QList<SomaFM::Station>& stations);
+		void station_changed(const SomaFM::Station& station);
+
+		void station_double_clicked(const QModelIndex& idx);
+		void station_clicked(const QModelIndex& idx);
+		void station_index_changed(const QModelIndex& idx);
+		void playlist_double_clicked(const QModelIndex& idx);
+		void cover_found(const QString& cover_path);
+
+		void selection_changed(const QModelIndexList& selected);
+
+
+	private:
+		SomaFM::Station get_station(int row) const;
+	};
+}
 
 #endif // GUI_SOMAFM_H

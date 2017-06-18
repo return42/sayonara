@@ -24,45 +24,47 @@
 #include "Helper/Pimpl.h"
 #include "GUI/Helper/SayonaraWidget/SayonaraDialog.h"
 
-class SoundcloudLibrary;
 class ArtistList;
 class MetaDataList;
 class AlbumList;
 
 namespace Ui { class GUI_SoundcloudArtistSearch; }
 
-class GUI_SoundcloudArtistSearch :
-		public SayonaraDialog
+namespace SC
 {
-	Q_OBJECT
+	class Library;
 
-	PIMPL(GUI_SoundcloudArtistSearch)
+	class GUI_ArtistSearch :
+			public SayonaraDialog
+	{
+		Q_OBJECT
+		PIMPL(GUI_ArtistSearch)
 
-public:
-	explicit GUI_SoundcloudArtistSearch(SoundcloudLibrary* library, QWidget *parent=nullptr);
-	~GUI_SoundcloudArtistSearch();
+	public:
+		explicit GUI_ArtistSearch(SC::Library* library, QWidget *parent=nullptr);
+		~GUI_ArtistSearch();
 
-private slots:
-	void search_clicked();
-	void clear_clicked();
-	void add_clicked();
-	void close_clicked();
+	private slots:
+		void search_clicked();
+		void clear_clicked();
+		void add_clicked();
+		void close_clicked();
 
-	void artists_fetched(const ArtistList& artists);
-	void artists_ext_fetched(const ArtistList& artists);
-	void albums_fetched(const AlbumList& albums);
-	void tracks_fetched(const MetaDataList& tracks);
+		void artists_fetched(const ArtistList& artists);
+		void artists_ext_fetched(const ArtistList& artists);
+		void albums_fetched(const AlbumList& albums);
+		void tracks_fetched(const MetaDataList& tracks);
 
-	void artist_selected(int idx);
+		void artist_selected(int idx);
 
-	void language_changed() override;
+		void language_changed() override;
 
-private:
-	Ui::GUI_SoundcloudArtistSearch* ui=nullptr;
+	private:
+		Ui::GUI_SoundcloudArtistSearch* ui=nullptr;
 
-private:
-	void set_tracks_label(int n_tracks);
-	void set_playlist_label(int n_playlists);
-};
-
+	private:
+		void set_tracks_label(int n_tracks);
+		void set_playlist_label(int n_playlists);
+	};
+}
 #endif // GUI_SOUNDCLOUDARTISTSEARCH_H

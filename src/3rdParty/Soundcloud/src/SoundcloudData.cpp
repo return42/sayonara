@@ -20,6 +20,8 @@
 
 #include "SoundcloudData.h"
 #include "SoundcloudWebAccess.h"
+#include "SearchInformation.h"
+
 #include "Helper/MetaData/Album.h"
 #include "Helper/MetaData/Artist.h"
 #include "Helper/MetaData/MetaDataList.h"
@@ -30,15 +32,18 @@
 #include "Database/DatabaseConnector.h"
 #include "Database/LibraryDatabase.h"
 
-SoundcloudData::SoundcloudData() :
+#include <QList>
+
+SC::Database::Database() :
 	LibraryDatabase("soundcloud.db", 1, -1)
 {
+	this->apply_fixes();
 }
 
-SoundcloudData::~SoundcloudData() {}
+SC::Database::~Database() {}
 
 
-QString SoundcloudData::fetch_query_artists(bool also_empty) const
+QString SC::Database::fetch_query_artists(bool also_empty) const
 {
 	QString sql =
 			"SELECT "
@@ -48,6 +53,7 @@ QString SoundcloudData::fetch_query_artists(bool also_empty) const
 			"artists.description AS description, "
 			"artists.followers_following AS followers_following, "
 			"artists.cover_url AS cover_url, "
+			"artists.name AS albumArtistName, "
 			"COUNT(DISTINCT tracks.trackid) AS trackCount, "
 			"GROUP_CONCAT(DISTINCT albums.albumid) AS artistAlbums "
 			"FROM artists ";
@@ -63,7 +69,7 @@ QString SoundcloudData::fetch_query_artists(bool also_empty) const
 	return sql;
 }
 
-QString SoundcloudData::fetch_query_albums(bool also_empty) const
+QString SC::Database::fetch_query_albums(bool also_empty) const
 {
 	QString sql =
 			"SELECT "
@@ -91,7 +97,7 @@ QString SoundcloudData::fetch_query_albums(bool also_empty) const
 	return sql;
 }
 
-QString SoundcloudData::fetch_query_tracks() const
+QString SC::Database::fetch_query_tracks() const
 {
 	return	"SELECT "
 			"tracks.trackID AS trackID, "
@@ -117,12 +123,13 @@ QString SoundcloudData::fetch_query_tracks() const
 }
 
 
-QString SoundcloudData::load_setting(const QString& key)
+QString SC::Database::load_setting(const QString& key)
 {
 	SayonaraQuery q(db());
-	q.prepare("SELECT :value FROM Settings WHERE key=:key;");
+	q.prepare("SELECT value FROM Settings WHERE key=:key;");
 	q.bindValue(":key", key);
 	if(!q.exec()){
+		q.show_error("Cannot load setting " + key);
 		return QString();
 	}
 
@@ -133,16 +140,77 @@ QString SoundcloudData::load_setting(const QString& key)
 	return QString();
 }
 
-bool SoundcloudData::save_setting(const QString& key, const QString& value)
+bool SC::Database::save_setting(const QString& key, const QString& value)
 {
 	SayonaraQuery q(db());
+
+	QString v = load_setting(key);
+	if(v.isNull()){
+		return insert_setting(key, value);
+	}
+
 	q.prepare("UPDATE Settings SET value=:value WHERE key=:key;");
 	q.bindValue(":key", key);
 	q.bindValue(":value", value);
-	return q.exec();
+
+	bool success = q.exec();
+
+	if(!success) {
+		q.show_error("Cannot apply setting " + key);
+	}
+
+	return success;
 }
 
-bool SoundcloudData::db_fetch_tracks(SayonaraQuery& q, MetaDataList& result)
+bool SC::Database::insert_setting(const QString& key, const QString& value)
+{
+	SayonaraQuery q(db());
+
+	q.prepare("INSERT INTO settings (key, value) VALUES (:key, :value);");
+	q.bindValue(":key", key);
+	q.bindValue(":value", value);
+
+	bool success = q.exec();
+
+	if(!success) {
+		q.show_error("Cannot insert setting " + key);
+	}
+
+	return success;
+}
+
+bool SC::Database::getSearchInformation(SC::SearchInformationList& search_information)
+{
+	SayonaraQuery q(db());
+
+	q.prepare("SELECT artistId, albumId, trackId, allCissearch "
+			  "FROM track_search_view;");
+
+	bool success = q.exec();
+
+	if(!success){
+		q.show_error("Cannot get search Information");
+		return false;
+	}
+
+
+	while(q.next())
+	{
+		SearchInformation info(
+					q.value(0).toInt(),
+					q.value(1).toInt(),
+					q.value(2).toInt(),
+					q.value(3).toString()
+		);
+
+		search_information << info;
+	}
+
+	return true;
+}
+
+
+bool SC::Database::db_fetch_tracks(SayonaraQuery& q, MetaDataList& result)
 {
 	result.clear();
 
@@ -155,7 +223,8 @@ bool SoundcloudData::db_fetch_tracks(SayonaraQuery& q, MetaDataList& result)
 		return true;
 	}
 
-	for(bool is_element = q.first(); is_element; is_element = q.next()){
+	for(bool is_element = q.first(); is_element; is_element = q.next())
+	{
 		MetaData data;
 
 		data.id = 		 q.value(0).toInt();
@@ -183,7 +252,7 @@ bool SoundcloudData::db_fetch_tracks(SayonaraQuery& q, MetaDataList& result)
 	return true;
 }
 
-bool SoundcloudData::db_fetch_albums(SayonaraQuery& q, AlbumList& result)
+bool SC::Database::db_fetch_albums(SayonaraQuery& q, AlbumList& result)
 {
 	result.clear();
 
@@ -192,7 +261,8 @@ bool SoundcloudData::db_fetch_albums(SayonaraQuery& q, AlbumList& result)
 		return false;
 	}
 
-	while(q.next()){
+	while(q.next())
+	{
 		Album album;
 
 		album.id =					q.value(0).toInt();
@@ -232,7 +302,7 @@ bool SoundcloudData::db_fetch_albums(SayonaraQuery& q, AlbumList& result)
 	return true;
 }
 
-bool SoundcloudData::db_fetch_artists(SayonaraQuery& q, ArtistList& result)
+bool SC::Database::db_fetch_artists(SayonaraQuery& q, ArtistList& result)
 {
 	result.clear();
 
@@ -256,8 +326,8 @@ bool SoundcloudData::db_fetch_artists(SayonaraQuery& q, ArtistList& result)
 		artist.add_custom_field("followers_following", "Followers/Following", q.value(4).toString());
 
 		artist.cover_download_url =		q.value(5).toString();
-		artist.num_songs =				q.value(6).toInt();
-		QStringList list =				q.value(7).toString().split(',');
+		artist.num_songs =				q.value(7).toInt();
+		QStringList list =				q.value(8).toString().split(',');
 		artist.num_albums =				list.size();
 		artist.db_id =					this->db_id();
 
@@ -267,7 +337,7 @@ bool SoundcloudData::db_fetch_artists(SayonaraQuery& q, ArtistList& result)
 	return true;
 }
 
-int SoundcloudData::updateArtist(const Artist& artist)
+int SC::Database::updateArtist(const Artist& artist)
 {
 	SayonaraQuery q(db());
 
@@ -297,13 +367,13 @@ int SoundcloudData::updateArtist(const Artist& artist)
 	return getArtistID(artist.name);
 }
 
-int SoundcloudData::insertArtistIntoDatabase (const QString& artist)
+int SC::Database::insertArtistIntoDatabase (const QString& artist)
 {
 	Q_UNUSED(artist)
 	return -1;
 }
 
-int SoundcloudData::insertArtistIntoDatabase (const Artist& artist)
+int SC::Database::insertArtistIntoDatabase (const Artist& artist)
 {
 	SayonaraQuery q(db());
 
@@ -314,7 +384,8 @@ int SoundcloudData::insertArtistIntoDatabase (const Artist& artist)
 		}
 	}
 
-	QString query_text = QString("INSERT INTO artists") +
+	QString query_text =
+			"INSERT INTO artists "
 			"(artistid, name, cissearch, permalink_url, description, followers_following, cover_url) "
 			"VALUES "
 			"(:sc_id, :name, :cissearch, :permalink_url, :description, :followers_following, :cover_url); ";
@@ -337,7 +408,7 @@ int SoundcloudData::insertArtistIntoDatabase (const Artist& artist)
 }
 
 
-int SoundcloudData::updateAlbum(const Album& album)
+int SC::Database::updateAlbum(const Album& album)
 {
 	SayonaraQuery q(db());
 
@@ -367,13 +438,13 @@ int SoundcloudData::updateAlbum(const Album& album)
 }
 
 
-int SoundcloudData::insertAlbumIntoDatabase (const QString& album)
+int SC::Database::insertAlbumIntoDatabase (const QString& album)
 {
 	Q_UNUSED(album)
 	return -1;
 }
 
-int SoundcloudData::insertAlbumIntoDatabase (const Album& album)
+int SC::Database::insertAlbumIntoDatabase (const Album& album)
 {
 	SayonaraQuery q(db());
 
@@ -382,7 +453,8 @@ int SoundcloudData::insertAlbumIntoDatabase (const Album& album)
 		return updateAlbum(album);
 	}
 
-	QString query_text = QString("INSERT INTO albums ") +
+	QString query_text =
+			"INSERT INTO albums "
 			"(albumid, name, cissearch, permalink_url, purchase_url, cover_url) "
 			"VALUES "
 			"(:sc_id, :name, :cissearch, :permalink_url, :purchase_url, :cover_url); ";
@@ -404,13 +476,14 @@ int SoundcloudData::insertAlbumIntoDatabase (const Album& album)
 	return getAlbumID(album.name);
 }
 
-bool SoundcloudData::updateTrack(const MetaData& md)
+bool SC::Database::updateTrack(const MetaData& md)
 {
 	SayonaraQuery q(db());
 
 	sp_log(Log::Info) << "insert new track: " << md.filepath();
 
-	QString querytext = QString("UPDATE tracks SET ") +
+	QString querytext =
+				"UPDATE tracks SET "
 				"filename = :filename, "
 				"albumID = :albumID, "
 				"artistID = :artistID, "
@@ -453,13 +526,13 @@ bool SoundcloudData::updateTrack(const MetaData& md)
 	return true;
 }
 
-bool SoundcloudData::insertTrackIntoDatabase(const MetaData& md, int artist_id, int album_id, int album_artist_id)
+bool SC::Database::insertTrackIntoDatabase(const MetaData& md, int artist_id, int album_id, int album_artist_id)
 {
 	Q_UNUSED(album_artist_id)
 	return insertTrackIntoDatabase(md, artist_id, album_id);
 }
 
-bool SoundcloudData::insertTrackIntoDatabase(const MetaData &md, int artist_id, int album_id)
+bool SC::Database::insertTrackIntoDatabase(const MetaData &md, int artist_id, int album_id)
 {
 	SayonaraQuery q(db());
 
@@ -470,10 +543,11 @@ bool SoundcloudData::insertTrackIntoDatabase(const MetaData &md, int artist_id, 
 
 	sp_log(Log::Info) << "insert new track: " << md.filepath();
 
-	QString querytext = QString("INSERT INTO tracks ") +
-				"(trackid,filename,albumID,artistID,title,year,length,track,bitrate,genre,filesize,discnumber,cissearch,purchase_url,cover_url) " +
-				"VALUES "+
-				"(:sc_id,:filename,:albumID,:artistID,:title,:year,:length,:track,:bitrate,:genre,:filesize,:discnumber,:cissearch,:purchase_url,:cover_url); ";
+	QString querytext =
+			"INSERT INTO tracks "
+			"(trackid,filename,albumID,artistID,title,year,length,track,bitrate,genre,filesize,discnumber,cissearch,purchase_url,cover_url) "
+			"VALUES "
+			"(:sc_id,:filename,:albumID,:artistID,:title,:year,:length,:track,:bitrate,:genre,:filesize,:discnumber,:cissearch,:purchase_url,:cover_url); ";
 
 	q.prepare(querytext);
 
@@ -503,7 +577,7 @@ bool SoundcloudData::insertTrackIntoDatabase(const MetaData &md, int artist_id, 
 }
 
 
-bool SoundcloudData::storeMetadata(const MetaDataList& v_md)
+bool SC::Database::storeMetadata(const MetaDataList& v_md)
 {
 	if(v_md.isEmpty()) return true;
 
@@ -523,7 +597,7 @@ bool SoundcloudData::storeMetadata(const MetaDataList& v_md)
 }
 
 
-bool SoundcloudData::apply_fixes()
+bool SC::Database::apply_fixes()
 {
 	QString creation_string = "CREATE TABLE Settings ("
 						   " key VARCHAR(100) PRIMARY KEY,"
@@ -551,6 +625,13 @@ bool SoundcloudData::apply_fixes()
 		bool success = check_and_insert_column("tracks", "albumArtistID", "integer", "-1");
 		if(success){
 			save_setting("version", "2");
+		}
+	}
+
+	if(version < 3) {
+		bool success = check_and_insert_column("tracks", "libraryID", "integer", "0");
+		if(success){
+			save_setting("version", "3");
 		}
 	}
 

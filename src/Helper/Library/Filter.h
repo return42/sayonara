@@ -57,6 +57,7 @@ namespace Library
 
 			Filter();
 			~Filter();
+
 			void operator=(const Filter& other);
 			Filter(const Filter& other);
 
@@ -71,6 +72,8 @@ namespace Library
 
 			void clear();
 			bool cleared() const;
+
+			static QString get_text(Mode mode);
     };
 }
 

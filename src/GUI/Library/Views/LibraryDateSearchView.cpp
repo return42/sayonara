@@ -22,7 +22,7 @@
 #include "GUI/Library/Models/DateSearchModel.h"
 #include "GUI/Library/GUI_DateSearchConfig.h"
 #include "GUI/Helper/ContextMenu/ContextMenu.h"
-#include "GUI/Helper/Delegates/ListDelegate.h"
+#include "GUI/Helper/Delegates/StyledItemDelegate.h"
 #include "Helper/Language.h"
 #include "Helper/Library/DateFilter.h"
 
@@ -49,7 +49,7 @@ LibraryDateSearchView::LibraryDateSearchView(QWidget* parent) :
 
 	this->setModel(_m->model);
 	this->setSearchModel(_m->model);
-	//this->setItemDelegate(new ListDelegate(this));
+	this->setItemDelegate(new StyledItemDelegate(this));
 }
 
 LibraryDateSearchView::~LibraryDateSearchView() {}

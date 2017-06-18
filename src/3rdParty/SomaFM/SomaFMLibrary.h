@@ -29,35 +29,38 @@
 
 #include "Helper/Pimpl.h"
 
-class SomaFMStation;
-class SomaFMLibrary : public QObject
+namespace SomaFM
 {
-	Q_OBJECT
+	class Station;
+	class Library : public QObject
+	{
+		Q_OBJECT
 
-	PIMPL(SomaFMLibrary)
+		PIMPL(Library)
 
-signals:
-	void sig_stations_loaded(const QList<SomaFMStation>& stations);
-	void sig_station_changed(const SomaFMStation& station);
+	signals:
+		void sig_stations_loaded(const QList<Station>& stations);
+		void sig_station_changed(const Station& station);
 
-public:
-	explicit SomaFMLibrary(QObject* parent=nullptr);
-	~SomaFMLibrary();
+	public:
+		explicit Library(QObject* parent=nullptr);
+		~Library();
 
-	SomaFMStation get_station(const QString& name);
-	void create_playlist_from_station(int idx);
-	void create_playlist_from_playlist(int idx);
-	void search_stations();
-	void set_station_loved(const QString& station_name, bool loved);
+		Station station(const QString& name);
+		void create_playlist_from_station(int idx);
+		void create_playlist_from_playlist(int idx);
+		void search_stations();
+		void set_station_loved(const QString& station_name, bool loved);
 
 
-private slots:
-	void soma_website_fetched();
-	void soma_playlist_content_fetched(bool success);
-	void soma_station_playlists_fetched(bool success);
+	private slots:
+		void soma_website_fetched();
+		void soma_playlist_content_fetched(bool success);
+		void soma_station_playlists_fetched(bool success);
 
-private:
-	void sort_stations(QList<SomaFMStation>& stations);
-};
+	private:
+		void sort_stations(QList<Station>& stations);
+	};
+}
 
 #endif // SOMAFMLIBRARY_H

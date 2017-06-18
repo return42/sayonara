@@ -34,23 +34,23 @@
 #include <QUrl>
 #include <QIcon>
 
-struct SomaFMStationModel::Private
+struct SomaFM::StationModel::Private
 {
-	QList<SomaFMStation>		stations;
-	SomaFMStationModel::Status	status;
+	QList<SomaFM::Station>			stations;
+	SomaFM::StationModel::Status	status;
 };
 
-SomaFMStationModel::SomaFMStationModel(QObject *parent) :
+SomaFM::StationModel::StationModel(QObject *parent) :
 	AbstractSearchTableModel(parent)
 {
-	_m = Pimpl::make<SomaFMStationModel::Private>();
+	_m = Pimpl::make<SomaFM::StationModel::Private>();
 	_m->status = Status::Waiting;
 }
 
-SomaFMStationModel::~SomaFMStationModel() {}
+SomaFM::StationModel::~StationModel() {}
 
 
-int SomaFMStationModel::rowCount(const QModelIndex& parent) const
+int SomaFM::StationModel::rowCount(const QModelIndex& parent) const
 {
 	Q_UNUSED(parent)
 
@@ -61,14 +61,14 @@ int SomaFMStationModel::rowCount(const QModelIndex& parent) const
 	return _m->stations.size();
 }
 
-int SomaFMStationModel::columnCount(const QModelIndex& parent) const
+int SomaFM::StationModel::columnCount(const QModelIndex& parent) const
 {
 	Q_UNUSED(parent)
 	return 2;
 }
 
 
-QVariant SomaFMStationModel::data(const QModelIndex& index, int role) const
+QVariant SomaFM::StationModel::data(const QModelIndex& index, int role) const
 {
 	int row = index.row();
 	int col = index.column();
@@ -122,7 +122,7 @@ QVariant SomaFMStationModel::data(const QModelIndex& index, int role) const
 			return QVariant();
 		}
 
-		return _m->stations[row].get_name();
+		return _m->stations[row].name();
 	}
 
 	else if(role == Qt::WhatsThisRole) {
@@ -130,24 +130,24 @@ QVariant SomaFMStationModel::data(const QModelIndex& index, int role) const
 			return QVariant();
 		}
 
-		return _m->stations[row].get_name();
+		return _m->stations[row].name();
 	}
 
 	return QVariant();
 }
 
 
-QModelIndex SomaFMStationModel::getFirstRowIndexOf(const QString& substr)
+QModelIndex SomaFM::StationModel::getFirstRowIndexOf(const QString& substr)
 {
 	return getNextRowIndexOf(substr, 0, QModelIndex());
 }
 
-QModelIndex SomaFMStationModel::getNextRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent)
+QModelIndex SomaFM::StationModel::getNextRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent)
 {
 	Q_UNUSED(parent)
 	for(int i=cur_row; i<_m->stations.size(); i++){
-		QString name = _m->stations[i].get_name();
-		QString desc = _m->stations[i].get_description();
+		QString name = _m->stations[i].name();
+		QString desc = _m->stations[i].description();
 
 		QString str = name + desc;
 
@@ -159,13 +159,13 @@ QModelIndex SomaFMStationModel::getNextRowIndexOf(const QString& substr, int cur
 	return QModelIndex();
 }
 
-QModelIndex SomaFMStationModel::getPrevRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent)
+QModelIndex SomaFM::StationModel::getPrevRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent)
 {
 	Q_UNUSED(parent)
 	for(int i=cur_row; i>=0; i--)
 	{
-		QString name = _m->stations[i].get_name();
-		QString desc = _m->stations[i].get_description();
+		QString name = _m->stations[i].name();
+		QString desc = _m->stations[i].description();
 
 		QString str = name + desc;
 
@@ -177,12 +177,12 @@ QModelIndex SomaFMStationModel::getPrevRowIndexOf(const QString& substr, int cur
 	return QModelIndex();
 }
 
-QMap<QChar, QString> SomaFMStationModel::getExtraTriggers()
+QMap<QChar, QString> SomaFM::StationModel::getExtraTriggers()
 {
 	return QMap<QChar, QString>();
 }
 
-void SomaFMStationModel::set_stations(const QList<SomaFMStation>& stations)
+void SomaFM::StationModel::set_stations(const QList<SomaFM::Station>& stations)
 {
 	int n_stations = stations.size();
 
@@ -207,11 +207,11 @@ void SomaFMStationModel::set_stations(const QList<SomaFMStation>& stations)
 	emit dataChanged( index(0, 0), index(n_stations - 1, 1));
 }
 
-void SomaFMStationModel::replace_station(const SomaFMStation& station)
+void SomaFM::StationModel::replace_station(const SomaFM::Station& station)
 {
 	for(int i=0; i<_m->stations.size(); i++)
 	{
-		if(station.get_name() == _m->stations[i].get_name()){
+		if(station.name() == _m->stations[i].name()){
 			_m->stations[i] = station;
 
 			emit dataChanged(this->index(i, 0), this->index(i, 1));
@@ -220,19 +220,19 @@ void SomaFMStationModel::replace_station(const SomaFMStation& station)
 	}
 }
 
-bool SomaFMStationModel::has_stations() const
+bool SomaFM::StationModel::has_stations() const
 {
 	return (_m->stations.size() > 0);
 }
 
-void SomaFMStationModel::set_waiting()
+void SomaFM::StationModel::set_waiting()
 {
 	_m->status = Status::Waiting;
 	emit dataChanged( index(0,0), index(0, 1) );
 }
 
 
-QMimeData* SomaFMStationModel::mimeData(const QModelIndexList& indexes) const
+QMimeData* SomaFM::StationModel::mimeData(const QModelIndexList& indexes) const
 {
 	QList<QUrl> urls;
 	QString cover_url;
@@ -247,11 +247,11 @@ QMimeData* SomaFMStationModel::mimeData(const QModelIndexList& indexes) const
 			continue;
 		}
 
-		QStringList str_urls = _m->stations[row].get_urls();
+		QStringList str_urls = _m->stations[row].urls();
 
 		for(const QString& str_url : str_urls){
 			urls << QUrl(str_url);
-			CoverLocation cl = _m->stations[row].get_cover_location();
+			CoverLocation cl = _m->stations[row].cover_location();
 			if(cl.has_search_urls()){
 				cover_url = cl.search_urls().first();
 			}
@@ -266,7 +266,7 @@ QMimeData* SomaFMStationModel::mimeData(const QModelIndexList& indexes) const
 }
 
 
-Qt::ItemFlags SomaFMStationModel::flags(const QModelIndex& index) const
+Qt::ItemFlags SomaFM::StationModel::flags(const QModelIndex& index) const
 {
 	switch(_m->status)
 	{

@@ -42,9 +42,6 @@ class IconLoader :
 	SINGLETON(IconLoader)
 	PIMPL(IconLoader)
 
-private:
-	QStringList load_ancestors(const QString& index_theme_file);
-
 private slots:
 	void icon_theme_changed();
 

@@ -44,8 +44,8 @@ struct LibraryItemModelAlbums::Private
 	QPixmap		pm_single;
 };
 
-LibraryItemModelAlbums::LibraryItemModelAlbums() :
-	LibraryItemModel()
+LibraryItemModelAlbums::LibraryItemModelAlbums(QObject* parent) :
+	LibraryItemModel(parent)
 {
 	_m = Pimpl::make<LibraryItemModelAlbums::Private>();
 	_m->pm_single = GUI::get_pixmap("cd.png", QSize(14, 14));

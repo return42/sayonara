@@ -32,44 +32,45 @@ class QString;
 class CoverLocation;
 class MetaDataList;
 
-class SomaFMStation
+namespace SomaFM
 {
-public:
-
-	enum class UrlType : quint8
+	class Station
 	{
-		AAC=0,
-		MP3,
-		Undefined
+		PIMPL(Station)
+
+	public:
+
+		enum class UrlType : quint8
+		{
+			AAC=0,
+			MP3,
+			Undefined
+		};
+
+		Station();
+		explicit Station(const QString& content);
+		Station(const Station& other);
+		Station& operator=(const Station& other);
+		~Station();
+
+		QString name() const;
+		QStringList urls() const;
+		QString description() const;
+		UrlType url_type(const QString& url) const;
+		CoverLocation cover_location() const;
+		bool is_valid() const;
+		MetaDataList metadata() const;
+		void set_metadata(const MetaDataList& v_md);
+
+		void set_loved(bool loved);
+		bool is_loved() const;
+
+	private:
+		void parse_station_name();
+		void parse_urls();
+		void parse_description();
+		void parse_image();
 	};
-
-	SomaFMStation();
-	explicit SomaFMStation(const QString& content);
-	SomaFMStation(const SomaFMStation& other);
-	SomaFMStation& operator=(const SomaFMStation& other);
-	~SomaFMStation();
-
-	QString get_name() const;
-	QStringList get_urls() const;
-	QString get_description() const;
-	UrlType get_url_type(const QString& url) const;
-	CoverLocation get_cover_location() const;
-	bool is_valid() const;
-	MetaDataList get_metadata() const;
-	void set_metadata(const MetaDataList& v_md);
-
-	void set_loved(bool loved);
-	bool is_loved() const;
-
-
-private:
-	PIMPL(SomaFMStation)
-
-private:
-	void parse_station_name();
-	void parse_urls();
-	void parse_description();
-	void parse_image();
-};
+}
 
 #endif

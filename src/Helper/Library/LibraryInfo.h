@@ -47,8 +47,6 @@ public:
 	static LibraryInfo fromString(const QString& str);
 	QString toString() const;
 
-
-
 	bool operator==(const LibraryInfo& other) const;
 };
 

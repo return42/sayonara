@@ -113,6 +113,8 @@ LanguageString Lang::get(Lang::Term term, bool* ok)
 			return l.tr("Continue");
 		case Covers:
 			return l.tr("Covers");
+		case Date:
+			return l.tr("Date");
 		case Days:
 			return l.tr("days");
 		case DaysShort:
@@ -149,6 +151,8 @@ LanguageString Lang::get(Lang::Term term, bool* ok)
 			return l.tr("Fast");
 		case File:
 			return l.tr("File");
+		case Filename:
+			return l.tr("Filename");
 		case Files:
 			return l.tr("Files");
 		case Filesize:

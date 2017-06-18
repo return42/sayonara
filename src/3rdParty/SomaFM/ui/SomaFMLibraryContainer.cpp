@@ -24,46 +24,50 @@
 #include "ui/SomaFMLibraryContainer.h"
 #include "ui/GUI_SomaFM.h"
 
-
-SomaFMLibraryContainer::SomaFMLibraryContainer(QObject* parent) :
-	LibraryContainerInterface(parent)
+static void soma_fm_init_icons()
 {
 	Q_INIT_RESOURCE(SomaFMIcons);
 }
 
-SomaFMLibraryContainer::~SomaFMLibraryContainer() {}
+SomaFM::LibraryContainer::LibraryContainer(QObject* parent) :
+	LibraryContainerInterface(parent)
+{
+	soma_fm_init_icons();
+}
 
-QString SomaFMLibraryContainer::name() const
+SomaFM::LibraryContainer::~LibraryContainer() {}
+
+QString SomaFM::LibraryContainer::name() const
 {
 	return "SomaFM";
 }
 
-QString SomaFMLibraryContainer::display_name() const
+QString SomaFM::LibraryContainer::display_name() const
 {
 	return "SomaFM";
 }
 
-QWidget* SomaFMLibraryContainer::widget() const
+QWidget* SomaFM::LibraryContainer::widget() const
 {
 	return ui;
 }
 
-QMenu* SomaFMLibraryContainer::menu()
+QMenu* SomaFM::LibraryContainer::menu()
 {
 	return nullptr;
 }
 
-void SomaFMLibraryContainer::init_ui()
+void SomaFM::LibraryContainer::init_ui()
 {
 	ui = new GUI_SomaFM(nullptr);
 }
 
-QPixmap SomaFMLibraryContainer::icon() const
+QPixmap SomaFM::LibraryContainer::icon() const
 {
 	return QPixmap(":/soma_icons/soma.png");
 }
 
-QFrame* SomaFMLibraryContainer::header() const
+QFrame* SomaFM::LibraryContainer::header() const
 {
 	return ui->header_frame();
 }
