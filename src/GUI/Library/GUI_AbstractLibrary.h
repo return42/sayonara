@@ -51,23 +51,23 @@ public:
 
 	virtual ~GUI_AbstractLibrary();
 
+private:
+	void init();
+	void init_search_combobox();
+
+
 protected:
 	virtual void init_headers();
 	virtual void init_shortcuts();
-	virtual void language_changed() override;
+	virtual void init_finished();
+
 	virtual ::Library::TrackDeletionMode show_delete_dialog(int n_tracks)=0;
 
 	virtual QList<::Library::Filter::Mode> search_options() const;
 
-private:
-	void init();
-	void init_finished();
-	void init_search_combobox();
 
 protected slots:
 	virtual void _sl_live_search_changed();
-
-protected slots:
 
 	virtual void refresh();
 

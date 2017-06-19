@@ -40,10 +40,18 @@ struct IconLoader::Private
 
 	Private()
 	{
-		QString t = Settings::getInstance()->get(Set::Icon_Theme);
-
 		settings = Settings::getInstance();
 		theme_paths = QIcon::themeSearchPaths();
+
+		init_theme();
+	}
+
+	void init_theme()
+	{
+		QString new_theme;
+		icons.clear();
+
+		QString t = settings->get(Set::Icon_Theme);
 
 		if(t.isEmpty()) {
 			theme = QIcon::themeName();
@@ -55,7 +63,14 @@ struct IconLoader::Private
 
 		QIcon::setThemeName(theme);
 	}
+
+	void change_theme()
+	{
+		init_theme();
+		settings->shout(Set::Player_Style);
+	}
 };
+
 
 #ifdef Q_OS_WIN
 	QString get_win_icon_name(const QString& name)
@@ -84,14 +99,14 @@ IconLoader::IconLoader() :
 	QIcon::setThemeSearchPaths(_m->theme_paths);
 	sp_log(Log::Debug, this) << "Theme paths " << _m->theme_paths;
 
-	REGISTER_LISTENER(Set::Icon_Theme, icon_theme_changed);
+	REGISTER_LISTENER_NO_CALL(Set::Icon_Theme, icon_theme_changed);
 }
 
 IconLoader::~IconLoader() {}
 
 void IconLoader::icon_theme_changed()
 {
-	_m->icons.clear();
+	_m->change_theme();
 }
 
 

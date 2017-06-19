@@ -78,13 +78,18 @@ void add_header_entry(const QString& name, QWidget* widget)
 
 
 static
-IconRadioButton* add_radio_button(const QString& text, const QString& data, QWidget* widget)
+IconRadioButton* add_radio_button(const QString& text, const QString& data, QWidget* widget, bool ignore_errors)
 {
-	QLayout* layout = widget->layout();
+	if(!ignore_errors){
+		QIcon::setThemeName(text);
+		QIcon icon = QIcon::fromTheme("media-playback-start");
+		if(icon.isNull()){
+			return nullptr;
+		}
+	}
 
 	IconRadioButton* rb = new IconRadioButton(text, widget);
 	rb->set_data(data);
-	layout->addWidget(rb);
 
 	return rb;
 }
@@ -98,22 +103,22 @@ void GUI_IconPreferences::init_ui()
 	setup_parent(this, &ui);
 
 	QWidget* widget = ui->scroll_area_widget;
-	QLayout* layout = new QVBoxLayout(widget);
-	widget->setLayout(layout);
-
-	ui->scroll_area->setWidget(widget);
-
+	QLayout* layout = widget->layout();
 	add_line(widget);
 
 	IconRadioButton* rb_automatic = add_radio_button(
 					tr("Automatic") +
 					" (" + Lang::get(Lang::Default) + ")",
 					"",
-					 widget
+					 widget,
+					true
 	);
+
+	layout->addWidget(rb_automatic);
 
 	rb_automatic->setStyleSheet("font-weight: bold;");
 	_m->rb_map[""] = rb_automatic;
+
 
 	QStringList icon_paths = QIcon::themeSearchPaths();
 	for(const QString& icon_path : icon_paths)
@@ -121,19 +126,41 @@ void GUI_IconPreferences::init_ui()
 		QDir d(icon_path);
 		QStringList subdirs = d.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
 
-		if(!subdirs.isEmpty()){
+		if(subdirs.isEmpty()){
+			continue;
+		}
+
+		QList<IconRadioButton*> buttons;
+		for(const QString& subdir : subdirs) {
+
+			IconRadioButton* rb = add_radio_button(subdir, subdir, widget, false);
+			if(!rb){
+				continue;
+			}
+
+			connect(rb, &QRadioButton::toggled, this, [=](bool checked){
+				if(checked){
+					this->theme_changed(rb->data());
+				}
+			});
+
+			_m->rb_map[subdir] = rb;
+
+			if(_m->original_theme.compare(QIcon::themeName()) == 0){
+				rb->setStyleSheet("font-weight: bold;");
+			}
+
+			buttons << rb;
+		}
+
+		if(!buttons.isEmpty()){
 			add_header_entry(icon_path, widget);
 		}
 
-		for(const QString& subdir : subdirs) {
+		for(IconRadioButton* rb : buttons)
+		{
 
-			QString abs_path = d.absoluteFilePath(subdir);
-			IconRadioButton* rb = add_radio_button(subdir, subdir, widget);
-			_m->rb_map[subdir] = rb;
-
-			if(subdir.compare(QIcon::themeName()) == 0){
-				rb->setStyleSheet("font-weight: bold;");
-			}
+			layout->addWidget(rb);
 		}
 	}
 
@@ -153,7 +180,7 @@ void GUI_IconPreferences::retranslate_ui()
 
 QString GUI_IconPreferences::get_action_name() const
 {
-	return tr("Icons") + " (" + tr("Requires restart") + ")";
+	return tr("Icons");
 }
 
 void GUI_IconPreferences::commit()
@@ -161,9 +188,11 @@ void GUI_IconPreferences::commit()
 	for(const QString& key : _m->rb_map.keys())
 	{
 		IconRadioButton* rb = _m->rb_map[key];
+		rb->setStyleSheet("font-weight: normal;");
 		if(rb->isChecked()){
 			_settings->set(Set::Icon_Theme, key);
-			break;
+			rb->setStyleSheet("font-weight: bold;");
+			_m->original_theme = rb->data();
 		}
 	}
 }
@@ -175,4 +204,22 @@ void GUI_IconPreferences::revert()
 		IconRadioButton* rb = _m->rb_map[key];
 		rb->setChecked(key.compare(_m->original_theme) == 0);
 	}
+
+	QIcon::setThemeName(_m->original_theme);
+}
+
+static void apply_icon(const QString& n, const QString& theme_name, QLabel* label)
+{
+	QIcon::setThemeName(theme_name);
+	QIcon icon = QIcon::fromTheme(n);
+	label->setPixmap(icon.pixmap(32, 32).scaled(32, 32, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+
+}
+
+void GUI_IconPreferences::theme_changed(const QString& theme)
+{
+	apply_icon("media-playback-start", theme, ui->lab_play);
+	apply_icon("media-skip-backward", theme, ui->lab_bwd);
+	apply_icon("media-skip-forward", theme, ui->lab_fwd);
+	apply_icon("media-playback-stop", theme, ui->lab_stop);
 }

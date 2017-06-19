@@ -25,7 +25,9 @@ void SayonaraComboBox::changeEvent(QEvent* event)
 	if(event->type() == QEvent::StyleChange){
 
 		QFontMetrics f(this->font());
-		int h = (f.height() * 3) / 2;
+		int h = f.height();
+		h = std::max(h, 16);
+
 		this->setIconSize(QSize(h, h));
 	}
 

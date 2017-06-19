@@ -45,6 +45,8 @@ public:
 	LocalLibrary(qint8 id, const QString& library_path, QObject* parent=nullptr);
 	virtual ~LocalLibrary();
 
+	void clear_library();
+
 
 public slots:
 	void delete_tracks(const MetaDataList& v_md, Library::TrackDeletionMode answer) override;

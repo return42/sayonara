@@ -149,8 +149,6 @@ void GUI_AbstractLibrary::init_finished()
 	REGISTER_LISTENER(Set::Lib_LiveSearch, _sl_live_search_changed);
 }
 
-void GUI_AbstractLibrary::language_changed() {}
-
 void GUI_AbstractLibrary::init_search_combobox()
 {
 	QList<Library::Filter::Mode> filters = search_options();

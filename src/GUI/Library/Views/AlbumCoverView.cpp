@@ -35,12 +35,10 @@ struct AlbumCoverView::Private
 	AlbumCoverModel* model=nullptr;
 	QTimer* buffer_timer=nullptr;
 	std::atomic<bool> blocked;
-	int zoom;
 
 	Private()
 	{
 		blocked = false;
-		zoom = 100;
 		buffer_timer = new QTimer();
 		buffer_timer->setInterval(100);
 		buffer_timer->setSingleShot(true);
@@ -70,8 +68,6 @@ AlbumCoverView::AlbumCoverView(QWidget* parent) :
 	}
 
 	connect(_m->buffer_timer, &QTimer::timeout, this, &AlbumCoverView::timed_out, Qt::QueuedConnection);
-
-	_m->zoom = _settings->get(Set::Lib_CoverZoom);
 }
 
 
@@ -94,34 +90,32 @@ QModelIndex AlbumCoverView::get_model_index_by_index(int idx) const
 void AlbumCoverView::setModel(AlbumCoverModel* model)
 {
 	_m->model = model;
+
 	LibraryView::setModel(_m->model);
 	LibraryView::setSearchModel(_m->model);
 }
 
 void AlbumCoverView::change_zoom(int zoom)
 {
-	if(zoom != -1){
-		zoom = std::min(zoom, 200);
-		zoom = std::max(zoom, 50);
+	bool force_reload = (zoom < 0);
 
-		if( zoom == _m->zoom ){
+	if(force_reload){
+		zoom = _m->model->zoom();
+	}
+
+	zoom = std::min(zoom, 200);
+	zoom = std::max(zoom, 50);
+
+	if(!force_reload){
+		if( zoom == _m->model->zoom() ){
 			return;
 		}
 	}
 
-	else{
-		zoom = _m->zoom;
-	}
+	_m->model->set_zoom(zoom, this->size());
+	_settings->set(Set::Lib_CoverZoom, zoom);
 
-	_m->zoom = zoom;
-	_m->model->set_zoom(_m->zoom);
-	_settings->set(Set::Lib_CoverZoom, _m->zoom);
-
-	int col_width = _m->model->get_item_size().width();
-	int n_cols_target = (this->width() + (col_width / 10)) / col_width;
-
-	_m->model->set_max_columns(n_cols_target);
-	_m->buffer_timer->start();
+	refresh();
 }
 
 void AlbumCoverView::refresh()
@@ -137,14 +131,11 @@ void AlbumCoverView::timed_out()
 
 	_m->blocked = true;
 
-	this->horizontalHeader()->setDefaultSectionSize(_m->zoom + 50);
-	this->verticalHeader()->setDefaultSectionSize(_m->zoom + 50);
+	this->verticalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+	this->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
 
 	_m->blocked = false;
-
 	_m->buffer_timer->stop();
-
-	sp_log(Log::Debug, this) << " Kill timer";
 }
 
 
@@ -155,11 +146,11 @@ void AlbumCoverView::wheelEvent(QWheelEvent* e)
 	{
 		int zoom;
 		if(e->delta() > 0){
-			zoom = _m->zoom + 10;
+			zoom = _m->model->zoom() + 10;
 		}
 
 		else {
-			zoom = _m->zoom - 10;
+			zoom = _m->model->zoom() - 10;
 		}
 
 		change_zoom(zoom);

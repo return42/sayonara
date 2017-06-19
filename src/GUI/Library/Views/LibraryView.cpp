@@ -35,6 +35,7 @@
 #include "Helper/Settings/Settings.h"
 #include "Helper/MetaData/MetaDataList.h"
 #include "Helper/Set.h"
+#include "Helper/Logger/Logger.h"
 
 #include "GUI/Helper/CustomMimeData.h"
 #include "GUI/Helper/ContextMenu/LibraryContextMenu.h"
@@ -52,11 +53,10 @@ struct LibraryView::Private
 	QMenu*				merge_menu=nullptr;
 	LibraryContextMenu*	rc_menu=nullptr;
 	MD::Interpretation	type;
-	int					row_height;
+	QHeaderView::ResizeMode old_resize_mode;
 
 	Private()
 	{
-		row_height = 0;
 		cur_filling = false;
 		type = MD::Interpretation::None;
 	}
@@ -76,7 +76,7 @@ LibraryView::LibraryView(QWidget* parent) :
 	setAlternatingRowColors(true);
 	setDragEnabled(true);
 
-	verticalHeader()->setResizeContentsPrecision(1);
+	verticalHeader()->setResizeContentsPrecision(2);
 
 	clearSelection();
 }
@@ -241,8 +241,6 @@ void LibraryView::resize_rows_to_contents()
 	if(header) {
 		header->resizeSections(QHeaderView::ResizeToContents);
 	}
-
-	_m->row_height = this->rowHeight(0);
 }
 
 void LibraryView::resize_rows_to_contents(int first_row, int count)
@@ -253,8 +251,9 @@ void LibraryView::resize_rows_to_contents(int first_row, int count)
 
 	QHeaderView* header = this->verticalHeader();
 	if(header) {
-		for(int i=first_row; i<first_row + count; i++){
-			header->resizeSection(i, _m->row_height);
+		for(int i=first_row; i<first_row + count; i++)
+		{
+			this->resizeRowToContents(i);
 		}
 	}
 }

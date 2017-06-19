@@ -118,8 +118,8 @@ void DatabaseTracks::check_track_view(qint8 library_id)
 	;
 
 	if(_m->library_id >= 0){
-		view_query += "WHERE libraryID=" + QString::number(library_id) + "; ";
-		search_view_query += "WHERE libraryID=" + QString::number(library_id) + "; ";
+		view_query += "WHERE libraryID=" + QString::number(_m->library_id) + "; ";
+		search_view_query += "WHERE libraryID=" + QString::number(_m->library_id) + "; ";
 	}
 
 	SayonaraQuery view_q(this);
@@ -674,6 +674,21 @@ void DatabaseTracks::updateTrackCissearch()
 	}
 
 	module_db().commit();
+}
+
+void DatabaseTracks::deleteAllTracks()
+{
+	if(_m->library_id >= 0)
+	{
+		SayonaraQuery q(this);
+		q.prepare("DROP VIEW " + _m->track_search_view_name + ";");
+		//q.exec();
+
+		SayonaraQuery q2(this);
+		q2.prepare("DELETE FROM tracks WHERE libraryId=:library_id;");
+		q2.bindValue(":library_id", _m->library_id);
+		q2.exec();
+	}
 }
 
 

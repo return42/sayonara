@@ -70,6 +70,11 @@ void LibraryDatabase::change_artistid_field(LibraryDatabase::ArtistIDField field
 	DatabaseTracks::change_artistid_field(str);
 }
 
+void LibraryDatabase::clear()
+{
+	DatabaseTracks::deleteAllTracks();
+}
+
 qint8 LibraryDatabase::library_id() const
 {
 	return _library_id;

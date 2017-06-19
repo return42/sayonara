@@ -147,12 +147,18 @@ void LibraryPluginHandler::init(const QList<LibraryContainerInterface*>& contain
 	_m->insert_containers(containers);
 	_m->insert_dll_libraries();
 
+	bool found = false;
 	for(LibraryContainerInterface* container : _m->libraries){
 		QString name = container->name();
 		if(name.compare(cur_plugin) == 0){
 			set_current_library(container);
+			found = true;
 			break;
 		}
+	}
+
+	if(!found){
+		set_current_library(_m->libraries.first());
 	}
 
 	emit sig_initialized();
@@ -180,6 +186,7 @@ void LibraryPluginHandler::init_library(LibraryContainerInterface* library)
 	if(header_frame)
 	{
 		LibraryPluginCombobox* combo_box = new LibraryPluginCombobox(library->display_name(), nullptr);
+		combo_box->setIconSize(QSize(16, 16));
 
 		QLayout* layout = new QVBoxLayout(header_frame);
 		layout->setContentsMargins(0, 0, 0, 0);
@@ -266,12 +273,8 @@ void LibraryPluginHandler::add_local_library(const LibraryInfo& library)
 	int idx = 0;
 	for(LibraryContainerInterface* container : _m->libraries)
 	{
-		if(is_local_library(container)){
+		if(is_local_library(container)) {
 			idx++;
-		}
-
-		if(!container->is_initialized()){
-			continue;
 		}
 	}
 
@@ -283,11 +286,13 @@ void LibraryPluginHandler::rename_local_library(qint8 library_id, const QString&
 	for(LibraryContainerInterface* container : _m->libraries)
 	{
 		LocalLibraryContainer* llc = dynamic_cast<LocalLibraryContainer*>(container);
-		if(llc){
-			if(llc->get_id() == library_id) {
-				llc->set_name(new_name);
-				break;
-			}
+		if(!llc){
+			continue;
+		}
+
+		if(llc->get_id() == library_id) {
+			llc->set_name(new_name);
+			break;
 		}
 	}
 }

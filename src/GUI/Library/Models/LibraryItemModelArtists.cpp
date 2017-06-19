@@ -98,7 +98,8 @@ QVariant LibraryItemModelArtists::data(const QModelIndex & index, int role) cons
 	const Artist& artist = _m->artists[row];
 
 
-	if(role == Qt::TextAlignmentRole){
+	if(role == Qt::TextAlignmentRole)
+	{
 		switch(idx_col) {
 			case ColumnIndex::Artist::Name:
 				return (int) (Qt::AlignLeft | Qt::AlignVCenter);
@@ -107,18 +108,25 @@ QVariant LibraryItemModelArtists::data(const QModelIndex & index, int role) cons
 		}
 	}
 
-	else if(role == Qt::DecorationRole){
-		if(idx_col == ColumnIndex::Artist::NumAlbums){
+	else if(role == Qt::DecorationRole)
+	{
+		if(idx_col == ColumnIndex::Artist::NumAlbums) {
 			if(artist.num_albums > 1){
 				return _m->pm_multi;
 			}
+
 			return _m->pm_single;
 		}
 	}
 
-	else if(role == Qt::DisplayRole) {
-		switch(idx_col) {
+	else if(role == Qt::DisplayRole)
+	{
+		switch(idx_col)
+		{
 			case ColumnIndex::Artist::Name:
+				if(artist.name.isEmpty()){
+					return "None";
+				}
 				return artist.name;
 
 			case ColumnIndex::Artist::Tracks:

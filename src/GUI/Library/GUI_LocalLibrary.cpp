@@ -117,12 +117,12 @@ GUI_LocalLibrary::GUI_LocalLibrary(int id, QWidget* parent) :
 
 	setAcceptDrops(true);
 
-	QTimer::singleShot(0, _m->library, SLOT(load()));
-
-	REGISTER_LISTENER(Set::Lib_ShowAlbumCovers, switch_album_view);
+	QTimer::singleShot(100, _m->library, SLOT(load()));
 
 	ui->lv_genres->set_local_library(_m->library);
 	language_changed();
+
+	REGISTER_LISTENER_NO_CALL(Set::Lib_ShowAlbumCovers, switch_album_view);
 }
 
 
@@ -143,6 +143,7 @@ QFrame* GUI_LocalLibrary::header_frame() const
 {
 	return ui->header_frame;
 }
+
 
 void GUI_LocalLibrary::showEvent(QShowEvent* e)
 {
@@ -322,9 +323,16 @@ void GUI_LocalLibrary::genres_reloaded()
 
 void GUI_LocalLibrary::reload_library_requested()
 {
-	Library::ReloadQuality quality = show_quality_dialog();
-	if(quality == Library::ReloadQuality::Unknown){
-		return;
+	Library::ReloadQuality quality = Library::ReloadQuality::Accurate;
+	int n_rows = ui->tb_title->model()->rowCount();
+
+	if(n_rows > 0)
+	{
+		quality = show_quality_dialog();
+
+		if(quality == Library::ReloadQuality::Unknown){
+			return;
+		}
 	}
 
 	_m->library->psl_reload_library(false, quality);
@@ -514,6 +522,7 @@ void GUI_LocalLibrary::init_album_cover_view()
 void GUI_LocalLibrary::lib_fill_albums(const AlbumList& albums)
 {
 	GUI_AbstractLibrary::lib_fill_albums(albums);
+
 	if(!_m->acv){
 		return;
 	}

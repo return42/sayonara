@@ -73,6 +73,11 @@ LocalLibrary::LocalLibrary(qint8 lib_id, const QString& library_path, QObject *p
 
 LocalLibrary::~LocalLibrary() {}
 
+void LocalLibrary::clear_library()
+{
+	_m->lib_db->clear();
+}
+
 void LocalLibrary::apply_db_fixes()
 {
 	QString str_val;

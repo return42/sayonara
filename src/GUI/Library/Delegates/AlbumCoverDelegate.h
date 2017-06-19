@@ -29,10 +29,9 @@ class AlbumCoverDelegate :
 	Q_OBJECT
 
 public:
-	AlbumCoverDelegate(QObject* parent=nullptr);
+	explicit AlbumCoverDelegate(QObject* parent=nullptr);
 	~AlbumCoverDelegate();
 
-	// QAbstractItemDelegate interface
 public:
 	void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const override;
 };

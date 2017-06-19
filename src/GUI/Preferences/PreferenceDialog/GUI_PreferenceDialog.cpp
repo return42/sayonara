@@ -137,7 +137,6 @@ void GUI_PreferenceDialog::hide_all()
 	}
 }
 
-// TODO: This seems strange and useless
 void GUI_PreferenceDialog::showEvent(QShowEvent* e)
 {
 	init_ui();

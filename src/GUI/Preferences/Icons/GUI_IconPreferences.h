@@ -31,6 +31,9 @@ public:
 
 private:
 	Ui::GUI_IconPreferences* ui=nullptr;
+
+private slots:
+	void theme_changed(const QString& theme);
 };
 
 #endif // GUI_ICONPREFERENCES_H

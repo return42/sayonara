@@ -99,9 +99,13 @@ void AlbumCoverModel::set_max_columns(int columns)
 
 	int old_columns = columnCount();
 	int old_rows = rowCount();
-	int rows = (_m->albums.size() / columns) + 1;
 
 	_m->columns = columns;
+	int rows = rowCount();
+
+	if(old_columns == columns && old_rows == rows){
+		return;
+	}
 
 	if(columns > old_columns) {
 		beginInsertColumns(QModelIndex(), 0, columns - old_columns - 1);
@@ -109,22 +113,26 @@ void AlbumCoverModel::set_max_columns(int columns)
 	}
 
 	else if(columns < old_columns) {
-
 		beginRemoveColumns(QModelIndex(), 0, old_columns - columns - 1);
 		endRemoveColumns();
 	}
 
 	if(rows > old_rows)	{
-		beginInsertRows(QModelIndex(), 0, rows - old_rows - 1);
+		beginInsertRows(QModelIndex(), old_rows, rows - 1);
 		endInsertRows();
 	}
 
 	else if(rows < old_rows) {
-		beginRemoveRows(QModelIndex(), 0, old_rows - rows - 1);
+		beginRemoveRows(QModelIndex(), rows, old_rows - 1);
 		endRemoveRows();
 	}
 
-	emit dataChanged(index(0, 0), index(rowCount() - 1, columnCount() - 1));
+	emit dataChanged(index(0, 0), index(rowCount() - 1, columnCount() - 1), {Qt::DisplayRole, Qt::SizeHintRole});
+}
+
+int AlbumCoverModel::zoom() const
+{
+	return _m->size;
 }
 
 QVariant AlbumCoverModel::data(const QModelIndex& index, int role) const
@@ -192,7 +200,7 @@ QVariant AlbumCoverModel::data(const QModelIndex& index, int role) const
 			}
 
 		case Qt::SizeHintRole:
-			return get_item_size();
+			return item_size();
 
 		default:
 			return QVariant();
@@ -201,7 +209,7 @@ QVariant AlbumCoverModel::data(const QModelIndex& index, int role) const
 	return QVariant();
 }
 
-QSize AlbumCoverModel::get_item_size() const
+QSize AlbumCoverModel::item_size() const
 {
 	return QSize(_m->size + 50, _m->size + 50);
 }
@@ -211,11 +219,16 @@ void AlbumCoverModel::set_data(const AlbumList& albums)
 {
 	_m->albums = albums;
 	set_max_columns(_m->columns);
+
+	emit dataChanged(index(0, 0), index(rowCount() - 1, columnCount() - 1));
 }
 
-void AlbumCoverModel::set_zoom(int zoom)
+void AlbumCoverModel::set_zoom(int zoom, const QSize& view_size)
 {
 	_m->size = zoom;
+
+	int new_columns = (view_size.width() / this->item_size().width());
+	set_max_columns(new_columns);
 }
 
 

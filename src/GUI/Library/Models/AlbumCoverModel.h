@@ -31,13 +31,13 @@ class Album;
 class AlbumList;
 class CoverLocation;
 class CoverLookup;
+class QSize;
+
 class AlbumCoverModel :
 		public LibraryItemModel
 {
 	Q_OBJECT
 	PIMPL(AlbumCoverModel)
-
-private:
 
 public:
 	explicit AlbumCoverModel(QObject* parent=nullptr);
@@ -50,7 +50,7 @@ public:
 	int rowCount(const QModelIndex& parent=QModelIndex()) const override;
 	int columnCount(const QModelIndex& paren=QModelIndex()) const override;
 	QVariant data(const QModelIndex& index, int role) const override;
-	QSize get_item_size() const;
+	QSize item_size() const;
 
 	QModelIndex getFirstRowIndexOf(const QString& substr) override;
 	QModelIndex getNextRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent=QModelIndex()) override;
@@ -64,8 +64,12 @@ public:
 
 	void set_max_columns(int columns);
 
+	int zoom() const;
+
+
+
 public slots:
-	void set_zoom(int zoom);
+	void set_zoom(int zoom, const QSize& view_size);
 
 private slots:
 	void next_hash();

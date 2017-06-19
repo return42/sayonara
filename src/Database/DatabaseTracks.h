@@ -86,6 +86,7 @@ public:
 	virtual QStringList getAllGenres();
 	virtual void updateTrackCissearch();
 
+	void deleteAllTracks();
 	bool updateTrackDates();
 };
 
