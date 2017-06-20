@@ -32,6 +32,7 @@
 
 #include <QFileDialog>
 #include <QInputDialog>
+#include <QShowEvent>
 
 struct GUI_LibraryPreferences::Private
 {
@@ -135,6 +136,12 @@ void GUI_LibraryPreferences::retranslate_ui()
 	ui->btn_clear->setText(Lang::get(Lang::Clear));
 	ui->btn_delete->setText(Lang::get(Lang::Remove));
 	ui->btn_rename->setText(Lang::get(Lang::Rename));
+}
+
+void GUI_LibraryPreferences::showEvent(QShowEvent* e)
+{
+	PreferenceWidgetInterface::showEvent(e);
+	this->revert();
 }
 
 

@@ -47,16 +47,18 @@
 struct LibraryPluginHandler::Private
 {
 	LibraryContainerInterface*			current_library=nullptr;
-	QList<LibraryContainerInterface*>	libraries;
+
+	LibraryContainerInterface*			empty_library=nullptr;
+	QList<LocalLibraryContainer*>		local_libraries;
+	QList<LibraryContainerInterface*>	library_containers;
+	QList<LibraryContainerInterface*>	dll_libraries;
+
 	QWidget*							library_parent=nullptr;
 	LibraryPluginHandler*				plugin_handler=nullptr;
 
 	Private(LibraryPluginHandler* plugin_handler) :
 		plugin_handler(plugin_handler)
-	{
-
-	}
-
+	{}
 
 	void insert_local_libraries()
 	{
@@ -68,14 +70,14 @@ struct LibraryPluginHandler::Private
 			}
 
 			sp_log(Log::Debug, plugin_handler) << "Add local library "
-									 << library_info.name() << ": "
-									 << library_info.path();
+											   << library_info.name() << ": "
+											   << library_info.path();
 
-			libraries << new LocalLibraryContainer(library_info);
+			local_libraries << new LocalLibraryContainer(library_info);
 		}
 
-		if(libraries.isEmpty()){
-			libraries << new EmptyLibraryContainer();
+		if(local_libraries.isEmpty()){
+			empty_library = new EmptyLibraryContainer();
 		}
 	}
 
@@ -105,7 +107,7 @@ struct LibraryPluginHandler::Private
 			}
 
 			sp_log(Log::Info, plugin_handler) << "Found library plugin " << container->display_name();
-			libraries << container;
+			dll_libraries << container;
 		}
 	}
 
@@ -118,16 +120,27 @@ struct LibraryPluginHandler::Private
 			}
 
 			sp_log(Log::Debug, plugin_handler) << "Add plugin " << container->display_name();
-			libraries << container;
+			library_containers << container;
 		}
 	}
-};
 
-bool LibraryPluginHandler::is_local_library(const LibraryContainerInterface* container)
-{
-	return ((dynamic_cast<const LocalLibraryContainer*>(container) != nullptr) ||
-			(dynamic_cast<const EmptyLibraryContainer*>(container) != nullptr));
-}
+	QList<LibraryContainerInterface*> all_libraries() const
+	{
+		QList<LibraryContainerInterface*> container;
+		if(empty_library) {
+			container << empty_library;
+		}
+
+		for(LocalLibraryContainer* llc : local_libraries){
+			container << static_cast<LibraryContainerInterface*>(llc);
+		}
+
+		container << library_containers;
+		container << dll_libraries;
+
+		return container;
+	}
+};
 
 
 LibraryPluginHandler::LibraryPluginHandler() :
@@ -148,7 +161,9 @@ void LibraryPluginHandler::init(const QList<LibraryContainerInterface*>& contain
 	_m->insert_dll_libraries();
 
 	bool found = false;
-	for(LibraryContainerInterface* container : _m->libraries){
+
+	for(LibraryContainerInterface* container : _m->all_libraries())
+	{
 		QString name = container->name();
 		if(name.compare(cur_plugin) == 0){
 			set_current_library(container);
@@ -158,7 +173,7 @@ void LibraryPluginHandler::init(const QList<LibraryContainerInterface*>& contain
 	}
 
 	if(!found){
-		set_current_library(_m->libraries.first());
+		set_current_library(_m->all_libraries().first());
 	}
 
 	emit sig_initialized();
@@ -205,7 +220,7 @@ void LibraryPluginHandler::set_library_parent(QWidget* parent)
 {
 	_m->library_parent = parent;
 
-	for(LibraryContainerInterface* container : _m->libraries){
+	for(LibraryContainerInterface* container : _m->all_libraries()){
 		if(container->is_initialized()){
 			container->widget()->setParent(parent);
 		}
@@ -228,7 +243,7 @@ void LibraryPluginHandler::current_library_changed(int library_idx)
 
 void LibraryPluginHandler::set_current_library(const QString& name)
 {
-	for(LibraryContainerInterface* container : _m->libraries)
+	for(LibraryContainerInterface* container : _m->all_libraries())
 	{
 		QString container_name = container->name();
 		if(container_name.compare(name) != 0)
@@ -271,59 +286,89 @@ void LibraryPluginHandler::add_local_library(const LibraryInfo& library)
 	LocalLibraryContainer* llc = new LocalLibraryContainer(library);
 
 	int idx = 0;
-	for(LibraryContainerInterface* container : _m->libraries)
+	int elc_idx = -1;
+
+	_m->local_libraries << llc;
+	bool empty_library_found = (_m->empty_library != nullptr);
+
+	if(empty_library_found)
 	{
-		if(is_local_library(container)) {
-			idx++;
+		if(_m->empty_library->is_initialized()){
+			_m->empty_library->widget()->setVisible(false);
 		}
+		_m->empty_library->deleteLater();
+		_m->empty_library = nullptr;
 	}
 
-	_m->libraries.insert(idx, llc);
+	emit sig_libraries_changed();
+
+	if(empty_library_found) {
+		set_current_library(llc);
+	}
 }
 
 void LibraryPluginHandler::rename_local_library(qint8 library_id, const QString& new_name)
 {
-	for(LibraryContainerInterface* container : _m->libraries)
+	for(LocalLibraryContainer* llc : _m->local_libraries)
 	{
-		LocalLibraryContainer* llc = dynamic_cast<LocalLibraryContainer*>(container);
-		if(!llc){
-			continue;
-		}
-
-		if(llc->get_id() == library_id) {
+		if(llc->id() == library_id) {
 			llc->set_name(new_name);
 			break;
 		}
 	}
+
+	emit sig_libraries_changed();
 }
 
+#include <QMenu>
 void LibraryPluginHandler::remove_local_library(qint8 library_id)
 {
 	int idx = -1;
 	int i=0;
-	for(LibraryContainerInterface* container : _m->libraries)
+
+	LocalLibraryContainer* removed_llc=nullptr;
+	for(LocalLibraryContainer* llc : _m->local_libraries)
 	{
-		LocalLibraryContainer* llc = dynamic_cast<LocalLibraryContainer*>(container);
-		if(llc){
-			if(llc->get_id() == library_id){
-				idx = i;
-				break;
+		if(llc->id() == library_id)
+		{
+			idx = i;
+			removed_llc = llc;
+
+			if(llc->is_initialized()){
+				llc->widget()->setVisible(false);
+				QMenu* menu = llc->menu();
+				if(menu){
+					menu->menuAction()->setVisible(false);
+				}
 			}
 
-			i++;
+			break;
 		}
+
+		i++;
 	}
 
 	if(idx < 0) {
 		return;
 	}
 
-	_m->libraries.removeAt(idx);
+	_m->local_libraries.removeAt(idx);
+	if(_m->local_libraries.isEmpty()){
+		_m->empty_library = new EmptyLibraryContainer();
+	}
+
+	emit sig_libraries_changed();
+
+	if(_m->current_library == removed_llc){
+		set_current_library(_m->empty_library);
+	}
 }
 
 void LibraryPluginHandler::move_local_library(int old_row, int new_row)
 {
-	_m->libraries.move(old_row, new_row);
+	_m->local_libraries.move(old_row, new_row);
+
+	emit sig_libraries_changed();
 }
 
 LibraryContainerInterface*LibraryPluginHandler::current_library() const
@@ -343,6 +388,6 @@ QMenu* LibraryPluginHandler::current_library_menu() const
 
 QList<LibraryContainerInterface*> LibraryPluginHandler::get_libraries() const
 {
-	return _m->libraries;
+	return _m->all_libraries();
 }
 

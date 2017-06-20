@@ -46,6 +46,7 @@ class LibraryPluginHandler :
 signals:
 	void sig_initialized();
 	void sig_current_library_changed(const QString& name);
+	void sig_libraries_changed();
 
 private:
 	/**
@@ -83,8 +84,6 @@ public:
 
 	LibraryContainerInterface* current_library() const;
 	QMenu* current_library_menu() const;
-
-	static bool is_local_library(const LibraryContainerInterface* container);
 
 private slots:
 	void current_library_changed(int library_idx);

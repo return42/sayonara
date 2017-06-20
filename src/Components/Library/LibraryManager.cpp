@@ -226,10 +226,16 @@ void LibraryManager::remove_library(qint8 id)
 
 		LibraryInfo info = _m->all_libs.takeAt(i);
 		QFile::remove(info.symlink_path());
+
+
 		LocalLibrary* library = _m->lib_map.take(info.id());
-		library->clear_library();
+
+		if(!_m->lib_map.contains(info.id())){
+			library = nullptr;
+		}
 
 		if(library){
+			library->clear_library();
 			delete library; library=nullptr;
 		}
 
@@ -286,6 +292,12 @@ qint8 LibraryManager::get_next_lib_id() const
 void LibraryManager::revert()
 {
 	_m->all_libs = _settings->get(Set::Lib_AllLibraries);
+	QList<int> invalid;
+	for(int i=_m->all_libs.size() - 1; i>=0; i--){
+		if(!_m->all_libs[i].valid()){
+			_m->all_libs.removeAt(i);
+		}
+	}
 
 	if(_m->all_libs.isEmpty()){
 		QString old_path = _settings->get(Set::Lib_Path);

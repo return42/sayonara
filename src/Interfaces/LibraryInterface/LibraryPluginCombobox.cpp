@@ -28,9 +28,10 @@ LibraryPluginCombobox::LibraryPluginCombobox(const QString& text, QWidget* paren
 	this->setFrame(false);
 
 	connect(_m->lph, &LibraryPluginHandler::sig_initialized, this, &LibraryPluginCombobox::setup_actions);
+	connect(_m->lph, &LibraryPluginHandler::sig_libraries_changed, this, &LibraryPluginCombobox::setup_actions);
 	connect(_m->lph, &LibraryPluginHandler::sig_current_library_changed, this, &LibraryPluginCombobox::current_library_changed);
 
-	REGISTER_LISTENER_NO_CALL(Set::Lib_AllLibraries, setup_actions);
+	//REGISTER_LISTENER_NO_CALL(Set::Lib_AllLibraries, setup_actions);
 	REGISTER_LISTENER_NO_CALL(Set::Player_Language, setup_actions);
 
 	setup_actions();

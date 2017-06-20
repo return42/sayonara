@@ -44,6 +44,7 @@ public:
 protected:
 	void init_ui() override;
 	void retranslate_ui() override;
+	void showEvent(QShowEvent* e) override;
 
 private slots:
 	void new_clicked();
