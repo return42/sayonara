@@ -25,41 +25,32 @@
 #include <QAction>
 
 #include "Helper/Settings/SayonaraClass.h"
+#include "Helper/Pimpl.h"
 
+class QString;
 class IconLoader;
 class LocalLibraryMenu :
 		public QMenu,
 		private SayonaraClass
 {
 	Q_OBJECT
+	PIMPL(LocalLibraryMenu)
 
 signals:
 	void sig_reload_library();
 	void sig_import_file();
 	void sig_import_folder();
 	void sig_info();
-	void sig_libpath_clicked();
+	void sig_name_changed(const QString& name);
+	void sig_path_changed(const QString& path);
 	void sig_show_album_artists_changed();
 
 public:
-	explicit LocalLibraryMenu(QWidget* parent=nullptr);
+	explicit LocalLibraryMenu(const QString& name, const QString& path, QWidget* parent=nullptr);
 	virtual ~LocalLibraryMenu();
 
-private:
-	QAction* _reload_library_action=nullptr;
-	QAction* _import_file_action=nullptr;
-	QAction* _import_folder_action=nullptr;
-	QAction* _info_action=nullptr;
-	QAction* _library_path_action=nullptr;
-	QAction* _realtime_search_action=nullptr;
-	QAction* _auto_update=nullptr;
-	QAction* _show_album_artists_action=nullptr;
-	QAction* _show_album_cover_view=nullptr;
-
-	IconLoader* _icon_loader=nullptr;
-
-	QList<QAction*> _actions;
-
+	void refresh_name(const QString& name);
+	void refresh_path(const QString& path);
 
 private slots:
 	void show_album_cover_view_changed();
@@ -69,6 +60,9 @@ private slots:
 
 	void realtime_search_changed();
 	void auto_update_changed();
+
+	void edit_clicked();
+	void edit_accepted();
 };
 
 #endif // LOCALLIBRARYMENU_H

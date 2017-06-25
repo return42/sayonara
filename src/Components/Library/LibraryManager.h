@@ -39,20 +39,23 @@ class LibraryManager :
     PIMPL(LibraryManager)
     SINGLETON(LibraryManager)
 
+	friend class LocalLibrary;
+
 public:
 	qint8 add_library(const QString& name, const QString& path);
 	void rename_library(qint8 id, const QString& name);
 	void remove_library(qint8 id);
 	void move_library(int old_row, int new_row);
+	void change_library_path(qint8 id, const QString& path);
 
 	static QString request_library_name(const QString& path);
-    QList<LibraryInfo> get_all_libraries() const;
-	LibraryInfo get_library_info(qint8 id) const;
+	QList<LibraryInfo> all_libraries() const;
+	LibraryInfo library_info(qint8 id) const;
+
     int count() const;
 
-	LocalLibrary* get_library_instance(qint8 id) const;
-    void set_library_path(qint8 library_id, const QString& library_path);
-	qint8 get_next_lib_id() const;
+	LocalLibrary* library_instance(qint8 id) const;
+
 	void revert();
 };
 

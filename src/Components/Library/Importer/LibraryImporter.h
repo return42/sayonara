@@ -27,6 +27,7 @@
 #include <QObject>
 
 class MetaDataList;
+class LocalLibrary;
 /**
  * @brief The LibraryImporter class
  * @ingroup Library
@@ -38,7 +39,7 @@ class LibraryImporter :
 	PIMPL(LibraryImporter)
 
 public:
-	LibraryImporter(qint8 lib_db, const QString& library_path, QObject* parent=nullptr);
+	LibraryImporter(LocalLibrary* library);
 	~LibraryImporter();
 
 	enum class ImportStatus : quint8 
@@ -64,6 +65,7 @@ public:
 	void import_files(const QStringList& files);
 	void accept_import(const QString& target_dir);
 	void cancel_import();
+
 	LibraryImporter::ImportStatus get_status() const;
 
 

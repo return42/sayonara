@@ -23,7 +23,6 @@
 #include "Importer/LibraryImporter.h"
 #include "Threads/ReloadThread.h"
 #include "Threads/IndexDirectoriesThread.h"
-#include "Threads/FileSystemWatcher.h"
 #include "Threads/UpdateDatesThread.h"
 #include "Database/DatabaseConnector.h"
 #include "Database/LocalLibraryDatabase.h"
@@ -44,31 +43,31 @@ struct LocalLibrary::Private
 	LibraryDatabase*	lib_db=nullptr;
 	qint8				lib_id;
 	ReloadThread* 		reload_thread=nullptr;
-	FileSystemWatcher*	fsw=nullptr;
 	LibraryImporter*	library_importer=nullptr;
 	QString				library_path;
+	QString				library_name;
 
-	Private(const QString& library_path, qint8 lib_id) :
+	Private(const QString& library_name, const QString& library_path, qint8 lib_id) :
 		db(DatabaseConnector::getInstance()),
 		lib_db(db->library_db(lib_id, 0)),
 		lib_id(lib_id),
-		library_path(library_path)
+		library_path(library_path),
+		library_name(library_name)
 	{}
 };
 
-LocalLibrary::LocalLibrary(qint8 lib_id, const QString& library_path, QObject *parent) :
+LocalLibrary::LocalLibrary(qint8 lib_id, const QString& library_name, const QString& library_path, QObject *parent) :
 	AbstractLibrary(parent)
 {
 	DatabaseConnector::getInstance()->register_library_db<LocalLibraryDatabase>(lib_id);
 
-	_m = Pimpl::make<Private>(library_path, lib_id);
+	_m = Pimpl::make<Private>(library_name, library_path, lib_id);
 
 	apply_db_fixes();
 
 	connect(_playlist, &PlaylistHandler::sig_track_deletion_requested, this, &LocalLibrary::delete_tracks);
 
 	REGISTER_LISTENER_NO_CALL(Set::Lib_SearchMode, _sl_search_mode_changed);
-	REGISTER_LISTENER(Set::Lib_AutoUpdate, _sl_auto_update_changed);
 }
 
 LocalLibrary::~LocalLibrary() {}
@@ -107,7 +106,7 @@ void LocalLibrary::psl_reload_library(bool clear_first, Library::ReloadQuality q
 	}
 
 	_m->reload_thread->set_quality(quality);
-	_m->reload_thread->set_library(_m->lib_id, library_path());
+	_m->reload_thread->set_library(library_id(), library_path());
 	_m->reload_thread->start();
 }
 
@@ -118,10 +117,6 @@ void LocalLibrary::reload_thread_finished()
 
 	emit sig_reloading_library("", -1);
 	emit sig_reloading_library_finished();
-
-	if(_m->fsw){
-		_m->fsw->refresh();
-	}
 }
 
 void LocalLibrary::_sl_search_mode_changed()
@@ -133,52 +128,8 @@ void LocalLibrary::_sl_search_mode_changed()
 	_m->lib_db->updateTrackCissearch();
 
 	sp_log(Log::Debug, this) << "Updating cissearch finished" << _settings->get(Set::Lib_SearchMode);
-
 }
 
-void LocalLibrary::_sl_auto_update_changed()
-{
-	bool active = _settings->get(Set::Lib_AutoUpdate);
-	if(active){
-		MetaDataList v_md;
-		get_all_tracks(v_md, Library::Sortings());
-		IndexDirectoriesThread* thread = new IndexDirectoriesThread(v_md);
-		connect(thread, &QThread::finished, this, &LocalLibrary::indexing_finished);
-		thread->start();
-	}
-
-	else{
-		if(_m->fsw){
-			_m->fsw->stop();
-
-			sp_log(Log::Debug, this) << "Removed filesystem watcher";
-		}
-	}
-}
-
-void LocalLibrary::indexing_finished()
-{
-	IndexDirectoriesThread* thread = dynamic_cast<IndexDirectoriesThread*>(sender());
-
-	_m->fsw = new FileSystemWatcher(library_path(), this);
-
-	connect(_m->fsw, &QThread::finished, _m->fsw, &QObject::deleteLater);
-	connect(_m->fsw, &QThread::destroyed, this, [=](){
-		_m->fsw = nullptr;
-	});
-
-	connect(_m->fsw, &FileSystemWatcher::sig_changed, this, [=](){
-		if(!_m->reload_thread || (_m->reload_thread && !_m->reload_thread->is_running())){
-			this->psl_reload_library(false, Library::ReloadQuality::Fast);
-		}
-	});
-
-	_m->fsw->start();
-
-	thread->deleteLater();
-
-	sp_log(Log::Debug, this) << "Added filesystem watcher";
-}
 
 void LocalLibrary::library_reloading_state_new_block()
 {
@@ -356,7 +307,7 @@ void LocalLibrary::refresh_tracks() {}
 void LocalLibrary::import_files(const QStringList& files)
 {
 	if(!_m->library_importer){
-		_m->library_importer = new LibraryImporter(_m->lib_id, _m->library_path, this);
+		_m->library_importer = new LibraryImporter(this);
 	}
 
 	_m->library_importer->import_files(files);
@@ -467,10 +418,35 @@ void LocalLibrary::change_track_rating(int idx, int rating)
 
 void LocalLibrary::set_library_path(const QString& library_path)
 {
+	if(library_path == _m->library_path){
+		return;
+	}
+
 	LibraryManager* library_manager = LibraryManager::getInstance();
-	library_manager->set_library_path(this->library_id(), library_path);
+	library_manager->change_library_path(this->library_id(), library_path);
 
 	_m->library_path = library_path;
+
+	emit sig_path_changed(library_path);
+}
+
+void LocalLibrary::set_library_name(const QString& library_name)
+{
+	if(library_name == _m->library_name){
+		return;
+	}
+
+	LibraryManager* library_manager = LibraryManager::getInstance();
+	library_manager->rename_library(this->library_id(), library_name);
+
+	_m->library_name = library_name;
+
+	emit sig_name_changed(library_name);
+}
+
+QString LocalLibrary::library_name() const
+{
+	return _m->library_name;
 }
 
 QString LocalLibrary::library_path() const
@@ -486,7 +462,7 @@ qint8 LocalLibrary::library_id() const
 LibraryImporter* LocalLibrary::importer()
 {
 	if(!_m->library_importer){
-		_m->library_importer = new LibraryImporter(_m->lib_id, _m->library_path, this);
+		_m->library_importer = new LibraryImporter(this);
 	}
 
 	return _m->library_importer;

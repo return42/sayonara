@@ -24,6 +24,7 @@
 #include "Interfaces/PreferenceDialog/PreferenceDialogInterface.h"
 
 #include <QList>
+#include <typeinfo>
 
 namespace Ui
 {

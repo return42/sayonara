@@ -63,33 +63,51 @@ struct LibraryManager::Private
 		for(int i=0; i<all_libs.size(); i++)
 		{
 			const LibraryInfo& info = all_libs[i];
-			qint8 id = info.id();
-			QString path = info.path();
-			if(id == library_id){
-				QFile::remove(info.symlink_path());
 
-				all_libs[i] = LibraryInfo(name, path, id);
+			if(info.id() != library_id){
+				continue;
+			}
 
-				Helper::File::create_symlink(all_libs[i].path(), all_libs[i].symlink_path());
+			if(info.name() == name){
 				break;
 			}
+
+			QFile::remove(info.symlink_path());
+
+			all_libs[i] = LibraryInfo(name, info.path(), info.id());
+			lib_map[library_id]->set_library_name(name);
+
+			Helper::File::create_symlink(all_libs[i].path(), all_libs[i].symlink_path());
+			break;
 		}
+
+		lph->rename_local_library(library_id, name);
 	}
 
-	void set_library_path(qint8 library_id, const QString& library_path)
+	void change_library_path(qint8 library_id, const QString& new_path)
 	{
-		LibraryInfo new_info;
-		for(auto it=all_libs.begin(); it!=all_libs.end(); it++)
+		for(int i=0; i<all_libs.size(); i++)
 		{
-			if(it->id() == library_id){
-				new_info = LibraryInfo(it->name(), library_path, it->id());
-				all_libs.erase(it);
+			LibraryInfo info = all_libs[i];
+
+			if(info.id() != library_id){
+				continue;
+			}
+
+			if(info.path() == new_path){
 				break;
 			}
-		}
 
-		if(new_info.valid()){
-			all_libs << new_info;
+			LibraryInfo new_info(info.name(), new_path, info.id());
+			all_libs[i] = new_info;
+
+			LocalLibrary* library = lib_map[info.id()];
+			library->set_library_path(new_path);
+
+			QFile::remove(info.symlink_path());
+			Helper::File::create_symlink(new_info.path(), new_info.symlink_path());
+
+			break;
 		}
 	}
 
@@ -118,7 +136,7 @@ struct LibraryManager::Private
 				}
 
 				else {
-					LocalLibrary* lib = new LocalLibrary(library_id, li.path());
+					LocalLibrary* lib = new LocalLibrary(library_id, li.name(), li.path());
 					lib_map[library_id] = lib;
 					return lib;
 				}
@@ -210,7 +228,6 @@ qint8 LibraryManager::add_library(const QString& name, const QString& path)
 void LibraryManager::rename_library(qint8 id, const QString& new_name)
 {
 	_m->rename_library(id, new_name);
-	_m->lph->rename_local_library(id, new_name);
 	_settings->set(Set::Lib_AllLibraries, _m->all_libs);
 }
 
@@ -248,9 +265,17 @@ void LibraryManager::remove_library(qint8 id)
 void LibraryManager::move_library(int old_row, int new_row)
 {
 	_m->move_library(old_row, new_row);
+
 	_m->lph->move_local_library(old_row, new_row);
 	_settings->set(Set::Lib_AllLibraries, _m->all_libs);
 }
+
+void LibraryManager::change_library_path(qint8 id, const QString& path)
+{
+	_m->change_library_path(id, path);
+	_settings->set(Set::Lib_AllLibraries, _m->all_libs);
+}
+
 
 QString LibraryManager::request_library_name(const QString& path)
 {
@@ -258,7 +283,7 @@ QString LibraryManager::request_library_name(const QString& path)
 	return Helper::cvt_str_to_first_upper(d.dirName());
 }
 
-QList<LibraryInfo> LibraryManager::get_all_libraries() const
+QList<LibraryInfo> LibraryManager::all_libraries() const
 {
 	return _m->all_libs;
 }
@@ -268,26 +293,18 @@ int LibraryManager::count() const
 	return _m->all_libs.size();
 }
 
-LibraryInfo LibraryManager::get_library_info(qint8 id) const
+LibraryInfo LibraryManager::library_info(qint8 id) const
 {
 	return _m->get_library_info(id);
 }
 
-LocalLibrary* LibraryManager::get_library_instance(qint8 id) const
+LocalLibrary* LibraryManager::library_instance(qint8 id) const
 {
 	return _m->get_library(id);
 }
 
 
-void LibraryManager::set_library_path(qint8 library_id, const QString& library_path)
-{
-	_m->set_library_path(library_id, library_path);
-}
 
-qint8 LibraryManager::get_next_lib_id() const
-{
-	return _m->get_next_id();
-}
 
 void LibraryManager::revert()
 {
@@ -299,7 +316,7 @@ void LibraryManager::revert()
 		}
 	}
 
-	if(_m->all_libs.isEmpty()){
+	if(_m->all_libs.isEmpty()) {
 		QString old_path = _settings->get(Set::Lib_Path);
 		if(!old_path.isEmpty()) {
 			LibraryInfo li("Local Library", old_path, 0);

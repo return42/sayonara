@@ -36,7 +36,12 @@ struct LibraryListModel::Private
 
 	Private()
 	{
-		library_info = LibraryManager::getInstance()->get_all_libraries();
+		reload();
+	}
+
+	void reload()
+	{
+		library_info = LibraryManager::getInstance()->all_libraries();
 		shown_library_info = library_info;
 	}
 
@@ -105,6 +110,19 @@ void LibraryListModel::rename_row(int row, const LibName& new_name)
 			LibraryInfo(new_name, info.path(), info.id());
 }
 
+void LibraryListModel::change_path(int row, const LibPath& path)
+{
+	if(!between(row, _m->shown_library_info)) {
+		return;
+	}
+
+	LibraryInfo info = _m->shown_library_info[row];
+
+	_m->operations << new ChangePathOperation(info.id(), path);
+	_m->shown_library_info[row] =
+			LibraryInfo(info.name(), path, info.id());
+}
+
 void LibraryListModel::move_row(int from, int to)
 {
 	if(!between(from, _m->shown_library_info)) {
@@ -159,9 +177,7 @@ QStringList LibraryListModel::all_paths() const
 
 void LibraryListModel::reset()
 {
-	_m->shown_library_info = _m->library_info;
-	_m->clear_operations();
-
+	_m->reload();
 	emit dataChanged(index(0), index(rowCount()));
 }
 
@@ -171,6 +187,6 @@ void LibraryListModel::commit()
 		op->exec();
 	}
 
-	_m->clear_operations();
+	_m->reload();
 }
 

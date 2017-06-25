@@ -104,6 +104,16 @@
       </widget>
      </item>
      <item>
+      <widget class="QPushButton" name="btn_reload_library">
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
+       </property>
+       <property name="text">
+        <string>Reload library</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <spacer name="horizontalSpacer_2">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
@@ -424,7 +434,7 @@
            <item row="0" column="0">
             <widget class="QStackedWidget" name="stacked_genre_widget">
              <property name="currentIndex">
-              <number>0</number>
+              <number>1</number>
              </property>
              <widget class="QWidget" name="page">
               <layout class="QGridLayout" name="gridLayout_5">
@@ -527,16 +537,6 @@
                  </property>
                  <property name="wordWrap">
                   <bool>true</bool>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="btn_reload_library">
-                 <property name="focusPolicy">
-                  <enum>Qt::NoFocus</enum>
-                 </property>
-                 <property name="text">
-                  <string>Reload library</string>
                  </property>
                 </widget>
                </item>

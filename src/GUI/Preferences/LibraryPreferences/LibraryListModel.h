@@ -45,6 +45,7 @@ public:
 
 	void append_row(const LibName& name, const LibPath& path);
 	void rename_row(int row, const LibName& new_name);
+	void change_path(int row, const LibPath& path);
 	void move_row(int from, int to);
 	void remove_row(int row);
 

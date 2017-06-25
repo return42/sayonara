@@ -41,7 +41,7 @@ struct GUI_ImportFolder::Private
 {
 	LibraryImporter*	importer=nullptr;
 	GUI_TagEdit*		tag_edit=nullptr;
-	QString				library_path;
+	LocalLibrary*		library=nullptr;
 };
 
 GUI_ImportFolder::GUI_ImportFolder(LocalLibrary* library, bool copy_enabled, QWidget* parent) :
@@ -51,12 +51,12 @@ GUI_ImportFolder::GUI_ImportFolder(LocalLibrary* library, bool copy_enabled, QWi
 	ui = new Ui::ImportFolder();
 	ui->setupUi(this);
 
-	_m->library_path = library->library_path();
+	_m->library = library;
 	_m->tag_edit = new GUI_TagEdit(this);
 	_m->tag_edit->hide();
 	_m->importer = library->importer();
 
-	ui->lab_target_path->setText( _m->library_path );
+	ui->lab_target_path->setText( library->library_path() );
 	ui->lab_target_path->setVisible(copy_enabled);
 	ui->lab_target_info->setVisible(copy_enabled);
 	ui->pb_progress->setValue(0);
@@ -192,11 +192,12 @@ void GUI_ImportFolder::bb_rejected()
 
 void GUI_ImportFolder::choose_dir()
 {
+	QString library_path = _m->library->library_path();
 	QString dialog_title = tr("Choose target directory");
 	QString dir =
 	QFileDialog::getExistingDirectory(	this,
 										dialog_title,
-										_m->library_path,
+										library_path,
 										QFileDialog::ShowDirsOnly
 	);
 
@@ -205,13 +206,13 @@ void GUI_ImportFolder::choose_dir()
 		return;
 	}
 
-	if(!dir.contains(_m->library_path)) {
+	if(!dir.contains(library_path)) {
 		Message::warning(tr("%1<br />is no library directory").arg(dir));
 		ui->le_directory->clear();
 		return;
 	}
 
-	dir.replace(_m->library_path, "");
+	dir.replace(library_path, "");
 	while(dir.startsWith(QDir::separator())){
 		dir.remove(0, 1);
 	}
@@ -243,6 +244,7 @@ void GUI_ImportFolder::closeEvent(QCloseEvent* e)
 void GUI_ImportFolder::showEvent(QShowEvent* e)
 {
 	QDialog::showEvent(e);
+	ui->lab_target_path->setText( _m->library->library_path() );
 }
 
 

@@ -114,8 +114,9 @@ public:
 	 */
 	bool						is_initialized() const;
 
+	virtual	void				show();
 
-
+	virtual void				hide();
 
 };
 

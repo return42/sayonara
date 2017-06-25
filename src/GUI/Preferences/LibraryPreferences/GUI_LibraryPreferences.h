@@ -47,18 +47,23 @@ protected:
 	void showEvent(QShowEvent* e) override;
 
 private slots:
+
 	void new_clicked();
-	void rename_clicked();
+	void edit_clicked();
 	void delete_clicked();
-	void add_clicked();
-	void clear_clicked();
-	void library_text_changed(const QString& string);
+
 	void up_clicked();
 	void down_clicked();
 
+	void edit_dialog_accepted();
+
 private:
 	Ui::GUI_LibraryPreferences*	ui=nullptr;
+
+	void current_item_changed(int row);
+	int current_row() const;
 };
+
 
 
 #endif // GUI_LIBRARYPREFERENCES_H

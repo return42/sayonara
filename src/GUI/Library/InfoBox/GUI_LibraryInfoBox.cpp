@@ -71,7 +71,7 @@ void GUI_LibraryInfoBox::language_changed()
 	ui->btn_close->setText(Lang::get(Lang::Close));
 
 	ui->lab_path->setText(
-		LibraryManager::getInstance()->get_library_info(_library_id).path()
+		LibraryManager::getInstance()->library_info(_library_id).path()
 	);
 
 	this->setWindowTitle(Lang::get(Lang::Info));

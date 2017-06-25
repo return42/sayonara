@@ -575,7 +575,7 @@ bool DatabaseTracks::deleteTracks(const MetaDataList& v_md)
 	return (success == v_md.size());
 }
 
-bool DatabaseTracks::deleteInvalidTracks()
+bool DatabaseTracks::deleteInvalidTracks(const QString& library_path)
 {
 	bool success;
 
@@ -595,21 +595,27 @@ bool DatabaseTracks::deleteInvalidTracks()
 	int idx = 0;
 	for(const MetaData& md : v_md)
 	{
-		if(map.contains(md.filepath())){
-			sp_log(Log::Warning) << "found double path: " << md.filepath();
+		if(map.contains(md.filepath())) {
+			sp_log(Log::Warning, this) << "found double path: " << md.filepath();
 			int old_idx = map[md.filepath()];
 			to_delete << md.id;
 			v_md_update << v_md[old_idx];
 		}
 
-		else{
+		else {
 			map.insert(md.filepath(), idx);
+		}
+
+		if( (!library_path.isEmpty()) &&
+			(!md.filepath().contains(library_path)) )
+		{
+			to_delete << md.id;
 		}
 
 		idx++;
 	}
 
-	sp_log(Log::Debug, this) << "Will delete " << to_delete.size() << " tracks";
+	sp_log(Log::Debug, this) << "Will delete " << to_delete.size() << " double-tracks";
 	success = deleteTracks(to_delete);
 	sp_log(Log::Debug, this) << "delete tracks: " << success;
 

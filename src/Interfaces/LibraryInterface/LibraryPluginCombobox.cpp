@@ -24,6 +24,7 @@ LibraryPluginCombobox::LibraryPluginCombobox(const QString& text, QWidget* paren
 {
 	_m = Pimpl::make<Private>();
 
+	this->setSizeAdjustPolicy(QComboBox::AdjustToContents);
 	this->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 	this->setFrame(false);
 
@@ -31,7 +32,6 @@ LibraryPluginCombobox::LibraryPluginCombobox(const QString& text, QWidget* paren
 	connect(_m->lph, &LibraryPluginHandler::sig_libraries_changed, this, &LibraryPluginCombobox::setup_actions);
 	connect(_m->lph, &LibraryPluginHandler::sig_current_library_changed, this, &LibraryPluginCombobox::current_library_changed);
 
-	//REGISTER_LISTENER_NO_CALL(Set::Lib_AllLibraries, setup_actions);
 	REGISTER_LISTENER_NO_CALL(Set::Player_Language, setup_actions);
 
 	setup_actions();
@@ -76,7 +76,7 @@ void LibraryPluginCombobox::action_triggered(bool b)
 
 void LibraryPluginCombobox::current_library_changed(const QString& name)
 {
-	for(int i=0; i<this->count(); i++){
+	for(int i=0; i<this->count(); i++) {
 		if(this->itemData(i).toString().compare(name) == 0){
 			this->setCurrentIndex(i);
 			break;

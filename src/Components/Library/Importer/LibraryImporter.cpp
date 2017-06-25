@@ -23,6 +23,8 @@
 #include "CachingThread.h"
 #include "CopyThread.h"
 
+#include "LocalLibrary.h"
+
 #include "Helper/MetaData/MetaDataList.h"
 #include "Helper/Message/Message.h"
 #include "Helper/Logger/Logger.h"
@@ -36,8 +38,7 @@
 
 struct LibraryImporter::Private
 {
-	qint8					lib_id;
-	QString					library_path;
+	LocalLibrary*			library=nullptr;
 	CachingThread*			cache_thread=nullptr;
 	CopyThread*				copy_thread=nullptr;
 	ImportCachePtr			import_cache=nullptr;
@@ -47,19 +48,17 @@ struct LibraryImporter::Private
 	LibraryImporter::ImportStatus status;
 	QString					src_dir;
 
-	Private(qint8 lid, const QString& lp)
-	{
-		db = DatabaseConnector::getInstance();
-		status = LibraryImporter::ImportStatus::NoTracks;
-		library_path = lp;
-		lib_id = lid;
-	}
+	Private(LocalLibrary* library) :
+		library(library),
+		db(DatabaseConnector::getInstance()),
+		status(LibraryImporter::ImportStatus::NoTracks)
+	{}
 };
 
-LibraryImporter::LibraryImporter(qint8 lib_id, const QString& library_path, QObject* parent) :
-	QObject(parent)
+LibraryImporter::LibraryImporter(LocalLibrary* library) :
+	QObject(library)
 {
-	_m = Pimpl::make<Private>(lib_id, library_path);
+	_m = Pimpl::make<Private>(library);
 
 	MetaDataChangeNotifier* md_change_notifier = MetaDataChangeNotifier::getInstance();
 	connect(md_change_notifier, &MetaDataChangeNotifier::sig_metadata_changed,
@@ -73,7 +72,7 @@ void LibraryImporter::import_files(const QStringList& files)
 {
 	emit_status(ImportStatus::Caching);
 
-	CachingThread* thread = new CachingThread(files, _m->library_path);
+	CachingThread* thread = new CachingThread(files, _m->library->library_path());
 	connect(thread, &CachingThread::finished, this, &LibraryImporter::caching_thread_finished);
 	connect(thread, &CachingThread::sig_progress, this, &LibraryImporter::sig_progress);
 	connect(thread, &CachingThread::destroyed, [=]()
@@ -160,7 +159,7 @@ void LibraryImporter::copy_thread_finished()
 	}
 
 	// store to db
-	LibraryDatabase* lib_db = _m->db->library_db(_m->lib_id, 0);
+	LibraryDatabase* lib_db = _m->db->library_db(_m->library->library_id(), 0);
 	bool success = lib_db->storeMetadata(v_md);
 	int n_files_copied = copy_thread->get_n_copied_files();
 	int n_files_to_copy = _m->import_cache->get_files().size();

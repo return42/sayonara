@@ -47,3 +47,13 @@ void AddOperation::exec()
 {
 	_library_manager->add_library(_name, _path);
 }
+
+ChangePathOperation::ChangePathOperation(qint8 id, const QString& new_path) :
+	_id(id),
+	_new_path(new_path)
+{}
+
+void ChangePathOperation::exec()
+{
+	_library_manager->change_library_path(_id, _new_path);
+}

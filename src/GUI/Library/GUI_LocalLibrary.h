@@ -31,6 +31,7 @@
 
 #include "GUI_AbstractLibrary.h"
 #include "Helper/Pimpl.h"
+#include "Helper/Library/LibraryNamespaces.h"
 
 class GUI_LibraryInfoBox;
 class GUI_ImportFolder;
@@ -82,9 +83,16 @@ private slots:
 	void date_selection_changed(const QModelIndex& index);
 
 	void reload_library_requested();
+	void reload_library_requested(Library::ReloadQuality quality);
+	void reload_finished();
+
 	void import_dirs_requested();
 	void import_files_requested();
 	void import_files(const QStringList& files);
+	void change_library_name(const QString& name);
+	void change_library_path(const QString& path);
+	void name_changed(const QString& name);
+	void path_changed(const QString& path);
 
 	// importer requests dialog
 	void import_dialog_requested();
@@ -96,7 +104,7 @@ private slots:
 
 	// reimplemented from Abstract Library
 	Library::TrackDeletionMode show_delete_dialog(int n_tracks) override;
-	void reload_finished();
+
 
 	void show_info_box();
 
@@ -110,6 +118,8 @@ protected slots:
 
 private:
 	void init_album_cover_view();
+
+
 	Ui::GUI_LocalLibrary*	ui=nullptr;
 };
 

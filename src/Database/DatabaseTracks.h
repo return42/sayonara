@@ -80,7 +80,8 @@ public:
 	virtual bool deleteTrack(int id);
 	virtual bool deleteTracks(const MetaDataList&);
 	virtual bool deleteTracks(const IDList& ids);
-	virtual bool deleteInvalidTracks();
+	virtual bool deleteInvalidTracks(const QString& library_path=QString());
+
 	virtual QString fetch_query_tracks() const;
 
 	virtual QStringList getAllGenres();

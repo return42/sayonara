@@ -76,7 +76,7 @@ void GUI_EmptyLibrary::set_lib_path_clicked()
 	QString name = LibraryManager::request_library_name(dir);
 
 	qint8 id = lib_manager->add_library(name, dir);
-	LocalLibrary* library = lib_manager->get_library_instance(id);
+	LocalLibrary* library = lib_manager->library_instance(id);
 
 	library->psl_reload_library(false, Library::ReloadQuality::Accurate);
 

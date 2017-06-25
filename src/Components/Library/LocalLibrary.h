@@ -28,7 +28,6 @@
 
 class ReloadThread;
 class DatabaseConnector;
-class FileSystemWatcher;
 class LibraryImporter;
 
 class LocalLibrary :
@@ -38,11 +37,13 @@ class LocalLibrary :
 	PIMPL(LocalLibrary)
 
 signals:
-	void sig_no_library_path();
 	void sig_import_dialog_requested();
 
+	void sig_path_changed(const QString& path);
+	void sig_name_changed(const QString& name);
+
 public:
-	LocalLibrary(qint8 id, const QString& library_path, QObject* parent=nullptr);
+	LocalLibrary(qint8 id, const QString& library_name, const QString& library_path, QObject* parent=nullptr);
 	virtual ~LocalLibrary();
 
 	void clear_library();
@@ -69,8 +70,6 @@ protected slots:
 	void library_reloading_state_new_block();
 	void reload_thread_finished();
 	void _sl_search_mode_changed();
-	void _sl_auto_update_changed();
-	void indexing_finished();
 
 
 private:
@@ -100,8 +99,10 @@ private:
 
 public:
 	void		set_library_path(const QString& library_path);
+	void		set_library_name(const QString& library_name);
 	QString		library_path() const;
 	qint8		library_id() const;
+	QString		library_name() const;
 	LibraryImporter* importer();
 };
 

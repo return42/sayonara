@@ -44,6 +44,7 @@ public:
 	QPixmap		icon() const override;
 	void        init_ui() override;
 	qint8		id();
+
 	void		set_name(const QString& name);
 };
 

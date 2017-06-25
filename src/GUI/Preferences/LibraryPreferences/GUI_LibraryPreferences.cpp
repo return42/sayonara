@@ -18,11 +18,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "GUI_LibraryPreferences.h"
 #include "GUI/Preferences/ui_GUI_LibraryPreferences.h"
+#include "GUI_LibraryPreferences.h"
 #include "LibraryListModel.h"
 
 #include "GUI/Helper/Delegates/StyledItemDelegate.h"
+#include "GUI/Helper/Library/GUI_EditLibrary.h"
+
 #include "Helper/Helper.h"
 #include "Helper/FileHelper.h"
 #include "Helper/Library/SearchMode.h"
@@ -33,6 +35,8 @@
 #include <QFileDialog>
 #include <QInputDialog>
 #include <QShowEvent>
+
+#include <QItemSelectionModel>
 
 struct GUI_LibraryPreferences::Private
 {
@@ -62,19 +66,18 @@ void GUI_LibraryPreferences::init_ui()
 	ui->lv_libs->setModel(_m->model);
 	ui->lv_libs->setItemDelegate(new StyledItemDelegate(ui->lv_libs));
 
-	connect(ui->btn_new, &QPushButton::clicked, this, &GUI_LibraryPreferences::new_clicked);
-	connect(ui->btn_rename, &QPushButton::clicked, this, &GUI_LibraryPreferences::rename_clicked);
-	connect(ui->btn_delete, &QPushButton::clicked, this, &GUI_LibraryPreferences::delete_clicked);
-	connect(ui->btn_add, &QPushButton::clicked, this, &GUI_LibraryPreferences::add_clicked);
-	connect(ui->btn_clear, &QPushButton::clicked, this, &GUI_LibraryPreferences::clear_clicked);
+	QItemSelectionModel* sel_model = ui->lv_libs->selectionModel();
+	connect(sel_model, &QItemSelectionModel::currentChanged, this, [=](const QModelIndex& current, const QModelIndex& previous){
+		Q_UNUSED(previous)
+		current_item_changed(current.row());
+	});
 
-	connect(ui->le_name, &QLineEdit::textChanged, this, &GUI_LibraryPreferences::library_text_changed);
-	connect(ui->le_path, &QLineEdit::textChanged, this, &GUI_LibraryPreferences::library_text_changed);
+	connect(ui->btn_new, &QPushButton::clicked, this, &GUI_LibraryPreferences::new_clicked);
+	connect(ui->btn_edit, &QPushButton::clicked, this, &GUI_LibraryPreferences::edit_clicked);
+	connect(ui->btn_delete, &QPushButton::clicked, this, &GUI_LibraryPreferences::delete_clicked);
 
 	connect(ui->btn_up, &QPushButton::clicked, this, &GUI_LibraryPreferences::up_clicked);
 	connect(ui->btn_down, &QPushButton::clicked, this, &GUI_LibraryPreferences::down_clicked);
-
-	ui->sw_lib_manager->setCurrentIndex(0);
 
 	revert();
 }
@@ -131,11 +134,9 @@ void GUI_LibraryPreferences::retranslate_ui()
 {
 	ui->retranslateUi(this);
 
-	ui->le_name->setPlaceholderText(Lang::get(Lang::EnterName));
 	ui->btn_new->setText(Lang::get(Lang::New));
-	ui->btn_clear->setText(Lang::get(Lang::Clear));
+	ui->btn_edit->setText(Lang::get(Lang::Edit));
 	ui->btn_delete->setText(Lang::get(Lang::Remove));
-	ui->btn_rename->setText(Lang::get(Lang::Rename));
 }
 
 void GUI_LibraryPreferences::showEvent(QShowEvent* e)
@@ -144,51 +145,50 @@ void GUI_LibraryPreferences::showEvent(QShowEvent* e)
 	this->revert();
 }
 
+void GUI_LibraryPreferences::current_item_changed(int row)
+{
+	ui->lab_current_path->setVisible(row >= 0);
+	if(row < 0){
+		return;
+	}
+
+	QString path = _m->model->all_paths()[row];
+	ui->lab_current_path->setText(path);
+}
+
+int GUI_LibraryPreferences::current_row() const
+{
+	return ui->lv_libs->selectionModel()->currentIndex().row();
+}
+
 
 void GUI_LibraryPreferences::new_clicked()
 {
-	QString dir = QFileDialog::getExistingDirectory(this, tr("New Library"), QDir::homePath());
+	GUI_EditLibrary* edit_dialog = new GUI_EditLibrary(this);
 
-	if(dir.isEmpty()){
-		ui->sw_lib_manager->setCurrentIndex(0);
-		return;
-	}
+	connect(edit_dialog, &GUI_EditLibrary::sig_accepted, this, &GUI_LibraryPreferences::edit_dialog_accepted);
+	connect(edit_dialog, &GUI_EditLibrary::sig_closed, this, [&edit_dialog](){
+		edit_dialog->deleteLater();
+	});
 
-	QDir d(dir);
-	QString dir_proposal = Helper::cvt_str_to_first_upper(d.dirName());
-
-	ui->le_name->setText(dir_proposal);
-	ui->le_path->setText(dir);
-
-	ui->btn_new->setEnabled(false);
-	ui->btn_delete->setEnabled(false);
-	ui->lv_libs->setEnabled(false);
-
-	ui->sw_lib_manager->setCurrentIndex(1);
+	edit_dialog->show();
 }
 
-void GUI_LibraryPreferences::rename_clicked()
+void GUI_LibraryPreferences::edit_clicked()
 {
-	QModelIndex idx = ui->lv_libs->currentIndex();
-	if(!idx.isValid()){
+	int cur_row = current_row();
+	if(cur_row < 0){
 		return;
 	}
 
-	QString current_text = _m->model->data(idx, Qt::DisplayRole).toString();
+	QString name = _m->model->all_names()[cur_row];
+	QString path = _m->model->all_paths()[cur_row];
 
-	QString new_name = QInputDialog::getText(this,
-						  Lang::get(Lang::EnterName),
-						  Lang::get(Lang::EnterName),
-						  QLineEdit::Normal,
-						  current_text);
+	GUI_EditLibrary* edit_dialog = new GUI_EditLibrary(name, path, this);
 
-	if(new_name.isEmpty() ||
-	   new_name.compare(current_text, Qt::CaseInsensitive) == 0)
-	{
-		return;
-	}
+	connect(edit_dialog, &GUI_EditLibrary::sig_accepted, this, &GUI_LibraryPreferences::edit_dialog_accepted);
 
-	_m->model->rename_row(idx.row(), new_name);
+	edit_dialog->show();
 }
 
 void GUI_LibraryPreferences::delete_clicked()
@@ -199,40 +199,6 @@ void GUI_LibraryPreferences::delete_clicked()
 	}
 
 	_m->model->remove_row(idx.row());
-}
-
-void GUI_LibraryPreferences::add_clicked()
-{
-	ui->sw_lib_manager->setCurrentIndex(0);
-	_m->model->append_row(ui->le_name->text(), ui->le_path->text());
-	clear_clicked();
-}
-
-void GUI_LibraryPreferences::clear_clicked()
-{
-	ui->le_name->clear();
-	ui->le_path->clear();
-
-	ui->btn_new->setEnabled(true);
-	ui->btn_delete->setEnabled(true);
-	ui->lv_libs->setEnabled(true);
-
-	ui->sw_lib_manager->setCurrentIndex(0);
-}
-
-void GUI_LibraryPreferences::library_text_changed(const QString& str)
-{
-	Q_UNUSED(str)
-
-	QStringList names = _m->model->all_names();
-	QStringList paths = _m->model->all_paths();
-
-	ui->btn_add->setDisabled(
-				(ui->le_name->text().isEmpty()) ||
-				(ui->le_path->text().isEmpty()) ||
-				(names.contains(str, Qt::CaseInsensitive)) ||
-				(paths.contains(str, Qt::CaseInsensitive))
-	);
 }
 
 
@@ -251,3 +217,48 @@ void GUI_LibraryPreferences::down_clicked()
 	_m->model->move_row(row, row+1);
 	ui->lv_libs->setCurrentIndex(_m->model->index(row + 1));
 }
+
+
+
+void GUI_LibraryPreferences::edit_dialog_accepted()
+{
+	GUI_EditLibrary* edit_dialog = static_cast<GUI_EditLibrary*>(sender());
+
+	GUI_EditLibrary::EditMode edit_mode = edit_dialog->edit_mode();
+
+	QString name = edit_dialog->name();
+	QString path = edit_dialog->path();
+
+	switch(edit_mode)
+	{
+		case GUI_EditLibrary::EditMode::New:
+		{
+			if(!name.isEmpty() && !path.isEmpty()) {
+				_m->model->append_row(name, path);
+			}
+
+		} break;
+
+		case GUI_EditLibrary::EditMode::Edit:
+		{
+			if(!name.isEmpty()) {
+				if(edit_dialog->has_name_changed()){
+					_m->model->rename_row(current_row(), name);
+				}
+			}
+
+			if(!path.isEmpty()) {
+				if(edit_dialog->has_path_changed())	{
+					_m->model->change_path(current_row(), path);
+				}
+			}
+
+		} break;
+
+		default:
+			break;
+	}
+
+	edit_dialog->deleteLater();
+}
+

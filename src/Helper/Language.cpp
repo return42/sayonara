@@ -205,6 +205,8 @@ LanguageString Lang::get(Lang::Term term, bool* ok)
 			return l.tr("Mute on");
 		case MuteOff:
 			return l.tr("Mute off");
+		case Name:
+			return l.tr("Name");
 		case New:
 			return l.tr("New");
 		case NextTrack:
@@ -215,6 +217,8 @@ LanguageString Lang::get(Lang::Term term, bool* ok)
 			return l.tr("None");
 		case NumTracks:
 			return QString("#") + l.tr("Tracks");
+		case OK:
+			return l.tr("OK");
 		case On:
 			// 5th track on "Thriller"
 			return l.tr("on");

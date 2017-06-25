@@ -63,5 +63,20 @@ public:
 	void exec() override;
 };
 
+class ChangePathOperation :
+		public ChangeOperation
+{
+private:
+	qint8 _id;
+	QString _new_path;
+
+public:
+	ChangePathOperation(qint8 id, const QString& new_path);
+
+	void exec() override;
+};
+
+
+
 
 #endif // CHANGEOPERATIONS_H

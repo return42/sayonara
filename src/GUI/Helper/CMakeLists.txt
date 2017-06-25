@@ -16,6 +16,7 @@ SET(SOURCES
 
 	IconLoader/IconLoader.cpp
 	Library/LibraryDeleteDialog.cpp
+	Library/GUI_EditLibrary.cpp
 
 	MenuTool/MenuButton.cpp
 	MenuTool/MenuTool.cpp
@@ -41,10 +42,13 @@ SET(SOURCES
 	Shortcuts/ShortcutWidget.cpp
 
 	Style/Style.cpp
-
 )
 
-ADD_LIBRARY(${PROJECT_NAME} STATIC ${SOURCES})
+QT5_WRAP_UI(UI_FILES
+	Library/GUI_EditLibrary.ui
+)
+
+ADD_LIBRARY(${PROJECT_NAME} STATIC ${SOURCES} ${UI_FILES})
 TARGET_LINK_LIBRARIES(${PROJECT_NAME}
 	Qt5::Widgets
 	say_helper_settings

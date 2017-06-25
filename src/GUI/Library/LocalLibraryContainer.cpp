@@ -23,6 +23,8 @@
 #include "GUI/Helper/GUI_Helper.h"
 #include "Helper/Library/LibraryInfo.h"
 
+#include <QAction>
+
 struct LocalLibraryContainer::Private
 {
 	GUI_LocalLibrary*   ui=nullptr;
@@ -87,10 +89,6 @@ qint8 LocalLibraryContainer::id()
 	return _m->library.id();
 }
 
-void LocalLibraryContainer::set_name(const QString& name)
-{
-	_m->name = name;
-}
 
 QFrame* LocalLibraryContainer::header() const
 {
@@ -100,4 +98,14 @@ QFrame* LocalLibraryContainer::header() const
 QPixmap LocalLibraryContainer::icon() const
 {
 	return GUI::get_pixmap("append.svg");
+}
+
+
+void LocalLibraryContainer::set_name(const QString& name)
+{
+	_m->name = name;
+
+	if(menu_action()){
+		menu_action()->setText(name);
+	}
 }

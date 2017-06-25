@@ -90,3 +90,41 @@ void LibraryContainerInterface::language_changed()
 }
 
 
+void LibraryContainerInterface::show()
+{
+	QWidget* own_widget = widget();
+
+	if(own_widget) {
+		own_widget->setVisible(true);
+		QWidget* parent_widget = own_widget->parentWidget();
+		if(parent_widget){
+			own_widget->resize(parent_widget->size());
+		}
+
+		own_widget->update();
+	}
+
+	if(menu_action()){
+		menu_action()->setText(this->name());
+		menu_action()->setVisible(true);
+	}
+}
+
+void LibraryContainerInterface::hide()
+{
+	if(!this->is_initialized()){
+		return;
+	}
+
+	if(menu_action()){
+		menu_action()->setVisible(false);
+	}
+
+	if(widget())
+	{
+		widget()->hide();
+	}
+}
+
+
+

@@ -350,7 +350,7 @@ QString MetaDataInfo::get_additional_info_as_string() const
 QString MetaDataInfo::get_paths_as_string() const
 {
 	QString ret;
-	QList<LibraryInfo> lib_infos = LibraryManager::getInstance()->get_all_libraries();
+	QList<LibraryInfo> lib_infos = LibraryManager::getInstance()->all_libraries();
 	QStringList lib_paths;
 	for(const LibraryInfo& li : lib_infos){
 		lib_paths << li.path();
