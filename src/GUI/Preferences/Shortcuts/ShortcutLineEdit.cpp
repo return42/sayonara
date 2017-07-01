@@ -57,7 +57,7 @@ void ShortcutLineEdit::keyPressEvent(QKeyEvent* e)
 	int key = e->key();
 
 	if(key == Qt::Key_Escape && e->modifiers() == Qt::NoModifier){
-		this->setText("");
+		this->clear();
 		return;
 	}
 

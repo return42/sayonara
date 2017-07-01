@@ -238,17 +238,17 @@ void GUI_AbstractLibrary::text_line_edited(const QString &search)
 {
 	if(search.startsWith("f:", Qt::CaseInsensitive)) {
 		_m->combo_search->setCurrentIndex(0);
-		_m->le_search->setText("");
+		_m->le_search->clear();
 	}
 
 	else if(search.startsWith("g:", Qt::CaseInsensitive)) {
 		_m->combo_search->setCurrentIndex(1);
-		_m->le_search->setText("");
+		_m->le_search->clear();
 	}
 
 	else if(search.startsWith("p:", Qt::CaseInsensitive)) {
 		_m->combo_search->setCurrentIndex(2);
-		_m->le_search->setText("");
+		_m->le_search->clear();
 	}
 
 	Library::SearchModeMask mask = _settings->get(Set::Lib_SearchMode);
@@ -289,7 +289,7 @@ void GUI_AbstractLibrary::clear_button_pressed()
 	disconnect(_m->le_search, &QLineEdit::textEdited, this, &GUI_AbstractLibrary::text_line_edited);
 
 	_m->combo_search->setCurrentIndex(0);
-	_m->le_search->setText("");
+	_m->le_search->clear();
 
 	_m->library->refetch();
 

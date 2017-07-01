@@ -246,7 +246,7 @@ void GUI_AbstractStream::combo_idx_changed(int idx)
 	}
 
 	if(idx == 0) {
-		_m->le_url->setText("");
+		_m->le_url->clear();
 	}
 
 	_m->btn_tool->show_action(ContextMenu::EntryDelete, idx > 0);
@@ -269,7 +269,7 @@ void GUI_AbstractStream::new_clicked()
 		_m->combo_stream->setCurrentIndex(0);
 	}
 
-	_m->le_url->setText("");
+	_m->le_url->clear();
 }
 
 void GUI_AbstractStream::text_changed(const QString& str)

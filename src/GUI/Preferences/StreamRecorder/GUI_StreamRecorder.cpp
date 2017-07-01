@@ -133,7 +133,7 @@ void GUI_StreamRecorder::revert()
 		ui->lab_warning->setText(Lang::get(Lang::CannotFindLame));
 	}
 	else{
-		ui->lab_warning->setText("");
+		ui->lab_warning->clear();
 	}
 }
 

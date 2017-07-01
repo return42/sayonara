@@ -2,8 +2,8 @@
 #include "GUI/Preferences/ui_GUI_EditLibrary.h"
 #include "Helper/Language.h"
 
-
 #include <QFileDialog>
+#include <QSizePolicy>
 
 struct GUI_EditLibrary::Private
 {
@@ -21,6 +21,8 @@ GUI_EditLibrary::GUI_EditLibrary(QWidget *parent) :
 
 	_m = Pimpl::make<Private>();
 	_m->edit_mode = EditMode::New;
+
+	ui->btn_choose_dir->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
 
 	connect(ui->btn_ok, &QPushButton::clicked, this, &GUI_EditLibrary::ok_clicked);
 	connect(ui->btn_cancel, &QPushButton::clicked, this, &GUI_EditLibrary::cancel_clicked);
@@ -59,8 +61,8 @@ void GUI_EditLibrary::ok_clicked()
 
 void GUI_EditLibrary::cancel_clicked()
 {
-	ui->le_path->setText("");
-	ui->le_name->setText("");
+	ui->le_path->clear();
+	ui->le_name->clear();
 
 	emit sig_recected();
 	close();

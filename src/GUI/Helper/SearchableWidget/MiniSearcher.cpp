@@ -277,7 +277,7 @@ void MiniSearcher::init(QString text)
 
 void MiniSearcher::reset()
 {
-	_m->line_edit->setText("");
+	_m->line_edit->clear();
 
 	if(this->isVisible()){
 		_m->parent->setFocus();

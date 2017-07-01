@@ -103,7 +103,7 @@ void GUI_Player::stopped()
 	sli_progress->setEnabled(false);
 
 	lab_cur_time->setText("00:00");
-	lab_max_time->setText("");
+	lab_max_time->clear();
 
 	set_standard_cover();
 
@@ -169,7 +169,7 @@ void GUI_Player::buffering(int progress)
 		sli_buffer->setMinimum(0);
 		sli_buffer->setMaximum(0);
 
-		lab_cur_time->setText("");
+		lab_cur_time->clear();
 		lab_max_time->setVisible(true);
 	}
 }

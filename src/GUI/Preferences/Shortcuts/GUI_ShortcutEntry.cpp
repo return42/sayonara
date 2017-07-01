@@ -59,7 +59,7 @@ QList<QKeySequence> GUI_ShortcutEntry::get_sequences() const
 
 void GUI_ShortcutEntry::show_sequence_error()
 {
-	ui->le_entry->setText("");
+	ui->le_entry->clear();
 	QMessageBox::warning(this, Lang::get(Lang::Error), tr("Shortcut already in use"));
 }
 
@@ -73,7 +73,7 @@ void GUI_ShortcutEntry::commit()
 
 void GUI_ShortcutEntry::clear()
 {
-	ui->le_entry->setText("");
+	ui->le_entry->clear();
 }
 
 void GUI_ShortcutEntry::revert()
