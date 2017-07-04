@@ -37,8 +37,8 @@ public:
 
 	~Genre();
 
-	static quint32 calc_id(const QString& name);
-	quint32 id() const;
+	static uint32_t calc_id(const QString& name);
+	uint32_t id() const;
 
 	QString name() const;
 	void set_name(const QString& name);

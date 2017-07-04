@@ -50,8 +50,8 @@ class Shutdown : public QObject, private SayonaraClass
 
 signals:
 
-	void sig_time_to_go(quint64);
-	void sig_started(quint64);
+	void sig_time_to_go(uint64_t);
+	void sig_started(uint64_t);
 
 
 private:
@@ -59,7 +59,7 @@ private:
 	QTimer*			_timer_countdown=nullptr;
 	PlayManager*	_play_manager=nullptr;
 
-	quint64			_msecs2go;
+	uint64_t			_msecs2go;
 	bool			_is_running;
 
 
@@ -72,7 +72,7 @@ public:
 
 	bool is_running() const;
 	void stop();
-	void shutdown(quint64 ms=0);
+	void shutdown(uint64_t ms=0);
 	void shutdown_after_end();
 };
 

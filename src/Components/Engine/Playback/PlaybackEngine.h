@@ -27,7 +27,6 @@
 #include <gst/gstbuffer.h>
 
 #include <QList>
-#include <QtGlobal>
 
 class QTimer;
 class QString;
@@ -40,7 +39,7 @@ class LevelReceiver;
  * @brief The GaplessState enum
  * @ingroup Engine
  */
-enum class GaplessState : quint8 
+enum class GaplessState : uchar
 {
 	NoGapless=0,		// no gapless enabled at all
 	AboutToFinish,		// the phase when the new track is already displayed but not played yet
@@ -58,7 +57,7 @@ class PlaybackEngine :
 	Q_OBJECT
 
 signals:
-	void sig_data(const uchar* data, quint64 n_bytes);
+	void sig_data(const uchar* data, uint64_t n_bytes);
 
 public:
 	explicit PlaybackEngine(QObject* parent=nullptr);
@@ -69,10 +68,10 @@ public:
 
 	void set_track_finished(GstElement* src) override;
 
-	void update_bitrate(quint32 br, GstElement* src) override;
+	void update_bitrate(uint32_t br, GstElement* src) override;
 	void update_duration(GstElement* src) override;
-	void set_about_to_finish(qint64 time2go) override;
-	void set_cur_position_ms(qint64 pos_ms) override;
+	void set_about_to_finish(int64_t time2go) override;
+	void set_cur_position_ms(int64_t pos_ms) override;
 
 	void set_streamrecorder_recording(bool b);
 
@@ -95,8 +94,8 @@ public slots:
 	void stop() override;
 	void pause() override;
 
-	void jump_abs_ms(quint64 pos_ms) override;
-	void jump_rel_ms(quint64 pos_ms) override;
+	void jump_abs_ms(uint64_t pos_ms) override;
+	void jump_rel_ms(uint64_t pos_ms) override;
 	void jump_rel(double percent) override;
 	void update_md(const MetaData& md, GstElement* src) override;
 	void update_cover(const QImage& img, GstElement* src) override;

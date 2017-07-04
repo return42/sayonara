@@ -45,7 +45,7 @@ public:
 	/**
 	 * @brief The Quality enum used to access the bin of interest. See ArtistMatch::get(Quality q)
 	 */
-	enum class Quality : quint8 
+	enum class Quality : uint8_t 
 	{
 		Poor = 0,
 		Well = 1,

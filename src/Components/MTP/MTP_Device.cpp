@@ -103,7 +103,7 @@ QList<MTP_StoragePtr> MTP_Device::storages()
 	return _storages;
 }
 
-quint32 MTP_Device::id() const
+uint32_t MTP_Device::id() const
 {
 	return _id;
 }

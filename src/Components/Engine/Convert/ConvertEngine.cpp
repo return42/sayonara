@@ -141,8 +141,8 @@ void ConvertEngine::set_track_finished(GstElement* src) {
 	emit sig_track_finished();
 }
 
-void ConvertEngine::set_cur_position_ms(qint64 v) {
-	emit sig_pos_changed_s((quint32) v / 1000);
+void ConvertEngine::set_cur_position_ms(int64_t v) {
+	emit sig_pos_changed_s((uint32_t) v / 1000);
 }
 
 
@@ -151,11 +151,11 @@ void ConvertEngine::set_volume(int vol) {
 }
 
 
-void ConvertEngine::jump_abs_ms(quint64 pos_ms) {
+void ConvertEngine::jump_abs_ms(uint64_t pos_ms) {
 	Q_UNUSED(pos_ms);
 }
 
-void ConvertEngine::jump_rel_ms(quint64 ms){
+void ConvertEngine::jump_rel_ms(uint64_t ms){
 	Q_UNUSED(ms);
 }
 

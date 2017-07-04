@@ -142,8 +142,9 @@ void LFMTrackChangedThread::error_update(const QString& error){
 }
 
 
-void LFMTrackChangedThread::search_similar_artists(const MetaData& md) {
-	if(md.db_id != 0) {
+void LFMTrackChangedThread::search_similar_artists(const MetaData& md)
+{
+	if(md.db_id() != 0) {
 		return;
 	}
 

@@ -117,7 +117,7 @@ class MediaPlayer2 :
 		double			_volume;
 		QString			_playback_status;
 		MetaData		_md;
-		qint64			_pos;
+		int64_t			_pos;
 
 		bool			_initialized;
 		void			init();
@@ -152,9 +152,9 @@ class MediaPlayer2 :
 		void					SetVolume(double volume);
 
 
-		Q_PROPERTY(qint64	Position			READ	Position)
-		qint64				Position();
-		void				SetPosition(const QDBusObjectPath& track_id, qint64 position);
+		Q_PROPERTY(int64_t	Position			READ	Position)
+		int64_t				Position();
+		void				SetPosition(const QDBusObjectPath& track_id, int64_t position);
 
 
 		Q_PROPERTY(double		MinimumRate			READ	MinimumRate)
@@ -195,14 +195,14 @@ class MediaPlayer2 :
 		void					PlayPause();
 		void					Stop();
 		void					Play();
-		void					Seek(qint64 offset);
+		void					Seek(int64_t offset);
 
 		void					OpenUri(const QString& uri);
 
 
 	public slots:
 
-		void					position_changed(quint64 pos_ms);
+		void					position_changed(uint64_t pos_ms);
 		void					volume_changed(int volume);
 		void					track_idx_changed(int idx);
 		void					playlist_len_changed(int len);
@@ -210,7 +210,7 @@ class MediaPlayer2 :
 		void					playstate_changed(PlayState state);
 
 	signals:
-		void					Seeked(qint64 position);
+		void					Seeked(int64_t position);
 		void					sig_raise();
 };
 } // end namespace DBusMPRIS

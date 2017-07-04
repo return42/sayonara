@@ -24,7 +24,6 @@
 #ifndef SOMAFMSTATION_H
 #define SOMAFMSTATION_H
 
-#include <QtGlobal>
 #include "Helper/Pimpl.h"
 
 class QStringList;
@@ -40,7 +39,7 @@ namespace SomaFM
 
 	public:
 
-		enum class UrlType : quint8
+		enum class UrlType : unsigned char
 		{
 			AAC=0,
 			MP3,

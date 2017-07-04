@@ -41,13 +41,13 @@ struct LocalLibrary::Private
 {
 	DatabaseConnector*	db=nullptr;
 	LibraryDatabase*	lib_db=nullptr;
-	qint8				lib_id;
+	int8_t				lib_id;
 	ReloadThread* 		reload_thread=nullptr;
 	LibraryImporter*	library_importer=nullptr;
 	QString				library_path;
 	QString				library_name;
 
-	Private(const QString& library_name, const QString& library_path, qint8 lib_id) :
+	Private(const QString& library_name, const QString& library_path, int8_t lib_id) :
 		db(DatabaseConnector::getInstance()),
 		lib_db(db->library_db(lib_id, 0)),
 		lib_id(lib_id),
@@ -56,7 +56,7 @@ struct LocalLibrary::Private
 	{}
 };
 
-LocalLibrary::LocalLibrary(qint8 lib_id, const QString& library_name, const QString& library_path, QObject *parent) :
+LocalLibrary::LocalLibrary(int8_t lib_id, const QString& library_name, const QString& library_path, QObject *parent) :
 	AbstractLibrary(parent)
 {
 	DatabaseConnector::getInstance()->register_library_db<LocalLibraryDatabase>(lib_id);
@@ -454,7 +454,7 @@ QString LocalLibrary::library_path() const
 	return _m->library_path;
 }
 
-qint8 LocalLibrary::library_id() const
+int8_t LocalLibrary::library_id() const
 {
 	return _m->lib_id;
 }

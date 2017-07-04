@@ -48,7 +48,7 @@ struct ReloadThread::Private
 {
 	DatabaseConnector*		db=nullptr;
 	QString					library_path;
-	qint8					library_id;
+	int8_t					library_id;
 	MetaDataList			v_md;
 	Library::ReloadQuality	quality;
 	bool					paused;
@@ -297,7 +297,7 @@ void ReloadThread::run()
 	_m->running = false;
 }
 
-void ReloadThread::set_library(qint8 library_id, const QString& library_path)
+void ReloadThread::set_library(int8_t library_id, const QString& library_path)
 {
 	_m->library_path = library_path;
 	_m->library_id = library_id;

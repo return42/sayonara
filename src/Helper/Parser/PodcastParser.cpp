@@ -249,7 +249,7 @@ MetaDataList PodcastParser::parse_podcast_xml_file_content(const QString& conten
 				md.set_filepath(fallback_url);
 			}
 
-			md.cover_download_url = cover_url;
+			md.set_cover_download_url(cover_url);
 
 			if( !md.filepath().isEmpty() ){
 				result << std::move(md);

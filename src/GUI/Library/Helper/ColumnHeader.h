@@ -36,7 +36,7 @@ class ColumnHeader : public QObject
 	Q_OBJECT
 
 public:
-	enum class SizeType : quint8
+	enum class SizeType : uint8_t
 	{
 		Abs=0,
 		Rel,

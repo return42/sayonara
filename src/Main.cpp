@@ -56,7 +56,7 @@
 #endif
 
 
-int check_for_another_instance(qint64 own_pid)
+int check_for_another_instance(int64_t own_pid)
 {
 #ifdef Q_OS_LINUX
 
@@ -168,11 +168,10 @@ void segfault_handler(int sig)
 
 }
 
-#include <QScreen>
-int main(int argc, char *argv[])
+
+int main(int argc, char *argv[]) 
 {
 	Application app(argc, argv);
-
 
 	QTranslator translator;
 	QString language;

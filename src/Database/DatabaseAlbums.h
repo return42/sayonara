@@ -46,7 +46,7 @@ protected:
 
 public:
 
-	DatabaseAlbums(QSqlDatabase db, quint8 db_id, qint8 library_id);
+	DatabaseAlbums(QSqlDatabase db, uint8_t db_id, int8_t library_id);
 	virtual ~DatabaseAlbums();
 
 	virtual bool db_fetch_albums(SayonaraQuery& q, AlbumList& result);

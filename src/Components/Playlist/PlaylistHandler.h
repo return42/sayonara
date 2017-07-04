@@ -32,6 +32,7 @@
 #include "PlaylistDBInterface.h"
 #include "Components/PlayManager/PlayState.h"
 
+#include "Helper/Pimpl.h"
 #include "Helper/Singleton.h"
 #include "Helper/Settings/SayonaraClass.h"
 #include "Helper/Playlist/PlaylistFwd.h"
@@ -57,7 +58,7 @@ namespace SP
 class PlaylistHandler : public QObject, protected SayonaraClass 
 {
 	Q_OBJECT
-
+	PIMPL(PlaylistHandler)
 	SINGLETON_QOBJECT(PlaylistHandler)
 
 public:
@@ -65,7 +66,7 @@ public:
 	/**
 	 * @brief The PlaylistIndex enum
 	 */
-	enum class PlaylistIndex : quint8
+	enum class PlaylistIndex : uint8_t
 	{
 		Current=0,
 		Active
@@ -351,15 +352,6 @@ private slots:
 
 
 private:
-
-	DatabaseConnector*		_db=nullptr;
-	PlayManager*			_play_manager=nullptr;
-	QList<PlaylistPtr>		_playlists;
-
-	int						_active_playlist_idx;
-	int						_current_playlist_idx;
-
-
 	// adds a new playlist, creates it, if name is not in the list of playlists. If name already exists,
 	// this function returns the index
 	int	add_new_playlist(const QString& name, bool editable, Playlist::Type type=Playlist::Type::Std);

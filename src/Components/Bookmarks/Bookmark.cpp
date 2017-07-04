@@ -23,18 +23,18 @@
 
 struct Bookmark::Private
 {
-	quint32		time;
+	uint32_t		time;
 	QString		name;
 	bool		valid;
 };
 
-Bookmark::Bookmark(quint32 time)
+Bookmark::Bookmark(uint32_t time)
 {
 	_m = Pimpl::make<Private>();
 	_m->time = time;
 }
 
-Bookmark::Bookmark(quint32 time, const QString& name, bool valid) :
+Bookmark::Bookmark(uint32_t time, const QString& name, bool valid) :
 	Bookmark(time)
 {
 	_m->name = name;
@@ -59,7 +59,7 @@ Bookmark& Bookmark::operator=(const Bookmark& other)
 	return *this;
 }
 
-quint32 Bookmark::get_time() const
+uint32_t Bookmark::get_time() const
 {
 	return _m->time;
 }

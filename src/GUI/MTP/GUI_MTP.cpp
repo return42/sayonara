@@ -56,8 +56,8 @@ struct GUI_MTP::Private
 	QList<MTP_DevicePtr>		open_devices;
 	QList<MTP_StoragePtr>		storages;
 
-	QHash<quint32, MTP_FolderPtr> folders;
-	QHash<quint32, MTP_FilePtr>	  files;
+	QHash<uint32_t, MTP_FolderPtr> folders;
+	QHash<uint32_t, MTP_FilePtr>	  files;
 
 	Private()
 	{
@@ -118,7 +118,7 @@ void GUI_MTP::delete_clicked()
 {
 	for(QTreeWidgetItem* item : ui->tree_view->selectedItems())
 	{
-		quint32 id = item->data(1, 0).toInt();
+		uint32_t id = item->data(1, 0).toInt();
 		if(id == 0){
 			continue;
 		}
@@ -142,7 +142,7 @@ void GUI_MTP::delete_clicked()
 
 	for(QTreeWidgetItem* item : ui->tree_view->selectedItems())
 	{
-		quint32 id = item->data(1, 0).toInt();
+		uint32_t id = item->data(1, 0).toInt();
 		if(id == 0){
 			continue;
 		}
@@ -278,7 +278,7 @@ void GUI_MTP::folder_idx_changed(QTreeWidgetItem* item, int column)
 		return;
 	}
 
-	quint32 folder_id = item->data(1, 0).toInt();
+	uint32_t folder_id = item->data(1, 0).toInt();
 	if(folder_id == 0){
 		return;
 	}
@@ -361,7 +361,7 @@ void GUI_MTP::dragLeaveEvent(QDragLeaveEvent* e)
 void GUI_MTP::dropEvent(QDropEvent* e)
 {
 	e->accept();
-	quint32 folder_id;
+	uint32_t folder_id;
 	MetaDataList v_md;
 	QTreeWidgetItem* item;
 	MTP_FolderPtr folder;

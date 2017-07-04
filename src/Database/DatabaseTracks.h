@@ -42,15 +42,15 @@ protected:
 	void change_artistid_field(const QString& field);
 	void change_track_lookup_field(const QString& track_lookup_field);
 
-	void check_track_views(qint8 library_id);
-	void check_track_view(qint8 library_id);
+	void check_track_views(int8_t library_id);
+	void check_track_view(int8_t library_id);
 	void check_track_search_view(const QString& track_view, const QString& track_search_view);
 
 protected:
 	QString append_track_sort_string(QString querytext, Library::SortOrder sort);
 
 public:
-	DatabaseTracks(const QSqlDatabase& db, quint8 db_id, qint8 _library_id);
+	DatabaseTracks(const QSqlDatabase& db, uint8_t db_id, int8_t _library_id);
 	~DatabaseTracks();
 
 	virtual bool db_fetch_tracks(SayonaraQuery& q, MetaDataList& result);

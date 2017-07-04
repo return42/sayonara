@@ -26,8 +26,6 @@
 
 #include "3rdParty/Soundcloud/ui/GUI_SoundcloudArtistSearch.h"
 
-#include <QtGlobal>
-
 class QFrame;
 
 namespace Ui

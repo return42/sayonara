@@ -27,11 +27,11 @@
 class DatabaseBookmarks : private DatabaseModule
 {
 public:
-	DatabaseBookmarks(const QSqlDatabase& db, quint8 db_id);
+	DatabaseBookmarks(const QSqlDatabase& db, uint8_t db_id);
 
-	bool searchBookmarks(int track_id, QMap<quint32, QString>& bookmarks);
-	bool insertBookmark(int track_id, quint32 time, QString text);
-	bool removeBookmark(int track_id, quint32 time);
+	bool searchBookmarks(int track_id, QMap<uint32_t, QString>& bookmarks);
+	bool insertBookmark(int track_id, uint32_t time, QString text);
+	bool removeBookmark(int track_id, uint32_t time);
 	bool removeAllBookmarks(int track_id);
 };
 

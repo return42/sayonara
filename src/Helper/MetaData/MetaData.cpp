@@ -22,9 +22,11 @@
 #include "Helper/MetaData/MetaData.h"
 #include "Helper/Logger/Logger.h"
 
+
 #include <QDir>
 #include <QUrl>
 #include <QVariant>
+#include <QStringList>
 
 #define MD_INIT(x) x(other.x)
 #define MD_MOVE(x) x(std::move(other.x))
@@ -57,7 +59,7 @@ struct MetaData::Private
 {
 	QString		album_artist;
 	QString		filepath;
-	qint32 		album_artist_id;
+	int32_t		album_artist_id;
 	RadioMode	radio_mode;
 
 	Private() :
@@ -414,7 +416,7 @@ RadioMode MetaData::radio_mode() const
 }
 
 
-qint32 MetaData::album_artist_id() const
+int32_t MetaData::album_artist_id() const
 {
 	if(_m->album_artist_id < 0){
 		return artist_id;
@@ -428,13 +430,13 @@ QString MetaData::album_artist() const
 	return _m->album_artist;
 }
 
-void MetaData::set_album_artist(const QString& album_artist, qint32 id)
+void MetaData::set_album_artist(const QString& album_artist, int32_t id)
 {
 	_m->album_artist = album_artist;
 	_m->album_artist_id = id;
 }
 
-void MetaData::set_album_artist_id(qint32 id)
+void MetaData::set_album_artist_id(int32_t id)
 {
 	_m->album_artist_id = id;
 }

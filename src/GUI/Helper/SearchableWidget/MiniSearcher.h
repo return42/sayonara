@@ -27,7 +27,7 @@
 
 #include "Helper/Pimpl.h"
 
-enum class MiniSearcherButtons : quint8
+enum class MiniSearcherButtons : uint8_t
 {
   NoButton=0,
   FwdButton,

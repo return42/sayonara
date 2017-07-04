@@ -36,7 +36,7 @@ private:
     void init();
 
 protected:
-	DatabaseSearchMode(const QSqlDatabase& db, quint8 db_id);
+	DatabaseSearchMode(const QSqlDatabase& db, uint8_t db_id);
 
 public:
     virtual ~DatabaseSearchMode();

@@ -21,7 +21,7 @@
 #include "LibraryDatabase.h"
 #include "SayonaraQuery.h"
 
-LibraryDatabase::LibraryDatabase(const QString& db_name, quint8 database_id, qint8 library_id) :
+LibraryDatabase::LibraryDatabase(const QString& db_name, uint8_t database_id, int8_t library_id) :
 	AbstractDatabase(database_id, "", db_name),
 	DatabaseAlbums(db(), db_id(), library_id),
 	DatabaseArtists(db(), db_id(), library_id),
@@ -75,7 +75,7 @@ void LibraryDatabase::clear()
 	DatabaseTracks::deleteAllTracks();
 }
 
-qint8 LibraryDatabase::library_id() const
+int8_t LibraryDatabase::library_id() const
 {
 	return _library_id;
 }

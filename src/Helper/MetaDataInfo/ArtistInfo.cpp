@@ -38,7 +38,7 @@
 ArtistInfo::ArtistInfo(const MetaDataList& v_md) :
 	MetaDataInfo(v_md)
 {
-	_db_id = v_md.first().db_id;
+	_db_id = v_md.first().db_id();
 	insert_number(InfoStrings::nAlbums, _albums.count());
 
 	// clear, because it's from Metadata. We are not interested in these

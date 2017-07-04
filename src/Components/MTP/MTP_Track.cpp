@@ -66,7 +66,7 @@ void MTP_Track::read_metadata(const MetaData &md)
 	_track->bitratetype = 1; //constant
 	_track->composer = strndup(_track->artist, md.artist.size());
 	_track->date = strndup("no", 2);
-	_track->duration = (quint32) md.length_ms;
+	_track->duration = (uint32_t) md.length_ms;
 	_track->filesize = md.filesize;
 
 	QString dir, filename;
@@ -104,7 +104,7 @@ MTPIntern_Track* MTP_Track::metadata() const
 	return _track;
 }
 
-void MTP_Track::set_folder_id(quint32 folder_id)
+void MTP_Track::set_folder_id(uint32_t folder_id)
 {
 	if(!_track){
 		return;
@@ -113,7 +113,7 @@ void MTP_Track::set_folder_id(quint32 folder_id)
 	_track->parent_id = folder_id;
 }
 
-void MTP_Track::set_storage_id(quint32 storage_id)
+void MTP_Track::set_storage_id(uint32_t storage_id)
 {
 	if(!_track){
 		return;

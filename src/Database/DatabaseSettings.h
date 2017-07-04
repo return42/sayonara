@@ -27,7 +27,7 @@ class QVariant;
 class DatabaseSettings : private DatabaseModule
 {
 public:
-	DatabaseSettings(const QSqlDatabase& db, quint8 db_id);
+	DatabaseSettings(const QSqlDatabase& db, uint8_t db_id);
 	~DatabaseSettings();
 
 	bool load_all_settings(QStringList& result);

@@ -38,7 +38,7 @@
 struct LibraryManager::Private
 {
 	QList<LibraryInfo> all_libs;
-	QMap<qint8, LocalLibrary*> lib_map;
+	QMap<int8_t, LocalLibrary*> lib_map;
 	LibraryPluginHandler* lph=nullptr;
 
 	Private()
@@ -58,7 +58,7 @@ struct LibraryManager::Private
 		return false;
 	}
 
-	void rename_library(qint8 library_id, const QString& name)
+	void rename_library(int8_t library_id, const QString& name)
 	{
 		for(int i=0; i<all_libs.size(); i++)
 		{
@@ -84,7 +84,7 @@ struct LibraryManager::Private
 		lph->rename_local_library(library_id, name);
 	}
 
-	void change_library_path(qint8 library_id, const QString& new_path)
+	void change_library_path(int8_t library_id, const QString& new_path)
 	{
 		for(int i=0; i<all_libs.size(); i++)
 		{
@@ -113,8 +113,8 @@ struct LibraryManager::Private
 
 	int get_next_id() const
 	{
-		qint8 id=0;
-		QList<qint8> ids;
+		int8_t id=0;
+		QList<int8_t> ids;
 		for(const LibraryInfo& li : all_libs){
 			ids << li.id();
 		}
@@ -126,7 +126,7 @@ struct LibraryManager::Private
 		return id;
 	}
 
-	LocalLibrary* get_library(qint8 library_id)
+	LocalLibrary* get_library(int8_t library_id)
 	{
 		for(const LibraryInfo& li : all_libs)
 		{
@@ -146,7 +146,7 @@ struct LibraryManager::Private
 		return nullptr;
 	}
 
-	LibraryInfo get_library_info(qint8 id)
+	LibraryInfo get_library_info(int8_t id)
 	{
 		for(const LibraryInfo& li : all_libs)
 		{
@@ -202,7 +202,7 @@ LibraryManager::LibraryManager() :
 
 LibraryManager::~LibraryManager() {}
 
-qint8 LibraryManager::add_library(const QString& name, const QString& path)
+int8_t LibraryManager::add_library(const QString& name, const QString& path)
 {
 	if(path.isEmpty() || name.isEmpty()){
 		return -1;
@@ -212,7 +212,7 @@ qint8 LibraryManager::add_library(const QString& name, const QString& path)
 		return -1;
 	}
 
-	qint8 id = _m->get_next_id();
+	int8_t id = _m->get_next_id();
 	LibraryInfo li(name, path, id);
 
 	_m->all_libs << li;
@@ -225,13 +225,13 @@ qint8 LibraryManager::add_library(const QString& name, const QString& path)
 	return id;
 }
 
-void LibraryManager::rename_library(qint8 id, const QString& new_name)
+void LibraryManager::rename_library(int8_t id, const QString& new_name)
 {
 	_m->rename_library(id, new_name);
 	_settings->set(Set::Lib_AllLibraries, _m->all_libs);
 }
 
-void LibraryManager::remove_library(qint8 id)
+void LibraryManager::remove_library(int8_t id)
 {
 	for(int i=0; i<_m->all_libs.size(); i++)
 	{
@@ -270,7 +270,7 @@ void LibraryManager::move_library(int old_row, int new_row)
 	_settings->set(Set::Lib_AllLibraries, _m->all_libs);
 }
 
-void LibraryManager::change_library_path(qint8 id, const QString& path)
+void LibraryManager::change_library_path(int8_t id, const QString& path)
 {
 	_m->change_library_path(id, path);
 	_settings->set(Set::Lib_AllLibraries, _m->all_libs);
@@ -293,12 +293,12 @@ int LibraryManager::count() const
 	return _m->all_libs.size();
 }
 
-LibraryInfo LibraryManager::library_info(qint8 id) const
+LibraryInfo LibraryManager::library_info(int8_t id) const
 {
 	return _m->get_library_info(id);
 }
 
-LocalLibrary* LibraryManager::library_instance(qint8 id) const
+LocalLibrary* LibraryManager::library_instance(int8_t id) const
 {
 	return _m->get_library(id);
 }

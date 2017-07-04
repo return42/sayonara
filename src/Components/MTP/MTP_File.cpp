@@ -35,12 +35,12 @@ MTP_File::~MTP_File() {}
 
 bool MTP_File::remove() const
 {
-	quint32 ret = LIBMTP_Delete_Object(_device, _id);
+	uint32_t ret = LIBMTP_Delete_Object(_device, _id);
 	return (ret == 0);
 }
 
 
-quint32 MTP_File::id() const
+uint32_t MTP_File::id() const
 {
 	return _id;
 }

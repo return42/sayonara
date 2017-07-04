@@ -81,19 +81,19 @@ signals:
 	 * @brief relative seeking was triggered
 	 * @param ms relative position to current position in milliseconds
 	 */
-	void sig_seeked_rel_ms(qint64 ms);
+	void sig_seeked_rel_ms(int64_t ms);
 
 	/**
 	 * @brief absolute seeking was triggered
 	 * @param ms absolute position in milliseconds
 	 */
-	void sig_seeked_abs_ms(quint64 ms);
+	void sig_seeked_abs_ms(uint64_t ms);
 
 	/**
 	 * @brief position in track has changed
 	 * @param ms absolute position in milliseconds
 	 */
-	void sig_position_changed_ms(quint64 ms);
+	void sig_position_changed_ms(uint64_t ms);
 
 	/**
 	 * @brief track has changed
@@ -117,7 +117,7 @@ signals:
 	 * @brief duration of track has changed
 	 * @param ms duration of track in milliseconds
 	 */
-	void sig_duration_changed(quint64 ms);
+	void sig_duration_changed(uint64_t ms);
 
 	/**
 	 * @brief playlist has finished
@@ -154,7 +154,7 @@ signals:
 	void sig_md_changed(const MetaData& md);
 
 
-	void sig_duration_changed(qint64 ms);
+	void sig_duration_changed(int64_t ms);
 
 
 public slots:
@@ -206,13 +206,13 @@ public slots:
 	 * @brief seek absolute
 	 * @param ms absolute position in milliseconds
 	 */
-	void seek_abs_ms(quint64 ms);
+	void seek_abs_ms(uint64_t ms);
 
 	/**
 	 * @brief seek_rel_ms
 	 * @param ms relative position to current position in milliseconds
 	 */
-	void seek_rel_ms(qint64 ms);
+	void seek_rel_ms(int64_t ms);
 
 	/**
 	 * @brief set current position of track
@@ -220,13 +220,13 @@ public slots:
 	 * Just tells the playmanager where the current position is
 	 * @param ms position in milliseconds. 	 
 	 */
-	void set_position_ms(quint64 ms);
+	void set_position_ms(uint64_t ms);
 
 	/**
 	 * @brief change current track
 	 * @param md new MetaData object
 	 */
-	void change_track(const MetaData& md, int playlist_idx);
+	void change_track(const MetaData& md, int track_idx);
 
 
 	/**
@@ -266,7 +266,7 @@ public slots:
 	void change_metadata(const MetaData& md);
 
 
-	void change_duration(qint64 ms);
+	void change_duration(int64_t ms);
 
 public:
 	/**
@@ -279,19 +279,19 @@ public:
 	 * @brief get current position in milliseconds
 	 * @return current position in milliseconds
 	 */
-	quint64		get_cur_position_ms() const;
+	uint64_t		get_cur_position_ms() const;
 
 	/**
 	 * @brief get position in milliseconds where track will start
 	 * @return position in milliseconds where track will start
 	 */
-	quint64		get_init_position_ms() const;
+	uint64_t		get_init_position_ms() const;
 
 	/**
 	 * @brief get duration of track
 	 * @return duration in milliseconds
 	 */
-	quint64		get_duration_ms() const;
+	uint64_t		get_duration_ms() const;
 
 	/**
 	 * @brief get current track

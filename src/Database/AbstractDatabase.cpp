@@ -28,18 +28,18 @@
 #include <QFile>
 #include <QDir>
 
-static QMap<quint8, QSqlDatabase> _databases;
+static QMap<uint8_t, QSqlDatabase> _databases;
 
 struct AbstractDatabase::Private
 {
 	QString db_name;
 	QString db_dir;
 	QString db_path;
-	quint8 db_id;
+	uint8_t db_id;
 
 	bool initialized;
 
-	Private(quint8 db_id, const QString& db_dir, const QString& db_name)
+	Private(uint8_t db_id, const QString& db_dir, const QString& db_name)
 	{
 		this->db_id = db_id;
 		this->db_dir = db_dir;
@@ -48,7 +48,7 @@ struct AbstractDatabase::Private
 	}
 };
 
-AbstractDatabase::AbstractDatabase(quint8 db_id, const QString& db_dir, const QString& db_name, QObject *parent) : QObject(parent)
+AbstractDatabase::AbstractDatabase(uint8_t db_id, const QString& db_dir, const QString& db_name, QObject *parent) : QObject(parent)
 {
 	_m = Pimpl::make<Private>(db_id, db_dir, db_name);
 
@@ -211,7 +211,6 @@ bool AbstractDatabase::check_and_drop_table(const QString& tablename)
 }
 
 
-
 bool AbstractDatabase::check_and_insert_column(const QString& tablename, const QString& column, const QString& sqltype, const QString& default_value)
 {
 	SayonaraQuery q(db());
@@ -265,7 +264,7 @@ QSqlDatabase& AbstractDatabase::db() const
 	return _databases[ db_id() ];
 }
 
-quint8 AbstractDatabase::db_id() const
+uint8_t AbstractDatabase::db_id() const
 {
 	return _m->db_id;
 }

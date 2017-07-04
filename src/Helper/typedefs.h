@@ -21,10 +21,16 @@
 #ifndef TYPEDEFS_H
 #define TYPEDEFS_H
 
-#include <QList>
-#include <QString>
-#include <QPair>
-#include <QtGlobal>
+//#include <QList>
+//#include <QString>
+//#include <QPair>
+//#include <QtGlobal>
+
+#include <cstdint>
+
+class QString;
+template <typename A, typename B> struct QPair;
+template <typename T> class QList;
 
 /**
  * @brief Sayonara Typedefs
@@ -35,10 +41,10 @@ typedef QList<int> IntList;
 typedef QList<int> IDList;
 typedef QList<int> IdxList;
 typedef QList<bool> BoolList;
-typedef qint32 ArtistID;
-typedef qint32 AlbumID;
-typedef qint32 TrackID;
-typedef qint32 ID;
+typedef int32_t ArtistID;
+typedef int32_t AlbumID;
+typedef int32_t TrackID;
+typedef int32_t ID;
 
 
 #endif

@@ -21,8 +21,10 @@
 #ifndef _LIBRARY_ITEM_H_
 #define _LIBRARY_ITEM_H_
 
-#include <QList>
-#include <QString>
+#include "Helper/Pimpl.h"
+
+class QString;
+template <typename T> class QList;
 
 /**
  * @brief The CustomField class
@@ -33,14 +35,12 @@
  */
 class CustomField
 {
-	QString _display_name;
-	QString _value;
-	QString _id;
+	PIMPL(CustomField)
 
 public:
-
 	CustomField(const QString& id, const QString& display_name, const QString& value);
-	CustomField(const CustomField& copy);
+	CustomField(const CustomField& other);
+	CustomField& operator=(const CustomField& other);
 	virtual ~CustomField();
 
 	QString get_id() const;
@@ -55,13 +55,9 @@ public:
  */
 class LibraryItem 
 {
-private:
-	QList<CustomField>	_additional_data;
+	PIMPL(LibraryItem)
 
 public:
-	QString	cover_download_url;
-	quint8 db_id;
-
 	LibraryItem();
 	LibraryItem(const LibraryItem& other);
 	LibraryItem(LibraryItem&& other);
@@ -74,6 +70,12 @@ public:
 	const QList<CustomField>& get_custom_fields() const;
 	QString get_custom_field(const QString& id) const;
 	QString get_custom_field(int idx) const;
+
+	QString cover_download_url() const;
+	void set_cover_download_url(const QString& url);
+
+	uint8_t db_id() const;
+	void set_db_id(uint8_t id);
 
 	virtual void print() const;
 };

@@ -22,7 +22,6 @@
 #define BOOKMARK_H
 
 #include "Helper/Pimpl.h"
-#include <QtGlobal>
 
 /**
  * @brief The Bookmark helper class
@@ -34,15 +33,15 @@ class Bookmark
 	PIMPL(Bookmark)
 
 	public:
-		explicit Bookmark(quint32 time, const QString& name, bool valid=false);
-		explicit Bookmark(quint32 time=0);
+		explicit Bookmark(uint32_t time, const QString& name, bool valid=false);
+		explicit Bookmark(uint32_t time=0);
 
 		Bookmark(const Bookmark& other);
 		Bookmark& operator=(const Bookmark &other);
 
 		~Bookmark();
 
-		quint32 get_time() const;
+		uint32_t get_time() const;
 		QString get_name() const;
 		bool is_valid() const;
 };

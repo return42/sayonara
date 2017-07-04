@@ -27,7 +27,7 @@
 class DatabaseStreams : private DatabaseModule
 {
 public:
-	DatabaseStreams(const QSqlDatabase& db, quint8 db_id);
+	DatabaseStreams(const QSqlDatabase& db, uint8_t db_id);
 
 	bool getAllStreams(QMap<QString, QString>& result);
 	bool deleteStream(const QString& name);

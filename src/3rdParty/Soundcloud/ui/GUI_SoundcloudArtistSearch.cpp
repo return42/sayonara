@@ -35,7 +35,7 @@ struct SC::GUI_ArtistSearch::Private
 	AlbumList			albums;
 	ArtistList			searched_artists;
 	ArtistList			chosen_artists;
-	quint64				cur_artist_sc_id;
+	uint64_t				cur_artist_sc_id;
 };
 
 SC::GUI_ArtistSearch::GUI_ArtistSearch(SC::Library* library, QWidget *parent) :

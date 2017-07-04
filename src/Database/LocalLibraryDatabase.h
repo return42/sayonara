@@ -29,7 +29,7 @@ class LocalLibraryDatabase :
 		public LibraryDatabase
 {
 public:
-	LocalLibraryDatabase(qint8 library_id);
+	LocalLibraryDatabase(int8_t library_id);
 	~LocalLibraryDatabase();
 };
 

@@ -43,7 +43,7 @@ signals:
 	void sig_name_changed(const QString& name);
 
 public:
-	LocalLibrary(qint8 id, const QString& library_name, const QString& library_path, QObject* parent=nullptr);
+	LocalLibrary(int8_t id, const QString& library_name, const QString& library_path, QObject* parent=nullptr);
 	virtual ~LocalLibrary();
 
 	void clear_library();
@@ -101,7 +101,7 @@ public:
 	void		set_library_path(const QString& library_path);
 	void		set_library_name(const QString& library_name);
 	QString		library_path() const;
-	qint8		library_id() const;
+	int8_t		library_id() const;
 	QString		library_name() const;
 	LibraryImporter* importer();
 };

@@ -21,7 +21,6 @@
 #ifndef LIBRARY_SORTING_H
 #define LIBRARY_SORTING_H
 
-#include <QtGlobal>
 #include "Sortorder.h"
 
 class QString;

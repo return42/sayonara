@@ -36,7 +36,7 @@ static char padding[256];
 struct StreamDataSender::Private
 {
 	QTcpSocket*		socket=nullptr;
-	quint64			sent_data_bytes;
+	uint64_t			sent_data_bytes;
 
 	QByteArray		header;
 	QByteArray		icy_header;
@@ -96,7 +96,7 @@ StreamDataSender::~StreamDataSender() {}
 bool StreamDataSender::send_trash()
 {
 	char single_byte = 0x00;
-	qint64 n_bytes;
+	int64_t n_bytes;
 
 	n_bytes = _m->socket->write(&single_byte, 1);
 
@@ -106,11 +106,11 @@ bool StreamDataSender::send_trash()
 	return (n_bytes > 0);
 }
 
-bool StreamDataSender::send_data(const uchar* data, quint64 size)
+bool StreamDataSender::send_data(const uchar* data, uint64_t size)
 {
 	_m->sent_data_bytes = 0;
 
-	qint64 n_bytes = _m->socket->write( (const char*) data, size);
+	int64_t n_bytes = _m->socket->write( (const char*) data, size);
 
 	return (n_bytes > 0);
 }
@@ -119,14 +119,14 @@ bool StreamDataSender::send_data(const uchar* data, quint64 size)
 // [..........................................................] = buffer
 // [  bytes_before        | icy_data | bytes_to_write ]
 
-bool StreamDataSender::send_icy_data(const uchar* data, quint64 size, const QString& stream_title)
+bool StreamDataSender::send_icy_data(const uchar* data, uint64_t size, const QString& stream_title)
 {
-	qint64 n_bytes=0;
-	qint64 bytes_to_write = 0;
+	int64_t n_bytes=0;
+	int64_t bytes_to_write = 0;
 	const int IcySize = 8192;
 
 	if(_m->sent_data_bytes + size > IcySize){
-		quint64 bytes_before = IcySize - _m->sent_data_bytes;
+		uint64_t bytes_before = IcySize - _m->sent_data_bytes;
 
 		if(bytes_before > 0){
 			n_bytes = _m->socket->write( (const char*) data, bytes_before);
@@ -174,7 +174,7 @@ bool StreamDataSender::send_icy_data(const uchar* data, quint64 size, const QStr
 bool StreamDataSender::send_icy_metadata(const QString& stream_title)
 {
 	bool success;
-	qint64 n_bytes=0;
+	int64_t n_bytes=0;
 	QByteArray metadata = QByteArray("StreamTitle='");
 	int sz; // size of icy metadata
 	int n_padding; // number of padding bytes
@@ -199,7 +199,7 @@ bool StreamDataSender::send_icy_metadata(const QString& stream_title)
 
 bool StreamDataSender::send_header(bool reject, bool icy)
 {
-	qint64 n_bytes=0;
+	int64_t n_bytes=0;
 
 	if(reject){
 		n_bytes = _m->socket->write( _m->reject_header );
@@ -348,7 +348,7 @@ bool StreamDataSender::send_metadata(const QString& stream_title)
 
 bool StreamDataSender::send_playlist(const QString& host, int port)
 {
-	qint64 n_bytes;
+	int64_t n_bytes;
 	QByteArray playlist;
 	QByteArray data;
 

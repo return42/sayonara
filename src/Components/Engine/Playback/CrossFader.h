@@ -23,7 +23,7 @@
 #ifndef CROSSFADER_H
 #define CROSSFADER_H
 
-#include <QtGlobal>
+#include "Helper/Pimpl.h"
 
 class FaderThreadData;
 class FaderThread;
@@ -34,9 +34,11 @@ class FaderThread;
  */
 class CrossFader
 {
+	PIMPL(CrossFader)
+
 public:
 
-    enum class FadeMode : quint8 
+	enum class FadeMode : unsigned char
 	{
 		NoFading=0,
 		FadeIn,
@@ -44,7 +46,7 @@ public:
     };
 
     CrossFader();
-	virtual ~CrossFader();
+	~CrossFader();
 
 	/**
 	 * @brief get current volume of pipeline
@@ -62,7 +64,7 @@ public:
 	 * @brief get fading time in ms
 	 * @return fading time in ms
 	 */
-	quint64 get_fading_time_ms() const;
+	uint64_t get_fading_time_ms() const;
 
 	/**
 	 * @brief start to fade in
@@ -80,13 +82,6 @@ public:
 	 */
     void fader_timed_out();
 
-
-private:
-    FadeMode	    _fade_mode;
-	double			_fade_step;
-
-	FaderThread*    _fader=nullptr;
-	FaderThreadData* _fader_data=nullptr;
 
 private:
 	CrossFader(const CrossFader& other);

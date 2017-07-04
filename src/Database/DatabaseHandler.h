@@ -22,35 +22,31 @@
 #define DATABASEHANDLER_H
 
 #include "Helper/Singleton.h"
-#include "Database/LibraryDatabase.h"
-
-#include <QMap>
-#include <QtGlobal>
+#include "Helper/Pimpl.h"
 
 class Album;
 class MetaData;
 class Artist;
+class LibraryDatabase;
 
 class DB 
 {
 	SINGLETON(DB)
+	PIMPL(DB)
 
 	public:
-		static LibraryDatabase* getInstance(quint8 db_id);
+		static LibraryDatabase* getInstance(uint8_t db_id);
 		static LibraryDatabase* getInstance(const Album& album);
 		static LibraryDatabase* getInstance(const MetaData& md);
 		static LibraryDatabase* getInstance(const Artist& artist);
 
-		LibraryDatabase* get(quint8 db_id);
+		LibraryDatabase* get(uint8_t db_id);
 		LibraryDatabase* get(const Album& album);
 		LibraryDatabase* get(const MetaData& md);
 		LibraryDatabase* get(const Artist& artist);
 		LibraryDatabase* get_std();
 
 		void add(LibraryDatabase* db);
-
-	private:
-		QMap<quint8, LibraryDatabase*> _dbs;
 };
 
 #endif // DATABASEHANDLER_H

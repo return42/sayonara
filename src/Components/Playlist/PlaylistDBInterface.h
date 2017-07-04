@@ -44,7 +44,7 @@ private:
 
 public:
 
-	enum class SaveAsAnswer : quint8 
+	enum class SaveAsAnswer : uint8_t 
 	{
 		Success=0,
 		AlreadyThere,
@@ -72,8 +72,8 @@ public:
 	bool remove_from_db();
 
 
-	virtual const MetaDataList& get_playlist() const = 0;
-	virtual int get_count() const = 0;
+	virtual const MetaDataList& playlist() const = 0;
+	virtual int count() const = 0;
 	virtual bool is_empty() const = 0;
 	virtual void set_changed(bool b) = 0;
 	virtual bool was_changed() const = 0;

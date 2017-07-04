@@ -39,18 +39,18 @@ class Album :
 		public LibraryItem
 {
 public:
-	quint8 n_discs;
-	quint8 rating;
+	uint8_t n_discs;
+	uint8_t rating;
 	bool is_sampler;
 
-	qint32	id;
-    quint32 length_sec;
-	quint16 num_songs;
-    quint16	year;
+	int32_t	id;
+    uint32_t length_sec;
+	uint16_t num_songs;
+    uint16_t	year;
 
 	QString name;
 	QStringList artists;
-	QList<quint8> discnumbers;
+	QList<uint8_t> discnumbers;
 
 private:
 	QStringList _album_artists;
@@ -78,7 +78,7 @@ public:
 class AlbumList : public QList<Album> 
 {
 public:
-	bool contains(qint32 album_id) const;
+	bool contains(int32_t album_id) const;
 };
 
 #endif

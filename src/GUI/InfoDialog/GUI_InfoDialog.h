@@ -46,7 +46,7 @@ class GUI_InfoDialog :
 
 public:
 
-	enum class Tab : quint8 
+	enum class Tab : uint8_t 
 	{
 		Info=0,
 		Lyrics=1,

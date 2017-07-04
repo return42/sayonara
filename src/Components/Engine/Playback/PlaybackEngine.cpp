@@ -125,7 +125,7 @@ void PlaybackEngine::change_track_gapless(const MetaData& md)
 	}
 
 	else {
-		qint64 time_to_go = _other_pipeline->get_time_to_go();
+		int64_t time_to_go = _other_pipeline->get_time_to_go();
 
 		 if(time_to_go <= 0){
 			_pipeline->play();
@@ -273,14 +273,14 @@ void PlaybackEngine::pause()
 }
 
 
-void PlaybackEngine::jump_abs_ms(quint64 pos_ms)
+void PlaybackEngine::jump_abs_ms(uint64_t pos_ms)
 {
 	_pipeline->seek_abs(pos_ms * GST_MSECOND);
 }
 
-void PlaybackEngine::jump_rel_ms(quint64 ms)
+void PlaybackEngine::jump_rel_ms(uint64_t ms)
 {
-	quint64 new_time_ms = _pipeline->get_source_position_ms() + ms;
+	uint64_t new_time_ms = _pipeline->get_source_position_ms() + ms;
 	_pipeline->seek_abs(new_time_ms * GST_MSECOND);
 }
 
@@ -325,7 +325,7 @@ void PlaybackEngine::set_buffer_state(int progress, GstElement* src)
 }
 
 
-void PlaybackEngine::set_cur_position_ms(qint64 pos_ms)
+void PlaybackEngine::set_cur_position_ms(int64_t pos_ms)
 {
 	if(sender() != _pipeline){
 		return;
@@ -335,8 +335,8 @@ void PlaybackEngine::set_cur_position_ms(qint64 pos_ms)
 		return;
 	}
 
-	qint32 pos_sec = pos_ms / 1000;
-	qint32 cur_pos_sec = _cur_pos_ms / 1000;
+	int32_t pos_sec = pos_ms / 1000;
+	int32_t cur_pos_sec = _cur_pos_ms / 1000;
 
 	if ( cur_pos_sec == pos_sec ){
 		return;
@@ -358,7 +358,7 @@ void PlaybackEngine::set_track_ready(GstElement* src)
 }
 
 
-void PlaybackEngine::set_about_to_finish(qint64 time2go)
+void PlaybackEngine::set_about_to_finish(int64_t time2go)
 {
 	Q_UNUSED(time2go)
 
@@ -545,9 +545,9 @@ void PlaybackEngine::update_duration(GstElement* src)
 
 	_pipeline->refresh_duration();
 
-	qint64 duration_ms = _pipeline->get_duration_ms();
-	quint32 duration_s = (duration_ms >> 10);
-	quint32 md_duration_s = (_md.length_ms >> 10);
+	int64_t duration_ms = _pipeline->get_duration_ms();
+	uint32_t duration_s = (duration_ms >> 10);
+	uint32_t md_duration_s = (_md.length_ms >> 10);
 
 	if(duration_s == 0 || duration_s > 1500000){
 		return;
@@ -563,7 +563,7 @@ void PlaybackEngine::update_duration(GstElement* src)
 }
 
 
-void PlaybackEngine::update_bitrate(quint32 br, GstElement* src)
+void PlaybackEngine::update_bitrate(uint32_t br, GstElement* src)
 {
 	if(!_pipeline->has_element(src)){
 		return;

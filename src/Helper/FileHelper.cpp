@@ -185,11 +185,11 @@ QString Helper::File::get_absolute_filename(const QString& filename)
 }
 
 
-QString Helper::File::calc_filesize_str(quint64 filesize) 
+QString Helper::File::calc_filesize_str(uint64_t filesize) 
 {
-	quint64 kb = 1024;
-	quint64 mb = kb * 1024;
-	quint64 gb = mb * 1024;
+	uint64_t kb = 1024;
+	uint64_t mb = kb * 1024;
+	uint64_t gb = mb * 1024;
 
 	QString size;
 	if(filesize > gb) {
@@ -318,7 +318,7 @@ bool Helper::File::write_file(const QByteArray& arr, const QString& filename)
 		return false;
 	}
 
-	qint64 bytes_written = f.write(arr);
+	int64_t bytes_written = f.write(arr);
 
 	f.close();
 

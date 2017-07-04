@@ -25,7 +25,7 @@
 #include "Helper/Playlist/CustomPlaylist.h"
 #include "Helper/MetaData/Genre.h"
 
-DatabasePlaylist::DatabasePlaylist(const QSqlDatabase& db, quint8 db_id) :
+DatabasePlaylist::DatabasePlaylist(const QSqlDatabase& db, uint8_t db_id) :
 	DatabaseModule(db, db_id) {}
 
 
@@ -219,7 +219,7 @@ bool DatabasePlaylist::getPlaylistById(CustomPlaylist& pl)
 			data.rating = q.value(14).toInt();
 
 			data.is_extern = false;
-			data.db_id = module_db_id();
+			data.set_db_id(module_db_id());
 
 			if(q.value(16).toInt() == 0 || q.value(16).isNull()){
 				pl.push_back(data);
@@ -255,9 +255,9 @@ bool DatabasePlaylist::getPlaylistById(CustomPlaylist& pl)
 		MetaData data(filepath);
 		data.id = -1;
 		data.is_extern = true;
-		data.db_id = module_db_id();
 		data.title = filepath;
 		data.artist = filepath;
+		data.set_db_id(module_db_id());
 
 		for(int row=0; row<=pl.size(); row++) {
 			if( row >= position) {
@@ -314,7 +314,7 @@ bool DatabasePlaylist::insertTrackIntoPlaylist(const MetaData& md, int playlist_
 	q.bindValue(":playlist_id", playlist_id);
 	q.bindValue(":position", pos);
 	q.bindValue(":filepath", md.filepath());
-	q.bindValue(":db_id", md.db_id);
+	q.bindValue(":db_id", md.db_id());
 
 	if (!q.exec()) {
 		q.show_error("Cannot insert track into playlist");

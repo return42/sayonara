@@ -31,7 +31,7 @@ DB::DB() {}
 
 DB::~DB() {}
 
-LibraryDatabase* DB::getInstance(quint8 db_id, qint8 library_db)
+LibraryDatabase* DB::getInstance(uint8_t db_id, int8_t library_db)
 {
 	return getInstance()->get(db_id, library_id);
 }
@@ -52,12 +52,12 @@ LibraryDatabase* DB::getInstance(const Artist& artist, qint8 library_db)
 }
 
 
-void DB::add(LibraryDatabase *db, qint8 library_db)
+void DB::add(LibraryDatabase *db, int8_t library_db)
 {
 	_dbs.insert(db->get_id(), db);
 }
 
-LibraryDatabase* DB::get(quint8 db_id)
+LibraryDatabase* DB::get(uint8_t db_id)
 {
 	if(_dbs.size() == 0){
 		sp_log(Log::Warning, this) << "There are no Databases available";

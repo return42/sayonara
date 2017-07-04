@@ -21,7 +21,7 @@
 #ifndef RAWSOUNDRECEIVER_H
 #define RAWSOUNDRECEIVER_H
 
-#include <QtGlobal>
+#include <cstdint>
 
 /**
  * @brief The RawSoundReceiver interface
@@ -38,7 +38,7 @@ public:
 	 * @param data audio data
 	 * @param n_bytes array size
 	 */
-	virtual void new_audio_data(const uchar* data, quint64 n_bytes)=0;
+	virtual void new_audio_data(const uint8_t* data, uint64_t n_bytes)=0;
 };
 
 #endif // RAWSOUNDRECEIVER_H

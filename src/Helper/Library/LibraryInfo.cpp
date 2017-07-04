@@ -29,7 +29,7 @@ struct LibraryInfo::Private
 {
 	QString path;
 	QString name;
-	qint8 id;
+	int8_t id;
 };
 
 LibraryInfo::LibraryInfo()
@@ -104,7 +104,7 @@ QString LibraryInfo::symlink_path() const
 	return target;
 }
 
-qint8 LibraryInfo::id() const
+int8_t LibraryInfo::id() const
 {
 	return _m->id;
 }

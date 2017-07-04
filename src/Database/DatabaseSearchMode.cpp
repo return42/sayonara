@@ -33,7 +33,7 @@ struct DatabaseSearchMode::Private
 	{}
 };
 
-DatabaseSearchMode::DatabaseSearchMode(const QSqlDatabase& db, quint8 db_id) :
+DatabaseSearchMode::DatabaseSearchMode(const QSqlDatabase& db, uint8_t db_id) :
 	DatabaseModule(db, db_id)
 {
 	_m = Pimpl::make<DatabaseSearchMode::Private>();

@@ -40,11 +40,11 @@ namespace Models
 		int			playcount;
 
 	    Popularimeter();
-		Popularimeter(const QString& email_, quint8 rating_byte_, int playcount);
-		void set_rating(quint8 max_5);
-		void set_rating_byte(quint8 byte);
-		quint8 get_rating() const;
-		quint8 get_rating_byte() const;
+		Popularimeter(const QString& email_, uint8_t rating_byte_, int playcount);
+		void set_rating(uint8_t max_5);
+		void set_rating_byte(uint8_t byte);
+		uint8_t get_rating() const;
+		uint8_t get_rating_byte() const;
 	    QString to_string();
     };
 }

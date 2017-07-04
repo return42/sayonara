@@ -183,7 +183,7 @@ void GUI_Player::set_progress_tooltip(int val)
 	val = std::min(max, val);
 
 	double percent = (val * 1.0) / max;
-	quint64 cur_pos_ms =  (quint64) (percent * _md.length_ms);
+	uint64_t cur_pos_ms =  (uint64_t) (percent * _md.length_ms);
 	QString cur_pos_string = Helper::cvt_ms_to_string(cur_pos_ms);
 
 	QToolTip::showText( QCursor::pos(), cur_pos_string );
@@ -198,14 +198,14 @@ void GUI_Player::set_cur_pos_label(int val)
 	val = std::min(max, val);
 
 	double percent = (val * 1.0) / max;
-	quint64 cur_pos_ms =  (quint64) (percent * _md.length_ms);
+	uint64_t cur_pos_ms =  (uint64_t) (percent * _md.length_ms);
 	QString cur_pos_string = Helper::cvt_ms_to_string(cur_pos_ms);
 
 	lab_cur_time->setText(cur_pos_string);
 }
 
 
-void GUI_Player::set_total_time_label(qint64 total_time)
+void GUI_Player::set_total_time_label(int64_t total_time)
 {
 	_md.length_ms = total_time;
 
@@ -261,7 +261,7 @@ void GUI_Player::seek(int val)
 }
 
 
-void GUI_Player::cur_pos_changed(quint64 pos_ms)
+void GUI_Player::cur_pos_changed(uint64_t pos_ms)
 {
 	int max = sli_progress->maximum();
 	int new_val;

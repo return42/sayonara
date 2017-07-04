@@ -161,7 +161,7 @@ gboolean EngineCallbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpoint
 			gchar*			title;
 			QImage 			img;
 			bool			success;
-			quint32			bitrate;
+			uint32_t			bitrate;
 
 			if( msg_src_name.compare("sr_filesink") == 0 ||
 				msg_src_name.compare("level_sink") == 0 ||

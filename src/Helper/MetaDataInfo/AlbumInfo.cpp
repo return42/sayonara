@@ -31,7 +31,7 @@
 AlbumInfo::AlbumInfo(const MetaDataList& v_md) :
 	MetaDataInfo(v_md)
 {
-	_db_id = v_md.first().db_id;
+	_db_id = v_md.first().db_id();
 	QString str_sampler;
 
 	// clear, because it's from Metadata. We are not interested in
@@ -108,9 +108,9 @@ void AlbumInfo::set_cover_location()
 		Album album;
 		album.id = _album_ids.first();
 		album.name = _albums.first();
-		album.db_id = lib_db->db_id();
 		album.artists = _artists.toList();
 		album.set_album_artists(_album_artists.toList());
+		album.set_db_id(lib_db->db_id());
 
 		_cover_location = CoverLocation::get_cover_location(album);
 	}

@@ -57,7 +57,7 @@ public:
     void goon();
 	bool is_running() const;
 	void set_quality(Library::ReloadQuality quality);
-	void set_library(qint8 lib_id, const QString& library_path);
+	void set_library(int8_t lib_id, const QString& library_path);
 
 protected:
 	virtual void run() override;

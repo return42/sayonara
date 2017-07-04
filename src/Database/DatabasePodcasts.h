@@ -27,7 +27,7 @@
 class DatabasePodcasts : private DatabaseModule
 {
 public:
-	DatabasePodcasts(const QSqlDatabase& db, quint8 db_id);
+	DatabasePodcasts(const QSqlDatabase& db, uint8_t db_id);
 
 	bool getAllPodcasts(QMap<QString, QString>& result);
 	bool deletePodcast(const QString& name);

@@ -42,19 +42,19 @@ class LibraryManager :
 	friend class LocalLibrary;
 
 public:
-	qint8 add_library(const QString& name, const QString& path);
-	void rename_library(qint8 id, const QString& name);
-	void remove_library(qint8 id);
+	int8_t add_library(const QString& name, const QString& path);
+	void rename_library(int8_t id, const QString& name);
+	void remove_library(int8_t id);
 	void move_library(int old_row, int new_row);
-	void change_library_path(qint8 id, const QString& path);
+	void change_library_path(int8_t id, const QString& path);
 
 	static QString request_library_name(const QString& path);
 	QList<LibraryInfo> all_libraries() const;
-	LibraryInfo library_info(qint8 id) const;
+	LibraryInfo library_info(int8_t id) const;
 
     int count() const;
 
-	LocalLibrary* library_instance(qint8 id) const;
+	LocalLibrary* library_instance(int8_t id) const;
 
 	void revert();
 };

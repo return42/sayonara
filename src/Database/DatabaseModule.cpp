@@ -23,22 +23,22 @@
 struct DatabaseModule::Private
 {
 	QSqlDatabase db;
-	quint8 db_id;
+	uint8_t db_id;
 
-	Private(const QSqlDatabase& db, quint8 db_id) :
+	Private(const QSqlDatabase& db, uint8_t db_id) :
 		db(db),
 		db_id(db_id)
 	{}
 };
 
-DatabaseModule::DatabaseModule(const QSqlDatabase& db, quint8 db_id)
+DatabaseModule::DatabaseModule(const QSqlDatabase& db, uint8_t db_id)
 {
 	_m = Pimpl::make<Private>(db, db_id);
 }
 
 DatabaseModule::~DatabaseModule() {}
 
-quint8 DatabaseModule::module_db_id() const
+uint8_t DatabaseModule::module_db_id() const
 {
 	return _m->db_id;
 }

@@ -40,7 +40,7 @@ public:
 	explicit IcyWebAccess(QObject *parent = nullptr);
 	~IcyWebAccess();
 
-	enum class Status : quint8
+	enum class Status : uint8_t
     {
 		WriteError=0,
 		WrongAnswer,

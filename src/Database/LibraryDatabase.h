@@ -36,24 +36,24 @@ class LibraryDatabase :
 {
 
 private:
-	qint8 _library_id;
+	int8_t _library_id;
 
 public:
 
-	enum class ArtistIDField : quint8
+	enum class ArtistIDField : uint8_t
 	{
 		AlbumArtistID,
 		ArtistID
 	};
 
-	LibraryDatabase(const QString& db_name, quint8 db_id, qint8 library_id);
+	LibraryDatabase(const QString& db_name, uint8_t db_id, int8_t library_id);
 	virtual ~LibraryDatabase();
 
 	void change_artistid_field(ArtistIDField field);
 	void clear();
 	bool apply_fixes() override;
 
-	qint8 library_id() const;
+	int8_t library_id() const;
 };
 
 #endif // LIBRARYDATABASE_H

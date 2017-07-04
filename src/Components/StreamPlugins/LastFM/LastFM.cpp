@@ -65,8 +65,8 @@ struct LastFM::Private
 
 	PlayManager*				play_manager=nullptr;
 
-	quint64						old_pos;
-	quint64						old_pos_difference;
+	uint64_t						old_pos;
+	uint64_t						old_pos_difference;
 
 	MetaData					md;
 };
@@ -167,7 +167,7 @@ void LastFM::sl_track_changed(const MetaData& md)
 }
 
 
-void LastFM::sl_position_ms_changed(quint64 pos_ms)
+void LastFM::sl_position_ms_changed(uint64_t pos_ms)
 {
 	if(!_m->active){
 		return;
@@ -185,7 +185,7 @@ void LastFM::reset_scrobble()
 }
 
 
-bool LastFM::check_scrobble(quint64 pos_ms)
+bool LastFM::check_scrobble(uint64_t pos_ms)
 {
 	if(!_m->logged_in){
 		return false;
@@ -215,7 +215,7 @@ bool LastFM::check_scrobble(quint64 pos_ms)
 		}
 
 		else{
-			quint64 scrobble_time_ms = (quint64) (_settings->get(Set::LFM_ScrobbleTimeSec) * 1000);
+			uint64_t scrobble_time_ms = (uint64_t) (_settings->get(Set::LFM_ScrobbleTimeSec) * 1000);
 
 			_m->old_pos_difference += (pos_ms - _m->old_pos);
 			_m->old_pos = pos_ms;
@@ -276,6 +276,7 @@ void LastFM::scrobble(const MetaData& md)
 // private slot
 void LastFM::sl_similar_artists_available(IDList artist_ids)
 {
+	return;
 	if(artist_ids.isEmpty()){
 		return;
 	}
@@ -291,7 +292,7 @@ void LastFM::sl_similar_artists_available(IDList artist_ids)
 
 	active_idx = plh->get_active_idx();
 	active_playlist = plh->get_playlist_at(active_idx);
-	const MetaDataList& v_md = active_playlist->get_playlist();
+	const MetaDataList& v_md = active_playlist->playlist();
 
 	std::random_shuffle(artist_ids.begin(), artist_ids.end());
 

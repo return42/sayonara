@@ -26,12 +26,12 @@
 
 struct Genre::Private
 {
-	quint32 id;
+	uint32_t id;
 	QString name;
 
-	static quint32 calc_id(const QString& name)
+	static uint32_t calc_id(const QString& name)
 	{
-		return static_cast<quint32> (qHash(name.trimmed().toLower().toLocal8Bit()));
+		return static_cast<uint32_t> (qHash(name.trimmed().toLower().toLocal8Bit()));
 	}
 };
 
@@ -44,7 +44,7 @@ Genre::Genre(const QString& name)
 
 Genre::~Genre() {}
 
-quint32 Genre::calc_id(const QString& name)
+uint32_t Genre::calc_id(const QString& name)
 {
 	return Genre::Private::calc_id(name);
 }
@@ -64,7 +64,7 @@ Genre& Genre::operator =(const Genre& other)
 }
 
 
-quint32 Genre::id() const
+uint32_t Genre::id() const
 {
 	return _m->id;
 }
