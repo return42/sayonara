@@ -162,9 +162,9 @@ bool MTP_Folder::remove() const
 	return (ret == 0);
 }
 
-quint32 MTP_Folder::create_folder(const QString& name) const
+uint32_t MTP_Folder::create_folder(const QString& name) const
 {
-	quint32 ret;
+	uint32_t ret;
 	ret = LIBMTP_Create_Folder(_device,
 							   strndup(name.toUtf8().data(), name.size()),
 							   _id,
@@ -174,7 +174,7 @@ quint32 MTP_Folder::create_folder(const QString& name) const
 	return ret;
 }
 
-quint32 MTP_Folder::id() const
+uint32_t MTP_Folder::id() const
 {
 	return _id;
 }
@@ -184,12 +184,12 @@ QString MTP_Folder::name() const
 	return _name;
 }
 
-quint32 MTP_Folder::parent_id() const
+uint32_t MTP_Folder::parent_id() const
 {
 	return _parent_id;
 }
 
-quint32 MTP_Folder::storage_id() const
+uint32_t MTP_Folder::storage_id() const
 {
 	return _storage_id;
 }

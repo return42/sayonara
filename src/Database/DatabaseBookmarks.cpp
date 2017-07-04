@@ -21,11 +21,11 @@
 #include "Database/DatabaseBookmarks.h"
 #include "Database/SayonaraQuery.h"
 
-DatabaseBookmarks::DatabaseBookmarks(const QSqlDatabase& db, quint8 db_id) :
+DatabaseBookmarks::DatabaseBookmarks(const QSqlDatabase& db, uint8_t db_id) :
 	DatabaseModule(db, db_id) {}
 
 
-bool DatabaseBookmarks::searchBookmarks(int track_id, QMap<quint32, QString>& bookmarks) {
+bool DatabaseBookmarks::searchBookmarks(int track_id, QMap<uint32_t, QString>& bookmarks) {
 	DB_RETURN_NOT_OPEN_BOOL(_db);
 
 	bookmarks.clear();
@@ -41,7 +41,7 @@ bool DatabaseBookmarks::searchBookmarks(int track_id, QMap<quint32, QString>& bo
 
 	while(q.next()) {
 		QString name = q.value(0).toString();
-		quint32 bm = q.value(1).toUInt();
+		uint32_t bm = q.value(1).toUInt();
 
 		bookmarks.insert(bm, name);
 	}
@@ -50,7 +50,7 @@ bool DatabaseBookmarks::searchBookmarks(int track_id, QMap<quint32, QString>& bo
 }
 
 
-bool DatabaseBookmarks::insertBookmark(int track_id, quint32 time, QString name) {
+bool DatabaseBookmarks::insertBookmark(int track_id, uint32_t time, QString name) {
 	DB_RETURN_NOT_OPEN_BOOL(_db);
 
 	SayonaraQuery q(_db);
@@ -68,7 +68,7 @@ bool DatabaseBookmarks::insertBookmark(int track_id, quint32 time, QString name)
 }
 
 
-bool DatabaseBookmarks::removeBookmark(int track_id, quint32 time) {
+bool DatabaseBookmarks::removeBookmark(int track_id, uint32_t time) {
 	DB_RETURN_NOT_OPEN_BOOL(_db);
 
 	SayonaraQuery q(_db);

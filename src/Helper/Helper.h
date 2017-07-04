@@ -37,8 +37,8 @@ class QDateTime;
  */
 namespace Helper 
 {
-	quint64 current_date_to_int();
-	quint64 date_to_int(const QDateTime& date);
+	uint64_t current_date_to_int();
+	uint64_t date_to_int(const QDateTime& date);
 
 	/**
 	 * @brief Transform all letters after a space to upper case
@@ -62,7 +62,7 @@ namespace Helper
 	 * @param show_days if true, days will be shown, too
 	 * @return converted milliseconds
 	 */
-	QString cvt_ms_to_string(quint64 msec, bool empty_zero = false, bool colon=true, bool show_days=true);
+	QString cvt_ms_to_string(uint64_t msec, bool empty_zero = false, bool colon=true, bool show_days=true);
 
 
 	/**
@@ -147,7 +147,7 @@ namespace Helper
 	 * @brief sleep
 	 * @param ms milliseconds to sleep
 	 */
-	void sleep_ms(quint64 ms);
+	void sleep_ms(uint64_t ms);
 
 	/**
 	 * @brief get all ip addresses of the host

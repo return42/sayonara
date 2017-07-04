@@ -20,6 +20,7 @@
 
 #include "StdPlaylist.h"
 #include "Helper/globals.h"
+#include "Helper/Settings/Settings.h"
 #include "Helper/FileHelper.h"
 #include "Helper/Parser/PlaylistParser.h"
 #include "Helper/Random/RandomGenerator.h"
@@ -28,23 +29,33 @@
 
 #include <algorithm>
 
+struct StdPlaylist::Private
+{
+
+};
+
 StdPlaylist::StdPlaylist(int idx, const QString& name) :
 	AbstractPlaylist(idx, name)
 {
-	_is_storable = true;
+	_m = Pimpl::make<Private>();
+	set_storable(true);
 }
 
 StdPlaylist::~StdPlaylist() {}
 
-Playlist::Type StdPlaylist::get_type() const
+Playlist::Type StdPlaylist::type() const
 {
 	return Playlist::Type::Std;
 }
 
+void StdPlaylist::set_changed(bool b)
+{
+	AbstractPlaylist::set_changed(b);
+}
 
 int StdPlaylist::create_playlist(const MetaDataList& v_md) 
 {
-	if(Playlist::Mode::isActiveAndEnabled(_playlist_mode.append())){
+	if(Playlist::Mode::isActiveAndEnabled(playlist_mode().append())){
 		metadata() << v_md;
 	}
 
@@ -89,9 +100,15 @@ void StdPlaylist::play()
 		return;
 	}
 
-	if(metadata().get_cur_play_track() == -1) {
-		metadata().set_cur_play_track(0);
+	bool remember_track_before_stop =
+			_settings->get(Set::PL_RememberTrackAfterStop);
+
+	if(metadata().get_cur_play_track() >= 0){
+		return;
 	}
+
+	int new_track_idx = 0;
+	metadata().set_cur_play_track(new_track_idx);
 }
 
 
@@ -110,12 +127,15 @@ void StdPlaylist::stop()
 
 void StdPlaylist::fwd() 
 {
-	Playlist::Mode::State rep1 = _playlist_mode.rep1();
-	_playlist_mode.setRep1(false);
+	Playlist::Mode mode = playlist_mode();
+	Playlist::Mode mode_bak = mode;
+
+	mode.setRep1(false);
+	set_playlist_mode(mode);
 
 	next();
 
-	_playlist_mode.setRep1(rep1);
+	set_playlist_mode(mode_bak);
 }
 
 
@@ -142,12 +162,12 @@ void StdPlaylist::next()
 		track_num = 0;
 	}
 
-	if(Playlist::Mode::isActiveAndEnabled(_playlist_mode.rep1())){
+	if(Playlist::Mode::isActiveAndEnabled(playlist_mode().rep1())){
 		track_num = cur_track;
 	}
 
 	// shuffle mode
-	else if(Playlist::Mode::isActiveAndEnabled(_playlist_mode.shuffle())) {
+	else if(Playlist::Mode::isActiveAndEnabled(playlist_mode().shuffle())) {
 		track_num = calc_shuffle_track();
 		if(track_num == -1){
 			stop();
@@ -159,7 +179,7 @@ void StdPlaylist::next()
 	else {
 		// last track
 		if(cur_track == metadata().size() - 1){
-			if(Playlist::Mode::isActiveAndEnabled(_playlist_mode.repAll())){
+			if(Playlist::Mode::isActiveAndEnabled(playlist_mode().repAll())){
 				track_num = 0;
 			}
 
@@ -200,7 +220,7 @@ int StdPlaylist::calc_shuffle_track()
 
 	// no random track to play
 	if(left_tracks.isEmpty()){
-		if(Playlist::Mode::isActiveAndEnabled(_playlist_mode.repAll())){
+		if(Playlist::Mode::isActiveAndEnabled(playlist_mode().repAll())){
 			return rnd.get_number(0, metadata().size() -1);
 		}
 
@@ -227,7 +247,7 @@ void StdPlaylist::metadata_deleted(const MetaDataList& v_md_deleted)
 	}
 
 	metadata().remove_tracks(indexes);
-	emit sig_data_changed(_playlist_idx);
+	emit sig_data_changed( playlist_index() );
 }
 
 
@@ -248,7 +268,7 @@ void StdPlaylist::metadata_changed(const MetaDataList& v_md_old, const MetaDataL
 		}
 	}
 
-	emit sig_data_changed(_playlist_idx);
+	emit sig_data_changed( playlist_index() );
 }
 
 

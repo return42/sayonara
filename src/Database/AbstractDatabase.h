@@ -27,7 +27,7 @@
 class AbstractDatabase : public QObject
 {
 public:
-	explicit AbstractDatabase(quint8 db_id, const QString& db_dir, const QString& db_name, QObject *parent=nullptr);
+	explicit AbstractDatabase(uint8_t db_id, const QString& db_dir, const QString& db_name, QObject *parent=nullptr);
 	virtual ~AbstractDatabase();
 
 	virtual void close_db();
@@ -37,7 +37,7 @@ public:
 	virtual void commit();
 	virtual void rollback();
 
-	quint8 get_id();
+	uint8_t get_id();
 
 
 protected:
@@ -45,7 +45,7 @@ protected:
 	QString			_db_path;
 	QString			_db_name;
 	QString			_db_dir;
-	quint8			_db_id;
+	uint8_t			_db_id;
 
 	/**
 	  * Check if db of m_databaseFileContainer is existent

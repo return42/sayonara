@@ -29,7 +29,7 @@
 #include <QDir>
 
 
-AbstractDatabase::AbstractDatabase(quint8 db_id, const QString& db_dir, const QString& db_name, QObject *parent) : QObject(parent)
+AbstractDatabase::AbstractDatabase(uint8_t db_id, const QString& db_dir, const QString& db_name, QObject *parent) : QObject(parent)
 {
 	_db_name = db_name;
 	_db_path = Helper::get_sayonara_path(_db_name);
@@ -260,7 +260,7 @@ bool AbstractDatabase::check_and_create_table(const QString& tablename, const QS
 	return true;
 }
 
-quint8 AbstractDatabase::get_id()
+uint8_t AbstractDatabase::get_id()
 {
 	return _db_id;
 }

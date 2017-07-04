@@ -42,8 +42,8 @@ void DiscAction::disc_hover()
 }
 
 
-DiscPopupMenu::DiscPopupMenu(QWidget* parent, QList<quint8> discs): QMenu(parent){
-	std::sort(discs.begin(), discs.end(), [](quint8 disc1, quint8 disc2){
+DiscPopupMenu::DiscPopupMenu(QWidget* parent, QList<uint8_t> discs): QMenu(parent){
+	std::sort(discs.begin(), discs.end(), [](uint8_t disc1, uint8_t disc2){
 		return disc1 < disc2;
 	});
 
@@ -59,7 +59,7 @@ DiscPopupMenu::DiscPopupMenu(QWidget* parent, QList<quint8> discs): QMenu(parent
 		}
 
 		else{
-			quint8 disc = discs[i];
+			uint8_t disc = discs[i];
 			text = QString("Disc ") + QString::number(disc);
 			data = disc;
 			icon = GUI::get_icon("cd.png");

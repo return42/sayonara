@@ -39,8 +39,8 @@ private:
 	// this is needed to send a track, only available for MTP_Folder
 	MTPIntern_Track* metadata() const;
 
-	void set_folder_id(quint32 folder_id);
-	void set_storage_id(quint32 storage_id);
+	void set_folder_id(uint32_t folder_id);
+	void set_storage_id(uint32_t storage_id);
 
 	void read_metadata(const MetaData& md);
 

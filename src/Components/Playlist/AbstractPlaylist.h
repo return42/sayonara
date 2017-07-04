@@ -48,21 +48,14 @@ class AbstractPlaylist :
 		protected SayonaraClass
 {
 	Q_OBJECT
+	PIMPL(AbstractPlaylist)
 
 	friend class PlaylistHandler;
 
 signals:
 	void sig_data_changed(int idx);
 
-private:
-	PIMPL(AbstractPlaylist)
-
 protected:
-	bool _is_storable;
-	int	 _playlist_idx;
-
-	Playlist::Mode	_playlist_mode;
-
 	virtual void play()=0;
 	virtual void pause()=0;
 	virtual void stop()=0;
@@ -85,26 +78,31 @@ public:
 
 	IdxList			find_tracks(int id) const;
 	IdxList			find_tracks(const QString& filepath) const;
-	int				get_cur_track_idx() const;
-	bool			get_cur_track(MetaData& metadata) const;
-	int				get_idx() const;
-	void			set_idx(int idx);	
+	int				cur_track_idx() const;
+	bool			current_track(MetaData& metadata) const;
+	int				playlist_index() const;
+	void			set_playlist_index(int idx);
 	void			set_playlist_mode(const Playlist::Mode& mode);
-	quint64			get_running_time() const;
+	uint64_t			running_time() const;
+	Playlist::Mode	playlist_mode() const;
 
-	virtual Playlist::Type	get_type() const = 0;
+
+	virtual Playlist::Type	type() const = 0;
 
 
 	// from PlaylistDBInterface
-	virtual bool				is_empty() const override;
-	virtual int					get_count() const override;
-	virtual const MetaDataList&	get_playlist() const override;
+	bool				is_empty() const override;
+	int					count() const override;
+	const MetaDataList&	playlist() const override;
 
-	virtual void			set_changed(bool b) override;
-	virtual bool			was_changed() const override;
-	virtual bool			is_storable() const override;
+	void				set_changed(bool b) override;
+	bool				was_changed() const override;
+	bool				is_storable() const override;
 
+protected:
+	void				set_storable(bool b);
 
+public:
 	const MetaData& operator[](int idx) const;
 	const MetaData& at_const_ref(int idx) const;
 

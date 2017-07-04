@@ -92,8 +92,8 @@ void GUI_LibraryInfoBox::psl_refresh()
 	int n_tracks = v_md.size();
 	int n_albums = v_albums.size();
 	int n_artists = v_artists.size();
-	qint64 duration_ms = 0;
-	qint64 filesize = 0;
+	int64_t duration_ms = 0;
+	int64_t filesize = 0;
 
 	for( const MetaData& md : v_md ) {
 		duration_ms += md.length_ms;

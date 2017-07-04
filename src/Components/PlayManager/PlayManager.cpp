@@ -81,16 +81,16 @@ struct PlayManager::Private
 {
 		MetaData				md;
 		RingBuffer<QString, 3>	ring_buffer;
-		quint64					position_ms;
-		int						cur_idx;
-		quint64					initial_position_ms;
+		uint64_t					position_ms;
+		int						track_idx;
+		uint64_t					initial_position_ms;
 		PlayState				playstate;
 
 		Private()
 		{
 			initial_position_ms = 0;
 			position_ms = 0;
-			cur_idx = -1;
+			track_idx = -1;
 			playstate = PlayState::Stopped;
 		}
 };
@@ -113,8 +113,6 @@ PlayManager::PlayManager(QObject* parent) :
 	else{
 		_m->initial_position_ms = 0;
 	}
-
-	stop();
 }
 
 PlayManager::~PlayManager()
@@ -127,17 +125,17 @@ PlayState PlayManager::get_play_state() const
 	return _m->playstate;
 }
 
-quint64 PlayManager::get_cur_position_ms() const
+uint64_t PlayManager::get_cur_position_ms() const
 {
 	return _m->position_ms;
 }
 
-quint64 PlayManager::get_init_position_ms() const
+uint64_t PlayManager::get_init_position_ms() const
 {
 	return _m->initial_position_ms;
 }
 
-quint64 PlayManager::get_duration_ms() const
+uint64_t PlayManager::get_duration_ms() const
 {
 	return _m->md.length_ms;
 }
@@ -159,14 +157,7 @@ bool PlayManager::get_mute() const
 
 void PlayManager::play()
 {
-	if(_m->playstate == PlayState::Stopped && _m->cur_idx == -1){
-		_m->playstate = PlayState::Playing;
-		next();
-		return;
-	}
-
 	_m->playstate = PlayState::Playing;
-
 	emit sig_playstate_changed(_m->playstate);
 }
 
@@ -185,14 +176,7 @@ void PlayManager::play_pause()
 
 void PlayManager::pause()
 {
-	if(_m->playstate == PlayState::Stopped){
-		_m->playstate = PlayState::Paused;
-		next();
-		return;
-	}
-
 	_m->playstate = PlayState::Paused;
-
 	emit sig_playstate_changed(_m->playstate);
 }
 
@@ -213,7 +197,7 @@ void PlayManager::stop()
 {
 	_m->md = MetaData();
 	_m->ring_buffer.clear();
-	_m->cur_idx = -1;
+	_m->track_idx = -1;
 	_m->playstate = PlayState::Stopped;
 
 	emit sig_playstate_changed(_m->playstate);
@@ -234,17 +218,17 @@ void PlayManager::seek_rel(double percent)
 	emit sig_seeked_rel(percent);
 }
 
-void PlayManager::seek_rel_ms(qint64 ms)
+void PlayManager::seek_rel_ms(int64_t ms)
 {
 	emit sig_seeked_rel_ms(ms);
 }
 
-void PlayManager::seek_abs_ms(quint64 ms)
+void PlayManager::seek_abs_ms(uint64_t ms)
 {
 	emit sig_seeked_abs_ms(ms);
 }
 
-void PlayManager::set_position_ms(quint64 ms)
+void PlayManager::set_position_ms(uint64_t ms)
 {
 	_m->position_ms = ms;
 
@@ -256,25 +240,25 @@ void PlayManager::set_position_ms(quint64 ms)
 }
 
 
-void PlayManager::change_track(const MetaData& md, int playlist_idx)
+void PlayManager::change_track(const MetaData& md, int track_idx)
 {
 	_m->md = md;
 	_m->position_ms = 0;
-	_m->cur_idx = playlist_idx;
+	_m->track_idx = track_idx;
 	_m->ring_buffer.clear();
 
 	// initial position is outdated now and never needed again
 	if(_m->initial_position_ms > 0){
 		int old_idx = _settings->get(Set::PL_LastTrack);
-		if(old_idx != _m->cur_idx){
+		if(old_idx != _m->track_idx){
 			_m->initial_position_ms = 0;
 		}
 	}
 
 	// play or stop
-	if(_m->cur_idx >= 0){
+	if(_m->track_idx >= 0){
 		emit sig_track_changed(_m->md);
-		emit sig_track_idx_changed(_m->cur_idx);
+		emit sig_track_idx_changed(_m->track_idx);
 
 		play();
 		if( (md.radio_mode() != RadioMode::Off) &&
@@ -292,8 +276,8 @@ void PlayManager::change_track(const MetaData& md, int playlist_idx)
 	}
 
 	// save last track
-	if(md.db_id == 0){
-		_settings->set(Set::PL_LastTrack, _m->cur_idx);
+	if(md.db_id() == 0){
+		_settings->set(Set::PL_LastTrack, _m->track_idx);
 	}
 
 	else{
@@ -302,7 +286,7 @@ void PlayManager::change_track(const MetaData& md, int playlist_idx)
 
 	// show notification
 	if(_settings->get(Set::Notification_Show)){
-		if(_m->cur_idx > -1 && !_m->md.filepath().isEmpty()){
+		if(_m->track_idx > -1 && !_m->md.filepath().isEmpty()){
 			NotificationHandler::getInstance()->notify(_m->md);
 		}
 	}
@@ -348,7 +332,7 @@ void PlayManager::set_mute(bool b)
 	emit sig_mute_changed(b);
 }
 
-void PlayManager::change_duration(qint64 ms){
+void PlayManager::change_duration(int64_t ms){
 	_m->md.length_ms = ms;
 
 	emit sig_duration_changed(ms);

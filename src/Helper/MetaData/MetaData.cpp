@@ -22,9 +22,11 @@
 #include "Helper/MetaData/MetaData.h"
 #include "Helper/Logger/Logger.h"
 
+
 #include <QDir>
 #include <QUrl>
 #include <QVariant>
+#include <QStringList>
 
 
 #define MD_DO_COPY \
@@ -321,7 +323,7 @@ RadioMode MetaData::radio_mode() const
 }
 
 
-qint32 MetaData::album_artist_id() const
+int32_t MetaData::album_artist_id() const
 {
 	if(_album_artist_id < 0){
 		return artist_id;
@@ -335,13 +337,13 @@ QString MetaData::album_artist() const
 	return _album_artist;
 }
 
-void MetaData::set_album_artist(const QString& album_artist, qint32 id)
+void MetaData::set_album_artist(const QString& album_artist, int32_t id)
 {
 	_album_artist = album_artist;
 	_album_artist_id = id;
 }
 
-void MetaData::set_album_artist_id(qint32 id)
+void MetaData::set_album_artist_id(int32_t id)
 {
 	_album_artist_id = id;
 }

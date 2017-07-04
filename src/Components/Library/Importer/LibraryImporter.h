@@ -41,7 +41,7 @@ class LibraryImporter :
 
 public:
 
-	enum class ImportStatus : quint8 
+	enum class ImportStatus : uint8_t 
 	{
 			 Cancelled,
 			 Rollback,

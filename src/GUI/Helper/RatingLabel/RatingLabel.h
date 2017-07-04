@@ -58,7 +58,7 @@ private:
 	QWidget*	_parent=nullptr;
 	bool		_enabled;
 	int			_rating;
-	quint8 		_icon_size;
+	uint8_t 		_icon_size;
 	QPixmap 	_pm_active;
 	QPixmap 	_pm_inactive;
 

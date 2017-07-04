@@ -38,7 +38,7 @@
 
 static MetaDataList all_tracks;
 
-DatabaseTracks::DatabaseTracks(const QSqlDatabase& db, quint8 db_id) :
+DatabaseTracks::DatabaseTracks(const QSqlDatabase& db, uint8_t db_id) :
 	DatabaseModule(db, db_id),
 	DatabaseSearchMode(db)
 {
@@ -106,7 +106,7 @@ bool DatabaseTracks::db_fetch_tracks(SayonaraQuery& q, MetaDataList& result)
 		data.discnumber = q.value(13).toInt();
 		data.rating = q.value(14).toInt();
 		data.set_album_artist(q.value(16).toString(), q.value(15).toInt());
-		data.db_id = _module_db_id;
+		data.set_db_id(_module_db_id);
 
 		result << data;
 	}
@@ -165,7 +165,7 @@ MetaData DatabaseTracks::getTrackByPath(const QString& path)
 	q.bindValue(":filename", path);
 
 	MetaData md(path);
-	md.db_id = _module_db_id;
+	md.set_db_id(_module_db_id);
 
 	MetaDataList v_md;
 	if(!db_fetch_tracks(q, v_md)) {
@@ -759,16 +759,16 @@ bool DatabaseTracks::updateTrack(const MetaData& md)
 	q.bindValue(":albumArtistID",	md.album_artist_id());
 	q.bindValue(":title",			md.title);
 	q.bindValue(":track",			md.track_num);
-	q.bindValue(":length",			md.length_ms);
+	q.bindValue(":length",			(quint64) md.length_ms);
 	q.bindValue(":bitrate",			md.bitrate);
 	q.bindValue(":year",			md.year);
 	q.bindValue(":trackID",			md.id);
 	q.bindValue(":genre",			md.genres_to_string());
-	q.bindValue(":filesize",		md.filesize);
+	q.bindValue(":filesize",		(quint64) md.filesize);
 	q.bindValue(":discnumber",		md.discnumber);
 	q.bindValue(":cissearch",		cissearch);
 	q.bindValue(":rating",			md.rating);
-	q.bindValue(":modifydate",		Helper::current_date_to_int());
+	q.bindValue(":modifydate",		(quint64) Helper::current_date_to_int());
 
 	if (!q.exec()) {
 		q.show_error(QString("Cannot update track ") + md.filepath());
@@ -823,25 +823,25 @@ bool DatabaseTracks::insertTrackIntoDatabase (const MetaData& md, int artist_id,
 			"VALUES "
 			"(:filename,:albumID,:artistID,:albumArtistID,:title,:year,:length,:track,:bitrate,:genre,:filesize,:discnumber,:rating,:cissearch,:createdate,:modifydate); ";
 
-	quint64 current_time = Helper::current_date_to_int();
+	uint64_t current_time = Helper::current_date_to_int();
 	q.prepare(querytext);
 
 	q.bindValue(":filename",		md.filepath());
 	q.bindValue(":albumID",			album_id);
 	q.bindValue(":artistID",		artist_id);
 	q.bindValue(":albumArtistID",	album_artist_id);
-	q.bindValue(":length",			md.length_ms);
+	q.bindValue(":length",			(quint64) md.length_ms);
 	q.bindValue(":year",			md.year);
 	q.bindValue(":title",			md.title);
 	q.bindValue(":track",			md.track_num);
 	q.bindValue(":bitrate",			md.bitrate);
 	q.bindValue(":genre",			md.genres_to_string());
-	q.bindValue(":filesize",		md.filesize);
+	q.bindValue(":filesize",		(quint64) md.filesize);
 	q.bindValue(":discnumber",		md.discnumber);
 	q.bindValue(":rating",			md.rating);
 	q.bindValue(":cissearch",		cissearch);
-	q.bindValue(":createdate",		current_time);
-	q.bindValue(":modifydate",		current_time);
+	q.bindValue(":createdate",		(quint64) current_time);
+	q.bindValue(":modifydate",		(quint64) current_time);
 
 	if (!q.exec()) {
 		q.show_error(QString("Cannot insert track into database ") + md.filepath());
@@ -859,7 +859,7 @@ bool DatabaseTracks::updateTrackDates()
 	q.prepare(querytext);
 	QMap<int, QString> v_md;
 
-	QList< std::tuple<int, quint64, quint64> > lst;
+	QList< std::tuple<int, uint64_t, uint64_t> > lst;
 	if(q.exec())
 	{
 		while(q.next())
@@ -888,8 +888,8 @@ bool DatabaseTracks::updateTrackDates()
 		SayonaraQuery q(_db);
 		q.prepare("UPDATE tracks SET createdate=:createdate, modifydate=:modifydate WHERE trackID = :id;");
 		q.bindValue(":id", std::get<0>(t));
-		q.bindValue(":createdate", std::get<1>(t));
-		q.bindValue(":modifydate", std::get<2>(t));
+		q.bindValue(":createdate", (quint64) std::get<1>(t));
+		q.bindValue(":modifydate", (quint64) std::get<2>(t));
 		q.exec();
 	}
 

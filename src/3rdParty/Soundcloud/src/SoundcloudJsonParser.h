@@ -45,7 +45,7 @@ private:
 	QJsonDocument		_json_doc;
 	QByteArray			_content;
 
-	enum class SCJsonItemType : quint8
+	enum class SCJsonItemType : uint8_t
 	{
 		Track=0,
 		Artist,

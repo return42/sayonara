@@ -107,7 +107,7 @@ void PlaylistView::init_rc_menu()
 	connect(_rc_menu, &LibraryContextMenu::sig_clear_clicked, this, &PlaylistView::clear);
 	connect(_rc_menu, &LibraryContextMenu::sig_rating_changed, this, &PlaylistView::rating_changed);
 
-	connect(_bookmarks_menu, &BookmarksMenu::sig_bookmark_pressed, this, [](quint32 time){
+	connect(_bookmarks_menu, &BookmarksMenu::sig_bookmark_pressed, this, [](uint32_t time){
 			PlayManager::getInstance()->seek_abs_ms(time * 1000);
 	});
 }
@@ -355,10 +355,10 @@ void PlaylistView::handle_inner_drag_drop(int row, bool copy)
 
 void PlaylistView::fill(PlaylistPtr pl)
 {
-	int n_tracks = pl->get_count();
+	int n_tracks = pl->count();
 	set_delegate_max_width(n_tracks);
 
-	int cur_track = pl->get_cur_track_idx();
+	int cur_track = pl->cur_track_idx();
 	this->scrollTo(_model->index(cur_track), SearchableListView::EnsureVisible);
 }
 

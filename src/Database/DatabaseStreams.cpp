@@ -21,7 +21,7 @@
 #include "Database/SayonaraQuery.h"
 #include "Database/DatabaseStreams.h"
 
-DatabaseStreams::DatabaseStreams(const QSqlDatabase& db, quint8 db_id) :
+DatabaseStreams::DatabaseStreams(const QSqlDatabase& db, uint8_t db_id) :
 	DatabaseModule(db, db_id) {}
 
 

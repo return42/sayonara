@@ -29,7 +29,7 @@
 class MTP_File 
 {
 private:
-	quint32				_id;
+	uint32_t				_id;
 	QString				_filename;
 
 	MTPIntern_File*		_file=nullptr;
@@ -41,7 +41,7 @@ public:
 	MTP_File(MTPIntern_Device* device, MTPIntern_File* file);
 	virtual ~MTP_File();
 
-	quint32 id() const;
+	uint32_t id() const;
 	QString filename() const;
 	bool remove() const;
 

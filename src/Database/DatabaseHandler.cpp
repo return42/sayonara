@@ -20,73 +20,94 @@
 
 #include "DatabaseHandler.h"
 #include "DatabaseConnector.h"
+#include "Database/LibraryDatabase.h"
 
 #include "Helper/MetaData/Album.h"
 #include "Helper/MetaData/MetaData.h"
 #include "Helper/MetaData/Artist.h"
 #include "Helper/Logger/Logger.h"
 
+#include <QMap>
 
-DB::DB() {}
+struct DB::Private
+{
+	QMap<uint8_t, LibraryDatabase*> dbs;
+};
+
+
+DB::DB()
+{
+	_m = Pimpl::make<Private>();
+}
 
 DB::~DB() {}
 
-LibraryDatabase* DB::getInstance(quint8 db_id){
+LibraryDatabase* DB::getInstance(uint8_t db_id)
+{
 	return getInstance()->get(db_id);
 }
 
-LibraryDatabase* DB::getInstance(const Album& album){
+LibraryDatabase* DB::getInstance(const Album& album)
+{
 	return getInstance()->get(album);
 }
 
-LibraryDatabase* DB::getInstance(const MetaData& md){
+LibraryDatabase* DB::getInstance(const MetaData& md)
+{
 	return getInstance()->get(md);
 }
 
-LibraryDatabase* DB::getInstance(const Artist& artist){
+LibraryDatabase* DB::getInstance(const Artist& artist)
+{
 	return getInstance()->get(artist);
 }
 
 
-void DB::add(LibraryDatabase *db){
-	_dbs.insert(db->get_id(), db);
+void DB::add(LibraryDatabase *db)
+{
+	_m->dbs.insert(db->get_id(), db);
 }
 
-LibraryDatabase* DB::get(quint8 db_id){
-	if(_dbs.size() == 0){
+LibraryDatabase* DB::get(uint8_t db_id)
+{
+	if(_m->dbs.isEmpty()) {
 		sp_log(Log::Warning) << "There are no Databases available";
 		return get_std();
 	}
 
-	if(!_dbs.contains(db_id)){
+	if(!_m->dbs.contains(db_id)){
 		sp_log(Log::Warning) << "Database " << (int) db_id << " is not available";
 		return get_std();
 	}
 
-	return _dbs[db_id];
+	return _m->dbs[db_id];
 }
 
-LibraryDatabase* DB::get(const Album& album){
+LibraryDatabase* DB::get(const Album& album)
+{
 	if(album.id < 0){
 		return get(0);
 	}
 
-	return get(album.db_id);
+	return get(album.db_id());
 }
 
-LibraryDatabase* DB::get(const MetaData& md){
+LibraryDatabase* DB::get(const MetaData& md)
+{
 	if(md.id < 0){
 		return get(0);
 	}
 
-	return get(md.db_id);
+	return get(md.db_id());
 }
 
-LibraryDatabase* DB::get(const Artist& artist){
-	if(artist.id < 0){
+LibraryDatabase* DB::get(const Artist& artist)
+{
+	if(artist.id < 0)
+	{
 		return get(0);
 	}
-	return get(artist.db_id);
+	return get(artist.db_id());
 }
 
 LibraryDatabase* DB::get_std()

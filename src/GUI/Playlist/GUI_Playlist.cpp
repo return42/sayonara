@@ -186,7 +186,7 @@ void GUI_Playlist::playlist_track_changed(int row, int playlist_idx)
 
 void GUI_Playlist::playlist_fill(PlaylistPtr pl)
 {
-	int pl_idx = pl->get_idx();
+	int pl_idx = pl->playlist_index();
 	PlaylistView* plv = get_view_by_idx(pl_idx);
 
 	if( !plv ) {
@@ -310,13 +310,13 @@ void GUI_Playlist::set_total_time_label()
 	QString time_str;
 	QString playlist_string;
 	int idx;
-	quint64 dur_ms = 0;
+	uint64_t dur_ms = 0;
 
 
 	idx = ui->tw_playlists->currentIndex();
 	PlaylistConstPtr pl = _playlist->get_playlist_at(idx);
 	if(pl){
-		dur_ms = pl->get_running_time();
+		dur_ms = pl->running_time();
 	}
 
 	if(dur_ms > 0){

@@ -21,7 +21,6 @@
 #ifndef SETTINGNOTIFIER_H
 #define SETTINGNOTIFIER_H
 
-#include <QObject>
 #include "Helper/Settings/AbstrSettingNotifier.h"
 #pragma once
 

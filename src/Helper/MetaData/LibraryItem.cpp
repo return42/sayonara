@@ -19,57 +19,101 @@
  */
 
 #include "Helper/MetaData/LibraryItem.h"
+#include <QList>
+#include <QString>
 
-#define LI_DO_COPY \
-	cover_download_url = other.cover_download_url; \
-	db_id = other.db_id; \
-	_additional_data = other._additional_data;
+struct CustomField::Private
+{
+	QString display_name;
+	QString value;
+	QString id;
+
+	Private(const QString& id, const QString& display_name, const QString& value) :
+		display_name(display_name),
+		value(value),
+		id(id)
+	{}
+};
 
 
-CustomField::CustomField(const QString& id, const QString& display_name, const QString& value){
-	_id = id;
-	_display_name = display_name;
-	_value = value;
+CustomField::CustomField(const QString& id, const QString& display_name, const QString& value)
+{
+	_m = Pimpl::make<Private>(id, display_name, value);
 }
 
-CustomField::CustomField(const CustomField &copy){
-	_id = copy._id;
-	_display_name = copy._display_name;
-	_value = copy._value;
+CustomField::CustomField(const CustomField &other)
+{
+	_m = Pimpl::make<Private>(other._m->id,
+							  other._m->display_name,
+							  other._m->value
+							  );
+}
+
+CustomField& CustomField::operator=(const CustomField& other)
+{
+	_m->id = other._m->id,
+	_m->display_name = other._m->display_name,
+	_m->value = other._m->value;
+
+	return *this;
 }
 
 CustomField::~CustomField() {}
 
 QString CustomField::get_id() const
 {
-	return _id;
+	return _m->id;
 }
 
 QString CustomField::get_display_name() const
 {
-	return _display_name;
+	return _m->display_name;
 }
 
 QString CustomField::get_value() const
 {
-	return _value;
+	return _m->value;
 }
 
 
-LibraryItem::LibraryItem()  {
-	db_id = -1;
+struct LibraryItem::Private
+{
+	QList<CustomField>	additional_data;
+	QString	cover_download_url;
+	uint8_t db_id;
+
+	Private()
+	{
+		db_id = 0;
+	}
+};
+
+LibraryItem::LibraryItem()
+{
+	_m = Pimpl::make<Private>();
 }
 
-LibraryItem::LibraryItem(const LibraryItem& other){
-	LI_DO_COPY
+LibraryItem::LibraryItem(const LibraryItem& other) :
+	LibraryItem()
+{
+	_m->additional_data = other._m->additional_data;
+	_m->cover_download_url = other._m->cover_download_url;
+	_m->db_id = other._m->db_id;
 }
 
-LibraryItem::LibraryItem(LibraryItem&& other){
-	LI_DO_COPY
+LibraryItem::LibraryItem(LibraryItem&& other)
+{
+	_m->additional_data = std::move(other._m->additional_data);
+	_m->cover_download_url = std::move(other._m->cover_download_url);
+	_m->db_id = std::move(other._m->db_id);
 }
 
-LibraryItem& LibraryItem::operator=(const LibraryItem& other){
-	LI_DO_COPY
+LibraryItem& LibraryItem::operator=(const LibraryItem& other)
+{
+	_m->additional_data = other._m->additional_data;
+	_m->cover_download_url = other._m->cover_download_url;
+	_m->db_id = other._m->db_id;
+
 	return *this;
 }
 
@@ -77,22 +121,22 @@ LibraryItem& LibraryItem::operator=(const LibraryItem& other){
 LibraryItem::~LibraryItem() {}
 
 void LibraryItem::add_custom_field(const CustomField& field){
-	_additional_data << field;
+	_m->additional_data << field;
 }
 
 void LibraryItem::add_custom_field(const QString& id, const QString& display_name, const QString& value){
-	_additional_data << CustomField(id, display_name, value);
+	_m->additional_data << CustomField(id, display_name, value);
 }
 
 const QList<CustomField>& LibraryItem::get_custom_fields() const
 {
-	return _additional_data;
+	return _m->additional_data;
 }
 
 
 QString LibraryItem::get_custom_field(const QString& id) const
 {
-	for(const CustomField& field : _additional_data){
+	for(const CustomField& field : _m->additional_data){
 		if(field.get_id().compare(id, Qt::CaseInsensitive) == 0){
 			return field.get_value();
 		}
@@ -104,11 +148,31 @@ QString LibraryItem::get_custom_field(const QString& id) const
 
 QString LibraryItem::get_custom_field(int idx) const
 {
-	if(idx < 0 || idx >= _additional_data.size()){
+	if(idx < 0 || idx >= _m->additional_data.size()){
 		return "";
 	}
 
-	return _additional_data[idx].get_value();
+	return _m->additional_data[idx].get_value();
+}
+
+QString LibraryItem::cover_download_url() const
+{
+	return _m->cover_download_url;
+}
+
+void LibraryItem::set_cover_download_url(const QString& url)
+{
+	_m->cover_download_url = url;
+}
+
+uint8_t LibraryItem::db_id() const
+{
+	return _m->db_id;
+}
+
+void LibraryItem::set_db_id(uint8_t id)
+{
+	_m->db_id = id;
 }
 
 

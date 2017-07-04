@@ -85,9 +85,11 @@ bool SoundcloudJsonParser::parse_artist_list(ArtistList& artists, QJsonArray arr
 
 bool SoundcloudJsonParser::parse_artist(Artist& artist, QJsonObject object)
 {
+	QString cover_download_url;
 	get_int("id", object, artist.id);
 	get_string("username", object, artist.name);
-	get_string("avatar_url", object, artist.cover_download_url);
+	get_string("avatar_url", object, cover_download_url);
+	artist.set_cover_download_url(cover_download_url);
 
 	QString description, website, permalink;
 	if(get_string("website", object, website)){
@@ -155,24 +157,26 @@ bool SoundcloudJsonParser::parse_track_list(ArtistList& artists, MetaDataList &v
 
 bool SoundcloudJsonParser::parse_track(Artist& artist, MetaData& md, QJsonObject object)
 {
+	QString cover_download_url;
 	get_int("id", object, md.id);
 	get_string("title", object, md.title);
-	get_string("artwork_url", object, md.cover_download_url);
+	get_string("artwork_url", object, cover_download_url);
+	md.set_cover_download_url(cover_download_url);
 
 
 	int length;
 	if(get_int("duration", object, length)){
-		md.length_ms = (quint64) length;
+		md.length_ms = (uint64_t) length;
 	}
 
 	int year;
 	if(get_int("release_year", object, year)){
-		md.year = (quint16) year;
+		md.year = (uint16_t) year;
 	}
 
 	int filesize;
 	if(get_int("original_content_size", object, filesize)){
-		 md.filesize = (quint64) filesize;
+		 md.filesize = (uint64_t) filesize;
 	}
 
 	QString stream_url;
@@ -258,10 +262,12 @@ bool SoundcloudJsonParser::parse_playlist_list(ArtistList& artists, AlbumList& a
 bool SoundcloudJsonParser::parse_playlist(ArtistList& artists, Album& album, MetaDataList& v_md, QJsonObject object)
 {
 	Artist pl_artist;
+	QString cover_download_url;
 
 	get_int("id", object, album.id);
 	get_string("title", object, album.name);
-	get_string("artwork_url", object, album.cover_download_url);
+	get_string("artwork_url", object, cover_download_url);
+	album.set_cover_download_url(cover_download_url);
 
 	int num_songs;
 	if(get_int("track_count", object, num_songs)){
@@ -320,8 +326,8 @@ bool SoundcloudJsonParser::parse_playlist(ArtistList& artists, Album& album, Met
 			album_name = album.name + " (by " + pl_artist.name + ")";
 		}
 
-		if(!album.cover_download_url.isEmpty()){
-			v_md[i].cover_download_url = album.cover_download_url;
+		if(!album.cover_download_url().isEmpty()){
+			v_md[i].set_cover_download_url(album.cover_download_url());
 		}
 	}
 

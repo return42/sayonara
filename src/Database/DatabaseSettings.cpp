@@ -23,7 +23,7 @@
 #include "Helper/Settings/Settings.h"
 #include "Helper/Logger/Logger.h"
 
-DatabaseSettings::DatabaseSettings(const QSqlDatabase& db, quint8 db_id) :
+DatabaseSettings::DatabaseSettings(const QSqlDatabase& db, uint8_t db_id) :
 	DatabaseModule(db, db_id) {}
 
 

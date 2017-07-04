@@ -21,13 +21,13 @@
 #ifndef STREAMHTTPPARSER_H
 #define STREAMHTTPPARSER_H
 
-#include <QtGlobal>
 #include "Helper/Pimpl.h"
 
 /**
  * @brief Parses requests out of the Client.
  * @ingroup Broadcasting
  */
+class QByteArray;
 class QString;
 class StreamHttpParser
 {
@@ -37,7 +37,7 @@ public:
 	/**
 	 * @brief The HttpAnswer enum
 	 */
-	enum class HttpAnswer : quint8 
+	enum class HttpAnswer : unsigned char
 	{
 		Fail=0,
 		OK,

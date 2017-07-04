@@ -24,7 +24,6 @@
 #ifndef SOMAFMSTATION_H
 #define SOMAFMSTATION_H
 
-#include <QtGlobal>
 #include "Helper/Pimpl.h"
 
 class QStringList;
@@ -34,9 +33,11 @@ class MetaDataList;
 
 class SomaFMStation
 {
+	PIMPL(SomaFMStation)
+
 public:
 
-	enum class UrlType : quint8
+	enum class UrlType : unsigned char
 	{
 		AAC=0,
 		MP3,
@@ -60,10 +61,6 @@ public:
 
 	void set_loved(bool loved);
 	bool is_loved() const;
-
-
-private:
-	PIMPL(SomaFMStation)
 
 private:
 	void parse_station_name();

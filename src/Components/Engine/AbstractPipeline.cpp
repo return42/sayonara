@@ -154,7 +154,7 @@ void AbstractPipeline::refresh_duration()
 	refresh_position();
 }
 
-void AbstractPipeline::set_data(uchar* data, quint64 size){
+void AbstractPipeline::set_data(uchar* data, uint64_t size){
 	emit sig_data(data, size);
 }
 
@@ -182,7 +182,7 @@ void AbstractPipeline::check_about_to_finish()
 
 	//show_time_info(_position_ms, _duration_ms);
 
-	qint64 about_to_finish_time = (qint64) get_about_to_finish_time();
+	int64_t about_to_finish_time = (int64_t) get_about_to_finish_time();
 
 	if(difference < about_to_finish_time && !_about_to_finish) {
 		_about_to_finish = true;
@@ -194,7 +194,7 @@ void AbstractPipeline::check_about_to_finish()
 	}
 }
 
-qint64 AbstractPipeline::get_time_to_go() const
+int64_t AbstractPipeline::get_time_to_go() const
 {
 	gint64 position, duration;
 	GstElement* element;
@@ -213,17 +213,17 @@ qint64 AbstractPipeline::get_time_to_go() const
 }
 
 
-qint64 AbstractPipeline::get_duration_ms() const
+int64_t AbstractPipeline::get_duration_ms() const
 {
     return _duration_ms;
 }
 
-qint64 AbstractPipeline::get_source_position_ms() const
+int64_t AbstractPipeline::get_source_position_ms() const
 {
 	return _position_source_ms;
 }
 
-qint64 AbstractPipeline::get_pipeline_position_ms() const
+int64_t AbstractPipeline::get_pipeline_position_ms() const
 {
 	return _position_pipeline_ms;
 }
@@ -333,7 +333,7 @@ AbstractPipeline::has_element(GstElement* e) const
 }
 
 
-quint64 AbstractPipeline::get_about_to_finish_time() const
+uint64_t AbstractPipeline::get_about_to_finish_time() const
 {
 	return 300;
 }

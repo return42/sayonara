@@ -46,7 +46,7 @@ public:
 	/**
 	 * @brief The Behavior enum. Responsible for the user-agent variable in the HTTP header
 	 */
-	enum class Behavior : quint8 
+	enum class Behavior : uint8_t 
 	{
 		AsBrowser=0,
 		AsSayonara,
@@ -55,7 +55,7 @@ public:
 	};
 
 
-	enum class Status : quint8
+	enum class Status : uint8_t
 	{
 		GotData,
 		AudioStream,

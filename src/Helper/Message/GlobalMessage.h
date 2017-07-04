@@ -41,7 +41,7 @@ class GlobalMessage : public QObject
 
 public:
 
-	enum class Answer : quint8 
+	enum class Answer : uint8_t 
 	{
 		Yes=0,
 		No,
@@ -50,7 +50,7 @@ public:
 		Undefined
 	};
 
-	enum class QuestionType : quint8 
+	enum class QuestionType : uint8_t 
 	{
 		YesNo=0,
 		OkCancel

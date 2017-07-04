@@ -46,8 +46,8 @@ struct Library::DateFilter::Private
 {
 	bool valid;
 	QString name;
-	quint64 span_from;
-	quint64 span_to;
+	uint64_t span_from;
+	uint64_t span_to;
 	Library::DateFilter::TimeSpanMap filter_map;
 
 	Library::DateFilter::Type type;
@@ -136,7 +136,7 @@ Library::DateFilter::type() const
 	return _m->type;
 }
 
-void Library::DateFilter::set_between(Library::DateFilter::TimeSpan span_from, quint8 value_from, Library::DateFilter::TimeSpan span_to, quint8 value_to, Library::DateFilter::ChangeMode change_mode)
+void Library::DateFilter::set_between(Library::DateFilter::TimeSpan span_from, uint8_t value_from, Library::DateFilter::TimeSpan span_to, uint8_t value_to, Library::DateFilter::ChangeMode change_mode)
 {
 	_m->clear();
 	_m->span_from = Helper::date_to_int( substract_span(QDateTime::currentDateTime(), span_from, value_from) );
@@ -144,8 +144,8 @@ void Library::DateFilter::set_between(Library::DateFilter::TimeSpan span_from, q
 	_m->change_mode = change_mode;
 	_m->valid = true;
 	_m->check_from_to();
-	_m->filter_map << QPair<Library::DateFilter::TimeSpan, quint8>(span_from, value_from);
-	_m->filter_map << QPair<Library::DateFilter::TimeSpan, quint8>(span_to, value_to);
+	_m->filter_map << QPair<Library::DateFilter::TimeSpan, uint8_t>(span_from, value_from);
+	_m->filter_map << QPair<Library::DateFilter::TimeSpan, uint8_t>(span_to, value_to);
 	_m->type = Library::DateFilter::Type::Between;
 }
 
@@ -160,14 +160,14 @@ void Library::DateFilter::set_between(const QDateTime& from, const QDateTime& to
 	_m->type = Library::DateFilter::Type::Between;
 }
 
-void Library::DateFilter::set_older_than(Library::DateFilter::TimeSpan span, quint8 value, Library::DateFilter::ChangeMode change_mode)
+void Library::DateFilter::set_older_than(Library::DateFilter::TimeSpan span, uint8_t value, Library::DateFilter::ChangeMode change_mode)
 {
 	_m->clear();
 	_m->span_from = 0;
 	_m->span_to = Helper::date_to_int( substract_span(QDateTime::currentDateTime(), span, value) );
 	_m->change_mode = change_mode;
 	_m->valid = true;
-	_m->filter_map << QPair<Library::DateFilter::TimeSpan, quint8>(span, value);
+	_m->filter_map << QPair<Library::DateFilter::TimeSpan, uint8_t>(span, value);
 	_m->type = Library::DateFilter::Type::OlderThan;
 }
 
@@ -182,14 +182,14 @@ void Library::DateFilter::set_older_than(const QDateTime& date, Library::DateFil
 }
 
 
-void Library::DateFilter::set_newer_than(Library::DateFilter::TimeSpan span, quint8 value, Library::DateFilter::ChangeMode change_mode)
+void Library::DateFilter::set_newer_than(Library::DateFilter::TimeSpan span, uint8_t value, Library::DateFilter::ChangeMode change_mode)
 {
 	_m->clear();
 	_m->span_from = Helper::date_to_int( substract_span(QDateTime::currentDateTime(), span, value) );
 	_m->span_to = Helper::current_date_to_int();
 	_m->change_mode = change_mode;
 	_m->valid = true;
-	_m->filter_map << QPair<Library::DateFilter::TimeSpan, quint8>(span, value);
+	_m->filter_map << QPair<Library::DateFilter::TimeSpan, uint8_t>(span, value);
 	_m->type = Library::DateFilter::Type::NewerThan;
 }
 
@@ -301,7 +301,7 @@ Library::DateFilter Library::DateFilter::fromString(const QString& str)
 		case Library::DateFilter::Type::NewerThan:
 		{
 			Library::DateFilter::TimeSpan span = (Library::DateFilter::TimeSpan)(lst[2].toInt());
-			quint8 value = (quint8) (lst[3].toInt());
+			uint8_t value = (uint8_t) (lst[3].toInt());
 
 			filter.set_newer_than(span, value);
 		}
@@ -310,7 +310,7 @@ Library::DateFilter Library::DateFilter::fromString(const QString& str)
 		case Library::DateFilter::Type::OlderThan:
 		{
 			Library::DateFilter::TimeSpan span = (Library::DateFilter::TimeSpan)(lst[2].toInt());
-			quint8 value = (quint8) lst[3].toInt();
+			uint8_t value = (uint8_t) lst[3].toInt();
 
 			filter.set_older_than(span, value);
 		}
@@ -319,9 +319,9 @@ Library::DateFilter Library::DateFilter::fromString(const QString& str)
 		case Library::DateFilter::Type::Between:
 		{
 			Library::DateFilter::TimeSpan span_from = (Library::DateFilter::TimeSpan)(lst[2].toInt());
-			quint8 value_from = (quint8)(lst[3].toInt());
+			uint8_t value_from = (uint8_t)(lst[3].toInt());
 			Library::DateFilter::TimeSpan span_to = (Library::DateFilter::TimeSpan)(lst[4].toInt());
-			quint8 value_to = (quint8)(lst[5].toInt());
+			uint8_t value_to = (uint8_t)(lst[5].toInt());
 
 			filter.set_between(span_from, value_from, span_to, value_to);
 		}

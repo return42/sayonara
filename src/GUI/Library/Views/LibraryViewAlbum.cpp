@@ -26,7 +26,7 @@
 
 struct LibraryViewAlbum::Private
 {
-	QList< QList<quint8> >	discnumbers;
+	QList< QList<uint8_t> >	discnumbers;
 	DiscPopupMenu*			discmenu=nullptr;
 	QPoint					discmenu_point;
 };
@@ -87,7 +87,7 @@ void LibraryViewAlbum::calc_discmenu_point(QModelIndex idx)
 void LibraryViewAlbum::init_discmenu(QModelIndex idx)
 {
 	int row = idx.row();
-	QList<quint8> discnumbers;
+	QList<uint8_t> discnumbers;
 	delete_discmenu();
 
 	if( !idx.isValid() ||
@@ -139,7 +139,7 @@ void LibraryViewAlbum::clear_discnumbers()
 	_m->discnumbers.clear();
 }
 
-void LibraryViewAlbum::add_discnumbers(const QList<quint8>& dns)
+void LibraryViewAlbum::add_discnumbers(const QList<uint8_t>& dns)
 {
 	_m->discnumbers << dns;
 }

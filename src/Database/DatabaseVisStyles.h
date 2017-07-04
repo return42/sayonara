@@ -28,7 +28,7 @@ struct RawColorStyle;
 class DatabaseVisStyles : private DatabaseModule
 {
 public:
-	DatabaseVisStyles(const QSqlDatabase& db, quint8 db_id);
+	DatabaseVisStyles(const QSqlDatabase& db, uint8_t db_id);
 
 	QList<RawColorStyle> get_raw_color_styles();
 	bool insert_raw_color_style_to_db(const RawColorStyle& rcs);

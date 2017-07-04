@@ -79,7 +79,7 @@ bool Shutdown::is_running() const
 }
 
 
-void Shutdown::shutdown(quint64 ms){
+void Shutdown::shutdown(uint64_t ms){
 	if(ms == 0){
 		timeout();
 		return;

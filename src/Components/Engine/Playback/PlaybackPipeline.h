@@ -118,7 +118,7 @@ private:
 	bool create_elements() override;
 	bool add_and_link_elements() override;
 	bool configure_elements() override;
-	quint64 get_about_to_finish_time() const override;
+	uint64_t get_about_to_finish_time() const override;
 
 	void init_equalizer();
 

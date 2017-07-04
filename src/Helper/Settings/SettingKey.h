@@ -27,6 +27,7 @@ class QString;
 class QStringList;
 class QPoint;
 class QSize;
+class QByteArray;
 
 class EQ_Setting;
 struct RawShortcutMap;
@@ -119,6 +120,7 @@ namespace SK {
 	PL_EntryLook,
 	PL_FontSize,
 	PL_ShowClearButton,
+	PL_RememberTrackAfterStop,
 
 	Notification_Show,
 	Notification_Timeout,
@@ -250,18 +252,18 @@ namespace Set
     INST(QPoint,			Player_Pos);				/* player position */
     INST(bool,				Player_Fullscreen);			/* player fullscreen */
     INST(bool,				Player_Maximized);			/* player maximized */
-    INST(QString,			Player_ShownPlugin);			/* current shown plugin in player, empty if none */
-    INST(bool,				Player_OneInstance);			/* only one Sayonara instance is allowed */
+	INST(QString,			Player_ShownPlugin);		/* current shown plugin in player, empty if none */
+	INST(bool,				Player_OneInstance);		/* only one Sayonara instance is allowed */
     INST(bool,				Player_Min2Tray);			/* minimize Sayonara to tray */
-    INST(bool,				Player_ShowTrayIcon);			/* Show/hide the tray icon */
-    INST(bool,				Player_StartInTray);			/* start in tray */
-    INST(bool,				Player_NotifyNewVersion);		/* check for new version on startup */
-    INST(QByteArray,			Player_SplitterState);			/* spliter state between playlist and library */
-    INST(RawShortcutMap,		Player_Shortcuts);			/* player shortcuts */
+	INST(bool,				Player_ShowTrayIcon);		/* Show/hide the tray icon */
+	INST(bool,				Player_StartInTray);		/* start in tray */
+	INST(bool,				Player_NotifyNewVersion);	/* check for new version on startup */
+	INST(QByteArray,			Player_SplitterState);	/* spliter state between playlist and library */
+	INST(RawShortcutMap,		Player_Shortcuts);		/* player shortcuts */
 
-    INST(QStringList,			PL_Playlist);				/* old playlist: list of integers in case of library tracks, if no library track, filepath */
-    INST(bool,				PL_LoadSavedPlaylists);			/* load saved playlists on startup */
-    INST(bool,				PL_LoadTemporaryPlaylists);		/* load temporary playlists on startup */
+	INST(QStringList,			PL_Playlist);			/* old playlist: list of integers in case of library tracks, if no library track, filepath */
+	INST(bool,				PL_LoadSavedPlaylists);		/* load saved playlists on startup */
+	INST(bool,				PL_LoadTemporaryPlaylists);	/* load temporary playlists on startup */
     INST(bool,				PL_LoadLastTrack);			/* load last track on startup */
     INST(bool,				PL_RememberTime);			/* remember time of last track */
     INST(bool,				PL_StartPlaying);			/* start playing immediately when opening Sayonara */
@@ -269,7 +271,8 @@ namespace Set
     INST(int,				PL_LastPlaylist);			/* last Playlist id, where LastTrack has been played */
     INST(QString,			PL_EntryLook);				/* formatting of playlist entry */
     INST(int,				PL_FontSize);				/* current playlist font size */
-    INST(bool,				PL_ShowClearButton);			/* show clear button in playlist */
+	INST(bool,				PL_ShowClearButton);		/* show clear button in playlist */
+	INST(bool,				PL_RememberTrackAfterStop);	/* when stop button is pressed, remember last track index */
 
     INST(Playlist::Mode,		PL_Mode);				/* playlist mode: rep1, repAll, shuffle... */
     INST(bool,				PL_ShowNumbers);			/* show numbers in playlist */

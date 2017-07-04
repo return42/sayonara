@@ -32,7 +32,7 @@ public:
 	explicit MTP_Device(MTPIntern_Device* device);
 	virtual ~MTP_Device();
 
-	quint32 id() const;
+	uint32_t id() const;
 	QList<MTP_StoragePtr> storages();
 
 	static QList<MTP_DevicePtr> get_all_connected_devices();
@@ -43,7 +43,7 @@ private:
 	QList<MTP_StoragePtr>	_storages;
 
 	bool					_valid;
-	quint32					_id;
+	uint32_t					_id;
 	QString					_default_album_dir;
 	QString					_default_playlist_dir;
 	QString					_default_music_dir;

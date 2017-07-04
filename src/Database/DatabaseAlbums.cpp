@@ -24,7 +24,7 @@
 #include "Helper/Library/Filter.h"
 #include "Helper/Library/DateFilter.h"
 
-DatabaseAlbums::DatabaseAlbums(QSqlDatabase db, quint8 db_id) :
+DatabaseAlbums::DatabaseAlbums(QSqlDatabase db, uint8_t db_id) :
 	DatabaseModule(db, db_id),
 	DatabaseSearchMode(db)
 {
@@ -103,7 +103,7 @@ bool DatabaseAlbums::db_fetch_albums(SayonaraQuery& q, AlbumList& result)
 
 		album.n_discs = album.discnumbers.size();
 		album.is_sampler = (album.artists.size() > 1);
-		album.db_id = _module_db_id;
+		album.set_db_id(_module_db_id);
 
 		result << album;
 	};

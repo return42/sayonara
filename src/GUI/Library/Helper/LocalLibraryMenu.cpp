@@ -24,6 +24,7 @@
 #include "Helper/Settings/Settings.h"
 #include "Helper/Language.h"
 #include "Database/DatabaseHandler.h"
+#include "Database/LibraryDatabase.h"
 
 LocalLibraryMenu::LocalLibraryMenu(QWidget* parent) :
 	QMenu(parent),

@@ -32,7 +32,7 @@ class DatabasePlaylist : private DatabaseModule
 {
 public:
 
-	enum class PlaylistChooserType : quint8 
+	enum class PlaylistChooserType : uint8_t 
 	{
 		OnlyTemporary=1,
 		OnlyPermanent=2,
@@ -40,7 +40,7 @@ public:
 	};
 
 
-	DatabasePlaylist(const QSqlDatabase& db, quint8 db_id);
+	DatabasePlaylist(const QSqlDatabase& db, uint8_t db_id);
 
 	bool getAllPlaylistSkeletons(CustomPlaylistSkeletons& skeletons, DatabasePlaylist::PlaylistChooserType type, Playlist::SortOrder sortorder=Playlist::SortOrder::NameAsc);
 	bool getPlaylistSkeletonById(CustomPlaylistSkeleton& skeleton);

@@ -31,6 +31,7 @@
 #include "Helper/globals.h"
 
 #include "Database/DatabaseHandler.h"
+#include "Database/LibraryDatabase.h"
 
 #include <QDir>
 #include <QUrl>
@@ -168,9 +169,9 @@ CoverLocation CoverLocation::get_cover_location(const Album& album)
 		cl = CoverLocation::get_cover_location(album.name, "");
 	}
 
-	if(!album.cover_download_url.isEmpty()){
+	if(!album.cover_download_url().isEmpty()){
 		cl._m->search_urls.clear();
-		cl._m->search_urls << album.cover_download_url;
+		cl._m->search_urls << album.cover_download_url();
 	}
 
 
@@ -181,7 +182,7 @@ CoverLocation CoverLocation::get_cover_location(const Album& album)
 		// people are not amused
 		//return cl;
 
-		LibraryDatabase* db = DB::getInstance(album.db_id);
+		LibraryDatabase* db = DB::getInstance(album.db_id());
 
 		MetaDataList v_md;
 		db->getAllTracksByAlbum(album.id, v_md);
@@ -221,9 +222,9 @@ CoverLocation CoverLocation::get_cover_location(const Artist& artist)
 {
 	CoverLocation cl = CoverLocation::get_cover_location(artist.name);
 
-	if(!artist.cover_download_url.isEmpty()){
+	if(!artist.cover_download_url().isEmpty()){
 		cl._m->search_urls.clear();
-		cl._m->search_urls << artist.cover_download_url;
+		cl._m->search_urls << artist.cover_download_url();
 	}
 
 	cl._m->search_term = artist.name;
@@ -255,7 +256,7 @@ CoverLocation CoverLocation::get_cover_location(const QString& artist)
 
 
 
-CoverLocation Get_cover_location(int album_id, quint8 db_id)
+CoverLocation Get_cover_location(int album_id, uint8_t db_id)
 {
 	if(album_id < 0) {
 		return CoverLocation::getInvalidLocation();
@@ -294,25 +295,25 @@ CoverLocation CoverLocation::get_cover_location(const MetaData& md)
 
 
 	if(md.album_id >= 0){
-		cl = Get_cover_location(md.album_id, md.db_id);
+		cl = Get_cover_location(md.album_id, md.db_id());
 	}
 
 	if(!cl.valid()){
 		cl = get_cover_location(md.album, md.artist);
 	}
 
-	if(!md.cover_download_url.isEmpty())
+	if(!md.cover_download_url().isEmpty())
 	{
-		QString extension = Helper::File::get_file_extension(md.cover_download_url);
+		QString extension = Helper::File::get_file_extension(md.cover_download_url());
 
 		QString cover_token = CoverHelper::calc_cover_token(md.artist, md.album);
 		QString cover_path = get_cover_directory(cover_token + "." + extension);
 
-		cl = get_cover_location(QUrl(md.cover_download_url), cover_path);
+		cl = get_cover_location(QUrl(md.cover_download_url()), cover_path);
 	}
 
 	if(cl._m->search_urls.isEmpty()){
-		cl._m->search_urls = QStringList(md.cover_download_url);
+		cl._m->search_urls = QStringList(md.cover_download_url());
 	}
 
 	cl._m->local_paths << LocalCoverSearcher::get_local_cover_paths_from_filename(md.filepath());

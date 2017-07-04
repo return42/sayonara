@@ -33,7 +33,7 @@ public:
 	explicit StreamPlaylist(int idx, QString name="");
 	virtual ~StreamPlaylist();
 
-	Playlist::Type get_type() const override;
+	Playlist::Type type() const override;
 };
 
 #endif // STREAMPLAYLIST_H

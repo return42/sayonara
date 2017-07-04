@@ -340,7 +340,7 @@ void StreamParser::tag_metadata(MetaData &md, const QString& stream_url, const Q
 	}
 
 	if(!cover_url.isEmpty()) {
-		md.cover_download_url = cover_url;
+		md.cover_download_url() = cover_url;
 	}
 }
 
@@ -368,7 +368,7 @@ void StreamParser::set_cover_url(const QString& url)
 	_m->cover_url = url;
 
 	for(MetaData& md : _m->v_md){
-		md.cover_download_url = url;
+		md.set_cover_download_url(url);
 	}
 }
 

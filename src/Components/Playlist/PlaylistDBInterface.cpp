@@ -72,7 +72,7 @@ PlaylistDBInterface::SaveAsAnswer PlaylistDBInterface::save()
 		return SaveAsAnswer::ExternTracksError;
 	}
 
-	const MetaDataList& v_md = this->get_playlist();
+	const MetaDataList& v_md = this->playlist();
 
 	PlaylistDBInterface::SaveAsAnswer answer;
 
@@ -107,7 +107,7 @@ bool PlaylistDBInterface::insert_temporary_into_db()
 	}
 
 
-	const MetaDataList& v_md = get_playlist();
+	const MetaDataList& v_md = playlist();
 
 	bool success = _playlist_db_connector->save_playlist_temporary(v_md, _name);
 
@@ -127,7 +127,7 @@ PlaylistDBInterface::SaveAsAnswer PlaylistDBInterface::save_as(const QString& na
 		return SaveAsAnswer::ExternTracksError;
 	}
 
-	const MetaDataList& v_md = this->get_playlist();
+	const MetaDataList& v_md = this->playlist();
 
 	int tgt_id = -1;
 	bool success;

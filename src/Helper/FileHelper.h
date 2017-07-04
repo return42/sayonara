@@ -21,10 +21,11 @@
 #ifndef FILEHELPER_H
 #define FILEHELPER_H
 
-#include <QtGlobal>
+#include <cstdint>
 
 class QStringList;
 class QString;
+class QByteArray;
 
 namespace Helper
 {
@@ -117,7 +118,7 @@ namespace Helper
 		 * @param filesize in bytes
 		 * @return converted string
 		 */
-		QString			calc_filesize_str(quint64 filesize);
+		QString			calc_filesize_str(uint64_t filesize);
 
 
 		/**

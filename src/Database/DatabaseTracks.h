@@ -51,7 +51,7 @@ protected:
 
 public:
 
-	DatabaseTracks(const QSqlDatabase& db, quint8 db_id);
+	DatabaseTracks(const QSqlDatabase& db, uint8_t db_id);
 
 	virtual bool db_fetch_tracks(SayonaraQuery& q, MetaDataList& result);
 

@@ -63,7 +63,7 @@ void Engine::update_duration(GstElement* src){
 }
 
 
-void Engine::update_bitrate(quint32 br, GstElement* src){
+void Engine::update_bitrate(uint32_t br, GstElement* src){
 	Q_UNUSED(src)
 	Q_UNUSED(br)
 }
@@ -72,11 +72,11 @@ void Engine::set_track_ready(GstElement* src){
 	Q_UNUSED(src)
 }
 
-void Engine::set_about_to_finish(qint64 ms){
+void Engine::set_about_to_finish(int64_t ms){
 	Q_UNUSED(ms)
 }
 
-void Engine::set_cur_position_ms(qint64 ms){
+void Engine::set_cur_position_ms(int64_t ms){
 	_cur_pos_ms = ms;
 	emit sig_pos_changed_ms(ms);
 }

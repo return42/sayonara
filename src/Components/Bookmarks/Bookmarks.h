@@ -71,7 +71,7 @@ public:
 	QList<Bookmark> get_all_bookmarks() const;
 
 
-	enum class CreationStatus : quint8
+	enum class CreationStatus : uint8_t
 	{
 		Success,
 		AlreadyThere,
@@ -135,7 +135,7 @@ private slots:
 	 * @brief track position has changed
 	 * @param pos new position in ms
 	 */
-	void pos_changed_ms(quint64 pos);
+	void pos_changed_ms(uint64_t pos);
 
 	/**
 	 * @brief current track has changed

@@ -31,7 +31,7 @@ class DatabaseLibrary :
 {
 public:
 
-	DatabaseLibrary(const QSqlDatabase& db, quint8 db_id);
+	DatabaseLibrary(const QSqlDatabase& db, uint8_t db_id);
 
 	virtual void dropIndexes();
 	virtual void createIndexes();

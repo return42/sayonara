@@ -152,7 +152,7 @@ void RemoteControl::socket_disconnected()
 	disconnect(_plh, &PlaylistHandler::sig_playlist_created, this, &RemoteControl::playlist_changed);
 }
 
-void RemoteControl::pos_changed_ms(const quint64 pos){
+void RemoteControl::pos_changed_ms(const uint64_t pos){
 	Q_UNUSED(pos)
 	write_cur_pos();
 }
@@ -279,7 +279,7 @@ void RemoteControl::change_track(int idx){
 
 void RemoteControl::write_cur_pos()
 {
-	quint32 pos_sec = _play_manager->get_cur_position_ms() / 1000;
+	uint32_t pos_sec = _play_manager->get_cur_position_ms() / 1000;
 	write("curPos:" + QByteArray::number(pos_sec));
 }
 
@@ -302,7 +302,7 @@ void RemoteControl::write_cur_track()
 	MetaData md = _play_manager->get_cur_track();
 
 	PlaylistConstPtr pl = _plh->get_playlist_at(_plh->get_active_idx());
-	int cur_track_idx = pl->get_cur_track_idx();
+	int cur_track_idx = pl->cur_track_idx();
 
 
 	sp_log(Log::Debug, this) << "Send cur track idx: " << cur_track_idx;
@@ -373,12 +373,12 @@ void RemoteControl::write_playlist()
 
 	if(pl){
 		int i=1;
-		for(const MetaData& md : pl->get_playlist()){
+		for(const MetaData& md : pl->playlist()){
 			data += QByteArray::number(i) + '\t' +
 					md.title.toUtf8() + '\t' +
 					md.artist.toUtf8() + '\t' +
 					md.album.toUtf8() + '\t' +
-					QByteArray::number(md.length_ms / 1000) + '\t' +
+					QByteArray::number((qulonglong) (md.length_ms / 1000)) + '\t' +
 					'\n';
 			i++;
 		}

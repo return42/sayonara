@@ -37,7 +37,7 @@ public:
 	bool init() override;
 
 protected slots:
-	void set_cur_position_ms(qint64 ms) override;
+	void set_cur_position_ms(int64_t ms) override;
 
 
 public slots:
@@ -45,8 +45,8 @@ public slots:
 	void stop() override;
 	void pause() override;
 
-	void jump_abs_ms(quint64 pos_ms) override;
-	void jump_rel_ms(quint64 ms) override;
+	void jump_abs_ms(uint64_t pos_ms) override;
+	void jump_rel_ms(uint64_t ms) override;
 	void jump_rel(double percent) override;
 
 	void change_track(const MetaData&) override;

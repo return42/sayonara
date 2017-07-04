@@ -323,9 +323,9 @@ bool PlaybackPipeline::configure_elements()
 	return true;
 }
 
-quint64 PlaybackPipeline::get_about_to_finish_time() const
+uint64_t PlaybackPipeline::get_about_to_finish_time() const
 {
-	return std::max<quint64>(this->get_fading_time_ms(),
+	return std::max<uint64_t>(this->get_fading_time_ms(),
 							 AbstractPipeline::get_about_to_finish_time());
 }
 

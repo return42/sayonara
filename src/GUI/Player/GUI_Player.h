@@ -112,7 +112,7 @@ private:
 	void language_changed() override;
 	void skin_changed() override;
 
-	void set_total_time_label(qint64 length_ms);
+	void set_total_time_label(int64_t length_ms);
 	void set_cur_pos_label(int val);
 	void set_cover_location();
 	void set_standard_cover();
@@ -177,7 +177,7 @@ private slots:
 
 	void id3_tags_changed(const MetaDataList& v_md_old, const MetaDataList& v_md_new);
 
-	void cur_pos_changed(quint64 pos_ms);
+	void cur_pos_changed(uint64_t pos_ms);
 	void file_info_changed();
 
 	void md_changed(const MetaData& md);

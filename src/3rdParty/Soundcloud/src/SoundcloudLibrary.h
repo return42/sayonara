@@ -41,8 +41,8 @@ public:
 
 	void	load() override;
 	void	search_artist(const QString& artist_name);
-	void	fetch_tracks_by_artist(qint64 artist_sc_id);
-	void	fetch_playlists_by_artist(qint64 artist_sc_id);
+	void	fetch_tracks_by_artist(int64_t artist_sc_id);
+	void	fetch_playlists_by_artist(int64_t artist_sc_id);
 	void	insert_tracks(const MetaDataList& v_md) override;
 	void	insert_tracks(const MetaDataList& v_md, const ArtistList& artists, const AlbumList& albums);
 	void	get_album_by_id(int album_id, Album& album) override;

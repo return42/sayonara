@@ -21,7 +21,7 @@
 #include "LibraryDatabase.h"
 #include "SayonaraQuery.h"
 
-LibraryDatabase::LibraryDatabase(quint8 db_id, const QString& db_dir, const QString& db_name) :
+LibraryDatabase::LibraryDatabase(uint8_t db_id, const QString& db_dir, const QString& db_name) :
 	AbstractDatabase(db_id, db_dir, db_name),
 	DatabaseAlbums(_database, db_id),
 	DatabaseArtists(_database, db_id),

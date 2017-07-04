@@ -38,7 +38,7 @@ class LibraryDatabase;
  * @brief The InfoStrings enum
  * @ingroup MetaDataHelper
  */
-enum class InfoStrings : quint8
+enum class InfoStrings : uint8_t
 {
 	nTracks=0,		// set by MetaDataInfo
 	nAlbums,		// set by ArtistInfo, AlbumInfo
@@ -62,7 +62,7 @@ class MetaDataInfo :
 {
 private:
 	void set_cover_location(const MetaDataList& lst);
-	void set_subheader(quint16 tracknum);
+	void set_subheader(uint16_t tracknum);
 	void set_header(const MetaDataList& lst);
 
 	QString get_info_string(InfoStrings idx) const;
@@ -86,7 +86,7 @@ protected:
 
 	LibraryDatabase*			_db=nullptr;
 
-	QString calc_tracknum_str( quint16 tracknum );
+	QString calc_tracknum_str( uint16_t tracknum );
 	QString calc_artist_str() const;
 	QString calc_album_str();
 
@@ -94,9 +94,9 @@ protected:
 	virtual void set_subheader();
 	virtual void set_header();
 
-	void insert_playing_time(quint64 ms);
+	void insert_playing_time(uint64_t ms);
 	void insert_genre(const QStringList& lst);
-	void insert_filesize(quint64 filesize);
+	void insert_filesize(uint64_t filesize);
 
 	void insert_interval(InfoStrings key, int min, int max);
 	void insert_number(InfoStrings key, int number);

@@ -95,9 +95,9 @@ void AlbumInfo::set_cover_location()
 		Album album;
 		album.id = _album_ids.first();
 		album.name = _albums.first();
-		album.db_id = _db->get_id();
 		album.artists = _artists.toList();
 		album.set_album_artists(_album_artists.toList());
+		album.set_db_id(_db->get_id());
 
 		_cover_location = CoverLocation::get_cover_location(album);
 	}

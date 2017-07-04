@@ -65,13 +65,13 @@ QString cvtNum2String(T num, int digits) {
 	return str;
 }
 
-quint64 Helper::date_to_int(const QDateTime& date_time)
+uint64_t Helper::date_to_int(const QDateTime& date_time)
 {
 	QString str = date_time.toUTC().toString("yyMMddHHmmss");
 	return str.toULongLong();
 }
 
-quint64 Helper::current_date_to_int()
+uint64_t Helper::current_date_to_int()
 {
 	QString str = QDateTime::currentDateTimeUtc().toString("yyMMddHHmmss");
 	return str.toULongLong();
@@ -104,7 +104,7 @@ QString Helper::cvt_str_to_very_first_upper(const QString& str)
 }
 
 
-QString Helper::cvt_ms_to_string(quint64 msec, bool empty_zero, bool colon, bool show_days) 
+QString Helper::cvt_ms_to_string(uint64_t msec, bool empty_zero, bool colon, bool show_days) 
 {
 	if(msec == 0 && empty_zero){
 		return "";
@@ -112,12 +112,12 @@ QString Helper::cvt_ms_to_string(quint64 msec, bool empty_zero, bool colon, bool
 
 	bool show_hrs = false;
 
-	quint64 sec = msec / 1000;
-	quint64 min = sec / 60;
+	uint64_t sec = msec / 1000;
+	uint64_t min = sec / 60;
 
-	quint64 secs = sec % 60;
-	quint64 hrs = min / 60;
-	quint64 days = hrs / 24;
+	uint64_t secs = sec % 60;
+	uint64_t hrs = min / 60;
+	uint64_t days = hrs / 24;
 
 	QString final_str;
 
@@ -334,7 +334,7 @@ QByteArray Helper::calc_hash(const QByteArray& data)
 }
 
 
-void Helper::sleep_ms(quint64 ms)
+void Helper::sleep_ms(uint64_t ms)
 {
 #ifdef Q_OS_WIN
 	Sleep(ms);

@@ -44,7 +44,7 @@ public:
 
 private:
 	void clear_discnumbers();
-	void add_discnumbers(const QList<quint8>& dns);
+	void add_discnumbers(const QList<uint8_t>& dns);
 	void calc_discmenu_point(QModelIndex idx);
 	void delete_discmenu();
 	void init_discmenu(QModelIndex idx);

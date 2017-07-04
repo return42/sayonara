@@ -31,6 +31,7 @@ class StdPlaylist :
 		public AbstractPlaylist
 {
 	Q_OBJECT
+	PIMPL(StdPlaylist)
 
 private:
 	int calc_shuffle_track();
@@ -53,7 +54,8 @@ public:
 	void metadata_changed(const MetaDataList& old_md, const MetaDataList& new_md) override;
 	void metadata_changed_single(const MetaData& metadata) override;
 
-	virtual Playlist::Type get_type() const override;
+	Playlist::Type type() const override;
+	void set_changed(bool b) override;
 };
 
 #endif // STDPLAYLISTR_H

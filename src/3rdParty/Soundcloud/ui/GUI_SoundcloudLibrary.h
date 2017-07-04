@@ -27,8 +27,6 @@
 #include "3rdParty/Soundcloud/src/SoundcloudLibrary.h"
 #include "3rdParty/Soundcloud/ui/GUI_SoundcloudArtistSearch.h"
 
-#include <QtGlobal>
-
 namespace Ui
 {
 	class GUI_SoundcloudLibrary;
@@ -38,6 +36,7 @@ class GUI_SoundCloudLibrary :
 		public GUI_AbstractLibrary
 {
 	Q_OBJECT
+	PIMPL(GUI_SoundCloudLibrary)
 
 public:
 	explicit GUI_SoundCloudLibrary(SoundcloudLibrary* library, QWidget *parent=nullptr);
@@ -53,7 +52,6 @@ protected:
 protected slots:
 	void btn_add_clicked();
 
-	PIMPL(GUI_SoundCloudLibrary)
 
 private:
 	Ui::GUI_SoundcloudLibrary*	ui=nullptr;

@@ -29,7 +29,7 @@ Models::Popularimeter::Popularimeter()
     playcount = 0;
 }
 
-Models::Popularimeter::Popularimeter(const QString& email_, quint8 rating_, int playcount_)
+Models::Popularimeter::Popularimeter(const QString& email_, uint8_t rating_, int playcount_)
 {
     playcount = playcount_;
 	rating = rating_;
@@ -37,12 +37,12 @@ Models::Popularimeter::Popularimeter(const QString& email_, quint8 rating_, int 
 }
 
 
-void Models::Popularimeter::set_rating(quint8 max_5)
+void Models::Popularimeter::set_rating(uint8_t max_5)
 {
 	rating = max_5;
 }
 
-void Models::Popularimeter::set_rating_byte(quint8 byte)
+void Models::Popularimeter::set_rating_byte(uint8_t byte)
 {
 	if(byte == 0x00){
 		rating = 0;
@@ -64,14 +64,14 @@ void Models::Popularimeter::set_rating_byte(quint8 byte)
 	}
 }
 
-quint8 Models::Popularimeter::get_rating() const
+uint8_t Models::Popularimeter::get_rating() const
 {
 	return rating;
 }
 
-quint8 Models::Popularimeter::get_rating_byte() const
+uint8_t Models::Popularimeter::get_rating_byte() const
 {
-	quint8 rating_byte;
+	uint8_t rating_byte;
 
 	switch(rating)
 	{

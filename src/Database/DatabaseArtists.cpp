@@ -25,7 +25,7 @@
 #include "Helper/Library/Filter.h"
 #include "Helper/Library/DateFilter.h"
 
-DatabaseArtists::DatabaseArtists(const QSqlDatabase& db, quint8 db_id) :
+DatabaseArtists::DatabaseArtists(const QSqlDatabase& db, uint8_t db_id) :
 	DatabaseModule(db, db_id),
 	DatabaseSearchMode(db)
 {
@@ -72,7 +72,7 @@ bool DatabaseArtists::db_fetch_artists(SayonaraQuery& q, ArtistList& result)
 		artist.id = q.value(0).toInt();
 		artist.name = q.value(1).toString().trimmed();
 		artist.num_songs = q.value(2).toInt();
-		artist.db_id = _module_db_id;
+		artist.set_db_id(_module_db_id);
 
 		result << artist;
 	}

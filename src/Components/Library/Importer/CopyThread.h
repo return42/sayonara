@@ -42,7 +42,7 @@ class CopyThread :
 
 public:
 
-	enum class Mode : quint8 
+	enum class Mode : uint8_t 
 	{
 		Copy=0,
 		Rollback

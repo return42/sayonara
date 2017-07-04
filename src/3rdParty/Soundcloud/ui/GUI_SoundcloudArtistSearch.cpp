@@ -35,7 +35,7 @@ struct GUI_SoundcloudArtistSearch::Private
 	AlbumList			albums;
 	ArtistList			searched_artists;
 	ArtistList			chosen_artists;
-	quint64				cur_artist_sc_id;
+	uint64_t				cur_artist_sc_id;
 };
 
 GUI_SoundcloudArtistSearch::GUI_SoundcloudArtistSearch(SoundcloudLibrary* library, QWidget *parent) :
