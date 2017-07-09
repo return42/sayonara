@@ -56,7 +56,7 @@ void GUI_Player::resizeEvent(QResizeEvent* e)
 		}
 	}
 
-	set_info_labels();
+	refresh_info_labels();
 
 	if( !is_maximized &&
 		!this->isMaximized() &&
@@ -87,7 +87,7 @@ void GUI_Player::main_splitter_moved(int pos, int idx)
 	QByteArray splitter_state = splitter->saveState();
 	_settings->set(Set::Player_SplitterState, splitter_state);
 
-	set_info_labels();
+	refresh_info_labels();
 }
 
 

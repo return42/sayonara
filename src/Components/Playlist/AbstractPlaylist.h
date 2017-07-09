@@ -62,6 +62,7 @@ protected:
 	virtual void fwd()=0;
 	virtual void bwd()=0;
     virtual void next()=0;
+	virtual bool wake_up()=0;
 
 	virtual int create_playlist(const MetaDataList& v_md)=0;
 	virtual void replace_track(int idx, const MetaData& metadata);

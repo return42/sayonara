@@ -48,16 +48,18 @@ struct PlaylistHandler::Private
 	QList<PlaylistPtr>		playlists;
 	int						active_playlist_idx;
 	int						current_playlist_idx;
+	int						playlist_idx_before_stop;
 
 	Private() :
 		db(DatabaseConnector::getInstance()),
 		play_manager(PlayManager::getInstance()),
 		active_playlist_idx(-1),
-		current_playlist_idx(-1)
+		current_playlist_idx(-1),
+		playlist_idx_before_stop(-1)
 	{}
 };
 
-PlaylistHandler::PlaylistHandler(QObject * parent) :
+PlaylistHandler::PlaylistHandler(QObject* parent) :
 	QObject (parent),
 	SayonaraClass()
 {
@@ -68,6 +70,7 @@ PlaylistHandler::PlaylistHandler(QObject * parent) :
 
 	connect(_m->play_manager, &PlayManager::sig_playstate_changed, this, &PlaylistHandler::playstate_changed);
 	connect(_m->play_manager, &PlayManager::sig_next, this, &PlaylistHandler::next);
+	connect(_m->play_manager, &PlayManager::sig_wake_up, this, &PlaylistHandler::wake_up);
 	connect(_m->play_manager, &PlayManager::sig_previous, this, &PlaylistHandler::previous);
 	connect(_m->play_manager, &PlayManager::sig_www_track_finished, this, &PlaylistHandler::www_track_finished);
 }
@@ -88,6 +91,8 @@ void PlaylistHandler::emit_cur_track_changed()
 
 	success = pl->current_track(md);
 	cur_track_idx = pl->current_track_index();
+
+	_m->playlist_idx_before_stop = pl->playlist_index();
 
 	if(!success || cur_track_idx == -1){
 		_m->play_manager->stop();
@@ -304,6 +309,21 @@ void PlaylistHandler::next()
 	emit_cur_track_changed();
 }
 
+void PlaylistHandler::wake_up()
+{
+	bool restore_track_after_stop = _settings->get(Set::PL_RememberTrackAfterStop);
+
+	if(restore_track_after_stop)
+	{
+		if(get_active()->wake_up()){
+			emit_cur_track_changed();
+			return;
+		}
+	}
+
+	next();
+}
+
 
 void PlaylistHandler::previous()
 {
@@ -454,6 +474,7 @@ void PlaylistHandler::save_all_playlists()
 
 int PlaylistHandler::get_active_idx_of_cur_track() const
 {
+	return _m->active_playlist_idx;
 	for(PlaylistPtr pl : _m->playlists){
 		if(pl->current_track_index() >= 0){
 			return pl->playlist_index();

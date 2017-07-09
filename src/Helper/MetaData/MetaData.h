@@ -29,6 +29,7 @@
 #define METADATA_H_
 
 #include "Helper/MetaData/LibraryItem.h"
+#include "Helper/MetaData/RadioMode.h"
 #include "Helper/Set.h"
 #include "Helper/Pimpl.h"
 
@@ -36,16 +37,7 @@
 #include <QString>
 
 class QStringList;
-/**
- * @brief The RadioMode enum
- * @ingroup MetaDataHelper
- */
-enum class RadioMode : uint8_t
-{
-	Off = 0,
-	Station,
-	Soundcloud
-};
+
 
 class Genre;
 
@@ -64,8 +56,8 @@ public:
 	QString album;
 
 	SP::Set<Genre> genres;
-	quint64 length_ms;
-	quint64 filesize;
+	uint64_t length_ms;
+	uint64_t filesize;
 
   	int32_t id;
 	int32_t artist_id;
@@ -105,6 +97,7 @@ public:
 	void set_album_artist_id(int32_t id);
 
 	RadioMode radio_mode() const;
+	bool is_valid() const;
 
 	MetaData& operator=(const MetaData& md);
 	bool operator==(const MetaData& md) const;

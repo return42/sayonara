@@ -48,7 +48,7 @@ class RingBuffer {
 			_n_items = 0;
 		}
 
-		void insert(const T& item){
+		void insert(const T& item) {
 			_data[_cur_idx] = item;
 			_cur_idx = (_cur_idx + 1) % N_ITEMS;
 			_n_items = std::min(N_ITEMS, _n_items + 1);
@@ -56,8 +56,8 @@ class RingBuffer {
 
 		bool has_item(const T& item) const
 		{
-			for(int i=0; i<_n_items; i++){
-				if(_data[i] == item){
+			for(int i=0; i<_n_items; i++) {
+				if(_data[i] == item) {
 					return true;
 				}
 			}
@@ -72,7 +72,7 @@ class RingBuffer {
 
 		bool is_empty() const
 		{
-			return (_n_items == 0);
+			return (count() == 0);
 		}
 };
 
@@ -81,16 +81,24 @@ struct PlayManager::Private
 {
 		MetaData				md;
 		RingBuffer<QString, 3>	ring_buffer;
-		uint64_t					position_ms;
+		uint64_t				position_ms;
 		int						track_idx;
-		uint64_t					initial_position_ms;
+		uint64_t				initial_position_ms;
 		PlayState				playstate;
 
 		Private()
 		{
-			initial_position_ms = 0;
+			reset();
+			playstate = PlayState::FirstStartup;
+		}
+
+		void reset()
+		{
+			md = MetaData();
+			ring_buffer.clear();
 			position_ms = 0;
 			track_idx = -1;
+			initial_position_ms = 0;
 			playstate = PlayState::Stopped;
 		}
 };
@@ -106,11 +114,11 @@ PlayManager::PlayManager(QObject* parent) :
 	bool load_last_track = _settings->get(Set::PL_LoadLastTrack);
 	bool remember_last_time = _settings->get(Set::PL_RememberTime);
 
-	if(load_playlist && load_last_track && remember_last_time){
+	if(load_playlist && load_last_track && remember_last_time) {
 		_m->initial_position_ms = _settings->get(Set::Engine_CurTrackPos_s) * 1000;
 	}
 
-	else{
+	else {
 		_m->initial_position_ms = 0;
 	}
 }
@@ -157,6 +165,13 @@ bool PlayManager::get_mute() const
 
 void PlayManager::play()
 {
+	if(_m->playstate == PlayState::Stopped)
+	{
+		_m->playstate = PlayState::Playing;
+		emit sig_wake_up();
+		return;
+	}
+
 	_m->playstate = PlayState::Playing;
 	emit sig_playstate_changed(_m->playstate);
 }
@@ -164,7 +179,7 @@ void PlayManager::play()
 
 void PlayManager::play_pause()
 {
-	if(_m->playstate == PlayState::Playing){
+	if(_m->playstate == PlayState::Playing) {
 		pause();
 	}
 
@@ -195,10 +210,7 @@ void PlayManager::next()
 
 void PlayManager::stop()
 {
-	_m->md = MetaData();
-	_m->ring_buffer.clear();
-	_m->track_idx = -1;
-	_m->playstate = PlayState::Stopped;
+	_m->reset();
 
 	emit sig_playstate_changed(_m->playstate);
 }
@@ -206,7 +218,7 @@ void PlayManager::stop()
 
 void PlayManager::record(bool b)
 {
-	if(_settings->get(SetNoDB::MP3enc_found)){
+	if(_settings->get(SetNoDB::MP3enc_found)) {
 		emit sig_record(b);
 	} else {
 		emit sig_record(false);
@@ -232,7 +244,7 @@ void PlayManager::set_position_ms(uint64_t ms)
 {
 	_m->position_ms = ms;
 
-	if(_m->position_ms % 1000 == 0){
+	if(_m->position_ms % 1000 == 0) {
 		_settings->set(Set::Engine_CurTrackPos_s, (int) (_m->position_ms / 1000));
 	}
 
@@ -248,15 +260,15 @@ void PlayManager::change_track(const MetaData& md, int track_idx)
 	_m->ring_buffer.clear();
 
 	// initial position is outdated now and never needed again
-	if(_m->initial_position_ms > 0){
+	if(_m->initial_position_ms > 0) {
 		int old_idx = _settings->get(Set::PL_LastTrack);
-		if(old_idx != _m->track_idx){
+		if(old_idx != _m->track_idx) {
 			_m->initial_position_ms = 0;
 		}
 	}
 
 	// play or stop
-	if(_m->track_idx >= 0){
+	if(_m->track_idx >= 0) {
 		emit sig_track_changed(_m->md);
 		emit sig_track_idx_changed(_m->track_idx);
 
@@ -276,7 +288,7 @@ void PlayManager::change_track(const MetaData& md, int track_idx)
 	}
 
 	// save last track
-	if(md.db_id() == 0){
+	if(md.db_id() == 0) {
 		_settings->set(Set::PL_LastTrack, _m->track_idx);
 	}
 
@@ -285,8 +297,8 @@ void PlayManager::change_track(const MetaData& md, int track_idx)
 	}
 
 	// show notification
-	if(_settings->get(Set::Notification_Show)){
-		if(_m->track_idx > -1 && !_m->md.filepath().isEmpty()){
+	if(_settings->get(Set::Notification_Show)) {
+		if(_m->track_idx > -1 && !_m->md.filepath().isEmpty()) {
 			NotificationHandler::getInstance()->notify(_m->md);
 		}
 	}
@@ -295,7 +307,7 @@ void PlayManager::change_track(const MetaData& md, int track_idx)
 
 void PlayManager::set_track_ready()
 {
-	if(_m->initial_position_ms > 0){
+	if(_m->initial_position_ms > 0) {
 		sp_log(Log::Debug, this) << "Track ready, " << (int) (_m->initial_position_ms / 1000);
 		this->seek_abs_ms(_m->initial_position_ms);
 		_m->initial_position_ms = 0;
@@ -332,7 +344,7 @@ void PlayManager::set_mute(bool b)
 	emit sig_mute_changed(b);
 }
 
-void PlayManager::change_duration(int64_t ms){
+void PlayManager::change_duration(int64_t ms) {
 	_m->md.length_ms = ms;
 
 	emit sig_duration_changed(ms);
@@ -346,13 +358,15 @@ void PlayManager::change_metadata(const MetaData& md)
 	QString str = md.title + md.artist + md.album;
 	bool has_data = _m->ring_buffer.has_item(str);
 
-	if(!has_data){
-		if(_settings->get(Set::Notification_Show)){
+	if(!has_data)
+	{
+		if(_settings->get(Set::Notification_Show)) {
 			NotificationHandler::getInstance()->notify(_m->md);
 		}
 
-		if( _m->ring_buffer.count() > 0 ) {
-			md_old.album = "";
+		if( _m->ring_buffer.count() > 0 )
+		{
+			md_old.album.clear();
 			md_old.is_disabled = true;
 			md_old.set_filepath("");
 

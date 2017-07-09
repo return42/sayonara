@@ -24,6 +24,7 @@
 #include "Components/PlayManager/PlayManager.h"
 #include "Helper/Helper.h"
 #include "Helper/Settings/Settings.h"
+#include "Helper/MetaData/MetaData.h"
 
 #include <QToolTip>
 
@@ -42,11 +43,11 @@ void GUI_Player::playstate_changed(PlayState state)
 		case PlayState::Stopped:
 			stopped();
 			break;
-
 		default:
-			return;
+			break;
 	}
 
+	check_record_button_visible();
 	return;
 }
 
@@ -106,10 +107,6 @@ void GUI_Player::stopped()
 	lab_max_time->clear();
 
 	set_standard_cover();
-
-	if(btn_rec->isVisible() && btn_rec->isChecked()) {
-		btn_rec->setChecked(false);
-	}
 }
 
 
@@ -127,7 +124,7 @@ void GUI_Player::next_clicked()
 
 void GUI_Player::rec_clicked(bool b)
 {
-    _play_manager->record(b);
+	_play_manager->record(b);
 }
 
 void GUI_Player::rec_changed(bool b)
@@ -177,13 +174,14 @@ void GUI_Player::buffering(int progress)
 
 void GUI_Player::set_progress_tooltip(int val)
 {
+	uint64_t duration = _play_manager->get_duration_ms();
 	int max = sli_progress->maximum();
 
 	val = std::max(val, 0);
 	val = std::min(max, val);
 
 	double percent = (val * 1.0) / max;
-	uint64_t cur_pos_ms =  (uint64_t) (percent * _md.length_ms);
+	uint64_t cur_pos_ms =  (uint64_t) (percent * duration);
 	QString cur_pos_string = Helper::cvt_ms_to_string(cur_pos_ms);
 
 	QToolTip::showText( QCursor::pos(), cur_pos_string );
@@ -192,13 +190,14 @@ void GUI_Player::set_progress_tooltip(int val)
 
 void GUI_Player::set_cur_pos_label(int val)
 {
+	uint64_t duration = _play_manager->get_duration_ms();
 	int max = sli_progress->maximum();
 
 	val = std::max(val, 0);
 	val = std::min(max, val);
 
 	double percent = (val * 1.0) / max;
-	uint64_t cur_pos_ms =  (uint64_t) (percent * _md.length_ms);
+	uint64_t cur_pos_ms =  (uint64_t) (percent * duration);
 	QString cur_pos_string = Helper::cvt_ms_to_string(cur_pos_ms);
 
 	lab_cur_time->setText(cur_pos_string);
@@ -207,8 +206,6 @@ void GUI_Player::set_cur_pos_label(int val)
 
 void GUI_Player::set_total_time_label(int64_t total_time)
 {
-	_md.length_ms = total_time;
-
 	QString length_str;
 	if(total_time > 0){
 		length_str = Helper::cvt_ms_to_string(total_time, true);
@@ -221,23 +218,23 @@ void GUI_Player::set_total_time_label(int64_t total_time)
 
 void GUI_Player::file_info_changed()
 {
-		QString rating_text;
+	MetaData md = _play_manager->get_cur_track();
+	QString rating_text;
 
-
-	if(_md.bitrate / 1000 > 0){
-		rating_text = QString::number(_md.bitrate / 1000) + " kBit/s";
+	if(md.bitrate / 1000 > 0){
+		rating_text = QString::number(md.bitrate / 1000) + " kBit/s";
 	}
 
-	if(_md.filesize > 0){
+	if(md.filesize > 0){
 		if(!rating_text.isEmpty()){
 			rating_text += ", ";
 		}
 
-		rating_text += QString::number( (double) (_md.filesize / 1024) / 1024.0, 'f', 2) + " MB";
+		rating_text += QString::number( (double) (md.filesize / 1024) / 1024.0, 'f', 2) + " MB";
 	}
 
 	if( (_settings->get(Set::Engine_Pitch) != 440) &&
-		 _settings->get(Set::Engine_SpeedActive))
+		_settings->get(Set::Engine_SpeedActive))
 	{
 		if(!rating_text.isEmpty()){
 			rating_text += ", ";
@@ -263,16 +260,17 @@ void GUI_Player::seek(int val)
 
 void GUI_Player::cur_pos_changed(uint64_t pos_ms)
 {
+	uint64_t duration = _play_manager->get_duration_ms();
 	int max = sli_progress->maximum();
 	int new_val;
 
-	if ( _md.length_ms > 0 ) {
-		new_val = ( pos_ms * max ) / (_md.length_ms);
+	if ( duration > 0 ) {
+		new_val = ( pos_ms * max ) / (duration);
 	}
 
-	else if(pos_ms > _md.length_ms) {
+	else if(pos_ms > duration) {
 		new_val = 0;
-    }
+	}
 
 	else{
 		return;
@@ -329,7 +327,7 @@ void GUI_Player::setup_volume_button(int percent)
 	QString but_name = "vol_";
 	QString but_std_name = "vol_";
 
-    if (percent <= 1) {
+	if (percent <= 1) {
 		but_name += QString("mute_dark");
 		but_std_name = QString("audio-volume-muted");
 	}

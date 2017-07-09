@@ -1,5 +1,5 @@
 #include "GUI_EditLibrary.h"
-#include "GUI/Preferences/ui_GUI_EditLibrary.h"
+#include "GUI/Helper/ui_GUI_EditLibrary.h"
 #include "Helper/Language.h"
 
 #include <QFileDialog>
