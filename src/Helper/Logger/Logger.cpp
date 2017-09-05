@@ -40,6 +40,11 @@ struct Logger::Private
 	std::stringstream	buffer;
 	bool				ignore;
 
+	Private()
+	{
+		buffer.setf(std::ios::boolalpha);
+	}
+
 	~Private()
 	{
 		if(!ignore){
@@ -83,11 +88,6 @@ Logger::~Logger()
 void Logger::register_log_listener(LogListener* log_listener)
 {
 	log_listeners << log_listener;
-}
-
-std::ostream& Logger::out()
-{
-	return _m->buffer;
 }
 
 Logger& Logger::operator << (const QString& msg)
@@ -160,6 +160,18 @@ Logger& Logger::operator << (const QByteArray& arr)
 Logger& Logger::operator << (const char* str)
 {
 	_m->buffer << str;
+	return *this;
+}
+
+Logger& Logger::operator << (const std::string& str)
+{
+	_m->buffer << str;
+	return *this;
+}
+
+Logger& Logger::operator <<(bool b)
+{
+	_m->buffer << b;
 	return *this;
 }
 

@@ -175,7 +175,8 @@ QModelIndex PlaylistItemModel::getPrevRowIndexOf(const QString& substr, int row,
 	// ALBUM
 	if(converted_string.startsWith(ALBUM_SEARCH)) 
 	{
-		converted_string.remove(ALBUM_SEARCH).trimmed();
+		converted_string.remove(ALBUM_SEARCH);
+		converted_string = converted_string.trimmed();
 
 		for(int i=0; i<len; i++) 
 		{
@@ -195,7 +196,8 @@ QModelIndex PlaylistItemModel::getPrevRowIndexOf(const QString& substr, int row,
 	//ARTIST
 	else if(converted_string.startsWith(ARTIST_SEARCH)) 
 	{
-		converted_string.remove(ARTIST_SEARCH).trimmed();
+		converted_string.remove(ARTIST_SEARCH);
+		converted_string = converted_string.trimmed();
 
 		for(int i=0; i<len; i++) 
 		{
@@ -215,7 +217,8 @@ QModelIndex PlaylistItemModel::getPrevRowIndexOf(const QString& substr, int row,
 	// JUMP
 	else if(converted_string.startsWith(JUMP)) 
 	{
-		converted_string.remove(JUMP).trimmed();
+		converted_string.remove(JUMP);
+		converted_string = converted_string.trimmed();
 		bool ok;
 		int line = converted_string.toInt(&ok);
 		if(ok && len > line) {
@@ -253,7 +256,8 @@ QModelIndex PlaylistItemModel::getNextRowIndexOf(const QString& substr, int row,
 
 	// ALBUM
 	if(converted_string.startsWith(ALBUM_SEARCH)) {
-		converted_string.remove(ALBUM_SEARCH).trimmed();
+		converted_string.remove(ALBUM_SEARCH);
+		converted_string = converted_string.trimmed();
 
 		for(int i=0; i< len; i++) {
 			int row_idx = (i + row) % len;
@@ -271,7 +275,8 @@ QModelIndex PlaylistItemModel::getNextRowIndexOf(const QString& substr, int row,
 	//ARTIST
 	else if(converted_string.startsWith(ARTIST_SEARCH)) 
 	{
-		converted_string.remove(ARTIST_SEARCH).trimmed();
+		converted_string.remove(ARTIST_SEARCH);
+		converted_string = converted_string.trimmed();
 
 		for(int i=0; i< len; i++) {
 			int row_idx = (i + row) % len;
@@ -289,7 +294,8 @@ QModelIndex PlaylistItemModel::getNextRowIndexOf(const QString& substr, int row,
 	// JUMP
 	else if(converted_string.startsWith(JUMP)) 
 	{
-		converted_string.remove(JUMP).trimmed();
+		converted_string.remove(JUMP);
+		converted_string = converted_string.trimmed();
 
 		bool ok;
 		int line = converted_string.toInt(&ok);
