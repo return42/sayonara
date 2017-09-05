@@ -35,11 +35,11 @@ namespace Models
 	{
 	public:
 
-		quint8		disc;
-		quint8		n_discs;
+		uint8_t		disc;
+		uint8_t		n_discs;
 
 		Discnumber();
-		Discnumber(quint8 disc, quint8 n_discs=1);
+		Discnumber(uint8_t disc, uint8_t n_discs=1);
 		QString to_string() const;
 	};
 }

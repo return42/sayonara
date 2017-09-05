@@ -25,7 +25,7 @@
 Playlist::Mode::State
 Playlist::Mode::set_state(bool active, bool enabled)
 {
-	quint8 ret = Playlist::Mode::Off;
+	uint8_t ret = Playlist::Mode::Off;
 	if(active){
 		ret |= Playlist::Mode::On;
 	}
@@ -66,12 +66,12 @@ void Playlist::Mode::setGapless(bool on, bool enabled){ _gapless = set_state(on,
 
 bool Playlist::Mode::isActive(Playlist::Mode::State pl)
 {
-	quint8 ipl = (quint8) pl;
+	uint8_t ipl = (uint8_t) pl;
 	return ( ipl & Playlist::Mode::On );
 }
 
 bool Playlist::Mode::isEnabled(Playlist::Mode::State pl){
-	quint8 ipl = (quint8) pl;
+	uint8_t ipl = (uint8_t) pl;
 	return (( ipl & Playlist::Mode::Disabled ) == 0);
 }
 

@@ -65,7 +65,7 @@ public:
 	MetaDataList& operator <<(const MetaDataList& v_md);
 	MetaDataList& operator <<(const MetaData& md);
 
-	bool contains(qint32 id) const;
+	bool contains(int32_t id) const;
 	void remove_duplicates();
 };
 

@@ -272,7 +272,7 @@ double DBusMPRIS::MediaPlayer2::Volume()
 	return _volume;
 }
 
-qint64 DBusMPRIS::MediaPlayer2::Position()
+int64_t DBusMPRIS::MediaPlayer2::Position()
 {
 	return _pos;
 }
@@ -352,11 +352,11 @@ void DBusMPRIS::MediaPlayer2::Play()
 	_play_manager->play();
 }
 
-void DBusMPRIS::MediaPlayer2::Seek(qint64 offset){
+void DBusMPRIS::MediaPlayer2::Seek(int64_t offset){
 	_play_manager->seek_rel_ms(offset / 1000);
 }
 
-void DBusMPRIS::MediaPlayer2::SetPosition(const QDBusObjectPath& track_id, qint64 position){
+void DBusMPRIS::MediaPlayer2::SetPosition(const QDBusObjectPath& track_id, int64_t position){
 	Q_UNUSED(track_id)
 	_play_manager->seek_abs_ms(position / 1000);
 }
@@ -391,12 +391,12 @@ void DBusMPRIS::MediaPlayer2::volume_changed(int volume){
 }
 
 
-void DBusMPRIS::MediaPlayer2::position_changed(quint64 pos){
+void DBusMPRIS::MediaPlayer2::position_changed(uint64_t pos){
 	if(!_initialized){
 		init();
 	}
-	qint64 new_pos = pos * 1000;
-	qint64 difference = new_pos - _pos;
+	int64_t new_pos = pos * 1000;
+	int64_t difference = new_pos - _pos;
 
 	if(difference < 0 || difference > 1000000){
 		emit Seeked(new_pos);

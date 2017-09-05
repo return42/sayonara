@@ -31,7 +31,7 @@ class BookmarksMenu :
 	Q_OBJECT
 
 signals:
-	void sig_bookmark_pressed(quint32 time_sec);
+	void sig_bookmark_pressed(uint32_t time_sec);
 
 private:
 	Bookmarks*	_bookmarks=nullptr;

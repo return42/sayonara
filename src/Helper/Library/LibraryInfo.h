@@ -41,7 +41,7 @@ public:
 	QString name() const;
 	QString path() const;
 	QString symlink_path() const;
-	qint8 id() const;
+	int8_t id() const;
 	bool valid() const;
 
 	static LibraryInfo fromString(const QString& str);

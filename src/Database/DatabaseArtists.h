@@ -46,7 +46,7 @@ protected:
 
 public:
 
-	DatabaseArtists(const QSqlDatabase& db, quint8 db_id, qint8 library_id);
+	DatabaseArtists(const QSqlDatabase& db, uint8_t db_id, int8_t library_id);
 
 	virtual bool db_fetch_artists(SayonaraQuery& q, ArtistList& result);
 

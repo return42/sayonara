@@ -33,14 +33,14 @@
 #include "Helper/Pimpl.h"
 
 #include <QMetaType>
-#include <QStringList>
+#include <QString>
 
-
+class QStringList;
 /**
  * @brief The RadioMode enum
  * @ingroup MetaDataHelper
  */
-enum class RadioMode : quint8
+enum class RadioMode : uint8_t
 {
 	Off = 0,
 	Station,
@@ -67,23 +67,23 @@ public:
 	quint64 length_ms;
 	quint64 filesize;
 
-  	qint32 id;
-	qint32 artist_id;
-	qint32 album_id;
+  	int32_t id;
+	int32_t artist_id;
+	int32_t album_id;
 
-	quint32 bitrate;
-	quint16 track_num;
-	quint16 year;
+	uint32_t bitrate;
+	uint16_t track_num;
+	uint16_t year;
 
 	bool played;
 	bool is_extern;
 	bool pl_playing;
 	bool is_disabled;
 
-	quint8 rating;
-	quint8 discnumber;
-	quint8 n_discs;
-	qint8 library_id;
+	uint8_t rating;
+	uint8_t discnumber;
+	uint8_t n_discs;
+	int8_t library_id;
 
 public:
 	MetaData ();
@@ -97,12 +97,12 @@ public:
 	QString filepath() const;
 	QString set_filepath(QString filepath);
 
-	qint32 album_artist_id() const;
+	int32_t album_artist_id() const;
 	QString album_artist() const;
 	bool has_album_artist() const;
 
-	void set_album_artist(const QString& album_artist, qint32 id=-1);
-	void set_album_artist_id(qint32 id);
+	void set_album_artist(const QString& album_artist, int32_t id=-1);
+	void set_album_artist_id(int32_t id);
 
 	RadioMode radio_mode() const;
 

@@ -35,18 +35,18 @@ public:
 	explicit MTP_Storage(MTPIntern_Device* device=nullptr, MTPIntern_Storage* storage=nullptr);
 	virtual ~MTP_Storage();
 
-	quint32 id() const;
+	uint32_t id() const;
 	QString name() const;
 	QString identifier() const;
 
 	QList<MTP_FolderPtr> folders();
-	QList<MTP_FilePtr> files_of_folder(quint32 folder_id) const;
+	QList<MTP_FilePtr> files_of_folder(uint32_t folder_id) const;
 
-	void remove_id(quint32 id);
+	void remove_id(uint32_t id);
 
 
 private:
-	quint32					_id;
+	uint32_t					_id;
 	QString					_name;
 	QString					_identifier;
 
@@ -54,7 +54,7 @@ private:
 	MTPIntern_Device*		_device=nullptr;
 	QList<MTP_FolderPtr>	_folders;
 
-	QHash<quint32, QList<MTP_FilePtr>> _files;
+	QHash<uint32_t, QList<MTP_FilePtr>> _files;
 };
 
 #endif // MTP_STORAGE_H

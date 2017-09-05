@@ -64,12 +64,12 @@ protected:
 
 public:
 	virtual void clean_up();
-	void register_library_db(qint8 library_id);
+	void register_library_db(int8_t library_id);
 	QList<LibraryDatabase*> library_dbs() const;
-	LibraryDatabase* library_db(qint8 library_id, quint8 db_id);
+	LibraryDatabase* library_db(int8_t library_id, uint8_t db_id);
 
 	template<typename T>
-	LibraryDatabase* register_library_db(qint8 library_id)
+	LibraryDatabase* register_library_db(int8_t library_id)
 	{
 		for(int i=0; i<_library_dbs.size(); i++)
 		{

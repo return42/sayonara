@@ -43,7 +43,7 @@ public:
 	QFrame*		header() const override;
 	QPixmap		icon() const override;
 	void        init_ui() override;
-	qint8		id();
+	int8_t		id();
 
 	void		set_name(const QString& name);
 };

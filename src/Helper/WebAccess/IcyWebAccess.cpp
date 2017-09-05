@@ -129,7 +129,7 @@ void IcyWebAccess::connected()
 
 	sp_log(Log::Develop, this) << data;
 
-	qint64 bytes_written = _m->tcp->write(data.data(), data.size());
+	int64_t bytes_written = _m->tcp->write(data.data(), data.size());
 	if(bytes_written != data.size())
 	{
 		sp_log(Log::Warning, this) << "Could only write " << bytes_written << " bytes";

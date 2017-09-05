@@ -54,12 +54,12 @@ MTP_Storage::MTP_Storage(MTPIntern_Device* device, MTPIntern_Storage* storage){
 
 MTP_Storage::~MTP_Storage() {}
 
-void MTP_Storage::remove_id(quint32 id){
+void MTP_Storage::remove_id(uint32_t id){
 	if(_files.contains(id)){
 		_files.remove(id);
 	}
 
-	for(quint32 key : _files.keys()){
+	for(uint32_t key : _files.keys()){
 		QList<MTP_FilePtr> file_list = _files[key];
 
 		auto lambda = [&id](MTP_FilePtr ptr){
@@ -96,13 +96,13 @@ QList<MTP_FolderPtr> MTP_Storage::folders()
 	return _folders;
 }
 
-QList<MTP_FilePtr> MTP_Storage::files_of_folder(quint32 folder_id) const
+QList<MTP_FilePtr> MTP_Storage::files_of_folder(uint32_t folder_id) const
 {
 	return _files[folder_id];
 }
 
 
-quint32 MTP_Storage::id() const
+uint32_t MTP_Storage::id() const
 {
 	return _id;
 }

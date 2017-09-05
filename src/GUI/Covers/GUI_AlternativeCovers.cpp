@@ -293,8 +293,6 @@ void GUI_AlternativeCovers::open_file_dialog()
 	for(const QString& path : lst)
 	{
 		RowColumn rc = _m->model->cvt_2_row_col( idx );
-		QModelIndex model_idx = _m->model->index(rc.row, rc.col);
-
 		_m->model->set_cover(rc.row, rc.col, path);
 
         idx ++;

@@ -303,7 +303,7 @@ void LibraryPluginHandler::add_local_library(const LibraryInfo& library)
 }
 
 
-void LibraryPluginHandler::rename_local_library(qint8 library_id, const QString& new_name)
+void LibraryPluginHandler::rename_local_library(int8_t library_id, const QString& new_name)
 {
 	for(LocalLibraryContainer* llc : _m->local_libraries)
 	{
@@ -319,7 +319,7 @@ void LibraryPluginHandler::rename_local_library(qint8 library_id, const QString&
 }
 
 
-void LibraryPluginHandler::remove_local_library(qint8 library_id)
+void LibraryPluginHandler::remove_local_library(int8_t library_id)
 {
 	int idx = -1;
 	int i=0;

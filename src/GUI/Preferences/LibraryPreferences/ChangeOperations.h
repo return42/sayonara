@@ -31,11 +31,11 @@ class RenameOperation :
 	public ChangeOperation
 {
 private:
-	qint8 _id;
+	int8_t _id;
 	QString _new_name;
 
 public:
-	RenameOperation(qint8 id, const QString& new_name);
+	RenameOperation(int8_t id, const QString& new_name);
 	void exec() override;
 };
 
@@ -43,10 +43,10 @@ class RemoveOperation :
 		public ChangeOperation
 {
 private:
-	qint8 _id;
+	int8_t _id;
 
 public:
-	RemoveOperation(qint8 id);
+	RemoveOperation(int8_t id);
 
 	void exec() override;
 };
@@ -67,11 +67,11 @@ class ChangePathOperation :
 		public ChangeOperation
 {
 private:
-	qint8 _id;
+	int8_t _id;
 	QString _new_path;
 
 public:
-	ChangePathOperation(qint8 id, const QString& new_path);
+	ChangePathOperation(int8_t id, const QString& new_path);
 
 	void exec() override;
 };

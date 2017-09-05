@@ -53,7 +53,7 @@ class DiscPopupMenu : public QMenu
 
 
 	public: 
-		DiscPopupMenu(QWidget* parent, QList<quint8> discs);
+		DiscPopupMenu(QWidget* parent, QList<uint8_t> discs);
 		~DiscPopupMenu();
 
 	protected: 

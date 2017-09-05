@@ -60,8 +60,8 @@ public:
 
 
 public slots:
-	void jump_abs_ms(quint64 ms) override;
-	void jump_rel_ms(quint64 ms) override;
+	void jump_abs_ms(uint64_t ms) override;
+	void jump_rel_ms(uint64_t ms) override;
 	void jump_rel(double where) override;
 
 	void change_track(const MetaData&) override;
@@ -72,8 +72,8 @@ private slots:
 
 	void sl_md_changed(const MetaData&);
 	void sl_dur_changed(const MetaData&);
-	void sl_pos_changed_ms(quint64 ms);
-	void sl_pos_changed_s(quint32 s);
+	void sl_pos_changed_ms(uint64_t ms);
+	void sl_pos_changed_s(uint32_t s);
 
 	void sl_track_finished();
 
@@ -83,7 +83,7 @@ private slots:
 	void sr_record_button_pressed(bool);
 	void playstate_changed(PlayState state);
 
-	void new_data(const uchar* data, quint64 n_bytes);
+	void new_data(const uchar* data, uint64_t n_bytes);
 
 	void play() override;
 	void stop() override;

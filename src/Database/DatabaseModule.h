@@ -30,10 +30,10 @@ class DatabaseModule
 	PIMPL(DatabaseModule)
 
 public:
-	DatabaseModule(const QSqlDatabase& db, quint8 db_id);
+	DatabaseModule(const QSqlDatabase& db, uint8_t db_id);
 	virtual ~DatabaseModule();
 
-	quint8 module_db_id() const;
+	uint8_t module_db_id() const;
 	QSqlDatabase module_db() const;
 };
 

@@ -43,7 +43,7 @@ namespace SC
 		PIMPL(JsonParser)
 
 	private:
-		enum class SCJsonItemType : quint8
+		enum class SCJsonItemType : uint8_t
 		{
 			Track=0,
 			Artist,

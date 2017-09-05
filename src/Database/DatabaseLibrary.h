@@ -30,10 +30,10 @@ class DatabaseLibrary :
 {
 
 private:
-	quint8 _library_id;
+	uint8_t _library_id;
 
 public:
-	DatabaseLibrary(const QSqlDatabase& db, quint8 db_id, qint8 library_id);
+	DatabaseLibrary(const QSqlDatabase& db, uint8_t db_id, int8_t library_id);
 	~DatabaseLibrary();
 
 	virtual void dropIndexes();

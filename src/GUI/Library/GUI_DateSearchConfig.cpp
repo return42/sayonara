@@ -158,7 +158,7 @@ void GUI_DateSearchConfig::commit()
 				time_span = Library::DateFilter::TimeSpan::Years;
 			}
 
-			f.set_newer_than(time_span, (quint8) ui->sb_nt->value());
+			f.set_newer_than(time_span, (uint8_t) ui->sb_nt->value());
 		}
 		break;
 
@@ -180,7 +180,7 @@ void GUI_DateSearchConfig::commit()
 				time_span = Library::DateFilter::TimeSpan::Years;
 			}
 
-			f.set_older_than(time_span, (quint8) ui->sb_ot->value());
+			f.set_older_than(time_span, (uint8_t) ui->sb_ot->value());
 		}
 		break;
 
@@ -216,8 +216,8 @@ void GUI_DateSearchConfig::commit()
 				time_span_to = Library::DateFilter::TimeSpan::Years;
 			}
 
-			f.set_between(time_span_from, (quint8) ui->sb_bwf->value(),
-						  time_span_to, (quint8) ui->sb_bwt->value());
+			f.set_between(time_span_from, (uint8_t) ui->sb_bwf->value(),
+						  time_span_to, (uint8_t) ui->sb_bwt->value());
 		}
 		break;
 

@@ -34,7 +34,7 @@
  * @brief The GSTFileMode enum
  * @ingroup Engine
  */
-enum class GSTFileMode : quint8 
+enum class GSTFileMode : uint8_t 
 {
 	File,
 	Http
@@ -74,9 +74,9 @@ class AbstractPipeline :
 		GstElement* _pipeline=nullptr;
 		gchar*		_uri=nullptr;
 
-		qint64		_duration_ms;
-		qint64		_position_source_ms;
-		qint64		_position_pipeline_ms;
+		int64_t		_duration_ms;
+		int64_t		_position_source_ms;
+		int64_t		_position_pipeline_ms;
 
 		bool tee_connect(GstElement* tee,
 						GstPadTemplate* tee_src_pad_template,
@@ -89,13 +89,13 @@ class AbstractPipeline :
 		virtual bool add_and_link_elements()=0;
 		virtual bool configure_elements()=0;
 
-		virtual quint64 get_about_to_finish_time() const;
+		virtual uint64_t get_about_to_finish_time() const;
 
 	signals:
 		void sig_finished();
-		void sig_about_to_finish(qint64);
-		void sig_pos_changed_ms(qint64);
-		void sig_data(uchar*, quint64);
+		void sig_about_to_finish(int64_t);
+		void sig_pos_changed_ms(int64_t);
+		void sig_data(uchar*, uint64_t);
 
 
 	public slots:
@@ -116,14 +116,14 @@ class AbstractPipeline :
 		virtual void		refresh_duration();
 		virtual void		finished();
 		virtual void		check_about_to_finish();
-		virtual qint64		get_time_to_go() const;
-		virtual void		set_data(uchar* data, quint64 size);
+		virtual int64_t		get_time_to_go() const;
+		virtual void		set_data(uchar* data, uint64_t size);
 
 		virtual bool		set_uri(gchar* uri);
 
-		virtual qint64		get_duration_ms() const final ;
-		virtual qint64		get_source_position_ms() const final;
-		virtual qint64		get_pipeline_position_ms() const final;
+		virtual int64_t		get_duration_ms() const final ;
+		virtual int64_t		get_source_position_ms() const final;
+		virtual int64_t		get_pipeline_position_ms() const final;
 
 		bool 				has_element(GstElement* e) const;
 };

@@ -28,7 +28,7 @@ Models::Discnumber::Discnumber()
 	disc = 1;
 }
 
-Models::Discnumber::Discnumber(quint8 disc_, quint8 n_discs_)
+Models::Discnumber::Discnumber(uint8_t disc_, uint8_t n_discs_)
 {
 	n_discs = n_discs_;
 	disc = disc_;

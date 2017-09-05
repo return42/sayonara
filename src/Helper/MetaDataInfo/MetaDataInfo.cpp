@@ -43,13 +43,13 @@ MetaDataInfo::MetaDataInfo(const MetaDataList& v_md) :
 		return;
 	}
 
-	quint64 length = 0;
-	quint64 filesize = 0;
-	quint16 year_min = std::numeric_limits<quint16>::max();
-	quint16 year_max = 0;
-	quint32 bitrate_min = std::numeric_limits<quint32>::max();
-	quint32 bitrate_max = 0;
-	quint16 tracknum = 0;
+	uint64_t length = 0;
+	uint64_t filesize = 0;
+	uint16_t year_min = std::numeric_limits<uint16_t>::max();
+	uint16_t year_max = 0;
+	uint32_t bitrate_min = std::numeric_limits<uint32_t>::max();
+	uint32_t bitrate_max = 0;
+	uint16_t tracknum = 0;
 	bool calc_track_num = (v_md.size() == 1);
 
 	QStringList genres;
@@ -157,7 +157,7 @@ void MetaDataInfo::set_header(const MetaDataList& lst)
 
 
 void MetaDataInfo::set_subheader() {}
-void MetaDataInfo::set_subheader(quint16 tracknum)
+void MetaDataInfo::set_subheader(uint16_t tracknum)
 {
 	_subheader = calc_artist_str();
 
@@ -187,7 +187,7 @@ void MetaDataInfo::set_cover_location(const MetaDataList& lst)
 		album.name = _albums.first();
 		album.artists = _artists.toList();
 		album.set_album_artists(_album_artists.toList());
-		album.db_id = lst[0].db_id;
+		album.set_db_id(lst[0].db_id());
 		_cover_location = CoverLocation::get_cover_location(album);
 	}
 
@@ -243,7 +243,7 @@ QString MetaDataInfo::calc_album_str()
 	return str;
 }
 
-QString MetaDataInfo::calc_tracknum_str( quint16 tracknum )
+QString MetaDataInfo::calc_tracknum_str( uint16_t tracknum )
 {
 	QString str;
 	switch (tracknum)
@@ -266,7 +266,7 @@ QString MetaDataInfo::calc_tracknum_str( quint16 tracknum )
 }
 
 
-void MetaDataInfo::insert_playing_time(quint64 ms)
+void MetaDataInfo::insert_playing_time(uint64_t ms)
 {
 	QString str = Helper::cvt_ms_to_string(ms);
 	_info.insert(InfoStrings::PlayingTime, str);
@@ -278,7 +278,7 @@ void MetaDataInfo::insert_genre(const QStringList& lst)
 	_info.insert(InfoStrings::Genre, str);
 }
 
-void MetaDataInfo::insert_filesize(quint64 filesize)
+void MetaDataInfo::insert_filesize(uint64_t filesize)
 {
 	QString str = Helper::File::calc_filesize_str(filesize);
 	_info.insert(InfoStrings::Filesize, str);

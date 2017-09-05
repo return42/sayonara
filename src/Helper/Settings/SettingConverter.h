@@ -21,13 +21,13 @@
 #ifndef SETTINGCONVERTER_H
 #define SETTINGCONVERTER_H
 
-#include <QList>
 #include <QPair>
 #include <QStringList>
 
 class QSize;
 class QString;
 class QPoint;
+
 // generic
 template<typename T>
 /**
@@ -155,7 +155,8 @@ template<typename T>
  */
 class SettingConverter< QList<T> >{
 public:
-	static QString cvt_to_string(const QList<T>& val){
+	static QString cvt_to_string(const QList<T>& val)
+	{
 		SettingConverter<T> sc;
 		QStringList lst;
 
@@ -167,7 +168,8 @@ public:
 	}
 
 
-	static bool cvt_from_string(const QString& val, QList<T>& ret){
+	static bool cvt_from_string(const QString& val, QList<T>& ret)
+	{
 		SettingConverter<T> sc;
 		ret.clear();
 		QStringList lst = val.split(",");

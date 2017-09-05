@@ -30,7 +30,7 @@
 #include "Helper/MetaData/Artist.h"
 #include "Helper/Logger/Logger.h"
 
-DatabaseLibrary::DatabaseLibrary(const QSqlDatabase& db, quint8 db_id, qint8 library_id) :
+DatabaseLibrary::DatabaseLibrary(const QSqlDatabase& db, uint8_t db_id, int8_t library_id) :
 	DatabaseModule(db, db_id)
 {
 	_library_id = library_id;
@@ -48,9 +48,9 @@ bool DatabaseLibrary::storeMetadata(const MetaDataList& v_md)
 
 	module_db().transaction();
 
-	DatabaseAlbums db_albums(module_db(), v_md.first().db_id, _library_id);
-	DatabaseArtists db_artists(module_db(), v_md.first().db_id, _library_id);
-	DatabaseTracks db_tracks(module_db(), v_md.first().db_id, _library_id);
+	DatabaseAlbums db_albums(module_db(), v_md.first().db_id(), _library_id);
+	DatabaseArtists db_artists(module_db(), v_md.first().db_id(), _library_id);
+	DatabaseTracks db_tracks(module_db(), v_md.first().db_id(), _library_id);
 
 	AlbumList albums;
 	ArtistList artists;

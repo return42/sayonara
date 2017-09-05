@@ -30,7 +30,7 @@ class AbstractDatabase : public QObject
 	PIMPL(AbstractDatabase)
 
 public:
-	explicit AbstractDatabase(quint8 db_id, const QString& db_dir, const QString& db_name, QObject *parent=nullptr);
+	explicit AbstractDatabase(uint8_t db_id, const QString& db_dir, const QString& db_name, QObject *parent=nullptr);
 	virtual ~AbstractDatabase();
 
 	virtual void close_db();
@@ -40,7 +40,8 @@ public:
 	virtual void commit();
 	virtual void rollback();
 
-	quint8 db_id() const;
+	uint8_t db_id() const;
+
 
 protected:
 	virtual bool exists();

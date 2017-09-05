@@ -336,7 +336,7 @@ QList<LibraryDatabase*> DatabaseConnector::library_dbs() const
 }
 
 
-LibraryDatabase* DatabaseConnector::library_db(qint8 library_id, quint8 db_id)
+LibraryDatabase* DatabaseConnector::library_db(int8_t library_id, uint8_t db_id)
 {
 	for(LibraryDatabase* db : _library_dbs){
 		if((db->library_id() == library_id) && (db->db_id() == db_id)){

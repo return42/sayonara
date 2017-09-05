@@ -31,10 +31,10 @@ private:
 	MTPIntern_Folder*	_folder=nullptr;
 	MTPIntern_Device*	_device=nullptr;
 
-	quint32				_id;
+	uint32_t				_id;
 	QString				_name;
-	quint32				_parent_id;
-	quint32				_storage_id;
+	uint32_t				_parent_id;
+	uint32_t				_storage_id;
 	bool				_has_next;
 
 
@@ -42,16 +42,16 @@ public:
 	explicit MTP_Folder(MTPIntern_Device* device=nullptr, MTPIntern_Folder* folder=nullptr);
 	virtual ~MTP_Folder();
 
-	quint32 id() const;
+	uint32_t id() const;
 	QString name() const;
-	quint32 parent_id() const;
-	quint32 storage_id() const;
+	uint32_t parent_id() const;
+	uint32_t storage_id() const;
 
 	QList<MTP_FolderPtr> children() const;
 
 	bool send_track(MTP_TrackPtr track, const QString& lib_path) const;
 	bool remove() const;
-	quint32 create_folder(const QString& name) const;
+	uint32_t create_folder(const QString& name) const;
 };
 
 #endif // MTP_FOLDER_H

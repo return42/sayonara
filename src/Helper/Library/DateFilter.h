@@ -48,7 +48,7 @@ namespace Library
 			Years
 		};
 
-		typedef QPair<Library::DateFilter::TimeSpan, quint8> TimeSpanEntry;
+		typedef QPair<Library::DateFilter::TimeSpan, uint8_t> TimeSpanEntry;
 		typedef QList< TimeSpanEntry > TimeSpanMap;
 
 		enum class ChangeMode : char
@@ -82,13 +82,13 @@ namespace Library
 		bool valid() const;
 		void clear();
 
-		void set_between(TimeSpan span_from, quint8 value_from, TimeSpan span_to, quint8 value_to, ChangeMode change_mode=ChangeMode::Created);
+		void set_between(TimeSpan span_from, uint8_t value_from, TimeSpan span_to, uint8_t value_to, ChangeMode change_mode=ChangeMode::Created);
 		void set_between(const QDateTime& from, const QDateTime& to, ChangeMode change_mode=ChangeMode::Created);
 
-		void set_older_than(TimeSpan span, quint8 value, ChangeMode change_mode=ChangeMode::Created);
+		void set_older_than(TimeSpan span, uint8_t value, ChangeMode change_mode=ChangeMode::Created);
 		void set_older_than(const QDateTime& date, ChangeMode change_mode);
 
-		void set_newer_than(TimeSpan span, quint8 value, ChangeMode change_mode=ChangeMode::Created);
+		void set_newer_than(TimeSpan span, uint8_t value, ChangeMode change_mode=ChangeMode::Created);
 		void set_newer_than(const QDateTime& date, ChangeMode change_mode=ChangeMode::Created);
 
 		TimeSpanMap time_span_map() const;

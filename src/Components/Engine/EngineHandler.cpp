@@ -148,12 +148,12 @@ void EngineHandler::pause()
 }
 
 
-void EngineHandler::jump_abs_ms(quint64 ms) {
+void EngineHandler::jump_abs_ms(uint64_t ms) {
 	if(!_cur_engine) return;
 	_cur_engine->jump_abs_ms(ms);
 }
 
-void EngineHandler::jump_rel_ms(quint64 ms){
+void EngineHandler::jump_rel_ms(uint64_t ms){
 	if(!_cur_engine) return;
 	_cur_engine->jump_rel_ms(ms);
 }
@@ -185,12 +185,12 @@ void EngineHandler::sl_dur_changed(const MetaData& md){
 	emit sig_dur_changed(md);
 }
 
-void EngineHandler::sl_pos_changed_ms(quint64 ms) {
+void EngineHandler::sl_pos_changed_ms(uint64_t ms) {
 	_play_manager->set_position_ms(ms);
 }
 
-void EngineHandler::sl_pos_changed_s(quint32 sec) {
-	_play_manager->set_position_ms( (quint64) (sec * 1000) );
+void EngineHandler::sl_pos_changed_s(uint32_t sec) {
+	_play_manager->set_position_ms( (uint64_t) (sec * 1000) );
 }
 
 void EngineHandler::sl_track_ready_changed()
@@ -292,7 +292,7 @@ PlaybackEngine* EngineHandler::get_playback_engine()
 	return dynamic_cast<PlaybackEngine*>(get_engine(EngineName::PlaybackEngine));
 }
 
-void EngineHandler::new_data(const uchar* data, quint64 n_bytes){
+void EngineHandler::new_data(const uchar* data, uint64_t n_bytes){
 	for(RawSoundReceiverInterface* receiver : _raw_sound_receiver){
 		receiver->new_audio_data(data, n_bytes);
 	}

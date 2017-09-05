@@ -21,13 +21,11 @@
 #ifndef PLAYSTATE_H
 #define PLAYSTATE_H
 
-#include <QtGlobal>
-
 /**
  * @brief The PlayState enum
  * @ingroup Helper
  */
-enum class PlayState : quint8
+enum class PlayState : unsigned char
 {
     Playing=0,
     Paused,

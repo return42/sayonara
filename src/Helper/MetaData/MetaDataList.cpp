@@ -327,7 +327,7 @@ MetaDataList& MetaDataList::operator <<(const MetaData& md)
 	return *this;
 }
 
-bool MetaDataList::contains(qint32 id) const
+bool MetaDataList::contains(int32_t id) const
 {
 	auto it = std::find_if(this->begin(), this->end(), [&id](const MetaData& md){
 		return (id == md.id);

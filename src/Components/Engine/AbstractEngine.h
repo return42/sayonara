@@ -35,7 +35,7 @@ class QImage;
  * @brief The EngineName enum
  * @ingroup Engine
  */
-enum class EngineName : quint8 
+enum class EngineName : uint8_t 
 {
 	Undefined=0,
 	PlaybackEngine=1,
@@ -65,7 +65,7 @@ public:
 	virtual void		update_md(const MetaData& md, GstElement* src);
 	virtual void		update_cover(const QImage& img, GstElement* src);
 	virtual void		update_duration(GstElement* src);
-	virtual void		update_bitrate(quint32 br, GstElement* src);
+	virtual void		update_bitrate(uint32_t br, GstElement* src);
 
 	virtual void		set_track_ready(GstElement* src);
 	virtual void		set_buffer_state(int percent, GstElement* src);
@@ -79,8 +79,8 @@ signals:
 	void sig_dur_changed(const MetaData&);
 	void sig_br_changed(const MetaData&);
 
-	void sig_pos_changed_ms(quint64);
-	void sig_pos_changed_s(quint32);
+	void sig_pos_changed_ms(uint64_t);
+	void sig_pos_changed_s(uint32_t);
 
 	void sig_buffering(int progress);
 
@@ -93,8 +93,8 @@ signals:
 
 protected slots:
 
-	virtual void set_about_to_finish(qint64 ms);
-	virtual void set_cur_position_ms(qint64 ms);
+	virtual void set_about_to_finish(int64_t ms);
+	virtual void set_cur_position_ms(int64_t ms);
 
 
 public slots:
@@ -102,8 +102,8 @@ public slots:
 	virtual void stop()=0;
 	virtual void pause()=0;
 
-	virtual void jump_abs_ms(quint64 ms)=0;
-	virtual void jump_rel_ms(quint64 ms)=0;
+	virtual void jump_abs_ms(uint64_t ms)=0;
+	virtual void jump_rel_ms(uint64_t ms)=0;
 	virtual void jump_rel(double ms)=0;
 
 	virtual void change_track(const MetaData&)=0;
@@ -115,7 +115,7 @@ protected:
 	char*		_uri=nullptr;
 
 	MetaData	_md;
-	qint64		_cur_pos_ms;
+	int64_t		_cur_pos_ms;
 	bool 		_playing_stream;
 	bool		_broadcast_active;
 };

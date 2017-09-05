@@ -38,7 +38,7 @@ bool Xiph::PopularimeterFrame::map_tag_to_model(Models::Popularimeter& model)
 		return false;
 	}
 
-	quint8 rating = (quint8) cvt_string(str).toInt();
+	uint8_t rating = (uint8_t) cvt_string(str).toInt();
 	if(rating < 10){
 		model.set_rating(rating);
 	}
@@ -52,7 +52,7 @@ bool Xiph::PopularimeterFrame::map_tag_to_model(Models::Popularimeter& model)
 
 bool Xiph::PopularimeterFrame::map_model_to_tag(const Models::Popularimeter& model)
 {
-	quint8 rating = model.get_rating();
+	uint8_t rating = model.get_rating();
 	set_value(QString::number(rating));
 	return true;
 }

@@ -52,7 +52,7 @@ class StreamWriter :
 
 
 	public:
-		enum class Type : quint8
+		enum class Type : uint8_t
 		{
 			Undefined,
 			Standard,
@@ -137,7 +137,7 @@ class StreamWriter :
 		 * @param data
 		 * @param size
 		 */
-		void new_audio_data(const uchar* data, quint64 size) override;
+		void new_audio_data(const uint8_t* data, uint64_t size) override;
 
 	private:
 		void reset();

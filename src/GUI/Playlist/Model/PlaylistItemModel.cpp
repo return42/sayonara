@@ -53,7 +53,7 @@ PlaylistItemModel::~PlaylistItemModel() {}
 int PlaylistItemModel::rowCount(const QModelIndex &parent) const
 {
 	Q_UNUSED(parent);
-	return _pl->get_count();
+	return _pl->count();
 }
 
 
@@ -63,7 +63,7 @@ QVariant PlaylistItemModel::data(const QModelIndex &index, int role) const
 		return QVariant();
 	}
 
-	if ( !between(index.row(), _pl->get_count())) {
+	if ( !between(index.row(), _pl->count())) {
 		return QVariant();
 	}
 
@@ -87,7 +87,7 @@ Qt::ItemFlags PlaylistItemModel::flags(const QModelIndex &index = QModelIndex())
 		return Qt::ItemIsEnabled;
 	}
 
-	if( row >= 0 && row < _pl->get_count())
+	if( row >= 0 && row < _pl->count())
 	{
 		const MetaData& md = get_md(row);
 		if(md.is_disabled){
@@ -124,7 +124,7 @@ void PlaylistItemModel::copy_rows(const SP::Set<int>& indexes, int target_index)
 
 int PlaylistItemModel::get_current_track() const
 {
-	return _pl->get_cur_track_idx();
+	return _pl->current_track_index();
 }
 
 
@@ -161,13 +161,14 @@ QModelIndex PlaylistItemModel::getPrevRowIndexOf(const QString& substr, int row,
 
 	QString converted_string = substr;
 
-	int len = _pl->get_count();
+	int len = _pl->count();
 	if(len < row) row = len - 1;
 
 	// ALBUM
 	if(converted_string.startsWith(ALBUM_SEARCH)) 
 	{
-		converted_string.remove(ALBUM_SEARCH).trimmed();
+		converted_string.remove(ALBUM_SEARCH);
+		converted_string = converted_string.trimmed();
 
 		for(int i=0; i<len; i++) 
 		{
@@ -187,7 +188,8 @@ QModelIndex PlaylistItemModel::getPrevRowIndexOf(const QString& substr, int row,
 	//ARTIST
 	else if(converted_string.startsWith(ARTIST_SEARCH)) 
 	{
-		converted_string.remove(ARTIST_SEARCH).trimmed();
+		converted_string.remove(ARTIST_SEARCH);
+		converted_string = converted_string.trimmed();
 
 		for(int i=0; i<len; i++) 
 		{
@@ -207,7 +209,8 @@ QModelIndex PlaylistItemModel::getPrevRowIndexOf(const QString& substr, int row,
 	// JUMP
 	else if(converted_string.startsWith(JUMP)) 
 	{
-		converted_string.remove(JUMP).trimmed();
+		converted_string.remove(JUMP);
+		converted_string = converted_string.trimmed();
 		bool ok;
 		int line = converted_string.toInt(&ok);
 		if(ok && len > line) {
@@ -240,12 +243,13 @@ QModelIndex PlaylistItemModel::getNextRowIndexOf(const QString& substr, int row,
 
 	QString converted_string = substr;
 
-	int len = _pl->get_count();
+	int len = _pl->count();
 	if(len < row) row = len - 1;
 
 	// ALBUM
 	if(converted_string.startsWith(ALBUM_SEARCH)) {
-		converted_string.remove(ALBUM_SEARCH).trimmed();
+		converted_string.remove(ALBUM_SEARCH);
+		converted_string = converted_string.trimmed();
 
 		for(int i=0; i< len; i++) {
 			int row_idx = (i + row) % len;
@@ -263,7 +267,8 @@ QModelIndex PlaylistItemModel::getNextRowIndexOf(const QString& substr, int row,
 	//ARTIST
 	else if(converted_string.startsWith(ARTIST_SEARCH)) 
 	{
-		converted_string.remove(ARTIST_SEARCH).trimmed();
+		converted_string.remove(ARTIST_SEARCH);
+		converted_string = converted_string.trimmed();
 
 		for(int i=0; i< len; i++) {
 			int row_idx = (i + row) % len;
@@ -281,11 +286,12 @@ QModelIndex PlaylistItemModel::getNextRowIndexOf(const QString& substr, int row,
 	// JUMP
 	else if(converted_string.startsWith(JUMP)) 
 	{
-		converted_string.remove(JUMP).trimmed();
+		converted_string.remove(JUMP);
+		converted_string = converted_string.trimmed();
 
 		bool ok;
 		int line = converted_string.toInt(&ok);
-		if(ok && (_pl->get_count() > line) ){
+		if(ok && (_pl->count() > line) ){
 			return this->index(line, 0);
 		}
 
@@ -330,7 +336,7 @@ CustomMimeData* PlaylistItemModel::get_custom_mimedata(const QModelIndexList& in
 	QList<QUrl> urls;
 
 	for(const QModelIndex& idx : indexes){
-		if(idx.row() >= _pl->get_count()){
+		if(idx.row() >= _pl->count()){
 			continue;
 		}
 
@@ -358,7 +364,7 @@ QMimeData* PlaylistItemModel::mimeData(const QModelIndexList& indexes) const
 
 bool PlaylistItemModel::has_local_media(const IdxList& idxs) const
 {
-	const  MetaDataList& tracks = _pl->get_playlist();
+	const  MetaDataList& tracks = _pl->playlist();
 
 	for(int idx : idxs){
 		if(!Helper::File::is_www(tracks[idx].filepath())){
@@ -374,6 +380,6 @@ void PlaylistItemModel::playlist_changed(int pl_idx)
 {
 	Q_UNUSED(pl_idx)
 	emit dataChanged(this->index(0),
-					 this->index(_pl->get_count() - 1));
+					 this->index(_pl->count() - 1));
 }
 

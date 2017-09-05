@@ -114,9 +114,9 @@ void GUI_Playlist::playlist_added(PlaylistPtr pl)
 	QString name;
 
 	pl_view = new PlaylistView(pl);
-	pl_view->setObjectName("playlist_view" + QString::number(pl->get_idx()));
+	pl_view->setObjectName("playlist_view" + QString::number(pl->playlist_index()));
 
-	idx = pl->get_idx();
+	idx = pl->playlist_index();
 	name = pl->get_name();
 
 	ui->tw_playlists->insertTab(ui->tw_playlists->count() - 1, pl_view, name);
@@ -327,7 +327,7 @@ void GUI_Playlist::check_playlist_name(PlaylistConstPtr pl)
 		name.prepend("* ");
 	}
 
-	ui->tw_playlists->setTabText(pl->get_idx(), name);
+	ui->tw_playlists->setTabText(pl->playlist_index(), name);
 }
 
 

@@ -125,7 +125,7 @@ void PlaylistParser::save_playlist(const QString& filename, const MetaDataList& 
 
 	file.write( QByteArray("#EXTM3U\n") );
 
-	qint64 lines = 0;
+	int64_t lines = 0;
 	for(const MetaData& md : v_md) {
 		QString str;
 		if(relative) {

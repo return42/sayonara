@@ -78,10 +78,10 @@ public:
 	QList<LibraryContainerInterface*> get_libraries() const;
 
 	void add_local_library(const LibraryInfo& library);
-	void rename_local_library(qint8 library_id, const QString& new_name);
-	void remove_local_library(qint8 library_id);
+	void rename_local_library(int8_t library_id, const QString& new_name);
+	void remove_local_library(int8_t library_id);
 	void move_local_library(int old_row, int new_row);
-	void change_local_library_path(qint8 library_id, const QString& path);
+	void change_local_library_path(int8_t library_id, const QString& path);
 
 	LibraryContainerInterface* current_library() const;
 	QMenu* current_library_menu() const;

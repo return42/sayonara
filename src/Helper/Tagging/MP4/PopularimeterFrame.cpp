@@ -38,7 +38,7 @@ bool MP4::PopularimeterFrame::map_tag_to_model(Models::Popularimeter& model)
 	TagLib::MP4::Item item = ilm[tag_key()];
 
 	if(item.isValid()){
-		quint8 rating = (quint8) item.toByte();
+		uint8_t rating = (uint8_t) item.toByte();
 		if(rating <= 5){
 			model.set_rating(rating);
 		}

@@ -43,7 +43,7 @@ struct GenreFetcher::Private
 			return nullptr;
 		}
 
-		qint8 library_id = local_library->library_id();
+		int8_t library_id = local_library->library_id();
 
 		DatabaseConnector* db = DatabaseConnector::getInstance();
 		LibraryDatabase* lib_db = db->library_db(library_id, 0);
