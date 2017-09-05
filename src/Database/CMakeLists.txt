@@ -1,5 +1,4 @@
 PROJECT(say_db)
-CMAKE_MINIMUM_REQUIRED(VERSION 2.7)
 
 SET(HEADERS
     CDatabaseConnector.h

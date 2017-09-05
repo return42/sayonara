@@ -1,4 +1,3 @@
-CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 PROJECT(say_gui_plugin_playlist_chooser)
 
 SET(SOURCES

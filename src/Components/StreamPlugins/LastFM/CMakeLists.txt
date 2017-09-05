@@ -1,4 +1,3 @@
-CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 PROJECT(say_comp_streamplugins_lastfm)
 
 SET(SOURCES

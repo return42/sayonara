@@ -1,6 +1,4 @@
 PROJECT(sayonara_soundcloud)
-CMAKE_MINIMUM_REQUIRED(VERSION 2.7)
-
 
 SET(HEADERS
 	SoundcloudData.h

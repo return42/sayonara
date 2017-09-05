@@ -1,5 +1,4 @@
 PROJECT( say_gui_preferences )
-CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 
 SET(SOURCES
     Broadcast/GUI_BroadcastSetup.cpp

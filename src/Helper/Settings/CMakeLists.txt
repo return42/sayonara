@@ -1,5 +1,4 @@
 PROJECT(say_helper_settings)
-CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 
 SET(SOURCES
 	Setting.cpp
