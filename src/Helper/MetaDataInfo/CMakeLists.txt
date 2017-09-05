@@ -1,6 +1,4 @@
 PROJECT( say_helper_metadata_info )
-CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
-
 
 SET(SOURCES
     ./AlbumInfo.cpp

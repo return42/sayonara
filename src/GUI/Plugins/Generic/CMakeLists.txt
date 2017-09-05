@@ -1,5 +1,4 @@
 PROJECT(say_gui_plugins)
-CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 
 SET(SOURCES
     GUI_PlayerPlugin.cpp

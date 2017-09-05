@@ -38,7 +38,7 @@
 #include <thread>
 #include <chrono>
 
-#ifdef Q_OS_LINUX
+#ifdef Q_OS_UNIX
 #ifndef LIB_INSTALL_DIR
 #define LIB_INSTALL_DIR "/usr/lib"
 #endif

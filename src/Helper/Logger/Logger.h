@@ -21,9 +21,10 @@
 #ifndef LOGGER_H
 #define LOGGER_H
 
-#include <iosfwd>
 #include <typeinfo>
 #include <type_traits>
+#include <string>
+
 
 /**
  * @brief The Log enum
@@ -38,6 +39,7 @@ class QObject;
 class QRect;
 class QSize;
 class LogListener;
+
 enum class Log : unsigned char
 {
 	Warning,
@@ -61,8 +63,6 @@ private:
 	struct Private;
 	Private* _m=nullptr;
 
-	std::ostream& out();
-
 public:
 	explicit Logger(bool ignore=false);
 	explicit Logger(const char* msg, bool ignore=false);
@@ -79,6 +79,8 @@ public:
 	Logger& operator << (const QRect& rect);
 	Logger& operator << (const QSize& size);
 	Logger& operator << (const char* str);
+	Logger& operator << (const std::string& str);
+	Logger& operator << (bool b);
 
 	template <typename T>
 	Logger& operator << (const T& msg){
@@ -89,7 +91,7 @@ public:
 	template<typename T, template <typename ELEM> class CONT>
 	Logger& operator << (const CONT<T> list){
 		for(const T& item : list){
-			(*this) << item << ", ";
+			(*this) << std::to_string(item) << ", ";
 		}
 
 		return *this;

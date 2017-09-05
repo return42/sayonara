@@ -49,6 +49,7 @@
 #include <QUrl>
 
 #include <algorithm>
+#include <ctime>
 
 struct LastFM::Private
 {

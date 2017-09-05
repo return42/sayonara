@@ -1,5 +1,4 @@
 PROJECT(say_helper_shutdown)
-CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 
 SET(SOURCES
     Shutdown.cpp

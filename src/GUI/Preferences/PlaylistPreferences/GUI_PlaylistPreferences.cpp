@@ -24,7 +24,6 @@
 #include "GUI_PlaylistPreferences.h"
 #include "GUI/Preferences/ui_GUI_PlaylistPreferences.h"
 
-#include "GUI/Preferences/ui_GUI_PlaylistPreferences.h"
 #include "Helper/Settings/Settings.h"
 #include "Helper/Language.h"
 

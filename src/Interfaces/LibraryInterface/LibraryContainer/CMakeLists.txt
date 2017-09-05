@@ -1,5 +1,4 @@
 PROJECT(say_interfaces_library_container)
-CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 
 SET(SOURCES
 	LibraryContainer.cpp

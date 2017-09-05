@@ -1,5 +1,4 @@
 PROJECT(say_gui_library_info_box)
-CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 
 SET(SOURCES
     ./GUI_LibraryInfoBox.cpp
