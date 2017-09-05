@@ -41,7 +41,7 @@
 #include <QIcon>
 #include <algorithm>
 
-#ifdef Q_OS_LINUX
+#ifdef Q_OS_UNIX
 	#include <execinfo.h>		// backtrace
 	#include <csignal>			// kill/signal
 	#include <sys/types.h>		// kill
@@ -58,7 +58,7 @@
 
 int check_for_another_instance(int64_t own_pid)
 {
-#ifdef Q_OS_LINUX
+#ifdef Q_OS_UNIX
 
 	QDir dir("/proc");
 	dir.cd(".");
@@ -155,7 +155,7 @@ void segfault_handler(int sig)
 {
 	Q_UNUSED(sig)
 
-#ifdef Q_OS_LINUX
+#ifdef Q_OS_UNIX
 
 	void* array[10];
 	size_t size;
@@ -181,7 +181,7 @@ int main(int argc, char *argv[])
 #endif
 
 
-#ifdef Q_OS_LINUX
+#ifdef Q_OS_UNIX
 
 	signal(SIGSEGV, segfault_handler);
 
@@ -192,7 +192,7 @@ int main(int argc, char *argv[])
 		return 0;
 	}
 
-#ifdef Q_OS_LINUX
+#ifdef Q_OS_UNIX
 
 	int pid=0;
 	if( !cmd_data.multiple_instances ){

@@ -1,5 +1,4 @@
 PROJECT(say_comp_playlist)
-CMAKE_MINIMUM_REQUIRED(VERSION 2.7)
 
 SET(SOURCES
     AbstractPlaylist.cpp

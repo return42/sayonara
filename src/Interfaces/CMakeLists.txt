@@ -1,5 +1,4 @@
 PROJECT(say_interfaces)
-CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 
 ADD_SUBDIRECTORY(Notification)
 ADD_SUBDIRECTORY(LibraryInterface)
