@@ -52,6 +52,8 @@ public:
 	QString get_query_string() const;
 	void show_query() const;
 	void show_error(const QString& err_msg) const;
+
+	size_t fetched_rows();
 };
 
 #endif // SAYONARAQUERY_H

@@ -347,7 +347,8 @@ void PlayManager::set_mute(bool b)
 	emit sig_mute_changed(b);
 }
 
-void PlayManager::change_duration(int64_t ms) {
+void PlayManager::change_duration(uint64_t ms) 
+{
 	_m->md.length_ms = ms;
 
 	emit sig_duration_changed(ms);

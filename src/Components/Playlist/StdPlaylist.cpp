@@ -299,6 +299,27 @@ void StdPlaylist::metadata_changed(const MetaDataList& v_md_old, const MetaDataL
 	emit sig_data_changed( playlist_index() );
 }
 
+void StdPlaylist::duration_changed(uint64_t ms)
+{
+	MetaDataList& v_md = metadata();
+
+	int cur_track = v_md.current_track();	
+	if(cur_track < 0 || cur_track >= v_md.count()){
+		return;			
+	}
+
+	IdxList idx_list = find_tracks(
+		v_md[cur_track].filepath()
+	);
+
+	for(int i : idx_list)
+	{
+		MetaData changed_md(v_md[i]);
+		changed_md.length_ms = ms;
+
+		replace_track(i, changed_md);
+	}
+}
 
 void StdPlaylist::metadata_changed_single(const MetaData& md)
 {

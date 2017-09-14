@@ -156,6 +156,8 @@ bool DatabaseTracks::db_fetch_tracks(SayonaraQuery& q, MetaDataList& result)
 		return false;
 	}
 
+	result.reserve(q.fetched_rows());
+
 	while(q.next())
 	{
 		MetaData data;

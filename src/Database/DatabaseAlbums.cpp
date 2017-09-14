@@ -83,11 +83,9 @@ bool DatabaseAlbums::db_fetch_albums(SayonaraQuery& q, AlbumList& result)
 		return false;
 	}
 
-	if(!q.last()){
-		return true;
-	}
+	result.reserve(q.fetched_rows());
 
-	for(bool is_element=q.first(); is_element; is_element = q.next())
+	while(q.next())
 	{
 		Album album;
 
