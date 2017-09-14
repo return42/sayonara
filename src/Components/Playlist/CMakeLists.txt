@@ -13,7 +13,6 @@ SET(SOURCES
 ADD_LIBRARY(${PROJECT_NAME} STATIC ${SOURCES})
 TARGET_LINK_LIBRARIES(${PROJECT_NAME}
     say_comp_playmanager
-    say_comp_engine
 )
 
 IF( WITH_COTIRE )

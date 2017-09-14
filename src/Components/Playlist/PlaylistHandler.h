@@ -341,6 +341,8 @@ private slots:
 	 */
 	void next();
 
+	void wake_up();
+
 
 	/**
 	 * @brief PlayManager's playstate has changed

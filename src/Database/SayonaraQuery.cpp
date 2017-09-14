@@ -21,7 +21,9 @@
 #include "Database/SayonaraQuery.h"
 #include "Database/DatabaseModule.h"
 #include "Helper/Logger/Logger.h"
+
 #include <QSqlDriver>
+#include <cmath>
 
 //#define DB_DEBUG
 
@@ -180,4 +182,19 @@ void SayonaraQuery::show_error(const QString& err_msg) const
 	sp_log(Log::Error) << _m->query_string;
 #endif
 	sp_log(Log::Error) << this->get_query_string();
+}
+
+size_t SayonaraQuery::fetched_rows()
+{
+	int last_pos = this->at();
+
+	this->last(); 
+	int rows = this->at() + 1;
+	this->seek(last_pos);
+
+	if(rows < 0){
+		return 0;
+	}
+
+	return (size_t) rows;
 }

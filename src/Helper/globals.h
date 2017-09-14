@@ -41,13 +41,13 @@
 template<typename TINT, typename T>
 typename std::enable_if<std::is_pointer<T>::value, bool>::type
 between( TINT idx, const T& cont){
-	return (idx >= 0 && idx < cont->size());
+	return (idx >= 0 && idx < static_cast<TINT>(cont->size()));
 }
 
 template<typename TINT, typename T>
 typename std::enable_if<std::is_class<T>::value, bool>::type
 between( TINT idx, const T& cont){
-	return (idx >= 0 && idx < cont.size());
+	return (idx >= 0 && idx < static_cast<TINT>(cont.size()));
 }
 
 template<typename TINT>

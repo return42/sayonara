@@ -25,8 +25,8 @@
 #include "Helper/Settings/Settings.h"
 #include "Helper/MetaData/MetaDataList.h"
 
+#include "Components/PlayManager/PlayManager.h"
 #include "Components/TagEdit/MetaDataChangeNotifier.h"
-#include "Components/Engine/EngineHandler.h"
 
 #include <utility>
 #include <algorithm>
@@ -53,15 +53,15 @@ AbstractPlaylist::AbstractPlaylist(int idx, const QString& name) :
 	SayonaraClass()
 {
 	MetaDataChangeNotifier* md_change_notifier = MetaDataChangeNotifier::getInstance();
-	EngineHandler* engine = EngineHandler::getInstance();
+	PlayManager* play_manager = PlayManager::getInstance();
 
 	_m = Pimpl::make<AbstractPlaylist::Private>(idx,  _settings->get(Set::PL_Mode));
 
 	connect(md_change_notifier, &MetaDataChangeNotifier::sig_metadata_changed, this, &AbstractPlaylist::metadata_changed);
 	connect(md_change_notifier, &MetaDataChangeNotifier::sig_metadata_deleted, this, &AbstractPlaylist::metadata_deleted);
 
-	connect(engine, &EngineHandler::sig_md_changed, this, &AbstractPlaylist::metadata_changed_single);
-	connect(engine, &EngineHandler::sig_dur_changed, this, &AbstractPlaylist::metadata_changed_single);
+	connect(play_manager, &PlayManager::sig_md_changed, this, &AbstractPlaylist::metadata_changed_single);
+	connect(play_manager, &PlayManager::sig_duration_changed, this, &AbstractPlaylist::duration_changed);
 
 	REGISTER_LISTENER(Set::PL_Mode, _sl_playlist_mode_changed);
 }
@@ -119,9 +119,12 @@ void AbstractPlaylist::insert_tracks(const MetaDataList& lst, int tgt)
 
 void AbstractPlaylist::append_tracks(const MetaDataList& lst) 
 {
-	for(const MetaData& md : lst){
-		_m->v_md << std::move(md);
-		_m->v_md.last().is_disabled = !(Helper::File::check_file(md.filepath()));
+	int old_size = _m->v_md.size();
+	_m->v_md << lst;
+
+	for(auto it=_m->v_md.begin() + old_size; it != _m->v_md.end(); it++)
+	{
+		it->is_disabled = !(Helper::File::check_file(it->filepath()));
 	}
 
 	set_changed(true);

@@ -26,6 +26,8 @@
 #include "Helper/typedefs.h"
 #include "Helper/SetFwd.h"
 #include "Helper/Pimpl.h"
+#include <vector>
+
 
 /**
  * @brief The MetaDataList class
@@ -33,7 +35,7 @@
  */
 
 class MetaDataList :
-		public QList<MetaData>
+		public std::vector<MetaData>
 {
 	PIMPL(MetaDataList)
 
@@ -55,6 +57,7 @@ public:
 
 	MetaDataList& move_tracks(const SP::Set<int>& indexes, int tgt_idx);
 	MetaDataList& copy_tracks(const SP::Set<int>& indexes, int tgt_idx);
+	MetaDataList& insert_track(const MetaData& md, int tgt_idx);
 	MetaDataList& insert_tracks(const MetaDataList& v_md, int tgt_idx);
 
 	IdxList findTracks(int id) const;
@@ -67,6 +70,14 @@ public:
 
 	bool contains(int32_t id) const;
 	void remove_duplicates();
+	MetaData take_at(int idx);
+	bool isEmpty() const;
+
+	const MetaData& first() const;
+	const MetaData& last() const;
+
+	int count() const;
 };
+
 
 #endif // METADATALIST_H

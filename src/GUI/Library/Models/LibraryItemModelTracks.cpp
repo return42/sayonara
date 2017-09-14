@@ -61,7 +61,7 @@ QVariant LibraryItemModelTracks::data(const QModelIndex &index, int role) const
 		return QVariant();
 	}
 
-	if (row >= _m->tracks.size()) {
+	if (row >= _m->tracks.count()) {
 		return QVariant();
 	}
 

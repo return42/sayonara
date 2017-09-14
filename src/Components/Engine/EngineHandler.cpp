@@ -180,7 +180,8 @@ void EngineHandler::sl_md_changed(const MetaData& md) {
 	emit sig_md_changed(md);
 }
 
-void EngineHandler::sl_dur_changed(const MetaData& md){
+void EngineHandler::sl_dur_changed(const MetaData& md)
+{
 	_play_manager->change_duration(md.length_ms);
 	emit sig_dur_changed(md);
 }

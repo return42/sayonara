@@ -259,9 +259,11 @@ bool DatabasePlaylist::getPlaylistById(CustomPlaylist& pl)
 		data.artist = filepath;
 		data.set_db_id(module_db_id());
 
-		for(int row=0; row<=pl.size(); row++) {
-			if( row >= position) {
-				pl.insert(row, data);
+		for(int row=0; row<=pl.count(); row++) 
+		{
+			if( row >= position) 
+			{
+				pl.insert_track(data, row);
 				break;
 			}
 		}
@@ -393,7 +395,8 @@ bool DatabasePlaylist::storePlaylist(const MetaDataList& vec_md, QString playlis
 	}
 
 	// fill playlist
-	for(int i=0; i<vec_md.size(); i++) {
+	for(int i=0; i<vec_md.count(); i++) 
+	{
 		bool success = insertTrackIntoPlaylist(vec_md[i], playlist_id, i);
 
 		if( !success ) {
@@ -429,7 +432,8 @@ bool DatabasePlaylist::storePlaylist(const MetaDataList& vec_md, int playlist_id
 	}
 
 	// fill playlist
-	for(int i=0; i<vec_md.size(); i++) {
+	for(int i=0; i<vec_md.count(); i++) 
+	{
 		bool success = insertTrackIntoPlaylist(vec_md[i], playlist_id, i);
 
 		if( !success ) {

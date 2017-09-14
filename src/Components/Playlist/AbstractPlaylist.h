@@ -62,6 +62,7 @@ protected:
 	virtual void fwd()=0;
 	virtual void bwd()=0;
     virtual void next()=0;
+	virtual bool wake_up()=0;
 
 	virtual int create_playlist(const MetaDataList& v_md)=0;
 	virtual void replace_track(int idx, const MetaData& metadata);
@@ -83,7 +84,7 @@ public:
 	int				playlist_index() const;
 	void			set_playlist_index(int idx);
 	void			set_playlist_mode(const Playlist::Mode& mode);
-	uint64_t			running_time() const;
+	uint64_t		running_time() const;
 	Playlist::Mode	playlist_mode() const;
 
 
@@ -121,9 +122,11 @@ public:
 
 	virtual bool change_track(int idx)=0;
 
+public slots:
 	virtual void metadata_deleted(const MetaDataList& v_md_deleted)=0;
 	virtual void metadata_changed(const MetaDataList& v_md_old, const MetaDataList& v_md_new)=0;
 	virtual void metadata_changed_single(const MetaData& metadata)=0;
+	virtual void duration_changed(uint64_t duration)=0;
 
 
 private slots:

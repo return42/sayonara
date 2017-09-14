@@ -29,7 +29,8 @@ enum class PlayState : unsigned char
 {
     Playing=0,
     Paused,
-    Stopped
+	Stopped,
+	FirstStartup
 };
 
 #endif // PLAYSTATE_H

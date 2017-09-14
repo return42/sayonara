@@ -70,11 +70,9 @@ bool DatabaseArtists::db_fetch_artists(SayonaraQuery& q, ArtistList& result)
 		return false;
 	}
 
-	if(!q.last()){
-		return true;
-	}
+	result.reserve(q.fetched_rows());
 
-	for(bool is_element=q.first(); is_element; is_element = q.next())
+	while(q.next())
 	{
 		Artist artist;
 

@@ -61,6 +61,8 @@ signals:
 	 */
 	void sig_next();
 
+	void sig_wake_up();
+
 	/**
 	 * @brief previous track was triggered
 	 */
@@ -152,9 +154,6 @@ signals:
 	void sig_mute_changed(bool b);
 
 	void sig_md_changed(const MetaData& md);
-
-
-	void sig_duration_changed(int64_t ms);
 
 
 public slots:
@@ -266,7 +265,7 @@ public slots:
 	void change_metadata(const MetaData& md);
 
 
-	void change_duration(int64_t ms);
+	void change_duration(uint64_t ms);
 
 public:
 	/**

@@ -333,13 +333,16 @@ bool SC::JsonParser::parse_playlist(ArtistList& artists, Album& album, MetaDataL
 
 	QString album_name = album.name;
 
-	for(int i=0; i<v_md.size(); i++){
-		v_md[i].track_num = i+1;
-		v_md[i].album = album.name;
-		v_md[i].album_id = album.id;
+	for(int i=0; i<v_md.count(); i++)
+	{
+		MetaData& md = v_md[i];
+		md.track_num = i+1;
+		md.album = album.name;
+		md.album_id = album.id;
 
-		if(v_md[i].artist_id != pl_artist.id && pl_artist.id > 0 && v_md[i].artist_id > 0){
-			v_md[i].album += " (by " + pl_artist.name + ")";
+		if(md.artist_id != pl_artist.id && pl_artist.id > 0 && md.artist_id > 0)
+		{
+			md.album += " (by " + pl_artist.name + ")";
 			album_name = album.name + " (by " + pl_artist.name + ")";
 		}
 

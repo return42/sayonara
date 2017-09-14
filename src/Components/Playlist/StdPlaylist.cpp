@@ -31,7 +31,11 @@
 
 struct StdPlaylist::Private
 {
+	int	track_idx_before_stop;
 
+	Private() :
+		track_idx_before_stop(-1)
+	{}
 };
 
 StdPlaylist::StdPlaylist(int idx, const QString& name) :
@@ -51,6 +55,8 @@ Playlist::Type StdPlaylist::type() const
 void StdPlaylist::set_changed(bool b)
 {
 	AbstractPlaylist::set_changed(b);
+
+	_m->track_idx_before_stop = metadata().current_track();
 }
 
 int StdPlaylist::create_playlist(const MetaDataList& v_md) 
@@ -92,6 +98,18 @@ bool StdPlaylist::change_track(int idx)
 	return true;
 }
 
+bool StdPlaylist::wake_up()
+{
+	bool valid_idx = between(metadata().current_track(), count());
+	bool success = valid_idx;
+
+	if(valid_idx){
+		success = change_track(_m->track_idx_before_stop);
+	}
+
+	return success;
+}
+
 
 void StdPlaylist::play() 
 {
@@ -99,9 +117,6 @@ void StdPlaylist::play()
 		stop();
 		return;
 	}
-
-	bool remember_track_before_stop =
-			_settings->get(Set::PL_RememberTrackAfterStop);
 
 	if(metadata().current_track() >= 0){
 		return;
@@ -117,7 +132,11 @@ void StdPlaylist::pause() {}
 
 void StdPlaylist::stop() 
 {
-	metadata().set_current_track(-1);
+	_m->track_idx_before_stop = metadata().current_track();
+
+	if(!_settings->get(Set::PL_RememberTrackAfterStop)){
+		metadata().set_current_track(-1);
+	}
 
 	for(MetaData& md : metadata()){
 		md.played = false;
@@ -167,7 +186,8 @@ void StdPlaylist::next()
 	}
 
 	// shuffle mode
-	else if(Playlist::Mode::isActiveAndEnabled(playlist_mode().shuffle())) {
+	else if(Playlist::Mode::isActiveAndEnabled(playlist_mode().shuffle())) 
+	{
 		track_num = calc_shuffle_track();
 		if(track_num == -1){
 			stop();
@@ -178,7 +198,8 @@ void StdPlaylist::next()
 	// normal track
 	else {
 		// last track
-		if(cur_track == metadata().size() - 1){
+		if(cur_track == metadata().count() - 1)
+		{
 			if(Playlist::Mode::isActiveAndEnabled(playlist_mode().repAll())){
 				track_num = 0;
 			}
@@ -237,13 +258,20 @@ int StdPlaylist::calc_shuffle_track()
 void StdPlaylist::metadata_deleted(const MetaDataList& v_md_deleted)
 {
 	SP::Set<int> indexes;
-	for(int i=0; i<metadata().size(); i++){
-		for(auto it=v_md_deleted.begin(); it != v_md_deleted.end(); it++){
-			if(it->is_equal(metadata()[i])){
+
+	int i=0;
+	for(const MetaData& md : metadata())
+	{
+		for(auto it=v_md_deleted.begin(); it != v_md_deleted.end(); it++)
+		{
+			if(it->is_equal(md))
+			{
 				indexes.insert(i);
 				break;
 			}
 		}
+
+		i++;
 	}
 
 	metadata().remove_tracks(indexes);
@@ -271,6 +299,27 @@ void StdPlaylist::metadata_changed(const MetaDataList& v_md_old, const MetaDataL
 	emit sig_data_changed( playlist_index() );
 }
 
+void StdPlaylist::duration_changed(uint64_t ms)
+{
+	MetaDataList& v_md = metadata();
+
+	int cur_track = v_md.current_track();	
+	if(cur_track < 0 || cur_track >= v_md.count()){
+		return;			
+	}
+
+	IdxList idx_list = find_tracks(
+		v_md[cur_track].filepath()
+	);
+
+	for(int i : idx_list)
+	{
+		MetaData changed_md(v_md[i]);
+		changed_md.length_ms = ms;
+
+		replace_track(i, changed_md);
+	}
+}
 
 void StdPlaylist::metadata_changed_single(const MetaData& md)
 {

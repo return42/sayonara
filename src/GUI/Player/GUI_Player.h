@@ -24,15 +24,16 @@
 #include "GUI/Player/ui_GUI_Player.h"
 
 #include "Components/PlayManager/PlayState.h"
-#include "Helper/MetaData/MetaData.h"
 
 #include "Helper/Message/GlobalMessageReceiverInterface.h"
+#include "Helper/MetaData/RadioMode.h"
 #include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
 #include "GUI/Helper/Shortcuts/ShortcutWidget.h"
 
 #include <QSystemTrayIcon>
 
 class GUI_TrayIcon;
+class MetaData;
 class PlayManager;
 class PlayerPluginInterface;
 class PlayerPluginHandler;
@@ -75,16 +76,12 @@ private:
 	GUI_MTP*					_mtp=nullptr;
 #endif
 
-	GUI_TrayIcon*				_tray_icon=nullptr;
-
 	QTranslator*				_translator=nullptr;
 	QStringList					_translators;
 
 	PlayManager*				_play_manager=nullptr;
 	QMessageBox*				_about_box=nullptr;
 	GUI_Logger*					_logger=nullptr;
-
-	MetaData					_md;
 
 	QList<QAction*>				_library_actions;
 
@@ -96,12 +93,15 @@ private:
 	void setup_volume_button(int percent);
 	void setup_connections();
 
-	void set_album_label();
-	void set_artist_label();
-	void set_title_label();
-	void set_info_labels();
+	void set_album_label(const QString& album, int year);
+	void set_artist_label(const QString& artist);
+	void set_title_label(const QString& title);
 
-	void set_radio_mode(RadioMode model);
+	void refresh_info_labels();
+	void set_info_labels(const MetaData& md);
+
+	void set_radio_mode(RadioMode mode);
+	void check_record_button_visible();
 
 	void closeEvent(QCloseEvent* e) override;
 	void keyPressEvent(QKeyEvent* e) override;
@@ -113,7 +113,7 @@ private:
 
 	void set_total_time_label(int64_t length_ms);
 	void set_cur_pos_label(int val);
-	void set_cover_location();
+	void set_cover_location(const MetaData& md);
 	void set_standard_cover();
 
 	// Methods for other mudules to display info/warning/error
