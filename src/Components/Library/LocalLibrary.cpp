@@ -352,7 +352,7 @@ void LocalLibrary::merge_artists(const SP::Set<ArtistID>& artist_ids, ArtistID t
 	get_all_tracks_by_artist(artist_ids.toList(), v_md, _filter, _sortorder);
 	tag_edit()->set_metadata(v_md);
 
-	for(int idx=0; idx<v_md.size(); idx++)
+	for(int idx=0; idx<v_md.count(); idx++)
 	{
 		MetaData md(v_md[idx]);
 		if(show_album_artists){
@@ -391,7 +391,8 @@ void LocalLibrary::merge_albums(const SP::Set<AlbumID>& album_ids, AlbumID targe
 	get_all_tracks_by_album(album_ids.toList(), v_md, _filter, _sortorder);
 
 	tag_edit()->set_metadata(v_md);
-	for(int idx=0; idx<v_md.size(); idx++)
+
+	for(int idx=0; idx<v_md.count(); idx++)
 	{
 		MetaData md(v_md[idx]);
 		md.album_id = album.id;

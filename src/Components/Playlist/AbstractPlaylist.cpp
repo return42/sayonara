@@ -119,9 +119,12 @@ void AbstractPlaylist::insert_tracks(const MetaDataList& lst, int tgt)
 
 void AbstractPlaylist::append_tracks(const MetaDataList& lst) 
 {
-	for(const MetaData& md : lst){
-		_m->v_md << std::move(md);
-		_m->v_md.last().is_disabled = !(Helper::File::check_file(md.filepath()));
+	int old_size = _m->v_md.size();
+	_m->v_md << lst;
+
+	for(auto it=_m->v_md.begin() + old_size; it != _m->v_md.end(); it++)
+	{
+		it->is_disabled = !(Helper::File::check_file(it->filepath()));
 	}
 
 	set_changed(true);

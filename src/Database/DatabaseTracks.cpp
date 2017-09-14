@@ -179,7 +179,7 @@ bool DatabaseTracks::db_fetch_tracks(SayonaraQuery& q, MetaDataList& result)
 		data.library_id = 	q.value(16).toInt();
 		data.set_db_id(module_db_id());
 
-		result.append(data);
+		result << data;
 	}
 
 	return true;
@@ -223,7 +223,7 @@ bool DatabaseTracks::getMultipleTracksByPath(const QStringList& paths, MetaDataL
 
 	module_db().commit();
 
-	return (v_md.size() == paths.size());
+	return (v_md.count() == paths.size());
 }
 
 
@@ -558,21 +558,18 @@ bool DatabaseTracks::deleteTracks(const IDList& ids)
 
 bool DatabaseTracks::deleteTracks(const MetaDataList& v_md)
 {
-	int success = 0;
-
 	module_db().transaction();
 
-	for(const MetaData& md : v_md){
-		if( deleteTrack(md.id) ){
-			success++;
-		};
-	}
+	size_t deleted_tracks = std::count_if(v_md.begin(), v_md.end(), [=](const MetaData& md)
+	{
+		return this->deleteTrack(md.id);
+	});
 
 	module_db().commit();
 
-	sp_log(Log::Info) << "Deleted " << success << " of " << v_md.size() << " tracks";
+	sp_log(Log::Info) << "Deleted " << deleted_tracks << " of " << v_md.size() << " tracks";
 
-	return (success == v_md.size());
+	return (deleted_tracks == v_md.size());
 }
 
 bool DatabaseTracks::deleteInvalidTracks(const QString& library_path)
@@ -757,21 +754,17 @@ bool DatabaseTracks::updateTrack(const MetaData& md)
 	return true;
 }
 
-bool DatabaseTracks::updateTracks(const MetaDataList& lst)
+bool DatabaseTracks::updateTracks(const MetaDataList& v_md)
 {
-	bool success;
-	int n_files = 0;
-
 	module_db().transaction();
-	for(const MetaData& md : lst){
-		if(updateTrack(md)){
-			n_files++;
-		}
-	}
 
-	success = module_db().commit();
+	size_t n_files = std::count_if(v_md.begin(), v_md.end(), [=](const MetaData& md){
+		return this->updateTrack(md);
+	});
 
-	return success && (n_files == lst.size());
+	bool success = module_db().commit();
+
+	return success && (n_files == v_md.size());
 }
 
 bool DatabaseTracks::insertTrackIntoDatabase(const MetaData& md, int artist_id, int album_id)

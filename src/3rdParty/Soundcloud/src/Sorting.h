@@ -14,7 +14,7 @@ namespace SC
 		void sort_artists(ArtistList& artists, ::Library::SortOrder so);
 		void sort_albums(AlbumList& albums, ::Library::SortOrder so);
 		void sort_tracks(MetaDataList& v_md, ::Library::SortOrder so);
-	};
+	}
 }
 
 #endif // SORTING_H

@@ -26,15 +26,17 @@
 
 #include <QDateTime>
 #include <QTime>
-#include <algorithm>
 
+#include <algorithm>
+#include <array>
 
 template<typename T, int N_ITEMS>
-class RingBuffer {
+class RingBuffer 
+{
 	private:
 		int _cur_idx;
 		int _n_items;
-		T _data[N_ITEMS];
+		std::array<T, N_ITEMS> _data;
 
 	public:
 		RingBuffer()
@@ -48,7 +50,8 @@ class RingBuffer {
 			_n_items = 0;
 		}
 
-		void insert(const T& item) {
+		void insert(const T& item) 
+		{
 			_data[_cur_idx] = item;
 			_cur_idx = (_cur_idx + 1) % N_ITEMS;
 			_n_items = std::min(N_ITEMS, _n_items + 1);
@@ -56,13 +59,8 @@ class RingBuffer {
 
 		bool has_item(const T& item) const
 		{
-			for(int i=0; i<_n_items; i++) {
-				if(_data[i] == item) {
-					return true;
-				}
-			}
-
-			return false;
+			auto it = std::find(_data.begin(), _data.end(), item);
+			return (it != _data.end());
 		}
 
 		int count() const
@@ -81,8 +79,8 @@ struct PlayManager::Private
 {
 		MetaData				md;
 		RingBuffer<QString, 3>	ring_buffer;
-		uint64_t				position_ms;
 		int						track_idx;
+		uint64_t				position_ms;
 		uint64_t				initial_position_ms;
 		PlayState				playstate;
 
@@ -96,8 +94,8 @@ struct PlayManager::Private
 		{
 			md = MetaData();
 			ring_buffer.clear();
-			position_ms = 0;
 			track_idx = -1;
+			position_ms = 0;
 			initial_position_ms = 0;
 			playstate = PlayState::Stopped;
 		}
@@ -114,7 +112,10 @@ PlayManager::PlayManager(QObject* parent) :
 	bool load_last_track = _settings->get(Set::PL_LoadLastTrack);
 	bool remember_last_time = _settings->get(Set::PL_RememberTime);
 
-	if(load_playlist && load_last_track && remember_last_time) {
+	if(	load_playlist && 
+		load_last_track && 
+		remember_last_time) 
+	{
 		_m->initial_position_ms = _settings->get(Set::Engine_CurTrackPos_s) * 1000;
 	}
 
@@ -304,14 +305,16 @@ void PlayManager::change_track(const MetaData& md, int track_idx)
 	}
 }
 
-
 void PlayManager::set_track_ready()
 {
-	if(_m->initial_position_ms > 0) {
-		sp_log(Log::Debug, this) << "Track ready, " << (int) (_m->initial_position_ms / 1000);
-		this->seek_abs_ms(_m->initial_position_ms);
-		_m->initial_position_ms = 0;
+	if(_m->initial_position_ms == 0) {
+		return;
 	}
+
+	sp_log(Log::Debug, this) << "Track ready, " << _m->initial_position_ms / 1000;
+	this->seek_abs_ms(_m->initial_position_ms);
+
+	_m->initial_position_ms = 0;
 }
 
 void PlayManager::buffering(int progress)

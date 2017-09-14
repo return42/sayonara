@@ -186,7 +186,8 @@ void StdPlaylist::next()
 	}
 
 	// shuffle mode
-	else if(Playlist::Mode::isActiveAndEnabled(playlist_mode().shuffle())) {
+	else if(Playlist::Mode::isActiveAndEnabled(playlist_mode().shuffle())) 
+	{
 		track_num = calc_shuffle_track();
 		if(track_num == -1){
 			stop();
@@ -197,7 +198,8 @@ void StdPlaylist::next()
 	// normal track
 	else {
 		// last track
-		if(cur_track == metadata().size() - 1){
+		if(cur_track == metadata().count() - 1)
+		{
 			if(Playlist::Mode::isActiveAndEnabled(playlist_mode().repAll())){
 				track_num = 0;
 			}
@@ -256,13 +258,20 @@ int StdPlaylist::calc_shuffle_track()
 void StdPlaylist::metadata_deleted(const MetaDataList& v_md_deleted)
 {
 	SP::Set<int> indexes;
-	for(int i=0; i<metadata().size(); i++){
-		for(auto it=v_md_deleted.begin(); it != v_md_deleted.end(); it++){
-			if(it->is_equal(metadata()[i])){
+
+	int i=0;
+	for(const MetaData& md : metadata())
+	{
+		for(auto it=v_md_deleted.begin(); it != v_md_deleted.end(); it++)
+		{
+			if(it->is_equal(md))
+			{
 				indexes.insert(i);
 				break;
 			}
 		}
+
+		i++;
 	}
 
 	metadata().remove_tracks(indexes);

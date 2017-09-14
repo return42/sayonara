@@ -125,7 +125,8 @@ void AbstractLibrary::refresh()
 
 	change_album_selection(sel_albums_idx);
 
-	for(int i=0; i<_vec_md.size(); i++){
+	for(int i=0; i<_vec_md.count(); i++)
+	{
 		if(sel_tracks.contains(_vec_md[i].id)) {
 			sel_tracks_idx.insert(i);
 		}
@@ -599,29 +600,36 @@ void AbstractLibrary::psl_metadata_id3_changed(const MetaDataList& v_md_old, con
 {
 	// id -> idx
 	QHash<int, int> md_map;
-	for(int i=0; i<_vec_md.size(); i++){
-		md_map[_vec_md[i].id] = i;
+
+	for(int i=0; i<_vec_md.count(); i++)
+	{
+		int id = _vec_md[i].id;
+		md_map[id] = i;
 	}
 
 	// check for new artists and albums
-	for(int i=0; i<v_md_old.size(); i++){
+	for(int i=0; i<v_md_old.count(); i++)
+	{
 		int id = v_md_old[i].id;
 		int new_artist_id = v_md_new[i].artist_id;
 		int new_album_id = v_md_new[i].album_id;
 
-		if( v_md_old[i].artist_id != new_artist_id ){
+		if( v_md_old[i].artist_id != new_artist_id )
+		{
 			if( !_selected_artists.contains(new_artist_id) ){
 				_selected_artists.insert(new_artist_id);
 			}
 		}
 
-		if( v_md_old[i].album_id != new_album_id){
+		if( v_md_old[i].album_id != new_album_id)
+		{
 			if( !_selected_albums.contains(new_album_id) ){
 				_selected_albums.insert(new_album_id);
 			}
 		}
 
-		if(md_map.contains(id)){
+		if(md_map.contains(id))
+		{
 			int val = md_map[id];
 			_vec_md[val] = v_md_new[i];
 		}
@@ -736,7 +744,7 @@ void AbstractLibrary::add_genre(SP::Set<ID> ids, const QString& genre)
 
 	tag_edit()->set_metadata(v_md);
 
-	for(int i=0; i<v_md.size(); i++)
+	for(int i=0; i<v_md.count(); i++)
 	{
 		if( ids.contains(v_md[i].id) ){
 			tag_edit()->add_genre(i, genre);
@@ -756,7 +764,7 @@ void AbstractLibrary::delete_genre(const QString& genre)
 	sp_log(Log::Debug, this) << "Delete genre: Set Metadata";
 	tag_edit()->set_metadata(v_md);
 
-	for(int i=0; i<v_md.size(); i++)
+	for(int i=0; i<v_md.count(); i++)
 	{
 		tag_edit()->delete_genre(i, genre);
 	}
@@ -773,7 +781,7 @@ void AbstractLibrary::rename_genre(const QString& genre, const QString& new_genr
 	get_all_tracks(v_md, Library::Sortings());
 	tag_edit()->set_metadata(v_md);
 
-	for(int i=0; i<v_md.size(); i++)
+	for(int i=0; i<v_md.count(); i++)
 	{
 		if(v_md[i].has_genre(g)){
 			tag_edit()->delete_genre(i, genre);

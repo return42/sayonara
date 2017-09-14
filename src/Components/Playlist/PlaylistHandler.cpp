@@ -717,8 +717,10 @@ void PlaylistHandler::delete_tracks(const SP::Set<int>& rows, Library::TrackDele
 	PlaylistPtr pl = _m->playlists[idx];
 	const MetaDataList& tracks = pl->playlist();
 	MetaDataList v_md;
-	for(int i : rows){
-		if(i >= 0 && i < tracks.size()){
+	for(int i : rows)
+	{
+		if(i >= 0 && i < tracks.count())
+		{
 			v_md << tracks[i];
 		}
 	}
