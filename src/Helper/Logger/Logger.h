@@ -82,12 +82,6 @@ public:
 	Logger& operator << (const std::string& str);
 	Logger& operator << (bool b);
 
-	template <typename T>
-	Logger& operator << (const T& msg){
-		out() << msg;
-		return *this;
-	}
-
 	template<typename T, template <typename ELEM> class CONT>
 	Logger& operator << (const CONT<T> list){
 		for(const T& item : list){

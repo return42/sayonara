@@ -2,7 +2,7 @@ INCLUDE(CheckCXXCompilerFlag)
 SET(CMAKE_CXX_STANDARD 11)
 SET(CMAKE_CXX_STANDARD_REQUIRED ON) 
 
-SET(COMMON_FLAGS "-fno-diagnostics-show-caret -ftrack-macro-expansion=0")
+#SET(COMMON_FLAGS "-fno-diagnostics-show-caret -ftrack-macro-expansion=0")
 
 MESSAGE("Build type = ${CMAKE_BUILD_TYPE}")
 
