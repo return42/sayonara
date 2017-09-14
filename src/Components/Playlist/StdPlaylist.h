@@ -47,6 +47,7 @@ public:
 	void bwd() override;
 	void next() override;
 	bool change_track(int idx) override;
+	bool wake_up() override;
 
 	int create_playlist(const MetaDataList& v_md) override;
 

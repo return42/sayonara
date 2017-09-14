@@ -154,8 +154,6 @@ void GUI_Player::language_changed()
 // new track
 void GUI_Player::track_changed(const MetaData & md)
 {
-	_md = md;
-
 	lab_sayonara->hide();
 	lab_title->show();
 
@@ -168,40 +166,47 @@ void GUI_Player::track_changed(const MetaData & md)
 	lab_copyright->hide();
 	lab_rating->show();
 
-	set_info_labels();
+	set_info_labels(md);
 	set_cur_pos_label(0);
-	set_total_time_label(_md.length_ms);
+	set_total_time_label(md.length_ms);
 	file_info_changed();
-	set_cover_location();
-	set_radio_mode( _md.radio_mode() );
+	set_cover_location(md);
+	set_radio_mode( md.radio_mode() );
+
+	sli_progress->setEnabled( (md.length_ms / 1000) > 0 );
 
 	this->setWindowTitle(QString("Sayonara - ") + md.title);
 	this->repaint();
 }
 
 
-void GUI_Player::set_info_labels()
+void GUI_Player::refresh_info_labels()
 {
-	set_title_label();
-	set_album_label();
-	set_artist_label();
+	set_info_labels(_play_manager->get_cur_track());
+}
+
+void GUI_Player::set_info_labels(const MetaData& md)
+{
+	set_title_label(md.title);
+	set_album_label(md.album, md.year);
+	set_artist_label(md.artist);
 }
 
 
-void GUI_Player::set_title_label()
+void GUI_Player::set_title_label(const QString& title)
 {
-	QString text = GUI::elide_text(_md.title, lab_title, 2);
+	QString text = GUI::elide_text(title, lab_title, 2);
 	lab_title->setText(text);
 }
 
 
-void GUI_Player::set_album_label()
+void GUI_Player::set_album_label(const QString& album, int year)
 {
-	QString str_year = QString::number(_md.year);
-	QString album_name = _md.album;
-	QFontMetrics fm = lab_album->fontMetrics();
+	QString str_year = QString::number(year);
+	QString album_name(album);
+	QFontMetrics fm(lab_album->fontMetrics());
 
-	if(_md.year > 1000 && !_md.album.contains(str_year)){
+	if(year > 1000 && !album_name.contains(str_year)){
 		album_name += " (" + str_year + ")";
 	}
 
@@ -209,29 +214,21 @@ void GUI_Player::set_album_label()
 }
 
 
-void GUI_Player::set_artist_label()
+void GUI_Player::set_artist_label(const QString& artist)
 {
 	QFontMetrics fm = lab_artist->fontMetrics();
-	lab_artist->setText( fm.elidedText(_md.artist, Qt::ElideRight, lab_artist->width()) );
+	lab_artist->setText( fm.elidedText(artist, Qt::ElideRight, lab_artist->width()) );
 }
 
 
 void GUI_Player::dur_changed(const MetaData& md)
 {
-	if(_md != md){
-		return;
-	}
-
 	set_total_time_label(md.length_ms);
 }
 
 void GUI_Player::br_changed(const MetaData& md)
 {
 	QString rating_text;
-
-	if(_md != md){
-		return;
-	}
 
 	if(md.bitrate / 1000 > 0){
 		rating_text = QString::number(md.bitrate / 1000) + " kBit/s";
@@ -251,21 +248,14 @@ void GUI_Player::br_changed(const MetaData& md)
 
 void GUI_Player::md_changed(const MetaData& md)
 {
-	if(_md != md &&
-		md.title == _md.title)
-	{
-		return;
-	}
-
 	md.print();
-
-	_md = md;
+	MetaData modified_md(md);
 
 	if(md.radio_mode() == RadioMode::Station){
-		_md.album = _md.album + " (" + _md.filepath() + ")";
+		modified_md.album = md.album + " (" + md.filepath() + ")";
 	}
 
-	set_info_labels();
+	set_info_labels(modified_md);
 }
 
 
@@ -273,20 +263,15 @@ void GUI_Player::md_changed(const MetaData& md)
 // id3 tags have changed
 void GUI_Player::id3_tags_changed(const MetaDataList& v_md_old, const MetaDataList& v_md_new)
 {
-	IdxList idxs = v_md_old.findTracks(_md.filepath());
-	if(idxs.isEmpty()) {
-		return;
-	}
+	Q_UNUSED(v_md_old)
+	Q_UNUSED(v_md_new)
 
-	int idx = idxs.first();
+	MetaData md = _play_manager->get_cur_track();
 
-	_md = v_md_new[idx];
+	set_info_labels(md);
+	set_cover_location(md);
 
-	set_info_labels();
-
-	setWindowTitle(QString("Sayonara - ") + _md.title);
-
-	set_cover_location();
+	setWindowTitle(QString("Sayonara - ") + md.title);
 }
 
 void GUI_Player::skin_changed()
@@ -327,20 +312,16 @@ void GUI_Player::skin_toggled(bool on)
 /** TRAY ICON **/
 void GUI_Player::setup_tray_actions()
 {
-	_tray_icon = new GUI_TrayIcon(this);
-	_tray_icon->installEventFilter(this);
+	GUI_TrayIcon* tray_icon = new GUI_TrayIcon(this);
+	tray_icon->installEventFilter(this);
 
-	connect(_tray_icon, &GUI_TrayIcon::sig_close_clicked, this, &GUI_Player::really_close);
-	connect(_tray_icon, &GUI_TrayIcon::sig_show_clicked, this, &GUI_Player::raise);
-	connect(_tray_icon, &GUI_TrayIcon::sig_wheel_changed, this, &GUI_Player::change_volume_by_tick);
-	connect(_tray_icon, &GUI_TrayIcon::activated, this, &GUI_Player::tray_icon_activated);
-	connect(_tray_icon, &QObject::destroyed, this, [=]()
-	{
-		this->_tray_icon = nullptr;
-	});
+	connect(tray_icon, &GUI_TrayIcon::sig_close_clicked, this, &GUI_Player::really_close);
+	connect(tray_icon, &GUI_TrayIcon::sig_show_clicked, this, &GUI_Player::raise);
+	connect(tray_icon, &GUI_TrayIcon::sig_wheel_changed, this, &GUI_Player::change_volume_by_tick);
+	connect(tray_icon, &GUI_TrayIcon::activated, this, &GUI_Player::tray_icon_activated);
 
 	if(_settings->get(Set::Player_ShowTrayIcon)){
-		_tray_icon->show();
+		tray_icon->show();
 	}
 }
 
@@ -462,38 +443,40 @@ void GUI_Player::register_preference_dialog(PreferenceDialogInterface* dialog)
 
 void GUI_Player::set_radio_mode(RadioMode radio)
 {
-	bool lame_available = _settings->get(SetNoDB::MP3enc_found);
-	bool sr_active = (_settings->get(Set::Engine_SR_Active)) && lame_available;
-	bool btn_rec_visible = ((radio != RadioMode::Off) && sr_active);
-
-	btn_play->setVisible(!btn_rec_visible);
-	btn_rec->setVisible(btn_rec_visible);
-	_tray_icon->set_enable_fwd(true);
-	sli_progress->setEnabled( (_md.length_ms / 1000) > 0 );
-
-	_play_manager->record(btn_rec->isChecked() && btn_rec->isVisible());
+	check_record_button_visible();
 
 	if(radio != RadioMode::Off){
 		buffering(0);
 	}
 }
 
-
 void GUI_Player::_sl_sr_active_changed()
 {
-	bool active = _settings->get(Set::Engine_SR_Active);
-
-	if(active) {
-		btn_play->setVisible(_md.radio_mode() == RadioMode::Off);
-		btn_rec->setVisible(_md.radio_mode() != RadioMode::Off);
-	}
-
-	else{
-		btn_play->setVisible(true);
-		btn_rec->setVisible(false);
-	}
-
+	check_record_button_visible();
 	btn_rec->setChecked(false);
+}
+
+void GUI_Player::check_record_button_visible()
+{
+	MetaData md = _play_manager->get_cur_track();
+	PlayState playstate = _play_manager->get_play_state();
+
+	bool is_lame_available = _settings->get(SetNoDB::MP3enc_found);
+	bool is_sr_active = _settings->get(Set::Engine_SR_Active);
+	bool is_radio = ((md.radio_mode() != RadioMode::Off));
+	bool is_playing = (playstate == PlayState::Playing);
+
+	bool recording_enabled = (is_lame_available &&
+							  is_sr_active &&
+							  is_radio &&
+							  is_playing);
+
+	btn_play->setVisible(!recording_enabled);
+	btn_rec->setVisible(recording_enabled);
+
+	if(!recording_enabled){
+		btn_rec->setChecked(false);
+	}
 }
 
 

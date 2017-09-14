@@ -161,7 +161,8 @@ void SC::Sorting::sort_artists(ArtistList& artists, Library::SortOrder so)
 void SC::Sorting::sort_albums(AlbumList& albums, Library::SortOrder so)
 {
 	std::function<bool (const Album& a1, const Album& a2)> fn;
-	switch(so) {
+	switch(so) 
+	{
 		case Library::SortOrder::AlbumNameAsc:
 			fn = Compare::albumNameAsc;
 			break;
@@ -180,9 +181,11 @@ void SC::Sorting::sort_albums(AlbumList& albums, Library::SortOrder so)
 
 		case Library::SortOrder::AlbumDurationAsc:
 			fn = Compare::albumDurationAsc;
+			break;
 
 		case Library::SortOrder::AlbumDurationDesc:
 			fn = Compare::albumDurationDesc;
+			break;
 
 		default:
 			return;

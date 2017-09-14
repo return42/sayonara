@@ -30,9 +30,9 @@
 #include <QPixmap>
 #include <QIcon>
 
-void GUI_Player::set_cover_location()
+void GUI_Player::set_cover_location(const MetaData& md)
 {
-	CoverLocation cl = CoverLocation::get_cover_location(_md);
+	CoverLocation cl = CoverLocation::get_cover_location(md);
 
 	albumCover->set_cover_location(cl);
 }

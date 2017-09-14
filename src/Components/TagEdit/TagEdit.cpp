@@ -29,6 +29,7 @@
 #include "Database/DatabaseConnector.h"
 
 #include <QHash>
+#include <vector>
 #include <algorithm>
 
 
@@ -39,7 +40,7 @@ struct TagEdit::Private
 
 	MetaDataList			v_md_before_change;
 	MetaDataList			v_md_after_change;
-	QList<bool>				changed_md;	// indicates if metadata at idx was changed
+	std::vector<bool>		changed_md;	// indicates if metadata at idx was changed
 	QMap<int, QImage>		cover_map;
 
 	QHash<QString, ArtistID> artist_map;
@@ -178,14 +179,10 @@ void TagEdit::set_metadata(const MetaDataList& v_md)
 	_m->v_md_orig = v_md;
 
 	_m->cover_map.clear();
-	_m->changed_md.clear();
+	_m->changed_md.assign(v_md.size(), false);
 
-	if(v_md.size() > 0){
+	if( v_md.size() > 0) {
 		_m->ldb = DatabaseConnector::getInstance()->library_db(v_md.first().library_id, 0);
-	}
-
-	for(int i=0; i<v_md.size(); i++){
-		_m->changed_md << false;
 	}
 
 	emit sig_metadata_received(_m->v_md);
@@ -200,9 +197,11 @@ bool TagEdit::is_cover_supported(int idx) const
 
 void TagEdit::apply_artists_and_albums_to_md()
 {
-	for(int i=0; i<_m->v_md.size(); i++) {
-
-		if( _m->changed_md[i] == false ) {
+	for(int i=0; i<_m->v_md.count(); i++) 
+	{
+		bool changed = _m->changed_md[i];
+		if( !changed )
+		{
 			continue;
 		}
 
@@ -258,7 +257,8 @@ void TagEdit::run()
 
 	int i=0;
 	int n_operations = _m->v_md.size() + _m->cover_map.size();
-	for(i=0; i<_m->v_md.size(); i++)
+
+	for(i=0; i<_m->v_md.count(); i++)
 	{
 		MetaData md = _m->v_md[i];
 		emit sig_progress( (i * 100) / n_operations);
@@ -282,8 +282,8 @@ void TagEdit::run()
 		}
 	}
 
-	for(int idx : _m->cover_map.keys()){
-		
+	for(int idx : _m->cover_map.keys())
+	{
 		Tagging::write_cover(_m->v_md[idx], _m->cover_map[idx]);
 		emit sig_progress( (i++ * 100) / n_operations);
 	}

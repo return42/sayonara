@@ -305,10 +305,11 @@ void LastFM::sl_similar_artists_available(IDList artist_ids)
 		std::random_shuffle(artist_tracks.begin(), artist_tracks.end());
 
 		// try all songs of artist
-		for(int rounds=0; rounds < artist_tracks.size(); rounds++) {
+		for(int rounds=0; rounds < artist_tracks.count(); rounds++) 
+		{
 			int rnd_track = RandomGenerator::get_random_number(0, artist_tracks.size()- 1);
 
-			MetaData md = artist_tracks.takeAt(rnd_track);
+			MetaData md = artist_tracks.take_at(rnd_track);
 
 			// two times the same track is not allowed
 			bool track_exists = std::any_of(v_md.begin(), v_md.end(), [md](const MetaData& it_md){

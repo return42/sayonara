@@ -113,7 +113,8 @@ void GenreFetcher::add_genre_to_md(const MetaDataList& v_md, const QString& genr
 {
 	_m->tag_edit->set_metadata(v_md);
 
-	for(int i=0; i<v_md.size(); i++){
+	for(int i=0; i<v_md.count(); i++)
+	{
 		_m->tag_edit->add_genre(i, genre);
 	}
 

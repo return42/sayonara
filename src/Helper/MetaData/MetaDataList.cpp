@@ -35,13 +35,13 @@ struct MetaDataList::Private
 };
 
 MetaDataList::MetaDataList() :
-	QList<MetaData>()
+	std::vector<MetaData>()
 {
 	_m = Pimpl::make<Private>();
 }
 
 MetaDataList::MetaDataList(const MetaDataList& other) :
-	QList(other)
+	std::vector<MetaData>(other)
 {
 	_m = Pimpl::make<Private>();
 	_m->current_track = other.current_track();
@@ -51,15 +51,17 @@ MetaDataList::~MetaDataList() {}
 
 MetaDataList& MetaDataList::operator=(const MetaDataList& other)
 {
-	this->clear();
-	for(auto it=other.begin(); it!=other.end(); it++)
-	{
-		this->push_back(*it);
-	}
+	this->resize(other.count());
+	std::copy(other.begin(), other.end(), this->begin());
 
 	_m->current_track = other.current_track();
 
 	return *this;
+}
+
+int MetaDataList::current_track() const
+{
+	return _m->current_track;
 }
 
 void MetaDataList::set_current_track(int idx)
@@ -79,26 +81,28 @@ void MetaDataList::set_current_track(int idx)
 	_m->current_track = idx;
 }
 
+MetaDataList& MetaDataList::insert_track(const MetaData& md, int tgt_idx)
+{
+	MetaDataList v_md; v_md << md;
+	return insert_tracks(v_md, tgt_idx);
+}
+
 MetaDataList& MetaDataList::insert_tracks(const MetaDataList& v_md, int tgt_idx)
 {
 	if(v_md.isEmpty()) {
 		return *this;
 	}
 
-	int cur_track = this->current_track();
-
 	tgt_idx = std::max(0, tgt_idx);
-	tgt_idx = std::min(this->size(), tgt_idx);
+	tgt_idx = std::min((int) this->count(), tgt_idx);
 
-	int old_tgt_idx = tgt_idx;
+	this->resize(this->count() + v_md.count());
 
-	for(const MetaData& md : v_md){
-		this->insert(tgt_idx, md);
-		tgt_idx++;
-	}
+	std::move(this->begin() + tgt_idx, this->end(), this->begin() + v_md.count());
+	std::copy(v_md.begin(), v_md.end(), this->begin() + tgt_idx);
 
-	if(cur_track >= old_tgt_idx){
-		set_current_track(cur_track + v_md.size());
+	if(current_track() >= tgt_idx){
+		set_current_track(current_track() + v_md.count());
 	}
 
 	return *this;
@@ -106,7 +110,8 @@ MetaDataList& MetaDataList::insert_tracks(const MetaDataList& v_md, int tgt_idx)
 
 MetaDataList& MetaDataList::copy_tracks(const SP::Set<int>& indexes, int tgt_idx)
 {
-	MetaDataList v_md;
+	MetaDataList v_md; v_md.reserve(indexes.size());
+
 	for(int idx : indexes){
 		v_md << this->operator[](idx);
 	}
@@ -117,9 +122,9 @@ MetaDataList& MetaDataList::copy_tracks(const SP::Set<int>& indexes, int tgt_idx
 
 MetaDataList& MetaDataList::move_tracks(const SP::Set<int>& indexes, int tgt_idx)
 {
-	MetaDataList v_md_to_move;
-	MetaDataList v_md_before_tgt;
-	MetaDataList v_md_after_tgt;
+	MetaDataList v_md_to_move; 		v_md_to_move.reserve(indexes.size());
+	MetaDataList v_md_before_tgt; 	v_md_before_tgt.reserve(count() + indexes.size());
+	MetaDataList v_md_after_tgt; 	v_md_after_tgt.reserve(count() + indexes.size());
 
 	int i=0;
 	int n_tracks_after_cur_idx = 0;
@@ -157,18 +162,19 @@ MetaDataList& MetaDataList::move_tracks(const SP::Set<int>& indexes, int tgt_idx
 	int start_idx = 0;
 
 	std::move(v_md_before_tgt.begin(), v_md_before_tgt.end(), this->begin());
-	start_idx += v_md_before_tgt.size();
+	start_idx += v_md_before_tgt.count();
 
 	std::move(v_md_to_move.begin(), v_md_to_move.end(), this->begin() + start_idx);
-	start_idx += v_md_to_move.size();
+	start_idx += v_md_to_move.count();
 
 	std::move(v_md_after_tgt.begin(), v_md_after_tgt.end(), this->begin() + start_idx);
 
 	if(contains_cur_track) {
-		_m->current_track = (n_tracks_before_cur_idx) + v_md_before_tgt.size();
+		_m->current_track = (n_tracks_before_cur_idx) + v_md_before_tgt.count();
 	}
 
-	if(!contains_cur_track) {
+	if(!contains_cur_track) 
+	{
 		if(tgt_idx <= _m->current_track) {
 			_m->current_track += n_tracks_after_cur_idx;
 		}
@@ -188,24 +194,26 @@ MetaDataList& MetaDataList::remove_track(int idx)
 
 MetaDataList& MetaDataList::remove_tracks(int first, int last)
 {
-	if(!between(first, this)){
+	if( !between(first, this) || 
+		!between(last, this))
+	{
 		return *this;
 	}
 
-	if(!between(last, this)){
-		return *this;
+	int n_elems = last - first + 1;
+
+	if(last != this->count() - 1) {
+		std::move(this->begin() + last + 1, this->end(), this->begin()  + first);
 	}
 
-	for(int i=last; i>=first; i--){
-		this->removeAt(first);
-	}
+	this->resize(this->count() - n_elems);
 
 	if(_m->current_track >= first && _m->current_track <= last){
 		set_current_track(-1);
 	}
 
 	if(_m->current_track > last){
-		set_current_track( _m->current_track - (last - first + 1) );
+		set_current_track( _m->current_track - n_elems );
 	}
 
 	return *this;
@@ -213,15 +221,27 @@ MetaDataList& MetaDataList::remove_tracks(int first, int last)
 
 MetaDataList& MetaDataList::remove_tracks(const SP::Set<int>& indexes)
 {
-	for(auto it=indexes.rbegin(); it != indexes.rend(); it++){
-		this->removeAt(*it);
+	int deleted_elements = 0;
+	for(int i : indexes)
+	{
+		std::move(
+				this->begin() + (i - deleted_elements + 1), 
+				this->end(), 
+				this->begin() + (i - deleted_elements)
+		);
+
+		deleted_elements++;
 	}
 
-	if(indexes.contains(_m->current_track)){
+	this->resize(this->count() - deleted_elements);
+
+	if(indexes.contains(_m->current_track))
+	{
 		_m->current_track = -1;
 	}
 
-	else{
+	else
+	{
 		int n_tracks_before_cur_track = std::count_if(indexes.begin(), indexes.end(), [=](int idx){
 			return (idx < _m->current_track);
 		});
@@ -230,11 +250,6 @@ MetaDataList& MetaDataList::remove_tracks(const SP::Set<int>& indexes)
 	}
 
 	return *this;
-}
-
-int MetaDataList::current_track() const
-{
-	return _m->current_track;
 }
 
 
@@ -315,7 +330,10 @@ QStringList MetaDataList::toStringList() const
 
 MetaDataList& MetaDataList::operator <<(const MetaDataList& v_md)
 {
-	this->append(v_md);
+	auto it = this->end();
+	this->resize(this->count() + v_md.count());
+
+	std::copy(v_md.begin(), v_md.end(), it);
 
 	return *this;
 }
@@ -354,7 +372,8 @@ void MetaDataList::remove_duplicates()
 					std::move(it2_next, this->end(), it2);
 				}
 
-				this->removeLast();
+				this->resize(this->count() - 1);
+
 				it2 = last_it2 + 1;
 				if(it2 == this->end()){
 					break;
@@ -368,4 +387,29 @@ void MetaDataList::remove_duplicates()
 	}
 }
 
+bool MetaDataList::isEmpty() const
+{
+	return this->empty();
+}
 
+const MetaData& MetaDataList::first() const
+{
+	return at(0);
+}
+
+const MetaData& MetaDataList::last() const
+{
+	return at(this->count() - 1);
+}
+
+int MetaDataList::count() const
+{
+	return (int) std::vector<MetaData>::size();
+}
+
+MetaData MetaDataList::take_at(int idx)
+{
+	MetaData md = this->at(idx);
+	this->remove_track(idx);
+	return md;
+}

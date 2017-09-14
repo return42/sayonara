@@ -36,8 +36,6 @@ class QByteArray;
 class QPoint;
 class QChar;
 class QObject;
-class QRect;
-class QSize;
 class LogListener;
 
 enum class Log : unsigned char
@@ -76,17 +74,9 @@ public:
 	Logger& operator << (const QStringList& lst);
 	Logger& operator << (const QByteArray& arr);
 	Logger& operator << (const QPoint& point);
-	Logger& operator << (const QRect& rect);
-	Logger& operator << (const QSize& size);
 	Logger& operator << (const char* str);
 	Logger& operator << (const std::string& str);
 	Logger& operator << (bool b);
-
-	template <typename T>
-	Logger& operator << (const T& msg){
-		out() << msg;
-		return *this;
-	}
 
 	template<typename T, template <typename ELEM> class CONT>
 	Logger& operator << (const CONT<T> list){

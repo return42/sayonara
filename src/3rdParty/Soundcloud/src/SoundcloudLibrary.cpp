@@ -153,6 +153,8 @@ void SC::Library::get_all_albums(AlbumList& albums, ::Library::Sortings so)
 
 void SC::Library::get_all_albums_by_artist(IDList artist_ids, AlbumList& albums, ::Library::Filter filter, ::Library::Sortings so)
 {
+	Q_UNUSED(filter)
+
 	for(int artist_id : artist_ids)
 	{
 		int artist_idx = _m->artist_id_idx_map[artist_id];
@@ -201,9 +203,10 @@ void SC::Library::get_all_tracks(MetaDataList& v_md, ::Library::Sortings so)
 		_m->scd->getAllTracks(v_md, so.so_tracks);
 		_m->v_md = v_md;
 
-		for(int i=0; i<v_md.size(); i++)
+		for(int i=0; i<v_md.count(); i++)
 		{
 			const MetaData& md = v_md[i];
+
 			_m->md_id_idx_map[md.id] = i;
 			_m->md_name_idx_map[md.title].insert(i);
 			_m->md_album_id_idx_map[md.album_id].insert(i);

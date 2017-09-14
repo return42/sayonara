@@ -110,7 +110,7 @@ bool StreamParser::parse_next_url()
 
 	if(_m->urls.isEmpty()) {
 		sp_log(Log::Debug, this) << "No more urls to parse";
-		emit sig_finished( _m->v_md.size() > 0);
+		emit sig_finished( !_m->v_md.empty());
 		return false;
 	}
 

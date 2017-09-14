@@ -61,6 +61,8 @@ signals:
 	 */
 	void sig_next();
 
+	void sig_wake_up();
+
 	/**
 	 * @brief previous track was triggered
 	 */

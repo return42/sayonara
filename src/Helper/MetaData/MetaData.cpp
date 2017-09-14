@@ -415,6 +415,11 @@ RadioMode MetaData::radio_mode() const
 	return _m->radio_mode;
 }
 
+bool MetaData::is_valid() const
+{
+	return (!filepath().isEmpty());
+}
+
 
 int32_t MetaData::album_artist_id() const
 {
