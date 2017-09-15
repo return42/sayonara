@@ -76,7 +76,24 @@ public:
 	Logger& operator << (const QPoint& point);
 	Logger& operator << (const char* str);
 	Logger& operator << (const std::string& str);
-	Logger& operator << (bool b);
+
+	template<typename T>
+	typename std::enable_if< std::is_floating_point<T>::value, Logger&>::type
+	operator << (const T& val){
+
+		(*this) << std::to_string(val);
+
+		return *this;
+	}
+
+	template<typename T>
+	typename std::enable_if< std::is_integral<T>::value, Logger&>::type
+	operator << (const T& val){
+
+		(*this) << std::to_string(val);
+
+		return *this;
+	}
 
 	template<typename T, template <typename ELEM> class CONT>
 	Logger& operator << (const CONT<T> list){

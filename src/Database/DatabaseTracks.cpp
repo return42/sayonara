@@ -181,7 +181,7 @@ bool DatabaseTracks::db_fetch_tracks(SayonaraQuery& q, MetaDataList& result)
 		data.library_id = 	q.value(16).toInt();
 		data.set_db_id(module_db_id());
 
-		result << data;
+		result.push_back(std::move(data));
 	}
 
 	return true;

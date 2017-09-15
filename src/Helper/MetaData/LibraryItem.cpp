@@ -21,6 +21,7 @@
 #include "Helper/MetaData/LibraryItem.h"
 #include <QList>
 #include <QString>
+#include "Helper/Random/RandomGenerator.h"
 
 struct CustomField::Private
 {
@@ -46,7 +47,7 @@ CustomField::CustomField(const CustomField &other)
 	_m = Pimpl::make<Private>(other._m->id,
 							  other._m->display_name,
 							  other._m->value
-							  );
+	);
 }
 
 CustomField& CustomField::operator=(const CustomField& other)

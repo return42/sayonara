@@ -32,6 +32,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <iomanip>
 
 static QList<LogListener*> log_listeners;
 
@@ -40,10 +41,7 @@ struct Logger::Private
 	std::stringstream	buffer;
 	bool				ignore;
 
-	Private()
-	{
-		buffer.setf(std::ios::boolalpha);
-	}
+	Private() {}
 
 	~Private()
 	{
@@ -165,13 +163,7 @@ Logger& Logger::operator << (const char* str)
 
 Logger& Logger::operator << (const std::string& str)
 {
-	_m->buffer << str;
-	return *this;
-}
-
-Logger& Logger::operator <<(bool b)
-{
-	_m->buffer << b;
+	(*this) << str.c_str();
 	return *this;
 }
 

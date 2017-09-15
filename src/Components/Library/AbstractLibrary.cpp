@@ -77,7 +77,6 @@ void AbstractLibrary::emit_stuff()
 	emit sig_all_tracks_loaded( _vec_md );
 }
 
-
 void AbstractLibrary::refetch()
 {
 	_selected_albums.clear();
