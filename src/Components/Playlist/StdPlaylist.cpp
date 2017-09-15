@@ -41,7 +41,7 @@ struct StdPlaylist::Private
 StdPlaylist::StdPlaylist(int idx, const QString& name) :
 	AbstractPlaylist(idx, name)
 {
-	_m = Pimpl::make<Private>();
+//	_m = Pimpl::make<Private>();
 	set_storable(true);
 }
 

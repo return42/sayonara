@@ -21,7 +21,6 @@
 #include "Helper/MetaData/LibraryItem.h"
 #include <QList>
 #include <QString>
-#include "Helper/Random/RandomGenerator.h"
 
 struct CustomField::Private
 {
@@ -34,6 +33,36 @@ struct CustomField::Private
 		value(value),
 		id(id)
 	{}
+
+	Private(const Private& other) :
+		CASSIGN(display_name),
+		CASSIGN(value),
+		CASSIGN(id)
+	{}
+
+	Private(Private&& other) :
+		CMOVE(display_name),
+		CMOVE(value),
+		CMOVE(id)
+	{}
+
+	Private& Private::operator=(const Private& other)
+	{
+		ASSIGN(display_name);
+		ASSIGN(value);
+		ASSIGN(id);
+
+		return *this;
+	}
+
+	Private& Private::operator=(Private&& other)
+	{
+		MOVE(display_name);
+		MOVE(value);
+		MOVE(id);
+
+		return *this;
+	}
 };
 
 
@@ -44,18 +73,25 @@ CustomField::CustomField(const QString& id, const QString& display_name, const Q
 
 CustomField::CustomField(const CustomField &other)
 {
-	_m = Pimpl::make<Private>(other._m->id,
-							  other._m->display_name,
-							  other._m->value
-	);
+	_m = Pimpl::make<Private>(*(other._m));
+}
+
+CustomField::CustomField(CustomField&& other)
+{
+	_m = Pimpl::make<Private>(
+			std::move(*(other._m))
+							  );
 }
 
 CustomField& CustomField::operator=(const CustomField& other)
 {
-	_m->id = other._m->id,
-	_m->display_name = other._m->display_name,
-	_m->value = other._m->value;
+	(*_m) = *(other._m);
+	return *this;
+}
 
+CustomField& CustomField::operator=(CustomField&& other)
+{
+	(*_m) = std::move(*(other._m));
 	return *this;
 }
 
@@ -86,6 +122,36 @@ struct LibraryItem::Private
 	Private() :
 		db_id(0)
 	{}
+
+	Private(const Private& other) :
+		CASSIGN(additional_data),
+		CASSIGN(cover_download_url),
+		CASSIGN(db_id)
+	{}
+
+	Private(Private&& other) :
+		CMOVE(additional_data),
+		CMOVE(cover_download_url),
+		CMOVE(db_id)
+	{}
+
+	Private& operator=(const Private& other)
+	{
+		ASSIGN(additional_data);
+		ASSIGN(cover_download_url);
+		ASSIGN(db_id);
+
+		return *this;
+	}
+
+	Private& operator(Private&& other)
+	{
+		MOVE(additional_data);
+		MOVE(cover_download_url);
+		MOVE(db_id)
+
+		return *this;
+	}
 };
 
 LibraryItem::LibraryItem()
@@ -93,38 +159,39 @@ LibraryItem::LibraryItem()
 	_m = Pimpl::make<Private>();
 }
 
-LibraryItem::LibraryItem(const LibraryItem& other) :
-	LibraryItem()
+LibraryItem::LibraryItem(const LibraryItem& other)
 {
-	_m->additional_data = other._m->additional_data;
-	_m->cover_download_url = other._m->cover_download_url;
-	_m->db_id = other._m->db_id;
+	_m = Pimpl::make<Private>(*(other._m));
 }
 
 LibraryItem::LibraryItem(LibraryItem&& other)
 {
-	_m->additional_data = std::move(other._m->additional_data);
-	_m->cover_download_url = std::move(other._m->cover_download_url);
-	_m->db_id = std::move(other._m->db_id);
+	_m = Pimpl::make<Private>(i
+		std::move(*(other._m))
+	);
 }
 
 LibraryItem& LibraryItem::operator=(const LibraryItem& other)
 {
-	_m->additional_data = other._m->additional_data;
-	_m->cover_download_url = other._m->cover_download_url;
-	_m->db_id = other._m->db_id;
-
+	(*_m) = *(other._m);
 	return *this;
 }
 
+LibraryItem& LibraryItem::operator=(LibraryItem&& other)
+{
+	(*_m) = std::move(*(other._m));
+	return *this;
+}
 
 LibraryItem::~LibraryItem() {}
 
-void LibraryItem::add_custom_field(const CustomField& field){
+void LibraryItem::add_custom_field(const CustomField& field)
+{
 	_m->additional_data << field;
 }
 
-void LibraryItem::add_custom_field(const QString& id, const QString& display_name, const QString& value){
+void LibraryItem::add_custom_field(const QString& id, const QString& display_name, const QString& value)
+{
 	_m->additional_data << CustomField(id, display_name, value);
 }
 

@@ -28,11 +28,6 @@
 #include <QVariant>
 #include <QStringList>
 
-#define MD_INIT(x) x(other.x)
-#define MD_MOVE(x) x(std::move(other.x))
-#define MD_ASSIGN(x) x = other.x
-#define MD_CMP(x) (x == other.x)
-
 /*struct MDCounter
 {
 	int c=0;
@@ -68,27 +63,35 @@ struct MetaData::Private
 	{}
 
 	Private(const Private& other) :
-		MD_INIT(album_artist),
-		MD_INIT(filepath),
-		MD_INIT(album_artist_id),
-		MD_INIT(radio_mode)
+		CASSIGN(album_artist),
+		CASSIGN(filepath),
+		CASSIGN(album_artist_id),
+		CASSIGN(radio_mode)
 	{}
 
 	Private(Private&& other) :
-		MD_MOVE(album_artist),
-		MD_MOVE(filepath),
-		MD_MOVE(album_artist_id),
-		MD_MOVE(radio_mode)
+		CMOVE(album_artist),
+		CMOVE(filepath),
+		CMOVE(album_artist_id),
+		CMOVE(radio_mode)
 	{}
 
 	Private& operator=(const Private& other)
 	{
-		MD_ASSIGN(album_artist);
-		MD_ASSIGN(filepath);
-		MD_ASSIGN(album_artist_id);
-		MD_ASSIGN(radio_mode);
+		ASSIGN(album_artist);
+		ASSIGN(filepath);
+		ASSIGN(album_artist_id);
+		ASSIGN(radio_mode);
 
 		return *this;
+	}
+
+	Private&& operator=(Private&& other)
+	{
+		MOVE(album_artist);
+		MOVE(filepath);
+		MOVE(album_artist_id);
+		MOVE(radio_mode);
 	}
 
 	bool is_equal(const Private& other) const
@@ -131,26 +134,26 @@ MetaData::MetaData() :
 
 MetaData::MetaData(const MetaData& other) :
 	LibraryItem(other),
-	MD_INIT(title),
-	MD_INIT(artist),
-	MD_INIT(album),
-	MD_INIT(genres),
-	MD_INIT(length_ms),
-	MD_INIT(filesize),
-	MD_INIT(id),
-	MD_INIT(artist_id),
-	MD_INIT(album_id),
-	MD_INIT(bitrate),
-	MD_INIT(track_num),
-	MD_INIT(year),
-	MD_INIT(played),
-	MD_INIT(is_extern),
-	MD_INIT(pl_playing),
-	MD_INIT(is_disabled),
-	MD_INIT(rating),
-	MD_INIT(discnumber),
-	MD_INIT(n_discs),
-	MD_INIT(library_id)
+	CASSIGN(title),
+	CASSIGN(artist),
+	CASSIGN(album),
+	CASSIGN(genres),
+	CASSIGN(length_ms),
+	CASSIGN(filesize),
+	CASSIGN(id),
+	CASSIGN(artist_id),
+	CASSIGN(album_id),
+	CASSIGN(bitrate),
+	CASSIGN(track_num),
+	CASSIGN(year),
+	CASSIGN(played),
+	CASSIGN(is_extern),
+	CASSIGN(pl_playing),
+	CASSIGN(is_disabled),
+	CASSIGN(rating),
+	CASSIGN(discnumber),
+	CASSIGN(n_discs),
+	CASSIGN(library_id)
 
 {
 	_m = Pimpl::make<Private>(*(other._m));
@@ -159,28 +162,31 @@ MetaData::MetaData(const MetaData& other) :
 
 MetaData::MetaData(MetaData&& other) :
 	LibraryItem(other),
-	MD_MOVE(title),
-	MD_MOVE(artist),
-	MD_MOVE(album),
-	MD_MOVE(genres),
-	MD_MOVE(length_ms),
-	MD_MOVE(filesize),
-	MD_MOVE(id),
-	MD_MOVE(artist_id),
-	MD_MOVE(album_id),
-	MD_MOVE(bitrate),
-	MD_MOVE(track_num),
-	MD_MOVE(year),
-	MD_MOVE(played),
-	MD_MOVE(is_extern),
-	MD_MOVE(pl_playing),
-	MD_MOVE(is_disabled),
-	MD_MOVE(rating),
-	MD_MOVE(discnumber),
-	MD_MOVE(n_discs),
-	MD_MOVE(library_id)
+	CMOVE(title),
+	CMOVE(artist),
+	CMOVE(album),
+	CMOVE(genres),
+	CMOVE(length_ms),
+	CMOVE(filesize),
+	CMOVE(id),
+	CMOVE(artist_id),
+	CMOVE(album_id),
+	CMOVE(bitrate),
+	CMOVE(track_num),
+	CMOVE(year),
+	CMOVE(played),
+	CMOVE(is_extern),
+	CMOVE(pl_playing),
+	CMOVE(is_disabled),
+	CMOVE(rating),
+	CMOVE(discnumber),
+	CMOVE(n_discs),
+	CMOVE(library_id)
 {
-	_m = Pimpl::make<Private>(*(other._m));
+	
+	_m = Pimpl::make<Private>(
+		std::move(*(other._m))
+	);
 }
 
 MetaData::MetaData(const QString& path) :
@@ -230,29 +236,60 @@ bool MetaData::fromVariant(const QVariant& v, MetaData& md)
 MetaData& MetaData::operator=(const MetaData& other)
 {
 	LibraryItem::operator=(other);
+	
+	(*_m) = *(other._m);
 
-	MD_ASSIGN(title);
-	MD_ASSIGN(artist);
-	MD_ASSIGN(album);
-	MD_ASSIGN(genres);
-	MD_ASSIGN(length_ms);
-	MD_ASSIGN(filesize);
-	MD_ASSIGN(id);
-	MD_ASSIGN(artist_id);
-	MD_ASSIGN(album_id);
-	MD_ASSIGN(bitrate);
-	MD_ASSIGN(track_num);
-	MD_ASSIGN(year);
-	MD_ASSIGN(played);
-	MD_ASSIGN(is_extern);
-	MD_ASSIGN(pl_playing);
-	MD_ASSIGN(is_disabled);
-	MD_ASSIGN(rating);
-	MD_ASSIGN(discnumber);
-	MD_ASSIGN(n_discs);
-	MD_ASSIGN(library_id);
+	ASSIGN(title);
+	ASSIGN(artist);
+	ASSIGN(album);
+	ASSIGN(genres);
+	ASSIGN(length_ms);
+	ASSIGN(filesize);
+	ASSIGN(id);
+	ASSIGN(artist_id);
+	ASSIGN(album_id);
+	ASSIGN(bitrate);
+	ASSIGN(track_num);
+	ASSIGN(year);
+	ASSIGN(played);
+	ASSIGN(is_extern);
+	ASSIGN(pl_playing);
+	ASSIGN(is_disabled);
+	ASSIGN(rating);
+	ASSIGN(discnumber);
+	ASSIGN(n_discs);
+	ASSIGN(library_id);
 
-	*(_m) = *(other._m);
+
+	return *this;
+}
+
+MetaData& MetaData::operator=(MetaData&& other)
+{
+	LibraryItem::operator=(std::move(other));
+	
+	(*_m) = std::move(*(other._m));
+
+	MOVE(title);
+	MOVE(artist);
+	MOVE(album);
+	MOVE(genres);
+	MOVE(length_ms);
+	MOVE(filesize);
+	MOVE(id);
+	MOVE(artist_id);
+	MOVE(album_id);
+	MOVE(bitrate);
+	MOVE(track_num);
+	MOVE(year);
+	MOVE(played);
+	MOVE(is_extern);
+	MOVE(pl_playing);
+	MOVE(is_disabled);
+	MOVE(rating);
+	MOVE(discnumber);
+	MOVE(n_discs);
+	MOVE(library_id);
 
 	return *this;
 }

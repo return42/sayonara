@@ -40,8 +40,12 @@ class CustomField
 public:
 	CustomField(const QString& id, const QString& display_name, const QString& value);
 	CustomField(const CustomField& other);
+	CustomField(CustomField&& other);
+
 	CustomField& operator=(const CustomField& other);
-	virtual ~CustomField();
+	CustomField& operator=(CustomField&& other);
+
+	~CustomField();
 
 	QString get_id() const;
 	QString get_display_name() const;
@@ -61,7 +65,10 @@ public:
 	LibraryItem();
 	LibraryItem(const LibraryItem& other);
 	LibraryItem(LibraryItem&& other);
+
 	LibraryItem& operator=(const LibraryItem& other);
+	LibraryItem& operator=(LibraryItem&& other);
+
 	virtual ~LibraryItem();
 
 	void add_custom_field(const CustomField& field);

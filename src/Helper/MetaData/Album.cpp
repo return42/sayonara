@@ -22,19 +22,6 @@
 
 #include <QVariant>
 
-#define ALBUM_DO_COPY \
-	name = other.name; \
-	id = other.id; \
-	num_songs = other.num_songs; \
-	length_sec = other.length_sec; \
-	year = other.year; \
-	artists = other.artists; \
-	discnumbers = other.discnumbers; \
-	n_discs = other.n_discs; \
-	rating = other.rating; \
-	is_sampler = other.is_sampler; \
-	_album_artists = other._album_artists;
-
 Album::Album() :
 	LibraryItem(),
 	n_discs(1),
@@ -43,25 +30,58 @@ Album::Album() :
 	id(-1),
 	length_sec(0),
 	num_songs(0),
-	year(0) {}
-
+	year(0) 
+{}
 
 Album::Album(const Album& other) :
-	LibraryItem(other)
-{
-	ALBUM_DO_COPY
-}
+	LibraryItem(other),
+	CASSIGN(n_discs),
+	CASSIGN(rating),
+	CASSIGN(is_sampler),
+	CASSIGN(id),
+	CASSIGN(length_sec),
+	CASSIGN(num_songs),
+	CASSIGN(year)
+{}
 
 Album::Album(Album&& other) :
-	LibraryItem(other)
-{
-	ALBUM_DO_COPY
-}
+	LibraryItem(std::move(other))
+	CMOVE(n_discs),
+	CMOVE(rating),
+	CMOVE(is_sampler),
+	CMOVE(id),
+	CMOVE(length_sec),
+	CMOVE(num_songs),
+	CMOVE(year)
+{}
 
 Album& Album::operator=(const Album& other)
 {
 	LibraryItem::operator =(other);
-	ALBUM_DO_COPY
+
+	ASSIGN(n_discs);
+	ASSIGN(rating);
+	ASSIGN(is_sampler);
+	ASSIGN(id);
+	ASSIGN(length_sec);
+	ASSIGN(num_songs);
+	ASSIGN(year;
+
+	return *this;
+}
+
+Album& Album::operator=(Album&& other)
+{
+	LibraryItem::operator = (std::move(other));
+
+	MOVE(n_discs);
+	MOVE(rating);
+	MOVE(is_sampler);
+	MOVE(id);
+	MOVE(length_sec);
+	MOVE(num_songs);
+	MOVE(year);
+
 	return *this;
 }
 

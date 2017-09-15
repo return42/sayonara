@@ -25,6 +25,12 @@
 
 #include <memory>
 
+#define CASSIGN(x) x(other.x)
+#define CMOVE(x) x(std::move(other.move))
+#define ASSIGN(x) x = other.x
+#define MOVE(x) x = std::move(other.x)
+
+
 #define PIMPL(Class) private: \
     struct Private; \
     friend struct Private; \

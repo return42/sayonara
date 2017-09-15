@@ -32,6 +32,16 @@ struct MetaDataList::Private
 	{
 		current_track = -1;
 	}
+
+	Private(const Private& other) :
+		CASSIGN(current_track)
+	{}
+
+	Private& operator=(const Private& other)
+	{
+		ASSIGN(current_track);
+		return (*this);
+	}
 };
 
 MetaDataList::MetaDataList() :
@@ -40,23 +50,53 @@ MetaDataList::MetaDataList() :
 	_m = Pimpl::make<Private>();
 }
 
+MetaDataList::MetaDataList(const MetaData& md) :
+	std::vector<MetaData>()
+{
+	_m = Pimpl::make<Private>();
+	append(md);
+}
+
 MetaDataList::MetaDataList(const MetaDataList& other) :
-	std::vector<MetaData>(other)
+	std::vector<MetaData>()
 {
 	_m = Pimpl::make<Private>();
 	_m->current_track = other.current_track();
+
+	this->resize(other.size());
+	std::move(other.begin(), other.end(), this->begin());
+}
+
+MetaDataList::MetaDataList(MetaDataList&& other) :
+	std::vector<MetaData>()
+{
+	_m = Pimpl::make<Private>(*(other._m));
+	_m->current_track = other.current_track();
+
+	this->resize(other.size());
+	std::move(other.begin(), other.end(), this->begin());
 }
 
 MetaDataList::~MetaDataList() {}
 
 MetaDataList& MetaDataList::operator=(const MetaDataList& other)
 {
-	this->resize(other.count());
+	(*_m) = *(other->_m);
+
+	this->resize(other.size());
 	std::copy(other.begin(), other.end(), this->begin());
 
-	_m->current_track = other.current_track();
+	return (*this);
+}
 
-	return *this;
+MetaDataList& MetaDataList::operator=(MetaDataList&& other)
+{
+	(*_m) = std::move(*(other->_m));
+
+	this->resize(other.size());
+	std::move(other.begin(), other.end(), this->begin());
+
+	return (*this);
 }
 
 int MetaDataList::current_track() const
@@ -83,7 +123,7 @@ void MetaDataList::set_current_track(int idx)
 
 MetaDataList& MetaDataList::insert_track(const MetaData& md, int tgt_idx)
 {
-	MetaDataList v_md; v_md << md;
+	MetaDataList v_md{md};
 	return insert_tracks(v_md, tgt_idx);
 }
 

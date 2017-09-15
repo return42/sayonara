@@ -59,7 +59,10 @@ public:
     Album();
 	Album(const Album& other);
 	Album(Album&& other);
+
 	Album& operator=(const Album& other);
+	Album& operator=(Album&& other);
+
 	~Album();
 
 	static QVariant toVariant(const Album& album);

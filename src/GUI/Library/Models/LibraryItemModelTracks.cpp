@@ -178,7 +178,7 @@ bool LibraryItemModelTracks::setData(const QModelIndex &index, const QVariant &v
 	return false;
 }
 
-bool LibraryItemModelTracks::setData(const QModelIndex&index, const MetaDataList&v_md, int role)
+bool LibraryItemModelTracks::setData(const QModelIndex&index, const MetaDataList& v_md, int role)
 {
 	if(!index.isValid()){
 		return false;
