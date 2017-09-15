@@ -120,7 +120,7 @@ void AbstractPlaylist::append_tracks(const MetaDataList& lst)
 {
 	int old_size = _m->v_md.size();
 	
-	_m->v_md.append(md);
+	_m->v_md << lst;
 
 	for(auto it=_m->v_md.begin() + old_size; it != _m->v_md.end(); it++)
 	{

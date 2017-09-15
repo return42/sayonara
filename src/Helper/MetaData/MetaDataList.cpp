@@ -81,7 +81,7 @@ MetaDataList::~MetaDataList() {}
 
 MetaDataList& MetaDataList::operator=(const MetaDataList& other)
 {
-	(*_m) = *(other->_m);
+	(*_m) = *(other._m);
 
 	this->resize(other.size());
 	std::copy(other.begin(), other.end(), this->begin());
@@ -91,7 +91,7 @@ MetaDataList& MetaDataList::operator=(const MetaDataList& other)
 
 MetaDataList& MetaDataList::operator=(MetaDataList&& other)
 {
-	(*_m) = std::move(*(other->_m));
+	(*_m) = std::move(*(other._m));
 
 	this->resize(other.size());
 	std::move(other.begin(), other.end(), this->begin());
@@ -377,6 +377,17 @@ QStringList MetaDataList::toStringList() const
 
 MetaDataList& MetaDataList::operator <<(const MetaDataList& v_md)
 {
+	return append(v_md);
+}
+
+
+MetaDataList& MetaDataList::operator <<(const MetaData& md)
+{
+	return append(md);
+}
+
+MetaDataList& MetaDataList::append(const MetaDataList& v_md)
+{
 	auto it = this->end();
 	this->resize(this->count() + v_md.count());
 
@@ -385,8 +396,7 @@ MetaDataList& MetaDataList::operator <<(const MetaDataList& v_md)
 	return *this;
 }
 
-
-MetaDataList& MetaDataList::operator <<(const MetaData& md)
+MetaDataList& MetaDataList::append(const MetaData& md)
 {
 	this->push_back(md);
 	return *this;

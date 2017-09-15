@@ -81,7 +81,7 @@ bool DatabaseArtists::db_fetch_artists(SayonaraQuery& q, ArtistList& result)
 		artist.num_songs = q.value(2).toInt();
 		artist.set_db_id(module_db_id());
 
-		result << artist;
+		result << std::move(artist);
 	}
 
 	return true;

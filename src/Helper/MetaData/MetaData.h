@@ -83,7 +83,7 @@ public:
 	MetaData (const MetaData& );
 	MetaData ( MetaData&& );
 	MetaData& operator=(const MetaData& md);
-	MetaData& operator=(const MetaData&& md);
+	MetaData& operator=(MetaData&& md);
 
 	~MetaData();
 

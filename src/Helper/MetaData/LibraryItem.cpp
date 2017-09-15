@@ -21,6 +21,7 @@
 #include "Helper/MetaData/LibraryItem.h"
 #include <QList>
 #include <QString>
+#include <utility>
 
 struct CustomField::Private
 {
@@ -46,7 +47,7 @@ struct CustomField::Private
 		CMOVE(id)
 	{}
 
-	Private& Private::operator=(const Private& other)
+	Private& operator=(const Private& other)
 	{
 		ASSIGN(display_name);
 		ASSIGN(value);
@@ -55,7 +56,7 @@ struct CustomField::Private
 		return *this;
 	}
 
-	Private& Private::operator=(Private&& other)
+	Private& operator=(Private&& other)
 	{
 		MOVE(display_name);
 		MOVE(value);
@@ -144,11 +145,11 @@ struct LibraryItem::Private
 		return *this;
 	}
 
-	Private& operator(Private&& other)
+	Private& operator=(Private&& other)
 	{
 		MOVE(additional_data);
 		MOVE(cover_download_url);
-		MOVE(db_id)
+		MOVE(db_id);
 
 		return *this;
 	}
@@ -166,7 +167,7 @@ LibraryItem::LibraryItem(const LibraryItem& other)
 
 LibraryItem::LibraryItem(LibraryItem&& other)
 {
-	_m = Pimpl::make<Private>(i
+	_m = Pimpl::make<Private>(
 		std::move(*(other._m))
 	);
 }

@@ -86,21 +86,23 @@ struct MetaData::Private
 		return *this;
 	}
 
-	Private&& operator=(Private&& other)
+	Private& operator=(Private&& other)
 	{
 		MOVE(album_artist);
 		MOVE(filepath);
 		MOVE(album_artist_id);
 		MOVE(radio_mode);
+
+		return *this;
 	}
 
 	bool is_equal(const Private& other) const
 	{
 		return(
-			MD_CMP(album_artist) &&
-			MD_CMP(filepath) &&
-			MD_CMP(album_artist_id) &&
-			MD_CMP(radio_mode)
+			CMP(album_artist) &&
+			CMP(filepath) &&
+			CMP(album_artist_id) &&
+			CMP(radio_mode)
 		);
 	}
 };
@@ -327,26 +329,26 @@ bool MetaData::is_equal_deep(const MetaData& other) const
 {
 	return 
 	(
-			MD_CMP(title) &&
-			MD_CMP(artist) &&
-			MD_CMP(album) &&
-			MD_CMP(genres) &&
-			MD_CMP(length_ms) &&
-			MD_CMP(filesize) &&
-			MD_CMP(id) &&
-			MD_CMP(artist_id) &&
-			MD_CMP(album_id) &&
-			MD_CMP(bitrate) &&
-			MD_CMP(track_num) &&
-			MD_CMP(year) &&
-			MD_CMP(played) &&
-			MD_CMP(is_extern) &&
-			MD_CMP(pl_playing) &&
-			MD_CMP(is_disabled) &&
-			MD_CMP(rating) &&
-			MD_CMP(discnumber) &&
-			MD_CMP(n_discs) &&
-			MD_CMP(library_id) &&
+			CMP(title) &&
+			CMP(artist) &&
+			CMP(album) &&
+			CMP(genres) &&
+			CMP(length_ms) &&
+			CMP(filesize) &&
+			CMP(id) &&
+			CMP(artist_id) &&
+			CMP(album_id) &&
+			CMP(bitrate) &&
+			CMP(track_num) &&
+			CMP(year) &&
+			CMP(played) &&
+			CMP(is_extern) &&
+			CMP(pl_playing) &&
+			CMP(is_disabled) &&
+			CMP(rating) &&
+			CMP(discnumber) &&
+			CMP(n_discs) &&
+			CMP(library_id) &&
 			_m->is_equal(*(other._m))
 	);
 }
