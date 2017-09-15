@@ -83,11 +83,11 @@ public:
 	int				playlist_index() const;
 	void			set_playlist_index(int idx);
 	void			set_playlist_mode(const Playlist::Mode& mode);
-	uint64_t			running_time() const;
+	uint64_t		running_time() const;
 	Playlist::Mode	playlist_mode() const;
 
-
-	virtual Playlist::Type	type() const = 0;
+	virtual 
+	Playlist::Type	type() const = 0;
 
 
 	// from PlaylistDBInterface

@@ -124,8 +124,10 @@ MetaDataList DirectoryReader::get_md_from_filelist(const QStringList& lst)
 	lib_db->getMultipleTracksByPath(sound_files, v_md);
 
 	auto it=v_md.begin();
-	while(it != v_md.end()){
-		if( it->id < 0 ) {
+	while(it != v_md.end())
+	{
+		if( it->id < 0 ) 
+		{
 			if(!Tagging::getMetaDataOfFile(*it)) {
 				it = v_md.erase(it);
 				continue;
@@ -137,7 +139,8 @@ MetaDataList DirectoryReader::get_md_from_filelist(const QStringList& lst)
 		it++;
 	}
 
-	for(const QString& playlist_file : playlist_files){
+	for(const QString& playlist_file : playlist_files)
+	{
 		v_md << PlaylistParser::parse_playlist(playlist_file);
 	}
 
@@ -159,15 +162,11 @@ QStringList DirectoryReader::find_files_rec(QDir dir, const QString& filename)
 	QStringList dirs = dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
 	QStringList files = dir.entryList(QDir::Files);
 
-	for(const QString& d : dirs){
+	for(const QString& d : dirs)
+	{
 		if(d.isEmpty()){
 			continue;
 		}
-
-		/*QFileInfo fi(dir.absoluteFilePath(d));
-		if(!fi.isDir()){
-			continue;
-		}*/
 
 		if(dir.cd(d)) {
 			ret += find_files_rec(dir, filename);
@@ -175,11 +174,9 @@ QStringList DirectoryReader::find_files_rec(QDir dir, const QString& filename)
 		}
 	}
 
-	for(const QString& file : files){
+	for(const QString& file : files)
+	{
 		QFileInfo fi(file);
-		/*if(!fi.isFile()){
-			continue;
-		}*/
 
 		if(file.contains(filename)){
 			ret += dir.absoluteFilePath(file);

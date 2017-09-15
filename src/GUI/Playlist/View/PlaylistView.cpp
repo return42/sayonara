@@ -253,12 +253,12 @@ void PlaylistView::handle_drop(QDropEvent* event)
 		reader.set_filter(Helper::soundfile_extensions());
 
 		for(const QUrl& url : mimedata->urls()) {
-			if(url.isLocalFile()){
+			if(url.isLocalFile())
+			{
 				QStringList file_list;
-				MetaDataList v_md_tmp;
 				file_list << url.toLocalFile();
-				v_md_tmp = reader.get_md_from_filelist(file_list);
-				v_md << v_md_tmp;
+				MetaDataList v_md_tmp = reader.get_md_from_filelist(file_list);
+				v_md << std::move(v_md_tmp);
 			}
 
 			else if(Helper::File::is_playlistfile(url.toString())){

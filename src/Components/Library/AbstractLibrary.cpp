@@ -447,8 +447,10 @@ MetaDataList AbstractLibrary::change_track_selection(const SP::Set<int>& idx_lis
 	_selected_tracks.clear();
 
 	MetaDataList v_md;
+	v_md.reserve(idx_list.size());
 
-	for(int idx : idx_list) {
+	for(int idx : idx_list) 
+	{
 		const MetaData& md = _vec_md[idx];
 		v_md << md;
 

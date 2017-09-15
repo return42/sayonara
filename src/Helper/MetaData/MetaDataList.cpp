@@ -32,6 +32,16 @@ struct MetaDataList::Private
 	{
 		current_track = -1;
 	}
+
+	Private(const Private& other) :
+		CASSIGN(current_track)
+	{}
+
+	Private& operator=(const Private& other)
+	{
+		ASSIGN(current_track);
+		return (*this);
+	}
 };
 
 MetaDataList::MetaDataList() :
@@ -40,26 +50,49 @@ MetaDataList::MetaDataList() :
 	_m = Pimpl::make<Private>();
 }
 
-MetaDataList::MetaDataList(const MetaDataList& other) :
-	QList(other)
+MetaDataList::MetaDataList(const MetaData& md) :
+	QList<MetaData>()
 {
 	_m = Pimpl::make<Private>();
-	_m->current_track = other.current_track();
+	append(md);
+}
+
+MetaDataList::MetaDataList(const MetaDataList& other)
+{
+	_m = Pimpl::make<Private>(*(other._m));
+
+	this->resize(other.size());
+	std::copy(other.begin(), other.end(), this->begin());
+}
+
+MetaDataList::MetaDataList(MetaDataList&& other)
+{
+	_m = Pimpl::make<Private>(*(other._m));
+
+	this->resize(other.size());
+	std::move(other.begin(), other.end(), this->begin());
 }
 
 MetaDataList::~MetaDataList() {}
 
 MetaDataList& MetaDataList::operator=(const MetaDataList& other)
 {
-	this->clear();
-	for(auto it=other.begin(); it!=other.end(); it++)
-	{
-		this->push_back(*it);
-	}
+	(*_m) = *(other->_m);
 
-	_m->current_track = other.current_track();
+	this->resize(other.size());
+	std::copy(other.begin(), other.end(), this->begin());
 
-	return *this;
+	return (*this);
+}
+
+MetaDataList& MetaDataList::operator=(MetaDataList&& other)
+{
+	(*_m) = std::move(*(other->_m));
+
+	this->resize(other.size());
+	std::move(other.begin(), other.end(), this->begin());
+
+	return (*this);
 }
 
 void MetaDataList::set_current_track(int idx)
