@@ -22,46 +22,82 @@
 
 #include <QVariant>
 
-#define ALBUM_DO_COPY \
-	name = other.name; \
-	id = other.id; \
-	num_songs = other.num_songs; \
-	length_sec = other.length_sec; \
-	year = other.year; \
-	artists = other.artists; \
-	discnumbers = other.discnumbers; \
-	n_discs = other.n_discs; \
-	rating = other.rating; \
-	is_sampler = other.is_sampler; \
-	_album_artists = other._album_artists;
-
 Album::Album() :
 	LibraryItem(),
-	n_discs(1),
-	rating(0),
-	is_sampler(false),
 	id(-1),
 	length_sec(0),
 	num_songs(0),
-	year(0) {}
-
+	year(0),
+	n_discs(1),
+	rating(0),
+	is_sampler(false)
+{}
 
 Album::Album(const Album& other) :
-	LibraryItem(other)
-{
-	ALBUM_DO_COPY
-}
+	LibraryItem(other),
+	CASSIGN(_album_artists),
+	CASSIGN(name),
+	CASSIGN(artists),
+	CASSIGN(discnumbers),
+	CASSIGN(id),
+	CASSIGN(length_sec),
+	CASSIGN(num_songs),
+	CASSIGN(year),
+	CASSIGN(n_discs),
+	CASSIGN(rating),
+	CASSIGN(is_sampler)
+{}
 
 Album::Album(Album&& other) :
-	LibraryItem(other)
-{
-	ALBUM_DO_COPY
-}
+	LibraryItem(std::move(other)),
+	CMOVE(_album_artists),
+	CMOVE(name),
+	CMOVE(artists),
+	CMOVE(discnumbers),
+	CMOVE(id),
+	CMOVE(length_sec),
+	CMOVE(num_songs),
+	CMOVE(year),
+	CMOVE(n_discs),
+	CMOVE(rating),
+	CMOVE(is_sampler)
+{}
 
 Album& Album::operator=(const Album& other)
 {
 	LibraryItem::operator =(other);
-	ALBUM_DO_COPY
+
+	ASSIGN(_album_artists);
+	ASSIGN(name);
+	ASSIGN(artists);
+	ASSIGN(discnumbers);
+	ASSIGN(id);
+	ASSIGN(length_sec);
+	ASSIGN(num_songs);
+	ASSIGN(year);
+	ASSIGN(n_discs);
+	ASSIGN(rating);
+	ASSIGN(is_sampler);
+
+	return *this;
+}
+
+Album& Album::operator=(Album&& other)
+{
+	LibraryItem::operator = (std::move(other));
+
+	MOVE(_album_artists);
+	MOVE(name);
+	MOVE(artists);
+	MOVE(discnumbers);
+	MOVE(id);
+	MOVE(length_sec);
+	MOVE(num_songs);
+	MOVE(year);
+	MOVE(n_discs);
+	MOVE(rating);
+	MOVE(is_sampler);
+
 	return *this;
 }
 

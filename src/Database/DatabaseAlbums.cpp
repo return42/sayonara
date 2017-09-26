@@ -114,7 +114,7 @@ bool DatabaseAlbums::db_fetch_albums(SayonaraQuery& q, AlbumList& result)
 		album.is_sampler = (album.artists.size() > 1);
 		album.set_db_id(module_db_id());
 
-		result << album;
+		result.push_back(std::move(album));
 	};
 
 	return true;

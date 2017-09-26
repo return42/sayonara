@@ -79,10 +79,12 @@ public:
 
 public:
 	MetaData ();
+	explicit MetaData (const QString& path);
 	MetaData (const MetaData& );
 	MetaData ( MetaData&& );
+	MetaData& operator=(const MetaData& md);
+	MetaData& operator=(MetaData&& md);
 
-	explicit MetaData (const QString& path);
 	~MetaData();
 
 	QUrl url() const;
@@ -99,7 +101,6 @@ public:
 	RadioMode radio_mode() const;
 	bool is_valid() const;
 
-	MetaData& operator=(const MetaData& md);
 	bool operator==(const MetaData& md) const;
 	bool operator!=(const MetaData& md) const;
 	bool is_equal(const MetaData& md) const;

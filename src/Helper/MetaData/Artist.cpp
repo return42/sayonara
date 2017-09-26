@@ -25,13 +25,6 @@
 #include <QHash>
 #include <QVariant>
 
-#define ARTIST_DO_COPY \
-	id = other.id;	\
-	name = other.name;	\
-	num_songs = other.num_songs; \
-	num_albums = other.num_albums;
-
-
 Artist::Artist() :
 	LibraryItem(),
 	id(-1),
@@ -40,22 +33,45 @@ Artist::Artist() :
 {}
 
 Artist::Artist(const Artist& other) :
-	LibraryItem(other)
-{
-	ARTIST_DO_COPY
-}
+	LibraryItem(other),
+	CASSIGN(id),
+	CASSIGN(name),
+	CASSIGN(num_albums),
+	CASSIGN(num_songs)
+{}
 
 Artist::Artist(Artist&& other) :
-	LibraryItem(other)
-{
-	ARTIST_DO_COPY
-}
+	LibraryItem(std::move(other)),
+	CMOVE(id),
+	CMOVE(name),
+	CMOVE(num_albums),
+	CMOVE(num_songs)
+{}
 
-Artist& Artist::operator =(const Artist& other){
+Artist& Artist::operator =(const Artist& other)
+{
 	LibraryItem::operator =(other);
-	ARTIST_DO_COPY
+
+	ASSIGN(id);
+	ASSIGN(name);
+	ASSIGN(num_albums);
+	ASSIGN(num_songs);
+
 	return *this;
 }
+
+Artist& Artist::operator =(Artist&& other)
+{
+	LibraryItem::operator =( std::move(other) );
+
+	MOVE(id);
+	MOVE(name);
+	MOVE(num_albums);
+	MOVE(num_songs);
+
+	return *this;
+}
+
 
 Artist::~Artist() {}
 

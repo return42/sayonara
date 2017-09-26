@@ -74,6 +74,7 @@ void SayonaraQuery::bindValue(const QString& placeholder, const QVariant& val, Q
 	QSqlQuery::bindValue(placeholder, val, param_type);
 }
 
+#undef DB_DEBUG
 #ifdef DB_DEBUG
 	#include <QTime>
 	#include <QHash>

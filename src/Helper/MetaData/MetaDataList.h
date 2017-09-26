@@ -41,11 +41,16 @@ class MetaDataList :
 
 public:
 	MetaDataList();
+	explicit MetaDataList(const MetaData& md);
+
 	MetaDataList(const MetaDataList&);
+	MetaDataList(MetaDataList&& other);
+
+	MetaDataList& operator=(const MetaDataList& other);
+	MetaDataList& operator=(MetaDataList&& other);
 
 	~MetaDataList();
 
-	MetaDataList& operator=(const MetaDataList& other);
 
 	void set_current_track(int idx);
 	int current_track() const;
@@ -67,6 +72,9 @@ public:
 
 	MetaDataList& operator <<(const MetaDataList& v_md);
 	MetaDataList& operator <<(const MetaData& md);
+
+	MetaDataList& append(const MetaDataList& v_md);
+	MetaDataList& append(const MetaData& md);
 
 	bool contains(int32_t id) const;
 	void remove_duplicates();

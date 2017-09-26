@@ -32,6 +32,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <iomanip>
 
 static QList<LogListener*> log_listeners;
 
@@ -165,13 +166,7 @@ Logger& Logger::operator << (const char* str)
 
 Logger& Logger::operator << (const std::string& str)
 {
-	_m->buffer << str;
-	return *this;
-}
-
-Logger& Logger::operator <<(int b)
-{
-	_m->buffer << b;
+	(*this) << str.c_str();
 	return *this;
 }
 
