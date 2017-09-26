@@ -27,9 +27,11 @@
 
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
+#include <QNetworkProxy>
 #include <QImage>
 #include <QTimer>
 #include <QRegExp>
+
 
 struct AsyncWebAccess::Private
 {

@@ -76,7 +76,7 @@ public:
 	Logger& operator << (const QPoint& point);
 	Logger& operator << (const char* str);
 	Logger& operator << (const std::string& str);
-	Logger& operator << (bool b);
+    Logger& operator << (int b);
 
 	template<typename T, template <typename ELEM> class CONT>
 	Logger& operator << (const CONT<T> list){

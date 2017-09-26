@@ -42,7 +42,7 @@ struct Logger::Private
 
 	Private()
 	{
-		buffer.setf(std::ios::boolalpha);
+        //buffer.setf(std::ios::boolalpha);
 	}
 
 	~Private()
@@ -169,7 +169,7 @@ Logger& Logger::operator << (const std::string& str)
 	return *this;
 }
 
-Logger& Logger::operator <<(bool b)
+Logger& Logger::operator <<(int b)
 {
 	_m->buffer << b;
 	return *this;
