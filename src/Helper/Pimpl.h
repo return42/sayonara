@@ -25,10 +25,17 @@
 
 #include <memory>
 
+#define CASSIGN(x) x(other.x)
+#define CMOVE(x) x(std::move(other.x))
+#define ASSIGN(x) x = other.x
+#define MOVE(x) x = std::move(other.x)
+#define CMP(x) (x == other.x)
+
+
 #define PIMPL(Class) private: \
     struct Private; \
     friend struct Private; \
-    std::unique_ptr< Class ::Private> _m; \
+	std::unique_ptr< Class ::Private> _m; \
     private:
 
 /**

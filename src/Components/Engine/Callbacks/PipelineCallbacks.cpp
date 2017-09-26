@@ -19,13 +19,15 @@
  */
 
 #include "Helper/Logger/Logger.h"
+#include "Helper/WebAccess/Proxy.h"
 #include "PipelineCallbacks.h"
 #include "Components/Engine/AbstractPipeline.h"
 
 #include <gst/app/gstappsink.h>
 
 
-gboolean PipelineCallbacks::position_changed(gpointer data) {
+gboolean PipelineCallbacks::position_changed(gpointer data)
+{
 	GstState state;
 	AbstractPipeline* pipeline;
 
@@ -50,14 +52,13 @@ gboolean PipelineCallbacks::position_changed(gpointer data) {
 }
 
 // dynamic linking, important for decodebin
-void PipelineCallbacks::pad_added_handler(GstElement* src, GstPad* new_src_pad, gpointer data) {
-	Q_UNUSED(src)
-
+void PipelineCallbacks::pad_added_handler(GstElement* source, GstPad* new_src_pad, gpointer data)
+{
 	GstElement*			element;
 	GstPad*				sink_pad;
 	GstPadLinkReturn	pad_link_return;
 
-    sp_log(Log::Debug, "Callback") << "Source: " << gst_element_get_name(src);
+	sp_log(Log::Debug, "Callback") << "Source: " << gst_element_get_name(source);
 
 	element = static_cast<GstElement*>(data);
 	if(!element){
@@ -73,14 +74,10 @@ void PipelineCallbacks::pad_added_handler(GstElement* src, GstPad* new_src_pad, 
 		return;
 	}
 
-    sp_log(Log::Debug, "Callback") << "Element: " << gst_element_get_name(element);
-
-
-    g_object_set(element, "proxy", "http://10.1.4.15:3128", nullptr);
-    g_object_set(src, "proxy", "http://10.1.4.15:3128", nullptr);
 	pad_link_return = gst_pad_link(new_src_pad, sink_pad);
 
-	if(pad_link_return != GST_PAD_LINK_OK) {
+	if(pad_link_return != GST_PAD_LINK_OK)
+	{
 		sp_log(Log::Error) << "Dynamic pad linking: Cannot link pads";
 
 		switch(pad_link_return){
@@ -109,7 +106,8 @@ void PipelineCallbacks::pad_added_handler(GstElement* src, GstPad* new_src_pad, 
 
 
 #define TCP_BUFFER_SIZE 16384
-GstFlowReturn PipelineCallbacks::new_buffer(GstElement *sink, gpointer p){
+GstFlowReturn PipelineCallbacks::new_buffer(GstElement *sink, gpointer p)
+{
 	static uchar data[TCP_BUFFER_SIZE];
 
 	AbstractPipeline* pipeline;
@@ -141,4 +139,49 @@ GstFlowReturn PipelineCallbacks::new_buffer(GstElement *sink, gpointer p){
 	gst_sample_unref(sample);
 
 	return GST_FLOW_OK;
+}
+
+
+static bool is_source_soup(GstElement* source)
+{
+	GstElementFactory* fac = gst_element_get_factory(source);
+	GType type = gst_element_factory_get_element_type(fac);
+
+	QString src_type(g_type_name(type));
+
+	return (src_type.compare("gstsouphttpsrc", Qt::CaseInsensitive) == 0);
+}
+
+void PipelineCallbacks::source_setup_handler(GstURIDecodeBin* bin, GstElement* source, gpointer data)
+{
+	Q_UNUSED(bin);
+	Q_UNUSED(data);
+
+	sp_log(Log::Develop, "Engine Callback") << "Source ready: is soup? " << is_source_soup(source);
+	if(is_source_soup(source))
+	{
+		g_object_set(G_OBJECT(source), "ssl_strict", false, nullptr);
+
+		Proxy* proxy = Proxy::getInstance();
+		if(proxy->active())
+		{
+			g_object_set(G_OBJECT(source),
+						 "proxy", proxy->full_url().toLocal8Bit().data(),
+						 nullptr
+			);
+
+			sp_log(Log::Develop, "Engine Callback") << "Will use proxy: " << proxy->full_url();
+
+			if(proxy->has_username())
+			{
+				sp_log(Log::Develop, "Engine Callback") << "Will use proxy username: " << proxy->username();
+
+				g_object_set(G_OBJECT(source),
+							 "proxy-id", proxy->username().toLocal8Bit().data(),
+							 "proxy-pw", proxy->password().toLocal8Bit().data(),
+							 nullptr
+				);
+			}
+		}
+	}
 }

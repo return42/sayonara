@@ -59,7 +59,7 @@ struct PlaylistHandler::Private
 	{}
 };
 
-PlaylistHandler::PlaylistHandler(QObject* parent) :
+PlaylistHandler::PlaylistHandler(QObject * parent) :
 	QObject (parent),
 	SayonaraClass()
 {
@@ -214,8 +214,7 @@ int PlaylistHandler::create_playlist(const QStringList& pathlist, const QString&
 
 int PlaylistHandler::create_playlist(const QString& dir, const QString& name, bool temporary, Playlist::Type type)
 {
-	QStringList lst;
-	lst << dir;
+	QStringList lst{dir};
 
 	return create_playlist(lst, name, temporary, type);
 }
@@ -716,7 +715,10 @@ void PlaylistHandler::delete_tracks(const SP::Set<int>& rows, Library::TrackDele
 
 	PlaylistPtr pl = _m->playlists[idx];
 	const MetaDataList& tracks = pl->playlist();
+
 	MetaDataList v_md;
+	v_md.reserve(tracks.size());
+
 	for(int i : rows)
 	{
 		if(i >= 0 && i < tracks.count())

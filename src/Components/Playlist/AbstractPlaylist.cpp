@@ -103,8 +103,7 @@ void AbstractPlaylist::delete_tracks(const SP::Set<int>& indexes)
 
 void AbstractPlaylist::insert_track(const MetaData& md, int tgt) 
 {
-	MetaDataList v_md;
-	v_md << md;
+	MetaDataList v_md(md);
 	insert_tracks(v_md, tgt);
 }
 
@@ -120,6 +119,7 @@ void AbstractPlaylist::insert_tracks(const MetaDataList& lst, int tgt)
 void AbstractPlaylist::append_tracks(const MetaDataList& lst) 
 {
 	int old_size = _m->v_md.size();
+	
 	_m->v_md << lst;
 
 	for(auto it=_m->v_md.begin() + old_size; it != _m->v_md.end(); it++)

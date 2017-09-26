@@ -32,50 +32,112 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <iomanip>
+
+#ifdef Q_OS_UNIX
+	#define LOG_RED "\x1B[31m"
+	#define LOG_GREEN "\x1B[32m"
+	#define LOG_BLUE "\x1B[34m"
+	#define LOG_YELLOW "\x1B[33m"
+	#define LOG_COL_END "\x1B[0m"
+#else
+	#define LOG_RED ""
+	#define LOG_GREEN ""
+	#define LOG_BLUE ""
+	#define LOG_YELLOW ""
+	#define LOG_COL_END ""
+#endif
+
 
 static QList<LogListener*> log_listeners;
 
 struct Logger::Private
 {
-	std::stringstream	buffer;
-	bool				ignore;
+	Log					type;
+	QString				class_name;
+	std::stringstream	msg;
 
-	Private()
-	{
-		buffer.setf(std::ios::boolalpha);
-	}
+	Private() {}
 
 	~Private()
 	{
-		if(!ignore){
-			std::string str(buffer.str());
-			std::clog << str;
-			std::clog << std::endl;
+		QString type_str;
+		std::string color;
+		bool ignore=false;
+
+		switch(type)
+		{
+			case Log::Info:
+				color = LOG_GREEN;
+				type_str = "Info";
+				break;
+			case Log::Warning:
+				color = LOG_RED;
+				type_str = "Warning";
+				break;
+			case Log::Error:
+				color = LOG_RED;
+				type_str = "Error";
+				break;
+			case Log::Debug:
+				color = LOG_YELLOW;
+				type_str = "Debug";
+				break;
+
+			case Log::Develop:
+				color = LOG_YELLOW;
+				type_str = "Dev";
+	#ifndef DEBUG
+				ignore = true;
+	#endif
+				break;
+			default:
+				color = LOG_YELLOW;
+				type_str = "Debug";
+				break;
 		}
 
-		for(LogListener* log_listener : log_listeners)
+		if(!ignore)
 		{
-			if(log_listener) {
-				log_listener->add_log_line(buffer.str().data());
+			std::string str(msg.str());
+
+			std::clog << color << type_str.toStdString() << ": " << LOG_COL_END;
+
+			if(!class_name.isEmpty()) {
+				std::clog << LOG_BLUE << class_name.toStdString() << ": " << LOG_COL_END;
+			}
+
+			std::clog << str;
+			std::clog << std::endl;
+
+			for(LogListener* log_listener : log_listeners)
+			{
+				if(log_listener)
+				{
+					QString log_line = type_str + ": ";
+
+					if(!class_name.isEmpty()){
+						log_line += class_name + ": ";
+					}
+
+					log_line += QString::fromStdString(str);
+
+					log_listener->add_log_line(log_line);
+				}
 			}
 		}
 
-		buffer.clear();
+		msg.clear();
 	}
 };
 
 
-Logger::Logger(bool ignore)
+Logger::Logger(Log type, const QString& class_name)
 {
 	_m = new Logger::Private();
-	_m->ignore = ignore;
-}
 
-Logger::Logger(const char* msg, bool ignore)
-{
-	_m = new Logger::Private();
-	_m->ignore = ignore;
-	_m->buffer << msg;
+	_m->type = type;
+	_m->class_name = class_name;
 }
 
 Logger::~Logger()
@@ -120,11 +182,12 @@ Logger& Logger::operator << (const QPoint& point)
 
 Logger& Logger::operator << (const QByteArray& arr)
 {
-	_m->buffer << std::endl;
+	_m->msg << std::endl;
 
 	QString line_str;
 
-	for(int i=0; i<arr.size(); i++){
+	for(int i=0; i<arr.size(); i++)
+	{
 		char c = arr[i];
 
 		QChar qc = QChar(c);
@@ -137,21 +200,25 @@ Logger& Logger::operator << (const QByteArray& arr)
 			line_str += ".";
 		}
 
-		_m->buffer << std::hex << (unsigned int) (c & (0xff)) << " ";
+		_m->msg << std::hex << (unsigned int) (c & (0xff)) << " ";
 
-		if(i % 8 == 7){
-			_m->buffer << "\t";
-			_m->buffer << line_str.toLocal8Bit().constData() << std::endl;
+		if(i % 8 == 7)
+		{
+			_m->msg << "\t";
+			_m->msg << line_str.toLocal8Bit().constData() << std::endl;
+
 			line_str.clear();
 		}
 	}
 
-	if(!line_str.isEmpty()){
-		for(int i=0; i<8-line_str.size(); i++){
-			_m->buffer << "   ";
+	if(!line_str.isEmpty())
+	{
+		for(int i=0; i<8-line_str.size(); i++)
+		{
+			_m->msg << "   ";
 		}
 
-		_m->buffer << "\t" << line_str.toLocal8Bit().constData() << std::endl;
+		_m->msg << "\t" << line_str.toLocal8Bit().constData() << std::endl;
 	}
 
 	return *this;
@@ -159,19 +226,14 @@ Logger& Logger::operator << (const QByteArray& arr)
 
 Logger& Logger::operator << (const char* str)
 {
-	_m->buffer << str;
+	_m->msg << str;
+
 	return *this;
 }
 
 Logger& Logger::operator << (const std::string& str)
 {
-	_m->buffer << str;
-	return *this;
-}
-
-Logger& Logger::operator <<(bool b)
-{
-	_m->buffer << b;
+	(*this) << str.c_str();
 	return *this;
 }
 
@@ -184,37 +246,13 @@ Logger sp_log(Log type)
 	return sp_log(type, nullptr);
 }
 
+
 Logger sp_log(Log type, const char* data)
 {
-	QString type_str;
-	bool ignore=false;
-	switch(type)
-	{
-		case Log::Info:
-			break;
-		case Log::Debug:
-			type_str = "Debug: ";
-			break;
-		case Log::Warning:
-			type_str = "Warning: ";
-			break;
-		case Log::Error:
-			type_str = "Error: ";
-			break;
-		case Log::Develop:
-			type_str = "Dev: ";
-#ifndef DEBUG
-			ignore = true;
-#endif
-			break;
-		default:
-			type_str = "Debug: ";
-			break;
-	}
-
+	QString class_name;
 	if(data){
-		type_str += QString(data) + ":";
+		class_name = QString(data);
 	}
 
-	return Logger(type_str.toLocal8Bit().data(), ignore);
+	return Logger(type, data);
 }

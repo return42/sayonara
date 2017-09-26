@@ -6,6 +6,7 @@
 
 #include <QObject>
 
+class QString;
 class Proxy :
 		public QObject,
 		public SayonaraClass
@@ -18,6 +19,15 @@ class Proxy :
 
 	public:
 		void init();
+
+		QString hostname() const;
+		int port() const;
+		QString username() const;
+		QString password() const;
+		bool active() const;
+		bool has_username() const;
+
+		QString full_url() const;
 };
 
 #endif // PROXY_H

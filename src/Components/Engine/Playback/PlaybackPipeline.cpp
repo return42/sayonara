@@ -317,6 +317,7 @@ bool PlaybackPipeline::configure_elements()
 	}
 
 	g_signal_connect (_audio_src, "pad-added", G_CALLBACK (PipelineCallbacks::pad_added_handler), _audio_convert);
+	g_signal_connect (_audio_src, "source-setup", G_CALLBACK (PipelineCallbacks::source_setup_handler), nullptr);
 	if(_lame){
 		g_signal_connect (_lame_app_sink, "new-sample", G_CALLBACK(PipelineCallbacks::new_buffer), this);
 	}
@@ -364,15 +365,7 @@ void PlaybackPipeline::init_equalizer()
 
 void PlaybackPipeline::play()
 {
-    GstElement* soup_source;
-    g_object_get(G_OBJECT(_audio_src), "source", &soup_source, nullptr);
-
-    g_object_set(G_OBJECT(soup_source), "proxy", "http://10.1.4.15:3128", nullptr);
-
-    sp_log(Log::Debug, this) << "Source type: " << gst_element_get_name(soup_source);
-
 	gst_element_set_state(_pipeline, GST_STATE_PLAYING);
-
 	_sl_vol_changed();
 }
 
@@ -385,16 +378,6 @@ void PlaybackPipeline::pause()
 
 void PlaybackPipeline::stop()
 {
-    GstElement* soup_source;
-    g_object_get(G_OBJECT(_audio_src), "source", &soup_source, nullptr);
-
-    g_object_set(G_OBJECT(soup_source), "proxy", "http://10.1.4.15:3128", nullptr);
-    g_object_set(G_OBJECT(soup_source), "proxy", "http://10.1.4.15:3128", nullptr);
-
-    sp_log(Log::Debug, this) << "Source type: " << gst_element_get(soup_source);
-    play();
-    return;
-
 	_position_source_ms = 0;
 	_position_pipeline_ms = 0;
 	_duration_ms = 0;
@@ -538,23 +521,6 @@ bool PlaybackPipeline::set_uri(gchar* uri)
 	stop();
 
 	g_object_set(G_OBJECT(_audio_src), "uri", uri, nullptr);
-
-	GstElement* soup_source;
-	g_object_get(G_OBJECT(_audio_src), "source", &soup_source, nullptr);
-
-    sp_log(Log::Debug) << "Set uri: " << uri;
-
-    g_object_set(G_OBJECT(soup_source), "proxy", "http://10.1.4.15:3128", nullptr);
-    g_object_set(G_OBJECT(soup_source), "proxy", "http://10.1.4.15:3128", nullptr);
-
-	if(soup_source != nullptr)
-	{
-        sp_log(Log::Debug) << "Have soup source";
-
-		g_object_set(G_OBJECT(soup_source), 
-				"ssl_strict", false, 
-				NULL);		
-	}
 
 	gst_element_set_state(_pipeline, GST_STATE_PAUSED);
 

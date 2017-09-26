@@ -87,8 +87,8 @@ public:
 	uint64_t		running_time() const;
 	Playlist::Mode	playlist_mode() const;
 
-
-	virtual Playlist::Type	type() const = 0;
+	virtual 
+	Playlist::Type	type() const = 0;
 
 
 	// from PlaylistDBInterface

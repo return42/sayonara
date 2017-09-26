@@ -54,16 +54,12 @@ enum class Log : unsigned char
 class Logger
 {
 
-
-
-
 private:
 	struct Private;
 	Private* _m=nullptr;
 
 public:
-	explicit Logger(bool ignore=false);
-	explicit Logger(const char* msg, bool ignore=false);
+	explicit Logger(Log type, const QString& class_name);
 
 	~Logger();
 
@@ -76,7 +72,25 @@ public:
 	Logger& operator << (const QPoint& point);
 	Logger& operator << (const char* str);
 	Logger& operator << (const std::string& str);
-	Logger& operator << (bool b);
+	Logger& operator << (const Log& log_type);
+
+	template<typename T>
+	typename std::enable_if< std::is_floating_point<T>::value, Logger&>::type
+	operator << (const T& val){
+
+		(*this) << std::to_string(val);
+
+		return *this;
+	}
+
+	template<typename T>
+	typename std::enable_if< std::is_integral<T>::value, Logger&>::type
+	operator << (const T& val){
+
+		(*this) << std::to_string(val);
+
+		return *this;
+	}
 
 	template<typename T, template <typename ELEM> class CONT>
 	Logger& operator << (const CONT<T> list){

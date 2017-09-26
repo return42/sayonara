@@ -32,6 +32,16 @@ struct MetaDataList::Private
 	{
 		current_track = -1;
 	}
+
+	Private(const Private& other) :
+		CASSIGN(current_track)
+	{}
+
+	Private& operator=(const Private& other)
+	{
+		ASSIGN(current_track);
+		return (*this);
+	}
 };
 
 MetaDataList::MetaDataList() :
@@ -40,23 +50,53 @@ MetaDataList::MetaDataList() :
 	_m = Pimpl::make<Private>();
 }
 
+MetaDataList::MetaDataList(const MetaData& md) :
+	std::vector<MetaData>()
+{
+	_m = Pimpl::make<Private>();
+	append(md);
+}
+
 MetaDataList::MetaDataList(const MetaDataList& other) :
-	std::vector<MetaData>(other)
+	std::vector<MetaData>()
 {
 	_m = Pimpl::make<Private>();
 	_m->current_track = other.current_track();
+
+	this->resize(other.size());
+	std::move(other.begin(), other.end(), this->begin());
+}
+
+MetaDataList::MetaDataList(MetaDataList&& other) :
+	std::vector<MetaData>()
+{
+	_m = Pimpl::make<Private>(*(other._m));
+	_m->current_track = other.current_track();
+
+	this->resize(other.size());
+	std::move(other.begin(), other.end(), this->begin());
 }
 
 MetaDataList::~MetaDataList() {}
 
 MetaDataList& MetaDataList::operator=(const MetaDataList& other)
 {
-	this->resize(other.count());
+	(*_m) = *(other._m);
+
+	this->resize(other.size());
 	std::copy(other.begin(), other.end(), this->begin());
 
-	_m->current_track = other.current_track();
+	return (*this);
+}
 
-	return *this;
+MetaDataList& MetaDataList::operator=(MetaDataList&& other)
+{
+	(*_m) = std::move(*(other._m));
+
+	this->resize(other.size());
+	std::move(other.begin(), other.end(), this->begin());
+
+	return (*this);
 }
 
 int MetaDataList::current_track() const
@@ -83,7 +123,7 @@ void MetaDataList::set_current_track(int idx)
 
 MetaDataList& MetaDataList::insert_track(const MetaData& md, int tgt_idx)
 {
-	MetaDataList v_md; v_md << md;
+	MetaDataList v_md{md};
 	return insert_tracks(v_md, tgt_idx);
 }
 
@@ -96,10 +136,17 @@ MetaDataList& MetaDataList::insert_tracks(const MetaDataList& v_md, int tgt_idx)
 	tgt_idx = std::max(0, tgt_idx);
 	tgt_idx = std::min((int) this->count(), tgt_idx);
 
-	this->resize(this->count() + v_md.count());
+	int old_count = this->count();
 
-	std::move(this->begin() + tgt_idx, this->end(), this->begin() + v_md.count());
-	std::copy(v_md.begin(), v_md.end(), this->begin() + tgt_idx);
+	this->resize(old_count + v_md.count());
+
+	std::move_backward(this->begin() + tgt_idx,
+					   this->begin() + old_count,
+					   this->end());
+
+	std::copy(v_md.begin(),
+			  v_md.end(),
+			  this->begin() + tgt_idx);
 
 	if(current_track() >= tgt_idx){
 		set_current_track(current_track() + v_md.count());
@@ -265,29 +312,31 @@ bool MetaDataList::contains(const MetaData& md) const
 QList<int> MetaDataList::findTracks(int id) const
 {
 	IdxList ret;
-	int idx=0;
 
 	if(id == -1) {
 		return ret;
 	}
 
-	auto lambda = [&id, &idx, &ret](const MetaData& md) {
-		if(md.id == id){
+	int idx=0;
+	for(auto it=this->begin(); it != this->end(); it++)
+	{
+		if(it->id == id){
 			ret << idx;
 		}
 
 		idx++;
-	};
-
-	std::for_each(this->begin(), this->end(), lambda);
+	}
 
 	return ret;
 }
 
 QList<int> MetaDataList::findTracks(const QString& path) const
 {
-	IdxList ret;
-	int idx=0;
+	QList<int> ret;
+
+	if(path.isEmpty()) {
+		return ret;
+	}
 
 #ifdef Q_OS_UNIX
 	Qt::CaseSensitivity sensitivity = Qt::CaseSensitive;
@@ -295,15 +344,15 @@ QList<int> MetaDataList::findTracks(const QString& path) const
 	Qt::CaseSensitivity sensitivity = Qt::CaseInsensitive;
 #endif
 
-	auto lambda = [&ret, &idx, &path, &sensitivity](const MetaData& md){
-		if(md.filepath().compare(path, sensitivity) == 0){
+	int idx=0;
+	for(auto it=this->begin(); it != this->end(); it++)
+	{
+		if(it->filepath().compare(path, sensitivity) == 0){
 			ret << idx;
 		}
 
 		idx++;
-	};
-
-	std::for_each(this->begin(), this->end(), lambda);
+	}
 
 	return ret;
 }
@@ -330,19 +379,31 @@ QStringList MetaDataList::toStringList() const
 
 MetaDataList& MetaDataList::operator <<(const MetaDataList& v_md)
 {
-    int old_count = this->count();
-	this->resize(this->count() + v_md.count());
-    auto it = this->begin() + old_count;
-
-	std::copy(v_md.begin(), v_md.end(), it);
-
-	return *this;
+	return append(v_md);
 }
 
 
 MetaDataList& MetaDataList::operator <<(const MetaData& md)
 {
-	this->push_back(md);
+	return append(md);
+}
+
+MetaDataList& MetaDataList::append(const MetaDataList& v_md)
+{
+	int old_size = this->count();
+	resize(old_size + v_md.count());
+
+	std::copy(v_md.begin(),
+			  v_md.end(),
+			  this->begin() + old_size
+	);
+
+	return *this;
+}
+
+MetaDataList& MetaDataList::append(const MetaData& md)
+{
+	push_back(md);
 	return *this;
 }
 
