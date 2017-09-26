@@ -27,6 +27,7 @@
 #include "Helper/Helper.h"
 #include "Helper/Settings/Settings.h"
 #include "Helper/EqualizerPresets.h"
+#include "Helper/Logger/Logger.h"
 
 #include <gst/base/gstdataqueue.h>
 #include <algorithm>
@@ -363,7 +364,15 @@ void PlaybackPipeline::init_equalizer()
 
 void PlaybackPipeline::play()
 {
+    GstElement* soup_source;
+    g_object_get(G_OBJECT(_audio_src), "source", &soup_source, nullptr);
+
+    g_object_set(G_OBJECT(soup_source), "proxy", "http://10.1.4.15:3128", nullptr);
+
+    sp_log(Log::Debug, this) << "Source type: " << gst_element_get_name(soup_source);
+
 	gst_element_set_state(_pipeline, GST_STATE_PLAYING);
+
 	_sl_vol_changed();
 }
 
@@ -376,6 +385,16 @@ void PlaybackPipeline::pause()
 
 void PlaybackPipeline::stop()
 {
+    GstElement* soup_source;
+    g_object_get(G_OBJECT(_audio_src), "source", &soup_source, nullptr);
+
+    g_object_set(G_OBJECT(soup_source), "proxy", "http://10.1.4.15:3128", nullptr);
+    g_object_set(G_OBJECT(soup_source), "proxy", "http://10.1.4.15:3128", nullptr);
+
+    sp_log(Log::Debug, this) << "Source type: " << gst_element_get(soup_source);
+    play();
+    return;
+
 	_position_source_ms = 0;
 	_position_pipeline_ms = 0;
 	_duration_ms = 0;
@@ -511,6 +530,7 @@ GstElement* PlaybackPipeline::get_pipeline() const
 	return _pipeline;
 }
 
+
 bool PlaybackPipeline::set_uri(gchar* uri)
 {
 	if(!uri) return false;
@@ -521,8 +541,16 @@ bool PlaybackPipeline::set_uri(gchar* uri)
 
 	GstElement* soup_source;
 	g_object_get(G_OBJECT(_audio_src), "source", &soup_source, nullptr);
+
+    sp_log(Log::Debug) << "Set uri: " << uri;
+
+    g_object_set(G_OBJECT(soup_source), "proxy", "http://10.1.4.15:3128", nullptr);
+    g_object_set(G_OBJECT(soup_source), "proxy", "http://10.1.4.15:3128", nullptr);
+
 	if(soup_source != nullptr)
 	{
+        sp_log(Log::Debug) << "Have soup source";
+
 		g_object_set(G_OBJECT(soup_source), 
 				"ssl_strict", false, 
 				NULL);		

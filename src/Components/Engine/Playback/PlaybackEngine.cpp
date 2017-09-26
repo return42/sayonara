@@ -46,8 +46,6 @@ PlaybackEngine::PlaybackEngine(QObject* parent) :
 	_gapless_timer->setSingleShot(true);
 
 	connect(_gapless_timer, &QTimer::timeout, this, &PlaybackEngine::gapless_timed_out);
-
-
 }
 
 

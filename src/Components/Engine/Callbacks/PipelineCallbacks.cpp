@@ -57,6 +57,8 @@ void PipelineCallbacks::pad_added_handler(GstElement* src, GstPad* new_src_pad, 
 	GstPad*				sink_pad;
 	GstPadLinkReturn	pad_link_return;
 
+    sp_log(Log::Debug, "Callback") << "Source: " << gst_element_get_name(src);
+
 	element = static_cast<GstElement*>(data);
 	if(!element){
 		return;
@@ -71,6 +73,11 @@ void PipelineCallbacks::pad_added_handler(GstElement* src, GstPad* new_src_pad, 
 		return;
 	}
 
+    sp_log(Log::Debug, "Callback") << "Element: " << gst_element_get_name(element);
+
+
+    g_object_set(element, "proxy", "http://10.1.4.15:3128", nullptr);
+    g_object_set(src, "proxy", "http://10.1.4.15:3128", nullptr);
 	pad_link_return = gst_pad_link(new_src_pad, sink_pad);
 
 	if(pad_link_return != GST_PAD_LINK_OK) {

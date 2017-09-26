@@ -219,6 +219,14 @@ bool SettingRegistry::init()
 
 	register_setting( Set::Icon_Theme, "icon_theme", QString());
 
+    register_setting( Set::Proxy_Active, "proxy_active", false);
+    register_setting( Set::Proxy_Hostname, "proxy_hostname", QString());
+    register_setting( Set::Proxy_Port, "proxy_port", 3128);
+    register_setting( Set::Proxy_Username, "proxy_username", QString());
+    register_setting( Set::Proxy_Password, "proxy_password", QString());
+    register_setting( Set::Proxy_SavePw, "proxy_save_pw", false);
+
+
 	register_setting( SetNoDB::MP3enc_found, true );
 	register_setting( SetNoDB::Pitch_found, true );
 	register_setting( SetNoDB::Player_Quit, false );

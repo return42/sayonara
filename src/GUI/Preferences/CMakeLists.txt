@@ -13,6 +13,7 @@ SET(SOURCES
     PlayerPreferences/GUI_PlayerPreferences.cpp
     PlaylistPreferences/GUI_PlaylistPreferences.cpp
     PreferenceDialog/GUI_PreferenceDialog.cpp
+	ProxyPreferences/GUI_Proxy.cpp
     RemoteControl/GUI_RemoteControl.cpp
     Shortcuts/GUI_Shortcuts.cpp
     Shortcuts/GUI_ShortcutEntry.cpp
@@ -32,6 +33,7 @@ QT5_WRAP_UI(UI_FILES
     PlayerPreferences/GUI_PlayerPreferences.ui
     PlaylistPreferences/GUI_PlaylistPreferences.ui
     PreferenceDialog/GUI_PreferenceDialog.ui
+	ProxyPreferences/GUI_Proxy.ui
     RemoteControl/GUI_RemoteControl.ui
     Shortcuts/GUI_Shortcuts.ui
     Shortcuts/GUI_ShortcutEntry.ui

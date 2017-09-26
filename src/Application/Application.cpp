@@ -74,10 +74,12 @@
 #include "GUI/Preferences/PreferenceDialog/GUI_PreferenceDialog.h"
 #include "GUI/Preferences/Covers/GUI_Covers.h"
 #include "GUI/Preferences/Icons/GUI_IconPreferences.h"
+#include "GUI/Preferences/ProxyPreferences/GUI_Proxy.h"
 
 #include "Helper/FileHelper.h"
 #include "Helper/Helper.h"
 #include "Helper/Logger/Logger.h"
+#include "Helper/WebAccess/Proxy.h"
 
 #include "Database/DatabaseConnector.h"
 
@@ -233,6 +235,7 @@ bool Application::init(QTranslator* translator, const QStringList& files_to_play
 		sp_log(Log::Warning) << "Cannot install translator";
 	}
 
+    Proxy::getInstance()->init();
 	//check_for_crash();
 
 	QString version = QString(SAYONARA_VERSION);
@@ -311,6 +314,7 @@ bool Application::init(QTranslator* translator, const QStringList& files_to_play
 	preferences->register_preference_dialog(new GUI_RemoteControl());
 	preferences->register_preference_dialog(new GUI_LastFM());
 	preferences->register_preference_dialog(new GUI_IconPreferences());
+    preferences->register_preference_dialog(new GUI_Proxy());
 
 	EngineHandler::getInstance()->init();
 

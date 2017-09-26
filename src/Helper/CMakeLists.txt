@@ -79,6 +79,7 @@ SET(SOURCES
 
     WebAccess/AsyncWebAccess.cpp
     WebAccess/IcyWebAccess.cpp
+	WebAccess/Proxy.cpp
 )
 
 #ADD_DEFINITIONS( -DSMART_COMPARE" )

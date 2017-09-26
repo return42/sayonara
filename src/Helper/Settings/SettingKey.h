@@ -172,6 +172,13 @@ namespace SK {
 	Cover_Server,
 	Icon_Theme,
 
+	Proxy_Active,
+	Proxy_Username,
+	Proxy_Password,
+	Proxy_Hostname,
+	Proxy_Port,
+	Proxy_SavePw,
+
 	Num_Setting_Keys
     };
 }
@@ -322,6 +329,13 @@ namespace Set
 
 	INST(QStringList,		Cover_Server);				/* Cover server */
 	INST(QString,			Icon_Theme);				/* Current icon theme */
+
+	INST(bool,				Proxy_Active);				/* Is proxy server active */
+	INST(QString,			Proxy_Username);			/* Proxy Username */
+	INST(QString,			Proxy_Password);			/* Proxy Password */
+	INST(QString,			Proxy_Hostname);			/* Proxy Hostname/IP Address */
+	INST(int,				Proxy_Port);				/* Proxy Port 3128 */
+	INST(bool,				Proxy_SavePw);				/* Should password be saved */
 }
 
 namespace SetNoDB

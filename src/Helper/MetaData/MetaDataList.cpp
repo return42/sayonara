@@ -330,8 +330,9 @@ QStringList MetaDataList::toStringList() const
 
 MetaDataList& MetaDataList::operator <<(const MetaDataList& v_md)
 {
-	auto it = this->end();
+    int old_count = this->count();
 	this->resize(this->count() + v_md.count());
+    auto it = this->begin() + old_count;
 
 	std::copy(v_md.begin(), v_md.end(), it);
 
