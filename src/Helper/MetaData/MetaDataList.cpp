@@ -312,29 +312,31 @@ bool MetaDataList::contains(const MetaData& md) const
 QList<int> MetaDataList::findTracks(int id) const
 {
 	IdxList ret;
-	int idx=0;
 
 	if(id == -1) {
 		return ret;
 	}
 
-	auto lambda = [&id, &idx, &ret](const MetaData& md) {
-		if(md.id == id){
+	int idx=0;
+	for(auto it=this->begin(); it != this->end(); it++)
+	{
+		if(it->id == id){
 			ret << idx;
 		}
 
 		idx++;
-	};
-
-	std::for_each(this->begin(), this->end(), lambda);
+	}
 
 	return ret;
 }
 
 QList<int> MetaDataList::findTracks(const QString& path) const
 {
-	IdxList ret;
-	int idx=0;
+	QList<int> ret;
+
+	if(path.isEmpty()) {
+		return ret;
+	}
 
 #ifdef Q_OS_UNIX
 	Qt::CaseSensitivity sensitivity = Qt::CaseSensitive;
@@ -342,15 +344,15 @@ QList<int> MetaDataList::findTracks(const QString& path) const
 	Qt::CaseSensitivity sensitivity = Qt::CaseInsensitive;
 #endif
 
-	auto lambda = [&ret, &idx, &path, &sensitivity](const MetaData& md){
-		if(md.filepath().compare(path, sensitivity) == 0){
+	int idx=0;
+	for(auto it=this->begin(); it != this->end(); it++)
+	{
+		if(it->filepath().compare(path, sensitivity) == 0){
 			ret << idx;
 		}
 
 		idx++;
-	};
-
-	std::for_each(this->begin(), this->end(), lambda);
+	}
 
 	return ret;
 }
@@ -388,17 +390,20 @@ MetaDataList& MetaDataList::operator <<(const MetaData& md)
 
 MetaDataList& MetaDataList::append(const MetaDataList& v_md)
 {
-	auto it = this->end();
-	this->resize(this->count() + v_md.count());
+	int old_size = this->count();
+	resize(old_size + v_md.count());
 
-	std::copy(v_md.begin(), v_md.end(), it);
+	std::copy(v_md.begin(),
+			  v_md.end(),
+			  this->begin() + old_size
+	);
 
 	return *this;
 }
 
 MetaDataList& MetaDataList::append(const MetaData& md)
 {
-	this->push_back(md);
+	push_back(md);
 	return *this;
 }
 
