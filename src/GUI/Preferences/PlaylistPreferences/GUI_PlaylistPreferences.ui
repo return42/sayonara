@@ -110,7 +110,7 @@
        <item row="7" column="0">
         <widget class="QGroupBox" name="groupBox_2">
          <property name="title">
-          <string>Runtime</string>
+          <string>Stop behaviour</string>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_2">
           <item>
