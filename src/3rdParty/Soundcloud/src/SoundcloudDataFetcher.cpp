@@ -46,7 +46,7 @@ struct SC::DataFetcher::Private
 SC::DataFetcher::DataFetcher(QObject* parent) :
 	QObject(parent)
 {
-	_m = Pimpl::make<SC::DataFetcher::Private>();
+	m = Pimpl::make<SC::DataFetcher::Private>();
 
 	clear();
 }
@@ -80,7 +80,7 @@ void SC::DataFetcher::get_tracks_by_artist(int artist_id)
 {
 	clear();
 
-	_m->artist_id = artist_id;
+	m->artist_id = artist_id;
 
 	AsyncWebAccess* awa = new AsyncWebAccess(this);
 	connect(awa, &AsyncWebAccess::sig_finished,
@@ -119,13 +119,13 @@ void SC::DataFetcher::playlist_tracks_fetched()
 
 	QByteArray data = awa->data();
 	SC::JsonParser parser(data);
-	parser.parse_playlists(_m->artists, _m->playlists, _m->playlist_tracks);
+	parser.parse_playlists(m->artists, m->playlists, m->playlist_tracks);
 
 	AsyncWebAccess* awa_new = new AsyncWebAccess(this);
 	connect(awa_new, &AsyncWebAccess::sig_finished,
 			this, &SC::DataFetcher::tracks_fetched);
 
-	awa_new->run( SC::WebAccess::create_dl_get_tracks(_m->artist_id) );
+	awa_new->run( SC::WebAccess::create_dl_get_tracks(m->artist_id) );
 
 	awa->deleteLater();
 }
@@ -146,29 +146,29 @@ void SC::DataFetcher::tracks_fetched()
 	parser.parse_tracks(artists, v_md);
 
 	for(const MetaData& md : v_md){
-		if(!_m->playlist_tracks.contains(md.id)){
-			_m->playlist_tracks << md;
+		if(!m->playlist_tracks.contains(md.id)){
+			m->playlist_tracks << md;
 		}
 	}
 
 	for(const Artist& artist : artists){
-		if(!_m->artists.contains(artist.id)){
-			_m->artists << artist;
+		if(!m->artists.contains(artist.id)){
+			m->artists << artist;
 		}
 	}
 
-	emit sig_playlists_fetched(_m->playlists);
-	emit sig_tracks_fetched(_m->playlist_tracks);
-	emit sig_ext_artists_fetched(_m->artists);
+	emit sig_playlists_fetched(m->playlists);
+	emit sig_tracks_fetched(m->playlist_tracks);
+	emit sig_ext_artists_fetched(m->artists);
 
 	awa->deleteLater();
 }
 
 void SC::DataFetcher::clear()
 {
-	_m->playlist_tracks.clear();
-	_m->playlists.clear();
-	_m->artists.clear();
-	_m->artist_id = -1;
+	m->playlist_tracks.clear();
+	m->playlists.clear();
+	m->artists.clear();
+	m->artist_id = -1;
 }
 

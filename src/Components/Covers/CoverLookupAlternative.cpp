@@ -44,15 +44,15 @@ struct CoverLookupAlternative::Private
 CoverLookupAlternative::CoverLookupAlternative(QObject* parent, int n_covers) :
 	AbstractCoverLookup(parent)
 {
-	_m = Pimpl::make<CoverLookupAlternative::Private>();
-	_m->run = true;
-	_m->n_covers = n_covers;
+	m = Pimpl::make<CoverLookupAlternative::Private>();
+	m->run = true;
+	m->n_covers = n_covers;
 }
 
 CoverLookupAlternative::CoverLookupAlternative(QObject* parent, const CoverLocation& cl, int n_covers) : 
 	CoverLookupAlternative(parent, n_covers)
 {
-	_m->cover_location = cl;
+	m->cover_location = cl;
 
 	sp_log(Log::Debug, this) << cl.search_urls();
 }
@@ -61,19 +61,19 @@ CoverLookupAlternative::~CoverLookupAlternative() {}
 
 void CoverLookupAlternative::stop()
 {
-	_m->cl->stop();
+	m->cl->stop();
 }
 
 void CoverLookupAlternative::start()
 {
-	_m->run = true;
+	m->run = true;
 
-	_m->cl = CoverLookupPtr(new CoverLookup(this, _m->n_covers));
+	m->cl = CoverLookupPtr(new CoverLookup(this, m->n_covers));
 
-	connect(_m->cl.get(), &CoverLookup::sig_cover_found, this, &CoverLookupAlternative::cover_found);
-	connect(_m->cl.get(), &CoverLookup::sig_finished, this, &CoverLookupAlternative::finished);
+	connect(m->cl.get(), &CoverLookup::sig_cover_found, this, &CoverLookupAlternative::cover_found);
+	connect(m->cl.get(), &CoverLookup::sig_finished, this, &CoverLookupAlternative::finished);
 
-	bool can_fetch = _m->cl->fetch_cover(_m->cover_location, true);
+	bool can_fetch = m->cl->fetch_cover(m->cover_location, true);
 	if(!can_fetch){
 		emit sig_finished(false);
 	}

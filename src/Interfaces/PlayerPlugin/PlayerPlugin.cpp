@@ -49,9 +49,9 @@ PlayerPluginInterface::PlayerPluginInterface(QWidget *parent) :
 	SayonaraWidget(parent),
 	ShortcutWidget()
 {
-	_m = Pimpl::make<Private>();
+	m = Pimpl::make<Private>();
 
-	connect(_m->pp_action, &QAction::triggered, this, &PlayerPluginInterface::action_triggered);
+	connect(m->pp_action, &QAction::triggered, this, &PlayerPluginInterface::action_triggered);
 
 	hide();
 }
@@ -83,8 +83,8 @@ QString PlayerPluginInterface::get_shortcut_text(const QString& shortcut_identif
 
 QAction* PlayerPluginInterface::get_action() const 
 {
-	_m->pp_action->setText( this->get_display_name() );
-	return _m->pp_action;
+	m->pp_action->setText( this->get_display_name() );
+	return m->pp_action;
 }
 
 
@@ -133,13 +133,13 @@ void PlayerPluginInterface::language_changed()
 
 bool PlayerPluginInterface::is_ui_initialized() const
 {
-	return _m->is_initialized;
+	return m->is_initialized;
 }
 
 
 void PlayerPluginInterface::set_ui_initialized()
 {
-	_m->is_initialized = true;
+	m->is_initialized = true;
 }
 
 
@@ -157,7 +157,7 @@ void PlayerPluginInterface::closeEvent(QCloseEvent* e)
 {
 	SayonaraWidget::closeEvent(e);
 
-	_m->pp_action->setChecked(false);
+	m->pp_action->setChecked(false);
 
 	emit sig_closed();
 }
@@ -165,7 +165,7 @@ void PlayerPluginInterface::closeEvent(QCloseEvent* e)
 
 void PlayerPluginInterface::action_triggered(bool b) 
 {
-	_m->pp_action->setChecked(b);
+	m->pp_action->setChecked(b);
 
 	emit sig_action_triggered(this, b);
 

@@ -56,11 +56,11 @@ struct GUI_AbstractStream::Private
 GUI_AbstractStream::GUI_AbstractStream(AbstractStreamHandler* stream_handler, QWidget* parent) :
 	PlayerPluginInterface(parent)
 {
-	_m = Pimpl::make<Private>();
-	_m->stream_handler = stream_handler;
-	_m->searching = false;
+	m = Pimpl::make<Private>();
+	m->stream_handler = stream_handler;
+	m->searching = false;
 
-	connect(_m->stream_handler, &AbstractStreamHandler::sig_too_many_urls_found,
+	connect(m->stream_handler, &AbstractStreamHandler::sig_too_many_urls_found,
 			this, &GUI_AbstractStream::too_many_urls_found);
 }
 
@@ -69,37 +69,37 @@ GUI_AbstractStream::~GUI_AbstractStream() {}
 
 void GUI_AbstractStream::init_connections()
 {
-	_m->combo_stream->setAutoCompletion(false);
+	m->combo_stream->setAutoCompletion(false);
 
-	_m->combo_stream->setFocusPolicy(Qt::StrongFocus);
-	_m->le_url->setFocusPolicy(Qt::StrongFocus);
-	_m->btn_play->setFocusPolicy(Qt::StrongFocus);
+	m->combo_stream->setFocusPolicy(Qt::StrongFocus);
+	m->le_url->setFocusPolicy(Qt::StrongFocus);
+	m->btn_play->setFocusPolicy(Qt::StrongFocus);
 
-	setTabOrder(_m->combo_stream, _m->le_url);
-	setTabOrder(_m->le_url, _m->btn_play);
+	setTabOrder(m->combo_stream, m->le_url);
+	setTabOrder(m->le_url, m->btn_play);
 
-	_m->btn_tool->show_action(ContextMenu::EntryNew, true);
+	m->btn_tool->show_action(ContextMenu::EntryNew, true);
 
-	connect(_m->btn_play, &QPushButton::clicked, this, &GUI_AbstractStream::listen_clicked);
-	connect(_m->btn_tool, &MenuToolButton::sig_save, this, &GUI_AbstractStream::save_clicked);
-	connect(_m->btn_tool, &MenuToolButton::sig_delete, this, &GUI_AbstractStream::delete_clicked);
-	connect(_m->btn_tool, &MenuToolButton::sig_new, this, &GUI_AbstractStream::new_clicked);
+	connect(m->btn_play, &QPushButton::clicked, this, &GUI_AbstractStream::listen_clicked);
+	connect(m->btn_tool, &MenuToolButton::sig_save, this, &GUI_AbstractStream::save_clicked);
+	connect(m->btn_tool, &MenuToolButton::sig_delete, this, &GUI_AbstractStream::delete_clicked);
+	connect(m->btn_tool, &MenuToolButton::sig_new, this, &GUI_AbstractStream::new_clicked);
 
-	connect(_m->combo_stream, combo_activated_int, this, &GUI_AbstractStream::combo_idx_changed);
-	connect(_m->combo_stream, &QComboBox::editTextChanged, this, &GUI_AbstractStream::text_changed);
+	connect(m->combo_stream, combo_activated_int, this, &GUI_AbstractStream::combo_idx_changed);
+	connect(m->combo_stream, &QComboBox::editTextChanged, this, &GUI_AbstractStream::text_changed);
 
-	connect(_m->le_url, &QLineEdit::textChanged, this, &GUI_AbstractStream::text_changed);
+	connect(m->le_url, &QLineEdit::textChanged, this, &GUI_AbstractStream::text_changed);
 
-	connect(_m->stream_handler, &AbstractStreamHandler::sig_error, this, &GUI_AbstractStream::error);
-	connect(_m->stream_handler, &AbstractStreamHandler::sig_data_available, this, &GUI_AbstractStream::data_available);
-	connect(_m->stream_handler, &AbstractStreamHandler::sig_stopped, this, &GUI_AbstractStream::stopped);
+	connect(m->stream_handler, &AbstractStreamHandler::sig_error, this, &GUI_AbstractStream::error);
+	connect(m->stream_handler, &AbstractStreamHandler::sig_data_available, this, &GUI_AbstractStream::data_available);
+	connect(m->stream_handler, &AbstractStreamHandler::sig_stopped, this, &GUI_AbstractStream::stopped);
 }
 
 void GUI_AbstractStream::init_streams()
 {
 	StreamMap data;
 
-	if( _m->stream_handler->get_all_streams(data) ){
+	if( m->stream_handler->get_all_streams(data) ){
 		setup_stations(data);
 	}
 }
@@ -107,12 +107,12 @@ void GUI_AbstractStream::init_streams()
 
 void GUI_AbstractStream::init_ui()
 {
-	_m->btn_play->setMinimumSize(QSize(24,24));
-	_m->btn_play->setMaximumSize(QSize(24,24));
-	_m->btn_tool->setToolTip(Lang::get(Lang::Menu));
-	_m->btn_tool->setText(Lang::get(Lang::Menu));
+	m->btn_play->setMinimumSize(QSize(24,24));
+	m->btn_play->setMaximumSize(QSize(24,24));
+	m->btn_tool->setToolTip(Lang::get(Lang::Menu));
+	m->btn_tool->setText(Lang::get(Lang::Menu));
 
-	_m->loading_bar = new SayonaraLoadingBar(this);
+	m->loading_bar = new SayonaraLoadingBar(this);
 
 	init_connections();
 	init_streams();
@@ -125,14 +125,14 @@ void GUI_AbstractStream::init_ui()
 
 void GUI_AbstractStream::retranslate_ui()
 {
-	_m->le_url->setPlaceholderText(Lang::get(Lang::EnterUrl).triplePt());
-	_m->combo_stream->lineEdit()->setPlaceholderText(Lang::get(Lang::EnterName).triplePt());
-	_m->btn_tool->setText(Lang::get(Lang::Menu));
+	m->le_url->setPlaceholderText(Lang::get(Lang::EnterUrl).triplePt());
+	m->combo_stream->lineEdit()->setPlaceholderText(Lang::get(Lang::EnterName).triplePt());
+	m->btn_tool->setText(Lang::get(Lang::Menu));
 
-	if(_m->searching){
-		_m->lab_listen->setText(Lang::get(Lang::Stop));
+	if(m->searching){
+		m->lab_listen->setText(Lang::get(Lang::Stop));
 	} else {
-		_m->lab_listen->setText(Lang::get(Lang::Listen));
+		m->lab_listen->setText(Lang::get(Lang::Listen));
 	}
 }
 
@@ -144,7 +144,7 @@ void GUI_AbstractStream::error()
 	GlobalMessage::Answer answer =
 			Message::question_yn(
 				tr("Cannot open stream") + "\n" +
-				_m->le_url->text() + "\n\n" +
+				m->le_url->text() + "\n\n" +
 				Lang::get(Lang::Retry).question());
 
 	if(answer == GlobalMessage::Answer::Yes){
@@ -164,18 +164,18 @@ void GUI_AbstractStream::stopped()
 
 void GUI_AbstractStream::set_searching(bool searching)
 {
-	_m->loading_bar->setVisible(searching);
-	_m->btn_play->setDisabled(false);
+	m->loading_bar->setVisible(searching);
+	m->btn_play->setDisabled(false);
 
 	if(!searching) {
-		_m->btn_play->setIcon( IconLoader::getInstance()->get_icon("media-playback-start", "play"));
-		_m->lab_listen->setText(Lang::get(Lang::Listen));
+		m->btn_play->setIcon( IconLoader::getInstance()->get_icon("media-playback-start", "play"));
+		m->lab_listen->setText(Lang::get(Lang::Listen));
 	} else {
-		_m->btn_play->setIcon( IconLoader::getInstance()->get_icon("media-playback-stop", "stop"));
-		_m->lab_listen->setText(Lang::get(Lang::Stop));
+		m->btn_play->setIcon( IconLoader::getInstance()->get_icon("media-playback-stop", "stop"));
+		m->lab_listen->setText(Lang::get(Lang::Stop));
 	}
 
-	_m->searching = searching;
+	m->searching = searching;
 }
 
 void GUI_AbstractStream::_sl_skin_changed()
@@ -184,19 +184,19 @@ void GUI_AbstractStream::_sl_skin_changed()
 		return;
 	}
 
-	QAbstractItemView* view = _m->combo_stream->view();
+	QAbstractItemView* view = m->combo_stream->view();
 
 	view->parentWidget()->setStyleSheet("margin: 0px; padding: -4px -1px; border: 1px solid #282828; background: none;");
 	view->setStyleSheet(Style::get_current_style());
 	view->setMinimumHeight(20 * view->model()->rowCount());
 
-	set_searching(_m->searching);
+	set_searching(m->searching);
 }
 
 
 void GUI_AbstractStream::play(QString url, QString station_name)
 {
-	bool success = _m->stream_handler->parse_station(url, station_name);
+	bool success = m->stream_handler->parse_station(url, station_name);
 	if(!success){
 		sp_log(Log::Warning, this) << "Stream Handler busy";
 		set_searching(false);
@@ -213,20 +213,20 @@ void GUI_AbstractStream::listen_clicked()
 {
 	QString name, url;
 
-	if(_m->searching){
-		_m->btn_play->setDisabled(true);
-		_m->stream_handler->stop();
+	if(m->searching){
+		m->btn_play->setDisabled(true);
+		m->stream_handler->stop();
 		return;
 	}
 
-	if( _m->combo_stream->currentIndex() <= 0) {
-		url = _m->le_url->text();
+	if( m->combo_stream->currentIndex() <= 0) {
+		url = m->le_url->text();
 		name = get_title_fallback_name();
 	}
 
 	else{
-		url = _m->le_url->text();
-		name = _m->combo_stream->currentText();
+		url = m->le_url->text();
+		name = m->combo_stream->currentText();
 	}
 
 	url = url.trimmed();
@@ -238,51 +238,51 @@ void GUI_AbstractStream::listen_clicked()
 
 void GUI_AbstractStream::combo_idx_changed(int idx)
 {
-	QString cur_station_name = _m->combo_stream->currentText();
-	QString address = _m->stations[cur_station_name];
+	QString cur_station_name = m->combo_stream->currentText();
+	QString address = m->stations[cur_station_name];
 
 	if(address.size() > 0) {
-		_m->le_url->setText(address);
+		m->le_url->setText(address);
 	}
 
 	if(idx == 0) {
-		_m->le_url->clear();
+		m->le_url->clear();
 	}
 
-	_m->btn_tool->show_action(ContextMenu::EntryDelete, idx > 0);
-	_m->combo_stream->setToolTip(address);
+	m->btn_tool->show_action(ContextMenu::EntryDelete, idx > 0);
+	m->combo_stream->setToolTip(address);
 
-	QString text = _m->le_url->text();
-	bool listen_disabled = (text.size() < 8 && !_m->searching);
-	_m->btn_play->setDisabled(listen_disabled);
+	QString text = m->le_url->text();
+	bool listen_disabled = (text.size() < 8 && !m->searching);
+	m->btn_play->setDisabled(listen_disabled);
 }
 
 void GUI_AbstractStream::new_clicked()
 {
-	if(_m->combo_stream->count() > 0){
-		_m->combo_stream->setCurrentIndex(0);
-		_m->combo_stream->setItemText(0, "");
+	if(m->combo_stream->count() > 0){
+		m->combo_stream->setCurrentIndex(0);
+		m->combo_stream->setItemText(0, "");
 	}
 
 	else{
-		_m->combo_stream->addItem("");
-		_m->combo_stream->setCurrentIndex(0);
+		m->combo_stream->addItem("");
+		m->combo_stream->setCurrentIndex(0);
 	}
 
-	_m->le_url->clear();
+	m->le_url->clear();
 }
 
 void GUI_AbstractStream::text_changed(const QString& str)
 {
 	Q_UNUSED(str)
 
-	bool listen_enabled = (!_m->le_url->text().isEmpty());
+	bool listen_enabled = (!m->le_url->text().isEmpty());
 
-	_m->btn_play->setEnabled(listen_enabled);
-	_m->lab_listen->setEnabled(listen_enabled);
+	m->btn_play->setEnabled(listen_enabled);
+	m->lab_listen->setEnabled(listen_enabled);
 
-	_m->btn_tool->show_action(ContextMenu::EntrySave,  listen_enabled &&
-							  !_m->combo_stream->currentText().isEmpty());
+	m->btn_tool->show_action(ContextMenu::EntrySave,  listen_enabled &&
+							  !m->combo_stream->currentText().isEmpty());
 }
 
 void GUI_AbstractStream::too_many_urls_found(int n_urls, int n_max_urls)
@@ -296,18 +296,18 @@ void GUI_AbstractStream::too_many_urls_found(int n_urls, int n_max_urls)
 
 void GUI_AbstractStream::delete_clicked()
 {
-	if(_m->combo_stream->currentIndex() <= 0) return;
+	if(m->combo_stream->currentIndex() <= 0) return;
 
-	QString cur_station_name = _m->combo_stream->currentText();
+	QString cur_station_name = m->combo_stream->currentText();
 
 	GlobalMessage::Answer ret = Message::question_yn(tr("Do you really want to delete %1").arg(cur_station_name));
 
 	if(ret == GlobalMessage::Answer::Yes) {
-		if( _m->stream_handler->delete_stream(cur_station_name) ) {
+		if( m->stream_handler->delete_stream(cur_station_name) ) {
 			StreamMap map;
 			sp_log(Log::Info, this) << cur_station_name << "successfully deleted";
 
-			if( _m->stream_handler->get_all_streams(map) ) {
+			if( m->stream_handler->get_all_streams(map) ) {
 				setup_stations(map);
 			}
 		}
@@ -316,8 +316,8 @@ void GUI_AbstractStream::delete_clicked()
 
 void GUI_AbstractStream::save_clicked()
 {
-	QString name = _m->combo_stream->currentText();
-	QString url = _m->le_url->text();
+	QString name = m->combo_stream->currentText();
+	QString url = m->le_url->text();
 	GlobalMessage::Answer answer;
 
 	if(name.isEmpty() || url.isEmpty()){
@@ -326,14 +326,14 @@ void GUI_AbstractStream::save_clicked()
 
 	StreamMap map;
 
-	for(int i=0; i<_m->combo_stream->count(); i++)
+	for(int i=0; i<m->combo_stream->count(); i++)
 	{
-		QString text = _m->combo_stream->itemText(i);
+		QString text = m->combo_stream->itemText(i);
 		if(text == name){
 			answer = Message::question_yn(tr("Overwrite?") + "\n" + name + "\n" + url);
 			if(answer == GlobalMessage::Answer::Yes){
-				_m->stream_handler->update_url(name, url);
-				_m->stream_handler->get_all_streams(map);
+				m->stream_handler->update_url(name, url);
+				m->stream_handler->get_all_streams(map);
 				setup_stations(map);
 				return;
 			}
@@ -344,43 +344,43 @@ void GUI_AbstractStream::save_clicked()
 		}
 	}
 
-	_m->stream_handler->save(name, url);
-	_m->stream_handler->get_all_streams(map);
+	m->stream_handler->save(name, url);
+	m->stream_handler->get_all_streams(map);
 	setup_stations(map);
 }
 
 void GUI_AbstractStream::setup_stations(const StreamMap& stations)
 {
-	QString old_name = _m->combo_stream->currentText();
-	QString old_url = _m->le_url->text();
+	QString old_name = m->combo_stream->currentText();
+	QString old_url = m->le_url->text();
 
-	_m->combo_stream->clear();
-	_m->le_url->clear();
+	m->combo_stream->clear();
+	m->le_url->clear();
 
-	_m->stations = stations;
-	_m->stations[""] = "";
+	m->stations = stations;
+	m->stations[""] = "";
 
-	if(_m->stations.size() == 1){
-		_m->combo_stream->setCurrentIndex(0);
+	if(m->stations.size() == 1){
+		m->combo_stream->setCurrentIndex(0);
 	}
 
-	for(auto it = _m->stations.begin(); it != _m->stations.end(); it++) {
-		_m->combo_stream->addItem(it.key(), it.value());
+	for(auto it = m->stations.begin(); it != m->stations.end(); it++) {
+		m->combo_stream->addItem(it.key(), it.value());
 	}
 
-	_m->btn_play->setEnabled(false);
-	_m->lab_listen->setEnabled(false);
-	_m->btn_tool->show_action(ContextMenu::EntrySave, false);
-	_m->btn_tool->show_action(ContextMenu::EntryDelete, false);
-	_m->combo_stream->setCurrentText(old_name);
-	_m->le_url->setText(old_url);
+	m->btn_play->setEnabled(false);
+	m->lab_listen->setEnabled(false);
+	m->btn_tool->show_action(ContextMenu::EntrySave, false);
+	m->btn_tool->show_action(ContextMenu::EntryDelete, false);
+	m->combo_stream->setCurrentText(old_name);
+	m->le_url->setText(old_url);
 }
 
 void GUI_AbstractStream::assign_ui_vars()
 {
-	_m->combo_stream=combo_stream();
-	_m->btn_play=btn_play();
-	_m->le_url = le_url();
-	_m->lab_listen = lab_listen();
-	_m->btn_tool = btn_menu();
+	m->combo_stream=combo_stream();
+	m->btn_play=btn_play();
+	m->le_url = le_url();
+	m->lab_listen = lab_listen();
+	m->btn_tool = btn_menu();
 }

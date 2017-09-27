@@ -69,7 +69,7 @@ public:
 SearchViewFunctionality::SearchViewFunctionality(QAbstractItemView* view) :
 	SayonaraSelectionView()
 {
-	_m = Pimpl::make<Private>(this, view);
+	m = Pimpl::make<Private>(this, view);
 }
 
 
@@ -77,42 +77,42 @@ SearchViewFunctionality::~SearchViewFunctionality() {}
 
 bool SearchViewFunctionality::is_minisearcher_active() const
 {
-	if(!_m->search_model){
+	if(!m->search_model){
 		return false;
 	}
 
-	return _m->mini_searcher->isVisible();
+	return m->mini_searcher->isVisible();
 }
 
 
 void SearchViewFunctionality::setSearchModel(SearchModelFunctionality* model)
 {
-	 _m->search_model = model;
+	 m->search_model = model;
 
-	 if(_m->search_model){
-		 Library::SearchModeMask search_mode = _m->settings->get(Set::Lib_SearchMode);
-		 _m->search_model->set_search_mode(search_mode);
+	 if(m->search_model){
+		 Library::SearchModeMask search_mode = m->settings->get(Set::Lib_SearchMode);
+		 m->search_model->set_search_mode(search_mode);
 	 }
 
-	 _m->mini_searcher->set_extra_triggers(_m->search_model->getExtraTriggers());
+	 m->mini_searcher->set_extra_triggers(m->search_model->getExtraTriggers());
 }
 
 
 int SearchViewFunctionality::get_row_count(const QModelIndex& parent) const
 {
-	return _m->view->model()->rowCount(parent);
+	return m->view->model()->rowCount(parent);
 }
 
 
 int SearchViewFunctionality::get_column_count(const QModelIndex& parent) const
 {
-	return _m->view->model()->columnCount(parent);
+	return m->view->model()->columnCount(parent);
 }
 
 
 QModelIndex SearchViewFunctionality::get_index(int row, int col, const QModelIndex& parent) const
 {
-	return _m->view->model()->index(row, col, parent);
+	return m->view->model()->index(row, col, parent);
 }
 
 
@@ -123,25 +123,25 @@ QModelIndex SearchViewFunctionality::get_match_index(const QString& str, SearchD
 		return idx;
 	}
 
-	if(!_m->search_model) {
+	if(!m->search_model) {
 		return idx;
 	}
 
-	Library::SearchModeMask search_mode = _m->settings->get(Set::Lib_SearchMode);
-	QMap<QChar, QString> extra_triggers = _m->search_model->getExtraTriggers();
+	Library::SearchModeMask search_mode = m->settings->get(Set::Lib_SearchMode);
+	QMap<QChar, QString> extra_triggers = m->search_model->getExtraTriggers();
 
 	QString converted_string = Library::convert_search_string(str, search_mode, extra_triggers.keys());
 
 	switch(direction)
 	{
 		case SearchDirection::First:
-			idx = _m->search_model->getFirstRowIndexOf(converted_string);
+			idx = m->search_model->getFirstRowIndexOf(converted_string);
 			break;
 		case SearchDirection::Next:
-			idx = _m->search_model->getNextRowIndexOf(converted_string, _m->cur_idx + 1);
+			idx = m->search_model->getNextRowIndexOf(converted_string, m->cur_idx + 1);
 			break;
 		case SearchDirection::Prev:
-			idx = _m->search_model->getPrevRowIndexOf(converted_string, _m->cur_idx - 1);
+			idx = m->search_model->getPrevRowIndexOf(converted_string, m->cur_idx - 1);
 			break;
 	}
 
@@ -153,13 +153,13 @@ void SearchViewFunctionality::select_match(const QString &str, SearchDirection d
 {
 	QModelIndex idx = get_match_index(str, direction);
 	if(!idx.isValid()){
-		_m->cur_idx = -1;
+		m->cur_idx = -1;
 		return;
 	}
 
-	_m->cur_idx = get_index_by_model_index(idx);
+	m->cur_idx = get_index_by_model_index(idx);
 
-	SP::Set<int> indexes(_m->cur_idx);
+	SP::Set<int> indexes(m->cur_idx);
 
 	switch(selection_type()){
 		case SayonaraSelectionView::SelectionType::Rows:
@@ -173,42 +173,42 @@ void SearchViewFunctionality::select_match(const QString &str, SearchDirection d
 			break;
 	}
 
-	this->set_current_index(_m->cur_idx);
+	this->set_current_index(m->cur_idx);
 
-	_m->view->scrollTo(idx);
+	m->view->scrollTo(idx);
 }
 
 
 QItemSelectionModel* SearchViewFunctionality::get_selection_model() const
 {
-	return _m->view->selectionModel();
+	return m->view->selectionModel();
 }
 
 
 void SearchViewFunctionality::set_current_index(int idx)
 {
 	QModelIndex index = get_model_index_by_index(idx);
-	_m->view->setCurrentIndex(index);
+	m->view->setCurrentIndex(index);
 }
 
 void SearchViewFunctionality::handleKeyPress(QKeyEvent* e)
 {
-	if(!_m->search_model){
+	if(!m->search_model){
 		return;
 	}
 
-	Library::SearchModeMask search_mode = _m->settings->get(Set::Lib_SearchMode);
-	_m->search_model->set_search_mode(search_mode);
+	Library::SearchModeMask search_mode = m->settings->get(Set::Lib_SearchMode);
+	m->search_model->set_search_mode(search_mode);
 
-	bool was_initialized = _m->mini_searcher->isVisible();
-	bool initialized = _m->mini_searcher->check_and_init(e);
+	bool was_initialized = m->mini_searcher->isVisible();
+	bool initialized = m->mini_searcher->check_and_init(e);
 
 	if(e->key() == Qt::Key_Tab && !was_initialized) {
 		return;
 	}
 
 	if(initialized || was_initialized) {
-		_m->mini_searcher->keyPressEvent(e);
+		m->mini_searcher->keyPressEvent(e);
 		return;
 	}
 }

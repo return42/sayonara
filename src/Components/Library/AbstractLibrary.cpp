@@ -41,7 +41,7 @@ AbstractLibrary::AbstractLibrary(QObject *parent) :
 	QObject(parent),
 	SayonaraClass()
 {
-	_m = Pimpl::make<Private>();
+	m = Pimpl::make<Private>();
 
 	_playlist = PlaylistHandler::getInstance();
 	_sortorder = _settings->get(Set::Lib_Sorting);
@@ -651,15 +651,15 @@ void AbstractLibrary::update_tracks(const MetaDataList& v_md)
 
 TagEdit*AbstractLibrary::tag_edit()
 {
-	if(!_m->tag_edit){
-		_m->tag_edit = new TagEdit(this);
-		connect(_m->tag_edit, &TagEdit::finished, this, &AbstractLibrary::refresh);
-		connect(_m->tag_edit, &TagEdit::sig_progress, this, [=](int progress){
+	if(!m->tag_edit){
+		m->tag_edit = new TagEdit(this);
+		connect(m->tag_edit, &TagEdit::finished, this, &AbstractLibrary::refresh);
+		connect(m->tag_edit, &TagEdit::sig_progress, this, [=](int progress){
 			emit sig_reloading_library(Lang::get(Lang::ReloadLibrary), progress);
 		});
 	}
 
-	return _m->tag_edit;
+	return m->tag_edit;
 }
 
 void AbstractLibrary::insert_tracks(const MetaDataList &v_md)

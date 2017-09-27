@@ -83,12 +83,12 @@ struct IconLoader::Private
 IconLoader::IconLoader() :
 	QObject()
 {
-	_m = Pimpl::make<Private>();
+	m = Pimpl::make<Private>();
 
 #ifndef Q_OS_WIN
-	for(const QString& theme_path : _m->theme_paths)
+	for(const QString& theme_path : m->theme_paths)
 	{
-		QString full_theme_path = theme_path + "/" + _m->theme;
+		QString full_theme_path = theme_path + "/" + m->theme;
 		QString index_path = full_theme_path + "/theme.index";
 		if(!QFile::exists(index_path)){
 			continue;
@@ -96,8 +96,8 @@ IconLoader::IconLoader() :
 	}
 #endif
 
-	QIcon::setThemeSearchPaths(_m->theme_paths);
-	sp_log(Log::Debug, this) << "Theme paths " << _m->theme_paths;
+	QIcon::setThemeSearchPaths(m->theme_paths);
+	sp_log(Log::Debug, this) << "Theme paths " << m->theme_paths;
 
 	REGISTER_LISTENER_NO_CALL(Set::Icon_Theme, icon_theme_changed);
 }
@@ -106,7 +106,7 @@ IconLoader::~IconLoader() {}
 
 void IconLoader::icon_theme_changed()
 {
-	_m->change_theme();
+	m->change_theme();
 }
 
 
@@ -122,14 +122,14 @@ void IconLoader::add_icon_names(const QStringList& icon_names)
 	for(const QString& icon_name : icon_names){
 		QIcon icon = QIcon::fromTheme(icon_name);
 		if( !icon.isNull() ){
-			_m->icons[icon_name] = icon;
+			m->icons[icon_name] = icon;
 			//sp_log(Log::Debug, this) << "Could load icon from theme: " << icon_name;
 			continue;
 		}
 
-		for(const QString& theme_path : _m->theme_paths){
+		for(const QString& theme_path : m->theme_paths){
 			bool found = false;
-			QString full_theme_path = theme_path + "/" + _m->theme;
+			QString full_theme_path = theme_path + "/" + m->theme;
 			//QString full_theme_path = theme_path;
 
 
@@ -146,7 +146,7 @@ void IconLoader::add_icon_names(const QStringList& icon_names)
 				}
 
 				else if(file.contains("32")){
-					_m->icons[icon_name] = QIcon(file);
+					m->icons[icon_name] = QIcon(file);
 					found = true;
 				}
 
@@ -156,7 +156,7 @@ void IconLoader::add_icon_names(const QStringList& icon_names)
 
 				if(found){
 					//sp_log(Log::Debug, this) << "Found icon " << icon_name << " in " << file;
-					_m->icons[icon_name] = QIcon(file);
+					m->icons[icon_name] = QIcon(file);
 					break;
 				}
 			}
@@ -170,7 +170,7 @@ void IconLoader::add_icon_names(const QStringList& icon_names)
 
 QIcon IconLoader::get_icon(const QString& name, const QString& dark_name)
 {
-	bool dark = (_m->settings->get(Set::Player_Style) == 1);
+	bool dark = (m->settings->get(Set::Player_Style) == 1);
 
 	if(!dark){
 		if(!has_std_icon(name)){
@@ -181,7 +181,7 @@ QIcon IconLoader::get_icon(const QString& name, const QString& dark_name)
 #ifdef Q_OS_WIN
 				return QIcon(get_win_icon_name(name));
 #else
-				return _m->icons[name];
+				return m->icons[name];
 #endif
 			}
 		}
@@ -190,7 +190,7 @@ QIcon IconLoader::get_icon(const QString& name, const QString& dark_name)
 #ifdef Q_OS_WIN
 			return QIcon(get_win_icon_name(name));
 #else
-			return _m->icons[name];
+			return m->icons[name];
 #endif
 		}
 	}
@@ -200,7 +200,7 @@ QIcon IconLoader::get_icon(const QString& name, const QString& dark_name)
 
 QIcon IconLoader::get_icon(const QStringList& names, const QString& dark_name)
 {
-	bool dark = (_m->settings->get(Set::Player_Style) == 1);
+	bool dark = (m->settings->get(Set::Player_Style) == 1);
 
 	if(!dark){
 		for(const QString& name : names){
@@ -212,7 +212,7 @@ QIcon IconLoader::get_icon(const QStringList& names, const QString& dark_name)
 	#ifdef Q_OS_WIN
 					return QIcon(get_win_icon_name(name));
 	#else
-					return _m->icons[name];
+					return m->icons[name];
 	#endif
 				}
 			}
@@ -221,7 +221,7 @@ QIcon IconLoader::get_icon(const QStringList& names, const QString& dark_name)
 	#ifdef Q_OS_WIN
 				return QIcon(get_win_icon_name(name));
 	#else
-				return _m->icons[name];
+				return m->icons[name];
 	#endif
 			}
 		}
@@ -243,5 +243,5 @@ bool IconLoader::has_std_icon(const QString& name) const
 
 #endif
 
-	return _m->icons.contains(name);
+	return m->icons.contains(name);
 }

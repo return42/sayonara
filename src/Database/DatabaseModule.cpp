@@ -33,19 +33,19 @@ struct DatabaseModule::Private
 
 DatabaseModule::DatabaseModule(const QSqlDatabase& db, uint8_t db_id)
 {
-	_m = Pimpl::make<Private>(db, db_id);
+	m = Pimpl::make<Private>(db, db_id);
 }
 
 DatabaseModule::~DatabaseModule() {}
 
 uint8_t DatabaseModule::module_db_id() const
 {
-	return _m->db_id;
+	return m->db_id;
 }
 
 QSqlDatabase DatabaseModule::module_db() const
 {
-	return _m->db;
+	return m->db;
 }
 
 

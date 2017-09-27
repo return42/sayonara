@@ -112,13 +112,13 @@ CoverFetchManager::CoverFetchManager() :
 	QObject(),
 	SayonaraClass()
 {
-	_m = Pimpl::make<Private>();
-	_m->std_cover_fetcher = new StandardCoverFetcher();
+	m = Pimpl::make<Private>();
+	m->std_cover_fetcher = new StandardCoverFetcher();
 
 	register_coverfetcher(new GoogleCoverFetcher());
 	register_coverfetcher(new DiscogsCoverFetcher());
 	register_coverfetcher(new LFMCoverFetcher());
-	register_coverfetcher(_m->std_cover_fetcher);
+	register_coverfetcher(m->std_cover_fetcher);
 
 	REGISTER_LISTENER(Set::Cover_Server, active_changed);
 }
@@ -127,48 +127,48 @@ CoverFetchManager::~CoverFetchManager() {}
 
 void CoverFetchManager::register_coverfetcher(CoverFetcherInterface *t)
 {
-	CoverFetcherInterface* cfi = get_coverfetcher_by_keyword(t->get_keyword(), _m->coverfetchers);
+	CoverFetcherInterface* cfi = get_coverfetcher_by_keyword(t->get_keyword(), m->coverfetchers);
 	if(cfi){
 		return;
 	}
 
-	_m->coverfetchers << t;
+	m->coverfetchers << t;
 }
 
 
 void CoverFetchManager::activate_coverfetchers(const QStringList& coverfetchers)
 {
-	_m->active_coverfetchers.clear();
-	_m->cf_order.clear();
-	_m->cf_order[""] = 100;
+	m->active_coverfetchers.clear();
+	m->cf_order.clear();
+	m->cf_order[""] = 100;
 
 	int idx = 0;
 	for(const QString& coverfetcher : coverfetchers){
-		CoverFetcherInterface* cfi = get_coverfetcher_by_keyword(coverfetcher, _m->coverfetchers);
+		CoverFetcherInterface* cfi = get_coverfetcher_by_keyword(coverfetcher, m->coverfetchers);
 		if(cfi){
-			_m->active_coverfetchers << cfi;
-			_m->cf_order[cfi->get_keyword()] = idx;
+			m->active_coverfetchers << cfi;
+			m->cf_order[cfi->get_keyword()] = idx;
 			idx++;
 		}
 	}
 
-	if(_m->active_coverfetchers.isEmpty()){
-		_m->active_coverfetchers << get_coverfetcher_by_keyword("google", _m->coverfetchers);
+	if(m->active_coverfetchers.isEmpty()){
+		m->active_coverfetchers << get_coverfetcher_by_keyword("google", m->coverfetchers);
 	}
 
-	_m->active_coverfetchers << _m->std_cover_fetcher;
-	sort_coverfetchers(_m->active_coverfetchers, _m->cf_order);
+	m->active_coverfetchers << m->std_cover_fetcher;
+	sort_coverfetchers(m->active_coverfetchers, m->cf_order);
 
-	for(const CoverFetcherInterface* cfi : _m->active_coverfetchers){
+	for(const CoverFetcherInterface* cfi : m->active_coverfetchers){
 		sp_log(Log::Debug, this) << "Active Coverfetcher: " << cfi->get_keyword();
 	}
 }
 
 CoverFetcherInterface* CoverFetchManager::get_available_coverfetcher(const QString& url) const
 {
-	CoverFetcherInterface* cfi = get_coverfetcher_by_url(url, _m->coverfetchers);
+	CoverFetcherInterface* cfi = get_coverfetcher_by_url(url, m->coverfetchers);
 	if(!cfi){
-		return _m->std_cover_fetcher;
+		return m->std_cover_fetcher;
 	}
 
 	return cfi;
@@ -176,9 +176,9 @@ CoverFetcherInterface* CoverFetchManager::get_available_coverfetcher(const QStri
 
 CoverFetcherInterface* CoverFetchManager::get_active_coverfetcher(const QString& url) const
 {
-	CoverFetcherInterface* cfi = get_coverfetcher_by_url(url, _m->active_coverfetchers);
+	CoverFetcherInterface* cfi = get_coverfetcher_by_url(url, m->active_coverfetchers);
 	if(!cfi){
-		return _m->std_cover_fetcher;
+		return m->std_cover_fetcher;
 	}
 
 	return cfi;
@@ -187,12 +187,12 @@ CoverFetcherInterface* CoverFetchManager::get_active_coverfetcher(const QString&
 
 QList<CoverFetcherInterface*> CoverFetchManager::get_available_coverfetchers() const
 {
-	return _m->coverfetchers;
+	return m->coverfetchers;
 }
 
 QList<CoverFetcherInterface*> CoverFetchManager::get_active_coverfetchers() const
 {
-	return _m->active_coverfetchers;
+	return m->active_coverfetchers;
 }
 
 void CoverFetchManager::active_changed()
@@ -207,7 +207,7 @@ QStringList CoverFetchManager::get_artist_addresses(const QString& artist) const
 {
 	QStringList urls;
 
-	for(const CoverFetcherInterface* cfi : _m->active_coverfetchers){
+	for(const CoverFetcherInterface* cfi : m->active_coverfetchers){
 		if(cfi->is_artist_supported()){
 			urls << cfi->get_artist_address(artist);
 		}
@@ -220,7 +220,7 @@ QStringList CoverFetchManager::get_album_addresses(const QString& artist, const 
 {
 	QStringList urls;
 
-	for(const CoverFetcherInterface* cfi : _m->active_coverfetchers){
+	for(const CoverFetcherInterface* cfi : m->active_coverfetchers){
 		if(cfi->is_album_supported()){
 			urls << cfi->get_album_address(artist, album);
 		}
@@ -233,7 +233,7 @@ QStringList CoverFetchManager::get_search_addresses(const QString& str) const
 {
 	QStringList urls;
 
-	for(const CoverFetcherInterface* cfi : _m->active_coverfetchers){
+	for(const CoverFetcherInterface* cfi : m->active_coverfetchers){
 		if(cfi->is_search_supported()){
 			urls << cfi->get_search_address(str);
 		}

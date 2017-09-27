@@ -34,37 +34,37 @@ struct AbstrSetting::Private
 
 AbstrSetting::AbstrSetting()
 {
-	_m = Pimpl::make<Private>();
+	m = Pimpl::make<Private>();
 }
 
 AbstrSetting::AbstrSetting(SK::SettingKey key) :
 	AbstrSetting()
 {
-	_m->key = key;
-	_m->db_setting = false;
+	m->key = key;
+	m->db_setting = false;
 }
 
 AbstrSetting::AbstrSetting(SK::SettingKey key, const char* db_key) :
 	AbstrSetting(key)
 {
-	_m->db_key = db_key;
-	_m->db_setting = true;
+	m->db_key = db_key;
+	m->db_setting = true;
 }
 
 
 AbstrSetting::AbstrSetting(const AbstrSetting& other) :
 	AbstrSetting()
 {
-	_m->key = other._m->key;
-	_m->db_key = other._m->db_key;
-	_m->db_setting = other._m->db_setting;
+	m->key = other.m->key;
+	m->db_key = other.m->db_key;
+	m->db_setting = other.m->db_setting;
 }
 
 AbstrSetting& AbstrSetting::operator=(const AbstrSetting& other)
 {
-	_m->key = other._m->key;
-	_m->db_key = other._m->db_key;
-	_m->db_setting = other._m->db_setting;
+	m->key = other.m->key;
+	m->db_key = other.m->db_key;
+	m->db_setting = other.m->db_setting;
 
 	return *this;
 }
@@ -73,22 +73,22 @@ AbstrSetting::~AbstrSetting() {}
 
 SK::SettingKey AbstrSetting::get_key() const
 {
-	return _m->key;
+	return m->key;
 }
 
 void AbstrSetting::load_db(DatabaseSettings *db)
 {
-	if(!_m->db_setting) return;
+	if(!m->db_setting) return;
 
 	QString s;
-	bool success = db->load_setting(_m->db_key, s);
+	bool success = db->load_setting(m->db_key, s);
 
 	if(!success){
-		sp_log(Log::Info) << "Setting " << _m->db_key << ": Not found. Use default value...";
+		sp_log(Log::Info) << "Setting " << m->db_key << ": Not found. Use default value...";
 
 		assign_default_value();
 
-		sp_log(Log::Info) << "Load Setting " << _m->db_key << ": " << value_to_string();
+		sp_log(Log::Info) << "Load Setting " << m->db_key << ": " << value_to_string();
 
 		return;
 	}
@@ -96,7 +96,7 @@ void AbstrSetting::load_db(DatabaseSettings *db)
 	success = load_value_from_string(s);
 
 	if(!success){
-		sp_log(Log::Warning) << "Setting " << _m->db_key << ": Cannot convert. Use default value...";
+		sp_log(Log::Warning) << "Setting " << m->db_key << ": Cannot convert. Use default value...";
 
 		assign_default_value();
 	}
@@ -104,9 +104,9 @@ void AbstrSetting::load_db(DatabaseSettings *db)
 
 void AbstrSetting::store_db(DatabaseSettings* db)
 {
-	if(_m->db_setting){
+	if(m->db_setting){
 		QString val_as_string = value_to_string();
-		db->store_setting(_m->db_key, val_as_string);
+		db->store_setting(m->db_key, val_as_string);
 	}
 }
 

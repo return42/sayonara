@@ -137,16 +137,16 @@ struct Logger::Private
 
 Logger::Logger(Log type, const QString& class_name)
 {
-	_m = new Logger::Private();
+    m = new Logger::Private();
 
-	_m->type = type;
-	_m->class_name = class_name;
+	m->type = type;
+	m->class_name = class_name;
 }
 
 Logger::~Logger()
 {
-	delete _m;
-	_m = nullptr;
+    delete m;
+    m = nullptr;
 }
 
 //static
@@ -185,7 +185,7 @@ Logger& Logger::operator << (const QPoint& point)
 
 Logger& Logger::operator << (const QByteArray& arr)
 {
-	_m->msg << std::endl;
+	m->msg << std::endl;
 
 	QString line_str;
 
@@ -203,12 +203,12 @@ Logger& Logger::operator << (const QByteArray& arr)
 			line_str += ".";
 		}
 
-		_m->msg << std::hex << (unsigned int) (c & (0xff)) << " ";
+		m->msg << std::hex << (unsigned int) (c & (0xff)) << " ";
 
 		if(i % 8 == 7)
 		{
-			_m->msg << "\t";
-			_m->msg << line_str.toLocal8Bit().constData() << std::endl;
+			m->msg << "\t";
+			m->msg << line_str.toLocal8Bit().constData() << std::endl;
 
 			line_str.clear();
 		}
@@ -218,10 +218,10 @@ Logger& Logger::operator << (const QByteArray& arr)
 	{
 		for(int i=0; i<8-line_str.size(); i++)
 		{
-			_m->msg << "   ";
+			m->msg << "   ";
 		}
 
-		_m->msg << "\t" << line_str.toLocal8Bit().constData() << std::endl;
+		m->msg << "\t" << line_str.toLocal8Bit().constData() << std::endl;
 	}
 
 	return *this;
@@ -229,7 +229,7 @@ Logger& Logger::operator << (const QByteArray& arr)
 
 Logger& Logger::operator << (const char* str)
 {
-	_m->msg << str;
+	m->msg << str;
 
 	return *this;
 }

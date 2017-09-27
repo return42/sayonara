@@ -29,7 +29,6 @@
 
 #define EngineHandler_change_track_md static_cast<void (EngineHandler::*) (const MetaData& md)>(&EngineHandler::change_track)
 
-
 class RawSoundReceiverInterface;
 class PlaybackEngine;
 class PlayManager;

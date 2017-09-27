@@ -23,9 +23,6 @@
 
 #include "Components/Engine/AbstractEngine.h"
 
-#include <glib.h>
-#include <gst/gstbuffer.h>
-
 #include <QList>
 
 class QTimer;
@@ -39,7 +36,7 @@ class LevelReceiver;
  * @brief The GaplessState enum
  * @ingroup Engine
  */
-enum class GaplessState : uchar
+enum class GaplessState : unsigned char
 {
 	NoGapless=0,		// no gapless enabled at all
 	AboutToFinish,		// the phase when the new track is already displayed but not played yet
@@ -55,16 +52,17 @@ class PlaybackEngine :
 		public Engine
 {
 	Q_OBJECT
+    PIMPL(PlaybackEngine)
 
 signals:
-	void sig_data(const uchar* data, uint64_t n_bytes);
+    void sig_data(const unsigned char* data, uint64_t n_bytes);
 
 public:
 	explicit PlaybackEngine(QObject* parent=nullptr);
 	~PlaybackEngine();
 
 	bool init() override;
-	void init_other_pipeline();
+    void init_other_pipeline();
 
 	void set_track_finished(GstElement* src) override;
 
@@ -107,23 +105,8 @@ public slots:
 
 	void gapless_timed_out();
 
-
 private:
-	PlaybackPipeline*			_pipeline=nullptr;
-	PlaybackPipeline*			_other_pipeline=nullptr;
-
-	QList<LevelReceiver*>		_level_receiver;
-	QList<SpectrumReceiver*>	_spectrum_receiver;
-
-	QTimer*						_gapless_timer=nullptr;
-	GaplessState				_gapless_state;
-
-	bool						_sr_active;
-
-	StreamRecorder*				_stream_recorder=nullptr;
-
-private:
-	bool set_uri(const QString& filepath);
+    bool set_uri(const QString& filepath) override;
 	void change_track_gapless(const MetaData& md);
 	void change_gapless_state(GaplessState state);
 

@@ -36,7 +36,7 @@ struct DatabaseSearchMode::Private
 DatabaseSearchMode::DatabaseSearchMode(const QSqlDatabase& db, uint8_t db_id) :
 	DatabaseModule(db, db_id)
 {
-	_m = Pimpl::make<DatabaseSearchMode::Private>();
+	m = Pimpl::make<DatabaseSearchMode::Private>();
 }
 
 DatabaseSearchMode::~DatabaseSearchMode() {}
@@ -44,7 +44,7 @@ DatabaseSearchMode::~DatabaseSearchMode() {}
 
 void DatabaseSearchMode::init()
 {
-	if(_m->initialized){
+	if(m->initialized){
 		return;
 	}
 
@@ -53,8 +53,8 @@ void DatabaseSearchMode::init()
 
 	if(q.exec()) {
 		if (q.next()) {
-			_m->initialized = true;
-			_m->search_mode = q.value(0).toInt();
+			m->initialized = true;
+			m->search_mode = q.value(0).toInt();
 		}
 	}
 }
@@ -63,11 +63,11 @@ Library::SearchModeMask DatabaseSearchMode::search_mode()
 {
 	init();
 
-	return _m->search_mode;
+	return m->search_mode;
 }
 
 void DatabaseSearchMode::update_search_mode()
 {
-	_m->initialized = false;
+	m->initialized = false;
 	init();
 }

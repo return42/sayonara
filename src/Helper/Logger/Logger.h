@@ -56,7 +56,7 @@ class Logger
 
 private:
 	struct Private;
-	Private* _m=nullptr;
+    Private* m=nullptr;
 
 public:
 	explicit Logger(Log type, const QString& class_name);

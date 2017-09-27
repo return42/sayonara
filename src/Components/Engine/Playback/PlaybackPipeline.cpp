@@ -30,6 +30,8 @@
 #include "Helper/Logger/Logger.h"
 
 #include <gst/base/gstdataqueue.h>
+#include <gst/app/gstappsink.h>
+
 #include <algorithm>
 
 //http://gstreamer.freedesktop.org/data/doc/gstreamer/head/manual/html/chapter-dataaccess.html
@@ -316,8 +318,8 @@ bool PlaybackPipeline::configure_elements()
 		g_object_set(G_OBJECT (sink), "async", false, nullptr);
 	}
 
-	g_signal_connect (_audio_src, "pad-added", G_CALLBACK (PipelineCallbacks::pad_added_handler), _audio_convert);
-	g_signal_connect (_audio_src, "source-setup", G_CALLBACK (PipelineCallbacks::source_setup_handler), nullptr);
+    g_signal_connect (_audio_src, "pad-added", G_CALLBACK (PipelineCallbacks::decodebin_ready), _audio_convert);
+    g_signal_connect (_audio_src, "source-setup", G_CALLBACK (PipelineCallbacks::source_ready), nullptr);
 	if(_lame){
 		g_signal_connect (_lame_app_sink, "new-sample", G_CALLBACK(PipelineCallbacks::new_buffer), this);
 	}

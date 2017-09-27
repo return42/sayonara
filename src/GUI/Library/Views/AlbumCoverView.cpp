@@ -48,7 +48,7 @@ struct AlbumCoverView::Private
 AlbumCoverView::AlbumCoverView(QWidget* parent) :
 	LibraryView(parent)
 {
-	_m = Pimpl::make<Private>();
+	m = Pimpl::make<Private>();
 
 	set_selection_type( SayonaraSelectionView::SelectionType::Items );
 	set_metadata_interpretation(MD::Interpretation::Albums);
@@ -67,7 +67,7 @@ AlbumCoverView::AlbumCoverView(QWidget* parent) :
 		verticalHeader()->hide();
 	}
 
-	connect(_m->buffer_timer, &QTimer::timeout, this, &AlbumCoverView::timed_out, Qt::QueuedConnection);
+	connect(m->buffer_timer, &QTimer::timeout, this, &AlbumCoverView::timed_out, Qt::QueuedConnection);
 }
 
 
@@ -89,10 +89,10 @@ QModelIndex AlbumCoverView::get_model_index_by_index(int idx) const
 
 void AlbumCoverView::setModel(AlbumCoverModel* model)
 {
-	_m->model = model;
+	m->model = model;
 
-	LibraryView::setModel(_m->model);
-	LibraryView::setSearchModel(_m->model);
+	LibraryView::setModel(m->model);
+	LibraryView::setSearchModel(m->model);
 }
 
 void AlbumCoverView::change_zoom(int zoom)
@@ -100,19 +100,19 @@ void AlbumCoverView::change_zoom(int zoom)
 	bool force_reload = (zoom < 0);
 
 	if(force_reload){
-		zoom = _m->model->zoom();
+		zoom = m->model->zoom();
 	}
 
 	zoom = std::min(zoom, 200);
 	zoom = std::max(zoom, 50);
 
 	if(!force_reload){
-		if( zoom == _m->model->zoom() ){
+		if( zoom == m->model->zoom() ){
 			return;
 		}
 	}
 
-	_m->model->set_zoom(zoom, this->size());
+	m->model->set_zoom(zoom, this->size());
 	_settings->set(Set::Lib_CoverZoom, zoom);
 
 	refresh();
@@ -120,22 +120,22 @@ void AlbumCoverView::change_zoom(int zoom)
 
 void AlbumCoverView::refresh()
 {
-	_m->buffer_timer->start();
+	m->buffer_timer->start();
 }
 
 void AlbumCoverView::timed_out()
 {
-	if(_m->blocked){
+	if(m->blocked){
 		return;
 	}
 
-	_m->blocked = true;
+	m->blocked = true;
 
 	this->verticalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
 	this->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
 
-	_m->blocked = false;
-	_m->buffer_timer->stop();
+	m->blocked = false;
+	m->buffer_timer->stop();
 }
 
 
@@ -146,11 +146,11 @@ void AlbumCoverView::wheelEvent(QWheelEvent* e)
 	{
 		int zoom;
 		if(e->delta() > 0){
-			zoom = _m->model->zoom() + 10;
+			zoom = m->model->zoom() + 10;
 		}
 
 		else {
-			zoom = _m->model->zoom() - 10;
+			zoom = m->model->zoom() - 10;
 		}
 
 		change_zoom(zoom);

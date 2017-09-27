@@ -62,7 +62,7 @@ struct AlbumCoverFetchThread::Private
 AlbumCoverFetchThread::AlbumCoverFetchThread(QObject* parent) :
 	QThread(parent)
 {
-	_m = Pimpl::make<Private>();
+	m = Pimpl::make<Private>();
 }
 
 AlbumCoverFetchThread::~AlbumCoverFetchThread() {}
@@ -70,24 +70,24 @@ AlbumCoverFetchThread::~AlbumCoverFetchThread() {}
 
 void AlbumCoverFetchThread::run()
 {
-	_m->init();
+	m->init();
 	const int PauseBetweenRequests = 300;
 	const int NumParallelRequests = 10;
 
-	while(_m->may_run) {
+	while(m->may_run) {
 
-		while(_m->hashes.isEmpty() || !_m->goon) {
+		while(m->hashes.isEmpty() || !m->goon) {
 			Helper::sleep_ms(PauseBetweenRequests);
 		}
 
-		_m->goon = false;
+		m->goon = false;
 
-		if(!_m->may_run){
+		if(!m->may_run){
 			break;
 		}
 
 		for(int i=0; i<NumParallelRequests; i++){
-			if(_m->hashes.isEmpty()) {
+			if(m->hashes.isEmpty()) {
 				break;
 			}
 
@@ -96,9 +96,9 @@ void AlbumCoverFetchThread::run()
 			}
 
 			try{
-				std::lock_guard<std::mutex> guard(_m->mutex);
-				_m->current_hash = _m->hashes.takeFirst();
-				_m->current_cl = _m->cover_locations.takeFirst();
+				std::lock_guard<std::mutex> guard(m->mutex);
+				m->current_hash = m->hashes.takeFirst();
+				m->current_cl = m->cover_locations.takeFirst();
 
 				emit sig_next();
 
@@ -113,14 +113,14 @@ void AlbumCoverFetchThread::run()
 
 void AlbumCoverFetchThread::add_data(const QString& hash, const CoverLocation& cl)
 {
-	if(!_m->hashes.contains(hash) && (_m->current_hash.compare(hash) != 0))
+	if(!m->hashes.contains(hash) && (m->current_hash.compare(hash) != 0))
 	{
 		bool done = false;
 		while(!done) {
 			try {
-				std::lock_guard<std::mutex> guard(_m->mutex);
-				_m->hashes.push_front(hash);
-				_m->cover_locations.push_front(cl);
+				std::lock_guard<std::mutex> guard(m->mutex);
+				m->hashes.push_front(hash);
+				m->cover_locations.push_front(cl);
 				done = true;
 
 			} catch(std::exception* e) {
@@ -134,12 +134,12 @@ void AlbumCoverFetchThread::add_data(const QString& hash, const CoverLocation& c
 
 QString AlbumCoverFetchThread::current_hash() const
 {
-	return _m->current_hash;
+	return m->current_hash;
 }
 
 CoverLocation AlbumCoverFetchThread::current_cover_location() const
 {
-	return _m->current_cl;
+	return m->current_cl;
 }
 
 
@@ -147,11 +147,11 @@ void AlbumCoverFetchThread::done(bool success)
 {
 	Q_UNUSED(success)
 
-	_m->goon = true;
+	m->goon = true;
 }
 
 void AlbumCoverFetchThread::stop()
 {
-	_m->may_run = false;
+	m->may_run = false;
 }
 

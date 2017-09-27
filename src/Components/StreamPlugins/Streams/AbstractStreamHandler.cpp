@@ -48,7 +48,7 @@ struct AbstractStreamHandler::Private
 AbstractStreamHandler::AbstractStreamHandler(QObject *parent) :
 	QObject(parent)
 {
-	_m = Pimpl::make<AbstractStreamHandler::Private>();
+	m = Pimpl::make<AbstractStreamHandler::Private>();
 	_db = DatabaseConnector::getInstance();
 }
 
@@ -56,40 +56,40 @@ AbstractStreamHandler::~AbstractStreamHandler() {}
 
 void AbstractStreamHandler::clear()
 {
-	_m->station_contents.clear();
+	m->station_contents.clear();
 }
 
 void AbstractStreamHandler::stop()
 {
-	if(_m->stream_parser && _m->blocked) {
-		_m->stream_parser->stop();
+	if(m->stream_parser && m->blocked) {
+		m->stream_parser->stop();
 	}
 }
 
 void AbstractStreamHandler::stopped()
 {
-	_m->blocked = false;
+	m->blocked = false;
 	emit sig_stopped();
 
 	sender()->deleteLater();
-	_m->stream_parser = nullptr;
+	m->stream_parser = nullptr;
 }
 
 
 bool AbstractStreamHandler::parse_station(const QString& url, const QString& station_name)
 {
-	if(_m->blocked) {
+	if(m->blocked) {
 		return false;
 	}
 
-	_m->blocked = true;
+	m->blocked = true;
 
-	_m->stream_parser = new StreamParser(station_name, this);
-	connect(_m->stream_parser, &StreamParser::sig_finished, this, &AbstractStreamHandler::stream_parser_finished);
-	connect(_m->stream_parser, &StreamParser::sig_too_many_urls_found, this, &AbstractStreamHandler::sig_too_many_urls_found);
-	connect(_m->stream_parser, &StreamParser::sig_stopped, this, &AbstractStreamHandler::stopped);
+	m->stream_parser = new StreamParser(station_name, this);
+	connect(m->stream_parser, &StreamParser::sig_finished, this, &AbstractStreamHandler::stream_parser_finished);
+	connect(m->stream_parser, &StreamParser::sig_too_many_urls_found, this, &AbstractStreamHandler::sig_too_many_urls_found);
+	connect(m->stream_parser, &StreamParser::sig_stopped, this, &AbstractStreamHandler::stopped);
 
-	_m->stream_parser->parse_stream(url);
+	m->stream_parser->parse_stream(url);
 
 	return true;
 }
@@ -101,27 +101,27 @@ void AbstractStreamHandler::stream_parser_finished(bool success)
 
 	if(!success) {
 		sp_log(Log::Debug, this) << "Stream parser finished with error";
-		stream_parser->deleteLater(); _m->stream_parser = nullptr;
+		stream_parser->deleteLater(); m->stream_parser = nullptr;
 
-		_m->blocked = false;
+		m->blocked = false;
 		emit sig_error();
 	}
 
 	else {
 
 		MetaDataList v_md = stream_parser->get_metadata();
-		_m->station_contents[_m->station_name] = v_md;
+		m->station_contents[m->station_name] = v_md;
 
 		if(!v_md.isEmpty()){
-			int idx = _m->playlist->create_playlist(v_md, _m->station_name, true, Playlist::Type::Stream);
-			_m->playlist->change_track(0, idx);
+			int idx = m->playlist->create_playlist(v_md, m->station_name, true, Playlist::Type::Stream);
+			m->playlist->change_track(0, idx);
 		}
 
-		_m->blocked = false;
+		m->blocked = false;
 		emit sig_data_available();
 	}
 
-	stream_parser->deleteLater(); _m->stream_parser = nullptr;
+	stream_parser->deleteLater(); m->stream_parser = nullptr;
 }
 
 

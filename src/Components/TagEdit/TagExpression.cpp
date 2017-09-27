@@ -29,12 +29,12 @@
 struct TagExpression::Private
 {
 	/**
-	 * @brief _m->cap_map contains the Tag and the text that fits the regular expression
+	 * @brief m->cap_map contains the Tag and the text that fits the regular expression
 	 */
 	QMap<Tag, ReplacedString>	cap_map;
 
 	/**
-	 * @brief _m->tag_regex_map keys = the tag (e.g. <t>) and the corresponding regular expression
+	 * @brief m->tag_regex_map keys = the tag (e.g. <t>) and the corresponding regular expression
 	 */
 	QMap<Tag, QString>		tag_regex_map;
 	bool					valid;
@@ -54,7 +54,7 @@ struct TagExpression::Private
 
 TagExpression::TagExpression()
 {
-	_m = Pimpl::make<Private>();
+	m = Pimpl::make<Private>();
 }
 
 TagExpression::TagExpression(const QString& tag_str, const QString& filepath) :
@@ -129,8 +129,8 @@ QString TagExpression::calc_regex_string(const QStringList& splitted_str) const
 		if(s.isEmpty()) continue;
 
 
-		if( _m->tag_regex_map.contains(s) ){
-			re_str += _m->tag_regex_map[s];
+		if( m->tag_regex_map.contains(s) ){
+			re_str += m->tag_regex_map[s];
 		}
 
 		else{
@@ -143,7 +143,7 @@ QString TagExpression::calc_regex_string(const QStringList& splitted_str) const
 
 
 bool TagExpression::update_tag(const QString& tag_str, const QString& filepath){
-	_m->cap_map.clear();
+	m->cap_map.clear();
 
 	bool valid;
 	QStringList captured_texts;
@@ -190,7 +190,7 @@ bool TagExpression::update_tag(const QString& tag_str, const QString& filepath){
 			}
 
 
-			_m->cap_map[tag] = cap;
+			m->cap_map[tag] = cap;
 		}
 	}
 
@@ -198,12 +198,12 @@ bool TagExpression::update_tag(const QString& tag_str, const QString& filepath){
 }
 
 bool TagExpression::check_tag(const Tag& tag, const QString& str){
-	if(!_m->tag_regex_map.contains(tag)) {
+	if(!m->tag_regex_map.contains(tag)) {
 		return false;
 	}
 
 	QString escape_str = escape_special_chars(str);
-	QRegExp re(_m->tag_regex_map[tag]);
+	QRegExp re(m->tag_regex_map[tag]);
 
 	if(re.indexIn(escape_str) != 0 ) {
 		return false;
@@ -214,5 +214,5 @@ bool TagExpression::check_tag(const Tag& tag, const QString& str){
 
 QMap<Tag, ReplacedString> TagExpression::get_tag_val_map() const
 {
-	return _m->cap_map;
+	return m->cap_map;
 }

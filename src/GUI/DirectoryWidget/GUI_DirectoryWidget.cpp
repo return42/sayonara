@@ -67,11 +67,11 @@ GUI_DirectoryWidget::GUI_DirectoryWidget(QWidget *parent) :
 	ui = new Ui::GUI_DirectoryWidget();
 	ui->setupUi(this);
 
-	_m = Pimpl::make<GUI_DirectoryWidget::Private>();
+	m = Pimpl::make<GUI_DirectoryWidget::Private>();
 
-	_m->selected_widget = Private::SelectedWidget::None;
-	_m->local_library = LibraryManager::getInstance()->library_instance(0);
-	_m->dir_model = ui->tv_dirs->get_model();
+	m->selected_widget = Private::SelectedWidget::None;
+	m->local_library = LibraryManager::getInstance()->library_instance(0);
+	m->dir_model = ui->tv_dirs->get_model();
 
 	connect(ui->tv_dirs, &QTreeView::clicked, this, &GUI_DirectoryWidget::dir_clicked);
 	connect(ui->tv_dirs, &QTreeView::pressed, this, &GUI_DirectoryWidget::dir_pressed);
@@ -86,7 +86,7 @@ GUI_DirectoryWidget::GUI_DirectoryWidget(QWidget *parent) :
 
 	connect(ui->tv_dirs, &DirectoryTreeView::sig_info_clicked, this, [=]()
 	{
-		_m->selected_widget = Private::SelectedWidget::Dirs;
+		m->selected_widget = Private::SelectedWidget::Dirs;
 		show_info();
 	});
 
@@ -96,7 +96,7 @@ GUI_DirectoryWidget::GUI_DirectoryWidget(QWidget *parent) :
 
 	connect(ui->lv_files, &FileListView::sig_info_clicked, this, [=]()
 {
-		_m->selected_widget = Private::SelectedWidget::Files;
+		m->selected_widget = Private::SelectedWidget::Files;
 		show_info();
 	});
 
@@ -130,7 +130,7 @@ MetaDataList GUI_DirectoryWidget::info_dialog_data() const
 {
 	MetaDataList v_md;
 
-	switch(_m->selected_widget)
+	switch(m->selected_widget)
 	{
 		case Private::SelectedWidget::Dirs:
 			return ui->tv_dirs->get_selected_metadata();
@@ -153,7 +153,7 @@ void GUI_DirectoryWidget::dir_pressed(QModelIndex idx)
 		QStringList paths = ui->tv_dirs->get_selected_paths();
 
 		if(!paths.isEmpty()){
-			_m->local_library->psl_prepare_tracks_for_playlist(paths, true);
+			m->local_library->psl_prepare_tracks_for_playlist(paths, true);
 		}
 	}
 }
@@ -161,7 +161,7 @@ void GUI_DirectoryWidget::dir_pressed(QModelIndex idx)
 
 void GUI_DirectoryWidget::dir_clicked(QModelIndex idx)
 {
-	QString dir = _m->dir_model->fileInfo(idx).absoluteFilePath();
+	QString dir = m->dir_model->fileInfo(idx).absoluteFilePath();
 	ui->lv_files->set_parent_directory(dir);
 }
 
@@ -194,7 +194,7 @@ void GUI_DirectoryWidget::dir_delete_clicked()
 	QStringList files = ui->tv_dirs->get_selected_paths();
 	MetaDataList v_md = ui->tv_dirs->get_selected_metadata();
 
-	_m->local_library->delete_tracks(v_md, Library::TrackDeletionMode::OnlyLibrary);
+	m->local_library->delete_tracks(v_md, Library::TrackDeletionMode::OnlyLibrary);
 
 	Helper::File::delete_files(files);
 }
@@ -227,7 +227,7 @@ void GUI_DirectoryWidget::file_delete_clicked()
 
 	MetaDataList v_md = ui->lv_files->get_selected_metadata();
 
-	_m->local_library->delete_tracks(v_md, Library::TrackDeletionMode::OnlyLibrary);
+	m->local_library->delete_tracks(v_md, Library::TrackDeletionMode::OnlyLibrary);
 
 	QStringList files = ui->lv_files->get_selected_paths();
 	Helper::File::delete_files(files);
@@ -249,7 +249,7 @@ void GUI_DirectoryWidget::file_pressed(QModelIndex idx)
 	if(buttons & Qt::MiddleButton)
 	{
 		QStringList paths = ui->lv_files->get_selected_paths();
-		_m->local_library->psl_prepare_tracks_for_playlist(paths, true);
+		m->local_library->psl_prepare_tracks_for_playlist(paths, true);
 	}
 }
 
@@ -259,20 +259,20 @@ void GUI_DirectoryWidget::file_dbl_clicked(QModelIndex idx)
 	Q_UNUSED(idx)
 
 	QStringList paths = ui->lv_files->get_selected_paths();
-	_m->local_library->psl_prepare_tracks_for_playlist(paths, false);
+	m->local_library->psl_prepare_tracks_for_playlist(paths, false);
 }
 
 void GUI_DirectoryWidget::directory_loaded(const QString& path){
 	Q_UNUSED(path)
 
-	if(!_m->found_idx.isValid()){
+	if(!m->found_idx.isValid()){
 		return;
 	}
 
-	ui->tv_dirs->scrollTo(_m->found_idx, QAbstractItemView::PositionAtCenter);
-	ui->tv_dirs->selectionModel()->select(_m->found_idx, QItemSelectionModel::ClearAndSelect);
+	ui->tv_dirs->scrollTo(m->found_idx, QAbstractItemView::PositionAtCenter);
+	ui->tv_dirs->selectionModel()->select(m->found_idx, QItemSelectionModel::ClearAndSelect);
 
-	dir_clicked(_m->found_idx);
+	dir_clicked(m->found_idx);
 }
 
 
@@ -282,31 +282,31 @@ void GUI_DirectoryWidget::search_button_clicked()
 		return;
 	}
 
-	if(_m->search_term == ui->le_search->text()){
-		_m->found_idx = _m->dir_model->getNextRowIndexOf(_m->search_term, 0, QModelIndex());
+	if(m->search_term == ui->le_search->text()){
+		m->found_idx = m->dir_model->getNextRowIndexOf(m->search_term, 0, QModelIndex());
 	}
 	else{
-		_m->search_term = ui->le_search->text();
-		_m->found_idx = _m->dir_model->getFirstRowIndexOf(_m->search_term);
+		m->search_term = ui->le_search->text();
+		m->found_idx = m->dir_model->getFirstRowIndexOf(m->search_term);
 		ui->btn_search->setText(Lang::get(Lang::SearchNext));
 	}
 
-	if(!_m->found_idx.isValid()){
+	if(!m->found_idx.isValid()){
 		return;
 	}
 
-	if(_m->dir_model->canFetchMore(_m->found_idx)){
-		_m->dir_model->fetchMore(_m->found_idx);
+	if(m->dir_model->canFetchMore(m->found_idx)){
+		m->dir_model->fetchMore(m->found_idx);
 	}
 
-	ui->tv_dirs->scrollTo(_m->found_idx, QAbstractItemView::PositionAtCenter);
-	ui->tv_dirs->selectionModel()->select(_m->found_idx, QItemSelectionModel::ClearAndSelect);
-	dir_clicked(_m->found_idx);
+	ui->tv_dirs->scrollTo(m->found_idx, QAbstractItemView::PositionAtCenter);
+	ui->tv_dirs->selectionModel()->select(m->found_idx, QItemSelectionModel::ClearAndSelect);
+	dir_clicked(m->found_idx);
 }
 
 void GUI_DirectoryWidget::search_term_changed(const QString& term)
 {
-	if(term != _m->search_term && !term.isEmpty()){
+	if(term != m->search_term && !term.isEmpty()){
 		ui->btn_search->setText(Lang::get(Lang::Search));
 	}
 }
@@ -314,14 +314,14 @@ void GUI_DirectoryWidget::search_term_changed(const QString& term)
 
 void GUI_DirectoryWidget::init_dir_view()
 {
-	connect(_m->dir_model, &SearchableFileTreeModel::directoryLoaded,
+	connect(m->dir_model, &SearchableFileTreeModel::directoryLoaded,
 			this, &GUI_DirectoryWidget::directory_loaded);
 }
 
 
 void GUI_DirectoryWidget::showEvent(QShowEvent* e)
 {
-	if(!_m->dir_model){
+	if(!m->dir_model){
 		init_dir_view();
 	}
 

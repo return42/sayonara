@@ -73,30 +73,30 @@ GUI_LocalLibrary::GUI_LocalLibrary(int id, QWidget* parent) :
 {
 	setup_parent(this, &ui);
 
-	_m = Pimpl::make<Private>();
+	m = Pimpl::make<Private>();
 
-	_m->library = LibraryManager::getInstance()->library_instance(id);
-	_m->library_menu = new LocalLibraryMenu(
-						   _m->library->library_name(),
-						   _m->library->library_path(),
+	m->library = LibraryManager::getInstance()->library_instance(id);
+	m->library_menu = new LocalLibraryMenu(
+						   m->library->library_name(),
+						   m->library->library_path(),
 						   this);
 
 	ui->pb_progress->setVisible(false);
 	ui->lab_progress->setVisible(false);
 	ui->btn_reload_library->setVisible(false);
 
-	connect(_m->library, &LocalLibrary::sig_reloading_library, this, &GUI_LocalLibrary::progress_changed);
-	connect(_m->library, &LocalLibrary::sig_reloading_library_finished, this, &GUI_LocalLibrary::reload_finished);
-	connect(_m->library, &LocalLibrary::sig_reloading_library_finished, ui->lv_genres, &LibraryGenreView::reload_genres);
-	connect(_m->library, &LocalLibrary::sig_path_changed, this, &GUI_LocalLibrary::path_changed);
-	connect(_m->library, &LocalLibrary::sig_name_changed, this, &GUI_LocalLibrary::name_changed);
+	connect(m->library, &LocalLibrary::sig_reloading_library, this, &GUI_LocalLibrary::progress_changed);
+	connect(m->library, &LocalLibrary::sig_reloading_library_finished, this, &GUI_LocalLibrary::reload_finished);
+	connect(m->library, &LocalLibrary::sig_reloading_library_finished, ui->lv_genres, &LibraryGenreView::reload_genres);
+	connect(m->library, &LocalLibrary::sig_path_changed, this, &GUI_LocalLibrary::path_changed);
+	connect(m->library, &LocalLibrary::sig_name_changed, this, &GUI_LocalLibrary::name_changed);
 
 	connect(ui->lv_album, &LibraryViewAlbum::sig_disc_pressed, this, &GUI_LocalLibrary::disc_pressed);
 	connect(ui->lv_album, &LibraryViewAlbum::sig_import_files, this, &GUI_LocalLibrary::import_files);
-	connect(ui->lv_album, &LibraryView::sig_merge, _m->library, &LocalLibrary::merge_albums);
+	connect(ui->lv_album, &LibraryView::sig_merge, m->library, &LocalLibrary::merge_albums);
 
 	connect(ui->lv_artist, &LibraryView::sig_import_files, this, &GUI_LocalLibrary::import_files);
-	connect(ui->lv_artist, &LibraryView::sig_merge, _m->library, &LocalLibrary::merge_artists);
+	connect(ui->lv_artist, &LibraryView::sig_merge, m->library, &LocalLibrary::merge_artists);
 	connect(ui->tb_title, &LibraryView::sig_import_files, this, &GUI_LocalLibrary::import_files);
 	connect(ui->lv_genres, &QAbstractItemView::clicked, this, &GUI_LocalLibrary::genre_selection_changed);
 	connect(ui->lv_genres, &QAbstractItemView::activated, this, &GUI_LocalLibrary::genre_selection_changed);
@@ -106,14 +106,14 @@ GUI_LocalLibrary::GUI_LocalLibrary(int id, QWidget* parent) :
 	connect(ui->lv_date_search, &QAbstractItemView::clicked, this, &GUI_LocalLibrary::date_selection_changed);
 	connect(ui->lv_date_search, &QAbstractItemView::activated, this, &GUI_LocalLibrary::date_selection_changed);
 
-	connect(_m->library_menu, &LocalLibraryMenu::sig_path_changed, this, &GUI_LocalLibrary::change_library_path);
-	connect(_m->library_menu, &LocalLibraryMenu::sig_name_changed, this, &GUI_LocalLibrary::change_library_name);
+	connect(m->library_menu, &LocalLibraryMenu::sig_path_changed, this, &GUI_LocalLibrary::change_library_path);
+	connect(m->library_menu, &LocalLibraryMenu::sig_name_changed, this, &GUI_LocalLibrary::change_library_name);
 
-	connect(_m->library_menu, &LocalLibraryMenu::sig_import_file, this, &GUI_LocalLibrary::import_files_requested);
-	connect(_m->library_menu, &LocalLibraryMenu::sig_import_folder, this, &GUI_LocalLibrary::import_dirs_requested);
-	connect(_m->library_menu, &LocalLibraryMenu::sig_info, this, &GUI_LocalLibrary::show_info_box);
-	connect(_m->library_menu, &LocalLibraryMenu::sig_show_album_artists_changed, this, &GUI_LocalLibrary::refresh);
-	connect(_m->library_menu, &LocalLibraryMenu::sig_reload_library, this, [=](){
+	connect(m->library_menu, &LocalLibraryMenu::sig_import_file, this, &GUI_LocalLibrary::import_files_requested);
+	connect(m->library_menu, &LocalLibraryMenu::sig_import_folder, this, &GUI_LocalLibrary::import_dirs_requested);
+	connect(m->library_menu, &LocalLibraryMenu::sig_info, this, &GUI_LocalLibrary::show_info_box);
+	connect(m->library_menu, &LocalLibraryMenu::sig_show_album_artists_changed, this, &GUI_LocalLibrary::refresh);
+	connect(m->library_menu, &LocalLibraryMenu::sig_reload_library, this, [=](){
 		this->reload_library_requested();
 	});
 
@@ -126,13 +126,13 @@ GUI_LocalLibrary::GUI_LocalLibrary(int id, QWidget* parent) :
 	connect(ui->splitter_genre, &QSplitter::splitterMoved, this, &GUI_LocalLibrary::splitter_genre_moved);
 	connect(ui->splitter_date, &QSplitter::splitterMoved, this, &GUI_LocalLibrary::splitter_date_moved);
 
-	connect(_m->library, &LocalLibrary::sig_import_dialog_requested, this, &GUI_LocalLibrary::import_dialog_requested);
+	connect(m->library, &LocalLibrary::sig_import_dialog_requested, this, &GUI_LocalLibrary::import_dialog_requested);
 
 	setAcceptDrops(true);
 
-	QTimer::singleShot(100, _m->library, SLOT(load()));
+	QTimer::singleShot(100, m->library, SLOT(load()));
 
-	ui->lv_genres->set_local_library(_m->library);
+	ui->lv_genres->set_local_library(m->library);
 	language_changed();
 
 	REGISTER_LISTENER_NO_CALL(Set::Lib_ShowAlbumCovers, switch_album_view);
@@ -149,7 +149,7 @@ GUI_LocalLibrary::~GUI_LocalLibrary()
 
 QMenu* GUI_LocalLibrary::menu() const
 {
-	return _m->library_menu;
+	return m->library_menu;
 }
 
 QFrame* GUI_LocalLibrary::header_frame() const
@@ -236,7 +236,7 @@ void GUI_LocalLibrary::switch_album_view()
 	int idx = 0;
 	if(show_cover_view){
 		idx = 1;
-		if(!_m->acv){
+		if(!m->acv){
 			init_album_cover_view();
 		}
 	}
@@ -282,7 +282,7 @@ void GUI_LocalLibrary::date_selection_changed(const QModelIndex& index)
 	Library::DateFilter date_filter = ui->lv_date_search->get_filter(index.row());
 	filter.set_mode(Library::Filter::Date);
 	filter.set_date_filter(date_filter);
-	_m->library->psl_filter_changed(filter);
+	m->library->psl_filter_changed(filter);
 }
 
 
@@ -296,7 +296,7 @@ Library::TrackDeletionMode GUI_LocalLibrary::show_delete_dialog(int n_tracks)
 
 void GUI_LocalLibrary::disc_pressed(int disc)
 {
-	_m->library->psl_disc_pressed(disc);
+	m->library->psl_disc_pressed(disc);
 }
 
 
@@ -356,7 +356,7 @@ void GUI_LocalLibrary::reload_library_requested(Library::ReloadQuality quality)
 		}
 	}
 
-	_m->library->psl_reload_library(false, quality);
+	m->library->psl_reload_library(false, quality);
 	ui->btn_reload_library->setVisible(false);
 }
 
@@ -374,13 +374,13 @@ void GUI_LocalLibrary::reload_finished()
 
 void GUI_LocalLibrary::show_info_box()
 {
-	if(!_m->library_info_box){
-		_m->library_info_box = new GUI_LibraryInfoBox(
-								   _m->library->library_id(),
+	if(!m->library_info_box){
+		m->library_info_box = new GUI_LibraryInfoBox(
+								   m->library->library_id(),
 								   this);
 	}
 
-	_m->library_info_box->psl_refresh();
+	m->library_info_box->psl_refresh();
 }
 
 
@@ -423,7 +423,7 @@ void GUI_LocalLibrary::import_dirs_requested()
 		delete dialog;
 
 		QString dir = QFileDialog::getExistingDirectory(this, Lang::get(Lang::ImportDir),
-														_m->library->library_path(),
+														m->library->library_path(),
 														QFileDialog::ShowDirsOnly);
 		if(!dir.isEmpty()){
 			dirs << dir;
@@ -443,7 +443,7 @@ void GUI_LocalLibrary::import_dirs_requested()
 	}
 
 	if(!dirs.isEmpty()){
-		_m->library->import_files(dirs);
+		m->library->import_files(dirs);
 	}
 }
 
@@ -455,46 +455,46 @@ void GUI_LocalLibrary::import_files_requested()
 													  QDir::homePath(), filter);
 
 	if(files.size() > 0) {
-		_m->library->import_files(files);
+		m->library->import_files(files);
 	}
 }
 
 
 void GUI_LocalLibrary::import_files(const QStringList& files)
 {
-	_m->library->import_files(files);
+	m->library->import_files(files);
 }
 
 void GUI_LocalLibrary::change_library_name(const QString& name)
 {
-	_m->library->set_library_name(name);
+	m->library->set_library_name(name);
 }
 
 void GUI_LocalLibrary::change_library_path(const QString& path)
 {
-	_m->library->set_library_path(path);
+	m->library->set_library_path(path);
 	reload_library_requested(Library::ReloadQuality::Accurate);
 }
 
 void GUI_LocalLibrary::name_changed(const QString& name)
 {
-	_m->library_menu->refresh_name(name);
+	m->library_menu->refresh_name(name);
 }
 
 
 void GUI_LocalLibrary::path_changed(const QString& path)
 {
-	_m->library_menu->refresh_path(path);
+	m->library_menu->refresh_path(path);
 	ui->btn_reload_library->setVisible(true);
 }
 
 void GUI_LocalLibrary::import_dialog_requested()
 {
-	if(!_m->ui_importer){
-		_m->ui_importer = new GUI_ImportFolder(_m->library, true, this);
+	if(!m->ui_importer){
+		m->ui_importer = new GUI_ImportFolder(m->library, true, this);
 	}
 
-	_m->ui_importer->show();
+	m->ui_importer->show();
 }
 
 void GUI_LocalLibrary::splitter_artist_moved(int pos, int idx)
@@ -537,27 +537,27 @@ void GUI_LocalLibrary::splitter_date_moved(int pos, int idx)
 
 void GUI_LocalLibrary::init_album_cover_view()
 {
-	if(_m->acv){
+	if(m->acv){
 		return;
 	}
 
-	_m->acv = new AlbumCoverView(ui->page_4);
+	m->acv = new AlbumCoverView(ui->page_4);
 	QLayout* layout = ui->page_4->layout();
 	if(layout){
-		layout->addWidget(_m->acv);
+		layout->addWidget(m->acv);
 	}
 
-	_m->acm = new AlbumCoverModel(_m->acv);
-	_m->acv->setModel(_m->acm);
+	m->acm = new AlbumCoverModel(m->acv);
+	m->acv->setModel(m->acm);
 
-	connect(_m->acv, &LibraryView::doubleClicked, this, &GUI_LocalLibrary::album_dbl_clicked);
-	connect(_m->acv, &LibraryView::sig_sel_changed, this, &GUI_LocalLibrary::album_sel_changed);
-	connect(_m->acv, &LibraryView::sig_middle_button_clicked, this, &GUI_LocalLibrary::album_middle_clicked);
-	connect(_m->acv, &LibraryView::sig_play_next_clicked, this, &GUI_LocalLibrary::play_next);
-	connect(_m->acv, &LibraryView::sig_append_clicked, this, &GUI_LocalLibrary::append);
-	connect(_m->acv, &LibraryView::sig_merge, _m->library, &LocalLibrary::merge_albums);
+	connect(m->acv, &LibraryView::doubleClicked, this, &GUI_LocalLibrary::album_dbl_clicked);
+	connect(m->acv, &LibraryView::sig_sel_changed, this, &GUI_LocalLibrary::album_sel_changed);
+	connect(m->acv, &LibraryView::sig_middle_button_clicked, this, &GUI_LocalLibrary::album_middle_clicked);
+	connect(m->acv, &LibraryView::sig_play_next_clicked, this, &GUI_LocalLibrary::play_next);
+	connect(m->acv, &LibraryView::sig_append_clicked, this, &GUI_LocalLibrary::append);
+	connect(m->acv, &LibraryView::sig_merge, m->library, &LocalLibrary::merge_albums);
 
-	_m->acv->show();
+	m->acv->show();
 }
 
 
@@ -565,12 +565,12 @@ void GUI_LocalLibrary::lib_fill_albums(const AlbumList& albums)
 {
 	GUI_AbstractLibrary::lib_fill_albums(albums);
 
-	if(!_m->acv){
+	if(!m->acv){
 		return;
 	}
 
-	_m->acm->set_data(albums);
-	_m->acv->refresh();
+	m->acm->set_data(albums);
+	m->acv->refresh();
 }
 
 
@@ -578,8 +578,8 @@ void GUI_LocalLibrary::lib_fill_tracks(const MetaDataList& v_md)
 {
 	GUI_AbstractLibrary::lib_fill_tracks(v_md);
 
-	if(_m->acm){
-		_m->acm->set_mimedata(v_md);
+	if(m->acm){
+		m->acm->set_mimedata(v_md);
 	}
 }
 

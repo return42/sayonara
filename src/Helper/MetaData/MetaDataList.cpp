@@ -47,21 +47,21 @@ struct MetaDataList::Private
 MetaDataList::MetaDataList() :
 	std::vector<MetaData>()
 {
-	_m = Pimpl::make<Private>();
+    m = Pimpl::make<Private>();
 }
 
 MetaDataList::MetaDataList(const MetaData& md) :
 	std::vector<MetaData>()
 {
-	_m = Pimpl::make<Private>();
+    m = Pimpl::make<Private>();
 	append(md);
 }
 
 MetaDataList::MetaDataList(const MetaDataList& other) :
 	std::vector<MetaData>()
 {
-	_m = Pimpl::make<Private>();
-	_m->current_track = other.current_track();
+    m = Pimpl::make<Private>();
+    m->current_track = other.current_track();
 
 	this->resize(other.size());
 	std::move(other.begin(), other.end(), this->begin());
@@ -70,8 +70,8 @@ MetaDataList::MetaDataList(const MetaDataList& other) :
 MetaDataList::MetaDataList(MetaDataList&& other) :
 	std::vector<MetaData>()
 {
-	_m = Pimpl::make<Private>(*(other._m));
-	_m->current_track = other.current_track();
+    m = Pimpl::make<Private>(*(other.m));
+    m->current_track = other.current_track();
 
 	this->resize(other.size());
 	std::move(other.begin(), other.end(), this->begin());
@@ -81,7 +81,7 @@ MetaDataList::~MetaDataList() {}
 
 MetaDataList& MetaDataList::operator=(const MetaDataList& other)
 {
-	(*_m) = *(other._m);
+    (*m) = *(other.m);
 
 	this->resize(other.size());
 	std::copy(other.begin(), other.end(), this->begin());
@@ -91,7 +91,7 @@ MetaDataList& MetaDataList::operator=(const MetaDataList& other)
 
 MetaDataList& MetaDataList::operator=(MetaDataList&& other)
 {
-	(*_m) = std::move(*(other._m));
+    (*m) = std::move(*(other.m));
 
 	this->resize(other.size());
 	std::move(other.begin(), other.end(), this->begin());
@@ -101,12 +101,12 @@ MetaDataList& MetaDataList::operator=(MetaDataList&& other)
 
 int MetaDataList::current_track() const
 {
-	return _m->current_track;
+    return m->current_track;
 }
 
 void MetaDataList::set_current_track(int idx)
 {
-	_m->current_track = -1;
+    m->current_track = -1;
 
 	if( !between(idx, this)) {
 		return;
@@ -118,7 +118,7 @@ void MetaDataList::set_current_track(int idx)
 		tmp_idx++;
 	}
 
-	_m->current_track = idx;
+    m->current_track = idx;
 }
 
 MetaDataList& MetaDataList::insert_track(const MetaData& md, int tgt_idx)
@@ -183,7 +183,7 @@ MetaDataList& MetaDataList::move_tracks(const SP::Set<int>& indexes, int tgt_idx
 	{
 		const MetaData& md = *it;
 
-		it->pl_playing = (i == _m->current_track);
+        it->pl_playing = (i == m->current_track);
 
 		bool contains_i = indexes.contains(i);
 
@@ -194,13 +194,13 @@ MetaDataList& MetaDataList::move_tracks(const SP::Set<int>& indexes, int tgt_idx
 				v_md_after_tgt << std::move( md );
 			}
 		} else {
-			contains_cur_track |= (i == _m->current_track);
+            contains_cur_track |= (i == m->current_track);
 			v_md_to_move << std::move( md );
-			if(i < _m->current_track){
+            if(i < m->current_track){
 				n_tracks_before_cur_idx++;
 			}
 
-			else if(i > _m->current_track){
+            else if(i > m->current_track){
 				n_tracks_after_cur_idx++;
 			}
 		}
@@ -217,17 +217,17 @@ MetaDataList& MetaDataList::move_tracks(const SP::Set<int>& indexes, int tgt_idx
 	std::move(v_md_after_tgt.begin(), v_md_after_tgt.end(), this->begin() + start_idx);
 
 	if(contains_cur_track) {
-		_m->current_track = (n_tracks_before_cur_idx) + v_md_before_tgt.count();
+        m->current_track = (n_tracks_before_cur_idx) + v_md_before_tgt.count();
 	}
 
 	if(!contains_cur_track) 
 	{
-		if(tgt_idx <= _m->current_track) {
-			_m->current_track += n_tracks_after_cur_idx;
+        if(tgt_idx <= m->current_track) {
+            m->current_track += n_tracks_after_cur_idx;
 		}
 
 		else {
-			_m->current_track -= n_tracks_before_cur_idx;
+            m->current_track -= n_tracks_before_cur_idx;
 		}
 	}
 
@@ -255,12 +255,12 @@ MetaDataList& MetaDataList::remove_tracks(int first, int last)
 
 	this->resize(this->count() - n_elems);
 
-	if(_m->current_track >= first && _m->current_track <= last){
+    if(m->current_track >= first && m->current_track <= last){
 		set_current_track(-1);
 	}
 
-	if(_m->current_track > last){
-		set_current_track( _m->current_track - n_elems );
+    if(m->current_track > last){
+        set_current_track( m->current_track - n_elems );
 	}
 
 	return *this;
@@ -282,18 +282,18 @@ MetaDataList& MetaDataList::remove_tracks(const SP::Set<int>& indexes)
 
 	this->resize(this->count() - deleted_elements);
 
-	if(indexes.contains(_m->current_track))
+    if(indexes.contains(m->current_track))
 	{
-		_m->current_track = -1;
+        m->current_track = -1;
 	}
 
 	else
 	{
 		int n_tracks_before_cur_track = std::count_if(indexes.begin(), indexes.end(), [=](int idx){
-			return (idx < _m->current_track);
+            return (idx < m->current_track);
 		});
 
-		_m->current_track -= n_tracks_before_cur_track;
+        m->current_track -= n_tracks_before_cur_track;
 	}
 
 	return *this;

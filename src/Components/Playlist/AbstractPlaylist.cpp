@@ -55,7 +55,7 @@ AbstractPlaylist::AbstractPlaylist(int idx, const QString& name) :
 	MetaDataChangeNotifier* md_change_notifier = MetaDataChangeNotifier::getInstance();
 	PlayManager* play_manager = PlayManager::getInstance();
 
-	_m = Pimpl::make<AbstractPlaylist::Private>(idx,  _settings->get(Set::PL_Mode));
+    m = Pimpl::make<AbstractPlaylist::Private>(idx,  _settings->get(Set::PL_Mode));
 
 	connect(md_change_notifier, &MetaDataChangeNotifier::sig_metadata_changed, this, &AbstractPlaylist::metadata_changed);
 	connect(md_change_notifier, &MetaDataChangeNotifier::sig_metadata_deleted, this, &AbstractPlaylist::metadata_deleted);
@@ -70,11 +70,11 @@ AbstractPlaylist::~AbstractPlaylist() {}
 
 void AbstractPlaylist::clear() 
 {
-	if(_m->v_md.isEmpty()){
+    if(m->v_md.isEmpty()){
 		return;
 	}
 
-	_m->v_md.clear();
+    m->v_md.clear();
 
 	set_changed(true);
 }
@@ -82,7 +82,7 @@ void AbstractPlaylist::clear()
 
 void AbstractPlaylist::move_tracks(const SP::Set<int>& indexes, int tgt) 
 {
-	_m->v_md.move_tracks(indexes, tgt);
+    m->v_md.move_tracks(indexes, tgt);
 
 	set_changed(true);
 }
@@ -90,13 +90,13 @@ void AbstractPlaylist::move_tracks(const SP::Set<int>& indexes, int tgt)
 
 void AbstractPlaylist::copy_tracks(const SP::Set<int>& indexes, int tgt) 
 {
-	_m->v_md.copy_tracks(indexes, tgt);
+    m->v_md.copy_tracks(indexes, tgt);
 }
 
 
 void AbstractPlaylist::delete_tracks(const SP::Set<int>& indexes) 
 {
-	_m->v_md.remove_tracks(indexes);
+    m->v_md.remove_tracks(indexes);
 	set_changed(true);
 }
 
@@ -110,7 +110,7 @@ void AbstractPlaylist::insert_track(const MetaData& md, int tgt)
 
 void AbstractPlaylist::insert_tracks(const MetaDataList& lst, int tgt) 
 {
-	_m->v_md.insert_tracks(lst, tgt);
+    m->v_md.insert_tracks(lst, tgt);
 
 	set_changed(true);
 }
@@ -118,11 +118,11 @@ void AbstractPlaylist::insert_tracks(const MetaDataList& lst, int tgt)
 
 void AbstractPlaylist::append_tracks(const MetaDataList& lst) 
 {
-	int old_size = _m->v_md.size();
+    int old_size = m->v_md.size();
 	
-	_m->v_md << lst;
+    m->v_md << lst;
 
-	for(auto it=_m->v_md.begin() + old_size; it != _m->v_md.end(); it++)
+    for(auto it=m->v_md.begin() + old_size; it != m->v_md.end(); it++)
 	{
 		it->is_disabled = !(Helper::File::check_file(it->filepath()));
 	}
@@ -132,10 +132,10 @@ void AbstractPlaylist::append_tracks(const MetaDataList& lst)
 
 bool AbstractPlaylist::change_track(int idx)
 {
-    _m->v_md.set_current_track(idx);
+    m->v_md.set_current_track(idx);
 
     // ERROR: invalid idx
-    if( !between(idx, _m->v_md) ) {
+    if( !between(idx, m->v_md) ) {
         stop();
         return false;
     }
@@ -146,15 +146,15 @@ bool AbstractPlaylist::change_track(int idx)
 
 void AbstractPlaylist::replace_track(int idx, const MetaData& md) 
 {
-	if( !between(idx, _m->v_md) ) {
+    if( !between(idx, m->v_md) ) {
 		return;
 	}
 
-	bool is_playing = _m->v_md[idx].pl_playing;
+    bool is_playing = m->v_md[idx].pl_playing;
 
-	_m->v_md[idx] = md;
-	_m->v_md[idx].is_disabled = !(Helper::File::check_file(md.filepath()));
-	_m->v_md[idx].pl_playing = is_playing;
+    m->v_md[idx] = md;
+    m->v_md[idx].is_disabled = !(Helper::File::check_file(md.filepath()));
+    m->v_md[idx].pl_playing = is_playing;
 
 	emit sig_data_changed( playlist_index() );
 }
@@ -162,44 +162,44 @@ void AbstractPlaylist::replace_track(int idx, const MetaData& md)
 
 MetaDataList& AbstractPlaylist::metadata()
 {
-	return _m->v_md;
+    return m->v_md;
 }
 
 
 MetaData& AbstractPlaylist::metadata(int i)
 {
-	return _m->v_md[i];
+    return m->v_md[i];
 }
 
 
 int AbstractPlaylist::playlist_index() const
 {
-	return _m->playlist_idx;
+    return m->playlist_idx;
 }
 
 
 void AbstractPlaylist::set_playlist_index(int idx)
 {
-	_m->playlist_idx = idx;
+    m->playlist_idx = idx;
 }
 
 
 void AbstractPlaylist::set_playlist_mode(const Playlist::Mode& mode)
 {
-	if( _m->playlist_mode.shuffle() != mode.shuffle()){
-		for(MetaData& md : _m->v_md){
+    if( m->playlist_mode.shuffle() != mode.shuffle()){
+        for(MetaData& md : m->v_md){
 			md.played = false;
 		}
 	}
 
-	_m->playlist_mode = mode;
+    m->playlist_mode = mode;
 }
 
 
 uint64_t AbstractPlaylist::running_time() const
 {
 	uint64_t dur_ms = 0;
-	dur_ms = std::accumulate(_m->v_md.begin(), _m->v_md.end(), dur_ms, [](uint64_t time, const MetaData& md){
+    dur_ms = std::accumulate(m->v_md.begin(), m->v_md.end(), dur_ms, [](uint64_t time, const MetaData& md){
 		return time + md.length_ms;
 	});
 
@@ -208,87 +208,87 @@ uint64_t AbstractPlaylist::running_time() const
 
 Playlist::Mode AbstractPlaylist::playlist_mode() const
 {
-	return _m->playlist_mode;
+    return m->playlist_mode;
 }
 
 
 int AbstractPlaylist::current_track_index() const
 {
-	return _m->v_md.current_track();
+    return m->v_md.current_track();
 }
 
 
 bool AbstractPlaylist::current_track(MetaData &md) const
 {
-	int cur_play_idx = _m->v_md.current_track();
+    int cur_play_idx = m->v_md.current_track();
 
 	if(cur_play_idx < 0){
 		return false;
 	}
 
-	md = _m->v_md[cur_play_idx];
+    md = m->v_md[cur_play_idx];
 	return true;
 }
 
 
 QStringList AbstractPlaylist::toStringList() const 
 {
-	return _m->v_md.toStringList();
+    return m->v_md.toStringList();
 }
 
 
 IdxList AbstractPlaylist::find_tracks(int idx) const 
 {
-	return _m->v_md.findTracks(idx);
+    return m->v_md.findTracks(idx);
 }
 
 
 IdxList AbstractPlaylist::find_tracks(const QString& filepath) const 
 {
-	return _m->v_md.findTracks(filepath);
+    return m->v_md.findTracks(filepath);
 }
 
 
 int AbstractPlaylist::count() const
 {
-	return _m->v_md.size();
+    return m->v_md.size();
 }
 
 
 bool AbstractPlaylist::is_empty() const 
 {
-	return _m->v_md.isEmpty();
+    return m->v_md.isEmpty();
 }
 
 
 const MetaDataList& AbstractPlaylist::playlist() const
 {
-	return _m->v_md;
+    return m->v_md;
 }
 
 
 void AbstractPlaylist::set_changed(bool b)
 {
-	_m->playlist_changed = b;
+    m->playlist_changed = b;
 
-	emit sig_data_changed(_m->playlist_idx);
+    emit sig_data_changed(m->playlist_idx);
 }
 
 
 bool AbstractPlaylist::was_changed() const
 {
-	return _m->playlist_changed;
+    return m->playlist_changed;
 }
 
 
 bool AbstractPlaylist::is_storable() const
 {
-	return _m->is_storable;
+    return m->is_storable;
 }
 
 void AbstractPlaylist::set_storable(bool b)
 {
-	_m->is_storable = b;
+    m->is_storable = b;
 }
 
 
@@ -301,10 +301,10 @@ void AbstractPlaylist::_sl_playlist_mode_changed()
 
 const MetaData& AbstractPlaylist::operator[](int idx) const
 {
-	return _m->v_md[idx];
+    return m->v_md[idx];
 }
 
 const MetaData& AbstractPlaylist::at_const_ref(int idx) const 
 {
-	return _m->v_md[idx];
+    return m->v_md[idx];
 }

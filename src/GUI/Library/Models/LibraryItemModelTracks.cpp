@@ -47,7 +47,7 @@ struct LibraryItemModelTracks::Private
 LibraryItemModelTracks::LibraryItemModelTracks(QObject* parent) :
 	LibraryItemModel(parent)
 {
-	_m = Pimpl::make<LibraryItemModelTracks::Private>();
+	m = Pimpl::make<LibraryItemModelTracks::Private>();
 }
 
 LibraryItemModelTracks::~LibraryItemModelTracks() {}
@@ -61,7 +61,7 @@ QVariant LibraryItemModelTracks::data(const QModelIndex &index, int role) const
 		return QVariant();
 	}
 
-	if (row >= _m->tracks.count()) {
+	if (row >= m->tracks.count()) {
 		return QVariant();
 	}
 
@@ -89,7 +89,7 @@ QVariant LibraryItemModelTracks::data(const QModelIndex &index, int role) const
 
 	else if (role == Qt::DisplayRole || role==Qt::EditRole)
 	{
-		const MetaData& md = _m->tracks.at(row);
+		const MetaData& md = m->tracks.at(row);
 
 		switch(idx_col)
 		{
@@ -161,11 +161,11 @@ bool LibraryItemModelTracks::setData(const QModelIndex &index, const QVariant &v
 		int col = index.column();
 
 		if(col == (int) ColumnIndex::Track::Rating) {
-			_m->tracks[row].rating = value.toInt();
+			m->tracks[row].rating = value.toInt();
 		}
 
 		else{
-			if(!MetaData::fromVariant(value, _m->tracks[row])) {
+			if(!MetaData::fromVariant(value, m->tracks[row])) {
 				return false;
 			}
 		}
@@ -187,7 +187,7 @@ bool LibraryItemModelTracks::setData(const QModelIndex&index, const MetaDataList
 	if (role == Qt::EditRole || role == Qt::DisplayRole) {
 		int row = index.row();
 
-		_m->tracks = v_md;
+		m->tracks = v_md;
 
 		emit dataChanged(index, this->index(row + v_md.size() - 1, columnCount() - 1));
 
@@ -200,23 +200,23 @@ bool LibraryItemModelTracks::setData(const QModelIndex&index, const MetaDataList
 
 int LibraryItemModelTracks::get_id_by_row(int row)
 {
-	if(!between(row, _m->tracks)){
+	if(!between(row, m->tracks)){
 		return -1;
 	}
 
 	else {
-		return _m->tracks[row].id;
+		return m->tracks[row].id;
 	}
 }
 
 QString LibraryItemModelTracks::get_string(int row) const
 {
-	if(!between(row, _m->tracks)){
+	if(!between(row, m->tracks)){
 		return QString();
 	}
 
 	else {
-		return _m->tracks[row].title;
+		return m->tracks[row].title;
 	}
 }
 
@@ -229,13 +229,13 @@ CoverLocation LibraryItemModelTracks::get_cover(const SP::Set<int>& indexes) con
 
 	SP::Set<int> album_ids;
 	for(int idx : indexes){
-		album_ids.insert( _m->tracks[idx].album_id );
+		album_ids.insert( m->tracks[idx].album_id );
 		if(album_ids.size() > 1){
 			return CoverLocation();
 		}
 	}
 
-	return CoverLocation::get_cover_location( _m->tracks.first() );
+	return CoverLocation::get_cover_location( m->tracks.first() );
 }
 
 

@@ -44,7 +44,7 @@ LibraryContainerInterface::LibraryContainerInterface(QObject* parent) :
 	QObject(parent),
 	SayonaraClass()
 {
-	_m = Pimpl::make<Private>();
+	m = Pimpl::make<Private>();
 
 	REGISTER_LISTENER(Set::Player_Language, language_changed);
 }
@@ -63,29 +63,29 @@ QMenu* LibraryContainerInterface::menu()
 
 void LibraryContainerInterface::set_menu_action(QAction* action)
 {
-	_m->action = action;
+	m->action = action;
 }
 
 QAction* LibraryContainerInterface::menu_action() const
 {
-	return _m->action;
+	return m->action;
 }
 
 void LibraryContainerInterface::set_initialized()
 {
-	_m->set_initialized();
+	m->set_initialized();
 }
 
 bool LibraryContainerInterface::is_initialized() const
 {
-	return _m->initialized;
+	return m->initialized;
 }
 
 
 void LibraryContainerInterface::language_changed()
 {
-	if(_m->action){
-		_m->action->setText(this->display_name());
+	if(m->action){
+		m->action->setText(this->display_name());
 	}
 }
 

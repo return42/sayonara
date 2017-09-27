@@ -42,13 +42,13 @@ struct LocalLibraryContainer::Private
 LocalLibraryContainer::LocalLibraryContainer(const LibraryInfo& library, QObject* parent) :
 	LibraryContainerInterface(parent)
 {
-	_m = Pimpl::make<Private>(library);
+	m = Pimpl::make<Private>(library);
 }
 
 LocalLibraryContainer::~LocalLibraryContainer()
 {
-	if(_m->ui) {
-		delete _m->ui; _m->ui=nullptr;
+	if(m->ui) {
+		delete m->ui; m->ui=nullptr;
 	}
 }
 
@@ -62,18 +62,18 @@ QString LocalLibraryContainer::name() const
 
 QString LocalLibraryContainer::display_name() const
 {
-	return _m->name;
+	return m->name;
 }
 
 QWidget* LocalLibraryContainer::widget() const
 {
-	return static_cast<QWidget*>(_m->ui);
+	return static_cast<QWidget*>(m->ui);
 }
 
 QMenu*LocalLibraryContainer::menu()
 {
-	if(_m->ui){
-		return _m->ui->menu();
+	if(m->ui){
+		return m->ui->menu();
 	}
 
 	return nullptr;
@@ -81,18 +81,18 @@ QMenu*LocalLibraryContainer::menu()
 
 void LocalLibraryContainer::init_ui()
 {
-	_m->ui = new GUI_LocalLibrary(_m->library.id());
+	m->ui = new GUI_LocalLibrary(m->library.id());
 }
 
 int8_t LocalLibraryContainer::id()
 {
-	return _m->library.id();
+	return m->library.id();
 }
 
 
 QFrame* LocalLibraryContainer::header() const
 {
-	return _m->ui->header_frame();
+	return m->ui->header_frame();
 }
 
 QPixmap LocalLibraryContainer::icon() const
@@ -103,7 +103,7 @@ QPixmap LocalLibraryContainer::icon() const
 
 void LocalLibraryContainer::set_name(const QString& name)
 {
-	_m->name = name;
+	m->name = name;
 
 	if(menu_action()){
 		menu_action()->setText(name);

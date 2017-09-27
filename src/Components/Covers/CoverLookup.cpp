@@ -51,7 +51,7 @@ struct CoverLookup::Private
 CoverLookup::CoverLookup(QObject* parent, int n_covers) :
 	AbstractCoverLookup(parent)
 {
-	_m = Pimpl::make<Private>(n_covers);
+	m = Pimpl::make<Private>(n_covers);
 }
 
 CoverLookup::~CoverLookup() {}
@@ -62,14 +62,14 @@ bool CoverLookup::start_new_thread(const CoverLocation& cl )
 		return false;
 	}
 
-	CoverFetchThread* cft = new CoverFetchThread(this, cl, _m->n_covers);
+	CoverFetchThread* cft = new CoverFetchThread(this, cl, m->n_covers);
 
 	connect(cft, &CoverFetchThread::sig_cover_found, this, &CoverLookup::cover_found);
 	connect(cft, &CoverFetchThread::sig_finished, this, &CoverLookup::finished);
 
 	cft->start();
 
-	_m->cft = cft;
+	m->cft = cft;
 
 	return true;
 }
@@ -78,7 +78,7 @@ bool CoverLookup::start_new_thread(const CoverLocation& cl )
 bool CoverLookup::fetch_cover(const CoverLocation& cl, bool also_www)
 {
 	// Look, if cover exists in .Sayonara/covers
-	if( QFile::exists(cl.cover_path()) && _m->n_covers == 1 )
+	if( QFile::exists(cl.cover_path()) && m->n_covers == 1 )
 	{
 		emit sig_cover_found(cl.cover_path());
 		emit sig_finished(true);
@@ -86,7 +86,7 @@ bool CoverLookup::fetch_cover(const CoverLocation& cl, bool also_www)
 	}
 
 	// For one cover, we also can use the local cover path
-	if(!cl.local_paths().isEmpty() && _m->n_covers == 1)
+	if(!cl.local_paths().isEmpty() && m->n_covers == 1)
 	{	
 		emit sig_cover_found(cl.local_path(0));
 		emit sig_finished(true);
@@ -117,7 +117,7 @@ bool CoverLookup::fetch_album_cover(const Album& album, bool also_www)
 
 void CoverLookup::finished(bool success)
 {
-	_m->cft = nullptr;
+	m->cft = nullptr;
     emit sig_finished(success);
 }
 
@@ -134,8 +134,8 @@ void CoverLookup::cover_found(const QString& file_path)
 
 void CoverLookup::stop()
 {
-	if(_m->cft){
-		_m->cft->stop();
+	if(m->cft){
+		m->cft->stop();
 		emit sig_finished(true);
 	}
 }

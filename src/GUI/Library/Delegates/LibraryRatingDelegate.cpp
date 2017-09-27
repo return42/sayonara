@@ -38,7 +38,7 @@ struct LibraryRatingDelegate::Private
 LibraryRatingDelegate::LibraryRatingDelegate(QObject* parent, int rating_column, bool enabled) :
 	StyledItemDelegate(parent)
 {
-	_m = Pimpl::make<Private>(enabled, rating_column);
+	m = Pimpl::make<Private>(enabled, rating_column);
 }
 
 LibraryRatingDelegate::~LibraryRatingDelegate() {}
@@ -49,7 +49,7 @@ void LibraryRatingDelegate::paint(QPainter *painter, const QStyleOptionViewItem 
 
 	QStyledItemDelegate::paint(painter, option, index);
 
-	if(index.column() == _m->rating_column)
+	if(index.column() == m->rating_column)
 	{
 		RatingLabel label(nullptr, true);
 		label.set_rating(index.data(Qt::EditRole).toInt());
@@ -68,7 +68,7 @@ QWidget* LibraryRatingDelegate::createEditor(QWidget *parent, const QStyleOption
 {
 	Q_UNUSED(option)
 
-	RatingLabel *label = new RatingLabel(parent, _m->enabled);
+	RatingLabel *label = new RatingLabel(parent, m->enabled);
 
 	connect(label, &RatingLabel::sig_finished, this, &LibraryRatingDelegate::destroy_editor);
 

@@ -42,32 +42,32 @@ struct Shortcut::Private
 Shortcut::Shortcut() :
 	SayonaraClass()
 {
-	_m = Pimpl::make<Private>();
+	m = Pimpl::make<Private>();
 }
 
 Shortcut::Shortcut(ShortcutWidget* parent, const QString& identifier, const QString& name, const QStringList& default_shortcuts) :
 	Shortcut()
 {
-	_m->name = name;
-	_m->identifier = identifier;
-	_m->parent=parent;
+	m->name = name;
+	m->identifier = identifier;
+	m->parent=parent;
 
-	_m->default_shortcuts = default_shortcuts;
-	for(QString& str : _m->default_shortcuts){
+	m->default_shortcuts = default_shortcuts;
+	for(QString& str : m->default_shortcuts){
 		str.replace(" +", "+");
 		str.replace("+ ", "+");
 	}
 
-	_m->shortcuts = _m->default_shortcuts;
+	m->shortcuts = m->default_shortcuts;
 
 	RawShortcutMap rsm = _settings->get(Set::Player_Shortcuts);
 
 	if(rsm.contains(identifier)){
-		_m->shortcuts = rsm[identifier];
+		m->shortcuts = rsm[identifier];
 	}
 
 	else{
-		_m->shortcuts = _m->default_shortcuts;
+		m->shortcuts = m->default_shortcuts;
 	}
 }
 
@@ -77,24 +77,24 @@ Shortcut::Shortcut(ShortcutWidget* parent, const QString& identifier, const QStr
 Shortcut::Shortcut(const Shortcut& other) :
 	Shortcut()
 {
-	_m->parent =				other._m->parent;
-	_m->name =					other._m->name;
-	_m->identifier =			other._m->identifier;
-	_m->default_shortcuts =		other._m->default_shortcuts;
-	_m->shortcuts =				other._m->shortcuts;
-	_m->qt_shortcuts =			other._m->qt_shortcuts;
+	m->parent =				other.m->parent;
+	m->name =					other.m->name;
+	m->identifier =			other.m->identifier;
+	m->default_shortcuts =		other.m->default_shortcuts;
+	m->shortcuts =				other.m->shortcuts;
+	m->qt_shortcuts =			other.m->qt_shortcuts;
 }
 
 Shortcut::~Shortcut() {}
 
 Shortcut& Shortcut::operator =(const Shortcut& other)
 {
-	_m->parent =				other._m->parent;
-	_m->name =					other._m->name;
-	_m->identifier =			other._m->identifier;
-	_m->default_shortcuts =		other._m->default_shortcuts;
-	_m->shortcuts =				other._m->shortcuts;
-	_m->qt_shortcuts =			other._m->qt_shortcuts;
+	m->parent =				other.m->parent;
+	m->name =					other.m->name;
+	m->identifier =			other.m->identifier;
+	m->default_shortcuts =		other.m->default_shortcuts;
+	m->shortcuts =				other.m->shortcuts;
+	m->qt_shortcuts =			other.m->qt_shortcuts;
 
 	return (*this);
 }
@@ -103,18 +103,18 @@ Shortcut& Shortcut::operator =(const Shortcut& other)
 
 QString Shortcut::get_name() const
 {
-	if(_m->parent){
-		QString name = _m->parent->get_shortcut_text(_m->identifier);
+	if(m->parent){
+		QString name = m->parent->get_shortcut_text(m->identifier);
 		if(!name.isEmpty()){
 			return name;
 		}
 	}
-	return _m->name;
+	return m->name;
 }
 
 QStringList Shortcut::get_default() const
 {
-	return _m->default_shortcuts;
+	return m->default_shortcuts;
 }
 
 QList<QKeySequence> Shortcut::get_sequences() const
@@ -130,12 +130,12 @@ QList<QKeySequence> Shortcut::get_sequences() const
 
 QStringList Shortcut::get_shortcuts() const
 {
-	return _m->shortcuts;
+	return m->shortcuts;
 }
 
 QString Shortcut::get_identifier() const
 {
-	return _m->identifier;
+	return m->identifier;
 }
 
 Shortcut Shortcut::getInvalid()
@@ -145,7 +145,7 @@ Shortcut Shortcut::getInvalid()
 
 bool Shortcut::is_valid() const
 {
-	return !(_m->identifier.isEmpty());
+	return !(m->identifier.isEmpty());
 }
 
 
@@ -171,7 +171,7 @@ QList<QShortcut*> Shortcut::init_qt_shortcut(QWidget* parent)
 		shortcut->setContext(Qt::WindowShortcut);
 		shortcut->setKey(sequence);
 
-		_m->qt_shortcuts << shortcut;
+		m->qt_shortcuts << shortcut;
 
 		lst << shortcut;
 	}
@@ -183,13 +183,13 @@ QList<QShortcut*> Shortcut::init_qt_shortcut(QWidget* parent)
 
 
 void Shortcut::change_shortcut(const QStringList &shortcuts){
-	_m->shortcuts = shortcuts;
-	for(QString& str : _m->shortcuts){
+	m->shortcuts = shortcuts;
+	for(QString& str : m->shortcuts){
 		str.replace(" +", "+");
 		str.replace("+ ", "+");
 	}
 
-	for(QShortcut* sc : _m->qt_shortcuts){
+	for(QShortcut* sc : m->qt_shortcuts){
 		QList<QKeySequence> sequences = get_sequences();
 		for(const QKeySequence& ks : sequences){
 			sc->setKey(ks);

@@ -50,16 +50,16 @@ struct AbstractDatabase::Private
 
 AbstractDatabase::AbstractDatabase(uint8_t db_id, const QString& db_dir, const QString& db_name, QObject *parent) : QObject(parent)
 {
-	_m = Pimpl::make<Private>(db_id, db_dir, db_name);
+	m = Pimpl::make<Private>(db_id, db_dir, db_name);
 
 	if(!exists()){
 		sp_log(Log::Info, this) << "Database not existent. Creating database...";
 		create_db();
 	}
 
-	_m->initialized = open_db();
+	m->initialized = open_db();
 
-	if(!_m->initialized) {
+	if(!m->initialized) {
 		sp_log(Log::Error, this) << "Could not open database";
 	}
 }
@@ -76,24 +76,24 @@ AbstractDatabase::~AbstractDatabase()
 
 bool AbstractDatabase::is_initialized()
 {
-	return _m->initialized;
+	return m->initialized;
 }
 
 bool AbstractDatabase::exists()
 {
-	return QFile::exists(_m->db_path);
+	return QFile::exists(m->db_path);
 }
 
 
 bool AbstractDatabase::open_db()
 {
-	if(_databases.contains(_m->db_id))
+	if(_databases.contains(m->db_id))
 	{
 		return true;
 	}
 
-	QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE", _m->db_path);
-	db.setDatabaseName(_m->db_path);
+	QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE", m->db_path);
+	db.setDatabaseName(m->db_path);
 
 	bool success = db.open();
 	if (!success) {
@@ -103,27 +103,27 @@ bool AbstractDatabase::open_db()
 		sp_log(Log::Error) << er.databaseText();
 	}
 	else{
-		sp_log(Log::Info, this) << "Opened Database " << _m->db_name;
+		sp_log(Log::Info, this) << "Opened Database " << m->db_name;
 	}
 
-	_databases.insert(_m->db_id, db);
+	_databases.insert(m->db_id, db);
 
 	return success;
 }
 
 void AbstractDatabase::close_db()
 {
-	if(!_databases.contains(_m->db_id)){
+	if(!_databases.contains(m->db_id)){
 		return;
 	}
 
-	sp_log(Log::Info) << "close database " << _m->db_name << "...";
+	sp_log(Log::Info) << "close database " << m->db_name << "...";
 
 	if(db().isOpen()){
 		db().close();
 	}
 
-	_databases.remove(_m->db_id);
+	_databases.remove(m->db_id);
 }
 
 
@@ -153,25 +153,25 @@ bool AbstractDatabase::create_db()
 		return false;
 	}
 
-	QString source_db_file = Helper::share_path(_m->db_dir + "/" + _m->db_name);
+	QString source_db_file = Helper::share_path(m->db_dir + "/" + m->db_name);
 
-	success = QFile::exists(_m->db_path);
+	success = QFile::exists(m->db_path);
 
 	if(success) {
 		return true;
 	}
 
 	if (!success) {
-		sp_log(Log::Info) << "Database " << _m->db_path << " not existent yet";
-		sp_log(Log::Info) << "Copy " <<  source_db_file << " to " << _m->db_path;
+		sp_log(Log::Info) << "Database " << m->db_path << " not existent yet";
+		sp_log(Log::Info) << "Copy " <<  source_db_file << " to " << m->db_path;
 
-		if (QFile::copy(source_db_file, _m->db_path)) {
-			sp_log(Log::Info) << "DB file has been copied to " <<   _m->db_path;
+		if (QFile::copy(source_db_file, m->db_path)) {
+			sp_log(Log::Info) << "DB file has been copied to " <<   m->db_path;
 			success = true;
 		}
 
 		else {
-			sp_log(Log::Error) << "Fatal Error: could not copy DB file to " << _m->db_path;
+			sp_log(Log::Error) << "Fatal Error: could not copy DB file to " << m->db_path;
 			success = false;
 		}
 	}
@@ -266,6 +266,6 @@ QSqlDatabase& AbstractDatabase::db() const
 
 uint8_t AbstractDatabase::db_id() const
 {
-	return _m->db_id;
+	return m->db_id;
 }
 

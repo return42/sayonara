@@ -69,7 +69,7 @@ struct IcyWebAccess::Private
 IcyWebAccess::IcyWebAccess(QObject *parent) :
 	QObject(parent)
 {
-	_m = Pimpl::make<Private>();
+	m = Pimpl::make<Private>();
 
 }
 
@@ -77,21 +77,21 @@ IcyWebAccess::~IcyWebAccess() {}
 
 void IcyWebAccess::check(const QUrl& url)
 {
-	_m->tcp = new QTcpSocket(nullptr);
-	_m->hostname = url.host(QUrl::PrettyDecoded);
-	_m->port = url.port(80);
-	_m->directory = url.path();
-	_m->filename = url.fileName();
-	_m->status = IcyWebAccess::Status::NotExecuted;
+	m->tcp = new QTcpSocket(nullptr);
+	m->hostname = url.host(QUrl::PrettyDecoded);
+	m->port = url.port(80);
+	m->directory = url.path();
+	m->filename = url.fileName();
+	m->status = IcyWebAccess::Status::NotExecuted;
 
-	connect(_m->tcp, &QTcpSocket::connected, this, &IcyWebAccess::connected);
-	connect(_m->tcp, &QTcpSocket::disconnected, this, &IcyWebAccess::disconnected);
-	connect(_m->tcp, &QTcpSocket::readyRead, this, &IcyWebAccess::data_available);
+	connect(m->tcp, &QTcpSocket::connected, this, &IcyWebAccess::connected);
+	connect(m->tcp, &QTcpSocket::disconnected, this, &IcyWebAccess::disconnected);
+	connect(m->tcp, &QTcpSocket::readyRead, this, &IcyWebAccess::data_available);
 
-	connect(_m->tcp, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(error_received(QAbstractSocket::SocketError)));
+	connect(m->tcp, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(error_received(QAbstractSocket::SocketError)));
 
-	_m->tcp->connectToHost(_m->hostname,
-						   _m->port,
+	m->tcp->connectToHost(m->hostname,
+						   m->port,
 						   QTcpSocket::ReadWrite,
 						   QAbstractSocket::AnyIPProtocol
 	);
@@ -101,15 +101,15 @@ void IcyWebAccess::check(const QUrl& url)
 
 void IcyWebAccess::stop()
 {
-	if(_m->tcp && _m->tcp->isOpen() && _m->tcp->isValid()){
-		_m->tcp->abort();
-		_m->tcp->close();
+	if(m->tcp && m->tcp->isOpen() && m->tcp->isValid()){
+		m->tcp->abort();
+		m->tcp->close();
 	}
 }
 
 IcyWebAccess::Status IcyWebAccess::status() const
 {
-	return _m->status;
+	return m->status;
 }
 
 
@@ -117,37 +117,37 @@ void IcyWebAccess::connected()
 {
 	QString user_agent = QString("Sayonara/") + SAYONARA_VERSION;
 	QByteArray data(
-				"GET " + _m->concat_dir_and_filename().toLocal8Bit() + " HTTP/1.1\r\n"
+				"GET " + m->concat_dir_and_filename().toLocal8Bit() + " HTTP/1.1\r\n"
 				"User-Agent: " + user_agent.toLocal8Bit() + "\r\n"
 				"Connection: Keep-Alive\r\n"
 				"Accept-Encoding: gzip, deflate\r\n"
 				"Accept-Language: en-US,*\r\n"
 				"Host: " +
-				_m->hostname.toLocal8Bit() + ":" +
-				QString::number(_m->port).toLocal8Bit() + "\r\n\r\n"
+				m->hostname.toLocal8Bit() + ":" +
+				QString::number(m->port).toLocal8Bit() + "\r\n\r\n"
 	);
 
 	sp_log(Log::Develop, this) << data;
 
-	int64_t bytes_written = _m->tcp->write(data.data(), data.size());
+	int64_t bytes_written = m->tcp->write(data.data(), data.size());
 	if(bytes_written != data.size())
 	{
 		sp_log(Log::Warning, this) << "Could only write " << bytes_written << " bytes";
-		_m->status = IcyWebAccess::Status::WriteError;
+		m->status = IcyWebAccess::Status::WriteError;
 		emit sig_finished();
-		_m->close_tcp();
+		m->close_tcp();
 	}
 }
 
 void IcyWebAccess::disconnected()
 {
 	sp_log(Log::Develop, this) << "Disconnected";
-	if(_m->status == IcyWebAccess::Status::NotExecuted) {
-		_m->status = IcyWebAccess::Status::OtherError;
+	if(m->status == IcyWebAccess::Status::NotExecuted) {
+		m->status = IcyWebAccess::Status::OtherError;
 		emit sig_finished();
 	}
 
-	_m->close_tcp();
+	m->close_tcp();
 
 	sender()->deleteLater();
 }
@@ -156,27 +156,27 @@ void IcyWebAccess::error_received(QAbstractSocket::SocketError socket_state)
 {
 	Q_UNUSED(socket_state)
 
-	sp_log(Log::Warning, this) << "Icy Webaccess Error: " << _m->tcp->errorString();
+	sp_log(Log::Warning, this) << "Icy Webaccess Error: " << m->tcp->errorString();
 
-	_m->status = IcyWebAccess::Status::OtherError;
-	_m->close_tcp();
+	m->status = IcyWebAccess::Status::OtherError;
+	m->close_tcp();
 
 	emit sig_finished();
 }
 
 void IcyWebAccess::data_available()
 {
-	QByteArray arr = _m->tcp->read(20);
+	QByteArray arr = m->tcp->read(20);
 	if(arr.contains("ICY 200 OK")){
-		_m->status = IcyWebAccess::Status::Success;
+		m->status = IcyWebAccess::Status::Success;
 	}
 
 	else {
 		sp_log(Log::Warning, this) << "Icy Answer Error: " << arr;
-		_m->status = IcyWebAccess::Status::WrongAnswer;
+		m->status = IcyWebAccess::Status::WrongAnswer;
 	}
 
-	_m->close_tcp();
+	m->close_tcp();
 
 	emit sig_finished();
 }

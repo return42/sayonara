@@ -79,135 +79,135 @@ struct Library::DateFilter::Private
 
 Library::DateFilter::DateFilter(const QString& name)
 {
-	_m = Pimpl::make<Library::DateFilter::Private>(name);
+	m = Pimpl::make<Library::DateFilter::Private>(name);
 }
 
 Library::DateFilter::~DateFilter() {}
 
 Library::DateFilter::DateFilter(const DateFilter& other)
 {
-	_m = Pimpl::make<Library::DateFilter::Private>(other.name());
-	(*_m) = *(other._m);
+	m = Pimpl::make<Library::DateFilter::Private>(other.name());
+	(*m) = *(other.m);
 }
 
 void Library::DateFilter::operator=(const DateFilter& other)
 {
-	(*_m) = *(other._m);
+	(*m) = *(other.m);
 }
 
 bool Library::DateFilter::operator==(const Library::DateFilter& other) const
 {
 	return ((name() == other.name()) &&
-			(_m->span_from == other._m->span_from) &&
-			(_m->span_to == other._m->span_to) &&
-			(_m->valid == other._m->valid) &&
-			(_m->type == other._m->type));
+			(m->span_from == other.m->span_from) &&
+			(m->span_to == other.m->span_to) &&
+			(m->valid == other.m->valid) &&
+			(m->type == other.m->type));
 }
 
 QString Library::DateFilter::name() const
 {
-	return _m->name;
+	return m->name;
 }
 
 void Library::DateFilter::set_name(const QString& name)
 {
-	_m->name = name;
+	m->name = name;
 }
 
 bool Library::DateFilter::valid() const
 {
-	return _m->valid;
+	return m->valid;
 }
 
 void Library::DateFilter::clear()
 {
-	_m->clear();
+	m->clear();
 }
 
 
 Library::DateFilter::TimeSpanMap Library::DateFilter::time_span_map() const
 {
-	return _m->filter_map;
+	return m->filter_map;
 }
 
 Library::DateFilter::Type
 Library::DateFilter::type() const
 {
-	return _m->type;
+	return m->type;
 }
 
 void Library::DateFilter::set_between(Library::DateFilter::TimeSpan span_from, uint8_t value_from, Library::DateFilter::TimeSpan span_to, uint8_t value_to, Library::DateFilter::ChangeMode change_mode)
 {
-	_m->clear();
-	_m->span_from = Helper::date_to_int( substract_span(QDateTime::currentDateTime(), span_from, value_from) );
-	_m->span_to = Helper::date_to_int( substract_span(QDateTime::currentDateTime(), span_to, value_to) );
-	_m->change_mode = change_mode;
-	_m->valid = true;
-	_m->check_from_to();
-	_m->filter_map << QPair<Library::DateFilter::TimeSpan, uint8_t>(span_from, value_from);
-	_m->filter_map << QPair<Library::DateFilter::TimeSpan, uint8_t>(span_to, value_to);
-	_m->type = Library::DateFilter::Type::Between;
+	m->clear();
+	m->span_from = Helper::date_to_int( substract_span(QDateTime::currentDateTime(), span_from, value_from) );
+	m->span_to = Helper::date_to_int( substract_span(QDateTime::currentDateTime(), span_to, value_to) );
+	m->change_mode = change_mode;
+	m->valid = true;
+	m->check_from_to();
+	m->filter_map << QPair<Library::DateFilter::TimeSpan, uint8_t>(span_from, value_from);
+	m->filter_map << QPair<Library::DateFilter::TimeSpan, uint8_t>(span_to, value_to);
+	m->type = Library::DateFilter::Type::Between;
 }
 
 void Library::DateFilter::set_between(const QDateTime& from, const QDateTime& to, Library::DateFilter::ChangeMode change_mode)
 {
-	_m->clear();
-	_m->span_from = Helper::date_to_int(from);
-	_m->span_to = Helper::date_to_int(to);
-	_m->change_mode = change_mode;
-	_m->valid = true;
-	_m->check_from_to();
-	_m->type = Library::DateFilter::Type::Between;
+	m->clear();
+	m->span_from = Helper::date_to_int(from);
+	m->span_to = Helper::date_to_int(to);
+	m->change_mode = change_mode;
+	m->valid = true;
+	m->check_from_to();
+	m->type = Library::DateFilter::Type::Between;
 }
 
 void Library::DateFilter::set_older_than(Library::DateFilter::TimeSpan span, uint8_t value, Library::DateFilter::ChangeMode change_mode)
 {
-	_m->clear();
-	_m->span_from = 0;
-	_m->span_to = Helper::date_to_int( substract_span(QDateTime::currentDateTime(), span, value) );
-	_m->change_mode = change_mode;
-	_m->valid = true;
-	_m->filter_map << QPair<Library::DateFilter::TimeSpan, uint8_t>(span, value);
-	_m->type = Library::DateFilter::Type::OlderThan;
+	m->clear();
+	m->span_from = 0;
+	m->span_to = Helper::date_to_int( substract_span(QDateTime::currentDateTime(), span, value) );
+	m->change_mode = change_mode;
+	m->valid = true;
+	m->filter_map << QPair<Library::DateFilter::TimeSpan, uint8_t>(span, value);
+	m->type = Library::DateFilter::Type::OlderThan;
 }
 
 void Library::DateFilter::set_older_than(const QDateTime& date, Library::DateFilter::ChangeMode change_mode)
 {
-	_m->clear();
-	_m->span_from = 0;
-	_m->span_to = Helper::date_to_int(date);
-	_m->change_mode = change_mode;
-	_m->valid = true;
-	_m->type = Library::DateFilter::Type::OlderThan;
+	m->clear();
+	m->span_from = 0;
+	m->span_to = Helper::date_to_int(date);
+	m->change_mode = change_mode;
+	m->valid = true;
+	m->type = Library::DateFilter::Type::OlderThan;
 }
 
 
 void Library::DateFilter::set_newer_than(Library::DateFilter::TimeSpan span, uint8_t value, Library::DateFilter::ChangeMode change_mode)
 {
-	_m->clear();
-	_m->span_from = Helper::date_to_int( substract_span(QDateTime::currentDateTime(), span, value) );
-	_m->span_to = Helper::current_date_to_int();
-	_m->change_mode = change_mode;
-	_m->valid = true;
-	_m->filter_map << QPair<Library::DateFilter::TimeSpan, uint8_t>(span, value);
-	_m->type = Library::DateFilter::Type::NewerThan;
+	m->clear();
+	m->span_from = Helper::date_to_int( substract_span(QDateTime::currentDateTime(), span, value) );
+	m->span_to = Helper::current_date_to_int();
+	m->change_mode = change_mode;
+	m->valid = true;
+	m->filter_map << QPair<Library::DateFilter::TimeSpan, uint8_t>(span, value);
+	m->type = Library::DateFilter::Type::NewerThan;
 }
 
 
 void Library::DateFilter::set_newer_than(const QDateTime& date, Library::DateFilter::ChangeMode change_mode)
 {
-	_m->clear();
-	_m->span_from = Helper::date_to_int(date);
-	_m->span_to = Helper::current_date_to_int();
-	_m->change_mode = change_mode;
-	_m->valid = true;
-	_m->type = Library::DateFilter::Type::NewerThan;
+	m->clear();
+	m->span_from = Helper::date_to_int(date);
+	m->span_to = Helper::current_date_to_int();
+	m->change_mode = change_mode;
+	m->valid = true;
+	m->type = Library::DateFilter::Type::NewerThan;
 }
 
 
 QString Library::DateFilter::get_sql_filter(const QString& track_prefix) const
 {
-	if(!_m->valid){
+	if(!m->valid){
 		return QString();
 	}
 
@@ -215,8 +215,8 @@ QString Library::DateFilter::get_sql_filter(const QString& track_prefix) const
 	QStringList change_modes;
 	QStringList change_modes_results;
 
-	if( _m->change_mode == ChangeMode::Modified ||
-		_m->change_mode == ChangeMode::ModifiedOrCreated)
+	if( m->change_mode == ChangeMode::Modified ||
+		m->change_mode == ChangeMode::ModifiedOrCreated)
 	{
 		if(track_prefix.isEmpty()){
 			change_modes << "modifydate";
@@ -226,8 +226,8 @@ QString Library::DateFilter::get_sql_filter(const QString& track_prefix) const
 		}
 	}
 
-	if(_m->change_mode == ChangeMode::Created ||
-	   _m->change_mode == ChangeMode::ModifiedOrCreated)
+	if(m->change_mode == ChangeMode::Created ||
+	   m->change_mode == ChangeMode::ModifiedOrCreated)
 	{
 		if(track_prefix.isEmpty()){
 			change_modes << "createdate";
@@ -240,16 +240,16 @@ QString Library::DateFilter::get_sql_filter(const QString& track_prefix) const
 	for(const QString& change_mode : change_modes)
 	{
 		QString change_modes_result;
-		if(_m->span_from > 0){
-			change_modes_result = change_mode + " > " + QString::number(_m->span_from);
+		if(m->span_from > 0){
+			change_modes_result = change_mode + " > " + QString::number(m->span_from);
 		}
 
-		if(_m->span_from > 0 && _m->span_to > 0){
+		if(m->span_from > 0 && m->span_to > 0){
 			change_modes_result += " AND ";
 		}
 
-		if(_m->span_to > 0){
-			change_modes_result += change_mode + " < " + QString::number(_m->span_to);
+		if(m->span_to > 0){
+			change_modes_result += change_mode + " < " + QString::number(m->span_to);
 		}
 
 		change_modes_results << change_modes_result;

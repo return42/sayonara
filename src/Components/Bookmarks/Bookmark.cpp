@@ -30,46 +30,46 @@ struct Bookmark::Private
 
 Bookmark::Bookmark(uint32_t time)
 {
-	_m = Pimpl::make<Private>();
-	_m->time = time;
+	m = Pimpl::make<Private>();
+	m->time = time;
 }
 
 Bookmark::Bookmark(uint32_t time, const QString& name, bool valid) :
 	Bookmark(time)
 {
-	_m->name = name;
-	_m->valid = valid;
+	m->name = name;
+	m->valid = valid;
 }
 
 Bookmark::~Bookmark(){}
 
 
 Bookmark::Bookmark(const Bookmark& other) :
-	Bookmark(other._m->time, other._m->name, other._m->valid)
+	Bookmark(other.m->time, other.m->name, other.m->valid)
 {
 
 }
 
 Bookmark& Bookmark::operator=(const Bookmark& other)
 {
-	_m->time = other._m->time;
-	_m->name = other._m->name;
-	_m->valid = other._m->valid;
+	m->time = other.m->time;
+	m->name = other.m->name;
+	m->valid = other.m->valid;
 
 	return *this;
 }
 
 uint32_t Bookmark::get_time() const
 {
-	return _m->time;
+	return m->time;
 }
 
 QString Bookmark::get_name() const
 {
-	return _m->name;
+	return m->name;
 }
 
 bool Bookmark::is_valid() const
 {
-	return _m->valid;
+	return m->valid;
 }

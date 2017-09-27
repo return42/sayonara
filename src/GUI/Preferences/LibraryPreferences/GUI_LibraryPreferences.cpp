@@ -46,7 +46,7 @@ struct GUI_LibraryPreferences::Private
 GUI_LibraryPreferences::GUI_LibraryPreferences(QWidget* parent) :
 	PreferenceWidgetInterface(parent)
 {
-	_m = Pimpl::make<Private>();
+	m = Pimpl::make<Private>();
 }
 
 GUI_LibraryPreferences::~GUI_LibraryPreferences()
@@ -61,9 +61,9 @@ void GUI_LibraryPreferences::init_ui()
 {
 	setup_parent(this, &ui);
 
-	_m->model = new LibraryListModel(ui->lv_libs);
+	m->model = new LibraryListModel(ui->lv_libs);
 
-	ui->lv_libs->setModel(_m->model);
+	ui->lv_libs->setModel(m->model);
 	ui->lv_libs->setItemDelegate(new StyledItemDelegate(ui->lv_libs));
 
 	QItemSelectionModel* sel_model = ui->lv_libs->selectionModel();
@@ -110,7 +110,7 @@ void GUI_LibraryPreferences::commit()
 	_settings->set(Set::Lib_DD_PlayIfStoppedAndEmpty, ui->rb_dd_start_if_stopped_and_empty->isChecked());
 	_settings->set(Set::Lib_SearchMode, mask);
 
-	_m->model->commit();
+	m->model->commit();
 }
 
 void GUI_LibraryPreferences::revert()
@@ -127,7 +127,7 @@ void GUI_LibraryPreferences::revert()
 	ui->rb_dd_do_nothing->setChecked(_settings->get(Set::Lib_DD_DoNothing));
 	ui->rb_dd_start_if_stopped_and_empty->setChecked(_settings->get(Set::Lib_DD_PlayIfStoppedAndEmpty));
 
-	_m->model->reset();
+	m->model->reset();
 }
 
 void GUI_LibraryPreferences::retranslate_ui()
@@ -152,7 +152,7 @@ void GUI_LibraryPreferences::current_item_changed(int row)
 		return;
 	}
 
-	QString path = _m->model->all_paths()[row];
+	QString path = m->model->all_paths()[row];
 	ui->lab_current_path->setText(path);
 }
 
@@ -181,8 +181,8 @@ void GUI_LibraryPreferences::edit_clicked()
 		return;
 	}
 
-	QString name = _m->model->all_names()[cur_row];
-	QString path = _m->model->all_paths()[cur_row];
+	QString name = m->model->all_names()[cur_row];
+	QString path = m->model->all_paths()[cur_row];
 
 	GUI_EditLibrary* edit_dialog = new GUI_EditLibrary(name, path, this);
 
@@ -198,7 +198,7 @@ void GUI_LibraryPreferences::delete_clicked()
 		return;
 	}
 
-	_m->model->remove_row(idx.row());
+	m->model->remove_row(idx.row());
 }
 
 
@@ -206,16 +206,16 @@ void GUI_LibraryPreferences::up_clicked()
 {
 	int row = ui->lv_libs->currentIndex().row();
 
-	_m->model->move_row(row, row-1);
-	ui->lv_libs->setCurrentIndex(_m->model->index(row - 1));
+	m->model->move_row(row, row-1);
+	ui->lv_libs->setCurrentIndex(m->model->index(row - 1));
 }
 
 void GUI_LibraryPreferences::down_clicked()
 {
 	int row = ui->lv_libs->currentIndex().row();
 
-	_m->model->move_row(row, row+1);
-	ui->lv_libs->setCurrentIndex(_m->model->index(row + 1));
+	m->model->move_row(row, row+1);
+	ui->lv_libs->setCurrentIndex(m->model->index(row + 1));
 }
 
 
@@ -234,7 +234,7 @@ void GUI_LibraryPreferences::edit_dialog_accepted()
 		case GUI_EditLibrary::EditMode::New:
 		{
 			if(!name.isEmpty() && !path.isEmpty()) {
-				_m->model->append_row(name, path);
+				m->model->append_row(name, path);
 			}
 
 		} break;
@@ -243,13 +243,13 @@ void GUI_LibraryPreferences::edit_dialog_accepted()
 		{
 			if(!name.isEmpty()) {
 				if(edit_dialog->has_name_changed()){
-					_m->model->rename_row(current_row(), name);
+					m->model->rename_row(current_row(), name);
 				}
 			}
 
 			if(!path.isEmpty()) {
 				if(edit_dialog->has_path_changed())	{
-					_m->model->change_path(current_row(), path);
+					m->model->change_path(current_row(), path);
 				}
 			}
 

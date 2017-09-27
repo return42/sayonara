@@ -55,7 +55,7 @@ struct Lyrics::Private
 Lyrics::Lyrics(QObject* parent) :
 	QObject(parent)
 {
-	_m = Pimpl::make<Private>();
+	m = Pimpl::make<Private>();
 }
 
 Lyrics::~Lyrics() {}
@@ -66,7 +66,7 @@ bool Lyrics::fetch_lyrics(const QString& artist, const QString& title, int serve
 		return false;
 	}
 
-	if(server_index < 0 || server_index >= _m->servers.size()) {
+	if(server_index < 0 || server_index >= m->servers.size()) {
 		return false;
 	}
 
@@ -83,14 +83,14 @@ bool Lyrics::save_lyrics(const QString& plain_text)
 		return false;
 	}
 
-	if(_m->md.filepath().isEmpty()){
+	if(m->md.filepath().isEmpty()){
 		return false;
 	}
 
-	bool success = Tagging::write_lyrics(_m->md, plain_text);
+	bool success = Tagging::write_lyrics(m->md, plain_text);
 	if(success){
-		_m->is_valid = true;
-		_m->lyric_tag_content = plain_text;
+		m->is_valid = true;
+		m->lyric_tag_content = plain_text;
 	}
 
 	return success;
@@ -98,30 +98,30 @@ bool Lyrics::save_lyrics(const QString& plain_text)
 
 QStringList Lyrics::servers() const
 {
-	return _m->servers;
+	return m->servers;
 }
 
 void Lyrics::set_metadata(const MetaData& md)
 {
-	_m->md = md;
-	_m->guess_artist_and_title();
+	m->md = md;
+	m->guess_artist_and_title();
 
-	Tagging::extract_lyrics(md, _m->lyric_tag_content);
+	Tagging::extract_lyrics(md, m->lyric_tag_content);
 }
 
 QString Lyrics::artist() const
 {
-	return _m->artist;
+	return m->artist;
 }
 
 QString Lyrics::title() const
 {
-	return _m->title;
+	return m->title;
 }
 
 QString Lyrics::lyric_header() const
 {
-	return _m->lyric_header;
+	return m->lyric_header;
 }
 
 QString Lyrics::local_lyric_header() const
@@ -131,13 +131,13 @@ QString Lyrics::local_lyric_header() const
 
 QString Lyrics::lyrics() const
 {
-	return _m->lyrics.trimmed();
+	return m->lyrics.trimmed();
 }
 
 QString Lyrics::local_lyrics() const
 {
 	if(is_lyric_tag_available()){
-		return _m->lyric_tag_content.trimmed();
+		return m->lyric_tag_content.trimmed();
 	}
 
 	return QString();
@@ -145,26 +145,26 @@ QString Lyrics::local_lyrics() const
 
 bool Lyrics::is_lyric_valid() const
 {
-	return _m->is_valid;
+	return m->is_valid;
 }
 
 bool Lyrics::is_lyric_tag_available() const
 {
-	return (!_m->lyric_tag_content.isEmpty());
+	return (!m->lyric_tag_content.isEmpty());
 }
 
 bool Lyrics::is_lyric_tag_supported() const
 {
-	return Tagging::is_lyrics_supported(_m->md.filepath());
+	return Tagging::is_lyrics_supported(m->md.filepath());
 }
 
 void Lyrics::lyrics_fetched()
 {
 	LyricLookupThread* lyric_thread = static_cast<LyricLookupThread*>(sender());
 
-	_m->lyrics = lyric_thread->lyric_data();
-	_m->lyric_header = lyric_thread->lyric_header();
-	_m->is_valid = (!lyric_thread->has_error());
+	m->lyrics = lyric_thread->lyric_data();
+	m->lyric_header = lyric_thread->lyric_header();
+	m->is_valid = (!lyric_thread->has_error());
 
 	lyric_thread->deleteLater();
 

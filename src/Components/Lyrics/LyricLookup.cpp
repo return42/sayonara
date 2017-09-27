@@ -61,26 +61,26 @@ struct LyricLookupThread::Private
 LyricLookupThread::LyricLookupThread(QObject* parent) :
 	QObject(parent)
 {
-	_m = Pimpl::make<LyricLookupThread::Private>();
+	m = Pimpl::make<LyricLookupThread::Private>();
 
 	init_server_list();
 
-	_m->cur_server = 0;
-	_m->final_wp.clear();
+	m->cur_server = 0;
+	m->final_wp.clear();
 
-	_m->regex_conversions.insert("$", "\\$");
-	_m->regex_conversions.insert("*", "\\*");
-	_m->regex_conversions.insert("+", "\\+");
-	_m->regex_conversions.insert("?", "\\?");
-	_m->regex_conversions.insert("[", "\\[");
-	_m->regex_conversions.insert("]", "\\]");
-	_m->regex_conversions.insert("(", "\\(");
-	_m->regex_conversions.insert(")", "\\)");
-	_m->regex_conversions.insert("{", "\\{");
-	_m->regex_conversions.insert("}", "\\}");
-	_m->regex_conversions.insert("^", "\\^");
-	_m->regex_conversions.insert("|", "\\|");
-	_m->regex_conversions.insert(".", "\\.");
+	m->regex_conversions.insert("$", "\\$");
+	m->regex_conversions.insert("*", "\\*");
+	m->regex_conversions.insert("+", "\\+");
+	m->regex_conversions.insert("?", "\\?");
+	m->regex_conversions.insert("[", "\\[");
+	m->regex_conversions.insert("]", "\\]");
+	m->regex_conversions.insert("(", "\\(");
+	m->regex_conversions.insert(")", "\\)");
+	m->regex_conversions.insert("{", "\\{");
+	m->regex_conversions.insert("}", "\\}");
+	m->regex_conversions.insert("^", "\\^");
+	m->regex_conversions.insert("|", "\\|");
+	m->regex_conversions.insert(".", "\\.");
 }
 
 LyricLookupThread::~LyricLookupThread() {}
@@ -89,8 +89,8 @@ QString LyricLookupThread::convert_to_regex(const QString& str) const
 {
 	QString ret = str;
 
-	for(QString key : _m->regex_conversions.keys()){
-		ret.replace(key, _m->regex_conversions.value(key));
+	for(QString key : m->regex_conversions.keys()){
+		ret.replace(key, m->regex_conversions.value(key));
 	}
 
 	ret.replace(" ", "\\s+");
@@ -100,11 +100,11 @@ QString LyricLookupThread::convert_to_regex(const QString& str) const
 
 QString LyricLookupThread::calc_server_url(QString artist, QString song)
 {
-	if(_m->cur_server < 0 || _m->cur_server >= _m->server_list.size()){
+	if(m->cur_server < 0 || m->cur_server >= m->server_list.size()){
 		return "";
 	}
 
-	QMap<QString, QString> replacements = _m->server_list[_m->cur_server].replacements;
+	QMap<QString, QString> replacements = m->server_list[m->cur_server].replacements;
 
 	for(QString key : replacements.keys()) {
 		while(artist.indexOf(key) >= 0){
@@ -116,13 +116,13 @@ QString LyricLookupThread::calc_server_url(QString artist, QString song)
 		}
 	}
 
-	QString url = _m->server_list[_m->cur_server].call_policy;
-	url.replace("<SERVER>", _m->server_list[_m->cur_server].server_address);
+	QString url = m->server_list[m->cur_server].call_policy;
+	url.replace("<SERVER>", m->server_list[m->cur_server].server_address);
 	url.replace("<FIRST_ARTIST_LETTER>", QString(artist[0]).trimmed());
 	url.replace("<ARTIST>", artist.trimmed());
 	url.replace("<TITLE>", song.trimmed());
 
-	if(_m->server_list[_m->cur_server].to_lower){
+	if(m->server_list[m->cur_server].to_lower){
 		return url.toLower();
 	}
 
@@ -132,26 +132,26 @@ QString LyricLookupThread::calc_server_url(QString artist, QString song)
 
 void LyricLookupThread::run(const QString& artist, const QString& title, int server_idx)
 {
-	_m->artist = artist;
-	_m->title = title;
+	m->artist = artist;
+	m->title = title;
 
-	_m->cur_server = std::max(0, server_idx);
-	_m->cur_server = std::min(server_idx, _m->server_list.size() - 1);
+	m->cur_server = std::max(0, server_idx);
+	m->cur_server = std::min(server_idx, m->server_list.size() - 1);
 
-	if(_m->artist.isEmpty() && _m->title.isEmpty()) {
-		_m->final_wp = "No track selected";
+	if(m->artist.isEmpty() && m->title.isEmpty()) {
+		m->final_wp = "No track selected";
 		return;
 	}
 
-	_m->final_wp.clear();
+	m->final_wp.clear();
 
-	QString url = this->calc_server_url(_m->artist, _m->title);
+	QString url = this->calc_server_url(m->artist, m->title);
 
 	stop();
-	_m->current_awa = new AsyncWebAccess(this);
-	connect(_m->current_awa, &AsyncWebAccess::sig_finished, this, &LyricLookupThread::content_fetched);
+	m->current_awa = new AsyncWebAccess(this);
+	connect(m->current_awa, &AsyncWebAccess::sig_finished, this, &LyricLookupThread::content_fetched);
 
-	_m->current_awa->run(url);
+	m->current_awa->run(url);
 }
 
 
@@ -159,50 +159,50 @@ void LyricLookupThread::content_fetched()
 {
 	AsyncWebAccess* awa = static_cast<AsyncWebAccess*>(sender());
 	QString url = awa->url();
-	_m->current_awa = nullptr;
+	m->current_awa = nullptr;
 
-	_m->lyric_header =
-			"<b>" + _m->artist + " - " +  _m->title + " </b><br />" +
-			_m->server_list[_m->cur_server].display_str + ": " + url;
+	m->lyric_header =
+			"<b>" + m->artist + " - " +  m->title + " </b><br />" +
+			m->server_list[m->cur_server].display_str + ": " + url;
 
 
 	if(!awa->has_data() || awa->has_error())
 	{
-		_m->final_wp = tr("Sorry, could not fetch lyrics from %1").arg(awa->url());
-		_m->has_error = true;
+		m->final_wp = tr("Sorry, could not fetch lyrics from %1").arg(awa->url());
+		m->has_error = true;
 		emit sig_finished();
 		return;
 	}
 
-	_m->final_wp = parse_webpage(awa->data(), _m->server_list[_m->cur_server]);
+	m->final_wp = parse_webpage(awa->data(), m->server_list[m->cur_server]);
 
-	if ( _m->final_wp.isEmpty() )
+	if ( m->final_wp.isEmpty() )
 	{
-		_m->final_wp = tr("Sorry, no lyrics found") + "<br />" + url;
-		_m->has_error = true;
+		m->final_wp = tr("Sorry, no lyrics found") + "<br />" + url;
+		m->has_error = true;
 
 		emit sig_finished();
 
 		return;
 	}
 
-	_m->has_error = false;
+	m->has_error = false;
 	emit sig_finished();
 }
 
 void LyricLookupThread::stop()
 {
-	if(_m->current_awa){
-		disconnect(_m->current_awa, &AsyncWebAccess::sig_finished,
+	if(m->current_awa){
+		disconnect(m->current_awa, &AsyncWebAccess::sig_finished,
 				   this, &LyricLookupThread::content_fetched);
 
-		_m->current_awa->stop();
+		m->current_awa->stop();
 	}
 }
 
 bool LyricLookupThread::has_error() const
 {
-	return _m->has_error;
+	return m->has_error;
 }
 
 void LyricLookupThread::init_server_list()
@@ -340,17 +340,17 @@ void LyricLookupThread::init_server_list()
 	musixmatch.to_lower = false;
 	musixmatch.error = "404 Not Found";
 
-	_m->server_list.push_back(wikia);
-	_m->server_list.push_back(musixmatch);
-	_m->server_list.push_back(metrolyrics);
-	_m->server_list.push_back(oldieLyrics);
-	_m->server_list.push_back(lyricskeeper);
-	_m->server_list.push_back(elyrics);
-	_m->server_list.push_back(golyr);
+	m->server_list.push_back(wikia);
+	m->server_list.push_back(musixmatch);
+	m->server_list.push_back(metrolyrics);
+	m->server_list.push_back(oldieLyrics);
+	m->server_list.push_back(lyricskeeper);
+	m->server_list.push_back(elyrics);
+	m->server_list.push_back(golyr);
 
 
 	/*sp_log(Log::Info) << "Servers: [";
-	for(const ServerTemplate& t : _m->server_list){
+	for(const ServerTemplate& t : m->server_list){
 		t.print_json();
 		sp_log(Log::Info) << ",";
 	}
@@ -361,7 +361,7 @@ void LyricLookupThread::init_server_list()
 QStringList LyricLookupThread::servers() const
 {
 	QStringList lst;
-	for(const ServerTemplate& t : _m->server_list) {
+	for(const ServerTemplate& t : m->server_list) {
 		lst << t.display_str;
 	}
 
@@ -370,12 +370,12 @@ QStringList LyricLookupThread::servers() const
 
 QString LyricLookupThread::lyric_header() const
 {
-	return _m->lyric_header;
+	return m->lyric_header;
 }
 
 QString LyricLookupThread::lyric_data() const
 {
-	return _m->final_wp;
+	return m->final_wp;
 }
 
 

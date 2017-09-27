@@ -67,7 +67,7 @@ StreamRecorder::StreamRecorder(QObject *parent) :
 	QObject(parent),
 	SayonaraClass()
 {
-	_m = Pimpl::make<StreamRecorder::Private>();
+	m = Pimpl::make<StreamRecorder::Private>();
 
 	clear();
 
@@ -93,17 +93,17 @@ StreamRecorder::~StreamRecorder() {}
 
 void StreamRecorder::clear()
 {
-	_m->md.title = "";
-	_m->session_path = get_time_str();
-	_m->session_collector.clear();
-	_m->sr_recording_dst = "";
-	_m->cur_idx = 1;
+	m->md.title = "";
+	m->session_path = get_time_str();
+	m->session_collector.clear();
+	m->sr_recording_dst = "";
+	m->cur_idx = 1;
 }
 
 void StreamRecorder::new_session()
 {
 	clear();
-	sp_log(Log::Info) << "New session: " << _m->session_path;
+	sp_log(Log::Info) << "New session: " << m->session_path;
 }
 
 
@@ -113,31 +113,31 @@ QString StreamRecorder::change_track(const MetaData& md)
 	QString session_path;
 	QString title;
 
-	if(!_m->recording){
+	if(!m->recording){
 		return "";
 	}
 
-	if(md.title == _m->md.title) {
-		return _m->sr_recording_dst;
+	if(md.title == m->md.title) {
+		return m->sr_recording_dst;
 	}
 
 	bool saved = save();
 	if(saved){
-		_m->cur_idx++;
+		m->cur_idx++;
 	}
 
 	if(!Helper::File::is_www(md.filepath())) {
-		_m->recording = false;
-		_m->sr_recording_dst = "";
+		m->recording = false;
+		m->sr_recording_dst = "";
 		return "";
 	}
 	
-	_m->md = md;
-	_m->md.year = QDateTime::currentDateTime().date().year();
-	_m->md.track_num = _m->cur_idx;
+	m->md = md;
+	m->md.year = QDateTime::currentDateTime().date().year();
+	m->md.track_num = m->cur_idx;
 	
 	title = QString("%1 - %2 - %3")
-			.arg(_m->cur_idx, 3, 10, QLatin1Char('0'))
+			.arg(m->cur_idx, 3, 10, QLatin1Char('0'))
 			.arg(md.artist)
 			.arg(md.title);
 
@@ -149,39 +149,39 @@ QString StreamRecorder::change_track(const MetaData& md)
 	session_path = check_session_path(sr_path);
 
 	if(session_path.isEmpty()){
-		_m->sr_recording_dst = "";
-		_m->session_playlist_name = "";
-		_m->recording = false;
+		m->sr_recording_dst = "";
+		m->session_playlist_name = "";
+		m->recording = false;
 	}
 
 	else{
-		_m->session_playlist_name = session_path + "/playlist.m3u";
-		_m->sr_recording_dst = session_path + "/" + title + ".mp3";
+		m->session_playlist_name = session_path + "/playlist.m3u";
+		m->sr_recording_dst = session_path + "/" + title + ".mp3";
 	}
 
-	return _m->sr_recording_dst;
+	return m->sr_recording_dst;
 }
 
 
 bool  StreamRecorder::save()
 {
-	if(!QFile::exists(_m->sr_recording_dst)){
+	if(!QFile::exists(m->sr_recording_dst)){
         return false;
     }
 
-	QFileInfo file_info(_m->sr_recording_dst);
+	QFileInfo file_info(m->sr_recording_dst);
 	if(file_info.size() < 20000){
 		return false;
 	}
 
-	sp_log(Log::Info) << "Finalize file " << _m->sr_recording_dst;
+	sp_log(Log::Info) << "Finalize file " << m->sr_recording_dst;
 
-	_m->md.set_filepath(_m->sr_recording_dst);
+	m->md.set_filepath(m->sr_recording_dst);
 
-	Tagging::setMetaDataOfFile(_m->md);
-	_m->session_collector.push_back(_m->md);
+	Tagging::setMetaDataOfFile(m->md);
+	m->session_collector.push_back(m->md);
 
-	PlaylistParser::save_playlist(_m->session_playlist_name, _m->session_collector, true);
+	PlaylistParser::save_playlist(m->session_playlist_name, m->session_collector, true);
 	
     return true;
 }
@@ -195,7 +195,7 @@ QString StreamRecorder::check_session_path(const QString& sr_path)
 		return sr_path;
 	}
 
-	QString recording_dst = Helper::File::clean_filename(sr_path + "/" + _m->session_path);
+	QString recording_dst = Helper::File::clean_filename(sr_path + "/" + m->session_path);
     if(!QFile::exists(recording_dst)) {
 		Helper::File::create_directories(recording_dst);
     }
@@ -211,7 +211,7 @@ QString StreamRecorder::check_session_path(const QString& sr_path)
 
 void StreamRecorder::record(bool b)
 {
-	if(b == _m->recording) {
+	if(b == m->recording) {
 		return;
 	}
 
@@ -226,19 +226,19 @@ void StreamRecorder::record(bool b)
 		clear();
     }
 
-	_m->recording = b;
+	m->recording = b;
 }
 
 
 bool StreamRecorder::is_recording() const
 {
-	return _m->recording;
+	return m->recording;
 }
 
 
 void StreamRecorder::playstate_changed(PlayState state){
 	if(state == PlayState::Stopped){
-		if(_m->recording){
+		if(m->recording){
 			save();
 			clear();
 		}

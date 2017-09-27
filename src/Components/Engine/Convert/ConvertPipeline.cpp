@@ -86,7 +86,7 @@ bool ConvertPipeline::add_and_link_elements()
 
 bool ConvertPipeline::configure_elements()
 {
-	g_signal_connect (_audio_src, "pad-added", G_CALLBACK (PipelineCallbacks::pad_added_handler), _audio_convert);
+	g_signal_connect (_audio_src, "pad-added", G_CALLBACK (PipelineCallbacks::decodebin_ready), _audio_convert);
 	return true;
 }
 

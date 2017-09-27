@@ -46,8 +46,8 @@ struct CopyThread::Private
 CopyThread::CopyThread(const QString& target_dir, ImportCachePtr cache, QObject *parent) :
 	QThread(parent)
 {
-	_m = Pimpl::make<CopyThread::Private>(cache);
-	_m->target_dir = target_dir;
+	m = Pimpl::make<CopyThread::Private>(cache);
+	m->target_dir = target_dir;
 
 	clear();
 }
@@ -56,21 +56,21 @@ CopyThread::~CopyThread() {}
 
 void CopyThread::clear()
 {
-	_m->v_md.clear();
-	_m->copied_files = 0;
-	_m->lst_copied_files.clear();
-	_m->mode = Mode::Copy;
-	_m->percent = 0;
-	_m->cancelled = false;
+	m->v_md.clear();
+	m->copied_files = 0;
+	m->lst_copied_files.clear();
+	m->mode = Mode::Copy;
+	m->percent = 0;
+	m->cancelled = false;
 }
 
 
 void CopyThread::emit_percent(int i, int n)
 {
 	int percent = (i * 100000) / n;
-	_m->percent = percent / 1000;
+	m->percent = percent / 1000;
 
-	emit sig_progress(_m->percent);
+	emit sig_progress(m->percent);
 }
 
 
@@ -78,17 +78,17 @@ void CopyThread::copy()
 {
 	clear();
 
-	QStringList files = _m->cache->get_files();
+	QStringList files = m->cache->get_files();
 
 	for(const QString& filename : files){
-		if(_m->cancelled){
+		if(m->cancelled){
 			return;
 		}
 
 		bool success;
 		QString target_filename, target_dir;
 
-		target_filename = _m->cache->get_target_filename(filename, _m->target_dir);
+		target_filename = m->cache->get_target_filename(filename, m->target_dir);
 		if(target_filename.isEmpty()){
 			continue;
 		}
@@ -109,48 +109,48 @@ void CopyThread::copy()
 			continue;
 		}
 
-		MetaData md = _m->cache->get_metadata(filename);
+		MetaData md = m->cache->get_metadata(filename);
 
 		if(!md.filepath().isEmpty()){
 			sp_log(Log::Debug, this) << "Set new filename: " << target_filename;
 			md.set_filepath(target_filename);
-			_m->v_md << md;
+			m->v_md << md;
 		}
 
-		_m->lst_copied_files << target_filename;
-		_m->copied_files++;
+		m->lst_copied_files << target_filename;
+		m->copied_files++;
 
-		emit_percent(_m->copied_files, files.size());
+		emit_percent(m->copied_files, files.size());
 	}
 }
 
 void CopyThread::rollback()
 {
-	int n_operations = _m->lst_copied_files.size();
+	int n_operations = m->lst_copied_files.size();
     int n_ops_todo = n_operations;
 
-	for(const QString& f : _m->lst_copied_files) {
+	for(const QString& f : m->lst_copied_files) {
         QFile file(f);
         file.remove();
-		int percent = ((n_ops_todo--) * (_m->percent * 1000)) / (n_operations);
+		int percent = ((n_ops_todo--) * (m->percent * 1000)) / (n_operations);
 
         emit sig_progress(percent/ 1000);
     }
 
-	_m->percent = 0;
-	_m->copied_files = 0;
-	_m->lst_copied_files.clear();
+	m->percent = 0;
+	m->copied_files = 0;
+	m->lst_copied_files.clear();
 }
 
 
 void CopyThread::run()
 {
-	_m->cancelled = false;
-	if(_m->mode == Mode::Copy){
+	m->cancelled = false;
+	if(m->mode == Mode::Copy){
 		copy();
 	}
 
-	else if(_m->mode == Mode::Rollback){
+	else if(m->mode == Mode::Rollback){
 		rollback();
 	}
 }
@@ -158,28 +158,28 @@ void CopyThread::run()
 
 void CopyThread::cancel()
 {
-	_m->cancelled = true;
+	m->cancelled = true;
 }
 
 MetaDataList CopyThread::get_copied_metadata() const
 {
-	return _m->v_md;
+	return m->v_md;
 }
 
 bool CopyThread::was_cancelled() const
 {
-	return _m->cancelled;
+	return m->cancelled;
 }
 
 
 int CopyThread::get_n_copied_files() const
 {
-	return _m->copied_files;
+	return m->copied_files;
 }
 
 
 void CopyThread::set_mode(CopyThread::Mode mode)
 {
-	_m->mode = mode;
+	m->mode = mode;
 }
 

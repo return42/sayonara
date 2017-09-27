@@ -21,8 +21,6 @@
 #ifndef GSTPLAYBACKPIPELINE_H_
 #define GSTPLAYBACKPIPELINE_H_
 
-#include <gst/app/gstappsink.h>
-
 #include "ChangeablePipeline.h"
 #include "CrossFader.h"
 #include "Components/Engine/AbstractPipeline.h"

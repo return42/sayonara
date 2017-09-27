@@ -47,10 +47,10 @@ struct DatabaseTracks::Private
 DatabaseTracks::DatabaseTracks(const QSqlDatabase& db, uint8_t db_id, int8_t library_id) :
 	DatabaseSearchMode(db, db_id)
 {
-	_m = Pimpl::make<Private>();
+	m = Pimpl::make<Private>();
 
-	_m->artistid_field = "artistID";
-	_m->library_id = library_id;
+	m->artistid_field = "artistID";
+	m->library_id = library_id;
 
 	check_track_view(library_id);
 }
@@ -61,13 +61,13 @@ DatabaseTracks::~DatabaseTracks() {}
 void DatabaseTracks::check_track_view(int8_t library_id)
 {
 	if(library_id < 0) {
-		_m->track_view_name = QString("tracks");
-		_m->track_search_view_name = QString("track_search_view");
+		m->track_view_name = QString("tracks");
+		m->track_search_view_name = QString("track_search_view");
 	}
 
 	else {
-		_m->track_view_name = QString("track_view_%1").arg(library_id);
-		_m->track_search_view_name = QString("track_search_view_%1").arg(library_id);
+		m->track_view_name = QString("track_view_%1").arg(library_id);
+		m->track_search_view_name = QString("track_search_view_%1").arg(library_id);
 	}
 
 	QString select = "SELECT "
@@ -94,7 +94,7 @@ void DatabaseTracks::check_track_view(int8_t library_id)
 					"CREATE "
 					"VIEW "
 					"IF NOT EXISTS "
-					+ _m->track_view_name + " "
+					+ m->track_view_name + " "
 					"AS " + select + " "
 					"FROM tracks "
 	;
@@ -103,7 +103,7 @@ void DatabaseTracks::check_track_view(int8_t library_id)
 			"CREATE "
 			"VIEW "
 			"IF NOT EXISTS "
-			+ _m->track_search_view_name + " "
+			+ m->track_search_view_name + " "
 			"AS "
 			+ select + ", "
 			"albums.name AS albumName, "				// 17
@@ -117,9 +117,9 @@ void DatabaseTracks::check_track_view(int8_t library_id)
 			"LEFT OUTER JOIN artists albumArtists ON tracks.albumArtistID = albumArtists.artistID ";
 	;
 
-	if(_m->library_id >= 0){
-		view_query += "WHERE libraryID=" + QString::number(_m->library_id) + "; ";
-		search_view_query += "WHERE libraryID=" + QString::number(_m->library_id) + "; ";
+	if(m->library_id >= 0){
+		view_query += "WHERE libraryID=" + QString::number(m->library_id) + "; ";
+		search_view_query += "WHERE libraryID=" + QString::number(m->library_id) + "; ";
 	}
 
 	SayonaraQuery view_q(this);
@@ -143,7 +143,7 @@ void DatabaseTracks::check_track_view(int8_t library_id)
 
 QString DatabaseTracks::fetch_query_tracks() const
 {
-	return "SELECT * FROM " + _m->track_search_view_name + " ";
+	return "SELECT * FROM " + m->track_search_view_name + " ";
 }
 
 
@@ -346,7 +346,7 @@ bool DatabaseTracks::getAllTracksByAlbum(IDList albums, MetaDataList& returndata
 		switch( filter.mode() )
 		{
 			case Library::Filter::Date:
-				querytext += "WHERE " + filter.date_filter().get_sql_filter(_m->track_view_name) + " AND ";
+				querytext += "WHERE " + filter.date_filter().get_sql_filter(m->track_view_name) + " AND ";
 				break;
 
 			case Library::Filter::Genre:
@@ -369,7 +369,7 @@ bool DatabaseTracks::getAllTracksByAlbum(IDList albums, MetaDataList& returndata
 	}
 
 	if(albums.size() > 0) {
-		QString album_id_field = _m->track_search_view_name + ".albumID ";
+		QString album_id_field = m->track_search_view_name + ".albumID ";
 		querytext += " (" + album_id_field + "=:albumid_0 ";
 		for(int i=1; i<albums.size(); i++) {
 			querytext += "OR " + album_id_field + "=:albumid_" + QString::number(i) + " ";
@@ -459,7 +459,7 @@ bool DatabaseTracks::getAllTracksByArtist(IDList artists, MetaDataList& returnda
 
 	if(artists.size() > 0)
 	{
-		QString artist_id_field = _m->track_search_view_name + "." + _m->artistid_field;
+		QString artist_id_field = m->track_search_view_name + "." + m->artistid_field;
 		querytext += " (" + artist_id_field + "=:artist_id_0 ";
 		for(int i=1; i<artists.size(); i++) {
 			querytext += "OR " + artist_id_field + "=:artist_id_" + QString::number(i) + " ";
@@ -584,7 +584,7 @@ bool DatabaseTracks::deleteInvalidTracks(const QString& library_path)
 	MetaDataList v_md_update;
 
 	SayonaraQuery q(this);
-	DatabaseLibrary db_library(module_db(), module_db_id(), _m->library_id);
+	DatabaseLibrary db_library(module_db(), module_db_id(), m->library_id);
 
 	if(!getAllTracks(v_md)){
 		sp_log(Log::Error) << "Cannot get tracks from db";
@@ -634,7 +634,7 @@ QStringList DatabaseTracks::getAllGenres()
 
 	SayonaraQuery q(this);
 
-	querystring = "SELECT genre FROM " + _m->track_view_name + " GROUP BY genre;";
+	querystring = "SELECT genre FROM " + m->track_view_name + " GROUP BY genre;";
 	q.prepare(querystring);
 
 	success = q.exec();
@@ -683,15 +683,15 @@ void DatabaseTracks::updateTrackCissearch()
 
 void DatabaseTracks::deleteAllTracks()
 {
-	if(_m->library_id >= 0)
+	if(m->library_id >= 0)
 	{
 		SayonaraQuery q(this);
-		q.prepare("DROP VIEW " + _m->track_search_view_name + ";");
+		q.prepare("DROP VIEW " + m->track_search_view_name + ";");
 		//q.exec();
 
 		SayonaraQuery q2(this);
 		q2.prepare("DELETE FROM tracks WHERE libraryId=:library_id;");
-		q2.bindValue(":library_id", _m->library_id);
+		q2.bindValue(":library_id", m->library_id);
 		q2.exec();
 	}
 }
@@ -877,10 +877,10 @@ bool DatabaseTracks::updateTrackDates()
 
 void DatabaseTracks::change_artistid_field(const QString& field)
 {
-	_m->artistid_field = field;
+	m->artistid_field = field;
 }
 
 void DatabaseTracks::change_track_lookup_field(const QString& track_lookup_field)
 {
-	_m->track_search_view_name = track_lookup_field;
+	m->track_search_view_name = track_lookup_field;
 }

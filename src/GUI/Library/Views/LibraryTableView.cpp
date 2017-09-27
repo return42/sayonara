@@ -46,7 +46,7 @@ struct LibraryTableView::Private
 LibraryTableView::LibraryTableView(QWidget* parent) :
 	LibraryView(parent)
 {
-	_m = Pimpl::make<Private>();
+	m = Pimpl::make<Private>();
 
 	HeaderView* header = new HeaderView(Qt::Horizontal, this);
 	this->setHorizontalHeader(header);
@@ -111,9 +111,9 @@ void LibraryTableView::sort_by_column(int column_idx)
 	asc_sortorder = h->get_asc_sortorder();
 	desc_sortorder = h->get_desc_sortorder();
 
-	switch_sorters( _m->sort_order, asc_sortorder, desc_sortorder );
+	switch_sorters( m->sort_order, asc_sortorder, desc_sortorder );
 
-	emit sig_sortorder_changed(_m->sort_order);
+	emit sig_sortorder_changed(m->sort_order);
 }
 
 

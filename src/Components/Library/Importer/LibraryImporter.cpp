@@ -58,7 +58,7 @@ struct LibraryImporter::Private
 LibraryImporter::LibraryImporter(LocalLibrary* library) :
 	QObject(library)
 {
-	_m = Pimpl::make<Private>(library);
+	m = Pimpl::make<Private>(library);
 
 	MetaDataChangeNotifier* md_change_notifier = MetaDataChangeNotifier::getInstance();
 	connect(md_change_notifier, &MetaDataChangeNotifier::sig_metadata_changed,
@@ -72,15 +72,15 @@ void LibraryImporter::import_files(const QStringList& files)
 {
 	emit_status(ImportStatus::Caching);
 
-	CachingThread* thread = new CachingThread(files, _m->library->library_path());
+	CachingThread* thread = new CachingThread(files, m->library->library_path());
 	connect(thread, &CachingThread::finished, this, &LibraryImporter::caching_thread_finished);
 	connect(thread, &CachingThread::sig_progress, this, &LibraryImporter::sig_progress);
 	connect(thread, &CachingThread::destroyed, [=]()
 	{
-		_m->cache_thread = nullptr;
+		m->cache_thread = nullptr;
 	});
 
-	_m->cache_thread = thread;
+	m->cache_thread = thread;
 	thread->start();
 }
 
@@ -91,13 +91,13 @@ void LibraryImporter::caching_thread_finished()
 	CachingThread* thread = static_cast<CachingThread*>(sender());
 	MetaDataList v_md;
 
-	_m->import_cache = thread->cache();
-	if(!_m->import_cache){
+	m->import_cache = thread->cache();
+	if(!m->import_cache){
 		emit_status(ImportStatus::NoTracks);
 	}
 
 	else {
-		v_md = _m->import_cache->get_soundfiles();
+		v_md = m->import_cache->get_soundfiles();
 	}
 
 	if(v_md.isEmpty() || thread->is_cancelled()){
@@ -119,16 +119,16 @@ void  LibraryImporter::accept_import(const QString& target_dir)
 {
 	emit_status(ImportStatus::Importing);
 
-	CopyThread* copy_thread = new CopyThread(target_dir, _m->import_cache, this);
+	CopyThread* copy_thread = new CopyThread(target_dir, m->import_cache, this);
 
 	connect(copy_thread, &CopyThread::sig_progress, this, &LibraryImporter::sig_progress);
 	connect(copy_thread, &CopyThread::finished, this, &LibraryImporter::copy_thread_finished);
 	connect(copy_thread, &CachingThread::destroyed, [=]()
 	{
-		_m->copy_thread = nullptr;
+		m->copy_thread = nullptr;
 	});
 
-	_m->copy_thread = copy_thread;
+	m->copy_thread = copy_thread;
 	copy_thread->start();
 }
 
@@ -149,7 +149,7 @@ void LibraryImporter::copy_thread_finished()
 	}
 
 	// copy was cancelled
-	sp_log(Log::Debug, this) << "Copy folder thread finished " << _m->copy_thread->was_cancelled();
+	sp_log(Log::Debug, this) << "Copy folder thread finished " << m->copy_thread->was_cancelled();
 	if(copy_thread->was_cancelled()) {
 		copy_thread->set_mode(CopyThread::Mode::Rollback);
 		copy_thread->start();
@@ -159,15 +159,15 @@ void LibraryImporter::copy_thread_finished()
 	}
 
 	// store to db
-	LibraryDatabase* lib_db = _m->db->library_db(_m->library->library_id(), 0);
+	LibraryDatabase* lib_db = m->db->library_db(m->library->library_id(), 0);
 	bool success = lib_db->storeMetadata(v_md);
 	int n_files_copied = copy_thread->get_n_copied_files();
-	int n_files_to_copy = _m->import_cache->get_files().size();
+	int n_files_to_copy = m->import_cache->get_files().size();
 
 	// error and success messages
 	if(success)
 	{
-		_m->db->clean_up();
+		m->db->clean_up();
 
 		QString str = "";
 		if(n_files_to_copy == n_files_copied) {
@@ -198,8 +198,8 @@ void LibraryImporter::copy_thread_finished()
 
 void LibraryImporter::metadata_changed(const MetaDataList& old_md, const MetaDataList& new_md)
 {
-	if(_m->cache_thread){
-		_m->cache_thread->change_metadata(old_md, new_md);
+	if(m->cache_thread){
+		m->cache_thread->change_metadata(old_md, new_md);
 	}
 }
 
@@ -209,22 +209,22 @@ void LibraryImporter::cancel_import()
 {
 	emit_status(ImportStatus::Cancelled);
 
-	if(_m->cache_thread && _m->cache_thread->isRunning()){
-		_m->cache_thread->cancel();
+	if(m->cache_thread && m->cache_thread->isRunning()){
+		m->cache_thread->cancel();
 	}
 
-	else if(_m->copy_thread && _m->copy_thread->isRunning()){
-		_m->copy_thread->cancel();
+	else if(m->copy_thread && m->copy_thread->isRunning()){
+		m->copy_thread->cancel();
 	}
 }
 
 void LibraryImporter::emit_status(LibraryImporter::ImportStatus status)
 {
-	_m->status = status;
-	emit sig_status_changed(_m->status);
+	m->status = status;
+	emit sig_status_changed(m->status);
 }
 
 LibraryImporter::ImportStatus LibraryImporter::get_status() const
 {
-	return _m->status;
+	return m->status;
 }

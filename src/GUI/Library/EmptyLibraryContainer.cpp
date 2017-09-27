@@ -38,7 +38,7 @@ struct EmptyLibraryContainer::Private
 EmptyLibraryContainer::EmptyLibraryContainer(QObject* parent) :
 	LibraryContainerInterface(parent)
 {
-	_m = Pimpl::make<Private>();
+	m = Pimpl::make<Private>();
 }
 
 EmptyLibraryContainer::~EmptyLibraryContainer() {}
@@ -55,7 +55,7 @@ QString EmptyLibraryContainer::display_name() const
 
 QWidget* EmptyLibraryContainer::widget() const
 {
-	return static_cast<QWidget*>(_m->ui);
+	return static_cast<QWidget*>(m->ui);
 }
 
 QMenu*EmptyLibraryContainer::menu()
@@ -65,13 +65,13 @@ QMenu*EmptyLibraryContainer::menu()
 
 void EmptyLibraryContainer::init_ui()
 {
-	_m->ui = new GUI_EmptyLibrary();
+	m->ui = new GUI_EmptyLibrary();
 }
 
 
 QFrame* EmptyLibraryContainer::header() const
 {
-	return _m->ui->header_frame();
+	return m->ui->header_frame();
 }
 
 QPixmap EmptyLibraryContainer::icon() const

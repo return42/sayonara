@@ -67,8 +67,8 @@ ReloadThread::ReloadThread(QObject *parent) :
 	QThread(parent),
 	SayonaraClass()
 {
-	_m = Pimpl::make<ReloadThread::Private>();
-	_m->library_path = _settings->get(Set::Lib_Path);
+	m = Pimpl::make<ReloadThread::Private>();
+	m->library_path = _settings->get(Set::Lib_Path);
 }
 
 ReloadThread::~ReloadThread() {}
@@ -102,14 +102,14 @@ bool compare_md(const MetaData& md1, const MetaData& md2)
 
 int ReloadThread::get_and_save_all_files(const QHash<QString, MetaData>& md_map_lib) 
 {
-	QString library_path = _m->library_path;
+	QString library_path = m->library_path;
 
 	if(library_path.isEmpty() || !QFile::exists(library_path)) {
 		return 0;
 	}
 
-	DatabaseConnector* db = _m->db;
-	LibraryDatabase* lib_db = db->library_db(_m->library_id, 0);
+	DatabaseConnector* db = m->db;
+	LibraryDatabase* lib_db = db->library_db(m->library_id, 0);
 	QDir dir(library_path);
 
 	MetaDataList v_md_to_store;
@@ -122,7 +122,7 @@ int ReloadThread::get_and_save_all_files(const QHash<QString, MetaData>& md_map_
 	{
 		bool file_was_read = false;
 		MetaData md(filepath);
-		md.library_id = _m->library_id;
+		md.library_id = m->library_id;
 
 		const MetaData& md_lib = md_map_lib[filepath];
 
@@ -130,7 +130,7 @@ int ReloadThread::get_and_save_all_files(const QHash<QString, MetaData>& md_map_
 		emit sig_reloading_library(Lang::get(Lang::ReloadLibrary).triplePt(), percent);
 
 		if(md_lib.id >= 0){
-			if(_m->quality == Library::ReloadQuality::Fast){
+			if(m->quality == Library::ReloadQuality::Fast){
 				continue;
 			}
 
@@ -231,47 +231,47 @@ QStringList ReloadThread::process_sub_files(const QDir& base_dir, const QStringL
 
 void ReloadThread::pause() 
 {
-	_m->paused = true;
+	m->paused = true;
 }
 
 void ReloadThread::goon() 
 {
-	_m->paused = false;
+	m->paused = false;
 }
 
 bool ReloadThread::is_running() const
 {
-	return _m->running;
+	return m->running;
 }
 
 void ReloadThread::set_quality(Library::ReloadQuality quality)
 {
-	_m->quality = quality;
+	m->quality = quality;
 }
 
 void ReloadThread::run() 
 {
-	if(_m->library_path.isEmpty())
+	if(m->library_path.isEmpty())
 	{
 		sp_log(Log::Warning, this) << "No Library path given";
 		return;
 	}
 
-	if(_m->running){
+	if(m->running){
 		return;
 	}
 
-	LibraryDatabase* lib_db = _m->db->library_db(_m->library_id, 0);
+	LibraryDatabase* lib_db = m->db->library_db(m->library_id, 0);
 
-	_m->running = true;
-	_m->paused = false;
+	m->running = true;
+	m->paused = false;
 
 	MetaDataList v_md, v_to_delete;
 	QHash<QString, MetaData> v_md_map;
 
 	emit sig_reloading_library(tr("Delete orphaned tracks..."), 0);
 
-	lib_db->deleteInvalidTracks(_m->library_path);
+	lib_db->deleteInvalidTracks(m->library_path);
 	lib_db->getAllTracks(v_md);
 
 	sp_log(Log::Debug, this) << "Have " << v_md.size() << " tracks";
@@ -293,13 +293,13 @@ void ReloadThread::run()
 
 	get_and_save_all_files(v_md_map);
 
-	_m->paused = false;
-	_m->running = false;
+	m->paused = false;
+	m->running = false;
 }
 
 void ReloadThread::set_library(int8_t library_id, const QString& library_path)
 {
-	_m->library_path = library_path;
-	_m->library_id = library_id;
+	m->library_path = library_path;
+	m->library_id = library_id;
 }
 

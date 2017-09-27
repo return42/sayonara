@@ -37,7 +37,7 @@ struct StreamHttpParser::Private
 
 StreamHttpParser::StreamHttpParser()
 {
-	_m = Pimpl::make<Private>();
+	m = Pimpl::make<Private>();
 }
 
 StreamHttpParser::~StreamHttpParser() {}
@@ -57,8 +57,8 @@ StreamHttpParser::HttpAnswer StreamHttpParser::parse(const QByteArray& data)
 	QString qmsg(data);
 	QStringList lst;
 
-	_m->icy = false;
-	_m->host = "";
+	m->icy = false;
+	m->host = "";
 
 	if(data.isEmpty()) {
 		sp_log(Log::Error) << "Fail.. Cannot read from socket";
@@ -109,7 +109,7 @@ StreamHttpParser::HttpAnswer StreamHttpParser::parse(const QByteArray& data)
 		if(str.toLower().contains("host:")){
 			QStringList lst = str.split(":");
 			if(lst.size() > 1){
-				_m->host = lst[1].trimmed();
+				m->host = lst[1].trimmed();
 				//sp_log(Log::Info) << "Host = " << _host;
 
 			}
@@ -143,32 +143,32 @@ StreamHttpParser::HttpAnswer StreamHttpParser::parse(const QByteArray& data)
 		}
 	}
 
-	if(is_browser && get_favicon && !_m->host.isEmpty()){
+	if(is_browser && get_favicon && !m->host.isEmpty()){
 		return HttpAnswer::Favicon;
 	}
 
-	if(is_browser && get_bg && !_m->host.isEmpty()){
+	if(is_browser && get_bg && !m->host.isEmpty()){
 		return HttpAnswer::BG;
 	}
 
-	if(is_browser && get_metadata && !_m->host.isEmpty()){
+	if(is_browser && get_metadata && !m->host.isEmpty()){
 		return HttpAnswer::MetaData;
 	}
 
-	if(is_browser && !get_mp3 && !_m->host.isEmpty()){
+	if(is_browser && !get_mp3 && !m->host.isEmpty()){
 		return HttpAnswer::HTML5;
 	}
 
-	if(is_browser && get_mp3 && !_m->host.isEmpty()){
+	if(is_browser && get_mp3 && !m->host.isEmpty()){
 		return HttpAnswer::MP3;
 	}
 
-	if(get_playlist && !_m->host.isEmpty()){
+	if(get_playlist && !m->host.isEmpty()){
 		return HttpAnswer::Playlist;
 	}
 
 	if(get_received){
-		_m->icy = icy;
+		m->icy = icy;
 
 		return HttpAnswer::OK;
 	}
@@ -178,12 +178,12 @@ StreamHttpParser::HttpAnswer StreamHttpParser::parse(const QByteArray& data)
 
 bool StreamHttpParser::is_icy() const
 {
-	return _m->icy;
+	return m->icy;
 }
 
 QString StreamHttpParser::get_host() const
 {
-	return _m->host;
+	return m->host;
 }
 
 

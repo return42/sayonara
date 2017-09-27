@@ -59,10 +59,10 @@ GUI_InfoDialog::GUI_InfoDialog(InfoDialogContainer* container, QWidget* parent) 
 	SayonaraDialog(parent)
 {
 	ui = nullptr;
-	_m = Pimpl::make<GUI_InfoDialog::Private>();
+	m = Pimpl::make<GUI_InfoDialog::Private>();
 
-	_m->info_dialog_container = container;
-	_m->md_interpretation = MD::Interpretation::None;
+	m->info_dialog_container = container;
+	m->md_interpretation = MD::Interpretation::None;
 }
 
 GUI_InfoDialog::~GUI_InfoDialog() {}
@@ -75,7 +75,7 @@ void GUI_InfoDialog::language_changed()
 
 	ui->retranslateUi(this);
 
-	prepare_info(_m->md_interpretation);
+	prepare_info(m->md_interpretation);
 	ui->tab_widget->setTabText(0, Lang::get(Lang::Info));
 	ui->tab_widget->setTabText(1, Lang::get(Lang::Lyrics));
 	ui->tab_widget->setTabText(2, Lang::get(Lang::Edit));
@@ -109,14 +109,14 @@ void GUI_InfoDialog::prepare_info(MD::Interpretation md_interpretation)
 	switch (md_interpretation)
 	{
 		case MD::Interpretation::Artists:
-			info = new ArtistInfo(_m->v_md);
+			info = new ArtistInfo(m->v_md);
 			break;
 		case MD::Interpretation::Albums:
-			info = new AlbumInfo(_m->v_md);
+			info = new AlbumInfo(m->v_md);
 			break;
 
 		case MD::Interpretation::Tracks:
-			info = new MetaDataInfo(_m->v_md);
+			info = new MetaDataInfo(m->v_md);
 			break;
 
 		default:
@@ -132,9 +132,9 @@ void GUI_InfoDialog::prepare_info(MD::Interpretation md_interpretation)
 	ui->lab_paths->setOpenExternalLinks(true);
 	ui->lab_paths->setText(info->get_paths_as_string());
 
-	_m->cl = info->get_cover_location();
+	m->cl = info->get_cover_location();
 
-	prepare_cover(_m->cl);
+	prepare_cover(m->cl);
 
 	delete info; info = nullptr;
 }
@@ -142,18 +142,18 @@ void GUI_InfoDialog::prepare_info(MD::Interpretation md_interpretation)
 
 void GUI_InfoDialog::set_metadata(const MetaDataList& v_md, MD::Interpretation md_interpretation)
 {
-	_m->md_interpretation = md_interpretation;
-	_m->v_md = v_md;
+	m->md_interpretation = md_interpretation;
+	m->v_md = v_md;
 
 	prepare_info(md_interpretation);
 	if(ui){
-		_m->ui_lyrics->set_metadata(v_md.first());
+		m->ui_lyrics->set_metadata(v_md.first());
 	}
 }
 
 bool GUI_InfoDialog::has_metadata() const
 {
-	return (_m->v_md.size() > 0);
+	return (m->v_md.size() > 0);
 }
 
 void GUI_InfoDialog::tab_index_changed_int(int idx)
@@ -171,43 +171,43 @@ void GUI_InfoDialog::tab_index_changed(GUI_InfoDialog::Tab idx)
 	}
 
 	ui->ui_info_widget->hide();
-	_m->ui_lyrics->hide();
-	_m->ui_tag_edit->hide();
+	m->ui_lyrics->hide();
+	m->ui_tag_edit->hide();
 
 	switch(idx)
 	{
 		case GUI_InfoDialog::Tab::Edit:
 
-			ui->tab_widget->setCurrentWidget(_m->ui_tag_edit);
+			ui->tab_widget->setCurrentWidget(m->ui_tag_edit);
 			{
 				MetaDataList local_md;
-				for(const MetaData& md : _m->v_md){
+				for(const MetaData& md : m->v_md){
 					if(!Helper::File::is_www(md.filepath())){
 						local_md << md;
 					}
 				}
 
 				if(local_md.size() > 0) {
-					_m->ui_tag_edit->get_tag_edit()->set_metadata(local_md);
+					m->ui_tag_edit->get_tag_edit()->set_metadata(local_md);
 				}
 			}
 
-			_m->ui_tag_edit->show();
+			m->ui_tag_edit->show();
 			break;
 
 		case GUI_InfoDialog::Tab::Lyrics:
 
-			ui->tab_widget->setCurrentWidget(_m->ui_lyrics);
+			ui->tab_widget->setCurrentWidget(m->ui_lyrics);
 
-			_m->ui_lyrics->set_metadata(_m->v_md.first());
-			_m->ui_lyrics->show();
+			m->ui_lyrics->set_metadata(m->v_md.first());
+			m->ui_lyrics->show();
 
 			break;
 
 		default:
 			ui->tab_widget->setCurrentWidget(ui->ui_info_widget);
 			ui->ui_info_widget->show();
-			prepare_cover(_m->cl);
+			prepare_cover(m->cl);
 			break;
 	}
 }
@@ -223,8 +223,8 @@ void GUI_InfoDialog::show(GUI_InfoDialog::Tab tab)
 
 	prepare_cover(CoverLocation::getInvalidLocation());
 
-	bool lyric_enabled = (_m->v_md.size() == 1);
-	bool tag_edit_enabled = std::any_of(_m->v_md.begin(), _m->v_md.end(), [](const MetaData& md){
+	bool lyric_enabled = (m->v_md.size() == 1);
+	bool tag_edit_enabled = std::any_of(m->v_md.begin(), m->v_md.end(), [](const MetaData& md){
 		return (!Helper::File::is_www(md.filepath()));
 	});
 
@@ -239,20 +239,20 @@ void GUI_InfoDialog::show(GUI_InfoDialog::Tab tab)
 	if(tab == GUI_InfoDialog::Tab::Edit)
 	{
 		MetaDataList local_md;
-		for(const MetaData& md : _m->v_md){
+		for(const MetaData& md : m->v_md){
 			if(!Helper::File::is_www(md.filepath())){
 				local_md << md;
 			}
 		}
 
 		if(local_md.size() > 0){
-			_m->ui_tag_edit->get_tag_edit()->set_metadata(local_md);
+			m->ui_tag_edit->get_tag_edit()->set_metadata(local_md);
 		}
 	}
 
 	if(tab == GUI_InfoDialog::Tab::Lyrics)
 	{
-		_m->ui_lyrics->set_metadata(_m->v_md.first());
+		m->ui_lyrics->set_metadata(m->v_md.first());
 	}
 
 	tab_widget->setCurrentIndex((int) tab);
@@ -282,18 +282,18 @@ void GUI_InfoDialog::init()
 	QTabWidget* tab_widget = ui->tab_widget;
 
 	if(tab2_layout){
-		_m->ui_lyrics = new GUI_Lyrics(ui->tab_2);
-		tab2_layout->addWidget(_m->ui_lyrics);
+		m->ui_lyrics = new GUI_Lyrics(ui->tab_2);
+		tab2_layout->addWidget(m->ui_lyrics);
 	}
 
 	if(tab3_layout){
-		_m->ui_tag_edit = new GUI_TagEdit(ui->tab_3);
-		tab3_layout->addWidget(_m->ui_tag_edit);
+		m->ui_tag_edit = new GUI_TagEdit(ui->tab_3);
+		tab3_layout->addWidget(m->ui_tag_edit);
 	}
 
 	connect(tab_widget, &QTabWidget::currentChanged, this, &GUI_InfoDialog::tab_index_changed_int);
-	connect(_m->ui_lyrics, &GUI_Lyrics::sig_closed, this, &GUI_InfoDialog::close);
-	connect(_m->ui_tag_edit, &GUI_TagEdit::sig_cancelled, this, &GUI_InfoDialog::close);
+	connect(m->ui_lyrics, &GUI_Lyrics::sig_closed, this, &GUI_InfoDialog::close);
+	connect(m->ui_tag_edit, &GUI_TagEdit::sig_cancelled, this, &GUI_InfoDialog::close);
 
 	ui->btn_image->setStyleSheet("QPushButton:hover {background-color: transparent;}");
 
@@ -303,7 +303,7 @@ void GUI_InfoDialog::init()
 	language_changed();
 	skin_changed();
 
-	prepare_info(_m->md_interpretation);
+	prepare_info(m->md_interpretation);
 }
 
 
@@ -311,7 +311,7 @@ void GUI_InfoDialog::closeEvent(QCloseEvent* e)
 {
 	SayonaraDialog::closeEvent(e);
 
-	_m->info_dialog_container->info_dialog_closed();
+	m->info_dialog_container->info_dialog_closed();
 }
 
 void GUI_InfoDialog::showEvent(QShowEvent *e)

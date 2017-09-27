@@ -47,14 +47,14 @@ struct GUI_ImportFolder::Private
 GUI_ImportFolder::GUI_ImportFolder(LocalLibrary* library, bool copy_enabled, QWidget* parent) :
 	SayonaraDialog(parent)
 {
-	_m = Pimpl::make<Private>();
+	m = Pimpl::make<Private>();
 	ui = new Ui::ImportFolder();
 	ui->setupUi(this);
 
-	_m->library = library;
-	_m->tag_edit = new GUI_TagEdit(this);
-	_m->tag_edit->hide();
-	_m->importer = library->importer();
+	m->library = library;
+	m->tag_edit = new GUI_TagEdit(this);
+	m->tag_edit->hide();
+	m->importer = library->importer();
 
 	ui->lab_target_path->setText( library->library_path() );
 	ui->lab_target_path->setVisible(copy_enabled);
@@ -68,10 +68,10 @@ GUI_ImportFolder::GUI_ImportFolder(LocalLibrary* library, bool copy_enabled, QWi
 	connect(ui->btn_cancel, &QPushButton::clicked, this, &GUI_ImportFolder::bb_rejected);
 	connect(ui->btn_edit, &QPushButton::clicked, this, &GUI_ImportFolder::edit_pressed);
 
-	connect(_m->importer, &LibraryImporter::sig_got_metadata, this, &GUI_ImportFolder::set_metadata);
-	connect(_m->importer, &LibraryImporter::sig_status_changed, this, &GUI_ImportFolder::set_status);
-	connect(_m->importer, &LibraryImporter::sig_progress, this, &GUI_ImportFolder::set_progress);
-	connect(_m->importer, &LibraryImporter::sig_triggered, this, &GUI_ImportFolder::show);
+	connect(m->importer, &LibraryImporter::sig_got_metadata, this, &GUI_ImportFolder::set_metadata);
+	connect(m->importer, &LibraryImporter::sig_status_changed, this, &GUI_ImportFolder::set_status);
+	connect(m->importer, &LibraryImporter::sig_progress, this, &GUI_ImportFolder::set_progress);
+	connect(m->importer, &LibraryImporter::sig_triggered, this, &GUI_ImportFolder::show);
 
 	setModal(true);
 }
@@ -91,7 +91,7 @@ void GUI_ImportFolder::set_metadata(const MetaDataList& v_md)
 		ui->lab_status->setText(tr("%1 tracks available").arg(v_md.size()));
 	}
 
-	_m->tag_edit->get_tag_edit()->set_metadata(v_md);
+	m->tag_edit->get_tag_edit()->set_metadata(v_md);
 	ui->btn_edit->setVisible( !v_md.isEmpty() );
 }
 
@@ -167,19 +167,19 @@ void GUI_ImportFolder::set_progress(int val)
 
 void GUI_ImportFolder::bb_accepted()
 {
-	_m->tag_edit->commit();
+	m->tag_edit->commit();
 
 	QString target_dir = ui->le_directory->text();
 
-	_m->importer->accept_import(target_dir);
+	m->importer->accept_import(target_dir);
 }
 
 void GUI_ImportFolder::bb_rejected()
 {
-	//_m->tag_edit->cancel();
-	LibraryImporter::ImportStatus status = _m->importer->get_status();
+	//m->tag_edit->cancel();
+	LibraryImporter::ImportStatus status = m->importer->get_status();
 
-	_m->importer->cancel_import();
+	m->importer->cancel_import();
 
 	if( status == LibraryImporter::ImportStatus::Cancelled  ||
 		status == LibraryImporter::ImportStatus::NoTracks ||
@@ -192,7 +192,7 @@ void GUI_ImportFolder::bb_rejected()
 
 void GUI_ImportFolder::choose_dir()
 {
-	QString library_path = _m->library->library_path();
+	QString library_path = m->library->library_path();
 	QString dialog_title = tr("Choose target directory");
 	QString dir =
 	QFileDialog::getExistingDirectory(	this,
@@ -226,25 +226,25 @@ void GUI_ImportFolder::choose_dir()
 
 void GUI_ImportFolder::edit_pressed()
 {
-	SayonaraDialog* dialog = _m->tag_edit->box_into_dialog();
+	SayonaraDialog* dialog = m->tag_edit->box_into_dialog();
 
-	connect(_m->tag_edit, &GUI_TagEdit::sig_cancelled, dialog, &SayonaraDialog::reject);
-	connect(_m->tag_edit, &GUI_TagEdit::sig_ok_clicked, dialog, &SayonaraDialog::accept);
+	connect(m->tag_edit, &GUI_TagEdit::sig_cancelled, dialog, &SayonaraDialog::reject);
+	connect(m->tag_edit, &GUI_TagEdit::sig_ok_clicked, dialog, &SayonaraDialog::accept);
 
-	_m->tag_edit->show();
+	m->tag_edit->show();
 	dialog->exec();
 }
 
 void GUI_ImportFolder::closeEvent(QCloseEvent* e)
 {
 	SayonaraDialog::closeEvent(e);
-	_m->importer->cancel_import();
+	m->importer->cancel_import();
 }
 
 void GUI_ImportFolder::showEvent(QShowEvent* e)
 {
 	QDialog::showEvent(e);
-	ui->lab_target_path->setText( _m->library->library_path() );
+	ui->lab_target_path->setText( m->library->library_path() );
 }
 
 

@@ -29,8 +29,9 @@
 struct GstURIDecodeBin;
 namespace PipelineCallbacks
 {
-	void pad_added_handler(GstElement *src, GstPad *new_pad, gpointer data);
-	void source_setup_handler(GstURIDecodeBin* bin, GstElement* source, gpointer user_data);
+    void decodebin_ready(GstElement *src, GstPad *new_pad, gpointer data);
+    void source_ready(GstURIDecodeBin* bin, GstElement* source, gpointer user_data);
+
 	gboolean position_changed(gpointer data);
 	GstFlowReturn new_buffer(GstElement *sink, gpointer data);
 }

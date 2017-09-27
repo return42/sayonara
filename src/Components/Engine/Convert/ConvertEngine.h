@@ -21,17 +21,18 @@
 #ifndef ConvertEngine_H
 #define ConvertEngine_H
 
-#include <QMap>
-#include <gst/gst.h>
 #include "Components/Engine/AbstractEngine.h"
 
 class ConvertPipeline;
-class ConvertEngine : public Engine
+class ConvertEngine :
+        public Engine
 {
 	Q_OBJECT
+    PIMPL(ConvertEngine)
 
 public:
 	explicit ConvertEngine(QObject *parent=nullptr);
+    ~ConvertEngine();
 	
 	void set_track_finished(GstElement* src) override;
 	bool init() override;
@@ -54,14 +55,10 @@ public slots:
 
 	void set_volume(int vol);
 
-
 protected:
-	ConvertPipeline*		_pipeline=nullptr;
-	MetaData				_md_target;
-	gchar*					_target_uri=nullptr;
-
-	// methods
-	bool set_uri(const MetaData& md);
+    // methods
+    bool set_uri(const QString& filepath) override;
+    void configure_target(const MetaData& md);
 };
 
 #endif // ConvertEngine_H

@@ -131,33 +131,33 @@ struct SomaFM::Station::Private
 
 SomaFM::Station::Station()
 {
-	_m = Pimpl::make<SomaFM::Station::Private>();
-	_m->cover = CoverLocation::getInvalidLocation();
-	_m->loved = false;
+	m = Pimpl::make<SomaFM::Station::Private>();
+	m->cover = CoverLocation::getInvalidLocation();
+	m->loved = false;
 }
 
 SomaFM::Station::Station(const QString& content) :
 	SomaFM::Station()
 {
-	_m->content = content;
+	m->content = content;
 
-	_m->parse_description();
-	_m->parse_station_name();
-	_m->parse_image();
-	_m->parse_urls();
+	m->parse_description();
+	m->parse_station_name();
+	m->parse_image();
+	m->parse_urls();
 }
 
 SomaFM::Station::Station(const SomaFM::Station& other)
 {
-	_m = Pimpl::make<SomaFM::Station::Private>();
-	SomaFM::Station::Private data = *(other._m.get());
-	(*_m) = data;
+	m = Pimpl::make<SomaFM::Station::Private>();
+	SomaFM::Station::Private data = *(other.m.get());
+	(*m) = data;
 }
 
 SomaFM::Station& SomaFM::Station::operator=(const SomaFM::Station& other)
 {
-	SomaFM::Station::Private data = *(other._m.get());
-	(*_m) = data;
+	SomaFM::Station::Private data = *(other.m.get());
+	(*m) = data;
 	return *this;
 }
 
@@ -166,52 +166,52 @@ SomaFM::Station::~Station() {}
 
 QString SomaFM::Station::name() const
 {
-	return _m->station_name;
+	return m->station_name;
 }
 
 QStringList SomaFM::Station::urls() const
 {
-	return _m->urls.keys();
+	return m->urls.keys();
 }
 
 SomaFM::Station::UrlType SomaFM::Station::url_type(const QString& url) const
 {
-	return _m->urls[url];
+	return m->urls[url];
 }
 
 QString SomaFM::Station::description() const
 {
-	return _m->description;
+	return m->description;
 }
 
 CoverLocation SomaFM::Station::cover_location() const
 {
-	return _m->cover;
+	return m->cover;
 }
 
 bool SomaFM::Station::is_valid() const
 {
-	return (!_m->station_name.isEmpty() &&
-			!_m->urls.isEmpty() &&
-			!_m->description.isEmpty() &&
-			_m->cover.valid());
+	return (!m->station_name.isEmpty() &&
+			!m->urls.isEmpty() &&
+			!m->description.isEmpty() &&
+			m->cover.valid());
 }
 
 MetaDataList SomaFM::Station::metadata() const
 {
-	return _m->v_md;
+	return m->v_md;
 }
 
 void SomaFM::Station::set_metadata(const MetaDataList& v_md)
 {
-	_m->v_md = v_md;
+	m->v_md = v_md;
 }
 
 void SomaFM::Station::set_loved(bool loved){
-	_m->loved = loved;
+	m->loved = loved;
 }
 
 bool SomaFM::Station::is_loved() const
 {
-	return _m->loved;
+	return m->loved;
 }

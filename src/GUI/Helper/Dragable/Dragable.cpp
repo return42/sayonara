@@ -89,48 +89,48 @@ struct Dragable::Private
 
 Dragable::Dragable(QWidget* parent)
 {
-	_m = Pimpl::make<Dragable::Private>();
-	_m->parent = parent;
+	m = Pimpl::make<Dragable::Private>();
+	m->parent = parent;
 }
 
 Dragable::~Dragable() {}
 
 void Dragable::drag_pressed(const QPoint& p)
 {
-	_m->dragging = false;
-	_m->start_drag_pos = p;
+	m->dragging = false;
+	m->start_drag_pos = p;
 }
 
 
 QDrag* Dragable::drag_moving(const QPoint& p)
 {
-	int distance = (p - _m->start_drag_pos).manhattanLength();
+	int distance = (p - m->start_drag_pos).manhattanLength();
 
 	if( distance < QApplication::startDragDistance())
 	{
-		return _m->drag;
+		return m->drag;
 	}
 
-	if(_m->dragging)
+	if(m->dragging)
 	{
-		return _m->drag;
+		return m->drag;
 	}
 
-	if(_m->drag){
-		delete _m->drag;
+	if(m->drag){
+		delete m->drag;
 	}
 
-	_m->dragging = true;
-	_m->start_drag_pos = QPoint();
-	_m->drag = new QDrag(_m->parent);
+	m->dragging = true;
+	m->start_drag_pos = QPoint();
+	m->drag = new QDrag(m->parent);
 
 	QMimeData* data = get_mimedata();
 	if(data == nullptr)
 	{
-		return _m->drag;
+		return m->drag;
 	}
 
-	QStringList strings = _m->get_strings(data);
+	QStringList strings = m->get_strings(data);
 
 	QFontMetrics fm(QApplication::font());
 	const int logo_height = 24;
@@ -171,31 +171,31 @@ QDrag* Dragable::drag_moving(const QPoint& p)
 		painter.translate(0, font_height + 2);
 	}
 
-	_m->drag->setMimeData(data);
-	_m->drag->setPixmap(pm);
-	_m->drag->exec(Qt::CopyAction);
+	m->drag->setMimeData(data);
+	m->drag->setPixmap(pm);
+	m->drag->exec(Qt::CopyAction);
 
-	return _m->drag;
+	return m->drag;
 }
 
 
 void Dragable::drag_released(Dragable::ReleaseReason reason)
 {
-	if(!_m){
+    if(!m){
 		return;
 	}
 
 	if(reason == Dragable::ReleaseReason::Destroyed)
 	{
-		_m->drag = nullptr;
+		m->drag = nullptr;
 	}
 
-	else if(_m->drag){
-		delete _m->drag; _m->drag = nullptr;
+	else if(m->drag){
+		delete m->drag; m->drag = nullptr;
 	}
 
-	_m->dragging = false;
-	_m->start_drag_pos = QPoint();
+	m->dragging = false;
+	m->start_drag_pos = QPoint();
 }
 
 

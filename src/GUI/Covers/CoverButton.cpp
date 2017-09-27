@@ -37,10 +37,10 @@ struct CoverButton::Private
 CoverButton::CoverButton(QWidget* parent) : 
 	QPushButton(parent)
 {
-	_m = Pimpl::make<CoverButton::Private>();
+	m = Pimpl::make<CoverButton::Private>();
 
-	_m->cover_forced = false;
-	_m->search_cover_location = CoverLocation::getInvalidLocation();
+	m->cover_forced = false;
+	m->search_cover_location = CoverLocation::getInvalidLocation();
 	this->setIconSize(this->size());
 
 	connect(this, &QPushButton::clicked, this, &CoverButton::cover_button_clicked);
@@ -50,34 +50,34 @@ CoverButton::~CoverButton() {}
 
 void CoverButton::cover_button_clicked()
 {
-	if(!_m->alternative_covers){
-		_m->alternative_covers = new GUI_AlternativeCovers(this);
+	if(!m->alternative_covers){
+		m->alternative_covers = new GUI_AlternativeCovers(this);
 
-		connect(_m->alternative_covers, &GUI_AlternativeCovers::sig_cover_changed,
+		connect(m->alternative_covers, &GUI_AlternativeCovers::sig_cover_changed,
 				this, &CoverButton::alternative_cover_fetched );
 	}
 
-	_m->alternative_covers->start(_m->search_cover_location);
+	m->alternative_covers->start(m->search_cover_location);
 }
 
 
 void CoverButton::set_cover_location(const CoverLocation& cl)
 {
-	_m->search_cover_location = cl;
+	m->search_cover_location = cl;
 
-	if(!_m->cover_lookup){
-		_m->cover_lookup = new CoverLookup(this);
-		connect(_m->cover_lookup, &CoverLookup::sig_cover_found, this, &CoverButton::set_cover_image);
+	if(!m->cover_lookup){
+		m->cover_lookup = new CoverLookup(this);
+		connect(m->cover_lookup, &CoverLookup::sig_cover_found, this, &CoverButton::set_cover_image);
 	}
 
-	_m->cover_forced = false;
-	_m->cover_lookup->fetch_cover(cl);
+	m->cover_forced = false;
+	m->cover_lookup->fetch_cover(cl);
 }
 
 void CoverButton::force_icon(const QPixmap& pixmap)
 {
-	_m->cover_forced = true;
-	_m->current_cover = pixmap;
+	m->cover_forced = true;
+	m->current_cover = pixmap;
 
 	QIcon icon(pixmap.scaled(this->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
 
@@ -89,7 +89,7 @@ void CoverButton::resizeEvent(QResizeEvent* e)
 {
 	QPushButton::resizeEvent(e);
 
-	QIcon icon(_m->current_cover.scaled(this->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+	QIcon icon(m->current_cover.scaled(this->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
 
 	QSize sz = this->size();
 	sz.setHeight(sz.height() - 10);
@@ -123,12 +123,12 @@ void CoverButton::cover_found(const CoverLocation& cl)
 
 void CoverButton::set_cover_image(const QString& cover_path)
 {
-	if( _m->cover_forced && sender() == _m->cover_lookup){
+	if( m->cover_forced && sender() == m->cover_lookup){
 		return;
 	}
 
 	QPixmap pm(cover_path);
-	_m->current_cover = pm;
+	m->current_cover = pm;
 
 	QIcon icon(pm.scaled(this->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
 	this->setIcon(icon);

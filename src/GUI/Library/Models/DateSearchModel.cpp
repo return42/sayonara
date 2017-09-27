@@ -45,7 +45,7 @@ struct DateSearchModel::Private
 DateSearchModel::DateSearchModel(QObject* parent) :
 	AbstractSearchListModel(parent)
 {
-	_m = Pimpl::make<DateSearchModel::Private>();
+	m = Pimpl::make<DateSearchModel::Private>();
 
 	emit dataChanged(index(0, 0), index(rowCount()-1, 0));
 }
@@ -56,13 +56,13 @@ DateSearchModel::~DateSearchModel() {}
 int DateSearchModel::rowCount(const QModelIndex& parent) const
 {
 	Q_UNUSED(parent)
-	return _m->date_filters.size();
+	return m->date_filters.size();
 }
 
 QVariant DateSearchModel::data(const QModelIndex& index, int role) const
 {
 	if(role == Qt::DisplayRole){
-		return _m->date_filters[index.row()].name();
+		return m->date_filters[index.row()].name();
 	}
 
 	return QVariant();
@@ -70,20 +70,20 @@ QVariant DateSearchModel::data(const QModelIndex& index, int role) const
 
 void DateSearchModel::set_data(const Library::DateFilter filter, int idx)
 {
-	if(idx < 0 || idx >= _m->date_filters.size()){
+	if(idx < 0 || idx >= m->date_filters.size()){
 		return;
 	}
 
-	_m->date_filters[idx] = filter;
-	_m->settings->set(Set::Lib_DateFilters, _m->date_filters);
+	m->date_filters[idx] = filter;
+	m->settings->set(Set::Lib_DateFilters, m->date_filters);
 
 	emit dataChanged(index(idx, 0), index(idx, 1));
 }
 
 void DateSearchModel::add_data(const Library::DateFilter filter)
 {
-	_m->date_filters << filter;
-	_m->settings->set(Set::Lib_DateFilters, _m->date_filters);
+	m->date_filters << filter;
+	m->settings->set(Set::Lib_DateFilters, m->date_filters);
 
 	emit dataChanged(index(rowCount() - 1, 0),
 					 index(rowCount() - 1, 0));
@@ -91,12 +91,12 @@ void DateSearchModel::add_data(const Library::DateFilter filter)
 
 void DateSearchModel::remove(int idx)
 {
-	if(idx < 0 || idx >= _m->date_filters.size()){
+	if(idx < 0 || idx >= m->date_filters.size()){
 		return;
 	}
 
-	_m->date_filters.removeAt(idx);
-	_m->settings->set(Set::Lib_DateFilters, _m->date_filters);
+	m->date_filters.removeAt(idx);
+	m->settings->set(Set::Lib_DateFilters, m->date_filters);
 
 	emit dataChanged(index(idx, 0),
 					 index(rowCount() - 1, 0));
@@ -119,7 +119,7 @@ QModelIndex DateSearchModel::getNextRowIndexOf(const QString& substr, int cur_ro
 
 	for(int i=0; i<rows; i++){
 		int row = (i + cur_row) % rows;
-		QString str = _m->date_filters[row].name();
+		QString str = m->date_filters[row].name();
 		str = Library::convert_search_string(str, search_mode());
 		if(str.contains(substr)){
 			return this->index(row, 0);
@@ -144,7 +144,7 @@ QModelIndex DateSearchModel::getPrevRowIndexOf(const QString& substr, int cur_ro
 			row = rows - 1;
 		}
 
-		QString str = _m->date_filters[row].name();
+		QString str = m->date_filters[row].name();
 		str = Library::convert_search_string(str, search_mode());
 		if(str.contains(substr)){
 			return this->index(row, 0);
@@ -165,5 +165,5 @@ Library::DateFilter DateSearchModel::get_filter(int row) const
 	return Library::DateFilter("");
 	}
 
-	return _m->date_filters[row];
+	return m->date_filters[row];
 }

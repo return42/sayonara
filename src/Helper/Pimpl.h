@@ -35,7 +35,7 @@
 #define PIMPL(Class) private: \
     struct Private; \
     friend struct Private; \
-	std::unique_ptr< Class ::Private> _m; \
+	std::unique_ptr< Class ::Private> m; \
     private:
 
 /**

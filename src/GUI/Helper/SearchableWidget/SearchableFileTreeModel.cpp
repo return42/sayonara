@@ -43,15 +43,15 @@ struct SearchableFileTreeModel::Private
 SearchableFileTreeModel::SearchableFileTreeModel(QObject* parent) :
 	SearchModelInterface<QFileSystemModel>(parent)
 {
-	_m = Pimpl::make<Private>();
+	m = Pimpl::make<Private>();
 }
 
 SearchableFileTreeModel::~SearchableFileTreeModel() {}
 
 QModelIndex SearchableFileTreeModel::getFirstRowIndexOf(const QString& substr)
 {
-	_m->cur_idx = -1;
-	_m->found_strings.clear();
+	m->cur_idx = -1;
+	m->found_strings.clear();
 
 	Settings* settings = Settings::getInstance();
 	Library::SearchModeMask mask = settings->get(Set::Lib_SearchMode);
@@ -76,20 +76,20 @@ QModelIndex SearchableFileTreeModel::getFirstRowIndexOf(const QString& substr)
 				str = parent_folder;
 			}
 
-			_m->found_strings << str;
+			m->found_strings << str;
 		}
 	}
 
 
-	if(_m->found_strings.size() > 0){
-		std::sort(_m->found_strings.begin(), _m->found_strings.end(), [](const QString& str1 , const QString& str2){
+	if(m->found_strings.size() > 0){
+		std::sort(m->found_strings.begin(), m->found_strings.end(), [](const QString& str1 , const QString& str2){
 			return (str1 < str2);
 		});
 
-		_m->found_strings.removeDuplicates();
+		m->found_strings.removeDuplicates();
 
-		str = _m->found_strings.first();
-		_m->cur_idx = 0;
+		str = m->found_strings.first();
+		m->cur_idx = 0;
 	}
 
 	return index(str);
@@ -104,13 +104,13 @@ QModelIndex SearchableFileTreeModel::getNextRowIndexOf(const QString& substr, in
 
 	QString str;
 
-	if(_m->cur_idx < 0 || _m->found_strings.isEmpty() ){
+	if(m->cur_idx < 0 || m->found_strings.isEmpty() ){
 		return QModelIndex();
 	}
 
-	_m->cur_idx = (_m->cur_idx + 1) % _m->found_strings.size();
+	m->cur_idx = (m->cur_idx + 1) % m->found_strings.size();
 
-	str = _m->found_strings[_m->cur_idx];
+	str = m->found_strings[m->cur_idx];
 
 	return index(str);
 }
@@ -124,18 +124,18 @@ QModelIndex SearchableFileTreeModel::getPrevRowIndexOf(const QString& substr, in
 
 	QString str;
 
-	if(_m->cur_idx < 0 ){
+	if(m->cur_idx < 0 ){
 		return QModelIndex();
 	}
 
-	if(_m->cur_idx == 0){
-		str = _m->found_strings[_m->cur_idx];
+	if(m->cur_idx == 0){
+		str = m->found_strings[m->cur_idx];
 
 		return index(str);
 	}
 
-	_m->cur_idx--;
-	str = _m->found_strings[_m->cur_idx];
+	m->cur_idx--;
+	str = m->found_strings[m->cur_idx];
 
 	return index(str);
 }

@@ -69,30 +69,30 @@ struct CustomField::Private
 
 CustomField::CustomField(const QString& id, const QString& display_name, const QString& value)
 {
-	_m = Pimpl::make<Private>(id, display_name, value);
+	m = Pimpl::make<Private>(id, display_name, value);
 }
 
 CustomField::CustomField(const CustomField &other)
 {
-	_m = Pimpl::make<Private>(*(other._m));
+    m = Pimpl::make<Private>(*(other.m));
 }
 
 CustomField::CustomField(CustomField&& other)
 {
-	_m = Pimpl::make<Private>(
-			std::move(*(other._m))
+	m = Pimpl::make<Private>(
+            std::move(*(other.m))
 							  );
 }
 
 CustomField& CustomField::operator=(const CustomField& other)
 {
-	(*_m) = *(other._m);
+    (*m) = *(other.m);
 	return *this;
 }
 
 CustomField& CustomField::operator=(CustomField&& other)
 {
-	(*_m) = std::move(*(other._m));
+    (*m) = std::move(*(other.m));
 	return *this;
 }
 
@@ -100,17 +100,17 @@ CustomField::~CustomField() {}
 
 QString CustomField::get_id() const
 {
-	return _m->id;
+	return m->id;
 }
 
 QString CustomField::get_display_name() const
 {
-	return _m->display_name;
+	return m->display_name;
 }
 
 QString CustomField::get_value() const
 {
-	return _m->value;
+	return m->value;
 }
 
 
@@ -157,30 +157,30 @@ struct LibraryItem::Private
 
 LibraryItem::LibraryItem()
 {
-	_m = Pimpl::make<Private>();
+	m = Pimpl::make<Private>();
 }
 
 LibraryItem::LibraryItem(const LibraryItem& other)
 {
-	_m = Pimpl::make<Private>(*(other._m));
+    m = Pimpl::make<Private>(*(other.m));
 }
 
 LibraryItem::LibraryItem(LibraryItem&& other)
 {
-	_m = Pimpl::make<Private>(
-		std::move(*(other._m))
+	m = Pimpl::make<Private>(
+        std::move(*(other.m))
 	);
 }
 
 LibraryItem& LibraryItem::operator=(const LibraryItem& other)
 {
-	(*_m) = *(other._m);
+    (*m) = *(other.m);
 	return *this;
 }
 
 LibraryItem& LibraryItem::operator=(LibraryItem&& other)
 {
-	(*_m) = std::move(*(other._m));
+    (*m) = std::move(*(other.m));
 	return *this;
 }
 
@@ -188,23 +188,23 @@ LibraryItem::~LibraryItem() {}
 
 void LibraryItem::add_custom_field(const CustomField& field)
 {
-	_m->additional_data << field;
+    m->additional_data << field;
 }
 
 void LibraryItem::add_custom_field(const QString& id, const QString& display_name, const QString& value)
 {
-	_m->additional_data << CustomField(id, display_name, value);
+    m->additional_data << CustomField(id, display_name, value);
 }
 
 const QList<CustomField>& LibraryItem::get_custom_fields() const
 {
-	return _m->additional_data;
+	return m->additional_data;
 }
 
 
 QString LibraryItem::get_custom_field(const QString& id) const
 {
-	for(const CustomField& field : _m->additional_data){
+	for(const CustomField& field : m->additional_data){
 		if(field.get_id().compare(id, Qt::CaseInsensitive) == 0){
 			return field.get_value();
 		}
@@ -216,31 +216,31 @@ QString LibraryItem::get_custom_field(const QString& id) const
 
 QString LibraryItem::get_custom_field(int idx) const
 {
-	if(idx < 0 || idx >= _m->additional_data.size()){
+	if(idx < 0 || idx >= m->additional_data.size()){
 		return "";
 	}
 
-	return _m->additional_data[idx].get_value();
+	return m->additional_data[idx].get_value();
 }
 
 QString LibraryItem::cover_download_url() const
 {
-	return _m->cover_download_url;
+	return m->cover_download_url;
 }
 
 void LibraryItem::set_cover_download_url(const QString& url)
 {
-	_m->cover_download_url = url;
+    m->cover_download_url = url;
 }
 
 uint8_t LibraryItem::db_id() const
 {
-	return _m->db_id;
+	return m->db_id;
 }
 
 void LibraryItem::set_db_id(uint8_t id)
 {
-	_m->db_id = id;
+    m->db_id = id;
 }
 
 

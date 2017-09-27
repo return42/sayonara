@@ -41,7 +41,7 @@ struct StdPlaylist::Private
 StdPlaylist::StdPlaylist(int idx, const QString& name) :
 	AbstractPlaylist(idx, name)
 {
-	_m = Pimpl::make<Private>();
+    m = Pimpl::make<Private>();
 	set_storable(true);
 }
 
@@ -56,7 +56,7 @@ void StdPlaylist::set_changed(bool b)
 {
 	AbstractPlaylist::set_changed(b);
 
-	_m->track_idx_before_stop = metadata().current_track();
+    m->track_idx_before_stop = metadata().current_track();
 }
 
 int StdPlaylist::create_playlist(const MetaDataList& v_md) 
@@ -100,7 +100,7 @@ bool StdPlaylist::wake_up()
     bool success = between(metadata().current_track(), count());
 
     if(success) {
-		success = change_track(_m->track_idx_before_stop);
+        success = change_track(m->track_idx_before_stop);
 	}
 
 	return success;
@@ -128,7 +128,7 @@ void StdPlaylist::pause() {}
 
 void StdPlaylist::stop() 
 {
-	_m->track_idx_before_stop = metadata().current_track();
+    m->track_idx_before_stop = metadata().current_track();
 
 	if(!_settings->get(Set::PL_RememberTrackAfterStop)){
 		metadata().set_current_track(-1);

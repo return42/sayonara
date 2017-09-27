@@ -46,7 +46,7 @@ static bool check_name(const QString& name)
 GUI_DateSearchConfig::GUI_DateSearchConfig(QWidget* parent) :
 	SayonaraDialog(parent)
 {
-	_m = Pimpl::make<GUI_DateSearchConfig::Private>();
+	m = Pimpl::make<GUI_DateSearchConfig::Private>();
 
 	ui = new Ui::GUI_DateSearchConfig();
 	ui->setupUi(this);
@@ -99,8 +99,8 @@ void GUI_DateSearchConfig::ok_clicked()
 
 	commit();
 
-	_m->org_filter = _m->edited_filter;
-	_m->result = GUI_DateSearchConfig::Result::Replace;
+	m->org_filter = m->edited_filter;
+	m->result = GUI_DateSearchConfig::Result::Replace;
 
 	this->close();
 }
@@ -116,28 +116,28 @@ void GUI_DateSearchConfig::save_as_clicked()
 	}
 
 	if(new_name.isEmpty()){
-		_m->result = GUI_DateSearchConfig::Result::Cancelled;
+		m->result = GUI_DateSearchConfig::Result::Cancelled;
 		return;
 	}
 
 	commit();
 
-	_m->edited_filter.set_name(new_name);
-	_m->org_filter = _m->edited_filter;
-	_m->result = GUI_DateSearchConfig::Result::New;
+	m->edited_filter.set_name(new_name);
+	m->org_filter = m->edited_filter;
+	m->result = GUI_DateSearchConfig::Result::New;
 
 	this->close();
 }
 
 void GUI_DateSearchConfig::cancel_clicked()
 {
-	_m->result = GUI_DateSearchConfig::Result::Cancelled;
+	m->result = GUI_DateSearchConfig::Result::Cancelled;
 	this->close();
 }
 
 void GUI_DateSearchConfig::commit()
 {
-	Library::DateFilter f = _m->org_filter;
+	Library::DateFilter f = m->org_filter;
 
 	switch(ui->comboBox->currentIndex())
 	{
@@ -227,13 +227,13 @@ void GUI_DateSearchConfig::commit()
 
 	f.set_name(ui->le_title->text());
 
-	_m->edited_filter = f;
+	m->edited_filter = f;
 }
 
 
 void GUI_DateSearchConfig::set_filter(const Library::DateFilter& filter)
 {
-	_m->result = GUI_DateSearchConfig::Result::Cancelled;
+	m->result = GUI_DateSearchConfig::Result::Cancelled;
 
 	Library::DateFilter::Type type = filter.type();
 	Library::DateFilter::TimeSpanMap time_span_map = filter.time_span_map();
@@ -319,18 +319,18 @@ void GUI_DateSearchConfig::set_filter(const Library::DateFilter& filter)
 			break;
 	}
 
-	_m->org_filter = filter;
-	_m->edited_filter = Library::DateFilter();
+	m->org_filter = filter;
+	m->edited_filter = Library::DateFilter();
 
 	ui->le_title->setText(filter.name());
 }
 
 Library::DateFilter GUI_DateSearchConfig::get_edited_filter() const
 {
-	return _m->edited_filter;
+	return m->edited_filter;
 }
 
 GUI_DateSearchConfig::Result GUI_DateSearchConfig::get_result() const
 {
-	return _m->result;
+	return m->result;
 }

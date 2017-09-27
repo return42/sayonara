@@ -60,7 +60,7 @@ StreamServer::StreamServer(QObject* parent) :
 	QThread(parent),
 	SayonaraClass()
 {
-	_m = Pimpl::make<StreamServer::Private>();
+	m = Pimpl::make<StreamServer::Private>();
 
 	create_server();
 
@@ -81,9 +81,9 @@ StreamServer::~StreamServer()
 	server_close();
 	disconnect_all();
 
-	if(_m->server){
-		delete _m->server;
-		_m->server = nullptr;
+	if(m->server){
+		delete m->server;
+		m->server = nullptr;
 	}
 
 	Helper::sleep_ms(500);
@@ -91,17 +91,17 @@ StreamServer::~StreamServer()
 
 void StreamServer::create_server()
 {
-	if(_m->server != nullptr){
-		delete _m->server;
+	if(m->server != nullptr){
+		delete m->server;
 	}
 
-	_m->server = new QTcpServer();
-	_m->server->setMaxPendingConnections(10);
+	m->server = new QTcpServer();
+	m->server->setMaxPendingConnections(10);
 
-	connect(_m->server, &QTcpServer::newConnection, this, &StreamServer::new_client_request);
-	connect(_m->server, &QTcpServer::destroyed, this, &StreamServer::server_destroyed);
+	connect(m->server, &QTcpServer::newConnection, this, &StreamServer::new_client_request);
+	connect(m->server, &QTcpServer::destroyed, this, &StreamServer::server_destroyed);
 
-	if( !_m->server->isListening() ){
+	if( !m->server->isListening() ){
 		listen_for_connection();
 	}
 }
@@ -113,10 +113,10 @@ void StreamServer::server_destroyed()
 
 void StreamServer::run()
 {
-	emit sig_can_listen(_m->server->isListening());
+	emit sig_can_listen(m->server->isListening());
 
 	forever{
-		if(!_m->mp3_enc_available){
+		if(!m->mp3_enc_available){
 			Helper::sleep_ms (100);
 		}
 
@@ -124,11 +124,11 @@ void StreamServer::run()
 			Helper::sleep_ms(100);
 		}
 
-		else if(_m->server && _m->server->isListening()){
+		else if(m->server && m->server->isListening()){
 			Helper::sleep_ms(100);
 		}
 
-		if(_m->server == nullptr){
+		if(m->server == nullptr){
 			break;
 		}
 
@@ -140,19 +140,19 @@ void StreamServer::run()
 
 bool StreamServer::listen_for_connection()
 {
-	if(!_m->server){
+	if(!m->server){
 		sp_log(Log::Error) << "Server socket invalid";
 		return false;
 	}
 
 	int port = _settings->get(Set::Broadcast_Port);
-	bool success = _m->server->listen(QHostAddress::Any, port);
+	bool success = m->server->listen(QHostAddress::Any, port);
 
 	if(!success){
 		sp_log(Log::Error) << "Cannot listen on port " << port;
-		sp_log(Log::Error) << _m->server->errorString();
+		sp_log(Log::Error) << m->server->errorString();
 
-		_m->server->close();
+		m->server->close();
 	}
 
 	else{
@@ -165,33 +165,33 @@ bool StreamServer::listen_for_connection()
 // either show a popup dialog or accept directly
 void StreamServer::new_client_request()
 {
-	QTcpSocket* pending_socket = _m->server->nextPendingConnection();
+	QTcpSocket* pending_socket = m->server->nextPendingConnection();
 	if(!pending_socket) {
 		return;
 	}
 
 	QString pending_ip = pending_socket->peerAddress().toString();
 
-	if(_m->discmissed_ips.contains(pending_ip)){
+	if(m->discmissed_ips.contains(pending_ip)){
 		reject_client(pending_socket, pending_ip);
-		_m->discmissed_ips.removeOne(pending_ip);
+		m->discmissed_ips.removeOne(pending_ip);
 		return;
 	}
 
-	_m->pending << QPair<QTcpSocket*, QString>(pending_socket, pending_ip);
+	m->pending << QPair<QTcpSocket*, QString>(pending_socket, pending_ip);
 
-	if(_m->asking){
+	if(m->asking){
 		return;
 	}
 
-	_m->asking = true;
+	m->asking = true;
 
 	do{
-		pending_socket = _m->pending[0].first;
-		pending_ip = _m->pending[0].second;
+		pending_socket = m->pending[0].first;
+		pending_ip = m->pending[0].second;
 
 		if( _settings->get(Set::Broadcast_Prompt) ){
-			if(!_m->allowed_ips.contains(pending_ip)){
+			if(!m->allowed_ips.contains(pending_ip)){
 				QString question = tr("%1 wants to listen to your music.\nOK?").arg(pending_ip);
 				GlobalMessage::Answer answer = GlobalMessage::getInstance()->question(question);
 				if(answer==GlobalMessage::Answer::Yes){
@@ -211,11 +211,11 @@ void StreamServer::new_client_request()
 			accept_client(pending_socket, pending_ip);
 		}
 
-		_m->pending.pop_front();
+		m->pending.pop_front();
 
-	} while(_m->pending.size() > 0);
+	} while(m->pending.size() > 0);
 
-	_m->asking = false;
+	m->asking = false;
 }
 
 // every kind of request will land here or in reject client.
@@ -225,18 +225,18 @@ void StreamServer::accept_client(QTcpSocket* socket, const QString& ip)
 {
 	StreamWriterPtr sw;
 
-	if(!_m->allowed_ips.contains(ip)){
-		_m->allowed_ips << ip;
+	if(!m->allowed_ips.contains(ip)){
+		m->allowed_ips << ip;
 	}
 
-	sp_log(Log::Info) << "New client request from " << ip << " (" << _m->lst_sw.size() << ")";
+	sp_log(Log::Info) << "New client request from " << ip << " (" << m->lst_sw.size() << ")";
 
-	sw = StreamWriterPtr(new StreamWriter(socket, ip, _m->cur_track));
+	sw = StreamWriterPtr(new StreamWriter(socket, ip, m->cur_track));
 
 	connect(sw.get(), &StreamWriter::sig_disconnected, this, &StreamServer::disconnected);
 	connect(sw.get(), &StreamWriter::sig_new_connection, this, &StreamServer::new_connection);
 
-	_m->lst_sw << sw;
+	m->lst_sw << sw;
 
 	emit sig_new_connection(ip);
 }
@@ -257,8 +257,8 @@ void StreamServer::new_connection(const QString& ip)
 
 void StreamServer::track_changed(const MetaData& md)
 {
-	_m->cur_track = md;
-	for(StreamWriterPtr sw : _m->lst_sw){
+	m->cur_track = md;
+	for(StreamWriterPtr sw : m->lst_sw){
 		sw->change_track(md);
 	}
 }
@@ -266,8 +266,8 @@ void StreamServer::track_changed(const MetaData& md)
 
 void StreamServer::server_close()
 {
-	if(_m->server){
-		_m->server->close();
+	if(m->server){
+		m->server->close();
 		sp_log(Log::Info) << "Server closed..";
 	}
 }
@@ -275,13 +275,13 @@ void StreamServer::server_close()
 // when user forbids further streaming
 void StreamServer::dismiss(int idx)
 {
-	if( idx >= _m->lst_sw.size() ) {
+	if( idx >= m->lst_sw.size() ) {
 		return;
 	}
 
-	StreamWriterPtr sw = _m->lst_sw[idx];
-	_m->discmissed_ips << sw->get_ip();
-	_m->allowed_ips.removeOne(sw->get_ip());
+	StreamWriterPtr sw = m->lst_sw[idx];
+	m->discmissed_ips << sw->get_ip();
+	m->allowed_ips.removeOne(sw->get_ip());
 
 	sw->dismiss();
 }
@@ -294,11 +294,11 @@ void StreamServer::disconnect(StreamWriterPtr sw)
 
 void StreamServer::disconnect_all()
 {
-	for(StreamWriterPtr sw : _m->lst_sw){
+	for(StreamWriterPtr sw : m->lst_sw){
 		sw->disconnect();
 	}
 
-	_m->lst_sw.clear();
+	m->lst_sw.clear();
 }
 
 // the client disconnected itself
@@ -312,9 +312,9 @@ void StreamServer::disconnected(StreamWriter* sw)
 	emit sig_connection_closed(ip);
 
 	// remove the item, garbage collector deletes that item
-	for(auto it=_m->lst_sw.begin(); it != _m->lst_sw.end(); it++){
+	for(auto it=m->lst_sw.begin(); it != m->lst_sw.end(); it++){
 		if(sw == it->get()){
-			_m->lst_sw.erase(it);
+			m->lst_sw.erase(it);
 			break;
 		}
 	}
@@ -326,7 +326,7 @@ void StreamServer::retry()
 {
 	bool success;
 
-	if(!_m->mp3_enc_available){
+	if(!m->mp3_enc_available){
 		return;
 	}
 
@@ -335,7 +335,7 @@ void StreamServer::retry()
 	}
 
 	create_server();
-	if(_m->server->isListening()){
+	if(m->server->isListening()){
 		success = true;
 	}
 
@@ -353,20 +353,20 @@ void StreamServer::stop()
 	server_close();
 	disconnect_all();
 
-	if(_m->server){
-		delete _m->server;
-		_m->server = nullptr;
+	if(m->server){
+		delete m->server;
+		m->server = nullptr;
 	}
 
-	_m->server = nullptr;
+	m->server = nullptr;
 }
 
 
 void StreamServer::_sl_mp3_enc_found()
 {
-	_m->mp3_enc_available = _settings->get(SetNoDB::MP3enc_found);
+	m->mp3_enc_available = _settings->get(SetNoDB::MP3enc_found);
 
-	if(!_m->mp3_enc_available){
+	if(!m->mp3_enc_available){
 		stop();
 	}
 }
@@ -386,18 +386,18 @@ void StreamServer::_sl_active_changed()
 {
 	bool active = _settings->get(Set::Broadcast_Active);
 
-	if(!_m->mp3_enc_available){
-		_m->server->close();
+	if(!m->mp3_enc_available){
+		m->server->close();
 		return;
 	}
 
 	if(!active) {
-		_m->server->close();
+		m->server->close();
 		return;
 	}
 
 	create_server();
-	active = _m->server->isListening();
+	active = m->server->isListening();
 
 	if( !active){
 		active = listen_for_connection();

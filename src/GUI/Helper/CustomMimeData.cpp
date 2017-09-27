@@ -29,22 +29,22 @@ struct CustomMimeData::Private
 CustomMimeData::CustomMimeData() :
 	QMimeData()
 {
-	_m = Pimpl::make<CustomMimeData::Private>();
+	m = Pimpl::make<CustomMimeData::Private>();
 }
 
 CustomMimeData::~CustomMimeData() {}
 
 void CustomMimeData::setMetaData(const MetaDataList& v_md)
 {
-    _m->v_md = v_md;
+    m->v_md = v_md;
 }
 
 MetaDataList CustomMimeData::getMetaData() const
 {
-	return _m->v_md;
+	return m->v_md;
 }
 
 bool CustomMimeData::hasMetaData() const
 {
-	return (_m->v_md.size() > 0);
+	return (m->v_md.size() > 0);
 }

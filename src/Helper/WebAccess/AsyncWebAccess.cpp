@@ -76,13 +76,13 @@ AsyncWebAccess::AsyncWebAccess(QObject* parent, const QByteArray& header, AsyncW
 {
 	Q_UNUSED(header)
 
-	_m = Pimpl::make<Private>();
-	_m->nam = new QNetworkAccessManager(this);
-	_m->timer = new QTimer();
-	_m->behavior = behavior;
-	_m->status = AsyncWebAccess::Status::NoData;
+    m = Pimpl::make<Private>();
+    m->nam = new QNetworkAccessManager(this);
+    m->timer = new QTimer();
+    m->behavior = behavior;
+    m->status = AsyncWebAccess::Status::NoData;
 
-	connect(_m->timer, &QTimer::timeout, this, &AsyncWebAccess::timeout);
+    connect(m->timer, &QTimer::timeout, this, &AsyncWebAccess::timeout);
 	connect(parent, &QObject::destroyed, this, &AsyncWebAccess::stop);
 }
 
@@ -90,24 +90,24 @@ AsyncWebAccess::~AsyncWebAccess() {}
 
 void AsyncWebAccess::run(const QString& url, int timeout)
 {
-	_m->status = AsyncWebAccess::Status::NoData;
-	_m->header.clear();
-	_m->data.clear();
-	_m->url = url;
-	_m->nam->clearAccessCache();
-	_m->ignore_finished = false;
+    m->status = AsyncWebAccess::Status::NoData;
+    m->header.clear();
+    m->data.clear();
+    m->url = url;
+    m->nam->clearAccessCache();
+    m->ignore_finished = false;
 
 	QRegExp re("(itpc|feed)://");
 	if(re.indexIn(url) >= 0){
-		_m->url.replace(re, "http://");
+        m->url.replace(re, "http://");
 	}
 
 	QNetworkRequest request;
-	request.setUrl(_m->url);
+    request.setUrl(m->url);
 
 	QString user_agent;
 
-	switch(_m->behavior){
+    switch(m->behavior){
 		case AsyncWebAccess::Behavior::AsSayonara:
 			user_agent = "Sayonara/" + QString(SAYONARA_VERSION) ;
 			break;
@@ -127,40 +127,40 @@ void AsyncWebAccess::run(const QString& url, int timeout)
 	request.setHeader(QNetworkRequest::UserAgentHeader, user_agent);
 
 	sp_log(Log::Debug, this) << "Call " << request.url().toString();
-	_m->reply = _m->nam->get(request);
+    m->reply = m->nam->get(request);
 
-	connect(_m->reply, &QNetworkReply::readyRead, this, &AsyncWebAccess::data_available);
-	connect(_m->reply, &QNetworkReply::finished, this, &AsyncWebAccess::finished);
+    connect(m->reply, &QNetworkReply::readyRead, this, &AsyncWebAccess::data_available);
+    connect(m->reply, &QNetworkReply::finished, this, &AsyncWebAccess::finished);
 
 	if(timeout > 0){
-		_m->timer->start(timeout);
+        m->timer->start(timeout);
 	}
 }
 
 void AsyncWebAccess::run_post(const QString &url, const QByteArray &post_data, int timeout)
 {
-	_m->status = AsyncWebAccess::Status::NoData;
-	_m->header.clear();
-	_m->data.clear();
-	_m->url = url;
-	_m->nam->clearAccessCache();
-	_m->ignore_finished = false;
+    m->status = AsyncWebAccess::Status::NoData;
+    m->header.clear();
+    m->data.clear();
+    m->url = url;
+    m->nam->clearAccessCache();
+    m->ignore_finished = false;
 
 	QUrl my_url(url);
 	QNetworkRequest request(my_url);
 	request.setHeader(QNetworkRequest::ContentTypeHeader, QString("application/x-www-form-urlencoded"));
 
-	if(!_m->header.isEmpty()){
-		for(const QByteArray& key : _m->header.keys()){
-			request.setRawHeader(key, _m->header[key]);
+    if(!m->header.isEmpty()){
+        for(const QByteArray& key : m->header.keys()){
+            request.setRawHeader(key, m->header[key]);
 		}
 	}
 
-	_m->reply  = _m->nam->post(request, post_data);
-	connect(_m->reply , &QNetworkReply::finished, this, &AsyncWebAccess::finished);
+    m->reply  = m->nam->post(request, post_data);
+    connect(m->reply , &QNetworkReply::finished, this, &AsyncWebAccess::finished);
 
 	if(timeout > 0){
-		_m->timer->start(timeout);
+        m->timer->start(timeout);
 	}
 }
 
@@ -171,14 +171,14 @@ void AsyncWebAccess::data_available()
 
 	int content_length = reply->header(QNetworkRequest::ContentLengthHeader).toInt();
 	QString content_type = reply->header(QNetworkRequest::ContentTypeHeader).toString();
-	QString url_file = QUrl(_m->url).fileName();
+    QString url_file = QUrl(m->url).fileName();
 
 	if(content_type.contains("audio/", Qt::CaseInsensitive) &&
 	   content_length <= 0 &&
 	   !Helper::File::is_playlistfile(url_file))
 	{
-		_m->abort_request(true);
-		_m->status = AsyncWebAccess::Status::AudioStream;
+        m->abort_request(true);
+        m->status = AsyncWebAccess::Status::AudioStream;
 		emit sig_finished();
 	}
 }
@@ -193,9 +193,9 @@ void AsyncWebAccess::finished()
 {
 	QNetworkReply* reply = static_cast<QNetworkReply*>(sender());
 
-	if(_m->ignore_finished){
-		_m->abort_request();
-		_m->delete_reply();
+    if(m->ignore_finished){
+        m->abort_request();
+        m->delete_reply();
 		return;
 	}
 
@@ -207,7 +207,7 @@ void AsyncWebAccess::finished()
 	{
 		QString redirect_url = reply->attribute(QNetworkRequest::RedirectionTargetAttribute).toString();
 		if( !redirect_url.isEmpty() &&
-			redirect_url != _m->url)
+            redirect_url != m->url)
 		{
 			redirect_request(redirect_url);
 			return;
@@ -216,40 +216,40 @@ void AsyncWebAccess::finished()
 		if( reply->bytesAvailable() > 0 )
 		{
 			sp_log(Log::Develop, this) << "Got " << reply->bytesAvailable() << " bytes";
-			_m->data = reply->readAll();
-			_m->status = AsyncWebAccess::Status::GotData;
+            m->data = reply->readAll();
+            m->status = AsyncWebAccess::Status::GotData;
 		}
 
 		else {
 			sp_log(Log::Develop, this) << "Answer contains no data";
-			_m->status = AsyncWebAccess::Status::NoData;
-			_m->data.clear();
+            m->status = AsyncWebAccess::Status::NoData;
+            m->data.clear();
 		}
 	}
 
 	else {
 
-		sp_log(Log::Warning, this) << "Cannot open " << _m->url << ": "
+        sp_log(Log::Warning, this) << "Cannot open " << m->url << ": "
 								   << reply->errorString()
 								   << " (" << (int) err << ")";
 
 		if(err == QNetworkReply::TimeoutError)
 		{
-			_m->status = AsyncWebAccess::Status::Timeout;
+            m->status = AsyncWebAccess::Status::Timeout;
 		}
 
 		else if(err == QNetworkReply::RemoteHostClosedError)
 		{
-			_m->status = AsyncWebAccess::Status::NoHttp;
+            m->status = AsyncWebAccess::Status::NoHttp;
 		}
 
 		else {
-			_m->status = AsyncWebAccess::Status::Error;
+            m->status = AsyncWebAccess::Status::Error;
 		}
 	}
 
-	_m->abort_request();
-	_m->delete_reply();
+    m->abort_request();
+    m->delete_reply();
 
 	emit sig_finished();
 }
@@ -258,68 +258,68 @@ void AsyncWebAccess::finished()
 void AsyncWebAccess::timeout()
 {
 	sp_log(Log::Debug, this) << "Timeout reached";
-	_m->abort_request();
+    m->abort_request();
 }
 
 
 void AsyncWebAccess::redirect_request(QString redirect_url)
 {
 	if(redirect_url.startsWith("/")){
-		QUrl new_url(_m->url);
+        QUrl new_url(m->url);
 		redirect_url.prepend(new_url.scheme() + "://" + new_url.host());
 	}
 
-	sp_log(Log::Debug, this) << "Redirect from " << _m->url << " to " << redirect_url;
+    sp_log(Log::Debug, this) << "Redirect from " << m->url << " to " << redirect_url;
 
-	_m->abort_request();
-	_m->delete_reply();
+    m->abort_request();
+    m->delete_reply();
 
-	_m->url = redirect_url;
+    m->url = redirect_url;
 
 	run(redirect_url);
 }
 
 QByteArray AsyncWebAccess::data() const
 {
-	return _m->data;
+    return m->data;
 }
 
 
 QImage AsyncWebAccess::image() const
 {
 	QImage img;
-	img.loadFromData(_m->data);
+    img.loadFromData(m->data);
 	return img;
 }
 
 
 QString AsyncWebAccess::url() const
 {
-	return _m->url;
+    return m->url;
 }
 
 void AsyncWebAccess::set_behavior(AsyncWebAccess::Behavior behavior)
 {
-	_m->behavior = behavior;
+    m->behavior = behavior;
 }
 
 void AsyncWebAccess::set_raw_header(const QMap<QByteArray, QByteArray>& header){
-	_m->header = header;
+    m->header = header;
 }
 
 AsyncWebAccess::Status AsyncWebAccess::status() const
 {
-	return _m->status;
+    return m->status;
 }
 
 bool AsyncWebAccess::has_data() const
 {
-	return (_m->status == AsyncWebAccess::Status::GotData);
+    return (m->status == AsyncWebAccess::Status::GotData);
 }
 
 bool AsyncWebAccess::has_error() const
 {
-	switch(_m->status)
+    switch(m->status)
 	{
 		case AsyncWebAccess::Status::Error:
 		case AsyncWebAccess::Status::Timeout:
@@ -333,5 +333,5 @@ bool AsyncWebAccess::has_error() const
 
 void AsyncWebAccess::stop()
 {
-	_m->abort_request();
+    m->abort_request();
 }

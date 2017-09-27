@@ -47,32 +47,32 @@ struct LibraryItemModelAlbums::Private
 LibraryItemModelAlbums::LibraryItemModelAlbums(QObject* parent) :
 	LibraryItemModel(parent)
 {
-	_m = Pimpl::make<LibraryItemModelAlbums::Private>();
-	_m->pm_single = GUI::get_pixmap("cd.png", QSize(14, 14));
-	_m->pm_multi = GUI::get_pixmap("cds.png", QSize(16, 16));
+	m = Pimpl::make<LibraryItemModelAlbums::Private>();
+	m->pm_single = GUI::get_pixmap("cd.png", QSize(14, 14));
+	m->pm_multi = GUI::get_pixmap("cds.png", QSize(16, 16));
 }
 
 LibraryItemModelAlbums::~LibraryItemModelAlbums() {}
 
 int LibraryItemModelAlbums::get_id_by_row(int row)
 {
-	if(row < 0 || row >= _m->albums.size()){
+	if(row < 0 || row >= m->albums.size()){
 		return -1;
 	}
 
 	else {
-		return _m->albums[row].id;
+		return m->albums[row].id;
 	}
 }
 
 QString LibraryItemModelAlbums::get_string(int row) const
 {
-	if(row < 0 || row >= _m->albums.size()){
+	if(row < 0 || row >= m->albums.size()){
 		return QString();
 	}
 
 	else {
-		return _m->albums[row].name;
+		return m->albums[row].name;
 	}
 }
 
@@ -84,11 +84,11 @@ CoverLocation LibraryItemModelAlbums::get_cover(const SP::Set<int>& indexes) con
 	}
 
 	int idx = indexes.first();
-	if(idx < 0 || idx > _m->albums.size()){
+	if(idx < 0 || idx > m->albums.size()){
 		return CoverLocation();
 	}
 
-	const Album& album = _m->albums[idx];
+	const Album& album = m->albums[idx];
 	return CoverLocation::get_cover_location(album);
 }
 
@@ -98,14 +98,14 @@ QVariant LibraryItemModelAlbums::data(const QModelIndex & index, int role) const
 	if (!index.isValid())
 		return QVariant();
 
-	if (index.row() >= _m->albums.size())
+	if (index.row() >= m->albums.size())
 		return QVariant();
 
 	int row = index.row();
 	int column = index.column();
 	ColumnIndex::Album col = (ColumnIndex::Album) column;
 
-	const Album& album = _m->albums[row];
+	const Album& album = m->albums[row];
 
 	if(role == Qt::TextAlignmentRole )
 	{
@@ -136,10 +136,10 @@ QVariant LibraryItemModelAlbums::data(const QModelIndex & index, int role) const
 		if(col == ColumnIndex::Album::MultiDisc)
 		{
 			if(album.discnumbers.size() > 1){
-				return _m->pm_multi;
+				return m->pm_multi;
 			}
 
-			return _m->pm_single;
+			return m->pm_single;
 		}
 	}
 
@@ -182,11 +182,11 @@ bool LibraryItemModelAlbums::setData(const QModelIndex & index, const QVariant &
 		int col = index.column();
 
 		if(col == (int) ColumnIndex::Album::Rating) {
-			_m->albums[row].rating = value.toInt();
+			m->albums[row].rating = value.toInt();
 		}
 
 		else {
-			bool success = Album::fromVariant(value, _m->albums[row]);
+			bool success = Album::fromVariant(value, m->albums[row]);
 
 			if( !success ) {
 				return false;
@@ -210,7 +210,7 @@ bool LibraryItemModelAlbums::setData(const QModelIndex& index, const AlbumList& 
 	if (role == Qt::EditRole || role == Qt::DisplayRole) {
 		int row = index.row();
 
-		_m->albums = albums;
+		m->albums = albums;
 
 		emit dataChanged(index, this->index(row + albums.size() - 1, columnCount() - 1));
 

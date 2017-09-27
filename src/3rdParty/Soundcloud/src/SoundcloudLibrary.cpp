@@ -70,7 +70,7 @@ struct SC::Library::Private
 SC::Library::Library(QObject *parent) :
 	AbstractLibrary(parent)
 {
-	_m = Pimpl::make<Private>();
+	m = Pimpl::make<Private>();
 }
 
 SC::Library::~Library() {}
@@ -86,21 +86,21 @@ void SC::Library::load()
 
 void SC::Library::get_all_artists(ArtistList& artists, ::Library::Sortings so)
 {
-	if(_m->artists.isEmpty())
+	if(m->artists.isEmpty())
 	{
-		_m->scd->getAllArtists(artists, so.so_artists);
-		_m->artists = artists;
+		m->scd->getAllArtists(artists, so.so_artists);
+		m->artists = artists;
 
-        for(int i=0; i<_m->artists.size(); i++)
+        for(int i=0; i<m->artists.size(); i++)
         {
 			const Artist& artist = artists[i];
-			_m->artist_id_idx_map[artist.id] = i;
-			_m->artist_name_idx_map[artist.name].insert(i);
+			m->artist_id_idx_map[artist.id] = i;
+			m->artist_name_idx_map[artist.name].insert(i);
 		}
 	}
 
 	else {
-		artists = _m->artists;
+		artists = m->artists;
 	}
 
 	SC::Sorting::sort_artists(artists, so.so_artists);
@@ -112,17 +112,17 @@ void SC::Library::get_all_artists_by_searchstring(::Library::Filter filter, Arti
 		return;
 	}
 
-	if(_m->search_information.is_empty()){
-		_m->scd->getSearchInformation(_m->search_information);
+	if(m->search_information.is_empty()){
+		m->scd->getSearchInformation(m->search_information);
 	}
 
-	SP::Set<int> artist_ids = _m->search_information.artist_ids(filter.filtertext());
+	SP::Set<int> artist_ids = m->search_information.artist_ids(filter.filtertext());
 
     for(int artist_id : artist_ids)
     {
-		int idx = _m->artist_id_idx_map[artist_id];
-		artists << _m->artists[idx];
-		artists.last().num_songs = _m->md_artist_id_idx_map[artist_id].size();
+		int idx = m->artist_id_idx_map[artist_id];
+		artists << m->artists[idx];
+		artists.last().num_songs = m->md_artist_id_idx_map[artist_id].size();
 	}
 
 	SC::Sorting::sort_artists(artists, so.so_artists);
@@ -130,25 +130,25 @@ void SC::Library::get_all_artists_by_searchstring(::Library::Filter filter, Arti
 
 void SC::Library::get_all_albums(AlbumList& albums, ::Library::Sortings so)
 {
-	if(_m->albums.isEmpty())
+	if(m->albums.isEmpty())
 	{
-		_m->scd->getAllAlbums(albums, false);
-		_m->albums = albums;
+		m->scd->getAllAlbums(albums, false);
+		m->albums = albums;
 
 		for(int i=0; i<albums.size(); i++)
 		{
 			const Album& album = albums[i];
-			_m->album_id_idx_map[album.id] = i;
-			_m->album_name_idx_map[album.name].insert(i);
+			m->album_id_idx_map[album.id] = i;
+			m->album_name_idx_map[album.name].insert(i);
 
 			for(const QString& artist : album.artists){
-				_m->artist_name_album_idx_map[artist].insert(i);
+				m->artist_name_album_idx_map[artist].insert(i);
 			}
 		}
 	}
 
 	else {
-		albums = _m->albums;
+		albums = m->albums;
 	}
 
 	SC::Sorting::sort_albums(albums, so.so_albums);
@@ -160,18 +160,18 @@ void SC::Library::get_all_albums_by_artist(IDList artist_ids, AlbumList& albums,
 
 	for(int artist_id : artist_ids)
 	{
-		int artist_idx = _m->artist_id_idx_map[artist_id];
-		const Artist& artist = _m->artists[artist_idx];
+		int artist_idx = m->artist_id_idx_map[artist_id];
+		const Artist& artist = m->artists[artist_idx];
 
-		SP::Set<int> album_idxs = _m->artist_name_album_idx_map[artist.name];
+		SP::Set<int> album_idxs = m->artist_name_album_idx_map[artist.name];
 
         for(int album_idx : album_idxs)
         {
-            if(!between(album_idx, _m->albums)){
-                sp_log(Log::Warning, this) << __FUNCTION__ << " Invalid index: " << album_idx << " (" << _m->albums.size() << ")";
+            if(!between(album_idx, m->albums)){
+                sp_log(Log::Warning, this) << __FUNCTION__ << " Invalid index: " << album_idx << " (" << m->albums.size() << ")";
             }
             else {
-                albums.push_back(_m->albums[album_idx]);
+                albums.push_back(m->albums[album_idx]);
             }
 		}
 	}
@@ -185,20 +185,20 @@ void SC::Library::get_all_albums_by_searchstring(::Library::Filter filter, Album
 		return;
 	}
 
-	if(_m->search_information.is_empty()){
-		_m->scd->getSearchInformation(_m->search_information);
+	if(m->search_information.is_empty()){
+		m->scd->getSearchInformation(m->search_information);
 	}
 
-	SP::Set<int> album_ids = _m->search_information.album_ids(filter.filtertext());
+	SP::Set<int> album_ids = m->search_information.album_ids(filter.filtertext());
     for(int album_id : album_ids)
     {
-		int idx = _m->album_id_idx_map[album_id];
-        if(!between(idx, _m->albums)) {
-            sp_log(Log::Warning, this) << __FUNCTION__ << " Invalid index: " << idx << " (" << _m->albums.size() << ")";
+		int idx = m->album_id_idx_map[album_id];
+        if(!between(idx, m->albums)) {
+            sp_log(Log::Warning, this) << __FUNCTION__ << " Invalid index: " << idx << " (" << m->albums.size() << ")";
         }
 
         else {
-            albums << _m->albums[idx];
+            albums << m->albums[idx];
         }
 	}
 
@@ -214,24 +214,24 @@ void SC::Library::get_all_tracks(const QStringList& paths, MetaDataList& v_md)
 
 void SC::Library::get_all_tracks(MetaDataList& v_md, ::Library::Sortings so)
 {
-	if(_m->v_md.isEmpty())
+	if(m->v_md.isEmpty())
 	{
-		_m->scd->getAllTracks(v_md, so.so_tracks);
-		_m->v_md = v_md;
+		m->scd->getAllTracks(v_md, so.so_tracks);
+		m->v_md = v_md;
 
-        for(int i=0; i<_m->v_md.count(); i++)
+        for(int i=0; i<m->v_md.count(); i++)
 		{
 			const MetaData& md = v_md[i];
 
-			_m->md_id_idx_map[md.id] = i;
-			_m->md_name_idx_map[md.title].insert(i);
-			_m->md_album_id_idx_map[md.album_id].insert(i);
-			_m->md_artist_id_idx_map[md.artist_id].insert(i);
+			m->md_id_idx_map[md.id] = i;
+			m->md_name_idx_map[md.title].insert(i);
+			m->md_album_id_idx_map[md.album_id].insert(i);
+			m->md_artist_id_idx_map[md.artist_id].insert(i);
 		}
 	}
 
 	else {
-		v_md = _m->v_md;
+		v_md = m->v_md;
 	}
 
 	SC::Sorting::sort_tracks(v_md, so.so_tracks);
@@ -244,16 +244,16 @@ void SC::Library::get_all_tracks_by_artist(IDList artist_ids, MetaDataList& v_md
 
 	for(int artist_id : artist_ids)
 	{
-		const SP::Set<int>& idxs = _m->md_artist_id_idx_map[artist_id];
+		const SP::Set<int>& idxs = m->md_artist_id_idx_map[artist_id];
         std::cout << "Get all tracks by artist " << artist_id << ": "
-                                 << " Metadata has " << _m->v_md.size() << " elements" << std::endl;
+                                 << " Metadata has " << m->v_md.size() << " elements" << std::endl;
 
         for(int idx : idxs)
         {
-            if(!between(idx, _m->v_md)) {
-                sp_log(Log::Warning, this) << __FUNCTION__ << " Invalid index: " << idx << " (" << _m->v_md.size() << ")";
+            if(!between(idx, m->v_md)) {
+                sp_log(Log::Warning, this) << __FUNCTION__ << " Invalid index: " << idx << " (" << m->v_md.size() << ")";
             } else {
-                v_md << _m->v_md[idx];
+                v_md << m->v_md[idx];
             }
 		}
 	}
@@ -267,9 +267,9 @@ void SC::Library::get_all_tracks_by_album(IDList album_ids, MetaDataList& v_md, 
 
 	for(int album_id : album_ids)
 	{
-		const SP::Set<int>& idxs = _m->md_album_id_idx_map[album_id];
+		const SP::Set<int>& idxs = m->md_album_id_idx_map[album_id];
 		for(int idx : idxs) {
-			v_md << _m->v_md[idx];
+			v_md << m->v_md[idx];
 		}
 	}
 
@@ -282,16 +282,16 @@ void SC::Library::get_all_tracks_by_searchstring(::Library::Filter filter, MetaD
 		return;
 	}
 
-	if(_m->search_information.is_empty()){
-		_m->scd->getSearchInformation(_m->search_information);
+	if(m->search_information.is_empty()){
+		m->scd->getSearchInformation(m->search_information);
 	}
 
-	SP::Set<int> track_ids = _m->search_information.track_ids(filter.filtertext());
+	SP::Set<int> track_ids = m->search_information.track_ids(filter.filtertext());
 
     for(int track_id : track_ids)
     {
-		int idx = _m->md_id_idx_map[track_id];
-		v_md << _m->v_md[idx];
+		int idx = m->md_id_idx_map[track_id];
+		v_md << m->v_md[idx];
 	}
 
 	SC::Sorting::sort_tracks(v_md, so.so_tracks);
@@ -299,13 +299,13 @@ void SC::Library::get_all_tracks_by_searchstring(::Library::Filter filter, MetaD
 
 void SC::Library::update_track(const MetaData& md)
 {
-	_m->scd->updateTrack(md);
+	m->scd->updateTrack(md);
     refetch();
 }
 
 void SC::Library::update_album(const Album& album)
 {
-	_m->scd->updateAlbum(album);
+	m->scd->updateAlbum(album);
     refetch();
 }
 
@@ -313,17 +313,17 @@ void SC::Library::delete_tracks(const MetaDataList& v_md, ::Library::TrackDeleti
 {
 	Q_UNUSED(mode)
 
-	_m->scd->deleteTracks(v_md);
+	m->scd->deleteTracks(v_md);
     refetch();
 }
 
 void SC::Library::refetch()
 {
-    _m->clear_cache();
+    m->clear_cache();
 
     AbstractLibrary::refetch();
 
-    _m->scd->getSearchInformation(_m->search_information);
+    m->scd->getSearchInformation(m->search_information);
 }
 
 void SC::Library::psl_reload_library(bool b, ::Library::ReloadQuality quality)
@@ -331,7 +331,7 @@ void SC::Library::psl_reload_library(bool b, ::Library::ReloadQuality quality)
 	Q_UNUSED(b)
 	Q_UNUSED(quality)
 
-    _m->clear_cache();
+    m->clear_cache();
 }
 
 void SC::Library::refresh_artist()
@@ -381,15 +381,15 @@ void SC::Library::insert_tracks(const MetaDataList& v_md, const ArtistList& arti
 
     for(const Artist& artist : artists)
     {
-        if(!_m->scd->getArtistByID(artist.id, artist_tmp) || artist.id != artist_tmp.id) {
-            _m->scd->insertArtistIntoDatabase(artist);
+        if(!m->scd->getArtistByID(artist.id, artist_tmp) || artist.id != artist_tmp.id) {
+            m->scd->insertArtistIntoDatabase(artist);
 		}
 	}
 
     for(const Album& album : albums)
     {
-        if(!_m->scd->getAlbumByID(album.id, album_tmp) || album.id != album_tmp.id) {
-            _m->scd->insertAlbumIntoDatabase(album);
+        if(!m->scd->getAlbumByID(album.id, album_tmp) || album.id != album_tmp.id) {
+            m->scd->insertAlbumIntoDatabase(album);
 		}
 
         else {
@@ -397,16 +397,16 @@ void SC::Library::insert_tracks(const MetaDataList& v_md, const ArtistList& arti
 		}
 	}
 
-    if(!_m->scd->getAlbumByID(-1, album_tmp))
+    if(!m->scd->getAlbumByID(-1, album_tmp))
     {
 		Album album;
 		album.name = "None";
 		album.id = 0;
 
-		_m->scd->insertAlbumIntoDatabase(album);
+		m->scd->insertAlbumIntoDatabase(album);
 	}
 
-	_m->scd->storeMetadata(v_md);
+	m->scd->storeMetadata(v_md);
 
 	AbstractLibrary::insert_tracks(v_md);
 
@@ -426,7 +426,7 @@ void SC::Library::artists_fetched(const ArtistList& artists)
 			continue;
 		}
 
-		_m->scd->updateArtist(artist);
+		m->scd->updateArtist(artist);
 
 		fetcher = new SC::DataFetcher(this);
 
@@ -447,7 +447,7 @@ void SC::Library::tracks_fetched(const MetaDataList& v_md)
 {
 	for(const MetaData& md : v_md){
 		if(md.id > 0){
-			_m->scd->insertTrackIntoDatabase(md, md.artist_id, md.album_id);
+			m->scd->insertTrackIntoDatabase(md, md.artist_id, md.album_id);
 		}
 	}
 
@@ -459,7 +459,7 @@ void SC::Library::albums_fetched(const AlbumList& albums)
 {
 	for(const Album& album : albums){
 		if(album.id > 0){
-			_m->scd->insertAlbumIntoDatabase(album);
+			m->scd->insertAlbumIntoDatabase(album);
 		}
 	}
 

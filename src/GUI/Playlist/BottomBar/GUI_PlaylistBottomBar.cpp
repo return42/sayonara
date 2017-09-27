@@ -49,8 +49,8 @@ struct GUI_PlaylistBottomBar::Private
 GUI_PlaylistBottomBar::GUI_PlaylistBottomBar(QWidget *parent) :
 	SayonaraWidget(parent)
 {
-	_m = Pimpl::make<Private>();
-	_m->playlist_menu = new PlaylistMenu(this);
+	m = Pimpl::make<Private>();
+	m->playlist_menu = new PlaylistMenu(this);
 
 	ui = new Ui::GUI_PlaylistBottomBar();
 	ui->setupUi(this);
@@ -63,26 +63,26 @@ GUI_PlaylistBottomBar::GUI_PlaylistBottomBar(QWidget *parent) :
 #endif
 
 #ifdef WITH_SHUTDOWN
-	_m->ui_shutdown = new GUI_Shutdown(this);
+	m->ui_shutdown = new GUI_Shutdown(this);
 #endif
 
-	_m->plm = _settings->get(Set::PL_Mode);
+	m->plm = _settings->get(Set::PL_Mode);
 
-	ui->btn_rep1->setChecked(Playlist::Mode::isActive(_m->plm.rep1()));
-	ui->btn_append->setChecked(Playlist::Mode::isActive(_m->plm.append()));
-	ui->btn_repAll->setChecked(Playlist::Mode::isActive(_m->plm.repAll()));
-	ui->btn_dynamic->setChecked(Playlist::Mode::isActive(_m->plm.dynamic()));
-	ui->btn_shuffle->setChecked(Playlist::Mode::isActive(_m->plm.shuffle()));
-	ui->btn_gapless->setChecked(Playlist::Mode::isActive(_m->plm.gapless())) ;
+	ui->btn_rep1->setChecked(Playlist::Mode::isActive(m->plm.rep1()));
+	ui->btn_append->setChecked(Playlist::Mode::isActive(m->plm.append()));
+	ui->btn_repAll->setChecked(Playlist::Mode::isActive(m->plm.repAll()));
+	ui->btn_dynamic->setChecked(Playlist::Mode::isActive(m->plm.dynamic()));
+	ui->btn_shuffle->setChecked(Playlist::Mode::isActive(m->plm.shuffle()));
+	ui->btn_gapless->setChecked(Playlist::Mode::isActive(m->plm.gapless())) ;
 	
-	ui->btn_rep1->setEnabled(Playlist::Mode::isEnabled(_m->plm.rep1()));
-	ui->btn_append->setEnabled(Playlist::Mode::isEnabled(_m->plm.append()));
-	ui->btn_repAll->setEnabled(Playlist::Mode::isEnabled(_m->plm.repAll()));
-	ui->btn_dynamic->setEnabled(Playlist::Mode::isEnabled(_m->plm.dynamic()));
-	ui->btn_shuffle->setEnabled(Playlist::Mode::isEnabled(_m->plm.shuffle()));
+	ui->btn_rep1->setEnabled(Playlist::Mode::isEnabled(m->plm.rep1()));
+	ui->btn_append->setEnabled(Playlist::Mode::isEnabled(m->plm.append()));
+	ui->btn_repAll->setEnabled(Playlist::Mode::isEnabled(m->plm.repAll()));
+	ui->btn_dynamic->setEnabled(Playlist::Mode::isEnabled(m->plm.dynamic()));
+	ui->btn_shuffle->setEnabled(Playlist::Mode::isEnabled(m->plm.shuffle()));
 
 	bool gapless_enabled =
-			Playlist::Mode::isEnabled(_m->plm.gapless()) &&
+			Playlist::Mode::isEnabled(m->plm.gapless()) &&
 			!_settings->get(Set::Engine_CrossFaderActive);
 
 	ui->btn_gapless->setEnabled(gapless_enabled) ;
@@ -103,9 +103,9 @@ GUI_PlaylistBottomBar::GUI_PlaylistBottomBar(QWidget *parent) :
 	connect(ui->btn_menu, &MenuButton::sig_triggered, this, &GUI_PlaylistBottomBar::btn_menu_pressed);
 
 #ifdef WITH_SHUTDOWN
-	connect(_m->playlist_menu, &PlaylistMenu::sig_shutdown, this, &GUI_PlaylistBottomBar::shutdown_toggled);
+	connect(m->playlist_menu, &PlaylistMenu::sig_shutdown, this, &GUI_PlaylistBottomBar::shutdown_toggled);
 	connect(ui->btn_shutdown, &QPushButton::toggled, this, &GUI_PlaylistBottomBar::shutdown_toggled);
-	connect(_m->ui_shutdown, &GUI_Shutdown::sig_closed, this, &GUI_PlaylistBottomBar::shutdown_closed);
+	connect(m->ui_shutdown, &GUI_Shutdown::sig_closed, this, &GUI_PlaylistBottomBar::shutdown_closed);
 #endif
 
 	language_changed();
@@ -117,7 +117,7 @@ GUI_PlaylistBottomBar::~GUI_PlaylistBottomBar() {}
 void GUI_PlaylistBottomBar::btn_menu_pressed(QPoint pos)
 {
 	pos.setY(pos.y() - 160);
-	_m->playlist_menu->exec(pos);
+	m->playlist_menu->exec(pos);
 }
 
 void GUI_PlaylistBottomBar::rep1_checked(bool checked)
@@ -162,13 +162,13 @@ void GUI_PlaylistBottomBar::playlist_mode_changed()
 	plm.setDynamic(ui->btn_dynamic->isChecked(), ui->btn_dynamic->isEnabled());
 	plm.setGapless(ui->btn_gapless->isChecked(), ui->btn_gapless->isEnabled());
 
-	if(plm == _m->plm){
+	if(plm == m->plm){
 		return;
 	}
 
-	_m->plm = plm;
+	m->plm = plm;
 
-	_settings->set(Set::PL_Mode, _m->plm);
+	_settings->set(Set::PL_Mode, m->plm);
 }
 
 void GUI_PlaylistBottomBar::language_changed()
@@ -191,23 +191,23 @@ void GUI_PlaylistBottomBar::_sl_playlist_mode_changed()
 {
 	Playlist::Mode plm = _settings->get(Set::PL_Mode);
 
-	if(plm == _m->plm) return;
+	if(plm == m->plm) return;
 
-	_m->plm = plm;
+	m->plm = plm;
 
-	ui->btn_append->setChecked( Playlist::Mode::isActive(_m->plm.append()));
-	ui->btn_rep1->setChecked(Playlist::Mode::isActive(_m->plm.rep1()));
-	ui->btn_repAll->setChecked(Playlist::Mode::isActive(_m->plm.repAll()));
-	ui->btn_shuffle->setChecked(Playlist::Mode::isActive(_m->plm.shuffle()));
-	ui->btn_dynamic->setChecked(Playlist::Mode::isActive(_m->plm.dynamic()));
-	ui->btn_gapless->setChecked(Playlist::Mode::isActive(_m->plm.gapless()));
+	ui->btn_append->setChecked( Playlist::Mode::isActive(m->plm.append()));
+	ui->btn_rep1->setChecked(Playlist::Mode::isActive(m->plm.rep1()));
+	ui->btn_repAll->setChecked(Playlist::Mode::isActive(m->plm.repAll()));
+	ui->btn_shuffle->setChecked(Playlist::Mode::isActive(m->plm.shuffle()));
+	ui->btn_dynamic->setChecked(Playlist::Mode::isActive(m->plm.dynamic()));
+	ui->btn_gapless->setChecked(Playlist::Mode::isActive(m->plm.gapless()));
 
-	ui->btn_rep1->setEnabled(Playlist::Mode::isEnabled(_m->plm.rep1()));
-	ui->btn_append->setEnabled(Playlist::Mode::isEnabled(_m->plm.append()));
-	ui->btn_repAll->setEnabled(Playlist::Mode::isEnabled(_m->plm.repAll()));
-	ui->btn_dynamic->setEnabled(Playlist::Mode::isEnabled(_m->plm.dynamic()));
-	ui->btn_shuffle->setEnabled(Playlist::Mode::isEnabled(_m->plm.shuffle()));
-	ui->btn_gapless->setEnabled(Playlist::Mode::isEnabled(_m->plm.gapless()));
+	ui->btn_rep1->setEnabled(Playlist::Mode::isEnabled(m->plm.rep1()));
+	ui->btn_append->setEnabled(Playlist::Mode::isEnabled(m->plm.append()));
+	ui->btn_repAll->setEnabled(Playlist::Mode::isEnabled(m->plm.repAll()));
+	ui->btn_dynamic->setEnabled(Playlist::Mode::isEnabled(m->plm.dynamic()));
+	ui->btn_shuffle->setEnabled(Playlist::Mode::isEnabled(m->plm.shuffle()));
+	ui->btn_gapless->setEnabled(Playlist::Mode::isEnabled(m->plm.gapless()));
 }
 
 
@@ -240,7 +240,7 @@ void GUI_PlaylistBottomBar::check_dynamic_play_button()
 		}
 
 		if(b){
-			_m->ui_shutdown->exec();
+			m->ui_shutdown->exec();
 		}
 
 		else{
@@ -255,7 +255,7 @@ void GUI_PlaylistBottomBar::check_dynamic_play_button()
 
 		ui->btn_shutdown->setVisible(shutdown_is_running);
 		ui->btn_shutdown->setChecked(shutdown_is_running);
-		_m->playlist_menu->set_shutdown(shutdown_is_running);
+		m->playlist_menu->set_shutdown(shutdown_is_running);
 	}
 
 

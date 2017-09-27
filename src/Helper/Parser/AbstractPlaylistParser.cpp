@@ -43,12 +43,12 @@ struct AbstractPlaylistParser::Private
 
 AbstractPlaylistParser::AbstractPlaylistParser(const QString& filename)
 {
-	_m = Pimpl::make<AbstractPlaylistParser::Private>();
+	m = Pimpl::make<AbstractPlaylistParser::Private>();
 
 	QString pure_file;
 
-	Helper::File::split_filename(filename, _m->directory, pure_file);
-	Helper::File::read_file_into_str(filename, _m->file_content);
+	Helper::File::split_filename(filename, m->directory, pure_file);
+	Helper::File::read_file_into_str(filename, m->file_content);
 
 }
 
@@ -57,33 +57,33 @@ AbstractPlaylistParser::~AbstractPlaylistParser() {}
 MetaDataList AbstractPlaylistParser::tracks(bool force_parse)
 {
 	if(force_parse){
-		_m->parsed = false;
+		m->parsed = false;
 	}
 
-	if(!_m->parsed){
-		_m->v_md.clear();
+	if(!m->parsed){
+		m->v_md.clear();
 		parse();
 	}
 
-	_m->parsed = true;
+	m->parsed = true;
 
 
-	return _m->v_md;
+	return m->v_md;
 }
 
 void AbstractPlaylistParser::add_track(const MetaData& md)
 {
-	_m->v_md << md;
+	m->v_md << md;
 }
 
 void AbstractPlaylistParser::add_tracks(const MetaDataList& v_md)
 {
-	_m->v_md << v_md;
+	m->v_md << v_md;
 }
 
 const QString& AbstractPlaylistParser::content() const
 {
-	return _m->file_content;
+	return m->file_content;
 }
 
 
@@ -100,7 +100,7 @@ QString AbstractPlaylistParser::get_absolute_filename(const QString& filename) c
 	}
 
 	if(!Helper::File::is_absolute(filename)){
-		ret = _m->directory + "/" + filename;
+		ret = m->directory + "/" + filename;
 	}
 	else{
 		ret = filename;

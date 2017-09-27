@@ -31,8 +31,8 @@ struct Tagging::AbstractFrameHelper::Private
 
 Tagging::AbstractFrameHelper::AbstractFrameHelper(const QString& key)
 {
-	_m = Pimpl::make<Private>();
-	_m->key = key;
+	m = Pimpl::make<Private>();
+	m->key = key;
 }
 
 Tagging::AbstractFrameHelper::~AbstractFrameHelper() {}
@@ -50,11 +50,11 @@ QString Tagging::AbstractFrameHelper::cvt_string(const TagLib::String str) const
 
 QString Tagging::AbstractFrameHelper::key() const
 {
-	return _m->key;
+	return m->key;
 }
 
 TagLib::String Tagging::AbstractFrameHelper::tag_key() const
 {
-	return cvt_string(_m->key);
+	return cvt_string(m->key);
 }
 

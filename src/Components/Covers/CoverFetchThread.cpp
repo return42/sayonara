@@ -69,18 +69,18 @@ CoverFetchThread::CoverFetchThread() {}
 CoverFetchThread::CoverFetchThread(QObject* parent, const CoverLocation& cl, const int n_covers) :
 	QObject(parent)
 {
-	_m = Pimpl::make<Private>(cl, n_covers);
+	m = Pimpl::make<Private>(cl, n_covers);
 }
 
 CoverFetchThread::~CoverFetchThread() {}
 
 bool CoverFetchThread::start()
 {
-	_m->may_run = true;
+	m->may_run = true;
 
-	if(_m->cl.has_search_urls()){
-		_m->url = _m->cl.search_urls().first();
-		_m->cl.remove_first_search_url();
+	if(m->cl.has_search_urls()){
+		m->url = m->cl.search_urls().first();
+		m->cl.remove_first_search_url();
 	}
 
 	else {
@@ -88,16 +88,16 @@ bool CoverFetchThread::start()
 	}
 
 	CoverFetchManager* cfm = CoverFetchManager::getInstance();
-	_m->acf = cfm->get_active_coverfetcher(_m->url);
+	m->acf = cfm->get_active_coverfetcher(m->url);
 
-	if(!_m->acf){
+	if(!m->acf){
 		return false;
 	}
 
-	if( _m->acf->can_fetch_cover_directly() )
+	if( m->acf->can_fetch_cover_directly() )
 	{
-		_m->addresses.clear();
-		_m->addresses << _m->url;
+		m->addresses.clear();
+		m->addresses << m->url;
 
 		more();
 	}
@@ -105,12 +105,12 @@ bool CoverFetchThread::start()
 	else
 	{
 		AsyncWebAccess* awa = new AsyncWebAccess(this);
-		awa->setObjectName(_m->acf->get_keyword());
+		awa->setObjectName(m->acf->get_keyword());
 		awa->set_behavior(AsyncWebAccess::Behavior::AsSayonara);
 		connect(awa, &AsyncWebAccess::sig_finished, this, &CoverFetchThread::content_fetched);
 
-		_m->active_connections << awa;
-		awa->run(_m->url, Timeout);
+		m->active_connections << awa;
+		awa->run(m->url, Timeout);
 	}
 
 	return true;
@@ -119,18 +119,18 @@ bool CoverFetchThread::start()
 
 bool CoverFetchThread::more()
 {
-	if(_m->may_run == false){
+	if(m->may_run == false){
 		return false;
 	}
 
 	// we have all our covers
-	if(_m->n_covers == _m->n_covers_found){
+	if(m->n_covers == m->n_covers_found){
 		emit sig_finished(true);
 		return true;
 	}
 
 	// we have no more addresses and not all our covers
-	if(_m->addresses.isEmpty())
+	if(m->addresses.isEmpty())
 	{
 		bool success = start();
 		if(!success) {
@@ -141,11 +141,11 @@ bool CoverFetchThread::more()
 	}
 
 
-	QString address = _m->addresses.takeFirst();
+	QString address = m->addresses.takeFirst();
 	AsyncWebAccess* awa = new AsyncWebAccess(this);
 	awa->set_behavior(AsyncWebAccess::Behavior::AsBrowser);
 
-	if(_m->n_covers == 1) {
+	if(m->n_covers == 1) {
 		connect(awa, &AsyncWebAccess::sig_finished, this, &CoverFetchThread::single_image_fetched);
 	}
 
@@ -154,18 +154,18 @@ bool CoverFetchThread::more()
 	}
 
 	awa->run(address, Timeout);
-	_m->active_connections << awa;
+	m->active_connections << awa;
 
 	return true;
 }
 
 void CoverFetchThread::stop()
 {
-	for(AsyncWebAccess* awa : _m->active_connections){
+	for(AsyncWebAccess* awa : m->active_connections){
 		awa->stop();
 	}
 
-	_m->may_run = false;
+	m->may_run = false;
 	emit sig_finished(false);
 }
 
@@ -173,13 +173,13 @@ void CoverFetchThread::stop()
 void CoverFetchThread::content_fetched()
 {
 	AsyncWebAccess* awa = static_cast<AsyncWebAccess*>(sender());
-	_m->active_connections.removeAll(awa);
+	m->active_connections.removeAll(awa);
 
-	if(awa->objectName() == _m->acf->get_keyword()) {
+	if(awa->objectName() == m->acf->get_keyword()) {
 		if(awa->status() == AsyncWebAccess::Status::GotData)
 		{
 			QByteArray website = awa->data();
-			_m->addresses = _m->acf->calc_addresses_from_website(website);
+			m->addresses = m->acf->calc_addresses_from_website(website);
 		}
 	}
 
@@ -190,24 +190,24 @@ void CoverFetchThread::content_fetched()
 void CoverFetchThread::single_image_fetched()
 {
 	AsyncWebAccess* awa = static_cast<AsyncWebAccess*>(sender());
-	_m->active_connections.removeAll(awa);
+	m->active_connections.removeAll(awa);
 
 	if(awa->status() == AsyncWebAccess::Status::GotData)
 	{
 		QImage img  = awa->image();
 
 		if(!img.isNull()) {
-			QString target_file = _m->cl.cover_path();
-			_m->n_covers_found++;
+			QString target_file = m->cl.cover_path();
+			m->n_covers_found++;
 			save_and_emit_image(target_file, img);
 			emit sig_finished(true);
 		}
 
-		sp_log(Log::Info, this) << "Found cover in " << _m->acf->get_keyword() << " for " << _m->cl.identifer();
+		sp_log(Log::Info, this) << "Found cover in " << m->acf->get_keyword() << " for " << m->cl.identifer();
 	}
 
 	else {
-		sp_log(Log::Warning, this) << "Could not fetch cover from " << _m->acf->get_keyword();
+		sp_log(Log::Warning, this) << "Could not fetch cover from " << m->acf->get_keyword();
 		if(!more()){
 			emit sig_finished(false);
 		}
@@ -221,7 +221,7 @@ void
 CoverFetchThread::multi_image_fetched()
 {
 	AsyncWebAccess* awa = static_cast<AsyncWebAccess*>(sender());
-	_m->active_connections.removeAll(awa);
+	m->active_connections.removeAll(awa);
 
 	if(awa->status() == AsyncWebAccess::Status::GotData){
 
@@ -230,18 +230,18 @@ CoverFetchThread::multi_image_fetched()
 		if(!img.isNull()){
 
 			QString filename, dir, cover_path;
-			QString target_file = _m->cl.cover_path();
+			QString target_file = m->cl.cover_path();
 			Helper::File::split_filename(target_file, dir, filename);
 
-			cover_path = dir + "/" + QString::number(_m->n_covers_found) + "_" + filename;
+			cover_path = dir + "/" + QString::number(m->n_covers_found) + "_" + filename;
 			save_and_emit_image(cover_path, img);
 
-			_m->n_covers_found++;
+			m->n_covers_found++;
 		}
 	}
 
 	else {
-		sp_log(Log::Warning, this) << "Could not fetch multi cover " << _m->acf->get_keyword();
+		sp_log(Log::Warning, this) << "Could not fetch multi cover " << m->acf->get_keyword();
 	}
 
 	awa->deleteLater();

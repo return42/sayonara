@@ -80,22 +80,22 @@ struct CachingThread::Private
 CachingThread::CachingThread(const QStringList& file_list, const QString& library_path, QObject *parent) :
 	QThread(parent)
 {
-	_m = Pimpl::make<CachingThread::Private>();
+	m = Pimpl::make<CachingThread::Private>();
 
-	_m->cache = std::shared_ptr<ImportCache>(new ImportCache(library_path));
-	_m->library_path = library_path;
-	_m->file_list = file_list;
-	_m->cancelled = false;
+	m->cache = std::shared_ptr<ImportCache>(new ImportCache(library_path));
+	m->library_path = library_path;
+	m->file_list = file_list;
+	m->cancelled = false;
 }
 
 CachingThread::~CachingThread() {}
 
 void CachingThread::run()
 {
-	_m->cache->clear();
+	m->cache->clear();
 
-	_m->read_files();
-	_m->extract_soundfiles();
+	m->read_files();
+	m->extract_soundfiles();
 
 	emit sig_progress( -1 );
 }
@@ -103,8 +103,8 @@ void CachingThread::run()
 
 void CachingThread::change_metadata(const MetaDataList& v_md_old, const MetaDataList& v_md_new)
 {
-	if(_m->cache) {
-		_m->cache->change_metadata(v_md_old, v_md_new);
+	if(m->cache) {
+		m->cache->change_metadata(v_md_old, v_md_new);
 	}
 
 	else{
@@ -115,16 +115,16 @@ void CachingThread::change_metadata(const MetaDataList& v_md_old, const MetaData
 
 ImportCachePtr CachingThread::cache() const
 {
-	return _m->cache;
+	return m->cache;
 }
 
 void CachingThread::cancel()
 {
-	_m->cancelled = true;
+	m->cancelled = true;
 }
 
 bool CachingThread::is_cancelled() const
 {
-	return _m->cancelled;
+	return m->cancelled;
 }
 

@@ -35,29 +35,29 @@ struct SayonaraQuery::Private
 SayonaraQuery::SayonaraQuery(const DatabaseModule* module) :
 	QSqlQuery(module->module_db())
 {
-	_m = Pimpl::make<Private>();
+	m = Pimpl::make<Private>();
 }
 
 
 SayonaraQuery::SayonaraQuery(QSqlDatabase db) :
 	QSqlQuery(db)
 {
-	_m = Pimpl::make<Private>();
+	m = Pimpl::make<Private>();
 }
 
 
 SayonaraQuery::SayonaraQuery(const SayonaraQuery& other) :
 	QSqlQuery(other)
 {
-	_m = Pimpl::make<Private>();
-	_m->query_string = other._m->query_string;
+	m = Pimpl::make<Private>();
+	m->query_string = other.m->query_string;
 }
 
 SayonaraQuery::~SayonaraQuery() {}
 
 bool SayonaraQuery::prepare(const QString& query)
 {
-	_m->query_string = query;
+	m->query_string = query;
 
 	return QSqlQuery::prepare(query);
 }
@@ -66,10 +66,10 @@ void SayonaraQuery::bindValue(const QString& placeholder, const QVariant& val, Q
 {
 	QString replace_str = QString("'") + val.toString() + "'";
 
-	_m->query_string.replace(placeholder + " ", replace_str + " ");
-	_m->query_string.replace(placeholder + ",", replace_str + ",");
-	_m->query_string.replace(placeholder + ";", replace_str + ";");
-	_m->query_string.replace(placeholder + ")", replace_str + ")");
+	m->query_string.replace(placeholder + " ", replace_str + " ");
+	m->query_string.replace(placeholder + ",", replace_str + ",");
+	m->query_string.replace(placeholder + ";", replace_str + ";");
+	m->query_string.replace(placeholder + ")", replace_str + ")");
 
 	QSqlQuery::bindValue(placeholder, val, param_type);
 }
@@ -90,12 +90,12 @@ bool SayonaraQuery::exec()
 	n_queries++;
 	int val = 1;
 	int n_calls = 0;
-	if(query_map.contains(_m->query_string)){
-		val = query_map[_m->query_string] + 1;
+	if(query_map.contains(m->query_string)){
+		val = query_map[m->query_string] + 1;
 		n_calls = val;
 	}
 
-	query_map[_m->query_string] = val;
+	query_map[m->query_string] = val;
 
 #endif
 
@@ -103,7 +103,7 @@ bool SayonaraQuery::exec()
 
 #ifdef DB_DEBUG
 	sp_log(Log::Debug, this) << QString("(%1) ").arg(n_queries)
-							 << _m->query_string << ": "
+							 << m->query_string << ": "
 							 << timer.elapsed() << "ms";
 
 	if(n_calls > 1){
@@ -118,7 +118,7 @@ bool SayonaraQuery::exec()
 
 QString SayonaraQuery::get_query_string() const
 {
-	QString str = _m->query_string;
+	QString str = m->query_string;
 	str.prepend("\n");
 	str.replace("SELECT ", "SELECT\n", Qt::CaseInsensitive);
 	str.replace("FROM", "\nFROM", Qt::CaseInsensitive);
@@ -180,7 +180,7 @@ void SayonaraQuery::show_error(const QString& err_msg) const
 	sp_log(Log::Error) << this->lastError().driverText();
 	sp_log(Log::Error) << this->lastError().databaseText();
 #ifdef DEBUG
-	sp_log(Log::Error) << _m->query_string;
+	sp_log(Log::Error) << m->query_string;
 #endif
 	sp_log(Log::Error) << this->get_query_string();
 }

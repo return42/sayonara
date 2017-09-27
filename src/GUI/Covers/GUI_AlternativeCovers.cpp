@@ -79,19 +79,19 @@ GUI_AlternativeCovers::GUI_AlternativeCovers(QWidget* parent) :
 	SayonaraDialog(parent)
 {
 	ui = new Ui::AlternativeCovers();
-	_m = Pimpl::make<GUI_AlternativeCovers::Private>();
+	m = Pimpl::make<GUI_AlternativeCovers::Private>();
 
 	ui->setupUi(this);
 
-	_m->loading_bar = new SayonaraLoadingBar(ui->tv_images);
-	_m->cur_idx = -1;
-	_m->is_searching = false;
+	m->loading_bar = new SayonaraLoadingBar(ui->tv_images);
+	m->cur_idx = -1;
+	m->is_searching = false;
 
-	_m->model = new AlternativeCoverItemModel(this);
-	_m->delegate = new AlternativeCoverItemDelegate(this);
+	m->model = new AlternativeCoverItemModel(this);
+	m->delegate = new AlternativeCoverItemDelegate(this);
 
-	ui->tv_images->setModel(_m->model);
-	ui->tv_images->setItemDelegate(_m->delegate);
+	ui->tv_images->setModel(m->model);
+	ui->tv_images->setItemDelegate(m->delegate);
 
 	connect(ui->btn_ok, &QPushButton::clicked, this, &GUI_AlternativeCovers::ok_clicked);
 	connect(ui->btn_apply, &QPushButton::clicked, this, &GUI_AlternativeCovers::apply_clicked);
@@ -125,13 +125,13 @@ void GUI_AlternativeCovers::connect_and_start(const CoverLocation& cl)
 	reset_model();
 	delete_all_files();
 
-	_m->cover_location = cl;
-	_m->cl_alternative = new CoverLookupAlternative(this, cl, _m->model->rowCount() * _m->model->columnCount() + 5);
+	m->cover_location = cl;
+	m->cl_alternative = new CoverLookupAlternative(this, cl, m->model->rowCount() * m->model->columnCount() + 5);
 
-	connect(_m->cl_alternative, &CoverLookupAlternative::sig_cover_found, this, &GUI_AlternativeCovers::cl_new_cover);
-	connect(_m->cl_alternative, &CoverLookupAlternative::sig_finished, this, &GUI_AlternativeCovers::cl_finished);
+	connect(m->cl_alternative, &CoverLookupAlternative::sig_cover_found, this, &GUI_AlternativeCovers::cl_new_cover);
+	connect(m->cl_alternative, &CoverLookupAlternative::sig_finished, this, &GUI_AlternativeCovers::cl_finished);
 
-	_m->is_searching = true;
+	m->is_searching = true;
 
 	ui->btn_ok->setEnabled(false);
 	ui->btn_apply->setEnabled(false);
@@ -139,8 +139,8 @@ void GUI_AlternativeCovers::connect_and_start(const CoverLocation& cl)
 	ui->le_search->setText(cl.search_term());
 	ui->lab_info->setText(cl.search_term());
 
-	_m->cl_alternative->start();
-	_m->loading_bar->show();
+	m->cl_alternative->start();
+	m->loading_bar->show();
 
 	show();
 }
@@ -166,19 +166,19 @@ void GUI_AlternativeCovers::ok_clicked()
 
 void GUI_AlternativeCovers::apply_clicked()
 {
-	if(_m->cur_idx == -1) {
+	if(m->cur_idx == -1) {
 		return;
 	}
 
-	RowColumn rc = _m->model->cvt_2_row_col(_m->cur_idx);
+	RowColumn rc = m->model->cvt_2_row_col(m->cur_idx);
 
-	QModelIndex idx = _m->model->index(rc.row, rc.col);
+	QModelIndex idx = m->model->index(rc.row, rc.col);
 
 	if(!idx.isValid()) {
 		return;
 	}
 
-	QString cover_path = _m->model->data(idx, Qt::UserRole).toString();
+	QString cover_path = m->model->data(idx, Qt::UserRole).toString();
 	QFile file(cover_path);
 
 	if(!file.exists()) {
@@ -191,42 +191,42 @@ void GUI_AlternativeCovers::apply_clicked()
 		return;
 	}
 
-	img.save(_m->cover_location.cover_path());
+	img.save(m->cover_location.cover_path());
 
-	emit sig_cover_changed(_m->cover_location);
+	emit sig_cover_changed(m->cover_location);
 }
 
 void GUI_AlternativeCovers::search_clicked()
 {
-	if(_m->is_searching && _m->cl_alternative){
-		_m->cl_alternative->stop();
+	if(m->is_searching && m->cl_alternative){
+		m->cl_alternative->stop();
 		return;
 	}
 
 	if(!ui->le_search->text().isEmpty()){
 		QString text = ui->le_search->text();
-		_m->cover_location.set_search_term(text);
+		m->cover_location.set_search_term(text);
 	}
 
 	else{
-		ui->le_search->setText( _m->cover_location.search_term() );
+		ui->le_search->setText( m->cover_location.search_term() );
 	}
 
-	connect_and_start(_m->cover_location);
+	connect_and_start(m->cover_location);
 }
 
 
 void GUI_AlternativeCovers::cl_new_cover(const QString& cover_path)
 {
-	_m->filelist << cover_path;
+	m->filelist << cover_path;
 
-	int n_files = _m->filelist.size();
+	int n_files = m->filelist.size();
 
-	RowColumn rc_last =     _m->model->cvt_2_row_col( n_files - 1 );
-	RowColumn rc_cur_idx =  _m->model->cvt_2_row_col( _m->cur_idx );
-	bool is_valid =         _m->model->is_valid(rc_cur_idx.row, rc_cur_idx.col);
+	RowColumn rc_last =     m->model->cvt_2_row_col( n_files - 1 );
+	RowColumn rc_cur_idx =  m->model->cvt_2_row_col( m->cur_idx );
+	bool is_valid =         m->model->is_valid(rc_cur_idx.row, rc_cur_idx.col);
 
-	_m->model->set_cover(rc_last.row, rc_last.col, cover_path);
+	m->model->set_cover(rc_last.row, rc_last.col, cover_path);
 
 	ui->btn_ok->setEnabled(is_valid);
 	ui->btn_apply->setEnabled(is_valid);
@@ -238,13 +238,13 @@ void GUI_AlternativeCovers::cl_finished(bool b)
 {
 	Q_UNUSED(b)
 
-	_m->is_searching = false;
+	m->is_searching = false;
 
 	ui->btn_search->setText(Lang::get(Lang::Search));
 
-	_m->cl_alternative->deleteLater();
-	_m->cl_alternative = nullptr;
-	_m->loading_bar->hide();
+	m->cl_alternative->deleteLater();
+	m->cl_alternative = nullptr;
+	m->loading_bar->hide();
 }
 
 
@@ -252,9 +252,9 @@ void GUI_AlternativeCovers::cover_pressed(const QModelIndex& idx)
 {
 	int row = idx.row();
 	int col = idx.column();
-	QSize sz = _m->model->get_cover_size(idx);
-	bool valid = _m->model->is_valid(row, col);
-	_m->cur_idx = _m->model->cvt_2_idx(row, col);
+	QSize sz = m->model->get_cover_size(idx);
+	bool valid = m->model->is_valid(row, col);
+	m->cur_idx = m->model->cvt_2_idx(row, col);
 
 	ui->btn_ok->setEnabled(valid);
 	ui->btn_apply->setEnabled(valid);
@@ -266,7 +266,7 @@ void GUI_AlternativeCovers::cover_pressed(const QModelIndex& idx)
 
 void GUI_AlternativeCovers::reset_model()
 {
-	_m->model->reset();
+	m->model->reset();
 	ui->lab_status->clear();
 }
 
@@ -292,8 +292,8 @@ void GUI_AlternativeCovers::open_file_dialog()
 	int idx = 0;
 	for(const QString& path : lst)
 	{
-		RowColumn rc = _m->model->cvt_2_row_col( idx );
-		_m->model->set_cover(rc.row, rc.col, path);
+		RowColumn rc = m->model->cvt_2_row_col( idx );
+		m->model->set_cover(rc.row, rc.col, path);
 
         idx ++;
     }
@@ -302,7 +302,7 @@ void GUI_AlternativeCovers::open_file_dialog()
 
 void GUI_AlternativeCovers::delete_all_files()
 {
-	for(const QString& cover_path : _m->filelist) {
+	for(const QString& cover_path : m->filelist) {
 		if(CoverLocation::isInvalidLocation(cover_path)){
 			continue;
 		}
@@ -311,17 +311,17 @@ void GUI_AlternativeCovers::delete_all_files()
 		f.remove();
 	}
 
-	_m->filelist.clear();
+	m->filelist.clear();
 }
 
 
 void GUI_AlternativeCovers::closeEvent(QCloseEvent *e)
 {
-	if(_m->cl_alternative) {
-		_m->cl_alternative->stop();
+	if(m->cl_alternative) {
+		m->cl_alternative->stop();
 	}
 
-	_m->loading_bar->hide();
+	m->loading_bar->hide();
 
 	delete_all_files();
 

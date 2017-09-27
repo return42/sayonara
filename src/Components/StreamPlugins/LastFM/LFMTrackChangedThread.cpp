@@ -63,9 +63,9 @@ struct LFMTrackChangedThread::Private
 LFMTrackChangedThread::LFMTrackChangedThread(const QString& username, const QString& session_key, QObject* parent) :
 	QObject(parent)
 {
-	_m = Pimpl::make<LFMTrackChangedThread::Private>();
-	_m->username = username;
-	_m->session_key = session_key;
+	m = Pimpl::make<LFMTrackChangedThread::Private>();
+	m->username = username;
+	m->session_key = session_key;
 
 	ArtistList artists;
 	DatabaseConnector* db = DatabaseConnector::getInstance();
@@ -82,24 +82,24 @@ LFMTrackChangedThread::LFMTrackChangedThread(const QString& username, const QStr
 LFMTrackChangedThread::~LFMTrackChangedThread() {}
 
 void LFMTrackChangedThread::set_session_key(const QString& session_key) {
-	_m->session_key = session_key;
+	m->session_key = session_key;
 }
 
 void LFMTrackChangedThread::set_username(const QString& username) {
-	_m->username = username;
+	m->username = username;
 }
 
 
 void LFMTrackChangedThread::update_now_playing(const MetaData& md) {
-	_m->md = md;
+	m->md = md;
 
 	LFMWebAccess* lfm_wa = new LFMWebAccess();
 
 	connect(lfm_wa, &LFMWebAccess::sig_response, this, &LFMTrackChangedThread::response_update);
 	connect(lfm_wa, &LFMWebAccess::sig_error, this, &LFMTrackChangedThread::error_update);
 
-	QString artist = _m->md.artist;
-	QString title = _m->md.title;
+	QString artist = m->md.artist;
+	QString title = m->md.title;
 
 	if(artist.trimmed().size() == 0) artist = "Unknown";
 	artist.replace("&", "&amp;");
@@ -107,9 +107,9 @@ void LFMTrackChangedThread::update_now_playing(const MetaData& md) {
 	UrlParams sig_data;
 	sig_data["api_key"] = LFM_API_KEY;
 	sig_data["artist"] = artist.toLocal8Bit();
-	sig_data["duration"] = QString::number(_m->md.length_ms / 1000).toLocal8Bit();
+	sig_data["duration"] = QString::number(m->md.length_ms / 1000).toLocal8Bit();
 	sig_data["method"] = QString("track.updatenowplaying").toLocal8Bit();
-	sig_data["sk"] = _m->session_key.toLocal8Bit();
+	sig_data["sk"] = m->session_key.toLocal8Bit();
 	sig_data["track"] =  title.toLocal8Bit();
 
 	sig_data.append_signature();
@@ -152,20 +152,20 @@ void LFMTrackChangedThread::search_similar_artists(const MetaData& md)
 		return;
 	}
 
-	_m->md = md;
+	m->md = md;
 
-	if(_m->md.artist.trimmed().isEmpty()){
+	if(m->md.artist.trimmed().isEmpty()){
 		return;
 	}
 
 	// check if already in cache
-	if(_m->sim_artists_cache.contains(_m->md.artist)) {
-		const ArtistMatch& artist_match = _m->sim_artists_cache.value(_m->md.artist);
+	if(m->sim_artists_cache.contains(m->md.artist)) {
+		const ArtistMatch& artist_match = m->sim_artists_cache.value(m->md.artist);
 		evaluate_artist_match(artist_match);
 		return;
 	}
 
-	_m->artist = _m->md.artist;
+	m->artist = m->md.artist;
 
 	LFMWebAccess* lfm_wa = new LFMWebAccess();
 
@@ -173,7 +173,7 @@ void LFMTrackChangedThread::search_similar_artists(const MetaData& md)
 	connect(lfm_wa, &LFMWebAccess::sig_error, this, &LFMTrackChangedThread::error_sim_artists);
 
 	QString url = 	QString("http://ws.audioscrobbler.com/2.0/?");
-	QString encoded = QUrl::toPercentEncoding( _m->md.artist );
+	QString encoded = QUrl::toPercentEncoding( m->md.artist );
 	url += QString("method=artist.getsimilar&");
 	url += QString("artist=") + encoded + QString("&");
 	url += QString("api_key=") + LFM_API_KEY;
@@ -281,13 +281,13 @@ QMap<QString, int> LFMTrackChangedThread::filter_available_artists(const ArtistM
 
 
 void LFMTrackChangedThread::response_sim_artists(const QByteArray& data){
-	LFMSimArtistsParser parser(_m->artist, data);
+	LFMSimArtistsParser parser(m->artist, data);
 
 	ArtistMatch artist_match = parser.get_artist_match();
 
 	if(artist_match.is_valid()){
 		QString artist_name = artist_match.get_artist_name();
-		_m->sim_artists_cache[artist_name] = artist_match;
+		m->sim_artists_cache[artist_name] = artist_match;
 	}
 
 	evaluate_artist_match(artist_match);

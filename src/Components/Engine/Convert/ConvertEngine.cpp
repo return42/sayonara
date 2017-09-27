@@ -27,98 +27,55 @@
 
 #include <QUrl>
 
-ConvertEngine::ConvertEngine(QObject *parent) :
-	Engine(parent)
+struct ConvertEngine::Private
 {
-	_pipeline = new ConvertPipeline(this);
-	_name = EngineName::ConvertEngine;
+    ConvertPipeline*		pipeline=nullptr;
+    MetaData				md_target;
+    gchar*					target_uri=nullptr;
 
-	connect(_pipeline, &ConvertPipeline::sig_pos_changed_ms, this, &ConvertEngine::set_cur_position_ms);
+    Private(Engine* parent)
+    {
+        pipeline = new ConvertPipeline(parent);
+    }
+};
+
+ConvertEngine::ConvertEngine(QObject *parent) :
+    Engine(EngineName::ConvertEngine, parent)
+{
+    m = Pimpl::make<Private>(this);
+
+    connect(m->pipeline, &ConvertPipeline::sig_pos_changed_ms, this, &ConvertEngine::set_cur_position_ms);
 }
+
+ConvertEngine::~ConvertEngine() {}
 
 bool ConvertEngine::init()
 {
-	return _pipeline->init();
+	return m->pipeline->init();
 }
 
 
-// methods
-bool ConvertEngine::set_uri(const MetaData& md) {
-	QUrl url;
-	gchar* uri;
-	gchar* target_uri;
-	QString cvt_target_path;
-	bool success = false;
-
-	if(_uri){
-		g_free(_uri);
-		_uri = nullptr;
-	}
-
-	if(_target_uri){
-		g_free(_target_uri);
-		_target_uri = nullptr;
-	}
-
-	_playing_stream = Helper::File::is_www( md.filepath() );
-
-	if (_playing_stream) {
-		url = QUrl(md.filepath());
-		uri = url.toString().toUtf8().data();
-	}
-
-	// no stream (not quite right because of mms, rtsp or other streams
-	// normal filepath -> no uri
-	else if (!md.filepath().contains("://")) {
-		url = QUrl::fromLocalFile(md.filepath());
-		uri = url.toString().toUtf8().data();
-	}
-
-	else {
-		uri = md.filepath().toUtf8().data();
-	}
-
-	QString filename = Helper::File::get_filename_of_path(md.filepath());
-	int idx = filename.lastIndexOf(".");
-	if(idx > 0) {
-		filename = filename.left(idx);
-	}
-
-	cvt_target_path = _settings->get(Set::Engine_CovertTargetPath);
-	filename = cvt_target_path + "/" + filename + ".mp3";
-
-	target_uri = filename.toUtf8().data();
-
-	_uri = g_strdup(uri);
-	_target_uri = g_strdup(target_uri);
-
-	success = _pipeline->set_uri(g_strdup(uri));
-	_pipeline->set_target_uri(target_uri);
-
-	_md_target = md;
-	_md_target.set_filepath(filename);
-
-	return success;
-}
-
-void ConvertEngine::change_track(const MetaData& md) {
+void ConvertEngine::change_track(const MetaData& md)
+{
 	stop();
 	_md = md;
 
 	emit sig_md_changed(_md);
 	emit sig_pos_changed_s(0);
 
-	set_uri(md);
+    set_uri(md.filepath());
+    configure_target(md);
 }
 
-void ConvertEngine::change_track(const QString& str) {
+void ConvertEngine::change_track(const QString& str)
+{
 	Q_UNUSED(str);
 }
 
 
 void ConvertEngine::play()
 {
-	_pipeline->play();
+	m->pipeline->play();
 
 	g_timeout_add(200, (GSourceFunc) PipelineCallbacks::position_changed, this);
 }
@@ -130,35 +87,61 @@ void ConvertEngine::pause()
 
 void ConvertEngine::stop()
 {
-	_pipeline->stop();
+	m->pipeline->stop();
 
-    Tagging::setMetaDataOfFile(_md_target);
+    Tagging::setMetaDataOfFile(m->md_target);
 }
 
 // public from Gstreamer Callbacks
-void ConvertEngine::set_track_finished(GstElement* src) {
+void ConvertEngine::set_track_finished(GstElement* src)
+{
 	Q_UNUSED(src)
 	emit sig_track_finished();
 }
 
-void ConvertEngine::set_cur_position_ms(int64_t v) {
+void ConvertEngine::set_cur_position_ms(int64_t v)
+{
 	emit sig_pos_changed_s((uint32_t) v / 1000);
 }
 
+void ConvertEngine::set_volume(int vol) {Q_UNUSED(vol);}
 
-void ConvertEngine::set_volume(int vol) {
-	Q_UNUSED(vol);
+bool ConvertEngine::set_uri(const QString &filepath)
+{
+    if(!Engine::set_uri(filepath)){
+        return false;
+    }
+
+    return m->pipeline->set_uri(get_uri());
 }
 
+void ConvertEngine::configure_target(const MetaData& md)
+{
+    if(m->target_uri){
+        g_free(m->target_uri);
+        m->target_uri = nullptr;
+    }
 
-void ConvertEngine::jump_abs_ms(uint64_t pos_ms) {
-	Q_UNUSED(pos_ms);
+    QString filename = Helper::File::get_filename_of_path(md.filepath());
+    int idx = filename.lastIndexOf(".");
+    if(idx > 0) {
+        filename = filename.left(idx);
+    }
+
+    QString cvt_target_path = _settings->get(Set::Engine_CovertTargetPath);
+    filename = cvt_target_path + "/" + filename + ".mp3";
+
+    gchar* target_uri = filename.toUtf8().data();
+
+    m->target_uri = g_strdup(target_uri);
+    m->pipeline->set_target_uri(m->target_uri);
+
+    m->md_target = md;
+    m->md_target.set_filepath(filename);
 }
 
-void ConvertEngine::jump_rel_ms(uint64_t ms){
-	Q_UNUSED(ms);
-}
+void ConvertEngine::jump_abs_ms(uint64_t pos_ms) { Q_UNUSED(pos_ms); }
 
-void ConvertEngine::jump_rel(double percent) {
-	Q_UNUSED(percent);
-}
+void ConvertEngine::jump_rel_ms(uint64_t ms) { Q_UNUSED(ms); }
+
+void ConvertEngine::jump_rel(double percent) { Q_UNUSED(percent); }

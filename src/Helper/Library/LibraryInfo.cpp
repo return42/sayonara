@@ -34,33 +34,33 @@ struct LibraryInfo::Private
 
 LibraryInfo::LibraryInfo()
 {
-	_m = Pimpl::make<Private>();
-	_m->id = -1;
+	m = Pimpl::make<Private>();
+	m->id = -1;
 }
 
 LibraryInfo::LibraryInfo(const QString& name, const QString& path, int id) :
 	LibraryInfo()
 {
-	_m->name = name;
-	_m->path = Helper::File::clean_filename(path);
-	_m->id = id;
+	m->name = name;
+	m->path = Helper::File::clean_filename(path);
+	m->id = id;
 }
 
 LibraryInfo::LibraryInfo(const LibraryInfo& other) :
 	LibraryInfo()
 {
-	_m->name = other.name();
-	_m->path = other.path();
-	_m->id = other.id();
+	m->name = other.name();
+	m->path = other.path();
+	m->id = other.id();
 }
 
 LibraryInfo::~LibraryInfo() {}
 
 LibraryInfo& LibraryInfo::operator =(const LibraryInfo& other)
 {
-	_m->name = other.name();
-	_m->path = other.path();
-	_m->id = other.id();
+	m->name = other.name();
+	m->path = other.path();
+	m->id = other.id();
 
 	return *this;
 }
@@ -68,12 +68,12 @@ LibraryInfo& LibraryInfo::operator =(const LibraryInfo& other)
 
 QString LibraryInfo::name() const
 {
-	return _m->name;
+	return m->name;
 }
 
 QString LibraryInfo::path() const
 {
-	return _m->path;
+	return m->path;
 }
 
 QString LibraryInfo::symlink_path() const
@@ -106,12 +106,12 @@ QString LibraryInfo::symlink_path() const
 
 int8_t LibraryInfo::id() const
 {
-	return _m->id;
+	return m->id;
 }
 
 bool LibraryInfo::valid() const
 {
-	return (!_m->name.isEmpty()) && (!_m->path.isEmpty());
+	return (!m->name.isEmpty()) && (!m->path.isEmpty());
 }
 
 LibraryInfo LibraryInfo::fromString(const QString& str)
@@ -135,9 +135,9 @@ LibraryInfo LibraryInfo::fromString(const QString& str)
 QString LibraryInfo::toString() const
 {
 	QStringList lst;
-	lst << _m->name;
-	lst << _m->path;
-	lst << QString::number(_m->id);
+	lst << m->name;
+	lst << m->path;
+	lst << QString::number(m->id);
 
 	return lst.join("::");
 }

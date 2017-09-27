@@ -49,16 +49,16 @@ struct SC::JsonParser::Private
 SC::JsonParser::JsonParser(const QByteArray& content) :
 	QObject()
 {
-	_m = Pimpl::make<Private>(content);
+	m = Pimpl::make<Private>(content);
 	QString target_file = Helper::sayonara_path() + "/tmp.json";
 
 	Helper::File::write_file(
-		_m->json_doc.toJson(QJsonDocument::Indented), target_file
+		m->json_doc.toJson(QJsonDocument::Indented), target_file
 	);
 
-	QJsonParseError::ParseError pe = _m->error.error;
+	QJsonParseError::ParseError pe = m->error.error;
 	if(pe != QJsonParseError::NoError){
-		sp_log(Log::Warning) << "Cannot parse json document: " << _m->error.errorString();
+		sp_log(Log::Warning) << "Cannot parse json document: " << m->error.errorString();
 	}
 }
 
@@ -66,13 +66,13 @@ SC::JsonParser::~JsonParser() {}
 
 bool SC::JsonParser::parse_artists(ArtistList& artists)
 {
-	if(_m->json_doc.isArray()){
-		return parse_artist_list(artists, _m->json_doc.array());
+	if(m->json_doc.isArray()){
+		return parse_artist_list(artists, m->json_doc.array());
 	}
 
-	else if(_m->json_doc.isObject()){
+	else if(m->json_doc.isObject()){
 		Artist artist;
-		if(parse_artist(artist, _m->json_doc.object())){
+		if(parse_artist(artist, m->json_doc.object())){
 			artists << artist;
 			return true;
 		}
@@ -135,11 +135,11 @@ bool SC::JsonParser::parse_artist(Artist& artist, QJsonObject object)
 
 bool SC::JsonParser::parse_tracks(ArtistList& artists, MetaDataList &v_md)
 {
-	if(!_m->json_doc.isArray()){
+	if(!m->json_doc.isArray()){
 		return false;
 	}
 
-	return parse_track_list(artists, v_md, _m->json_doc.array());
+	return parse_track_list(artists, v_md, m->json_doc.array());
 }
 
 
@@ -229,13 +229,13 @@ bool SC::JsonParser::parse_track(Artist& artist, MetaData& md, QJsonObject objec
 
 bool SC::JsonParser::parse_playlists(ArtistList& artists, AlbumList &albums, MetaDataList &v_md)
 {
-	if(_m->json_doc.isArray()){
-		return parse_playlist_list(artists, albums, v_md, _m->json_doc.array());
+	if(m->json_doc.isArray()){
+		return parse_playlist_list(artists, albums, v_md, m->json_doc.array());
 	}
 
-	else if(_m->json_doc.isObject()){
+	else if(m->json_doc.isObject()){
 		Album album;
-		if(parse_playlist(artists, album, v_md, _m->json_doc.object())){
+		if(parse_playlist(artists, album, v_md, m->json_doc.object())){
 			albums << album;
 			return true;
 		}

@@ -50,22 +50,22 @@ struct StreamWriter::Private
 StreamWriter::StreamWriter(QTcpSocket* socket, const QString& ip, const MetaData& md) :
 	RawSoundReceiverInterface()
 {
-	_m = Pimpl::make<Private>();
+	m = Pimpl::make<Private>();
 
-	_m->sender = new StreamDataSender(socket);
-	_m->parser = new StreamHttpParser();
-	_m->ip = ip;
+	m->sender = new StreamDataSender(socket);
+	m->parser = new StreamHttpParser();
+	m->ip = ip;
 
-	_m->engine = EngineHandler::getInstance();
-	_m->send_data = false;
-	_m->dismissed = false;
+	m->engine = EngineHandler::getInstance();
+	m->send_data = false;
+	m->dismissed = false;
 
-	_m->stream_title = md.title + " by " + md.artist;
-	_m->socket = socket;
+	m->stream_title = md.title + " by " + md.artist;
+	m->socket = socket;
 
-	_m->type = StreamWriter::Type::Undefined;
+	m->type = StreamWriter::Type::Undefined;
 
-	if(_m->socket->bytesAvailable()){
+	if(m->socket->bytesAvailable()){
 		data_available();
 	}
 
@@ -75,28 +75,28 @@ StreamWriter::StreamWriter(QTcpSocket* socket, const QString& ip, const MetaData
 
 StreamWriter::~StreamWriter()
 {
-	_m->engine->unregister_raw_sound_receiver(this);
+	m->engine->unregister_raw_sound_receiver(this);
 
-	if(_m->parser){
-		delete _m->parser; _m->parser = nullptr;
+	if(m->parser){
+		delete m->parser; m->parser = nullptr;
 	}
 
-	if(_m->sender){
-		delete _m->sender; _m->sender = nullptr;
+	if(m->sender){
+		delete m->sender; m->sender = nullptr;
 	}
 }
 
 
 QString StreamWriter::get_ip() const
 {
-	return _m->ip;
+	return m->ip;
 }
 
 
 StreamHttpParser::HttpAnswer StreamWriter::parse_message()
 {
 	StreamHttpParser::HttpAnswer status;
-	status = _m->parser->parse(_m->socket->readAll());
+	status = m->parser->parse(m->socket->readAll());
 
 	sp_log(Log::Debug, this) << "Parse message " << (int) status;
 
@@ -105,62 +105,62 @@ StreamHttpParser::HttpAnswer StreamWriter::parse_message()
 
 void StreamWriter::new_audio_data(const uint8_t* data, uint64_t size)
 {
-	if(!_m->send_data) {
+	if(!m->send_data) {
 		return;
 	}
 
-	if(_m->dismissed){
-		_m->sender->send_trash();
+	if(m->dismissed){
+		m->sender->send_trash();
 		return;
 	}
 
-	if(_m->parser->is_icy()){
-		_m->sender->send_icy_data(data, size, _m->stream_title);
+	if(m->parser->is_icy()){
+		m->sender->send_icy_data(data, size, m->stream_title);
 	}
 
 	else{
-		_m->sender->send_data(data, size);
+		m->sender->send_data(data, size);
 	}
 }
 
 bool StreamWriter::send_playlist()
 {
-	return _m->sender->send_playlist(_m->parser->get_host(), _m->socket->localPort());
+	return m->sender->send_playlist(m->parser->get_host(), m->socket->localPort());
 }
 
 bool StreamWriter::send_favicon()
 {
-	return _m->sender->send_favicon();
+	return m->sender->send_favicon();
 }
 
 bool StreamWriter::send_metadata()
 {
-	return _m->sender->send_metadata(_m->stream_title);
+	return m->sender->send_metadata(m->stream_title);
 }
 
 bool StreamWriter::send_bg()
 {
-	return _m->sender->send_bg();
+	return m->sender->send_bg();
 }
 
 bool StreamWriter::send_html5()
 {
-	return _m->sender->send_html5(_m->stream_title);
+	return m->sender->send_html5(m->stream_title);
 }
 
 bool StreamWriter::send_header(bool reject){
-	return _m->sender->send_header(reject, _m->parser->is_icy());
+	return m->sender->send_header(reject, m->parser->is_icy());
 }
 
 
 void StreamWriter::change_track(const MetaData& md){
-	_m->stream_title = md.title + " by " + md.artist;
+	m->stream_title = md.title + " by " + md.artist;
 }
 
 void StreamWriter::dismiss()
 {
-	_m->engine->unregister_raw_sound_receiver(this);
-	_m->dismissed = true;
+	m->engine->unregister_raw_sound_receiver(this);
+	m->dismissed = true;
 }
 
 
@@ -168,13 +168,13 @@ void StreamWriter::disconnect()
 {
 	dismiss();
 	
-	_m->socket->disconnectFromHost();
+	m->socket->disconnectFromHost();
 }
 
 
 void StreamWriter::socket_disconnected()
 {
-	_m->engine->unregister_raw_sound_receiver(this);
+	m->engine->unregister_raw_sound_receiver(this);
 	emit sig_disconnected(this);
 }
 
@@ -185,13 +185,13 @@ void StreamWriter::data_available()
 	QString ip = get_ip();
 	bool success;
 	bool close_connection = true;
-	_m->type = StreamWriter::Type::Standard;
+	m->type = StreamWriter::Type::Standard;
 
 	switch(answer){
 		case StreamHttpParser::HttpAnswer::Fail:
 		case StreamHttpParser::HttpAnswer::Reject:
 
-			_m->type = StreamWriter::Type::Invalid;
+			m->type = StreamWriter::Type::Invalid;
 			//sp_log(Log::Debug, this) << "Rejected: " << _parser->get_user_agent() << ": " << get_ip();
 			send_header(true);
 			break;
@@ -227,14 +227,14 @@ void StreamWriter::data_available()
 			break;
 
 		default:
-			_m->type = StreamWriter::Type::Streaming;
+			m->type = StreamWriter::Type::Streaming;
 			close_connection = false;
 			//sp_log(Log::Debug, this) << "Accepted: " << _parser->get_user_agent() << ": " << ip;
 			success = send_header(false);
 
 			if(success){
-				_m->send_data = true;
-				_m->engine->register_raw_sound_receiver(this);
+				m->send_data = true;
+				m->engine->register_raw_sound_receiver(this);
 			}
 
 			emit sig_new_connection(ip);
@@ -242,7 +242,7 @@ void StreamWriter::data_available()
 	}
 
 	if(close_connection){
-		_m->socket->close();
+		m->socket->close();
 	}
 }
 

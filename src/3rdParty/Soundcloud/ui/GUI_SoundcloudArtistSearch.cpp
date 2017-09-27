@@ -44,9 +44,9 @@ SC::GUI_ArtistSearch::GUI_ArtistSearch(SC::Library* library, QWidget *parent) :
 	ui = new Ui::GUI_SoundcloudArtistSearch();
 	ui->setupUi(this);
 
-	_m = Pimpl::make<SC::GUI_ArtistSearch::Private>();
-	_m->library = library;
-	_m->fetcher = new SC::DataFetcher(this);
+	m = Pimpl::make<SC::GUI_ArtistSearch::Private>();
+	m->library = library;
+	m->fetcher = new SC::DataFetcher(this);
 
 	connect(ui->btn_search, &QPushButton::clicked, this, &SC::GUI_ArtistSearch::search_clicked);
 	connect(ui->btn_add, &QPushButton::clicked, this, &SC::GUI_ArtistSearch::add_clicked);
@@ -55,10 +55,10 @@ SC::GUI_ArtistSearch::GUI_ArtistSearch(SC::Library* library, QWidget *parent) :
 
 	connect(ui->list_artists, &QListWidget::currentRowChanged, this, &SC::GUI_ArtistSearch::artist_selected);
 
-	connect(_m->fetcher, &SC::DataFetcher::sig_artists_fetched, this, &SC::GUI_ArtistSearch::artists_fetched);
-	connect(_m->fetcher, &SC::DataFetcher::sig_ext_artists_fetched, this, &SC::GUI_ArtistSearch::artists_ext_fetched);
-	connect(_m->fetcher, &SC::DataFetcher::sig_playlists_fetched, this, &SC::GUI_ArtistSearch::albums_fetched);
-	connect(_m->fetcher, &SC::DataFetcher::sig_tracks_fetched, this, &SC::GUI_ArtistSearch::tracks_fetched);
+	connect(m->fetcher, &SC::DataFetcher::sig_artists_fetched, this, &SC::GUI_ArtistSearch::artists_fetched);
+	connect(m->fetcher, &SC::DataFetcher::sig_ext_artists_fetched, this, &SC::GUI_ArtistSearch::artists_ext_fetched);
+	connect(m->fetcher, &SC::DataFetcher::sig_playlists_fetched, this, &SC::GUI_ArtistSearch::albums_fetched);
+	connect(m->fetcher, &SC::DataFetcher::sig_tracks_fetched, this, &SC::GUI_ArtistSearch::tracks_fetched);
 
 	clear_clicked();
 }
@@ -79,7 +79,7 @@ void SC::GUI_ArtistSearch::search_clicked()
 	set_playlist_label(-1);
 	set_tracks_label(-1);
 
-	_m->fetcher->search_artists(text);
+	m->fetcher->search_artists(text);
 }
 
 void SC::GUI_ArtistSearch::clear_clicked()
@@ -95,18 +95,18 @@ void SC::GUI_ArtistSearch::clear_clicked()
 	set_playlist_label(-1);
 	set_tracks_label(-1);
 
-	_m->searched_artists.clear();
-	_m->chosen_artists.clear();
-	_m->v_md.clear();
-	_m->albums.clear();
+	m->searched_artists.clear();
+	m->chosen_artists.clear();
+	m->v_md.clear();
+	m->albums.clear();
 }
 
 void SC::GUI_ArtistSearch::add_clicked()
 {
-	if( _m->v_md.size() > 0 &&
-		_m->chosen_artists.size() > 0)
+	if( m->v_md.size() > 0 &&
+		m->chosen_artists.size() > 0)
 	{
-		_m->library->insert_tracks(_m->v_md, _m->chosen_artists, _m->albums);
+		m->library->insert_tracks(m->v_md, m->chosen_artists, m->albums);
 		close();
 	}
 }
@@ -125,18 +125,18 @@ void SC::GUI_ArtistSearch::artist_selected(int idx)
 	set_playlist_label(-1);
 	set_tracks_label(-1);
 
-	_m->v_md.clear();
-	_m->albums.clear();
+	m->v_md.clear();
+	m->albums.clear();
 
-	if(!between(idx, _m->searched_artists)) {
+	if(!between(idx, m->searched_artists)) {
 		return;
 	}
 
-	_m->cur_artist_sc_id = _m->searched_artists[idx].id;
+	m->cur_artist_sc_id = m->searched_artists[idx].id;
 
-	_m->chosen_artists.clear();
+	m->chosen_artists.clear();
 
-	_m->fetcher->get_tracks_by_artist(_m->cur_artist_sc_id);
+	m->fetcher->get_tracks_by_artist(m->cur_artist_sc_id);
 }
 
 void SC::GUI_ArtistSearch::language_changed()
@@ -148,7 +148,7 @@ void SC::GUI_ArtistSearch::language_changed()
 void SC::GUI_ArtistSearch::artists_fetched(const ArtistList& artists)
 {
 	ui->list_artists->clear();
-	_m->searched_artists.clear();
+	m->searched_artists.clear();
 
 	if(artists.size() == 0){
 		ui->lab_status->setText(tr("No artists found"));
@@ -161,13 +161,13 @@ void SC::GUI_ArtistSearch::artists_fetched(const ArtistList& artists)
 			ui->list_artists->addItem(artist.name);
 		}
 
-		_m->searched_artists = artists;
+		m->searched_artists = artists;
 	}
 }
 
 void SC::GUI_ArtistSearch::artists_ext_fetched(const ArtistList &artists)
 {
-	_m->chosen_artists = artists;
+	m->chosen_artists = artists;
 }
 
 
@@ -179,7 +179,7 @@ void SC::GUI_ArtistSearch::albums_fetched(const AlbumList& albums)
 		ui->list_playlists->addItem(album.name);
 	}
 
-	_m->albums = albums;
+	m->albums = albums;
 
 	set_playlist_label(albums.size());
 }
@@ -193,7 +193,7 @@ void SC::GUI_ArtistSearch::tracks_fetched(const MetaDataList& v_md)
 		ui->list_tracks->addItem(md.title);
 	}
 
-	_m->v_md = v_md;
+	m->v_md = v_md;
 
 	ui->btn_add->setEnabled(v_md.size() > 0);
 

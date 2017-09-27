@@ -32,41 +32,62 @@
 #include <QUrl>
 #include <algorithm>
 
-PlaybackEngine::PlaybackEngine(QObject* parent) :
-	Engine(parent)
+struct PlaybackEngine::Private
 {
-	_name = EngineName::PlaybackEngine;
-	_playing_stream = false;
-	_sr_active = false;
-	_stream_recorder = new StreamRecorder(this);
-	_gapless_state = GaplessState::NoGapless;
+    PlaybackPipeline*			pipeline=nullptr;
+    PlaybackPipeline*			other_pipeline=nullptr;
 
-	_gapless_timer = new QTimer();
-	_gapless_timer->setTimerType(Qt::PreciseTimer);
-	_gapless_timer->setSingleShot(true);
+    QList<LevelReceiver*>		level_receiver;
+    QList<SpectrumReceiver*>	spectrum_receiver;
 
-	connect(_gapless_timer, &QTimer::timeout, this, &PlaybackEngine::gapless_timed_out);
+    QTimer*						gapless_timer=nullptr;
+    GaplessState				gapless_state;
+
+    bool						sr_active;
+
+    StreamRecorder*				stream_recorder=nullptr;
+
+    Private(Engine* parent) :
+        gapless_state(GaplessState::NoGapless),
+        sr_active(false)
+    {
+       stream_recorder = new StreamRecorder(parent);
+
+       gapless_timer = new QTimer();
+       gapless_timer->setTimerType(Qt::PreciseTimer);
+       gapless_timer->setSingleShot(true);
+    }
+
+    ~Private()
+    {
+        if(gapless_timer){
+            delete gapless_timer; gapless_timer = nullptr;
+        }
+
+        delete pipeline; pipeline = nullptr;
+        if(other_pipeline)
+        {
+            delete other_pipeline; other_pipeline = nullptr;
+        }
+
+        delete stream_recorder; stream_recorder = nullptr;
+    }
+};
+
+PlaybackEngine::PlaybackEngine(QObject* parent) :
+    Engine(EngineName::PlaybackEngine, parent)
+{
+    m = Pimpl::make<Private>(this);
+
+    connect(m->gapless_timer, &QTimer::timeout, this, &PlaybackEngine::gapless_timed_out);
 }
 
 
 PlaybackEngine::~PlaybackEngine()
 {
-	if(_stream_recorder->is_recording()){
-		set_streamrecorder_recording(false);
-	}
-
-	if(_gapless_timer){
-		delete _gapless_timer; _gapless_timer = nullptr;
-	}
-
-
-	delete _pipeline; _pipeline = nullptr;
-	if(_other_pipeline)
-	{
-		delete _other_pipeline; _other_pipeline = nullptr;
-	}
-
-	delete _stream_recorder; _stream_recorder = nullptr;
+    if(m->stream_recorder->is_recording()){
+        set_streamrecorder_recording(false);
+    }
 }
 
 
@@ -74,16 +95,16 @@ bool PlaybackEngine::init()
 {
 	gst_init(0, 0);
 
-	_pipeline = new PlaybackPipeline(this);
-	if(!_pipeline->init()){
+    m->pipeline = new PlaybackPipeline(this);
+    if(!m->pipeline->init()){
 		return false;
 	}
 
-	_other_pipeline = nullptr;
+    m->other_pipeline = nullptr;
 
-	connect(_pipeline, &PlaybackPipeline::sig_about_to_finish, this, &PlaybackEngine::set_about_to_finish);
-	connect(_pipeline, &PlaybackPipeline::sig_pos_changed_ms, this, &PlaybackEngine::set_cur_position_ms);
-	connect(_pipeline, &PlaybackPipeline::sig_data, this, &PlaybackEngine::sig_data);
+    connect(m->pipeline, &PlaybackPipeline::sig_about_to_finish, this, &PlaybackEngine::set_about_to_finish);
+    connect(m->pipeline, &PlaybackPipeline::sig_pos_changed_ms, this, &PlaybackEngine::set_cur_position_ms);
+    connect(m->pipeline, &PlaybackPipeline::sig_data, this, &PlaybackEngine::sig_data);
 
 	REGISTER_LISTENER(Set::PL_Mode, _playlist_mode_changed);
 	REGISTER_LISTENER(Set::Engine_SR_Active, _streamrecorder_active_changed);
@@ -94,18 +115,18 @@ bool PlaybackEngine::init()
 
 void PlaybackEngine::init_other_pipeline()
 {
-	if(!_other_pipeline)
+    if(!m->other_pipeline)
 	{
-		_other_pipeline = new PlaybackPipeline(this);
+        m->other_pipeline = new PlaybackPipeline(this);
 
-		if(!_other_pipeline->init()){
+        if(!m->other_pipeline->init()){
 			change_gapless_state(GaplessState::NoGapless);
 			return;
 		}
 
-		connect(_other_pipeline, &PlaybackPipeline::sig_about_to_finish, this, &PlaybackEngine::set_about_to_finish);
-		connect(_other_pipeline, &PlaybackPipeline::sig_pos_changed_ms, this, &PlaybackEngine::set_cur_position_ms);
-		connect(_other_pipeline, &PlaybackPipeline::sig_data, this, &PlaybackEngine::sig_data);
+        connect(m->other_pipeline, &PlaybackPipeline::sig_about_to_finish, this, &PlaybackEngine::set_about_to_finish);
+        connect(m->other_pipeline, &PlaybackPipeline::sig_pos_changed_ms, this, &PlaybackEngine::set_cur_position_ms);
+        connect(m->other_pipeline, &PlaybackPipeline::sig_data, this, &PlaybackEngine::sig_data);
 	}
 }
 
@@ -118,20 +139,20 @@ void PlaybackEngine::change_track_gapless(const MetaData& md)
 	bool crossfade = _settings->get(Set::Engine_CrossFaderActive);
 
 	if(crossfade){
-		_pipeline->play();
-		_pipeline->fade_in();
+        m->pipeline->play();
+        m->pipeline->fade_in();
 	}
 
 	else {
-		int64_t time_to_go = _other_pipeline->get_time_to_go();
+        int64_t time_to_go = m->other_pipeline->get_time_to_go();
 
 		 if(time_to_go <= 0){
-			_pipeline->play();
+            m->pipeline->play();
 		 }
 
 		 else{
-			 _gapless_timer->setInterval(time_to_go);
-			 _gapless_timer->start();
+             m->gapless_timer->setInterval(time_to_go);
+             m->gapless_timer->start();
 
 			 sp_log(Log::Debug, this) << "Will start playing in " << time_to_go << "msec";
 		 }
@@ -160,17 +181,17 @@ void PlaybackEngine::change_track(const MetaData& md)
 	bool success;
 	emit sig_pos_changed_s(0);
 
-	if(_gapless_timer){
-		_gapless_timer->stop();
+    if(m->gapless_timer){
+        m->gapless_timer->stop();
 	}
 
-	if( _gapless_state == GaplessState::AboutToFinish ) {
+    if( m->gapless_state == GaplessState::AboutToFinish ) {
 		change_track_gapless(md);
 		return;
 	}
 
-	if(_other_pipeline){
-		_other_pipeline->stop();
+    if(m->other_pipeline){
+        m->other_pipeline->stop();
 	}
 
 	success = set_uri(md.filepath());
@@ -178,8 +199,8 @@ void PlaybackEngine::change_track(const MetaData& md)
 		return;
 	}
 
-	_md = md;
-	_cur_pos_ms = 0;
+    _md = md;
+    _cur_pos_ms = 0;
 
 	change_gapless_state(GaplessState::Playing);
 }
@@ -187,56 +208,26 @@ void PlaybackEngine::change_track(const MetaData& md)
 
 bool PlaybackEngine::set_uri(const QString& filepath)
 {
-	bool success = false;
-	QUrl url;
+    bool success = Engine::set_uri(filepath);
+    if(!success){
+        return false;
+    }
 
-	if(_uri){
-		g_free(_uri);
-		_uri = nullptr;
-	}
-
-	_playing_stream = Helper::File::is_www(filepath);
-
-	// stream, but don't want to record
-	// stream is already uri
-	if (_playing_stream) {
-		url = QUrl(filepath);
-		_uri = g_strdup(url.toString().toUtf8().data());
-	}
-
-	// no stream (not quite right because of mms, rtsp or other streams
-	// normal filepath -> no uri
-	else if (!filepath.contains("://")) {
-		url = QUrl::fromLocalFile(filepath);
-		_uri = g_strdup(url.url().toUtf8().data());
-	}
-
-	else {
-		_uri = g_strdup(filepath.toUtf8().data());
-	}
-
-	if(g_utf8_strlen(_uri, 1024) == 0){
-		sp_log(Log::Warning) << "uri = 0";
-		return false;
-	}
-
-	success = _pipeline->set_uri(_uri);
-
-	return success;
+    return m->pipeline->set_uri(get_uri());
 }
 
 
 void PlaybackEngine::play()
 {
-	if( _gapless_state == GaplessState::AboutToFinish ||
-		_gapless_state == GaplessState::TrackFetched )
+    if( m->gapless_state == GaplessState::AboutToFinish ||
+        m->gapless_state == GaplessState::TrackFetched )
 	{
 		return;
 	}
 
-	_pipeline->play();
+    m->pipeline->play();
 
-	if(_sr_active && _stream_recorder->is_recording()){
+    if(m->sr_active && m->stream_recorder->is_recording()){
 		set_streamrecorder_recording(true);
 	}
 }
@@ -246,18 +237,18 @@ void PlaybackEngine::stop()
 {
 	change_gapless_state(GaplessState::Playing);
 
-	if(_gapless_timer){
-		_gapless_timer->stop();
+    if(m->gapless_timer){
+        m->gapless_timer->stop();
 	}
 
 	sp_log(Log::Info) << "Playback Engine: stop";
-	_pipeline->stop();
+    m->pipeline->stop();
 
-	if(_other_pipeline){
-		_other_pipeline->stop();
+    if(m->other_pipeline){
+        m->other_pipeline->stop();
 	}
 
-	if(_sr_active && _stream_recorder->is_recording()){
+    if(m->sr_active && m->stream_recorder->is_recording()){
 		set_streamrecorder_recording(false);
 	}
 
@@ -267,25 +258,25 @@ void PlaybackEngine::stop()
 
 void PlaybackEngine::pause()
 {
-	_pipeline->pause();
+    m->pipeline->pause();
 }
 
 
 void PlaybackEngine::jump_abs_ms(uint64_t pos_ms)
 {
-	_pipeline->seek_abs(pos_ms * GST_MSECOND);
+    m->pipeline->seek_abs(pos_ms * GST_MSECOND);
 }
 
 void PlaybackEngine::jump_rel_ms(uint64_t ms)
 {
-	uint64_t new_time_ms = _pipeline->get_source_position_ms() + ms;
-	_pipeline->seek_abs(new_time_ms * GST_MSECOND);
+    uint64_t new_time_ms = m->pipeline->get_source_position_ms() + ms;
+    m->pipeline->seek_abs(new_time_ms * GST_MSECOND);
 }
 
 
 void PlaybackEngine::jump_rel(double percent)
 {
-	_pipeline->seek_rel(percent, _md.length_ms * GST_MSECOND);
+    m->pipeline->seek_rel(percent, _md.length_ms * GST_MSECOND);
 }
 
 
@@ -301,10 +292,10 @@ void PlaybackEngine::set_equalizer(int band, int val)
 	}
 
 	QString band_name = QString("band") + QString::number(band);
-	_pipeline->set_eq_band(band_name, new_val);
+    m->pipeline->set_eq_band(band_name, new_val);
 
-	if(_other_pipeline){
-		_other_pipeline->set_eq_band(band_name, new_val);
+    if(m->other_pipeline){
+        m->other_pipeline->set_eq_band(band_name, new_val);
 	}
 }
 
@@ -315,7 +306,7 @@ void PlaybackEngine::set_buffer_state(int progress, GstElement* src)
 		return;
 	}
 
-	if(!_pipeline->has_element(src)){
+    if(!m->pipeline->has_element(src)){
 		return;
 	}
 
@@ -325,7 +316,7 @@ void PlaybackEngine::set_buffer_state(int progress, GstElement* src)
 
 void PlaybackEngine::set_cur_position_ms(int64_t pos_ms)
 {
-	if(sender() != _pipeline){
+    if(sender() != m->pipeline){
 		return;
 	}
 
@@ -350,7 +341,7 @@ void PlaybackEngine::set_track_ready(GstElement* src)
 {
 	update_duration(src);
 
-	if(_pipeline->has_element(src)){
+    if(m->pipeline->has_element(src)){
 		emit sig_track_ready();
 	}
 }
@@ -360,30 +351,30 @@ void PlaybackEngine::set_about_to_finish(int64_t time2go)
 {
 	Q_UNUSED(time2go)
 
-	if(sender() != _pipeline){
+    if(sender() != m->pipeline){
 		return;
 	}
 
-	if( _gapless_state == GaplessState::NoGapless ||
-		_gapless_state == GaplessState::AboutToFinish )
+    if( m->gapless_state == GaplessState::NoGapless ||
+        m->gapless_state == GaplessState::AboutToFinish )
 	{
 		return;
 	}
 
-	sp_log(Log::Debug, this) << "About to finish: " << (int) _gapless_state << " (" << time2go << "ms)";
+    sp_log(Log::Debug, this) << "About to finish: " << (int) m->gapless_state << " (" << time2go << "ms)";
 	change_gapless_state(GaplessState::AboutToFinish);
 
 	bool crossfade = _settings->get(Set::Engine_CrossFaderActive);
 	if(crossfade){
-		_pipeline->fade_out();
+        m->pipeline->fade_out();
 	}
 
 	// switch pipelines
-	if(!_other_pipeline){
-		init_other_pipeline();
+    if(!m->other_pipeline){
+        init_other_pipeline();
 	}
 
-	std::swap(_pipeline, _other_pipeline);
+    std::swap(m->pipeline, m->other_pipeline);
 
 	emit sig_track_finished();
 	emit sig_pos_changed_ms(0);
@@ -392,15 +383,17 @@ void PlaybackEngine::set_about_to_finish(int64_t time2go)
 
 void PlaybackEngine::set_track_finished(GstElement* src)
 {
-	if(_pipeline->has_element(src)){
+    if(m->pipeline->has_element(src))
+    {
 		emit sig_track_finished();
 		emit sig_pos_changed_ms(0);
 	}
 
-	if(_other_pipeline && _other_pipeline->has_element(src)){
+    if(m->other_pipeline && m->other_pipeline->has_element(src))
+    {
 		sp_log(Log::Debug, this) << "Old track finished";
 
-		_other_pipeline->stop();
+        m->other_pipeline->stop();
 		_cur_pos_ms = 0;
 		change_gapless_state(GaplessState::Playing);
 	}
@@ -408,7 +401,7 @@ void PlaybackEngine::set_track_finished(GstElement* src)
 
 void PlaybackEngine::gapless_timed_out()
 {
-	_pipeline->play();
+    m->pipeline->play();
 }
 
 
@@ -419,7 +412,7 @@ void PlaybackEngine::_playlist_mode_changed()
 					_settings->get(Set::Engine_CrossFaderActive);
 
 	if(gapless) {
-		init_other_pipeline();
+        init_other_pipeline();
 		change_gapless_state(GaplessState::Playing);
 	}
 
@@ -436,19 +429,19 @@ void PlaybackEngine::change_gapless_state(GaplessState state)
 	bool gapless = Playlist::Mode::isActiveAndEnabled(plm.gapless());
 	bool crossfader = _settings->get(Set::Engine_CrossFaderActive);
 
-	_gapless_state = state;
+    m->gapless_state = state;
 
 	if(!gapless && !crossfader) {
-		_gapless_state = GaplessState::NoGapless;
+        m->gapless_state = GaplessState::NoGapless;
 	}
 }
 
 
 void PlaybackEngine::_streamrecorder_active_changed()
 {
-	_sr_active = _settings->get(Set::Engine_SR_Active);
+    m->sr_active = _settings->get(Set::Engine_SR_Active);
 
-	if(!_sr_active){
+    if(!m->sr_active){
 		set_streamrecorder_recording(false);
 	}
 }
@@ -458,34 +451,36 @@ void PlaybackEngine::set_streamrecorder_recording(bool b)
 {
 	QString dst_file;
 
-	if(_stream_recorder->is_recording() != b){
-		_stream_recorder->record(b);
+    if(m->stream_recorder->is_recording() != b){
+        m->stream_recorder->record(b);
 	}
 
-	if(b){
-		dst_file = _stream_recorder->change_track(_md);
+    if(b)
+    {
+        dst_file = m->stream_recorder->change_track(_md);
 		if(dst_file.isEmpty()){
 			return;
 		}
 	}
 
-	if(_pipeline) {
-		_pipeline->set_streamrecorder_path(dst_file);
+    if(m->pipeline) {
+        m->pipeline->set_streamrecorder_path(dst_file);
 	}
 }
 
 void PlaybackEngine::set_n_sound_receiver(int num_sound_receiver)
 {
-	_pipeline->set_n_sound_receiver(num_sound_receiver);
+    m->pipeline->set_n_sound_receiver(num_sound_receiver);
 
-	if(_other_pipeline){
-		_other_pipeline->set_n_sound_receiver(num_sound_receiver);
+    if(m->other_pipeline)
+    {
+        m->other_pipeline->set_n_sound_receiver(num_sound_receiver);
 	}
 }
 
 void PlaybackEngine::update_cover(const QImage& img, GstElement* src)
 {
-	if( _pipeline->has_element(src) )
+    if( m->pipeline->has_element(src) )
 	{
 		emit sig_cover_changed(img);
 	}
@@ -494,7 +489,7 @@ void PlaybackEngine::update_cover(const QImage& img, GstElement* src)
 
 void PlaybackEngine::update_md(const MetaData& md, GstElement* src)
 {
-	if(!_pipeline->has_element(src)){
+    if(!m->pipeline->has_element(src)){
 		return;
 	}
 
@@ -529,7 +524,7 @@ void PlaybackEngine::update_md(const MetaData& md, GstElement* src)
 
 	emit sig_md_changed(_md);
 
-	if(_sr_active && _stream_recorder->is_recording()){
+    if(m->sr_active && m->stream_recorder->is_recording()){
 		set_streamrecorder_recording(true);
 	}
 }
@@ -537,13 +532,13 @@ void PlaybackEngine::update_md(const MetaData& md, GstElement* src)
 
 void PlaybackEngine::update_duration(GstElement* src)
 {
-	if(! _pipeline->has_element(src)){
+    if(! m->pipeline->has_element(src)){
 		return;
 	}
 
-	_pipeline->refresh_duration();
+    m->pipeline->refresh_duration();
 
-	int64_t duration_ms = _pipeline->get_duration_ms();
+    int64_t duration_ms = m->pipeline->get_duration_ms();
 	uint32_t duration_s = (duration_ms >> 10);
 	uint32_t md_duration_s = (_md.length_ms >> 10);
 
@@ -563,7 +558,7 @@ void PlaybackEngine::update_duration(GstElement* src)
 
 void PlaybackEngine::update_bitrate(uint32_t br, GstElement* src)
 {
-	if(!_pipeline->has_element(src)){
+    if(!m->pipeline->has_element(src)){
 		return;
 	}
 
@@ -582,7 +577,7 @@ void PlaybackEngine::update_bitrate(uint32_t br, GstElement* src)
 
 void PlaybackEngine::add_spectrum_receiver(SpectrumReceiver* receiver)
 {
-	_spectrum_receiver << receiver;
+    m->spectrum_receiver << receiver;
 }
 
 int PlaybackEngine::get_spectrum_bins() const
@@ -592,7 +587,8 @@ int PlaybackEngine::get_spectrum_bins() const
 
 void PlaybackEngine::set_spectrum(const QList<float>& vals)
 {
-	for(SpectrumReceiver* rcv : _spectrum_receiver){
+    for(SpectrumReceiver* rcv : m->spectrum_receiver)
+    {
 		if(rcv){
 			rcv->set_spectrum(vals);
 		}
@@ -602,12 +598,13 @@ void PlaybackEngine::set_spectrum(const QList<float>& vals)
 
 void PlaybackEngine::add_level_receiver(LevelReceiver* receiver)
 {
-	_level_receiver << receiver;
+    m->level_receiver << receiver;
 }
 
 void PlaybackEngine::set_level(float left, float right)
 {
-	for(LevelReceiver* rcv : _level_receiver){
+    for(LevelReceiver* rcv : m->level_receiver)
+    {
 		if(rcv){
 			rcv->set_level(left, right);
 		}

@@ -25,40 +25,40 @@ struct SC::SearchInformationList::Private
 
 SC::SearchInformation::SearchInformation(int artist_id, int album_id, int track_id, const QString& search_string)
 {
-	_m = Pimpl::make<Private>();
-	_m->artist_id = artist_id;
-	_m->album_id = album_id;
-	_m->track_id = track_id;
-	_m->search_string = search_string;
+	m = Pimpl::make<Private>();
+	m->artist_id = artist_id;
+	m->album_id = album_id;
+	m->track_id = track_id;
+	m->search_string = search_string;
 }
 
 SC::SearchInformation::~SearchInformation() {}
 
 QString SC::SearchInformation::search_string() const
 {
-	return _m->search_string;
+	return m->search_string;
 }
 
 int SC::SearchInformation::artist_id() const
 {
-	return _m->artist_id;
+	return m->artist_id;
 }
 
 int SC::SearchInformation::album_id() const
 {
-	return _m->album_id;
+	return m->album_id;
 }
 
 int SC::SearchInformation::track_id() const
 {
-	return _m->track_id;
+	return m->track_id;
 }
 
 
 
 SC::SearchInformationList::SearchInformationList()
 {
-	_m = Pimpl::make<Private>();
+	m = Pimpl::make<Private>();
 }
 
 SC::SearchInformationList::~SearchInformationList(){}
@@ -106,17 +106,17 @@ static SP::Set<int> ids(const QString& search_string, const QHash<QString, SP::S
 
 SP::Set<int> SC::SearchInformationList::artist_ids(const QString& search_string) const
 {
-	return ids(search_string, _m->artist_id_map);
+	return ids(search_string, m->artist_id_map);
 }
 
 SP::Set<int> SC::SearchInformationList::album_ids(const QString& search_string) const
 {
-	return ids(search_string, _m->album_id_map);
+	return ids(search_string, m->album_id_map);
 }
 
 SP::Set<int> SC::SearchInformationList::track_ids(const QString& search_string) const
 {
-	return ids(search_string, _m->track_id_map);
+	return ids(search_string, m->track_id_map);
 }
 
 SC::SearchInformationList& SC::SearchInformationList::operator<<(const SearchInformation& search_information)
@@ -126,9 +126,9 @@ SC::SearchInformationList& SC::SearchInformationList::operator<<(const SearchInf
 	{
 		QString part = search_string.mid(idx, 3).toLower();
 
-		_m->album_id_map[part].insert(search_information.album_id());
-		_m->artist_id_map[part].insert(search_information.artist_id());
-		_m->track_id_map[part].insert(search_information.track_id());
+		m->album_id_map[part].insert(search_information.album_id());
+		m->artist_id_map[part].insert(search_information.artist_id());
+		m->track_id_map[part].insert(search_information.track_id());
 	}
 
 	return *this;
@@ -136,13 +136,13 @@ SC::SearchInformationList& SC::SearchInformationList::operator<<(const SearchInf
 
 bool SC::SearchInformationList::is_empty() const
 {
-	return _m->album_id_map.isEmpty();
+	return m->album_id_map.isEmpty();
 }
 
 void SC::SearchInformationList::clear()
 {
-	_m->album_id_map.clear();
-	_m->artist_id_map.clear();
-	_m->track_id_map.clear();
+	m->album_id_map.clear();
+	m->artist_id_map.clear();
+	m->track_id_map.clear();
 }
 

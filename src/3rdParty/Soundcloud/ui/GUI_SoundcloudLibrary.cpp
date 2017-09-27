@@ -38,10 +38,10 @@ SC::GUI_Library::GUI_Library(SC::Library* library, QWidget *parent) :
 	setup_parent(this, &ui);
 	setAcceptDrops(false);
 
-	_m = Pimpl::make<SC::GUI_Library::Private>();
+	m = Pimpl::make<SC::GUI_Library::Private>();
 
-	_m->artist_search = new SC::GUI_ArtistSearch(library, this);
-	_m->library_menu = new QMenu(this);
+	m->artist_search = new SC::GUI_ArtistSearch(library, this);
+	m->library_menu = new QMenu(this);
 
 	/* Remove search options */
 	while(ui->combo_searchfilter->count() > 1){
@@ -49,7 +49,7 @@ SC::GUI_Library::GUI_Library(SC::Library* library, QWidget *parent) :
 		ui->combo_searchfilter->removeItem(last);
 	}
 
-	QAction* action_add_artist = _m->library_menu->addAction(tr("Add artist"));
+	QAction* action_add_artist = m->library_menu->addAction(tr("Add artist"));
 	connect(action_add_artist, &QAction::triggered, this, &SC::GUI_Library::btn_add_clicked);
 
 	LibraryContexMenuEntries entry_mask =
@@ -77,7 +77,7 @@ SC::GUI_Library::~GUI_Library()
 
 QMenu* SC::GUI_Library::get_menu() const
 {
-	return _m->library_menu;
+	return m->library_menu;
 }
 
 QFrame* SC::GUI_Library::header_frame() const
@@ -99,7 +99,7 @@ void SC::GUI_Library::init_shortcuts()
 
 void SC::GUI_Library::btn_add_clicked()
 {
-	_m->artist_search->show();
+	m->artist_search->show();
 }
 
 LibraryTableView*SC::GUI_Library::lv_artist() const

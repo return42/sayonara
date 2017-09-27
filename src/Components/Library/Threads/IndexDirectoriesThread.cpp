@@ -31,29 +31,29 @@ struct IndexDirectoriesThread::Private
 
 IndexDirectoriesThread::IndexDirectoriesThread(const MetaDataList& v_md)
 {
-	_m = Pimpl::make<IndexDirectoriesThread::Private>();
-	_m->v_md = v_md;
+	m = Pimpl::make<IndexDirectoriesThread::Private>();
+	m->v_md = v_md;
 }
 
 IndexDirectoriesThread::~IndexDirectoriesThread() {}
 
 QStringList IndexDirectoriesThread::get_directories() const
 {
-	return _m->directories;
+	return m->directories;
 }
 
 void IndexDirectoriesThread::run()
 {
-	_m->directories.clear();
+	m->directories.clear();
 
 	SP::Set<QString> paths;
-	for(const MetaData& md : _m->v_md)
+	for(const MetaData& md : m->v_md)
 	{
 		paths.insert(Helper::File::get_parent_directory(md.filepath()));
 	}
 
 	for(auto it=paths.begin(); it!=paths.end(); it++){
-		_m->directories << *it;
+		m->directories << *it;
 	}
 }
 

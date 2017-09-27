@@ -61,11 +61,11 @@ struct GUI_TagEdit::Private
 GUI_TagEdit::GUI_TagEdit(QWidget* parent) :
 	SayonaraWidget(parent)
 {
-	_m = Pimpl::make<Private>();
+	m = Pimpl::make<Private>();
 	ui = new Ui::GUI_TagEdit();
 	ui->setupUi(this);
 
-	_m->tag_edit = new TagEdit(this);
+	m->tag_edit = new TagEdit(this);
 
 	ui->frame_tag_from_path->setVisible(ui->cb_tag_from_path->isChecked());
 
@@ -98,9 +98,9 @@ GUI_TagEdit::GUI_TagEdit(QWidget* parent) :
 	connect(ui->btn_undo_all, &QPushButton::clicked, this, &GUI_TagEdit::undo_all_clicked);
 	connect(ui->btn_close, &QPushButton::clicked, this, &GUI_TagEdit::sig_cancelled);
 
-	connect(_m->tag_edit, &TagEdit::sig_progress, this, &GUI_TagEdit::progress_changed);
-	connect(_m->tag_edit, &TagEdit::sig_metadata_received, this, &GUI_TagEdit::metadata_changed);
-	connect(_m->tag_edit, &TagEdit::finished, this, &GUI_TagEdit::commit_finished);
+	connect(m->tag_edit, &TagEdit::sig_progress, this, &GUI_TagEdit::progress_changed);
+	connect(m->tag_edit, &TagEdit::sig_metadata_received, this, &GUI_TagEdit::metadata_changed);
+	connect(m->tag_edit, &TagEdit::finished, this, &GUI_TagEdit::commit_finished);
 
 	language_changed();
 
@@ -152,7 +152,7 @@ void GUI_TagEdit::commit_finished()
 
 TagEdit* GUI_TagEdit::get_tag_edit() const
 {
-	return _m->tag_edit;
+	return m->tag_edit;
 }
 
 
@@ -165,7 +165,7 @@ void GUI_TagEdit::progress_changed(int val)
 	}
 
 	if(val < 0){
-		metadata_changed(_m->tag_edit->get_all_metadata() );
+		metadata_changed(m->tag_edit->get_all_metadata() );
 	}
 }
 
@@ -175,22 +175,22 @@ void GUI_TagEdit::metadata_changed(const MetaDataList& md)
 
 	reset();
 
-	_m->cur_idx = 0;
+	m->cur_idx = 0;
 	track_idx_changed();
 }
 
 
 bool GUI_TagEdit::check_idx(int idx) const
 {
-	return between(idx,_m->tag_edit->get_n_tracks());
+	return between(idx,m->tag_edit->get_n_tracks());
 }
 
 
 void GUI_TagEdit::next_button_clicked()
 {
-	write_changes(_m->cur_idx);
+	write_changes(m->cur_idx);
 
-	_m->cur_idx++;
+	m->cur_idx++;
 
 	track_idx_changed();
 }
@@ -198,9 +198,9 @@ void GUI_TagEdit::next_button_clicked()
 
 void GUI_TagEdit::prev_button_clicked()
 {
-	write_changes(_m->cur_idx);
+	write_changes(m->cur_idx);
 
-	_m->cur_idx--;
+	m->cur_idx--;
 
 	track_idx_changed();
 }
@@ -208,14 +208,14 @@ void GUI_TagEdit::prev_button_clicked()
 void GUI_TagEdit::track_idx_changed()
 {
 	bool valid;
-	int n_tracks =_m->tag_edit->get_n_tracks();
+	int n_tracks =m->tag_edit->get_n_tracks();
 
-	ui->btn_next->setEnabled(_m->cur_idx >= 0 && _m->cur_idx < n_tracks - 1);
-	ui->btn_prev->setEnabled(_m->cur_idx > 0 && _m->cur_idx < n_tracks);
+	ui->btn_next->setEnabled(m->cur_idx >= 0 && m->cur_idx < n_tracks - 1);
+	ui->btn_prev->setEnabled(m->cur_idx > 0 && m->cur_idx < n_tracks);
 
-	if(!check_idx(_m->cur_idx)) return;
+	if(!check_idx(m->cur_idx)) return;
 
-	MetaData md =_m->tag_edit->get_metadata(_m->cur_idx);
+	MetaData md =m->tag_edit->get_metadata(m->cur_idx);
 
 	if(ui->le_tag->text().isEmpty()){
 		ui->le_tag->setText(md.filepath());
@@ -231,7 +231,7 @@ void GUI_TagEdit::track_idx_changed()
 		ui->le_tag->setText(md.filepath());
 	}
 
-	valid = _m->tag_expression.update_tag(ui->le_tag->text(), md.filepath());
+	valid = m->tag_expression.update_tag(ui->le_tag->text(), md.filepath());
 	set_tag_colors( valid );
 
 	ui->le_title->setText(md.title);
@@ -267,7 +267,7 @@ void GUI_TagEdit::track_idx_changed()
 	if(!ui->cb_cover_all->isChecked()){
 		set_cover(md);
 
-		if(_m->tag_edit->has_cover_replacement(_m->cur_idx)){
+		if(m->tag_edit->has_cover_replacement(m->cur_idx)){
 			ui->rb_replace->setChecked(true);
 			ui->rb_dont_replace->setChecked(false);
 		}
@@ -278,7 +278,7 @@ void GUI_TagEdit::track_idx_changed()
 		}
 	}
 
-	bool is_cover_supported = _m->tag_edit->is_cover_supported(_m->cur_idx);
+	bool is_cover_supported = m->tag_edit->is_cover_supported(m->cur_idx);
 	ui->frame_cover->setVisible(is_cover_supported);
 
 	ui->sb_track_num->setValue(md.track_num);
@@ -288,7 +288,7 @@ void GUI_TagEdit::track_idx_changed()
 	ui->lab_filepath->setText( md.filepath());
 	ui->lab_track_index->setText(
 			Lang::get(Lang::Track).space() +
-			QString::number(_m->cur_idx+1 ) + "/" + QString::number( n_tracks )
+			QString::number(m->cur_idx+1 ) + "/" + QString::number( n_tracks )
 	);
 
 	ui->lab_tag_type->setText(tr("Tag") + ": " +
@@ -300,7 +300,7 @@ void GUI_TagEdit::track_idx_changed()
 
 void GUI_TagEdit::reset()
 {
-	_m->cur_idx = -1;
+	m->cur_idx = -1;
 
 	ui->cb_album_all->setChecked(false);
 	ui->cb_artist_all->setChecked(false);
@@ -354,7 +354,7 @@ void GUI_TagEdit::reset()
 	ui->btn_disc_nr->setChecked(false);
 	ui->btn_track_nr->setChecked(false);
 
-	_m->cover_path_map.clear();
+	m->cover_path_map.clear();
 	init_completer();
 }
 
@@ -426,8 +426,8 @@ void GUI_TagEdit::rating_all_changed(bool b)
 void GUI_TagEdit::cover_all_changed(bool b)
 {
 	if(!b){
-		if(between(_m->cur_idx,_m->tag_edit->get_n_tracks()) ){
-			set_cover(_m->tag_edit->get_metadata(_m->cur_idx));
+		if(between(m->cur_idx,m->tag_edit->get_n_tracks()) ){
+			set_cover(m->tag_edit->get_metadata(m->cur_idx));
 		}
 	}
 
@@ -438,13 +438,13 @@ void GUI_TagEdit::cover_all_changed(bool b)
 
 void GUI_TagEdit::undo_clicked()
 {
-	_m->tag_edit->undo(_m->cur_idx);
+	m->tag_edit->undo(m->cur_idx);
 	track_idx_changed();
 }
 
 void GUI_TagEdit::undo_all_clicked()
 {
-	_m->tag_edit->undo_all();
+	m->tag_edit->undo_all();
 	track_idx_changed();
 }
 
@@ -455,7 +455,7 @@ void GUI_TagEdit::write_changes(int idx)
 		return;
 	}
 
-	MetaData md =_m->tag_edit->get_metadata(idx);
+	MetaData md =m->tag_edit->get_metadata(idx);
 
 	md.title = ui->le_title->text();
 	md.artist = ui->le_artist->text();
@@ -467,10 +467,10 @@ void GUI_TagEdit::write_changes(int idx)
 	md.track_num = ui->sb_track_num->value();
 	md.rating = ui->lab_rating->get_rating();
 
-	_m->tag_edit->update_track(idx, md);
+	m->tag_edit->update_track(idx, md);
 
 	if(is_cover_replacement_active()){
-		update_cover(idx, _m->cover_path_map[idx]);
+		update_cover(idx, m->cover_path_map[idx]);
 	}
 }
 
@@ -484,12 +484,12 @@ void GUI_TagEdit::commit()
 	ui->btn_undo->setEnabled(false);
 	ui->btn_undo_all->setEnabled(false);
 
-	write_changes(_m->cur_idx);
+	write_changes(m->cur_idx);
 
-	for(int i=0; i<_m->tag_edit->get_n_tracks(); i++){
-		if(i ==_m->cur_idx) continue;
+	for(int i=0; i<m->tag_edit->get_n_tracks(); i++){
+		if(i ==m->cur_idx) continue;
 
-		MetaData md =_m->tag_edit->get_metadata(i);
+		MetaData md =m->tag_edit->get_metadata(i);
 
 		if( ui->cb_album_all->isChecked()){
 			md.album = ui->le_album->text();
@@ -521,13 +521,13 @@ void GUI_TagEdit::commit()
 		}
 
 		if( ui->cb_cover_all->isChecked() ){
-			update_cover(i, _m->cover_path_map[_m->cur_idx]);
+			update_cover(i, m->cover_path_map[m->cur_idx]);
 		}
 
-		_m->tag_edit->update_track(i, md);
+		m->tag_edit->update_track(i, md);
 	}
 
-	_m->tag_edit->commit();
+	m->tag_edit->commit();
 }
 
 void GUI_TagEdit::show_close_button(bool show)
@@ -578,14 +578,14 @@ void GUI_TagEdit::set_cover(const MetaData& md)
 	ui->btn_cover_replacement->setEnabled(cl.valid() && !ui->cb_cover_all->isChecked());
 
 	if(cl.valid()){
-		_m->cover_path_map[_m->cur_idx] = cl.cover_path();
+		m->cover_path_map[m->cur_idx] = cl.cover_path();
 	}
 }
 
 void GUI_TagEdit::update_cover(int idx, const QString& cover_path)
 {
 	QImage img(cover_path);
-	_m->tag_edit->update_cover(idx, img);
+	m->tag_edit->update_cover(idx, img);
 }
 
 
@@ -614,14 +614,14 @@ void GUI_TagEdit::set_tag_colors(bool valid)
 
 void GUI_TagEdit::tag_text_changed(const QString& str)
 {
-	if( !check_idx(_m->cur_idx) ) {
+	if( !check_idx(m->cur_idx) ) {
 		return;
 	}
 
 	bool valid;
-	MetaData md =_m->tag_edit->get_metadata(_m->cur_idx);
+	MetaData md =m->tag_edit->get_metadata(m->cur_idx);
 
-	valid = _m->tag_expression.update_tag(str, md.filepath() );
+	valid = m->tag_expression.update_tag(str, md.filepath() );
 
 	set_tag_colors( valid );
 }
@@ -633,8 +633,8 @@ void GUI_TagEdit::apply_tag(int idx)
 		return;
 	}
 
-	QMap<Tag, ReplacedString> tag_cap_map = _m->tag_expression.get_tag_val_map();
-	MetaData md =_m->tag_edit->get_metadata(idx);
+	QMap<Tag, ReplacedString> tag_cap_map = m->tag_expression.get_tag_val_map();
+	MetaData md =m->tag_edit->get_metadata(idx);
 
 	for(const QString& tag : tag_cap_map.keys()){
 		ReplacedString cap = tag_cap_map[tag];
@@ -664,9 +664,9 @@ void GUI_TagEdit::apply_tag(int idx)
 		}
 	}
 
-	_m->tag_edit->update_track(idx, md);
+	m->tag_edit->update_track(idx, md);
 
-	if(idx ==_m->cur_idx){
+	if(idx ==m->cur_idx){
 		// force gui update
 		track_idx_changed();
 	}
@@ -674,7 +674,7 @@ void GUI_TagEdit::apply_tag(int idx)
 
 void GUI_TagEdit::apply_tag_clicked()
 {
-	apply_tag(_m->cur_idx);
+	apply_tag(m->cur_idx);
 }
 
 void GUI_TagEdit::apply_tag_all_clicked()
@@ -682,13 +682,13 @@ void GUI_TagEdit::apply_tag_all_clicked()
 	IdxList not_valid;
 
 	QString not_valid_str = tr("Cannot apply tag for") + "<br /><br /> ";
-	MetaDataList v_md =_m->tag_edit->get_all_metadata();
+	MetaDataList v_md =m->tag_edit->get_all_metadata();
 	int n_tracks = v_md.size();
 
 	for(int i=0; i<n_tracks; i++){
 		bool valid;
 
-		valid = _m->tag_expression.update_tag(ui->le_tag->text(), v_md[i].filepath() );
+		valid = m->tag_expression.update_tag(ui->le_tag->text(), v_md[i].filepath() );
 
 		if(! valid ){
 			not_valid << i;
@@ -711,7 +711,7 @@ void GUI_TagEdit::apply_tag_all_clicked()
 		for(int i=0; i<n_tracks; i++){
 			if(not_valid.contains(i)) continue;
 
-			_m->tag_expression.update_tag(ui->le_tag->text(), v_md[i].filepath() );
+			m->tag_expression.update_tag(ui->le_tag->text(), v_md[i].filepath() );
 			apply_tag(i);
 		}
 	}
@@ -732,27 +732,27 @@ bool GUI_TagEdit::replace_selected_tag_text(Tag t, bool b)
 	// replace the string by a tag
 	if(b){
 		ReplacedString selected_text = text.mid( ts.selection_start, ts.selection_size );
-		if(!_m->tag_expression.check_tag(t, selected_text)) return false;
+		if(!m->tag_expression.check_tag(t, selected_text)) return false;
 
 		text.replace( ts.selection_start, ts.selection_size, t );
 		ui->le_tag->setText(text);
 
-		_m->tag_str_map[t] = selected_text;
+		m->tag_str_map[t] = selected_text;
 	}
 
 	// replace tag by the original string
 	else{
-		text.replace(t, _m->tag_str_map[t]);
+		text.replace(t, m->tag_str_map[t]);
 		ui->le_tag->setText(text);
 
-		_m->tag_str_map.remove(t);
+		m->tag_str_map.remove(t);
 	}
 
 
-	if(check_idx(_m->cur_idx)){
+	if(check_idx(m->cur_idx)){
 		// fetch corresponding filepath and update the tag expression
-		MetaData md =_m->tag_edit->get_metadata(_m->cur_idx);
-		bool valid = _m->tag_expression.update_tag(text, md.filepath() );
+		MetaData md =m->tag_edit->get_metadata(m->cur_idx);
+		bool valid = m->tag_expression.update_tag(text, md.filepath() );
 
 		set_tag_colors( valid );
 	}

@@ -44,7 +44,7 @@ struct GUI_IconPreferences::Private
 GUI_IconPreferences::GUI_IconPreferences(QWidget* parent) :
 	PreferenceWidgetInterface(parent)
 {
-	_m = Pimpl::make<Private>();
+	m = Pimpl::make<Private>();
 }
 
 GUI_IconPreferences::~GUI_IconPreferences() {}
@@ -117,7 +117,7 @@ void GUI_IconPreferences::init_ui()
 	layout->addWidget(rb_automatic);
 
 	rb_automatic->setStyleSheet("font-weight: bold;");
-	_m->rb_map[""] = rb_automatic;
+	m->rb_map[""] = rb_automatic;
 
 
 	QStringList icon_paths = QIcon::themeSearchPaths();
@@ -144,9 +144,9 @@ void GUI_IconPreferences::init_ui()
 				}
 			});
 
-			_m->rb_map[subdir] = rb;
+			m->rb_map[subdir] = rb;
 
-			if(_m->original_theme.compare(QIcon::themeName()) == 0){
+			if(m->original_theme.compare(QIcon::themeName()) == 0){
 				rb->setStyleSheet("font-weight: bold;");
 			}
 
@@ -169,7 +169,7 @@ void GUI_IconPreferences::init_ui()
 
 void GUI_IconPreferences::retranslate_ui()
 {
-	IconRadioButton* rb = _m->rb_map[""];
+	IconRadioButton* rb = m->rb_map[""];
 	if(rb){
 		rb->setText(
 					tr("Automatic") +
@@ -185,27 +185,27 @@ QString GUI_IconPreferences::get_action_name() const
 
 void GUI_IconPreferences::commit()
 {
-	for(const QString& key : _m->rb_map.keys())
+	for(const QString& key : m->rb_map.keys())
 	{
-		IconRadioButton* rb = _m->rb_map[key];
+		IconRadioButton* rb = m->rb_map[key];
 		rb->setStyleSheet("font-weight: normal;");
 		if(rb->isChecked()){
 			_settings->set(Set::Icon_Theme, key);
 			rb->setStyleSheet("font-weight: bold;");
-			_m->original_theme = rb->data();
+			m->original_theme = rb->data();
 		}
 	}
 }
 
 void GUI_IconPreferences::revert()
 {
-	for(const QString& key : _m->rb_map.keys())
+	for(const QString& key : m->rb_map.keys())
 	{
-		IconRadioButton* rb = _m->rb_map[key];
-		rb->setChecked(key.compare(_m->original_theme) == 0);
+		IconRadioButton* rb = m->rb_map[key];
+		rb->setChecked(key.compare(m->original_theme) == 0);
 	}
 
-	QIcon::setThemeName(_m->original_theme);
+	QIcon::setThemeName(m->original_theme);
 }
 
 static void apply_icon(const QString& n, const QString& theme_name, QLabel* label)

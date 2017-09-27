@@ -23,21 +23,22 @@
 
 #include "Helper/Settings/SayonaraClass.h"
 #include "Helper/MetaData/MetaData.h"
+#include "Helper/Pimpl.h"
+
 #include <QObject>
 
-#include <gst/gst.h>
-
-#define PLAYBACK_ENGINE "playback_engine"
-#define CONVERT_ENGINE "convert_engine"
+struct _GstElement;
+typedef struct _GstElement GstElement;
 
 class QImage;
 /**
  * @brief The EngineName enum
  * @ingroup Engine
  */
-enum class EngineName : uint8_t 
+enum class EngineName : int8_t
 {
-	Undefined=0,
+    Undefined=-1,
+    EngineHandler=0,
 	PlaybackEngine=1,
 	ConvertEngine=2
 };
@@ -51,10 +52,10 @@ class Engine :
 		protected SayonaraClass
 {
 	Q_OBJECT
+    PIMPL(Engine)
 
 public:
-
-	explicit Engine(QObject* parent=nullptr);
+    explicit Engine(EngineName name, QObject* parent=nullptr);
 	virtual ~Engine();
 	virtual EngineName	get_name() const final;
 
@@ -110,14 +111,11 @@ public slots:
 	virtual void change_track(const QString&)=0;
 
 protected:
-
-	EngineName	_name;
-	char*		_uri=nullptr;
-
 	MetaData	_md;
 	int64_t		_cur_pos_ms;
-	bool 		_playing_stream;
-	bool		_broadcast_active;
+
+    virtual bool set_uri(const QString& filepath);
+    char* get_uri() const;
 };
 
 extern Engine* gst_obj_ref;

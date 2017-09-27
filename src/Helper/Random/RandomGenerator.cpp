@@ -30,7 +30,7 @@ struct RandomGenerator::Private
 
 RandomGenerator::RandomGenerator()
 {
-	_m = Pimpl::make<RandomGenerator::Private>();
+	m = Pimpl::make<RandomGenerator::Private>();
 	update_seed();
 }
 
@@ -44,14 +44,14 @@ RandomGenerator::RandomGenerator(const RandomGenerator& other)
 
 void RandomGenerator::update_seed()
 {
-	_m->seed = std::chrono::system_clock::now().time_since_epoch().count();
-	_m->generator = std::mt19937(_m->seed);
+	m->seed = std::chrono::system_clock::now().time_since_epoch().count();
+	m->generator = std::mt19937(m->seed);
 }
 
 int RandomGenerator::get_number(int min, int max)
 {
 	std::uniform_int_distribution<int> d(min, max);
-	return d(_m->generator);
+	return d(m->generator);
 }
 
 int RandomGenerator::get_random_number(int min, int max)

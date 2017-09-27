@@ -50,9 +50,9 @@ struct PlaylistChooser::Private
 
 PlaylistChooser::PlaylistChooser()
 {
-    _m = Pimpl::make<Private>();
+    m = Pimpl::make<Private>();
 
-    connect(_m->playlist_handler, &PlaylistHandler::sig_saved_playlists_changed,
+    connect(m->playlist_handler, &PlaylistHandler::sig_saved_playlists_changed,
 			this, &PlaylistChooser::load_all_playlists);
 }
 
@@ -62,13 +62,13 @@ void PlaylistChooser::load_all_playlists()
 {
 	bool success;
 
-    _m->skeletons.clear();
-    success = _m->playlist_db_connector->get_non_temporary_skeletons(
-                _m->skeletons, Playlist::SortOrder::NameAsc
+    m->skeletons.clear();
+    success = m->playlist_db_connector->get_non_temporary_skeletons(
+                m->skeletons, Playlist::SortOrder::NameAsc
     );
 
 	if(success) {
-        emit sig_all_playlists_loaded(_m->skeletons);
+        emit sig_all_playlists_loaded(m->skeletons);
 	}
 }
 
@@ -79,19 +79,19 @@ void PlaylistChooser::load_single_playlist(int id)
 		return;
 	}
 
-    CustomPlaylist pl = _m->find_custom_playlist(id);
+    CustomPlaylist pl = m->find_custom_playlist(id);
 	if(!pl.valid()) {
 		return;
 	}
 
-    idx = _m->playlist_handler->create_playlist(pl);
-    _m->playlist_handler->set_current_idx(idx);
+    idx = m->playlist_handler->create_playlist(pl);
+    m->playlist_handler->set_current_idx(idx);
 }
 
 
 void PlaylistChooser::delete_playlist(int id)
 {
-    bool success = _m->playlist_db_connector->delete_playlist(id);
+    bool success = m->playlist_db_connector->delete_playlist(id);
 
 	if(!success) {
 		sp_log(Log::Warning) << "playlist " << id << " could not be deleted";
@@ -103,41 +103,41 @@ void PlaylistChooser::delete_playlist(int id)
 
 void PlaylistChooser::save_playlist(int id)
 {
-    CustomPlaylist pl = _m->find_custom_playlist(id);
+    CustomPlaylist pl = m->find_custom_playlist(id);
 
     if(pl.valid())
     {
-        int cur_idx = _m->playlist_handler->get_current_idx();
-        _m->playlist_handler->save_playlist(cur_idx);
+        int cur_idx = m->playlist_handler->get_current_idx();
+        m->playlist_handler->save_playlist(cur_idx);
 	}
 }
 
 void PlaylistChooser::save_playlist(const QString& name)
 {
-    int cur_idx = _m->playlist_handler->get_current_idx();
-    _m->playlist_handler->save_playlist_as(cur_idx, name, true);
+    int cur_idx = m->playlist_handler->get_current_idx();
+    m->playlist_handler->save_playlist_as(cur_idx, name, true);
 }
 
 void PlaylistChooser::save_playlist_file(const QString& filename, bool relative_paths)
 {
-    _m->playlist_handler->save_playlist_to_file(filename, relative_paths);
+    m->playlist_handler->save_playlist_to_file(filename, relative_paths);
 }
 
 
 void PlaylistChooser::clear_playlist()
 {
-    int cur_idx = _m->playlist_handler->get_current_idx();
-    _m->playlist_handler->clear_playlist(cur_idx);
+    int cur_idx = m->playlist_handler->get_current_idx();
+    m->playlist_handler->clear_playlist(cur_idx);
 }
 
 void PlaylistChooser::playlist_files_selected(const QStringList& lst)
 {
-    _m->playlist_handler->create_playlist(lst, "", false);
+    m->playlist_handler->create_playlist(lst, "", false);
 }
 
 int PlaylistChooser::find_playlist(const QString& name) const
 {
-    for(const CustomPlaylistSkeleton& skeleton : _m->skeletons)
+    for(const CustomPlaylistSkeleton& skeleton : m->skeletons)
     {
 		if(skeleton.name().compare(name) == 0){
 			return skeleton.id();

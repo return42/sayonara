@@ -52,7 +52,7 @@ gboolean PipelineCallbacks::position_changed(gpointer data)
 }
 
 // dynamic linking, important for decodebin
-void PipelineCallbacks::pad_added_handler(GstElement* source, GstPad* new_src_pad, gpointer data)
+void PipelineCallbacks::decodebin_ready(GstElement* source, GstPad* new_src_pad, gpointer data)
 {
 	GstElement*			element;
 	GstPad*				sink_pad;
@@ -152,7 +152,7 @@ static bool is_source_soup(GstElement* source)
 	return (src_type.compare("gstsouphttpsrc", Qt::CaseInsensitive) == 0);
 }
 
-void PipelineCallbacks::source_setup_handler(GstURIDecodeBin* bin, GstElement* source, gpointer data)
+void PipelineCallbacks::source_ready(GstURIDecodeBin* bin, GstElement* source, gpointer data)
 {
 	Q_UNUSED(bin);
 	Q_UNUSED(data);

@@ -27,11 +27,8 @@
 #include "Convert/ConvertEngine.h"
 #include "Helper/Logger/Logger.h"
 
-#include <QImage>
-
-
 EngineHandler::EngineHandler(QObject* parent) : 
-	Engine(parent) 
+    Engine(EngineName::EngineHandler, parent)
 {
 	_cur_engine = nullptr;
 
@@ -106,7 +103,8 @@ void EngineHandler::end_convert()
 }
 
 
-void EngineHandler::playstate_changed(PlayState state){
+void EngineHandler::playstate_changed(PlayState state)
+{
 	if(!_cur_engine) return;
 
 	switch(state){
@@ -148,34 +146,40 @@ void EngineHandler::pause()
 }
 
 
-void EngineHandler::jump_abs_ms(uint64_t ms) {
+void EngineHandler::jump_abs_ms(uint64_t ms)
+{
 	if(!_cur_engine) return;
 	_cur_engine->jump_abs_ms(ms);
 }
 
-void EngineHandler::jump_rel_ms(uint64_t ms){
+void EngineHandler::jump_rel_ms(uint64_t ms)
+{
 	if(!_cur_engine) return;
 	_cur_engine->jump_rel_ms(ms);
 }
 
-void EngineHandler::jump_rel(double where) {
+void EngineHandler::jump_rel(double where)
+{
 	if(!_cur_engine) return;
 	_cur_engine->jump_rel(where);
 }
 
 
-void EngineHandler::change_track(const MetaData& md) {
+void EngineHandler::change_track(const MetaData& md)
+{
 	if(!_cur_engine) return;
 	_cur_engine->change_track(md);
 }
 
-void EngineHandler::change_track(const QString& str) {
+void EngineHandler::change_track(const QString& str)
+{
 	if(!_cur_engine) return;
 	_cur_engine->change_track(str);
 }
 
 
-void EngineHandler::sl_md_changed(const MetaData& md) {
+void EngineHandler::sl_md_changed(const MetaData& md)
+{
 	_play_manager->change_metadata(md);
 	emit sig_md_changed(md);
 }
@@ -186,11 +190,13 @@ void EngineHandler::sl_dur_changed(const MetaData& md)
 	emit sig_dur_changed(md);
 }
 
-void EngineHandler::sl_pos_changed_ms(uint64_t ms) {
+void EngineHandler::sl_pos_changed_ms(uint64_t ms)
+{
 	_play_manager->set_position_ms(ms);
 }
 
-void EngineHandler::sl_pos_changed_s(uint32_t sec) {
+void EngineHandler::sl_pos_changed_s(uint32_t sec)
+{
 	_play_manager->set_position_ms( (uint64_t) (sec * 1000) );
 }
 
@@ -204,19 +210,21 @@ void EngineHandler::sl_track_finished()
 	_play_manager->next();
 }
 
-
-void EngineHandler::sl_buffer_state_changed(int progress){
+void EngineHandler::sl_buffer_state_changed(int progress)
+{
 	_play_manager->buffering(progress);
 }
 
-void EngineHandler::sr_record_button_pressed(bool b){
+void EngineHandler::sr_record_button_pressed(bool b)
+{
 	PlaybackEngine* p = get_playback_engine();
 	if(p){
 		p->set_streamrecorder_recording(b);
 	}
 }
 
-bool EngineHandler::configure_connections(Engine* old_engine, Engine* new_engine) {
+bool EngineHandler::configure_connections(Engine* old_engine, Engine* new_engine)
+{
 	if(!old_engine && !new_engine) return false;
 	if(old_engine == new_engine) return false;
 
@@ -277,7 +285,8 @@ Engine* EngineHandler::get_engine(EngineName name)
 }
 
 
-void EngineHandler::switch_engine(EngineName name) {
+void EngineHandler::switch_engine(EngineName name)
+{
 	Engine* new_engine=get_engine(name);
 
 	if(!new_engine){
@@ -293,7 +302,8 @@ PlaybackEngine* EngineHandler::get_playback_engine()
 	return dynamic_cast<PlaybackEngine*>(get_engine(EngineName::PlaybackEngine));
 }
 
-void EngineHandler::new_data(const uchar* data, uint64_t n_bytes){
+void EngineHandler::new_data(const uchar* data, uint64_t n_bytes)
+{
 	for(RawSoundReceiverInterface* receiver : _raw_sound_receiver){
 		receiver->new_audio_data(data, n_bytes);
 	}
@@ -315,7 +325,8 @@ void EngineHandler::register_raw_sound_receiver(RawSoundReceiverInterface* recei
 	}
 }
 
-void EngineHandler::unregister_raw_sound_receiver(RawSoundReceiverInterface* receiver){
+void EngineHandler::unregister_raw_sound_receiver(RawSoundReceiverInterface* receiver)
+{
 	PlaybackEngine* engine;
 
 	if(!_raw_sound_receiver.contains(receiver)){
@@ -331,7 +342,8 @@ void EngineHandler::unregister_raw_sound_receiver(RawSoundReceiverInterface* rec
 }
 
 
-void EngineHandler::set_equalizer(int band, int value){
+void EngineHandler::set_equalizer(int band, int value)
+{
 	PlaybackEngine* engine = get_playback_engine();
 
 	if(engine){

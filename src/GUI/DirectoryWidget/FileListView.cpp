@@ -47,11 +47,11 @@ FileListView::FileListView(QWidget* parent) :
 	SearchableListView(parent),
 	Dragable(this)
 {
-	_m = Pimpl::make<Private>();
-	_m->model = new FileListModel(this);
+	m = Pimpl::make<Private>();
+	m->model = new FileListModel(this);
 
-	this->setModel(_m->model);
-	this->setSearchModel(_m->model);
+	this->setModel(m->model);
+	this->setSearchModel(m->model);
 	this->setItemDelegate(new DirectoryDelegate(this));
 	this->setSelectionMode(QAbstractItemView::ExtendedSelection);
 	this->setDragEnabled(true);
@@ -67,11 +67,11 @@ void FileListView::mousePressEvent(QMouseEvent* event)
 	if(event->button() & Qt::RightButton){
 		QPoint pos = QWidget::mapToGlobal(event->pos());
 
-		if(!_m->context_menu){
+		if(!m->context_menu){
 			init_context_menu();
 		}
 
-		_m->context_menu->exec(pos);
+		m->context_menu->exec(pos);
 	}
 
 	if(event->button() & Qt::LeftButton){
@@ -94,7 +94,7 @@ void FileListView::mouseMoveEvent(QMouseEvent* event)
 
 void FileListView::init_context_menu()
 {
-	_m->context_menu = new LibraryContextMenu(this);
+	m->context_menu = new LibraryContextMenu(this);
 
 	LibraryContexMenuEntries entries =
 			(LibraryContextMenu::EntryDelete |
@@ -102,12 +102,12 @@ void FileListView::init_context_menu()
 			LibraryContextMenu::EntryAppend |
 			LibraryContextMenu::EntryPlayNext);
 
-	_m->context_menu->show_actions(entries);
+	m->context_menu->show_actions(entries);
 
-	connect(_m->context_menu, &LibraryContextMenu::sig_info_clicked, this, &FileListView::sig_info_clicked);
-	connect(_m->context_menu, &LibraryContextMenu::sig_delete_clicked, this, &FileListView::sig_delete_clicked);
-	connect(_m->context_menu, &LibraryContextMenu::sig_play_next_clicked, this, &FileListView::sig_play_next_clicked);
-	connect(_m->context_menu, &LibraryContextMenu::sig_append_clicked, this, &FileListView::sig_append_clicked);
+	connect(m->context_menu, &LibraryContextMenu::sig_info_clicked, this, &FileListView::sig_info_clicked);
+	connect(m->context_menu, &LibraryContextMenu::sig_delete_clicked, this, &FileListView::sig_delete_clicked);
+	connect(m->context_menu, &LibraryContextMenu::sig_play_next_clicked, this, &FileListView::sig_play_next_clicked);
+	connect(m->context_menu, &LibraryContextMenu::sig_append_clicked, this, &FileListView::sig_append_clicked);
 }
 
 
@@ -134,7 +134,7 @@ MetaDataList FileListView::get_selected_metadata() const
 
 QStringList FileListView::get_selected_paths() const
 {
-	QStringList paths = _m->model->get_files();
+	QStringList paths = m->model->get_files();
 	QStringList ret;
 	QModelIndexList selections = this->get_selected_rows();
 
@@ -152,7 +152,7 @@ QStringList FileListView::get_selected_paths() const
 
 void FileListView::set_parent_directory(const QString& dir)
 {
-	_m->model->set_parent_directory(dir);
+	m->model->set_parent_directory(dir);
 }
 
 QMimeData*FileListView::get_mimedata() const
@@ -160,7 +160,7 @@ QMimeData*FileListView::get_mimedata() const
 	QItemSelectionModel* sel_model = this->selectionModel();
 	if(sel_model)
 	{
-		return _m->model->mimeData(sel_model->selectedIndexes());
+		return m->model->mimeData(sel_model->selectedIndexes());
 	}
 
 	return nullptr;
@@ -174,5 +174,5 @@ int FileListView::get_index_by_model_index(const QModelIndex& idx) const
 
 QModelIndex FileListView::get_model_index_by_index(int idx) const
 {
-	return _m->model->index(idx);
+	return m->model->index(idx);
 }

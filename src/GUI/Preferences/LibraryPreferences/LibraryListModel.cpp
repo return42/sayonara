@@ -58,7 +58,7 @@ struct LibraryListModel::Private
 LibraryListModel::LibraryListModel(QObject* parent) :
 	QAbstractListModel(parent)
 {
-	_m = Pimpl::make<Private>();
+	m = Pimpl::make<Private>();
 }
 
 LibraryListModel::~LibraryListModel() {}
@@ -66,7 +66,7 @@ LibraryListModel::~LibraryListModel() {}
 int LibraryListModel::rowCount(const QModelIndex& parent) const
 {
 	Q_UNUSED(parent)
-	return _m->shown_library_info.size();
+	return m->shown_library_info.size();
 }
 
 QVariant LibraryListModel::data(const QModelIndex& index, int role) const
@@ -78,11 +78,11 @@ QVariant LibraryListModel::data(const QModelIndex& index, int role) const
 	}
 
 	if(role == Qt::DisplayRole)	{
-		return _m->shown_library_info[row].name();
+		return m->shown_library_info[row].name();
 	}
 
 	else if(role == Qt::ToolTipRole) {
-		return _m->shown_library_info[row].path();
+		return m->shown_library_info[row].path();
 	}
 
 	return QVariant();
@@ -90,8 +90,8 @@ QVariant LibraryListModel::data(const QModelIndex& index, int role) const
 
 void LibraryListModel::append_row(const LibName& name, const LibPath& path)
 {
-	_m->operations << new AddOperation(name, path);
-	_m->shown_library_info << LibraryInfo(name, path, -1);
+	m->operations << new AddOperation(name, path);
+	m->shown_library_info << LibraryInfo(name, path, -1);
 
 	emit dataChanged(index(0), index(rowCount()));
 
@@ -99,56 +99,56 @@ void LibraryListModel::append_row(const LibName& name, const LibPath& path)
 
 void LibraryListModel::rename_row(int row, const LibName& new_name)
 {
-	if(!between(row, _m->shown_library_info)) {
+	if(!between(row, m->shown_library_info)) {
 		return;
 	}
 
-	LibraryInfo info = _m->shown_library_info[row];
+	LibraryInfo info = m->shown_library_info[row];
 
-	_m->operations << new RenameOperation(info.id(), new_name);
-	_m->shown_library_info[row] =
+	m->operations << new RenameOperation(info.id(), new_name);
+	m->shown_library_info[row] =
 			LibraryInfo(new_name, info.path(), info.id());
 }
 
 void LibraryListModel::change_path(int row, const LibPath& path)
 {
-	if(!between(row, _m->shown_library_info)) {
+	if(!between(row, m->shown_library_info)) {
 		return;
 	}
 
-	LibraryInfo info = _m->shown_library_info[row];
+	LibraryInfo info = m->shown_library_info[row];
 
-	_m->operations << new ChangePathOperation(info.id(), path);
-	_m->shown_library_info[row] =
+	m->operations << new ChangePathOperation(info.id(), path);
+	m->shown_library_info[row] =
 			LibraryInfo(info.name(), path, info.id());
 }
 
 void LibraryListModel::move_row(int from, int to)
 {
-	if(!between(from, _m->shown_library_info)) {
+	if(!between(from, m->shown_library_info)) {
 		return;
 	}
 
-	if(!between(to, _m->shown_library_info)) {
+	if(!between(to, m->shown_library_info)) {
 		return;
 	}
 
-	_m->operations << new MoveOperation(from, to);
-	_m->shown_library_info.move(from, to);
+	m->operations << new MoveOperation(from, to);
+	m->shown_library_info.move(from, to);
 
 	emit dataChanged(index(0), index(rowCount()));
 }
 
 void LibraryListModel::remove_row(int row)
 {
-	if(!between(row, _m->shown_library_info)) {
+	if(!between(row, m->shown_library_info)) {
 		return;
 	}
 
-	LibraryInfo info = _m->shown_library_info[row];
+	LibraryInfo info = m->shown_library_info[row];
 
-	_m->operations << new RemoveOperation(info.id());
-	_m->shown_library_info.removeAt(row);
+	m->operations << new RemoveOperation(info.id());
+	m->shown_library_info.removeAt(row);
 
 	emit dataChanged(index(0), index(rowCount()));
 }
@@ -157,7 +157,7 @@ QStringList LibraryListModel::all_names() const
 {
 	QStringList ret;
 
-	for(const LibraryInfo& info : _m->shown_library_info) {
+	for(const LibraryInfo& info : m->shown_library_info) {
 		ret << info.name();
 	}
 
@@ -168,7 +168,7 @@ QStringList LibraryListModel::all_paths() const
 {
 	QStringList ret;
 
-	for(const LibraryInfo& info : _m->shown_library_info) {
+	for(const LibraryInfo& info : m->shown_library_info) {
 		ret << info.path();
 	}
 
@@ -177,16 +177,16 @@ QStringList LibraryListModel::all_paths() const
 
 void LibraryListModel::reset()
 {
-	_m->reload();
+	m->reload();
 	emit dataChanged(index(0), index(rowCount()));
 }
 
 void LibraryListModel::commit()
 {
-	for(ChangeOperation* op : _m->operations){
+	for(ChangeOperation* op : m->operations){
 		op->exec();
 	}
 
-	_m->reload();
+	m->reload();
 }
 

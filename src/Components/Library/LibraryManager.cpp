@@ -194,10 +194,10 @@ struct LibraryManager::Private
 LibraryManager::LibraryManager() :
 	SayonaraClass()
 {
-	_m = Pimpl::make<Private>();
+	m = Pimpl::make<Private>();
 
 	revert();
-	_m->init_symlinks();
+	m->init_symlinks();
 }
 
 LibraryManager::~LibraryManager() {}
@@ -208,17 +208,17 @@ int8_t LibraryManager::add_library(const QString& name, const QString& path)
 		return -1;
 	}
 
-	if(_m->contains_path(path)){
+	if(m->contains_path(path)){
 		return -1;
 	}
 
-	int8_t id = _m->get_next_id();
+	int8_t id = m->get_next_id();
 	LibraryInfo li(name, path, id);
 
-	_m->all_libs << li;
-	_m->lph->add_local_library(li);
+	m->all_libs << li;
+	m->lph->add_local_library(li);
 
-	_settings->set(Set::Lib_AllLibraries, _m->all_libs);
+	_settings->set(Set::Lib_AllLibraries, m->all_libs);
 
 	Helper::File::create_symlink(li.path(), li.symlink_path());
 
@@ -227,27 +227,27 @@ int8_t LibraryManager::add_library(const QString& name, const QString& path)
 
 void LibraryManager::rename_library(int8_t id, const QString& new_name)
 {
-	_m->rename_library(id, new_name);
-	_settings->set(Set::Lib_AllLibraries, _m->all_libs);
+	m->rename_library(id, new_name);
+	_settings->set(Set::Lib_AllLibraries, m->all_libs);
 }
 
 void LibraryManager::remove_library(int8_t id)
 {
-	for(int i=0; i<_m->all_libs.size(); i++)
+	for(int i=0; i<m->all_libs.size(); i++)
 	{
-		if(_m->all_libs[i].id() != id) {
+		if(m->all_libs[i].id() != id) {
 			continue;
 		}
 
-		_m->lph->remove_local_library(id);
+		m->lph->remove_local_library(id);
 
-		LibraryInfo info = _m->all_libs.takeAt(i);
+		LibraryInfo info = m->all_libs.takeAt(i);
 		QFile::remove(info.symlink_path());
 
 
-		LocalLibrary* library = _m->lib_map.take(info.id());
+		LocalLibrary* library = m->lib_map.take(info.id());
 
-		if(!_m->lib_map.contains(info.id())){
+		if(!m->lib_map.contains(info.id())){
 			library = nullptr;
 		}
 
@@ -256,7 +256,7 @@ void LibraryManager::remove_library(int8_t id)
 			delete library; library=nullptr;
 		}
 
-		_settings->set(Set::Lib_AllLibraries, _m->all_libs);
+		_settings->set(Set::Lib_AllLibraries, m->all_libs);
 
 		break;
 	}
@@ -264,16 +264,16 @@ void LibraryManager::remove_library(int8_t id)
 
 void LibraryManager::move_library(int old_row, int new_row)
 {
-	_m->move_library(old_row, new_row);
+	m->move_library(old_row, new_row);
 
-	_m->lph->move_local_library(old_row, new_row);
-	_settings->set(Set::Lib_AllLibraries, _m->all_libs);
+	m->lph->move_local_library(old_row, new_row);
+	_settings->set(Set::Lib_AllLibraries, m->all_libs);
 }
 
 void LibraryManager::change_library_path(int8_t id, const QString& path)
 {
-	_m->change_library_path(id, path);
-	_settings->set(Set::Lib_AllLibraries, _m->all_libs);
+	m->change_library_path(id, path);
+	_settings->set(Set::Lib_AllLibraries, m->all_libs);
 }
 
 
@@ -285,22 +285,22 @@ QString LibraryManager::request_library_name(const QString& path)
 
 QList<LibraryInfo> LibraryManager::all_libraries() const
 {
-	return _m->all_libs;
+	return m->all_libs;
 }
 
 int LibraryManager::count() const
 {
-	return _m->all_libs.size();
+	return m->all_libs.size();
 }
 
 LibraryInfo LibraryManager::library_info(int8_t id) const
 {
-	return _m->get_library_info(id);
+	return m->get_library_info(id);
 }
 
 LocalLibrary* LibraryManager::library_instance(int8_t id) const
 {
-	return _m->get_library(id);
+	return m->get_library(id);
 }
 
 
@@ -308,20 +308,20 @@ LocalLibrary* LibraryManager::library_instance(int8_t id) const
 
 void LibraryManager::revert()
 {
-	_m->all_libs = _settings->get(Set::Lib_AllLibraries);
+	m->all_libs = _settings->get(Set::Lib_AllLibraries);
 	QList<int> invalid;
-	for(int i=_m->all_libs.size() - 1; i>=0; i--){
-		if(!_m->all_libs[i].valid()){
-			_m->all_libs.removeAt(i);
+	for(int i=m->all_libs.size() - 1; i>=0; i--){
+		if(!m->all_libs[i].valid()){
+			m->all_libs.removeAt(i);
 		}
 	}
 
-	if(_m->all_libs.isEmpty()) {
+	if(m->all_libs.isEmpty()) {
 		QString old_path = _settings->get(Set::Lib_Path);
 		if(!old_path.isEmpty()) {
 			LibraryInfo li("Local Library", old_path, 0);
-			_m->all_libs << li;
-			_settings->set(Set::Lib_AllLibraries, _m->all_libs);
+			m->all_libs << li;
+			_settings->set(Set::Lib_AllLibraries, m->all_libs);
 		}
 	}
 }

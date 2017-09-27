@@ -37,7 +37,7 @@ struct Settings::Private
 
 Settings::Settings()
 {
-	_m = Pimpl::make<Private>();
+	m = Pimpl::make<Private>();
 }
 
 Settings::~Settings () {}
@@ -45,18 +45,18 @@ Settings::~Settings () {}
 
 AbstrSetting* Settings::setting(SK::SettingKey key) const
 {
-	return _m->settings[(int) key];
+	return m->settings[(int) key];
 }
 
 AbstrSetting** Settings::get_settings()
 {
-	return _m->settings;
+	return m->settings;
 }
 
 void Settings::register_setting(AbstrSetting* s)
 {
 	SK::SettingKey key  = s->get_key();
-	_m->settings[ (int) key ] = s;
+	m->settings[ (int) key ] = s;
 }
 
 
@@ -64,7 +64,7 @@ bool Settings::check_settings()
 {
 	IntList un_init;
 	for(int i=0; i<SK::Num_Setting_Keys; i++){
-		if(! _m->settings[i] ){
+		if(! m->settings[i] ){
 			un_init << i;
 		}
 	}
