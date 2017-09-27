@@ -162,6 +162,11 @@ public slots:
 	 */
 	void play();
 
+    /**
+     * @brief Emit wake up signal after stopping state
+     */
+    void wake_up();
+
 	/**
 	 * @brief toggle play/pause
 	 */

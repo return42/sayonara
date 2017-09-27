@@ -22,20 +22,23 @@
 #define PLAYLISTCHOOSER_H_
 
 #include "Helper/Playlist/CustomPlaylistFwd.h"
-
-#include <QMap>
+#include "Helper/Pimpl.h"
 #include <QObject>
 
 class PlaylistDBWrapper;
 class PlaylistHandler;
+class QString;
+class QStringList;
 
 /**
  * @brief The PlaylistChooser class
  * @ingroup Components
  */
-class PlaylistChooser : public QObject 
+class PlaylistChooser :
+        public QObject
 {
 	Q_OBJECT
+    PIMPL(PlaylistChooser)
 
 public:
 	PlaylistChooser();
@@ -55,19 +58,8 @@ public:
 signals:
 	void sig_all_playlists_loaded(const CustomPlaylistSkeletons&);
 
-
 public slots:
 	void load_all_playlists();
-
-
-private:
-	CustomPlaylistSkeletons	_skeletons;
-	int						_import_state;
-
-	PlaylistHandler*		_playlist_handler=nullptr;
-	PlaylistDBWrapper*		_playlist_db_connector=nullptr;
-
-	CustomPlaylist			find_custom_playlist(int id);
 };
 
 #endif /* PLAYLISTS_H_ */

@@ -83,14 +83,11 @@ PlaylistHandler::~PlaylistHandler()
 
 void PlaylistHandler::emit_cur_track_changed()
 {
-	MetaData md;
-	bool success;
-	int cur_track_idx;
-
 	PlaylistPtr pl = get_active();
 
-	success = pl->current_track(md);
-	cur_track_idx = pl->current_track_index();
+    MetaData md;
+    bool success = pl->current_track(md);
+    int cur_track_idx = pl->current_track_index();
 
 	_m->playlist_idx_before_stop = pl->playlist_index();
 
@@ -111,13 +108,11 @@ int PlaylistHandler::load_old_playlists()
 {
 	sp_log(Log::Debug, this) << "Loading playlists...";
 
-	int last_track_idx=-1;
-	int last_playlist_idx;
+    PlaylistLoader loader;
+    loader.create_playlists();
 
-	PlaylistLoader loader;
-	loader.create_playlists();
-
-	last_playlist_idx = std::max(loader.get_last_playlist_idx(), 0);
+    int last_track_idx = -1;
+    int last_playlist_idx = std::max(loader.get_last_playlist_idx(), 0);
 
 	set_active_idx(last_playlist_idx);
 	set_current_idx(last_playlist_idx);

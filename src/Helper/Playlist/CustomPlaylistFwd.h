@@ -26,7 +26,7 @@
 class CustomPlaylist;
 class CustomPlaylistSkeleton;
 
-typedef QList<CustomPlaylist> CustomPlaylists;
-typedef QList<CustomPlaylistSkeleton> CustomPlaylistSkeletons;
+using CustomPlaylists=QList<CustomPlaylist> ;
+using CustomPlaylistSkeletons=QList<CustomPlaylistSkeleton> ;
 
 #endif // CUSTOMPLAYLISTTYPEDEFS_H

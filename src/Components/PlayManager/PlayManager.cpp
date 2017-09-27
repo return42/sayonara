@@ -166,17 +166,14 @@ bool PlayManager::get_mute() const
 
 void PlayManager::play()
 {
-	if(_m->playstate == PlayState::Stopped)
-	{
-		_m->playstate = PlayState::Playing;
-		emit sig_wake_up();
-		return;
-	}
-
-	_m->playstate = PlayState::Playing;
-	emit sig_playstate_changed(_m->playstate);
+    _m->playstate = PlayState::Playing;
+    emit sig_playstate_changed(_m->playstate);
 }
 
+void PlayManager::wake_up()
+{
+    emit sig_wake_up();
+}
 
 void PlayManager::play_pause()
 {
@@ -184,7 +181,11 @@ void PlayManager::play_pause()
 		pause();
 	}
 
-	else{
+    else if(_m->playstate == PlayState::Stopped) {
+        wake_up();
+    }
+
+    else {
 		play();
 	}
 }
@@ -274,6 +275,7 @@ void PlayManager::change_track(const MetaData& md, int track_idx)
 		emit sig_track_idx_changed(_m->track_idx);
 
 		play();
+
 		if( (md.radio_mode() != RadioMode::Off) &&
 			_settings->get(Set::Engine_SR_Active) &&
 			_settings->get(Set::Engine_SR_AutoRecord) )

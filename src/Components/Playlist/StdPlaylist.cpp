@@ -78,13 +78,10 @@ int StdPlaylist::create_playlist(const MetaDataList& v_md)
 
 bool StdPlaylist::change_track(int idx) 
 {
-	metadata().set_current_track(idx);
-
-	// ERROR: invalid idx
-	if( !between(idx, metadata()) ) {
-		stop();
-		return false;
-	}
+    bool success = AbstractPlaylist::change_track(idx);
+    if(!success){
+        return false;
+    }
 
 	metadata(idx).played = true;
 
@@ -100,10 +97,9 @@ bool StdPlaylist::change_track(int idx)
 
 bool StdPlaylist::wake_up()
 {
-	bool valid_idx = between(metadata().current_track(), count());
-	bool success = valid_idx;
+    bool success = between(metadata().current_track(), count());
 
-	if(valid_idx){
+    if(success) {
 		success = change_track(_m->track_idx_before_stop);
 	}
 
@@ -177,11 +173,11 @@ void StdPlaylist::next()
 	}
 
 	// stopped
-	if(track_num == -1){
+    if(cur_track == -1){
 		track_num = 0;
 	}
 
-	if(Playlist::Mode::isActiveAndEnabled(playlist_mode().rep1())){
+    else if(Playlist::Mode::isActiveAndEnabled(playlist_mode().rep1())){
 		track_num = cur_track;
 	}
 

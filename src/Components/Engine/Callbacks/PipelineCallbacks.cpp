@@ -165,10 +165,10 @@ void PipelineCallbacks::source_setup_handler(GstURIDecodeBin* bin, GstElement* s
 		Proxy* proxy = Proxy::getInstance();
 		if(proxy->active())
 		{
-			g_object_set(G_OBJECT(source),
+          /*  g_object_set(G_OBJECT(source),
 						 "proxy", proxy->full_url().toLocal8Bit().data(),
 						 nullptr
-			);
+            );*/
 
 			sp_log(Log::Develop, "Engine Callback") << "Will use proxy: " << proxy->full_url();
 

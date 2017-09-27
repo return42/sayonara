@@ -25,13 +25,34 @@
 
 #include "Helper/Logger/Logger.h"
 
+#include <QStringList>
+
+struct PlaylistChooser::Private
+{
+    CustomPlaylistSkeletons	skeletons;
+    int						import_state;
+
+    PlaylistHandler*		playlist_handler=nullptr;
+    PlaylistDBWrapper*		playlist_db_connector=nullptr;
+
+    Private()
+    {
+        playlist_handler = PlaylistHandler::getInstance();
+        playlist_db_connector = PlaylistDBWrapper::getInstance();
+    }
+
+    CustomPlaylist find_custom_playlist(int id)
+    {
+        CustomPlaylist pl = playlist_db_connector->get_playlist_by_id(id);
+        return pl;
+    }
+};
+
 PlaylistChooser::PlaylistChooser()
 {
-	_playlist_handler = PlaylistHandler::getInstance();
+    _m = Pimpl::make<Private>();
 
-	_playlist_db_connector = PlaylistDBWrapper::getInstance();
-
-	connect(_playlist_handler, &PlaylistHandler::sig_saved_playlists_changed,
+    connect(_m->playlist_handler, &PlaylistHandler::sig_saved_playlists_changed,
 			this, &PlaylistChooser::load_all_playlists);
 }
 
@@ -41,37 +62,36 @@ void PlaylistChooser::load_all_playlists()
 {
 	bool success;
 
-	_skeletons.clear();
-	success = _playlist_db_connector->get_non_temporary_skeletons(_skeletons, Playlist::SortOrder::NameAsc);
+    _m->skeletons.clear();
+    success = _m->playlist_db_connector->get_non_temporary_skeletons(
+                _m->skeletons, Playlist::SortOrder::NameAsc
+    );
 
 	if(success) {
-		emit sig_all_playlists_loaded(_skeletons);
+        emit sig_all_playlists_loaded(_m->skeletons);
 	}
 }
 
-CustomPlaylist PlaylistChooser::find_custom_playlist(int id){
-	CustomPlaylist pl = _playlist_db_connector->get_playlist_by_id(id);
-	return pl;
-}
-
-void PlaylistChooser::load_single_playlist(int id) {
+void PlaylistChooser::load_single_playlist(int id)
+{
 	int idx;
 	if(id < 0) {
 		return;
 	}
 
-	CustomPlaylist pl = find_custom_playlist(id);
+    CustomPlaylist pl = _m->find_custom_playlist(id);
 	if(!pl.valid()) {
 		return;
 	}
 
-	idx = _playlist_handler->create_playlist(pl);
-	_playlist_handler->set_current_idx(idx);
+    idx = _m->playlist_handler->create_playlist(pl);
+    _m->playlist_handler->set_current_idx(idx);
 }
 
 
-void PlaylistChooser::delete_playlist(int id) {
-	bool success = _playlist_db_connector->delete_playlist(id);
+void PlaylistChooser::delete_playlist(int id)
+{
+    bool success = _m->playlist_db_connector->delete_playlist(id);
 
 	if(!success) {
 		sp_log(Log::Warning) << "playlist " << id << " could not be deleted";
@@ -83,37 +103,42 @@ void PlaylistChooser::delete_playlist(int id) {
 
 void PlaylistChooser::save_playlist(int id)
 {
-	CustomPlaylist pl = find_custom_playlist(id);
-	if(pl.valid()){
-		int cur_idx = _playlist_handler->get_current_idx();
-		_playlist_handler->save_playlist(cur_idx);
+    CustomPlaylist pl = _m->find_custom_playlist(id);
+
+    if(pl.valid())
+    {
+        int cur_idx = _m->playlist_handler->get_current_idx();
+        _m->playlist_handler->save_playlist(cur_idx);
 	}
 }
 
-void PlaylistChooser::save_playlist(const QString& name){
-	int cur_idx = _playlist_handler->get_current_idx();
-	_playlist_handler->save_playlist_as(cur_idx, name, true);
+void PlaylistChooser::save_playlist(const QString& name)
+{
+    int cur_idx = _m->playlist_handler->get_current_idx();
+    _m->playlist_handler->save_playlist_as(cur_idx, name, true);
 }
 
-void PlaylistChooser::save_playlist_file(const QString& filename, bool relative_paths){
-	_playlist_handler->save_playlist_to_file(filename, relative_paths);
+void PlaylistChooser::save_playlist_file(const QString& filename, bool relative_paths)
+{
+    _m->playlist_handler->save_playlist_to_file(filename, relative_paths);
 }
 
 
 void PlaylistChooser::clear_playlist()
 {
-	int cur_idx = _playlist_handler->get_current_idx();
-	_playlist_handler->clear_playlist(cur_idx);
+    int cur_idx = _m->playlist_handler->get_current_idx();
+    _m->playlist_handler->clear_playlist(cur_idx);
 }
 
-
-void PlaylistChooser::playlist_files_selected(const QStringList& lst){
-	_playlist_handler->create_playlist(lst, "", false);
+void PlaylistChooser::playlist_files_selected(const QStringList& lst)
+{
+    _m->playlist_handler->create_playlist(lst, "", false);
 }
 
 int PlaylistChooser::find_playlist(const QString& name) const
 {
-	for(const CustomPlaylistSkeleton& skeleton : _skeletons){
+    for(const CustomPlaylistSkeleton& skeleton : _m->skeletons)
+    {
 		if(skeleton.name().compare(name) == 0){
 			return skeleton.id();
 		}

@@ -120,7 +120,7 @@ public:
 
 	virtual void append_tracks(const MetaDataList& lst);
 
-	virtual bool change_track(int idx)=0;
+    virtual bool change_track(int idx);
 
 public slots:
 	virtual void metadata_deleted(const MetaDataList& v_md_deleted)=0;

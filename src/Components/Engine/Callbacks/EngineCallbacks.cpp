@@ -131,7 +131,7 @@ gboolean EngineCallbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpoint
 				 !msg_src_name.contains("spectrum_sink") &&
 				 !msg_src_name.contains("pipeline"))
 			{
-				sp_log(Log::Debug) << "EOF reached: " << msg_src_name;
+                sp_log(Log::Debug, "Engine Callbacks") << "EOF reached: " << msg_src_name;
 				break;
 			}
 
@@ -204,13 +204,13 @@ gboolean EngineCallbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpoint
 			GstState old_state, new_state, pending_state;
 
 			gst_message_parse_state_changed(msg, &old_state, &new_state, &pending_state);
-			/*sp_log(Log::Debug, this) << GST_MESSAGE_SRC_NAME(msg) << ": "
+            /*sp_log(Log::Debug, this) << GST_MESSAGE_SRC_NAME(msg) << ": "
 							   << "State changed from "
 							   << gst_element_state_get_name(old_state)
 							   << " to "
 							   << gst_element_state_get_name(new_state)
 							   << " pending: "
-							   << gst_element_state_get_name(pending_state);*/
+                               << gst_element_state_get_name(pending_state);*/
 
 			if(!msg_src_name.contains("pipeline", Qt::CaseInsensitive)){
 				break;

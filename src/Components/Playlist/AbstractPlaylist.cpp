@@ -127,7 +127,20 @@ void AbstractPlaylist::append_tracks(const MetaDataList& lst)
 		it->is_disabled = !(Helper::File::check_file(it->filepath()));
 	}
 
-	set_changed(true);
+    set_changed(true);
+}
+
+bool AbstractPlaylist::change_track(int idx)
+{
+    _m->v_md.set_current_track(idx);
+
+    // ERROR: invalid idx
+    if( !between(idx, _m->v_md) ) {
+        stop();
+        return false;
+    }
+
+    return true;
 }
 
 
