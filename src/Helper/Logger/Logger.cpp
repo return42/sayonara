@@ -57,7 +57,10 @@ struct Logger::Private
 	QString				class_name;
 	std::stringstream	msg;
 
-	Private() {}
+	Private()
+	{
+        //buffer.setf(std::ios::boolalpha);
+	}
 
 	~Private()
 	{

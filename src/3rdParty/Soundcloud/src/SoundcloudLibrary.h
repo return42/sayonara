@@ -55,7 +55,6 @@ namespace SC
 		void	get_album_by_id(int album_id, Album& album) override;
 		void  	get_artist_by_id(int artist_id, Artist& artist) override;
 
-
 	protected:
 		void	get_all_artists(ArtistList& artists, ::Library::Sortings so=::Library::Sortings()) override;
 		void	get_all_artists_by_searchstring(::Library::Filter filter, ArtistList& artists, ::Library::Sortings so) override;
@@ -73,6 +72,8 @@ namespace SC
 		void	update_track(const MetaData& md) override;
 		void	update_album(const Album& album) override;
 		void	delete_tracks(const MetaDataList& v_md, ::Library::TrackDeletionMode mode) override;
+
+        void    refetch() override;
 
 		void	apply_artist_and_album_to_md();
 

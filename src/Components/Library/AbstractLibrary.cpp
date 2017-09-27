@@ -89,9 +89,9 @@ void AbstractLibrary::refetch()
 
 	_filter.clear();
 
+    get_all_tracks(_vec_md, _sortorder);
+    get_all_albums(_vec_albums, _sortorder);
 	get_all_artists(_vec_artists, _sortorder);
-	get_all_albums(_vec_albums, _sortorder);
-	get_all_tracks(_vec_md, _sortorder);
 
 	emit_stuff();
 }
