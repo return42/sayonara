@@ -163,6 +163,8 @@ LanguageString Lang::get(Lang::Term term, bool* ok)
 			return l.tr("Font");
 		case Fonts:
 			return l.tr("Fonts");
+        case Fulltext:
+            return l.tr("Fulltext");
 		case GaplessPlayback:
 			return l.tr("Gapless playback");
 		case Genre:

@@ -83,8 +83,6 @@ private:
 	QMessageBox*				_about_box=nullptr;
 	GUI_Logger*					_logger=nullptr;
 
-	QList<QAction*>				_library_actions;
-
 
 private:
 	void init_gui();

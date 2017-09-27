@@ -33,11 +33,14 @@
 #include "Helper/MetaData/MetaDataFwd.h"
 
 #include "Helper/Pimpl.h"
+#include <QList>
 
 class QPushButton;
 class QComboBox;
+
 class AbstractLibrary;
 class LibraryTableView;
+
 
 class GUI_AbstractLibrary :
 		public SayonaraWidget
@@ -53,7 +56,7 @@ public:
 
 private:
 	void init();
-	void init_search_combobox();
+    void init_search_bar();
 
 
 protected:
@@ -62,9 +65,6 @@ protected:
 	virtual void init_finished();
 
 	virtual ::Library::TrackDeletionMode show_delete_dialog(int n_tracks)=0;
-
-	virtual QList<::Library::Filter::Mode> search_options() const;
-
 
 protected slots:
 	virtual void _sl_live_search_changed();
@@ -96,9 +96,9 @@ protected slots:
 	virtual void sortorder_album_changed(::Library::SortOrder);
 	virtual void sortorder_artist_changed(::Library::SortOrder);
 
-	virtual void text_line_edited(const QString&);
-	virtual void clear_button_pressed();
-	virtual void combo_search_changed(int idx);
+    virtual void search_cleared();
+    virtual void search_edited(const QString&);
+    virtual void combo_search_changed(::Library::Filter::Mode);
 	virtual void return_pressed();
 
 	virtual void delete_artist();
@@ -128,9 +128,8 @@ protected:
 	virtual LibraryTableView* lv_artist() const=0;
 	virtual LibraryTableView* lv_album() const=0;
 	virtual LibraryTableView* lv_tracks() const=0;
-	virtual QPushButton* btn_clear() const=0;
 	virtual QLineEdit* le_search() const=0;
-	virtual QComboBox* combo_search() const=0;
+    virtual QList<Library::Filter::Mode> search_options() const=0;
 
 	template<typename T, typename UI>
 	void setup_parent(T* subclass, UI** ui)

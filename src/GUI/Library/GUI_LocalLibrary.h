@@ -66,9 +66,8 @@ protected:
 	LibraryTableView* lv_artist() const override;
 	LibraryTableView* lv_album() const override;
 	LibraryTableView* lv_tracks() const override;
-	QPushButton* btn_clear() const override;
 	QLineEdit* le_search() const override;
-	QComboBox* combo_search() const override;
+    QList<Library::Filter::Mode> search_options() const override;
 
 
 private slots:
@@ -105,12 +104,11 @@ private slots:
 	// reimplemented from Abstract Library
 	Library::TrackDeletionMode show_delete_dialog(int n_tracks) override;
 
-
 	void show_info_box();
 
 	// reimplemented from Sayonara widget
 	void language_changed() override;
-	void clear_button_pressed() override;
+	void search_cleared() override;
 
 protected slots:
 	void lib_fill_albums(const AlbumList& albums) override;
@@ -118,7 +116,6 @@ protected slots:
 
 private:
 	void init_album_cover_view();
-
 
 	Ui::GUI_LocalLibrary*	ui=nullptr;
 };

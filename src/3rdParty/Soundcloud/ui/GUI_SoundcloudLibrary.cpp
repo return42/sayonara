@@ -43,12 +43,6 @@ SC::GUI_Library::GUI_Library(SC::Library* library, QWidget *parent) :
 	m->artist_search = new SC::GUI_ArtistSearch(library, this);
 	m->library_menu = new QMenu(this);
 
-	/* Remove search options */
-	while(ui->combo_searchfilter->count() > 1){
-		int last = ui->combo_searchfilter->count() - 1;
-		ui->combo_searchfilter->removeItem(last);
-	}
-
 	QAction* action_add_artist = m->library_menu->addAction(tr("Add artist"));
 	connect(action_add_artist, &QAction::triggered, this, &SC::GUI_Library::btn_add_clicked);
 
@@ -85,6 +79,11 @@ QFrame* SC::GUI_Library::header_frame() const
 	return ui->header_frame;
 }
 
+QList<::Library::Filter::Mode> SC::GUI_Library::search_options() const
+{
+    return {::Library::Filter::Fulltext};
+}
+
 Library::TrackDeletionMode SC::GUI_Library::show_delete_dialog(int n_tracks)
 {
 	Q_UNUSED(n_tracks)
@@ -117,17 +116,8 @@ LibraryTableView*SC::GUI_Library::lv_tracks() const
 	return ui->tb_title;
 }
 
-QPushButton*SC::GUI_Library::btn_clear() const
-{
-	return ui->btn_clear;
-}
-
 QLineEdit*SC::GUI_Library::le_search() const
 {
 	return ui->le_search;
 }
 
-QComboBox*SC::GUI_Library::combo_search() const
-{
-	return ui->combo_searchfilter;
-}

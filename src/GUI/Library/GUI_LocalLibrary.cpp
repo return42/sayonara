@@ -242,7 +242,7 @@ void GUI_LocalLibrary::switch_album_view()
 	}
 
 	ui->sw_album_covers->setCurrentIndex( idx );
-	clear_button_pressed();
+    	search_cleared();
 }
 
 
@@ -250,30 +250,25 @@ void GUI_LocalLibrary::language_changed()
 {
 	ui->retranslateUi(this);
 	ui->gb_genres->setTitle(Lang::get(Lang::Genres));
-	ui->combo_searchfilter->setToolTip(
-				tr("Shortcuts") + ":" + "<br />" +
-				Lang::get(Lang::Search) + "<span style=\"font-weight:600;\"> s:</span><br />" +
-				Lang::get(Lang::Genre) +  "<span style=\"font-weight:600;\"> g:</span><br />" +
-				tr("File path") + "<span style=\"font-weight:600;\"> p:</span><br />"
-				);
 
 	GUI_AbstractLibrary::language_changed();
 }
 
-void GUI_LocalLibrary::clear_button_pressed()
+void GUI_LocalLibrary::search_cleared()
 {
 	ui->lv_genres->clearSelection();
 	ui->lv_date_search->clearSelection();
 
-	GUI_AbstractLibrary::clear_button_pressed();
+    GUI_AbstractLibrary::search_cleared();
 }
 
 void GUI_LocalLibrary::genre_selection_changed(const QModelIndex& index)
 {
 	QVariant data = index.data();
-	ui->combo_searchfilter->setCurrentIndex(1);
-	ui->le_search->setText(data.toString());
-	text_line_edited(data.toString());
+    combo_search_changed(::Library::Filter::Genre);
+
+    ui->le_search->setText(data.toString());
+    search_edited(data.toString());
 }
 
 void GUI_LocalLibrary::date_selection_changed(const QModelIndex& index)
@@ -600,17 +595,16 @@ LibraryTableView* GUI_LocalLibrary::lv_tracks() const
 	return ui->tb_title;
 }
 
-QPushButton* GUI_LocalLibrary::btn_clear() const
-{
-	return ui->btn_clear;
-}
-
 QLineEdit* GUI_LocalLibrary::le_search() const
 {
-	return ui->le_search;
+    return ui->le_search;
 }
 
-QComboBox* GUI_LocalLibrary::combo_search() const
+QList<Library::Filter::Mode> GUI_LocalLibrary::search_options() const
 {
-	return ui->combo_searchfilter;
+    return {
+        ::Library::Filter::Fulltext,
+        ::Library::Filter::Filename,
+        ::Library::Filter::Genre
+    };
 }

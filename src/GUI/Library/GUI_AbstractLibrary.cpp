@@ -34,10 +34,12 @@
 #include "Helper/Settings/Settings.h"
 #include "Helper/Language.h"
 #include "Helper/MetaData/MetaDataList.h"
+#include "Helper/Logger/Logger.h"
 
 #include "GUI/Library/Helper/ColumnHeader.h"
 #include "GUI/Library/Helper/ColumnIndex.h"
 #include "GUI/Helper/Delegates/StyledItemDelegate.h"
+#include "GUI/Helper/EventFilter.h"
 
 #include <QKeySequence>
 #include <QPushButton>
@@ -56,8 +58,6 @@ struct GUI_AbstractLibrary::Private
 	LibraryTableView* lv_artist=nullptr;
 	LibraryTableView* lv_tracks=nullptr;
 
-	QComboBox* combo_search=nullptr;
-	QPushButton* btn_clear=nullptr;
 	QLineEdit* le_search=nullptr;
 
 
@@ -91,12 +91,14 @@ void GUI_AbstractLibrary::init()
 	m->lv_album = lv_album();
 	m->lv_artist = lv_artist();
 	m->lv_tracks = lv_tracks();
-
-	m->combo_search = combo_search();
-	m->btn_clear = btn_clear();
 	m->le_search = le_search();
 
-	init_search_combobox();
+    KeyPressFilter* kp_filter = new KeyPressFilter(m->le_search);
+    this->installEventFilter(kp_filter);
+
+    connect(kp_filter, &KeyPressFilter::sig_esc_pressed, this, &GUI_AbstractLibrary::search_cleared);
+
+    init_search_bar();
 	init_shortcuts();
 	init_finished();
 }
@@ -141,35 +143,43 @@ void GUI_AbstractLibrary::init_finished()
 	connect(m->lv_tracks, &LibraryView::sig_append_clicked, this, &GUI_AbstractLibrary::append_tracks);
 	connect(m->lv_tracks, &LibraryView::sig_refresh_clicked, this, &GUI_AbstractLibrary::refresh_tracks);
 
-	connect(m->btn_clear, &QPushButton::clicked, this, &GUI_AbstractLibrary::clear_button_pressed);
-
-	// overloaded
-	connect(m->combo_search, combo_current_index_changed_int, this, &GUI_AbstractLibrary::combo_search_changed);
-
 	REGISTER_LISTENER(Set::Lib_LiveSearch, _sl_live_search_changed);
 }
 
-void GUI_AbstractLibrary::init_search_combobox()
+void GUI_AbstractLibrary::init_search_bar()
 {
 	QList<Library::Filter::Mode> filters = search_options();
-	for(const Library::Filter::Mode filter : filters)
+    QList<QAction*> actions;
+
+    QMenu* menu = new QMenu(m->le_search);
+    m->le_search->setContextMenuPolicy(Qt::CustomContextMenu);
+
+    for(const Library::Filter::Mode filter_mode : filters)
 	{
-		QVariant data = QVariant((int) (filter));
-		m->combo_search->addItem(::Library::Filter::get_text(filter), data);
+        QVariant data = QVariant((int) (filter_mode));
+        QAction* action = new QAction(::Library::Filter::get_text(filter_mode), m->le_search);
 
+        action->setCheckable(false);
+        action->setData(data);
+
+        actions << action;
+
+        connect(action, &QAction::triggered, this, [=](){
+            combo_search_changed(filter_mode);
+        });
 	}
+
+    menu->addActions(actions);
+
+    ContextMenuFilter* cm_filter = new ContextMenuFilter(m->le_search);
+    connect(cm_filter, &ContextMenuFilter::sig_context_menu,
+            menu, &QMenu::popup);
+
+    m->le_search->installEventFilter(cm_filter);
+
+    combo_search_changed(::Library::Filter::Fulltext);
 }
 
-QList<Library::Filter::Mode> GUI_AbstractLibrary::search_options() const
-{
-	QList<Library::Filter::Mode> filters;
-
-	filters << ::Library::Filter::Mode::Fulltext;
-	filters << ::Library::Filter::Mode::Genre;
-	filters << ::Library::Filter::Mode::Filename;
-
-	return filters;
-}
 
 void GUI_AbstractLibrary::init_headers()
 {
@@ -234,30 +244,30 @@ void GUI_AbstractLibrary::init_headers()
 void GUI_AbstractLibrary::init_shortcuts() {}
 
 
-void GUI_AbstractLibrary::text_line_edited(const QString &search)
+void GUI_AbstractLibrary::search_edited(const QString& search)
 {
-	if(search.startsWith("f:", Qt::CaseInsensitive)) {
-		m->combo_search->setCurrentIndex(0);
+    if(search.startsWith("f:", Qt::CaseInsensitive))
+    {
+        combo_search_changed(::Library::Filter::Fulltext);
 		m->le_search->clear();
 	}
 
 	else if(search.startsWith("g:", Qt::CaseInsensitive)) {
-		m->combo_search->setCurrentIndex(1);
+        combo_search_changed(::Library::Filter::Genre);
 		m->le_search->clear();
 	}
 
 	else if(search.startsWith("p:", Qt::CaseInsensitive)) {
-		m->combo_search->setCurrentIndex(2);
+        combo_search_changed(::Library::Filter::Filename);
 		m->le_search->clear();
 	}
 
 	Library::SearchModeMask mask = _settings->get(Set::Lib_SearchMode);
 	Library::Filter filter;
 
-	QString text = search;
+    ::Library::Filter::Mode current_mode = static_cast<::Library::Filter::Mode>(m->le_search->property("search_mode").toInt());
 
-	Library::Filter::Mode current_mode =
-			(Library::Filter::Mode) (m->combo_search->currentData().toInt());
+	QString text = search;
 
 	switch(current_mode)
 	{
@@ -280,31 +290,23 @@ void GUI_AbstractLibrary::text_line_edited(const QString &search)
 	}
 
 	m->cur_searchfilter = filter;
-	m->library->psl_filter_changed(filter);
+    m->library->psl_filter_changed(filter);
+}
+
+void GUI_AbstractLibrary::search_cleared()
+{
+    m->cur_searchfilter.clear();
+    combo_search_changed(::Library::Filter::Fulltext);
+    m->le_search->clear();
+    m->library->refetch();
 }
 
 
-void GUI_AbstractLibrary::clear_button_pressed()
+void GUI_AbstractLibrary::combo_search_changed(::Library::Filter::Mode mode)
 {
-	disconnect(m->le_search, &QLineEdit::textEdited, this, &GUI_AbstractLibrary::text_line_edited);
-
-	m->combo_search->setCurrentIndex(0);
-	m->le_search->clear();
-
-	m->library->refetch();
-
-	if(_settings->get(Set::Lib_LiveSearch)){
-		connect(m->le_search, &QLineEdit::textEdited, this, &GUI_AbstractLibrary::text_line_edited);
-	}
-}
-
-
-void GUI_AbstractLibrary::combo_search_changed(int idx)
-{
-	Q_UNUSED(idx)
-
-	int i_current_data = m->combo_search->currentData().toInt();
-	Library::Filter::Mode mode = static_cast<Library::Filter::Mode>(i_current_data);
+    QString text = Lang::get(Lang::Search) + ": " + ::Library::Filter::get_text(mode);
+    m->le_search->setPlaceholderText(text);
+    m->le_search->setProperty("search_mode", (int) mode);
 
 	m->cur_searchfilter.set_mode(mode);
 	m->library->psl_filter_changed(m->cur_searchfilter);
@@ -313,7 +315,7 @@ void GUI_AbstractLibrary::combo_search_changed(int idx)
 
 void GUI_AbstractLibrary::return_pressed()
 {
-	text_line_edited(m->le_search->text());
+    search_edited(m->le_search->text());
 }
 
 
@@ -594,13 +596,13 @@ void GUI_AbstractLibrary::show_delete_answer(QString answer)
 
 void GUI_AbstractLibrary::_sl_live_search_changed()
 {
-	if(_settings->get(Set::Lib_LiveSearch)){
-		connect(m->le_search, &QLineEdit::textEdited, this, &GUI_AbstractLibrary::text_line_edited);
+    if(_settings->get(Set::Lib_LiveSearch)) {
+        connect(m->le_search, &QLineEdit::textEdited, this, &GUI_AbstractLibrary::search_edited);
 		disconnect(m->le_search, &QLineEdit::returnPressed, this, &GUI_AbstractLibrary::return_pressed);
 	}
 
-	else{
-		disconnect(m->le_search, &QLineEdit::textEdited, this, &GUI_AbstractLibrary::text_line_edited);
+    else {
+        disconnect(m->le_search, &QLineEdit::textEdited, this, &GUI_AbstractLibrary::search_edited);
 		connect(m->le_search, &QLineEdit::returnPressed, this, &GUI_AbstractLibrary::return_pressed);
 	}
 }

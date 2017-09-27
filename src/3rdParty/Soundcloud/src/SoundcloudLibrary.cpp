@@ -64,6 +64,16 @@ struct SC::Library::Private
 		albums.clear();
 		artists.clear();
 		search_information.clear();
+
+        md_id_idx_map.clear();
+        md_artist_id_idx_map.clear();
+        md_album_id_idx_map.clear();
+        md_name_idx_map.clear();
+        album_id_idx_map.clear();
+        album_name_idx_map.clear();
+        artist_name_album_idx_map.clear();
+        artist_id_idx_map.clear();
+        artist_name_idx_map.clear();
 	}
 };
 
@@ -237,7 +247,6 @@ void SC::Library::get_all_tracks(MetaDataList& v_md, ::Library::Sortings so)
 	SC::Sorting::sort_tracks(v_md, so.so_tracks);
 }
 
-#include <iostream>
 void SC::Library::get_all_tracks_by_artist(IDList artist_ids, MetaDataList& v_md, ::Library::Filter filter, ::Library::Sortings so)
 {
 	Q_UNUSED(filter)
@@ -245,8 +254,6 @@ void SC::Library::get_all_tracks_by_artist(IDList artist_ids, MetaDataList& v_md
 	for(int artist_id : artist_ids)
 	{
 		const SP::Set<int>& idxs = m->md_artist_id_idx_map[artist_id];
-        std::cout << "Get all tracks by artist " << artist_id << ": "
-                                 << " Metadata has " << m->v_md.size() << " elements" << std::endl;
 
         for(int idx : idxs)
         {

@@ -50,6 +50,7 @@ namespace SC
 
 		QMenu*		get_menu() const;
 		QFrame*		header_frame() const;
+        	QList<::Library::Filter::Mode> search_options() const override;
 
 	protected:
 		::Library::TrackDeletionMode show_delete_dialog(int n_tracks) override;
@@ -58,9 +59,7 @@ namespace SC
 		LibraryTableView* lv_artist() const override;
 		LibraryTableView* lv_album() const override;
 		LibraryTableView* lv_tracks() const override;
-		QPushButton* btn_clear() const override;
 		QLineEdit* le_search() const override;
-		QComboBox* combo_search() const override;
 
 	protected slots:
 		void btn_add_clicked();

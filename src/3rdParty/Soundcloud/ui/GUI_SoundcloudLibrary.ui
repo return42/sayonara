@@ -329,32 +329,12 @@
       </spacer>
      </item>
      <item>
-      <widget class="SayonaraComboBox" name="combo_searchfilter"/>
-     </item>
-     <item>
       <widget class="QLineEdit" name="le_search">
        <property name="focusPolicy">
         <enum>Qt::ClickFocus</enum>
        </property>
        <property name="toolTip">
         <string>Search for title, interprets and albums</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="btn_clear">
-       <property name="focusPolicy">
-        <enum>Qt::ClickFocus</enum>
-       </property>
-       <property name="toolTip">
-        <string>Show all interprets, albums, tracks</string>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="icon">
-        <iconset resource="../../../GUI/Resources/Icons.qrc">
-         <normaloff>:/Icons/broom.png</normaloff>:/Icons/broom.png</iconset>
        </property>
       </widget>
      </item>
@@ -373,19 +353,12 @@
    <extends>QTableView</extends>
    <header>GUI/Library/Views/LibraryTableView.h</header>
   </customwidget>
-  <customwidget>
-   <class>SayonaraComboBox</class>
-   <extends>QComboBox</extends>
-   <header>GUI/Helper/SayonaraWidget/SayonaraComboBox.h</header>
-  </customwidget>
  </customwidgets>
  <tabstops>
   <tabstop>lv_artist</tabstop>
   <tabstop>lv_album</tabstop>
   <tabstop>tb_title</tabstop>
  </tabstops>
- <resources>
-  <include location="../../../GUI/Resources/Icons.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

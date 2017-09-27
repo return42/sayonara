@@ -91,6 +91,7 @@ public:
 		First,
 		Font,
 		Fonts,
+        Fulltext,
 		GaplessPlayback,
 		Genre,
 		Genres,

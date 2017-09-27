@@ -4,6 +4,7 @@ SET(SOURCES
 
 	CustomMimeData.cpp
 	GUI_Helper.cpp
+	EventFilter.cpp
 
 	ContextMenu/ContextMenu.cpp
 	ContextMenu/LibraryContextMenu.cpp

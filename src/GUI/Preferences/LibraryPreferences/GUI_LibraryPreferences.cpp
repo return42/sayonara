@@ -167,9 +167,9 @@ void GUI_LibraryPreferences::new_clicked()
 	GUI_EditLibrary* edit_dialog = new GUI_EditLibrary(this);
 
 	connect(edit_dialog, &GUI_EditLibrary::sig_accepted, this, &GUI_LibraryPreferences::edit_dialog_accepted);
-	connect(edit_dialog, &GUI_EditLibrary::sig_closed, this, [&edit_dialog](){
+    /*connect(edit_dialog, &GUI_EditLibrary::sig_closed, this, [&edit_dialog](){
 		edit_dialog->deleteLater();
-	});
+    });*/
 
 	edit_dialog->show();
 }
