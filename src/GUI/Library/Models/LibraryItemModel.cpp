@@ -19,6 +19,7 @@
  */
 
 #include "LibraryItemModel.h"
+#include "Components/Library/Library.h"
 #include "GUI/Library/Helper/ColumnHeader.h"
 #include "GUI/Helper/CustomMimeData.h"
 #include "Helper/MetaData/MetaDataList.h"
@@ -32,6 +33,7 @@
 
 struct LibraryItemModel::Private
 {
+    AbstractLibrary* library=nullptr;
 	QStringList		header_names;
 	MetaDataList	track_mimedata;
 	SP::Set<int>	selections;
@@ -39,18 +41,18 @@ struct LibraryItemModel::Private
 	int				n_rows;
 	int				n_cols;
 
-	Private()
-	{
-		n_rows = 0;
-		n_cols = 0;
-	}
+    Private(AbstractLibrary* library) :
+        library(library),
+        n_rows(0),
+        n_cols(0)
+    {}
 };
 
 
-LibraryItemModel::LibraryItemModel(QObject* parent) :
+LibraryItemModel::LibraryItemModel(QObject* parent, AbstractLibrary* library) :
 	AbstractSearchTableModel(parent)
 {
-	m = Pimpl::make<LibraryItemModel::Private>();
+    m = Pimpl::make<LibraryItemModel::Private>(library);
 }
 
 LibraryItemModel::~LibraryItemModel() {}
@@ -196,8 +198,9 @@ CustomMimeData* LibraryItemModel::get_mimedata() const
 		mimedata->setUrls(urls);
 	}
 
-	return mimedata;
+    return mimedata;
 }
+
 
 
 bool LibraryItemModel::has_selections() const
@@ -285,4 +288,10 @@ QModelIndex LibraryItemModel::getPrevRowIndexOf(const QString& substr, int row, 
 	}
 
 	return QModelIndex();
+}
+
+
+AbstractLibrary* LibraryItemModel::library()
+{
+    return m->library;
 }

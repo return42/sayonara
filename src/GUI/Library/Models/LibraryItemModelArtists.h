@@ -40,7 +40,7 @@ class LibraryItemModelArtists :
 	PIMPL(LibraryItemModelArtists)
 
 	public:
-		LibraryItemModelArtists(QObject* parent=nullptr);
+        LibraryItemModelArtists(QObject* parent, AbstractLibrary* library);
 		virtual ~LibraryItemModelArtists();
 
         /** AbstractSearchTableModel **/

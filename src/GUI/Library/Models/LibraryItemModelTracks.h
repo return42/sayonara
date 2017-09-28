@@ -40,7 +40,7 @@ class LibraryItemModelTracks :
 	PIMPL(LibraryItemModelTracks)
 
 public:
-	LibraryItemModelTracks(QObject* parent=nullptr);
+    LibraryItemModelTracks(QObject* parent, AbstractLibrary* library);
 	virtual ~LibraryItemModelTracks();
 
     /** AbstractSearchTableModel **/

@@ -38,7 +38,7 @@ class AlbumCoverModel :
 	PIMPL(AlbumCoverModel)
 
 public:
-	explicit AlbumCoverModel(QObject* parent=nullptr);
+    explicit AlbumCoverModel(QObject* parent, AbstractLibrary* library);
 	virtual ~AlbumCoverModel();
 
 	void set_data(const AlbumList& albums);

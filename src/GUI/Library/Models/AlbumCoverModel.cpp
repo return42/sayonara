@@ -61,8 +61,8 @@ static QString get_hash(const Album& album)
 	return album.name + "-" + album.id;
 }
 
-AlbumCoverModel::AlbumCoverModel(QObject* parent) :
-	LibraryItemModel()
+AlbumCoverModel::AlbumCoverModel(QObject* parent, AbstractLibrary* library) :
+    LibraryItemModel(parent, library)
 {
 	// TODO: Not good, parent should be delegated through LibraryItemModel
 	Q_UNUSED(parent);

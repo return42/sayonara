@@ -513,7 +513,7 @@ void GUI_LocalLibrary::init_album_cover_view()
 		layout->addWidget(m->acv);
 	}
 
-	m->acm = new AlbumCoverModel(m->acv);
+    m->acm = new AlbumCoverModel(m->acv, m->library);
 	m->acv->setModel(m->acm);
 
 	connect(m->acv, &LibraryView::doubleClicked, this, &GUI_LocalLibrary::album_dbl_clicked);

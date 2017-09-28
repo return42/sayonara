@@ -50,8 +50,8 @@ struct LibraryItemModelAlbums::Private
     {}
 };
 
-LibraryItemModelAlbums::LibraryItemModelAlbums(QObject* parent) :
-	LibraryItemModel(parent)
+LibraryItemModelAlbums::LibraryItemModelAlbums(QObject* parent, AbstractLibrary* library) :
+    LibraryItemModel(parent, library)
 {
 	m = Pimpl::make<LibraryItemModelAlbums::Private>();
 }
@@ -178,32 +178,32 @@ QVariant LibraryItemModelAlbums::data(const QModelIndex& index, int role) const
 
 bool LibraryItemModelAlbums::setData(const QModelIndex & index, const QVariant & value, int role)
 {
-	if(!index.isValid()){
-		return false;
-	}
+    if(!index.isValid()){
+        return false;
+    }
 
-	if (role == Qt::EditRole || role == Qt::DisplayRole) {
-		int row = index.row();
-		int col = index.column();
+    if (role == Qt::EditRole || role == Qt::DisplayRole)
+    {
+        int row = index.row();
+        int col = index.column();
 
-		if(col == (int) ColumnIndex::Album::Rating) {
-			m->albums[row].rating = value.toInt();
-		}
+        if(col == (int) ColumnIndex::Album::Rating) {
+            m->albums[row].rating = value.toInt();
+        }
 
-		else {
-
+        else {
             bool success = Album::fromVariant(value, m->albums[row]);
-			if( !success ) {
-				return false;
-			}
-		}
+            if( !success ) {
+                return false;
+            }
+        }
 
-		emit dataChanged(index, this->index(row, columnCount() - 1));
+        emit dataChanged(index, this->index(row, columnCount() - 1));
 
-		return true;
-	}
+        return true;
+    }
 
-	return false;
+    return false;
 }
 
 

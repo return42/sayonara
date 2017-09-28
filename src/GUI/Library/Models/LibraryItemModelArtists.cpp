@@ -54,8 +54,8 @@ struct LibraryItemModelArtists::Private
     {}
 };
 
-LibraryItemModelArtists::LibraryItemModelArtists(QObject* parent) :
-	LibraryItemModel(parent)
+LibraryItemModelArtists::LibraryItemModelArtists(QObject* parent, AbstractLibrary* library) :
+    LibraryItemModel(parent, library)
 {
 	m = Pimpl::make<LibraryItemModelArtists::Private>();
 }

@@ -29,6 +29,7 @@
 class CoverLocation;
 class CustomMimeData;
 class MetaDataList;
+class AbstractLibrary;
 
 class LibraryItemModel :
 		public AbstractSearchTableModel
@@ -37,7 +38,7 @@ class LibraryItemModel :
 	PIMPL(LibraryItemModel)
 
 public:
-	LibraryItemModel(QObject* parent=nullptr);
+    LibraryItemModel(QObject* parent, AbstractLibrary* library);
 	virtual ~LibraryItemModel();
 
 	/** Overloaded from QAbstractTableModel **/
@@ -69,6 +70,10 @@ public:
 
 	void set_mimedata(const MetaDataList& v_md);
 	CustomMimeData* get_mimedata() const;
+
+protected:
+    AbstractLibrary* library();
+
 };
 
 #endif /* LIBRARYITEMMODEL_H_ */

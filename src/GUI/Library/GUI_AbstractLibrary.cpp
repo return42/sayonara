@@ -214,9 +214,9 @@ void GUI_AbstractLibrary::init_headers()
 	album_columns  << al_h0 << al_h1 << al_h2 << al_h3 << al_h4 << al_h5;
 	artist_columns << ar_h0 << ar_h1 << ar_h2;
 
-	m->album_model = new LibraryItemModelAlbums(m->lv_album);
-	m->artist_model = new LibraryItemModelArtists(m->lv_artist);
-	m->track_model = new LibraryItemModelTracks(m->lv_tracks);
+    m->album_model = new LibraryItemModelAlbums(m->lv_album, m->library);
+    m->artist_model = new LibraryItemModelArtists(m->lv_artist, m->library);
+    m->track_model = new LibraryItemModelTracks(m->lv_tracks, m->library);
 
 	m->album_delegate = new LibraryRatingDelegate(m->lv_album, (int) ColumnIndex::Album::Rating, true);
 	m->track_delegate = new LibraryRatingDelegate(m->lv_tracks, (int) ColumnIndex::Track::Rating, true);
