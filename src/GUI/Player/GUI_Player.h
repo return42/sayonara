@@ -134,6 +134,7 @@ private slots:
 	void paused();
 	void stopped();
 	void playstate_changed(PlayState state);
+	void play_error(const QString& message);
 
 	void track_changed(const MetaData& md);
 

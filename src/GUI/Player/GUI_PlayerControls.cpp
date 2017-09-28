@@ -137,7 +137,8 @@ void GUI_Player::buffering(int progress)
 {
 	sli_buffer->set_position(SayonaraLoadingBar::Position::Middle);
 
-	if(progress > 0 && progress < 100){
+	if(progress > 0 && progress < 100)
+	{
 		progress_widget->setCurrentIndex(1);
 
 		sli_buffer->setMinimum(0);
@@ -148,7 +149,8 @@ void GUI_Player::buffering(int progress)
 		lab_max_time->setVisible(false);
 	}
 
-	else if(progress == 0){
+	else if(progress == 0)
+	{
 		progress_widget->setCurrentIndex(1);
 
 		sli_buffer->setMinimum(0);
@@ -160,7 +162,8 @@ void GUI_Player::buffering(int progress)
 	}
 
 
-	else{
+	else
+	{
 		progress_widget->setCurrentIndex(0);
 
 		sli_buffer->setMinimum(0);

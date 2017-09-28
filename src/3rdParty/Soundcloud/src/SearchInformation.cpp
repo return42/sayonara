@@ -76,7 +76,7 @@ static SP::Set<int> ids(const QString& search_string, const QHash<QString, SP::S
 		const SP::Set<int>& part_ids = id_map[part];
 
 		if(part_ids.isEmpty()){
-			continue;
+			break;
 		}
 
 		for(int part_id : part_ids)

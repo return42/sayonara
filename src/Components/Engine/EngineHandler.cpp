@@ -215,6 +215,11 @@ void EngineHandler::sl_buffer_state_changed(int progress)
 	_play_manager->buffering(progress);
 }
 
+void EngineHandler::sl_error(const QString& error_msg)
+{
+	_play_manager->error(error_msg);
+}
+
 void EngineHandler::sr_record_button_pressed(bool b)
 {
 	PlaybackEngine* p = get_playback_engine();
@@ -238,6 +243,7 @@ bool EngineHandler::configure_connections(Engine* old_engine, Engine* new_engine
 		disconnect(old_engine, &Engine::sig_track_finished, this, &EngineHandler::sl_track_finished);
 		disconnect(old_engine, &Engine::sig_buffering, this, &EngineHandler::sl_buffer_state_changed);
 		disconnect(old_engine, &Engine::sig_cover_changed, this, &EngineHandler::sig_cover_changed);
+		disconnect(old_engine, &Engine::sig_error, this, &EngineHandler::sl_error);
 	}
 
 	if(new_engine) {
@@ -250,6 +256,7 @@ bool EngineHandler::configure_connections(Engine* old_engine, Engine* new_engine
 		connect(new_engine, &Engine::sig_track_finished, this, &EngineHandler::sl_track_finished);
 		connect(new_engine, &Engine::sig_buffering, this, &EngineHandler::sl_buffer_state_changed);
 		connect(new_engine, &Engine::sig_cover_changed, this, &EngineHandler::sig_cover_changed);
+		connect(new_engine, &Engine::sig_error, this, &EngineHandler::sl_error);
 	}
 
 	return true;

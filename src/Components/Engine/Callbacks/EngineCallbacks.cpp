@@ -266,16 +266,18 @@ gboolean EngineCallbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpoint
 				sp_log(Log::Error) << "Engine " << (int) engine->get_name() << ": GST_MESSAGE_ERROR: " << err->message << ": "
 						 << GST_MESSAGE_SRC_NAME(msg);
 
-				engine->set_track_finished(src);
-				engine->stop();
+				engine->error();
+
 				g_error_free(err);
 			}
 			break;
 
 		case GST_MESSAGE_STREAM_STATUS:
-			/*GstStreamStatusType type;
-			gst_message_parse_stream_status(msg, &type, NULL);
-			sp_log(Log::Debug, this) << "Get stream status " << type;*/
+			/*{
+				GstStreamStatusType type;
+				gst_message_parse_stream_status(msg, &type, NULL);
+				sp_log(Log::Debug) << "Get stream status " << type;
+			}*/
 			break;
 
 		default:

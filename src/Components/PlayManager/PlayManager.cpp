@@ -23,6 +23,7 @@
 #include "Helper/MetaData/MetaData.h"
 #include "Helper/Settings/Settings.h"
 #include "Helper/Logger/Logger.h"
+#include "Helper/Helper.h"
 
 #include <QDateTime>
 #include <QTime>
@@ -354,6 +355,11 @@ void PlayManager::change_duration(uint64_t ms)
     m->md.length_ms = ms;
 
 	emit sig_duration_changed(ms);
+}
+
+void PlayManager::error(const QString& message)
+{
+	emit sig_error(message);
 }
 
 void PlayManager::change_metadata(const MetaData& md)

@@ -27,7 +27,6 @@
 const QString sc_main("https://api.soundcloud.com");
 const QString sc_users(sc_main + "/users");
 
-
 QString	SC::WebAccess::create_dl_get_artist(const QString& name)
 {
 	QString ret = "";

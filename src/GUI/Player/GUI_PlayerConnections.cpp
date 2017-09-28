@@ -59,6 +59,7 @@ void GUI_Player::setup_connections()
 	connect(_play_manager, &PlayManager::sig_volume_changed, this, &GUI_Player::volume_changed);
 	connect(_play_manager, &PlayManager::sig_mute_changed, this, &GUI_Player::mute_changed);
 	connect(_play_manager, &PlayManager::sig_record, this, &GUI_Player::rec_changed);
+	connect(_play_manager, &PlayManager::sig_error, this, &GUI_Player::play_error);
 
 	// engine
 	EngineHandler* engine = EngineHandler::getInstance();

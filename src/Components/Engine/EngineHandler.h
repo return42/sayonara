@@ -79,6 +79,8 @@ private slots:
 	void sl_track_ready_changed();
 	void sl_buffer_state_changed(int progress);
 
+	void sl_error(const QString& error_msg);
+
 	void sr_record_button_pressed(bool);
 	void playstate_changed(PlayState state);
 

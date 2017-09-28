@@ -20,6 +20,7 @@
 
 #include "SoundcloudLibrary.h"
 #include "SoundcloudDataFetcher.h"
+#include "SoundcloudGlobal.h"
 #include "SearchInformation.h"
 #include "Sorting.h"
 

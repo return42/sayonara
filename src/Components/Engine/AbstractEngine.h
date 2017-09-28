@@ -87,6 +87,7 @@ signals:
 
 	void sig_track_ready();
 	void sig_track_finished();
+	void sig_error(const QString& message);
 
     void sig_download_progress(int);
 	void sig_cover_changed(const QImage& img);
@@ -102,6 +103,7 @@ public slots:
 	virtual void play()=0;
 	virtual void stop()=0;
 	virtual void pause()=0;
+	virtual void error();
 
 	virtual void jump_abs_ms(uint64_t ms)=0;
 	virtual void jump_rel_ms(uint64_t ms)=0;

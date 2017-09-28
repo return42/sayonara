@@ -155,6 +155,8 @@ signals:
 
 	void sig_md_changed(const MetaData& md);
 
+	void sig_error(const QString& message);
+
 
 public slots:
 	/**
@@ -271,6 +273,8 @@ public slots:
 
 
 	void change_duration(uint64_t ms);
+
+	void error(const QString& message);
 
 public:
 	/**

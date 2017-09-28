@@ -100,6 +100,21 @@ void Engine::set_cur_position_ms(int64_t ms)
 	emit sig_pos_changed_ms(ms);
 }
 
+void Engine::error()
+{
+	QString msg("Cannot play track");
+
+	if(_md.filepath().contains("soundcloud", Qt::CaseInsensitive))
+	{
+		msg += QString("\n\n") +
+			   "Probably, Sayonara's Soundcloud limit of 15.000 "
+			   "tracks per day is reached :( Sorry.";
+	}
+
+	emit sig_error(msg);
+	stop();
+}
+
 bool Engine::set_uri(const QString &filepath)
 {
     QUrl url;

@@ -152,6 +152,7 @@ static bool is_source_soup(GstElement* source)
 	return (src_type.compare("gstsouphttpsrc", Qt::CaseInsensitive) == 0);
 }
 
+
 void PipelineCallbacks::source_ready(GstURIDecodeBin* bin, GstElement* source, gpointer data)
 {
 	Q_UNUSED(bin);
@@ -160,7 +161,7 @@ void PipelineCallbacks::source_ready(GstURIDecodeBin* bin, GstElement* source, g
 	sp_log(Log::Develop, "Engine Callback") << "Source ready: is soup? " << is_source_soup(source);
 	if(is_source_soup(source))
 	{
-		g_object_set(G_OBJECT(source), "ssl_strict", false, nullptr);
+		g_object_set(G_OBJECT(source), "ssl-strict", false, nullptr);
 
 		Proxy* proxy = Proxy::getInstance();
 		if(proxy->active())

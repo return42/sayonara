@@ -38,9 +38,6 @@ namespace SC
 			bool is_empty() const;
 			void clear();
 	};
-
 }
-
-
 
 #endif // SEARCHINFORMATION_H

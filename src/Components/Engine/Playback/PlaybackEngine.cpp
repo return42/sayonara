@@ -248,10 +248,15 @@ void PlaybackEngine::stop()
         m->other_pipeline->stop();
 	}
 
+	if(m->gapless_timer){
+		m->gapless_timer->stop();
+	}
+
     if(m->sr_active && m->stream_recorder->is_recording()){
 		set_streamrecorder_recording(false);
 	}
 
+	emit sig_buffering(-1);
 	emit sig_pos_changed_s(0);
 }
 
@@ -303,10 +308,12 @@ void PlaybackEngine::set_equalizer(int band, int val)
 void PlaybackEngine::set_buffer_state(int progress, GstElement* src)
 {
 	if(!Helper::File::is_www(_md.filepath())){
+		emit sig_buffering(-1);
 		return;
 	}
 
     if(!m->pipeline->has_element(src)){
+		emit sig_buffering(-1);
 		return;
 	}
 
@@ -610,3 +617,4 @@ void PlaybackEngine::set_level(float left, float right)
 		}
 	}
 }
+

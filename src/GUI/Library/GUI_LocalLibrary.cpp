@@ -190,8 +190,8 @@ void GUI_LocalLibrary::init_shortcuts()
 {
 	ui->le_search->setShortcutEnabled(QKeySequence::Find, true);
 
-	new QShortcut(QKeySequence(Qt::Key_Escape), this, SLOT(clear_button_pressed()), nullptr, Qt::WidgetWithChildrenShortcut);
 	new QShortcut(QKeySequence::Find, ui->le_search, SLOT(setFocus()), nullptr, Qt::WindowShortcut);
+	new QShortcut(QKeySequence("F3"), ui->le_search, SLOT(setFocus()), nullptr, Qt::WindowShortcut);
 }
 
 

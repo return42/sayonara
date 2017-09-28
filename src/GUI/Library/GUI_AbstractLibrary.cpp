@@ -153,6 +153,7 @@ void GUI_AbstractLibrary::init_search_bar()
 
     QMenu* menu = new QMenu(m->le_search);
     m->le_search->setContextMenuPolicy(Qt::CustomContextMenu);
+	m->le_search->setClearButtonEnabled(true);
 
     for(const Library::Filter::Mode filter_mode : filters)
 	{
@@ -178,6 +179,7 @@ void GUI_AbstractLibrary::init_search_bar()
     m->le_search->installEventFilter(cm_filter);
 
     combo_search_changed(::Library::Filter::Fulltext);
+
 }
 
 
@@ -295,6 +297,7 @@ void GUI_AbstractLibrary::search_edited(const QString& search)
 
 void GUI_AbstractLibrary::search_cleared()
 {
+	sp_log(Log::Debug, this) << "Search cleared";
     m->cur_searchfilter.clear();
     combo_search_changed(::Library::Filter::Fulltext);
     m->le_search->clear();

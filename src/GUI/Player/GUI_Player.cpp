@@ -552,10 +552,14 @@ void GUI_Player::ui_loaded()
 		PlayerPluginInterface* p  = _pph->find_plugin(shown_plugin);
 		show_plugin(p);
 	}
-
-
 }
 
+void GUI_Player::play_error(const QString& message)
+{
+	MetaData md = _play_manager->get_cur_track();
+	QString err = message + "\n\n" + md.filepath();
+	Message::warning(err, "Player");
+}
 
 void GUI_Player::awa_version_finished()
 {
@@ -626,3 +630,5 @@ void GUI_Player::really_close()
 
 	emit sig_player_closed();
 }
+
+

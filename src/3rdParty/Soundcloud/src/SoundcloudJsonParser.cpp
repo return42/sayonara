@@ -33,6 +33,7 @@
 #include <QJsonDocument>
 #include <QJsonParseError>
 
+
 struct SC::JsonParser::Private
 {
 	QJsonDocument		json_doc;
