@@ -68,8 +68,7 @@ public:
 	virtual int				get_id_by_row(int row)=0;
 	virtual CoverLocation	get_cover(const SP::Set<int>& indexes) const=0;
 
-	void set_mimedata(const MetaDataList& v_md);
-	CustomMimeData* get_mimedata() const;
+	CustomMimeData*			get_mimedata() const;
 
     void                    refresh_data();
 

@@ -50,7 +50,7 @@ CoverButton::CoverButton(QWidget* parent) :
 	m->search_cover_location = CoverLocation::getInvalidLocation();
 
 	this->setIconSize(this->size());
-    this->setIcon(get_cur_icon());
+	this->setIcon(get_cur_icon());
 
 	connect(this, &QPushButton::clicked, this, &CoverButton::cover_button_clicked);
 }
@@ -66,7 +66,7 @@ void CoverButton::set_cover_image(const QString& cover_path)
     m->current_cover_path = cover_path;
     m->cover_forced = false;
 
-    this->setIcon(get_cur_icon());
+	this->setIcon(get_cur_icon());
     this->setToolTip("");
 }
 
@@ -94,7 +94,7 @@ void CoverButton::force_cover(const QPixmap &pm)
 
     pm.save(m->current_cover_path);
 
-    this->setIcon(get_cur_icon());
+	this->setIcon(get_cur_icon());
 }
 
 void CoverButton::force_cover(const QImage &img)
@@ -164,5 +164,5 @@ void CoverButton::resizeEvent(QResizeEvent* e)
     sz.setWidth(sz.width() - 10);
 
     this->setIconSize(sz);
-    this->setIcon(get_cur_icon());
+	this->setIcon(get_cur_icon());
 }

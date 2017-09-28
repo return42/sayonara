@@ -135,12 +135,7 @@ void AbstractLibrary::refresh()
 
     if(sel_tracks_idx.size() > 0)
     {
-		MetaDataList v_md = change_track_selection(sel_tracks_idx);
-
-		if(v_md.size() > 0){
-			sp_log(Log::Info) << "1: mimedata";
-			emit sig_track_mime_data_available(v_md);
-		}
+		change_track_selection(sel_tracks_idx);
 	}
 }
 
@@ -315,6 +310,7 @@ void AbstractLibrary::change_artist_selection(const SP::Set<int>& indexes)
 {
 	SP::Set<ArtistID> selected_artists;
 
+
 	if(indexes.isEmpty() && _selected_artists.isEmpty()){
 		restore_album_selection();
 		restore_track_selection();
@@ -369,24 +365,17 @@ const AlbumList& AbstractLibrary::get_albums() const
 
 const ArtistList& AbstractLibrary::get_artists() const
 {
-    return _vec_artists;
-}
-/*
-ArtistList* AbstractLibrary::get_artists_ptr() const
-{
-    return &_vec_artists;
+	return _vec_artists;
 }
 
-AlbumList* AbstractLibrary::get_albums_ptr() const
+const MetaDataList& AbstractLibrary::get_mimedata() const
 {
-    return &_vec_albums;
-}
+	if(_selected_tracks.isEmpty()){
+		return _vec_md;
+	}
 
-MetaDataList* AbstractLibrary::get_tracks_ptr() const
-{
-    return &_vec_md;
+	return _mimedata;
 }
-*/
 
 void AbstractLibrary::psl_selected_artists_changed(const SP::Set<int>& indexes)
 {
@@ -420,8 +409,10 @@ void AbstractLibrary::change_album_selection(const SP::Set<int>& indexes)
 	_selected_albums = selected_albums;
 
 	// only show tracks of selected album / artist
-	if(_selected_artists.size() > 0) {
-		if(_selected_albums.size() > 0) {
+	if(_selected_artists.size() > 0)
+	{
+		if(_selected_albums.size() > 0)
+		{
 			MetaDataList v_md;
 
 			get_all_tracks_by_album(_selected_albums.toList(), v_md, _filter, _sortorder);
@@ -475,31 +466,28 @@ void AbstractLibrary::psl_selected_albums_changed(const SP::Set<int>& idx_list)
 }
 
 
-MetaDataList AbstractLibrary::change_track_selection(const SP::Set<int>& idx_list)
+void AbstractLibrary::change_track_selection(const SP::Set<int>& idx_list)
 {
 	_selected_tracks.clear();
-
-	MetaDataList v_md;
-	v_md.reserve(idx_list.size());
+	_mimedata.clear();
 
 	for(int idx : idx_list) 
 	{
+		if(idx < 0 || idx >= _vec_md.count()){
+			continue;
+		}
+
 		const MetaData& md = _vec_md[idx];
-		v_md << md;
+		_mimedata << md;
 
 		_selected_tracks.insert(md.id);
 	}
-
-	return v_md;
 }
 
 
 void AbstractLibrary::psl_selected_tracks_changed(const SP::Set<int>& idx_list)
 {
-	MetaDataList v_md =	change_track_selection(idx_list);
-	if(v_md.size() > 0){
-		emit sig_track_mime_data_available(v_md);
-	}
+	change_track_selection(idx_list);
 }
 
 

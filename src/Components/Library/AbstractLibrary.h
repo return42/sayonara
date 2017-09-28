@@ -52,7 +52,7 @@ public:
 	virtual ~AbstractLibrary();
 
 signals:
-	void sig_track_mime_data_available(const MetaDataList&);
+	void sig_track_mime_data_available();
     void sig_all_tracks_loaded ();
     void sig_all_albums_loaded();
     void sig_all_artists_loaded();
@@ -81,6 +81,7 @@ public slots:
     const MetaDataList& get_tracks() const;
     const AlbumList& get_albums() const;
     const ArtistList& get_artists() const;
+	const MetaDataList& get_mimedata() const;
 
    /* ArtistList* get_artists_ptr() const;
     AlbumList* get_albums_ptr() const;
@@ -144,20 +145,16 @@ public slots:
 	virtual void refresh_albums()=0;
 	virtual void refresh_tracks()=0;
 
-
-
-
 protected slots:
 	virtual void _sl_sortorder_changed();
 
-
 protected:
-
 	PlaylistHandler*	_playlist=nullptr;
 
 	MetaDataList        _vec_md;
 	AlbumList			_vec_albums;
 	ArtistList			_vec_artists;
+	MetaDataList		_mimedata;
 
 	// contains ID for artists, albums, tracks
 	SP::Set<ArtistID>	_selected_artists;
@@ -170,7 +167,6 @@ protected:
 
 	/* Emit 3 signals with shown artists, shown album, shown tracks */
 	virtual void 		emit_stuff();
-
 
 	virtual void		get_all_artists(ArtistList& artists, Library::Sortings so)=0;
 	virtual void		get_all_artists_by_searchstring(Library::Filter filter, ArtistList& artists, Library::Sortings so)=0;
@@ -204,7 +200,7 @@ private:
 	void restore_track_selection();
 	void restore_album_selection();
 
-	MetaDataList change_track_selection(const SP::Set<int>& idx_list);
+	void change_track_selection(const SP::Set<int>& idx_list);
 	void change_artist_selection(const SP::Set<int>& idx_list);
 	void change_album_selection(const SP::Set<int>& idx_list);
 };

@@ -36,7 +36,6 @@ class GUI_EmptyLibrary :
     public QWidget
 {
 	Q_OBJECT
-	PIMPL(GUI_EmptyLibrary)
 
 public:
 	explicit GUI_EmptyLibrary(QWidget* parent=nullptr);

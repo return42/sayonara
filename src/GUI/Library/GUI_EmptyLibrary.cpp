@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "GUI_EmptyLibrary.h"
 #include "GUI/Library/ui_GUI_EmptyLibrary.h"
 #include "Helper/Language.h"
@@ -31,11 +29,6 @@
 
 #include <QDir>
 #include <QFileDialog>
-
-struct GUI_EmptyLibrary::Private
-{
-
-};
 
 GUI_EmptyLibrary::GUI_EmptyLibrary(QWidget* parent) :
     QWidget(parent)

@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "GUI_Logger.h"
 #include "GUI/Player/ui_GUI_Logger.h"
 #include "Helper/Logger/Logger.h"
