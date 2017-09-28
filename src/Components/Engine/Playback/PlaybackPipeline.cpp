@@ -114,20 +114,20 @@ bool PlaybackPipeline::create_elements()
 
 	// lame branch
 	if( !create_element(&_lame_queue, "queue", "lame_queue") ||
-			!create_element(&_lame_converter, "audioconvert", "lame_converter") ||
-			!create_element(&_lame_resampler, "audioresample", "lame_resampler") ||
-			!create_element(&_lame, "lamemp3enc") ||
-			!create_element(&_lame_app_sink, "appsink", "lame_appsink"))
+        !create_element(&_lame_converter, "audioconvert", "lame_converter") ||
+        !create_element(&_lame_resampler, "audioresample", "lame_resampler") ||
+        !create_element(&_lame, "lamemp3enc") ||
+        !create_element(&_lame_app_sink, "appsink", "lame_appsink"))
 	{
 		_lame = nullptr;
 	}
 
 	// stream recorder branch
 	if(	!create_element(&_file_queue, "queue", "sr_queue") ||
-			!create_element(&_file_converter, "audioconvert", "sr_converter") ||
-			!create_element(&_file_resampler, "audioresample", "sr_resample") ||
-			!create_element(&_file_lame, "lamemp3enc", "sr_lame")  ||
-			!create_element(&_file_sink, "filesink", "sr_filesink"))
+        !create_element(&_file_converter, "audioconvert", "sr_converter") ||
+        !create_element(&_file_resampler, "audioresample", "sr_resample") ||
+        !create_element(&_file_lame, "lamemp3enc", "sr_lame")  ||
+        !create_element(&_file_sink, "filesink", "sr_filesink"))
 	{
 		_file_sink = nullptr;
 	}
@@ -135,7 +135,7 @@ bool PlaybackPipeline::create_elements()
 	else{
 		_sr_data->queue = _file_queue;
 		_sr_data->sink = _file_sink;
-	}
+    }
 
 
 	return true;
@@ -162,40 +162,40 @@ bool PlaybackPipeline::add_and_link_elements()
 	}
 
 	/* standard output branch */
-	success = gst_element_link_many(_eq_queue, _volume, /*_speed,*/ _audio_sink, nullptr);
+    success = gst_element_link_many(_eq_queue, _volume, /*_speed,*/ _audio_sink, nullptr);
 	if(!_test_and_error_bool(success, "Engine: Cannot link eq with audio sink")) {
 		return false;
 	}
 
 
 	/* level branch */
-	success = gst_element_link_many(_level_queue, _level, _level_sink, nullptr);
+    success = gst_element_link_many(_level_queue, _level, _level_sink, nullptr);
 	if(!_test_and_error_bool(success, "Engine: Cannot link Level pipeline")){
 		return false;
-	}
+    }
 
 
 	/* spectrum branch */
-	success = gst_element_link_many(_spectrum_queue, _spectrum, _spectrum_sink, nullptr);
+    success = gst_element_link_many(_spectrum_queue, _spectrum, _spectrum_sink, nullptr);
 
 	if(!_test_and_error_bool(success, "Engine: Cannot link Spectrum pipeline")){
 		return false;
-	}
+    }
 
 
 	/* lame branch (optional) */
-	if(_lame){
+    if(_lame){
 		gst_bin_add_many(GST_BIN(_pipeline), _lame_queue,  _lame_converter, _lame_resampler, _lame, _lame_app_sink, nullptr);
 		success = gst_element_link_many( _lame_queue, _lame_converter, _lame_resampler, _lame, _lame_app_sink, nullptr);
 		_test_and_error_bool(success, "Engine: Cannot link lame stuff");
-	}
+    }
 
 	/* stream rippper branch (optional) */
-	if(_file_sink){
+    if(_file_sink){
 		gst_bin_add_many(GST_BIN(_pipeline), _file_queue, _file_converter, _file_resampler, _file_lame, _file_sink, nullptr);
 		success = gst_element_link_many( _file_queue, _file_converter, _file_resampler, _file_lame, _file_sink, nullptr);
 		_test_and_error_bool(success, "Engine: Cannot link streamripper stuff");
-	}
+    }
 
 	/* create tee pads */
 	tee_src_pad_template = gst_element_class_get_pad_template (GST_ELEMENT_GET_CLASS (_tee), "src_%u");
@@ -204,22 +204,22 @@ bool PlaybackPipeline::add_and_link_elements()
 	}
 
 	/* connect branches with tee */
-	success = tee_connect(_tee, tee_src_pad_template, _level_queue, "Level");
+    success = tee_connect(_tee, tee_src_pad_template, _level_queue, "Level");
 	if(!_test_and_error_bool(success, "Engine: Cannot link level queue with tee")){
 		return false;
-	}
+    }
 
-	tee_connect(_tee, tee_src_pad_template, _spectrum_queue, "Spectrum");
+    tee_connect(_tee, tee_src_pad_template, _spectrum_queue, "Spectrum");
 	if(!_test_and_error_bool(success, "Engine: Cannot link spectrum queue with tee")){
 		return false;
-	}
+    }
 
 	tee_connect(_tee, tee_src_pad_template, _eq_queue, "Equalizer");
 	if(!_test_and_error_bool(success, "Engine: Cannot link eq queue with tee")){
 		return false;
 	}
 
-	if(_lame){
+    if(_lame){
 		success = tee_connect(_tee, tee_src_pad_template, _lame_queue, "Lame");
 		if(!_test_and_error_bool(success, "Engine: Cannot link lame queue with tee")){
 			_settings->set(SetNoDB::MP3enc_found, false);
@@ -231,7 +231,7 @@ bool PlaybackPipeline::add_and_link_elements()
 		if(!_test_and_error_bool(success, "Engine: Cannot link streamripper stuff")){
 			_settings->set(Set::Engine_SR_Active, false);
 		}
-	}
+    }
 
 	return true;
 }
@@ -246,7 +246,7 @@ bool PlaybackPipeline::configure_elements()
 				  "use-buffering", true,
 				  nullptr);
 
-	g_object_set (G_OBJECT (_level),
+    g_object_set (G_OBJECT (_level),
 				  "post-messages", true,
 				  "interval", interval,
 				  nullptr);
@@ -260,7 +260,7 @@ bool PlaybackPipeline::configure_elements()
 				  "message-phase", false,
 				  "message-magnitude", true,
 				  "multi-channel", false,
-				  nullptr);
+                  nullptr);
 
 	init_equalizer();
 
@@ -307,7 +307,7 @@ bool PlaybackPipeline::configure_elements()
 		gst_element_set_state(_file_sink, GST_STATE_NULL);
 	}
 
-	sinks << _level_sink << _spectrum_sink;
+    sinks << _level_sink << _spectrum_sink;
 
 	for(GstElement* sink : sinks){
 		//gst_object_ref(sink);
@@ -320,9 +320,9 @@ bool PlaybackPipeline::configure_elements()
 
     g_signal_connect (_audio_src, "pad-added", G_CALLBACK (PipelineCallbacks::decodebin_ready), _audio_convert);
     g_signal_connect (_audio_src, "source-setup", G_CALLBACK (PipelineCallbacks::source_ready), nullptr);
-	if(_lame){
+    if(_lame){
 		g_signal_connect (_lame_app_sink, "new-sample", G_CALLBACK(PipelineCallbacks::new_buffer), this);
-	}
+    }
 
 	return true;
 }

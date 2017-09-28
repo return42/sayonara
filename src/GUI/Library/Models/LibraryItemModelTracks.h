@@ -43,18 +43,18 @@ public:
 	LibraryItemModelTracks(QObject* parent=nullptr);
 	virtual ~LibraryItemModelTracks();
 
-	QVariant data(const QModelIndex &index, int role) const override;
+    /** AbstractSearchTableModel **/
+    Qt::ItemFlags   flags(const QModelIndex &index) const override;
 
-	Qt::ItemFlags flags(const QModelIndex &index) const override;
+    QVariant        data(const QModelIndex &index, int role) const override;
+    bool            setData(const QModelIndex &index, const QVariant &value, int role) override;
+    bool            setData(const QModelIndex &index, const MetaDataList &v_md, int role);
 
-	bool setData(const QModelIndex &index, const QVariant &value, int role) override;
-	bool setData(const QModelIndex &index, const MetaDataList &v_md, int role);
-
-	int get_id_by_row(int row) override;
-	QString get_string(int row) const override;
-
-	CoverLocation get_cover(const SP::Set<int>& indexes) const override;
-	int get_searchable_column() const override;
+    /** LibraryItemModel.h **/
+    CoverLocation   get_cover(const SP::Set<int>& indexes) const override;
+    int             get_searchable_column() const override;
+    int             get_id_by_row(int row) override;
+    QString         get_string(int row) const override;
 };
 
 #endif /* LIBRARYITEMMODELTRACKS_H_ */

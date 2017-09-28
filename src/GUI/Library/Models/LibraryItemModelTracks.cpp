@@ -241,5 +241,5 @@ CoverLocation LibraryItemModelTracks::get_cover(const SP::Set<int>& indexes) con
 
 int LibraryItemModelTracks::get_searchable_column() const
 {
-	return (int) ColumnIndex::Track::Title;
+    return (int) ColumnIndex::Track::Title;
 }

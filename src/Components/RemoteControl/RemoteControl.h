@@ -26,16 +26,13 @@
 #include "Helper/Playlist/PlaylistFwd.h"
 
 #include <QObject>
-#include <QTcpServer>
-#include <QTcpSocket>
-#include <QMap>
-#include <QByteArray>
 
-#include <functional>
+#include "Helper/Pimpl.h"
 
 class PlaylistHandler;
 class PlayManager;
 class MetaData;
+class QByteArray;
 
 typedef std::function<void()> RemoteFunction ;
 typedef std::function<void(int)> RemoteFunctionInt ;
@@ -81,14 +78,16 @@ typedef std::function<void(int)> RemoteFunctionInt ;
  * \tfollowed by 0x00,0x01,0x00,0x01<cover data>0x00,0x01,0x00,0x01
  * @ingroup Components
  */
-class RemoteControl : public QObject, protected SayonaraClass
+class RemoteControl :
+        public QObject,
+        protected SayonaraClass
 {
 	Q_OBJECT
+    PIMPL(RemoteControl)
 
 public:
 	explicit RemoteControl(QObject *parent=nullptr);
 	virtual ~RemoteControl();
-
 
 	bool is_connected() const;
 
@@ -107,18 +106,6 @@ private slots:
 	void _sl_port_changed();
 	void _sl_broadcast_changed();
 
-
-private:
-
-	bool _initialized;
-
-	QMap<QByteArray, RemoteFunction> _fn_call_map;
-	QMap<QByteArray, RemoteFunctionInt> _fn_int_call_map;
-
-	QTcpServer*		_server=nullptr;
-	QTcpSocket*		_socket=nullptr;
-	PlayManager*	_play_manager=nullptr;
-	PlaylistHandler* _plh=nullptr;
 
 private:
 

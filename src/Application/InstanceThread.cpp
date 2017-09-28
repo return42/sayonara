@@ -36,8 +36,10 @@ void InstanceThread::run()
 {
 	_may_run = true;
 
-	while(_may_run) {
-		if((*_instance_message) != InstanceMessageNone){
+    while(_may_run)
+    {
+        if((*_instance_message) != InstanceMessageNone)
+        {
 			sp_log(Log::Debug, this) << "Kill signal received";
 
 			emit sig_player_raise();

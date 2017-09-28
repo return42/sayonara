@@ -135,7 +135,7 @@ GUI_LocalLibrary::GUI_LocalLibrary(int id, QWidget* parent) :
 	ui->lv_genres->set_local_library(m->library);
 	language_changed();
 
-	REGISTER_LISTENER_NO_CALL(Set::Lib_ShowAlbumCovers, switch_album_view);
+    REGISTER_LISTENER(Set::Lib_ShowAlbumCovers, switch_album_view);
 }
 
 
@@ -233,8 +233,10 @@ Library::ReloadQuality GUI_LocalLibrary::show_quality_dialog()
 void GUI_LocalLibrary::switch_album_view()
 {
 	bool show_cover_view = _settings->get(Set::Lib_ShowAlbumCovers);
+
 	int idx = 0;
-	if(show_cover_view){
+    if(show_cover_view)
+    {
 		idx = 1;
 		if(!m->acv){
 			init_album_cover_view();
@@ -242,7 +244,7 @@ void GUI_LocalLibrary::switch_album_view()
 	}
 
 	ui->sw_album_covers->setCurrentIndex( idx );
-    	search_cleared();
+    search_cleared();
 }
 
 
@@ -608,3 +610,4 @@ QList<Library::Filter::Mode> GUI_LocalLibrary::search_options() const
         ::Library::Filter::Genre
     };
 }
+

@@ -208,7 +208,6 @@ int main(int argc, char *argv[])
 	Q_UNUSED(single_instance)
 #endif
 
-
 	/* Tell the settings manager which settings are necessary */
 	if( !SettingRegistry::getInstance()->init() ){
 		sp_log(Log::Error) << "Cannot initialize settings";
@@ -226,7 +225,7 @@ int main(int argc, char *argv[])
 	}
 
 	language = Settings::getInstance()->get(Set::Player_Language);
-	translator.load(language, Helper::share_path("translations"));
+    translator.load(language, Helper::share_path("translations"));
 
 	if(!app.init(&translator, cmd_data.files_to_play)) {
 		return 1;

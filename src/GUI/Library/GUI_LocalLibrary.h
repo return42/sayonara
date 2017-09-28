@@ -71,7 +71,6 @@ protected:
 
 
 private slots:
-
 	void switch_album_view();
 
 	void disc_pressed(int disc);

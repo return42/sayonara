@@ -198,5 +198,5 @@ CoverLocation LibraryItemModelArtists::get_cover(const SP::Set<int>& indexes) co
 
 int LibraryItemModelArtists::get_searchable_column() const
 {
-	return (int) ColumnIndex::Artist::Name;
+    return (int) ColumnIndex::Artist::Name;
 }

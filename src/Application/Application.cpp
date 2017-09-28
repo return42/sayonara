@@ -268,7 +268,7 @@ bool Application::init(QTranslator* translator, const QStringList& files_to_play
 	PlayerPluginHandler* pph = new PlayerPluginHandler(this);
 
 	pph->add_plugin(new GUI_LevelPainter());
-	pph->add_plugin(new GUI_Spectrum());
+    pph->add_plugin(new GUI_Spectrum());
 	pph->add_plugin(new GUI_Equalizer());
 	pph->add_plugin(new GUI_Stream());
 	pph->add_plugin(new GUI_Podcasts());
@@ -277,13 +277,12 @@ bool Application::init(QTranslator* translator, const QStringList& files_to_play
 	pph->add_plugin(new GUI_Bookmarks());
 	pph->add_plugin(new GUI_Speed());
 	pph->add_plugin(new GUI_Broadcast());
-	pph->add_plugin(new GUI_Crossfader());
+    pph->add_plugin(new GUI_Crossfader());
 
 	sp_log(Log::Debug, this) << "Plugins finsihed: " << m->timer->elapsed() << "ms";
 
 	QList<LibraryContainerInterface*> library_containers;
 	DirectoryLibraryContainer* directory_container = new DirectoryLibraryContainer(this);
-
 
 	library_containers << static_cast<LibraryContainerInterface*>(directory_container);
 
@@ -301,7 +300,7 @@ bool Application::init(QTranslator* translator, const QStringList& files_to_play
 
 	m->player->register_preference_dialog(preferences);
 
-	preferences->register_preference_dialog(new GUI_LanguageChooser());
+    preferences->register_preference_dialog(new GUI_LanguageChooser());
 	preferences->register_preference_dialog(new GUI_FontConfig());
 	preferences->register_preference_dialog(new GUI_PlayerPreferences());
 	preferences->register_preference_dialog(new GUI_PlaylistPreferences());
@@ -313,7 +312,7 @@ bool Application::init(QTranslator* translator, const QStringList& files_to_play
 	preferences->register_preference_dialog(new GUI_Notifications());
 	preferences->register_preference_dialog(new GUI_RemoteControl());
 	preferences->register_preference_dialog(new GUI_LastFM());
-	preferences->register_preference_dialog(new GUI_IconPreferences());
+    preferences->register_preference_dialog(new GUI_IconPreferences());
     preferences->register_preference_dialog(new GUI_Proxy());
 
 	EngineHandler::getInstance()->init();

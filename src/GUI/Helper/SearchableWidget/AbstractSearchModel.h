@@ -66,7 +66,7 @@ class SearchModelInterface :
 	virtual ~SearchModelInterface() {}
 };
 
-typedef SearchModelInterface<QAbstractTableModel> AbstractSearchTableModel;
-typedef SearchModelInterface<QAbstractListModel> AbstractSearchListModel;
+using AbstractSearchTableModel=SearchModelInterface<QAbstractTableModel>;
+using AbstractSearchListModel=SearchModelInterface<QAbstractListModel> ;
 
 #endif

@@ -179,7 +179,7 @@ void LibraryView::set_selection_type(SayonaraSelectionView::SelectionType type)
 	else {
 		setSelectionBehavior(QAbstractItemView::SelectColumns);
 		this->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-	}
+    }
 }
 
 MetaDataList LibraryView::selected_metadata() const

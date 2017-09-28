@@ -89,15 +89,19 @@ void CoverButton::resizeEvent(QResizeEvent* e)
 {
 	QPushButton::resizeEvent(e);
 
-	QIcon icon(m->current_cover.scaled(this->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
-
 	QSize sz = this->size();
 	sz.setHeight(sz.height() - 10);
 	sz.setWidth(sz.width() - 10);
 
 	this->setIconSize(sz);
-	this->setIcon(icon);
 
+    QIcon icon(
+        m->current_cover.scaled(sz,
+                                Qt::KeepAspectRatio,
+                                Qt::SmoothTransformation)
+    );
+
+	this->setIcon(icon);
 }
 
 
@@ -128,9 +132,10 @@ void CoverButton::set_cover_image(const QString& cover_path)
 	}
 
 	QPixmap pm(cover_path);
-	m->current_cover = pm;
+    m->current_cover = pm.scaled(this->iconSize(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
 	QIcon icon(pm.scaled(this->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+
 	this->setIcon(icon);
 	this->setToolTip("");
 }

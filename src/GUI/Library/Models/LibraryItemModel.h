@@ -37,7 +37,6 @@ class LibraryItemModel :
 	PIMPL(LibraryItemModel)
 
 public:
-
 	LibraryItemModel(QObject* parent=nullptr);
 	virtual ~LibraryItemModel();
 
@@ -45,16 +44,18 @@ public:
 	QVariant 	headerData ( int section, Qt::Orientation orientation, int role=Qt::DisplayRole ) const override;
 	bool		setHeaderData(int section, Qt::Orientation orientation, const QVariant &value, int role) override;
 
-	virtual int			rowCount(const QModelIndex &parent=QModelIndex()) const override;
-	virtual int 		columnCount(const QModelIndex& parent=QModelIndex()) const override;
-	virtual bool 		insertColumns(int position, int cols, const QModelIndex &index=QModelIndex()) override;
-	virtual bool 		removeColumns(int position, int cols, const QModelIndex &index=QModelIndex()) override;
-	virtual bool		removeRows(int position, int rows, const QModelIndex& index=QModelIndex()) override;
-	virtual bool		insertRows(int row, int count, const QModelIndex &parent=QModelIndex()) override;
+    virtual int     rowCount(const QModelIndex &parent=QModelIndex()) const override;
+    virtual int     columnCount(const QModelIndex& parent=QModelIndex()) const override;
+    virtual bool 	insertColumns(int position, int cols, const QModelIndex &index=QModelIndex()) override;
+    virtual bool 	removeColumns(int position, int cols, const QModelIndex &index=QModelIndex()) override;
+    virtual bool	removeRows(int position, int rows, const QModelIndex& index=QModelIndex()) override;
+    virtual bool	insertRows(int row, int count, const QModelIndex &parent=QModelIndex()) override;
 
+    /** AbstractSearchTableModel **/
 	virtual QModelIndex	getFirstRowIndexOf(const QString& substr) override;
 	virtual QModelIndex getNextRowIndexOf(const QString& substr, int row, const QModelIndex& parent=QModelIndex()) override;
 	virtual QModelIndex getPrevRowIndexOf(const QString& substr, int row, const QModelIndex& parent=QModelIndex()) override;
+    virtual QMap<QChar, QString> getExtraTriggers() override;
 
 	virtual void			add_selections(const SP::Set<int>& rows) final;
 	virtual bool			is_selected(int id) const final;
@@ -66,11 +67,7 @@ public:
 	virtual int				get_id_by_row(int row)=0;
 	virtual CoverLocation	get_cover(const SP::Set<int>& indexes) const=0;
 
-
-	virtual QMap<QChar, QString> getExtraTriggers() override;
-
 	void set_mimedata(const MetaDataList& v_md);
-
 	CustomMimeData* get_mimedata() const;
 };
 

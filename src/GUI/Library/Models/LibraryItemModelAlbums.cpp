@@ -237,14 +237,7 @@ Qt::ItemFlags LibraryItemModelAlbums::flags(const QModelIndex & index) const
 }
 
 
-void LibraryItemModelAlbums::sort(int column, Qt::SortOrder order)
-{
-	Q_UNUSED(column);
-	Q_UNUSED(order);
-}
-
-
 int LibraryItemModelAlbums::get_searchable_column() const
 {
-	return (int) ColumnIndex::Album::Name;
+    return (int) ColumnIndex::Album::Name;
 }

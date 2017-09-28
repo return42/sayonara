@@ -48,7 +48,13 @@ void LibraryPluginCombobox::setup_actions()
 
 	for(const LibraryContainerInterface* container : libraries)
 	{
-		this->addItem(QIcon(container->icon()), container->display_name(), container->name());
+        QPixmap pm = container->icon().scaled(
+                    this->iconSize(),
+                    Qt::KeepAspectRatio,
+                    Qt::SmoothTransformation
+        );
+
+        this->addItem(QIcon(pm), container->display_name(), container->name());
 	}
 
 	current_library_changed(m->lph->current_library()->name());

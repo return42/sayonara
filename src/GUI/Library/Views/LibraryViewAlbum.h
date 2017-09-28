@@ -27,7 +27,8 @@
 #include <QModelIndex>
 
 class DiscPopupMenu;
-class LibraryViewAlbum : public LibraryTableView
+class LibraryViewAlbum :
+        public LibraryTableView
 {
 	Q_OBJECT
 	PIMPL(LibraryViewAlbum)

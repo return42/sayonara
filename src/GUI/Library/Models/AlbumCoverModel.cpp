@@ -132,8 +132,9 @@ void AlbumCoverModel::set_max_columns(int columns)
 
 int AlbumCoverModel::zoom() const
 {
-	return m->size;
+    return m->size;
 }
+
 
 QVariant AlbumCoverModel::data(const QModelIndex& index, int role) const
 {
@@ -370,5 +371,3 @@ CoverLocation AlbumCoverModel::get_cover(const SP::Set<int>& indexes) const
 
 	return m->cover_locations[hash];
 }
-
-
