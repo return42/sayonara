@@ -105,12 +105,6 @@ void GUI_Player::init_gui()
 
 	action_Fullscreen->setShortcut(QKeySequence("F11"));
 
-#ifdef WITH_MTP
-	action_devices->setVisible(true);
-#else
-	action_devices->setVisible(false);
-#endif
-
 	btn_rec->setVisible(false);
 
 	cur_pos_changed(_play_manager->get_init_position_ms());
@@ -434,7 +428,7 @@ void GUI_Player::register_player_plugin_handler(PlayerPluginHandler* pph)
 void GUI_Player::register_preference_dialog(PreferenceDialogInterface* dialog)
 {
 	QList<QAction*> actions = menu_file->actions();
-	QAction* sep = actions[actions.size() - 4];
+    QAction* sep = actions[actions.size() - 2];
 
 	dialog->setParent(this);
 	menu_file->insertAction(sep, dialog->get_action());

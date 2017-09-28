@@ -46,10 +46,30 @@ struct CoverLocation::Private
 	QString			identifier;
 	bool			valid; // valid if CoverLocation object contains a valid download url
 
-	Private()
-	{
-		valid = false;
-	}
+    Private() :
+        valid(false)
+    {}
+
+    Private(const Private& other) :
+        CASSIGN(search_term),
+        CASSIGN(search_urls),
+        CASSIGN(cover_path),
+        CASSIGN(local_paths),
+        CASSIGN(identifier),
+        CASSIGN(valid)
+    {}
+
+    Private& operator=(const Private& other)
+    {
+        ASSIGN(search_term);
+        ASSIGN(search_urls);
+        ASSIGN(cover_path);
+        ASSIGN(local_paths);
+        ASSIGN(identifier);
+        ASSIGN(valid);
+
+        return (*this);
+    }
 };
 
 
@@ -64,16 +84,12 @@ CoverLocation::~CoverLocation() {}
 
 CoverLocation::CoverLocation(const CoverLocation& other)
 {
-	m = Pimpl::make<CoverLocation::Private>();
-	CoverLocation::Private data = *(other.m.get());
-	(*m) = data;
+    m = Pimpl::make<CoverLocation::Private>(*(other.m));
 }
 
 CoverLocation& CoverLocation::operator=(const CoverLocation& other)
 {
-	CoverLocation::Private data = *(other.m.get());
-	(*m) = data;
-
+    *m = *(other.m);
 	return *this;
 }
 

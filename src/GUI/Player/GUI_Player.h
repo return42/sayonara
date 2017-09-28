@@ -43,10 +43,6 @@ class QTranslator;
 class QMessageBox;
 class GUI_Logger;
 
-#ifdef WITH_MTP
-	class GUI_MTP;
-#endif
-
 class GUI_Player :
 		public SayonaraMainWindow,
 		public ShortcutWidget,
@@ -71,10 +67,6 @@ public:
 
 private:
 	PlayerPluginHandler*		_pph=nullptr;
-
-#ifdef WITH_MTP
-	GUI_MTP*					_mtp=nullptr;
-#endif
 
 	QTranslator*				_translator=nullptr;
 	QStringList					_translators;

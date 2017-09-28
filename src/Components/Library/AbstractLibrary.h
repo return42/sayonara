@@ -53,9 +53,9 @@ public:
 
 signals:
 	void sig_track_mime_data_available(const MetaDataList&);
-	void sig_all_tracks_loaded (const MetaDataList&);
-	void sig_all_albums_loaded(const AlbumList&);
-	void sig_all_artists_loaded(const ArtistList&);
+    void sig_all_tracks_loaded ();
+    void sig_all_albums_loaded();
+    void sig_all_artists_loaded();
 
 	void sig_reloading_library(const QString& message, int progress);
 	void sig_reloading_library_finished();
@@ -78,6 +78,13 @@ public slots:
 	   the user won't recognize anything at all */
 	virtual void refresh();
 
+    const MetaDataList& get_tracks() const;
+    const AlbumList& get_albums() const;
+    const ArtistList& get_artists() const;
+
+   /* ArtistList* get_artists_ptr() const;
+    AlbumList* get_albums_ptr() const;
+    MetaDataList* get_tracks_ptr() const;*/
 
 	/* selection changed */
 	virtual void psl_selected_artists_changed(const SP::Set<int>& idx_lst);
@@ -136,6 +143,8 @@ public slots:
 	virtual void refresh_artist()=0;
 	virtual void refresh_albums()=0;
 	virtual void refresh_tracks()=0;
+
+
 
 
 protected slots:

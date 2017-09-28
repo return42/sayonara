@@ -27,7 +27,6 @@
 #include "Helper/Helper.h"
 #include "Helper/FileHelper.h"
 #include "Helper/Library/Filter.h"
-#include "Helper/Library/DateFilter.h"
 
 #include <QFileInfo>
 #include <QDateTime>
@@ -345,10 +344,6 @@ bool DatabaseTracks::getAllTracksByAlbum(IDList albums, MetaDataList& returndata
 	{
 		switch( filter.mode() )
 		{
-			case Library::Filter::Date:
-				querytext += "WHERE " + filter.date_filter().get_sql_filter(m->track_view_name) + " AND ";
-				break;
-
 			case Library::Filter::Genre:
 				querytext += "WHERE genre LIKE :searchterm AND ";
 				break;
@@ -390,14 +385,7 @@ bool DatabaseTracks::getAllTracksByAlbum(IDList albums, MetaDataList& returndata
 	if( !filter.cleared() )
 	{
 		QString filtertext = filter.filtertext();
-		switch(filter.mode())
-		{
-			case Library::Filter::Date:
-				break;
-			default:
-				q.bindValue(":searchterm", filtertext);
-				break;
-		}
+        q.bindValue(":searchterm", filtertext);
 	}
 
 	return db_fetch_tracks(q, returndata);
@@ -434,10 +422,6 @@ bool DatabaseTracks::getAllTracksByArtist(IDList artists, MetaDataList& returnda
 	{
 		switch( filter.mode() )
 		{
-			case Library::Filter::Date:
-				querytext += "WHERE " + filter.date_filter().get_sql_filter() + " AND ";
-				break;
-
 			case Library::Filter::Genre:
 				querytext += "WHERE genre LIKE :searchterm AND ";
 				break;
@@ -491,10 +475,6 @@ bool DatabaseTracks::getAllTracksBySearchString(const Library::Filter& filter, M
 
 	switch(filter.mode())
 	{
-		case Library::Filter::Date:
-			querytext += "WHERE " + filter.date_filter().get_sql_filter();
-			break;
-
 		case Library::Filter::Genre:
 			querytext += "WHERE genre LIKE :searchterm ";
 			break;
@@ -823,55 +803,6 @@ bool DatabaseTracks::insertTrackIntoDatabase(const MetaData& md, int artist_id, 
 		return false;
 	}
 
-	return true;
-}
-
-
-bool DatabaseTracks::updateTrackDates()
-{
-	QString querytext = "SELECT trackID, filename FROM tracks;";
-	SayonaraQuery q(this);
-	q.prepare(querytext);
-	QMap<int, QString> v_md;
-
-	QList< std::tuple<int, uint64_t, uint64_t> > lst;
-	if(q.exec())
-	{
-		while(q.next())
-		{
-			int id = q.value(0).toInt();
-			QString filepath = q.value(1).toString();
-
-			QString dir = Helper::File::get_parent_directory(filepath);
-			QFileInfo fi(filepath);
-			QFileInfo fi_dir(dir);
-			QDateTime created = fi_dir.created();
-			QDateTime modified = fi.lastModified();
-
-			lst << std::make_tuple(id, Helper::date_to_int(created), Helper::date_to_int(modified));
-		}
-	}
-
-	else{
-		q.show_error("Insert dates");
-		return false;
-	}
-
-	module_db().transaction();
-
-	for(auto t : lst)
-	{
-		SayonaraQuery q(this);
-		q.prepare("UPDATE tracks SET createdate=:createdate, modifydate=:modifydate WHERE trackID = :id;");
-		q.bindValue(":id", std::get<0>(t));
-		q.bindValue(":createdate", (quint64) std::get<1>(t));
-		q.bindValue(":modifydate", (quint64) std::get<2>(t));
-		q.exec();
-	}
-
-	module_db().commit();
-
-	sp_log(Log::Debug, "Database Tracks") << "Insert dates finished!";
 	return true;
 }
 

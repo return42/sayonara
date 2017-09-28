@@ -47,15 +47,17 @@ struct LibraryItemModelArtists::Private
 	ArtistList	artists;
 	QPixmap		pm_multi;
 	QPixmap		pm_single;
+
+    Private() :
+        pm_single(GUI::get_pixmap("play", QSize(16, 16))),
+        pm_multi(GUI::get_pixmap("sampler", QSize(16, 16)))
+    {}
 };
 
 LibraryItemModelArtists::LibraryItemModelArtists(QObject* parent) :
 	LibraryItemModel(parent)
 {
 	m = Pimpl::make<LibraryItemModelArtists::Private>();
-
-	m->pm_single = GUI::get_pixmap("play", QSize(16, 16));
-	m->pm_multi = GUI::get_pixmap("sampler", QSize(16, 16));
 }
 
 LibraryItemModelArtists::~LibraryItemModelArtists() {}

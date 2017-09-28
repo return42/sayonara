@@ -78,7 +78,6 @@ private slots:
 
 	void genres_reloaded();
 	void genre_selection_changed(const QModelIndex& index);
-	void date_selection_changed(const QModelIndex& index);
 
 	void reload_library_requested();
 	void reload_library_requested(Library::ReloadQuality quality);
@@ -98,7 +97,6 @@ private slots:
 	void splitter_artist_moved(int pos, int idx);
 	void splitter_tracks_moved(int pos, int idx);
 	void splitter_genre_moved(int pos, int idx);
-	void splitter_date_moved(int pos, int idx);
 
 	// reimplemented from Abstract Library
 	Library::TrackDeletionMode show_delete_dialog(int n_tracks) override;
@@ -110,8 +108,8 @@ private slots:
 	void search_cleared() override;
 
 protected slots:
-	void lib_fill_albums(const AlbumList& albums) override;
-	void lib_fill_tracks(const MetaDataList& v_md) override;
+    void lib_albums_ready() override;
+    void lib_tracks_ready() override;
 
 private:
 	void init_album_cover_view();

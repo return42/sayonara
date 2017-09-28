@@ -49,17 +49,16 @@
 struct LibraryView::Private
 {
 	bool				cur_filling;
-	QAction*			merge_action=nullptr;
-	QMenu*				merge_menu=nullptr;
-	LibraryContextMenu*	rc_menu=nullptr;
 	MD::Interpretation	type;
-	QHeaderView::ResizeMode old_resize_mode;
 
-	Private()
-	{
-		cur_filling = false;
-		type = MD::Interpretation::None;
-	}
+    QAction*			merge_action=nullptr;
+    QMenu*				merge_menu=nullptr;
+    LibraryContextMenu*	rc_menu=nullptr;
+
+    Private() :
+        cur_filling(false),
+        type(MD::Interpretation::None)
+    {}
 };
 
 LibraryView::LibraryView(QWidget* parent) :
@@ -88,7 +87,6 @@ void LibraryView::setModel(LibraryItemModel* model)
 	SearchableTableView::setModel(model);
 	_model = model;
 }
-
 
 void LibraryView::selectionChanged(const QItemSelection& selected, const QItemSelection& deselected )
 {
@@ -196,7 +194,8 @@ MetaDataList LibraryView::selected_metadata() const
 }
 
 
-void LibraryView::rc_menu_show(const QPoint& p) {
+void LibraryView::rc_menu_show(const QPoint& p)
+{
 	m->rc_menu->exec(p);
 }
 
@@ -376,7 +375,8 @@ void LibraryView::keyPressEvent(QKeyEvent* event)
 
 void LibraryView::contextMenuEvent(QContextMenuEvent* event)
 {
-	if(!m->rc_menu) {
+    if(!m->rc_menu)
+    {
 		rc_menu_init();
 	}
 
@@ -388,7 +388,7 @@ void LibraryView::contextMenuEvent(QContextMenuEvent* event)
 	{
 		m->rc_menu->show_action(LibraryContextMenu::EntryLyrics, true);
 	}
-	else{
+    else {
 		m->rc_menu->show_action(LibraryContextMenu::EntryLyrics, false);
 	}
 

@@ -22,7 +22,6 @@
 #include "Database/DatabaseAlbums.h"
 #include "Helper/MetaData/Album.h"
 #include "Helper/Library/Filter.h"
-#include "Helper/Library/DateFilter.h"
 
 DatabaseAlbums::DatabaseAlbums(QSqlDatabase db, uint8_t db_id, int8_t library_id) :
 	DatabaseSearchMode(db, db_id)
@@ -253,11 +252,6 @@ bool DatabaseAlbums::getAllAlbumsByArtist(IDList artists, AlbumList& result, con
 	{
 		switch(filter.mode())
 		{
-			case Library::Filter::Date:
-				query = fetch_query_albums() + " WHERE " +
-						filter.date_filter().get_sql_filter(_track_view_name) + " AND ";
-				break;
-
 			case Library::Filter::Genre:
 				query += "WHERE genre LIKE :searchterm AND ";			// track title is like filter
 				break;
@@ -335,12 +329,6 @@ bool DatabaseAlbums::getAllAlbumsBySearchString(const Library::Filter& filter, A
 	QString search_field;
 	switch(filter.mode())
 	{
-		case Library::Filter::Date:
-			query = fetch_query_albums() + " WHERE "
-						 "(" + filter.date_filter().get_sql_filter(_track_view_name) + ") "
-						 "GROUP BY albums.albumID, albumName";
-			break;
-
 		case Library::Filter::Genre:
 			search_field = "genre";
 			break;

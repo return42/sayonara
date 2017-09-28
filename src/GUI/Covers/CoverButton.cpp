@@ -22,6 +22,8 @@
 #include "GUI_AlternativeCovers.h"
 #include "Components/Covers/CoverLookup.h"
 #include "Components/Covers/CoverLocation.h"
+#include "Helper/FileHelper.h"
+#include "Helper/Helper.h"
 
 struct CoverButton::Private
 {
@@ -29,8 +31,13 @@ struct CoverButton::Private
 	CoverLookup*			cover_lookup=nullptr;
 	CoverLocation 			search_cover_location;
 	QString					text;
-	bool 					cover_forced;
-	QPixmap					current_cover;
+    QString					current_cover_path;
+    QStringList             tmp_paths;
+    bool                    cover_forced;
+
+    Private() :
+        cover_forced(false)
+    {}
 };
 
 
@@ -39,25 +46,28 @@ CoverButton::CoverButton(QWidget* parent) :
 {
 	m = Pimpl::make<CoverButton::Private>();
 
-	m->cover_forced = false;
+    m->current_cover_path = CoverLocation::getInvalidLocation().preferred_path();
 	m->search_cover_location = CoverLocation::getInvalidLocation();
+
 	this->setIconSize(this->size());
+    this->setIcon(get_cur_icon());
 
 	connect(this, &QPushButton::clicked, this, &CoverButton::cover_button_clicked);
 }
 
-CoverButton::~CoverButton() {}
-
-void CoverButton::cover_button_clicked()
+CoverButton::~CoverButton()
 {
-	if(!m->alternative_covers){
-		m->alternative_covers = new GUI_AlternativeCovers(this);
+    Helper::File::delete_files(m->tmp_paths);
+}
 
-		connect(m->alternative_covers, &GUI_AlternativeCovers::sig_cover_changed,
-				this, &CoverButton::alternative_cover_fetched );
-	}
 
-	m->alternative_covers->start(m->search_cover_location);
+void CoverButton::set_cover_image(const QString& cover_path)
+{
+    m->current_cover_path = cover_path;
+    m->cover_forced = false;
+
+    this->setIcon(get_cur_icon());
+    this->setToolTip("");
 }
 
 
@@ -65,43 +75,57 @@ void CoverButton::set_cover_location(const CoverLocation& cl)
 {
 	m->search_cover_location = cl;
 
-	if(!m->cover_lookup){
+    if(!m->cover_lookup)
+    {
 		m->cover_lookup = new CoverLookup(this);
 		connect(m->cover_lookup, &CoverLookup::sig_cover_found, this, &CoverButton::set_cover_image);
 	}
 
-	m->cover_forced = false;
-	m->cover_lookup->fetch_cover(cl);
+    m->cover_lookup->fetch_cover(cl);
 }
 
-void CoverButton::force_icon(const QPixmap& pixmap)
+void CoverButton::force_cover(const QPixmap &pm)
 {
-	m->cover_forced = true;
-	m->current_cover = pixmap;
+    QString tmp_path = Helper::sayonara_path("covers") + "/tmp_" + Helper::random_string(16) + ".png";
 
-	QIcon icon(pixmap.scaled(this->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    m->current_cover_path = Helper::File::clean_filename(tmp_path);
+    m->tmp_paths << m->current_cover_path;
+    m->cover_forced = true;
 
-	this->setIcon(icon);
-	this->setToolTip("MP3 Tag");
+    pm.save(m->current_cover_path);
+
+    this->setIcon(get_cur_icon());
 }
 
-void CoverButton::resizeEvent(QResizeEvent* e)
+void CoverButton::force_cover(const QImage &img)
 {
-	QPushButton::resizeEvent(e);
+    force_cover(QPixmap::fromImage(img));
+}
 
-	QSize sz = this->size();
-	sz.setHeight(sz.height() - 10);
-	sz.setWidth(sz.width() - 10);
+QIcon CoverButton::get_cur_icon() const
+{
+    QPixmap pm = QPixmap(m->current_cover_path)
+            .scaled(this->iconSize(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
-	this->setIconSize(sz);
+    return QIcon(pm);
+}
 
-    QIcon icon(
-        m->current_cover.scaled(sz,
-                                Qt::KeepAspectRatio,
-                                Qt::SmoothTransformation)
-    );
 
-	this->setIcon(icon);
+void CoverButton::cover_button_clicked()
+{
+    if(m->cover_forced){
+        return;
+    }
+
+    if(!m->alternative_covers)
+    {
+        m->alternative_covers = new GUI_AlternativeCovers(this);
+
+        connect(m->alternative_covers, &GUI_AlternativeCovers::sig_cover_changed,
+                this, &CoverButton::alternative_cover_fetched );
+    }
+
+    m->alternative_covers->start(m->search_cover_location);
 }
 
 
@@ -117,6 +141,11 @@ void CoverButton::alternative_cover_fetched(const CoverLocation& cl)
 
 void CoverButton::cover_found(const CoverLocation& cl)
 {
+    /* If cover was forced while CoverLookup was still running */
+    if(m->cover_forced && (sender() == m->cover_lookup)) {
+        return;
+    }
+
 	if(cl.valid()){
 		emit sig_cover_found();
 	}
@@ -125,19 +154,15 @@ void CoverButton::cover_found(const CoverLocation& cl)
 }
 
 
-void CoverButton::set_cover_image(const QString& cover_path)
+
+void CoverButton::resizeEvent(QResizeEvent* e)
 {
-	if( m->cover_forced && sender() == m->cover_lookup){
-		return;
-	}
+    QPushButton::resizeEvent(e);
 
-	QPixmap pm(cover_path);
-    m->current_cover = pm.scaled(this->iconSize(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    QSize sz = this->size();
+    sz.setHeight(sz.height() - 10);
+    sz.setWidth(sz.width() - 10);
 
-	QIcon icon(pm.scaled(this->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
-
-	this->setIcon(icon);
-	this->setToolTip("");
+    this->setIconSize(sz);
+    this->setIcon(get_cur_icon());
 }
-
-

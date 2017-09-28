@@ -47,7 +47,11 @@ public:
 	virtual ~CoverButton();
 
 	void set_cover_location(const CoverLocation& cl);
-	void force_icon(const QPixmap& pixmap);
+    void force_cover(const QImage& img);
+    void force_cover(const QPixmap& img);
+
+private:
+    QIcon get_cur_icon() const;
 
 protected:
 	void resizeEvent(QResizeEvent* e) override;

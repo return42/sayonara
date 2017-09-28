@@ -40,11 +40,10 @@ struct Dragable::Private
 	QWidget*	parent=nullptr;
 	QDrag*		drag=nullptr;
 
-	Private()
-	{
-		start_drag_pos = QPoint();
-		dragging = false;
-	}
+    Private(QWidget* parent) :
+        dragging(false),
+        parent(parent)
+    {}
 
 	QStringList get_strings(const QMimeData* data)
 	{
@@ -89,8 +88,7 @@ struct Dragable::Private
 
 Dragable::Dragable(QWidget* parent)
 {
-	m = Pimpl::make<Dragable::Private>();
-	m->parent = parent;
+    m = Pimpl::make<Dragable::Private>(parent);
 }
 
 Dragable::~Dragable() {}

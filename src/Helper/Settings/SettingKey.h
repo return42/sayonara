@@ -41,7 +41,6 @@ namespace Playlist
 namespace Library
 {
     class Sortings;
-    class DateFilter;
 }
 
 
@@ -84,7 +83,6 @@ namespace SK {
 	Lib_FontBold,
 	Lib_SearchMode,
 	Lib_AutoUpdate,
-	Lib_DateFilters,
 	Lib_ShowAlbumArtists,
 	Lib_ShowAlbumCovers,
 	Lib_CoverZoom,
@@ -247,7 +245,6 @@ namespace Set
     INST(bool,				Lib_FontBold);				/* current library font weight */
     INST(int,				Lib_SearchMode);			/* Search mode in library. See */
     INST(bool,				Lib_AutoUpdate);			/* Automatic update of library */
-    INST(QList<Library::DateFilter>,	Lib_DateFilters);			/* Date filters appearing in library window */
     INST(bool,				Lib_ShowAlbumArtists);			/* Show album artists instead of artists */
     INST(bool,				Lib_ShowAlbumCovers);			/* Show album cover view */
     INST(int,				Lib_CoverZoom);				/* Zoom of album cover view */

@@ -39,17 +39,21 @@
 
 struct LibraryItemModelAlbums::Private
 {
-	AlbumList 	albums;
-	QPixmap		pm_multi;
+    AlbumList   albums;
+
 	QPixmap		pm_single;
+    QPixmap		pm_multi;
+
+    Private() :
+        pm_single(GUI::get_pixmap("cd.png", QSize(14, 14))),
+        pm_multi(GUI::get_pixmap("cds.png", QSize(16, 16)))
+    {}
 };
 
 LibraryItemModelAlbums::LibraryItemModelAlbums(QObject* parent) :
 	LibraryItemModel(parent)
 {
 	m = Pimpl::make<LibraryItemModelAlbums::Private>();
-	m->pm_single = GUI::get_pixmap("cd.png", QSize(14, 14));
-	m->pm_multi = GUI::get_pixmap("cds.png", QSize(16, 16));
 }
 
 LibraryItemModelAlbums::~LibraryItemModelAlbums() {}
@@ -88,12 +92,13 @@ CoverLocation LibraryItemModelAlbums::get_cover(const SP::Set<int>& indexes) con
 		return CoverLocation();
 	}
 
-	const Album& album = m->albums[idx];
+    const Album& album = m->albums[idx];
+
 	return CoverLocation::get_cover_location(album);
 }
 
 
-QVariant LibraryItemModelAlbums::data(const QModelIndex & index, int role) const
+QVariant LibraryItemModelAlbums::data(const QModelIndex& index, int role) const
 {
 	if (!index.isValid())
 		return QVariant();
@@ -186,8 +191,8 @@ bool LibraryItemModelAlbums::setData(const QModelIndex & index, const QVariant &
 		}
 
 		else {
-			bool success = Album::fromVariant(value, m->albums[row]);
 
+            bool success = Album::fromVariant(value, m->albums[row]);
 			if( !success ) {
 				return false;
 			}
@@ -201,16 +206,18 @@ bool LibraryItemModelAlbums::setData(const QModelIndex & index, const QVariant &
 	return false;
 }
 
+
 bool LibraryItemModelAlbums::setData(const QModelIndex& index, const AlbumList& albums, int role)
 {
 	if(!index.isValid()){
 		return false;
 	}
 
-	if (role == Qt::EditRole || role == Qt::DisplayRole) {
+    if (role == Qt::EditRole || role == Qt::DisplayRole)
+    {
 		int row = index.row();
 
-		m->albums = albums;
+        m->albums = albums;
 
 		emit dataChanged(index, this->index(row + albums.size() - 1, columnCount() - 1));
 

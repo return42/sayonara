@@ -50,8 +50,7 @@ namespace Library
 			{
 				Fulltext=0,
 				Filename,
-				Genre,
-				Date
+                Genre
 			};
 
 
@@ -60,9 +59,6 @@ namespace Library
 
 			void operator=(const Filter& other);
 			Filter(const Filter& other);
-
-			Library::DateFilter date_filter() const;
-			void set_date_filter(const Library::DateFilter& filter);
 
 			QString filtertext() const;
 			void set_filtertext(const QString& str);

@@ -3,7 +3,6 @@ PROJECT(say_gui_library)
 SET(SOURCES
     GUI_AbstractLibrary.cpp
     GUI_LocalLibrary.cpp
-    GUI_DateSearchConfig.cpp
 	GUI_EmptyLibrary.cpp
     LocalLibraryContainer.cpp
 	EmptyLibraryContainer.cpp
@@ -12,14 +11,12 @@ SET(SOURCES
     Models/LibraryItemModelArtists.cpp
     Models/LibraryItemModel.cpp
     Models/LibraryItemModelTracks.cpp
-    Models/DateSearchModel.cpp
     Models/AlbumCoverModel.cpp
     Models/AlbumCoverFetchThread.cpp
 
     Delegates/LibraryRatingDelegate.cpp
     Delegates/AlbumCoverDelegate.cpp
 
-    Views/LibraryDateSearchView.cpp
     Views/LibraryGenreView.cpp
     Views/LibraryViewAlbum.cpp
     Views/LibraryView.cpp
@@ -36,7 +33,6 @@ SET(SOURCES
 )
 
 QT5_WRAP_UI(FORMS_UIC
-    GUI_DateSearchConfig.ui
     GUI_LocalLibrary.ui
 	GUI_EmptyLibrary.ui
     InfoBox/GUI_LibraryInfoBox.ui

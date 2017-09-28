@@ -71,10 +71,10 @@ protected slots:
 
 	virtual void refresh();
 
-	virtual void lib_fill_tracks(const MetaDataList&);
-	virtual void lib_fill_albums(const AlbumList&);
-	virtual void lib_fill_artists(const ArtistList&);
-	virtual void track_info_available(const MetaDataList& v_md);
+    virtual void lib_tracks_ready();
+    virtual void lib_albums_ready();
+    virtual void lib_artists_ready();
+    virtual void track_info_available(const MetaDataList& v_md);
 
 	virtual void artist_sel_changed(const SP::Set<int>&);
 	virtual void album_sel_changed(const SP::Set<int>&);

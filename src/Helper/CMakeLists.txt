@@ -20,7 +20,6 @@ SET(SOURCES
 
     DirectoryReader/DirectoryReader.cpp
 
-    Library/DateFilter.cpp
     Library/Filter.cpp
     Library/SearchMode.cpp
     Library/Sorting.cpp

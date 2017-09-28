@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>986</width>
-    <height>813</height>
+    <width>800</width>
+    <height>484</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -25,8 +25,8 @@
   <property name="windowTitle">
    <string>Library</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout_2">
-   <item row="1" column="0" colspan="2">
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="2" column="0">
     <widget class="QSplitter" name="splitter_genre">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
@@ -266,16 +266,22 @@
        </attribute>
       </widget>
      </widget>
-     <widget class="QWidget" name="sidepane_widget" native="true">
-      <layout class="QVBoxLayout" name="verticalLayout_2">
-       <property name="spacing">
-        <number>5</number>
-       </property>
+     <widget class="QGroupBox" name="gb_genres">
+      <property name="font">
+       <font>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="title">
+       <string notr="true">Genres</string>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_6">
        <property name="leftMargin">
         <number>0</number>
        </property>
        <property name="topMargin">
-        <number>0</number>
+        <number>5</number>
        </property>
        <property name="rightMargin">
         <number>0</number>
@@ -283,27 +289,18 @@
        <property name="bottomMargin">
         <number>0</number>
        </property>
-       <item>
-        <widget class="QSplitter" name="splitter_date">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
+       <item row="0" column="0">
+        <widget class="QStackedWidget" name="stacked_genre_widget">
+         <property name="currentIndex">
+          <number>1</number>
          </property>
-         <widget class="QGroupBox" name="gb_genres">
-          <property name="font">
-           <font>
-            <weight>75</weight>
-            <bold>true</bold>
-           </font>
-          </property>
-          <property name="title">
-           <string notr="true">Genres</string>
-          </property>
-          <layout class="QGridLayout" name="gridLayout_6">
+         <widget class="QWidget" name="page">
+          <layout class="QGridLayout" name="gridLayout_5">
            <property name="leftMargin">
             <number>0</number>
            </property>
            <property name="topMargin">
-            <number>5</number>
+            <number>0</number>
            </property>
            <property name="rightMargin">
             <number>0</number>
@@ -311,150 +308,60 @@
            <property name="bottomMargin">
             <number>0</number>
            </property>
+           <property name="horizontalSpacing">
+            <number>0</number>
+           </property>
+           <property name="verticalSpacing">
+            <number>5</number>
+           </property>
            <item row="0" column="0">
-            <widget class="QStackedWidget" name="stacked_genre_widget">
-             <property name="currentIndex">
-              <number>1</number>
+            <widget class="LibraryGenreView" name="lv_genres">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
              </property>
-             <widget class="QWidget" name="page">
-              <layout class="QGridLayout" name="gridLayout_5">
-               <property name="leftMargin">
-                <number>0</number>
-               </property>
-               <property name="topMargin">
-                <number>0</number>
-               </property>
-               <property name="rightMargin">
-                <number>0</number>
-               </property>
-               <property name="bottomMargin">
-                <number>0</number>
-               </property>
-               <property name="horizontalSpacing">
-                <number>0</number>
-               </property>
-               <property name="verticalSpacing">
-                <number>5</number>
-               </property>
-               <item row="0" column="0">
-                <widget class="LibraryGenreView" name="lv_genres">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="font">
-                  <font>
-                   <weight>75</weight>
-                   <bold>true</bold>
-                  </font>
-                 </property>
-                 <property name="focusPolicy">
-                  <enum>Qt::StrongFocus</enum>
-                 </property>
-                 <property name="dragDropMode">
-                  <enum>QAbstractItemView::DropOnly</enum>
-                 </property>
-                 <property name="alternatingRowColors">
-                  <bool>true</bool>
-                 </property>
-                 <property name="selectionMode">
-                  <enum>QAbstractItemView::ExtendedSelection</enum>
-                 </property>
-                 <attribute name="headerVisible">
-                  <bool>false</bool>
-                 </attribute>
-                 <column>
-                  <property name="text">
-                   <string notr="true">1</string>
-                  </property>
-                 </column>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-             <widget class="QWidget" name="page_2">
-              <layout class="QVBoxLayout" name="verticalLayout">
-               <property name="spacing">
-                <number>6</number>
-               </property>
-               <property name="leftMargin">
-                <number>0</number>
-               </property>
-               <property name="topMargin">
-                <number>0</number>
-               </property>
-               <property name="rightMargin">
-                <number>0</number>
-               </property>
-               <property name="bottomMargin">
-                <number>0</number>
-               </property>
-               <item>
-                <spacer name="verticalSpacer_4">
-                 <property name="orientation">
-                  <enum>Qt::Vertical</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>20</width>
-                   <height>40</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-               <item>
-                <widget class="QLabel" name="label_2">
-                 <property name="lineWidth">
-                  <number>0</number>
-                 </property>
-                 <property name="text">
-                  <string>No genres found</string>
-                 </property>
-                 <property name="alignment">
-                  <set>Qt::AlignCenter</set>
-                 </property>
-                 <property name="wordWrap">
-                  <bool>true</bool>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <spacer name="verticalSpacer_3">
-                 <property name="orientation">
-                  <enum>Qt::Vertical</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>20</width>
-                   <height>40</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-              </layout>
-             </widget>
+             <property name="font">
+              <font>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="focusPolicy">
+              <enum>Qt::StrongFocus</enum>
+             </property>
+             <property name="dragDropMode">
+              <enum>QAbstractItemView::DropOnly</enum>
+             </property>
+             <property name="alternatingRowColors">
+              <bool>true</bool>
+             </property>
+             <property name="selectionMode">
+              <enum>QAbstractItemView::ExtendedSelection</enum>
+             </property>
+             <attribute name="headerVisible">
+              <bool>false</bool>
+             </attribute>
+             <column>
+              <property name="text">
+               <string notr="true">1</string>
+              </property>
+             </column>
             </widget>
            </item>
           </layout>
          </widget>
-         <widget class="QGroupBox" name="gb_date">
-          <property name="font">
-           <font>
-            <weight>75</weight>
-            <bold>true</bold>
-           </font>
-          </property>
-          <property name="title">
-           <string>Date</string>
-          </property>
-          <layout class="QGridLayout" name="gridLayout">
+         <widget class="QWidget" name="page_2">
+          <layout class="QVBoxLayout" name="verticalLayout">
+           <property name="spacing">
+            <number>6</number>
+           </property>
            <property name="leftMargin">
             <number>0</number>
            </property>
            <property name="topMargin">
-            <number>5</number>
+            <number>0</number>
            </property>
            <property name="rightMargin">
             <number>0</number>
@@ -462,15 +369,47 @@
            <property name="bottomMargin">
             <number>0</number>
            </property>
-           <property name="spacing">
-            <number>5</number>
-           </property>
-           <item row="0" column="0">
-            <widget class="LibraryDateSearchView" name="lv_date_search">
-             <property name="alternatingRowColors">
+           <item>
+            <spacer name="verticalSpacer_4">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_2">
+             <property name="lineWidth">
+              <number>0</number>
+             </property>
+             <property name="text">
+              <string>No genres found</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+             <property name="wordWrap">
               <bool>true</bool>
              </property>
             </widget>
+           </item>
+           <item>
+            <spacer name="verticalSpacer_3">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
            </item>
           </layout>
          </widget>
@@ -480,7 +419,7 @@
      </widget>
     </widget>
    </item>
-   <item row="0" column="0" colspan="2">
+   <item row="1" column="0">
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QFrame" name="header_frame">
@@ -517,7 +456,7 @@
      </item>
     </layout>
    </item>
-   <item row="2" column="0" colspan="2">
+   <item row="3" column="0">
     <layout class="QHBoxLayout" name="horizontalLayout_4">
      <item>
       <widget class="QLabel" name="lab_progress">
@@ -547,11 +486,6 @@
    <class>LibraryGenreView</class>
    <extends>QTreeWidget</extends>
    <header>GUI/Library/Views/LibraryGenreView.h</header>
-  </customwidget>
-  <customwidget>
-   <class>LibraryDateSearchView</class>
-   <extends>QListView</extends>
-   <header>GUI/Library/Views/LibraryDateSearchView.h</header>
   </customwidget>
   <customwidget>
    <class>LibraryTableView</class>

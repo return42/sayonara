@@ -13,8 +13,7 @@ SET(SOURCES
 
     Threads/ReloadThread.cpp
     Threads/IndexDirectoriesThread.cpp
-    Threads/UpdateDatesThread.cpp
-    )
+)
 
 
 ADD_LIBRARY(${PROJECT_NAME} STATIC ${SOURCES})

@@ -107,9 +107,9 @@ void GUI_AbstractLibrary::init_finished()
 {
 	init_headers();
 
-	connect(m->library, &AbstractLibrary::sig_all_artists_loaded, this, &GUI_AbstractLibrary::lib_fill_artists);
-	connect(m->library, &AbstractLibrary::sig_all_albums_loaded, this, &GUI_AbstractLibrary::lib_fill_albums);
-	connect(m->library, &AbstractLibrary::sig_all_tracks_loaded, this,	&GUI_AbstractLibrary::lib_fill_tracks);
+    connect(m->library, &AbstractLibrary::sig_all_artists_loaded, this, &GUI_AbstractLibrary::lib_artists_ready);
+    connect(m->library, &AbstractLibrary::sig_all_albums_loaded, this, &GUI_AbstractLibrary::lib_albums_ready);
+    connect(m->library, &AbstractLibrary::sig_all_tracks_loaded, this,	&GUI_AbstractLibrary::lib_tracks_ready);
 	connect(m->library, &AbstractLibrary::sig_track_mime_data_available, this, &GUI_AbstractLibrary::track_info_available);
 	connect(m->library, &AbstractLibrary::sig_delete_answer, this, &GUI_AbstractLibrary::show_delete_answer);
 
@@ -328,22 +328,28 @@ void GUI_AbstractLibrary::refresh()
 }
 
 
-void GUI_AbstractLibrary::lib_fill_tracks(const MetaDataList& v_md)
+void GUI_AbstractLibrary::lib_tracks_ready()
 {
+    const MetaDataList& v_md = m->library->get_tracks();
+
 	m->lv_tracks->fill<MetaDataList, LibraryItemModelTracks>(v_md);
 	m->artist_model->set_mimedata(v_md);
 	m->album_model->set_mimedata(v_md);
 }
 
 
-void GUI_AbstractLibrary::lib_fill_albums(const AlbumList& albums)
+void GUI_AbstractLibrary::lib_albums_ready()
 {
+    const AlbumList& albums = m->library->get_albums();
+
 	m->lv_album->fill<AlbumList, LibraryItemModelAlbums>(albums);
 }
 
 
-void GUI_AbstractLibrary::lib_fill_artists(const ArtistList& artists)
+void GUI_AbstractLibrary::lib_artists_ready()
 {
+    const ArtistList& artists = m->library->get_artists();
+
 	m->lv_artist->fill<ArtistList, LibraryItemModelArtists>(artists);
 }
 

@@ -26,7 +26,6 @@
 #include "Helper/Playlist/PlaylistMode.h"
 #include "Helper/EqualizerPresets.h"
 #include "Helper/Library/SearchMode.h"
-#include "Helper/Library/DateFilter.h"
 #include "Helper/Library/Sorting.h"
 #include "Helper/Library/LibraryInfo.h"
 
@@ -60,29 +59,6 @@ void register_setting(const KEY& key, const T& default_value){
 SettingRegistry::SettingRegistry() {}
 
 SettingRegistry::~SettingRegistry() {}
-
-static QList<Library::DateFilter> get_date_filters()
-{
-	Library::DateFilter df1("Last 1 month");
-	df1.set_newer_than(Library::DateFilter::TimeSpan::Months, 1);
-	Library::DateFilter df2("Last 3 months");
-	df2.set_newer_than(Library::DateFilter::TimeSpan::Months, 3);
-	Library::DateFilter df3("Last 6 months");
-	df3.set_newer_than(Library::DateFilter::TimeSpan::Months, 6);
-	Library::DateFilter df4("Last Year");
-	df4.set_newer_than(Library::DateFilter::TimeSpan::Years, 1);
-	Library::DateFilter df5("Between 1 and 3 months");
-	df5.set_between(Library::DateFilter::TimeSpan::Months, 1, Library::DateFilter::TimeSpan::Months, 3);
-	Library::DateFilter df6("Older than 1 year");
-	df6.set_older_than(Library::DateFilter::TimeSpan::Years, 1);
-	Library::DateFilter df7("Older than 2 years");
-	df7.set_older_than(Library::DateFilter::TimeSpan::Years, 2);
-
-	QList<Library::DateFilter> date_filters;
-	date_filters << df1 << df2 << df3 << df4 << df5 << df6;
-	return date_filters;
-}
-
 
 bool SettingRegistry::init()
 {
@@ -127,7 +103,6 @@ bool SettingRegistry::init()
 	register_setting( Set::Lib_DD_PlayIfStoppedAndEmpty ,"lib_dd_play_if_stopped_and_empty", false);
 	register_setting( Set::Lib_SearchMode, "lib_search_mode", Library::CaseInsensitve);
 	register_setting( Set::Lib_AutoUpdate, "lib_auto_update", false);
-	register_setting( Set::Lib_DateFilters, "lib_date_filters", get_date_filters());
 	register_setting( Set::Lib_ShowAlbumArtists, "lib_show_album_artists", false);
 	register_setting( Set::Lib_ShowAlbumCovers, "lib_show_album_covers", false);
 	register_setting( Set::Lib_CoverZoom, "lib_cover_zoom", 100);

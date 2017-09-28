@@ -29,7 +29,6 @@
 #include "GUI_LocalLibrary.h"
 #include "GUI/Library/ui_GUI_LocalLibrary.h"
 #include "GUI/Library/Helper/LocalLibraryMenu.h"
-#include "GUI/Library/Models/DateSearchModel.h"
 #include "GUI/Library/Views/AlbumCoverView.h"
 #include "GUI/Library/Models/AlbumCoverModel.h"
 
@@ -42,7 +41,6 @@
 #include "ImportFolderDialog/GUI_ImportFolder.h"
 
 #include "Helper/Helper.h"
-#include "Helper/Library/DateFilter.h"
 #include "Helper/Settings/Settings.h"
 #include "Helper/Language.h"
 #include "Helper/Message/Message.h"
@@ -103,9 +101,6 @@ GUI_LocalLibrary::GUI_LocalLibrary(int id, QWidget* parent) :
 	connect(ui->lv_genres, &LibraryGenreView::sig_progress, this, &GUI_LocalLibrary::progress_changed);
 	connect(ui->lv_genres, &LibraryGenreView::sig_genres_reloaded, this, &GUI_LocalLibrary::genres_reloaded);
 
-	connect(ui->lv_date_search, &QAbstractItemView::clicked, this, &GUI_LocalLibrary::date_selection_changed);
-	connect(ui->lv_date_search, &QAbstractItemView::activated, this, &GUI_LocalLibrary::date_selection_changed);
-
 	connect(m->library_menu, &LocalLibraryMenu::sig_path_changed, this, &GUI_LocalLibrary::change_library_path);
 	connect(m->library_menu, &LocalLibraryMenu::sig_name_changed, this, &GUI_LocalLibrary::change_library_name);
 
@@ -124,7 +119,6 @@ GUI_LocalLibrary::GUI_LocalLibrary(int id, QWidget* parent) :
 	connect(ui->splitter_artist_album, &QSplitter::splitterMoved, this, &GUI_LocalLibrary::splitter_artist_moved);
 	connect(ui->splitter_tracks, &QSplitter::splitterMoved, this, &GUI_LocalLibrary::splitter_tracks_moved);
 	connect(ui->splitter_genre, &QSplitter::splitterMoved, this, &GUI_LocalLibrary::splitter_genre_moved);
-	connect(ui->splitter_date, &QSplitter::splitterMoved, this, &GUI_LocalLibrary::splitter_date_moved);
 
 	connect(m->library, &LocalLibrary::sig_import_dialog_requested, this, &GUI_LocalLibrary::import_dialog_requested);
 
@@ -179,10 +173,6 @@ void GUI_LocalLibrary::showEvent(QShowEvent* e)
 
 	if(!genre_splitter_state.isEmpty()){
 		ui->splitter_genre->restoreState(genre_splitter_state);
-	}
-
-	if(!date_splitter_state.isEmpty()){
-		ui->splitter_date->restoreState(date_splitter_state);
 	}
 }
 
@@ -259,7 +249,6 @@ void GUI_LocalLibrary::language_changed()
 void GUI_LocalLibrary::search_cleared()
 {
 	ui->lv_genres->clearSelection();
-	ui->lv_date_search->clearSelection();
 
     GUI_AbstractLibrary::search_cleared();
 }
@@ -272,16 +261,6 @@ void GUI_LocalLibrary::genre_selection_changed(const QModelIndex& index)
     ui->le_search->setText(data.toString());
     search_edited(data.toString());
 }
-
-void GUI_LocalLibrary::date_selection_changed(const QModelIndex& index)
-{
-	Library::Filter filter;
-	Library::DateFilter date_filter = ui->lv_date_search->get_filter(index.row());
-	filter.set_mode(Library::Filter::Date);
-	filter.set_date_filter(date_filter);
-	m->library->psl_filter_changed(filter);
-}
-
 
 Library::TrackDeletionMode GUI_LocalLibrary::show_delete_dialog(int n_tracks)
 {
@@ -521,16 +500,6 @@ void GUI_LocalLibrary::splitter_genre_moved(int pos, int idx)
 	_settings->set(Set::Lib_SplitterStateGenre, arr);
 }
 
-void GUI_LocalLibrary::splitter_date_moved(int pos, int idx)
-{
-	Q_UNUSED(pos)
-	Q_UNUSED(idx)
-
-	QByteArray arr = ui->splitter_date->saveState();
-	_settings->set(Set::Lib_SplitterStateDate, arr);
-}
-
-
 
 void GUI_LocalLibrary::init_album_cover_view()
 {
@@ -558,24 +527,26 @@ void GUI_LocalLibrary::init_album_cover_view()
 }
 
 
-void GUI_LocalLibrary::lib_fill_albums(const AlbumList& albums)
+void GUI_LocalLibrary::lib_albums_ready()
 {
-	GUI_AbstractLibrary::lib_fill_albums(albums);
+    GUI_AbstractLibrary::lib_albums_ready();
 
-	if(!m->acv){
-		return;
-	}
-
-	m->acm->set_data(albums);
-	m->acv->refresh();
+    if(m->acv)
+    {
+        const AlbumList& albums = m->library->get_albums();
+        m->acm->set_data(albums);
+        m->acv->refresh();
+    }
 }
 
 
-void GUI_LocalLibrary::lib_fill_tracks(const MetaDataList& v_md)
+void GUI_LocalLibrary::lib_tracks_ready()
 {
-	GUI_AbstractLibrary::lib_fill_tracks(v_md);
+    GUI_AbstractLibrary::lib_tracks_ready();
 
-	if(m->acm){
+    if(m->acm)
+    {
+        const MetaDataList& v_md = m->library->get_tracks();
 		m->acm->set_mimedata(v_md);
 	}
 }

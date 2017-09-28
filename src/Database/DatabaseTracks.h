@@ -88,7 +88,6 @@ public:
 	virtual void updateTrackCissearch();
 
 	void deleteAllTracks();
-	bool updateTrackDates();
 };
 
 #endif // DATABASETRACKS_H

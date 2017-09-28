@@ -72,9 +72,9 @@ void AbstractLibrary::load ()
 
 void AbstractLibrary::emit_stuff()
 {
-	emit sig_all_albums_loaded( _vec_albums );
-	emit sig_all_artists_loaded( _vec_artists );
-	emit sig_all_tracks_loaded( _vec_md );
+    emit sig_all_albums_loaded();
+    emit sig_all_artists_loaded();
+    emit sig_all_tracks_loaded();
 }
 
 void AbstractLibrary::refetch()
@@ -133,7 +133,8 @@ void AbstractLibrary::refresh()
 
 	emit_stuff();
 
-	if(sel_tracks_idx.size() > 0){
+    if(sel_tracks_idx.size() > 0)
+    {
 		MetaDataList v_md = change_track_selection(sel_tracks_idx);
 
 		if(v_md.size() > 0){
@@ -318,8 +319,8 @@ void AbstractLibrary::change_artist_selection(const SP::Set<int>& indexes)
 		restore_album_selection();
 		restore_track_selection();
 
-		emit sig_all_albums_loaded(_vec_albums);
-		emit sig_all_tracks_loaded(_vec_md);
+        emit sig_all_albums_loaded();
+        emit sig_all_tracks_loaded();
 		return;
 	}
 
@@ -355,12 +356,44 @@ void AbstractLibrary::change_artist_selection(const SP::Set<int>& indexes)
 }
 
 
+
+const MetaDataList& AbstractLibrary::get_tracks() const
+{
+    return _vec_md;
+}
+
+const AlbumList& AbstractLibrary::get_albums() const
+{
+    return _vec_albums;
+}
+
+const ArtistList& AbstractLibrary::get_artists() const
+{
+    return _vec_artists;
+}
+/*
+ArtistList* AbstractLibrary::get_artists_ptr() const
+{
+    return &_vec_artists;
+}
+
+AlbumList* AbstractLibrary::get_albums_ptr() const
+{
+    return &_vec_albums;
+}
+
+MetaDataList* AbstractLibrary::get_tracks_ptr() const
+{
+    return &_vec_md;
+}
+*/
+
 void AbstractLibrary::psl_selected_artists_changed(const SP::Set<int>& indexes)
 {
 	change_artist_selection(indexes);
 
-	emit sig_all_albums_loaded(_vec_albums);
-	emit sig_all_tracks_loaded(_vec_md);
+    emit sig_all_albums_loaded();
+    emit sig_all_tracks_loaded();
 }
 
 
@@ -438,7 +471,7 @@ void AbstractLibrary::change_album_selection(const SP::Set<int>& indexes)
 void AbstractLibrary::psl_selected_albums_changed(const SP::Set<int>& idx_list)
 {
 	change_album_selection(idx_list);
-	emit sig_all_tracks_loaded(_vec_md);
+    emit sig_all_tracks_loaded();
 }
 
 
@@ -530,7 +563,7 @@ void AbstractLibrary::_sl_sortorder_changed()
 			get_all_artists(_vec_artists, _sortorder);
 		}
 
-		emit sig_all_artists_loaded(_vec_artists);
+        emit sig_all_artists_loaded();
 	}
 
 
@@ -554,7 +587,7 @@ void AbstractLibrary::_sl_sortorder_changed()
 			get_all_albums(_vec_albums, _sortorder);
 		}
 
-		emit sig_all_albums_loaded(_vec_albums);
+        emit sig_all_albums_loaded();
 	}
 
 
@@ -578,7 +611,7 @@ void AbstractLibrary::_sl_sortorder_changed()
 			get_all_tracks(_vec_md, _sortorder);
 		}
 
-		emit sig_all_tracks_loaded(_vec_md);
+        emit sig_all_tracks_loaded();
 	}
 }
 

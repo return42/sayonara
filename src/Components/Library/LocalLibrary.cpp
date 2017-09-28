@@ -23,7 +23,6 @@
 #include "Importer/LibraryImporter.h"
 #include "Threads/ReloadThread.h"
 #include "Threads/IndexDirectoriesThread.h"
-#include "Threads/UpdateDatesThread.h"
 #include "Database/DatabaseConnector.h"
 #include "Database/LocalLibraryDatabase.h"
 #include "Components/Playlist/PlaylistHandler.h"
@@ -77,18 +76,7 @@ void LocalLibrary::clear_library()
 	m->lib_db->clear();
 }
 
-void LocalLibrary::apply_db_fixes()
-{
-	QString str_val;
-	DatabaseConnector::getInstance()->load_setting("version", str_val);
-
-	int version = str_val.toInt();
-	if(version < 11){
-		UpdateDatesThread* t = new UpdateDatesThread(this);
-		connect(t, &QThread::finished, t, &QObject::deleteLater);
-		t->start();
-	}
-}
+void LocalLibrary::apply_db_fixes() {}
 
 
 void LocalLibrary::psl_reload_library(bool clear_first, Library::ReloadQuality quality)
@@ -154,25 +142,28 @@ void LocalLibrary::psl_disc_pressed(int disc)
 
 	MetaDataList v_md;
 
-	if(disc < 0) {
+    if(disc < 0)
+    {
 		m->lib_db->getAllTracksByAlbum(_selected_albums.first(), _vec_md, _filter, _sortorder.so_tracks);
-		emit sig_all_tracks_loaded(_vec_md);
-		return;
-	}
-
-	m->lib_db->getAllTracksByAlbum(_selected_albums.first(), v_md, _filter, _sortorder.so_tracks);
-
-	_vec_md.clear();
-
-	for(const MetaData& md : v_md) {
-		if(md.discnumber != disc) {
-			continue;
-		}
-
-		_vec_md << std::move(md);
     }
 
-	emit sig_all_tracks_loaded(_vec_md);
+    else
+    {
+        m->lib_db->getAllTracksByAlbum(_selected_albums.first(), v_md, _filter, _sortorder.so_tracks);
+
+        _vec_md.clear();
+
+        for(const MetaData& md : v_md)
+        {
+            if(md.discnumber != disc) {
+                continue;
+            }
+
+            _vec_md << std::move(md);
+        }
+    }
+
+    emit sig_all_tracks_loaded();
 }
 
 

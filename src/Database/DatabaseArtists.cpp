@@ -23,7 +23,6 @@
 #include "Helper/MetaData/MetaData.h"
 #include "Helper/MetaData/Artist.h"
 #include "Helper/Library/Filter.h"
-#include "Helper/Library/DateFilter.h"
 
 DatabaseArtists::DatabaseArtists(const QSqlDatabase& db, uint8_t db_id, int8_t library_id) :
 	DatabaseSearchMode(db, db_id)
@@ -183,12 +182,6 @@ bool DatabaseArtists::getAllArtistsBySearchString(const Library::Filter& filter,
 
 	switch(filter.mode())
 	{
-		case Library::Filter::Date:
-			query = fetch_query_artists() +
-					" AND (" + filter.date_filter().get_sql_filter(_track_view_name) + ") "
-					" GROUP BY artists.artistID, artists.name ";
-			break;
-
 		case Library::Filter::Genre:
 			search_field = "genre";
 			break;

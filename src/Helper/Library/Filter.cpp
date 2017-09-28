@@ -19,13 +19,11 @@
  */
 
 #include "Filter.h"
-#include "DateFilter.h"
 #include "Helper/Language.h"
 
 struct Library::Filter::Private
 {
-    Library::DateFilter	    date_filter;
-    QString		    filtertext;
+    QString                 filtertext;
     Library::Filter::Mode   mode;
 };
 
@@ -50,16 +48,6 @@ void Library::Filter::operator=(const Filter& other)
 Library::Filter::~Filter() {}
 
 
-Library::DateFilter Library::Filter::date_filter() const
-{
-    return m->date_filter;
-}
-
-void Library::Filter::set_date_filter(const Library::DateFilter& filter)
-{
-    m->date_filter = filter;
-}
-
 QString Library::Filter::filtertext() const
 {
     return m->filtertext;
@@ -82,16 +70,13 @@ void Library::Filter::set_mode(Library::Filter::Mode mode)
 
 bool Library::Filter::cleared() const
 {
-    return !(m->date_filter.valid() ||
-			 m->filtertext.size() > 0);
+    return m->filtertext.isEmpty();
 }
 
 QString Library::Filter::get_text(Library::Filter::Mode mode)
 {
 	switch(mode)
 	{
-		case Library::Filter::Mode::Date:
-			return Lang::get(Lang::Date);
 		case Library::Filter::Mode::Filename:
 			return Lang::get(Lang::Filename);
 		case Library::Filter::Mode::Fulltext:
@@ -105,7 +90,6 @@ QString Library::Filter::get_text(Library::Filter::Mode mode)
 
 void Library::Filter::clear()
 {
-    m->date_filter = DateFilter("");
     m->filtertext = QString();
     m->mode = Mode::Fulltext;
 }

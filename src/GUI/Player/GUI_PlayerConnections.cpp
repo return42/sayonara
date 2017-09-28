@@ -30,10 +30,6 @@
 #include "Helper/MetaData/MetaDataList.h"
 #include "Interfaces/LibraryInterface/LibraryPluginHandler.h"
 
-#ifdef WITH_MTP
-	#include "GUI/MTP/GUI_MTP.h"
-#endif
-
 void GUI_Player::setup_connections()
 {
 
@@ -72,17 +68,6 @@ void GUI_Player::setup_connections()
 	connect(action_OpenFile, &QAction::triggered, this, &GUI_Player::open_files_clicked);
 	connect(action_OpenFolder, &QAction::triggered, this, &GUI_Player::open_dir_clicked);
 	connect(action_Close, &QAction::triggered, this, &GUI_Player::really_close);
-
-#ifdef WITH_MTP
-	connect(action_devices, &QAction::triggered, this, [=]()
-	{
-		if(!_mtp){
-			_mtp = new GUI_MTP(this);
-		}
-
-		_mtp->show();
-	});
-#endif
 
 	// view
 	connect(action_viewLibrary, &QAction::toggled, this, &GUI_Player::show_library);
