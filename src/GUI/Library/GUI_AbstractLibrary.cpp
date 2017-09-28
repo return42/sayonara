@@ -332,7 +332,8 @@ void GUI_AbstractLibrary::lib_tracks_ready()
 {
     const MetaDataList& v_md = m->library->get_tracks();
 
-	m->lv_tracks->fill<MetaDataList, LibraryItemModelTracks>(v_md);
+    m->lv_tracks->fill<MetaDataList, LibraryItemModelTracks>(v_md);
+
 	m->artist_model->set_mimedata(v_md);
 	m->album_model->set_mimedata(v_md);
 }

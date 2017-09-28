@@ -37,7 +37,7 @@ class LibraryItemModelTracks :
 		public LibraryItemModel
 {
 	Q_OBJECT
-	PIMPL(LibraryItemModelTracks)
+    //PIMPL(LibraryItemModelTracks)
 
 public:
     LibraryItemModelTracks(QObject* parent, AbstractLibrary* library);
@@ -48,7 +48,6 @@ public:
 
     QVariant        data(const QModelIndex &index, int role) const override;
     bool            setData(const QModelIndex &index, const QVariant &value, int role) override;
-    bool            setData(const QModelIndex &index, const MetaDataList &v_md, int role);
 
     /** LibraryItemModel.h **/
     CoverLocation   get_cover(const SP::Set<int>& indexes) const override;

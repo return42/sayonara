@@ -56,7 +56,7 @@ public:
 		search_view = parent;
 		search_model = nullptr;
 		cur_idx = -1;
-		mini_searcher = new MiniSearcher(v, MiniSearcherButtons::BothButtons);
+        mini_searcher = new MiniSearcher(v);
 		settings = Settings::getInstance();
 
 		connect(mini_searcher, &MiniSearcher::sig_text_changed, this, &Private::edit_changed);
@@ -175,7 +175,18 @@ void SearchViewFunctionality::select_match(const QString &str, SearchDirection d
 
 	this->set_current_index(m->cur_idx);
 
-	m->view->scrollTo(idx);
+    if(direction == SearchDirection::First){
+        m->view->scrollTo(idx, QListView::ScrollHint::PositionAtCenter);
+    }
+
+    else if(direction == SearchDirection::Next){
+        m->view->scrollTo(idx, QListView::ScrollHint::PositionAtCenter);
+    }
+
+    else if(direction == SearchDirection::Prev){
+        m->view->scrollTo(idx, QListView::ScrollHint::PositionAtCenter);
+    }
+
 }
 
 

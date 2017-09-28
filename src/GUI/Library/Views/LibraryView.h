@@ -148,19 +148,14 @@ public:
 			}
 		}
 
-		QModelIndex idx = _model->index(0, 0);
-
-		ModelType* model = static_cast<ModelType*>(_model);
-
-		model->setData(idx, input_data, Qt::DisplayRole);
-
+        _model->refresh_data();
 		_model->clear_selections();
 
 		select_rows(indexes, 0, _model->columnCount() - 1);
 
-		if(new_size > old_size) {
+        if(new_size > old_size) {
 			resize_rows_to_contents(old_size, new_size - old_size);
-		}
+        }
 	}
 
 	void resize_rows_to_contents();

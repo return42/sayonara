@@ -18,7 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 /*
  * LibraryItemModelArtists.cpp
  *
@@ -27,12 +26,14 @@
  */
 
 #include "LibraryItemModelArtists.h"
+
 #include "Components/Covers/CoverLocation.h"
+#include "Components/Library/AbstractLibrary.h"
+
 #include "GUI/Library/Helper/ColumnHeader.h"
 #include "GUI/Library/Helper/ColumnIndex.h"
-
 #include "GUI/Helper/GUI_Helper.h"
-//#include "GUI/Helper/Style/Style.h"
+
 #include "Helper/Library/SearchMode.h"
 #include "Helper/MetaData/Artist.h"
 #include "Helper/Language.h"
@@ -44,9 +45,8 @@
 
 struct LibraryItemModelArtists::Private
 {
-	ArtistList	artists;
-	QPixmap		pm_multi;
 	QPixmap		pm_single;
+    QPixmap		pm_multi;
 
     Private() :
         pm_single(GUI::get_pixmap("play", QSize(16, 16))),
@@ -64,40 +64,47 @@ LibraryItemModelArtists::~LibraryItemModelArtists() {}
 
 int LibraryItemModelArtists::get_id_by_row(int row)
 {
-	if(row < 0 || row >= m->artists.size()){
+    const ArtistList& artists = library()->get_artists();
+
+    if(row < 0 || row >= artists.size()){
 		return -1;
 	}
 
 	else {
-		return m->artists[row].id;
+        return artists[row].id;
 	}
 }
 
 QString LibraryItemModelArtists::get_string(int row) const
 {
-	if(row < 0 || row >= m->artists.size()){
+    const ArtistList& artists = library()->get_artists();
+
+    if(row < 0 || row >= artists.size()){
 		return QString();
 	}
 
 	else {
-		return m->artists[row].name;
+        return artists[row].name;
 	}
 }
 
 
 QVariant LibraryItemModelArtists::data(const QModelIndex & index, int role) const
 {
-	if (!index.isValid())
+    if (!index.isValid()) {
 		return QVariant();
+    }
 
-	if (index.row() >= m->artists.size())
+    const ArtistList& artists = library()->get_artists();
+    if (index.row() >= artists.size()) {
 		return QVariant();
+    }
 
 	int row = index.row();
 	int col = index.column();
 
 	ColumnIndex::Artist idx_col = (ColumnIndex::Artist) col;
-	const Artist& artist = m->artists[row];
+    const Artist& artist = artists[row];
 
 
 	if(role == Qt::TextAlignmentRole)
@@ -112,7 +119,8 @@ QVariant LibraryItemModelArtists::data(const QModelIndex & index, int role) cons
 
 	else if(role == Qt::DecorationRole)
 	{
-		if(idx_col == ColumnIndex::Artist::NumAlbums) {
+        if(idx_col == ColumnIndex::Artist::NumAlbums)
+        {
 			if(artist.num_albums > 1){
 				return m->pm_multi;
 			}
@@ -143,36 +151,6 @@ QVariant LibraryItemModelArtists::data(const QModelIndex & index, int role) cons
 }
 
 
-bool LibraryItemModelArtists::setData(const QModelIndex& index, const QVariant& value, int role)
-{
-	if (index.isValid() && role == Qt::DisplayRole) {
-		int row = index.row();
-
-		Artist::fromVariant(value,  m->artists[row]);
-
-		emit dataChanged(index, this->index(row, columnCount() - 1));
-
-		return true;
-	}
-
-	return false;
-}
-
-bool LibraryItemModelArtists::setData(const QModelIndex& index, const ArtistList& artists, int role)
-{
-	if (index.isValid() && role == Qt::DisplayRole) {
-		int row = index.row();
-
-		m->artists = artists;
-
-		emit dataChanged(index, this->index(row + artists.size() - 1, columnCount() - 1));
-
-		return true;
-	}
-
-	return false;
-}
-
 Qt::ItemFlags LibraryItemModelArtists::flags(const QModelIndex & index) const
 {
 	if (!index.isValid())
@@ -188,12 +166,14 @@ CoverLocation LibraryItemModelArtists::get_cover(const SP::Set<int>& indexes) co
 		return CoverLocation();
 	}
 
+    const ArtistList& artists = library()->get_artists();
 	int idx = indexes.first();
-	if(idx < 0 || idx > m->artists.size()){
+
+    if(idx < 0 || idx > artists.size()){
 		return CoverLocation();
 	}
 
-	const Artist& artist = m->artists[idx];
+    const Artist& artist = artists[idx];
 	return CoverLocation::get_cover_location(artist);
 }
 

@@ -37,6 +37,7 @@
 #include "Helper/Set.h"
 #include "Helper/globals.h"
 #include "Helper/Language.h"
+#include "Helper/Logger/Logger.h"
 
 #include <QUrl>
 #include <QColor>
@@ -238,7 +239,8 @@ QModelIndex PlaylistItemModel::getPrevRowIndexOf(const QString& substr, int row,
 	return this->index(-1, -1);
 }
 
-QModelIndex PlaylistItemModel::getNextRowIndexOf(const QString& substr, int row, const QModelIndex &parent) {
+QModelIndex PlaylistItemModel::getNextRowIndexOf(const QString& substr, int row, const QModelIndex &parent)
+{
 	Q_UNUSED(parent)
 
 	QString converted_string = substr;
@@ -247,11 +249,13 @@ QModelIndex PlaylistItemModel::getNextRowIndexOf(const QString& substr, int row,
 	if(len < row) row = len - 1;
 
 	// ALBUM
-	if(converted_string.startsWith(ALBUM_SEARCH)) {
+    if(converted_string.startsWith(ALBUM_SEARCH))
+    {
 		converted_string.remove(ALBUM_SEARCH);
 		converted_string = converted_string.trimmed();
 
-		for(int i=0; i< len; i++) {
+        for(int i=0; i< len; i++)
+        {
 			int row_idx = (i + row) % len;
 
 			QString album = _pl->at_const_ref(row_idx).album;
@@ -270,15 +274,17 @@ QModelIndex PlaylistItemModel::getNextRowIndexOf(const QString& substr, int row,
 		converted_string.remove(ARTIST_SEARCH);
 		converted_string = converted_string.trimmed();
 
-		for(int i=0; i< len; i++) {
+        for(int i=0; i< len; i++)
+        {
 			int row_idx = (i + row) % len;
 
 			QString artist = _pl->at_const_ref(row_idx).artist;
+
 			artist = Library::convert_search_string(artist, search_mode());
 
 			if(artist.contains(converted_string))
 			{
-				return this->index(row_idx, 0);
+                return this->index(row_idx, 0);
 			}
 		}
 	}

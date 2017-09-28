@@ -27,32 +27,24 @@
 
 #include "Helper/Pimpl.h"
 
-enum class MiniSearcherButtons : uint8_t
+class MiniSearchEventFilter : public QObject
 {
-  NoButton=0,
-  FwdButton,
-  BwdButton,
-  BothButtons
-};
-
-class MiniSearcherLineEdit : public QLineEdit 
-{
-	Q_OBJECT
+    Q_OBJECT
 
 signals:
-	void sig_tab_pressed();
-	void sig_esc_pressed();
-	void sig_le_focus_lost();
+    void sig_tab_pressed();
+    void sig_focus_lost();
 
 public:
-	explicit MiniSearcherLineEdit(QWidget* parent=nullptr);
-	virtual ~MiniSearcherLineEdit();
+    using QObject::QObject;
 
-	void focusOutEvent(QFocusEvent* e) override;
+protected:
+    bool eventFilter(QObject* o, QEvent* e) override;
 };
 
 
-class MiniSearcher : public QFrame
+class MiniSearcher :
+        public QFrame
 {
     Q_OBJECT
 
@@ -75,11 +67,11 @@ private slots:
 private:
 	bool is_initiator(QKeyEvent* event) const;
     void init(QString text);
-	void init_layout(MiniSearcherButtons b);
+    void init_layout();
 
 
 public:
-	MiniSearcher(QAbstractItemView* parent, MiniSearcherButtons b=MiniSearcherButtons::NoButton);
+    MiniSearcher(QAbstractItemView* parent);
 	virtual ~MiniSearcher();
 
     bool check_and_init(QKeyEvent* event);
@@ -87,7 +79,6 @@ public:
 	QString get_current_text();
 
 	void keyPressEvent(QKeyEvent *e) override;
-	void showEvent(QShowEvent* e) override;
 	void hideEvent(QHideEvent *e) override;
 	void focusOutEvent(QFocusEvent* e) override;
 

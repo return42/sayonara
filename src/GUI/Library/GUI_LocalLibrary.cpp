@@ -156,6 +156,10 @@ void GUI_LocalLibrary::showEvent(QShowEvent* e)
 {
 	GUI_AbstractLibrary::showEvent(e);
 
+    this->lv_album()->resizeRowsToContents();
+    this->lv_artist()->resizeRowsToContents();
+    this->lv_tracks()->resizeRowsToContents();
+
 	QByteArray artist_splitter_state, track_splitter_state, genre_splitter_state, date_splitter_state;
 
 	artist_splitter_state = _settings->get(Set::Lib_SplitterStateArtist);

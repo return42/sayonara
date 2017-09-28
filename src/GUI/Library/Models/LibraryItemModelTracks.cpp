@@ -26,6 +26,7 @@
  *      Author: Lucio Carreras
  */
 
+#include "Components/Library/AbstractLibrary.h"
 #include "LibraryItemModelTracks.h"
 #include "Components/Covers/CoverLocation.h"
 #include "GUI/Library/Helper/ColumnHeader.h"
@@ -39,16 +40,9 @@
 #include "Helper/Language.h"
 #include "Helper/Set.h"
 
-struct LibraryItemModelTracks::Private
-{
-	MetaDataList tracks;
-};
-
 LibraryItemModelTracks::LibraryItemModelTracks(QObject* parent, AbstractLibrary* library) :
     LibraryItemModel(parent, library)
-{
-	m = Pimpl::make<LibraryItemModelTracks::Private>();
-}
+{}
 
 LibraryItemModelTracks::~LibraryItemModelTracks() {}
 
@@ -61,7 +55,9 @@ QVariant LibraryItemModelTracks::data(const QModelIndex &index, int role) const
 		return QVariant();
 	}
 
-	if (row >= m->tracks.count()) {
+    const MetaDataList& tracks = library()->get_tracks();
+
+    if (row >= tracks.count()) {
 		return QVariant();
 	}
 
@@ -89,7 +85,7 @@ QVariant LibraryItemModelTracks::data(const QModelIndex &index, int role) const
 
 	else if (role == Qt::DisplayRole || role==Qt::EditRole)
 	{
-		const MetaData& md = m->tracks.at(row);
+        const MetaData& md = tracks[row];
 
 		switch(idx_col)
 		{
@@ -156,42 +152,17 @@ bool LibraryItemModelTracks::setData(const QModelIndex &index, const QVariant &v
 		return false;
 	}
 
-	if (role == Qt::DisplayRole || role == Qt::EditRole) {
+    if (role == Qt::DisplayRole || role == Qt::EditRole)
+    {
 		int row = index.row();
 		int col = index.column();
 
-		if(col == (int) ColumnIndex::Track::Rating) {
-			m->tracks[row].rating = value.toInt();
+        if(col == (int) ColumnIndex::Track::Rating)
+        {
+            library()->change_track_rating(row, value.toInt());
+            emit dataChanged(index, this->index(row, columnCount() - 1));
+            return true;
 		}
-
-		else{
-			if(!MetaData::fromVariant(value, m->tracks[row])) {
-				return false;
-			}
-		}
-
-		emit dataChanged(index, this->index(row, columnCount() - 1));
-
-		return true;
-	}
-
-	return false;
-}
-
-bool LibraryItemModelTracks::setData(const QModelIndex&index, const MetaDataList& v_md, int role)
-{
-	if(!index.isValid()){
-		return false;
-	}
-
-	if (role == Qt::EditRole || role == Qt::DisplayRole) {
-		int row = index.row();
-
-		m->tracks = v_md;
-
-		emit dataChanged(index, this->index(row + v_md.size() - 1, columnCount() - 1));
-
-		return true;
 	}
 
 	return false;
@@ -200,24 +171,28 @@ bool LibraryItemModelTracks::setData(const QModelIndex&index, const MetaDataList
 
 int LibraryItemModelTracks::get_id_by_row(int row)
 {
-	if(!between(row, m->tracks)){
+    const MetaDataList& tracks = library()->get_tracks();
+
+    if(!between(row, tracks)){
 		return -1;
 	}
 
 	else {
-		return m->tracks[row].id;
+        return tracks[row].id;
 	}
 }
 
 QString LibraryItemModelTracks::get_string(int row) const
 {
-	if(!between(row, m->tracks)){
-		return QString();
-	}
+    const MetaDataList& tracks = library()->get_tracks();
 
-	else {
-		return m->tracks[row].title;
-	}
+    if(!between(row, tracks)){
+        return QString();
+    }
+
+    else {
+        return tracks[row].title;
+    }
 }
 
 
@@ -227,15 +202,22 @@ CoverLocation LibraryItemModelTracks::get_cover(const SP::Set<int>& indexes) con
 		return CoverLocation();
 	}
 
+    const MetaDataList& tracks = library()->get_tracks();
 	SP::Set<int> album_ids;
-	for(int idx : indexes){
-		album_ids.insert( m->tracks[idx].album_id );
-		if(album_ids.size() > 1){
+
+    for(int idx : indexes)
+    {
+        if(!between(idx, tracks)){
+            continue;
+        }
+
+        album_ids.insert( tracks[idx].album_id );
+        if(album_ids.size() > 1) {
 			return CoverLocation();
 		}
 	}
 
-	return CoverLocation::get_cover_location( m->tracks.first() );
+    return CoverLocation::get_cover_location( tracks.first() );
 }
 
 

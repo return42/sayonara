@@ -27,20 +27,22 @@
  */
 
 #include "LibraryItemModelAlbums.h"
+
+#include "Components/Library/AbstractLibrary.h"
+#include "Components/Covers/CoverLocation.h"
+
 #include "GUI/Library/Helper/ColumnIndex.h"
 #include "GUI/Library/Helper/ColumnHeader.h"
 #include "GUI/Helper/GUI_Helper.h"
+
 #include "Helper/Helper.h"
 #include "Helper/Library/SearchMode.h"
 #include "Helper/MetaData/Album.h"
 #include "Helper/Language.h"
 #include "Helper/Set.h"
-#include "Components/Covers/CoverLocation.h"
 
 struct LibraryItemModelAlbums::Private
 {
-    AlbumList   albums;
-
 	QPixmap		pm_single;
     QPixmap		pm_multi;
 
@@ -60,23 +62,27 @@ LibraryItemModelAlbums::~LibraryItemModelAlbums() {}
 
 int LibraryItemModelAlbums::get_id_by_row(int row)
 {
-	if(row < 0 || row >= m->albums.size()){
+    const AlbumList& albums = library()->get_albums();
+
+    if(row < 0 || row >= albums.size()){
 		return -1;
 	}
 
 	else {
-		return m->albums[row].id;
+        return albums[row].id;
 	}
 }
 
 QString LibraryItemModelAlbums::get_string(int row) const
 {
-	if(row < 0 || row >= m->albums.size()){
+    const AlbumList& albums = library()->get_albums();
+
+    if(row < 0 || row >= albums.size()){
 		return QString();
 	}
 
 	else {
-		return m->albums[row].name;
+        return albums[row].name;
 	}
 }
 
@@ -88,11 +94,12 @@ CoverLocation LibraryItemModelAlbums::get_cover(const SP::Set<int>& indexes) con
 	}
 
 	int idx = indexes.first();
-	if(idx < 0 || idx > m->albums.size()){
+    const AlbumList& albums = library()->get_albums();
+    if(idx < 0 || idx > albums.size()){
 		return CoverLocation();
 	}
 
-    const Album& album = m->albums[idx];
+    const Album& album = albums[idx];
 
 	return CoverLocation::get_cover_location(album);
 }
@@ -103,14 +110,15 @@ QVariant LibraryItemModelAlbums::data(const QModelIndex& index, int role) const
 	if (!index.isValid())
 		return QVariant();
 
-	if (index.row() >= m->albums.size())
+    const AlbumList& albums = library()->get_albums();
+    if (index.row() >= albums.size())
 		return QVariant();
 
 	int row = index.row();
 	int column = index.column();
 	ColumnIndex::Album col = (ColumnIndex::Album) column;
 
-	const Album& album = m->albums[row];
+    const Album& album = albums[row];
 
 	if(role == Qt::TextAlignmentRole )
 	{
@@ -187,44 +195,16 @@ bool LibraryItemModelAlbums::setData(const QModelIndex & index, const QVariant &
         int row = index.row();
         int col = index.column();
 
-        if(col == (int) ColumnIndex::Album::Rating) {
-            m->albums[row].rating = value.toInt();
+        if(col == (int) ColumnIndex::Album::Rating)
+        {
+            library()->change_album_rating(row, value.toInt());
+            emit dataChanged(index, this->index(row, columnCount() - 1));
+
+            return true;
         }
-
-        else {
-            bool success = Album::fromVariant(value, m->albums[row]);
-            if( !success ) {
-                return false;
-            }
-        }
-
-        emit dataChanged(index, this->index(row, columnCount() - 1));
-
-        return true;
     }
 
     return false;
-}
-
-
-bool LibraryItemModelAlbums::setData(const QModelIndex& index, const AlbumList& albums, int role)
-{
-	if(!index.isValid()){
-		return false;
-	}
-
-    if (role == Qt::EditRole || role == Qt::DisplayRole)
-    {
-		int row = index.row();
-
-        m->albums = albums;
-
-		emit dataChanged(index, this->index(row + albums.size() - 1, columnCount() - 1));
-
-		return true;
-	}
-
-	return false;
 }
 
 

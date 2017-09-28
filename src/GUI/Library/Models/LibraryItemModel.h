@@ -71,8 +71,11 @@ public:
 	void set_mimedata(const MetaDataList& v_md);
 	CustomMimeData* get_mimedata() const;
 
+    void                    refresh_data();
+
 protected:
     AbstractLibrary* library();
+    const AbstractLibrary* library() const;
 
 };
 

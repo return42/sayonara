@@ -47,8 +47,6 @@ class LibraryItemModelArtists :
         Qt::ItemFlags   flags(const QModelIndex &index) const override;
 
         QVariant        data(const QModelIndex &index, int role=Qt::DisplayRole) const override;
-        bool            setData(const QModelIndex &index, const QVariant &value, int role=Qt::DisplayRole) override;
-        bool            setData(const QModelIndex &index, const ArtistList& artists, int role=Qt::DisplayRole);
 
         /** LibraryItemModel **/
         CoverLocation   get_cover(const SP::Set<int>& indexes) const override;

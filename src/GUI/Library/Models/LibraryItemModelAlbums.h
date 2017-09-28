@@ -47,7 +47,6 @@ public:
     Qt::ItemFlags   flags(const QModelIndex &index) const override;
     QVariant        data(const QModelIndex& index, int role) const override;
     bool            setData(const QModelIndex& index, const QVariant& value, int role=Qt::DisplayRole) override;
-    bool            setData(const QModelIndex& index, const AlbumList& albums, int role=Qt::DisplayRole);
 
     CoverLocation   get_cover(const SP::Set<int>& indexes) const override;
     int             get_searchable_column() const override;

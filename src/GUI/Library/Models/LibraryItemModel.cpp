@@ -19,7 +19,7 @@
  */
 
 #include "LibraryItemModel.h"
-#include "Components/Library/Library.h"
+#include "Components/Library/AbstractLibrary.h"
 #include "GUI/Library/Helper/ColumnHeader.h"
 #include "GUI/Helper/CustomMimeData.h"
 #include "Helper/MetaData/MetaDataList.h"
@@ -201,6 +201,10 @@ CustomMimeData* LibraryItemModel::get_mimedata() const
     return mimedata;
 }
 
+void LibraryItemModel::refresh_data()
+{
+    emit dataChanged(index(0,0), index(rowCount(), columnCount()));
+}
 
 
 bool LibraryItemModel::has_selections() const
@@ -292,6 +296,11 @@ QModelIndex LibraryItemModel::getPrevRowIndexOf(const QString& substr, int row, 
 
 
 AbstractLibrary* LibraryItemModel::library()
+{
+    return m->library;
+}
+
+const AbstractLibrary *LibraryItemModel::library() const
 {
     return m->library;
 }
