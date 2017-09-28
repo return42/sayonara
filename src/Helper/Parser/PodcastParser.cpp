@@ -18,7 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <QDomDocument>
 
 #include "Helper/MetaData/MetaDataList.h"
 #include "Helper/Parser/PodcastParser.h"
@@ -26,6 +25,9 @@
 #include "Helper/MetaData/Genre.h"
 
 #include <algorithm>
+
+#include <QDomDocument>
+#include <QStringList>
 
 int find_year(QString str) {
     int idx = str.indexOf(QRegExp("[0-9]{4,4}"));

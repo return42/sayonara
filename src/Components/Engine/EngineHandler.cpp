@@ -27,6 +27,8 @@
 #include "Convert/ConvertEngine.h"
 #include "Helper/Logger/Logger.h"
 
+#include <QImage>
+
 EngineHandler::EngineHandler(QObject* parent) : 
     Engine(EngineName::EngineHandler, parent)
 {

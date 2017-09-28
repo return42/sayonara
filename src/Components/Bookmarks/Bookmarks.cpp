@@ -27,6 +27,7 @@
 #include "Components/PlayManager/PlayManager.h"
 
 #include <algorithm>
+#include <QStringList>
 
 struct Bookmarks::Private
 {

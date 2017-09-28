@@ -27,6 +27,7 @@
 #include "Database/LibraryDatabase.h"
 
 #include <QRegExp>
+#include <QStringList>
 
 M3UParser::M3UParser(const QString& filename) :
 	AbstractPlaylistParser(filename) {}

@@ -55,6 +55,8 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QImage>
+#include <QRegExp>
+#include <QStringList>
 
 
 static Tagging::TagType tag_type_from_fileref(const TagLib::FileRef& f);

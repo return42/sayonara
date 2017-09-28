@@ -21,7 +21,7 @@
 #include "MetaDataList.h"
 #include "Helper/Set.h"
 #include "Helper/globals.h"
-
+#include <QStringList>
 #include <algorithm>
 
 struct MetaDataList::Private

@@ -22,6 +22,7 @@
 #include "Helper/MetaData/MetaData.h"
 
 #include <QRegExp>
+#include <QStringList>
 
 #include <algorithm>
 
