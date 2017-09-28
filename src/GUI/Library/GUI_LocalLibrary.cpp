@@ -129,7 +129,7 @@ GUI_LocalLibrary::GUI_LocalLibrary(int id, QWidget* parent) :
 	ui->lv_genres->set_local_library(m->library);
 	language_changed();
 
-    REGISTER_LISTENER(Set::Lib_ShowAlbumCovers, switch_album_view);
+	REGISTER_LISTENER(Set::Lib_ShowAlbumCovers, switch_album_view);
 }
 
 
@@ -238,7 +238,12 @@ void GUI_LocalLibrary::switch_album_view()
 	}
 
 	ui->sw_album_covers->setCurrentIndex( idx );
-    search_cleared();
+
+	if(show_cover_view)
+	{
+		// reload albums
+		lib_albums_ready();
+	}
 }
 
 
@@ -542,20 +547,6 @@ void GUI_LocalLibrary::lib_albums_ready()
         m->acv->refresh();
     }
 }
-
-
-void GUI_LocalLibrary::lib_tracks_ready()
-{
-    GUI_AbstractLibrary::lib_tracks_ready();
-
-    if(m->acm)
-    {
-        const MetaDataList& v_md = m->library->get_tracks();
-		m->acm->set_mimedata(v_md);
-	}
-}
-
-
 
 LibraryTableView* GUI_LocalLibrary::lv_artist() const
 {

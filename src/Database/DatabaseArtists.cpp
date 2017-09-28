@@ -119,13 +119,18 @@ bool DatabaseArtists::getArtistByID(int id, Artist& artist, bool also_empty)
 	q.addBindValue(QVariant (id));
 
 	bool success = db_fetch_artists(q, artists);
+	if(!success){
+		return false;
+	}
 
 	if(artists.size() > 0) {
 		success = true;
 		artist = artists.first();
 	}
 
-	else success = false;
+	else {
+		success = false;
+	}
 
 	return success;
 }

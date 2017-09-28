@@ -110,7 +110,6 @@ void GUI_AbstractLibrary::init_finished()
     connect(m->library, &AbstractLibrary::sig_all_artists_loaded, this, &GUI_AbstractLibrary::lib_artists_ready);
     connect(m->library, &AbstractLibrary::sig_all_albums_loaded, this, &GUI_AbstractLibrary::lib_albums_ready);
     connect(m->library, &AbstractLibrary::sig_all_tracks_loaded, this,	&GUI_AbstractLibrary::lib_tracks_ready);
-	connect(m->library, &AbstractLibrary::sig_track_mime_data_available, this, &GUI_AbstractLibrary::track_info_available);
 	connect(m->library, &AbstractLibrary::sig_delete_answer, this, &GUI_AbstractLibrary::show_delete_answer);
 
 	connect(m->lv_album, &LibraryViewAlbum::doubleClicked, this, &GUI_AbstractLibrary::album_dbl_clicked);
@@ -312,7 +311,7 @@ void GUI_AbstractLibrary::combo_search_changed(::Library::Filter::Mode mode)
     m->le_search->setProperty("search_mode", (int) mode);
 
 	m->cur_searchfilter.set_mode(mode);
-	m->library->psl_filter_changed(m->cur_searchfilter);
+	//m->library->psl_filter_changed(m->cur_searchfilter);
 }
 
 
@@ -333,9 +332,6 @@ void GUI_AbstractLibrary::lib_tracks_ready()
     const MetaDataList& v_md = m->library->get_tracks();
 
     m->lv_tracks->fill<MetaDataList, LibraryItemModelTracks>(v_md);
-
-	m->artist_model->set_mimedata(v_md);
-	m->album_model->set_mimedata(v_md);
 }
 
 
@@ -352,12 +348,6 @@ void GUI_AbstractLibrary::lib_artists_ready()
     const ArtistList& artists = m->library->get_artists();
 
 	m->lv_artist->fill<ArtistList, LibraryItemModelArtists>(artists);
-}
-
-
-void GUI_AbstractLibrary::track_info_available(const MetaDataList& v_md)
-{
-	m->track_model->set_mimedata(v_md);
 }
 
 

@@ -305,7 +305,7 @@ bool Tagging::setMetaDataOfFile(const MetaData& md)
 		discnumber_frame.write(discnumber);
 
 		MP4::PopularimeterFrame popularimeter_frame(tag);
-		success = popularimeter_frame.write(popularimeter);
+		popularimeter_frame.write(popularimeter);
 	}
 
 	success = f.save();

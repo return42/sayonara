@@ -74,7 +74,6 @@ protected slots:
     virtual void lib_tracks_ready();
     virtual void lib_albums_ready();
     virtual void lib_artists_ready();
-    virtual void track_info_available(const MetaDataList& v_md);
 
 	virtual void artist_sel_changed(const SP::Set<int>&);
 	virtual void album_sel_changed(const SP::Set<int>&);

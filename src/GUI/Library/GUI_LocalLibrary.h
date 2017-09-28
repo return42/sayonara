@@ -109,7 +109,6 @@ private slots:
 
 protected slots:
     void lib_albums_ready() override;
-    void lib_tracks_ready() override;
 
 private:
 	void init_album_cover_view();

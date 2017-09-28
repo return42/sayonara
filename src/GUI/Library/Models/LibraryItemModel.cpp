@@ -33,13 +33,12 @@
 
 struct LibraryItemModel::Private
 {
-    AbstractLibrary* library=nullptr;
-	QStringList		header_names;
-	MetaDataList	track_mimedata;
-	SP::Set<int>	selections;
+	AbstractLibrary*	library=nullptr;
+	QStringList			header_names;
+	SP::Set<int>		selections;
 
-	int				n_rows;
-	int				n_cols;
+	int					n_rows;
+	int					n_cols;
 
     Private(AbstractLibrary* library) :
         library(library),
@@ -170,30 +169,26 @@ QMap<QChar, QString> LibraryItemModel::getExtraTriggers()
 	return QMap<QChar, QString>();
 }
 
-
-void LibraryItemModel::set_mimedata(const MetaDataList& v_md)
-{
-	m->track_mimedata = v_md;
-}
-
-
 CustomMimeData* LibraryItemModel::get_mimedata() const
 {
 	CustomMimeData* mimedata = new CustomMimeData();
 	QList<QUrl> urls;
 
-	if(m->track_mimedata.isEmpty()){
-		sp_log(Log::Warning) << this->objectName() << " does not have any mimedata. Do you forget to call LibraryItemModel::set_mimedata first?";
+	const MetaDataList& track_mimedata = m->library->get_mimedata();
+
+	if(track_mimedata.isEmpty()){
+		sp_log(Log::Warning, this) << this->objectName() << " does not have any mimedata";
 		mimedata->setText("No tracks");
 	}
 
-	else{
-		for(const MetaData& md : m->track_mimedata){
+	else
+	{
+		for(const MetaData& md : track_mimedata){
 			QUrl url(QString("file://") + md.filepath());
 			urls << url;
 		}
 
-		mimedata->setMetaData(m->track_mimedata);
+		mimedata->setMetaData(track_mimedata);
 		mimedata->setText("tracks");
 		mimedata->setUrls(urls);
 	}

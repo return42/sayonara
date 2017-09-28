@@ -33,7 +33,8 @@ class QResizeEvent;
  * @brief The CoverButton class
  * @ingroup GUICovers
  */
-class CoverButton : public QPushButton
+class CoverButton :
+		public QPushButton
 {
 	Q_OBJECT
 	PIMPL(CoverButton)

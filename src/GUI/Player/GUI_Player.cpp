@@ -144,7 +144,6 @@ void GUI_Player::language_changed()
 	action_about->setText(Lang::get(Lang::About).triplePt());
 }
 
-
 // new track
 void GUI_Player::track_changed(const MetaData & md)
 {

@@ -92,9 +92,8 @@ void SearchViewFunctionality::setSearchModel(SearchModelFunctionality* model)
 	 if(m->search_model){
 		 Library::SearchModeMask search_mode = m->settings->get(Set::Lib_SearchMode);
 		 m->search_model->set_search_mode(search_mode);
+		 m->mini_searcher->set_extra_triggers(m->search_model->getExtraTriggers());
 	 }
-
-	 m->mini_searcher->set_extra_triggers(m->search_model->getExtraTriggers());
 }
 
 

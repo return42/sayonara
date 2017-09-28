@@ -32,7 +32,7 @@
 #include <algorithm>
 
 #ifdef Q_OS_WIN
-	void EngineCallbacks::destroy_notify(gpointer data) {}
+	/*void EngineCallbacks::destroy_notify(gpointer data) {}
 
 	GstBusSyncReply
 	EngineCallbacks::bus_message_received(GstBus* bus, GstMessage* msg, gpointer data) {
@@ -43,7 +43,7 @@
 
 		gst_message_unref(msg);
 		return GST_BUS_DROP;
-	}
+	}*/
 #endif
 
 static bool parse_image(GstTagList* tags, QImage& img)
@@ -85,6 +85,7 @@ static bool parse_image(GstTagList* tags, QImage& img)
 	gsize size = gst_buffer_get_size(buffer);
 	if(size == 0){
 		gst_sample_unref(sample);
+
 		return false;
 	}
 
@@ -95,6 +96,7 @@ static bool parse_image(GstTagList* tags, QImage& img)
 		delete[] data;
 
 		gst_sample_unref(sample);
+
 	
 		return false;
 	}
@@ -102,7 +104,9 @@ static bool parse_image(GstTagList* tags, QImage& img)
 	img = QImage::fromData((const uchar*) data, size, mime.toLocal8Bit().data());
 	
 	delete[] data;
+
 	gst_sample_unref(sample);
+
 
 	return (!img.isNull());
 }
@@ -159,9 +163,9 @@ gboolean EngineCallbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpoint
 		{
 			GstTagList*		tags;
 			gchar*			title;
-			QImage 			img;
+
 			bool			success;
-			uint32_t			bitrate;
+			uint32_t		bitrate;
 
 			if( msg_src_name.compare("sr_filesink") == 0 ||
 				msg_src_name.compare("level_sink") == 0 ||
@@ -177,6 +181,7 @@ gboolean EngineCallbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpoint
 				break;
 			}
 
+			QImage img;
 			success = parse_image(tags, img);
 			if(success){
 				engine->update_cover(img, src);
@@ -188,7 +193,8 @@ gboolean EngineCallbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpoint
 			}
 
 			success = gst_tag_list_get_string(tags, GST_TAG_TITLE, (gchar**) &title);
-			if(success){
+			if(success)
+			{
 				MetaData md;
 				md.title = title;
 				g_free(title);
