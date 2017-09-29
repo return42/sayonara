@@ -29,13 +29,11 @@
 
 #include "Helper/Pimpl.h"
 
+
 class PlaylistHandler;
 class PlayManager;
 class MetaData;
 class QByteArray;
-
-typedef std::function<void()> RemoteFunction ;
-typedef std::function<void(int)> RemoteFunctionInt ;
 
 /**
  * @brief Remote control allows to control Sayonara from an external application via network.
