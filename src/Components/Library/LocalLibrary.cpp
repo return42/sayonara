@@ -123,9 +123,9 @@ void LocalLibrary::library_reloading_state_new_block()
 {
 	m->reload_thread->pause();
 
-	m->lib_db->getAllAlbums(_vec_albums, _sortorder.so_albums);
-	m->lib_db->getAllArtists(_vec_artists, _sortorder.so_artists);
-	m->lib_db->getAllTracks(_vec_md, _sortorder.so_tracks);
+    m->lib_db->getAllAlbums(_albums, _sortorder.so_albums);
+    m->lib_db->getAllArtists(_artists, _sortorder.so_artists);
+    m->lib_db->getAllTracks(_tracks, _sortorder.so_tracks);
 
 	emit_stuff();
 
@@ -144,14 +144,14 @@ void LocalLibrary::psl_disc_pressed(int disc)
 
     if(disc < 0)
     {
-		m->lib_db->getAllTracksByAlbum(_selected_albums.first(), _vec_md, _filter, _sortorder.so_tracks);
+        m->lib_db->getAllTracksByAlbum(_selected_albums.first(), _tracks, _filter, _sortorder.so_tracks);
     }
 
     else
     {
         m->lib_db->getAllTracksByAlbum(_selected_albums.first(), v_md, _filter, _sortorder.so_tracks);
 
-        _vec_md.clear();
+        _tracks.clear();
 
         for(const MetaData& md : v_md)
         {
@@ -159,7 +159,7 @@ void LocalLibrary::psl_disc_pressed(int disc)
                 continue;
             }
 
-            _vec_md << std::move(md);
+            _tracks << std::move(md);
         }
     }
 
@@ -397,11 +397,10 @@ void LocalLibrary::merge_albums(const SP::Set<AlbumID>& album_ids, AlbumID targe
 
 void LocalLibrary::change_track_rating(int idx, int rating)
 {
-	MetaData md_old = _vec_md[idx];
-	MetaDataList v_md; v_md << md_old;
+    MetaDataList v_md{ _tracks[idx] };
 
 	AbstractLibrary::change_track_rating(idx, rating);
-	MetaData md_new = _vec_md[idx];
+    MetaData md_new = _tracks[idx];
 
 	tag_edit()->set_metadata(v_md);
 	tag_edit()->update_track(0, md_new);

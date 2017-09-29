@@ -49,6 +49,7 @@ public:
     int         columnCount(const QModelIndex& paren=QModelIndex()) const override;
     QVariant    data(const QModelIndex& index, int role) const override;
     QSize       item_size() const;
+    const SP::Set<int>& selections() const override;
 
     QModelIndex     getFirstRowIndexOf(const QString& substr) override;
     QModelIndex     getNextRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent=QModelIndex()) override;
@@ -60,6 +61,7 @@ public:
     int             get_id_by_row(int idx) override;
     CoverLocation   get_cover(const SP::Set<int>& indexes) const override;
 
+
     int             zoom() const;
     void            set_max_columns(int columns);
 
@@ -68,6 +70,10 @@ public slots:
 
 private slots:
     void            next_hash();
+
+
+    // LibraryItemModel interface
+public:
 
 };
 

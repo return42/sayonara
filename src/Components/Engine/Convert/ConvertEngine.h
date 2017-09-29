@@ -38,7 +38,7 @@ public:
 	bool init() override;
 
 protected slots:
-	void set_cur_position_ms(int64_t ms) override;
+	void cur_pos_ms_changed(int64_t ms) override;
 
 
 public slots:

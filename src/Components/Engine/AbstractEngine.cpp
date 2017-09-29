@@ -89,12 +89,12 @@ void Engine::set_track_ready(GstElement* src)
 	Q_UNUSED(src)
 }
 
-void Engine::set_about_to_finish(int64_t ms)
+void Engine::about_to_finish(int64_t ms)
 {
 	Q_UNUSED(ms)
 }
 
-void Engine::set_cur_position_ms(int64_t ms)
+void Engine::cur_pos_ms_changed(int64_t ms)
 {
 	_cur_pos_ms = ms;
 	emit sig_pos_changed_ms(ms);

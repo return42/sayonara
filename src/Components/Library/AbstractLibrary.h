@@ -81,7 +81,14 @@ public slots:
     const MetaDataList& get_tracks() const;
     const AlbumList& get_albums() const;
     const ArtistList& get_artists() const;
-	const MetaDataList& get_mimedata() const;
+    const MetaDataList& get_current_tracks() const;
+
+    const SP::Set<int>& get_selected_tracks() const;
+    const SP::Set<int>& get_selected_albums() const;
+    const SP::Set<int>& get_selected_artists() const;
+
+    Library::Filter get_filter() const;
+    void set_filter(Library::Filter filter);
 
    /* ArtistList* get_artists_ptr() const;
     AlbumList* get_albums_ptr() const;
@@ -92,26 +99,19 @@ public slots:
 	virtual void psl_selected_albums_changed(const SP::Set<int>& idx_lst);
 	virtual void psl_selected_tracks_changed(const SP::Set<int>& idx_lst);
 
-
-	// [albums|artist|track[s]] double clicked -> send tracks to playlist
-	virtual void psl_prepare_album_for_playlist(int idx, bool new_playlist);
-	virtual void psl_prepare_artist_for_playlist(int idx, bool new_playlist);
-
-
 	// Those two functions are identical (1) calls (2)
 	virtual void psl_prepare_tracks_for_playlist(bool new_playlist);
-	virtual void psl_prepare_tracks_for_playlist(const SP::Set<int>& indexes, bool new_playlist);
-	virtual void psl_prepare_tracks_for_playlist(const QStringList& file_paths, bool new_playlist);
+    virtual void psl_prepare_tracks_for_playlist(const QStringList& file_paths, bool new_playlist);
 
 
 	/* append tracks after current played track in playlist */
 	virtual void psl_play_next_all_tracks();
-	virtual void psl_play_next_tracks(const SP::Set<int>& idx_lst);
+    virtual void psl_play_next_current_tracks();
 
 
 	/* append tracks after last track in playlist */
 	virtual void psl_append_all_tracks();
-	virtual void psl_append_tracks(const SP::Set<int>& idx_lst);
+    virtual void psl_append_current_tracks();
 
 	/* triggered by tagedit */
 	virtual void psl_metadata_id3_changed(const MetaDataList&, const MetaDataList&);
@@ -151,13 +151,13 @@ protected slots:
 protected:
 	PlaylistHandler*	_playlist=nullptr;
 
-	MetaDataList        _vec_md;
-	AlbumList			_vec_albums;
-	ArtistList			_vec_artists;
-	MetaDataList		_mimedata;
+    MetaDataList        _tracks;
+    AlbumList			_albums;
+    ArtistList			_artists;
+    MetaDataList		_current_tracks;
 
 	// contains ID for artists, albums, tracks
-	SP::Set<ArtistID>	_selected_artists;
+    SP::Set<ArtistID>	_selected_artists;
 	SP::Set<AlbumID>	_selected_albums;
 	SP::Set<TrackID>	_selected_tracks;
 
@@ -195,10 +195,6 @@ private:
 
 	void tag_edit_commit();
 	void set_playlist_action_after_double_click();
-
-//	virtual void restore_artist_selection();
-	void restore_track_selection();
-	void restore_album_selection();
 
 	void change_track_selection(const SP::Set<int>& idx_list);
 	void change_artist_selection(const SP::Set<int>& idx_list);

@@ -22,6 +22,7 @@
 #include "PlaybackPipeline.h"
 #include "StreamRecorder.h"
 #include "SoundOutReceiver.h"
+#include "Components/Engine/Callbacks/EngineCallbacks.h"
 
 #include "Helper/Tagging/Tagging.h"
 #include "Helper/FileHelper.h"
@@ -102,8 +103,8 @@ bool PlaybackEngine::init()
 
     m->other_pipeline = nullptr;
 
-    connect(m->pipeline, &PlaybackPipeline::sig_about_to_finish, this, &PlaybackEngine::set_about_to_finish);
-    connect(m->pipeline, &PlaybackPipeline::sig_pos_changed_ms, this, &PlaybackEngine::set_cur_position_ms);
+    connect(m->pipeline, &PlaybackPipeline::sig_about_to_finish, this, &PlaybackEngine::about_to_finish);
+    connect(m->pipeline, &PlaybackPipeline::sig_pos_changed_ms, this, &PlaybackEngine::cur_pos_ms_changed);
     connect(m->pipeline, &PlaybackPipeline::sig_data, this, &PlaybackEngine::sig_data);
 
 	REGISTER_LISTENER(Set::PL_Mode, _playlist_mode_changed);
@@ -124,8 +125,8 @@ void PlaybackEngine::init_other_pipeline()
 			return;
 		}
 
-        connect(m->other_pipeline, &PlaybackPipeline::sig_about_to_finish, this, &PlaybackEngine::set_about_to_finish);
-        connect(m->other_pipeline, &PlaybackPipeline::sig_pos_changed_ms, this, &PlaybackEngine::set_cur_position_ms);
+        connect(m->other_pipeline, &PlaybackPipeline::sig_about_to_finish, this, &PlaybackEngine::about_to_finish);
+        connect(m->other_pipeline, &PlaybackPipeline::sig_pos_changed_ms, this, &PlaybackEngine::cur_pos_ms_changed);
         connect(m->other_pipeline, &PlaybackPipeline::sig_data, this, &PlaybackEngine::sig_data);
 	}
 }
@@ -321,7 +322,7 @@ void PlaybackEngine::set_buffer_state(int progress, GstElement* src)
 }
 
 
-void PlaybackEngine::set_cur_position_ms(int64_t pos_ms)
+void PlaybackEngine::cur_pos_ms_changed(int64_t pos_ms)
 {
     if(sender() != m->pipeline){
 		return;
@@ -354,7 +355,7 @@ void PlaybackEngine::set_track_ready(GstElement* src)
 }
 
 
-void PlaybackEngine::set_about_to_finish(int64_t time2go)
+void PlaybackEngine::about_to_finish(int64_t time2go)
 {
 	Q_UNUSED(time2go)
 

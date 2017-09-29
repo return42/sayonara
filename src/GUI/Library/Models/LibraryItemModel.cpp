@@ -35,15 +35,11 @@ struct LibraryItemModel::Private
 {
 	AbstractLibrary*	library=nullptr;
 	QStringList			header_names;
-	SP::Set<int>		selections;
-
-	int					n_rows;
-	int					n_cols;
+    int                 old_row_count;
 
     Private(AbstractLibrary* library) :
         library(library),
-        n_rows(0),
-        n_cols(0)
+        old_row_count(0)
     {}
 };
 
@@ -91,13 +87,6 @@ bool LibraryItemModel::setHeaderData(int section, Qt::Orientation orientation, c
 }
 
 
-int LibraryItemModel::rowCount(const QModelIndex& parent) const
-{
-	Q_UNUSED(parent)
-	return m->n_rows;
-}
-
-
 int LibraryItemModel::columnCount(const QModelIndex& parent) const
 {
 	Q_UNUSED(parent);
@@ -140,13 +129,7 @@ bool LibraryItemModel::removeRows(int row, int count, const QModelIndex& index)
 	Q_UNUSED(index)
 
 	beginRemoveRows(QModelIndex(), row, row + count - 1);
-
-	for(int i=row; i<row + count; i++){
-		m->selections.remove( get_id_by_row(i) );
-	}
-
-	m->n_rows -= count;
-
+    m->old_row_count -= count;
 	endRemoveRows();
 
 	return true;
@@ -157,10 +140,15 @@ bool LibraryItemModel::insertRows(int row, int count, const QModelIndex& index)
 	Q_UNUSED(index)
 
 	beginInsertRows(QModelIndex(), row, row + count - 1);
-	m->n_rows += count;
+    m->old_row_count += count;
 	endInsertRows();
 
-	return true;
+    return true;
+}
+
+int LibraryItemModel::last_row_count() const
+{
+    return m->old_row_count;
 }
 
 
@@ -174,7 +162,7 @@ CustomMimeData* LibraryItemModel::get_mimedata() const
 	CustomMimeData* mimedata = new CustomMimeData();
 	QList<QUrl> urls;
 
-	const MetaDataList& track_mimedata = m->library->get_mimedata();
+	const MetaDataList& track_mimedata = m->library->get_current_tracks();
 
 	if(track_mimedata.isEmpty()){
 		sp_log(Log::Warning, this) << this->objectName() << " does not have any mimedata";
@@ -202,29 +190,9 @@ void LibraryItemModel::refresh_data()
 }
 
 
-bool LibraryItemModel::has_selections() const
-{
-	return !(m->selections.isEmpty());
-}
-
-
-void LibraryItemModel::add_selections(const SP::Set<int>& rows)
-{
-	std::for_each(rows.begin(), rows.end(), [=](int row){
-		m->selections.insert(get_id_by_row(row));
-	});
-}
-
-
 bool LibraryItemModel::is_selected(int id) const
 {
-	return m->selections.contains(id);
-}
-
-
-void LibraryItemModel::clear_selections()
-{
-	m->selections.clear();
+    return selections().contains(id);
 }
 
 

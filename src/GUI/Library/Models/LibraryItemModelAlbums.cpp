@@ -32,14 +32,14 @@
 #include "Components/Covers/CoverLocation.h"
 
 #include "GUI/Library/Helper/ColumnIndex.h"
-#include "GUI/Library/Helper/ColumnHeader.h"
 #include "GUI/Helper/GUI_Helper.h"
 
 #include "Helper/Helper.h"
-#include "Helper/Library/SearchMode.h"
 #include "Helper/MetaData/Album.h"
 #include "Helper/Language.h"
 #include "Helper/Set.h"
+
+#include <QPixmap>
 
 struct LibraryItemModelAlbums::Private
 {
@@ -207,6 +207,11 @@ bool LibraryItemModelAlbums::setData(const QModelIndex & index, const QVariant &
     return false;
 }
 
+int LibraryItemModelAlbums::rowCount(const QModelIndex&) const
+{
+    return library()->get_albums().count();
+}
+
 
 Qt::ItemFlags LibraryItemModelAlbums::flags(const QModelIndex & index) const
 {
@@ -227,4 +232,10 @@ Qt::ItemFlags LibraryItemModelAlbums::flags(const QModelIndex & index) const
 int LibraryItemModelAlbums::get_searchable_column() const
 {
     return (int) ColumnIndex::Album::Name;
+}
+
+
+const SP::Set<int>& LibraryItemModelAlbums::selections() const
+{
+    return library()->get_selected_albums();
 }

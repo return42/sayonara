@@ -45,12 +45,12 @@ public:
 	QVariant 	headerData ( int section, Qt::Orientation orientation, int role=Qt::DisplayRole ) const override;
 	bool		setHeaderData(int section, Qt::Orientation orientation, const QVariant &value, int role) override;
 
-    virtual int     rowCount(const QModelIndex &parent=QModelIndex()) const override;
     virtual int     columnCount(const QModelIndex& parent=QModelIndex()) const override;
     virtual bool 	insertColumns(int position, int cols, const QModelIndex &index=QModelIndex()) override;
     virtual bool 	removeColumns(int position, int cols, const QModelIndex &index=QModelIndex()) override;
     virtual bool	removeRows(int position, int rows, const QModelIndex& index=QModelIndex()) override;
     virtual bool	insertRows(int row, int count, const QModelIndex &parent=QModelIndex()) override;
+    int             last_row_count() const;
 
     /** AbstractSearchTableModel **/
 	virtual QModelIndex	getFirstRowIndexOf(const QString& substr) override;
@@ -58,10 +58,8 @@ public:
 	virtual QModelIndex getPrevRowIndexOf(const QString& substr, int row, const QModelIndex& parent=QModelIndex()) override;
     virtual QMap<QChar, QString> getExtraTriggers() override;
 
-	virtual void			add_selections(const SP::Set<int>& rows) final;
 	virtual bool			is_selected(int id) const final;
-	virtual bool			has_selections() const final;
-	virtual void			clear_selections() final;
+    virtual const SP::Set<int>& selections() const=0;
 
 	virtual int				get_searchable_column() const=0;
 	virtual QString			get_string(int row) const=0;
@@ -75,7 +73,6 @@ public:
 protected:
     AbstractLibrary* library();
     const AbstractLibrary* library() const;
-
 };
 
 #endif /* LIBRARYITEMMODEL_H_ */

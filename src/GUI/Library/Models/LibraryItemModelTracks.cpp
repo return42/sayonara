@@ -26,16 +26,16 @@
  *      Author: Lucio Carreras
  */
 
-#include "Components/Library/AbstractLibrary.h"
 #include "LibraryItemModelTracks.h"
+
+#include "Components/Library/AbstractLibrary.h"
 #include "Components/Covers/CoverLocation.h"
-#include "GUI/Library/Helper/ColumnHeader.h"
+
 #include "GUI/Library/Helper/ColumnIndex.h"
 
 #include "Helper/globals.h"
 #include "Helper/Helper.h"
 #include "Helper/FileHelper.h"
-#include "Helper/Library/SearchMode.h"
 #include "Helper/MetaData/MetaDataList.h"
 #include "Helper/Language.h"
 #include "Helper/Set.h"
@@ -165,7 +165,12 @@ bool LibraryItemModelTracks::setData(const QModelIndex &index, const QVariant &v
 		}
 	}
 
-	return false;
+    return false;
+}
+
+int LibraryItemModelTracks::rowCount(const QModelIndex&) const
+{
+    return library()->get_tracks().count();
 }
 
 
@@ -224,4 +229,10 @@ CoverLocation LibraryItemModelTracks::get_cover(const SP::Set<int>& indexes) con
 int LibraryItemModelTracks::get_searchable_column() const
 {
     return (int) ColumnIndex::Track::Title;
+}
+
+
+const SP::Set<int>& LibraryItemModelTracks::selections() const
+{
+    return library()->get_selected_tracks();
 }

@@ -21,8 +21,10 @@
 #include "AlbumCoverModel.h"
 #include "AlbumCoverFetchThread.h"
 
+#include "Components/Library/AbstractLibrary.h"
 #include "Components/Covers/CoverLocation.h"
 #include "Components/Covers/CoverLookup.h"
+
 #include "Helper/MetaData/Album.h"
 #include "Helper/Helper.h"
 #include "Helper/Logger/Logger.h"
@@ -370,4 +372,10 @@ CoverLocation AlbumCoverModel::get_cover(const SP::Set<int>& indexes) const
 	}
 
 	return m->cover_locations[hash];
+}
+
+
+const SP::Set<int>& AlbumCoverModel::selections() const
+{
+    return library()->get_selected_albums();
 }

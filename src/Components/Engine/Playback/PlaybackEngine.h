@@ -68,8 +68,8 @@ public:
 
 	void update_bitrate(uint32_t br, GstElement* src) override;
 	void update_duration(GstElement* src) override;
-	void set_about_to_finish(int64_t time2go) override;
-	void set_cur_position_ms(int64_t pos_ms) override;
+	void about_to_finish(int64_t time2go) override;
+	void cur_pos_ms_changed(int64_t pos_ms) override;
 
 	void set_streamrecorder_recording(bool b);
 

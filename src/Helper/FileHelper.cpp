@@ -187,9 +187,9 @@ QString Helper::File::get_absolute_filename(const QString& filename)
 
 QString Helper::File::calc_filesize_str(uint64_t filesize) 
 {
-	uint64_t kb = 1024;
-	uint64_t mb = kb * 1024;
-	uint64_t gb = mb * 1024;
+    uint64_t kb = 1 << 10;  // 1024
+    uint64_t mb = kb << 10;
+    uint64_t gb = mb << 10;
 
 	QString size;
 	if(filesize > gb) {

@@ -95,8 +95,8 @@ signals:
 
 protected slots:
 
-	virtual void set_about_to_finish(int64_t ms);
-	virtual void set_cur_position_ms(int64_t ms);
+	virtual void about_to_finish(int64_t ms);
+	virtual void cur_pos_ms_changed(int64_t ms);
 
 
 public slots:
