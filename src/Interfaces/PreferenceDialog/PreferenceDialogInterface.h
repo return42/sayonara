@@ -52,6 +52,6 @@ public:
 };
 
 
-typedef QList<PreferenceDialogInterface*> PreferenceWidgetList;
+using PreferenceWidgetList=QList<PreferenceDialogInterface*>;
 
 #endif // PREFERENCEDIALOG_H

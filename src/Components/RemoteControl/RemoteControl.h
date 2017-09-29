@@ -29,7 +29,6 @@
 
 #include "Helper/Pimpl.h"
 
-
 class PlaylistHandler;
 class PlayManager;
 class MetaData;

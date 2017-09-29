@@ -36,8 +36,8 @@
 class QString;
 class QStringList;
 
-typedef QString Tag;
-typedef QString ReplacedString;
+using Tag=QString;
+using ReplacedString=QString;
 
 /**
  * @brief The TagExpression class

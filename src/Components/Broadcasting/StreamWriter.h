@@ -147,5 +147,5 @@ class StreamWriter :
 		void data_available();
 };
 
-typedef std::shared_ptr<StreamWriter> StreamWriterPtr;
+using StreamWriterPtr=std::shared_ptr<StreamWriter>;
 #endif

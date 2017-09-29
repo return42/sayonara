@@ -36,15 +36,15 @@ template <typename T> class QList;
  * @brief Sayonara Typedefs
  * @ingroup Helper
  */
-typedef QPair<QString, QString> StringPair;
-typedef QList<int> IntList;
-typedef QList<int> IDList;
-typedef QList<int> IdxList;
-typedef QList<bool> BoolList;
-typedef int32_t ArtistID;
-typedef int32_t AlbumID;
-typedef int32_t TrackID;
-typedef int32_t ID;
+using StringPair=QPair<QString, QString>;
+using IntList=QList<int> ;
+using IDList=QList<int> ;
+using IdxList=QList<int> ;
+using BoolList=QList<bool> ;
+using ArtistID=int32_t;
+using AlbumID=int32_t;
+using TrackID=int32_t;
+using ID=int32_t;
 
 
 #endif

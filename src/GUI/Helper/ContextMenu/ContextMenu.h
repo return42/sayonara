@@ -33,7 +33,7 @@ class IconLoader;
  * @brief Combination of ContextMenu::Entry values
  * @ingroup GUIHelper
  */
-typedef int ContextMenuEntries;
+using ContextMenuEntries=int;
 
 /**
  * @brief A context menu with some standard actions

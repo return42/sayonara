@@ -26,7 +26,7 @@
 
 #include "Helper/Pimpl.h"
 
-typedef QMap<QString, QString> StreamMap;
+using StreamMap=QMap<QString, QString>;
 
 class DatabaseConnector;
 

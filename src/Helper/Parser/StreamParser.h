@@ -22,12 +22,13 @@
 #define STREAMPARSER_H
 
 #include <QObject>
-#include <QStringList>
 #include <QPair>
 
 #include "Helper/Pimpl.h"
 
-typedef QStringList PlaylistFiles;
+class QStringList;
+
+using PlaylistFiles=QStringList;
 
 class MetaDataList;
 class MetaData;

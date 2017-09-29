@@ -166,7 +166,7 @@ void DatabaseLibrary::dropIndexes()
 	}
 }
 
-typedef std::tuple<QString, QString, QString> IndexDescription;
+using IndexDescription=std::tuple<QString, QString, QString>;
 void DatabaseLibrary::createIndexes()
 {
 	dropIndexes();

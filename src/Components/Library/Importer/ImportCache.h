@@ -57,6 +57,6 @@ public:
 	void			change_metadata(const MetaDataList& v_md_old, const MetaDataList& v_md_new);
 };
 
-typedef std::shared_ptr<ImportCache> ImportCachePtr;
+using ImportCachePtr=std::shared_ptr<ImportCache>;
 
 #endif // IMPORTCACHE_H

@@ -40,8 +40,7 @@
 #include <QInputDialog>
 #include <QStyledItemDelegate>
 
-typedef SP::Set<QString> StringSet;
-
+using StringSet=SP::Set<QString>;
 
 struct LibraryGenreView::Private
 {

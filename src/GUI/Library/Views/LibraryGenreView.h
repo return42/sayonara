@@ -37,8 +37,7 @@ namespace SP
 	class Tree;
 }
 
-
-typedef SP::Tree<QString> GenreNode;
+using GenreNode=SP::Tree<QString>;
 
 class LibraryGenreView :
 		public SayonaraWidgetTemplate<QTreeWidget>

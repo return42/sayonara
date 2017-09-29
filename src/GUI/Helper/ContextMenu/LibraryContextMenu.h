@@ -26,7 +26,7 @@
 
 #include "Helper/Settings/SayonaraClass.h"
 
-typedef int LibraryContexMenuEntries;
+using LibraryContexMenuEntries=int;
 
 /**
  * @brief Context menu used for Library and playlist windows
