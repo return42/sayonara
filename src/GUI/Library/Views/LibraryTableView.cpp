@@ -68,7 +68,8 @@ void LibraryTableView::set_table_headers(
 	_model->insertColumns(0, headers.size());
 
 	int i=0;
-	for(ColumnHeader* header : headers){
+    for(ColumnHeader* header : headers)
+    {
 		_model->setHeaderData(i, Qt::Horizontal, header->get_title(), Qt::DisplayRole);
 		i++;
 	}

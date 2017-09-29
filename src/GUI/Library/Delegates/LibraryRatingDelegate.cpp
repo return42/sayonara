@@ -88,7 +88,6 @@ void LibraryRatingDelegate::destroy_editor(bool save)
 	disconnect(label, &RatingLabel::sig_finished, this, &LibraryRatingDelegate::destroy_editor);
 
 	emit commitData(label);
-	emit sig_rating_changed(label->get_rating());
     emit closeEditor(label);
 }
 

@@ -30,17 +30,13 @@
 #include "Components/Covers/CoverLocation.h"
 #include "Components/Library/AbstractLibrary.h"
 
-#include "GUI/Library/Helper/ColumnHeader.h"
 #include "GUI/Library/Helper/ColumnIndex.h"
 #include "GUI/Helper/GUI_Helper.h"
 
-#include "Helper/Library/SearchMode.h"
 #include "Helper/MetaData/Artist.h"
 #include "Helper/Language.h"
 #include "Helper/Set.h"
 
-#include <QAbstractListModel>
-#include <QStringList>
 #include <QPixmap>
 
 struct LibraryItemModelArtists::Private
@@ -147,11 +143,17 @@ QVariant LibraryItemModelArtists::data(const QModelIndex & index, int role) cons
 		}
 	}
 
-	return QVariant();
+    return QVariant();
+}
+
+int LibraryItemModelArtists::rowCount(const QModelIndex&) const
+{
+    int row_count = library()->get_artists().count();
+    return row_count;
 }
 
 
-Qt::ItemFlags LibraryItemModelArtists::flags(const QModelIndex & index) const
+Qt::ItemFlags LibraryItemModelArtists::flags(const QModelIndex& index) const
 {
 	if (!index.isValid())
 		return Qt::ItemIsEnabled;
@@ -181,4 +183,10 @@ CoverLocation LibraryItemModelArtists::get_cover(const SP::Set<int>& indexes) co
 int LibraryItemModelArtists::get_searchable_column() const
 {
     return (int) ColumnIndex::Artist::Name;
+}
+
+
+const SP::Set<int>& LibraryItemModelArtists::selections() const
+{
+    return library()->get_selected_artists();
 }

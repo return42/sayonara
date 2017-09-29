@@ -101,6 +101,6 @@ private slots:
  * @brief CoverLookupPtr
  * @ingroup Covers
  */
-typedef std::shared_ptr<CoverLookup> CoverLookupPtr;
+using CoverLookupPtr=std::shared_ptr<CoverLookup>;
 
 #endif /* COVERLOOKUP_H_ */

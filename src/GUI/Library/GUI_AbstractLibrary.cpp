@@ -41,15 +41,12 @@
 #include "GUI/Helper/Delegates/StyledItemDelegate.h"
 #include "GUI/Helper/EventFilter.h"
 
-#include <QKeySequence>
-#include <QPushButton>
 #include <QLineEdit>
-#include <QComboBox>
 
 struct GUI_AbstractLibrary::Private
 {
 	AbstractLibrary* library = nullptr;
-	::Library::Filter cur_searchfilter;
+
 	BoolList shown_cols_albums;
 	BoolList shown_cols_artist;
 	BoolList shown_cols_tracks;
@@ -59,14 +56,6 @@ struct GUI_AbstractLibrary::Private
 	LibraryTableView* lv_tracks=nullptr;
 
 	QLineEdit* le_search=nullptr;
-
-
-	LibraryItemModelTracks* track_model = nullptr;
-	LibraryItemModelAlbums* album_model = nullptr;
-	LibraryItemModelArtists* artist_model = nullptr;
-
-	LibraryRatingDelegate* track_delegate = nullptr;
-	LibraryRatingDelegate* album_delegate = nullptr;
 
 	Private(AbstractLibrary* library) :
 		library(library)
@@ -98,64 +87,86 @@ void GUI_AbstractLibrary::init()
 
     connect(kp_filter, &KeyPressFilter::sig_esc_pressed, this, &GUI_AbstractLibrary::search_cleared);
 
+    init_views();
+    init_headers();
     init_search_bar();
 	init_shortcuts();
-	init_finished();
+    init_connections();
 }
 
-void GUI_AbstractLibrary::init_finished()
+
+void GUI_AbstractLibrary::init_views()
 {
-	init_headers();
+    LibraryItemModelTracks* track_model = new LibraryItemModelTracks(m->lv_tracks, m->library);
+    LibraryRatingDelegate* track_delegate = new LibraryRatingDelegate(m->lv_tracks, (int) ColumnIndex::Track::Rating, true);
 
-    connect(m->library, &AbstractLibrary::sig_all_artists_loaded, this, &GUI_AbstractLibrary::lib_artists_ready);
-    connect(m->library, &AbstractLibrary::sig_all_albums_loaded, this, &GUI_AbstractLibrary::lib_albums_ready);
-    connect(m->library, &AbstractLibrary::sig_all_tracks_loaded, this,	&GUI_AbstractLibrary::lib_tracks_ready);
-	connect(m->library, &AbstractLibrary::sig_delete_answer, this, &GUI_AbstractLibrary::show_delete_answer);
+    m->lv_tracks->setModel(track_model);
+    m->lv_tracks->setSearchModel(track_model);
+    m->lv_tracks->setItemDelegate(track_delegate);
+    m->lv_tracks->set_metadata_interpretation(MD::Interpretation::Tracks);
 
-	connect(m->lv_album, &LibraryViewAlbum::doubleClicked, this, &GUI_AbstractLibrary::album_dbl_clicked);
-	connect(m->lv_album, &LibraryViewAlbum::sig_sel_changed, this, &GUI_AbstractLibrary::album_sel_changed);
-	connect(m->lv_album, &LibraryViewAlbum::sig_middle_button_clicked, this, &GUI_AbstractLibrary::album_middle_clicked);
-	connect(m->lv_album, &LibraryViewAlbum::sig_sortorder_changed, this, &GUI_AbstractLibrary::sortorder_album_changed);
-	connect(m->lv_album, &LibraryViewAlbum::sig_columns_changed, this, &GUI_AbstractLibrary::columns_album_changed);
-	connect(m->lv_album, &LibraryViewAlbum::sig_delete_clicked, this, &GUI_AbstractLibrary::delete_album);
-	connect(m->lv_album, &LibraryViewAlbum::sig_play_next_clicked, this, &GUI_AbstractLibrary::play_next);
-	connect(m->lv_album, &LibraryViewAlbum::sig_append_clicked, this, &GUI_AbstractLibrary::append);
-	connect(m->lv_album, &LibraryViewAlbum::sig_refresh_clicked, this, &GUI_AbstractLibrary::refresh_album);
+    LibraryItemModelArtists* artist_model = new LibraryItemModelArtists(m->lv_artist, m->library);
+    m->lv_artist->setModel(artist_model);
+    m->lv_artist->setSearchModel(artist_model);
+    m->lv_artist->setItemDelegate(new StyledItemDelegate(m->lv_artist));
+    m->lv_artist->set_metadata_interpretation(MD::Interpretation::Artists);
 
-	connect(m->lv_artist, &LibraryView::doubleClicked, this, &GUI_AbstractLibrary::artist_dbl_clicked);
-	connect(m->lv_artist, &LibraryView::sig_sel_changed, this, &GUI_AbstractLibrary::artist_sel_changed);
-	connect(m->lv_artist, &LibraryView::sig_middle_button_clicked, this, &GUI_AbstractLibrary::artist_middle_clicked);
-	connect(m->lv_artist, &LibraryTableView::sig_sortorder_changed, this, &GUI_AbstractLibrary::sortorder_artist_changed);
-	connect(m->lv_artist, &LibraryTableView::sig_columns_changed, this, &GUI_AbstractLibrary::columns_artist_changed);
-	connect(m->lv_artist, &LibraryView::sig_delete_clicked, this, &GUI_AbstractLibrary::delete_artist);
-	connect(m->lv_artist, &LibraryView::sig_play_next_clicked, this, &GUI_AbstractLibrary::play_next);
-	connect(m->lv_artist, &LibraryView::sig_append_clicked, this, &GUI_AbstractLibrary::append);
-	connect(m->lv_artist, &LibraryView::sig_refresh_clicked, this, &GUI_AbstractLibrary::refresh_artist);
+    LibraryItemModelAlbums* album_model = new LibraryItemModelAlbums(m->lv_album, m->library);
+    LibraryRatingDelegate* album_delegate = new LibraryRatingDelegate(m->lv_album, (int) ColumnIndex::Album::Rating, true);
 
-	connect(m->lv_tracks, &LibraryView::doubleClicked, this, &GUI_AbstractLibrary::track_dbl_clicked);
-	connect(m->lv_tracks, &LibraryView::sig_sel_changed, this, &GUI_AbstractLibrary::track_sel_changed);
-	connect(m->lv_tracks, &LibraryView::sig_middle_button_clicked, this, &GUI_AbstractLibrary::tracks_middle_clicked);
-	connect(m->lv_tracks, &LibraryTableView::sig_sortorder_changed, this, &GUI_AbstractLibrary::sortorder_title_changed);
-	connect(m->lv_tracks, &LibraryTableView::sig_columns_changed, this, &GUI_AbstractLibrary::columns_title_changed);
-	connect(m->lv_tracks, &LibraryView::sig_delete_clicked, this, &GUI_AbstractLibrary::delete_tracks);
-	connect(m->lv_tracks, &LibraryView::sig_play_next_clicked, this, &GUI_AbstractLibrary::play_next_tracks);
-	connect(m->lv_tracks, &LibraryView::sig_append_clicked, this, &GUI_AbstractLibrary::append_tracks);
-	connect(m->lv_tracks, &LibraryView::sig_refresh_clicked, this, &GUI_AbstractLibrary::refresh_tracks);
-
-	REGISTER_LISTENER(Set::Lib_LiveSearch, _sl_live_search_changed);
+    m->lv_album->setModel(album_model);
+    m->lv_album->setSearchModel(album_model);
+    m->lv_album->setItemDelegate(album_delegate);
+    m->lv_album->set_metadata_interpretation(MD::Interpretation::Albums);
 }
+
+void GUI_AbstractLibrary::init_headers()
+{
+    Library::Sortings so = _settings->get(Set::Lib_Sorting);
+
+    ColumnHeader* t_h0 = new ColumnHeader(ColumnHeader::Sharp, true, Library::SortOrder::TrackNumAsc, Library::SortOrder::TrackNumDesc, 25);
+    ColumnHeader* t_h1 = new ColumnHeader(ColumnHeader::Title, false, Library::SortOrder::TrackTitleAsc, Library::SortOrder::TrackTitleDesc, 0.4, 200);
+    ColumnHeader* t_h2 = new ColumnHeader(ColumnHeader::Artist, true, Library::SortOrder::TrackArtistAsc, Library::SortOrder::TrackArtistDesc, 0.3, 160);
+    ColumnHeader* t_h3 = new ColumnHeader(ColumnHeader::Album, true, Library::SortOrder::TrackAlbumAsc, Library::SortOrder::TrackAlbumDesc, 0.3, 160);
+    ColumnHeader* t_h4 = new ColumnHeader(ColumnHeader::Year, true, Library::SortOrder::TrackYearAsc, Library::SortOrder::TrackYearDesc, 50);
+    ColumnHeader* t_h5 = new ColumnHeader(ColumnHeader::DurationShort, true, Library::SortOrder::TrackLenghtAsc, Library::SortOrder::TrackLengthDesc, 50);
+    ColumnHeader* t_h6 = new ColumnHeader(ColumnHeader::Bitrate, true, Library::SortOrder::TrackBitrateAsc, Library::SortOrder::TrackBitrateDesc, 75);
+    ColumnHeader* t_h7 = new ColumnHeader(ColumnHeader::Filesize, true, Library::SortOrder::TrackSizeAsc, Library::SortOrder::TrackSizeDesc, 75);
+    ColumnHeader* t_h8 = new ColumnHeader(ColumnHeader::Rating, true, Library::SortOrder::TrackRatingAsc, Library::SortOrder::TrackRatingDesc, 80);
+
+    ColumnHeader* al_h0 = new ColumnHeader(ColumnHeader::Sharp, true, Library::SortOrder::NoSorting, Library::SortOrder::NoSorting, 20);
+    ColumnHeader* al_h1 = new ColumnHeader(ColumnHeader::Album, false, Library::SortOrder::AlbumNameAsc, Library::SortOrder::AlbumNameDesc, 1.0, 160);
+    ColumnHeader* al_h2 = new ColumnHeader(ColumnHeader::Duration, true, Library::SortOrder::AlbumDurationAsc, Library::SortOrder::AlbumDurationDesc, 90);
+    ColumnHeader* al_h3 = new ColumnHeader(ColumnHeader::NumTracks, true, Library::SortOrder::AlbumTracksAsc, Library::SortOrder::AlbumTracksDesc, 80);
+    ColumnHeader* al_h4 = new ColumnHeader(ColumnHeader::Year, true, Library::SortOrder::AlbumYearAsc, Library::SortOrder::AlbumYearDesc, 50);
+    ColumnHeader* al_h5 = new ColumnHeader(ColumnHeader::Rating, true, Library::SortOrder::AlbumRatingAsc, Library::SortOrder::AlbumRatingDesc, 80);
+
+    ColumnHeader* ar_h0 = new ColumnHeader(ColumnHeader::Sharp, true, Library::SortOrder::NoSorting, Library::SortOrder::NoSorting, 20);
+    ColumnHeader* ar_h1 = new ColumnHeader(ColumnHeader::Artist, false, Library::SortOrder::ArtistNameAsc, Library::SortOrder::ArtistNameDesc, 1.0, 160 );
+    ColumnHeader* ar_h2 = new ColumnHeader(ColumnHeader::NumTracks, true, Library::SortOrder::ArtistTrackcountAsc, Library::SortOrder::ArtistTrackcountDesc, 80);
+
+    ColumnHeaderList track_columns, album_columns, artist_columns;
+
+    track_columns  << t_h0  << t_h1  << t_h2  << t_h3  <<t_h4  << t_h5  << t_h6 << t_h7 << t_h8;
+    album_columns  << al_h0 << al_h1 << al_h2 << al_h3 << al_h4 << al_h5;
+    artist_columns << ar_h0 << ar_h1 << ar_h2;
+
+    m->lv_tracks->set_table_headers(track_columns, m->shown_cols_tracks, so.so_tracks);
+    m->lv_artist->set_table_headers(artist_columns, m->shown_cols_artist, so.so_artists);
+    m->lv_album->set_table_headers(album_columns, m->shown_cols_albums, so.so_albums);
+}
+
 
 void GUI_AbstractLibrary::init_search_bar()
 {
-	QList<Library::Filter::Mode> filters = search_options();
-    QList<QAction*> actions;
-
-    QMenu* menu = new QMenu(m->le_search);
     m->le_search->setContextMenuPolicy(Qt::CustomContextMenu);
-	m->le_search->setClearButtonEnabled(true);
+    m->le_search->setClearButtonEnabled(true);
 
+
+    QList<QAction*> actions;
+    QList<Library::Filter::Mode> filters = search_options();
     for(const Library::Filter::Mode filter_mode : filters)
-	{
+    {
         QVariant data = QVariant((int) (filter_mode));
         QAction* action = new QAction(::Library::Filter::get_text(filter_mode), m->le_search);
 
@@ -165,167 +176,134 @@ void GUI_AbstractLibrary::init_search_bar()
         actions << action;
 
         connect(action, &QAction::triggered, this, [=](){
-            combo_search_changed(filter_mode);
+            search_mode_changed(filter_mode);
+            m->library->refetch();
         });
-	}
+    }
 
+    QMenu* menu = new QMenu(m->le_search);
     menu->addActions(actions);
 
     ContextMenuFilter* cm_filter = new ContextMenuFilter(m->le_search);
-    connect(cm_filter, &ContextMenuFilter::sig_context_menu,
-            menu, &QMenu::popup);
+    connect(cm_filter, &ContextMenuFilter::sig_context_menu, menu, &QMenu::popup);
 
     m->le_search->installEventFilter(cm_filter);
+    connect(m->le_search, &QLineEdit::returnPressed, this, &GUI_AbstractLibrary::search_return_pressed);
 
-    combo_search_changed(::Library::Filter::Fulltext);
-
+    search_mode_changed(::Library::Filter::Fulltext);
 }
 
-
-void GUI_AbstractLibrary::init_headers()
+void GUI_AbstractLibrary::init_connections()
 {
-	Library::Sortings so = _settings->get(Set::Lib_Sorting);
+    connect(m->library, &AbstractLibrary::sig_all_artists_loaded, this, &GUI_AbstractLibrary::lib_artists_ready);
+    connect(m->library, &AbstractLibrary::sig_all_albums_loaded, this, &GUI_AbstractLibrary::lib_albums_ready);
+    connect(m->library, &AbstractLibrary::sig_all_tracks_loaded, this,	&GUI_AbstractLibrary::lib_tracks_ready);
+    connect(m->library, &AbstractLibrary::sig_delete_answer, this, &GUI_AbstractLibrary::show_delete_answer);
 
-	ColumnHeader* t_h0 = new ColumnHeader(ColumnHeader::Sharp, true, Library::SortOrder::TrackNumAsc, Library::SortOrder::TrackNumDesc, 25);
-	ColumnHeader* t_h1 = new ColumnHeader(ColumnHeader::Title, false, Library::SortOrder::TrackTitleAsc, Library::SortOrder::TrackTitleDesc, 0.4, 200);
-	ColumnHeader* t_h2 = new ColumnHeader(ColumnHeader::Artist, true, Library::SortOrder::TrackArtistAsc, Library::SortOrder::TrackArtistDesc, 0.3, 160);
-	ColumnHeader* t_h3 = new ColumnHeader(ColumnHeader::Album, true, Library::SortOrder::TrackAlbumAsc, Library::SortOrder::TrackAlbumDesc, 0.3, 160);
-	ColumnHeader* t_h4 = new ColumnHeader(ColumnHeader::Year, true, Library::SortOrder::TrackYearAsc, Library::SortOrder::TrackYearDesc, 50);
-	ColumnHeader* t_h5 = new ColumnHeader(ColumnHeader::DurationShort, true, Library::SortOrder::TrackLenghtAsc, Library::SortOrder::TrackLengthDesc, 50);
-	ColumnHeader* t_h6 = new ColumnHeader(ColumnHeader::Bitrate, true, Library::SortOrder::TrackBitrateAsc, Library::SortOrder::TrackBitrateDesc, 75);
-	ColumnHeader* t_h7 = new ColumnHeader(ColumnHeader::Filesize, true, Library::SortOrder::TrackSizeAsc, Library::SortOrder::TrackSizeDesc, 75);
-	ColumnHeader* t_h8 = new ColumnHeader(ColumnHeader::Rating, true, Library::SortOrder::TrackRatingAsc, Library::SortOrder::TrackRatingDesc, 80);
+    connect(m->lv_album, &LibraryViewAlbum::doubleClicked, this, &GUI_AbstractLibrary::item_double_clicked);
+    connect(m->lv_album, &LibraryViewAlbum::sig_sel_changed, this, &GUI_AbstractLibrary::album_sel_changed);
+    connect(m->lv_album, &LibraryViewAlbum::sig_middle_button_clicked, this, &GUI_AbstractLibrary::item_middle_clicked);
+    connect(m->lv_album, &LibraryViewAlbum::sig_sortorder_changed, this, &GUI_AbstractLibrary::sortorder_album_changed);
+    connect(m->lv_album, &LibraryViewAlbum::sig_columns_changed, this, &GUI_AbstractLibrary::columns_album_changed);
+    connect(m->lv_album, &LibraryViewAlbum::sig_delete_clicked, this, &GUI_AbstractLibrary::delete_current_tracks);
+    connect(m->lv_album, &LibraryViewAlbum::sig_play_next_clicked, this, &GUI_AbstractLibrary::play_next);
+    connect(m->lv_album, &LibraryViewAlbum::sig_append_clicked, this, &GUI_AbstractLibrary::append);
+    connect(m->lv_album, &LibraryViewAlbum::sig_refresh_clicked, this, &GUI_AbstractLibrary::refresh_album);
 
-	ColumnHeader* al_h0 = new ColumnHeader(ColumnHeader::Sharp, true, Library::SortOrder::NoSorting, Library::SortOrder::NoSorting, 20);
-	ColumnHeader* al_h1 = new ColumnHeader(ColumnHeader::Album, false, Library::SortOrder::AlbumNameAsc, Library::SortOrder::AlbumNameDesc, 1.0, 160);
-	ColumnHeader* al_h2 = new ColumnHeader(ColumnHeader::Duration, true, Library::SortOrder::AlbumDurationAsc, Library::SortOrder::AlbumDurationDesc, 90);
-	ColumnHeader* al_h3 = new ColumnHeader(ColumnHeader::NumTracks, true, Library::SortOrder::AlbumTracksAsc, Library::SortOrder::AlbumTracksDesc, 80);
-	ColumnHeader* al_h4 = new ColumnHeader(ColumnHeader::Year, true, Library::SortOrder::AlbumYearAsc, Library::SortOrder::AlbumYearDesc, 50);
-	ColumnHeader* al_h5 = new ColumnHeader(ColumnHeader::Rating, true, Library::SortOrder::AlbumRatingAsc, Library::SortOrder::AlbumRatingDesc, 80);
+    connect(m->lv_artist, &LibraryView::doubleClicked, this, &GUI_AbstractLibrary::item_double_clicked);
+    connect(m->lv_artist, &LibraryView::sig_sel_changed, this, &GUI_AbstractLibrary::artist_sel_changed);
+    connect(m->lv_artist, &LibraryView::sig_middle_button_clicked, this, &GUI_AbstractLibrary::item_middle_clicked);
+    connect(m->lv_artist, &LibraryTableView::sig_sortorder_changed, this, &GUI_AbstractLibrary::sortorder_artist_changed);
+    connect(m->lv_artist, &LibraryTableView::sig_columns_changed, this, &GUI_AbstractLibrary::columns_artist_changed);
+    connect(m->lv_artist, &LibraryView::sig_delete_clicked, this, &GUI_AbstractLibrary::delete_current_tracks);
+    connect(m->lv_artist, &LibraryView::sig_play_next_clicked, this, &GUI_AbstractLibrary::play_next);
+    connect(m->lv_artist, &LibraryView::sig_append_clicked, this, &GUI_AbstractLibrary::append);
+    connect(m->lv_artist, &LibraryView::sig_refresh_clicked, this, &GUI_AbstractLibrary::refresh_artist);
 
-	ColumnHeader* ar_h0 = new ColumnHeader(ColumnHeader::Sharp, true, Library::SortOrder::NoSorting, Library::SortOrder::NoSorting, 20);
-	ColumnHeader* ar_h1 = new ColumnHeader(ColumnHeader::Artist, false, Library::SortOrder::ArtistNameAsc, Library::SortOrder::ArtistNameDesc, 1.0, 160 );
-	ColumnHeader* ar_h2 = new ColumnHeader(ColumnHeader::NumTracks, true, Library::SortOrder::ArtistTrackcountAsc, Library::SortOrder::ArtistTrackcountDesc, 80);
+    connect(m->lv_tracks, &LibraryView::doubleClicked, this, &GUI_AbstractLibrary::item_double_clicked);
+    connect(m->lv_tracks, &LibraryView::sig_sel_changed, this, &GUI_AbstractLibrary::track_sel_changed);
+    connect(m->lv_tracks, &LibraryView::sig_middle_button_clicked, this, &GUI_AbstractLibrary::item_middle_clicked);
+    connect(m->lv_tracks, &LibraryTableView::sig_sortorder_changed, this, &GUI_AbstractLibrary::sortorder_title_changed);
+    connect(m->lv_tracks, &LibraryTableView::sig_columns_changed, this, &GUI_AbstractLibrary::columns_title_changed);
+    connect(m->lv_tracks, &LibraryView::sig_delete_clicked, this, &GUI_AbstractLibrary::delete_current_tracks);
+    connect(m->lv_tracks, &LibraryView::sig_play_next_clicked, this, &GUI_AbstractLibrary::play_next_tracks);
+    connect(m->lv_tracks, &LibraryView::sig_append_clicked, this, &GUI_AbstractLibrary::append_tracks);
+    connect(m->lv_tracks, &LibraryView::sig_refresh_clicked, this, &GUI_AbstractLibrary::refresh_tracks);
 
-	ColumnHeaderList track_columns, album_columns, artist_columns;
-
-	track_columns  << t_h0  << t_h1  << t_h2  << t_h3  <<t_h4  << t_h5  << t_h6 << t_h7 << t_h8;
-	album_columns  << al_h0 << al_h1 << al_h2 << al_h3 << al_h4 << al_h5;
-	artist_columns << ar_h0 << ar_h1 << ar_h2;
-
-    m->album_model = new LibraryItemModelAlbums(m->lv_album, m->library);
-    m->artist_model = new LibraryItemModelArtists(m->lv_artist, m->library);
-    m->track_model = new LibraryItemModelTracks(m->lv_tracks, m->library);
-
-	m->album_delegate = new LibraryRatingDelegate(m->lv_album, (int) ColumnIndex::Album::Rating, true);
-	m->track_delegate = new LibraryRatingDelegate(m->lv_tracks, (int) ColumnIndex::Track::Rating, true);
-
-	connect(m->album_delegate, &LibraryRatingDelegate::sig_rating_changed, this, &GUI_AbstractLibrary::album_rating_changed);
-	connect(m->track_delegate, &LibraryRatingDelegate::sig_rating_changed, this, &GUI_AbstractLibrary::title_rating_changed);
-
-	m->lv_tracks->setModel(m->track_model);
-	m->lv_tracks->setSearchModel(m->track_model);
-	m->lv_tracks->setItemDelegate(m->track_delegate);
-	m->lv_tracks->set_metadata_interpretation(MD::Interpretation::Tracks);
-	m->lv_tracks->set_table_headers(track_columns, m->shown_cols_tracks, so.so_tracks);
-
-	m->lv_artist->setModel(m->artist_model);
-	m->lv_artist->setSearchModel(m->artist_model);
-	m->lv_artist->setItemDelegate(new StyledItemDelegate(m->lv_artist));
-	m->lv_artist->set_metadata_interpretation(MD::Interpretation::Artists);
-	m->lv_artist->set_table_headers(artist_columns, m->shown_cols_artist, so.so_artists);
-
-	m->lv_album->setModel(m->album_model);
-	m->lv_album->setSearchModel(m->album_model);
-	m->lv_album->setItemDelegate(m->album_delegate);
-	m->lv_album->set_metadata_interpretation(MD::Interpretation::Albums);
-	m->lv_album->set_table_headers(album_columns, m->shown_cols_albums, so.so_albums);
+    REGISTER_LISTENER(Set::Lib_LiveSearch, _sl_live_search_changed);
 }
 
 void GUI_AbstractLibrary::init_shortcuts() {}
 
+void GUI_AbstractLibrary::search_return_pressed()
+{
+    search_edited(m->le_search->text());
+}
 
 void GUI_AbstractLibrary::search_edited(const QString& search)
 {
     if(search.startsWith("f:", Qt::CaseInsensitive))
     {
-        combo_search_changed(::Library::Filter::Fulltext);
+        search_mode_changed(::Library::Filter::Fulltext);
 		m->le_search->clear();
 	}
 
 	else if(search.startsWith("g:", Qt::CaseInsensitive)) {
-        combo_search_changed(::Library::Filter::Genre);
+        search_mode_changed(::Library::Filter::Genre);
 		m->le_search->clear();
 	}
 
 	else if(search.startsWith("p:", Qt::CaseInsensitive)) {
-        combo_search_changed(::Library::Filter::Filename);
+        search_mode_changed(::Library::Filter::Filename);
 		m->le_search->clear();
 	}
 
 	Library::SearchModeMask mask = _settings->get(Set::Lib_SearchMode);
 	Library::Filter filter;
-
-    ::Library::Filter::Mode current_mode = static_cast<::Library::Filter::Mode>(m->le_search->property("search_mode").toInt());
+    Library::Filter::Mode current_mode = static_cast<Library::Filter::Mode>(m->le_search->property("search_mode").toInt());
+    filter.set_mode(current_mode);
 
 	QString text = search;
 
-	switch(current_mode)
-	{
-		case Library::Filter::Fulltext:
-			text = Library::convert_search_string(search, mask);
-			break;
+    if(current_mode == Library::Filter::Fulltext){
+        text = Library::convert_search_string(search, mask);
+    }
 
-		default:
-			break;
-	}
-
-	filter.set_mode(current_mode);
-
-	if(search.size() < 3){
+    if(search.size() < 3) {
 		filter.clear();
 	}
 
-	else{
+    else {
 		filter.set_filtertext( QString("%") + text + QString("%") );
 	}
 
-	m->cur_searchfilter = filter;
     m->library->psl_filter_changed(filter);
 }
 
 void GUI_AbstractLibrary::search_cleared()
 {
-	sp_log(Log::Debug, this) << "Search cleared";
-    m->cur_searchfilter.clear();
-    combo_search_changed(::Library::Filter::Fulltext);
+    Library::Filter filter;
+    m->library->set_filter(filter);
+
+    search_mode_changed(Library::Filter::Fulltext);
+
     m->le_search->clear();
     m->library->refetch();
 }
 
 
-void GUI_AbstractLibrary::combo_search_changed(::Library::Filter::Mode mode)
+void GUI_AbstractLibrary::search_mode_changed(Library::Filter::Mode mode)
 {
-    QString text = Lang::get(Lang::Search) + ": " + ::Library::Filter::get_text(mode);
+    QString text = Lang::get(Lang::Search) + ": " + Library::Filter::get_text(mode);
+
     m->le_search->setPlaceholderText(text);
     m->le_search->setProperty("search_mode", (int) mode);
 
-	m->cur_searchfilter.set_mode(mode);
-	//m->library->psl_filter_changed(m->cur_searchfilter);
+    Library::Filter filter = m->library->get_filter();
+    filter.set_mode(mode);
+
+    m->library->set_filter(filter);
 }
-
-
-void GUI_AbstractLibrary::return_pressed()
-{
-    search_edited(m->le_search->text());
-}
-
-
-void GUI_AbstractLibrary::refresh()
-{
-	m->library->refresh();
-}
-
 
 void GUI_AbstractLibrary::lib_tracks_ready()
 {
@@ -333,7 +311,6 @@ void GUI_AbstractLibrary::lib_tracks_ready()
 
     m->lv_tracks->fill<MetaDataList, LibraryItemModelTracks>(v_md);
 }
-
 
 void GUI_AbstractLibrary::lib_albums_ready()
 {
@@ -368,55 +345,17 @@ void GUI_AbstractLibrary::track_sel_changed(const SP::Set<int>& lst)
 }
 
 
-void GUI_AbstractLibrary::artist_middle_clicked(const QPoint& pt)
+void GUI_AbstractLibrary::item_middle_clicked(const QPoint& pt)
 {
 	Q_UNUSED(pt)
 	m->library->psl_prepare_tracks_for_playlist(true);
 }
 
-
-void GUI_AbstractLibrary::album_middle_clicked(const QPoint& pt)
+void GUI_AbstractLibrary::item_double_clicked(const QModelIndex& idx)
 {
-	Q_UNUSED(pt)
-	m->library->psl_prepare_tracks_for_playlist(true);
+    Q_UNUSED(idx)
+    m->library->psl_prepare_tracks_for_playlist(false);
 }
-
-void GUI_AbstractLibrary::tracks_middle_clicked(const QPoint& pt)
-{
-	Q_UNUSED(pt)
-	m->library->psl_prepare_tracks_for_playlist(m->lv_tracks->get_selected_items(), true);
-}
-
-
-void GUI_AbstractLibrary::album_dbl_clicked(const QModelIndex& idx)
-{
-	LibraryView* view = static_cast<LibraryView*>( sender() );
-
-	m->library->psl_prepare_album_for_playlist(
-				view->get_index_by_model_index(idx),
-				false
-	);
-}
-
-void GUI_AbstractLibrary::artist_dbl_clicked(const QModelIndex& idx)
-{
-	LibraryView* view = static_cast<LibraryView*>( sender() );
-	m->library->psl_prepare_artist_for_playlist(
-				view->get_index_by_model_index(idx),
-				false
-	);
-}
-
-void GUI_AbstractLibrary::track_dbl_clicked(const QModelIndex& idx)
-{
-	LibraryView* view = static_cast<LibraryView*>( sender() );
-
-	m->library->psl_prepare_tracks_for_playlist(
-				view->get_index_by_model_index(idx),
-				false
-	);
-}
-
 
 void  GUI_AbstractLibrary::columns_album_changed(const BoolList& list)
 {
@@ -441,8 +380,6 @@ void  GUI_AbstractLibrary::columns_title_changed(const BoolList& list)
 
 void GUI_AbstractLibrary::sortorder_artist_changed(Library::SortOrder s)
 {
-	m->lv_artist->save_selections();
-
 	Library::Sortings so = _settings->get(Set::Lib_Sorting);
 	so.so_artists = s;
 
@@ -452,10 +389,8 @@ void GUI_AbstractLibrary::sortorder_artist_changed(Library::SortOrder s)
 
 void GUI_AbstractLibrary::sortorder_album_changed(Library::SortOrder s)
 {
-	m->lv_album->save_selections();
-
-   Library::Sortings so = _settings->get(Set::Lib_Sorting);
-	so.so_albums = s;
+    Library::Sortings so = _settings->get(Set::Lib_Sorting);
+    so.so_albums = s;
 
 	_settings->set(Set::Lib_Sorting, so);
 }
@@ -463,71 +398,21 @@ void GUI_AbstractLibrary::sortorder_album_changed(Library::SortOrder s)
 
 void GUI_AbstractLibrary::sortorder_title_changed(Library::SortOrder s)
 {
-	m->lv_tracks->save_selections();
-
 	Library::Sortings so = _settings->get(Set::Lib_Sorting);
 	so.so_tracks = s;
 
-	 _settings->set(Set::Lib_Sorting, so);
+    _settings->set(Set::Lib_Sorting, so);
 }
 
 
-void GUI_AbstractLibrary::delete_album()
+void GUI_AbstractLibrary::delete_current_tracks()
 {
-	int n_tracks = m->track_model->rowCount();
-	Library::TrackDeletionMode answer = show_delete_dialog(n_tracks);
+    int n_tracks = m->library->get_current_tracks().count();
 
-	m->library->delete_current_tracks(answer);
-}
-
-void GUI_AbstractLibrary::delete_artist()
-{
-	int n_tracks = m->track_model->rowCount();
-	Library::TrackDeletionMode answer = show_delete_dialog(n_tracks);
-
-	m->library->delete_current_tracks(answer);
-}
-
-void GUI_AbstractLibrary::delete_tracks()
-{
-	QModelIndexList idx_list = m->lv_tracks->selectionModel()->selectedRows(0);
-	SP::Set<int> indexes;
-
-	for(const QModelIndex& idx : idx_list) {
-		indexes.insert(idx.row());
-	}
-
-	Library::TrackDeletionMode answer = show_delete_dialog(indexes.size());
-
-	if(answer != Library::TrackDeletionMode::None){
-		m->library->delete_tracks_by_idx(indexes, answer);
-	}
-}
-
-
-void GUI_AbstractLibrary::album_rating_changed(int rating)
-{
-	SP::Set<int> indexes = m->lv_album->get_selected_items();
-	if(indexes.isEmpty()) {
-		return;
-	}
-
-	int first = indexes.first();
-
-	m->library->change_album_rating(first, rating);
-}
-
-
-void GUI_AbstractLibrary::title_rating_changed(int rating)
-{
-	SP::Set<int> indexes = m->lv_tracks->get_selected_items();
-	if(indexes.isEmpty()) {
-		return;
-	}
-
-	int first = indexes.first();
-
-	m->library->change_track_rating(first, rating);
+    Library::TrackDeletionMode answer = show_delete_dialog(n_tracks);
+    if(answer != Library::TrackDeletionMode::None) {
+        m->library->delete_current_tracks(answer);
+    }
 }
 
 void GUI_AbstractLibrary::append()
@@ -537,33 +422,17 @@ void GUI_AbstractLibrary::append()
 
 void GUI_AbstractLibrary::append_tracks()
 {
-	QModelIndexList idx_list = m->lv_tracks->selectionModel()->selectedRows(0);
-
-	SP::Set<int> indexes;
-	for(const QModelIndex&  idx : idx_list) {
-		indexes.insert(idx.row());
-	}
-
-	m->library->psl_append_tracks(indexes);
+    m->library->psl_append_current_tracks();
 }
-
 
 void GUI_AbstractLibrary::play_next()
 {
 	m->library->psl_play_next_all_tracks();
 }
 
-
 void GUI_AbstractLibrary::play_next_tracks()
 {
-	QModelIndexList idx_list = m->lv_tracks->selectionModel()->selectedRows(0);
-
-	SP::Set<int> indexes;
-	for(const QModelIndex&  idx : idx_list) {
-		indexes.insert(idx.row());
-	}
-
-	m->library->psl_play_next_tracks(indexes);
+    m->library->psl_play_next_current_tracks();
 }
 
 void GUI_AbstractLibrary::refresh_artist()
@@ -584,7 +453,7 @@ void GUI_AbstractLibrary::refresh_tracks()
 
 void GUI_AbstractLibrary::id3_tags_changed()
 {
-	refresh();
+    m->library->refresh();
 }
 
 
@@ -598,11 +467,9 @@ void GUI_AbstractLibrary::_sl_live_search_changed()
 {
     if(_settings->get(Set::Lib_LiveSearch)) {
         connect(m->le_search, &QLineEdit::textEdited, this, &GUI_AbstractLibrary::search_edited);
-		disconnect(m->le_search, &QLineEdit::returnPressed, this, &GUI_AbstractLibrary::return_pressed);
 	}
 
     else {
         disconnect(m->le_search, &QLineEdit::textEdited, this, &GUI_AbstractLibrary::search_edited);
-		connect(m->le_search, &QLineEdit::returnPressed, this, &GUI_AbstractLibrary::return_pressed);
 	}
 }

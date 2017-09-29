@@ -82,7 +82,8 @@ void HeaderView::set_column_headers(const ColumnHeaderList& column_headers, cons
 
 	int i=0;
 
-	for(ColumnHeader* header : _column_headers) {
+    for(ColumnHeader* header : _column_headers)
+    {
 		if( header->get_asc_sortorder() == sorting) {
 			this->setSortIndicator(i, Qt::AscendingOrder);
 		}

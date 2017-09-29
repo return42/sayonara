@@ -95,15 +95,15 @@ signals:
 
 protected slots:
 
-	virtual void set_about_to_finish(int64_t ms);
-	virtual void set_cur_position_ms(int64_t ms);
+	virtual void about_to_finish(int64_t ms);
+	virtual void cur_pos_ms_changed(int64_t ms);
 
 
 public slots:
 	virtual void play()=0;
 	virtual void stop()=0;
 	virtual void pause()=0;
-	virtual void error();
+	virtual void error(const QString& error);
 
 	virtual void jump_abs_ms(uint64_t ms)=0;
 	virtual void jump_rel_ms(uint64_t ms)=0;

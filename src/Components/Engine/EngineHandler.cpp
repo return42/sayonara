@@ -54,12 +54,12 @@ EngineHandler::EngineHandler(QObject* parent) :
 	connect(_play_manager, &PlayManager::sig_record,
 			this, &EngineHandler::sr_record_button_pressed);
 
-	MetaData md = _play_manager->get_cur_track();
-	if(!md.filepath().isEmpty()){
-		change_track(md);
-	}
-
 	switch_engine(EngineName::PlaybackEngine);
+
+    MetaData md = _play_manager->get_cur_track();
+    if(!md.filepath().isEmpty()) {
+        change_track(md);
+    }
 }
 
 

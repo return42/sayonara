@@ -93,8 +93,8 @@ protected:
 	}
 };
 
-typedef SearchViewInterface<QTableView> SearchableTableView;
-typedef SearchViewInterface<QListView> SearchableListView;
-typedef SearchViewInterface<QTreeView> SearchableTreeView;
+using SearchableTableView=SearchViewInterface<QTableView>;
+using SearchableListView=SearchViewInterface<QListView>;
+using SearchableTreeView=SearchViewInterface<QTreeView>;
 
 #endif // SEARCHABLEVIEW_H

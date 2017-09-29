@@ -44,7 +44,7 @@ ConvertEngine::ConvertEngine(QObject *parent) :
 {
     m = Pimpl::make<Private>(this);
 
-    connect(m->pipeline, &ConvertPipeline::sig_pos_changed_ms, this, &ConvertEngine::set_cur_position_ms);
+    connect(m->pipeline, &ConvertPipeline::sig_pos_changed_ms, this, &ConvertEngine::cur_pos_ms_changed);
 }
 
 ConvertEngine::~ConvertEngine() {}
@@ -99,7 +99,7 @@ void ConvertEngine::set_track_finished(GstElement* src)
 	emit sig_track_finished();
 }
 
-void ConvertEngine::set_cur_position_ms(int64_t v)
+void ConvertEngine::cur_pos_ms_changed(int64_t v)
 {
 	emit sig_pos_changed_s((uint32_t) v / 1000);
 }

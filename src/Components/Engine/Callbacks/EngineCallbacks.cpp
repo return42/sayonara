@@ -32,7 +32,7 @@
 #include <algorithm>
 
 #ifdef Q_OS_WIN
-	/*void EngineCallbacks::destroy_notify(gpointer data) {}
+	void EngineCallbacks::destroy_notify(gpointer data) {}
 
 	GstBusSyncReply
 	EngineCallbacks::bus_message_received(GstBus* bus, GstMessage* msg, gpointer data) {
@@ -43,7 +43,7 @@
 
 		gst_message_unref(msg);
 		return GST_BUS_DROP;
-	}*/
+	}
 #endif
 
 static bool parse_image(GstTagList* tags, QImage& img)
@@ -272,7 +272,8 @@ gboolean EngineCallbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpoint
 				sp_log(Log::Error) << "Engine " << (int) engine->get_name() << ": GST_MESSAGE_ERROR: " << err->message << ": "
 						 << GST_MESSAGE_SRC_NAME(msg);
 
-				engine->error();
+				QString	error_msg(err->message);
+				engine->error(error_msg);
 
 				g_error_free(err);
 			}

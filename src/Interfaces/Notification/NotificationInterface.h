@@ -61,6 +61,6 @@ public:
 	QString get_name() const;
 };
 
-typedef QList<NotificationInterface*> NotificatonList;
+using NotificatonList=QList<NotificationInterface*>;
 
 #endif // ABSTRACTNOTIFICATOR_H

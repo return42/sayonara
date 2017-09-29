@@ -46,6 +46,7 @@
 #include <QAction>
 #include <QMenu>
 #include <QStringList>
+#include <QHeaderView>
 
 class LibraryContextMenu;
 class ColumnHeaderList;
@@ -80,13 +81,12 @@ public:
 	explicit LibraryView(QWidget* parent=nullptr);
 	virtual ~LibraryView();
 
-	virtual void save_selections();
-
 	using QTableView::setModel;
 	virtual void setModel(LibraryItemModel* model);
-	virtual MetaDataList selected_metadata() const;
 
 	void show_rc_menu_actions(int entries);
+
+    /** Dragable **/
 	QMimeData* get_mimedata() const override;
 	QPixmap pixmap() const override;
 
@@ -126,11 +126,7 @@ public:
 	template < typename T, typename ModelType >
 	void fill(const T& input_data)
 	{
-		SP::Set<int> indexes;
-
-		clearSelection();
-
-		int old_size = _model->rowCount();
+        int old_size = _model->last_row_count();
 		int new_size = input_data.size();
 
 		if(old_size > new_size){
@@ -141,17 +137,17 @@ public:
 			_model->insertRows(old_size, new_size - old_size);
 		}
 
+        _model->refresh_data();
+
+        SP::Set<int> selections;
 		for(int row=0; row < new_size; row++)
 		{
 			if(_model->is_selected(input_data[row].id)){
-				indexes.insert(row);
+                selections.insert(row);
 			}
 		}
 
-        _model->refresh_data();
-		_model->clear_selections();
-
-		select_rows(indexes, 0, _model->columnCount() - 1);
+        select_rows(selections, 0, _model->columnCount() - 1);
 
         if(new_size > old_size) {
 			resize_rows_to_contents(old_size, new_size - old_size);

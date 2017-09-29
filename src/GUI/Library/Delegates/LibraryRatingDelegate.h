@@ -30,9 +30,6 @@ class LibraryRatingDelegate :
     Q_OBJECT
 	PIMPL(LibraryRatingDelegate)
 
-signals:
-    void sig_rating_changed(int);
-
 public:
 	LibraryRatingDelegate(QObject* parent, int rating_column, bool enabled);
 	~LibraryRatingDelegate();

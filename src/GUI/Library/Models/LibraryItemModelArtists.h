@@ -44,15 +44,16 @@ class LibraryItemModelArtists :
 		virtual ~LibraryItemModelArtists();
 
         /** AbstractSearchTableModel **/
-        Qt::ItemFlags   flags(const QModelIndex &index) const override;
-
-        QVariant        data(const QModelIndex &index, int role=Qt::DisplayRole) const override;
+        Qt::ItemFlags   flags(const QModelIndex& index) const override;
+        QVariant        data(const QModelIndex& index, int role=Qt::DisplayRole) const override;
+        int             rowCount(const QModelIndex& parent) const;
 
         /** LibraryItemModel **/
         CoverLocation   get_cover(const SP::Set<int>& indexes) const override;
         int             get_searchable_column() const override;
         int             get_id_by_row(int row) override;
         QString         get_string(int row) const override;
+        const SP::Set<int>&    selections() const override;
 };
 
 #endif /* LIBRARYITEMMODELARTISTS_H_ */

@@ -26,8 +26,8 @@
 #include <QAbstractListModel>
 #include "Helper/Pimpl.h"
 
-typedef QString LibName;
-typedef QString LibPath;
+using LibName=QString;
+using LibPath=QString;
 
 class LibraryListModel :
 		public QAbstractListModel

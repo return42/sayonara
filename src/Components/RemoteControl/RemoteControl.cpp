@@ -38,6 +38,10 @@
 #include <functional>
 #include <algorithm>
 
+using RemoteFunction=std::function<void()>;
+using RemoteFunctionInt=std::function<void(int)>;
+
+
 struct RemoteControl::Private
 {
     bool initialized;

@@ -47,11 +47,15 @@ public:
     Qt::ItemFlags   flags(const QModelIndex &index) const override;
     QVariant        data(const QModelIndex& index, int role) const override;
     bool            setData(const QModelIndex& index, const QVariant& value, int role=Qt::DisplayRole) override;
+    int             rowCount(const QModelIndex &parent) const;
 
     CoverLocation   get_cover(const SP::Set<int>& indexes) const override;
     int             get_searchable_column() const override;
     int             get_id_by_row(int row) override;
     QString         get_string(int row) const override;
+
+
+    const SP::Set<int>& selections() const override;
 };
 
 #endif /* LIBRARYITEMMODELALBUMS_H_ */

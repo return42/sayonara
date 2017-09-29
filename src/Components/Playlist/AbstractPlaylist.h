@@ -130,7 +130,7 @@ public slots:
 
 
 private slots:
-	void			_sl_playlist_mode_changed();
+    void _sl_playlist_mode_changed();
 };
 
 #endif // PLAYLIST_H

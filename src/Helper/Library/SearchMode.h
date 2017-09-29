@@ -38,7 +38,7 @@ namespace Library
 		NoDiacriticChars=(1<<2)
     };
 
-    typedef int SearchModeMask;
+    using SearchModeMask = int;
 
 	QString convert_search_string(const QString& str, ::Library::SearchModeMask mode, const QList<QChar>& ignored_chars=QList<QChar>());
 }

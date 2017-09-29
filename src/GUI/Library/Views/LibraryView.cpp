@@ -100,12 +100,6 @@ void LibraryView::selectionChanged(const QItemSelection& selected, const QItemSe
 	emit sig_sel_changed(indexes);
 }
 
-
-void LibraryView::save_selections()
-{
-	SP::Set<int> indexes = get_selected_items();
-	_model->add_selections(indexes);
-}
 // selections end
 
 
@@ -180,20 +174,6 @@ void LibraryView::set_selection_type(SayonaraSelectionView::SelectionType type)
     }
 }
 
-MetaDataList LibraryView::selected_metadata() const
-{
-	MetaDataList v_md;
-
-	CustomMimeData* mimedata = _model->get_mimedata();
-	if(mimedata){
-		v_md = mimedata->getMetaData();
-		delete mimedata; mimedata = nullptr;
-	}
-
-	return v_md;
-}
-
-
 void LibraryView::rc_menu_show(const QPoint& p)
 {
 	m->rc_menu->exec(p);
@@ -207,7 +187,15 @@ void LibraryView::set_metadata_interpretation(MD::Interpretation type)
 
 MetaDataList LibraryView::info_dialog_data() const
 {
-	return selected_metadata();
+    CustomMimeData* cmd = _model->get_mimedata();
+    if(!cmd){
+        return MetaDataList();
+    }
+
+    MetaDataList v_md = cmd->getMetaData();
+    delete cmd; cmd = nullptr;
+
+    return v_md;
 }
 
 
@@ -261,27 +249,26 @@ void LibraryView::resize_rows_to_contents(int first_row, int count)
 // mouse events
 void LibraryView::mousePressEvent(QMouseEvent* event)
 {
-	QPoint pos_org = event->pos();
-	QPoint pos = QWidget::mapToGlobal(pos_org);
-
-	if(_model->rowCount() == 0){
+    if(_model->rowCount() == 0)
+    {
 		return;
 	}
 
-	switch(event->button()) {
-		case Qt::LeftButton:
-			this->drag_pressed(event->pos());
-			break;
+    QPoint pos_org = event->pos();
+    QPoint pos = QWidget::mapToGlobal(pos_org);
 
-		case Qt::MidButton:
-			emit sig_middle_button_clicked(pos);
-			break;
-
-		default:
-			break;
-	}
+    if(event->button() == Qt::LeftButton){
+        this->drag_pressed(pos_org);
+    }
 
 	SearchableTableView::mousePressEvent(event);
+
+    if(event->button() == Qt::MidButton) {
+        // item has to be marked as selected first,
+        // so the signal is emmited after calling
+        // SearchableTableView::mousePressEvent(event);
+        emit sig_middle_button_clicked(pos);
+    }
 }
 
 

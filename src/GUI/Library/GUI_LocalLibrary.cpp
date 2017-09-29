@@ -107,7 +107,7 @@ GUI_LocalLibrary::GUI_LocalLibrary(int id, QWidget* parent) :
 	connect(m->library_menu, &LocalLibraryMenu::sig_import_file, this, &GUI_LocalLibrary::import_files_requested);
 	connect(m->library_menu, &LocalLibraryMenu::sig_import_folder, this, &GUI_LocalLibrary::import_dirs_requested);
 	connect(m->library_menu, &LocalLibraryMenu::sig_info, this, &GUI_LocalLibrary::show_info_box);
-	connect(m->library_menu, &LocalLibraryMenu::sig_show_album_artists_changed, this, &GUI_LocalLibrary::refresh);
+    connect(m->library_menu, &LocalLibraryMenu::sig_show_album_artists_changed, m->library, &LocalLibrary::refresh);
 	connect(m->library_menu, &LocalLibraryMenu::sig_reload_library, this, [=](){
 		this->reload_library_requested();
 	});
@@ -265,7 +265,7 @@ void GUI_LocalLibrary::search_cleared()
 void GUI_LocalLibrary::genre_selection_changed(const QModelIndex& index)
 {
 	QVariant data = index.data();
-    combo_search_changed(::Library::Filter::Genre);
+    search_mode_changed(::Library::Filter::Genre);
 
     ui->le_search->setText(data.toString());
     search_edited(data.toString());
@@ -525,9 +525,9 @@ void GUI_LocalLibrary::init_album_cover_view()
     m->acm = new AlbumCoverModel(m->acv, m->library);
 	m->acv->setModel(m->acm);
 
-	connect(m->acv, &LibraryView::doubleClicked, this, &GUI_LocalLibrary::album_dbl_clicked);
 	connect(m->acv, &LibraryView::sig_sel_changed, this, &GUI_LocalLibrary::album_sel_changed);
-	connect(m->acv, &LibraryView::sig_middle_button_clicked, this, &GUI_LocalLibrary::album_middle_clicked);
+    connect(m->acv, &LibraryView::doubleClicked, this, &GUI_LocalLibrary::item_double_clicked);
+    connect(m->acv, &LibraryView::sig_middle_button_clicked, this, &GUI_LocalLibrary::item_middle_clicked);
 	connect(m->acv, &LibraryView::sig_play_next_clicked, this, &GUI_LocalLibrary::play_next);
 	connect(m->acv, &LibraryView::sig_append_clicked, this, &GUI_LocalLibrary::append);
 	connect(m->acv, &LibraryView::sig_merge, m->library, &LocalLibrary::merge_albums);

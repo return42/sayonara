@@ -89,18 +89,18 @@ void Engine::set_track_ready(GstElement* src)
 	Q_UNUSED(src)
 }
 
-void Engine::set_about_to_finish(int64_t ms)
+void Engine::about_to_finish(int64_t ms)
 {
 	Q_UNUSED(ms)
 }
 
-void Engine::set_cur_position_ms(int64_t ms)
+void Engine::cur_pos_ms_changed(int64_t ms)
 {
 	_cur_pos_ms = ms;
 	emit sig_pos_changed_ms(ms);
 }
 
-void Engine::error()
+void Engine::error(const QString& error)
 {
 	QString msg("Cannot play track");
 
@@ -109,6 +109,10 @@ void Engine::error()
 		msg += QString("\n\n") +
 			   "Probably, Sayonara's Soundcloud limit of 15.000 "
 			   "tracks per day is reached :( Sorry.";
+	}
+
+	else {
+		msg += QString("\n\n") + error;
 	}
 
 	emit sig_error(msg);

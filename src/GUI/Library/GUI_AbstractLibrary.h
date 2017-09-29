@@ -61,15 +61,14 @@ private:
 
 protected:
 	virtual void init_headers();
+    virtual void init_views();
 	virtual void init_shortcuts();
-	virtual void init_finished();
+    virtual void init_connections();
 
 	virtual ::Library::TrackDeletionMode show_delete_dialog(int n_tracks)=0;
 
 protected slots:
 	virtual void _sl_live_search_changed();
-
-	virtual void refresh();
 
     virtual void lib_tracks_ready();
     virtual void lib_albums_ready();
@@ -79,13 +78,8 @@ protected slots:
 	virtual void album_sel_changed(const SP::Set<int>&);
 	virtual void track_sel_changed(const SP::Set<int>&);
 
-	virtual void artist_middle_clicked(const QPoint& p);
-	virtual void album_middle_clicked(const QPoint& p);
-	virtual void tracks_middle_clicked(const QPoint& p);
-
-	virtual void artist_dbl_clicked(const QModelIndex &);
-	virtual void album_dbl_clicked(const QModelIndex &);
-	virtual void track_dbl_clicked(const QModelIndex &);
+    virtual void item_middle_clicked(const QPoint& p);
+    virtual void item_double_clicked(const QModelIndex&);
 
 	virtual void columns_title_changed(const BoolList&);
 	virtual void columns_album_changed(const BoolList&);
@@ -96,20 +90,15 @@ protected slots:
 	virtual void sortorder_artist_changed(::Library::SortOrder);
 
     virtual void search_cleared();
+    virtual void search_return_pressed();
     virtual void search_edited(const QString&);
-    virtual void combo_search_changed(::Library::Filter::Mode);
-	virtual void return_pressed();
+    virtual void search_mode_changed(::Library::Filter::Mode);
 
-	virtual void delete_artist();
-	virtual void delete_album();
-	virtual void delete_tracks();
+    virtual void delete_current_tracks();
 
 	virtual void refresh_artist();
 	virtual void refresh_album();
 	virtual void refresh_tracks();
-
-	virtual void album_rating_changed(int);
-	virtual void title_rating_changed(int);
 
 	virtual void append();
 	virtual void append_tracks();

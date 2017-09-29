@@ -39,18 +39,22 @@
 static Settings* settings=Settings::getInstance();
 
 template<typename KEY, typename T>
-void register_setting(const KEY& key, const char* db_key, const T& default_value){
-	typedef decltype(key.p) ValueTypePtr;
-	typedef typename std::remove_pointer<ValueTypePtr>::type ValueType;
+void register_setting(const KEY& key, const char* db_key, const T& default_value)
+{
+    using ValueTypePtr = decltype(key.p);
+    using ValueType = typename std::remove_pointer<ValueTypePtr>::type;
+
 	auto setting = new Setting<ValueType>(key, db_key, default_value);
 
 	settings->register_setting( setting );
 }
 
 template<typename KEY, typename T>
-void register_setting(const KEY& key, const T& default_value){
-	typedef decltype(key.p) ValueTypePtr;
-	typedef typename std::remove_pointer<ValueTypePtr>::type ValueType;
+void register_setting(const KEY& key, const T& default_value)
+{
+    using ValueTypePtr = decltype(key.p);
+    using ValueType = typename std::remove_pointer<ValueTypePtr>::type;
+
 	auto setting = new Setting<ValueType>(key, default_value);
 
 	settings->register_setting( setting );
