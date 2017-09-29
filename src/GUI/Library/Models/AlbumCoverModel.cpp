@@ -32,7 +32,6 @@
 
 #include <QStringList>
 #include <QPixmap>
-#include <QVector>
 #include <QThread>
 
 
