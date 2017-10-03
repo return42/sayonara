@@ -24,7 +24,7 @@
 #include "Helper/Tagging/Tagging.h"
 #include "Helper/FileHelper.h"
 #include "Helper/Settings/Settings.h"
-
+#include "Helper/Logger/Logger.h"
 #include <QUrl>
 
 struct ConvertEngine::Private
@@ -76,8 +76,6 @@ void ConvertEngine::change_track(const QString& str)
 void ConvertEngine::play()
 {
 	m->pipeline->play();
-
-	g_timeout_add(200, (GSourceFunc) PipelineCallbacks::position_changed, this);
 }
 
 void ConvertEngine::pause()
@@ -101,7 +99,9 @@ void ConvertEngine::set_track_finished(GstElement* src)
 
 void ConvertEngine::cur_pos_ms_changed(int64_t v)
 {
-	emit sig_pos_changed_s((uint32_t) v / 1000);
+	sp_log(Log::Debug, this) << "Position changed " << v;
+
+	emit sig_pos_changed_s((uint32_t) (v / 1000));
 }
 
 void ConvertEngine::set_volume(int vol) {Q_UNUSED(vol);}

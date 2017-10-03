@@ -73,17 +73,10 @@ GUI_PlaylistBottomBar::GUI_PlaylistBottomBar(QWidget *parent) :
 	ui->btn_repAll->setChecked(Playlist::Mode::isActive(m->plm.repAll()));
 	ui->btn_dynamic->setChecked(Playlist::Mode::isActive(m->plm.dynamic()));
 	ui->btn_shuffle->setChecked(Playlist::Mode::isActive(m->plm.shuffle()));
-	ui->btn_gapless->setChecked(Playlist::Mode::isActive(m->plm.gapless())) ;
-	
-	ui->btn_rep1->setEnabled(Playlist::Mode::isEnabled(m->plm.rep1()));
-	ui->btn_append->setEnabled(Playlist::Mode::isEnabled(m->plm.append()));
-	ui->btn_repAll->setEnabled(Playlist::Mode::isEnabled(m->plm.repAll()));
-	ui->btn_dynamic->setEnabled(Playlist::Mode::isEnabled(m->plm.dynamic()));
-	ui->btn_shuffle->setEnabled(Playlist::Mode::isEnabled(m->plm.shuffle()));
+	ui->btn_gapless->setChecked(Playlist::Mode::isActive(m->plm.gapless()));
 
-	bool gapless_enabled =
-			Playlist::Mode::isEnabled(m->plm.gapless()) &&
-			!_settings->get(Set::Engine_CrossFaderActive);
+	bool crossfader_active = _settings->get(Set::Engine_CrossFaderActive);
+	bool gapless_enabled = (Playlist::Mode::isEnabled(m->plm.gapless()) && !crossfader_active);
 
 	ui->btn_gapless->setEnabled(gapless_enabled) ;
 	

@@ -91,7 +91,7 @@ bool AbstractPipeline::init(GstState state)
 	_progress_timer = new QTimer(this);
 	_progress_timer->setInterval(200);
 	connect(_progress_timer, &QTimer::timeout, this, [=]()
-{
+	{
 		if(this->get_state() != GST_STATE_NULL){
 					PipelineCallbacks::position_changed(this);
 		}
@@ -120,15 +120,15 @@ void AbstractPipeline::refresh_position()
 
 	_position_source_ms = 0;
 	_position_pipeline_ms = 0;
-	if(success_source){
+	if(success_source) {
 		_position_source_ms = GST_TIME_AS_MSECONDS(pos_source);
 	}
 
-	if(success_pipeline){
+	if(success_pipeline) {
 		_position_pipeline_ms = GST_TIME_AS_MSECONDS(pos_pipeline);
 	}
 
-	if(_duration_ms >= 0){
+	if(_duration_ms >= 0) {
 		emit sig_pos_changed_ms( _position_pipeline_ms );
 	}
 }
@@ -158,14 +158,15 @@ void AbstractPipeline::set_data(uchar* data, uint64_t size){
 	emit sig_data(data, size);
 }
 
-/*
-static void show_time_info(gint64 pos, gint64 dur){
-	sp_log(Log::Debug, this) << "Difference: "
-					   << dur - pos << ": "
-					   << pos << " - "
-					   << dur;
-}
-*/
+
+//static void show_time_info(gint64 pos, gint64 dur){
+//	sp_log(Log::Develop, this) << "Difference: "
+//					   << dur - pos << ": "
+//					   << pos << " - "
+//					   << dur;
+//}
+
+
 void AbstractPipeline::check_about_to_finish()
 {
 	gint64 difference = _duration_ms - _position_pipeline_ms;

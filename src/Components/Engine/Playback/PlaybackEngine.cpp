@@ -80,7 +80,7 @@ PlaybackEngine::PlaybackEngine(QObject* parent) :
 {
     m = Pimpl::make<Private>(this);
 
-    connect(m->gapless_timer, &QTimer::timeout, this, &PlaybackEngine::gapless_timed_out);
+	connect(m->gapless_timer, &QTimer::timeout, this, &PlaybackEngine::gapless_timed_out);
 }
 
 
