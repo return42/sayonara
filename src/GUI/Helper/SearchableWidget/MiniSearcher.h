@@ -77,6 +77,7 @@ public:
     bool check_and_init(QKeyEvent* event);
 	void set_extra_triggers(const QMap<QChar, QString>& triggers);
 	QString get_current_text();
+	void set_number_results(int results);
 
 	void keyPressEvent(QKeyEvent *e) override;
 	void hideEvent(QHideEvent *e) override;

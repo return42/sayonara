@@ -23,6 +23,35 @@
 SearchModelFunctionality::SearchModelFunctionality() {}
 SearchModelFunctionality::~SearchModelFunctionality() {}
 
+int SearchModelFunctionality::getNumberResults(const QString& str)
+{
+	QModelIndex first_idx = this->getFirstRowIndexOf(str);
+	QModelIndex found_idx = first_idx;
+
+	int results=1;
+	if(!first_idx.isValid()) {
+		return 0;
+	}
+
+	while(true)
+	{
+		int row = found_idx.row();
+		found_idx = getNextRowIndexOf(str, row + 1);
+		bool same_idx = ((found_idx.row() == first_idx.row()) &&
+						(found_idx.column() == first_idx.column()));
+
+		if( same_idx || (!found_idx.isValid())) {
+			break;
+		}
+
+		else {
+			results++;
+		}
+	}
+
+	return results;
+}
+
 void SearchModelFunctionality::set_search_mode(Library::SearchModeMask search_mode)
 {
 	_search_mode = search_mode;

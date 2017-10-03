@@ -223,10 +223,15 @@ void SearchViewFunctionality::handleKeyPress(QKeyEvent* e)
 	}
 }
 
-
+#include "Helper/Library/SearchMode.h"
+#include "Helper/Settings/Settings.h"
 void SearchViewFunctionality::Private::edit_changed(const QString& str)
 {
 	search_view->select_match(str, SearchDirection::First);
+	QString search_str = Library::convert_search_string(str, Settings::getInstance()->get(Set::Lib_SearchMode));
+	mini_searcher->set_number_results(
+		search_model->getNumberResults(search_str)
+	);
 }
 
 void SearchViewFunctionality::Private::fwd_clicked()

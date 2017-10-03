@@ -29,6 +29,7 @@
 #include <QAbstractItemView>
 #include <QKeyEvent>
 #include <QFocusEvent>
+#include <QLabel>
 
 
 bool MiniSearchEventFilter::eventFilter(QObject* o, QEvent* e)
@@ -66,6 +67,7 @@ struct MiniSearcher::Private
 	QAbstractItemView*		parent=nullptr;
 	QMap<QChar, QString>    triggers;
     QLineEdit*              line_edit=nullptr;
+	QLabel*					label=nullptr;
 };
 
 
@@ -88,6 +90,7 @@ void MiniSearcher::init_layout()
 
     MiniSearchEventFilter* msef = new MiniSearchEventFilter(this);
 
+	m->label = new QLabel(this);
     m->line_edit = new QLineEdit(this);
     m->line_edit->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     m->line_edit->installEventFilter(msef);
@@ -99,6 +102,7 @@ void MiniSearcher::init_layout()
 
     layout->setContentsMargins(5, 5, 5, 5);
     layout->addWidget(m->line_edit);
+	layout->addWidget(m->label);
 
     connect(m->line_edit, &QLineEdit::textChanged, this, &MiniSearcher::line_edit_text_changed);
     connect(msef, &MiniSearchEventFilter::sig_tab_pressed, this, &MiniSearcher::right_clicked);
@@ -232,10 +236,12 @@ void MiniSearcher::init(QString text)
     par_width -= sb_width;
     par_height -= sb_height;
 
-    int new_x = par_width - 100;
-    int new_y = par_height - 40;
+	int target_width = 150;
+	int target_height = 35;
+	int new_x = par_width - (target_width + 5);
+	int new_y = par_height - (target_height + 5);
 
-    this->setGeometry(new_x, new_y, 100, 35);
+	this->setGeometry(new_x, new_y, target_width, target_height);
 
 	m->line_edit->setFocus();
 	m->line_edit->setText(text);
@@ -289,4 +295,16 @@ void MiniSearcher::set_extra_triggers(const QMap<QChar, QString>& triggers)
 QString MiniSearcher::get_current_text()
 {
 	return m->line_edit->text();
+}
+
+void MiniSearcher::set_number_results(int results)
+{
+	if(results < 0){
+		m->label->hide();
+		return;
+	}
+
+	QString text = QString("(%1)").arg(results);
+	m->label->setText(text);
+	m->label->show();
 }
