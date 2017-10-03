@@ -19,13 +19,13 @@
  */
 
 #include "MiniSearcher.h"
+#include "Helper/Language.h"
+
 #include "GUI/Helper/GUI_Helper.h"
 
 #include <QBoxLayout>
-#include <QPushButton>
 #include <QScrollBar>
-#include <QShortcut>
-#include <QKeySequence>
+#include <QLineEdit>
 #include <QAbstractItemView>
 #include <QKeyEvent>
 #include <QFocusEvent>
@@ -91,6 +91,11 @@ void MiniSearcher::init_layout()
     m->line_edit = new QLineEdit(this);
     m->line_edit->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     m->line_edit->installEventFilter(msef);
+	m->line_edit->setToolTip(
+		tr("Up") + ": " + tr("Previous search result") + "<br/>" +
+		tr("Down") + ": " + tr("Next search result") + "<br/>" +
+		tr("Esc") + ": " + Lang::get(Lang::Close)
+	);
 
     layout->setContentsMargins(5, 5, 5, 5);
     layout->addWidget(m->line_edit);

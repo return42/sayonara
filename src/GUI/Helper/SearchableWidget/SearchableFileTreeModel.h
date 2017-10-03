@@ -42,10 +42,10 @@ public:
     virtual ~SearchableFileTreeModel();
 
 public:
-    virtual QModelIndex getFirstRowIndexOf(const QString& substr) override;
-    virtual QModelIndex getNextRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent=QModelIndex()) override;
-    virtual QModelIndex getPrevRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent=QModelIndex()) override;
-    virtual QMap<QChar, QString> getExtraTriggers() override;
+	virtual QModelIndex getFirstRowIndexOf(const QString& substr) override;
+	virtual QModelIndex getNextRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent=QModelIndex()) override;
+	virtual QModelIndex getPrevRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent=QModelIndex()) override;
+	virtual QMap<QChar, QString> getExtraTriggers() override;
 };
 
 #endif // SEARCHABLEFileTreeView_H

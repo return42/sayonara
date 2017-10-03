@@ -32,4 +32,3 @@ Library::SearchModeMask SearchModelFunctionality::search_mode() const
 {
 	return _search_mode;
 }
-
