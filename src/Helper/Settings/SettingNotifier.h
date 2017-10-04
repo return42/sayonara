@@ -21,52 +21,65 @@
 #ifndef SETTINGNOTIFIER_H
 #define SETTINGNOTIFIER_H
 
-#include "Helper/Settings/AbstrSettingNotifier.h"
+#include <functional>
+#include <map>
+
 #pragma once
 
-/*	Connect a Setting to a private slot in a class that want to be notified
-	whenever the setting changed:
-
-	call: REGISTER_LISTENER(Set::LFM_Active, lfm_active_changed);
-	where lfm_active_changed() is a private Slot in that class;
-*/
-
-#define __REGISTER_LISTENER(setting_key, fn) \
-	SettingNotifier<setting_key##_t>* v_##fn = SettingNotifier<setting_key##_t>::getInstance();\
-	connect(v_##fn, SIGNAL(sig_value_changed()), this, SLOT( fn() ))
-
-#define REGISTER_LISTENER(setting_key, fn) \
-	do { \
-		__REGISTER_LISTENER(setting_key, fn); \
-		fn(); \
-	} while(0)
-
-#define REGISTER_LISTENER_NO_CALL(setting_key, fn) \
-	do { \
-		__REGISTER_LISTENER(setting_key, fn); \
-	} while(0)
-
-
-/* A Setting notifier has to be a singleton */
-template < typename T >
-class SettingNotifier : public AbstrSettingNotifier {
-	private:
-		explicit SettingNotifier( QObject* parent=0 ) : AbstrSettingNotifier(parent) {}
-		SettingNotifier( const SettingNotifier& ) {}
-
-	public:
-		virtual ~SettingNotifier() {}
-
-		static SettingNotifier< T >* getInstance()
+template<typename KeyClass>
+class SettingNotifier
 {
-			static SettingNotifier< T > inst;
-			return &inst;
-		}
+private:
+	std::map<int, std::function<void ()>> _callbacks;
+	int _idx;
 
-		void val_changed()
-{
-			emit sig_value_changed();
+	SettingNotifier() : _idx(0) {}
+	SettingNotifier(const SettingNotifier& other) { (void) (other); }
+
+
+	void add_listener(std::function<void ()> fn)
+	{
+		_callbacks[_idx] = fn;
+		_idx++;
+	}
+
+public:
+	~SettingNotifier() {}
+
+	static SettingNotifier<KeyClass>* getInstance()
+	{
+		static SettingNotifier<KeyClass> inst;
+		return &inst;
+	}
+
+	static void reg(std::function<void ()> fn)
+	{
+		getInstance()->add_listener(fn);
+	}
+
+	void val_changed()
+	{
+		for(auto v : _callbacks) {
+			v.second ();
 		}
+	}
 };
+
+
+namespace Set
+{
+	template<typename T, typename KeyClassInstance>
+	void listen(const KeyClassInstance& key, T* t, void (T::*fn)(), bool run=true)
+	{
+		using KeyClass=decltype(key);
+		auto callable = std::bind(fn, t);
+		SettingNotifier<KeyClass>::reg( callable );
+
+		if(run){
+			callable();
+		}
+	}
+}
+
 
 #endif // SETTINGNOTIFIER_H

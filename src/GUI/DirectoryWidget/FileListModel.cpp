@@ -82,10 +82,9 @@ QVariant FileListModel::data(const QModelIndex &index, int role) const
 	return QVariant();
 }
 
-
-QModelIndex FileListModel::getFirstRowIndexOf(const QString& substr)
+bool FileListModel::has_items() const
 {
-	return getNextRowIndexOf(substr, 0);
+    return (_files.size() > 0);
 }
 
 QModelIndex FileListModel::getNextRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent)

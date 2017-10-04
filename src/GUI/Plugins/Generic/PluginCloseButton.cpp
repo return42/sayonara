@@ -37,7 +37,7 @@ PluginCloseButton::PluginCloseButton(QWidget *parent) :
 	this->setStyleSheet("margin-left: 2px; margin-right: 2px; padding-left: 0px; padding-right: 0px; background: transparent;");
 	this->setToolTip(Lang::get(Lang::Close));
 
-	REGISTER_LISTENER(Set::Player_Style, _sl_skin_changed);
+	Set::listen(Set::Player_Style, this, &PluginCloseButton::_sl_skin_changed);
 }
 
 PluginCloseButton::~PluginCloseButton() {}

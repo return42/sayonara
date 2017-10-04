@@ -120,7 +120,7 @@ CoverFetchManager::CoverFetchManager() :
 	register_coverfetcher(new LFMCoverFetcher());
 	register_coverfetcher(m->std_cover_fetcher);
 
-	REGISTER_LISTENER(Set::Cover_Server, active_changed);
+    Set::listen(Set::Cover_Server, this, &CoverFetchManager::active_changed);
 }
 
 CoverFetchManager::~CoverFetchManager() {}

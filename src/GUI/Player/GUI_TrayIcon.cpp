@@ -34,12 +34,12 @@
 #include <QWheelEvent>
 #include <QHoverEvent>
 #include <QIcon>
+#include <QTimer>
 
 
 GUI_TrayIcon::GUI_TrayIcon (QObject *parent) :
-	QSystemTrayIcon (parent),
-	NotificationInterface("Standard"),
-	SayonaraClass()
+    SayonaraWidgetTemplate<QSystemTrayIcon>(parent),
+    NotificationInterface("Standard")
 {
 	_play_manager = PlayManager::getInstance();
 
@@ -54,9 +54,6 @@ GUI_TrayIcon::GUI_TrayIcon (QObject *parent) :
 	mute_changed(muted);
 
 	NotificationHandler::getInstance()->register_notificator(this);
-
-	REGISTER_LISTENER(Set::Player_Style, skin_changed);
-	REGISTER_LISTENER(Set::Player_Language, language_changed);
 }
 
 GUI_TrayIcon::~GUI_TrayIcon() {}
@@ -120,7 +117,7 @@ void GUI_TrayIcon::init_context_menu()
 	connect(_cur_song_action, &QAction::triggered, this, &GUI_TrayIcon::cur_song_clicked);
 	connect(_show_action, &QAction::triggered, this, &GUI_TrayIcon::show_clicked);
 
-	REGISTER_LISTENER(Set::Player_Style, skin_changed);
+	Set::listen(Set::Player_Style, this, &GUI_TrayIcon::skin_changed);
 }
 
 void GUI_TrayIcon::skin_changed()

@@ -158,7 +158,8 @@ void PlaylistView::keyPressEvent(QKeyEvent* event)
 			int min_row = *selections.begin();
 			int max_row = *selections.rbegin();
 
-			if(key == Qt::Key_Up){
+            if(key == Qt::Key_Up)
+            {
 				if(min_row == 0){
 					return;
 				}
@@ -168,7 +169,8 @@ void PlaylistView::keyPressEvent(QKeyEvent* event)
 				}
 			}
 
-			else{
+            else
+            {
 				if(max_row >= _model->rowCount() - 1){
 					return;
 				}
@@ -183,8 +185,10 @@ void PlaylistView::keyPressEvent(QKeyEvent* event)
 			}
 		}
 
-		else if(selections.isEmpty()) {
-			if(_model->rowCount() > 0) {
+        else if(selections.isEmpty())
+        {
+            if(_model->rowCount() > 0)
+            {
 				if(key == Qt::Key_Up){
 					select_row(_model->rowCount() - 1);
 				}
@@ -192,6 +196,7 @@ void PlaylistView::keyPressEvent(QKeyEvent* event)
 					select_row(0);
 				}
 			}
+
 			return;
 		}
 	}

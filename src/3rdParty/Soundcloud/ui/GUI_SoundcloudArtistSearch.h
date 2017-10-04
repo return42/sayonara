@@ -57,14 +57,13 @@ namespace SC
 
 		void artist_selected(int idx);
 
-		void language_changed() override;
-
 	private:
 		Ui::GUI_SoundcloudArtistSearch* ui=nullptr;
 
 	private:
 		void set_tracks_label(int n_tracks);
 		void set_playlist_label(int n_playlists);
+        void language_changed() override;
 	};
 }
 #endif // GUI_SOUNDCLOUDARTISTSEARCH_H

@@ -42,8 +42,8 @@ PlaylistItemDelegate::PlaylistItemDelegate(QListView* parent) :
 	_show_numbers = _settings->get(Set::PL_ShowNumbers);
 	_entry_template = _settings->get(Set::PL_EntryLook);
 
-	REGISTER_LISTENER_NO_CALL(Set::PL_ShowNumbers, _sl_show_numbers_changed);
-	REGISTER_LISTENER_NO_CALL(Set::PL_EntryLook, _sl_look_changed);
+	Set::listen(Set::PL_ShowNumbers, this, &PlaylistItemDelegate::_sl_show_numbers_changed, false);
+	Set::listen(Set::PL_EntryLook, this, &PlaylistItemDelegate::_sl_look_changed, false);
 }
 
 PlaylistItemDelegate::~PlaylistItemDelegate() {}

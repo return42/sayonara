@@ -22,22 +22,20 @@
 #define LIBRARYCONTEXTMENU_H
 
 #include <QMenu>
-#include <QAction>
 
-#include "Helper/Settings/SayonaraClass.h"
+#include "GUI/Helper/SayonaraWidget/SayonaraWidgetTemplate.h"
 
 using LibraryContexMenuEntries=int;
 
+class QAction;
 /**
  * @brief Context menu used for Library and playlist windows
  * @ingroup GUIHelper
  */
 class LibraryContextMenu :
-		public QMenu,
-		protected SayonaraClass
+        public SayonaraWidgetTemplate<QMenu>
 {
     Q_OBJECT
-
 
 public:
 	explicit LibraryContextMenu(QWidget *parent=nullptr);
@@ -125,9 +123,8 @@ private:
 protected:
 	QAction* init_rating_action(int rating);
 
-private slots:
-	void skin_changed();
-	void language_changed();
+    void skin_changed() override;
+    void language_changed() override;
 };
 
 #endif // LIBRARYCONTEXTMENU_H

@@ -38,24 +38,24 @@
 
 static Settings* settings=Settings::getInstance();
 
-template<typename KEY, typename T>
-void register_setting(const KEY& key, const char* db_key, const T& default_value)
+template<typename KeyClassInstance, typename T>
+void register_setting(const KeyClassInstance& key, const char* db_key, const T& default_value)
 {
-    using ValueTypePtr = decltype(key.p);
+    using ValueTypePtr = decltype(key.ptr);
     using ValueType = typename std::remove_pointer<ValueTypePtr>::type;
 
-	auto setting = new Setting<ValueType>(key, db_key, default_value);
+    auto setting = new Setting<ValueType>(key, db_key, default_value);
 
 	settings->register_setting( setting );
 }
 
-template<typename KEY, typename T>
-void register_setting(const KEY& key, const T& default_value)
+template<typename KeyClassInstance, typename T>
+void register_setting(const KeyClassInstance& key, const T& default_value)
 {
-    using ValueTypePtr = decltype(key.p);
+    using ValueTypePtr = decltype(key.ptr);
     using ValueType = typename std::remove_pointer<ValueTypePtr>::type;
 
-	auto setting = new Setting<ValueType>(key, default_value);
+    auto setting = new Setting<ValueType>(key, default_value);
 
 	settings->register_setting( setting );
 }

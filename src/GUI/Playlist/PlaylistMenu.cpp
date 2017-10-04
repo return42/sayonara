@@ -24,10 +24,10 @@
 #include "Helper/Language.h"
 
 #include <QTimer>
+#include <QAction>
 
 PlaylistMenu::PlaylistMenu(QWidget* parent) :
-	QMenu(parent),
-	SayonaraClass()
+    SayonaraWidgetTemplate<QMenu>(parent)
 {
 	_timer = new QTimer(this);
 
@@ -75,8 +75,7 @@ PlaylistMenu::PlaylistMenu(QWidget* parent) :
 	connect(_action_shutdown, &QAction::triggered, this, &PlaylistMenu::change_plm);
 	connect(_action_shutdown, &QAction::triggered, this, &PlaylistMenu::sig_shutdown);
 
-	REGISTER_LISTENER(Set::PL_Mode, plm_changed);
-	REGISTER_LISTENER(Set::Player_Language, language_changed);
+	Set::listen(Set::PL_Mode, this, &PlaylistMenu::plm_changed);
 }
 
 void PlaylistMenu::language_changed()

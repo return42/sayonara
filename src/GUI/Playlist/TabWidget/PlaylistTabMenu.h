@@ -20,7 +20,7 @@
 #ifndef PLAYLISTTABMENU_H
 #define PLAYLISTTABMENU_H
 
-#include "Helper/Settings/SayonaraClass.h"
+#include "GUI/Helper/SayonaraWidget/SayonaraWidgetTemplate.h"
 #include "PlaylistMenuEntry.h"
 
 #include <QMenu>
@@ -29,8 +29,7 @@
 class IconLoader;
 
 class PlaylistTabMenu :
-		public QMenu,
-		private SayonaraClass
+        public SayonaraWidgetTemplate<QMenu>
 {
 	Q_OBJECT
 
@@ -61,8 +60,8 @@ private:
 	IconLoader* _icon_loader;
 
 private slots:
-	void language_changed();
-	void skin_changed();
+    void language_changed() override;
+    void skin_changed() override;
 
 
 public:

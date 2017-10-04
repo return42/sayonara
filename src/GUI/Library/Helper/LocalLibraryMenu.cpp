@@ -54,8 +54,7 @@ struct LocalLibraryMenu::Private
 };
 
 LocalLibraryMenu::LocalLibraryMenu(const QString& name, const QString& path, QWidget* parent) :
-	QMenu(parent),
-	SayonaraClass()
+    SayonaraWidgetTemplate<QMenu>(parent)
 {
 	m = Pimpl::make<Private>(name, path);
 
@@ -107,9 +106,6 @@ LocalLibraryMenu::LocalLibraryMenu(const QString& name, const QString& path, QWi
 				m->show_album_artists_action;
 
 	this->addActions(m->actions);
-
-	REGISTER_LISTENER(Set::Player_Language, language_changed);
-	REGISTER_LISTENER(Set::Player_Style, skin_changed);
 }
 
 LocalLibraryMenu::~LocalLibraryMenu() {}

@@ -160,7 +160,8 @@ QVariant LibraryItemModelAlbums::data(const QModelIndex& index, int role) const
 	{
 		switch(col) {
 			case ColumnIndex::Album::NumSongs:
-				return QString::number(album.num_songs) + " " + Lang::get(Lang::Tracks).toLower();
+                return  QString::number(album.num_songs) + " " +
+                        Lang::get(Lang::Tracks).toLower();
 
 			case ColumnIndex::Album::Year:
 				if(album.year == 0){
@@ -169,6 +170,9 @@ QVariant LibraryItemModelAlbums::data(const QModelIndex& index, int role) const
 				return album.year;
 
 			case ColumnIndex::Album::Name:
+                if(album.name.trimmed().isEmpty()){
+                    return Lang::get(Lang::None);
+                }
 				return album.name;
 
 			case ColumnIndex::Album::Duration:

@@ -52,7 +52,7 @@ private slots:
 	void set_status(LibraryImporter::ImportStatus status);
 	void set_progress(int);
 
-private:
+protected:
 	void closeEvent(QCloseEvent* e) override;
 	void showEvent(QShowEvent* e) override;
 	void language_changed() override;

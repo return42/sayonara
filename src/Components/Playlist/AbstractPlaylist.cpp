@@ -63,7 +63,7 @@ AbstractPlaylist::AbstractPlaylist(int idx, const QString& name) :
 	connect(play_manager, &PlayManager::sig_md_changed, this, &AbstractPlaylist::metadata_changed_single);
 	connect(play_manager, &PlayManager::sig_duration_changed, this, &AbstractPlaylist::duration_changed);
 
-	REGISTER_LISTENER(Set::PL_Mode, _sl_playlist_mode_changed);
+	Set::listen(Set::PL_Mode, this, &AbstractPlaylist::_sl_playlist_mode_changed);
 }
 
 AbstractPlaylist::~AbstractPlaylist() {}

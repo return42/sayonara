@@ -27,7 +27,7 @@
 #include <algorithm>
 
 ContextMenu::ContextMenu(QWidget *parent) :
-	QMenu(parent)
+    SayonaraWidgetTemplate<QMenu>(parent)
 {
 	_timer = new QTimer(this);
 	_icon_loader = IconLoader::getInstance();
@@ -71,9 +71,6 @@ ContextMenu::ContextMenu(QWidget *parent) :
 	connect(_action_save_as, &QAction::triggered, this, &ContextMenu::sig_save_as);
 	connect(_action_rename, &QAction::triggered, this, &ContextMenu::sig_rename);
 	connect(_action_delete, &QAction::triggered, this, &ContextMenu::sig_delete);
-
-	REGISTER_LISTENER(Set::Player_Language, language_changed);
-	REGISTER_LISTENER(Set::Player_Style, skin_changed);
 }
 
 ContextMenu::~ContextMenu() {}

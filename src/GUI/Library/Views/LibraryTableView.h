@@ -28,7 +28,8 @@
 #include "Helper/Pimpl.h"
 
 class HeaderView;
-class LibraryTableView : public LibraryView
+class LibraryTableView :
+        public LibraryView
 {
 	Q_OBJECT
 	PIMPL(LibraryTableView)
@@ -52,11 +53,12 @@ public:
 protected:
 	HeaderView*	get_header_view();
 	void resizeEvent(QResizeEvent* e) override;
+    void language_changed() override;
 
 protected slots:
 	void header_actions_triggered(const BoolList& shown_cols);
 	void sort_by_column(int column_idx);
-	void language_changed();
+
 };
 
 #endif // LIBRARYTABLEVIEW_H

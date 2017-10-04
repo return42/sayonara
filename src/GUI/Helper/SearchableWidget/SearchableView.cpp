@@ -21,6 +21,7 @@
 #include "SearchableView.h"
 #include "AbstractSearchModel.h"
 #include "MiniSearcher.h"
+#include "Helper/Library/SearchMode.h"
 #include "Helper/Settings/Settings.h"
 #include "Helper/Set.h"
 
@@ -45,8 +46,8 @@ public:
 
 private slots:
 	void edit_changed(const QString& str);
-	void fwd_clicked();
-	void bwd_clicked();
+    void select_next();
+    void select_previous();
 
 public:
 	Private(SearchViewFunctionality* parent, QAbstractItemView* v) :
@@ -60,8 +61,8 @@ public:
 		settings = Settings::getInstance();
 
 		connect(mini_searcher, &MiniSearcher::sig_text_changed, this, &Private::edit_changed);
-		connect(mini_searcher, &MiniSearcher::sig_find_next_row, this, &Private::fwd_clicked);
-		connect(mini_searcher, &MiniSearcher::sig_find_prev_row, this, &Private::bwd_clicked);
+        connect(mini_searcher, &MiniSearcher::sig_find_next_row, this, &Private::select_next);
+        connect(mini_searcher, &MiniSearcher::sig_find_prev_row, this, &Private::select_previous);
 	}
 };
 
@@ -208,39 +209,31 @@ void SearchViewFunctionality::handleKeyPress(QKeyEvent* e)
 	}
 
 	Library::SearchModeMask search_mode = m->settings->get(Set::Lib_SearchMode);
+
 	m->search_model->set_search_mode(search_mode);
-
-	bool was_initialized = m->mini_searcher->isVisible();
-	bool initialized = m->mini_searcher->check_and_init(e);
-
-	if(e->key() == Qt::Key_Tab && !was_initialized) {
-		return;
-	}
-
-	if(initialized || was_initialized) {
-		m->mini_searcher->keyPressEvent(e);
-		return;
-	}
+    m->mini_searcher->handle_key_press(e);
 }
 
-#include "Helper/Library/SearchMode.h"
-#include "Helper/Settings/Settings.h"
+
 void SearchViewFunctionality::Private::edit_changed(const QString& str)
 {
 	search_view->select_match(str, SearchDirection::First);
-	QString search_str = Library::convert_search_string(str, Settings::getInstance()->get(Set::Lib_SearchMode));
+
+    Library::SearchModeMask search_mode = Settings::getInstance()->get(Set::Lib_SearchMode);
+    QString search_str = Library::convert_search_string(str, search_mode);
+
 	mini_searcher->set_number_results(
 		search_model->getNumberResults(search_str)
 	);
 }
 
-void SearchViewFunctionality::Private::fwd_clicked()
+void SearchViewFunctionality::Private::select_next()
 {
 	QString str = mini_searcher->get_current_text();
 	search_view->select_match(str, SearchDirection::Next);
 }
 
-void SearchViewFunctionality::Private::bwd_clicked()
+void SearchViewFunctionality::Private::select_previous()
 {
 	QString str = this->mini_searcher->get_current_text();
 	search_view->select_match(str, SearchDirection::Prev);

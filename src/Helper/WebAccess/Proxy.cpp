@@ -9,11 +9,11 @@ Proxy::Proxy() :
 	QObject(),
 	SayonaraClass()
 {
-	REGISTER_LISTENER(Set::Proxy_Active, proxy_changed);
-	REGISTER_LISTENER(Set::Proxy_Hostname, proxy_changed);
-	REGISTER_LISTENER(Set::Proxy_Port, proxy_changed);
-	REGISTER_LISTENER(Set::Proxy_Username, proxy_changed);
-	REGISTER_LISTENER(Set::Proxy_Password, proxy_changed);
+	Set::listen(Set::Proxy_Active, this, &Proxy::proxy_changed);
+	Set::listen(Set::Proxy_Hostname, this, &Proxy::proxy_changed);
+	Set::listen(Set::Proxy_Port, this, &Proxy::proxy_changed);
+	Set::listen(Set::Proxy_Username, this, &Proxy::proxy_changed);
+	Set::listen(Set::Proxy_Password, this, &Proxy::proxy_changed);
 }
 
 Proxy::~Proxy() {}

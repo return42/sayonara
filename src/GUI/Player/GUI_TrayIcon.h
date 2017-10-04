@@ -21,24 +21,24 @@
 #ifndef GUI_TRAYICON_H
 #define GUI_TRAYICON_H
 
-#include "Helper/Settings/SayonaraClass.h"
+
 
 #include "Interfaces/Notification/NotificationHandler.h"
 #include "Components/PlayManager/PlayState.h"
+#include "GUI/Helper/SayonaraWidget/SayonaraWidgetTemplate.h"
 
 #include <QSystemTrayIcon>
-#include <QAction>
-#include <QTimer>
 
+class QTimer;
+class QAction;
 class PlayManager;
 class MetaData;
 /**
   * Small class to be used as tray icon
   */
 class GUI_TrayIcon :
-		public QSystemTrayIcon,
-		public NotificationInterface,
-		private SayonaraClass
+        public SayonaraWidgetTemplate<QSystemTrayIcon>,
+        public NotificationInterface
 
 {
     Q_OBJECT
@@ -90,8 +90,8 @@ private slots:
 	void mute_changed(bool muted);
 	void _sl_show_tray_icon();
 	
-	void language_changed();
-	void skin_changed();
+    void language_changed() override;
+    void skin_changed() override;
 
 
 private:

@@ -21,13 +21,21 @@
 #ifndef MINISEARCHER_H
 #define MINISEARCHER_H
 
-#include <QFrame>
-#include <QLineEdit>
-#include <QAbstractItemView>
-
 #include "Helper/Pimpl.h"
+#include "GUI/Helper/SayonaraWidget/SayonaraWidgetTemplate.h"
 
-class MiniSearchEventFilter : public QObject
+#include <QObject>
+#include <QFrame>
+#include <QMap>
+
+class QAbstractItemView;
+class QEvent;
+class QKeyEvent;
+class QFocusEvent;
+class QHideEvent;
+
+class MiniSearchEventFilter :
+        public QObject
 {
     Q_OBJECT
 
@@ -44,10 +52,9 @@ protected:
 
 
 class MiniSearcher :
-        public QFrame
+        public SayonaraWidgetTemplate<QFrame>
 {
     Q_OBJECT
-
 	PIMPL(MiniSearcher)
 
 signals:
@@ -57,32 +64,32 @@ signals:
 	void sig_find_prev_row();
 
 private slots:
-
-	void line_edit_text_changed(const QString&);
 	void line_edit_focus_lost();
 	void left_clicked();
 	void right_clicked();
 
-
 private:
 	bool is_initiator(QKeyEvent* event) const;
-    void init(QString text);
-    void init_layout();
+    void init(const QString& text);
+    bool check_and_init(QKeyEvent* event);
 
+protected:
+    void language_changed() override;
+
+    void keyPressEvent(QKeyEvent* e) override;
+    void hideEvent(QHideEvent* e) override;
+    void focusOutEvent(QFocusEvent* e) override;
 
 public:
     MiniSearcher(QAbstractItemView* parent);
 	virtual ~MiniSearcher();
 
-    bool check_and_init(QKeyEvent* event);
-	void set_extra_triggers(const QMap<QChar, QString>& triggers);
-	QString get_current_text();
-	void set_number_results(int results);
-
-	void keyPressEvent(QKeyEvent *e) override;
-	void hideEvent(QHideEvent *e) override;
-	void focusOutEvent(QFocusEvent* e) override;
-
+    void    handle_key_press(QKeyEvent* e);
+    void    set_extra_triggers(const QMap<QChar, QString>& triggers);
+    QString get_current_text();
+    void    set_number_results(int results);
+    void    add_tooltip_text(const QString& str);
+    void    reset_tooltip();
 
 public slots:
 	void reset();

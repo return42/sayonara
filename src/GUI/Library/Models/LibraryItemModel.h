@@ -53,7 +53,7 @@ public:
     int             last_row_count() const;
 
     /** AbstractSearchTableModel **/
-	virtual QModelIndex	getFirstRowIndexOf(const QString& substr) override;
+    virtual bool has_items() const override;
 	virtual QModelIndex getNextRowIndexOf(const QString& substr, int row, const QModelIndex& parent=QModelIndex()) override;
 	virtual QModelIndex getPrevRowIndexOf(const QString& substr, int row, const QModelIndex& parent=QModelIndex()) override;
     virtual QMap<QChar, QString> getExtraTriggers() override;

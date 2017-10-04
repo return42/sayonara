@@ -75,7 +75,7 @@ void GUI_Speed::init_ui()
 	connect(ui->sli_speed, &SayonaraSlider::sig_slider_hovered, this, &GUI_Speed::speed_hovered);
 	connect(ui->sli_pitch, &SayonaraSlider::sig_slider_hovered, this, &GUI_Speed::pitch_hovered);
 
-	REGISTER_LISTENER(SetNoDB::Pitch_found, _sl_pitch_found_changed);
+	Set::listen(SetNoDB::Pitch_found, this, &GUI_Speed::_sl_pitch_found_changed);
 }
 
 

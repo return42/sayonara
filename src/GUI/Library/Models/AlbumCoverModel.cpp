@@ -261,10 +261,9 @@ void AlbumCoverModel::next_hash()
 	clu->fetch_cover(cl);
 }
 
-
-QModelIndex AlbumCoverModel::getFirstRowIndexOf(const QString& substr)
+bool AlbumCoverModel::has_items() const
 {
-	return getNextRowIndexOf(substr, 0);
+    return (m->albums.size() > 0);
 }
 
 QModelIndex AlbumCoverModel::getNextRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent)

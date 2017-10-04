@@ -66,7 +66,7 @@ LocalLibrary::LocalLibrary(int8_t lib_id, const QString& library_name, const QSt
 
 	connect(_playlist, &PlaylistHandler::sig_track_deletion_requested, this, &LocalLibrary::delete_tracks);
 
-	REGISTER_LISTENER_NO_CALL(Set::Lib_SearchMode, _sl_search_mode_changed);
+	Set::listen(Set::Lib_SearchMode, this, &LocalLibrary::_sl_search_mode_changed, false);
 }
 
 LocalLibrary::~LocalLibrary() {}

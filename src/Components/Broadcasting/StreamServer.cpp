@@ -70,10 +70,9 @@ StreamServer::StreamServer(QObject* parent) :
 	connect(play_manager, &PlayManager::sig_track_changed, this, &StreamServer::track_changed);
 	connect(engine, &EngineHandler::destroyed, this, &StreamServer::stop);
 
-	REGISTER_LISTENER(Set::Broadcast_Active, _sl_active_changed);
-	REGISTER_LISTENER_NO_CALL(Set::Broadcast_Port, _sl_port_changed);
-
-	REGISTER_LISTENER(SetNoDB::MP3enc_found, _sl_mp3_enc_found);
+    Set::listen(Set::Broadcast_Active, this, &StreamServer::s_active_changed);
+    Set::listen(Set::Broadcast_Port, this, &StreamServer::s_port_changed, false);
+    Set::listen(SetNoDB::MP3enc_found, this, &StreamServer::s_mp3_enc_found);
 }
 
 StreamServer::~StreamServer()
@@ -362,7 +361,7 @@ void StreamServer::stop()
 }
 
 
-void StreamServer::_sl_mp3_enc_found()
+void StreamServer::s_mp3_enc_found()
 {
 	m->mp3_enc_available = _settings->get(SetNoDB::MP3enc_found);
 
@@ -372,7 +371,7 @@ void StreamServer::_sl_mp3_enc_found()
 }
 
 
-void StreamServer::_sl_port_changed()
+void StreamServer::s_port_changed()
 {
 	stop();
 
@@ -382,7 +381,7 @@ void StreamServer::_sl_port_changed()
 }
 
 
-void StreamServer::_sl_active_changed()
+void StreamServer::s_active_changed()
 {
 	bool active = _settings->get(Set::Broadcast_Active);
 

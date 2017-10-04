@@ -22,6 +22,8 @@
 #define SAYONARAWIDGETTEMPLATE_H
 
 #include "Helper/Settings/SayonaraClass.h"
+#include "Helper/Settings/SettingNotifier.h"
+#include "Helper/Settings/SettingKey.h"
 class QWidget;
 
 #define combo_current_index_changed_int	static_cast<void (QComboBox::*) (int)>(&QComboBox::currentIndexChanged)
@@ -31,8 +33,7 @@ class QWidget;
 
 template<typename T>
 /**
- * @brief Template for Sayonara Widgets. This template is responsible for holding a reference to the settings and so, the
- * REGISTER_LISTENER and REGISTER_LISTENER_NO_CALL macros are available
+ * @brief Template for Sayonara Widgets. This template is responsible for holding a reference to the settings
  * @ingroup Widgets
  * @ingroup Interfaces
  */
@@ -41,15 +42,22 @@ class SayonaraWidgetTemplate :
 		public T,
 		protected SayonaraClass
 {
-protected:
-
 public:
-	explicit SayonaraWidgetTemplate(QWidget* parent=nullptr) :
-		T(parent),
-		SayonaraClass()
-	{}
+
+    template<typename... Args>
+    SayonaraWidgetTemplate(Args&&... args) :
+        T(std::forward<Args>(args)...),
+        SayonaraClass()
+    {
+        Set::listen(Set::Player_Language, this, &SayonaraWidgetTemplate<T>::language_changed);
+        Set::listen(Set::Player_Style, this, &SayonaraWidgetTemplate<T>::skin_changed);
+    }
 
 	virtual ~SayonaraWidgetTemplate() {}
+
+    virtual void language_changed() {}
+    virtual void skin_changed() {}
 };
+
 
 #endif // SAYONARAWIDGETTEMPLATE_H

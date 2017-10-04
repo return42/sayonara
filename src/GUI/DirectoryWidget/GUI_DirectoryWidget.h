@@ -49,10 +49,11 @@ private:
 	Ui::GUI_DirectoryWidget* ui=nullptr;
 
 private:
-
-	void showEvent(QShowEvent* e) override;
 	void init_shortcuts();
 
+protected:
+    void showEvent(QShowEvent* e) override;
+    void language_changed() override;
 
 private slots:
 	void search_button_clicked();
@@ -71,7 +72,7 @@ private slots:
 	void file_append_clicked();
 	void file_play_next_clicked();
 	void file_delete_clicked();
-	void language_changed() override;
+
 
 	// InfoDialogContainer interface
 protected:

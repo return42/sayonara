@@ -29,9 +29,9 @@
 #ifndef MYTABLEVIEW_H_
 #define MYTABLEVIEW_H_
 
-#include "Helper/Settings/SayonaraClass.h"
-#include "Helper/SetFwd.h"
 
+
+#include "GUI/Helper/SayonaraWidget/SayonaraWidgetTemplate.h"
 #include "GUI/Helper/SearchableWidget/SearchableView.h"
 #include "GUI/Helper/Dragable/Dragable.h"
 #include "GUI/InfoDialog/InfoDialogContainer.h"
@@ -40,21 +40,15 @@
 #include "Helper/MetaData/MetaDataFwd.h"
 #include "Helper/typedefs.h"
 #include "Helper/Set.h"
-
 #include "Helper/Pimpl.h"
-
-#include <QAction>
-#include <QMenu>
-#include <QStringList>
-#include <QHeaderView>
 
 class LibraryContextMenu;
 class ColumnHeaderList;
+class QStringList;
 
 class LibraryView :
-		public SearchableTableView,
-		public SayonaraClass,
-		public InfoDialogContainer,
+        public SayonaraWidgetTemplate<SearchableTableView>,
+        public InfoDialogContainer,
 		protected Dragable
 {
 	Q_OBJECT

@@ -102,7 +102,7 @@ GUI_PlaylistBottomBar::GUI_PlaylistBottomBar(QWidget *parent) :
 #endif
 
 	language_changed();
-	REGISTER_LISTENER(Set::PL_Mode, _sl_playlist_mode_changed);
+	Set::listen(Set::PL_Mode, this, &GUI_PlaylistBottomBar::_sl_playlist_mode_changed);
 }
 
 GUI_PlaylistBottomBar::~GUI_PlaylistBottomBar() {}

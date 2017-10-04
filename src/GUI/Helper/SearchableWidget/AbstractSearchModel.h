@@ -34,11 +34,12 @@
 class SearchModelFunctionality
 {
 public:
-	virtual QModelIndex getFirstRowIndexOf(const QString& substr)=0;
+    virtual QModelIndex getFirstRowIndexOf(const QString& substr);
 	virtual QModelIndex getNextRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent=QModelIndex())=0;
 	virtual QModelIndex getPrevRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent=QModelIndex())=0;
 	virtual QMap<QChar, QString> getExtraTriggers()=0;
 	virtual int getNumberResults(const QString& str);
+    virtual bool has_items() const=0;
 	
 	virtual void set_search_mode(::Library::SearchModeMask search_mode);
 	virtual ::Library::SearchModeMask search_mode() const final;

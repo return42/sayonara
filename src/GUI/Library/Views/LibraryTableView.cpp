@@ -53,8 +53,6 @@ LibraryTableView::LibraryTableView(QWidget* parent) :
 
 	connect(header, &HeaderView::sectionClicked, this, &LibraryTableView::sort_by_column);
 	connect(header, &HeaderView::sig_columns_changed, this, &LibraryTableView::header_actions_triggered);
-
-	REGISTER_LISTENER_NO_CALL(Set::Player_Language, language_changed);
 }
 
 LibraryTableView::~LibraryTableView() {}

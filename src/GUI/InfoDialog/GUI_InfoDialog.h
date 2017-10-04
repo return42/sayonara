@@ -62,15 +62,17 @@ public:
 	void show(GUI_InfoDialog::Tab tab);
 
 
+protected:
+    void skin_changed() override;
+    void language_changed() override;
+
+
 private slots:
 	void tab_index_changed_int(int idx);
 	void tab_index_changed(GUI_InfoDialog::Tab idx);
 
-	void skin_changed() override;
-	void language_changed() override;
 
 private:
-
 	void init();
 
 	void prepare_cover(const CoverLocation& cover_path);

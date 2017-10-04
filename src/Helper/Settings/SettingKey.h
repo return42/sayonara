@@ -185,9 +185,9 @@ template<typename T, SK::SettingKey S>
 class SettingKey
 {
     public:
-	T* p=nullptr;
-	SettingKey() {}
-	~SettingKey() {}
+		T* ptr;
+		SettingKey() {}
+		~SettingKey() {}
 };
 
 
@@ -202,7 +202,7 @@ class SettingKey
   * typedef SettingKey<bool, SK::LFM_Active> LFM_Active_t; const LFM_Active_t LFM_Active
   * @ingroup Settings
   */
-#define INST(type, settingkey) typedef SettingKey<type, SK:: settingkey> settingkey##_t; const settingkey##_t settingkey
+#define INST(type, settingkey)	typedef SettingKey<type, SK:: settingkey> settingkey##_t; static const settingkey##_t settingkey
 
 /**
  * @brief Set namespace defines the setting: Which key and which type

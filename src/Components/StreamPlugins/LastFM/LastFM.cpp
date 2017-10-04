@@ -89,8 +89,8 @@ LastFM::LastFM() :
 	connect(m->track_changed_thread, &LFMTrackChangedThread::sig_similar_artists_available,
 			this, &LastFM::sl_similar_artists_available);
 
-	REGISTER_LISTENER_NO_CALL(Set::LFM_Login, psl_login);
-	REGISTER_LISTENER(Set::LFM_Active, psl_login);
+	Set::listen(Set::LFM_Login, this, &LastFM::psl_login, false);
+	Set::listen(Set::LFM_Active, this, &LastFM::psl_login);
 }
 
 LastFM::~LastFM() {}

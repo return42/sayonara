@@ -46,13 +46,13 @@ private:
 	PlayerPluginInterface* _current_plugin=nullptr;
 	Ui::GUI_PlayerPlugin* ui=nullptr;
 
-
 private:
 	void close_cur_plugin();
-	void closeEvent(QCloseEvent *e) override;
 
-private slots:
-	void language_changed() override;
+protected:
+    void language_changed() override;
+    void closeEvent(QCloseEvent *e) override;
+
 };
 
 #endif // GUI_PLAYERPLUGIN_H

@@ -76,10 +76,12 @@ private slots:
 
 	void tree_action_changed();
 	void tree_action_toggled(bool b);
-	void language_changed();
+
 
 
 protected:
+    void language_changed() override;
+
 	void keyPressEvent(QKeyEvent* e) override;
 	void dragEnterEvent(QDragEnterEvent* e) override;
 	void dragMoveEvent(QDragMoveEvent* e) override;

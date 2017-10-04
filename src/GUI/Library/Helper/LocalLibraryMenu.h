@@ -24,14 +24,13 @@
 #include <QMenu>
 #include <QAction>
 
-#include "Helper/Settings/SayonaraClass.h"
+#include "GUI/Helper/SayonaraWidget/SayonaraWidgetTemplate.h"
 #include "Helper/Pimpl.h"
 
 class QString;
 class IconLoader;
 class LocalLibraryMenu :
-		public QMenu,
-		private SayonaraClass
+        public SayonaraWidgetTemplate<QMenu>
 {
 	Q_OBJECT
 	PIMPL(LocalLibraryMenu)
@@ -52,11 +51,13 @@ public:
 	void refresh_name(const QString& name);
 	void refresh_path(const QString& path);
 
+protected:
+    void language_changed() override;
+    void skin_changed() override;
+
 private slots:
 	void show_album_cover_view_changed();
 	void show_album_artists_changed();
-	void language_changed();
-	void skin_changed();
 
 	void realtime_search_changed();
 	void auto_update_changed();

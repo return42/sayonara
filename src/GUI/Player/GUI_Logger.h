@@ -65,6 +65,7 @@ class GUI_Logger :
 
     protected:
 		void showEvent(QShowEvent* e) override;
+        void language_changed() override;
 
     private:
 		Ui::GUI_Logger*		ui=nullptr;
@@ -73,7 +74,6 @@ class GUI_Logger :
 		void init_ui();
 
 	private slots:
-		void language_changed() override;
 		void log_ready(const QString& str);
 		void save_clicked();
 };

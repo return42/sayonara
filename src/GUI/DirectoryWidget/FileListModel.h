@@ -40,7 +40,7 @@ class FileListModel :
 		void set_parent_directory(const QString& dir);
 		QStringList get_files() const;
 
-		QModelIndex getFirstRowIndexOf(const QString& substr) override;
+        bool        has_items() const override;
 		QModelIndex getNextRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent=QModelIndex()) override;
 		QModelIndex getPrevRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent=QModelIndex()) override;
 		QMap<QChar, QString> getExtraTriggers() override;

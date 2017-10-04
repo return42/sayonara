@@ -27,8 +27,7 @@
 #include <QMouseEvent>
 
 MenuButton::MenuButton(QWidget* parent) :
-	QPushButton(parent),
-	SayonaraClass()
+    SayonaraWidgetTemplate<QPushButton>(parent)
 {
 	this->setFlat(true);
 	this->setIconSize(QSize(14,14));
@@ -36,9 +35,6 @@ MenuButton::MenuButton(QWidget* parent) :
 	this->setStyleSheet("margin-left: 2px; margin-right: 2px; padding-left: 0px; padding-right: 0px;");
 	this->setToolTip(Lang::get(Lang::Menu));
 	this->setText(Lang::get(Lang::Menu));
-
-	REGISTER_LISTENER(Set::Player_Style, _sl_skin_changed);
-	REGISTER_LISTENER(Set::Player_Language, _sl_language_changed);
 }
 
 MenuButton::~MenuButton() {}
@@ -134,12 +130,12 @@ void MenuButton::set_std_icon()
 }
 
 
-void MenuButton::_sl_skin_changed()
+void MenuButton::skin_changed()
 {
 	set_std_icon();
 }
 
-void MenuButton::_sl_language_changed()
+void MenuButton::language_changed()
 {
 	this->setToolTip(Lang::get(Lang::Menu));
 

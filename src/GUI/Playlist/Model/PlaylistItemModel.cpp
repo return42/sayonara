@@ -125,7 +125,7 @@ void PlaylistItemModel::copy_rows(const SP::Set<int>& indexes, int target_index)
 
 int PlaylistItemModel::get_current_track() const
 {
-	return _pl->current_track_index();
+    return _pl->current_track_index();
 }
 
 
@@ -143,17 +143,14 @@ void PlaylistItemModel::get_metadata(const IdxList& rows, MetaDataList& v_md)
 	}
 }
 
-#define ALBUM_SEARCH '%'
-#define ARTIST_SEARCH '$'
-#define JUMP ':'
+const static QChar album_search_prefix('%');
+const static QChar artist_search_prefix=('$');
+const static QChar jump_prefix=(':');
 
-QModelIndex PlaylistItemModel::getFirstRowIndexOf(const QString& substr) 
+
+bool PlaylistItemModel::has_items() const
 {
-	if(_pl->is_empty()) {
-		return this->index(-1, -1);
-	}
-
-	return getNextRowIndexOf(substr, 0);
+    return (rowCount() > 0);
 }
 
 QModelIndex PlaylistItemModel::getPrevRowIndexOf(const QString& substr, int row, const QModelIndex &parent) 
@@ -166,9 +163,9 @@ QModelIndex PlaylistItemModel::getPrevRowIndexOf(const QString& substr, int row,
 	if(len < row) row = len - 1;
 
 	// ALBUM
-	if(converted_string.startsWith(ALBUM_SEARCH)) 
+    if(converted_string.startsWith(album_search_prefix))
 	{
-		converted_string.remove(ALBUM_SEARCH);
+        converted_string.remove(album_search_prefix);
 		converted_string = converted_string.trimmed();
 
 		for(int i=0; i<len; i++) 
@@ -187,9 +184,9 @@ QModelIndex PlaylistItemModel::getPrevRowIndexOf(const QString& substr, int row,
 	}
 
 	//ARTIST
-	else if(converted_string.startsWith(ARTIST_SEARCH)) 
+    else if(converted_string.startsWith(artist_search_prefix))
 	{
-		converted_string.remove(ARTIST_SEARCH);
+        converted_string.remove(artist_search_prefix);
 		converted_string = converted_string.trimmed();
 
 		for(int i=0; i<len; i++) 
@@ -208,9 +205,9 @@ QModelIndex PlaylistItemModel::getPrevRowIndexOf(const QString& substr, int row,
 	}
 
 	// JUMP
-	else if(converted_string.startsWith(JUMP)) 
+    else if(converted_string.startsWith(jump_prefix))
 	{
-		converted_string.remove(JUMP);
+        converted_string.remove(jump_prefix);
 		converted_string = converted_string.trimmed();
 		bool ok;
 		int line = converted_string.toInt(&ok);
@@ -246,12 +243,14 @@ QModelIndex PlaylistItemModel::getNextRowIndexOf(const QString& substr, int row,
 	QString converted_string = substr;
 
 	int len = _pl->count();
-	if(len < row) row = len - 1;
+    if(len < row) {
+        row = len - 1;
+    }
 
 	// ALBUM
-    if(converted_string.startsWith(ALBUM_SEARCH))
+    if(converted_string.startsWith(album_search_prefix))
     {
-		converted_string.remove(ALBUM_SEARCH);
+        converted_string.remove(album_search_prefix);
 		converted_string = converted_string.trimmed();
 
         for(int i=0; i< len; i++)
@@ -269,9 +268,9 @@ QModelIndex PlaylistItemModel::getNextRowIndexOf(const QString& substr, int row,
 	}
 
 	//ARTIST
-	else if(converted_string.startsWith(ARTIST_SEARCH)) 
+    else if(converted_string.startsWith(artist_search_prefix))
 	{
-		converted_string.remove(ARTIST_SEARCH);
+        converted_string.remove(artist_search_prefix);
 		converted_string = converted_string.trimmed();
 
         for(int i=0; i< len; i++)
@@ -290,9 +289,9 @@ QModelIndex PlaylistItemModel::getNextRowIndexOf(const QString& substr, int row,
 	}
 
 	// JUMP
-	else if(converted_string.startsWith(JUMP)) 
+    else if(converted_string.startsWith(jump_prefix))
 	{
-		converted_string.remove(JUMP);
+        converted_string.remove(jump_prefix);
 		converted_string = converted_string.trimmed();
 
 		bool ok;
@@ -328,9 +327,11 @@ QModelIndex PlaylistItemModel::getNextRowIndexOf(const QString& substr, int row,
 QMap<QChar, QString> PlaylistItemModel::getExtraTriggers() 
 {
 	QMap<QChar, QString> map;
-	map.insert(ARTIST_SEARCH, Lang::get(Lang::Artist));
-	map.insert(ALBUM_SEARCH, Lang::get(Lang::Album));
-	map.insert(JUMP, tr("Goto row"));
+
+    map.insert(artist_search_prefix, Lang::get(Lang::Artist));
+    map.insert(album_search_prefix, Lang::get(Lang::Album));
+    map.insert(jump_prefix, tr("Goto row"));
+
 	return map;
 }
 

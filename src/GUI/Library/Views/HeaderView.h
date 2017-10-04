@@ -26,13 +26,12 @@
 #include <QTableView>
 
 #include "GUI/Library/Helper/ColumnHeader.h"
-#include "Helper/Settings/SayonaraClass.h"
+#include "GUI/Helper/SayonaraWidget/SayonaraWidgetTemplate.h"
 #include "Helper/typedefs.h"
 #include "Helper/Library/Sortorder.h"
 
 class HeaderView :
-		public QHeaderView,
-		protected SayonaraClass
+        public SayonaraWidgetTemplate<QHeaderView>
 {
 	Q_OBJECT
 
@@ -48,7 +47,9 @@ private:
 
 private slots:
 	void action_triggered(bool b);
-	void language_changed();
+
+protected:
+    void language_changed() override;
 
 public:
 

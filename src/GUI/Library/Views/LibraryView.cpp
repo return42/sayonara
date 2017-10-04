@@ -62,8 +62,7 @@ struct LibraryView::Private
 };
 
 LibraryView::LibraryView(QWidget* parent) :
-	SearchableTableView(parent),
-	SayonaraClass(),
+    SayonaraWidgetTemplate<SearchableTableView>(parent),
 	InfoDialogContainer(),
 	Dragable(this)
 {

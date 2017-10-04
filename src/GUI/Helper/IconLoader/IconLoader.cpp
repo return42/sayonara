@@ -99,7 +99,7 @@ IconLoader::IconLoader() :
 	QIcon::setThemeSearchPaths(m->theme_paths);
 	sp_log(Log::Debug, this) << "Theme paths " << m->theme_paths;
 
-	REGISTER_LISTENER_NO_CALL(Set::Icon_Theme, icon_theme_changed);
+	Set::listen(Set::Icon_Theme, this, &IconLoader::icon_theme_changed, false);
 }
 
 IconLoader::~IconLoader() {}

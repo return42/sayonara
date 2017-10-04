@@ -47,10 +47,6 @@ public:
 
 protected:
 	virtual void closeEvent(QCloseEvent* e) override;
-
-protected slots:
-	virtual void language_changed();
-	virtual void skin_changed();
 };
 
 #endif // SAYONARADIALOG_H

@@ -112,8 +112,8 @@ private:
 
 
 private slots:
-	void _playlist_mode_changed();
-	void _streamrecorder_active_changed();
+    void s_playlist_mode_changed();
+    void s_streamrecorder_active_changed();
 
 };
 

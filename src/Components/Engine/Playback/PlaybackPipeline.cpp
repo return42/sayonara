@@ -67,16 +67,17 @@ bool PlaybackPipeline::init(GstState state)
 	_settings->set(SetNoDB::MP3enc_found, _lame != nullptr);
 	_settings->set(SetNoDB::Pitch_found, _pitch != nullptr);
 
-	REGISTER_LISTENER(Set::Engine_Vol, _sl_vol_changed);
-	REGISTER_LISTENER(Set::Engine_Mute, _sl_mute_changed);
+    Set::listen(Set::Engine_Vol, this, &PlaybackPipeline::s_vol_changed);
+    Set::listen(Set::Engine_Mute, this, &PlaybackPipeline::s_mute_changed);
 
 	// set by gui, initialized directly in pipeline
-	REGISTER_LISTENER(Set::Engine_ShowLevel, _sl_show_level_changed);
-	REGISTER_LISTENER(Set::Engine_ShowSpectrum, _sl_show_spectrum_changed);
-	REGISTER_LISTENER(Set::Engine_Pitch, _sl_speed_changed);
-	REGISTER_LISTENER(Set::Engine_Speed, _sl_speed_changed);
-	REGISTER_LISTENER(Set::Engine_PreservePitch, _sl_speed_changed);
-	REGISTER_LISTENER(Set::Engine_SpeedActive, _sl_speed_active_changed);
+    Set::listen(Set::Engine_ShowLevel, this, &PlaybackPipeline::s_show_level_changed);
+    Set::listen(Set::Engine_ShowSpectrum, this, &PlaybackPipeline::s_show_spectrum_changed);
+    Set::listen(Set::Engine_Pitch, this, &PlaybackPipeline::s_speed_changed);
+    Set::listen(Set::Engine_Speed, this, &PlaybackPipeline::s_speed_changed);
+    Set::listen(Set::Engine_PreservePitch, this, &PlaybackPipeline::s_speed_changed);
+    Set::listen(Set::Engine_SpeedActive, this, &PlaybackPipeline::s_speed_active_changed);
+
 	set_n_sound_receiver(false);
 
 	set_streamrecorder_path("");
@@ -368,7 +369,7 @@ void PlaybackPipeline::init_equalizer()
 void PlaybackPipeline::play()
 {
 	gst_element_set_state(_pipeline, GST_STATE_PLAYING);
-	_sl_vol_changed();
+    s_vol_changed();
 }
 
 
@@ -389,7 +390,7 @@ void PlaybackPipeline::stop()
 	abort_fader();
 }
 
-void PlaybackPipeline::_sl_vol_changed()
+void PlaybackPipeline::s_vol_changed()
 {
 	_vol = _settings->get(Set::Engine_Vol);
 
@@ -399,7 +400,7 @@ void PlaybackPipeline::_sl_vol_changed()
 }
 
 
-void PlaybackPipeline::_sl_mute_changed()
+void PlaybackPipeline::s_mute_changed()
 {
 	bool muted = _settings->get(Set::Engine_Mute);
 	g_object_set(G_OBJECT(_volume), "mute", muted, nullptr);
@@ -479,14 +480,14 @@ void PlaybackPipeline::set_speed(float speed, double pitch, bool preserve_pitch)
 }
 
 
-void PlaybackPipeline::_sl_show_level_changed()
+void PlaybackPipeline::s_show_level_changed()
 {
 	_show_level = _settings->get(Set::Engine_ShowLevel);
 	Probing::handle_probe(&_show_level, _level_queue, &_level_probe, Probing::level_probed);
 }
 
 
-void PlaybackPipeline::_sl_show_spectrum_changed()
+void PlaybackPipeline::s_show_spectrum_changed()
 {
 	_show_spectrum = _settings->get(Set::Engine_ShowSpectrum);
 
@@ -584,7 +585,7 @@ double PlaybackPipeline::get_current_volume() const
 }
 
 
-void PlaybackPipeline::_sl_speed_active_changed()
+void PlaybackPipeline::s_speed_active_changed()
 {
 	if(!_pitch){
 		return;
@@ -598,7 +599,7 @@ void PlaybackPipeline::_sl_speed_active_changed()
 
 	if(active){
 		add_element(_pitch, _audio_convert, _equalizer);
-		_sl_speed_changed();
+        s_speed_changed();
 	}
 
 	else{
@@ -614,7 +615,7 @@ void PlaybackPipeline::_sl_speed_active_changed()
 }
 
 
-void PlaybackPipeline::_sl_speed_changed()
+void PlaybackPipeline::s_speed_changed()
 {
 	this->set_speed(
 		_settings->get(Set::Engine_Speed),

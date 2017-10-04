@@ -23,6 +23,7 @@
 
 #include <QLineEdit>
 #include "Helper/Settings/SayonaraClass.h"
+#include "GUI/Helper/SayonaraWidget/SayonaraWidgetTemplate.h"
 
 class QAction;
 class QMenu;
@@ -33,8 +34,7 @@ class QContextMenuEvent;
  * @ingroup Tagging
  **/
 class TagTextInput :
-	public QLineEdit,
-	public SayonaraClass
+    public SayonaraWidgetTemplate<QLineEdit>
 {
 	Q_OBJECT
 
@@ -46,8 +46,6 @@ private slots:
 	void cvt_to_first_upper();
 	void cvt_to_very_first_upper();
 
-	void language_changed();
-
 protected:
 
 	QMenu*			_context_menu=nullptr;
@@ -58,6 +56,7 @@ protected:
 
 	void contextMenuEvent(QContextMenuEvent* event) override;
 	void init_context_menu();
+    void language_changed() override;
 };
 
 #endif // TAGTEXTINPUT_H

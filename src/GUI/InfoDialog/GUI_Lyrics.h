@@ -71,9 +71,9 @@ private slots:
 	void prepare_lyrics();
 	void save_lyrics_clicked();
 
-	void language_changed() override;
-
 protected:
+    void language_changed() override;
+
 	void showEvent(QShowEvent* e) override;
 	void wheelEvent(QWheelEvent* e) override;
 	void keyPressEvent(QKeyEvent* e) override;

@@ -46,7 +46,7 @@ LibraryContainerInterface::LibraryContainerInterface(QObject* parent) :
 {
 	m = Pimpl::make<Private>();
 
-	REGISTER_LISTENER(Set::Player_Language, language_changed);
+	Set::listen(Set::Player_Language, this, &LibraryContainerInterface::language_changed);
 }
 
 LibraryContainerInterface::~LibraryContainerInterface() {}

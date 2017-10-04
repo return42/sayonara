@@ -107,9 +107,9 @@ bool PlaybackEngine::init()
     connect(m->pipeline, &PlaybackPipeline::sig_pos_changed_ms, this, &PlaybackEngine::cur_pos_ms_changed);
     connect(m->pipeline, &PlaybackPipeline::sig_data, this, &PlaybackEngine::sig_data);
 
-	REGISTER_LISTENER(Set::PL_Mode, _playlist_mode_changed);
-	REGISTER_LISTENER(Set::Engine_SR_Active, _streamrecorder_active_changed);
-	REGISTER_LISTENER(Set::Engine_CrossFaderActive, _playlist_mode_changed);
+    Set::listen(Set::Engine_SR_Active, this, &PlaybackEngine::s_streamrecorder_active_changed);
+    Set::listen(Set::PL_Mode, this, &PlaybackEngine::s_playlist_mode_changed);
+    Set::listen(Set::Engine_CrossFaderActive, this, &PlaybackEngine::s_playlist_mode_changed);
 
 	return true;
 }
@@ -413,7 +413,7 @@ void PlaybackEngine::gapless_timed_out()
 }
 
 
-void PlaybackEngine::_playlist_mode_changed()
+void PlaybackEngine::s_playlist_mode_changed()
 {
 	Playlist::Mode plm = _settings->get(Set::PL_Mode);
 	bool gapless =	Playlist::Mode::isActiveAndEnabled(plm.gapless()) ||
@@ -445,7 +445,7 @@ void PlaybackEngine::change_gapless_state(GaplessState state)
 }
 
 
-void PlaybackEngine::_streamrecorder_active_changed()
+void PlaybackEngine::s_streamrecorder_active_changed()
 {
     m->sr_active = _settings->get(Set::Engine_SR_Active);
 

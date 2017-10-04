@@ -123,13 +123,12 @@ private:
 
 protected slots:
 
-	void _sl_vol_changed();
-	void _sl_show_level_changed();
-	void _sl_show_spectrum_changed();
-	void _sl_mute_changed();
-
-	void _sl_speed_active_changed();
-	void _sl_speed_changed();
+    void s_vol_changed();
+    void s_show_level_changed();
+    void s_show_spectrum_changed();
+    void s_mute_changed();
+    void s_speed_active_changed();
+    void s_speed_changed();
 };
 
 #endif

@@ -79,10 +79,15 @@ QString Library::Filter::get_text(Library::Filter::Mode mode)
 	{
 		case Library::Filter::Mode::Filename:
 			return Lang::get(Lang::Filename);
+
 		case Library::Filter::Mode::Fulltext:
-            return Lang::get(Lang::Fulltext);
+            return  Lang::get(Lang::Artists) + ", " +
+                    Lang::get(Lang::Albums) + ", " +
+                    Lang::get(Lang::Tracks);
+
 		case Library::Filter::Mode::Genre:
 			return Lang::get(Lang::Genre);
+
 		default:
 			return QString();
 	}

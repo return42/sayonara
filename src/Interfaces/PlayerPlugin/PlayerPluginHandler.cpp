@@ -30,7 +30,7 @@ PlayerPluginHandler::PlayerPluginHandler(QObject *parent) :
 	QObject(parent),
 	SayonaraClass()
 {
-	REGISTER_LISTENER(Set::Player_Language, language_changed);
+	Set::listen(Set::Player_Language, this, &PlayerPluginHandler::language_changed);
 }
 
 PlayerPluginHandler::~PlayerPluginHandler() {}

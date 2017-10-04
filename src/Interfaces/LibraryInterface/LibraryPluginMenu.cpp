@@ -26,8 +26,8 @@ LibraryPluginMenu::LibraryPluginMenu(QWidget* parent) :
 	connect(_m->lph, &LibraryPluginHandler::sig_initialized, this, &LibraryPluginMenu::setup_actions);
 	connect(_m->lph, &LibraryPluginHandler::sig_current_library_changed, this, &LibraryPluginMenu::current_library_changed);
 
-	REGISTER_LISTENER_NO_CALL(Set::Lib_AllLibraries, setup_actions);
-	REGISTER_LISTENER_NO_CALL(Set::Player_Language, setup_actions);
+	Set::listen(Set::Lib_AllLibraries, this, &LibraryPluginMenu::setup_actions, false);
+	Set::listen(Set::Player_Language, this, &LibraryPluginMenu::setup_actions, false);
 }
 
 LibraryPluginMenu::~LibraryPluginMenu() {}

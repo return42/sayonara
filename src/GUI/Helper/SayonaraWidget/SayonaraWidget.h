@@ -44,20 +44,16 @@ public:
 
 	SayonaraDialog* box_into_dialog();
 
-
 protected:
 	SayonaraDialog* _boxed_dialog=nullptr;
-
-protected slots:
-	virtual void language_changed();
-	virtual void skin_changed();
 };
 
 /**
  * @brief The SayonaraMainWindow class
  * @ingroup Widgets
  */
-class SayonaraMainWindow : public SayonaraWidgetTemplate<QMainWindow> 
+class SayonaraMainWindow :
+        public SayonaraWidgetTemplate<QMainWindow>
 {
 	Q_OBJECT
 
@@ -66,11 +62,6 @@ public:
 	virtual ~SayonaraMainWindow();
 
 	void raise();
-
-
-protected slots:
-	virtual void language_changed();
-	virtual void skin_changed();
 };
 
 #endif // SAYONARAWIDGET_H

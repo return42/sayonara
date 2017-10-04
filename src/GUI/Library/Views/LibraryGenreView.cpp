@@ -104,8 +104,7 @@ LibraryGenreView::LibraryGenreView(QWidget* parent) :
 
 	connect( m->toggle_tree_action, &QAction::triggered, this, &LibraryGenreView::tree_action_toggled);
 
-	REGISTER_LISTENER(Set::Player_Language, language_changed);
-	REGISTER_LISTENER_NO_CALL(Set::Lib_GenreTree, tree_action_changed);
+	Set::listen(Set::Lib_GenreTree, this, &LibraryGenreView::tree_action_changed, false);
 }
 
 LibraryGenreView::~LibraryGenreView() {}

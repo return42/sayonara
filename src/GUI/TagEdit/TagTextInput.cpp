@@ -28,12 +28,9 @@
 #include <QCursor>
 
 TagTextInput::TagTextInput(QWidget* parent) :
-	QLineEdit(parent),
-	SayonaraClass()
+    SayonaraWidgetTemplate<QLineEdit>(parent)
 {
 	init_context_menu();
-
-	REGISTER_LISTENER(Set::Player_Language, language_changed);
 }
 
 TagTextInput::~TagTextInput() {}

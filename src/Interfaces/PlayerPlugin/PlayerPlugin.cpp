@@ -59,6 +59,7 @@ PlayerPluginInterface::PlayerPluginInterface(QWidget *parent) :
 
 PlayerPluginInterface::~PlayerPluginInterface() {}
 
+void PlayerPluginInterface::skin_changed() {}
 
 bool PlayerPluginInterface::is_title_shown() const
 {
@@ -115,7 +116,7 @@ void PlayerPluginInterface::finalize_initialization()
 		sc.create_qt_shortcut(this, parentWidget(), SLOT(close()));
 	}
 
-	REGISTER_LISTENER(Set::Player_Style, skin_changed);
+    Set::listen(Set::Player_Style, this, &PlayerPluginInterface::skin_changed);
 
 	set_ui_initialized();
 	retranslate_ui();

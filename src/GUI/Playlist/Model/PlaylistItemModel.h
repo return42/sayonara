@@ -67,7 +67,7 @@ public:
 	void set_current_track(int row);
 	int get_current_track() const;
 
-	QModelIndex getFirstRowIndexOf(const QString& substr) override;
+    bool        has_items() const;
 	QModelIndex getPrevRowIndexOf(const QString& substr, int row, const QModelIndex &parent=QModelIndex()) override;
 	QModelIndex getNextRowIndexOf(const QString& substr, int row, const QModelIndex &parent=QModelIndex()) override;
 	QMap<QChar, QString> getExtraTriggers() override;

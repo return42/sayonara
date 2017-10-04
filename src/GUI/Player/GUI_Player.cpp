@@ -65,16 +65,16 @@ GUI_Player::GUI_Player(QTranslator* translator, QWidget* parent) :
 	setup_tray_actions();
 	setup_connections();
 
-	REGISTER_LISTENER(Set::Engine_SR_Active, _sl_sr_active_changed);
-	REGISTER_LISTENER_NO_CALL(SetNoDB::Player_Quit, really_close);
+    Set::listen(Set::Engine_SR_Active, this, &GUI_Player::_sl_sr_active_changed);
+	Set::listen(SetNoDB::Player_Quit, this, &GUI_Player::really_close, false);
 
-	REGISTER_LISTENER(Set::Player_FontName, skin_changed);
-	REGISTER_LISTENER(Set::Player_FontSize, skin_changed);
-	REGISTER_LISTENER(Set::PL_FontSize, skin_changed);
-	REGISTER_LISTENER(Set::Lib_FontSize, skin_changed);
-	REGISTER_LISTENER(Set::Lib_FontBold, skin_changed);
-	REGISTER_LISTENER(Set::Engine_Pitch, file_info_changed);
-	REGISTER_LISTENER(Set::Engine_SpeedActive, file_info_changed);
+	Set::listen(Set::Player_FontName, this, &GUI_Player::skin_changed);
+	Set::listen(Set::Player_FontSize, this, &GUI_Player::skin_changed);
+	Set::listen(Set::PL_FontSize, this, &GUI_Player::skin_changed);
+	Set::listen(Set::Lib_FontSize, this, &GUI_Player::skin_changed);
+	Set::listen(Set::Lib_FontBold, this, &GUI_Player::skin_changed);
+	Set::listen(Set::Engine_Pitch, this, &GUI_Player::file_info_changed);
+	Set::listen(Set::Engine_SpeedActive, this, &GUI_Player::file_info_changed);
 }
 
 

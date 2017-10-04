@@ -81,7 +81,7 @@ private:
 
 protected:
     void closeEvent(QCloseEvent *);
-	virtual void language_changed();
+    void language_changed() override;
 
 	void connect_combo_idx_changed();
 	void disconnect_combo_idx_changed();

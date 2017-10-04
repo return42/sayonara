@@ -137,10 +137,11 @@ QVariant SomaFM::StationModel::data(const QModelIndex& index, int role) const
 }
 
 
-QModelIndex SomaFM::StationModel::getFirstRowIndexOf(const QString& substr)
+bool SomaFM::StationModel::has_items() const
 {
-	return getNextRowIndexOf(substr, 0, QModelIndex());
+    return (!m->stations.isEmpty());
 }
+
 
 QModelIndex SomaFM::StationModel::getNextRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent)
 {
@@ -279,5 +280,5 @@ Qt::ItemFlags SomaFM::StationModel::flags(const QModelIndex& index) const
 			return (Qt::NoItemFlags);
 		default:
 			return (Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled);
-	}
+    }
 }

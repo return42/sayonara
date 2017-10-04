@@ -120,7 +120,7 @@ void GUI_AbstractStream::init_ui()
 
 	set_searching(false);
 
-	REGISTER_LISTENER(Set::Player_Style, _sl_skin_changed);
+	Set::listen(Set::Player_Style, this, &GUI_AbstractStream::_sl_skin_changed);
 }
 
 void GUI_AbstractStream::retranslate_ui()

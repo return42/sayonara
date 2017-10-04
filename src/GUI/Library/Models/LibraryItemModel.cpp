@@ -195,16 +195,10 @@ bool LibraryItemModel::is_selected(int id) const
     return selections().contains(id);
 }
 
-
-QModelIndex	LibraryItemModel::getFirstRowIndexOf(const QString& substr)
+bool LibraryItemModel::has_items() const
 {
-	if(rowCount() == 0) {
-		return QModelIndex();
-	}
-
-	return getNextRowIndexOf(substr, 0);
+    return (rowCount() > 0);
 }
-
 
 QModelIndex LibraryItemModel::getNextRowIndexOf(const QString& substr, int row, const QModelIndex& parent)
 {

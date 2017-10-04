@@ -82,9 +82,9 @@ class StreamServer :
 		void disconnected(StreamWriter* sw);
 		void new_connection(const QString& ip);
 
-		void _sl_active_changed();
-		void _sl_port_changed();
-		void _sl_mp3_enc_found();
+        void s_active_changed();
+        void s_port_changed();
+        void s_mp3_enc_found();
 };
 
 #endif

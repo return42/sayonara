@@ -26,8 +26,7 @@
 
 
 PlaylistTabMenu::PlaylistTabMenu(QWidget* parent) :
-	QMenu(parent),
-	SayonaraClass()
+    SayonaraWidgetTemplate<QMenu>(parent)
 {
 	_action_open_file = new QAction(GUI::get_icon("play"), QString(), this);
 	_action_open_dir = new QAction(GUI::get_icon("play"), QString(), this);
@@ -70,9 +69,6 @@ PlaylistTabMenu::PlaylistTabMenu(QWidget* parent) :
 	connect(_action_clear, &QAction::triggered, this, &PlaylistTabMenu::sig_clear_clicked);
 	connect(_action_close, &QAction::triggered, this, &PlaylistTabMenu::sig_close_clicked);
 	connect(_action_close_others, &QAction::triggered, this, &PlaylistTabMenu::sig_close_others_clicked);
-
-	REGISTER_LISTENER(Set::Player_Language, language_changed);
-	REGISTER_LISTENER(Set::Player_Style, skin_changed);
 }
 
 PlaylistTabMenu::~PlaylistTabMenu()

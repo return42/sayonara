@@ -25,33 +25,32 @@ public:
 	explicit GUI_EditLibrary(QWidget *parent = 0);
 	~GUI_EditLibrary();
 
+    enum class EditMode
+    {
+        New=0,
+        Edit=1
+    };
+
+    QString name() const;
+    QString path() const;
+
+    bool has_name_changed() const;
+    bool has_path_changed() const;
+
+    EditMode edit_mode() const;
+
+
+protected:
+    void language_changed() override;
+    void skin_changed() override;
+
 private:
 	Ui::GUI_EditLibrary *ui=nullptr;
-
 
 private slots:
 	void ok_clicked();
 	void cancel_clicked();
 	void choose_dir_clicked();
-
-	void language_changed() override;
-	void skin_changed() override;
-
-public:
-
-	enum class EditMode
-	{
-		New=0,
-		Edit=1
-	};
-
-	QString name() const;
-	QString path() const;
-
-	bool has_name_changed() const;
-	bool has_path_changed() const;
-
-	EditMode edit_mode() const;
 };
 
 #endif // GUI_EDITLIBRARY_H

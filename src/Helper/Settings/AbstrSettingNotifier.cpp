@@ -20,7 +20,3 @@
 
 #include "Helper/Settings/AbstrSettingNotifier.h"
 
-AbstrSettingNotifier::AbstrSettingNotifier(QObject* parent) :
-	QObject(parent) {}
-
-AbstrSettingNotifier::~AbstrSettingNotifier() {}

@@ -28,8 +28,7 @@
 #include "Helper/Language.h"
 
 LibraryContextMenu::LibraryContextMenu(QWidget* parent) :
-	QMenu(parent),
-	SayonaraClass()
+    SayonaraWidgetTemplate<QMenu>(parent)
 {
 	_info_action = new QAction(GUI::get_icon("info"), QString(), this);
 	_lyrics_action  = new QAction(GUI::get_icon("lyrics"), QString(), this);
@@ -83,9 +82,6 @@ LibraryContextMenu::LibraryContextMenu(QWidget* parent) :
 	for(QAction* action : actions){
 		action->setVisible(action->isSeparator());
 	}
-
-	REGISTER_LISTENER(Set::Player_Style, skin_changed);
-	REGISTER_LISTENER(Set::Player_Language, language_changed);
 }
 
 LibraryContextMenu::~LibraryContextMenu() {}

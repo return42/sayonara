@@ -27,16 +27,13 @@
 #include <algorithm>
 
 HeaderView::HeaderView(Qt::Orientation orientation, QWidget* parent) :
-	QHeaderView(orientation, parent),
-	SayonaraClass()
+    SayonaraWidgetTemplate<QHeaderView>(orientation, parent)
 {
 	_context_menu = new QMenu(this);
 
 	this->setSectionsClickable(true);
 	this->setStretchLastSection(true);
 	this->setHighlightSections(false);
-
-	REGISTER_LISTENER_NO_CALL(Set::Player_Language, language_changed);
 }
 
 QSize HeaderView::sizeHint() const

@@ -63,7 +63,7 @@ namespace SomaFM
 
 		// AbstractSearchModelInterface interface
 	public:
-		QModelIndex getFirstRowIndexOf(const QString& substr) override;
+        bool        has_items() const override;
 		QModelIndex getNextRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent) override;
 		QModelIndex getPrevRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent) override;
 		QMap<QChar, QString> getExtraTriggers() override;

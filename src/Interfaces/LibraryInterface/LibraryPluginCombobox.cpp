@@ -32,9 +32,9 @@ LibraryPluginCombobox::LibraryPluginCombobox(const QString& text, QWidget* paren
 	connect(m->lph, &LibraryPluginHandler::sig_libraries_changed, this, &LibraryPluginCombobox::setup_actions);
 	connect(m->lph, &LibraryPluginHandler::sig_current_library_changed, this, &LibraryPluginCombobox::current_library_changed);
 
-	REGISTER_LISTENER_NO_CALL(Set::Player_Language, setup_actions);
+    Set::listen(Set::Player_Language, this, &LibraryPluginCombobox::setup_actions, false);
 
-	setup_actions();
+    setup_actions();
 	setCurrentText(text);
 }
 

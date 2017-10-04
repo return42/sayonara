@@ -42,6 +42,7 @@
 #include "GUI/Helper/EventFilter.h"
 
 #include <QLineEdit>
+#include <QMenu>
 
 struct GUI_AbstractLibrary::Private
 {
@@ -230,7 +231,7 @@ void GUI_AbstractLibrary::init_connections()
     connect(m->lv_tracks, &LibraryView::sig_append_clicked, this, &GUI_AbstractLibrary::append_tracks);
     connect(m->lv_tracks, &LibraryView::sig_refresh_clicked, this, &GUI_AbstractLibrary::refresh_tracks);
 
-    REGISTER_LISTENER(Set::Lib_LiveSearch, _sl_live_search_changed);
+	Set::listen(Set::Lib_LiveSearch, this, &GUI_AbstractLibrary::_sl_live_search_changed);
 }
 
 void GUI_AbstractLibrary::init_shortcuts() {}

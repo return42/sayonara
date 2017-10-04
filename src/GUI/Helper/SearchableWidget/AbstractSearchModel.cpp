@@ -23,8 +23,21 @@
 SearchModelFunctionality::SearchModelFunctionality() {}
 SearchModelFunctionality::~SearchModelFunctionality() {}
 
+QModelIndex SearchModelFunctionality::getFirstRowIndexOf(const QString &substr)
+{
+    if(!has_items()){
+        return QModelIndex();
+    }
+
+    return getNextRowIndexOf(substr, 0, QModelIndex());
+}
+
 int SearchModelFunctionality::getNumberResults(const QString& str)
 {
+    if(str.isEmpty()){
+        return -1;
+    }
+
 	QModelIndex first_idx = this->getFirstRowIndexOf(str);
 	QModelIndex found_idx = first_idx;
 

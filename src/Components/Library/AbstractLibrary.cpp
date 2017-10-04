@@ -58,7 +58,7 @@ AbstractLibrary::~AbstractLibrary() {}
 
 void AbstractLibrary::load ()
 {
-	REGISTER_LISTENER(Set::Lib_Sorting, _sl_sortorder_changed);
+    Set::listen(Set::Lib_Sorting, this, &AbstractLibrary::_sl_sortorder_changed);
 
 	_filter.clear();
 

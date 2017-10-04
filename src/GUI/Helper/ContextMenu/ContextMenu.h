@@ -25,7 +25,7 @@
 #include <QMenu>
 #include <QTimer>
 
-#include "Helper/Settings/SayonaraClass.h"
+#include "GUI/Helper/SayonaraWidget/SayonaraWidgetTemplate.h"
 
 class IconLoader;
 
@@ -40,8 +40,7 @@ using ContextMenuEntries=int;
  * @ingroup GUIHelper
  */
 class ContextMenu :
-		public QMenu,
-		protected SayonaraClass
+        public SayonaraWidgetTemplate<QMenu>
 {
 	Q_OBJECT
 
@@ -125,6 +124,8 @@ public:
 
 protected:
 	void showEvent(QShowEvent* e) override;
+    void language_changed() override;
+    void skin_changed() override;
 
 
 public slots:
@@ -152,8 +153,7 @@ private slots:
 	 * @brief enable actions
 	 */
 	void timed_out();
-	void language_changed();
-	void skin_changed();
+
 };
 
 #endif // CONTEXTMENU_H

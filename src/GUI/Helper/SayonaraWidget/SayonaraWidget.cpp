@@ -27,10 +27,7 @@
 
 SayonaraWidget::SayonaraWidget(QWidget* parent) :
 	SayonaraWidgetTemplate<QWidget>(parent)
-{
-	REGISTER_LISTENER(Set::Player_Language, language_changed);
-	REGISTER_LISTENER(Set::Player_Style, skin_changed);
-}
+{}
 
 SayonaraWidget::~SayonaraWidget() {}
 
@@ -43,23 +40,14 @@ SayonaraDialog* SayonaraWidget::box_into_dialog()
 		this->setParent(_boxed_dialog);
 	}
 
-	return _boxed_dialog;
+    return _boxed_dialog;
 }
-
-void SayonaraWidget::language_changed() {}
-void SayonaraWidget::skin_changed() {}
 
 SayonaraMainWindow::SayonaraMainWindow(QWidget* parent) :
 	SayonaraWidgetTemplate<QMainWindow>(parent)
-{
-	REGISTER_LISTENER(Set::Player_Language, language_changed);
-	REGISTER_LISTENER(Set::Player_Style, skin_changed);
-}
+{}
 
 SayonaraMainWindow::~SayonaraMainWindow() {}
-
-void SayonaraMainWindow::language_changed() {}
-void SayonaraMainWindow::skin_changed() {}
 
 void SayonaraMainWindow::raise()
 {

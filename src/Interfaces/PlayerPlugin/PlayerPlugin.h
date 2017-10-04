@@ -51,6 +51,8 @@ public:
 	explicit PlayerPluginInterface(QWidget *parent=nullptr);
 	virtual ~PlayerPluginInterface();
 
+    virtual void skin_changed();
+
 
 signals:
 	/**

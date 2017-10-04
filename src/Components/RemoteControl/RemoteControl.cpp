@@ -104,10 +104,10 @@ void RemoteControl::init()
     m->fn_int_call_map["seekrels"] =std::bind(&RemoteControl::seek_rel_ms, this, std::placeholders::_1);
     m->fn_int_call_map["chtrk"] =   std::bind(&RemoteControl::change_track, this, std::placeholders::_1);
 
-    REGISTER_LISTENER_NO_CALL(Set::Remote_Active, _sl_active_changed);
-    REGISTER_LISTENER_NO_CALL(Set::Remote_Port, _sl_port_changed);
-    REGISTER_LISTENER_NO_CALL(Set::Broadcast_Port, _sl_broadcast_changed);
-    REGISTER_LISTENER_NO_CALL(Set::Broadcast_Active, _sl_broadcast_changed);
+	Set::listen(Set::Remote_Active, this, &RemoteControl::_sl_active_changed, false);
+	Set::listen(Set::Remote_Port, this, &RemoteControl::_sl_port_changed, false);
+	Set::listen(Set::Broadcast_Port, this, &RemoteControl::_sl_broadcast_changed, false);
+	Set::listen(Set::Broadcast_Active, this, &RemoteControl::_sl_broadcast_changed, false);
 
     m->initialized = true;
 }

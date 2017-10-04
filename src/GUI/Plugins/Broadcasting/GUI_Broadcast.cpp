@@ -94,7 +94,7 @@ void GUI_Broadcast::init_ui()
 
 	set_status_label();
 
-	REGISTER_LISTENER(SetNoDB::MP3enc_found, mp3_enc_found);
+	Set::listen(SetNoDB::MP3enc_found, this, &GUI_Broadcast::mp3_enc_found);
 }
 
 

@@ -69,6 +69,9 @@ protected:
 	QLineEdit* le_search() const override;
     QList<Library::Filter::Mode> search_options() const override;
 
+    void language_changed() override;
+    void search_cleared() override;
+
 
 private slots:
 	void switch_album_view();
@@ -102,10 +105,6 @@ private slots:
 	Library::TrackDeletionMode show_delete_dialog(int n_tracks) override;
 
 	void show_info_box();
-
-	// reimplemented from Sayonara widget
-	void language_changed() override;
-	void search_cleared() override;
 
 protected slots:
     void lib_albums_ready() override;

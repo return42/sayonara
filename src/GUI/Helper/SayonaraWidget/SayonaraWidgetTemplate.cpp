@@ -19,7 +19,7 @@
  */
 
 #include "SayonaraWidgetTemplate.h"
+#include "Helper/Settings/Settings.h"
 
 /* Nothing in here */
-
 

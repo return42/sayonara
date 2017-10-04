@@ -88,7 +88,7 @@ void GUI_AudioConverter::init_ui()
 	PlayManager* play_manager = PlayManager::getInstance();
 	connect(play_manager, &PlayManager::sig_playstate_changed, this, &GUI_AudioConverter::playstate_changed);
 
-	REGISTER_LISTENER(SetNoDB::MP3enc_found, mp3_enc_found);
+	Set::listen(SetNoDB::MP3enc_found, this, &GUI_AudioConverter::mp3_enc_found);
 }
 
 

@@ -21,30 +21,5 @@
 #ifndef ABSTRSETTINGNOTIFIER_H
 #define ABSTRSETTINGNOTIFIER_H
 
-#include <QObject>
-
-/**
- * @brief The AbstrSettingNotifier class
- * The setting notifier emits a sig_value_changed whenever the value of\n
- * the underlying setting (defined by the SettingKey) has changed.\n
- * After the signal has been received the listener still can decide if\n
- * it's reading the new value or not\n\n
- * we need an abstract instance of the notifier because Qt \n
- * Qt does not allow that a template class (like SettingNotifier) \n
- * can be a QObject and therefore signals
- * @ingroup Settings
- */
-class AbstrSettingNotifier :
-		public QObject
-{
-	Q_OBJECT
-
-	signals:
-		void sig_value_changed();
-
-	protected:
-		explicit AbstrSettingNotifier(QObject* parent=nullptr);
-		virtual ~AbstrSettingNotifier();
-};
 
 #endif // ABSTRSETTINGNOTIFIER_H

@@ -129,7 +129,7 @@ GUI_LocalLibrary::GUI_LocalLibrary(int id, QWidget* parent) :
 	ui->lv_genres->set_local_library(m->library);
 	language_changed();
 
-	REGISTER_LISTENER(Set::Lib_ShowAlbumCovers, switch_album_view);
+	Set::listen(Set::Lib_ShowAlbumCovers, this, &GUI_LocalLibrary::switch_album_view);
 }
 
 

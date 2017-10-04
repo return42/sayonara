@@ -26,15 +26,10 @@
 
 SayonaraDialog::SayonaraDialog(QWidget* parent) :
 	SayonaraWidgetTemplate<QDialog>(parent)
-{
-	REGISTER_LISTENER(Set::Player_Language, language_changed);
-	REGISTER_LISTENER(Set::Player_Style, skin_changed);
-}
+{}
 
 SayonaraDialog::~SayonaraDialog() {}
 
-void SayonaraDialog::language_changed() {}
-void SayonaraDialog::skin_changed() {}
 void SayonaraDialog::closeEvent(QCloseEvent *e){
 	Q_UNUSED(e);
 	emit sig_closed();

@@ -26,12 +26,11 @@
 #include "Helper/Settings/SettingNotifier.h"
 #include "Helper/Singleton.h"
 
-
 /**
  * @brief The Settings class
  * @ingroup Settings
  */
-class Settings : public QObject
+class Settings
 {
 	SINGLETON(Settings)
 	PIMPL(Settings)
@@ -66,23 +65,27 @@ public:
 	template<typename T, SK::SettingKey S>
 	void set(const SettingKey<T,S>& key, const T& val)
 	{
-		Q_UNUSED(key)
 		Setting<T>* s = (Setting<T>*) setting(S);
 
-		if( s->set_value(val)) {
-			SettingNotifier< SettingKey<T, S> >* sn = SettingNotifier< SettingKey<T, S> >::getInstance();
-			sn->val_changed();
+        if( s->set_value(val))
+        {
+            using KeyClass=decltype(key);
+
+            SettingNotifier< KeyClass >* sn = SettingNotifier< KeyClass >::getInstance();
+            sn->val_changed();
 		}
 	}
 
 	/* get a setting, defined by a unique, REGISTERED key */
 	template<typename T, SK::SettingKey S>
-	void shout(const SettingKey<T,S>& k) const
+    void shout(const SettingKey<T,S>& key) const
 	{
-		Q_UNUSED(k);
-		SettingNotifier< SettingKey<T, S> >* sn = SettingNotifier< SettingKey<T, S> >::getInstance();
-		sn->val_changed();
+        using KeyClass=decltype(key);
+
+        SettingNotifier< KeyClass >* sn = SettingNotifier< KeyClass >::getInstance();
+        sn->val_changed();
 	}
 };
+
 
 #endif // SAYONARA_SETTINGS_H_

@@ -21,7 +21,7 @@
 #ifndef PLAYLISTMENU_H
 #define PLAYLISTMENU_H
 
-#include "Helper/Settings/SayonaraClass.h"
+#include "GUI/Helper/SayonaraWidget/SayonaraWidgetTemplate.h"
 
 #include <QMenu>
 
@@ -29,8 +29,7 @@ class GUI_PlaylistEntryLook;
 class QTimer;
 
 class PlaylistMenu :
-		public QMenu,
-		protected SayonaraClass
+        public SayonaraWidgetTemplate<QMenu>
 {
 	Q_OBJECT
 
@@ -56,13 +55,15 @@ private:
 
 	void showEvent(QShowEvent* e) override;
 
-private slots:
+protected:
+    void language_changed() override;
 
+private slots:
 	void plm_changed();
 	void change_plm();
 	void timed_out();
 
-	void language_changed();
+
 };
 
 #endif // PLAYLISTMENU_H
