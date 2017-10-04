@@ -37,8 +37,8 @@ RatingLabel::RatingLabel(QWidget *parent, bool enabled) :
 	_enabled = enabled;
 	_parent = parent;
 	_icon_size = 14;
-	_pm_active = GUI::get_pixmap("star.png");
-	_pm_inactive = GUI::get_pixmap("star_disabled.png");
+	_pm_active = GUI::get_pixmap("star.png", QSize(_icon_size, _icon_size), true);
+	_pm_inactive = GUI::get_pixmap("star_disabled.png", QSize(_icon_size, _icon_size), true);
 
     QSizePolicy p(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
 

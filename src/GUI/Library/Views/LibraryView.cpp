@@ -48,16 +48,16 @@
 
 struct LibraryView::Private
 {
-	bool				cur_filling;
-	MD::Interpretation	type;
-
     QAction*			merge_action=nullptr;
     QMenu*				merge_menu=nullptr;
     LibraryContextMenu*	rc_menu=nullptr;
 
+	MD::Interpretation	type;
+	bool				cur_filling;
+
     Private() :
-        cur_filling(false),
-        type(MD::Interpretation::None)
+		type(MD::Interpretation::None),
+		cur_filling(false)
     {}
 };
 
@@ -74,7 +74,10 @@ LibraryView::LibraryView(QWidget* parent) :
 	setAlternatingRowColors(true);
 	setDragEnabled(true);
 
-	verticalHeader()->setResizeContentsPrecision(2);
+	QHeaderView* vertical_header = verticalHeader();
+	if(vertical_header) {
+		vertical_header->setResizeContentsPrecision(2);
+	}
 
 	clearSelection();
 }
@@ -133,7 +136,7 @@ void LibraryView::rc_menu_init()
 
 void LibraryView::show_rc_menu_actions(int entries)
 {
-	if(!m->rc_menu){
+	if(!m->rc_menu) {
 		rc_menu_init();
 	}
 

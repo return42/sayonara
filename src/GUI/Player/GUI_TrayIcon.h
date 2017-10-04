@@ -25,7 +25,7 @@
 
 #include "Interfaces/Notification/NotificationHandler.h"
 #include "Components/PlayManager/PlayState.h"
-#include "GUI/Helper/SayonaraWidget/SayonaraWidgetTemplate.h"
+#include "Helper/Settings/Settings.h"
 
 #include <QSystemTrayIcon>
 
@@ -37,41 +37,32 @@ class MetaData;
   * Small class to be used as tray icon
   */
 class GUI_TrayIcon :
-        public SayonaraWidgetTemplate<QSystemTrayIcon>,
-        public NotificationInterface
-
+		public QSystemTrayIcon,
+		public NotificationInterface
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
 
 	explicit GUI_TrayIcon(QObject *parent=nullptr);
-    virtual ~GUI_TrayIcon();
+	virtual ~GUI_TrayIcon();
 
 	bool event ( QEvent * e ) override;
+	void set_enable_fwd(bool);
 
-
-/*   void set_enable_play(bool);
-   void set_enable_stop(bool);
-   void set_enable_mute(bool);
-   void set_enable_bwd(bool);*/
-
-   void set_enable_fwd(bool);
-
-   void notify(const MetaData& md) override;
-   void notify(const QString &title, const QString &message, const QString &image_path) override;
-
+	void notify(const MetaData& md) override;
+	void notify(const QString &title, const QString &message, const QString &image_path) override;
 
 
 signals:
 
-    /**
-      * this event is fired, if we have a mouse wheel event
-      * @param delta bigger then 0 when mouse wheel has moved forward smaller when moved backwards
-      */
+	/**
+	  * this event is fired, if we have a mouse wheel event
+	  * @param delta bigger then 0 when mouse wheel has moved forward smaller when moved backwards
+	  */
 	void sig_wheel_changed(int delta);
 	void sig_hide_clicked();
-    void sig_close_clicked();
+	void sig_close_clicked();
 	void sig_show_clicked();
 
 
@@ -90,12 +81,13 @@ private slots:
 	void mute_changed(bool muted);
 	void _sl_show_tray_icon();
 	
-    void language_changed() override;
-    void skin_changed() override;
+	void language_changed();
+	void skin_changed();
 
 
 private:
 	// some shared actions
+	Settings*	_settings=nullptr;
 	PlayManager* _play_manager=nullptr;
 
 	QAction*	_show_action=nullptr;

@@ -23,6 +23,7 @@
 
 #include <QPair>
 #include <QStringList>
+#include "Helper/typedefs.h"
 
 class QSize;
 class QString;
@@ -178,6 +179,43 @@ public:
 			T v;
 			sc.cvt_from_string(l, v);
 			ret << v;
+		}
+
+		return true;
+	}
+};
+
+// generic for lists
+template<>
+/**
+ * @brief The SettingConverter<QList<T> > class
+ * @ingroup Settings
+ */
+class SettingConverter< BoolList >{
+public:
+	static QString cvt_to_string(const BoolList& val)
+	{
+		SettingConverter<bool> sc;
+		QStringList lst;
+
+		for(const bool& v : val){
+			lst << sc.cvt_to_string(v);
+		}
+
+		return lst.join(",");
+	}
+
+
+	static bool cvt_from_string(const QString& val, BoolList& ret)
+	{
+		SettingConverter<bool> sc;
+		ret.clear();
+		QStringList lst = val.split(",");
+
+		for(const QString& l : lst){
+			bool v;
+			sc.cvt_from_string(l, v);
+			ret.push_back(v);
 		}
 
 		return true;

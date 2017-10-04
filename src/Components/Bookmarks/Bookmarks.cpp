@@ -37,12 +37,13 @@ struct Bookmarks::Private
 	QList<Bookmark>			bookmarks;
 	MetaData				md;
 
-	uint32_t					cur_time;
 	int						prev_idx;
 	int						next_idx;
 
-	uint32_t					loop_start;
-	uint32_t					loop_end;
+	uint32_t				cur_time;
+
+	uint32_t				loop_start;
+	uint32_t				loop_end;
 };
 
 
@@ -163,7 +164,7 @@ bool Bookmarks::jump_to(int idx)
 	else{
 		uint64_t new_time = m->bookmarks[idx].get_time() * 1000;
 		m->play_manager->seek_abs_ms(new_time);
-}
+	}
 
 	return true;
 }

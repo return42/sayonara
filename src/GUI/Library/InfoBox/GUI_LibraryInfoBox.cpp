@@ -52,9 +52,6 @@ GUI_LibraryInfoBox::GUI_LibraryInfoBox(int8_t library_id, QWidget* parent) :
 	_library_id = library_id;
 
 	hide();
-
-	skin_changed();
-	language_changed();
 }
 
 GUI_LibraryInfoBox::~GUI_LibraryInfoBox() {}

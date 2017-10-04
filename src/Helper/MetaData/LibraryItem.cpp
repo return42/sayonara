@@ -118,7 +118,7 @@ QString CustomField::get_value() const
 
 struct LibraryItem::Private
 {
-    CustomFieldList additional_data;
+	CustomFieldList additional_data;
 	QString	cover_download_url;
 	uint8_t db_id;
 
@@ -206,7 +206,8 @@ const CustomFieldList& LibraryItem::get_custom_fields() const
 
 QString LibraryItem::get_custom_field(const QString& id) const
 {
-	for(const CustomField& field : m->additional_data){
+	for(const CustomField& field : m->additional_data)
+	{
 		if(field.get_id().compare(id, Qt::CaseInsensitive) == 0){
 			return field.get_value();
 		}

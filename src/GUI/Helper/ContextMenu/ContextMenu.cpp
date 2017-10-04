@@ -107,7 +107,8 @@ void ContextMenu::register_action(QAction *action){
 	addAction(action);
 }
 
-void ContextMenu::show_actions(ContextMenuEntries entries){
+void ContextMenu::show_actions(ContextMenuEntries entries)
+{
 	_action_new->setVisible(entries & ContextMenu::EntryNew);
 	_action_edit->setVisible(entries & ContextMenu::EntryEdit);
 	_action_open->setVisible(entries & ContextMenu::EntryOpen);
@@ -184,13 +185,15 @@ void ContextMenu::show_all()
 	}
 }
 
-void ContextMenu::showEvent(QShowEvent* e){
-	QMenu::showEvent(e);
+void ContextMenu::showEvent(QShowEvent* e)
+{
 	for(QAction* action: _actions){
 		action->setDisabled(true);
 	}
 
 	QTimer::singleShot(300, this, SLOT(timed_out()));
+
+	SayonaraWidgetTemplate<QMenu>::showEvent(e);
 }
 
 void ContextMenu::timed_out()

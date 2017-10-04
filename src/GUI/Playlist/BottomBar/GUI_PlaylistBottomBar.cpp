@@ -101,7 +101,6 @@ GUI_PlaylistBottomBar::GUI_PlaylistBottomBar(QWidget *parent) :
 	connect(m->ui_shutdown, &GUI_Shutdown::sig_closed, this, &GUI_PlaylistBottomBar::shutdown_closed);
 #endif
 
-	language_changed();
 	Set::listen(Set::PL_Mode, this, &GUI_PlaylistBottomBar::_sl_playlist_mode_changed);
 }
 

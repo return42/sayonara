@@ -42,8 +42,9 @@ struct StreamRecorder::Private
 	MetaDataList	session_collector;				// gather all tracks of a session
 	MetaData		md;							// current track
 
-	bool            recording;						// is in a session currently
 	int				cur_idx;							// index of track (used for filename)
+	bool            recording;						// is in a session currently
+
 };
 
 static QString get_time_str()

@@ -102,8 +102,6 @@ GUI_TagEdit::GUI_TagEdit(QWidget* parent) :
 	connect(m->tag_edit, &TagEdit::sig_metadata_received, this, &GUI_TagEdit::metadata_changed);
 	connect(m->tag_edit, &TagEdit::finished, this, &GUI_TagEdit::commit_finished);
 
-	language_changed();
-
 	reset();
 }
 

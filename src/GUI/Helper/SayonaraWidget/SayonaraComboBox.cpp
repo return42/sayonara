@@ -16,21 +16,19 @@ SayonaraComboBox::SayonaraComboBox(QWidget* parent) :
 
 SayonaraComboBox::~SayonaraComboBox() {}
 
-
-
 void SayonaraComboBox::changeEvent(QEvent* event)
 {
 	SayonaraWidgetTemplate<QComboBox>::changeEvent(event);
 
-	if(event->type() == QEvent::StyleChange){
-
-		QFontMetrics f(this->font());
-		int h = f.height();
-		h = std::max(h, 16);
-
-		this->setIconSize(QSize(h, h));
+	if(event->type() != QEvent::StyleChange){
+		return;
 	}
 
+	QFontMetrics f(this->font());
+	int h = f.height();
+	h = std::max(h, 16);
+
+	this->setIconSize(QSize(h, h));
 	update();
 	repaint();
 }

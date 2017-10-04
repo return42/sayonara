@@ -243,7 +243,7 @@ void GUI_ImportFolder::closeEvent(QCloseEvent* e)
 
 void GUI_ImportFolder::showEvent(QShowEvent* e)
 {
-	QDialog::showEvent(e);
+	SayonaraDialog::showEvent(e);
 	ui->lab_target_path->setText( m->library->library_path() );
 }
 

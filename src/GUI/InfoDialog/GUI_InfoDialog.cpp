@@ -300,9 +300,6 @@ void GUI_InfoDialog::init()
 	tab_widget->setCurrentIndex((int) GUI_InfoDialog::Tab::Info);
 	tab_widget->setFocusPolicy(Qt::NoFocus);
 
-	language_changed();
-	skin_changed();
-
 	prepare_info(m->md_interpretation);
 }
 

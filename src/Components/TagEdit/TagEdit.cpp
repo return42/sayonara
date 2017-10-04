@@ -29,7 +29,6 @@
 #include "Database/DatabaseConnector.h"
 
 #include <QHash>
-#include <vector>
 #include <algorithm>
 
 
@@ -40,7 +39,7 @@ struct TagEdit::Private
 
 	MetaDataList			v_md_before_change;
 	MetaDataList			v_md_after_change;
-	std::vector<bool>		changed_md;	// indicates if metadata at idx was changed
+	BoolList				changed_md;	// indicates if metadata at idx was changed
 	QMap<int, QImage>		cover_map;
 
 	QHash<QString, ArtistID> artist_map;

@@ -15,6 +15,7 @@ public:
 
 protected:
 	void changeEvent(QEvent* e) override;
+
 };
 
 #endif // SAYONARACOMBOBOX_H

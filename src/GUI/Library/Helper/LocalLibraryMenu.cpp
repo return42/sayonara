@@ -32,6 +32,7 @@ struct LocalLibraryMenu::Private
 {
 	QString name;
 	QString path;
+	bool initialized;
 
 	QAction* reload_library_action=nullptr;
 	QAction* import_file_action=nullptr;
@@ -45,18 +46,37 @@ struct LocalLibraryMenu::Private
 
 	IconLoader* icon_loader=nullptr;
 
-	QList<QAction*> actions;
-
 	Private(const QString& name, const QString& path) :
 		name(name),
-		path(path)
+		path(path),
+		initialized(false)
 	{}
 };
 
 LocalLibraryMenu::LocalLibraryMenu(const QString& name, const QString& path, QWidget* parent) :
-    SayonaraWidgetTemplate<QMenu>(parent)
+	SayonaraWidgetTemplate<QMenu>(parent)
 {
 	m = Pimpl::make<Private>(name, path);
+}
+
+LocalLibraryMenu::~LocalLibraryMenu() {}
+
+void LocalLibraryMenu::refresh_name(const QString& name)
+{
+	m->name = name;
+}
+
+void LocalLibraryMenu::refresh_path(const QString& path)
+{
+	m->path = path;
+}
+
+void LocalLibraryMenu::init_menu()
+{
+	if(m->initialized)
+	{
+		return;
+	}
 
 	m->icon_loader = IconLoader::getInstance();
 
@@ -91,38 +111,38 @@ LocalLibraryMenu::LocalLibraryMenu(const QString& name, const QString& path, QWi
 	connect(m->show_album_artists_action, &QAction::triggered, this, &LocalLibraryMenu::show_album_artists_changed);
 	connect(m->show_album_cover_view, &QAction::triggered, this, &LocalLibraryMenu::show_album_cover_view_changed);
 
-	m->actions << m->edit_action <<
-				this->addSeparator() <<
+	QList<QAction*> actions;
+	actions <<    m->edit_action <<
+				  this->addSeparator() <<
+				  m->info_action <<
+				  this->addSeparator() <<
+				  m->import_file_action <<
+				  m->import_folder_action <<
+				  m->reload_library_action <<
+				  this->addSeparator() <<
+				  m->show_album_cover_view <<
+				  m->realtime_search_action <<
+				  m->auto_update <<
+				  m->show_album_artists_action;
 
-				m->info_action <<
-				this->addSeparator() <<
-				m->import_file_action <<
-				m->import_folder_action <<
-				m->reload_library_action <<
-				this->addSeparator() <<
-				m->show_album_cover_view <<
-				m->realtime_search_action <<
-				m->auto_update <<
-				m->show_album_artists_action;
+	this->addActions(actions);
 
-	this->addActions(m->actions);
+	m->initialized = true;
 }
 
-LocalLibraryMenu::~LocalLibraryMenu() {}
-
-void LocalLibraryMenu::refresh_name(const QString& name)
+void LocalLibraryMenu::showEvent(QShowEvent* e)
 {
-	m->name = name;
-}
-
-void LocalLibraryMenu::refresh_path(const QString& path)
-{
-	m->path = path;
+	init_menu();
+	SayonaraWidgetTemplate<QMenu>::showEvent(e);
 }
 
 
 void LocalLibraryMenu::language_changed()
 {
+	if(!m->initialized){
+		return;
+	}
+
 	m->reload_library_action->setText(Lang::get(Lang::ReloadLibrary));
 	m->import_file_action->setText(Lang::get(Lang::ImportFiles));
 	m->import_folder_action->setText(Lang::get(Lang::ImportDir));
@@ -136,6 +156,10 @@ void LocalLibraryMenu::language_changed()
 
 void LocalLibraryMenu::skin_changed()
 {
+	if(!m->initialized){
+		return;
+	}
+
 	m->reload_library_action->setIcon(m->icon_loader->get_icon("view-refresh", "undo"));
 	m->import_file_action->setIcon(m->icon_loader->get_icon("document-open", "open"));
 	m->import_folder_action->setIcon(m->icon_loader->get_icon("document-open", "open"));

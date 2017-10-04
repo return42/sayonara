@@ -104,7 +104,7 @@ void PlaylistMenu::showEvent(QShowEvent* e)
 		action->setEnabled(false);
 	}
 
-	QMenu::showEvent(e);
+	SayonaraWidgetTemplate<QMenu>::showEvent(e);
 
 	_timer->setInterval(250);
 	_timer->start();

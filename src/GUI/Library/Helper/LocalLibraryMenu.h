@@ -51,7 +51,11 @@ public:
 	void refresh_name(const QString& name);
 	void refresh_path(const QString& path);
 
+private:
+	void init_menu();
+
 protected:
+	void showEvent(QShowEvent* e) override;
     void language_changed() override;
     void skin_changed() override;
 

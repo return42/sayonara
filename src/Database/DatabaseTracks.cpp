@@ -299,20 +299,19 @@ bool DatabaseTracks::getAllTracksByAlbum(int album, MetaDataList& result)
 
 bool DatabaseTracks::getAllTracksByAlbum(int album, MetaDataList& returndata, const Library::Filter& filter, Library::SortOrder sort, int discnumber)
 {
-	bool success;
-	IDList list;
 	MetaDataList v_md;
 
-	list << album;
+	IDList list{album};
 	returndata.clear();
 
-	success = getAllTracksByAlbum(list, v_md, filter, sort);
+	bool success = getAllTracksByAlbum(list, v_md, filter, sort);
 
 	if(discnumber < 0) {
 		returndata = v_md;
 	}
 
-	for(const MetaData& md : v_md) {
+	for(const MetaData& md : v_md)
+	{
 		if(discnumber != md.discnumber) {
 			continue;
 		}
@@ -398,8 +397,8 @@ bool DatabaseTracks::getAllTracksByArtist(int artist, MetaDataList& returndata)
 
 bool DatabaseTracks::getAllTracksByArtist(int artist, MetaDataList& returndata, const Library::Filter& filter, Library::SortOrder sort)
 {
-	IDList list;
-	list << artist;
+	IDList list{artist};
+
 	return getAllTracksByArtist(list, returndata, filter, sort);
 }
 
@@ -411,7 +410,7 @@ bool DatabaseTracks::getAllTracksByArtist(IDList artists, MetaDataList& returnda
 
 bool DatabaseTracks::getAllTracksByArtist(IDList artists, MetaDataList& returndata, const Library::Filter& filter, Library::SortOrder sort)
 {
-	if(artists.size() == 0){
+	if(artists.empty()){
 		return false;
 	}
 
@@ -522,7 +521,6 @@ bool DatabaseTracks::deleteTrack(int id)
 bool DatabaseTracks::deleteTracks(const IDList& ids)
 {
 	int n_files = 0;
-	bool success;
 
 	module_db().transaction();
 
@@ -532,9 +530,9 @@ bool DatabaseTracks::deleteTracks(const IDList& ids)
 		};
 	}
 
-	success = module_db().commit();
+	bool success = module_db().commit();
 
-	return success && (n_files == ids.size());
+	return (success && (n_files == ids.size()));
 }
 
 

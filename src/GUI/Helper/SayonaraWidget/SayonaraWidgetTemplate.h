@@ -24,6 +24,8 @@
 #include "Helper/Settings/SayonaraClass.h"
 #include "Helper/Settings/SettingNotifier.h"
 #include "Helper/Settings/SettingKey.h"
+#include <QShowEvent>
+
 class QWidget;
 
 #define combo_current_index_changed_int	static_cast<void (QComboBox::*) (int)>(&QComboBox::currentIndexChanged)
@@ -57,6 +59,14 @@ public:
 
     virtual void language_changed() {}
     virtual void skin_changed() {}
+
+	virtual void showEvent(QShowEvent* e) override
+	{
+		language_changed();
+		skin_changed();
+
+		T::showEvent(e);
+	}
 };
 
 

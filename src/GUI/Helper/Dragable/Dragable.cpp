@@ -36,13 +36,14 @@
 struct Dragable::Private
 {
 	QPoint		start_drag_pos;
-	bool		dragging=false;
 	QWidget*	parent=nullptr;
 	QDrag*		drag=nullptr;
 
+	bool		dragging=false;
+
     Private(QWidget* parent) :
-        dragging(false),
-        parent(parent)
+		parent(parent),
+		dragging(false)
     {}
 
 	QStringList get_strings(const QMimeData* data)

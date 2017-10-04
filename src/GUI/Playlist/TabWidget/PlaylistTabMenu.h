@@ -59,7 +59,7 @@ private:
 
 	IconLoader* _icon_loader;
 
-private slots:
+protected:
     void language_changed() override;
     void skin_changed() override;
 

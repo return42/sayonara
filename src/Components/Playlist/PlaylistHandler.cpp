@@ -40,12 +40,15 @@
 
 #include <algorithm>
 #include <memory>
+#include <vector>
+
+using PlaylistCollection=std::vector<PlaylistPtr>;
 
 struct PlaylistHandler::Private
 {
 	DatabaseConnector*		db=nullptr;
 	PlayManager*			play_manager=nullptr;
-	QList<PlaylistPtr>		playlists;
+	PlaylistCollection		playlists;
 	int						active_playlist_idx;
 	int						current_playlist_idx;
 	int						playlist_idx_before_stop;
@@ -164,7 +167,7 @@ int PlaylistHandler::add_new_playlist(const QString& name, bool temporary, Playl
     pl = new_playlist(type, m->playlists.size(), name);
 	pl->set_temporary(temporary);
 
-    m->playlists.append(pl);
+	m->playlists.push_back(pl);
 
 	emit sig_new_playlist_added(pl);
 
@@ -490,7 +493,7 @@ void PlaylistHandler::close_playlist(int idx)
         m->playlists[idx]->delete_playlist();
 	}
 
-    m->playlists.removeAt(idx);
+	m->playlists.erase(m->playlists.begin() + idx);
 
 	if( was_active ){
 		set_active_idx(0);

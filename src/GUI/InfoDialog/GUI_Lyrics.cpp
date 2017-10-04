@@ -119,7 +119,6 @@ void GUI_Lyrics::init()
 	connect(ui->btn_save_lyrics, &QPushButton::clicked, this, &GUI_Lyrics::save_lyrics_clicked);
 	connect(m->lyrics, &Lyrics::sig_lyrics_fetched, this, &GUI_Lyrics::lyrics_fetched);
 
-	language_changed();
 	prepare_lyrics();
 }
 
@@ -320,7 +319,7 @@ void GUI_Lyrics::showEvent(QShowEvent* e)
 {
 	init();
 
-	QWidget::showEvent(e);
+	SayonaraWidget::showEvent(e);
 }
 
 void GUI_Lyrics::wheelEvent(QWheelEvent* e)

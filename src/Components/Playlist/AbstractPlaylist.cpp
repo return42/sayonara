@@ -35,16 +35,16 @@
 struct AbstractPlaylist::Private
 {
 	MetaDataList    v_md;
-	bool			playlist_changed;
-	bool			is_storable;
 	int				playlist_idx;
 	Playlist::Mode	playlist_mode;
+	bool			playlist_changed;
+	bool			is_storable;
 
 	Private(int playlist_idx, Playlist::Mode playlist_mode) :
-		playlist_changed(false),
-		is_storable(false),
 		playlist_idx(playlist_idx),
-		playlist_mode(playlist_mode)
+		playlist_mode(playlist_mode),
+		playlist_changed(false),
+		is_storable(false)
 	{}
 };
 

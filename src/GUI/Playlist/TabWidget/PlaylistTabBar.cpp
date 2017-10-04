@@ -44,7 +44,6 @@ PlaylistTabBar::PlaylistTabBar(QWidget *parent) :
 	_tab_before_dd = -1;
 	_drag_origin_tab = -1;
 
-
 	init_shortcuts();
 
 	connect(_menu, &PlaylistTabMenu::sig_open_file_clicked, this, &PlaylistTabBar::open_file_pressed);

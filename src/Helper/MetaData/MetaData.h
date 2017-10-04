@@ -44,7 +44,7 @@ class Genre;
  * @ingroup MetaDataHelper
  */
 class MetaData :
-		public LibraryItem
+	public LibraryItem
 {
 	PIMPL(MetaData)
 
@@ -85,7 +85,6 @@ public:
 
 	~MetaData();
 
-	QUrl url() const;
 	QString filepath() const;
 	QString set_filepath(QString filepath);
 
@@ -118,6 +117,5 @@ public:
 };
 
 Q_DECLARE_METATYPE(MetaData)
-
 
 #endif /* METADATA_H_ */

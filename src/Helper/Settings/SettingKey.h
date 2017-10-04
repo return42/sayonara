@@ -225,7 +225,7 @@ namespace Set
 
     INST(bool,				Lib_Show);				/* show library */
     INST(QString,			Lib_Path);				/* library path */
-    INST(BoolList,			Lib_ColsTitle);				/* shown columns tracks */
+	INST(BoolList,			Lib_ColsTitle);				/* shown columns tracks */
     INST(BoolList,			Lib_ColsArtist);			/* shown columns artist */
     INST(BoolList,			Lib_ColsAlbum);				/* shown columns albums */
     INST(bool,				Lib_LiveSearch);			/* library live search */

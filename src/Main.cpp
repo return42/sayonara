@@ -231,9 +231,6 @@ int main(int argc, char *argv[])
 		return 1;
 	}
 
-	app.setApplicationName("Sayonara");
-	app.setWindowIcon(GUI::get_icon("logo"));
-
 	app.exec();
 
 	return 0;

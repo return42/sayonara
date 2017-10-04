@@ -73,7 +73,7 @@ bool SettingRegistry::init()
 
 	BoolList shown_cols;
 	for(int i=0; i<10; i++){
-		shown_cols << true;
+		shown_cols.push_back(true);
 	}
 
 	register_setting( Set::LFM_Login, "LastFM_login", StringPair("None", "None"));

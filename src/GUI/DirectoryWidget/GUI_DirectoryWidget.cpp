@@ -235,7 +235,6 @@ void GUI_DirectoryWidget::file_delete_clicked()
 
 void GUI_DirectoryWidget::language_changed()
 {
-	SayonaraWidget::language_changed();
 	ui->btn_search->setText(Lang::get(Lang::Search));
 }
 

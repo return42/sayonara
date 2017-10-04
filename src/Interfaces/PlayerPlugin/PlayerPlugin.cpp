@@ -150,7 +150,7 @@ void PlayerPluginInterface::showEvent(QShowEvent* e)
 		init_ui();
 	}
 
-	QWidget::showEvent(e);
+	SayonaraWidget::showEvent(e);
 }
 
 

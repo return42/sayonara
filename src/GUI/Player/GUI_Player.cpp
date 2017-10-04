@@ -122,7 +122,6 @@ void GUI_Player::init_gui()
 	setWindowIcon(GUI::get_icon("logo.png"));
 	setAttribute(Qt::WA_DeleteOnClose, false);
 
-	plugin_widget->resize(plugin_widget->width(), 0);
 	plugin_widget->hide();
 
 	language_changed();

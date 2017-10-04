@@ -53,7 +53,10 @@ SayonaraQuery::SayonaraQuery(const SayonaraQuery& other) :
 	m->query_string = other.m->query_string;
 }
 
-SayonaraQuery::~SayonaraQuery() {}
+SayonaraQuery::~SayonaraQuery()
+{
+	this->clear();
+}
 
 bool SayonaraQuery::prepare(const QString& query)
 {

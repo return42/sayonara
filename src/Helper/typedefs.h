@@ -27,6 +27,7 @@
 //#include <QtGlobal>
 
 #include <cstdint>
+#include <vector>
 
 class QString;
 template <typename A, typename B> struct QPair;
@@ -40,7 +41,7 @@ using StringPair=QPair<QString, QString>;
 using IntList=QList<int> ;
 using IDList=QList<int> ;
 using IdxList=QList<int> ;
-using BoolList=QList<bool> ;
+using BoolList=std::vector<bool> ;
 using ArtistID=int32_t;
 using AlbumID=int32_t;
 using TrackID=int32_t;

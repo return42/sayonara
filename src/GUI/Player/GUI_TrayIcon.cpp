@@ -38,9 +38,10 @@
 
 
 GUI_TrayIcon::GUI_TrayIcon (QObject *parent) :
-    SayonaraWidgetTemplate<QSystemTrayIcon>(parent),
+	QSystemTrayIcon(parent),
     NotificationInterface("Standard")
 {
+	_settings = Settings::getInstance();
 	_play_manager = PlayManager::getInstance();
 
 	connect(_play_manager, &PlayManager::sig_playstate_changed, this, &GUI_TrayIcon::playstate_changed);
@@ -52,6 +53,9 @@ GUI_TrayIcon::GUI_TrayIcon (QObject *parent) :
 
 	bool muted = _play_manager->get_mute();
 	mute_changed(muted);
+
+	Set::listen(Set::Player_Language, this, &GUI_TrayIcon::language_changed);
+	Set::listen(Set::Player_Style, this, &GUI_TrayIcon::skin_changed);
 
 	NotificationHandler::getInstance()->register_notificator(this);
 }
@@ -158,7 +162,8 @@ void GUI_TrayIcon::notify(const MetaData& md)
 }
 
 
-void GUI_TrayIcon::notify(const QString &title, const QString &message, const QString &image_path) {
+void GUI_TrayIcon::notify(const QString &title, const QString &message, const QString &image_path)
+{
 	Q_UNUSED(image_path)
 
 	if(!isSystemTrayAvailable()){

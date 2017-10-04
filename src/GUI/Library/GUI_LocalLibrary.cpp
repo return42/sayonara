@@ -127,7 +127,6 @@ GUI_LocalLibrary::GUI_LocalLibrary(int id, QWidget* parent) :
 	QTimer::singleShot(100, m->library, SLOT(load()));
 
 	ui->lv_genres->set_local_library(m->library);
-	language_changed();
 
 	Set::listen(Set::Lib_ShowAlbumCovers, this, &GUI_LocalLibrary::switch_album_view);
 }

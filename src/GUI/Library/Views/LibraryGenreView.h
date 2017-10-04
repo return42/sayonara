@@ -60,6 +60,7 @@ public:
 private:
 	void fill_list(const QStringList& genres);
 	void init_data(const QStringList& genres);
+	void init_context_menu();
 	void insert_genres(QTreeWidgetItem* parent_item, GenreNode* node);
 	QTreeWidgetItem* find_genre(const QString& genre);
 

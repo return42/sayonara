@@ -184,7 +184,7 @@ BoolList HeaderView::refresh_active_columns()
 			this->showSection(i);
 		}
 
-		lst << section->is_visible();
+		lst.push_back(section->is_visible());
 	}
 
 	return lst;

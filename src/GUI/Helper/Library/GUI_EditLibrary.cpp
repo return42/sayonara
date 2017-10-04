@@ -27,8 +27,6 @@ GUI_EditLibrary::GUI_EditLibrary(QWidget *parent) :
 	connect(ui->btn_ok, &QPushButton::clicked, this, &GUI_EditLibrary::ok_clicked);
 	connect(ui->btn_cancel, &QPushButton::clicked, this, &GUI_EditLibrary::cancel_clicked);
 	connect(ui->btn_choose_dir, &QPushButton::clicked, this, &GUI_EditLibrary::choose_dir_clicked);
-
-	language_changed();
 }
 
 GUI_EditLibrary::GUI_EditLibrary(const QString& name, const QString& path, QWidget* parent) :

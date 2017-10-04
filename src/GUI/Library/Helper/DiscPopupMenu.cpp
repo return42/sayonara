@@ -82,12 +82,14 @@ DiscPopupMenu::~DiscPopupMenu()
 }
 
 
-void DiscPopupMenu::disc_pressed(int disc){
+void DiscPopupMenu::disc_pressed(int disc)
+{
 	emit sig_disc_pressed(disc);
 }
 
 
-void DiscPopupMenu::mouseReleaseEvent(QMouseEvent* e){
+void DiscPopupMenu::mouseReleaseEvent(QMouseEvent* e)
+{
 	QMenu::mouseReleaseEvent(e);
 	hide();
 	close();

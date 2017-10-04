@@ -140,7 +140,7 @@ void GUI_PreferenceDialog::hide_all()
 void GUI_PreferenceDialog::showEvent(QShowEvent* e)
 {
 	init_ui();
-	QDialog::showEvent(e);
+	SayonaraDialog::showEvent(e);
 }
 
 
