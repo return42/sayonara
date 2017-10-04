@@ -22,6 +22,7 @@
 #define _LIBRARY_ITEM_H_
 
 #include "Helper/Pimpl.h"
+#include <vector>
 
 class QString;
 template <typename T> class QList;
@@ -52,6 +53,7 @@ public:
 	QString get_value() const;
 };
 
+using CustomFieldList=std::vector<CustomField>;
 
 /**
  * @brief The LibraryItem class
@@ -74,7 +76,7 @@ public:
 	void add_custom_field(const CustomField& field);
 	void add_custom_field(const QString& id, const QString& display_name, const QString& value);
 
-	const QList<CustomField>& get_custom_fields() const;
+    const CustomFieldList& get_custom_fields() const;
 	QString get_custom_field(const QString& id) const;
 	QString get_custom_field(int idx) const;
 
@@ -86,6 +88,8 @@ public:
 
 	virtual void print() const;
 };
+
+
 
 #endif
 

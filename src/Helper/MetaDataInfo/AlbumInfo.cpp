@@ -68,8 +68,9 @@ AlbumInfo::AlbumInfo(const MetaDataList& v_md) :
 		if(success){
 			_additional_info.clear();
 			// custom fields
-			const QList<CustomField>& custom_fields = album.get_custom_fields();
-			for(const CustomField& field : custom_fields){
+            const CustomFieldList& custom_fields = album.get_custom_fields();
+            for(const CustomField& field : custom_fields)
+            {
 				QString name = field.get_display_name();
 				QString value = field.get_value();
 				if(value.isEmpty()){

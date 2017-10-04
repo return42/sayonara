@@ -62,7 +62,7 @@ int LibraryItemModelArtists::get_id_by_row(int row)
 {
     const ArtistList& artists = library()->get_artists();
 
-    if(row < 0 || row >= artists.size()){
+    if(row < 0 || row >= artists.count()){
 		return -1;
 	}
 
@@ -75,7 +75,7 @@ QString LibraryItemModelArtists::get_string(int row) const
 {
     const ArtistList& artists = library()->get_artists();
 
-    if(row < 0 || row >= artists.size()){
+    if(row < 0 || row >= artists.count()){
 		return QString();
 	}
 
@@ -92,7 +92,7 @@ QVariant LibraryItemModelArtists::data(const QModelIndex & index, int role) cons
     }
 
     const ArtistList& artists = library()->get_artists();
-    if (index.row() >= artists.size()) {
+    if (index.row() >= artists.count()) {
 		return QVariant();
     }
 
@@ -171,7 +171,7 @@ CoverLocation LibraryItemModelArtists::get_cover(const SP::Set<int>& indexes) co
     const ArtistList& artists = library()->get_artists();
 	int idx = indexes.first();
 
-    if(idx < 0 || idx > artists.size()){
+    if(idx < 0 || idx > artists.count()){
 		return CoverLocation();
 	}
 

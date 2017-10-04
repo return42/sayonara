@@ -148,7 +148,7 @@ QVariant AlbumCoverModel::data(const QModelIndex& index, int role) const
 
 	int n_columns = columnCount();
 	int lin_idx = (row * n_columns) + col;
-	if(lin_idx >= m->albums.size()){
+    if(lin_idx >= m->albums.count()){
 		return QVariant();
 	}
 
@@ -270,7 +270,8 @@ QModelIndex AlbumCoverModel::getNextRowIndexOf(const QString& substr, int cur_ro
 {
 	Q_UNUSED(parent)
 
-	for(int i=0; i<m->albums.size(); i++){
+    for(int i=0; i<m->albums.count(); i++)
+    {
 		int idx = (i + cur_row) % m->albums.size();
 		QString title = get_string(idx);
 		title = Library::convert_search_string(title, search_mode());
@@ -297,7 +298,7 @@ QModelIndex AlbumCoverModel::getPrevRowIndexOf(const QString& substr, int row, c
 	Q_UNUSED(parent)
 
 	int len = m->albums.size();
-	for(int i=0; i<m->albums.size(); i++){
+    for(int i=0; i<m->albums.count(); i++){
 
 		if(row - i < 0){
 			row = len - 1;
@@ -337,7 +338,8 @@ int AlbumCoverModel::get_searchable_column() const
 
 QString AlbumCoverModel::get_string(int idx) const
 {
-	if(idx < 0 || idx >= m->albums.size()){
+    if(idx < 0 || idx >= m->albums.count())
+    {
 		return QString();
 	}
 
@@ -346,7 +348,8 @@ QString AlbumCoverModel::get_string(int idx) const
 
 int AlbumCoverModel::get_id_by_row(int idx)
 {
-	if(idx < 0 || idx >= m->albums.size()){
+    if(idx < 0 || idx >= m->albums.count())
+    {
 		return -1;
 	}
 
@@ -360,7 +363,7 @@ CoverLocation AlbumCoverModel::get_cover(const SP::Set<int>& indexes) const
 	}
 
 	int idx = indexes.first();
-	if(idx < 0 || idx >= m->albums.size() ){
+    if(idx < 0 || idx >= m->albums.count() ){
 		return CoverLocation::getInvalidLocation();
 	}
 

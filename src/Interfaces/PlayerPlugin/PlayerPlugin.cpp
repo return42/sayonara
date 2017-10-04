@@ -29,13 +29,13 @@
 
 struct PlayerPluginInterface::Private
 {
-	bool		is_initialized;
 	QAction*	pp_action=nullptr;
+    bool		is_initialized;
 
-	Private()
+    Private() :
+        pp_action(new QAction(nullptr)),
+        is_initialized(false)
 	{
-		is_initialized = false;
-		pp_action = new QAction(nullptr);
 		pp_action->setCheckable(true);
 	}
 

@@ -97,12 +97,12 @@ void SC::Library::load()
 
 void SC::Library::get_all_artists(ArtistList& artists, ::Library::Sortings so)
 {
-	if(m->artists.isEmpty())
+    if(m->artists.empty())
 	{
 		m->scd->getAllArtists(artists, so.so_artists);
 		m->artists = artists;
 
-        for(int i=0; i<m->artists.size(); i++)
+        for(int i=0; i<m->artists.count(); i++)
         {
 			const Artist& artist = artists[i];
 			m->artist_id_idx_map[artist.id] = i;
@@ -132,8 +132,10 @@ void SC::Library::get_all_artists_by_searchstring(::Library::Filter filter, Arti
     for(int artist_id : artist_ids)
     {
 		int idx = m->artist_id_idx_map[artist_id];
-		artists << m->artists[idx];
-		artists.last().num_songs = m->md_artist_id_idx_map[artist_id].size();
+
+        Artist artist = m->artists[idx];
+        artist.num_songs = m->md_artist_id_idx_map[artist_id].count();
+        artists << artist;
 	}
 
 	SC::Sorting::sort_artists(artists, so.so_artists);
@@ -141,12 +143,12 @@ void SC::Library::get_all_artists_by_searchstring(::Library::Filter filter, Arti
 
 void SC::Library::get_all_albums(AlbumList& albums, ::Library::Sortings so)
 {
-	if(m->albums.isEmpty())
+    if(m->albums.empty())
 	{
 		m->scd->getAllAlbums(albums, false);
 		m->albums = albums;
 
-		for(int i=0; i<albums.size(); i++)
+        for(int i=0; i<albums.count(); i++)
 		{
 			const Album& album = albums[i];
 			m->album_id_idx_map[album.id] = i;

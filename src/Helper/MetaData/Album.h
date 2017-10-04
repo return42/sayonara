@@ -80,10 +80,14 @@ public:
  * @brief The AlbumList class
  * @ingroup MetaDataHelper
  */
-class AlbumList : public QList<Album> 
+class AlbumList : public std::vector<Album>
 {
 public:
 	bool contains(int32_t album_id) const;
+
+    int count() const;
+    AlbumList& operator <<(const Album& album);
+    Album first() const;
 };
 
 #endif

@@ -40,18 +40,20 @@ struct LocalLibrary::Private
 {
 	DatabaseConnector*	db=nullptr;
 	LibraryDatabase*	lib_db=nullptr;
-	int8_t				lib_id;
+
 	ReloadThread* 		reload_thread=nullptr;
 	LibraryImporter*	library_importer=nullptr;
 	QString				library_path;
 	QString				library_name;
 
+    int8_t				lib_id;
+
 	Private(const QString& library_name, const QString& library_path, int8_t lib_id) :
 		db(DatabaseConnector::getInstance()),
 		lib_db(db->library_db(lib_id, 0)),
-		lib_id(lib_id),
 		library_path(library_path),
-		library_name(library_name)
+        library_name(library_name),
+        lib_id(lib_id)
 	{}
 };
 

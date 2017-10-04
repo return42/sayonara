@@ -108,7 +108,7 @@ void AbstractLibrary::refresh()
 
 	fetch_by_filter(_filter, true);
 
-	for(int i=0; i<_artists.size(); i++){
+    for(int i=0; i<_artists.count(); i++){
 		if(sel_artists.contains(_artists[i].id)) {
 			sel_artists_idx.insert(i);
 		}
@@ -116,7 +116,7 @@ void AbstractLibrary::refresh()
 
 	change_artist_selection(sel_artists_idx);
 
-	for(int i=0; i<_albums.size(); i++){
+    for(int i=0; i<_albums.count(); i++){
 		if(sel_albums.contains(_albums[i].id)) {
 			sel_albums_idx.insert(i);
 		}
@@ -314,7 +314,7 @@ void AbstractLibrary::change_album_selection(const SP::Set<int>& indexes)
 
 	for(auto it=indexes.begin(); it != indexes.end(); it++){
 		int idx = *it;
-		if(idx >= _albums.size()){
+        if(idx >= _albums.count()){
 			break;
 		}
 

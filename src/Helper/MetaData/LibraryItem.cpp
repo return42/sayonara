@@ -19,9 +19,11 @@
  */
 
 #include "Helper/MetaData/LibraryItem.h"
-#include <QList>
+
 #include <QString>
+
 #include <utility>
+#include <list>
 
 struct CustomField::Private
 {
@@ -116,7 +118,7 @@ QString CustomField::get_value() const
 
 struct LibraryItem::Private
 {
-	QList<CustomField>	additional_data;
+    CustomFieldList additional_data;
 	QString	cover_download_url;
 	uint8_t db_id;
 
@@ -188,15 +190,15 @@ LibraryItem::~LibraryItem() {}
 
 void LibraryItem::add_custom_field(const CustomField& field)
 {
-    m->additional_data << field;
+    m->additional_data.push_back(field);
 }
 
 void LibraryItem::add_custom_field(const QString& id, const QString& display_name, const QString& value)
 {
-    m->additional_data << CustomField(id, display_name, value);
+    m->additional_data.push_back(std::move(CustomField(id, display_name, value)));
 }
 
-const QList<CustomField>& LibraryItem::get_custom_fields() const
+const CustomFieldList& LibraryItem::get_custom_fields() const
 {
 	return m->additional_data;
 }
@@ -216,7 +218,7 @@ QString LibraryItem::get_custom_field(const QString& id) const
 
 QString LibraryItem::get_custom_field(int idx) const
 {
-	if(idx < 0 || idx >= m->additional_data.size()){
+    if(idx < 0 || idx >= (int) m->additional_data.size()){
 		return "";
 	}
 

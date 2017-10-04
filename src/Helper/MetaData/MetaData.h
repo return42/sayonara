@@ -37,8 +37,6 @@
 #include <QString>
 
 class QStringList;
-
-
 class Genre;
 
 /**

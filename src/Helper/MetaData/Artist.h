@@ -61,10 +61,13 @@ Q_DECLARE_METATYPE(Artist)
  * @ingroup MetaDataHelper
  */
 class ArtistList :
-		public QList<Artist>
+        public std::vector<Artist>
 {
 
 public:
+
+    ArtistList();
+    ~ArtistList();
 
 	/**
 	 * @brief extract the main artist out of the artist list
@@ -82,6 +85,10 @@ public:
 
 
 	bool contains(int artist_id) const;
+
+    int count() const;
+    ArtistList& operator <<(const Artist& artist);
+    Artist first() const;
 };
 
 #endif

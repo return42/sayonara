@@ -149,5 +149,25 @@ bool AlbumList::contains(int32_t album_id) const
 		}
 	}
 
-	return false;
+    return false;
+}
+
+int AlbumList::count() const
+{
+    return static_cast<int>(this->size());
+}
+
+AlbumList& AlbumList::operator <<(const Album &album)
+{
+    this->push_back(album);
+    return *this;
+}
+
+Album AlbumList::first() const
+{
+    if(this->empty()){
+        return Album();
+    }
+
+    return this->at(0);
 }

@@ -87,9 +87,10 @@ MetaDataInfo::MetaDataInfo(const MetaDataList& v_md) :
 		year_max = std::max(year_max, md.year);
 
 		// custom fields
-		const QList<CustomField>& custom_fields = md.get_custom_fields();
+        const CustomFieldList& custom_fields = md.get_custom_fields();
 
-		for(const CustomField& field : custom_fields){
+        for(const CustomField& field : custom_fields)
+        {
 			QString name = field.get_display_name();
 			QString value = field.get_value();
 			if(value.isEmpty()){

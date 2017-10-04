@@ -227,7 +227,8 @@ int StdPlaylist::calc_shuffle_track()
 
 	// check all tracks played
 	i=0;
-	for(MetaData& md : metadata()){
+    for(MetaData& md : metadata())
+    {
 		if(!md.played){
 			left_tracks << i;
 		}

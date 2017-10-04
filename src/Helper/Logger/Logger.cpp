@@ -53,9 +53,9 @@ static QList<LogListener*> log_listeners;
 
 struct Logger::Private
 {
-	Log					type;
 	QString				class_name;
 	std::stringstream	msg;
+    Log					type;
 
 	Private()
 	{

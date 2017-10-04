@@ -95,6 +95,13 @@ void Artist::print() const
 }
 
 
+ArtistList::ArtistList() :
+    std::vector<Artist>()
+{}
+
+ArtistList::~ArtistList()
+{}
+
 QString ArtistList::get_major_artist(const QStringList& artists)
 {
 	QHash<QString, int> map;
@@ -151,6 +158,28 @@ bool ArtistList::contains(int artist_id) const
 		}
 	}
 
-	return false;
+    return false;
 }
+
+int ArtistList::count() const
+{
+    return static_cast<int>(this->size());
+}
+
+ArtistList& ArtistList::operator <<(const Artist& artist)
+{
+    this->push_back(artist);
+    return *this;
+}
+
+Artist ArtistList::first() const
+{
+    if(this->empty()){
+        return Artist();
+    }
+
+    return this->at(0);
+}
+
+
 

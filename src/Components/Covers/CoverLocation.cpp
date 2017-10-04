@@ -28,6 +28,7 @@
 #include "Helper/MetaData/Album.h"
 #include "Helper/MetaData/Artist.h"
 #include "Helper/globals.h"
+#include "Helper/Logger/Logger.h"
 
 #include "Database/DatabaseConnector.h"
 #include "Database/LibraryDatabase.h"
@@ -70,6 +71,8 @@ struct CoverLocation::Private
 
         return (*this);
     }
+
+    ~Private() {}
 };
 
 

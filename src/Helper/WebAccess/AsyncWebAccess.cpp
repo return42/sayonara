@@ -32,19 +32,21 @@
 #include <QTimer>
 #include <QRegExp>
 
+using HeaderMap=QMap<QByteArray, QByteArray>;
 
 struct AsyncWebAccess::Private
 {
 		QNetworkAccessManager*	nam=nullptr;
 		QTimer*					timer=nullptr;
 		QNetworkReply*			reply=nullptr;
-		bool					ignore_finished;
 
-        QString                     url;
-        QByteArray                  data;
+        QString                 url;
+        QByteArray              data;
+        HeaderMap               header;
+
         AsyncWebAccess::Behavior    behavior;
         AsyncWebAccess::Status      status;
-		QMap<QByteArray, QByteArray> header;
+        bool                        ignore_finished;
 
         Private(AsyncWebAccess::Behavior behavior) :
             behavior(behavior),

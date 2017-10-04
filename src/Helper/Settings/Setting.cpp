@@ -26,8 +26,8 @@
 
 struct AbstrSetting::Private
 {
-	SK::SettingKey	key;
 	QString			db_key;
+    SK::SettingKey	key;
 	bool			db_setting;
 };
 

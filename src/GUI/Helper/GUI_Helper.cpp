@@ -30,7 +30,8 @@
 #include <QPixmap>
 #include <QMainWindow>
 
-QIcon GUI::get_icon(const QString& icon_name){
+QIcon GUI::get_icon(const QString& icon_name)
+{
 	QString path;
 
 	if(icon_name.endsWith(".png")){
@@ -45,7 +46,7 @@ QIcon GUI::get_icon(const QString& icon_name){
 	path.prepend(":/Icons/");
 
 
-	QIcon icon = QIcon(path);
+    QIcon icon = QIcon(path);
 	if(icon.isNull()){
 		sp_log(Log::Warning, "GUI_Helper") << "Icon " << path << " does not exist";
 	}

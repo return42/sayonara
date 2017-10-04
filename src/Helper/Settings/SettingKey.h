@@ -49,7 +49,7 @@ namespace Library
  * @ingroup Settings
  */
 namespace SK {
-    enum SettingKey {
+	enum SettingKey {
 	LFM_Active=0,
 	LFM_ScrobbleTimeSec,
 	LFM_Login,
