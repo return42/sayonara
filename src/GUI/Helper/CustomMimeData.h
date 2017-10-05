@@ -61,6 +61,9 @@ public:
      * @return true if yes, false else
      */
     bool has_metadata() const;
+
+    void set_inner_drag_drop();
+    bool is_inner_drag_drop() const;
 };
 
 #endif

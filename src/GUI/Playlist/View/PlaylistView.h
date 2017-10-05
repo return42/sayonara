@@ -124,7 +124,7 @@ private:
 
 
 private slots:
-	void handle_async_drop(bool success);
+    void async_drop_finished(bool success);
 	void rating_changed(int rating);
 
 	// SayonaraSelectionView interface

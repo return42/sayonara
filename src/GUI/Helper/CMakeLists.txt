@@ -3,6 +3,8 @@ PROJECT(say_gui_helper)
 SET(SOURCES
 
 	CustomMimeData.cpp
+	MimeDataHelper.cpp
+
 	GUI_Helper.cpp
 	EventFilter.cpp
 

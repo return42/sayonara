@@ -55,13 +55,14 @@ public:
 	int rowCount(const QModelIndex &parent=QModelIndex()) const override;
 	QVariant data(const QModelIndex &index, int role=Qt::DisplayRole) const override;
 
-
 	Qt::ItemFlags flags(const QModelIndex &index) const override;
 
 	void clear();
 
     void remove_rows(const IndexSet& rows);
     void move_rows(const IndexSet& rows, int target_index);
+    IndexSet move_rows_up(const IndexSet& rows);
+    IndexSet move_rows_down(const IndexSet& rows);
     void copy_rows(const IndexSet& rows, int target_index);
 
 	void set_current_track(int row);

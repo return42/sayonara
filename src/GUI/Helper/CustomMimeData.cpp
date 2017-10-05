@@ -20,6 +20,7 @@
 
 #include "CustomMimeData.h"
 #include "Helper/MetaData/MetaDataList.h"
+#include "GUI/Helper/MimeDataHelper.h"
 
 #include <algorithm>
 
@@ -49,4 +50,14 @@ const MetaDataList& CustomMimeData::metadata() const
 bool CustomMimeData::has_metadata() const
 {
     return (m->v_md.size() > 0);
+}
+
+void CustomMimeData::set_inner_drag_drop()
+{
+    GUI::MimeData::set_inner_drag_drop(this);
+}
+
+bool CustomMimeData::is_inner_drag_drop() const
+{
+    return GUI::MimeData::is_inner_drag_drop(this);
 }

@@ -37,14 +37,29 @@
   <property name="horizontalScrollBarPolicy">
    <enum>Qt::ScrollBarAlwaysOff</enum>
   </property>
+  <property name="autoScroll">
+   <bool>true</bool>
+  </property>
+  <property name="autoScrollMargin">
+   <number>16</number>
+  </property>
   <property name="tabKeyNavigation">
+   <bool>true</bool>
+  </property>
+  <property name="showDropIndicator" stdset="0">
    <bool>true</bool>
   </property>
   <property name="dragEnabled">
    <bool>true</bool>
   </property>
+  <property name="dragDropOverwriteMode">
+   <bool>false</bool>
+  </property>
   <property name="dragDropMode">
    <enum>QAbstractItemView::DragDrop</enum>
+  </property>
+  <property name="defaultDropAction">
+   <enum>Qt::IgnoreAction</enum>
   </property>
   <property name="alternatingRowColors">
    <bool>true</bool>

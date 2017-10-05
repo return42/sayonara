@@ -107,9 +107,50 @@ void PlaylistItemModel::remove_rows(const IndexSet& indexes){
 }
 
 
-void PlaylistItemModel::move_rows(const IndexSet& indexes, int target_index){
+void PlaylistItemModel::move_rows(const IndexSet& indexes, int target_index)
+{
 	_pl->move_tracks(indexes, target_index);
+
 	playlist_changed(0);
+}
+
+IndexSet PlaylistItemModel::move_rows_up(const IndexSet& indexes)
+{
+    int min_row = *(std::min_element(indexes.begin(), indexes.end()));
+    if(min_row <= 0){
+        return IndexSet();
+    }
+
+    move_rows(indexes, min_row - 1);
+
+    IndexSet new_indexes;
+    for(int i=0; i<indexes.count(); i++)
+    {
+        new_indexes.insert(i + min_row - 1);
+    }
+
+    return new_indexes;
+}
+
+IndexSet PlaylistItemModel::move_rows_down(const IndexSet& indexes)
+{
+    auto min_max = std::minmax_element(indexes.begin(), indexes.end());
+    int min_row = *(min_max.first);
+    int max_row = *(min_max.second);
+
+    if(max_row >= rowCount() - 1){
+        return IndexSet();
+    }
+
+    IndexSet new_indexes;
+    move_rows(indexes, max_row + 2);
+
+    for(int i=0; i<indexes.count(); i++)
+    {
+        new_indexes.insert(i + min_row + 1);
+    }
+
+    return new_indexes;
 }
 
 void PlaylistItemModel::copy_rows(const IndexSet& indexes, int target_index){
@@ -374,6 +415,7 @@ CustomMimeData* PlaylistItemModel::custom_mimedata(const QModelIndexList& indexe
 		return nullptr;
 	}
 
+    mimedata->set_inner_drag_drop();
     mimedata->set_metadata(v_md);
 	mimedata->setText("tracks");
 	mimedata->setUrls(urls);

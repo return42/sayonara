@@ -25,11 +25,14 @@
 
 #include "3rdParty/SomaFM/SomaFMStation.h"
 #include "Components/Covers/CoverLocation.h"
-#include "GUI/Helper/GUI_Helper.h"
-#include "GUI/Helper/CustomMimeData.h"
-#include "GUI/Helper/IconLoader/IconLoader.h"
+
 #include "Helper/globals.h"
 #include "Helper/Logger/Logger.h"
+
+#include "GUI/Helper/GUI_Helper.h"
+#include "GUI/Helper/CustomMimeData.h"
+#include "GUI/Helper/MimeDataHelper.h"
+#include "GUI/Helper/IconLoader/IconLoader.h"
 
 #include <QUrl>
 #include <QIcon>
@@ -260,7 +263,8 @@ QMimeData* SomaFM::StationModel::mimeData(const QModelIndexList& indexes) const
 	}
 
 	QMimeData* mime_data = new QMimeData();
-	mime_data->setText(cover_url);
+
+    GUI::MimeData::set_cover_url(mime_data, cover_url);
 	mime_data->setUrls(urls);
 
 	return mime_data;

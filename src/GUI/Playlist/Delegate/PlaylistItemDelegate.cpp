@@ -48,12 +48,8 @@ PlaylistItemDelegate::PlaylistItemDelegate(QListView* parent) :
 
 PlaylistItemDelegate::~PlaylistItemDelegate() {}
 
-void PlaylistItemDelegate::paint(QPainter *painter,
-						const QStyleOptionViewItem &option,
-						const QModelIndex &index) const
+void PlaylistItemDelegate::paint(QPainter *painter,	const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-	//StyledItemDelegate::paint(painter, option, index);
-
 	if(!index.isValid()) {
 		return;
 	}
@@ -89,7 +85,6 @@ void PlaylistItemDelegate::paint(QPainter *painter,
 	else if(is_playing || is_selected)
 	{
 		QColor col_highlight = palette.color(QPalette::Active, QPalette::Highlight);
-		//QColor col_highlight = painter->background().color();
 
 		if(is_selected){
 			painter->fillRect(option.rect, col_highlight);
@@ -133,7 +128,6 @@ void PlaylistItemDelegate::paint(QPainter *painter,
 	}
 
 	if(!time_string.isEmpty()){
-		QFontMetrics fm(font);
 		rect.setWidth(rect.width() - time_width);
 	}
     else {
@@ -177,11 +171,12 @@ void PlaylistItemDelegate::paint(QPainter *painter,
 			str = "";
 		}
 
-		if(c == '*'){
+        if(c == '*')
+        {
 			if(font.weight() == PLAYLIST_BOLD){
 				font.setWeight(QFont::Normal);
 			}
-			else{
+            else {
 				font.setWeight(PLAYLIST_BOLD);
 			}
 			painter->setFont(font);
