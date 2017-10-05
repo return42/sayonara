@@ -38,6 +38,7 @@
 #include "Helper/Settings/Settings.h"
 #include "Helper/Logger/Logger.h"
 #include "Helper/Language.h"
+#include "Helper/Set.h"
 
 #include "Database/DatabaseConnector.h"
 #include "Database/LibraryDatabase.h"
@@ -76,13 +77,15 @@ ReloadThread::~ReloadThread() {}
 static
 bool compare_md(const MetaData& md1, const MetaData& md2)
 {
-	if(md1.genres.count() != md2.genres.count()){
+    if(md1.genres().count() != md2.genres().count()){
 		return false;
 	}
 
-	auto it1 = md1.genres.begin();
-	auto it2 = md2.genres.begin();
-	for(int i=0; i<md1.genres.count(); i++, it1++, it2++){
+    auto it1 = md1.genres().begin();
+    auto it2 = md2.genres().begin();
+
+    for(int i=0; i<md1.genres().count(); i++, it1++, it2++)
+    {
 		if(!it1->is_equal(*it2)){
 			return false;
 		}

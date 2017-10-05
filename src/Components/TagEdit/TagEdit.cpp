@@ -53,7 +53,7 @@ struct TagEdit::Private
 		if(artist_map.contains(artist_name)){
 			return artist_map[artist_name];
 		} else {
-			int id = ldb->getArtistID(artist_name);
+            ArtistID id = ldb->getArtistID(artist_name);
 			if(id < 0){
 				id = ldb->insertArtistIntoDatabase(artist_name);
 			}
@@ -67,7 +67,7 @@ struct TagEdit::Private
 		if(album_map.contains(album_name)){
 			return album_map[album_name];
 		} else {
-			int id = ldb->getAlbumID(album_name);
+            AlbumID id = ldb->getAlbumID(album_name);
 			if(id < 0){
 				id = ldb->insertAlbumIntoDatabase(album_name);
 			}

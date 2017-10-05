@@ -141,7 +141,7 @@ bool Album::fromVariant(const QVariant& v, Album& album) {
 }
 
 
-bool AlbumList::contains(int32_t album_id) const
+bool AlbumList::contains(AlbumID album_id) const
 {
 	for(auto it=this->begin(); it!=this->end(); it++){
 		if(it->id == album_id){

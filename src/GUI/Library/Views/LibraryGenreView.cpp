@@ -446,7 +446,7 @@ void LibraryGenreView::dropEvent(QDropEvent *e)
 	this->setAcceptDrops(false);
 
 	QString genre = idx.data().toString();
-	MetaDataList v_md = cmd->getMetaData();
+	MetaDataList v_md = cmd->metadata();
 
 	m->genre_fetcher->add_genre_to_md(v_md, genre);
 

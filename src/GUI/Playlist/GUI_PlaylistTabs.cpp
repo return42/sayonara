@@ -254,12 +254,12 @@ void GUI_Playlist::check_tab_icon()
 		return;
 	}
 
-	PlayState state = PlayManager::getInstance()->get_play_state();
+    PlayState state = PlayManager::getInstance()->playstate();
 	if(state == PlayState::Stopped){
 		return;
 	}
 
-	if(plv->get_num_rows() == 0){
+	if(plv->row_count() == 0){
 		return;
 	}
 

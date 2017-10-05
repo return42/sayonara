@@ -49,9 +49,9 @@ GUI_TrayIcon::GUI_TrayIcon (QObject *parent) :
 
 	init_context_menu();
 
-	playstate_changed(_play_manager->get_play_state());
+	playstate_changed(_play_manager->playstate());
 
-	bool muted = _play_manager->get_mute();
+	bool muted = _play_manager->is_muted();
 	mute_changed(muted);
 
 	Set::listen(Set::Player_Language, this, &GUI_TrayIcon::language_changed);
@@ -250,13 +250,13 @@ void GUI_TrayIcon::mute_clicked()
 {
 	bool mute = _settings->get(Set::Engine_Mute);
 
-	_play_manager->set_mute(!mute);
+	_play_manager->set_muted(!mute);
 }
 
 
 void GUI_TrayIcon::cur_song_clicked()
 {
-	NotificationHandler::getInstance()->notify(_play_manager->get_cur_track());
+	NotificationHandler::getInstance()->notify(_play_manager->current_track());
 }
 
 

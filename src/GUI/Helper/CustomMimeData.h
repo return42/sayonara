@@ -41,27 +41,26 @@ public:
      * @brief Constructor
      */
     CustomMimeData();
-
     virtual ~CustomMimeData();
 
     /**
      * @brief Set metadata you want to drag and drop
      * @param v_md metadata that should be sent
      */
-    void setMetaData(const MetaDataList& v_md);
+    void set_metadata(MetaDataList v_md);
 
     /**
      * @brief get metadata from drag and drop
      * @param v_md reference to metadata
      * @return size of metadata
      */
-	MetaDataList getMetaData() const;
+    const MetaDataList& metadata() const;
 
     /**
      * @brief check, if the custom mimedata has metadata
      * @return true if yes, false else
      */
-    bool hasMetaData() const;
+    bool has_metadata() const;
 };
 
 #endif

@@ -109,7 +109,7 @@ void CopyThread::copy()
 			continue;
 		}
 
-		MetaData md = m->cache->get_metadata(filename);
+        MetaData md(m->cache->get_metadata(filename));
 
 		if(!md.filepath().isEmpty()){
 			sp_log(Log::Debug, this) << "Set new filename: " << target_filename;

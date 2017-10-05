@@ -54,7 +54,7 @@ Bookmarks::Bookmarks(QObject *parent) :
 
 	m->play_manager = PlayManager::getInstance();
 	m->db = DatabaseConnector::getInstance();
-	m->md = m->play_manager->get_cur_track();
+    m->md = m->play_manager->current_track();
 
 	init_members();
 
@@ -62,7 +62,7 @@ Bookmarks::Bookmarks(QObject *parent) :
 	connect(m->play_manager, &PlayManager::sig_position_changed_ms, this, &Bookmarks::pos_changed_ms);
 	connect(m->play_manager, &PlayManager::sig_playstate_changed,	this, &Bookmarks::playstate_changed);
 
-	m->md = m->play_manager->get_cur_track();
+    m->md = m->play_manager->current_track();
 	reload_bookmarks();
 }
 
@@ -77,7 +77,7 @@ void Bookmarks::init_members()
 	m->loop_start = 0;
 	m->loop_end = 0;
 
-	m->md = m->play_manager->get_cur_track();
+    m->md = m->play_manager->current_track();
 }
 
 

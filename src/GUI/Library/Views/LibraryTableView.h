@@ -35,7 +35,7 @@ class LibraryTableView :
 	PIMPL(LibraryTableView)
 
 signals:
-	void sig_columns_changed(const BoolList&);
+    void sig_columns_changed();
 	void sig_sortorder_changed(Library::SortOrder);
 
 private:
@@ -46,7 +46,9 @@ public:
 	explicit LibraryTableView(QWidget* parent=nullptr);
 	~LibraryTableView();
 
-	void set_table_headers(const ColumnHeaderList& headers, const BoolList& shown_cols, Library::SortOrder sorting);
+    void set_table_headers(const ColumnHeaderList& headers, const BoolList& shown_columns, Library::SortOrder sorting);
+    BoolList get_shown_columns() const;
+
 	int get_index_by_model_index(const QModelIndex& idx) const override;
 	QModelIndex get_model_index_by_index(int idx) const override;
 

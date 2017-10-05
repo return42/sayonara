@@ -30,22 +30,23 @@
 #include "Helper/Logger/Logger.h"
 #include "Helper/Set.h"
 #include "Helper/globals.h"
+#include "Helper/typedefs.h"
 
 #include <QHash>
 
 struct SC::Library::Private
 {
-    QHash<int, int>                 md_id_idx_map;
-    QHash<int, SP::Set<int>>        md_artist_id_idx_map;
-    QHash<int, SP::Set<int>>        md_album_id_idx_map;
-    QHash<QString, SP::Set<int>>    md_name_idx_map;
+    QHash<int, int>           md_id_idx_map;
+    QHash<int, IndexSet>      md_artist_id_idx_map;
+    QHash<int, IndexSet>      md_album_id_idx_map;
+    QHash<QString, IndexSet>  md_name_idx_map;
 
-    QHash<int, int>                 album_id_idx_map;
-    QHash<QString, SP::Set<int>>    album_name_idx_map;
-    QHash<QString, SP::Set<int>>    artist_name_album_idx_map;
+    QHash<int, int>           album_id_idx_map;
+    QHash<QString, IndexSet>  album_name_idx_map;
+    QHash<QString, IndexSet>  artist_name_album_idx_map;
 
-    QHash<int, int>                 artist_id_idx_map;
-    QHash<QString, SP::Set<int>>    artist_name_idx_map;
+    QHash<int, int>         artist_id_idx_map;
+    QHash<QString, IndexSet>  artist_name_idx_map;
 
     MetaDataList    v_md;
     AlbumList       albums;
@@ -127,7 +128,7 @@ void SC::Library::get_all_artists_by_searchstring(::Library::Filter filter, Arti
 		m->scd->getSearchInformation(m->search_information);
 	}
 
-	SP::Set<int> artist_ids = m->search_information.artist_ids(filter.filtertext());
+    IntSet artist_ids = m->search_information.artist_ids(filter.filtertext());
 
     for(int artist_id : artist_ids)
     {
@@ -176,7 +177,7 @@ void SC::Library::get_all_albums_by_artist(IDList artist_ids, AlbumList& albums,
 		int artist_idx = m->artist_id_idx_map[artist_id];
 		const Artist& artist = m->artists[artist_idx];
 
-		SP::Set<int> album_idxs = m->artist_name_album_idx_map[artist.name];
+        IndexSet album_idxs = m->artist_name_album_idx_map[artist.name];
 
         for(int album_idx : album_idxs)
         {
@@ -202,7 +203,7 @@ void SC::Library::get_all_albums_by_searchstring(::Library::Filter filter, Album
 		m->scd->getSearchInformation(m->search_information);
 	}
 
-	SP::Set<int> album_ids = m->search_information.album_ids(filter.filtertext());
+    IntSet album_ids = m->search_information.album_ids(filter.filtertext());
     for(int album_id : album_ids)
     {
 		int idx = m->album_id_idx_map[album_id];
@@ -256,7 +257,7 @@ void SC::Library::get_all_tracks_by_artist(IDList artist_ids, MetaDataList& v_md
 
 	for(int artist_id : artist_ids)
 	{
-		const SP::Set<int>& idxs = m->md_artist_id_idx_map[artist_id];
+        const IndexSet& idxs = m->md_artist_id_idx_map[artist_id];
 
         for(int idx : idxs)
         {
@@ -277,7 +278,7 @@ void SC::Library::get_all_tracks_by_album(IDList album_ids, MetaDataList& v_md, 
 
 	for(int album_id : album_ids)
 	{
-		const SP::Set<int>& idxs = m->md_album_id_idx_map[album_id];
+        const IndexSet& idxs = m->md_album_id_idx_map[album_id];
 		for(int idx : idxs) {
 			v_md << m->v_md[idx];
 		}
@@ -296,7 +297,7 @@ void SC::Library::get_all_tracks_by_searchstring(::Library::Filter filter, MetaD
 		m->scd->getSearchInformation(m->search_information);
 	}
 
-	SP::Set<int> track_ids = m->search_information.track_ids(filter.filtertext());
+    IntSet track_ids = m->search_information.track_ids(filter.filtertext());
 
     for(int track_id : track_ids)
     {
@@ -336,7 +337,7 @@ void SC::Library::refetch()
     m->scd->getSearchInformation(m->search_information);
 }
 
-void SC::Library::psl_reload_library(bool b, ::Library::ReloadQuality quality)
+void SC::Library::reload_library(bool b, ::Library::ReloadQuality quality)
 {
 	Q_UNUSED(b)
 	Q_UNUSED(quality)
@@ -346,11 +347,11 @@ void SC::Library::psl_reload_library(bool b, ::Library::ReloadQuality quality)
 
 void SC::Library::refresh_artist()
 {
-	if(_selected_artists.isEmpty()){
+    if(selected_artists().isEmpty()){
 		return;
 	}
 
-	int artist_id = _selected_artists.first();
+    ArtistID artist_id = selected_artists().first();
 
     MetaDataList v_md;
     get_all_tracks_by_artist({artist_id}, v_md, ::Library::Filter(), ::Library::Sortings());

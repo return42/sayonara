@@ -31,10 +31,16 @@
   <property name="focusPolicy">
    <enum>Qt::StrongFocus</enum>
   </property>
+  <property name="acceptDrops">
+   <bool>true</bool>
+  </property>
   <property name="horizontalScrollBarPolicy">
    <enum>Qt::ScrollBarAlwaysOff</enum>
   </property>
   <property name="tabKeyNavigation">
+   <bool>true</bool>
+  </property>
+  <property name="dragEnabled">
    <bool>true</bool>
   </property>
   <property name="dragDropMode">
@@ -48,6 +54,9 @@
   </property>
   <property name="selectionBehavior">
    <enum>QAbstractItemView::SelectRows</enum>
+  </property>
+  <property name="movement">
+   <enum>QListView::Free</enum>
   </property>
  </widget>
  <customwidgets>

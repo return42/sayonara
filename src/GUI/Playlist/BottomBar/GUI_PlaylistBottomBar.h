@@ -55,7 +55,7 @@ private slots:
 	void playlist_mode_changed();
 	void language_changed() override;
 
-	void _sl_playlist_mode_changed();
+    void s_playlist_mode_changed();
 
 #ifdef WITH_SHUTDOWN
 	void shutdown_toggled(bool b);

@@ -33,14 +33,15 @@
 
 struct AlbumCoverFetchThread::Private
 {
+    QString current_hash;
+    CoverLocation current_cl;
 	QStringList hashes;
 	QList<CoverLocation> cover_locations;
-	bool may_run;
+
 	std::atomic<bool> goon;
 	std::mutex mutex;
 
-	QString current_hash;
-	CoverLocation current_cl;
+    bool may_run;
 
 	Private()
 	{

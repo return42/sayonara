@@ -47,7 +47,7 @@ public:
 	QStringList		artists;
 	QList<uint8_t>	discnumbers;
 
-	int32_t		id;
+    AlbumID		id;
 	uint32_t	length_sec;
 	uint16_t	num_songs;
     uint16_t	year;
@@ -83,7 +83,7 @@ public:
 class AlbumList : public std::vector<Album>
 {
 public:
-	bool contains(int32_t album_id) const;
+    bool contains(AlbumID album_id) const;
 
     int count() const;
     AlbumList& operator <<(const Album& album);

@@ -102,7 +102,7 @@ private slots:
 	void tab_metadata_dropped(int pl_idx, const MetaDataList& v_md);
 	void open_file_clicked(int pl_idx);
 	void open_dir_clicked(int pl_idx);
-	void delete_tracks_clicked(const SP::Set<int>& rows);
+    void delete_tracks_clicked(const IndexSet& rows);
 
 	void check_tab_icon();
 	void check_playlist_menu(PlaylistConstPtr pl);

@@ -139,7 +139,7 @@ MetaDataList PodcastParser::parse_podcast_xml_file_content(const QString& conten
 			int n_chapters=0;
 
 			md.set_genres(categories);
-			md.genres << Genre("Podcasts");
+            md.add_genre(Genre("Podcasts"));
             md.album = QString::fromUtf8(album.toStdString().c_str());
             md.artist = QString::fromUtf8(author.toStdString().c_str());
 

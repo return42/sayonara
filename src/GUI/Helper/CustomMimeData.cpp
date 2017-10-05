@@ -21,30 +21,32 @@
 #include "CustomMimeData.h"
 #include "Helper/MetaData/MetaDataList.h"
 
+#include <algorithm>
+
 struct CustomMimeData::Private
 {
-    MetaDataList    v_md;
+    MetaDataList v_md;
 };
 
 CustomMimeData::CustomMimeData() :
 	QMimeData()
 {
-	m = Pimpl::make<CustomMimeData::Private>();
+    m = Pimpl::make<Private>();
 }
 
 CustomMimeData::~CustomMimeData() {}
 
-void CustomMimeData::setMetaData(const MetaDataList& v_md)
+void CustomMimeData::set_metadata(const MetaDataList v_md)
 {
     m->v_md = v_md;
 }
 
-MetaDataList CustomMimeData::getMetaData() const
+const MetaDataList& CustomMimeData::metadata() const
 {
-	return m->v_md;
+    return m->v_md;
 }
 
-bool CustomMimeData::hasMetaData() const
+bool CustomMimeData::has_metadata() const
 {
-	return (m->v_md.size() > 0);
+    return (m->v_md.size() > 0);
 }

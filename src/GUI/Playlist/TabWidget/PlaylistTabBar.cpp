@@ -32,30 +32,42 @@
 #include <QInputDialog>
 #include <QMouseEvent>
 
+struct PlaylistTabBar::Private
+{
+    PlaylistTabMenu*	menu=nullptr;
+    int					tab_before_dd;
+    int					drag_origin_tab;
+    bool				drag_from_playlist;
+
+    Private(QWidget* parent) :
+        menu(new PlaylistTabMenu(parent)),
+        tab_before_dd(-1),
+        drag_origin_tab(-1),
+        drag_from_playlist(false)
+    {}
+};
 
 PlaylistTabBar::PlaylistTabBar(QWidget *parent) :
 	QTabBar(parent),
 	ShortcutWidget()
 {
-	_menu = new PlaylistTabMenu(this);
+    m = Pimpl::make<Private>(this);
+
 	this->setDrawBase(false);
 	this->setAcceptDrops(true);
 
-	_tab_before_dd = -1;
-	_drag_origin_tab = -1;
-
 	init_shortcuts();
 
-	connect(_menu, &PlaylistTabMenu::sig_open_file_clicked, this, &PlaylistTabBar::open_file_pressed);
-	connect(_menu, &PlaylistTabMenu::sig_open_dir_clicked, this, &PlaylistTabBar::open_dir_pressed);
-	connect(_menu, &PlaylistTabMenu::sig_rename_clicked, this, &PlaylistTabBar::rename_pressed);
-	connect(_menu, &PlaylistTabMenu::sig_reset_clicked, this, &PlaylistTabBar::reset_pressed);
-	connect(_menu, &PlaylistTabMenu::sig_save_clicked, this, &PlaylistTabBar::save_pressed);
-	connect(_menu, &PlaylistTabMenu::sig_save_as_clicked, this, &PlaylistTabBar::save_as_pressed);
-	connect(_menu, &PlaylistTabMenu::sig_clear_clicked, this, &PlaylistTabBar::clear_pressed);
-	connect(_menu, &PlaylistTabMenu::sig_delete_clicked, this, &PlaylistTabBar::delete_pressed);
-	connect(_menu, &PlaylistTabMenu::sig_close_clicked, this, &PlaylistTabBar::close_pressed);
-	connect(_menu, &PlaylistTabMenu::sig_close_others_clicked, this, &PlaylistTabBar::close_others_pressed);
+    connect(m->menu, &PlaylistTabMenu::sig_open_file_clicked, this, &PlaylistTabBar::open_file_pressed);
+    connect(m->menu, &PlaylistTabMenu::sig_open_dir_clicked, this, &PlaylistTabBar::open_dir_pressed);
+    connect(m->menu, &PlaylistTabMenu::sig_rename_clicked, this, &PlaylistTabBar::rename_pressed);
+    connect(m->menu, &PlaylistTabMenu::sig_reset_clicked, this, &PlaylistTabBar::reset_pressed);
+    connect(m->menu, &PlaylistTabMenu::sig_save_clicked, this, &PlaylistTabBar::save_pressed);
+    connect(m->menu, &PlaylistTabMenu::sig_save_as_clicked, this, &PlaylistTabBar::save_as_pressed);
+    connect(m->menu, &PlaylistTabMenu::sig_clear_clicked, this, &PlaylistTabBar::clear_pressed);
+    connect(m->menu, &PlaylistTabMenu::sig_delete_clicked, this, &PlaylistTabBar::delete_pressed);
+    connect(m->menu, &PlaylistTabMenu::sig_close_clicked, this, &PlaylistTabBar::close_pressed);
+    connect(m->menu, &PlaylistTabMenu::sig_close_others_clicked, this, &PlaylistTabBar::close_others_pressed);
 }
 
 PlaylistTabBar::~PlaylistTabBar() {}
@@ -163,10 +175,11 @@ void PlaylistTabBar::mousePressEvent(QMouseEvent* e){
 	}
 
 	if(e->button() == Qt::RightButton){
-		_menu->exec(e->globalPos());
+        m->menu->exec(e->globalPos());
 	}
 
-	else if(e->button() == Qt::MiddleButton){
+    else if(e->button() == Qt::MiddleButton)
+    {
 		if(this->count() > 2){
 			emit tabCloseRequested(idx);
 		}
@@ -208,23 +221,25 @@ QString PlaylistTabBar::get_shortcut_text(const QString& shortcut_identifier) co
 }
 
 
-void PlaylistTabBar::show_menu_items(PlaylistMenuEntries entries){
-	_menu->show_menu_items(entries);
+void PlaylistTabBar::show_menu_items(PlaylistMenuEntries entries)
+{
+    m->menu->show_menu_items(entries);
 }
 
-void PlaylistTabBar::setTabsClosable(bool b){
+void PlaylistTabBar::setTabsClosable(bool b)
+{
 	QTabBar::setTabsClosable(b);
-	_menu->show_close(b);
+    m->menu->show_close(b);
 }
 
 bool PlaylistTabBar::was_drag_from_playlist() const
 {
-	return _drag_from_playlist;
+    return m->drag_from_playlist;
 }
 
 int PlaylistTabBar::get_drag_origin_tab() const
 {
-	return _drag_origin_tab;
+    return m->drag_origin_tab;
 }
 
 
@@ -235,15 +250,15 @@ void PlaylistTabBar::dragEnterEvent(QDragEnterEvent* e)
 		object_name = e->source()->objectName();
 	}
 
-	_drag_origin_tab = -1;
-	_drag_from_playlist = object_name.contains("playlist_view");
+    m->drag_origin_tab = -1;
+    m->drag_from_playlist = object_name.contains("playlist_view");
 
-	if(!_drag_from_playlist){
-		_tab_before_dd = -1;
+    if(!m->drag_from_playlist){
+        m->tab_before_dd = -1;
 	}
 
-	else if(_tab_before_dd < 0){
-		_tab_before_dd = currentIndex();
+    else if(m->tab_before_dd < 0){
+        m->tab_before_dd = currentIndex();
 	}
 
 	e->accept();
@@ -262,9 +277,10 @@ void PlaylistTabBar::dragMoveEvent(QDragMoveEvent* e)
 
 void PlaylistTabBar::dragLeaveEvent(QDragLeaveEvent* e)
 {
-	if(_tab_before_dd >= 0 && currentIndex() == count() - 1){
-		this->setCurrentIndex(_tab_before_dd);
-		_tab_before_dd = -1;
+    if((m->tab_before_dd >= 0) && (currentIndex() == count() - 1))
+    {
+        this->setCurrentIndex(m->tab_before_dd);
+        m->tab_before_dd = -1;
 	}
 
 	e->accept();
@@ -275,13 +291,13 @@ void PlaylistTabBar::dropEvent(QDropEvent* e)
 	e->accept();
 	int tab = this->tabAt(e->pos());
 
-	_drag_origin_tab = _tab_before_dd;
+    m->drag_origin_tab = m->tab_before_dd;
 
-	if(_tab_before_dd >= 0 && currentIndex() == count() - 1){
-		this->setCurrentIndex(_tab_before_dd);
+    if(m->tab_before_dd >= 0 && currentIndex() == count() - 1){
+        this->setCurrentIndex(m->tab_before_dd);
 	}
 
-	_tab_before_dd = -1;
+    m->tab_before_dd = -1;
 
 	const QMimeData* mime_data = e->mimeData();
 	if(!mime_data){
@@ -289,7 +305,8 @@ void PlaylistTabBar::dropEvent(QDropEvent* e)
 	}
 
 	const CustomMimeData* cmd = dynamic_cast<const CustomMimeData*>(mime_data);
-	if(!cmd){
+    if(!cmd)
+    {
 		if(!mime_data->hasUrls()){
 			return;
 		}
@@ -297,6 +314,7 @@ void PlaylistTabBar::dropEvent(QDropEvent* e)
 		MetaDataList v_md;
 		DirectoryReader dir_reader;
 		QList<QUrl> urls = mime_data->urls();
+
 		QStringList files;
 		for(const QUrl& url : urls){
 			files << url.toLocalFile();
@@ -304,17 +322,13 @@ void PlaylistTabBar::dropEvent(QDropEvent* e)
 
 		v_md = dir_reader.get_md_from_filelist(files);
 		emit sig_metadata_dropped(tab, v_md);
+
 		return;
 	}
 
-	if(!cmd->hasMetaData()){
+	if(!cmd->has_metadata()){
 		return;
 	}
 
-	MetaDataList v_md = cmd->getMetaData();
-
-	emit sig_metadata_dropped(tab, v_md);
+    emit sig_metadata_dropped(tab, cmd->metadata());
 }
-
-
-

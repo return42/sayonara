@@ -150,7 +150,8 @@ QString ArtistInfo::get_additional_info_as_string() const
 
 	int i=0;
 	QStringList artist_list;
-	for(const QString& sim_artist : sim_artists){
+    for(const QString& sim_artist : sim_artists)
+    {
 		if(i++ > 50){
 			break;
 		}
@@ -159,7 +160,7 @@ QString ArtistInfo::get_additional_info_as_string() const
 		DatabaseConnector* db = DatabaseConnector::getInstance();
 		LibraryDatabase* lib_db = db->library_db(-1, _db_id);
 
-		int id = lib_db->getArtistID(artist_name);
+        ArtistID id = lib_db->getArtistID(artist_name);
 
 		if( id >= 0 ){
 			artist_list << BOLD(artist_name);

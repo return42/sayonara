@@ -21,17 +21,17 @@
 #ifndef PLAYLISTTABWIDGET_H
 #define PLAYLISTTABWIDGET_H
 
-
-#include "Helper/Settings/SayonaraClass.h"
 #include "PlaylistMenuEntry.h"
+#include "Helper/Pimpl.h"
 
 #include <QTabWidget>
 
-class PlaylistTabBar;
 class MetaDataList;
-class PlaylistTabWidget : public QTabWidget
+class PlaylistTabWidget :
+        public QTabWidget
 {
 	Q_OBJECT
+    PIMPL(PlaylistTabWidget)
 
 signals:
 	void sig_open_file(int tab_idx);
@@ -45,7 +45,6 @@ signals:
 	void sig_add_tab_clicked();
 	void sig_metadata_dropped(int tab_idx, const MetaDataList& v_md);
 
-
 public:
 	explicit PlaylistTabWidget(QWidget* parent=nullptr);
 	~PlaylistTabWidget();
@@ -53,16 +52,13 @@ public:
 	void show_menu_items(PlaylistMenuEntries actions);
 
 	void removeTab(int index);
-	void addTab(QWidget *widget, const QIcon &icon, const QString &label);
-	void addTab(QWidget *widget, const QString &);
-	void insertTab(int index, QWidget *widget, const QString &);
-	void insertTab(int index, QWidget *widget, const QIcon &icon, const QString &label);
+    void addTab(QWidget* widget, const QIcon& icon, const QString& label);
+    void addTab(QWidget* widget, const QString& label);
+    void insertTab(int index, QWidget* widget, const QString& label);
+    void insertTab(int index, QWidget* widget, const QIcon& icon, const QString& label);
 
 	bool was_drag_from_playlist() const;
 	int get_drag_origin_tab() const;
-
-private:
-	PlaylistTabBar* _tab_bar=nullptr;
 
 private:
 	void check_last_tab();

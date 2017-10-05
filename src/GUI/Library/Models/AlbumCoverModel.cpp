@@ -356,7 +356,7 @@ int AlbumCoverModel::get_id_by_row(int idx)
 	return m->albums[idx].id;
 }
 
-CoverLocation AlbumCoverModel::get_cover(const SP::Set<int>& indexes) const
+CoverLocation AlbumCoverModel::get_cover(const IndexSet& indexes) const
 {
 	if(indexes.size() != 1){
 		return CoverLocation::getInvalidLocation();
@@ -376,7 +376,7 @@ CoverLocation AlbumCoverModel::get_cover(const SP::Set<int>& indexes) const
 }
 
 
-const SP::Set<int>& AlbumCoverModel::selections() const
+const IndexSet& AlbumCoverModel::selections() const
 {
-    return library()->get_selected_albums();
+    return library()->selected_albums();
 }

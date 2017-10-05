@@ -43,9 +43,9 @@ public:
 						  const QStyleOptionViewItem &option,
 						  const QModelIndex &index) const override;
 
-	void set_drag_index(int row);
-	bool is_drag_index(int row) const;
-	int get_drag_index() const;
+    void set_drag_index(int row);
+    bool is_drag_index(int row) const;
+    int  drag_index() const;
 
 
 private:

@@ -74,16 +74,16 @@ protected slots:
     virtual void lib_albums_ready();
     virtual void lib_artists_ready();
 
-	virtual void artist_sel_changed(const SP::Set<int>&);
-	virtual void album_sel_changed(const SP::Set<int>&);
-	virtual void track_sel_changed(const SP::Set<int>&);
+    virtual void artist_sel_changed(const IndexSet& indexes);
+    virtual void album_sel_changed(const IndexSet& indexes);
+    virtual void track_sel_changed(const IndexSet& indexes);
 
     virtual void item_middle_clicked(const QPoint& p);
-    virtual void item_double_clicked(const QModelIndex&);
+    virtual void item_double_clicked(const QModelIndex& index);
 
-	virtual void columns_title_changed(const BoolList&);
-	virtual void columns_album_changed(const BoolList&);
-	virtual void columns_artist_changed(const BoolList&);
+    virtual void columns_title_changed();
+    virtual void columns_album_changed();
+    virtual void columns_artist_changed();
 
 	virtual void sortorder_title_changed(::Library::SortOrder);
 	virtual void sortorder_album_changed(::Library::SortOrder);

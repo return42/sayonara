@@ -71,7 +71,7 @@ void GUI_EmptyLibrary::set_lib_path_clicked()
 	int8_t id = lib_manager->add_library(name, dir);
 	LocalLibrary* library = lib_manager->library_instance(id);
 
-	library->psl_reload_library(false, Library::ReloadQuality::Accurate);
+	library->reload_library(false, Library::ReloadQuality::Accurate);
 
 	//LibraryPluginHandler::getInstance()->set_current_index(0);
 }

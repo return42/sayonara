@@ -63,8 +63,8 @@ signals:
 	void sig_append_clicked();
 	void sig_refresh_clicked();
 	void sig_import_files(const QStringList& files);
-	void sig_double_clicked(const SP::Set<int>& indexes);
-	void sig_sel_changed(const SP::Set<int>& indexes);
+    void sig_double_clicked(const IndexSet& indexes);
+    void sig_sel_changed(const IndexSet& indexes);
 	void sig_merge(const SP::Set<ID>& ids, int target_id);
 
 private:
@@ -78,7 +78,7 @@ public:
 	using QTableView::setModel;
 	virtual void setModel(LibraryItemModel* model);
 
-	void show_rc_menu_actions(int entries);
+    void show_rc_menu_actions(int entries);
 
     /** Dragable **/
 	QMimeData* get_mimedata() const override;
@@ -133,7 +133,7 @@ public:
 
         _model->refresh_data();
 
-        SP::Set<int> selections;
+        IndexSet selections;
 		for(int row=0; row < new_size; row++)
 		{
 			if(_model->is_selected(input_data[row].id)){

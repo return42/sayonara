@@ -23,7 +23,7 @@
 
 #include "GUI/Library/Models/LibraryItemModel.h"
 #include "Helper/Pimpl.h"
-#include <QThread>
+#include "Helper/typedefs.h"
 
 class Album;
 class AlbumList;
@@ -49,7 +49,7 @@ public:
     int         columnCount(const QModelIndex& paren=QModelIndex()) const override;
     QVariant    data(const QModelIndex& index, int role) const override;
     QSize       item_size() const;
-    const SP::Set<int>& selections() const override;
+    const IndexSet& selections() const override;
 
     bool            has_items() const override;
     QModelIndex     getNextRowIndexOf(const QString& substr, int cur_row, const QModelIndex& parent=QModelIndex()) override;
@@ -59,7 +59,7 @@ public:
     int             get_searchable_column() const override;
     QString         get_string(int idx) const override;
     int             get_id_by_row(int idx) override;
-    CoverLocation   get_cover(const SP::Set<int>& indexes) const override;
+    CoverLocation   get_cover(const IndexSet& indexes) const override;
 
 
     int             zoom() const;

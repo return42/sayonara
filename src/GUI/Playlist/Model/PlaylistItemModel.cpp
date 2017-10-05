@@ -75,11 +75,6 @@ QVariant PlaylistItemModel::data(const QModelIndex &index, int role) const
 	return QVariant();
 }
 
-const MetaData& PlaylistItemModel::get_md(int row) const
-{
-	return _pl->at_const_ref(row);
-}
-
 
 Qt::ItemFlags PlaylistItemModel::flags(const QModelIndex &index = QModelIndex()) const
 {
@@ -90,7 +85,7 @@ Qt::ItemFlags PlaylistItemModel::flags(const QModelIndex &index = QModelIndex())
 
 	if( row >= 0 && row < _pl->count())
 	{
-		const MetaData& md = get_md(row);
+		const MetaData& md = metadata(row);
 		if(md.is_disabled){
 			return Qt::NoItemFlags;
 		}
@@ -107,23 +102,23 @@ void PlaylistItemModel::clear()
 }
 
 
-void PlaylistItemModel::remove_rows(const SP::Set<int>& indexes){
+void PlaylistItemModel::remove_rows(const IndexSet& indexes){
 	_pl->delete_tracks(indexes);
 }
 
 
-void PlaylistItemModel::move_rows(const SP::Set<int>& indexes, int target_index){
+void PlaylistItemModel::move_rows(const IndexSet& indexes, int target_index){
 	_pl->move_tracks(indexes, target_index);
 	playlist_changed(0);
 }
 
-void PlaylistItemModel::copy_rows(const SP::Set<int>& indexes, int target_index){
+void PlaylistItemModel::copy_rows(const IndexSet& indexes, int target_index){
 	_pl->copy_tracks(indexes, target_index);
 	playlist_changed(0);
 }
 
 
-int PlaylistItemModel::get_current_track() const
+int PlaylistItemModel::current_track() const
 {
     return _pl->current_track_index();
 }
@@ -134,13 +129,33 @@ void PlaylistItemModel::set_current_track(int row)
 	_pl->change_track(row);
 }
 
-
-void PlaylistItemModel::get_metadata(const IdxList& rows, MetaDataList& v_md) 
+const MetaData& PlaylistItemModel::metadata(int row) const
 {
-	v_md.clear();
-	for(int row : rows){
-		v_md << _pl->at_const_ref(row);
-	}
+    return _pl->at_const_ref(row);
+}
+
+template<typename T>
+MetaDataList gather_metadata(const T& rows, PlaylistPtr pl)
+{
+    MetaDataList v_md;
+    v_md.reserve(rows.size());
+
+    for(int row : rows){
+        v_md << pl->at_const_ref(row);
+    }
+
+    return v_md;
+}
+
+MetaDataList PlaylistItemModel::metadata(const IndexSet &rows) const
+{
+    return gather_metadata(rows, _pl);
+}
+
+
+MetaDataList PlaylistItemModel::metadata(const IdxList& rows) const
+{
+    return gather_metadata(rows, _pl);
 }
 
 const static QChar album_search_prefix('%');
@@ -336,27 +351,30 @@ QMap<QChar, QString> PlaylistItemModel::getExtraTriggers()
 }
 
 
-CustomMimeData* PlaylistItemModel::get_custom_mimedata(const QModelIndexList& indexes) const
+CustomMimeData* PlaylistItemModel::custom_mimedata(const QModelIndexList& indexes) const
 {
 	CustomMimeData* mimedata = new CustomMimeData();
-	MetaDataList v_md;
 	QList<QUrl> urls;
 
-	for(const QModelIndex& idx : indexes){
+    MetaDataList v_md;
+    v_md.reserve(indexes.size());
+
+    for(const QModelIndex& idx : indexes)
+    {
 		if(idx.row() >= _pl->count()){
 			continue;
 		}
 
-		v_md << _pl->at_const_ref(idx.row());
+        v_md << _pl->at_const_ref(idx.row());
 		QUrl url(QString("file://") + _pl->at_const_ref(idx.row()).filepath());
 		urls << url;
 	}
 
-	if(v_md.isEmpty()){
+    if(v_md.empty()){
 		return nullptr;
 	}
 
-	mimedata->setMetaData(v_md);
+    mimedata->set_metadata(v_md);
 	mimedata->setText("tracks");
 	mimedata->setUrls(urls);
 
@@ -365,23 +383,22 @@ CustomMimeData* PlaylistItemModel::get_custom_mimedata(const QModelIndexList& in
 
 QMimeData* PlaylistItemModel::mimeData(const QModelIndexList& indexes) const
 {
-	CustomMimeData* cmd =  get_custom_mimedata(indexes);
-	return static_cast<QMimeData*> (cmd);
+	CustomMimeData* cmd =  custom_mimedata(indexes);
+    return static_cast<QMimeData*> (cmd);
 }
 
-bool PlaylistItemModel::has_local_media(const IdxList& idxs) const
+bool PlaylistItemModel::has_local_media(const IndexSet& rows) const
 {
-	const  MetaDataList& tracks = _pl->playlist();
+    const  MetaDataList& tracks = _pl->playlist();
 
-	for(int idx : idxs){
-		if(!Helper::File::is_www(tracks[idx].filepath())){
-			return true;
-		}
-	}
+    for(int row : rows){
+        if(!Helper::File::is_www(tracks[row].filepath())){
+            return true;
+        }
+    }
 
-	return false;
+    return false;
 }
-
 
 void PlaylistItemModel::playlist_changed(int pl_idx)
 {

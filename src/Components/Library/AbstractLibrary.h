@@ -27,6 +27,7 @@
 #include "Helper/Settings/SayonaraClass.h"
 #include "Helper/typedefs.h"
 #include "Helper/Pimpl.h"
+#include "Helper/Set.h"
 
 #include "Helper/MetaData/Artist.h"
 #include "Helper/MetaData/Album.h"
@@ -51,6 +52,19 @@ public:
 	explicit AbstractLibrary(QObject *parent=nullptr);
 	virtual ~AbstractLibrary();
 
+    Library::Sortings   sortorder() const;
+    Library::Filter		filter() const;
+    void                set_filter(Library::Filter filter);
+
+    const MetaDataList& tracks() const;
+    const AlbumList& albums() const;
+    const ArtistList& artists() const;
+    const MetaDataList& current_tracks() const;
+
+    const SP::Set<TrackID>& selected_tracks() const;
+    const SP::Set<AlbumID>& selected_albums() const;
+    const SP::Set<ArtistID>& selected_artists() const;
+
 signals:
 	void sig_track_mime_data_available();
     void sig_all_tracks_loaded ();
@@ -68,7 +82,7 @@ public slots:
 
 	virtual void load();
 
-	virtual void psl_reload_library(bool clear_first, Library::ReloadQuality quality)=0;
+    virtual void reload_library(bool clear_first, Library::ReloadQuality quality)=0;
 
 	/* Clears all filters and searchstrings and fetches everything again */
 	virtual void refetch();
@@ -78,53 +92,38 @@ public slots:
 	   the user won't recognize anything at all */
 	virtual void refresh();
 
-    const MetaDataList& get_tracks() const;
-    const AlbumList& get_albums() const;
-    const ArtistList& get_artists() const;
-    const MetaDataList& get_current_tracks() const;
-
-    const SP::Set<int>& get_selected_tracks() const;
-    const SP::Set<int>& get_selected_albums() const;
-    const SP::Set<int>& get_selected_artists() const;
-
-    Library::Filter get_filter() const;
-    void set_filter(Library::Filter filter);
-
-   /* ArtistList* get_artists_ptr() const;
-    AlbumList* get_albums_ptr() const;
-    MetaDataList* get_tracks_ptr() const;*/
 
 	/* selection changed */
-	virtual void psl_selected_artists_changed(const SP::Set<int>& idx_lst);
-	virtual void psl_selected_albums_changed(const SP::Set<int>& idx_lst);
-	virtual void psl_selected_tracks_changed(const SP::Set<int>& idx_lst);
+    virtual void selected_artists_changed(const IndexSet& indexes);
+    virtual void selected_albums_changed(const IndexSet& indexes);
+    virtual void selected_tracks_changed(const IndexSet& indexes);
 
 	// Those two functions are identical (1) calls (2)
-	virtual void psl_prepare_tracks_for_playlist(bool new_playlist);
-    virtual void psl_prepare_tracks_for_playlist(const QStringList& file_paths, bool new_playlist);
+    virtual void prepare_tracks_for_playlist(bool new_playlist);
+    virtual void prepare_tracks_for_playlist(const QStringList& file_paths, bool new_playlist);
 
 
 	/* append tracks after current played track in playlist */
-	virtual void psl_play_next_all_tracks();
-    virtual void psl_play_next_current_tracks();
+    virtual void play_next_all_tracks();
+    virtual void play_next_current_tracks();
 
 
 	/* append tracks after last track in playlist */
-	virtual void psl_append_all_tracks();
-    virtual void psl_append_current_tracks();
+    virtual void append_all_tracks();
+    virtual void append_current_tracks();
 
 	/* triggered by tagedit */
-	virtual void psl_metadata_id3_changed(const MetaDataList&, const MetaDataList&);
+    virtual void metadata_id3_changed(const MetaDataList&, const MetaDataList&);
 
 	// calls fetch_by_filter and emits
-	virtual void psl_filter_changed(const Library::Filter&, bool force=false);
+    virtual void filter_changed(const Library::Filter&, bool force=false);
 
 
 	/* a searchfilter has been entered, nothing is emitted */
 	virtual void fetch_by_filter(const Library::Filter& filter, bool force);
 
 	virtual void delete_tracks(const MetaDataList& v_md, Library::TrackDeletionMode mode)=0;
-	virtual void delete_tracks_by_idx(const SP::Set<int>& indexes, Library::TrackDeletionMode mode);
+    virtual void delete_tracks_by_idx(const IndexSet& indexes, Library::TrackDeletionMode mode);
 	virtual void delete_all_tracks();
 	virtual void delete_current_tracks(Library::TrackDeletionMode mode);
 
@@ -135,7 +134,7 @@ public slots:
 	virtual void change_track_rating(int idx, int rating);
 	virtual void change_album_rating(int idx, int rating);
 
-	virtual void add_genre(const SP::Set<ID> ids, const QString& genre);
+    virtual void add_genre(const IDSet ids, const QString& genre);
 	virtual void delete_genre(const QString& genre);
 	virtual void rename_genre(const QString& genre, const QString& new_name);
 
@@ -149,22 +148,6 @@ protected slots:
 	virtual void _sl_sortorder_changed();
 
 protected:
-	PlaylistHandler*	_playlist=nullptr;
-
-    MetaDataList        _tracks;
-    AlbumList			_albums;
-    ArtistList			_artists;
-    MetaDataList		_current_tracks;
-
-	// contains ID for artists, albums, tracks
-    SP::Set<ArtistID>	_selected_artists;
-	SP::Set<AlbumID>	_selected_albums;
-	SP::Set<TrackID>	_selected_tracks;
-
-	Library::Filter		_filter;
-	Library::Sortings	_sortorder;
-
-
 	/* Emit 3 signals with shown artists, shown album, shown tracks */
 	virtual void 		emit_stuff();
 
@@ -188,7 +171,13 @@ protected:
 	virtual void		update_track(const MetaData& md)=0;
 	virtual void		update_tracks(const MetaDataList& v_md);
 	virtual void		update_album(const Album& album)=0;
+
 	TagEdit*			tag_edit();
+
+
+    MetaDataList        _tracks;
+    AlbumList			_albums;
+    ArtistList			_artists;
 
 
 private:
@@ -196,9 +185,9 @@ private:
 	void tag_edit_commit();
 	void set_playlist_action_after_double_click();
 
-	void change_track_selection(const SP::Set<int>& idx_list);
-	void change_artist_selection(const SP::Set<int>& idx_list);
-	void change_album_selection(const SP::Set<int>& idx_list);
+    void change_track_selection(const IndexSet& indexes);
+    void change_artist_selection(const IndexSet& indexes);
+    void change_album_selection(const IndexSet& indexes);
 };
 
 #endif // ABSTRACTLIBRARY_H

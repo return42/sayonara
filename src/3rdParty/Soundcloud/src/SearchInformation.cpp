@@ -17,9 +17,9 @@ struct SC::SearchInformation::Private
 
 struct SC::SearchInformationList::Private
 {
-	QHash<QString, SP::Set<int>> artist_id_map;
-	QHash<QString, SP::Set<int>> album_id_map;
-	QHash<QString, SP::Set<int>> track_id_map;
+    QHash<QString, IntSet> artist_id_map;
+    QHash<QString, IntSet> album_id_map;
+    QHash<QString, IntSet> track_id_map;
 };
 
 
@@ -64,16 +64,16 @@ SC::SearchInformationList::SearchInformationList()
 SC::SearchInformationList::~SearchInformationList(){}
 
 
-static SP::Set<int> ids(const QString& search_string, const QHash<QString, SP::Set<int>>& id_map)
+static IntSet ids(const QString& search_string, const QHash<QString, IntSet>& id_map)
 {
-	SP::Set<int> ids;
+    IntSet ids;
 	QHash<int, int> results;
 	int iterations=0;
 
 	for(int idx = 0; idx<search_string.size() - 3; idx++)
 	{
 		QString part = search_string.mid(idx, 3);
-		const SP::Set<int>& part_ids = id_map[part];
+        const IntSet& part_ids = id_map[part];
 
 		if(part_ids.isEmpty()){
 			break;
@@ -104,17 +104,17 @@ static SP::Set<int> ids(const QString& search_string, const QHash<QString, SP::S
 	return ids;
 }
 
-SP::Set<int> SC::SearchInformationList::artist_ids(const QString& search_string) const
+IntSet SC::SearchInformationList::artist_ids(const QString& search_string) const
 {
 	return ids(search_string, m->artist_id_map);
 }
 
-SP::Set<int> SC::SearchInformationList::album_ids(const QString& search_string) const
+IntSet SC::SearchInformationList::album_ids(const QString& search_string) const
 {
 	return ids(search_string, m->album_id_map);
 }
 
-SP::Set<int> SC::SearchInformationList::track_ids(const QString& search_string) const
+IntSet SC::SearchInformationList::track_ids(const QString& search_string) const
 {
 	return ids(search_string, m->track_id_map);
 }

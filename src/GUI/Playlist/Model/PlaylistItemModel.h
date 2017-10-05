@@ -54,18 +54,18 @@ public:
 
 	int rowCount(const QModelIndex &parent=QModelIndex()) const override;
 	QVariant data(const QModelIndex &index, int role=Qt::DisplayRole) const override;
-	const MetaData& get_md(int row) const;
+
 
 	Qt::ItemFlags flags(const QModelIndex &index) const override;
 
 	void clear();
 
-	void remove_rows(const SP::Set<int>& rows);
-	void move_rows(const SP::Set<int>& rows, int target_index);
-	void copy_rows(const SP::Set<int>& rows, int target_index);
+    void remove_rows(const IndexSet& rows);
+    void move_rows(const IndexSet& rows, int target_index);
+    void copy_rows(const IndexSet& rows, int target_index);
 
 	void set_current_track(int row);
-	int get_current_track() const;
+    int current_track() const;
 
     bool        has_items() const;
 	QModelIndex getPrevRowIndexOf(const QString& substr, int row, const QModelIndex &parent=QModelIndex()) override;
@@ -73,12 +73,14 @@ public:
 	QMap<QChar, QString> getExtraTriggers() override;
 
 
-	void get_metadata(const IdxList& rows, MetaDataList& v_md);
-	CustomMimeData* get_custom_mimedata(const QModelIndexList& indexes) const;
+    const MetaData& metadata(int row) const;
+    MetaDataList metadata(const IndexSet& rows) const;
+    MetaDataList metadata(const IdxList& rows) const;
+
+    CustomMimeData* custom_mimedata(const QModelIndexList& indexes) const;
 	QMimeData* mimeData(const QModelIndexList& indexes) const override;
 
-	bool has_local_media(const IdxList& idxs) const;
-
+    bool has_local_media(const IndexSet& rows) const;
 
 protected:
 	PlaylistPtr			_pl=nullptr;

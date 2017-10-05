@@ -34,7 +34,7 @@ class Artist :
 		public LibraryItem
 {
 public:
-    int32_t id;                                                                                                                                       
+    ArtistID id;
 	QString name;
 	uint16_t num_albums;
 	uint16_t num_songs;

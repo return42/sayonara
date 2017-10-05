@@ -162,7 +162,7 @@ CustomMimeData* LibraryItemModel::get_mimedata() const
 	CustomMimeData* mimedata = new CustomMimeData();
 	QList<QUrl> urls;
 
-	const MetaDataList& track_mimedata = m->library->get_current_tracks();
+	const MetaDataList& track_mimedata = m->library->current_tracks();
 
 	if(track_mimedata.isEmpty()){
 		sp_log(Log::Warning, this) << this->objectName() << " does not have any mimedata";
@@ -176,7 +176,7 @@ CustomMimeData* LibraryItemModel::get_mimedata() const
 			urls << url;
 		}
 
-		mimedata->setMetaData(track_mimedata);
+        mimedata->set_metadata(track_mimedata);
 		mimedata->setText("tracks");
 		mimedata->setUrls(urls);
 	}

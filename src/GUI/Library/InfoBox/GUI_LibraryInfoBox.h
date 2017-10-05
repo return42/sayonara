@@ -38,12 +38,12 @@ public:
 	explicit GUI_LibraryInfoBox(int8_t library_id, QWidget* parent=nullptr);
 	virtual ~GUI_LibraryInfoBox();
 
-public slots:
-	void psl_refresh();
-
 protected:
 	void language_changed() override;
-	void skin_changed() override;
+    void skin_changed() override;
+    void showEvent(QShowEvent* e) override;
+    void refresh();
+
 
 private:
 	Ui::GUI_LibraryInfoBox*	ui=nullptr;

@@ -80,7 +80,7 @@ void AbstractPlaylist::clear()
 }
 
 
-void AbstractPlaylist::move_tracks(const SP::Set<int>& indexes, int tgt) 
+void AbstractPlaylist::move_tracks(const IndexSet& indexes, int tgt)
 {
     m->v_md.move_tracks(indexes, tgt);
 
@@ -88,13 +88,13 @@ void AbstractPlaylist::move_tracks(const SP::Set<int>& indexes, int tgt)
 }
 
 
-void AbstractPlaylist::copy_tracks(const SP::Set<int>& indexes, int tgt) 
+void AbstractPlaylist::copy_tracks(const IndexSet& indexes, int tgt)
 {
     m->v_md.copy_tracks(indexes, tgt);
 }
 
 
-void AbstractPlaylist::delete_tracks(const SP::Set<int>& indexes) 
+void AbstractPlaylist::delete_tracks(const IndexSet& indexes)
 {
     m->v_md.remove_tracks(indexes);
 	set_changed(true);

@@ -62,7 +62,7 @@ LibraryItemModelAlbums::~LibraryItemModelAlbums() {}
 
 int LibraryItemModelAlbums::get_id_by_row(int row)
 {
-    const AlbumList& albums = library()->get_albums();
+    const AlbumList& albums = library()->albums();
 
     if(row < 0 || row >= albums.count()){
 		return -1;
@@ -75,7 +75,7 @@ int LibraryItemModelAlbums::get_id_by_row(int row)
 
 QString LibraryItemModelAlbums::get_string(int row) const
 {
-    const AlbumList& albums = library()->get_albums();
+    const AlbumList& albums = library()->albums();
 
     if(row < 0 || row >= albums.count()){
 		return QString();
@@ -87,14 +87,14 @@ QString LibraryItemModelAlbums::get_string(int row) const
 }
 
 
-CoverLocation LibraryItemModelAlbums::get_cover(const SP::Set<int>& indexes) const
+CoverLocation LibraryItemModelAlbums::get_cover(const IndexSet& indexes) const
 {
 	if(indexes.isEmpty() || indexes.size() > 1){
 		return CoverLocation();
 	}
 
 	int idx = indexes.first();
-    const AlbumList& albums = library()->get_albums();
+    const AlbumList& albums = library()->albums();
     if(idx < 0 || idx > albums.count()){
 		return CoverLocation();
 	}
@@ -110,7 +110,7 @@ QVariant LibraryItemModelAlbums::data(const QModelIndex& index, int role) const
 	if (!index.isValid())
 		return QVariant();
 
-    const AlbumList& albums = library()->get_albums();
+    const AlbumList& albums = library()->albums();
     if (index.row() >= albums.count())
 		return QVariant();
 
@@ -213,7 +213,7 @@ bool LibraryItemModelAlbums::setData(const QModelIndex & index, const QVariant &
 
 int LibraryItemModelAlbums::rowCount(const QModelIndex&) const
 {
-    return library()->get_albums().count();
+    return library()->albums().count();
 }
 
 
@@ -239,7 +239,7 @@ int LibraryItemModelAlbums::get_searchable_column() const
 }
 
 
-const SP::Set<int>& LibraryItemModelAlbums::selections() const
+const IndexSet& LibraryItemModelAlbums::selections() const
 {
-    return library()->get_selected_albums();
+    return library()->selected_albums();
 }

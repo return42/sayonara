@@ -23,10 +23,10 @@
 
 #include "PlaylistMenuEntry.h"
 #include "GUI/Helper/Shortcuts/ShortcutWidget.h"
+#include "Helper/Pimpl.h"
 
 #include <QTabBar>
 
-class PlaylistTabMenu;
 class MetaDataList;
 
 class PlaylistTabBar :
@@ -34,6 +34,7 @@ class PlaylistTabBar :
 		public ShortcutWidget
 {
 	Q_OBJECT
+    PIMPL(PlaylistTabBar)
 
 signals:
 
@@ -63,13 +64,6 @@ public:
 	int get_drag_origin_tab() const;
 
 	QString get_shortcut_text(const QString &shortcut_identifier) const override;
-
-
-private:
-	PlaylistTabMenu*	_menu=nullptr;
-	int					_tab_before_dd;
-	bool				_drag_from_playlist;
-	int					_drag_origin_tab;
 
 
 private:

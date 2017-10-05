@@ -183,7 +183,7 @@ bool SC::JsonParser::parse_track(Artist& artist, MetaData& md, QJsonObject objec
 
 	int length;
 	if(get_int("duration", object, length)){
-		md.length_ms = (uint64_t) length;
+        md.length_ms = (uint32_t) length;
 	}
 
 	int year;
@@ -193,7 +193,7 @@ bool SC::JsonParser::parse_track(Artist& artist, MetaData& md, QJsonObject objec
 
 	int filesize;
 	if(get_int("original_content_size", object, filesize)){
-		 md.filesize = (uint64_t) filesize;
+         md.filesize = (uint32_t) filesize;
 	}
 
 	QString stream_url;
@@ -203,7 +203,7 @@ bool SC::JsonParser::parse_track(Artist& artist, MetaData& md, QJsonObject objec
 
 	QString genre;
 	if(get_string("genre", object, genre)){
-		md.genres << Genre(genre);
+        md.add_genre(Genre(genre));
 	}
 
 	QString purchase_url;

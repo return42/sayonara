@@ -57,11 +57,11 @@ public:
 
 	bool contains(const MetaData& md) const;
 	MetaDataList& remove_track(int idx);
-	MetaDataList& remove_tracks(const SP::Set<int>& rows);
+    MetaDataList& remove_tracks(const IndexSet& rows);
 	MetaDataList& remove_tracks(int first, int last);
 
-	MetaDataList& move_tracks(const SP::Set<int>& indexes, int tgt_idx);
-	MetaDataList& copy_tracks(const SP::Set<int>& indexes, int tgt_idx);
+    MetaDataList& move_tracks(const IndexSet& indexes, int tgt_idx);
+    MetaDataList& copy_tracks(const IndexSet& indexes, int tgt_idx);
 	MetaDataList& insert_track(const MetaData& md, int tgt_idx);
 	MetaDataList& insert_tracks(const MetaDataList& v_md, int tgt_idx);
 

@@ -29,6 +29,7 @@
 #include "Database/DatabaseConnector.h"
 #include "Database/LibraryDatabase.h"
 
+#include "Helper/Settings/Settings.h"
 #include "Helper/FileHelper.h"
 #include "Helper/Helper.h"
 #include "Helper/Language.h"
@@ -37,7 +38,7 @@
 #include "Helper/MetaData/Artist.h"
 #include "Helper/MetaData/MetaDataList.h"
 
-#include "GUI/Helper/IconLoader/IconLoader.h"
+#include "GUI/Helper/GUI_Helper.h"
 
 #include <QMap>
 #include <QPixmap>
@@ -48,17 +49,18 @@ GUI_LibraryInfoBox::GUI_LibraryInfoBox(int8_t library_id, QWidget* parent) :
 {
 	ui = new Ui::GUI_LibraryInfoBox();
 	ui->setupUi(this);
+    ui->lab_icon->setPixmap(
+        GUI::get_pixmap("logo.png", QSize(24,24), true)
+    );
 
 	_library_id = library_id;
-
-	hide();
 }
 
 GUI_LibraryInfoBox::~GUI_LibraryInfoBox() {}
 
 void GUI_LibraryInfoBox::language_changed()
 {
-	ui->retranslateUi(this);
+    ui->retranslateUi(this);
 
 	ui->lab_tracks->setText(Lang::get(Lang::Tracks).toFirstUpper());
 	ui->lab_artists->setText(Lang::get(Lang::Artists));
@@ -67,25 +69,32 @@ void GUI_LibraryInfoBox::language_changed()
 	ui->lab_filesize_descr->setText(Lang::get(Lang::Filesize));
 	ui->btn_close->setText(Lang::get(Lang::Close));
 
-	ui->lab_path->setText(
-		LibraryManager::getInstance()->library_info(_library_id).path()
-	);
+    LibraryManager* manager = LibraryManager::getInstance();
+    LibraryInfo info = manager->library_info(_library_id);
 
-	this->setWindowTitle(Lang::get(Lang::Info));
+    ui->lab_name->setText(Lang::get(Lang::Library) + ": " + info.name());
+
+    this->setWindowTitle(Lang::get(Lang::Info));
 }
 
 void GUI_LibraryInfoBox::skin_changed()
 {
-	IconLoader* icon_loader = IconLoader::getInstance();
+    LibraryManager* manager = LibraryManager::getInstance();
+    LibraryInfo info = manager->library_info(_library_id);
+    bool dark = (_settings->get(Set::Player_Style) == 1);
 
-	QSize sz = ui->lab_icon->size();
-	QPixmap pm = icon_loader->get_icon("dialog-inforrr", "info").pixmap(sz, QIcon::Normal, QIcon::On);
-
-	ui->lab_icon->setPixmap(pm);
+    ui->lab_path->setText(Helper::create_link(info.path(), dark));
 }
 
 
-void GUI_LibraryInfoBox::psl_refresh()
+void GUI_LibraryInfoBox::showEvent(QShowEvent *e)
+{
+    refresh();
+    SayonaraDialog::showEvent(e);
+}
+
+
+void GUI_LibraryInfoBox::refresh()
 {
 	DatabaseConnector* db = DatabaseConnector::getInstance();
 	LibraryDatabase* lib_db = db->library_db(_library_id, 0);
@@ -117,6 +126,4 @@ void GUI_LibraryInfoBox::psl_refresh()
 	ui->lab_artist_count->setText(QString::number(n_artists));
 	ui->lab_duration_value->setText(duration_string + "s");
 	ui->lab_filesize->setText(filesize_str);
-
-	show();
 }

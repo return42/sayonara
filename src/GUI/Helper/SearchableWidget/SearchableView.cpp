@@ -159,7 +159,7 @@ void SearchViewFunctionality::select_match(const QString &str, SearchDirection d
 
 	m->cur_idx = get_index_by_model_index(idx);
 
-	SP::Set<int> indexes(m->cur_idx);
+    IndexSet indexes(m->cur_idx);
 
 	switch(selection_type()){
 		case SayonaraSelectionView::SelectionType::Rows:

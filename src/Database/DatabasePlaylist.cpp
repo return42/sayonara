@@ -211,9 +211,7 @@ bool DatabasePlaylist::getPlaylistById(CustomPlaylist& pl)
 			data.album = 	 q.value(9).toString().trimmed();
 			data.artist = 	 q.value(10).toString().trimmed();
 			QStringList genres = q.value(11).toString().split(",");
-			for(const QString& genre : genres){
-				data.genres << Genre(genre);
-			}
+            data.set_genres(genres);
 			data.filesize =  q.value(12).toInt();
 			data.discnumber = q.value(13).toInt();
 			data.rating = q.value(14).toInt();

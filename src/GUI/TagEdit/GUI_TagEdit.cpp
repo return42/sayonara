@@ -484,7 +484,8 @@ void GUI_TagEdit::commit()
 
 	write_changes(m->cur_idx);
 
-	for(int i=0; i<m->tag_edit->get_n_tracks(); i++){
+    for(int i=0; i<m->tag_edit->get_n_tracks(); i++)
+    {
 		if(i ==m->cur_idx) continue;
 
 		MetaData md =m->tag_edit->get_metadata(i);
@@ -498,12 +499,10 @@ void GUI_TagEdit::commit()
 		if( ui->cb_album_artist_all->isChecked()){
 			md.set_album_artist(ui->le_album_artist->text());
 		}
-		if( ui->cb_genre_all->isChecked()){
+        if( ui->cb_genre_all->isChecked())
+        {
 			QStringList genres = ui->le_genre->text().split(", ");
-			md.genres.clear();
-			for(const QString& genre : genres){
-				md.genres << Genre(genre);
-			}
+            md.set_genres(genres);
 		}
 
 		if( ui->cb_discnumber_all->isChecked() ){

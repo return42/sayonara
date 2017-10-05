@@ -51,7 +51,7 @@ public:
 
 public slots:
 	void delete_tracks(const MetaDataList& v_md, Library::TrackDeletionMode answer) override;
-	void psl_reload_library(bool clear_first, Library::ReloadQuality quality) override;
+	void reload_library(bool clear_first, Library::ReloadQuality quality) override;
 
 	// emits new tracks, very similar to psl_selected_albums_changed
 	void psl_disc_pressed(int);

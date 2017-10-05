@@ -60,7 +60,7 @@ LibraryItemModelArtists::~LibraryItemModelArtists() {}
 
 int LibraryItemModelArtists::get_id_by_row(int row)
 {
-    const ArtistList& artists = library()->get_artists();
+    const ArtistList& artists = library()->artists();
 
     if(row < 0 || row >= artists.count()){
 		return -1;
@@ -73,7 +73,7 @@ int LibraryItemModelArtists::get_id_by_row(int row)
 
 QString LibraryItemModelArtists::get_string(int row) const
 {
-    const ArtistList& artists = library()->get_artists();
+    const ArtistList& artists = library()->artists();
 
     if(row < 0 || row >= artists.count()){
 		return QString();
@@ -91,7 +91,7 @@ QVariant LibraryItemModelArtists::data(const QModelIndex & index, int role) cons
 		return QVariant();
     }
 
-    const ArtistList& artists = library()->get_artists();
+    const ArtistList& artists = library()->artists();
     if (index.row() >= artists.count()) {
 		return QVariant();
     }
@@ -148,7 +148,7 @@ QVariant LibraryItemModelArtists::data(const QModelIndex & index, int role) cons
 
 int LibraryItemModelArtists::rowCount(const QModelIndex&) const
 {
-    int row_count = library()->get_artists().count();
+    int row_count = library()->artists().count();
     return row_count;
 }
 
@@ -162,13 +162,13 @@ Qt::ItemFlags LibraryItemModelArtists::flags(const QModelIndex& index) const
 }
 
 
-CoverLocation LibraryItemModelArtists::get_cover(const SP::Set<int>& indexes) const
+CoverLocation LibraryItemModelArtists::get_cover(const IndexSet& indexes) const
 {
 	if(indexes.isEmpty() || indexes.size() > 1){
 		return CoverLocation();
 	}
 
-    const ArtistList& artists = library()->get_artists();
+    const ArtistList& artists = library()->artists();
 	int idx = indexes.first();
 
     if(idx < 0 || idx > artists.count()){
@@ -186,7 +186,7 @@ int LibraryItemModelArtists::get_searchable_column() const
 }
 
 
-const SP::Set<int>& LibraryItemModelArtists::selections() const
+const IndexSet& LibraryItemModelArtists::selections() const
 {
-    return library()->get_selected_artists();
+    return library()->selected_artists();
 }

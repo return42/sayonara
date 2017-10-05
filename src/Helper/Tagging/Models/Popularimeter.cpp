@@ -47,7 +47,7 @@ void Models::Popularimeter::set_rating_byte(uint8_t byte)
 	if(byte == 0x00){
 		rating = 0;
 	}
-	else if(byte < 0x30){		//48
+    else if(byte < 0x30){   //48
 		rating = 1;
 	}
 	else if(byte < 0x60){	// 92

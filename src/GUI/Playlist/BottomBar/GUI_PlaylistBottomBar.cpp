@@ -101,7 +101,8 @@ GUI_PlaylistBottomBar::GUI_PlaylistBottomBar(QWidget *parent) :
 	connect(m->ui_shutdown, &GUI_Shutdown::sig_closed, this, &GUI_PlaylistBottomBar::shutdown_closed);
 #endif
 
-	Set::listen(Set::PL_Mode, this, &GUI_PlaylistBottomBar::_sl_playlist_mode_changed);
+    Set::listen(Set::PL_Mode, this, &GUI_PlaylistBottomBar::s_playlist_mode_changed);
+
 }
 
 GUI_PlaylistBottomBar::~GUI_PlaylistBottomBar() {}
@@ -179,11 +180,13 @@ void GUI_PlaylistBottomBar::language_changed()
 }
 
 // setting slot
-void GUI_PlaylistBottomBar::_sl_playlist_mode_changed()
+void GUI_PlaylistBottomBar::s_playlist_mode_changed()
 {
 	Playlist::Mode plm = _settings->get(Set::PL_Mode);
 
-	if(plm == m->plm) return;
+    if(plm == m->plm) {
+        return;
+    }
 
 	m->plm = plm;
 

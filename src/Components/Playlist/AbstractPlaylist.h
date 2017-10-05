@@ -109,11 +109,11 @@ public:
 
 	virtual void clear();
 
-	virtual void move_tracks(const SP::Set<int>& indexes, int tgt);
+    virtual void move_tracks(const IndexSet& indexes, int tgt);
 
-	virtual void copy_tracks(const SP::Set<int>& indexes, int tgt);
+    virtual void copy_tracks(const IndexSet& indexes, int tgt);
 
-	virtual void delete_tracks(const SP::Set<int>& indexes);
+    virtual void delete_tracks(const IndexSet& indexes);
 
 	virtual void insert_track(const MetaData& metadata, int tgt);
 	virtual void insert_tracks(const MetaDataList& lst, int tgt);

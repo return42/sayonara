@@ -70,7 +70,7 @@ void PlaylistItemDelegate::paint(QPainter *painter,
 	int y = rect.topLeft().y() + row_height - 1;
 
 	const PlaylistItemModel* model = static_cast<const PlaylistItemModel*>(index.model());
-	const MetaData& md = model->get_md(row);
+    const MetaData& md = model->metadata(row);
 
 	bool is_playing = md.pl_playing;
 	bool is_selected = (option.state & QStyle::State_Selected);
@@ -219,7 +219,7 @@ bool PlaylistItemDelegate::is_drag_index(int row) const
 	return (row == _drag_row);
 }
 
-int PlaylistItemDelegate::get_drag_index() const
+int PlaylistItemDelegate::drag_index() const
 {
 	return _drag_row;
 }

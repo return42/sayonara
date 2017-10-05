@@ -714,12 +714,12 @@ bool DatabaseTracks::updateTrack(const MetaData& md)
 	q.bindValue(":albumArtistID",	md.album_artist_id());
 	q.bindValue(":title",			md.title);
 	q.bindValue(":track",			md.track_num);
-	q.bindValue(":length",			(quint64) md.length_ms);
+    q.bindValue(":length",			(uint32_t) md.length_ms);
 	q.bindValue(":bitrate",			md.bitrate);
 	q.bindValue(":year",			md.year);
 	q.bindValue(":trackID",			md.id);
 	q.bindValue(":genre",			md.genres_to_string());
-	q.bindValue(":filesize",		(quint64) md.filesize);
+    q.bindValue(":filesize",		(uint32_t) md.filesize);
 	q.bindValue(":discnumber",		md.discnumber);
 	q.bindValue(":cissearch",		cissearch);
 	q.bindValue(":rating",			md.rating);

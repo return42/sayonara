@@ -56,7 +56,7 @@ EngineHandler::EngineHandler(QObject* parent) :
 
 	switch_engine(EngineName::PlaybackEngine);
 
-    MetaData md = _play_manager->get_cur_track();
+    const MetaData& md = _play_manager->current_track();
     if(!md.filepath().isEmpty()) {
         change_track(md);
     }

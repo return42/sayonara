@@ -66,7 +66,8 @@ LocalLibrary::LocalLibrary(int8_t lib_id, const QString& library_name, const QSt
 
 	apply_db_fixes();
 
-	connect(_playlist, &PlaylistHandler::sig_track_deletion_requested, this, &LocalLibrary::delete_tracks);
+    PlaylistHandler* plh = PlaylistHandler::getInstance();
+    connect(plh, &PlaylistHandler::sig_track_deletion_requested, this, &LocalLibrary::delete_tracks);
 
 	Set::listen(Set::Lib_SearchMode, this, &LocalLibrary::_sl_search_mode_changed, false);
 }
@@ -81,7 +82,7 @@ void LocalLibrary::clear_library()
 void LocalLibrary::apply_db_fixes() {}
 
 
-void LocalLibrary::psl_reload_library(bool clear_first, Library::ReloadQuality quality)
+void LocalLibrary::reload_library(bool clear_first, Library::ReloadQuality quality)
 {
 	if(m->reload_thread && m->reload_thread->is_running()){
 		return;
@@ -123,11 +124,12 @@ void LocalLibrary::_sl_search_mode_changed()
 
 void LocalLibrary::library_reloading_state_new_block()
 {
+    ::Library::Sortings so = sortorder();
 	m->reload_thread->pause();
 
-    m->lib_db->getAllAlbums(_albums, _sortorder.so_albums);
-    m->lib_db->getAllArtists(_artists, _sortorder.so_artists);
-    m->lib_db->getAllTracks(_tracks, _sortorder.so_tracks);
+    m->lib_db->getAllAlbums(_albums, so.so_albums);
+    m->lib_db->getAllArtists(_artists, so.so_artists);
+    m->lib_db->getAllTracks(_tracks, so.so_tracks);
 
 	emit_stuff();
 
@@ -137,7 +139,7 @@ void LocalLibrary::library_reloading_state_new_block()
 
 void LocalLibrary::psl_disc_pressed(int disc)
 {
-	if( _selected_albums.size() != 1 )
+    if( selected_albums().size() != 1 )
 	{
 		return;
 	}
@@ -146,12 +148,12 @@ void LocalLibrary::psl_disc_pressed(int disc)
 
     if(disc < 0)
     {
-        m->lib_db->getAllTracksByAlbum(_selected_albums.first(), _tracks, _filter, _sortorder.so_tracks);
+        m->lib_db->getAllTracksByAlbum(selected_albums().first(), _tracks, filter(), sortorder().so_tracks);
     }
 
     else
     {
-        m->lib_db->getAllTracksByAlbum(_selected_albums.first(), v_md, _filter, _sortorder.so_tracks);
+        m->lib_db->getAllTracksByAlbum(selected_albums().first(), v_md, filter(), sortorder().so_tracks);
 
         _tracks.clear();
 
@@ -342,7 +344,7 @@ void LocalLibrary::merge_artists(const SP::Set<ArtistID>& artist_ids, ArtistID t
 
 	MetaDataList v_md;
 
-	get_all_tracks_by_artist(artist_ids.toList(), v_md, _filter, _sortorder);
+    get_all_tracks_by_artist(artist_ids.toList(), v_md, filter(), sortorder());
 	tag_edit()->set_metadata(v_md);
 
 	for(int idx=0; idx<v_md.count(); idx++)
@@ -381,7 +383,7 @@ void LocalLibrary::merge_albums(const SP::Set<AlbumID>& album_ids, AlbumID targe
 	}
 
 	MetaDataList v_md;
-	get_all_tracks_by_album(album_ids.toList(), v_md, _filter, _sortorder);
+    get_all_tracks_by_album(album_ids.toList(), v_md, filter(), sortorder());
 
 	tag_edit()->set_metadata(v_md);
 

@@ -153,7 +153,7 @@ void GUI_DirectoryWidget::dir_pressed(QModelIndex idx)
 		QStringList paths = ui->tv_dirs->get_selected_paths();
 
 		if(!paths.isEmpty()){
-			m->local_library->psl_prepare_tracks_for_playlist(paths, true);
+			m->local_library->prepare_tracks_for_playlist(paths, true);
 		}
 	}
 }
@@ -248,7 +248,7 @@ void GUI_DirectoryWidget::file_pressed(QModelIndex idx)
 	if(buttons & Qt::MiddleButton)
 	{
 		QStringList paths = ui->lv_files->get_selected_paths();
-		m->local_library->psl_prepare_tracks_for_playlist(paths, true);
+		m->local_library->prepare_tracks_for_playlist(paths, true);
 	}
 }
 
@@ -258,7 +258,7 @@ void GUI_DirectoryWidget::file_dbl_clicked(QModelIndex idx)
 	Q_UNUSED(idx)
 
 	QStringList paths = ui->lv_files->get_selected_paths();
-	m->local_library->psl_prepare_tracks_for_playlist(paths, false);
+	m->local_library->prepare_tracks_for_playlist(paths, false);
 }
 
 void GUI_DirectoryWidget::directory_loaded(const QString& path){

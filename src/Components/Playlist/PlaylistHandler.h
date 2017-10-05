@@ -34,6 +34,7 @@
 
 #include "Helper/Pimpl.h"
 #include "Helper/Singleton.h"
+#include "Helper/typedefs.h"
 #include "Helper/Settings/SayonaraClass.h"
 #include "Helper/Playlist/PlaylistFwd.h"
 #include "Helper/Library/LibraryNamespaces.h"
@@ -146,7 +147,7 @@ public:
 	 * @param tgt_idx target index where rows should be moved
 	 * @param pl_idx playlist index
 	 */
-	void move_rows(const SP::Set<int>& indexes, int tgt_idx, int pl_idx);
+    void move_rows(const IndexSet& indexes, int tgt_idx, int pl_idx);
 
 
 	/**
@@ -154,7 +155,7 @@ public:
 	 * @param indexes list of row indices to be removed
 	 * @param pl_idx playlist index
 	 */
-	void remove_rows(const SP::Set<int>& indexes, int pl_idx);
+    void remove_rows(const IndexSet& indexes, int pl_idx);
 
 
 	/**
@@ -311,7 +312,7 @@ public slots:
 	int create_empty_playlist(const QString& name);
 
 
-	void delete_tracks(const SP::Set<int>& rows, Library::TrackDeletionMode deletion_mode);
+    void delete_tracks(const IndexSet& rows, Library::TrackDeletionMode deletion_mode);
 
 
 private slots:

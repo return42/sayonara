@@ -154,7 +154,7 @@ MetaDataList& MetaDataList::insert_tracks(const MetaDataList& v_md, int tgt_idx)
 	return *this;
 }
 
-MetaDataList& MetaDataList::copy_tracks(const SP::Set<int>& indexes, int tgt_idx)
+MetaDataList& MetaDataList::copy_tracks(const IndexSet& indexes, int tgt_idx)
 {
 	MetaDataList v_md; v_md.reserve(indexes.size());
 
@@ -166,7 +166,7 @@ MetaDataList& MetaDataList::copy_tracks(const SP::Set<int>& indexes, int tgt_idx
 }
 
 
-MetaDataList& MetaDataList::move_tracks(const SP::Set<int>& indexes, int tgt_idx)
+MetaDataList& MetaDataList::move_tracks(const IndexSet& indexes, int tgt_idx)
 {
 	MetaDataList v_md_to_move; 		v_md_to_move.reserve(indexes.size());
 	MetaDataList v_md_before_tgt; 	v_md_before_tgt.reserve(count() + indexes.size());
@@ -265,7 +265,7 @@ MetaDataList& MetaDataList::remove_tracks(int first, int last)
 	return *this;
 }
 
-MetaDataList& MetaDataList::remove_tracks(const SP::Set<int>& indexes)
+MetaDataList& MetaDataList::remove_tracks(const IndexSet& indexes)
 {
 	int deleted_elements = 0;
 	for(int i : indexes)

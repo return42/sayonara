@@ -40,7 +40,8 @@ void switch_sorters(T& srcdst, T src1, T src2)
 
 struct LibraryTableView::Private
 {
-	Library::SortOrder sort_order;
+    Library::SortOrder  sort_order;
+    BoolList            shown_columns;
 };
 
 LibraryTableView::LibraryTableView(QWidget* parent) :
@@ -58,9 +59,11 @@ LibraryTableView::LibraryTableView(QWidget* parent) :
 LibraryTableView::~LibraryTableView() {}
 
 void LibraryTableView::set_table_headers(
-		const ColumnHeaderList& headers, const BoolList& shown_cols, Library::SortOrder sorting)
+        const ColumnHeaderList& headers, const BoolList& shown_columns, Library::SortOrder sorting)
 {
 	HeaderView* header_view = this->get_header_view();
+
+    m->shown_columns = shown_columns;
 
 	_model->removeColumns(0, _model->columnCount());
 	_model->insertColumns(0, headers.size());
@@ -72,9 +75,14 @@ void LibraryTableView::set_table_headers(
 		i++;
 	}
 
-	header_view->set_column_headers(headers, shown_cols, sorting);
+    header_view->set_column_headers(headers, shown_columns, sorting);
 
-	language_changed();
+    language_changed();
+}
+
+BoolList LibraryTableView::get_shown_columns() const
+{
+    return m->shown_columns;
 }
 
 
@@ -84,15 +92,16 @@ HeaderView* LibraryTableView::get_header_view()
 }
 
 
-void LibraryTableView::header_actions_triggered(const BoolList& shown_cols)
+void LibraryTableView::header_actions_triggered(const BoolList& shown_columns)
 {
-	SP::Set<int> sel_indexes = get_selected_items();
+    IndexSet sel_indexes = get_selected_items();
 
 	std::for_each(sel_indexes.begin(), sel_indexes.end(), [this](int row){
 		this->selectRow(row);
 	});
 
-	emit sig_columns_changed(shown_cols);
+    m->shown_columns = shown_columns;
+    emit sig_columns_changed();
 }
 
 void LibraryTableView::sort_by_column(int column_idx)

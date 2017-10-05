@@ -178,7 +178,7 @@ void GUI_Playlist::playlist_track_changed(int row, int playlist_idx)
 	}
 
 	plv->goto_row(row);
-	n_rows = plv->get_num_rows();
+	n_rows = plv->row_count();
 
 	if(n_rows > 0){
 		IconLoader* icon_loader = IconLoader::getInstance();
@@ -330,7 +330,7 @@ void GUI_Playlist::set_total_time_label()
 
 	cur_view = get_current_view();
 	if(cur_view){
-		n_rows = cur_view->get_num_rows();
+		n_rows = cur_view->row_count();
 	}
 
 	playlist_string = text + QString::number(n_rows);
@@ -416,7 +416,7 @@ void GUI_Playlist::_sl_show_clear_button_changed()
 	ui->btn_clear->setVisible(_settings->get(Set::PL_ShowClearButton));
 }
 
-void GUI_Playlist::delete_tracks_clicked(const SP::Set<int>& rows)
+void GUI_Playlist::delete_tracks_clicked(const IndexSet& rows)
 {
 	LibraryDeleteDialog dialog((int) rows.size(), this);
 	dialog.exec();

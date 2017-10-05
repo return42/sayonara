@@ -55,7 +55,7 @@ QVariant LibraryItemModelTracks::data(const QModelIndex &index, int role) const
 		return QVariant();
 	}
 
-    const MetaDataList& tracks = library()->get_tracks();
+    const MetaDataList& tracks = library()->tracks();
 
     if (row >= tracks.count()) {
 		return QVariant();
@@ -170,13 +170,13 @@ bool LibraryItemModelTracks::setData(const QModelIndex &index, const QVariant &v
 
 int LibraryItemModelTracks::rowCount(const QModelIndex&) const
 {
-    return library()->get_tracks().count();
+    return library()->tracks().count();
 }
 
 
 int LibraryItemModelTracks::get_id_by_row(int row)
 {
-    const MetaDataList& tracks = library()->get_tracks();
+    const MetaDataList& tracks = library()->tracks();
 
     if(!between(row, tracks)){
 		return -1;
@@ -189,7 +189,7 @@ int LibraryItemModelTracks::get_id_by_row(int row)
 
 QString LibraryItemModelTracks::get_string(int row) const
 {
-    const MetaDataList& tracks = library()->get_tracks();
+    const MetaDataList& tracks = library()->tracks();
 
     if(!between(row, tracks)){
         return QString();
@@ -201,14 +201,14 @@ QString LibraryItemModelTracks::get_string(int row) const
 }
 
 
-CoverLocation LibraryItemModelTracks::get_cover(const SP::Set<int>& indexes) const
+CoverLocation LibraryItemModelTracks::get_cover(const IndexSet& indexes) const
 {
 	if(indexes.isEmpty()){
 		return CoverLocation();
 	}
 
-    const MetaDataList& tracks = library()->get_tracks();
-	SP::Set<int> album_ids;
+    const MetaDataList& tracks = library()->tracks();
+    SP::Set<AlbumID> album_ids;
 
     for(int idx : indexes)
     {
@@ -232,7 +232,7 @@ int LibraryItemModelTracks::get_searchable_column() const
 }
 
 
-const SP::Set<int>& LibraryItemModelTracks::selections() const
+const IndexSet& LibraryItemModelTracks::selections() const
 {
-    return library()->get_selected_tracks();
+    return library()->selected_tracks();
 }

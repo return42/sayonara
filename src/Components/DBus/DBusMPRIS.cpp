@@ -94,10 +94,10 @@ DBusMPRIS::MediaPlayer2::MediaPlayer2(QMainWindow* player, QObject *parent) :
 	connect(_play_manager, &PlayManager::sig_volume_changed,
 			this, &DBusMPRIS::MediaPlayer2::volume_changed);
 
-	if( _play_manager->get_play_state() == PlayState::Playing ||
-			_play_manager->get_play_state() == PlayState::Paused)
+    if( _play_manager->playstate() == PlayState::Playing ||
+            _play_manager->playstate() == PlayState::Paused)
 	{
-		track_changed(_play_manager->get_cur_track());
+        track_changed(_play_manager->current_track());
 	}
 }
 
@@ -245,7 +245,7 @@ QVariantMap DBusMPRIS::MediaPlayer2::Metadata()
 	QVariant v_object_path, v_length;
 
 
-	int id = _md.id;
+    TrackID id = _md.id;
 	if(id == -1){
 		id = RandomGenerator::get_random_number(5000, 10000);
 	}

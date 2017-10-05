@@ -22,6 +22,7 @@
 #define _LIBRARY_ITEM_H_
 
 #include "Helper/Pimpl.h"
+#include "Helper/typedefs.h"
 #include <vector>
 
 class QString;

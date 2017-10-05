@@ -25,6 +25,7 @@
 
 #include "Helper/SetFwd.h"
 #include "Helper/Pimpl.h"
+#include "Helper/typedefs.h"
 
 class CoverLocation;
 class CustomMimeData;
@@ -59,12 +60,12 @@ public:
     virtual QMap<QChar, QString> getExtraTriggers() override;
 
 	virtual bool			is_selected(int id) const final;
-    virtual const SP::Set<int>& selections() const=0;
+    virtual const IndexSet& selections() const=0;
 
 	virtual int				get_searchable_column() const=0;
 	virtual QString			get_string(int row) const=0;
 	virtual int				get_id_by_row(int row)=0;
-	virtual CoverLocation	get_cover(const SP::Set<int>& indexes) const=0;
+    virtual CoverLocation	get_cover(const IndexSet& indexes) const=0;
 
 	CustomMimeData*			get_mimedata() const;
 

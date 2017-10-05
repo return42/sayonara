@@ -57,7 +57,7 @@ AlbumCoverView::AlbumCoverView(QWidget* parent) :
 	this->setSelectionBehavior( QAbstractItemView::SelectItems );
 	this->setShowGrid(false);
 	this->setItemDelegate(new AlbumCoverDelegate(this));
-	this->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
+    this->setVerticalScrollMode(QAbstractItemView::ScrollPerItem);
 
 	if(horizontalHeader()){
 		horizontalHeader()->hide();

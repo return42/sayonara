@@ -115,13 +115,13 @@ void GUI_Player::setup_connections()
 {_play_manager->seek_rel_ms(-2000);});
 	sc9.create_qt_shortcut(this, [=]()
 {
-		int64_t ms = _play_manager->get_duration_ms() / 20;
+		int64_t ms = _play_manager->duration_ms() / 20;
 		_play_manager->seek_rel_ms(ms);
 	});
 
 	sc10.create_qt_shortcut(this, [=]()
 {
-		int64_t ms = _play_manager->get_duration_ms() / 20;
+		int64_t ms = _play_manager->duration_ms() / 20;
 		_play_manager->seek_rel_ms(-ms);
 	});
 }

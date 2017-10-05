@@ -340,7 +340,7 @@ void GUI_LocalLibrary::reload_library_requested(Library::ReloadQuality quality)
 		}
 	}
 
-	m->library->psl_reload_library(false, quality);
+	m->library->reload_library(false, quality);
 	ui->btn_reload_library->setVisible(false);
 }
 
@@ -364,7 +364,7 @@ void GUI_LocalLibrary::show_info_box()
 								   this);
 	}
 
-	m->library_info_box->psl_refresh();
+    m->library_info_box->show();
 }
 
 
@@ -414,7 +414,8 @@ void GUI_LocalLibrary::import_dirs_requested()
 		}
 	}
 
-	else{
+    else
+    {
 		list_view->setSelectionMode(QAbstractItemView::MultiSelection);
 		QTreeView* tree_view = dialog->findChild<QTreeView*>();
 		if(tree_view){
@@ -524,6 +525,8 @@ void GUI_LocalLibrary::init_album_cover_view()
     m->acm = new AlbumCoverModel(m->acv, m->library);
 	m->acv->setModel(m->acm);
 
+    m->library->selected_artists_changed(IndexSet());
+
 	connect(m->acv, &LibraryView::sig_sel_changed, this, &GUI_LocalLibrary::album_sel_changed);
     connect(m->acv, &LibraryView::doubleClicked, this, &GUI_LocalLibrary::item_double_clicked);
     connect(m->acv, &LibraryView::sig_middle_button_clicked, this, &GUI_LocalLibrary::item_middle_clicked);
@@ -541,7 +544,7 @@ void GUI_LocalLibrary::lib_albums_ready()
 
     if(m->acv)
     {
-        const AlbumList& albums = m->library->get_albums();
+        const AlbumList& albums = m->library->albums();
         m->acm->set_data(albums);
         m->acv->refresh();
     }

@@ -97,7 +97,7 @@ void LibraryView::selectionChanged(const QItemSelection& selected, const QItemSe
 	}
 
 	SearchableTableView::selectionChanged(selected, deselected);
-	SP::Set<int> indexes = get_selected_items();
+    IndexSet indexes = get_selected_items();
 
 	emit sig_sel_changed(indexes);
 }
@@ -194,7 +194,7 @@ MetaDataList LibraryView::info_dialog_data() const
         return MetaDataList();
     }
 
-    MetaDataList v_md = cmd->getMetaData();
+    MetaDataList v_md = cmd->metadata();
     delete cmd; cmd = nullptr;
 
     return v_md;
@@ -211,7 +211,7 @@ void LibraryView::merge_action_triggered()
 	QAction* action = dynamic_cast<QAction*>(sender());
 	int id = action->data().toInt();
 
-	SP::Set<int> selected_rows = this->get_selected_items();
+    IndexSet selected_rows = this->get_selected_items();
 	SP::Set<ID> ids;
 	for(auto it=selected_rows.begin(); it!=selected_rows.end(); it++){
 		ids.insert(_model->get_id_by_row(*it));
@@ -319,7 +319,7 @@ void LibraryView::keyPressEvent(QKeyEvent* event)
 		return;
 	}
 
-	SP::Set<int> selections = get_selected_items();
+    IndexSet selections = get_selected_items();
 
 	switch(key)
 	{
@@ -369,7 +369,7 @@ void LibraryView::contextMenuEvent(QContextMenuEvent* event)
 		rc_menu_init();
 	}
 
-	SP::Set<int> selections = get_selected_items();
+    IndexSet selections = get_selected_items();
 
 	QPoint pos = event->globalPos();
 

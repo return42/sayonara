@@ -66,8 +66,8 @@ struct LastFM::Private
 
 	PlayManager*				play_manager=nullptr;
 
-	uint64_t						old_pos;
-	uint64_t						old_pos_difference;
+    uint32_t                    old_pos;
+    uint32_t                    old_pos_difference;
 
 	MetaData					md;
 };
@@ -216,7 +216,7 @@ bool LastFM::check_scrobble(uint64_t pos_ms)
 		}
 
 		else{
-			uint64_t scrobble_time_ms = (uint64_t) (_settings->get(Set::LFM_ScrobbleTimeSec) * 1000);
+            uint32_t scrobble_time_ms = (uint32_t) (_settings->get(Set::LFM_ScrobbleTimeSec) * 1000);
 
 			m->old_pos_difference += (pos_ms - m->old_pos);
 			m->old_pos = pos_ms;

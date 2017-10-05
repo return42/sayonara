@@ -30,7 +30,7 @@
 
 #include "Helper/MetaData/LibraryItem.h"
 #include "Helper/MetaData/RadioMode.h"
-#include "Helper/Set.h"
+#include "Helper/SetFwd.h"
 #include "Helper/Pimpl.h"
 
 #include <QMetaType>
@@ -53,27 +53,26 @@ public:
 	QString artist;
 	QString album;
 
-	SP::Set<Genre> genres;
-	uint64_t length_ms;
-	uint64_t filesize;
+    uint32_t length_ms;
+    uint32_t filesize;
 
-  	int32_t id;
-	int32_t artist_id;
-	int32_t album_id;
+    TrackID id;
+    ArtistID artist_id;
+    AlbumID album_id;
 
 	uint32_t bitrate;
 	uint16_t track_num;
-	uint16_t year;
-
-	bool played;
-	bool is_extern;
-	bool pl_playing;
-	bool is_disabled;
-
-	uint8_t rating;
+    uint16_t year;
 	uint8_t discnumber;
 	uint8_t n_discs;
-	int8_t library_id;
+
+    int8_t library_id;
+    uint8_t rating;
+
+    bool played;
+    bool is_extern;
+    bool pl_playing;
+    bool is_disabled;
 
 public:
 	MetaData ();
@@ -88,12 +87,12 @@ public:
 	QString filepath() const;
 	QString set_filepath(QString filepath);
 
-	int32_t album_artist_id() const;
+    ArtistID album_artist_id() const;
 	QString album_artist() const;
 	bool has_album_artist() const;
 
-	void set_album_artist(const QString& album_artist, int32_t id=-1);
-	void set_album_artist_id(int32_t id);
+    void set_album_artist(const QString& album_artist, ArtistID id=-1);
+    void set_album_artist_id(ArtistID id);
 
 	RadioMode radio_mode() const;
 	bool is_valid() const;
@@ -103,10 +102,13 @@ public:
 	bool is_equal(const MetaData& md) const;
 	bool is_equal_deep(const MetaData& md) const;
 
+    const SP::Set<Genre>& genres() const;
 	bool has_genre(const Genre& genre) const;
-	bool remove_genre(const Genre& genre);
-	bool add_genre(const Genre& genre);
+    bool remove_genre(const Genre& genre);
+    bool add_genre(const Genre& genre);
+    void set_genres(const SP::Set<Genre>& genres);
 	void set_genres(const QStringList& genres);
+
 	QString genres_to_string() const;
 	QStringList genres_to_list() const;
 

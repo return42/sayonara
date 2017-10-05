@@ -218,7 +218,7 @@ bool DatabaseArtists::getAllArtistsBySearchString(const Library::Filter& filter,
 
 int DatabaseArtists::insertArtistIntoDatabase (const QString& artist)
 {
-	int id = getArtistID(artist);
+    ArtistID id = getArtistID(artist);
 	if(id >= 0){
 		return id;
 	}

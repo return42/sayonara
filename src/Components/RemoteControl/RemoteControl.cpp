@@ -305,19 +305,19 @@ void RemoteControl::change_track(int idx)
 
 void RemoteControl::write_cur_pos()
 {
-    uint32_t pos_sec = m->play_manager->get_cur_position_ms() / 1000;
+    uint32_t pos_sec = m->play_manager->current_position_ms() / 1000;
 	write("curPos:" + QByteArray::number(pos_sec));
 }
 
 void RemoteControl::write_volume()
 {
-    int vol = m->play_manager->get_volume();
+    int vol = m->play_manager->volume();
 	write("vol:" + QByteArray::number(vol));
 }
 
 void RemoteControl::write_cur_track()
 {
-    PlayState playstate = m->play_manager->get_play_state();
+    PlayState playstate = m->play_manager->playstate();
 
 	playstate_changed(playstate);
 
@@ -325,7 +325,7 @@ void RemoteControl::write_cur_track()
 		return;
 	}
 	
-    MetaData md = m->play_manager->get_cur_track();
+    const MetaData& md = m->play_manager->current_track();
 
     PlaylistConstPtr pl = m->plh->get_playlist_at(m->plh->get_active_idx());
 	int cur_track_idx = pl->current_track_index();
@@ -345,8 +345,9 @@ void RemoteControl::write_cur_track()
 
 void RemoteControl::write_cover()
 {
-    MetaData md = m->play_manager->get_cur_track();
-	write_cover(md);
+    write_cover(
+        m->play_manager->current_track()
+    );
 }
 
 
@@ -374,7 +375,7 @@ void RemoteControl::write_cover(const MetaData& md)
 
 void RemoteControl::write_playstate()
 {
-    PlayState playstate = m->play_manager->get_play_state();
+    PlayState playstate = m->play_manager->playstate();
 	QByteArray playstate_str = "playstate:";
 
 	switch(playstate){

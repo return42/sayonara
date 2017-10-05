@@ -324,7 +324,7 @@ void PlaylistHandler::wake_up()
 
 void PlaylistHandler::previous()
 {
-    if( m->play_manager->get_cur_position_ms() > 2000)
+    if( m->play_manager->current_position_ms() > 2000)
 	{
         m->play_manager->seek_abs_ms(0);
 		return;
@@ -407,7 +407,7 @@ void PlaylistHandler::insert_tracks(const MetaDataList& v_md, int row, int pl_id
     PlaylistPtr pl = m->playlists[pl_idx];
 
 	bool is_empty = pl->is_empty();
-    bool stopped = (m->play_manager->get_play_state() == PlayState::Stopped);
+    bool stopped = (m->play_manager->playstate() == PlayState::Stopped);
 
 	pl->insert_tracks(v_md, row);
 
@@ -429,7 +429,7 @@ void PlaylistHandler::append_tracks(const MetaDataList& v_md, int pl_idx)
     m->playlists[pl_idx]->append_tracks(v_md);
 }
 
-void PlaylistHandler::remove_rows(const SP::Set<int>& indexes, int pl_idx)
+void PlaylistHandler::remove_rows(const IndexSet& indexes, int pl_idx)
 {
     if(!between(pl_idx, m->playlists)){
 		return;
@@ -439,7 +439,7 @@ void PlaylistHandler::remove_rows(const SP::Set<int>& indexes, int pl_idx)
 }
 
 
-void PlaylistHandler::move_rows(const SP::Set<int>& indexes, int tgt_idx, int pl_idx)
+void PlaylistHandler::move_rows(const IndexSet& indexes, int tgt_idx, int pl_idx)
 {
     if(!between(pl_idx, m->playlists)){
 		return;
@@ -538,7 +538,7 @@ PlaylistPtr PlaylistHandler::get_playlist(int idx, PlaylistPtr fallback) const
 
 PlaylistPtr PlaylistHandler::get_active()
 {
-    if(m->play_manager->get_play_state() == PlayState::Stopped){
+    if(m->play_manager->playstate() == PlayState::Stopped){
         m->active_playlist_idx = -1;
 	}
 
@@ -704,7 +704,7 @@ void PlaylistHandler::delete_playlist(int idx)
 	}
 }
 
-void PlaylistHandler::delete_tracks(const SP::Set<int>& rows, Library::TrackDeletionMode deletion_mode)
+void PlaylistHandler::delete_tracks(const IndexSet& rows, Library::TrackDeletionMode deletion_mode)
 {
 	int idx = get_current_idx();
     if(!between(idx, m->playlists)){

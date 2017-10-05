@@ -34,6 +34,7 @@
 #include "GUI/InfoDialog/InfoDialogContainer.h"
 #include "Helper/Playlist/PlaylistFwd.h"
 #include "Helper/MetaData/MetaDataFwd.h"
+#include "Helper/Pimpl.h"
 
 #include <QPoint>
 #include <QDrag>
@@ -51,13 +52,14 @@ class PlaylistView :
 		private Dragable
 {
 	Q_OBJECT
+    PIMPL(PlaylistView)
 
 signals:
 	void sig_double_clicked(int row);
 	void sig_left_tab_clicked();
 	void sig_right_tab_clicked();
 	void sig_time_changed();
-	void sig_delete_tracks(const SP::Set<int>& rows);
+    void sig_delete_tracks(const IndexSet& rows);
 
 public:
 	explicit PlaylistView(PlaylistPtr pl, QWidget* parent=nullptr);
@@ -69,7 +71,7 @@ public:
 	void scroll_up();
 	void scroll_down();
 
-	int get_num_rows() const;
+	int row_count() const;
 	void remove_cur_selected_rows();
 	void delete_cur_selected_tracks();
 
@@ -85,21 +87,10 @@ public slots:
 	void clear();
 
 
-private:
-	LibraryContextMenu*		_rc_menu=nullptr;
-
-	PlaylistItemModel*		_model=nullptr;
-	PlaylistItemDelegate*	_delegate=nullptr;
-	SayonaraLoadingBar*		_progress=nullptr;
-	BookmarksMenu*			_bookmarks_menu=nullptr;
-	QAction*				_bookmarks_action=nullptr;
-
-	int						_async_drop_index;
-
 
 private:
 
-	void init_rc_menu();
+    void init_rc_menu();
 
 	// d & d
 	void clear_drag_drop_lines(int row);

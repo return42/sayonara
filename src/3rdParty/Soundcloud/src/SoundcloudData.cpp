@@ -506,13 +506,13 @@ bool SC::Database::updateTrack(const MetaData& md)
 	q.bindValue(":filename", md.filepath());
 	q.bindValue(":albumID", md.album_id);
 	q.bindValue(":artistID",md.artist_id);
-	q.bindValue(":length", (quint64) md.length_ms);
+    q.bindValue(":length", (uint32_t) md.length_ms);
 	q.bindValue(":year", md.year);
 	q.bindValue(":title", md.title);
 	q.bindValue(":track", md.track_num);
 	q.bindValue(":bitrate", md.bitrate);
 	q.bindValue(":genre", md.genres_to_list().join(","));
-	q.bindValue(":filesize", (quint64) md.filesize);
+    q.bindValue(":filesize", (uint32_t) md.filesize);
 	q.bindValue(":discnumber", md.discnumber);
 	q.bindValue(":cissearch", md.title.toLower());
 	q.bindValue(":purchase_url", md.get_custom_field("purchase_url"));

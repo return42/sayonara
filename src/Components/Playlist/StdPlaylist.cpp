@@ -19,6 +19,7 @@
  */
 
 #include "StdPlaylist.h"
+
 #include "Helper/globals.h"
 #include "Helper/Settings/Settings.h"
 #include "Helper/FileHelper.h"
@@ -254,7 +255,7 @@ int StdPlaylist::calc_shuffle_track()
 
 void StdPlaylist::metadata_deleted(const MetaDataList& v_md_deleted)
 {
-	SP::Set<int> indexes;
+    IndexSet indexes;
 
 	int i=0;
 	for(const MetaData& md : metadata())

@@ -81,8 +81,8 @@ struct PlayManager::Private
 		MetaData				md;
 		RingBuffer<QString, 3>	ring_buffer;
 		int						track_idx;
-		uint64_t				position_ms;
-		uint64_t				initial_position_ms;
+        uint32_t				position_ms;
+        uint32_t				initial_position_ms;
 		PlayState				playstate;
 
 		Private()
@@ -130,37 +130,37 @@ PlayManager::~PlayManager()
     _settings->set(Set::Engine_CurTrackPos_s, (int) (m->position_ms / 1000));
 }
 
-PlayState PlayManager::get_play_state() const
+PlayState PlayManager::playstate() const
 {
     return m->playstate;
 }
 
-uint64_t PlayManager::get_cur_position_ms() const
+uint32_t PlayManager::current_position_ms() const
 {
     return m->position_ms;
 }
 
-uint64_t PlayManager::get_init_position_ms() const
+uint32_t PlayManager::initial_position_ms() const
 {
     return m->initial_position_ms;
 }
 
-uint64_t PlayManager::get_duration_ms() const
+uint32_t PlayManager::duration_ms() const
 {
     return m->md.length_ms;
 }
 
-MetaData PlayManager::get_cur_track() const
+const MetaData& PlayManager::current_track() const
 {
     return m->md;
 }
 
-int PlayManager::get_volume() const
+int PlayManager::volume() const
 {
 	return _settings->get(Set::Engine_Vol);
 }
 
-bool PlayManager::get_mute() const
+bool PlayManager::is_muted() const
 {
 	return _settings->get(Set::Engine_Mute);
 }
@@ -344,13 +344,13 @@ void PlayManager::set_volume(int vol)
 	emit sig_volume_changed(vol);
 }
 
-void PlayManager::set_mute(bool b)
+void PlayManager::set_muted(bool b)
 {
 	_settings->set(Set::Engine_Mute, b);
 	emit sig_mute_changed(b);
 }
 
-void PlayManager::change_duration(uint64_t ms) 
+void PlayManager::change_duration(uint32_t ms)
 {
     m->md.length_ms = ms;
 

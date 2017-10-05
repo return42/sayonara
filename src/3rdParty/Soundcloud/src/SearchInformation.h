@@ -2,6 +2,7 @@
 #define SEARCHINFORMATION_H
 
 #include "Helper/Pimpl.h"
+#include "Helper/typedefs.h"
 #include "Helper/SetFwd.h"
 
 class QString;
@@ -30,9 +31,9 @@ namespace SC
 			SearchInformationList();
 			~SearchInformationList();
 
-			SP::Set<int> artist_ids(const QString& search_string) const;
-			SP::Set<int> album_ids(const QString& search_string) const;
-			SP::Set<int> track_ids(const QString& search_string) const;
+            IntSet artist_ids(const QString& search_string) const;
+            IntSet album_ids(const QString& search_string) const;
+            IntSet track_ids(const QString& search_string) const;
 
 			SearchInformationList& operator<<(const SearchInformation& search_information);
 			bool is_empty() const;

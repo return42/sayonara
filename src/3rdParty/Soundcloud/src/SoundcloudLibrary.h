@@ -85,7 +85,7 @@ namespace SC
 		void	cover_found(const CoverLocation& cl);
 
 	public slots:
-		void	psl_reload_library(bool clear_first, ::Library::ReloadQuality quality) override;
+		void	reload_library(bool clear_first, ::Library::ReloadQuality quality) override;
 		void	refresh_artist() override;
 		void	refresh_albums() override;
 		void	refresh_tracks() override;

@@ -14,8 +14,6 @@ SET(SOURCES
     TabWidget/PlaylistTabMenu.cpp
     TabWidget/PlaylistTabWidget.cpp
     View/PlaylistView.cpp
-    View/PlaylistViewEvents.cpp
-
 )
 
 QT5_WRAP_UI(FORMS_UIC

@@ -107,15 +107,15 @@ void GUI_Player::init_gui()
 
 	btn_rec->setVisible(false);
 
-	cur_pos_changed(_play_manager->get_init_position_ms());
+    cur_pos_changed(_play_manager->initial_position_ms());
 
 	bool library_visible = _settings->get(Set::Lib_Show);
 	show_library(library_visible);
 
-	int volume = _play_manager->get_volume();
+    int volume = _play_manager->volume();
 	volume_changed(volume);
 
-	bool muted = _play_manager->get_mute();
+    bool muted = _play_manager->is_muted();
 	mute_changed(muted);
 
 	setWindowTitle(QString("Sayonara %1").arg(version));
@@ -174,7 +174,7 @@ void GUI_Player::track_changed(const MetaData & md)
 
 void GUI_Player::refresh_info_labels()
 {
-	set_info_labels(_play_manager->get_cur_track());
+    set_info_labels(_play_manager->current_track());
 }
 
 void GUI_Player::set_info_labels(const MetaData& md)
@@ -258,7 +258,7 @@ void GUI_Player::id3_tags_changed(const MetaDataList& v_md_old, const MetaDataLi
 	Q_UNUSED(v_md_old)
 	Q_UNUSED(v_md_new)
 
-	MetaData md = _play_manager->get_cur_track();
+    const MetaData& md = _play_manager->current_track();
 
 	set_info_labels(md);
 	set_cover_location(md);
@@ -278,7 +278,7 @@ void GUI_Player::skin_changed()
 	btn_fw->setIcon(icon_loader->get_icon("media-skip-forward", "fwd"));
 	btn_bw->setIcon(icon_loader->get_icon("media-skip-backward", "bwd"));
 
-	if(_play_manager->get_play_state() == PlayState::Playing){
+    if(_play_manager->playstate() == PlayState::Playing){
 		btn_play->setIcon(icon_loader->get_icon("media-playback-pause", "pause"));
 	}
 
@@ -450,8 +450,8 @@ void GUI_Player::_sl_sr_active_changed()
 
 void GUI_Player::check_record_button_visible()
 {
-	MetaData md = _play_manager->get_cur_track();
-	PlayState playstate = _play_manager->get_play_state();
+    const MetaData& md = _play_manager->current_track();
+    PlayState playstate = _play_manager->playstate();
 
 	bool is_lame_available = _settings->get(SetNoDB::MP3enc_found);
 	bool is_sr_active = _settings->get(Set::Engine_SR_Active);
@@ -499,12 +499,14 @@ void GUI_Player::ui_loaded()
 	}
 
 
-	if(_play_manager->get_play_state() != PlayState::Stopped){
-		MetaData md(_play_manager->get_cur_track());
-		track_changed(md);
+    if(_play_manager->playstate() != PlayState::Stopped)
+    {
+        track_changed(
+            _play_manager->current_track()
+        );
 	}
 
-	playstate_changed(_play_manager->get_play_state());
+    playstate_changed(_play_manager->playstate());
 
 	if(_settings->get(Set::Player_NotifyNewVersion)){
 		AsyncWebAccess* awa = new AsyncWebAccess(this);
@@ -548,7 +550,7 @@ void GUI_Player::ui_loaded()
 
 void GUI_Player::play_error(const QString& message)
 {
-	MetaData md = _play_manager->get_cur_track();
+    const MetaData& md = _play_manager->current_track();
 	QString err = message + "\n\n" + md.filepath();
 	Message::warning(err, "Player");
 }

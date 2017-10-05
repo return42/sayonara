@@ -29,9 +29,15 @@
 #include <cstdint>
 #include <vector>
 
+
 class QString;
 template <typename A, typename B> struct QPair;
 template <typename T> class QList;
+
+namespace SP
+{
+	template <typename T> class Set;
+}
 
 /**
  * @brief Sayonara Typedefs
@@ -46,6 +52,9 @@ using ArtistID=int32_t;
 using AlbumID=int32_t;
 using TrackID=int32_t;
 using ID=int32_t;
+using IntSet=SP::Set<int>;
+using IndexSet=SP::Set<int>;
+using IDSet=SP::Set<ID>;
 
 
 #endif

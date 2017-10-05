@@ -48,10 +48,6 @@ struct GUI_AbstractLibrary::Private
 {
 	AbstractLibrary* library = nullptr;
 
-	BoolList shown_cols_albums;
-	BoolList shown_cols_artist;
-	BoolList shown_cols_tracks;
-
 	LibraryTableView* lv_album=nullptr;
 	LibraryTableView* lv_artist=nullptr;
 	LibraryTableView* lv_tracks=nullptr;
@@ -60,12 +56,7 @@ struct GUI_AbstractLibrary::Private
 
 	Private(AbstractLibrary* library) :
 		library(library)
-	{
-		Settings* settings = Settings::getInstance();
-		shown_cols_albums = settings->get(Set::Lib_ColsAlbum);
-		shown_cols_artist = settings->get(Set::Lib_ColsArtist);
-		shown_cols_tracks = settings->get(Set::Lib_ColsTitle);
-	}
+    {}
 };
 
 GUI_AbstractLibrary::GUI_AbstractLibrary(AbstractLibrary* library, QWidget *parent) :
@@ -152,9 +143,13 @@ void GUI_AbstractLibrary::init_headers()
     album_columns  << al_h0 << al_h1 << al_h2 << al_h3 << al_h4 << al_h5;
     artist_columns << ar_h0 << ar_h1 << ar_h2;
 
-    m->lv_tracks->set_table_headers(track_columns, m->shown_cols_tracks, so.so_tracks);
-    m->lv_artist->set_table_headers(artist_columns, m->shown_cols_artist, so.so_artists);
-    m->lv_album->set_table_headers(album_columns, m->shown_cols_albums, so.so_albums);
+    BoolList shown_cols_albums = _settings->get(Set::Lib_ColsAlbum);
+    BoolList shown_cols_artist = _settings->get(Set::Lib_ColsArtist);
+    BoolList shown_cols_tracks = _settings->get(Set::Lib_ColsTitle);
+
+    m->lv_tracks->set_table_headers(track_columns, shown_cols_tracks, so.so_tracks);
+    m->lv_artist->set_table_headers(artist_columns, shown_cols_artist, so.so_artists);
+    m->lv_album->set_table_headers(album_columns, shown_cols_albums, so.so_albums);
 }
 
 
@@ -278,7 +273,7 @@ void GUI_AbstractLibrary::search_edited(const QString& search)
 		filter.set_filtertext( QString("%") + text + QString("%") );
 	}
 
-    m->library->psl_filter_changed(filter);
+    m->library->filter_changed(filter);
 }
 
 void GUI_AbstractLibrary::search_cleared()
@@ -300,7 +295,7 @@ void GUI_AbstractLibrary::search_mode_changed(Library::Filter::Mode mode)
     m->le_search->setPlaceholderText(text);
     m->le_search->setProperty("search_mode", (int) mode);
 
-    Library::Filter filter = m->library->get_filter();
+    Library::Filter filter = m->library->filter();
     filter.set_mode(mode);
 
     m->library->set_filter(filter);
@@ -308,14 +303,14 @@ void GUI_AbstractLibrary::search_mode_changed(Library::Filter::Mode mode)
 
 void GUI_AbstractLibrary::lib_tracks_ready()
 {
-    const MetaDataList& v_md = m->library->get_tracks();
+    const MetaDataList& v_md = m->library->tracks();
 
     m->lv_tracks->fill<MetaDataList, LibraryItemModelTracks>(v_md);
 }
 
 void GUI_AbstractLibrary::lib_albums_ready()
 {
-    const AlbumList& albums = m->library->get_albums();
+    const AlbumList& albums = m->library->albums();
 
 	m->lv_album->fill<AlbumList, LibraryItemModelAlbums>(albums);
 }
@@ -323,59 +318,56 @@ void GUI_AbstractLibrary::lib_albums_ready()
 
 void GUI_AbstractLibrary::lib_artists_ready()
 {
-    const ArtistList& artists = m->library->get_artists();
+    const ArtistList& artists = m->library->artists();
 
 	m->lv_artist->fill<ArtistList, LibraryItemModelArtists>(artists);
 }
 
 
-void GUI_AbstractLibrary::artist_sel_changed(const SP::Set<int>& lst)
+void GUI_AbstractLibrary::artist_sel_changed(const IndexSet& lst)
 {
-	m->library->psl_selected_artists_changed(lst);
+	m->library->selected_artists_changed(lst);
 }
 
 
-void GUI_AbstractLibrary::album_sel_changed(const SP::Set<int>& lst)
+void GUI_AbstractLibrary::album_sel_changed(const IndexSet& lst)
 {
-	m->library->psl_selected_albums_changed(lst);
+	m->library->selected_albums_changed(lst);
 }
 
-void GUI_AbstractLibrary::track_sel_changed(const SP::Set<int>& lst)
+void GUI_AbstractLibrary::track_sel_changed(const IndexSet& lst)
 {
-	m->library->psl_selected_tracks_changed(lst);
+	m->library->selected_tracks_changed(lst);
 }
 
 
 void GUI_AbstractLibrary::item_middle_clicked(const QPoint& pt)
 {
 	Q_UNUSED(pt)
-	m->library->psl_prepare_tracks_for_playlist(true);
+	m->library->prepare_tracks_for_playlist(true);
 }
 
 void GUI_AbstractLibrary::item_double_clicked(const QModelIndex& idx)
 {
     Q_UNUSED(idx)
-    m->library->psl_prepare_tracks_for_playlist(false);
+    m->library->prepare_tracks_for_playlist(false);
 }
 
-void  GUI_AbstractLibrary::columns_album_changed(const BoolList& list)
+void  GUI_AbstractLibrary::columns_album_changed()
 {
-	m->shown_cols_albums = list;
-	_settings->set(Set::Lib_ColsAlbum, list);
-}
-
-
-void  GUI_AbstractLibrary::columns_artist_changed(const BoolList& list)
-{
-	m->shown_cols_artist = list;
-	_settings->set(Set::Lib_ColsArtist, list);
+    _settings->set(Set::Lib_ColsAlbum, m->lv_album->get_shown_columns());
 }
 
 
-void  GUI_AbstractLibrary::columns_title_changed(const BoolList& list)
+void  GUI_AbstractLibrary::columns_artist_changed()
 {
-	m->shown_cols_tracks = list;
-	_settings->set(Set::Lib_ColsTitle, list);
+    _settings->set(Set::Lib_ColsArtist, m->lv_artist->get_shown_columns());
+}
+
+
+void  GUI_AbstractLibrary::columns_title_changed()
+{
+    _settings->set(Set::Lib_ColsTitle, m->lv_tracks->get_shown_columns());
 }
 
 
@@ -408,7 +400,7 @@ void GUI_AbstractLibrary::sortorder_title_changed(Library::SortOrder s)
 
 void GUI_AbstractLibrary::delete_current_tracks()
 {
-    int n_tracks = m->library->get_current_tracks().count();
+    int n_tracks = m->library->current_tracks().count();
 
     Library::TrackDeletionMode answer = show_delete_dialog(n_tracks);
     if(answer != Library::TrackDeletionMode::None) {
@@ -418,22 +410,22 @@ void GUI_AbstractLibrary::delete_current_tracks()
 
 void GUI_AbstractLibrary::append()
 {
-	m->library->psl_append_all_tracks();
+	m->library->append_all_tracks();
 }
 
 void GUI_AbstractLibrary::append_tracks()
 {
-    m->library->psl_append_current_tracks();
+    m->library->append_current_tracks();
 }
 
 void GUI_AbstractLibrary::play_next()
 {
-	m->library->psl_play_next_all_tracks();
+	m->library->play_next_all_tracks();
 }
 
 void GUI_AbstractLibrary::play_next_tracks()
 {
-    m->library->psl_play_next_current_tracks();
+    m->library->play_next_current_tracks();
 }
 
 void GUI_AbstractLibrary::refresh_artist()

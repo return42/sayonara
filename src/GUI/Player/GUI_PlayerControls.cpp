@@ -177,7 +177,7 @@ void GUI_Player::buffering(int progress)
 
 void GUI_Player::set_progress_tooltip(int val)
 {
-	uint64_t duration = _play_manager->get_duration_ms();
+    uint64_t duration = _play_manager->duration_ms();
 	int max = sli_progress->maximum();
 
 	val = std::max(val, 0);
@@ -193,7 +193,7 @@ void GUI_Player::set_progress_tooltip(int val)
 
 void GUI_Player::set_cur_pos_label(int val)
 {
-	uint64_t duration = _play_manager->get_duration_ms();
+    uint64_t duration = _play_manager->duration_ms();
 	int max = sli_progress->maximum();
 
 	val = std::max(val, 0);
@@ -221,7 +221,7 @@ void GUI_Player::set_total_time_label(int64_t total_time)
 
 void GUI_Player::file_info_changed()
 {
-	MetaData md = _play_manager->get_cur_track();
+    const MetaData& md = _play_manager->current_track();
 	QString rating_text;
 
 	if(md.bitrate / 1000 > 0){
@@ -263,7 +263,7 @@ void GUI_Player::seek(int val)
 
 void GUI_Player::cur_pos_changed(uint64_t pos_ms)
 {
-	uint64_t duration = _play_manager->get_duration_ms();
+    uint64_t duration = _play_manager->duration_ms();
 	int max = sli_progress->maximum();
 	int new_val;
 
@@ -357,7 +357,7 @@ void GUI_Player::setup_volume_button(int percent)
 void GUI_Player::mute_button_clicked()
 {
 	bool muted = _settings->get(Set::Engine_Mute);
-	_play_manager->set_mute(!muted);
+    _play_manager->set_muted(!muted);
 }
 
 

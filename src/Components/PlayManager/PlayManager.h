@@ -266,13 +266,13 @@ public slots:
 	 * @brief mute/unmute
 	 * @param b
 	 */
-	void set_mute(bool b);
+    void set_muted(bool b);
 
 
 	void change_metadata(const MetaData& md);
 
 
-	void change_duration(uint64_t ms);
+    void change_duration(uint32_t ms);
 
 	void error(const QString& message);
 
@@ -281,44 +281,44 @@ public:
 	 * @brief get current play state
 	 * @return PlayState enum
 	 */
-	PlayState	get_play_state() const;
+    PlayState	playstate() const;
 
 	/**
 	 * @brief get current position in milliseconds
 	 * @return current position in milliseconds
 	 */
-	uint64_t		get_cur_position_ms() const;
+    uint32_t		current_position_ms() const;
 
 	/**
 	 * @brief get position in milliseconds where track will start
 	 * @return position in milliseconds where track will start
 	 */
-	uint64_t		get_init_position_ms() const;
+    uint32_t		initial_position_ms() const;
 
 	/**
 	 * @brief get duration of track
 	 * @return duration in milliseconds
 	 */
-	uint64_t		get_duration_ms() const;
+    uint32_t		duration_ms() const;
 
 	/**
 	 * @brief get current track
 	 * @return MetaData object of current track
 	 */
-	MetaData	get_cur_track() const;
+    const MetaData& current_track() const;
 
 	/**
 	 * @brief get current volume
 	 * @return value between 0 and 100
 	 */
-	int			get_volume() const;
+    int			volume() const;
 
 
 	/**
 	 * @brief query mute status
 	 * @return true if muted, false else
 	 */
-	bool		get_mute() const;
+    bool		is_muted() const;
 };
 
 #endif
