@@ -206,8 +206,8 @@ void TagEdit::apply_artists_and_albums_to_md()
 
 		MetaData& md = m->v_md[i];
 
-		ArtistID artist_id = m->get_artist_id(md.artist);
-		AlbumID album_id = m->get_album_id(md.album);
+		ArtistID artist_id = m->get_artist_id(md.artist());
+		AlbumID album_id = m->get_album_id(md.album());
 		ArtistID album_artist_id = m->get_artist_id(md.album_artist());
 
 		md.album_id = album_id;

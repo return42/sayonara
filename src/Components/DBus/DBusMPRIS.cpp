@@ -260,8 +260,8 @@ QVariantMap DBusMPRIS::MediaPlayer2::Metadata()
 	map["mpris:trackid"] = v_object_path;
 	map["mpris:length"] = v_length;
 	map["xesam:title"] = _md.title;
-	map["xesam:album"] = _md.album;
-	map["xesam:artist"] = QStringList() << _md.artist;
+	map["xesam:album"] = _md.album();
+	map["xesam:artist"] = QStringList() << _md.artist();
 	map["mpris:artUrl"] = QUrl::fromLocalFile(cover_path).toString();
 
 	return map;

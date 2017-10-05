@@ -57,8 +57,8 @@ MetaDataInfo::MetaDataInfo(const MetaDataList& v_md) :
 
 	for(const MetaData& md : v_md )
 	{
-		_artists.insert(md.artist);
-		_albums.insert(md.album);
+		_artists.insert(md.artist());
+		_albums.insert(md.album());
 		_album_artists.insert(md.album_artist());
 
 		_album_ids.insert(md.album_id);
@@ -185,8 +185,8 @@ void MetaDataInfo::set_cover_location(const MetaDataList& lst)
 	else if(_album_ids.size() == 1){
 		Album album;
 		album.id = _album_ids.first();
-		album.name = _albums.first();
-		album.artists = _artists.toList();
+		album.set_name(_albums.first());
+		album.set_artists(_artists.toList());
 		album.set_album_artists(_album_artists.toList());
 		album.set_db_id(lst[0].db_id());
 		_cover_location = CoverLocation::get_cover_location(album);

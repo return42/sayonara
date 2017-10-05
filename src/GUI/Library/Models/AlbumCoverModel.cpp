@@ -59,7 +59,7 @@ struct AlbumCoverModel::Private
 
 static QString get_hash(const Album& album)
 {
-	return album.name + "-" + album.id;
+	return album.name() + "-" + album.id;
 }
 
 AlbumCoverModel::AlbumCoverModel(QObject* parent, AbstractLibrary* library) :
@@ -155,7 +155,7 @@ QVariant AlbumCoverModel::data(const QModelIndex& index, int role) const
 	switch(role)
 	{
 		case Qt::DisplayRole:
-			return m->albums[lin_idx].name;
+			return m->albums[lin_idx].name();
 
 		case Qt::TextAlignmentRole:
 			return Qt::AlignHCenter;
@@ -281,7 +281,7 @@ QModelIndex AlbumCoverModel::getNextRowIndexOf(const QString& substr, int cur_ro
 			return this->index(idx / columnCount(), idx % columnCount());
 		}
 
-		for(const QString& artist : m->albums[idx].artists) {
+		for(const QString& artist : m->albums[idx].artists()) {
 			QString cvt_artist = Library::convert_search_string(artist, search_mode());
 
 			if(cvt_artist.contains(substr)){
@@ -313,7 +313,7 @@ QModelIndex AlbumCoverModel::getPrevRowIndexOf(const QString& substr, int row, c
 			return this->index(idx / columnCount(), idx % columnCount());
 		}
 
-		for(const QString& artist : m->albums[idx].artists) {
+		for(const QString& artist : m->albums[idx].artists()) {
 			QString cvt_artist = Library::convert_search_string(artist, search_mode());
 
 			if(cvt_artist.contains(substr)){
@@ -343,7 +343,7 @@ QString AlbumCoverModel::get_string(int idx) const
 		return QString();
 	}
 
-	return m->albums[idx].name;
+	return m->albums[idx].name();
 }
 
 int AlbumCoverModel::get_id_by_row(int idx)

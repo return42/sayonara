@@ -27,6 +27,11 @@
 #include <QUrl>
 #include <QVariant>
 #include <QStringList>
+#include <QHash>
+
+
+using GenreID=uint32_t;
+static QHash<GenreID, Genre> genre_pool;
 
 //#define COUNT_MD
 #ifdef COUNT_MD
@@ -53,39 +58,48 @@
 
 struct MetaData::Private
 {
-    SP::Set<Genre>  genres;
-    QString         album_artist;
+	SP::Set<GenreID> genres;
+	ArtistID		album_artist_id;
+	HashValue		album_artist_idx;
+	HashValue		album_idx;
+	HashValue		artist_idx;
     QString         filepath;
-    ArtistID        album_artist_id;
     RadioMode       radio_mode;
 
 	Private() :
 		album_artist_id(-1),
+		album_artist_idx(0),
 		radio_mode(RadioMode::Off)
 	{}
 
 	Private(const Private& other) :
         CASSIGN(genres),
-		CASSIGN(album_artist),
-		CASSIGN(filepath),
 		CASSIGN(album_artist_id),
+		CASSIGN(album_artist_idx),
+		CASSIGN(album_idx),
+		CASSIGN(artist_idx),
+		CASSIGN(filepath),
 		CASSIGN(radio_mode)
 	{}
 
 	Private(Private&& other) :
         CMOVE(genres),
-		CMOVE(album_artist),
-		CMOVE(filepath),
 		CMOVE(album_artist_id),
+		CMOVE(album_artist_idx),
+		CMOVE(album_idx),
+		CMOVE(artist_idx),
+		CMOVE(filepath),
 		CMOVE(radio_mode)
 	{}
 
 	Private& operator=(const Private& other)
 	{
         ASSIGN(genres);
-		ASSIGN(album_artist);
-		ASSIGN(filepath);
 		ASSIGN(album_artist_id);
+		ASSIGN(album_artist_idx);
+		ASSIGN(album_idx);
+		ASSIGN(artist_idx);
+		ASSIGN(filepath);
 		ASSIGN(radio_mode);
 
 		return *this;
@@ -94,9 +108,11 @@ struct MetaData::Private
 	Private& operator=(Private&& other)
 	{
         MOVE(genres);
-		MOVE(album_artist);
-		MOVE(filepath);
 		MOVE(album_artist_id);
+		MOVE(album_artist_idx);
+		MOVE(album_idx);
+		MOVE(artist_idx);
+		MOVE(filepath);
 		MOVE(radio_mode);
 
 		return *this;
@@ -106,9 +122,10 @@ struct MetaData::Private
 	{
 		return(
             CMP(genres) &&
-			CMP(album_artist) &&
-			CMP(filepath) &&
 			CMP(album_artist_id) &&
+			CMP(album_idx) &&
+			CMP(artist_idx) &&
+			CMP(filepath) &&
 			CMP(radio_mode)
 		);
 	}
@@ -147,8 +164,6 @@ MetaData::MetaData() :
 MetaData::MetaData(const MetaData& other) :
 	LibraryItem(other),
 	CASSIGN(title),
-	CASSIGN(artist),
-	CASSIGN(album),
 	CASSIGN(length_ms),
 	CASSIGN(filesize),
 	CASSIGN(id),
@@ -176,8 +191,6 @@ MetaData::MetaData(const MetaData& other) :
 MetaData::MetaData(MetaData&& other) :
 	LibraryItem(other),
 	CMOVE(title),
-	CMOVE(artist),
-	CMOVE(album),
 	CMOVE(length_ms),
 	CMOVE(filesize),
 	CMOVE(id),
@@ -219,12 +232,86 @@ MetaData::~MetaData()
 #endif
 }
 
+QString MetaData::artist() const
+{
+	return artist_pool()[m->artist_idx];
+}
+
+void MetaData::set_artist(const QString& artist)
+{
+	HashValue hashed = qHash(artist);
+	if(!artist_pool().contains(hashed))
+	{
+		artist_pool()[hashed] = artist;
+	}
+
+	m->artist_idx = hashed;
+}
+
+QString MetaData::album() const
+{
+	return album_pool()[m->album_idx];
+}
+
+void MetaData::set_album(const QString& album)
+{
+	HashValue hashed = qHash(album);
+
+	if(!album_pool().contains(hashed))
+	{
+		album_pool()[hashed] = album;
+	}
+
+	m->album_idx = hashed;
+}
+
+
+
+ArtistID MetaData::album_artist_id() const
+{
+	if(m->album_artist_id < 0 || m->album_artist_idx == 0){
+		return artist_id;
+	}
+
+	return m->album_artist_id;
+}
+
+QString MetaData::album_artist() const
+{
+	return artist_pool()[m->album_artist_idx];
+}
+
+void MetaData::set_album_artist(const QString& album_artist, ArtistID id)
+{
+	HashValue hashed = qHash(album_artist);
+	if(!artist_pool().contains(hashed))
+	{
+		artist_pool()[hashed] = album_artist;
+	}
+
+	m->album_artist_idx = hashed;
+	m->album_artist_id = id;
+}
+
+void MetaData::set_album_artist_id(ArtistID id)
+{
+	m->album_artist_id = id;
+}
+
+bool MetaData::has_album_artist() const
+{
+	return (m->album_artist_idx > 0);
+}
+
+
+
+
 QString MetaData::to_string() const
 {
 	QStringList lst;
 	lst << title;
-	lst << "by " << artist << " (" << album_artist() << ")";
-	lst << "on " << album;
+	lst << "by " << this->artist() << " (" << album_artist() << ")";
+	lst << "on " << this->album();
 	lst << "Rating: " << QString::number(rating);
 	lst << "Disc: " << QString::number(discnumber);
 	lst << "Filepath: " << filepath();
@@ -258,8 +345,6 @@ MetaData& MetaData::operator=(const MetaData& other)
 	(*m) = *(other.m);
 
 	ASSIGN(title);
-	ASSIGN(artist);
-	ASSIGN(album);
 	ASSIGN(length_ms);
 	ASSIGN(filesize);
 	ASSIGN(id);
@@ -287,8 +372,6 @@ MetaData& MetaData::operator=(MetaData&& other)
 	(*m) = std::move(*(other.m));
 
 	MOVE(title);
-	MOVE(artist);
-	MOVE(album);
 	MOVE(length_ms);
 	MOVE(filesize);
 	MOVE(id);
@@ -342,8 +425,6 @@ bool MetaData::is_equal_deep(const MetaData& other) const
 	return 
 	(
 			CMP(title) &&
-			CMP(artist) &&
-			CMP(album) &&
 			CMP(length_ms) &&
 			CMP(filesize) &&
 			CMP(id) &&
@@ -365,21 +446,38 @@ bool MetaData::is_equal_deep(const MetaData& other) const
 }
 
 
-const SP::Set<Genre>& MetaData::genres() const
+SP::Set<Genre> MetaData::genres() const
 {
-    return m->genres;
+	SP::Set<Genre> genres;
+
+	for(GenreID genre_id : m->genres){
+		genres.insert( genre_pool[genre_id] );
+	}
+
+	return genres;
 }
 
 void MetaData::set_genres(const SP::Set<Genre>& genres)
 {
-    m->genres = genres;
+	m->genres.clear();
+	for(const Genre& genre : genres)
+	{
+		GenreID id = genre.id();
+		if(!genre_pool.contains(id))
+		{
+			genre_pool[id] = genre;
+		}
+
+		m->genres << id;
+	}
 }
 
 
 bool MetaData::has_genre(const Genre& genre) const
 {
-    for(const Genre& g : m->genres){
-		if(g == genre){
+	for(const GenreID& id : m->genres)
+	{
+		if(id == genre.id()){
 			return true;
 		}
 	}
@@ -389,32 +487,31 @@ bool MetaData::has_genre(const Genre& genre) const
 
 bool MetaData::remove_genre(const Genre& genre)
 {
-	bool has_genre = false;
-    auto it = m->genres.find(genre);
-    if(it != m->genres.end()){
-		has_genre = true;
-        m->genres.erase(it);
-	}
-
-	return has_genre;
+	m->genres.remove(genre.id());
+	return true;
 }
 
 bool MetaData::add_genre(const Genre& genre)
 {
-	if(has_genre(genre)){
-		return false;
+	GenreID id = genre.id();
+	if(!genre_pool.contains(id))
+	{
+		genre_pool[id] = genre;
 	}
 
-    m->genres << genre;
+	m->genres << id;
+
 	return true;
 }
 
 void MetaData::set_genres(const QStringList& new_genres)
 {
-    m->genres.clear();
-	for(const QString& genre : new_genres){
-        m->genres << Genre(genre);
-    }
+	m->genres.clear();
+	for(const QString& g : new_genres)
+	{
+		Genre genre(g);
+		add_genre(genre);
+	}
 }
 
 
@@ -426,8 +523,9 @@ QString MetaData::genres_to_string() const
 QStringList MetaData::genres_to_list() const
 {
 	QStringList new_genres;
-    for(const Genre& genre : m->genres){
-		new_genres << genre.name();
+	for(const GenreID& id : m->genres)
+	{
+		new_genres << genre_pool[id].name();
 	}
 
 	return new_genres;
@@ -482,36 +580,3 @@ bool MetaData::is_valid() const
 {
 	return (!filepath().isEmpty());
 }
-
-
-ArtistID MetaData::album_artist_id() const
-{
-	if(m->album_artist_id < 0){
-		return artist_id;
-	}
-
-	return m->album_artist_id;
-}
-
-QString MetaData::album_artist() const
-{
-	return m->album_artist;
-}
-
-void MetaData::set_album_artist(const QString& album_artist, ArtistID id)
-{
-	m->album_artist = album_artist;
-	m->album_artist_id = id;
-}
-
-void MetaData::set_album_artist_id(ArtistID id)
-{
-	m->album_artist_id = id;
-}
-
-bool MetaData::has_album_artist() const
-{
-	return (!m->album_artist.isEmpty() && m->album_artist_id >= 0);
-}
-
-

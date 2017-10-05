@@ -61,11 +61,11 @@ bool DatabaseLibrary::storeMetadata(const MetaDataList& v_md)
 	db_artists.getAllArtists(artists, true);
 
 	for(const Album& album : albums){
-		album_map[album.name] = album;
+		album_map[album.name()] = album;
 	}
 
 	for(const Artist& artist : artists){
-		artist_map[artist.name] = artist;
+		artist_map[artist.name()] = artist;
 	}
 
 	albums.clear();
@@ -74,22 +74,22 @@ bool DatabaseLibrary::storeMetadata(const MetaDataList& v_md)
 	for(MetaData md : v_md) {
 		int artist_id, album_id, album_artist_id;
 		//first check if we know the artist and its id
-		Album album = album_map[md.album];
+		Album album = album_map[md.album()];
 		if(album.id < 0) {
-			album_id = db_albums.insertAlbumIntoDatabase(md.album);
+			album_id = db_albums.insertAlbumIntoDatabase(md.album());
 			album.id = album_id;
-			album_map[md.album] = album;
+			album_map[md.album()] = album;
 		}
 
 		else{
 			album_id = album.id;
 		}
 
-		Artist artist = artist_map[md.artist];
+		Artist artist = artist_map[md.artist()];
 		if (artist.id < 0) {
-			artist_id = db_artists.insertArtistIntoDatabase(md.artist);
+			artist_id = db_artists.insertArtistIntoDatabase(md.artist());
 			artist.id = artist_id;
-			artist_map[md.artist] = artist;
+			artist_map[md.artist()] = artist;
 		}
 
 		else{
@@ -101,7 +101,7 @@ bool DatabaseLibrary::storeMetadata(const MetaDataList& v_md)
 		}
 
 		if(md.album_artist().isEmpty()){
-			md.set_album_artist(md.artist);
+			md.set_album_artist(md.artist());
 		}
 
 		Artist album_artist = artist_map[md.album_artist()];

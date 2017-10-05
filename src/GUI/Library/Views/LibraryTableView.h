@@ -58,7 +58,7 @@ protected:
     void language_changed() override;
 
 protected slots:
-	void header_actions_triggered(const BoolList& shown_cols);
+	void header_actions_triggered();
 	void sort_by_column(int column_idx);
 
 };

@@ -217,8 +217,8 @@ bool Tagging::getMetaDataOfFile(MetaData& md, Tagging::Quality quality)
 	genres.removeDuplicates();
 	genres.removeAll("");
 
-	md.album = album;
-	md.artist = artist;
+	md.set_album(album);
+	md.set_artist(artist);
 	md.title = title;
 	md.length_ms = length;
 	md.year = year;
@@ -256,8 +256,8 @@ bool Tagging::setMetaDataOfFile(const MetaData& md)
 
 	bool success;
 
-	TagLib::String album(md.album.toUtf8().data(), TagLib::String::UTF8);
-	TagLib::String artist(md.artist.toUtf8().data(), TagLib::String::UTF8);
+	TagLib::String album(md.album().toUtf8().data(), TagLib::String::UTF8);
+	TagLib::String artist(md.artist().toUtf8().data(), TagLib::String::UTF8);
 	TagLib::String title(md.title.toUtf8().data(), TagLib::String::UTF8);
 	TagLib::String genre(md.genres_to_string().toUtf8().data(), TagLib::String::UTF8);
 	TagLib::Tag* tag = f.tag();

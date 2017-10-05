@@ -109,7 +109,7 @@ void PLSParser::parse()
 		{
 			QString filepath = get_absolute_filename(line_entry.value);
 			md.set_filepath(filepath);
-			md.artist = filepath;
+			md.set_artist(filepath);
 		}
 
 		else if(line_entry.key.startsWith("title", Qt::CaseInsensitive))

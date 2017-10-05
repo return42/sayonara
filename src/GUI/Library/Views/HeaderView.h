@@ -36,7 +36,7 @@ class HeaderView :
 	Q_OBJECT
 
 signals:
-	void sig_columns_changed(const BoolList& shown_cols);
+	void sig_columns_changed();
 
 private:
 	QMenu*				_context_menu=nullptr;
@@ -49,6 +49,7 @@ private slots:
 	void action_triggered(bool b);
 
 protected:
+	BoolList refresh_active_columns();
     void language_changed() override;
 
 public:
@@ -58,7 +59,8 @@ public:
 
 	void set_column_headers(const ColumnHeaderList& column_headers, const BoolList& shown_columns, Library::SortOrder sorting );
 	void refresh_sizes(QTableView* view);
-	BoolList refresh_active_columns();
+
+	BoolList get_shown_columns() const;
 
 	ColumnHeader* get_column_header(int idx);
 };

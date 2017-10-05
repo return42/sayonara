@@ -54,7 +54,7 @@ void ASXParser::parse()
 		MetaData md;
 
 		md.length_ms = 0;
-		md.album = "";
+		md.set_album("");
 
 		for(int i=0; i<entry.childNodes().size(); i++)
 		{
@@ -68,7 +68,7 @@ void ASXParser::parse()
 
 			if(node_name.compare("ref") == 0) {
 				QString file_path = parse_ref_node(node);
-				md.artist = file_path;
+				md.set_artist(file_path);
 				md.set_filepath(file_path);
 			}
 
@@ -77,11 +77,11 @@ void ASXParser::parse()
 			}
 
 			else if(!node_name.compare("album")) {
-				md.album = e.text();
+				md.set_album(e.text());
 			}
 
 			else if(!node_name.compare("author")) {
-				md.artist = e.text();
+				md.set_artist(e.text());
 			}
 		}
 

@@ -180,8 +180,8 @@ void GUI_Player::refresh_info_labels()
 void GUI_Player::set_info_labels(const MetaData& md)
 {
 	set_title_label(md.title);
-	set_album_label(md.album, md.year);
-	set_artist_label(md.artist);
+	set_album_label(md.album(), md.year);
+	set_artist_label(md.artist());
 }
 
 
@@ -244,7 +244,7 @@ void GUI_Player::md_changed(const MetaData& md)
 	MetaData modified_md(md);
 
 	if(md.radio_mode() == RadioMode::Station){
-		modified_md.album = md.album + " (" + md.filepath() + ")";
+		modified_md.set_album(md.album() + " (" + md.filepath() + ")");
 	}
 
 	set_info_labels(modified_md);

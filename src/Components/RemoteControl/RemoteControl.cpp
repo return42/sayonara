@@ -335,8 +335,8 @@ void RemoteControl::write_cur_track()
 
 	write("curIdx:" + QString::number(cur_track_idx).toUtf8());
 	write("title:" + md.title.toUtf8());
-	write("artist:" + md.artist.toUtf8());
-	write("album:" + md.album.toUtf8());
+	write("artist:" + md.artist().toUtf8());
+	write("album:" + md.album().toUtf8());
 	write("totalPos:" + QString::number(md.length_ms / 1000).toUtf8());
 
 	write_cover(md);
@@ -406,8 +406,8 @@ void RemoteControl::write_playlist()
         {
 			data += QByteArray::number(i) + '\t' +
 					md.title.toUtf8() + '\t' +
-					md.artist.toUtf8() + '\t' +
-					md.album.toUtf8() + '\t' +
+					md.artist().toUtf8() + '\t' +
+					md.album().toUtf8() + '\t' +
 					QByteArray::number((qulonglong) (md.length_ms / 1000)) + '\t' +
 					'\n';
 			i++;

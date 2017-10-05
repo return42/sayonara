@@ -235,11 +235,11 @@ void GUI_TagEdit::track_idx_changed()
 	ui->le_title->setText(md.title);
 
 	if(!ui->cb_album_all->isChecked()){
-		ui->le_album->setText(md.album);
+		ui->le_album->setText(md.album());
 	}
 
 	if(!ui->cb_artist_all->isChecked()){
-		ui->le_artist->setText(md.artist);
+		ui->le_artist->setText(md.artist());
 	}
 
 	if(!ui->cb_album_artist_all->isChecked()){
@@ -369,11 +369,11 @@ void GUI_TagEdit::init_completer()
 	lib_db->getAllArtists(artists, true);
 
 	for(const Album& album : albums){
-		albumstr << album.name;
+		albumstr << album.name();
 	}
 
 	for(const Artist& artist : artists){
-		artiststr << artist.name;
+		artiststr << artist.name();
 	}
 
 	SayonaraCompleter* album_completer = new SayonaraCompleter(albumstr, this);
@@ -456,8 +456,8 @@ void GUI_TagEdit::write_changes(int idx)
 	MetaData md =m->tag_edit->get_metadata(idx);
 
 	md.title = ui->le_title->text();
-	md.artist = ui->le_artist->text();
-	md.album = ui->le_album->text();
+	md.set_artist(ui->le_artist->text());
+	md.set_album(ui->le_album->text());
 	md.set_album_artist(ui->le_album_artist->text());
 	md.set_genres(ui->le_genre->text().split(", "));
 	md.discnumber = ui->sb_discnumber->value();
@@ -491,10 +491,10 @@ void GUI_TagEdit::commit()
 		MetaData md =m->tag_edit->get_metadata(i);
 
 		if( ui->cb_album_all->isChecked()){
-			md.album = ui->le_album->text();
+			md.set_album(ui->le_album->text());
 		}
 		if( ui->cb_artist_all->isChecked()){
-			md.artist = ui->le_artist->text();
+			md.set_artist(ui->le_artist->text());
 		}
 		if( ui->cb_album_artist_all->isChecked()){
 			md.set_album_artist(ui->le_album_artist->text());
@@ -641,11 +641,11 @@ void GUI_TagEdit::apply_tag(int idx)
 		}
 
 		else if(tag.compare(TAG_ALBUM) == 0){
-			md.album = cap;
+			md.set_album(cap);
 		}
 
 		else if(tag.compare( TAG_ARTIST) == 0){
-			md.artist = cap;
+			md.set_artist(cap);
 		}
 
 		else if(tag.compare(TAG_TRACK_NUM) == 0){
@@ -693,7 +693,7 @@ void GUI_TagEdit::apply_tag_all_clicked()
 					QString::number(i+1) + "/" +
 					QString::number(n_tracks) + " " +
 					v_md[i].title + " " + Lang::get(Lang::By).space() +
-					v_md[i].artist + "<br />";
+					v_md[i].artist() + "<br />";
 		}
 	}
 

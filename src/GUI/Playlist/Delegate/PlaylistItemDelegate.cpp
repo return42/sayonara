@@ -159,8 +159,8 @@ void PlaylistItemDelegate::paint(QPainter *painter,	const QStyleOptionViewItem &
 
 			str.replace("%title%", md.title);
 			str.replace("%nr%", QString::number(md.track_num));
-			str.replace("%artist%", md.artist);
-			str.replace("%album%", md.album);
+			str.replace("%artist%", md.artist());
+			str.replace("%album%", md.album());
 
 			painter->drawText(rect,
 							  (Qt::AlignLeft | Qt::AlignVCenter),

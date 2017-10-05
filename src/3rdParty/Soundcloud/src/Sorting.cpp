@@ -9,7 +9,7 @@
 namespace Compare
 {
 	bool artistNameAsc(const Artist& artist1, const Artist& artist2) {
-		return (artist1.name < artist2.name);
+		return (artist1.name() < artist2.name());
 	}
 
 	bool artistNameDesc(const Artist& artist1, const Artist& artist2) {
@@ -25,7 +25,7 @@ namespace Compare
 	}
 
 	bool albumNameAsc(const Album& album1, const Album& album2) {
-		return (album1.name < album2.name);
+		return (album1.name() < album2.name());
 	}
 
 	bool albumNameDesc(const Album& album1, const Album& album2) {
@@ -73,11 +73,11 @@ namespace Compare
 	}
 
 	bool trackAlbumAsc(const MetaData& md1, const MetaData& md2){
-		if(md1.album == md2.album){
+		if(md1.album() == md2.album()){
 			return trackNumAsc(md1, md2);
 		}
 
-		return (md1.album < md2.album);
+		return (md1.album() < md2.album());
 	}
 
 	bool trackAlbumDesc(const MetaData& md1, const MetaData& md2){
@@ -85,11 +85,11 @@ namespace Compare
 	}
 
 	bool trackArtistAsc(const MetaData& md1, const MetaData& md2){
-		if(md1.artist == md2.artist){
+		if(md1.artist() == md2.artist()){
 			return trackAlbumAsc(md1, md2);
 		}
 
-		return (md1.artist < md2.artist);
+		return (md1.artist() < md2.artist());
 	}
 
 	bool trackArtistDesc(const MetaData& md1, const MetaData& md2){

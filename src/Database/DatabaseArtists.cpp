@@ -76,7 +76,7 @@ bool DatabaseArtists::db_fetch_artists(SayonaraQuery& q, ArtistList& result)
 		Artist artist;
 
 		artist.id = q.value(0).toInt();
-		artist.name = q.value(1).toString().trimmed();
+		artist.set_name(q.value(1).toString().trimmed());
 		artist.num_songs = q.value(2).toInt();
 		artist.set_db_id(module_db_id());
 
@@ -245,7 +245,7 @@ int DatabaseArtists::insertArtistIntoDatabase (const Artist & artist)
 		return artist.id;
 	}
 
-	return insertArtistIntoDatabase(artist.name);
+	return insertArtistIntoDatabase(artist.name());
 }
 
 
@@ -255,15 +255,15 @@ int DatabaseArtists::updateArtist(const Artist &artist)
 
 	if(artist.id < 0) return -1;
 
-	QString cissearch = Library::convert_search_string(artist.name, search_mode());
+	QString cissearch = Library::convert_search_string(artist.name(), search_mode());
 
 	q.prepare("UPDATE artists SET name = :name, cissearch = :cissearch WHERE artistID = :artist_id;");
-	q.bindValue(":name", artist.name);
+	q.bindValue(":name", artist.name());
 	q.bindValue(":cissearch", cissearch);
 	q.bindValue(":artist_id", artist.id);
 
 	if (!q.exec()) {
-		q.show_error(QString("Cannot insert (2) artist ") + artist.name);
+		q.show_error(QString("Cannot insert (2) artist ") + artist.name());
 		return -1;
 	}
 
@@ -284,7 +284,7 @@ void DatabaseArtists::updateArtistCissearch()
 		QString str = "UPDATE artists SET cissearch=:cissearch WHERE artistID=:id;";
 		SayonaraQuery q(this);
 		q.prepare(str);
-		q.bindValue(":cissearch", Library::convert_search_string(artist.name, search_mode()));
+		q.bindValue(":cissearch", Library::convert_search_string(artist.name(), search_mode()));
 		q.bindValue(":id", artist.id);
 
 		if(!q.exec()){

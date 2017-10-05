@@ -21,6 +21,48 @@
 #include "Helper/MetaData/Album.h"
 
 #include <QVariant>
+#include <QStringList>
+#include <list>
+
+struct Album::Private
+{
+	std::list<HashValue> album_artist_idxs;
+	std::list<HashValue> artist_idxs;
+	HashValue album_idx;
+
+	Private() {}
+	~Private() {}
+
+	Private(const Private& other) :
+		CASSIGN(album_artist_idxs),
+		CASSIGN(artist_idxs),
+		CASSIGN(album_idx)
+	{}
+
+	Private(Private&& other) :
+		CMOVE(album_artist_idxs),
+		CMOVE(artist_idxs),
+		CMOVE(album_idx)
+	{}
+
+	Private& operator=(const Private& other)
+	{
+		ASSIGN(album_artist_idxs);
+		ASSIGN(artist_idxs);
+		ASSIGN(album_idx);
+
+		return *this;
+	}
+
+	Private& operator=(Private&& other)
+	{
+		MOVE(album_artist_idxs);
+		MOVE(artist_idxs);
+		MOVE(album_idx);
+
+		return *this;
+	}
+};
 
 Album::Album() :
 	LibraryItem(),
@@ -31,13 +73,12 @@ Album::Album() :
 	n_discs(1),
 	rating(0),
 	is_sampler(false)
-{}
+{
+	m = Pimpl::make<Private>();
+}
 
 Album::Album(const Album& other) :
 	LibraryItem(other),
-	CASSIGN(_album_artists),
-	CASSIGN(name),
-	CASSIGN(artists),
 	CASSIGN(discnumbers),
 	CASSIGN(id),
 	CASSIGN(length_sec),
@@ -46,13 +87,12 @@ Album::Album(const Album& other) :
 	CASSIGN(n_discs),
 	CASSIGN(rating),
 	CASSIGN(is_sampler)
-{}
+{
+	m = Pimpl::make<Private>();
+}
 
 Album::Album(Album&& other) :
 	LibraryItem(std::move(other)),
-	CMOVE(_album_artists),
-	CMOVE(name),
-	CMOVE(artists),
 	CMOVE(discnumbers),
 	CMOVE(id),
 	CMOVE(length_sec),
@@ -61,15 +101,14 @@ Album::Album(Album&& other) :
 	CMOVE(n_discs),
 	CMOVE(rating),
 	CMOVE(is_sampler)
-{}
+{
+	m = Pimpl::make<Private>(std::move(*(other.m)));
+}
 
 Album& Album::operator=(const Album& other)
 {
 	LibraryItem::operator =(other);
 
-	ASSIGN(_album_artists);
-	ASSIGN(name);
-	ASSIGN(artists);
 	ASSIGN(discnumbers);
 	ASSIGN(id);
 	ASSIGN(length_sec);
@@ -79,6 +118,8 @@ Album& Album::operator=(const Album& other)
 	ASSIGN(rating);
 	ASSIGN(is_sampler);
 
+	*m = *(other.m);
+
 	return *this;
 }
 
@@ -86,9 +127,6 @@ Album& Album::operator=(Album&& other)
 {
 	LibraryItem::operator = (std::move(other));
 
-	MOVE(_album_artists);
-	MOVE(name);
-	MOVE(artists);
 	MOVE(discnumbers);
 	MOVE(id);
 	MOVE(length_sec);
@@ -98,6 +136,8 @@ Album& Album::operator=(Album&& other)
 	MOVE(rating);
 	MOVE(is_sampler);
 
+	*m = std::move(*(other.m));
+
 	return *this;
 }
 
@@ -105,23 +145,83 @@ Album& Album::operator=(Album&& other)
 Album::~Album() {}
 
 
+QString Album::name() const
+{
+	return album_pool()[m->album_idx];
+}
+
+void Album::set_name(const QString& name)
+{
+	HashValue hashed = qHash(name);
+
+	if(!album_pool().contains(hashed))
+	{
+		album_pool()[hashed] = name;
+	}
+
+	m->album_idx = hashed;
+}
+
+QStringList Album::artists() const
+{
+	QStringList lst;
+
+	for(const HashValue& v : m->artist_idxs)
+	{
+		lst << artist_pool()[v];
+	}
+
+	return lst;
+}
+
+void Album::set_artists(const QStringList& artists)
+{
+	m->artist_idxs.clear();
+
+	for(const QString& artist : artists)
+	{
+		HashValue hashed = qHash(artist);
+
+		if(!artist_pool().contains(hashed))
+		{
+			artist_pool()[hashed] = artist;
+		}
+
+		m->artist_idxs.push_back(hashed);
+	}
+}
+
 bool Album::has_album_artists() const
 {
-	return (_album_artists.size() > 0);
+	return (m->album_artist_idxs.size() > 0);
 }
 
 QStringList Album::album_artists() const
 {
-	return _album_artists;
+	QStringList lst;
+
+	for(const HashValue& v : m->album_artist_idxs)
+	{
+		lst << artist_pool()[v];
+	}
+
+	return lst;
 }
 
 void Album::set_album_artists(const QStringList& artists)
 {
-	_album_artists.clear();
-	for(const QString& artist : artists){
-		if(!artist.trimmed().isEmpty()){
-			_album_artists << artist;
+	m->artist_idxs.clear();
+
+	for(const QString& artist : artists)
+	{
+		HashValue hashed = qHash(artist);
+
+		if(!artist_pool().contains(hashed))
+		{
+			artist_pool()[hashed] = artist;
 		}
+
+		m->album_artist_idxs.push_back(hashed);
 	}
 }
 

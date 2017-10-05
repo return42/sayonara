@@ -107,7 +107,7 @@ void SC::Library::get_all_artists(ArtistList& artists, ::Library::Sortings so)
         {
 			const Artist& artist = artists[i];
 			m->artist_id_idx_map[artist.id] = i;
-			m->artist_name_idx_map[artist.name].insert(i);
+			m->artist_name_idx_map[artist.name()].insert(i);
 		}
 	}
 
@@ -153,9 +153,10 @@ void SC::Library::get_all_albums(AlbumList& albums, ::Library::Sortings so)
 		{
 			const Album& album = albums[i];
 			m->album_id_idx_map[album.id] = i;
-			m->album_name_idx_map[album.name].insert(i);
+			m->album_name_idx_map[album.name()].insert(i);
 
-			for(const QString& artist : album.artists){
+			for(const QString& artist : album.artists())
+			{
 				m->artist_name_album_idx_map[artist].insert(i);
 			}
 		}
@@ -177,7 +178,7 @@ void SC::Library::get_all_albums_by_artist(IDList artist_ids, AlbumList& albums,
 		int artist_idx = m->artist_id_idx_map[artist_id];
 		const Artist& artist = m->artists[artist_idx];
 
-        IndexSet album_idxs = m->artist_name_album_idx_map[artist.name];
+		IndexSet album_idxs = m->artist_name_album_idx_map[artist.name()];
 
         for(int album_idx : album_idxs)
         {
@@ -411,7 +412,7 @@ void SC::Library::insert_tracks(const MetaDataList& v_md, const ArtistList& arti
     if(!m->scd->getAlbumByID(-1, album_tmp))
     {
 		Album album;
-		album.name = "None";
+		album.set_name("None");
 		album.id = 0;
 
 		m->scd->insertAlbumIntoDatabase(album);
@@ -429,7 +430,7 @@ void SC::Library::artists_fetched(const ArtistList& artists)
 {
     for(const Artist& artist : artists)
     {
-        sp_log(Log::Debug, this) << "Artist " << artist.name << " fetched";
+		sp_log(Log::Debug, this) << "Artist " << artist.name() << " fetched";
 
 		SC::DataFetcher* fetcher;
 

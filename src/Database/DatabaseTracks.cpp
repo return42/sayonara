@@ -173,9 +173,9 @@ bool DatabaseTracks::db_fetch_tracks(SayonaraQuery& q, MetaDataList& result)
 		data.discnumber = 	q.value(9).toInt();
 		data.rating = 		q.value(10).toInt();
 		data.album_id =  	q.value(11).toInt();
-		data.album = 	 	q.value(17).toString().trimmed();
+		data.set_album(q.value(17).toString().trimmed());
 		data.artist_id = 	q.value(12).toInt();
-		data.artist = 	 	q.value(19).toString().trimmed();
+		data.set_artist(q.value(19).toString().trimmed());
 		data.set_album_artist(q.value(20).toString(), q.value(13).toInt());
 		data.library_id = 	q.value(16).toInt();
 		data.set_db_id(module_db_id());
@@ -758,7 +758,8 @@ bool DatabaseTracks::insertTrackIntoDatabase(const MetaData& md, int artist_id, 
 
 	MetaData md_tmp = getTrackByPath( md.filepath() );
 
-	if( md_tmp.id >= 0 ) {
+	if( md_tmp.id >= 0 )
+	{
 		MetaData track_copy = md;
 		track_copy.id = md_tmp.id;
 		track_copy.artist_id = artist_id;

@@ -82,7 +82,7 @@ QString LibraryItemModelAlbums::get_string(int row) const
 	}
 
 	else {
-        return albums[row].name;
+		return albums[row].name();
 	}
 }
 
@@ -170,10 +170,10 @@ QVariant LibraryItemModelAlbums::data(const QModelIndex& index, int role) const
 				return album.year;
 
 			case ColumnIndex::Album::Name:
-                if(album.name.trimmed().isEmpty()){
+				if(album.name().trimmed().isEmpty()){
                     return Lang::get(Lang::None);
                 }
-				return album.name;
+				return album.name();
 
 			case ColumnIndex::Album::Duration:
 				return Helper::cvt_ms_to_string(album.length_sec * 1000, true, false);

@@ -229,7 +229,7 @@ QModelIndex PlaylistItemModel::getPrevRowIndexOf(const QString& substr, int row,
 			if(row - i < 0) row = len - 1;
 			int row_idx = (row - i) % len;
 
-			QString album = _pl->at_const_ref(row_idx).album;
+			QString album = _pl->at_const_ref(row_idx).album();
 			album = Library::convert_search_string(album, search_mode());
 
 			if(album.contains(converted_string))
@@ -250,7 +250,7 @@ QModelIndex PlaylistItemModel::getPrevRowIndexOf(const QString& substr, int row,
 			if(row - i < 0) row = len - 1;
 			int row_idx = (row - i) % len;
 
-			QString artist = _pl->at_const_ref(row_idx).artist;
+			QString artist = _pl->at_const_ref(row_idx).artist();
 			artist = Library::convert_search_string(artist, search_mode());
 
 			if(artist.contains(converted_string))
@@ -313,7 +313,7 @@ QModelIndex PlaylistItemModel::getNextRowIndexOf(const QString& substr, int row,
         {
 			int row_idx = (i + row) % len;
 
-			QString album = _pl->at_const_ref(row_idx).album;
+			QString album = _pl->at_const_ref(row_idx).album();
 			album = Library::convert_search_string(album, search_mode());
 
 			if(album.contains(converted_string))
@@ -333,7 +333,7 @@ QModelIndex PlaylistItemModel::getNextRowIndexOf(const QString& substr, int row,
         {
 			int row_idx = (i + row) % len;
 
-			QString artist = _pl->at_const_ref(row_idx).artist;
+			QString artist = _pl->at_const_ref(row_idx).artist();
 
 			artist = Library::convert_search_string(artist, search_mode());
 

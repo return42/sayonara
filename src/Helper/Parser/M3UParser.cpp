@@ -87,7 +87,7 @@ bool M3UParser::parse_first_line(const QString& line, MetaData& md)
 	}
 
 	md.length_ms = re.cap(1).toInt() * 1000;
-	md.artist = re.cap(2);
+	md.set_artist(re.cap(2));
 	md.title = re.cap(3);
 
 	return true;
@@ -121,8 +121,8 @@ void M3UParser::parse_local_file(const QString& line, MetaData& md)
 
 void M3UParser::parse_www_file(const QString& line, MetaData& md)
 {
-	if(md.artist.isEmpty()){
-		md.artist = line;
+	if(md.artist().isEmpty()){
+		md.set_artist(line);
 	}
 
 	md.set_filepath(line);

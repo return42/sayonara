@@ -24,6 +24,9 @@
 #include "Helper/Pimpl.h"
 #include "Helper/typedefs.h"
 #include <vector>
+#include <QHash>
+
+using HashValue=uint;
 
 class QString;
 template <typename T> class QList;
@@ -64,6 +67,7 @@ class LibraryItem
 {
 	PIMPL(LibraryItem)
 
+
 public:
 	LibraryItem();
 	LibraryItem(const LibraryItem& other);
@@ -88,6 +92,19 @@ public:
 	void set_db_id(uint8_t id);
 
 	virtual void print() const;
+
+protected:
+	static QHash<HashValue, QString>& album_pool()
+	{
+		static QHash<HashValue, QString> pool;
+		return pool;
+	}
+
+	static QHash<HashValue, QString>& artist_pool()
+	{
+		static QHash<HashValue, QString> pool;
+		return pool;
+	}
 };
 
 

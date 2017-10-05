@@ -367,7 +367,7 @@ void PlayManager::change_metadata(const MetaData& md)
     MetaData md_old = m->md;
     m->md = md;
 
-	QString str = md.title + md.artist + md.album;
+	QString str = md.title + md.artist ()+ md.album();
     bool has_data = m->ring_buffer.has_item(str);
 
 	if(!has_data)
@@ -378,7 +378,7 @@ void PlayManager::change_metadata(const MetaData& md)
 
         if( m->ring_buffer.count() > 0 )
 		{
-			md_old.album.clear();
+			md_old.set_album("");
 			md_old.is_disabled = true;
 			md_old.set_filepath("");
 

@@ -25,37 +25,69 @@
 #include <QHash>
 #include <QVariant>
 
+struct Artist::Private
+{
+	HashValue artist_idx;
+
+	Private() {}
+	~Private() {}
+	Private(const Private& other) :
+		CASSIGN(artist_idx)
+	{}
+
+	Private(Private&& other) :
+		CMOVE(artist_idx)
+	{}
+
+	Private& operator=(const Private& other)
+	{
+		ASSIGN(artist_idx);
+		return *this;
+	}
+
+	Private& operator=(Private&& other)
+	{
+		MOVE(artist_idx);
+		return *this;
+	}
+};
+
 Artist::Artist() :
 	LibraryItem(),
 	id(-1),
 	num_albums(0),
 	num_songs(0)
-{}
+{
+	m = Pimpl::make<Private>();
+}
 
 Artist::Artist(const Artist& other) :
 	LibraryItem(other),
 	CASSIGN(id),
-	CASSIGN(name),
 	CASSIGN(num_albums),
 	CASSIGN(num_songs)
-{}
+{
+	m = Pimpl::make<Private>(*(other.m));
+}
 
 Artist::Artist(Artist&& other) :
 	LibraryItem(std::move(other)),
 	CMOVE(id),
-	CMOVE(name),
 	CMOVE(num_albums),
 	CMOVE(num_songs)
-{}
+{
+	m = Pimpl::make<Private>(std::move(*(other.m)));
+}
 
 Artist& Artist::operator =(const Artist& other)
 {
 	LibraryItem::operator =(other);
 
 	ASSIGN(id);
-	ASSIGN(name);
 	ASSIGN(num_albums);
 	ASSIGN(num_songs);
+
+	*m = *(other.m);
 
 	return *this;
 }
@@ -65,15 +97,32 @@ Artist& Artist::operator =(Artist&& other)
 	LibraryItem::operator =( std::move(other) );
 
 	MOVE(id);
-	MOVE(name);
 	MOVE(num_albums);
 	MOVE(num_songs);
+
+	*m = std::move(*(other.m));
 
 	return *this;
 }
 
 
 Artist::~Artist() {}
+
+QString Artist::name() const
+{
+	return artist_pool()[m->artist_idx];
+}
+
+void Artist::set_name(const QString& artist)
+{
+	HashValue hashed = qHash(artist);
+	if(!artist_pool().contains(hashed))
+	{
+		artist_pool()[hashed] = artist;
+	}
+
+	m->artist_idx = hashed;
+}
 
 QVariant Artist::toVariant(const Artist& artist) {
 	QVariant var;
@@ -91,7 +140,7 @@ bool Artist::fromVariant(const QVariant& v, Artist& artist) {
 
 void Artist::print() const
 {
-	sp_log(Log::Info) << id << ": " << name << ": " << num_songs << " Songs, " << num_albums << " Albums";
+	sp_log(Log::Info) << id << ": " << name() << ": " << num_songs << " Songs, " << num_albums << " Albums";
 }
 
 
@@ -144,7 +193,7 @@ QString ArtistList::get_major_artist() const
 	QStringList lst;
 
 	for(auto it=this->begin(); it!=this->end(); it++){
-		lst << it->name;
+		lst << it->name();
 	}
 
 	return get_major_artist(lst);

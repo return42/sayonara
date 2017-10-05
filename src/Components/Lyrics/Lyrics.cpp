@@ -177,7 +177,7 @@ void Lyrics::Private::guess_artist_and_title()
 	bool guessed = false;
 
 	if(	md.radio_mode() == RadioMode::Station &&
-		md.artist.contains("://"))
+		md.artist().contains("://"))
 	{
 		if(md.title.contains("-")){
 			QStringList lst = md.title.split("-");
@@ -195,8 +195,8 @@ void Lyrics::Private::guess_artist_and_title()
 	}
 
 	if(guessed == false) {
-		if(!md.artist.isEmpty()) {
-			artist = md.artist;
+		if(!md.artist().isEmpty()) {
+			artist = md.artist();
 			title = md.title;
 		}
 
@@ -206,7 +206,7 @@ void Lyrics::Private::guess_artist_and_title()
 		}
 
 		else {
-			artist = md.artist;
+			artist = md.artist();
 			title = md.title;
 		}
 	}

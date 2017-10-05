@@ -96,13 +96,13 @@ QVariant LibraryItemModelTracks::data(const QModelIndex &index, int role) const
 				return QVariant( md.title );
 
 			case ColumnIndex::Track::Artist:
-				return QVariant( md.artist );
+				return QVariant( md.artist() );
 
 			case ColumnIndex::Track::Length:
 				return QVariant( Helper::cvt_ms_to_string(md.length_ms) );
 
 			case ColumnIndex::Track::Album:
-				return QVariant(md.album);
+				return QVariant(md.album());
 
 			case ColumnIndex::Track::Year:
 				if(md.year == 0){

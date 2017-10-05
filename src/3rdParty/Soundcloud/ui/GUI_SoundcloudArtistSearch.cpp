@@ -158,7 +158,7 @@ void SC::GUI_ArtistSearch::artists_fetched(const ArtistList& artists)
 	else{
 		ui->lab_n_artists->setText( tr("Found %1 artists").arg(artists.size()) );
 		for(const Artist& artist: artists){
-			ui->list_artists->addItem(artist.name);
+			ui->list_artists->addItem(artist.name());
 		}
 
 		m->searched_artists = artists;
@@ -176,7 +176,7 @@ void SC::GUI_ArtistSearch::albums_fetched(const AlbumList& albums)
 	ui->list_playlists->clear();
 
 	for(const Album& album : albums){
-		ui->list_playlists->addItem(album.name);
+		ui->list_playlists->addItem(album.name());
 	}
 
 	m->albums = albums;

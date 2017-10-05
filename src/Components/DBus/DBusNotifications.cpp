@@ -91,5 +91,5 @@ void DBusNotifications::track_changed(const MetaData& md)
 	CoverLocation cl = CoverLocation::get_cover_location(md);
 	QString cover_path = cl.preferred_path();
 
-	notify(md.title, "by " + md.artist, cover_path);
+	notify(md.title, "by " + md.artist(), cover_path);
 }

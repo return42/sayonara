@@ -80,7 +80,7 @@ QString LibraryItemModelArtists::get_string(int row) const
 	}
 
 	else {
-        return artists[row].name;
+		return artists[row].name();
 	}
 }
 
@@ -130,10 +130,10 @@ QVariant LibraryItemModelArtists::data(const QModelIndex & index, int role) cons
 		switch(idx_col)
 		{
 			case ColumnIndex::Artist::Name:
-				if(artist.name.isEmpty()){
+				if(artist.name().isEmpty()){
 					return "None";
 				}
-				return artist.name;
+				return artist.name();
 
 			case ColumnIndex::Artist::Tracks:
 				return QString::number(artist.num_songs) + " " + Lang::get(Lang::Tracks);

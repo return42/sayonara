@@ -104,7 +104,11 @@ bool SC::JsonParser::parse_artist(Artist& artist, QJsonObject object)
 {
 	QString cover_download_url;
 	get_int("id", object, artist.id);
-	get_string("username", object, artist.name);
+
+	QString artist_name;
+	get_string("username", object, artist_name);
+	artist.set_name(artist_name);
+
 	get_string("avatar_url", object, cover_download_url);
 	artist.set_cover_download_url(cover_download_url);
 
@@ -214,12 +218,12 @@ bool SC::JsonParser::parse_track(Artist& artist, MetaData& md, QJsonObject objec
 	QJsonObject artist_object;
 	if(get_object("user", object, artist_object)){
 		if( parse_artist(artist, artist_object) ){
-			md.artist = artist.name;
+			md.set_artist(artist.name());
 			md.artist_id = artist.id;
 
 			if(md.album_id < 0){
 				md.album_id = 0;
-				md.album = Lang::get(Lang::None);
+				md.set_album(Lang::get(Lang::None));
 			}
 		}
 	}
@@ -283,7 +287,11 @@ bool SC::JsonParser::parse_playlist(ArtistList& artists, Album& album, MetaDataL
 	QString cover_download_url;
 
 	get_int("id", object, album.id);
-	get_string("title", object, album.name);
+
+	QString album_name;
+	get_string("title", object, album_name);
+	album.set_name(album_name);
+
 	get_string("artwork_url", object, cover_download_url);
 	album.set_cover_download_url(cover_download_url);
 
@@ -332,19 +340,19 @@ bool SC::JsonParser::parse_playlist(ArtistList& artists, Album& album, MetaDataL
 		album.add_custom_field(purchase_url, tr("Purchase Url"), create_link(purchase_url, purchase_url));
 	}
 
-	QString album_name = album.name;
+	album_name = album.name();
 
 	for(int i=0; i<v_md.count(); i++)
 	{
 		MetaData& md = v_md[i];
 		md.track_num = i+1;
-		md.album = album.name;
+		md.set_album(album.name());
 		md.album_id = album.id;
 
 		if(md.artist_id != pl_artist.id && pl_artist.id > 0 && md.artist_id > 0)
 		{
-			md.album += " (by " + pl_artist.name + ")";
-			album_name = album.name + " (by " + pl_artist.name + ")";
+			md.set_album( md.album() + " (by " + pl_artist.name() + ")");
+			album_name = album.name() + " (by " + pl_artist.name() + ")";
 		}
 
 		if(!album.cover_download_url().isEmpty()){
@@ -352,11 +360,14 @@ bool SC::JsonParser::parse_playlist(ArtistList& artists, Album& album, MetaDataL
 		}
 	}
 
-	album.name = album_name;
+	album.set_name(album_name);
 
+	QStringList lst;
 	for(const Artist& artist : artists){
-		album.artists << artist.name;
+		lst << artist.name();
 	}
+
+	album.set_artists(lst);
 
 	return (album.id > 0);
 }

@@ -351,12 +351,12 @@ void LocalLibrary::merge_artists(const SP::Set<ArtistID>& artist_ids, ArtistID t
 	{
 		MetaData md(v_md[idx]);
 		if(show_album_artists){
-			md.set_album_artist(artist.name, artist.id);
+			md.set_album_artist(artist.name(), artist.id);
 		}
 
 		else {
 			md.artist_id = artist.id;
-			md.artist = artist.name;
+			md.set_artist(artist.name());
 		}
 
 		tag_edit()->update_track(idx, md);
@@ -391,7 +391,7 @@ void LocalLibrary::merge_albums(const SP::Set<AlbumID>& album_ids, AlbumID targe
 	{
 		MetaData md(v_md[idx]);
 		md.album_id = album.id;
-		md.album = album.name;
+		md.set_album(album.name());
 
 		tag_edit()->update_track(idx, md);
 	}

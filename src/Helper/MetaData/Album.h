@@ -22,11 +22,10 @@
 #define _ALBUM_H_
 
 #include "Helper/MetaData/LibraryItem.h"
-
-#include <QStringList>
 #include <QMetaType>
 
 class QVariant;
+class QStringList;
 class Album;
 
 Q_DECLARE_METATYPE(Album)
@@ -38,13 +37,9 @@ Q_DECLARE_METATYPE(Album)
 class Album :
 		public LibraryItem
 {
-
-private:
-	QStringList _album_artists;
+	PIMPL(Album)
 
 public:
-	QString			name;
-	QStringList		artists;
 	QList<uint8_t>	discnumbers;
 
     AlbumID		id;
@@ -66,6 +61,12 @@ public:
 	Album& operator=(Album&& other);
 
 	~Album();
+
+	QString name() const;
+	void set_name(const QString& name);
+
+	QStringList artists() const;
+	void set_artists(const QStringList& artists);
 
 	static QVariant toVariant(const Album& album);
 	static bool fromVariant(const QVariant& v, Album& album);

@@ -208,8 +208,8 @@ bool DatabasePlaylist::getPlaylistById(CustomPlaylist& pl)
 			data.track_num = q.value(6).toInt();
 			data.album_id =  q.value(7).toInt();
 			data.artist_id = q.value(8).toInt();
-			data.album = 	 q.value(9).toString().trimmed();
-			data.artist = 	 q.value(10).toString().trimmed();
+			data.set_album(q.value(9).toString().trimmed());
+			data.set_artist(q.value(10).toString().trimmed());
 			QStringList genres = q.value(11).toString().split(",");
             data.set_genres(genres);
 			data.filesize =  q.value(12).toInt();
@@ -254,7 +254,7 @@ bool DatabasePlaylist::getPlaylistById(CustomPlaylist& pl)
 		data.id = -1;
 		data.is_extern = true;
 		data.title = filepath;
-		data.artist = filepath;
+		data.set_artist(filepath);
 		data.set_db_id(module_db_id());
 
 		for(int row=0; row<=pl.count(); row++) 

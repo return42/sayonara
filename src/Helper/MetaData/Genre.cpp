@@ -31,9 +31,19 @@ struct Genre::Private
 
 	static uint32_t calc_id(const QString& name)
 	{
+		if(name.trimmed().isEmpty()){
+			return 0;
+		}
+
 		return static_cast<uint32_t> (qHash(name.trimmed().toLower().toLocal8Bit()));
 	}
 };
+
+Genre::Genre()
+{
+	m = Pimpl::make<Private>();
+	m->id = 0;
+}
 
 Genre::Genre(const QString& name)
 {

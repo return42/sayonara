@@ -98,7 +98,7 @@ void LFMTrackChangedThread::update_now_playing(const MetaData& md) {
 	connect(lfm_wa, &LFMWebAccess::sig_response, this, &LFMTrackChangedThread::response_update);
 	connect(lfm_wa, &LFMWebAccess::sig_error, this, &LFMTrackChangedThread::error_update);
 
-	QString artist = m->md.artist;
+	QString artist = m->md.artist();
 	QString title = m->md.title;
 
 	if(artist.trimmed().size() == 0) artist = "Unknown";
@@ -154,18 +154,18 @@ void LFMTrackChangedThread::search_similar_artists(const MetaData& md)
 
 	m->md = md;
 
-	if(m->md.artist.trimmed().isEmpty()){
+	if(m->md.artist().trimmed().isEmpty()){
 		return;
 	}
 
 	// check if already in cache
-	if(m->sim_artists_cache.contains(m->md.artist)) {
-		const ArtistMatch& artist_match = m->sim_artists_cache.value(m->md.artist);
+	if(m->sim_artists_cache.contains(m->md.artist())) {
+		const ArtistMatch& artist_match = m->sim_artists_cache.value(m->md.artist());
 		evaluate_artist_match(artist_match);
 		return;
 	}
 
-	m->artist = m->md.artist;
+	m->artist = m->md.artist();
 
 	LFMWebAccess* lfm_wa = new LFMWebAccess();
 
@@ -173,7 +173,7 @@ void LFMTrackChangedThread::search_similar_artists(const MetaData& md)
 	connect(lfm_wa, &LFMWebAccess::sig_error, this, &LFMTrackChangedThread::error_sim_artists);
 
 	QString url = 	QString("http://ws.audioscrobbler.com/2.0/?");
-	QString encoded = QUrl::toPercentEncoding( m->md.artist );
+	QString encoded = QUrl::toPercentEncoding( m->md.artist() );
 	url += QString("method=artist.getsimilar&");
 	url += QString("artist=") + encoded + QString("&");
 	url += QString("api_key=") + LFM_API_KEY;

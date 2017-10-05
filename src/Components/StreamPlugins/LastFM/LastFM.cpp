@@ -253,7 +253,7 @@ void LastFM::scrobble(const MetaData& md)
 	struct tm* ptm = localtime(&rawtime);
 	started = mktime(ptm);
 
-	QString artist = md.artist;
+	QString artist = md.artist();
 	QString title = md.title;
 
 	UrlParams sig_data;

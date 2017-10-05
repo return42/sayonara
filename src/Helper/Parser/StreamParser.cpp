@@ -318,21 +318,21 @@ QPair<MetaDataList, PlaylistFiles> StreamParser::parse_website(const QByteArray&
 void StreamParser::tag_metadata(MetaData &md, const QString& stream_url, const QString& cover_url) const
 {
 	if(m->station_name.isEmpty()) {
-		md.album = stream_url;
+		md.set_album(stream_url);
 		if(md.title.isEmpty()){
 			md.title = Lang::get(Lang::Radio);
 		}
 	}
 
 	else {
-		md.album = m->station_name;
+		md.set_album(m->station_name);
 		if(md.title.isEmpty()){
 			md.title = m->station_name;
 		}
 	}
 
-	if(md.artist.isEmpty()) {
-		md.artist = stream_url;
+	if(md.artist().isEmpty()) {
+		md.set_artist(stream_url);
 	}
 
 	if(md.filepath().isEmpty()) {

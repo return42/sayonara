@@ -140,8 +140,8 @@ MetaDataList PodcastParser::parse_podcast_xml_file_content(const QString& conten
 
 			md.set_genres(categories);
             md.add_genre(Genre("Podcasts"));
-            md.album = QString::fromUtf8(album.toStdString().c_str());
-            md.artist = QString::fromUtf8(author.toStdString().c_str());
+			md.set_album( QString::fromUtf8(album.toStdString().c_str()) );
+			md.set_artist( QString::fromUtf8(author.toStdString().c_str()) );
 
 			QDomNodeList item_content_nodes = channel_content_node.childNodes();
 
@@ -176,12 +176,12 @@ MetaDataList PodcastParser::parse_podcast_xml_file_content(const QString& conten
 					fallback_url = item_element.text();
                 }
 
-				else if(!item_nodename.compare("author") && md.artist.size() == 0) {
-					md.artist = QString::fromUtf8(item_element_text.toStdString().c_str());
+				else if(!item_nodename.compare("author") && md.artist().isEmpty()) {
+					md.set_artist(QString::fromUtf8(item_element_text.toStdString().c_str()));
                 }
 
 				else if(!item_nodename.compare("itunes:author", Qt::CaseInsensitive)) {
-					md.artist = QString::fromUtf8(item_element_text.toStdString().c_str());
+					md.set_artist(QString::fromUtf8(item_element_text.toStdString().c_str()));
                 }
 
 				else if(!item_nodename.compare("itunes:duration", Qt::CaseInsensitive)) {

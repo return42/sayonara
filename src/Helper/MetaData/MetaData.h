@@ -50,15 +50,14 @@ class MetaData :
 
 public:
 	QString title;
-	QString artist;
-	QString album;
+
 
     uint32_t length_ms;
     uint32_t filesize;
 
     TrackID id;
     ArtistID artist_id;
-    AlbumID album_id;
+	AlbumID album_id;
 
 	uint32_t bitrate;
 	uint16_t track_num;
@@ -84,6 +83,12 @@ public:
 
 	~MetaData();
 
+	QString artist() const;
+	void set_artist(const QString& artist);
+
+	QString album() const;
+	void set_album(const QString& album);
+
 	QString filepath() const;
 	QString set_filepath(QString filepath);
 
@@ -102,7 +107,7 @@ public:
 	bool is_equal(const MetaData& md) const;
 	bool is_equal_deep(const MetaData& md) const;
 
-    const SP::Set<Genre>& genres() const;
+	SP::Set<Genre> genres() const;
 	bool has_genre(const Genre& genre) const;
     bool remove_genre(const Genre& genre);
     bool add_genre(const Genre& genre);

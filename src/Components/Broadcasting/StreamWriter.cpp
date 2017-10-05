@@ -60,7 +60,7 @@ StreamWriter::StreamWriter(QTcpSocket* socket, const QString& ip, const MetaData
 	m->send_data = false;
 	m->dismissed = false;
 
-	m->stream_title = md.title + " by " + md.artist;
+	m->stream_title = md.title + " by " + md.artist();
 	m->socket = socket;
 
 	m->type = StreamWriter::Type::Undefined;
@@ -154,7 +154,7 @@ bool StreamWriter::send_header(bool reject){
 
 
 void StreamWriter::change_track(const MetaData& md){
-	m->stream_title = md.title + " by " + md.artist;
+	m->stream_title = md.title + " by " + md.artist();
 }
 
 void StreamWriter::dismiss()

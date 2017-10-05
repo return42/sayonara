@@ -522,7 +522,7 @@ void PlaybackEngine::update_md(const MetaData& md, GstElement* src)
 
 	_cur_pos_ms = 0;
 	if(splitted.size() == 2){
-		_md.artist = splitted[0].trimmed();
+		_md.set_artist(splitted[0].trimmed());
 		_md.title = splitted[1].trimmed();
 	}
 

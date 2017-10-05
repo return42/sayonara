@@ -108,8 +108,8 @@ void AlbumInfo::set_cover_location()
 
 		Album album;
 		album.id = _album_ids.first();
-		album.name = _albums.first();
-		album.artists = _artists.toList();
+		album.set_name(_albums.first());
+		album.set_artists(_artists.toList());
 		album.set_album_artists(_album_artists.toList());
 		album.set_db_id(lib_db->db_id());
 

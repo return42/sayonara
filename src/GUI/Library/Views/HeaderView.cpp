@@ -69,7 +69,7 @@ void HeaderView::action_triggered(bool b)
 		this->refresh_sizes(table_view);
 	}
 
-	emit sig_columns_changed(shown_cols);
+	emit sig_columns_changed();
 }
 
 
@@ -184,6 +184,19 @@ BoolList HeaderView::refresh_active_columns()
 			this->showSection(i);
 		}
 
+		lst.push_back(section->is_visible());
+	}
+
+	return lst;
+}
+
+BoolList HeaderView::get_shown_columns() const
+{
+	BoolList lst;
+	int n_cols = _column_headers.size();
+
+	for(int i=0; i<n_cols; i++){
+		ColumnHeader* section =_column_headers[i];
 		lst.push_back(section->is_visible());
 	}
 

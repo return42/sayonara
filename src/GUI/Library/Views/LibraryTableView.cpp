@@ -40,6 +40,7 @@ void switch_sorters(T& srcdst, T src1, T src2)
 
 struct LibraryTableView::Private
 {
+	HeaderView*			header=nullptr;
     Library::SortOrder  sort_order;
     BoolList            shown_columns;
 };
@@ -49,11 +50,11 @@ LibraryTableView::LibraryTableView(QWidget* parent) :
 {
 	m = Pimpl::make<Private>();
 
-	HeaderView* header = new HeaderView(Qt::Horizontal, this);
-	this->setHorizontalHeader(header);
+	m->header = new HeaderView(Qt::Horizontal, this);
+	this->setHorizontalHeader(m->header);
 
-	connect(header, &HeaderView::sectionClicked, this, &LibraryTableView::sort_by_column);
-	connect(header, &HeaderView::sig_columns_changed, this, &LibraryTableView::header_actions_triggered);
+	connect(m->header, &HeaderView::sectionClicked, this, &LibraryTableView::sort_by_column);
+	connect(m->header, &HeaderView::sig_columns_changed, this, &LibraryTableView::header_actions_triggered);
 }
 
 LibraryTableView::~LibraryTableView() {}
@@ -92,7 +93,7 @@ HeaderView* LibraryTableView::get_header_view()
 }
 
 
-void LibraryTableView::header_actions_triggered(const BoolList& shown_columns)
+void LibraryTableView::header_actions_triggered()
 {
     IndexSet sel_indexes = get_selected_items();
 
@@ -100,7 +101,7 @@ void LibraryTableView::header_actions_triggered(const BoolList& shown_columns)
 		this->selectRow(row);
 	});
 
-    m->shown_columns = shown_columns;
+	m->shown_columns = m->header->get_shown_columns();
     emit sig_columns_changed();
 }
 

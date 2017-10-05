@@ -175,20 +175,20 @@ CoverLocation CoverLocation::get_cover_location(const QString& album_name, const
 // TODO: Make this class nicer: e.g. valid(), isInvalidLocation()
 CoverLocation CoverLocation::get_cover_location(const Album& album)
 {
-	int n_artists = album.artists.size();
+	int n_artists = album.artists().size();
 
 	CoverLocation cl;
 
 	if( n_artists > 1 ) {
-		cl = CoverLocation::get_cover_location(album.name, album.artists);
+		cl = CoverLocation::get_cover_location(album.name(), album.artists());
 	}
 
 	else if( n_artists == 1 ) {
-		cl = CoverLocation::get_cover_location(album.name, album.artists.first());
+		cl = CoverLocation::get_cover_location(album.name(), album.artists().first());
 	}
 
 	else {
-		cl = CoverLocation::get_cover_location(album.name, "");
+		cl = CoverLocation::get_cover_location(album.name(), "");
 	}
 
 	if(!album.cover_download_url().isEmpty()){
@@ -222,37 +222,37 @@ CoverLocation CoverLocation::get_cover_location(const Album& album)
 			QImage img(cl.preferred_path());
 
 			if( n_artists > 1){
-				tmpcl = CoverLocation::get_cover_location(album.name, album.artists);
+				tmpcl = CoverLocation::get_cover_location(album.name(), album.artists());
 			}
 
 			else if( n_artists == 1){
-				tmpcl = CoverLocation::get_cover_location(album.name, album.artists.first());
+				tmpcl = CoverLocation::get_cover_location(album.name(), album.artists().first());
 			}
 
 			else{
-				tmpcl = CoverLocation::get_cover_location(album.name, "");
+				tmpcl = CoverLocation::get_cover_location(album.name(), "");
 			}
 
 			img.save(tmpcl.cover_path());
 		}
 	}
 
-	cl.m->search_term = album.name + " " + ArtistList::get_major_artist(album.artists);
+	cl.m->search_term = album.name() + " " + ArtistList::get_major_artist(album.artists());
 
 	return cl;
 }
 
 CoverLocation CoverLocation::get_cover_location(const Artist& artist)
 {
-	CoverLocation cl = CoverLocation::get_cover_location(artist.name);
+	CoverLocation cl = CoverLocation::get_cover_location(artist.name());
 
 	if(!artist.cover_download_url().isEmpty()){
 		cl.m->search_urls.clear();
 		cl.m->search_urls << artist.cover_download_url();
 	}
 
-	cl.m->search_term = artist.name;
-	cl.m->identifier = "CL:By artist: " + artist.name;
+	cl.m->search_term = artist.name();
+	cl.m->identifier = "CL:By artist: " + artist.name();
 
 	return cl;
 }
@@ -329,14 +329,14 @@ CoverLocation CoverLocation::get_cover_location(const MetaData& md)
 	}
 
 	if(!cl.valid()){
-		cl = get_cover_location(md.album, md.artist);
+		cl = get_cover_location(md.album(), md.artist());
 	}
 
 	if(!md.cover_download_url().isEmpty())
 	{
 		QString extension = Helper::File::get_file_extension(md.cover_download_url());
 
-		QString cover_token = CoverHelper::calc_cover_token(md.artist, md.album);
+		QString cover_token = CoverHelper::calc_cover_token(md.artist(), md.album());
 		QString cover_path = get_cover_directory(cover_token + "." + extension);
 
 		cl = get_cover_location(QUrl(md.cover_download_url()), cover_path);
@@ -347,7 +347,7 @@ CoverLocation CoverLocation::get_cover_location(const MetaData& md)
 	}
 
 	cl.m->local_paths << LocalCoverSearcher::get_local_cover_paths_from_filename(md.filepath());
-	cl.m->identifier = "CL:By metadata: " + md.album + " by " + md.artist;
+	cl.m->identifier = "CL:By metadata: " + md.album() + " by " + md.artist();
 
 	return cl;
 }

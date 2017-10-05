@@ -22,6 +22,7 @@
 #define _ARTIST_H_
 
 #include "Helper/MetaData/LibraryItem.h"
+#include "Helper/Pimpl.h"
 
 #include <QStringList>
 #include <QMetaType>
@@ -33,9 +34,10 @@
 class Artist :
 		public LibraryItem
 {
+	PIMPL(Artist)
+
 public:
     ArtistID id;
-	QString name;
 	uint16_t num_albums;
 	uint16_t num_songs;
 
@@ -47,6 +49,9 @@ public:
 	Artist& operator=(Artist&& other);
 
 	~Artist();
+
+	QString name() const;
+	void set_name(const QString& name);
 
 	static bool fromVariant(const QVariant& v, Artist& a);
 	static QVariant toVariant(const Artist& a);

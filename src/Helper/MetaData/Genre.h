@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef GENRE_H
 #define GENRE_H
 
@@ -32,6 +30,7 @@ private:
 	PIMPL(Genre)
 
 public:
+	Genre();
 	Genre(const QString& name);
 	Genre(const Genre& other);
 

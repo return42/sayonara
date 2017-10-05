@@ -65,7 +65,7 @@ bool DatabaseConnector::updateAlbumCissearchFix()
 		QString str = "UPDATE albums SET cissearch=:cissearch WHERE albumID=:id;";
 		SayonaraQuery q(db());
 		q.prepare(str);
-		q.bindValue(":cissearch", album.name.toLower());
+		q.bindValue(":cissearch", album.name().toLower());
 		q.bindValue(":id", album.id);
 
 		if(!q.exec()){
@@ -89,7 +89,7 @@ bool DatabaseConnector::updateArtistCissearchFix()
 
 		SayonaraQuery q(db());
 		q.prepare(str);
-		q.bindValue(":cissearch", artist.name.toLower());
+		q.bindValue(":cissearch", artist.name().toLower());
 		q.bindValue(":id", artist.id);
 
 		if(!q.exec()){

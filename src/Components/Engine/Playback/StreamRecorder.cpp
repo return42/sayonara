@@ -139,7 +139,7 @@ QString StreamRecorder::change_track(const MetaData& md)
 	
 	title = QString("%1 - %2 - %3")
 			.arg(m->cur_idx, 3, 10, QLatin1Char('0'))
-			.arg(md.artist)
+			.arg(md.artist())
 			.arg(md.title);
 
 	title.replace("/", "_");

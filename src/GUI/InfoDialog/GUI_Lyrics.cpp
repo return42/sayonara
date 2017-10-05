@@ -217,7 +217,7 @@ void GUI_Lyrics::set_metadata(const MetaData &md)
 	ui->btn_save_lyrics->setVisible(m->lyrics->is_lyric_tag_supported());
 
 	QStringList completer_entries;
-	completer_entries << md.artist << md.album_artist();
+	completer_entries << md.artist() << md.album_artist();
 	completer_entries.removeDuplicates();
 
 	if(ui->le_artist->completer() != nullptr){
