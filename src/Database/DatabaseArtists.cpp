@@ -28,6 +28,8 @@ DatabaseArtists::DatabaseArtists(const QSqlDatabase& db, uint8_t db_id, int8_t l
 	DatabaseSearchMode(db, db_id)
 {
 	_artistid_field = "artistID";
+    _artistname_field = "artistName";
+
 	_search_view_name = "track_search_view_" + QString::number(library_id);
 
 	if(library_id < 0) {
@@ -178,8 +180,9 @@ bool DatabaseArtists::getAllArtistsBySearchString(const Library::Filter& filter,
 {
 	SayonaraQuery q(this);
 	QString query;
-	QString select = "SELECT artistID, "
-					 "artistName, "
+    QString select = "SELECT " +
+                     _artistid_field + ", " +
+                     _artistname_field + ", " +
 					 "COUNT(DISTINCT trackID) AS trackCount "
 					 "FROM " + _search_view_name + " ";
 
@@ -204,7 +207,7 @@ bool DatabaseArtists::getAllArtistsBySearchString(const Library::Filter& filter,
 	if(query.isEmpty()){
 			query = select +
 					"WHERE " + search_field + " LIKE :searchterm "
-					"GROUP BY artistID, artistName ";
+                    "GROUP BY " + _artistid_field + ", " + _artistname_field + " ";
 	}
 
 	query += _create_order_string(sortorder) + ";";
@@ -296,9 +299,10 @@ void DatabaseArtists::updateArtistCissearch()
 }
 
 
-void DatabaseArtists::change_artistid_field(const QString& field)
+void DatabaseArtists::change_artistid_field(const QString& id, const QString& name)
 {
-	_artistid_field = field;
+    _artistid_field = id;
+    _artistname_field = name;
 }
 
 void DatabaseArtists::change_track_lookup_field(const QString& track_lookup_field)

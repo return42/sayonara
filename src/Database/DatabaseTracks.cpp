@@ -40,6 +40,8 @@ struct DatabaseTracks::Private
 	QString track_view_name;
 	QString track_search_view_name;
 	QString artistid_field;
+    QString artistname_field;
+
 	int8_t library_id;
 };
 
@@ -49,6 +51,8 @@ DatabaseTracks::DatabaseTracks(const QSqlDatabase& db, uint8_t db_id, int8_t lib
 	m = Pimpl::make<Private>();
 
 	m->artistid_field = "artistID";
+    m->artistname_field = "artistName";
+
 	m->library_id = library_id;
 
 	check_track_view(library_id);
@@ -805,9 +809,10 @@ bool DatabaseTracks::insertTrackIntoDatabase(const MetaData& md, int artist_id, 
 	return true;
 }
 
-void DatabaseTracks::change_artistid_field(const QString& field)
+void DatabaseTracks::change_artistid_field(const QString& id, const QString& name)
 {
-	m->artistid_field = field;
+    m->artistid_field = id;
+    m->artistname_field = name;
 }
 
 void DatabaseTracks::change_track_lookup_field(const QString& track_lookup_field)

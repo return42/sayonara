@@ -27,6 +27,7 @@ DatabaseAlbums::DatabaseAlbums(QSqlDatabase db, uint8_t db_id, int8_t library_id
 	DatabaseSearchMode(db, db_id)
 {
 	_artistid_field = "artistID";
+    _artistname_field = "artistName";
 
 	if(library_id >= 0) {
 		_track_view_name = QString("track_view_%1").arg(library_id);
@@ -456,9 +457,10 @@ int DatabaseAlbums::insertAlbumIntoDatabase (const Album& album)
 	return album.id;
 }
 
-void DatabaseAlbums::change_artistid_field(const QString& field)
+void DatabaseAlbums::change_artistid_field(const QString& id, const QString& name)
 {
-	_artistid_field = field;
+    _artistid_field = id;
+    _artistname_field = name;
 }
 
 void DatabaseAlbums::change_track_lookup_field(const QString& track_lookup_field)

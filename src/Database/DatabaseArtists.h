@@ -36,10 +36,12 @@ private:
 	QString _search_view_name;
 	QString _track_view_name;
 	QString _artistid_field;
+    QString _artistname_field;
+
 	QString _create_order_string(Library::SortOrder sort);
 
 protected:
-	void change_artistid_field(const QString& field);
+    void change_artistid_field(const QString& id, const QString& name);
 	void change_track_lookup_field(const QString& track_lookup_field);
 
 	virtual QString fetch_query_artists(bool also_empty=false) const;

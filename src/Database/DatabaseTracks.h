@@ -39,7 +39,7 @@ class DatabaseTracks :
 	PIMPL(DatabaseTracks)
 
 protected:
-	void change_artistid_field(const QString& field);
+    void change_artistid_field(const QString& id, const QString& name);
 	void change_track_lookup_field(const QString& track_lookup_field);
 
 	void check_track_views(int8_t library_id);

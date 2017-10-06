@@ -56,18 +56,20 @@ LibraryDatabase::~LibraryDatabase() {}
 
 void LibraryDatabase::change_artistid_field(LibraryDatabase::ArtistIDField field)
 {
-	QString str;
+    QString id, name;
 	if(field == LibraryDatabase::ArtistIDField::AlbumArtistID){
-		str = "albumArtistID";
+        id = "albumArtistID";
+        name = "albumArtistName";
 	}
 
 	else{
-		str = "artistID";
+        id = "artistID";
+        name = "artistName";
 	}
 
-	DatabaseAlbums::change_artistid_field(str);
-	DatabaseArtists::change_artistid_field(str);
-	DatabaseTracks::change_artistid_field(str);
+    DatabaseAlbums::change_artistid_field(id, name);
+    DatabaseArtists::change_artistid_field(id, name);
+    DatabaseTracks::change_artistid_field(id, name);
 }
 
 void LibraryDatabase::clear()
