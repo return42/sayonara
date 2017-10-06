@@ -184,11 +184,12 @@ void MetaDataInfo::set_cover_location(const MetaDataList& lst)
 
 	else if(_album_ids.size() == 1){
 		Album album;
+
 		album.id = _album_ids.first();
 		album.set_name(_albums.first());
 		album.set_artists(_artists.toList());
-		album.set_album_artists(_album_artists.toList());
 		album.set_db_id(lst[0].db_id());
+
 		_cover_location = CoverLocation::get_cover_location(album);
 	}
 
@@ -351,7 +352,7 @@ QString MetaDataInfo::get_additional_info_as_string() const
 QString MetaDataInfo::get_paths_as_string() const
 {
 	QString ret;
-	QList<LibraryInfo> lib_infos = LibraryManager::getInstance()->all_libraries();
+	QList<LibraryInfo> lib_infos = LibraryManager::instance()->all_libraries();
 	QStringList lib_paths;
 	for(const LibraryInfo& li : lib_infos){
 		lib_paths << li.path();

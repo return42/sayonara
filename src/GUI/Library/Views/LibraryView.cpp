@@ -44,20 +44,27 @@
 #include <QHeaderView>
 #include <QDropEvent>
 #include <QMouseEvent>
+#include <QPushButton>
+#include <QScrollBar>
 #include <QDrag>
 
 struct LibraryView::Private
 {
+
+    QPushButton*        btn_clear_selection=nullptr;
+    QAction*            clear_selection_action=nullptr;
     QAction*			merge_action=nullptr;
     QMenu*				merge_menu=nullptr;
     LibraryContextMenu*	rc_menu=nullptr;
 
 	MD::Interpretation	type;
 	bool				cur_filling;
+    bool                use_clear_button;
 
     Private() :
 		type(MD::Interpretation::None),
-		cur_filling(false)
+        cur_filling(false),
+        use_clear_button(false)
     {}
 };
 
@@ -99,7 +106,12 @@ void LibraryView::selectionChanged(const QItemSelection& selected, const QItemSe
 	SearchableTableView::selectionChanged(selected, deselected);
     IndexSet indexes = get_selected_items();
 
-	emit sig_sel_changed(indexes);
+    if(m->clear_selection_action) {
+        m->clear_selection_action->setVisible(!selected.isEmpty());
+    }
+
+    show_clear_button(!selected.empty());
+    emit sig_sel_changed(indexes);
 }
 
 // selections end
@@ -121,6 +133,9 @@ void LibraryView::rc_menu_init()
 	m->merge_menu = new QMenu(tr("Merge"), m->rc_menu);
 	m->merge_action = m->rc_menu->addMenu(m->merge_menu);
 	m->merge_action->setVisible(false);
+
+    m->clear_selection_action = m->rc_menu->addAction(tr("Clear selection"));
+    connect(m->clear_selection_action, &QAction::triggered, this, &LibraryView::clearSelection);
 
 	connect(m->rc_menu, &LibraryContextMenu::sig_edit_clicked, this, [=]()
 	{show_edit();});
@@ -173,6 +188,55 @@ void LibraryView::set_selection_type(SayonaraSelectionView::SelectionType type)
 	else {
 		setSelectionBehavior(QAbstractItemView::SelectColumns);
 		this->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    }
+}
+
+
+void LibraryView::show_clear_button(bool visible)
+{
+    if(!m->use_clear_button)
+    {
+        return;
+    }
+
+    if(!m->btn_clear_selection)
+    {
+        m->btn_clear_selection = new QPushButton(this);
+        m->btn_clear_selection->setText(tr("Clear selection"));
+
+        connect(m->btn_clear_selection, &QPushButton::clicked, this, &LibraryView::clearSelection);
+    }
+
+    const int h = 22;
+
+    int y = this->height() - h - 1;
+    int w = this->width() - 2;
+
+    if(this->verticalScrollBar() && this->verticalScrollBar()->isVisible())
+    {
+        w -= this->verticalScrollBar()->width();
+    }
+
+    if(this->horizontalScrollBar() && this->horizontalScrollBar()->isVisible())
+    {
+        y -= this->horizontalScrollBar()->height();
+    }
+
+    m->btn_clear_selection->setGeometry(1, y, w, h);
+    m->btn_clear_selection->setVisible(visible);
+}
+
+void LibraryView::use_clear_button(bool yesno)
+{
+    m->use_clear_button = yesno;
+    if(m->btn_clear_selection)
+    {
+        if(!yesno){
+            m->btn_clear_selection->hide();
+        }
+        else{
+            m->btn_clear_selection->setVisible(this->get_selected_items().count() > 0);
+        }
     }
 }
 
@@ -473,5 +537,14 @@ void LibraryView::changeEvent(QEvent* event)
 	if(type == QEvent::FontChange)
 	{
 		resize_rows_to_contents();
-	}
+    }
+}
+
+void LibraryView::resizeEvent(QResizeEvent *event)
+{
+    if(m->btn_clear_selection){
+        show_clear_button(m->btn_clear_selection->isVisible());
+    }
+
+    SearchableTableView::resizeEvent(event);
 }

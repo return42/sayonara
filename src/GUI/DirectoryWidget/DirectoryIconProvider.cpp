@@ -28,7 +28,7 @@
 IconProvider::IconProvider() :
 	QFileIconProvider()
 {
-	_settings = Settings::getInstance();
+	_settings = Settings::instance();
 
 	_folder_icon.addPixmap(GUI::get_pixmap("folder"), QIcon::Normal, QIcon::Off);
 	_folder_icon.addPixmap(GUI::get_pixmap("folder_open"), QIcon::Normal, QIcon::On);

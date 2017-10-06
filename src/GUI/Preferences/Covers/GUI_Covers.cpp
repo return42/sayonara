@@ -46,7 +46,7 @@ GUI_Covers::~GUI_Covers()
 
 void GUI_Covers::commit()
 {
-	Settings* settings = Settings::getInstance();
+	Settings* settings = Settings::instance();
 	QStringList active_items;
 	for(int i=0; i<ui->lv_active->count(); i++){
 		QListWidgetItem* item = ui->lv_active->item(i);
@@ -58,13 +58,13 @@ void GUI_Covers::commit()
 
 void GUI_Covers::revert()
 {
-	Settings* settings = Settings::getInstance();
+	Settings* settings = Settings::instance();
 	QStringList active = settings->get(Set::Cover_Server);
 
 	ui->lv_active->clear();
 	ui->lv_inactive->clear();
 
-	CoverFetchManager* cfm = CoverFetchManager::getInstance();
+	CoverFetchManager* cfm = CoverFetchManager::instance();
 
 	QList<CoverFetcherInterface*> cfis = cfm->get_available_coverfetchers();
 	for(const CoverFetcherInterface* cfi : cfis) {

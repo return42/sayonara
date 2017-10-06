@@ -63,7 +63,7 @@ struct LibraryPluginHandler::Private
 
 	void insert_local_libraries()
 	{
-		QList<LibraryInfo> library_infos = LibraryManager::getInstance()->all_libraries();
+		QList<LibraryInfo> library_infos = LibraryManager::instance()->all_libraries();
 		for(const LibraryInfo& library_info : library_infos)
 		{
 			if(library_info.id() < 0) {

@@ -1,7 +1,6 @@
 PROJECT(say_helper)
 
 ADD_SUBDIRECTORY(MetaDataInfo)
-ADD_SUBDIRECTORY(Settings)
 ADD_SUBDIRECTORY(Compressor)
 
 IF(NOT WIN32 OR NOT DEFINED WIN32)
@@ -52,6 +51,13 @@ SET(SOURCES
     Playlist/PlaylistMode.cpp
 
     Random/RandomGenerator.cpp
+
+	Settings/Setting.cpp
+	Settings/Settings.cpp
+	Settings/SettingConverter.cpp
+	Settings/SettingRegistry.cpp
+	Settings/SayonaraClass.cpp
+
     SimilarArtists/SimilarArtists.cpp
     #SmartCompare/SmartCompare.cpp
 

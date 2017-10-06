@@ -168,10 +168,10 @@ void GUI_AbstractStream::set_searching(bool searching)
 	m->btn_play->setDisabled(false);
 
 	if(!searching) {
-		m->btn_play->setIcon( IconLoader::getInstance()->get_icon("media-playback-start", "play"));
+        m->btn_play->setIcon( IconLoader::instance()->icon("media-playback-start", "play"));
 		m->lab_listen->setText(Lang::get(Lang::Listen));
 	} else {
-		m->btn_play->setIcon( IconLoader::getInstance()->get_icon("media-playback-stop", "stop"));
+        m->btn_play->setIcon( IconLoader::instance()->icon("media-playback-stop", "stop"));
 		m->lab_listen->setText(Lang::get(Lang::Stop));
 	}
 

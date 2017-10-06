@@ -30,7 +30,7 @@
 
 PlaylistDBWrapper::PlaylistDBWrapper()
 {
-	_db = DatabaseConnector::getInstance();
+	_db = DatabaseConnector::instance();
 }
 
 

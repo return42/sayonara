@@ -106,7 +106,7 @@ void PlayerPluginInterface::finalize_initialization()
 		widget_layout->setContentsMargins(3, 3, 3, bottom);
 	}
 
-	ShortcutHandler* sch = ShortcutHandler::getInstance();
+	ShortcutHandler* sch = ShortcutHandler::instance();
 	Shortcut sc = sch->get_shortcut("close_plugin");
 	if(!sc.is_valid()){
 		sc = sch->add(Shortcut(this, "close_plugin", tr("Close plugin"), "Ctrl+Esc"));

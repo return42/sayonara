@@ -54,13 +54,13 @@ AbstractLibrary::AbstractLibrary(QObject *parent) :
 {
 	m = Pimpl::make<Private>();
 
-    m->playlist = PlaylistHandler::getInstance();
+    m->playlist = PlaylistHandler::instance();
     m->sortorder = _settings->get(Set::Lib_Sorting);
 
     m->filter.set_mode(Library::Filter::Fulltext);
     m->filter.set_filtertext("");
 
-	MetaDataChangeNotifier* md_change_notifier = MetaDataChangeNotifier::getInstance();
+	MetaDataChangeNotifier* md_change_notifier = MetaDataChangeNotifier::instance();
 	connect(md_change_notifier, &MetaDataChangeNotifier::sig_metadata_changed,
 			this,				&AbstractLibrary::metadata_id3_changed);
 }
@@ -179,7 +179,7 @@ void AbstractLibrary::prepare_tracks_for_playlist(const QStringList& paths, bool
 
 void AbstractLibrary::set_playlist_action_after_double_click()
 {
-	PlayManager* play_manager = PlayManager::getInstance();
+	PlayManager* play_manager = PlayManager::instance();
 
 	if(_settings->get(Set::Lib_DC_DoNothing)){
 		return;
@@ -667,7 +667,7 @@ void AbstractLibrary::delete_tracks(const MetaDataList& v_md, Library::TrackDele
 	}
 
 	emit sig_delete_answer(answer_str);
-	MetaDataChangeNotifier::getInstance()->delete_metadata(v_md);
+	MetaDataChangeNotifier::instance()->delete_metadata(v_md);
 
 	refresh();
 }

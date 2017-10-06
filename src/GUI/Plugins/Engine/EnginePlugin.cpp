@@ -43,12 +43,12 @@ EnginePlugin::~EnginePlugin()
 
 void EnginePlugin::init_ui()
 {
-	_play_manager = PlayManager::getInstance();
+	_play_manager = PlayManager::instance();
 	connect(_play_manager, &PlayManager::sig_playstate_changed, this, &EnginePlugin::playstate_changed);
 
 	_ecsc = new EngineColorStyleChooser(minimumWidth(), minimumHeight());
 	_ui_style_settings = new GUI_StyleSettings(this);
-	_engine = EngineHandler::getInstance();
+	_engine = EngineHandler::instance();
 
 	_timer = new QTimer();
 	_timer->setInterval(30);

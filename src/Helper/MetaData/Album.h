@@ -62,7 +62,7 @@ public:
 
 	~Album();
 
-	QString name() const;
+    const QString& name() const;
 	void set_name(const QString& name);
 
 	QStringList artists() const;
@@ -70,10 +70,7 @@ public:
 
 	static QVariant toVariant(const Album& album);
 	static bool fromVariant(const QVariant& v, Album& album);
-
-	bool has_album_artists() const;
-	QStringList album_artists() const;
-	void set_album_artists(const QStringList& artists);
+    QString to_string() const;
 };
 
 

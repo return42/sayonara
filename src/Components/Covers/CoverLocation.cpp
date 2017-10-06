@@ -149,7 +149,7 @@ CoverLocation CoverLocation::get_cover_location(const QString& album_name, const
 	QString cover_path = get_cover_directory( cover_token + ".jpg" );
 
 	CoverLocation ret;
-	CoverFetchManager* cfm = CoverFetchManager::getInstance();
+	CoverFetchManager* cfm = CoverFetchManager::instance();
 	ret.m->cover_path = cover_path;
 	ret.m->search_term = artist_name + " " + album_name;
 	ret.m->search_urls.clear();
@@ -204,7 +204,7 @@ CoverLocation CoverLocation::get_cover_location(const Album& album)
 		// people are not amused
 		//return cl;
 
-		DatabaseConnector* db = DatabaseConnector::getInstance();
+		DatabaseConnector* db = DatabaseConnector::instance();
 		LibraryDatabase* lib_db = db->library_db(-1, 0);
 
 		MetaDataList v_md;
@@ -266,7 +266,7 @@ CoverLocation CoverLocation::get_cover_location(const QString& artist)
 	QString cover_path = get_cover_directory(cover_token + ".jpg");
 
 	CoverLocation ret;
-	CoverFetchManager* cfm = CoverFetchManager::getInstance();
+	CoverFetchManager* cfm = CoverFetchManager::instance();
 
 	ret.m->cover_path = cover_path;
 	ret.m->search_urls = cfm->get_artist_addresses(artist);
@@ -289,7 +289,7 @@ CoverLocation Get_cover_location(int album_id, uint8_t db_id)
 	Album album;
 	MetaDataList v_md;
 
-	DatabaseConnector* db = DatabaseConnector::getInstance();
+	DatabaseConnector* db = DatabaseConnector::instance();
 	// TODO: Why?
 	LibraryDatabase* lib_db = db->library_db(-1, db_id);
 	if(!lib_db){
@@ -423,7 +423,7 @@ QString CoverLocation::search_term() const
 
 void CoverLocation::set_search_term(const QString& search_term)
 {
-	CoverFetchManager* cfm = CoverFetchManager::getInstance();
+	CoverFetchManager* cfm = CoverFetchManager::instance();
 
 	m->search_term = search_term;
 	m->search_urls = cfm->get_search_addresses(search_term);

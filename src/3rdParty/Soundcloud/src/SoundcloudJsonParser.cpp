@@ -375,7 +375,7 @@ bool SC::JsonParser::parse_playlist(ArtistList& artists, Album& album, MetaDataL
 
 QString SC::JsonParser::create_link(const QString& name, const QString& target)
 {
-	bool dark = (Settings::getInstance()->get(Set::Player_Style) == 1);
+	bool dark = (Settings::instance()->get(Set::Player_Style) == 1);
 	return Helper::create_link(name, dark, target);
 }
 

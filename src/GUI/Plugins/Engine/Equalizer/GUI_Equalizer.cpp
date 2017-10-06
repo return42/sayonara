@@ -68,7 +68,7 @@ void GUI_Equalizer::init_ui()
 {
 	setup_parent(this, &ui);
 
-	_engine = EngineHandler::getInstance();
+	_engine = EngineHandler::instance();
 	_active_idx = -1;
 
 	ui->sli_0->setData(0, ui->label);

@@ -41,8 +41,8 @@ GUI_TrayIcon::GUI_TrayIcon (QObject *parent) :
 	QSystemTrayIcon(parent),
     NotificationInterface("Standard")
 {
-	_settings = Settings::getInstance();
-	_play_manager = PlayManager::getInstance();
+	_settings = Settings::instance();
+	_play_manager = PlayManager::instance();
 
 	connect(_play_manager, &PlayManager::sig_playstate_changed, this, &GUI_TrayIcon::playstate_changed);
 	connect(_play_manager, &PlayManager::sig_mute_changed, this, &GUI_TrayIcon::mute_changed);
@@ -57,7 +57,7 @@ GUI_TrayIcon::GUI_TrayIcon (QObject *parent) :
 	Set::listen(Set::Player_Language, this, &GUI_TrayIcon::language_changed);
 	Set::listen(Set::Player_Style, this, &GUI_TrayIcon::skin_changed);
 
-	NotificationHandler::getInstance()->register_notificator(this);
+	NotificationHandler::instance()->register_notificator(this);
 }
 
 GUI_TrayIcon::~GUI_TrayIcon() {}
@@ -256,7 +256,7 @@ void GUI_TrayIcon::mute_clicked()
 
 void GUI_TrayIcon::cur_song_clicked()
 {
-	NotificationHandler::getInstance()->notify(_play_manager->current_track());
+	NotificationHandler::instance()->notify(_play_manager->current_track());
 }
 
 

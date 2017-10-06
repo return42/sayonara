@@ -33,7 +33,7 @@
 GUI_Shortcuts::GUI_Shortcuts(QWidget* parent) :
 	PreferenceWidgetInterface(parent)
 {
-	_sch = ShortcutHandler::getInstance();
+	_sch = ShortcutHandler::instance();
 }
 
 GUI_Shortcuts::~GUI_Shortcuts()

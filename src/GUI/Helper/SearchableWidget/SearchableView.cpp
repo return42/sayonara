@@ -58,7 +58,7 @@ public:
 		search_model = nullptr;
 		cur_idx = -1;
         mini_searcher = new MiniSearcher(v);
-		settings = Settings::getInstance();
+		settings = Settings::instance();
 
 		connect(mini_searcher, &MiniSearcher::sig_text_changed, this, &Private::edit_changed);
         connect(mini_searcher, &MiniSearcher::sig_find_next_row, this, &Private::select_next);
@@ -219,7 +219,7 @@ void SearchViewFunctionality::Private::edit_changed(const QString& str)
 {
 	search_view->select_match(str, SearchDirection::First);
 
-    Library::SearchModeMask search_mode = Settings::getInstance()->get(Set::Lib_SearchMode);
+    Library::SearchModeMask search_mode = Settings::instance()->get(Set::Lib_SearchMode);
     QString search_str = Library::convert_search_string(str, search_mode);
 
 	mini_searcher->set_number_results(

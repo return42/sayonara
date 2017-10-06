@@ -151,7 +151,7 @@ int EngineColorStyleChooser::get_num_color_schemes()
 
 
 void EngineColorStyleChooser::reload(int widget_width, int widget_height) {
-	QList< RawColorStyle > colors_active = DatabaseConnector::getInstance()->get_raw_color_styles();
+	QList< RawColorStyle > colors_active = DatabaseConnector::instance()->get_raw_color_styles();
 
     _styles_spectrum.clear();
     _styles_level.clear();
@@ -188,8 +188,8 @@ void EngineColorStyleChooser::reload(int widget_width, int widget_height) {
 
         colors_active << fallback1 << fallback2;
 
-        DatabaseConnector::getInstance()->insert_raw_color_style_to_db(fallback1);
-        DatabaseConnector::getInstance()->insert_raw_color_style_to_db(fallback2);
+        DatabaseConnector::instance()->insert_raw_color_style_to_db(fallback1);
+        DatabaseConnector::instance()->insert_raw_color_style_to_db(fallback2);
     }
 
 

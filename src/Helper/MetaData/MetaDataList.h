@@ -26,8 +26,8 @@
 #include "Helper/typedefs.h"
 #include "Helper/SetFwd.h"
 #include "Helper/Pimpl.h"
-#include <vector>
 
+#include <vector>
 
 /**
  * @brief The MetaDataList class

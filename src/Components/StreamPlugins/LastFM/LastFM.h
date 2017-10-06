@@ -41,44 +41,43 @@
 // signals and slots are handled by the adapter class
 class MetaData;
 
-class LastFM :
-		public QObject,
-		protected SayonaraClass
+namespace LastFM
 {
-	Q_OBJECT
-	SINGLETON(LastFM)
+    class Base :
+            public QObject,
+            protected SayonaraClass
+    {
+        Q_OBJECT
+        SINGLETON(Base)
+        PIMPL(Base)
 
-	signals:
-		void sig_logged_in(bool);
+        signals:
+            void sig_logged_in(bool);
 
-	public slots:
-		void psl_login();
+        public slots:
+            void psl_login();
 
+        private slots:
+            void sl_login_thread_finished(bool success);
+            void sl_similar_artists_available(IDList artist_ids);
+            void sl_track_changed(const MetaData& md);
+            void sl_position_ms_changed(uint64_t pos_ms);
+            void sl_scrobble_response(const QByteArray& data);
+            void sl_scrobble_error(const QString& str);
 
-	private slots:
-		void sl_login_thread_finished(bool success);
-		void sl_similar_artists_available(IDList artist_ids);
-		void sl_track_changed(const MetaData& md);
-		void sl_position_ms_changed(uint64_t pos_ms);
-		void sl_scrobble_response(const QByteArray& data);
-		void sl_scrobble_error(const QString& str);
+        public:
+            bool is_logged_in();
+            static void get_login(QString& user, QString& pw);
 
+        private:
+            bool init_track_changed_thread();
+            void get_similar_artists(const QString& artist);
 
-	public:
-		bool is_logged_in();
-		static void get_login(QString& user, QString& pw);
-
-
-	private:
-		PIMPL(LastFM)
-
-		bool init_track_changed_thread();
-		void get_similar_artists(const QString& artist);
-
-		void reset_scrobble();
-		bool check_scrobble(uint64_t pos_ms);
-		void scrobble(const MetaData& md);
-		bool update_track(const MetaData& md);
-};
+            void reset_scrobble();
+            bool check_scrobble(uint64_t pos_ms);
+            void scrobble(const MetaData& md);
+            bool update_track(const MetaData& md);
+    };
+}
 
 #endif /* LASTFM_H_ */

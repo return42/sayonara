@@ -37,7 +37,7 @@
 Shutdown::Shutdown(QObject* parent) :
 	QObject(parent)
 {
-	_play_manager = PlayManager::getInstance();
+	_play_manager = PlayManager::instance();
 	_is_running = false;
 
 	_timer = new QTimer(this);
@@ -67,7 +67,7 @@ void Shutdown::shutdown_after_end()
 {
 	_is_running = true;
 
-	NotificationHandler::getInstance()->notify(Lang::get(Lang::Shutdown),
+	NotificationHandler::instance()->notify(Lang::get(Lang::Shutdown),
 											   tr("Computer will shutdown after playlist has finished"),
 											   Helper::share_path("logo.png"));
 }
@@ -91,7 +91,7 @@ void Shutdown::shutdown(uint64_t ms){
 	_timer_countdown->start(1000);
 	emit sig_started(ms);
 
-	NotificationHandler::getInstance()->notify(Lang::get(Lang::Shutdown),
+	NotificationHandler::instance()->notify(Lang::get(Lang::Shutdown),
 											   tr("Computer will shutdown in %1 minutes").arg(Helper::cvt_ms_to_string(ms, false, true, false)),
 											   Helper::share_path("logo.png"));
 }
@@ -116,7 +116,7 @@ void Shutdown::countdown_timeout()
 	sp_log(Log::Info) << "Time to go: " << _msecs2go;
 
 	if(_msecs2go % 60000 == 0){
-		NotificationHandler::getInstance()->notify(Lang::get(Lang::Shutdown),
+		NotificationHandler::instance()->notify(Lang::get(Lang::Shutdown),
 												   tr("Computer will shutdown in %1 minutes").arg(Helper::cvt_ms_to_string(_msecs2go, false, true, false)),
 												   Helper::share_path("logo.png"));
 	}
@@ -127,7 +127,7 @@ void Shutdown::timeout()
 {
 	
 	_is_running = false;
-	DatabaseConnector::getInstance()->store_settings();
+	DatabaseConnector::instance()->store_settings();
 
 
 #ifdef Q_OS_WIN

@@ -250,3 +250,16 @@ void LibraryItem::set_db_id(uint8_t id)
 void LibraryItem::print() const {}
 
 
+QHash<HashValue, QString> &LibraryItem::album_pool()
+{
+    static QHash<HashValue, QString> pool;
+    return pool;
+}
+
+QHash<HashValue, QString> &LibraryItem::artist_pool()
+{
+    static QHash<HashValue, QString> pool;
+    return pool;
+}
+
+

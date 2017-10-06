@@ -4,7 +4,7 @@
 
 ChangeOperation::ChangeOperation()
 {
-	_library_manager = LibraryManager::getInstance();
+	_library_manager = LibraryManager::instance();
 }
 
 ChangeOperation::~ChangeOperation() {}

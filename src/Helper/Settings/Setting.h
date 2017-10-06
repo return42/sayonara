@@ -48,18 +48,20 @@ class AbstrSetting
 		AbstrSetting(SK::SettingKey key);
 		AbstrSetting(SK::SettingKey key, const char* db_key);
 
+
 	public:
 		virtual ~AbstrSetting();
 
 		SK::SettingKey get_key() const;
+        QString db_key() const;
+        bool is_db_setting() const;
 
-		/* Pure virtual function for DB load/save */
-		void load_db(DatabaseSettings* db);
-		void store_db(DatabaseSettings* db);
+        void assign_value(const QString& value);
 
+        /* Pure virtual function for DB load/save */
 		virtual bool load_value_from_string(const QString& str)=0;
 		virtual QString value_to_string() const=0;
-		virtual void assign_default_value()=0;
+        virtual void assign_default_value()=0;
 };
 
 
@@ -131,7 +133,7 @@ class Setting : public AbstrSetting
 		}
 
 		/* ... */
-		bool set_value(const T& val)
+        bool assign_value(const T& val)
 		{
 			if( _val == val ){
 				return false;

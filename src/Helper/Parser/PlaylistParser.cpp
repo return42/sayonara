@@ -90,7 +90,7 @@ MetaDataList PlaylistParser::parse_playlist(const QString& local_filename)
 	}
 
 	if(!v_md_to_delete.isEmpty()){
-		DatabaseConnector* db = DatabaseConnector::getInstance();
+		DatabaseConnector* db = DatabaseConnector::instance();
 		LibraryDatabase* lib_db = db->library_db(-1, 0);
 		lib_db->deleteTracks(v_md_to_delete);
 	}

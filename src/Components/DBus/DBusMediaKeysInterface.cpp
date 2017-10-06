@@ -29,7 +29,7 @@ DBusMediaKeysInterface::DBusMediaKeysInterface(QObject *parent) :
 	QObject(parent)
 {
 	_parent = parent;
-	_play_manager = PlayManager::getInstance();
+	_play_manager = PlayManager::instance();
 	_initialized = false;
 }
 

@@ -81,7 +81,7 @@ TagEdit::TagEdit(QObject *parent) :
 	QThread(parent)
 {
 	m = Pimpl::make<TagEdit::Private>();
-	m->ldb = DatabaseConnector::getInstance()->library_db(-1, 0);
+	m->ldb = DatabaseConnector::instance()->library_db(-1, 0);
 	m->notify = true;
 
 	connect(this, &QThread::finished, this, &TagEdit::thread_finished);
@@ -181,7 +181,7 @@ void TagEdit::set_metadata(const MetaDataList& v_md)
 	m->changed_md.assign(v_md.size(), false);
 
 	if( v_md.size() > 0) {
-		m->ldb = DatabaseConnector::getInstance()->library_db(v_md.first().library_id, 0);
+		m->ldb = DatabaseConnector::instance()->library_db(v_md.first().library_id, 0);
 	}
 
 	emit sig_metadata_received(m->v_md);
@@ -289,7 +289,7 @@ void TagEdit::run()
 
 	m->ldb->createIndexes();
 
-	db = DatabaseConnector::getInstance();
+	db = DatabaseConnector::instance();
 	db->clean_up();
 
 	m->v_md_after_change = v_md;
@@ -302,7 +302,7 @@ void TagEdit::run()
 void TagEdit::thread_finished()
 {
 	if(m->notify){
-		MetaDataChangeNotifier::getInstance()->change_metadata(m->v_md_before_change, m->v_md_after_change);
+		MetaDataChangeNotifier::instance()->change_metadata(m->v_md_before_change, m->v_md_after_change);
 	}
 }
 

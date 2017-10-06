@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "CoverFetchManager.h"
 #include "CoverFetcherInterface.h"
 #include "GoogleCoverFetcher.h"

@@ -169,6 +169,7 @@ QVariant AlbumCoverModel::data(const QModelIndex& index, int role) const
 				{
 					CoverLocation cl;
 					if(!m->cover_locations.contains(hash)){
+                        QString str = album.to_string();
 						cl = CoverLocation::get_cover_location(album);
 						m->cover_locations[hash] = cl;
 					}

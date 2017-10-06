@@ -163,7 +163,7 @@ void PipelineCallbacks::source_ready(GstURIDecodeBin* bin, GstElement* source, g
 	{
 		g_object_set(G_OBJECT(source), "ssl-strict", false, nullptr);
 
-		Proxy* proxy = Proxy::getInstance();
+		Proxy* proxy = Proxy::instance();
 		if(proxy->active())
 		{
           /*  g_object_set(G_OBJECT(source),

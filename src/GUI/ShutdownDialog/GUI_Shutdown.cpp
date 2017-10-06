@@ -42,11 +42,11 @@ void GUI_Shutdown::ok_clicked()
 {
 	if(sb_minutes->isEnabled()){
 		uint64_t msec = sb_minutes->value() * 60 * 1000;
-		Shutdown::getInstance()->shutdown(msec);
+		Shutdown::instance()->shutdown(msec);
 	}
 
 	else {
-		Shutdown::getInstance()->shutdown_after_end();
+		Shutdown::instance()->shutdown_after_end();
 	}
 
 

@@ -33,7 +33,7 @@
 void GUI_Player::setup_connections()
 {
 
-	LibraryPluginHandler* lph = LibraryPluginHandler::getInstance();
+	LibraryPluginHandler* lph = LibraryPluginHandler::instance();
 
 	connect(lph, &LibraryPluginHandler::sig_current_library_changed,
 			this, &GUI_Player::current_library_changed);
@@ -58,7 +58,7 @@ void GUI_Player::setup_connections()
 	connect(_play_manager, &PlayManager::sig_error, this, &GUI_Player::play_error);
 
 	// engine
-	EngineHandler* engine = EngineHandler::getInstance();
+	EngineHandler* engine = EngineHandler::instance();
 	connect(engine, &EngineHandler::sig_md_changed,	this, &GUI_Player::md_changed);
 	connect(engine, &EngineHandler::sig_dur_changed, this, &GUI_Player::dur_changed);
 	connect(engine, &EngineHandler::sig_br_changed,	this, &GUI_Player::br_changed);
@@ -87,10 +87,10 @@ void GUI_Player::setup_connections()
 	connect(sli_progress, &SearchSlider::sig_slider_hovered, this, &GUI_Player::set_progress_tooltip);
 
 
-	MetaDataChangeNotifier* md_change_notifier = MetaDataChangeNotifier::getInstance();
+	MetaDataChangeNotifier* md_change_notifier = MetaDataChangeNotifier::instance();
 	connect(md_change_notifier, &MetaDataChangeNotifier::sig_metadata_changed, this, &GUI_Player::id3_tags_changed);
 
-	ShortcutHandler* sch = ShortcutHandler::getInstance();
+	ShortcutHandler* sch = ShortcutHandler::instance();
 
 	Shortcut sc1 = sch->add(Shortcut(this, "play_pause", Lang::get(Lang::PlayPause), "Space"));
 	Shortcut sc2 = sch->add(Shortcut(this, "stop", Lang::get(Lang::Stop), "Ctrl + Space"));

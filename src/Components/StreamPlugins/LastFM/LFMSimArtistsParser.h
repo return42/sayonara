@@ -21,29 +21,28 @@
 #ifndef LFMSIMARTISTSPARSER_H
 #define LFMSIMARTISTSPARSER_H
 
-#include "ArtistMatch.h"
+#include "Helper/Pimpl.h"
 
-#include <QFile>
-#include <QMap>
+class QString;
+class QByteArray;
 
-class LFMSimArtistsParser
+namespace LastFM
 {
-private:
-	ArtistMatch				_artist_match;
-	QString					_artist_name;
+    class ArtistMatch;
+    class SimArtistsParser
+    {
+        PIMPL(SimArtistsParser)
 
-	QByteArray              _data;
+    private:
+        void parse_document();
 
+    public:
+        SimArtistsParser(const QString& artist_name, const QByteArray& arr);
+        SimArtistsParser(const QString& artist_name, const QString& filename);
+        ~SimArtistsParser();
 
-private:
-	void parse_document();
-
-public:
-
-	LFMSimArtistsParser(const QString& artist_name, const QByteArray& arr);
-	LFMSimArtistsParser(const QString& artist_name, const QString& filename);
-
-	ArtistMatch get_artist_match() const;
-};
+        LastFM::ArtistMatch artist_match() const;
+    };
+}
 
 #endif // LFMSIMARTISTSPARSER_H

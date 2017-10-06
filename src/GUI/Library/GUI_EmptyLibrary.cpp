@@ -65,7 +65,7 @@ void GUI_EmptyLibrary::set_lib_path_clicked()
 		return;
 	}
 
-	LibraryManager* lib_manager = LibraryManager::getInstance();
+	LibraryManager* lib_manager = LibraryManager::instance();
 	QString name = LibraryManager::request_library_name(dir);
 
 	int8_t id = lib_manager->add_library(name, dir);
@@ -73,5 +73,5 @@ void GUI_EmptyLibrary::set_lib_path_clicked()
 
 	library->reload_library(false, Library::ReloadQuality::Accurate);
 
-	//LibraryPluginHandler::getInstance()->set_current_index(0);
+	//LibraryPluginHandler::instance()->set_current_index(0);
 }

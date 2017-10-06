@@ -91,7 +91,7 @@ void InstanceThread::parse_memory()
 			}
 		}
 
-		QString new_name =  PlaylistHandler::getInstance()->request_new_playlist_name();
+		QString new_name =  PlaylistHandler::instance()->request_new_playlist_name();
 		emit sig_create_playlist(file_list, new_name, true);
 	}
 

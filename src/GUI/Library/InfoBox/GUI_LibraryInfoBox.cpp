@@ -69,7 +69,7 @@ void GUI_LibraryInfoBox::language_changed()
 	ui->lab_filesize_descr->setText(Lang::get(Lang::Filesize));
 	ui->btn_close->setText(Lang::get(Lang::Close));
 
-    LibraryManager* manager = LibraryManager::getInstance();
+    LibraryManager* manager = LibraryManager::instance();
     LibraryInfo info = manager->library_info(_library_id);
 
     ui->lab_name->setText(Lang::get(Lang::Library) + ": " + info.name());
@@ -79,7 +79,7 @@ void GUI_LibraryInfoBox::language_changed()
 
 void GUI_LibraryInfoBox::skin_changed()
 {
-    LibraryManager* manager = LibraryManager::getInstance();
+    LibraryManager* manager = LibraryManager::instance();
     LibraryInfo info = manager->library_info(_library_id);
     bool dark = (_settings->get(Set::Player_Style) == 1);
 
@@ -96,7 +96,7 @@ void GUI_LibraryInfoBox::showEvent(QShowEvent *e)
 
 void GUI_LibraryInfoBox::refresh()
 {
-	DatabaseConnector* db = DatabaseConnector::getInstance();
+	DatabaseConnector* db = DatabaseConnector::instance();
 	LibraryDatabase* lib_db = db->library_db(_library_id, 0);
 
 	MetaDataList v_md;

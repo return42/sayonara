@@ -148,7 +148,7 @@ void SomaFM::Library::soma_station_playlists_fetched(bool success)
 
 	m->station_map[m->requested_station] = station;
 
-	PlaylistHandler* plh = PlaylistHandler::getInstance();
+	PlaylistHandler* plh = PlaylistHandler::instance();
 	plh->create_playlist(v_md,
 						 station.name(),
 						 true,
@@ -201,7 +201,7 @@ void SomaFM::Library::soma_playlist_content_fetched(bool success)
 
 	m->station_map[m->requested_station] = station;
 
-	PlaylistHandler* plh = PlaylistHandler::getInstance();
+	PlaylistHandler* plh = PlaylistHandler::instance();
 	plh->create_playlist(v_md,
 						 station.name(),
 						 true,

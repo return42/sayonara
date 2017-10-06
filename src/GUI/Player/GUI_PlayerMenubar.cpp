@@ -61,7 +61,7 @@ void GUI_Player::open_files_clicked()
 		return;
 	}
 
-	PlaylistHandler* plh = PlaylistHandler::getInstance();
+	PlaylistHandler* plh = PlaylistHandler::instance();
 	plh->create_playlist(list);
 }
 
@@ -76,7 +76,7 @@ void GUI_Player::open_dir_clicked()
 		return;
 	}
 
-	PlaylistHandler* plh = PlaylistHandler::getInstance();
+	PlaylistHandler* plh = PlaylistHandler::instance();
 	plh->create_playlist(dir);
 }
 

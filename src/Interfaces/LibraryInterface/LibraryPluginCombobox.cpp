@@ -14,7 +14,7 @@ struct LibraryPluginCombobox::Private
 
 	Private()
 	{
-		lph = LibraryPluginHandler::getInstance();
+		lph = LibraryPluginHandler::instance();
 	}
 };
 
@@ -69,7 +69,7 @@ void LibraryPluginCombobox::action_triggered(bool b)
 	QAction* action = static_cast<QAction*>(sender());
 	QString name = action->data().toString();
 
-	LibraryPluginHandler::getInstance()->set_current_library(name);
+	LibraryPluginHandler::instance()->set_current_library(name);
 	for(QAction* library_action : m->actions)
 	{
 		if(library_action == action){

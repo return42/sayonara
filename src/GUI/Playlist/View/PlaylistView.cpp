@@ -125,7 +125,7 @@ void PlaylistView::init_rc_menu()
     connect(m->rc_menu, &LibraryContextMenu::sig_rating_changed, this, &PlaylistView::rating_changed);
 
     connect(m->bookmarks_menu, &BookmarksMenu::sig_bookmark_pressed, this, [](uint32_t time){
-        PlayManager::getInstance()->seek_abs_ms(time * 1000);
+        PlayManager::instance()->seek_abs_ms(time * 1000);
     });
 }
 
@@ -252,7 +252,7 @@ void PlaylistView::handle_drop(QDropEvent* event)
     MetaDataList v_md = GUI::MimeData::get_metadata(mimedata);
     if(!v_md.isEmpty())
     {
-        PlaylistHandler* plh = PlaylistHandler::getInstance();
+        PlaylistHandler* plh = PlaylistHandler::instance();
         plh->insert_tracks(v_md, row+1, plh->get_current_idx());
     }
 
@@ -283,7 +283,7 @@ void PlaylistView::async_drop_finished(bool success)
     this->setEnabled(true);
     m->progress->hide();
 
-    PlaylistHandler* plh = PlaylistHandler::getInstance();
+    PlaylistHandler* plh = PlaylistHandler::instance();
     StreamParser* stream_parser = dynamic_cast<StreamParser*>(sender());
 
     if(success){

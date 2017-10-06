@@ -87,7 +87,7 @@ bool CoverFetchThread::start()
 		return false;
 	}
 
-	CoverFetchManager* cfm = CoverFetchManager::getInstance();
+	CoverFetchManager* cfm = CoverFetchManager::instance();
 	m->acf = cfm->get_active_coverfetcher(m->url);
 
 	if(!m->acf){

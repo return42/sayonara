@@ -61,7 +61,7 @@ AlbumInfo::AlbumInfo(const MetaDataList& v_md) :
 
 		int album_id = _album_ids.first();
 
-		DatabaseConnector* db = DatabaseConnector::getInstance();
+		DatabaseConnector* db = DatabaseConnector::instance();
 		LibraryDatabase* lib_db = db->library_db(-1, _db_id);
 		success = lib_db->getAlbumByID(album_id, album);
 
@@ -103,14 +103,13 @@ void AlbumInfo::set_cover_location()
 {
 	if(_album_ids.size() == 1) {
 
-		DatabaseConnector* db = DatabaseConnector::getInstance();
+		DatabaseConnector* db = DatabaseConnector::instance();
 		LibraryDatabase* lib_db = db->library_db(-1, _db_id);
 
 		Album album;
 		album.id = _album_ids.first();
 		album.set_name(_albums.first());
 		album.set_artists(_artists.toList());
-		album.set_album_artists(_album_artists.toList());
 		album.set_db_id(lib_db->db_id());
 
 		_cover_location = CoverLocation::get_cover_location(album);

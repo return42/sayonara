@@ -97,7 +97,7 @@ bool M3UParser::parse_first_line(const QString& line, MetaData& md)
 void M3UParser::parse_local_file(const QString& line, MetaData& md)
 {
 	MetaData md_db;
-	DatabaseConnector* db = DatabaseConnector::getInstance();
+	DatabaseConnector* db = DatabaseConnector::instance();
 	LibraryDatabase* lib_db = db->library_db(-1, 0);
 
 	QString abs_filename = get_absolute_filename(line);

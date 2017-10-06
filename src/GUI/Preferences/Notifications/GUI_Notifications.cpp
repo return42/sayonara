@@ -87,7 +87,7 @@ void GUI_Notifications::init_ui()
 {
 	setup_parent(this, &ui);
 
-	_notification_handler = NotificationHandler::getInstance();
+	_notification_handler = NotificationHandler::instance();
 
 	revert();
 

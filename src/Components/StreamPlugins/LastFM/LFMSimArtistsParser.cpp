@@ -19,47 +19,70 @@
  */
 
 #include "LFMSimArtistsParser.h"
+#include "ArtistMatch.h"
 #include "Helper/Logger/Logger.h"
+
+#include <QFile>
+#include <QMap>
+#include <QString>
 
 #include <QDomDocument>
 #include <QDomNode>
 #include <QDomElement>
 
-LFMSimArtistsParser::LFMSimArtistsParser(const QString& artist_name, const QByteArray &arr){
-	_artist_name = artist_name;
+using namespace LastFM;
 
-	_data = arr;
+struct SimArtistsParser::Private
+{
+    ArtistMatch artist_match;
+    QString     artist_name;
+    QByteArray  data;
+
+    Private(const QString& artist_name, const QByteArray& data) :
+        artist_name(artist_name),
+        data(data)
+    {}
+};
+
+
+SimArtistsParser::SimArtistsParser(const QString& artist_name, const QByteArray& data)
+{
+    m = Pimpl::make<Private>(artist_name, data);
 
 	parse_document();
 }
 
-LFMSimArtistsParser::LFMSimArtistsParser(const QString& artist_name, const QString& filename)
+SimArtistsParser::SimArtistsParser(const QString& artist_name, const QString& filename)
 {
-	_artist_name = artist_name;
+    QByteArray data;
 
 	QFile f(filename);
 	if(f.open(QFile::ReadOnly)){
-		_data = f.readAll();
+        data = f.readAll();
 		f.close();
 	}
 
-	parse_document();
+    m = Pimpl::make<Private>(artist_name, data);
+
+    parse_document();
 }
 
+SimArtistsParser::~SimArtistsParser() {}
 
-void LFMSimArtistsParser::parse_document()
+void SimArtistsParser::parse_document()
 {
 	bool success;
 	QDomDocument doc("similar_artists");
-	success = doc.setContent(_data);
+    success = doc.setContent(m->data);
 
-	if(!success){
-		_artist_match = ArtistMatch("");
+    if(!success)
+    {
+        m->artist_match = ArtistMatch();
 		sp_log(Log::Warning) << "Cannot parse similar artists document";
 		return;
 	}
 
-	_artist_match = ArtistMatch(_artist_name);
+    m->artist_match = ArtistMatch(m->artist_name);
 
 	QDomElement docElement = doc.documentElement();
 	QDomNode similar_artists = docElement.firstChild();			// similarartists
@@ -72,7 +95,8 @@ void LFMSimArtistsParser::parse_document()
 	double match = -1.0;
 
 	QDomNodeList child_nodes = similar_artists.childNodes();
-	for(int idx_artist=0; idx_artist < child_nodes.size(); idx_artist++) {
+    for(int idx_artist=0; idx_artist < child_nodes.size(); idx_artist++)
+    {
 		QDomNode artist = child_nodes.item(idx_artist);
 		QString node_name = artist.nodeName();
 
@@ -85,34 +109,37 @@ void LFMSimArtistsParser::parse_document()
 		}
 
 		QDomNodeList artist_child_nodes = artist.childNodes();
-		for(int idx_content = 0; idx_content <artist_child_nodes.size(); idx_content++) {
+        for(int idx_content = 0; idx_content <artist_child_nodes.size(); idx_content++)
+        {
 			QDomNode content = artist_child_nodes.item(idx_content);
 			QString node_name = content.nodeName().toLower();
+            QDomElement e = content.toElement();
 
-			if(node_name.compare("name") == 0) {
-				QDomElement e = content.toElement();
+            if(node_name.compare("name") == 0)
+            {
 				if(!e.isNull()) {
 					artist_name = e.text();
 				}
 			}
 
-			else if(node_name.compare("match") == 0) {
-				QDomElement e = content.toElement();
+            else if(node_name.compare("match") == 0)
+            {
 				if(!e.isNull()) {
 					match = e.text().toDouble();
 				}
 			}
 
-			else if(node_name.compare("mbid") == 0){
-				QDomElement e = content.toElement();
+            else if(node_name.compare("mbid") == 0)
+            {
 				if(!e.isNull()) {
 					mbid = e.text();
 				}
 			}
 
-			if(!artist_name.isEmpty() && match > 0 && !mbid.isEmpty()) {
+            if(!artist_name.isEmpty() && match > 0 && !mbid.isEmpty())
+            {
 				ArtistMatch::ArtistDesc artist_desc(artist_name, mbid);
-				_artist_match.add(artist_desc, match);
+                m->artist_match.add(artist_desc, match);
 				artist_name = "";
 				match = -1.0;
 				mbid = "";
@@ -123,7 +150,7 @@ void LFMSimArtistsParser::parse_document()
 }
 
 
-ArtistMatch LFMSimArtistsParser::get_artist_match() const
+LastFM::ArtistMatch SimArtistsParser::artist_match() const
 {
-	return _artist_match;
+    return m->artist_match;
 }

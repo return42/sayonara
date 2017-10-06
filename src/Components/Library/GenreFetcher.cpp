@@ -45,7 +45,7 @@ struct GenreFetcher::Private
 
 		int8_t library_id = local_library->library_id();
 
-		DatabaseConnector* db = DatabaseConnector::getInstance();
+		DatabaseConnector* db = DatabaseConnector::instance();
 		LibraryDatabase* lib_db = db->library_db(library_id, 0);
 		return lib_db;
 	}
@@ -57,7 +57,7 @@ GenreFetcher::GenreFetcher(QObject* parent) :
 	m = Pimpl::make<Private>();
 	m->tag_edit = new TagEdit(this);
 
-	MetaDataChangeNotifier* mcn = MetaDataChangeNotifier::getInstance();
+	MetaDataChangeNotifier* mcn = MetaDataChangeNotifier::instance();
 
 	connect(mcn, &MetaDataChangeNotifier::sig_metadata_changed, this, &GenreFetcher::metadata_changed);
 	connect(mcn, &MetaDataChangeNotifier::sig_metadata_deleted, this, &GenreFetcher::metadata_deleted);

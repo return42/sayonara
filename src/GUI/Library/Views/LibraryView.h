@@ -87,6 +87,9 @@ public:
 	void set_metadata_interpretation(MD::Interpretation type);
 	void set_selection_type(SayonaraSelectionView::SelectionType type) override;
 
+    void show_clear_button(bool visible);
+    void use_clear_button(bool yesno);
+
 
 protected:
 	// Events implemented in LibraryViewEvents.cpp
@@ -99,6 +102,7 @@ protected:
 	virtual void dragMoveEvent(QDragMoveEvent *event) override;
 	virtual void dropEvent(QDropEvent* event) override;
 	virtual void changeEvent(QEvent* event) override;
+    virtual void resizeEvent(QResizeEvent *event) override;
 
 	virtual void selectionChanged (const QItemSelection& selected, const QItemSelection& deselected ) override;
 	virtual void rc_menu_init();

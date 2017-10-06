@@ -49,7 +49,7 @@ struct LocalLibrary::Private
     int8_t				lib_id;
 
 	Private(const QString& library_name, const QString& library_path, int8_t lib_id) :
-		db(DatabaseConnector::getInstance()),
+		db(DatabaseConnector::instance()),
 		lib_db(db->library_db(lib_id, 0)),
 		library_path(library_path),
         library_name(library_name),
@@ -60,13 +60,13 @@ struct LocalLibrary::Private
 LocalLibrary::LocalLibrary(int8_t lib_id, const QString& library_name, const QString& library_path, QObject *parent) :
 	AbstractLibrary(parent)
 {
-	DatabaseConnector::getInstance()->register_library_db<LocalLibraryDatabase>(lib_id);
+	DatabaseConnector::instance()->register_library_db<LocalLibraryDatabase>(lib_id);
 
 	m = Pimpl::make<Private>(library_name, library_path, lib_id);
 
 	apply_db_fixes();
 
-    PlaylistHandler* plh = PlaylistHandler::getInstance();
+    PlaylistHandler* plh = PlaylistHandler::instance();
     connect(plh, &PlaylistHandler::sig_track_deletion_requested, this, &LocalLibrary::delete_tracks);
 
 	Set::listen(Set::Lib_SearchMode, this, &LocalLibrary::_sl_search_mode_changed, false);
@@ -273,7 +273,7 @@ void LocalLibrary::init_reload_thread()
 		return;
 	}
 
-	m->reload_thread = ReloadThread::getInstance();
+	m->reload_thread = ReloadThread::instance();
 
 	connect(m->reload_thread, &ReloadThread::sig_reloading_library,
 			this, &LocalLibrary::sig_reloading_library);
@@ -417,7 +417,7 @@ void LocalLibrary::set_library_path(const QString& library_path)
 		return;
 	}
 
-	LibraryManager* library_manager = LibraryManager::getInstance();
+	LibraryManager* library_manager = LibraryManager::instance();
 	library_manager->change_library_path(this->library_id(), library_path);
 
 	m->library_path = library_path;
@@ -431,7 +431,7 @@ void LocalLibrary::set_library_name(const QString& library_name)
 		return;
 	}
 
-	LibraryManager* library_manager = LibraryManager::getInstance();
+	LibraryManager* library_manager = LibraryManager::instance();
 	library_manager->rename_library(this->library_id(), library_name);
 
 	m->library_name = library_name;

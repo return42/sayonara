@@ -108,7 +108,7 @@ Artist& Artist::operator =(Artist&& other)
 
 Artist::~Artist() {}
 
-QString Artist::name() const
+const QString& Artist::name() const
 {
 	return artist_pool()[m->artist_idx];
 }

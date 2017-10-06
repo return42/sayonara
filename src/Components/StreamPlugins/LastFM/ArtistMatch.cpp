@@ -19,53 +19,94 @@
  */
 
 #include "ArtistMatch.h"
+
 #include <QStringList>
 
 #include <algorithm>
 
-ArtistMatch::ArtistMatch() {}
+using namespace LastFM;
+
+struct ArtistMatch::Private
+{
+    QMap<ArtistDesc, double> very_good;
+    QMap<ArtistDesc, double> well;
+    QMap<ArtistDesc, double> poor;
+
+    QString artist;
+
+    Private() {}
+
+    Private(const QString& artist_name) :
+        artist(artist_name)
+    {}
+
+    Private(const Private& other) :
+        CASSIGN(very_good),
+        CASSIGN(well),
+        CASSIGN(poor),
+        CASSIGN(artist)
+    {}
+
+    Private& operator=(const Private& other)
+    {
+        ASSIGN(very_good);
+        ASSIGN(well);
+        ASSIGN(poor);
+        ASSIGN(artist);
+
+        return *this;
+    }
+};
+
+ArtistMatch::ArtistMatch()
+{
+    m = Pimpl::make<Private>();
+}
 
 ArtistMatch::ArtistMatch(const QString& artist_name)
 {
-	_artist = artist_name;
+    m = Pimpl::make<Private>(artist_name);
 }
 
 
 ArtistMatch::ArtistMatch(const ArtistMatch& other)
 {
-	_artist = other._artist;
-	_very_good = other._very_good;
-	_well = other._well;
-	_poor = other._poor;
+    m = Pimpl::make<Private>(*(other.m));
 }
 
 ArtistMatch::~ArtistMatch() {}
 
 bool ArtistMatch::is_valid() const
 {
-	return  (
-				_very_good.size() > 0 ||
-				_well.size() > 0  ||
-				_poor.size() > 0
-				);
+    return ( m->very_good.size() > 0 ||
+             m->well.size() > 0  ||
+             m->poor.size() > 0 );
 }
 
-bool ArtistMatch::operator ==(const ArtistMatch& am) const
+bool ArtistMatch::operator ==(const ArtistMatch& other) const
 {
-	return (_artist == am._artist);
+    return (m->artist == other.m->artist);
 }
 
-void ArtistMatch::add(const ArtistDesc& artist, double match){
+ArtistMatch &ArtistMatch::operator =(const ArtistMatch &other)
+{
+    *m = *(other.m);
+
+    return *this;
+}
+
+void ArtistMatch::add(const ArtistDesc& artist, double match)
+{
 	if(match > 0.15) {
-		_very_good[artist] = match;
+        m->very_good[artist] = match;
 	}
 
 	else if(match > 0.05) {
-		_well[artist] = match;
+        m->well[artist] = match;
 	}
 
 	else {
-		_poor[artist] = match;
+        m->poor[artist] = match;
 	}
 }
 
@@ -73,35 +114,35 @@ QMap<ArtistMatch::ArtistDesc, double> ArtistMatch::get(Quality q) const
 {
 	switch(q) {
 		case Quality::Poor:
-			return _poor;
+            return m->poor;
 		case Quality::Well:
-			return _well;
+            return m->well;
 		case Quality::Very_Good:
-			return _very_good;
+            return m->very_good;
 	}
 
-	return _very_good;
+    return m->very_good;
 }
 
 QString ArtistMatch::get_artist_name() const
 {
-	return _artist;
+    return m->artist;
 }
 
 QString ArtistMatch::to_string() const
 {
 	QStringList lst;
 
-	for(const ArtistMatch::ArtistDesc& key : _very_good.keys()){
-		lst << QString::number(_very_good[key]).left(5) + "\t" + key.to_string();
+    for(const ArtistMatch::ArtistDesc& key : m->very_good.keys()){
+        lst << QString::number(m->very_good[key]).left(5) + "\t" + key.to_string();
 	}
 
-	for(const ArtistMatch::ArtistDesc& key : _well.keys()){
-		lst << QString::number(_well[key]).left(5) + "\t" + key.to_string();
+    for(const ArtistMatch::ArtistDesc& key : m->well.keys()){
+        lst << QString::number(m->well[key]).left(5) + "\t" + key.to_string();
 	}
 
-	for(const ArtistMatch::ArtistDesc& key : _poor.keys()){
-		lst << QString::number(_poor[key]).left(5) + "\t" + key.to_string();
+    for(const ArtistMatch::ArtistDesc& key : m->poor.keys()){
+        lst << QString::number(m->poor[key]).left(5) + "\t" + key.to_string();
 	}
 
 	std::sort(lst.begin(), lst.end());

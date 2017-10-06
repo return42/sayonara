@@ -24,15 +24,13 @@
 
 struct Settings::Private
 {
-	QString			db_file;
 	QString			version;
 	AbstrSetting*	settings[SK::Num_Setting_Keys + 1];
 
 	Private()
 	{
-		db_file = "player.db";
-		memset(settings, 0, SK::Num_Setting_Keys + 1);
-	}
+        std::fill(settings + 0, settings + SK::Num_Setting_Keys, nullptr);
+    }
 };
 
 Settings::Settings()

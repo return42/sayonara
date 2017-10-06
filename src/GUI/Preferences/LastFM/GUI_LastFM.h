@@ -33,7 +33,11 @@
 
 namespace Ui { class GUI_LastFM; }
 
-class LastFM;
+namespace LastFM
+{
+    class Base;
+}
+
 class GUI_LastFM :
 		public PreferenceWidgetInterface
 {
@@ -54,7 +58,7 @@ protected:
 
 private:
 	Ui::GUI_LastFM*		ui=nullptr;
-	LastFM*				_lfm=nullptr;
+    LastFM::Base*       _lfm=nullptr;
 
 private slots:
 	void btn_login_clicked();

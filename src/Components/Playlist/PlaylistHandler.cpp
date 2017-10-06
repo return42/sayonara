@@ -54,8 +54,8 @@ struct PlaylistHandler::Private
 	int						playlist_idx_before_stop;
 
 	Private() :
-		db(DatabaseConnector::getInstance()),
-		play_manager(PlayManager::getInstance()),
+		db(DatabaseConnector::instance()),
+		play_manager(PlayManager::instance()),
 		active_playlist_idx(-1),
 		current_playlist_idx(-1),
 		playlist_idx_before_stop(-1)
@@ -608,7 +608,7 @@ void PlaylistHandler::reset_playlist(int pl_idx)
 		return;
 	}
 
-	PlaylistDBWrapper* db_connector = PlaylistDBWrapper::getInstance();
+	PlaylistDBWrapper* db_connector = PlaylistDBWrapper::instance();
     int id = m->playlists[pl_idx]->get_id();
 
 	CustomPlaylist cpl = db_connector->get_playlist_by_id(id);

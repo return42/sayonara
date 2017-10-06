@@ -47,8 +47,8 @@ private slots:
 
 public:
 	void add_icon_names(const QStringList& icon_names);
-	QIcon get_icon(const QString& name, const QString& dark_name);
-	QIcon get_icon(const QStringList& names, const QString& dark_name);
+    QIcon icon(const QString& name, const QString& dark_name);
+    QIcon icon(const QStringList& names, const QString& dark_name);
 	bool has_std_icon(const QString& name) const;
 };
 

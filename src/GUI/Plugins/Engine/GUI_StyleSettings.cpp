@@ -31,7 +31,7 @@ GUI_StyleSettings::GUI_StyleSettings(QWidget *parent) :
 {
 	setupUi(this);
 
-    _db = DatabaseConnector::getInstance();
+    _db = DatabaseConnector::instance();
 
 	connect_combo_idx_changed();
 

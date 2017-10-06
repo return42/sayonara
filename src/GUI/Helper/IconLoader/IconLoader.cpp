@@ -40,7 +40,7 @@ struct IconLoader::Private
 
 	Private()
 	{
-		settings = Settings::getInstance();
+		settings = Settings::instance();
 		theme_paths = QIcon::themeSearchPaths();
 
 		init_theme();
@@ -168,7 +168,7 @@ void IconLoader::add_icon_names(const QStringList& icon_names)
 	}
 }
 
-QIcon IconLoader::get_icon(const QString& name, const QString& dark_name)
+QIcon IconLoader::icon(const QString& name, const QString& dark_name)
 {
 	bool dark = (m->settings->get(Set::Player_Style) == 1);
 
@@ -198,7 +198,7 @@ QIcon IconLoader::get_icon(const QString& name, const QString& dark_name)
 	return GUI::get_icon(dark_name);
 }
 
-QIcon IconLoader::get_icon(const QStringList& names, const QString& dark_name)
+QIcon IconLoader::icon(const QStringList& names, const QString& dark_name)
 {
 	bool dark = (m->settings->get(Set::Player_Style) == 1);
 

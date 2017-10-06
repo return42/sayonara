@@ -57,7 +57,7 @@ struct SC::Library::Private
 
 	Private()
 	{
-		scd = SC::Database::getInstance();
+		scd = SC::Database::instance();
 	}
 
 	void clear_cache()

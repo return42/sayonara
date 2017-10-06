@@ -52,8 +52,8 @@ Bookmarks::Bookmarks(QObject *parent) :
 {
 	m = Pimpl::make<Bookmarks::Private>();
 
-	m->play_manager = PlayManager::getInstance();
-	m->db = DatabaseConnector::getInstance();
+	m->play_manager = PlayManager::instance();
+	m->db = DatabaseConnector::instance();
     m->md = m->play_manager->current_track();
 
 	init_members();

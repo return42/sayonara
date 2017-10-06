@@ -303,7 +303,7 @@ void PlayManager::change_track(const MetaData& md, int track_idx)
 	// show notification
 	if(_settings->get(Set::Notification_Show)) {
         if(m->track_idx > -1 && !m->md.filepath().isEmpty()) {
-            NotificationHandler::getInstance()->notify(m->md);
+            NotificationHandler::instance()->notify(m->md);
 		}
 	}
 }
@@ -373,7 +373,7 @@ void PlayManager::change_metadata(const MetaData& md)
 	if(!has_data)
 	{
 		if(_settings->get(Set::Notification_Show)) {
-            NotificationHandler::getInstance()->notify(m->md);
+            NotificationHandler::instance()->notify(m->md);
 		}
 
         if( m->ring_buffer.count() > 0 )

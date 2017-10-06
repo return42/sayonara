@@ -254,7 +254,7 @@ void GUI_Playlist::check_tab_icon()
 		return;
 	}
 
-    PlayState state = PlayManager::getInstance()->playstate();
+    PlayState state = PlayManager::instance()->playstate();
 	if(state == PlayState::Stopped){
 		return;
 	}
@@ -263,8 +263,8 @@ void GUI_Playlist::check_tab_icon()
 		return;
 	}
 
-	IconLoader* icon_loader = IconLoader::getInstance();
-	QIcon icon = icon_loader->get_icon("media-playback-start", "play_bordered");
+	IconLoader* icon_loader = IconLoader::instance();
+	QIcon icon = icon_loader->icon("media-playback-start", "play_bordered");
 
 	ui->tw_playlists->tabBar()->setTabIcon(active_idx, icon);
 }

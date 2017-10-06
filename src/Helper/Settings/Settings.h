@@ -67,11 +67,11 @@ public:
 	{
 		Setting<T>* s = (Setting<T>*) setting(S);
 
-        if( s->set_value(val))
+        if( s->assign_value(val))
         {
             using KeyClass=decltype(key);
 
-            SettingNotifier< KeyClass >* sn = SettingNotifier< KeyClass >::getInstance();
+            SettingNotifier< KeyClass >* sn = SettingNotifier< KeyClass >::instance();
             sn->val_changed();
 		}
 	}
@@ -82,7 +82,7 @@ public:
 	{
         using KeyClass=decltype(key);
 
-        SettingNotifier< KeyClass >* sn = SettingNotifier< KeyClass >::getInstance();
+        SettingNotifier< KeyClass >* sn = SettingNotifier< KeyClass >::instance();
         sn->val_changed();
 	}
 };

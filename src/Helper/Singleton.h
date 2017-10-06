@@ -28,7 +28,7 @@
 				class_name( const class_name&& other ) = delete; \
 				class_name& operator=(const class_name&& other) = delete; \
 				public: \
-				static class_name *getInstance() \
+				static class_name *instance() \
 				{ static class_name instance; return &instance; } \
 				virtual ~class_name ();
 

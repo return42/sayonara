@@ -89,6 +89,7 @@ namespace SK {
 	Lib_GenreTree,
 	Lib_LastIndex,
 	Lib_AllLibraries,
+	Lib_UseViewClearButton,
 
 	Player_Version,
 	Player_Language,
@@ -249,8 +250,9 @@ namespace Set
     INST(bool,				Lib_ShowAlbumCovers);			/* Show album cover view */
     INST(int,				Lib_CoverZoom);				/* Zoom of album cover view */
     INST(bool,				Lib_GenreTree);				/* Show tree view of genres */
-    INST(QList<LibraryInfo>,		Lib_AllLibraries);
-    INST(int,				Lib_LastIndex);
+	INST(QList<LibraryInfo>,Lib_AllLibraries);
+	INST(int,				Lib_LastIndex);				/* Last selected library */
+	INST(bool,				Lib_UseViewClearButton);	/* Show clear button in single view */
 
 
     INST(QString,			Player_Version);			/* Version string of player */

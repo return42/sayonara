@@ -50,7 +50,7 @@ public:
 
 	~Artist();
 
-	QString name() const;
+    const QString& name() const;
 	void set_name(const QString& name);
 
 	static bool fromVariant(const QVariant& v, Artist& a);

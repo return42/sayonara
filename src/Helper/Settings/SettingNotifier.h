@@ -46,7 +46,7 @@ private:
 public:
 	~SettingNotifier() {}
 
-	static SettingNotifier<KeyClass>* getInstance()
+	static SettingNotifier<KeyClass>* instance()
 	{
 		static SettingNotifier<KeyClass> inst;
 		return &inst;
@@ -54,7 +54,7 @@ public:
 
 	static void reg(std::function<void ()> fn)
 	{
-		getInstance()->add_listener(fn);
+		instance()->add_listener(fn);
 	}
 
 	void val_changed()
@@ -77,6 +77,18 @@ namespace Set
 
 		if(run){
 			callable();
+		}
+	}
+
+	template<typename KeyClassInstance>
+	void listen(const KeyClassInstance& key, std::function<void ()> fn, bool run=true)
+	{
+		using KeyClass=decltype(key);
+		//auto callable = std::bind(l, t);
+		SettingNotifier<KeyClass>::reg( fn );
+
+		if(run){
+			fn();
 		}
 	}
 }

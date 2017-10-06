@@ -26,7 +26,6 @@
 
 struct Album::Private
 {
-	std::list<HashValue> album_artist_idxs;
 	std::list<HashValue> artist_idxs;
 	HashValue album_idx;
 
@@ -34,20 +33,17 @@ struct Album::Private
 	~Private() {}
 
 	Private(const Private& other) :
-		CASSIGN(album_artist_idxs),
 		CASSIGN(artist_idxs),
 		CASSIGN(album_idx)
 	{}
 
 	Private(Private&& other) :
-		CMOVE(album_artist_idxs),
 		CMOVE(artist_idxs),
 		CMOVE(album_idx)
 	{}
 
 	Private& operator=(const Private& other)
 	{
-		ASSIGN(album_artist_idxs);
 		ASSIGN(artist_idxs);
 		ASSIGN(album_idx);
 
@@ -56,7 +52,6 @@ struct Album::Private
 
 	Private& operator=(Private&& other)
 	{
-		MOVE(album_artist_idxs);
 		MOVE(artist_idxs);
 		MOVE(album_idx);
 
@@ -88,7 +83,7 @@ Album::Album(const Album& other) :
 	CASSIGN(rating),
 	CASSIGN(is_sampler)
 {
-	m = Pimpl::make<Private>();
+    m = Pimpl::make<Private>(*(other.m));
 }
 
 Album::Album(Album&& other) :
@@ -145,7 +140,7 @@ Album& Album::operator=(Album&& other)
 Album::~Album() {}
 
 
-QString Album::name() const
+const QString& Album::name() const
 {
 	return album_pool()[m->album_idx];
 }
@@ -191,40 +186,6 @@ void Album::set_artists(const QStringList& artists)
 	}
 }
 
-bool Album::has_album_artists() const
-{
-	return (m->album_artist_idxs.size() > 0);
-}
-
-QStringList Album::album_artists() const
-{
-	QStringList lst;
-
-	for(const HashValue& v : m->album_artist_idxs)
-	{
-		lst << artist_pool()[v];
-	}
-
-	return lst;
-}
-
-void Album::set_album_artists(const QStringList& artists)
-{
-	m->artist_idxs.clear();
-
-	for(const QString& artist : artists)
-	{
-		HashValue hashed = qHash(artist);
-
-		if(!artist_pool().contains(hashed))
-		{
-			artist_pool()[hashed] = artist;
-		}
-
-		m->album_artist_idxs.push_back(hashed);
-	}
-}
-
 
 QVariant Album::toVariant(const Album& album)
 {
@@ -237,7 +198,16 @@ QVariant Album::toVariant(const Album& album)
 bool Album::fromVariant(const QVariant& v, Album& album) {
 	if( !v.canConvert<Album>() ) return false;
 	album =	v.value<Album>();
-	return true;
+    return true;
+}
+
+QString Album::to_string() const
+{
+    QString str("Album: ");
+    str += name() + " by " + artists().join(",");
+    str += QString::number(num_songs) + " Songs, " + QString::number(length_sec) + "sec";
+
+    return str;
 }
 
 

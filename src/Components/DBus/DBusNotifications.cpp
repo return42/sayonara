@@ -46,7 +46,7 @@ DBusNotifications::DBusNotifications(QObject* parent) :
 		sp_log(Log::Info) << "DBus: org.freedesktop.Notifications registered";
 	}
 
-	NotificationHandler::getInstance()->register_notificator(this);
+	NotificationHandler::instance()->register_notificator(this);
 }
 
 

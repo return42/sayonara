@@ -65,6 +65,7 @@ void GUI_LibraryPreferences::init_ui()
 
 	ui->lv_libs->setModel(m->model);
 	ui->lv_libs->setItemDelegate(new StyledItemDelegate(ui->lv_libs));
+    ui->tab_widget->setCurrentIndex(0);
 
 	QItemSelectionModel* sel_model = ui->lv_libs->selectionModel();
 	connect(sel_model, &QItemSelectionModel::currentChanged, this, [=](const QModelIndex& current, const QModelIndex& previous){
@@ -109,6 +110,7 @@ void GUI_LibraryPreferences::commit()
 	_settings->set(Set::Lib_DD_DoNothing, ui->rb_dd_do_nothing->isChecked());
 	_settings->set(Set::Lib_DD_PlayIfStoppedAndEmpty, ui->rb_dd_start_if_stopped_and_empty->isChecked());
 	_settings->set(Set::Lib_SearchMode, mask);
+    _settings->set(Set::Lib_UseViewClearButton, ui->cb_show_clear_buttons->isChecked());
 
 	m->model->commit();
 }
@@ -126,6 +128,7 @@ void GUI_LibraryPreferences::revert()
 	ui->rb_dc_play_immediately->setChecked(_settings->get(Set::Lib_DC_PlayImmediately));
 	ui->rb_dd_do_nothing->setChecked(_settings->get(Set::Lib_DD_DoNothing));
 	ui->rb_dd_start_if_stopped_and_empty->setChecked(_settings->get(Set::Lib_DD_PlayIfStoppedAndEmpty));
+    ui->cb_show_clear_buttons->setChecked(_settings->get(Set::Lib_UseViewClearButton));
 
 	m->model->reset();
 }

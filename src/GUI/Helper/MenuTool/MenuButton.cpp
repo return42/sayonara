@@ -82,7 +82,7 @@ void MenuButton::enterEvent(QEvent* e)
 	}
 
 	else{
-		icon = IconLoader::getInstance()->get_icon("system-run", "tool");
+        icon = IconLoader::instance()->icon("system-run", "tool");
 	}
 
 	if( this->isEnabled() ){
@@ -121,7 +121,7 @@ void MenuButton::set_std_icon()
 	}
 
 	else{
-		icon = IconLoader::getInstance()->get_icon("system-run", "tool");
+        icon = IconLoader::instance()->icon("system-run", "tool");
 	}
 
 

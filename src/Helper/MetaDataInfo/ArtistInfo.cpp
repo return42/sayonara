@@ -52,7 +52,7 @@ ArtistInfo::ArtistInfo(const MetaDataList& v_md) :
 
 		int artist_id = _artist_ids.first();
 
-		DatabaseConnector* db = DatabaseConnector::getInstance();
+		DatabaseConnector* db = DatabaseConnector::instance();
 		LibraryDatabase* lib_db = db->library_db(-1, _db_id);
 
 		success = lib_db->getArtistByID(artist_id, artist);
@@ -94,7 +94,7 @@ void ArtistInfo::set_header()
 
 void ArtistInfo::calc_similar_artists(Artist& artist)
 {
-	SimilarArtists* sa = SimilarArtists::getInstance();
+	SimilarArtists* sa = SimilarArtists::instance();
 	QMap<QString, double> sim_artists = sa->get_similar_artists(artist.name());
 	for(const QString& artist_name : sim_artists.keys())
 	{
@@ -157,7 +157,7 @@ QString ArtistInfo::get_additional_info_as_string() const
 		}
 
 		QString artist_name = _additional_info[sim_artist];
-		DatabaseConnector* db = DatabaseConnector::getInstance();
+		DatabaseConnector* db = DatabaseConnector::instance();
 		LibraryDatabase* lib_db = db->library_db(-1, _db_id);
 
         ArtistID id = lib_db->getArtistID(artist_name);

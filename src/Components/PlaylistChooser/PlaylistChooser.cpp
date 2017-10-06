@@ -37,8 +37,8 @@ struct PlaylistChooser::Private
 
     Private()
     {
-        playlist_handler = PlaylistHandler::getInstance();
-        playlist_db_connector = PlaylistDBWrapper::getInstance();
+        playlist_handler = PlaylistHandler::instance();
+        playlist_db_connector = PlaylistDBWrapper::instance();
     }
 
     CustomPlaylist find_custom_playlist(int id)

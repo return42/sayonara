@@ -78,7 +78,7 @@ void LocalLibraryMenu::init_menu()
 		return;
 	}
 
-	m->icon_loader = IconLoader::getInstance();
+	m->icon_loader = IconLoader::instance();
 
 	m->reload_library_action = new QAction(QIcon(), QString(), this);
 	m->import_file_action = new QAction(QIcon(), QString(), this);
@@ -160,11 +160,11 @@ void LocalLibraryMenu::skin_changed()
 		return;
 	}
 
-	m->reload_library_action->setIcon(m->icon_loader->get_icon("view-refresh", "undo"));
-	m->import_file_action->setIcon(m->icon_loader->get_icon("document-open", "open"));
-	m->import_folder_action->setIcon(m->icon_loader->get_icon("document-open", "open"));
-	m->info_action->setIcon(m->icon_loader->get_icon("dialog-information", "info"));
-	m->edit_action->setIcon(m->icon_loader->get_icon("accessories-text-editor", "edit"));
+	m->reload_library_action->setIcon(m->icon_loader->icon("view-refresh", "undo"));
+	m->import_file_action->setIcon(m->icon_loader->icon("document-open", "open"));
+	m->import_folder_action->setIcon(m->icon_loader->icon("document-open", "open"));
+	m->info_action->setIcon(m->icon_loader->icon("dialog-information", "info"));
+	m->edit_action->setIcon(m->icon_loader->icon("accessories-text-editor", "edit"));
 }
 
 void LocalLibraryMenu::realtime_search_changed()
@@ -218,7 +218,7 @@ void LocalLibraryMenu::show_album_artists_changed()
 	bool show_album_artist = m->show_album_artists_action->isChecked();
 	_settings->set(Set::Lib_ShowAlbumArtists, show_album_artist);
 
-	QList<LibraryDatabase*> dbs = DatabaseConnector::getInstance()->library_dbs();
+	QList<LibraryDatabase*> dbs = DatabaseConnector::instance()->library_dbs();
 	for(LibraryDatabase* lib_db : dbs){
 		if(lib_db->db_id() == 0){
 			if(show_album_artist){

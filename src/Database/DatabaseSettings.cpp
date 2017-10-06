@@ -30,14 +30,25 @@ DatabaseSettings::~DatabaseSettings() {}
 
 bool DatabaseSettings::load_settings()
 {
-	Settings* _settings = Settings::getInstance();
-	AbstrSetting** settings = _settings->get_settings();
+    AbstrSetting** settings = Settings::instance()->get_settings();
 
-	for(int i=0; i<SK::Num_Setting_Keys; i++){
+    for(int i=0; i<SK::Num_Setting_Keys; i++)
+    {
 		AbstrSetting* s = settings[i];
 		if(!s) continue;
 
-		s->load_db(this);
+        QString value;
+        QString db_key = s->db_key();
+
+        bool success = load_setting(db_key, value);
+        if(success) {
+            s->assign_value(value);
+        }
+        else{
+            sp_log(Log::Info, this) << "Setting " << db_key << ": Not found. Use default value...";
+            s->assign_default_value();
+            sp_log(Log::Info, this) << "Load Setting " << db_key << ": " << s->value_to_string();
+        }
 	}
 
 	return true;
@@ -45,18 +56,29 @@ bool DatabaseSettings::load_settings()
 
 bool DatabaseSettings::store_settings()
 {
-	Settings* _settings = Settings::getInstance();
+	Settings* _settings = Settings::instance();
 	AbstrSetting** settings = _settings->get_settings();
 	module_db().transaction();
 
-	for(int i=0; i<SK::Num_Setting_Keys; i++){
+    for(int i=0; i<SK::Num_Setting_Keys; i++)
+    {
 		AbstrSetting* s = settings[i];
-		if(!s) continue;
 
-		s->store_db(this);
+        if(!s) {
+            continue;
+        }
+
+        if(s->is_db_setting())
+        {
+            store_setting(
+                s->db_key(),
+                s->value_to_string()
+            );
+        }
 	}
 
 	module_db().commit();
+
 	return true;
 }
 

@@ -176,7 +176,7 @@ QList<QShortcut*> Shortcut::init_qt_shortcut(QWidget* parent)
 		lst << shortcut;
 	}
 
-	ShortcutHandler::getInstance()->set_shortcut(*this);
+	ShortcutHandler::instance()->set_shortcut(*this);
 
 	return lst;
 }
@@ -196,5 +196,5 @@ void Shortcut::change_shortcut(const QStringList &shortcuts){
 		}
 	}
 
-	ShortcutHandler::getInstance()->set_shortcut(*this);
+	ShortcutHandler::instance()->set_shortcut(*this);
 }

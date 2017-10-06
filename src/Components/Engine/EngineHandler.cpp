@@ -34,7 +34,7 @@ EngineHandler::EngineHandler(QObject* parent) :
 {
 	_cur_engine = nullptr;
 
-	_play_manager = PlayManager::getInstance();
+	_play_manager = PlayManager::instance();
 
 	connect(_play_manager, &PlayManager::sig_playstate_changed,
 			this, &EngineHandler::playstate_changed);

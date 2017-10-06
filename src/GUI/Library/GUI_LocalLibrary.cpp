@@ -67,13 +67,13 @@ struct GUI_LocalLibrary::Private
 
 
 GUI_LocalLibrary::GUI_LocalLibrary(int id, QWidget* parent) :
-	GUI_AbstractLibrary(LibraryManager::getInstance()->library_instance(id), parent)
+	GUI_AbstractLibrary(LibraryManager::instance()->library_instance(id), parent)
 {
 	setup_parent(this, &ui);
 
 	m = Pimpl::make<Private>();
 
-	m->library = LibraryManager::getInstance()->library_instance(id);
+	m->library = LibraryManager::instance()->library_instance(id);
 	m->library_menu = new LocalLibraryMenu(
 						   m->library->library_name(),
 						   m->library->library_path(),
@@ -545,6 +545,7 @@ void GUI_LocalLibrary::lib_albums_ready()
     if(m->acv)
     {
         const AlbumList& albums = m->library->albums();
+
         m->acm->set_data(albums);
         m->acv->refresh();
     }

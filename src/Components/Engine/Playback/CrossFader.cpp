@@ -137,7 +137,7 @@ void CrossFader::init_fader()
 		delete m->fader; m->fader=nullptr;
 	}
 
-	int fading_time = Settings::getInstance()->get(Set::Engine_CrossFaderTime);
+	int fading_time = Settings::instance()->get(Set::Engine_CrossFaderTime);
 
 	m->fader_data->reset();
 	m->fader_data->set_fading_time(fading_time);
@@ -148,7 +148,7 @@ void CrossFader::init_fader()
 
 void CrossFader::fade_in()
 {
-	double volume = Settings::getInstance()->get(Set::Engine_Vol) / 100.0;
+	double volume = Settings::instance()->get(Set::Engine_Vol) / 100.0;
 
 	m->fade_mode = CrossFader::FadeMode::FadeIn;
 	m->fade_step = volume / 500.0;
@@ -160,7 +160,7 @@ void CrossFader::fade_in()
 
 void CrossFader::fade_out()
 {
-	double volume = Settings::getInstance()->get(Set::Engine_Vol) / 100.0;
+	double volume = Settings::instance()->get(Set::Engine_Vol) / 100.0;
 
 	m->fade_mode = CrossFader::FadeMode::FadeOut;
 	m->fade_step = volume / 500.0;
@@ -185,7 +185,7 @@ void CrossFader::fader_timed_out()
 
 void CrossFader::increase_volume()
 {
-	double max_volume = Settings::getInstance()->get(Set::Engine_Vol) / 100.0;
+	double max_volume = Settings::instance()->get(Set::Engine_Vol) / 100.0;
 	double volume = get_current_volume();
 
 	volume += m->fade_step;
@@ -216,7 +216,7 @@ void CrossFader::decrease_volume()
 
 uint64_t CrossFader::get_fading_time_ms() const
 {
-	Settings* settings = Settings::getInstance();
+	Settings* settings = Settings::instance();
 	if(settings->get(Set::Engine_CrossFaderActive)){
 		return settings->get(Set::Engine_CrossFaderTime);
 	}

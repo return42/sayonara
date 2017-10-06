@@ -36,7 +36,7 @@
 #include <QPoint>
 #include <type_traits>
 
-static Settings* settings=Settings::getInstance();
+static Settings* settings=Settings::instance();
 
 template<typename KeyClassInstance, typename T>
 void register_setting(const KeyClassInstance& key, const char* db_key, const T& default_value)
@@ -66,7 +66,7 @@ SettingRegistry::~SettingRegistry() {}
 
 bool SettingRegistry::init()
 {
-	DatabaseConnector* db = DatabaseConnector::getInstance();
+	DatabaseConnector* db = DatabaseConnector::instance();
 	if(!db->is_initialized()){
 		return false;
 	}
@@ -121,6 +121,8 @@ bool SettingRegistry::init()
 	register_setting( Set::Lib_FontBold ,"lib_font_bold", true);
 	register_setting( Set::Lib_FontSize ,"lib_font_size", -1);
 #endif
+
+    register_setting( Set::Lib_UseViewClearButton, "lib_view_clear_button", false);
 
 	register_setting( Set::Player_Version, "player_version", QString(SAYONARA_VERSION));
 	register_setting( Set::Player_Language, "player_language", "sayonara_lang_en" );

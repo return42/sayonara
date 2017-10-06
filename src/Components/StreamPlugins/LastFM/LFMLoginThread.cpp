@@ -1,4 +1,4 @@
-/* LFMLoginThread.cpp */
+/* LoginThread.cpp */
 
 /* Copyright (C) 2011-2017  Lucio Carreras
  *
@@ -25,22 +25,22 @@
 #include "Helper/Message/Message.h"
 #include "Helper/Logger/Logger.h"
 
+using namespace LastFM;
 
-LFMLoginThread::LFMLoginThread(QObject *parent) :
+LoginThread::LoginThread(QObject *parent) :
 	QObject(parent) {}
 
-LFMLoginThread::~LFMLoginThread() {}
+LoginThread::~LoginThread() {}
 
-void LFMLoginThread::login(const QString& username, const QString& password)
+void LoginThread::login(const QString& username, const QString& password)
 {
-	LFMWebAccess* lfm_wa = new LFMWebAccess();
-	connect(lfm_wa, &LFMWebAccess::sig_response, this, &LFMLoginThread::wa_response);
-	connect(lfm_wa, &LFMWebAccess::sig_error, this, &LFMLoginThread::wa_error);
+	WebAccess* lfm_wa = new WebAccess();
+    connect(lfm_wa, &WebAccess::sig_response, this, &LoginThread::wa_response);
+    connect(lfm_wa, &WebAccess::sig_error, this, &LoginThread::wa_error);
 
 	_login_info.logged_in = false;
 	_login_info.session_key = "";
 	_login_info.subscriber = false;
-
 
     UrlParams signature_data;
         signature_data["api_key"] = LFM_API_KEY;
@@ -57,9 +57,9 @@ void LFMLoginThread::login(const QString& username, const QString& password)
 }
 
 
-void LFMLoginThread::wa_response(const QByteArray& data)
+void LoginThread::wa_response(const QByteArray& data)
 {
-	LFMWebAccess* lfm_wa = static_cast<LFMWebAccess*>(sender());
+	WebAccess* lfm_wa = static_cast<WebAccess*>(sender());
 	QString str = QString::fromUtf8(data);
 
 	_login_info.logged_in = true;
@@ -79,9 +79,9 @@ void LFMLoginThread::wa_response(const QByteArray& data)
 }
 
 
-void LFMLoginThread::wa_error(const QString& error)
+void LoginThread::wa_error(const QString& error)
 {
-	LFMWebAccess* lfm_wa = static_cast<LFMWebAccess*>(sender());
+	WebAccess* lfm_wa = static_cast<WebAccess*>(sender());
 
 	sp_log(Log::Warning, this) << "LastFM: Cannot login";
 	sp_log(Log::Warning, this) << error;
@@ -92,7 +92,7 @@ void LFMLoginThread::wa_error(const QString& error)
 }
 
 
-LFMLoginStuff LFMLoginThread::getLoginStuff()
+LoginStuff LoginThread::getLoginStuff()
 {
 	return _login_info;
 }

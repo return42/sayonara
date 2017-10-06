@@ -44,7 +44,7 @@ void NotificationHandler::register_notificator(NotificationInterface* notificato
 {
 	_notificators << notificator;
 
-	QString preferred = Settings::getInstance()->get(Set::Notification_Name);
+	QString preferred = Settings::instance()->get(Set::Notification_Name);
 
 	auto lambda = [preferred](NotificationInterface* n){
 		return (n->get_name().compare(preferred, Qt::CaseInsensitive) == 0);

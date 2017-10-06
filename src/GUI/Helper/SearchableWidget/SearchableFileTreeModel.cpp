@@ -58,7 +58,7 @@ QModelIndex SearchableFileTreeModel::getFirstRowIndexOf(const QString& substr)
 	m->cur_idx = -1;
 	m->found_strings.clear();
 
-	Settings* settings = Settings::getInstance();
+	Settings* settings = Settings::instance();
 	Library::SearchModeMask mask = settings->get(Set::Lib_SearchMode);
 	QString converted_substr = Library::convert_search_string(substr, mask);
 

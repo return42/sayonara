@@ -23,7 +23,7 @@
 
 SayonaraClass::SayonaraClass()
 {
-	_settings = Settings::getInstance();
+	_settings = Settings::instance();
 }
 
 SayonaraClass::~SayonaraClass() {}

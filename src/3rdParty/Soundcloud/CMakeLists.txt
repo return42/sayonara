@@ -41,6 +41,7 @@ ELSE()
 ENDIF()
 
 TARGET_LINK_LIBRARIES(${PROJECT_NAME}
+	say_db
 	say_gui_helper
 	say_gui_library
 	say_interfaces_library_container

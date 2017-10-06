@@ -83,17 +83,17 @@ public:
 
 	~MetaData();
 
-	QString artist() const;
+    const QString& artist() const;
 	void set_artist(const QString& artist);
 
-	QString album() const;
+    const QString& album() const;
 	void set_album(const QString& album);
 
 	QString filepath() const;
 	QString set_filepath(QString filepath);
 
     ArtistID album_artist_id() const;
-	QString album_artist() const;
+    const QString& album_artist() const;
 	bool has_album_artist() const;
 
     void set_album_artist(const QString& album_artist, ArtistID id=-1);

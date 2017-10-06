@@ -54,7 +54,6 @@ QString DatabaseAlbums::fetch_query_albums(bool also_empty) const
 			", MAX(" + _track_view_name + ".year) AS albumYear"
 			", GROUP_CONCAT(DISTINCT artists.name)"
 			", GROUP_CONCAT(DISTINCT " + _track_view_name + ".discnumber)"
-			", GROUP_CONCAT(DISTINCT albumArtists.name)"
 			" FROM albums ";
 
 	QString join = " INNER JOIN ";
@@ -66,9 +65,7 @@ QString DatabaseAlbums::fetch_query_albums(bool also_empty) const
 			join + " artists ON ("
 				   "    " + _track_view_name + ".artistID = artists.artistID OR "
 				   "    " + _track_view_name + ".albumArtistID = artists.artistID"
-				   " ) " +
-			" LEFT OUTER JOIN artists albumArtists ON "
-			"    " + _track_view_name + ".albumArtistID = albumArtists.artistID ";
+                   " ) ";
 
 	return sql;
 }
@@ -96,7 +93,6 @@ bool DatabaseAlbums::db_fetch_albums(SayonaraQuery& q, AlbumList& result)
 		album.num_songs =	q.value(4).toInt();
 		album.year =		q.value(5).toInt();
 		album.set_artists(q.value(6).toString().split(','));
-		album.set_album_artists(q.value(8).toString().split(','));
 
 		album.discnumbers.clear();
 		QStringList discs =	q.value(7).toString().split(',');

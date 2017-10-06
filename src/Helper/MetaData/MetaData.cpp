@@ -232,7 +232,7 @@ MetaData::~MetaData()
 #endif
 }
 
-QString MetaData::artist() const
+const QString& MetaData::artist() const
 {
 	return artist_pool()[m->artist_idx];
 }
@@ -248,7 +248,7 @@ void MetaData::set_artist(const QString& artist)
 	m->artist_idx = hashed;
 }
 
-QString MetaData::album() const
+const QString& MetaData::album() const
 {
 	return album_pool()[m->album_idx];
 }
@@ -276,7 +276,7 @@ ArtistID MetaData::album_artist_id() const
 	return m->album_artist_id;
 }
 
-QString MetaData::album_artist() const
+const QString& MetaData::album_artist() const
 {
 	return artist_pool()[m->album_artist_idx];
 }

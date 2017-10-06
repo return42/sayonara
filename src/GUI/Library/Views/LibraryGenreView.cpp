@@ -355,6 +355,7 @@ void LibraryGenreView::init_context_menu()
 	m->toggle_tree_action = new QAction(m->context_menu);
 	m->toggle_tree_action->setCheckable(true);
 	m->toggle_tree_action->setChecked(show_tree);
+    m->toggle_tree_action->setText(Lang::get(Lang::Tree));
 
 	m->context_menu->show_actions(
 				ContextMenu::EntryDelete |

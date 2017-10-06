@@ -99,7 +99,7 @@ struct Application::Private
 	Private()
 	{
 		timer = new QTime();
-		settings = Settings::getInstance();
+		settings = Settings::instance();
 	}
 
 	~Private()
@@ -206,7 +206,7 @@ Application::Application(int & argc, char ** argv) :
 			" in " + Helper::create_link(Helper::get_sayonara_path(), false) +
 			" to " + Helper::create_link("luciocarreras@gmail.com", false, mail);
 
-	GlobalMessage::getInstance()->info(info_text);
+	GlobalMessage::instance()->info(info_text);
 
 	QFile f(error_file);
 	f.open(QIODevice::ReadOnly);
@@ -224,9 +224,9 @@ Application::Application(int & argc, char ** argv) :
 
 bool Application::init(QTranslator* translator, const QStringList& files_to_play)
 {
-	LibraryPluginHandler* library_plugin_loader = LibraryPluginHandler::getInstance();
-	m->db = DatabaseConnector::getInstance();
-	m->plh = PlaylistHandler::getInstance();
+	LibraryPluginHandler* library_plugin_loader = LibraryPluginHandler::instance();
+	m->db = DatabaseConnector::instance();
+	m->plh = PlaylistHandler::instance();
 
 	sp_log(Log::Debug, this) << "Init application: " << m->timer->elapsed() << "ms";
 
@@ -235,7 +235,7 @@ bool Application::init(QTranslator* translator, const QStringList& files_to_play
 		sp_log(Log::Warning) << "Cannot install translator";
 	}
 
-    Proxy::getInstance()->init();
+    Proxy::instance()->init();
 	//check_for_crash();
 
 	QString version = QString(SAYONARA_VERSION);
@@ -259,7 +259,7 @@ bool Application::init(QTranslator* translator, const QStringList& files_to_play
 	Q_UNUSED(rmc)
 
 	if(m->settings->get(Set::Notification_Show)){
-		NotificationHandler::getInstance()->notify("Sayonara Player",
+		NotificationHandler::instance()->notify("Sayonara Player",
 												   Lang::get(Lang::Version) + " " + SAYONARA_VERSION,
 												   Helper::share_path("logo.png"));
 	}
@@ -315,7 +315,7 @@ bool Application::init(QTranslator* translator, const QStringList& files_to_play
     preferences->register_preference_dialog(new GUI_IconPreferences());
     preferences->register_preference_dialog(new GUI_Proxy());
 
-	EngineHandler::getInstance()->init();
+	EngineHandler::instance()->init();
 
 	sp_log(Log::Debug, this) << "Preference dialogs loaded: " << m->timer->elapsed() << "ms";
 

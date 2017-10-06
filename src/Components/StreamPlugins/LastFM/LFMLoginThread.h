@@ -1,4 +1,4 @@
-/* LFMLoginThread.h */
+/* LoginThread.h */
 
 /* Copyright (C) 2011-2017  Lucio Carreras
  *
@@ -18,53 +18,55 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef LFMLOGINTHREAD_H
-#define LFMLOGINTHREAD_H
+#ifndef LoginThread_H
+#define LoginThread_H
 
 #include <QObject>
 #include "Helper/globals.h"
 
-
-struct LFMLoginStuff
+namespace LastFM
 {
-	QString token;
-	QString session_key;
-	bool logged_in;
-	bool subscriber;
-	QString error;
+    struct LoginStuff
+    {
+        QString token;
+        QString session_key;
+        bool logged_in;
+        bool subscriber;
+        QString error;
 
-	LFMLoginStuff()
-	{
-		logged_in = false;
-		subscriber = false;
-	}
-};
+        LoginStuff()
+        {
+            logged_in = false;
+            subscriber = false;
+        }
+    };
 
 
-class LFMLoginThread :
-		public QObject
-{
-	Q_OBJECT
+    class LoginThread :
+            public QObject
+    {
+        Q_OBJECT
 
-signals:
-	void sig_token_received(const QString& token);
-	void sig_error(const QString& error);
-	void sig_logged_in(bool success);
+    signals:
+        void sig_token_received(const QString& token);
+        void sig_error(const QString& error);
+        void sig_logged_in(bool success);
 
-public:
-	explicit LFMLoginThread(QObject *parent=nullptr);
-	~LFMLoginThread();
+    public:
+        explicit LoginThread(QObject *parent=nullptr);
+        ~LoginThread();
 
-	void login(const QString& username, const QString& password);
+        void login(const QString& username, const QString& password);
 
-    LFMLoginStuff getLoginStuff();
+        LoginStuff getLoginStuff();
 
-private slots:
-	void wa_response(const QByteArray& data);
-	void wa_error(const QString& response);
+    private slots:
+        void wa_response(const QByteArray& data);
+        void wa_error(const QString& response);
 
-private:
-	LFMLoginStuff _login_info;
-};
+    private:
+        LoginStuff _login_info;
+    };
+}
 
-#endif // LFMLOGINTHREAD_H
+#endif // LoginThread_H

@@ -64,8 +64,8 @@ StreamServer::StreamServer(QObject* parent) :
 
 	create_server();
 
-	PlayManager* play_manager = PlayManager::getInstance();
-	EngineHandler* engine = EngineHandler::getInstance();
+	PlayManager* play_manager = PlayManager::instance();
+	EngineHandler* engine = EngineHandler::instance();
 
 	connect(play_manager, &PlayManager::sig_track_changed, this, &StreamServer::track_changed);
 	connect(engine, &EngineHandler::destroyed, this, &StreamServer::stop);
@@ -192,7 +192,7 @@ void StreamServer::new_client_request()
 		if( _settings->get(Set::Broadcast_Prompt) ){
 			if(!m->allowed_ips.contains(pending_ip)){
 				QString question = tr("%1 wants to listen to your music.\nOK?").arg(pending_ip);
-				GlobalMessage::Answer answer = GlobalMessage::getInstance()->question(question);
+				GlobalMessage::Answer answer = GlobalMessage::instance()->question(question);
 				if(answer==GlobalMessage::Answer::Yes){
 					accept_client(pending_socket, pending_ip);
 				}

@@ -76,7 +76,6 @@ protected:
 
 
 public:
-
     IndexSet get_selected_items() const;
 
 	virtual void set_selection_type(SayonaraSelectionView::SelectionType type);

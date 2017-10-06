@@ -59,7 +59,7 @@ GUI_InfoDialog::GUI_InfoDialog(InfoDialogContainer* container, QWidget* parent) 
 	SayonaraDialog(parent)
 {
 	ui = nullptr;
-	m = Pimpl::make<GUI_InfoDialog::Private>();
+    m = Pimpl::make<Private>();
 
 	m->info_dialog_container = container;
 	m->md_interpretation = MD::Interpretation::None;
@@ -91,10 +91,10 @@ void GUI_InfoDialog::skin_changed()
 	QTabBar* tab_bar = ui->tab_widget->tabBar();
 	if(tab_bar)
 	{
-		IconLoader* icon_loader = IconLoader::getInstance();
-		tab_bar->setTabIcon(0, icon_loader->get_icon("dialog-info", "info"));
-		tab_bar->setTabIcon(1, icon_loader->get_icon("document-properties", "lyrics"));
-		tab_bar->setTabIcon(2, icon_loader->get_icon("accessories-text-editor", "edit"));
+		IconLoader* icon_loader = IconLoader::instance();
+		tab_bar->setTabIcon(0, icon_loader->icon("dialog-info", "info"));
+		tab_bar->setTabIcon(1, icon_loader->icon("document-properties", "lyrics"));
+		tab_bar->setTabIcon(2, icon_loader->icon("accessories-text-editor", "edit"));
 	}
 }
 

@@ -28,15 +28,17 @@
 
 #include "GUI_LastFM.h"
 #include "GUI/Preferences/ui_GUI_LastFM.h"
-#include "Helper/Language.h"
 
-#include "Helper/Settings/Settings.h"
 #include "Components/StreamPlugins/LastFM/LastFM.h"
+
+#include "Helper/Language.h"
+#include "Helper/Settings/Settings.h"
+
 
 GUI_LastFM::GUI_LastFM(QWidget* parent) :
 	PreferenceWidgetInterface(parent)
 {
-	_lfm = LastFM::getInstance();
+    _lfm = LastFM::Base::instance();
 }
 
 
@@ -57,7 +59,7 @@ void GUI_LastFM::init_ui()
 
 	connect(ui->btn_login, &QPushButton::clicked, this, &GUI_LastFM::btn_login_clicked);
 	connect(ui->cb_activate, &QCheckBox::toggled, this, &GUI_LastFM::active_changed);
-	connect(_lfm, &LastFM::sig_logged_in, this, &GUI_LastFM::logged_in);
+    connect(_lfm, &LastFM::Base::sig_logged_in, this, &GUI_LastFM::logged_in);
 }
 
 

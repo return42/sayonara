@@ -39,7 +39,7 @@ struct AbstractStreamHandler::Private
 
 	Private()
 	{
-		playlist = PlaylistHandler::getInstance();
+		playlist = PlaylistHandler::instance();
 		blocked = false;
 	}
 };
@@ -49,7 +49,7 @@ AbstractStreamHandler::AbstractStreamHandler(QObject *parent) :
 	QObject(parent)
 {
 	m = Pimpl::make<AbstractStreamHandler::Private>();
-	_db = DatabaseConnector::getInstance();
+	_db = DatabaseConnector::instance();
 }
 
 AbstractStreamHandler::~AbstractStreamHandler() {}

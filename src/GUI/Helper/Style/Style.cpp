@@ -41,7 +41,7 @@
 
 QString Style::get_style(bool dark)
 {
-	Settings* settings = Settings::getInstance();
+	Settings* settings = Settings::instance();
 
 	QFont std_font = QApplication::font();
 	QString font_family =	settings->get(Set::Player_FontName);
@@ -88,7 +88,7 @@ QString Style::get_style(bool dark)
 
 QFont Style::get_current_font()
 {
-	Settings* settings = Settings::getInstance();
+	Settings* settings = Settings::instance();
 	QFont std_font = QApplication::font();
 	QString font_family =	settings->get(Set::Player_FontName);
 	int font_size =			settings->get(Set::Player_FontSize);
@@ -119,7 +119,7 @@ QFont Style::get_current_font()
 
 QString Style::get_current_style()
 {
-	bool dark = (Settings::getInstance()->get(Set::Player_Style) == 1);
+	bool dark = (Settings::instance()->get(Set::Player_Style) == 1);
 	return get_style(dark);
 }
 

@@ -81,8 +81,8 @@ void RemoteControl::init()
 		return;
 	}
 
-    m->play_manager = PlayManager::getInstance();
-    m->plh = PlaylistHandler::getInstance();
+    m->play_manager = PlayManager::instance();
+    m->plh = PlaylistHandler::instance();
 
     PlayManager* mgr = m->play_manager;
 

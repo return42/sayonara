@@ -58,8 +58,8 @@ GUI_Playlist::GUI_Playlist(QWidget *parent) :
 	ui = new Ui::Playlist_Window();
 	ui->setupUi(this);
 
-	_playlist = PlaylistHandler::getInstance();
-	_play_manager = PlayManager::getInstance();
+	_playlist = PlaylistHandler::instance();
+	_play_manager = PlayManager::instance();
 
 	ui->bottom_bar->check_dynamic_play_button();
 
@@ -181,8 +181,8 @@ void GUI_Playlist::playlist_track_changed(int row, int playlist_idx)
 	n_rows = plv->row_count();
 
 	if(n_rows > 0){
-		IconLoader* icon_loader = IconLoader::getInstance();
-		QIcon icon_play = icon_loader->get_icon("media-playback-start", "play_bordered");
+		IconLoader* icon_loader = IconLoader::instance();
+		QIcon icon_play = icon_loader->icon("media-playback-start", "play_bordered");
 
 		ui->tw_playlists->setTabIcon(playlist_idx, icon_play);
 	}
@@ -378,7 +378,7 @@ void GUI_Playlist::open_file_clicked(int tgt_idx)
 		return;
 	}
 
-	PlaylistHandler* plh = PlaylistHandler::getInstance();
+	PlaylistHandler* plh = PlaylistHandler::instance();
 	plh->create_playlist(list);
 }
 
@@ -395,7 +395,7 @@ void GUI_Playlist::open_dir_clicked(int tgt_idx)
 		return;
 	}
 
-	PlaylistHandler* plh = PlaylistHandler::getInstance();
+	PlaylistHandler* plh = PlaylistHandler::instance();
 	plh->create_playlist(dir);
 }
 

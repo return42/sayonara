@@ -50,7 +50,7 @@ struct LibraryImporter::Private
 
 	Private(LocalLibrary* library) :
 		library(library),
-		db(DatabaseConnector::getInstance()),
+		db(DatabaseConnector::instance()),
 		status(LibraryImporter::ImportStatus::NoTracks)
 	{}
 };
@@ -60,7 +60,7 @@ LibraryImporter::LibraryImporter(LocalLibrary* library) :
 {
 	m = Pimpl::make<Private>(library);
 
-	MetaDataChangeNotifier* md_change_notifier = MetaDataChangeNotifier::getInstance();
+	MetaDataChangeNotifier* md_change_notifier = MetaDataChangeNotifier::instance();
 	connect(md_change_notifier, &MetaDataChangeNotifier::sig_metadata_changed,
 			this, &LibraryImporter::metadata_changed);
 }
@@ -184,7 +184,7 @@ void LibraryImporter::copy_thread_finished()
 
 		emit_status(ImportStatus::Imported);
 
-		MetaDataChangeNotifier::getInstance()->change_metadata(MetaDataList(), MetaDataList());
+		MetaDataChangeNotifier::instance()->change_metadata(MetaDataList(), MetaDataList());
 	}
 
 	else {

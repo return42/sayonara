@@ -52,8 +52,8 @@ AbstractPlaylist::AbstractPlaylist(int idx, const QString& name) :
 	PlaylistDBInterface(name),
 	SayonaraClass()
 {
-	MetaDataChangeNotifier* md_change_notifier = MetaDataChangeNotifier::getInstance();
-	PlayManager* play_manager = PlayManager::getInstance();
+	MetaDataChangeNotifier* md_change_notifier = MetaDataChangeNotifier::instance();
+	PlayManager* play_manager = PlayManager::instance();
 
     m = Pimpl::make<AbstractPlaylist::Private>(idx,  _settings->get(Set::PL_Mode));
 

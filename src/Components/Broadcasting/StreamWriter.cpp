@@ -56,7 +56,7 @@ StreamWriter::StreamWriter(QTcpSocket* socket, const QString& ip, const MetaData
 	m->parser = new StreamHttpParser();
 	m->ip = ip;
 
-	m->engine = EngineHandler::getInstance();
+	m->engine = EngineHandler::instance();
 	m->send_data = false;
 	m->dismissed = false;
 

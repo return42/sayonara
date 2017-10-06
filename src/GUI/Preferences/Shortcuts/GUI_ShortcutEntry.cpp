@@ -34,7 +34,7 @@ GUI_ShortcutEntry::GUI_ShortcutEntry(const Shortcut& shortcut, QWidget* parent) 
 	ui = new Ui::GUI_ShortcutEntry();
 	ui->setupUi(this);
 
-	_sch = ShortcutHandler::getInstance();
+	_sch = ShortcutHandler::instance();
 
 	ui->lab_description->setText(_shortcut.get_name());
 	ui->le_entry->setText(_shortcut.get_shortcuts().join(", "));
@@ -116,10 +116,10 @@ void GUI_ShortcutEntry::language_changed()
 
 void GUI_ShortcutEntry::skin_changed()
 {
-	IconLoader* icon_loader = IconLoader::getInstance();
-	ui->btn_default->setIcon(icon_loader->get_icon("undo", "undo"));
-	ui->btn_edit->setIcon(icon_loader->get_icon("accessories-text-editor", "edit"));
-	ui->btn_test->setIcon(icon_loader->get_icon("dialog-info", "info"));
+	IconLoader* icon_loader = IconLoader::instance();
+	ui->btn_default->setIcon(icon_loader->icon("undo", "undo"));
+	ui->btn_edit->setIcon(icon_loader->icon("accessories-text-editor", "edit"));
+	ui->btn_test->setIcon(icon_loader->icon("dialog-info", "info"));
 }
 
 

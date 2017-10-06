@@ -209,7 +209,7 @@ int main(int argc, char *argv[])
 #endif
 
 	/* Tell the settings manager which settings are necessary */
-	if( !SettingRegistry::getInstance()->init() ){
+	if( !SettingRegistry::instance()->init() ){
 		sp_log(Log::Error) << "Cannot initialize settings";
 		return 1;
 	}
@@ -224,7 +224,7 @@ int main(int argc, char *argv[])
 		QDir().mkdir( Helper::sayonara_path() );
 	}
 
-	language = Settings::getInstance()->get(Set::Player_Language);
+	language = Settings::instance()->get(Set::Player_Language);
     translator.load(language, Helper::share_path("translations"));
 
 	if(!app.init(&translator, cmd_data.files_to_play)) {

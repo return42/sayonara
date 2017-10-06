@@ -25,50 +25,52 @@
 #ifndef LFMTRACKCHANGEDTHREAD_H_
 #define LFMTRACKCHANGEDTHREAD_H_
 
-#include <QMap>
+
 
 #include "ArtistMatch.h"
 #include "Helper/typedefs.h"
 #include "Helper/MetaData/MetaDataFwd.h"
 #include "Helper/Pimpl.h"
 
+#include <QObject>
+
 class SmartCompare;
-class LFMTrackChangedThread :
-		public QObject
+
+namespace LastFM
 {
-	Q_OBJECT
+    class TrackChangedThread :
+            public QObject
+    {
+        Q_OBJECT
+        PIMPL(TrackChangedThread)
 
-signals:
-
-	void sig_similar_artists_available(const IDList& artist_ids);
-
-
-public:
-	explicit LFMTrackChangedThread(const QString& username=QString(), const QString& session_key=QString(), QObject* parent=nullptr);
-	~LFMTrackChangedThread();
-
-	void set_session_key(const QString& session_key);
-	void set_username(const QString& username);
-
-	void search_similar_artists(const MetaData& md);
-	void update_now_playing(const MetaData& md);
+    signals:
+        void sig_similar_artists_available(const IDList& artist_ids);
 
 
-private:
-	PIMPL(LFMTrackChangedThread)
-	
-private:
-	void evaluate_artist_match(const ArtistMatch& artist_match);
+    public:
+        explicit TrackChangedThread(const QString& username=QString(), const QString& session_key=QString(), QObject* parent=nullptr);
+        ~TrackChangedThread();
 
-	QMap<QString, int> filter_available_artists(const ArtistMatch& artist_match, ArtistMatch::Quality quality);
+        void set_session_key(const QString& session_key);
+        void set_username(const QString& username);
+
+        void search_similar_artists(const MetaData& md);
+        void update_now_playing(const MetaData& md);
 
 
-private slots:
-	void response_sim_artists(const QByteArray& data);
-	void error_sim_artists(const QString& error);
+    private:
+        void evaluate_artist_match(const ArtistMatch& artist_match);
 
-	void response_update(const QByteArray& response);
-	void error_update(const QString& error);
-};
+        QMap<QString, int> filter_available_artists(const ArtistMatch& artist_match, ArtistMatch::Quality quality);
 
+
+    private slots:
+        void response_sim_artists(const QByteArray& data);
+        void error_sim_artists(const QString& error);
+
+        void response_update(const QByteArray& response);
+        void error_update(const QString& error);
+    };
+}
 #endif /* LFMTRACKCHANGEDTHREAD_H_ */

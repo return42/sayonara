@@ -55,10 +55,10 @@ GUI_Player::GUI_Player(QTranslator* translator, QWidget* parent) :
 	setupUi(this);
 
 	_translator = translator;
-	_play_manager = PlayManager::getInstance();
+	_play_manager = PlayManager::instance();
 	_logger = new GUI_Logger();
 
-	GlobalMessage::getInstance()->register_receiver(this);
+	GlobalMessage::instance()->register_receiver(this);
 
 	init_gui();
 
@@ -96,7 +96,7 @@ void GUI_Player::init_gui()
 	lab_writtenby->setText(tr("Written by") + " Lucio Carreras");
 	lab_copyright->setText(tr("Copyright") + " 2011-" + QString::number(QDateTime::currentDateTime().date().year()));
 
-	LibraryPluginHandler::getInstance()->set_library_parent(this->library_widget);
+	LibraryPluginHandler::instance()->set_library_parent(this->library_widget);
 	action_viewLibrary->setChecked(_settings->get(Set::Lib_Show));
 	action_viewLibrary->setText(Lang::get(Lang::Library));
 
@@ -268,29 +268,29 @@ void GUI_Player::id3_tags_changed(const MetaDataList& v_md_old, const MetaDataLi
 
 void GUI_Player::skin_changed()
 {
-	IconLoader* icon_loader = IconLoader::getInstance();
+	IconLoader* icon_loader = IconLoader::instance();
 	bool dark = (_settings->get(Set::Player_Style) == 1);
 
 	QString stylesheet = Style::get_style(dark);
 
 	this->setStyleSheet(stylesheet);
 
-	btn_fw->setIcon(icon_loader->get_icon("media-skip-forward", "fwd"));
-	btn_bw->setIcon(icon_loader->get_icon("media-skip-backward", "bwd"));
+	btn_fw->setIcon(icon_loader->icon("media-skip-forward", "fwd"));
+	btn_bw->setIcon(icon_loader->icon("media-skip-backward", "bwd"));
 
     if(_play_manager->playstate() == PlayState::Playing){
-		btn_play->setIcon(icon_loader->get_icon("media-playback-pause", "pause"));
+		btn_play->setIcon(icon_loader->icon("media-playback-pause", "pause"));
 	}
 
 	else{
-		btn_play->setIcon(icon_loader->get_icon("media-playback-start", "play"));
+		btn_play->setIcon(icon_loader->icon("media-playback-start", "play"));
 	}
 
-	btn_stop->setIcon(icon_loader->get_icon("media-playback-stop", "stop"));
-	btn_rec->setIcon(icon_loader->get_icon("media-record", "rec"));
-	action_OpenFile->setIcon(icon_loader->get_icon("document-open", "play"));
-	action_OpenFolder->setIcon(icon_loader->get_icon("document-open", "play"));
-	action_Close->setIcon(icon_loader->get_icon("window-close", "power_off"));
+	btn_stop->setIcon(icon_loader->icon("media-playback-stop", "stop"));
+	btn_rec->setIcon(icon_loader->icon("media-record", "rec"));
+	action_OpenFile->setIcon(icon_loader->icon("document-open", "play"));
+	action_OpenFolder->setIcon(icon_loader->icon("document-open", "play"));
+	action_Close->setIcon(icon_loader->icon("window-close", "power_off"));
 
 	setup_volume_button(sli_volume->value());
 }
@@ -360,7 +360,7 @@ void GUI_Player::check_library_menu_action()
 	QList<LibraryContainerInterface*> libraries;
 	bool library_visible;
 
-	LibraryPluginHandler* lph = LibraryPluginHandler::getInstance();
+	LibraryPluginHandler* lph = LibraryPluginHandler::instance();
 	libraries = lph->get_libraries();
 	if(libraries.isEmpty()){
 		return;
@@ -523,7 +523,7 @@ void GUI_Player::ui_loaded()
 
 	splitter->update();
 
-	LibraryPluginHandler* lph = LibraryPluginHandler::getInstance();
+	LibraryPluginHandler* lph = LibraryPluginHandler::instance();
 	LibraryContainerInterface* current_library = lph->current_library();
 	if(current_library){
 		QWidget* current_library_widget = current_library->widget();

@@ -37,7 +37,7 @@
 DBusAdaptor::DBusAdaptor(QObject* parent) :
 	QObject(parent)
 {
-	_play_manager = PlayManager::getInstance();
+	_play_manager = PlayManager::instance();
 }
 
 DBusAdaptor::~DBusAdaptor() {}

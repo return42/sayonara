@@ -60,7 +60,7 @@ struct ReloadThread::Private
 		paused = false;
 		running = false;
 		quality = Library::ReloadQuality::Fast;
-		db = DatabaseConnector::getInstance();
+		db = DatabaseConnector::instance();
 	}
 };
 
@@ -167,7 +167,7 @@ int ReloadThread::get_and_save_all_files(const QHash<QString, MetaData>& md_map_
 
 	lib_db->addAlbumArtists();
 	lib_db->createIndexes();
-	DatabaseConnector::getInstance()->clean_up();
+	DatabaseConnector::instance()->clean_up();
 
 	return v_md_to_store.size();
 }

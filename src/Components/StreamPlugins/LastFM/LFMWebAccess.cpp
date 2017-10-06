@@ -1,4 +1,4 @@
-/* LFMWebAccess.cpp */
+/* WebAccess.cpp */
 
 /* Copyright (C) 2011-2017 Lucio Carreras
  *
@@ -20,7 +20,7 @@
 
 
 /*
- * LFMWebAccess.cpp
+ * WebAccess.cpp
  *
  *  Created on: Oct 22, 2011
  *      Author: Lucio Carreras
@@ -32,19 +32,21 @@
 #include "Helper/Helper.h"
 
 #include <QCryptographicHash>
+#include <QByteArray>
 
+using namespace LastFM;
 
-void LFMWebAccess::call_url(const QString& url)
+void WebAccess::call_url(const QString& url)
 {
 	AsyncWebAccess* awa = new AsyncWebAccess(this);
-	connect(awa, &AsyncWebAccess::sig_finished, this, &LFMWebAccess::awa_finished);
+	connect(awa, &AsyncWebAccess::sig_finished, this, &WebAccess::awa_finished);
 	awa->run(url, 10000);
 }
 
-void LFMWebAccess::call_post_url(const QString& url, const QByteArray& post_data)
+void WebAccess::call_post_url(const QString& url, const QByteArray& post_data)
 {
 	AsyncWebAccess* awa = new AsyncWebAccess(this);
-	connect(awa, &AsyncWebAccess::sig_finished, this, &LFMWebAccess::awa_finished);
+	connect(awa, &AsyncWebAccess::sig_finished, this, &WebAccess::awa_finished);
 
 	QMap<QByteArray, QByteArray> header;
 	header["Content-Type"] = "application/x-www-form-urlencoded";
@@ -54,7 +56,7 @@ void LFMWebAccess::call_post_url(const QString& url, const QByteArray& post_data
 }
 
 
-void LFMWebAccess::awa_finished()
+void WebAccess::awa_finished()
 {
 	AsyncWebAccess* awa = static_cast<AsyncWebAccess*>(sender());
 	if(awa->status() != AsyncWebAccess::Status::GotData){
@@ -70,7 +72,7 @@ void LFMWebAccess::awa_finished()
 	}
 }
 
-QString LFMWebAccess::LFMWebAccess::create_std_url(const QString& base_url, const UrlParams& data)
+QString WebAccess::WebAccess::create_std_url(const QString& base_url, const UrlParams& data)
 {
 	QByteArray post_data;
 
@@ -81,7 +83,7 @@ QString LFMWebAccess::LFMWebAccess::create_std_url(const QString& base_url, cons
 	return url;
 }
 
-QString LFMWebAccess::create_std_url_post(const QString& base_url, const UrlParams& sig_data, QByteArray& post_data)
+QString WebAccess::create_std_url_post(const QString& base_url, const UrlParams& sig_data, QByteArray& post_data)
 {
 	QString url = base_url;
 
@@ -101,7 +103,7 @@ QString LFMWebAccess::create_std_url_post(const QString& base_url, const UrlPara
 }
 
 
-bool LFMWebAccess::check_error(const QByteArray& data)
+bool WebAccess::check_error(const QByteArray& data)
 {
 	QString error_str = parse_error_message(data);
 	if(!error_str.isEmpty()){
@@ -112,7 +114,7 @@ bool LFMWebAccess::check_error(const QByteArray& data)
 	return false;
 }
 
-QString LFMWebAccess::parse_error_message(const QString& response)
+QString WebAccess::parse_error_message(const QString& response)
 {
 	if(response.isEmpty()){
 		return "";

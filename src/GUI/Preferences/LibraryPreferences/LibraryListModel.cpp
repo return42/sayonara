@@ -41,7 +41,7 @@ struct LibraryListModel::Private
 
 	void reload()
 	{
-		library_info = LibraryManager::getInstance()->all_libraries();
+		library_info = LibraryManager::instance()->all_libraries();
 		shown_library_info = library_info;
 	}
 

@@ -81,7 +81,7 @@ GUI_PlaylistBottomBar::GUI_PlaylistBottomBar(QWidget *parent) :
 	ui->btn_gapless->setEnabled(gapless_enabled) ;
 	
 #ifdef WITH_SHUTDOWN
-	ui->btn_shutdown->setVisible(Shutdown::getInstance()->is_running());
+	ui->btn_shutdown->setVisible(Shutdown::instance()->is_running());
 #else
 	ui->btn_shutdown->setVisible(false);
 #endif
@@ -208,7 +208,7 @@ void GUI_PlaylistBottomBar::s_playlist_mode_changed()
 
 void GUI_PlaylistBottomBar::check_dynamic_play_button()
 {
-	int n_libs = LibraryManager::getInstance()->count();
+	int n_libs = LibraryManager::instance()->count();
 
 	/* TODO: */
 	/* 	Dynamic playback */
@@ -227,7 +227,7 @@ void GUI_PlaylistBottomBar::check_dynamic_play_button()
 #ifdef WITH_SHUTDOWN
 
 	void GUI_PlaylistBottomBar::shutdown_toggled(bool b){
-		Shutdown* shutdown = Shutdown::getInstance();
+		Shutdown* shutdown = Shutdown::instance();
 		bool shutdown_is_running = shutdown->is_running();
 
 		if(shutdown_is_running == b) {
@@ -242,7 +242,7 @@ void GUI_PlaylistBottomBar::check_dynamic_play_button()
 			GlobalMessage::Answer answer = Message::question_yn(tr("Cancel shutdown?"));
 
 			if(answer == GlobalMessage::Answer::Yes) {
-				Shutdown::getInstance()->stop();
+				Shutdown::instance()->stop();
 			}
 		}
 
@@ -256,7 +256,7 @@ void GUI_PlaylistBottomBar::check_dynamic_play_button()
 
 	void GUI_PlaylistBottomBar::shutdown_closed()
 	{
-		bool b = Shutdown::getInstance()->is_running();
+		bool b = Shutdown::instance()->is_running();
 		ui->btn_shutdown->setVisible(b);
 		ui->btn_shutdown->setChecked(b);
 	}

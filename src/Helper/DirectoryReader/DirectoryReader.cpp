@@ -118,7 +118,7 @@ MetaDataList DirectoryReader::get_md_from_filelist(const QStringList& lst)
 		}
 	}
 
-	DatabaseConnector* db = DatabaseConnector::getInstance();
+    DatabaseConnector* db = DatabaseConnector::instance();
 	LibraryDatabase* lib_db = db->library_db(-1, 0);
 
 	lib_db->getMultipleTracksByPath(sound_files, v_md);

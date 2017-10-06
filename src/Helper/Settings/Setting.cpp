@@ -73,42 +73,30 @@ AbstrSetting::~AbstrSetting() {}
 
 SK::SettingKey AbstrSetting::get_key() const
 {
-	return m->key;
+    return m->key;
 }
 
-void AbstrSetting::load_db(DatabaseSettings *db)
+QString AbstrSetting::db_key() const
 {
-	if(!m->db_setting) return;
+    return m->db_key;
+}
 
-	QString s;
-	bool success = db->load_setting(m->db_key, s);
+bool AbstrSetting::is_db_setting() const
+{
+    return m->db_setting;
+}
 
-	if(!success){
-		sp_log(Log::Info) << "Setting " << m->db_key << ": Not found. Use default value...";
+void AbstrSetting::assign_value(const QString& value)
+{
+    if(!m->db_setting) {
+        return;
+    }
 
-		assign_default_value();
+    bool success = load_value_from_string(value);
 
-		sp_log(Log::Info) << "Load Setting " << m->db_key << ": " << value_to_string();
-
-		return;
-	}
-
-	success = load_value_from_string(s);
-
-	if(!success){
+    if(!success)
+    {
 		sp_log(Log::Warning) << "Setting " << m->db_key << ": Cannot convert. Use default value...";
-
 		assign_default_value();
 	}
 }
-
-void AbstrSetting::store_db(DatabaseSettings* db)
-{
-	if(m->db_setting){
-		QString val_as_string = value_to_string();
-		db->store_setting(m->db_key, val_as_string);
-	}
-}
-
-
-

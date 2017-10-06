@@ -43,7 +43,7 @@ struct LibraryManager::Private
 
 	Private()
 	{
-		lph = LibraryPluginHandler::getInstance();
+		lph = LibraryPluginHandler::instance();
 	}
 
 	bool contains_path(const QString& path) const

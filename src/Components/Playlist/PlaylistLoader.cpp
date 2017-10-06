@@ -33,7 +33,7 @@ PlaylistLoader::PlaylistLoader(QObject* parent) :
 	QObject(parent),
 	SayonaraClass()
 {
-	_playlist_db_connector = PlaylistDBWrapper::getInstance();
+	_playlist_db_connector = PlaylistDBWrapper::instance();
 
 	bool success=false;
 
@@ -183,7 +183,7 @@ int	PlaylistLoader::get_last_track_idx() const
 
 int PlaylistLoader::create_playlists()
 {
-	PlaylistHandler* plh = PlaylistHandler::getInstance();
+	PlaylistHandler* plh = PlaylistHandler::instance();
 
 	// no playlists found
 	if( _playlists.isEmpty() ){

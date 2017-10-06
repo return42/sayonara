@@ -39,7 +39,7 @@ PlaylistTabMenu::PlaylistTabMenu(QWidget* parent) :
 	_action_close = new QAction(GUI::get_icon("power_off"), QString(), this);
 	_action_close_others = new QAction(GUI::get_icon("power_on"), QString(), this);
 
-	_icon_loader = IconLoader::getInstance();
+	_icon_loader = IconLoader::instance();
 
 	QList<QAction*> actions;
 	actions << _action_open_file
@@ -92,19 +92,19 @@ void PlaylistTabMenu::language_changed()
 
 void PlaylistTabMenu::skin_changed()
 {
-	_action_open_file->setIcon(_icon_loader->get_icon( "document-open", "play_small") );
-	_action_open_dir->setIcon(_icon_loader->get_icon( "document-open", "play_small") );
+	_action_open_file->setIcon(_icon_loader->icon( "document-open", "play_small") );
+	_action_open_dir->setIcon(_icon_loader->icon( "document-open", "play_small") );
 
-	_action_reset->setIcon(_icon_loader->get_icon( "edit-undo", "undo") );
-	_action_rename->setIcon(_icon_loader->get_icon( "accessories-text-editor", "edit") );
-	_action_delete->setIcon(_icon_loader->get_icon( "edit-delete", "delete") );
-	_action_save->setIcon(_icon_loader->get_icon( "document-save", "save") );
-	_action_save_as->setIcon(_icon_loader->get_icon( "document-save-as", "save_as") );
+	_action_reset->setIcon(_icon_loader->icon( "edit-undo", "undo") );
+	_action_rename->setIcon(_icon_loader->icon( "accessories-text-editor", "edit") );
+	_action_delete->setIcon(_icon_loader->icon( "edit-delete", "delete") );
+	_action_save->setIcon(_icon_loader->icon( "document-save", "save") );
+	_action_save_as->setIcon(_icon_loader->icon( "document-save-as", "save_as") );
 
-	_action_clear->setIcon(_icon_loader->get_icon( "edit-clear", "broom.png") );
-	_action_close->setIcon(_icon_loader->get_icon( "window-close", "power_off") );
+	_action_clear->setIcon(_icon_loader->icon( "edit-clear", "broom.png") );
+	_action_close->setIcon(_icon_loader->icon( "window-close", "power_off") );
 
-	_action_close_others->setIcon(_icon_loader->get_icon( "window-close", "power_on") );
+	_action_close_others->setIcon(_icon_loader->icon( "window-close", "power_on") );
 }
 
 void PlaylistTabMenu::show_menu_items(PlaylistMenuEntries entries)
