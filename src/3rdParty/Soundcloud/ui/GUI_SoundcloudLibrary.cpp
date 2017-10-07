@@ -101,22 +101,22 @@ void SC::GUI_Library::btn_add_clicked()
 	m->artist_search->show();
 }
 
-LibraryTableView*SC::GUI_Library::lv_artist() const
+Library::TableView* SC::GUI_Library::lv_artist() const
 {
 	return ui->lv_artist;
 }
 
-LibraryTableView*SC::GUI_Library::lv_album() const
+Library::TableView* SC::GUI_Library::lv_album() const
 {
 	return ui->lv_album;
 }
 
-LibraryTableView*SC::GUI_Library::lv_tracks() const
+Library::TableView* SC::GUI_Library::lv_tracks() const
 {
 	return ui->tb_title;
 }
 
-QLineEdit*SC::GUI_Library::le_search() const
+QLineEdit* SC::GUI_Library::le_search() const
 {
 	return ui->le_search;
 }

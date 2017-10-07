@@ -20,13 +20,12 @@
 
 #include "GUI_Lyrics.h"
 #include "GUI/InfoDialog/ui_GUI_Lyrics.h"
-#include "GUI/Helper/SayonaraWidget/SayonaraLoadingBar.h"
+#include "GUI/Helper/Widgets/ProgressBar.h"
 
 #include "Components/Lyrics/Lyrics.h"
 #include "Components/Lyrics/LyricLookup.h"
 
-#include "GUI/Helper/SayonaraWidget/SayonaraCompleter.h"
-#include "GUI/Helper/SayonaraWidget/SayonaraWidgetTemplate.h"
+#include "GUI/Helper/Widgets/Completer.h"
 
 #include "Helper/MetaData/MetaData.h"
 #include "Helper/Language.h"
@@ -37,10 +36,12 @@
 
 #include <cmath>
 
+using namespace Gui;
+
 struct GUI_Lyrics::Private
 {
 	Lyrics*	lyrics=nullptr;
-	SayonaraLoadingBar* loading_bar=nullptr;
+	ProgressBar* loading_bar=nullptr;
 	qreal font_size;
 	qreal initial_font_size;
 
@@ -56,7 +57,7 @@ struct GUI_Lyrics::Private
 };
 
 GUI_Lyrics::GUI_Lyrics(QWidget *parent) :
-	SayonaraWidget(parent)
+	Widget(parent)
 {
 	m = Pimpl::make<Private>();
 }
@@ -83,8 +84,8 @@ void GUI_Lyrics::init()
 	ui->te_lyrics->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 	ui->te_lyrics->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 
-	m->loading_bar = new SayonaraLoadingBar(ui->te_lyrics);
-	m->loading_bar->set_position(SayonaraLoadingBar::Position::Bottom);
+	m->loading_bar = new ProgressBar(ui->te_lyrics);
+	m->loading_bar->set_position(ProgressBar::Position::Bottom);
 	m->loading_bar->setVisible(false);
 
 	QString server = _settings->get(Set::Lyrics_Server);
@@ -112,7 +113,7 @@ void GUI_Lyrics::init()
 	connect(ui->btn_close, &QPushButton::clicked, this, &GUI_Lyrics::sig_closed);
 	connect(ui->btn_close, &QPushButton::clicked, this, &GUI_Lyrics::close);
 	connect(ui->btn_switch, &QPushButton::clicked, this, &GUI_Lyrics::switch_pressed);
-	connect(ui->sb_zoom, spinbox_value_changed_int, this, [=](int percent){
+	connect(ui->sb_zoom, spinbox_value_changed_int, [=](int percent){
 		zoom( (percent * m->initial_font_size) / 100.0 );
 	});
 
@@ -224,7 +225,7 @@ void GUI_Lyrics::set_metadata(const MetaData &md)
 		ui->le_artist->completer()->deleteLater();
 	}
 
-	ui->le_artist->setCompleter( new SayonaraCompleter(completer_entries, ui->le_artist) );
+	ui->le_artist->setCompleter( new Completer(completer_entries, ui->le_artist) );
 
 	setup_sources();
 	prepare_lyrics();
@@ -319,7 +320,7 @@ void GUI_Lyrics::showEvent(QShowEvent* e)
 {
 	init();
 
-	SayonaraWidget::showEvent(e);
+	Widget::showEvent(e);
 }
 
 void GUI_Lyrics::wheelEvent(QWheelEvent* e)

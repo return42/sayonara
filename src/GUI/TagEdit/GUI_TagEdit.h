@@ -24,7 +24,7 @@
 #include <QLineEdit>
 #include <QString>
 
-#include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
+#include "GUI/Helper/Widgets/Widget.h"
 #include "Components/TagEdit/TagExpression.h"
 #include "Helper/Pimpl.h"
 
@@ -36,15 +36,14 @@ class TagEdit;
 class MetaDataList;
 class MetaData;
 
-namespace Ui
-{
-	class GUI_TagEdit;
-}
+UI_FWD(GUI_TagEdit)
 
 class GUI_TagEdit :
-		public SayonaraWidget
+		public Gui::Widget
 {
 	Q_OBJECT
+	UI_CLASS(GUI_TagEdit)
+	PIMPL(GUI_TagEdit)
 
 public:
 	explicit GUI_TagEdit(QWidget* parent=nullptr);
@@ -75,9 +74,6 @@ signals:
 	void sig_undo_all_clicked();
 	void sig_cancelled();
 
-private:
-	PIMPL(GUI_TagEdit)
-	Ui::GUI_TagEdit*	ui=nullptr;
 
 private:
 	bool is_cover_replacement_active() const;

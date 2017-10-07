@@ -29,7 +29,7 @@
 #include <QWheelEvent>
 
 SearchSlider::SearchSlider(QWidget* parent) :
-	SayonaraSlider(parent)
+	Gui::Slider(parent)
 {
 	this->setMouseTracking(true);
 }
@@ -73,27 +73,27 @@ bool SearchSlider::event(QEvent *e)
 			break;
 	}
 
-	return SayonaraSlider::event(e);
+	return Gui::Slider::event(e);
 }
 
 
 void SearchSlider::mousePressEvent(QMouseEvent* e)
 {
-	SayonaraSlider::mousePressEvent(e);
+	Gui::Slider::mousePressEvent(e);
 	emit_new_val(this->value());
 }
 
 
 void SearchSlider::mouseReleaseEvent(QMouseEvent* e)
 {
-	SayonaraSlider::mouseReleaseEvent(e);
+	Gui::Slider::mouseReleaseEvent(e);
 	emit_new_val(this->value());
 }
 
 
 void SearchSlider::mouseMoveEvent(QMouseEvent *e)
 {
-	SayonaraSlider::mouseMoveEvent(e);
+	Gui::Slider::mouseMoveEvent(e);
 	if(this->isSliderDown()){
 		emit_new_val(this->value());
 	}

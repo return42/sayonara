@@ -25,12 +25,13 @@
 
 #include <QMap>
 
-namespace Ui { class GUI_LanguageChooser; }
+UI_FWD(GUI_LanguageChooser)
 
 class GUI_LanguageChooser :
 		public PreferenceWidgetInterface
 {
     Q_OBJECT
+	UI_CLASS(GUI_LanguageChooser)
 
 public:
     explicit GUI_LanguageChooser(QWidget *parent=nullptr);
@@ -41,17 +42,14 @@ public:
 
 	QString get_action_name() const override;
 
-
 protected:
 	void init_ui() override;
 	void retranslate_ui() override;
 	void showEvent(QShowEvent*) override;
 
-
 private:
-	Ui::GUI_LanguageChooser*	ui=nullptr;
+	// todo: pimpl
 	QMap<QString, QString>		_map;
-
 
 private:
 	void renew_combo();

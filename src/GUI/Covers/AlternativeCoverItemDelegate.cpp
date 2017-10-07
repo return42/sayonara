@@ -35,7 +35,7 @@
 AlternativeCoverItemDelegate::AlternativeCoverItemDelegate(QObject* parent) :
 	QItemDelegate(parent)
 {
-	QPixmap pm = GUI::get_pixmap("logo.png");
+	QPixmap pm = Gui::Util::pixmap("logo.png");
 
 	label = new QLabel();
 	label->setScaledContents(true);

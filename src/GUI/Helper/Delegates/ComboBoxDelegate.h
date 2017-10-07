@@ -23,21 +23,24 @@
 
 #include <QStyledItemDelegate>
 
-/**
- * @brief The ComboBoxDelegate class\n
- * Set this delegate to ComboBoxes if they should look nice
- * @ingroup GUIHelper
- */
-class ComboBoxDelegate : public QStyledItemDelegate
+namespace Gui
 {
-Q_OBJECT
+	/**
+	 * @brief The ComboBoxDelegate class\n
+	 * Set this delegate to ComboBoxes if they should look nice
+	 * @ingroup GUIHelper
+	 */
+	class ComboBoxDelegate : public QStyledItemDelegate
+	{
+	Q_OBJECT
 
-public:
-  explicit ComboBoxDelegate(QObject *parent = nullptr);
-  virtual ~ComboBoxDelegate();
+	public:
+	  explicit ComboBoxDelegate(QObject *parent = nullptr);
+	  virtual ~ComboBoxDelegate();
 
-  virtual void paint(QPainter *painter, const QStyleOptionViewItem & option, const QModelIndex & index) const override;
-  virtual QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const override;
-};
+	  virtual void paint(QPainter *painter, const QStyleOptionViewItem & option, const QModelIndex & index) const override;
+	  virtual QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const override;
+	};
+}
 
 #endif // COMBOBOXDELEGATE_H

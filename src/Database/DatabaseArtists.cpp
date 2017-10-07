@@ -228,7 +228,7 @@ int DatabaseArtists::insertArtistIntoDatabase (const QString& artist)
 
 	SayonaraQuery q(this);
 
-	QString cissearch = Library::convert_search_string(artist, search_mode());
+	QString cissearch = Library::Util::convert_search_string(artist, search_mode());
 	q.prepare("INSERT INTO artists (name, cissearch) values (:artist, :cissearch);");
 	q.bindValue(":artist", artist);
 	q.bindValue(":cissearch", cissearch);
@@ -258,7 +258,7 @@ int DatabaseArtists::updateArtist(const Artist &artist)
 
 	if(artist.id < 0) return -1;
 
-	QString cissearch = Library::convert_search_string(artist.name(), search_mode());
+	QString cissearch = Library::Util::convert_search_string(artist.name(), search_mode());
 
 	q.prepare("UPDATE artists SET name = :name, cissearch = :cissearch WHERE artistID = :artist_id;");
 	q.bindValue(":name", artist.name());
@@ -287,7 +287,7 @@ void DatabaseArtists::updateArtistCissearch()
 		QString str = "UPDATE artists SET cissearch=:cissearch WHERE artistID=:id;";
 		SayonaraQuery q(this);
 		q.prepare(str);
-		q.bindValue(":cissearch", Library::convert_search_string(artist.name(), search_mode()));
+		q.bindValue(":cissearch", Library::Util::convert_search_string(artist.name(), search_mode()));
 		q.bindValue(":id", artist.id);
 
 		if(!q.exec()){

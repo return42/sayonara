@@ -26,43 +26,46 @@
 #include <QTableView>
 
 #include "GUI/Library/Helper/ColumnHeader.h"
-#include "GUI/Helper/SayonaraWidget/SayonaraWidgetTemplate.h"
+#include "GUI/Helper/Widgets/WidgetTemplate.h"
 #include "Helper/typedefs.h"
 #include "Helper/Library/Sortorder.h"
 
-class HeaderView :
-        public SayonaraWidgetTemplate<QHeaderView>
+namespace Library
 {
-	Q_OBJECT
+	class HeaderView :
+			public Gui::WidgetTemplate<QHeaderView>
+	{
+		Q_OBJECT
 
-signals:
-	void sig_columns_changed();
+	signals:
+		void sig_columns_changed();
 
-private:
-	QMenu*				_context_menu=nullptr;
-	ColumnHeaderList	_column_headers;
+	private:
+		QMenu*				_context_menu=nullptr;
+		ColumnHeaderList	_column_headers;
 
-private:
-	void init_header_action(ColumnHeader* header, bool is_shown);
+	private:
+		void init_header_action(ColumnHeader* header, bool is_shown);
 
-private slots:
-	void action_triggered(bool b);
+	private slots:
+		void action_triggered(bool b);
 
-protected:
-	BoolList refresh_active_columns();
-    void language_changed() override;
+	protected:
+		BoolList refresh_active_columns();
+		void language_changed() override;
 
-public:
+	public:
 
-	HeaderView(Qt::Orientation orientation, QWidget* parent=nullptr);
-	QSize sizeHint() const override;
+		HeaderView(Qt::Orientation orientation, QWidget* parent=nullptr);
+		QSize sizeHint() const override;
 
-	void set_column_headers(const ColumnHeaderList& column_headers, const BoolList& shown_columns, Library::SortOrder sorting );
-	void refresh_sizes(QTableView* view);
+		void set_column_headers(const ColumnHeaderList& column_headers, const BoolList& shown_columns, Library::SortOrder sorting );
+		void refresh_sizes(QTableView* view);
 
-	BoolList get_shown_columns() const;
+		BoolList get_shown_columns() const;
 
-	ColumnHeader* get_column_header(int idx);
-};
+		ColumnHeader* get_column_header(int idx);
+	};
+}
 
 #endif // HEADERVIEW_H

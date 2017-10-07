@@ -45,7 +45,7 @@ struct GUI_ImportFolder::Private
 };
 
 GUI_ImportFolder::GUI_ImportFolder(LocalLibrary* library, bool copy_enabled, QWidget* parent) :
-	SayonaraDialog(parent)
+	Dialog(parent)
 {
 	m = Pimpl::make<Private>();
 	ui = new Ui::ImportFolder();
@@ -226,10 +226,10 @@ void GUI_ImportFolder::choose_dir()
 
 void GUI_ImportFolder::edit_pressed()
 {
-	SayonaraDialog* dialog = m->tag_edit->box_into_dialog();
+	Dialog* dialog = m->tag_edit->box_into_dialog();
 
-	connect(m->tag_edit, &GUI_TagEdit::sig_cancelled, dialog, &SayonaraDialog::reject);
-	connect(m->tag_edit, &GUI_TagEdit::sig_ok_clicked, dialog, &SayonaraDialog::accept);
+	connect(m->tag_edit, &GUI_TagEdit::sig_cancelled, dialog, &Dialog::reject);
+	connect(m->tag_edit, &GUI_TagEdit::sig_ok_clicked, dialog, &Dialog::accept);
 
 	m->tag_edit->show();
 	dialog->exec();
@@ -237,13 +237,13 @@ void GUI_ImportFolder::edit_pressed()
 
 void GUI_ImportFolder::closeEvent(QCloseEvent* e)
 {
-	SayonaraDialog::closeEvent(e);
+	Dialog::closeEvent(e);
 	m->importer->cancel_import();
 }
 
 void GUI_ImportFolder::showEvent(QShowEvent* e)
 {
-	SayonaraDialog::showEvent(e);
+	Dialog::showEvent(e);
 	ui->lab_target_path->setText( m->library->library_path() );
 }
 

@@ -25,6 +25,8 @@
 
 #include <QAction>
 
+using namespace Library;
+
 struct LocalLibraryContainer::Private
 {
 	GUI_LocalLibrary*   ui=nullptr;
@@ -97,9 +99,8 @@ QFrame* LocalLibraryContainer::header() const
 
 QPixmap LocalLibraryContainer::icon() const
 {
-	return GUI::get_pixmap("append.svg");
+	return Gui::Util::pixmap("append.svg");
 }
-
 
 void LocalLibraryContainer::set_name(const QString& name)
 {

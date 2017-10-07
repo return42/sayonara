@@ -21,14 +21,14 @@
 #ifndef EQSLIDER_H
 #define EQSLIDER_H
 
-#include "GUI/Helper/SayonaraWidget/SayonaraSlider.h"
+#include "GUI/Helper/Widgets/Slider.h"
 #include <QLabel>
 /**
  * @brief The EqSlider class
  * @ingroup Equalizer
  */
 class EqSlider : 
-	public SayonaraSlider 
+	public Gui::Slider
 {
 	Q_OBJECT
 

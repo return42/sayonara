@@ -109,18 +109,20 @@ void GUI_Player::setup_connections()
 	sc4.create_qt_shortcut(this, _play_manager, SLOT(previous()));
 	sc5.create_qt_shortcut(this, _play_manager, SLOT(volume_down()));
 	sc6.create_qt_shortcut(this, _play_manager, SLOT(volume_up()));
-	sc7.create_qt_shortcut(this, [=]()
-{_play_manager->seek_rel_ms(2000);});
-	sc8.create_qt_shortcut(this, [=]()
-{_play_manager->seek_rel_ms(-2000);});
-	sc9.create_qt_shortcut(this, [=]()
-{
+	sc7.create_qt_shortcut(this, [=]() {
+		_play_manager->seek_rel_ms(2000);
+	});
+
+	sc8.create_qt_shortcut(this, [=](){
+		_play_manager->seek_rel_ms(-2000);
+	});
+
+	sc9.create_qt_shortcut(this, [=]() {
 		int64_t ms = _play_manager->duration_ms() / 20;
 		_play_manager->seek_rel_ms(ms);
 	});
 
-	sc10.create_qt_shortcut(this, [=]()
-{
+	sc10.create_qt_shortcut(this, [=]() {
 		int64_t ms = _play_manager->duration_ms() / 20;
 		_play_manager->seek_rel_ms(-ms);
 	});

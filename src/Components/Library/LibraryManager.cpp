@@ -77,7 +77,7 @@ struct LibraryManager::Private
 			all_libs[i] = LibraryInfo(name, info.path(), info.id());
 			lib_map[library_id]->set_library_name(name);
 
-			Helper::File::create_symlink(all_libs[i].path(), all_libs[i].symlink_path());
+			Util::File::create_symlink(all_libs[i].path(), all_libs[i].symlink_path());
 			break;
 		}
 
@@ -105,7 +105,7 @@ struct LibraryManager::Private
 			library->set_library_path(new_path);
 
 			QFile::remove(info.symlink_path());
-			Helper::File::create_symlink(new_info.path(), new_info.symlink_path());
+			Util::File::create_symlink(new_info.path(), new_info.symlink_path());
 
 			break;
 		}
@@ -166,7 +166,7 @@ struct LibraryManager::Private
 	void init_symlinks()
 	{
 
-		QString dir = Helper::sayonara_path("Libraries");
+		QString dir = Util::sayonara_path("Libraries");
 		QDir d(dir);
 
 		QFileInfoList symlinks = d.entryInfoList(QDir::NoFilter);
@@ -177,14 +177,14 @@ struct LibraryManager::Private
 			}
 		}
 
-		Helper::File::create_directories(dir);
+		Util::File::create_directories(dir);
 
 		for(const LibraryInfo& info : all_libs)
 		{
 			QString target = info.symlink_path();
 
 			if(!(QFile::exists(target))){
-				Helper::File::create_symlink(info.path(), target);
+				Util::File::create_symlink(info.path(), target);
 			}
 		}
 	}
@@ -220,7 +220,7 @@ int8_t LibraryManager::add_library(const QString& name, const QString& path)
 
 	_settings->set(Set::Lib_AllLibraries, m->all_libs);
 
-	Helper::File::create_symlink(li.path(), li.symlink_path());
+	Util::File::create_symlink(li.path(), li.symlink_path());
 
 	return id;
 }
@@ -280,7 +280,7 @@ void LibraryManager::change_library_path(int8_t id, const QString& path)
 QString LibraryManager::request_library_name(const QString& path)
 {
 	QDir d(path);
-	return Helper::cvt_str_to_first_upper(d.dirName());
+	return Util::cvt_str_to_first_upper(d.dirName());
 }
 
 QList<LibraryInfo> LibraryManager::all_libraries() const

@@ -72,10 +72,10 @@ StreamRecorder::StreamRecorder(QObject *parent) :
 
 	clear();
 
-	QDir d(Helper::sayonara_path());
+	QDir d(Util::sayonara_path());
 
     // delete old stream ripper files
-    QStringList lst = d.entryList(Helper::soundfile_extensions());
+    QStringList lst = d.entryList(Util::soundfile_extensions());
 
 	for( const QString& str : lst)
 	{
@@ -127,7 +127,7 @@ QString StreamRecorder::change_track(const MetaData& md)
 		m->cur_idx++;
 	}
 
-	if(!Helper::File::is_www(md.filepath())) {
+	if(!Util::File::is_www(md.filepath())) {
 		m->recording = false;
 		m->sr_recording_dst = "";
 		return "";
@@ -196,9 +196,9 @@ QString StreamRecorder::check_session_path(const QString& sr_path)
 		return sr_path;
 	}
 
-	QString recording_dst = Helper::File::clean_filename(sr_path + "/" + m->session_path);
+	QString recording_dst = Util::File::clean_filename(sr_path + "/" + m->session_path);
     if(!QFile::exists(recording_dst)) {
-		Helper::File::create_directories(recording_dst);
+		Util::File::create_directories(recording_dst);
     }
 
 	QFileInfo fi(recording_dst);

@@ -87,7 +87,7 @@ bool StdPlaylist::change_track(int idx)
 	metadata(idx).played = true;
 
 	// ERROR: track not available in file system anymore
-	if( !Helper::File::check_file(metadata(idx).filepath()) ) {
+	if( !Util::File::check_file(metadata(idx).filepath()) ) {
 		metadata(idx).is_disabled = true;
 
 		return change_track(idx + 1);

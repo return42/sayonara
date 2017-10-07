@@ -22,7 +22,7 @@
 #define MENUBUTTON_H
 
 #include <QPushButton>
-#include "GUI/Helper/SayonaraWidget/SayonaraWidgetTemplate.h"
+#include "GUI/Helper/Widgets/WidgetTemplate.h"
 
 
 /**
@@ -32,7 +32,7 @@
  * @ingroup GUIHelper
  */
 class MenuButton :
-        public SayonaraWidgetTemplate<QPushButton>
+        public Gui::WidgetTemplate<QPushButton>
 {
 	Q_OBJECT
 

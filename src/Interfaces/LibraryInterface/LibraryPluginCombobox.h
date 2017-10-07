@@ -4,12 +4,12 @@
 #include <QComboBox>
 #include "Helper/Pimpl.h"
 #include "Helper/Settings/SayonaraClass.h"
-#include "GUI/Helper/SayonaraWidget/SayonaraComboBox.h"
+#include "GUI/Helper/Widgets/ComboBox.h"
 
 class QEvent;
 
 class LibraryPluginCombobox :
-		public SayonaraComboBox
+		public Gui::ComboBox
 {
 	Q_OBJECT
 	PIMPL(LibraryPluginCombobox)

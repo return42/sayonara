@@ -31,8 +31,8 @@ SimilarArtists::~SimilarArtists() {}
 
 static QString get_filename(const QString& artist)
 {
-    QString sayonara_path = Helper::sayonara_path() + "/" + "similar_artists/";
-    sayonara_path = Helper::File::clean_filename(sayonara_path);
+    QString sayonara_path = Util::sayonara_path() + "/" + "similar_artists/";
+    sayonara_path = Util::File::clean_filename(sayonara_path);
     QDir dir(sayonara_path);
 
     QStringList name_filters;
@@ -69,7 +69,7 @@ SimilarArtists::get_similar_artists(const QString& artist) const
     }
 
     QByteArray content, decomp;
-    bool success = Helper::File::read_file_into_byte_arr(filename, content);
+    bool success = Util::File::read_file_into_byte_arr(filename, content);
     if(!success){
         return sim_artist_map;
     }

@@ -20,7 +20,7 @@
 
 #include "GUI_AbstractStream.h"
 
-#include "GUI/Helper/SayonaraWidget/SayonaraLoadingBar.h"
+#include "GUI/Helper/Widgets/ProgressBar.h"
 #include "GUI/Helper/IconLoader/IconLoader.h"
 #include "GUI/Helper/MenuTool/MenuTool.h"
 #include "GUI/Helper/Style/Style.h"
@@ -40,9 +40,11 @@
 #include <QLabel>
 #include <QAbstractItemView>
 
+using namespace Gui;
+
 struct GUI_AbstractStream::Private
 {
-	SayonaraLoadingBar*		loading_bar=nullptr;
+	ProgressBar*			loading_bar=nullptr;
 	QComboBox*				combo_stream=nullptr;
 	QPushButton*			btn_play=nullptr;
 	QLineEdit*				le_url=nullptr;
@@ -112,7 +114,7 @@ void GUI_AbstractStream::init_ui()
 	m->btn_tool->setToolTip(Lang::get(Lang::Menu));
 	m->btn_tool->setText(Lang::get(Lang::Menu));
 
-	m->loading_bar = new SayonaraLoadingBar(this);
+	m->loading_bar = new ProgressBar(this);
 
 	init_connections();
 	init_streams();

@@ -134,7 +134,7 @@ void AsyncWebAccess::run(const QString& url, int timeout)
 			break;
 
 		case AsyncWebAccess::Behavior::Random:
-			user_agent = Helper::random_string(Helper::random_number(8, 16));
+			user_agent = Util::random_string(Util::random_number(8, 16));
 			break;
 		case AsyncWebAccess::Behavior::None:
 		default:
@@ -193,7 +193,7 @@ void AsyncWebAccess::data_available()
 
 	if(content_type.contains("audio/", Qt::CaseInsensitive) &&
 	   content_length <= 0 &&
-	   !Helper::File::is_playlistfile(url_file))
+	   !Util::File::is_playlistfile(url_file))
 	{
         m->abort_request(true);
         m->status = AsyncWebAccess::Status::AudioStream;

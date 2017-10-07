@@ -1,6 +1,6 @@
 /* SearchSlider.h
 
- * Copyright (C) 2011-2017 Lucio Carreras  
+ * Copyright (C) 2011-2017 Lucio Carreras
  *
  * This file is part of sayonara-player
  *
@@ -17,41 +17,38 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * created by Lucio Carreras, 
- * Sep 14, 2012 
+ * created by Lucio Carreras,
+ * Sep 14, 2012
  *
  */
 
 #ifndef SEARCHSLIDER_H_
 #define SEARCHSLIDER_H_
 
-#include "GUI/Helper/SayonaraWidget/SayonaraSlider.h"
+#include "GUI/Helper/Widgets/Slider.h"
 
-class SearchSlider: public SayonaraSlider 
+class SearchSlider:
+		public Gui::Slider
 {
 	Q_OBJECT
 
-	signals:
-		void sig_slider_moved(int);
+signals:
+	void sig_slider_moved(int);
 
 public:
-
 	explicit SearchSlider(QWidget* parent=nullptr);
 	virtual ~SearchSlider();
 
 	bool is_busy() const;
 
-
 protected:
-	
 	void mousePressEvent(QMouseEvent* e) override;
 	void mouseReleaseEvent(QMouseEvent* e) override;
 	void mouseMoveEvent(QMouseEvent* e) override;
 	bool event(QEvent *event) override;
 
-
 private:
-	void	emit_new_val(int value);
+	void emit_new_val(int value);
 };
 
 #endif /* SEARCHSLIDER_H_ */

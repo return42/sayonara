@@ -24,20 +24,21 @@
 #include "Helper/Settings/Settings.h"
 #include "Helper/Language.h"
 
+using namespace Gui;
 
 PlaylistTabMenu::PlaylistTabMenu(QWidget* parent) :
-    SayonaraWidgetTemplate<QMenu>(parent)
+	WidgetTemplate<QMenu>(parent)
 {
-	_action_open_file = new QAction(GUI::get_icon("play"), QString(), this);
-	_action_open_dir = new QAction(GUI::get_icon("play"), QString(), this);
-	_action_reset = new QAction(GUI::get_icon("undo"), QString(), this);
-	_action_rename = new QAction(GUI::get_icon("edit"), QString(), this);
-	_action_delete = new QAction(GUI::get_icon("delete"), QString(), this);
-	_action_save = new QAction(GUI::get_icon("save"), QString(), this);
-	_action_save_as = new QAction(GUI::get_icon("save_as"), QString(), this);
-	_action_clear = new QAction(GUI::get_icon("broom.png"), QString(), this);
-	_action_close = new QAction(GUI::get_icon("power_off"), QString(), this);
-	_action_close_others = new QAction(GUI::get_icon("power_on"), QString(), this);
+	_action_open_file = new QAction(Util::icon("play"), QString(), this);
+	_action_open_dir = new QAction(Util::icon("play"), QString(), this);
+	_action_reset = new QAction(Util::icon("undo"), QString(), this);
+	_action_rename = new QAction(Util::icon("edit"), QString(), this);
+	_action_delete = new QAction(Util::icon("delete"), QString(), this);
+	_action_save = new QAction(Util::icon("save"), QString(), this);
+	_action_save_as = new QAction(Util::icon("save_as"), QString(), this);
+	_action_clear = new QAction(Util::icon("broom.png"), QString(), this);
+	_action_close = new QAction(Util::icon("power_off"), QString(), this);
+	_action_close_others = new QAction(Util::icon("power_on"), QString(), this);
 
 	_icon_loader = IconLoader::instance();
 

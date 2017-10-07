@@ -22,7 +22,7 @@
 
 #include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
 
-namespace Ui { class GUI_FontConfig; }
+UI_FWD(GUI_FontConfig)
 
 class QFont;
 class QFontDatabase;
@@ -31,6 +31,7 @@ class GUI_FontConfig :
 		public PreferenceWidgetInterface
 {
 	Q_OBJECT
+	UI_CLASS(GUI_FontConfig)
 
 public:
 	explicit GUI_FontConfig(QWidget* parent=nullptr);
@@ -54,8 +55,7 @@ protected slots:
 
 
 private:
-	Ui::GUI_FontConfig*	ui=nullptr;
-
+	// todo: pimpl
 	QFontDatabase*	_font_db=nullptr;
 	int				_cur_font_size;
 	int				_cur_font_weight;

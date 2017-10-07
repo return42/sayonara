@@ -38,10 +38,10 @@ void Proxy::proxy_changed()
 	}
 
 	QString url = full_url();
-	Helper::set_environment("http_proxy", url.toLocal8Bit().data());
-	Helper::set_environment("https_proxy", url.toLocal8Bit().data());
-	Helper::set_environment("HTTP_PROXY", url.toLocal8Bit().data());
-	Helper::set_environment("HTTPS_PROXY", url.toLocal8Bit().data());
+	Util::set_environment("http_proxy", url.toLocal8Bit().data());
+	Util::set_environment("https_proxy", url.toLocal8Bit().data());
+	Util::set_environment("HTTP_PROXY", url.toLocal8Bit().data());
+	Util::set_environment("HTTPS_PROXY", url.toLocal8Bit().data());
 
 	QNetworkProxy::setApplicationProxy(proxy);
 }

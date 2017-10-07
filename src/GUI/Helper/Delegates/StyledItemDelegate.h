@@ -3,13 +3,16 @@
 
 #include <QStyledItemDelegate>
 
-class StyledItemDelegate : public QStyledItemDelegate
+namespace Gui
 {
-public:
-	using QStyledItemDelegate::QStyledItemDelegate;
+	class StyledItemDelegate : public QStyledItemDelegate
+	{
+	public:
+		using QStyledItemDelegate::QStyledItemDelegate;
 
-	QSize sizeHint(const QStyleOptionViewItem &option,
-	               const QModelIndex &index) const override;
-};
+		QSize sizeHint(const QStyleOptionViewItem &option,
+					   const QModelIndex &index) const override;
+	};
+}
 
 #endif // STYLEDITEMDELEGATE_H

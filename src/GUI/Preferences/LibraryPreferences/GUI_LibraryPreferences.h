@@ -24,13 +24,14 @@
 #include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
 #include "Helper/Pimpl.h"
 
-namespace Ui { class GUI_LibraryPreferences; }
+UI_FWD(GUI_LibraryPreferences)
 
 class GUI_LibraryPreferences :
 		public PreferenceWidgetInterface
 {
 	Q_OBJECT
 	PIMPL(GUI_LibraryPreferences)
+	UI_CLASS(GUI_LibraryPreferences)
 
 public:
 	explicit GUI_LibraryPreferences(QWidget* parent=nullptr);
@@ -58,8 +59,6 @@ private slots:
 	void edit_dialog_accepted();
 
 private:
-	Ui::GUI_LibraryPreferences*	ui=nullptr;
-
 	void current_item_changed(int row);
 	int current_row() const;
 };

@@ -27,13 +27,14 @@
 
 #include <QList>
 
-namespace Ui { class GUI_Spectrum; }
+UI_FWD(GUI_Spectrum)
 
 class GUI_Spectrum :
 		public EnginePlugin,
 		public SpectrumReceiver
 {
     Q_OBJECT
+	UI_CLASS(GUI_Spectrum)
 
 public:
 	explicit GUI_Spectrum(QWidget *parent=nullptr);
@@ -58,9 +59,8 @@ public slots:
 	void set_spectrum(const QList<float>&) override;
 	void sl_update_style() override;
 
-private:
-	Ui::GUI_Spectrum* ui=nullptr;
-
+private:	
+	// todo: pimpl
 	QList<float> _spec;
 	int** _steps=nullptr;
 

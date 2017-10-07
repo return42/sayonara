@@ -26,15 +26,13 @@
 
 #include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
 
-namespace Ui
-{
-	class GUI_PlaylistPreferences;
-}
+UI_FWD(GUI_PlaylistPreferences)
 
 class GUI_PlaylistPreferences :
 		public PreferenceWidgetInterface
 {
 	Q_OBJECT
+	UI_CLASS(GUI_PlaylistPreferences)
 
 public:
 	explicit GUI_PlaylistPreferences(QWidget *parent = 0);
@@ -48,9 +46,6 @@ public:
 protected:
 	void init_ui() override;
 	void retranslate_ui() override;
-
-private:
-	Ui::GUI_PlaylistPreferences*	ui=nullptr;
 
 private slots:
 	void cb_toggled(bool b);

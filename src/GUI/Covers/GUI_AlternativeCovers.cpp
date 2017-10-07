@@ -28,7 +28,7 @@
 
 #include "GUI_AlternativeCovers.h"
 #include "GUI/Covers/ui_GUI_AlternativeCovers.h"
-#include "GUI/Helper/SayonaraWidget/SayonaraLoadingBar.h"
+#include "GUI/Helper/Widgets/ProgressBar.h"
 
 #include "AlternativeCoverItemDelegate.h"
 #include "AlternativeCoverItemModel.h"
@@ -50,13 +50,15 @@
 #include <QList>
 #include <QModelIndex>
 
+using namespace Gui;
+
 struct GUI_AlternativeCovers::Private
 {
 	int						cur_idx;
 	CoverLocation			cover_location;
 	QStringList				filelist;
 	bool					is_searching;
-	SayonaraLoadingBar*		loading_bar=nullptr;
+	ProgressBar*			loading_bar=nullptr;
 
 	AlternativeCoverItemModel*		model=nullptr;
 	AlternativeCoverItemDelegate*	delegate=nullptr;
@@ -76,14 +78,14 @@ struct GUI_AlternativeCovers::Private
 
 
 GUI_AlternativeCovers::GUI_AlternativeCovers(QWidget* parent) :
-	SayonaraDialog(parent)
+	Dialog(parent)
 {
 	ui = new Ui::AlternativeCovers();
 	m = Pimpl::make<GUI_AlternativeCovers::Private>();
 
 	ui->setupUi(this);
 
-	m->loading_bar = new SayonaraLoadingBar(ui->tv_images);
+	m->loading_bar = new ProgressBar(ui->tv_images);
 	m->cur_idx = -1;
 	m->is_searching = false;
 
@@ -98,7 +100,7 @@ GUI_AlternativeCovers::GUI_AlternativeCovers(QWidget* parent) :
 	connect(ui->btn_search, &QPushButton::clicked, this, &GUI_AlternativeCovers::search_clicked);
 	connect(ui->tv_images, &QTableView::pressed, this, &GUI_AlternativeCovers::cover_pressed);	
 	connect(ui->btn_file, &QPushButton::clicked, this, &GUI_AlternativeCovers::open_file_dialog);
-	connect(ui->btn_close, &QPushButton::clicked, this, &SayonaraDialog::close);
+	connect(ui->btn_close, &QPushButton::clicked, this, &Dialog::close);
 }
 
 
@@ -324,5 +326,5 @@ void GUI_AlternativeCovers::closeEvent(QCloseEvent *e)
 
 	delete_all_files();
 
-	SayonaraDialog::closeEvent(e);
+	Dialog::closeEvent(e);
 }

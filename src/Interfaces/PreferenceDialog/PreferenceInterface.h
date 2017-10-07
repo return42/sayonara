@@ -24,8 +24,8 @@
 #include <QAction>
 #include <QByteArray>
 
-#include "GUI/Helper/SayonaraWidget/SayonaraDialog.h"
-#include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
+#include "GUI/Helper/Widgets/Dialog.h"
+#include "GUI/Helper/Widgets/Widget.h"
 
 
 /**

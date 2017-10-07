@@ -40,7 +40,10 @@ namespace Library
 
     using SearchModeMask = int;
 
-	QString convert_search_string(const QString& str, ::Library::SearchModeMask mode, const QList<QChar>& ignored_chars=QList<QChar>());
+	namespace Util
+	{
+		QString convert_search_string(const QString& str, ::Library::SearchModeMask mode, const QList<QChar>& ignored_chars=QList<QChar>());
+	}
 }
 
 #endif // LIBRARYSEARCHMODE_H

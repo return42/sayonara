@@ -300,7 +300,7 @@ bool PlaybackPipeline::configure_elements()
 
 		g_object_set(G_OBJECT(_file_sink),
 					 "buffer-size", 8192,
-					 "location", (Helper::sayonara_path() + "bla.mp3").toLocal8Bit().data(),
+					 "location", (Util::sayonara_path() + "bla.mp3").toLocal8Bit().data(),
 					 nullptr);
 
 		sinks << _file_sink;

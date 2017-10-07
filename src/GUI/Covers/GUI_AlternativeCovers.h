@@ -29,10 +29,8 @@
 #ifndef GUI_ALTERNATE_COVERS_H_
 #define GUI_ALTERNATE_COVERS_H_
 
-#include "GUI/Helper/SayonaraWidget/SayonaraDialog.h"
+#include "GUI/Helper/Widgets/Dialog.h"
 #include "Helper/Pimpl.h"
-
-namespace Ui { class AlternativeCovers; }
 
 /**
  * @brief The GUI_AlternativeCovers class
@@ -40,11 +38,14 @@ namespace Ui { class AlternativeCovers; }
  */
 class CoverLocation;
 
+UI_FWD(AlternativeCovers)
+
 class GUI_AlternativeCovers :
-		public SayonaraDialog
+		public Gui::Dialog
 {
 	Q_OBJECT
 	PIMPL(GUI_AlternativeCovers)
+	UI_CLASS(AlternativeCovers)
 
 public:
 	explicit GUI_AlternativeCovers(QWidget* parent=nullptr);
@@ -64,9 +65,6 @@ private slots:
 	void open_file_dialog();
 	void cl_new_cover(const QString& cover_path);
 	void cl_finished(bool);
-
-private:
-	Ui::AlternativeCovers*			ui=nullptr;
 
 private:
 	void reset_model();

@@ -179,7 +179,7 @@ QStringList ReloadThread::get_files_recursive(QDir base_dir)
 	QString message = tr("Reading files from file system") + "... ";
 	emit sig_reloading_library(message, 0);
 
-	QStringList soundfile_exts = Helper::soundfile_extensions();
+	QStringList soundfile_exts = Util::soundfile_extensions();
 	QStringList sub_dirs;
 	QStringList sub_files;
 
@@ -281,7 +281,7 @@ void ReloadThread::run()
 
 	// find orphaned tracks in library && delete them
 	for(const MetaData& md : v_md){
-		if(!Helper::File::check_file(md.filepath())) {
+		if(!Util::File::check_file(md.filepath())) {
 			v_to_delete << std::move(md);
 		}
 

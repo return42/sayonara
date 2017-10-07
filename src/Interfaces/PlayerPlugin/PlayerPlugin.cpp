@@ -46,7 +46,7 @@ struct PlayerPluginInterface::Private
 };
 
 PlayerPluginInterface::PlayerPluginInterface(QWidget *parent) :
-	SayonaraWidget(parent),
+	Widget(parent),
 	ShortcutWidget()
 {
 	m = Pimpl::make<Private>();
@@ -150,13 +150,13 @@ void PlayerPluginInterface::showEvent(QShowEvent* e)
 		init_ui();
 	}
 
-	SayonaraWidget::showEvent(e);
+	Widget::showEvent(e);
 }
 
 
 void PlayerPluginInterface::closeEvent(QCloseEvent* e)
 {
-	SayonaraWidget::closeEvent(e);
+	Widget::closeEvent(e);
 
 	m->pp_action->setChecked(false);
 

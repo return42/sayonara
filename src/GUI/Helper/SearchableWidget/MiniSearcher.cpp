@@ -73,7 +73,7 @@ struct MiniSearcher::Private
 
 
 MiniSearcher::MiniSearcher(QAbstractItemView* parent) :
-    SayonaraWidgetTemplate<QFrame>(parent)
+    WidgetTemplate<QFrame>(parent)
 {
 	m = Pimpl::make<MiniSearcher::Private>();
 	m->parent = parent;

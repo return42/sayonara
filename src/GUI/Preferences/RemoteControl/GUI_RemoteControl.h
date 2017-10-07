@@ -27,15 +27,13 @@
 
 #include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
 
-namespace Ui
-{
-	class GUI_RemoteControl;
-}
+UI_FWD(GUI_RemoteControl)
 
 class GUI_RemoteControl :
 		public PreferenceWidgetInterface
 {
 	Q_OBJECT
+	UI_CLASS(GUI_RemoteControl)
 
 public:
 	explicit GUI_RemoteControl(QWidget* parent=nullptr);
@@ -46,20 +44,15 @@ public:
 
 	QString get_action_name() const override;
 
-
 protected:
 	void init_ui() override;
 	void retranslate_ui() override;
-
 
 private slots:
 	void active_toggled(bool b);
 	void port_changed(int port);
 
-
 private:
-	Ui::GUI_RemoteControl*	ui=nullptr;
-
 	QString get_url_string();
 	void refresh_url();
 };

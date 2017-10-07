@@ -121,7 +121,7 @@ QString WebAccess::parse_error_message(const QString& response)
 	}
 
 	if(response.left(100).contains("failed")) {
-		return Helper::easy_tag_finder("lfm.error", response).trimmed();
+		return Util::easy_tag_finder("lfm.error", response).trimmed();
 	}
 
 	return "";
@@ -142,7 +142,7 @@ void UrlParams::append_signature()
 
     signature += LFM_API_SECRET;
 
-    QByteArray hash = Helper::calc_hash(signature);
+    QByteArray hash = Util::calc_hash(signature);
 
     this->insert("api_sig", hash);
 }

@@ -28,10 +28,7 @@
 
 class QFrame;
 
-namespace Ui
-{
-	class GUI_SoundcloudLibrary;
-}
+UI_FWD(GUI_SoundcloudLibrary)
 
 namespace SC
 {
@@ -39,9 +36,10 @@ namespace SC
 	class GUI_ArtistSearch;
 
 	class GUI_Library :
-			public GUI_AbstractLibrary
+			public ::Library::GUI_AbstractLibrary
 	{
 		Q_OBJECT
+		UI_CLASS(GUI_SoundcloudLibrary)
 		PIMPL(GUI_Library)
 
 	public:
@@ -50,23 +48,20 @@ namespace SC
 
 		QMenu*		get_menu() const;
 		QFrame*		header_frame() const;
-        	QList<::Library::Filter::Mode> search_options() const override;
+
+		QList<::Library::Filter::Mode> search_options() const override;
 
 	protected:
 		::Library::TrackDeletionMode show_delete_dialog(int n_tracks) override;
 		void init_shortcuts() override;
 
-		LibraryTableView* lv_artist() const override;
-		LibraryTableView* lv_album() const override;
-		LibraryTableView* lv_tracks() const override;
+		::Library::TableView* lv_artist() const override;
+		::Library::TableView* lv_album() const override;
+		::Library::TableView* lv_tracks() const override;
 		QLineEdit* le_search() const override;
 
 	protected slots:
 		void btn_add_clicked();
-
-	private:
-		Ui::GUI_SoundcloudLibrary*	ui=nullptr;
-
 	};
 }
 #endif // GUI_SOUNDCLOUDLIBRARY_H

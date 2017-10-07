@@ -78,7 +78,7 @@ void AlbumCoverFetchThread::run()
 	while(m->may_run) {
 
 		while(m->hashes.isEmpty() || !m->goon) {
-			Helper::sleep_ms(PauseBetweenRequests);
+			Util::sleep_ms(PauseBetweenRequests);
 		}
 
 		m->goon = false;
@@ -93,7 +93,7 @@ void AlbumCoverFetchThread::run()
 			}
 
 			if(i > 0) {
-				Helper::sleep_ms(PauseBetweenRequests);
+				Util::sleep_ms(PauseBetweenRequests);
 			}
 
 			try{
@@ -105,7 +105,7 @@ void AlbumCoverFetchThread::run()
 
 			} catch(std::exception* e) {
 				sp_log(Log::Warning, this) << "1 Exception" << e->what();
-				Helper::sleep_ms(PauseBetweenRequests);
+				Util::sleep_ms(PauseBetweenRequests);
 			}
 		}
 	}
@@ -126,7 +126,7 @@ void AlbumCoverFetchThread::add_data(const QString& hash, const CoverLocation& c
 
 			} catch(std::exception* e) {
 				sp_log(Log::Warning, this) << "2 Exception" << e->what();
-				Helper::sleep_ms(10);
+				Util::sleep_ms(10);
 			}
 		}
 	}

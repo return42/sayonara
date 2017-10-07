@@ -28,12 +28,12 @@
 
 class GUI_StartupDialog :
 		public PreferenceWidgetInterface,
-		private Ui::GUI_StartupOptions
+		private Util::Ui::GUI_StartupOptions
 {
     Q_OBJECT
 
 	friend class PreferenceWidgetInterface;
-	friend class PreferenceInterface<SayonaraWidget>;
+	friend class PreferenceInterface<Widget>;
 
 public:
     GUI_StartupDialog(QWidget *parent=nullptr);

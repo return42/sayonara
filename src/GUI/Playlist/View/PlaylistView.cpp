@@ -33,7 +33,7 @@
 
 #include "GUI/Helper/ContextMenu/LibraryContextMenu.h"
 #include "GUI/Helper/CustomMimeData.h"
-#include "GUI/Helper/SayonaraWidget/SayonaraLoadingBar.h"
+#include "GUI/Helper/Widgets/ProgressBar.h"
 #include "GUI/Helper/MimeDataHelper.h"
 
 #include "Helper/Set.h"
@@ -51,6 +51,8 @@
 #include <QDropEvent>
 #include <algorithm>
 
+using namespace Gui;
+
 struct PlaylistView::Private
 {
     LibraryContextMenu*		rc_menu=nullptr;
@@ -58,7 +60,7 @@ struct PlaylistView::Private
     PlaylistItemModel*		model=nullptr;
     PlaylistItemDelegate*	delegate=nullptr;
 
-    SayonaraLoadingBar*		progress=nullptr;
+	Gui::ProgressBar*		progress=nullptr;
     BookmarksMenu*			bookmarks_menu=nullptr;
     QAction*				bookmarks_action=nullptr;
 
@@ -107,15 +109,15 @@ void PlaylistView::init_rc_menu()
     m->bookmarks_menu = new BookmarksMenu(this);
     m->bookmarks_action = m->rc_menu->addMenu(m->bookmarks_menu);
 
-    connect(m->rc_menu, &LibraryContextMenu::sig_info_clicked, this, [=](){
+	connect(m->rc_menu, &LibraryContextMenu::sig_info_clicked, [=](){
         show_info();
     });
 
-    connect(m->rc_menu, &LibraryContextMenu::sig_edit_clicked, this, [=](){
+	connect(m->rc_menu, &LibraryContextMenu::sig_edit_clicked, [=](){
         show_edit();
     });
 
-    connect(m->rc_menu, &LibraryContextMenu::sig_lyrics_clicked, this, [=](){
+	connect(m->rc_menu, &LibraryContextMenu::sig_lyrics_clicked, [=](){
         show_lyrics();
     });
 
@@ -124,7 +126,7 @@ void PlaylistView::init_rc_menu()
     connect(m->rc_menu, &LibraryContextMenu::sig_clear_clicked, this, &PlaylistView::clear);
     connect(m->rc_menu, &LibraryContextMenu::sig_rating_changed, this, &PlaylistView::rating_changed);
 
-    connect(m->bookmarks_menu, &BookmarksMenu::sig_bookmark_pressed, this, [](uint32_t time){
+	connect(m->bookmarks_menu, &BookmarksMenu::sig_bookmark_pressed, [](uint32_t time){
         PlayManager::instance()->seek_abs_ms(time * 1000);
     });
 }
@@ -241,7 +243,7 @@ void PlaylistView::handle_drop(QDropEvent* event)
         return;
     }
 
-    bool inner_drag_drop = GUI::MimeData::is_inner_drag_drop(mimedata);
+	bool inner_drag_drop = Util::MimeData::is_inner_drag_drop(mimedata);
     if(inner_drag_drop)
     {
         bool copy = (event->keyboardModifiers() & Qt::ControlModifier);
@@ -249,25 +251,25 @@ void PlaylistView::handle_drop(QDropEvent* event)
         return;
     }
 
-    MetaDataList v_md = GUI::MimeData::get_metadata(mimedata);
+	MetaDataList v_md = Util::MimeData::get_metadata(mimedata);
     if(!v_md.isEmpty())
     {
         PlaylistHandler* plh = PlaylistHandler::instance();
         plh->insert_tracks(v_md, row+1, plh->get_current_idx());
     }
 
-    QStringList playlists = GUI::MimeData::get_playlists(mimedata);
+	QStringList playlists = Util::MimeData::get_playlists(mimedata);
     if(!playlists.isEmpty())
     {
         this->setEnabled(false);
         if(!m->progress) {
-            m->progress = new SayonaraLoadingBar(this);
+			m->progress = new Gui::ProgressBar(this);
         }
 
         m->progress->show();
         m->async_drop_index = row;
 
-        QString cover_url = GUI::MimeData::cover_url(mimedata);
+		QString cover_url = Util::MimeData::cover_url(mimedata);
 
         StreamParser* stream_parser = new StreamParser();
         stream_parser->set_cover_url(cover_url);
@@ -458,7 +460,7 @@ void PlaylistView::mouseMoveEvent(QMouseEvent* event)
     QDrag* drag = this->drag_moving(event->pos());
     if(drag)
     {
-        connect(drag, &QDrag::destroyed, this, [=]{
+		connect(drag, &QDrag::destroyed, [=](){
             this->drag_released(Dragable::ReleaseReason::Destroyed);
         });
     }

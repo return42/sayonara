@@ -68,7 +68,7 @@ void GUI_LanguageChooser::renew_combo()
 
 	QString lang_setting = _settings->get(Set::Player_Language);
 	sp_log(Log::Info) << "Language setting = " << lang_setting;
-	QDir dir(Helper::share_path("translations"));
+	QDir dir(Util::share_path("translations"));
 
 	QStringList filters;
 	filters << "*.qm";
@@ -94,7 +94,7 @@ void GUI_LanguageChooser::renew_combo()
 			continue;
 		}
 
-		QString icon_path = Helper::share_path(
+		QString icon_path = Util::share_path(
 					"translations/icons/" + country_code + ".png"
 		);
 

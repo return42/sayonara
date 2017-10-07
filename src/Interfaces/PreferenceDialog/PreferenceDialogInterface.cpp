@@ -22,7 +22,7 @@
 
 
 PreferenceDialogInterface::PreferenceDialogInterface(QWidget* parent) :
-	PreferenceInterface<SayonaraDialog>(parent) {}
+	PreferenceInterface<Dialog>(parent) {}
 
 PreferenceDialogInterface::~PreferenceDialogInterface() {}
 

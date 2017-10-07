@@ -45,12 +45,12 @@
 
 
 GUI_LibraryInfoBox::GUI_LibraryInfoBox(int8_t library_id, QWidget* parent) :
-	SayonaraDialog(parent)
+	Dialog(parent)
 {
 	ui = new Ui::GUI_LibraryInfoBox();
 	ui->setupUi(this);
     ui->lab_icon->setPixmap(
-        GUI::get_pixmap("logo.png", QSize(24,24), true)
+		Gui::Util::pixmap("logo.png", QSize(24,24), true)
     );
 
 	_library_id = library_id;
@@ -83,14 +83,14 @@ void GUI_LibraryInfoBox::skin_changed()
     LibraryInfo info = manager->library_info(_library_id);
     bool dark = (_settings->get(Set::Player_Style) == 1);
 
-    ui->lab_path->setText(Helper::create_link(info.path(), dark));
+    ui->lab_path->setText(Util::create_link(info.path(), dark));
 }
 
 
 void GUI_LibraryInfoBox::showEvent(QShowEvent *e)
 {
     refresh();
-    SayonaraDialog::showEvent(e);
+    Dialog::showEvent(e);
 }
 
 
@@ -118,8 +118,8 @@ void GUI_LibraryInfoBox::refresh()
 		filesize += md.filesize;
 	}
 
-	QString duration_string = Helper::cvt_ms_to_string(duration_ms, false);
-	QString filesize_str = Helper::File::calc_filesize_str(filesize);
+	QString duration_string = Util::cvt_ms_to_string(duration_ms, false);
+	QString filesize_str = Util::File::calc_filesize_str(filesize);
 
 	ui->lab_album_count->setText(QString::number(n_albums));
 	ui->lab_track_count->setText(QString::number(n_tracks));

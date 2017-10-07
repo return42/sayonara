@@ -23,7 +23,7 @@
 
 #include "GUI/Helper/GUI_Helper.h"
 #include "GUI/Helper/Delegates/ComboBoxDelegate.h"
-#include "GUI/Helper/SayonaraWidget/SayonaraWidgetTemplate.h"
+#include "GUI/Helper/Widgets/WidgetTemplate.h"
 #include "LibraryContainer/LibraryContainer.h"
 #include "Components/Library/LibraryManager.h"
 #include "Helper/Library/LibraryInfo.h"
@@ -84,7 +84,7 @@ struct LibraryPluginHandler::Private
 
 	void insert_dll_libraries()
 	{
-		QDir plugin_dir = QDir(Helper::lib_path());
+		QDir plugin_dir = QDir(Util::lib_path());
 		QStringList dll_filenames = plugin_dir.entryList(QDir::Files);
 
 		for(const QString& filename : dll_filenames)

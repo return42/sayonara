@@ -59,7 +59,7 @@ CommandLineData CommandLineParser::parse(int argc, char** argv)
 
 		else 
 		{
-			data.files_to_play << Helper::File::get_absolute_filename(QString(argv[i]));
+			data.files_to_play << Util::File::get_absolute_filename(QString(argv[i]));
 		}
     }
 

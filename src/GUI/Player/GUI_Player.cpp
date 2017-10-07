@@ -47,7 +47,7 @@
 #include <QTranslator>
 
 GUI_Player::GUI_Player(QTranslator* translator, QWidget* parent) :
-	SayonaraMainWindow(parent),
+	Gui::MainWindow(parent),
 	ShortcutWidget(),
 	GlobalMessageReceiverInterface("Player Main Window"),
 	Ui::Sayonara()
@@ -119,7 +119,7 @@ void GUI_Player::init_gui()
 	mute_changed(muted);
 
 	setWindowTitle(QString("Sayonara %1").arg(version));
-	setWindowIcon(GUI::get_icon("logo.png"));
+	setWindowIcon(Gui::Util::icon("logo.png"));
 	setAttribute(Qt::WA_DeleteOnClose, false);
 
 	plugin_widget->hide();
@@ -130,7 +130,7 @@ void GUI_Player::init_gui()
 void GUI_Player::language_changed()
 {
 	QString language = _settings->get(Set::Player_Language);
-	_translator->load(language, Helper::share_path("translations/"));
+	_translator->load(language, Util::share_path("translations/"));
 
 	retranslateUi(this);
 
@@ -187,7 +187,7 @@ void GUI_Player::set_info_labels(const MetaData& md)
 
 void GUI_Player::set_title_label(const QString& title)
 {
-	QString text = GUI::elide_text(title, lab_title, 2);
+	QString text = Gui::Util::elide_text(title, lab_title, 2);
 	lab_title->setText(text);
 }
 

@@ -308,7 +308,7 @@ bool StreamDataSender::send_bg()
 	QByteArray html;
 	QByteArray data;
 
-	success = Helper::File::read_file_into_byte_arr( Helper::share_path("bg-checker.png"), html );
+	success = Util::File::read_file_into_byte_arr( Util::share_path("bg-checker.png"), html );
 	if(!success){
 		return false;
 	}
@@ -379,7 +379,7 @@ bool StreamDataSender::send_favicon()
 	QByteArray arr;
 	QByteArray data;
 
-	success = Helper::File::read_file_into_byte_arr( Helper::share_path("favicon.ico"), arr );
+	success = Util::File::read_file_into_byte_arr( Util::share_path("favicon.ico"), arr );
 
 	if(!success){
 		return false;

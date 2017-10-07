@@ -57,7 +57,7 @@ struct CoverFetchThread::Private
 
 	Private(const CoverLocation& cl, int n_covers) :
 		cl(cl),
-		id(Helper::random_string(8)),
+		id(Util::random_string(8)),
 		n_covers(n_covers),
 		n_covers_found(0),
 		may_run(true)
@@ -231,7 +231,7 @@ CoverFetchThread::multi_image_fetched()
 
 			QString filename, dir, cover_path;
 			QString target_file = m->cl.cover_path();
-			Helper::File::split_filename(target_file, dir, filename);
+			Util::File::split_filename(target_file, dir, filename);
 
 			cover_path = dir + "/" + QString::number(m->n_covers_found) + "_" + filename;
 			save_and_emit_image(cover_path, img);
@@ -252,13 +252,13 @@ void
 CoverFetchThread::save_and_emit_image(const QString& filepath, const QImage& img)
 {
 	QString filename = filepath;
-	QString ext = Helper::File::calc_file_extension(filepath);
+	QString ext = Util::File::calc_file_extension(filepath);
 	if(ext.compare("gif", Qt::CaseInsensitive) == 0){
 		filename = filename.left(filename.size() - 3);
 		filename += "png";
 	}
 
-	filename = Helper::File::get_absolute_filename(filename);
+	filename = Util::File::get_absolute_filename(filename);
 
 	bool success = img.save(filename);
 	if(!success){

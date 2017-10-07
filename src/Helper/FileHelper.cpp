@@ -29,7 +29,7 @@
 
 #include <algorithm>
 
-QString Helper::File::clean_filename(const QString& path)
+QString Util::File::clean_filename(const QString& path)
 {
 	QString ret = path;
 	while(ret.contains("/./") || ret.contains("\\.\\")){
@@ -53,18 +53,18 @@ QString Helper::File::clean_filename(const QString& path)
 }
 
 
-QString Helper::File::calc_file_extension(const QString& filename) 
+QString Util::File::calc_file_extension(const QString& filename) 
 {
 	return get_file_extension(filename);
 }
 
 
-void Helper::File::remove_files_in_directory(const QString& dir_name)
+void Util::File::remove_files_in_directory(const QString& dir_name)
 {
 	remove_files_in_directory(dir_name, QStringList());
 }
 
-void Helper::File::remove_files_in_directory(const QString& dir_name, const QStringList& filters) 
+void Util::File::remove_files_in_directory(const QString& dir_name, const QStringList& filters) 
 {
 	bool success;
 	QDir dir(dir_name);
@@ -96,7 +96,7 @@ void Helper::File::remove_files_in_directory(const QString& dir_name, const QStr
 }
 
 
-void Helper::File::delete_files(const QStringList& paths)
+void Util::File::delete_files(const QStringList& paths)
 {
 	QStringList sorted_paths = paths;
 	std::sort(sorted_paths.begin(), sorted_paths.end(), [](const QString& str1, const QString& str2){
@@ -122,7 +122,7 @@ void Helper::File::delete_files(const QStringList& paths)
 }
 
 
-QString Helper::File::get_parent_directory(const QString& filename) 
+QString Util::File::get_parent_directory(const QString& filename) 
 {
 	QString ret = clean_filename(filename);
 	int last_idx = ret.lastIndexOf(QDir::separator());
@@ -135,7 +135,7 @@ QString Helper::File::get_parent_directory(const QString& filename)
 }
 
 
-QString Helper::File::get_filename_of_path(const QString& path) 
+QString Util::File::get_filename_of_path(const QString& path) 
 {
 	QString ret = clean_filename(path);
 	int last_idx = ret.lastIndexOf(QDir::separator());
@@ -148,14 +148,14 @@ QString Helper::File::get_filename_of_path(const QString& path)
 }
 
 
-void Helper::File::split_filename(const QString& src, QString& path, QString& filename) 
+void Util::File::split_filename(const QString& src, QString& path, QString& filename) 
 {
-	path = Helper::File::get_parent_directory(src);
-	filename = Helper::File::get_filename_of_path(src);
+	path = Util::File::get_parent_directory(src);
+	filename = Util::File::get_filename_of_path(src);
 }
 
 
-QStringList Helper::File::get_parent_directories(const QStringList& files) 
+QStringList Util::File::get_parent_directories(const QStringList& files) 
 {
 	QStringList folders;
 	for(const QString& file : files) {
@@ -169,7 +169,7 @@ QStringList Helper::File::get_parent_directories(const QStringList& files)
 }
 
 
-QString Helper::File::get_absolute_filename(const QString& filename)
+QString Util::File::get_absolute_filename(const QString& filename)
 {
 	QString f, d;
 	QString re_str = QString("(.*)") + QDir::separator() + "(.+)";
@@ -185,7 +185,7 @@ QString Helper::File::get_absolute_filename(const QString& filename)
 }
 
 
-QString Helper::File::calc_filesize_str(uint64_t filesize) 
+QString Util::File::calc_filesize_str(uint64_t filesize) 
 {
     uint64_t kb = 1 << 10;  // 1024
     uint64_t mb = kb << 10;
@@ -208,7 +208,7 @@ QString Helper::File::calc_filesize_str(uint64_t filesize)
 }
 
 
-bool Helper::File::is_url(const QString& str) 
+bool Util::File::is_url(const QString& str) 
 {
 	if(is_www(str)) return true;
 	if(str.startsWith("file"), Qt::CaseInsensitive) return true;
@@ -216,7 +216,7 @@ bool Helper::File::is_url(const QString& str)
 }
 
 
-bool Helper::File::is_www(const QString& str) 
+bool Util::File::is_www(const QString& str) 
 {
 	if(str.startsWith("http://")) return true;
 	else if(str.startsWith("https://")) return true;
@@ -226,14 +226,14 @@ bool Helper::File::is_www(const QString& str)
 	return false;
 }
 
-bool Helper::File::is_dir(const QString& filename) 
+bool Util::File::is_dir(const QString& filename) 
 {
 	if(!QFile::exists(filename)) return false;
 	QFileInfo fileinfo(filename);
 	return fileinfo.isDir();
 }
 
-bool Helper::File::is_file(const QString& filename) 
+bool Util::File::is_file(const QString& filename) 
 {
 	if(!QFile::exists(filename)) return false;
 	QFileInfo fileinfo(filename);
@@ -241,9 +241,9 @@ bool Helper::File::is_file(const QString& filename)
 }
 
 
-bool Helper::File::is_soundfile(const QString& filename) 
+bool Util::File::is_soundfile(const QString& filename) 
 {
-	QStringList extensions = Helper::soundfile_extensions();
+	QStringList extensions = Util::soundfile_extensions();
 	for(const QString& extension : extensions) {
 		if(filename.toLower().endsWith(extension.right(4))) {
 			return true;
@@ -254,8 +254,8 @@ bool Helper::File::is_soundfile(const QString& filename)
 }
 
 
-bool Helper::File::is_playlistfile(const QString& filename) {
-	QStringList extensions = Helper::playlist_extensions();
+bool Util::File::is_playlistfile(const QString& filename) {
+	QStringList extensions = Util::playlist_extensions();
 	for(const QString& extension : extensions) {
 		if(filename.toLower().endsWith(extension.right(4).toLower())) {
 			return true;
@@ -266,7 +266,7 @@ bool Helper::File::is_playlistfile(const QString& filename) {
 }
 
 
-bool Helper::File::create_directories(const QString& path)
+bool Util::File::create_directories(const QString& path)
 {
 	if(QFile::exists(path)){
 		return true;
@@ -304,14 +304,14 @@ bool Helper::File::create_directories(const QString& path)
 }
 
 
-bool Helper::File::is_absolute(const QString& filename)
+bool Util::File::is_absolute(const QString& filename)
 {
 	QDir dir(filename);
 	return dir.isAbsolute();
 }
 
 
-bool Helper::File::write_file(const QByteArray& arr, const QString& filename)
+bool Util::File::write_file(const QByteArray& arr, const QString& filename)
 {
 	QFile f(filename);
 	if(!f.open(QFile::WriteOnly)){
@@ -326,7 +326,7 @@ bool Helper::File::write_file(const QByteArray& arr, const QString& filename)
 }
 
 
-bool Helper::File::read_file_into_byte_arr(const QString& filename, QByteArray& content)
+bool Util::File::read_file_into_byte_arr(const QString& filename, QByteArray& content)
 {
 	QFile file(filename);
 	content.clear();
@@ -347,7 +347,7 @@ bool Helper::File::read_file_into_byte_arr(const QString& filename, QByteArray& 
 }
 
 
-bool Helper::File::read_file_into_str(const QString& filename, QString& content) 
+bool Util::File::read_file_into_str(const QString& filename, QString& content) 
 {
 	QFile file(filename);
 	content.clear();
@@ -369,7 +369,7 @@ bool Helper::File::read_file_into_str(const QString& filename, QString& content)
 }
 
 
-QString Helper::File::get_file_extension(const QString& filename)
+QString Util::File::get_file_extension(const QString& filename)
 {	
 	int last_dot = filename.lastIndexOf(".");
 	if(last_dot < 0){
@@ -380,7 +380,7 @@ QString Helper::File::get_file_extension(const QString& filename)
 }
 
 
-bool Helper::File::check_file(const QString& filepath)
+bool Util::File::check_file(const QString& filepath)
 {
 	if(is_www(filepath)){
 		return true;
@@ -389,7 +389,7 @@ bool Helper::File::check_file(const QString& filepath)
 	return QFile::exists(filepath);
 }
 
-bool Helper::File::create_symlink(const QString& source, const QString& target)
+bool Util::File::create_symlink(const QString& source, const QString& target)
 {
 	QFile f(source);
 	return f.link(target);

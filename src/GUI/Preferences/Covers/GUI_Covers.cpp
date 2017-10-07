@@ -98,8 +98,8 @@ void GUI_Covers::init_ui()
 	ui->lv_active->clear();
 	ui->lv_inactive->clear();
 
-	ui->lv_active->setItemDelegate(new StyledItemDelegate(ui->lv_active));
-	ui->lv_inactive->setItemDelegate(new StyledItemDelegate(ui->lv_inactive));
+	ui->lv_active->setItemDelegate(new Gui::StyledItemDelegate(ui->lv_active));
+	ui->lv_inactive->setItemDelegate(new Gui::StyledItemDelegate(ui->lv_inactive));
 
 	revert();
 }

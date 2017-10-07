@@ -2,22 +2,19 @@
 #define GUI_PROXY_H
 
 #include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
+#include "GUI/Helper/GUIClass.h"
 
-namespace Ui {
-    class GUI_Proxy;
-}
+UI_FWD(GUI_Proxy)
 
 class GUI_Proxy :
         public PreferenceWidgetInterface
 {
-    Q_OBJECT
+	Q_OBJECT
+	UI_CLASS(GUI_Proxy)
 
 public:
     explicit GUI_Proxy(QWidget *parent = 0);
     ~GUI_Proxy();
-
-private:
-    Ui::GUI_Proxy *ui=nullptr;
 
     // PreferenceInterface interface
 protected:

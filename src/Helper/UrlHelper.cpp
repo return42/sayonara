@@ -22,7 +22,7 @@
 #include <QRegExp>
 #include <QString>
 
-QString Helper::Url::get_protocol(const QString &url){
+QString Util::Url::get_protocol(const QString &url){
 	QRegExp re("(.+)://.*");
 
 	if(re.indexIn(url) > 0){
@@ -32,7 +32,7 @@ QString Helper::Url::get_protocol(const QString &url){
 	return "";
 }
 
-QString Helper::Url::get_base_url(const QString &url){
+QString Util::Url::get_base_url(const QString &url){
 	QRegExp re("(.+://[^/]+).*");
 
 	int idx = re.indexIn(url);
@@ -43,7 +43,7 @@ QString Helper::Url::get_base_url(const QString &url){
 	return re.cap(1);
 }
 
-QString Helper::Url::get_filename(const QString &url){
+QString Util::Url::get_filename(const QString &url){
 	QRegExp re(".+://.+/(.*)");
 
 	int idx = re.indexIn(url);

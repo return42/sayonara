@@ -189,19 +189,20 @@ void TrackChangedThread::search_similar_artists(const MetaData& md)
 }
 
 
-void TrackChangedThread::evaluate_artist_match(const ArtistMatch& artist_match){
+void TrackChangedThread::evaluate_artist_match(const ArtistMatch& artist_match)
+{
 	if(!artist_match.is_valid()){
 		return;
 	}
 
 	QByteArray arr = Compressor::compress(artist_match.to_string().toLocal8Bit());
-	Helper::File::create_directories(Helper::sayonara_path() + "/similar_artists/");
-	Helper::File::write_file(arr, Helper::sayonara_path() + "/similar_artists/" + artist_match.get_artist_name() + ".comp");
+	Util::File::create_directories(Util::sayonara_path() + "/similar_artists/");
+	Util::File::write_file(arr, Util::sayonara_path() + "/similar_artists/" + artist_match.get_artist_name() + ".comp");
 
 	// if we always take the best, it's boring
 	ArtistMatch::Quality quality, quality_org;
 
-	int rnd_number = Helper::random_number(1, 999);
+	int rnd_number = Util::random_number(1, 999);
 
 	if(rnd_number > 350) {
 		quality = ArtistMatch::Quality::Very_Good;	// [250-999]

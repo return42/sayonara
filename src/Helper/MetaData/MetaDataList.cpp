@@ -27,18 +27,27 @@
 struct MetaDataList::Private
 {
 	int current_track;
-	Private()
-	{
-		current_track = -1;
-	}
+	Private() :
+		current_track(-1)
+	{};
 
 	Private(const Private& other) :
 		CASSIGN(current_track)
 	{}
 
+	Private(Private&& other) :
+		CMOVE(current_track)
+	{}
+
 	Private& operator=(const Private& other)
 	{
 		ASSIGN(current_track);
+		return (*this);
+	}
+
+	Private& operator=(Private&& other)
+	{
+		MOVE(current_track);
 		return (*this);
 	}
 };
@@ -69,7 +78,7 @@ MetaDataList::MetaDataList(const MetaDataList& other) :
 MetaDataList::MetaDataList(MetaDataList&& other) :
 	std::vector<MetaData>()
 {
-    m = Pimpl::make<Private>(*(other.m));
+	m = Pimpl::make<Private>(std::move(*(other.m)));
     m->current_track = other.current_track();
 
 	this->resize(other.size());

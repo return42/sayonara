@@ -111,7 +111,7 @@ struct Application::Private
 		if(instance_thread){
 			instance_thread->stop();
 			while(instance_thread->isRunning()){
-				Helper::sleep_ms(100);
+				Util::sleep_ms(100);
 			}
 		}
 
@@ -243,7 +243,7 @@ bool Application::init(QTranslator* translator, const QStringList& files_to_play
 
 	sp_log(Log::Debug, this) << "Start player: " << m->timer->elapsed() << "ms";
 	m->player = new GUI_Player(translator);
-	GUI::set_main_window(m->player);
+	Gui::Util::set_main_window(m->player);
 
 	connect(m->player, &GUI_Player::sig_player_closed, this, &QCoreApplication::quit);
 
@@ -261,7 +261,7 @@ bool Application::init(QTranslator* translator, const QStringList& files_to_play
 	if(m->settings->get(Set::Notification_Show)){
 		NotificationHandler::instance()->notify("Sayonara Player",
 												   Lang::get(Lang::Version) + " " + SAYONARA_VERSION,
-												   Helper::share_path("logo.png"));
+												   Util::share_path("logo.png"));
 	}
 
 	sp_log(Log::Debug, this) << "Init plugins: " << m->timer->elapsed() << "ms";

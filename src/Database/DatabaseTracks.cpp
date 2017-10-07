@@ -652,7 +652,7 @@ void DatabaseTracks::updateTrackCissearch()
 		QString querystring = "UPDATE tracks SET cissearch=:cissearch WHERE trackID=:id;";
 		SayonaraQuery q(this);
 		q.prepare(querystring);
-		q.bindValue(":cissearch", Library::convert_search_string(md.title, search_mode()));
+		q.bindValue(":cissearch", Library::Util::convert_search_string(md.title, search_mode()));
 		q.bindValue(":id", md.id);
 
 		if(!q.exec()){
@@ -692,7 +692,7 @@ bool DatabaseTracks::updateTrack(const MetaData& md)
 
 	SayonaraQuery q(this);
 
-	QString cissearch = Library::convert_search_string(md.title, search_mode());
+	QString cissearch = Library::Util::convert_search_string(md.title, search_mode());
 
 	q.prepare("UPDATE Tracks "
 			  "SET albumID=:albumID, "
@@ -727,7 +727,7 @@ bool DatabaseTracks::updateTrack(const MetaData& md)
 	q.bindValue(":discnumber",		md.discnumber);
 	q.bindValue(":cissearch",		cissearch);
 	q.bindValue(":rating",			md.rating);
-	q.bindValue(":modifydate",		(quint64) Helper::current_date_to_int());
+	q.bindValue(":modifydate",		(quint64) Util::current_date_to_int());
 	q.bindValue(":libraryID",		md.library_id);
 
 	if (!q.exec()) {
@@ -773,14 +773,14 @@ bool DatabaseTracks::insertTrackIntoDatabase(const MetaData& md, int artist_id, 
 		return updateTrack(track_copy);
 	}
 
-	QString cissearch = Library::convert_search_string(md.title, search_mode());
+	QString cissearch = Library::Util::convert_search_string(md.title, search_mode());
 	QString querytext =
 			"INSERT INTO tracks "
 			"(filename,  albumID, artistID, albumArtistID,  title,  year,  length,  track,  bitrate,  genre,  filesize,  discnumber,  rating,  cissearch,  createdate,  modifydate,  libraryID) "
 			"VALUES "
 			"(:filename,:albumID,:artistID, :albumArtistID, :title, :year, :length, :track, :bitrate, :genre, :filesize, :discnumber, :rating, :cissearch, :createdate, :modifydate, :libraryID); ";
 
-	uint64_t current_time = Helper::current_date_to_int();
+	uint64_t current_time = Util::current_date_to_int();
 	q.prepare(querytext);
 
 	q.bindValue(":filename",		md.filepath());

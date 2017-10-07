@@ -23,7 +23,7 @@
 #include <QKeyEvent>
 
 EqSlider::EqSlider(QWidget *parent) :
-	SayonaraSlider(parent)
+	Gui::Slider(parent)
 {
 	_idx = -1;
 
@@ -48,8 +48,9 @@ int EqSlider::getIndex() const
 }
 
 
-void EqSlider::sliderChange(SliderChange change){
-	QSlider::sliderChange(change);
+void EqSlider::sliderChange(SliderChange change)
+{
+	Gui::Slider::sliderChange(change);
 
 	if(change == QAbstractSlider::SliderValueChange){
 		emit sig_value_changed(_idx, this->get_eq_value());
@@ -78,7 +79,7 @@ void EqSlider::keyPressEvent(QKeyEvent* e)
 	}
 
 	else{
-		SayonaraSlider::keyPressEvent(e);
+		Gui::Slider::keyPressEvent(e);
 	}
 
 }

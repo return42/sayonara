@@ -56,7 +56,7 @@ struct GUI_InfoDialog::Private
 
 
 GUI_InfoDialog::GUI_InfoDialog(InfoDialogContainer* container, QWidget* parent) :
-	SayonaraDialog(parent)
+	Dialog(parent)
 {
 	ui = nullptr;
     m = Pimpl::make<Private>();
@@ -182,7 +182,7 @@ void GUI_InfoDialog::tab_index_changed(GUI_InfoDialog::Tab idx)
 			{
 				MetaDataList local_md;
 				for(const MetaData& md : m->v_md){
-					if(!Helper::File::is_www(md.filepath())){
+					if(!Util::File::is_www(md.filepath())){
 						local_md << md;
 					}
 				}
@@ -225,7 +225,7 @@ void GUI_InfoDialog::show(GUI_InfoDialog::Tab tab)
 
 	bool lyric_enabled = (m->v_md.size() == 1);
 	bool tag_edit_enabled = std::any_of(m->v_md.begin(), m->v_md.end(), [](const MetaData& md){
-		return (!Helper::File::is_www(md.filepath()));
+		return (!Util::File::is_www(md.filepath()));
 	});
 
 	tab_widget->setTabEnabled((int) GUI_InfoDialog::Tab::Edit, tag_edit_enabled);
@@ -240,7 +240,7 @@ void GUI_InfoDialog::show(GUI_InfoDialog::Tab tab)
 	{
 		MetaDataList local_md;
 		for(const MetaData& md : m->v_md){
-			if(!Helper::File::is_www(md.filepath())){
+			if(!Util::File::is_www(md.filepath())){
 				local_md << md;
 			}
 		}
@@ -258,7 +258,7 @@ void GUI_InfoDialog::show(GUI_InfoDialog::Tab tab)
 	tab_widget->setCurrentIndex((int) tab);
 	tab_index_changed(tab);
 
-	SayonaraDialog::show();
+	Dialog::show();
 }
 
 
@@ -306,7 +306,7 @@ void GUI_InfoDialog::init()
 
 void GUI_InfoDialog::closeEvent(QCloseEvent* e)
 {
-	SayonaraDialog::closeEvent(e);
+	Dialog::closeEvent(e);
 
 	m->info_dialog_container->info_dialog_closed();
 }
@@ -317,5 +317,5 @@ void GUI_InfoDialog::showEvent(QShowEvent *e)
 		init();
 	}
 
-	SayonaraDialog::showEvent(e);
+	Dialog::showEvent(e);
 }

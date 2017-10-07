@@ -31,17 +31,18 @@
 
 #include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
 
-namespace Ui { class GUI_LastFM; }
-
 namespace LastFM
 {
     class Base;
 }
 
+UI_FWD(GUI_LastFM)
+
 class GUI_LastFM :
 		public PreferenceWidgetInterface
 {
 	Q_OBJECT
+	UI_CLASS(GUI_LastFM)
 
 public:
 	explicit GUI_LastFM(QWidget* parent=nullptr);
@@ -57,7 +58,7 @@ protected:
 	void retranslate_ui() override;
 
 private:
-	Ui::GUI_LastFM*		ui=nullptr;
+	// todo: pimpl
     LastFM::Base*       _lfm=nullptr;
 
 private slots:

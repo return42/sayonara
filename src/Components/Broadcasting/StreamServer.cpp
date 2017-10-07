@@ -85,7 +85,7 @@ StreamServer::~StreamServer()
 		m->server = nullptr;
 	}
 
-	Helper::sleep_ms(500);
+	Util::sleep_ms(500);
 }
 
 void StreamServer::create_server()
@@ -116,22 +116,22 @@ void StreamServer::run()
 
 	forever{
 		if(!m->mp3_enc_available){
-			Helper::sleep_ms (100);
+			Util::sleep_ms (100);
 		}
 
 		else if(!_settings->get(Set::Broadcast_Active)){
-			Helper::sleep_ms(100);
+			Util::sleep_ms(100);
 		}
 
 		else if(m->server && m->server->isListening()){
-			Helper::sleep_ms(100);
+			Util::sleep_ms(100);
 		}
 
 		if(m->server == nullptr){
 			break;
 		}
 
-		Helper::sleep_ms(250);
+		Util::sleep_ms(250);
 	}
 
 	sp_log(Log::Info) << "Radio station: Bye";

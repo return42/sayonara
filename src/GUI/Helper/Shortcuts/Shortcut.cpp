@@ -22,7 +22,7 @@
 #include "ShortcutHandler.h"
 #include "ShortcutWidget.h"
 #include "RawShortcutMap.h"
-#include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
+#include "GUI/Helper/Widgets/Widget.h"
 #include "Helper/Settings/Settings.h"
 #include "Helper/Logger/Logger.h"
 

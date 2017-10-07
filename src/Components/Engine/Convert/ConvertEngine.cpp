@@ -122,7 +122,7 @@ void ConvertEngine::configure_target(const MetaData& md)
         m->target_uri = nullptr;
     }
 
-    QString filename = Helper::File::get_filename_of_path(md.filepath());
+    QString filename = Util::File::get_filename_of_path(md.filepath());
     int idx = filename.lastIndexOf(".");
     if(idx > 0) {
         filename = filename.left(idx);

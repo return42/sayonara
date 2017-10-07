@@ -18,18 +18,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef GUI_COVERS_H
 #define GUI_COVERS_H
 
 #include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
 
-namespace Ui { class GUI_Covers; }
+UI_FWD(GUI_Covers)
 
 class GUI_Covers :
 		public PreferenceWidgetInterface
 {
+	Q_OBJECT
+	UI_CLASS(GUI_Covers)
 
 public:
 	GUI_Covers(QWidget* parent=nullptr);
@@ -43,9 +43,6 @@ public:
 protected:
 	void init_ui() override;
 	void retranslate_ui() override;
-
-private:
-	Ui::GUI_Covers* ui=nullptr;
 };
 
 

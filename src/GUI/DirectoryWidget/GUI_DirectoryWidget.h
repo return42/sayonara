@@ -21,32 +21,29 @@
 #ifndef GUI_DIRECTORYWIDGET_H
 #define GUI_DIRECTORYWIDGET_H
 
-#include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
+#include "GUI/Helper/Widgets/Widget.h"
 #include "GUI/InfoDialog/InfoDialogContainer.h"
 #include "Helper/MetaData/MetaDataFwd.h"
 #include "Helper/Pimpl.h"
 
 class QFrame;
 class QComboBox;
-namespace Ui { class GUI_DirectoryWidget; }
+
+UI_FWD(GUI_DirectoryWidget)
 
 class GUI_DirectoryWidget :
-		public SayonaraWidget,
+		public Gui::Widget,
 		public InfoDialogContainer
-
 {
 	Q_OBJECT
+	PIMPL(GUI_DirectoryWidget)
+	UI_CLASS(GUI_DirectoryWidget)
 
 public:
-	explicit GUI_DirectoryWidget(QWidget *parent = 0);
-	virtual ~GUI_DirectoryWidget();
+	explicit GUI_DirectoryWidget(QWidget* parent=nullptr);
+	~GUI_DirectoryWidget();
 
 	QFrame* header_frame() const;
-
-
-private:
-	PIMPL(GUI_DirectoryWidget)
-	Ui::GUI_DirectoryWidget* ui=nullptr;
 
 private:
 	void init_shortcuts();

@@ -47,7 +47,7 @@ struct GUI_PlaylistBottomBar::Private
 };
 
 GUI_PlaylistBottomBar::GUI_PlaylistBottomBar(QWidget *parent) :
-	SayonaraWidget(parent)
+	Widget(parent)
 {
 	m = Pimpl::make<Private>();
 	m->playlist_menu = new PlaylistMenu(this);

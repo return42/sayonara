@@ -36,7 +36,7 @@
 
 MetaDataList PlaylistParser::parse_playlist(const QString& local_filename)
 {
-	if(Helper::File::is_www(local_filename)){
+	if(Util::File::is_www(local_filename)){
 		return MetaDataList();
 	}
 
@@ -80,7 +80,7 @@ MetaDataList PlaylistParser::parse_playlist(const QString& local_filename)
 	v_md_tmp = playlist_parser->tracks();
 
 	for(const MetaData& md : v_md_tmp) {
-		if( Helper::File::check_file(md.filepath()) ){
+		if( Util::File::check_file(md.filepath()) ){
 			result << md;
 		}
 

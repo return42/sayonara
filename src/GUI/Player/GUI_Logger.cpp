@@ -47,7 +47,7 @@ void LogObject::add_log_line(const QString& str)
 
 
 GUI_Logger::GUI_Logger(QWidget *parent) :
-	SayonaraWidget(parent)
+	Widget(parent)
 {
 	connect(&log_object, &LogObject::sig_new_log,
 			this, &GUI_Logger::log_ready, Qt::QueuedConnection);

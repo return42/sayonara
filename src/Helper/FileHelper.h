@@ -27,7 +27,7 @@ class QStringList;
 class QString;
 class QByteArray;
 
-namespace Helper
+namespace Util
 {
 	/**
 	 * @brief Filehelper functions

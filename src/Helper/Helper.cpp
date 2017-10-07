@@ -65,20 +65,20 @@ QString cvtNum2String(T num, int digits) {
 	return str;
 }
 
-uint64_t Helper::date_to_int(const QDateTime& date_time)
+uint64_t Util::date_to_int(const QDateTime& date_time)
 {
 	QString str = date_time.toUTC().toString("yyMMddHHmmss");
 	return str.toULongLong();
 }
 
-uint64_t Helper::current_date_to_int()
+uint64_t Util::current_date_to_int()
 {
 	QString str = QDateTime::currentDateTimeUtc().toString("yyMMddHHmmss");
 	return str.toULongLong();
 }
 
 
-QString Helper::cvt_str_to_first_upper(const QString& str) 
+QString Util::cvt_str_to_first_upper(const QString& str) 
 {
 	QStringList lst = str.split(" ");
 	QStringList tgt_lst;
@@ -90,7 +90,7 @@ QString Helper::cvt_str_to_first_upper(const QString& str)
 	return tgt_lst.join(" ");
 }
 
-QString Helper::cvt_str_to_very_first_upper(const QString& str) 
+QString Util::cvt_str_to_very_first_upper(const QString& str) 
 {
 	if(str.isEmpty()){
 		return str;
@@ -104,7 +104,7 @@ QString Helper::cvt_str_to_very_first_upper(const QString& str)
 }
 
 
-QString Helper::cvt_ms_to_string(uint64_t msec, bool empty_zero, bool colon, bool show_days) 
+QString Util::cvt_ms_to_string(uint64_t msec, bool empty_zero, bool colon, bool show_days) 
 {
 	if(msec == 0 && empty_zero){
 		return "";
@@ -148,15 +148,15 @@ QString Helper::cvt_ms_to_string(uint64_t msec, bool empty_zero, bool colon, boo
 }
 
 
-QString Helper::sayonara_path(const QString& append_path)
+QString Util::sayonara_path(const QString& append_path)
 {
-	return Helper::File::clean_filename(
+	return Util::File::clean_filename(
 			QDir::homePath() + "/.Sayonara/" + append_path
 	);
 }
 
 
-QString Helper::share_path(const QString& append_path)
+QString Util::share_path(const QString& append_path)
 {
 	QString base_path;
 
@@ -166,10 +166,10 @@ QString Helper::share_path(const QString& append_path)
 	base_path = SAYONARA_INSTALL_SHARE_PATH;
 #endif
 
-	return Helper::File::clean_filename(base_path + "/" + append_path);
+	return Util::File::clean_filename(base_path + "/" + append_path);
 }
 
-QString Helper::lib_path(const QString& append_path)
+QString Util::lib_path(const QString& append_path)
 {
 	QString base_path;
 
@@ -179,11 +179,11 @@ QString Helper::lib_path(const QString& append_path)
 	base_path = SAYONARA_INSTALL_LIB_PATH;
 #endif
 
-	return Helper::File::clean_filename(base_path + "/" + append_path);
+	return Util::File::clean_filename(base_path + "/" + append_path);
 }
 
 
-QString Helper::create_link(const QString& name, bool dark, const QString& target, bool underline) 
+QString Util::create_link(const QString& name, bool dark, const QString& target, bool underline) 
 {
 	QString new_target;
 	QString content;
@@ -219,7 +219,7 @@ QString Helper::create_link(const QString& name, bool dark, const QString& targe
 }
 
 
-QStringList Helper::soundfile_extensions(bool with_asterisk)
+QStringList Util::soundfile_extensions(bool with_asterisk)
 {
 	QStringList filters;
 	filters << "mp3"
@@ -250,7 +250,7 @@ QStringList Helper::soundfile_extensions(bool with_asterisk)
 }
 
 
-QStringList Helper::playlist_extensions(bool with_asterisk)
+QStringList Util::playlist_extensions(bool with_asterisk)
 {
 	QStringList filters;
 
@@ -273,7 +273,7 @@ QStringList Helper::playlist_extensions(bool with_asterisk)
 }
 
 
-QStringList Helper::podcast_extensions(bool with_asterisk)
+QStringList Util::podcast_extensions(bool with_asterisk)
 {
 	QStringList filters;
 
@@ -294,7 +294,7 @@ QStringList Helper::podcast_extensions(bool with_asterisk)
 }
 
 
-QString Helper::easy_tag_finder(const QString& tag, const QString& xml_doc) 
+QString Util::easy_tag_finder(const QString& tag, const QString& xml_doc) 
 {
 	int p = tag.indexOf('.');
 	QString ret = tag;
@@ -329,13 +329,13 @@ QString Helper::easy_tag_finder(const QString& tag, const QString& xml_doc)
 }
 
 
-QByteArray Helper::calc_hash(const QByteArray& data) 
+QByteArray Util::calc_hash(const QByteArray& data) 
 {
 	return QCryptographicHash::hash(data, QCryptographicHash::Md5).toHex();
 }
 
 
-void Helper::sleep_ms(uint64_t ms)
+void Util::sleep_ms(uint64_t ms)
 {
 #ifdef Q_OS_WIN
 	Sleep(ms);
@@ -344,12 +344,12 @@ void Helper::sleep_ms(uint64_t ms)
 #endif
 }
 
-int Helper::random_number(int min, int max)
+int Util::random_number(int min, int max)
 {
 	return RandomGenerator().get_number(min, max);
 }
 
-QStringList Helper::ip_addresses()
+QStringList Util::ip_addresses()
 {
 	QStringList ret;
 	QList<QHostAddress> host_list;
@@ -368,7 +368,7 @@ QStringList Helper::ip_addresses()
 
 #include <cstdlib>
 
-void Helper::set_environment(const QString& key, const QString& value)
+void Util::set_environment(const QString& key, const QString& value)
 {
 #ifdef Q_OS_WIN
 	QString str = key + "=" + value;
@@ -379,7 +379,7 @@ void Helper::set_environment(const QString& key, const QString& value)
 #endif
 }
 
-QString Helper::random_string(int max_chars)
+QString Util::random_string(int max_chars)
 {
 	QString ret;
 	for(int i=0; i<max_chars; i++){

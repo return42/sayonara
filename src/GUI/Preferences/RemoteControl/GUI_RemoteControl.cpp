@@ -93,7 +93,7 @@ void GUI_RemoteControl::port_changed(int port)
 QString GUI_RemoteControl::get_url_string()
 {
 	int port = ui->sb_port->value();
-	QStringList ips = Helper::ip_addresses();
+	QStringList ips = Util::ip_addresses();
 
 	QStringList ret;
 	for(const QString& ip : ips){

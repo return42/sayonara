@@ -90,10 +90,10 @@ bool AbstractPipeline::init(GstState state)
 
 	_progress_timer = new QTimer(this);
 	_progress_timer->setInterval(200);
-	connect(_progress_timer, &QTimer::timeout, this, [=]()
+	connect(_progress_timer, &QTimer::timeout, [=]()
 	{
 		if(this->get_state() != GST_STATE_NULL){
-					PipelineCallbacks::position_changed(this);
+			PipelineCallbacks::position_changed(this);
 		}
 	});
 

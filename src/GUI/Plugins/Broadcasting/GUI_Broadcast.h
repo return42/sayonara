@@ -24,17 +24,14 @@
 #include "Interfaces/PlayerPlugin/PlayerPlugin.h"
 #include "Helper/Pimpl.h"
 
-namespace Ui { class GUI_Broadcast; }
+UI_FWD(GUI_Broadcast)
 
 class GUI_Broadcast :
 		public PlayerPluginInterface
 {
 	Q_OBJECT
-
-private:
 	PIMPL(GUI_Broadcast)
-
-	Ui::GUI_Broadcast*	ui=nullptr;
+	UI_CLASS(GUI_Broadcast)
 
 public:
 	explicit GUI_Broadcast(QWidget *parent=nullptr);
@@ -42,7 +39,6 @@ public:
 
 	QString get_name() const override;
 	QString get_display_name() const override;
-
 
 private slots:
 	void connection_established(const QString& ip);

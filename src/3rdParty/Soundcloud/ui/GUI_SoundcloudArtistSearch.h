@@ -22,22 +22,23 @@
 #define GUI_SOUNDCLOUDARTISTSEARCH_H
 
 #include "Helper/Pimpl.h"
-#include "GUI/Helper/SayonaraWidget/SayonaraDialog.h"
+#include "GUI/Helper/Widgets/Dialog.h"
 
 class ArtistList;
 class MetaDataList;
 class AlbumList;
 
-namespace Ui { class GUI_SoundcloudArtistSearch; }
+UI_FWD(GUI_SoundcloudArtistSearch)
 
 namespace SC
 {
 	class Library;
 
 	class GUI_ArtistSearch :
-			public SayonaraDialog
+			public Gui::Dialog
 	{
 		Q_OBJECT
+		UI_CLASS(GUI_SoundcloudArtistSearch)
 		PIMPL(GUI_ArtistSearch)
 
 	public:
@@ -56,9 +57,6 @@ namespace SC
 		void tracks_fetched(const MetaDataList& tracks);
 
 		void artist_selected(int idx);
-
-	private:
-		Ui::GUI_SoundcloudArtistSearch* ui=nullptr;
 
 	private:
 		void set_tracks_label(int n_tracks);

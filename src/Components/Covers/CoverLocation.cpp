@@ -98,7 +98,7 @@ CoverLocation& CoverLocation::operator=(const CoverLocation& other)
 
 QString CoverLocation::get_cover_directory(const QString& append_path)
 {
-	QString cover_dir = Helper::sayonara_path("covers");
+	QString cover_dir = Util::sayonara_path("covers");
 	if(!QFile::exists(cover_dir)){
 		QDir().mkdir(cover_dir);
 	}
@@ -107,7 +107,7 @@ QString CoverLocation::get_cover_directory(const QString& append_path)
 		cover_dir += "/" + append_path;
 	}
 
-	return Helper::File::clean_filename(cover_dir);
+	return Util::File::clean_filename(cover_dir);
 }
 
 QString CoverLocation::preferred_path() const
@@ -126,7 +126,7 @@ QString CoverLocation::preferred_path() const
 CoverLocation CoverLocation::getInvalidLocation() 
 {
 	CoverLocation cl;
-	cl.m->cover_path = Helper::share_path("logo.png");
+	cl.m->cover_path = Util::share_path("logo.png");
 	cl.m->search_urls.clear();
 	cl.m->search_term = "";
 	cl.m->valid = false;
@@ -136,7 +136,7 @@ CoverLocation CoverLocation::getInvalidLocation()
 
 bool CoverLocation::isInvalidLocation(const QString& cover_path)
 {
-	QString path1 = Helper::File::clean_filename(cover_path);
+	QString path1 = Util::File::clean_filename(cover_path);
 	QString path2 = getInvalidLocation().cover_path();
 
 	return (path1 == path2);
@@ -334,7 +334,7 @@ CoverLocation CoverLocation::get_cover_location(const MetaData& md)
 
 	if(!md.cover_download_url().isEmpty())
 	{
-		QString extension = Helper::File::get_file_extension(md.cover_download_url());
+		QString extension = Util::File::get_file_extension(md.cover_download_url());
 
 		QString cover_token = CoverHelper::calc_cover_token(md.artist(), md.album());
 		QString cover_path = get_cover_directory(cover_token + "." + extension);

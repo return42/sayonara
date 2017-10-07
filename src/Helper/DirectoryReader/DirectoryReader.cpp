@@ -35,7 +35,7 @@
 
 DirectoryReader::DirectoryReader ()
 {
-	_name_filters = Helper::soundfile_extensions();
+	_name_filters = Util::soundfile_extensions();
 }
 
 DirectoryReader::~DirectoryReader () {}
@@ -86,8 +86,8 @@ MetaDataList DirectoryReader::get_md_from_filelist(const QStringList& lst)
 
 	// fetch sound and playlist files
 	QStringList filter;
-	filter << Helper::soundfile_extensions();
-	filter << Helper::playlist_extensions();
+	filter << Util::soundfile_extensions();
+	filter << Util::playlist_extensions();
 
 	set_filter(filter);
 
@@ -96,24 +96,24 @@ MetaDataList DirectoryReader::get_md_from_filelist(const QStringList& lst)
 			continue;
 		}
 
-		if(Helper::File::is_dir(str)) {
+		if(Util::File::is_dir(str)) {
 			QStringList files;
 			QDir dir(str);
 			dir.cd(str);
 
 			get_files_in_dir_rec(dir, files);
 			for(const QString& file : files){
-				if(Helper::File::is_soundfile(file)){
+				if(Util::File::is_soundfile(file)){
 					sound_files << file;
 				}
 			}
 		}
 
-		else if(Helper::File::is_soundfile(str)){
+		else if(Util::File::is_soundfile(str)){
 			sound_files << str;
 		}
 
-		else if(Helper::File::is_playlistfile(str)) {
+		else if(Util::File::is_playlistfile(str)) {
 			playlist_files << str;
 		}
 	}

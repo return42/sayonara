@@ -23,7 +23,7 @@
 
 #include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
 
-namespace Ui { class GUI_Shortcuts; }
+UI_FWD(GUI_Shortcuts)
 
 class ShortcutHandler;
 class GUI_ShortcutEntry;
@@ -36,6 +36,7 @@ class GUI_Shortcuts final:
 		public PreferenceWidgetInterface
 {
 	Q_OBJECT
+	UI_CLASS(GUI_Shortcuts)
 
 public:
 	explicit GUI_Shortcuts(QWidget* parent=nullptr);
@@ -51,8 +52,7 @@ protected:
 	void retranslate_ui() override;
 
 private:
-	Ui::GUI_Shortcuts*			ui=nullptr;
-
+	// TODO: Pimpl
 	ShortcutHandler*			_sch = nullptr;
 	QList<GUI_ShortcutEntry*>	_entries;
 

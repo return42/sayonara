@@ -90,13 +90,13 @@ void ImportCache::add_standard_file(const QString& filename, const QString& pare
 
 	m->files << filename;
 
-	QString pure_src_filename = Helper::File::get_filename_of_path(filename);
+	QString pure_src_filename = Util::File::get_filename_of_path(filename);
 	QString target_subdir;
 
 	if(!parent_dir.isEmpty()){
-		QString file_dir = Helper::File::get_parent_directory(filename);
-		QString sub_dir = file_dir.remove(Helper::File::get_absolute_filename(parent_dir));
-		QString pure_srcdir = Helper::File::get_filename_of_path(parent_dir);
+		QString file_dir = Util::File::get_parent_directory(filename);
+		QString sub_dir = file_dir.remove(Util::File::get_absolute_filename(parent_dir));
+		QString pure_srcdir = Util::File::get_filename_of_path(parent_dir);
 
 		target_subdir = pure_srcdir + "/" + sub_dir + "/";
 	}

@@ -128,7 +128,7 @@ Bookmarks::CreationStatus Bookmarks::create()
 		return Bookmarks::CreationStatus::AlreadyThere;
 	}
 
-	QString name = Helper::cvt_ms_to_string(cur_time * 1000, true, true, false);
+	QString name = Util::cvt_ms_to_string(cur_time * 1000, true, true, false);
 	bool success = m->db->insertBookmark(m->md.id, cur_time, name);
 
 	if(success){

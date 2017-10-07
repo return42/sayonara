@@ -21,9 +21,13 @@
 #ifndef PREFERENCEWIDGETINTERFACE_H
 #define PREFERENCEWIDGETINTERFACE_H
 
-
+#include "GUI/Helper/GUIClass.h"
 #include "PreferenceInterface.h"
-class SayonaraWidget;
+namespace Gui
+{
+	class Widget;
+	class Dialog;
+}
 
 /**
  * @brief Abstract Interface you should use when creating a preferences item.
@@ -36,11 +40,12 @@ class SayonaraWidget;
  * @ingroup Interfaces
  * @ingroup Preferences
  */
-class PreferenceWidgetInterface : public PreferenceInterface<SayonaraWidget>
+class PreferenceWidgetInterface :
+		public PreferenceInterface<Gui::Widget>
 {
 	Q_OBJECT
 
-	friend class PreferenceInterface<SayonaraDialog>;
+	friend class PreferenceInterface<Gui::Dialog>;
 
 public:
 	/**

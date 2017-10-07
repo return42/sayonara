@@ -26,8 +26,10 @@
 
 #include <algorithm>
 
+using namespace Library;
+
 HeaderView::HeaderView(Qt::Orientation orientation, QWidget* parent) :
-    SayonaraWidgetTemplate<QHeaderView>(orientation, parent)
+    WidgetTemplate<QHeaderView>(orientation, parent)
 {
 	_context_menu = new QMenu(this);
 

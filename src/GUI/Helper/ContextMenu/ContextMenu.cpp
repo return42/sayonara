@@ -26,21 +26,23 @@
 
 #include <algorithm>
 
+using namespace Gui;
+
 ContextMenu::ContextMenu(QWidget *parent) :
-    SayonaraWidgetTemplate<QMenu>(parent)
+	Gui::WidgetTemplate<QMenu>(parent)
 {
 	_timer = new QTimer(this);
 	_icon_loader = IconLoader::instance();
 
-	_action_open = new QAction(GUI::get_icon("open"), QString(), this);
-	_action_edit = new QAction(GUI::get_icon("edit"), QString(), this);
-	_action_new = new QAction(GUI::get_icon("new"), QString(), this);
-	_action_undo = new QAction(GUI::get_icon("undo"), QString(), this);
-	_action_default = new QAction(GUI::get_icon("undo"), QString(), this);
-	_action_save = new QAction(GUI::get_icon("save"), QString(), this);
-	_action_save_as = new QAction(GUI::get_icon("save_as"), QString(), this);
-	_action_rename = new QAction(GUI::get_icon("edit"), QString(), this);
-	_action_delete = new QAction(GUI::get_icon("delete"), QString(), this);
+	_action_open = new QAction(Util::icon("open"), QString(), this);
+	_action_edit = new QAction(Util::icon("edit"), QString(), this);
+	_action_new = new QAction(Util::icon("new"), QString(), this);
+	_action_undo = new QAction(Util::icon("undo"), QString(), this);
+	_action_default = new QAction(Util::icon("undo"), QString(), this);
+	_action_save = new QAction(Util::icon("save"), QString(), this);
+	_action_save_as = new QAction(Util::icon("save_as"), QString(), this);
+	_action_rename = new QAction(Util::icon("edit"), QString(), this);
+	_action_delete = new QAction(Util::icon("delete"), QString(), this);
 
 	_actions << addSeparator()
 			<< _action_new
@@ -193,7 +195,7 @@ void ContextMenu::showEvent(QShowEvent* e)
 
 	QTimer::singleShot(300, this, SLOT(timed_out()));
 
-	SayonaraWidgetTemplate<QMenu>::showEvent(e);
+	WidgetTemplate<QMenu>::showEvent(e);
 }
 
 void ContextMenu::timed_out()

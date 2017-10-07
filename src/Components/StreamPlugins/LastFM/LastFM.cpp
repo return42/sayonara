@@ -279,7 +279,6 @@ void Base::scrobble(const MetaData& md)
 // private slot
 void Base::sl_similar_artists_available(IDList artist_ids)
 {
-	return;
 	if(artist_ids.isEmpty()){
 		return;
 	}
@@ -289,12 +288,8 @@ void Base::sl_similar_artists_available(IDList artist_ids)
 
 	PlaylistHandler* plh = PlaylistHandler::instance();
 
-	PlaylistConstPtr active_playlist;
-
-	int active_idx;
-
-	active_idx = plh->get_active_idx();
-	active_playlist = plh->get_playlist_at(active_idx);
+	int active_idx = plh->get_active_idx();
+	PlaylistConstPtr active_playlist = plh->get_playlist_at(active_idx);
 	const MetaDataList& v_md = active_playlist->playlist();
 
 	std::random_shuffle(artist_ids.begin(), artist_ids.end());

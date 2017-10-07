@@ -22,6 +22,6 @@
 
 
 PreferenceWidgetInterface::PreferenceWidgetInterface(QWidget* parent) :
-	PreferenceInterface<SayonaraWidget>(parent) {}
+	PreferenceInterface<Widget>(parent) {}
 
 PreferenceWidgetInterface::~PreferenceWidgetInterface() {}

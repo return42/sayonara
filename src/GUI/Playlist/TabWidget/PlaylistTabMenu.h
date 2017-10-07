@@ -20,7 +20,7 @@
 #ifndef PLAYLISTTABMENU_H
 #define PLAYLISTTABMENU_H
 
-#include "GUI/Helper/SayonaraWidget/SayonaraWidgetTemplate.h"
+#include "GUI/Helper/Widgets/WidgetTemplate.h"
 #include "PlaylistMenuEntry.h"
 
 #include <QMenu>
@@ -29,7 +29,7 @@
 class IconLoader;
 
 class PlaylistTabMenu :
-        public SayonaraWidgetTemplate<QMenu>
+		public Gui::WidgetTemplate<QMenu>
 {
 	Q_OBJECT
 

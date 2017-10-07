@@ -39,7 +39,7 @@ struct SC::GUI_ArtistSearch::Private
 };
 
 SC::GUI_ArtistSearch::GUI_ArtistSearch(SC::Library* library, QWidget *parent) :
-	SayonaraDialog(parent)
+	Dialog(parent)
 {
 	ui = new Ui::GUI_SoundcloudArtistSearch();
 	ui->setupUi(this);

@@ -605,7 +605,7 @@ TagEdit*AbstractLibrary::tag_edit()
 	if(!m->tag_edit){
 		m->tag_edit = new TagEdit(this);
 		connect(m->tag_edit, &TagEdit::finished, this, &AbstractLibrary::refresh);
-		connect(m->tag_edit, &TagEdit::sig_progress, this, [=](int progress){
+		connect(m->tag_edit, &TagEdit::sig_progress, [=](int progress){
 			emit sig_reloading_library(Lang::get(Lang::ReloadLibrary), progress);
 		});
 	}

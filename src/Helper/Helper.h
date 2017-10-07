@@ -35,7 +35,7 @@ class QDateTime;
  * @brief Helper functions
  * @ingroup Helper
  */
-namespace Helper 
+namespace Util
 {
 	uint64_t current_date_to_int();
 	uint64_t date_to_int(const QDateTime& date);

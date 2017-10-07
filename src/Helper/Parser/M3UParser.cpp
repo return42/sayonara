@@ -56,13 +56,13 @@ void M3UParser::parse()
 			continue;
 		}
 
-		if(Helper::File::is_playlistfile(line)){
+		if(Util::File::is_playlistfile(line)){
 			MetaDataList v_md = PlaylistParser::parse_playlist(line);
 			add_tracks(v_md);
 			continue;
 		}
 
-		else if( !Helper::File::is_www(line)) {
+		else if( !Util::File::is_www(line)) {
 			parse_local_file(line, md);
 		}
 

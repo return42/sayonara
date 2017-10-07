@@ -45,7 +45,7 @@ struct CachingThread::Private
 				return;
 			}
 
-			if(Helper::File::is_dir(filename)){
+			if(Util::File::is_dir(filename)){
 				QStringList dir_files;
 				QDir dir(filename);
 
@@ -65,7 +65,7 @@ struct CachingThread::Private
 	void extract_soundfiles()
 	{
 		for(const QString& filename : cache->get_files()){
-			if(Helper::File::is_soundfile(filename)){
+			if(Util::File::is_soundfile(filename)){
 				MetaData md(filename);
 
 				bool success = Tagging::getMetaDataOfFile(md);

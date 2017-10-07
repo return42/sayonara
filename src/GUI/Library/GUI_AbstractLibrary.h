@@ -22,7 +22,7 @@
 #define GUI_ABSTRACTLIBRARY_H
 
 #include "GUI/Helper/Delegates/ComboBoxDelegate.h"
-#include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
+#include "GUI/Helper/Widgets/Widget.h"
 
 #include "Helper/typedefs.h"
 #include "Helper/SetFwd.h"
@@ -39,96 +39,99 @@ class QPushButton;
 class QComboBox;
 
 class AbstractLibrary;
-class LibraryTableView;
 
-
-class GUI_AbstractLibrary :
-		public SayonaraWidget
+namespace Library
 {
-	Q_OBJECT
-	PIMPL(GUI_AbstractLibrary)
+	class TableView;
 
-public:
-	explicit GUI_AbstractLibrary(AbstractLibrary* library,
-								 QWidget *parent=nullptr);
-
-	virtual ~GUI_AbstractLibrary();
-
-private:
-	void init();
-    void init_search_bar();
-
-
-protected:
-	virtual void init_headers();
-    virtual void init_views();
-	virtual void init_shortcuts();
-    virtual void init_connections();
-
-	virtual ::Library::TrackDeletionMode show_delete_dialog(int n_tracks)=0;
-
-protected slots:
-	virtual void _sl_live_search_changed();
-
-    virtual void lib_tracks_ready();
-    virtual void lib_albums_ready();
-    virtual void lib_artists_ready();
-
-    virtual void artist_sel_changed(const IndexSet& indexes);
-    virtual void album_sel_changed(const IndexSet& indexes);
-    virtual void track_sel_changed(const IndexSet& indexes);
-
-    virtual void item_middle_clicked(const QPoint& p);
-    virtual void item_double_clicked(const QModelIndex& index);
-
-    virtual void columns_title_changed();
-    virtual void columns_album_changed();
-    virtual void columns_artist_changed();
-
-	virtual void sortorder_title_changed(::Library::SortOrder);
-	virtual void sortorder_album_changed(::Library::SortOrder);
-	virtual void sortorder_artist_changed(::Library::SortOrder);
-
-    virtual void search_cleared();
-    virtual void search_return_pressed();
-    virtual void search_edited(const QString&);
-    virtual void search_mode_changed(::Library::Filter::Mode);
-
-    virtual void delete_current_tracks();
-
-	virtual void refresh_artist();
-	virtual void refresh_album();
-	virtual void refresh_tracks();
-
-	virtual void append();
-	virtual void append_tracks();
-	virtual void play_next();
-	virtual void play_next_tracks();
-
-	virtual void show_delete_answer(QString);
-
-
-public slots:
-	virtual void id3_tags_changed();
-
-protected:
-
-	virtual LibraryTableView* lv_artist() const=0;
-	virtual LibraryTableView* lv_album() const=0;
-	virtual LibraryTableView* lv_tracks() const=0;
-	virtual QLineEdit* le_search() const=0;
-    virtual QList<Library::Filter::Mode> search_options() const=0;
-
-	template<typename T, typename UI>
-	void setup_parent(T* subclass, UI** ui)
+	class GUI_AbstractLibrary :
+			public Gui::Widget
 	{
-		*ui = new UI();
+		Q_OBJECT
+		PIMPL(GUI_AbstractLibrary)
 
-		UI* ui_ptr = *ui;
-		ui_ptr->setupUi(subclass);
+	public:
+		explicit GUI_AbstractLibrary(AbstractLibrary* library,
+									 QWidget *parent=nullptr);
 
-		init();
-	}
-};
+		virtual ~GUI_AbstractLibrary();
+
+	private:
+		void init();
+		void init_search_bar();
+
+
+	protected:
+		virtual void init_headers();
+		virtual void init_views();
+		virtual void init_shortcuts();
+		virtual void init_connections();
+
+		virtual ::Library::TrackDeletionMode show_delete_dialog(int n_tracks)=0;
+
+	protected slots:
+		virtual void _sl_live_search_changed();
+
+		virtual void lib_tracks_ready();
+		virtual void lib_albums_ready();
+		virtual void lib_artists_ready();
+
+		virtual void artist_sel_changed(const IndexSet& indexes);
+		virtual void album_sel_changed(const IndexSet& indexes);
+		virtual void track_sel_changed(const IndexSet& indexes);
+
+		virtual void item_middle_clicked(const QPoint& p);
+		virtual void item_double_clicked(const QModelIndex& index);
+
+		virtual void columns_title_changed();
+		virtual void columns_album_changed();
+		virtual void columns_artist_changed();
+
+		virtual void sortorder_title_changed(::Library::SortOrder);
+		virtual void sortorder_album_changed(::Library::SortOrder);
+		virtual void sortorder_artist_changed(::Library::SortOrder);
+
+		virtual void search_cleared();
+		virtual void search_return_pressed();
+		virtual void search_edited(const QString&);
+		virtual void search_mode_changed(::Library::Filter::Mode);
+
+		virtual void delete_current_tracks();
+
+		virtual void refresh_artist();
+		virtual void refresh_album();
+		virtual void refresh_tracks();
+
+		virtual void append();
+		virtual void append_tracks();
+		virtual void play_next();
+		virtual void play_next_tracks();
+
+		virtual void show_delete_answer(QString);
+
+
+	public slots:
+		virtual void id3_tags_changed();
+
+	protected:
+
+		virtual ::Library::TableView* lv_artist() const=0;
+		virtual ::Library::TableView* lv_album() const=0;
+		virtual ::Library::TableView* lv_tracks() const=0;
+		virtual QLineEdit* le_search() const=0;
+		virtual QList<::Library::Filter::Mode> search_options() const=0;
+
+		template<typename T, typename UI>
+		void setup_parent(T* subclass, UI** ui)
+		{
+			*ui = new UI();
+
+			UI* ui_ptr = *ui;
+			ui_ptr->setupUi(subclass);
+
+			init();
+		}
+	};
+}
 
 #endif // GUI_ABSTRACTLIBRARY_H

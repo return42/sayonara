@@ -24,16 +24,16 @@
 #ifndef GUI_PLAYERPLUGIN_H
 #define GUI_PLAYERPLUGIN_H
 
-#include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
+#include "GUI/Helper/Widgets/Widget.h"
 
-namespace Ui { class GUI_PlayerPlugin; }
+UI_FWD(GUI_PlayerPlugin)
 
 class PlayerPluginInterface;
 class GUI_PlayerPlugin :
-		public SayonaraWidget
-
+		public Gui::Widget
 {
 	Q_OBJECT
+	UI_CLASS(GUI_PlayerPlugin)
 
 public:
 	explicit GUI_PlayerPlugin(QWidget *parent = nullptr);
@@ -42,9 +42,9 @@ public:
 	void set_content(PlayerPluginInterface* player_plugin);
 	void show(PlayerPluginInterface* player_plugin);
 
+	// todo: pimpl
 private:
 	PlayerPluginInterface* _current_plugin=nullptr;
-	Ui::GUI_PlayerPlugin* ui=nullptr;
 
 private:
 	void close_cur_plugin();

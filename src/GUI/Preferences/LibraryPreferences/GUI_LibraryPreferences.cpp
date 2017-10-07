@@ -64,11 +64,13 @@ void GUI_LibraryPreferences::init_ui()
 	m->model = new LibraryListModel(ui->lv_libs);
 
 	ui->lv_libs->setModel(m->model);
-	ui->lv_libs->setItemDelegate(new StyledItemDelegate(ui->lv_libs));
+	ui->lv_libs->setItemDelegate(
+		new Gui::StyledItemDelegate(ui->lv_libs)
+	);
     ui->tab_widget->setCurrentIndex(0);
 
 	QItemSelectionModel* sel_model = ui->lv_libs->selectionModel();
-	connect(sel_model, &QItemSelectionModel::currentChanged, this, [=](const QModelIndex& current, const QModelIndex& previous){
+	connect(sel_model, &QItemSelectionModel::currentChanged, [=](const QModelIndex& current, const QModelIndex& previous){
 		Q_UNUSED(previous)
 		current_item_changed(current.row());
 	});
@@ -170,9 +172,6 @@ void GUI_LibraryPreferences::new_clicked()
 	GUI_EditLibrary* edit_dialog = new GUI_EditLibrary(this);
 
 	connect(edit_dialog, &GUI_EditLibrary::sig_accepted, this, &GUI_LibraryPreferences::edit_dialog_accepted);
-    /*connect(edit_dialog, &GUI_EditLibrary::sig_closed, this, [&edit_dialog](){
-		edit_dialog->deleteLater();
-    });*/
 
 	edit_dialog->show();
 }

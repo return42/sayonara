@@ -30,7 +30,9 @@
 #include <QPixmap>
 #include <QMainWindow>
 
-QIcon GUI::get_icon(const QString& icon_name)
+using namespace Gui;
+
+QIcon Util::icon(const QString& icon_name)
 {
 	QString path;
 
@@ -54,7 +56,7 @@ QIcon GUI::get_icon(const QString& icon_name)
 	return icon;
 }
 
-QPixmap GUI::get_pixmap(const QString& icon_name, QSize sz, bool keep_aspect)
+QPixmap Util::pixmap(const QString& icon_name, QSize sz, bool keep_aspect)
 {
 	QString path = QString(":/Icons/") + icon_name;
 	if(path.endsWith(".png")){
@@ -95,16 +97,17 @@ QPixmap GUI::get_pixmap(const QString& icon_name, QSize sz, bool keep_aspect)
 
 static QMainWindow* main_window=nullptr;
 
-QMainWindow* GUI::get_main_window()
+QMainWindow* Util::main_window()
 {
-	return main_window;
+	return ::main_window;
 }
 
-void GUI::set_main_window(QMainWindow* window){
-	main_window = window;
+void Util::set_main_window(QMainWindow* window)
+{
+	::main_window = window;
 }
 
-QString GUI::elide_text(const QString &text, QWidget *widget, int max_lines)
+QString Util::elide_text(const QString &text, QWidget *widget, int max_lines)
 {
 	QFontMetrics metric = widget->fontMetrics();
 	int width = widget->width();

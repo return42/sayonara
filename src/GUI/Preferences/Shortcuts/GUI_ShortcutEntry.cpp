@@ -28,7 +28,7 @@
 #include <QMessageBox>
 
 GUI_ShortcutEntry::GUI_ShortcutEntry(const Shortcut& shortcut, QWidget* parent) :
-	SayonaraWidget(parent),
+	Widget(parent),
 	_shortcut(shortcut)
 {
 	ui = new Ui::GUI_ShortcutEntry();

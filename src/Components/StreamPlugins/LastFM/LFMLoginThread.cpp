@@ -63,8 +63,8 @@ void LoginThread::wa_response(const QByteArray& data)
 	QString str = QString::fromUtf8(data);
 
 	_login_info.logged_in = true;
-	_login_info.session_key = Helper::easy_tag_finder("lfm.session.key", str);
-	_login_info.subscriber = (Helper::easy_tag_finder("lfm.session.subscriber", str).toInt() == 1);
+	_login_info.session_key = Util::easy_tag_finder("lfm.session.key", str);
+	_login_info.subscriber = (Util::easy_tag_finder("lfm.session.subscriber", str).toInt() == 1);
 	_login_info.error = str;
 
 	if(_login_info.session_key.size() >= 32){

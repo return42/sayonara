@@ -99,7 +99,7 @@ static void init_diacritic_chars()
 	diacritic_chars.insert(QString::fromUtf8("ÿ"), "y");
 }
 
-QString Library::convert_search_string(const QString& str, Library::SearchModeMask mode, const QList<QChar>& ignored_chars)
+QString Library::Util::convert_search_string(const QString& str, Library::SearchModeMask mode, const QList<QChar>& ignored_chars)
 {
 	if(diacritic_chars.isEmpty()){
 		init_diacritic_chars();

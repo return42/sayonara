@@ -69,12 +69,12 @@ QString Style::get_style(bool dark)
     QString style;
 
 	if(!dark) {
-		Helper::File::read_file_into_str( Helper::share_path("standard.css"), style );
+		Util::File::read_file_into_str( Util::share_path("standard.css"), style );
 	}
 
     else{
-		Helper::File::read_file_into_str( Helper::share_path("dark.css"), style );
-		style.replace("<<SHARE_PATH>>", Helper::share_path());
+		Util::File::read_file_into_str( Util::share_path("dark.css"), style );
+		style.replace("<<SHARE_PATH>>", Util::share_path());
     }
 
 	style.replace("<<FONT_FAMILY>>", font_family);

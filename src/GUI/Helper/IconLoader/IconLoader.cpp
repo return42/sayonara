@@ -195,7 +195,7 @@ QIcon IconLoader::icon(const QString& name, const QString& dark_name)
 		}
 	}
 
-	return GUI::get_icon(dark_name);
+	return Gui::Util::icon(dark_name);
 }
 
 QIcon IconLoader::icon(const QStringList& names, const QString& dark_name)
@@ -227,7 +227,7 @@ QIcon IconLoader::icon(const QStringList& names, const QString& dark_name)
 		}
 	}
 
-	return GUI::get_icon(dark_name);
+	return Gui::Util::icon(dark_name);
 }
 
 bool IconLoader::has_std_icon(const QString& name) const

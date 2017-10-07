@@ -22,13 +22,13 @@
 #define GUI_SHUTDOWN_H
 
 #include "GUI/ShutdownDialog/ui_GUI_Shutdown.h"
-#include "GUI/Helper/SayonaraWidget/SayonaraDialog.h"
+#include "GUI/Helper/Widgets/Dialog.h"
 #include "Helper/Shutdown/Shutdown.h"
 
 #ifdef WITH_SHUTDOWN
 
 class GUI_Shutdown :
-		public SayonaraDialog,
+		public Gui::Dialog,
 		protected Ui::GUI_Shutdown
 {
 	Q_OBJECT

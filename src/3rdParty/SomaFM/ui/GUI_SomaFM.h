@@ -23,7 +23,7 @@
 #ifndef GUI_SOMAFM_H
 #define GUI_SOMAFM_H
 
-#include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
+#include "GUI/Helper/Widgets/Widget.h"
 
 #include <QItemSelection>
 
@@ -31,25 +31,20 @@
 class QComboBox;
 class QFrame;
 
-namespace Ui
-{
-	class GUI_SomaFM;
-}
-
+UI_FWD(GUI_SomaFM)
 namespace SomaFM
 {
 	class Station;
 	class Library;
 
 	class GUI_SomaFM :
-			public SayonaraWidget
+			public Gui::Widget
 	{
 		Q_OBJECT
+		UI_CLASS(GUI_SomaFM)
 
 	private:
-		SomaFM::Library*		_library=nullptr;
-		Ui::GUI_SomaFM*		ui=nullptr;
-
+		SomaFM::Library*	_library=nullptr;
 
 	public:
 		explicit GUI_SomaFM(QWidget *parent = 0);

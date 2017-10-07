@@ -135,7 +135,7 @@ void GUI_Player::rec_changed(bool b)
 
 void GUI_Player::buffering(int progress)
 {
-	sli_buffer->set_position(SayonaraLoadingBar::Position::Middle);
+	sli_buffer->set_position(Gui::ProgressBar::Position::Middle);
 
 	if(progress > 0 && progress < 100)
 	{
@@ -185,7 +185,7 @@ void GUI_Player::set_progress_tooltip(int val)
 
 	double percent = (val * 1.0) / max;
 	uint64_t cur_pos_ms =  (uint64_t) (percent * duration);
-	QString cur_pos_string = Helper::cvt_ms_to_string(cur_pos_ms);
+	QString cur_pos_string = Util::cvt_ms_to_string(cur_pos_ms);
 
 	QToolTip::showText( QCursor::pos(), cur_pos_string );
 }
@@ -201,7 +201,7 @@ void GUI_Player::set_cur_pos_label(int val)
 
 	double percent = (val * 1.0) / max;
 	uint64_t cur_pos_ms =  (uint64_t) (percent * duration);
-	QString cur_pos_string = Helper::cvt_ms_to_string(cur_pos_ms);
+	QString cur_pos_string = Util::cvt_ms_to_string(cur_pos_ms);
 
 	lab_cur_time->setText(cur_pos_string);
 }
@@ -211,7 +211,7 @@ void GUI_Player::set_total_time_label(int64_t total_time)
 {
 	QString length_str;
 	if(total_time > 0){
-		length_str = Helper::cvt_ms_to_string(total_time, true);
+		length_str = Util::cvt_ms_to_string(total_time, true);
 	}
 
 	lab_max_time->setText(length_str);
@@ -280,7 +280,7 @@ void GUI_Player::cur_pos_changed(uint64_t pos_ms)
 	}
 
 	if(!sli_progress->is_busy()){
-		QString cur_pos_string = Helper::cvt_ms_to_string(pos_ms);
+		QString cur_pos_string = Util::cvt_ms_to_string(pos_ms);
 		lab_cur_time->setText(cur_pos_string);
 		sli_progress->setValue(new_val);
 	}

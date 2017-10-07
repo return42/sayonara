@@ -469,18 +469,6 @@ void PlaylistHandler::save_all_playlists()
 }
 
 
-int PlaylistHandler::get_active_idx_of_cur_track() const
-{
-    return m->active_playlist_idx;
-    for(PlaylistPtr pl : m->playlists){
-		if(pl->current_track_index() >= 0){
-			return pl->playlist_index();
-		}
-	}
-
-    return m->current_playlist_idx;
-}
-
 void PlaylistHandler::close_playlist(int idx)
 {
     if(!between(idx, m->playlists)){

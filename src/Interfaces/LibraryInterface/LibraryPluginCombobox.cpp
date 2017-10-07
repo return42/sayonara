@@ -20,7 +20,7 @@ struct LibraryPluginCombobox::Private
 
 
 LibraryPluginCombobox::LibraryPluginCombobox(const QString& text, QWidget* parent) :
-	SayonaraComboBox(parent)
+	ComboBox(parent)
 {
 	m = Pimpl::make<Private>();
 

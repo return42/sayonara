@@ -7,22 +7,22 @@ SET(SOURCES
     LocalLibraryContainer.cpp
 	EmptyLibraryContainer.cpp
 
-    Models/LibraryItemModelAlbums.cpp
-    Models/LibraryItemModelArtists.cpp
-    Models/LibraryItemModel.cpp
-    Models/LibraryItemModelTracks.cpp
-    Models/AlbumCoverModel.cpp
+	Models/AlbumModel.cpp
+	Models/ArtistModel.cpp
+	Models/ItemModel.cpp
+	Models/TrackModel.cpp
+	Models/CoverModel.cpp
     Models/AlbumCoverFetchThread.cpp
 
-    Delegates/LibraryRatingDelegate.cpp
-    Delegates/AlbumCoverDelegate.cpp
+    Delegates/RatingDelegate.cpp
+	Delegates/CoverDelegate.cpp
 
-    Views/LibraryGenreView.cpp
-    Views/LibraryViewAlbum.cpp
-    Views/LibraryView.cpp
-    Views/LibraryTableView.cpp
+    Views/GenreView.cpp
+	Views/AlbumView.cpp
+    Views/View.cpp
+    Views/TableView.cpp
     Views/HeaderView.cpp
-    Views/AlbumCoverView.cpp
+    Views/CoverView.cpp
 
     Helper/DiscPopupMenu.cpp
     Helper/LocalLibraryMenu.cpp

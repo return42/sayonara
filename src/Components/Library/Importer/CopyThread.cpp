@@ -93,9 +93,9 @@ void CopyThread::copy()
 			continue;
 		}
 
-		target_dir = Helper::File::get_parent_directory(target_filename);
+		target_dir = Util::File::get_parent_directory(target_filename);
 
-		success = Helper::File::create_directories(target_dir);
+		success = Util::File::create_directories(target_dir);
 		if(!success){
 			continue;
 		}

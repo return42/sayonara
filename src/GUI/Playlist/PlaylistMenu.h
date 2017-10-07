@@ -21,7 +21,7 @@
 #ifndef PLAYLISTMENU_H
 #define PLAYLISTMENU_H
 
-#include "GUI/Helper/SayonaraWidget/SayonaraWidgetTemplate.h"
+#include "GUI/Helper/Widgets/WidgetTemplate.h"
 
 #include <QMenu>
 
@@ -29,7 +29,7 @@ class GUI_PlaylistEntryLook;
 class QTimer;
 
 class PlaylistMenu :
-        public SayonaraWidgetTemplate<QMenu>
+		public Gui::WidgetTemplate<QMenu>
 {
 	Q_OBJECT
 

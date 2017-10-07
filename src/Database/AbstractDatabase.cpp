@@ -44,7 +44,7 @@ struct AbstractDatabase::Private
 		this->db_id = db_id;
 		this->db_dir = db_dir;
 		this->db_name = db_name;
-		this->db_path = Helper::sayonara_path(db_name);
+		this->db_path = Util::sayonara_path(db_name);
 	}
 };
 
@@ -132,7 +132,7 @@ bool AbstractDatabase::create_db()
 	bool success;
 	QDir dir = QDir::homePath();
 
-	QString sayonara_path = Helper::sayonara_path();
+	QString sayonara_path = Util::sayonara_path();
 	if(!QFile::exists(sayonara_path)) {
 		success = dir.mkdir(".Sayonara");
 		if(!success) {
@@ -153,7 +153,7 @@ bool AbstractDatabase::create_db()
 		return false;
 	}
 
-	QString source_db_file = Helper::share_path(m->db_dir + "/" + m->db_name);
+	QString source_db_file = Util::share_path(m->db_dir + "/" + m->db_name);
 
 	success = QFile::exists(m->db_path);
 

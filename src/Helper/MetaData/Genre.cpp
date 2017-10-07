@@ -81,7 +81,7 @@ uint32_t Genre::id() const
 
 QString Genre::name() const
 {
-	return Helper::cvt_str_to_first_upper(m->name);
+	return Util::cvt_str_to_first_upper(m->name);
 }
 
 void Genre::set_name(const QString& name)

@@ -26,7 +26,7 @@
 #include <QCloseEvent>
 
 GUI_StyleSettings::GUI_StyleSettings(QWidget *parent) :
-	SayonaraDialog(parent),
+	Dialog(parent),
 	Ui::GUI_Style()
 {
 	setupUi(this);
@@ -386,7 +386,7 @@ void GUI_StyleSettings::closeEvent(QCloseEvent * e) {
         }
     }
 
-	SayonaraDialog::closeEvent(e);
+	Dialog::closeEvent(e);
 }
 
 void GUI_StyleSettings::spin_box_changed(int v) {

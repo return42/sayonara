@@ -41,7 +41,7 @@ void PlaylistDBWrapper::apply_tags(MetaDataList& v_md)
 {
 	for(MetaData& md : v_md){
 		if(md.is_extern){
-			if(Helper::File::is_file(md.filepath())){
+			if(Util::File::is_file(md.filepath())){
 				Tagging::getMetaDataOfFile(md);
 			}
 		}

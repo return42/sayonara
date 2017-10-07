@@ -27,7 +27,7 @@
 
 #include "Helper/Message/GlobalMessageReceiverInterface.h"
 #include "Helper/MetaData/RadioMode.h"
-#include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
+#include "GUI/Helper/Widgets/Widget.h"
 #include "GUI/Helper/Shortcuts/ShortcutWidget.h"
 
 #include <QSystemTrayIcon>
@@ -44,7 +44,7 @@ class QMessageBox;
 class GUI_Logger;
 
 class GUI_Player :
-		public SayonaraMainWindow,
+		public Gui::MainWindow,
 		public ShortcutWidget,
 		public GlobalMessageReceiverInterface,
 		private Ui::Sayonara

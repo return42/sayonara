@@ -53,7 +53,7 @@
 #include <QTimer>
 
 GUI_Playlist::GUI_Playlist(QWidget *parent) :
-	SayonaraWidget(parent)
+	Widget(parent)
 {
 	ui = new Ui::Playlist_Window();
 	ui->setupUi(this);
@@ -325,7 +325,7 @@ void GUI_Playlist::set_total_time_label()
 	}
 
 	if(dur_ms > 0){
-		time_str = Helper::cvt_ms_to_string(dur_ms, true, false);
+		time_str = Util::cvt_ms_to_string(dur_ms, true, false);
 	}
 
 	cur_view = get_current_view();
@@ -362,8 +362,8 @@ void GUI_Playlist::open_file_clicked(int tgt_idx)
 
 	QStringList filetypes;
 
-	filetypes << Helper::soundfile_extensions();
-	filetypes << Helper::playlist_extensions();
+	filetypes << Util::soundfile_extensions();
+	filetypes << Util::playlist_extensions();
 
 	QString filetypes_str = tr("Media files") + " (" + filetypes.join(" ") + ")";
 

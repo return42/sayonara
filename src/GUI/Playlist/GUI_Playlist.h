@@ -44,12 +44,13 @@ class PlayManager;
 class PlaylistView;
 class PlaylistHandler;
 
-namespace Ui { class Playlist_Window; }
+UI_FWD(Playlist_Window)
 
 class GUI_Playlist :
-		public SayonaraWidget
+		public Gui::Widget
 {
 	Q_OBJECT
+	UI_CLASS(Playlist_Window)
 
 public:
 	explicit GUI_Playlist(QWidget *parent=nullptr);
@@ -59,7 +60,7 @@ private:
 	PlayManager*			_play_manager=nullptr;
 	PlaylistHandler*		_playlist=nullptr;
 	Playlist::Type			_playlist_type;
-	Ui::Playlist_Window*	ui=nullptr;
+
 
 private:
 	PlaylistView* get_view_by_idx(int idx);

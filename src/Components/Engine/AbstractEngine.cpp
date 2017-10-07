@@ -129,7 +129,7 @@ bool Engine::set_uri(const QString &filepath)
         m->uri = nullptr;
     }
 
-    bool playing_stream = Helper::File::is_www(filepath);
+    bool playing_stream = Util::File::is_www(filepath);
 
     // stream, but don't want to record
     // stream is already uri

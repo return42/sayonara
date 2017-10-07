@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "EmptyLibraryContainer.h"
 #include "GUI/Helper/IconLoader/IconLoader.h"
 #include "GUI/Library/GUI_EmptyLibrary.h"
@@ -28,6 +26,8 @@
 #include <QIcon>
 #include <QComboBox>
 #include <QPixmap>
+
+using namespace Library;
 
 struct EmptyLibraryContainer::Private
 {

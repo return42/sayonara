@@ -76,20 +76,24 @@ QVariant SomaFM::StationModel::data(const QModelIndex& index, int role) const
 	int row = index.row();
 	int col = index.column();
 
-	if(!index.isValid()){
+	if(!index.isValid())
+	{
 		sp_log(Log::Debug, this) << "Index not valid";
 		return QVariant();
 	}
 
-	if(role == Qt::TextAlignmentRole) {
+	if(role == Qt::TextAlignmentRole)
+	{
 		return (int)(Qt::AlignVCenter| Qt::AlignLeft);
 	}
 
-	if(row < 0 || row >= rowCount()) {
+	if(row < 0 || row >= rowCount())
+	{
 		return QVariant();
 	}
 
-	if(role == Qt::DecorationRole) {
+	if(role == Qt::DecorationRole)
+	{
 		if(m->status == Status::Waiting){
 			return QVariant();
 		}
@@ -104,15 +108,16 @@ QVariant SomaFM::StationModel::data(const QModelIndex& index, int role) const
 
 		bool loved = m->stations[row].is_loved();
 		if(loved){
-			return GUI::get_icon("star.png");
+			return Gui::Util::icon("star.png");
 		}
 
 		else{
-			return GUI::get_icon("star_disabled.png");
+			return Gui::Util::icon("star_disabled.png");
 		}
 	}
 
-	else if(role == Qt::DisplayRole && col == 1) {
+	else if(role == Qt::DisplayRole && col == 1)
+	{
 		if(m->stations.isEmpty()){
 			if(m->status == Status::Waiting){
 				return tr("Initializing") + "...";
@@ -128,7 +133,8 @@ QVariant SomaFM::StationModel::data(const QModelIndex& index, int role) const
 		return m->stations[row].name();
 	}
 
-	else if(role == Qt::WhatsThisRole) {
+	else if(role == Qt::WhatsThisRole)
+	{
 		if(m->stations.isEmpty()){
 			return QVariant();
 		}
@@ -264,7 +270,7 @@ QMimeData* SomaFM::StationModel::mimeData(const QModelIndexList& indexes) const
 
 	QMimeData* mime_data = new QMimeData();
 
-    GUI::MimeData::set_cover_url(mime_data, cover_url);
+	Gui::Util::MimeData::set_cover_url(mime_data, cover_url);
 	mime_data->setUrls(urls);
 
 	return mime_data;

@@ -28,6 +28,8 @@
 
 #include <QUrl>
 
+using namespace Gui::Util;
+
 SomaFM::PlaylistModel::PlaylistModel(QObject* parent) :
     QStringListModel(parent) {}
 
@@ -80,7 +82,7 @@ QMimeData* SomaFM::PlaylistModel::mimeData(const QModelIndexList& indexes) const
     mime_data->setUrls({url});
     if(!location.search_urls().isEmpty())
     {
-        GUI::MimeData::set_cover_url(mime_data, location.search_urls().first());
+		MimeData::set_cover_url(mime_data, location.search_urls().first());
 	}
 
     return mime_data;

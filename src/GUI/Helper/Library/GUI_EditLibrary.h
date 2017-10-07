@@ -3,17 +3,16 @@
 
 #include <QDialog>
 #include "Helper/Pimpl.h"
-#include "GUI/Helper/SayonaraWidget/SayonaraDialog.h"
+#include "GUI/Helper/Widgets/Dialog.h"
 
-namespace Ui {
-	class GUI_EditLibrary;
-}
+UI_FWD(GUI_EditLibrary)
 
 class GUI_EditLibrary :
-        public SayonaraDialog
+		public Gui::Dialog
 {
 	Q_OBJECT
 	PIMPL(GUI_EditLibrary)
+	UI_CLASS(GUI_EditLibrary)
 
 signals:
 	void sig_accepted();
@@ -39,13 +38,9 @@ public:
 
     EditMode edit_mode() const;
 
-
 protected:
     void language_changed() override;
     void skin_changed() override;
-
-private:
-	Ui::GUI_EditLibrary *ui=nullptr;
 
 private slots:
 	void ok_clicked();

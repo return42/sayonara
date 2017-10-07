@@ -165,12 +165,6 @@ public:
 	 */
 	void change_track(int track_idx, int pl_idx);
 
-	/**
-	 * @brief get playlist where current track is playing
-	 * @return
-	 */
-	int get_active_idx_of_cur_track() const;
-
 
 	/**
 	 * @brief get active playlist index

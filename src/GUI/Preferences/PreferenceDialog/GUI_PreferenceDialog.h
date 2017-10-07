@@ -26,10 +26,7 @@
 #include <QList>
 #include <typeinfo>
 
-namespace Ui
-{
-	class GUI_PreferenceDialog;
-}
+UI_FWD(GUI_PreferenceDialog)
 
 class PreferenceWidgetInterface;
 
@@ -41,6 +38,7 @@ class GUI_PreferenceDialog :
 		public PreferenceDialogInterface
 {
 	Q_OBJECT
+	UI_CLASS(GUI_PreferenceDialog)
 
 public:
 	explicit GUI_PreferenceDialog(QWidget *parent = 0);
@@ -65,7 +63,7 @@ protected:
 	void hide_all();
 
 private:
-	Ui::GUI_PreferenceDialog* ui=nullptr;
+	// todo: pimpl
 	QList<PreferenceWidgetInterface*> _dialogs;
 };
 

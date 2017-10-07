@@ -25,7 +25,7 @@
 #include <QMenu>
 #include <QTimer>
 
-#include "GUI/Helper/SayonaraWidget/SayonaraWidgetTemplate.h"
+#include "GUI/Helper/Widgets/WidgetTemplate.h"
 
 class IconLoader;
 
@@ -40,7 +40,7 @@ using ContextMenuEntries=int;
  * @ingroup GUIHelper
  */
 class ContextMenu :
-        public SayonaraWidgetTemplate<QMenu>
+		public Gui::WidgetTemplate<QMenu>
 {
 	Q_OBJECT
 

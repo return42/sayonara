@@ -72,8 +72,8 @@ void GUI_Speed::init_ui()
 	connect(ui->sli_pitch, &QSlider::valueChanged, this, &GUI_Speed::pitch_changed);
 	connect(ui->btn_revert_speed, &QPushButton::clicked, this, &GUI_Speed::revert_speed_clicked);
 	connect(ui->btn_revert_pitch, &QPushButton::clicked, this, &GUI_Speed::revert_pitch_clicked);
-	connect(ui->sli_speed, &SayonaraSlider::sig_slider_hovered, this, &GUI_Speed::speed_hovered);
-	connect(ui->sli_pitch, &SayonaraSlider::sig_slider_hovered, this, &GUI_Speed::pitch_hovered);
+	connect(ui->sli_speed, &Gui::Slider::sig_slider_hovered, this, &GUI_Speed::speed_hovered);
+	connect(ui->sli_pitch, &Gui::Slider::sig_slider_hovered, this, &GUI_Speed::pitch_hovered);
 
 	Set::listen(SetNoDB::Pitch_found, this, &GUI_Speed::_sl_pitch_found_changed);
 }

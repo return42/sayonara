@@ -27,7 +27,7 @@
 #include "Components/Covers/CoverLocation.h"
 #include "Components/TagEdit/TagEdit.h"
 #include "GUI/Helper/Delegates/ComboBoxDelegate.h"
-#include "GUI/Helper/SayonaraWidget/SayonaraCompleter.h"
+#include "GUI/Helper/Widgets/Completer.h"
 
 #include "Helper/Message/Message.h"
 #include "Helper/Tagging/Tagging.h"
@@ -59,7 +59,7 @@ struct GUI_TagEdit::Private
 };
 
 GUI_TagEdit::GUI_TagEdit(QWidget* parent) :
-	SayonaraWidget(parent)
+	Widget(parent)
 {
 	m = Pimpl::make<Private>();
 	ui = new Ui::GUI_TagEdit();
@@ -376,13 +376,13 @@ void GUI_TagEdit::init_completer()
 		artiststr << artist.name();
 	}
 
-	SayonaraCompleter* album_completer = new SayonaraCompleter(albumstr, this);
+	Gui::Completer* album_completer = new Gui::Completer(albumstr, this);
 	ui->le_album->setCompleter(album_completer);
 
-	SayonaraCompleter* album_artist_completer = new SayonaraCompleter(artiststr, this);
+	Gui::Completer* album_artist_completer = new Gui::Completer(artiststr, this);
 	ui->le_album_artist->setCompleter(album_artist_completer);
 
-	SayonaraCompleter* artist_completer = new SayonaraCompleter(artiststr, this);
+	Gui::Completer* artist_completer = new Gui::Completer(artiststr, this);
 	ui->le_artist->setCompleter(artist_completer);
 }
 
@@ -679,7 +679,7 @@ void GUI_TagEdit::apply_tag_all_clicked()
 	IdxList not_valid;
 
 	QString not_valid_str = tr("Cannot apply tag for") + "<br /><br /> ";
-	MetaDataList v_md =m->tag_edit->get_all_metadata();
+	MetaDataList v_md = m->tag_edit->get_all_metadata();
 	int n_tracks = v_md.size();
 
 	for(int i=0; i<n_tracks; i++){

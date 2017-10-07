@@ -20,7 +20,7 @@
 #ifndef PLAYLISTBOTTOMBAR_H
 #define PLAYLISTBOTTOMBAR_H
 
-#include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
+#include "GUI/Helper/Widgets/Widget.h"
 
 #include "Helper/Shutdown/Shutdown.h"
 #include "Helper/Playlist/PlaylistFwd.h"
@@ -31,11 +31,14 @@ class PlaylistMenu;
 	class GUI_Shutdown;
 #endif
 
-namespace Ui { class GUI_PlaylistBottomBar; }
+UI_FWD(GUI_PlaylistBottomBar)
+
 class GUI_PlaylistBottomBar :
-		public SayonaraWidget
+		public Gui::Widget
 {
 	Q_OBJECT
+	PIMPL(GUI_PlaylistBottomBar)
+	UI_CLASS(GUI_PlaylistBottomBar)
 
 signals:
 	void sig_show_numbers_changed(bool active);
@@ -61,11 +64,6 @@ private slots:
 	void shutdown_toggled(bool b);
 	void shutdown_closed();
 #endif
-
-private:
-	PIMPL(GUI_PlaylistBottomBar)
-	Ui::GUI_PlaylistBottomBar* ui=nullptr;
-
 };
 
 #endif // PLAYLISTBOTTOMBAR_H

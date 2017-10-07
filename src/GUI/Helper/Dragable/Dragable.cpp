@@ -57,15 +57,15 @@ struct Dragable::Private
 		for(const QUrl& url : urls)
 		{
 			QString filename = url.toLocalFile();
-			if(Helper::File::is_playlistfile(filename)){
+			if(Util::File::is_playlistfile(filename)){
 				playlists++;
 			}
 
-			else if(Helper::File::is_soundfile(filename)){
+			else if(Util::File::is_soundfile(filename)){
 				tracks++;
 			}
 
-			else if(Helper::File::is_dir(filename)){
+			else if(Util::File::is_dir(filename)){
 				dirs++;
 			}
 		}
@@ -152,7 +152,7 @@ QDrag* Dragable::drag_moving(const QPoint& p)
 
 	QPixmap cover = pixmap();
 	if(cover.isNull()){
-		cover = GUI::get_pixmap("logo.png", logo_size, true);
+		cover = Gui::Util::pixmap("logo.png", logo_size, true);
 	}
 
 	QPixmap pm(pm_width, pm_height);

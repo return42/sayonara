@@ -51,7 +51,6 @@ class MetaData :
 public:
 	QString title;
 
-
     uint32_t length_ms;
     uint32_t filesize;
 
@@ -62,6 +61,7 @@ public:
 	uint32_t bitrate;
 	uint16_t track_num;
     uint16_t year;
+
 	uint8_t discnumber;
 	uint8_t n_discs;
 

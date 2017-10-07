@@ -27,7 +27,7 @@
 
 QStringList LocalCoverSearcher::get_local_cover_paths_from_filename(const QString& filepath){
 	QString file, dir;
-	Helper::File::split_filename(filepath, dir, file);
+	Util::File::split_filename(filepath, dir, file);
 	return get_local_cover_paths_from_dirname(dir);
 }
 

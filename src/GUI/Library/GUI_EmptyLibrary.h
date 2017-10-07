@@ -18,37 +18,35 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef GUI_EMPTYLIBRARY_H
 #define GUI_EMPTYLIBRARY_H
 
 #include "Helper/Pimpl.h"
-#include <QComboBox>
+#include "GUI/Helper/GUIClass.h"
+#include <QWidget>
 
-namespace Ui
-{
-	class GUI_EmptyLibrary;
-}
+UI_FWD(GUI_EmptyLibrary)
 
 class QFrame;
-class GUI_EmptyLibrary :
-    public QWidget
+
+namespace Library
 {
-	Q_OBJECT
+	class GUI_EmptyLibrary :
+		public QWidget
+	{
+		Q_OBJECT
+		UI_CLASS(GUI_EmptyLibrary)
 
-public:
-	explicit GUI_EmptyLibrary(QWidget* parent=nullptr);
-	GUI_EmptyLibrary(const GUI_EmptyLibrary& other)  = delete;
-	~GUI_EmptyLibrary();
+	public:
+		explicit GUI_EmptyLibrary(QWidget* parent=nullptr);
+		GUI_EmptyLibrary(const GUI_EmptyLibrary& other)  = delete;
+		~GUI_EmptyLibrary();
 
-	QFrame* header_frame() const;
+		QFrame* header_frame() const;
 
-private slots:
-	void set_lib_path_clicked();
-
-private:
-	Ui::GUI_EmptyLibrary* ui=nullptr;
-};
+	private slots:
+		void set_lib_path_clicked();
+	};
+}
 
 #endif // GUI_EMPTYLIBRARY_H

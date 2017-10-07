@@ -24,50 +24,54 @@
 #include <QMenu>
 #include <QAction>
 
-#include "GUI/Helper/SayonaraWidget/SayonaraWidgetTemplate.h"
+#include "GUI/Helper/Widgets/WidgetTemplate.h"
 #include "Helper/Pimpl.h"
 
 class QString;
 class IconLoader;
-class LocalLibraryMenu :
-        public SayonaraWidgetTemplate<QMenu>
+
+namespace Library
 {
-	Q_OBJECT
-	PIMPL(LocalLibraryMenu)
+	class LocalLibraryMenu :
+			public Gui::WidgetTemplate<QMenu>
+	{
+		Q_OBJECT
+		PIMPL(LocalLibraryMenu)
 
-signals:
-	void sig_reload_library();
-	void sig_import_file();
-	void sig_import_folder();
-	void sig_info();
-	void sig_name_changed(const QString& name);
-	void sig_path_changed(const QString& path);
-	void sig_show_album_artists_changed();
+	signals:
+		void sig_reload_library();
+		void sig_import_file();
+		void sig_import_folder();
+		void sig_info();
+		void sig_name_changed(const QString& name);
+		void sig_path_changed(const QString& path);
+		void sig_show_album_artists_changed();
 
-public:
-	explicit LocalLibraryMenu(const QString& name, const QString& path, QWidget* parent=nullptr);
-	virtual ~LocalLibraryMenu();
+	public:
+		explicit LocalLibraryMenu(const QString& name, const QString& path, QWidget* parent=nullptr);
+		virtual ~LocalLibraryMenu();
 
-	void refresh_name(const QString& name);
-	void refresh_path(const QString& path);
+		void refresh_name(const QString& name);
+		void refresh_path(const QString& path);
 
-private:
-	void init_menu();
+	private:
+		void init_menu();
 
-protected:
-	void showEvent(QShowEvent* e) override;
-    void language_changed() override;
-    void skin_changed() override;
+	protected:
+		void showEvent(QShowEvent* e) override;
+		void language_changed() override;
+		void skin_changed() override;
 
-private slots:
-	void show_album_cover_view_changed();
-	void show_album_artists_changed();
+	private slots:
+		void show_album_cover_view_changed();
+		void show_album_artists_changed();
 
-	void realtime_search_changed();
-	void auto_update_changed();
+		void realtime_search_changed();
+		void auto_update_changed();
 
-	void edit_clicked();
-	void edit_accepted();
-};
+		void edit_clicked();
+		void edit_accepted();
+	};
+}
 
 #endif // LOCALLIBRARYMENU_H

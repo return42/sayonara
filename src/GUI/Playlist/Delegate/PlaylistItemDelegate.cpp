@@ -108,7 +108,7 @@ void PlaylistItemDelegate::paint(QPainter *painter,	const QStyleOptionViewItem &
 	int offset_x = 4;
 
 	bool bold = font.bold();
-	QString time_string = Helper::cvt_ms_to_string(md.length_ms, true, true, false);
+	QString time_string = Util::cvt_ms_to_string(md.length_ms, true, true, false);
 
 	painter->translate(-4, 0);
 	font.setWeight(QFont::Normal);

@@ -30,8 +30,8 @@ IconProvider::IconProvider() :
 {
 	_settings = Settings::instance();
 
-	_folder_icon.addPixmap(GUI::get_pixmap("folder"), QIcon::Normal, QIcon::Off);
-	_folder_icon.addPixmap(GUI::get_pixmap("folder_open"), QIcon::Normal, QIcon::On);
+	_folder_icon.addPixmap(Gui::Util::pixmap("folder"), QIcon::Normal, QIcon::Off);
+	_folder_icon.addPixmap(Gui::Util::pixmap("folder_open"), QIcon::Normal, QIcon::On);
 }
 
 IconProvider::~IconProvider() {}
@@ -51,8 +51,8 @@ QIcon IconProvider::icon(const QFileInfo &info) const
 		return _folder_icon;
 	}
 
-	if(info.isFile() && Helper::File::is_playlistfile(info.filePath())){
-		return GUI::get_icon("playlistfile");
+	if(info.isFile() && Util::File::is_playlistfile(info.filePath())){
+		return Gui::Util::icon("playlistfile");
 	}
 
 	return QFileIconProvider::icon(info);

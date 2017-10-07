@@ -49,7 +49,7 @@ void IndexDirectoriesThread::run()
 	SP::Set<QString> paths;
 	for(const MetaData& md : m->v_md)
 	{
-		paths.insert(Helper::File::get_parent_directory(md.filepath()));
+		paths.insert(Util::File::get_parent_directory(md.filepath()));
 	}
 
 	for(auto it=paths.begin(); it!=paths.end(); it++){

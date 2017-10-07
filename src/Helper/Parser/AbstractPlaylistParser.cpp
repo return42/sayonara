@@ -47,8 +47,8 @@ AbstractPlaylistParser::AbstractPlaylistParser(const QString& filename)
 
 	QString pure_file;
 
-	Helper::File::split_filename(filename, m->directory, pure_file);
-	Helper::File::read_file_into_str(filename, m->file_content);
+	Util::File::split_filename(filename, m->directory, pure_file);
+	Util::File::read_file_into_str(filename, m->file_content);
 
 }
 
@@ -95,11 +95,11 @@ QString AbstractPlaylistParser::get_absolute_filename(const QString& filename) c
 		return "";
 	}
 
-	if(Helper::File::is_www(filename)){
+	if(Util::File::is_www(filename)){
 		return filename;
 	}
 
-	if(!Helper::File::is_absolute(filename)){
+	if(!Util::File::is_absolute(filename)){
 		ret = m->directory + "/" + filename;
 	}
 	else{
@@ -110,5 +110,5 @@ QString AbstractPlaylistParser::get_absolute_filename(const QString& filename) c
 		ret = "";
 	}
 
-	return Helper::File::clean_filename(ret);
+	return Util::File::clean_filename(ret);
 }

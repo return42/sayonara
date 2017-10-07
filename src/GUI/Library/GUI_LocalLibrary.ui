@@ -64,7 +64,7 @@
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
-           <widget class="LibraryTableView" name="lv_artist">
+           <widget class="Library::TableView" name="lv_artist">
             <property name="sizePolicy">
              <sizepolicy hsizetype="MinimumExpanding" vsizetype="Expanding">
               <horstretch>0</horstretch>
@@ -120,7 +120,7 @@
              <number>1</number>
             </attribute>
            </widget>
-           <widget class="LibraryViewAlbum" name="lv_album">
+           <widget class="Library::AlbumView" name="lv_album">
             <property name="sizePolicy">
              <sizepolicy hsizetype="MinimumExpanding" vsizetype="Expanding">
               <horstretch>0</horstretch>
@@ -203,7 +203,7 @@
         </layout>
        </widget>
       </widget>
-      <widget class="LibraryTableView" name="tb_title">
+      <widget class="Library::TableView" name="tb_title">
        <property name="sizePolicy">
         <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
          <horstretch>0</horstretch>
@@ -315,7 +315,7 @@
             <number>5</number>
            </property>
            <item row="0" column="0">
-            <widget class="LibraryGenreView" name="lv_genres">
+            <widget class="Library::GenreView" name="lv_genres">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                <horstretch>0</horstretch>
@@ -478,19 +478,19 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>LibraryViewAlbum</class>
-   <extends>QTableView</extends>
-   <header>GUI/Library/Views/LibraryViewAlbum.h</header>
-  </customwidget>
-  <customwidget>
-   <class>LibraryGenreView</class>
+   <class>Library::GenreView</class>
    <extends>QTreeWidget</extends>
-   <header>GUI/Library/Views/LibraryGenreView.h</header>
+   <header>GUI/Library/Views/GenreView.h</header>
   </customwidget>
   <customwidget>
-   <class>LibraryTableView</class>
+   <class>Library::TableView</class>
    <extends>QTableView</extends>
-   <header>GUI/Library/Views/LibraryTableView.h</header>
+   <header>GUI/Library/Views/TableView.h</header>
+  </customwidget>
+  <customwidget>
+   <class>Library::AlbumView</class>
+   <extends>QTableView</extends>
+   <header>GUI/Library/Views/AlbumView.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

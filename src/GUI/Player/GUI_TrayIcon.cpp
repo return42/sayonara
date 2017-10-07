@@ -36,6 +36,7 @@
 #include <QIcon>
 #include <QTimer>
 
+using namespace Gui;
 
 GUI_TrayIcon::GUI_TrayIcon (QObject *parent) :
 	QSystemTrayIcon(parent),
@@ -81,20 +82,20 @@ void GUI_TrayIcon::init_context_menu()
 	}
 
 	_play_action = new QAction(Lang::get(Lang::PlayPause), this);
-	_play_action->setIcon(GUI::get_icon("play"));
+	_play_action->setIcon(Util::icon("play"));
 	_stop_action = new QAction(Lang::get(Lang::Stop), this);
-	_stop_action->setIcon(GUI::get_icon("stop"));
+	_stop_action->setIcon(Util::icon("stop"));
 	_bwd_action = new QAction(Lang::get(Lang::PreviousTrack), this);
-	_bwd_action->setIcon(GUI::get_icon("bwd"));
+	_bwd_action->setIcon(Util::icon("bwd"));
 	_fwd_action = new QAction(Lang::get(Lang::NextTrack), this);
-	_fwd_action->setIcon(GUI::get_icon("fwd"));
+	_fwd_action->setIcon(Util::icon("fwd"));
 	_mute_action = new QAction(Lang::get(Lang::MuteOn), this);
-	_mute_action->setIcon(GUI::get_icon("vol_mute"));
+	_mute_action->setIcon(Util::icon("vol_mute"));
 	_show_action = new QAction(Lang::get(Lang::Show), this);
 	_cur_song_action = new QAction(tr("Current song"), this);
-	_cur_song_action->setIcon(GUI::get_icon("info"));
+	_cur_song_action->setIcon(Util::icon("info"));
 	_close_action = new QAction(Lang::get(Lang::Close), this);
-	_close_action->setIcon(GUI::get_icon("power_off"));
+	_close_action->setIcon(Util::icon("power_off"));
 
 	_context_menu = new QMenu();
 	_context_menu->addAction(_play_action);
@@ -182,19 +183,19 @@ void GUI_TrayIcon::playstate_changed(PlayState state)
 	{
 		case PlayState::Playing:
 
-			setIcon(GUI::get_icon("play"));
+			setIcon(Util::icon("play"));
 
 			if(_play_action){
-				_play_action->setIcon(GUI::get_icon("pause"));
+				_play_action->setIcon(Util::icon("pause"));
 				_play_action->setText(Lang::get(Lang::Pause));
 			}
 
 			break;
 
 		default:
-			setIcon(GUI::get_icon("pause"));
+			setIcon(Util::icon("pause"));
 			if(_play_action){
-				_play_action->setIcon(GUI::get_icon("play"));
+				_play_action->setIcon(Util::icon("play"));
 				_play_action->setText(Lang::get(Lang::Play));
 			}
 
@@ -271,12 +272,12 @@ void GUI_TrayIcon::mute_changed(bool muted)
 
 	if(_mute_action){
 		if(!muted) {
-			_mute_action->setIcon(GUI::get_icon("vol_mute" + suffix));
+			_mute_action->setIcon(Util::icon("vol_mute" + suffix));
 			_mute_action->setText(Lang::get(Lang::MuteOn));
 		}
 
 		else {
-			_mute_action->setIcon(GUI::get_icon("vol_3" + suffix));
+			_mute_action->setIcon(Util::icon("vol_3" + suffix));
 			_mute_action->setText(Lang::get(Lang::MuteOff));
 		}
 	}

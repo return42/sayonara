@@ -47,7 +47,7 @@ public:
      * @brief Set metadata you want to drag and drop
      * @param v_md metadata that should be sent
      */
-    void set_metadata(MetaDataList v_md);
+	void set_metadata(const MetaDataList& v_md);
 
     /**
      * @brief get metadata from drag and drop

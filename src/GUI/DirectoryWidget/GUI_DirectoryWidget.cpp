@@ -61,7 +61,7 @@ struct GUI_DirectoryWidget::Private
 };
 
 GUI_DirectoryWidget::GUI_DirectoryWidget(QWidget *parent) :
-	SayonaraWidget(parent),
+	Widget(parent),
 	InfoDialogContainer()
 {
 	ui = new Ui::GUI_DirectoryWidget();
@@ -84,7 +84,7 @@ GUI_DirectoryWidget::GUI_DirectoryWidget(QWidget *parent) :
 	connect(ui->le_search, &QLineEdit::returnPressed, this, &GUI_DirectoryWidget::search_button_clicked);
 	connect(ui->le_search, &QLineEdit::textChanged, this, &GUI_DirectoryWidget::search_term_changed);
 
-	connect(ui->tv_dirs, &DirectoryTreeView::sig_info_clicked, this, [=]()
+	connect(ui->tv_dirs, &DirectoryTreeView::sig_info_clicked, [=]()
 	{
 		m->selected_widget = Private::SelectedWidget::Dirs;
 		show_info();
@@ -94,7 +94,7 @@ GUI_DirectoryWidget::GUI_DirectoryWidget(QWidget *parent) :
 	connect(ui->tv_dirs, &DirectoryTreeView::sig_play_next_clicked, this, &GUI_DirectoryWidget::dir_play_next_clicked);
 	connect(ui->tv_dirs, &DirectoryTreeView::sig_delete_clicked, this, &GUI_DirectoryWidget::dir_delete_clicked);
 
-	connect(ui->lv_files, &FileListView::sig_info_clicked, this, [=]()
+	connect(ui->lv_files, &FileListView::sig_info_clicked, [=]()
 {
 		m->selected_widget = Private::SelectedWidget::Files;
 		show_info();
@@ -196,7 +196,7 @@ void GUI_DirectoryWidget::dir_delete_clicked()
 
 	m->local_library->delete_tracks(v_md, Library::TrackDeletionMode::OnlyLibrary);
 
-	Helper::File::delete_files(files);
+	Util::File::delete_files(files);
 }
 
 
@@ -230,7 +230,7 @@ void GUI_DirectoryWidget::file_delete_clicked()
 	m->local_library->delete_tracks(v_md, Library::TrackDeletionMode::OnlyLibrary);
 
 	QStringList files = ui->lv_files->get_selected_paths();
-	Helper::File::delete_files(files);
+	Util::File::delete_files(files);
 }
 
 void GUI_DirectoryWidget::language_changed()
@@ -324,7 +324,7 @@ void GUI_DirectoryWidget::showEvent(QShowEvent* e)
 		init_dir_view();
 	}
 
-	SayonaraWidget::showEvent(e);
+	Widget::showEvent(e);
 }
 
 

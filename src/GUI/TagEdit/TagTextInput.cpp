@@ -28,7 +28,7 @@
 #include <QCursor>
 
 TagTextInput::TagTextInput(QWidget* parent) :
-    SayonaraWidgetTemplate<QLineEdit>(parent)
+    WidgetTemplate<QLineEdit>(parent)
 {
 	init_context_menu();
 }
@@ -63,14 +63,14 @@ void TagTextInput::contextMenuEvent(QContextMenuEvent* event){
 void TagTextInput::cvt_to_first_upper()
 {
 	QString text = this->text();
-	text = Helper::cvt_str_to_first_upper(text);
+	text = Util::cvt_str_to_first_upper(text);
 	this->setText(text);
 }
 
 void TagTextInput::cvt_to_very_first_upper()
 {
 	QString text = this->text();
-	text = Helper::cvt_str_to_very_first_upper(text);
+	text = Util::cvt_str_to_very_first_upper(text);
 	this->setText(text);
 }
 

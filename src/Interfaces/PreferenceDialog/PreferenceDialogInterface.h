@@ -25,6 +25,11 @@
 
 #include <QList>
 
+namespace Gui
+{
+	class Dialog;
+}
+
 /**
  * @brief Abstract Interface you should use when creating a preference dialog.
  *
@@ -35,11 +40,12 @@
  * @ingroup Interfaces
  * @ingroup Preferences
  */
-class PreferenceDialogInterface : public PreferenceInterface<SayonaraDialog>
+class PreferenceDialogInterface :
+		public PreferenceInterface<Gui::Dialog>
 {
 	Q_OBJECT
 
-	friend class PreferenceInterface<SayonaraDialog>;
+	friend class PreferenceInterface<Gui::Dialog>;
 
 
 public:

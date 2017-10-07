@@ -26,7 +26,7 @@ LanguageString::LanguageString(const QString& str) :
 
 LanguageString LanguageString::toFirstUpper() const
 {
-	return LanguageString(Helper::cvt_str_to_first_upper(*this));
+	return LanguageString(Util::cvt_str_to_first_upper(*this));
 }
 
 LanguageString LanguageString::space() const

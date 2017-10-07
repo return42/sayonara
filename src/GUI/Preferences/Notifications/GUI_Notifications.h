@@ -23,10 +23,7 @@
 
 #include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
 
-namespace Ui
-{
-	class GUI_Notifications;
-}
+UI_FWD(GUI_Notifications)
 
 class NotificationHandler;
 
@@ -34,6 +31,7 @@ class GUI_Notifications :
 		public PreferenceWidgetInterface
 {
     Q_OBJECT
+	UI_CLASS(GUI_Notifications)
 
 public:
     explicit GUI_Notifications(QWidget *parent=nullptr);
@@ -44,20 +42,16 @@ public:
 
 	QString get_action_name() const override;
 
-
 private slots:
 	void notifications_changed();
-
 
 protected:
 	void init_ui() override;
 	void retranslate_ui() override;
 
-
 private:
+	// todo: Pimpl
 	NotificationHandler* _notification_handler=nullptr;
-	Ui::GUI_Notifications*	ui=nullptr;
-
 };
 
 #endif // GUI_NOTIFICATIONS_H

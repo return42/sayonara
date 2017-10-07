@@ -28,17 +28,17 @@
 #include "Helper/Language.h"
 
 LibraryContextMenu::LibraryContextMenu(QWidget* parent) :
-    SayonaraWidgetTemplate<QMenu>(parent)
+	WidgetTemplate<QMenu>(parent)
 {
-	_info_action = new QAction(GUI::get_icon("info"), QString(), this);
-	_lyrics_action  = new QAction(GUI::get_icon("lyrics"), QString(), this);
-	_edit_action = new QAction(GUI::get_icon("edit"), QString(), this);
-	_remove_action = new QAction(GUI::get_icon("delete"), QString(), this);
-	_delete_action = new QAction(GUI::get_icon("delete"), QString(), this);
-	_play_next_action = new QAction(GUI::get_icon("play_small"), QString(), this);
-	_append_action = new QAction(GUI::get_icon("append"), QString(), this);
-	_refresh_action = new QAction(GUI::get_icon("undo"), QString(), this);
-	_clear_action = new QAction(GUI::get_icon("broom.png"), QString(), this);
+	_info_action = new QAction(Gui::Util::icon("info"), QString(), this);
+	_lyrics_action  = new QAction(Gui::Util::icon("lyrics"), QString(), this);
+	_edit_action = new QAction(Gui::Util::icon("edit"), QString(), this);
+	_remove_action = new QAction(Gui::Util::icon("delete"), QString(), this);
+	_delete_action = new QAction(Gui::Util::icon("delete"), QString(), this);
+	_play_next_action = new QAction(Gui::Util::icon("play_small"), QString(), this);
+	_append_action = new QAction(Gui::Util::icon("append"), QString(), this);
+	_refresh_action = new QAction(Gui::Util::icon("undo"), QString(), this);
+	_clear_action = new QAction(Gui::Util::icon("broom.png"), QString(), this);
 
 	QList<QAction*> rating_actions;
 	for(int i=0; i<=5; i++)
@@ -76,7 +76,7 @@ LibraryContextMenu::LibraryContextMenu(QWidget* parent) :
 	this->addActions(actions);
 
 	_rating_action = this->insertMenu(_remove_action, _rating_menu);
-	_rating_action->setIcon(GUI::get_icon("star.png"));
+	_rating_action->setIcon(Gui::Util::icon("star.png"));
 	_rating_action->setText(Lang::get(Lang::Rating));
 
 	for(QAction* action : actions){
@@ -187,7 +187,7 @@ void LibraryContextMenu::skin_changed()
 	_append_action->setIcon(icon_loader->icon("list-add", "append"));
 	_refresh_action->setIcon(icon_loader->icon("edit-undo", "undo"));
 	_clear_action->setIcon(icon_loader->icon("edit-clear", "broom.png"));
-	_rating_action->setIcon(GUI::get_icon("star.png"));
+	_rating_action->setIcon(Gui::Util::icon("star.png"));
 }
 
 QAction* LibraryContextMenu::init_rating_action(int rating)
@@ -196,7 +196,7 @@ QAction* LibraryContextMenu::init_rating_action(int rating)
 	action->setData(rating);
 	action->setCheckable(true);
 
-	connect(action, &QAction::triggered, this, [=]()
+	connect(action, &QAction::triggered, [=]()
 {
 		emit sig_rating_changed(rating);
 	});

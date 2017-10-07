@@ -39,7 +39,7 @@
 #include <QItemDelegate>
 
 SomaFM::GUI_SomaFM::GUI_SomaFM(QWidget *parent) :
-	SayonaraWidget(parent)
+	Widget(parent)
 {
 	ui = new Ui::GUI_SomaFM();
 	ui->setupUi(this);
@@ -56,7 +56,7 @@ SomaFM::GUI_SomaFM::GUI_SomaFM(QWidget *parent) :
 	ui->tv_stations->setColumnWidth(0, 20);
 
 	ui->lv_playlists->setModel(new SomaFM::PlaylistModel());
-	ui->lv_playlists->setItemDelegate(new StyledItemDelegate(ui->lv_playlists));
+	ui->lv_playlists->setItemDelegate(new Gui::StyledItemDelegate(ui->lv_playlists));
 	ui->lv_playlists->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
 	QPixmap logo = QPixmap(":/soma_icons/soma_logo.png")
@@ -67,10 +67,10 @@ SomaFM::GUI_SomaFM::GUI_SomaFM(QWidget *parent) :
 	bool dark = (_settings->get(Set::Player_Style) == 1);
 	QString description =
 		"Listener-supported, commercial-free, underground/alternative radio<br /><br />" +
-		Helper::create_link("https://somafm.com", dark, "https://somafm.com");
+		Util::create_link("https://somafm.com", dark, "https://somafm.com");
 
 	ui->lab_description->setText(description);
-	ui->lab_donate->setText(Helper::create_link("https://somafm.com/support/", dark));
+	ui->lab_donate->setText(Util::create_link("https://somafm.com/support/", dark));
 
 	connect(_library, &SomaFM::Library::sig_stations_loaded, this, &SomaFM::GUI_SomaFM::stations_loaded);
 	connect(_library, &SomaFM::Library::sig_station_changed, this, &SomaFM::GUI_SomaFM::station_changed);

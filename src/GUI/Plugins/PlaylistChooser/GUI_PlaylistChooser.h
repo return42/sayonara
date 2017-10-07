@@ -32,19 +32,18 @@
 
 class PlaylistChooser;
 
-namespace Ui { class GUI_PlaylistChooser; }
+UI_FWD(GUI_PlaylistChooser)
 
 class GUI_PlaylistChooser :
 		public PlayerPluginInterface
 {
 	Q_OBJECT
+	UI_CLASS(GUI_PlaylistChooser)
 
 private:
-
-	Ui::GUI_PlaylistChooser*		ui=nullptr;
+	// todo: pimpl
 	QString							_last_dir;
 	PlaylistChooser*				_playlist_chooser=nullptr;
-
 
 public:
 	explicit GUI_PlaylistChooser(QWidget *parent=nullptr);

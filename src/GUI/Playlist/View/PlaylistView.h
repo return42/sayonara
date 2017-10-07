@@ -40,7 +40,7 @@
 #include <QDrag>
 #include <QList>
 
-class SayonaraLoadingBar;
+class ProgressBar;
 class LibraryContextMenu;
 class PlaylistItemModel;
 class PlaylistItemDelegate;

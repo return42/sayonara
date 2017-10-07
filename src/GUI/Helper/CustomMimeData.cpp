@@ -24,6 +24,8 @@
 
 #include <algorithm>
 
+using namespace Gui::Util;
+
 struct CustomMimeData::Private
 {
     MetaDataList v_md;
@@ -37,7 +39,7 @@ CustomMimeData::CustomMimeData() :
 
 CustomMimeData::~CustomMimeData() {}
 
-void CustomMimeData::set_metadata(const MetaDataList v_md)
+void CustomMimeData::set_metadata(const MetaDataList& v_md)
 {
     m->v_md = v_md;
 }
@@ -54,10 +56,10 @@ bool CustomMimeData::has_metadata() const
 
 void CustomMimeData::set_inner_drag_drop()
 {
-    GUI::MimeData::set_inner_drag_drop(this);
+	MimeData::set_inner_drag_drop(this);
 }
 
 bool CustomMimeData::is_inner_drag_drop() const
 {
-    return GUI::MimeData::is_inner_drag_drop(this);
+	return MimeData::is_inner_drag_drop(this);
 }

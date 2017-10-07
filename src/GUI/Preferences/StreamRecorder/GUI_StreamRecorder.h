@@ -27,12 +27,13 @@
 
 #include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
 
-namespace Ui { class GUI_StreamRecorder; }
+UI_FWD(GUI_StreamRecorder)
 
 class GUI_StreamRecorder :
 		public PreferenceWidgetInterface
 {
 	Q_OBJECT
+	UI_CLASS(GUI_StreamRecorder)
 
 public:
 	explicit GUI_StreamRecorder(QWidget* parent=nullptr);
@@ -43,14 +44,9 @@ public:
 
 	QString get_action_name() const override;
 
-
 protected:
 	void init_ui() override;
 	void retranslate_ui() override;
-
-private:
-	Ui::GUI_StreamRecorder*	ui=nullptr;
-
 
 private slots:
 	void sl_cb_activate_toggled(bool);

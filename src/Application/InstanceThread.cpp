@@ -52,7 +52,7 @@ void InstanceThread::run()
 		}
 
 		if(_may_run){
-			Helper::sleep_ms(100);
+			Util::sleep_ms(100);
 		}
 	}
 }

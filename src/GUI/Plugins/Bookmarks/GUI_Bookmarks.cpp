@@ -161,7 +161,7 @@ void GUI_Bookmarks::prev_changed(const Bookmark& bookmark)
 		return;
 	}
 
-	ui->lab_last->setText(Helper::cvt_ms_to_string(bookmark.get_time() * 1000, true, true, false));
+	ui->lab_last->setText(Util::cvt_ms_to_string(bookmark.get_time() * 1000, true, true, false));
 }
 
 
@@ -179,7 +179,7 @@ void GUI_Bookmarks::next_changed(const Bookmark& bookmark)
 		return;
 	}
 
-	ui->lab_next->setText(Helper::cvt_ms_to_string(bookmark.get_time() * 1000, true, true, false));
+	ui->lab_next->setText(Util::cvt_ms_to_string(bookmark.get_time() * 1000, true, true, false));
 }
 
 

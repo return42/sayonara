@@ -32,7 +32,7 @@
     </widget>
    </item>
    <item row="0" column="1" rowspan="2">
-    <widget class="SayonaraSlider" name="sli_crossfader">
+    <widget class="Gui::Slider" name="sli_crossfader">
      <property name="minimum">
       <number>2000</number>
      </property>
@@ -60,9 +60,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>SayonaraSlider</class>
+   <class>Gui::Slider</class>
    <extends>QSlider</extends>
-   <header>GUI/Helper/SayonaraWidget/SayonaraSlider.h</header>
+   <header>GUI/Helper/Widgets/Slider.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

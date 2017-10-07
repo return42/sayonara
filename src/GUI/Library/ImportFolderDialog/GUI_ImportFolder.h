@@ -21,19 +21,21 @@
 #ifndef GUIIMPORTFOLDER_H_
 #define GUIIMPORTFOLDER_H_
 
-#include "GUI/Helper/SayonaraWidget/SayonaraDialog.h"
+#include "GUI/Helper/Widgets/Dialog.h"
 #include "Components/Library/Importer/LibraryImporter.h"
 #include "Helper/Pimpl.h"
-
-namespace Ui { class ImportFolder; }
 
 class MetaDataList;
 class GUI_TagEdit;
 class LocalLibrary;
+
+UI_FWD(ImportFolder)
+
 class GUI_ImportFolder :
-		public SayonaraDialog
+		public Gui::Dialog
 {
 	Q_OBJECT
+	UI_CLASS(ImportFolder)
 	PIMPL(GUI_ImportFolder)
 
 signals:
@@ -56,9 +58,6 @@ protected:
 	void closeEvent(QCloseEvent* e) override;
 	void showEvent(QShowEvent* e) override;
 	void language_changed() override;
-
-private:
-	Ui::ImportFolder*	ui=nullptr;
 };
 
 #endif /* GUIIMPORTFOLDER_H_ */

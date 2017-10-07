@@ -25,17 +25,17 @@
 
 #include <QWidget>
 #include "Helper/Pimpl.h"
-#include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
+#include "GUI/Helper/Widgets/Widget.h"
 
+
+UI_FWD(GUI_Lyrics)
 class MetaData;
-namespace Ui {
-	class GUI_Lyrics;
-}
 
 class GUI_Lyrics :
-		public SayonaraWidget
+		public Gui::Widget
 {
 	Q_OBJECT
+	UI_CLASS(GUI_Lyrics)
 	PIMPL(GUI_Lyrics)
 
 signals:
@@ -48,9 +48,6 @@ public:
 	void set_metadata(const MetaData& md);
 
 private:
-	Ui::GUI_Lyrics *ui=nullptr;
-
-
 	void init();
 
 	void zoom(qreal font_size);

@@ -26,8 +26,10 @@
 
 #include <QMouseEvent>
 
+using namespace Gui;
+
 MenuButton::MenuButton(QWidget* parent) :
-    SayonaraWidgetTemplate<QPushButton>(parent)
+    WidgetTemplate<QPushButton>(parent)
 {
 	this->setFlat(true);
 	this->setIconSize(QSize(14,14));
@@ -78,7 +80,7 @@ void MenuButton::enterEvent(QEvent* e)
 	QIcon icon;
 
 	if(dark){
-		icon = GUI::get_icon("tool_grey");
+		icon = Util::icon("tool_grey");
 	}
 
 	else{
@@ -108,8 +110,8 @@ void MenuButton::set_std_icon()
 	QPixmap pixmap_disabled;
 
 	if(dark){
-		pixmap = GUI::get_pixmap("tool_dark_grey");
-		pixmap_disabled = GUI::get_pixmap("tool_disabled");
+		pixmap = Util::pixmap("tool_dark_grey");
+		pixmap_disabled = Util::pixmap("tool_disabled");
 		icon.addPixmap(pixmap, QIcon::Normal, QIcon::On);
 		icon.addPixmap(pixmap, QIcon::Normal, QIcon::Off);
 		icon.addPixmap(pixmap_disabled, QIcon::Disabled, QIcon::On);

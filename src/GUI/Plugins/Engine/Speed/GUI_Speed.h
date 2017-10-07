@@ -23,14 +23,12 @@
 
 #include "Interfaces/PlayerPlugin/PlayerPlugin.h"
 
-namespace Ui { class GUI_Speed; }
+UI_FWD(GUI_Speed)
 
 class GUI_Speed : public PlayerPluginInterface
 {
 	Q_OBJECT
-
-private:
-	Ui::GUI_Speed* ui=nullptr;
+	UI_CLASS(GUI_Speed)
 
 public:
 	explicit GUI_Speed(QWidget *parent=nullptr);

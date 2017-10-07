@@ -138,7 +138,7 @@ void GUI_IconPreferences::init_ui()
 				continue;
 			}
 
-			connect(rb, &QRadioButton::toggled, this, [=](bool checked){
+			connect(rb, &QRadioButton::toggled, [=](bool checked){
 				if(checked){
 					this->theme_changed(rb->data());
 				}

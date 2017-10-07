@@ -59,7 +59,7 @@ DirectoryTreeView::DirectoryTreeView(QWidget *parent) :
 {
 	m = Pimpl::make<Private>();
 
-	QString root_path = Helper::sayonara_path("Libraries");
+	QString root_path = Util::sayonara_path("Libraries");
 
 	m->model = new SearchableFileTreeModel(this);
 	m->model->setFilter(QDir::NoDotAndDotDot | QDir::Dirs);
@@ -105,7 +105,7 @@ void DirectoryTreeView::mouseMoveEvent(QMouseEvent* e)
 {
 	QDrag* drag = Dragable::drag_moving(e->pos());
 	if(drag){
-		connect(drag, &QDrag::destroyed, this, [=]()
+		connect(drag, &QDrag::destroyed, [=]()
 {
 			this->drag_released(Dragable::ReleaseReason::Destroyed);
 		});

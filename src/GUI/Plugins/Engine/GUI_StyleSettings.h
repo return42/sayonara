@@ -24,12 +24,12 @@
 #include "StyleTypes.h"
 
 #include "GUI/Plugins/Engine/ui_GUI_Style.h"
-#include "GUI/Helper/SayonaraWidget/SayonaraDialog.h"
+#include "GUI/Helper/Widgets/Dialog.h"
 
 #include <QList>
 
 class DatabaseConnector;
-class GUI_StyleSettings : public SayonaraDialog, private Ui::GUI_Style
+class GUI_StyleSettings : public Gui::Dialog, private Ui::GUI_Style
 {
     Q_OBJECT
 public:
@@ -80,7 +80,7 @@ private:
     void set_sth_changed(bool b);
 
 protected:
-    void closeEvent(QCloseEvent *);
+	void closeEvent(QCloseEvent* event) override;
     void language_changed() override;
 
 	void connect_combo_idx_changed();

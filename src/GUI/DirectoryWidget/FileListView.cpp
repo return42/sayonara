@@ -84,7 +84,7 @@ void FileListView::mouseMoveEvent(QMouseEvent* event)
 	QDrag* drag = Dragable::drag_moving(event->pos());
 	if(drag)
 	{
-		connect(drag, &QObject::destroyed, this, [=]()
+		connect(drag, &QObject::destroyed, [=]()
 {
 			this->drag_released(Dragable::ReleaseReason::Destroyed);
 		});

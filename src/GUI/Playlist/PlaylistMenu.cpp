@@ -27,7 +27,7 @@
 #include <QAction>
 
 PlaylistMenu::PlaylistMenu(QWidget* parent) :
-    SayonaraWidgetTemplate<QMenu>(parent)
+	WidgetTemplate<QMenu>(parent)
 {
 	_timer = new QTimer(this);
 
@@ -104,7 +104,7 @@ void PlaylistMenu::showEvent(QShowEvent* e)
 		action->setEnabled(false);
 	}
 
-	SayonaraWidgetTemplate<QMenu>::showEvent(e);
+	WidgetTemplate<QMenu>::showEvent(e);
 
 	_timer->setInterval(250);
 	_timer->start();

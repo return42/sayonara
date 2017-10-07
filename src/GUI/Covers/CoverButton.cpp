@@ -57,7 +57,7 @@ CoverButton::CoverButton(QWidget* parent) :
 
 CoverButton::~CoverButton()
 {
-    Helper::File::delete_files(m->tmp_paths);
+    Util::File::delete_files(m->tmp_paths);
 }
 
 
@@ -86,9 +86,9 @@ void CoverButton::set_cover_location(const CoverLocation& cl)
 
 void CoverButton::force_cover(const QPixmap &pm)
 {
-    QString tmp_path = Helper::sayonara_path("covers") + "/tmp_" + Helper::random_string(16) + ".png";
+    QString tmp_path = Util::sayonara_path("covers") + "/tmp_" + Util::random_string(16) + ".png";
 
-    m->current_cover_path = Helper::File::clean_filename(tmp_path);
+    m->current_cover_path = Util::File::clean_filename(tmp_path);
     m->tmp_paths << m->current_cover_path;
     m->cover_forced = true;
 

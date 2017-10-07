@@ -125,7 +125,7 @@ void notify_old_instance(const QStringList& files_to_play, int pid)
 		kill(pid, SIGUSR2);
 	}
 
-	Helper::sleep_ms(500);
+	Util::sleep_ms(500);
 
 	if(memory.isAttached()){
 		memory.detach();
@@ -220,12 +220,12 @@ int main(int argc, char *argv[])
 	Q_INIT_RESOURCE(IconsWindows);
 #endif
 
-	if(!QFile::exists( Helper::sayonara_path() )) {
-		QDir().mkdir( Helper::sayonara_path() );
+	if(!QFile::exists( Util::sayonara_path() )) {
+		QDir().mkdir( Util::sayonara_path() );
 	}
 
 	language = Settings::instance()->get(Set::Player_Language);
-    translator.load(language, Helper::share_path("translations"));
+    translator.load(language, Util::share_path("translations"));
 
 	if(!app.init(&translator, cmd_data.files_to_play)) {
 		return 1;

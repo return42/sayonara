@@ -14,7 +14,7 @@ struct GUI_EditLibrary::Private
 };
 
 GUI_EditLibrary::GUI_EditLibrary(QWidget *parent) :
-	SayonaraDialog (parent),
+	Dialog (parent),
 	ui(new Ui::GUI_EditLibrary)
 {
 	ui->setupUi(this);
@@ -112,7 +112,7 @@ GUI_EditLibrary::EditMode GUI_EditLibrary::edit_mode() const
 
 void GUI_EditLibrary::language_changed()
 {
-	SayonaraDialog::language_changed();
+	Dialog::language_changed();
 
 	ui->btn_ok->setText(Lang::get(Lang::OK));
 	ui->btn_cancel->setText(Lang::get(Lang::Cancel));
@@ -130,5 +130,5 @@ void GUI_EditLibrary::language_changed()
 
 void GUI_EditLibrary::skin_changed()
 {
-	SayonaraDialog::skin_changed();
+	Dialog::skin_changed();
 }

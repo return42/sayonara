@@ -25,14 +25,15 @@
 #ifndef GUILIBRARYINFOBOX_H_
 #define GUILIBRARYINFOBOX_H_
 
-#include "GUI/Helper/SayonaraWidget/SayonaraDialog.h"
+#include "GUI/Helper/Widgets/Dialog.h"
 
-namespace Ui { class GUI_LibraryInfoBox; }
+UI_FWD(GUI_LibraryInfoBox)
 
 class GUI_LibraryInfoBox :
-		public SayonaraDialog
+		public Gui::Dialog
 {
 	Q_OBJECT
+	UI_CLASS(GUI_LibraryInfoBox)
 
 public:
 	explicit GUI_LibraryInfoBox(int8_t library_id, QWidget* parent=nullptr);
@@ -46,7 +47,6 @@ protected:
 
 
 private:
-	Ui::GUI_LibraryInfoBox*	ui=nullptr;
 	int8_t _library_id;
 };
 

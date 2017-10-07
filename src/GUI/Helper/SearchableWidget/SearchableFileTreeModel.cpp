@@ -60,7 +60,7 @@ QModelIndex SearchableFileTreeModel::getFirstRowIndexOf(const QString& substr)
 
 	Settings* settings = Settings::instance();
 	Library::SearchModeMask mask = settings->get(Set::Lib_SearchMode);
-	QString converted_substr = Library::convert_search_string(substr, mask);
+	QString converted_substr = Library::Util::convert_search_string(substr, mask);
 
 	QDirIterator it(this->rootPath(), QDirIterator::Subdirectories);
 	QString str;
@@ -70,14 +70,14 @@ QModelIndex SearchableFileTreeModel::getFirstRowIndexOf(const QString& substr)
 		it.next();
 
 		QString filename = it.fileName();
-		filename = Library::convert_search_string(filename, mask);
+		filename = Library::Util::convert_search_string(filename, mask);
 
 		if (filename.contains(converted_substr))
 		{
 			str = it.filePath();
 
 			if(it.fileInfo().isFile()){
-				QString parent_folder = Helper::File::get_parent_directory(str);
+				QString parent_folder = Util::File::get_parent_directory(str);
 				str = parent_folder;
 			}
 

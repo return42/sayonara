@@ -23,15 +23,13 @@
 
 #include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
 
-namespace Ui
-{
-	class GUI_PlayerPreferences;
-}
+UI_FWD(GUI_PlayerPreferences)
 
 class GUI_PlayerPreferences :
 		public PreferenceWidgetInterface
 {
 	Q_OBJECT
+	UI_CLASS(GUI_PlayerPreferences)
 
 public:
 	explicit GUI_PlayerPreferences(QWidget *parent = 0);
@@ -42,14 +40,9 @@ public:
 
 	QString get_action_name() const override;
 
-
 protected:
 	void init_ui() override;
 	void retranslate_ui() override;
-
-
-private:
-	 Ui::GUI_PlayerPreferences*	ui=nullptr;
 
 private slots:
 	void show_tray_icon_toggled(bool b);

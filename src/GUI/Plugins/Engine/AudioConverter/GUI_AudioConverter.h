@@ -25,13 +25,14 @@
 #include "Helper/Playlist/PlaylistMode.h"
 #include "Components/PlayManager/PlayState.h"
 
-namespace Ui { class GUI_AudioConverter; }
+UI_FWD(GUI_AudioConverter)
 
 class EngineHandler;
 class GUI_AudioConverter :
 		public PlayerPluginInterface
 {
 	Q_OBJECT
+	UI_CLASS(GUI_AudioConverter)
 
 public:
 	explicit GUI_AudioConverter(QWidget *parent=nullptr);
@@ -52,7 +53,6 @@ private slots:
 
 	
 private:
-	Ui::GUI_AudioConverter*	ui=nullptr;
 	EngineHandler*		_engine=nullptr;
 	Playlist::Mode		_pl_mode;
 	bool				_mp3_enc_available;

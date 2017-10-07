@@ -25,13 +25,13 @@ SET(SOURCES
 
 	RatingLabel/RatingLabel.cpp
 
-	SayonaraWidget/SayonaraComboBox.cpp
-	SayonaraWidget/SayonaraCompleter.cpp
-	SayonaraWidget/SayonaraWidgetTemplate.cpp
-	SayonaraWidget/SayonaraWidget.cpp
-	SayonaraWidget/SayonaraDialog.cpp
-	SayonaraWidget/SayonaraSlider.cpp
-	SayonaraWidget/SayonaraLoadingBar.cpp
+	Widgets/ComboBox.cpp
+	Widgets/Completer.cpp
+	Widgets/WidgetTemplate.cpp
+	Widgets/Widget.cpp
+	Widgets/Dialog.cpp
+	Widgets/Slider.cpp
+	Widgets/ProgressBar.cpp
 
 	SearchableWidget/SearchableView.cpp
 	SearchableWidget/AbstractSearchModel.cpp

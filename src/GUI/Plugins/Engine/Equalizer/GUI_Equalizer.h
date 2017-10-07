@@ -36,11 +36,12 @@
 #include <QAction>
 
 class EQ_Setting;
-
-namespace Ui { class GUI_Equalizer; }
-
 class EqSlider;
 class EngineHandler;
+
+UI_FWD(GUI_Equalizer)
+
+// TODO: Pimpl
 
 /**
  * @brief The GUI_Equalizer class
@@ -50,6 +51,7 @@ class GUI_Equalizer :
 		public PlayerPluginInterface
 {
 	Q_OBJECT
+	UI_CLASS(GUI_Equalizer)
 
 public:
 	explicit GUI_Equalizer(QWidget* parent=nullptr);
@@ -63,7 +65,6 @@ public slots:
 
 
 private:
-	Ui::GUI_Equalizer*	ui=nullptr;
 	EngineHandler*		_engine=nullptr;
 	QList<EQ_Setting>	_presets;
 	QList<EqSlider*>	_sliders;

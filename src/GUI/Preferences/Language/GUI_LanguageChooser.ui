@@ -22,7 +22,7 @@
     </widget>
    </item>
    <item row="0" column="0">
-    <widget class="SayonaraComboBox" name="combo_lang">
+    <widget class="Gui::ComboBox" name="combo_lang">
      <property name="currentText">
       <string notr="true">English</string>
      </property>
@@ -37,9 +37,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>SayonaraComboBox</class>
+   <class>Gui::ComboBox</class>
    <extends>QComboBox</extends>
-   <header>GUI/Helper/SayonaraWidget/SayonaraComboBox.h</header>
+   <header>GUI/Helper/Widgets/ComboBox.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

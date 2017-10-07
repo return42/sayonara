@@ -24,16 +24,14 @@
 #define GUI_LOGGER_H
 
 #include "Helper/Logger/LogListener.h"
-#include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
+#include "GUI/Helper/Widgets/Widget.h"
 
 #include <QStringList>
 #include <QWidget>
 
 class QShowEvent;
-namespace Ui
-{
-    class GUI_Logger;
-}
+
+UI_FWD(GUI_Logger)
 
 class LogObject :
 		public QObject,
@@ -53,9 +51,10 @@ class LogObject :
 
 
 class GUI_Logger :
-		public SayonaraWidget
+		public Gui::Widget
 {
 	Q_OBJECT
+	UI_CLASS(GUI_Logger)
 
     public:
 		explicit GUI_Logger(QWidget *parent = 0);
@@ -68,7 +67,6 @@ class GUI_Logger :
         void language_changed() override;
 
     private:
-		Ui::GUI_Logger*		ui=nullptr;
 		QStringList			_buffer;
 
 		void init_ui();

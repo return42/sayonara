@@ -23,13 +23,13 @@
 
 #include "GUI_AbstractStream.h"
 
-namespace Ui { class GUI_Podcasts; }
+UI_FWD(GUI_Podcasts)
 
 class GUI_Podcasts :
 		public GUI_AbstractStream
-
 {
     Q_OBJECT
+	UI_CLASS(GUI_Podcasts)
 
 public:
 	explicit GUI_Podcasts(QWidget *parent=nullptr);
@@ -40,8 +40,6 @@ public:
 
 
 private:
-	Ui::GUI_Podcasts*	ui=nullptr;
-
 	void init_ui() override;
 	void retranslate_ui() override;
 	QString get_title_fallback_name() const override;

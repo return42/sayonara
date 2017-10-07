@@ -240,9 +240,7 @@ void GUI_Playlist::tab_delete_playlist_clicked(int idx)
 
 void GUI_Playlist::check_tab_icon()
 {
-	int active_idx;
-
-	active_idx = _playlist->get_active_idx_of_cur_track();
+	int active_idx = _playlist->get_active_idx();
 	PlaylistView* plv = get_view_by_idx(active_idx);
 
 	for(int i=0; i<ui->tw_playlists->count(); i++){

@@ -51,9 +51,9 @@ SC::JsonParser::JsonParser(const QByteArray& content) :
 	QObject()
 {
 	m = Pimpl::make<Private>(content);
-	QString target_file = Helper::sayonara_path() + "/tmp.json";
+	QString target_file = Util::sayonara_path() + "/tmp.json";
 
-	Helper::File::write_file(
+	Util::File::write_file(
 		m->json_doc.toJson(QJsonDocument::Indented), target_file
 	);
 
@@ -376,7 +376,7 @@ bool SC::JsonParser::parse_playlist(ArtistList& artists, Album& album, MetaDataL
 QString SC::JsonParser::create_link(const QString& name, const QString& target)
 {
 	bool dark = (Settings::instance()->get(Set::Player_Style) == 1);
-	return Helper::create_link(name, dark, target);
+	return Util::create_link(name, dark, target);
 }
 
 

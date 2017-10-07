@@ -27,6 +27,7 @@
 #include "Database/DatabaseConnector.h"
 #include "Database/LibraryDatabase.h"
 
+using namespace Library;
 
 struct LocalLibraryMenu::Private
 {
@@ -54,7 +55,7 @@ struct LocalLibraryMenu::Private
 };
 
 LocalLibraryMenu::LocalLibraryMenu(const QString& name, const QString& path, QWidget* parent) :
-	SayonaraWidgetTemplate<QMenu>(parent)
+	WidgetTemplate<QMenu>(parent)
 {
 	m = Pimpl::make<Private>(name, path);
 }
@@ -133,7 +134,7 @@ void LocalLibraryMenu::init_menu()
 void LocalLibraryMenu::showEvent(QShowEvent* e)
 {
 	init_menu();
-	SayonaraWidgetTemplate<QMenu>::showEvent(e);
+	WidgetTemplate<QMenu>::showEvent(e);
 }
 
 

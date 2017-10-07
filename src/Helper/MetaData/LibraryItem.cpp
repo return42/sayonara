@@ -195,7 +195,7 @@ void LibraryItem::add_custom_field(const CustomField& field)
 
 void LibraryItem::add_custom_field(const QString& id, const QString& display_name, const QString& value)
 {
-    m->additional_data.push_back(std::move(CustomField(id, display_name, value)));
+	m->additional_data.push_back(CustomField(id, display_name, value));
 }
 
 const CustomFieldList& LibraryItem::get_custom_fields() const

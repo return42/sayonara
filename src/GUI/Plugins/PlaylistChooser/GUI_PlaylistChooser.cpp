@@ -196,12 +196,12 @@ void GUI_PlaylistChooser::load_button_pressed()
                     this,
                     tr("Open Playlist files"),
                     _last_dir,
-                    Helper::playlist_extensions().join(" "));
+                    Util::playlist_extensions().join(" "));
 
 	QStringList lab_texts;
 	for(const QString& filename : filelist) {
 		QString pure_filename;
-		Helper::File::split_filename(filename, _last_dir, pure_filename);
+		Util::File::split_filename(filename, _last_dir, pure_filename);
 
 		pure_filename = pure_filename.left(pure_filename.lastIndexOf('.'));
 		lab_texts << pure_filename;

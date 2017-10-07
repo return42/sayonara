@@ -23,7 +23,7 @@
 
 #include <QMenu>
 
-#include "GUI/Helper/SayonaraWidget/SayonaraWidgetTemplate.h"
+#include "GUI/Helper/Widgets/WidgetTemplate.h"
 
 using LibraryContexMenuEntries=int;
 
@@ -33,7 +33,7 @@ class QAction;
  * @ingroup GUIHelper
  */
 class LibraryContextMenu :
-        public SayonaraWidgetTemplate<QMenu>
+		public Gui::WidgetTemplate<QMenu>
 {
     Q_OBJECT
 

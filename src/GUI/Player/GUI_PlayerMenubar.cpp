@@ -45,8 +45,8 @@ void GUI_Player::open_files_clicked()
 {
 	QStringList filetypes;
 
-	filetypes << Helper::soundfile_extensions();
-	filetypes << Helper::playlist_extensions();
+	filetypes << Util::soundfile_extensions();
+	filetypes << Util::playlist_extensions();
 
 	QString filetypes_str = tr("Media files") + " (" + filetypes.join(" ") + ")";
 
@@ -138,9 +138,9 @@ void GUI_Player::show_fullscreen_toggled(bool b)
 void GUI_Player::help()
 {
 	Message::info(tr("Please visit the forum at") + "<br />" +
-				  Helper::create_link("http://sayonara-player.com/forum", _settings->get(Set::Player_Style) == 1) +
+				  Util::create_link("http://sayonara-player.com/forum", _settings->get(Set::Player_Style) == 1) +
 				  "<br /><br />" +
-				  tr("Donate") + ": <br />" + Helper::create_link("http://sayonara-player.com", _settings->get(Set::Player_Style) == 1) +
+				  tr("Donate") + ": <br />" + Util::create_link("http://sayonara-player.com", _settings->get(Set::Player_Style) == 1) +
 				  "<br /><br />" +
 				  tr("Thank you!") + " :-)"
 				  );
@@ -154,12 +154,12 @@ void GUI_Player::about()
 	QString translator_str = "";
 	QString version = _settings->get(Set::Player_Version);
 
-	QString link = Helper::create_link("http://sayonara-player.com");
+	QString link = Util::create_link("http://sayonara-player.com");
 
 	if(!_about_box){
 		_about_box = new QMessageBox(this);
 		_about_box->setParent(this);
-		_about_box->setIconPixmap(GUI::get_pixmap("logo.png", QSize(150, 150), true));
+		_about_box->setIconPixmap(Gui::Util::pixmap("logo.png", QSize(150, 150), true));
 		_about_box->setWindowFlags(Qt::Dialog);
 		_about_box->setModal(true);
 		_about_box->setStandardButtons(QMessageBox::Ok);

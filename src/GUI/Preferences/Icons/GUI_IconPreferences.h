@@ -4,17 +4,15 @@
 #include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
 #include "Helper/Pimpl.h"
 
-class QWidget;
-namespace Ui
-{
-	class GUI_IconPreferences;
-}
+UI_FWD(GUI_IconPreferences)
 
+class QWidget;
 class GUI_IconPreferences :
 		public PreferenceWidgetInterface
 {
 	Q_OBJECT
 	PIMPL(GUI_IconPreferences)
+	UI_CLASS(GUI_IconPreferences)
 
 public:
 	explicit GUI_IconPreferences(QWidget* parent=nullptr);
@@ -28,9 +26,6 @@ public:
 	QString get_action_name() const override;
 	void commit() override;
 	void revert() override;
-
-private:
-	Ui::GUI_IconPreferences* ui=nullptr;
 
 private slots:
 	void theme_changed(const QString& theme);

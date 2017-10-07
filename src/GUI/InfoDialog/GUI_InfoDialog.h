@@ -25,24 +25,25 @@
 #ifndef GUI_INFODIALOG_H_
 #define GUI_INFODIALOG_H_
 
-#include "GUI/Helper/SayonaraWidget/SayonaraDialog.h"
+#include "GUI/Helper/Widgets/Dialog.h"
 #include "Helper/MetaData/MetaDataFwd.h"
 #include "Helper/Pimpl.h"
 
 class InfoDialogContainer;
 class CoverLocation;
 
-namespace Ui { class InfoDialog; }
+UI_FWD(InfoDialog)
 
 /**
  * @brief The GUI_InfoDialog class
  * @ingroup GUI
  */
 class GUI_InfoDialog :
-		public SayonaraDialog
+		public Gui::Dialog
 {
 	Q_OBJECT
 	PIMPL(GUI_InfoDialog)
+	UI_CLASS(InfoDialog)
 
 public:
 
@@ -80,10 +81,6 @@ private:
 
 	void closeEvent(QCloseEvent *e) override;
 	void showEvent(QShowEvent *e) override;
-
-
-private:
-	Ui::InfoDialog*	ui=nullptr;
 };
 
 #endif /* GUI_INFODIALOG_H_ */

@@ -29,6 +29,9 @@
 
 #include <QDir>
 #include <QFileDialog>
+#include <QComboBox>
+
+using namespace Library;
 
 GUI_EmptyLibrary::GUI_EmptyLibrary(QWidget* parent) :
     QWidget(parent)

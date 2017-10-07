@@ -23,7 +23,7 @@
 
 #include "Helper/Pimpl.h"
 
-#include "GUI/Helper/SayonaraWidget/SayonaraWidget.h"
+#include "GUI/Helper/Widgets/Widget.h"
 #include "GUI/Helper/Shortcuts/ShortcutWidget.h"
 
 class QAction;
@@ -36,7 +36,7 @@ class PlayerPluginHandler;
  */
 
 class PlayerPluginInterface :
-		public SayonaraWidget,
+		public Gui::Widget,
 		public ShortcutWidget
 {
 	friend class PlayerPluginHandler;
@@ -51,7 +51,7 @@ public:
 	explicit PlayerPluginInterface(QWidget *parent=nullptr);
 	virtual ~PlayerPluginInterface();
 
-    virtual void skin_changed();
+	virtual void skin_changed() override;
 
 
 signals:

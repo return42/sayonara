@@ -26,7 +26,7 @@
 #include "Interfaces/PlayerPlugin/PlayerPlugin.h"
 
 GUI_PlayerPlugin::GUI_PlayerPlugin(QWidget *parent) :
-	SayonaraWidget(parent)
+	Widget(parent)
 {
 	ui = new Ui::GUI_PlayerPlugin();
 	ui->setupUi(this);
@@ -57,7 +57,7 @@ void GUI_PlayerPlugin::show(PlayerPluginInterface* player_plugin)
 	player_plugin->resize(this->width(), player_plugin->height());
 	player_plugin->show();
 
-	SayonaraWidget::show();
+	Widget::show();
 }
 
 
@@ -73,7 +73,7 @@ void GUI_PlayerPlugin::closeEvent(QCloseEvent* e)
 {
 	close_cur_plugin();
 
-	SayonaraWidget::closeEvent(e);
+	Widget::closeEvent(e);
 }
 
 

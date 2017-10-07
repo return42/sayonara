@@ -35,44 +35,48 @@ class QPoint;
 class QMainWindow;
 class QScreen;
 
-/**
- * @ingroup GUI
- * @ingroup Helper
- * @ingroup GUIHelper
- */
-namespace GUI
+namespace Gui
 {
-	/**
-	 * @brief fetch a icon from resources
-	 * @param icon_name if icon_name ends with png the input string is not modified, else a .svg.png is appended
-	 * @return icon
-	 */
-	QIcon get_icon(const QString& icon_name);
-
 
 	/**
-	 * @brief fetch a pixmap from resources
-	 * @param icon_name if icon_name ends with png the input string is not modified, else a .svg.png is appended
-	 * @param sz target size of pixmap
-	 * @param keep_aspect if true, aspect ratio is kept
-	 * @return pixmap
+	 * @ingroup GUI
+	 * @ingroup Helper
+	 * @ingroup GUIHelper
 	 */
-	QPixmap get_pixmap(const QString& icon_name, QSize sz=QSize(0, 0), bool keep_aspect=true);
-
-	/**
-	 * @brief set the applications' main window
-	 * @param window the new main window
-	 */
-	void set_main_window(QMainWindow* window);
-
-	/**
-	 * @brief get the applications' main window
-	 * @return main window of application
-	 */
-	QMainWindow* get_main_window();
+	namespace Util
+	{
+		/**
+		 * @brief fetch a icon from resources
+		 * @param icon_name if icon_name ends with png the input string is not modified, else a .svg.png is appended
+		 * @return icon
+		 */
+		QIcon icon(const QString& icon_name);
 
 
-	QString elide_text(const QString &text, QWidget *widget, int max_lines);
+		/**
+		 * @brief fetch a pixmap from resources
+		 * @param icon_name if icon_name ends with png the input string is not modified, else a .svg.png is appended
+		 * @param sz target size of pixmap
+		 * @param keep_aspect if true, aspect ratio is kept
+		 * @return pixmap
+		 */
+		QPixmap pixmap(const QString& icon_name, QSize sz=QSize(0, 0), bool keep_aspect=true);
+
+		/**
+		 * @brief set the applications' main window
+		 * @param window the new main window
+		 */
+		void set_main_window(QMainWindow* window);
+
+		/**
+		 * @brief get the applications' main window
+		 * @return main window of application
+		 */
+		QMainWindow* main_window();
+
+
+		QString elide_text(const QString &text, QWidget *widget, int max_lines);
+	}
 }
 
 #endif // GUI_HELPER_H

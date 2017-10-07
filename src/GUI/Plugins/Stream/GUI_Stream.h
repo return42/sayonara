@@ -23,12 +23,13 @@
 
 #include "GUI_AbstractStream.h"
 
-namespace Ui { class GUI_Stream; }
+UI_FWD(GUI_Stream)
 
 class GUI_Stream :
 		public GUI_AbstractStream
 {
 	Q_OBJECT
+	UI_CLASS(GUI_Stream)
 
 public:
 	explicit GUI_Stream(QWidget *parent=nullptr);
@@ -38,8 +39,6 @@ public:
 	QString get_display_name() const override;
 
 private:
-	Ui::GUI_Stream* ui=nullptr;
-
 	void init_ui() override;
 	void retranslate_ui() override;
 	QString get_title_fallback_name() const override;

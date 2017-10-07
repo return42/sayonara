@@ -55,14 +55,14 @@ DiscPopupMenu::DiscPopupMenu(QWidget* parent, QList<uint8_t> discs): QMenu(paren
 		if(i == -1) {
 			text = "All";
 			data = -1;
-			icon = GUI::get_icon("cds.png");
+			icon = Gui::Util::icon("cds.png");
 		}
 
 		else{
 			uint8_t disc = discs[i];
 			text = QString("Disc ") + QString::number(disc);
 			data = disc;
-			icon = GUI::get_icon("cd.png");
+			icon = Gui::Util::icon("cd.png");
 		}
 
 		DiscAction* action = new DiscAction(this, icon);

@@ -26,7 +26,7 @@
 #include <QFileDialog>
 
 GUI_TargetPlaylistDialog::GUI_TargetPlaylistDialog(QWidget *parent) :
-	SayonaraDialog(parent),
+	Dialog(parent),
 	Ui::GUI_TargetPlaylistDialog()
 {
 	setupUi(this);

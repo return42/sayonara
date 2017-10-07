@@ -365,7 +365,7 @@ int DatabaseAlbums::updateAlbum (const Album & album)
 			  "    rating=:rating "
 			  "WHERE albumID = :id;");
 
-	QString cissearch = Library::convert_search_string(album.name(), search_mode());
+	QString cissearch = Library::Util::convert_search_string(album.name(), search_mode());
 
 	q.bindValue(":id", album.id);
 	q.bindValue(":name", album.name());
@@ -393,7 +393,7 @@ void DatabaseAlbums::updateAlbumCissearch()
 	{
 		QString str = "UPDATE albums SET cissearch=:cissearch WHERE albumID=:id;";
 		SayonaraQuery q(this);
-		QString cis = Library::convert_search_string(album.name(), search_mode());
+		QString cis = Library::Util::convert_search_string(album.name(), search_mode());
 		q.prepare(str);
 		q.bindValue(":cissearch", cis);
 		q.bindValue(":id", album.id);
@@ -417,7 +417,7 @@ int DatabaseAlbums::insertAlbumIntoDatabase (const QString& album)
 		return updateAlbum(a);
 	}
 
-	QString cissearch = Library::convert_search_string(album, search_mode());
+	QString cissearch = Library::Util::convert_search_string(album, search_mode());
 	q.prepare("INSERT INTO albums (name, cissearch) values (:album, :cissearch);");
 	q.bindValue(":album", album);
 	q.bindValue(":cissearch", cissearch);
@@ -437,7 +437,7 @@ int DatabaseAlbums::insertAlbumIntoDatabase (const Album& album)
 	}
 
 	SayonaraQuery q(this);
-	QString cissearch = Library::convert_search_string(album.name(), search_mode());
+	QString cissearch = Library::Util::convert_search_string(album.name(), search_mode());
 
 	q.prepare("INSERT INTO albums (name, cissearch, rating) values (:name, :cissearch, :rating);");
 

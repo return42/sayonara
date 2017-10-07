@@ -25,7 +25,7 @@
 QString CoverHelper::calc_cover_token(const QString& artist, const QString& album) {
 	QByteArray str = QString(artist.trimmed() + album.trimmed()).toLower().toUtf8();
 
-	return Helper::calc_hash(str);
+	return Util::calc_hash(str);
 }
 
 

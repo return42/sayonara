@@ -22,6 +22,8 @@
 #include <QVariant>
 #include <QModelIndex>
 
+using namespace Gui;
+
 ComboBoxDelegate::ComboBoxDelegate(QObject *parent) :
 	QStyledItemDelegate(parent) {}
 

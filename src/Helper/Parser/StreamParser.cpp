@@ -253,8 +253,8 @@ QPair<MetaDataList, PlaylistFiles> StreamParser::parse_website(const QByteArray&
 	QStringList playlist_files;
 
 	QStringList valid_extensions;
-	valid_extensions << Helper::soundfile_extensions(false);
-	valid_extensions << Helper::playlist_extensions(false);
+	valid_extensions << Util::soundfile_extensions(false);
+	valid_extensions << Util::playlist_extensions(false);
 
 	QStringList found_strings;
 	QString re_prefix = "(http[s]*://|\"/|'/)";
@@ -299,13 +299,13 @@ QPair<MetaDataList, PlaylistFiles> StreamParser::parse_website(const QByteArray&
 
 		child_url += found_str;
 
-		if(Helper::File::is_soundfile(found_str)){
+		if(Util::File::is_soundfile(found_str)){
 			MetaData md;
 			tag_metadata(md, child_url);
 			v_md << md;
 		}
 
-		else if(Helper::File::is_playlistfile(found_str)){
+		else if(Util::File::is_playlistfile(found_str)){
 			playlist_files << child_url;
 		}
 	}
@@ -347,14 +347,14 @@ void StreamParser::tag_metadata(MetaData &md, const QString& stream_url, const Q
 
 QString StreamParser::write_playlist_file(const QByteArray& data) const
 {
-	QString extension = Helper::File::get_file_extension(m->last_url);
-	QString filename = Helper::sayonara_path("tmp_playlist");
+	QString extension = Util::File::get_file_extension(m->last_url);
+	QString filename = Util::sayonara_path("tmp_playlist");
 
 	if(!extension.isEmpty()){
 		filename += "." + extension;
 	}
 
-	Helper::File::write_file(data, filename);
+	Util::File::write_file(data, filename);
 	return filename;
 }
 

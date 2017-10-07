@@ -24,13 +24,14 @@
 #include "EnginePlugin.h"
 #include "Components/Engine/Playback/SoundOutReceiver.h"
 
-namespace Ui { class GUI_LevelPainter; }
+UI_FWD(GUI_LevelPainter)
 
 class GUI_LevelPainter :
 		public EnginePlugin,
 		public LevelReceiver
 {
     Q_OBJECT
+	UI_CLASS(GUI_LevelPainter)
 
 public:
 	explicit GUI_LevelPainter(QWidget *parent=nullptr);
@@ -39,10 +40,8 @@ public:
 	QString get_name() const override;
 	QString get_display_name() const override;
 
-
 public slots:
 	void sl_update_style() override;
-
 
 protected:
    void paintEvent(QPaintEvent* e) override;
@@ -57,10 +56,8 @@ protected slots:
 	void set_level(float, float) override;
 
 
+	// TODO: Pimpl
 private:
-
-	Ui::GUI_LevelPainter*	ui=nullptr;
-
 	float	_level[2];
 	float	_exp_lot[600];
 

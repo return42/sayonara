@@ -124,7 +124,7 @@ void AbstractPlaylist::append_tracks(const MetaDataList& lst)
 
     for(auto it=m->v_md.begin() + old_size; it != m->v_md.end(); it++)
 	{
-		it->is_disabled = !(Helper::File::check_file(it->filepath()));
+		it->is_disabled = !(Util::File::check_file(it->filepath()));
 	}
 
     set_changed(true);
@@ -153,7 +153,7 @@ void AbstractPlaylist::replace_track(int idx, const MetaData& md)
     bool is_playing = m->v_md[idx].pl_playing;
 
     m->v_md[idx] = md;
-    m->v_md[idx].is_disabled = !(Helper::File::check_file(md.filepath()));
+    m->v_md[idx].is_disabled = !(Util::File::check_file(md.filepath()));
     m->v_md[idx].pl_playing = is_playing;
 
 	emit sig_data_changed( playlist_index() );

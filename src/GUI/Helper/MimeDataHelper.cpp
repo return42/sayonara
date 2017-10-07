@@ -11,8 +11,9 @@
 
 #include <algorithm>
 
+using namespace Gui::Util;
 
-MetaDataList GUI::MimeData::get_metadata(const QMimeData *data)
+MetaDataList MimeData::get_metadata(const QMimeData *data)
 {
     if(!data){
         return MetaDataList();
@@ -28,7 +29,7 @@ MetaDataList GUI::MimeData::get_metadata(const QMimeData *data)
 	{
         MetaDataList v_md;
 		DirectoryReader reader;
-		reader.set_filter(Helper::soundfile_extensions());
+		reader.set_filter(::Util::soundfile_extensions());
 
         for(const QUrl& url : data->urls())
 		{
@@ -47,7 +48,7 @@ MetaDataList GUI::MimeData::get_metadata(const QMimeData *data)
 	return MetaDataList();
 }
 
-QStringList GUI::MimeData::get_playlists(const QMimeData *data)
+QStringList MimeData::get_playlists(const QMimeData *data)
 {
     if(!data){
         return QStringList();
@@ -61,7 +62,7 @@ QStringList GUI::MimeData::get_playlists(const QMimeData *data)
 
 	for(const QUrl& url : data->urls())
 	{
-		if(Helper::File::is_playlistfile(url.toString())){
+		if(::Util::File::is_playlistfile(url.toString())){
 			www_playlists << url.toString();
 		}
 	}
@@ -69,12 +70,12 @@ QStringList GUI::MimeData::get_playlists(const QMimeData *data)
 	return www_playlists;
 }
 
-const CustomMimeData* GUI::MimeData::cast(const QMimeData *data)
+const CustomMimeData* MimeData::cast(const QMimeData *data)
 {
 	return dynamic_cast<const CustomMimeData*>(data);
 }
 
-void GUI::MimeData::set_inner_drag_drop(QMimeData* data)
+void MimeData::set_inner_drag_drop(QMimeData* data)
 {
     if(!data){
         return;
@@ -83,7 +84,7 @@ void GUI::MimeData::set_inner_drag_drop(QMimeData* data)
     data->setProperty("inner", QString("true"));
 }
 
-bool GUI::MimeData::is_inner_drag_drop(const QMimeData *data)
+bool MimeData::is_inner_drag_drop(const QMimeData *data)
 {
     if(!data){
         return false;
@@ -93,7 +94,7 @@ bool GUI::MimeData::is_inner_drag_drop(const QMimeData *data)
     return (src.size() > 0);
 }
 
-QString GUI::MimeData::cover_url(const QMimeData *data)
+QString MimeData::cover_url(const QMimeData *data)
 {
     if(!data){
         return QString();
@@ -102,7 +103,7 @@ QString GUI::MimeData::cover_url(const QMimeData *data)
     return data->property("cover_url").toString();
 }
 
-void GUI::MimeData::set_cover_url(QMimeData *data, const QString &url)
+void MimeData::set_cover_url(QMimeData *data, const QString &url)
 {
     if(!data){
         return;

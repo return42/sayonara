@@ -116,7 +116,7 @@ void ChangeablePipeline::add_element(GstElement* element, GstElement* first_elem
 
 	while(!data->done)
 	{
-		Helper::sleep_ms(SleepInterval);
+		Util::sleep_ms(SleepInterval);
 	}
 
 	sp_log(Log::Debug, this) << "Element " << element_name << " added.";
@@ -222,7 +222,7 @@ void ChangeablePipeline::remove_element(GstElement* element, GstElement* first_e
 
 	while(!data->done)
 	{
-		Helper::sleep_ms(SleepInterval);
+		Util::sleep_ms(SleepInterval);
 	}
 
 	sp_log(Log::Debug, this) << "Element " << gst_element_get_name(element) << " removed.";

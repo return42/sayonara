@@ -308,7 +308,7 @@ void PlaybackEngine::set_equalizer(int band, int val)
 
 void PlaybackEngine::set_buffer_state(int progress, GstElement* src)
 {
-	if(!Helper::File::is_www(_md.filepath())){
+	if(!Util::File::is_www(_md.filepath())){
 		emit sig_buffering(-1);
 		return;
 	}
@@ -328,7 +328,7 @@ void PlaybackEngine::cur_pos_ms_changed(int64_t pos_ms)
 		return;
 	}
 
-	if(pos_ms < 0 && Helper::File::is_www(_md.filepath())){
+	if(pos_ms < 0 && Util::File::is_www(_md.filepath())){
 		return;
 	}
 
@@ -501,7 +501,7 @@ void PlaybackEngine::update_md(const MetaData& md, GstElement* src)
 		return;
 	}
 
-	if(!Helper::File::is_www( _md.filepath() )) {
+	if(!Util::File::is_www( _md.filepath() )) {
 		return;
 	}
 

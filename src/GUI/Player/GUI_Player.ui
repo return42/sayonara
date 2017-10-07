@@ -931,7 +931,7 @@
              </layout>
             </widget>
             <widget class="QWidget" name="page_2">
-             <widget class="SayonaraLoadingBar" name="sli_buffer">
+             <widget class="Gui::ProgressBar" name="sli_buffer">
               <property name="geometry">
                <rect>
                 <x>0</x>
@@ -973,7 +973,7 @@
      <x>0</x>
      <y>0</y>
      <width>1038</width>
-     <height>27</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_file">
@@ -1132,9 +1132,9 @@
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>SayonaraLoadingBar</class>
+   <class>Gui::ProgressBar</class>
    <extends>QProgressBar</extends>
-   <header>GUI/Helper/SayonaraWidget/SayonaraLoadingBar.h</header>
+   <header>GUI/Helper/Widgets/ProgressBar.h</header>
   </customwidget>
  </customwidgets>
  <resources>

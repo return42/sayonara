@@ -22,7 +22,7 @@
 #define URLHELPER_H
 
 class QString;
-namespace Helper
+namespace Util
 {
 	/**
 	 * @brief Helper function for Url handling

@@ -22,7 +22,7 @@
 #define MINISEARCHER_H
 
 #include "Helper/Pimpl.h"
-#include "GUI/Helper/SayonaraWidget/SayonaraWidgetTemplate.h"
+#include "GUI/Helper/Widgets/WidgetTemplate.h"
 
 #include <QObject>
 #include <QFrame>
@@ -52,7 +52,7 @@ protected:
 
 
 class MiniSearcher :
-        public SayonaraWidgetTemplate<QFrame>
+        public Gui::WidgetTemplate<QFrame>
 {
     Q_OBJECT
 	PIMPL(MiniSearcher)

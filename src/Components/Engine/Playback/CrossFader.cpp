@@ -66,7 +66,7 @@ public:
 
 	void wait()
 {
-		Helper::sleep_ms(_cycle_time_ms);
+		Util::sleep_ms(_cycle_time_ms);
 		_cycles --;
 		_fn();
 	}
@@ -131,7 +131,7 @@ void CrossFader::init_fader()
 		m->fader_data->abort();
 
 		while(m->fader->isRunning()){
-			Helper::sleep_ms(10);
+			Util::sleep_ms(10);
 		}
 
 		delete m->fader; m->fader=nullptr;

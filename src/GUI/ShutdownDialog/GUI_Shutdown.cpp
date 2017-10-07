@@ -24,7 +24,7 @@
 #ifdef WITH_SHUTDOWN
 
 GUI_Shutdown::GUI_Shutdown(QWidget* parent):
-	SayonaraDialog(parent),
+	Dialog(parent),
 	Ui::GUI_Shutdown()
 {
 	setupUi(this);

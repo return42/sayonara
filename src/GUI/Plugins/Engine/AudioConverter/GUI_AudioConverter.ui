@@ -34,7 +34,7 @@
     </widget>
    </item>
    <item row="7" column="2" colspan="2">
-    <widget class="SayonaraComboBox" name="cb_quality">
+    <widget class="Gui::ComboBox" name="cb_quality">
      <property name="focusPolicy">
       <enum>Qt::StrongFocus</enum>
      </property>
@@ -92,9 +92,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>SayonaraComboBox</class>
+   <class>Gui::ComboBox</class>
    <extends>QComboBox</extends>
-   <header>GUI/Helper/SayonaraWidget/SayonaraComboBox.h</header>
+   <header>GUI/Helper/Widgets/ComboBox.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

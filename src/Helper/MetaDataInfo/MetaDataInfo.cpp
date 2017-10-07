@@ -106,9 +106,9 @@ MetaDataInfo::MetaDataInfo(const MetaDataList& v_md) :
 		genres = md.genres_to_list();
 
 		// paths
-		if(!Helper::File::is_www(md.filepath())){
+		if(!Util::File::is_www(md.filepath())){
 			QString filename, dir;
-			Helper::File::split_filename(md.filepath(), dir, filename);
+			Util::File::split_filename(md.filepath(), dir, filename);
 			if( !_paths.contains(dir)){
 				_paths << dir;
 			}
@@ -270,7 +270,7 @@ QString MetaDataInfo::calc_tracknum_str( uint16_t tracknum )
 
 void MetaDataInfo::insert_playing_time(uint64_t ms)
 {
-	QString str = Helper::cvt_ms_to_string(ms);
+	QString str = Util::cvt_ms_to_string(ms);
 	_info.insert(InfoStrings::PlayingTime, str);
 }
 
@@ -282,7 +282,7 @@ void MetaDataInfo::insert_genre(const QStringList& lst)
 
 void MetaDataInfo::insert_filesize(uint64_t filesize)
 {
-	QString str = Helper::File::calc_filesize_str(filesize);
+	QString str = Util::File::calc_filesize_str(filesize);
 	_info.insert(InfoStrings::Filesize, str);
 }
 
@@ -375,7 +375,7 @@ QString MetaDataInfo::get_paths_as_string() const
 			}
 		}
 
-		QString link = Helper::create_link(name, dark, path, false);
+		QString link = Util::create_link(name, dark, path, false);
 		ret += link + CAR_RET;
 	}
 

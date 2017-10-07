@@ -208,7 +208,7 @@ bool Tagging::getMetaDataOfFile(MetaData& md, Tagging::Quality quality)
 	}
 
 	QStringList genres;
-	QString genre_str = Helper::cvt_str_to_first_upper(genre);
+	QString genre_str = Util::cvt_str_to_first_upper(genre);
 	genres = genre_str.split(QRegExp(",|/|;"));
 	for(int i=0; i<genres.size(); i++) {
 		genres[i] = genres[i].trimmed();
@@ -231,7 +231,7 @@ bool Tagging::getMetaDataOfFile(MetaData& md, Tagging::Quality quality)
 
 	if(md.title.length() == 0) {
 		QString dir, filename;
-		Helper::File::split_filename(md.filepath(), dir, filename);
+		Util::File::split_filename(md.filepath(), dir, filename);
 
 		if(filename.size() > 4){
 			filename = filename.left(filename.length() - 4);
@@ -322,7 +322,7 @@ bool Tagging::setMetaDataOfFile(const MetaData& md)
 bool Tagging::write_cover(const MetaData& md, const QImage& cover)
 {
 	bool success;
-	QString filepath = Helper::sayonara_path() + "tmp.png";
+	QString filepath = Util::sayonara_path() + "tmp.png";
 
 	success = cover.save(filepath);
 	if(!success){
@@ -349,14 +349,14 @@ bool Tagging::write_cover(const MetaData& md, const QString& cover_image_path)
 	}
 
 	QByteArray data;
-	bool success = Helper::File::read_file_into_byte_arr(cover_image_path, data);
+	bool success = Util::File::read_file_into_byte_arr(cover_image_path, data);
 	if(data.isEmpty() || !success){
 		sp_log(Log::Warning) << error_msg << "No image data available: " << cover_image_path;
 		return false;
 	}
 
 	QString mime_type = "image/";
-	QString ext = Helper::File::get_file_extension(cover_image_path);
+	QString ext = Util::File::get_file_extension(cover_image_path);
 	if(ext.compare("jpg", Qt::CaseInsensitive) == 0){
 		mime_type += "jpeg";
 	}

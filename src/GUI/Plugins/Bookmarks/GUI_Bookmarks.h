@@ -26,7 +26,7 @@
 class Bookmarks;
 class Bookmark;
 
-namespace Ui { class GUI_Bookmarks; }
+UI_FWD(GUI_Bookmarks)
 
 /**
  * @brief The GUI_Bookmarks class
@@ -36,11 +36,10 @@ class GUI_Bookmarks :
 		public PlayerPluginInterface
 {
 	Q_OBJECT
+	UI_CLASS(GUI_Bookmarks)
 
 private:
 	Bookmarks*	_bookmarks=nullptr;
-	Ui::GUI_Bookmarks*	ui=nullptr;
-
 
 public:
 	explicit GUI_Bookmarks(QWidget *parent=nullptr);

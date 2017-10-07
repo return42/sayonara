@@ -59,7 +59,7 @@ struct SomaFM::Station::Private
 
 		int idx = re.indexIn(content);
 		if(idx > 0){
-			station_name = Helper::cvt_str_to_first_upper(re.cap(1));
+			station_name = Util::cvt_str_to_first_upper(re.cap(1));
 		}
 	}
 
@@ -117,9 +117,9 @@ struct SomaFM::Station::Private
 		int idx = re.indexIn(content);
 		if(idx > 0){
 			QString url = complete_url(re.cap(1));
-			QString cover_path = Helper::sayonara_path() +
+			QString cover_path = Util::sayonara_path() +
 					"/covers/" +
-					station_name + "." + Helper::File::get_file_extension(url);
+					station_name + "." + Util::File::get_file_extension(url);
 
 			cover = CoverLocation::get_cover_location(QUrl(url), cover_path);
 		}

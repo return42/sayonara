@@ -42,7 +42,7 @@ LibraryInfo::LibraryInfo(const QString& name, const QString& path, int id) :
 	LibraryInfo()
 {
 	m->name = name;
-	m->path = Helper::File::clean_filename(path);
+	m->path = Util::File::clean_filename(path);
 	m->id = id;
 }
 
@@ -78,14 +78,14 @@ QString LibraryInfo::path() const
 
 QString LibraryInfo::symlink_path() const
 {
-	QString dir = Helper::sayonara_path("Libraries");
+	QString dir = Util::sayonara_path("Libraries");
 
 	QString lib_path = this->path();
 	if(lib_path.endsWith("/") || lib_path.endsWith("\\")){
 		lib_path.remove(lib_path.size() - 1, 1);
 	}
 
-	QString pure_lib_name = Helper::File::get_filename_of_path(lib_path);
+	QString pure_lib_name = Util::File::get_filename_of_path(lib_path);
 	QString lib_name = this->name() + " - " + pure_lib_name;
 
 	lib_name.remove("/");

@@ -23,12 +23,13 @@
 
 #include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
 
-namespace Ui { class GUI_BroadcastSetup; }
+UI_FWD(GUI_BroadcastSetup)
 
 class GUI_BroadcastSetup :
 		public PreferenceWidgetInterface
 {
 	Q_OBJECT
+	UI_CLASS(GUI_BroadcastSetup)
 
 public:
 	explicit GUI_BroadcastSetup(QWidget *parent=nullptr);
@@ -49,8 +50,6 @@ private slots:
 	void port_changed(int new_val);
 
 private:
-	Ui::GUI_BroadcastSetup* ui=nullptr;
-
 	QString get_url_string() const;
 	void refresh_url();
 };

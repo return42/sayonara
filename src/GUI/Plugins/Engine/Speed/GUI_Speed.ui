@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>537</width>
-    <height>132</height>
+    <height>135</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="grid_layout">
@@ -69,7 +69,7 @@
         </widget>
        </item>
        <item row="1" column="0">
-        <widget class="SayonaraSlider" name="sli_speed">
+        <widget class="Gui::Slider" name="sli_speed">
          <property name="minimum">
           <number>50</number>
          </property>
@@ -111,7 +111,7 @@
         <number>8</number>
        </property>
        <item row="0" column="0">
-        <widget class="SayonaraSlider" name="sli_pitch">
+        <widget class="Gui::Slider" name="sli_pitch">
          <property name="minimum">
           <number>4000</number>
          </property>
@@ -167,9 +167,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>SayonaraSlider</class>
+   <class>Gui::Slider</class>
    <extends>QSlider</extends>
-   <header>GUI/Helper/SayonaraWidget/SayonaraSlider.h</header>
+   <header>GUI/Helper/Widgets/Slider.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

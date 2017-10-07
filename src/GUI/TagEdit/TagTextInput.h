@@ -23,7 +23,7 @@
 
 #include <QLineEdit>
 #include "Helper/Settings/SayonaraClass.h"
-#include "GUI/Helper/SayonaraWidget/SayonaraWidgetTemplate.h"
+#include "GUI/Helper/Widgets/WidgetTemplate.h"
 
 class QAction;
 class QMenu;
@@ -34,7 +34,7 @@ class QContextMenuEvent;
  * @ingroup Tagging
  **/
 class TagTextInput :
-    public SayonaraWidgetTemplate<QLineEdit>
+    public Gui::WidgetTemplate<QLineEdit>
 {
 	Q_OBJECT
 
