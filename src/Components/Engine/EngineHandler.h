@@ -44,7 +44,6 @@ class EngineHandler :
 	SINGLETON_QOBJECT(EngineHandler)
 
 public:
-
 	bool init() override;
 
 	PlaybackEngine* get_playback_engine();
@@ -57,17 +56,16 @@ public:
 
 	void set_equalizer(int band, int value);
 
+    bool change_track(const MetaData&) override;
+    bool change_track_by_filename(const QString&) override;
 
-public slots:
+
+private slots:
 	void jump_abs_ms(uint64_t ms) override;
 	void jump_rel_ms(uint64_t ms) override;
 	void jump_rel(double where) override;
 
-	void change_track(const MetaData&) override;
-	void change_track(const QString&) override;
 
-
-private slots:
 
 	void sl_md_changed(const MetaData&);
 	void sl_dur_changed(const MetaData&);
@@ -105,7 +103,7 @@ private:
 
 	// Engine interface
 protected:
-	bool set_uri(char* uri) override;
+    bool change_uri(char* uri) override;
 };
 
 #endif

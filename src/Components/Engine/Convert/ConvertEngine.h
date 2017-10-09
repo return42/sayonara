@@ -37,26 +37,23 @@ public:
 	void set_track_finished(GstElement* src) override;
 	bool init() override;
 
+    void play() override;
+    void stop() override;
+    void pause() override;
+
+    void jump_abs_ms(uint64_t pos_ms) override;
+    void jump_rel_ms(uint64_t ms) override;
+    void jump_rel(double percent) override;
+
+    bool change_track(const MetaData&) override;
+    bool change_track_by_filename(const QString&) override;
+
 private slots:
     void cur_pos_ms_changed(int64_t ms);
 
-public slots:
-	void play() override;
-	void stop() override;
-	void pause() override;
-
-	void jump_abs_ms(uint64_t pos_ms) override;
-	void jump_rel_ms(uint64_t ms) override;
-	void jump_rel(double percent) override;
-
-	void change_track(const MetaData&) override;
-	void change_track(const QString&) override;
-
-	void set_volume(int vol);
-
 protected:
     // methods
-	bool set_uri(char* uri) override;
+    bool change_uri(char* uri) override;
     void configure_target(const MetaData& md);
 };
 

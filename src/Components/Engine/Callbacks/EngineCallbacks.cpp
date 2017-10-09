@@ -199,7 +199,7 @@ gboolean EngineCallbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpoint
 				MetaData md;
 				md.title = title;
 				g_free(title);
-				engine->update_md(md, src);
+                engine->update_metadata(md, src);
 			}
 
 			gst_tag_list_unref(tags);
@@ -266,7 +266,7 @@ gboolean EngineCallbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpoint
 			{
 				GError*			err;
 				gst_message_parse_warning(msg, &err, nullptr);
-				sp_log(Log::Warning) << "Engine " << (int) engine->get_name() << ": GST_MESSAGE_WARNING: " << err->message << ": "
+                sp_log(Log::Warning) << "Engine " << (int) engine->name() << ": GST_MESSAGE_WARNING: " << err->message << ": "
 					 << GST_MESSAGE_SRC_NAME(msg);
 			}
 			break;
@@ -276,7 +276,7 @@ gboolean EngineCallbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpoint
 				GError*			err;
 				gst_message_parse_error(msg, &err, nullptr);
 
-				sp_log(Log::Error) << "Engine " << (int) engine->get_name() << ": GST_MESSAGE_ERROR: " << err->message << ": "
+                sp_log(Log::Error) << "Engine " << (int) engine->name() << ": GST_MESSAGE_ERROR: " << err->message << ": "
 						 << GST_MESSAGE_SRC_NAME(msg);
 
 				QString	error_msg(err->message);

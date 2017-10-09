@@ -33,7 +33,8 @@
 /** PLAYER BUTTONS **/
 void GUI_Player::playstate_changed(PlayState state)
 {
-	switch(state){
+    switch(state)
+    {
 		case PlayState::Playing:
 			played();
 			break;

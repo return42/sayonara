@@ -59,19 +59,17 @@ bool ConvertEngine::init()
 }
 
 
-void ConvertEngine::change_track(const MetaData& md)
+bool ConvertEngine::change_track(const MetaData& md)
 {
-	stop();
-
-    change_metadata(md);
     configure_target(md);
 
-    Engine::change_track(md);
+    return Engine::change_track(md);
 }
 
-void ConvertEngine::change_track(const QString& str)
+bool ConvertEngine::change_track_by_filename(const QString& filename)
 {
-	Q_UNUSED(str);
+    Q_UNUSED(filename);
+    return false;
 }
 
 
@@ -106,9 +104,7 @@ void ConvertEngine::cur_pos_ms_changed(int64_t pos_ms)
     Engine::set_current_position_ms(pos_ms);
 }
 
-void ConvertEngine::set_volume(int vol) {Q_UNUSED(vol);}
-
-bool ConvertEngine::set_uri(char* uri)
+bool ConvertEngine::change_uri(char* uri)
 {
 	return m->pipeline->set_uri(uri);
 }

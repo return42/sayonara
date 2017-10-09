@@ -10,7 +10,7 @@ SET(SOURCES
     Playback/PlaybackEngine.cpp
     Playback/PlaybackPipeline.cpp
     Playback/StreamRecorder.cpp
-    Playback/CrossFader.cpp
+    Playback/Crossfader.cpp
     Playback/ChangeablePipeline.cpp
 	Playback/SeekHandler.cpp
     Playback/SoundOutReceiver.cpp

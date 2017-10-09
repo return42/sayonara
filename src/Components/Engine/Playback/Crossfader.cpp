@@ -21,7 +21,7 @@
 
 /* CrossFader.cpp */
 
-#include "CrossFader.h"
+#include "Crossfader.h"
 #include "Helper/Settings/Settings.h"
 #include "Helper/Helper.h"
 #include "Helper/Logger/Logger.h"

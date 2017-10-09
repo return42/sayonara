@@ -39,7 +39,6 @@ struct Engine::Private
 
     gchar*          uri=nullptr;
 
-
     Private(EngineName name) :
         name(name),
         cur_pos_ms(0),
@@ -56,9 +55,81 @@ Engine::Engine(EngineName name, QObject *parent) :
 
 Engine::~Engine() {}
 
-EngineName Engine::get_name() const
+EngineName Engine::name() const
 {
     return m->name;
+}
+
+
+bool Engine::change_track(const MetaData& md)
+{
+    m->cur_pos_ms = 0;
+
+    return change_metadata(md);
+}
+
+bool Engine::change_track_by_filename(const QString& filepath)
+{
+    MetaData md(filepath);
+
+    bool success = true;
+
+    bool got_md = Tagging::getMetaDataOfFile(md);
+    if( !got_md ) {
+        stop();
+        success = false;
+    }
+
+    else{
+        success = change_track(md);
+    }
+
+    return success;
+}
+
+
+bool Engine::change_metadata(const MetaData& md)
+{
+    if(m->uri)
+    {
+        g_free(m->uri);
+        m->uri = nullptr;
+    }
+
+    QString filepath = md.filepath();
+    bool playing_stream = Util::File::is_www(filepath);
+
+    // stream, but don't want to record
+    // stream is already uri
+    if (playing_stream)
+    {
+        QUrl url = QUrl(filepath);
+        m->uri = g_strdup(url.toString().toUtf8().data());
+    }
+
+    // no stream (not quite right because of mms, rtsp or other streams
+    // normal filepath -> no uri
+    else if (!filepath.contains("://"))
+    {
+        QUrl url = QUrl::fromLocalFile(filepath);
+        m->uri = g_strdup(url.url().toUtf8().data());
+    }
+
+    else {
+        m->uri = g_strdup(filepath.toUtf8().data());
+    }
+
+    if(g_utf8_strlen(m->uri, 16) == 0)
+    {
+        m->md = MetaData();
+
+        sp_log(Log::Warning) << "uri = 0";
+        return false;
+    }
+
+    m->md = md;
+
+    return change_uri(m->uri);
 }
 
 
@@ -77,26 +148,25 @@ void Engine::set_track_finished(GstElement* src)
 {
     Q_UNUSED(src)
 
-    emit sig_pos_changed_ms(0);
     emit sig_track_finished();
 }
 
-void Engine::update_md(const MetaData& md, GstElement* src)
+void Engine::update_metadata(const MetaData& md, GstElement* src)
 {
 	Q_UNUSED(src)
-	Q_UNUSED(md)
+
+    m->md = md;
+    emit sig_md_changed(m->md);
 }
 
 void Engine::update_cover(const QImage& img, GstElement* src)
 {
 	Q_UNUSED(src)
-	Q_UNUSED(img);
+    emit sig_cover_changed(img);
 }
 
 void Engine::update_duration(int64_t duration_ms, GstElement* src)
 {
-	Q_UNUSED(src)
-
     uint32_t duration_s = (duration_ms / 1000);
     uint32_t md_duration_s = (metadata().length_ms / 1000);
 
@@ -109,7 +179,7 @@ void Engine::update_duration(int64_t duration_ms, GstElement* src)
     }
 
     m->md.length_ms = duration_ms;
-    update_metadata(m->md);
+    update_metadata(m->md, src);
 
     emit sig_dur_changed(m->md);
 }
@@ -117,8 +187,6 @@ void Engine::update_duration(int64_t duration_ms, GstElement* src)
 
 void Engine::update_bitrate(uint32_t br, GstElement* src)
 {
-	Q_UNUSED(src)
-
     if( br <= 0) {
         return;
     }
@@ -128,108 +196,18 @@ void Engine::update_bitrate(uint32_t br, GstElement* src)
     }
 
     m->md.bitrate = br;
-    update_metadata(m->md);
+    update_metadata(m->md, src);
 
     emit sig_br_changed(m->md);
-
 }
 
-void Engine::error(const QString& error)
-{
-	QString msg("Cannot play track");
-
-	if(m->md.filepath().contains("soundcloud", Qt::CaseInsensitive))
-	{
-		msg += QString("\n\n") +
-			   "Probably, Sayonara's Soundcloud limit of 15.000 "
-			   "tracks per day is reached :( Sorry.";
-	}
-
-    if(error.trimmed().length() > 0){
-        msg += QString("\n\n") + error;
-    }
-
-	emit sig_error(msg);
-    stop();
-}
-
-void Engine::change_track(const MetaData& md)
-{
-    Q_UNUSED(md)
-
-    emit sig_pos_changed_ms(0);
-
-    m->cur_pos_ms = 0;
-}
-
-void Engine::change_track(const QString& filepath)
-{
-    MetaData md(filepath);
-
-    bool got_md = Tagging::getMetaDataOfFile(md);
-    if( !got_md ) {
-        stop();
-    }
-
-    else{
-        change_track(md);
-    }
-}
 
 void Engine::stop()
 {
+    m->cur_pos_ms = 0;
+    m->cur_pos_s = 0;
+
     emit sig_buffering(-1);
-    emit sig_pos_changed_ms(0);
-}
-
-bool Engine::change_metadata(const MetaData& md)
-{
-    if(m->uri)
-    {
-        g_free(m->uri);
-        m->uri = nullptr;
-    }
-
-	QString filepath = md.filepath();
-    bool playing_stream = Util::File::is_www(filepath);
-
-    // stream, but don't want to record
-    // stream is already uri
-    if (playing_stream)
-    {
-		QUrl url = QUrl(filepath);
-        m->uri = g_strdup(url.toString().toUtf8().data());
-    }
-
-    // no stream (not quite right because of mms, rtsp or other streams
-    // normal filepath -> no uri
-    else if (!filepath.contains("://"))
-    {
-		QUrl url = QUrl::fromLocalFile(filepath);
-        m->uri = g_strdup(url.url().toUtf8().data());
-    }
-
-    else {
-        m->uri = g_strdup(filepath.toUtf8().data());
-    }
-
-	if(g_utf8_strlen(m->uri, 16) == 0)
-	{
-		m->md = MetaData();
-
-        sp_log(Log::Warning) << "uri = 0";
-        return false;
-    }
-
-	m->md = md;
-
-	return set_uri(m->uri);
-}
-
-void Engine::update_metadata(const MetaData& md)
-{
-	m->md = md;
-	emit sig_md_changed(m->md);
 }
 
 const MetaData& Engine::metadata() const
@@ -260,6 +238,26 @@ int64_t Engine::current_position_ms() const
 
 void Engine::set_buffer_state(int progress, GstElement* src)
 {
-    Q_UNUSED(progress)
     Q_UNUSED(src)
+    emit sig_buffering(progress);
+}
+
+
+void Engine::error(const QString& error)
+{
+    QString msg("Cannot play track");
+
+    if(m->md.filepath().contains("soundcloud", Qt::CaseInsensitive))
+    {
+        msg += QString("\n\n") +
+               "Probably, Sayonara's Soundcloud limit of 15.000 "
+               "tracks per day is reached :( Sorry.";
+    }
+
+    if(error.trimmed().length() > 0){
+        msg += QString("\n\n") + error;
+    }
+
+    emit sig_error(msg);
+    stop();
 }

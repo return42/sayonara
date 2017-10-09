@@ -26,7 +26,6 @@
 #include "Helper/Settings/SayonaraClass.h"
 #include "Helper/Pimpl.h"
 
-
 struct _GstElement;
 typedef struct _GstElement GstElement;
 
@@ -55,14 +54,31 @@ class Engine :
 	Q_OBJECT
     PIMPL(Engine)
 
+signals:
+    void sig_md_changed(const MetaData& md);
+    void sig_dur_changed(const MetaData& md);
+    void sig_br_changed(const MetaData& md);
+    void sig_cover_changed(const QImage& img);
+
+    void sig_pos_changed_ms(uint64_t pos_ms);
+    void sig_buffering(int progress);
+
+    void sig_track_ready();
+    void sig_track_almost_finished(int64_t time2go);
+    void sig_track_finished();
+
+    void sig_error(const QString& message);
+
+
 public:
     explicit Engine(EngineName name, QObject* parent=nullptr);
 	virtual ~Engine();
-	virtual EngineName	get_name() const final;
+
+    virtual EngineName	name() const final;
 
 	virtual bool		init()=0;
 
-	virtual void		update_md(const MetaData& md, GstElement* src);
+    virtual void		update_metadata(const MetaData& md, GstElement* src);
 	virtual void		update_cover(const QImage& img, GstElement* src);
     virtual void		update_duration(int64_t duration_ms, GstElement* src);
 	virtual void		update_bitrate(uint32_t br, GstElement* src);
@@ -73,29 +89,8 @@ public:
 
     virtual void		set_buffer_state(int percent, GstElement* src);
 
-	void				set_level(float right, float left);
-	void				set_spectrum(QList<float>& lst );
-
-    virtual void        change_track(const MetaData& md);
-    virtual void        change_track(const QString& filepath);
-
-
-signals:
-	void sig_md_changed(const MetaData& md);
-	void sig_dur_changed(const MetaData& md);
-	void sig_br_changed(const MetaData& md);
-
-    void sig_pos_changed_ms(uint64_t pos_ms);
-	void sig_buffering(int progress);
-
-	void sig_track_ready();
-    void sig_track_almost_finished(int64_t time2go);
-	void sig_track_finished();
-
-	void sig_error(const QString& message);
-
-    void sig_download_progress(int);
-	void sig_cover_changed(const QImage& img);
+    virtual bool        change_track(const MetaData& md);
+    virtual bool        change_track_by_filename(const QString& filepath);
 
 
 public slots:
@@ -110,18 +105,18 @@ public slots:
 
 
 protected:
-    virtual bool set_uri(char* uri)=0;
+    virtual bool        change_uri(char* uri)=0;
 
-    virtual void        update_metadata(const MetaData& md);
-    virtual bool		change_metadata(const MetaData& md);
+    // if the current track is changed, this routine should be called within the
+    // change_track method. This method has to be called explicitly, because its
+    // position within the change_track method is too specific
+    virtual bool        change_metadata(const MetaData& md);
+
     const MetaData&		metadata() const;
 
     void                set_current_position_ms(int64_t pos_ms);
     int64_t             current_position_ms() const;
-
 };
-
-extern Engine* gst_obj_ref;
 
 #endif
 
