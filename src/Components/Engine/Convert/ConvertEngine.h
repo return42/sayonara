@@ -37,9 +37,8 @@ public:
 	void set_track_finished(GstElement* src) override;
 	bool init() override;
 
-protected slots:
-	void cur_pos_ms_changed(int64_t ms) override;
-
+private slots:
+    void cur_pos_ms_changed(int64_t ms);
 
 public slots:
 	void play() override;

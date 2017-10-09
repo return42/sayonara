@@ -249,7 +249,13 @@ gboolean EngineCallbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpoint
 			break;
 
 		case GST_MESSAGE_DURATION_CHANGED:
-			engine->update_duration(src);
+            {
+                gint64 duration_ns;
+                bool success = gst_element_query_duration(src, GST_FORMAT_TIME, &duration_ns);
+                if(success) {
+                    engine->update_duration(GST_TIME_AS_MSECONDS(duration_ns), src);
+                }
+            }
 			break;
 
 		case GST_MESSAGE_INFO:

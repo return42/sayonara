@@ -174,10 +174,10 @@ void EngineHandler::change_track(const MetaData& md)
 	_cur_engine->change_track(md);
 }
 
-void EngineHandler::change_track(const QString& str)
+void EngineHandler::change_track(const QString& filepath)
 {
 	if(!_cur_engine) return;
-	_cur_engine->change_track(str);
+    _cur_engine->change_track(filepath);
 }
 
 
@@ -240,7 +240,6 @@ bool EngineHandler::configure_connections(Engine* old_engine, Engine* new_engine
 		disconnect(old_engine, &Engine::sig_track_ready, this, &EngineHandler::sl_track_ready_changed);
 		disconnect(old_engine, &Engine::sig_md_changed, this, &EngineHandler::sl_md_changed);
 		disconnect(old_engine, &Engine::sig_pos_changed_ms, this, &EngineHandler::sl_pos_changed_ms);
-		disconnect(old_engine, &Engine::sig_pos_changed_s, this, &EngineHandler::sl_pos_changed_s);
 		disconnect(old_engine, &Engine::sig_dur_changed, this, &EngineHandler::sl_dur_changed);
 		disconnect(old_engine, &Engine::sig_br_changed, this, &Engine::sig_br_changed);
 		disconnect(old_engine, &Engine::sig_track_finished, this, &EngineHandler::sl_track_finished);
@@ -253,7 +252,6 @@ bool EngineHandler::configure_connections(Engine* old_engine, Engine* new_engine
 		connect(new_engine, &Engine::sig_track_ready, this, &EngineHandler::sl_track_ready_changed);
 		connect(new_engine, &Engine::sig_md_changed, this, &EngineHandler::sl_md_changed);
 		connect(new_engine, &Engine::sig_pos_changed_ms, this, &EngineHandler::sl_pos_changed_ms);
-		connect(new_engine, &Engine::sig_pos_changed_s, this, &EngineHandler::sl_pos_changed_s);
 		connect(new_engine, &Engine::sig_dur_changed, this, &EngineHandler::sl_dur_changed);
 		connect(new_engine, &Engine::sig_br_changed, this, &Engine::sig_br_changed);
 		connect(new_engine, &Engine::sig_track_finished, this, &EngineHandler::sl_track_finished);
@@ -273,9 +271,11 @@ Engine* EngineHandler::get_engine(EngineName name)
 		}
 	}
 
-	if(name == EngineName::PlaybackEngine){
+    if(name == EngineName::PlaybackEngine)
+    {
 		PlaybackEngine* pb_engine = new PlaybackEngine();
-		if(pb_engine->init()){
+        if(pb_engine->init())
+        {
 			_engines << static_cast<Engine*>(pb_engine);
 			connect(pb_engine, &PlaybackEngine::sig_data, this, &EngineHandler::new_data);
 			return pb_engine;

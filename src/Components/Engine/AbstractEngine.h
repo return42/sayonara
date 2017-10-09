@@ -62,49 +62,45 @@ public:
 
 	virtual bool		init()=0;
 
-	virtual void		set_track_finished(GstElement* src);
-
 	virtual void		update_md(const MetaData& md, GstElement* src);
 	virtual void		update_cover(const QImage& img, GstElement* src);
-	virtual void		update_duration(GstElement* src);
+    virtual void		update_duration(int64_t duration_ms, GstElement* src);
 	virtual void		update_bitrate(uint32_t br, GstElement* src);
 
 	virtual void		set_track_ready(GstElement* src);
-	virtual void		set_buffer_state(int percent, GstElement* src);
+    virtual void        set_track_almost_finished(int64_t time2go);
+    virtual void		set_track_finished(GstElement* src);
+
+    virtual void		set_buffer_state(int percent, GstElement* src);
 
 	void				set_level(float right, float left);
 	void				set_spectrum(QList<float>& lst );
 
-	virtual bool		set_metadata(const MetaData& md);
-	const MetaData&		metadata() const;
-	void				update_metadata(const MetaData& md);
+    virtual void        change_track(const MetaData& md);
+    virtual void        change_track(const QString& filepath);
+
 
 signals:
 	void sig_md_changed(const MetaData& md);
 	void sig_dur_changed(const MetaData& md);
 	void sig_br_changed(const MetaData& md);
 
-	void sig_pos_changed_ms(uint64_t);
-	void sig_pos_changed_s(uint32_t);
-
+    void sig_pos_changed_ms(uint64_t pos_ms);
 	void sig_buffering(int progress);
 
 	void sig_track_ready();
+    void sig_track_almost_finished(int64_t time2go);
 	void sig_track_finished();
+
 	void sig_error(const QString& message);
 
     void sig_download_progress(int);
 	void sig_cover_changed(const QImage& img);
 
 
-protected slots:
-	virtual void about_to_finish(int64_t ms);
-	virtual void cur_pos_ms_changed(int64_t ms);
-
-
 public slots:
 	virtual void play()=0;
-	virtual void stop()=0;
+    virtual void stop();
 	virtual void pause()=0;
 	virtual void error(const QString& error);
 
@@ -112,13 +108,17 @@ public slots:
 	virtual void jump_rel_ms(uint64_t ms)=0;
 	virtual void jump_rel(double ms)=0;
 
-	virtual void change_track(const MetaData&)=0;
-	virtual void change_track(const QString&)=0;
 
 protected:
-	int64_t		_cur_pos_ms;
+    virtual bool set_uri(char* uri)=0;
 
-	virtual bool set_uri(char* uri)=0;
+    virtual void        update_metadata(const MetaData& md);
+    virtual bool		change_metadata(const MetaData& md);
+    const MetaData&		metadata() const;
+
+    void                set_current_position_ms(int64_t pos_ms);
+    int64_t             current_position_ms() const;
+
 };
 
 extern Engine* gst_obj_ref;

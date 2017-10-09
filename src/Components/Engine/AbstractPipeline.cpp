@@ -133,25 +133,25 @@ void AbstractPipeline::refresh_position()
 	}
 }
 
-
-void AbstractPipeline::refresh_duration()
+gint64 AbstractPipeline::query_duration() const
 {
-	gint64 dur;
-	bool success;
-	GstElement* element;
+    gint64 duration_ns;
 
-	element = get_source();
-	if(!element){
-		element = GST_ELEMENT(_pipeline);
-	}
+    bool success = gst_element_query_duration(get_source(), GST_FORMAT_TIME, &duration_ns);
+    if(success){
+        return GST_TIME_AS_MSECONDS(duration_ns);
+    }
 
-	success = gst_element_query_duration(element, GST_FORMAT_TIME, &dur);
+    return 0;
+}
 
-	if(success){
-		_duration_ms = GST_TIME_AS_MSECONDS(dur);
-	}
+void AbstractPipeline::update_duration_ms(gint64 duration_ms, GstElement *src)
+{
+    if(src == get_source()){
+        _duration_ms = duration_ms;
+    }
 
-	refresh_position();
+    refresh_position();
 }
 
 void AbstractPipeline::set_data(uchar* data, uint64_t size){
@@ -171,8 +171,9 @@ void AbstractPipeline::check_about_to_finish()
 {
 	gint64 difference = _duration_ms - _position_pipeline_ms;
 
-	if(difference <= 0 && !_about_to_finish){
-		refresh_duration();
+    if(difference <= 0 && !_about_to_finish)
+    {
+        _duration_ms = query_duration();
 
 		if(_duration_ms <= 0){
 			return;
@@ -251,8 +252,9 @@ GstElement* AbstractPipeline::get_pipeline() const
 bool AbstractPipeline::set_uri(gchar* uri)
 {
 	_uri = uri;
-	return (_uri != nullptr);
+    return (_uri != nullptr);
 }
+
 
 
 bool AbstractPipeline::create_element(GstElement** elem, const gchar* elem_name, const gchar* name){
@@ -271,6 +273,7 @@ bool AbstractPipeline::create_element(GstElement** elem, const gchar* elem_name,
 
 	return success;
 }
+
 
 bool AbstractPipeline::tee_connect(GstElement* tee, GstPadTemplate* tee_src_pad_template, GstElement* queue, const QString& queue_name){
 	GstPadLinkReturn s;

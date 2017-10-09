@@ -25,7 +25,6 @@
 #include "Components/Engine/Callbacks/EngineCallbacks.h"
 
 #include "Helper/MetaData/MetaData.h"
-#include "Helper/Tagging/Tagging.h"
 #include "Helper/FileHelper.h"
 #include "Helper/Playlist/PlaylistMode.h"
 #include "Helper/Settings/Settings.h"
@@ -45,10 +44,8 @@ struct PlaybackEngine::Private
 	QTimer*						gapless_timer=nullptr;
 	GaplessState				gapless_state;
 
-	bool						sr_active;
-
 	StreamRecorder*				stream_recorder=nullptr;
-
+    bool						sr_active;
 
 	Private(Engine* parent) :
 		gapless_state(GaplessState::Stopped),
@@ -132,7 +129,7 @@ bool PlaybackEngine::init_pipeline(PlaybackPipeline** pipeline)
 		return false;
 	}
 
-	connect(p, &PlaybackPipeline::sig_about_to_finish, this, &PlaybackEngine::about_to_finish);
+    connect(p, &PlaybackPipeline::sig_about_to_finish, this, &PlaybackEngine::set_track_almost_finished);
 	connect(p, &PlaybackPipeline::sig_pos_changed_ms, this, &PlaybackEngine::cur_pos_ms_changed);
 	connect(p, &PlaybackPipeline::sig_data, this, &PlaybackEngine::sig_data);
 
@@ -141,11 +138,11 @@ bool PlaybackEngine::init_pipeline(PlaybackPipeline** pipeline)
 
 void PlaybackEngine::change_track_crossfading(const MetaData& md)
 {
-	std::swap(m->pipeline, m->other_pipeline);
+    std::swap(m->pipeline, m->other_pipeline);
 
-	m->other_pipeline->fade_out();
+    m->other_pipeline->fade_out();
 
-	if (!set_metadata(md)) {
+    if (!change_metadata(md)) {
 		return;
 	}
 
@@ -156,14 +153,14 @@ void PlaybackEngine::change_track_crossfading(const MetaData& md)
 
 void PlaybackEngine::change_track_gapless(const MetaData& md)
 {
-	std::swap(m->pipeline, m->other_pipeline);
+    std::swap(m->pipeline, m->other_pipeline);
 
-	if (!set_metadata(md)) {
+    if (!change_metadata(md)) {
 		return;
 	}
 
 	int64_t time_to_go = m->other_pipeline->get_time_to_go();
-	if(time_to_go <= 0){
+    if(time_to_go <= 0) {
 		m->pipeline->play();
 	}
 
@@ -179,11 +176,11 @@ void PlaybackEngine::change_track_gapless(const MetaData& md)
 
 void PlaybackEngine::change_track_immediatly(const MetaData& md)
 {
-	if (!set_metadata(md)) {
+    if (!change_metadata(md)) {
 		return;
 	}
 
-	if(m->other_pipeline){
+    if(m->other_pipeline) {
 		m->other_pipeline->stop();
 	}
 
@@ -214,27 +211,17 @@ void PlaybackEngine::change_track(const MetaData& md)
 		change_track_immediatly(md);
 	}
 
-	emit sig_pos_changed_s(0);
-	_cur_pos_ms = 0;
+    Engine::change_track(md);
 }
 
-void PlaybackEngine::change_track(const QString& filepath)
+void PlaybackEngine::change_track(const QString &filepath)
 {
-	MetaData md(filepath);
-
-	bool got_md = Tagging::getMetaDataOfFile(md);
-	if( !got_md ) {
-		stop();
-	}
-
-	else{
-		change_track(md);
-	}
+    Engine::change_track(filepath);
 }
 
-bool PlaybackEngine::set_metadata(const MetaData& md)
+bool PlaybackEngine::change_metadata(const MetaData& md)
 {
-	bool success = Engine::set_metadata(md);
+    bool success = Engine::change_metadata(md);
 	if(!success)
 	{
 		change_gapless_state(GaplessState::Stopped);
@@ -272,7 +259,7 @@ void PlaybackEngine::stop()
 		m->gapless_timer->stop();
 	}
 
-	sp_log(Log::Info) << "Playback Engine: stop";
+    sp_log(Log::Info, this) << "Playback Engine: stop";
 	m->pipeline->stop();
 
 	if(m->other_pipeline){
@@ -287,8 +274,7 @@ void PlaybackEngine::stop()
 		set_streamrecorder_recording(false);
 	}
 
-	emit sig_buffering(-1);
-	emit sig_pos_changed_s(0);
+    Engine::stop();
 }
 
 
@@ -352,29 +338,18 @@ void PlaybackEngine::cur_pos_ms_changed(int64_t pos_ms)
 		return;
 	}
 
-	int32_t pos_sec = pos_ms / 1000;
-	int32_t cur_pos_sec = _cur_pos_ms / 1000;
-
-	if ( cur_pos_sec == pos_sec ){
-		return;
-	}
-
-	_cur_pos_ms = pos_ms;
-
-	emit sig_pos_changed_s( pos_sec );
+    Engine::set_current_position_ms(pos_ms);
 }
 
 
 void PlaybackEngine::set_track_ready(GstElement* src)
 {
-	update_duration(src);
-
 	if(m->pipeline->has_element(src)){
-		emit sig_track_ready();
+        Engine::set_track_ready(src);
 	}
 }
 
-void PlaybackEngine::about_to_finish(int64_t time2go)
+void PlaybackEngine::set_track_almost_finished(int64_t time2go)
 {
 	Q_UNUSED(time2go)
 
@@ -385,11 +360,12 @@ void PlaybackEngine::about_to_finish(int64_t time2go)
 	if( m->gapless_state == GaplessState::NoGapless ||
 		m->gapless_state == GaplessState::AboutToFinish )
 	{
+        Engine::set_track_almost_finished(time2go);
 		return;
 	}
 
 	sp_log(Log::Debug, this) << "About to finish: " <<
-								(int) m->gapless_state << " (" << time2go << "ms)";
+            (int) m->gapless_state << " (" << time2go << "ms)";
 
 	change_gapless_state(GaplessState::AboutToFinish);
 
@@ -398,8 +374,8 @@ void PlaybackEngine::about_to_finish(int64_t time2go)
 		m->pipeline->fade_out();
 	}
 
-	emit sig_pos_changed_ms(0);
-	emit sig_track_finished();
+    emit sig_pos_changed_ms(0);
+    emit sig_track_finished();
 }
 
 
@@ -407,8 +383,7 @@ void PlaybackEngine::set_track_finished(GstElement* src)
 {
 	if(m->pipeline->has_element(src))
 	{
-		emit sig_track_finished();
-		emit sig_pos_changed_ms(0);
+        Engine::set_track_finished(src);
 	}
 
 	if(m->other_pipeline && m->other_pipeline->has_element(src))
@@ -416,7 +391,6 @@ void PlaybackEngine::set_track_finished(GstElement* src)
 		sp_log(Log::Debug, this) << "Old track finished";
 
 		m->other_pipeline->stop();
-		_cur_pos_ms = 0;
 
 		change_gapless_state(GaplessState::Playing);
 	}
@@ -527,12 +501,12 @@ void PlaybackEngine::update_md(const MetaData& md, GstElement* src)
 		title = splitted[1].trimmed();
 	}
 
-	if(	title == metadata().title)
+    if(metadata().title.compare(title) == 0)
 	{
 		return;
 	}
 
-	_cur_pos_ms = 0;
+    set_current_position_ms(0);
 
 	MetaData md_update = metadata();
 	if(splitted.size() == 2){
@@ -552,32 +526,16 @@ void PlaybackEngine::update_md(const MetaData& md, GstElement* src)
 }
 
 
-void PlaybackEngine::update_duration(GstElement* src)
+void PlaybackEngine::update_duration(int64_t duration_ms, GstElement* src)
 {
 	if(! m->pipeline->has_element(src)){
 		return;
 	}
 
-	m->pipeline->refresh_duration();
+    m->pipeline->update_duration_ms(duration_ms, src);
 
-	int64_t duration_ms = m->pipeline->get_duration_ms();
-	uint32_t duration_s = (duration_ms >> 10);
-	uint32_t md_duration_s = (metadata().length_ms >> 10);
+    Engine::update_duration(duration_ms, src);
 
-	if(duration_s == 0 || duration_s > 1500000){
-		return;
-	}
-
-	if(duration_s == md_duration_s) {
-		return;
-	}
-
-	MetaData md = metadata();
-	md.length_ms = duration_ms;
-
-	update_metadata(md);
-
-	emit sig_dur_changed(md);
 }
 
 
@@ -587,19 +545,7 @@ void PlaybackEngine::update_bitrate(uint32_t br, GstElement* src)
 		return;
 	}
 
-	if( br / 1000 <= 0) {
-		return;
-	}
-
-	if( br / 1000 == metadata().bitrate / 1000) {
-		return;
-	}
-
-	MetaData md = metadata();
-	md.bitrate = br;
-	update_metadata(md);
-
-	emit sig_br_changed(md);
+    Engine::update_bitrate(br, src);
 }
 
 
