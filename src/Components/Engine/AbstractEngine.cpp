@@ -21,12 +21,15 @@
 #include "AbstractEngine.h"
 #include "Helper/FileHelper.h"
 #include "Helper/Logger/Logger.h"
+#include "Helper/MetaData/MetaData.h"
+
 #include <QUrl>
 
 #include <gst/gst.h>
 
 struct Engine::Private
 {
+	MetaData		md;
     gchar*          uri=nullptr;
     EngineName      name;
 
@@ -104,7 +107,7 @@ void Engine::error(const QString& error)
 {
 	QString msg("Cannot play track");
 
-	if(_md.filepath().contains("soundcloud", Qt::CaseInsensitive))
+	if(m->md.filepath().contains("soundcloud", Qt::CaseInsensitive))
 	{
 		msg += QString("\n\n") +
 			   "Probably, Sayonara's Soundcloud limit of 15.000 "
@@ -119,23 +122,22 @@ void Engine::error(const QString& error)
 	stop();
 }
 
-bool Engine::set_uri(const QString &filepath)
+bool Engine::set_metadata(const MetaData& md)
 {
-    QUrl url;
-
     if(m->uri)
     {
         g_free(m->uri);
         m->uri = nullptr;
     }
 
+	QString filepath = md.filepath();
     bool playing_stream = Util::File::is_www(filepath);
 
     // stream, but don't want to record
     // stream is already uri
     if (playing_stream)
     {
-        url = QUrl(filepath);
+		QUrl url = QUrl(filepath);
         m->uri = g_strdup(url.toString().toUtf8().data());
     }
 
@@ -143,7 +145,7 @@ bool Engine::set_uri(const QString &filepath)
     // normal filepath -> no uri
     else if (!filepath.contains("://"))
     {
-        url = QUrl::fromLocalFile(filepath);
+		QUrl url = QUrl::fromLocalFile(filepath);
         m->uri = g_strdup(url.url().toUtf8().data());
     }
 
@@ -151,17 +153,28 @@ bool Engine::set_uri(const QString &filepath)
         m->uri = g_strdup(filepath.toUtf8().data());
     }
 
-    if(g_utf8_strlen(m->uri, 1024) == 0) {
+	if(g_utf8_strlen(m->uri, 16) == 0)
+	{
+		m->md = MetaData();
+
         sp_log(Log::Warning) << "uri = 0";
         return false;
     }
 
-    return true;
+	m->md = md;
+
+	return set_uri(m->uri);
 }
 
-char* Engine::get_uri() const
+void Engine::update_metadata(const MetaData& md)
 {
-    return m->uri;
+	m->md = md;
+	emit sig_md_changed(m->md);
+}
+
+const MetaData& Engine::metadata() const
+{
+	return m->md;
 }
 
 

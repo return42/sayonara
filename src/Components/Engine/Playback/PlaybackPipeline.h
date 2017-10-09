@@ -24,6 +24,7 @@
 #include "ChangeablePipeline.h"
 #include "CrossFader.h"
 #include "Components/Engine/AbstractPipeline.h"
+#include "Helper/Pimpl.h"
 
 struct StreamRecorderData;
 class Engine;
@@ -38,7 +39,7 @@ class PlaybackPipeline :
 		public ChangeablePipeline
 {
 	Q_OBJECT
-
+	PIMPL(PlaybackPipeline)
 
 public:
 	explicit PlaybackPipeline(Engine* engine, QObject *parent=nullptr);
@@ -55,74 +56,27 @@ public:
 	GstElement* get_source() const override;
 	GstElement* get_pipeline() const override;
 
+	void force_about_to_finish();
+
 
 public slots:
 	void play() override;
-	void pause() override;
 	void stop() override;
 
-	void set_eq_band(const QString& band_name, double val);
-	void set_speed(float speed, double pitch, bool preserve_pitch);
+	void set_eq_band(int band_name, int val);
 	void set_streamrecorder_path(const QString& session_path);
 
 	gint64 seek_rel(double percent, gint64 ref_ns);
 	gint64 seek_abs(gint64 ns );
 
-
 private:
-	int					_vol;
-
-	QString				_sr_path;
-	StreamRecorderData* _sr_data=nullptr;
-
-	GstElement*			_audio_src=nullptr;
-	GstElement*			_audio_convert=nullptr;
-	GstElement*			_tee=nullptr;
-
-	GstElement*			_eq_queue=nullptr;
-	GstElement*			_equalizer=nullptr;
-	GstElement*			_speed=nullptr;
-	GstElement*			_volume=nullptr;
-	GstElement*			_pitch=nullptr;
-
-	GstElement*			_audio_sink=nullptr;
-
-	GstElement*			_spectrum_queue=nullptr;
-	GstElement*			_spectrum=nullptr;
-	GstElement*			_spectrum_sink=nullptr;
-
-	GstElement*			_level_queue=nullptr;
-	GstElement*			_level=nullptr;
-	GstElement*			_level_sink=nullptr;
-
-	GstElement*			_lame_queue=nullptr;
-	GstElement*			_lame_converter=nullptr;
-	GstElement*			_lame_resampler=nullptr;
-	GstElement*			_lame=nullptr;
-	GstElement*			_lame_app_sink=nullptr;
-
-	GstElement*			_file_queue=nullptr;
-	GstElement*			_file_converter=nullptr;
-	GstElement*			_file_sink=nullptr;
-	GstElement*			_file_resampler=nullptr;
-	GstElement*			_file_lame=nullptr;
-
-	gulong				_level_probe, _spectrum_probe, _lame_probe, _file_probe;
-	bool				_show_level, _show_spectrum, _run_broadcast, _run_sr;
-
-    bool _seek(gint64 ns);
-
-
+	void init_equalizer();
 	bool create_elements() override;
 	bool add_and_link_elements() override;
 	bool configure_elements() override;
 	uint64_t get_about_to_finish_time() const override;
 
-	void init_equalizer();
-
-
 protected slots:
-
     void s_vol_changed();
     void s_show_level_changed();
     void s_show_spectrum_changed();

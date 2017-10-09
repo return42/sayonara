@@ -26,6 +26,7 @@
 #include "Playback/PlaybackEngine.h"
 #include "Convert/ConvertEngine.h"
 #include "Helper/Logger/Logger.h"
+#include "Helper/MetaData/MetaData.h"
 
 #include <QImage>
 
@@ -358,4 +359,11 @@ void EngineHandler::set_equalizer(int band, int value)
 	if(engine){
 		engine->set_equalizer(band, value);
 	}
+}
+
+
+bool EngineHandler::set_uri(char* uri)
+{
+	Q_UNUSED(uri);
+	return true;
 }

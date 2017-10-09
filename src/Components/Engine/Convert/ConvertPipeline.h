@@ -41,7 +41,6 @@ public:
 
 public slots:
 	void play() override;
-	void pause() override;
 	void stop() override;
 
 	void set_quality(LameBitrate quality);

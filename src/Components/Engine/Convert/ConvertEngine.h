@@ -57,7 +57,7 @@ public slots:
 
 protected:
     // methods
-    bool set_uri(const QString& filepath) override;
+	bool set_uri(char* uri) override;
     void configure_target(const MetaData& md);
 };
 

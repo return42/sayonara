@@ -61,13 +61,14 @@ class AbstractPipeline :
 		void sig_duration_changed();
 
 	private:
-		bool		_about_to_finish;
+
 		bool		_initialized;
 		Engine*		_engine=nullptr;
 		QTimer*		_progress_timer=nullptr;
 
 	protected:
 
+		bool		_about_to_finish;
 		QString		_name;
 
 		GstBus*		_bus=nullptr;
@@ -99,9 +100,9 @@ class AbstractPipeline :
 
 
 	public slots:
-		virtual void play()=0;
-		virtual void pause()=0;
-		virtual void stop()=0;
+		virtual void play();
+		virtual void pause();
+		virtual void stop();
 
 
 	public:

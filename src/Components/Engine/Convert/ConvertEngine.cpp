@@ -19,12 +19,16 @@
  */
 
 #include "ConvertEngine.h"
-#include "Components/Engine/Callbacks/PipelineCallbacks.h"
 #include "ConvertPipeline.h"
+
+#include "Components/Engine/Callbacks/PipelineCallbacks.h"
+
+#include "Helper/MetaData/MetaData.h"
 #include "Helper/Tagging/Tagging.h"
 #include "Helper/FileHelper.h"
 #include "Helper/Settings/Settings.h"
 #include "Helper/Logger/Logger.h"
+
 #include <QUrl>
 
 struct ConvertEngine::Private
@@ -58,12 +62,8 @@ bool ConvertEngine::init()
 void ConvertEngine::change_track(const MetaData& md)
 {
 	stop();
-	_md = md;
 
-	emit sig_md_changed(_md);
-	emit sig_pos_changed_s(0);
-
-    set_uri(md.filepath());
+	set_metadata(md);
     configure_target(md);
 }
 
@@ -106,13 +106,9 @@ void ConvertEngine::cur_pos_ms_changed(int64_t v)
 
 void ConvertEngine::set_volume(int vol) {Q_UNUSED(vol);}
 
-bool ConvertEngine::set_uri(const QString &filepath)
+bool ConvertEngine::set_uri(char* uri)
 {
-    if(!Engine::set_uri(filepath)){
-        return false;
-    }
-
-    return m->pipeline->set_uri(get_uri());
+	return m->pipeline->set_uri(uri);
 }
 
 void ConvertEngine::configure_target(const MetaData& md)

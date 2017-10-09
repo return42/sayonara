@@ -21,16 +21,17 @@
 #ifndef ENGINE_H_
 #define ENGINE_H_
 
-#include "Helper/Settings/SayonaraClass.h"
+#include <QObject>
 #include "Helper/MetaData/MetaData.h"
+#include "Helper/Settings/SayonaraClass.h"
 #include "Helper/Pimpl.h"
 
-#include <QObject>
 
 struct _GstElement;
 typedef struct _GstElement GstElement;
 
 class QImage;
+
 /**
  * @brief The EngineName enum
  * @ingroup Engine
@@ -74,11 +75,14 @@ public:
 	void				set_level(float right, float left);
 	void				set_spectrum(QList<float>& lst );
 
+	virtual bool		set_metadata(const MetaData& md);
+	const MetaData&		metadata() const;
+	void				update_metadata(const MetaData& md);
 
 signals:
-	void sig_md_changed(const MetaData&);
-	void sig_dur_changed(const MetaData&);
-	void sig_br_changed(const MetaData&);
+	void sig_md_changed(const MetaData& md);
+	void sig_dur_changed(const MetaData& md);
+	void sig_br_changed(const MetaData& md);
 
 	void sig_pos_changed_ms(uint64_t);
 	void sig_pos_changed_s(uint32_t);
@@ -94,7 +98,6 @@ signals:
 
 
 protected slots:
-
 	virtual void about_to_finish(int64_t ms);
 	virtual void cur_pos_ms_changed(int64_t ms);
 
@@ -113,11 +116,9 @@ public slots:
 	virtual void change_track(const QString&)=0;
 
 protected:
-	MetaData	_md;
 	int64_t		_cur_pos_ms;
 
-    virtual bool set_uri(const QString& filepath);
-    char* get_uri() const;
+	virtual bool set_uri(char* uri)=0;
 };
 
 extern Engine* gst_obj_ref;

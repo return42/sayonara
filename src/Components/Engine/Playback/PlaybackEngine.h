@@ -32,6 +32,7 @@ class StreamRecorder;
 class SpectrumReceiver;
 class LevelReceiver;
 
+
 /**
  * @brief The GaplessState enum
  * @ingroup Engine
@@ -41,9 +42,12 @@ enum class GaplessState : unsigned char
 	NoGapless=0,		// no gapless enabled at all
 	AboutToFinish,		// the phase when the new track is already displayed but not played yet
 	TrackFetched,		// track is requested, but no yet there
-	Playing				// currently playing
+	Playing,			// currently playing
+	Stopped
 };
 
+
+class PlaybackPipeline;
 /**
  * @brief The PlaybackEngine class
  * @ingroup Engine
@@ -62,7 +66,7 @@ public:
 	~PlaybackEngine();
 
 	bool init() override;
-    void init_other_pipeline();
+	bool init_pipeline(PlaybackPipeline** pipeline);
 
 	void set_track_finished(GstElement* src) override;
 
@@ -86,8 +90,8 @@ public:
 
 	void emit_buffer(float inv_array_elements, float scale);
 
-public slots:
 
+public slots:
 	void play() override;
 	void stop() override;
 	void pause() override;
@@ -103,16 +107,19 @@ public slots:
 	void set_track_ready(GstElement* src) override;
 	void set_buffer_state(int progress, GstElement* src) override;
 
-	void gapless_timed_out();
-
 private:
-    bool set_uri(const QString& filepath) override;
+	bool set_metadata(const MetaData& md) override;
+	bool set_uri(char* uri) override;
+
+	void change_track_crossfading(const MetaData& md);
 	void change_track_gapless(const MetaData& md);
+	void change_track_immediatly(const MetaData& md);
+
 	void change_gapless_state(GaplessState state);
 
 
 private slots:
-    void s_playlist_mode_changed();
+	void s_gapless_changed();
     void s_streamrecorder_active_changed();
 
 };

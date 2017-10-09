@@ -21,6 +21,7 @@
 #include "EngineCallbacks.h"
 #include "Components/Engine/Playback/PlaybackEngine.h"
 
+#include "Helper/MetaData/MetaData.h"
 #include "Helper/globals.h"
 #include "Helper/Logger/Logger.h"
 

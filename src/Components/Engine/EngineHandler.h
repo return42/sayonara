@@ -102,6 +102,10 @@ private:
 	void switch_engine(EngineName name);
 
 	bool configure_connections(Engine* old_engine, Engine* new_engine);
+
+	// Engine interface
+protected:
+	bool set_uri(char* uri) override;
 };
 
 #endif

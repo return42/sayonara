@@ -29,7 +29,6 @@
 #include <QStringList>
 #include <QHash>
 
-
 using GenreID=uint32_t;
 static QHash<GenreID, Genre> genre_pool;
 
@@ -302,9 +301,6 @@ bool MetaData::has_album_artist() const
 {
 	return (m->album_artist_idx > 0);
 }
-
-
-
 
 QString MetaData::to_string() const
 {

@@ -31,14 +31,14 @@
  */
 struct StreamRecorderData
 {
-	GstElement* queue=nullptr;
-	GstElement* sink=nullptr;
-	gchar* filename=nullptr;
+	GstElement*	queue=nullptr;
+	GstElement*	sink=nullptr;
+	gchar*		filename=nullptr;
 
-	bool active;
-	int probe_id;
-	bool busy;
-	bool has_empty_filename;
+	bool		active;
+	int			probe_id;
+	bool		busy;
+	bool		has_empty_filename;
 
 	StreamRecorderData();
 	~StreamRecorderData();

@@ -76,6 +76,9 @@ public:
 	 */
     void fade_out();
 
+	bool is_fading_out() const;
+	bool is_fading_int() const;
+
 	/**
 	 * @brief function is called periodically. This function should not be used from outside
 	 * TODO
@@ -84,7 +87,7 @@ public:
 
 
 private:
-	CrossFader(const CrossFader& other);
+	CrossFader(const CrossFader& other)=delete;
 
     void increase_volume();
     void decrease_volume();
@@ -92,6 +95,9 @@ private:
 
 protected:
     void	    abort_fader();
+
+	virtual void stop()=0;
+	virtual void play()=0;
 };
 
 #endif // CROSSFADER_H

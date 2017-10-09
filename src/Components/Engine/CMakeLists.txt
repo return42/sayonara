@@ -5,14 +5,18 @@ SET(SOURCES
     AbstractPipeline.cpp
     EngineHandler.cpp
 
+	Playback/EqualizerHandler.cpp
     Playback/PipelineProbes.cpp
     Playback/PlaybackEngine.cpp
     Playback/PlaybackPipeline.cpp
     Playback/StreamRecorder.cpp
     Playback/CrossFader.cpp
     Playback/ChangeablePipeline.cpp
+	Playback/SeekHandler.cpp
     Playback/SoundOutReceiver.cpp
+	Playback/SpeedHandler.cpp
     Playback/StreamRecorderData.cpp
+	Playback/StreamRecorderHandler.cpp
 
     Convert/ConvertEngine.cpp
     Convert/ConvertPipeline.cpp

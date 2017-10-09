@@ -248,7 +248,8 @@ GstElement* AbstractPipeline::get_pipeline() const
 	return _pipeline;
 }
 
-bool AbstractPipeline::set_uri(gchar* uri) {
+bool AbstractPipeline::set_uri(gchar* uri)
+{
 	_uri = uri;
 	return (_uri != nullptr);
 }
@@ -337,6 +338,38 @@ AbstractPipeline::has_element(GstElement* e) const
 uint64_t AbstractPipeline::get_about_to_finish_time() const
 {
 	return 300;
+}
+
+void AbstractPipeline::play()
+{
+	GstElement* pipeline = get_pipeline();
+	if(pipeline)
+	{
+		gst_element_set_state(pipeline, GST_STATE_PLAYING);
+	}
+}
+
+void AbstractPipeline::pause()
+{
+	GstElement* pipeline = get_pipeline();
+	if(pipeline)
+	{
+		gst_element_set_state(pipeline, GST_STATE_PAUSED);
+	}
+}
+
+void AbstractPipeline::stop()
+{
+	GstElement* pipeline = get_pipeline();
+	if(pipeline)
+	{
+		gst_element_set_state(pipeline, GST_STATE_NULL);
+	}
+
+	_position_source_ms = 0;
+	_position_pipeline_ms = 0;
+	_duration_ms = 0;
+	_uri = nullptr;
 }
 
 bool

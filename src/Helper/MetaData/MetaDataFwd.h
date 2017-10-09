@@ -21,6 +21,8 @@
 #ifndef METADATA_FWD_H
 #define METADATA_FWD_H
 
+#include <QObject>
+
 class MetaData;
 class MetaDataList;
 class Artist;

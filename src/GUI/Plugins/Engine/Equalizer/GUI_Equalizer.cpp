@@ -167,7 +167,8 @@ void GUI_Equalizer::sli_released()
 
 static double scale[] = {1.0, 0.6, 0.20, 0.06, 0.01};
 
-void GUI_Equalizer::sli_changed(int idx, int new_val) {
+void GUI_Equalizer::sli_changed(int idx, int new_val)
+{
 	ui->btn_tool->show_action(ContextMenu::EntryUndo, true);
 
 	EqSlider* s = _sliders[idx];
@@ -176,7 +177,8 @@ void GUI_Equalizer::sli_changed(int idx, int new_val) {
 	_engine->set_equalizer(idx, new_val);
 
 	// this slider has been changed actively
-	if( idx == _active_idx && ui->cb_gauss->isChecked() ){
+	if( idx == _active_idx && ui->cb_gauss->isChecked() )
+	{
 		int delta = new_val - _old_val[idx];
 
 		for(int i=idx-9; i<idx+9; i++){
@@ -229,7 +231,8 @@ void GUI_Equalizer::fill_eq_presets()
 }
 
 
-void GUI_Equalizer::preset_changed(int index) {
+void GUI_Equalizer::preset_changed(int index)
+{
 	if(index >= _presets.size()) {
 		ui->btn_tool->show_actions(ContextMenu::EntryNone);
 		return;
