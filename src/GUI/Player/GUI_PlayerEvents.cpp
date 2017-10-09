@@ -19,7 +19,7 @@
  */
 
 #include "GUI_Player.h"
-#include "Helper/Settings/Settings.h"
+#include "Utils/Settings/Settings.h"
 #include "Interfaces/LibraryInterface/LibraryPluginHandler.h"
 #include "Interfaces/LibraryInterface/LibraryContainer/LibraryContainer.h"
 

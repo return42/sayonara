@@ -21,18 +21,18 @@
 #ifndef GUI_ABSTRACTLIBRARY_H
 #define GUI_ABSTRACTLIBRARY_H
 
-#include "GUI/Helper/Delegates/ComboBoxDelegate.h"
-#include "GUI/Helper/Widgets/Widget.h"
+#include "GUI/Utils/Delegates/ComboBoxDelegate.h"
+#include "GUI/Utils/Widgets/Widget.h"
 
-#include "Helper/typedefs.h"
-#include "Helper/SetFwd.h"
+#include "Utils/typedefs.h"
+#include "Utils/SetFwd.h"
 
-#include "Helper/Library/Filter.h"
-#include "Helper/Library/Sorting.h"
-#include "Helper/Library/LibraryNamespaces.h"
-#include "Helper/MetaData/MetaDataFwd.h"
+#include "Utils/Library/Filter.h"
+#include "Utils/Library/Sorting.h"
+#include "Utils/Library/LibraryNamespaces.h"
+#include "Utils/MetaData/MetaDataFwd.h"
 
-#include "Helper/Pimpl.h"
+#include "Utils/Pimpl.h"
 #include <QList>
 
 class QPushButton;

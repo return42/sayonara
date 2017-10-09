@@ -24,7 +24,7 @@
 #include "StyleTypes.h"
 
 #include "GUI/Plugins/Engine/ui_GUI_Style.h"
-#include "GUI/Helper/Widgets/Dialog.h"
+#include "GUI/Utils/Widgets/Dialog.h"
 
 #include <QList>
 

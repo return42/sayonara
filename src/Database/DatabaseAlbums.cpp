@@ -20,8 +20,8 @@
 
 #include "Database/SayonaraQuery.h"
 #include "Database/DatabaseAlbums.h"
-#include "Helper/MetaData/Album.h"
-#include "Helper/Library/Filter.h"
+#include "Utils/MetaData/Album.h"
+#include "Utils/Library/Filter.h"
 
 DatabaseAlbums::DatabaseAlbums(QSqlDatabase db, uint8_t db_id, int8_t library_id) :
 	DatabaseSearchMode(db, db_id)

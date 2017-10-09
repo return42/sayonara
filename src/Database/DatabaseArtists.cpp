@@ -20,9 +20,9 @@
 
 #include "Database/SayonaraQuery.h"
 #include "Database/DatabaseArtists.h"
-#include "Helper/MetaData/MetaData.h"
-#include "Helper/MetaData/Artist.h"
-#include "Helper/Library/Filter.h"
+#include "Utils/MetaData/MetaData.h"
+#include "Utils/MetaData/Artist.h"
+#include "Utils/Library/Filter.h"
 
 DatabaseArtists::DatabaseArtists(const QSqlDatabase& db, uint8_t db_id, int8_t library_id) :
 	DatabaseSearchMode(db, db_id)

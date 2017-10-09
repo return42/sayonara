@@ -22,15 +22,15 @@
 #include "GUI_LibraryPreferences.h"
 #include "LibraryListModel.h"
 
-#include "GUI/Helper/Delegates/StyledItemDelegate.h"
-#include "GUI/Helper/Library/GUI_EditLibrary.h"
+#include "GUI/Utils/Delegates/StyledItemDelegate.h"
+#include "GUI/Utils/Library/GUI_EditLibrary.h"
 
-#include "Helper/Helper.h"
-#include "Helper/FileHelper.h"
-#include "Helper/Library/SearchMode.h"
-#include "Helper/Settings/Settings.h"
-#include "Helper/Language.h"
-#include "Helper/Logger/Logger.h"
+#include "Utils/Utils.h"
+#include "Utils/FileUtils.h"
+#include "Utils/Library/SearchMode.h"
+#include "Utils/Settings/Settings.h"
+#include "Utils/Language.h"
+#include "Utils/Logger/Logger.h"
 
 #include <QFileDialog>
 #include <QInputDialog>

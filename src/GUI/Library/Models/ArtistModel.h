@@ -30,8 +30,8 @@
 #define LIBRARYITEMMODELARTISTS_H_
 
 #include "ItemModel.h"
-#include "Helper/MetaData/MetaDataFwd.h"
-#include "Helper/Pimpl.h"
+#include "Utils/MetaData/MetaDataFwd.h"
+#include "Utils/Pimpl.h"
 
 namespace Library
 {
@@ -51,7 +51,7 @@ namespace Library
 			int             rowCount(const QModelIndex& parent) const override;
 
 			/** LibraryItemModel **/
-			CoverLocation   get_cover(const IndexSet& indexes) const override;
+            Cover::Location get_cover(const IndexSet& indexes) const override;
 			int             get_searchable_column() const override;
 			int             get_id_by_row(int row) override;
 			QString         get_string(int row) const override;

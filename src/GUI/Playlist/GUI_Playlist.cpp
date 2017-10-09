@@ -31,14 +31,14 @@
 
 #include "TabWidget/PlaylistTabWidget.h"
 #include "View/PlaylistView.h"
-#include "GUI/Helper/IconLoader/IconLoader.h"
-#include "GUI/Helper/Library/LibraryDeleteDialog.h"
+#include "GUI/Utils/IconLoader/IconLoader.h"
+#include "GUI/Utils/Library/LibraryDeleteDialog.h"
 
-#include "Helper/Helper.h"
-#include "Helper/Settings/Settings.h"
-#include "Helper/MetaData/MetaDataList.h"
-#include "Helper/Language.h"
-#include "Helper/Set.h"
+#include "Utils/Utils.h"
+#include "Utils/Settings/Settings.h"
+#include "Utils/MetaData/MetaDataList.h"
+#include "Utils/Language.h"
+#include "Utils/Set.h"
 
 #include "Components/PlayManager/PlayManager.h"
 #include "Components/Playlist/AbstractPlaylist.h"

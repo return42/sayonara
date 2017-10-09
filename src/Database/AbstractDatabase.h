@@ -23,7 +23,7 @@
 
 #include <QObject>
 #include <QSqlDatabase>
-#include "Helper/Pimpl.h"
+#include "Utils/Pimpl.h"
 
 class AbstractDatabase : public QObject
 {

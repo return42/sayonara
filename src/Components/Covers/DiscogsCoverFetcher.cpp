@@ -24,9 +24,11 @@
 #include <QRegExp>
 #include <QStringList>
 #include <QUrl>
-#include "Helper/Logger/Logger.h"
+#include "Utils/Logger/Logger.h"
 
-static QString get_basic_url(const QString& str)
+using namespace Cover::Fetcher;
+
+static QString basic_url(const QString& str)
 {
 	QString str2 = str;
 	str2 = str2.replace(" ", "+");
@@ -37,12 +39,12 @@ static QString get_basic_url(const QString& str)
 			QUrl::toPercentEncoding(str2);
 }
 
-bool DiscogsCoverFetcher::can_fetch_cover_directly() const
+bool Discogs::can_fetch_cover_directly() const
 {
 	return false;
 }
 
-QStringList DiscogsCoverFetcher::calc_addresses_from_website(const QByteArray& website) const
+QStringList Discogs::calc_addresses_from_website(const QByteArray& website) const
 {
 	QStringList ret;
 
@@ -59,43 +61,43 @@ QStringList DiscogsCoverFetcher::calc_addresses_from_website(const QByteArray& w
 	return ret;
 }
 
-QString DiscogsCoverFetcher::get_artist_address(const QString& artist) const
+QString Discogs::artist_address(const QString& artist) const
 {
 
-	return get_basic_url(artist) + "&type=artist";
+    return basic_url(artist) + "&type=artist";
 }
 
-QString DiscogsCoverFetcher::get_album_address(const QString& artist, const QString& album) const
+QString Discogs::album_address(const QString& artist, const QString& album) const
 {
-	return get_basic_url(artist + "+" + album) + "&type=all";
+    return basic_url(artist + "+" + album) + "&type=all";
 }
 
-QString DiscogsCoverFetcher::get_search_address(const QString& str) const
+QString Discogs::search_address(const QString& str) const
 {
-	return get_basic_url(str) + "&type=all";
+    return basic_url(str) + "&type=all";
 }
 
-bool DiscogsCoverFetcher::is_search_supported() const
-{
-	return true;
-}
-
-bool DiscogsCoverFetcher::is_album_supported() const
+bool Discogs::is_search_supported() const
 {
 	return true;
 }
 
-bool DiscogsCoverFetcher::is_artist_supported() const
+bool Discogs::is_album_supported() const
 {
 	return true;
 }
 
-int DiscogsCoverFetcher::get_estimated_size() const
+bool Discogs::is_artist_supported() const
+{
+	return true;
+}
+
+int Discogs::estimated_size() const
 {
 	return 350;
 }
 
-QString DiscogsCoverFetcher::get_keyword() const
+QString Discogs::keyword() const
 {
 	return "discogs";
 }

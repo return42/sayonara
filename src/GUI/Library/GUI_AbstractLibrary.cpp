@@ -28,18 +28,18 @@
 
 #include "Components/Library/AbstractLibrary.h"
 
-#include "Helper/Message/Message.h"
-#include "Helper/Library/SearchMode.h"
-#include "Helper/Library/Filter.h"
-#include "Helper/Settings/Settings.h"
-#include "Helper/Language.h"
-#include "Helper/MetaData/MetaDataList.h"
-#include "Helper/Logger/Logger.h"
+#include "Utils/Message/Message.h"
+#include "Utils/Library/SearchMode.h"
+#include "Utils/Library/Filter.h"
+#include "Utils/Settings/Settings.h"
+#include "Utils/Language.h"
+#include "Utils/MetaData/MetaDataList.h"
+#include "Utils/Logger/Logger.h"
 
-#include "GUI/Library/Helper/ColumnHeader.h"
-#include "GUI/Library/Helper/ColumnIndex.h"
-#include "GUI/Helper/Delegates/StyledItemDelegate.h"
-#include "GUI/Helper/EventFilter.h"
+#include "GUI/Library/Utils/ColumnHeader.h"
+#include "GUI/Library/Utils/ColumnIndex.h"
+#include "GUI/Utils/Delegates/StyledItemDelegate.h"
+#include "GUI/Utils/EventFilter.h"
 
 #include <QLineEdit>
 #include <QMenu>

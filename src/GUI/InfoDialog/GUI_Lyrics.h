@@ -24,8 +24,8 @@
 #define GUI_LYRICS_H
 
 #include <QWidget>
-#include "Helper/Pimpl.h"
-#include "GUI/Helper/Widgets/Widget.h"
+#include "Utils/Pimpl.h"
+#include "GUI/Utils/Widgets/Widget.h"
 
 
 UI_FWD(GUI_Lyrics)

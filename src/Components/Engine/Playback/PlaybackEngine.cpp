@@ -24,13 +24,12 @@
 #include "SoundOutReceiver.h"
 #include "Components/Engine/Callbacks/EngineCallbacks.h"
 
-#include "Helper/MetaData/MetaData.h"
-#include "Helper/FileHelper.h"
-#include "Helper/Playlist/PlaylistMode.h"
-#include "Helper/Settings/Settings.h"
-#include "Helper/Logger/Logger.h"
+#include "Utils/MetaData/MetaData.h"
+#include "Utils/FileUtils.h"
+#include "Utils/Playlist/PlaylistMode.h"
+#include "Utils/Settings/Settings.h"
+#include "Utils/Logger/Logger.h"
 
-#include <QUrl>
 #include <algorithm>
 
 struct PlaybackEngine::Private
@@ -291,29 +290,6 @@ void PlaybackEngine::jump_rel(double percent)
 }
 
 
-void PlaybackEngine::set_equalizer(int band, int val)
-{
-    m->pipeline->set_eq_band(band, val);
-
-    if(m->other_pipeline){
-        m->other_pipeline->set_eq_band(band, val);
-    }
-}
-
-
-void PlaybackEngine::set_buffer_state(int progress, GstElement* src)
-{
-    if(!Util::File::is_www(metadata().filepath())){
-        progress = -1;
-    }
-
-    if(!m->pipeline->has_element(src)){
-        progress = -1;
-    }
-
-    Engine::set_buffer_state(progress, src);
-}
-
 
 void PlaybackEngine::cur_pos_ms_changed(int64_t pos_ms)
 {
@@ -381,6 +357,31 @@ void PlaybackEngine::set_track_finished(GstElement* src)
         change_gapless_state(GaplessState::Playing);
     }
 }
+
+
+void PlaybackEngine::set_equalizer(int band, int val)
+{
+    m->pipeline->set_eq_band(band, val);
+
+    if(m->other_pipeline){
+        m->other_pipeline->set_eq_band(band, val);
+    }
+}
+
+
+void PlaybackEngine::set_buffer_state(int progress, GstElement* src)
+{
+    if(!Util::File::is_www(metadata().filepath())){
+        progress = -1;
+    }
+
+    if(!m->pipeline->has_element(src)){
+        progress = -1;
+    }
+
+    Engine::set_buffer_state(progress, src);
+}
+
 
 void PlaybackEngine::s_gapless_changed()
 {

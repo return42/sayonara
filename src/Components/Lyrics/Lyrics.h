@@ -23,7 +23,7 @@
 #ifndef LYRICS_H
 #define LYRICS_H
 
-#include "Helper/Pimpl.h"
+#include "Utils/Pimpl.h"
 
 #include <QObject>
 

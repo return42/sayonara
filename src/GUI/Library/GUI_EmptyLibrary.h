@@ -21,8 +21,8 @@
 #ifndef GUI_EMPTYLIBRARY_H
 #define GUI_EMPTYLIBRARY_H
 
-#include "Helper/Pimpl.h"
-#include "GUI/Helper/GUIClass.h"
+#include "Utils/Pimpl.h"
+#include "GUI/Utils/GUIClass.h"
 #include <QWidget>
 
 UI_FWD(GUI_EmptyLibrary)

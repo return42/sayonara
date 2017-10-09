@@ -23,7 +23,7 @@
 #ifndef CROSSFADER_H
 #define CROSSFADER_H
 
-#include "Helper/Pimpl.h"
+#include "Utils/Pimpl.h"
 
 class FaderThreadData;
 class FaderThread;

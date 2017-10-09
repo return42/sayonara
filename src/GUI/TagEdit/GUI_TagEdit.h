@@ -24,15 +24,19 @@
 #include <QLineEdit>
 #include <QString>
 
-#include "GUI/Helper/Widgets/Widget.h"
-#include "Components/TagEdit/TagExpression.h"
-#include "Helper/Pimpl.h"
+#include "GUI/Utils/Widgets/Widget.h"
+#include "Components/Tagging/Expression.h"
+#include "Utils/Pimpl.h"
 
 /**
  * @brief The GUI_TagEdit class
  * @ingroup Tagging
  */
-class TagEdit;
+namespace Tagging
+{
+    class Editor;
+}
+
 class MetaDataList;
 class MetaData;
 
@@ -53,7 +57,7 @@ public:
 	 * @brief Get tag edit object
 	 * @return Tag edit object
 	 */
-	TagEdit* get_tag_edit() const;
+    Tagging::Editor* get_tag_edit() const;
 
 	/**
 	 * @brief Commits changes to db/file

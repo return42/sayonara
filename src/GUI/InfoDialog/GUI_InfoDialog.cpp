@@ -29,18 +29,18 @@
 
 #include "GUI/TagEdit/GUI_TagEdit.h"
 #include "GUI/InfoDialog/GUI_Lyrics.h"
-#include "GUI/Helper/IconLoader/IconLoader.h"
+#include "GUI/Utils/IconLoader/IconLoader.h"
 
 #include "Components/Covers/CoverLocation.h"
-#include "Components/TagEdit/TagEdit.h"
+#include "Components/Tagging/Editor.h"
 
-#include "Helper/MetaData/MetaDataList.h"
-#include "Helper/MetaDataInfo/MetaDataInfo.h"
-#include "Helper/MetaDataInfo/AlbumInfo.h"
-#include "Helper/MetaDataInfo/ArtistInfo.h"
-#include "Helper/FileHelper.h"
-#include "Helper/Language.h"
-#include "Helper/globals.h"
+#include "Utils/MetaData/MetaDataList.h"
+#include "Utils/MetaDataInfo/MetaDataInfo.h"
+#include "Utils/MetaDataInfo/AlbumInfo.h"
+#include "Utils/MetaDataInfo/ArtistInfo.h"
+#include "Utils/FileUtils.h"
+#include "Utils/Language.h"
+#include "Utils/globals.h"
 
 #include <algorithm>
 
@@ -49,7 +49,7 @@ struct GUI_InfoDialog::Private
 	InfoDialogContainer*	info_dialog_container=nullptr;
 	GUI_TagEdit*			ui_tag_edit=nullptr;
 	GUI_Lyrics*				ui_lyrics=nullptr;
-	CoverLocation			cl;
+    Cover::Location			cl;
 	MetaDataList			v_md;
 	MD::Interpretation		md_interpretation;
 };
@@ -221,7 +221,7 @@ void GUI_InfoDialog::show(GUI_InfoDialog::Tab tab)
 
 	QTabWidget* tab_widget = ui->tab_widget;
 
-	prepare_cover(CoverLocation::getInvalidLocation());
+    prepare_cover(Cover::Location::getInvalidLocation());
 
 	bool lyric_enabled = (m->v_md.size() == 1);
 	bool tag_edit_enabled = std::any_of(m->v_md.begin(), m->v_md.end(), [](const MetaData& md){
@@ -262,7 +262,7 @@ void GUI_InfoDialog::show(GUI_InfoDialog::Tab tab)
 }
 
 
-void GUI_InfoDialog::prepare_cover(const CoverLocation& cl)
+void GUI_InfoDialog::prepare_cover(const Cover::Location& cl)
 {
 	ui->btn_image->set_cover_location(cl);
 }

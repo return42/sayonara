@@ -27,11 +27,11 @@
 #include "3rdParty/SomaFM/SomaFMLibrary.h"
 #include "3rdParty/SomaFM/SomaFMStation.h"
 
-#include "Helper/Helper.h"
-#include "Helper/Settings/Settings.h"
-#include "Helper/Logger/Logger.h"
+#include "Utils/Utils.h"
+#include "Utils/Settings/Settings.h"
+#include "Utils/Logger/Logger.h"
 
-#include "GUI/Helper/Delegates/StyledItemDelegate.h"
+#include "GUI/Utils/Delegates/StyledItemDelegate.h"
 #include "Components/Covers/CoverLocation.h"
 #include "Components/Covers/CoverLookup.h"
 
@@ -175,9 +175,9 @@ void SomaFM::GUI_SomaFM::station_index_changed(const QModelIndex& idx)
 
 	ui->lab_description->setText(station.description());
 
-	CoverLookup* cl = new CoverLookup(this);
+    Cover::Lookup* cl = new Cover::Lookup(this);
 
-	connect(cl, &CoverLookup::sig_cover_found, this, &SomaFM::GUI_SomaFM::cover_found);
+    connect(cl, &Cover::Lookup::sig_cover_found, this, &SomaFM::GUI_SomaFM::cover_found);
 	cl->fetch_cover(station.cover_location());
 }
 
@@ -190,8 +190,8 @@ void SomaFM::GUI_SomaFM::playlist_double_clicked(const QModelIndex& idx)
 
 void SomaFM::GUI_SomaFM::cover_found(const QString &cover_path)
 {
-	CoverLookup* cl = static_cast<CoverLookup*>(sender());
-	if(CoverLocation::isInvalidLocation(cover_path)){
+    Cover::Lookup* cl = static_cast<Cover::Lookup*>(sender());
+    if(Cover::Location::isInvalidLocation(cover_path)){
 		return;
 	}
 

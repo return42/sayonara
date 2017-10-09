@@ -19,7 +19,7 @@
  */
 
 #include "GUI_StyleSettings.h"
-#include "Helper/Message/Message.h"
+#include "Utils/Message/Message.h"
 #include "Database/DatabaseConnector.h"
 
 #include <QColorDialog>

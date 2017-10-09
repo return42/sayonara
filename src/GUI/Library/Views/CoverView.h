@@ -24,7 +24,7 @@
 #define ALBUMCOVERVIEW_H
 
 #include "GUI/Library/Views/View.h"
-#include "Helper/Pimpl.h"
+#include "Utils/Pimpl.h"
 
 namespace Library
 {

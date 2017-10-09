@@ -21,10 +21,10 @@
 #include "GUI_Broadcast.h"
 
 #include "Components/Broadcasting/StreamServer.h"
-#include "Helper/Message/Message.h"
-#include "Helper/Logger/Logger.h"
-#include "Helper/Language.h"
-#include "Helper/Settings/Settings.h"
+#include "Utils/Message/Message.h"
+#include "Utils/Logger/Logger.h"
+#include "Utils/Language.h"
+#include "Utils/Settings/Settings.h"
 
 #include "GUI/Plugins/Broadcasting/ui_GUI_Broadcast.h"
 

@@ -27,16 +27,16 @@
 #include "PlaylistLoader.h"
 #include "PlaylistDBWrapper.h"
 
+#include "Components/DirectoryReader/DirectoryReader.h"
 #include "Components/PlayManager/PlayManager.h"
 #include "Database/DatabaseConnector.h"
 
-#include "Helper/globals.h"
-#include "Helper/DirectoryReader/DirectoryReader.h"
-#include "Helper/Parser/PlaylistParser.h"
-#include "Helper/Playlist/CustomPlaylist.h"
-#include "Helper/Settings/Settings.h"
-#include "Helper/Logger/Logger.h"
-#include "Helper/Set.h"
+#include "Utils/globals.h"
+#include "Utils/Parser/PlaylistParser.h"
+#include "Utils/Playlist/CustomPlaylist.h"
+#include "Utils/Settings/Settings.h"
+#include "Utils/Logger/Logger.h"
+#include "Utils/Set.h"
 
 #include <algorithm>
 #include <memory>

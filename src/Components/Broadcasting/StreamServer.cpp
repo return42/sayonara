@@ -20,12 +20,12 @@
 
 #include "StreamServer.h"
 
-#include "Helper/Helper.h"
-#include "Helper/MetaData/MetaData.h"
-#include "Helper/WebAccess/AsyncWebAccess.h"
-#include "Helper/Settings/Settings.h"
-#include "Helper/Logger/Logger.h"
-#include "Helper/Message/GlobalMessage.h"
+#include "Utils/Utils.h"
+#include "Utils/MetaData/MetaData.h"
+#include "Utils/WebAccess/AsyncWebAccess.h"
+#include "Utils/Settings/Settings.h"
+#include "Utils/Logger/Logger.h"
+#include "Utils/Message/GlobalMessage.h"
 
 #include "Components/Engine/EngineHandler.h"
 #include "Components/PlayManager/PlayManager.h"

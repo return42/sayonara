@@ -1,7 +1,7 @@
 #ifndef SEEKHANDLER_H
 #define SEEKHANDLER_H
 
-#include "Helper/Pimpl.h"
+#include "Utils/Pimpl.h"
 #include <gst/gst.h>
 
 class SeekHandler

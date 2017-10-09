@@ -24,7 +24,7 @@
 #ifndef GUI_PLAYERPLUGIN_H
 #define GUI_PLAYERPLUGIN_H
 
-#include "GUI/Helper/Widgets/Widget.h"
+#include "GUI/Utils/Widgets/Widget.h"
 
 UI_FWD(GUI_PlayerPlugin)
 

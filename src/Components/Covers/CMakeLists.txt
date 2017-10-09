@@ -6,7 +6,7 @@ SET(SOURCES
     CoverLookupAlternative.cpp
 
     CoverLocation.cpp
-    CoverHelper.cpp
+    CoverUtils.cpp
 
     GoogleCoverFetcher.cpp
     LFMCoverFetcher.cpp

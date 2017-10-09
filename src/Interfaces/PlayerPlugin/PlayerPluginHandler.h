@@ -25,7 +25,7 @@
 #include <QList>
 #include <QString>
 
-#include "Helper/Settings/SayonaraClass.h"
+#include "Utils/Settings/SayonaraClass.h"
 
 
 class PlayerPluginInterface;

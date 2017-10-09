@@ -22,7 +22,7 @@
 #define GUI_BROADCAST_H
 
 #include "Interfaces/PlayerPlugin/PlayerPlugin.h"
-#include "Helper/Pimpl.h"
+#include "Utils/Pimpl.h"
 
 UI_FWD(GUI_Broadcast)
 

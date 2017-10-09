@@ -14,7 +14,7 @@ SET(SOURCES
 ADD_LIBRARY(${PROJECT_NAME} STATIC ${SOURCES})
 TARGET_LINK_LIBRARIES(${PROJECT_NAME}
 	say_db
-    say_helper_compressor
+    say_utils_compressor
 )
 
 IF( WITH_COTIRE )

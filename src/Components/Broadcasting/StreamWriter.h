@@ -23,7 +23,7 @@
 
 #include "StreamHttpParser.h"
 #include "Interfaces/RawSoundReceiver/RawSoundReceiverInterface.h"
-#include "Helper/Pimpl.h"
+#include "Utils/Pimpl.h"
 
 #include <QObject>
 

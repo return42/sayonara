@@ -23,11 +23,16 @@
 
 #include <QPushButton>
 
-#include "Helper/Pimpl.h"
+#include "Utils/Pimpl.h"
 
-class CoverLocation;
 class QPixmap;
 class QResizeEvent;
+
+namespace Cover
+{
+    class Location;
+}
+
 
 /**
  * @brief The CoverButton class
@@ -47,7 +52,7 @@ public:
 	explicit CoverButton(QWidget* parent=nullptr);
 	virtual ~CoverButton();
 
-	void set_cover_location(const CoverLocation& cl);
+    void set_cover_location(const Cover::Location& cl);
     void force_cover(const QImage& img);
     void force_cover(const QPixmap& img);
 
@@ -59,8 +64,8 @@ protected:
 
 private slots:
 	void cover_button_clicked();
-	void alternative_cover_fetched(const CoverLocation& cl);
-	void cover_found(const CoverLocation& cl);
+    void alternative_cover_fetched(const Cover::Location& cl);
+    void cover_found(const Cover::Location& cl);
 	void set_cover_image(const QString& cover_path);
 };
 

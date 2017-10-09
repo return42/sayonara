@@ -29,22 +29,22 @@
 #include "GUI_LocalLibrary.h"
 #include "GUI/Library/ui_GUI_LocalLibrary.h"
 
-#include "GUI/Library/Helper/LocalLibraryMenu.h"
+#include "GUI/Library/Utils/LocalLibraryMenu.h"
 #include "GUI/Library/Views/CoverView.h"
 #include "GUI/Library/Models/CoverModel.h"
 
-#include "GUI/Helper/Library/LibraryDeleteDialog.h"
-#include "GUI/Helper/SearchableWidget/SearchableView.h"
+#include "GUI/Utils/Library/LibraryDeleteDialog.h"
+#include "GUI/Utils/SearchableWidget/SearchableView.h"
 
 #include "Components/Library/LocalLibrary.h"
 #include "Components/Library/LibraryManager.h"
 #include "InfoBox/GUI_LibraryInfoBox.h"
 #include "ImportFolderDialog/GUI_ImportFolder.h"
 
-#include "Helper/Helper.h"
-#include "Helper/Settings/Settings.h"
-#include "Helper/Language.h"
-#include "Helper/Message/Message.h"
+#include "Utils/Utils.h"
+#include "Utils/Settings/Settings.h"
+#include "Utils/Language.h"
+#include "Utils/Message/Message.h"
 #include "Components/Covers/CoverLocation.h"
 
 #include <QFileDialog>
@@ -111,7 +111,7 @@ GUI_LocalLibrary::GUI_LocalLibrary(int id, QWidget* parent) :
 	connect(m->library_menu, &LocalLibraryMenu::sig_import_file, this, &GUI_LocalLibrary::import_files_requested);
 	connect(m->library_menu, &LocalLibraryMenu::sig_import_folder, this, &GUI_LocalLibrary::import_dirs_requested);
 	connect(m->library_menu, &LocalLibraryMenu::sig_info, this, &GUI_LocalLibrary::show_info_box);
-    connect(m->library_menu, &LocalLibraryMenu::sig_show_album_artists_changed, m->library, &LocalLibrary::refresh);
+    connect(m->library_menu, &LocalLibraryMenu::sig_show_album_artists_changed, m->library, &LocalLibrary::show_album_artists_changed);
 	connect(m->library_menu, &LocalLibraryMenu::sig_reload_library, [=](){
 		this->reload_library_requested();
 	});

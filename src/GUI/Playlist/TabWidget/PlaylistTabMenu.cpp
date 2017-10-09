@@ -19,10 +19,10 @@
 
 #include "PlaylistTabMenu.h"
 
-#include "GUI/Helper/IconLoader/IconLoader.h"
-#include "GUI/Helper/GUI_Helper.h"
-#include "Helper/Settings/Settings.h"
-#include "Helper/Language.h"
+#include "GUI/Utils/IconLoader/IconLoader.h"
+#include "GUI/Utils/GuiUtils.h"
+#include "Utils/Settings/Settings.h"
+#include "Utils/Language.h"
 
 using namespace Gui;
 

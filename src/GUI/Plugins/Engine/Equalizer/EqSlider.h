@@ -21,7 +21,7 @@
 #ifndef EQSLIDER_H
 #define EQSLIDER_H
 
-#include "GUI/Helper/Widgets/Slider.h"
+#include "GUI/Utils/Widgets/Slider.h"
 #include <QLabel>
 /**
  * @brief The EqSlider class

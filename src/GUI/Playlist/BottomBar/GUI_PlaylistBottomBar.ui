@@ -334,7 +334,7 @@
   <customwidget>
    <class>MenuButton</class>
    <extends>QPushButton</extends>
-   <header>GUI/Helper/MenuTool/MenuButton.h</header>
+   <header>GUI/Utils/MenuTool/MenuButton.h</header>
   </customwidget>
  </customwidgets>
  <resources>

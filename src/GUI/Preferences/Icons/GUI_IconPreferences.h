@@ -2,7 +2,7 @@
 #define GUI_ICONPREFERENCES_H
 
 #include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
-#include "Helper/Pimpl.h"
+#include "Utils/Pimpl.h"
 
 UI_FWD(GUI_IconPreferences)
 

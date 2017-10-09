@@ -19,9 +19,9 @@
  */
 
 #include "FileListModel.h"
-#include "Helper/DirectoryReader/DirectoryReader.h"
-#include "Helper/Helper.h"
-#include "Helper/FileHelper.h"
+#include "Components/DirectoryReader/DirectoryReader.h"
+#include "Utils/Utils.h"
+#include "Utils/FileUtils.h"
 
 #include <QMap>
 #include <QVariant>

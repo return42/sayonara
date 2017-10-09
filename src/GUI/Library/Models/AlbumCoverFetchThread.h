@@ -26,9 +26,13 @@
 #include <QThread>
 #include <QModelIndex>
 
-#include "Helper/Pimpl.h"
+#include "Utils/Pimpl.h"
 
-class CoverLocation;
+namespace Cover
+{
+    class Location;
+}
+
 class Album;
 /**
  * @brief This class organizes requests for new Covers for the AlbumCoverView.
@@ -61,7 +65,7 @@ public:
 	 * @param hash hashed album info
 	 * @param cl Cover Location of the album
 	 */
-    void add_data(const QString& hash, const CoverLocation& cl);
+    void add_data(const QString& hash, const Cover::Location& cl);
 
 	/**
 	 * @brief done Should be called when processing of the next
@@ -85,7 +89,7 @@ public:
 	 * @brief Get the curren processed cover location
 	 * @return
 	 */
-	CoverLocation current_cover_location() const;
+    Cover::Location current_cover_location() const;
 };
 
 #endif // ALBUMCOVERFETCHTHREAD_H

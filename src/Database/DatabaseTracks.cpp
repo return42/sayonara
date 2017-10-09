@@ -21,12 +21,12 @@
 #include "Database/SayonaraQuery.h"
 #include "Database/DatabaseTracks.h"
 #include "Database/DatabaseLibrary.h"
-#include "Helper/MetaData/MetaDataList.h"
-#include "Helper/MetaData/Genre.h"
-#include "Helper/Logger/Logger.h"
-#include "Helper/Helper.h"
-#include "Helper/FileHelper.h"
-#include "Helper/Library/Filter.h"
+#include "Utils/MetaData/MetaDataList.h"
+#include "Utils/MetaData/Genre.h"
+#include "Utils/Logger/Logger.h"
+#include "Utils/Utils.h"
+#include "Utils/FileUtils.h"
+#include "Utils/Library/Filter.h"
 
 #include <QFileInfo>
 #include <QDateTime>

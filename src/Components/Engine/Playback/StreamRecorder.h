@@ -22,8 +22,8 @@
 #define STREAMRECORDER_H
 
 #include "Components/PlayManager/PlayState.h"
-#include "Helper/Settings/SayonaraClass.h"
-#include "Helper/Pimpl.h"
+#include "Utils/Settings/SayonaraClass.h"
+#include "Utils/Pimpl.h"
 
 #include <QObject>
 

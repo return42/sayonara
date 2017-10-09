@@ -22,18 +22,18 @@
 
 #include "Components/Library/GenreFetcher.h"
 
-#include "GUI/Helper/CustomMimeData.h"
-#include "GUI/Helper/Delegates/StyledItemDelegate.h"
-#include "GUI/Helper/ContextMenu/ContextMenu.h"
+#include "GUI/Utils/CustomMimeData.h"
+#include "GUI/Utils/Delegates/StyledItemDelegate.h"
+#include "GUI/Utils/ContextMenu/ContextMenu.h"
 
-#include "Helper/Helper.h"
-#include "Helper/Tree.h"
-#include "Helper/Set.h"
-#include "Helper/MetaData/MetaDataList.h"
-#include "Helper/MetaData/Genre.h"
-#include "Helper/Logger/Logger.h"
-#include "Helper/Language.h"
-#include "Helper/Settings/Settings.h"
+#include "Utils/Utils.h"
+#include "Utils/Tree.h"
+#include "Utils/Set.h"
+#include "Utils/MetaData/MetaDataList.h"
+#include "Utils/MetaData/Genre.h"
+#include "Utils/Logger/Logger.h"
+#include "Utils/Language.h"
+#include "Utils/Settings/Settings.h"
 
 #include <QDropEvent>
 #include <QContextMenuEvent>

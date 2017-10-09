@@ -20,16 +20,16 @@
 
 #include "GUI_Lyrics.h"
 #include "GUI/InfoDialog/ui_GUI_Lyrics.h"
-#include "GUI/Helper/Widgets/ProgressBar.h"
+#include "GUI/Utils/Widgets/ProgressBar.h"
 
 #include "Components/Lyrics/Lyrics.h"
 #include "Components/Lyrics/LyricLookup.h"
 
-#include "GUI/Helper/Widgets/Completer.h"
+#include "GUI/Utils/Widgets/Completer.h"
 
-#include "Helper/MetaData/MetaData.h"
-#include "Helper/Language.h"
-#include "Helper/Settings/Settings.h"
+#include "Utils/MetaData/MetaData.h"
+#include "Utils/Language.h"
+#include "Utils/Settings/Settings.h"
 
 #include <QWheelEvent>
 #include <QShowEvent>

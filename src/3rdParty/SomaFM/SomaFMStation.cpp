@@ -22,9 +22,9 @@
 
 #include "SomaFMStation.h"
 
-#include "Helper/MetaData/MetaDataList.h"
-#include "Helper/Helper.h"
-#include "Helper/FileHelper.h"
+#include "Utils/MetaData/MetaDataList.h"
+#include "Utils/Utils.h"
+#include "Utils/FileUtils.h"
 
 #include "Components/Covers/CoverLocation.h"
 
@@ -38,7 +38,7 @@ struct SomaFM::Station::Private
 	QString			station_name;
 	QMap<QString, SomaFM::Station::UrlType> urls;
 	QString			description;
-	CoverLocation	cover;
+    Cover::Location	cover;
 	MetaDataList	v_md;
 	bool			loved;
 
@@ -121,7 +121,7 @@ struct SomaFM::Station::Private
 					"/covers/" +
 					station_name + "." + Util::File::get_file_extension(url);
 
-			cover = CoverLocation::get_cover_location(QUrl(url), cover_path);
+            cover = Cover::Location::get_cover_location(QUrl(url), cover_path);
 		}
 	}
 
@@ -132,7 +132,7 @@ struct SomaFM::Station::Private
 SomaFM::Station::Station()
 {
 	m = Pimpl::make<SomaFM::Station::Private>();
-	m->cover = CoverLocation::getInvalidLocation();
+    m->cover = Cover::Location::getInvalidLocation();
 	m->loved = false;
 }
 
@@ -184,7 +184,7 @@ QString SomaFM::Station::description() const
 	return m->description;
 }
 
-CoverLocation SomaFM::Station::cover_location() const
+Cover::Location SomaFM::Station::cover_location() const
 {
 	return m->cover;
 }

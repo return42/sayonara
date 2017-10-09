@@ -19,25 +19,26 @@
  */
 
 #include "GUI_TagEdit.h"
-#include "GUI/TagEdit/ui_GUI_TagEdit.h"
-
 #include "TagLineEdit.h"
 
-#include "Components/TagEdit/TagExpression.h"
-#include "Components/Covers/CoverLocation.h"
-#include "Components/TagEdit/TagEdit.h"
-#include "GUI/Helper/Delegates/ComboBoxDelegate.h"
-#include "GUI/Helper/Widgets/Completer.h"
+#include "GUI/TagEdit/ui_GUI_TagEdit.h"
 
-#include "Helper/Message/Message.h"
-#include "Helper/Tagging/Tagging.h"
-#include "Helper/globals.h"
-#include "Helper/Logger/Logger.h"
-#include "Helper/MetaData/MetaDataList.h"
-#include "Helper/MetaData/Album.h"
-#include "Helper/MetaData/Artist.h"
-#include "Helper/MetaData/Genre.h"
-#include "Helper/Language.h"
+#include "Components/Tagging/Expression.h"
+#include "Components/Tagging/Editor.h"
+#include "Components/Covers/CoverLocation.h"
+
+#include "GUI/Utils/Delegates/ComboBoxDelegate.h"
+#include "GUI/Utils/Widgets/Completer.h"
+
+#include "Utils/Message/Message.h"
+#include "Utils/Tagging/Tagging.h"
+#include "Utils/globals.h"
+#include "Utils/Logger/Logger.h"
+#include "Utils/MetaData/MetaDataList.h"
+#include "Utils/MetaData/Album.h"
+#include "Utils/MetaData/Artist.h"
+#include "Utils/MetaData/Genre.h"
+#include "Utils/Language.h"
 #include "Database/DatabaseConnector.h"
 #include "Database/LibraryDatabase.h"
 
@@ -46,10 +47,12 @@
 #include <QRegExp>
 #include <QUrl>
 
+using namespace Tagging;
+
 struct GUI_TagEdit::Private
 {
-	TagEdit*			tag_edit=nullptr;
-	TagExpression		tag_expression;
+    Editor*               tag_edit=nullptr;
+    Expression		tag_expression;
 	QMap<int, QString>	cover_path_map;
 	int					cur_idx;
 	/**
@@ -65,7 +68,7 @@ GUI_TagEdit::GUI_TagEdit(QWidget* parent) :
 	ui = new Ui::GUI_TagEdit();
 	ui->setupUi(this);
 
-	m->tag_edit = new TagEdit(this);
+    m->tag_edit = new Tagging::Editor(this);
 
 	ui->frame_tag_from_path->setVisible(ui->cb_tag_from_path->isChecked());
 
@@ -98,9 +101,9 @@ GUI_TagEdit::GUI_TagEdit(QWidget* parent) :
 	connect(ui->btn_undo_all, &QPushButton::clicked, this, &GUI_TagEdit::undo_all_clicked);
 	connect(ui->btn_close, &QPushButton::clicked, this, &GUI_TagEdit::sig_cancelled);
 
-	connect(m->tag_edit, &TagEdit::sig_progress, this, &GUI_TagEdit::progress_changed);
-	connect(m->tag_edit, &TagEdit::sig_metadata_received, this, &GUI_TagEdit::metadata_changed);
-	connect(m->tag_edit, &TagEdit::finished, this, &GUI_TagEdit::commit_finished);
+    connect(m->tag_edit, &Editor::sig_progress, this, &GUI_TagEdit::progress_changed);
+    connect(m->tag_edit, &Editor::sig_metadata_received, this, &GUI_TagEdit::metadata_changed);
+    connect(m->tag_edit, &Editor::finished, this, &GUI_TagEdit::commit_finished);
 
 	reset();
 }
@@ -148,7 +151,7 @@ void GUI_TagEdit::commit_finished()
 }
 
 
-TagEdit* GUI_TagEdit::get_tag_edit() const
+Editor* GUI_TagEdit::get_tag_edit() const
 {
 	return m->tag_edit;
 }
@@ -290,8 +293,8 @@ void GUI_TagEdit::track_idx_changed()
 	);
 
 	ui->lab_tag_type->setText(tr("Tag") + ": " +
-					Tagging::tag_type_to_string(
-						 Tagging::get_tag_type(md.filepath())
+                    Tagging::Util::tag_type_to_string(
+                         Tagging::Util::get_tag_type(md.filepath())
 					)
 	);
 }
@@ -339,7 +342,7 @@ void GUI_TagEdit::reset()
 	ui->btn_cover_replacement->setEnabled(true);
 	show_replacement_field(false);
 
-	QIcon icon(CoverLocation::getInvalidLocation().cover_path());
+    QIcon icon(Cover::Location::getInvalidLocation().cover_path());
 	ui->btn_cover_replacement->setIcon( icon );
 
 	ui->lab_filepath->clear();
@@ -552,7 +555,7 @@ void GUI_TagEdit::set_cover(const MetaData& md)
 {
 	QByteArray img_data;
 	QString mime_type;
-	bool has_cover = Tagging::extract_cover(md, img_data, mime_type);
+    bool has_cover = Tagging::Util::extract_cover(md, img_data, mime_type);
 
 	if(!has_cover){
 		ui->btn_cover_original->setIcon(QIcon());
@@ -568,7 +571,7 @@ void GUI_TagEdit::set_cover(const MetaData& md)
 		ui->btn_cover_original->setText(QString());
 	}
 
-	CoverLocation cl = CoverLocation::get_cover_location(md);
+    Cover::Location cl = Cover::Location::get_cover_location(md);
 	ui->btn_cover_replacement->set_cover_location(cl);
 
 	ui->cb_cover_all->setEnabled(cl.valid());

@@ -27,10 +27,10 @@
 #include "StreamRecorderData.h"
 
 #include "Components/Engine/Callbacks/PipelineCallbacks.h"
-#include "Helper/globals.h"
-#include "Helper/Helper.h"
-#include "Helper/Settings/Settings.h"
-#include "Helper/Logger/Logger.h"
+#include "Utils/globals.h"
+#include "Utils/Utils.h"
+#include "Utils/Settings/Settings.h"
+#include "Utils/Logger/Logger.h"
 
 #include <gst/base/gstdataqueue.h>
 #include <gst/app/gstappsink.h>

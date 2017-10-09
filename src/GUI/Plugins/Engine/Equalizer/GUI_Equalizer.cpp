@@ -29,11 +29,11 @@
 #include "GUI_Equalizer.h"
 #include "EqSlider.h"
 
-#include "Helper/EqualizerPresets.h"
-#include "Helper/Settings/Settings.h"
-#include "Helper/Language.h"
+#include "Utils/EqualizerPresets.h"
+#include "Utils/Settings/Settings.h"
+#include "Utils/Language.h"
 #include "Components/Engine/EngineHandler.h"
-#include "GUI/Helper/Delegates/ComboBoxDelegate.h"
+#include "GUI/Utils/Delegates/ComboBoxDelegate.h"
 #include "GUI/Plugins/Engine/ui_GUI_Equalizer.h"
 
 static QString calc_lab(int val)

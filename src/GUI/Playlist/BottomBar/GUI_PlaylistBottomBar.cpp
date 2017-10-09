@@ -20,12 +20,12 @@
 #include "GUI_PlaylistBottomBar.h"
 #include "GUI/Playlist/ui_GUI_PlaylistBottomBar.h"
 #include "GUI/Playlist/PlaylistMenu.h"
-#include "GUI/Helper/IconLoader/IconLoader.h"
-#include "Helper/Playlist/PlaylistMode.h"
-#include "Helper/Settings/Settings.h"
-#include "Helper/Language.h"
+#include "GUI/Utils/IconLoader/IconLoader.h"
+#include "Utils/Playlist/PlaylistMode.h"
+#include "Utils/Settings/Settings.h"
+#include "Utils/Language.h"
 
-#include "Helper/Message/Message.h"
+#include "Utils/Message/Message.h"
 
 #ifdef WITH_SHUTDOWN
 	#include "GUI/ShutdownDialog/GUI_Shutdown.h"

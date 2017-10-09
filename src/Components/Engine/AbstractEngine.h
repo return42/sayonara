@@ -22,9 +22,9 @@
 #define ENGINE_H_
 
 #include <QObject>
-#include "Helper/MetaData/MetaData.h"
-#include "Helper/Settings/SayonaraClass.h"
-#include "Helper/Pimpl.h"
+#include "Utils/MetaData/MetaData.h"
+#include "Utils/Settings/SayonaraClass.h"
+#include "Utils/Pimpl.h"
 
 struct _GstElement;
 typedef struct _GstElement GstElement;

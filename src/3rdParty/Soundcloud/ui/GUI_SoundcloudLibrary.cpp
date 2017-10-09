@@ -22,7 +22,7 @@
 #include "3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h"
 #include "3rdParty/Soundcloud/src/SoundcloudLibrary.h"
 
-#include "GUI/Helper/ContextMenu/LibraryContextMenu.h"
+#include "GUI/Utils/ContextMenu/LibraryContextMenu.h"
 
 #include <QShortcut>
 

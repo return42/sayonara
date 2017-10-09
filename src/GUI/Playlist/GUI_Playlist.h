@@ -31,9 +31,9 @@
 
 #include "GUI/Playlist/ui_GUI_Playlist.h"
 
-#include "Helper/Message/GlobalMessage.h"
-#include "Helper/Library/LibraryNamespaces.h"
-#include "Helper/SetFwd.h"
+#include "Utils/Message/GlobalMessage.h"
+#include "Utils/Library/LibraryNamespaces.h"
+#include "Utils/SetFwd.h"
 
 #include "Components/PlayManager/PlayState.h"
 #include "Components/Playlist/PlaylistDBInterface.h"

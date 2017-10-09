@@ -21,8 +21,8 @@
 #ifndef DATABASEHANDLER_H
 #define DATABASEHANDLER_H
 
-#include "Helper/Singleton.h"
-#include "Helper/Pimpl.h"
+#include "Utils/Singleton.h"
+#include "Utils/Pimpl.h"
 
 class Album;
 class MetaData;

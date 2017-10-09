@@ -33,10 +33,10 @@
 #include <QHash>
 #include <QDir>
 
-#include "Helper/Settings/SayonaraClass.h"
-#include "Helper/Singleton.h"
-#include "Helper/Library/LibraryNamespaces.h"
-#include "Helper/Pimpl.h"
+#include "Utils/Settings/SayonaraClass.h"
+#include "Utils/Singleton.h"
+#include "Utils/Library/LibraryNamespaces.h"
+#include "Utils/Pimpl.h"
 
 class MetaData;
 

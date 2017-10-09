@@ -23,9 +23,9 @@
 #ifndef LIBRARYMANAGER_H
 #define LIBRARYMANAGER_H
 
-#include "Helper/Singleton.h"
-#include "Helper/Pimpl.h"
-#include "Helper/Settings/SayonaraClass.h"
+#include "Utils/Singleton.h"
+#include "Utils/Pimpl.h"
+#include "Utils/Settings/SayonaraClass.h"
 
 #include <QList>
 

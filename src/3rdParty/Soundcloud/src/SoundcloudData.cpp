@@ -22,11 +22,11 @@
 #include "SoundcloudWebAccess.h"
 #include "SearchInformation.h"
 
-#include "Helper/MetaData/Album.h"
-#include "Helper/MetaData/Artist.h"
-#include "Helper/MetaData/MetaDataList.h"
-#include "Helper/Logger/Logger.h"
-#include "Helper/globals.h"
+#include "Utils/MetaData/Album.h"
+#include "Utils/MetaData/Artist.h"
+#include "Utils/MetaData/MetaDataList.h"
+#include "Utils/Logger/Logger.h"
+#include "Utils/globals.h"
 
 #include "Database/SayonaraQuery.h"
 #include "Database/DatabaseConnector.h"

@@ -19,9 +19,9 @@
  */
 
 #include "PlayerPlugin.h"
-#include "GUI/Helper/Shortcuts/Shortcut.h"
-#include "GUI/Helper/Shortcuts/ShortcutHandler.h"
-#include "Helper/Settings/Settings.h"
+#include "GUI/Utils/Shortcuts/Shortcut.h"
+#include "GUI/Utils/Shortcuts/ShortcutHandler.h"
+#include "Utils/Settings/Settings.h"
 
 #include <QAction>
 #include <QLayout>

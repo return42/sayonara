@@ -20,11 +20,11 @@
 #ifndef PLAYLISTBOTTOMBAR_H
 #define PLAYLISTBOTTOMBAR_H
 
-#include "GUI/Helper/Widgets/Widget.h"
+#include "GUI/Utils/Widgets/Widget.h"
 
-#include "Helper/Shutdown/Shutdown.h"
-#include "Helper/Playlist/PlaylistFwd.h"
-#include "Helper/Pimpl.h"
+#include "Utils/Shutdown/Shutdown.h"
+#include "Utils/Playlist/PlaylistFwd.h"
+#include "Utils/Pimpl.h"
 
 class PlaylistMenu;
 #ifdef WITH_SHUTDOWN

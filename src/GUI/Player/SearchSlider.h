@@ -25,7 +25,7 @@
 #ifndef SEARCHSLIDER_H_
 #define SEARCHSLIDER_H_
 
-#include "GUI/Helper/Widgets/Slider.h"
+#include "GUI/Utils/Widgets/Slider.h"
 
 class SearchSlider:
 		public Gui::Slider

@@ -1,7 +1,7 @@
 #include "LibraryPluginCombobox.h"
 #include "LibraryPluginHandler.h"
 #include "LibraryContainer/LibraryContainer.h"
-#include "Helper/Settings/Settings.h"
+#include "Utils/Settings/Settings.h"
 
 #include <QList>
 #include <QAction>

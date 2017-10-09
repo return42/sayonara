@@ -23,8 +23,8 @@
 #ifndef GUI_LOGGER_H
 #define GUI_LOGGER_H
 
-#include "Helper/Logger/LogListener.h"
-#include "GUI/Helper/Widgets/Widget.h"
+#include "Utils/Logger/LogListener.h"
+#include "GUI/Utils/Widgets/Widget.h"
 
 #include <QStringList>
 #include <QWidget>

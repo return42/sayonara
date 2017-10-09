@@ -25,8 +25,8 @@
 #include "StreamDataSender.h"
 #include "StreamHttpParser.h"
 #include "Components/Engine/EngineHandler.h"
-#include "Helper/MetaData/MetaData.h"
-#include "Helper/Logger/Logger.h"
+#include "Utils/MetaData/MetaData.h"
+#include "Utils/Logger/Logger.h"
 
 #include <QTcpSocket>
 

@@ -20,10 +20,10 @@
 
 #include "PlayManager.h"
 #include "Interfaces/Notification/NotificationHandler.h"
-#include "Helper/MetaData/MetaData.h"
-#include "Helper/Settings/Settings.h"
-#include "Helper/Logger/Logger.h"
-#include "Helper/Helper.h"
+#include "Utils/MetaData/MetaData.h"
+#include "Utils/Settings/Settings.h"
+#include "Utils/Logger/Logger.h"
+#include "Utils/Utils.h"
 
 #include <QDateTime>
 #include <QTime>

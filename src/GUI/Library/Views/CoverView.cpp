@@ -21,8 +21,8 @@
 #include "CoverView.h"
 #include "GUI/Library/Models/CoverModel.h"
 #include "GUI/Library/Delegates/CoverDelegate.h"
-#include "Helper/Settings/Settings.h"
-#include "Helper/Logger/Logger.h"
+#include "Utils/Settings/Settings.h"
+#include "Utils/Logger/Logger.h"
 
 #include <QHeaderView>
 #include <QWheelEvent>

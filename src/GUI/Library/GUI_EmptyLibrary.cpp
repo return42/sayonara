@@ -20,9 +20,9 @@
 
 #include "GUI_EmptyLibrary.h"
 #include "GUI/Library/ui_GUI_EmptyLibrary.h"
-#include "Helper/Language.h"
-#include "Helper/Message/Message.h"
-#include "Helper/Library/LibraryNamespaces.h"
+#include "Utils/Language.h"
+#include "Utils/Message/Message.h"
+#include "Utils/Library/LibraryNamespaces.h"
 #include "Components/Library/LibraryManager.h"
 #include "Components/Library/LocalLibrary.h"
 #include "Interfaces/LibraryInterface/LibraryPluginHandler.h"

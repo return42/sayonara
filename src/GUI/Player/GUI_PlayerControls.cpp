@@ -20,11 +20,11 @@
 
 #include "GUI_Player.h"
 #include "GUI_TrayIcon.h"
-#include "GUI/Helper/IconLoader/IconLoader.h"
+#include "GUI/Utils/IconLoader/IconLoader.h"
 #include "Components/PlayManager/PlayManager.h"
-#include "Helper/Helper.h"
-#include "Helper/Settings/Settings.h"
-#include "Helper/MetaData/MetaData.h"
+#include "Utils/Utils.h"
+#include "Utils/Settings/Settings.h"
+#include "Utils/MetaData/MetaData.h"
 
 #include <QToolTip>
 

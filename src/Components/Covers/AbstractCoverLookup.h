@@ -25,27 +25,28 @@
 
 #include <QObject>
 
-/**
- * @brief The CoverLookupInterface class
- * @ingroup Covers
- */
-class AbstractCoverLookup :
-		public QObject
+namespace Cover
 {
-	Q_OBJECT
+    /**
+     * @brief The CoverLookupInterface class
+     * @ingroup Covers
+     */
+    class LookupBase :
+            public QObject
+    {
+        Q_OBJECT
 
-signals:
-	void sig_cover_found(const QString& file_path);
-	void sig_finished(bool success);
+    signals:
+        void sig_cover_found(const QString& file_path);
+        void sig_finished(bool success);
 
-public slots:
-	virtual void stop()=0;
+    public slots:
+        virtual void stop()=0;
 
-public:
-	explicit AbstractCoverLookup(QObject* parent=nullptr);
-	virtual ~AbstractCoverLookup();
-};
-
-
+    public:
+        explicit LookupBase(QObject* parent=nullptr);
+        virtual ~LookupBase();
+    };
+}
 
 #endif // ABSTRACTCOVERLOOKUP_H

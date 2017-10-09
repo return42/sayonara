@@ -23,10 +23,10 @@
 
 #include "GUI/Plugins/Bookmarks/ui_GUI_Bookmarks.h"
 
-#include "Helper/Helper.h"
-#include "Helper/MetaData/MetaData.h"
-#include "Helper/Message/Message.h"
-#include "Helper/Language.h"
+#include "Utils/Utils.h"
+#include "Utils/MetaData/MetaData.h"
+#include "Utils/Message/Message.h"
+#include "Utils/Language.h"
 
 #include "Components/Bookmarks/Bookmark.h"
 #include "Components/Bookmarks/Bookmarks.h"

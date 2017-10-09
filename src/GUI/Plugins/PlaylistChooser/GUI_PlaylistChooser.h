@@ -22,7 +22,7 @@
 #define GUIPLAYLISTCHOOSER_H_
 
 #include "Interfaces/PlayerPlugin/PlayerPlugin.h"
-#include "Helper/Playlist/CustomPlaylistFwd.h"
+#include "Utils/Playlist/CustomPlaylistFwd.h"
 
 #include <QMap>
 #include <QDockWidget>

@@ -19,7 +19,7 @@
  */
 
 #include "DBusMediaKeysInterfaceGnome.h"
-#include "Helper/Logger/Logger.h"
+#include "Utils/Logger/Logger.h"
 
 DBusMediaKeysInterfaceGnome::DBusMediaKeysInterfaceGnome(QObject *parent) :
 	DBusMediaKeysInterface(parent)

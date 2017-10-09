@@ -23,7 +23,7 @@
 #ifndef SOMAFMSTATIONVIEW_H
 #define SOMAFMSTATIONVIEW_H
 
-#include "GUI/Helper/SearchableWidget/SearchableView.h"
+#include "GUI/Utils/SearchableWidget/SearchableView.h"
 
 class SomaFMStationView :
 	public SearchableTableView

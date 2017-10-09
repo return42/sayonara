@@ -22,14 +22,15 @@
 #include "DirectoryDelegate.h"
 #include "DirectoryIconProvider.h"
 
-#include "GUI/Helper/ContextMenu/LibraryContextMenu.h"
-#include "GUI/Helper/SearchableWidget/SearchableFileTreeModel.h"
+#include "Components/DirectoryReader/DirectoryReader.h"
 
-#include "Helper/DirectoryReader/DirectoryReader.h"
-#include "Helper/MetaData/MetaDataList.h"
-#include "Helper/Settings/Settings.h"
-#include "Helper/Library/LibraryInfo.h"
-#include "Helper/Helper.h"
+#include "GUI/Utils/ContextMenu/LibraryContextMenu.h"
+#include "GUI/Utils/SearchableWidget/SearchableFileTreeModel.h"
+
+#include "Utils/MetaData/MetaDataList.h"
+#include "Utils/Settings/Settings.h"
+#include "Utils/Library/LibraryInfo.h"
+#include "Utils/Utils.h"
 
 #include <QDir>
 #include <QMouseEvent>

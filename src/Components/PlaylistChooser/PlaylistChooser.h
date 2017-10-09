@@ -21,8 +21,8 @@
 #ifndef PLAYLISTCHOOSER_H_
 #define PLAYLISTCHOOSER_H_
 
-#include "Helper/Playlist/CustomPlaylistFwd.h"
-#include "Helper/Pimpl.h"
+#include "Utils/Playlist/CustomPlaylistFwd.h"
+#include "Utils/Pimpl.h"
 #include <QObject>
 
 class PlaylistDBWrapper;

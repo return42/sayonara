@@ -26,13 +26,13 @@
 #include "3rdParty/SomaFM/SomaFMStation.h"
 #include "Components/Covers/CoverLocation.h"
 
-#include "Helper/globals.h"
-#include "Helper/Logger/Logger.h"
+#include "Utils/globals.h"
+#include "Utils/Logger/Logger.h"
 
-#include "GUI/Helper/GUI_Helper.h"
-#include "GUI/Helper/CustomMimeData.h"
-#include "GUI/Helper/MimeDataHelper.h"
-#include "GUI/Helper/IconLoader/IconLoader.h"
+#include "GUI/Utils/GuiUtils.h"
+#include "GUI/Utils/CustomMimeData.h"
+#include "GUI/Utils/MimeDataUtils.h"
+#include "GUI/Utils/IconLoader/IconLoader.h"
 
 #include <QUrl>
 #include <QIcon>
@@ -261,7 +261,7 @@ QMimeData* SomaFM::StationModel::mimeData(const QModelIndexList& indexes) const
 
 		for(const QString& str_url : str_urls){
 			urls << QUrl(str_url);
-			CoverLocation cl = m->stations[row].cover_location();
+            Cover::Location cl = m->stations[row].cover_location();
 			if(cl.has_search_urls()){
 				cover_url = cl.search_urls().first();
 			}

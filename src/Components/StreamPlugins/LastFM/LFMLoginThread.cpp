@@ -21,9 +21,9 @@
 #include "LFMLoginThread.h"
 #include "LFMGlobals.h"
 #include "LFMWebAccess.h"
-#include "Helper/Helper.h"
-#include "Helper/Message/Message.h"
-#include "Helper/Logger/Logger.h"
+#include "Utils/Utils.h"
+#include "Utils/Message/Message.h"
+#include "Utils/Logger/Logger.h"
 
 using namespace LastFM;
 

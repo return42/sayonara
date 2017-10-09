@@ -25,15 +25,15 @@
 
 #include "GUI_Player.h"
 
-#include "Helper/Message/Message.h"
-#include "GUI/Helper/GUI_Helper.h"
+#include "Utils/Message/Message.h"
+#include "GUI/Utils/GuiUtils.h"
 
-#include "Helper/Helper.h"
-#include "Helper/Settings/Settings.h"
-#include "Helper/Language.h"
+#include "Utils/Utils.h"
+#include "Utils/Settings/Settings.h"
+#include "Utils/Language.h"
 
 #include "Components/Playlist/PlaylistHandler.h"
-#include "Helper/WebAccess/AsyncWebAccess.h"
+#include "Utils/WebAccess/AsyncWebAccess.h"
 
 
 #include <QDir>

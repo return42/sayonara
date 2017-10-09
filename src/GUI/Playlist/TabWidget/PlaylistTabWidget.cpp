@@ -20,7 +20,7 @@
 
 #include "PlaylistTabWidget.h"
 #include "PlaylistTabBar.h"
-#include "Helper/MetaData/MetaDataList.h"
+#include "Utils/MetaData/MetaDataList.h"
 
 
 struct PlaylistTabWidget::Private

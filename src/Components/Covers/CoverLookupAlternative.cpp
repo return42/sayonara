@@ -22,18 +22,19 @@
 #include "CoverLookupAlternative.h"
 #include "CoverLocation.h"
 #include "Database/DatabaseHandler.h"
-#include "Helper/Logger/Logger.h"
+#include "Utils/Logger/Logger.h"
 
 #include <QStringList>
 
+using namespace Cover;
 
-struct CoverLookupAlternative::Private
+struct AlternativeLookup::Private
 {
-	CoverLookupPtr      cl;
-	CoverLocation		cover_location;
+    LookupPtr   cl;
+    Location    cover_location;
 
-	int					n_covers;
-	bool				run;
+    int			n_covers;
+    bool		run;
 
 	~Private()
 	{
@@ -41,37 +42,37 @@ struct CoverLookupAlternative::Private
 	}
 };
 
-CoverLookupAlternative::CoverLookupAlternative(QObject* parent, int n_covers) :
-	AbstractCoverLookup(parent)
+AlternativeLookup::AlternativeLookup(QObject* parent, int n_covers) :
+	LookupBase(parent)
 {
-	m = Pimpl::make<CoverLookupAlternative::Private>();
+	m = Pimpl::make<AlternativeLookup::Private>();
 	m->run = true;
 	m->n_covers = n_covers;
 }
 
-CoverLookupAlternative::CoverLookupAlternative(QObject* parent, const CoverLocation& cl, int n_covers) : 
-	CoverLookupAlternative(parent, n_covers)
+AlternativeLookup::AlternativeLookup(QObject* parent, const Location& cl, int n_covers) : 
+	AlternativeLookup(parent, n_covers)
 {
 	m->cover_location = cl;
 
 	sp_log(Log::Debug, this) << cl.search_urls();
 }
 
-CoverLookupAlternative::~CoverLookupAlternative() {}
+AlternativeLookup::~AlternativeLookup() {}
 
-void CoverLookupAlternative::stop()
+void AlternativeLookup::stop()
 {
 	m->cl->stop();
 }
 
-void CoverLookupAlternative::start()
+void AlternativeLookup::start()
 {
 	m->run = true;
 
-	m->cl = CoverLookupPtr(new CoverLookup(this, m->n_covers));
+    m->cl = LookupPtr(new Lookup(this, m->n_covers));
 
-	connect(m->cl.get(), &CoverLookup::sig_cover_found, this, &CoverLookupAlternative::cover_found);
-	connect(m->cl.get(), &CoverLookup::sig_finished, this, &CoverLookupAlternative::finished);
+	connect(m->cl.get(), &Lookup::sig_cover_found, this, &AlternativeLookup::cover_found);
+	connect(m->cl.get(), &Lookup::sig_finished, this, &AlternativeLookup::finished);
 
 	bool can_fetch = m->cl->fetch_cover(m->cover_location, true);
 	if(!can_fetch){
@@ -79,12 +80,12 @@ void CoverLookupAlternative::start()
 	}
 }
 
-void CoverLookupAlternative::cover_found(const QString& cover_path)
+void AlternativeLookup::cover_found(const QString& cover_path)
 {
 	emit sig_cover_found(cover_path);
 }
 
-void CoverLookupAlternative::finished(bool success)
+void AlternativeLookup::finished(bool success)
 {
 	emit sig_finished(success);
 }

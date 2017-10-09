@@ -22,7 +22,7 @@
 #define BOOKMARKS_H
 
 #include "Components/PlayManager/PlayState.h"
-#include "Helper/Pimpl.h"
+#include "Utils/Pimpl.h"
 
 #include <QObject>
 #include <QList>

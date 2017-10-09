@@ -1,6 +1,6 @@
 #include "SearchInformation.h"
-#include "Helper/Set.h"
-#include "Helper/Logger/Logger.h"
+#include "Utils/Set.h"
+#include "Utils/Logger/Logger.h"
 
 #include <QString>
 #include <QHash>

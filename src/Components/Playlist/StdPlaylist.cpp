@@ -20,13 +20,13 @@
 
 #include "StdPlaylist.h"
 
-#include "Helper/globals.h"
-#include "Helper/Settings/Settings.h"
-#include "Helper/FileHelper.h"
-#include "Helper/Parser/PlaylistParser.h"
-#include "Helper/Random/RandomGenerator.h"
-#include "Helper/MetaData/MetaDataList.h"
-#include "Helper/Set.h"
+#include "Utils/globals.h"
+#include "Utils/Settings/Settings.h"
+#include "Utils/FileUtils.h"
+#include "Utils/Parser/PlaylistParser.h"
+#include "Utils/Random/RandomGenerator.h"
+#include "Utils/MetaData/MetaDataList.h"
+#include "Utils/Set.h"
 
 #include <algorithm>
 

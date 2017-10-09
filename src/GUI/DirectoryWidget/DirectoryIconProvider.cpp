@@ -19,11 +19,11 @@
  */
 
 #include "DirectoryIconProvider.h"
-#include "Helper/Helper.h"
-#include "Helper/FileHelper.h"
-#include "Helper/Settings/Settings.h"
+#include "Utils/Utils.h"
+#include "Utils/FileUtils.h"
+#include "Utils/Settings/Settings.h"
 
-#include "GUI/Helper/GUI_Helper.h"
+#include "GUI/Utils/GuiUtils.h"
 
 IconProvider::IconProvider() :
 	QFileIconProvider()

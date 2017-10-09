@@ -30,77 +30,80 @@
 #define COVERLOOKUP_H_
 
 #include "AbstractCoverLookup.h"
-#include "Helper/Pimpl.h"
+#include "Utils/Pimpl.h"
 
 class Album;
-class CoverLocation;
 
-/**
- * @brief The CoverLookup class
- * @ingroup Covers
- */
-class CoverLookup :
-		public AbstractCoverLookup
+namespace Cover
 {
-	Q_OBJECT
-	PIMPL(CoverLookup)
+    class Location;
+
+    /**
+     * @brief The CoverLookup class
+     * @ingroup Covers
+     */
+    class Lookup :
+            public LookupBase
+    {
+        Q_OBJECT
+        PIMPL(Lookup)
 
 
-public:
+    public:
 
-	CoverLookup(QObject* parent=nullptr, int n_covers=1);
-	~CoverLookup();
+        Lookup(QObject* parent=nullptr, int n_covers=1);
+        ~Lookup();
 
+        /**
+         * @brief fetches cover for a CoverLocation.
+         *   1. Looks up CoverLocation::cover_path
+         *   2. Looks up CoverLocation::local_paths
+         *   3. Starts a CoverFetchThread
+         * @param cl CoverLocation of interest
+         * @return always true
+         */
+        bool fetch_cover(const Location& cl, bool also_www=true);
 
-	/**
-	 * @brief fetches cover for a CoverLocation.
-	 *   1. Looks up CoverLocation::cover_path
-	 *   2. Looks up CoverLocation::local_paths
-	 *   3. Starts a CoverFetchThread
-	 * @param cl CoverLocation of interest
-	 * @return always true
-	 */
-	bool fetch_cover(const CoverLocation& cl, bool also_www=true);
-
-	/**
-	 * @brief uses CoverLocation(const Album& album)
-	 * @param album Album object
-	 * @return true
-	 */
-	bool fetch_album_cover(const Album& album, bool also_www=true);
-
-
-	/**
-	 * @brief not implemented
-	 */
-	void stop() override;
+        /**
+         * @brief uses CoverLocation(const Album& album)
+         * @param album Album object
+         * @return true
+         */
+        bool fetch_album_cover(const Album& album, bool also_www=true);
 
 
-private:
-	/**
-	 * @brief Starts a new CoverFetchThread
-	 * @param cl CoverLocation object
-	 */
-	bool start_new_thread(const CoverLocation& cl);
+        /**
+         * @brief not implemented
+         */
+        void stop() override;
 
 
-private slots:
-	/**
-	 * @brief called when CoverFetchThread has found cover
-	 * @param cl
-	 */
-	void cover_found(const QString& cover_path);
+    private:
+        /**
+         * @brief Starts a new CoverFetchThread
+         * @param cl CoverLocation object
+         */
+        bool start_new_thread(const Location& cl);
 
-	/**
-	 * @brief called when CoverFetchThread has finished
-	 */
-	void finished(bool);
-};
 
-/**
- * @brief CoverLookupPtr
- * @ingroup Covers
- */
-using CoverLookupPtr=std::shared_ptr<CoverLookup>;
+    private slots:
+        /**
+         * @brief called when CoverFetchThread has found cover
+         * @param cl
+         */
+        void cover_found(const QString& cover_path);
 
+        /**
+         * @brief called when CoverFetchThread has finished
+         */
+        void finished(bool);
+    };
+
+    /**
+     * @brief CoverLookupPtr
+     * @ingroup Covers
+     */
+    using LookupPtr=std::shared_ptr<Lookup>;
+
+}
 #endif /* COVERLOOKUP_H_ */

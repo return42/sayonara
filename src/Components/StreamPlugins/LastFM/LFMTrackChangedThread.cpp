@@ -31,15 +31,15 @@
 #include "Database/DatabaseHandler.h"
 #include "Database/DatabaseConnector.h"
 
-#include "Helper/Helper.h"
-#include "Helper/FileHelper.h"
-#include "Helper/MetaData/Artist.h"
-#include "Helper/MetaData/MetaData.h"
-#include "Helper/Compressor/Compressor.h"
-#include "Helper/Logger/Logger.h"
+#include "Utils/Utils.h"
+#include "Utils/FileUtils.h"
+#include "Utils/MetaData/Artist.h"
+#include "Utils/MetaData/MetaData.h"
+#include "Utils/Compressor/Compressor.h"
+#include "Utils/Logger/Logger.h"
 
 #ifdef SMART_COMPARE
-	#include "Helper/SmartCompare/SmartCompare.h"
+	#include "Utils/SmartCompare/SmartCompare.h"
 #endif
 
 #include <QMap>

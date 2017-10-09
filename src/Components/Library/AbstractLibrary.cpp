@@ -22,14 +22,14 @@
 
 #include "Components/Playlist/PlaylistHandler.h"
 #include "Components/PlayManager/PlayManager.h"
-#include "Components/TagEdit/MetaDataChangeNotifier.h"
-#include "Components/TagEdit/TagEdit.h"
+#include "Components/Tagging/ChangeNotifier.h"
+#include "Components/Tagging/Editor.h"
 
-#include "Helper/typedefs.h"
-#include "Helper/MetaData/Genre.h"
-#include "Helper/Settings/Settings.h"
-#include "Helper/Logger/Logger.h"
-#include "Helper/Language.h"
+#include "Utils/typedefs.h"
+#include "Utils/MetaData/Genre.h"
+#include "Utils/Settings/Settings.h"
+#include "Utils/Logger/Logger.h"
+#include "Utils/Language.h"
 
 #include <QHash>
 
@@ -41,7 +41,7 @@ struct AbstractLibrary::Private
 
     MetaDataList current_tracks;
 
-    TagEdit* tag_edit=nullptr;
+    Tagging::Editor* tag_edit=nullptr;
     PlaylistHandler* playlist=nullptr;
 
     Library::Sortings sortorder;
@@ -60,9 +60,9 @@ AbstractLibrary::AbstractLibrary(QObject *parent) :
     m->filter.set_mode(Library::Filter::Fulltext);
     m->filter.set_filtertext("");
 
-	MetaDataChangeNotifier* md_change_notifier = MetaDataChangeNotifier::instance();
-	connect(md_change_notifier, &MetaDataChangeNotifier::sig_metadata_changed,
-			this,				&AbstractLibrary::metadata_id3_changed);
+    Tagging::ChangeNotifier* mdcn = Tagging::ChangeNotifier::instance();
+    connect(mdcn, &Tagging::ChangeNotifier::sig_metadata_changed,
+            this, &AbstractLibrary::metadata_id3_changed);
 }
 
 AbstractLibrary::~AbstractLibrary() {}
@@ -600,12 +600,12 @@ Library::Sortings AbstractLibrary::sortorder() const
     return m->sortorder;
 }
 
-TagEdit*AbstractLibrary::tag_edit()
+Tagging::Editor* AbstractLibrary::tag_edit()
 {
 	if(!m->tag_edit){
-		m->tag_edit = new TagEdit(this);
-		connect(m->tag_edit, &TagEdit::finished, this, &AbstractLibrary::refresh);
-		connect(m->tag_edit, &TagEdit::sig_progress, [=](int progress){
+        m->tag_edit = new Tagging::Editor(this);
+        connect(m->tag_edit, &Tagging::Editor::finished, this, &AbstractLibrary::refresh);
+        connect(m->tag_edit, &Tagging::Editor::sig_progress, [=](int progress){
 			emit sig_reloading_library(Lang::get(Lang::ReloadLibrary), progress);
 		});
 	}
@@ -667,7 +667,7 @@ void AbstractLibrary::delete_tracks(const MetaDataList& v_md, Library::TrackDele
 	}
 
 	emit sig_delete_answer(answer_str);
-	MetaDataChangeNotifier::instance()->delete_metadata(v_md);
+    Tagging::ChangeNotifier::instance()->delete_metadata(v_md);
 
 	refresh();
 }

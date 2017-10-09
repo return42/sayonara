@@ -22,7 +22,7 @@
 #define GUI_AUDIOCONVERTER_H
 
 #include "Interfaces/PlayerPlugin/PlayerPlugin.h"
-#include "Helper/Playlist/PlaylistMode.h"
+#include "Utils/Playlist/PlaylistMode.h"
 #include "Components/PlayManager/PlayState.h"
 
 UI_FWD(GUI_AudioConverter)

@@ -31,7 +31,7 @@
 
 #include <QObject>
 
-#include "Helper/Pimpl.h"
+#include "Utils/Pimpl.h"
 
 struct ServerTemplate;
 

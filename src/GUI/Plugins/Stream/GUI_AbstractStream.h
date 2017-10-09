@@ -22,7 +22,7 @@
 #define GUI_ABSTRACT_STREAM_H_
 
 #include "Interfaces/PlayerPlugin/PlayerPlugin.h"
-#include "Helper/Pimpl.h"
+#include "Utils/Pimpl.h"
 
 class QComboBox;
 class QPushButton;

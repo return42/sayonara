@@ -22,8 +22,8 @@
 #define DATABASEPLAYLIST_H
 
 #include "Database/DatabaseModule.h"
-#include "Helper/Playlist/CustomPlaylistFwd.h"
-#include "Helper/Playlist/Sorting.h"
+#include "Utils/Playlist/CustomPlaylistFwd.h"
+#include "Utils/Playlist/Sorting.h"
 
 class MetaData;
 class MetaDataList;

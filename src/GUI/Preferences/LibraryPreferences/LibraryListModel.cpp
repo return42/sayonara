@@ -22,9 +22,9 @@
 #include "LibraryListModel.h"
 #include "ChangeOperations.h"
 #include "Components/Library/LibraryManager.h"
-#include "Helper/Library/LibraryInfo.h"
+#include "Utils/Library/LibraryInfo.h"
 #include "Interfaces/LibraryInterface/LibraryPluginHandler.h"
-#include "Helper/globals.h"
+#include "Utils/globals.h"
 
 #include <QList>
 

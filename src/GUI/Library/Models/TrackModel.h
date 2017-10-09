@@ -30,7 +30,7 @@
 #define LIBRARYITEMMODELTRACKS_H_
 
 #include "GUI/Library/Models/ItemModel.h"
-#include "Helper/Pimpl.h"
+#include "Utils/Pimpl.h"
 
 class MetaDataList;
 namespace Library
@@ -51,7 +51,7 @@ namespace Library
 		int             rowCount(const QModelIndex &parent) const override;
 
 		/** ItemModel.h **/
-		CoverLocation   get_cover(const IndexSet& indexes) const override;
+        Cover::Location get_cover(const IndexSet& indexes) const override;
 		int             get_searchable_column() const override;
 		int             get_id_by_row(int row) override;
 		QString         get_string(int row) const override;

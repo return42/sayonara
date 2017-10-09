@@ -21,8 +21,8 @@
 #ifndef LIBRARY_RATING_DELEGATE_H
 #define LIBRARY_RATING_DELEGATE_H
 
-#include "GUI/Helper/Delegates/StyledItemDelegate.h"
-#include "Helper/Pimpl.h"
+#include "GUI/Utils/Delegates/StyledItemDelegate.h"
+#include "Utils/Pimpl.h"
 
 namespace Library
 {

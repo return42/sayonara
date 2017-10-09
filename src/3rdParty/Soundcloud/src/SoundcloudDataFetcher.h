@@ -22,7 +22,7 @@
 #define SOUNDCLOUDDATAFETCHER_H
 
 #include <QObject>
-#include "Helper/Pimpl.h"
+#include "Utils/Pimpl.h"
 
 class ArtistList;
 class AlbumList;

@@ -23,10 +23,14 @@
 
 #include "SoundcloudData.h"
 #include "Components/Library/AbstractLibrary.h"
-#include "Helper/Pimpl.h"
-#include "Helper/Library/Sorting.h"
+#include "Utils/Pimpl.h"
+#include "Utils/Library/Sorting.h"
 
-class CoverLocation;
+namespace Cover
+{
+    class Location;
+}
+
 
 namespace SC
 {
@@ -82,7 +86,7 @@ namespace SC
 		void	artists_fetched(const ArtistList& artists);
 		void	tracks_fetched(const MetaDataList& v_md);
 		void	albums_fetched(const AlbumList& albums);
-		void	cover_found(const CoverLocation& cl);
+        void	cover_found(const Cover::Location& cl);
 
 	public slots:
 		void	reload_library(bool clear_first, ::Library::ReloadQuality quality) override;

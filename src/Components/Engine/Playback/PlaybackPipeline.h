@@ -24,7 +24,7 @@
 #include "ChangeablePipeline.h"
 #include "Crossfader.h"
 #include "Components/Engine/AbstractPipeline.h"
-#include "Helper/Pimpl.h"
+#include "Utils/Pimpl.h"
 
 struct StreamRecorderData;
 class Engine;

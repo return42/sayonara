@@ -29,17 +29,17 @@
 #include "View.h"
 #include "HeaderView.h"
 #include "Components/Covers/CoverLocation.h"
-#include "GUI/Library/Helper/ColumnHeader.h"
+#include "GUI/Library/Utils/ColumnHeader.h"
 
-#include "Helper/globals.h"
-#include "Helper/Settings/Settings.h"
-#include "Helper/MetaData/MetaDataList.h"
-#include "Helper/Set.h"
-#include "Helper/Logger/Logger.h"
+#include "Utils/globals.h"
+#include "Utils/Settings/Settings.h"
+#include "Utils/MetaData/MetaDataList.h"
+#include "Utils/Set.h"
+#include "Utils/Logger/Logger.h"
 
-#include "GUI/Helper/CustomMimeData.h"
-#include "GUI/Helper/ContextMenu/LibraryContextMenu.h"
-#include "GUI/Helper/SearchableWidget/MiniSearcher.h"
+#include "GUI/Utils/CustomMimeData.h"
+#include "GUI/Utils/ContextMenu/LibraryContextMenu.h"
+#include "GUI/Utils/SearchableWidget/MiniSearcher.h"
 
 #include <QHeaderView>
 #include <QDropEvent>
@@ -173,7 +173,7 @@ QMimeData* View::get_mimedata() const
 
 QPixmap View::pixmap() const
 {
-	CoverLocation cl = _model->get_cover(
+    Cover::Location cl = _model->get_cover(
 				get_selected_items()
 	);
 

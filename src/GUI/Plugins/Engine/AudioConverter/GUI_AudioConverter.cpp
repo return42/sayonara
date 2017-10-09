@@ -21,10 +21,10 @@
 #include "GUI_AudioConverter.h"
 #include "GUI/Plugins/Engine/ui_GUI_AudioConverter.h"
 
-#include "Helper/Message/Message.h"
-#include "Helper/Logger/Logger.h"
-#include "Helper/Language.h"
-#include "Helper/Settings/Settings.h"
+#include "Utils/Message/Message.h"
+#include "Utils/Logger/Logger.h"
+#include "Utils/Language.h"
+#include "Utils/Settings/Settings.h"
 
 #include "Components/Engine/EngineHandler.h"
 #include "Components/Engine/Convert/LameBitrate.h"

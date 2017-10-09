@@ -23,11 +23,11 @@
 #include "Database/DatabaseConnector.h"
 #include "Components/Playlist/PlaylistHandler.h"
 #include "Components/PlayManager/PlayManager.h"
-#include "Helper/WebAccess/AsyncWebAccess.h"
-#include "Helper/Parser/StreamParser.h"
-#include "Helper/MetaData/MetaDataList.h"
-#include "Helper/Logger/Logger.h"
-#include "Helper/Message/GlobalMessage.h"
+#include "Utils/WebAccess/AsyncWebAccess.h"
+#include "Utils/Parser/StreamParser.h"
+#include "Utils/MetaData/MetaDataList.h"
+#include "Utils/Logger/Logger.h"
+#include "Utils/Message/GlobalMessage.h"
 
 struct AbstractStreamHandler::Private
 {

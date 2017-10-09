@@ -22,9 +22,9 @@
 /* CrossFader.cpp */
 
 #include "Crossfader.h"
-#include "Helper/Settings/Settings.h"
-#include "Helper/Helper.h"
-#include "Helper/Logger/Logger.h"
+#include "Utils/Settings/Settings.h"
+#include "Utils/Utils.h"
+#include "Utils/Logger/Logger.h"
 
 #include <QThread>
 

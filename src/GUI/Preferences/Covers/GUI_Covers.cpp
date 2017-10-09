@@ -25,13 +25,15 @@
 #include "Components/Covers/CoverFetchManager.h"
 #include "Components/Covers/CoverFetcherInterface.h"
 
-#include "Helper/Settings/Settings.h"
-#include "Helper/Language.h"
+#include "Utils/Settings/Settings.h"
+#include "Utils/Language.h"
 
-#include "GUI/Helper/Delegates/StyledItemDelegate.h"
+#include "GUI/Utils/Delegates/StyledItemDelegate.h"
 
 #include <QListWidgetItem>
 #include <QList>
+
+using namespace Cover;
 
 GUI_Covers::GUI_Covers(QWidget* parent) :
 	PreferenceWidgetInterface (parent) {}
@@ -64,20 +66,21 @@ void GUI_Covers::revert()
 	ui->lv_active->clear();
 	ui->lv_inactive->clear();
 
-	CoverFetchManager* cfm = CoverFetchManager::instance();
+    Fetcher::Manager* cfm = Fetcher::Manager::instance();
 
-	QList<CoverFetcherInterface*> cfis = cfm->get_available_coverfetchers();
-	for(const CoverFetcherInterface* cfi : cfis) {
-		if(cfi->get_keyword().isEmpty()){
+    QList<Fetcher::Base*> cfis = cfm->available_coverfetchers();
+    for(const Fetcher::Base* cfi : cfis)
+    {
+		if(cfi->keyword().isEmpty()){
 			continue;
 		}
 
-		if(active.contains(cfi->get_keyword())){
-			ui->lv_active->addItem(cfi->get_keyword());
+		if(active.contains(cfi->keyword())){
+			ui->lv_active->addItem(cfi->keyword());
 		}
 
 		else{
-			ui->lv_inactive->addItem(cfi->get_keyword());
+			ui->lv_inactive->addItem(cfi->keyword());
 		}
 	}
 }

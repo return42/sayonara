@@ -19,9 +19,9 @@
 
 #include "GUI_ShortcutEntry.h"
 #include "GUI/Preferences/ui_GUI_ShortcutEntry.h"
-#include "GUI/Helper/IconLoader/IconLoader.h"
-#include "GUI/Helper/Shortcuts/ShortcutHandler.h"
-#include "Helper/Language.h"
+#include "GUI/Utils/IconLoader/IconLoader.h"
+#include "GUI/Utils/Shortcuts/ShortcutHandler.h"
+#include "Utils/Language.h"
 
 #include <QKeySequence>
 #include <QShortcut>

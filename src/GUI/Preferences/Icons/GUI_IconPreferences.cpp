@@ -1,8 +1,8 @@
 #include "GUI_IconPreferences.h"
 #include "GUI/Preferences/ui_GUI_IconPreferences.h"
-#include "Helper/Language.h"
-#include "Helper/Logger/Logger.h"
-#include "Helper/Settings/Settings.h"
+#include "Utils/Language.h"
+#include "Utils/Logger/Logger.h"
+#include "Utils/Settings/Settings.h"
 
 #include <QStringList>
 #include <QIcon>

@@ -31,8 +31,8 @@
 
 #include "Components/StreamPlugins/LastFM/LastFM.h"
 
-#include "Helper/Language.h"
-#include "Helper/Settings/Settings.h"
+#include "Utils/Language.h"
+#include "Utils/Settings/Settings.h"
 
 
 GUI_LastFM::GUI_LastFM(QWidget* parent) :

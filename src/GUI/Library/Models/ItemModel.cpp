@@ -20,13 +20,13 @@
 
 #include "ItemModel.h"
 #include "Components/Library/AbstractLibrary.h"
-#include "GUI/Library/Helper/ColumnHeader.h"
-#include "GUI/Helper/CustomMimeData.h"
-#include "Helper/MetaData/MetaDataList.h"
+#include "GUI/Library/Utils/ColumnHeader.h"
+#include "GUI/Utils/CustomMimeData.h"
+#include "Utils/MetaData/MetaDataList.h"
 
-#include "Helper/globals.h"
-#include "Helper/Set.h"
-#include "Helper/Logger/Logger.h"
+#include "Utils/globals.h"
+#include "Utils/Set.h"
+#include "Utils/Logger/Logger.h"
 
 #include <algorithm>
 #include <QUrl>

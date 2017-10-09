@@ -20,11 +20,11 @@
 
 #include "GUI_TrayIcon.h"
 
-#include "GUI/Helper/GUI_Helper.h"
-#include "GUI/Helper/Style/Style.h"
-#include "Helper/MetaData/MetaData.h"
-#include "Helper/Settings/Settings.h"
-#include "Helper/Language.h"
+#include "GUI/Utils/GuiUtils.h"
+#include "GUI/Utils/Style/Style.h"
+#include "Utils/MetaData/MetaData.h"
+#include "Utils/Settings/Settings.h"
+#include "Utils/Language.h"
 
 #include "Components/PlayManager/PlayManager.h"
 

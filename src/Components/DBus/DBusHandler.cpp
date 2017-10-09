@@ -24,7 +24,7 @@
 #include "Components/DBus/DBusMediaKeysInterfaceGnome.h"
 #include "Components/DBus/DBusNotifications.h"
 
-#include "GUI/Helper/Widgets/Widget.h"
+#include "GUI/Utils/Widgets/Widget.h"
 
 DBusHandler::DBusHandler(QMainWindow* player, QObject* parent) :
 	QObject(parent)

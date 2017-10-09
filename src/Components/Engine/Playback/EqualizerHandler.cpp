@@ -1,7 +1,7 @@
 #include "EqualizerHandler.h"
-#include "Helper/Settings/Settings.h"
-#include "Helper/EqualizerPresets.h"
-#include "Helper/globals.h"
+#include "Utils/Settings/Settings.h"
+#include "Utils/EqualizerPresets.h"
+#include "Utils/globals.h"
 
 #include <QString>
 #include <gst/gst.h>
@@ -62,7 +62,7 @@ void EqualizerHandler::set_band(int band, int val)
 
 	g_object_set( G_OBJECT(equalizer_element),
 	              band_name.toUtf8().data(),
-	              val,
+                  new_val,
 	              nullptr
 	);
 }

@@ -22,7 +22,7 @@
 #define GUI_TARGET_PLAYLIST_DIALOG_H
 
 #include "GUI/Plugins/PlaylistChooser/ui_GUI_TargetPlaylistDialog.h"
-#include "GUI/Helper/Widgets/Dialog.h"
+#include "GUI/Utils/Widgets/Dialog.h"
 
 class GUI_TargetPlaylistDialog :
 		public Gui::Dialog,

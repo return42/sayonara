@@ -25,7 +25,7 @@
 #ifndef GUILIBRARYINFOBOX_H_
 #define GUILIBRARYINFOBOX_H_
 
-#include "GUI/Helper/Widgets/Dialog.h"
+#include "GUI/Utils/Widgets/Dialog.h"
 
 UI_FWD(GUI_LibraryInfoBox)
 

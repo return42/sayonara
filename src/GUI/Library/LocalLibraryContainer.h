@@ -22,7 +22,7 @@
 #define LOCALLIBRARYCONTAINER_H
 
 #include "Interfaces/LibraryInterface/LibraryContainer/LibraryContainer.h"
-#include "Helper/Pimpl.h"
+#include "Utils/Pimpl.h"
 
 class LibraryInfo;
 class LocalLibraryContainer :

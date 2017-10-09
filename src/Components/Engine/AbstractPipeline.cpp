@@ -23,7 +23,7 @@
 
 #include "Callbacks/EngineCallbacks.h"
 #include "Callbacks/PipelineCallbacks.h"
-#include "Helper/Logger/Logger.h"
+#include "Utils/Logger/Logger.h"
 
 #include <gst/app/gstappsink.h>
 

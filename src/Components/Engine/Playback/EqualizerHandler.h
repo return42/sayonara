@@ -1,7 +1,7 @@
 #ifndef EQUALIZERHANDLER_H
 #define EQUALIZERHANDLER_H
 
-#include "Helper/Pimpl.h"
+#include "Utils/Pimpl.h"
 
 struct _GstElement;
 typedef struct _GstElement GstElement;

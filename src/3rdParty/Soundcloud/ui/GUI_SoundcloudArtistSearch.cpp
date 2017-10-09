@@ -23,8 +23,8 @@
 #include "3rdParty/Soundcloud/src/SoundcloudDataFetcher.h"
 #include "3rdParty/Soundcloud/ui_GUI_SoundcloudArtistSearch.h"
 
-#include "Helper/globals.h"
-#include "Helper/MetaData/Artist.h"
+#include "Utils/globals.h"
+#include "Utils/MetaData/Artist.h"
 
 struct SC::GUI_ArtistSearch::Private
 {

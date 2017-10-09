@@ -20,10 +20,10 @@
 
 #include "AbstractEngine.h"
 
-#include "Helper/FileHelper.h"
-#include "Helper/Logger/Logger.h"
-#include "Helper/MetaData/MetaData.h"
-#include "Helper/Tagging/Tagging.h"
+#include "Utils/FileUtils.h"
+#include "Utils/Logger/Logger.h"
+#include "Utils/MetaData/MetaData.h"
+#include "Utils/Tagging/Tagging.h"
 
 #include <QUrl>
 
@@ -74,7 +74,7 @@ bool Engine::change_track_by_filename(const QString& filepath)
 
     bool success = true;
 
-    bool got_md = Tagging::getMetaDataOfFile(md);
+    bool got_md = Tagging::Util::getMetaDataOfFile(md);
     if( !got_md ) {
         stop();
         success = false;

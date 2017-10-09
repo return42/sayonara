@@ -25,12 +25,16 @@
 #ifndef GUI_INFODIALOG_H_
 #define GUI_INFODIALOG_H_
 
-#include "GUI/Helper/Widgets/Dialog.h"
-#include "Helper/MetaData/MetaDataFwd.h"
-#include "Helper/Pimpl.h"
+#include "GUI/Utils/Widgets/Dialog.h"
+#include "Utils/MetaData/MetaDataFwd.h"
+#include "Utils/Pimpl.h"
 
 class InfoDialogContainer;
-class CoverLocation;
+namespace Cover
+{
+    class Location;
+}
+
 
 UI_FWD(InfoDialog)
 
@@ -76,7 +80,7 @@ private slots:
 private:
 	void init();
 
-	void prepare_cover(const CoverLocation& cover_path);
+    void prepare_cover(const Cover::Location& cover_path);
 	void prepare_info(MD::Interpretation mode);
 
 	void closeEvent(QCloseEvent *e) override;

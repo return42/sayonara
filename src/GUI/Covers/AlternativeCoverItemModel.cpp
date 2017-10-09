@@ -28,14 +28,16 @@
 
 #include "AlternativeCoverItemModel.h"
 #include "Components/Covers/CoverLocation.h"
-#include "Helper/globals.h"
-#include "Helper/Helper.h"
+#include "Utils/globals.h"
+#include "Utils/Utils.h"
 
 #include <QModelIndex>
 #include <QVariant>
 #include <QStringList>
 #include <QPixmap>
 #include <QIcon>
+
+using namespace Cover;
 
 AlternativeCoverItemModel::AlternativeCoverItemModel(QObject* parent) :
 	QAbstractTableModel(parent)
@@ -122,7 +124,7 @@ Qt::ItemFlags AlternativeCoverItemModel::flags(const QModelIndex &index) const
 		return QAbstractItemModel::flags(index);
 	}
 
-	bool invalid = CoverLocation::isInvalidLocation(_pathlist[index.row()]);
+	bool invalid = Location::isInvalidLocation(_pathlist[index.row()]);
 	if(invalid){
 		return (Qt::NoItemFlags);
 	}
@@ -167,7 +169,7 @@ bool AlternativeCoverItemModel::insertRows(int position, int rows, const QModelI
 	beginInsertRows(QModelIndex(), position, position+rows-1);
 
 	_pathlist.clear();
-	QString invalid_path = CoverLocation::getInvalidLocation().cover_path();
+	QString invalid_path = Location::getInvalidLocation().cover_path();
 
 	for(int i=0; i<rows; i++) {
 		for(int j=0; j<columnCount(); j++) {
@@ -198,7 +200,7 @@ bool AlternativeCoverItemModel::is_valid(int row, int col)
     int idx = cvt_2_idx(row, col);
     if(idx < 0) return false;
 
-	return ( !CoverLocation::isInvalidLocation(_pathlist[ idx ]) );
+	return ( !Location::isInvalidLocation(_pathlist[ idx ]) );
 }
 
 QSize AlternativeCoverItemModel::get_cover_size(const QModelIndex& idx) const

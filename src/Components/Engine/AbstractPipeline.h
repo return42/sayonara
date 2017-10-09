@@ -21,7 +21,7 @@
 #ifndef GSTPIPELINE_H
 #define GSTPIPELINE_H
 
-#include "Helper/Settings/SayonaraClass.h"
+#include "Utils/Settings/SayonaraClass.h"
 
 #include <gst/gst.h>
 #include <gst/gstbuffer.h>

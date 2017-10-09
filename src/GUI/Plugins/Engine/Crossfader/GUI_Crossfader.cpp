@@ -20,9 +20,9 @@
 
 #include "GUI_Crossfader.h"
 #include "GUI/Plugins/Engine/ui_GUI_Crossfader.h"
-#include "Helper/Playlist/PlaylistMode.h"
-#include "Helper/Settings/Settings.h"
-#include "Helper/Language.h"
+#include "Utils/Playlist/PlaylistMode.h"
+#include "Utils/Settings/Settings.h"
+#include "Utils/Language.h"
 
 
 GUI_Crossfader::GUI_Crossfader(QWidget *parent) :

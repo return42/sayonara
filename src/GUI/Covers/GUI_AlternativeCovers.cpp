@@ -28,7 +28,7 @@
 
 #include "GUI_AlternativeCovers.h"
 #include "GUI/Covers/ui_GUI_AlternativeCovers.h"
-#include "GUI/Helper/Widgets/ProgressBar.h"
+#include "GUI/Utils/Widgets/ProgressBar.h"
 
 #include "AlternativeCoverItemDelegate.h"
 #include "AlternativeCoverItemModel.h"
@@ -37,10 +37,10 @@
 #include "Components/Covers/CoverLookupAlternative.h"
 #include "Components/Library/LibraryManager.h"
 
-#include "Helper/Message/Message.h"
-#include "Helper/Language.h"
-#include "Helper/Settings/Settings.h"
-#include "Helper/Language.h"
+#include "Utils/Message/Message.h"
+#include "Utils/Language.h"
+#include "Utils/Settings/Settings.h"
+#include "Utils/Language.h"
 
 #include <QFile>
 #include <QDir>
@@ -51,11 +51,12 @@
 #include <QModelIndex>
 
 using namespace Gui;
+using namespace Cover;
 
 struct GUI_AlternativeCovers::Private
 {
 	int						cur_idx;
-	CoverLocation			cover_location;
+    Location                cover_location;
 	QStringList				filelist;
 	bool					is_searching;
 	ProgressBar*			loading_bar=nullptr;
@@ -63,7 +64,7 @@ struct GUI_AlternativeCovers::Private
 	AlternativeCoverItemModel*		model=nullptr;
 	AlternativeCoverItemDelegate*	delegate=nullptr;
 
-	CoverLookupAlternative*			cl_alternative=nullptr;
+	AlternativeLookup*			cl_alternative=nullptr;
 
 	~Private()
 	{
@@ -121,16 +122,16 @@ void GUI_AlternativeCovers::language_changed()
 	ui->btn_apply->setText(Lang::get(Lang::Apply));
 }
 
-void GUI_AlternativeCovers::connect_and_start(const CoverLocation& cl)
+void GUI_AlternativeCovers::connect_and_start(const Location& cl)
 {
 	reset_model();
 	delete_all_files();
 
 	m->cover_location = cl;
-	m->cl_alternative = new CoverLookupAlternative(this, cl, m->model->rowCount() * m->model->columnCount() + 5);
+	m->cl_alternative = new AlternativeLookup(this, cl, m->model->rowCount() * m->model->columnCount() + 5);
 
-	connect(m->cl_alternative, &CoverLookupAlternative::sig_cover_found, this, &GUI_AlternativeCovers::cl_new_cover);
-	connect(m->cl_alternative, &CoverLookupAlternative::sig_finished, this, &GUI_AlternativeCovers::cl_finished);
+	connect(m->cl_alternative, &AlternativeLookup::sig_cover_found, this, &GUI_AlternativeCovers::cl_new_cover);
+	connect(m->cl_alternative, &AlternativeLookup::sig_finished, this, &GUI_AlternativeCovers::cl_finished);
 
 	m->is_searching = true;
 
@@ -146,7 +147,7 @@ void GUI_AlternativeCovers::connect_and_start(const CoverLocation& cl)
 	show();
 }
 
-void GUI_AlternativeCovers::start(const CoverLocation& cl)
+void GUI_AlternativeCovers::start(const Location& cl)
 {
 	if(!cl.valid()){
 		return;
@@ -304,7 +305,7 @@ void GUI_AlternativeCovers::open_file_dialog()
 void GUI_AlternativeCovers::delete_all_files()
 {
 	for(const QString& cover_path : m->filelist) {
-		if(CoverLocation::isInvalidLocation(cover_path)){
+		if(Location::isInvalidLocation(cover_path)){
 			continue;
 		}
 

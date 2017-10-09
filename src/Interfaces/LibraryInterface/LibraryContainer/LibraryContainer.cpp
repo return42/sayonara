@@ -19,7 +19,7 @@
  */
 
 #include "Interfaces/LibraryInterface/LibraryContainer/LibraryContainer.h"
-#include "Helper/Settings/Settings.h"
+#include "Utils/Settings/Settings.h"
 
 #include <QAction>
 

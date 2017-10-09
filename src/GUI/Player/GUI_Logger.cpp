@@ -20,9 +20,9 @@
 
 #include "GUI_Logger.h"
 #include "GUI/Player/ui_GUI_Logger.h"
-#include "Helper/Logger/Logger.h"
-#include "Helper/Language.h"
-#include "Helper/Message/Message.h"
+#include "Utils/Logger/Logger.h"
+#include "Utils/Language.h"
+#include "Utils/Message/Message.h"
 
 #include <QStringList>
 #include <QTextEdit>

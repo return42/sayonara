@@ -19,7 +19,7 @@
  */
 
 #include "StreamHttpParser.h"
-#include "Helper/Logger/Logger.h"
+#include "Utils/Logger/Logger.h"
 
 #include <QRegExp>
 #include <QStringList>

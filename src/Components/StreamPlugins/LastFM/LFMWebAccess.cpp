@@ -28,8 +28,8 @@
 
 #include "LFMGlobals.h"
 #include "LFMWebAccess.h"
-#include "Helper/WebAccess/AsyncWebAccess.h"
-#include "Helper/Helper.h"
+#include "Utils/WebAccess/AsyncWebAccess.h"
+#include "Utils/Utils.h"
 
 #include <QCryptographicHash>
 #include <QByteArray>

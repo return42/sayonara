@@ -31,13 +31,13 @@
 #include "Components/Library/AbstractLibrary.h"
 #include "Components/Covers/CoverLocation.h"
 
-#include "GUI/Library/Helper/ColumnIndex.h"
-#include "GUI/Helper/GUI_Helper.h"
+#include "GUI/Library/Utils/ColumnIndex.h"
+#include "GUI/Utils/GuiUtils.h"
 
-#include "Helper/Helper.h"
-#include "Helper/MetaData/Album.h"
-#include "Helper/Language.h"
-#include "Helper/Set.h"
+#include "Utils/Utils.h"
+#include "Utils/MetaData/Album.h"
+#include "Utils/Language.h"
+#include "Utils/Set.h"
 
 #include <QPixmap>
 
@@ -89,21 +89,21 @@ QString AlbumModel::get_string(int row) const
 }
 
 
-CoverLocation AlbumModel::get_cover(const IndexSet& indexes) const
+Cover::Location AlbumModel::get_cover(const IndexSet& indexes) const
 {
 	if(indexes.isEmpty() || indexes.size() > 1){
-		return CoverLocation();
+        return Cover::Location();
 	}
 
 	int idx = indexes.first();
     const AlbumList& albums = library()->albums();
     if(idx < 0 || idx > albums.count()){
-		return CoverLocation();
+        return Cover::Location();
 	}
 
     const Album& album = albums[idx];
 
-	return CoverLocation::get_cover_location(album);
+    return Cover::Location::get_cover_location(album);
 }
 
 

@@ -21,7 +21,7 @@
 #ifndef LFMSIMARTISTSPARSER_H
 #define LFMSIMARTISTSPARSER_H
 
-#include "Helper/Pimpl.h"
+#include "Utils/Pimpl.h"
 
 class QString;
 class QByteArray;

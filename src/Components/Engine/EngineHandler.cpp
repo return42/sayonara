@@ -25,8 +25,8 @@
 
 #include "Playback/PlaybackEngine.h"
 #include "Convert/ConvertEngine.h"
-#include "Helper/Logger/Logger.h"
-#include "Helper/MetaData/MetaData.h"
+#include "Utils/Logger/Logger.h"
+#include "Utils/MetaData/MetaData.h"
 
 #include <QImage>
 

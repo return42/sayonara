@@ -25,11 +25,11 @@
 
 #include "LocalLibrary.h"
 
-#include "Helper/MetaData/MetaDataList.h"
-#include "Helper/Message/Message.h"
-#include "Helper/Logger/Logger.h"
+#include "Utils/MetaData/MetaDataList.h"
+#include "Utils/Message/Message.h"
+#include "Utils/Logger/Logger.h"
 
-#include "Components/TagEdit/MetaDataChangeNotifier.h"
+#include "Components/Tagging/ChangeNotifier.h"
 #include "Database/DatabaseConnector.h"
 #include "Database/LibraryDatabase.h"
 
@@ -60,8 +60,8 @@ LibraryImporter::LibraryImporter(LocalLibrary* library) :
 {
 	m = Pimpl::make<Private>(library);
 
-	MetaDataChangeNotifier* md_change_notifier = MetaDataChangeNotifier::instance();
-	connect(md_change_notifier, &MetaDataChangeNotifier::sig_metadata_changed,
+    Tagging::ChangeNotifier* md_change_notifier = Tagging::ChangeNotifier::instance();
+    connect(md_change_notifier, &Tagging::ChangeNotifier::sig_metadata_changed,
 			this, &LibraryImporter::metadata_changed);
 }
 
@@ -184,7 +184,7 @@ void LibraryImporter::copy_thread_finished()
 
 		emit_status(ImportStatus::Imported);
 
-		MetaDataChangeNotifier::instance()->change_metadata(MetaDataList(), MetaDataList());
+        Tagging::ChangeNotifier::instance()->change_metadata(MetaDataList(), MetaDataList());
 	}
 
 	else {

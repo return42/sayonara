@@ -24,7 +24,7 @@
 #include <QThread>
 
 #include "ImportCache.h"
-#include "Helper/Pimpl.h"
+#include "Utils/Pimpl.h"
 
 class ImportCache;
 class MetaDataList;

@@ -22,7 +22,7 @@
 #define PLAYLISTTABWIDGET_H
 
 #include "PlaylistMenuEntry.h"
-#include "Helper/Pimpl.h"
+#include "Utils/Pimpl.h"
 
 #include <QTabWidget>
 

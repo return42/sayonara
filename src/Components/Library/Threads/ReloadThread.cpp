@@ -29,19 +29,19 @@
 #define N_FILES_TO_STORE 500
 
 #include "ReloadThread.h"
-#include "Helper/Tagging/Tagging.h"
-#include "Helper/Helper.h"
-#include "Helper/FileHelper.h"
-#include "Helper/DirectoryReader/DirectoryReader.h"
-#include "Helper/MetaData/MetaDataList.h"
-#include "Helper/MetaData/Genre.h"
-#include "Helper/Settings/Settings.h"
-#include "Helper/Logger/Logger.h"
-#include "Helper/Language.h"
-#include "Helper/Set.h"
 
+#include "Components/DirectoryReader/DirectoryReader.h"
 #include "Database/DatabaseConnector.h"
 #include "Database/LibraryDatabase.h"
+#include "Utils/Tagging/Tagging.h"
+#include "Utils/Utils.h"
+#include "Utils/FileUtils.h"
+#include "Utils/MetaData/MetaDataList.h"
+#include "Utils/MetaData/Genre.h"
+#include "Utils/Settings/Settings.h"
+#include "Utils/Logger/Logger.h"
+#include "Utils/Language.h"
+#include "Utils/Set.h"
 
 #include <utility>
 
@@ -137,7 +137,7 @@ int ReloadThread::get_and_save_all_files(const QHash<QString, MetaData>& md_map_
 				continue;
 			}
 
-			file_was_read = Tagging::getMetaDataOfFile(md, Tagging::Quality::Dirty);
+            file_was_read = Tagging::Util::getMetaDataOfFile(md, Tagging::Util::Quality::Dirty);
 
 			if(!file_was_read){
 				continue;
@@ -148,7 +148,7 @@ int ReloadThread::get_and_save_all_files(const QHash<QString, MetaData>& md_map_
 			}
 		}
 
-		file_was_read = Tagging::getMetaDataOfFile(md, Tagging::Quality::Quality);
+        file_was_read = Tagging::Util::getMetaDataOfFile(md, Tagging::Util::Quality::Quality);
 
 		if(file_was_read){
 			v_md_to_store << md;

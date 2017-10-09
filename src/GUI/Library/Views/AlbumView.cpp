@@ -19,8 +19,8 @@
  */
 
 #include "AlbumView.h"
-#include "GUI/Library/Helper/DiscPopupMenu.h"
-#include "GUI/Library/Helper/ColumnIndex.h"
+#include "GUI/Library/Utils/DiscPopupMenu.h"
+#include "GUI/Library/Utils/ColumnIndex.h"
 
 #include <QHeaderView>
 

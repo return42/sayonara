@@ -20,6 +20,7 @@
 
 #include "LibraryDatabase.h"
 #include "SayonaraQuery.h"
+#include "Utils/Settings/Settings.h"
 
 LibraryDatabase::LibraryDatabase(const QString& db_name, uint8_t database_id, int8_t library_id) :
 	AbstractDatabase(database_id, "", db_name),
@@ -31,8 +32,13 @@ LibraryDatabase::LibraryDatabase(const QString& db_name, uint8_t database_id, in
 	_library_id = library_id;
 
 	bool show_album_artists = false;
+
+    AbstrSetting* s = Settings::instance()->setting(SK::Lib_ShowAlbumArtists);
+    QString db_key = s->db_key();
+
 	SayonaraQuery q(db());
-	QString querytext = "SELECT value FROM settings WHERE key = 'lib_show_album_artists';";
+    QString querytext = "SELECT value FROM settings WHERE key = '" + db_key + "';";
+
 	q.prepare(querytext);
 	if(q.exec()){
 		if(q.next()){

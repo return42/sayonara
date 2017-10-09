@@ -19,7 +19,7 @@
  */
 
 #include "DBusMediaKeysInterfaceMate.h"
-#include "Helper/Logger/Logger.h"
+#include "Utils/Logger/Logger.h"
 
 DBusMediaKeysInterfaceMate::DBusMediaKeysInterfaceMate(QObject *parent) :
 	DBusMediaKeysInterface(parent)

@@ -19,9 +19,9 @@
  */
 
 #include "IndexDirectoriesThread.h"
-#include "Helper/Set.h"
-#include "Helper/FileHelper.h"
-#include "Helper/MetaData/MetaDataList.h"
+#include "Utils/Set.h"
+#include "Utils/FileUtils.h"
+#include "Utils/MetaData/MetaDataList.h"
 
 struct IndexDirectoriesThread::Private
 {

@@ -1134,7 +1134,7 @@
   <customwidget>
    <class>Gui::ProgressBar</class>
    <extends>QProgressBar</extends>
-   <header>GUI/Helper/Widgets/ProgressBar.h</header>
+   <header>GUI/Utils/Widgets/ProgressBar.h</header>
   </customwidget>
  </customwidgets>
  <resources>

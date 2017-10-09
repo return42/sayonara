@@ -20,10 +20,10 @@
 
 #include "AbstractCoverLookup.h"
 
-AbstractCoverLookup::AbstractCoverLookup(QObject *parent) :
+Cover::LookupBase::LookupBase(QObject *parent) :
     QObject(parent)
 {
 
 }
 
-AbstractCoverLookup::~AbstractCoverLookup() {}
+Cover::LookupBase::~LookupBase() {}

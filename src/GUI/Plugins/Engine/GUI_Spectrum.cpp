@@ -22,8 +22,8 @@
 #include "EngineColorStyleChooser.h"
 #include "GUI/Plugins/Engine/ui_GUI_Spectrum.h"
 
-#include "Helper/globals.h"
-#include "Helper/Settings/Settings.h"
+#include "Utils/globals.h"
+#include "Utils/Settings/Settings.h"
 #include "Components/Engine/Playback/PlaybackEngine.h"
 #include "Components/Engine/EngineHandler.h"
 

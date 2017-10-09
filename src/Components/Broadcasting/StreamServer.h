@@ -22,8 +22,8 @@
 #define STREAM_SERVER_H
 
 #include "StreamWriter.h"
-#include "Helper/Settings/SayonaraClass.h"
-#include "Helper/Pimpl.h"
+#include "Utils/Settings/SayonaraClass.h"
+#include "Utils/Pimpl.h"
 
 #include <QThread>
 

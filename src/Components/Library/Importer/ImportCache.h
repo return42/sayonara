@@ -21,7 +21,7 @@
 #ifndef IMPORTCACHE_H
 #define IMPORTCACHE_H
 
-#include "Helper/Pimpl.h"
+#include "Utils/Pimpl.h"
 
 class QString;
 class QStringList;

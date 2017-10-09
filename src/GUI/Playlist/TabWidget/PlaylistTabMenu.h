@@ -20,7 +20,7 @@
 #ifndef PLAYLISTTABMENU_H
 #define PLAYLISTTABMENU_H
 
-#include "GUI/Helper/Widgets/WidgetTemplate.h"
+#include "GUI/Utils/Widgets/WidgetTemplate.h"
 #include "PlaylistMenuEntry.h"
 
 #include <QMenu>

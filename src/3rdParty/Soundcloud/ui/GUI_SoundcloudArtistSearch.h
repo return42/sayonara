@@ -21,8 +21,8 @@
 #ifndef GUI_SOUNDCLOUDARTISTSEARCH_H
 #define GUI_SOUNDCLOUDARTISTSEARCH_H
 
-#include "Helper/Pimpl.h"
-#include "GUI/Helper/Widgets/Dialog.h"
+#include "Utils/Pimpl.h"
+#include "GUI/Utils/Widgets/Dialog.h"
 
 class ArtistList;
 class MetaDataList;

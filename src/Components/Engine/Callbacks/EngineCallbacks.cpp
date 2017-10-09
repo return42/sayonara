@@ -21,9 +21,9 @@
 #include "EngineCallbacks.h"
 #include "Components/Engine/Playback/PlaybackEngine.h"
 
-#include "Helper/MetaData/MetaData.h"
-#include "Helper/globals.h"
-#include "Helper/Logger/Logger.h"
+#include "Utils/MetaData/MetaData.h"
+#include "Utils/globals.h"
+#include "Utils/Logger/Logger.h"
 
 #include <QList>
 #include <QImage>
@@ -241,9 +241,6 @@ gboolean EngineCallbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpoint
 			GstBufferingMode mode;
 			gst_message_parse_buffering(msg, &percent);
 			gst_message_parse_buffering_stats(msg, &mode, &avg_in, &avg_out, &buffering_left );
-
-			/*sp_log(Log::Debug, this) << "Buffering " << percent;
-			sp_log(Log::Debug, this) << "Buffering State: " << (int) mode << " avg in: " << avg_in << " avg out: " << avg_out << " todo: " << buffering_left;*/
 
 			engine->set_buffer_state(percent, src);
 			break;

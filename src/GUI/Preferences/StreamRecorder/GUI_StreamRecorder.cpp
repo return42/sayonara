@@ -26,9 +26,9 @@
 #include "GUI/Preferences/ui_GUI_StreamRecorder.h"
 
 #include "Database/DatabaseConnector.h"
-#include "Helper/Message/Message.h"
-#include "Helper/Settings/Settings.h"
-#include "Helper/Language.h"
+#include "Utils/Message/Message.h"
+#include "Utils/Settings/Settings.h"
+#include "Utils/Language.h"
 
 #include <QFileDialog>
 #include <QDir>

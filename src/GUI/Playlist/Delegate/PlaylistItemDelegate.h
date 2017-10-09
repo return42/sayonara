@@ -21,8 +21,8 @@
 #ifndef PLAYLISTITEMDELEGATE_H_
 #define PLAYLISTITEMDELEGATE_H_
 
-#include "Helper/Settings/SayonaraClass.h"
-#include "GUI/Helper/Delegates/StyledItemDelegate.h"
+#include "Utils/Settings/SayonaraClass.h"
+#include "GUI/Utils/Delegates/StyledItemDelegate.h"
 
 class QListView;
 class PlaylistItemDelegate :

@@ -22,13 +22,13 @@
 #include "GUI/Library/ui_GUI_ImportFolder.h"
 #include "GUI/TagEdit/GUI_TagEdit.h"
 
-#include "Components/TagEdit/TagEdit.h"
+#include "Components/Tagging/Editor.h"
 #include "Components/Library/LocalLibrary.h"
 
-#include "Helper/MetaData/MetaDataList.h"
-#include "Helper/Settings/Settings.h"
-#include "Helper/Message/Message.h"
-#include "Helper/Language.h"
+#include "Utils/MetaData/MetaDataList.h"
+#include "Utils/Settings/Settings.h"
+#include "Utils/Message/Message.h"
+#include "Utils/Language.h"
 
 #include <QPixmap>
 #include <QScrollBar>

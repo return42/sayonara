@@ -31,7 +31,8 @@ TARGET_LINK_LIBRARIES(${PROJECT_NAME}
     ${GSTREAMER_BASE_LIBRARIES}
     ${GSTREAMER_BASE_APP_LIBRARIES}
 
-    say_comp_playmanager
+	say_comp_playmanager
+	say_utils
 )
 
 IF( WITH_COTIRE )

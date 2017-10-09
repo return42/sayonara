@@ -21,7 +21,7 @@
 #ifndef ARTISTMATCH_H
 #define ARTISTMATCH_H
 
-#include "Helper/Pimpl.h"
+#include "Utils/Pimpl.h"
 #include <QString>
 #include <QMap>
 

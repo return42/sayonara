@@ -23,11 +23,11 @@
 
 #include "Components/Engine/Callbacks/PipelineCallbacks.h"
 
-#include "Helper/MetaData/MetaData.h"
-#include "Helper/Tagging/Tagging.h"
-#include "Helper/FileHelper.h"
-#include "Helper/Settings/Settings.h"
-#include "Helper/Logger/Logger.h"
+#include "Utils/MetaData/MetaData.h"
+#include "Utils/Tagging/Tagging.h"
+#include "Utils/FileUtils.h"
+#include "Utils/Settings/Settings.h"
+#include "Utils/Logger/Logger.h"
 
 #include <QUrl>
 
@@ -87,7 +87,7 @@ void ConvertEngine::stop()
 {
 	m->pipeline->stop();
 
-    Tagging::setMetaDataOfFile(m->md_target);
+    Tagging::Util::setMetaDataOfFile(m->md_target);
 
     Engine::stop();
 }

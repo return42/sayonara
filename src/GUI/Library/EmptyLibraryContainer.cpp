@@ -19,7 +19,7 @@
  */
 
 #include "EmptyLibraryContainer.h"
-#include "GUI/Helper/IconLoader/IconLoader.h"
+#include "GUI/Utils/IconLoader/IconLoader.h"
 #include "GUI/Library/GUI_EmptyLibrary.h"
 #include "GUI/Library/EmptyLibraryContainer.h"
 

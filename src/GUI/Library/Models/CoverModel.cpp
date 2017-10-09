@@ -25,15 +25,16 @@
 #include "Components/Covers/CoverLocation.h"
 #include "Components/Covers/CoverLookup.h"
 
-#include "Helper/MetaData/Album.h"
-#include "Helper/Helper.h"
-#include "Helper/Logger/Logger.h"
-#include "Helper/Set.h"
+#include "Utils/MetaData/Album.h"
+#include "Utils/Utils.h"
+#include "Utils/Logger/Logger.h"
+#include "Utils/Set.h"
 
 #include <QStringList>
 #include <QPixmap>
 #include <QThread>
 
+using namespace Cover;
 using namespace Library;
 
 struct CoverModel::Private
@@ -41,7 +42,7 @@ struct CoverModel::Private
 	AlbumCoverFetchThread* cover_thread=nullptr;
 	AlbumList albums;
 	QHash<QString, QPixmap> pixmaps;
-	QHash<QString, CoverLocation> cover_locations;
+	QHash<QString, Location> cover_locations;
 	QHash<QString, QModelIndex> indexes;
 
 	int size;
@@ -66,7 +67,6 @@ static QString get_hash(const Album& album)
 CoverModel::CoverModel(QObject* parent, AbstractLibrary* library) :
     ItemModel(parent, library)
 {
-	// TODO: Not good, parent should be delegated through LibraryItemModel
 	Q_UNUSED(parent);
 	m = Pimpl::make<Private>(this);
 
@@ -168,10 +168,10 @@ QVariant CoverModel::data(const QModelIndex& index, int role) const
 				QPixmap p;
 				if(!m->pixmaps.contains(hash))
 				{
-					CoverLocation cl;
+					Location cl;
 					if(!m->cover_locations.contains(hash)){
                         QString str = album.to_string();
-						cl = CoverLocation::get_cover_location(album);
+						cl = Location::get_cover_location(album);
 						m->cover_locations[hash] = cl;
 					}
 
@@ -180,7 +180,7 @@ QVariant CoverModel::data(const QModelIndex& index, int role) const
 					}
 
 					p = QPixmap(cl.preferred_path());
-					if(!CoverLocation::isInvalidLocation(cl.preferred_path())){
+					if(!Location::isInvalidLocation(cl.preferred_path())){
 						m->pixmaps[hash] = p.scaled(m->size, m->size, Qt::KeepAspectRatio);
 					}
 
@@ -245,12 +245,12 @@ void CoverModel::next_hash()
 {
 	AlbumCoverFetchThread* acft = dynamic_cast<AlbumCoverFetchThread*>(sender());
 	QString hash = acft->current_hash();
-	CoverLocation cl = acft->current_cover_location();
+	Location cl = acft->current_cover_location();
 
 	QModelIndex idx = m->indexes[hash];
 
-	CoverLookup* clu = new CoverLookup(this, 1);
-	connect(clu, &CoverLookup::sig_finished, [=](bool success){
+	Lookup* clu = new Lookup(this, 1);
+	connect(clu, &Lookup::sig_finished, [=](bool success){
 
 		if(success){
 			emit dataChanged(idx, idx);
@@ -358,20 +358,20 @@ int CoverModel::get_id_by_row(int idx)
 	return m->albums[idx].id;
 }
 
-CoverLocation CoverModel::get_cover(const IndexSet& indexes) const
+Location CoverModel::get_cover(const IndexSet& indexes) const
 {
 	if(indexes.size() != 1){
-		return CoverLocation::getInvalidLocation();
+		return Location::getInvalidLocation();
 	}
 
 	int idx = indexes.first();
     if(idx < 0 || idx >= m->albums.count() ){
-		return CoverLocation::getInvalidLocation();
+		return Location::getInvalidLocation();
 	}
 
 	QString hash = get_hash( m->albums[idx] );
 	if(!m->cover_locations.contains(hash)){
-		return CoverLocation::getInvalidLocation();
+		return Location::getInvalidLocation();
 	}
 
 	return m->cover_locations[hash];

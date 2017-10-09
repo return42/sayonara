@@ -21,10 +21,10 @@
 #ifndef FILELISTVIEW_H
 #define FILELISTVIEW_H
 
-#include "GUI/Helper/SearchableWidget/SearchableView.h"
-#include "GUI/Helper/Dragable/Dragable.h"
+#include "GUI/Utils/SearchableWidget/SearchableView.h"
+#include "GUI/Utils/Dragable/Dragable.h"
 
-#include "Helper/Pimpl.h"
+#include "Utils/Pimpl.h"
 
 class FileListModel;
 class MetaDataList;

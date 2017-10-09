@@ -20,6 +20,7 @@
 
 #include "Database/DatabaseSearchMode.h"
 #include "Database/SayonaraQuery.h"
+#include "Utils/Settings/Settings.h"
 
 struct DatabaseSearchMode::Private
 {	
@@ -48,8 +49,11 @@ void DatabaseSearchMode::init()
 		return;
 	}
 
+    AbstrSetting* s = Settings::instance()->setting(SK::Lib_SearchMode);
+    QString db_key = s->db_key();
+
 	SayonaraQuery q(this);
-	q.prepare("SELECT value FROM settings WHERE key = 'lib_search_mode';");
+    q.prepare("SELECT value FROM settings WHERE key = '" + db_key + "';");
 
 	if(q.exec()) {
 		if (q.next()) {

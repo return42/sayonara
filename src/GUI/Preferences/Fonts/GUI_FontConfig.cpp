@@ -20,8 +20,8 @@
 #include "GUI_FontConfig.h"
 #include "GUI/Preferences/ui_GUI_FontConfig.h"
 
-#include "Helper/Settings/Settings.h"
-#include "Helper/Language.h"
+#include "Utils/Settings/Settings.h"
+#include "Utils/Language.h"
 
 #include <QApplication>
 #include <QFont>

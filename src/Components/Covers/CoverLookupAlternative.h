@@ -22,34 +22,37 @@
 #define COVERLOOKUPALTERNATIVE_H
 
 #include "AbstractCoverLookup.h"
-#include "Helper/Pimpl.h"
+#include "Utils/Pimpl.h"
 
-class CoverLocation;
-
-/**
- * @brief The CoverLookupAlternative class
- * @ingroup Covers
- */
-class CoverLookupAlternative :
-		public AbstractCoverLookup
+namespace Cover
 {
-    Q_OBJECT
-	PIMPL(CoverLookupAlternative)
+    class Location;
 
-private:
-    CoverLookupAlternative(QObject* parent, int n_covers);
+    /**
+     * @brief The CoverLookupAlternative class
+     * @ingroup Covers
+     */
+    class AlternativeLookup :
+            public LookupBase
+    {
+        Q_OBJECT
+        PIMPL(AlternativeLookup)
 
-public:
-	CoverLookupAlternative(QObject* parent, const CoverLocation& cl, int n_covers);
-	~CoverLookupAlternative();
+    private:
+        AlternativeLookup(QObject* parent, int n_covers);
 
-	void stop() override;
-    void start();
+    public:
+        AlternativeLookup(QObject* parent, const Cover::Location& cl, int n_covers);
+        ~AlternativeLookup();
+
+        void stop() override;
+        void start();
 
 
-private slots:
-	void cover_found(const QString& cover_path);
-    void finished(bool);
-};
+    private slots:
+        void cover_found(const QString& cover_path);
+        void finished(bool);
+    };
+}
 
 #endif // COVERLOOKUPALTERNATIVE_H

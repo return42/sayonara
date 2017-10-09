@@ -22,11 +22,11 @@
 #define PLAYLIST_H
 
 #include "PlaylistDBInterface.h"
-#include "Helper/typedefs.h"
-#include "Helper/Playlist/PlaylistFwd.h"
-#include "Helper/Playlist/PlaylistMode.h"
-#include "Helper/Settings/SayonaraClass.h"
-#include "Helper/Pimpl.h"
+#include "Utils/typedefs.h"
+#include "Utils/Playlist/PlaylistFwd.h"
+#include "Utils/Playlist/PlaylistMode.h"
+#include "Utils/Settings/SayonaraClass.h"
+#include "Utils/Pimpl.h"
 
 #include <QString>
 

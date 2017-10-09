@@ -856,7 +856,7 @@
   <customwidget>
    <class>RatingLabel</class>
    <extends>QLabel</extends>
-   <header>GUI/Helper/RatingLabel/RatingLabel.h</header>
+   <header>GUI/Utils/RatingLabel/RatingLabel.h</header>
   </customwidget>
   <customwidget>
    <class>TagTextInput</class>

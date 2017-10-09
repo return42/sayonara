@@ -20,8 +20,8 @@
 
 #include "LocalLibraryContainer.h"
 #include "GUI/Library/GUI_LocalLibrary.h"
-#include "GUI/Helper/GUI_Helper.h"
-#include "Helper/Library/LibraryInfo.h"
+#include "GUI/Utils/GuiUtils.h"
+#include "Utils/Library/LibraryInfo.h"
 
 #include <QAction>
 

@@ -31,14 +31,14 @@
 #include "Components/Library/AbstractLibrary.h"
 #include "Components/Covers/CoverLocation.h"
 
-#include "GUI/Library/Helper/ColumnIndex.h"
+#include "GUI/Library/Utils/ColumnIndex.h"
 
-#include "Helper/globals.h"
-#include "Helper/Helper.h"
-#include "Helper/FileHelper.h"
-#include "Helper/MetaData/MetaDataList.h"
-#include "Helper/Language.h"
-#include "Helper/Set.h"
+#include "Utils/globals.h"
+#include "Utils/Utils.h"
+#include "Utils/FileUtils.h"
+#include "Utils/MetaData/MetaDataList.h"
+#include "Utils/Language.h"
+#include "Utils/Set.h"
 
 using namespace Library;
 
@@ -203,10 +203,10 @@ QString TrackModel::get_string(int row) const
 }
 
 
-CoverLocation TrackModel::get_cover(const IndexSet& indexes) const
+Cover::Location TrackModel::get_cover(const IndexSet& indexes) const
 {
 	if(indexes.isEmpty()){
-		return CoverLocation();
+        return Cover::Location();
 	}
 
     const MetaDataList& tracks = library()->tracks();
@@ -220,11 +220,11 @@ CoverLocation TrackModel::get_cover(const IndexSet& indexes) const
 
         album_ids.insert( tracks[idx].album_id );
         if(album_ids.size() > 1) {
-			return CoverLocation();
+            return Cover::Location();
 		}
 	}
 
-    return CoverLocation::get_cover_location( tracks.first() );
+    return Cover::Location::get_cover_location( tracks.first() );
 }
 
 

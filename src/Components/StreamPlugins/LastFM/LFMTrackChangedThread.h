@@ -28,9 +28,9 @@
 
 
 #include "ArtistMatch.h"
-#include "Helper/typedefs.h"
-#include "Helper/MetaData/MetaDataFwd.h"
-#include "Helper/Pimpl.h"
+#include "Utils/typedefs.h"
+#include "Utils/MetaData/MetaDataFwd.h"
+#include "Utils/Pimpl.h"
 
 #include <QObject>
 

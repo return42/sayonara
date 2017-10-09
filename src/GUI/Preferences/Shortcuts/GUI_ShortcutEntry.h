@@ -20,8 +20,8 @@
 #ifndef GUI_SHORTCUTENTRY_H
 #define GUI_SHORTCUTENTRY_H
 
-#include "GUI/Helper/Shortcuts/Shortcut.h"
-#include "GUI/Helper/Widgets/Widget.h"
+#include "GUI/Utils/Shortcuts/Shortcut.h"
+#include "GUI/Utils/Widgets/Widget.h"
 
 
 UI_FWD(GUI_ShortcutEntry)
