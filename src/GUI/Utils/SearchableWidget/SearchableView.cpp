@@ -85,6 +85,11 @@ bool SearchViewFunctionality::is_minisearcher_active() const
 	return m->mini_searcher->isVisible();
 }
 
+void SearchViewFunctionality::set_mini_searcher_padding(int padding)
+{
+	m->mini_searcher->set_padding(padding);
+}
+
 
 void SearchViewFunctionality::setSearchModel(SearchModelFunctionality* model)
 {

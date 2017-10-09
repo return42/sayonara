@@ -47,6 +47,7 @@
 #include <QPushButton>
 #include <QScrollBar>
 #include <QDrag>
+#include <QBoxLayout>
 
 using namespace Library;
 
@@ -213,12 +214,15 @@ void View::show_clear_button(bool visible)
         m->btn_clear_selection->setText(tr("Clear selection"));
 
 		connect(m->btn_clear_selection, &QPushButton::clicked, [=](){
-
 			this->clearSelection();
 		});
     }
 
-    const int h = 22;
+	if(m->btn_clear_selection->isVisible() == visible){
+		return;
+	}
+
+	const int h = 22;
 
     int y = this->height() - h - 1;
     int w = this->width() - 2;
@@ -231,10 +235,14 @@ void View::show_clear_button(bool visible)
     if(this->horizontalScrollBar() && this->horizontalScrollBar()->isVisible())
     {
         y -= this->horizontalScrollBar()->height();
-    }
+	}
 
-    m->btn_clear_selection->setGeometry(1, y, w, h);
     m->btn_clear_selection->setVisible(visible);
+	m->btn_clear_selection->setGeometry(1, y, w, h);
+
+	int mini_searcher_padding = (visible) ? h + 5 : 0;
+	SearchableTableView::set_mini_searcher_padding(mini_searcher_padding);
+
 }
 
 void View::use_clear_button(bool yesno)

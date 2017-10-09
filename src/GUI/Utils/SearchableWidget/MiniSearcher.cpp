@@ -65,10 +65,17 @@ bool MiniSearchEventFilter::eventFilter(QObject* o, QEvent* e)
 
 struct MiniSearcher::Private
 {
-    QAbstractItemView*		parent=nullptr;
 	QMap<QChar, QString>    triggers;
+
     QLineEdit*              line_edit=nullptr;
+	QAbstractItemView*		parent=nullptr;
 	QLabel*					label=nullptr;
+
+	int						padding;
+
+	Private() :
+		padding(0)
+	{}
 };
 
 
@@ -106,31 +113,10 @@ MiniSearcher::~MiniSearcher() {}
 
 void MiniSearcher::init(const QString& text)
 {
-    QScrollBar* v_scrollbar = m->parent->verticalScrollBar();
-    QScrollBar* h_scrollbar = m->parent->horizontalScrollBar();
+	m->line_edit->setFocus();
+	m->line_edit->setText(text);
 
-    int sb_width = v_scrollbar->width();
-    int sb_height = h_scrollbar->height();
-    int par_width = m->parent->width();
-    int par_height = m->parent->height();
-
-    if(!v_scrollbar->isVisible()) sb_width = 0;
-    if(!h_scrollbar->isVisible()) sb_height = 0;
-
-    par_width -= sb_width;
-    par_height -= sb_height;
-
-    int target_width = 150;
-    int target_height = 35;
-    int new_x = par_width - (target_width + 5);
-    int new_y = par_height - (target_height + 5);
-
-    this->setGeometry(new_x, new_y, target_width, target_height);
-
-    m->line_edit->setFocus();
-    m->line_edit->setText(text);
-
-    this->show();
+    this->show();	
 }
 
 
@@ -255,7 +241,23 @@ void MiniSearcher::reset_tooltip()
         "<b>" + tr("Up") + "</b> = " + tr("Previous search result") + "<br/>" +
         "<b>" + tr("Down") + "</b> = " + tr("Next search result") + "<br/>" +
         "<b>" + tr("Esc") + "</b> = " + Lang::get(Lang::Close)
-    );
+				);
+}
+
+
+void MiniSearcher::set_padding(int padding)
+{
+	if(this->isVisible() && padding > 0) {
+		QRect geo = geometry();
+		geo.setY(geo.y() - padding);
+		this->setGeometry(geo);
+	}
+
+	else if(padding == 0){
+
+	}
+
+	m->padding = padding;
 }
 
 
@@ -305,7 +307,34 @@ void MiniSearcher::keyPressEvent(QKeyEvent* event)
         default:
             QFrame::keyPressEvent(event);
             break;
-    }
+	}
+}
+
+void MiniSearcher::showEvent(QShowEvent* e)
+{
+	QScrollBar* v_scrollbar = m->parent->verticalScrollBar();
+	QScrollBar* h_scrollbar = m->parent->horizontalScrollBar();
+
+	int sb_width = v_scrollbar->width();
+	int sb_height = h_scrollbar->height();
+
+	int par_width = m->parent->width();
+	int par_height = m->parent->height();
+
+	if(!v_scrollbar->isVisible()) sb_width = 0;
+	if(!h_scrollbar->isVisible()) sb_height = 0;
+
+	par_width -= sb_width;
+	par_height -= sb_height;
+
+	int target_width = 150;
+	int target_height = 35;
+	int new_x = par_width - (target_width + 5);
+	int new_y = par_height - (target_height + 5 + m->padding);
+
+	this->setGeometry(new_x, new_y, target_width, target_height);
+
+	QFrame::showEvent(e);
 }
 
 

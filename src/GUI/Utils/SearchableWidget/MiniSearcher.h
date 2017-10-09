@@ -77,6 +77,8 @@ protected:
     void language_changed() override;
 
     void keyPressEvent(QKeyEvent* e) override;
+
+	void showEvent(QShowEvent* e) override;
     void hideEvent(QHideEvent* e) override;
     void focusOutEvent(QFocusEvent* e) override;
 
@@ -90,6 +92,7 @@ public:
     void    set_number_results(int results);
     void    add_tooltip_text(const QString& str);
     void    reset_tooltip();
+	void	set_padding(int padding);
 
 public slots:
 	void reset();

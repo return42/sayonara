@@ -63,6 +63,7 @@ public:
 	virtual void set_current_index(int idx) override final;
 
 	bool is_minisearcher_active() const;
+	void set_mini_searcher_padding(int padding);
 
 private:
 	QModelIndex get_match_index(const QString& str, SearchDirection direction) const;
