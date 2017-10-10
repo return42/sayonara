@@ -122,12 +122,12 @@ void GUI_Spectrum::set_spectrum(const QList<float>& lst)
 
     m->spec = lst;
 
-    stop_timer();
+    stop_fadeout_timer();
     update();
 }
 
 
-void GUI_Spectrum::timed_out()
+void GUI_Spectrum::do_fadeout_step()
 {
     for(auto it=m->spec.begin(); it!= m->spec.begin(); it++)
     {
@@ -275,7 +275,7 @@ void GUI_Spectrum::paintEvent(QPaintEvent* e)
 
     if(n_zero == (ninety - offset) * n_rects)
     {
-        stop_timer();
+        stop_fadeout_timer();
     }
 }
 

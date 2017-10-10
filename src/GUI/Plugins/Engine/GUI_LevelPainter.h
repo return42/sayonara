@@ -57,7 +57,7 @@ protected:
 
 
 protected slots:
-	void timed_out() override;
+    void do_fadeout_step() override;
 	void set_level(float, float) override;
 
 private:

@@ -55,7 +55,7 @@ protected:
     bool has_small_buttons() const override;
 
 protected slots:
-	void timed_out() override;
+    void do_fadeout_step() override;
 
 public slots:
 	void set_spectrum(const QList<float>&) override;
