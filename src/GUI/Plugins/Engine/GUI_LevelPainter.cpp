@@ -35,45 +35,50 @@
 #include <cmath>
 #include <algorithm>
 #include <array>
+#include <vector>
+#include <mutex>
 
+static std::mutex mtx;
 static const int Channels = 2;
+
+using Step=uint_fast8_t;
+
 using ChannelArray=std::array<float, Channels>;
+using ChannelSteps=std::vector<Step>;
+using StepArray=std::array<ChannelSteps, Channels>;
 
 struct GUI_LevelPainter::Private
 {
-    static const float MinLevelValue=-40.0f;
-    static const float MaxLevelValue=0;
-
     ChannelArray    level;
+	StepArray       steps;
+
     float           exp_lot[600];
-
-    int**           steps=nullptr;
-
 
     void resize_steps(int n_rects)
     {
-        if(!steps)
-        {
-            steps = new int*[Channels];
-            memset(steps, 0, sizeof(int*) * Channels);
-        }
+		if(n_rects == (int) steps[0].size()){
+			return;
+		}
 
-        for(int i=0; i<2; i++)
-        {
-            if(steps[i]){
-                delete[] steps[i];
-            }
-
-            steps[i] = new int[n_rects];
-            memset(steps[i], 0, n_rects * sizeof(int));
-        }
-    }
+		steps[0].resize(n_rects, 0);
+		steps[1].resize(n_rects, 0);
+	}
 
     void set_level(float left, float right)
     {
         level[0] = left;
         level[1] = right;
     }
+
+	void decrease_step(int channel, int step)
+	{
+		steps[channel][step] = steps[channel][step] - 1;
+	}
+
+	void set_step(int channel, int step, int value)
+	{
+		steps[channel][step] = value;
+	}
 
 };
 
@@ -97,13 +102,16 @@ GUI_LevelPainter::~GUI_LevelPainter()
 
 void GUI_LevelPainter::init_ui()
 {
+	if(is_ui_initialized()){
+		return;
+	}
+
     EnginePlugin::init_ui();
-	setup_parent(this, &ui);
 
 	_cur_style_idx = _settings->get(Set::Level_Style);
 	_cur_style = _ecsc->get_color_scheme_level(_cur_style_idx);
 
-	reload();
+
 
     // exp(-6.0) = 0.002478752
     // exp(0) = 1;
@@ -121,6 +129,9 @@ void GUI_LevelPainter::init_ui()
     {
 		playback_engine->add_level_receiver(this);
 	}
+
+	setup_parent(this, &ui);
+	reload();
 }
 
 
@@ -144,6 +155,11 @@ void GUI_LevelPainter::retranslate_ui()
 
 void GUI_LevelPainter::set_level(float left, float right)
 {
+	if(!mtx.try_lock()){
+		sp_log(Log::Debug, this) << "Throw away the mutex";
+		return;
+	}
+
 	if(!is_ui_initialized() || !isVisible()){
 		return;
 	}
@@ -152,6 +168,8 @@ void GUI_LevelPainter::set_level(float left, float right)
 
     stop_fadeout_timer();
 	update();
+
+	mtx.unlock();
 }
 
 
@@ -182,6 +200,7 @@ void GUI_LevelPainter::paintEvent(QPaintEvent* e)
 		int n_colored_rects = n_rects * level;
 
 		QRect rect(0, y, w_rect, h_rect);
+
         for(int r=0; r<n_rects; r++)
         {
             if(r < n_colored_rects)
@@ -192,7 +211,7 @@ void GUI_LevelPainter::paintEvent(QPaintEvent* e)
 
 				painter.fillRect(rect, _cur_style.style[r].value(-1) );
 
-                m->steps[c][r] = n_fading_steps - 1;
+				m->set_step(c, r, n_fading_steps - 1);
 			}
 
             else
@@ -203,8 +222,8 @@ void GUI_LevelPainter::paintEvent(QPaintEvent* e)
 
                 painter.fillRect(rect, _cur_style.style[r].value(m->steps[c][r]) );
 
-                if(m->steps[c][r] > 0) {
-                    m->steps[c][r] -= 1;
+				if(m->steps[c][r] > 0) {
+					m->decrease_step(c, r);
 				}
 
                 if(m->steps[c][r] == 0) {

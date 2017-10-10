@@ -19,13 +19,16 @@
  */
 
 #include "GUI_Spectrum.h"
-#include "EngineColorStyleChooser.h"
 #include "GUI/Plugins/Engine/ui_GUI_Spectrum.h"
+
+#include "EngineColorStyleChooser.h"
+
+#include "Components/Engine/Playback/PlaybackEngine.h"
+#include "Components/Engine/EngineHandler.h"
 
 #include "Utils/globals.h"
 #include "Utils/Settings/Settings.h"
-#include "Components/Engine/Playback/PlaybackEngine.h"
-#include "Components/Engine/EngineHandler.h"
+#include "Utils/Logger/Logger.h"
 
 #include <QPainter>
 #include <QList>
@@ -34,13 +37,19 @@
 #include <cstring>
 #include <cmath>
 #include <algorithm>
+#include <mutex>
 
-static float    log_lu[1100];
+static std::mutex mtx;
+static float log_lu[1100];
+
+using Step=uint_fast8_t;
+using BinSteps=std::vector<Step>;
+using StepArray=std::vector<BinSteps>;
 
 struct GUI_Spectrum::Private
 {
-    QList<float>    spec;
-    int**           steps=nullptr;
+	SpectrumList	spec;
+	StepArray		steps;
 };
 
 
@@ -68,35 +77,32 @@ void GUI_Spectrum::init_ui()
         return;
     }
 
-    int bins = _settings->get(Set::Engine_SpectrumBins);
+	EnginePlugin::init_ui();
 
-    EnginePlugin::init_ui();
-    setup_parent(this, &ui);
+    int bins = _settings->get(Set::Engine_SpectrumBins);
 
     _cur_style_idx = _settings->get(Set::Spectrum_Style);
     _cur_style = _ecsc->get_color_scheme_spectrum(_cur_style_idx);
 
-    for(int i=0; i<bins; i++){
-        m->spec << 0.0f;
+	bins = 50;
+	m->spec.resize(bins, 0);
+
+	// 100 Bins
+	for(int i=0; i<bins; i++)
+	{
+
+		log_lu[i] = (std::pow(10, (i / 140.0f) + 1) / 8.0f) / 75.0f;
     }
 
-    for(int i=0; i<1100; i++) {
-        log_lu[i] = std::log( (i * 1.0f) / 10.0f ) * 0.60f;
-    }
-
-    m->steps = new int*[bins];
-    for(int i=0; i<bins; i++)
-    {
-        m->steps[i] = new int[_cur_style.n_rects];
-        std::memset(m->steps[i], 0, (_cur_style.n_rects * sizeof(int)) );
-    }
-
-    update();
+	resize_steps(bins, _cur_style.n_rects);
 
     Engine::Playback* playback_engine = engine()->get_playback_engine();
     if(playback_engine){
         playback_engine->add_spectrum_receiver(this);
     }
+
+	setup_parent(this, &ui);
+	update();
 }
 
 
@@ -114,13 +120,13 @@ QString GUI_Spectrum::get_display_name() const
 
 void GUI_Spectrum::retranslate_ui() {}
 
-void GUI_Spectrum::set_spectrum(const QList<float>& lst)
+void GUI_Spectrum::set_spectrum(const SpectrumList& spec)
 {
     if(!is_ui_initialized() || !isVisible()){
         return;
     }
 
-    m->spec = lst;
+	m->spec = spec;
 
     stop_fadeout_timer();
     update();
@@ -129,10 +135,10 @@ void GUI_Spectrum::set_spectrum(const QList<float>& lst)
 
 void GUI_Spectrum::do_fadeout_step()
 {
-    for(auto it=m->spec.begin(); it!= m->spec.begin(); it++)
+	/*for(auto it=m->spec.begin(); it!= m->spec.begin(); it++)
     {
         *it -= 0.024f;
-    }
+	}*/
 
     update();
 }
@@ -144,25 +150,20 @@ void GUI_Spectrum::resize_steps(int n_bins, int rects)
         return;
     }
 
-    if(m->steps)
-    {
-        for(int b=0; b<n_bins; b++)
-        {
-            delete[] m->steps[b];
-            m->steps[b] = nullptr;
-        }
+	if(n_bins != (int) m->steps.size()){
+		m->steps.resize(n_bins);
+	}
 
-        delete[] m->steps;
-    }
+	for(BinSteps& bin_steps : m->steps)
+	{
+		if(rects == (int) bin_steps.size()){
+			break;
+		}
 
-    m->steps = new int*[n_bins];
-
-    for(int i=0; i<n_bins; i++)
-    {
-        m->steps[i] = new int[rects];
-        std::memset(m->steps[i], 0, rects * sizeof(int));
-    }
+		bin_steps.resize(rects, 0);
+	}
 }
+
 
 
 void GUI_Spectrum::sl_update_style()
@@ -170,6 +171,11 @@ void GUI_Spectrum::sl_update_style()
     if(!is_ui_initialized()){
         return;
     }
+
+	if(!mtx.try_lock()) {
+		sp_log(Log::Debug, this) << "Cannot update stylde";
+		return;
+	}
 
     _ecsc->reload(width(), height());
     _cur_style = _ecsc->get_color_scheme_spectrum(_cur_style_idx);
@@ -179,6 +185,7 @@ void GUI_Spectrum::sl_update_style()
     resize_steps(bins, _cur_style.n_rects);
 
     update();
+	mtx.unlock();
 }
 
 
@@ -194,7 +201,6 @@ void GUI_Spectrum::closeEvent(QCloseEvent* e)
     _settings->set(Set::Engine_ShowSpectrum, false);
     EnginePlugin::closeEvent(e);
 }
-
 
 void GUI_Spectrum::paintEvent(QPaintEvent* e)
 {
@@ -212,7 +218,7 @@ void GUI_Spectrum::paintEvent(QPaintEvent* e)
 
 
     int x=3;
-    int ninety = (m->spec.size() * 500) / 1000;
+	int ninety = 35;
     int offset = 0;
     int n_zero = 0;
 
@@ -223,9 +229,17 @@ void GUI_Spectrum::paintEvent(QPaintEvent* e)
     int w_bin = ((width() + 10) / (ninety - offset)) - border_x;
 
     // run through all bins
+	// i = [0; 35]
+
     for(int i=offset; i<ninety + 1; i++)
     {
-        float f = m->spec[i] * log_lu[ i*10 + 54];
+		// idx: [0, 100]
+		int idx = i;
+
+		// spec: [-75, 0]
+		// f_scaled: [0, 1]
+		float f_scaled = (m->spec[i] + 75.0);
+		float f = f_scaled * log_lu[i];
 
         // if this is one bar, how tall would it be?
         int h =  f * widget_height;

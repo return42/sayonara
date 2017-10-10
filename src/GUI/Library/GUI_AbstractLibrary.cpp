@@ -322,7 +322,14 @@ void GUI_AbstractLibrary::lib_albums_ready()
 {
     const AlbumList& albums = m->library->albums();
 
-	m->lv_album->fill<AlbumList, AlbumModel>(albums);
+	AlbumView* view = dynamic_cast<AlbumView*>(m->lv_album);
+	if(view){
+		view->fill<AlbumList, AlbumModel>(albums);
+	}
+
+	else{
+		m->lv_album->fill<AlbumList, AlbumModel>(albums);
+	}
 }
 
 

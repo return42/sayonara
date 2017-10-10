@@ -26,8 +26,6 @@
 
 #include "EnginePlugin.h"
 
-#include <QList>
-
 UI_FWD(GUI_Spectrum)
 
 class GUI_Spectrum :
@@ -58,7 +56,7 @@ protected slots:
     void do_fadeout_step() override;
 
 public slots:
-	void set_spectrum(const QList<float>&) override;
+	void set_spectrum(const SpectrumList& spec) override;
 	void sl_update_style() override;
 
 private:

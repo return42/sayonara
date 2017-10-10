@@ -384,7 +384,7 @@ Callbacks::spectrum_handler(GstBus* bus, GstMessage* message, gpointer data)
 	const GstStructure*		structure;
 	const gchar*			structure_name;
 	const GValue*			magnitudes;
-	static QList<float>		spectrum_vals;
+	static SpectrumList		spectrum_vals;
 
 	engine = static_cast<Playback*>(data);
 	if(!engine) {
@@ -404,13 +404,13 @@ Callbacks::spectrum_handler(GstBus* bus, GstMessage* message, gpointer data)
 	magnitudes = gst_structure_get_value (structure, "magnitude");
 
 	int bins = engine->get_spectrum_bins();
-	if(spectrum_vals.isEmpty()){
-		for (int i=0; i<bins; ++i) {
-			spectrum_vals << 0;
-		}
+
+	if(spectrum_vals.empty()){
+		spectrum_vals.resize(bins, 0);
 	}
 
-	for (int i=0; i<bins; ++i) {
+	for (int i=0; i<bins; ++i)
+	{
         float f;
 		const GValue* mag;
 
@@ -419,7 +419,7 @@ Callbacks::spectrum_handler(GstBus* bus, GstMessage* message, gpointer data)
 			continue;
 		}
 
-		f = (g_value_get_float(mag) + 75) / (75.0f);
+		f = g_value_get_float(mag);
 
 		spectrum_vals[i] = f;
     }

@@ -22,8 +22,7 @@
 #define GSTPLAYBACKENGINE_H_
 
 #include "Components/Engine/AbstractEngine.h"
-
-#include <QList>
+#include "SoundOutReceiver.h"
 
 class QTimer;
 class QString;
@@ -72,7 +71,7 @@ namespace Engine
         void set_streamrecorder_recording(bool b);
 
         int get_spectrum_bins() const;
-        void set_spectrum(const QList<float>& vals);
+		void set_spectrum(const SpectrumList& vals);
         void add_spectrum_receiver(SpectrumReceiver* receiver);
 
         void set_level(float left, float right);
@@ -107,6 +106,7 @@ namespace Engine
         bool change_track_crossfading(const MetaData& md);
         bool change_track_gapless(const MetaData& md);
         bool change_track_immediatly(const MetaData& md);
+
 
     private slots:
         void s_gapless_changed();

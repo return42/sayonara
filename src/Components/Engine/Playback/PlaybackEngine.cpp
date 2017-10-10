@@ -21,7 +21,6 @@
 #include "PlaybackEngine.h"
 #include "PlaybackPipeline.h"
 #include "StreamRecorder.h"
-#include "SoundOutReceiver.h"
 #include "Components/Engine/Callbacks/EngineCallbacks.h"
 
 #include "Utils/MetaData/MetaData.h"
@@ -561,7 +560,7 @@ int Playback::get_spectrum_bins() const
     return _settings->get(Set::Engine_SpectrumBins);
 }
 
-void Playback::set_spectrum(const QList<float>& vals)
+void Playback::set_spectrum(const SpectrumList& vals)
 {
     for(SpectrumReceiver* rcv : m->spectrum_receiver)
     {
