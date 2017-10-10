@@ -1,9 +1,9 @@
 #ifndef SEARCHINFORMATION_H
 #define SEARCHINFORMATION_H
 
-#include "Helper/Pimpl.h"
-#include "Helper/typedefs.h"
-#include "Helper/SetFwd.h"
+#include "Utils/Pimpl.h"
+#include "Utils/typedefs.h"
+#include "Utils/SetFwd.h"
 
 class QString;
 

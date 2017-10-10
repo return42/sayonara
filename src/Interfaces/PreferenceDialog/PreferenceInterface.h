@@ -24,8 +24,8 @@
 #include <QAction>
 #include <QByteArray>
 
-#include "GUI/Helper/Widgets/Dialog.h"
-#include "GUI/Helper/Widgets/Widget.h"
+#include "GUI/Utils/Widgets/Dialog.h"
+#include "GUI/Utils/Widgets/Widget.h"
 
 
 /**

@@ -20,10 +20,10 @@
 
 #include "ImportCache.h"
 #include "Components/Library/LibraryManager.h"
-#include "Helper/Library/LibraryInfo.h"
-#include "Helper/Settings/Settings.h"
-#include "Helper/FileHelper.h"
-#include "Helper/MetaData/MetaDataList.h"
+#include "Utils/Library/LibraryInfo.h"
+#include "Utils/Settings/Settings.h"
+#include "Utils/FileUtils.h"
+#include "Utils/MetaData/MetaDataList.h"
 
 #include <QMap>
 #include <QString>

@@ -169,7 +169,7 @@
   <customwidget>
    <class>Gui::Slider</class>
    <extends>QSlider</extends>
-   <header>GUI/Helper/Widgets/Slider.h</header>
+   <header>GUI/Utils/Widgets/Slider.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

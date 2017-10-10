@@ -21,7 +21,7 @@
 #include "GUI_Notifications.h"
 #include "GUI/Preferences/ui_GUI_Notifications.h"
 
-#include "Helper/Settings/Settings.h"
+#include "Utils/Settings/Settings.h"
 #include "Interfaces/Notification/NotificationHandler.h"
 
 GUI_Notifications::GUI_Notifications(QWidget *parent) :

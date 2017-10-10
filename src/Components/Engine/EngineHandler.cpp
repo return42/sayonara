@@ -25,8 +25,8 @@
 
 #include "Playback/PlaybackEngine.h"
 #include "Convert/ConvertEngine.h"
-#include "Helper/Logger/Logger.h"
-#include "Helper/MetaData/MetaData.h"
+#include "Utils/Logger/Logger.h"
+#include "Utils/MetaData/MetaData.h"
 
 #include <QImage>
 
@@ -41,7 +41,9 @@ EngineHandler::EngineHandler(QObject* parent) :
 			this, &EngineHandler::playstate_changed);
 
 	connect(_play_manager, &PlayManager::sig_track_changed,
-			this, EngineHandler_change_track_md);
+            this, [=](const MetaData& md){
+                this->change_track(md);
+            });
 
 	connect(_play_manager, &PlayManager::sig_seeked_abs_ms,
 			this, &EngineHandler::jump_abs_ms);
@@ -84,7 +86,7 @@ void EngineHandler::start_convert()
 {
 	stop();
 
-	if( _cur_engine->get_name() != EngineName::ConvertEngine ) {
+    if( _cur_engine->name() != EngineName::ConvertEngine ) {
 		switch_engine(EngineName::ConvertEngine);
     }
 
@@ -97,7 +99,7 @@ void EngineHandler::end_convert()
 
 	sp_log(Log::Debug, this) << "Engine end convert";
 
-	if( _cur_engine->get_name() != EngineName::PlaybackEngine ) {
+    if( _cur_engine->name() != EngineName::PlaybackEngine ) {
 		sp_log(Log::Debug, this) << "Change to playback engine";
 		switch_engine(EngineName::PlaybackEngine);
 	}
@@ -168,16 +170,16 @@ void EngineHandler::jump_rel(double where)
 }
 
 
-void EngineHandler::change_track(const MetaData& md)
+bool EngineHandler::change_track(const MetaData& md)
 {
-	if(!_cur_engine) return;
-	_cur_engine->change_track(md);
+    if(!_cur_engine) return false;
+    return _cur_engine->change_track(md);
 }
 
-void EngineHandler::change_track(const QString& str)
+bool EngineHandler::change_track_by_filename(const QString& filepath)
 {
-	if(!_cur_engine) return;
-	_cur_engine->change_track(str);
+    if(!_cur_engine) return false;
+    return _cur_engine->change_track_by_filename(filepath);
 }
 
 
@@ -240,7 +242,6 @@ bool EngineHandler::configure_connections(Engine* old_engine, Engine* new_engine
 		disconnect(old_engine, &Engine::sig_track_ready, this, &EngineHandler::sl_track_ready_changed);
 		disconnect(old_engine, &Engine::sig_md_changed, this, &EngineHandler::sl_md_changed);
 		disconnect(old_engine, &Engine::sig_pos_changed_ms, this, &EngineHandler::sl_pos_changed_ms);
-		disconnect(old_engine, &Engine::sig_pos_changed_s, this, &EngineHandler::sl_pos_changed_s);
 		disconnect(old_engine, &Engine::sig_dur_changed, this, &EngineHandler::sl_dur_changed);
 		disconnect(old_engine, &Engine::sig_br_changed, this, &Engine::sig_br_changed);
 		disconnect(old_engine, &Engine::sig_track_finished, this, &EngineHandler::sl_track_finished);
@@ -253,7 +254,6 @@ bool EngineHandler::configure_connections(Engine* old_engine, Engine* new_engine
 		connect(new_engine, &Engine::sig_track_ready, this, &EngineHandler::sl_track_ready_changed);
 		connect(new_engine, &Engine::sig_md_changed, this, &EngineHandler::sl_md_changed);
 		connect(new_engine, &Engine::sig_pos_changed_ms, this, &EngineHandler::sl_pos_changed_ms);
-		connect(new_engine, &Engine::sig_pos_changed_s, this, &EngineHandler::sl_pos_changed_s);
 		connect(new_engine, &Engine::sig_dur_changed, this, &EngineHandler::sl_dur_changed);
 		connect(new_engine, &Engine::sig_br_changed, this, &Engine::sig_br_changed);
 		connect(new_engine, &Engine::sig_track_finished, this, &EngineHandler::sl_track_finished);
@@ -268,14 +268,16 @@ bool EngineHandler::configure_connections(Engine* old_engine, Engine* new_engine
 Engine* EngineHandler::get_engine(EngineName name)
 {
 	for(Engine* e : _engines){
-		if(e && e->get_name() == name){
+        if(e && e->name() == name){
 			return e;
 		}
 	}
 
-	if(name == EngineName::PlaybackEngine){
+    if(name == EngineName::PlaybackEngine)
+    {
 		PlaybackEngine* pb_engine = new PlaybackEngine();
-		if(pb_engine->init()){
+        if(pb_engine->init())
+        {
 			_engines << static_cast<Engine*>(pb_engine);
 			connect(pb_engine, &PlaybackEngine::sig_data, this, &EngineHandler::new_data);
 			return pb_engine;
@@ -362,7 +364,7 @@ void EngineHandler::set_equalizer(int band, int value)
 }
 
 
-bool EngineHandler::set_uri(char* uri)
+bool EngineHandler::change_uri(char* uri)
 {
 	Q_UNUSED(uri);
 	return true;

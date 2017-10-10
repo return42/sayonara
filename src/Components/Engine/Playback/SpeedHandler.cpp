@@ -1,5 +1,5 @@
 #include "SpeedHandler.h"
-#include "Helper/Settings/Settings.h"
+#include "Utils/Settings/Settings.h"
 
 struct SpeedHandler::Private
 {

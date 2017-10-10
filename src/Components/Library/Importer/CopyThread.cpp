@@ -19,9 +19,9 @@
  */
 
 #include "CopyThread.h"
-#include "Helper/MetaData/MetaDataList.h"
-#include "Helper/FileHelper.h"
-#include "Helper/Logger/Logger.h"
+#include "Utils/MetaData/MetaDataList.h"
+#include "Utils/FileUtils.h"
+#include "Utils/Logger/Logger.h"
 
 #include <QFile>
 #include <QDir>

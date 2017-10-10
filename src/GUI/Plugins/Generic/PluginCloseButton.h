@@ -25,7 +25,7 @@
 #define PLUGINCLOSEBUTTON_H
 
 #include <QPushButton>
-#include "Helper/Settings/SayonaraClass.h"
+#include "Utils/Settings/SayonaraClass.h"
 
 /**
  * @brief The MenuButton class.\n

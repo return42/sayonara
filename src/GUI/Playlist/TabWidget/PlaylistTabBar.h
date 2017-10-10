@@ -22,8 +22,8 @@
 #define PLAYLISTTABBAR_H
 
 #include "PlaylistMenuEntry.h"
-#include "GUI/Helper/Shortcuts/ShortcutWidget.h"
-#include "Helper/Pimpl.h"
+#include "GUI/Utils/Shortcuts/ShortcutWidget.h"
+#include "Utils/Pimpl.h"
 
 #include <QTabBar>
 

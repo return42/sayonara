@@ -19,9 +19,11 @@
  */
 
 #include "AbstractEngine.h"
-#include "Helper/FileHelper.h"
-#include "Helper/Logger/Logger.h"
-#include "Helper/MetaData/MetaData.h"
+
+#include "Utils/FileUtils.h"
+#include "Utils/Logger/Logger.h"
+#include "Utils/MetaData/MetaData.h"
+#include "Utils/Tagging/Tagging.h"
 
 #include <QUrl>
 
@@ -30,99 +32,63 @@
 struct Engine::Private
 {
 	MetaData		md;
-    gchar*          uri=nullptr;
     EngineName      name;
 
+    int64_t         cur_pos_ms;
+    int32_t         cur_pos_s;
+
+    gchar*          uri=nullptr;
+
     Private(EngineName name) :
-        name(name)
+        name(name),
+        cur_pos_ms(0),
+        cur_pos_s(0)
     {}
 };
 
 Engine::Engine(EngineName name, QObject *parent) :
 	QObject(parent),
-    SayonaraClass(),
-    _cur_pos_ms(0)
+    SayonaraClass()
 {
     m = Pimpl::make<Private>(name);
 }
 
 Engine::~Engine() {}
 
-EngineName Engine::get_name() const
+EngineName Engine::name() const
 {
     return m->name;
 }
 
-void Engine::set_track_finished(GstElement* src)
+
+bool Engine::change_track(const MetaData& md)
 {
-	Q_UNUSED(src)
+    m->cur_pos_ms = 0;
+
+    return change_metadata(md);
 }
 
-/*void Engine::async_done(GstElement* src){
-	Q_UNUSED(src)
-
-}*/
-
-void Engine::update_md(const MetaData& md, GstElement* src)
+bool Engine::change_track_by_filename(const QString& filepath)
 {
-	Q_UNUSED(src)
-	Q_UNUSED(md)
-}
+    MetaData md(filepath);
 
-void Engine::update_cover(const QImage& img, GstElement* src)
-{
-	Q_UNUSED(src)
-	Q_UNUSED(img);
-}
+    bool success = true;
 
-void Engine::update_duration(GstElement* src)
-{
-	Q_UNUSED(src)
+    bool got_md = Tagging::Util::getMetaDataOfFile(md);
+    if( !got_md ) {
+        stop();
+        success = false;
+    }
+
+    else{
+        success = change_track(md);
+    }
+
+    return success;
 }
 
 
-void Engine::update_bitrate(uint32_t br, GstElement* src)
-{
-	Q_UNUSED(src)
-	Q_UNUSED(br)
-}
-
-void Engine::set_track_ready(GstElement* src)
-{
-	Q_UNUSED(src)
-}
-
-void Engine::about_to_finish(int64_t ms)
-{
-	Q_UNUSED(ms)
-}
-
-void Engine::cur_pos_ms_changed(int64_t ms)
-{
-	_cur_pos_ms = ms;
-	emit sig_pos_changed_ms(ms);
-}
-
-void Engine::error(const QString& error)
-{
-	QString msg("Cannot play track");
-
-	if(m->md.filepath().contains("soundcloud", Qt::CaseInsensitive))
-	{
-		msg += QString("\n\n") +
-			   "Probably, Sayonara's Soundcloud limit of 15.000 "
-			   "tracks per day is reached :( Sorry.";
-	}
-
-	else {
-		msg += QString("\n\n") + error;
-	}
-
-	emit sig_error(msg);
-	stop();
-}
-
-bool Engine::set_metadata(const MetaData& md)
+bool Engine::change_metadata(const MetaData& md)
 {
     if(m->uri)
     {
@@ -130,14 +96,14 @@ bool Engine::set_metadata(const MetaData& md)
         m->uri = nullptr;
     }
 
-	QString filepath = md.filepath();
+    QString filepath = md.filepath();
     bool playing_stream = Util::File::is_www(filepath);
 
     // stream, but don't want to record
     // stream is already uri
     if (playing_stream)
     {
-		QUrl url = QUrl(filepath);
+        QUrl url = QUrl(filepath);
         m->uri = g_strdup(url.toString().toUtf8().data());
     }
 
@@ -145,7 +111,7 @@ bool Engine::set_metadata(const MetaData& md)
     // normal filepath -> no uri
     else if (!filepath.contains("://"))
     {
-		QUrl url = QUrl::fromLocalFile(filepath);
+        QUrl url = QUrl::fromLocalFile(filepath);
         m->uri = g_strdup(url.url().toUtf8().data());
     }
 
@@ -153,33 +119,145 @@ bool Engine::set_metadata(const MetaData& md)
         m->uri = g_strdup(filepath.toUtf8().data());
     }
 
-	if(g_utf8_strlen(m->uri, 16) == 0)
-	{
-		m->md = MetaData();
+    if(g_utf8_strlen(m->uri, 16) == 0)
+    {
+        m->md = MetaData();
 
         sp_log(Log::Warning) << "uri = 0";
         return false;
     }
 
-	m->md = md;
+    m->md = md;
 
-	return set_uri(m->uri);
+    return change_uri(m->uri);
 }
 
-void Engine::update_metadata(const MetaData& md)
+
+void Engine::set_track_ready(GstElement* src)
 {
-	m->md = md;
-	emit sig_md_changed(m->md);
+    Q_UNUSED(src)
+    emit sig_track_ready();
+}
+
+void Engine::set_track_almost_finished(int64_t time2go)
+{
+    emit sig_track_almost_finished(time2go);
+}
+
+void Engine::set_track_finished(GstElement* src)
+{
+    Q_UNUSED(src)
+
+    emit sig_track_finished();
+}
+
+void Engine::update_metadata(const MetaData& md, GstElement* src)
+{
+	Q_UNUSED(src)
+
+    m->md = md;
+    emit sig_md_changed(m->md);
+}
+
+void Engine::update_cover(const QImage& img, GstElement* src)
+{
+	Q_UNUSED(src)
+    emit sig_cover_changed(img);
+}
+
+void Engine::update_duration(int64_t duration_ms, GstElement* src)
+{
+    uint32_t duration_s = (duration_ms / 1000);
+    uint32_t md_duration_s = (metadata().length_ms / 1000);
+
+    if(duration_s == 0 || duration_s > 1500000){
+        return;
+    }
+
+    if(duration_s == md_duration_s) {
+        return;
+    }
+
+    m->md.length_ms = duration_ms;
+    update_metadata(m->md, src);
+
+    emit sig_dur_changed(m->md);
+}
+
+
+void Engine::update_bitrate(uint32_t br, GstElement* src)
+{
+    if( br <= 0) {
+        return;
+    }
+
+    if( std::abs(br - m->md.bitrate) <= 1000) { // (br / 1000) == (m->md.bitrate / 1000)
+        return;
+    }
+
+    m->md.bitrate = br;
+    update_metadata(m->md, src);
+
+    emit sig_br_changed(m->md);
+}
+
+
+void Engine::stop()
+{
+    m->cur_pos_ms = 0;
+    m->cur_pos_s = 0;
+
+    emit sig_buffering(-1);
 }
 
 const MetaData& Engine::metadata() const
 {
-	return m->md;
+    return m->md;
+}
+
+void Engine::set_current_position_ms(int64_t pos_ms)
+{
+    int32_t pos_sec = pos_ms / 1000;
+
+    if ( m->cur_pos_s == pos_sec ){
+        return;
+    }
+
+    m->cur_pos_ms = pos_ms;
+    m->cur_pos_s = pos_ms / 1000;
+
+    emit sig_pos_changed_ms(pos_ms);
+}
+
+
+int64_t Engine::current_position_ms() const
+{
+    return m->cur_pos_ms;
 }
 
 
 void Engine::set_buffer_state(int progress, GstElement* src)
 {
-    Q_UNUSED(progress)
     Q_UNUSED(src)
+    emit sig_buffering(progress);
+}
+
+
+void Engine::error(const QString& error)
+{
+    QString msg("Cannot play track");
+
+    if(m->md.filepath().contains("soundcloud", Qt::CaseInsensitive))
+    {
+        msg += QString("\n\n") +
+               "Probably, Sayonara's Soundcloud limit of 15.000 "
+               "tracks per day is reached :( Sorry.";
+    }
+
+    if(error.trimmed().length() > 0){
+        msg += QString("\n\n") + error;
+    }
+
+    emit sig_error(msg);
+    stop();
 }

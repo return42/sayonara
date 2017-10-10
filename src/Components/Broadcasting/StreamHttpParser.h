@@ -21,7 +21,7 @@
 #ifndef STREAMHTTPPARSER_H
 #define STREAMHTTPPARSER_H
 
-#include "Helper/Pimpl.h"
+#include "Utils/Pimpl.h"
 
 /**
  * @brief Parses requests out of the Client.

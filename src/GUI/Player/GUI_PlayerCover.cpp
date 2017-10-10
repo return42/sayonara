@@ -30,16 +30,18 @@
 #include <QPixmap>
 #include <QIcon>
 
+using namespace Cover;
+
 void GUI_Player::set_cover_location(const MetaData& md)
 {
-	CoverLocation cl = CoverLocation::get_cover_location(md);
+	Location cl = Location::get_cover_location(md);
 
 	albumCover->set_cover_location(cl);
 }
 
 void GUI_Player::set_standard_cover()
 {
-	albumCover->set_cover_location(CoverLocation::getInvalidLocation());
+	albumCover->set_cover_location(Location::getInvalidLocation());
 }
 
 void GUI_Player::cover_changed(const QImage& img)

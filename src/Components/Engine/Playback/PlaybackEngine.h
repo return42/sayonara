@@ -65,15 +65,14 @@ public:
 	explicit PlaybackEngine(QObject* parent=nullptr);
 	~PlaybackEngine();
 
-	bool init() override;
-	bool init_pipeline(PlaybackPipeline** pipeline);
-
-	void set_track_finished(GstElement* src) override;
+    bool init() override;
 
 	void update_bitrate(uint32_t br, GstElement* src) override;
-	void update_duration(GstElement* src) override;
-	void about_to_finish(int64_t time2go) override;
-	void cur_pos_ms_changed(int64_t pos_ms) override;
+    void update_duration(int64_t duration_ms, GstElement* src) override;
+
+    void set_track_ready(GstElement* src) override;
+    void set_track_almost_finished(int64_t time2go) override;
+    void set_track_finished(GstElement* src) override;
 
 	void set_streamrecorder_recording(bool b);
 
@@ -88,8 +87,6 @@ public:
 
 	void set_equalizer(int band, int value);
 
-	void emit_buffer(float inv_array_elements, float scale);
-
 
 public slots:
 	void play() override;
@@ -99,21 +96,22 @@ public slots:
 	void jump_abs_ms(uint64_t pos_ms) override;
 	void jump_rel_ms(uint64_t pos_ms) override;
 	void jump_rel(double percent) override;
-	void update_md(const MetaData& md, GstElement* src) override;
+    void update_metadata(const MetaData& md, GstElement* src) override;
 	void update_cover(const QImage& img, GstElement* src) override;
-	void change_track(const MetaData& md) override;
-	void change_track(const QString& filepath) override;
 
-	void set_track_ready(GstElement* src) override;
+    bool change_track(const MetaData& md) override;
+
 	void set_buffer_state(int progress, GstElement* src) override;
 
 private:
-	bool set_metadata(const MetaData& md) override;
-	bool set_uri(char* uri) override;
+    bool init_pipeline(PlaybackPipeline** pipeline);
 
-	void change_track_crossfading(const MetaData& md);
-	void change_track_gapless(const MetaData& md);
-	void change_track_immediatly(const MetaData& md);
+    bool change_uri(char* uri) override;
+    bool change_metadata(const MetaData& md) override;
+
+    bool change_track_crossfading(const MetaData& md);
+    bool change_track_gapless(const MetaData& md);
+    bool change_track_immediatly(const MetaData& md);
 
 	void change_gapless_state(GaplessState state);
 
@@ -122,6 +120,7 @@ private slots:
 	void s_gapless_changed();
     void s_streamrecorder_active_changed();
 
+    void cur_pos_ms_changed(int64_t pos_ms);
 };
 
 #endif /* GSTENGINE_H_ */

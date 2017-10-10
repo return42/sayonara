@@ -29,17 +29,17 @@
 #include "View.h"
 #include "HeaderView.h"
 #include "Components/Covers/CoverLocation.h"
-#include "GUI/Library/Helper/ColumnHeader.h"
+#include "GUI/Library/Utils/ColumnHeader.h"
 
-#include "Helper/globals.h"
-#include "Helper/Settings/Settings.h"
-#include "Helper/MetaData/MetaDataList.h"
-#include "Helper/Set.h"
-#include "Helper/Logger/Logger.h"
+#include "Utils/globals.h"
+#include "Utils/Settings/Settings.h"
+#include "Utils/MetaData/MetaDataList.h"
+#include "Utils/Set.h"
+#include "Utils/Logger/Logger.h"
 
-#include "GUI/Helper/CustomMimeData.h"
-#include "GUI/Helper/ContextMenu/LibraryContextMenu.h"
-#include "GUI/Helper/SearchableWidget/MiniSearcher.h"
+#include "GUI/Utils/CustomMimeData.h"
+#include "GUI/Utils/ContextMenu/LibraryContextMenu.h"
+#include "GUI/Utils/SearchableWidget/MiniSearcher.h"
 
 #include <QHeaderView>
 #include <QDropEvent>
@@ -47,6 +47,7 @@
 #include <QPushButton>
 #include <QScrollBar>
 #include <QDrag>
+#include <QBoxLayout>
 
 using namespace Library;
 
@@ -173,7 +174,7 @@ QMimeData* View::get_mimedata() const
 
 QPixmap View::pixmap() const
 {
-	CoverLocation cl = _model->get_cover(
+    Cover::Location cl = _model->get_cover(
 				get_selected_items()
 	);
 
@@ -213,12 +214,15 @@ void View::show_clear_button(bool visible)
         m->btn_clear_selection->setText(tr("Clear selection"));
 
 		connect(m->btn_clear_selection, &QPushButton::clicked, [=](){
-
 			this->clearSelection();
 		});
     }
 
-    const int h = 22;
+	if(m->btn_clear_selection->isVisible() == visible){
+		return;
+	}
+
+	const int h = 22;
 
     int y = this->height() - h - 1;
     int w = this->width() - 2;
@@ -231,10 +235,14 @@ void View::show_clear_button(bool visible)
     if(this->horizontalScrollBar() && this->horizontalScrollBar()->isVisible())
     {
         y -= this->horizontalScrollBar()->height();
-    }
+	}
 
-    m->btn_clear_selection->setGeometry(1, y, w, h);
     m->btn_clear_selection->setVisible(visible);
+	m->btn_clear_selection->setGeometry(1, y, w, h);
+
+	int mini_searcher_padding = (visible) ? h + 5 : 0;
+	SearchableTableView::set_mini_searcher_padding(mini_searcher_padding);
+
 }
 
 void View::use_clear_button(bool yesno)

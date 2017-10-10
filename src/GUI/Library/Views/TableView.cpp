@@ -19,9 +19,9 @@
  */
 
 #include "TableView.h"
-#include "GUI/Library/Helper/ColumnHeader.h"
+#include "GUI/Library/Utils/ColumnHeader.h"
 #include "GUI/Library/Views/HeaderView.h"
-#include "Helper/Settings/Settings.h"
+#include "Utils/Settings/Settings.h"
 #include <algorithm>
 
 using namespace Library;

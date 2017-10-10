@@ -21,7 +21,7 @@
 #ifndef PLAYLISTMENU_H
 #define PLAYLISTMENU_H
 
-#include "GUI/Helper/Widgets/WidgetTemplate.h"
+#include "GUI/Utils/Widgets/WidgetTemplate.h"
 
 #include <QMenu>
 

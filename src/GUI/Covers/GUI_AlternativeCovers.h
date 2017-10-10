@@ -29,14 +29,19 @@
 #ifndef GUI_ALTERNATE_COVERS_H_
 #define GUI_ALTERNATE_COVERS_H_
 
-#include "GUI/Helper/Widgets/Dialog.h"
-#include "Helper/Pimpl.h"
+#include "GUI/Utils/Widgets/Dialog.h"
+#include "Utils/Pimpl.h"
+
+namespace Cover
+{
+    class Location;
+}
+
 
 /**
  * @brief The GUI_AlternativeCovers class
  * @ingroup GUICovers
  */
-class CoverLocation;
 
 UI_FWD(AlternativeCovers)
 
@@ -52,10 +57,10 @@ public:
 	virtual ~GUI_AlternativeCovers();
 
 signals:
-	void sig_cover_changed(const CoverLocation& cl);
+    void sig_cover_changed(const Cover::Location& cl);
 
 public slots:
-	void start(const CoverLocation& cl);
+    void start(const Cover::Location& cl);
 
 private slots:
 	void ok_clicked();
@@ -68,7 +73,7 @@ private slots:
 
 private:
 	void reset_model();
-	void connect_and_start(const CoverLocation& cl);
+    void connect_and_start(const Cover::Location& cl);
 	void delete_all_files();
 
 protected:

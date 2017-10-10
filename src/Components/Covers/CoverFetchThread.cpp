@@ -31,22 +31,24 @@
 #include "CoverFetchManager.h"
 #include "CoverFetcherInterface.h"
 
-#include "Helper/Logger/Logger.h"
-#include "Helper/WebAccess/AsyncWebAccess.h"
-#include "Helper/FileHelper.h"
-#include "Helper/Helper.h"
+#include "Utils/Logger/Logger.h"
+#include "Utils/WebAccess/AsyncWebAccess.h"
+#include "Utils/FileUtils.h"
+#include "Utils/Utils.h"
 
 #include <QImage>
 #include <QStringList>
 
 const int Timeout = 10000;
 
-struct CoverFetchThread::Private
+using namespace Cover;
+
+struct FetchThread::Private
 {
 	QList<AsyncWebAccess*> active_connections;
 
-	CoverLocation		cl;
-	CoverFetcherInterface* acf=nullptr;
+    Location		cl;
+    Fetcher::Base* acf=nullptr;
 
 	QString				url;
 	QString				id;
@@ -55,7 +57,7 @@ struct CoverFetchThread::Private
 	int					n_covers_found;
 	bool				may_run;
 
-	Private(const CoverLocation& cl, int n_covers) :
+    Private(const Location& cl, int n_covers) :
 		cl(cl),
 		id(Util::random_string(8)),
 		n_covers(n_covers),
@@ -64,17 +66,17 @@ struct CoverFetchThread::Private
 	{}
 };
 
-CoverFetchThread::CoverFetchThread() {}
+FetchThread::FetchThread() {}
 
-CoverFetchThread::CoverFetchThread(QObject* parent, const CoverLocation& cl, const int n_covers) :
+FetchThread::FetchThread(QObject* parent, const Location& cl, const int n_covers) :
 	QObject(parent)
 {
 	m = Pimpl::make<Private>(cl, n_covers);
 }
 
-CoverFetchThread::~CoverFetchThread() {}
+FetchThread::~FetchThread() {}
 
-bool CoverFetchThread::start()
+bool FetchThread::start()
 {
 	m->may_run = true;
 
@@ -87,8 +89,8 @@ bool CoverFetchThread::start()
 		return false;
 	}
 
-	CoverFetchManager* cfm = CoverFetchManager::instance();
-	m->acf = cfm->get_active_coverfetcher(m->url);
+    Fetcher::Manager* cfm = Fetcher::Manager::instance();
+	m->acf = cfm->active_coverfetcher(m->url);
 
 	if(!m->acf){
 		return false;
@@ -105,9 +107,9 @@ bool CoverFetchThread::start()
 	else
 	{
 		AsyncWebAccess* awa = new AsyncWebAccess(this);
-		awa->setObjectName(m->acf->get_keyword());
+		awa->setObjectName(m->acf->keyword());
 		awa->set_behavior(AsyncWebAccess::Behavior::AsSayonara);
-		connect(awa, &AsyncWebAccess::sig_finished, this, &CoverFetchThread::content_fetched);
+		connect(awa, &AsyncWebAccess::sig_finished, this, &FetchThread::content_fetched);
 
 		m->active_connections << awa;
 		awa->run(m->url, Timeout);
@@ -117,7 +119,7 @@ bool CoverFetchThread::start()
 }
 
 
-bool CoverFetchThread::more()
+bool FetchThread::more()
 {
 	if(m->may_run == false){
 		return false;
@@ -146,11 +148,11 @@ bool CoverFetchThread::more()
 	awa->set_behavior(AsyncWebAccess::Behavior::AsBrowser);
 
 	if(m->n_covers == 1) {
-		connect(awa, &AsyncWebAccess::sig_finished, this, &CoverFetchThread::single_image_fetched);
+		connect(awa, &AsyncWebAccess::sig_finished, this, &FetchThread::single_image_fetched);
 	}
 
 	else {
-		connect(awa, &AsyncWebAccess::sig_finished, this, &CoverFetchThread::multi_image_fetched);
+		connect(awa, &AsyncWebAccess::sig_finished, this, &FetchThread::multi_image_fetched);
 	}
 
 	awa->run(address, Timeout);
@@ -159,7 +161,7 @@ bool CoverFetchThread::more()
 	return true;
 }
 
-void CoverFetchThread::stop()
+void FetchThread::stop()
 {
 	for(AsyncWebAccess* awa : m->active_connections){
 		awa->stop();
@@ -170,12 +172,12 @@ void CoverFetchThread::stop()
 }
 
 
-void CoverFetchThread::content_fetched()
+void FetchThread::content_fetched()
 {
 	AsyncWebAccess* awa = static_cast<AsyncWebAccess*>(sender());
 	m->active_connections.removeAll(awa);
 
-	if(awa->objectName() == m->acf->get_keyword()) {
+	if(awa->objectName() == m->acf->keyword()) {
 		if(awa->status() == AsyncWebAccess::Status::GotData)
 		{
 			QByteArray website = awa->data();
@@ -187,7 +189,7 @@ void CoverFetchThread::content_fetched()
 	more();
 }
 
-void CoverFetchThread::single_image_fetched()
+void FetchThread::single_image_fetched()
 {
 	AsyncWebAccess* awa = static_cast<AsyncWebAccess*>(sender());
 	m->active_connections.removeAll(awa);
@@ -203,11 +205,11 @@ void CoverFetchThread::single_image_fetched()
 			emit sig_finished(true);
 		}
 
-		sp_log(Log::Info, this) << "Found cover in " << m->acf->get_keyword() << " for " << m->cl.identifer();
+		sp_log(Log::Info, this) << "Found cover in " << m->acf->keyword() << " for " << m->cl.identifer();
 	}
 
 	else {
-		sp_log(Log::Warning, this) << "Could not fetch cover from " << m->acf->get_keyword();
+		sp_log(Log::Warning, this) << "Could not fetch cover from " << m->acf->keyword();
 		if(!more()){
 			emit sig_finished(false);
 		}
@@ -218,7 +220,7 @@ void CoverFetchThread::single_image_fetched()
 
 
 void
-CoverFetchThread::multi_image_fetched()
+FetchThread::multi_image_fetched()
 {
 	AsyncWebAccess* awa = static_cast<AsyncWebAccess*>(sender());
 	m->active_connections.removeAll(awa);
@@ -241,7 +243,7 @@ CoverFetchThread::multi_image_fetched()
 	}
 
 	else {
-		sp_log(Log::Warning, this) << "Could not fetch multi cover " << m->acf->get_keyword();
+		sp_log(Log::Warning, this) << "Could not fetch multi cover " << m->acf->keyword();
 	}
 
 	awa->deleteLater();
@@ -249,7 +251,7 @@ CoverFetchThread::multi_image_fetched()
 
 
 void
-CoverFetchThread::save_and_emit_image(const QString& filepath, const QImage& img)
+FetchThread::save_and_emit_image(const QString& filepath, const QImage& img)
 {
 	QString filename = filepath;
 	QString ext = Util::File::calc_file_extension(filepath);

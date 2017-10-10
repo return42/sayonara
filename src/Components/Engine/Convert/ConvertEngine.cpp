@@ -23,11 +23,11 @@
 
 #include "Components/Engine/Callbacks/PipelineCallbacks.h"
 
-#include "Helper/MetaData/MetaData.h"
-#include "Helper/Tagging/Tagging.h"
-#include "Helper/FileHelper.h"
-#include "Helper/Settings/Settings.h"
-#include "Helper/Logger/Logger.h"
+#include "Utils/MetaData/MetaData.h"
+#include "Utils/Tagging/Tagging.h"
+#include "Utils/FileUtils.h"
+#include "Utils/Settings/Settings.h"
+#include "Utils/Logger/Logger.h"
 
 #include <QUrl>
 
@@ -59,17 +59,17 @@ bool ConvertEngine::init()
 }
 
 
-void ConvertEngine::change_track(const MetaData& md)
+bool ConvertEngine::change_track(const MetaData& md)
 {
-	stop();
-
-	set_metadata(md);
     configure_target(md);
+
+    return Engine::change_track(md);
 }
 
-void ConvertEngine::change_track(const QString& str)
+bool ConvertEngine::change_track_by_filename(const QString& filename)
 {
-	Q_UNUSED(str);
+    Q_UNUSED(filename);
+    return false;
 }
 
 
@@ -87,7 +87,9 @@ void ConvertEngine::stop()
 {
 	m->pipeline->stop();
 
-    Tagging::setMetaDataOfFile(m->md_target);
+    Tagging::Util::setMetaDataOfFile(m->md_target);
+
+    Engine::stop();
 }
 
 // public from Gstreamer Callbacks
@@ -97,16 +99,12 @@ void ConvertEngine::set_track_finished(GstElement* src)
 	emit sig_track_finished();
 }
 
-void ConvertEngine::cur_pos_ms_changed(int64_t v)
+void ConvertEngine::cur_pos_ms_changed(int64_t pos_ms)
 {
-	sp_log(Log::Debug, this) << "Position changed " << v;
-
-	emit sig_pos_changed_s((uint32_t) (v / 1000));
+    Engine::set_current_position_ms(pos_ms);
 }
 
-void ConvertEngine::set_volume(int vol) {Q_UNUSED(vol);}
-
-bool ConvertEngine::set_uri(char* uri)
+bool ConvertEngine::change_uri(char* uri)
 {
 	return m->pipeline->set_uri(uri);
 }

@@ -19,11 +19,11 @@
  */
 
 #include "PlaylistChooser.h"
-#include "Helper/Playlist/CustomPlaylist.h"
+#include "Utils/Playlist/CustomPlaylist.h"
 #include "Components/Playlist/PlaylistHandler.h"
 #include "Components/Playlist/PlaylistDBWrapper.h"
 
-#include "Helper/Logger/Logger.h"
+#include "Utils/Logger/Logger.h"
 
 #include <QStringList>
 

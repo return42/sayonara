@@ -24,7 +24,7 @@
 #define LIBRARYLISTMODEL_H
 
 #include <QAbstractListModel>
-#include "Helper/Pimpl.h"
+#include "Utils/Pimpl.h"
 
 using LibName=QString;
 using LibPath=QString;

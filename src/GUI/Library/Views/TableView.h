@@ -24,8 +24,8 @@
 #define LIBRARYTABLEVIEW_H
 
 #include "View.h"
-#include "Helper/Library/Sortorder.h"
-#include "Helper/Pimpl.h"
+#include "Utils/Library/Sortorder.h"
+#include "Utils/Pimpl.h"
 
 namespace Library
 {

@@ -21,13 +21,17 @@
 #ifndef LIBRARYITEMMODEL_H_
 #define LIBRARYITEMMODEL_H_
 
-#include "GUI/Helper/SearchableWidget/AbstractSearchModel.h"
+#include "GUI/Utils/SearchableWidget/AbstractSearchModel.h"
 
-#include "Helper/SetFwd.h"
-#include "Helper/Pimpl.h"
-#include "Helper/typedefs.h"
+#include "Utils/SetFwd.h"
+#include "Utils/Pimpl.h"
+#include "Utils/typedefs.h"
 
-class CoverLocation;
+namespace Cover
+{
+    class Location;
+}
+
 class CustomMimeData;
 class MetaDataList;
 class AbstractLibrary;
@@ -67,7 +71,7 @@ namespace Library
 		virtual int				get_searchable_column() const=0;
 		virtual QString			get_string(int row) const=0;
 		virtual int				get_id_by_row(int row)=0;
-		virtual CoverLocation	get_cover(const IndexSet& indexes) const=0;
+        virtual Cover::Location	get_cover(const IndexSet& indexes) const=0;
 
 		CustomMimeData*			get_mimedata() const;
 

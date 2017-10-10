@@ -22,7 +22,7 @@
 #define DATABASEMODULE_H
 
 #include <QSqlDatabase>
-#include "Helper/Pimpl.h"
+#include "Utils/Pimpl.h"
 
 class SayonaraQuery;
 class DatabaseModule

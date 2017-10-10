@@ -2,7 +2,7 @@
 #include "PipelineProbes.h"
 #include "StreamRecorderData.h"
 
-#include "Helper/Settings/Settings.h"
+#include "Utils/Settings/Settings.h"
 #include <QString>
 
 struct StreamRecorderHandler::Private

@@ -22,8 +22,8 @@
 #define GUI_SHUTDOWN_H
 
 #include "GUI/ShutdownDialog/ui_GUI_Shutdown.h"
-#include "GUI/Helper/Widgets/Dialog.h"
-#include "Helper/Shutdown/Shutdown.h"
+#include "GUI/Utils/Widgets/Dialog.h"
+#include "Utils/Shutdown/Shutdown.h"
 
 #ifdef WITH_SHUTDOWN
 

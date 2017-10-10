@@ -21,7 +21,7 @@
 #ifndef STREAMDATASENDER_H
 #define STREAMDATASENDER_H
 
-#include "Helper/Pimpl.h"
+#include "Utils/Pimpl.h"
 
 class QString;
 class QTcpSocket;

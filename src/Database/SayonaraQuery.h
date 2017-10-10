@@ -27,7 +27,7 @@
 #include <QSqlDatabase>
 #include <QSqlError>
 
-#include "Helper/Pimpl.h"
+#include "Utils/Pimpl.h"
 class DatabaseModule;
 
 class SayonaraQuery : public QSqlQuery 

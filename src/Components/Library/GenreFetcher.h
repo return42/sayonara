@@ -24,7 +24,7 @@
 #define GENREFETCHER_H
 
 #include <QObject>
-#include "Helper/Pimpl.h"
+#include "Utils/Pimpl.h"
 
 class QStringList;
 class MetaDataList;

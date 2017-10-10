@@ -23,12 +23,12 @@
 #include "SomaFMLibrary.h"
 #include "SomaFMStation.h"
 
-#include "Helper/Helper.h"
-#include "Helper/FileHelper.h"
-#include "Helper/WebAccess/AsyncWebAccess.h"
-#include "Helper/Parser/StreamParser.h"
-#include "Helper/globals.h"
-#include "Helper/MetaData/MetaDataList.h"
+#include "Utils/Utils.h"
+#include "Utils/FileUtils.h"
+#include "Utils/WebAccess/AsyncWebAccess.h"
+#include "Utils/Parser/StreamParser.h"
+#include "Utils/globals.h"
+#include "Utils/MetaData/MetaDataList.h"
 
 #include "Components/Playlist/PlaylistHandler.h"
 #include "Components/Covers/CoverLocation.h"
@@ -135,7 +135,7 @@ void SomaFM::Library::soma_station_playlists_fetched(bool success)
 	MetaDataList v_md  = parser->get_metadata();
 	SomaFM::Station station = m->station_map[m->requested_station];
 	QString cover_url;
-	CoverLocation cl = station.cover_location();
+    Cover::Location cl = station.cover_location();
 	if(cl.has_search_urls()){
 		cover_url = cl.search_urls().first();
 	}
@@ -187,7 +187,7 @@ void SomaFM::Library::soma_playlist_content_fetched(bool success)
 	MetaDataList v_md = parser->get_metadata();
 
 	SomaFM::Station station = m->station_map[m->requested_station];
-	CoverLocation cl = station.cover_location();
+    Cover::Location cl = station.cover_location();
 	QString cover_url;
 	if(cl.has_search_urls()){
 		cover_url = cl.search_urls().first();

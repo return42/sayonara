@@ -23,12 +23,12 @@
 #include "Database/LibraryDatabase.h"
 #include "Database/LocalLibraryDatabase.h"
 
-#include "Helper/MetaData/Album.h"
-#include "Helper/MetaData/Artist.h"
-#include "Helper/MetaData/MetaDataList.h"
-#include "Helper/Logger/Logger.h"
-#include "Helper/Helper.h"
-#include "Helper/FileHelper.h"
+#include "Utils/MetaData/Album.h"
+#include "Utils/MetaData/Artist.h"
+#include "Utils/MetaData/MetaDataList.h"
+#include "Utils/Logger/Logger.h"
+#include "Utils/Utils.h"
+#include "Utils/FileUtils.h"
 
 #include <QFileInfo>
 #include <QDateTime>

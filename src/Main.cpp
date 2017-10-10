@@ -26,12 +26,12 @@
  */
 
 #include "Application/Application.h"
-#include "Helper/Helper.h"
-#include "Helper/Parser/CommandLineParser.h"
-#include "Helper/Settings/SettingRegistry.h"
-#include "Helper/Settings/Settings.h"
-#include "Helper/Logger/Logger.h"
-#include "GUI/Helper/GUI_Helper.h"
+#include "Utils/Utils.h"
+#include "Utils/Parser/CommandLineParser.h"
+#include "Utils/Settings/SettingRegistry.h"
+#include "Utils/Settings/Settings.h"
+#include "Utils/Logger/Logger.h"
+#include "GUI/Utils/GuiUtils.h"
 
 #include <QSharedMemory>
 #include <QTranslator>

@@ -27,10 +27,10 @@
 #include "Components/Covers/CoverLookup.h"
 #include "Components/Covers/CoverLocation.h"
 
-#include "Helper/Logger/Logger.h"
-#include "Helper/Set.h"
-#include "Helper/globals.h"
-#include "Helper/typedefs.h"
+#include "Utils/Logger/Logger.h"
+#include "Utils/Set.h"
+#include "Utils/globals.h"
+#include "Utils/typedefs.h"
 
 #include <QHash>
 
@@ -373,7 +373,7 @@ void SC::Library::refresh_albums() {}
 
 void SC::Library::refresh_tracks() {}
 
-void SC::Library::cover_found(const CoverLocation& cl)
+void SC::Library::cover_found(const Cover::Location& cl)
 {
 	Q_UNUSED(cl)
 	//sp_log(Log::Debug, this) << "Saved sound cloud cover: " << cl.toString();

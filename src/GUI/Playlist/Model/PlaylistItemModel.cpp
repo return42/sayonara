@@ -29,15 +29,15 @@
 #include "PlaylistItemModel.h"
 #include "Components/Playlist/AbstractPlaylist.h"
 
-#include "GUI/Helper/CustomMimeData.h"
+#include "GUI/Utils/CustomMimeData.h"
 
-#include "Helper/MetaData/MetaDataList.h"
-#include "Helper/Library/SearchMode.h"
-#include "Helper/FileHelper.h"
-#include "Helper/Set.h"
-#include "Helper/globals.h"
-#include "Helper/Language.h"
-#include "Helper/Logger/Logger.h"
+#include "Utils/MetaData/MetaDataList.h"
+#include "Utils/Library/SearchMode.h"
+#include "Utils/FileUtils.h"
+#include "Utils/Set.h"
+#include "Utils/globals.h"
+#include "Utils/Language.h"
+#include "Utils/Logger/Logger.h"
 
 #include <QUrl>
 #include <QColor>

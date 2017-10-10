@@ -24,8 +24,8 @@
 #ifndef SomaFMStationModel_H
 #define SomaFMStationModel_H
 
-#include "GUI/Helper/SearchableWidget/AbstractSearchModel.h"
-#include "Helper/Pimpl.h"
+#include "GUI/Utils/SearchableWidget/AbstractSearchModel.h"
+#include "Utils/Pimpl.h"
 
 #include <QMap>
 #include <QList>

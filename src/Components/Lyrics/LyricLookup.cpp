@@ -28,7 +28,7 @@
 #include "LyricLookup.h"
 #include "LyricServer.h"
 
-#include "Helper/WebAccess/AsyncWebAccess.h"
+#include "Utils/WebAccess/AsyncWebAccess.h"
 
 #include <QStringList>
 #include <QRegExp>

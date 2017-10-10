@@ -32,11 +32,11 @@
 #include "LFMLoginThread.h"
 #include "LFMWebAccess.h"
 
-#include "Helper/Random/RandomGenerator.h"
-#include "Helper/Playlist/PlaylistMode.h"
-#include "Helper/Settings/Settings.h"
-#include "Helper/MetaData/MetaDataList.h"
-#include "Helper/Logger/Logger.h"
+#include "Utils/Random/RandomGenerator.h"
+#include "Utils/Playlist/PlaylistMode.h"
+#include "Utils/Settings/Settings.h"
+#include "Utils/MetaData/MetaDataList.h"
+#include "Utils/Logger/Logger.h"
 
 #include "Components/PlayManager/PlayManager.h"
 #include "Components/Playlist/PlaylistHandler.h"

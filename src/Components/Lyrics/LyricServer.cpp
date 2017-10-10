@@ -21,7 +21,7 @@
 
 
 #include "LyricServer.h"
-#include "Helper/Logger/Logger.h"
+#include "Utils/Logger/Logger.h"
 
 static const QString STR_TRUE("true");
 static const QString STR_FALSE("false");

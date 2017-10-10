@@ -19,7 +19,7 @@
  */
 
 #include "GUI_Shutdown.h"
-#include "Helper/Shutdown/Shutdown.h"
+#include "Utils/Shutdown/Shutdown.h"
 
 #ifdef WITH_SHUTDOWN
 

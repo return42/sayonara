@@ -21,10 +21,10 @@
 #ifndef GUI_DIRECTORYWIDGET_H
 #define GUI_DIRECTORYWIDGET_H
 
-#include "GUI/Helper/Widgets/Widget.h"
+#include "GUI/Utils/Widgets/Widget.h"
 #include "GUI/InfoDialog/InfoDialogContainer.h"
-#include "Helper/MetaData/MetaDataFwd.h"
-#include "Helper/Pimpl.h"
+#include "Utils/MetaData/MetaDataFwd.h"
+#include "Utils/Pimpl.h"
 
 class QFrame;
 class QComboBox;

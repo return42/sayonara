@@ -19,9 +19,9 @@
  */
 
 #include "PlaylistMenu.h"
-#include "Helper/Playlist/PlaylistMode.h"
-#include "Helper/Settings/Settings.h"
-#include "Helper/Language.h"
+#include "Utils/Playlist/PlaylistMode.h"
+#include "Utils/Settings/Settings.h"
+#include "Utils/Language.h"
 
 #include <QTimer>
 #include <QAction>

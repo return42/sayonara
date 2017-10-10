@@ -20,10 +20,10 @@
 
 #include "Database/SayonaraQuery.h"
 #include "Database/DatabasePlaylist.h"
-#include "Helper/Logger/Logger.h"
-#include "Helper/MetaData/MetaDataList.h"
-#include "Helper/Playlist/CustomPlaylist.h"
-#include "Helper/MetaData/Genre.h"
+#include "Utils/Logger/Logger.h"
+#include "Utils/MetaData/MetaDataList.h"
+#include "Utils/Playlist/CustomPlaylist.h"
+#include "Utils/MetaData/Genre.h"
 
 DatabasePlaylist::DatabasePlaylist(const QSqlDatabase& db, uint8_t db_id) :
 	DatabaseModule(db, db_id) {}

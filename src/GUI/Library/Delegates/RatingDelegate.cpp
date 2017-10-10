@@ -19,7 +19,7 @@
  */
 
 #include "RatingDelegate.h"
-#include "GUI/Helper/RatingLabel/RatingLabel.h"
+#include "GUI/Utils/RatingLabel/RatingLabel.h"
 #include <QPainter>
 #include <QStyle>
 

@@ -1,7 +1,7 @@
 #ifndef SPEEDHANDLER_H
 #define SPEEDHANDLER_H
 
-#include "Helper/Pimpl.h"
+#include "Utils/Pimpl.h"
 #include <gst/gst.h>
 
 class SpeedHandler

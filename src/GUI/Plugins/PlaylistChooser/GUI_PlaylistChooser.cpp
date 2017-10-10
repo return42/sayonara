@@ -24,13 +24,13 @@
 
 #include "Components/PlaylistChooser/PlaylistChooser.h"
 
-#include "Helper/Message/Message.h"
+#include "Utils/Message/Message.h"
 
-#include "Helper/Helper.h"
-#include "Helper/Playlist/CustomPlaylist.h"
-#include "Helper/Language.h"
-#include "Helper/Settings/Settings.h"
-#include "Helper/FileHelper.h"
+#include "Utils/Utils.h"
+#include "Utils/Playlist/CustomPlaylist.h"
+#include "Utils/Language.h"
+#include "Utils/Settings/Settings.h"
+#include "Utils/FileUtils.h"
 
 #include <algorithm>
 

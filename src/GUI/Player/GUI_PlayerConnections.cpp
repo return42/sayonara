@@ -21,13 +21,16 @@
 #include "GUI_Player.h"
 #include "GUI_Logger.h"
 
-#include "Components/TagEdit/MetaDataChangeNotifier.h"
+#include "Components/Tagging/ChangeNotifier.h"
 #include "Components/Engine/EngineHandler.h"
 #include "Components/PlayManager/PlayManager.h"
-#include "GUI/Helper/Shortcuts/Shortcut.h"
-#include "GUI/Helper/Shortcuts/ShortcutHandler.h"
-#include "Helper/Language.h"
-#include "Helper/MetaData/MetaDataList.h"
+
+#include "GUI/Utils/Shortcuts/Shortcut.h"
+#include "GUI/Utils/Shortcuts/ShortcutHandler.h"
+
+#include "Utils/Language.h"
+#include "Utils/MetaData/MetaDataList.h"
+
 #include "Interfaces/LibraryInterface/LibraryPluginHandler.h"
 
 void GUI_Player::setup_connections()
@@ -86,9 +89,8 @@ void GUI_Player::setup_connections()
 	connect(sli_progress, &SearchSlider::sig_slider_moved, this, &GUI_Player::seek);
 	connect(sli_progress, &SearchSlider::sig_slider_hovered, this, &GUI_Player::set_progress_tooltip);
 
-
-	MetaDataChangeNotifier* md_change_notifier = MetaDataChangeNotifier::instance();
-	connect(md_change_notifier, &MetaDataChangeNotifier::sig_metadata_changed, this, &GUI_Player::id3_tags_changed);
+    Tagging::ChangeNotifier* mdcn = Tagging::ChangeNotifier::instance();
+    connect(mdcn, &Tagging::ChangeNotifier::sig_metadata_changed, this, &GUI_Player::id3_tags_changed);
 
 	ShortcutHandler* sch = ShortcutHandler::instance();
 

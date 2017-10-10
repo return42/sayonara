@@ -1,6 +1,6 @@
 #include "GUI_Proxy.h"
 #include "ui_GUI_Proxy.h"
-#include "Helper/Settings/Settings.h"
+#include "Utils/Settings/Settings.h"
 
 GUI_Proxy::GUI_Proxy(QWidget *parent) :
     PreferenceWidgetInterface(parent)

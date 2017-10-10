@@ -20,9 +20,9 @@
 #include "DBusNotifications.h"
 #include "Components/Covers/CoverLocation.h"
 
-#include "Helper/MetaData/MetaData.h"
-#include "Helper/Settings/Settings.h"
-#include "Helper/Logger/Logger.h"
+#include "Utils/MetaData/MetaData.h"
+#include "Utils/Settings/Settings.h"
+#include "Utils/Logger/Logger.h"
 
 DBusNotifications::DBusNotifications(QObject* parent) :
 	QObject(parent),
@@ -88,7 +88,7 @@ void DBusNotifications::track_changed(const MetaData& md)
 		return;
 	}
 
-	CoverLocation cl = CoverLocation::get_cover_location(md);
+    Cover::Location cl = Cover::Location::get_cover_location(md);
 	QString cover_path = cl.preferred_path();
 
 	notify(md.title, "by " + md.artist(), cover_path);

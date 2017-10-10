@@ -23,9 +23,9 @@
 
 #include <QObject>
 #include "PlayState.h"
-#include "Helper/Singleton.h"
-#include "Helper/Pimpl.h"
-#include "Helper/Settings/SayonaraClass.h"
+#include "Utils/Singleton.h"
+#include "Utils/Pimpl.h"
+#include "Utils/Settings/SayonaraClass.h"
 
 
 class MetaData;

@@ -25,10 +25,10 @@
 #include <QMenu>
 #include <QTableView>
 
-#include "GUI/Library/Helper/ColumnHeader.h"
-#include "GUI/Helper/Widgets/WidgetTemplate.h"
-#include "Helper/typedefs.h"
-#include "Helper/Library/Sortorder.h"
+#include "GUI/Library/Utils/ColumnHeader.h"
+#include "GUI/Utils/Widgets/WidgetTemplate.h"
+#include "Utils/typedefs.h"
+#include "Utils/Library/Sortorder.h"
 
 namespace Library
 {

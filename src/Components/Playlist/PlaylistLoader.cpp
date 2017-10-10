@@ -22,9 +22,9 @@
 #include "PlaylistHandler.h"
 #include "PlaylistDBWrapper.h"
 
-#include "Helper/globals.h"
-#include "Helper/Playlist/CustomPlaylist.h"
-#include "Helper/Settings/Settings.h"
+#include "Utils/globals.h"
+#include "Utils/Playlist/CustomPlaylist.h"
+#include "Utils/Settings/Settings.h"
 
 #include <algorithm>
 

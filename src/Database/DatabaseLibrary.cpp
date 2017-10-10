@@ -24,11 +24,11 @@
 #include "Database/DatabaseArtists.h"
 #include "Database/DatabaseTracks.h"
 
-#include "Helper/MetaData/MetaData.h"
-#include "Helper/MetaData/MetaDataList.h"
-#include "Helper/MetaData/Album.h"
-#include "Helper/MetaData/Artist.h"
-#include "Helper/Logger/Logger.h"
+#include "Utils/MetaData/MetaData.h"
+#include "Utils/MetaData/MetaDataList.h"
+#include "Utils/MetaData/Album.h"
+#include "Utils/MetaData/Artist.h"
+#include "Utils/Logger/Logger.h"
 
 DatabaseLibrary::DatabaseLibrary(const QSqlDatabase& db, uint8_t db_id, int8_t library_id) :
 	DatabaseModule(db, db_id)

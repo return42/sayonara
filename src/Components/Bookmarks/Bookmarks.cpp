@@ -20,9 +20,9 @@
 
 #include "Bookmark.h"
 #include "Bookmarks.h"
-#include "Helper/Helper.h"
-#include "Helper/globals.h"
-#include "Helper/MetaData/MetaData.h"
+#include "Utils/Utils.h"
+#include "Utils/globals.h"
+#include "Utils/MetaData/MetaData.h"
 #include "Database/DatabaseConnector.h"
 #include "Components/PlayManager/PlayManager.h"
 

@@ -22,8 +22,8 @@
 #define LIBRARYCONTAINER_H
 
 #include <QObject>
-#include "Helper/Pimpl.h"
-#include "Helper/Settings/SayonaraClass.h"
+#include "Utils/Pimpl.h"
+#include "Utils/Settings/SayonaraClass.h"
 
 class QFrame;
 class QAction;

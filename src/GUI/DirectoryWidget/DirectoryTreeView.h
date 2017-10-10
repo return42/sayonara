@@ -21,9 +21,9 @@
 #ifndef DIRECTORYTREEVIEW_H
 #define DIRECTORYTREEVIEW_H
 
-#include "GUI/Helper/SearchableWidget/SearchableView.h"
-#include "GUI/Helper/Dragable/Dragable.h"
-#include "Helper/Pimpl.h"
+#include "GUI/Utils/SearchableWidget/SearchableView.h"
+#include "GUI/Utils/Dragable/Dragable.h"
+#include "Utils/Pimpl.h"
 
 #include <QTreeView>
 #include <QModelIndexList>

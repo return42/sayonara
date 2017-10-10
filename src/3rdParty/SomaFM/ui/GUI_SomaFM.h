@@ -23,7 +23,7 @@
 #ifndef GUI_SOMAFM_H
 #define GUI_SOMAFM_H
 
-#include "GUI/Helper/Widgets/Widget.h"
+#include "GUI/Utils/Widgets/Widget.h"
 
 #include <QItemSelection>
 

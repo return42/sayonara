@@ -21,7 +21,7 @@
 #ifndef BOOKMARK_H
 #define BOOKMARK_H
 
-#include "Helper/Pimpl.h"
+#include "Utils/Pimpl.h"
 
 /**
  * @brief The Bookmark helper class

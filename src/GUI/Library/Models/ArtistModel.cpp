@@ -30,12 +30,12 @@
 #include "Components/Covers/CoverLocation.h"
 #include "Components/Library/AbstractLibrary.h"
 
-#include "GUI/Library/Helper/ColumnIndex.h"
-#include "GUI/Helper/GUI_Helper.h"
+#include "GUI/Library/Utils/ColumnIndex.h"
+#include "GUI/Utils/GuiUtils.h"
 
-#include "Helper/MetaData/Artist.h"
-#include "Helper/Language.h"
-#include "Helper/Set.h"
+#include "Utils/MetaData/Artist.h"
+#include "Utils/Language.h"
+#include "Utils/Set.h"
 
 #include <QPixmap>
 
@@ -164,21 +164,21 @@ Qt::ItemFlags ArtistModel::flags(const QModelIndex& index) const
 }
 
 
-CoverLocation ArtistModel::get_cover(const IndexSet& indexes) const
+Cover::Location ArtistModel::get_cover(const IndexSet& indexes) const
 {
 	if(indexes.isEmpty() || indexes.size() > 1){
-		return CoverLocation();
+        return Cover::Location();
 	}
 
     const ArtistList& artists = library()->artists();
 	int idx = indexes.first();
 
     if(idx < 0 || idx > artists.count()){
-		return CoverLocation();
+        return Cover::Location();
 	}
 
     const Artist& artist = artists[idx];
-	return CoverLocation::get_cover_location(artist);
+    return Cover::Location::get_cover_location(artist);
 }
 
 

@@ -31,7 +31,7 @@
 #include "Database/DatabaseVisStyles.h"
 #include "Database/LibraryDatabase.h"
 
-#include "Helper/Singleton.h"
+#include "Utils/Singleton.h"
 
 #include <QList>
 

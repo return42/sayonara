@@ -20,17 +20,17 @@
 
 #include "GUI_AbstractStream.h"
 
-#include "GUI/Helper/Widgets/ProgressBar.h"
-#include "GUI/Helper/IconLoader/IconLoader.h"
-#include "GUI/Helper/MenuTool/MenuTool.h"
-#include "GUI/Helper/Style/Style.h"
+#include "GUI/Utils/Widgets/ProgressBar.h"
+#include "GUI/Utils/IconLoader/IconLoader.h"
+#include "GUI/Utils/MenuTool/MenuTool.h"
+#include "GUI/Utils/Style/Style.h"
 
-#include "Helper/Parser/PlaylistParser.h"
-#include "Helper/Parser/PodcastParser.h"
-#include "Helper/Logger/Logger.h"
-#include "Helper/Language.h"
-#include "Helper/Message/Message.h"
-#include "Helper/Settings/Settings.h"
+#include "Utils/Parser/PlaylistParser.h"
+#include "Utils/Parser/PodcastParser.h"
+#include "Utils/Logger/Logger.h"
+#include "Utils/Language.h"
+#include "Utils/Message/Message.h"
+#include "Utils/Settings/Settings.h"
 
 #include "Components/StreamPlugins/Streams/AbstractStreamHandler.h"
 

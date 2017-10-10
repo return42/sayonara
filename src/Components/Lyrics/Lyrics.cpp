@@ -22,9 +22,9 @@
 
 #include "Lyrics.h"
 #include "LyricLookup.h"
-#include "Helper/MetaData/MetaData.h"
-#include "Helper/Tagging/Tagging.h"
-#include "Helper/Logger/Logger.h"
+#include "Utils/MetaData/MetaData.h"
+#include "Utils/Tagging/Tagging.h"
+#include "Utils/Logger/Logger.h"
 
 #include <QStringList>
 
@@ -87,7 +87,7 @@ bool Lyrics::save_lyrics(const QString& plain_text)
 		return false;
 	}
 
-	bool success = Tagging::write_lyrics(m->md, plain_text);
+    bool success = Tagging::Util::write_lyrics(m->md, plain_text);
 	if(success){
 		m->is_valid = true;
 		m->lyric_tag_content = plain_text;
@@ -106,7 +106,7 @@ void Lyrics::set_metadata(const MetaData& md)
 	m->md = md;
 	m->guess_artist_and_title();
 
-	Tagging::extract_lyrics(md, m->lyric_tag_content);
+    Tagging::Util::extract_lyrics(md, m->lyric_tag_content);
 }
 
 QString Lyrics::artist() const
@@ -155,7 +155,7 @@ bool Lyrics::is_lyric_tag_available() const
 
 bool Lyrics::is_lyric_tag_supported() const
 {
-	return Tagging::is_lyrics_supported(m->md.filepath());
+    return Tagging::Util::is_lyrics_supported(m->md.filepath());
 }
 
 void Lyrics::lyrics_fetched()

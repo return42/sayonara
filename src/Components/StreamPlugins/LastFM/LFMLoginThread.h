@@ -22,7 +22,7 @@
 #define LoginThread_H
 
 #include <QObject>
-#include "Helper/globals.h"
+#include "Utils/globals.h"
 
 namespace LastFM
 {

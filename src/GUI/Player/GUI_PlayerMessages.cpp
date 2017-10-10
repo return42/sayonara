@@ -19,7 +19,7 @@
  */
 
 #include "GUI_Player.h"
-#include "Helper/Language.h"
+#include "Utils/Language.h"
 #include <QMessageBox>
 
 GlobalMessage::Answer convert_answer(QMessageBox::StandardButton answer)

@@ -24,9 +24,9 @@
  */
 
 #include "StreamDataSender.h"
-#include "Helper/Helper.h"
-#include "Helper/FileHelper.h"
-#include "Helper/Logger/Logger.h"
+#include "Utils/Utils.h"
+#include "Utils/FileUtils.h"
+#include "Utils/Logger/Logger.h"
 
 #include <QByteArray>
 #include <QTcpSocket>

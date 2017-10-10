@@ -23,19 +23,19 @@
 #include "DirectoryDelegate.h"
 #include "GUI/DirectoryWidget/ui_GUI_DirectoryWidget.h"
 
-#include "GUI/Helper/SearchableWidget/SearchableFileTreeModel.h"
-#include "GUI/Helper/ContextMenu/LibraryContextMenu.h"
+#include "GUI/Utils/SearchableWidget/SearchableFileTreeModel.h"
+#include "GUI/Utils/ContextMenu/LibraryContextMenu.h"
 
 #include "Components/Library/LibraryManager.h"
 #include "Components/Library/LocalLibrary.h"
 #include "Components/Playlist/PlaylistHandler.h"
+#include "Components/DirectoryReader/DirectoryReader.h"
 
-#include "Helper/Message/GlobalMessage.h"
-#include "Helper/Library/LibraryNamespaces.h"
-#include "Helper/DirectoryReader/DirectoryReader.h"
-#include "Helper/FileHelper.h"
-#include "Helper/globals.h"
-#include "Helper/Language.h"
+#include "Utils/Message/GlobalMessage.h"
+#include "Utils/Library/LibraryNamespaces.h"
+#include "Utils/FileUtils.h"
+#include "Utils/globals.h"
+#include "Utils/Language.h"
 
 
 #include <QItemSelectionModel>

@@ -28,9 +28,11 @@
 
 #include "AlternativeCoverItemDelegate.h"
 #include "Components/Covers/CoverLocation.h"
-#include "GUI/Helper/GUI_Helper.h"
+#include "GUI/Utils/GuiUtils.h"
 
 #include <QPainter>
+
+using namespace Cover;
 
 AlternativeCoverItemDelegate::AlternativeCoverItemDelegate(QObject* parent) :
 	QItemDelegate(parent)
@@ -58,7 +60,7 @@ void AlternativeCoverItemDelegate::paint(QPainter *painter, const QStyleOptionVi
 
 	QString cover_path = index.data(Qt::UserRole).toString();
 
-	label->setDisabled( CoverLocation::isInvalidLocation(cover_path) );
+	label->setDisabled( Location::isInvalidLocation(cover_path) );
 	label->setMinimumHeight(100);
 	label->setMinimumWidth(100);
     label->resize(100, 100);

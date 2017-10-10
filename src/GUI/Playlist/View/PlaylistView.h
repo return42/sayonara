@@ -29,12 +29,12 @@
 #ifndef PLAYLISTVIEW_H_
 #define PLAYLISTVIEW_H_
 
-#include "GUI/Helper/SearchableWidget/SearchableView.h"
-#include "GUI/Helper/Dragable/Dragable.h"
+#include "GUI/Utils/SearchableWidget/SearchableView.h"
+#include "GUI/Utils/Dragable/Dragable.h"
 #include "GUI/InfoDialog/InfoDialogContainer.h"
-#include "Helper/Playlist/PlaylistFwd.h"
-#include "Helper/MetaData/MetaDataFwd.h"
-#include "Helper/Pimpl.h"
+#include "Utils/Playlist/PlaylistFwd.h"
+#include "Utils/MetaData/MetaDataFwd.h"
+#include "Utils/Pimpl.h"
 
 #include <QPoint>
 #include <QDrag>

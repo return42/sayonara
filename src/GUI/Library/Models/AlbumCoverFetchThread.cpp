@@ -21,22 +21,23 @@
 
 
 #include "AlbumCoverFetchThread.h"
-#include "Helper/MetaData/Album.h"
+#include "Utils/MetaData/Album.h"
 #include "Components/Covers/CoverLookup.h"
 #include "Components/Covers/CoverLocation.h"
-#include "Helper/Helper.h"
-#include "Helper/Logger/Logger.h"
+#include "Utils/Utils.h"
+#include "Utils/Logger/Logger.h"
 
 #include <atomic>
 #include <mutex>
 
+using namespace Cover;
 
 struct AlbumCoverFetchThread::Private
 {
     QString current_hash;
-    CoverLocation current_cl;
+    Location current_cl;
 	QStringList hashes;
-	QList<CoverLocation> cover_locations;
+	QList<Location> cover_locations;
 
 	std::atomic<bool> goon;
 	std::mutex mutex;
@@ -55,7 +56,7 @@ struct AlbumCoverFetchThread::Private
 		hashes.clear();
 		cover_locations.clear();
 		current_hash = QString();
-		current_cl = CoverLocation();
+		current_cl = Location();
 	}
 };
 
@@ -112,7 +113,7 @@ void AlbumCoverFetchThread::run()
 }
 
 
-void AlbumCoverFetchThread::add_data(const QString& hash, const CoverLocation& cl)
+void AlbumCoverFetchThread::add_data(const QString& hash, const Location& cl)
 {
 	if(!m->hashes.contains(hash) && (m->current_hash.compare(hash) != 0))
 	{
@@ -138,7 +139,7 @@ QString AlbumCoverFetchThread::current_hash() const
 	return m->current_hash;
 }
 
-CoverLocation AlbumCoverFetchThread::current_cover_location() const
+Location AlbumCoverFetchThread::current_cover_location() const
 {
 	return m->current_cl;
 }

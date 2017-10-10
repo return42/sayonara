@@ -22,11 +22,11 @@
 #define LIBRARYGENREVIEW_H
 
 #include <QTreeWidget>
-#include "GUI/Helper/Widgets/WidgetTemplate.h"
-#include "Helper/Pimpl.h"
+#include "GUI/Utils/Widgets/WidgetTemplate.h"
+#include "Utils/Pimpl.h"
 
 class MetaDataList;
-class TagEdit;
+class Edit;
 class TreeDelegate;
 class QStringList;
 class LocalLibrary;

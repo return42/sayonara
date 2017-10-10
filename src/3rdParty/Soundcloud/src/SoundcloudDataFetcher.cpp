@@ -22,11 +22,11 @@
 #include "SoundcloudWebAccess.h"
 #include "SoundcloudJsonParser.h"
 
-#include "Helper/WebAccess/AsyncWebAccess.h"
+#include "Utils/WebAccess/AsyncWebAccess.h"
 
-#include "Helper/MetaData/MetaDataList.h"
-#include "Helper/MetaData/Album.h"
-#include "Helper/MetaData/Artist.h"
+#include "Utils/MetaData/MetaDataList.h"
+#include "Utils/MetaData/Album.h"
+#include "Utils/MetaData/Artist.h"
 
 
 struct SC::DataFetcher::Private

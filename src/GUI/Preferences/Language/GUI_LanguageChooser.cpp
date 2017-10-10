@@ -21,10 +21,10 @@
 #include "GUI_LanguageChooser.h"
 #include "GUI/Preferences/ui_GUI_LanguageChooser.h"
 
-#include "Helper/Helper.h"
-#include "Helper/FileHelper.h"
-#include "Helper/Settings/Settings.h"
-#include "Helper/Logger/Logger.h"
+#include "Utils/Utils.h"
+#include "Utils/FileUtils.h"
+#include "Utils/Settings/Settings.h"
+#include "Utils/Logger/Logger.h"
 
 #include <QFile>
 #include <QDir>

@@ -23,7 +23,7 @@
 
 #include "Database/DatabaseSearchMode.h"
 #include "Database/DatabaseModule.h"
-#include "Helper/Library/Sortorder.h"
+#include "Utils/Library/Sortorder.h"
 
 namespace Library {class Filter;}
 

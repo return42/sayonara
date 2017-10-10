@@ -26,12 +26,12 @@
 #include "Database/DatabaseConnector.h"
 #include "Database/LocalLibraryDatabase.h"
 #include "Components/Playlist/PlaylistHandler.h"
-#include "Components/TagEdit/TagEdit.h"
+#include "Components/Tagging/Editor.h"
 
-#include "Helper/Settings/Settings.h"
-#include "Helper/Library/SearchMode.h"
-#include "Helper/Logger/Logger.h"
-#include "Helper/globals.h"
+#include "Utils/Settings/Settings.h"
+#include "Utils/Library/SearchMode.h"
+#include "Utils/Logger/Logger.h"
+#include "Utils/globals.h"
 
 #include <utility>
 #include <QTime>
@@ -396,7 +396,27 @@ void LocalLibrary::merge_albums(const SP::Set<AlbumID>& album_ids, AlbumID targe
 		tag_edit()->update_track(idx, md);
 	}
 
-	tag_edit()->commit();
+    tag_edit()->commit();
+}
+
+void LocalLibrary::show_album_artists_changed(bool show_album_artists)
+{
+    QList<LibraryDatabase*> dbs = m->db->library_dbs();
+    for(LibraryDatabase* lib_db : dbs)
+    {
+        if(lib_db->db_id() == 0)
+        {
+            if(show_album_artists){
+                lib_db->change_artistid_field(LibraryDatabase::ArtistIDField::AlbumArtistID);
+            }
+
+            else{
+                lib_db->change_artistid_field(LibraryDatabase::ArtistIDField::ArtistID);
+            }
+        }
+    }
+
+    refresh();
 }
 
 void LocalLibrary::change_track_rating(int idx, int rating)

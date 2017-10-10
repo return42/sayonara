@@ -24,7 +24,7 @@
 #include <QMap>
 #include <QObject>
 
-#include "Helper/Pimpl.h"
+#include "Utils/Pimpl.h"
 
 using StreamMap=QMap<QString, QString>;
 

@@ -21,7 +21,7 @@
 #ifndef PREFERENCEWIDGETINTERFACE_H
 #define PREFERENCEWIDGETINTERFACE_H
 
-#include "GUI/Helper/GUIClass.h"
+#include "GUI/Utils/GUIClass.h"
 #include "PreferenceInterface.h"
 namespace Gui
 {

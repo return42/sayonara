@@ -22,14 +22,19 @@
 #define ALBUMCOVERMODEL_H
 
 #include "GUI/Library/Models/ItemModel.h"
-#include "Helper/Pimpl.h"
-#include "Helper/typedefs.h"
+#include "Utils/Pimpl.h"
+#include "Utils/typedefs.h"
 
 class Album;
 class AlbumList;
-class CoverLocation;
-class CoverLookup;
+
 class QSize;
+
+namespace Cover
+{
+    class Location;
+    class Lookup;
+}
 
 namespace Library
 {
@@ -61,7 +66,7 @@ namespace Library
 			int             get_searchable_column() const override;
 			QString         get_string(int idx) const override;
 			int             get_id_by_row(int idx) override;
-			CoverLocation   get_cover(const IndexSet& indexes) const override;
+            Cover::Location get_cover(const IndexSet& indexes) const override;
 
 
 			int             zoom() const;

@@ -22,9 +22,9 @@
 #define DATABASETRACKS_H
 
 #include "Database/DatabaseSearchMode.h"
-#include "Helper/typedefs.h"
-#include "Helper/Library/Sortorder.h"
-#include "Helper/Pimpl.h"
+#include "Utils/typedefs.h"
+#include "Utils/Library/Sortorder.h"
+#include "Utils/Pimpl.h"
 
 #include <QString>
 

@@ -21,11 +21,11 @@
 #include "GUI_BroadcastSetup.h"
 #include "GUI/Preferences/ui_GUI_BroadcastSetup.h"
 
-#include "GUI/Helper/Widgets/WidgetTemplate.h"
+#include "GUI/Utils/Widgets/WidgetTemplate.h"
 
-#include "Helper/Helper.h"
-#include "Helper/Settings/Settings.h"
-#include "Helper/Language.h"
+#include "Utils/Utils.h"
+#include "Utils/Settings/Settings.h"
+#include "Utils/Language.h"
 
 
 GUI_BroadcastSetup::GUI_BroadcastSetup(QWidget *parent) :

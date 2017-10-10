@@ -31,20 +31,20 @@
 #include "GUI/Playlist/Model/PlaylistItemModel.h"
 #include "GUI/Playlist/Delegate/PlaylistItemDelegate.h"
 
-#include "GUI/Helper/ContextMenu/LibraryContextMenu.h"
-#include "GUI/Helper/CustomMimeData.h"
-#include "GUI/Helper/Widgets/ProgressBar.h"
-#include "GUI/Helper/MimeDataHelper.h"
+#include "GUI/Utils/ContextMenu/LibraryContextMenu.h"
+#include "GUI/Utils/CustomMimeData.h"
+#include "GUI/Utils/Widgets/ProgressBar.h"
+#include "GUI/Utils/MimeDataUtils.h"
 
-#include "Helper/Set.h"
-#include "Helper/Parser/StreamParser.h"
-#include "Helper/MetaData/MetaDataList.h"
-#include "Helper/Logger/Logger.h"
+#include "Utils/Set.h"
+#include "Utils/Parser/StreamParser.h"
+#include "Utils/MetaData/MetaDataList.h"
+#include "Utils/Logger/Logger.h"
 
 #include "Components/Playlist/AbstractPlaylist.h"
 #include "Components/Playlist/PlaylistHandler.h"
 #include "Components/PlayManager/PlayManager.h"
-#include "Components/TagEdit/TagEdit.h"
+#include "Components/Tagging/Editor.h"
 
 #include <QScrollBar>
 #include <QShortcut>
@@ -349,13 +349,13 @@ void PlaylistView::rating_changed(int rating)
     MetaData md( m->model->metadata(row) );
     MetaDataList v_md_old{ md };
 
-    TagEdit* te = new TagEdit(v_md_old);
+    Tagging::Editor* te = new Tagging::Editor(v_md_old);
 
     md.rating = rating;
     te->update_track(0, md);
     te->commit();
 
-    connect(te, &QThread::finished, te, &TagEdit::deleteLater);
+    connect(te, &QThread::finished, te, &Tagging::Editor::deleteLater);
 }
 
 

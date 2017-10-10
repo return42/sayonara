@@ -21,7 +21,7 @@
 #ifndef GSTPIPELINE_H
 #define GSTPIPELINE_H
 
-#include "Helper/Settings/SayonaraClass.h"
+#include "Utils/Settings/SayonaraClass.h"
 
 #include <gst/gst.h>
 #include <gst/gstbuffer.h>
@@ -65,6 +65,8 @@ class AbstractPipeline :
 		bool		_initialized;
 		Engine*		_engine=nullptr;
 		QTimer*		_progress_timer=nullptr;
+
+        gint64      query_duration() const;
 
 	protected:
 
@@ -114,7 +116,7 @@ class AbstractPipeline :
 		virtual GstElement* get_pipeline() const;
 		virtual GstState	get_state();
 		virtual void		refresh_position();
-		virtual void		refresh_duration();
+
 		virtual void		finished();
 		virtual void		check_about_to_finish();
 		virtual int64_t		get_time_to_go() const;
@@ -122,6 +124,7 @@ class AbstractPipeline :
 
 		virtual bool		set_uri(gchar* uri);
 
+        void                update_duration_ms(gint64 duration_ms, GstElement* src);
 		virtual int64_t		get_duration_ms() const final ;
 		virtual int64_t		get_source_position_ms() const final;
 		virtual int64_t		get_pipeline_position_ms() const final;

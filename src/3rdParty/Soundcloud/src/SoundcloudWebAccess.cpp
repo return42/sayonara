@@ -20,7 +20,7 @@
 
 #include "SoundcloudWebAccess.h"
 #include "SoundcloudGlobal.h"
-#include "Helper/Logger/Logger.h"
+#include "Utils/Logger/Logger.h"
 
 #include <QString>
 

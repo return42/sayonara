@@ -22,8 +22,8 @@
 #define LocalLibrary_H
 
 #include "AbstractLibrary.h"
-#include "Helper/Singleton.h"
-#include "Helper/Pimpl.h"
+#include "Utils/Singleton.h"
+#include "Utils/Pimpl.h"
 
 
 class ReloadThread;
@@ -64,6 +64,8 @@ public slots:
 	void import_files(const QStringList& files) override;
 	void merge_artists(const SP::Set<ArtistID>& artist_ids, ArtistID target_artist_id);
 	void merge_albums(const SP::Set<AlbumID>& albums_ids, AlbumID target_album_id);
+
+    void show_album_artists_changed(bool show_album_artists);
 
 
 protected slots:

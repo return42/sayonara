@@ -21,7 +21,7 @@
 #ifndef LIBRARYVIEWALBUM_H
 #define LIBRARYVIEWALBUM_H
 
-#include "Helper/MetaData/Album.h"
+#include "Utils/MetaData/Album.h"
 #include "GUI/Library/Views/TableView.h"
 #include <QList>
 #include <QModelIndex>

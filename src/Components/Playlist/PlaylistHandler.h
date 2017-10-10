@@ -32,12 +32,12 @@
 #include "PlaylistDBInterface.h"
 #include "Components/PlayManager/PlayState.h"
 
-#include "Helper/Pimpl.h"
-#include "Helper/Singleton.h"
-#include "Helper/typedefs.h"
-#include "Helper/Settings/SayonaraClass.h"
-#include "Helper/Playlist/PlaylistFwd.h"
-#include "Helper/Library/LibraryNamespaces.h"
+#include "Utils/Pimpl.h"
+#include "Utils/Singleton.h"
+#include "Utils/typedefs.h"
+#include "Utils/Settings/SayonaraClass.h"
+#include "Utils/Playlist/PlaylistFwd.h"
+#include "Utils/Library/LibraryNamespaces.h"
 
 
 class PlayManager;

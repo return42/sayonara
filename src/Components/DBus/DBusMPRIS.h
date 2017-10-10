@@ -26,8 +26,8 @@
 #include <QDBusObjectPath>
 #include <QMainWindow>
 
-#include "Helper/MetaData/MetaData.h"
-#include "Helper/Settings/SayonaraClass.h"
+#include "Utils/MetaData/MetaData.h"
+#include "Utils/Settings/SayonaraClass.h"
 #include "Components/PlayManager/PlayState.h"
 
 class PlayManager;

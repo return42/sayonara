@@ -19,8 +19,8 @@
  */
 
 #include "ChangeablePipeline.h"
-#include "Helper/Helper.h"
-#include "Helper/Logger/Logger.h"
+#include "Utils/Utils.h"
+#include "Utils/Logger/Logger.h"
 
 
 const int SleepInterval = 50;

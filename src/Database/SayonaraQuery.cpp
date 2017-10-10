@@ -20,7 +20,7 @@
 
 #include "Database/SayonaraQuery.h"
 #include "Database/DatabaseModule.h"
-#include "Helper/Logger/Logger.h"
+#include "Utils/Logger/Logger.h"
 
 #include <QSqlDriver>
 #include <cmath>

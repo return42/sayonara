@@ -21,9 +21,9 @@
 #ifndef GUIIMPORTFOLDER_H_
 #define GUIIMPORTFOLDER_H_
 
-#include "GUI/Helper/Widgets/Dialog.h"
+#include "GUI/Utils/Widgets/Dialog.h"
 #include "Components/Library/Importer/LibraryImporter.h"
-#include "Helper/Pimpl.h"
+#include "Utils/Pimpl.h"
 
 class MetaDataList;
 class GUI_TagEdit;

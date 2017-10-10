@@ -2,7 +2,7 @@
 #define GUI_PROXY_H
 
 #include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
-#include "GUI/Helper/GUIClass.h"
+#include "GUI/Utils/GUIClass.h"
 
 UI_FWD(GUI_Proxy)
 

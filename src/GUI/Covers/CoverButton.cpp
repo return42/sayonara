@@ -22,14 +22,16 @@
 #include "GUI_AlternativeCovers.h"
 #include "Components/Covers/CoverLookup.h"
 #include "Components/Covers/CoverLocation.h"
-#include "Helper/FileHelper.h"
-#include "Helper/Helper.h"
+#include "Utils/FileUtils.h"
+#include "Utils/Utils.h"
+
+using namespace Cover;
 
 struct CoverButton::Private
 {
 	GUI_AlternativeCovers* 	alternative_covers=nullptr;
-	CoverLookup*			cover_lookup=nullptr;
-	CoverLocation 			search_cover_location;
+	Lookup*			cover_lookup=nullptr;
+	Location 			search_cover_location;
 	QString					text;
     QString					current_cover_path;
     QStringList             tmp_paths;
@@ -46,8 +48,8 @@ CoverButton::CoverButton(QWidget* parent) :
 {
 	m = Pimpl::make<CoverButton::Private>();
 
-    m->current_cover_path = CoverLocation::getInvalidLocation().preferred_path();
-	m->search_cover_location = CoverLocation::getInvalidLocation();
+    m->current_cover_path = Location::getInvalidLocation().preferred_path();
+	m->search_cover_location = Location::getInvalidLocation();
 
 	this->setIconSize(this->size());
 	this->setIcon(get_cur_icon());
@@ -71,14 +73,14 @@ void CoverButton::set_cover_image(const QString& cover_path)
 }
 
 
-void CoverButton::set_cover_location(const CoverLocation& cl)
+void CoverButton::set_cover_location(const Location& cl)
 {
 	m->search_cover_location = cl;
 
     if(!m->cover_lookup)
     {
-		m->cover_lookup = new CoverLookup(this);
-		connect(m->cover_lookup, &CoverLookup::sig_cover_found, this, &CoverButton::set_cover_image);
+		m->cover_lookup = new Lookup(this);
+		connect(m->cover_lookup, &Lookup::sig_cover_found, this, &CoverButton::set_cover_image);
 	}
 
     m->cover_lookup->fetch_cover(cl);
@@ -129,7 +131,7 @@ void CoverButton::cover_button_clicked()
 }
 
 
-void CoverButton::alternative_cover_fetched(const CoverLocation& cl)
+void CoverButton::alternative_cover_fetched(const Location& cl)
 {
 	if(cl.valid()){
 		emit sig_cover_replaced();
@@ -139,7 +141,7 @@ void CoverButton::alternative_cover_fetched(const CoverLocation& cl)
 }
 
 
-void CoverButton::cover_found(const CoverLocation& cl)
+void CoverButton::cover_found(const Location& cl)
 {
     /* If cover was forced while CoverLookup was still running */
     if(m->cover_forced && (sender() == m->cover_lookup)) {

@@ -22,25 +22,29 @@
 #define ABSTRACTLIBRARY_H
 
 
-#include "Helper/Library/LibraryNamespaces.h"
-#include "Helper/Library/Filter.h"
-#include "Helper/Settings/SayonaraClass.h"
-#include "Helper/typedefs.h"
-#include "Helper/Pimpl.h"
-#include "Helper/Set.h"
+#include "Utils/Library/LibraryNamespaces.h"
+#include "Utils/Library/Filter.h"
+#include "Utils/Settings/SayonaraClass.h"
+#include "Utils/typedefs.h"
+#include "Utils/Pimpl.h"
+#include "Utils/Set.h"
 
-#include "Helper/MetaData/Artist.h"
-#include "Helper/MetaData/Album.h"
-#include "Helper/MetaData/MetaDataList.h"
+#include "Utils/MetaData/Artist.h"
+#include "Utils/MetaData/Album.h"
+#include "Utils/MetaData/MetaDataList.h"
 
-#include "Helper/Library/Sorting.h"
+#include "Utils/Library/Sorting.h"
 
 #include <QFile>
 
 #define prepare_tracks_for_playlist_files static_cast<void (AbstractLibrary::*) (const QStringList&)>(&AbstractLibrary::psl_prepare_tracks_for_playlist)
 #define prepare_tracks_for_playlist_idxs static_cast<void (AbstractLibrary::*) (const IdxList&)>(&AbstractLibrary::psl_prepare_tracks_for_playlist)
 
-class TagEdit;
+namespace Tagging
+{
+    class Editor;
+}
+
 class PlaylistHandler;
 class AbstractLibrary : public QObject, protected SayonaraClass
 {
@@ -172,7 +176,7 @@ protected:
 	virtual void		update_tracks(const MetaDataList& v_md);
 	virtual void		update_album(const Album& album)=0;
 
-	TagEdit*			tag_edit();
+    Tagging::Editor*      tag_edit();
 
 
     MetaDataList        _tracks;

@@ -21,8 +21,8 @@
 #ifndef DATABASESEARCHMODE_H
 #define DATABASESEARCHMODE_H
 
-#include "Helper/Pimpl.h"
-#include "Helper/Library/SearchMode.h"
+#include "Utils/Pimpl.h"
+#include "Utils/Library/SearchMode.h"
 #include "Database/DatabaseModule.h"
 
 class QSqlDatabase;

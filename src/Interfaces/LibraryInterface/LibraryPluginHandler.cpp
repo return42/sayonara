@@ -21,19 +21,19 @@
 #include "LibraryPluginHandler.h"
 #include "LibraryPluginCombobox.h"
 
-#include "GUI/Helper/GUI_Helper.h"
-#include "GUI/Helper/Delegates/ComboBoxDelegate.h"
-#include "GUI/Helper/Widgets/WidgetTemplate.h"
+#include "GUI/Utils/GuiUtils.h"
+#include "GUI/Utils/Delegates/ComboBoxDelegate.h"
+#include "GUI/Utils/Widgets/WidgetTemplate.h"
 #include "LibraryContainer/LibraryContainer.h"
 #include "Components/Library/LibraryManager.h"
-#include "Helper/Library/LibraryInfo.h"
+#include "Utils/Library/LibraryInfo.h"
 #include "GUI/Library/LocalLibraryContainer.h"
 #include "GUI/Library/EmptyLibraryContainer.h"
 
-#include "Helper/globals.h"
-#include "Helper/Helper.h"
-#include "Helper/Settings/Settings.h"
-#include "Helper/Logger/Logger.h"
+#include "Utils/globals.h"
+#include "Utils/Utils.h"
+#include "Utils/Settings/Settings.h"
+#include "Utils/Logger/Logger.h"
 
 #include <QAction>
 #include <QDir>

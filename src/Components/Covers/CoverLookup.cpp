@@ -32,40 +32,42 @@
 
 #include "Database/DatabaseConnector.h"
 
-#include "Helper/MetaData/MetaData.h"
-#include "Helper/MetaData/Album.h"
+#include "Utils/MetaData/MetaData.h"
+#include "Utils/MetaData/Album.h"
 
 #include <QFile>
 #include <QImage>
 
-struct CoverLookup::Private
+using namespace Cover;
+
+struct Lookup::Private
 {
-	int					n_covers;
-	CoverFetchThread*	cft=nullptr;
+    int             n_covers;
+    FetchThread*    cft=nullptr;
 
 	Private(int n_covers) :
 		n_covers(n_covers)
 	{}
 };
 
-CoverLookup::CoverLookup(QObject* parent, int n_covers) :
-	AbstractCoverLookup(parent)
+Lookup::Lookup(QObject* parent, int n_covers) :
+	LookupBase(parent)
 {
 	m = Pimpl::make<Private>(n_covers);
 }
 
-CoverLookup::~CoverLookup() {}
+Lookup::~Lookup() {}
 
-bool CoverLookup::start_new_thread(const CoverLocation& cl )
+bool Lookup::start_new_thread(const Cover::Location& cl )
 {
 	if(!cl.has_search_urls()){
 		return false;
 	}
 
-	CoverFetchThread* cft = new CoverFetchThread(this, cl, m->n_covers);
+	FetchThread* cft = new FetchThread(this, cl, m->n_covers);
 
-	connect(cft, &CoverFetchThread::sig_cover_found, this, &CoverLookup::cover_found);
-	connect(cft, &CoverFetchThread::sig_finished, this, &CoverLookup::finished);
+	connect(cft, &FetchThread::sig_cover_found, this, &Lookup::cover_found);
+	connect(cft, &FetchThread::sig_finished, this, &Lookup::finished);
 
 	cft->start();
 
@@ -75,7 +77,7 @@ bool CoverLookup::start_new_thread(const CoverLocation& cl )
 }
 
 
-bool CoverLookup::fetch_cover(const CoverLocation& cl, bool also_www)
+bool Lookup::fetch_cover(const Location& cl, bool also_www)
 {
 	// Look, if cover exists in .Sayonara/covers
 	if( QFile::exists(cl.cover_path()) && m->n_covers == 1 )
@@ -108,23 +110,23 @@ bool CoverLookup::fetch_cover(const CoverLocation& cl, bool also_www)
 }
 
 
-bool CoverLookup::fetch_album_cover(const Album& album, bool also_www)
+bool Lookup::fetch_album_cover(const Album& album, bool also_www)
 {
-	CoverLocation cl = CoverLocation::get_cover_location(album);
+	Location cl = Location::get_cover_location(album);
 	return fetch_cover(cl, also_www);
 }
 
 
-void CoverLookup::finished(bool success)
+void Lookup::finished(bool success)
 {
 	m->cft = nullptr;
     emit sig_finished(success);
 }
 
 
-void CoverLookup::cover_found(const QString& file_path)
+void Lookup::cover_found(const QString& file_path)
 {
-	CoverFetchThread* cft = static_cast<CoverFetchThread*>(sender());
+	FetchThread* cft = static_cast<FetchThread*>(sender());
     emit sig_cover_found(file_path);
 
 	if(!cft->more()){
@@ -132,7 +134,7 @@ void CoverLookup::cover_found(const QString& file_path)
 	}
 }
 
-void CoverLookup::stop()
+void Lookup::stop()
 {
 	if(m->cft){
 		m->cft->stop();

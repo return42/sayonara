@@ -19,14 +19,14 @@
  */
 
 #include "AbstractPlaylist.h"
-#include "Helper/FileHelper.h"
-#include "Helper/Set.h"
-#include "Helper/globals.h"
-#include "Helper/Settings/Settings.h"
-#include "Helper/MetaData/MetaDataList.h"
+#include "Utils/FileUtils.h"
+#include "Utils/Set.h"
+#include "Utils/globals.h"
+#include "Utils/Settings/Settings.h"
+#include "Utils/MetaData/MetaDataList.h"
 
 #include "Components/PlayManager/PlayManager.h"
-#include "Components/TagEdit/MetaDataChangeNotifier.h"
+#include "Components/Tagging/ChangeNotifier.h"
 
 #include <utility>
 #include <algorithm>
@@ -52,13 +52,13 @@ AbstractPlaylist::AbstractPlaylist(int idx, const QString& name) :
 	PlaylistDBInterface(name),
 	SayonaraClass()
 {
-	MetaDataChangeNotifier* md_change_notifier = MetaDataChangeNotifier::instance();
+    Tagging::ChangeNotifier* md_change_notifier = Tagging::ChangeNotifier::instance();
 	PlayManager* play_manager = PlayManager::instance();
 
     m = Pimpl::make<AbstractPlaylist::Private>(idx,  _settings->get(Set::PL_Mode));
 
-	connect(md_change_notifier, &MetaDataChangeNotifier::sig_metadata_changed, this, &AbstractPlaylist::metadata_changed);
-	connect(md_change_notifier, &MetaDataChangeNotifier::sig_metadata_deleted, this, &AbstractPlaylist::metadata_deleted);
+    connect(md_change_notifier, &Tagging::ChangeNotifier::sig_metadata_changed, this, &AbstractPlaylist::metadata_changed);
+    connect(md_change_notifier, &Tagging::ChangeNotifier::sig_metadata_deleted, this, &AbstractPlaylist::metadata_deleted);
 
 	connect(play_manager, &PlayManager::sig_md_changed, this, &AbstractPlaylist::metadata_changed_single);
 	connect(play_manager, &PlayManager::sig_duration_changed, this, &AbstractPlaylist::duration_changed);

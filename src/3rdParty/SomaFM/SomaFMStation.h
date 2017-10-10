@@ -24,12 +24,16 @@
 #ifndef SOMAFMSTATION_H
 #define SOMAFMSTATION_H
 
-#include "Helper/Pimpl.h"
+#include "Utils/Pimpl.h"
 
 class QStringList;
 class QString;
-class CoverLocation;
 class MetaDataList;
+
+namespace Cover
+{
+    class Location;
+}
 
 namespace SomaFM
 {
@@ -56,7 +60,7 @@ namespace SomaFM
 		QStringList urls() const;
 		QString description() const;
 		UrlType url_type(const QString& url) const;
-		CoverLocation cover_location() const;
+        Cover::Location cover_location() const;
 		bool is_valid() const;
 		MetaDataList metadata() const;
 		void set_metadata(const MetaDataList& v_md);

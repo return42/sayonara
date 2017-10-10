@@ -18,9 +18,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "Helper/Helper.h"
+#include "Utils/Utils.h"
 #include "TagTextInput.h"
-#include "Helper/Settings/Settings.h"
+#include "Utils/Settings/Settings.h"
 
 #include <QMenu>
 #include <QAction>

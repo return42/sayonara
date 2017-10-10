@@ -21,8 +21,8 @@
 
 
 #include "LFMCoverFetcher.h"
-#include "Helper/Helper.h"
-#include "Helper/Logger/Logger.h"
+#include "Utils/Utils.h"
+#include "Utils/Logger/Logger.h"
 #include "Components/StreamPlugins/LastFM/LFMGlobals.h"
 
 #include <QStringList>
@@ -32,7 +32,9 @@
 #include <QMap>
 #include <QUrl>
 
-bool LFMCoverFetcher::can_fetch_cover_directly() const
+using namespace Cover::Fetcher;
+
+bool LastFM::can_fetch_cover_directly() const
 {
 	return false;
 }
@@ -58,7 +60,7 @@ QDomNode find_artist_node(const QDomNode& node, const QString& prefix)
 	}
 }
 
-QStringList LFMCoverFetcher::calc_addresses_from_website(const QByteArray& website) const
+QStringList LastFM::calc_addresses_from_website(const QByteArray& website) const
 {
 	QDomDocument doc("LastFM Cover");
 	doc.setContent(website);
@@ -104,7 +106,7 @@ QStringList LFMCoverFetcher::calc_addresses_from_website(const QByteArray& websi
 }
 
 
-QString LFMCoverFetcher::get_artist_address(const QString& artist) const
+QString LastFM::artist_address(const QString& artist) const
 {
 	QString str = QString("http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=" +
 						  QUrl::toPercentEncoding(artist) +
@@ -113,7 +115,7 @@ QString LFMCoverFetcher::get_artist_address(const QString& artist) const
 	return str;
 }
 
-QString LFMCoverFetcher::get_album_address(const QString& artist, const QString& album) const
+QString LastFM::album_address(const QString& artist, const QString& album) const
 {
 	QString str = QString("http://ws.audioscrobbler.com/2.0/?method=album.getinfo&artist=" +
 						  QUrl::toPercentEncoding(artist) +
@@ -124,33 +126,33 @@ QString LFMCoverFetcher::get_album_address(const QString& artist, const QString&
 	return str;
 }
 
-QString LFMCoverFetcher::get_search_address(const QString& str) const
+QString LastFM::search_address(const QString& str) const
 {
 	Q_UNUSED(str)
 	return QString();
 }
 
-bool LFMCoverFetcher::is_search_supported() const
+bool LastFM::is_search_supported() const
 {
 	return false;
 }
 
-bool LFMCoverFetcher::is_album_supported() const
+bool LastFM::is_album_supported() const
 {
 	return true;
 }
 
-bool LFMCoverFetcher::is_artist_supported() const
+bool LastFM::is_artist_supported() const
 {
 	return true;
 }
 
-int LFMCoverFetcher::get_estimated_size() const
+int LastFM::estimated_size() const
 {
 	return 300;
 }
 
-QString LFMCoverFetcher::get_keyword() const
+QString LastFM::keyword() const
 {
 	return "audioscrobbler";
 }

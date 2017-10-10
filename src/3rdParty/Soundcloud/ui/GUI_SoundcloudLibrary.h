@@ -22,7 +22,7 @@
 #define GUI_SOUNDCLOUDLIBRARY_H
 
 #include "GUI/Library/GUI_AbstractLibrary.h"
-#include "Helper/Pimpl.h"
+#include "Utils/Pimpl.h"
 
 #include "3rdParty/Soundcloud/ui/GUI_SoundcloudArtistSearch.h"
 

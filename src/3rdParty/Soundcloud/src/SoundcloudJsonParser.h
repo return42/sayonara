@@ -25,7 +25,7 @@
 #include <QJsonArray>
 #include <QObject>
 
-#include "Helper/Pimpl.h"
+#include "Utils/Pimpl.h"
 
 class MetaData;
 class MetaDataList;

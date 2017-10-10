@@ -28,11 +28,18 @@ class QByteArray;
 class QStringList;
 
 
+namespace Cover
+{
+
+namespace Fetcher
+{
+
+
 /**
  * @brief The CoverFetcherInterface interface
  * @ingroup Covers
  */
-class CoverFetcherInterface
+class Base
 {
 
 public:
@@ -54,7 +61,7 @@ public:
      * @brief get name of CoverFetcherInterface like e.g. Discogs
      * @return
      */
-    virtual QString get_keyword() const=0;
+	virtual QString keyword() const=0;
 
     /**
      * @brief Get the artist search url.
@@ -62,7 +69,7 @@ public:
      * @param artist artist name
      * @return
      */
-    virtual QString get_artist_address(const QString& artist) const=0;
+	virtual QString artist_address(const QString& artist) const=0;
 
     /**
      * @brief Get the album search url.
@@ -71,7 +78,7 @@ public:
      * @param album album name
      * @return
      */
-    virtual QString get_album_address(const QString& artist, const QString& album) const=0;
+	virtual QString album_address(const QString& artist, const QString& album) const=0;
 
     /**
      * @brief Get a custom search address
@@ -79,7 +86,7 @@ public:
      * @param str search string
      * @return
      */
-    virtual QString get_search_address(const QString& str) const=0;
+	virtual QString search_address(const QString& str) const=0;
 
     /**
      * @brief Is text search supported
@@ -103,7 +110,9 @@ public:
      * @brief get_estimated_size. Rough image size of the CoverFetchInterface
      * @return e.g. 300px
      */
-    virtual int get_estimated_size() const=0;
+	virtual int estimated_size() const=0;
 };
+} // Fetcher
+} // Cover
 
 #endif // ABSTRACTCOVERFETCHER_H

@@ -20,8 +20,8 @@
 
 #include "PlayerPlugin.h"
 #include "PlayerPluginHandler.h"
-#include "Helper/Logger/Logger.h"
-#include "Helper/Settings/Settings.h"
+#include "Utils/Logger/Logger.h"
+#include "Utils/Settings/Settings.h"
 
 #include <QAction>
 

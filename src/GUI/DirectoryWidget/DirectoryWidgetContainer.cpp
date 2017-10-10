@@ -19,11 +19,11 @@
  */
 
 #include "DirectoryWidgetContainer.h"
-#include "GUI/Helper/GUI_Helper.h"
+#include "GUI/Utils/GuiUtils.h"
 
 #include "GUI_DirectoryWidget.h"
-#include "GUI/Helper/IconLoader/IconLoader.h"
-#include "Helper/Language.h"
+#include "GUI/Utils/IconLoader/IconLoader.h"
+#include "Utils/Language.h"
 
 #include <QIcon>
 #include <QPixmap>

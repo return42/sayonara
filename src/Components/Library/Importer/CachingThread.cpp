@@ -20,11 +20,11 @@
 
 #include "CachingThread.h"
 
-#include "Helper/DirectoryReader/DirectoryReader.h"
-#include "Helper/Tagging/Tagging.h"
-#include "Helper/FileHelper.h"
-#include "Helper/MetaData/MetaDataList.h"
-#include "Helper/Logger/Logger.h"
+#include "Components/DirectoryReader/DirectoryReader.h"
+#include "Utils/Tagging/Tagging.h"
+#include "Utils/FileUtils.h"
+#include "Utils/MetaData/MetaDataList.h"
+#include "Utils/Logger/Logger.h"
 
 struct CachingThread::Private
 {
@@ -68,7 +68,7 @@ struct CachingThread::Private
 			if(Util::File::is_soundfile(filename)){
 				MetaData md(filename);
 
-				bool success = Tagging::getMetaDataOfFile(md);
+                bool success = Tagging::Util::getMetaDataOfFile(md);
 				if(success){
 					cache->add_soundfile(md);
 				}

@@ -27,7 +27,7 @@
 #include <QObject>
 #include <QList>
 
-#include "Helper/Pimpl.h"
+#include "Utils/Pimpl.h"
 
 namespace SomaFM
 {

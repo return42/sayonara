@@ -20,15 +20,14 @@
 
 #include "FileListView.h"
 #include "FileListModel.h"
+#include "GUI/Utils/ContextMenu/LibraryContextMenu.h"
 
-#include "GUI/Helper/ContextMenu/LibraryContextMenu.h"
-
-#include "Helper/globals.h"
+#include "Components/DirectoryReader/DirectoryReader.h"
 #include "DirectoryIconProvider.h"
 #include "DirectoryDelegate.h"
-#include "Helper/MetaData/MetaDataList.h"
-#include "Helper/DirectoryReader/DirectoryReader.h"
-#include "Helper/Settings/Settings.h"
+#include "Utils/globals.h"
+#include "Utils/MetaData/MetaDataList.h"
+#include "Utils/Settings/Settings.h"
 
 #include <QDrag>
 #include <QDragEnterEvent>

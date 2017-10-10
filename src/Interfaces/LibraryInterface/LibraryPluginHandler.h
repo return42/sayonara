@@ -21,9 +21,9 @@
 #ifndef LIBRARYPLUGINLOADER_H
 #define LIBRARYPLUGINLOADER_H
 
-#include "Helper/Settings/SayonaraClass.h"
-#include "Helper/Singleton.h"
-#include "Helper/Pimpl.h"
+#include "Utils/Settings/SayonaraClass.h"
+#include "Utils/Singleton.h"
+#include "Utils/Pimpl.h"
 
 #include <QList>
 #include <QObject>

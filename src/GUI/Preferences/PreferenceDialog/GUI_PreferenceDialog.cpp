@@ -21,9 +21,9 @@
 #include "GUI_PreferenceDialog.h"
 #include "GUI/Preferences/ui_GUI_PreferenceDialog.h"
 
-#include "GUI/Helper/Delegates/StyledItemDelegate.h"
+#include "GUI/Utils/Delegates/StyledItemDelegate.h"
 #include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
-#include "Helper/globals.h"
+#include "Utils/globals.h"
 
 #include <QLayout>
 

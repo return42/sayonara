@@ -21,8 +21,8 @@
 #ifndef PLAYLISTLOADER_H
 #define PLAYLISTLOADER_H
 
-#include "Helper/Settings/SayonaraClass.h"
-#include "Helper/Playlist/CustomPlaylistFwd.h"
+#include "Utils/Settings/SayonaraClass.h"
+#include "Utils/Playlist/CustomPlaylistFwd.h"
 
 #include <QObject>
 

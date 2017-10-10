@@ -23,17 +23,17 @@
 #include "GenreFetcher.h"
 
 #include "Components/Library/LocalLibrary.h"
-#include "Components/TagEdit/MetaDataChangeNotifier.h"
-#include "Components/TagEdit/TagEdit.h"
+#include "Components/Tagging/ChangeNotifier.h"
+#include "Components/Tagging/Editor.h"
 #include "Database/DatabaseConnector.h"
-#include "Helper/MetaData/MetaDataList.h"
+#include "Utils/MetaData/MetaDataList.h"
 
 struct GenreFetcher::Private
 {
 	LocalLibrary* local_library=nullptr;
 	QStringList genres;
 	QStringList additional_genres; // empty genres that are inserted
-	TagEdit* tag_edit=nullptr;
+    Tagging::Editor* tag_edit=nullptr;
 
 	Private() {}
 
@@ -55,14 +55,14 @@ GenreFetcher::GenreFetcher(QObject* parent) :
 	QObject(parent)
 {
 	m = Pimpl::make<Private>();
-	m->tag_edit = new TagEdit(this);
+    m->tag_edit = new Tagging::Editor(this);
 
-	MetaDataChangeNotifier* mcn = MetaDataChangeNotifier::instance();
+    Tagging::ChangeNotifier* mcn = Tagging::ChangeNotifier::instance();
 
-	connect(mcn, &MetaDataChangeNotifier::sig_metadata_changed, this, &GenreFetcher::metadata_changed);
-	connect(mcn, &MetaDataChangeNotifier::sig_metadata_deleted, this, &GenreFetcher::metadata_deleted);
-	connect(m->tag_edit, &TagEdit::sig_progress, this, &GenreFetcher::sig_progress);
-	connect(m->tag_edit, &TagEdit::finished, this, &GenreFetcher::tag_edit_finished);
+    connect(mcn, &Tagging::ChangeNotifier::sig_metadata_changed, this, &GenreFetcher::metadata_changed);
+    connect(mcn, &Tagging::ChangeNotifier::sig_metadata_deleted, this, &GenreFetcher::metadata_deleted);
+    connect(m->tag_edit, &Tagging::Editor::sig_progress, this, &GenreFetcher::sig_progress);
+    connect(m->tag_edit, &Tagging::Editor::finished, this, &GenreFetcher::tag_edit_finished);
 }
 
 GenreFetcher::~GenreFetcher() {}

@@ -22,7 +22,7 @@
 
 #include "Components/Bookmarks/Bookmarks.h"
 #include "Components/Bookmarks/Bookmark.h"
-#include "Helper/Language.h"
+#include "Utils/Language.h"
 
 BookmarksMenu::BookmarksMenu(QWidget* parent) :
 	QMenu(parent)

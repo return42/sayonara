@@ -21,7 +21,7 @@
 #ifndef SOUNDCLOUDDATA_H
 #define SOUNDCLOUDDATA_H
 
-#include "Helper/Singleton.h"
+#include "Utils/Singleton.h"
 #include "Database/LibraryDatabase.h"
 #include <QObject>
 

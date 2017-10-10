@@ -20,7 +20,7 @@
 
 #include "LFMSimArtistsParser.h"
 #include "ArtistMatch.h"
-#include "Helper/Logger/Logger.h"
+#include "Utils/Logger/Logger.h"
 
 #include <QFile>
 #include <QMap>

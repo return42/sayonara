@@ -22,7 +22,7 @@
 #define APPLICATION_H
 
 #include <QApplication>
-#include "Helper/Pimpl.h"
+#include "Utils/Pimpl.h"
 
 class QTranslator;
 class QStringList;

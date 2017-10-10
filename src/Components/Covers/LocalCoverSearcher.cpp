@@ -19,19 +19,23 @@
  */
 
 #include "LocalCoverSearcher.h"
-#include "Helper/FileHelper.h"
+#include "Utils/FileUtils.h"
 
 #include <QFile>
 #include <QDir>
 #include <QFileInfo>
 
-QStringList LocalCoverSearcher::get_local_cover_paths_from_filename(const QString& filepath){
+using namespace Cover;
+
+QStringList LocalSearcher::get_local_cover_paths_from_filename(const QString& filepath)
+{
 	QString file, dir;
 	Util::File::split_filename(filepath, dir, file);
 	return get_local_cover_paths_from_dirname(dir);
 }
 
-QStringList LocalCoverSearcher::get_local_cover_paths_from_dirname(const QString& filepath){
+QStringList LocalSearcher::get_local_cover_paths_from_dirname(const QString& filepath)
+{
 	QStringList ret;
 	QStringList hash[3];
 	QStringList entries;

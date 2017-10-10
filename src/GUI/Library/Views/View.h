@@ -31,16 +31,16 @@
 
 
 
-#include "GUI/Helper/Widgets/WidgetTemplate.h"
-#include "GUI/Helper/SearchableWidget/SearchableView.h"
-#include "GUI/Helper/Dragable/Dragable.h"
+#include "GUI/Utils/Widgets/WidgetTemplate.h"
+#include "GUI/Utils/SearchableWidget/SearchableView.h"
+#include "GUI/Utils/Dragable/Dragable.h"
 #include "GUI/InfoDialog/InfoDialogContainer.h"
 #include "GUI/Library/Models/ItemModel.h"
 
-#include "Helper/MetaData/MetaDataFwd.h"
-#include "Helper/typedefs.h"
-#include "Helper/Set.h"
-#include "Helper/Pimpl.h"
+#include "Utils/MetaData/MetaDataFwd.h"
+#include "Utils/typedefs.h"
+#include "Utils/Set.h"
+#include "Utils/Pimpl.h"
 
 class LibraryContextMenu;
 class ColumnHeaderList;

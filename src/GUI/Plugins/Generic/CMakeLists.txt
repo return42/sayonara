@@ -12,5 +12,5 @@ QT5_WRAP_UI(FORMS_UIC
 ADD_LIBRARY(${PROJECT_NAME} STATIC ${SOURCES} ${FORMS_UIC})
 TARGET_LINK_LIBRARIES(${PROJECT_NAME}
     say_interfaces_player_plugin
-    say_gui_helper
+    say_gui_utils
 )

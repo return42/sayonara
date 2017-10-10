@@ -29,9 +29,9 @@
 #ifndef PLAYLISTITEMMODEL_H_
 #define PLAYLISTITEMMODEL_H_
 
-#include "GUI/Helper/SearchableWidget/AbstractSearchModel.h"
-#include "Helper/typedefs.h"
-#include "Helper/Playlist/PlaylistFwd.h"
+#include "GUI/Utils/SearchableWidget/AbstractSearchModel.h"
+#include "Utils/typedefs.h"
+#include "Utils/Playlist/PlaylistFwd.h"
 
 #include <QString>
 

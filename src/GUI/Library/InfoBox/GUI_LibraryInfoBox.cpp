@@ -29,16 +29,16 @@
 #include "Database/DatabaseConnector.h"
 #include "Database/LibraryDatabase.h"
 
-#include "Helper/Settings/Settings.h"
-#include "Helper/FileHelper.h"
-#include "Helper/Helper.h"
-#include "Helper/Language.h"
-#include "Helper/Library/LibraryInfo.h"
-#include "Helper/MetaData/Album.h"
-#include "Helper/MetaData/Artist.h"
-#include "Helper/MetaData/MetaDataList.h"
+#include "Utils/Settings/Settings.h"
+#include "Utils/FileUtils.h"
+#include "Utils/Utils.h"
+#include "Utils/Language.h"
+#include "Utils/Library/LibraryInfo.h"
+#include "Utils/MetaData/Album.h"
+#include "Utils/MetaData/Artist.h"
+#include "Utils/MetaData/MetaDataList.h"
 
-#include "GUI/Helper/GUI_Helper.h"
+#include "GUI/Utils/GuiUtils.h"
 
 #include <QMap>
 #include <QPixmap>

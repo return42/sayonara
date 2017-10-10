@@ -24,9 +24,9 @@
 #include "Components/Covers/CoverLocation.h"
 #include "Components/PlayManager/PlayManager.h"
 
-#include "Helper/Random/RandomGenerator.h"
-#include "Helper/Logger/Logger.h"
-#include "Helper/Settings/Settings.h"
+#include "Utils/Random/RandomGenerator.h"
+#include "Utils/Logger/Logger.h"
+#include "Utils/Settings/Settings.h"
 
 #include <QDBusConnection>
 #include <QDBusMessage>
@@ -239,8 +239,6 @@ bool DBusMPRIS::MediaPlayer2::Shuffle()
 QVariantMap DBusMPRIS::MediaPlayer2::Metadata()
 {
 	QString cover_path;
-	CoverLocation cl;
-
 	QVariantMap map;
 	QVariant v_object_path, v_length;
 
@@ -254,7 +252,7 @@ QVariantMap DBusMPRIS::MediaPlayer2::Metadata()
 	v_object_path.setValue<QDBusObjectPath>(object_path);
 	v_length.setValue<qlonglong>(_md.length_ms * 1000);
 
-	cl = CoverLocation::get_cover_location(_md);
+    Cover::Location cl = Cover::Location::get_cover_location(_md);
 	cover_path = cl.preferred_path();
 
 	map["mpris:trackid"] = v_object_path;

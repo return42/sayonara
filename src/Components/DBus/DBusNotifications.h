@@ -22,7 +22,7 @@
 
 #include "Interfaces/Notification/NotificationHandler.h"
 #include "Components/DBus/Notifications.h"
-#include "Helper/Settings/SayonaraClass.h"
+#include "Utils/Settings/SayonaraClass.h"
 
 class DBusNotifications :
 		public QObject,

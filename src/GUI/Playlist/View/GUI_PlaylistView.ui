@@ -78,7 +78,7 @@
   <customwidget>
    <class>SearchableListView</class>
    <extends>QListView</extends>
-   <header>GUI/Helper/SearchableWidget/SearchableWidget.h</header>
+   <header>GUI/Utils/SearchableWidget/SearchableWidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

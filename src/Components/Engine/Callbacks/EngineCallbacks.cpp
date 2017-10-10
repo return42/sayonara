@@ -21,9 +21,9 @@
 #include "EngineCallbacks.h"
 #include "Components/Engine/Playback/PlaybackEngine.h"
 
-#include "Helper/MetaData/MetaData.h"
-#include "Helper/globals.h"
-#include "Helper/Logger/Logger.h"
+#include "Utils/MetaData/MetaData.h"
+#include "Utils/globals.h"
+#include "Utils/Logger/Logger.h"
 
 #include <QList>
 #include <QImage>
@@ -199,7 +199,7 @@ gboolean EngineCallbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpoint
 				MetaData md;
 				md.title = title;
 				g_free(title);
-				engine->update_md(md, src);
+                engine->update_metadata(md, src);
 			}
 
 			gst_tag_list_unref(tags);
@@ -242,14 +242,17 @@ gboolean EngineCallbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpoint
 			gst_message_parse_buffering(msg, &percent);
 			gst_message_parse_buffering_stats(msg, &mode, &avg_in, &avg_out, &buffering_left );
 
-			/*sp_log(Log::Debug, this) << "Buffering " << percent;
-			sp_log(Log::Debug, this) << "Buffering State: " << (int) mode << " avg in: " << avg_in << " avg out: " << avg_out << " todo: " << buffering_left;*/
-
 			engine->set_buffer_state(percent, src);
 			break;
 
 		case GST_MESSAGE_DURATION_CHANGED:
-			engine->update_duration(src);
+            {
+                gint64 duration_ns;
+                bool success = gst_element_query_duration(src, GST_FORMAT_TIME, &duration_ns);
+                if(success) {
+                    engine->update_duration(GST_TIME_AS_MSECONDS(duration_ns), src);
+                }
+            }
 			break;
 
 		case GST_MESSAGE_INFO:
@@ -260,7 +263,7 @@ gboolean EngineCallbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpoint
 			{
 				GError*			err;
 				gst_message_parse_warning(msg, &err, nullptr);
-				sp_log(Log::Warning) << "Engine " << (int) engine->get_name() << ": GST_MESSAGE_WARNING: " << err->message << ": "
+                sp_log(Log::Warning) << "Engine " << (int) engine->name() << ": GST_MESSAGE_WARNING: " << err->message << ": "
 					 << GST_MESSAGE_SRC_NAME(msg);
 			}
 			break;
@@ -270,7 +273,7 @@ gboolean EngineCallbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpoint
 				GError*			err;
 				gst_message_parse_error(msg, &err, nullptr);
 
-				sp_log(Log::Error) << "Engine " << (int) engine->get_name() << ": GST_MESSAGE_ERROR: " << err->message << ": "
+                sp_log(Log::Error) << "Engine " << (int) engine->name() << ": GST_MESSAGE_ERROR: " << err->message << ": "
 						 << GST_MESSAGE_SRC_NAME(msg);
 
 				QString	error_msg(err->message);

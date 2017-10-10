@@ -20,13 +20,14 @@
 
 #include "PlaylistTabBar.h"
 #include "PlaylistTabMenu.h"
-#include "GUI/Helper/CustomMimeData.h"
-#include "GUI/Helper/Shortcuts/ShortcutHandler.h"
-#include "GUI/Helper/Shortcuts/Shortcut.h"
 
-#include "Helper/DirectoryReader/DirectoryReader.h"
-#include "Helper/MetaData/MetaDataList.h"
-#include "Helper/Language.h"
+#include "GUI/Utils/CustomMimeData.h"
+#include "GUI/Utils/Shortcuts/ShortcutHandler.h"
+#include "GUI/Utils/Shortcuts/Shortcut.h"
+
+#include "Components/DirectoryReader/DirectoryReader.h"
+#include "Utils/MetaData/MetaDataList.h"
+#include "Utils/Language.h"
 
 #include <QShortcut>
 #include <QInputDialog>

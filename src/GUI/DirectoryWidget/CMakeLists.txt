@@ -17,7 +17,8 @@ QT5_WRAP_UI(UI_HEADERS
 ADD_LIBRARY(${PROJECT_NAME} STATIC ${SOURCES} ${UI_HEADERS})
 TARGET_LINK_LIBRARIES(${PROJECT_NAME}
 	say_gui_info_dialog
-	say_gui_helper
+	say_gui_utils
+	say_comp_directory_reader
 )
 
 IF( WITH_COTIRE )

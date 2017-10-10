@@ -1,7 +1,7 @@
 #ifndef SORTING_H
 #define SORTING_H
 
-#include "Helper/Library/Sorting.h"
+#include "Utils/Library/Sorting.h"
 
 class ArtistList;
 class AlbumList;

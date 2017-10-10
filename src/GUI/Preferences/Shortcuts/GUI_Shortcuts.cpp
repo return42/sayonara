@@ -21,8 +21,8 @@
 #include "GUI_Shortcuts.h"
 #include "GUI_ShortcutEntry.h"
 #include "GUI/Preferences/ui_GUI_Shortcuts.h"
-#include "GUI/Helper/Shortcuts/ShortcutHandler.h"
-#include "Helper/Language.h"
+#include "GUI/Utils/Shortcuts/ShortcutHandler.h"
+#include "Utils/Language.h"
 
 #include <QLineEdit>
 #include <QPushButton>

@@ -25,10 +25,10 @@
 
 #include "Components/PlayManager/PlayState.h"
 
-#include "Helper/Message/GlobalMessageReceiverInterface.h"
-#include "Helper/MetaData/RadioMode.h"
-#include "GUI/Helper/Widgets/Widget.h"
-#include "GUI/Helper/Shortcuts/ShortcutWidget.h"
+#include "Utils/Message/GlobalMessageReceiverInterface.h"
+#include "Utils/MetaData/RadioMode.h"
+#include "GUI/Utils/Widgets/Widget.h"
+#include "GUI/Utils/Shortcuts/ShortcutWidget.h"
 
 #include <QSystemTrayIcon>
 

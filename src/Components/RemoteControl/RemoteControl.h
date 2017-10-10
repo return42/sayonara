@@ -22,12 +22,12 @@
 #define REMOTECONTROL_H
 
 #include "Components/PlayManager/PlayState.h"
-#include "Helper/Settings/SayonaraClass.h"
-#include "Helper/Playlist/PlaylistFwd.h"
+#include "Utils/Settings/SayonaraClass.h"
+#include "Utils/Playlist/PlaylistFwd.h"
 
 #include <QObject>
 
-#include "Helper/Pimpl.h"
+#include "Utils/Pimpl.h"
 
 class PlaylistHandler;
 class PlayManager;

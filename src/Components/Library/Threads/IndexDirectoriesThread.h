@@ -23,7 +23,7 @@
 
 #include <QStringList>
 #include <QThread>
-#include "Helper/Pimpl.h"
+#include "Utils/Pimpl.h"
 
 class MetaDataList;
 class IndexDirectoriesThread :

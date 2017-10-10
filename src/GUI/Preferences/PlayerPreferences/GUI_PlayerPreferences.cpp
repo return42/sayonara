@@ -20,7 +20,7 @@
 
 #include "GUI_PlayerPreferences.h"
 #include "GUI/Preferences/ui_GUI_PlayerPreferences.h"
-#include "Helper/Settings/Settings.h"
+#include "Utils/Settings/Settings.h"
 
 
 GUI_PlayerPreferences::GUI_PlayerPreferences(QWidget *parent) :

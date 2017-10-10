@@ -23,9 +23,9 @@
 #include "Components/Playlist/PlaylistHandler.h"
 #include "Components/Playlist/AbstractPlaylist.h"
 #include "Components/PlayManager/PlayManager.h"
-#include "Helper/Settings/Settings.h"
-#include "Helper/MetaData/MetaDataList.h"
-#include "Helper/Logger/Logger.h"
+#include "Utils/Settings/Settings.h"
+#include "Utils/MetaData/MetaDataList.h"
+#include "Utils/Logger/Logger.h"
 
 #include <QBuffer>
 #include <QFile>
@@ -353,7 +353,7 @@ void RemoteControl::write_cover()
 
 void RemoteControl::write_cover(const MetaData& md)
 {
-	CoverLocation cl = CoverLocation::get_cover_location(md);
+    Cover::Location cl = Cover::Location::get_cover_location(md);
 	QByteArray img_data;
 	QString cover_path = cl.preferred_path();
 	QImage img(cover_path);

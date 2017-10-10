@@ -22,8 +22,8 @@
 #include "Database/DatabaseModule.h"
 #include "Database/SayonaraQuery.h"
 
-#include "Helper/Helper.h"
-#include "Helper/Logger/Logger.h"
+#include "Utils/Utils.h"
+#include "Utils/Logger/Logger.h"
 
 #include <QFile>
 #include <QDir>

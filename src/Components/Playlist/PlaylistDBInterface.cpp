@@ -20,8 +20,8 @@
 
 #include "PlaylistDBWrapper.h"
 #include "PlaylistDBInterface.h"
-#include "Helper/Playlist/CustomPlaylist.h"
-#include "Helper/Language.h"
+#include "Utils/Playlist/CustomPlaylist.h"
+#include "Utils/Language.h"
 
 
 PlaylistDBInterface::PlaylistDBInterface(const QString& name)

@@ -21,19 +21,21 @@
 
 
 #include "GoogleCoverFetcher.h"
-#include "Helper/Logger/Logger.h"
+#include "Utils/Logger/Logger.h"
 
 #include <QStringList>
 #include <QRegExp>
 #include <QString>
 #include <QUrl>
 
-bool GoogleCoverFetcher::can_fetch_cover_directly() const
+using namespace Cover::Fetcher;
+
+bool Google::can_fetch_cover_directly() const
 {
 	return false;
 }
 
-QStringList GoogleCoverFetcher::calc_addresses_from_website(const QByteArray& website) const
+QStringList Google::calc_addresses_from_website(const QByteArray& website) const
 {
 	QString regex = "(https://encrypted-tbn.+)\"";
 	QStringList addresses;
@@ -70,12 +72,12 @@ QStringList GoogleCoverFetcher::calc_addresses_from_website(const QByteArray& we
 }
 
 
-QString GoogleCoverFetcher::get_artist_address(const QString& artist) const
+QString Google::artist_address(const QString& artist) const
 {
-	return get_search_address(QUrl::toPercentEncoding(artist));
+	return search_address(QUrl::toPercentEncoding(artist));
 }
 
-QString GoogleCoverFetcher::get_album_address(const QString& artist, const QString& album) const
+QString Google::album_address(const QString& artist, const QString& album) const
 {
 	QString new_album, searchstring;
 	QRegExp regex;
@@ -102,10 +104,10 @@ QString GoogleCoverFetcher::get_album_address(const QString& artist, const QStri
 
 	searchstring += new_album;
 
-	return get_search_address(searchstring);
+	return search_address(searchstring);
 }
 
-QString GoogleCoverFetcher::get_search_address(const QString& str) const
+QString Google::search_address(const QString& str) const
 {
 	QString searchstring = str;
 	searchstring.replace(" ", "%20");
@@ -121,29 +123,29 @@ QString GoogleCoverFetcher::get_search_address(const QString& str) const
 	return url;
 }
 
-bool GoogleCoverFetcher::is_search_supported() const
+bool Google::is_search_supported() const
 {
 	return true;
 }
 
-bool GoogleCoverFetcher::is_album_supported() const
+bool Google::is_album_supported() const
 {
 	return true;
 }
 
-bool GoogleCoverFetcher::is_artist_supported() const
+bool Google::is_artist_supported() const
 {
 	return true;
 }
 
 
-int GoogleCoverFetcher::get_estimated_size() const
+int Google::estimated_size() const
 {
 	return 150;
 }
 
 
-QString GoogleCoverFetcher::get_keyword() const
+QString Google::keyword() const
 {
 	// DO NOT EDIT THAT! It's also used in CoverFetchManager
 	return "google";

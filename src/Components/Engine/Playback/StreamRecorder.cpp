@@ -19,13 +19,13 @@
  */
 
 #include "StreamRecorder.h"
-#include "Helper/Helper.h"
-#include "Helper/FileHelper.h"
-#include "Helper/Parser/PlaylistParser.h"
-#include "Helper/Tagging/Tagging.h"
-#include "Helper/Logger/Logger.h"
-#include "Helper/Settings/Settings.h"
-#include "Helper/MetaData/MetaDataList.h"
+#include "Utils/Utils.h"
+#include "Utils/FileUtils.h"
+#include "Utils/Parser/PlaylistParser.h"
+#include "Utils/Tagging/Tagging.h"
+#include "Utils/Logger/Logger.h"
+#include "Utils/Settings/Settings.h"
+#include "Utils/MetaData/MetaDataList.h"
 
 #include "Components/PlayManager/PlayManager.h"
 
@@ -179,7 +179,7 @@ bool  StreamRecorder::save()
 
 	m->md.set_filepath(m->sr_recording_dst);
 
-	Tagging::setMetaDataOfFile(m->md);
+    Tagging::Util::setMetaDataOfFile(m->md);
 	m->session_collector.push_back(m->md);
 
 	PlaylistParser::save_playlist(m->session_playlist_name, m->session_collector, true);

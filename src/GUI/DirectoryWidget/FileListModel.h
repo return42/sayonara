@@ -21,7 +21,7 @@
 #ifndef FILE_LIST_MODEL_H
 #define FILE_LIST_MODEL_H
 
-#include "GUI/Helper/SearchableWidget/AbstractSearchModel.h"
+#include "GUI/Utils/SearchableWidget/AbstractSearchModel.h"
 
 #include <QStringList>
 #include <QModelIndex>

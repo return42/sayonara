@@ -22,9 +22,9 @@
 #define GSTPLAYBACKPIPELINE_H_
 
 #include "ChangeablePipeline.h"
-#include "CrossFader.h"
+#include "Crossfader.h"
 #include "Components/Engine/AbstractPipeline.h"
-#include "Helper/Pimpl.h"
+#include "Utils/Pimpl.h"
 
 struct StreamRecorderData;
 class Engine;

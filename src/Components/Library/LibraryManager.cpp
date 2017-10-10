@@ -22,10 +22,10 @@
 
 #include "LibraryManager.h"
 #include "Interfaces/LibraryInterface/LibraryPluginHandler.h"
-#include "Helper/Library/LibraryInfo.h"
-#include "Helper/Helper.h"
-#include "Helper/FileHelper.h"
-#include "Helper/Settings/Settings.h"
+#include "Utils/Library/LibraryInfo.h"
+#include "Utils/Utils.h"
+#include "Utils/FileUtils.h"
+#include "Utils/Settings/Settings.h"
 #include "LocalLibrary.h"
 
 #include <QDir>

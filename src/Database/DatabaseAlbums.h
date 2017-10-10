@@ -23,8 +23,8 @@
 
 #include "Database/DatabaseSearchMode.h"
 #include "Database/DatabaseModule.h"
-#include "Helper/Library/Sortorder.h"
-#include "Helper/typedefs.h"
+#include "Utils/Library/Sortorder.h"
+#include "Utils/typedefs.h"
 
 namespace Library {class Filter;}
 class Album;

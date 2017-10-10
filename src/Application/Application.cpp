@@ -20,9 +20,9 @@
 
 #include "Application.h"
 #include "InstanceThread.h"
-#include "Helper/Macros.h"
-#include "Helper/Language.h"
-#include "Helper/Settings/Settings.h"
+#include "Utils/Macros.h"
+#include "Utils/Language.h"
+#include "Utils/Settings/Settings.h"
 
 #ifdef WITH_DBUS
 	#include "Components/DBus/DBusHandler.h"
@@ -42,7 +42,7 @@
 #include "Interfaces/PlayerPlugin/PlayerPluginHandler.h"
 #include "Interfaces/Notification/NotificationHandler.h"
 
-#include "GUI/Helper/GUI_Helper.h"
+#include "GUI/Utils/GuiUtils.h"
 
 #include "GUI/Player/GUI_Player.h"
 #include "GUI/Library/LocalLibraryContainer.h"
@@ -76,10 +76,10 @@
 #include "GUI/Preferences/Icons/GUI_IconPreferences.h"
 #include "GUI/Preferences/ProxyPreferences/GUI_Proxy.h"
 
-#include "Helper/FileHelper.h"
-#include "Helper/Helper.h"
-#include "Helper/Logger/Logger.h"
-#include "Helper/WebAccess/Proxy.h"
+#include "Utils/FileUtils.h"
+#include "Utils/Utils.h"
+#include "Utils/Logger/Logger.h"
+#include "Utils/WebAccess/Proxy.h"
 
 #include "Database/DatabaseConnector.h"
 
@@ -183,14 +183,14 @@ Application::Application(int & argc, char ** argv) :
 
 /*void Application::check_for_crash()
 {
-	QString error_file = Helper::get_error_file();
+    QString error_file = Util::get_error_file();
 
 	if(!QFile::exists(error_file)) return;
 
 	QString info_text;
 	QString mail;
 
-	if(!Helper::File::read_file_into_str(error_file, mail)){
+    if(!Util::File::read_file_into_str(error_file, mail)){
 		mail = "";
 		mail.prepend("mailto:luciocarreras@gmail.com?subject=Sayonara Crash&amp;body=Hi Lucio,\n\nhere is the trace for a Sayonara crash\n\n");
 	}

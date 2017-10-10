@@ -1,8 +1,8 @@
 #include "Sorting.h"
-#include "Helper/MetaData/MetaData.h"
-#include "Helper/MetaData/Artist.h"
-#include "Helper/MetaData/Album.h"
-#include "Helper/MetaData/MetaDataList.h"
+#include "Utils/MetaData/MetaData.h"
+#include "Utils/MetaData/Artist.h"
+#include "Utils/MetaData/Album.h"
+#include "Utils/MetaData/MetaDataList.h"
 
 #include <functional>
 

@@ -25,7 +25,7 @@
 
 #include "Interfaces/Notification/NotificationHandler.h"
 #include "Components/PlayManager/PlayState.h"
-#include "Helper/Settings/Settings.h"
+#include "Utils/Settings/Settings.h"
 
 #include <QSystemTrayIcon>
 

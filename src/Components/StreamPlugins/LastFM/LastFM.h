@@ -29,10 +29,10 @@
 #ifndef LASTFM_H_
 #define LASTFM_H_
 
-#include "Helper/Settings/SayonaraClass.h"
-#include "Helper/typedefs.h"
-#include "Helper/Singleton.h"
-#include "Helper/Pimpl.h"
+#include "Utils/Settings/SayonaraClass.h"
+#include "Utils/typedefs.h"
+#include "Utils/Singleton.h"
+#include "Utils/Pimpl.h"
 
 #include <QMap>
 #include <QObject>
