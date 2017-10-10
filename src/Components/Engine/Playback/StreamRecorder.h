@@ -29,45 +29,49 @@
 
 class MetaData;
 
-/**
- * @brief The StreamRecorder class
- * @ingroup Engine
- */
-class StreamRecorder :
-		public QObject,
-		protected SayonaraClass
+namespace StreamRecorder
 {
-	PIMPL(StreamRecorder)
+    /**
+     * @brief The StreamRecorder class
+     * @ingroup Engine
+     */
+    class Accessor :
+            public QObject,
+            protected SayonaraClass
+    {
+        PIMPL(Accessor)
 
-private:
-	// set metadata, add to session collector
-    bool save();
+    private:
+        // set metadata, add to session collector
+        bool save();
 
-	void clear();
+        void clear();
 
-	// saves session collector into playlist, creates new session,
-	void new_session();
+        // saves session collector into playlist, creates new session,
+        void new_session();
 
-	// check and create session path
-	QString check_session_path(const QString& sr_path);
+        // check and create session path
+        QString check_session_path(const QString& sr_path);
 
 
-public:
-	explicit StreamRecorder(QObject *parent=nullptr);
-	~StreamRecorder();
+    public:
+        explicit Accessor(QObject *parent=nullptr);
+        ~Accessor();
 
-	// change recording destination, create session path
-	// returns destination file
-	QString change_track(const MetaData& md);
+        // change recording destination, create session path
+        // returns destination file
+        QString change_track(const MetaData& md);
 
-	// start or end a session
-	void record(bool b);
+        // start or end a session
+        void record(bool b);
 
-	// is in a session currently
-	bool is_recording() const;
+        // is in a session currently
+        bool is_recording() const;
 
-private slots:
-	void playstate_changed(PlayState state);
-};
+
+    private slots:
+        void playstate_changed(PlayState state);
+    };
+}
 
 #endif // STREAMRECORDER_H

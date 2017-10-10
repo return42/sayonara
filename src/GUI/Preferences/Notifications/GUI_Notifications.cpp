@@ -42,7 +42,8 @@ void GUI_Notifications::retranslate_ui()
 
 void GUI_Notifications::notifications_changed()
 {
-	NotificatonList notifications = _notification_handler->get_notificators();
+    NotificationHandler* nh = NotificationHandler::instance();
+    NotificatonList notifications = nh->get_notificators();
 
 	ui->combo_notification->clear();
 
@@ -50,13 +51,15 @@ void GUI_Notifications::notifications_changed()
 		ui->combo_notification->addItem(notification->get_name());
 	}
 
-	ui->combo_notification->setCurrentIndex(_notification_handler->get_cur_idx());
+    ui->combo_notification->setCurrentIndex(nh->get_cur_idx());
 }
 
 
 
 void GUI_Notifications::commit()
 {
+    NotificationHandler* nh = NotificationHandler::instance();
+
 	bool active =       ui->cb_activate->isChecked();
 	int timeout =       ui->sb_timeout->value();
 	QString cur_text =  ui->combo_notification->currentText();
@@ -65,7 +68,7 @@ void GUI_Notifications::commit()
 	_settings->set(Set::Notification_Timeout, timeout);
 	_settings->set(Set::Notification_Show, active);
 
-	_notification_handler->notificator_changed(cur_text);
+    nh->notificator_changed(cur_text);
 }
 
 void GUI_Notifications::revert()
@@ -87,12 +90,12 @@ void GUI_Notifications::init_ui()
 {
 	setup_parent(this, &ui);
 
-	_notification_handler = NotificationHandler::instance();
+    NotificationHandler* nh = NotificationHandler::instance();
 
 	revert();
 
 	notifications_changed();
 
-	connect(_notification_handler,	&NotificationHandler::sig_notifications_changed,
-			this,					&GUI_Notifications::notifications_changed);
+    connect(nh,	&NotificationHandler::sig_notifications_changed,
+            this, &GUI_Notifications::notifications_changed);
 }

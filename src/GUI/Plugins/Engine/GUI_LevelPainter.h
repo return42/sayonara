@@ -23,6 +23,7 @@
 
 #include "EnginePlugin.h"
 #include "Components/Engine/Playback/SoundOutReceiver.h"
+#include "Utils/Pimpl.h"
 
 UI_FWD(GUI_LevelPainter)
 
@@ -32,6 +33,7 @@ class GUI_LevelPainter :
 {
     Q_OBJECT
 	UI_CLASS(GUI_LevelPainter)
+    PIMPL(GUI_LevelPainter)
 
 public:
 	explicit GUI_LevelPainter(QWidget *parent=nullptr);
@@ -50,20 +52,15 @@ protected:
    void init_ui() override;
    void retranslate_ui() override;
 
+   QWidget* widget() override;
+   bool has_small_buttons() const override;
+
 
 protected slots:
 	void timed_out() override;
 	void set_level(float, float) override;
 
-
-	// TODO: Pimpl
 private:
-	float	_level[2];
-	float	_exp_lot[600];
-
-	int** _steps=nullptr;
-
-    void resize_steps(int n_rects);
     void reload();
 };
 

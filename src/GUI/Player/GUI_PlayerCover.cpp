@@ -30,7 +30,7 @@
 #include <QPixmap>
 #include <QIcon>
 
-using namespace Cover;
+using Cover::Location;
 
 void GUI_Player::set_cover_location(const MetaData& md)
 {

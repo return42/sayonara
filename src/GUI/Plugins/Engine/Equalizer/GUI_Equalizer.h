@@ -30,6 +30,7 @@
 #define GUI_EQUALIZER_H_
 
 #include "Interfaces/PlayerPlugin/PlayerPlugin.h"
+#include "Utils/Pimpl.h"
 
 #include <QList>
 #include <QMenu>
@@ -37,11 +38,13 @@
 
 class EQ_Setting;
 class EqSlider;
-class EngineHandler;
+
+namespace Engine
+{
+    class Handler;
+}
 
 UI_FWD(GUI_Equalizer)
-
-// TODO: Pimpl
 
 /**
  * @brief The GUI_Equalizer class
@@ -52,6 +55,7 @@ class GUI_Equalizer :
 {
 	Q_OBJECT
 	UI_CLASS(GUI_Equalizer)
+    PIMPL(GUI_Equalizer)
 
 public:
 	explicit GUI_Equalizer(QWidget* parent=nullptr);
@@ -62,17 +66,6 @@ public:
 
 public slots:
 	void fill_eq_presets();
-
-
-private:
-	EngineHandler*		_engine=nullptr;
-	QList<EQ_Setting>	_presets;
-	QList<EqSlider*>	_sliders;
-
-	int					_old_val[10];
-	int					_active_idx;
-
-	int find_combo_text(QString txt);
 
 private:
 	void init_ui() override;

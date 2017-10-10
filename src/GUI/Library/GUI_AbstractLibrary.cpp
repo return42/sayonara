@@ -169,7 +169,6 @@ void GUI_AbstractLibrary::init_search_bar()
     m->le_search->setContextMenuPolicy(Qt::CustomContextMenu);
     m->le_search->setClearButtonEnabled(true);
 
-
     QList<QAction*> actions;
 	QList<Filter::Mode> filters = search_options();
 	for(const Filter::Mode filter_mode : filters)

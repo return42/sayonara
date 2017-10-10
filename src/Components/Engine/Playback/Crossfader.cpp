@@ -31,6 +31,8 @@
 #include <glib.h>
 #include <functional>
 
+using Pipeline::CrossFader;
+
 class FaderThreadData
 {
 private:

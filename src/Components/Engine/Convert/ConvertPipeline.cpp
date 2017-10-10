@@ -24,9 +24,12 @@
 #include "Utils/Settings/Settings.h"
 #include "Utils/Logger/Logger.h"
 
+using Pipeline::Convert;
+using Pipeline::test_and_error;
+using Pipeline::test_and_error_bool;
 
-ConvertPipeline::ConvertPipeline(Engine* engine, QObject *parent) :
-	AbstractPipeline("ConvertPipeline", engine, parent)
+Convert::Convert(Engine::Base* engine, QObject *parent) :
+    Pipeline::Base("ConvertPipeline", engine, parent)
 {
 	_audio_src = nullptr;
 	_lame = nullptr;
@@ -38,10 +41,10 @@ ConvertPipeline::ConvertPipeline(Engine* engine, QObject *parent) :
 }
 
 
-ConvertPipeline::~ConvertPipeline() {}
+Convert::~Convert() {}
 
-bool ConvertPipeline::init(GstState state){
-	if(!AbstractPipeline::init(state)){
+bool Convert::init(GstState state){
+	if(!Base::init(state)){
 		return false;
 	}
 
@@ -49,12 +52,12 @@ bool ConvertPipeline::init(GstState state){
 	return true;
 }
 
-GstElement*ConvertPipeline::get_source() const
+GstElement*Convert::get_source() const
 {
 	return _audio_src;
 }
 
-bool ConvertPipeline::create_elements()
+bool Convert::create_elements()
 {
 	if(!create_element(&_audio_src, "uridecodebin", "src")) return false;
 	if(!create_element(&_audio_convert, "audioconvert", "audio_convert")) return false;
@@ -66,7 +69,7 @@ bool ConvertPipeline::create_elements()
 	return true;
 }
 
-bool ConvertPipeline::add_and_link_elements()
+bool Convert::add_and_link_elements()
 {
 	bool success;
 
@@ -81,17 +84,17 @@ bool ConvertPipeline::add_and_link_elements()
 	);
 
 	success = gst_element_link_many(_audio_convert, _resampler, _lame, _xingheader, _audio_sink, nullptr);
-	return _test_and_error_bool(success, "ConvertEngine: Cannot link lame elements");
+    return test_and_error_bool(success, "ConvertEngine: Cannot link lame elements");
 }
 
-bool ConvertPipeline::configure_elements()
+bool Convert::configure_elements()
 {
-	g_signal_connect (_audio_src, "pad-added", G_CALLBACK (PipelineCallbacks::decodebin_ready), _audio_convert);
+    g_signal_connect (_audio_src, "pad-added", G_CALLBACK (Callbacks::decodebin_ready), _audio_convert);
 	return true;
 }
 
 
-bool ConvertPipeline::set_uri(gchar* uri)
+bool Convert::set_uri(gchar* uri)
 {
 	if(!_pipeline) {
 		return false;
@@ -104,7 +107,7 @@ bool ConvertPipeline::set_uri(gchar* uri)
 	return true;
 }
 
-bool ConvertPipeline::set_target_uri(gchar* uri)
+bool Convert::set_target_uri(gchar* uri)
 {
 	if(!_pipeline) {
 		return false;
@@ -117,24 +120,24 @@ bool ConvertPipeline::set_target_uri(gchar* uri)
 }
 
 
-void ConvertPipeline::play()
+void Convert::play()
 {
 	LameBitrate q = (LameBitrate) _settings->get(Set::Engine_ConvertQuality);
 	set_quality(q);
 
 	sp_log(Log::Debug, this) << "Convert pipeline: play";
 
-	AbstractPipeline::play();
+	Base::play();
 }
 
 
-void ConvertPipeline::stop()
+void Convert::stop()
 {
-	AbstractPipeline::stop();
+	Base::stop();
 }
 
 
-void ConvertPipeline::set_quality(LameBitrate quality)
+void Convert::set_quality(LameBitrate quality)
 {
 	if(!_pipeline) return;
 

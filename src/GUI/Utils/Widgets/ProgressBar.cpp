@@ -18,12 +18,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-/* ProgressBar.cpp */
-
 #include "ProgressBar.h"
 
-using namespace Gui;
+using Gui::ProgressBar;
 
 ProgressBar::ProgressBar(QWidget* parent) :
 	QProgressBar(parent)

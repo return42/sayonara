@@ -26,7 +26,7 @@
 
 #include <QStringList>
 
-using namespace Cover;
+using Cover::AlternativeLookup;
 
 struct AlternativeLookup::Private
 {

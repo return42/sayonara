@@ -34,8 +34,9 @@
 #include <QPixmap>
 #include <QThread>
 
-using namespace Cover;
-using namespace Library;
+using Cover::Location;
+using Cover::Lookup;
+using Library::CoverModel;
 
 struct CoverModel::Private
 {

@@ -38,7 +38,8 @@
 #include <QFile>
 #include <QImage>
 
-using namespace Cover;
+using Cover::Lookup;
+using Cover::FetchThread;
 
 struct Lookup::Private
 {

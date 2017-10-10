@@ -23,26 +23,33 @@
 
 #include <gst/gst.h>
 
-struct StreamRecorderData;
-/**
- * @ingroup Engine
- */
-namespace Probing
+namespace StreamRecorder
 {
-	GstPadProbeReturn
-	level_probed(GstPad *pad, GstPadProbeInfo *info, gpointer user_data);
+    struct Data;
+}
 
-	GstPadProbeReturn
-	spectrum_probed(GstPad *pad, GstPadProbeInfo *info, gpointer user_data);
+namespace Pipeline
+{
+    /**
+     * @ingroup Engine
+     */
+    namespace Probing
+    {
+        GstPadProbeReturn
+        level_probed(GstPad *pad, GstPadProbeInfo *info, gpointer user_data);
 
-	GstPadProbeReturn
-	lame_probed(GstPad *pad, GstPadProbeInfo *info, gpointer user_data);
+        GstPadProbeReturn
+        spectrum_probed(GstPad *pad, GstPadProbeInfo *info, gpointer user_data);
 
-	void handle_probe(bool* active, GstElement* queue, gulong* probe_id, GstPadProbeCallback callback);
+        GstPadProbeReturn
+        lame_probed(GstPad *pad, GstPadProbeInfo *info, gpointer user_data);
 
-	GstPadProbeReturn
-	stream_recorder_probed(GstPad *pad, GstPadProbeInfo *info, gpointer user_data);
-	void handle_stream_recorder_probe(StreamRecorderData* data, GstPadProbeCallback callback);
+        void handle_probe(bool* active, GstElement* queue, gulong* probe_id, GstPadProbeCallback callback);
+
+        GstPadProbeReturn
+        stream_recorder_probed(GstPad *pad, GstPadProbeInfo *info, gpointer user_data);
+        void handle_stream_recorder_probe(StreamRecorder::Data* data, GstPadProbeCallback callback);
+    }
 }
 
 #endif // PIPELINEPROBES_H

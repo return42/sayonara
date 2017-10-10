@@ -23,12 +23,7 @@
 
 #include "Interfaces/PlayerPlugin/PlayerPlugin.h"
 #include "Utils/Playlist/CustomPlaylistFwd.h"
-
-#include <QMap>
-#include <QDockWidget>
-#include <QInputDialog>
-#include <QFileDialog>
-#include <QPixmap>
+#include "Utils/Pimpl.h"
 
 class PlaylistChooser;
 
@@ -39,11 +34,7 @@ class GUI_PlaylistChooser :
 {
 	Q_OBJECT
 	UI_CLASS(GUI_PlaylistChooser)
-
-private:
-	// todo: pimpl
-	QString							_last_dir;
-	PlaylistChooser*				_playlist_chooser=nullptr;
+    PIMPL(GUI_PlaylistChooser)
 
 public:
 	explicit GUI_PlaylistChooser(QWidget *parent=nullptr);

@@ -27,13 +27,17 @@
  * @ingroup Engine
  */
 struct GstURIDecodeBin;
-namespace PipelineCallbacks
-{
-    void decodebin_ready(GstElement *src, GstPad *new_pad, gpointer data);
-    void source_ready(GstURIDecodeBin* bin, GstElement* source, gpointer user_data);
 
-	gboolean position_changed(gpointer data);
-	GstFlowReturn new_buffer(GstElement *sink, gpointer data);
+namespace Pipeline
+{
+    namespace Callbacks
+    {
+        void decodebin_ready(GstElement *src, GstPad *new_pad, gpointer data);
+        void source_ready(GstURIDecodeBin* bin, GstElement* source, gpointer user_data);
+
+        gboolean position_changed(gpointer data);
+        GstFlowReturn new_buffer(GstElement *sink, gpointer data);
+    }
 }
 
 #endif // PIPELINECALLBACKS_H

@@ -31,85 +31,87 @@
 
 #include <QUrl>
 
-struct ConvertEngine::Private
-{
-    ConvertPipeline*		pipeline=nullptr;
-    MetaData				md_target;
-    gchar*					target_uri=nullptr;
+using Engine::Convert;
 
-    Private(Engine* parent)
+struct Convert::Private
+{
+    Pipeline::Convert*  pipeline=nullptr;
+    MetaData            md_target;
+    gchar*              target_uri=nullptr;
+
+    Private(Engine::Base* parent)
     {
-        pipeline = new ConvertPipeline(parent);
+        pipeline = new Pipeline::Convert(parent);
     }
 };
 
-ConvertEngine::ConvertEngine(QObject *parent) :
-    Engine(EngineName::ConvertEngine, parent)
+Convert::Convert(QObject *parent) :
+    Base(Name::ConvertEngine, parent)
 {
     m = Pimpl::make<Private>(this);
 
-    connect(m->pipeline, &ConvertPipeline::sig_pos_changed_ms, this, &ConvertEngine::cur_pos_ms_changed);
+    connect(m->pipeline, &Pipeline::Convert::sig_pos_changed_ms, this, &Convert::cur_pos_ms_changed);
 }
 
-ConvertEngine::~ConvertEngine() {}
+Convert::~Convert() {}
 
-bool ConvertEngine::init()
+bool Convert::init()
 {
 	return m->pipeline->init();
 }
 
 
-bool ConvertEngine::change_track(const MetaData& md)
+bool Convert::change_track(const MetaData& md)
 {
     configure_target(md);
 
-    return Engine::change_track(md);
+    return Base::change_track(md);
 }
 
-bool ConvertEngine::change_track_by_filename(const QString& filename)
+bool Convert::change_track_by_filename(const QString& filename)
 {
     Q_UNUSED(filename);
     return false;
 }
 
 
-void ConvertEngine::play()
+void Convert::play()
 {
 	m->pipeline->play();
 }
 
-void ConvertEngine::pause()
+void Convert::pause()
 {
 	return;
 }
 
-void ConvertEngine::stop()
+void Convert::stop()
 {
 	m->pipeline->stop();
 
     Tagging::Util::setMetaDataOfFile(m->md_target);
 
-    Engine::stop();
+    Base::stop();
 }
 
 // public from Gstreamer Callbacks
-void ConvertEngine::set_track_finished(GstElement* src)
+void Convert::set_track_finished(GstElement* src)
 {
 	Q_UNUSED(src)
 	emit sig_track_finished();
 }
 
-void ConvertEngine::cur_pos_ms_changed(int64_t pos_ms)
+void Convert::cur_pos_ms_changed(int64_t pos_ms)
 {
-    Engine::set_current_position_ms(pos_ms);
+    Base::set_current_position_ms(pos_ms);
 }
 
-bool ConvertEngine::change_uri(char* uri)
+bool Convert::change_uri(char* uri)
 {
 	return m->pipeline->set_uri(uri);
 }
 
-void ConvertEngine::configure_target(const MetaData& md)
+void Convert::configure_target(const MetaData& md)
 {
     if(m->target_uri){
         g_free(m->target_uri);
@@ -134,8 +136,8 @@ void ConvertEngine::configure_target(const MetaData& md)
     m->md_target.set_filepath(filename);
 }
 
-void ConvertEngine::jump_abs_ms(uint64_t pos_ms) { Q_UNUSED(pos_ms); }
+void Convert::jump_abs_ms(uint64_t pos_ms) { Q_UNUSED(pos_ms); }
 
-void ConvertEngine::jump_rel_ms(uint64_t ms) { Q_UNUSED(ms); }
+void Convert::jump_rel_ms(uint64_t ms) { Q_UNUSED(ms); }
 
-void ConvertEngine::jump_rel(double percent) { Q_UNUSED(percent); }
+void Convert::jump_rel(double percent) { Q_UNUSED(percent); }

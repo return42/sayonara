@@ -32,8 +32,10 @@
 #include <memory>
 #include <algorithm>
 
+using namespace Engine;
+
 #ifdef Q_OS_WIN
-	void EngineCallbacks::destroy_notify(gpointer data) {}
+    void Callbacks::destroy_notify(gpointer data) {}
 
 	GstBusSyncReply
 	EngineCallbacks::bus_message_received(GstBus* bus, GstMessage* msg, gpointer data) {
@@ -114,11 +116,11 @@ static bool parse_image(GstTagList* tags, QImage& img)
 
 
 // check messages from bus
-gboolean EngineCallbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpointer data)
+gboolean Callbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpointer data)
 {
 	Q_UNUSED(bus);
 
-	Engine* engine = static_cast<Engine*>(data);
+	Base* engine = static_cast<Base*>(data);
 	if(!engine){
 		return true;
 	}
@@ -236,7 +238,7 @@ gboolean EngineCallbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpoint
 			gint percent;
 			
 			gint avg_in, avg_out;
-			gint64 buffering_left;
+            int64_t buffering_left;
 
 			GstBufferingMode mode;
 			gst_message_parse_buffering(msg, &percent);
@@ -247,7 +249,7 @@ gboolean EngineCallbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpoint
 
 		case GST_MESSAGE_DURATION_CHANGED:
             {
-                gint64 duration_ns;
+                int64_t duration_ns;
                 bool success = gst_element_query_duration(src, GST_FORMAT_TIME, &duration_ns);
                 if(success) {
                     engine->update_duration(GST_TIME_AS_MSECONDS(duration_ns), src);
@@ -301,20 +303,20 @@ gboolean EngineCallbacks::bus_state_changed(GstBus* bus, GstMessage* msg, gpoint
 
 // level changed
 gboolean
-EngineCallbacks::level_handler(GstBus * bus, GstMessage * message, gpointer data)
+Callbacks::level_handler(GstBus * bus, GstMessage * message, gpointer data)
 {
 	Q_UNUSED(bus);
 
 	double					channel_values[2];
 
-	PlaybackEngine*			engine;
+	Playback*			engine;
 	GValueArray*			rms_arr;
 	const GstStructure*		structure;
 	const gchar*			name;
 	const GValue*			peak_value;
 	guint					n_peak_elements;
 
-	engine = static_cast<PlaybackEngine*>(data);
+	engine = static_cast<Playback*>(data);
 	if(!engine) {
 		return true;
 	}
@@ -374,17 +376,17 @@ EngineCallbacks::level_handler(GstBus * bus, GstMessage * message, gpointer data
 
 // spectrum changed
 gboolean
-EngineCallbacks::spectrum_handler(GstBus* bus, GstMessage* message, gpointer data)
+Callbacks::spectrum_handler(GstBus* bus, GstMessage* message, gpointer data)
 {
 	Q_UNUSED(bus);
 
-	PlaybackEngine*			engine;
+	Playback*			engine;
 	const GstStructure*		structure;
 	const gchar*			structure_name;
 	const GValue*			magnitudes;
 	static QList<float>		spectrum_vals;
 
-	engine = static_cast<PlaybackEngine*>(data);
+	engine = static_cast<Playback*>(data);
 	if(!engine) {
 		return true;
 	}

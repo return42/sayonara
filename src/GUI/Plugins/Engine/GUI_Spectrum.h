@@ -21,6 +21,7 @@
 #ifndef GUI_SPECTRUM_H
 #define GUI_SPECTRUM_H
 
+#include "Utils/Pimpl.h"
 #include "Components/Engine/Playback/SoundOutReceiver.h"
 
 #include "EnginePlugin.h"
@@ -35,6 +36,7 @@ class GUI_Spectrum :
 {
     Q_OBJECT
 	UI_CLASS(GUI_Spectrum)
+    PIMPL(GUI_Spectrum)
 
 public:
 	explicit GUI_Spectrum(QWidget *parent=nullptr);
@@ -49,22 +51,19 @@ protected:
 	void closeEvent(QCloseEvent*) override;
 	void init_ui() override;
 	void retranslate_ui() override;
-
+    QWidget *widget() override;
+    bool has_small_buttons() const override;
 
 protected slots:
 	void timed_out() override;
-
 
 public slots:
 	void set_spectrum(const QList<float>&) override;
 	void sl_update_style() override;
 
-private:	
-	// todo: pimpl
-	QList<float> _spec;
-	int** _steps=nullptr;
-
+private:
     void resize_steps(int bins, int rects);
+
 };
 
 #endif // GUI_SPECTRUM_H

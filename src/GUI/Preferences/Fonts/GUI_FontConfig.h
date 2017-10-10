@@ -21,6 +21,7 @@
 #define GUI_FONTCONFIG_H
 
 #include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
+#include "Utils/Pimpl.h"
 
 UI_FWD(GUI_FontConfig)
 
@@ -32,6 +33,7 @@ class GUI_FontConfig :
 {
 	Q_OBJECT
 	UI_CLASS(GUI_FontConfig)
+    PIMPL(GUI_FontConfig)
 
 public:
 	explicit GUI_FontConfig(QWidget* parent=nullptr);
@@ -52,15 +54,6 @@ protected slots:
 	void default_clicked();
 	void combo_fonts_changed(const QFont& font);
 	void skin_changed() override;
-
-
-private:
-	// todo: pimpl
-	QFontDatabase*	_font_db=nullptr;
-	int				_cur_font_size;
-	int				_cur_font_weight;
-	bool			_is_default;
-
 
 private:
 	QStringList get_available_font_sizes(const QString& font_name, const QString& style=QString());

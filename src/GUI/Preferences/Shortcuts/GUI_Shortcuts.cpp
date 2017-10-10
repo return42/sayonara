@@ -30,10 +30,21 @@
 
 #define ADD_TO_MAP(x) _btn_le_map[btn_##x] = le_##x
 
+struct GUI_Shortcuts::Private
+{
+    ShortcutHandler*			sch = nullptr;
+    QList<GUI_ShortcutEntry*>	entries;
+
+    Private()
+    {
+        sch = ShortcutHandler::instance();
+    }
+};
+
 GUI_Shortcuts::GUI_Shortcuts(QWidget* parent) :
 	PreferenceWidgetInterface(parent)
 {
-	_sch = ShortcutHandler::instance();
+    m = Pimpl::make<Private>();
 }
 
 GUI_Shortcuts::~GUI_Shortcuts()
@@ -57,7 +68,7 @@ void GUI_Shortcuts::init_ui()
 
 	ui->cb_test->setVisible(false);
 
-	QList<Shortcut> shortcuts = _sch->get_shortcuts();
+    QList<Shortcut> shortcuts = m->sch->get_shortcuts();
 
 	for(const Shortcut& shortcut : shortcuts){
 		GUI_ShortcutEntry* entry = new GUI_ShortcutEntry(shortcut);
@@ -69,7 +80,7 @@ void GUI_Shortcuts::init_ui()
 
 		ui->layout_entries->addWidget(entry);
 
-		_entries << entry;
+        m->entries << entry;
 	}
 
 	connect(ui->cb_test, &QCheckBox::toggled, ui->cb_test, [=]()
@@ -90,7 +101,7 @@ QString GUI_Shortcuts::get_action_name() const
 
 void GUI_Shortcuts::commit()
 {
-	for(GUI_ShortcutEntry* entry : _entries){
+    for(GUI_ShortcutEntry* entry : m->entries){
 		entry->commit();
 	}
 }
@@ -98,7 +109,7 @@ void GUI_Shortcuts::commit()
 
 void GUI_Shortcuts::revert()
 {
-	for(GUI_ShortcutEntry* entry : _entries){
+    for(GUI_ShortcutEntry* entry : m->entries){
 		entry->revert();
 	}
 }
@@ -122,7 +133,7 @@ void GUI_Shortcuts::sequence_entered()
 	GUI_ShortcutEntry* entry = static_cast<GUI_ShortcutEntry*>(sender());
 	QList<QKeySequence> sequences = entry->get_sequences();
 
-	for(GUI_ShortcutEntry* lst_entry : _entries)
+    for(GUI_ShortcutEntry* lst_entry : m->entries)
 	{
 		if(lst_entry == entry){
 			continue;

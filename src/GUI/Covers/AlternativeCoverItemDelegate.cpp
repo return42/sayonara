@@ -32,7 +32,7 @@
 
 #include <QPainter>
 
-using namespace Cover;
+using Cover::Location;
 
 AlternativeCoverItemDelegate::AlternativeCoverItemDelegate(QObject* parent) :
 	QItemDelegate(parent)

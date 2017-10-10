@@ -25,79 +25,80 @@
 
 #include "Utils/Pimpl.h"
 
-class FaderThreadData;
-class FaderThread;
 
-/**
- * @brief The CrossFader class
- * @ingroup EngineInterfaces
- */
-class CrossFader
+namespace Pipeline
 {
-	PIMPL(CrossFader)
+    /**
+     * @brief The CrossFader class
+     * @ingroup EngineInterfaces
+     */
+    class CrossFader
+    {
+        PIMPL(CrossFader)
 
-public:
+    public:
 
-	enum class FadeMode : unsigned char
-	{
-		NoFading=0,
-		FadeIn,
-		FadeOut
+        enum class FadeMode : unsigned char
+        {
+            NoFading=0,
+            FadeIn,
+            FadeOut
+        };
+
+        CrossFader();
+        ~CrossFader();
+
+        /**
+         * @brief get current volume of pipeline
+         * @return value between 0 and 1.0
+         */
+        virtual double get_current_volume() const=0;
+
+        /**
+         * @brief set current volume of pipeline
+         * @param vol value between 0 and 1.0
+         */
+        virtual void set_current_volume(double vol)=0;
+
+        /**
+         * @brief get fading time in ms
+         * @return fading time in ms
+         */
+        uint64_t get_fading_time_ms() const;
+
+        /**
+         * @brief start to fade in
+         */
+        void fade_in();
+
+        /**
+         * @brief start to fade out
+         */
+        void fade_out();
+
+        bool is_fading_out() const;
+        bool is_fading_int() const;
+
+        /**
+         * @brief function is called periodically. This function should not be used from outside
+         * TODO
+         */
+        void fader_timed_out();
+
+
+    private:
+        CrossFader(const CrossFader& other)=delete;
+
+        void increase_volume();
+        void decrease_volume();
+        void init_fader();
+
+    protected:
+        void	    abort_fader();
+
+        virtual void stop()=0;
+        virtual void play()=0;
     };
-
-    CrossFader();
-	~CrossFader();
-
-	/**
-	 * @brief get current volume of pipeline
-	 * @return value between 0 and 1.0
-	 */
-	virtual double get_current_volume() const=0;
-
-	/**
-	 * @brief set current volume of pipeline
-	 * @param vol value between 0 and 1.0
-	 */
-    virtual void set_current_volume(double vol)=0;
-
-	/**
-	 * @brief get fading time in ms
-	 * @return fading time in ms
-	 */
-	uint64_t get_fading_time_ms() const;
-
-	/**
-	 * @brief start to fade in
-	 */
-    void fade_in();
-
-	/**
-	 * @brief start to fade out
-	 */
-    void fade_out();
-
-	bool is_fading_out() const;
-	bool is_fading_int() const;
-
-	/**
-	 * @brief function is called periodically. This function should not be used from outside
-	 * TODO
-	 */
-    void fader_timed_out();
-
-
-private:
-	CrossFader(const CrossFader& other)=delete;
-
-    void increase_volume();
-    void decrease_volume();
-    void init_fader();
-
-protected:
-    void	    abort_fader();
-
-	virtual void stop()=0;
-	virtual void play()=0;
-};
+}
 
 #endif // CROSSFADER_H

@@ -22,6 +22,7 @@
 #include "Utils/Utils.h"
 #include "Utils/Logger/Logger.h"
 
+using Pipeline::Changeable;
 
 const int SleepInterval = 50;
 
@@ -41,9 +42,9 @@ struct ProbeData
 	}
 };
 
-ChangeablePipeline::ChangeablePipeline() {}
+Changeable::Changeable() {}
 
-ChangeablePipeline::~ChangeablePipeline() {}
+Changeable::~Changeable() {}
 
 
 static GstPadProbeReturn
@@ -75,7 +76,7 @@ src_blocked_add(GstPad* pad, GstPadProbeInfo* info, gpointer data)
 }
 
 
-void ChangeablePipeline::add_element(GstElement* element, GstElement* first_element, GstElement* second_element)
+void Changeable::add_element(GstElement* element, GstElement* first_element, GstElement* second_element)
 {
 	GstElement* pipeline = get_pipeline();
 	gchar* element_name = gst_element_get_name(element);
@@ -180,7 +181,7 @@ src_blocked_remove(GstPad* pad, GstPadProbeInfo* info, gpointer data)
 	return GST_PAD_PROBE_OK;
 }
 
-void ChangeablePipeline::remove_element(GstElement* element, GstElement* first_element, GstElement* second_element)
+void Changeable::remove_element(GstElement* element, GstElement* first_element, GstElement* second_element)
 {
 	GstElement* pipeline = get_pipeline();
 

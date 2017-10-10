@@ -27,7 +27,7 @@
 #include <QStringList>
 #include <QAbstractItemView>
 
-using namespace Gui;
+using Gui::Completer;
 
 Completer::Completer(const QStringList& lst, QObject* parent) :
 	QCompleter(lst, parent)

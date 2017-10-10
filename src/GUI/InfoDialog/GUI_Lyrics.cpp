@@ -36,14 +36,15 @@
 
 #include <cmath>
 
-using namespace Gui;
+using Gui::ProgressBar;
+using Gui::Completer;
 
 struct GUI_Lyrics::Private
 {
-	Lyrics*	lyrics=nullptr;
-	ProgressBar* loading_bar=nullptr;
-	qreal font_size;
-	qreal initial_font_size;
+    Lyrics*         lyrics=nullptr;
+    ProgressBar*    loading_bar=nullptr;
+    qreal           font_size;
+    qreal           initial_font_size;
 
 	Private()
 	{
@@ -225,7 +226,7 @@ void GUI_Lyrics::set_metadata(const MetaData &md)
 		ui->le_artist->completer()->deleteLater();
 	}
 
-	ui->le_artist->setCompleter( new Completer(completer_entries, ui->le_artist) );
+    ui->le_artist->setCompleter( new Gui::Completer(completer_entries, ui->le_artist) );
 
 	setup_sources();
 	prepare_lyrics();

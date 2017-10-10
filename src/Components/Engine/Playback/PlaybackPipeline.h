@@ -26,63 +26,63 @@
 #include "Components/Engine/AbstractPipeline.h"
 #include "Utils/Pimpl.h"
 
-struct StreamRecorderData;
-class Engine;
-
-/**
- * @brief The PlaybackPipeline class
- * @ingroup Engine
- */
-class PlaybackPipeline :
-		public AbstractPipeline,
-		public CrossFader,
-		public ChangeablePipeline
+namespace Pipeline
 {
-	Q_OBJECT
-	PIMPL(PlaybackPipeline)
+    /**
+     * @brief The PlaybackPipeline class
+     * @ingroup Engine
+     */
+    class Playback :
+            public Base,
+            public CrossFader,
+            public Changeable
+    {
+        Q_OBJECT
+        PIMPL(Playback)
 
-public:
-	explicit PlaybackPipeline(Engine* engine, QObject *parent=nullptr);
-	virtual ~PlaybackPipeline();
+    public:
+        explicit Playback(Engine::Base* engine, QObject *parent=nullptr);
+        virtual ~Playback();
 
-	bool init(GstState state=GST_STATE_NULL) override;
-	bool set_uri(gchar* uri) override;
+        bool init(GstState state=GST_STATE_NULL) override;
+        bool set_uri(gchar* uri) override;
 
-	void set_n_sound_receiver(int num_sound_receiver);
+        void set_n_sound_receiver(int num_sound_receiver);
 
-	void set_current_volume(double volume) override;
-	double get_current_volume() const override;
+        void set_current_volume(double volume) override;
+        double get_current_volume() const override;
 
-	GstElement* get_source() const override;
-	GstElement* get_pipeline() const override;
+        GstElement* get_source() const override;
+        GstElement* get_pipeline() const override;
 
-	void force_about_to_finish();
+        void force_about_to_finish();
 
 
-public slots:
-	void play() override;
-	void stop() override;
+    public slots:
+        void play() override;
+        void stop() override;
 
-	void set_eq_band(int band_name, int val);
-	void set_streamrecorder_path(const QString& session_path);
+        void set_eq_band(int band_name, int val);
+        void set_streamrecorder_path(const QString& session_path);
 
-	gint64 seek_rel(double percent, gint64 ref_ns);
-	gint64 seek_abs(gint64 ns );
+        int64_t seek_rel(double percent, int64_t ref_ns);
+        int64_t seek_abs(int64_t ns );
 
-private:
-	void init_equalizer();
-	bool create_elements() override;
-	bool add_and_link_elements() override;
-	bool configure_elements() override;
-	uint64_t get_about_to_finish_time() const override;
+    private:
+        void init_equalizer();
+        bool create_elements() override;
+        bool add_and_link_elements() override;
+        bool configure_elements() override;
+        uint64_t get_about_to_finish_time() const override;
 
-protected slots:
-    void s_vol_changed();
-    void s_show_level_changed();
-    void s_show_spectrum_changed();
-    void s_mute_changed();
-    void s_speed_active_changed();
-    void s_speed_changed();
-};
+    protected slots:
+        void s_vol_changed();
+        void s_show_level_changed();
+        void s_show_spectrum_changed();
+        void s_mute_changed();
+        void s_speed_active_changed();
+        void s_speed_changed();
+    };
+}
 
 #endif

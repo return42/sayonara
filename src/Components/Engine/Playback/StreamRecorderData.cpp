@@ -18,11 +18,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "StreamRecorderData.h"
 
-StreamRecorderData::StreamRecorderData()
+using StreamRecorder::Data;
+
+Data::Data()
 {
 	probe_id=0;
 	busy = false;
@@ -30,7 +30,7 @@ StreamRecorderData::StreamRecorderData()
 	has_empty_filename = true;
 }
 
-StreamRecorderData::~StreamRecorderData()
+Data::~Data()
 {
 	if(filename){
 		g_free(filename);

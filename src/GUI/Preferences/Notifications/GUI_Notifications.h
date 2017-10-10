@@ -48,10 +48,6 @@ private slots:
 protected:
 	void init_ui() override;
 	void retranslate_ui() override;
-
-private:
-	// todo: Pimpl
-	NotificationHandler* _notification_handler=nullptr;
 };
 
 #endif // GUI_NOTIFICATIONS_H

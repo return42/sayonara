@@ -5,15 +5,17 @@
 #include "Utils/Settings/Settings.h"
 #include <QString>
 
+using Pipeline::StreamRecorderHandler;
+
 struct StreamRecorderHandler::Private
 {
 	Settings*			settings=nullptr;
 	QString				sr_path;
 	bool				run_sr;
-	StreamRecorderData* sr_data=nullptr;
+    StreamRecorder::Data* sr_data=nullptr;
 
 	Private() :
-		sr_data(new StreamRecorderData())
+        sr_data(new StreamRecorder::Data())
 	{
 		settings = Settings::instance();
 	}
@@ -26,7 +28,7 @@ StreamRecorderHandler::StreamRecorderHandler()
 
 StreamRecorderHandler::~StreamRecorderHandler() {}
 
-StreamRecorderData*StreamRecorderHandler::streamrecorder_data() const
+StreamRecorder::Data* StreamRecorderHandler::streamrecorder_data() const
 {
 	return m->sr_data;
 }

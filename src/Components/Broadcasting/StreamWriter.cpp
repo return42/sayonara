@@ -32,7 +32,7 @@
 
 struct StreamWriter::Private
 {
-	EngineHandler*		engine=nullptr;
+    Engine::Handler*    engine=nullptr;
 	StreamHttpParser*	parser=nullptr;
 	StreamDataSender*	sender=nullptr;
 	QTcpSocket*			socket=nullptr;
@@ -56,7 +56,7 @@ StreamWriter::StreamWriter(QTcpSocket* socket, const QString& ip, const MetaData
 	m->parser = new StreamHttpParser();
 	m->ip = ip;
 
-	m->engine = EngineHandler::instance();
+    m->engine = Engine::Handler::instance();
 	m->send_data = false;
 	m->dismissed = false;
 

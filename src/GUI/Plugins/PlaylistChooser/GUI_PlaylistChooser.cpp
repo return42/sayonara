@@ -32,12 +32,30 @@
 #include "Utils/Settings/Settings.h"
 #include "Utils/FileUtils.h"
 
+#include <QDir>
+#include <QFileDialog>
+
 #include <algorithm>
+
+struct GUI_PlaylistChooser::Private
+{
+    QString             last_dir;
+    PlaylistChooser*	playlist_chooser=nullptr;
+
+    Private() :
+        playlist_chooser(new PlaylistChooser())
+    {}
+
+    ~Private()
+    {
+        delete playlist_chooser; playlist_chooser = nullptr;
+    }
+};
 
 GUI_PlaylistChooser::GUI_PlaylistChooser(QWidget *parent) :
 	PlayerPluginInterface(parent)
 {
-	_playlist_chooser = new PlaylistChooser();
+    m = Pimpl::make<Private>();
 }
 
 
@@ -46,8 +64,6 @@ GUI_PlaylistChooser::~GUI_PlaylistChooser()
 	if(ui){
 		delete ui; ui=nullptr;
 	}
-
-	delete _playlist_chooser;
 }
 
 
@@ -55,7 +71,7 @@ void GUI_PlaylistChooser::init_ui()
 {
 	setup_parent(this, &ui);
 
-	_last_dir = QDir::homePath();
+    m->last_dir = QDir::homePath();
 
 	ui->btn_tool_pl->show_action(ContextMenu::EntryDelete, false);
 	ui->btn_tool_pl->show_action(ContextMenu::EntrySave, false);
@@ -71,10 +87,10 @@ void GUI_PlaylistChooser::init_ui()
 	connect(ui->combo_playlistchooser, combo_activated_int, this, &GUI_PlaylistChooser::playlist_selected);
 	connect(ui->combo_playlistchooser, &QComboBox::editTextChanged, this, &GUI_PlaylistChooser::edit_text_changed);
 
-	connect(_playlist_chooser, &PlaylistChooser::sig_all_playlists_loaded,
+    connect(m->playlist_chooser, &PlaylistChooser::sig_all_playlists_loaded,
 			this, &GUI_PlaylistChooser::all_playlists_fetched);
 
-	_playlist_chooser->load_all_playlists();
+    m->playlist_chooser->load_all_playlists();
 }
 
 
@@ -126,17 +142,17 @@ void GUI_PlaylistChooser::all_playlists_fetched(const CustomPlaylistSkeletons& s
 
 void GUI_PlaylistChooser::save_button_pressed()
 {
-	int id = _playlist_chooser->find_playlist(ui->combo_playlistchooser->currentText());
+    int id = m->playlist_chooser->find_playlist(ui->combo_playlistchooser->currentText());
 
 	if(id < 0){
 		QString new_name = ui->combo_playlistchooser->currentText();
-		_playlist_chooser->save_playlist(new_name);
+        m->playlist_chooser->save_playlist(new_name);
 	}
 
 	else{
 		GlobalMessage::Answer answer = Message::question_yn(Lang::get(Lang::Overwrite).question());
 		if(answer == GlobalMessage::Answer::Yes){
-			_playlist_chooser->save_playlist(id);
+            m->playlist_chooser->save_playlist(id);
 		}
 	}
 }
@@ -146,7 +162,7 @@ void GUI_PlaylistChooser::got_save_params(const QString& filename, bool relative
 {
 	sender()->deleteLater();
 
-	_playlist_chooser->save_playlist_file(filename, relative);
+    m->playlist_chooser->save_playlist_file(filename, relative);
 }
 
 
@@ -170,20 +186,20 @@ void GUI_PlaylistChooser::delete_button_pressed()
 	int val = ui->combo_playlistchooser->itemData(cur_idx).toInt();
 
 	if(val >= 0 && answer == GlobalMessage::Answer::Yes){
-		_playlist_chooser->delete_playlist(val);
+        m->playlist_chooser->delete_playlist(val);
 	}
 }
 
 
 void GUI_PlaylistChooser::playlist_selected(int idx)
 {
-	int id = _playlist_chooser->find_playlist(ui->combo_playlistchooser->currentText());
+    int id = m->playlist_chooser->find_playlist(ui->combo_playlistchooser->currentText());
 
 	ui->btn_tool_pl->show_action(ContextMenu::EntrySave, idx > 0);
 	ui->btn_tool_pl->show_action(ContextMenu::EntryDelete, id >= 0);
 
 	if(id >= 0){
-		_playlist_chooser->load_single_playlist(id);
+        m->playlist_chooser->load_single_playlist(id);
 	}
 
 	ui->le_playlist_file->clear();
@@ -195,13 +211,14 @@ void GUI_PlaylistChooser::load_button_pressed()
     QStringList filelist = QFileDialog::getOpenFileNames(
                     this,
                     tr("Open Playlist files"),
-                    _last_dir,
+                    m->last_dir,
                     Util::playlist_extensions().join(" "));
 
 	QStringList lab_texts;
-	for(const QString& filename : filelist) {
+    for(const QString& filename : filelist)
+    {
 		QString pure_filename;
-		Util::File::split_filename(filename, _last_dir, pure_filename);
+        Util::File::split_filename(filename, m->last_dir, pure_filename);
 
 		pure_filename = pure_filename.left(pure_filename.lastIndexOf('.'));
 		lab_texts << pure_filename;
@@ -210,7 +227,7 @@ void GUI_PlaylistChooser::load_button_pressed()
 	ui->le_playlist_file->setText(lab_texts.join(", "));
 
     if(filelist.size() > 0) {
-		_playlist_chooser->playlist_files_selected(filelist);
+        m->playlist_chooser->playlist_files_selected(filelist);
     }
 }
 

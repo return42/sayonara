@@ -21,7 +21,7 @@
 #include "Slider.h"
 #include <QMouseEvent>
 
-using namespace Gui;
+using Gui::Slider;
 
 Slider::Slider(QWidget *parent) :
 	QSlider(parent)

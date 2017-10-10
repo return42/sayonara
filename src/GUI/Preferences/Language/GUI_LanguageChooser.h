@@ -22,16 +22,17 @@
 #define GUI_LANGUAGECHOOSER_H
 
 #include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
-
-#include <QMap>
+#include "Utils/Pimpl.h"
 
 UI_FWD(GUI_LanguageChooser)
 
+class QString;
 class GUI_LanguageChooser :
 		public PreferenceWidgetInterface
 {
     Q_OBJECT
 	UI_CLASS(GUI_LanguageChooser)
+    PIMPL(GUI_LanguageChooser)
 
 public:
     explicit GUI_LanguageChooser(QWidget *parent=nullptr);
@@ -46,10 +47,6 @@ protected:
 	void init_ui() override;
 	void retranslate_ui() override;
 	void showEvent(QShowEvent*) override;
-
-private:
-	// todo: pimpl
-	QMap<QString, QString>		_map;
 
 private:
 	void renew_combo();

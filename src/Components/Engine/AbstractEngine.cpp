@@ -29,46 +29,48 @@
 
 #include <gst/gst.h>
 
-struct Engine::Private
+using Engine::Base;
+
+struct Base::Private
 {
 	MetaData		md;
-    EngineName      name;
+    Name            name;
 
     int64_t         cur_pos_ms;
     int32_t         cur_pos_s;
 
     gchar*          uri=nullptr;
 
-    Private(EngineName name) :
+    Private(Name name) :
         name(name),
         cur_pos_ms(0),
         cur_pos_s(0)
     {}
 };
 
-Engine::Engine(EngineName name, QObject *parent) :
+Base::Base(Name name, QObject *parent) :
 	QObject(parent),
     SayonaraClass()
 {
     m = Pimpl::make<Private>(name);
 }
 
-Engine::~Engine() {}
+Base::~Base() {}
 
-EngineName Engine::name() const
+Engine::Name Base::name() const
 {
     return m->name;
 }
 
 
-bool Engine::change_track(const MetaData& md)
+bool Base::change_track(const MetaData& md)
 {
     m->cur_pos_ms = 0;
 
     return change_metadata(md);
 }
 
-bool Engine::change_track_by_filename(const QString& filepath)
+bool Base::change_track_by_filename(const QString& filepath)
 {
     MetaData md(filepath);
 
@@ -88,7 +90,7 @@ bool Engine::change_track_by_filename(const QString& filepath)
 }
 
 
-bool Engine::change_metadata(const MetaData& md)
+bool Base::change_metadata(const MetaData& md)
 {
     if(m->uri)
     {
@@ -133,25 +135,24 @@ bool Engine::change_metadata(const MetaData& md)
 }
 
 
-void Engine::set_track_ready(GstElement* src)
+void Base::set_track_ready(GstElement* src)
 {
     Q_UNUSED(src)
     emit sig_track_ready();
 }
 
-void Engine::set_track_almost_finished(int64_t time2go)
+void Base::set_track_almost_finished(int64_t time2go)
 {
     emit sig_track_almost_finished(time2go);
 }
 
-void Engine::set_track_finished(GstElement* src)
+void Base::set_track_finished(GstElement* src)
 {
     Q_UNUSED(src)
-
     emit sig_track_finished();
 }
 
-void Engine::update_metadata(const MetaData& md, GstElement* src)
+void Base::update_metadata(const MetaData& md, GstElement* src)
 {
 	Q_UNUSED(src)
 
@@ -159,13 +160,13 @@ void Engine::update_metadata(const MetaData& md, GstElement* src)
     emit sig_md_changed(m->md);
 }
 
-void Engine::update_cover(const QImage& img, GstElement* src)
+void Base::update_cover(const QImage& img, GstElement* src)
 {
 	Q_UNUSED(src)
     emit sig_cover_changed(img);
 }
 
-void Engine::update_duration(int64_t duration_ms, GstElement* src)
+void Base::update_duration(int64_t duration_ms, GstElement* src)
 {
     uint32_t duration_s = (duration_ms / 1000);
     uint32_t md_duration_s = (metadata().length_ms / 1000);
@@ -185,7 +186,7 @@ void Engine::update_duration(int64_t duration_ms, GstElement* src)
 }
 
 
-void Engine::update_bitrate(uint32_t br, GstElement* src)
+void Base::update_bitrate(uint32_t br, GstElement* src)
 {
     if( br <= 0) {
         return;
@@ -202,7 +203,7 @@ void Engine::update_bitrate(uint32_t br, GstElement* src)
 }
 
 
-void Engine::stop()
+void Base::stop()
 {
     m->cur_pos_ms = 0;
     m->cur_pos_s = 0;
@@ -210,12 +211,12 @@ void Engine::stop()
     emit sig_buffering(-1);
 }
 
-const MetaData& Engine::metadata() const
+const MetaData& Base::metadata() const
 {
     return m->md;
 }
 
-void Engine::set_current_position_ms(int64_t pos_ms)
+void Base::set_current_position_ms(int64_t pos_ms)
 {
     int32_t pos_sec = pos_ms / 1000;
 
@@ -230,20 +231,20 @@ void Engine::set_current_position_ms(int64_t pos_ms)
 }
 
 
-int64_t Engine::current_position_ms() const
+int64_t Base::current_position_ms() const
 {
     return m->cur_pos_ms;
 }
 
 
-void Engine::set_buffer_state(int progress, GstElement* src)
+void Base::set_buffer_state(int progress, GstElement* src)
 {
     Q_UNUSED(src)
     emit sig_buffering(progress);
 }
 
 
-void Engine::error(const QString& error)
+void Base::error(const QString& error)
 {
     QString msg("Cannot play track");
 

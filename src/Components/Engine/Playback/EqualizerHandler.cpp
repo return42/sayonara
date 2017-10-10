@@ -6,6 +6,8 @@
 #include <QString>
 #include <gst/gst.h>
 
+using Pipeline::EqualizerHandler;
+
 struct EqualizerHandler::Private
 {
 	Settings* settings=nullptr;

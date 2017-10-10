@@ -23,39 +23,46 @@
 
 #include "Components/Engine/AbstractEngine.h"
 
-class ConvertPipeline;
-class ConvertEngine :
-        public Engine
+namespace Pipeline
 {
-	Q_OBJECT
-    PIMPL(ConvertEngine)
+    class Convert;
+}
 
-public:
-	explicit ConvertEngine(QObject *parent=nullptr);
-    ~ConvertEngine();
-	
-	void set_track_finished(GstElement* src) override;
-	bool init() override;
+namespace Engine
+{
+    class Convert :
+            public Base
+    {
+        Q_OBJECT
+        PIMPL(Convert)
 
-    void play() override;
-    void stop() override;
-    void pause() override;
+    public:
+        explicit Convert(QObject *parent=nullptr);
+        ~Convert();
 
-    void jump_abs_ms(uint64_t pos_ms) override;
-    void jump_rel_ms(uint64_t ms) override;
-    void jump_rel(double percent) override;
+        void set_track_finished(GstElement* src) override;
+        bool init() override;
 
-    bool change_track(const MetaData&) override;
-    bool change_track_by_filename(const QString&) override;
+        void play() override;
+        void stop() override;
+        void pause() override;
 
-private slots:
-    void cur_pos_ms_changed(int64_t ms);
+        void jump_abs_ms(uint64_t pos_ms) override;
+        void jump_rel_ms(uint64_t ms) override;
+        void jump_rel(double percent) override;
 
-protected:
-    // methods
-    bool change_uri(char* uri) override;
-    void configure_target(const MetaData& md);
-};
+        bool change_track(const MetaData&) override;
+        bool change_track_by_filename(const QString&) override;
+
+    private slots:
+        void cur_pos_ms_changed(int64_t ms);
+
+    protected:
+        // methods
+        bool change_uri(char* uri) override;
+        void configure_target(const MetaData& md);
+    };
+}
 
 #endif // ConvertEngine_H
 
