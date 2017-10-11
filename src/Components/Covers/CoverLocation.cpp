@@ -38,7 +38,7 @@
 #include <QStringList>
 #include <QImage>
 
-using namespace Cover;
+using Cover::Location;
 
 struct Location::Private
 {
@@ -216,7 +216,7 @@ Location Location::get_cover_location(const Album& album)
 		lib_db->getAllTracksByAlbum(album.id, v_md);
 
 		for(const MetaData& md : v_md){
-            cl.m->local_paths = LocalSearcher::get_local_cover_paths_from_filename(md.filepath());
+            cl.m->local_paths = Cover::LocalSearcher::cover_paths_from_filename(md.filepath());
 			if(!cl.m->local_paths.isEmpty()){
 				break;
 			}
@@ -310,8 +310,9 @@ Location Get_cover_location(int album_id, uint8_t db_id)
     Location cl = Location::get_cover_location(album);
 
 	lib_db->getAllTracksByAlbum(album_id, v_md);
-	for(const MetaData& md : v_md){
-        QStringList local_paths = LocalSearcher::get_local_cover_paths_from_filename(md.filepath());
+    for(const MetaData& md : v_md)
+    {
+        QStringList local_paths = Cover::LocalSearcher::cover_paths_from_filename(md.filepath());
 		for(const QString& local_path : local_paths){
 			cl.add_local_path(local_path);
 		}
@@ -351,7 +352,7 @@ Location Location::get_cover_location(const MetaData& md)
 		cl.m->search_urls = QStringList(md.cover_download_url());
 	}
 
-    cl.m->local_paths << LocalSearcher::get_local_cover_paths_from_filename(md.filepath());
+    cl.m->local_paths << Cover::LocalSearcher::cover_paths_from_filename(md.filepath());
 	cl.m->identifier = "CL:By metadata: " + md.album() + " by " + md.artist();
 
 	return cl;

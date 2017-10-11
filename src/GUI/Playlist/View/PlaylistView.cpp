@@ -36,17 +36,16 @@
 #include "GUI/Utils/Widgets/ProgressBar.h"
 #include "GUI/Utils/MimeDataUtils.h"
 
-#include "Utils/Set.h"
 #include "Utils/Parser/StreamParser.h"
 #include "Utils/MetaData/MetaDataList.h"
 #include "Utils/Logger/Logger.h"
+#include "Utils/Set.h"
 
 #include "Components/Playlist/AbstractPlaylist.h"
 #include "Components/Playlist/PlaylistHandler.h"
 #include "Components/PlayManager/PlayManager.h"
 #include "Components/Tagging/Editor.h"
 
-#include <QScrollBar>
 #include <QShortcut>
 #include <QDropEvent>
 #include <algorithm>
@@ -60,7 +59,7 @@ struct PlaylistView::Private
     PlaylistItemModel*		model=nullptr;
     PlaylistItemDelegate*	delegate=nullptr;
 
-	Gui::ProgressBar*		progress=nullptr;
+    ProgressBar*            progress=nullptr;
     BookmarksMenu*			bookmarks_menu=nullptr;
     QAction*				bookmarks_action=nullptr;
 
@@ -263,7 +262,7 @@ void PlaylistView::handle_drop(QDropEvent* event)
     {
         this->setEnabled(false);
         if(!m->progress) {
-			m->progress = new Gui::ProgressBar(this);
+            m->progress = new ProgressBar(this);
         }
 
         m->progress->show();

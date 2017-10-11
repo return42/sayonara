@@ -27,14 +27,14 @@
 
 using namespace Cover;
 
-QStringList LocalSearcher::get_local_cover_paths_from_filename(const QString& filepath)
+QStringList LocalSearcher::cover_paths_from_filename(const QString& filepath)
 {
 	QString file, dir;
 	Util::File::split_filename(filepath, dir, file);
-	return get_local_cover_paths_from_dirname(dir);
+    return cover_paths_from_dirname(dir);
 }
 
-QStringList LocalSearcher::get_local_cover_paths_from_dirname(const QString& filepath)
+QStringList LocalSearcher::cover_paths_from_dirname(const QString& filepath)
 {
 	QStringList ret;
 	QStringList hash[3];

@@ -2,21 +2,24 @@
 #define SEEKHANDLER_H
 
 #include "Utils/Pimpl.h"
-#include <gst/gst.h>
+#include "Components/Engine/gstfwd.h"
 
-class SeekHandler
+namespace Pipeline
 {
-	PIMPL(SeekHandler)
+    class SeekHandler
+    {
+        PIMPL(SeekHandler)
 
-public:
-	SeekHandler();
-	virtual ~SeekHandler();
+    public:
+        SeekHandler();
+        virtual ~SeekHandler();
 
-	gint64 seek_rel(double percent, gint64 ref_ns);
-	gint64 seek_abs(gint64 ns);
-	gint64 seek_nearest(gint64 ns);
+        int64_t seek_rel(double percent, int64_t ref_ns);
+        int64_t seek_abs(int64_t ns);
+        int64_t seek_nearest(int64_t ns);
 
-	virtual GstElement* get_source() const=0;
-};
+        virtual GstElement* get_source() const=0;
+    };
+}
 
 #endif // SEEKHANDLER_H

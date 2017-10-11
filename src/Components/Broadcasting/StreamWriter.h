@@ -28,7 +28,7 @@
 #include <QObject>
 
 class StreamDataSender;
-class EngineHandler;
+class Handler;
 class MetaData;
 class QTcpSocket;
 

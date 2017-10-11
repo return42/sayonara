@@ -19,13 +19,16 @@
  */
 
 #include "GUI_Spectrum.h"
-#include "EngineColorStyleChooser.h"
 #include "GUI/Plugins/Engine/ui_GUI_Spectrum.h"
+
+#include "EngineColorStyleChooser.h"
+
+#include "Components/Engine/Playback/PlaybackEngine.h"
+#include "Components/Engine/EngineHandler.h"
 
 #include "Utils/globals.h"
 #include "Utils/Settings/Settings.h"
-#include "Components/Engine/Playback/PlaybackEngine.h"
-#include "Components/Engine/EngineHandler.h"
+#include "Utils/Logger/Logger.h"
 
 #include <QPainter>
 #include <QList>
@@ -34,239 +37,269 @@
 #include <cstring>
 #include <cmath>
 #include <algorithm>
+#include <mutex>
 
-float log_lu[1100];
+static std::mutex mtx;
+static float log_lu[1100];
+
+using Step=uint_fast8_t;
+using BinSteps=std::vector<Step>;
+using StepArray=std::vector<BinSteps>;
+
+struct GUI_Spectrum::Private
+{
+	SpectrumList	spec;
+	StepArray		steps;
+};
 
 
 GUI_Spectrum::GUI_Spectrum(QWidget *parent) :
-	EnginePlugin(parent)
+    EnginePlugin(parent)
 {
-	_settings->set(Set::Engine_ShowSpectrum, false);
+    m = Pimpl::make<Private>();
+
+    _settings->set(Set::Engine_ShowSpectrum, false);
 }
 
 
 GUI_Spectrum::~GUI_Spectrum()
 {
-	if(ui)
-	{
-		delete ui; ui=nullptr;
-	}
+    if(ui)
+    {
+        delete ui; ui=nullptr;
+    }
 }
 
 
 void GUI_Spectrum::init_ui()
 {
-	if(is_ui_initialized()){
-		return;
-	}
-
-	int bins = _settings->get(Set::Engine_SpectrumBins);
+    if(is_ui_initialized()){
+        return;
+    }
 
 	EnginePlugin::init_ui();
 
+    int bins = _settings->get(Set::Engine_SpectrumBins);
+
+    _cur_style_idx = _settings->get(Set::Spectrum_Style);
+    _cur_style = _ecsc->get_color_scheme_spectrum(_cur_style_idx);
+
+	bins = 50;
+	m->spec.resize(bins, 0);
+
+	// 100 Bins
+	for(int i=0; i<bins; i++)
+	{
+
+		log_lu[i] = (std::pow(10, (i / 140.0f) + 1) / 8.0f) / 75.0f;
+    }
+
+	resize_steps(bins, _cur_style.n_rects);
+
+    Engine::Playback* playback_engine = engine()->get_playback_engine();
+    if(playback_engine){
+        playback_engine->add_spectrum_receiver(this);
+    }
+
 	setup_parent(this, &ui);
-
-	_cur_style_idx = _settings->get(Set::Spectrum_Style);
-	_cur_style = _ecsc->get_color_scheme_spectrum(_cur_style_idx);
-
-	for(int i=0; i<bins; i++){
-		_spec << 0.0f;
-	}
-
-	for(int i=0; i<1100; i++) {
-		log_lu[i] = std::log( (i * 1.0f) / 10.0f ) * 0.60f;
-	}
-
-	_steps = new int*[bins];
-	for(int i=0; i<bins; i++) {
-		_steps[i] = new int[_cur_style.n_rects];
-		std::memset(_steps[i], 0, (_cur_style.n_rects * sizeof(int)) );
-	}
-
-	_btn_config = new QPushButton("...", this);
-	_btn_prev = new QPushButton("<", this);
-	_btn_next = new QPushButton(">", this);
-	_btn_close = new QPushButton("x", this);
-
-	init_buttons(false);
-
 	update();
-
-	PlaybackEngine* playback_engine = _engine->get_playback_engine();
-	if(playback_engine){
-		playback_engine->add_spectrum_receiver(this);
-	}
 }
 
 
 QString GUI_Spectrum::get_name() const
 {
-	return "Spectrum";
+    return "Spectrum";
 }
 
 
 QString GUI_Spectrum::get_display_name() const
 {
-	return tr("Spectrum");
+    return tr("Spectrum");
 }
 
 
 void GUI_Spectrum::retranslate_ui() {}
 
-void GUI_Spectrum::set_spectrum(const QList<float>& lst)
+void GUI_Spectrum::set_spectrum(const SpectrumList& spec)
 {
-	if(!is_ui_initialized() || !isVisible()){
-		return;
-	}
+    if(!is_ui_initialized() || !isVisible()){
+        return;
+    }
 
-	if(!_timer_stopped) {
-		_timer->stop();
-	}
-    _spec = lst;
+	m->spec = spec;
 
-	update();
+    stop_fadeout_timer();
+    update();
 }
 
 
-void GUI_Spectrum::timed_out()
+void GUI_Spectrum::do_fadeout_step()
 {
-	for(auto it=_spec.begin(); it!= _spec.begin(); it++) {
-		*it -= 0.024f;
-    }
+	/*for(auto it=m->spec.begin(); it!= m->spec.begin(); it++)
+    {
+        *it -= 0.024f;
+	}*/
 
     update();
 }
 
 
-void GUI_Spectrum::resize_steps(int n_bins, int rects) {
-	if(!is_ui_initialized()){
-		return;
+void GUI_Spectrum::resize_steps(int n_bins, int rects)
+{
+    if(!is_ui_initialized()){
+        return;
+    }
+
+	if(n_bins != (int) m->steps.size()){
+		m->steps.resize(n_bins);
 	}
 
-	if(_steps){
-		for(int b=0; b<n_bins; b++) {
-			delete[] _steps[b];
-			_steps[b] = nullptr;
+	for(BinSteps& bin_steps : m->steps)
+	{
+		if(rects == (int) bin_steps.size()){
+			break;
 		}
 
-		delete[] _steps;
+		bin_steps.resize(rects, 0);
 	}
-
-	_steps = new int*[n_bins];
-
-	for(int i=0; i<n_bins; i++) {
-        _steps[i] = new int[rects];
-		std::memset(_steps[i], 0, rects * sizeof(int));
-    }
 }
+
 
 
 void GUI_Spectrum::sl_update_style()
 {
-	if(!is_ui_initialized()){
+    if(!is_ui_initialized()){
+        return;
+    }
+
+	if(!mtx.try_lock()) {
+		sp_log(Log::Debug, this) << "Cannot update stylde";
 		return;
 	}
 
-   _ecsc->reload(width(), height());
-   _cur_style = _ecsc->get_color_scheme_spectrum(_cur_style_idx);
-   _settings->set(Set::Spectrum_Style, _cur_style_idx);
+    _ecsc->reload(width(), height());
+    _cur_style = _ecsc->get_color_scheme_spectrum(_cur_style_idx);
+    _settings->set(Set::Spectrum_Style, _cur_style_idx);
 
-   int bins = _settings->get(Set::Engine_SpectrumBins);
-   resize_steps(bins, _cur_style.n_rects);
+    int bins = _settings->get(Set::Engine_SpectrumBins);
+    resize_steps(bins, _cur_style.n_rects);
 
-   update();
+    update();
+	mtx.unlock();
 }
 
 
 void GUI_Spectrum::showEvent(QShowEvent* e)
 {
-	_settings->set(Set::Engine_ShowSpectrum, true);
-	EnginePlugin::showEvent(e);
+    _settings->set(Set::Engine_ShowSpectrum, true);
+    EnginePlugin::showEvent(e);
 }
 
 
 void GUI_Spectrum::closeEvent(QCloseEvent* e)
 {
-	_settings->set(Set::Engine_ShowSpectrum, false);
-	EnginePlugin::closeEvent(e);
+    _settings->set(Set::Engine_ShowSpectrum, false);
+    EnginePlugin::closeEvent(e);
+}
+
+void GUI_Spectrum::paintEvent(QPaintEvent* e)
+{
+    Q_UNUSED(e)
+
+    QPainter painter(this);
+
+    float widget_height = (float) height();
+
+    int n_rects = _cur_style.n_rects;
+    int n_fading_steps = _cur_style.n_fading_steps;
+    int h_rect = (widget_height / n_rects) - _cur_style.ver_spacing;
+    int border_y = _cur_style.ver_spacing;
+    int border_x = _cur_style.hor_spacing;
+
+
+    int x=3;
+	int ninety = 35;
+    int offset = 0;
+    int n_zero = 0;
+
+    if(ninety == 0) {
+        return;
+    }
+
+    int w_bin = ((width() + 10) / (ninety - offset)) - border_x;
+
+    // run through all bins
+	// i = [0; 35]
+
+    for(int i=offset; i<ninety + 1; i++)
+    {
+		// idx: [0, 100]
+		int idx = i;
+
+		// spec: [-75, 0]
+		// f_scaled: [0, 1]
+		float f_scaled = (m->spec[i] + 75.0);
+		float f = f_scaled * log_lu[i];
+
+        // if this is one bar, how tall would it be?
+        int h =  f * widget_height;
+
+        // how many colored rectangles would fit into this bar?
+        int colored_rects = h / (h_rect + border_y) - 1 ;
+
+        colored_rects = std::max(colored_rects, 0);
+
+        // we start from bottom with painting
+        int y = widget_height - h_rect;
+
+        // run vertical
+
+        QRect rect(x, y, w_bin, h_rect);
+        QColor col;
+        for(int r=0; r<n_rects; r++)
+        {
+            // 100%
+            if( r < colored_rects)
+            {
+                col = _cur_style.style[r].value(-1);
+                m->steps[i][r] = n_fading_steps;
+            }
+
+            // fading out
+            else
+            {
+                col = _cur_style.style[r].value(m->steps[i][r]);
+
+                if(m->steps[i][r] > 0) {
+                    m->steps[i][r]--;
+                }
+
+                else {
+                    n_zero++;
+                }
+            }
+
+            painter.fillRect(rect, col);
+
+            rect.translate(0, -(h_rect + border_y));
+        }
+
+        x += w_bin + border_x;
+    }
+
+    if(n_zero == (ninety - offset) * n_rects)
+    {
+        stop_fadeout_timer();
+    }
 }
 
 
-void GUI_Spectrum::paintEvent(QPaintEvent *e)
+QWidget* GUI_Spectrum::widget()
 {
-	Q_UNUSED(e)
+    return this;
+}
 
-	 QPainter painter(this);
-
-	float widget_height = (float) height();
-
-	 int n_rects = _cur_style.n_rects;
-	 int n_fading_steps = _cur_style.n_fading_steps;
-	 int h_rect = (widget_height / n_rects) - _cur_style.ver_spacing;
-	 int border_y = _cur_style.ver_spacing;
-	 int border_x = _cur_style.hor_spacing;
-
-
-	int x=3;
-	int ninety = (_spec.size() * 500) / 1000;
-	int offset = 0;
-	int n_zero = 0;
-
-	if(ninety == 0) {
-		return;
-	}
-
-	int w_bin = ((width() + 10) / (ninety - offset)) - border_x;
-
-	// run through all bins
-	for(int i=offset; i<ninety + 1; i++) {
-		float f = _spec[i] * log_lu[ i*10 + 54];
-
-		// if this is one bar, how tall would it be?
-		int h =  f * widget_height;
-
-		// how many colored rectangles would fit into this bar?
-		int colored_rects = h / (h_rect + border_y) - 1 ;
-
-		colored_rects = std::max(colored_rects, 0);
-
-		// we start from bottom with painting
-		int y = widget_height - h_rect;
-
-		// run vertical
-
-		QRect rect(x, y, w_bin, h_rect);
-		QColor col;
-		for(int r=0; r<n_rects; r++) {
-			// 100%
-			if( r < colored_rects) {
-				col = _cur_style.style[r].value(-1);
-				_steps[i][r] = n_fading_steps;
-			}
-
-			// fading out
-			else{
-				col = _cur_style.style[r].value(_steps[i][r]);
-
-				if(_steps[i][r] > 0) {
-					_steps[i][r]--;
-				}
-
-				else {
-					n_zero++;
-				}
-			}
-
-			painter.fillRect(rect, col);
-
-			rect.translate(0, -(h_rect + border_y));
-		}
-
-		x += w_bin + border_x;
-	}
-
-	if(n_zero == (ninety - offset) * n_rects && _timer->isActive()) {
-		_timer->stop();
-		_timer_stopped = true;
-	}
+bool GUI_Spectrum::has_small_buttons() const
+{
+    return false;
 }

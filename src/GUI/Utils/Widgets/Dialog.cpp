@@ -24,7 +24,8 @@
 #include <QDialog>
 #include <QCloseEvent>
 
-using namespace Gui;
+using Gui::Dialog;
+using Gui::WidgetTemplate;
 
 Dialog::Dialog(QWidget* parent) :
 	WidgetTemplate<QDialog>(parent)

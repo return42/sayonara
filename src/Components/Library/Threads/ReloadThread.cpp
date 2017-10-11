@@ -81,13 +81,19 @@ bool compare_md(const MetaData& md1, const MetaData& md2)
 		return false;
 	}
 
-    auto it1 = md1.genres().begin();
-    auto it2 = md2.genres().begin();
+	if(md1.genres().size() > 0)
+	{
+		SP::Set<Genre> genres1 = md1.genres();
+		SP::Set<Genre> genres2 = md2.genres();
 
-    for(int i=0; i<md1.genres().count(); i++, it1++, it2++)
-    {
-		if(!it1->is_equal(*it2)){
-			return false;
+		auto it1 = genres1.begin();
+		auto it2 = genres2.begin();
+
+		for(int i=0; i<genres1.count(); i++, it1++, it2++)
+		{
+			if(!it1->is_equal(*it2)){
+				return false;
+			}
 		}
 	}
 

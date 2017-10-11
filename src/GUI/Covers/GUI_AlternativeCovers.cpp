@@ -50,8 +50,9 @@
 #include <QList>
 #include <QModelIndex>
 
-using namespace Gui;
-using namespace Cover;
+using Cover::AlternativeLookup;
+using Cover::Location;
+using Gui::ProgressBar;
 
 struct GUI_AlternativeCovers::Private
 {

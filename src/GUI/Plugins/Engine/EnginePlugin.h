@@ -24,51 +24,51 @@
 #include "GUI_StyleSettings.h"
 #include "Interfaces/PlayerPlugin/PlayerPlugin.h"
 #include "Components/PlayManager/PlayState.h"
+#include "Utils/Pimpl.h"
 
 #include <QTimer>
 #include <QPushButton>
 	
 class EngineColorStyleChooser;
-class EngineHandler;
 class PlayManager;
+
+namespace Engine
+{
+    class Handler;
+}
+
 class EnginePlugin : public PlayerPluginInterface 
 {
 	Q_OBJECT
+    PIMPL(EnginePlugin)
 
 protected:
-
-	QPushButton* _btn_config=nullptr;
-	QPushButton* _btn_prev=nullptr;
-	QPushButton* _btn_next=nullptr;
-	QPushButton* _btn_close=nullptr;
-
-	PlayManager*				_play_manager=nullptr;
-	EngineHandler*				_engine=nullptr;
-	GUI_StyleSettings*			_ui_style_settings=nullptr;
+    GUI_StyleSettings*			_ui_style_settings=nullptr;
 	EngineColorStyleChooser*    _ecsc=nullptr;
     ColorStyle                  _cur_style;
     int                         _cur_style_idx;
 
-	QTimer*     _timer=nullptr;
-    int         _timer_stopped;
-
 	void init_buttons(bool small);
+    Engine::Handler* engine() const;
 
-	//virtual void showEvent(QShowEvent* e) override;
 	virtual void closeEvent(QCloseEvent* e) override;
 	virtual void resizeEvent(QResizeEvent* e) override;
 	virtual void mousePressEvent(QMouseEvent* e) override;
 	virtual void enterEvent(QEvent* e) override;
 	virtual void leaveEvent(QEvent* e) override;
 
+    virtual QWidget* widget()=0;
+    virtual bool has_small_buttons() const=0;
+
+    void stop_fadeout_timer();
+
 
 protected slots:
-
     virtual void config_clicked();
     virtual void next_clicked();
     virtual void prev_clicked();
 
-	virtual void timed_out()=0;
+    virtual void do_fadeout_step()=0;
 
 	virtual void playstate_changed(PlayState play_state);
 	virtual void played();

@@ -27,12 +27,40 @@
 
 #include <gst/app/gstappsink.h>
 
-AbstractPipeline::AbstractPipeline(QString name, Engine* engine, QObject* parent) :
+using Pipeline::Base;
+using Pipeline::test_and_error;
+using Pipeline::test_and_error_bool;
+
+struct Base::Private
+{
+    Engine::Base*   engine=nullptr;
+    QTimer*         progress_timer=nullptr;
+    bool            initialized;
+
+    Private(Engine::Base* engine) :
+        engine(engine),
+        initialized(false)
+    {}
+
+    int64_t query_duration(GstElement* source) const
+    {
+        int64_t duration_ns;
+
+        bool success = gst_element_query_duration(source, GST_FORMAT_TIME, &duration_ns);
+        if(success){
+            return GST_TIME_AS_MSECONDS(duration_ns);
+        }
+
+        return 0;
+    }
+};
+
+Base::Base(QString name, Engine::Base* engine, QObject* parent) :
 	QObject(parent),
 	SayonaraClass()
 {
-	_initialized = false;
-	_engine = engine;
+    m = Pimpl::make<Private>(engine);
+
 	_name = name;
 	_position_source_ms = 0;
 	_position_pipeline_ms = 0;
@@ -40,7 +68,7 @@ AbstractPipeline::AbstractPipeline(QString name, Engine* engine, QObject* parent
 	_about_to_finish = false;
 }
 
-AbstractPipeline::~AbstractPipeline()
+Base::~Base()
 {
 	if (_bus){
 		gst_object_unref (_bus);
@@ -53,16 +81,16 @@ AbstractPipeline::~AbstractPipeline()
 }
 
 
-bool AbstractPipeline::init(GstState state)
+bool Base::init(GstState state)
 {
 	bool success = false;
-	if(_initialized) {
+    if(m->initialized) {
 		return true;
 	}
 
 	// create equalizer element
 	_pipeline = gst_pipeline_new(_name.toStdString().c_str());
-	if(!_test_and_error(_pipeline, "Engine: Pipeline sucks")){
+    if(!test_and_error(_pipeline, "Engine: Pipeline sucks")){
 		return false;
 	}
 
@@ -83,29 +111,29 @@ bool AbstractPipeline::init(GstState state)
 	gst_element_set_state(_pipeline, state);
 
 #ifdef Q_OS_WIN
-	gst_bus_set_sync_handler(_bus, EngineCallbacks::bus_message_received, _engine, EngineCallbacks::destroy_notify);
+    gst_bus_set_sync_handler(_bus, Engine::Callbacks::bus_message_received, m->engine, EngineCallbacks::destroy_notify);
 #else
-	gst_bus_add_watch(_bus, EngineCallbacks::bus_state_changed, _engine);
+    gst_bus_add_watch(_bus, Engine::Callbacks::bus_state_changed, m->engine);
 #endif
 
-	_progress_timer = new QTimer(this);
-	_progress_timer->setInterval(200);
-	connect(_progress_timer, &QTimer::timeout, [=]()
+    m->progress_timer = new QTimer(this);
+    m->progress_timer->setInterval(200);
+    connect(m->progress_timer, &QTimer::timeout, [=]()
 	{
 		if(this->get_state() != GST_STATE_NULL){
-			PipelineCallbacks::position_changed(this);
+            Callbacks::position_changed(this);
 		}
 	});
 
-	_progress_timer->start();
+    m->progress_timer->start();
 
-	_initialized = true;
+    m->initialized = true;
 	return true;
 }
 
-void AbstractPipeline::refresh_position() 
+void Base::refresh_position() 
 {
-	gint64 pos_pipeline, pos_source;
+    int64_t pos_pipeline, pos_source;
 	bool success_source, success_pipeline;
 	GstElement* element;
 
@@ -133,19 +161,7 @@ void AbstractPipeline::refresh_position()
 	}
 }
 
-gint64 AbstractPipeline::query_duration() const
-{
-    gint64 duration_ns;
-
-    bool success = gst_element_query_duration(get_source(), GST_FORMAT_TIME, &duration_ns);
-    if(success){
-        return GST_TIME_AS_MSECONDS(duration_ns);
-    }
-
-    return 0;
-}
-
-void AbstractPipeline::update_duration_ms(gint64 duration_ms, GstElement *src)
+void Base::update_duration_ms(int64_t duration_ms, GstElement *src)
 {
     if(src == get_source()){
         _duration_ms = duration_ms;
@@ -154,12 +170,12 @@ void AbstractPipeline::update_duration_ms(gint64 duration_ms, GstElement *src)
     refresh_position();
 }
 
-void AbstractPipeline::set_data(uchar* data, uint64_t size){
+void Base::set_data(uchar* data, uint64_t size){
 	emit sig_data(data, size);
 }
 
 
-//static void show_time_info(gint64 pos, gint64 dur){
+//static void show_time_info(int64_t pos, int64_t dur){
 //	sp_log(Log::Develop, this) << "Difference: "
 //					   << dur - pos << ": "
 //					   << pos << " - "
@@ -167,13 +183,13 @@ void AbstractPipeline::set_data(uchar* data, uint64_t size){
 //}
 
 
-void AbstractPipeline::check_about_to_finish()
+void Base::check_about_to_finish()
 {
-	gint64 difference = _duration_ms - _position_pipeline_ms;
+    int64_t difference = _duration_ms - _position_pipeline_ms;
 
     if(difference <= 0 && !_about_to_finish)
     {
-        _duration_ms = query_duration();
+        _duration_ms = m->query_duration(get_source());
 
 		if(_duration_ms <= 0){
 			return;
@@ -196,9 +212,9 @@ void AbstractPipeline::check_about_to_finish()
 	}
 }
 
-int64_t AbstractPipeline::get_time_to_go() const
+int64_t Base::get_time_to_go() const
 {
-	gint64 position, duration;
+    int64_t position, duration;
 	GstElement* element;
 
 	element = get_source();
@@ -215,28 +231,28 @@ int64_t AbstractPipeline::get_time_to_go() const
 }
 
 
-int64_t AbstractPipeline::get_duration_ms() const
+int64_t Base::get_duration_ms() const
 {
     return _duration_ms;
 }
 
-int64_t AbstractPipeline::get_source_position_ms() const
+int64_t Base::get_source_position_ms() const
 {
 	return _position_source_ms;
 }
 
-int64_t AbstractPipeline::get_pipeline_position_ms() const
+int64_t Base::get_pipeline_position_ms() const
 {
 	return _position_pipeline_ms;
 }
 
-void AbstractPipeline::finished()
+void Base::finished()
 {
 	emit sig_finished();
 }
 
 
-GstState AbstractPipeline::get_state()
+GstState Base::get_state()
 {
 	GstState state;
 	gst_element_get_state(_pipeline, &state, nullptr, GST_MSECOND * 10);
@@ -244,12 +260,12 @@ GstState AbstractPipeline::get_state()
 }
 
 
-GstElement* AbstractPipeline::get_pipeline() const
+GstElement* Base::get_pipeline() const
 {
 	return _pipeline;
 }
 
-bool AbstractPipeline::set_uri(gchar* uri)
+bool Base::set_uri(gchar* uri)
 {
 	_uri = uri;
     return (_uri != nullptr);
@@ -257,7 +273,7 @@ bool AbstractPipeline::set_uri(gchar* uri)
 
 
 
-bool AbstractPipeline::create_element(GstElement** elem, const gchar* elem_name, const gchar* name){
+bool Base::create_element(GstElement** elem, const gchar* elem_name, const gchar* name){
 	QString error_msg;
 	if(strlen(name) > 0){
 		*elem = gst_element_factory_make(elem_name, name);
@@ -269,13 +285,13 @@ bool AbstractPipeline::create_element(GstElement** elem, const gchar* elem_name,
 		error_msg = QString("Engine: ") + elem_name + " creation failed";
 	}
 
-	bool success = _test_and_error(*elem, error_msg);
+    bool success = test_and_error(*elem, error_msg);
 
 	return success;
 }
 
 
-bool AbstractPipeline::tee_connect(GstElement* tee, GstPadTemplate* tee_src_pad_template, GstElement* queue, const QString& queue_name){
+bool Base::tee_connect(GstElement* tee, GstPadTemplate* tee_src_pad_template, GstElement* queue, const QString& queue_name){
 	GstPadLinkReturn s;
 	GstPad* tee_queue_pad;
 	GstPad* queue_pad;
@@ -285,17 +301,17 @@ bool AbstractPipeline::tee_connect(GstElement* tee, GstPadTemplate* tee_src_pad_
 	QString error_3 = QString("Engine: Cannot link tee with ") + queue_name;
 
 	tee_queue_pad = gst_element_request_pad(tee, tee_src_pad_template, nullptr, nullptr);
-	if(!_test_and_error(tee_queue_pad, error_1)){
+    if(!test_and_error(tee_queue_pad, error_1)){
 		return false;
 	}
 
 	queue_pad = gst_element_get_static_pad(queue, "sink");
-	if(!_test_and_error(queue_pad, error_2)) {
+    if(!test_and_error(queue_pad, error_2)) {
 		return false;
 	}
 
 	s = gst_pad_link (tee_queue_pad, queue_pad);
-	if(!_test_and_error_bool((s == GST_PAD_LINK_OK), error_3)) {
+    if(!test_and_error_bool((s == GST_PAD_LINK_OK), error_3)) {
 		return false;
 	}
 
@@ -308,7 +324,7 @@ bool AbstractPipeline::tee_connect(GstElement* tee, GstPadTemplate* tee_src_pad_
 
 
 bool
-AbstractPipeline::has_element(GstElement* e) const
+Base::has_element(GstElement* e) const
 {
 	if(!e){
 		return true;
@@ -338,12 +354,12 @@ AbstractPipeline::has_element(GstElement* e) const
 }
 
 
-uint64_t AbstractPipeline::get_about_to_finish_time() const
+uint64_t Base::get_about_to_finish_time() const
 {
 	return 300;
 }
 
-void AbstractPipeline::play()
+void Base::play()
 {
 	GstElement* pipeline = get_pipeline();
 	if(pipeline)
@@ -352,7 +368,7 @@ void AbstractPipeline::play()
 	}
 }
 
-void AbstractPipeline::pause()
+void Base::pause()
 {
 	GstElement* pipeline = get_pipeline();
 	if(pipeline)
@@ -361,7 +377,7 @@ void AbstractPipeline::pause()
 	}
 }
 
-void AbstractPipeline::stop()
+void Base::stop()
 {
 	GstElement* pipeline = get_pipeline();
 	if(pipeline)
@@ -376,7 +392,8 @@ void AbstractPipeline::stop()
 }
 
 bool
-_test_and_error(void* element, const QString& errorstr) {
+Pipeline::test_and_error(void* element, const QString& errorstr)
+{
 	if(!element) {
 		sp_log(Log::Error) << errorstr;
 		return false;
@@ -386,7 +403,8 @@ _test_and_error(void* element, const QString& errorstr) {
 }
 
 bool
-_test_and_error_bool(bool b, const QString& errorstr) {
+Pipeline::test_and_error_bool(bool b, const QString& errorstr)
+{
 	if(!b) {
 		sp_log(Log::Error) << errorstr;
 		return false;

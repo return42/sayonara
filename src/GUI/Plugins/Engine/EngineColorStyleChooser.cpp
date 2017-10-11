@@ -22,6 +22,8 @@
 #include "Database/DatabaseConnector.h"
 
 #include <algorithm>
+#include <atomic>
+#include <mutex>
 
 QList<float> borders_4, borders_3, borders_2;
 
@@ -30,7 +32,6 @@ EngineColorStyleChooser::EngineColorStyleChooser(int widget_width, int widget_he
 	borders_4 << 0 << 0.33f  << 0.66f << 1.0f;
 	borders_3 << 0 << 0.50f  << 1.0f;
 	borders_2 << 0 << 1.0f;
-
 
     reload(widget_width, widget_height);
 }
@@ -149,8 +150,12 @@ int EngineColorStyleChooser::get_num_color_schemes()
     return _styles_spectrum.size();
 }
 
+static std::mutex mtx;
 
-void EngineColorStyleChooser::reload(int widget_width, int widget_height) {
+void EngineColorStyleChooser::reload(int widget_width, int widget_height)
+{
+	std::lock_guard<std::mutex> lock(mtx);
+
 	QList< RawColorStyle > colors_active = DatabaseConnector::instance()->get_raw_color_styles();
 
     _styles_spectrum.clear();
@@ -193,7 +198,8 @@ void EngineColorStyleChooser::reload(int widget_width, int widget_height) {
     }
 
 
-	for(const RawColorStyle& rcs : colors_active) {
+	for(const RawColorStyle& rcs : colors_active)
+	{
         ColorStyle style_spectrum;
         ColorStyle style_level;
 

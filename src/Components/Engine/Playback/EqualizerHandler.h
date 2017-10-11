@@ -8,18 +8,21 @@ typedef struct _GstElement GstElement;
 
 class QString;
 
-class EqualizerHandler
+namespace Pipeline
 {
-	PIMPL(EqualizerHandler)
+    class EqualizerHandler
+    {
+        PIMPL(EqualizerHandler)
 
-public:
-	EqualizerHandler();
-	virtual ~EqualizerHandler();
+    public:
+        EqualizerHandler();
+        virtual ~EqualizerHandler();
 
-	void init_equalizer();
-	void set_band(int, int val);
+        void init_equalizer();
+        void set_band(int, int val);
 
-	virtual GstElement* get_equalizer_element() const=0;
-};
+        virtual GstElement* get_equalizer_element() const=0;
+    };
+}
 
 #endif // EQUALIZERHANDLER_H

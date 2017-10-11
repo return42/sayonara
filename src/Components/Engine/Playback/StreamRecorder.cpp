@@ -33,8 +33,9 @@
 #include <QDir>
 #include <QFile>
 
+using StreamRecorder::Accessor;
 
-struct StreamRecorder::Private
+struct Accessor::Private
 {
 	QString			sr_recording_dst;				// recording destination
 	QString			session_path;					// where to store the mp3 files of the session
@@ -64,11 +65,11 @@ static QString get_time_str()
 }
 
 
-StreamRecorder::StreamRecorder(QObject *parent) :
+Accessor::Accessor(QObject *parent) :
 	QObject(parent),
 	SayonaraClass()
 {
-	m = Pimpl::make<StreamRecorder::Private>();
+	m = Pimpl::make<Accessor::Private>();
 
 	clear();
 
@@ -87,12 +88,12 @@ StreamRecorder::StreamRecorder(QObject *parent) :
     }
 
 	PlayManager* play_manager = PlayManager::instance();
-	connect(play_manager, &PlayManager::sig_playstate_changed, this, &StreamRecorder::playstate_changed);
+	connect(play_manager, &PlayManager::sig_playstate_changed, this, &Accessor::playstate_changed);
 }
 
-StreamRecorder::~StreamRecorder() {}
+Accessor::~Accessor() {}
 
-void StreamRecorder::clear()
+void Accessor::clear()
 {
 	m->md.title = "";
 	m->session_path = get_time_str();
@@ -101,14 +102,14 @@ void StreamRecorder::clear()
 	m->cur_idx = 1;
 }
 
-void StreamRecorder::new_session()
+void Accessor::new_session()
 {
 	clear();
 	sp_log(Log::Info) << "New session: " << m->session_path;
 }
 
 
-QString StreamRecorder::change_track(const MetaData& md)
+QString Accessor::change_track(const MetaData& md)
 {
 	QString sr_path;
 	QString session_path;
@@ -164,7 +165,7 @@ QString StreamRecorder::change_track(const MetaData& md)
 }
 
 
-bool  StreamRecorder::save()
+bool  Accessor::save()
 {
 	if(!QFile::exists(m->sr_recording_dst)){
         return false;
@@ -188,7 +189,7 @@ bool  StreamRecorder::save()
 }
 
 
-QString StreamRecorder::check_session_path(const QString& sr_path)
+QString Accessor::check_session_path(const QString& sr_path)
 {
 	bool create_session_path =_settings->get(Set::Engine_SR_SessionPath);
 
@@ -210,7 +211,7 @@ QString StreamRecorder::check_session_path(const QString& sr_path)
     return recording_dst;
 }
 
-void StreamRecorder::record(bool b)
+void Accessor::record(bool b)
 {
 	if(b == m->recording) {
 		return;
@@ -231,13 +232,13 @@ void StreamRecorder::record(bool b)
 }
 
 
-bool StreamRecorder::is_recording() const
+bool Accessor::is_recording() const
 {
 	return m->recording;
 }
 
 
-void StreamRecorder::playstate_changed(PlayState state){
+void Accessor::playstate_changed(PlayState state){
 	if(state == PlayState::Stopped){
 		if(m->recording){
 			save();

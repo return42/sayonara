@@ -40,12 +40,6 @@
 #include <QDrag>
 #include <QList>
 
-class ProgressBar;
-class LibraryContextMenu;
-class PlaylistItemModel;
-class PlaylistItemDelegate;
-class BookmarksMenu;
-
 class PlaylistView :
 		public SearchableListView,
 		public InfoDialogContainer,
@@ -86,10 +80,7 @@ public:
 public slots:
 	void clear();
 
-
-
 private:
-
     void init_rc_menu();
 
 	// d & d

@@ -30,8 +30,16 @@
 #include <QDir>
 #include <QRegExp>
 
+struct GUI_LanguageChooser::Private
+{
+    QMap<QString, QString>  map;
+};
+
 GUI_LanguageChooser::GUI_LanguageChooser(QWidget *parent) :
-	PreferenceWidgetInterface(parent) {}
+    PreferenceWidgetInterface(parent)
+{
+    m = Pimpl::make<Private>();
+}
 
 GUI_LanguageChooser::~GUI_LanguageChooser()
 {
@@ -98,7 +106,7 @@ void GUI_LanguageChooser::renew_combo()
 					"translations/icons/" + country_code + ".png"
 		);
 
-		QString language_name = _map.value(country_code);
+        QString language_name = m->map.value(country_code);
 
 		if(language_name.size() > 0){
 			ui->combo_lang->addItem(QIcon(icon_path), language_name, file);
@@ -121,22 +129,22 @@ void GUI_LanguageChooser::init_ui()
 {
 	setup_parent(this, &ui);
 
-	_map["br"] = QString::fromUtf8("Português (Brasil)");
-	_map["cs"] = QString::fromUtf8("Český");
-	_map["de"] = "Deutsch";
-	_map["en"] = "English";
-	_map["es"] = QString::fromUtf8("Español");
-	_map["fr"] = "Francais";
-	_map["hu"] = "Magyar";
-	_map["it"] = "Italiano";
-	_map["ja"] = QString::fromUtf8("日本語");
-	_map["nl"] = "Nederlands";
-	_map["pl"] = QString::fromUtf8("Polski");
-	_map["pt"] = QString::fromUtf8("Português");
-	_map["ro"] = QString::fromUtf8("Limba română");
-	_map["ru"] = QString::fromUtf8("Русский");
-	_map["ua"] = QString::fromUtf8("Українська");
-	_map["zh_cn"] = QString::fromUtf8("中文");
+    m->map["br"] = QString::fromUtf8("Português (Brasil)");
+    m->map["cs"] = QString::fromUtf8("Český");
+    m->map["de"] = "Deutsch";
+    m->map["en"] = "English";
+    m->map["es"] = QString::fromUtf8("Español");
+    m->map["fr"] = "Francais";
+    m->map["hu"] = "Magyar";
+    m->map["it"] = "Italiano";
+    m->map["ja"] = QString::fromUtf8("日本語");
+    m->map["nl"] = "Nederlands";
+    m->map["pl"] = QString::fromUtf8("Polski");
+    m->map["pt"] = QString::fromUtf8("Português");
+    m->map["ro"] = QString::fromUtf8("Limba română");
+    m->map["ru"] = QString::fromUtf8("Русский");
+    m->map["ua"] = QString::fromUtf8("Українська");
+    m->map["zh_cn"] = QString::fromUtf8("中文");
 }
 
 void GUI_LanguageChooser::showEvent(QShowEvent* e) {

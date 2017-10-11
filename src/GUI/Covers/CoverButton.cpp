@@ -25,17 +25,19 @@
 #include "Utils/FileUtils.h"
 #include "Utils/Utils.h"
 
-using namespace Cover;
+using Cover::Location;
+using Cover::Lookup;
 
 struct CoverButton::Private
 {
 	GUI_AlternativeCovers* 	alternative_covers=nullptr;
+
 	Lookup*			cover_lookup=nullptr;
-	Location 			search_cover_location;
-	QString					text;
-    QString					current_cover_path;
-    QStringList             tmp_paths;
-    bool                    cover_forced;
+    Location        search_cover_location;
+    QString			text;
+    QString			current_cover_path;
+    QStringList     tmp_paths;
+    bool            cover_forced;
 
     Private() :
         cover_forced(false)

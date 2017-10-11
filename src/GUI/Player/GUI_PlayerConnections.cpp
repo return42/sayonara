@@ -61,11 +61,11 @@ void GUI_Player::setup_connections()
 	connect(_play_manager, &PlayManager::sig_error, this, &GUI_Player::play_error);
 
 	// engine
-	EngineHandler* engine = EngineHandler::instance();
-	connect(engine, &EngineHandler::sig_md_changed,	this, &GUI_Player::md_changed);
-	connect(engine, &EngineHandler::sig_dur_changed, this, &GUI_Player::dur_changed);
-	connect(engine, &EngineHandler::sig_br_changed,	this, &GUI_Player::br_changed);
-	connect(engine, &EngineHandler::sig_cover_changed, this, &GUI_Player::cover_changed);
+    Engine::Handler* engine = Engine::Handler::instance();
+    connect(engine, &Engine::Handler::sig_md_changed,	this, &GUI_Player::md_changed);
+    connect(engine, &Engine::Handler::sig_dur_changed, this, &GUI_Player::dur_changed);
+    connect(engine, &Engine::Handler::sig_br_changed,	this, &GUI_Player::br_changed);
+    connect(engine, &Engine::Handler::sig_cover_changed, this, &GUI_Player::cover_changed);
 
 	// file
 	connect(action_OpenFile, &QAction::triggered, this, &GUI_Player::open_files_clicked);

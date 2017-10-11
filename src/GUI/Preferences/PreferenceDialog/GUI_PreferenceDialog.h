@@ -22,9 +22,9 @@
 #define GUI_PreferenceDialog_H
 
 #include "Interfaces/PreferenceDialog/PreferenceDialogInterface.h"
+#include "Utils/Pimpl.h"
 
-#include <QList>
-#include <typeinfo>
+class QString;
 
 UI_FWD(GUI_PreferenceDialog)
 
@@ -39,6 +39,7 @@ class GUI_PreferenceDialog :
 {
 	Q_OBJECT
 	UI_CLASS(GUI_PreferenceDialog)
+    PIMPL(GUI_PreferenceDialog)
 
 public:
 	explicit GUI_PreferenceDialog(QWidget *parent = 0);
@@ -61,10 +62,6 @@ protected:
 	void showEvent(QShowEvent *e) override;
 
 	void hide_all();
-
-private:
-	// todo: pimpl
-	QList<PreferenceWidgetInterface*> _dialogs;
 };
 
 #endif // GUI_PreferenceDialog_H

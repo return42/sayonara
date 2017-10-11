@@ -1,6 +1,10 @@
 #include "SpeedHandler.h"
 #include "Utils/Settings/Settings.h"
 
+#include <gst/gst.h>
+
+using Pipeline::SpeedHandler;
+
 struct SpeedHandler::Private
 {
 	Settings* settings=nullptr;

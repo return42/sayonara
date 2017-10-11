@@ -25,13 +25,14 @@
 
 #include <gst/app/gstappsink.h>
 
+using namespace Pipeline;
 
-gboolean PipelineCallbacks::position_changed(gpointer data)
+gboolean Callbacks::position_changed(gpointer data)
 {
 	GstState state;
-	AbstractPipeline* pipeline;
+	Base* pipeline;
 
-	pipeline = static_cast<AbstractPipeline*>(data);
+	pipeline = static_cast<Base*>(data);
 	if(!pipeline){
 		return false;
 	}
@@ -52,7 +53,7 @@ gboolean PipelineCallbacks::position_changed(gpointer data)
 }
 
 // dynamic linking, important for decodebin
-void PipelineCallbacks::decodebin_ready(GstElement* source, GstPad* new_src_pad, gpointer data)
+void Callbacks::decodebin_ready(GstElement* source, GstPad* new_src_pad, gpointer data)
 {
 	GstElement*			element;
 	GstPad*				sink_pad;
@@ -106,17 +107,17 @@ void PipelineCallbacks::decodebin_ready(GstElement* source, GstPad* new_src_pad,
 
 
 #define TCP_BUFFER_SIZE 16384
-GstFlowReturn PipelineCallbacks::new_buffer(GstElement *sink, gpointer p)
+GstFlowReturn Callbacks::new_buffer(GstElement *sink, gpointer p)
 {
 	static uchar data[TCP_BUFFER_SIZE];
 
-	AbstractPipeline* pipeline;
+	Base* pipeline;
 	GstSample* sample;
 	GstBuffer* buffer;
 	gsize size = 0;
 	gsize size_new = 0;
 
-	pipeline = static_cast<AbstractPipeline*>(p);
+	pipeline = static_cast<Base*>(p);
 	if(!pipeline){
 		return GST_FLOW_OK;
 	}
@@ -153,7 +154,7 @@ static bool is_source_soup(GstElement* source)
 }
 
 
-void PipelineCallbacks::source_ready(GstURIDecodeBin* bin, GstElement* source, gpointer data)
+void Callbacks::source_ready(GstURIDecodeBin* bin, GstElement* source, gpointer data)
 {
 	Q_UNUSED(bin);
 	Q_UNUSED(data);

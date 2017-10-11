@@ -37,7 +37,7 @@
 #include <QPixmap>
 #include <QIcon>
 
-using namespace Cover;
+using Cover::Location;
 
 AlternativeCoverItemModel::AlternativeCoverItemModel(QObject* parent) :
 	QAbstractTableModel(parent)

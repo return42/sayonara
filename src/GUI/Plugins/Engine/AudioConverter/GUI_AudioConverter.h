@@ -21,18 +21,21 @@
 #ifndef GUI_AUDIOCONVERTER_H
 #define GUI_AUDIOCONVERTER_H
 
+#include "Utils/Pimpl.h"
+
 #include "Interfaces/PlayerPlugin/PlayerPlugin.h"
-#include "Utils/Playlist/PlaylistMode.h"
+
 #include "Components/PlayManager/PlayState.h"
 
 UI_FWD(GUI_AudioConverter)
 
-class EngineHandler;
+class Handler;
 class GUI_AudioConverter :
 		public PlayerPluginInterface
 {
 	Q_OBJECT
 	UI_CLASS(GUI_AudioConverter)
+    PIMPL(GUI_AudioConverter)
 
 public:
 	explicit GUI_AudioConverter(QWidget *parent=nullptr);
@@ -50,13 +53,6 @@ private slots:
 	void mp3_enc_found();
 	void playstate_changed(PlayState state);
 	void stopped();
-
-	
-private:
-	EngineHandler*		_engine=nullptr;
-	Playlist::Mode		_pl_mode;
-	bool				_mp3_enc_available;
-
 
 private:
 	void fill_cbr();

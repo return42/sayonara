@@ -27,9 +27,16 @@
 
 #include <QLayout>
 
+struct GUI_PreferenceDialog::Private
+{
+    QList<PreferenceWidgetInterface*> dialogs;
+};
 
 GUI_PreferenceDialog::GUI_PreferenceDialog(QWidget *parent) :
-	PreferenceDialogInterface(parent) {}
+    PreferenceDialogInterface(parent)
+{
+    m = Pimpl::make<Private>();
+}
 
 GUI_PreferenceDialog::~GUI_PreferenceDialog()
 {
@@ -41,7 +48,7 @@ GUI_PreferenceDialog::~GUI_PreferenceDialog()
 
 void GUI_PreferenceDialog::register_preference_dialog(PreferenceWidgetInterface* dialog)
 {
-	_dialogs << dialog;
+    m->dialogs << dialog;
 }
 
 
@@ -53,7 +60,7 @@ void GUI_PreferenceDialog::retranslate_ui()
 	bool is_empty = (ui->list_preferences->count() == 0);
 
 	int i=0;
-	for(PreferenceWidgetInterface* dialog : _dialogs)
+    for(PreferenceWidgetInterface* dialog : m->dialogs)
 	{
 		QListWidgetItem* item;
 		if(is_empty){
@@ -85,7 +92,7 @@ void GUI_PreferenceDialog::commit_and_close()
 
 void GUI_PreferenceDialog::commit()
 {
-	for(PreferenceWidgetInterface* iface : _dialogs){
+    for(PreferenceWidgetInterface* iface : m->dialogs){
 		if(iface->is_ui_initialized()){
 			iface->commit();
 		}
@@ -95,7 +102,7 @@ void GUI_PreferenceDialog::commit()
 
 void GUI_PreferenceDialog::revert()
 {
-	for(PreferenceWidgetInterface* iface : _dialogs){
+    for(PreferenceWidgetInterface* iface : m->dialogs){
 		if(iface->is_ui_initialized()){
 			iface->revert();
 		}
@@ -107,13 +114,13 @@ void GUI_PreferenceDialog::revert()
 
 void GUI_PreferenceDialog::row_changed(int row)
 {
-	if(!between(row, _dialogs)){
+    if(!between(row, m->dialogs)){
 		return;
 	}
 
 	hide_all();
 
-	PreferenceWidgetInterface* widget = _dialogs[row];
+    PreferenceWidgetInterface* widget = m->dialogs[row];
 
 	QLayout* layout = ui->widget_preferences->layout();
 	layout->setContentsMargins(0,0,0,0);
@@ -131,7 +138,7 @@ void GUI_PreferenceDialog::row_changed(int row)
 
 void GUI_PreferenceDialog::hide_all()
 {
-	for(PreferenceWidgetInterface* iface : _dialogs){
+    for(PreferenceWidgetInterface* iface : m->dialogs){
 		iface->setParent(nullptr);
 		iface->hide();
 	}

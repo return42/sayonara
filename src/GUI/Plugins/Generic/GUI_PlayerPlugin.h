@@ -25,6 +25,7 @@
 #define GUI_PLAYERPLUGIN_H
 
 #include "GUI/Utils/Widgets/Widget.h"
+#include "Utils/Pimpl.h"
 
 UI_FWD(GUI_PlayerPlugin)
 
@@ -34,6 +35,7 @@ class GUI_PlayerPlugin :
 {
 	Q_OBJECT
 	UI_CLASS(GUI_PlayerPlugin)
+    PIMPL(GUI_PlayerPlugin)
 
 public:
 	explicit GUI_PlayerPlugin(QWidget *parent = nullptr);
@@ -42,17 +44,12 @@ public:
 	void set_content(PlayerPluginInterface* player_plugin);
 	void show(PlayerPluginInterface* player_plugin);
 
-	// todo: pimpl
-private:
-	PlayerPluginInterface* _current_plugin=nullptr;
-
 private:
 	void close_cur_plugin();
 
 protected:
     void language_changed() override;
     void closeEvent(QCloseEvent *e) override;
-
 };
 
 #endif // GUI_PLAYERPLUGIN_H

@@ -35,6 +35,7 @@ void ID3v2::DiscnumberFrame::map_model_to_frame(const Models::Discnumber& model,
 void ID3v2::DiscnumberFrame::map_frame_to_model(const TagLib::ID3v2::TextIdentificationFrame* frame, Models::Discnumber& model)
 {
 	TagLib::String text = frame->toString();
+	const char* bla = text.toCString();
 	QString str = QString::fromLatin1(text.toCString());
 
 	QStringList lst = str.split('/');

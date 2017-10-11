@@ -315,7 +315,7 @@ bool Application::init(QTranslator* translator, const QStringList& files_to_play
     preferences->register_preference_dialog(new GUI_IconPreferences());
     preferences->register_preference_dialog(new GUI_Proxy());
 
-	EngineHandler::instance()->init();
+    Engine::Handler::instance()->init();
 
 	sp_log(Log::Debug, this) << "Preference dialogs loaded: " << m->timer->elapsed() << "ms";
 

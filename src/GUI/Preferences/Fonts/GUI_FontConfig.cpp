@@ -27,12 +27,22 @@
 #include <QFont>
 #include <QFontDatabase>
 
+struct GUI_FontConfig::Private
+{
+    QFontDatabase*	font_db=nullptr;
+    int				cur_font_size;
+    int				cur_font_weight;
+
+    Private() :
+        cur_font_size(0),
+        cur_font_weight(0)
+    {}
+};
+
 GUI_FontConfig::GUI_FontConfig(QWidget* parent) :
 	PreferenceWidgetInterface(parent)
 {
-	_cur_font_size = 0;
-	_cur_font_weight = 0;
-	_is_default = true;
+    m = Pimpl::make<Private>();
 }
 
 GUI_FontConfig::~GUI_FontConfig()
@@ -52,7 +62,7 @@ void GUI_FontConfig::init_ui()
 {
 	setup_parent(this, &ui);
 
-	_font_db = new QFontDatabase();
+    m->font_db = new QFontDatabase();
 
 	connect(ui->combo_fonts, &QFontComboBox::currentFontChanged, this, &GUI_FontConfig::combo_fonts_changed);
 	connect(ui->btn_default, &QPushButton::clicked, this, &GUI_FontConfig::default_clicked);
@@ -64,13 +74,14 @@ void GUI_FontConfig::init_ui()
 }
 
 
-void GUI_FontConfig::combo_fonts_changed(const QFont& font){
-	_cur_font_size = ui->combo_sizes->currentText().toInt();
+void GUI_FontConfig::combo_fonts_changed(const QFont& font)
+{
+    m->cur_font_size = ui->combo_sizes->currentText().toInt();
 
 	QStringList sizes = get_available_font_sizes(font);
 	fill_sizes(sizes);
 
-	int font_size = _cur_font_size;
+    int font_size = m->cur_font_size;
 	if(font_size <= 0){
 		font_size = QApplication::font().pointSize();
 	}
@@ -83,15 +94,14 @@ void GUI_FontConfig::combo_fonts_changed(const QFont& font){
 
 	ui->combo_lib_size->setCurrentIndex(0);
 	ui->combo_pl_size->setCurrentIndex(0);
-
-	_is_default = false;
 }
 
 
 QStringList GUI_FontConfig::get_available_font_sizes(const QString& font_name, const QString& style)
 {
 	QStringList ret;
-	QList<int> font_sizes =  _font_db->pointSizes(font_name, style);
+    QList<int> font_sizes =  m->font_db->pointSizes(font_name, style);
+
 	for(int font_size : font_sizes){
 		ret << QString::number(font_size);
 	}
@@ -152,7 +162,7 @@ void GUI_FontConfig::commit()
 	_settings->set(Set::PL_FontSize, font_size);
 	_settings->set(Set::Lib_FontBold, ui->cb_lib_bold->isChecked());
 
-	_cur_font_size = font_size;
+    m->cur_font_size = font_size;
 }
 
 void GUI_FontConfig::revert()
@@ -212,8 +222,6 @@ void GUI_FontConfig::default_clicked()
 	if(cur_font_size_idx >= 0){
 		ui->combo_sizes->setCurrentIndex(cur_font_size_idx);
 	}
-
-	_is_default = true;
 }
 
 

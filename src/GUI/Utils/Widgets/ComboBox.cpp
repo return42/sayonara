@@ -6,7 +6,8 @@
 #include <QAbstractItemView>
 #include <QEvent>
 
-using namespace Gui;
+using Gui::ComboBox;
+using Gui::WidgetTemplate;
 
 ComboBox::ComboBox(QWidget* parent) :
 	WidgetTemplate<QComboBox>(nullptr)

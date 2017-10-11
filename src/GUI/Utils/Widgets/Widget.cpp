@@ -24,7 +24,10 @@
 
 #include "Utils/Settings/Settings.h"
 
-using namespace Gui;
+using Gui::MainWindow;
+using Gui::Dialog;
+using Gui::Widget;
+using Gui::WidgetTemplate;
 
 Widget::Widget(QWidget* parent) :
 	WidgetTemplate<QWidget>(parent)

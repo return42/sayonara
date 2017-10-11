@@ -31,11 +31,6 @@
 
 #include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
 
-namespace LastFM
-{
-    class Base;
-}
-
 UI_FWD(GUI_LastFM)
 
 class GUI_LastFM :
@@ -56,10 +51,6 @@ public:
 protected:
 	void init_ui() override;
 	void retranslate_ui() override;
-
-private:
-	// todo: pimpl
-    LastFM::Base*       _lfm=nullptr;
 
 private slots:
 	void btn_login_clicked();

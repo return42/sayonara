@@ -65,10 +65,10 @@ StreamServer::StreamServer(QObject* parent) :
 	create_server();
 
 	PlayManager* play_manager = PlayManager::instance();
-	EngineHandler* engine = EngineHandler::instance();
+    Engine::Handler* engine = Engine::Handler::instance();
 
 	connect(play_manager, &PlayManager::sig_track_changed, this, &StreamServer::track_changed);
-	connect(engine, &EngineHandler::destroyed, this, &StreamServer::stop);
+    connect(engine, &Engine::Handler::destroyed, this, &StreamServer::stop);
 
     Set::listen(Set::Broadcast_Active, this, &StreamServer::s_active_changed);
     Set::listen(Set::Broadcast_Port, this, &StreamServer::s_port_changed, false);

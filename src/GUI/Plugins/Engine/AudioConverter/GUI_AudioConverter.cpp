@@ -25,6 +25,7 @@
 #include "Utils/Logger/Logger.h"
 #include "Utils/Language.h"
 #include "Utils/Settings/Settings.h"
+#include "Utils/Playlist/PlaylistMode.h"
 
 #include "Components/Engine/EngineHandler.h"
 #include "Components/Engine/Convert/LameBitrate.h"
@@ -32,11 +33,22 @@
 
 #include <QFileDialog>
 
+struct GUI_AudioConverter::Private
+{
+    Engine::Handler*    engine=nullptr;
+    Playlist::Mode		pl_mode;
+    bool				mp3_enc_available;
+
+    Private() :
+        engine(Engine::Handler::instance()),
+        mp3_enc_available(true)
+    {}
+};
+
 GUI_AudioConverter::GUI_AudioConverter(QWidget *parent) :
 	PlayerPluginInterface(parent)
 {
-	_engine = EngineHandler::instance();
-	_mp3_enc_available = true;
+    m = Pimpl::make<Private>();
 }
 
 
@@ -204,7 +216,7 @@ void GUI_AudioConverter::rb_vbr_toggled(bool b)
 
 void GUI_AudioConverter::pl_mode_backup()
 {
-	_pl_mode = _settings->get(Set::PL_Mode);
+    m->pl_mode = _settings->get(Set::PL_Mode);
 
 	Playlist::Mode new_mode;
 		new_mode.setAppend(false, false);
@@ -219,7 +231,7 @@ void GUI_AudioConverter::pl_mode_backup()
 
 void GUI_AudioConverter::pl_mode_restore()
 {
-	_settings->set(Set::PL_Mode, _pl_mode);
+    _settings->set(Set::PL_Mode, m->pl_mode);
 }
 
 void GUI_AudioConverter::cb_active_toggled(bool b) 
@@ -228,7 +240,7 @@ void GUI_AudioConverter::cb_active_toggled(bool b)
 		return;
 	}
 
-	if(!_mp3_enc_available){
+    if(!m->mp3_enc_available){
 		Message::warning(Lang::get(Lang::CannotFindLame));
 
 		disconnect(ui->cb_active, &QCheckBox::toggled, this, &GUI_AudioConverter::cb_active_toggled);
@@ -246,7 +258,7 @@ void GUI_AudioConverter::cb_active_toggled(bool b)
 			_settings->set(Set::Engine_CovertTargetPath, dir);
 			pl_mode_backup();
 
-			_engine->start_convert();
+            m->engine->start_convert();
 		}
 
 		else {
@@ -258,7 +270,7 @@ void GUI_AudioConverter::cb_active_toggled(bool b)
 
 	else {
 		pl_mode_restore();
-		_engine->end_convert();
+        m->engine->end_convert();
 	}
 }
 
@@ -275,5 +287,5 @@ void GUI_AudioConverter::quality_changed(int index)
 
 void GUI_AudioConverter::mp3_enc_found()
 {
-	_mp3_enc_available = _settings->get(SetNoDB::MP3enc_found);
+    m->mp3_enc_available = _settings->get(SetNoDB::MP3enc_found);
 }

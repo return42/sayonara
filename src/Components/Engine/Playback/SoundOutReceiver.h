@@ -21,7 +21,9 @@
 #ifndef SOUNDOUTRECEIVER_H
 #define SOUNDOUTRECEIVER_H
 
-#include <QList>
+#include <vector>
+
+using SpectrumList=std::vector<float>;
 
 /**
  * @brief The LevelReceiver class
@@ -43,7 +45,7 @@ class LevelReceiver
 class SpectrumReceiver 
 {
 public:
-    virtual void set_spectrum(const QList<float>& spectrum)=0;
+	virtual void set_spectrum(const SpectrumList& spectrum)=0;
 
     SpectrumReceiver();
     virtual ~SpectrumReceiver();

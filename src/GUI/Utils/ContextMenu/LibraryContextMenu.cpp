@@ -30,15 +30,15 @@
 LibraryContextMenu::LibraryContextMenu(QWidget* parent) :
 	WidgetTemplate<QMenu>(parent)
 {
-	_info_action = new QAction(Gui::Util::icon("info"), QString(), this);
-	_lyrics_action  = new QAction(Gui::Util::icon("lyrics"), QString(), this);
-	_edit_action = new QAction(Gui::Util::icon("edit"), QString(), this);
-	_remove_action = new QAction(Gui::Util::icon("delete"), QString(), this);
-	_delete_action = new QAction(Gui::Util::icon("delete"), QString(), this);
-	_play_next_action = new QAction(Gui::Util::icon("play_small"), QString(), this);
-	_append_action = new QAction(Gui::Util::icon("append"), QString(), this);
-	_refresh_action = new QAction(Gui::Util::icon("undo"), QString(), this);
-	_clear_action = new QAction(Gui::Util::icon("broom.png"), QString(), this);
+    _info_action = new QAction(this);
+    _lyrics_action  = new QAction(this);
+    _edit_action = new QAction(this);
+    _remove_action = new QAction(this);
+    _delete_action = new QAction(this);
+    _play_next_action = new QAction(this);
+    _append_action = new QAction(this);
+    _refresh_action = new QAction(this);
+    _clear_action = new QAction(this);
 
 	QList<QAction*> rating_actions;
 	for(int i=0; i<=5; i++)
@@ -98,6 +98,22 @@ void LibraryContextMenu::language_changed()
 	_refresh_action->setText(Lang::get(Lang::Refresh));
 	_clear_action->setText(Lang::get(Lang::Clear));
 	_rating_action->setText(Lang::get(Lang::Rating));
+}
+
+
+void LibraryContextMenu::skin_changed()
+{
+    IconLoader* icon_loader = IconLoader::instance();
+    _info_action->setIcon(icon_loader->icon("dialog-information", "info"));
+    _lyrics_action->setIcon(icon_loader->icon("document-properties", "lyrics"));
+    _edit_action->setIcon(icon_loader->icon("accessories-text-editor", "edit"));
+    _remove_action->setIcon(icon_loader->icon("list-remove", "delete"));
+    _delete_action->setIcon(icon_loader->icon("edit-delete", "delete"));
+    _play_next_action->setIcon(icon_loader->icon("media-playback-start", "play_small"));
+    _append_action->setIcon(icon_loader->icon("list-add", "append"));
+    _refresh_action->setIcon(icon_loader->icon("edit-undo", "undo"));
+    _clear_action->setIcon(icon_loader->icon("edit-clear", "broom.png"));
+    _rating_action->setIcon(Gui::Util::icon("star.png"));
 }
 
 LibraryContexMenuEntries LibraryContextMenu::get_entries() const
@@ -174,21 +190,6 @@ void LibraryContextMenu::show_all()
 	}
 }
 
-
-void LibraryContextMenu::skin_changed()
-{
-	IconLoader* icon_loader = IconLoader::instance();
-	_info_action->setIcon(icon_loader->icon("dialog-information", "info"));
-	_lyrics_action->setIcon(icon_loader->icon("document-properties", "lyrics"));
-	_edit_action->setIcon(icon_loader->icon("accessories-text-editor", "edit"));
-	_remove_action->setIcon(icon_loader->icon("list-remove", "delete"));
-	_delete_action->setIcon(icon_loader->icon("edit-delete", "delete"));
-	_play_next_action->setIcon(icon_loader->icon("media-playback-start", "play_small"));
-	_append_action->setIcon(icon_loader->icon("list-add", "append"));
-	_refresh_action->setIcon(icon_loader->icon("edit-undo", "undo"));
-	_clear_action->setIcon(icon_loader->icon("edit-clear", "broom.png"));
-	_rating_action->setIcon(Gui::Util::icon("star.png"));
-}
 
 QAction* LibraryContextMenu::init_rating_action(int rating)
 {

@@ -30,7 +30,8 @@
 #include <atomic>
 #include <mutex>
 
-using namespace Cover;
+using Cover::Location;
+using Cover::Lookup;
 
 struct AlbumCoverFetchThread::Private
 {

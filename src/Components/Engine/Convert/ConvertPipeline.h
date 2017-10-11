@@ -24,41 +24,43 @@
 #include "LameBitrate.h"
 #include "Components/Engine/AbstractPipeline.h"
 
-class ConvertPipeline :
-		public AbstractPipeline
+namespace Pipeline
 {
-	Q_OBJECT
-public:
-	explicit ConvertPipeline(Engine* engine, QObject *parent=nullptr);
-	~ConvertPipeline();
+    class Convert :
+            public Base
+    {
+        Q_OBJECT
+    public:
+        explicit Convert(Engine::Base* engine, QObject *parent=nullptr);
+        ~Convert();
 
-	bool set_uri(gchar* uri) override;
-	bool init(GstState state=GST_STATE_NULL) override;
-	GstElement* get_source() const override;
+        bool set_uri(gchar* uri) override;
+        bool init(GstState state=GST_STATE_NULL) override;
+        GstElement* get_source() const override;
 
-	bool set_target_uri(gchar* uri);
-
-
-public slots:
-	void play() override;
-	void stop() override;
-
-	void set_quality(LameBitrate quality);
-
-private:
-	GstElement* _audio_src=nullptr;
-	GstElement* _lame=nullptr;
-	GstElement* _decoder=nullptr;
-	GstElement* _audio_convert=nullptr;
-	GstElement* _audio_sink=nullptr;
-	GstElement* _resampler=nullptr;
-	GstElement* _xingheader=nullptr;
+        bool set_target_uri(gchar* uri);
 
 
-protected:
-	bool create_elements() override;
-	bool add_and_link_elements() override;
-	bool configure_elements() override;
-};
+    public slots:
+        void play() override;
+        void stop() override;
 
+        void set_quality(LameBitrate quality);
+
+    private:
+        GstElement* _audio_src=nullptr;
+        GstElement* _lame=nullptr;
+        GstElement* _decoder=nullptr;
+        GstElement* _audio_convert=nullptr;
+        GstElement* _audio_sink=nullptr;
+        GstElement* _resampler=nullptr;
+        GstElement* _xingheader=nullptr;
+
+
+    protected:
+        bool create_elements() override;
+        bool add_and_link_elements() override;
+        bool configure_elements() override;
+    };
+}
 #endif // ConvertPipeline_H

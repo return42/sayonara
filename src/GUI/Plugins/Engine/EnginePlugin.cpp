@@ -25,11 +25,33 @@
 
 #include <QResizeEvent>
 
+struct EnginePlugin::Private
+{
+    PlayManager*        play_manager=nullptr;
+    Engine::Handler*    engine=nullptr;
+    QPushButton*        btn_config=nullptr;
+    QPushButton*        btn_prev=nullptr;
+    QPushButton*        btn_next=nullptr;
+    QPushButton*        btn_close=nullptr;
+
+
+    QTimer*             timer=nullptr;
+    int                 timer_stopped;
+
+    Private() :
+        timer_stopped(true)
+    {
+        play_manager = PlayManager::instance();
+        engine = Engine::Handler::instance();
+    }
+};
+
 EnginePlugin::EnginePlugin(QWidget* parent) :
 	PlayerPluginInterface(parent)
 {
-	_cur_style_idx = 0;
-	_timer_stopped = true;
+    m = Pimpl::make<Private>();
+
+    _cur_style_idx = 0;
 }
 
 
@@ -43,18 +65,24 @@ EnginePlugin::~EnginePlugin()
 
 void EnginePlugin::init_ui()
 {
-	_play_manager = PlayManager::instance();
-	connect(_play_manager, &PlayManager::sig_playstate_changed, this, &EnginePlugin::playstate_changed);
+    connect(m->play_manager, &PlayManager::sig_playstate_changed, this, &EnginePlugin::playstate_changed);
 
 	_ecsc = new EngineColorStyleChooser(minimumWidth(), minimumHeight());
 	_ui_style_settings = new GUI_StyleSettings(this);
-	_engine = EngineHandler::instance();
 
-	_timer = new QTimer();
-	_timer->setInterval(30);
-	_timer_stopped = true;
+    m->timer = new QTimer();
+    m->timer->setInterval(30);
+    m->timer_stopped = true;
 
-	connect(_timer, &QTimer::timeout, this, &EnginePlugin::timed_out);
+    QWidget* w = widget();
+    m->btn_config = new QPushButton("...", w);
+    m->btn_prev = new QPushButton("<", w);
+    m->btn_next = new QPushButton(">", w);
+    m->btn_close = new QPushButton("x", w);
+
+    init_buttons( has_small_buttons() );
+
+    connect(m->timer, &QTimer::timeout, this, &EnginePlugin::do_fadeout_step);
 	connect(_ui_style_settings, &GUI_StyleSettings::sig_style_update,
 			this, &EnginePlugin::sl_update_style);
 }
@@ -83,30 +111,35 @@ void EnginePlugin::init_buttons(bool small)
 		y = 10;
 	}
 
-	_btn_config->setGeometry(x, y, width, height);
+    m->btn_config->setGeometry(x, y, width, height);
 	x += width + 5;
-	_btn_prev->setGeometry(x, y, width, height);
+    m->btn_prev->setGeometry(x, y, width, height);
 	x += width + 5;
-	_btn_next->setGeometry(x, y, width, height);
+    m->btn_next->setGeometry(x, y, width, height);
 	x += width + 5;
-	_btn_close->setGeometry(x, y, width, height);
+    m->btn_close->setGeometry(x, y, width, height);
 
-	connect(_btn_config, &QPushButton::clicked, this, &EnginePlugin::config_clicked);
-	connect(_btn_prev, &QPushButton::clicked, this, &EnginePlugin::prev_clicked);
-	connect(_btn_next, &QPushButton::clicked, this, &EnginePlugin::next_clicked);
-	connect(_btn_close, &QPushButton::clicked, this, &EnginePlugin::close);
-	connect(_btn_close, &QPushButton::clicked, this->parentWidget(), &QWidget::close);
+    connect(m->btn_config, &QPushButton::clicked, this, &EnginePlugin::config_clicked);
+    connect(m->btn_prev, &QPushButton::clicked, this, &EnginePlugin::prev_clicked);
+    connect(m->btn_next, &QPushButton::clicked, this, &EnginePlugin::next_clicked);
+    connect(m->btn_close, &QPushButton::clicked, this, &EnginePlugin::close);
+    connect(m->btn_close, &QPushButton::clicked, this->parentWidget(), &QWidget::close);
 
-    _btn_config->hide();
-    _btn_prev->hide();
-    _btn_next->hide();
-    _btn_close->hide();
+    m->btn_config->hide();
+    m->btn_prev->hide();
+    m->btn_next->hide();
+    m->btn_close->hide();
+}
+
+Engine::Handler *EnginePlugin::engine() const
+{
+    return m->engine;
 }
 
 
 void EnginePlugin::config_clicked()
 {
-	_ui_style_settings->show(_cur_style_idx);
+    _ui_style_settings->show(_cur_style_idx);
 }
 
 
@@ -168,8 +201,8 @@ void EnginePlugin::stopped()
 		return;
 	}
 
-	_timer->start();
-	_timer_stopped = false;
+    m->timer->start();
+    m->timer_stopped = false;
 }
 
 
@@ -192,34 +225,34 @@ void EnginePlugin::resizeEvent(QResizeEvent* e)
 
 	QSize new_size = e->size();
 
-	if(!_btn_config) return;
+    if(!m->btn_config) return;
 
 	if(new_size.height() >= 30){
-		_btn_config->setGeometry(10, 10, 20, 20);
-		_btn_prev->setGeometry(35, 10, 20, 20);
-		_btn_next->setGeometry(60, 10, 20, 20);
-		_btn_close->setGeometry(85, 10, 20, 20);
+        m->btn_config->setGeometry(10, 10, 20, 20);
+        m->btn_prev->setGeometry(35, 10, 20, 20);
+        m->btn_next->setGeometry(60, 10, 20, 20);
+        m->btn_close->setGeometry(85, 10, 20, 20);
 
-		QFont font = _btn_config->font();
+        QFont font = m->btn_config->font();
 		font.setPointSize(8);
-		_btn_config->setFont(font);
-		_btn_prev->setFont(font);
-		_btn_next->setFont(font);
-		_btn_close->setFont(font);
+        m->btn_config->setFont(font);
+        m->btn_prev->setFont(font);
+        m->btn_next->setFont(font);
+        m->btn_close->setFont(font);
 	}
 
 	else {
-		_btn_config->setGeometry(10, 5, 15, 15);
-		_btn_prev->setGeometry(30, 5, 15, 15);
-		_btn_next->setGeometry(50, 5, 15, 15);
-		_btn_close->setGeometry(70, 5, 15, 15);
+        m->btn_config->setGeometry(10, 5, 15, 15);
+        m->btn_prev->setGeometry(30, 5, 15, 15);
+        m->btn_next->setGeometry(50, 5, 15, 15);
+        m->btn_close->setGeometry(70, 5, 15, 15);
 
-		QFont font = _btn_config->font();
+        QFont font = m->btn_config->font();
 		font.setPointSize(6);
-		_btn_config->setFont(font);
-		_btn_prev->setFont(font);
-		_btn_next->setFont(font);
-		_btn_close->setFont(font);
+        m->btn_config->setFont(font);
+        m->btn_prev->setFont(font);
+        m->btn_next->setFont(font);
+        m->btn_close->setFont(font);
 	}
 }
 
@@ -251,19 +284,31 @@ void EnginePlugin::enterEvent(QEvent* e)
 {
 	PlayerPluginInterface::enterEvent(e);
 
-	_btn_config->show();
-	_btn_prev->show();
-	_btn_next->show();
-	_btn_close->show();
+    m->btn_config->show();
+    m->btn_prev->show();
+    m->btn_next->show();
+    m->btn_close->show();
 }
 
 void EnginePlugin::leaveEvent(QEvent* e)
 {
 	PlayerPluginInterface::leaveEvent(e);
 
-	_btn_config->hide();
-	_btn_prev->hide();
-	_btn_next->hide();
-	_btn_close->hide();
+    m->btn_config->hide();
+    m->btn_prev->hide();
+    m->btn_next->hide();
+    m->btn_close->hide();
+}
+
+void EnginePlugin::stop_fadeout_timer()
+{
+    if(!m->timer_stopped )
+    {
+        m->timer_stopped = true;
+
+        if(m->timer) {
+            m->timer->stop();
+        }
+    }
 }
 

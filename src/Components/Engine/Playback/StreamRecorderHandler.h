@@ -2,24 +2,30 @@
 #define STREAMRECORDERHANDLER_H
 
 #include "Utils/Pimpl.h"
-
-struct _GstElement;
-typedef struct _GstElement GstElement;
+#include "Components/Engine/gstfwd.h"
 
 class QString;
-struct StreamRecorderData;
 
-class StreamRecorderHandler
+namespace StreamRecorder
 {
-	PIMPL(StreamRecorderHandler)
-public:
-	StreamRecorderHandler();
-	virtual ~StreamRecorderHandler();
+    struct Data;
+}
 
-	void set_streamrecorder_target_path(const QString& path);
-	StreamRecorderData* streamrecorder_data() const;
+namespace Pipeline
+{
+    class StreamRecorderHandler
+    {
+        PIMPL(StreamRecorderHandler)
 
-	virtual GstElement* get_streamrecorder_sink_element() const=0;
-};
+    public:
+        StreamRecorderHandler();
+        virtual ~StreamRecorderHandler();
+
+        void set_streamrecorder_target_path(const QString& path);
+        StreamRecorder::Data* streamrecorder_data() const;
+
+        virtual GstElement* get_streamrecorder_sink_element() const=0;
+    };
+}
 
 #endif // STREAMRECORDERHANDLER_H

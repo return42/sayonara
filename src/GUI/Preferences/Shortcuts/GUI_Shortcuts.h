@@ -22,11 +22,9 @@
 #define GUI_SHORTCUTS_H
 
 #include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
+#include "Utils/Pimpl.h"
 
 UI_FWD(GUI_Shortcuts)
-
-class ShortcutHandler;
-class GUI_ShortcutEntry;
 
 /**
  * @brief The GUI_Shortcuts class
@@ -37,6 +35,7 @@ class GUI_Shortcuts final:
 {
 	Q_OBJECT
 	UI_CLASS(GUI_Shortcuts)
+    PIMPL(GUI_Shortcuts)
 
 public:
 	explicit GUI_Shortcuts(QWidget* parent=nullptr);
@@ -50,11 +49,6 @@ public:
 protected:
 	void init_ui() override;
 	void retranslate_ui() override;
-
-private:
-	// TODO: Pimpl
-	ShortcutHandler*			_sch = nullptr;
-	QList<GUI_ShortcutEntry*>	_entries;
 
 private slots:
 	void test_pressed(const QList<QKeySequence>& sequences);

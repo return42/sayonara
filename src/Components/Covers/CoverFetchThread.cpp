@@ -41,7 +41,7 @@
 
 const int Timeout = 10000;
 
-using namespace Cover;
+using Cover::FetchThread;
 
 struct FetchThread::Private
 {
