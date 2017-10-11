@@ -48,8 +48,8 @@ namespace Library
  * @brief The SK namespace is used to access setting keys
  * @ingroup Settings
  */
-namespace SK {
-	enum SettingKey {
+enum class SettingKey : unsigned short
+{
 	LFM_Active=0,
 	LFM_ScrobbleTimeSec,
 	LFM_Login,
@@ -179,23 +179,16 @@ namespace SK {
 	Proxy_SavePw,
 
 	Num_Setting_Keys
-    };
-}
-
-template<typename T, SK::SettingKey S>
-class SettingKey
-{
-    public:
-		T* ptr;
-		SettingKey() {}
-		~SettingKey() {}
 };
 
 
-/*
- * typedef SettingKey<QString, SK::Lib_Path> LibPath_t; LibPath_t LibPath;
- *
- */
+template<typename DataType, SettingKey keyIndex>
+class SettingIdentifier
+{
+	public:
+		SettingIdentifier() {}
+		~SettingIdentifier() {}
+};
 
 /**
   * @brief MACRO INST use this macro to declare a setting:\n
@@ -203,7 +196,7 @@ class SettingKey
   * typedef SettingKey<bool, SK::LFM_Active> LFM_Active_t; const LFM_Active_t LFM_Active
   * @ingroup Settings
   */
-#define INST(type, settingkey)	typedef SettingKey<type, SK:: settingkey> settingkey##_t; static const settingkey##_t settingkey
+#define INST(type, settingkey) static const SettingIdentifier<type, SettingKey:: settingkey> settingkey
 
 /**
  * @brief Set namespace defines the setting: Which key and which type
@@ -212,16 +205,16 @@ class SettingKey
 namespace Set 
 {
     //typedef SettingKey<bool, SK::LFM_Active> LFM_Active_t; const LFM_Active_t LFM_Active
-    INST(bool,				LFM_Active);				/* is lastFM active? */
+	INST(bool,				LFM_Active);				/* is lastFM active? */
     INST(int,				LFM_ScrobbleTimeSec);			/* time in sec when to scrobble */
-    INST(StringPair,			LFM_Login);				/* 2-Tupel, username, password */
+	INST(StringPair,		LFM_Login);				/* 2-Tupel, username, password */
 
     INST(bool,				LFM_Corrections);			/* propose lfm corrections */
     INST(bool,				LFM_ShowErrors);			/* get error message, if there are lfm problems */
     INST(QString,			LFM_SessionKey);			/* lfm session key */
 
     INST(int,				Eq_Last);				/* last equalizer index */
-    INST(QList<EQ_Setting>,		Eq_List);				/* All equalizers */
+	INST(QList<EQ_Setting>,		Eq_List);				/* All equalizers */
     INST(bool,				Eq_Gauss);				/* do curve, when changing eq setting */
 
     INST(bool,				Lib_Show);				/* show library */
@@ -230,12 +223,12 @@ namespace Set
     INST(BoolList,			Lib_ColsArtist);			/* shown columns artist */
     INST(BoolList,			Lib_ColsAlbum);				/* shown columns albums */
     INST(bool,				Lib_LiveSearch);			/* library live search */
-	INST(::Library::Sortings,		Lib_Sorting);				/* how to sort in lib */
+	INST(Library::Sortings,		Lib_Sorting);				/* how to sort in lib */
     INST(QString,			Lib_CurPlugin);				/* Current shown library plugin */
-    INST(QByteArray,			Lib_SplitterStateArtist);		/* Splitter state between artists and albums */
-    INST(QByteArray,			Lib_SplitterStateTrack);		/* Splitter state between artists and tracks */
-    INST(QByteArray,			Lib_SplitterStateGenre);		/* Splitter state between tracks and genres */
-    INST(QByteArray,			Lib_SplitterStateDate);			/* Splitter state between tracks and genres */
+	INST(QByteArray,			Lib_SplitterStateArtist);		/* Splitter state between artists and albums */
+	INST(QByteArray,			Lib_SplitterStateTrack);		/* Splitter state between artists and tracks */
+	INST(QByteArray,			Lib_SplitterStateGenre);		/* Splitter state between tracks and genres */
+	INST(QByteArray,			Lib_SplitterStateDate);			/* Splitter state between tracks and genres */
     INST(int,				Lib_OldWidth);				/* Old library width when hiding library */
     INST(bool,				Lib_DC_DoNothing);			/* when double clicked, create playlist and do nothing*/
     INST(bool,				Lib_DC_PlayIfStopped);			/* when double clicked, play if stopped */

@@ -30,11 +30,10 @@ DatabaseSettings::~DatabaseSettings() {}
 
 bool DatabaseSettings::load_settings()
 {
-    AbstrSetting** settings = Settings::instance()->get_settings();
+    const SettingArray& settings = Settings::instance()->settings();
 
-    for(int i=0; i<SK::Num_Setting_Keys; i++)
+    for(AbstrSetting* s : settings)
     {
-		AbstrSetting* s = settings[i];
 		if(!s) continue;
 
         QString value;
@@ -56,14 +55,12 @@ bool DatabaseSettings::load_settings()
 
 bool DatabaseSettings::store_settings()
 {
-	Settings* _settings = Settings::instance();
-	AbstrSetting** settings = _settings->get_settings();
+    const SettingArray& settings = Settings::instance()->settings();
+
 	module_db().transaction();
 
-    for(int i=0; i<SK::Num_Setting_Keys; i++)
+    for(AbstrSetting* s : settings)
     {
-		AbstrSetting* s = settings[i];
-
         if(!s) {
             continue;
         }

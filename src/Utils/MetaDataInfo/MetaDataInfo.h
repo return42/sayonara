@@ -58,7 +58,7 @@ enum class InfoStrings : uint8_t
  */
 class MetaDataInfo : 
 	public QObject, 
-	protected SayonaraClass
+	public SayonaraClass
 {
 private:
 	void set_cover_location(const MetaDataList& lst);

@@ -49,11 +49,13 @@ SET(SOURCES
 
     Random/RandomGenerator.cpp
 
+	Settings/SayonaraClass.cpp
 	Settings/Setting.cpp
 	Settings/Settings.cpp
 	Settings/SettingConverter.cpp
+	Settings/SettingNotifier.cpp
 	Settings/SettingRegistry.cpp
-	Settings/SayonaraClass.cpp
+
 
     SimilarArtists/SimilarArtists.cpp
 

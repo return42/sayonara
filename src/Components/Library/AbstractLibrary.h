@@ -46,7 +46,9 @@ namespace Tagging
 }
 
 class PlaylistHandler;
-class AbstractLibrary : public QObject, protected SayonaraClass
+class AbstractLibrary :
+        public QObject,
+        public SayonaraClass
 {
 	Q_OBJECT
 	PIMPL(AbstractLibrary)

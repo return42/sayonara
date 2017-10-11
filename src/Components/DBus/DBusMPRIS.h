@@ -57,7 +57,7 @@ namespace DBusMPRIS
 
 class MediaPlayer2 :
 		public DBusAdaptor,
-		protected SayonaraClass
+		public SayonaraClass
 {
 	Q_OBJECT
 

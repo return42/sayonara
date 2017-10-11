@@ -76,7 +76,7 @@ void GUI_AbstractLibrary::init()
 	m->lv_tracks = lv_tracks();
 	m->le_search = le_search();
 
-    Set::listen(Set::Lib_UseViewClearButton, [&]()
+    Set::listen(Set::Lib_UseViewClearButton, this, [&]()
     {
         bool use_clear_button = _settings->get(Set::Lib_UseViewClearButton);
         m->lv_album->use_clear_button(use_clear_button);

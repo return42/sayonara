@@ -24,6 +24,7 @@
 #include <QObject>
 #include "Utils/Singleton.h"
 #include "Utils/Pimpl.h"
+#include "Utils/Settings/SayonaraClass.h"
 
 class Settings;
 class QString;
@@ -36,7 +37,8 @@ class QPixmap;
  * @ingroup GUIHelper
  */
 class IconLoader :
-		public QObject
+        public QObject,
+        public SayonaraClass
 {
 	Q_OBJECT
 	SINGLETON(IconLoader)

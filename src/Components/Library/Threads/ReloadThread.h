@@ -42,7 +42,7 @@ class MetaData;
 
 class ReloadThread :
 		public QThread,
-		protected SayonaraClass
+		public SayonaraClass
 {
 	Q_OBJECT
 	SINGLETON_QOBJECT(ReloadThread)

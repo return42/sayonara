@@ -18,22 +18,35 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "Settings/SettingNotifier.h"
+#include "Utils/Settings/SettingNotifier.h"
+#include "Utils/Settings/SettingKey.h"
 
+static std::set<SayonaraClass*> registered_classes;
 
-AbstrSettingNotifier::AbstrSettingNotifier(QObject *parent) :
-	QObject(parent) {}
-
-AbstrSettingNotifier::~AbstrSettingNotifier() {}
-
-SettingNotifier::SettingNotifier(QObject *parent) :
-	AbstrSettingNotifier(parent) {}
-
-SettingNotifier::SettingNotifier( const SettingNotifier& sn) {}
-
-SettingNotifier::~SettingNotifier() {}
-
-void SettingNotifier::val_changed()
+void Set::class_destroyed(SayonaraClass *t)
 {
-	emit sig_value_changed();
+    AbstrSettingNotifier::remove_class(t);
+}
+
+bool AbstrSettingNotifier::check_class(SayonaraClass *c)
+{
+    return (registered_classes.find(c) != registered_classes.end());
+}
+
+void AbstrSettingNotifier::add_class(SayonaraClass *c)
+{
+    registered_classes.insert(c);
+}
+
+void AbstrSettingNotifier::remove_class(SayonaraClass *c, AbstrSettingNotifier* asn)
+{
+    auto it = registered_classes.find(c);
+    if(it != registered_classes.end())
+    {
+        registered_classes.erase(it);
+
+        if(asn){
+            asn->class_removed(c);
+        }
+    }
 }

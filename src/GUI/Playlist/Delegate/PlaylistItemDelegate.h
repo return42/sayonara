@@ -27,7 +27,7 @@
 class QListView;
 class PlaylistItemDelegate :
 		public Gui::StyledItemDelegate,
-		protected SayonaraClass
+		public SayonaraClass
 {
 	Q_OBJECT
 

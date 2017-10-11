@@ -40,9 +40,9 @@ using namespace Gui;
 
 GUI_TrayIcon::GUI_TrayIcon (QObject *parent) :
 	QSystemTrayIcon(parent),
-    NotificationInterface("Standard")
+    NotificationInterface("Standard"),
+    SayonaraClass()
 {
-	_settings = Settings::instance();
 	_play_manager = PlayManager::instance();
 
 	connect(_play_manager, &PlayManager::sig_playstate_changed, this, &GUI_TrayIcon::playstate_changed);

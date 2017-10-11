@@ -213,7 +213,6 @@ void GUI_Spectrum::paintEvent(QPaintEvent* e)
     int border_y = _cur_style.ver_spacing;
     int border_x = _cur_style.hor_spacing;
 
-
     int x=3;
 	int ninety = 35;
     int offset = 0;
@@ -226,15 +225,11 @@ void GUI_Spectrum::paintEvent(QPaintEvent* e)
     int w_bin = ((width() + 10) / (ninety - offset)) - border_x;
 
     // run through all bins
-	// i = [0; 35]
-
     for(int i=offset; i<ninety + 1; i++)
     {
-		// idx: [0, 100]
-		int idx = i;
-
 		// spec: [-75, 0]
-		// f_scaled: [0, 1]
+        // f_scaled: [0, 75]
+        // scaling factor of ( / 75.0) is in log_lu
 		float f_scaled = (m->spec[i] + 75.0);
 		float f = f_scaled * log_lu[i];
 

@@ -37,7 +37,7 @@ namespace StreamRecorder
      */
     class Accessor :
             public QObject,
-            protected SayonaraClass
+            public SayonaraClass
     {
         PIMPL(Accessor)
 

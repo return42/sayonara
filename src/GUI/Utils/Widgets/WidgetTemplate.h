@@ -44,7 +44,7 @@ namespace Gui
 
 	class WidgetTemplate :
 			public T,
-			protected SayonaraClass
+			public SayonaraClass
 	{
 	public:
 

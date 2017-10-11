@@ -32,7 +32,7 @@ class DatabaseSettings;
 /**
  * @brief The AbstrSetting class\n
  * Every setting needs a key and a value
- * The SK::SettingKey is only used inside the setting mechanism
+ * The SettingKey is only used inside the setting mechanism
  * @ingroup Settings
  */
 class AbstrSetting
@@ -45,14 +45,14 @@ class AbstrSetting
 		AbstrSetting& operator=(const AbstrSetting& other);
 
 	protected:
-		AbstrSetting(SK::SettingKey key);
-		AbstrSetting(SK::SettingKey key, const char* db_key);
+		AbstrSetting(SettingKey key);
+		AbstrSetting(SettingKey key, const char* db_key);
 
 
 	public:
 		virtual ~AbstrSetting();
 
-		SK::SettingKey get_key() const;
+		SettingKey get_key() const;
         QString db_key() const;
         bool is_db_setting() const;
 
@@ -84,20 +84,20 @@ class Setting : public AbstrSetting
 	public:
 
 		/* Constructor */
-		template<typename SK::SettingKey S>
-		Setting(const SettingKey<T, S>& key, const char* db_key, T def) :
-			AbstrSetting(S, db_key)
+        template<SettingKey keyIndex>
+        Setting(const SettingIdentifier<T, keyIndex>& identifier, const char* db_key, T def) :
+            AbstrSetting(keyIndex, db_key)
 		{
-			Q_UNUSED(key);
+            Q_UNUSED(identifier);
 			_default_val = def;
 			_val = def;
 		}
 
-        template<typename SK::SettingKey S>
-		Setting(const SettingKey<T, S>& key, T def) :
-			AbstrSetting(S)
+        template<SettingKey keyIndex>
+        Setting(const SettingIdentifier<T, keyIndex>& identifier, T def) :
+            AbstrSetting(keyIndex)
         {
-            Q_UNUSED(key);
+            Q_UNUSED(identifier);
             _default_val = def;
             _val = def;
         }

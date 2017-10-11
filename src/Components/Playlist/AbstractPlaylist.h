@@ -45,7 +45,7 @@ class MetaData;
  */
 class AbstractPlaylist :
 		public PlaylistDBInterface,
-		protected SayonaraClass
+        public SayonaraClass
 {
 	Q_OBJECT
 	PIMPL(AbstractPlaylist)

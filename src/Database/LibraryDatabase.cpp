@@ -33,7 +33,7 @@ LibraryDatabase::LibraryDatabase(const QString& db_name, uint8_t database_id, in
 
 	bool show_album_artists = false;
 
-    AbstrSetting* s = Settings::instance()->setting(SK::Lib_ShowAlbumArtists);
+    AbstrSetting* s = Settings::instance()->setting(SettingKey::Lib_ShowAlbumArtists);
     QString db_key = s->db_key();
 
 	SayonaraQuery q(db());

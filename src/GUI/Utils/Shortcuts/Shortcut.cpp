@@ -39,8 +39,7 @@ struct Shortcut::Private
 	ShortcutWidget*		parent=nullptr;
 };
 
-Shortcut::Shortcut() :
-	SayonaraClass()
+Shortcut::Shortcut()
 {
 	m = Pimpl::make<Private>();
 }
@@ -48,6 +47,7 @@ Shortcut::Shortcut() :
 Shortcut::Shortcut(ShortcutWidget* parent, const QString& identifier, const QString& name, const QStringList& default_shortcuts) :
 	Shortcut()
 {
+
 	m->name = name;
 	m->identifier = identifier;
 	m->parent=parent;
@@ -60,7 +60,7 @@ Shortcut::Shortcut(ShortcutWidget* parent, const QString& identifier, const QStr
 
 	m->shortcuts = m->default_shortcuts;
 
-	RawShortcutMap rsm = _settings->get(Set::Player_Shortcuts);
+    RawShortcutMap rsm = Settings::instance()->get(Set::Player_Shortcuts);
 
 	if(rsm.contains(identifier)){
 		m->shortcuts = rsm[identifier];

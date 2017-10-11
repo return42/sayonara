@@ -87,6 +87,10 @@ SomaFM::GUI_SomaFM::GUI_SomaFM(QWidget *parent) :
 
 SomaFM::GUI_SomaFM::~GUI_SomaFM()
 {
+    if(_library) {
+        _library->deleteLater(); _library = nullptr;
+    }
+
 	if(ui){
 		delete ui; ui = nullptr;
 	}
@@ -99,6 +103,10 @@ QFrame* SomaFM::GUI_SomaFM::header_frame() const
 
 void SomaFM::GUI_SomaFM::stations_loaded(const QList<SomaFM::Station>& stations)
 {
+    if(!ui){
+        return;
+    }
+
 	sp_log(Log::Debug, this) << "Stations loaded";
 	SomaFM::StationModel* model = static_cast<SomaFM::StationModel*>(ui->tv_stations->model());
 	model->set_stations(stations);

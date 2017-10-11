@@ -38,24 +38,18 @@
 
 static Settings* settings=Settings::instance();
 
-template<typename KeyClassInstance, typename T>
-void register_setting(const KeyClassInstance& key, const char* db_key, const T& default_value)
+template<typename DataType, SettingKey keyIndex>
+void register_setting(const SettingIdentifier<DataType, keyIndex>& key, const char* db_key, const DataType& default_value)
 {
-    using ValueTypePtr = decltype(key.ptr);
-    using ValueType = typename std::remove_pointer<ValueTypePtr>::type;
-
-    auto setting = new Setting<ValueType>(key, db_key, default_value);
+    auto setting = new Setting<DataType>(key, db_key, default_value);
 
 	settings->register_setting( setting );
 }
 
-template<typename KeyClassInstance, typename T>
-void register_setting(const KeyClassInstance& key, const T& default_value)
+template<typename DataType, SettingKey keyIndex>
+void register_setting(const SettingIdentifier<DataType, keyIndex>& key, const DataType& default_value)
 {
-    using ValueTypePtr = decltype(key.ptr);
-    using ValueType = typename std::remove_pointer<ValueTypePtr>::type;
-
-    auto setting = new Setting<ValueType>(key, default_value);
+    auto setting = new Setting<DataType>(key, default_value);
 
 	settings->register_setting( setting );
 }
@@ -94,7 +88,7 @@ bool SettingRegistry::init()
 	register_setting( Set::Lib_Sorting, "lib_sortings", Library::Sortings() );
 	register_setting( Set::Lib_Path, "library_path", QString() );
 	register_setting( Set::Lib_Show, "show_library", true );
-	register_setting( Set::Lib_CurPlugin ,"last_lib_plugin", "local_library");
+    register_setting( Set::Lib_CurPlugin ,"last_lib_plugin", QString("local_library"));
 	register_setting( Set::Lib_SplitterStateArtist ,"splitter_state_artist", QByteArray());
 	register_setting( Set::Lib_SplitterStateGenre ,"splitter_state_genre", QByteArray());
 	register_setting( Set::Lib_SplitterStateTrack ,"splitter_state_track", QByteArray());
@@ -105,7 +99,7 @@ bool SettingRegistry::init()
 	register_setting( Set::Lib_DC_PlayImmediately ,"lib_dc_play_immediately", false);
 	register_setting( Set::Lib_DD_DoNothing ,"lib_dd_do_nothing", true);
 	register_setting( Set::Lib_DD_PlayIfStoppedAndEmpty ,"lib_dd_play_if_stopped_and_empty", false);
-	register_setting( Set::Lib_SearchMode, "lib_search_mode", Library::CaseInsensitve);
+    register_setting( Set::Lib_SearchMode, "lib_search_mode", (int) Library::CaseInsensitve);
 	register_setting( Set::Lib_AutoUpdate, "lib_auto_update", false);
 	register_setting( Set::Lib_ShowAlbumArtists, "lib_show_album_artists", false);
 	register_setting( Set::Lib_ShowAlbumCovers, "lib_show_album_covers", false);
@@ -125,7 +119,7 @@ bool SettingRegistry::init()
     register_setting( Set::Lib_UseViewClearButton, "lib_view_clear_button", false);
 
 	register_setting( Set::Player_Version, "player_version", QString(SAYONARA_VERSION));
-	register_setting( Set::Player_Language, "player_language", "sayonara_lang_en" );
+    register_setting( Set::Player_Language, "player_language", QString("sayonara_lang_en"));
 	register_setting( Set::Player_Style, "player_style", 0 );
 	register_setting( Set::Player_FontName, "player_font", QString() );
 	register_setting( Set::Player_FontSize, "player_font_size", 10 );
@@ -159,7 +153,7 @@ bool SettingRegistry::init()
 
 	register_setting( Set::Notification_Show, "show_notifications", true );
 	register_setting( Set::Notification_Timeout, "notification_timeout", 5000 );
-	register_setting( Set::Notification_Name, "notification_name", "DBus" );
+    register_setting( Set::Notification_Name, "notification_name", QString("DBus") );
 
 	register_setting( Set::Engine_Name, "sound_engine", QString() );
 	register_setting( Set::Engine_CurTrackPos_s, "last_track_pos", 0 );

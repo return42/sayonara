@@ -36,11 +36,9 @@ struct IconLoader::Private
 	QString 				theme;
 	QStringList				theme_paths;
 	QMap<QString, QIcon> 	icons;
-	Settings*				settings=nullptr;
 
 	Private()
 	{
-		settings = Settings::instance();
 		theme_paths = QIcon::themeSearchPaths();
 
 		init_theme();
@@ -51,7 +49,7 @@ struct IconLoader::Private
 		QString new_theme;
 		icons.clear();
 
-		QString t = settings->get(Set::Icon_Theme);
+        QString t = Settings::instance()->get(Set::Icon_Theme);
 
 		if(t.isEmpty()) {
 			theme = QIcon::themeName();
@@ -67,7 +65,7 @@ struct IconLoader::Private
 	void change_theme()
 	{
 		init_theme();
-		settings->shout(Set::Player_Style);
+        Settings::instance()->shout(Set::Player_Style);
 	}
 };
 
@@ -81,7 +79,8 @@ struct IconLoader::Private
 #endif
 
 IconLoader::IconLoader() :
-	QObject()
+    QObject(),
+    SayonaraClass()
 {
 	m = Pimpl::make<Private>();
 
@@ -170,7 +169,7 @@ void IconLoader::add_icon_names(const QStringList& icon_names)
 
 QIcon IconLoader::icon(const QString& name, const QString& dark_name)
 {
-	bool dark = (m->settings->get(Set::Player_Style) == 1);
+    bool dark = (_settings->get(Set::Player_Style) == 1);
 
 	if(!dark){
 		if(!has_std_icon(name)){
@@ -200,7 +199,7 @@ QIcon IconLoader::icon(const QString& name, const QString& dark_name)
 
 QIcon IconLoader::icon(const QStringList& names, const QString& dark_name)
 {
-	bool dark = (m->settings->get(Set::Player_Style) == 1);
+    bool dark = (_settings->get(Set::Player_Style) == 1);
 
 	if(!dark){
 		for(const QString& name : names){

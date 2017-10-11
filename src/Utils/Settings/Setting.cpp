@@ -27,7 +27,7 @@
 struct AbstrSetting::Private
 {
 	QString			db_key;
-    SK::SettingKey	key;
+    SettingKey	key;
 	bool			db_setting;
 };
 
@@ -37,14 +37,14 @@ AbstrSetting::AbstrSetting()
 	m = Pimpl::make<Private>();
 }
 
-AbstrSetting::AbstrSetting(SK::SettingKey key) :
+AbstrSetting::AbstrSetting(SettingKey key) :
 	AbstrSetting()
 {
 	m->key = key;
 	m->db_setting = false;
 }
 
-AbstrSetting::AbstrSetting(SK::SettingKey key, const char* db_key) :
+AbstrSetting::AbstrSetting(SettingKey key, const char* db_key) :
 	AbstrSetting(key)
 {
 	m->db_key = db_key;
@@ -71,7 +71,7 @@ AbstrSetting& AbstrSetting::operator=(const AbstrSetting& other)
 
 AbstrSetting::~AbstrSetting() {}
 
-SK::SettingKey AbstrSetting::get_key() const
+SettingKey AbstrSetting::get_key() const
 {
     return m->key;
 }

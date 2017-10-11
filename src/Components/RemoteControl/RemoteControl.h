@@ -77,7 +77,7 @@ class QByteArray;
  */
 class RemoteControl :
         public QObject,
-        protected SayonaraClass
+        public SayonaraClass
 {
 	Q_OBJECT
     PIMPL(RemoteControl)

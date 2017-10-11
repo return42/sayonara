@@ -34,7 +34,7 @@ class PlaylistDBWrapper;
  */
 class PlaylistLoader :
 		public QObject,
-		protected SayonaraClass
+		public SayonaraClass
 {
 	Q_OBJECT
 

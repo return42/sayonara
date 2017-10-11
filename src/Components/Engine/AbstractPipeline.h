@@ -60,7 +60,7 @@ namespace Pipeline
      */
     class Base :
         public QObject,
-        protected SayonaraClass
+        public SayonaraClass
     {
         Q_OBJECT
         PIMPL(Base)

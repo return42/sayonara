@@ -23,7 +23,6 @@
 
 #include <QShortcut>
 
-#include "Utils/Settings/SayonaraClass.h"
 #include "Utils/Pimpl.h"
 
 class ShortcutWidget;
@@ -38,7 +37,7 @@ class QStringList;
  * of the corresponding shortcuts in the Qt format
  * @ingroup Shortcuts
  */
-class Shortcut : private SayonaraClass
+class Shortcut
 {
 private:
 	PIMPL(Shortcut)

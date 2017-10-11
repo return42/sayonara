@@ -20,11 +20,15 @@
 
 #include "Utils/Settings/SayonaraClass.h"
 #include "Utils/Settings/Settings.h"
+#include "Utils/Settings/SettingNotifier.h"
 
 SayonaraClass::SayonaraClass()
 {
 	_settings = Settings::instance();
 }
 
-SayonaraClass::~SayonaraClass() {}
+SayonaraClass::~SayonaraClass()
+{
+    Set::class_destroyed(this);
+}
 

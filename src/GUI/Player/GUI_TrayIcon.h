@@ -25,7 +25,7 @@
 
 #include "Interfaces/Notification/NotificationHandler.h"
 #include "Components/PlayManager/PlayState.h"
-#include "Utils/Settings/Settings.h"
+#include "Utils/Settings/SayonaraClass.h"
 
 #include <QSystemTrayIcon>
 
@@ -38,7 +38,8 @@ class MetaData;
   */
 class GUI_TrayIcon :
 		public QSystemTrayIcon,
-		public NotificationInterface
+        public NotificationInterface,
+        public SayonaraClass
 {
 	Q_OBJECT
 
@@ -87,7 +88,6 @@ private slots:
 
 private:
 	// some shared actions
-	Settings*	_settings=nullptr;
 	PlayManager* _play_manager=nullptr;
 
 	QAction*	_show_action=nullptr;

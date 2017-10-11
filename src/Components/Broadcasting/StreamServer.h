@@ -34,7 +34,7 @@ class QTcpSocket;
  */
 class StreamServer :
 		public QThread,
-		protected SayonaraClass
+        public SayonaraClass
 {
 	Q_OBJECT
 	PIMPL(StreamServer)

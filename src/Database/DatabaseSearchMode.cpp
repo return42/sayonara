@@ -49,7 +49,7 @@ void DatabaseSearchMode::init()
 		return;
 	}
 
-    AbstrSetting* s = Settings::instance()->setting(SK::Lib_SearchMode);
+    AbstrSetting* s = Settings::instance()->setting(SettingKey::Lib_SearchMode);
     QString db_key = s->db_key();
 
 	SayonaraQuery q(this);

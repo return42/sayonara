@@ -22,14 +22,16 @@
 #include "Utils/Settings/Settings.h"
 #include "Utils/typedefs.h"
 
+#include <array>
+
 struct Settings::Private
 {
 	QString			version;
-	AbstrSetting*	settings[SK::Num_Setting_Keys + 1];
+    std::array<AbstrSetting*, static_cast<int>(SettingKey::Num_Setting_Keys)> settings;
 
 	Private()
 	{
-        std::fill(settings + 0, settings + SK::Num_Setting_Keys, nullptr);
+        std::fill(settings.begin(), settings.end(), nullptr);
     }
 };
 
@@ -41,19 +43,19 @@ Settings::Settings()
 Settings::~Settings () {}
 
 
-AbstrSetting* Settings::setting(SK::SettingKey key) const
+AbstrSetting* Settings::setting(SettingKey key) const
 {
 	return m->settings[(int) key];
 }
 
-AbstrSetting** Settings::get_settings()
+const SettingArray& Settings::settings()
 {
 	return m->settings;
 }
 
 void Settings::register_setting(AbstrSetting* s)
 {
-	SK::SettingKey key  = s->get_key();
+	SettingKey key  = s->get_key();
 	m->settings[ (int) key ] = s;
 }
 
@@ -61,13 +63,19 @@ void Settings::register_setting(AbstrSetting* s)
 bool Settings::check_settings()
 {
 	IntList un_init;
-	for(int i=0; i<SK::Num_Setting_Keys; i++){
-		if(! m->settings[i] ){
-			un_init << i;
+
+    int i=0;
+    for(AbstrSetting* s : m->settings)
+    {
+        if(!s){
+            un_init << i;
 		}
+
+        i++;
 	}
 
-	if( !un_init.empty() ){
+    if( !un_init.empty() )
+    {
 		sp_log(Log::Warning) << "**** Settings " << un_init << " are not initialized ****";
 		return false;
 	}

@@ -56,7 +56,7 @@ namespace SP
  * @brief Global handler for playlists
  * @ingroup Playlists
  */
-class PlaylistHandler : public QObject, protected SayonaraClass 
+class PlaylistHandler : public QObject, public SayonaraClass 
 {
 	Q_OBJECT
 	PIMPL(PlaylistHandler)
