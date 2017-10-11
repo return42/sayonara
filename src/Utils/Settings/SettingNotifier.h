@@ -31,17 +31,27 @@
 #include "Utils/Logger/Logger.h"
 #include "Utils/Settings/SayonaraClass.h"
 #include "Utils/Settings/SettingKey.h"
+#include "Utils/Singleton.h"
 
 #pragma once
 
+class AbstrSettingNotifier;
+
+class NotifyClassRegistry
+{
+    SINGLETON(NotifyClassRegistry)
+    std::set<SayonaraClass*> registered_classes;
+
+public:
+    void add_class(SayonaraClass* c);
+    void remove_class(SayonaraClass* c, AbstrSettingNotifier* asn=nullptr);
+    bool check_class(SayonaraClass *c);
+};
+
 class AbstrSettingNotifier
 {
-public:
-    static bool check_class(SayonaraClass* c);
-    static void add_class(SayonaraClass* c);
-    static void remove_class(SayonaraClass* c, AbstrSettingNotifier* asn=nullptr);
 
-protected:
+public:
     virtual void class_removed(SayonaraClass* c)=0;
 };
 
@@ -67,13 +77,14 @@ private:
 
     bool check_index(int idx)
     {
+        NotifyClassRegistry* ncr = NotifyClassRegistry::instance();
         for(auto it : _class_idx_map)
         {
             if(it.second == idx)
             {
-                if(!check_class(it.first))
+                if(!ncr->check_class(it.first))
                 {
-                    remove_class(it.first, this);
+                    ncr->remove_class(it.first, this);
                     return false;
                 }
 
@@ -158,6 +169,8 @@ namespace Set
 	typename std::enable_if<std::is_base_of<SayonaraClass, T>::value, void>::type
 	listen(const KeyClassInstance& key, T* t, void (T::*fn)(), bool run=true)
 	{
+        NotifyClassRegistry* ncr = NotifyClassRegistry::instance();
+
 		using KeyClass=decltype(key);
 		auto callable = std::bind(fn, t);
 		SettingNotifier<KeyClass>::reg( t, callable );
@@ -166,7 +179,7 @@ namespace Set
 			callable();
 		}
 
-        AbstrSettingNotifier::add_class(t);
+        ncr->add_class(t);
 	}
 
 	template<typename KeyClassInstance>

@@ -21,24 +21,25 @@
 #include "Utils/Settings/SettingNotifier.h"
 #include "Utils/Settings/SettingKey.h"
 
-static std::set<SayonaraClass*> registered_classes;
+#include <mutex>
 
-void Set::class_destroyed(SayonaraClass *t)
+NotifyClassRegistry::NotifyClassRegistry() {}
+NotifyClassRegistry::~NotifyClassRegistry()
 {
-    AbstrSettingNotifier::remove_class(t);
+    registered_classes.clear();
 }
 
-bool AbstrSettingNotifier::check_class(SayonaraClass *c)
+bool NotifyClassRegistry::check_class(SayonaraClass *c)
 {
     return (registered_classes.find(c) != registered_classes.end());
 }
 
-void AbstrSettingNotifier::add_class(SayonaraClass *c)
+void NotifyClassRegistry::add_class(SayonaraClass *c)
 {
     registered_classes.insert(c);
 }
 
-void AbstrSettingNotifier::remove_class(SayonaraClass *c, AbstrSettingNotifier* asn)
+void NotifyClassRegistry::remove_class(SayonaraClass *c, AbstrSettingNotifier* asn)
 {
     auto it = registered_classes.find(c);
     if(it != registered_classes.end())
@@ -49,4 +50,10 @@ void AbstrSettingNotifier::remove_class(SayonaraClass *c, AbstrSettingNotifier* 
             asn->class_removed(c);
         }
     }
+}
+
+
+void Set::class_destroyed(SayonaraClass *t)
+{
+    NotifyClassRegistry::instance()->remove_class(t);
 }

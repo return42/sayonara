@@ -63,7 +63,14 @@ AlbumInfo::AlbumInfo(const MetaDataList& v_md) :
 
 		DatabaseConnector* db = DatabaseConnector::instance();
 		LibraryDatabase* lib_db = db->library_db(-1, _db_id);
-		success = lib_db->getAlbumByID(album_id, album);
+        if(lib_db) {
+            // BIG TODO FOR SOUNDCLOUD
+            success = lib_db->getAlbumByID(album_id, album);
+        }
+
+        else{
+            success = false;
+        }
 
 		if(success){
 			_additional_info.clear();
