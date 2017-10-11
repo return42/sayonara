@@ -37,6 +37,7 @@
 
 #include <QFile>
 #include <QImage>
+#include <QStringList>
 
 using Cover::Lookup;
 using Cover::FetchThread;

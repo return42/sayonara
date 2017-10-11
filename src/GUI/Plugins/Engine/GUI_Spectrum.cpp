@@ -77,31 +77,31 @@ void GUI_Spectrum::init_ui()
         return;
     }
 
-	EnginePlugin::init_ui();
+	int bins = _settings->get(Set::Engine_SpectrumBins);
+	bins = std::max(50, bins);
 
-    int bins = _settings->get(Set::Engine_SpectrumBins);
-
-    _cur_style_idx = _settings->get(Set::Spectrum_Style);
-    _cur_style = _ecsc->get_color_scheme_spectrum(_cur_style_idx);
-
-	bins = 50;
-	m->spec.resize(bins, 0);
-
-	// 100 Bins
-	for(int i=0; i<bins; i++)
-	{
-
-		log_lu[i] = (std::pow(10, (i / 140.0f) + 1) / 8.0f) / 75.0f;
-    }
+	_cur_style_idx = _settings->get(Set::Spectrum_Style);
 
 	resize_steps(bins, _cur_style.n_rects);
+
+	m->spec.resize((size_t) bins, -100.0f);
+
+	for(int i=0; i<bins; i++)
+	{
+		log_lu[i] = (std::pow(10.0f, (i / 140.0f) + 1.0f) / 8.0f) / 75.0f;
+    }
+
+	setup_parent(this, &ui);
+	EnginePlugin::init_ui();
+
+
+	_cur_style = _ecsc->get_color_scheme_spectrum(_cur_style_idx);
 
     Engine::Playback* playback_engine = engine()->get_playback_engine();
     if(playback_engine){
         playback_engine->add_spectrum_receiver(this);
     }
 
-	setup_parent(this, &ui);
 	update();
 }
 
@@ -156,11 +156,8 @@ void GUI_Spectrum::resize_steps(int n_bins, int rects)
 
 	for(BinSteps& bin_steps : m->steps)
 	{
-		if(rects == (int) bin_steps.size()){
-			break;
-		}
-
-		bin_steps.resize(rects, 0);
+		bin_steps.resize(rects);
+		std::fill(bin_steps.begin(), bin_steps.end(), 0);
 	}
 }
 
@@ -296,7 +293,7 @@ void GUI_Spectrum::paintEvent(QPaintEvent* e)
 
 QWidget* GUI_Spectrum::widget()
 {
-    return this;
+	return ui->lab;
 }
 
 bool GUI_Spectrum::has_small_buttons() const

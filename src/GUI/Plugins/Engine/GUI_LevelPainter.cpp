@@ -56,12 +56,11 @@ struct GUI_LevelPainter::Private
 
     void resize_steps(int n_rects)
     {
-		if(n_rects == (int) steps[0].size()){
-			return;
+		for(size_t c=0; c<level.size(); c++)
+		{
+			steps[c].resize((size_t) n_rects);
+			std::fill(steps[c].begin(), steps[c].end(), 0);
 		}
-
-		steps[0].resize(n_rects, 0);
-		steps[1].resize(n_rects, 0);
 	}
 
     void set_level(float left, float right)
@@ -106,11 +105,8 @@ void GUI_LevelPainter::init_ui()
 		return;
 	}
 
-    EnginePlugin::init_ui();
 
 	_cur_style_idx = _settings->get(Set::Level_Style);
-	_cur_style = _ecsc->get_color_scheme_level(_cur_style_idx);
-
 
 
     // exp(-6.0) = 0.002478752
@@ -121,8 +117,12 @@ void GUI_LevelPainter::init_ui()
         m->exp_lot[i] = std::exp(-i / 100.0f);
 	}
 
-    m->resize_steps(_cur_style.n_rects);
-    m->set_level(0, 0);
+	setup_parent(this, &ui);
+	EnginePlugin::init_ui();
+	_cur_style = _ecsc->get_color_scheme_level(_cur_style_idx);
+
+	m->resize_steps(_cur_style.n_rects);
+	m->set_level(0, 0);
 
     Engine::Playback* playback_engine = engine()->get_playback_engine();
     if(playback_engine)
@@ -130,7 +130,7 @@ void GUI_LevelPainter::init_ui()
 		playback_engine->add_level_receiver(this);
 	}
 
-	setup_parent(this, &ui);
+
 	reload();
 }
 

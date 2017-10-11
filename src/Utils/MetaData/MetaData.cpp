@@ -438,7 +438,12 @@ bool MetaData::is_equal_deep(const MetaData& other) const
 			CMP(n_discs) &&
 			CMP(library_id) &&
 			m->is_equal(*(other.m))
-	);
+				);
+}
+
+const SP::Set<uint32_t>&MetaData::genre_ids() const
+{
+	return m->genres;
 }
 
 

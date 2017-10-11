@@ -77,23 +77,19 @@ ReloadThread::~ReloadThread() {}
 static
 bool compare_md(const MetaData& md1, const MetaData& md2)
 {
-    if(md1.genres().count() != md2.genres().count()){
+	if(md1.genre_ids().count() != md2.genre_ids().count()){
 		return false;
 	}
 
-	if(md1.genres().size() > 0)
+	auto it1 = md1.genre_ids().begin();
+	auto it2 = md2.genre_ids().begin();
+
+	int count = md1.genre_ids().count();
+
+	for(int i=count - 1; i>=0; i--, it1++, it2++)
 	{
-		SP::Set<Genre> genres1 = md1.genres();
-		SP::Set<Genre> genres2 = md2.genres();
-
-		auto it1 = genres1.begin();
-		auto it2 = genres2.begin();
-
-		for(int i=0; i<genres1.count(); i++, it1++, it2++)
-		{
-			if(!it1->is_equal(*it2)){
-				return false;
-			}
+		if(*it1 != *it2){
+			return false;
 		}
 	}
 

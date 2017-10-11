@@ -30,6 +30,7 @@
 
 #include "Utils/MetaData/LibraryItem.h"
 #include "Utils/MetaData/RadioMode.h"
+#include "Utils/MetaData/Genre.h"
 #include "Utils/SetFwd.h"
 #include "Utils/Pimpl.h"
 
@@ -107,6 +108,7 @@ public:
 	bool is_equal(const MetaData& md) const;
 	bool is_equal_deep(const MetaData& md) const;
 
+	const SP::Set<uint32_t>& genre_ids() const;
 	SP::Set<Genre> genres() const;
 	bool has_genre(const Genre& genre) const;
     bool remove_genre(const Genre& genre);

@@ -75,10 +75,13 @@ void EnginePlugin::init_ui()
     m->timer_stopped = true;
 
     QWidget* w = widget();
+
     m->btn_config = new QPushButton("...", w);
     m->btn_prev = new QPushButton("<", w);
     m->btn_next = new QPushButton(">", w);
     m->btn_close = new QPushButton("x", w);
+
+	m->btn_close->setFocusProxy(w);
 
     init_buttons( has_small_buttons() );
 
@@ -129,6 +132,8 @@ void EnginePlugin::init_buttons(bool small)
     m->btn_prev->hide();
     m->btn_next->hide();
     m->btn_close->hide();
+
+
 }
 
 Engine::Handler *EnginePlugin::engine() const
