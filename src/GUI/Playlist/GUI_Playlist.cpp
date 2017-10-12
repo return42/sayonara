@@ -198,8 +198,10 @@ void GUI_Playlist::playlist_fill(PlaylistPtr pl)
 		return;
 	}
 
+    int cur_track = pl->current_track_index();
+
 	plv->setObjectName("playlist_view" + QString::number(pl_idx));
-	plv->fill( pl );
+    plv->scrollTo(plv->model()->index(cur_track, 0), PlaylistView::EnsureVisible);
 
 	set_total_time_label();
 	check_playlist_name(pl);

@@ -57,7 +57,10 @@ namespace SC
 		::Library::TableView* lv_artist() const override;
 		::Library::TableView* lv_album() const override;
 		::Library::TableView* lv_tracks() const override;
+
 		QLineEdit* le_search() const override;
+
+        void showEvent(QShowEvent *e) override;
 
 	protected slots:
 		void btn_add_clicked();

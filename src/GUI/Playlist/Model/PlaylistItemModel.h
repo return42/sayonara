@@ -32,21 +32,20 @@
 #include "GUI/Utils/SearchableWidget/AbstractSearchModel.h"
 #include "Utils/typedefs.h"
 #include "Utils/Playlist/PlaylistFwd.h"
+#include "Utils/SetFwd.h"
+#include "Utils/Pimpl.h"
 
 #include <QString>
 
 class MetaData;
 class MetaDataList;
 class CustomMimeData;
-namespace SP
-{
-	template<typename T>
-	class Set;
-}
 
-class PlaylistItemModel : public AbstractSearchListModel 
+class PlaylistItemModel :
+        public AbstractSearchListModel
 {
 	Q_OBJECT
+    PIMPL(PlaylistItemModel)
 
 public:
 	explicit PlaylistItemModel(PlaylistPtr pl, QObject* parent=nullptr);
@@ -73,18 +72,14 @@ public:
 	QModelIndex getNextRowIndexOf(const QString& substr, int row, const QModelIndex &parent=QModelIndex()) override;
 	QMap<QChar, QString> getExtraTriggers() override;
 
-
     const MetaData& metadata(int row) const;
     MetaDataList metadata(const IndexSet& rows) const;
-    MetaDataList metadata(const IdxList& rows) const;
 
     CustomMimeData* custom_mimedata(const QModelIndexList& indexes) const;
 	QMimeData* mimeData(const QModelIndexList& indexes) const override;
 
     bool has_local_media(const IndexSet& rows) const;
 
-protected:
-	PlaylistPtr			_pl=nullptr;
 
 private slots:
 	void				playlist_changed(int pl_idx);

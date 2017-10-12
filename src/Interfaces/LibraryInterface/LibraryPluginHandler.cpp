@@ -211,7 +211,6 @@ void LibraryPluginHandler::init_library(LibraryContainerInterface* library)
 	if(header_frame)
 	{
 		LibraryPluginCombobox* combo_box = new LibraryPluginCombobox(library->display_name(), nullptr);
-		combo_box->setIconSize(QSize(16, 16));
 
 		QLayout* layout = new QVBoxLayout(header_frame);
 		layout->setContentsMargins(0, 0, 0, 0);

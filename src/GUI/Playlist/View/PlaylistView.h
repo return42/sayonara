@@ -59,8 +59,6 @@ public:
 	explicit PlaylistView(PlaylistPtr pl, QWidget* parent=nullptr);
 	virtual ~PlaylistView();
 
-	void fill(PlaylistPtr pl);
-
 	void goto_row(int row);
 	void scroll_up();
 	void scroll_down();

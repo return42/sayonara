@@ -89,9 +89,11 @@ public:
 protected:
 	void keyPressEvent(QKeyEvent* e) override
 	{
-        handle_key_press(e);
-        if(e->isAccepted()){
-            return;
+        if(!e->isAccepted()){
+            handle_key_press(e);
+            if(e->isAccepted()){
+                return;
+            }
         }
 
 		AbstractView::keyPressEvent(e);

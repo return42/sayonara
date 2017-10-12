@@ -239,14 +239,12 @@ QModelIndexList SayonaraSelectionView::get_model_indexes_by_indexes(const IndexS
 }
 
 
-
 int SayonaraSelectionView::get_min_selected_item() const
 {
     IndexSet selected = get_selected_items();
-	auto it = std::min_element(selected.begin(), selected.end());
-	if(it != selected.end()){
-		return *it;
-	}
+    if(!selected.isEmpty()){
+        return *(std::min_element(selected.begin(), selected.end()));
+    }
 
 	return -1;
 }

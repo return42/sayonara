@@ -161,6 +161,7 @@ void GUI_AbstractLibrary::init_headers()
 
 void GUI_AbstractLibrary::init_search_bar()
 {
+    m->le_search->setFocusPolicy(Qt::ClickFocus);
     m->le_search->setContextMenuPolicy(Qt::CustomContextMenu);
     m->le_search->setClearButtonEnabled(true);
 

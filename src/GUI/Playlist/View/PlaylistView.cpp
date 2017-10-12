@@ -292,7 +292,7 @@ void PlaylistView::async_drop_finished(bool success)
         plh->insert_tracks(v_md, m->async_drop_index+1, plh->get_current_idx());
     }
 
-    sender()->deleteLater();
+    stream_parser->deleteLater();
 }
 
 
@@ -330,13 +330,6 @@ void PlaylistView::handle_inner_drag_drop(int row, bool copy)
 }
 
 
-void PlaylistView::fill(PlaylistPtr pl)
-{
-    int cur_track = pl->current_track_index();
-    this->scrollTo(m->model->index(cur_track), SearchableListView::EnsureVisible);
-}
-
-
 void PlaylistView::rating_changed(int rating)
 {
     IndexSet selections = get_selected_items();
@@ -369,17 +362,6 @@ MetaDataList PlaylistView::info_dialog_data() const
     IndexSet selected_rows = get_selected_items();
 
     return m->model->metadata(selected_rows);
-}
-
-
-int PlaylistView::get_index_by_model_index(const QModelIndex& idx) const
-{
-    return idx.row();
-}
-
-QModelIndex PlaylistView::get_model_index_by_index(int idx) const
-{
-    return m->model->index(idx);
 }
 
 
@@ -465,10 +447,12 @@ void PlaylistView::mouseMoveEvent(QMouseEvent* event)
     }
 }
 
+
 QMimeData* PlaylistView::get_mimedata() const
 {
     return m->model->custom_mimedata(this->selectedIndexes());
 }
+
 
 void PlaylistView::mouseDoubleClickEvent(QMouseEvent* event)
 {
@@ -476,65 +460,52 @@ void PlaylistView::mouseDoubleClickEvent(QMouseEvent* event)
 
     QModelIndex idx = this->indexAt(event->pos());
 
-    if(idx.isValid()){
-        m->model->set_current_track(idx.row());
-    }
-
     if( (idx.flags() & Qt::ItemIsEnabled) &&
         (idx.flags() & Qt::ItemIsSelectable))
     {
+         m->model->set_current_track(idx.row());
         emit sig_double_clicked(idx.row());
     }
 }
 
+
 void PlaylistView::keyPressEvent(QKeyEvent* event)
 {
-    int key = event->key();
-    Qt::KeyboardModifiers modifiers = event->modifiers();
+    event->setAccepted(false);
 
-    bool ctrl_pressed = (modifiers & Qt::ControlModifier);
-
-    if((key == Qt::Key_Up || key == Qt::Key_Down))
-    {
-        IndexSet selections = get_selected_items();
-        IndexSet new_selections;
-
-        // move items
-        if( ctrl_pressed && !selections.isEmpty() )
-        {
-            if(key == Qt::Key_Up)
-            {
-                new_selections = m->model->move_rows_up(selections);
-            }
-
-            else // key = Qt::Key_Down
-            {
-                new_selections = m->model->move_rows_down(selections);
-            }
-
-            if(!new_selections.empty()){
-                select_rows(new_selections);
-            }
-        }
-    }
-
-    else if(event->matches(QKeySequence::Delete))
+    if(event->matches(QKeySequence::Delete))
     {
         remove_cur_selected_rows();
         return;
     }
 
-    SearchableListView::keyPressEvent(event);
+    bool ctrl_pressed = (event->modifiers() & Qt::ControlModifier);
+    IndexSet selections = get_selected_items();
 
-    if(!event->isAccepted() ) {
-        return;
-    }
-
-    int new_row = -1;
-    int min_row = get_min_selected_item();
-
-    switch(key)
+    switch(event->key())
     {
+        case Qt::Key_Up:
+            if( ctrl_pressed && !selections.isEmpty() )
+            {
+                IndexSet new_selections = m->model->move_rows_up(selections);
+                select_rows(new_selections);
+                event->accept();
+                return;
+            }
+
+            break;
+
+        case Qt::Key_Down:
+            if( ctrl_pressed && !selections.isEmpty() )
+            {
+                IndexSet new_selections = m->model->move_rows_down(selections);
+                select_rows(new_selections);
+                event->accept();
+                return;
+            }
+
+            break;
+
         case Qt::Key_Left:
             if(ctrl_pressed) {
                 emit sig_left_tab_clicked();
@@ -551,24 +522,20 @@ void PlaylistView::keyPressEvent(QKeyEvent* event)
 
         case Qt::Key_Return:
         case Qt::Key_Enter:
-
-            if(min_row >= 0)
+            if(!selections.isEmpty())
             {
+                int min_row = get_min_selected_item();
                 m->model->set_current_track(min_row);
                 emit sig_double_clicked(min_row);
             }
 
             break;
 
-        default:
-            break;
+        default: break;
     }
 
-    if(new_row >= 0) {
-        goto_row(new_row);
-    }
+    SearchableListView::keyPressEvent(event);
 }
-
 
 
 void PlaylistView::dragEnterEvent(QDragEnterEvent* event)
@@ -576,12 +543,13 @@ void PlaylistView::dragEnterEvent(QDragEnterEvent* event)
     event->accept();
 }
 
+
 void PlaylistView::dragMoveEvent(QDragMoveEvent* event)
 {
     event->accept();
 
-    int first_row = this->indexAt(QPoint(5, 5)).row();
-    int last_row = this->indexAt(QPoint(5, this->height())).row() - 1;
+    int first_row = indexAt(QPoint(5, 5)).row();
+    int last_row = indexAt(QPoint(5, this->height())).row() - 1;
     int row = calc_drag_drop_line(event->pos() );
 
     bool is_old = m->delegate->is_drag_index(row);
@@ -600,6 +568,7 @@ void PlaylistView::dragMoveEvent(QDragMoveEvent* event)
     }
 }
 
+
 void PlaylistView::dragLeaveEvent(QDragLeaveEvent* event)
 {
     event->accept();
@@ -615,4 +584,15 @@ void PlaylistView::dropEvent(QDropEvent* event)
 {
     event->accept();
     handle_drop(event);
+}
+
+
+int PlaylistView::get_index_by_model_index(const QModelIndex& idx) const
+{
+    return idx.row();
+}
+
+QModelIndex PlaylistView::get_model_index_by_index(int idx) const
+{
+    return m->model->index(idx);
 }

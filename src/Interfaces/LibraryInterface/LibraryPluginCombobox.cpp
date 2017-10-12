@@ -27,6 +27,8 @@ LibraryPluginCombobox::LibraryPluginCombobox(const QString& text, QWidget* paren
 	this->setSizeAdjustPolicy(QComboBox::AdjustToContents);
 	this->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 	this->setFrame(false);
+    this->setIconSize(QSize(16, 16));
+    this->setFocusPolicy(Qt::ClickFocus);
 
 	connect(m->lph, &LibraryPluginHandler::sig_initialized, this, &LibraryPluginCombobox::setup_actions);
 	connect(m->lph, &LibraryPluginHandler::sig_libraries_changed, this, &LibraryPluginCombobox::setup_actions);
