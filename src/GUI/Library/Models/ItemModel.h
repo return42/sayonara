@@ -50,11 +50,9 @@ namespace Library
 
 		/** Overloaded from QAbstractTableModel **/
 		QVariant 	headerData ( int section, Qt::Orientation orientation, int role=Qt::DisplayRole ) const override;
-		bool		setHeaderData(int section, Qt::Orientation orientation, const QVariant &value, int role) override;
+        bool        set_header_data(const QStringList& names);
 
 		virtual int     columnCount(const QModelIndex& parent=QModelIndex()) const override;
-		virtual bool 	insertColumns(int position, int cols, const QModelIndex &index=QModelIndex()) override;
-		virtual bool 	removeColumns(int position, int cols, const QModelIndex &index=QModelIndex()) override;
 		virtual bool	removeRows(int position, int rows, const QModelIndex& index=QModelIndex()) override;
 		virtual bool	insertRows(int row, int count, const QModelIndex &parent=QModelIndex()) override;
 		int             last_row_count() const;

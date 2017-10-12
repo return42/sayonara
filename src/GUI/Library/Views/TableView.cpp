@@ -66,15 +66,13 @@ void TableView::set_table_headers(
 
     m->shown_columns = shown_columns;
 
-	_model->removeColumns(0, _model->columnCount());
-	_model->insertColumns(0, headers.size());
-
-	int i=0;
+    QStringList header_names;
     for(ColumnHeader* header : headers)
     {
-		_model->setHeaderData(i, Qt::Horizontal, header->get_title(), Qt::DisplayRole);
-		i++;
+        header_names << header->get_title();
 	}
+
+    _model->set_header_data(header_names);
 
     header_view->set_column_headers(headers, shown_columns, sorting);
 
@@ -105,6 +103,7 @@ void TableView::header_actions_triggered()
     emit sig_columns_changed();
 }
 
+
 void TableView::sort_by_column(int column_idx)
 {
 	Library::SortOrder asc_sortorder, desc_sortorder;
@@ -126,19 +125,22 @@ void TableView::sort_by_column(int column_idx)
 }
 
 
-
 void TableView::language_changed()
 {
 	HeaderView* header_view = get_header_view();
 
-	for(int i=0; i<_model->columnCount(); i++){
+
+    QStringList header_names;
+    for(int i=0; i<_model->columnCount(); i++)
+    {
 		ColumnHeader* header = header_view->get_column_header(i);
 		if(header){
-			_model->setHeaderData(i, Qt::Horizontal, header->get_title(), Qt::DisplayRole);
+            header_names << header->get_title();
 		}
 	}
-}
 
+    _model->set_header_data(header_names);
+}
 
 
 void TableView::resizeEvent(QResizeEvent* event)
@@ -155,5 +157,12 @@ int TableView::get_index_by_model_index(const QModelIndex& idx) const
 
 QModelIndex TableView::get_model_index_by_index(int idx) const
 {
-	return _model->index(idx, 0);
+    int first_col = 0;
+
+    if( horizontalHeader()->isSectionHidden(0) )
+    {
+        first_col = 1;
+    }
+
+    return _model->index(idx, first_col);
 }

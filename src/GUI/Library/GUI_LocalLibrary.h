@@ -63,7 +63,6 @@ namespace Library
 
 	protected:
 		void showEvent(QShowEvent* e) override;
-		void init_shortcuts() override;
 
 		Library::ReloadQuality show_quality_dialog();
 

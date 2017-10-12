@@ -71,21 +71,11 @@ QVariant ItemModel::headerData ( int section, Qt::Orientation orientation, int r
 	return QVariant();
 }
 
-
-bool ItemModel::setHeaderData(int section, Qt::Orientation orientation, const QVariant& value, int role)
+bool ItemModel::set_header_data(const QStringList& names)
 {
-	Q_UNUSED(role)
-
-	if(!between(section, m->header_names)){
-		return false;
-	}
-
-	if(orientation == Qt::Horizontal){
-		m->header_names[section] = value.toString();
-		emit headerDataChanged(orientation, section, section);
-	}
-
-	return true;
+   m->header_names = names;
+   emit headerDataChanged(Qt::Horizontal, 0, names.size());
+   return true;
 }
 
 
@@ -94,36 +84,6 @@ int ItemModel::columnCount(const QModelIndex& parent) const
 	Q_UNUSED(parent);
 
 	return m->header_names.size();
-}
-
-
-bool ItemModel::insertColumns(int position, int cols, const QModelIndex &index)
-{
-	Q_UNUSED(index)
-
-	beginInsertColumns(QModelIndex(), position, position+cols-1);
-
-	for(int i=position; i<position+cols; i++) {
-		m->header_names.insert(i, "");
-	}
-
-	endInsertColumns();
-	return true;
-}
-
-
-bool ItemModel::removeColumns(int position, int cols, const QModelIndex &index)
-{
-	Q_UNUSED(index)
-
-	beginRemoveColumns(QModelIndex(), position, position+cols-1);
-
-	for(int i=position; i<position+cols; i++) {
-		m->header_names.removeAt(position);
-	}
-
-	endRemoveColumns();
-	return true;
 }
 
 bool ItemModel::removeRows(int row, int count, const QModelIndex& index)

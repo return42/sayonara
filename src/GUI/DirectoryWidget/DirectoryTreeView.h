@@ -66,7 +66,6 @@ private:
 	void init_context_menu();
 
 
-	// SayonaraSelectionView interface
 public:
 	int get_index_by_model_index(const QModelIndex& idx) const override;
 	QModelIndex get_model_index_by_index(int idx) const override;

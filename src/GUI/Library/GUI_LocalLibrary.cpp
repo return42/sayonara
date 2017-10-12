@@ -33,6 +33,7 @@
 #include "GUI/Library/Views/CoverView.h"
 #include "GUI/Library/Models/CoverModel.h"
 
+#include "GUI/Utils/ContextMenu/LibraryContextMenu.h"
 #include "GUI/Utils/Library/LibraryDeleteDialog.h"
 #include "GUI/Utils/SearchableWidget/SearchableView.h"
 
@@ -86,6 +87,17 @@ GUI_LocalLibrary::GUI_LocalLibrary(int id, QWidget* parent) :
 	ui->pb_progress->setVisible(false);
 	ui->lab_progress->setVisible(false);
 	ui->btn_reload_library->setVisible(false);
+
+    int entries = (LibraryContextMenu::EntryInfo |
+            LibraryContextMenu::EntryEdit |
+            LibraryContextMenu::EntryDelete |
+            LibraryContextMenu::EntryPlayNext |
+            LibraryContextMenu::EntryAppend |
+            LibraryContextMenu::EntryCoverView);
+
+    lv_artist()->show_rc_menu_actions(entries);
+    lv_album()->show_rc_menu_actions(entries);
+    lv_tracks()->show_rc_menu_actions(entries | LibraryContextMenu::EntryLyrics);
 
 	connect(m->library, &LocalLibrary::sig_reloading_library, this, &GUI_LocalLibrary::progress_changed);
 	connect(m->library, &LocalLibrary::sig_reloading_library_finished, this, &GUI_LocalLibrary::reload_finished);
@@ -183,14 +195,6 @@ void GUI_LocalLibrary::showEvent(QShowEvent* e)
 	}
 }
 
-void GUI_LocalLibrary::init_shortcuts()
-{
-	ui->le_search->setShortcutEnabled(QKeySequence::Find, true);
-
-	new QShortcut(QKeySequence::Find, ui->le_search, SLOT(setFocus()), nullptr, Qt::WindowShortcut);
-	new QShortcut(QKeySequence("F3"), ui->le_search, SLOT(setFocus()), nullptr, Qt::WindowShortcut);
-}
-
 
 Library::ReloadQuality GUI_LocalLibrary::show_quality_dialog()
 {
@@ -245,6 +249,7 @@ void GUI_LocalLibrary::switch_album_view()
 	if(show_cover_view)
 	{
 		// reload albums
+        m->library->selected_artists_changed(IndexSet());
 		lib_albums_ready();
 	}
 }
@@ -529,7 +534,13 @@ void GUI_LocalLibrary::init_album_cover_view()
 	m->acm = new Library::CoverModel(m->acv, m->library);
 	m->acv->setModel(m->acm);
 
-    m->library->selected_artists_changed(IndexSet());
+    int entries = (LibraryContextMenu::EntryInfo |
+            LibraryContextMenu::EntryEdit |
+            LibraryContextMenu::EntryDelete |
+            LibraryContextMenu::EntryPlayNext |
+            LibraryContextMenu::EntryAppend |
+            LibraryContextMenu::EntryCoverView);
+    m->acv->show_rc_menu_actions(entries);
 
 	connect(m->acv, &View::sig_sel_changed, this, &GUI_LocalLibrary::album_sel_changed);
     connect(m->acv, &View::doubleClicked, this, &GUI_LocalLibrary::item_double_clicked);

@@ -106,7 +106,7 @@ private:
 	void mouseMoveEvent(QMouseEvent* event) override;
 	void mouseDoubleClickEvent(QMouseEvent* event) override;
 
-	void keyPressEvent(QKeyEvent *event) override;
+    void keyPressEvent(QKeyEvent *event) override;
 	void selectionChanged ( const QItemSelection & selected, const QItemSelection & deselected ) override;
 
 	MD::Interpretation metadata_interpretation() const override;

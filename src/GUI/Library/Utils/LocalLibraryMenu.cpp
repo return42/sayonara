@@ -69,7 +69,12 @@ void LocalLibraryMenu::refresh_name(const QString& name)
 
 void LocalLibraryMenu::refresh_path(const QString& path)
 {
-	m->path = path;
+    m->path = path;
+}
+
+void LocalLibraryMenu::set_show_album_covers_checked(bool checked)
+{
+    m->show_album_cover_view->setChecked(checked);
 }
 
 void LocalLibraryMenu::init_menu()
@@ -127,6 +132,11 @@ void LocalLibraryMenu::init_menu()
 				  m->show_album_artists_action;
 
 	this->addActions(actions);
+
+    Set::listen(Set::Lib_ShowAlbumCovers, this, [=](){
+         bool show_covers = Settings::instance()->get(Set::Lib_ShowAlbumCovers);
+         m->show_album_cover_view->setChecked(show_covers);
+    });
 
 	m->initialized = true;
 }

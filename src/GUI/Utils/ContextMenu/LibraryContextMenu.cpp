@@ -27,9 +27,18 @@
 #include "Utils/Settings/Settings.h"
 #include "Utils/Language.h"
 
+#include <QMap>
+
+struct LibraryContextMenu::Private
+{
+    QMap<LibraryContextMenu::Entry, QAction*> entry_action_map;
+};
+
 LibraryContextMenu::LibraryContextMenu(QWidget* parent) :
 	WidgetTemplate<QMenu>(parent)
 {
+    m = Pimpl::make<Private>();
+
     _info_action = new QAction(this);
     _lyrics_action  = new QAction(this);
     _edit_action = new QAction(this);
@@ -39,6 +48,8 @@ LibraryContextMenu::LibraryContextMenu(QWidget* parent) :
     _append_action = new QAction(this);
     _refresh_action = new QAction(this);
     _clear_action = new QAction(this);
+    _clear_selection_action = new QAction(this);
+    _cover_view_action = new QAction(this);
 
 	QList<QAction*> rating_actions;
 	for(int i=0; i<=5; i++)
@@ -58,26 +69,44 @@ LibraryContextMenu::LibraryContextMenu(QWidget* parent) :
 	connect(_append_action, &QAction::triggered, this, &LibraryContextMenu::sig_append_clicked);
 	connect(_refresh_action, &QAction::triggered, this, &LibraryContextMenu::sig_refresh_clicked);
 	connect(_clear_action, &QAction::triggered, this, &LibraryContextMenu::sig_clear_clicked);
+    connect(_clear_selection_action, &QAction::triggered, this, &LibraryContextMenu::sig_clear_selection_clicked);
+    connect(_cover_view_action, &QAction::triggered, this, &LibraryContextMenu::cover_view_action_triggered);
 
-	QList<QAction*> actions;
-	actions << _info_action
+
+    QList<QAction*> actions;
+    actions << _info_action
 			<< _lyrics_action
 			<< _edit_action
 			<< _remove_action
 			<< _delete_action
+            << _cover_view_action
 			<< addSeparator()
 			<< _play_next_action
 			<< _append_action
 			<< _refresh_action
 			<< addSeparator()
 			<< _clear_action
+            << _clear_selection_action
 			   ;
 
-	this->addActions(actions);
+    this->addActions(actions);
 
 	_rating_action = this->insertMenu(_remove_action, _rating_menu);
 	_rating_action->setIcon(Gui::Util::icon("star.png"));
 	_rating_action->setText(Lang::get(Lang::Rating));
+
+    m->entry_action_map[EntryInfo] = _info_action;
+    m->entry_action_map[EntryEdit] = _edit_action;
+    m->entry_action_map[EntryLyrics] = _lyrics_action;
+    m->entry_action_map[EntryRemove] = _remove_action;
+    m->entry_action_map[EntryDelete] = _delete_action;
+    m->entry_action_map[EntryPlayNext] = _play_next_action;
+    m->entry_action_map[EntryAppend] = _append_action;
+    m->entry_action_map[EntryRefresh] = _refresh_action;
+    m->entry_action_map[EntryClear] = _clear_action;
+    m->entry_action_map[EntryRating] = _rating_action;
+    m->entry_action_map[EntryClearSelection] = _clear_selection_action;
+    m->entry_action_map[EntryCoverView] = _cover_view_action;
 
 	for(QAction* action : actions){
 		action->setVisible(action->isSeparator());
@@ -98,6 +127,19 @@ void LibraryContextMenu::language_changed()
 	_refresh_action->setText(Lang::get(Lang::Refresh));
 	_clear_action->setText(Lang::get(Lang::Clear));
 	_rating_action->setText(Lang::get(Lang::Rating));
+    _clear_selection_action->setText(tr("Clear selection"));
+
+    bool show_covers = _settings->get(Set::Lib_ShowAlbumCovers);
+
+    if(show_covers)
+    {
+        _cover_view_action->setText(tr("Switch to table view"));
+    }
+
+    else
+    {
+        _cover_view_action->setText(tr("Switch to cover view"));
+    }
 }
 
 
@@ -114,43 +156,19 @@ void LibraryContextMenu::skin_changed()
     _refresh_action->setIcon(icon_loader->icon("edit-undo", "undo"));
     _clear_action->setIcon(icon_loader->icon("edit-clear", "broom.png"));
     _rating_action->setIcon(Gui::Util::icon("star.png"));
+    _clear_selection_action->setIcon(icon_loader->icon("edit-clear", "broom.png"));
 }
 
 LibraryContexMenuEntries LibraryContextMenu::get_entries() const
 {
 	LibraryContexMenuEntries entries = EntryNone;
 
-	if(_info_action->isVisible()){
-		entries |= EntryInfo;
-	}
-
-	if(_lyrics_action->isVisible()){
-		entries |= EntryDelete;
-	}
-	if(_edit_action->isVisible()){
-		entries |= EntryEdit;
-	}
-	if(_remove_action->isVisible()){
-		entries |= EntryRemove;
-	}
-	if(_delete_action->isVisible()){
-		entries |= EntryDelete;
-	}
-	if(_play_next_action->isVisible()){
-		entries |= EntryPlayNext;
-	}
-	if(_append_action->isVisible()){
-		entries |= EntryAppend;
-	}
-	if(_refresh_action->isVisible()){
-		entries |= EntryRefresh;
-	}
-	if(_clear_action->isVisible()){
-		entries |= EntryClear;
-	}
-	if(_rating_action->isVisible()){
-		entries |= EntryRating;
-	}
+    for(QAction* action : m->entry_action_map.values())
+    {
+        if(action->isVisible()){
+            entries |= m->entry_action_map.key(action);
+        }
+    }
 
 	return entries;
 }
@@ -158,16 +176,10 @@ LibraryContexMenuEntries LibraryContextMenu::get_entries() const
 
 void LibraryContextMenu::show_actions(LibraryContexMenuEntries entries)
 {
-	_info_action->setVisible(entries & EntryInfo);
-	_lyrics_action->setVisible(entries & EntryLyrics);
-	_edit_action->setVisible(entries & EntryEdit);
-	_remove_action->setVisible(entries & EntryRemove);
-	_delete_action->setVisible(entries & EntryDelete);
-	_play_next_action->setVisible(entries & EntryPlayNext);
-	_append_action->setVisible(entries & EntryAppend);
-	_refresh_action->setVisible(entries & EntryRefresh);
-	_clear_action->setVisible(entries & EntryClear);
-	_rating_action->setVisible(entries & EntryRating);
+    for(QAction* action : m->entry_action_map.values())
+    {
+        action->setVisible( entries & m->entry_action_map.key(action) );
+    }
 }
 
 void LibraryContextMenu::show_action(LibraryContextMenu::Entry entry, bool visible){
@@ -220,6 +232,32 @@ void LibraryContextMenu::set_rating(int rating)
 
 	else{
 		_rating_action->setText(rating_text);
-	}
+    }
+}
+
+QAction* LibraryContextMenu::get_action(LibraryContextMenu::Entry entry) const
+{
+    return m->entry_action_map[entry];
+}
+
+void LibraryContextMenu::show_covers_changed()
+{
+    bool show_covers = _settings->get(Set::Lib_ShowAlbumCovers);
+
+    if(show_covers)
+    {
+        _cover_view_action->setText(tr("Switch to table view"));
+    }
+
+    else
+    {
+        _cover_view_action->setText(tr("Switch to cover view"));
+    }
+}
+
+void LibraryContextMenu::cover_view_action_triggered()
+{
+    bool show_covers = _settings->get(Set::Lib_ShowAlbumCovers);
+    _settings->set(Set::Lib_ShowAlbumCovers, !show_covers);
 }
 

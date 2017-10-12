@@ -26,6 +26,7 @@
 #include <QModelIndex>
 
 class QItemSelectionModel;
+class QKeyEvent;
 
 namespace SP
 {
@@ -39,9 +40,7 @@ namespace SP
  */
 class SayonaraSelectionView
 {
-
 public:
-
 	enum class SelectionType
 	{
 		Rows=0,
@@ -71,9 +70,7 @@ protected:
 	void select_all();
 
 	void clear_selection();
-
 	int get_min_selected_item() const;
-
 
 public:
     IndexSet get_selected_items() const;
@@ -90,6 +87,8 @@ public:
 protected:
 	SayonaraSelectionView();
 	virtual ~SayonaraSelectionView();
+
+    virtual void handle_key_press(QKeyEvent* e);
 };
 
 #endif // SAYONARASELECTIONVIEW_H

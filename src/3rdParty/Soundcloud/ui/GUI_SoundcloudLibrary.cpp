@@ -26,25 +26,28 @@
 
 #include <QShortcut>
 
-struct SC::GUI_Library::Private
+using SC::GUI_Library;
+using SC::GUI_ArtistSearch;
+
+struct GUI_Library::Private
 {
-	SC::GUI_ArtistSearch*	artist_search=nullptr;
-	QMenu*					library_menu=nullptr;
+    GUI_ArtistSearch*	artist_search=nullptr;
+    QMenu*              library_menu=nullptr;
 };
 
-SC::GUI_Library::GUI_Library(SC::Library* library, QWidget *parent) :
+GUI_Library::GUI_Library(Library* library, QWidget *parent) :
 	GUI_AbstractLibrary(library, parent)
 {
 	setup_parent(this, &ui);
 	setAcceptDrops(false);
 
-	m = Pimpl::make<SC::GUI_Library::Private>();
+    m = Pimpl::make<GUI_Library::Private>();
 
-	m->artist_search = new SC::GUI_ArtistSearch(library, this);
+    m->artist_search = new GUI_ArtistSearch(library, this);
 	m->library_menu = new QMenu(this);
 
 	QAction* action_add_artist = m->library_menu->addAction(tr("Add artist"));
-	connect(action_add_artist, &QAction::triggered, this, &SC::GUI_Library::btn_add_clicked);
+    connect(action_add_artist, &QAction::triggered, this, &GUI_Library::btn_add_clicked);
 
 	LibraryContexMenuEntries entry_mask =
 			(LibraryContextMenu::EntryPlayNext |
@@ -60,7 +63,7 @@ SC::GUI_Library::GUI_Library(SC::Library* library, QWidget *parent) :
 	library->load();
 }
 
-SC::GUI_Library::~GUI_Library()
+GUI_Library::~GUI_Library()
 {
 	if(ui)
 	{
@@ -69,54 +72,48 @@ SC::GUI_Library::~GUI_Library()
 }
 
 
-QMenu* SC::GUI_Library::get_menu() const
+QMenu* GUI_Library::get_menu() const
 {
 	return m->library_menu;
 }
 
-QFrame* SC::GUI_Library::header_frame() const
+QFrame* GUI_Library::header_frame() const
 {
 	return ui->header_frame;
 }
 
-QList<::Library::Filter::Mode> SC::GUI_Library::search_options() const
+QList<::Library::Filter::Mode> GUI_Library::search_options() const
 {
     return {::Library::Filter::Fulltext};
 }
 
-Library::TrackDeletionMode SC::GUI_Library::show_delete_dialog(int n_tracks)
+Library::TrackDeletionMode GUI_Library::show_delete_dialog(int n_tracks)
 {
 	Q_UNUSED(n_tracks)
 	return ::Library::TrackDeletionMode::OnlyLibrary;
 }
 
-void SC::GUI_Library::init_shortcuts()
-{
-	new QShortcut(QKeySequence("Ctrl+f"), ui->le_search, SLOT(setFocus()), nullptr, Qt::WidgetWithChildrenShortcut);
-	new QShortcut(QKeySequence("Esc"), this, SLOT(clear_button_pressed()), nullptr, Qt::WidgetWithChildrenShortcut);
-}
-
-void SC::GUI_Library::btn_add_clicked()
+void GUI_Library::btn_add_clicked()
 {
 	m->artist_search->show();
 }
 
-Library::TableView* SC::GUI_Library::lv_artist() const
+Library::TableView* GUI_Library::lv_artist() const
 {
 	return ui->lv_artist;
 }
 
-Library::TableView* SC::GUI_Library::lv_album() const
+Library::TableView* GUI_Library::lv_album() const
 {
 	return ui->lv_album;
 }
 
-Library::TableView* SC::GUI_Library::lv_tracks() const
+Library::TableView* GUI_Library::lv_tracks() const
 {
 	return ui->tb_title;
 }
 
-QLineEdit* SC::GUI_Library::le_search() const
+QLineEdit* GUI_Library::le_search() const
 {
 	return ui->le_search;
 }

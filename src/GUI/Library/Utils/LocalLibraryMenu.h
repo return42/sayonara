@@ -54,6 +54,8 @@ namespace Library
 		void refresh_name(const QString& name);
 		void refresh_path(const QString& path);
 
+        void set_show_album_covers_checked(bool checked);
+
 	private:
 		void init_menu();
 

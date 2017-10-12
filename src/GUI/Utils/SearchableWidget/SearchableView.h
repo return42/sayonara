@@ -70,7 +70,7 @@ private:
 	void select_match(const QString& str, SearchDirection direction);
 
 protected:
-	void handleKeyPress(QKeyEvent* e);
+    void handle_key_press(QKeyEvent* e) override;
 };
 
 
@@ -89,7 +89,11 @@ public:
 protected:
 	void keyPressEvent(QKeyEvent* e) override
 	{
-		handleKeyPress(e);
+        handle_key_press(e);
+        if(e->isAccepted()){
+            return;
+        }
+
 		AbstractView::keyPressEvent(e);
 	}
 };

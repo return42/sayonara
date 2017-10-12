@@ -23,6 +23,7 @@
 #include "GUI/Utils/Delegates/ComboBoxDelegate.h"
 
 #include <QItemSelection>
+#include <QKeyEvent>
 
 #include <algorithm>
 
@@ -36,7 +37,7 @@ SayonaraSelectionView::~SayonaraSelectionView() {}
 void SayonaraSelectionView::select_all()
 {
 	QItemSelectionModel* sel_model = this->get_selection_model();
-	if(!sel_model){
+    if(!sel_model) {
 		return;
 	}
 
@@ -83,6 +84,7 @@ void SayonaraSelectionView::select_rows(const IndexSet& indexes, int min_col, in
 
 		sel.select(first_idx, last_idx);
 		sel_model->select(sel, QItemSelectionModel::ClearAndSelect);
+
 		return;
 	}
 
@@ -146,7 +148,6 @@ void SayonaraSelectionView::select_row(int row)
 
 void SayonaraSelectionView::select_columns(const IndexSet& indexes, int min_row, int max_row)
 {
-	//TODO
 	QItemSelectionModel* sel_model = this->get_selection_model();
 	if(!sel_model){
 		return;
@@ -261,3 +262,58 @@ SayonaraSelectionView::SelectionType SayonaraSelectionView::selection_type() con
 	return _selection_type;
 }
 
+void SayonaraSelectionView::handle_key_press(QKeyEvent* e)
+{
+    e->setAccepted(false);
+
+    if(this->get_row_count() == 0)
+    {
+        return;
+    }
+
+    Qt::KeyboardModifiers modifiers = e->modifiers();
+    if(modifiers != Qt::NoModifier){
+        return;
+    }
+
+    if(e->matches(QKeySequence::SelectAll))
+    {
+        this->select_all();
+        e->accept();
+        return;
+    }
+
+    switch(e->key())
+    {
+        case Qt::Key_Up:
+            if(this->get_selected_items().empty())
+            {
+                e->accept();
+                this->select_row(this->get_row_count() - 1);
+            }
+
+            return;
+
+        case Qt::Key_Down:
+            if(this->get_selected_items().empty())
+            {
+                e->accept();
+                this->select_row(0);
+            }
+
+            return;
+
+        case Qt::Key_End:
+            this->select_row(this->get_row_count() - 1);
+            e->accept();
+            return;
+
+        case Qt::Key_Home:
+            this->select_row(0);
+            e->accept();
+            return;
+
+        default:
+            break;
+    }
+}

@@ -54,7 +54,6 @@ using namespace Library;
 struct Library::View::Private
 {
     QPushButton*        btn_clear_selection=nullptr;
-    QAction*            clear_selection_action=nullptr;
     QAction*			merge_action=nullptr;
     QMenu*				merge_menu=nullptr;
     LibraryContextMenu*	rc_menu=nullptr;
@@ -107,11 +106,11 @@ void View::selectionChanged(const QItemSelection& selected, const QItemSelection
 		return;
 	}
 
-	SearchableTableView::selectionChanged(selected, deselected);
+    SearchableTableView::selectionChanged(selected, deselected);
     IndexSet indexes = get_selected_items();
 
-    if(m->clear_selection_action) {
-        m->clear_selection_action->setVisible(!selected.isEmpty());
+    if(m->rc_menu){
+        m->rc_menu->show_action(LibraryContextMenu::EntryClearSelection, !selected.isEmpty());
     }
 
     emit sig_sel_changed(indexes);
@@ -125,20 +124,9 @@ void View::rc_menu_init()
 {
 	m->rc_menu = new LibraryContextMenu(this);
 
-	m->rc_menu->show_actions(
-				LibraryContextMenu::EntryPlayNext |
-				LibraryContextMenu::EntryInfo |
-				LibraryContextMenu::EntryDelete |
-				LibraryContextMenu::EntryEdit |
-				LibraryContextMenu::EntryAppend
-	);
-
 	m->merge_menu = new QMenu(tr("Merge"), m->rc_menu);
 	m->merge_action = m->rc_menu->addMenu(m->merge_menu);
 	m->merge_action->setVisible(false);
-
-    m->clear_selection_action = m->rc_menu->addAction(tr("Clear selection"));
-    connect(m->clear_selection_action, &QAction::triggered, this, &View::clearSelection);
 
 	connect(m->rc_menu, &LibraryContextMenu::sig_edit_clicked, [=](){
 		show_edit();
@@ -152,10 +140,14 @@ void View::rc_menu_init()
 		show_lyrics();
 	});
 
+    connect(m->rc_menu, &LibraryContextMenu::sig_clear_selection_clicked, [=](){
+        clear_selection();
+    });
+
 	connect(m->rc_menu, &LibraryContextMenu::sig_delete_clicked, this, &View::sig_delete_clicked);
 	connect(m->rc_menu, &LibraryContextMenu::sig_play_next_clicked, this, &View::sig_play_next_clicked);
 	connect(m->rc_menu, &LibraryContextMenu::sig_append_clicked, this, &View::sig_append_clicked);
-	connect(m->rc_menu, &LibraryContextMenu::sig_refresh_clicked, this, &View::sig_refresh_clicked);
+    connect(m->rc_menu, &LibraryContextMenu::sig_refresh_clicked, this, &View::sig_refresh_clicked);
 }
 
 void View::show_rc_menu_actions(int entries)
@@ -164,7 +156,26 @@ void View::show_rc_menu_actions(int entries)
 		rc_menu_init();
 	}
 
-	m->rc_menu->show_actions(entries);
+    m->rc_menu->show_actions(entries);
+    m->rc_menu->show_action(LibraryContextMenu::EntryClearSelection, !get_selected_items().isEmpty());
+}
+
+void View::add_context_action(QAction *action)
+{
+    if(!m->rc_menu) {
+        rc_menu_init();
+    }
+
+    m->rc_menu->addAction(action);
+}
+
+void View::remove_context_action(QAction *action)
+{
+    if(!m->rc_menu) {
+        rc_menu_init();
+    }
+
+    m->rc_menu->removeAction(action);
 }
 
 QMimeData* View::get_mimedata() const
@@ -370,78 +381,63 @@ void View::mouseMoveEvent(QMouseEvent* event)
 // mouse events end
 
 // keyboard events
+
 void View::keyPressEvent(QKeyEvent* event)
 {
-	int key = event->key();
+    int key = event->key();
 
-	Qt::KeyboardModifiers  modifiers = event->modifiers();
+    Qt::KeyboardModifiers  modifiers = event->modifiers();
 
-	bool shift_pressed = (modifiers & Qt::ShiftModifier);
-	bool alt_pressed = (modifiers & Qt::AltModifier);
-	bool ctrl_pressed = (modifiers & Qt::ControlModifier);
+    bool shift_pressed = (modifiers & Qt::ShiftModifier);
+    bool alt_pressed = (modifiers & Qt::AltModifier);
+    bool ctrl_pressed = (modifiers & Qt::ControlModifier);
 
-	if((key == Qt::Key_Up || key == Qt::Key_Down))
-	{
-		if(this->selectionModel()->selection().isEmpty())
-		{
-			if(_model->rowCount() > 0) {
-				selectRow(0);
-			}
+    if((key == Qt::Key_Up || key == Qt::Key_Down))
+    {
+        if(ctrl_pressed){
+            event->setModifiers(Qt::NoModifier);
+        }
+    }
 
-			return;
-		}
+    SearchableTableView::keyPressEvent(event);
 
-		if(ctrl_pressed){
-			event->setModifiers(Qt::NoModifier);
-		}
-	}
-
-	SearchableTableView::keyPressEvent(event);
-	if(is_minisearcher_active()) {
-		return;
-	}
+    if(event->isAccepted() ) {
+        return;
+    }
 
     IndexSet selections = get_selected_items();
 
-	switch(key)
-	{
-		case Qt::Key_Return:
-		case Qt::Key_Enter:
-			if(selections.isEmpty() || ctrl_pressed){
-				break;
-			}
+    switch(key)
+    {
+        case Qt::Key_Return:
+        case Qt::Key_Enter:
+            if(selections.isEmpty() || ctrl_pressed){
+                break;
+            }
 
-			// standard enter
-			if(!shift_pressed && !alt_pressed)
-			{
-				if(!selections.isEmpty()){
-					int first_idx = selections.first();
-					emit doubleClicked( _model->index(first_idx, 0));
-				}
-			}
+            // standard enter
+            if(!shift_pressed && !alt_pressed)
+            {
+                if(!selections.isEmpty()){
+                    int first_idx = selections.first();
+                    emit doubleClicked( _model->index(first_idx, 0));
+                }
+            }
 
-			// enter with shift
-			else if(shift_pressed && !alt_pressed) {
-				emit sig_append_clicked();
-			}
+            // enter with shift
+            else if(shift_pressed && !alt_pressed) {
+                emit sig_append_clicked();
+            }
 
-			else if(alt_pressed) {
-				emit sig_play_next_clicked();
-			}
+            else if(alt_pressed) {
+                emit sig_play_next_clicked();
+            }
 
-			break;
+            break;
 
-		case Qt::Key_End:
-			this->selectRow(_model->rowCount() - 1);
-			break;
-
-		case Qt::Key_Home:
-			this->selectRow(0);
-			break;
-
-		default:
-			break;
-	}
+        default:
+            break;
+    }
 }
 
 void View::contextMenuEvent(QContextMenuEvent* event)
@@ -467,10 +463,12 @@ void View::contextMenuEvent(QContextMenuEvent* event)
 			(m->type == MD::Interpretation::Artists ||
 			 m->type == MD::Interpretation::Albums);
 
-	if(is_right_type) {
+    if(is_right_type)
+    {
 		size_t n_selections = selections.size();
 
-		if(n_selections > 1){
+        if(n_selections > 1)
+        {
 			m->merge_menu->clear();
 
 			for(int i : selections)

@@ -81,6 +81,8 @@ namespace Library
 		virtual void setModel(ItemModel* model);
 
 		void show_rc_menu_actions(int entries);
+        void add_context_action(QAction* action);
+        void remove_context_action(QAction* action);
 
 		/** Dragable **/
 		QMimeData* get_mimedata() const override;
@@ -97,7 +99,7 @@ namespace Library
 		// Events implemented in LibraryViewEvents.cpp
 		virtual void mousePressEvent(QMouseEvent* event) override;
 		virtual void mouseMoveEvent(QMouseEvent* event) override;
-		virtual void keyPressEvent(QKeyEvent* event) override;
+        virtual void keyPressEvent(QKeyEvent* event) override;
 		virtual void contextMenuEvent(QContextMenuEvent* event) override;
 
 		virtual void dragEnterEvent(QDragEnterEvent *event) override;

@@ -185,5 +185,5 @@ int DirectoryTreeView::get_index_by_model_index(const QModelIndex& idx) const
 
 QModelIndex DirectoryTreeView::get_model_index_by_index(int idx) const
 {
-	return m->model->index(idx, 0);
+    return m->model->index(idx, 0);
 }

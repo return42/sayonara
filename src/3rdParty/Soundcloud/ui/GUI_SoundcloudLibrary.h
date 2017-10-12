@@ -53,7 +53,6 @@ namespace SC
 
 	protected:
 		::Library::TrackDeletionMode show_delete_dialog(int n_tracks) override;
-		void init_shortcuts() override;
 
 		::Library::TableView* lv_artist() const override;
 		::Library::TableView* lv_album() const override;

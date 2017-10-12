@@ -166,7 +166,8 @@ void SearchViewFunctionality::select_match(const QString &str, SearchDirection d
 
     IndexSet indexes(m->cur_idx);
 
-	switch(selection_type()){
+    switch(selection_type())
+    {
 		case SayonaraSelectionView::SelectionType::Rows:
 			select_rows(indexes);
 			break;
@@ -207,8 +208,14 @@ void SearchViewFunctionality::set_current_index(int idx)
 	m->view->setCurrentIndex(index);
 }
 
-void SearchViewFunctionality::handleKeyPress(QKeyEvent* e)
+void SearchViewFunctionality::handle_key_press(QKeyEvent* e)
 {
+    SayonaraSelectionView::handle_key_press(e);
+
+    if(e->isAccepted()) {
+        return;
+    }
+
 	if(!m->search_model){
 		return;
 	}

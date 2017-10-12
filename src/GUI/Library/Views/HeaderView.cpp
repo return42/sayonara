@@ -175,14 +175,18 @@ BoolList HeaderView::refresh_active_columns()
 	BoolList lst;
 	int n_cols = _column_headers.size();
 
-	for(int i=0; i<n_cols; i++){
+    for(int i=0; i<n_cols; i++)
+    {
 		ColumnHeader* section =_column_headers[i];
 		bool is_hidden = section->is_hidden();
-		if(is_hidden){
+
+        if(is_hidden)
+        {
 			this->hideSection(i);
 		}
 
-		else{
+        else
+        {
 			this->showSection(i);
 		}
 

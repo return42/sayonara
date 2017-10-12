@@ -511,35 +511,11 @@ void PlaylistView::keyPressEvent(QKeyEvent* event)
             {
                 new_selections = m->model->move_rows_down(selections);
             }
-        }
 
-        else if(selections.isEmpty())
-        {
-            if(key == Qt::Key_Up) {
-                new_selections.insert(row_count() - 1);
-            }
-
-            else {
-                new_selections.insert(0);
+            if(!new_selections.empty()){
+                select_rows(new_selections);
             }
         }
-
-        else {
-            SearchableListView::keyPressEvent(event);
-            return;
-        }
-
-        if(!new_selections.empty()){
-            select_rows(new_selections);
-        }
-
-        return;
-    }
-
-    else if(event->matches(QKeySequence::SelectAll))
-    {
-        select_all();
-        return;
     }
 
     else if(event->matches(QKeySequence::Delete))
@@ -559,14 +535,6 @@ void PlaylistView::keyPressEvent(QKeyEvent* event)
 
     switch(key)
     {
-        case Qt::Key_End:
-            new_row = row_count() - 1;
-            break;
-
-        case Qt::Key_Home:
-            new_row = 0;
-            break;
-
         case Qt::Key_Left:
             if(ctrl_pressed) {
                 emit sig_left_tab_clicked();

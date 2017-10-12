@@ -109,8 +109,9 @@ Cover::Location AlbumModel::get_cover(const IndexSet& indexes) const
 
 QVariant AlbumModel::data(const QModelIndex& index, int role) const
 {
-	if (!index.isValid())
+    if (!index.isValid()) {
 		return QVariant();
+    }
 
     const AlbumList& albums = library()->albums();
     if (index.row() >= albums.count())
