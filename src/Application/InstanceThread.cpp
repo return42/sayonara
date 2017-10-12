@@ -30,29 +30,28 @@ InstanceThread::InstanceThread(InstanceMessage* instance_message, QObject* paren
 	_instance_message = instance_message;
 }
 
-InstanceThread::~InstanceThread() {}
+InstanceThread::~InstanceThread()
+{
+    _memory.detach();
+}
 
 void InstanceThread::run()
 {
 	_may_run = true;
+    _memory.attach(QSharedMemory::ReadWrite);
 
     while(_may_run)
     {
-        if((*_instance_message) != InstanceMessageNone)
-        {
-			sp_log(Log::Debug, this) << "Kill signal received";
+        if(memcmp(_memory.data(), "Req", 3) == 0){
+            sp_log(Log::Debug, this) << "Second instance saying hello";
 
-			emit sig_player_raise();
-
-			if( (*_instance_message) == InstanceMessageWithFiles){
-				parse_memory();
-			}
-
-			(*_instance_message) = InstanceMessageNone;
-		}
+            _memory.lock();
+            memcpy(_memory.data(), "Ack", 3);
+            _memory.unlock();
+        }
 
 		if(_may_run){
-			Util::sleep_ms(100);
+            Util::sleep_ms(100);
 		}
 	}
 }

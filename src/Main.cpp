@@ -181,11 +181,8 @@ int main(int argc, char *argv[])
 	init_gio();
 #endif
 
-
 #ifdef Q_OS_UNIX
-
 	signal(SIGSEGV, segfault_handler);
-
 #endif
 
 	CommandLineData cmd_data = CommandLineParser::parse(argc, argv);
@@ -193,21 +190,60 @@ int main(int argc, char *argv[])
 		return 0;
 	}
 
-#ifdef Q_OS_UNIX
+    QSharedMemory memory("SayonaraMemory");
+    if(!memory.create(1000, QSharedMemory::ReadWrite))
+    {
+        bool is_attached = memory.isAttached();
+        sp_log(Log::Debug) << "Try to attach: "
+                           << memory.attach(QSharedMemory::ReadWrite)
+                           << ", " << is_attached;
 
-	int pid=0;
-	if( !cmd_data.multiple_instances ){
-		pid = check_for_another_instance(QCoreApplication::applicationPid());
-	}
+        memory.lock();
+        char* ptr = (char*) memory.data();
+        memcpy(ptr, "Hallo", 6);
+        memory.unlock();
 
-	if(pid > 0) {
-		notify_old_instance(cmd_data.files_to_play, pid);
-		return 0;
-	}
+        if(!cmd_data.files_to_play.isEmpty())
+        {
+            QString filename = cmd_data.files_to_play[0] + "\n";
+            QByteArray arr = filename.toUtf8();
 
-#else
-	Q_UNUSED(single_instance)
-#endif
+            if(memory.create(arr.size())){
+                memory.lock();
+                char* ptr = (char*) memory.data();
+                int size = std::min(memory.size(), arr.size());
+
+                memcpy(ptr,
+                        arr.data(),
+                        size);
+
+                memory.unlock();
+            }
+
+            //kill(pid, SIGUSR1);
+        }
+
+        else {
+            memory.lock();
+            memcpy(memory.data(), "Req", 3);
+            memory.unlock();
+
+            Util::sleep_ms(500);
+
+            if(memcmp(memory.data(), "Ack", 3) == 0){
+                sp_log(Log::Debug, "Main") << "Memory is attached. There's probably another instance running";
+                return 0;
+            }
+
+            else {
+                sp_log(Log::Debug, "Main") << "Shared memory available, but other instance not responding";
+            }
+        }
+    }
+
+    memory.lock();
+    memcpy(memory.data(), "Sayonara", 8);
+    memory.unlock();
 
 	/* Tell the settings manager which settings are necessary */
 	if( !SettingRegistry::instance()->init() ){
