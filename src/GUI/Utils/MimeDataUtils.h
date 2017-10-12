@@ -17,8 +17,6 @@ namespace Gui
 
 			QStringList get_playlists(const QMimeData* data);
 
-			const CustomMimeData* cast(const QMimeData* data);
-
 			bool is_inner_drag_drop(const QMimeData* data);
 			void set_inner_drag_drop(QMimeData* data);
 

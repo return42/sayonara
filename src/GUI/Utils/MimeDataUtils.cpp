@@ -21,7 +21,7 @@ MetaDataList MimeData::get_metadata(const QMimeData *data)
         return MetaDataList();
     }
 
-	const CustomMimeData* cmd = cast(data);
+    const CustomMimeData* cmd = dynamic_cast<const CustomMimeData*>(data);
 	if(cmd)
 	{
 		return cmd->metadata();
@@ -72,10 +72,6 @@ QStringList MimeData::get_playlists(const QMimeData *data)
 	return www_playlists;
 }
 
-const CustomMimeData* MimeData::cast(const QMimeData *data)
-{
-	return dynamic_cast<const CustomMimeData*>(data);
-}
 
 void MimeData::set_inner_drag_drop(QMimeData* data)
 {

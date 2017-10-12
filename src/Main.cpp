@@ -100,7 +100,8 @@ void notify_old_instance(const QStringList& files_to_play, int pid)
 {
 	QSharedMemory memory("SayonaraMemory");
 
-	if(!files_to_play.isEmpty()){
+    if(!files_to_play.isEmpty())
+    {
 		QString filename = files_to_play[0] + "\n";
 		QByteArray arr = filename.toUtf8();
 

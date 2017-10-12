@@ -335,9 +335,7 @@ bool Application::init(QTranslator* translator, const QStringList& files_to_play
 	return true;
 }
 
-
 Application::~Application() {}
-
 
 void Application::init_single_instance_thread()
 {
