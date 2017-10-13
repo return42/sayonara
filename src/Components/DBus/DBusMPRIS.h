@@ -26,29 +26,30 @@
 #include <QDBusObjectPath>
 #include <QMainWindow>
 
-#include "Utils/MetaData/MetaData.h"
-#include "Utils/Settings/SayonaraClass.h"
 #include "Components/PlayManager/PlayState.h"
 
-class PlayManager;
+#include "Utils/MetaData/MetaData.h"
+#include "Utils/Settings/SayonaraClass.h"
+#include "Utils/Pimpl.h"
+
+using QStrRef=const QString&;
+
 class DBusAdaptor :
 		public QObject
 {
 	Q_OBJECT
+    PIMPL(DBusAdaptor)
 
 protected:
-
-	PlayManager* _play_manager=nullptr;
-
-	QString		_object_path;
-	QString		_service_name;
-	QString		_dbus_service;
-	QString		_dbus_interface;
-
-	explicit DBusAdaptor(QObject *parent=nullptr);
+    explicit DBusAdaptor(QStrRef object_path, QStrRef service_name, QStrRef dbus_service, QStrRef dbus_interface, QObject *parent=nullptr);
 	virtual ~DBusAdaptor();
 
 	void create_message(QString name, QVariant val);
+
+    QString object_path() const;
+    QString service_name() const;
+    QString dbus_service() const;
+    QString dbus_interface() const;
 };
 
 
@@ -60,14 +61,9 @@ class MediaPlayer2 :
 		public SayonaraClass
 {
 	Q_OBJECT
-
-	private:
-		QStringList _supported_uri_schemes;
-		QStringList _supported_mime_types;
-
+    PIMPL(MediaPlayer2)
 
 	public:
-
 		explicit MediaPlayer2(QMainWindow* player, QObject *parent=nullptr);
 		~MediaPlayer2();
 
@@ -107,19 +103,6 @@ class MediaPlayer2 :
 
 
 	private:
-
-		QMainWindow*	_player=nullptr;
-		int				_len_playlist;
-		int				_cur_idx;
-
-		bool			_can_next;
-		bool			_can_previous;
-		double			_volume;
-		QString			_playback_status;
-		MetaData		_md;
-		int64_t			_pos;
-
-		bool			_initialized;
 		void			init();
 
 

@@ -26,50 +26,64 @@
 
 using namespace Gui;
 
+struct PlaylistTabMenu::Private
+{
+    QAction*	action_open_file=nullptr;
+    QAction*	action_open_dir=nullptr;
+    QAction*	action_delete=nullptr;
+    QAction*	action_save=nullptr;
+    QAction*	action_save_as=nullptr;
+    QAction*	action_reset=nullptr;
+    QAction*	action_close=nullptr;
+    QAction*	action_close_others=nullptr;
+    QAction*	action_rename=nullptr;
+    QAction*	action_clear=nullptr;
+};
+
 PlaylistTabMenu::PlaylistTabMenu(QWidget* parent) :
 	WidgetTemplate<QMenu>(parent)
 {
-	_action_open_file = new QAction(Util::icon("play"), QString(), this);
-	_action_open_dir = new QAction(Util::icon("play"), QString(), this);
-	_action_reset = new QAction(Util::icon("undo"), QString(), this);
-	_action_rename = new QAction(Util::icon("edit"), QString(), this);
-	_action_delete = new QAction(Util::icon("delete"), QString(), this);
-	_action_save = new QAction(Util::icon("save"), QString(), this);
-	_action_save_as = new QAction(Util::icon("save_as"), QString(), this);
-	_action_clear = new QAction(Util::icon("broom.png"), QString(), this);
-	_action_close = new QAction(Util::icon("power_off"), QString(), this);
-	_action_close_others = new QAction(Util::icon("power_on"), QString(), this);
+    m = Pimpl::make<Private>();
 
-	_icon_loader = IconLoader::instance();
+    m->action_open_file = new QAction(this);
+    m->action_open_dir = new QAction(this);
+    m->action_reset = new QAction(this);
+    m->action_rename = new QAction(this);
+    m->action_delete = new QAction(this);
+    m->action_save = new QAction(this);
+    m->action_save_as = new QAction(this);
+    m->action_clear = new QAction(this);
+    m->action_close = new QAction(this);
+    m->action_close_others = new QAction(this);
 
 	QList<QAction*> actions;
-	actions << _action_open_file
-			<< _action_open_dir
+    actions << m->action_open_file
+            << m->action_open_dir
 			<< this->addSeparator()
-			<< _action_reset
+            << m->action_reset
 			<< this->addSeparator()
-			<< _action_rename
-			<< _action_save
-			<< _action_save_as
-			<< _action_delete
+            << m->action_rename
+            << m->action_save
+            << m->action_save_as
+            << m->action_delete
 			<< this->addSeparator()
-			<< _action_clear
+            << m->action_clear
 			<< this->addSeparator()
-			<< _action_close_others
-			<< _action_close;
+            << m->action_close_others
+            << m->action_close;
 
 	this->addActions(actions);
 
-	connect(_action_open_file, &QAction::triggered, this, &PlaylistTabMenu::sig_open_file_clicked);
-	connect(_action_open_dir, &QAction::triggered, this, &PlaylistTabMenu::sig_open_dir_clicked);
-	connect(_action_reset, &QAction::triggered, this, &PlaylistTabMenu::sig_reset_clicked);
-	connect(_action_rename, &QAction::triggered, this, &PlaylistTabMenu::sig_rename_clicked);
-	connect(_action_delete, &QAction::triggered, this, &PlaylistTabMenu::sig_delete_clicked);
-	connect(_action_save, &QAction::triggered, this, &PlaylistTabMenu::sig_save_clicked);
-	connect(_action_save_as, &QAction::triggered, this, &PlaylistTabMenu::sig_save_as_clicked);
-	connect(_action_clear, &QAction::triggered, this, &PlaylistTabMenu::sig_clear_clicked);
-	connect(_action_close, &QAction::triggered, this, &PlaylistTabMenu::sig_close_clicked);
-	connect(_action_close_others, &QAction::triggered, this, &PlaylistTabMenu::sig_close_others_clicked);
+    connect(m->action_open_file, &QAction::triggered, this, &PlaylistTabMenu::sig_open_file_clicked);
+    connect(m->action_open_dir, &QAction::triggered, this, &PlaylistTabMenu::sig_open_dir_clicked);
+    connect(m->action_reset, &QAction::triggered, this, &PlaylistTabMenu::sig_reset_clicked);
+    connect(m->action_rename, &QAction::triggered, this, &PlaylistTabMenu::sig_rename_clicked);
+    connect(m->action_delete, &QAction::triggered, this, &PlaylistTabMenu::sig_delete_clicked);
+    connect(m->action_save, &QAction::triggered, this, &PlaylistTabMenu::sig_save_clicked);
+    connect(m->action_save_as, &QAction::triggered, this, &PlaylistTabMenu::sig_save_as_clicked);
+    connect(m->action_clear, &QAction::triggered, this, &PlaylistTabMenu::sig_clear_clicked);
+    connect(m->action_close, &QAction::triggered, this, &PlaylistTabMenu::sig_close_clicked);
+    connect(m->action_close_others, &QAction::triggered, this, &PlaylistTabMenu::sig_close_others_clicked);
 }
 
 PlaylistTabMenu::~PlaylistTabMenu()
@@ -79,53 +93,53 @@ PlaylistTabMenu::~PlaylistTabMenu()
 
 void PlaylistTabMenu::language_changed()
 {
-	_action_open_file->setText(Lang::get(Lang::OpenFile).triplePt());
-	_action_open_dir->setText(Lang::get(Lang::OpenDir).triplePt());
-	_action_reset->setText(Lang::get(Lang::Reset));
-	_action_rename->setText(Lang::get(Lang::Rename).triplePt());
-	_action_delete->setText(Lang::get(Lang::Delete));
-	_action_save->setText(Lang::get(Lang::Save));
-	_action_save_as->setText(Lang::get(Lang::SaveAs).triplePt());
-	_action_clear->setText(Lang::get(Lang::Clear));
-	_action_close->setText(Lang::get(Lang::Close));
-	_action_close_others->setText(Lang::get(Lang::CloseOthers));
+    m->action_open_file->setText(Lang::get(Lang::OpenFile).triplePt());
+    m->action_open_dir->setText(Lang::get(Lang::OpenDir).triplePt());
+    m->action_reset->setText(Lang::get(Lang::Reset));
+    m->action_rename->setText(Lang::get(Lang::Rename).triplePt());
+    m->action_delete->setText(Lang::get(Lang::Delete));
+    m->action_save->setText(Lang::get(Lang::Save));
+    m->action_save_as->setText(Lang::get(Lang::SaveAs).triplePt());
+    m->action_clear->setText(Lang::get(Lang::Clear));
+    m->action_close->setText(Lang::get(Lang::Close));
+    m->action_close_others->setText(Lang::get(Lang::CloseOthers));
 }
 
 void PlaylistTabMenu::skin_changed()
 {
-	_action_open_file->setIcon(_icon_loader->icon( "document-open", "play_small") );
-	_action_open_dir->setIcon(_icon_loader->icon( "document-open", "play_small") );
+    m->action_open_file->setIcon(IconLoader::icon( "document-open", "play_small") );
+    m->action_open_dir->setIcon(IconLoader::icon( "document-open", "play_small") );
 
-	_action_reset->setIcon(_icon_loader->icon( "edit-undo", "undo") );
-	_action_rename->setIcon(_icon_loader->icon( "accessories-text-editor", "edit") );
-	_action_delete->setIcon(_icon_loader->icon( "edit-delete", "delete") );
-	_action_save->setIcon(_icon_loader->icon( "document-save", "save") );
-	_action_save_as->setIcon(_icon_loader->icon( "document-save-as", "save_as") );
+    m->action_reset->setIcon(IconLoader::icon( "edit-undo", "undo") );
+    m->action_rename->setIcon(IconLoader::icon( "accessories-text-editor", "edit") );
+    m->action_delete->setIcon(IconLoader::icon( "edit-delete", "delete") );
+    m->action_save->setIcon(IconLoader::icon( "document-save", "save") );
+    m->action_save_as->setIcon(IconLoader::icon( "document-save-as", "save_as") );
 
-	_action_clear->setIcon(_icon_loader->icon( "edit-clear", "broom.png") );
-	_action_close->setIcon(_icon_loader->icon( "window-close", "power_off") );
+    m->action_clear->setIcon(IconLoader::icon( "edit-clear", "broom.png") );
+    m->action_close->setIcon(IconLoader::icon( "window-close", "power_off") );
 
-	_action_close_others->setIcon(_icon_loader->icon( "window-close", "power_on") );
+    m->action_close_others->setIcon(IconLoader::icon( "window-close", "power_on") );
 }
 
 void PlaylistTabMenu::show_menu_items(PlaylistMenuEntries entries)
 {
-	_action_open_file->setVisible(entries & PlaylistMenuEntry::OpenFile);
-	_action_open_dir->setVisible(entries & PlaylistMenuEntry::OpenDir);
-	_action_reset->setVisible(entries & PlaylistMenuEntry::Reset);
-	_action_rename->setVisible(entries & PlaylistMenuEntry::Rename);
-	_action_delete->setVisible(entries & PlaylistMenuEntry::Delete);
-	_action_save->setVisible(entries & PlaylistMenuEntry::Save);
-	_action_save_as->setVisible(entries & PlaylistMenuEntry::SaveAs);
-	_action_clear->setVisible(entries & PlaylistMenuEntry::Clear);
-	_action_close->setVisible(entries & PlaylistMenuEntry::Close);
-	_action_close_others->setVisible(entries & PlaylistMenuEntry::CloseOthers);
+    m->action_open_file->setVisible(entries & PlaylistMenuEntry::OpenFile);
+    m->action_open_dir->setVisible(entries & PlaylistMenuEntry::OpenDir);
+    m->action_reset->setVisible(entries & PlaylistMenuEntry::Reset);
+    m->action_rename->setVisible(entries & PlaylistMenuEntry::Rename);
+    m->action_delete->setVisible(entries & PlaylistMenuEntry::Delete);
+    m->action_save->setVisible(entries & PlaylistMenuEntry::Save);
+    m->action_save_as->setVisible(entries & PlaylistMenuEntry::SaveAs);
+    m->action_clear->setVisible(entries & PlaylistMenuEntry::Clear);
+    m->action_close->setVisible(entries & PlaylistMenuEntry::Close);
+    m->action_close_others->setVisible(entries & PlaylistMenuEntry::CloseOthers);
 }
 
 
 void PlaylistTabMenu::show_close(bool b)
 {
-	_action_close->setVisible(b);
-	_action_close_others->setVisible(b);
+    m->action_close->setVisible(b);
+    m->action_close_others->setVisible(b);
 }
 

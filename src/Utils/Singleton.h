@@ -22,7 +22,8 @@
 #ifndef SAYONARA_SINGLETON_H
 #define SAYONARA_SINGLETON_H
 
-#define _SINGLETON_BASIC_(class_name) protected: \
+#define _SINGLETON_BASIC_(class_name) friend class Application; \
+				protected: \
 				class_name( const class_name& other ) = delete; \
 				class_name& operator=(const class_name& other) = delete; \
 				class_name( const class_name&& other ) = delete; \

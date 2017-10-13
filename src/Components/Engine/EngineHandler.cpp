@@ -33,51 +33,63 @@
 using Engine::Handler;
 using Engine::Base;
 
+struct Handler::Private
+{
+    PlayManagerPtr						play_manager=nullptr;
+    Engine::Base*                       cur_engine=nullptr;
+    QList<Base*>						engines;
+    QList<RawSoundReceiverInterface*>	raw_sound_receiver;
+
+    Private()
+    {
+        play_manager = PlayManager::instance();
+    }
+
+    ~Private()
+    {
+        for(Base* e : engines)
+        {
+            delete e;
+        }
+
+        engines.clear();
+    }
+};
+
 Handler::Handler(QObject* parent) : 
     Base(Name::EngineHandler, parent)
 {
-	_cur_engine = nullptr;
+    m = Pimpl::make<Private>();
 
-	_play_manager = PlayManager::instance();
-
-	connect(_play_manager, &PlayManager::sig_playstate_changed,
+    connect(m->play_manager, &PlayManager::sig_playstate_changed,
 			this, &Handler::playstate_changed);
 
-	connect(_play_manager, &PlayManager::sig_track_changed,
+    connect(m->play_manager, &PlayManager::sig_track_changed,
             this, [=](const MetaData& md){
                 this->change_track(md);
             });
 
-	connect(_play_manager, &PlayManager::sig_seeked_abs_ms,
+    connect(m->play_manager, &PlayManager::sig_seeked_abs_ms,
 			this, &Handler::jump_abs_ms);
 
-	connect(_play_manager, &PlayManager::sig_seeked_rel,
+    connect(m->play_manager, &PlayManager::sig_seeked_rel,
 			this, &Handler::jump_rel);
 
-	connect(_play_manager, &PlayManager::sig_seeked_rel_ms,
+    connect(m->play_manager, &PlayManager::sig_seeked_rel_ms,
 			this, &Handler::jump_rel_ms);
 
-	connect(_play_manager, &PlayManager::sig_record,
+    connect(m->play_manager, &PlayManager::sig_record,
 			this, &Handler::sr_record_button_pressed);
 
 	switch_engine(Name::PlaybackEngine);
 
-    const MetaData& md = _play_manager->current_track();
+    const MetaData& md = m->play_manager->current_track();
     if(!md.filepath().isEmpty()) {
         change_track(md);
     }
 }
 
-
-Handler::~Handler()
-{
-	for(Base* e : _engines)
-	{
-		delete e;
-	}
-
-	_engines.clear();
-}
+Handler::~Handler() {}
 
 bool Handler::init()
 {
@@ -89,11 +101,11 @@ void Handler::start_convert()
 {
 	stop();
 
-    if( _cur_engine->name() != Name::ConvertEngine ) {
+    if( m->cur_engine->name() != Name::ConvertEngine ) {
 		switch_engine(Name::ConvertEngine);
     }
 
-	_cur_engine->stop();
+    m->cur_engine->stop();
 }
 
 void Handler::end_convert()
@@ -102,18 +114,18 @@ void Handler::end_convert()
 
 	sp_log(Log::Debug, this) << "Engine end convert";
 
-    if( _cur_engine->name() != Name::PlaybackEngine ) {
+    if( m->cur_engine->name() != Name::PlaybackEngine ) {
 		sp_log(Log::Debug, this) << "Change to playback engine";
 		switch_engine(Name::PlaybackEngine);
 	}
 
-	_cur_engine->stop();
+    m->cur_engine->stop();
 }
 
 
 void Handler::playstate_changed(PlayState state)
 {
-	if(!_cur_engine) return;
+    if(!m->cur_engine) return;
 
 	switch(state){
 		case PlayState::Playing:
@@ -136,96 +148,96 @@ void Handler::playstate_changed(PlayState state)
 
 void Handler::play()
 {
-	if(!_cur_engine) return;
+    if(!m->cur_engine) return;
 
-	_cur_engine->play();
+    m->cur_engine->play();
 }
 
 void Handler::stop()
 {
-	if(!_cur_engine) return;
-	_cur_engine->stop();
+    if(!m->cur_engine) return;
+    m->cur_engine->stop();
 }
 
 void Handler::pause()
 {
-	if(!_cur_engine) return;
-	_cur_engine->pause();
+    if(!m->cur_engine) return;
+    m->cur_engine->pause();
 }
 
 
 void Handler::jump_abs_ms(uint64_t ms)
 {
-	if(!_cur_engine) return;
-	_cur_engine->jump_abs_ms(ms);
+    if(!m->cur_engine) return;
+    m->cur_engine->jump_abs_ms(ms);
 }
 
 void Handler::jump_rel_ms(uint64_t ms)
 {
-	if(!_cur_engine) return;
-	_cur_engine->jump_rel_ms(ms);
+    if(!m->cur_engine) return;
+    m->cur_engine->jump_rel_ms(ms);
 }
 
 void Handler::jump_rel(double where)
 {
-	if(!_cur_engine) return;
-	_cur_engine->jump_rel(where);
+    if(!m->cur_engine) return;
+    m->cur_engine->jump_rel(where);
 }
 
 
 bool Handler::change_track(const MetaData& md)
 {
-    if(!_cur_engine) return false;
-    return _cur_engine->change_track(md);
+    if(!m->cur_engine) return false;
+    return m->cur_engine->change_track(md);
 }
 
 bool Handler::change_track_by_filename(const QString& filepath)
 {
-    if(!_cur_engine) return false;
-    return _cur_engine->change_track_by_filename(filepath);
+    if(!m->cur_engine) return false;
+    return m->cur_engine->change_track_by_filename(filepath);
 }
 
 
 void Handler::sl_md_changed(const MetaData& md)
 {
-	_play_manager->change_metadata(md);
+    m->play_manager->change_metadata(md);
 	emit sig_md_changed(md);
 }
 
 void Handler::sl_dur_changed(const MetaData& md)
 {
-	_play_manager->change_duration(md.length_ms);
+    m->play_manager->change_duration(md.length_ms);
 	emit sig_dur_changed(md);
 }
 
 void Handler::sl_pos_changed_ms(uint64_t ms)
 {
-	_play_manager->set_position_ms(ms);
+    m->play_manager->set_position_ms(ms);
 }
 
 void Handler::sl_pos_changed_s(uint32_t sec)
 {
-	_play_manager->set_position_ms( (uint64_t) (sec * 1000) );
+    m->play_manager->set_position_ms( (uint64_t) (sec * 1000) );
 }
 
 void Handler::sl_track_ready_changed()
 {
-	_play_manager->set_track_ready();
+    m->play_manager->set_track_ready();
 }
 
 void Handler::sl_track_finished()
 {
-	_play_manager->next();
+    m->play_manager->next();
 }
 
 void Handler::sl_buffer_state_changed(int progress)
 {
-	_play_manager->buffering(progress);
+    m->play_manager->buffering(progress);
 }
 
 void Handler::sl_error(const QString& error_msg)
 {
-	_play_manager->error(error_msg);
+    m->play_manager->error(error_msg);
 }
 
 void Handler::sr_record_button_pressed(bool b)
@@ -270,7 +282,7 @@ bool Handler::configure_connections(Base* old_engine, Base* new_engine)
 
 Base* Handler::get_engine(Name name)
 {
-	for(Base* e : _engines){
+    for(Base* e : m->engines){
         if(e && e->name() == name){
 			return e;
 		}
@@ -281,16 +293,17 @@ Base* Handler::get_engine(Name name)
 		Playback* pb_engine = new Playback();
         if(pb_engine->init())
         {
-			_engines << static_cast<Base*>(pb_engine);
+            m->engines << static_cast<Base*>(pb_engine);
 			connect(pb_engine, &Playback::sig_data, this, &Handler::new_data);
 			return pb_engine;
 		}
 	}
 
-	else if(name == Name::ConvertEngine){
+    else if(name == Name::ConvertEngine)
+    {
 		Convert* cvt_engine = new Convert();
 		if(cvt_engine->init()){
-			_engines << static_cast<Base*>(cvt_engine);
+            m->engines << static_cast<Base*>(cvt_engine);
 			return cvt_engine;
 
 		}
@@ -308,8 +321,8 @@ void Handler::switch_engine(Name name)
 		return;
 	}
 
-	configure_connections(_cur_engine, new_engine);
-	_cur_engine = new_engine;
+    configure_connections(m->cur_engine, new_engine);
+    m->cur_engine = new_engine;
 }
 
 Engine::Playback* Handler::get_playback_engine()
@@ -319,7 +332,7 @@ Engine::Playback* Handler::get_playback_engine()
 
 void Handler::new_data(const uchar* data, uint64_t n_bytes)
 {
-	for(RawSoundReceiverInterface* receiver : _raw_sound_receiver){
+    for(RawSoundReceiverInterface* receiver : m->raw_sound_receiver){
 		receiver->new_audio_data(data, n_bytes);
 	}
 }
@@ -328,15 +341,15 @@ void Handler::register_raw_sound_receiver(RawSoundReceiverInterface* receiver)
 {
 	Playback* engine;
 
-	if(_raw_sound_receiver.contains(receiver)){
+    if(m->raw_sound_receiver.contains(receiver)){
 		return;
 	}
 
-	_raw_sound_receiver << receiver;
+    m->raw_sound_receiver << receiver;
 
 	engine = get_playback_engine();
 	if(engine){
-		get_playback_engine()->set_n_sound_receiver(_raw_sound_receiver.size());
+        get_playback_engine()->set_n_sound_receiver(m->raw_sound_receiver.size());
 	}
 }
 
@@ -344,15 +357,15 @@ void Handler::unregister_raw_sound_receiver(RawSoundReceiverInterface* receiver)
 {
 	Playback* engine;
 
-	if(!_raw_sound_receiver.contains(receiver)){
+    if(!m->raw_sound_receiver.contains(receiver)){
 		return;
 	}
 
-	_raw_sound_receiver.removeOne(receiver);
+    m->raw_sound_receiver.removeOne(receiver);
 
 	engine = get_playback_engine();
 	if(engine){
-		get_playback_engine()->set_n_sound_receiver(_raw_sound_receiver.size());
+        get_playback_engine()->set_n_sound_receiver(m->raw_sound_receiver.size());
 	}
 }
 

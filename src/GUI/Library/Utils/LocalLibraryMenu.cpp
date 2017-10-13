@@ -45,8 +45,6 @@ struct LocalLibraryMenu::Private
 	QAction* show_album_artists_action=nullptr;
 	QAction* show_album_cover_view=nullptr;
 
-	IconLoader* icon_loader=nullptr;
-
 	Private(const QString& name, const QString& path) :
 		name(name),
 		path(path),
@@ -84,26 +82,24 @@ void LocalLibraryMenu::init_menu()
 		return;
 	}
 
-	m->icon_loader = IconLoader::instance();
+    m->reload_library_action = new QAction(this);
+    m->import_file_action = new QAction(this);
+    m->import_folder_action = new QAction(this);
+    m->info_action = new QAction(this);
+    m->edit_action = new QAction(this);
 
-	m->reload_library_action = new QAction(QIcon(), QString(), this);
-	m->import_file_action = new QAction(QIcon(), QString(), this);
-	m->import_folder_action = new QAction(QIcon(), QString(), this);
-	m->info_action = new QAction(QIcon(), QString(), this);
-	m->edit_action = new QAction(QIcon(), QString(), this);
-
-	m->realtime_search_action = new QAction(QIcon(), tr("Live search"), this);
+    m->realtime_search_action = new QAction(tr("Live search"), this);
 	m->realtime_search_action->setCheckable(true);
 	m->realtime_search_action->setChecked(_settings->get(Set::Lib_LiveSearch));
-	m->auto_update = new QAction(QIcon(), tr("Auto update"), this);
+    m->auto_update = new QAction(tr("Auto update"), this);
 	m->auto_update->setCheckable(true);
 	m->auto_update->setChecked(_settings->get(Set::Lib_AutoUpdate));
 
-	m->show_album_artists_action = new QAction(QIcon(), QString(), this);
+    m->show_album_artists_action = new QAction(this);
 	m->show_album_artists_action->setCheckable(true);
 	m->show_album_artists_action->setChecked(_settings->get(Set::Lib_ShowAlbumArtists));
 
-	m->show_album_cover_view = new QAction(QIcon(), QString(), this);
+    m->show_album_cover_view = new QAction(this);
 	m->show_album_cover_view->setCheckable(true);
 	m->show_album_cover_view->setChecked(_settings->get(Set::Lib_ShowAlbumCovers));
 
@@ -171,11 +167,13 @@ void LocalLibraryMenu::skin_changed()
 		return;
 	}
 
-	m->reload_library_action->setIcon(m->icon_loader->icon("view-refresh", "undo"));
-	m->import_file_action->setIcon(m->icon_loader->icon("document-open", "open"));
-	m->import_folder_action->setIcon(m->icon_loader->icon("document-open", "open"));
-	m->info_action->setIcon(m->icon_loader->icon("dialog-information", "info"));
-	m->edit_action->setIcon(m->icon_loader->icon("accessories-text-editor", "edit"));
+    ;
+
+    m->reload_library_action->setIcon(IconLoader::icon("view-refresh", "undo"));
+    m->import_file_action->setIcon(IconLoader::icon("document-open", "open"));
+    m->import_folder_action->setIcon(IconLoader::icon("document-open", "open"));
+    m->info_action->setIcon(IconLoader::icon("dialog-information", "info"));
+    m->edit_action->setIcon(IconLoader::icon("accessories-text-editor", "edit"));
 }
 
 void LocalLibraryMenu::realtime_search_changed()

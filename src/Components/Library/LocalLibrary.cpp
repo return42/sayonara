@@ -273,7 +273,7 @@ void LocalLibrary::init_reload_thread()
 		return;
 	}
 
-	m->reload_thread = ReloadThread::instance();
+    m->reload_thread = new ReloadThread(this);
 
 	connect(m->reload_thread, &ReloadThread::sig_reloading_library,
 			this, &LocalLibrary::sig_reloading_library);

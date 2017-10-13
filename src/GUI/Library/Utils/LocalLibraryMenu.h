@@ -28,7 +28,6 @@
 #include "Utils/Pimpl.h"
 
 class QString;
-class IconLoader;
 
 namespace Library
 {

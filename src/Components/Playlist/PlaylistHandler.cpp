@@ -47,7 +47,7 @@ using PlaylistCollection=std::vector<PlaylistPtr>;
 struct PlaylistHandler::Private
 {
 	DatabaseConnector*		db=nullptr;
-	PlayManager*			play_manager=nullptr;
+	PlayManagerPtr			play_manager=nullptr;
 	PlaylistCollection		playlists;
 	int						active_playlist_idx;
 	int						current_playlist_idx;
@@ -596,13 +596,16 @@ void PlaylistHandler::reset_playlist(int pl_idx)
 		return;
 	}
 
-	PlaylistDBWrapper* db_connector = PlaylistDBWrapper::instance();
+    PlaylistDBWrapper* db_connector = new PlaylistDBWrapper();
+
     int id = m->playlists[pl_idx]->get_id();
 
 	CustomPlaylist cpl = db_connector->get_playlist_by_id(id);
 
 	clear_playlist(pl_idx);
 	create_playlist(cpl);
+
+    delete db_connector; db_connector = nullptr;
 }
 
 

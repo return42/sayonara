@@ -145,18 +145,19 @@ void LibraryContextMenu::language_changed()
 
 void LibraryContextMenu::skin_changed()
 {
-    IconLoader* icon_loader = IconLoader::instance();
-    _info_action->setIcon(icon_loader->icon("dialog-information", "info"));
-    _lyrics_action->setIcon(icon_loader->icon("document-properties", "lyrics"));
-    _edit_action->setIcon(icon_loader->icon("accessories-text-editor", "edit"));
-    _remove_action->setIcon(icon_loader->icon("list-remove", "delete"));
-    _delete_action->setIcon(icon_loader->icon("edit-delete", "delete"));
-    _play_next_action->setIcon(icon_loader->icon("media-playback-start", "play_small"));
-    _append_action->setIcon(icon_loader->icon("list-add", "append"));
-    _refresh_action->setIcon(icon_loader->icon("edit-undo", "undo"));
-    _clear_action->setIcon(icon_loader->icon("edit-clear", "broom.png"));
+    ;
+
+    _info_action->setIcon(IconLoader::icon("dialog-information", "info"));
+    _lyrics_action->setIcon(IconLoader::icon("document-properties", "lyrics"));
+    _edit_action->setIcon(IconLoader::icon("accessories-text-editor", "edit"));
+    _remove_action->setIcon(IconLoader::icon("list-remove", "delete"));
+    _delete_action->setIcon(IconLoader::icon("edit-delete", "delete"));
+    _play_next_action->setIcon(IconLoader::icon("media-playback-start", "play_small"));
+    _append_action->setIcon(IconLoader::icon("list-add", "append"));
+    _refresh_action->setIcon(IconLoader::icon("edit-undo", "undo"));
+    _clear_action->setIcon(IconLoader::icon("edit-clear", "broom.png"));
     _rating_action->setIcon(Gui::Util::icon("star.png"));
-    _clear_selection_action->setIcon(icon_loader->icon("edit-clear", "broom.png"));
+    _clear_selection_action->setIcon(IconLoader::icon("edit-clear", "broom.png"));
 }
 
 LibraryContexMenuEntries LibraryContextMenu::get_entries() const

@@ -25,7 +25,9 @@
 
 #include "Interfaces/Notification/NotificationHandler.h"
 #include "Components/PlayManager/PlayState.h"
+
 #include "Utils/Settings/SayonaraClass.h"
+#include "Utils/Pimpl.h"
 
 #include <QSystemTrayIcon>
 
@@ -42,6 +44,7 @@ class GUI_TrayIcon :
         public SayonaraClass
 {
 	Q_OBJECT
+    PIMPL(GUI_TrayIcon)
 
 public:
 
@@ -84,23 +87,6 @@ private slots:
 	
 	void language_changed();
 	void skin_changed();
-
-
-private:
-	// some shared actions
-	PlayManager* _play_manager=nullptr;
-
-	QAction*	_show_action=nullptr;
-	QAction*	_close_action=nullptr;
-	QAction*	_play_action=nullptr;
-	QAction*	_stop_action=nullptr;
-	QAction*	_mute_action=nullptr;
-	QAction*	_fwd_action=nullptr;
-	QAction*	_bwd_action=nullptr;
-	QAction*	_cur_song_action=nullptr;
-
-	QMenu*		_context_menu=nullptr;
-	QTimer*		_timer=nullptr;
 
 private:
 	void init_context_menu();

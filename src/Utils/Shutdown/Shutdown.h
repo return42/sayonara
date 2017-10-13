@@ -30,14 +30,9 @@
 
 #include "Utils/Singleton.h"
 #include "Utils/Settings/SayonaraClass.h"
+#include "Utils/Pimpl.h"
 
-#include <QDBusInterface>
-#include <QDBusConnection>
-#include <QProcess>
-#include <QTimer>
-
-class PlayManager;
-class NotificationHandler;
+#include <QObject>
 
 /**
  * @brief The Shutdown class
@@ -47,21 +42,11 @@ class Shutdown : public QObject, private SayonaraClass
 {
 	Q_OBJECT
 	SINGLETON_QOBJECT(Shutdown)
+    PIMPL(Shutdown)
 
 signals:
-
 	void sig_time_to_go(uint64_t);
 	void sig_started(uint64_t);
-
-
-private:
-	QTimer*			_timer=nullptr;
-	QTimer*			_timer_countdown=nullptr;
-	PlayManager*	_play_manager=nullptr;
-
-	uint64_t			_msecs2go;
-	bool			_is_running;
-
 
 private slots:
 	void timeout();
@@ -69,7 +54,6 @@ private slots:
 	void playlist_finished();
 
 public:
-
 	bool is_running() const;
 	void stop();
 	void shutdown(uint64_t ms=0);

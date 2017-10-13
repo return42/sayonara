@@ -24,14 +24,13 @@
 #include "AbstractEngine.h"
 #include "Components/PlayManager/PlayState.h"
 #include "Utils/Singleton.h"
+#include "Utils/Pimpl.h"
 
 #include <QList>
 
 #define EngineHandler_change_track_md static_cast<void (EngineHandler::*) (const MetaData& md)>(&EngineHandler::change_track)
 
 class RawSoundReceiverInterface;
-
-class PlayManager;
 
 namespace Engine
 {
@@ -46,6 +45,7 @@ namespace Engine
     {
         Q_OBJECT
         SINGLETON_QOBJECT(Handler)
+        PIMPL(Handler)
 
     public:
         bool init() override;
@@ -91,11 +91,6 @@ namespace Engine
         void pause() override;
 
     private:
-        PlayManager*						_play_manager=nullptr;
-        Engine::Base*                       _cur_engine=nullptr;
-        QList<Base*>						_engines;
-        QList<RawSoundReceiverInterface*>	_raw_sound_receiver;
-
         Base* get_engine(Name name);
         void switch_engine(Name name);
 

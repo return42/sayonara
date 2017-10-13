@@ -97,7 +97,7 @@ void GUI_AudioConverter::init_ui()
 		ui->cb_quality->setCurrentIndex(idx);
 	}
 
-	PlayManager* play_manager = PlayManager::instance();
+	PlayManagerPtr play_manager = PlayManager::instance();
 	connect(play_manager, &PlayManager::sig_playstate_changed, this, &GUI_AudioConverter::playstate_changed);
 
 	Set::listen(SetNoDB::MP3enc_found, this, &GUI_AudioConverter::mp3_enc_found);

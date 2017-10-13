@@ -24,102 +24,125 @@
 #include "Utils/Settings/Settings.h"
 #include "Utils/Language.h"
 
+#include <QTimer>
 #include <algorithm>
 
 using namespace Gui;
 
+struct ContextMenu::Private
+{
+    QAction*	action_new=nullptr;
+    QAction*	action_edit=nullptr;
+    QAction*	action_open=nullptr;
+    QAction*	action_undo=nullptr;
+    QAction*	action_save=nullptr;
+    QAction*	action_save_as=nullptr;
+    QAction*	action_rename=nullptr;
+    QAction*	action_delete=nullptr;
+    QAction*	action_default=nullptr;
+
+    QList<QAction*>		actions;
+    QTimer*				timer=nullptr;
+
+    Private(QObject* parent)
+    {
+        timer = new QTimer(parent);
+    }
+};
+
 ContextMenu::ContextMenu(QWidget *parent) :
 	Gui::WidgetTemplate<QMenu>(parent)
 {
-	_timer = new QTimer(this);
-	_icon_loader = IconLoader::instance();
+    m = Pimpl::make<Private>(this);
 
-    _action_open = new QAction(this);
-    _action_edit = new QAction(this);
-    _action_new = new QAction(this);
-    _action_undo = new QAction(this);
-    _action_default = new QAction(this);
-    _action_save = new QAction(this);
-    _action_save_as = new QAction(this);
-    _action_rename = new QAction(this);
-    _action_delete = new QAction(this);
+    m->action_open = new QAction(this);
+    m->action_edit = new QAction(this);
+    m->action_new = new QAction(this);
+    m->action_undo = new QAction(this);
+    m->action_default = new QAction(this);
+    m->action_save = new QAction(this);
+    m->action_save_as = new QAction(this);
+    m->action_rename = new QAction(this);
+    m->action_delete = new QAction(this);
 
-	_actions << addSeparator()
-			<< _action_new
-			<< _action_open
-			<< _action_edit
-			<< _action_save
-			<< _action_save_as
-			<< _action_rename
+    m->actions << addSeparator()
+            << m->action_new
+            << m->action_open
+            << m->action_edit
+            << m->action_save
+            << m->action_save_as
+            << m->action_rename
 			<< addSeparator()
-			<< _action_undo
-			<< _action_default
+            << m->action_undo
+            << m->action_default
 			<< addSeparator()
-			<< _action_delete
+            << m->action_delete
 			<< addSeparator();
 
-	this->addActions(_actions);
+    this->addActions(m->actions);
 
-	for(QAction* action : this->actions()){
+    for(QAction* action : m->actions){
 		action->setVisible(false);
 	}
 
-	connect(_action_open, &QAction::triggered, this, &ContextMenu::sig_open);
-	connect(_action_new, &QAction::triggered, this, &ContextMenu::sig_new);
-	connect(_action_edit, &QAction::triggered, this, &ContextMenu::sig_edit);
-	connect(_action_undo, &QAction::triggered, this, &ContextMenu::sig_undo);
-	connect(_action_default, &QAction::triggered, this, &ContextMenu::sig_default);
-	connect(_action_save, &QAction::triggered, this, &ContextMenu::sig_save);
-	connect(_action_save_as, &QAction::triggered, this, &ContextMenu::sig_save_as);
-	connect(_action_rename, &QAction::triggered, this, &ContextMenu::sig_rename);
-	connect(_action_delete, &QAction::triggered, this, &ContextMenu::sig_delete);
+    connect(m->action_open, &QAction::triggered, this, &ContextMenu::sig_open);
+    connect(m->action_new, &QAction::triggered, this, &ContextMenu::sig_new);
+    connect(m->action_edit, &QAction::triggered, this, &ContextMenu::sig_edit);
+    connect(m->action_undo, &QAction::triggered, this, &ContextMenu::sig_undo);
+    connect(m->action_default, &QAction::triggered, this, &ContextMenu::sig_default);
+    connect(m->action_save, &QAction::triggered, this, &ContextMenu::sig_save);
+    connect(m->action_save_as, &QAction::triggered, this, &ContextMenu::sig_save_as);
+    connect(m->action_rename, &QAction::triggered, this, &ContextMenu::sig_rename);
+    connect(m->action_delete, &QAction::triggered, this, &ContextMenu::sig_delete);
 }
 
 ContextMenu::~ContextMenu() {}
 
 void ContextMenu::language_changed()
 {
-	 _action_new->setText(Lang::get(Lang::New));
-	 _action_edit->setText(Lang::get(Lang::Edit));
-	 _action_open->setText(Lang::get(Lang::Open));
-	 _action_save->setText(Lang::get(Lang::Save));
-	 _action_save_as->setText(Lang::get(Lang::SaveAs).triplePt());
-	 _action_rename->setText(Lang::get(Lang::Rename));
-	 _action_undo->setText(Lang::get(Lang::Undo));
-	 _action_default->setText(Lang::get(Lang::Default));
-	 _action_delete->setText(Lang::get(Lang::Delete));
+     m->action_new->setText(Lang::get(Lang::New));
+     m->action_edit->setText(Lang::get(Lang::Edit));
+     m->action_open->setText(Lang::get(Lang::Open));
+     m->action_save->setText(Lang::get(Lang::Save));
+     m->action_save_as->setText(Lang::get(Lang::SaveAs).triplePt());
+     m->action_rename->setText(Lang::get(Lang::Rename));
+     m->action_undo->setText(Lang::get(Lang::Undo));
+     m->action_default->setText(Lang::get(Lang::Default));
+     m->action_delete->setText(Lang::get(Lang::Delete));
 }
 
 void ContextMenu::skin_changed()
 {
-	_action_open->setIcon(_icon_loader->icon( "document-open", "open") );
-	_action_edit->setIcon(_icon_loader->icon( "accessories-text-editor", "edit") );
-	_action_new->setIcon(_icon_loader->icon( "document-new", "new") );
-	_action_undo->setIcon(_icon_loader->icon( "edit-undo", "undo") );
-	_action_default->setIcon(_icon_loader->icon( "edit-undo", "undo") );
-	_action_save->setIcon(_icon_loader->icon( "document-save", "save") );
-	_action_save_as->setIcon(_icon_loader->icon( "document-save-as", "save_as") );
-	_action_rename->setIcon(_icon_loader->icon( "accessories-text-editor", "edit") );
-	_action_delete->setIcon(_icon_loader->icon( "edit-delete", "delete") );
+    ;
+    m->action_open->setIcon(IconLoader::icon( "document-open", "open") );
+    m->action_edit->setIcon(IconLoader::icon( "accessories-text-editor", "edit") );
+    m->action_new->setIcon(IconLoader::icon( "document-new", "new") );
+    m->action_undo->setIcon(IconLoader::icon( "edit-undo", "undo") );
+    m->action_default->setIcon(IconLoader::icon( "edit-undo", "undo") );
+    m->action_save->setIcon(IconLoader::icon( "document-save", "save") );
+    m->action_save_as->setIcon(IconLoader::icon( "document-save-as", "save_as") );
+    m->action_rename->setIcon(IconLoader::icon( "accessories-text-editor", "edit") );
+    m->action_delete->setIcon(IconLoader::icon( "edit-delete", "delete") );
 }
 
-void ContextMenu::register_action(QAction *action){
-	_actions << action;
+void ContextMenu::register_action(QAction *action)
+{
+    m->actions << action;
 	addSeparator();
 	addAction(action);
 }
 
 void ContextMenu::show_actions(ContextMenuEntries entries)
 {
-	_action_new->setVisible(entries & ContextMenu::EntryNew);
-	_action_edit->setVisible(entries & ContextMenu::EntryEdit);
-	_action_open->setVisible(entries & ContextMenu::EntryOpen);
-	_action_undo->setVisible(entries & ContextMenu::EntryUndo);
-	_action_default->setVisible(entries & ContextMenu::EntryDefault);
-	_action_save->setVisible(entries & ContextMenu::EntrySave);
-	_action_save_as->setVisible(entries & ContextMenu::EntrySaveAs);
-	_action_rename->setVisible(entries & ContextMenu::EntryRename);
-	_action_delete->setVisible(entries & ContextMenu::EntryDelete);
+    m->action_new->setVisible(entries & ContextMenu::EntryNew);
+    m->action_edit->setVisible(entries & ContextMenu::EntryEdit);
+    m->action_open->setVisible(entries & ContextMenu::EntryOpen);
+    m->action_undo->setVisible(entries & ContextMenu::EntryUndo);
+    m->action_default->setVisible(entries & ContextMenu::EntryDefault);
+    m->action_save->setVisible(entries & ContextMenu::EntrySave);
+    m->action_save_as->setVisible(entries & ContextMenu::EntrySaveAs);
+    m->action_rename->setVisible(entries & ContextMenu::EntryRename);
+    m->action_delete->setVisible(entries & ContextMenu::EntryDelete);
 }
 
 void ContextMenu::show_action(ContextMenu::Entry entry, bool visible)
@@ -133,13 +156,13 @@ void ContextMenu::show_action(ContextMenu::Entry entry, bool visible)
 		entries &= ~(entry);
 	}
 
-	show_actions(entries);
+    show_actions(entries);
 }
 
 
 bool ContextMenu::has_actions()
 {
-	return std::any_of(_actions.begin(), _actions.end(), [](QAction* a){
+    return std::any_of(m->actions.begin(), m->actions.end(), [](QAction* a){
 		return a->isVisible();
 	});
 }
@@ -148,31 +171,31 @@ ContextMenuEntries ContextMenu::get_entries() const
 {
 	ContextMenuEntries entries = ContextMenu::EntryNone;
 
-	if(_action_new->isVisible()){
+    if(m->action_new->isVisible()){
 		entries |= ContextMenu::EntryNew;
 	}
-	if(_action_edit->isVisible()){
+    if(m->action_edit->isVisible()){
 		entries |= ContextMenu::EntryEdit;
 	}
-	if(_action_delete->isVisible()){
+    if(m->action_delete->isVisible()){
 		entries |= ContextMenu::EntryDelete;
 	}
-	if(_action_open->isVisible()){
+    if(m->action_open->isVisible()){
 		entries |= ContextMenu::EntryOpen;
 	}
-	if(_action_rename->isVisible()){
+    if(m->action_rename->isVisible()){
 		entries |= ContextMenu::EntryRename;
 	}
-	if(_action_save->isVisible()){
+    if(m->action_save->isVisible()){
 		entries |= ContextMenu::EntrySave;
 	}
-	if(_action_save_as->isVisible()){
+    if(m->action_save_as->isVisible()){
 		entries |= ContextMenu::EntrySaveAs;
 	}
-	if(_action_undo->isVisible()){
+    if(m->action_undo->isVisible()){
 		entries |= ContextMenu::EntryUndo;
 	}
-	if(_action_default->isVisible()){
+    if(m->action_default->isVisible()){
 		entries |= ContextMenu::EntryDefault;
 	}
 
@@ -182,14 +205,14 @@ ContextMenuEntries ContextMenu::get_entries() const
 
 void ContextMenu::show_all()
 {
-	for(QAction* action: _actions){
+    for(QAction* action: m->actions){
 		action->setVisible(true);
 	}
 }
 
 void ContextMenu::showEvent(QShowEvent* e)
 {
-	for(QAction* action: _actions){
+    for(QAction* action: m->actions){
 		action->setDisabled(true);
 	}
 
@@ -200,7 +223,7 @@ void ContextMenu::showEvent(QShowEvent* e)
 
 void ContextMenu::timed_out()
 {
-	for(QAction* action: _actions){
+    for(QAction* action: m->actions){
 		action->setDisabled(false);
 	}
 }

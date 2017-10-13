@@ -23,46 +23,63 @@
 #include "Utils/Playlist/CustomPlaylist.h"
 #include "Utils/Language.h"
 
+struct PlaylistDBInterface::Private
+{
+    PlaylistDBWrapper*  playlist_db_connector=nullptr;
+    QString             name;
+    bool                is_temporary;
+    int                 id;
+
+    Private(const QString& name) :
+        name(name),
+        is_temporary(true)
+    {
+        playlist_db_connector = new PlaylistDBWrapper();
+        id = playlist_db_connector->get_playlist_by_name(name).id();
+    }
+
+    ~Private()
+    {
+        delete playlist_db_connector; playlist_db_connector=nullptr;
+    }
+};
 
 PlaylistDBInterface::PlaylistDBInterface(const QString& name)
 {
-	_playlist_db_connector = PlaylistDBWrapper::instance();
-
-	_name = name;
-	_id = _playlist_db_connector->get_playlist_by_name(name).id();
-
-	_is_temporary = true;
+    m = Pimpl::make<Private>(name);
 }
 
 PlaylistDBInterface::~PlaylistDBInterface() {}
 
 int PlaylistDBInterface::get_id() const
 {
-	return _id;
+    return m->id;
 }
 
-void PlaylistDBInterface::set_id(int id){
-	_id = id;
+void PlaylistDBInterface::set_id(int id)
+{
+    m->id = id;
 }
 
 
 QString PlaylistDBInterface::get_name() const
 {
-	return _name;
+    return m->name;
 }
 
-void PlaylistDBInterface::set_name(const QString& name){
-	_name = name;
+void PlaylistDBInterface::set_name(const QString& name)
+{
+    m->name = name;
 }
 
 bool PlaylistDBInterface::is_temporary() const
 {
-	return _is_temporary;
+    return m->is_temporary;
 }
 
 void PlaylistDBInterface::set_temporary(bool b)
 {
-	_is_temporary = b;
+    m->is_temporary = b;
 }
 
 
@@ -76,11 +93,11 @@ PlaylistDBInterface::SaveAsAnswer PlaylistDBInterface::save()
 
 	PlaylistDBInterface::SaveAsAnswer answer;
 
-	if(_id >= 0){
+    if(m->id >= 0){
 		bool success;
 
 		answer = SaveAsAnswer::Error;
-		success = _playlist_db_connector->save_playlist(v_md, _id, _is_temporary);
+        success = m->playlist_db_connector->save_playlist(v_md, m->id, m->is_temporary);
 
 		if(success){
 			answer = SaveAsAnswer::Success;
@@ -89,7 +106,7 @@ PlaylistDBInterface::SaveAsAnswer PlaylistDBInterface::save()
 	}
 
 	else {
-		answer = save_as(_name, true);
+        answer = save_as(m->name, true);
 	}
 
 	return answer;
@@ -98,7 +115,7 @@ PlaylistDBInterface::SaveAsAnswer PlaylistDBInterface::save()
 
 bool PlaylistDBInterface::insert_temporary_into_db()
 {
-	if(!_is_temporary) {
+    if(!m->is_temporary) {
 		return false;
 	}
 
@@ -109,13 +126,13 @@ bool PlaylistDBInterface::insert_temporary_into_db()
 
 	const MetaDataList& v_md = playlist();
 
-	bool success = _playlist_db_connector->save_playlist_temporary(v_md, _name);
+    bool success = m->playlist_db_connector->save_playlist_temporary(v_md, m->name);
 
 	if(!success){
 		return false;
 	}
 
-	_id = _playlist_db_connector->get_playlist_by_name(_name).id();
+    m->id = m->playlist_db_connector->get_playlist_by_name(m->name).id();
 
 	return true;
 }
@@ -136,7 +153,7 @@ PlaylistDBInterface::SaveAsAnswer PlaylistDBInterface::save_as(const QString& na
 
 	CustomPlaylistSkeletons skeletons;
 
-	_playlist_db_connector->get_all_skeletons(skeletons);
+    m->playlist_db_connector->get_all_skeletons(skeletons);
 
 	// check if name already exists
 	for(const CustomPlaylistSkeleton& skeleton : skeletons){
@@ -160,20 +177,20 @@ PlaylistDBInterface::SaveAsAnswer PlaylistDBInterface::save_as(const QString& na
 
 	// Name already exists, override
 	if(tgt_id >= 0){
-		success = _playlist_db_connector->save_playlist(v_md, tgt_id, _is_temporary);
+        success = m->playlist_db_connector->save_playlist(v_md, tgt_id, m->is_temporary);
 	}
 
 	// New playlist
 	else{
-		success = _playlist_db_connector->save_playlist_as( v_md, name);
+        success = m->playlist_db_connector->save_playlist_as( v_md, name);
 
 		if(success && was_temporary){
-			_playlist_db_connector->delete_playlist(old_id);
+            m->playlist_db_connector->delete_playlist(old_id);
 		}
 	}
 
 	if(success){
-		int id = _playlist_db_connector->get_playlist_by_name(name).id();
+        int id = m->playlist_db_connector->get_playlist_by_name(name).id();
 		if(id >= 0){
 			this->set_id(id);
 		}
@@ -198,7 +215,7 @@ PlaylistDBInterface::SaveAsAnswer PlaylistDBInterface::rename(const QString& nam
 	}
 
 	CustomPlaylistSkeletons skeletons;
-	_playlist_db_connector->get_all_skeletons(skeletons);
+    m->playlist_db_connector->get_all_skeletons(skeletons);
 
 	// check if name already exists
 	for(const CustomPlaylistSkeleton& skeleton : skeletons){
@@ -209,7 +226,7 @@ PlaylistDBInterface::SaveAsAnswer PlaylistDBInterface::rename(const QString& nam
 		}
 	}
 
-	success = _playlist_db_connector->rename_playlist(_id, name);
+    success = m->playlist_db_connector->rename_playlist(m->id, name);
 
 	if(success){
 		this->set_name(name);
@@ -221,7 +238,7 @@ PlaylistDBInterface::SaveAsAnswer PlaylistDBInterface::rename(const QString& nam
 
 bool PlaylistDBInterface::delete_playlist()
 {
-	return _playlist_db_connector->delete_playlist(_id);
+    return m->playlist_db_connector->delete_playlist(m->id);
 }
 
 
@@ -232,15 +249,15 @@ bool PlaylistDBInterface::remove_from_db()
 	}
 
 	bool success;
-	if(_id >= 0){
-		success = _playlist_db_connector->delete_playlist(_id);
+    if(m->id >= 0){
+        success = m->playlist_db_connector->delete_playlist(m->id);
 	}
 
 	else{
-		success = _playlist_db_connector->delete_playlist(_name);
+        success = m->playlist_db_connector->delete_playlist(m->name);
 	}
 
-	_is_temporary = true;
+    m->is_temporary = true;
 	return success;
 }
 
@@ -248,11 +265,14 @@ bool PlaylistDBInterface::remove_from_db()
 QString PlaylistDBInterface::request_new_db_name()
 {
 	CustomPlaylistSkeletons skeletons;
-	PlaylistDBWrapper::instance()->get_all_skeletons(skeletons);
+
+    auto pdw = std::make_shared<PlaylistDBWrapper>();
+    pdw->get_all_skeletons(skeletons);
 
 	QString target_name;
 
-	for(int idx = 1; idx < 1000; idx++){
+    for(int idx = 1; idx < 1000; idx++)
+    {
 		bool found = false;
 		target_name = Lang::get(Lang::New) + " " + QString::number(idx);
 		for(const CustomPlaylistSkeleton& skeleton : skeletons){

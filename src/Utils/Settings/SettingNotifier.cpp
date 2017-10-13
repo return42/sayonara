@@ -22,11 +22,20 @@
 #include "Utils/Settings/SettingKey.h"
 #include "Utils/Utils.h"
 #include "Utils/Set.h"
+#include <QMap>
 #include <iostream>
 
 #include <mutex>
 
-NotifyClassRegistry::NotifyClassRegistry() {}
+struct NotifyClassRegistry::Private
+{
+    QMap<SayonaraClass*, bool> registered_classes;
+};
+
+NotifyClassRegistry::NotifyClassRegistry()
+{
+    m = Pimpl::make<Private>();
+}
 
 NotifyClassRegistry::~NotifyClassRegistry() {}
 
@@ -47,33 +56,30 @@ void NotifyClassRegistry::destroy()
 
 bool NotifyClassRegistry::check_class(SayonaraClass *c)
 {
-    return (registered_classes.find(c) != registered_classes.end());
+    return (m->registered_classes.keys().contains(c));
 }
 
 
 void NotifyClassRegistry::add_class(SayonaraClass *c)
 {
-    registered_classes.insert(c);
+    m->registered_classes.insert(c, true);
 }
 
 void NotifyClassRegistry::remove_class(SayonaraClass *c, AbstrSettingNotifier* asn)
 {
-
-    auto it = registered_classes.find(c);
-    if(it != registered_classes.end())
+    bool has_class = (m->registered_classes.keys().contains(c));
+    if(has_class)
     {
-        registered_classes.erase(it);
+        if(!m->registered_classes[c]){
+            sp_log(Log::Debug, this) << "try to remove class 2 times";
+        }
 
-        if(asn){
+        if(asn && m->registered_classes[c]){
             asn->class_removed(c);
         }
+
+        m->registered_classes[c] = false;
     }
-	else {
-		SP::Set<int64_t> classes;
-		for(SayonaraClass* x : registered_classes){
-			classes.insert((int64_t) x);
-		}
-	}
 }
 
 

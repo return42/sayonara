@@ -51,7 +51,7 @@ struct RemoteControl::Private
 
     QTcpServer*         server=nullptr;
     QTcpSocket*         socket=nullptr;
-    PlayManager*        play_manager=nullptr;
+    PlayManagerPtr        play_manager=nullptr;
     PlaylistHandler*    plh=nullptr;
 
     Private() :
@@ -84,7 +84,7 @@ void RemoteControl::init()
     m->play_manager = PlayManager::instance();
     m->plh = PlaylistHandler::instance();
 
-    PlayManager* mgr = m->play_manager;
+    PlayManagerPtr mgr = m->play_manager;
 
     m->fn_call_map["play"] =	[mgr]() {mgr->play();};
     m->fn_call_map["pause"] =	[mgr]() {mgr->pause();};
@@ -148,7 +148,7 @@ void RemoteControl::new_connection()
     connect(m->socket, &QTcpSocket::readyRead, this, &RemoteControl::new_request);
     connect(m->socket, &QTcpSocket::disconnected, this, &RemoteControl::socket_disconnected);
 
-    PlayManager* mgr = m->play_manager;
+    PlayManagerPtr mgr = m->play_manager;
 
 	connect(mgr, &PlayManager::sig_position_changed_ms, this, &RemoteControl::pos_changed_ms);
 	connect(mgr, &PlayManager::sig_track_changed, this, &RemoteControl::track_changed);
@@ -159,7 +159,7 @@ void RemoteControl::new_connection()
 
 void RemoteControl::socket_disconnected()
 {
-    PlayManager* mgr = m->play_manager;
+    PlayManagerPtr mgr = m->play_manager;
 
 	disconnect(mgr, &PlayManager::sig_position_changed_ms, this, &RemoteControl::pos_changed_ms);
 	disconnect(mgr, &PlayManager::sig_track_changed, this, &RemoteControl::track_changed);

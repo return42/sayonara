@@ -32,40 +32,59 @@
 #include "Utils/Logger/Logger.h"
 #include "Utils/Language.h"
 
+#include <QDBusInterface>
+#include <QDBusConnection>
+#include <QProcess>
+#include <QTimer>
+
 #ifdef WITH_SHUTDOWN
+
+struct Shutdown::Private
+{
+    QTimer*			timer=nullptr;
+    QTimer*			timer_countdown=nullptr;
+    PlayManagerPtr	play_manager=nullptr;
+
+    uint64_t		msecs2go;
+    bool			is_running;
+
+    Private(Shutdown* parent) :
+        msecs2go(0),
+        is_running(false)
+    {
+        play_manager = PlayManager::instance();
+
+        timer = new QTimer(parent);
+        timer_countdown = new QTimer(parent);
+
+        timer->setInterval(100);
+        timer_countdown->setInterval(50);
+    }
+
+    ~Private()
+    {
+        timer->stop();
+        timer->deleteLater();
+        timer_countdown->stop();
+        timer_countdown->deleteLater();
+    }
+};
 
 Shutdown::Shutdown(QObject* parent) :
 	QObject(parent)
 {
-	_play_manager = PlayManager::instance();
-	_is_running = false;
+    m = Pimpl::make<Private>(this);
 
-	_timer = new QTimer(this);
-	_timer_countdown = new QTimer(this);
-
-	_timer->setInterval(100);
-	_timer_countdown->setInterval(50);
-
-	_msecs2go = 0;
-
-	connect(_timer, &QTimer::timeout, this, &Shutdown::timeout);
-	connect(_timer_countdown, &QTimer::timeout, this, &Shutdown::countdown_timeout);
-	connect(_play_manager, &PlayManager::sig_playlist_finished, this, &Shutdown::playlist_finished);
+    connect(m->timer, &QTimer::timeout, this, &Shutdown::timeout);
+    connect(m->timer_countdown, &QTimer::timeout, this, &Shutdown::countdown_timeout);
+    connect(m->play_manager, &PlayManager::sig_playlist_finished, this, &Shutdown::playlist_finished);
 }
 
-
-Shutdown::~Shutdown()
-{
-	_timer->stop();
-	_timer->deleteLater();
-	_timer_countdown->stop();
-	_timer_countdown->deleteLater();
-}
-
+Shutdown::~Shutdown() {}
 
 void Shutdown::shutdown_after_end()
 {
-	_is_running = true;
+    m->is_running = true;
 
 	NotificationHandler::instance()->notify(Lang::get(Lang::Shutdown),
 											   tr("Computer will shutdown after playlist has finished"),
@@ -75,20 +94,21 @@ void Shutdown::shutdown_after_end()
 
 bool Shutdown::is_running() const
 {
-	return _is_running;
+    return m->is_running;
 }
 
 
-void Shutdown::shutdown(uint64_t ms){
+void Shutdown::shutdown(uint64_t ms)
+{
 	if(ms == 0){
 		timeout();
 		return;
 	}
 
-	_is_running = true;
-	_msecs2go = ms;
-	_timer->start((int) ms);
-	_timer_countdown->start(1000);
+    m->is_running = true;
+    m->msecs2go = ms;
+    m->timer->start((int) ms);
+    m->timer_countdown->start(1000);
 	emit sig_started(ms);
 
 	NotificationHandler::instance()->notify(Lang::get(Lang::Shutdown),
@@ -100,24 +120,24 @@ void Shutdown::shutdown(uint64_t ms){
 void Shutdown::stop()
 {
 	sp_log(Log::Info) << "Shutdown cancelled";
-	_is_running = false;
-	_timer->stop();
-	_timer_countdown->stop();
-	_msecs2go = 0;
+    m->is_running = false;
+    m->timer->stop();
+    m->timer_countdown->stop();
+    m->msecs2go = 0;
 }
 
 
 void Shutdown::countdown_timeout()
 {
-	_msecs2go -= 1000;
-	_timer_countdown->start(1000);
+    m->msecs2go -= 1000;
+    m->timer_countdown->start(1000);
 
-	emit sig_time_to_go(_msecs2go);
-	sp_log(Log::Info) << "Time to go: " << _msecs2go;
+    emit sig_time_to_go(m->msecs2go);
+    sp_log(Log::Info) << "Time to go: " << m->msecs2go;
 
-	if(_msecs2go % 60000 == 0){
+    if(m->msecs2go % 60000 == 0){
 		NotificationHandler::instance()->notify(Lang::get(Lang::Shutdown),
-												   tr("Computer will shutdown in %1 minutes").arg(Util::cvt_ms_to_string(_msecs2go, false, true, false)),
+                                                   tr("Computer will shutdown in %1 minutes").arg(Util::cvt_ms_to_string(m->msecs2go, false, true, false)),
 												   Util::share_path("logo.png"));
 	}
 }
@@ -126,7 +146,7 @@ void Shutdown::countdown_timeout()
 void Shutdown::timeout()
 {
 	
-	_is_running = false;
+    m->is_running = false;
 	DatabaseConnector::instance()->store_settings();
 
 
@@ -242,7 +262,7 @@ void Shutdown::timeout()
 
 void Shutdown::playlist_finished()
 {
-	if( _is_running ){
+    if( m->is_running ){
 		timeout();
 	}
 }

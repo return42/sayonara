@@ -32,6 +32,7 @@
 #include "Utils/Settings/SayonaraClass.h"
 #include "Utils/Settings/SettingKey.h"
 #include "Utils/Singleton.h"
+#include "Utils/Pimpl.h"
 
 #pragma once
 
@@ -39,8 +40,8 @@ class AbstrSettingNotifier;
 
 class NotifyClassRegistry
 {
+    PIMPL(NotifyClassRegistry)
 	NotifyClassRegistry();
-    std::set<SayonaraClass*> registered_classes;
 
 public:
 	~NotifyClassRegistry();

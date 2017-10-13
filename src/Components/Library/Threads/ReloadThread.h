@@ -34,7 +34,6 @@
 #include <QDir>
 
 #include "Utils/Settings/SayonaraClass.h"
-#include "Utils/Singleton.h"
 #include "Utils/Library/LibraryNamespaces.h"
 #include "Utils/Pimpl.h"
 
@@ -45,7 +44,6 @@ class ReloadThread :
 		public SayonaraClass
 {
 	Q_OBJECT
-	SINGLETON_QOBJECT(ReloadThread)
 	PIMPL(ReloadThread)
 
 signals:
@@ -53,6 +51,9 @@ signals:
     void sig_new_block_saved();
 
 public:
+    ReloadThread(QObject* parent);
+    ~ReloadThread();
+
 	void pause();
     void goon();
 	bool is_running() const;

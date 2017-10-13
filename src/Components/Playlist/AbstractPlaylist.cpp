@@ -53,7 +53,7 @@ AbstractPlaylist::AbstractPlaylist(int idx, const QString& name) :
 	SayonaraClass()
 {
     Tagging::ChangeNotifier* md_change_notifier = Tagging::ChangeNotifier::instance();
-	PlayManager* play_manager = PlayManager::instance();
+	PlayManagerPtr play_manager = PlayManager::instance();
 
     m = Pimpl::make<AbstractPlaylist::Private>(idx,  _settings->get(Set::PL_Mode));
 

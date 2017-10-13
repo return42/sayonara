@@ -22,16 +22,16 @@
 
 #include "GUI/Utils/Widgets/WidgetTemplate.h"
 #include "PlaylistMenuEntry.h"
+#include "Utils/Pimpl.h"
 
 #include <QMenu>
 #include <QAction>
-
-class IconLoader;
 
 class PlaylistTabMenu :
 		public Gui::WidgetTemplate<QMenu>
 {
 	Q_OBJECT
+    PIMPL(PlaylistTabMenu)
 
 signals:
 	void sig_delete_clicked();
@@ -44,20 +44,6 @@ signals:
 	void sig_clear_clicked();
 	void sig_open_file_clicked();
 	void sig_open_dir_clicked();
-
-private:
-	QAction*	_action_open_file=nullptr;
-	QAction*	_action_open_dir=nullptr;
-	QAction*	_action_delete=nullptr;
-	QAction*	_action_save=nullptr;
-	QAction*	_action_save_as=nullptr;
-	QAction*	_action_reset=nullptr;
-	QAction*	_action_close=nullptr;
-	QAction*	_action_close_others=nullptr;
-	QAction*	_action_rename=nullptr;
-	QAction*	_action_clear=nullptr;
-
-	IconLoader* _icon_loader;
 
 protected:
     void language_changed() override;

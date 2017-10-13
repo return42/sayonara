@@ -71,7 +71,6 @@ private:
 	QTranslator*				_translator=nullptr;
 	QStringList					_translators;
 
-	PlayManager*				_play_manager=nullptr;
 	QMessageBox*				_about_box=nullptr;
 	GUI_Logger*					_logger=nullptr;
 

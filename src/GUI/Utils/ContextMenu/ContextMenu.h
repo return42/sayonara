@@ -21,13 +21,12 @@
 #ifndef CONTEXTMENU_H
 #define CONTEXTMENU_H
 
-#include <QAction>
 #include <QMenu>
-#include <QTimer>
 
 #include "GUI/Utils/Widgets/WidgetTemplate.h"
+#include "Utils/Pimpl.h"
 
-class IconLoader;
+class QAction;
 
 /**
  * @brief Combination of ContextMenu::Entry values
@@ -43,6 +42,7 @@ class ContextMenu :
 		public Gui::WidgetTemplate<QMenu>
 {
 	Q_OBJECT
+    PIMPL(ContextMenu)
 
 public:
 
@@ -76,21 +76,6 @@ signals:
 
 
 private:
-	QAction*	_action_new=nullptr;
-	QAction*	_action_edit=nullptr;
-	QAction*	_action_open=nullptr;
-	QAction*	_action_undo=nullptr;
-	QAction*	_action_save=nullptr;
-	QAction*	_action_save_as=nullptr;
-	QAction*	_action_rename=nullptr;
-	QAction*	_action_delete=nullptr;
-	QAction*	_action_default=nullptr;
-
-
-	QList<QAction*>		_actions;
-	QTimer*				_timer=nullptr;
-	IconLoader*			_icon_loader=nullptr;
-
 	/**
 	 * @brief show_action
 	 * @param b

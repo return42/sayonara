@@ -23,6 +23,7 @@
 #include "Utils/Macros.h"
 #include "Utils/Language.h"
 #include "Utils/Settings/Settings.h"
+#include "GUI/Utils/IconLoader/IconLoader.h"
 
 #ifdef WITH_DBUS
 	#include "Components/DBus/DBusHandler.h"
@@ -108,7 +109,8 @@ struct Application::Private
 			delete timer; timer = nullptr;
 		}
 
-		if(instance_thread){
+        if(instance_thread)
+        {
 			instance_thread->stop();
 			while(instance_thread->isRunning()){
 				Util::sleep_ms(100);
@@ -217,6 +219,8 @@ bool Application::init(QTranslator* translator, const QStringList& files_to_play
 
 	QString version = QString(SAYONARA_VERSION);
 	m->settings->set(Set::Player_Version, version);
+
+    IconLoader::change_theme();
 
 	sp_log(Log::Debug, this) << "Start player: " << m->timer->elapsed() << "ms";
 	m->player = new GUI_Player(translator);

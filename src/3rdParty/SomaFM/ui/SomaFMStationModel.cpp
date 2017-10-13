@@ -103,7 +103,7 @@ QVariant SomaFM::StationModel::data(const QModelIndex& index, int role) const
 		}
 
 		if(m->status == Status::Error){
-            return IconLoader::instance()->icon("view-refresh", "undo");
+            return IconLoader::icon("view-refresh", "undo");
 		}
 
 		bool loved = m->stations[row].is_loved();

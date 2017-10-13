@@ -64,7 +64,7 @@ StreamServer::StreamServer(QObject* parent) :
 
 	create_server();
 
-	PlayManager* play_manager = PlayManager::instance();
+	PlayManagerPtr play_manager = PlayManager::instance();
     Engine::Handler* engine = Engine::Handler::instance();
 
 	connect(play_manager, &PlayManager::sig_track_changed, this, &StreamServer::track_changed);

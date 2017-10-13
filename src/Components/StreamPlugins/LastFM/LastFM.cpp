@@ -66,7 +66,7 @@ struct Base::Private
     TrackChangedThread*         track_changed_thread=nullptr;
     LoginThread*				login_thread=nullptr;
 
-	PlayManager*				play_manager=nullptr;
+	PlayManagerPtr				play_manager=nullptr;
 
     uint32_t                    old_pos;
     uint32_t                    old_pos_difference;

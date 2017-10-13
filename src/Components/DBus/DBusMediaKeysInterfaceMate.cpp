@@ -44,15 +44,15 @@ DBusMediaKeysInterfaceMate::DBusMediaKeysInterfaceMate(QObject *parent) :
 	connect(watcher, &QDBusPendingCallWatcher::finished,
 			this, &DBusMediaKeysInterfaceMate::sl_register_finished);
 
-	_initialized = true;
+    set_initialized(true);
 }
 
 
-void DBusMediaKeysInterfaceMate::sl_register_finished(QDBusPendingCallWatcher* watcher){
-	if(!_initialized){
+void DBusMediaKeysInterfaceMate::sl_register_finished(QDBusPendingCallWatcher* watcher)
+{
+    if(!initialized()){
 		return;
 	}
-
 
 	DBusMediaKeysInterface::sl_register_finished(watcher);
 

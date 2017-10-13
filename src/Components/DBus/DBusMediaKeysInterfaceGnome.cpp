@@ -43,12 +43,13 @@ DBusMediaKeysInterfaceGnome::DBusMediaKeysInterfaceGnome(QObject *parent) :
 	connect(watcher, &QDBusPendingCallWatcher::finished,
 			this, &DBusMediaKeysInterfaceGnome::sl_register_finished);
 
-	_initialized = true;
+    set_initialized(true);
 }
 
 
-void DBusMediaKeysInterfaceGnome::sl_register_finished(QDBusPendingCallWatcher* watcher){
-	if(!_initialized){
+void DBusMediaKeysInterfaceGnome::sl_register_finished(QDBusPendingCallWatcher* watcher)
+{
+    if(!initialized()){
 		return;
 	}
 

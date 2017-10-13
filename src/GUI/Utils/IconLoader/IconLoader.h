@@ -21,37 +21,20 @@
 #ifndef ICON_LOADER_H_
 #define ICON_LOADER_H_
 
-#include <QObject>
-#include "Utils/Singleton.h"
-#include "Utils/Pimpl.h"
-#include "Utils/Settings/SayonaraClass.h"
-
-class Settings;
 class QString;
 class QStringList;
 class QIcon;
-class QPixmap;
 
 /**
  * @brief The IconLoader class
  * @ingroup GUIHelper
  */
-class IconLoader :
-        public QObject,
-        public SayonaraClass
+namespace IconLoader
 {
-	Q_OBJECT
-	SINGLETON(IconLoader)
-	PIMPL(IconLoader)
-
-private slots:
-	void icon_theme_changed();
-
-public:
-	void add_icon_names(const QStringList& icon_names);
     QIcon icon(const QString& name, const QString& dark_name);
     QIcon icon(const QStringList& names, const QString& dark_name);
-	bool has_std_icon(const QString& name) const;
-};
+
+    void change_theme();
+}
 
 #endif

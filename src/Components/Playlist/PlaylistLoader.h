@@ -23,6 +23,7 @@
 
 #include "Utils/Settings/SayonaraClass.h"
 #include "Utils/Playlist/CustomPlaylistFwd.h"
+#include "Utils/Pimpl.h"
 
 #include <QObject>
 
@@ -37,16 +38,7 @@ class PlaylistLoader :
 		public SayonaraClass
 {
 	Q_OBJECT
-
-private:
-
-	CustomPlaylists			_playlists;
-
-	PlaylistDBWrapper*		_playlist_db_connector=nullptr;
-
-	int						_last_playlist_idx;
-	int						_last_track_idx;
-
+    PIMPL(PlaylistLoader)
 
 public:
 	explicit PlaylistLoader(QObject* parent=nullptr);

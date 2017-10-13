@@ -22,23 +22,22 @@
 #define DBUSMEDIAKEYSINTERFACE_H
 
 #include <QDBusPendingCallWatcher>
+#include "Utils/Pimpl.h"
 
 class PlayManager;
 class DBusMediaKeysInterface :
 		public QObject
 {
 	Q_OBJECT
-
-
-protected:
-	QObject*		_parent=nullptr;
-	PlayManager*	_play_manager=nullptr;
-	bool			_initialized;
-
+    PIMPL(DBusMediaKeysInterface)
 
 public:
 	explicit DBusMediaKeysInterface(QObject *parent=nullptr);
 	virtual ~DBusMediaKeysInterface();
+
+protected:
+    bool initialized() const;
+    void set_initialized(bool b);
 
 
 protected slots:

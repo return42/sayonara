@@ -27,7 +27,6 @@
 #include "Utils/Pimpl.h"
 #include "Utils/Settings/SayonaraClass.h"
 
-
 class MetaData;
 
 /**
@@ -321,5 +320,8 @@ public:
     bool		is_muted() const;
 };
 
+using PlayManagerPtr=PlayManager*;
+
 #endif
+
 

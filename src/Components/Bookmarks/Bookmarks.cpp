@@ -32,7 +32,7 @@
 struct Bookmarks::Private
 {
 	DatabaseConnector*		db=nullptr;
-	PlayManager*			play_manager=nullptr;
+    PlayManagerPtr			play_manager=nullptr;
 
 	QList<Bookmark>			bookmarks;
 	MetaData				md;

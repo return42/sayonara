@@ -25,49 +25,74 @@
 #include <QKeyEvent>
 #include <QCoreApplication>
 
+
+struct DBusMediaKeysInterface::Private
+{
+    QObject*		parent=nullptr;
+    PlayManagerPtr	play_manager=nullptr;
+    bool            initialized;
+
+    Private(QObject *parent) :
+        parent(parent),
+        initialized(false)
+    {
+        play_manager = PlayManager::instance();
+    }
+};
+
+
 DBusMediaKeysInterface::DBusMediaKeysInterface(QObject *parent) :
 	QObject(parent)
 {
-	_parent = parent;
-	_play_manager = PlayManager::instance();
-	_initialized = false;
+    m = Pimpl::make<Private>(parent);
 }
 
 DBusMediaKeysInterface::~DBusMediaKeysInterface() {}
 
+bool DBusMediaKeysInterface::initialized() const
+{
+    return m->initialized;
+}
 
-void DBusMediaKeysInterface::sl_media_key_pressed(const QString& program_name, const QString& key){
+void DBusMediaKeysInterface::set_initialized(bool b)
+{
+    m->initialized = b;
+}
+
+
+void DBusMediaKeysInterface::sl_media_key_pressed(const QString& program_name, const QString& key)
+{
 	Q_UNUSED(program_name)
 
 	QKeyEvent *event = nullptr;
 
 	if(key.compare("play", Qt::CaseInsensitive) == 0){
 		event = new QKeyEvent ( QEvent::KeyPress, Qt::Key_MediaPlay, Qt::NoModifier);
-		_play_manager->play_pause();
+        m->play_manager->play_pause();
 	}
 
 	else if(key.compare("pause", Qt::CaseInsensitive) == 0){
 		event = new QKeyEvent ( QEvent::KeyPress, Qt::Key_MediaPause, Qt::NoModifier);
-		_play_manager->pause();
+        m->play_manager->pause();
 	}
 
 	else if(key.compare("next", Qt::CaseInsensitive) == 0){
 		event = new QKeyEvent ( QEvent::KeyPress, Qt::Key_MediaNext, Qt::NoModifier);
-		_play_manager->next();
+        m->play_manager->next();
 	}
 
 	else if(key.compare("previous", Qt::CaseInsensitive) == 0){
 		event = new QKeyEvent ( QEvent::KeyPress, Qt::Key_MediaPrevious, Qt::NoModifier);
-		_play_manager->previous();
+        m->play_manager->previous();
 	}
 
 	else if(key.contains("stop", Qt::CaseInsensitive)){
 		event = new QKeyEvent (QEvent::KeyPress, Qt::Key_MediaStop, Qt::NoModifier);
-		_play_manager->stop();
+        m->play_manager->stop();
 	}
 
-	if(event && _parent){
-		QCoreApplication::postEvent (_parent, event);
+    if(event && m->parent){
+        QCoreApplication::postEvent (m->parent, event);
 	}
 }
 

@@ -28,12 +28,26 @@
 
 #include <algorithm>
 
+struct PlaylistLoader::Private
+{
+    CustomPlaylists			playlists;
+
+    int						last_playlist_idx;
+    int						last_track_idx;
+
+    Private() :
+        last_playlist_idx(-1),
+        last_track_idx(-1)
+    {}
+};
 
 PlaylistLoader::PlaylistLoader(QObject* parent) :
 	QObject(parent),
 	SayonaraClass()
 {
-	_playlist_db_connector = PlaylistDBWrapper::instance();
+    m = Pimpl::make<Private>();
+
+    auto playlist_db_connector = std::make_shared<PlaylistDBWrapper>();
 
 	bool success=false;
 
@@ -44,17 +58,14 @@ PlaylistLoader::PlaylistLoader(QObject* parent) :
 	int saved_playlist_id = _settings->get(Set::PL_LastPlaylist);
 	int saved_track_idx = _settings->get(Set::PL_LastTrack);
 
-	_last_playlist_idx = -1;
-	_last_track_idx = -1;
-
 	// we don't load any playlists
 	if(!load_playlists){
 		CustomPlaylists playlists;
-		success = _playlist_db_connector->get_temporary_playlists(playlists);
+        success = playlist_db_connector->get_temporary_playlists(playlists);
 
 		if(success){
 			for(const CustomPlaylist& pl : playlists){
-				_playlist_db_connector->delete_playlist(pl.id());
+                playlist_db_connector->delete_playlist(pl.id());
 			}
 		}
 
@@ -64,41 +75,42 @@ PlaylistLoader::PlaylistLoader(QObject* parent) :
 
 	bool has_playlist_id=false;
 	if(load_temporary_playlists && !load_saved_playlists){
-		success = _playlist_db_connector->get_temporary_playlists(_playlists);
+        success = playlist_db_connector->get_temporary_playlists(m->playlists);
 
 	}
 
 	else if(load_saved_playlists && !load_temporary_playlists){
-		success = _playlist_db_connector->get_non_temporary_playlists(_playlists);
+        success = playlist_db_connector->get_non_temporary_playlists(m->playlists);
 	}
 
 	else if(load_saved_playlists && load_temporary_playlists){
-		success = _playlist_db_connector->get_all_playlists(_playlists);
+        success = playlist_db_connector->get_all_playlists(m->playlists);
 	}
 
 	if(!success){
 		return;
 	}
 
-	has_playlist_id = std::any_of(_playlists.begin(), _playlists.end(), [&saved_playlist_id](const CustomPlaylist& pl){
+    has_playlist_id = std::any_of(m->playlists.begin(), m->playlists.end(), [&saved_playlist_id](const CustomPlaylist& pl){
 		return (saved_playlist_id == pl.id());
 	});
 
 	if(!has_playlist_id){
-		_playlists.prepend(_playlist_db_connector->get_playlist_by_id(saved_playlist_id));
+        m->playlists.prepend(playlist_db_connector->get_playlist_by_id(saved_playlist_id));
 	}
 
 
-	for(int i=0; i<_playlists.size(); i++){
+    for(int i=0; i<m->playlists.size(); i++)
+    {
 		// we load all temporary playlist
 		bool add_playlist = false;
-		CustomPlaylist pl = _playlists[i];
+        CustomPlaylist pl = m->playlists[i];
 
 		if(pl.name().trimmed().isEmpty() ||
 		   pl.size() == 0)
 		{
-			_playlist_db_connector->delete_playlist(pl.id());
-			_playlists.removeAt(i);
+            playlist_db_connector->delete_playlist(pl.id());
+            m->playlists.removeAt(i);
 
 			i--;
 			continue;
@@ -111,9 +123,10 @@ PlaylistLoader::PlaylistLoader(QObject* parent) :
 		if(pl.id() == saved_playlist_id){
 			if( between(saved_track_idx, pl) )
 			{
-				if(load_last_track){
-					_last_track_idx = saved_track_idx;
-					_last_playlist_idx = i;
+                if(load_last_track)
+                {
+                    m->last_track_idx = saved_track_idx;
+                    m->last_playlist_idx = i;
 
 					add_playlist = true;
 				}
@@ -127,7 +140,7 @@ PlaylistLoader::PlaylistLoader(QObject* parent) :
 			}
 
 			else if(!add_playlist){
-				_playlist_db_connector->delete_playlist(pl.id());
+                playlist_db_connector->delete_playlist(pl.id());
 			}
 		}
 
@@ -138,7 +151,7 @@ PlaylistLoader::PlaylistLoader(QObject* parent) :
 		}
 
 		if(!add_playlist){
-			_playlists.removeAt(i);
+            m->playlists.removeAt(i);
 			i--;
 		}
 	}
@@ -149,36 +162,33 @@ PlaylistLoader::~PlaylistLoader() {}
 
 CustomPlaylists PlaylistLoader::get_playlists() const
 {
-	return _playlists;
+    return m->playlists;
 }
 
 int	PlaylistLoader::get_last_playlist_idx() const
 {
-	if( !between(_last_playlist_idx, _playlists))
+    if( !between(m->last_playlist_idx, m->playlists))
 	{
 		return -1;
 	}
 
-	return _last_playlist_idx;
+    return m->last_playlist_idx;
 }
 
 int	PlaylistLoader::get_last_track_idx() const
 {
 	int n_tracks;
-	if(	_last_playlist_idx < 0 ||
-		_last_playlist_idx >= _playlists.size())
-	{
-		return -1;
-	}
+    if(!between(m->last_playlist_idx, m->playlists.size())){
+        return -1;
+    }
 
-	n_tracks = _playlists[_last_playlist_idx].size();
-	if( _last_track_idx < 0 ||
-		_last_track_idx >= n_tracks)
+    n_tracks = m->playlists[m->last_playlist_idx].size();
+    if(!between(m->last_track_idx, n_tracks))
 	{
 		 return -1;
 	}
 
-	return _last_track_idx;
+    return m->last_track_idx;
 }
 
 int PlaylistLoader::create_playlists()
@@ -186,7 +196,8 @@ int PlaylistLoader::create_playlists()
 	PlaylistHandler* plh = PlaylistHandler::instance();
 
 	// no playlists found
-	if( _playlists.isEmpty() ){
+    if( m->playlists.isEmpty() )
+    {
 		QString name = plh->request_new_playlist_name();
 		int idx = plh->create_empty_playlist(name);
 		plh->set_current_idx(idx);
@@ -194,10 +205,10 @@ int PlaylistLoader::create_playlists()
 
 	else {
 		// add playlists
-		for(const CustomPlaylist& pl : _playlists){
+        for(const CustomPlaylist& pl : m->playlists){
 			plh->create_playlist(pl);
 		}
 	}
 
-	return _playlists.size();
+    return m->playlists.size();
 }

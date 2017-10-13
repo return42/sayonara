@@ -28,9 +28,19 @@
 
 #include <utility>
 
+struct PlaylistDBWrapper::Private
+{
+    DatabaseConnector* db=nullptr;
+
+    Private()
+    {
+        db = DatabaseConnector::instance();
+    }
+};
+
 PlaylistDBWrapper::PlaylistDBWrapper()
 {
-	_db = DatabaseConnector::instance();
+    m = Pimpl::make<Private>();
 }
 
 
@@ -39,8 +49,10 @@ PlaylistDBWrapper::~PlaylistDBWrapper() {}
 
 void PlaylistDBWrapper::apply_tags(MetaDataList& v_md)
 {
-	for(MetaData& md : v_md){
-		if(md.is_extern){
+    for(MetaData& md : v_md)
+    {
+        if(md.is_extern)
+        {
 			if(Util::File::is_file(md.filepath())){
                 Tagging::Util::getMetaDataOfFile(md);
 			}
@@ -50,7 +62,7 @@ void PlaylistDBWrapper::apply_tags(MetaDataList& v_md)
 
 
 bool PlaylistDBWrapper::get_skeletons(CustomPlaylistSkeletons& skeletons, DatabasePlaylist::PlaylistChooserType type, Playlist::SortOrder so){
-	return _db->getAllPlaylistSkeletons(skeletons, type, so);
+    return m->db->getAllPlaylistSkeletons(skeletons, type, so);
 }
 
 bool PlaylistDBWrapper::get_all_skeletons(CustomPlaylistSkeletons& skeletons,
@@ -102,7 +114,7 @@ bool PlaylistDBWrapper::get_playlists(CustomPlaylists& playlists, DatabasePlayli
 			continue;
 		}
 
-		success = _db->getPlaylistById(pl);
+        success = m->db->getPlaylistById(pl);
 
 		if(!success){
 			continue;
@@ -151,7 +163,7 @@ CustomPlaylist PlaylistDBWrapper::get_playlist_by_id(int id)
 	CustomPlaylist pl;
 	pl.set_id(id);
 
-	success = _db->getPlaylistById(pl);
+    success = m->db->getPlaylistById(pl);
 	if(!success){
 		return pl;
 	}
@@ -162,7 +174,7 @@ CustomPlaylist PlaylistDBWrapper::get_playlist_by_id(int id)
 
 CustomPlaylist PlaylistDBWrapper::get_playlist_by_name(const QString& name)
 {
-	int id = _db->getPlaylistIdByName(name);
+    int id = m->db->getPlaylistIdByName(name);
 
 	if(id < 0){
 		CustomPlaylist pl;
@@ -175,7 +187,7 @@ CustomPlaylist PlaylistDBWrapper::get_playlist_by_name(const QString& name)
 
 bool PlaylistDBWrapper::rename_playlist(int id, const QString& new_name)
 {
-	return _db->renamePlaylist(id, new_name);
+    return m->db->renamePlaylist(id, new_name);
 }
 
 
@@ -183,9 +195,9 @@ bool PlaylistDBWrapper::save_playlist_as(const MetaDataList& v_md, const QString
 {
 	bool success;
 
-	_db->transaction();
-	success = _db->storePlaylist(v_md, name, false);
-	_db->commit();
+    m->db->transaction();
+    success = m->db->storePlaylist(v_md, name, false);
+    m->db->commit();
 
 	return success;
 }
@@ -194,10 +206,10 @@ bool PlaylistDBWrapper::save_playlist_temporary(const MetaDataList& v_md, const 
 {
 	bool success;
 
-	_db->transaction();
+    m->db->transaction();
 
-	success = _db->storePlaylist(v_md, name, true);
-	_db->commit();
+    success = m->db->storePlaylist(v_md, name, true);
+    m->db->commit();
 
 	return success;
 }
@@ -207,10 +219,10 @@ bool PlaylistDBWrapper::save_playlist(const CustomPlaylist& pl)
 {
 	bool success;
 
-	_db->transaction();
+    m->db->transaction();
 	// TODO! we dont need the two other parameters
-	success = _db->storePlaylist(pl, pl.id(), pl.temporary());
-	_db->commit();
+    success = m->db->storePlaylist(pl, pl.id(), pl.temporary());
+    m->db->commit();
 
 	return success;
 }
@@ -220,10 +232,10 @@ bool PlaylistDBWrapper::save_playlist(const MetaDataList& v_md, int id, bool is_
 {
 	bool success;
 
-	_db->transaction();
+    m->db->transaction();
 	// TODO: see above
-	success = _db->storePlaylist(v_md, id, is_temporary);
-	_db->commit();
+    success = m->db->storePlaylist(v_md, id, is_temporary);
+    m->db->commit();
 
 	return success;
 }
@@ -231,19 +243,19 @@ bool PlaylistDBWrapper::save_playlist(const MetaDataList& v_md, int id, bool is_
 
 bool PlaylistDBWrapper::delete_playlist(int id)
 {
-	return _db->deletePlaylist(id);
+    return m->db->deletePlaylist(id);
 }
 
 
 bool PlaylistDBWrapper::delete_playlist(const QString& name)
 {
-	int id = _db->getPlaylistIdByName(name);
-	return _db->deletePlaylist(id);
+    int id = m->db->getPlaylistIdByName(name);
+    return m->db->deletePlaylist(id);
 }
 
 
 bool PlaylistDBWrapper::exists(const QString& name)
 {
-	int id = _db->getPlaylistIdByName(name);
+    int id = m->db->getPlaylistIdByName(name);
 	return (id >= 0);
 }

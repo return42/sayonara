@@ -21,10 +21,10 @@
 #ifndef PLAYLISTDB_WRAPPER_H
 #define PLAYLISTDB_WRAPPER_H
 
-#include "Utils/Singleton.h"
+#include "Utils/Pimpl.h"
+#include "Utils/Playlist/CustomPlaylistFwd.h"
 #include "Database/DatabasePlaylist.h"
 
-class DatabaseConnector;
 class MetaDataList;
 
 /**
@@ -35,20 +35,11 @@ class MetaDataList;
  */
 class PlaylistDBWrapper
 {
-	SINGLETON(PlaylistDBWrapper)
-
-private:
-	DatabaseConnector* _db=nullptr;
-
-	void apply_tags(MetaDataList& v_md);
-	bool get_playlists(CustomPlaylists& playlists,
-					   DatabasePlaylist::PlaylistChooserType type,
-					   Playlist::SortOrder sortorder);
-
-//	bool extract_stream(CustomPlaylist& pl, QString name, QString url);
-
+    PIMPL(PlaylistDBWrapper)
 
 public:
+    PlaylistDBWrapper();
+    ~PlaylistDBWrapper();
 
 	bool get_skeletons(CustomPlaylistSkeletons& skeletons,
 						   DatabasePlaylist::PlaylistChooserType type,
@@ -84,6 +75,14 @@ public:
 	bool delete_playlist(int id);
 	bool delete_playlist(const QString& name);
 	bool exists(const QString& name);
+
+private:
+    void apply_tags(MetaDataList& v_md);
+    bool get_playlists(CustomPlaylists& playlists,
+                       DatabasePlaylist::PlaylistChooserType type,
+                       Playlist::SortOrder sortorder);
 };
+
+using PlaylistDBWrapperPtr=std::shared_ptr<PlaylistDBWrapper>;
 
 #endif // PLAYLISTDBCONNECTOR_H

@@ -179,7 +179,7 @@ void AbstractLibrary::prepare_tracks_for_playlist(const QStringList& paths, bool
 
 void AbstractLibrary::set_playlist_action_after_double_click()
 {
-	PlayManager* play_manager = PlayManager::instance();
+	PlayManagerPtr play_manager = PlayManager::instance();
 
 	if(_settings->get(Set::Lib_DC_DoNothing)){
 		return;

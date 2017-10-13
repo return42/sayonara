@@ -33,12 +33,12 @@ struct PlaylistChooser::Private
     int						import_state;
 
     PlaylistHandler*		playlist_handler=nullptr;
-    PlaylistDBWrapper*		playlist_db_connector=nullptr;
+    PlaylistDBWrapperPtr	playlist_db_connector=nullptr;
 
     Private()
     {
         playlist_handler = PlaylistHandler::instance();
-        playlist_db_connector = PlaylistDBWrapper::instance();
+        playlist_db_connector = std::make_shared<PlaylistDBWrapper>();
     }
 
     CustomPlaylist find_custom_playlist(int id)

@@ -76,5 +76,5 @@ QFrame* EmptyLibraryContainer::header() const
 
 QPixmap EmptyLibraryContainer::icon() const
 {
-    return IconLoader::instance()->icon("document-new", "new").pixmap(32, 32);
+    return IconLoader::icon("document-new", "new").pixmap(32, 32);
 }

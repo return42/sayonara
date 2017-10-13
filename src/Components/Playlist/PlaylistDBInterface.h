@@ -22,6 +22,7 @@
 #define PLAYLISTDBINTERFACE_H
 
 #include <QObject>
+#include "Utils/Pimpl.h"
 
 class MetaDataList;
 class PlaylistDBWrapper;
@@ -34,16 +35,9 @@ class PlaylistDBInterface :
 		public QObject
 {
 	Q_OBJECT
-
-private:
-
-	PlaylistDBWrapper*		_playlist_db_connector=nullptr;
-	QString					_name;
-	bool					_is_temporary;
-	int						_id;
+    PIMPL(PlaylistDBInterface)
 
 public:
-
 	enum class SaveAsAnswer : uint8_t 
 	{
 		Success=0,

@@ -22,9 +22,7 @@
 #define LocalLibrary_H
 
 #include "AbstractLibrary.h"
-#include "Utils/Singleton.h"
 #include "Utils/Pimpl.h"
-
 
 class ReloadThread;
 class DatabaseConnector;

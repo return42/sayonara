@@ -29,14 +29,17 @@
 #ifndef GUI_PLAYLIST_H_
 #define GUI_PLAYLIST_H_
 
-#include "GUI/Playlist/ui_GUI_Playlist.h"
-
 #include "Utils/Message/GlobalMessage.h"
 #include "Utils/Library/LibraryNamespaces.h"
-#include "Utils/SetFwd.h"
+#include "Utils/Playlist/PlaylistFwd.h"
+#include "Utils/Pimpl.h"
+
+#include "GUI/Utils/GUIClass.h"
+#include "GUI/Utils/Widgets/Widget.h"
 
 #include "Components/PlayManager/PlayState.h"
 #include "Components/Playlist/PlaylistDBInterface.h"
+
 
 #include <QTextEdit>
 
@@ -51,16 +54,11 @@ class GUI_Playlist :
 {
 	Q_OBJECT
 	UI_CLASS(Playlist_Window)
+    PIMPL(GUI_Playlist)
 
 public:
 	explicit GUI_Playlist(QWidget *parent=nullptr);
 	~GUI_Playlist();
-
-private:
-	PlayManager*			_play_manager=nullptr;
-	PlaylistHandler*		_playlist=nullptr;
-	Playlist::Type			_playlist_type;
-
 
 private:
 	PlaylistView* get_view_by_idx(int idx);

@@ -27,7 +27,7 @@
 
 struct EnginePlugin::Private
 {
-    PlayManager*        play_manager=nullptr;
+    PlayManagerPtr        play_manager=nullptr;
     Engine::Handler*    engine=nullptr;
     QPushButton*        btn_config=nullptr;
     QPushButton*        btn_prev=nullptr;

@@ -116,10 +116,10 @@ void GUI_ShortcutEntry::language_changed()
 
 void GUI_ShortcutEntry::skin_changed()
 {
-	IconLoader* icon_loader = IconLoader::instance();
-	ui->btn_default->setIcon(icon_loader->icon("undo", "undo"));
-	ui->btn_edit->setIcon(icon_loader->icon("accessories-text-editor", "edit"));
-	ui->btn_test->setIcon(icon_loader->icon("dialog-info", "info"));
+    ;
+    ui->btn_default->setIcon(IconLoader::icon("undo", "undo"));
+    ui->btn_edit->setIcon(IconLoader::icon("accessories-text-editor", "edit"));
+    ui->btn_test->setIcon(IconLoader::icon("dialog-info", "info"));
 }
 
 

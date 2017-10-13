@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "LibraryManager.h"
 #include "Interfaces/LibraryInterface/LibraryPluginHandler.h"
 #include "Utils/Library/LibraryInfo.h"

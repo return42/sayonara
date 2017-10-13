@@ -55,37 +55,33 @@ void GUI_Player::playstate_changed(PlayState state)
 
 void GUI_Player::play_clicked()
 {
-	_play_manager->play_pause();
+    PlayManager::instance()->play_pause();
 }
 
 
 void GUI_Player::played()
 {
-	IconLoader* icon_loader = IconLoader::instance();
-	btn_play->setIcon(icon_loader->icon("media-playback-pause", "pause"));
+    btn_play->setIcon(IconLoader::icon("media-playback-pause", "pause"));
 }
 
 
 void GUI_Player::paused()
 {
-	IconLoader* icon_loader = IconLoader::instance();
-	btn_play->setIcon(icon_loader->icon("media-playback-start", "play"));
+    btn_play->setIcon(IconLoader::icon("media-playback-start", "play"));
 }
 
 
 void GUI_Player::stop_clicked()
 {
-	_play_manager->stop();
+    PlayManager::instance()->stop();
 }
 
 
 void GUI_Player::stopped()
 {
-	IconLoader* icon_loader = IconLoader::instance();
-
 	setWindowTitle("Sayonara");
 
-	btn_play->setIcon(icon_loader->icon("media-playback-start", "play"));
+    btn_play->setIcon(IconLoader::icon("media-playback-start", "play"));
 
 	progress_widget->setCurrentIndex(0);
 
@@ -113,19 +109,19 @@ void GUI_Player::stopped()
 
 void GUI_Player::prev_clicked()
 {
-	_play_manager->previous();
+    PlayManager::instance()->previous();
 }
 
 
 void GUI_Player::next_clicked()
 {
-	_play_manager->next();
+    PlayManager::instance()->next();
 }
 
 
 void GUI_Player::rec_clicked(bool b)
 {
-	_play_manager->record(b);
+    PlayManager::instance()->record(b);
 }
 
 void GUI_Player::rec_changed(bool b)
@@ -178,7 +174,7 @@ void GUI_Player::buffering(int progress)
 
 void GUI_Player::set_progress_tooltip(int val)
 {
-    uint64_t duration = _play_manager->duration_ms();
+    uint64_t duration = PlayManager::instance()->duration_ms();
 	int max = sli_progress->maximum();
 
 	val = std::max(val, 0);
@@ -194,7 +190,7 @@ void GUI_Player::set_progress_tooltip(int val)
 
 void GUI_Player::set_cur_pos_label(int val)
 {
-    uint64_t duration = _play_manager->duration_ms();
+    uint64_t duration = PlayManager::instance()->duration_ms();
 	int max = sli_progress->maximum();
 
 	val = std::max(val, 0);
@@ -222,7 +218,7 @@ void GUI_Player::set_total_time_label(int64_t total_time)
 
 void GUI_Player::file_info_changed()
 {
-    const MetaData& md = _play_manager->current_track();
+    const MetaData& md = PlayManager::instance()->current_track();
 	QString rating_text;
 
 	if(md.bitrate / 1000 > 0){
@@ -258,13 +254,13 @@ void GUI_Player::seek(int val)
 	set_cur_pos_label(val);
 
 	double percent = (val * 1.0) / sli_progress->maximum();
-	_play_manager->seek_rel(percent);
+    PlayManager::instance()->seek_rel(percent);
 }
 
 
 void GUI_Player::cur_pos_changed(uint64_t pos_ms)
 {
-    uint64_t duration = _play_manager->duration_ms();
+    uint64_t duration = PlayManager::instance()->duration_ms();
 	int max = sli_progress->maximum();
 	int new_val;
 
@@ -290,7 +286,7 @@ void GUI_Player::cur_pos_changed(uint64_t pos_ms)
 
 void GUI_Player::volume_slider_moved(int val)
 {
-	_play_manager->set_volume(val);
+    PlayManager::instance()->set_volume(val);
 }
 
 
@@ -314,20 +310,18 @@ void GUI_Player::change_volume_by_tick(int val)
 
 void GUI_Player::increase_volume()
 {
-	_play_manager->volume_up();
+    PlayManager::instance()->volume_up();
 }
 
 
 void GUI_Player::decrease_volume()
 {
-	_play_manager->volume_down();
+    PlayManager::instance()->volume_down();
 }
 
 
 void GUI_Player::setup_volume_button(int percent)
 {
-	IconLoader* icon_loader = IconLoader::instance();
-
 	QString but_name = "vol_";
 	QString but_std_name = "vol_";
 
@@ -351,14 +345,14 @@ void GUI_Player::setup_volume_button(int percent)
 		but_std_name = QString("audio-volume-high");
 	}
 
-	btn_mute->setIcon( icon_loader->icon(but_std_name, but_name));
+    btn_mute->setIcon( IconLoader::icon(but_std_name, but_name));
 }
 
 
 void GUI_Player::mute_button_clicked()
 {
 	bool muted = _settings->get(Set::Engine_Mute);
-    _play_manager->set_muted(!muted);
+    PlayManager::instance()->set_muted(!muted);
 }
 
 
