@@ -181,7 +181,7 @@ int main(int argc, char *argv[])
 	}
 
 	/* Tell the settings manager which settings are necessary */
-	if( !SettingRegistry::instance()->init() )
+    if( !SettingRegistry::init() )
 	{
 		sp_log(Log::Error) << "Cannot initialize settings";
 		return 1;

@@ -25,9 +25,8 @@
 #include "Utils/Compressor/Compressor.h"
 
 #include <QDir>
-
-SimilarArtists::SimilarArtists() {}
-SimilarArtists::~SimilarArtists() {}
+#include <QMap>
+#include <QStringList>
 
 static QString get_filename(const QString& artist)
 {
@@ -60,7 +59,7 @@ static QString get_filename(const QString& artist)
 }
 
 QMap<QString, double>
-SimilarArtists::get_similar_artists(const QString& artist) const
+SimilarArtists::get_similar_artists(const QString& artist)
 {
     QMap<QString, double> sim_artist_map;
 	QString filename = get_filename(artist);
@@ -95,7 +94,7 @@ SimilarArtists::get_similar_artists(const QString& artist) const
     return sim_artist_map;
 }
 
-QStringList SimilarArtists::get_similar_artist_names(const QString &artist) const
+QStringList SimilarArtists::get_similar_artist_names(const QString &artist)
 {
     return QStringList( get_similar_artists(artist).keys() );
 }

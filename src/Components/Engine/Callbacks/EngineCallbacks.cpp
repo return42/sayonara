@@ -380,7 +380,7 @@ Callbacks::spectrum_handler(GstBus* bus, GstMessage* message, gpointer data)
 {
 	Q_UNUSED(bus);
 
-	Playback*			engine;
+    Playback*               engine;
 	const GstStructure*		structure;
 	const gchar*			structure_name;
 	const GValue*			magnitudes;

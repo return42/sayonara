@@ -94,8 +94,8 @@ void ArtistInfo::set_header()
 
 void ArtistInfo::calc_similar_artists(Artist& artist)
 {
-	SimilarArtists* sa = SimilarArtists::instance();
-	QMap<QString, double> sim_artists = sa->get_similar_artists(artist.name());
+    QMap<QString, double> sim_artists = SimilarArtists::get_similar_artists(artist.name());
+
 	for(const QString& artist_name : sim_artists.keys())
 	{
 		double match = sim_artists[artist_name];

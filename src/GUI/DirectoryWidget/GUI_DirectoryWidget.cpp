@@ -184,8 +184,7 @@ void GUI_DirectoryWidget::dir_play_next_clicked()
 
 void GUI_DirectoryWidget::dir_delete_clicked()
 {
-	GlobalMessage* gm = GlobalMessage::instance();
-	GlobalMessage::Answer answer = gm->question(Lang::get(Lang::Really) + "?");
+    GlobalMessage::Answer answer = GlobalMessage::question(Lang::get(Lang::Really) + "?");
 
 	if(answer != GlobalMessage::Answer::Yes){
 		return;
@@ -218,8 +217,7 @@ void GUI_DirectoryWidget::file_play_next_clicked()
 
 void GUI_DirectoryWidget::file_delete_clicked()
 {
-	GlobalMessage* gm = GlobalMessage::instance();
-	GlobalMessage::Answer answer = gm->question(Lang::get(Lang::Really) + "?");
+    GlobalMessage::Answer answer = GlobalMessage::question(Lang::get(Lang::Really) + "?");
 
 	if(answer != GlobalMessage::Answer::Yes){
 		return;

@@ -30,17 +30,24 @@
 #define GUI_LASTFM_H_
 
 #include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
+#include "Utils/Pimpl.h"
 
 UI_FWD(GUI_LastFM)
+
+namespace LastFM
+{
+    class Base;
+}
 
 class GUI_LastFM :
 		public PreferenceWidgetInterface
 {
 	Q_OBJECT
 	UI_CLASS(GUI_LastFM)
+    PIMPL(GUI_LastFM)
 
 public:
-	explicit GUI_LastFM(QWidget* parent=nullptr);
+    explicit GUI_LastFM(LastFM::Base* lfm, QWidget* parent=nullptr);
 	virtual ~GUI_LastFM();
 
 	void commit() override;

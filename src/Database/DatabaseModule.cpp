@@ -19,19 +19,24 @@
  */
 
 #include "Database/DatabaseModule.h"
+#include "Utils/Logger/Logger.h"
 
 struct DatabaseModule::Private
 {
-	QSqlDatabase db;
+    QSqlDatabase db;
 	uint8_t db_id;
 
 	Private(const QSqlDatabase& db, uint8_t db_id) :
 		db(db),
 		db_id(db_id)
-	{}
+    {
+        this->db.open();
+    }
+
+    ~Private(){}
 };
 
-DatabaseModule::DatabaseModule(const QSqlDatabase& db, uint8_t db_id)
+DatabaseModule::DatabaseModule(QSqlDatabase db, uint8_t db_id)
 {
 	m = Pimpl::make<Private>(db, db_id);
 }

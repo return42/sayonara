@@ -39,9 +39,7 @@ public:
 
 	bool init(QTranslator* translator, const QStringList& files_to_play);
 
-
 private:
-//	void check_for_crash();
 	void init_single_instance_thread();
 };
 

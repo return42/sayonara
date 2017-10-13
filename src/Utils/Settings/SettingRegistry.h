@@ -18,17 +18,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "Utils/Singleton.h"
-
 /**
  * @brief The SettingRegistry class
  * @ingroup Settings
  */
-class SettingRegistry
+namespace SettingRegistry
 {
-	SINGLETON(SettingRegistry)
-
-public:
 	bool init();
-};
+}
 

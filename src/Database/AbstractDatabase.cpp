@@ -28,8 +28,6 @@
 #include <QFile>
 #include <QDir>
 
-static QMap<uint8_t, QSqlDatabase> _databases;
-
 struct AbstractDatabase::Private
 {
 	QString db_name;
@@ -48,7 +46,8 @@ struct AbstractDatabase::Private
 	}
 };
 
-AbstractDatabase::AbstractDatabase(uint8_t db_id, const QString& db_dir, const QString& db_name, QObject *parent) : QObject(parent)
+AbstractDatabase::AbstractDatabase(uint8_t db_id, const QString& db_dir, const QString& db_name, QObject *parent) :
+    QObject(parent)
 {
 	m = Pimpl::make<Private>(db_id, db_dir, db_name);
 
@@ -57,7 +56,8 @@ AbstractDatabase::AbstractDatabase(uint8_t db_id, const QString& db_dir, const Q
 		create_db();
 	}
 
-	m->initialized = open_db();
+    QSqlDatabase db = open_db();
+    m->initialized = db.isOpen();
 
 	if(!m->initialized) {
 		sp_log(Log::Error, this) << "Could not open database";
@@ -85,12 +85,12 @@ bool AbstractDatabase::exists()
 }
 
 
-bool AbstractDatabase::open_db()
+QSqlDatabase AbstractDatabase::open_db()
 {
-	if(_databases.contains(m->db_id))
-	{
-		return true;
-	}
+    QStringList connection_names = QSqlDatabase::connectionNames();
+    if(connection_names.contains(m->db_path)){
+        return QSqlDatabase::database(m->db_path);
+    }
 
 	QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE", m->db_path);
 	db.setDatabaseName(m->db_path);
@@ -106,16 +106,19 @@ bool AbstractDatabase::open_db()
 		sp_log(Log::Info, this) << "Opened Database " << m->db_name;
 	}
 
-	_databases.insert(m->db_id, db);
-
-	return success;
+    return db;
 }
 
 void AbstractDatabase::close_db()
 {
-	if(!_databases.contains(m->db_id)){
-		return;
-	}
+    if(!QSqlDatabase::isDriverAvailable("QSQLITE")){
+        return;
+    }
+
+    QStringList connection_names = QSqlDatabase::connectionNames();
+    if(!connection_names.contains(m->db_path)){
+        return;
+    }
 
 	sp_log(Log::Info) << "close database " << m->db_name << "...";
 
@@ -123,7 +126,7 @@ void AbstractDatabase::close_db()
 		db().close();
 	}
 
-	_databases.remove(m->db_id);
+    QSqlDatabase::removeDatabase(m->db_path);
 }
 
 
@@ -259,9 +262,9 @@ bool AbstractDatabase::check_and_create_table(const QString& tablename, const QS
 	return true;
 }
 
-QSqlDatabase& AbstractDatabase::db() const
+QSqlDatabase AbstractDatabase::db() const
 {
-	return _databases[ db_id() ];
+    return QSqlDatabase::database(m->db_path);
 }
 
 uint8_t AbstractDatabase::db_id() const

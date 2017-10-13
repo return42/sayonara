@@ -31,6 +31,6 @@ SayonaraClass::SayonaraClass()
 
 SayonaraClass::~SayonaraClass()
 {
-    Set::class_destroyed(this);
+    Set::unregister_class(this);
 }
 

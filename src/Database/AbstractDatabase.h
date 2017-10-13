@@ -46,7 +46,7 @@ public:
 protected:
 	virtual bool exists();
 	virtual bool create_db();
-	virtual bool open_db();
+    virtual QSqlDatabase open_db();
 	virtual bool apply_fixes()=0;
 
 	virtual bool check_and_insert_column(const QString& tablename, const QString& column, const QString& sqltype, const QString& default_value=QString());
@@ -54,7 +54,7 @@ protected:
 	virtual bool check_and_drop_table(const QString& tablename);
 
 
-	QSqlDatabase& db() const;
+    QSqlDatabase db() const;
 };
 
 #endif // ABSTRACTDATABASE_H

@@ -38,6 +38,7 @@
 #include "Components/Playlist/PlaylistHandler.h"
 #include "Components/RemoteControl/RemoteControl.h"
 #include "Components/Engine/EngineHandler.h"
+#include "Components/StreamPlugins/LastFM/LastFM.h"
 
 #include "Interfaces/LibraryInterface/LibraryPluginHandler.h"
 #include "Interfaces/PlayerPlugin/PlayerPluginHandler.h"
@@ -90,7 +91,6 @@
 struct Application::Private
 {
 	QTime*				timer=nullptr;
-	Settings*			settings = nullptr;
 	GUI_Player*			player=nullptr;
 
 	PlaylistHandler*	plh=nullptr;
@@ -100,7 +100,6 @@ struct Application::Private
 	Private()
 	{
 		timer = new QTime();
-		settings = Settings::instance();
 	}
 
 	~Private()
@@ -160,50 +159,13 @@ Application::Application(int & argc, char ** argv) :
 	this->setQuitOnLastWindowClosed(false);
 }
 
-/*void Application::check_for_crash()
-{
-    QString error_file = Util::get_error_file();
-
-	if(!QFile::exists(error_file)) return;
-
-	QString info_text;
-	QString mail;
-
-    if(!Util::File::read_file_into_str(error_file, mail)){
-		mail = "";
-		mail.prepend("mailto:luciocarreras@gmail.com?subject=Sayonara Crash&amp;body=Hi Lucio,\n\nhere is the trace for a Sayonara crash\n\n");
-	}
-
-	else{
-		mail.prepend("mailto:luciocarreras@gmail.com?subject=Sayonara Crash&amp;body=Hi Lucio,\n\nhere is the trace for a Sayonara crash\n\n");
-		mail.append("\n\nI hope this will not happen again...");
-	}
-
-	info_text = QString("Sayonara seems to have crashed the last time<br />") +
-			"Please send " +
-			Helper::create_link(error_file, false) +
-			" in " + Helper::create_link(Helper::get_sayonara_path(), false) +
-			" to " + Helper::create_link("luciocarreras@gmail.com", false, mail);
-
-	GlobalMessage::instance()->info(info_text);
-
-	QFile f(error_file);
-	f.open(QIODevice::ReadOnly);
-	if(!f.isOpen()){
-		sp_log(Log::Warning) << "Cannot oopen " << error_file;
-		return;
-	}
-
-	f.remove();
-	f.close();
-
-	return;
-}
-*/
 
 bool Application::init(QTranslator* translator, const QStringList& files_to_play)
 {
+    Settings* settings = Settings::instance();
+
 	LibraryPluginHandler* library_plugin_loader = LibraryPluginHandler::instance();
+
 	m->db = DatabaseConnector::instance();
 	m->plh = PlaylistHandler::instance();
 
@@ -215,15 +177,15 @@ bool Application::init(QTranslator* translator, const QStringList& files_to_play
 	}
 
     Proxy::instance()->init();
-	//check_for_crash();
-
-	QString version = QString(SAYONARA_VERSION);
-	m->settings->set(Set::Player_Version, version);
 
     IconLoader::change_theme();
 
+	QString version = QString(SAYONARA_VERSION);
+    settings->set(Set::Player_Version, version);
+
 	sp_log(Log::Debug, this) << "Start player: " << m->timer->elapsed() << "ms";
 	m->player = new GUI_Player(translator);
+
 	Gui::Util::set_main_window(m->player);
 
 	connect(m->player, &GUI_Player::sig_player_closed, this, &QCoreApplication::quit);
@@ -239,7 +201,7 @@ bool Application::init(QTranslator* translator, const QStringList& files_to_play
 	RemoteControl* rmc = new RemoteControl(this);
 	Q_UNUSED(rmc)
 
-	if(m->settings->get(Set::Notification_Show)){
+    if(settings->get(Set::Notification_Show)){
 		NotificationHandler::instance()->notify("Sayonara Player",
 												   Lang::get(Lang::Version) + " " + SAYONARA_VERSION,
 												   Util::share_path("logo.png"));
@@ -292,7 +254,7 @@ bool Application::init(QTranslator* translator, const QStringList& files_to_play
 	preferences->register_preference_dialog(new GUI_Shortcuts());
 	preferences->register_preference_dialog(new GUI_Notifications());
 	preferences->register_preference_dialog(new GUI_RemoteControl());
-	preferences->register_preference_dialog(new GUI_LastFM());
+    preferences->register_preference_dialog(new GUI_LastFM(new LastFM::Base()));
     preferences->register_preference_dialog(new GUI_IconPreferences());
     preferences->register_preference_dialog(new GUI_Proxy());
 
@@ -313,7 +275,7 @@ bool Application::init(QTranslator* translator, const QStringList& files_to_play
 	sp_log(Log::Debug, this) << "Time to start: " << m->timer->elapsed() << "ms";
 	delete m->timer; m->timer=nullptr;
 
-	return true;
+    return true;
 }
 
 Application::~Application() {}

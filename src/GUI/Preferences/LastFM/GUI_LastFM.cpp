@@ -34,9 +34,25 @@
 #include "Utils/Language.h"
 #include "Utils/Settings/Settings.h"
 
-GUI_LastFM::GUI_LastFM(QWidget* parent) :
+struct GUI_LastFM::Private
+{
+    LastFM::Base* lfm=nullptr;
+
+    Private(LastFM::Base* lfm) :
+        lfm(lfm)
+    {}
+
+    ~Private()
+    {
+        delete lfm; lfm = nullptr;
+    }
+};
+
+GUI_LastFM::GUI_LastFM(LastFM::Base* lfm, QWidget* parent) :
 	PreferenceWidgetInterface(parent)
-{}
+{
+    m = Pimpl::make<Private>(lfm);
+}
 
 GUI_LastFM::~GUI_LastFM()
 {
@@ -53,11 +69,9 @@ void GUI_LastFM::init_ui()
 
 	revert();
 
-    LastFM::Base* lfm = LastFM::Base::instance();
-
 	connect(ui->btn_login, &QPushButton::clicked, this, &GUI_LastFM::btn_login_clicked);
 	connect(ui->cb_activate, &QCheckBox::toggled, this, &GUI_LastFM::active_changed);
-    connect(lfm, &LastFM::Base::sig_logged_in, this, &GUI_LastFM::logged_in);
+    connect(m->lfm, &LastFM::Base::sig_logged_in, this, &GUI_LastFM::logged_in);
 }
 
 
@@ -85,7 +99,7 @@ void GUI_LastFM::commit()
 	if( ui->tf_username->text().length() >= 3 &&
 		ui->tf_password->text().length() >= 3 )
 	{
-        LastFM::Base::instance()->psl_login();
+        m->lfm->psl_login();
 
 		_settings->set( Set::LFM_Active, ui->cb_activate->isChecked() );
 	}
@@ -96,14 +110,12 @@ void GUI_LastFM::commit()
 
 void GUI_LastFM::revert()
 {
-    LastFM::Base* lfm = LastFM::Base::instance();
-
 	bool active = _settings->get(Set::LFM_Active);
 
 	ui->cb_activate->setChecked(active);
 	active_changed(active);
 
-    logged_in(lfm->is_logged_in());
+    logged_in(m->lfm->is_logged_in());
 
 	StringPair user_pw = _settings->get(Set::LFM_Login);
 	ui->tf_username->setText(user_pw.first);
@@ -128,7 +140,7 @@ void GUI_LastFM::btn_login_clicked()
 
 	_settings->set(Set::LFM_Login, user_pw);
 
-    LastFM::Base::instance()->psl_login();
+    m->lfm->psl_login();
 }
 
 

@@ -35,12 +35,16 @@
 #include <QList>
 
 SC::Database::Database() :
-	LibraryDatabase("soundcloud.db", 1, -1)
+    LibraryDatabase("soundcloud.db", 25, -1)
 {
+    this->open_db();
 	this->apply_fixes();
 }
 
-SC::Database::~Database() {}
+SC::Database::~Database()
+{
+    this->close_db();
+}
 
 
 QString SC::Database::fetch_query_artists(bool also_empty) const

@@ -25,6 +25,7 @@
 
 #include "Utils/Singleton.h"
 #include "Utils/Settings/SayonaraClass.h"
+#include "Utils/Pimpl.h"
 
 class QStringList;
 class Shortcut;
@@ -35,13 +36,7 @@ class Shortcut;
 class ShortcutHandler : public SayonaraClass
 {
 	SINGLETON(ShortcutHandler)
-
-public:
-
-
-private:
-	QList<Shortcut> _shortcuts;
-
+    PIMPL(ShortcutHandler)
 
 public:
 

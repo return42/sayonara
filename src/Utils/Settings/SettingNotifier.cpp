@@ -37,7 +37,10 @@ NotifyClassRegistry::NotifyClassRegistry()
     m = Pimpl::make<Private>();
 }
 
-NotifyClassRegistry::~NotifyClassRegistry() {}
+NotifyClassRegistry::~NotifyClassRegistry()
+{
+
+}
 
 static NotifyClassRegistry* x=nullptr;
 NotifyClassRegistry* NotifyClassRegistry::instance()
@@ -83,7 +86,7 @@ void NotifyClassRegistry::remove_class(SayonaraClass *c, AbstrSettingNotifier* a
 }
 
 
-void Set::class_destroyed(SayonaraClass *t)
+void Set::unregister_class(SayonaraClass *t)
 {
     NotifyClassRegistry::instance()->remove_class(t);
 }

@@ -21,9 +21,7 @@
 #ifndef GLOBALMESSAGE_H
 #define GLOBALMESSAGE_H
 
-#include "Utils/Singleton.h"
-
-#include <QObject>
+#include <QString>
 
 class GlobalMessageReceiverInterface;
 
@@ -31,17 +29,9 @@ class GlobalMessageReceiverInterface;
  * @brief The GlobalMessage class
  * @ingroup GUIHelper
  */
-class GlobalMessage : public QObject
+namespace GlobalMessage
 {
-	Q_OBJECT
-	SINGLETON_QOBJECT(GlobalMessage)
-
-	GlobalMessageReceiverInterface* _receiver=nullptr;
-
-
-public:
-
-	enum class Answer : uint8_t 
+    enum class Answer : unsigned char
 	{
 		Yes=0,
 		No,
@@ -50,7 +40,7 @@ public:
 		Undefined
 	};
 
-	enum class QuestionType : uint8_t 
+    enum class QuestionType : unsigned char
 	{
 		YesNo=0,
 		OkCancel
@@ -80,6 +70,6 @@ public:
 	 * @return false, if there's already another receiver. True else
 	 */
 	bool register_receiver(GlobalMessageReceiverInterface* receiver);
-};
+}
 
 #endif // GLOBALMESSAGE_H

@@ -58,6 +58,7 @@ class AbstrSettingNotifier
 
 public:
     virtual void class_removed(SayonaraClass* c)=0;
+    virtual void all_classes_removed()=0;
 };
 
 template<typename KeyClass>
@@ -130,6 +131,12 @@ private:
                 sp_log(Log::Warning, this) << "Could not find callback";
             }
         }
+    }
+
+    void all_classes_removed() override
+    {
+        _callbacks.clear();
+        _class_idx_map.clear();
     }
 
 public:
@@ -213,7 +220,7 @@ namespace Set
 		//ncr->add_class(t);
 	}
 
-    void class_destroyed(SayonaraClass* t);
+    void unregister_class(SayonaraClass* t);
 	void register_class(SayonaraClass* t);
 }
 

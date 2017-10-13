@@ -31,7 +31,6 @@
 
 #include "Utils/Settings/SayonaraClass.h"
 #include "Utils/typedefs.h"
-#include "Utils/Singleton.h"
 #include "Utils/Pimpl.h"
 
 #include <QMap>
@@ -48,7 +47,6 @@ namespace LastFM
             public SayonaraClass
     {
         Q_OBJECT
-        SINGLETON(Base)
         PIMPL(Base)
 
         signals:
@@ -66,6 +64,9 @@ namespace LastFM
             void sl_scrobble_error(const QString& str);
 
         public:
+            Base();
+            ~Base();
+
             bool is_logged_in();
             static void get_login(QString& user, QString& pw);
 

@@ -36,14 +36,12 @@
 #include <QPoint>
 #include <type_traits>
 
-static Settings* settings=Settings::instance();
-
 template<typename DataType, SettingKey keyIndex>
 void register_setting(const SettingIdentifier<DataType, keyIndex>& key, const char* db_key, const DataType& default_value)
 {
     auto setting = new Setting<DataType>(key, db_key, default_value);
 
-	settings->register_setting( setting );
+    Settings::instance()->register_setting( setting );
 }
 
 template<typename DataType, SettingKey keyIndex>
@@ -51,12 +49,8 @@ void register_setting(const SettingIdentifier<DataType, keyIndex>& key, const Da
 {
     auto setting = new Setting<DataType>(key, default_value);
 
-	settings->register_setting( setting );
+    Settings::instance()->register_setting( setting );
 }
-
-SettingRegistry::SettingRegistry() {}
-
-SettingRegistry::~SettingRegistry() {}
 
 bool SettingRegistry::init()
 {
@@ -206,9 +200,7 @@ bool SettingRegistry::init()
 	register_setting( SetNoDB::Pitch_found, true );
 	register_setting( SetNoDB::Player_Quit, false );
 
-
-
-	bool success = settings->check_settings();
+    bool success = Settings::instance()->check_settings();
 	if (!success){
 		return false;
 	}

@@ -24,8 +24,8 @@
 
 LibraryDatabase::LibraryDatabase(const QString& db_name, uint8_t database_id, int8_t library_id) :
 	AbstractDatabase(database_id, "", db_name),
-	DatabaseAlbums(db(), db_id(), library_id),
-	DatabaseArtists(db(), db_id(), library_id),
+    DatabaseAlbums(db(), db_id(), library_id),
+    DatabaseArtists(db(), db_id(), library_id),
 	DatabaseTracks(db(), db_id(), library_id),
 	DatabaseLibrary(db(), db_id(), library_id)
 {

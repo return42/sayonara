@@ -57,7 +57,7 @@ GUI_Player::GUI_Player(QTranslator* translator, QWidget* parent) :
 	_translator = translator;
 	_logger = new GUI_Logger();
 
-	GlobalMessage::instance()->register_receiver(this);
+	GlobalMessage::register_receiver(this);
 
 	init_gui();
 

@@ -21,18 +21,16 @@
 #ifndef SIMILAR_ARTISTS_H
 #define SIMILAR_ARTISTS_H
 
-#include "Utils/Singleton.h"
-#include <QStringList>
-#include <QMap>
-
+class QString;
+class QStringList;
 class ArtistList;
-class SimilarArtists
-{
-    SINGLETON(SimilarArtists)
+template<typename A, typename B>
+class QMap;
 
-public:
-    QMap<QString, double> get_similar_artists(const QString& artist) const;
-    QStringList get_similar_artist_names(const QString& artist) const;
-};
+namespace SimilarArtists
+{
+    QMap<QString, double> get_similar_artists(const QString& artist);
+    QStringList get_similar_artist_names(const QString& artist);
+}
 
 #endif

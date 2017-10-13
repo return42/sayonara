@@ -29,15 +29,15 @@ DatabaseAlbums::DatabaseAlbums(QSqlDatabase db, uint8_t db_id, int8_t library_id
 	_artistid_field = "artistID";
     _artistname_field = "artistName";
 
-	if(library_id >= 0) {
-		_track_view_name = QString("track_view_%1").arg(library_id);
-		_search_view_name = QString("track_search_view_%1").arg(library_id);
-	}
+    _search_view_name = "track_search_view_" + QString::number(library_id);
 
-	else {
-		_track_view_name = QString("tracks");
-		_search_view_name = QString("track_search_view");
-	}
+    if(library_id < 0) {
+        _track_view_name = QString("tracks");
+    }
+
+    else {
+        _track_view_name = QString("track_view_%1").arg(library_id);
+    }
 }
 
 DatabaseAlbums::~DatabaseAlbums() {}

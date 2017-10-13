@@ -192,7 +192,7 @@ void StreamServer::new_client_request()
 		if( _settings->get(Set::Broadcast_Prompt) ){
 			if(!m->allowed_ips.contains(pending_ip)){
 				QString question = tr("%1 wants to listen to your music.\nOK?").arg(pending_ip);
-				GlobalMessage::Answer answer = GlobalMessage::instance()->question(question);
+                GlobalMessage::Answer answer = GlobalMessage::question(question);
 				if(answer==GlobalMessage::Answer::Yes){
 					accept_client(pending_socket, pending_ip);
 				}

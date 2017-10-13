@@ -21,7 +21,6 @@
 #ifndef SOUNDCLOUDDATA_H
 #define SOUNDCLOUDDATA_H
 
-#include "Utils/Singleton.h"
 #include "Database/LibraryDatabase.h"
 #include <QObject>
 
@@ -42,9 +41,10 @@ namespace SC
 	class Database :
 			public LibraryDatabase
 	{
-		SINGLETON(Database)
-
 	public:
+        Database();
+        ~Database();
+
 		bool db_fetch_tracks(SayonaraQuery& q, MetaDataList& result) override;
 		bool db_fetch_albums(SayonaraQuery& q, AlbumList& result) override;
 		bool db_fetch_artists(SayonaraQuery& q, ArtistList& result) override;
