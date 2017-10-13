@@ -33,7 +33,7 @@ public:
 	explicit AbstractDatabase(uint8_t db_id, const QString& db_dir, const QString& db_name, QObject *parent=nullptr);
 	virtual ~AbstractDatabase();
 
-	virtual void close_db();
+    virtual bool close_db();
 	virtual bool is_initialized();
 
 	virtual void transaction();

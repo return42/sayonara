@@ -38,9 +38,10 @@ private:
 	explicit SayonaraQuery(const QString& query=QString(), const QSqlDatabase& db = QSqlDatabase()) = delete;
 	explicit SayonaraQuery(QSqlResult * result) = delete;
 
+
 public:
 	explicit SayonaraQuery(const DatabaseModule* module);
-	explicit SayonaraQuery(QSqlDatabase db);
+    explicit SayonaraQuery(QSqlDatabase db);
 	SayonaraQuery(const SayonaraQuery& other);
 
 	virtual ~SayonaraQuery();

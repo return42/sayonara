@@ -40,9 +40,9 @@ SayonaraQuery::SayonaraQuery(const DatabaseModule* module) :
 
 
 SayonaraQuery::SayonaraQuery(QSqlDatabase db) :
-	QSqlQuery(db)
+    QSqlQuery(db)
 {
-	m = Pimpl::make<Private>();
+    m = Pimpl::make<Private>();
 }
 
 

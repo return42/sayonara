@@ -23,15 +23,13 @@
 
 struct DatabaseModule::Private
 {
-    QSqlDatabase db;
+    QString connection_name;
 	uint8_t db_id;
 
 	Private(const QSqlDatabase& db, uint8_t db_id) :
-		db(db),
+        connection_name(db.connectionName()),
 		db_id(db_id)
-    {
-        this->db.open();
-    }
+    {}
 
     ~Private(){}
 };
@@ -39,6 +37,8 @@ struct DatabaseModule::Private
 DatabaseModule::DatabaseModule(QSqlDatabase db, uint8_t db_id)
 {
 	m = Pimpl::make<Private>(db, db_id);
+
+    this->module_db().open();
 }
 
 DatabaseModule::~DatabaseModule() {}
@@ -50,7 +50,12 @@ uint8_t DatabaseModule::module_db_id() const
 
 QSqlDatabase DatabaseModule::module_db() const
 {
-	return m->db;
+    if(!QSqlDatabase::isDriverAvailable("QSQLITE")){
+        return QSqlDatabase();
+    }
+
+    return QSqlDatabase::database(m->connection_name);
+
 }
 
 

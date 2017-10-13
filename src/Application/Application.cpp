@@ -164,8 +164,6 @@ bool Application::init(QTranslator* translator, const QStringList& files_to_play
 {
     Settings* settings = Settings::instance();
 
-	LibraryPluginHandler* library_plugin_loader = LibraryPluginHandler::instance();
-
 	m->db = DatabaseConnector::instance();
 	m->plh = PlaylistHandler::instance();
 
@@ -182,6 +180,8 @@ bool Application::init(QTranslator* translator, const QStringList& files_to_play
 
 	QString version = QString(SAYONARA_VERSION);
     settings->set(Set::Player_Version, version);
+
+    LibraryPluginHandler* library_plugin_loader = LibraryPluginHandler::instance();
 
 	sp_log(Log::Debug, this) << "Start player: " << m->timer->elapsed() << "ms";
 	m->player = new GUI_Player(translator);

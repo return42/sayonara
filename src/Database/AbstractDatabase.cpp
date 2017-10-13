@@ -66,11 +66,7 @@ AbstractDatabase::AbstractDatabase(uint8_t db_id, const QString& db_dir, const Q
 
 AbstractDatabase::~AbstractDatabase()
 {
-	close_db();
-
-	for(const QString& connection_name : QSqlDatabase::connectionNames()){
-		QSqlDatabase::removeDatabase(connection_name);
-	}
+    close_db();
 }
 
 
@@ -109,15 +105,15 @@ QSqlDatabase AbstractDatabase::open_db()
     return db;
 }
 
-void AbstractDatabase::close_db()
+bool AbstractDatabase::close_db()
 {
     if(!QSqlDatabase::isDriverAvailable("QSQLITE")){
-        return;
+        return false;
     }
 
     QStringList connection_names = QSqlDatabase::connectionNames();
     if(!connection_names.contains(m->db_path)){
-        return;
+        return false;
     }
 
 	sp_log(Log::Info) << "close database " << m->db_name << "...";
@@ -127,6 +123,7 @@ void AbstractDatabase::close_db()
 	}
 
     QSqlDatabase::removeDatabase(m->db_path);
+    return true;
 }
 
 
