@@ -25,6 +25,8 @@
 SayonaraClass::SayonaraClass()
 {
 	_settings = Settings::instance();
+	Set::register_class(this);
+
 }
 
 SayonaraClass::~SayonaraClass()

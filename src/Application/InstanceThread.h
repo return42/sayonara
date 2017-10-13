@@ -23,37 +23,27 @@
 #include <QThread>
 #include <QSharedMemory>
 #include <QMainWindow>
-
-enum InstanceMessage {
-	InstanceMessageNone,
-	InstanceMessageWithoutFiles,
-	InstanceMessageWithFiles
-};
+#include "Utils/Pimpl.h"
 
 
 class InstanceThread : public QThread
 {
 	Q_OBJECT
+	PIMPL(InstanceThread)
 
 signals:
 	void sig_player_raise();
 	void sig_create_playlist(const QStringList& playlist, const QString& name, bool temporary);
 
 public:
-		InstanceThread(InstanceMessage* instance_message, QObject* parent=nullptr);
-		~InstanceThread();
+	InstanceThread(QObject* parent=nullptr);
+	~InstanceThread();
 
-		void stop();
-
-private:
-		bool				_may_run;
-		InstanceMessage*	_instance_message=nullptr;
-		QSharedMemory		_memory;
-
+	void stop();
 
 private:
-		void run() override;
-		void parse_memory();
+	void run() override;
+	void parse_memory();
 };
 
 #endif // INSTANCETHREAD_H

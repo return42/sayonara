@@ -130,28 +130,7 @@ struct Application::Private
 	}
 };
 
-static InstanceMessage instance_message=InstanceMessageNone;
-
-#ifdef Q_OS_UNIX
-
-	#include <csignal>
-
-	void new_instance_handler(int sig_num)
-	{
-		switch(sig_num)
-		{
-			case SIGUSR1:
-				instance_message = InstanceMessageWithFiles;
-				break;
-			case SIGUSR2:
-				instance_message = InstanceMessageWithoutFiles;
-				break;
-			default:
-				break;
-		}
-	}
-
-#else
+#ifdef Q_OS_WIN
 	void global_key_handler()
 {
 		if(!RegisterHotKey(NULL, 1, MOD_NOREPEAT, VK_MEDIA_PLAY_PAUSE)){
@@ -175,8 +154,6 @@ Application::Application(int & argc, char ** argv) :
 {
 	m = Pimpl::make<Private>();
 	m->timer->start();
-
-	instance_message = InstanceMessageNone;
 
 	this->setQuitOnLastWindowClosed(false);
 }
@@ -339,12 +316,7 @@ Application::~Application() {}
 
 void Application::init_single_instance_thread()
 {
-#ifdef Q_OS_UNIX
-	signal(SIGUSR1, new_instance_handler);
-	signal(SIGUSR2, new_instance_handler);
-#endif
-
-	m->instance_thread = new InstanceThread(&instance_message, this);
+	m->instance_thread = new InstanceThread(this);
 
 	connect(m->instance_thread, &InstanceThread::sig_player_raise, m->player, &GUI_Player::raise);
 	connect(m->instance_thread, SIGNAL(sig_create_playlist(const QStringList&, const QString&, bool)),

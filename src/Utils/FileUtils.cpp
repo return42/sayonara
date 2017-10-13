@@ -243,26 +243,23 @@ bool Util::File::is_file(const QString& filename)
 
 bool Util::File::is_soundfile(const QString& filename) 
 {
-	QStringList extensions = Util::soundfile_extensions();
-	for(const QString& extension : extensions) {
-		if(filename.toLower().endsWith(extension.right(4))) {
-			return true;
-		}
-	}
+	QStringList exts = Util::soundfile_extensions(true);
 
-	return false;
+	return std::any_of(exts.begin(), exts.end(), [&filename](const QString& ext)
+	{
+		return (filename.toLower().endsWith(ext.right(4)));
+	});
 }
 
 
-bool Util::File::is_playlistfile(const QString& filename) {
-	QStringList extensions = Util::playlist_extensions();
-	for(const QString& extension : extensions) {
-		if(filename.toLower().endsWith(extension.right(4).toLower())) {
-			return true;
-		}
-	}
+bool Util::File::is_playlistfile(const QString& filename)
+{
+	QStringList exts = Util::playlist_extensions(true);
 
-	return false;
+	return std::any_of(exts.begin(), exts.end(), [&filename](const QString& ext)
+	{
+		return (filename.toLower().endsWith(ext.right(4)));
+	});
 }
 
 

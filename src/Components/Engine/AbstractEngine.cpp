@@ -192,7 +192,7 @@ void Base::update_bitrate(uint32_t br, GstElement* src)
         return;
     }
 
-    if( std::abs(br - m->md.bitrate) <= 1000) { // (br / 1000) == (m->md.bitrate / 1000)
+	if( std::abs((int) br - (int) m->md.bitrate) <= 1000) { // (br / 1000) == (m->md.bitrate / 1000)
         return;
     }
 

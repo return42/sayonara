@@ -20,19 +20,36 @@
 
 #include "Utils/Settings/SettingNotifier.h"
 #include "Utils/Settings/SettingKey.h"
+#include "Utils/Utils.h"
+#include "Utils/Set.h"
+#include <iostream>
 
 #include <mutex>
 
 NotifyClassRegistry::NotifyClassRegistry() {}
-NotifyClassRegistry::~NotifyClassRegistry()
+
+NotifyClassRegistry::~NotifyClassRegistry() {}
+
+static NotifyClassRegistry* x=nullptr;
+NotifyClassRegistry* NotifyClassRegistry::instance()
 {
-    registered_classes.clear();
+	if(!x){
+		x = new NotifyClassRegistry();
+	}
+
+	return x;
+}
+
+void NotifyClassRegistry::destroy()
+{
+	delete x; x=nullptr;
 }
 
 bool NotifyClassRegistry::check_class(SayonaraClass *c)
 {
     return (registered_classes.find(c) != registered_classes.end());
 }
+
 
 void NotifyClassRegistry::add_class(SayonaraClass *c)
 {
@@ -41,6 +58,7 @@ void NotifyClassRegistry::add_class(SayonaraClass *c)
 
 void NotifyClassRegistry::remove_class(SayonaraClass *c, AbstrSettingNotifier* asn)
 {
+
     auto it = registered_classes.find(c);
     if(it != registered_classes.end())
     {
@@ -50,10 +68,21 @@ void NotifyClassRegistry::remove_class(SayonaraClass *c, AbstrSettingNotifier* a
             asn->class_removed(c);
         }
     }
+	else {
+		SP::Set<int64_t> classes;
+		for(SayonaraClass* x : registered_classes){
+			classes.insert((int64_t) x);
+		}
+	}
 }
 
 
 void Set::class_destroyed(SayonaraClass *t)
 {
     NotifyClassRegistry::instance()->remove_class(t);
+}
+
+void Set::register_class(SayonaraClass* t)
+{
+	NotifyClassRegistry::instance()->add_class(t);
 }

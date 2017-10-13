@@ -39,13 +39,17 @@ class AbstrSettingNotifier;
 
 class NotifyClassRegistry
 {
-    SINGLETON(NotifyClassRegistry)
+	NotifyClassRegistry();
     std::set<SayonaraClass*> registered_classes;
 
 public:
+	~NotifyClassRegistry();
+	static NotifyClassRegistry* instance();
+
     void add_class(SayonaraClass* c);
     void remove_class(SayonaraClass* c, AbstrSettingNotifier* asn=nullptr);
     bool check_class(SayonaraClass *c);
+	void destroy();
 };
 
 class AbstrSettingNotifier
@@ -169,7 +173,7 @@ namespace Set
 	typename std::enable_if<std::is_base_of<SayonaraClass, T>::value, void>::type
 	listen(const KeyClassInstance& key, T* t, void (T::*fn)(), bool run=true)
 	{
-        NotifyClassRegistry* ncr = NotifyClassRegistry::instance();
+		//NotifyClassRegistry* ncr = NotifyClassRegistry::instance();
 
 		using KeyClass=decltype(key);
 		auto callable = std::bind(fn, t);
@@ -179,28 +183,37 @@ namespace Set
 			callable();
 		}
 
-        ncr->add_class(t);
+		//ncr->add_class(t);
 	}
 
 	template<typename KeyClassInstance>
 	void listen(const KeyClassInstance& key, SayonaraClass* t, std::function<void ()> fn, bool run=true)
 	{
+		//NotifyClassRegistry* ncr = NotifyClassRegistry::instance();
+
 		using KeyClass=decltype(key);
 		SettingNotifier<KeyClass>::reg( t, fn );
 
 		if(run){
 			fn();
 		}
+
+		//ncr->add_class(t);
 	}
 
 	template<typename KeyClassInstance>
 	void unlisten(KeyClassInstance& key, SayonaraClass* t)
 	{
+		//NotifyClassRegistry* ncr = NotifyClassRegistry::instance();
+
 		using KeyClass=decltype(key);
 		SettingNotifier<KeyClass>::unreg(t);
+
+		//ncr->add_class(t);
 	}
 
     void class_destroyed(SayonaraClass* t);
+	void register_class(SayonaraClass* t);
 }
 
 

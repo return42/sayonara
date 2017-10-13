@@ -68,6 +68,8 @@ struct MetaData::Private
 	Private() :
 		album_artist_id(-1),
 		album_artist_idx(0),
+		album_idx(0),
+		artist_idx(0),
 		radio_mode(RadioMode::Off)
 	{}
 

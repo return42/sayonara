@@ -49,9 +49,9 @@ LocalLibraryContainer::LocalLibraryContainer(const LibraryInfo& library, QObject
 
 LocalLibraryContainer::~LocalLibraryContainer()
 {
-	if(m->ui) {
+	/*if(m->ui) {
 		delete m->ui; m->ui=nullptr;
-	}
+	}*/
 }
 
 QString LocalLibraryContainer::name() const
