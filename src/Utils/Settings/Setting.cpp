@@ -48,9 +48,6 @@ AbstrSetting::AbstrSetting(SettingKey key, const char* db_key) :
 	AbstrSetting(key)
 {
 	m->db_key = db_key;
-	if(m->db_key.isEmpty()){
-		int i = 4;
-	}
 	m->db_setting = true;
 }
 

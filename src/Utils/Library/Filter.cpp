@@ -21,71 +21,92 @@
 #include "Filter.h"
 #include "Utils/Language.h"
 
-struct Library::Filter::Private
+using Library::Filter;
+
+struct Filter::Private
 {
-    QString                 filtertext;
-    Library::Filter::Mode   mode;
+    QString         filtertext;
+    Filter::Mode    mode;
 };
 
-Library::Filter::Filter()
+Filter::Filter()
 {
-    m = Pimpl::make<Library::Filter::Private>();
+    m = Pimpl::make<Filter::Private>();
     clear();
 }
 
 
-Library::Filter::Filter(const Library::Filter& other)
+Filter::Filter(const Filter& other)
 {
-    m = Pimpl::make<Library::Filter::Private>();
+    m = Pimpl::make<Filter::Private>();
     *m = *(other.m);
 }
 
-void Library::Filter::operator=(const Filter& other)
+Filter& Filter::operator=(const Filter& other)
 {
     *m = *(other.m);
+
+    return *this;
 }
 
-Library::Filter::~Filter() {}
+Filter::~Filter() {}
+
+bool Filter::operator ==(const Filter& other)
+{
+    bool same_filtertext = false;
+
+    if(m->filtertext.size() < 3 && other.filtertext().size() < 3)
+    {
+        same_filtertext = true;
+    }
+
+    else if(m->filtertext.compare(other.filtertext(), Qt::CaseInsensitive) == 0)
+    {
+        same_filtertext = true;
+    }
+
+    return( same_filtertext && (m->mode == other.mode()) );
+}
 
 
-QString Library::Filter::filtertext() const
+QString Filter::filtertext() const
 {
     return m->filtertext;
 }
 
-void Library::Filter::set_filtertext(const QString& str)
+void Filter::set_filtertext(const QString& str)
 {
     m->filtertext = str;
 }
 
-Library::Filter::Mode Library::Filter::mode() const
+Filter::Mode Filter::mode() const
 {
     return m->mode;
 }
 
-void Library::Filter::set_mode(Library::Filter::Mode mode)
+void Filter::set_mode(Filter::Mode mode)
 {
     m->mode = mode;
 }
 
-bool Library::Filter::cleared() const
+bool Filter::cleared() const
 {
     return m->filtertext.isEmpty();
 }
 
-QString Library::Filter::get_text(Library::Filter::Mode mode)
+QString Filter::get_text(Filter::Mode mode)
 {
 	switch(mode)
 	{
-		case Library::Filter::Mode::Filename:
+        case Filter::Mode::Filename:
 			return Lang::get(Lang::Filename);
 
-		case Library::Filter::Mode::Fulltext:
+        case Filter::Mode::Fulltext:
             return  Lang::get(Lang::Artists) + ", " +
                     Lang::get(Lang::Albums) + ", " +
                     Lang::get(Lang::Tracks);
 
-		case Library::Filter::Mode::Genre:
+        case Filter::Mode::Genre:
 			return Lang::get(Lang::Genre);
 
 		default:
@@ -93,7 +114,7 @@ QString Library::Filter::get_text(Library::Filter::Mode mode)
 	}
 }
 
-void Library::Filter::clear()
+void Filter::clear()
 {
     m->filtertext = QString();
     m->mode = Mode::Fulltext;

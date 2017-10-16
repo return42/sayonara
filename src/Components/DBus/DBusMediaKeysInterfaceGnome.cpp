@@ -36,7 +36,7 @@ DBusMediaKeysInterfaceGnome::DBusMediaKeysInterfaceGnome(QObject *parent) :
 		return;
 	}
 
-	sp_log(Log::Info) << "DBus: org.gnome.SettingsDaemon registered";
+    sp_log(Log::Info, this) << " registered";
 	QDBusPendingReply<> reply = _media_key_interface->GrabMediaPlayerKeys("sayonara", 0);
 	QDBusPendingCallWatcher* watcher = new QDBusPendingCallWatcher(reply, this);
 

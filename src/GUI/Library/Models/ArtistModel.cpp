@@ -150,15 +150,15 @@ QVariant ArtistModel::data(const QModelIndex & index, int role) const
 
 int ArtistModel::rowCount(const QModelIndex&) const
 {
-    int row_count = library()->artists().count();
-    return row_count;
+    return library()->artists().count();
 }
 
 
 Qt::ItemFlags ArtistModel::flags(const QModelIndex& index) const
 {
-	if (!index.isValid())
-		return Qt::ItemIsEnabled;
+    if (!index.isValid()){
+        return Qt::ItemIsEnabled;
+    }
 
 	return QAbstractItemModel::flags(index);
 }

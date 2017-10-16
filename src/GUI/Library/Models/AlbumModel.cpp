@@ -133,7 +133,6 @@ QVariant AlbumModel::data(const QModelIndex& index, int role) const
 				break;
 			default:
 				alignment |= Qt::AlignRight;
-
 		}
 
 		return alignment;

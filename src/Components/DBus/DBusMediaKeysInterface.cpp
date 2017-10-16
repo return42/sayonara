@@ -101,7 +101,10 @@ void DBusMediaKeysInterface::sl_register_finished(QDBusPendingCallWatcher* watch
 	QDBusMessage reply = watcher->reply();
 	watcher->deleteLater();
 
-	if (reply.type() == QDBusMessage::ErrorMessage) {
-		sp_log(Log::Warning) << "DBus: Cannot grab media keys" << reply.errorName() << reply.errorMessage();
+    if (reply.type() == QDBusMessage::ErrorMessage)
+    {
+        sp_log(Log::Warning, this) << "Cannot grab media keys: "
+                                   << reply.errorName() << " "
+                                   << reply.errorMessage();
 	}
 }

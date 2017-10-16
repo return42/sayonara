@@ -4,9 +4,17 @@ ADD_SUBDIRECTORY(MetaDataInfo)
 ADD_SUBDIRECTORY(Compressor)
 
 IF(NOT WIN32 OR NOT DEFINED WIN32)
-ADD_SUBDIRECTORY(Shutdown)
+	ADD_SUBDIRECTORY(Shutdown)
 ENDIF()
 
+INCLUDE(CheckIncludeFileCXX)
+CHECK_INCLUDE_FILE_CXX("cxxabi.h" HAVE_CXX_ABI)
+IF(${HAVE_CXX_ABI})
+	ADD_DEFINITIONS("-DHAVE_CXX_ABI")
+	MESSAGE("Compile with demangle")
+ELSE()
+	MESSAGE("Demangle not found")
+ENDIF()
 
 SET(SOURCES
     EqualizerPresets.cpp

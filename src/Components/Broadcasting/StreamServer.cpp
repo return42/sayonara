@@ -62,25 +62,24 @@ StreamServer::StreamServer(QObject* parent) :
 {
 	m = Pimpl::make<StreamServer::Private>();
 
-	create_server();
-
 	PlayManagerPtr play_manager = PlayManager::instance();
     Engine::Handler* engine = Engine::Handler::instance();
 
 	connect(play_manager, &PlayManager::sig_track_changed, this, &StreamServer::track_changed);
     connect(engine, &Engine::Handler::destroyed, this, &StreamServer::stop);
 
-    Set::listen(Set::Broadcast_Active, this, &StreamServer::s_active_changed);
+    //Set::listen(Set::Broadcast_Active, this, &StreamServer::s_active_changed);
     Set::listen(Set::Broadcast_Port, this, &StreamServer::s_port_changed, false);
     Set::listen(SetNoDB::MP3enc_found, this, &StreamServer::s_mp3_enc_found);
 }
 
 StreamServer::~StreamServer()
 {
-	server_close();
+    close_server();
 	disconnect_all();
 
-	if(m->server){
+    if(m->server)
+    {
 		delete m->server;
 		m->server = nullptr;
 	}
@@ -107,14 +106,17 @@ void StreamServer::create_server()
 
 void StreamServer::server_destroyed()
 {
-	sp_log(Log::Info) << "Server destroyed";
+    sp_log(Log::Info, this) << "Server destroyed";
 }
 
 void StreamServer::run()
 {
-	emit sig_can_listen(m->server->isListening());
+    if(!m->server) {
+        return;
+    }
 
-	forever{
+    forever
+    {
 		if(!m->mp3_enc_available){
 			Util::sleep_ms (100);
 		}
@@ -134,13 +136,13 @@ void StreamServer::run()
 		Util::sleep_ms(250);
 	}
 
-	sp_log(Log::Info) << "Radio station: Bye";
+    sp_log(Log::Info, this) << "Radio station: Bye";
 }
 
 bool StreamServer::listen_for_connection()
 {
 	if(!m->server){
-		sp_log(Log::Error) << "Server socket invalid";
+        sp_log(Log::Error, this) << "Server socket invalid";
 		return false;
 	}
 
@@ -148,14 +150,14 @@ bool StreamServer::listen_for_connection()
 	bool success = m->server->listen(QHostAddress::Any, port);
 
 	if(!success){
-		sp_log(Log::Error) << "Cannot listen on port " << port;
-		sp_log(Log::Error) << m->server->errorString();
+        sp_log(Log::Error, this) << "Cannot listen on port " << port;
+        sp_log(Log::Error, this) << m->server->errorString();
 
 		m->server->close();
 	}
 
 	else{
-		sp_log(Log::Info) << "Listening on port " << port;
+        sp_log(Log::Info, this) << "Listening on port " << port;
 	}
 
 	return success;
@@ -228,7 +230,7 @@ void StreamServer::accept_client(QTcpSocket* socket, const QString& ip)
 		m->allowed_ips << ip;
 	}
 
-	sp_log(Log::Info) << "New client request from " << ip << " (" << m->lst_sw.size() << ")";
+    sp_log(Log::Info, this) << "New client request from " << ip << " (" << m->lst_sw.size() << ")";
 
 	sw = StreamWriterPtr(new StreamWriter(socket, ip, m->cur_track));
 
@@ -263,11 +265,11 @@ void StreamServer::track_changed(const MetaData& md)
 }
 
 
-void StreamServer::server_close()
+void StreamServer::close_server()
 {
 	if(m->server){
 		m->server->close();
-		sp_log(Log::Info) << "Server closed..";
+        sp_log(Log::Info, this) << "Server closed..";
 	}
 }
 
@@ -349,12 +351,12 @@ void StreamServer::retry()
 // this is a final stop. Class is destroyed afterwards
 void StreamServer::stop()
 {
-	server_close();
+    close_server();
 	disconnect_all();
 
-	if(m->server){
+    if(m->server)
+    {
 		delete m->server;
-		m->server = nullptr;
 	}
 
 	m->server = nullptr;
@@ -373,37 +375,45 @@ void StreamServer::s_mp3_enc_found()
 
 void StreamServer::s_port_changed()
 {
-	stop();
-
-	create_server();
+    bool active = _settings->get(Set::Broadcast_Active);
 
 	emit sig_can_listen(true);
 }
 
 
-void StreamServer::s_active_changed()
-{
-	bool active = _settings->get(Set::Broadcast_Active);
+//void StreamServer::s_active_changed()
+//{
+//	bool active = _settings->get(Set::Broadcast_Active);
 
-	if(!m->mp3_enc_available){
-		m->server->close();
-		return;
-	}
+//    if(!m->mp3_enc_available)
+//    {
+//        if(m->server)
+//        {
+//            m->server->close();
+//        }
 
-	if(!active) {
-		m->server->close();
-		return;
-	}
+//		return;
+//	}
 
-	create_server();
-	active = m->server->isListening();
+//    if(!active)
+//    {
+//        if(m->server)
+//        {
+//            m->server->close();
+//        }
 
-	if( !active){
-		active = listen_for_connection();
-		emit sig_can_listen(active);
-	}
+//		return;
+//	}
 
-	if(active){
-		this->start();
-	}
-}
+//	create_server();
+//	active = m->server->isListening();
+
+//	if( !active){
+//		active = listen_for_connection();
+//		emit sig_can_listen(active);
+//	}
+
+//	if(active){
+//		this->start();
+//	}
+//}

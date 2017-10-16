@@ -91,10 +91,11 @@ namespace Library
 		virtual void sortorder_album_changed(::Library::SortOrder);
 		virtual void sortorder_artist_changed(::Library::SortOrder);
 
-		virtual void search_cleared();
+        virtual void search_esc_pressed();
 		virtual void search_return_pressed();
-		virtual void search_edited(const QString&);
-		virtual void search_mode_changed(::Library::Filter::Mode);
+        virtual void search_edited(const QString& searchstring);
+        virtual void search_mode_changed(::Library::Filter::Mode mode);
+        virtual void query_library();
 
 		virtual void delete_current_tracks();
 

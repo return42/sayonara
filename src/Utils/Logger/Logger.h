@@ -24,6 +24,7 @@
 #include <typeinfo>
 #include <type_traits>
 #include <string>
+#include <QObject>
 
 
 /**
@@ -111,5 +112,7 @@ sp_log(Log type, const T*)
 {
 	return sp_log(type, typeid(T).name());
 }
+
+Q_DECLARE_METATYPE(Log)
 
 #endif // LOGGER_H

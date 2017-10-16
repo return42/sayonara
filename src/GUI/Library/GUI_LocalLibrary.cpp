@@ -263,11 +263,11 @@ void GUI_LocalLibrary::language_changed()
 	GUI_AbstractLibrary::language_changed();
 }
 
-void GUI_LocalLibrary::search_cleared()
+void GUI_LocalLibrary::search_esc_pressed()
 {
 	ui->lv_genres->clearSelection();
 
-    GUI_AbstractLibrary::search_cleared();
+    GUI_AbstractLibrary::search_esc_pressed();
 }
 
 void GUI_LocalLibrary::genre_selection_changed(const QModelIndex& index)

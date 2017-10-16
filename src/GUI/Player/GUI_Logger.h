@@ -40,13 +40,13 @@ class LogObject :
 		Q_OBJECT
 
 	signals:
-		void sig_new_log(const QString& str);
+        void sig_new_log(const QDateTime& t, Log log_type, const QString& class_name, const QString& str);
 
 	public:
 		explicit LogObject(QObject* parent=nullptr);
 		~LogObject();
 
-		void add_log_line(const QString& str) override;
+        void add_log_line(const QDateTime& t, Log log_type, const QString& class_name, const QString& str) override;
 };
 
 
@@ -70,9 +70,10 @@ class GUI_Logger :
 		QStringList			_buffer;
 
 		void init_ui();
+        QString calc_log_line(const QDateTime& t, Log log_type, const QString& class_name, const QString& str);
 
 	private slots:
-		void log_ready(const QString& str);
+        void log_ready(const QDateTime& t, Log log_type, const QString& class_name, const QString& str);
 		void save_clicked();
 };
 

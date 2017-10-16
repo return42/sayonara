@@ -121,7 +121,9 @@ bool DatabaseConnector::apply_fixes()
 
 	success = load_setting("version", str_version);
 	version = str_version.toInt(&success);
-	sp_log(Log::Info) << "Database Version " << version;
+    sp_log(Log::Info, this)
+            << "Database Version:  " << version << ". "
+            << "Latest Version: " << LatestVersion;
 
 	if(version == LatestVersion) {
 		sp_log(Log::Info, this) << "No need to update db";
@@ -132,7 +134,7 @@ bool DatabaseConnector::apply_fixes()
 		 sp_log(Log::Warning, this) << "Cannot get database version";
 	}
 
-	sp_log(Log::Info) << "Apply fixes";
+    sp_log(Log::Info, this) << "Apply fixes";
 
 	if(version < 1)
 	{
@@ -310,7 +312,7 @@ bool DatabaseConnector::apply_fixes()
 	if(version < 14){
 		bool success=check_and_insert_column("tracks", "libraryID", "integer", "0");
 		SayonaraQuery q(db());
-		q.prepare("UPDATE tracks SET libraryIndex=0;");
+        q.prepare("UPDATE tracks SET libraryID=0;");
 		success = success && q.exec();
 
 		if(success){

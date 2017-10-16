@@ -5,6 +5,7 @@ SET(SOURCES
 	StreamWriter.cpp
 	StreamHttpParser.cpp
 	StreamDataSender.cpp
+	StreamServerHandler.cpp
 )
 
 ADD_LIBRARY(${PROJECT_NAME} STATIC ${SOURCES})

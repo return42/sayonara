@@ -76,12 +76,12 @@ bool Settings::check_settings()
 
     if( !un_init.empty() )
     {
-		sp_log(Log::Warning) << "**** Settings " << un_init << " are not initialized ****";
+        sp_log(Log::Warning, this) << "**** Settings " << un_init << " are not initialized ****";
 		return false;
 	}
 
 	else{
-		sp_log(Log::Info) << "**** All settings initialized ****";
+        sp_log(Log::Info, this) << "**** All settings initialized ****";
 	}
 
 	return true;

@@ -48,33 +48,25 @@ class StreamServer :
 		explicit StreamServer(QObject* parent=nullptr);
 		~StreamServer();
 
-	private:
-		// create new server and listen
-		void create_server();
-
-		// listen for connection
-		bool listen_for_connection();
-
-
 	protected:
+        // QThread
 		void run() override;
 
 
 	public slots:
-
-		void accept_client(QTcpSocket* socket, const QString& ip);
-		void reject_client(QTcpSocket* socket, const QString& ip);
 		void dismiss(int idx);
 
 		void disconnect(StreamWriterPtr sw);
 		void disconnect_all();
 
-		void server_close();
 		void stop();
 		void retry();
 
 
 	private slots:
+        void accept_client(QTcpSocket* socket, const QString& ip);
+        void reject_client(QTcpSocket* socket, const QString& ip);
+
 		void track_changed(const MetaData&);
 		void server_destroyed();
 
@@ -82,9 +74,17 @@ class StreamServer :
 		void disconnected(StreamWriter* sw);
 		void new_connection(const QString& ip);
 
-        void s_active_changed();
         void s_port_changed();
         void s_mp3_enc_found();
+
+    private:
+        // create new server and listen
+        void create_server();
+
+        void close_server();
+
+        // listen for connection
+        bool listen_for_connection();
 };
 
 #endif

@@ -77,12 +77,12 @@ View::View(QWidget* parent) :
 	_model = nullptr;
 	m = Pimpl::make<Private>();
 
-	setAcceptDrops(true);
-	setSelectionBehavior(QAbstractItemView::SelectRows);
-	setAlternatingRowColors(true);
-	setDragEnabled(true);
+    this->setAcceptDrops(true);
+    this->setSelectionBehavior(QAbstractItemView::SelectRows);
+    this->setAlternatingRowColors(true);
+    this->setDragEnabled(true);
 
-	QHeaderView* vertical_header = verticalHeader();
+    QHeaderView* vertical_header = this->verticalHeader();
 	if(vertical_header) {
 		vertical_header->setResizeContentsPrecision(2);
 	}
@@ -226,6 +226,7 @@ void View::show_clear_button(bool visible)
 
 		connect(m->btn_clear_selection, &QPushButton::clicked, [=](){
 			this->clearSelection();
+            m->btn_clear_selection->hide();
 		});
     }
 
@@ -370,13 +371,13 @@ void View::mousePressEvent(QMouseEvent* event)
 
 void View::mouseMoveEvent(QMouseEvent* event)
 {
-	QDrag* drag = this->drag_moving(event->pos());
-	if(drag)
-	{
-		connect(drag, &QDrag::destroyed, [=]() {
-			this->drag_released(Dragable::ReleaseReason::Destroyed);
-		});
-	}
+    QDrag* drag = this->drag_moving(event->pos());
+    if(drag)
+    {
+        connect(drag, &QDrag::destroyed, [=]() {
+            this->drag_released(Dragable::ReleaseReason::Destroyed);
+        });
+    }
 }
 // mouse events end
 
@@ -392,19 +393,6 @@ void View::keyPressEvent(QKeyEvent* event)
     bool alt_pressed = (modifiers & Qt::AltModifier);
     bool ctrl_pressed = (modifiers & Qt::ControlModifier);
 
-    if((key == Qt::Key_Up || key == Qt::Key_Down))
-    {
-        if(ctrl_pressed){
-            event->setModifiers(Qt::NoModifier);
-        }
-    }
-
-    SearchableTableView::keyPressEvent(event);
-
-    if(event->isAccepted() ) {
-        return;
-    }
-
     IndexSet selections = get_selected_items();
 
     switch(key)
@@ -412,7 +400,7 @@ void View::keyPressEvent(QKeyEvent* event)
         case Qt::Key_Return:
         case Qt::Key_Enter:
             if(selections.isEmpty() || ctrl_pressed){
-                break;
+                return;
             }
 
             // standard enter
@@ -433,11 +421,18 @@ void View::keyPressEvent(QKeyEvent* event)
                 emit sig_play_next_clicked();
             }
 
-            break;
+            return;
+
+        case Qt::Key_Backspace:
+            this->clearSelection();
+            return;
 
         default:
+            event->setAccepted(false);
             break;
     }
+
+    SearchableTableView::keyPressEvent(event);
 }
 
 void View::contextMenuEvent(QContextMenuEvent* event)

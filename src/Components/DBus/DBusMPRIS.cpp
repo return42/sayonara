@@ -190,7 +190,7 @@ void DBusMPRIS::MediaPlayer2::init()
 		return;
 	}
 
-    sp_log(Log::Info) << "DBus: " << service_name() << " registered";
+    sp_log(Log::Info, this) << service_name() << " registered";
 
     QDBusConnection::sessionBus().registerObject(object_path(), this);
 	create_message("DesktopEntry", QString("sayonara"));

@@ -57,8 +57,10 @@ namespace Library
 			Filter();
 			~Filter();
 
-			void operator=(const Filter& other);
 			Filter(const Filter& other);
+            Filter& operator=(const Filter& other);
+
+            bool operator==(const Filter& other);
 
 			QString filtertext() const;
 			void set_filtertext(const QString& str);

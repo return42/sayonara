@@ -577,8 +577,8 @@ void GUI_Player::awa_version_finished()
 
 	new_version = new_version.trimmed();
 
-	sp_log(Log::Info) << "Newest Version: " << new_version;
-	sp_log(Log::Info) << "This Version:   " << cur_version;
+    sp_log(Log::Info, this) << "Newest Version: " << new_version;
+    sp_log(Log::Info, this) << "This Version:   " << cur_version;
 
 	QString link;
 	LINK("http://sayonara-player.com", "http://sayonara-player.com", dark, link);
@@ -621,7 +621,7 @@ void GUI_Player::awa_translators_finished()
 
 void GUI_Player::really_close()
 {
-	sp_log(Log::Info) << "closing player...";
+    sp_log(Log::Info, this) << "closing player...";
 
 	QMainWindow::close();
 

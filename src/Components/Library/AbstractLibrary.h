@@ -60,7 +60,8 @@ public:
 
     Library::Sortings   sortorder() const;
     Library::Filter		filter() const;
-    void                set_filter(Library::Filter filter);
+    // calls fetch_by_filter and emits
+    void change_filter(Library::Filter, bool force=false);
 
     const MetaDataList& tracks() const;
     const AlbumList& albums() const;
@@ -121,12 +122,10 @@ public slots:
 	/* triggered by tagedit */
     virtual void metadata_id3_changed(const MetaDataList&, const MetaDataList&);
 
-	// calls fetch_by_filter and emits
-    virtual void filter_changed(const Library::Filter&, bool force=false);
 
 
 	/* a searchfilter has been entered, nothing is emitted */
-	virtual void fetch_by_filter(const Library::Filter& filter, bool force);
+    virtual void fetch_by_filter(Library::Filter filter, bool force);
 
 	virtual void delete_tracks(const MetaDataList& v_md, Library::TrackDeletionMode mode)=0;
     virtual void delete_tracks_by_idx(const IndexSet& indexes, Library::TrackDeletionMode mode);

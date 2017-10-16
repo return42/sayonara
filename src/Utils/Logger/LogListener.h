@@ -23,11 +23,16 @@
 #ifndef LOGLISTENER_H
 #define LOGLISTENER_H
 
+#include "Utils/Logger/Logger.h"
+
+class QDateTime;
 class QString;
+
+using StrRef=const QString&;
 class LogListener
 {
     public:
-	virtual void add_log_line(const QString& str)=0;
+	virtual void add_log_line(const QDateTime& t, Log log_type, StrRef class_name, StrRef str)=0;
 };
 
 

@@ -277,7 +277,7 @@ void Playback::stop()
         m->gapless_timer->stop();
     }
 
-    sp_log(Log::Info, this) << "Playback Engine: stop";
+    sp_log(Log::Info, this) << "Stop";
     m->pipeline->stop();
 
     if(m->other_pipeline){

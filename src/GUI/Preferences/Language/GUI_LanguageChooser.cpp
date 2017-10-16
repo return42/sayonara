@@ -75,7 +75,7 @@ void GUI_LanguageChooser::renew_combo()
 	}
 
 	QString lang_setting = _settings->get(Set::Player_Language);
-	sp_log(Log::Info) << "Language setting = " << lang_setting;
+    sp_log(Log::Info, this) << "Language setting = " << lang_setting;
 	QDir dir(Util::share_path("translations"));
 
 	QStringList filters;
@@ -85,7 +85,8 @@ void GUI_LanguageChooser::renew_combo()
 	ui->combo_lang->clear();
 
 	int i=0;
-	for(const QString& file : files) {
+    for(const QString& file : files)
+    {
 		QRegExp re(".*lang_(.*)\\.qm");
 		re.setMinimal(true);
 

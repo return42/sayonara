@@ -71,6 +71,7 @@ private:
 
 protected:
     void handle_key_press(QKeyEvent* e) override;
+
 };
 
 

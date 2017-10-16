@@ -217,7 +217,8 @@ bool AbstractDatabase::check_and_insert_column(const QString& tablename, const Q
 	QString querytext = "SELECT " + column + " FROM " + tablename + ";";
 	q.prepare(querytext);
 
-	if(!q.exec()) {
+    if(!q.exec())
+    {
 		SayonaraQuery q2 (db());
 		querytext = "ALTER TABLE " + tablename + " ADD COLUMN " + column + " " + sqltype;
 		if(!default_value.isEmpty()){
@@ -228,7 +229,8 @@ bool AbstractDatabase::check_and_insert_column(const QString& tablename, const Q
 
 		q2.prepare(querytext);
 
-		if(!q2.exec()){;
+        if(!q2.exec())
+        {
 			q.show_error(QString("Cannot insert column ") + column + " into " + tablename);
 			return false;
 		}

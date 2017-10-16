@@ -74,7 +74,7 @@ namespace Library
 		QList<Library::Filter::Mode> search_options() const override;
 
 		void language_changed() override;
-		void search_cleared() override;
+		void search_esc_pressed() override;
 
 
 	private slots:

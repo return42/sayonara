@@ -23,6 +23,7 @@
 #include "GUI/Library/Utils/ColumnIndex.h"
 
 #include <QHeaderView>
+#include <QVBoxLayout>
 
 using namespace Library;
 
@@ -37,6 +38,7 @@ AlbumView::AlbumView(QWidget *parent) :
 	TableView(parent)
 {
 	m = Pimpl::make<Private>();
+
 	connect(this, &QTableView::clicked, this, &AlbumView::index_clicked);
 }
 
@@ -46,7 +48,7 @@ void AlbumView::rc_menu_show(const QPoint & p)
 {
 	delete_discmenu();
 
-	TableView::rc_menu_show(p);
+    TableView::rc_menu_show(p);
 }
 
 
@@ -73,7 +75,8 @@ void AlbumView::calc_discmenu_point(QModelIndex idx)
 	QRect box = this->geometry();
 	box.moveTopLeft(this->parentWidget()->mapToGlobal(box.topLeft()));
 
-	if(!box.contains(m->discmenu_point)){
+    if(!box.contains(m->discmenu_point))
+    {
 		m->discmenu_point.setX(box.x() + (box.width() * 2) / 3);
 		m->discmenu_point.setY(box.y());
 

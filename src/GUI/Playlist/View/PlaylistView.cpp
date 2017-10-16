@@ -471,8 +471,6 @@ void PlaylistView::mouseDoubleClickEvent(QMouseEvent* event)
 
 void PlaylistView::keyPressEvent(QKeyEvent* event)
 {
-    event->setAccepted(false);
-
     if(event->matches(QKeySequence::Delete))
     {
         remove_cur_selected_rows();
@@ -489,7 +487,6 @@ void PlaylistView::keyPressEvent(QKeyEvent* event)
             {
                 IndexSet new_selections = m->model->move_rows_up(selections);
                 select_rows(new_selections);
-                event->accept();
                 return;
             }
 
@@ -500,7 +497,6 @@ void PlaylistView::keyPressEvent(QKeyEvent* event)
             {
                 IndexSet new_selections = m->model->move_rows_down(selections);
                 select_rows(new_selections);
-                event->accept();
                 return;
             }
 
@@ -509,6 +505,7 @@ void PlaylistView::keyPressEvent(QKeyEvent* event)
         case Qt::Key_Left:
             if(ctrl_pressed) {
                 emit sig_left_tab_clicked();
+                return;
             }
 
             break;
@@ -516,6 +513,7 @@ void PlaylistView::keyPressEvent(QKeyEvent* event)
         case Qt::Key_Right:
             if(ctrl_pressed) {
                 emit sig_right_tab_clicked();
+                return;
             }
 
             break;
@@ -527,11 +525,14 @@ void PlaylistView::keyPressEvent(QKeyEvent* event)
                 int min_row = get_min_selected_item();
                 m->model->set_current_track(min_row);
                 emit sig_double_clicked(min_row);
+                return;
             }
 
             break;
 
-        default: break;
+        default:
+            event->setAccepted(false);
+            break;
     }
 
     SearchableListView::keyPressEvent(event);
