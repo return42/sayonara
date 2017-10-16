@@ -151,16 +151,10 @@ int main(int argc, char *argv[])
 {
 	Application app(argc, argv);
 
-	QTranslator translator;
-	QString language;
+	if(!app.settings_initialized()){
+		return 1;
+	}
 
-#ifdef Q_OS_WIN
-	init_gio();
-#endif
-
-#ifdef Q_OS_UNIX
-	signal(SIGSEGV, segfault_handler);
-#endif
 
 	CommandLineData cmd_data = CommandLineParser::parse(argc, argv);
 	if(cmd_data.abort){
@@ -168,7 +162,7 @@ int main(int argc, char *argv[])
 	}
 
     QSharedMemory memory("SayonaraMemory");
-	bool has_other_instance = check_for_other_instance(cmd_data, &memory)	;
+	bool has_other_instance = check_for_other_instance(cmd_data, &memory);
 	if(has_other_instance){
 		return 0;
 	}
@@ -180,32 +174,27 @@ int main(int argc, char *argv[])
 		memory.unlock();
 	}
 
-	/* Tell the settings manager which settings are necessary */
-    if( !SettingRegistry::init() )
-	{
-		sp_log(Log::Error) << "Cannot initialize settings";
-		return 1;
-	}
-
-	Q_INIT_RESOURCE(Icons);
-
 #ifdef Q_OS_WIN
-	Q_INIT_RESOURCE(IconsWindows);
+	init_gio();
+#endif
+
+#ifdef Q_OS_UNIX
+	signal(SIGSEGV, segfault_handler);
 #endif
 
 	if(!QFile::exists( Util::sayonara_path() )) {
 		QDir().mkdir( Util::sayonara_path() );
 	}
 
-	language = Settings::instance()->get(Set::Player_Language);
-    translator.load(language, Util::share_path("translations"));
 
-	if(!app.init(&translator, cmd_data.files_to_play)) {
+
+	if(!app.init(cmd_data.files_to_play)) {
 		return 1;
 	}
 
 	app.exec();
 
 	NotifyClassRegistry::instance()->destroy();
+
 	return 0;
 }

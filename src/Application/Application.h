@@ -37,10 +37,19 @@ public:
 	Application(int& argc, char** argv);
 	~Application();
 
-	bool init(QTranslator* translator, const QStringList& files_to_play);
+	bool init(const QStringList& files_to_play);
+
+	bool settings_initialized() const;
 
 private:
 	void init_single_instance_thread();
+	void init_translator();
+	void init_preferences();
+	void init_libraries();
+	void init_engine();
+	void init_plugins();
+	void init_player(QTranslator* translator);
+	void init_playlist(const QStringList& files_to_play);
 };
 
 #endif // APPLICATION_H

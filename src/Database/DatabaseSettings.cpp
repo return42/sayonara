@@ -34,7 +34,9 @@ bool DatabaseSettings::load_settings()
 
     for(AbstrSetting* s : settings)
     {
-		if(!s) continue;
+		if(!s || !s->is_db_setting()) {
+			continue;
+		}
 
         QString value;
         QString db_key = s->db_key();
@@ -43,7 +45,8 @@ bool DatabaseSettings::load_settings()
         if(success) {
             s->assign_value(value);
         }
-        else{
+
+		else {
             sp_log(Log::Info, this) << "Setting " << db_key << ": Not found. Use default value...";
             s->assign_default_value();
             sp_log(Log::Info, this) << "Load Setting " << db_key << ": " << s->value_to_string();

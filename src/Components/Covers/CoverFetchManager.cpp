@@ -160,8 +160,11 @@ void Manager::activate_coverfetchers(const QStringList& coverfetchers)
 	m->active_coverfetchers << m->std_cover_fetcher;
 	sort_coverfetchers(m->active_coverfetchers, m->cf_order);
 
-    for(const Base* cfi : m->active_coverfetchers){
-        sp_log(Log::Debug, this) << "Active Coverfetcher: " << cfi->keyword();
+	for(const Base* cfi : m->active_coverfetchers)
+	{
+		if(!cfi->keyword().isEmpty()) {
+			sp_log(Log::Debug, this) << "Active Coverfetcher: " << cfi->keyword();
+		}
 	}
 }
 

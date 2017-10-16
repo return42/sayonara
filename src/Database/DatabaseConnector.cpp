@@ -124,12 +124,12 @@ bool DatabaseConnector::apply_fixes()
 	sp_log(Log::Info) << "Database Version " << version;
 
 	if(version == LatestVersion) {
-		sp_log(Log::Warning) << "No need to update db";
+		sp_log(Log::Info, this) << "No need to update db";
 		return true;
 	}
 
 	else if(!success){
-		 sp_log(Log::Warning) << "Cannot get database version";
+		 sp_log(Log::Warning, this) << "Cannot get database version";
 	}
 
 	sp_log(Log::Info) << "Apply fixes";

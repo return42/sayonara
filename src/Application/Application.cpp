@@ -20,19 +20,17 @@
 
 #include "Application.h"
 #include "InstanceThread.h"
-#include "Utils/Macros.h"
-#include "Utils/Language.h"
-#include "Utils/Settings/Settings.h"
+
 #include "GUI/Utils/IconLoader/IconLoader.h"
 
 #ifdef WITH_DBUS
-	#include "Components/DBus/DBusHandler.h"
+#include "Components/DBus/DBusHandler.h"
 #endif
 
 #ifdef Q_OS_WIN
-	#include <windows.h>
-	#include "3rdParty/SomaFM/ui/SomaFMLibraryContainer.h"
-	#include "3rdParty/Soundcloud/ui/GUI_SoundcloudLibrary.h"
+#include <windows.h>
+#include "3rdParty/SomaFM/ui/SomaFMLibraryContainer.h"
+#include "3rdParty/Soundcloud/ui/GUI_SoundcloudLibrary.h"
 #endif
 
 #include "Components/Playlist/PlaylistHandler.h"
@@ -82,6 +80,10 @@
 #include "Utils/Utils.h"
 #include "Utils/Logger/Logger.h"
 #include "Utils/WebAccess/Proxy.h"
+#include "Utils/Macros.h"
+#include "Utils/Language.h"
+#include "Utils/Settings/Settings.h"
+#include "Utils/Settings/SettingRegistry.h"
 
 #include "Database/DatabaseConnector.h"
 
@@ -96,10 +98,30 @@ struct Application::Private
 	PlaylistHandler*	plh=nullptr;
 	DatabaseConnector*	db=nullptr;
 	InstanceThread*		instance_thread=nullptr;
+	QTranslator*		translator=nullptr;
+
+	bool				settings_initialized;
 
 	Private()
 	{
+		/* Tell the settings manager which settings are necessary */
+		settings_initialized = SettingRegistry::init();
+		if( !settings_initialized )
+		{
+			sp_log(Log::Error) << "Cannot initialize settings";
+			return;
+		}
+
+		Q_INIT_RESOURCE(Icons);
+
+#ifdef Q_OS_WIN
+		Q_INIT_RESOURCE(IconsWindows);
+#endif
 		timer = new QTime();
+
+		db = DatabaseConnector::instance();
+		plh = PlaylistHandler::instance();
+
 	}
 
 	~Private()
@@ -108,8 +130,8 @@ struct Application::Private
 			delete timer; timer = nullptr;
 		}
 
-        if(instance_thread)
-        {
+		if(instance_thread)
+		{
 			instance_thread->stop();
 			while(instance_thread->isRunning()){
 				Util::sleep_ms(100);
@@ -132,22 +154,22 @@ struct Application::Private
 };
 
 #ifdef Q_OS_WIN
-	void global_key_handler()
+void global_key_handler()
 {
-		if(!RegisterHotKey(NULL, 1, MOD_NOREPEAT, VK_MEDIA_PLAY_PAUSE)){
-			return false;
-		}
-
-		MSG msg = {0};
-		while (GetMessage(&msg, NULL, 0, 0) != 0)
-	    {
-    	    if (msg.message == WM_HOTKEY)
-	        {
-	        	UINT modifiers = msg.lParam;
-				UINT key = msg.wParam;
-	        }
-	    } 
+	if(!RegisterHotKey(NULL, 1, MOD_NOREPEAT, VK_MEDIA_PLAY_PAUSE)){
+		return false;
 	}
+
+	MSG msg = {0};
+	while (GetMessage(&msg, NULL, 0, 0) != 0)
+	{
+		if (msg.message == WM_HOTKEY)
+		{
+			UINT modifiers = msg.lParam;
+			UINT key = msg.wParam;
+		}
+	}
+}
 #endif
 
 Application::Application(int & argc, char ** argv) :
@@ -159,70 +181,113 @@ Application::Application(int & argc, char ** argv) :
 	this->setQuitOnLastWindowClosed(false);
 }
 
+Application::~Application() {}
 
-bool Application::init(QTranslator* translator, const QStringList& files_to_play)
+
+bool Application::init(const QStringList& files_to_play)
 {
-    Settings* settings = Settings::instance();
-
-	m->db = DatabaseConnector::instance();
-	m->plh = PlaylistHandler::instance();
-
-	sp_log(Log::Debug, this) << "Init application: " << m->timer->elapsed() << "ms";
-
-	bool success = this->installTranslator(translator);
-	if(!success){
-		sp_log(Log::Warning) << "Cannot install translator";
-	}
-
-    Proxy::instance()->init();
-
-    IconLoader::change_theme();
+	Settings* settings = Settings::instance();
 
 	QString version = QString(SAYONARA_VERSION);
-    settings->set(Set::Player_Version, version);
+	settings->set(Set::Player_Version, version);
 
-    LibraryPluginHandler* library_plugin_loader = LibraryPluginHandler::instance();
+	init_translator();
+	IconLoader::change_theme();
+	Proxy::instance()->init();
 
-	sp_log(Log::Debug, this) << "Start player: " << m->timer->elapsed() << "ms";
+	init_player(m->translator);
+
+
+#ifdef WITH_DBUS
+	new DBusHandler(m->player, this);
+#endif
+
+	new RemoteControl(this);
+
+	if(settings->get(Set::Notification_Show))
+	{
+		NotificationHandler::instance()->notify("Sayonara Player",
+												Lang::get(Lang::Version) + " " + SAYONARA_VERSION,
+												Util::share_path("logo.png"));
+	}
+
+	init_single_instance_thread();
+	init_engine();
+	init_libraries();
+	init_plugins();
+	init_preferences();
+
+	m->player->ui_loaded();
+
+	init_playlist(files_to_play);
+
+	sp_log(Log::Debug, this) << "Time to start: " << m->timer->elapsed() << "ms";
+	delete m->timer; m->timer=nullptr;
+
+	return true;
+}
+
+
+void Application::init_translator()
+{
+	m->translator = new QTranslator(this);
+
+	QString language = Settings::instance()->get(Set::Player_Language);
+	m->translator->load(language, Util::share_path("translations"));
+	bool success = this->installTranslator(m->translator);
+	if(!success){
+		sp_log(Log::Warning) << "Cannot install translator";
+		m->translator = nullptr;
+	}
+}
+
+
+void Application::init_player(QTranslator* translator)
+{
 	m->player = new GUI_Player(translator);
-
 	Gui::Util::set_main_window(m->player);
 
 	connect(m->player, &GUI_Player::sig_player_closed, this, &QCoreApplication::quit);
-
 	sp_log(Log::Debug, this) << "Init player: " << m->timer->elapsed() << "ms";
+}
 
-#ifdef WITH_DBUS
-	DBusHandler* dbus	= new DBusHandler(m->player, this);
-	Q_UNUSED(dbus)
 
-#endif
-
-	RemoteControl* rmc = new RemoteControl(this);
-	Q_UNUSED(rmc)
-
-    if(settings->get(Set::Notification_Show)){
-		NotificationHandler::instance()->notify("Sayonara Player",
-												   Lang::get(Lang::Version) + " " + SAYONARA_VERSION,
-												   Util::share_path("logo.png"));
+void Application::init_playlist(const QStringList& files_to_play)
+{
+	if(files_to_play.size() > 0) {
+		QString playlist_name = m->plh->request_new_playlist_name();
+		m->plh->create_playlist(files_to_play, playlist_name);
 	}
+}
 
-	sp_log(Log::Debug, this) << "Init plugins: " << m->timer->elapsed() << "ms";
-	PlayerPluginHandler* pph = new PlayerPluginHandler(this);
 
-	pph->add_plugin(new GUI_LevelPainter());
-    pph->add_plugin(new GUI_Spectrum());
-	pph->add_plugin(new GUI_Equalizer());
-	pph->add_plugin(new GUI_Stream());
-	pph->add_plugin(new GUI_Podcasts());
-	pph->add_plugin(new GUI_PlaylistChooser());
-	pph->add_plugin(new GUI_AudioConverter());
-	pph->add_plugin(new GUI_Bookmarks());
-	pph->add_plugin(new GUI_Speed());
-	pph->add_plugin(new GUI_Broadcast());
-    pph->add_plugin(new GUI_Crossfader());
+void Application::init_preferences()
+{
+	GUI_PreferenceDialog* preferences = new GUI_PreferenceDialog(m->player);
 
-	sp_log(Log::Debug, this) << "Plugins finsihed: " << m->timer->elapsed() << "ms";
+	m->player->register_preference_dialog(preferences);
+
+	preferences->register_preference_dialog(new GUI_LanguageChooser());
+	preferences->register_preference_dialog(new GUI_FontConfig());
+	preferences->register_preference_dialog(new GUI_PlayerPreferences());
+	preferences->register_preference_dialog(new GUI_PlaylistPreferences());
+	preferences->register_preference_dialog(new GUI_LibraryPreferences());
+	preferences->register_preference_dialog(new GUI_Covers());
+	preferences->register_preference_dialog(new GUI_StreamRecorder());
+	preferences->register_preference_dialog(new GUI_BroadcastSetup());
+	preferences->register_preference_dialog(new GUI_Shortcuts());
+	preferences->register_preference_dialog(new GUI_Notifications());
+	preferences->register_preference_dialog(new GUI_RemoteControl());
+	preferences->register_preference_dialog(new GUI_LastFM(new LastFM::Base()));
+	preferences->register_preference_dialog(new GUI_IconPreferences());
+	preferences->register_preference_dialog(new GUI_Proxy());
+
+	sp_log(Log::Debug, this) << "Preference dialogs loaded: " << m->timer->elapsed() << "ms";
+}
+
+void Application::init_libraries()
+{
+	LibraryPluginHandler* library_plugin_loader = LibraryPluginHandler::instance();
 
 	QList<LibraryContainerInterface*> library_containers;
 	DirectoryLibraryContainer* directory_container = new DirectoryLibraryContainer(this);
@@ -238,47 +303,41 @@ bool Application::init(QTranslator* translator, const QStringList& files_to_play
 	library_plugin_loader->init(library_containers);
 
 	sp_log(Log::Debug, this) << "Libraries loaded: " << m->timer->elapsed() << "ms";
-
-	GUI_PreferenceDialog* preferences = new GUI_PreferenceDialog(m->player);
-
-	m->player->register_preference_dialog(preferences);
-
-    preferences->register_preference_dialog(new GUI_LanguageChooser());
-	preferences->register_preference_dialog(new GUI_FontConfig());
-	preferences->register_preference_dialog(new GUI_PlayerPreferences());
-	preferences->register_preference_dialog(new GUI_PlaylistPreferences());
-	preferences->register_preference_dialog(new GUI_LibraryPreferences());
-	preferences->register_preference_dialog(new GUI_Covers());
-	preferences->register_preference_dialog(new GUI_StreamRecorder());
-	preferences->register_preference_dialog(new GUI_BroadcastSetup());
-	preferences->register_preference_dialog(new GUI_Shortcuts());
-	preferences->register_preference_dialog(new GUI_Notifications());
-	preferences->register_preference_dialog(new GUI_RemoteControl());
-    preferences->register_preference_dialog(new GUI_LastFM(new LastFM::Base()));
-    preferences->register_preference_dialog(new GUI_IconPreferences());
-    preferences->register_preference_dialog(new GUI_Proxy());
-
-    Engine::Handler::instance()->init();
-
-	sp_log(Log::Debug, this) << "Preference dialogs loaded: " << m->timer->elapsed() << "ms";
-
-	m->player->register_player_plugin_handler(pph);
-	m->player->ui_loaded();
-
-	if(files_to_play.size() > 0) {
-		QString playlist_name = m->plh->request_new_playlist_name();
-		m->plh->create_playlist(files_to_play, playlist_name);
-	}
-
-	init_single_instance_thread();
-
-	sp_log(Log::Debug, this) << "Time to start: " << m->timer->elapsed() << "ms";
-	delete m->timer; m->timer=nullptr;
-
-    return true;
 }
 
-Application::~Application() {}
+void Application::init_engine()
+{
+	Engine::Handler::instance()->init();
+}
+
+void Application::init_plugins()
+{
+	sp_log(Log::Debug, this) << "Init plugins... " << m->timer->elapsed() << "ms";
+	PlayerPluginHandler* pph = new PlayerPluginHandler(this);
+
+	pph->add_plugin(new GUI_LevelPainter());
+	pph->add_plugin(new GUI_Spectrum());
+	pph->add_plugin(new GUI_Equalizer());
+	pph->add_plugin(new GUI_Stream());
+	pph->add_plugin(new GUI_Podcasts());
+	pph->add_plugin(new GUI_PlaylistChooser());
+	pph->add_plugin(new GUI_AudioConverter());
+	pph->add_plugin(new GUI_Bookmarks());
+	pph->add_plugin(new GUI_Speed());
+	pph->add_plugin(new GUI_Broadcast());
+	pph->add_plugin(new GUI_Crossfader());
+
+	sp_log(Log::Debug, this) << "Plugins finsihed: " << m->timer->elapsed() << "ms";
+	m->player->register_player_plugin_handler(pph);
+}
+
+
+bool Application::settings_initialized() const
+{
+	return m->settings_initialized;
+}
+
+
 
 void Application::init_single_instance_thread()
 {

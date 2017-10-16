@@ -48,6 +48,9 @@ AbstrSetting::AbstrSetting(SettingKey key, const char* db_key) :
 	AbstrSetting(key)
 {
 	m->db_key = db_key;
+	if(m->db_key.isEmpty()){
+		int i = 4;
+	}
 	m->db_setting = true;
 }
 
@@ -96,7 +99,7 @@ void AbstrSetting::assign_value(const QString& value)
 
     if(!success)
     {
-		sp_log(Log::Warning) << "Setting " << m->db_key << ": Cannot convert. Use default value...";
+		sp_log(Log::Warning, this) << "Setting " << m->db_key << ": Cannot convert. Use default value...";
 		assign_default_value();
 	}
 }
