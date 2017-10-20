@@ -1,8 +1,8 @@
 #include <QTest>
 #include "AbstractTaggingTest.h"
-#include "Helper/Tagging/Tagging.h"
-#include "Helper/FileHelper.h"
-#include "Helper/MetaData/MetaData.h"
+#include "Utils/Tagging/Tagging.h"
+#include "Utils/FileUtils.h"
+#include "Utils/MetaData/MetaData.h"
 
 
 class DiscnumberTest : public AbstractTaggingTest
@@ -24,22 +24,22 @@ void DiscnumberTest::run_test(const QString& filename)
 	MetaData md(filename);
 	MetaData md2(filename);
 
-	Tagging::getMetaDataOfFile(md);
+    Tagging::Util::getMetaDataOfFile(md);
 	QVERIFY(md.discnumber == 5);
 
 	md.discnumber = 8;
 	md.n_discs = 9;
-	Tagging::setMetaDataOfFile(md);
+    Tagging::Util::setMetaDataOfFile(md);
 
-	Tagging::getMetaDataOfFile(md2);
+    Tagging::Util::getMetaDataOfFile(md2);
 	QVERIFY(md2.discnumber == 8);
 	QVERIFY(md2.n_discs == 9);
 
 	md.discnumber = 10;
 	md.n_discs = 12;
-	Tagging::setMetaDataOfFile(md);
+    Tagging::Util::setMetaDataOfFile(md);
 
-	Tagging::getMetaDataOfFile(md2);
+    Tagging::Util::getMetaDataOfFile(md2);
 	QVERIFY(md2.discnumber == 10);
 	QVERIFY(md2.n_discs == 12);
 }

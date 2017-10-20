@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>443</width>
-    <height>165</height>
+    <height>268</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -20,10 +20,46 @@
    <property name="spacing">
     <number>10</number>
    </property>
+   <item row="3" column="2">
+    <widget class="QPushButton" name="btn_path">
+     <property name="maximumSize">
+      <size>
+       <width>30</width>
+       <height>30</height>
+      </size>
+     </property>
+     <property name="layoutDirection">
+      <enum>Qt::LeftToRight</enum>
+     </property>
+     <property name="text">
+      <string notr="true">...</string>
+     </property>
+    </widget>
+   </item>
    <item row="0" column="0">
     <widget class="QLabel" name="label">
      <property name="text">
       <string>Activate</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <widget class="QCheckBox" name="cb_activate">
+     <property name="focusPolicy">
+      <enum>Qt::StrongFocus</enum>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="1">
+    <widget class="QLineEdit" name="le_template"/>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="label_3">
+     <property name="text">
+      <string>Automatic recording</string>
      </property>
     </widget>
    </item>
@@ -43,6 +79,13 @@
      </property>
     </widget>
    </item>
+   <item row="2" column="0">
+    <widget class="QLabel" name="label_4">
+     <property name="text">
+      <string>Create session folder</string>
+     </property>
+    </widget>
+   </item>
    <item row="3" column="1">
     <widget class="QLineEdit" name="le_path">
      <property name="sizePolicy">
@@ -56,50 +99,30 @@
      </property>
     </widget>
    </item>
-   <item row="2" column="0">
-    <widget class="QLabel" name="label_4">
+   <item row="4" column="0">
+    <widget class="QLabel" name="label_5">
      <property name="text">
-      <string>Create session folder</string>
+      <string>Path template</string>
      </property>
     </widget>
    </item>
-   <item row="0" column="1">
-    <widget class="QCheckBox" name="cb_activate">
-     <property name="focusPolicy">
-      <enum>Qt::StrongFocus</enum>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="2">
-    <widget class="QPushButton" name="btn_path">
+   <item row="4" column="2">
+    <widget class="QPushButton" name="btn_template_help">
      <property name="maximumSize">
       <size>
        <width>30</width>
        <height>30</height>
       </size>
      </property>
-     <property name="layoutDirection">
-      <enum>Qt::LeftToRight</enum>
-     </property>
      <property name="text">
-      <string notr="true">...</string>
+      <string>?</string>
      </property>
     </widget>
    </item>
-   <item row="3" column="0">
-    <widget class="QLabel" name="label_2">
+   <item row="6" column="0" colspan="3">
+    <widget class="QLabel" name="lab_warning">
      <property name="text">
-      <string>Target path:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="0">
-    <widget class="QLabel" name="label_3">
-     <property name="text">
-      <string>Automatic recording</string>
+      <string/>
      </property>
     </widget>
    </item>
@@ -110,12 +133,15 @@
      </property>
     </widget>
    </item>
-   <item row="4" column="0" colspan="3">
-    <widget class="QLabel" name="lab_warning">
+   <item row="3" column="0">
+    <widget class="QLabel" name="label_2">
      <property name="text">
-      <string/>
+      <string>Target path:</string>
      </property>
     </widget>
+   </item>
+   <item row="5" column="0" colspan="3">
+    <layout class="QVBoxLayout" name="layout_templates"/>
    </item>
   </layout>
  </widget>

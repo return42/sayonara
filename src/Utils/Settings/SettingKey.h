@@ -148,6 +148,7 @@ enum class SettingKey : unsigned short
 	Engine_SR_Warning,
 	Engine_SR_Path,
 	Engine_SR_SessionPath,
+	Engine_SR_SessionPathTemplate,
 	Engine_SR_AutoRecord,
 
 
@@ -304,7 +305,8 @@ namespace Set
     INST(bool,				Engine_SR_Active);			/* Streamripper active */
     INST(bool,				Engine_SR_Warning);			/* streamripper warnings */
     INST(QString,			Engine_SR_Path);			/* streamripper paths */
-    INST(bool,				Engine_SR_SessionPath);			/* streamripper session path */
+	INST(bool,				Engine_SR_SessionPath);			/* create streamripper session path? */
+	INST(QString,			Engine_SR_SessionPathTemplate);	/* streamripper session path template*/
     INST(bool,				Engine_SR_AutoRecord);			/* streamripper automatic recording */
 
     INST(int,				Spectrum_Style);			/* index of spectrum style */

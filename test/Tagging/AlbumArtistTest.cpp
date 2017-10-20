@@ -1,7 +1,7 @@
 #include <QTest>
-#include "Helper/Tagging/Tagging.h"
-#include "Helper/FileHelper.h"
-#include "Helper/MetaData/MetaData.h"
+#include "Utils/Tagging/Tagging.h"
+#include "Utils/FileUtils.h"
+#include "Utils/MetaData/MetaData.h"
 #include "AbstractTaggingTest.h"
 
 class AlbumArtistTest : public AbstractTaggingTest
@@ -21,13 +21,13 @@ void AlbumArtistTest::run_test(const QString& filename)
 {
 	QString album_artist = QString::fromUtf8("Motörhead фыва");
 	MetaData md(filename);
-	Tagging::getMetaDataOfFile(md);
+    Tagging::Util::getMetaDataOfFile(md);
 
 	md.set_album_artist(album_artist);
-	Tagging::setMetaDataOfFile(md);
+    Tagging::Util::setMetaDataOfFile(md);
 
 	MetaData md2(filename);
-	Tagging::getMetaDataOfFile(md2);
+    Tagging::Util::getMetaDataOfFile(md2);
 
 	QString md_album_artist = md.album_artist();
 	QString md2_album_artist = md2.album_artist();

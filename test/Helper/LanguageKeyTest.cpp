@@ -1,6 +1,6 @@
 #include <QTest>
 #include <QObject>
-#include "Helper/Language.h"
+#include "Utils/Language.h"
 
 class LanguageKeyTest : public QObject
 {

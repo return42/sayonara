@@ -19,6 +19,8 @@
  */
 
 #include "StreamRecorder.h"
+#include "StreamRecorderUtils.h"
+
 #include "Utils/Utils.h"
 #include "Utils/FileUtils.h"
 #include "Utils/Parser/PlaylistParser.h"
@@ -29,11 +31,11 @@
 
 #include "Components/PlayManager/PlayManager.h"
 
-#include <QDateTime>
 #include <QDir>
 #include <QFile>
+#include <QDateTime>
 
-using StreamRecorder::Accessor;
+using namespace StreamRecorder;
 
 struct Accessor::Private
 {
@@ -41,28 +43,11 @@ struct Accessor::Private
 	QString			session_path;					// where to store the mp3 files of the session
 	QString			session_playlist_name;			// playlist name
 	MetaDataList	session_collector;				// gather all tracks of a session
-	MetaData		md;							// current track
+    MetaData		md;                             // current track
 
-	int				cur_idx;							// index of track (used for filename)
+    int				cur_idx;						// index of track (used for filename)
 	bool            recording;						// is in a session currently
-
 };
-
-static QString get_time_str()
-{
-    QString time_str;
-    QDateTime cur = QDateTime::currentDateTime();
-
-    QString weekday = cur.date().longDayName(cur.date().dayOfWeek() );
-    QString year = QString::number(cur.date().year());
-    QString month = cur.date().shortMonthName(cur.date().month());
-    QString day = QString("%1").arg(cur.date().day(), 2, 10, QLatin1Char('0'));
-    QString hr = QString("%1").arg(cur.time().hour(), 2, 10, QLatin1Char('0'));
-    QString min = QString("%1").arg(cur.time().minute(), 2, 10, QLatin1Char('0'));
-
-	time_str = weekday + "_" + year + "-" + month + "-" + day + "_" + hr + "h" + min;
-    return time_str;
-}
 
 
 Accessor::Accessor(QObject *parent) :
@@ -96,9 +81,10 @@ Accessor::~Accessor() {}
 void Accessor::clear()
 {
 	m->md.title = "";
-	m->session_path = get_time_str();
+    m->session_path = "";
 	m->session_collector.clear();
 	m->sr_recording_dst = "";
+    m->session_playlist_name.clear();
 	m->cur_idx = 1;
 }
 
@@ -111,9 +97,7 @@ void Accessor::new_session()
 
 QString Accessor::change_track(const MetaData& md)
 {
-	QString sr_path;
-	QString session_path;
-	QString title;
+    QString sr_path = _settings->get(Set::Engine_SR_Path);
 
 	if(!m->recording){
 		return "";
@@ -124,42 +108,48 @@ QString Accessor::change_track(const MetaData& md)
 	}
 
 	bool saved = save();
-	if(saved){
+    if(saved) {
 		m->cur_idx++;
 	}
 
-	if(!Util::File::is_www(md.filepath())) {
-		m->recording = false;
+    if(!Util::File::is_www(md.filepath()))
+    {
 		m->sr_recording_dst = "";
+        m->session_playlist_name = "";
+        m->recording = false;
 		return "";
 	}
-	
+
 	m->md = md;
 	m->md.year = QDateTime::currentDateTime().date().year();
 	m->md.track_num = m->cur_idx;
 	
-	title = QString("%1 - %2 - %3")
-			.arg(m->cur_idx, 3, 10, QLatin1Char('0'))
-			.arg(md.artist())
-			.arg(md.title);
+    QString target_path_template = _settings->get(Set::Engine_SR_SessionPathTemplate);
+    if(!target_path_template.isEmpty())
+    {
+        target_path_template = Utils::full_target_path_template(sr_path, target_path_template);
+    }
 
-	title.replace("/", "_");
-	title.replace("\\", "_");
-	title.replace(":", "");
+    else
+    {
+        bool use_session_path = _settings->get(Set::Engine_SR_SessionPath);
+        target_path_template = Utils::full_target_path_template_default(sr_path, use_session_path);
+    }
 
-	sr_path = _settings->get(Set::Engine_SR_Path);
-	session_path = check_session_path(sr_path);
 
-	if(session_path.isEmpty()){
+    Utils::TargetPaths target_path = Utils::full_target_path(target_path_template, m->md);
+    if(target_path.first.isEmpty())
+    {
 		m->sr_recording_dst = "";
 		m->session_playlist_name = "";
 		m->recording = false;
+        return "";
 	}
 
-	else{
-		m->session_playlist_name = session_path + "/playlist.m3u";
-		m->sr_recording_dst = session_path + "/" + title + ".mp3";
-	}
+    Util::File::create_directories(Util::File::get_parent_directory(target_path.first));
+
+    m->sr_recording_dst = target_path.first;
+    m->session_playlist_name = target_path.second;
 
 	return m->sr_recording_dst;
 }
@@ -167,12 +157,12 @@ QString Accessor::change_track(const MetaData& md)
 
 bool  Accessor::save()
 {
-	if(!QFile::exists(m->sr_recording_dst)){
+    if(!QFile::exists(m->sr_recording_dst)) {
         return false;
     }
 
 	QFileInfo file_info(m->sr_recording_dst);
-	if(file_info.size() < 20000){
+    if(file_info.size() < 20000) {
 		return false;
 	}
 
@@ -189,26 +179,19 @@ bool  Accessor::save()
 }
 
 
-QString Accessor::check_session_path(const QString& sr_path)
+QString Accessor::check_target_path(const QString& target_path)
 {
-	bool create_session_path =_settings->get(Set::Engine_SR_SessionPath);
-
-	if(!create_session_path) {
-		return sr_path;
-	}
-
-	QString recording_dst = Util::File::clean_filename(sr_path + "/" + m->session_path);
-    if(!QFile::exists(recording_dst)) {
-		Util::File::create_directories(recording_dst);
+    if(!QFile::exists(target_path)) {
+        Util::File::create_directories(Util::File::get_parent_directory(target_path));
     }
 
-	QFileInfo fi(recording_dst);
+    QFileInfo fi(target_path);
 	
 	if(!fi.isWritable()){
 		return "";
 	}
 
-    return recording_dst;
+    return target_path;
 }
 
 void Accessor::record(bool b)

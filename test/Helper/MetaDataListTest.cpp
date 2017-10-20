@@ -2,8 +2,11 @@
 #include <QTest>
 #include <QDebug>
 
-#include "Helper/MetaData/MetaDataList.h"
-#include "Helper/Set.h"
+#include "Utils/FileUtils.h"
+#include "Utils/Random/RandomGenerator.h"
+#include "Utils/MetaData/MetaDataList.h"
+#include "Utils/Set.h"
+
 #include <algorithm>
 
 class MetaDataListTest : public QObject
@@ -28,8 +31,8 @@ static MetaDataList create_v_md(int min, int max)
 		MetaData md;
 		md.id = i;
 		md.title = QString("title %1").arg(i);
-		md.artist = QString("artist %1").arg(i);
-		md.album = QString("album %1").arg(i);
+        md.set_artist(QString("artist %1").arg(i));
+        md.set_album(QString("album %1").arg(i));
 
 		v_md << md;
 	}
@@ -141,8 +144,8 @@ void MetaDataListTest::remove_test()
 	}
 }
 
-#include "Helper/FileHelper.h"
-#include "Helper/Random/RandomGenerator.h"
+
+
 void MetaDataListTest::write_move_stuff()
 {
 	QString data;
@@ -202,7 +205,7 @@ void MetaDataListTest::write_move_stuff()
 		data += "\n";
 	}
 
-	Helper::File::write_file(data.toLocal8Bit(), "/home/luke/md.validate");
+    Util::File::write_file(data.toLocal8Bit(), "/home/luke/md.validate");
 }
 
 

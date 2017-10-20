@@ -158,7 +158,8 @@ void Util::File::split_filename(const QString& src, QString& path, QString& file
 QStringList Util::File::get_parent_directories(const QStringList& files) 
 {
 	QStringList folders;
-	for(const QString& file : files) {
+    for(const QString& file : files)
+    {
 		QString folder = get_parent_directory(file);
 		if(!folders.contains(folder)){
 			folders << folder;

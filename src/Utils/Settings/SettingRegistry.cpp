@@ -163,6 +163,7 @@ bool SettingRegistry::init()
 	register_setting( Set::Engine_SR_Warning, "streamripper_warning", true );
 	register_setting( Set::Engine_SR_Path, "streamripper_path", QDir::homePath() );
 	register_setting( Set::Engine_SR_SessionPath, "streamripper_session_path", true );
+    register_setting( Set::Engine_SR_SessionPathTemplate, "streamripper_session_path_template", QString());
 	register_setting( Set::Engine_SR_AutoRecord, "streamripper_auto_recording", false);
 	register_setting( Set::Engine_CrossFaderActive, "crossfader_active", false);
 	register_setting( Set::Engine_CrossFaderTime, "crossfader_time", 5000);

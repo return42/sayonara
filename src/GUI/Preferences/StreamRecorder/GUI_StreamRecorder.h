@@ -51,6 +51,7 @@ protected:
 private slots:
 	void sl_cb_activate_toggled(bool);
 	void sl_btn_path_clicked();
+    void sl_template_help_clicked();
 };
 
 #endif /* GUI_STREAMRECORDER_H_ */

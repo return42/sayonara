@@ -51,7 +51,7 @@ namespace StreamRecorder
         void new_session();
 
         // check and create session path
-        QString check_session_path(const QString& sr_path);
+        QString check_target_path(const QString& target_path);
 
 
     public:

@@ -1,5 +1,5 @@
 #include "AbstractTaggingTest.h"
-#include "Helper/FileHelper.h"
+#include "Utils/FileUtils.h"
 
 #include <QString>
 #include <QByteArray>
@@ -26,13 +26,13 @@ void AbstractTaggingTest::xiph_test()
 void AbstractTaggingTest::init()
 {
 	QByteArray content;
-	Helper::File::read_file_into_byte_arr(_resource_filename, content);
-	Helper::File::write_file(content, _filename);
+    Util::File::read_file_into_byte_arr(_resource_filename, content);
+    Util::File::write_file(content, _filename);
 }
 
 void AbstractTaggingTest::cleanup()
 {
-	Helper::File::delete_files({_filename});
+    Util::File::delete_files({_filename});
 }
 
 void AbstractTaggingTest::run()

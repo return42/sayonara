@@ -3,9 +3,9 @@
 #include <QDebug>
 #include <QString>
 
-#include "Helper/MetaData/MetaData.h"
-#include "Helper/MetaData/Genre.h"
-#include "Helper/Set.h"
+#include "Utils/MetaData/MetaData.h"
+#include "Utils/MetaData/Genre.h"
+#include "Utils/Set.h"
 
 #include <algorithm>
 
@@ -25,8 +25,8 @@ static MetaData create_md()
 {
 	MetaData md("/path/to/my/file.mp3");
 	md.title = "Title";
-	md.artist = "Artist";
-	md.album = "Album";
+    md.set_artist("Artist");
+    md.set_album("Album");
 	md.length_ms = 100000;
 	md.filesize = 1234567;
 	md.id = 5;
@@ -57,8 +57,8 @@ void MetaDataTest::copy_test()
 
 	MetaData md("/path/to/my/file.mp3");
 	md.title = "Title";
-	md.artist = "Artist";
-	md.album = "Album";
+    md.set_artist("Artist");
+    md.set_album("Album");
 	md.length_ms = 100000;
 	md.filesize = 1234567;
 	md.id = 5;

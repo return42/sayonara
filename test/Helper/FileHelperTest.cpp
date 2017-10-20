@@ -1,6 +1,6 @@
 #include <QTest>
 #include <QObject>
-#include "Helper/FileHelper.h"
+#include "Utils/FileUtils.h"
 
 class FileHelperTest : public QObject
 {
@@ -12,7 +12,7 @@ private slots:
 };
 
 
-using namespace Helper::File;
+using namespace Util::File;
 void FileHelperTest::test()
 {
 	QString some_path = "/path/./to//my/home/folder/bla.txt";

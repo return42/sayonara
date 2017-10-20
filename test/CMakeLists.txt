@@ -19,6 +19,7 @@ INCLUDE_DIRECTORIES(${Qt5Sql_INCLUDE_DIRS})
 INCLUDE_DIRECTORIES(${Qt5DBus_INCLUDE_DIRS})
 INCLUDE_DIRECTORIES(${Qt5Network_INCLUDE_DIRS})
 INCLUDE_DIRECTORIES(${Qt5Test_INCLUDE_DIRS})
+INCLUDE_DIRECTORIES("${CURRENT_SOURCE_DIR}/../src")
 
 ADD_DEFINITIONS(${Qt5Core_DEFINITIONS})
 ADD_DEFINITIONS(${QT_DEFINITIONS})
@@ -41,4 +42,5 @@ NEW_TEST(Helper/MetaDataTest.cpp)
 NEW_TEST(Tagging/LyricsTest.cpp ${RESOURCES_RCC} Tagging/AbstractTaggingTest.cpp)
 NEW_TEST(Tagging/AlbumArtistTest.cpp ${RESOURCES_RCC} Tagging/AbstractTaggingTest.cpp)
 NEW_TEST(Tagging/DiscnumberTest.cpp ${RESOURCES_RCC} Tagging/AbstractTaggingTest.cpp)
+NEW_TEST(StreamRecorder/StreamRecorderUtilsTest.cpp)
 

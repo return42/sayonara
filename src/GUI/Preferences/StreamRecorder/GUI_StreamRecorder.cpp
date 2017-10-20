@@ -1,6 +1,6 @@
 /* GUI_StreamRecorder.cpp
 
- * Copyright (C) 2011-2017 Lucio Carreras  
+ * Copyright (C) 2011-2017 Lucio Carreras
  *
  * This file is part of sayonara-player
  *
@@ -17,8 +17,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * created by Lucio Carreras, 
- * May 13, 2012 
+ * created by Lucio Carreras,
+ * May 13, 2012
  *
  */
 
@@ -29,12 +29,14 @@
 #include "Utils/Message/Message.h"
 #include "Utils/Settings/Settings.h"
 #include "Utils/Language.h"
+#include "Components/Engine/Playback/StreamRecorderUtils.h"
 
 #include <QFileDialog>
 #include <QDir>
+#include <QHBoxLayout>
 
 GUI_StreamRecorder::GUI_StreamRecorder(QWidget* parent) :
-	PreferenceWidgetInterface(parent)
+    PreferenceWidgetInterface(parent)
 {
 
 }
@@ -42,103 +44,149 @@ GUI_StreamRecorder::GUI_StreamRecorder(QWidget* parent) :
 
 GUI_StreamRecorder::~GUI_StreamRecorder()
 {
-	if(ui)
-	{
-		delete ui; ui=nullptr;
-	}
+    if(ui)
+    {
+        delete ui; ui=nullptr;
+    }
 }
 
 void GUI_StreamRecorder::init_ui()
 {
-	setup_parent(this, &ui);
+    setup_parent(this, &ui);
 
-	revert();
+    ui->layout_templates->setSpacing(3);
+    ui->le_template->setClearButtonEnabled(true);
 
-	connect(ui->cb_activate, &QCheckBox::toggled, this, &GUI_StreamRecorder::sl_cb_activate_toggled);
-	connect(ui->btn_path, &QPushButton::clicked, this, &GUI_StreamRecorder::sl_btn_path_clicked);
+    revert();
+
+    connect(ui->cb_activate, &QCheckBox::toggled, this, &GUI_StreamRecorder::sl_cb_activate_toggled);
+    connect(ui->btn_path, &QPushButton::clicked, this, &GUI_StreamRecorder::sl_btn_path_clicked);
+    connect(ui->btn_template_help, &QPushButton::clicked, this, &GUI_StreamRecorder::sl_template_help_clicked);
 }
 
 void GUI_StreamRecorder::retranslate_ui()
 {
-	ui->retranslateUi(this);
+    ui->retranslateUi(this);
 }
 
 
 void GUI_StreamRecorder::sl_cb_activate_toggled(bool b)
 {
-	ui->le_path->setEnabled(b);
-	ui->btn_path->setEnabled(b);
-	ui->cb_auto_rec->setEnabled(b);
-	ui->cb_create_session_path->setEnabled(b);
+    ui->le_path->setEnabled(b);
+    ui->btn_path->setEnabled(b);
+    ui->cb_auto_rec->setEnabled(b);
+    ui->cb_create_session_path->setEnabled(b);
+    ui->le_template->setEnabled(b);
 }
 
 
 void GUI_StreamRecorder::sl_btn_path_clicked()
 {
-	QString path = ui->cb_create_session_path->text();
-	QString dir = QFileDialog::getExistingDirectory(this, tr("Choose target directory"), path, QFileDialog::ShowDirsOnly);
-	if(dir.size() > 0) {
-		ui->le_path->setText(path);
-	}
+    QString path = ui->cb_create_session_path->text();
+    QString dir = QFileDialog::getExistingDirectory(this, tr("Choose target directory"), path, QFileDialog::ShowDirsOnly);
+    if(dir.size() > 0) {
+        ui->le_path->setText(dir);
+    }
+}
+
+void GUI_StreamRecorder::sl_template_help_clicked()
+{
+    QList<QPair<QString, QString>> desc = StreamRecorder::Utils::descriptions();
+
+    int i = 0;
+    QLayout* l=nullptr;
+
+    for(const QPair<QString, QString>& keyval : desc)
+    {
+        if(i % 2 == 0)
+        {
+            l = new QHBoxLayout(ui->layout_templates->widget());
+            l->setContentsMargins(10, 0, 10, 0);
+            l->setSpacing(10);
+            ui->layout_templates->addLayout(l);
+        }
+
+        QPushButton* btn = new QPushButton(this);
+        btn->setText(keyval.second);
+
+        connect(btn, &QPushButton::clicked, [=]()
+        {
+            int old_position = ui->le_template->cursorPosition();
+            QString text = ui->le_template->text();
+            text.insert(old_position, "<" + keyval.first + ">");
+
+            ui->le_template->setText(text);
+            ui->le_template->setFocus();
+            ui->le_template->setCursorPosition(old_position + keyval.first.size() + 2);
+            ui->le_template->setModified(true);
+        });
+
+        l->addWidget(btn);
+        i++;
+    }
 }
 
 
 void GUI_StreamRecorder::commit()
 {
-	_settings->set(Set::Engine_SR_Active, ui->cb_activate->isChecked());
+    _settings->set(Set::Engine_SR_Active, ui->cb_activate->isChecked());
 
-	if(!ui->le_path->isEnabled()){
-		return;
-	}
+    if(!ui->le_path->isEnabled()){
+        return;
+    }
 
-	QString str = ui->le_path->text();
-	if(!QFile::exists(str))
-	{
+    QString str = ui->le_path->text();
+    if(!QFile::exists(str))
+    {
         bool create_success = QDir::root().mkpath(str);
-		if(!create_success)
-		{
-			QString sr_path = _settings->get(Set::Engine_SR_Path);
-			ui->le_path->setText(sr_path);
+        if(!create_success)
+        {
+            QString sr_path = _settings->get(Set::Engine_SR_Path);
+            ui->le_path->setText(sr_path);
 
-			Message::warning(str + tr(" could not be created\nPlease choose another folder"), tr("Stream recorder"));
+            Message::warning(str + tr(" could not be created\nPlease choose another folder"), tr("Stream recorder"));
         }
     }
 
-	_settings->set(Set::Engine_SR_Path, str);
-	_settings->set(Set::Engine_SR_AutoRecord, ui->cb_auto_rec->isChecked());
-	_settings->set(Set::Engine_SR_SessionPath, ui->cb_create_session_path->isChecked());
+    _settings->set(Set::Engine_SR_Path, str);
+    _settings->set(Set::Engine_SR_AutoRecord, ui->cb_auto_rec->isChecked());
+    _settings->set(Set::Engine_SR_SessionPath, ui->cb_create_session_path->isChecked());
+    _settings->set(Set::Engine_SR_SessionPathTemplate, ui->le_template->text().trimmed());
 }
 
 void GUI_StreamRecorder::revert()
 {
-	bool lame_available = _settings->get(SetNoDB::MP3enc_found);
+    bool lame_available = _settings->get(SetNoDB::MP3enc_found);
 
-	QString path = _settings->get(Set::Engine_SR_Path);
-	bool active = _settings->get(Set::Engine_SR_Active) && lame_available;
-	bool create_session_path = _settings->get(Set::Engine_SR_SessionPath);
-	bool auto_rec = _settings->get(Set::Engine_SR_AutoRecord);
+    QString path = _settings->get(Set::Engine_SR_Path);
+    QString template_path = _settings->get(Set::Engine_SR_SessionPathTemplate);
+    bool active = _settings->get(Set::Engine_SR_Active) && lame_available;
+    bool create_session_path = _settings->get(Set::Engine_SR_SessionPath);
+    bool auto_rec = _settings->get(Set::Engine_SR_AutoRecord);
 
-	ui->cb_activate->setEnabled(lame_available);
-	ui->le_path->setText(path);
-	ui->cb_activate->setChecked(active);
-	ui->cb_create_session_path->setChecked(create_session_path);
-	ui->cb_auto_rec->setChecked(auto_rec);
+    ui->cb_activate->setEnabled(lame_available);
+    ui->le_path->setText(path);
+    ui->cb_activate->setChecked(active);
+    ui->cb_create_session_path->setChecked(create_session_path);
+    ui->cb_auto_rec->setChecked(auto_rec);
 
-	ui->cb_create_session_path->setEnabled(active);
-	ui->btn_path->setEnabled(active);
-	ui->le_path->setEnabled(active);
-	ui->cb_auto_rec->setEnabled(active);
+    ui->cb_create_session_path->setEnabled(active);
+    ui->btn_path->setEnabled(active);
+    ui->le_path->setEnabled(active);
+    ui->cb_auto_rec->setEnabled(active);
+    ui->le_template->setEnabled(active);
+    ui->le_template->setText(template_path);
 
-	if(!lame_available){
-		ui->lab_warning->setText(Lang::get(Lang::CannotFindLame));
-	}
-	else{
-		ui->lab_warning->clear();
-	}
+    if(!lame_available){
+        ui->lab_warning->setText(Lang::get(Lang::CannotFindLame));
+    }
+    else{
+        ui->lab_warning->clear();
+    }
 }
 
 
 QString GUI_StreamRecorder::get_action_name() const
 {
-	return tr("Stream recorder");
+    return tr("Stream recorder");
 }

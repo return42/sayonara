@@ -9,14 +9,17 @@ SET(SOURCES
     Playback/PipelineProbes.cpp
     Playback/PlaybackEngine.cpp
     Playback/PlaybackPipeline.cpp
-    Playback/StreamRecorder.cpp
+
     Playback/Crossfader.cpp
     Playback/ChangeablePipeline.cpp
 	Playback/SeekHandler.cpp
     Playback/SoundOutReceiver.cpp
 	Playback/SpeedHandler.cpp
+
+	Playback/StreamRecorder.cpp
     Playback/StreamRecorderData.cpp
 	Playback/StreamRecorderHandler.cpp
+	Playback/StreamRecorderUtils.cpp
 
     Convert/ConvertEngine.cpp
     Convert/ConvertPipeline.cpp

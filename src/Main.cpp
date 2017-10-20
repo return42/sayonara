@@ -61,11 +61,11 @@
 #ifdef Q_OS_WIN
 void init_gio()
 {
-	QString gio_path = Helper::File::clean_filename(QApplication::applicationDirPath()) + "/gio-modules";
-	QString gst_plugin_path = Helper::File::clean_filename(QApplication::applicationDirPath()) + "/gstreamer-1.0/";
+	QString gio_path = Util::File::clean_filename(QApplication::applicationDirPath()) + "/gio-modules";
+	QString gst_plugin_path = Util::File::clean_filename(QApplication::applicationDirPath()) + "/gstreamer-1.0/";
 
-	Helper::set_environment("GST_PLUGIN_PATH", gst_plugin_path);
-	Helper::set_environment("GST_PLUGIN_SYSTEM_PATH", gst_plugin_path);
+	Util::set_environment("GST_PLUGIN_PATH", gst_plugin_path);
+	Util::set_environment("GST_PLUGIN_SYSTEM_PATH", gst_plugin_path);
 
 	g_io_extension_point_register("gio-tls-backend");
 	g_io_modules_load_all_in_directory(gio_path.toLocal8Bit().data());
