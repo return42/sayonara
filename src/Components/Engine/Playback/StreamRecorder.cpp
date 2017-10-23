@@ -19,7 +19,6 @@
  */
 
 #include "StreamRecorder.h"
-#include "StreamRecorderUtils.h"
 
 #include "Utils/Utils.h"
 #include "Utils/FileUtils.h"
@@ -28,6 +27,7 @@
 #include "Utils/Logger/Logger.h"
 #include "Utils/Settings/Settings.h"
 #include "Utils/MetaData/MetaDataList.h"
+#include "Utils/StreamRecorder/StreamRecorderUtils.h"
 
 #include "Components/PlayManager/PlayManager.h"
 
@@ -110,7 +110,7 @@ QString Accessor::change_track(const MetaData& md)
 	bool saved = save();
     if(saved) {
 		m->cur_idx++;
-	}
+    }
 
     if(!Util::File::is_www(md.filepath()))
     {
@@ -125,19 +125,13 @@ QString Accessor::change_track(const MetaData& md)
 	m->md.track_num = m->cur_idx;
 	
     QString target_path_template = _settings->get(Set::Engine_SR_SessionPathTemplate);
-    if(!target_path_template.isEmpty())
-    {
-        target_path_template = Utils::full_target_path_template(sr_path, target_path_template);
-    }
-
-    else
+    if(target_path_template.isEmpty())
     {
         bool use_session_path = _settings->get(Set::Engine_SR_SessionPath);
-        target_path_template = Utils::full_target_path_template_default(sr_path, use_session_path);
+        target_path_template = Utils::target_path_template_default(use_session_path);
     }
 
-
-    Utils::TargetPaths target_path = Utils::full_target_path(target_path_template, m->md);
+    Utils::TargetPaths target_path = Utils::full_target_path(sr_path, target_path_template, m->md);
     if(target_path.first.isEmpty())
     {
 		m->sr_recording_dst = "";

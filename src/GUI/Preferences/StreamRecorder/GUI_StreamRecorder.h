@@ -30,28 +30,31 @@
 UI_FWD(GUI_StreamRecorder)
 
 class GUI_StreamRecorder :
-		public PreferenceWidgetInterface
+    public PreferenceWidgetInterface
 {
-	Q_OBJECT
-	UI_CLASS(GUI_StreamRecorder)
+    Q_OBJECT
+    UI_CLASS(GUI_StreamRecorder)
 
-public:
-	explicit GUI_StreamRecorder(QWidget* parent=nullptr);
-	~GUI_StreamRecorder();
+    public:
+        explicit GUI_StreamRecorder(QWidget* parent=nullptr);
+        ~GUI_StreamRecorder();
 
-	void commit() override;
-	void revert() override;
+        void commit() override;
+        void revert() override;
 
-	QString get_action_name() const override;
+        QString get_action_name() const override;
 
-protected:
-	void init_ui() override;
-	void retranslate_ui() override;
+    protected:
+        void init_ui() override;
+        void retranslate_ui() override;
 
-private slots:
-	void sl_cb_activate_toggled(bool);
-	void sl_btn_path_clicked();
-    void sl_template_help_clicked();
+
+    private slots:
+        void sl_cb_activate_toggled(bool);
+        void sl_btn_path_clicked();
+        void sl_btn_default_clicked();
+        void sl_line_edit_changed(const QString& new_text);
 };
 
 #endif /* GUI_STREAMRECORDER_H_ */
+

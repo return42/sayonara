@@ -1,5 +1,5 @@
-#include "Components/Engine/Playback/StreamRecorderUtils.h"
 #include "Utils/MetaData/MetaData.h"
+#include "Utils/StreamRecorder/StreamRecorderUtils.h"
 
 #include <QObject>
 #include <QTest>
@@ -11,7 +11,7 @@ using namespace StreamRecorder;
 class StreamRecorderUtilsTest : public QObject
 {
     Q_OBJECT
-    private slots:
+private slots:
 
     void tag_mismatch_test();
     void filename_test();
@@ -21,12 +21,13 @@ class StreamRecorderUtilsTest : public QObject
 
 void StreamRecorderUtilsTest::tag_mismatch_test()
 {
-   QString templ  = "<ar> - <t> - <<m>/bla.mp3";
-   Utils::ErrorCode e = Utils::validate_template(templ);
+    int invalid_idx;
+    QString templ  = "<ar> - <t> - <<m>/bla.mp3";
+    Utils::ErrorCode e = Utils::validate_template(templ, &invalid_idx);
 
-   qDebug() << __FUNCTION__ << e;
+    qDebug() << __FUNCTION__ << e;
 
-   QVERIFY(e == Utils::BracketError);
+    QVERIFY(e == Utils::BracketError);
 }
 
 void StreamRecorderUtilsTest::filename_test()
@@ -44,15 +45,15 @@ void StreamRecorderUtilsTest::filename_test()
     Utils::TargetPaths path = Utils::full_target_path(sr_path, templ, md);
 
     QString other_path = sr_path + "/" + QString("%1 %2_%3-/%4:df3-%5_%6-%7-/%8df%9.mp3")
-                          .arg("Bli")
-                          .arg(d.month())
-                          .arg(d.year())
-                          .arg(QDate::shortDayName(d.dayOfWeek()))
-                          .arg(t.minute())
-                          .arg("Bli")
-                          .arg(d.day())
-                          .arg(QDate::longDayName(d.dayOfWeek()))
-                          .arg("bla");
+            .arg("Bli")
+            .arg(d.month())
+            .arg(d.year())
+            .arg(QDate::shortDayName(d.dayOfWeek()))
+            .arg(t.minute())
+            .arg("Bli")
+            .arg(d.day())
+            .arg(QDate::longDayName(d.dayOfWeek()))
+            .arg("bla");
 
     qDebug() << path;
     qDebug() << other_path;
@@ -62,8 +63,9 @@ void StreamRecorderUtilsTest::filename_test()
 
 void StreamRecorderUtilsTest::invalid_tag_test()
 {
+    int invalid_idx;
     QString templ = "<t> <m>_<yy>-/<sf>:df3-<min>_<t>-<dd>-/<ld>df<a>";
-    Utils::ErrorCode e = Utils::validate_template(templ);
+    Utils::ErrorCode e = Utils::validate_template(templ, &invalid_idx);
 
     qDebug() << __FUNCTION__ << e;
 

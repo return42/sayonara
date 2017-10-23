@@ -64,8 +64,9 @@ SET(SOURCES
 	Settings/SettingNotifier.cpp
 	Settings/SettingRegistry.cpp
 
-
     SimilarArtists/SimilarArtists.cpp
+
+	StreamRecorder/StreamRecorderUtils.cpp
 
 	Tagging/Tagging.cpp
 	Tagging/AbstractFrame.cpp

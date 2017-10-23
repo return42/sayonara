@@ -58,4 +58,20 @@ protected:
     bool eventFilter(QObject* o , QEvent* e);
 };
 
+class MouseMoveFilter :
+        public QObject
+{
+    Q_OBJECT
+
+public:
+    explicit MouseMoveFilter(QObject* parent=nullptr);
+
+signals:
+    void sig_mouse_moved(const QPoint& p);
+
+protected:
+    bool eventFilter(QObject* o , QEvent* e);
+};
+
+
 #endif // EVENTFILTER_H

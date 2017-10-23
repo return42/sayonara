@@ -66,3 +66,21 @@ bool ContextMenuFilter::eventFilter(QObject *o, QEvent *e)
 }
 
 
+MouseMoveFilter::MouseMoveFilter(QObject* parent) :
+    QObject(parent)
+{}
+
+bool MouseMoveFilter::eventFilter(QObject *o, QEvent *e)
+{
+    if(e->type() == QEvent::MouseMove)
+    {
+        e->accept();
+        QMouseEvent* me = static_cast<QMouseEvent*>(e);
+
+        emit sig_mouse_moved(me->pos());
+    }
+
+    return QObject::eventFilter(o, e);
+}
+
+

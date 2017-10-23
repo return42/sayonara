@@ -29,18 +29,21 @@
 #include "Utils/Message/Message.h"
 #include "Utils/Settings/Settings.h"
 #include "Utils/Language.h"
-#include "Components/Engine/Playback/StreamRecorderUtils.h"
+#include "Utils/MetaData/MetaData.h"
+#include "Utils/StreamRecorder/StreamRecorderUtils.h"
+#include "Utils/Logger/Logger.h"
 
 #include <QFileDialog>
 #include <QDir>
 #include <QHBoxLayout>
+#include <QMouseEvent>
+
+namespace SR=StreamRecorder;
+
 
 GUI_StreamRecorder::GUI_StreamRecorder(QWidget* parent) :
     PreferenceWidgetInterface(parent)
-{
-
-}
-
+{}
 
 GUI_StreamRecorder::~GUI_StreamRecorder()
 {
@@ -54,20 +57,74 @@ void GUI_StreamRecorder::init_ui()
 {
     setup_parent(this, &ui);
 
-    ui->layout_templates->setSpacing(3);
+    QVBoxLayout* layout = new QVBoxLayout(ui->button_widget);
+    layout->setSpacing(3);
+
+    ui->button_widget->setLayout(layout);
+    ui->le_result_path->setReadOnly(true);
     ui->le_template->setClearButtonEnabled(true);
+    ui->le_template->setMouseTracking(true);
+    ui->tabWidget->setCurrentIndex(0);
+    ui->tabWidget->setTabEnabled(1, _settings->get(Set::Engine_SR_SessionPath));
+
+
+    QList<QPair<QString, QString>> desc = StreamRecorder::Utils::descriptions();
+
+    int i = 0;
+    QLayout* l=nullptr;
+
+    for(const QPair<QString, QString>& keyval : desc)
+    {
+        if(i % 2 == 0)
+        {
+            QVBoxLayout* vbl = dynamic_cast<QVBoxLayout*>(ui->button_widget->layout());
+            l = new QHBoxLayout(vbl->widget());
+            l->setContentsMargins(10, 0, 10, 0);
+            l->setSpacing(10);
+
+            vbl->addLayout(l);
+        }
+
+        QPushButton* btn = new QPushButton(this);
+        btn->setText(keyval.second);
+
+        connect(btn, &QPushButton::clicked, [=]()
+        {
+            int old_position = ui->le_template->cursorPosition();
+
+            ui->le_template->insert("<" + keyval.first + ">");
+            ui->le_template->setFocus();
+            ui->le_template->setCursorPosition(old_position + keyval.first.size() + 2);
+            ui->le_template->setModified(true);
+        });
+
+        l->addWidget(btn);
+        i++;
+    }
 
     revert();
 
     connect(ui->cb_activate, &QCheckBox::toggled, this, &GUI_StreamRecorder::sl_cb_activate_toggled);
     connect(ui->btn_path, &QPushButton::clicked, this, &GUI_StreamRecorder::sl_btn_path_clicked);
-    connect(ui->btn_template_help, &QPushButton::clicked, this, &GUI_StreamRecorder::sl_template_help_clicked);
+    connect(ui->le_template, &QLineEdit::textChanged, this, &GUI_StreamRecorder::sl_line_edit_changed);
+    connect(ui->le_path, &QLineEdit::textChanged, this, &GUI_StreamRecorder::sl_line_edit_changed);
+    connect(ui->cb_create_session_path, &QCheckBox::toggled, [=](bool b){
+        ui->tabWidget->setTabEnabled(1, b);
+    });
+
+    connect(ui->btn_default, &QPushButton::clicked, this, &GUI_StreamRecorder::sl_btn_default_clicked);
+    connect(ui->btn_undo, &QPushButton::clicked, this, [=](){
+        ui->le_template->undo();
+    });
+
+    sl_line_edit_changed(ui->le_template->text());
 }
 
 void GUI_StreamRecorder::retranslate_ui()
 {
     ui->retranslateUi(this);
 }
+
 
 
 void GUI_StreamRecorder::sl_cb_activate_toggled(bool b)
@@ -89,43 +146,50 @@ void GUI_StreamRecorder::sl_btn_path_clicked()
     }
 }
 
-void GUI_StreamRecorder::sl_template_help_clicked()
+void GUI_StreamRecorder::sl_btn_default_clicked()
 {
-    QList<QPair<QString, QString>> desc = StreamRecorder::Utils::descriptions();
+    QString default_template = SR::Utils::target_path_template_default(true);
 
-    int i = 0;
-    QLayout* l=nullptr;
-
-    for(const QPair<QString, QString>& keyval : desc)
-    {
-        if(i % 2 == 0)
-        {
-            l = new QHBoxLayout(ui->layout_templates->widget());
-            l->setContentsMargins(10, 0, 10, 0);
-            l->setSpacing(10);
-            ui->layout_templates->addLayout(l);
-        }
-
-        QPushButton* btn = new QPushButton(this);
-        btn->setText(keyval.second);
-
-        connect(btn, &QPushButton::clicked, [=]()
-        {
-            int old_position = ui->le_template->cursorPosition();
-            QString text = ui->le_template->text();
-            text.insert(old_position, "<" + keyval.first + ">");
-
-            ui->le_template->setText(text);
-            ui->le_template->setFocus();
-            ui->le_template->setCursorPosition(old_position + keyval.first.size() + 2);
-            ui->le_template->setModified(true);
-        });
-
-        l->addWidget(btn);
-        i++;
-    }
+    ui->le_template->setText(default_template);
 }
 
+void GUI_StreamRecorder::sl_line_edit_changed(const QString& new_text)
+{
+    Q_UNUSED(new_text)
+
+    QString template_text = ui->le_template->text();
+
+    MetaData md;
+    md.title = "Happy Song";
+    md.set_artist("Al White");
+    md.set_album("Rock Radio");
+    md.track_num = 1;
+
+    int err_idx;
+    SR::Utils::ErrorCode err = SR::Utils::validate_template(template_text, &err_idx);
+
+    if(err == SR::Utils::OK)
+    {
+        SR::Utils::TargetPaths target_path =
+        SR::Utils::full_target_path(ui->le_path->text(),
+                                    template_text,
+                                    md);
+
+        ui->le_result_path->setText(target_path.first);
+    }
+
+    else
+    {
+        QString error_string = SR::Utils::parse_error_code(err);
+
+
+        int max_sel = std::min(err_idx + 5, template_text.size());
+        ui->le_result_path->setText(
+            tr("Invalid template") + ": " +
+            error_string + ": '..." + template_text.mid(err_idx, max_sel - err_idx) + "...'");
+
+    }
+}
 
 void GUI_StreamRecorder::commit()
 {

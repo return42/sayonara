@@ -19,7 +19,6 @@ SET(SOURCES
 	Playback/StreamRecorder.cpp
     Playback/StreamRecorderData.cpp
 	Playback/StreamRecorderHandler.cpp
-	Playback/StreamRecorderUtils.cpp
 
     Convert/ConvertEngine.cpp
     Convert/ConvertPipeline.cpp
