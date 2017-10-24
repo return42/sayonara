@@ -51,6 +51,7 @@ class StreamServer :
 	protected:
         // QThread
 		void run() override;
+        using QThread::quit;
 
 
 	public slots:
@@ -59,7 +60,7 @@ class StreamServer :
 		void disconnect(StreamWriterPtr sw);
 		void disconnect_all();
 
-		void stop();
+        void stop();
 		void retry();
 
 

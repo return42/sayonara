@@ -78,6 +78,8 @@ StreamServer::~StreamServer()
     close_server();
 	disconnect_all();
 
+    sp_log(Log::Info, this) << "Radio station: Bye";
+
     if(m->server)
     {
 		delete m->server;
@@ -129,14 +131,8 @@ void StreamServer::run()
 			Util::sleep_ms(100);
 		}
 
-		if(m->server == nullptr){
-			break;
-		}
-
 		Util::sleep_ms(250);
 	}
-
-    sp_log(Log::Info, this) << "Radio station: Bye";
 }
 
 bool StreamServer::listen_for_connection()
@@ -191,14 +187,19 @@ void StreamServer::new_client_request()
 		pending_socket = m->pending[0].first;
 		pending_ip = m->pending[0].second;
 
-		if( _settings->get(Set::Broadcast_Prompt) ){
-			if(!m->allowed_ips.contains(pending_ip)){
-				QString question = tr("%1 wants to listen to your music.\nOK?").arg(pending_ip);
+        if( _settings->get(Set::Broadcast_Prompt) )
+        {
+            if(!m->allowed_ips.contains(pending_ip))
+            {
+                QString question = tr("%1 wants to listen to your music.").arg(pending_ip).append("\nOk?");
+
                 GlobalMessage::Answer answer = GlobalMessage::question(question);
-				if(answer==GlobalMessage::Answer::Yes){
+                if(answer==GlobalMessage::Answer::Yes)
+                {
 					accept_client(pending_socket, pending_ip);
 				}
-				else{
+                else
+                {
 					reject_client(pending_socket, pending_ip);
 				}
 			}
@@ -267,7 +268,8 @@ void StreamServer::track_changed(const MetaData& md)
 
 void StreamServer::close_server()
 {
-	if(m->server){
+    if(m->server)
+    {
 		m->server->close();
         sp_log(Log::Info, this) << "Server closed..";
 	}
@@ -295,7 +297,8 @@ void StreamServer::disconnect(StreamWriterPtr sw)
 
 void StreamServer::disconnect_all()
 {
-	for(StreamWriterPtr sw : m->lst_sw){
+    for(StreamWriterPtr sw : m->lst_sw)
+    {
 		sw->disconnect();
 	}
 
@@ -354,12 +357,7 @@ void StreamServer::stop()
     close_server();
 	disconnect_all();
 
-    if(m->server)
-    {
-		delete m->server;
-	}
-
-	m->server = nullptr;
+    QThread::quit();
 }
 
 
@@ -377,43 +375,5 @@ void StreamServer::s_port_changed()
 {
     bool active = _settings->get(Set::Broadcast_Active);
 
-	emit sig_can_listen(true);
+    emit sig_can_listen(active);
 }
-
-
-//void StreamServer::s_active_changed()
-//{
-//	bool active = _settings->get(Set::Broadcast_Active);
-
-//    if(!m->mp3_enc_available)
-//    {
-//        if(m->server)
-//        {
-//            m->server->close();
-//        }
-
-//		return;
-//	}
-
-//    if(!active)
-//    {
-//        if(m->server)
-//        {
-//            m->server->close();
-//        }
-
-//		return;
-//	}
-
-//	create_server();
-//	active = m->server->isListening();
-
-//	if( !active){
-//		active = listen_for_connection();
-//		emit sig_can_listen(active);
-//	}
-
-//	if(active){
-//		this->start();
-//	}
-//}
