@@ -40,10 +40,7 @@ signals:
 	void sig_triggered(QPoint);
 
 protected:
-	virtual void mouseReleaseEvent(QMouseEvent *e) override;
 	virtual void mousePressEvent(QMouseEvent* e) override;
-	virtual void enterEvent(QEvent* e) override;
-	virtual void leaveEvent(QEvent* e) override;
 
 	/**
 	 * @brief subclasses should call this function and show their menu
@@ -58,19 +55,12 @@ protected:
 	 */
 	virtual bool prove_enabled();
 
-	/**
-	 * @brief sets the icon depending on the skin
-	 */
-	void set_std_icon();
-
     void skin_changed() override;
     void language_changed() override;
 
 public:
 	explicit MenuButton(QWidget* parent=nullptr);
 	virtual ~MenuButton();
-
-	void set_show_title(bool show_title);
 };
 
 #endif // MENUBUTTON_H

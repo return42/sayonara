@@ -100,6 +100,7 @@ GUI_Playlist::GUI_Playlist(QWidget *parent) :
 	connect(ui->tw_playlists, &PlaylistTabWidget::sig_tab_delete, this, &GUI_Playlist::tab_delete_playlist_clicked);
 	connect(ui->tw_playlists, &PlaylistTabWidget::sig_tab_save, this, &GUI_Playlist::tab_save_playlist_clicked);
 	connect(ui->tw_playlists, &PlaylistTabWidget::sig_tab_save_as, this, &GUI_Playlist::tab_save_playlist_as_clicked);
+    connect(ui->tw_playlists, &PlaylistTabWidget::sig_tab_save_to_file, this, &GUI_Playlist::tab_save_playlist_to_file_clicked);
 	connect(ui->tw_playlists, &PlaylistTabWidget::sig_tab_rename, this, &GUI_Playlist::tab_rename_clicked);
 	connect(ui->tw_playlists, &PlaylistTabWidget::sig_tab_clear, this, &GUI_Playlist::clear_button_pressed);
     connect(ui->tw_playlists, &PlaylistTabWidget::sig_tab_reset, m->playlist, &PlaylistHandler::reset_playlist);
@@ -595,7 +596,8 @@ void GUI_Playlist::tab_save_playlist_clicked(int idx)
 {
     PlaylistDBInterface::SaveAsAnswer success = m->playlist->save_playlist(idx);
 
-    if(success == PlaylistDBInterface::SaveAsAnswer::Success){
+    if(success == PlaylistDBInterface::SaveAsAnswer::Success)
+    {
         QString old_string = ui->tw_playlists->tabText(idx);
 
         if(old_string.startsWith("* ")){
@@ -615,7 +617,8 @@ void GUI_Playlist::tab_save_playlist_as_clicked(int idx, const QString& str)
 
     success = m->playlist->save_playlist_as(idx, str, false);
 
-    if(success == PlaylistDBInterface::SaveAsAnswer::AlreadyThere){
+    if(success == PlaylistDBInterface::SaveAsAnswer::AlreadyThere)
+    {
         GlobalMessage::Answer answer = show_save_message_box(success);
 
         if(answer == GlobalMessage::Answer::No) {
@@ -626,6 +629,11 @@ void GUI_Playlist::tab_save_playlist_as_clicked(int idx, const QString& str)
     }
 
     show_save_message_box(success);
+}
+
+void GUI_Playlist::tab_save_playlist_to_file_clicked(int pl_idx, const QString &filename)
+{
+    m->playlist->save_playlist_to_file(pl_idx, filename, false);
 }
 
 
@@ -694,6 +702,7 @@ void GUI_Playlist::check_playlist_menu(PlaylistConstPtr pl)
 
     bool save_enabled =		(!temporary && storable);
     bool save_as_enabled =	(storable);
+    bool save_to_file_enabled = (!pl->is_empty());
     bool delete_enabled =	(!temporary && storable);
     bool reset_enabled =	(!temporary && storable && was_changed);
     bool close_enabled =	(ui->tw_playlists->count() > 2);
@@ -708,6 +717,9 @@ void GUI_Playlist::check_playlist_menu(PlaylistConstPtr pl)
     }
     if(save_as_enabled){
         entries |= PlaylistMenuEntry::SaveAs;
+    }
+    if(save_to_file_enabled){
+        entries |= PlaylistMenuEntry::SaveToFile;
     }
     if(delete_enabled){
         entries |= PlaylistMenuEntry::Delete;

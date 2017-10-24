@@ -135,9 +135,6 @@
        <string>Session Folder</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_4">
-       <item row="2" column="0" colspan="2">
-        <widget class="QLineEdit" name="le_result_path"/>
-       </item>
        <item row="4" column="0" colspan="2">
         <widget class="QWidget" name="widget" native="true">
          <property name="minimumSize">
@@ -147,31 +144,17 @@
           </size>
          </property>
          <layout class="QGridLayout" name="gridLayout_3">
-          <item row="4" column="1">
-           <widget class="QPushButton" name="btn_undo">
-            <property name="text">
-             <string>Undo</string>
-            </property>
-           </widget>
-          </item>
           <item row="4" column="0">
            <widget class="QPushButton" name="btn_default">
             <property name="text">
-             <string>Default</string>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="2">
-           <widget class="QPushButton" name="btn_hide">
-            <property name="text">
-             <string>Hide</string>
+             <string notr="true">Default</string>
             </property>
            </widget>
           </item>
           <item row="0" column="0" colspan="3">
            <widget class="QLabel" name="label_6">
             <property name="text">
-             <string>Click on the available placeholders</string>
+             <string>Choose available placeholders</string>
             </property>
            </widget>
           </item>
@@ -189,6 +172,13 @@
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="2">
+           <widget class="QPushButton" name="btn_undo">
+            <property name="text">
+             <string notr="true">Undo</string>
             </property>
            </widget>
           </item>
@@ -216,6 +206,16 @@
         <widget class="Line" name="line_3">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLineEdit" name="le_result_path"/>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_7">
+         <property name="text">
+          <string>Example</string>
          </property>
         </widget>
        </item>

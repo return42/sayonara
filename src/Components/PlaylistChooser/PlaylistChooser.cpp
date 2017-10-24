@@ -89,52 +89,6 @@ void PlaylistChooser::load_single_playlist(int id)
 }
 
 
-void PlaylistChooser::delete_playlist(int id)
-{
-    bool success = m->playlist_db_connector->delete_playlist(id);
-
-	if(!success) {
-		sp_log(Log::Warning) << "playlist " << id << " could not be deleted";
-	}
-
-	load_all_playlists();
-}
-
-
-void PlaylistChooser::save_playlist(int id)
-{
-    CustomPlaylist pl = m->find_custom_playlist(id);
-
-    if(pl.valid())
-    {
-        int cur_idx = m->playlist_handler->get_current_idx();
-        m->playlist_handler->save_playlist(cur_idx);
-	}
-}
-
-void PlaylistChooser::save_playlist(const QString& name)
-{
-    int cur_idx = m->playlist_handler->get_current_idx();
-    m->playlist_handler->save_playlist_as(cur_idx, name, true);
-}
-
-void PlaylistChooser::save_playlist_file(const QString& filename, bool relative_paths)
-{
-    m->playlist_handler->save_playlist_to_file(filename, relative_paths);
-}
-
-
-void PlaylistChooser::clear_playlist()
-{
-    int cur_idx = m->playlist_handler->get_current_idx();
-    m->playlist_handler->clear_playlist(cur_idx);
-}
-
-void PlaylistChooser::playlist_files_selected(const QStringList& lst)
-{
-    m->playlist_handler->create_playlist(lst, "", false);
-}
-
 int PlaylistChooser::find_playlist(const QString& name) const
 {
     for(const CustomPlaylistSkeleton& skeleton : m->skeletons)

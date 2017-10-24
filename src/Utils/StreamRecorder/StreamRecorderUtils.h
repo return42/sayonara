@@ -14,13 +14,14 @@ namespace StreamRecorder
 {
     namespace Utils
     {
-        enum ErrorCode
+        enum class ErrorCode : uint8_t
         {
             OK=1,
             BracketError,
             UnknownTag,
             MissingUniqueTag,
-            InvalidChars
+            InvalidChars,
+            Empty
         };
 
         // filename, playlistname

@@ -56,7 +56,6 @@ GUI_PlaylistBottomBar::GUI_PlaylistBottomBar(QWidget *parent) :
 	ui->setupUi(this);
 
 	ui->btn_menu->setFlat(true);
-	ui->btn_menu->set_show_title(false);
 
 #ifdef Q_OS_WIN
 	ui->btn_menu->setVisible(false);

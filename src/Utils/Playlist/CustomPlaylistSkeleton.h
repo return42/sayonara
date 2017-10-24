@@ -21,8 +21,9 @@
 #ifndef CUSTOM_PLAYLIST_SKELETON_H
 #define CUSTOM_PLAYLIST_SKELETON_H
 
-#include <QString>
+#include "Utils/Pimpl.h"
 
+class QString;
 
 /**
  * @brief The CustomPlaylistSkeleton class
@@ -30,28 +31,25 @@
  */
 class CustomPlaylistSkeleton
 {
-private:
-	int				_id;
-	QString			_name;
-	bool			_is_temporary;
-	int				_num_tracks;
+    PIMPL(CustomPlaylistSkeleton)
 
-public:
-	int id() const;
-	void set_id(int id);
+    public:
+        int id() const;
+        void set_id(int id);
 
-	QString name() const;
-	void set_name(const QString& name);
+        QString name() const;
+        void set_name(const QString& name);
 
-	bool temporary() const;
-	void set_temporary(bool temporary);
+        bool temporary() const;
+        void set_temporary(bool temporary);
 
-	virtual int num_tracks() const;
-	virtual void set_num_tracks(int num_tracks);
+        virtual int num_tracks() const;
+        virtual void set_num_tracks(int num_tracks);
 
-	CustomPlaylistSkeleton();
-	CustomPlaylistSkeleton(const CustomPlaylistSkeleton& s);
-	virtual ~CustomPlaylistSkeleton();
+        CustomPlaylistSkeleton();
+        CustomPlaylistSkeleton(const CustomPlaylistSkeleton& other);
+        CustomPlaylistSkeleton& operator=(const CustomPlaylistSkeleton& other);
+        virtual ~CustomPlaylistSkeleton();
 };
 
 #endif

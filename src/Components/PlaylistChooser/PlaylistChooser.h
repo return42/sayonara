@@ -44,15 +44,7 @@ public:
 	PlaylistChooser();
 	~PlaylistChooser();
 
-	void delete_playlist(int id);
-
 	void load_single_playlist(int id);
-
-	void save_playlist(int id);
-	void save_playlist(const QString& playlist_name);
-	void save_playlist_file(const QString& filename, bool);
-	void clear_playlist();
-	void playlist_files_selected(const QStringList& lst);
 	int find_playlist(const QString& name) const;
 
 signals:

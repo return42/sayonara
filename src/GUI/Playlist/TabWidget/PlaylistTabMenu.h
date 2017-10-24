@@ -44,6 +44,7 @@ signals:
 	void sig_clear_clicked();
 	void sig_open_file_clicked();
 	void sig_open_dir_clicked();
+    void sig_save_to_file_clicked();
 
 protected:
     void language_changed() override;

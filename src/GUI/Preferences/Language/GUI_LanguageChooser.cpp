@@ -75,6 +75,7 @@ void GUI_LanguageChooser::renew_combo()
 	}
 
 	QString lang_setting = _settings->get(Set::Player_Language);
+
     sp_log(Log::Info, this) << "Language setting = " << lang_setting;
 	QDir dir(Util::share_path("translations"));
 
@@ -148,7 +149,8 @@ void GUI_LanguageChooser::init_ui()
     m->map["zh_cn"] = QString::fromUtf8("中文");
 }
 
-void GUI_LanguageChooser::showEvent(QShowEvent* e) {
+void GUI_LanguageChooser::showEvent(QShowEvent* e)
+{
 	PreferenceWidgetInterface::showEvent(e);
 
 	renew_combo();

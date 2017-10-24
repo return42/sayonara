@@ -58,7 +58,6 @@ QString GUI_Bookmarks::get_display_name() const
 void GUI_Bookmarks::retranslate_ui()
 {
 	ui->retranslateUi(this);
-	ui->btn_tool->setText(Lang::get(Lang::Menu));
 }
 
 

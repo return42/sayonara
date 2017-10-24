@@ -153,7 +153,7 @@ void GUI_AudioConverter::fill_vbr()
 	disconnect(ui->cb_quality,	combo_current_index_changed_int, this, &GUI_AudioConverter::quality_changed);
 
 	ui->cb_quality->clear();
-	ui->cb_quality->addItem(tr("0 (Best)"), LameBitrate_var_0);
+    ui->cb_quality->addItem("0 (" + tr("Best") + ")", LameBitrate_var_0);
 	ui->cb_quality->addItem("1", LameBitrate_var_1);
 	ui->cb_quality->addItem("2", LameBitrate_var_2);
 	ui->cb_quality->addItem("3", LameBitrate_var_3);
@@ -162,7 +162,7 @@ void GUI_AudioConverter::fill_vbr()
 	ui->cb_quality->addItem("6", LameBitrate_var_6);
 	ui->cb_quality->addItem("7", LameBitrate_var_7);
 	ui->cb_quality->addItem("8", LameBitrate_var_8);
-	ui->cb_quality->addItem(tr("9 (Worst)"), LameBitrate_var_9);
+    ui->cb_quality->addItem("9 (" + tr("Worst") + ")", LameBitrate_var_9);
 
 	connect(ui->cb_quality,	combo_current_index_changed_int, this, &GUI_AudioConverter::quality_changed);
 

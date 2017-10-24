@@ -133,12 +133,12 @@ void LibraryContextMenu::language_changed()
 
     if(show_covers)
     {
-        _cover_view_action->setText(tr("Switch to table view"));
+        _cover_view_action->setText(tr("Table view"));
     }
 
     else
     {
-        _cover_view_action->setText(tr("Switch to cover view"));
+        _cover_view_action->setText(tr("Cover view"));
     }
 }
 
@@ -247,12 +247,12 @@ void LibraryContextMenu::show_covers_changed()
 
     if(show_covers)
     {
-        _cover_view_action->setText(tr("Switch to table view"));
+        _cover_view_action->setText(tr("Table view"));
     }
 
     else
     {
-        _cover_view_action->setText(tr("Switch to cover view"));
+        _cover_view_action->setText(tr("Cover view"));
     }
 }
 

@@ -26,6 +26,7 @@
 #include "GUI/Preferences/ui_GUI_StreamRecorder.h"
 
 #include "Database/DatabaseConnector.h"
+#include "Utils/Utils.h"
 #include "Utils/Message/Message.h"
 #include "Utils/Settings/Settings.h"
 #include "Utils/Language.h"
@@ -37,8 +38,10 @@
 #include <QDir>
 #include <QHBoxLayout>
 #include <QMouseEvent>
+#include <QGridLayout>
 
 namespace SR=StreamRecorder;
+
 
 
 GUI_StreamRecorder::GUI_StreamRecorder(QWidget* parent) :
@@ -57,8 +60,7 @@ void GUI_StreamRecorder::init_ui()
 {
     setup_parent(this, &ui);
 
-    QVBoxLayout* layout = new QVBoxLayout(ui->button_widget);
-    layout->setSpacing(3);
+    QGridLayout* layout = new QGridLayout(ui->button_widget);
 
     ui->button_widget->setLayout(layout);
     ui->le_result_path->setReadOnly(true);
@@ -70,23 +72,13 @@ void GUI_StreamRecorder::init_ui()
 
     QList<QPair<QString, QString>> desc = StreamRecorder::Utils::descriptions();
 
-    int i = 0;
-    QLayout* l=nullptr;
-
+    int i=0;
     for(const QPair<QString, QString>& keyval : desc)
     {
-        if(i % 2 == 0)
-        {
-            QVBoxLayout* vbl = dynamic_cast<QVBoxLayout*>(ui->button_widget->layout());
-            l = new QHBoxLayout(vbl->widget());
-            l->setContentsMargins(10, 0, 10, 0);
-            l->setSpacing(10);
-
-            vbl->addLayout(l);
-        }
-
-        QPushButton* btn = new QPushButton(this);
-        btn->setText(keyval.second);
+        TagButton* btn = new TagButton(keyval.first, this);
+        btn->setText(
+            Util::cvt_str_to_first_upper(keyval.second)
+        );
 
         connect(btn, &QPushButton::clicked, [=]()
         {
@@ -98,9 +90,13 @@ void GUI_StreamRecorder::init_ui()
             ui->le_template->setModified(true);
         });
 
-        l->addWidget(btn);
+        int row = i / 2;
+        int col = i % 2;
+
+        layout->addWidget(btn, row, col);
         i++;
     }
+
 
     revert();
 
@@ -123,9 +119,10 @@ void GUI_StreamRecorder::init_ui()
 void GUI_StreamRecorder::retranslate_ui()
 {
     ui->retranslateUi(this);
+
+    ui->btn_undo->setText(Lang::get(Lang::Undo));
+    ui->btn_default->setText(Lang::get(Lang::Default));
 }
-
-
 
 void GUI_StreamRecorder::sl_cb_activate_toggled(bool b)
 {
@@ -168,7 +165,7 @@ void GUI_StreamRecorder::sl_line_edit_changed(const QString& new_text)
     int err_idx;
     SR::Utils::ErrorCode err = SR::Utils::validate_template(template_text, &err_idx);
 
-    if(err == SR::Utils::OK)
+    if(err == SR::Utils::ErrorCode::OK)
     {
         SR::Utils::TargetPaths target_path =
         SR::Utils::full_target_path(ui->le_path->text(),
@@ -182,11 +179,10 @@ void GUI_StreamRecorder::sl_line_edit_changed(const QString& new_text)
     {
         QString error_string = SR::Utils::parse_error_code(err);
 
-
         int max_sel = std::min(err_idx + 5, template_text.size());
         ui->le_result_path->setText(
-            tr("Invalid template") + ": " +
-            error_string + ": '..." + template_text.mid(err_idx, max_sel - err_idx) + "...'");
+            error_string + ": '..." + template_text.mid(err_idx, max_sel - err_idx) + "...'"
+        );
 
     }
 }
@@ -253,4 +249,34 @@ void GUI_StreamRecorder::revert()
 QString GUI_StreamRecorder::get_action_name() const
 {
     return tr("Stream recorder");
+}
+
+
+struct TagButton::Private
+{
+    QString tag_name;
+
+    Private(const QString& tag_name) :
+        tag_name(tag_name)
+    {}
+};
+
+TagButton::TagButton(const QString& tag_name, QWidget* parent) :
+    Gui::WidgetTemplate<QPushButton>(parent)
+{
+    m = Pimpl::make<Private>(tag_name);
+}
+
+TagButton::~TagButton() {}
+
+void TagButton::language_changed()
+{
+    QList<QPair<QString, QString>> descs = SR::Utils::descriptions();
+    for(auto d : descs)
+    {
+        if(d.first.compare(m->tag_name) == 0){
+            this->setText(Util::cvt_str_to_first_upper(d.second));
+            break;
+        }
+    }
 }

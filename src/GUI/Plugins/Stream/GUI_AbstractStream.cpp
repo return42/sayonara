@@ -109,10 +109,10 @@ void GUI_AbstractStream::init_streams()
 
 void GUI_AbstractStream::init_ui()
 {
-	m->btn_play->setMinimumSize(QSize(24,24));
-	m->btn_play->setMaximumSize(QSize(24,24));
-	m->btn_tool->setToolTip(Lang::get(Lang::Menu));
-	m->btn_tool->setText(Lang::get(Lang::Menu));
+    m->btn_play->setMinimumSize(QSize(24,24));
+    m->btn_play->setMaximumSize(QSize(24,24));
+    m->btn_play->setFlat(true);
+    m->btn_play->setIconSize(QSize(18, 18));
 
 	m->loading_bar = new ProgressBar(this);
 
@@ -129,13 +129,12 @@ void GUI_AbstractStream::retranslate_ui()
 {
 	m->le_url->setPlaceholderText(Lang::get(Lang::EnterUrl).triplePt());
 	m->combo_stream->lineEdit()->setPlaceholderText(Lang::get(Lang::EnterName).triplePt());
-	m->btn_tool->setText(Lang::get(Lang::Menu));
 
-	if(m->searching){
-		m->lab_listen->setText(Lang::get(Lang::Stop));
-	} else {
-		m->lab_listen->setText(Lang::get(Lang::Listen));
-	}
+    if(m->searching){
+        m->lab_listen->setText(Lang::get(Lang::Stop));
+    } else {
+        m->lab_listen->setText(Lang::get(Lang::Listen));
+    }
 }
 
 void GUI_AbstractStream::error()
@@ -168,15 +167,15 @@ void GUI_AbstractStream::set_searching(bool searching)
 {
     ;
 
-	m->loading_bar->setVisible(searching);
+    m->loading_bar->setVisible(searching);
 	m->btn_play->setDisabled(false);
 
 	if(!searching) {
         m->btn_play->setIcon( IconLoader::icon("media-playback-start", "play"));
-		m->lab_listen->setText(Lang::get(Lang::Listen));
+        m->lab_listen->setText(Lang::get(Lang::Listen));
 	} else {
         m->btn_play->setIcon( IconLoader::icon("media-playback-stop", "stop"));
-		m->lab_listen->setText(Lang::get(Lang::Stop));
+        m->lab_listen->setText(Lang::get(Lang::Stop));
 	}
 
 	m->searching = searching;
@@ -282,8 +281,8 @@ void GUI_AbstractStream::text_changed(const QString& str)
 
 	bool listen_enabled = (!m->le_url->text().isEmpty());
 
-	m->btn_play->setEnabled(listen_enabled);
-	m->lab_listen->setEnabled(listen_enabled);
+    m->btn_play->setEnabled(listen_enabled);
+    m->lab_listen->setEnabled(listen_enabled);
 
 	m->btn_tool->show_action(ContextMenu::EntrySave,  listen_enabled &&
 							  !m->combo_stream->currentText().isEmpty());
@@ -372,8 +371,8 @@ void GUI_AbstractStream::setup_stations(const StreamMap& stations)
 		m->combo_stream->addItem(it.key(), it.value());
 	}
 
-	m->btn_play->setEnabled(false);
-	m->lab_listen->setEnabled(false);
+    m->btn_play->setEnabled(false);
+    m->lab_listen->setEnabled(false);
 	m->btn_tool->show_action(ContextMenu::EntrySave, false);
 	m->btn_tool->show_action(ContextMenu::EntryDelete, false);
 	m->combo_stream->setCurrentText(old_name);

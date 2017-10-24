@@ -246,7 +246,7 @@ public:
 	 * @param filename, if filename does not end with m3u, extension is appended automatically
 	 * @param relative relative paths in m3u file
 	 */
-	void save_playlist_to_file(const QString& filename, bool relative);
+    void save_playlist_to_file(int pl_idx, const QString& filename, bool relative);
 
 
 public slots:

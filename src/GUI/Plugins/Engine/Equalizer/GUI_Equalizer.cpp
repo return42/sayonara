@@ -119,7 +119,11 @@ void GUI_Equalizer::init_ui()
     m->sliders.push_back(ui->sli_8);
     m->sliders.push_back(ui->sli_9);
 
-	ui->cb_gauss->setChecked( _settings->get(Set::Eq_Gauss));
+    QAction* action_gauss = new QAction("Kurve", ui->btn_tool);
+    action_gauss->setCheckable(true);
+    action_gauss->setChecked(_settings->get(Set::Eq_Gauss));
+
+    ui->btn_tool->register_action(action_gauss);
 
     for(EqSlider* s : m->sliders) {
 		connect(s, &EqSlider::sig_value_changed, this, &GUI_Equalizer::sli_changed);
@@ -132,7 +136,7 @@ void GUI_Equalizer::init_ui()
 	connect(ui->btn_tool, &MenuToolButton::sig_undo, this, &GUI_Equalizer::btn_undo_clicked);
 	connect(ui->btn_tool, &MenuToolButton::sig_default, this, &GUI_Equalizer::btn_default_clicked);
 
-	connect(ui->cb_gauss, &QCheckBox::toggled, this, &GUI_Equalizer::cb_gauss_toggled);
+    connect(action_gauss, &QAction::toggled, this, &GUI_Equalizer::cb_gauss_toggled);
 	connect(ui->combo_presets, &QComboBox::editTextChanged, this, &GUI_Equalizer::text_changed);
 
 	fill_eq_presets();
@@ -153,7 +157,6 @@ QString GUI_Equalizer::get_display_name() const
 void GUI_Equalizer::retranslate_ui()
 {
 	ui->retranslateUi(this);
-	ui->btn_tool->setText(Lang::get(Lang::Menu));
 }
 
 void GUI_Equalizer::sli_pressed()
@@ -182,6 +185,7 @@ static double scale[] = {1.0, 0.6, 0.20, 0.06, 0.01};
 
 void GUI_Equalizer::sli_changed(int idx, int new_val)
 {
+    bool gauss_on = _settings->get(Set::Eq_Gauss);
 	ui->btn_tool->show_action(ContextMenu::EntryUndo, true);
 
     EqSlider* s = m->sliders[idx];
@@ -190,7 +194,7 @@ void GUI_Equalizer::sli_changed(int idx, int new_val)
     m->engine->set_equalizer(idx, new_val);
 
 	// this slider has been changed actively
-    if( idx == m->active_idx && ui->cb_gauss->isChecked() )
+    if( idx == m->active_idx && gauss_on )
 	{
         int delta = new_val - m->old_val[idx];
 

@@ -47,21 +47,12 @@ public:
 public slots:
 	void all_playlists_fetched(const CustomPlaylistSkeletons&);
 
-
 private:
 	void retranslate_ui() override;
 	void init_ui() override;
 
-
 private slots:
-	void edit_text_changed(const QString& name);
-	void save_button_pressed();
-	void save_as_button_pressed();
-	void delete_button_pressed();
-	void load_button_pressed();
-	void playlist_selected(int);
-
-	void got_save_params(const QString&, bool);
+    void playlist_selected(int index);
 };
 
 #endif /* GUIPLAYLISTCHOOSER_H_ */

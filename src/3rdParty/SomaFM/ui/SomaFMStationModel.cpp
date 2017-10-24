@@ -28,6 +28,7 @@
 
 #include "Utils/globals.h"
 #include "Utils/Logger/Logger.h"
+#include "Utils/Language.h"
 
 #include "GUI/Utils/GuiUtils.h"
 #include "GUI/Utils/CustomMimeData.h"
@@ -118,9 +119,10 @@ QVariant SomaFM::StationModel::data(const QModelIndex& index, int role) const
 
 	else if(role == Qt::DisplayRole && col == 1)
 	{
-		if(m->stations.isEmpty()){
+        if(m->stations.isEmpty())
+        {
 			if(m->status == Status::Waiting){
-				return tr("Initializing") + "...";
+                return Lang::get(Lang::LoadingArg).arg("SomaFM");
 			}
 
 			else if(m->status == Status::Error){

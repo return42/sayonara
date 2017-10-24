@@ -302,7 +302,7 @@
        <item row="0" column="0">
         <widget class="QCheckBox" name="cb_show_clear_buttons">
          <property name="text">
-          <string>Show selection clear buttons</string>
+          <string>Show &quot;Clear selection&quot; buttons</string>
          </property>
         </widget>
        </item>

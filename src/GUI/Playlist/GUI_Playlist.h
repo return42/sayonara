@@ -95,7 +95,8 @@ private slots:
 	// triggered by GUI
 	void tab_close_playlist_clicked(int pl_idx); // GUI_PlaylistTabs.cpp
 	void tab_save_playlist_clicked(int pl_idx); // GUI_PlaylistTabs.cpp
-	void tab_save_playlist_as_clicked(int pl_idx, const QString& str); // GUI_PlaylistTabs.cpp
+    void tab_save_playlist_as_clicked(int pl_idx, const QString& str); // GUI_PlaylistTabs.cpp
+    void tab_save_playlist_to_file_clicked(int pl_idx, const QString& filename); // GUI_PlaylistTabs.cpp
 	void tab_rename_clicked(int pl_idx, const QString& str);
 	void tab_delete_playlist_clicked(int pl_idx); // GUI_PlaylistTabs.cpp
 	void tab_metadata_dropped(int pl_idx, const MetaDataList& v_md);

@@ -40,7 +40,7 @@ struct LocalLibraryMenu::Private
 	QAction* import_folder_action=nullptr;
 	QAction* info_action=nullptr;
 	QAction* edit_action=nullptr;
-	QAction* realtime_search_action=nullptr;
+    QAction* livesearch_action=nullptr;
 	QAction* auto_update=nullptr;
 	QAction* show_album_artists_action=nullptr;
 	QAction* show_album_cover_view=nullptr;
@@ -88,10 +88,10 @@ void LocalLibraryMenu::init_menu()
     m->info_action = new QAction(this);
     m->edit_action = new QAction(this);
 
-    m->realtime_search_action = new QAction(tr("Live search"), this);
-	m->realtime_search_action->setCheckable(true);
-	m->realtime_search_action->setChecked(_settings->get(Set::Lib_LiveSearch));
-    m->auto_update = new QAction(tr("Auto update"), this);
+    m->livesearch_action = new QAction(this);
+    m->livesearch_action->setCheckable(true);
+    m->livesearch_action->setChecked(_settings->get(Set::Lib_LiveSearch));
+    m->auto_update = new QAction(this);
 	m->auto_update->setCheckable(true);
 	m->auto_update->setChecked(_settings->get(Set::Lib_AutoUpdate));
 
@@ -108,7 +108,7 @@ void LocalLibraryMenu::init_menu()
 	connect(m->import_folder_action, &QAction::triggered, this, &LocalLibraryMenu::sig_import_folder);
 	connect(m->info_action, &QAction::triggered, this, &LocalLibraryMenu::sig_info);
 	connect(m->edit_action, &QAction::triggered, this, &LocalLibraryMenu::edit_clicked);
-	connect(m->realtime_search_action, &QAction::triggered, this, &LocalLibraryMenu::realtime_search_changed);
+    connect(m->livesearch_action, &QAction::triggered, this, &LocalLibraryMenu::realtime_search_changed);
 	connect(m->auto_update, &QAction::triggered, this, &LocalLibraryMenu::auto_update_changed);
 	connect(m->show_album_artists_action, &QAction::triggered, this, &LocalLibraryMenu::show_album_artists_changed);
 	connect(m->show_album_cover_view, &QAction::triggered, this, &LocalLibraryMenu::show_album_cover_view_changed);
@@ -123,7 +123,7 @@ void LocalLibraryMenu::init_menu()
 				  m->reload_library_action <<
 				  this->addSeparator() <<
 				  m->show_album_cover_view <<
-				  m->realtime_search_action <<
+                  m->livesearch_action <<
 				  m->auto_update <<
 				  m->show_album_artists_action;
 
@@ -155,10 +155,10 @@ void LocalLibraryMenu::language_changed()
 	m->import_folder_action->setText(Lang::get(Lang::ImportDir));
 	m->info_action->setText(Lang::get(Lang::Info));
 	m->edit_action->setText(Lang::get(Lang::Edit));
-	m->realtime_search_action->setText(tr("Live search"));
+    m->livesearch_action->setText(tr("Live search"));
 	m->auto_update->setText(tr("Auto update"));
 	m->show_album_artists_action->setText(Lang::get(Lang::ShowAlbumArtists));
-	m->show_album_cover_view->setText(tr("Show album covers"));
+    m->show_album_cover_view->setText(tr("Cover view"));
 }
 
 void LocalLibraryMenu::skin_changed()
@@ -178,7 +178,7 @@ void LocalLibraryMenu::skin_changed()
 
 void LocalLibraryMenu::realtime_search_changed()
 {
-	_settings->set(Set::Lib_LiveSearch, m->realtime_search_action->isChecked());
+    _settings->set(Set::Lib_LiveSearch, m->livesearch_action->isChecked());
 }
 
 void LocalLibraryMenu::auto_update_changed()

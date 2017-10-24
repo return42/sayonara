@@ -138,11 +138,11 @@ void GUI_ImportFolder::set_status(LibraryImporter::ImportStatus status)
 	}
 
 	if(thread_active){
-		ui->btn_cancel->setText(tr("Cancel"));
+        ui->btn_cancel->setText(Lang::get(Lang::Cancel));
 	}
 
 	else{
-		ui->btn_cancel->setText(tr("Close"));
+        ui->btn_cancel->setText(Lang::get(Lang::Close));
 	}
 }
 

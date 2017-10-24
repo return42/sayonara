@@ -19,63 +19,98 @@
  */
 
 #include "CustomPlaylistSkeleton.h"
+#include <QString>
+
+struct CustomPlaylistSkeleton::Private
+{
+    QString name;
+    int     id;
+    int     num_tracks;
+    bool    is_temporary;
+
+    Private() :
+        id(-1),
+        num_tracks(0),
+        is_temporary(false)
+    {}
+
+    Private(const Private& other) :
+        CASSIGN(name),
+        CASSIGN(id),
+        CASSIGN(num_tracks),
+        CASSIGN(is_temporary)
+    {}
+
+    Private& operator=(const Private& other)
+    {
+        ASSIGN(name);
+        ASSIGN(id);
+        ASSIGN(num_tracks);
+        ASSIGN(is_temporary);
+
+        return *this;
+    }
+};
+
 
 CustomPlaylistSkeleton::CustomPlaylistSkeleton()
 {
-	_id = -1;
-	_num_tracks = 0;
-	_is_temporary = false;
+    m = Pimpl::make<Private>();
 }
 
-CustomPlaylistSkeleton::CustomPlaylistSkeleton(const CustomPlaylistSkeleton& s)
+CustomPlaylistSkeleton::CustomPlaylistSkeleton(const CustomPlaylistSkeleton& other)
 {
-	_id = s._id;
-	_name = s._name;
-	_is_temporary = s._is_temporary;
-	_num_tracks = s._num_tracks;
+    m = Pimpl::make<Private>(*(other.m));
+}
+
+CustomPlaylistSkeleton& CustomPlaylistSkeleton::operator=(const CustomPlaylistSkeleton &other)
+{
+    *m = *(other.m);
+
+    return *this;
 }
 
 CustomPlaylistSkeleton::~CustomPlaylistSkeleton() {}
 
 int CustomPlaylistSkeleton::id() const
 { 
-	return _id;
+    return m->id;
 }
  
 void CustomPlaylistSkeleton::set_id(int id)
 {
-	_id = id;
+    m->id = id;
 }
 
 QString CustomPlaylistSkeleton::name() const
 {
-	return _name;
+    return m->name;
 }
 
 void CustomPlaylistSkeleton::set_name(const QString& name)
 {
-	_name = name;
+    m->name = name;
 }
 
 bool CustomPlaylistSkeleton::temporary() const
 {
-	return _is_temporary;
+    return m->is_temporary;
 }
 
 
 void CustomPlaylistSkeleton::set_temporary(bool temporary)
 {
-	_is_temporary = temporary;
+    m->is_temporary = temporary;
 }
 
 int CustomPlaylistSkeleton::num_tracks() const
 {
-	return _num_tracks;
+    return m->num_tracks;
 }
 
 void CustomPlaylistSkeleton::set_num_tracks(int num_tracks)
 {
-	_num_tracks = num_tracks;
+    m->num_tracks = num_tracks;
 }
 
 

@@ -26,8 +26,27 @@
 #define GUI_STREAMRECORDER_H_
 
 #include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
+#include "Utils/Pimpl.h"
+
+#include <QPushButton>
 
 UI_FWD(GUI_StreamRecorder)
+
+
+class TagButton : public
+        Gui::WidgetTemplate<QPushButton>
+{
+    Q_OBJECT
+    PIMPL(TagButton)
+
+public:
+    TagButton(const QString& tag_name, QWidget* parent);
+    ~TagButton();
+
+protected:
+    void language_changed() override;
+};
+
 
 class GUI_StreamRecorder :
     public PreferenceWidgetInterface

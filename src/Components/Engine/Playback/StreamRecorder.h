@@ -35,11 +35,11 @@ namespace StreamRecorder
      * @brief The StreamRecorder class
      * @ingroup Engine
      */
-    class Accessor :
+    class StreamRecorder :
             public QObject,
             public SayonaraClass
     {
-        PIMPL(Accessor)
+        PIMPL(StreamRecorder)
 
     private:
         // set metadata, add to session collector
@@ -55,8 +55,8 @@ namespace StreamRecorder
 
 
     public:
-        explicit Accessor(QObject *parent=nullptr);
-        ~Accessor();
+        explicit StreamRecorder(QObject *parent=nullptr);
+        ~StreamRecorder();
 
         // change recording destination, create session path
         // returns destination file

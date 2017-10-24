@@ -31,130 +31,46 @@ using namespace Gui;
 MenuButton::MenuButton(QWidget* parent) :
     WidgetTemplate<QPushButton>(parent)
 {
-	this->setFlat(true);
-	this->setIconSize(QSize(14,14));
-
-	this->setStyleSheet("margin-left: 2px; margin-right: 2px; padding-left: 0px; padding-right: 0px;");
-	this->setToolTip(Lang::get(Lang::Menu));
-	this->setText(Lang::get(Lang::Menu));
+    this->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+    this->setIconSize(QSize(10, 10));
+    this->setToolTip(Lang::get(Lang::Menu));
+    this->setMaximumWidth(28);
 }
 
 MenuButton::~MenuButton() {}
 
 void MenuButton::show_menu(QPoint pos)
 {
-	Q_UNUSED(pos)
-	this->setAttribute( Qt::WA_Hover, false);
-	this->setAttribute( Qt::WA_UnderMouse, false);
-	return;
+    Q_UNUSED(pos)
+    this->setAttribute( Qt::WA_Hover, false);
+    this->setAttribute( Qt::WA_UnderMouse, false);
+    return;
 }
 
 bool MenuButton::prove_enabled()
 {
-	return true;
+    return true;
 }
 
 
 void MenuButton::mousePressEvent(QMouseEvent* e)
 {
-	QPushButton::mousePressEvent(e);
+    QPushButton::mousePressEvent(e);
 
-	QPoint globalPoint = this->mapToGlobal(this->pos()) - this->pos();
+    QPoint globalPoint = this->mapToGlobal(this->pos()) - this->pos();
 
-	emit sig_triggered(globalPoint);
+    emit sig_triggered(globalPoint);
 
-	show_menu(globalPoint);
+    show_menu(globalPoint);
 }
 
-void MenuButton::mouseReleaseEvent(QMouseEvent *e)
-{
-	QPushButton::mouseReleaseEvent(e);
-}
-
-
-void MenuButton::enterEvent(QEvent* e)
-{
-	QPushButton::enterEvent(e);
-
-	bool dark = (_settings->get(Set::Player_Style) == 1);
-	QIcon icon;
-
-	if(dark){
-		icon = Util::icon("tool_grey");
-	}
-
-	else{
-        icon = IconLoader::icon("system-run", "tool");
-	}
-
-	if( this->isEnabled() ){
-		this->setIcon(icon);
-		e->accept();
-	}
-}
-
-void MenuButton::leaveEvent(QEvent* e)
-{
-	QPushButton::leaveEvent(e);
-
-	set_std_icon();
-}
-
-
-void MenuButton::set_std_icon()
-{
-	bool dark = (_settings->get(Set::Player_Style) == 1);
-
-	QIcon icon;
-	QPixmap pixmap;
-	QPixmap pixmap_disabled;
-
-	if(dark){
-		pixmap = Util::pixmap("tool_dark_grey");
-		pixmap_disabled = Util::pixmap("tool_disabled");
-		icon.addPixmap(pixmap, QIcon::Normal, QIcon::On);
-		icon.addPixmap(pixmap, QIcon::Normal, QIcon::Off);
-		icon.addPixmap(pixmap_disabled, QIcon::Disabled, QIcon::On);
-		icon.addPixmap(pixmap_disabled, QIcon::Disabled, QIcon::Off);
-		icon.addPixmap(pixmap, QIcon::Active, QIcon::On);
-		icon.addPixmap(pixmap, QIcon::Active, QIcon::Off);
-		icon.addPixmap(pixmap, QIcon::Selected, QIcon::On);
-		icon.addPixmap(pixmap, QIcon::Selected, QIcon::Off);
-	}
-
-	else{
-        icon = IconLoader::icon("system-run", "tool");
-	}
-
-
-	this->setIcon(icon);
-	this->update();
-}
-
-
-void MenuButton::skin_changed()
-{
-	set_std_icon();
-}
+void MenuButton::skin_changed() {}
 
 void MenuButton::language_changed()
 {
-	this->setToolTip(Lang::get(Lang::Menu));
+    this->setToolTip(Lang::get(Lang::Menu));
 
-	if(!this->text().isEmpty()){
-		this->setText(Lang::get(Lang::Menu));
-	}
-}
-
-
-void MenuButton::set_show_title(bool show_title)
-{
-	if(show_title){
-		this->setText(Lang::get(Lang::Menu));
-	}
-
-	else
-	{
-		this->setText(QString());
-	}
+    if(!this->text().isEmpty()){
+        this->setText("...");
+    }
 }

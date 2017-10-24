@@ -33,7 +33,7 @@ class LevelReceiver;
 
 namespace StreamRecorder
 {
-    class Accessor;
+    class StreamRecorder;
 }
 
 namespace Pipeline

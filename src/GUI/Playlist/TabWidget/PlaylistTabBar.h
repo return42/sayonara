@@ -44,6 +44,7 @@ signals:
 	void sig_tab_reset(int tab_idx);
 	void sig_tab_save(int tab_idx);
 	void sig_tab_save_as(int tab_idx, const QString& name);
+    void sig_tab_save_to_file(int tab_idx, const QString& filename);
 	void sig_tab_rename(int tab_idx, const QString& name);
 	void sig_tab_clear(int tab_idx);
 
@@ -82,6 +83,7 @@ private slots:
 	void reset_pressed();
 	void save_pressed();
 	void save_as_pressed();
+    void save_to_file_pressed();
 	void clear_pressed();
 	void delete_pressed();
 	void close_pressed();

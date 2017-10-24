@@ -22,6 +22,8 @@
 #define MENUTOOL_H
 
 #include "MenuButton.h"
+#include "Utils/Pimpl.h"
+
 #include "GUI/Utils/ContextMenu/ContextMenu.h"
 
 /**
@@ -29,9 +31,11 @@
  * It opens up a menu when clicked. The actions in the menu a configurable
  * @ingroup GUIHelper
  */
-class MenuToolButton : public MenuButton 
+class MenuToolButton :
+        public MenuButton
 {
 	Q_OBJECT
+    PIMPL(MenuToolButton)
 
 signals:
 	void sig_open();
@@ -61,8 +65,6 @@ public:
 	ContextMenuEntries get_entries() const;
 
 private:
-	ContextMenu* _menu=nullptr;
-
 	/**
 	 * @brief show the menu when triggered
 	 * @param pos mouse cursor position

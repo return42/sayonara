@@ -579,13 +579,13 @@ int PlaylistHandler::exists(const QString& name) const
 }
 
 
-void PlaylistHandler::save_playlist_to_file(const QString& filename, bool relative)
+void PlaylistHandler::save_playlist_to_file(int pl_idx, const QString& filename, bool relative)
 {
-    if(!between(m->current_playlist_idx, m->playlists)){
+    if(!between(pl_idx, m->playlists)){
 		return;
 	}
 
-    PlaylistPtr pl = m->playlists[m->current_playlist_idx];
+    PlaylistPtr pl = m->playlists[pl_idx];
 	PlaylistParser::save_playlist(filename, pl->playlist(), relative);
 }
 

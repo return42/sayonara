@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>537</width>
-    <height>135</height>
+    <width>316</width>
+    <height>142</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="grid_layout">
@@ -51,23 +51,6 @@
        <property name="verticalSpacing">
         <number>3</number>
        </property>
-       <item row="1" column="1">
-        <widget class="QLabel" name="lab_speed">
-         <property name="text">
-          <string notr="true">1.0</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="2">
-        <widget class="QPushButton" name="btn_revert_speed">
-         <property name="text">
-          <string notr="true">Default</string>
-         </property>
-        </widget>
-       </item>
        <item row="1" column="0">
         <widget class="Gui::Slider" name="sli_speed">
          <property name="minimum">
@@ -93,10 +76,34 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="0">
-        <widget class="QCheckBox" name="cb_preserve_pitch">
+       <item row="2" column="0" colspan="2">
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <widget class="QCheckBox" name="cb_preserve_pitch">
+           <property name="text">
+            <string>Preserve pitch</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+       <item row="1" column="1">
+        <widget class="QPushButton" name="btn_speed">
          <property name="text">
-          <string>Preserve pitch</string>
+          <string notr="true">1.0</string>
          </property>
         </widget>
        </item>
@@ -136,19 +143,9 @@
         </widget>
        </item>
        <item row="0" column="1">
-        <widget class="QLabel" name="lab_pitch">
+        <widget class="QPushButton" name="btn_pitch">
          <property name="text">
           <string notr="true">Hz</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="2">
-        <widget class="QPushButton" name="btn_revert_pitch">
-         <property name="text">
-          <string notr="true">Default</string>
          </property>
         </widget>
        </item>

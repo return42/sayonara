@@ -30,7 +30,9 @@
 
 struct GUI_Broadcast::Private
 {
-	StreamServer* server=nullptr;
+    StreamServer*   server=nullptr;
+    QAction*        action_dismiss=nullptr;
+    QAction*        action_dismiss_all=nullptr;
 };
 
 GUI_Broadcast::GUI_Broadcast(QWidget *parent) :
@@ -84,11 +86,17 @@ void GUI_Broadcast::init_ui()
 
 	setup_parent(this, &ui);
 
-	ui->btn_dismiss->setEnabled(false);
-	ui->btn_dismiss_all->setEnabled(false);
+    m->action_dismiss = new QAction(tr("Dismiss"), ui->btn_menu);
+    m->action_dismiss_all = new QAction(tr("Dismiss all"), ui->btn_menu);
 
-	connect(ui->btn_dismiss, &QPushButton::clicked, this, &GUI_Broadcast::dismiss_clicked);
-	connect(ui->btn_dismiss_all, &QPushButton::clicked, this, &GUI_Broadcast::dismiss_all_clicked);
+    m->action_dismiss->setEnabled(false);
+    m->action_dismiss_all->setEnabled(false);
+
+    ui->btn_menu->register_action(m->action_dismiss);
+    ui->btn_menu->register_action(m->action_dismiss_all);
+
+    connect(m->action_dismiss, &QAction::triggered, this, &GUI_Broadcast::dismiss_clicked);
+    connect(m->action_dismiss_all, &QAction::triggered, this, &GUI_Broadcast::dismiss_all_clicked);
 	connect(ui->combo_clients, combo_current_index_changed_int, this, &GUI_Broadcast::combo_changed);
 	connect(ui->btn_retry, &QPushButton::clicked, this, &GUI_Broadcast::retry);
 
@@ -129,7 +137,7 @@ void GUI_Broadcast::connection_established(const QString& ip)
 	ui->combo_clients->addItem(ip);
 	set_status_label();
 	ui->combo_clients->setCurrentIndex(ui->combo_clients->count() -1);
-	ui->btn_dismiss_all->setEnabled(true);
+    m->action_dismiss_all->setEnabled(true);
 }
 
 
@@ -159,8 +167,8 @@ void GUI_Broadcast::connection_closed(const QString& ip)
 	ui->combo_clients->removeItem(idx);
 
 	if(ui->combo_clients->count() == 0){
-		ui->btn_dismiss->setEnabled(false);
-		ui->btn_dismiss_all->setEnabled(false);
+        m->action_dismiss->setEnabled(false);
+        m->action_dismiss_all->setEnabled(false);
 	}
 
 	set_status_label();
@@ -211,7 +219,7 @@ void GUI_Broadcast::dismiss_clicked()
 {
 	int idx = ui->combo_clients->currentIndex();
 	dismiss_at(idx);
-	ui->btn_dismiss->setEnabled(false);
+    m->action_dismiss->setEnabled(false);
 }
 
 
@@ -221,8 +229,8 @@ void GUI_Broadcast::dismiss_all_clicked()
 		dismiss_at(idx);
 	}
 
-	ui->btn_dismiss_all->setEnabled(false);
-	ui->btn_dismiss->setEnabled(false);
+    m->action_dismiss_all->setEnabled(false);
+    m->action_dismiss->setEnabled(false);
 }
 
 
@@ -232,10 +240,10 @@ void GUI_Broadcast::combo_changed(int idx)
 	QString text = ui->combo_clients->currentText();
 
 	if(text.startsWith("(d)")){
-		ui->btn_dismiss->setEnabled(false);
+        m->action_dismiss->setEnabled(false);
 	}
 	else{
-		ui->btn_dismiss->setEnabled(true);
+        m->action_dismiss->setEnabled(true);
 	}
 }
 
@@ -247,10 +255,9 @@ void GUI_Broadcast::mp3_enc_found()
 	}
 
 	bool active = _settings->get(SetNoDB::MP3enc_found);
-	if(!active){
+    if(!active)
+    {
 		ui->combo_clients->hide();
-		ui->btn_dismiss->hide();
-		ui->btn_dismiss_all->hide();
 		ui->lab_status->hide();
 		ui->lab_error->setText(Lang::get(Lang::CannotFindLame));
 	}
@@ -259,4 +266,7 @@ void GUI_Broadcast::mp3_enc_found()
 		ui->lab_error->hide();
 		ui->btn_retry->hide();
 	}
+
+    m->action_dismiss->setVisible(active);
+    m->action_dismiss_all->setVisible(active);
 }

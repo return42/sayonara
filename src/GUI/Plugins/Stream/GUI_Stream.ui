@@ -7,11 +7,11 @@
     <x>0</x>
     <y>0</y>
     <width>285</width>
-    <height>102</height>
+    <height>120</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="1" column="0" colspan="2">
+   <item row="1" column="0" colspan="3">
     <widget class="Gui::ComboBox" name="combo_stream">
      <property name="focusPolicy">
       <enum>Qt::StrongFocus</enum>
@@ -21,14 +21,7 @@
      </property>
     </widget>
    </item>
-   <item row="2" column="0" colspan="2">
-    <widget class="QLineEdit" name="le_url">
-     <property name="focusPolicy">
-      <enum>Qt::ClickFocus</enum>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="0" colspan="2">
+   <item row="3" column="0" colspan="3">
     <layout class="QHBoxLayout" name="horizontalLayout">
      <property name="spacing">
       <number>6</number>
@@ -58,33 +51,8 @@
      </item>
      <item>
       <widget class="QPushButton" name="btn_play">
-       <property name="maximumSize">
-        <size>
-         <width>20</width>
-         <height>16777215</height>
-        </size>
-       </property>
-       <property name="focusPolicy">
-        <enum>Qt::StrongFocus</enum>
-       </property>
-       <property name="toolTip">
-        <string>Start stream</string>
-       </property>
        <property name="text">
         <string/>
-       </property>
-       <property name="icon">
-        <iconset resource="../../Resources/Icons.qrc">
-         <normaloff>:/Icons/play.svg.png</normaloff>:/Icons/play.svg.png</iconset>
-       </property>
-       <property name="iconSize">
-        <size>
-         <width>18</width>
-         <height>18</height>
-        </size>
-       </property>
-       <property name="flat">
-        <bool>true</bool>
        </property>
       </widget>
      </item>
@@ -96,6 +64,13 @@
       </widget>
      </item>
     </layout>
+   </item>
+   <item row="2" column="0" colspan="3">
+    <widget class="QLineEdit" name="le_url">
+     <property name="focusPolicy">
+      <enum>Qt::ClickFocus</enum>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>
@@ -117,8 +92,6 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources>
-  <include location="../../Resources/Icons.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

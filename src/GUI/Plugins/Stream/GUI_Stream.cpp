@@ -74,7 +74,7 @@ QComboBox* GUI_Stream::combo_stream()
 
 QPushButton* GUI_Stream::btn_play()
 {
-	return ui->btn_play;
+    return ui->btn_play;
 }
 
 MenuToolButton* GUI_Stream::btn_menu()
@@ -84,5 +84,5 @@ MenuToolButton* GUI_Stream::btn_menu()
 
 QLabel* GUI_Stream::lab_listen()
 {
-	return ui->lab_listen;
+    return ui->lab_listen;
 }

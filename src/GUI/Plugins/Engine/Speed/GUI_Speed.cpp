@@ -39,8 +39,6 @@ GUI_Speed::~GUI_Speed()
 void GUI_Speed::retranslate_ui()
 {
 	ui->retranslateUi(this);
-	ui->btn_revert_pitch->setText(Lang::get(Lang::Default));
-	ui->btn_revert_speed->setText(Lang::get(Lang::Default));
 	ui->cb_active->setText(Lang::get(Lang::Activate));
 }
 
@@ -70,8 +68,8 @@ void GUI_Speed::init_ui()
 	connect(ui->cb_active, &QCheckBox::toggled, this, &GUI_Speed::active_changed);
 	connect(ui->cb_preserve_pitch, &QCheckBox::toggled, this, &GUI_Speed::preserve_pitch_changed);
 	connect(ui->sli_pitch, &QSlider::valueChanged, this, &GUI_Speed::pitch_changed);
-	connect(ui->btn_revert_speed, &QPushButton::clicked, this, &GUI_Speed::revert_speed_clicked);
-	connect(ui->btn_revert_pitch, &QPushButton::clicked, this, &GUI_Speed::revert_pitch_clicked);
+    connect(ui->btn_speed, &QPushButton::clicked, this, &GUI_Speed::revert_speed_clicked);
+    connect(ui->btn_pitch, &QPushButton::clicked, this, &GUI_Speed::revert_pitch_clicked);
 	connect(ui->sli_speed, &Gui::Slider::sig_slider_hovered, this, &GUI_Speed::speed_hovered);
 	connect(ui->sli_pitch, &Gui::Slider::sig_slider_hovered, this, &GUI_Speed::pitch_hovered);
 
@@ -94,7 +92,7 @@ void GUI_Speed::speed_changed(int val)
 {
 	float val_f = val / 100.0f;
 
-	ui->lab_speed->setText(QString::number(val_f, 'f', 2));
+    ui->btn_speed->setText(QString::number(val_f, 'f', 2));
 	_settings->set(Set::Engine_Speed, ui->sli_speed->value() / 100.0f);
 }
 
@@ -104,10 +102,10 @@ void GUI_Speed::active_changed(bool active)
 	ui->cb_active->setChecked(active);
 
 	ui->sli_speed->setEnabled( active);
-	ui->btn_revert_speed->setEnabled(active);
+    ui->btn_speed->setEnabled(active);
 	ui->sli_pitch->setEnabled(active);
 	ui->cb_preserve_pitch->setEnabled(active);
-	ui->btn_revert_pitch->setEnabled(active);
+    ui->btn_pitch->setEnabled(active);
 
 	_settings->set(Set::Engine_SpeedActive, active);
 }
@@ -121,7 +119,7 @@ void GUI_Speed::pitch_changed(int pitch)
 {
 	pitch = pitch / 10;
 	_settings->set(Set::Engine_Pitch, pitch);
-	ui->lab_pitch->setText(QString::number(pitch) + " Hz");
+    ui->btn_pitch->setText(QString::number(pitch) + " Hz");
 }
 
 void GUI_Speed::revert_speed_clicked()

@@ -20,19 +20,29 @@
 
 #include "MenuTool.h"
 
+struct MenuToolButton::Private
+{
+    ContextMenu* menu=nullptr;
+
+    Private(MenuToolButton* parent) :
+        menu(new ContextMenu(parent))
+    {}
+};
+
+
 MenuToolButton::MenuToolButton(QWidget *parent) :
 	MenuButton(parent)
 {
-	_menu = new ContextMenu(this);
+    m = Pimpl::make<Private>(this);
 
-	connect(_menu, &ContextMenu::sig_open, this,  &MenuToolButton::sig_open);
-	connect(_menu, &ContextMenu::sig_new, this, &MenuToolButton::sig_new);
-	connect(_menu, &ContextMenu::sig_undo, this, &MenuToolButton::sig_undo);
-	connect(_menu, &ContextMenu::sig_default, this, &MenuToolButton::sig_default);
-	connect(_menu, &ContextMenu::sig_save, this, &MenuToolButton::sig_save);
-	connect(_menu, &ContextMenu::sig_save_as, this, &MenuToolButton::sig_save_as);
-	connect(_menu, &ContextMenu::sig_rename, this, &MenuToolButton::sig_rename);
-	connect(_menu, &ContextMenu::sig_delete, this, &MenuToolButton::sig_delete);
+    connect(m->menu, &ContextMenu::sig_open, this,  &MenuToolButton::sig_open);
+    connect(m->menu, &ContextMenu::sig_new, this, &MenuToolButton::sig_new);
+    connect(m->menu, &ContextMenu::sig_undo, this, &MenuToolButton::sig_undo);
+    connect(m->menu, &ContextMenu::sig_default, this, &MenuToolButton::sig_default);
+    connect(m->menu, &ContextMenu::sig_save, this, &MenuToolButton::sig_save);
+    connect(m->menu, &ContextMenu::sig_save_as, this, &MenuToolButton::sig_save_as);
+    connect(m->menu, &ContextMenu::sig_rename, this, &MenuToolButton::sig_rename);
+    connect(m->menu, &ContextMenu::sig_delete, this, &MenuToolButton::sig_delete);
 
 	prove_enabled();
 }
@@ -41,7 +51,7 @@ MenuToolButton::~MenuToolButton() {}
 
 void MenuToolButton::register_action(QAction *action)
 {
-	_menu->register_action(action);
+    m->menu->register_action(action);
 }
 
 
@@ -50,36 +60,37 @@ void MenuToolButton::show_menu(QPoint pos)
 	MenuButton::show_menu(pos);
 
 	this->setDisabled(true);
-	_menu->popup(pos);
+    m->menu->popup(pos);
 	this->setEnabled(true);
 }
 
 
 bool MenuToolButton::prove_enabled()
 {
-	bool enabled = _menu->has_actions();
+    bool enabled = m->menu->has_actions();
 	this->setEnabled(enabled);
 	return enabled;
 }
 
 void MenuToolButton::show_all()
 {
-	_menu->show_all();
+    m->menu->show_all();
 	prove_enabled();
 }
 
-void MenuToolButton::show_action(ContextMenu::Entry entry, bool visible){
-	_menu->show_action(entry, visible);
+void MenuToolButton::show_action(ContextMenu::Entry entry, bool visible)
+{
+    m->menu->show_action(entry, visible);
 	prove_enabled();
 }
 
 void MenuToolButton::show_actions(ContextMenuEntries entries)
 {
-	_menu->show_actions(entries);
+    m->menu->show_actions(entries);
 	prove_enabled();
 }
 
 ContextMenuEntries MenuToolButton::get_entries() const
 {
-	return _menu->get_entries();
+    return m->menu->get_entries();
 }

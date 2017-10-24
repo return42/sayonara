@@ -8,15 +8,6 @@
 
 using namespace StreamRecorder;
 
-QString Utils::target_path_template_default(bool use_session_path)
-{
-    if(use_session_path)
-    {
-        return "<rs>/<y><ms><d>-<hr>h<min>/<tn> - <ar> - <t>";
-    }
-
-    return "<tn> - <ar> - <t>";
-}
 
 QList<QString> Utils::supported_tags()
 {
@@ -32,32 +23,15 @@ QList<QString> Utils::supported_tags()
 }
 
 
-QList<QPair<QString, QString> > Utils::descriptions()
-{
-    QList<QPair<QString, QString>> ret;
-
-    QDate d = QDateTime::currentDateTime().date();
-
-    ret << QPair<QString, QString>("min", Lang::get(Lang::Minutes));
-    ret << QPair<QString, QString>("hr", Lang::get(Lang::Hours));
-    ret << QPair<QString, QString>("d", Lang::get(Lang::Days) + " (" + QString::number(d.day()) + ")");
-    ret << QPair<QString, QString>("ds", Lang::get(Lang::Days) + " (" + QDate::shortDayName(d.dayOfWeek()) + ")");
-    ret << QPair<QString, QString>("dl", Lang::get(Lang::Days) + " (" + QDate::longDayName(d.dayOfWeek()) + ")");
-    ret << QPair<QString, QString>("m", Lang::get(Lang::Months) + " (" + QString::number(d.month()) + ")");
-    ret << QPair<QString, QString>("ms", Lang::get(Lang::Months) + " (" + QDate::shortMonthName(d.month()) + ")");
-    ret << QPair<QString, QString>("ml", Lang::get(Lang::Months) + " (" + QDate::longMonthName(d.month()) + ")");
-    ret << QPair<QString, QString>("y", Lang::get(Lang::Year));
-    ret << QPair<QString, QString>("tn", Lang::get(Lang::TrackNo));
-    ret << QPair<QString, QString>("t", Lang::get(Lang::Title));
-    ret << QPair<QString, QString>("ar", Lang::get(Lang::Artist));
-    ret << QPair<QString, QString>("rs", "Radio station");
-
-    return ret;
-}
-
 
 Utils::ErrorCode Utils::validate_template(const QString &target_path_template, int* invalid_idx)
 {
+    if(target_path_template.isEmpty())
+    {
+        *invalid_idx = 0;
+        return Utils::ErrorCode::Empty;
+    }
+
     int is_open = 0;
     int is_close = 0;
     int i=0;
@@ -68,7 +42,7 @@ Utils::ErrorCode Utils::validate_template(const QString &target_path_template, i
             is_open++;
             if(is_open > (is_close + 1)) {
                 *invalid_idx = i;
-                return Utils::BracketError;
+                return Utils::ErrorCode::BracketError;
             }
         }
 
@@ -78,7 +52,7 @@ Utils::ErrorCode Utils::validate_template(const QString &target_path_template, i
             if(is_close != is_open)
             {
                 *invalid_idx = i;
-                return Utils::BracketError;
+                return Utils::ErrorCode::BracketError;
             }
         }
 
@@ -87,7 +61,7 @@ Utils::ErrorCode Utils::validate_template(const QString &target_path_template, i
 
     if(is_open != is_close){
         *invalid_idx = target_path_template.size() - 1;
-        return Utils::BracketError;
+        return Utils::ErrorCode::BracketError;
     }
 
     QList<QString> tags = supported_tags();
@@ -95,7 +69,8 @@ Utils::ErrorCode Utils::validate_template(const QString &target_path_template, i
     QRegExp re("<(.*)>");
     re.setMinimal(true);
 
-    bool has_title_or_number=false;
+    bool has_track_number = false;
+    bool has_title = false;
     int idx = re.indexIn(target_path_template);
     while(idx >= 0 && idx < target_path_template.size())
     {
@@ -103,20 +78,26 @@ Utils::ErrorCode Utils::validate_template(const QString &target_path_template, i
         if(!tags.contains(tag))
         {
             *invalid_idx = idx;
-            return Utils::UnknownTag;
+            return Utils::ErrorCode::UnknownTag;
         }
 
         int old_idx = idx;
         idx = re.indexIn(target_path_template, old_idx + 1);
 
-        if(tag.compare("t") == 0 || tag.compare("tn") == 0){
-            has_title_or_number = true;
+        if(tag.compare("t") == 0)
+        {
+            has_title = true;
+        }
+
+        else if(tag.compare("tn") == 0)
+        {
+            has_track_number = true;
         }
     }
 
-    if(!has_title_or_number){
+    if( !(has_title && has_track_number) ){
         *invalid_idx = target_path_template.size() - 1;
-        return Utils::MissingUniqueTag;
+        return Utils::ErrorCode::MissingUniqueTag;
     }
 
     QStringList invalid_chars;
@@ -127,28 +108,63 @@ Utils::ErrorCode Utils::validate_template(const QString &target_path_template, i
         int idx = target_path_template.indexOf(ic);
         if(idx != -1){
             *invalid_idx = idx;
-            return Utils::InvalidChars;
+            return Utils::ErrorCode::InvalidChars;
         }
     }
 
     *invalid_idx = -1;
-    return Utils::OK;
+    return Utils::ErrorCode::OK;
 }
 
-Utils::TargetPaths Utils::full_target_path(const QString &sr_path, const QString &path_template, const MetaData &md)
+QString Utils::target_path_template_default(bool use_session_path)
 {
-    int invalid_idx;
-    if(validate_template(path_template, &invalid_idx) != Utils::OK){
-        return Utils::TargetPaths();
+    if(use_session_path)
+    {
+        return "<rs>/<y>-<m>-<d>-<h>h<min>/<tn> - <ar> - <t>";
     }
 
+    return "<tn> - <ar> - <t>";
+}
+
+
+QList<QPair<QString, QString> > Utils::descriptions()
+{
+    QList<QPair<QString, QString>> ret;
+
+    QDate d = QDateTime::currentDateTime().date();
+
+    ret << QPair<QString, QString>("tn", Lang::get(Lang::TrackNo).append("*"));
+    ret << QPair<QString, QString>("t", Lang::get(Lang::Title).append("*"));
+    ret << QPair<QString, QString>("min", Lang::get(Lang::Minutes));
+    ret << QPair<QString, QString>("h", Lang::get(Lang::Hours));
+    ret << QPair<QString, QString>("d", Lang::get(Lang::Days) + " (" + QString::number(d.day()) + ")");
+    ret << QPair<QString, QString>("ds", Lang::get(Lang::Days) + " (" + QDate::shortDayName(d.dayOfWeek()) + ")");
+    ret << QPair<QString, QString>("dl", Lang::get(Lang::Days) + " (" + QDate::longDayName(d.dayOfWeek()) + ")");
+    ret << QPair<QString, QString>("m", Lang::get(Lang::Months) + " (" + QString::number(d.month()) + ")");
+    ret << QPair<QString, QString>("ms", Lang::get(Lang::Months) + " (" + QDate::shortMonthName(d.month()) + ")");
+    ret << QPair<QString, QString>("ml", Lang::get(Lang::Months) + " (" + QDate::longMonthName(d.month()) + ")");
+    ret << QPair<QString, QString>("y", Lang::get(Lang::Year));
+    ret << QPair<QString, QString>("ar", Lang::get(Lang::Artist));
+    ret << QPair<QString, QString>("rs", Lang::get(Lang::RadioStation));
+
+    return ret;
+}
+
+Utils::TargetPaths Utils::full_target_path(const QString& sr_path, const QString& path_template, const MetaData& md)
+{
+    int invalid_idx;
     Utils::TargetPaths ret;
+
+    if(validate_template(path_template, &invalid_idx) != Utils::ErrorCode::OK){
+        return ret;
+    }
+
     QString target_path = path_template;
 
     QTime time = QDateTime::currentDateTime().time();
     QDate date = QDateTime::currentDateTime().date();
 
-    target_path.replace("<hr>",		QString("%1").arg(time.hour(), 2, 10, QChar('0')));
+    target_path.replace("<h>",		QString("%1").arg(time.hour(), 2, 10, QChar('0')));
     target_path.replace("<min>",	QString("%1").arg(time.minute(), 2, 10, QChar('0')));
     target_path.replace("<d>",		QString("%1").arg(date.day(), 2, 10, QChar('0')));
     target_path.replace("<ds>",		QDate::shortDayName(date.dayOfWeek()));
@@ -174,19 +190,32 @@ Utils::TargetPaths Utils::full_target_path(const QString &sr_path, const QString
 
 QString Utils::parse_error_code(Utils::ErrorCode err)
 {
+    QString str = Lang::get(Lang::Error).append(": ");
     switch(err)
     {
-        case StreamRecorder::Utils::OK:
+        case Utils::ErrorCode::OK:
             return "OK";
-        case StreamRecorder::Utils::BracketError:
-            return "<> " + Lang::get(Lang::Error);
-        case StreamRecorder::Utils::UnknownTag:
-            return "Unknown Tag";
-        case StreamRecorder::Utils::MissingUniqueTag:
-            return "Track number or title is missing";
-        case StreamRecorder::Utils::InvalidChars:
-            return "Invalid Characters";
+        case Utils::ErrorCode::BracketError:
+            str += "<>";
+            break;
+        case Utils::ErrorCode::UnknownTag:
+            str += Lang::get(Lang::UnknownPlaceholder);
+            break;
+        case Utils::ErrorCode::MissingUniqueTag:
+            str +=  Lang::get(Lang::Missing).append(": ") +
+                    Lang::get(Lang::TrackNo).space() +
+                    Lang::get(Lang::Or).space() +
+                    Lang::get(Lang::Title);
+            break;
+        case Utils::ErrorCode::InvalidChars:
+            str += Lang::get(Lang::InvalidChars);
+            break;
+        case Utils::ErrorCode::Empty:
+            str += Lang::get(Lang::EmptyInput);
+            break;
+
+        default: break;
     }
 
-    return "OK";
+    return str;
 }

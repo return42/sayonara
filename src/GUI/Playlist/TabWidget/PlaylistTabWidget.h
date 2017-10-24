@@ -39,6 +39,7 @@ signals:
 	void sig_tab_reset(int tab_idx);
 	void sig_tab_save(int tab_idx);
 	void sig_tab_save_as(int tab_idx, const QString& name);
+    void sig_tab_save_to_file(int tab_idx, const QString& filename);
 	void sig_tab_rename(int tab_idx, const QString& name);
 	void sig_tab_delete(int tab_idx);
 	void sig_tab_clear(int tab_idx);

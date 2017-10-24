@@ -33,6 +33,7 @@ struct PlaylistTabMenu::Private
     QAction*	action_delete=nullptr;
     QAction*	action_save=nullptr;
     QAction*	action_save_as=nullptr;
+    QAction*    action_save_to_file=nullptr;
     QAction*	action_reset=nullptr;
     QAction*	action_close=nullptr;
     QAction*	action_close_others=nullptr;
@@ -52,9 +53,11 @@ PlaylistTabMenu::PlaylistTabMenu(QWidget* parent) :
     m->action_delete = new QAction(this);
     m->action_save = new QAction(this);
     m->action_save_as = new QAction(this);
+    m->action_save_to_file = new QAction(this);
     m->action_clear = new QAction(this);
     m->action_close = new QAction(this);
     m->action_close_others = new QAction(this);
+
 
 	QList<QAction*> actions;
     actions << m->action_open_file
@@ -65,6 +68,7 @@ PlaylistTabMenu::PlaylistTabMenu(QWidget* parent) :
             << m->action_rename
             << m->action_save
             << m->action_save_as
+            << m->action_save_to_file
             << m->action_delete
 			<< this->addSeparator()
             << m->action_clear
@@ -81,6 +85,7 @@ PlaylistTabMenu::PlaylistTabMenu(QWidget* parent) :
     connect(m->action_delete, &QAction::triggered, this, &PlaylistTabMenu::sig_delete_clicked);
     connect(m->action_save, &QAction::triggered, this, &PlaylistTabMenu::sig_save_clicked);
     connect(m->action_save_as, &QAction::triggered, this, &PlaylistTabMenu::sig_save_as_clicked);
+    connect(m->action_save_to_file, &QAction::triggered, this, &PlaylistTabMenu::sig_save_to_file_clicked);
     connect(m->action_clear, &QAction::triggered, this, &PlaylistTabMenu::sig_clear_clicked);
     connect(m->action_close, &QAction::triggered, this, &PlaylistTabMenu::sig_close_clicked);
     connect(m->action_close_others, &QAction::triggered, this, &PlaylistTabMenu::sig_close_others_clicked);
@@ -100,6 +105,7 @@ void PlaylistTabMenu::language_changed()
     m->action_delete->setText(Lang::get(Lang::Delete));
     m->action_save->setText(Lang::get(Lang::Save));
     m->action_save_as->setText(Lang::get(Lang::SaveAs).triplePt());
+    m->action_save_to_file->setText(Lang::get(Lang::SaveToFile));
     m->action_clear->setText(Lang::get(Lang::Clear));
     m->action_close->setText(Lang::get(Lang::Close));
     m->action_close_others->setText(Lang::get(Lang::CloseOthers));
@@ -115,6 +121,7 @@ void PlaylistTabMenu::skin_changed()
     m->action_delete->setIcon(IconLoader::icon( "edit-delete", "delete") );
     m->action_save->setIcon(IconLoader::icon( "document-save", "save") );
     m->action_save_as->setIcon(IconLoader::icon( "document-save-as", "save_as") );
+    m->action_save_to_file->setIcon(IconLoader::icon( "document-save-as", "save_as") );
 
     m->action_clear->setIcon(IconLoader::icon( "edit-clear", "broom.png") );
     m->action_close->setIcon(IconLoader::icon( "window-close", "power_off") );
@@ -131,6 +138,7 @@ void PlaylistTabMenu::show_menu_items(PlaylistMenuEntries entries)
     m->action_delete->setVisible(entries & PlaylistMenuEntry::Delete);
     m->action_save->setVisible(entries & PlaylistMenuEntry::Save);
     m->action_save_as->setVisible(entries & PlaylistMenuEntry::SaveAs);
+    m->action_save_to_file->setVisible(entries & PlaylistMenuEntry::SaveToFile);
     m->action_clear->setVisible(entries & PlaylistMenuEntry::Clear);
     m->action_close->setVisible(entries & PlaylistMenuEntry::Close);
     m->action_close_others->setVisible(entries & PlaylistMenuEntry::CloseOthers);

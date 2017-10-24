@@ -54,7 +54,7 @@ struct Playback::Private
     QList<LevelReceiver*>		level_receiver;
     QList<SpectrumReceiver*>	spectrum_receiver;
 
-    StreamRecorder::Accessor*   stream_recorder=nullptr;
+    StreamRecorder::StreamRecorder*   stream_recorder=nullptr;
     QTimer*						gapless_timer=nullptr;
 
     GaplessState                gapless_state;
@@ -65,7 +65,7 @@ struct Playback::Private
         gapless_state(GaplessState::Stopped),
         sr_active(false)
     {
-        stream_recorder = new StreamRecorder::Accessor(parent);
+        stream_recorder = new StreamRecorder::StreamRecorder(parent);
 
         gapless_timer = new QTimer();
         gapless_timer->setTimerType(Qt::PreciseTimer);

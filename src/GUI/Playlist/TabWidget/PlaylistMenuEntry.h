@@ -30,13 +30,14 @@ enum PlaylistMenuEntry {
 	Delete=			(1 << 0),
 	Save=			(1 << 1),
 	SaveAs=			(1 << 2),
-	Close=			(1 << 3),
-	CloseOthers =	(1 << 4),
-	Reset=			(1 << 5),
-	Rename=			(1 << 6),
-	Clear=			(1 << 7),
-	OpenFile=		(1 << 8),
-	OpenDir=		(1 << 9)
+	SaveToFile=		(1 << 3),
+	Close=			(1 << 4),
+	CloseOthers =	(1 << 5),
+	Reset=			(1 << 6),
+	Rename=			(1 << 7),
+	Clear=			(1 << 8),
+	OpenFile=		(1 << 9),
+	OpenDir=		(1 << 10)
 };
 
 #endif // PLAYLISTMENUENTRY_H

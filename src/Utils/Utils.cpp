@@ -80,14 +80,34 @@ uint64_t Util::current_date_to_int()
 
 QString Util::cvt_str_to_first_upper(const QString& str) 
 {
-	QStringList lst = str.split(" ");
-	QStringList tgt_lst;
+    if(str.isEmpty()){
+        return QString();
+    }
 
-	for(QString word : lst) {
-		tgt_lst << cvt_str_to_very_first_upper(word);
-	}
+    QString chars=" \n\t.(+?!<\"";
+    QString result = str.toLower();
 
-	return tgt_lst.join(" ");
+    for(QChar c : chars)
+    {
+        QStringList lst = str.split(c);
+        QStringList tgt_lst;
+
+        for(QString word : lst)
+        {
+            if(!word.isEmpty())
+            {
+                QChar f = word.at(0).toUpper();
+                word.remove(0, 1);
+                word.prepend(f.toUpper());
+            }
+
+            tgt_lst << word;
+        }
+
+        result = tgt_lst.join(c);
+    }
+
+    return result;
 }
 
 QString Util::cvt_str_to_very_first_upper(const QString& str) 
@@ -95,11 +115,13 @@ QString Util::cvt_str_to_very_first_upper(const QString& str)
 	if(str.isEmpty()){
 		return str;
 	}
-	QString ret_str = str.toLower();;
+
+    QString ret_str = str.toLower();
 	QChar c = str.at(0).toUpper();
 
 	ret_str.remove(0, 1);
 	ret_str.prepend(c);
+
 	return ret_str;
 }
 

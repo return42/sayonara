@@ -43,6 +43,8 @@ PlaylistTabWidget::PlaylistTabWidget(QWidget* parent) :
     connect(m->tab_bar, &PlaylistTabBar::sig_tab_reset, this, &PlaylistTabWidget::sig_tab_reset);
     connect(m->tab_bar, &PlaylistTabBar::sig_tab_save, this, &PlaylistTabWidget::sig_tab_save);
     connect(m->tab_bar, &PlaylistTabBar::sig_tab_save_as, this, &PlaylistTabWidget::sig_tab_save_as);
+    connect(m->tab_bar, &PlaylistTabBar::sig_tab_save_to_file, this, &PlaylistTabWidget::sig_tab_save_to_file);
+
     connect(m->tab_bar, &PlaylistTabBar::sig_tab_rename, this, &PlaylistTabWidget::sig_tab_rename);
     connect(m->tab_bar, &PlaylistTabBar::sig_tab_delete, this, &PlaylistTabWidget::sig_tab_delete);
     connect(m->tab_bar, &PlaylistTabBar::sig_tab_clear, this, &PlaylistTabWidget::sig_tab_clear);
