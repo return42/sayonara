@@ -45,6 +45,7 @@
 
 #include <QDateTime>
 #include <QTranslator>
+#include <QAction>
 
 GUI_Player::GUI_Player(QTranslator* translator, QWidget* parent) :
 	Gui::MainWindow(parent),
@@ -64,7 +65,7 @@ GUI_Player::GUI_Player(QTranslator* translator, QWidget* parent) :
 	setup_tray_actions();
 	setup_connections();
 
-    Set::listen(Set::Engine_SR_Active, this, &GUI_Player::_sl_sr_active_changed);
+	Set::listen(Set::Engine_SR_Active, this, &GUI_Player::_sl_sr_active_changed);
 	Set::listen(SetNoDB::Player_Quit, this, &GUI_Player::really_close, false);
 
 	Set::listen(Set::Player_FontName, this, &GUI_Player::skin_changed);
@@ -86,7 +87,7 @@ GUI_Player::~GUI_Player()
 
 void GUI_Player::init_gui()
 {
-    PlayManager* play_manager = PlayManager::instance();
+	PlayManager* play_manager = PlayManager::instance();
 	QString version = _settings->get(Set::Player_Version);
 
 	progress_widget->setCurrentIndex(0);
@@ -104,18 +105,23 @@ void GUI_Player::init_gui()
 	action_Dark->setShortcut(QKeySequence("F10"));
 
 	action_Fullscreen->setShortcut(QKeySequence("F11"));
+	_action_shutdown = new QAction(Lang::get(Lang::Shutdown).triplePt(), this);
+
+	QList<QAction*> actions = menu_file->actions();
+	QAction* sep = actions[actions.size() - 1];
+	menu_file->insertAction(sep, _action_shutdown);
 
 	btn_rec->setVisible(false);
 
-    cur_pos_changed(play_manager->initial_position_ms());
+	cur_pos_changed(play_manager->initial_position_ms());
 
 	bool library_visible = _settings->get(Set::Lib_Show);
 	show_library(library_visible);
 
-    int volume = play_manager->volume();
+	int volume = play_manager->volume();
 	volume_changed(volume);
 
-    bool muted = play_manager->is_muted();
+	bool muted = play_manager->is_muted();
 	mute_changed(muted);
 
 	setWindowTitle(QString("Sayonara %1").arg(version));
@@ -174,7 +180,7 @@ void GUI_Player::track_changed(const MetaData & md)
 
 void GUI_Player::refresh_info_labels()
 {
-    set_info_labels(PlayManager::instance()->current_track());
+	set_info_labels(PlayManager::instance()->current_track());
 }
 
 void GUI_Player::set_info_labels(const MetaData& md)
@@ -258,7 +264,7 @@ void GUI_Player::id3_tags_changed(const MetaDataList& v_md_old, const MetaDataLi
 	Q_UNUSED(v_md_old)
 	Q_UNUSED(v_md_new)
 
-    const MetaData& md = PlayManager::instance()->current_track();
+	const MetaData& md = PlayManager::instance()->current_track();
 
 	set_info_labels(md);
 	set_cover_location(md);
@@ -268,29 +274,29 @@ void GUI_Player::id3_tags_changed(const MetaDataList& v_md_old, const MetaDataLi
 
 void GUI_Player::skin_changed()
 {
-    ;
+	;
 	bool dark = (_settings->get(Set::Player_Style) == 1);
 
 	QString stylesheet = Style::get_style(dark);
 
 	this->setStyleSheet(stylesheet);
 
-    btn_fw->setIcon(IconLoader::icon("media-skip-forward", "fwd"));
-    btn_bw->setIcon(IconLoader::icon("media-skip-backward", "bwd"));
+	btn_fw->setIcon(IconLoader::icon("media-skip-forward", "fwd"));
+	btn_bw->setIcon(IconLoader::icon("media-skip-backward", "bwd"));
 
-    if(PlayManager::instance()->playstate() == PlayState::Playing){
-        btn_play->setIcon(IconLoader::icon("media-playback-pause", "pause"));
+	if(PlayManager::instance()->playstate() == PlayState::Playing){
+		btn_play->setIcon(IconLoader::icon("media-playback-pause", "pause"));
 	}
 
 	else{
-        btn_play->setIcon(IconLoader::icon("media-playback-start", "play"));
+		btn_play->setIcon(IconLoader::icon("media-playback-start", "play"));
 	}
 
-    btn_stop->setIcon(IconLoader::icon("media-playback-stop", "stop"));
-    btn_rec->setIcon(IconLoader::icon("media-record", "rec"));
-    action_OpenFile->setIcon(IconLoader::icon("document-open", "play"));
-    action_OpenFolder->setIcon(IconLoader::icon("document-open", "play"));
-    action_Close->setIcon(IconLoader::icon("window-close", "power_off"));
+	btn_stop->setIcon(IconLoader::icon("media-playback-stop", "stop"));
+	btn_rec->setIcon(IconLoader::icon("media-record", "rec"));
+	action_OpenFile->setIcon(IconLoader::icon("document-open", "play"));
+	action_OpenFolder->setIcon(IconLoader::icon("document-open", "play"));
+	action_Close->setIcon(IconLoader::icon("window-close", "power_off"));
 
 	setup_volume_button(sli_volume->value());
 }
@@ -351,7 +357,7 @@ void GUI_Player::tray_icon_activated (QSystemTrayIcon::ActivationReason reason)
 
 void GUI_Player::current_library_changed(const QString& name)
 {
-    Q_UNUSED(name)
+	Q_UNUSED(name)
 	check_library_menu_action();
 }
 
@@ -426,7 +432,7 @@ void GUI_Player::register_player_plugin_handler(PlayerPluginHandler* pph)
 void GUI_Player::register_preference_dialog(PreferenceDialogInterface* dialog)
 {
 	QList<QAction*> actions = menu_file->actions();
-    QAction* sep = actions[actions.size() - 2];
+	QAction* sep = actions[actions.size() - 3];
 
 	dialog->setParent(this);
 	menu_file->insertAction(sep, dialog->get_action());
@@ -450,10 +456,10 @@ void GUI_Player::_sl_sr_active_changed()
 
 void GUI_Player::check_record_button_visible()
 {
-    PlayManagerPtr play_manager = PlayManager::instance();
+	PlayManagerPtr play_manager = PlayManager::instance();
 
-    const MetaData& md = play_manager->current_track();
-    PlayState playstate = play_manager->playstate();
+	const MetaData& md = play_manager->current_track();
+	PlayState playstate = play_manager->playstate();
 
 	bool is_lame_available = _settings->get(SetNoDB::MP3enc_found);
 	bool is_sr_active = _settings->get(Set::Engine_SR_Active);
@@ -478,7 +484,7 @@ void GUI_Player::ui_loaded()
 {
 	skin_changed();
 
-    PlayManagerPtr play_manager = PlayManager::instance();
+	PlayManagerPtr play_manager = PlayManager::instance();
 
 	bool fullscreen = _settings->get(Set::Player_Fullscreen);
 	bool maximized = _settings->get(Set::Player_Maximized);
@@ -502,14 +508,14 @@ void GUI_Player::ui_loaded()
 	}
 
 
-    if(play_manager->playstate() != PlayState::Stopped)
-    {
-        track_changed(
-            play_manager->current_track()
-        );
+	if(play_manager->playstate() != PlayState::Stopped)
+	{
+		track_changed(
+			play_manager->current_track()
+		);
 	}
 
-    playstate_changed(play_manager->playstate());
+	playstate_changed(play_manager->playstate());
 
 	if(_settings->get(Set::Player_NotifyNewVersion)){
 		AsyncWebAccess* awa = new AsyncWebAccess(this);
@@ -553,7 +559,7 @@ void GUI_Player::ui_loaded()
 
 void GUI_Player::play_error(const QString& message)
 {
-    const MetaData& md = PlayManager::instance()->current_track();
+	const MetaData& md = PlayManager::instance()->current_track();
 	QString err = message + "\n\n" + md.filepath();
 	Message::warning(err, "Player");
 }
@@ -577,8 +583,8 @@ void GUI_Player::awa_version_finished()
 
 	new_version = new_version.trimmed();
 
-    sp_log(Log::Info, this) << "Newest Version: " << new_version;
-    sp_log(Log::Info, this) << "This Version:   " << cur_version;
+	sp_log(Log::Info, this) << "Newest Version: " << new_version;
+	sp_log(Log::Info, this) << "This Version:   " << cur_version;
 
 	QString link;
 	LINK("http://sayonara-player.com", "http://sayonara-player.com", dark, link);
@@ -621,7 +627,7 @@ void GUI_Player::awa_translators_finished()
 
 void GUI_Player::really_close()
 {
-    sp_log(Log::Info, this) << "closing player...";
+	sp_log(Log::Info, this) << "closing player...";
 
 	QMainWindow::close();
 

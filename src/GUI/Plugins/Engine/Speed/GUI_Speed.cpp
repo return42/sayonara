@@ -20,6 +20,8 @@
 
 #include "GUI_Speed.h"
 #include "GUI/Plugins/Engine/ui_GUI_Speed.h"
+#include "GUI/Utils/EventFilter.h"
+
 #include "Utils/Settings/Settings.h"
 #include "Utils/Language.h"
 
@@ -63,13 +65,41 @@ void GUI_Speed::init_ui()
 	ui->sli_pitch->setMouseTracking(true);
 	pitch_changed(pitch);
 
+	MouseEnterFilter* mef_pitch = new MouseEnterFilter(ui->btn_pitch);
+	MouseEnterFilter* mef_speed = new MouseEnterFilter(ui->btn_speed);
+
+	MouseLeaveFilter* mlf_pitch = new MouseLeaveFilter(ui->btn_pitch);
+	MouseLeaveFilter* mlf_speed = new MouseLeaveFilter(ui->btn_speed);
+
+	connect(mef_pitch, &MouseEnterFilter::sig_mouse_entered, [=](){
+		ui->btn_pitch->setText("440 Hz");
+	});
+
+	connect(mef_speed, &MouseEnterFilter::sig_mouse_entered, [=](){
+		ui->btn_speed->setText(QString::number(1.0f, 'f', 2));
+	});
+
+	connect(mlf_pitch, &MouseLeaveFilter::sig_mouse_left, [=](){
+		ui->btn_pitch->setText(QString::number(ui->sli_pitch->value() / 10) + " Hz");
+	});
+
+	connect(mlf_speed, &MouseLeaveFilter::sig_mouse_left, [=](){
+		ui->btn_speed->setText(QString::number(ui->sli_speed->value() / 100.0f, 'f', 2));
+	});
+
+	ui->btn_speed->installEventFilter(mef_speed);
+	ui->btn_speed->installEventFilter(mlf_speed);
+
+	ui->btn_pitch->installEventFilter(mef_pitch);
+	ui->btn_pitch->installEventFilter(mlf_pitch);
 
 	connect(ui->sli_speed, &QSlider::valueChanged, this, &GUI_Speed::speed_changed);
 	connect(ui->cb_active, &QCheckBox::toggled, this, &GUI_Speed::active_changed);
 	connect(ui->cb_preserve_pitch, &QCheckBox::toggled, this, &GUI_Speed::preserve_pitch_changed);
 	connect(ui->sli_pitch, &QSlider::valueChanged, this, &GUI_Speed::pitch_changed);
-    connect(ui->btn_speed, &QPushButton::clicked, this, &GUI_Speed::revert_speed_clicked);
-    connect(ui->btn_pitch, &QPushButton::clicked, this, &GUI_Speed::revert_pitch_clicked);
+	connect(ui->btn_speed, &QPushButton::clicked, this, &GUI_Speed::revert_speed_clicked);
+	connect(ui->btn_pitch, &QPushButton::clicked, this, &GUI_Speed::revert_pitch_clicked);
+
 	connect(ui->sli_speed, &Gui::Slider::sig_slider_hovered, this, &GUI_Speed::speed_hovered);
 	connect(ui->sli_pitch, &Gui::Slider::sig_slider_hovered, this, &GUI_Speed::pitch_hovered);
 
@@ -92,7 +122,7 @@ void GUI_Speed::speed_changed(int val)
 {
 	float val_f = val / 100.0f;
 
-    ui->btn_speed->setText(QString::number(val_f, 'f', 2));
+	ui->btn_speed->setText(QString::number(val_f, 'f', 2));
 	_settings->set(Set::Engine_Speed, ui->sli_speed->value() / 100.0f);
 }
 
@@ -102,10 +132,10 @@ void GUI_Speed::active_changed(bool active)
 	ui->cb_active->setChecked(active);
 
 	ui->sli_speed->setEnabled( active);
-    ui->btn_speed->setEnabled(active);
+	ui->btn_speed->setEnabled(active);
 	ui->sli_pitch->setEnabled(active);
 	ui->cb_preserve_pitch->setEnabled(active);
-    ui->btn_pitch->setEnabled(active);
+	ui->btn_pitch->setEnabled(active);
 
 	_settings->set(Set::Engine_SpeedActive, active);
 }
@@ -119,7 +149,7 @@ void GUI_Speed::pitch_changed(int pitch)
 {
 	pitch = pitch / 10;
 	_settings->set(Set::Engine_Pitch, pitch);
-    ui->btn_pitch->setText(QString::number(pitch) + " Hz");
+	ui->btn_pitch->setText(QString::number(pitch) + " Hz");
 }
 
 void GUI_Speed::revert_speed_clicked()

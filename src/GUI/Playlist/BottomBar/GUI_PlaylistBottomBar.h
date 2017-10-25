@@ -51,17 +51,17 @@ public:
 	void check_dynamic_play_button();
 
 private slots:
-	void btn_menu_pressed(QPoint pos);
 	void rep1_checked(bool checked);
 	void rep_all_checked(bool checked);
 	void shuffle_checked(bool checked);
 	void playlist_mode_changed();
 	void language_changed() override;
 
-    void s_playlist_mode_changed();
+	void s_playlist_mode_changed();
 
 #ifdef WITH_SHUTDOWN
-	void shutdown_toggled(bool b);
+	void shutdown_clicked();
+	void shutdown_started(uint64_t time2go);
 	void shutdown_closed();
 #endif
 };

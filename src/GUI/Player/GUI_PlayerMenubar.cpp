@@ -35,6 +35,8 @@
 #include "Components/Playlist/PlaylistHandler.h"
 #include "Utils/WebAccess/AsyncWebAccess.h"
 
+#include "GUI/ShutdownDialog/GUI_Shutdown.h"
+
 
 #include <QDir>
 #include <QFileDialog>
@@ -80,6 +82,12 @@ void GUI_Player::open_dir_clicked()
 	plh->create_playlist(dir);
 }
 
+void GUI_Player::shutdown_clicked()
+{
+	GUI_Shutdown* gui = new GUI_Shutdown(this);
+	gui->exec();
+}
+
 
 void GUI_Player::show_library(bool b)
 {
@@ -105,7 +113,6 @@ void GUI_Player::show_library(bool b)
 		if(library_width < 100){
 			library_width = 400;
 		}
-
 
 		player_size.setWidth( player_size.width() + library_width);
 	}
@@ -176,18 +183,18 @@ void GUI_Player::about()
 		for (int i=0; i<_translators.size() - 1; i++) {
 			first_translators += "<b>" + _translators[i] + "</b>";
 			if(i < _translators.size() - 2) first_translators += ", ";
-        }
+		}
 
 		last_translator = QString("<b>") + _translators[_translators.size() - 1] + "</b>";
-        translator_str = QString("<br /><br /><br />") +
-                tr("Special thanks to %1 and %2 for translating")
-                .arg(first_translators)
-                .arg(last_translator);
-    }
+		translator_str = QString("<br /><br /><br />") +
+				tr("Special thanks to %1 and %2 for translating")
+				.arg(first_translators)
+				.arg(last_translator);
+	}
 
 	_about_box->setInformativeText( QString("") +
 				tr("Written by Lucio Carreras") + "<br /><br />" +
-                tr("License") + ": GPLv3<br /><br />" +
+				tr("License") + ": GPLv3<br /><br />" +
 				"Copyright 2011-" + QString::number(QDateTime::currentDateTime().date().year()) +
 				"<br /><br />" + link + translator_str
 	);

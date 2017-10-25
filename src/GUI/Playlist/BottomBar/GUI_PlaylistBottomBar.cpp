@@ -19,7 +19,6 @@
 
 #include "GUI_PlaylistBottomBar.h"
 #include "GUI/Playlist/ui_GUI_PlaylistBottomBar.h"
-#include "GUI/Playlist/PlaylistMenu.h"
 #include "GUI/Utils/IconLoader/IconLoader.h"
 #include "Utils/Playlist/PlaylistMode.h"
 #include "Utils/Settings/Settings.h"
@@ -39,27 +38,25 @@
 struct GUI_PlaylistBottomBar::Private
 {
 	Playlist::Mode		plm;
-	PlaylistMenu*		playlist_menu=nullptr;
 
 #ifdef WITH_SHUTDOWN
 	GUI_Shutdown*		ui_shutdown=nullptr;
+	Shutdown*			shutdown=nullptr;
 #endif
+
+	Private()
+	{
+		shutdown = Shutdown::instance();
+	}
 };
 
 GUI_PlaylistBottomBar::GUI_PlaylistBottomBar(QWidget *parent) :
 	Widget(parent)
 {
 	m = Pimpl::make<Private>();
-	m->playlist_menu = new PlaylistMenu(this);
 
 	ui = new Ui::GUI_PlaylistBottomBar();
 	ui->setupUi(this);
-
-	ui->btn_menu->setFlat(true);
-
-#ifdef Q_OS_WIN
-	ui->btn_menu->setVisible(false);
-#endif
 
 #ifdef WITH_SHUTDOWN
 	m->ui_shutdown = new GUI_Shutdown(this);
@@ -73,17 +70,12 @@ GUI_PlaylistBottomBar::GUI_PlaylistBottomBar(QWidget *parent) :
 	ui->btn_dynamic->setChecked(Playlist::Mode::isActive(m->plm.dynamic()));
 	ui->btn_shuffle->setChecked(Playlist::Mode::isActive(m->plm.shuffle()));
 	ui->btn_gapless->setChecked(Playlist::Mode::isActive(m->plm.gapless()));
+	ui->btn_shutdown->setVisible(false);
 
 	bool crossfader_active = _settings->get(Set::Engine_CrossFaderActive);
 	bool gapless_enabled = (Playlist::Mode::isEnabled(m->plm.gapless()) && !crossfader_active);
 
 	ui->btn_gapless->setEnabled(gapless_enabled) ;
-	
-#ifdef WITH_SHUTDOWN
-	ui->btn_shutdown->setVisible(Shutdown::instance()->is_running());
-#else
-	ui->btn_shutdown->setVisible(false);
-#endif
 
 	connect(ui->btn_rep1, &QPushButton::clicked, this, &GUI_PlaylistBottomBar::rep1_checked);
 	connect(ui->btn_repAll, &QPushButton::clicked, this, &GUI_PlaylistBottomBar::rep_all_checked);
@@ -92,25 +84,15 @@ GUI_PlaylistBottomBar::GUI_PlaylistBottomBar(QWidget *parent) :
 	connect(ui->btn_append, &QPushButton::released, this, &GUI_PlaylistBottomBar::playlist_mode_changed);
 	connect(ui->btn_gapless, &QPushButton::released, this, &GUI_PlaylistBottomBar::playlist_mode_changed);
 
-	connect(ui->btn_menu, &MenuButton::sig_triggered, this, &GUI_PlaylistBottomBar::btn_menu_pressed);
+	connect(ui->btn_shutdown, &QPushButton::clicked, this, &GUI_PlaylistBottomBar::shutdown_clicked);
+	connect(m->shutdown, &Shutdown::sig_started, this, &GUI_PlaylistBottomBar::shutdown_started);
+	connect(m->shutdown, &Shutdown::sig_stopped, this, &GUI_PlaylistBottomBar::shutdown_closed);
 
-#ifdef WITH_SHUTDOWN
-	connect(m->playlist_menu, &PlaylistMenu::sig_shutdown, this, &GUI_PlaylistBottomBar::shutdown_toggled);
-	connect(ui->btn_shutdown, &QPushButton::toggled, this, &GUI_PlaylistBottomBar::shutdown_toggled);
-	connect(m->ui_shutdown, &GUI_Shutdown::sig_closed, this, &GUI_PlaylistBottomBar::shutdown_closed);
-#endif
-
-    Set::listen(Set::PL_Mode, this, &GUI_PlaylistBottomBar::s_playlist_mode_changed);
+	Set::listen(Set::PL_Mode, this, &GUI_PlaylistBottomBar::s_playlist_mode_changed);
 
 }
 
 GUI_PlaylistBottomBar::~GUI_PlaylistBottomBar() {}
-
-void GUI_PlaylistBottomBar::btn_menu_pressed(QPoint pos)
-{
-	pos.setY(pos.y() - 160);
-	m->playlist_menu->exec(pos);
-}
 
 void GUI_PlaylistBottomBar::rep1_checked(bool checked)
 {
@@ -183,9 +165,9 @@ void GUI_PlaylistBottomBar::s_playlist_mode_changed()
 {
 	Playlist::Mode plm = _settings->get(Set::PL_Mode);
 
-    if(plm == m->plm) {
-        return;
-    }
+	if(plm == m->plm) {
+		return;
+	}
 
 	m->plm = plm;
 
@@ -224,32 +206,22 @@ void GUI_PlaylistBottomBar::check_dynamic_play_button()
 
 
 #ifdef WITH_SHUTDOWN
+	void GUI_PlaylistBottomBar::shutdown_clicked()
+	{
+		GlobalMessage::Answer answer = Message::question_yn(tr("Cancel shutdown?"));
 
-	void GUI_PlaylistBottomBar::shutdown_toggled(bool b){
-		Shutdown* shutdown = Shutdown::instance();
-		bool shutdown_is_running = shutdown->is_running();
-
-		if(shutdown_is_running == b) {
-			return;
+		if(answer == GlobalMessage::Answer::Yes) {
+			Shutdown::instance()->stop();
 		}
+	}
 
-		if(b){
-			m->ui_shutdown->exec();
-		}
+	void GUI_PlaylistBottomBar::shutdown_started(uint64_t time2go)
+	{
+		Q_UNUSED(time2go)
 
-		else{
-			GlobalMessage::Answer answer = Message::question_yn(tr("Cancel shutdown?"));
-
-			if(answer == GlobalMessage::Answer::Yes) {
-				Shutdown::instance()->stop();
-			}
-		}
-
-		shutdown_is_running = shutdown->is_running();
-
-		ui->btn_shutdown->setVisible(shutdown_is_running);
-		ui->btn_shutdown->setChecked(shutdown_is_running);
-		m->playlist_menu->set_shutdown(shutdown_is_running);
+		bool b = Shutdown::instance()->is_running();
+		ui->btn_shutdown->setVisible(b);
+		ui->btn_shutdown->setChecked(b);
 	}
 
 

@@ -38,15 +38,16 @@
  * @brief The Shutdown class
  * @ingroup Helper
  */
-class Shutdown : public QObject, private SayonaraClass 
+class Shutdown : public QObject, private SayonaraClass
 {
 	Q_OBJECT
 	SINGLETON_QOBJECT(Shutdown)
-    PIMPL(Shutdown)
+	PIMPL(Shutdown)
 
 signals:
 	void sig_time_to_go(uint64_t);
 	void sig_started(uint64_t);
+	void sig_stopped();
 
 private slots:
 	void timeout();

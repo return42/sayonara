@@ -56,7 +56,7 @@ signals:
 
 public:
 	explicit GUI_Player(QTranslator* translator, QWidget *parent=nullptr);
-    ~GUI_Player();
+	~GUI_Player();
 
 	void register_player_plugin_handler(PlayerPluginHandler* pph);
 	void register_preference_dialog(PreferenceDialogInterface* dialog);
@@ -73,6 +73,8 @@ private:
 
 	QMessageBox*				_about_box=nullptr;
 	GUI_Logger*					_logger=nullptr;
+
+	QAction*					_action_shutdown=nullptr;
 
 
 private:
@@ -143,6 +145,7 @@ private slots:
 	/* File */
 	void open_files_clicked();
 	void open_dir_clicked();
+	void shutdown_clicked();
 
 
 	/* View */

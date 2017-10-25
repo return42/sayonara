@@ -28,50 +28,80 @@
 class QEvent;
 class QAction;
 class KeyPressFilter :
-        public QObject
+		public QObject
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    explicit KeyPressFilter(QObject* parent=nullptr);
+	explicit KeyPressFilter(QObject* parent=nullptr);
 
 signals:
-    void sig_esc_pressed();
+	void sig_esc_pressed();
 
 protected:
-    bool eventFilter(QObject* o , QEvent* e);
+	bool eventFilter(QObject* o , QEvent* e);
 };
 
 
 class ContextMenuFilter :
-        public QObject
+		public QObject
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    explicit ContextMenuFilter(QObject* parent=nullptr);
+	explicit ContextMenuFilter(QObject* parent=nullptr);
 
 signals:
-    void sig_context_menu(const QPoint& p, QAction* a);
+	void sig_context_menu(const QPoint& p, QAction* a);
 
 protected:
-    bool eventFilter(QObject* o , QEvent* e);
+	bool eventFilter(QObject* o , QEvent* e);
 };
 
 class MouseMoveFilter :
-        public QObject
+		public QObject
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    explicit MouseMoveFilter(QObject* parent=nullptr);
+	explicit MouseMoveFilter(QObject* parent=nullptr);
 
 signals:
-    void sig_mouse_moved(const QPoint& p);
+	void sig_mouse_moved(const QPoint& p);
 
 protected:
-    bool eventFilter(QObject* o , QEvent* e);
+	bool eventFilter(QObject* o , QEvent* e);
 };
 
+class MouseEnterFilter :
+		public QObject
+{
+	Q_OBJECT
+
+public:
+	explicit MouseEnterFilter(QObject* parent=nullptr);
+
+signals:
+	void sig_mouse_entered();
+
+protected:
+	bool eventFilter(QObject* o, QEvent* e);
+};
+
+
+class MouseLeaveFilter :
+		public QObject
+{
+	Q_OBJECT
+
+public:
+	explicit MouseLeaveFilter(QObject* parent=nullptr);
+
+signals:
+	void sig_mouse_left();
+
+protected:
+	bool eventFilter(QObject* o, QEvent* e);
+};
 
 #endif // EVENTFILTER_H

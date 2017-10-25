@@ -27,28 +27,6 @@
     <number>0</number>
    </property>
    <item>
-    <widget class="MenuButton" name="btn_menu">
-     <property name="minimumSize">
-      <size>
-       <width>16</width>
-       <height>16</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>16</width>
-       <height>16</height>
-      </size>
-     </property>
-     <property name="focusPolicy">
-      <enum>Qt::NoFocus</enum>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-   </item>
-   <item>
     <widget class="QPushButton" name="btn_rep1">
      <property name="minimumSize">
       <size>
@@ -288,6 +266,9 @@
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::MinimumExpanding</enum>
+     </property>
      <property name="sizeHint" stdset="0">
       <size>
        <width>40</width>
@@ -323,20 +304,10 @@
        <height>22</height>
       </size>
      </property>
-     <property name="checkable">
-      <bool>true</bool>
-     </property>
     </widget>
    </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>MenuButton</class>
-   <extends>QPushButton</extends>
-   <header>GUI/Utils/MenuTool/MenuButton.h</header>
-  </customwidget>
- </customwidgets>
  <resources>
   <include location="../../Resources/Icons.qrc"/>
  </resources>

@@ -92,8 +92,8 @@ void GUI_Bookmarks::init_ui()
 
 	connect(ui->btn_tool, &MenuToolButton::sig_new, this, &GUI_Bookmarks::new_clicked);
 	connect(ui->btn_tool, &MenuToolButton::sig_delete, this, &GUI_Bookmarks::del_clicked);
-	connect(ui->btn_bw, &QPushButton::clicked, this, &GUI_Bookmarks::prev_clicked);
-	connect(ui->btn_fw, &QPushButton::clicked, this, &GUI_Bookmarks::next_clicked);
+	connect(ui->btn_prev, &QPushButton::clicked, this, &GUI_Bookmarks::prev_clicked);
+	connect(ui->btn_next, &QPushButton::clicked, this, &GUI_Bookmarks::next_clicked);
 	connect(ui->cb_loop, &QCheckBox::clicked, this, &GUI_Bookmarks::loop_clicked);
 	connect(ui->cb_bookmarks, combo_current_index_changed_int, this, &GUI_Bookmarks::combo_changed);
 
@@ -149,8 +149,8 @@ void GUI_Bookmarks::disable_prev()
 		return;
 	}
 
-	ui->btn_bw->setEnabled( false );
-	ui->lab_prev->setText( NoBookmarkText );
+	ui->btn_prev->setEnabled( false );
+	ui->btn_prev->setText( NoBookmarkText );
 }
 
 
@@ -160,8 +160,8 @@ void GUI_Bookmarks::disable_next()
 		return;
 	}
 
-	ui->btn_fw->setEnabled(false);
-	ui->lab_next->setText( NoBookmarkText );
+	ui->btn_next->setEnabled(false);
+	ui->btn_next->setText( NoBookmarkText );
 }
 
 
@@ -172,8 +172,8 @@ void GUI_Bookmarks::prev_changed(const Bookmark& bookmark)
 		return;
 	}
 
-	ui->btn_bw->setEnabled( bookmark.is_valid() );
-	ui->cb_loop->setEnabled( ui->btn_fw->isEnabled() );
+	ui->btn_prev->setEnabled( bookmark.is_valid() );
+	ui->cb_loop->setEnabled( ui->btn_next->isEnabled() );
 
 	if( !bookmark.is_valid() )
 	{
@@ -181,7 +181,7 @@ void GUI_Bookmarks::prev_changed(const Bookmark& bookmark)
 		return;
 	}
 
-	ui->lab_prev->setText(Util::cvt_ms_to_string(bookmark.get_time() * 1000, true, true, false));
+	ui->btn_prev->setText(Util::cvt_ms_to_string(bookmark.get_time() * 1000, true, true, false));
 }
 
 
@@ -191,15 +191,15 @@ void GUI_Bookmarks::next_changed(const Bookmark& bookmark)
 		return;
 	}
 
-	ui->btn_fw->setEnabled( bookmark.is_valid() );
-	ui->cb_loop->setEnabled( ui->btn_fw->isEnabled() );
+	ui->btn_next->setEnabled( bookmark.is_valid() );
+	ui->cb_loop->setEnabled( ui->btn_next->isEnabled() );
 
 	if( !bookmark.is_valid() ){
 		disable_next();
 		return;
 	}
 
-	ui->lab_next->setText(Util::cvt_ms_to_string(bookmark.get_time() * 1000, true, true, false));
+	ui->btn_next->setText(Util::cvt_ms_to_string(bookmark.get_time() * 1000, true, true, false));
 }
 
 

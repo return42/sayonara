@@ -41,50 +41,50 @@
 
 struct Shutdown::Private
 {
-    QTimer*			timer=nullptr;
-    QTimer*			timer_countdown=nullptr;
-    PlayManagerPtr	play_manager=nullptr;
+	QTimer*			timer=nullptr;
+	QTimer*			timer_countdown=nullptr;
+	PlayManagerPtr	play_manager=nullptr;
 
-    uint64_t		msecs2go;
-    bool			is_running;
+	uint64_t		msecs2go;
+	bool			is_running;
 
-    Private(Shutdown* parent) :
-        msecs2go(0),
-        is_running(false)
-    {
-        play_manager = PlayManager::instance();
+	Private(Shutdown* parent) :
+		msecs2go(0),
+		is_running(false)
+	{
+		play_manager = PlayManager::instance();
 
-        timer = new QTimer(parent);
-        timer_countdown = new QTimer(parent);
+		timer = new QTimer(parent);
+		timer_countdown = new QTimer(parent);
 
-        timer->setInterval(100);
-        timer_countdown->setInterval(50);
-    }
+		timer->setInterval(100);
+		timer_countdown->setInterval(50);
+	}
 
-    ~Private()
-    {
-        timer->stop();
-        timer->deleteLater();
-        timer_countdown->stop();
-        timer_countdown->deleteLater();
-    }
+	~Private()
+	{
+		timer->stop();
+		timer->deleteLater();
+		timer_countdown->stop();
+		timer_countdown->deleteLater();
+	}
 };
 
 Shutdown::Shutdown(QObject* parent) :
 	QObject(parent)
 {
-    m = Pimpl::make<Private>(this);
+	m = Pimpl::make<Private>(this);
 
-    connect(m->timer, &QTimer::timeout, this, &Shutdown::timeout);
-    connect(m->timer_countdown, &QTimer::timeout, this, &Shutdown::countdown_timeout);
-    connect(m->play_manager, &PlayManager::sig_playlist_finished, this, &Shutdown::playlist_finished);
+	connect(m->timer, &QTimer::timeout, this, &Shutdown::timeout);
+	connect(m->timer_countdown, &QTimer::timeout, this, &Shutdown::countdown_timeout);
+	connect(m->play_manager, &PlayManager::sig_playlist_finished, this, &Shutdown::playlist_finished);
 }
 
 Shutdown::~Shutdown() {}
 
 void Shutdown::shutdown_after_end()
 {
-    m->is_running = true;
+	m->is_running = true;
 
 	NotificationHandler::instance()->notify(Lang::get(Lang::Shutdown),
 											   tr("Computer will shutdown after playlist has finished"),
@@ -94,7 +94,7 @@ void Shutdown::shutdown_after_end()
 
 bool Shutdown::is_running() const
 {
-    return m->is_running;
+	return m->is_running;
 }
 
 
@@ -105,10 +105,10 @@ void Shutdown::shutdown(uint64_t ms)
 		return;
 	}
 
-    m->is_running = true;
-    m->msecs2go = ms;
-    m->timer->start((int) ms);
-    m->timer_countdown->start(1000);
+	m->is_running = true;
+	m->msecs2go = ms;
+	m->timer->start((int) ms);
+	m->timer_countdown->start(1000);
 	emit sig_started(ms);
 
 	NotificationHandler::instance()->notify(Lang::get(Lang::Shutdown),
@@ -120,24 +120,26 @@ void Shutdown::shutdown(uint64_t ms)
 void Shutdown::stop()
 {
 	sp_log(Log::Info) << "Shutdown cancelled";
-    m->is_running = false;
-    m->timer->stop();
-    m->timer_countdown->stop();
-    m->msecs2go = 0;
+	m->is_running = false;
+	m->timer->stop();
+	m->timer_countdown->stop();
+	m->msecs2go = 0;
+
+	emit sig_stopped();
 }
 
 
 void Shutdown::countdown_timeout()
 {
-    m->msecs2go -= 1000;
-    m->timer_countdown->start(1000);
+	m->msecs2go -= 1000;
+	m->timer_countdown->start(1000);
 
-    emit sig_time_to_go(m->msecs2go);
-    sp_log(Log::Info) << "Time to go: " << m->msecs2go;
+	emit sig_time_to_go(m->msecs2go);
+	sp_log(Log::Info) << "Time to go: " << m->msecs2go;
 
-    if(m->msecs2go % 60000 == 0){
+	if(m->msecs2go % 60000 == 0){
 		NotificationHandler::instance()->notify(Lang::get(Lang::Shutdown),
-                                                   tr("Computer will shutdown in %1 minutes").arg(Util::cvt_ms_to_string(m->msecs2go, false, true, false)),
+												   tr("Computer will shutdown in %1 minutes").arg(Util::cvt_ms_to_string(m->msecs2go, false, true, false)),
 												   Util::share_path("logo.png"));
 	}
 }
@@ -145,13 +147,13 @@ void Shutdown::countdown_timeout()
 
 void Shutdown::timeout()
 {
-	
-    m->is_running = false;
+
+	m->is_running = false;
 	DatabaseConnector::instance()->store_settings();
 
 
 #ifdef Q_OS_WIN
-	//ExitWindowsEx(	
+	//ExitWindowsEx(
 
 #else
 
@@ -262,7 +264,7 @@ void Shutdown::timeout()
 
 void Shutdown::playlist_finished()
 {
-    if( m->is_running ){
+	if( m->is_running ){
 		timeout();
 	}
 }

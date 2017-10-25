@@ -27,60 +27,93 @@
 #include <QKeyEvent>
 
 KeyPressFilter::KeyPressFilter(QObject *parent) :
-    QObject(parent)
+	QObject(parent)
 {}
 
 
 bool KeyPressFilter::eventFilter(QObject *o, QEvent *e)
 {
-    if(e->type() == QEvent::KeyPress)
-    {
-        QKeyEvent* ke = static_cast<QKeyEvent*>(e);
-        if(ke->key() == Qt::Key_Escape)
-        {
-            e->accept();
-            emit sig_esc_pressed();
-        }
-    }
+	if(e->type() == QEvent::KeyPress)
+	{
+		QKeyEvent* ke = static_cast<QKeyEvent*>(e);
+		if(ke->key() == Qt::Key_Escape)
+		{
+			e->accept();
+			emit sig_esc_pressed();
+		}
+	}
 
-    return QObject::eventFilter(o, e);
+	return QObject::eventFilter(o, e);
 }
 
 
 
 ContextMenuFilter::ContextMenuFilter(QObject* parent) :
-    QObject(parent)
+	QObject(parent)
 {}
 
 bool ContextMenuFilter::eventFilter(QObject *o, QEvent *e)
 {
-    if(e->type() == QEvent::ContextMenu)
-    {
-        e->accept();
-        QContextMenuEvent* cme = static_cast<QContextMenuEvent*>(e);
+	if(e->type() == QEvent::ContextMenu)
+	{
+		e->accept();
+		QContextMenuEvent* cme = static_cast<QContextMenuEvent*>(e);
 
-        emit sig_context_menu(cme->globalPos(), nullptr);
-    }
+		emit sig_context_menu(cme->globalPos(), nullptr);
+	}
 
-    return QObject::eventFilter(o, e);
+	return QObject::eventFilter(o, e);
 }
 
 
 MouseMoveFilter::MouseMoveFilter(QObject* parent) :
-    QObject(parent)
+	QObject(parent)
 {}
 
 bool MouseMoveFilter::eventFilter(QObject *o, QEvent *e)
 {
-    if(e->type() == QEvent::MouseMove)
-    {
-        e->accept();
-        QMouseEvent* me = static_cast<QMouseEvent*>(e);
+	if(e->type() == QEvent::MouseMove)
+	{
+		e->accept();
+		QMouseEvent* me = static_cast<QMouseEvent*>(e);
 
-        emit sig_mouse_moved(me->pos());
-    }
+		emit sig_mouse_moved(me->pos());
+	}
 
-    return QObject::eventFilter(o, e);
+	return QObject::eventFilter(o, e);
 }
 
+
+
+MouseEnterFilter::MouseEnterFilter(QObject *parent) :
+	QObject(parent)
+{}
+
+bool MouseEnterFilter::eventFilter(QObject *o, QEvent *e)
+{
+	if(e->type() == QEvent::Enter)
+	{
+		e->accept();
+
+		emit sig_mouse_entered();
+	}
+
+	return QObject::eventFilter(o, e);
+}
+
+
+MouseLeaveFilter::MouseLeaveFilter(QObject *parent) :
+	QObject(parent)
+{}
+
+bool MouseLeaveFilter::eventFilter(QObject *o, QEvent *e)
+{
+	if(e->type() == QEvent::Leave)
+	{
+		e->accept();
+		emit sig_mouse_left();
+	}
+
+	return QObject::eventFilter(o, e);
+}
 

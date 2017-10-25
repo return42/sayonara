@@ -35,7 +35,7 @@
 
 void GUI_Player::setup_connections()
 {
-    PlayManagerPtr play_manager = PlayManager::instance();
+	PlayManagerPtr play_manager = PlayManager::instance();
 	LibraryPluginHandler* lph = LibraryPluginHandler::instance();
 
 	connect(lph, &LibraryPluginHandler::sig_current_library_changed,
@@ -51,26 +51,27 @@ void GUI_Player::setup_connections()
 	connect(btn_mute,	&QPushButton::released,	this, &GUI_Player::mute_button_clicked);
 	connect(btn_rec,	&QPushButton::clicked, this, &GUI_Player::rec_clicked);
 
-    connect(play_manager, &PlayManager::sig_playstate_changed, this, &GUI_Player::playstate_changed);
-    connect(play_manager, &PlayManager::sig_track_changed, this, &GUI_Player::track_changed);
-    connect(play_manager, &PlayManager::sig_position_changed_ms, this,	&GUI_Player::cur_pos_changed);
-    connect(play_manager, &PlayManager::sig_buffer, this, &GUI_Player::buffering);
-    connect(play_manager, &PlayManager::sig_volume_changed, this, &GUI_Player::volume_changed);
-    connect(play_manager, &PlayManager::sig_mute_changed, this, &GUI_Player::mute_changed);
-    connect(play_manager, &PlayManager::sig_record, this, &GUI_Player::rec_changed);
-    connect(play_manager, &PlayManager::sig_error, this, &GUI_Player::play_error);
+	connect(play_manager, &PlayManager::sig_playstate_changed, this, &GUI_Player::playstate_changed);
+	connect(play_manager, &PlayManager::sig_track_changed, this, &GUI_Player::track_changed);
+	connect(play_manager, &PlayManager::sig_position_changed_ms, this,	&GUI_Player::cur_pos_changed);
+	connect(play_manager, &PlayManager::sig_buffer, this, &GUI_Player::buffering);
+	connect(play_manager, &PlayManager::sig_volume_changed, this, &GUI_Player::volume_changed);
+	connect(play_manager, &PlayManager::sig_mute_changed, this, &GUI_Player::mute_changed);
+	connect(play_manager, &PlayManager::sig_record, this, &GUI_Player::rec_changed);
+	connect(play_manager, &PlayManager::sig_error, this, &GUI_Player::play_error);
 
 	// engine
-    Engine::Handler* engine = Engine::Handler::instance();
-    connect(engine, &Engine::Handler::sig_md_changed,	this, &GUI_Player::md_changed);
-    connect(engine, &Engine::Handler::sig_dur_changed, this, &GUI_Player::dur_changed);
-    connect(engine, &Engine::Handler::sig_br_changed,	this, &GUI_Player::br_changed);
-    connect(engine, &Engine::Handler::sig_cover_changed, this, &GUI_Player::cover_changed);
+	Engine::Handler* engine = Engine::Handler::instance();
+	connect(engine, &Engine::Handler::sig_md_changed,	this, &GUI_Player::md_changed);
+	connect(engine, &Engine::Handler::sig_dur_changed, this, &GUI_Player::dur_changed);
+	connect(engine, &Engine::Handler::sig_br_changed,	this, &GUI_Player::br_changed);
+	connect(engine, &Engine::Handler::sig_cover_changed, this, &GUI_Player::cover_changed);
 
 	// file
 	connect(action_OpenFile, &QAction::triggered, this, &GUI_Player::open_files_clicked);
 	connect(action_OpenFolder, &QAction::triggered, this, &GUI_Player::open_dir_clicked);
 	connect(action_Close, &QAction::triggered, this, &GUI_Player::really_close);
+	connect(_action_shutdown, &QAction::triggered, this, &GUI_Player::shutdown_clicked);
 
 	// view
 	connect(action_viewLibrary, &QAction::toggled, this, &GUI_Player::show_library);
@@ -89,8 +90,8 @@ void GUI_Player::setup_connections()
 	connect(sli_progress, &SearchSlider::sig_slider_moved, this, &GUI_Player::seek);
 	connect(sli_progress, &SearchSlider::sig_slider_hovered, this, &GUI_Player::set_progress_tooltip);
 
-    Tagging::ChangeNotifier* mdcn = Tagging::ChangeNotifier::instance();
-    connect(mdcn, &Tagging::ChangeNotifier::sig_metadata_changed, this, &GUI_Player::id3_tags_changed);
+	Tagging::ChangeNotifier* mdcn = Tagging::ChangeNotifier::instance();
+	connect(mdcn, &Tagging::ChangeNotifier::sig_metadata_changed, this, &GUI_Player::id3_tags_changed);
 
 	ShortcutHandler* sch = ShortcutHandler::instance();
 
@@ -105,28 +106,28 @@ void GUI_Player::setup_connections()
 	Shortcut sc9 = sch->add(Shortcut(this, "seek_fwd_fast", Lang::get(Lang::SeekForward).space() + "(" + Lang::get(Lang::Fast) + ")", "Shift+Right"));
 	Shortcut sc10 = sch->add(Shortcut(this, "seek_bwd_fast", Lang::get(Lang::SeekBackward).space() + "(" + Lang::get(Lang::Fast) + ")", "Shift+Left"));
 
-    sc1.create_qt_shortcut(this, play_manager, SLOT(play_pause()));
-    sc2.create_qt_shortcut(this, play_manager, SLOT(stop()));
-    sc3.create_qt_shortcut(this, play_manager, SLOT(next()));
-    sc4.create_qt_shortcut(this, play_manager, SLOT(previous()));
-    sc5.create_qt_shortcut(this, play_manager, SLOT(volume_down()));
-    sc6.create_qt_shortcut(this, play_manager, SLOT(volume_up()));
+	sc1.create_qt_shortcut(this, play_manager, SLOT(play_pause()));
+	sc2.create_qt_shortcut(this, play_manager, SLOT(stop()));
+	sc3.create_qt_shortcut(this, play_manager, SLOT(next()));
+	sc4.create_qt_shortcut(this, play_manager, SLOT(previous()));
+	sc5.create_qt_shortcut(this, play_manager, SLOT(volume_down()));
+	sc6.create_qt_shortcut(this, play_manager, SLOT(volume_up()));
 	sc7.create_qt_shortcut(this, [=]() {
-        play_manager->seek_rel_ms(2000);
+		play_manager->seek_rel_ms(2000);
 	});
 
 	sc8.create_qt_shortcut(this, [=](){
-        play_manager->seek_rel_ms(-2000);
+		play_manager->seek_rel_ms(-2000);
 	});
 
 	sc9.create_qt_shortcut(this, [=]() {
-        int64_t ms = play_manager->duration_ms() / 20;
-        play_manager->seek_rel_ms(ms);
+		int64_t ms = play_manager->duration_ms() / 20;
+		play_manager->seek_rel_ms(ms);
 	});
 
 	sc10.create_qt_shortcut(this, [=]() {
-        int64_t ms = play_manager->duration_ms() / 20;
-        play_manager->seek_rel_ms(-ms);
+		int64_t ms = play_manager->duration_ms() / 20;
+		play_manager->seek_rel_ms(-ms);
 	});
 }
 
