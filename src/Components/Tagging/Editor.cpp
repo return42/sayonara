@@ -55,7 +55,7 @@ struct Editor::Private
 		if(artist_map.contains(artist_name)){
 			return artist_map[artist_name];
 		} else {
-            ArtistID id = ldb->getArtistID(artist_name);
+			ArtistID id = ldb->getArtistID(artist_name);
 			if(id < 0){
 				id = ldb->insertArtistIntoDatabase(artist_name);
 			}
@@ -69,7 +69,7 @@ struct Editor::Private
 		if(album_map.contains(album_name)){
 			return album_map[album_name];
 		} else {
-            AlbumID id = ldb->getAlbumID(album_name);
+			AlbumID id = ldb->getAlbumID(album_name);
 			if(id < 0){
 				id = ldb->insertAlbumIntoDatabase(album_name);
 			}
@@ -82,15 +82,15 @@ struct Editor::Private
 Editor::Editor(QObject *parent) :
 	QThread(parent)
 {
-    m = Pimpl::make<Editor::Private>();
+	m = Pimpl::make<Editor::Private>();
 	m->ldb = DatabaseConnector::instance()->library_db(-1, 0);
 	m->notify = true;
 
-    connect(this, &QThread::finished, this, &Editor::thread_finished);
+	connect(this, &QThread::finished, this, &Editor::thread_finished);
 }
 
 Editor::Editor(const MetaDataList& v_md, QObject* parent) :
-    Editor(parent)
+	Editor(parent)
 {
 	set_metadata(v_md);
 }
@@ -116,18 +116,18 @@ void Editor::undo_all()
 	m->v_md = m->v_md_orig;
 }
 
-const MetaData& Editor::get_metadata(int idx) const
+const MetaData& Editor::metadata(int idx) const
 {
 	return m->v_md[idx];
 }
 
-const MetaDataList& Editor::get_all_metadata() const
+const MetaDataList& Editor::metadata() const
 {
 	return m->v_md;
 }
 
 
-int Editor::get_n_tracks() const
+int Editor::count() const
 {
 	return m->v_md.size();
 }
@@ -191,14 +191,14 @@ void Editor::set_metadata(const MetaDataList& v_md)
 
 bool Editor::is_cover_supported(int idx) const
 {
-    return Util::is_cover_supported( m->v_md[idx].filepath() );
+	return Util::is_cover_supported( m->v_md[idx].filepath() );
 }
 
 
 
 void Editor::apply_artists_and_albums_to_md()
 {
-	for(int i=0; i<m->v_md.count(); i++) 
+	for(int i=0; i<m->v_md.count(); i++)
 	{
 		bool changed = m->changed_md[i];
 		if( !changed )
@@ -268,7 +268,7 @@ void Editor::run()
 			continue;
 		}
 
-        bool success = Tagging::Util::setMetaDataOfFile(md);
+		bool success = Tagging::Util::setMetaDataOfFile(md);
 		if( !success ) {
 			continue;
 		}
@@ -285,7 +285,7 @@ void Editor::run()
 
 	for(int idx : m->cover_map.keys())
 	{
-        Tagging::Util::write_cover(m->v_md[idx], m->cover_map[idx]);
+		Tagging::Util::write_cover(m->v_md[idx], m->cover_map[idx]);
 		emit sig_progress( (i++ * 100) / n_operations);
 	}
 
@@ -304,7 +304,7 @@ void Editor::run()
 void Editor::thread_finished()
 {
 	if(m->notify){
-        ChangeNotifier::instance()->change_metadata(m->v_md_before_change, m->v_md_after_change);
+		ChangeNotifier::instance()->change_metadata(m->v_md_before_change, m->v_md_after_change);
 	}
 }
 

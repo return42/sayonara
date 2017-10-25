@@ -40,126 +40,126 @@ namespace Tagging
  * @ingroup Tagging
  */
 
-    class Editor :
-            public QThread
-    {
-        Q_OBJECT
-        PIMPL(Editor)
+	class Editor :
+			public QThread
+	{
+		Q_OBJECT
+		PIMPL(Editor)
 
-    signals:
-        void sig_progress(int);
-        void sig_metadata_received(const MetaDataList& v_md);
-
-
-    public:
-        explicit Editor(QObject* parent=nullptr);
-        explicit Editor(const MetaDataList& v_md, QObject* parent=nullptr);
-        ~Editor();
+	signals:
+		void sig_progress(int);
+		void sig_metadata_received(const MetaDataList& v_md);
 
 
-        /**
-         * @brief undo changes for a specific track
-         * @param idx track index
-         */
-        void undo(int idx);
-
-        /**
-         * @brief undo changes for all tracks
-         */
-        void undo_all();
+	public:
+		explicit Editor(QObject* parent=nullptr);
+		explicit Editor(const MetaDataList& v_md, QObject* parent=nullptr);
+		~Editor();
 
 
-        /**
-         * @brief get the (changed) metadata for a specific index
-         * @param idx track index
-         * @return MetaData object
-         */
-        const MetaData& get_metadata(int idx) const;
+		/**
+		 * @brief undo changes for a specific track
+		 * @param idx track index
+		 */
+		void undo(int idx);
+
+		/**
+		 * @brief undo changes for all tracks
+		 */
+		void undo_all();
 
 
-        /**
-         * @brief get all (changed) metadata
-         * @return MetaDataList object
-         */
-        const MetaDataList& get_all_metadata() const;
+		/**
+		 * @brief get the (changed) metadata for a specific index
+		 * @param idx track index
+		 * @return MetaData object
+		 */
+		const MetaData& metadata(int idx) const;
 
 
-        /**
-         * @brief Add a genre to all (changed) metdata
-         * @param genre the genre name
-         */
-        void add_genre(int idx, const QString& genre);
+		/**
+		 * @brief get all (changed) metadata
+		 * @return MetaDataList object
+		 */
+		const MetaDataList& metadata() const;
 
 
-        void delete_genre(int idx, const QString& genre);
-
-        void rename_genre(int idx, const QString& genre, const QString& new_name);
-
-
-
-        /**
-         * @brief gets the number of tracks
-         * @return number of tracks
-         */
-        int get_n_tracks() const;
+		/**
+		 * @brief Add a genre to all (changed) metdata
+		 * @param genre the genre name
+		 */
+		void add_genre(int idx, const QString& genre);
 
 
-        /**
-         * @brief writes changes to (changed) metadata for a specific track
-         * @param idx track index
-         * @param md new MetaData replacing the old track
-         */
-        void update_track(int idx, const MetaData& md);
+		void delete_genre(int idx, const QString& genre);
 
-        /**
-         * @brief update the cover for a specific track.
-         * @param idx track index
-         * @param cover new cover image
-         */
-        void update_cover(int idx, const QImage& cover);
-
-        /**
-         * @brief remove_cover for a specific track
-         * @param idx track index
-         */
-    //	void remove_cover(int idx);
-
-        /**
-         * @brief does the user want to replace/add a cover
-         * @param idx track index
-         * @return false, if no new alternative cover is desired
-         */
-        bool has_cover_replacement(int idx) const;
+		void rename_genre(int idx, const QString& genre, const QString& new_name);
 
 
-        /**
-         * @brief initializes the TagEdit object with a MetaDataList
-         * @param v_md new MetaDataList
-         */
-        void set_metadata(const MetaDataList& v_md);
 
-        bool is_cover_supported(int idx) const;
-
-
-    public slots:
-
-        /**
-         * @brief Commits changes to db
-         */
-        void commit();
+		/**
+		 * @brief gets the number of tracks
+		 * @return number of tracks
+		 */
+		int count() const;
 
 
-    private:
-        /**
-         * @brief applies the new artists and albums to the original metadata
-         */
-        void apply_artists_and_albums_to_md();
+		/**
+		 * @brief writes changes to (changed) metadata for a specific track
+		 * @param idx track index
+		 * @param md new MetaData replacing the old track
+		 */
+		void update_track(int idx, const MetaData& md);
 
-        void run() override;
+		/**
+		 * @brief update the cover for a specific track.
+		 * @param idx track index
+		 * @param cover new cover image
+		 */
+		void update_cover(int idx, const QImage& cover);
 
-    private slots:
-        void thread_finished();
-    };
+		/**
+		 * @brief remove_cover for a specific track
+		 * @param idx track index
+		 */
+	//	void remove_cover(int idx);
+
+		/**
+		 * @brief does the user want to replace/add a cover
+		 * @param idx track index
+		 * @return false, if no new alternative cover is desired
+		 */
+		bool has_cover_replacement(int idx) const;
+
+
+		/**
+		 * @brief initializes the TagEdit object with a MetaDataList
+		 * @param v_md new MetaDataList
+		 */
+		void set_metadata(const MetaDataList& v_md);
+
+		bool is_cover_supported(int idx) const;
+
+
+	public slots:
+
+		/**
+		 * @brief Commits changes to db
+		 */
+		void commit();
+
+
+	private:
+		/**
+		 * @brief applies the new artists and albums to the original metadata
+		 */
+		void apply_artists_and_albums_to_md();
+
+		void run() override;
+
+	private slots:
+		void thread_finished();
+	};
 }
 
 #endif // TAGEDIT_H
