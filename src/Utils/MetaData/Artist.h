@@ -37,7 +37,7 @@ class Artist :
 	PIMPL(Artist)
 
 public:
-    ArtistID id;
+	ArtistID id;
 	uint16_t num_albums;
 	uint16_t num_songs;
 
@@ -50,7 +50,7 @@ public:
 
 	~Artist();
 
-    const QString& name() const;
+	const QString& name() const;
 	void set_name(const QString& name);
 
 	static bool fromVariant(const QVariant& v, Artist& a);
@@ -66,13 +66,13 @@ Q_DECLARE_METATYPE(Artist)
  * @ingroup MetaDataHelper
  */
 class ArtistList :
-        public std::vector<Artist>
+		public std::vector<Artist>
 {
 
 public:
 
-    ArtistList();
-    ~ArtistList();
+	ArtistList();
+	~ArtistList();
 
 	/**
 	 * @brief extract the main artist out of the artist list
@@ -91,9 +91,9 @@ public:
 
 	bool contains(int artist_id) const;
 
-    int count() const;
-    ArtistList& operator <<(const Artist& artist);
-    Artist first() const;
+	int count() const;
+	ArtistList& operator <<(const Artist& artist);
+	Artist first() const;
 };
 
 #endif

@@ -35,10 +35,10 @@ class QStringList;
  * @ingroup Components
  */
 class PlaylistChooser :
-        public QObject
+		public QObject
 {
 	Q_OBJECT
-    PIMPL(PlaylistChooser)
+	PIMPL(PlaylistChooser)
 
 public:
 	PlaylistChooser();
@@ -47,11 +47,13 @@ public:
 	void load_single_playlist(int id);
 	int find_playlist(const QString& name) const;
 
-signals:
-	void sig_all_playlists_loaded(const CustomPlaylistSkeletons&);
+	const CustomPlaylistSkeletons& playlists();
 
-public slots:
-	void load_all_playlists();
+signals:
+	void sig_playlists_changed();
+
+private slots:
+	void playlists_changed();
 };
 
 #endif /* PLAYLISTS_H_ */

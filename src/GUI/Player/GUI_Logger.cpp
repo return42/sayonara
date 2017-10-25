@@ -41,30 +41,30 @@ LogObject::LogObject(QObject* parent) :
 
 LogObject::~LogObject() {}
 
-void LogObject::add_log_line(const QDateTime& t, Log log_type, const QString& class_name, const QString& str)
+void LogObject::add_log_line(const LogEntry& le)
 {
-    emit sig_new_log(t, log_type, class_name, str);
+	emit sig_new_log(le.dt, le.type, le.class_name, le.message);
 }
 
 
 GUI_Logger::GUI_Logger(QWidget *parent) :
 	Widget(parent)
 {
-    connect(&log_object, &LogObject::sig_new_log, this, &GUI_Logger::log_ready);
+	connect(&log_object, &LogObject::sig_new_log, this, &GUI_Logger::log_ready, Qt::QueuedConnection);
 
 	Logger::register_log_listener(this->get_log_listener());
 }
 
 GUI_Logger::~GUI_Logger()
 {
-    if(ui){
+	if(ui){
 		delete ui; ui=nullptr;
-    }
+	}
 }
 
 void GUI_Logger::init_ui()
 {
-	if(ui){
+	if(ui) {
 		return;
 	}
 
@@ -72,71 +72,71 @@ void GUI_Logger::init_ui()
 	ui->setupUi(this);
 
 	for(const QString& line : _buffer) {
-        ui->te_log->append(line);
+		ui->te_log->append(line);
 	}
 
 	_buffer.clear();
 	language_changed();
 
 	connect(ui->btn_close, &QPushButton::clicked, this, &QWidget::close);
-    connect(ui->btn_save, &QPushButton::clicked, this, &GUI_Logger::save_clicked);
+	connect(ui->btn_save, &QPushButton::clicked, this, &GUI_Logger::save_clicked);
 }
 
 QString GUI_Logger::calc_log_line(const QDateTime &t, Log log_type, const QString& class_name, const QString& str)
 {
-    QString log_line = "<table style=\"font-family: Monospace;\">";
-    QString html_color, type_str;
-    switch(log_type)
-    {
-        case Log::Info:
-            html_color = "#00AA00";
-            type_str = "Info";
-            break;
-        case Log::Warning:
-            html_color = "#EE0000";
-            type_str = "Warning";
-            break;
-        case Log::Error:
-            html_color = "#EE0000";
-            type_str = "Error";
-            break;
-        case Log::Debug:
-            html_color = "#7A7A00";
-            type_str = "Debug";
-            break;
+	QString log_line = "<table style=\"font-family: Monospace;\">";
+	QString html_color, type_str;
+	switch(log_type)
+	{
+		case Log::Info:
+			html_color = "#00AA00";
+			type_str = "Info";
+			break;
+		case Log::Warning:
+			html_color = "#EE0000";
+			type_str = "Warning";
+			break;
+		case Log::Error:
+			html_color = "#EE0000";
+			type_str = "Error";
+			break;
+		case Log::Debug:
+			html_color = "#7A7A00";
+			type_str = "Debug";
+			break;
 
-        case Log::Develop:
-            html_color = "#7A7A00";
-            type_str = "Dev";
+		case Log::Develop:
+			html_color = "#7A7A00";
+			type_str = "Dev";
 #ifndef DEBUG
-            return QString();
+			return QString();
 #endif
-            break;
-        default:
-            type_str = "Debug";
-            break;
-    }
+			break;
+		default:
+			type_str = "Debug";
+			break;
+	}
 
-    log_line += "<tr>";
-    log_line += "<td>[" + t.toString("hh:mm:ss") + "]</td>";
-    log_line += "<td><div style=\"color: " + html_color + ";\">" + type_str + ": </div></td>";
+	log_line += "<tr>";
+	log_line += "<td>[" + t.toString("hh:mm:ss") + "]</td>";
+	log_line += "<td><div style=\"color: " + html_color + ";\">" + type_str + ": </div></td>";
 
-    if(!class_name.isEmpty())
-    {
-        log_line += "<td><div style=\"color: #0000FF;\">" + class_name + "</div>:</td>";
-    }
+	if(!class_name.isEmpty())
+	{
+		log_line += "<td><div style=\"color: #0000FF;\">" + class_name + "</div>:</td>";
+	}
 
-    log_line += "<td>" + str + "</td>";
-    log_line += "</tr>";
-    log_line += "</table>";
+	log_line += "<td>" + str + "</td>";
+	log_line += "</tr>";
+	log_line += "</table>";
 
-    return log_line;
+	return log_line;
 }
 
 void GUI_Logger::language_changed()
 {
-    if(ui)
-    {
+	if(ui)
+	{
 		ui->retranslateUi(this);
 		ui->btn_close->setText(Lang::get(Lang::Close));
 		ui->btn_save->setText(Lang::get(Lang::SaveAs).triplePt());
@@ -154,11 +154,11 @@ LogListener* GUI_Logger::get_log_listener()
 void GUI_Logger::log_ready(const QDateTime& t, Log log_type, const QString& class_name, const QString& str)
 {
 	if(!ui){
-        _buffer << calc_log_line(t, log_type, class_name, str);
+		_buffer << calc_log_line(t, log_type, class_name, str);
 	}
 
 	else {
-        ui->te_log->append(calc_log_line(t, log_type, class_name, str));
+		ui->te_log->append(calc_log_line(t, log_type, class_name, str));
 	}
 }
 

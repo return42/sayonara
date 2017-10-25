@@ -20,6 +20,7 @@
 
 #include "Application.h"
 #include "InstanceThread.h"
+#include "MetaTypeRegistry.h"
 
 #include "GUI/Utils/IconLoader/IconLoader.h"
 
@@ -99,13 +100,21 @@ struct Application::Private
 	DatabaseConnector*	db=nullptr;
 	InstanceThread*		instance_thread=nullptr;
 	QTranslator*		translator=nullptr;
+	MetaTypeRegistry*	metatype_registry=nullptr;
 
 	bool				settings_initialized;
 
 	Private()
 	{
+		metatype_registry = new MetaTypeRegistry();
+		qRegisterMetaType<uint64_t>("uint64_t");
+
 		/* Tell the settings manager which settings are necessary */
 		settings_initialized = SettingRegistry::init();
+
+		db = DatabaseConnector::instance();
+		db->load_settings();
+
 		if( !settings_initialized )
 		{
 			sp_log(Log::Error) << "Cannot initialize settings";
@@ -118,10 +127,7 @@ struct Application::Private
 		Q_INIT_RESOURCE(IconsWindows);
 #endif
 		timer = new QTime();
-
-		db = DatabaseConnector::instance();
 		plh = PlaylistHandler::instance();
-
 	}
 
 	~Private()
@@ -150,6 +156,8 @@ struct Application::Private
 			db->store_settings();
 			db->close_db();
 		}
+
+		delete metatype_registry;
 	}
 };
 

@@ -34,7 +34,7 @@ class GUI_PlaylistChooser :
 {
 	Q_OBJECT
 	UI_CLASS(GUI_PlaylistChooser)
-    PIMPL(GUI_PlaylistChooser)
+	PIMPL(GUI_PlaylistChooser)
 
 public:
 	explicit GUI_PlaylistChooser(QWidget *parent=nullptr);
@@ -43,16 +43,15 @@ public:
 	QString get_name() const override;
 	QString get_display_name() const override;
 
-
-public slots:
-	void all_playlists_fetched(const CustomPlaylistSkeletons&);
+private slots:
+	void playlists_changed();
 
 private:
 	void retranslate_ui() override;
 	void init_ui() override;
 
 private slots:
-    void playlist_selected(int index);
+	void playlist_selected(int index);
 };
 
 #endif /* GUIPLAYLISTCHOOSER_H_ */

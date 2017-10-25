@@ -44,6 +44,8 @@ struct SR::StreamRecorder::Private
     QString			session_playlist_name;			// playlist name
     MetaDataList	session_collector;				// gather all tracks of a session
     MetaData		md;                             // current track
+    QDate           date;
+    QTime           time;
 
     int				cur_idx;						// index of track (used for filename)
     bool            recording;						// is in a session currently
@@ -92,6 +94,9 @@ void SR::StreamRecorder::new_session()
 {
     clear();
     sp_log(Log::Info) << "New session: " << m->session_path;
+
+    m->date = QDate::currentDate();
+    m->time = QTime::currentTime();
 }
 
 
@@ -115,6 +120,7 @@ QString SR::StreamRecorder::change_track(const MetaData& md)
 
     if(!Util::File::is_www(md.filepath()))
     {
+        sp_log(Log::Warning, this) << "Audio Source is not a stream";
         m->sr_recording_dst = "";
         m->session_playlist_name = "";
         m->recording = false;
@@ -135,9 +141,10 @@ QString SR::StreamRecorder::change_track(const MetaData& md)
         target_path_template = Utils::target_path_template_default(use_session_path);
     }
 
-    Utils::TargetPaths target_path = Utils::full_target_path(sr_path, target_path_template, m->md);
+    Utils::TargetPaths target_path = Utils::full_target_path(sr_path, target_path_template, m->md, m->date, m->time);
     if(target_path.first.isEmpty())
     {
+        sp_log(Log::Warning, this) << "Cannot determine target path";
         m->sr_recording_dst = "";
         m->session_playlist_name = "";
         m->recording = false;
@@ -171,7 +178,7 @@ bool SR::StreamRecorder::save()
     Tagging::Util::setMetaDataOfFile(m->md);
     m->session_collector.push_back(m->md);
 
-    PlaylistParser::save_playlist(m->session_playlist_name, m->session_collector, true);
+    PlaylistParser::save_m3u_playlist(m->session_playlist_name, m->session_collector, true);
 
     return true;
 }

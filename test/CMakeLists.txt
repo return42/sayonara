@@ -43,4 +43,5 @@ NEW_TEST(Tagging/LyricsTest.cpp ${RESOURCES_RCC} Tagging/AbstractTaggingTest.cpp
 NEW_TEST(Tagging/AlbumArtistTest.cpp ${RESOURCES_RCC} Tagging/AbstractTaggingTest.cpp)
 NEW_TEST(Tagging/DiscnumberTest.cpp ${RESOURCES_RCC} Tagging/AbstractTaggingTest.cpp)
 NEW_TEST(StreamRecorder/StreamRecorderUtilsTest.cpp)
+NEW_TEST(StreamRecorder/StreamRecorderTest.cpp)
 

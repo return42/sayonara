@@ -155,7 +155,6 @@ int main(int argc, char *argv[])
 		return 1;
 	}
 
-
 	CommandLineData cmd_data = CommandLineParser::parse(argc, argv);
 	if(cmd_data.abort){
 		return 0;
@@ -185,8 +184,6 @@ int main(int argc, char *argv[])
 	if(!QFile::exists( Util::sayonara_path() )) {
 		QDir().mkdir( Util::sayonara_path() );
 	}
-
-
 
 	if(!app.init(cmd_data.files_to_play)) {
 		return 1;

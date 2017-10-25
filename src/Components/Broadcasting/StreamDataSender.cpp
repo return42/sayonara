@@ -30,17 +30,22 @@
 
 #include <QByteArray>
 #include <QTcpSocket>
+#include <QPair>
 
 static char padding[256];
+
+using HttpHeaderPair=QPair<QString, QString>;
 
 struct StreamDataSender::Private
 {
 	QTcpSocket*		socket=nullptr;
-	uint64_t			sent_data_bytes;
+	uint64_t		sent_data_bytes;
 
 	QByteArray		header;
 	QByteArray		icy_header;
 	QByteArray		reject_header;
+
+	QString			track_path;
 
 	Private(QTcpSocket* out_socket)
 	{
@@ -58,7 +63,7 @@ struct StreamDataSender::Private
 					"Accept-Ranges:none\r\n"
 					"content-type:audio/mpeg\r\n"
 					"connection:keep-alive\r\n"
-					);
+		);
 
 		icy_header = QByteArray(
 					"ICY 200 Ok\r\n"
@@ -73,7 +78,7 @@ struct StreamDataSender::Private
 					"Accept-Ranges:none\r\n"
 					"content-type:audio/mpeg\r\n"
 					"connection:keep-alive\r\n"
-					);
+		);
 
 
 		reject_header = QByteArray("HTTP/1.1 501 Not Implemented\r\nConnection: close\r\n");
@@ -81,6 +86,26 @@ struct StreamDataSender::Private
 		header.append("\r\n");
 		icy_header.append("\r\n");
 		reject_header.append("\r\n");
+
+		track_path = Util::random_string(16) + ".mp3";
+	}
+
+	QByteArray create_http_header(const QList<HttpHeaderPair>& lst)
+	{
+		QByteArray arr;
+		arr.push_back("HTTP/1.1 200 OK\r\n");
+
+		for(const HttpHeaderPair& p : lst)
+		{
+			arr.push_back(p.first.toLocal8Bit());
+			arr.push_back(": ");
+			arr.push_back(p.second.toLocal8Bit());
+			arr.push_back("\r\n");
+		}
+
+		arr.push_back("\r\n");
+
+		return arr;
 	}
 };
 
@@ -225,7 +250,8 @@ bool StreamDataSender::send_header(bool reject, bool icy)
 }
 
 
-bool StreamDataSender::send_html5(const QString& stream_title){
+bool StreamDataSender::send_html5(const QString& stream_title)
+{
 	int n_bytes;
 	QByteArray html;
 	QByteArray data;
@@ -270,7 +296,7 @@ bool StreamDataSender::send_html5(const QString& stream_title){
 
 			"<h1 style=\"color: #f3841a; font-family: Fredoka One, lucida grande, tahoma, sans-serif; font-weight: 400;\">Sayonara Player Radio</h1>"
 			"<audio id=\"player\" autoplay controls>"
-			"<source src=\"track.mp3\" type=\"audio/mpeg\">"
+			"<source src=\"" + m->track_path.toLocal8Bit() + "\" type=\"audio/mpeg\">"
 			"Your browser does not support the audio element."
 			"</audio><br /><br />"
 
@@ -288,12 +314,12 @@ bool StreamDataSender::send_html5(const QString& stream_title){
 			"</body>"
 			"</html>";
 
-	data = QByteArray("HTTP/1.1 200 OK\r\n"
-					  "content-type: text/html\r\n"
-					  "content-length: " + QString::number(html.size()).toLocal8Bit() +
-					  "\r\nConnection: keep-alive\r\n\r\n" +
-					  html
-					  );
+	QList<HttpHeaderPair> header_info;
+	header_info << HttpHeaderPair("content-type", "text");
+	header_info << HttpHeaderPair("content-length", QString::number(html.size()));
+	header_info << HttpHeaderPair("Connection", "Keep-alive");
+
+	data = m->create_http_header(header_info) + html;
 
 	n_bytes = m->socket->write(data);
 
@@ -303,24 +329,24 @@ bool StreamDataSender::send_html5(const QString& stream_title){
 
 bool StreamDataSender::send_bg()
 {
-	bool success;
-	int n_bytes;
 	QByteArray html;
-	QByteArray data;
 
-	success = Util::File::read_file_into_byte_arr( Util::share_path("bg-checker.png"), html );
+	bool success = Util::File::read_file_into_byte_arr(
+		Util::share_path("bg-checker.png"), html
+	);
+
 	if(!success){
 		return false;
 	}
 
-	data = QByteArray("HTTP/1.1 200 OK\r\n"
-					  "content-type: image/png\r\n"
-					  "content-length: " + QString::number(html.size()).toLocal8Bit() +
-					  "\r\nConnection: close\r\n\r\n" +
-					  html
-					  );
+	QList<HttpHeaderPair> header_info;
+	header_info << HttpHeaderPair("content-type", "image/png");
+	header_info << HttpHeaderPair("content-length", QString::number(html.size()));
+	header_info << HttpHeaderPair("Connection", "close");
 
-	n_bytes = m->socket->write(data);
+	QByteArray data = m->create_http_header(header_info) + html;
+
+	int n_bytes = m->socket->write(data);
 
 	return (n_bytes > 0);
 }
@@ -328,19 +354,16 @@ bool StreamDataSender::send_bg()
 
 bool StreamDataSender::send_metadata(const QString& stream_title)
 {
-	int n_bytes;
-	QByteArray html;
-	QByteArray data;
+	QByteArray html = stream_title.toLocal8Bit();
 
-	html = stream_title.toLocal8Bit();
-	data = QByteArray("HTTP/1.1 200 OK\r\n"
-					  "content-type: text/plain\r\n"
-					  "content-length: " + QString::number(html.size()).toLocal8Bit() +
-					  "\r\nConnection: close\r\n\r\n" +
-					  html
-					  );
+	QList<HttpHeaderPair> header_info;
+	header_info << HttpHeaderPair("content-type", "text/plain");
+	header_info << HttpHeaderPair("content-length", QString::number(html.size()));
+	header_info << HttpHeaderPair("Connection", "close");
 
-	n_bytes = m->socket->write(data);
+	QByteArray data = m->create_http_header(header_info) + html;
+
+	int n_bytes = m->socket->write(data);
 
 	return (n_bytes > 0);
 }
@@ -348,25 +371,23 @@ bool StreamDataSender::send_metadata(const QString& stream_title)
 
 bool StreamDataSender::send_playlist(const QString& host, int port)
 {
-	int64_t n_bytes;
-	QByteArray playlist;
-	QByteArray data;
+	QByteArray playlist = QByteArray("#EXTM3U\n\n"
+						  "#EXTINF:-1, Lucio Carreras - Sayonara Player Radio\n" +
+						  QString("http://%1:%2/%3\n\n")
+							.arg(host)
+							.arg(port)
+							.arg(m->track_path)
+							.toLocal8Bit()
+	);
 
-	playlist = QByteArray("#EXTM3U\n\n"
-						  "#EXTINF:-1, Lucio Carreras - Sayonara Player Radio\n"
-						  "http://" + host.toLocal8Bit() +
-						  ":" + QString::number(port).toLocal8Bit() + "\n");
+	QList<HttpHeaderPair> header_info;
+	header_info << HttpHeaderPair("content-type", "audio/x-mpegurl");
+	header_info << HttpHeaderPair("content-length", QString::number(playlist.size()));
+	header_info << HttpHeaderPair("Connection", "close");
 
-	data = QByteArray("HTTP/1.1 200 OK\r\n"
-					  "content-type:audio/x-mpegurl\r\n"
-					  "Content-Length: " +
-					  QString::number(playlist.size()).toLocal8Bit() +
-					  "\r\n"
-					  "Connection: close\r\n\r\n" +
-					  playlist
-					  );
+	QByteArray data = m->create_http_header(header_info) + playlist;
 
-	n_bytes = m->socket->write(data);
+	int n_bytes = m->socket->write(data);
 
 	return (n_bytes > 0);
 }
@@ -374,26 +395,23 @@ bool StreamDataSender::send_playlist(const QString& host, int port)
 
 bool StreamDataSender::send_favicon()
 {
-	int n_bytes;
-	bool success;
 	QByteArray arr;
-	QByteArray data;
-
-	success = Util::File::read_file_into_byte_arr( Util::share_path("favicon.ico"), arr );
+	bool success = Util::File::read_file_into_byte_arr(
+		Util::share_path("favicon.ico"), arr
+	);
 
 	if(!success){
 		return false;
 	}
 
-	data = QByteArray("HTTP/1.1 200 OK\r\n"
-					  "content-type: image/x-icon\r\n"
-					  "content-length: " + QString::number(arr.size()).toLocal8Bit() +
-					  "\r\nConnection: close\r\n\r\n" +
-					  arr
-					  );
+	QList<HttpHeaderPair> header_info;
+	header_info << HttpHeaderPair("content-type", "image/x-icon");
+	header_info << HttpHeaderPair("content-length", QString::number(arr.size()));
+	header_info << HttpHeaderPair("Connection", "close");
 
+	QByteArray data = m->create_http_header(header_info) + arr;
 
-	n_bytes = m->socket->write(data);
+	int n_bytes = m->socket->write(data);
 
 	return (n_bytes > 0);
 }

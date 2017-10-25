@@ -32,7 +32,7 @@
 struct Bookmarks::Private
 {
 	DatabaseConnector*		db=nullptr;
-    PlayManagerPtr			play_manager=nullptr;
+	PlayManagerPtr			play_manager=nullptr;
 
 	QList<Bookmark>			bookmarks;
 	MetaData				md;
@@ -54,7 +54,7 @@ Bookmarks::Bookmarks(QObject *parent) :
 
 	m->play_manager = PlayManager::instance();
 	m->db = DatabaseConnector::instance();
-    m->md = m->play_manager->current_track();
+	m->md = m->play_manager->current_track();
 
 	init_members();
 
@@ -62,7 +62,7 @@ Bookmarks::Bookmarks(QObject *parent) :
 	connect(m->play_manager, &PlayManager::sig_position_changed_ms, this, &Bookmarks::pos_changed_ms);
 	connect(m->play_manager, &PlayManager::sig_playstate_changed,	this, &Bookmarks::playstate_changed);
 
-    m->md = m->play_manager->current_track();
+	m->md = m->play_manager->current_track();
 	reload_bookmarks();
 }
 
@@ -77,7 +77,7 @@ void Bookmarks::init_members()
 	m->loop_start = 0;
 	m->loop_end = 0;
 
-    m->md = m->play_manager->current_track();
+	m->md = m->play_manager->current_track();
 }
 
 
@@ -158,10 +158,15 @@ bool Bookmarks::remove(int idx)
 
 bool Bookmarks::jump_to(int idx)
 {
+	if(!between(idx, m->bookmarks)){
+		return false;
+	}
+
 	if(idx < 0){
 		m->play_manager->seek_abs_ms(0);
 	}
-	else{
+	else
+	{
 		uint64_t new_time = m->bookmarks[idx].get_time() * 1000;
 		m->play_manager->seek_abs_ms(new_time);
 	}
@@ -172,7 +177,8 @@ bool Bookmarks::jump_to(int idx)
 
 bool Bookmarks::jump_next()
 {
-	if( !between(m->next_idx, m->bookmarks) ){
+	if( !between(m->next_idx, m->bookmarks) )
+	{
 		emit sig_next_changed(Bookmark());
 		return false;
 	}
@@ -185,7 +191,8 @@ bool Bookmarks::jump_next()
 
 bool Bookmarks::jump_prev()
 {
-	if( m->prev_idx >= m->bookmarks.size() ){
+	if( m->prev_idx >= m->bookmarks.size() )
+	{
 		emit sig_prev_changed(Bookmark());
 		return false;
 	}
@@ -330,12 +337,12 @@ bool Bookmarks::set_loop(bool b)
 	return ret;
 }
 
-MetaData Bookmarks::get_cur_track() const
+MetaData Bookmarks::current_track() const
 {
 	return m->md;
 }
 
-QList<Bookmark> Bookmarks::get_all_bookmarks() const
+const QList<Bookmark>& Bookmarks::bookmarks() const
 {
 	return m->bookmarks;
 }

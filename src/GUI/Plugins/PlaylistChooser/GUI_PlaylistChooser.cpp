@@ -39,92 +39,110 @@
 
 struct GUI_PlaylistChooser::Private
 {
-    PlaylistChooser*	playlist_chooser=nullptr;
+	PlaylistChooser*	playlist_chooser=nullptr;
 
-    Private() :
-        playlist_chooser(new PlaylistChooser())
-    {}
+	Private() :
+		playlist_chooser(new PlaylistChooser())
+	{}
 
-    ~Private()
-    {
-        delete playlist_chooser; playlist_chooser = nullptr;
-    }
+	~Private()
+	{
+		delete playlist_chooser; playlist_chooser = nullptr;
+	}
 };
 
 GUI_PlaylistChooser::GUI_PlaylistChooser(QWidget *parent) :
-    PlayerPluginInterface(parent)
+	PlayerPluginInterface(parent)
 {
-    m = Pimpl::make<Private>();
+	m = Pimpl::make<Private>();
 }
 
 
 GUI_PlaylistChooser::~GUI_PlaylistChooser()
 {
-    if(ui){
-        delete ui; ui=nullptr;
-    }
+	if(ui){
+		delete ui; ui=nullptr;
+	}
 }
 
 
 void GUI_PlaylistChooser::init_ui()
 {
-    setup_parent(this, &ui);
+	setup_parent(this, &ui);
 
-    connect(ui->combo_playlistchooser, combo_activated_int, this, &GUI_PlaylistChooser::playlist_selected);
-    connect(m->playlist_chooser, &PlaylistChooser::sig_all_playlists_loaded,
-            this, &GUI_PlaylistChooser::all_playlists_fetched);
+	connect(ui->combo_playlists, combo_activated_int, this, &GUI_PlaylistChooser::playlist_selected);
+	connect(m->playlist_chooser, &PlaylistChooser::sig_playlists_changed, this, &GUI_PlaylistChooser::playlists_changed);
 
-    m->playlist_chooser->load_all_playlists();
+	playlists_changed();
 }
 
 
 void GUI_PlaylistChooser::retranslate_ui()
 {
-    ui->retranslateUi(this);
+	ui->retranslateUi(this);
+
+	const CustomPlaylistSkeletons& skeletons =
+			m->playlist_chooser->playlists();
+
+	if(skeletons.isEmpty())
+	{
+		ui->combo_playlists->clear();
+		ui->combo_playlists->addItem(tr("No playlists found"), -1);
+	}
 }
 
 
 QString GUI_PlaylistChooser::get_name() const
 {
-    return "Playlists";
+	return "Playlists";
 }
 
 
 QString GUI_PlaylistChooser::get_display_name() const
 {
-    return Lang::get(Lang::Playlists);
+	return Lang::get(Lang::Playlists);
 }
 
 
-void GUI_PlaylistChooser::all_playlists_fetched(const CustomPlaylistSkeletons& skeletons)
+void GUI_PlaylistChooser::playlists_changed()
 {
-    if(!is_ui_initialized()){
-        return;
-    }
+	if(!is_ui_initialized()){
+		return;
+	}
 
-    QString old_text = ui->combo_playlistchooser->currentText();
+	QString old_text = ui->combo_playlists->currentText();
 
-    ui->combo_playlistchooser->clear();
-    ui->combo_playlistchooser->addItem("", -1);
+	const CustomPlaylistSkeletons& skeletons =
+			m->playlist_chooser->playlists();
 
-    for(const CustomPlaylistSkeleton& skeleton : skeletons)
-    {
-        ui->combo_playlistchooser->addItem(skeleton.name(), skeleton.id());
-    }
+	ui->combo_playlists->clear();
 
-    int cur_idx = std::max(ui->combo_playlistchooser->findText(old_text), 0);
+	for(const CustomPlaylistSkeleton& skeleton : skeletons)
+	{
+		ui->combo_playlists->addItem(skeleton.name(), skeleton.id());
+	}
 
-    ui->combo_playlistchooser->setCurrentIndex(cur_idx);
+	if(skeletons.isEmpty())
+	{
+		ui->combo_playlists->addItem(tr("No playlists found"), -1);
+	}
+
+	int cur_idx = std::max(ui->combo_playlists->findText(old_text), 0);
+	ui->combo_playlists->setCurrentIndex(cur_idx);
 }
 
 
 void GUI_PlaylistChooser::playlist_selected(int idx)
 {
-    Q_UNUSED(idx)
-    int id = m->playlist_chooser->find_playlist(ui->combo_playlistchooser->currentText());
+	int id = m->playlist_chooser->find_playlist(ui->combo_playlists->currentText());
+	int data = ui->combo_playlists->itemData(idx).toInt();
 
-    if(id >= 0){
-        m->playlist_chooser->load_single_playlist(id);
-    }
+	if(data < 0){
+		return;
+	}
+
+	if(id >= 0){
+		m->playlist_chooser->load_single_playlist(id);
+	}
 }
 

@@ -21,7 +21,7 @@
     <number>5</number>
    </property>
    <item row="0" column="0">
-    <widget class="Gui::ComboBox" name="combo_playlistchooser">
+    <widget class="Gui::ComboBox" name="combo_playlists">
      <property name="sizePolicy">
       <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
        <horstretch>0</horstretch>
@@ -30,9 +30,6 @@
      </property>
      <property name="focusPolicy">
       <enum>Qt::ClickFocus</enum>
-     </property>
-     <property name="editable">
-      <bool>true</bool>
      </property>
      <property name="currentIndex">
       <number>-1</number>

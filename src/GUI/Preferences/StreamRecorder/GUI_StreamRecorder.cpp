@@ -170,7 +170,9 @@ void GUI_StreamRecorder::sl_line_edit_changed(const QString& new_text)
         SR::Utils::TargetPaths target_path =
         SR::Utils::full_target_path(ui->le_path->text(),
                                     template_text,
-                                    md);
+                                    md,
+                                    QDate::currentDate(),
+                                    QTime::currentTime());
 
         ui->le_result_path->setText(target_path.first);
     }

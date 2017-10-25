@@ -78,45 +78,45 @@ uint64_t Util::current_date_to_int()
 }
 
 
-QString Util::cvt_str_to_first_upper(const QString& str) 
+QString Util::cvt_str_to_first_upper(const QString& str)
 {
-    if(str.isEmpty()){
-        return QString();
-    }
+	if(str.isEmpty()){
+		return QString();
+	}
 
-    QString chars=" \n\t.(+?!<\"";
-    QString result = str.toLower();
+	QString chars=" \n\t.(+?!<\"";
+	QString result = str.toLower();
 
-    for(QChar c : chars)
-    {
-        QStringList lst = str.split(c);
-        QStringList tgt_lst;
+	for(QChar c : chars)
+	{
+		QStringList lst = str.split(c);
+		QStringList tgt_lst;
 
-        for(QString word : lst)
-        {
-            if(!word.isEmpty())
-            {
-                QChar f = word.at(0).toUpper();
-                word.remove(0, 1);
-                word.prepend(f.toUpper());
-            }
+		for(QString word : lst)
+		{
+			if(!word.isEmpty())
+			{
+				QChar f = word.at(0).toUpper();
+				word.remove(0, 1);
+				word.prepend(f.toUpper());
+			}
 
-            tgt_lst << word;
-        }
+			tgt_lst << word;
+		}
 
-        result = tgt_lst.join(c);
-    }
+		result = tgt_lst.join(c);
+	}
 
-    return result;
+	return result;
 }
 
-QString Util::cvt_str_to_very_first_upper(const QString& str) 
+QString Util::cvt_str_to_very_first_upper(const QString& str)
 {
 	if(str.isEmpty()){
 		return str;
 	}
 
-    QString ret_str = str.toLower();
+	QString ret_str = str.toLower();
 	QChar c = str.at(0).toUpper();
 
 	ret_str.remove(0, 1);
@@ -126,7 +126,7 @@ QString Util::cvt_str_to_very_first_upper(const QString& str)
 }
 
 
-QString Util::cvt_ms_to_string(uint64_t msec, bool empty_zero, bool colon, bool show_days) 
+QString Util::cvt_ms_to_string(uint64_t msec, bool empty_zero, bool colon, bool show_days)
 {
 	if(msec == 0 && empty_zero){
 		return "";
@@ -205,7 +205,7 @@ QString Util::lib_path(const QString& append_path)
 }
 
 
-QString Util::create_link(const QString& name, bool dark, const QString& target, bool underline) 
+QString Util::create_link(const QString& name, bool dark, const QString& target, bool underline)
 {
 	QString new_target;
 	QString content;
@@ -228,7 +228,7 @@ QString Util::create_link(const QString& name, bool dark, const QString& target,
 	else {
 		content = DARK_BLUE(name);
 	}
-	
+
 	if(new_target.contains("://") || new_target.contains("mailto:")){
 		ret = QString("<a href=\"") + new_target + "\"" + style + ">" + content + "</a>";
 	}
@@ -316,7 +316,7 @@ QStringList Util::podcast_extensions(bool with_asterisk)
 }
 
 
-QString Util::easy_tag_finder(const QString& tag, const QString& xml_doc) 
+QString Util::easy_tag_finder(const QString& tag, const QString& xml_doc)
 {
 	int p = tag.indexOf('.');
 	QString ret = tag;
@@ -351,7 +351,7 @@ QString Util::easy_tag_finder(const QString& tag, const QString& xml_doc)
 }
 
 
-QByteArray Util::calc_hash(const QByteArray& data) 
+QByteArray Util::calc_hash(const QByteArray& data)
 {
 	return QCryptographicHash::hash(data, QCryptographicHash::Md5).toHex();
 }
@@ -378,7 +378,7 @@ QStringList Util::ip_addresses()
 	host_list = QNetworkInterface::allAddresses();
 	for(const QHostAddress& host : host_list){
 		QString address = host.toString();
-		if(!address.startsWith("127") && 
+		if(!address.startsWith("127") &&
 			host.protocol() == QAbstractSocket::IPv4Protocol)
 		{
 			ret << host.toString();
@@ -404,8 +404,9 @@ void Util::set_environment(const QString& key, const QString& value)
 QString Util::random_string(int max_chars)
 {
 	QString ret;
-	for(int i=0; i<max_chars; i++){
-		char c = random_number(97, 123);
+	for(int i=0; i<max_chars; i++)
+	{
+		char c = random_number(97, 122);
 		ret.append(QChar(c));
 	}
 

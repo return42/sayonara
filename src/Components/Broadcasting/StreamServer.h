@@ -33,8 +33,8 @@ class QTcpSocket;
  * @ingroup Broadcasting
  */
 class StreamServer :
-		public QThread,
-        public SayonaraClass
+		public QObject,
+		public SayonaraClass
 {
 	Q_OBJECT
 	PIMPL(StreamServer)
@@ -42,17 +42,14 @@ class StreamServer :
 	signals:
 		void sig_new_connection(const QString& ip);
 		void sig_connection_closed(const QString& ip);
-		void sig_can_listen(bool);
+		void sig_listening(bool);
 
 	public:
 		explicit StreamServer(QObject* parent=nullptr);
 		~StreamServer();
 
-	protected:
-        // QThread
-		void run() override;
-        using QThread::quit;
-
+		void active_changed();
+		void port_changed();
 
 	public slots:
 		void dismiss(int idx);
@@ -60,13 +57,13 @@ class StreamServer :
 		void disconnect(StreamWriterPtr sw);
 		void disconnect_all();
 
-        void stop();
-		void retry();
-
+		bool listen();
+		void close();
+		void restart();
 
 	private slots:
-        void accept_client(QTcpSocket* socket, const QString& ip);
-        void reject_client(QTcpSocket* socket, const QString& ip);
+		void accept_client(QTcpSocket* socket, const QString& ip);
+		void reject_client(QTcpSocket* socket, const QString& ip);
 
 		void track_changed(const MetaData&);
 		void server_destroyed();
@@ -74,18 +71,6 @@ class StreamServer :
 		void new_client_request();
 		void disconnected(StreamWriter* sw);
 		void new_connection(const QString& ip);
-
-        void s_port_changed();
-        void s_mp3_enc_found();
-
-    private:
-        // create new server and listen
-        void create_server();
-
-        void close_server();
-
-        // listen for connection
-        bool listen_for_connection();
 };
 
 #endif

@@ -90,7 +90,7 @@ void SomaFM::Library::soma_website_fetched()
 	QStringList station_contents = content.split("<li");
 
 
-	for(const QString& station_content : station_contents)
+    for(const QString& station_content : station_contents)
 	{
 		SomaFM::Station station(station_content);
 		if(!station.is_valid()){

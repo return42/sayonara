@@ -34,7 +34,7 @@ namespace StreamRecorder
 
         QString target_path_template_default(bool use_session_path);
 
-        TargetPaths full_target_path(const QString& sr_path, const QString& path_template, const MetaData& md);
+        TargetPaths full_target_path(const QString& sr_path, const QString& path_template, const MetaData& md, const QDate& d, const QTime& t);
 
         QString parse_error_code(ErrorCode err);
     }

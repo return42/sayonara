@@ -31,8 +31,8 @@ static MetaDataList create_v_md(int min, int max)
 		MetaData md;
 		md.id = i;
 		md.title = QString("title %1").arg(i);
-        md.set_artist(QString("artist %1").arg(i));
-        md.set_album(QString("album %1").arg(i));
+		md.set_artist(QString("artist %1").arg(i));
+		md.set_album(QString("album %1").arg(i));
 
 		v_md << md;
 	}
@@ -119,7 +119,7 @@ void MetaDataListTest::remove_test()
 	v_md.remove_tracks(remove_indexes);
 	cur_track -= n_tracks_before_cur_track;
 
-	QVERIFY(v_md.size() == (int) (old_size - remove_indexes.size()));
+	QVERIFY(v_md.count() == (int) (old_size - remove_indexes.size()));
 	QVERIFY(v_md.current_track() == cur_track);
 
 	int i=0;
@@ -205,7 +205,7 @@ void MetaDataListTest::write_move_stuff()
 		data += "\n";
 	}
 
-    Util::File::write_file(data.toLocal8Bit(), "/home/luke/md.validate");
+	Util::File::write_file(data.toLocal8Bit(), "/home/luke/md.validate");
 }
 
 

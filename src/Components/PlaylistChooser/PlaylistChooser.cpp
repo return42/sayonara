@@ -29,47 +29,42 @@
 
 struct PlaylistChooser::Private
 {
-    CustomPlaylistSkeletons	skeletons;
-    int						import_state;
+	CustomPlaylistSkeletons	skeletons;
+	int						import_state;
 
-    PlaylistHandler*		playlist_handler=nullptr;
-    PlaylistDBWrapperPtr	playlist_db_connector=nullptr;
+	PlaylistHandler*		playlist_handler=nullptr;
+	PlaylistDBWrapperPtr	playlist_db_connector=nullptr;
 
-    Private()
-    {
-        playlist_handler = PlaylistHandler::instance();
-        playlist_db_connector = std::make_shared<PlaylistDBWrapper>();
-    }
+	Private()
+	{
+		playlist_handler = PlaylistHandler::instance();
+		playlist_db_connector = std::make_shared<PlaylistDBWrapper>();
+	}
 
-    CustomPlaylist find_custom_playlist(int id)
-    {
-        CustomPlaylist pl = playlist_db_connector->get_playlist_by_id(id);
-        return pl;
-    }
+	CustomPlaylist find_custom_playlist(int id)
+	{
+		CustomPlaylist pl = playlist_db_connector->get_playlist_by_id(id);
+		return pl;
+	}
 };
 
 PlaylistChooser::PlaylistChooser()
 {
-    m = Pimpl::make<Private>();
+	m = Pimpl::make<Private>();
 
-    connect(m->playlist_handler, &PlaylistHandler::sig_saved_playlists_changed,
-			this, &PlaylistChooser::load_all_playlists);
+	m->playlist_db_connector->get_non_temporary_skeletons(
+		m->skeletons, Playlist::SortOrder::NameAsc
+	);
+
+	connect(m->playlist_handler, &PlaylistHandler::sig_saved_playlists_changed,
+			this, &PlaylistChooser::playlists_changed);
 }
 
 PlaylistChooser::~PlaylistChooser() {}
 
-void PlaylistChooser::load_all_playlists()
+const CustomPlaylistSkeletons& PlaylistChooser::playlists()
 {
-	bool success;
-
-    m->skeletons.clear();
-    success = m->playlist_db_connector->get_non_temporary_skeletons(
-                m->skeletons, Playlist::SortOrder::NameAsc
-    );
-
-	if(success) {
-        emit sig_all_playlists_loaded(m->skeletons);
-	}
+	return m->skeletons;
 }
 
 void PlaylistChooser::load_single_playlist(int id)
@@ -79,25 +74,35 @@ void PlaylistChooser::load_single_playlist(int id)
 		return;
 	}
 
-    CustomPlaylist pl = m->find_custom_playlist(id);
+	CustomPlaylist pl = m->find_custom_playlist(id);
 	if(!pl.valid()) {
 		return;
 	}
 
-    idx = m->playlist_handler->create_playlist(pl);
-    m->playlist_handler->set_current_idx(idx);
+	idx = m->playlist_handler->create_playlist(pl);
+	m->playlist_handler->set_current_idx(idx);
 }
 
 
 int PlaylistChooser::find_playlist(const QString& name) const
 {
-    for(const CustomPlaylistSkeleton& skeleton : m->skeletons)
-    {
+	for(const CustomPlaylistSkeleton& skeleton : m->skeletons)
+	{
 		if(skeleton.name().compare(name) == 0){
 			return skeleton.id();
 		}
 	}
 
 	return -1;
+}
+
+void PlaylistChooser::playlists_changed()
+{
+	m->skeletons.clear();
+	m->playlist_db_connector->get_non_temporary_skeletons(
+		m->skeletons, Playlist::SortOrder::NameAsc
+	);
+
+	emit sig_playlists_changed();
 }
 

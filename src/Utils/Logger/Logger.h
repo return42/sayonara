@@ -25,6 +25,8 @@
 #include <type_traits>
 #include <string>
 #include <QObject>
+#include <QDateTime>
+#include <QString>
 
 
 /**
@@ -39,6 +41,7 @@ class QChar;
 class QObject;
 class LogListener;
 
+
 enum class Log : unsigned char
 {
 	Warning,
@@ -47,6 +50,15 @@ enum class Log : unsigned char
 	Debug,
 	Develop
 };
+
+struct LogEntry
+{
+	QDateTime dt;
+	Log type;
+	QString class_name;
+	QString message;
+};
+
 
 /**
  * @brief The Logger class
@@ -57,7 +69,7 @@ class Logger
 
 private:
 	struct Private;
-    Private* m=nullptr;
+	Private* m=nullptr;
 
 public:
 	explicit Logger(Log type, const QString& class_name);

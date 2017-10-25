@@ -21,7 +21,6 @@
 #include "SettingRegistry.h"
 #include "Settings.h"
 
-#include "Database/DatabaseConnector.h"
 #include "Utils/Macros.h"
 #include "Utils/Playlist/PlaylistMode.h"
 #include "Utils/EqualizerPresets.h"
@@ -54,11 +53,6 @@ void register_setting(const SettingIdentifier<DataType, keyIndex>& key, const Da
 
 bool SettingRegistry::init()
 {
-	DatabaseConnector* db = DatabaseConnector::instance();
-	if(!db->is_initialized()){
-		return false;
-	}
-
 	BoolList shown_cols;
 	for(int i=0; i<10; i++){
 		shown_cols.push_back(true);
@@ -203,11 +197,6 @@ bool SettingRegistry::init()
 
     bool success = Settings::instance()->check_settings();
 	if (!success){
-		return false;
-	}
-
-	success = db->load_settings();
-	if(!success){
 		return false;
 	}
 

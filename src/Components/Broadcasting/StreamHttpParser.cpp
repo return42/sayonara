@@ -67,12 +67,13 @@ StreamHttpParser::HttpAnswer StreamHttpParser::parse(const QByteArray& data)
 
 	lst = qmsg.split("\r\n");
 
-	sp_log(Log::Debug, this) << qmsg;
+	sp_log(Log::Develop, this) << qmsg;
 
-	for(const QString& str : lst){
+	for(const QString& str : lst)
+	{
 		QRegExp regex("(GET|HEAD)(\\s|/)*HTTP", Qt::CaseInsensitive);
 		QRegExp regex_pl("(GET)(\\s|/)*(playlist.m3u)(\\s|/)*HTTP", Qt::CaseInsensitive);
-		QRegExp regex_mp3("(GET)(\\s|/)*(track.mp3)(\\s|/)*HTTP", Qt::CaseInsensitive);
+		QRegExp regex_mp3(".*GET(\\s|/)*.*(\\.mp3)(\\s|/)*HTTP", Qt::CaseInsensitive);
 		QRegExp regex_bg("(GET)(\\s|/)*(bg-checker.png)(\\s|/)*HTTP", Qt::CaseInsensitive);
 		QRegExp regex_favicon("(GET)(\\s|/)*(favicon.ico)(\\s|/)*HTTP", Qt::CaseInsensitive);
 		QRegExp regex_metadata("(GET)(\\s|/)*(metadata)(\\s|/)*HTTP", Qt::CaseInsensitive);
@@ -96,6 +97,7 @@ StreamHttpParser::HttpAnswer StreamHttpParser::parse(const QByteArray& data)
 			continue;
 		}
 
+		sp_log(Log::Debug, this) << "Check for mp3: " << str.contains(regex_mp3);
 		if(str.contains(regex_mp3)){
 			get_mp3 = true;
 			continue;
@@ -110,8 +112,6 @@ StreamHttpParser::HttpAnswer StreamHttpParser::parse(const QByteArray& data)
 			QStringList lst = str.split(":");
 			if(lst.size() > 1){
 				m->host = lst[1].trimmed();
-				//sp_log(Log::Info) << "Host = " << _host;
-
 			}
 		}
 
@@ -122,7 +122,8 @@ StreamHttpParser::HttpAnswer StreamHttpParser::parse(const QByteArray& data)
 			}
 		}
 
-		if(str.contains("user-agent", Qt::CaseInsensitive)){
+		if(str.contains("user-agent", Qt::CaseInsensitive))
+		{
 			if(str.size() > 11){
 				QString user_agent = str.right( str.size() - 11).toLower();
 				if( user_agent.contains("firefox", Qt::CaseInsensitive) ||
@@ -159,7 +160,7 @@ StreamHttpParser::HttpAnswer StreamHttpParser::parse(const QByteArray& data)
 		return HttpAnswer::HTML5;
 	}
 
-	if(is_browser && get_mp3 && !m->host.isEmpty()){
+	if(get_mp3 && !m->host.isEmpty()){
 		return HttpAnswer::MP3;
 	}
 

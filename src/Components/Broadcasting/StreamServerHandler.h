@@ -13,6 +13,7 @@ public:
     ~StreamServerHandler();
 
     void active_changed();
+    void port_changed();
 };
 
 #endif // STREAMSERVERHANDLER_H

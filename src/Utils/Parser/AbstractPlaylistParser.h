@@ -32,6 +32,8 @@ class MetaData;
 class MetaDataList;
 class AbstractPlaylistParser
 {
+    PIMPL(AbstractPlaylistParser)
+
 public:
 	explicit AbstractPlaylistParser(const QString& filepath);
 	virtual ~AbstractPlaylistParser();
@@ -45,17 +47,10 @@ public:
 	virtual MetaDataList tracks(bool force_parse=false) final;
 
 
-private:
-	PIMPL(AbstractPlaylistParser)
-
 protected:
-
 	void add_track(const MetaData& md);
 	void add_tracks(const MetaDataList& v_md);
 	const QString& content() const;
-
-
-protected:
 
 	/**
 	 * @brief here the parsing is done\n

@@ -22,6 +22,7 @@
 #define GUI_BOOKMARKS_H
 
 #include "Interfaces/PlayerPlugin/PlayerPlugin.h"
+#include "Utils/Pimpl.h"
 
 class Bookmarks;
 class Bookmark;
@@ -37,9 +38,7 @@ class GUI_Bookmarks :
 {
 	Q_OBJECT
 	UI_CLASS(GUI_Bookmarks)
-
-private:
-	Bookmarks*	_bookmarks=nullptr;
+	PIMPL(GUI_Bookmarks)
 
 public:
 	explicit GUI_Bookmarks(QWidget *parent=nullptr);
@@ -47,7 +46,7 @@ public:
 
 	QString get_name() const override;
 	QString get_display_name() const override;
-	
+
 
 private:
 	void retranslate_ui() override;

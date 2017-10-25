@@ -42,10 +42,10 @@ class Album :
 public:
 	QList<uint8_t>	discnumbers;
 
-    AlbumID		id;
+	AlbumID		id;
 	uint32_t	length_sec;
 	uint16_t	num_songs;
-    uint16_t	year;
+	uint16_t	year;
 
 	uint8_t		n_discs;
 	uint8_t		rating;
@@ -53,7 +53,7 @@ public:
 
 
 public:
-    Album();
+	Album();
 	Album(const Album& other);
 	Album(Album&& other);
 
@@ -62,7 +62,7 @@ public:
 
 	~Album();
 
-    const QString& name() const;
+	const QString& name() const;
 	void set_name(const QString& name);
 
 	QStringList artists() const;
@@ -70,7 +70,7 @@ public:
 
 	static QVariant toVariant(const Album& album);
 	static bool fromVariant(const QVariant& v, Album& album);
-    QString to_string() const;
+	QString to_string() const;
 };
 
 
@@ -81,11 +81,11 @@ public:
 class AlbumList : public std::vector<Album>
 {
 public:
-    bool contains(AlbumID album_id) const;
+	bool contains(AlbumID album_id) const;
 
-    int count() const;
-    AlbumList& operator <<(const Album& album);
-    Album first() const;
+	int count() const;
+	AlbumList& operator <<(const Album& album);
+	Album first() const;
 };
 
 #endif

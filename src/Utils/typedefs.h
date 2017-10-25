@@ -44,8 +44,8 @@ namespace SP
  * @ingroup Helper
  */
 using StringPair=QPair<QString, QString>;
-using IntList=QList<int> ;
-using IDList=QList<int> ;
+using IntList=QList<int>;
+using IDList=QList<int>;
 using IdxList=QList<int> ;
 using BoolList=std::vector<bool> ;
 using ArtistID=int32_t;
@@ -55,6 +55,5 @@ using ID=int32_t;
 using IntSet=SP::Set<int>;
 using IndexSet=SP::Set<int>;
 using IDSet=SP::Set<ID>;
-
 
 #endif

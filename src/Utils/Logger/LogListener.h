@@ -31,8 +31,8 @@ class QString;
 using StrRef=const QString&;
 class LogListener
 {
-    public:
-	virtual void add_log_line(const QDateTime& t, Log log_type, StrRef class_name, StrRef str)=0;
+	public:
+	virtual void add_log_line(const LogEntry& le)=0;
 };
 
 

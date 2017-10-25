@@ -95,7 +95,8 @@ Utils::ErrorCode Utils::validate_template(const QString &target_path_template, i
         }
     }
 
-    if( !(has_title && has_track_number) ){
+    if( (!has_title) && (!has_track_number) )
+    {
         *invalid_idx = target_path_template.size() - 1;
         return Utils::ErrorCode::MissingUniqueTag;
     }
@@ -150,7 +151,7 @@ QList<QPair<QString, QString> > Utils::descriptions()
     return ret;
 }
 
-Utils::TargetPaths Utils::full_target_path(const QString& sr_path, const QString& path_template, const MetaData& md)
+Utils::TargetPaths Utils::full_target_path(const QString& sr_path, const QString& path_template, const MetaData& md, const QDate& date, const QTime& time)
 {
     int invalid_idx;
     Utils::TargetPaths ret;
@@ -160,9 +161,6 @@ Utils::TargetPaths Utils::full_target_path(const QString& sr_path, const QString
     }
 
     QString target_path = path_template;
-
-    QTime time = QDateTime::currentDateTime().time();
-    QDate date = QDateTime::currentDateTime().date();
 
     target_path.replace("<h>",		QString("%1").arg(time.hour(), 2, 10, QChar('0')));
     target_path.replace("<min>",	QString("%1").arg(time.minute(), 2, 10, QChar('0')));

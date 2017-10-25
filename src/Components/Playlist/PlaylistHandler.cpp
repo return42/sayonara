@@ -586,7 +586,7 @@ void PlaylistHandler::save_playlist_to_file(int pl_idx, const QString& filename,
 	}
 
     PlaylistPtr pl = m->playlists[pl_idx];
-	PlaylistParser::save_playlist(filename, pl->playlist(), relative);
+	PlaylistParser::save_m3u_playlist(filename, pl->playlist(), relative);
 }
 
 

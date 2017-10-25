@@ -33,8 +33,16 @@
 
 static const QString NoBookmarkText("--:--");
 
+struct GUI_Bookmarks::Private
+{
+	Bookmarks*	bookmarks=nullptr;
+};
+
 GUI_Bookmarks::GUI_Bookmarks(QWidget *parent) :
-	PlayerPluginInterface(parent) {}
+	PlayerPluginInterface(parent)
+{
+	m = Pimpl::make<Private>();
+}
 
 GUI_Bookmarks::~GUI_Bookmarks()
 {
@@ -58,6 +66,13 @@ QString GUI_Bookmarks::get_display_name() const
 void GUI_Bookmarks::retranslate_ui()
 {
 	ui->retranslateUi(this);
+
+	const QList<Bookmark>& bookmarks = m->bookmarks->bookmarks();
+	if(bookmarks.isEmpty())
+	{
+		ui->cb_bookmarks->clear();
+		ui->cb_bookmarks->addItem(tr("No bookmarks found"), -1);
+	}
 }
 
 
@@ -67,13 +82,13 @@ void GUI_Bookmarks::init_ui()
 		return;
 	}
 
-	_bookmarks = new Bookmarks(this);
+	m->bookmarks = new Bookmarks(this);
 
 	setup_parent(this, &ui);
 
-	connect(_bookmarks, &Bookmarks::sig_bookmarks_changed, this, &GUI_Bookmarks::bookmarks_changed);
-	connect(_bookmarks, &Bookmarks::sig_next_changed, this, &GUI_Bookmarks::next_changed);
-	connect(_bookmarks, &Bookmarks::sig_prev_changed, this, &GUI_Bookmarks::prev_changed);
+	connect(m->bookmarks, &Bookmarks::sig_bookmarks_changed, this, &GUI_Bookmarks::bookmarks_changed);
+	connect(m->bookmarks, &Bookmarks::sig_next_changed, this, &GUI_Bookmarks::next_changed);
+	connect(m->bookmarks, &Bookmarks::sig_prev_changed, this, &GUI_Bookmarks::prev_changed);
 
 	connect(ui->btn_tool, &MenuToolButton::sig_new, this, &GUI_Bookmarks::new_clicked);
 	connect(ui->btn_tool, &MenuToolButton::sig_delete, this, &GUI_Bookmarks::del_clicked);
@@ -98,26 +113,30 @@ void GUI_Bookmarks::bookmarks_changed()
 		return;
 	}
 
-	QList<Bookmark> bookmarks = _bookmarks->get_all_bookmarks();
+	const QList<Bookmark>& bookmarks = m->bookmarks->bookmarks();
 
 	disconnect(ui->cb_bookmarks, combo_current_index_changed_int, this, &GUI_Bookmarks::combo_changed);
 
 	ui->cb_bookmarks->clear();
 	for(const Bookmark& bookmark : bookmarks){
-		ui->cb_bookmarks->addItem(bookmark.get_name());
+		ui->cb_bookmarks->addItem(bookmark.get_name(), (int) bookmark.get_time());
 	}
 
-	MetaData md = _bookmarks->get_cur_track();
+	if(bookmarks.isEmpty()){
+		ui->cb_bookmarks->addItem(tr("No bookmarks found"), -1);
+	}
+
+	MetaData md = m->bookmarks->current_track();
 
 	ui->btn_tool->show_action(ContextMenu::EntryNew, (md.id >= 0) );
 	ui->btn_tool->show_action(ContextMenu::EntryDelete, !bookmarks.isEmpty() );
 
 	if(md.id >= 0 && bookmarks.size() > 0){
-		ui->stackedWidget->setCurrentIndex(0);
+		ui->controls->show();
 	}
 
 	else{
-		ui->stackedWidget->setCurrentIndex(1);
+		ui->controls->hide();
 	}
 
 	connect(ui->cb_bookmarks, combo_current_index_changed_int, this, &GUI_Bookmarks::combo_changed);
@@ -131,7 +150,7 @@ void GUI_Bookmarks::disable_prev()
 	}
 
 	ui->btn_bw->setEnabled( false );
-	ui->lab_last->setText( NoBookmarkText );
+	ui->lab_prev->setText( NoBookmarkText );
 }
 
 
@@ -148,19 +167,21 @@ void GUI_Bookmarks::disable_next()
 
 void GUI_Bookmarks::prev_changed(const Bookmark& bookmark)
 {
-	if(!is_ui_initialized()){
+	if(!is_ui_initialized())
+	{
 		return;
 	}
 
 	ui->btn_bw->setEnabled( bookmark.is_valid() );
 	ui->cb_loop->setEnabled( ui->btn_fw->isEnabled() );
 
-	if( !bookmark.is_valid() ){
+	if( !bookmark.is_valid() )
+	{
 		disable_prev();
 		return;
 	}
 
-	ui->lab_last->setText(Util::cvt_ms_to_string(bookmark.get_time() * 1000, true, true, false));
+	ui->lab_prev->setText(Util::cvt_ms_to_string(bookmark.get_time() * 1000, true, true, false));
 }
 
 
@@ -186,27 +207,33 @@ void GUI_Bookmarks::combo_changed(int cur_idx)
 {
 	ui->btn_tool->show_action(ContextMenu::EntryDelete, (cur_idx >= 0));
 
-	if(cur_idx >= 0){
-		_bookmarks->jump_to(cur_idx);
+	int data = ui->cb_bookmarks->itemData(cur_idx).toInt();
+	if(data < 0){
+		return;
+	}
+
+	if(cur_idx >= 0)
+	{
+		m->bookmarks->jump_to(cur_idx);
 	}
 }
 
 
 void GUI_Bookmarks::next_clicked()
 {
-	_bookmarks->jump_next();
+	m->bookmarks->jump_next();
 }
 
 
 void GUI_Bookmarks::prev_clicked()
 {
-	_bookmarks->jump_prev();
+	m->bookmarks->jump_prev();
 }
 
 
 void GUI_Bookmarks::loop_clicked(bool b)
 {
-	bool success = _bookmarks->set_loop(b);
+	bool success = m->bookmarks->set_loop(b);
 	if(!success){
 		ui->cb_loop->setChecked(success);
 	}
@@ -215,8 +242,9 @@ void GUI_Bookmarks::loop_clicked(bool b)
 
 void GUI_Bookmarks::new_clicked()
 {
-	Bookmarks::CreationStatus status = _bookmarks->create();
-	if( status == Bookmarks::CreationStatus::NoDBTrack ){
+	Bookmarks::CreationStatus status = m->bookmarks->create();
+	if( status == Bookmarks::CreationStatus::NoDBTrack )
+	{
 		Message::warning(tr("Sorry, bookmarks can only be set for library tracks at the moment."),
 						Lang::get(Lang::Bookmarks));
 	}
@@ -226,5 +254,5 @@ void GUI_Bookmarks::new_clicked()
 void GUI_Bookmarks::del_clicked()
 {
 	int idx = ui->cb_bookmarks->currentIndex();
-	_bookmarks->remove(idx);
+	m->bookmarks->remove(idx);
 }

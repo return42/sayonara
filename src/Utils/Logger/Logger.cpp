@@ -50,53 +50,55 @@
 #endif
 
 #ifdef HAVE_CXX_ABI
-    #include "cxxabi.h"
+	#include "cxxabi.h"
 #endif
 
 
-static QList<LogListener*> log_listeners;
+
+static QList<LogListener*>	log_listeners;
+static QList<LogEntry>		log_buffer;
 
 struct Logger::Private
 {
 	QString				class_name;
 	std::stringstream	msg;
-    Log					type;
+	Log					type;
 
-    Private() {}
+	Private() {}
 
 	~Private()
 	{
 		QString type_str;
 		std::string color;
-        QString html_color;
+		QString html_color;
 		bool ignore=false;
 
 		switch(type)
 		{
 			case Log::Info:
 				color = LOG_GREEN;
-                html_color = "#00AA00";
+				html_color = "#00AA00";
 				type_str = "Info";
 				break;
 			case Log::Warning:
 				color = LOG_RED;
-                html_color = "#EE0000";
+				html_color = "#EE0000";
 				type_str = "Warning";
 				break;
 			case Log::Error:
 				color = LOG_RED;
-                html_color = "#EE0000";
+				html_color = "#EE0000";
 				type_str = "Error";
 				break;
 			case Log::Debug:
 				color = LOG_YELLOW;
-                html_color = "#7A7A00";
+				html_color = "#7A7A00";
 				type_str = "Debug";
 				break;
 
 			case Log::Develop:
 				color = LOG_YELLOW;
-                html_color = "#7A7A00";
+				html_color = "#7A7A00";
 				type_str = "Dev";
 	#ifndef DEBUG
 				ignore = true;
@@ -110,15 +112,15 @@ struct Logger::Private
 
 		if(!ignore)
 		{
-            QString date_time = QDateTime::currentDateTime().toString("hh:mm:ss");
+			QString date_time = QDateTime::currentDateTime().toString("hh:mm:ss");
 
 			std::string str(msg.str());
 
-            std::clog
-                    << "[" << date_time.toStdString() << "] "
-                    << color
-                    << type_str.toStdString() << ": "
-                    << LOG_COL_END;
+			std::clog
+					<< "[" << date_time.toStdString() << "] "
+					<< color
+					<< type_str.toStdString() << ": "
+					<< LOG_COL_END;
 
 			if(!class_name.isEmpty()) {
 				std::clog << LOG_BLUE << class_name.toStdString() << ": " << LOG_COL_END;
@@ -127,16 +129,19 @@ struct Logger::Private
 			std::clog << str;
 			std::clog << std::endl;
 
+			LogEntry le;
+				le.class_name = class_name;
+				le.dt = QDateTime::currentDateTime();
+				le.message = QString::fromStdString(str);
+				le.type = type;
+
+			log_buffer << le;
+
 			for(LogListener* log_listener : log_listeners)
 			{
 				if(log_listener)
 				{
-                    log_listener->add_log_line(
-                        QDateTime::currentDateTime(),
-                        type,
-                        class_name,
-                        QString::fromStdString(str)
-                    );
+					log_listener->add_log_line(le);
 				}
 			}
 		}
@@ -148,7 +153,7 @@ struct Logger::Private
 
 Logger::Logger(Log type, const QString& class_name)
 {
-    m = new Logger::Private();
+	m = new Logger::Private();
 
 	m->type = type;
 	m->class_name = class_name;
@@ -156,13 +161,18 @@ Logger::Logger(Log type, const QString& class_name)
 
 Logger::~Logger()
 {
-    delete m;
-    m = nullptr;
+	delete m;
+	m = nullptr;
 }
 
 //static
 void Logger::register_log_listener(LogListener* log_listener)
 {
+	for(const LogEntry& le : log_buffer)
+	{
+		log_listener->add_log_line(le);
+	}
+
 	log_listeners << log_listener;
 }
 
@@ -264,15 +274,15 @@ Logger sp_log(Log type)
 Logger sp_log(Log type, const char* data)
 {
 	QString class_name;
-    if(data)
-    {
+	if(data)
+	{
 #ifdef HAVE_CXX_ABI
-        int status;
-        class_name = QString(abi::__cxa_demangle(data, 0, 0, &status));
+		int status;
+		class_name = QString(abi::__cxa_demangle(data, 0, 0, &status));
 #else
 		class_name = QString(data);
 #endif
 	}
 
-    return Logger(type, class_name);
+	return Logger(type, class_name);
 }

@@ -52,27 +52,27 @@ class MetaData :
 public:
 	QString title;
 
-    uint32_t length_ms;
-    uint32_t filesize;
+	uint32_t length_ms;
+	uint32_t filesize;
 
-    TrackID id;
-    ArtistID artist_id;
+	TrackID id;
+	ArtistID artist_id;
 	AlbumID album_id;
 
 	uint32_t bitrate;
 	uint16_t track_num;
-    uint16_t year;
+	uint16_t year;
 
 	uint8_t discnumber;
 	uint8_t n_discs;
 
-    int8_t library_id;
-    uint8_t rating;
+	int8_t library_id;
+	uint8_t rating;
 
-    bool played;
-    bool is_extern;
-    bool pl_playing;
-    bool is_disabled;
+	bool played;
+	bool is_extern;
+	bool pl_playing;
+	bool is_disabled;
 
 public:
 	MetaData ();
@@ -84,21 +84,21 @@ public:
 
 	~MetaData();
 
-    const QString& artist() const;
+	const QString& artist() const;
 	void set_artist(const QString& artist);
 
-    const QString& album() const;
+	const QString& album() const;
 	void set_album(const QString& album);
 
 	QString filepath() const;
 	QString set_filepath(QString filepath);
 
-    ArtistID album_artist_id() const;
-    const QString& album_artist() const;
+	ArtistID album_artist_id() const;
+	const QString& album_artist() const;
 	bool has_album_artist() const;
 
-    void set_album_artist(const QString& album_artist, ArtistID id=-1);
-    void set_album_artist_id(ArtistID id);
+	void set_album_artist(const QString& album_artist, ArtistID id=-1);
+	void set_album_artist_id(ArtistID id);
 
 	RadioMode radio_mode() const;
 	bool is_valid() const;
@@ -111,9 +111,9 @@ public:
 	const SP::Set<uint32_t>& genre_ids() const;
 	SP::Set<Genre> genres() const;
 	bool has_genre(const Genre& genre) const;
-    bool remove_genre(const Genre& genre);
-    bool add_genre(const Genre& genre);
-    void set_genres(const SP::Set<Genre>& genres);
+	bool remove_genre(const Genre& genre);
+	bool add_genre(const Genre& genre);
+	void set_genres(const SP::Set<Genre>& genres);
 	void set_genres(const QStringList& genres);
 
 	QString genres_to_string() const;

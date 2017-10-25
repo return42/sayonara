@@ -68,7 +68,7 @@ public:
 	 * @brief fetch all bookmarks for current track
 	 * @return all bookmarks for current track
 	 */
-	QList<Bookmark> get_all_bookmarks() const;
+	const QList<Bookmark>& bookmarks() const;
 
 
 	enum class CreationStatus : uint8_t
@@ -124,7 +124,7 @@ public:
 	 * @brief get the current played track
 	 * @return return current played track
 	 */
-	MetaData get_cur_track() const;
+	MetaData current_track() const;
 
 
 	int get_size() const;

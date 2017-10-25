@@ -79,17 +79,19 @@ MetaDataList PlaylistParser::parse_playlist(const QString& local_filename)
 
 	v_md_tmp = playlist_parser->tracks();
 
-	for(const MetaData& md : v_md_tmp) {
+    for(const MetaData& md : v_md_tmp)
+    {
 		if( Util::File::check_file(md.filepath()) ){
 			result << md;
 		}
 
-		else{
+        else {
 			v_md_to_delete << md;
 		}
 	}
 
-	if(!v_md_to_delete.isEmpty()){
+    if(!v_md_to_delete.isEmpty())
+    {
 		DatabaseConnector* db = DatabaseConnector::instance();
 		LibraryDatabase* lib_db = db->library_db(-1, 0);
 		lib_db->deleteTracks(v_md_to_delete);
@@ -105,7 +107,7 @@ MetaDataList PlaylistParser::parse_playlist(const QString& local_filename)
 }
 
 
-void PlaylistParser::save_playlist(const QString& filename, const MetaDataList& v_md, bool relative)
+void PlaylistParser::save_m3u_playlist(const QString& filename, const MetaDataList& v_md, bool relative)
 {
 	QString f = filename;
 	if(!f.endsWith("m3u", Qt::CaseInsensitive)) {
