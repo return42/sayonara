@@ -190,13 +190,16 @@ bool DatabasePlaylist::getPlaylistById(CustomPlaylist& pl)
 
 	q.prepare(querytext);
 	q.bindValue(":playlist_id", pl.id());
+	q.show_query();
 
 	if (!q.exec()) {
 		q.show_error( QString("Cannot get tracks for playlist %1").arg(pl.id()) );
 	}
 
-	else{
-		while (q.next()) {
+	else
+	{
+		while (q.next())
+		{
 			MetaData data;
 
 			data.id = 		 q.value(0).toInt();
@@ -239,15 +242,16 @@ bool DatabasePlaylist::getPlaylistById(CustomPlaylist& pl)
 	SayonaraQuery q2(this);
 	q2.prepare(querytext2);
 	q2.bindValue(":playlist_id", pl.id());
+	q2.show_query();
 
 	if(!q2.exec()) {
 		q2.show_error(QString("Playlist by id: Cannot fetch playlist %1").arg(pl.id()));
 		return false;
 	}
 
-	while (q2.next()) {
+	while (q2.next())
+	{
 		int position = q2.value(1).toInt();
-
 
 		QString filepath = q2.value(0).toString();
 		MetaData data(filepath);

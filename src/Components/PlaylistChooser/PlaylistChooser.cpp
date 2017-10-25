@@ -69,17 +69,13 @@ const CustomPlaylistSkeletons& PlaylistChooser::playlists()
 
 void PlaylistChooser::load_single_playlist(int id)
 {
-	int idx;
 	if(id < 0) {
 		return;
 	}
 
 	CustomPlaylist pl = m->find_custom_playlist(id);
-	if(!pl.valid()) {
-		return;
-	}
 
-	idx = m->playlist_handler->create_playlist(pl);
+	int idx = m->playlist_handler->create_playlist(pl);
 	m->playlist_handler->set_current_idx(idx);
 }
 
@@ -88,7 +84,8 @@ int PlaylistChooser::find_playlist(const QString& name) const
 {
 	for(const CustomPlaylistSkeleton& skeleton : m->skeletons)
 	{
-		if(skeleton.name().compare(name) == 0){
+		if(skeleton.name().compare(name) == 0)
+		{
 			return skeleton.id();
 		}
 	}
