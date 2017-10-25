@@ -34,7 +34,7 @@
  */
 namespace Tagging
 {
-    class Editor;
+	class Editor;
 }
 
 class MetaDataList;
@@ -57,7 +57,7 @@ public:
 	 * @brief Get tag edit object
 	 * @return Tag edit object
 	 */
-    Tagging::Editor* get_tag_edit() const;
+	Tagging::Editor* get_tag_edit() const;
 
 	/**
 	 * @brief Commits changes to db/file
@@ -294,6 +294,10 @@ private slots:
 
 
 	void rb_dont_replace_toggled(bool b);
+
+
+protected:
+	void showEvent(QShowEvent* e) override;
 };
 
 #endif

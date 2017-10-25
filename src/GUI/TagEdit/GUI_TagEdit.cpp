@@ -188,6 +188,7 @@ bool GUI_TagEdit::check_idx(int idx) const
 }
 
 
+
 void GUI_TagEdit::next_button_clicked()
 {
 	write_changes(m->cur_idx);
@@ -809,4 +810,11 @@ void GUI_TagEdit::btn_tag_help_clicked()
 {
 	QUrl url(QString("http://sayonara-player.com/faq.php#tag-edit"));
 	QDesktopServices::openUrl(url);
+}
+
+
+void GUI_TagEdit::showEvent(QShowEvent *e)
+{
+	Widget::showEvent(e);
+	track_idx_changed();
 }
