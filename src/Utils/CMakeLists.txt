@@ -86,6 +86,7 @@ SET(SOURCES
 	Tagging/Models/Discnumber.cpp
 	Tagging/Models/Cover.cpp
 	Tagging/Models/Popularimeter.cpp
+#	Tagging/MappedFilestream;
 
     WebAccess/AsyncWebAccess.cpp
     WebAccess/IcyWebAccess.cpp

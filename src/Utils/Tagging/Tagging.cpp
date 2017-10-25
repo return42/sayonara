@@ -32,6 +32,7 @@
 #include "MP4/Cover.h"
 #include "MP4/DiscnumberFrame.h"
 #include "MP4/PopularimeterFrame.h"
+#include "MappedFilestream.h"
 
 #include "Utils/Utils.h"
 #include "Utils/FileUtils.h"
@@ -104,8 +105,17 @@ bool Tagging::Util::getMetaDataOfFile(MetaData& md, Quality quality)
 			read_style = TagLib::AudioProperties::Average;
 	};
 
+	TagLib::FileName filename(md.filepath().toUtf8());
+
+	/*
+	 * TODO: Taglib 1.11 or later may use iostream as FileRef Constructor Parameter
+	 * This should be a lot of faster when reading from a mmapped file
+	 *
+	 * MappedFileStream* mfilestream = new MappedFileStream(filename);
+	*/
+
 	TagLib::FileRef f(
-			TagLib::FileName(md.filepath().toUtf8()),
+			filename,
 			read_audio_props,
 			read_style
 	);
