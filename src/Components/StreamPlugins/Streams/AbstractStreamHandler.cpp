@@ -23,11 +23,13 @@
 #include "Database/DatabaseConnector.h"
 #include "Components/Playlist/PlaylistHandler.h"
 #include "Components/PlayManager/PlayManager.h"
+
 #include "Utils/WebAccess/AsyncWebAccess.h"
 #include "Utils/Parser/StreamParser.h"
 #include "Utils/MetaData/MetaDataList.h"
 #include "Utils/Logger/Logger.h"
 #include "Utils/Message/GlobalMessage.h"
+#include "Utils/Settings/Settings.h"
 
 struct AbstractStreamHandler::Private
 {
@@ -83,6 +85,7 @@ bool AbstractStreamHandler::parse_station(const QString& url, const QString& sta
 	}
 
 	m->blocked = true;
+	m->station_name = station_name;
 
 	m->stream_parser = new StreamParser(station_name, this);
 	connect(m->stream_parser, &StreamParser::sig_finished, this, &AbstractStreamHandler::stream_parser_finished);
@@ -112,8 +115,14 @@ void AbstractStreamHandler::stream_parser_finished(bool success)
 		MetaDataList v_md = stream_parser->get_metadata();
 		m->station_contents[m->station_name] = v_md;
 
-		if(!v_md.isEmpty()){
-			int idx = m->playlist->create_playlist(v_md, m->station_name, true, Playlist::Type::Stream);
+		if(!v_md.isEmpty())
+		{
+			QString station_name;
+			if(Settings::instance()->get(Set::Stream_NewTab)){
+				station_name = m->station_name;
+			}
+
+			int idx = m->playlist->create_playlist(v_md, station_name, true, Playlist::Type::Stream);
 			m->playlist->change_track(0, idx);
 		}
 

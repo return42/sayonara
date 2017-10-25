@@ -730,5 +730,8 @@ void PlaylistHandler::www_track_finished(const MetaData& md)
 		return;
 	}
 
-	active_pl->insert_track(md, active_pl->current_track_index());
+	if(_settings->get(Set::Stream_ShowHistory))
+	{
+		active_pl->insert_track(md, active_pl->current_track_index());
+	}
 }

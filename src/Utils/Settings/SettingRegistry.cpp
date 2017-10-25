@@ -176,6 +176,9 @@ bool SettingRegistry::init()
 	register_setting( Set::Remote_Active, "remote_control_active", false);
 	register_setting( Set::Remote_Port, "remote_control_port", 54055);
 
+	register_setting( Set::Stream_NewTab, "stream_new_tab", true);
+	register_setting( Set::Stream_ShowHistory, "stream_show_history", true);
+
 	register_setting( Set::Lyrics_Server, "lyrics_server", QString());
 	register_setting( Set::Lyrics_Zoom, "lyrics_zoom", 100);
 

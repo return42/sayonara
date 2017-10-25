@@ -46,14 +46,14 @@ bool MiniSearchEventFilter::eventFilter(QObject* o, QEvent* e)
 
                     // Accept + true = EAT the event. No one else should see the event
                     e->accept();
-                    return true;
+					return true;
                 }
             }
             break;
 
         case QEvent::FocusOut:
-            emit sig_focus_lost();
-            break;
+			emit sig_focus_lost();
+			break;
 
         default:
             break;
@@ -146,10 +146,7 @@ bool MiniSearcher::is_initiator(QKeyEvent* event) const
 
 void MiniSearcher::line_edit_focus_lost()
 {
-    if(!this->hasFocus())
-	{
-        reset();
-	}
+	this->setVisible(false);
 }
 
 void MiniSearcher::left_clicked()
@@ -247,17 +244,10 @@ void MiniSearcher::reset_tooltip()
 
 void MiniSearcher::set_padding(int padding)
 {
-	if(this->isVisible() && padding > 0) {
-		QRect geo = geometry();
-		geo.setY(geo.y() - padding);
-		this->setGeometry(geo);
-	}
-
-	else if(padding == 0){
-
-	}
-
 	m->padding = padding;
+
+	QRect geo = calc_geo();
+	this->setGeometry(geo);
 }
 
 
@@ -310,7 +300,7 @@ void MiniSearcher::keyPressEvent(QKeyEvent* event)
 	}
 }
 
-void MiniSearcher::showEvent(QShowEvent* e)
+QRect MiniSearcher::calc_geo() const
 {
 	QScrollBar* v_scrollbar = m->parent->verticalScrollBar();
 	QScrollBar* h_scrollbar = m->parent->horizontalScrollBar();
@@ -332,23 +322,21 @@ void MiniSearcher::showEvent(QShowEvent* e)
 	int new_x = par_width - (target_width + 5);
 	int new_y = par_height - (target_height + 5 + m->padding);
 
-	this->setGeometry(new_x, new_y, target_width, target_height);
+	return QRect(new_x, new_y, target_width, target_height);
+}
+
+void MiniSearcher::showEvent(QShowEvent* e)
+{
+	QRect geo = calc_geo();
+	this->setGeometry(geo);
 
 	QFrame::showEvent(e);
 }
 
 
-void MiniSearcher::hideEvent(QHideEvent* e)
-{
-    m->parent->setFocus();
-
-    QFrame::hideEvent(e);
-}
-
-
 void MiniSearcher::focusOutEvent(QFocusEvent* e)
 {
-    this->reset();
+	this->reset();
 
-    QFrame::focusOutEvent(e);
+	QFrame::focusOutEvent(e);
 }

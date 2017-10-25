@@ -151,7 +151,6 @@ enum class SettingKey : unsigned short
 	Engine_SR_SessionPathTemplate,
 	Engine_SR_AutoRecord,
 
-
 	Spectrum_Style,
 	Level_Style,
 
@@ -165,6 +164,9 @@ enum class SettingKey : unsigned short
 
 	Remote_Active,
 	Remote_Port,
+
+	Stream_NewTab,
+	Stream_ShowHistory,
 
 	Lyrics_Zoom,
 	Lyrics_Server,
@@ -317,6 +319,9 @@ namespace Set
 
     INST(bool,				Remote_Active);				/* Remote control activated */
     INST(int,				Remote_Port);				/* Remote control port */
+
+	INST(bool,				Stream_NewTab);				/* Open Streams in new tab */
+	INST(bool,				Stream_ShowHistory);		/* Show history when playing streams */
 
     INST(int,				Lyrics_Zoom);				/* Zoom factor in lyrics window */
     INST(QString,			Lyrics_Server);				/* Lyrics server */

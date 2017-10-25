@@ -72,6 +72,7 @@ private:
 	bool is_initiator(QKeyEvent* event) const;
     void init(const QString& text);
     bool check_and_init(QKeyEvent* event);
+	QRect calc_geo() const;
 
 protected:
     void language_changed() override;
@@ -79,7 +80,6 @@ protected:
     void keyPressEvent(QKeyEvent* e) override;
 
 	void showEvent(QShowEvent* e) override;
-    void hideEvent(QHideEvent* e) override;
     void focusOutEvent(QFocusEvent* e) override;
 
 public:

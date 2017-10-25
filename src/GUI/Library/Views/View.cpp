@@ -230,10 +230,6 @@ void View::show_clear_button(bool visible)
 		});
     }
 
-	if(m->btn_clear_selection->isVisible() == visible){
-		return;
-	}
-
 	const int h = 22;
 
     int y = this->height() - h - 1;
@@ -252,7 +248,7 @@ void View::show_clear_button(bool visible)
     m->btn_clear_selection->setVisible(visible);
 	m->btn_clear_selection->setGeometry(1, y, w, h);
 
-	int mini_searcher_padding = (visible) ? h + 5 : 0;
+	int mini_searcher_padding = (visible) ? h : 0;
 	SearchableTableView::set_mini_searcher_padding(mini_searcher_padding);
 
 }
@@ -553,9 +549,9 @@ void View::changeEvent(QEvent* event)
 
 void View::resizeEvent(QResizeEvent *event)
 {
+	SearchableTableView::resizeEvent(event);
+
     if(m->btn_clear_selection){
         show_clear_button(m->btn_clear_selection->isVisible());
     }
-
-    SearchableTableView::resizeEvent(event);
 }

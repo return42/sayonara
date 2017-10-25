@@ -83,7 +83,8 @@ protected:
 	 * This method should be the first to be called when calling init_ui()
 	 * @param widget should always be "this"
 	 */
-	void setup_parent(W* widget, UiClass** ui) {
+	void setup_parent(W* widget, UiClass** ui)
+	{
 		*ui = new UiClass();
 		(*ui)->setupUi(widget);
 
