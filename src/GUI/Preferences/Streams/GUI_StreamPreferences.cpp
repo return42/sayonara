@@ -38,4 +38,7 @@ void GUI_StreamPreferences::init_ui()
 	revert();
 }
 
-void GUI_StreamPreferences::retranslate_ui() {}
+void GUI_StreamPreferences::retranslate_ui()
+{
+	ui->retranslateUi(this);
+}

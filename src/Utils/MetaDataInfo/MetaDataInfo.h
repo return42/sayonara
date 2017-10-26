@@ -29,8 +29,9 @@
 
 #include <QMap>
 #include <QObject>
-#include <QStringList>
+#include "Utils/Pimpl.h"
 
+class QStringList;
 class MetaDataList;
 class LibraryDatabase;
 
@@ -56,60 +57,65 @@ enum class InfoStrings : uint8_t
  * @brief The MetaDataInfo class
  * @ingroup MetaDataHelper
  */
-class MetaDataInfo : 
-	public QObject, 
+class MetaDataInfo :
+	public QObject,
 	public SayonaraClass
 {
-private:
-	void set_cover_location(const MetaDataList& lst);
-	void set_subheader(quint16 tracknum);
-	void set_header(const MetaDataList& lst);
+	PIMPL(MetaDataInfo)
 
-	QString get_info_string(InfoStrings idx) const;
 
-protected:
+	protected:
+		QString						_header;
+		QString						_subheader;
+		QMap<InfoStrings, QString>	_info;
+		QMap<QString, QString>		_additional_info;
 
-	QString						_header;
-	QString						_subheader;
-	QMap<InfoStrings, QString>	_info;
-	QMap<QString, QString>		_additional_info;
-	QStringList					_paths;
-    Cover::Location				_cover_location;
 
-	SP::Set<QString>			_albums;
-	SP::Set<QString>			_artists;
-	SP::Set<QString>			_album_artists;
-	SP::Set<AlbumID>			_album_ids;
-	SP::Set<ArtistID>			_artist_ids;
-	SP::Set<ArtistID>			_album_artist_ids;
+		QString calc_tracknum_str( uint16_t tracknum );
+		QString calc_artist_str() const;
+		QString calc_album_str();
 
-	QString calc_tracknum_str( uint16_t tracknum );
-	QString calc_artist_str() const;
-	QString calc_album_str();
+		virtual void calc_cover_location();
+		virtual void calc_subheader();
+		virtual void calc_header();
 
-	virtual void set_cover_location();
-	virtual void set_subheader();
-	virtual void set_header();
+		void insert_playing_time(uint64_t ms);
+		void insert_genre(const QStringList& lst);
+		void insert_filesize(uint64_t filesize);
 
-	void insert_playing_time(uint64_t ms);
-	void insert_genre(const QStringList& lst);
-	void insert_filesize(uint64_t filesize);
+		void insert_interval_info_field(InfoStrings key, int min, int max);
+		void insert_numeric_info_field(InfoStrings key, int number);
 
-	void insert_interval(InfoStrings key, int min, int max);
-	void insert_number(InfoStrings key, int number);
-	
 
 	public:
+		explicit MetaDataInfo(const MetaDataList& v_md);
+		virtual ~MetaDataInfo();
 
-	explicit MetaDataInfo(const MetaDataList& v_md);
-	virtual ~MetaDataInfo();
+		virtual QString header() const;
+		virtual QString subheader() const;
+		virtual QString infostring() const;
+		virtual QString additional_infostring() const;
 
-	QString get_header() const;
-	QString get_subheader() const;
-	QString get_info_as_string() const;
-	virtual QString get_additional_info_as_string() const;
-	QString get_paths_as_string() const;
-    Cover::Location get_cover_location() const;
+		virtual Cover::Location cover_location() const;
+
+		const SP::Set<QString>& albums() const;
+		const SP::Set<QString>& artists() const;
+		const SP::Set<QString>& album_artists() const;
+
+		const SP::Set<AlbumID>& album_ids() const;
+		const SP::Set<ArtistID>& artist_ids() const;
+		const SP::Set<ArtistID>& album_artist_ids() const;
+
+		QString pathsstring() const;
+
+
+	private:
+		void calc_cover_location(const MetaDataList& lst);
+		void calc_subheader(quint16 tracknum);
+		void calc_header(const MetaDataList& lst);
+
+		QString get_info_string(InfoStrings idx) const;
+
 };
 
 #endif // METADATAINFO_H

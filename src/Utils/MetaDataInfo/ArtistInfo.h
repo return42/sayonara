@@ -22,22 +22,22 @@
 #define ARTISTINFO_H
 
 #include "MetaDataInfo.h"
+#include "Utils/Pimpl.h"
 
 /**
  * @brief The ArtistInfo class
  * @ingroup MetaDataHelper
  */
 class MetaDataList;
-class ArtistInfo : 
-	public MetaDataInfo 
+class ArtistInfo :
+	public MetaDataInfo
 {
-private:
-	uint8_t _db_id;
+	PIMPL(ArtistInfo)
 
 private:
-	void set_cover_location() override;
-	void set_subheader() override;
-	void set_header() override;
+	void calc_cover_location() override;
+	void calc_subheader() override;
+	void calc_header() override;
 
 	void calc_similar_artists(Artist& artist);
 
@@ -45,7 +45,9 @@ public:
 	explicit ArtistInfo(const MetaDataList& v_md);
 	virtual ~ArtistInfo();
 
-	QString get_additional_info_as_string() const override;
+	QString additional_infostring() const override;
+
+	Cover::Location cover_location() const override;
 };
 
 #endif // ARTISTINFO_H

@@ -18,7 +18,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "Utils/Random/RandomGenerator.h"
+#include "Utils/RandomGenerator.h"
 #include <random>
 #include <chrono>
 

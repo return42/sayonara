@@ -56,8 +56,6 @@ void GUI_Player::resizeEvent(QResizeEvent* e)
 		}
 	}
 
-	refresh_info_labels();
-
 	if( !is_maximized &&
 		!this->isMaximized() &&
 		!is_fullscreen &&
@@ -76,7 +74,8 @@ void GUI_Player::main_splitter_moved(int pos, int idx)
 	Q_UNUSED(idx)
 
 	LibraryPluginHandler* lph = LibraryPluginHandler::instance();
-	if(lph){
+	if(lph)
+	{
 		LibraryContainerInterface* container;
 		container = lph->current_library();
 		if(container){
@@ -86,8 +85,6 @@ void GUI_Player::main_splitter_moved(int pos, int idx)
 
 	QByteArray splitter_state = splitter->saveState();
 	_settings->set(Set::Player_SplitterState, splitter_state);
-
-	refresh_info_labels();
 }
 
 

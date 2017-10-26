@@ -28,56 +28,80 @@
 #include "Database/DatabaseConnector.h"
 
 
+struct AlbumInfo::Private
+{
+	uint8_t db_id;
+	Cover::Location cover_location;
+
+	Private(uint8_t db_id) :
+		db_id(db_id)
+	{}
+};
+
 AlbumInfo::AlbumInfo(const MetaDataList& v_md) :
 	MetaDataInfo(v_md)
 {
-	_db_id = v_md.first().db_id();
+	uint8_t db_id = -1;
+	if(v_md.size() > 0)
+	{
+		db_id = v_md.first().db_id();
+	}
+
+	m = Pimpl::make<Private>(db_id);
 	QString str_sampler;
 
 	// clear, because it's from Metadata. We are not interested in
 	// rather fetch albums' additional data, if there's only one album
 	_additional_info.clear();
 
-	if(_albums.size() > 1){
-		insert_number(InfoStrings::nAlbums, _albums.size());
+	if(albums().size() > 1)
+	{
+		insert_numeric_info_field(InfoStrings::nAlbums, albums().size());
 	}
 
-	if(_artists.size() > 1){
-		insert_number(InfoStrings::nArtists, _artists.size());
+	if(artists().size() > 1)
+	{
+		insert_numeric_info_field(InfoStrings::nArtists, artists().size());
 	}
 
-	if(_albums.size() == 1){
+	if(albums().size() == 1)
+	{
 		Album album;
 		bool success;
 
-		if(_artists.size() > 1){
+		if(artists().size() > 1)
+		{
 			str_sampler = Lang::get(Lang::Yes).toLower();
 			_info.insert(InfoStrings::Sampler, str_sampler);
 		}
-		if(_artists.size() == 1){
+
+		if(artists().size() == 1)
+		{
 			str_sampler = Lang::get(Lang::No).toLower();
 			_info.insert(InfoStrings::Sampler, str_sampler);
 		}
 
-		int album_id = _album_ids.first();
+		int album_id = album_ids().first();
 
 		DatabaseConnector* db = DatabaseConnector::instance();
-		LibraryDatabase* lib_db = db->library_db(-1, _db_id);
-        if(lib_db) {
-            // BIG TODO FOR SOUNDCLOUD
-            success = lib_db->getAlbumByID(album_id, album);
-        }
+		LibraryDatabase* lib_db = db->library_db(-1, m->db_id);
+		if(lib_db)
+		{
+			// BIG TODO FOR SOUNDCLOUD
+			success = lib_db->getAlbumByID(album_id, album);
+		}
 
-        else{
-            success = false;
-        }
+		else {
+			success = false;
+		}
 
-		if(success){
+		if(success)
+		{
 			_additional_info.clear();
 			// custom fields
-            const CustomFieldList& custom_fields = album.get_custom_fields();
-            for(const CustomField& field : custom_fields)
-            {
+			const CustomFieldList& custom_fields = album.get_custom_fields();
+			for(const CustomField& field : custom_fields)
+			{
 				QString name = field.get_display_name();
 				QString value = field.get_value();
 				if(value.isEmpty()){
@@ -89,53 +113,63 @@ AlbumInfo::AlbumInfo(const MetaDataList& v_md) :
 		}
 	}
 
-	set_header();
-	set_subheader();
-	set_cover_location();
+	calc_header();
+	calc_subheader();
+	calc_cover_location();
 }
 
 AlbumInfo::~AlbumInfo() {}
 
-void AlbumInfo::set_header()
+
+void AlbumInfo::calc_header()
 {
 	_header = calc_album_str();
 }
 
-void AlbumInfo::set_subheader()
+void AlbumInfo::calc_subheader()
 {
 	_subheader = Lang::get(Lang::By).toLower() + " " + calc_artist_str();
 }
 
-void AlbumInfo::set_cover_location()
+void AlbumInfo::calc_cover_location()
 {
-	if(_album_ids.size() == 1) {
-
+	if(album_ids().size() == 1)
+	{
 		DatabaseConnector* db = DatabaseConnector::instance();
-		LibraryDatabase* lib_db = db->library_db(-1, _db_id);
+		LibraryDatabase* lib_db = db->library_db(-1, m->db_id);
 
 		Album album;
-		album.id = _album_ids.first();
-		album.set_name(_albums.first());
-		album.set_artists(_artists.toList());
+		album.id = album_ids().first();
+		album.set_name(albums().first());
+		album.set_artists(artists().toList());
 		album.set_db_id(lib_db->db_id());
 
-        _cover_location = Cover::Location::get_cover_location(album);
+		m->cover_location = Cover::Location::get_cover_location(album);
 	}
 
-	else if( _albums.size() == 1) {
-		QString album = _albums.first();
+	else if( albums().size() == 1)
+	{
+		QString album = albums().first();
 
-		if(!_album_artists.isEmpty()) {
-            _cover_location = Cover::Location::get_cover_location(album, _album_artists.toList());
+		if(!album_artists().isEmpty())
+		{
+			m->cover_location = Cover::Location::get_cover_location(album, album_artists().toList());
 		}
 
-		else{
-            _cover_location = Cover::Location::get_cover_location(album, _artists.toList());
+		else
+		{
+			m->cover_location = Cover::Location::get_cover_location(album, artists().toList());
 		}
 	}
 
-	else{
-        _cover_location = Cover::Location::getInvalidLocation();
+	else
+	{
+		m->cover_location = Cover::Location::getInvalidLocation();
 	}
+}
+
+Cover::Location AlbumInfo::cover_location() const
+{
+	return m->cover_location;
 }
 

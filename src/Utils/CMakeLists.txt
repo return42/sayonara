@@ -55,7 +55,7 @@ SET(SOURCES
     Playlist/CustomPlaylistSkeleton.cpp
     Playlist/PlaylistMode.cpp
 
-    Random/RandomGenerator.cpp
+    RandomGenerator.cpp
 
 	Settings/SayonaraClass.cpp
 	Settings/Setting.cpp

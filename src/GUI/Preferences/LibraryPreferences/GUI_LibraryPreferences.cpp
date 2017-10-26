@@ -65,9 +65,9 @@ void GUI_LibraryPreferences::init_ui()
 
 	ui->lv_libs->setModel(m->model);
 	ui->lv_libs->setItemDelegate(
-		new Gui::StyledItemDelegate(ui->lv_libs)
-	);
-    ui->tab_widget->setCurrentIndex(0);
+				new Gui::StyledItemDelegate(ui->lv_libs)
+				);
+	ui->tab_widget->setCurrentIndex(0);
 
 	QItemSelectionModel* sel_model = ui->lv_libs->selectionModel();
 	connect(sel_model, &QItemSelectionModel::currentChanged, [=](const QModelIndex& current, const QModelIndex& previous){
@@ -112,7 +112,7 @@ void GUI_LibraryPreferences::commit()
 	_settings->set(Set::Lib_DD_DoNothing, ui->rb_dd_do_nothing->isChecked());
 	_settings->set(Set::Lib_DD_PlayIfStoppedAndEmpty, ui->rb_dd_start_if_stopped_and_empty->isChecked());
 	_settings->set(Set::Lib_SearchMode, mask);
-    _settings->set(Set::Lib_UseViewClearButton, ui->cb_show_clear_buttons->isChecked());
+	_settings->set(Set::Lib_UseViewClearButton, ui->cb_show_clear_buttons->isChecked());
 
 	m->model->commit();
 }
@@ -130,7 +130,7 @@ void GUI_LibraryPreferences::revert()
 	ui->rb_dc_play_immediately->setChecked(_settings->get(Set::Lib_DC_PlayImmediately));
 	ui->rb_dd_do_nothing->setChecked(_settings->get(Set::Lib_DD_DoNothing));
 	ui->rb_dd_start_if_stopped_and_empty->setChecked(_settings->get(Set::Lib_DD_PlayIfStoppedAndEmpty));
-    ui->cb_show_clear_buttons->setChecked(_settings->get(Set::Lib_UseViewClearButton));
+	ui->cb_show_clear_buttons->setChecked(_settings->get(Set::Lib_UseViewClearButton));
 
 	m->model->reset();
 }
@@ -233,32 +233,32 @@ void GUI_LibraryPreferences::edit_dialog_accepted()
 
 	switch(edit_mode)
 	{
-		case GUI_EditLibrary::EditMode::New:
-		{
-			if(!name.isEmpty() && !path.isEmpty()) {
-				m->model->append_row(name, path);
+	case GUI_EditLibrary::EditMode::New:
+	{
+		if(!name.isEmpty() && !path.isEmpty()) {
+			m->model->append_row(name, path);
+		}
+
+	} break;
+
+	case GUI_EditLibrary::EditMode::Edit:
+	{
+		if(!name.isEmpty()) {
+			if(edit_dialog->has_name_changed()){
+				m->model->rename_row(current_row(), name);
 			}
+		}
 
-		} break;
-
-		case GUI_EditLibrary::EditMode::Edit:
-		{
-			if(!name.isEmpty()) {
-				if(edit_dialog->has_name_changed()){
-					m->model->rename_row(current_row(), name);
-				}
+		if(!path.isEmpty()) {
+			if(edit_dialog->has_path_changed())	{
+				m->model->change_path(current_row(), path);
 			}
+		}
 
-			if(!path.isEmpty()) {
-				if(edit_dialog->has_path_changed())	{
-					m->model->change_path(current_row(), path);
-				}
-			}
+	} break;
 
-		} break;
-
-		default:
-			break;
+	default:
+		break;
 	}
 
 	edit_dialog->deleteLater();

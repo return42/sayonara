@@ -19,6 +19,8 @@
  */
 
 #include "MetaDataInfo.h"
+#include "Components/Library/LibraryManager.h"
+
 #include "Utils/Utils.h"
 #include "Utils/globals.h"
 #include "Utils/FileUtils.h"
@@ -27,18 +29,36 @@
 #include "Utils/Settings/Settings.h"
 #include "Utils/MetaData/Album.h"
 #include "Utils/MetaData/Genre.h"
-#include "Components/Library/LibraryManager.h"
 #include "Utils/Library/LibraryInfo.h"
 
 #include "Components/Covers/CoverLocation.h"
 #include "Database/DatabaseHandler.h"
 
 #include <limits>
+#include <QStringList>
+
+struct MetaDataInfo::Private
+{
+	SP::Set<QString> albums;
+	SP::Set<QString> artists;
+	SP::Set<QString> album_artists;
+
+	SP::Set<AlbumID> album_ids;
+	SP::Set<ArtistID> artist_ids;
+	SP::Set<ArtistID> album_artist_ids;
+
+	QStringList paths;
+
+	Cover::Location	cover_location;
+
+};
 
 MetaDataInfo::MetaDataInfo(const MetaDataList& v_md) :
 	QObject(nullptr),
 	SayonaraClass()
 {
+	m = Pimpl::make<Private>();
+
 	if(v_md.isEmpty()) {
 		return;
 	}
@@ -57,13 +77,14 @@ MetaDataInfo::MetaDataInfo(const MetaDataList& v_md) :
 
 	for(const MetaData& md : v_md )
 	{
-		_artists.insert(md.artist());
-		_albums.insert(md.album());
-		_album_artists.insert(md.album_artist());
+		m->artists.insert(md.artist());
+		m->albums.insert(md.album());
+		m->album_artists.insert(md.album_artist());
 
-		_album_ids.insert(md.album_id);
-		_artist_ids.insert(md.artist_id);
-		_album_artist_ids.insert(md.album_artist_id());
+		m->album_ids.insert(md.album_id);
+		m->artist_ids.insert(md.artist_id);
+		m->album_artist_ids.insert(md.album_artist_id());
+
 
 		length += md.length_ms;
 		filesize += md.filesize;
@@ -87,10 +108,10 @@ MetaDataInfo::MetaDataInfo(const MetaDataList& v_md) :
 		year_max = std::max(year_max, md.year);
 
 		// custom fields
-        const CustomFieldList& custom_fields = md.get_custom_fields();
+		const CustomFieldList& custom_fields = md.get_custom_fields();
 
-        for(const CustomField& field : custom_fields)
-        {
+		for(const CustomField& field : custom_fields)
+		{
 			QString name = field.get_display_name();
 			QString value = field.get_value();
 			if(value.isEmpty()){
@@ -106,16 +127,19 @@ MetaDataInfo::MetaDataInfo(const MetaDataList& v_md) :
 		genres = md.genres_to_list();
 
 		// paths
-		if(!Util::File::is_www(md.filepath())){
+		if(!Util::File::is_www(md.filepath()))
+		{
 			QString filename, dir;
 			Util::File::split_filename(md.filepath(), dir, filename);
-			if( !_paths.contains(dir)){
-				_paths << dir;
+			if(!m->paths.contains(dir))
+			{
+				m->paths << dir;
 			}
 		}
 
-		else{
-			_paths << md.filepath();
+		else
+		{
+			m->paths << md.filepath();
 		}
 	}
 
@@ -124,30 +148,30 @@ MetaDataInfo::MetaDataInfo(const MetaDataList& v_md) :
 	}
 
 	if(bitrate_max > 0){
-		insert_interval(InfoStrings::Bitrate, bitrate_min / 1000, bitrate_max / 1000);
+		insert_interval_info_field(InfoStrings::Bitrate, bitrate_min / 1000, bitrate_max / 1000);
 	}
 
 	if(year_max > 0){
-		insert_interval(InfoStrings::Year, year_min, year_max);
+		insert_interval_info_field(InfoStrings::Year, year_min, year_max);
 	}
 
-	insert_number(InfoStrings::nTracks, v_md.size());
+	insert_numeric_info_field(InfoStrings::nTracks, v_md.size());
 	insert_filesize(filesize);
 	insert_playing_time(length);
 	insert_genre(genres);
 
-	set_header(v_md);
-	set_subheader(tracknum);
-	set_cover_location(v_md);
+	calc_header(v_md);
+	calc_subheader(tracknum);
+	calc_cover_location(v_md);
 }
 
 MetaDataInfo::~MetaDataInfo() {}
 
-void MetaDataInfo::set_header() {}
-void MetaDataInfo::set_header(const MetaDataList& lst)
+void MetaDataInfo::calc_header() {}
+void MetaDataInfo::calc_header(const MetaDataList& lst)
 {
 	if(lst.size() == 1){
-        const MetaData& md = lst[0];
+		const MetaData& md = lst[0];
 		_header = md.title;
 	}
 
@@ -157,8 +181,8 @@ void MetaDataInfo::set_header(const MetaDataList& lst)
 }
 
 
-void MetaDataInfo::set_subheader() {}
-void MetaDataInfo::set_subheader(uint16_t tracknum)
+void MetaDataInfo::calc_subheader() {}
+void MetaDataInfo::calc_subheader(uint16_t tracknum)
 {
 	_subheader = calc_artist_str();
 
@@ -174,38 +198,44 @@ void MetaDataInfo::set_subheader(uint16_t tracknum)
 	_subheader += calc_album_str();
 }
 
-void MetaDataInfo::set_cover_location() {}
-void MetaDataInfo::set_cover_location(const MetaDataList& lst)
+void MetaDataInfo::calc_cover_location() {}
+void MetaDataInfo::calc_cover_location(const MetaDataList& lst)
 {
-	if(lst.size() == 1){
-        const MetaData& md = lst[0];
-        _cover_location = Cover::Location::get_cover_location(md);
+	if(lst.size() == 1)
+	{
+		const MetaData& md = lst[0];
+		m->cover_location = Cover::Location::get_cover_location(md);
 	}
 
-	else if(_album_ids.size() == 1){
+	else if(album_ids().size() == 1)
+	{
 		Album album;
 
-		album.id = _album_ids.first();
-		album.set_name(_albums.first());
-		album.set_artists(_artists.toList());
+		album.id = album_ids().first();
+		album.set_name(m->albums.first());
+		album.set_artists(m->artists.toList());
 		album.set_db_id(lst[0].db_id());
 
-        _cover_location = Cover::Location::get_cover_location(album);
+		m->cover_location = Cover::Location::get_cover_location(album);
 	}
 
-	else if(_albums.size() == 1 && _artists.size() == 1){
-		QString album = _albums.first();
-		QString artist = _artists.first();
-        _cover_location = Cover::Location::get_cover_location(album, artist);
+	else if(m->albums.size() == 1 && m->artists.size() == 1)
+	{
+		QString album = m->albums.first();
+		QString artist = m->artists.first();
+
+		m->cover_location = Cover::Location::get_cover_location(album, artist);
 	}
 
-	else if(_albums.size() == 1){
-		QString album = _albums.first();
-        _cover_location = Cover::Location::get_cover_location(album, _artists.toList());
+	else if(m->albums.size() == 1)
+	{
+		QString album = m->albums.first();
+		m->cover_location = Cover::Location::get_cover_location(album, m->artists.toList());
 	}
 
-	else {
-        _cover_location = Cover::Location::getInvalidLocation();
+	else
+	{
+		m->cover_location = Cover::Location::getInvalidLocation();
 	}
 }
 
@@ -214,16 +244,16 @@ QString MetaDataInfo::calc_artist_str() const
 {
 	QString str;
 
-	if( _album_artists.size() == 1){
-		str = _album_artists.first();
+	if( m->album_artists.size() == 1){
+		str = m->album_artists.first();
 	}
 
-	else if( _artists.size() == 1 ){
-		str = _artists.first();
+	else if( m->artists.size() == 1 ){
+		str = m->artists.first();
 	}
 
 	else{
-		QString::number(_artists.size()) + " " + Lang::get(Lang::VariousArtists);
+		QString::number(m->artists.size()) + " " + Lang::get(Lang::VariousArtists);
 	}
 
 	return str;
@@ -234,12 +264,12 @@ QString MetaDataInfo::calc_album_str()
 {
 	QString str;
 
-	if( _albums.size() == 1){
-		str = _albums.first();
+	if( m->albums.size() == 1){
+		str = m->albums.first();
 	}
 
 	else{
-		QString::number(_artists.size()) + " " + Lang::get(Lang::VariousAlbums) ;
+		QString::number(m->artists.size()) + " " + Lang::get(Lang::VariousAlbums) ;
 	}
 
 	return str;
@@ -287,12 +317,12 @@ void MetaDataInfo::insert_filesize(uint64_t filesize)
 }
 
 
-QString MetaDataInfo::get_header() const
+QString MetaDataInfo::header() const
 {
 	return _header;
 }
 
-QString MetaDataInfo::get_subheader() const
+QString MetaDataInfo::subheader() const
 {
 	return _subheader;
 }
@@ -326,19 +356,19 @@ QString MetaDataInfo::get_info_string(InfoStrings idx) const
 	return "";
 }
 
-
-QString MetaDataInfo::get_info_as_string() const
+QString MetaDataInfo::infostring() const
 {
 	QString str;
 
-	for( const InfoStrings& key : _info.keys() ){
+	for( const InfoStrings& key : _info.keys() )
+	{
 		str += BOLD(get_info_string(key)) + _info.value(key) + CAR_RET;
 	}
 
 	return str;
 }
 
-QString MetaDataInfo::get_additional_info_as_string() const
+QString MetaDataInfo::additional_infostring() const
 {
 	QString str;
 
@@ -349,12 +379,14 @@ QString MetaDataInfo::get_additional_info_as_string() const
 	return str;
 }
 
-QString MetaDataInfo::get_paths_as_string() const
+QString MetaDataInfo::pathsstring() const
 {
 	QString ret;
 	QList<LibraryInfo> lib_infos = LibraryManager::instance()->all_libraries();
 	QStringList lib_paths;
-	for(const LibraryInfo& li : lib_infos){
+
+	for(const LibraryInfo& li : lib_infos)
+	{
 		lib_paths << li.path();
 	}
 
@@ -362,14 +394,16 @@ QString MetaDataInfo::get_paths_as_string() const
 		return (lp1.length() > lp2.length());
 	});
 
-
 	bool dark = (_settings->get(Set::Player_Style) == 1);
 
-	for(const QString& path : _paths){
+	for(const QString& path : m->paths)
+	{
 		QString name = path;
 
-		for(const QString& lp : lib_paths){
-			if(name.contains(lp)){
+		for(const QString& lp : lib_paths)
+		{
+			if(name.contains(lp))
+			{
 				name.replace(lp, "...");
 				break;
 			}
@@ -382,13 +416,43 @@ QString MetaDataInfo::get_paths_as_string() const
 	return ret;
 }
 
-Cover::Location MetaDataInfo::get_cover_location() const
+Cover::Location MetaDataInfo::cover_location() const
 {
-	return _cover_location;
+	return m->cover_location;
+}
+
+const SP::Set<QString>& MetaDataInfo::albums() const
+{
+	return m->albums;
+}
+
+const SP::Set<QString> &MetaDataInfo::artists() const
+{
+	return m->artists;
+}
+
+const SP::Set<QString> &MetaDataInfo::album_artists() const
+{
+	return m->album_artists;
+}
+
+const SP::Set<AlbumID> &MetaDataInfo::album_ids() const
+{
+	return m->album_ids;
+}
+
+const SP::Set<ArtistID> &MetaDataInfo::artist_ids() const
+{
+	return m->artist_ids;
+}
+
+const SP::Set<ArtistID> &MetaDataInfo::album_artist_ids() const
+{
+	return m->album_artist_ids;
 }
 
 
-void MetaDataInfo::insert_interval(InfoStrings key, int min, int max)
+void MetaDataInfo::insert_interval_info_field(InfoStrings key, int min, int max)
 {
 	QString str;
 
@@ -408,8 +472,9 @@ void MetaDataInfo::insert_interval(InfoStrings key, int min, int max)
 }
 
 
-void MetaDataInfo::insert_number(InfoStrings key, int number)
+void MetaDataInfo::insert_numeric_info_field(InfoStrings key, int number)
 {
 	QString str = QString::number(number);
+
 	_info.insert(key, str);
 }

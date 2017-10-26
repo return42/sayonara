@@ -43,7 +43,7 @@ SET(SOURCES
 	Shortcuts/ShortcutHandler.cpp
 	Shortcuts/ShortcutWidget.cpp
 
-	Style/Style.cpp
+	Style.cpp
 )
 
 QT5_WRAP_UI(UI_FILES

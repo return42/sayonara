@@ -35,25 +35,42 @@
 
 #include <QFile>
 
+struct ArtistInfo::Private
+{
+	Cover::Location cover_location;
+
+	uint8_t db_id;
+
+	Private(uint8_t db_id) :
+		db_id(db_id)
+	{}
+};
+
 ArtistInfo::ArtistInfo(const MetaDataList& v_md) :
 	MetaDataInfo(v_md)
 {
-	_db_id = v_md.first().db_id();
-	insert_number(InfoStrings::nAlbums, _albums.count());
+	uint8_t db_id = -1;
+	if(v_md.size() > 0){
+		db_id = v_md.first().db_id();
+	}
+
+	m = Pimpl::make<Private>(db_id);
+
+	insert_numeric_info_field(InfoStrings::nAlbums, albums().count());
 
 	// clear, because it's from Metadata. We are not interested in these
 	// rather fetch artists' additional data, if there's only one artist
 	_additional_info.clear();
 
-	if(_artist_ids.size() == 1)
+	if(artist_ids().size() == 1)
 	{
 		Artist artist;
 		bool success;
 
-		int artist_id = _artist_ids.first();
+		int artist_id = artist_ids().first();
 
 		DatabaseConnector* db = DatabaseConnector::instance();
-		LibraryDatabase* lib_db = db->library_db(-1, _db_id);
+		LibraryDatabase* lib_db = db->library_db(-1, m->db_id);
 
 		success = lib_db->getArtistByID(artist_id, artist);
 
@@ -61,9 +78,9 @@ ArtistInfo::ArtistInfo(const MetaDataList& v_md) :
 			_additional_info.clear();
 			calc_similar_artists(artist);
 			// custom fields
-            const CustomFieldList custom_fields = artist.get_custom_fields();
-            for(const CustomField& field : custom_fields)
-            {
+			const CustomFieldList custom_fields = artist.get_custom_fields();
+			for(const CustomField& field : custom_fields)
+			{
 				QString name = field.get_display_name();
 				QString value = field.get_value();
 				if(value.isEmpty()){
@@ -75,18 +92,18 @@ ArtistInfo::ArtistInfo(const MetaDataList& v_md) :
 		}
 	}
 
-	else if(_artists.size() > 1){
-		insert_number(InfoStrings::nArtists, _artists.count());
+	else if(artists().size() > 1){
+		insert_numeric_info_field(InfoStrings::nArtists, artists().count());
 	}
 
-	set_header();
-	set_subheader();
-	set_cover_location();
+	calc_header();
+	calc_subheader();
+	calc_cover_location();
 }
 
 ArtistInfo::~ArtistInfo() {}
 
-void ArtistInfo::set_header()
+void ArtistInfo::calc_header()
 {
 	_header = calc_artist_str();
 }
@@ -94,7 +111,7 @@ void ArtistInfo::set_header()
 
 void ArtistInfo::calc_similar_artists(Artist& artist)
 {
-    QMap<QString, double> sim_artists = SimilarArtists::get_similar_artists(artist.name());
+	QMap<QString, double> sim_artists = SimilarArtists::get_similar_artists(artist.name());
 
 	for(const QString& artist_name : sim_artists.keys())
 	{
@@ -107,26 +124,28 @@ void ArtistInfo::calc_similar_artists(Artist& artist)
 }
 
 
-void ArtistInfo::set_subheader()
+void ArtistInfo::calc_subheader()
 {
 	_subheader = "";
 }
 
 
-void ArtistInfo::set_cover_location()
+void ArtistInfo::calc_cover_location()
 {
-	if( _artists.size() == 1){
-		QString artist = _artists.first();
-        _cover_location = Cover::Location::get_cover_location(artist);
+	if( artists().size() == 1)
+	{
+		QString artist = artists().first();
+		m->cover_location = Cover::Location::get_cover_location(artist);
 	}
 
-	else{
-        _cover_location = Cover::Location::getInvalidLocation();
+	else
+	{
+		m->cover_location = Cover::Location::getInvalidLocation();
 	}
 }
 
 
-QString ArtistInfo::get_additional_info_as_string() const
+QString ArtistInfo::additional_infostring() const
 {
 	QString str;
 	QStringList sim_artists;
@@ -150,17 +169,17 @@ QString ArtistInfo::get_additional_info_as_string() const
 
 	int i=0;
 	QStringList artist_list;
-    for(const QString& sim_artist : sim_artists)
-    {
+	for(const QString& sim_artist : sim_artists)
+	{
 		if(i++ > 50){
 			break;
 		}
 
 		QString artist_name = _additional_info[sim_artist];
 		DatabaseConnector* db = DatabaseConnector::instance();
-		LibraryDatabase* lib_db = db->library_db(-1, _db_id);
+		LibraryDatabase* lib_db = db->library_db(-1, m->db_id);
 
-        ArtistID id = lib_db->getArtistID(artist_name);
+		ArtistID id = lib_db->getArtistID(artist_name);
 
 		if( id >= 0 ){
 			artist_list << BOLD(artist_name);
@@ -175,4 +194,9 @@ QString ArtistInfo::get_additional_info_as_string() const
 	str += artist_list.join(", ");
 
 	return str;
+}
+
+Cover::Location ArtistInfo::cover_location() const
+{
+	return m->cover_location;
 }

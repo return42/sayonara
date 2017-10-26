@@ -32,7 +32,7 @@
 #include "LFMLoginThread.h"
 #include "LFMWebAccess.h"
 
-#include "Utils/Random/RandomGenerator.h"
+#include "Utils/RandomGenerator.h"
 #include "Utils/Playlist/PlaylistMode.h"
 #include "Utils/Settings/Settings.h"
 #include "Utils/MetaData/MetaDataList.h"
@@ -63,13 +63,13 @@ struct Base::Private
 	QString						auth_token;
 	QString						session_key;
 
-    TrackChangedThread*         track_changed_thread=nullptr;
-    LoginThread*				login_thread=nullptr;
+	TrackChangedThread*         track_changed_thread=nullptr;
+	LoginThread*				login_thread=nullptr;
 
 	PlayManagerPtr				play_manager=nullptr;
 
-    uint32_t                    old_pos;
-    uint32_t                    old_pos_difference;
+	uint32_t                    old_pos;
+	uint32_t                    old_pos_difference;
 
 	MetaData					md;
 };
@@ -82,13 +82,13 @@ Base::Base() :
 	m->play_manager = PlayManager::instance();
 
 	m->logged_in = false;
-    m->track_changed_thread = new TrackChangedThread("", "", this);
-    m->login_thread = new LoginThread(this);
+	m->track_changed_thread = new TrackChangedThread("", "", this);
+	m->login_thread = new LoginThread(this);
 
-    connect(m->login_thread, &LoginThread::sig_logged_in, this, &Base::sl_login_thread_finished);
+	connect(m->login_thread, &LoginThread::sig_logged_in, this, &Base::sl_login_thread_finished);
 	connect(m->play_manager, &PlayManager::sig_track_changed,	this, &Base::sl_track_changed);
 	connect(m->play_manager, &PlayManager::sig_position_changed_ms, this, &Base::sl_position_ms_changed);
-    connect(m->track_changed_thread, &TrackChangedThread::sig_similar_artists_available,
+	connect(m->track_changed_thread, &TrackChangedThread::sig_similar_artists_available,
 			this, &Base::sl_similar_artists_available);
 
 	Set::listen(Set::LFM_Login, this, &Base::psl_login, false);
@@ -132,7 +132,7 @@ void Base::sl_login_thread_finished(bool success)
 		return;
 	}
 
-    LoginStuff login_info = m->login_thread->getLoginStuff();
+	LoginStuff login_info = m->login_thread->getLoginStuff();
 
 	m->logged_in = login_info.logged_in;
 	m->auth_token = login_info.token;
@@ -218,7 +218,7 @@ bool Base::check_scrobble(uint64_t pos_ms)
 		}
 
 		else{
-            uint32_t scrobble_time_ms = (uint32_t) (_settings->get(Set::LFM_ScrobbleTimeSec) * 1000);
+			uint32_t scrobble_time_ms = (uint32_t) (_settings->get(Set::LFM_ScrobbleTimeSec) * 1000);
 
 			m->old_pos_difference += (pos_ms - m->old_pos);
 			m->old_pos = pos_ms;
@@ -246,9 +246,9 @@ void Base::scrobble(const MetaData& md)
 		return;
 	}
 
-    WebAccess* lfm_wa = new WebAccess();
-    connect(lfm_wa, &WebAccess::sig_response, this, &Base::sl_scrobble_response);
-    connect(lfm_wa, &WebAccess::sig_error, this, &Base::sl_scrobble_error);
+	WebAccess* lfm_wa = new WebAccess();
+	connect(lfm_wa, &WebAccess::sig_response, this, &Base::sl_scrobble_response);
+	connect(lfm_wa, &WebAccess::sig_error, this, &Base::sl_scrobble_error);
 
 	time_t rawtime, started;
 	rawtime = time(nullptr);
@@ -302,7 +302,7 @@ void Base::sl_similar_artists_available(IDList artist_ids)
 		std::random_shuffle(artist_tracks.begin(), artist_tracks.end());
 
 		// try all songs of artist
-		for(int rounds=0; rounds < artist_tracks.count(); rounds++) 
+		for(int rounds=0; rounds < artist_tracks.count(); rounds++)
 		{
 			int rnd_track = RandomGenerator::get_random_number(0, artist_tracks.size()- 1);
 

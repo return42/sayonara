@@ -1,40 +1,38 @@
 PROJECT(say_gui_player)
 
 SET(SOURCES
-    GUI_Player.cpp
-    GUI_PlayerEvents.cpp
-    GUI_PlayerPlugins.cpp
-    GUI_PlayerMenubar.cpp
-    GUI_PlayerControls.cpp
-    GUI_PlayerCover.cpp
-    GUI_PlayerConnections.cpp
-    GUI_PlayerMessages.cpp
-    GUI_TrayIcon.cpp
-    GUI_Logger.cpp
-    SearchSlider.cpp
+	GUI_Controls.cpp
+	GUI_Player.cpp
+	GUI_PlayerEvents.cpp
+	GUI_PlayerMenubar.cpp
+	GUI_PlayerMessages.cpp
+	GUI_TrayIcon.cpp
+	GUI_Logger.cpp
+	SearchSlider.cpp
 )
 
 QT5_WRAP_UI(FORMS_UIC
-    GUI_Player.ui
-    GUI_Logger.ui
+	GUI_Controls.ui
+	GUI_Player.ui
+	GUI_Logger.ui
 )
 
 SET(PLAYER_LIBRARIES
 
-    say_gui_playlist
+	say_gui_playlist
 
-    say_interfaces_player_plugin
-    say_interfaces_notifications
-    say_interfaces_preference_dialog
-    say_gui_plugins
+	say_interfaces_player_plugin
+	say_interfaces_notifications
+	say_interfaces_preference_dialog
+	say_gui_plugins
 )
 
 ADD_LIBRARY(${PROJECT_NAME} STATIC ${SOURCES} ${FORMS_UIC})
 TARGET_LINK_LIBRARIES(${PROJECT_NAME}
-    ${PLAYER_LIBRARIES}
+	${PLAYER_LIBRARIES}
 )
 
 IF( WITH_COTIRE )
-    cotire(${PROJECT_NAME})
+	cotire(${PROJECT_NAME})
 ENDIF()
 

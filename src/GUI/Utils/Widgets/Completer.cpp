@@ -21,7 +21,7 @@
 
 
 #include "Completer.h"
-#include "GUI/Utils/Style/Style.h"
+#include "GUI/Utils/Style.h"
 #include "GUI/Utils/Delegates/ComboBoxDelegate.h"
 
 #include <QStringList>

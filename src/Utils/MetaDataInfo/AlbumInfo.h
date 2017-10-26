@@ -22,26 +22,28 @@
 #define ALBUMINFO_H
 
 #include "MetaDataInfo.h"
+#include "Utils/Pimpl.h"
 
 class MetaDataList;
 /**
  * @brief The AlbumInfo class
  * @ingroup MetaDataHelper
  */
-class AlbumInfo : 
-	public MetaDataInfo 
+class AlbumInfo :
+	public MetaDataInfo
 {
-private:
-	uint8_t _db_id;
+	PIMPL(AlbumInfo)
 
 private:
-	void set_cover_location();
-	void set_subheader();
-	void set_header();
+	void calc_cover_location() override;
+	void calc_header() override;
+	void calc_subheader() override;
 
 public:
 	explicit AlbumInfo(const MetaDataList& v_md);
 	virtual ~AlbumInfo();
+
+	Cover::Location cover_location() const override;
 };
 
 #endif // ALBUMINFO_H

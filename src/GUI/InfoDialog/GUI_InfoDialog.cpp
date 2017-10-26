@@ -122,16 +122,16 @@ void GUI_InfoDialog::prepare_info(MD::Interpretation md_interpretation)
 			return;
 	}
 
-	QString info_text = info->get_info_as_string() + CAR_RET + CAR_RET +
-			info->get_additional_info_as_string();
+	QString info_text = info->infostring() + CAR_RET + CAR_RET +
+			info->additional_infostring();
 
-	ui->lab_title->setText(info->get_header());
-	ui->lab_subheader->setText(info->get_subheader());
+	ui->lab_title->setText(info->header());
+	ui->lab_subheader->setText(info->subheader());
 	ui->lab_info->setText(info_text);
 	ui->lab_paths->setOpenExternalLinks(true);
-	ui->lab_paths->setText(info->get_paths_as_string());
+	ui->lab_paths->setText(info->pathsstring());
 
-	m->cl = info->get_cover_location();
+	m->cl = info->cover_location();
 
 	prepare_cover(m->cl);
 

@@ -21,12 +21,10 @@
 #include "GUI_Player.h"
 #include "GUI_Logger.h"
 #include "GUI_TrayIcon.h"
-#include "GUI/Playlist/GUI_Playlist.h"
 #include "GUI/Utils/IconLoader/IconLoader.h"
 #include "GUI/Utils/GuiUtils.h"
-#include "GUI/Utils/Style/Style.h"
+#include "GUI/Utils/Style.h"
 
-#include "Utils/MetaData/MetaDataList.h"
 #include "Utils/Message/Message.h"
 #include "Utils/Logger/Logger.h"
 #include "Utils/Language.h"
@@ -34,6 +32,7 @@
 #include "Utils/globals.h"
 #include "Utils/WebAccess/AsyncWebAccess.h"
 #include "Utils/Settings/Settings.h"
+#include "Utils/MetaData/MetaData.h"
 
 #include "Components/PlayManager/PlayManager.h"
 
@@ -43,13 +42,11 @@
 #include "Interfaces/PlayerPlugin/PlayerPlugin.h"
 #include "Interfaces/PreferenceDialog/PreferenceDialogInterface.h"
 
-#include <QDateTime>
 #include <QTranslator>
 #include <QAction>
 
 GUI_Player::GUI_Player(QTranslator* translator, QWidget* parent) :
 	Gui::MainWindow(parent),
-	ShortcutWidget(),
 	GlobalMessageReceiverInterface("Player Main Window"),
 	Ui::Sayonara()
 {
@@ -65,7 +62,6 @@ GUI_Player::GUI_Player(QTranslator* translator, QWidget* parent) :
 	setup_tray_actions();
 	setup_connections();
 
-	Set::listen(Set::Engine_SR_Active, this, &GUI_Player::_sl_sr_active_changed);
 	Set::listen(SetNoDB::Player_Quit, this, &GUI_Player::really_close, false);
 
 	Set::listen(Set::Player_FontName, this, &GUI_Player::skin_changed);
@@ -73,8 +69,7 @@ GUI_Player::GUI_Player(QTranslator* translator, QWidget* parent) :
 	Set::listen(Set::PL_FontSize, this, &GUI_Player::skin_changed);
 	Set::listen(Set::Lib_FontSize, this, &GUI_Player::skin_changed);
 	Set::listen(Set::Lib_FontBold, this, &GUI_Player::skin_changed);
-	Set::listen(Set::Engine_Pitch, this, &GUI_Player::file_info_changed);
-	Set::listen(Set::Engine_SpeedActive, this, &GUI_Player::file_info_changed);
+
 }
 
 
@@ -87,16 +82,6 @@ GUI_Player::~GUI_Player()
 
 void GUI_Player::init_gui()
 {
-	PlayManager* play_manager = PlayManager::instance();
-	QString version = _settings->get(Set::Player_Version);
-
-	progress_widget->setCurrentIndex(0);
-
-	lab_sayonara->setText(tr("Sayonara Player"));
-	lab_version->setText( version );
-	lab_writtenby->setText(tr("Written by") + " Lucio Carreras");
-	lab_copyright->setText(tr("Copyright") + " 2011-" + QString::number(QDateTime::currentDateTime().date().year()));
-
 	LibraryPluginHandler::instance()->set_library_parent(this->library_widget);
 	action_viewLibrary->setChecked(_settings->get(Set::Lib_Show));
 	action_viewLibrary->setText(Lang::get(Lang::Library));
@@ -111,19 +96,10 @@ void GUI_Player::init_gui()
 	QAction* sep = actions[actions.size() - 1];
 	menu_file->insertAction(sep, _action_shutdown);
 
-	btn_rec->setVisible(false);
-
-	cur_pos_changed(play_manager->initial_position_ms());
-
 	bool library_visible = _settings->get(Set::Lib_Show);
 	show_library(library_visible);
 
-	int volume = play_manager->volume();
-	volume_changed(volume);
-
-	bool muted = play_manager->is_muted();
-	mute_changed(muted);
-
+	QString version = _settings->get(Set::Player_Version);
 	setWindowTitle(QString("Sayonara %1").arg(version));
 	setWindowIcon(Gui::Util::icon("logo.png"));
 	setAttribute(Qt::WA_DeleteOnClose, false);
@@ -133,177 +109,103 @@ void GUI_Player::init_gui()
 	language_changed();
 }
 
-void GUI_Player::language_changed()
+
+void GUI_Player::ui_loaded()
 {
-	QString language = _settings->get(Set::Player_Language);
-	_translator->load(language, Util::share_path("translations/"));
+	skin_changed();
 
-	retranslateUi(this);
+	bool fullscreen = _settings->get(Set::Player_Fullscreen);
+	bool maximized = _settings->get(Set::Player_Maximized);
+	QPoint pos = _settings->get(Set::Player_Pos);
+	QSize sz = _settings->get(Set::Player_Size);
 
-	menu_file->setTitle(Lang::get(Lang::File));
-	action_OpenFile->setText(Lang::get(Lang::OpenFile).triplePt());
-	action_OpenFolder->setText(Lang::get(Lang::OpenDir).triplePt());
-	action_Close->setText(Lang::get(Lang::Close));
-	action_viewLibrary->setText(Lang::get(Lang::Library));
-	action_logger->setText(Lang::get(Lang::Logger));
-	action_about->setText(Lang::get(Lang::About).triplePt());
-}
+	action_Fullscreen->setChecked(fullscreen);
 
-// new track
-void GUI_Player::track_changed(const MetaData & md)
-{
-	lab_sayonara->hide();
-	lab_title->show();
+	this->setGeometry(pos.x(), pos.y(), sz.width(), sz.height());
 
-	lab_version->hide();
-	lab_artist->show();
-
-	lab_writtenby->hide();
-	lab_album->show();
-
-	lab_copyright->hide();
-	lab_rating->show();
-
-	set_info_labels(md);
-	set_cur_pos_label(0);
-	set_total_time_label(md.length_ms);
-	file_info_changed();
-	set_cover_location(md);
-	set_radio_mode( md.radio_mode() );
-
-	sli_progress->setEnabled( (md.length_ms / 1000) > 0 );
-
-	this->setWindowTitle(QString("Sayonara - ") + md.title);
-	this->repaint();
-}
-
-
-void GUI_Player::refresh_info_labels()
-{
-	set_info_labels(PlayManager::instance()->current_track());
-}
-
-void GUI_Player::set_info_labels(const MetaData& md)
-{
-	set_title_label(md.title);
-	set_album_label(md.album(), md.year);
-	set_artist_label(md.artist());
-}
-
-
-void GUI_Player::set_title_label(const QString& title)
-{
-	QString text = Gui::Util::elide_text(title, lab_title, 2);
-	lab_title->setText(text);
-}
-
-
-void GUI_Player::set_album_label(const QString& album, int year)
-{
-	QString str_year = QString::number(year);
-	QString album_name(album);
-	QFontMetrics fm(lab_album->fontMetrics());
-
-	if(year > 1000 && !album_name.contains(str_year)){
-		album_name += " (" + str_year + ")";
+	if(fullscreen){
+		this->showFullScreen();
 	}
 
-	lab_album->setText( fm.elidedText(album_name, Qt::ElideRight, lab_album->width()) );
-}
-
-
-void GUI_Player::set_artist_label(const QString& artist)
-{
-	QFontMetrics fm = lab_artist->fontMetrics();
-	lab_artist->setText( fm.elidedText(artist, Qt::ElideRight, lab_artist->width()) );
-}
-
-
-void GUI_Player::dur_changed(const MetaData& md)
-{
-	set_total_time_label(md.length_ms);
-}
-
-void GUI_Player::br_changed(const MetaData& md)
-{
-	QString rating_text;
-
-	if(md.bitrate / 1000 > 0){
-		rating_text = QString::number(md.bitrate / 1000) + " kBit/s";
-	}
-
-	if(md.filesize > 0){
-		if(md.bitrate / 1000 > 0){
-			rating_text += ", ";
-		}
-		rating_text += QString::number( (double) (md.filesize / 1024) / 1024.0, 'f', 2) + " MB";
-	}
-
-	lab_rating->setText(rating_text);
-	lab_rating->setToolTip(rating_text);
-}
-
-
-void GUI_Player::md_changed(const MetaData& md)
-{
-	md.print();
-	MetaData modified_md(md);
-
-	if(md.radio_mode() == RadioMode::Station){
-		modified_md.set_album(md.album() + " (" + md.filepath() + ")");
-	}
-
-	set_info_labels(modified_md);
-}
-
-
-// public slot:
-// id3 tags have changed
-void GUI_Player::id3_tags_changed(const MetaDataList& v_md_old, const MetaDataList& v_md_new)
-{
-	Q_UNUSED(v_md_old)
-	Q_UNUSED(v_md_new)
-
-	const MetaData& md = PlayManager::instance()->current_track();
-
-	set_info_labels(md);
-	set_cover_location(md);
-
-	setWindowTitle(QString("Sayonara - ") + md.title);
-}
-
-void GUI_Player::skin_changed()
-{
-	;
-	bool dark = (_settings->get(Set::Player_Style) == 1);
-
-	QString stylesheet = Style::get_style(dark);
-
-	this->setStyleSheet(stylesheet);
-
-	btn_fw->setIcon(IconLoader::icon("media-skip-forward", "fwd"));
-	btn_bw->setIcon(IconLoader::icon("media-skip-backward", "bwd"));
-
-	if(PlayManager::instance()->playstate() == PlayState::Playing){
-		btn_play->setIcon(IconLoader::icon("media-playback-pause", "pause"));
+	else if(maximized){
+		this->showMaximized();
 	}
 
 	else{
-		btn_play->setIcon(IconLoader::icon("media-playback-start", "play"));
+		this->showNormal();
 	}
 
-	btn_stop->setIcon(IconLoader::icon("media-playback-stop", "stop"));
-	btn_rec->setIcon(IconLoader::icon("media-record", "rec"));
-	action_OpenFile->setIcon(IconLoader::icon("document-open", "play"));
-	action_OpenFolder->setIcon(IconLoader::icon("document-open", "play"));
-	action_Close->setIcon(IconLoader::icon("window-close", "power_off"));
+	if(_settings->get(Set::Player_NotifyNewVersion)){
+		AsyncWebAccess* awa = new AsyncWebAccess(this);
+		awa->run("http://sayonara-player.com/current_version");
+		connect(awa, &AsyncWebAccess::sig_finished, this, &GUI_Player::awa_version_finished);
+	}
 
-	setup_volume_button(sli_volume->value());
+	QLayout* layout;
+	splitter->restoreState(_settings->get(Set::Player_SplitterState));
+	layout = splitter->layout();
+	if(layout){
+		layout->update();
+	}
+
+	splitter->update();
+
+	LibraryPluginHandler* lph = LibraryPluginHandler::instance();
+	LibraryContainerInterface* current_library = lph->current_library();
+	if(current_library)
+	{
+		QWidget* current_library_widget = current_library->widget();
+
+		if(current_library_widget == nullptr) return;
+
+		current_library_widget->show();
+		current_library_widget->resize(library_widget->size());
+	}
+
+	if(_settings->get(Set::Player_StartInTray)){
+		this->setHidden(true);
+	}
+
+	QString shown_plugin = _settings->get(Set::Player_ShownPlugin);
+	if(_pph && !shown_plugin.isEmpty())
+	{
+		PlayerPluginInterface* p  = _pph->find_plugin(shown_plugin);
+		show_plugin(p);
+	}
 }
 
-void GUI_Player::skin_toggled(bool on)
+
+void GUI_Player::setup_connections()
 {
-	_settings->set(Set::Player_Style, (on ? 1 : 0) );
+	PlayManagerPtr play_manager = PlayManager::instance();
+	LibraryPluginHandler* lph = LibraryPluginHandler::instance();
+
+	connect(lph, &LibraryPluginHandler::sig_current_library_changed,
+			this, &GUI_Player::current_library_changed);
+
+	connect(lph, &LibraryPluginHandler::sig_initialized,
+			this, &GUI_Player::check_library_menu_action);
+
+	connect(play_manager, &PlayManager::sig_playstate_changed, this, &GUI_Player::playstate_changed);
+	connect(play_manager, &PlayManager::sig_error, this, &GUI_Player::play_error);
+
+	// file
+	connect(action_OpenFile, &QAction::triggered, this, &GUI_Player::open_files_clicked);
+	connect(action_OpenFolder, &QAction::triggered, this, &GUI_Player::open_dir_clicked);
+	connect(action_Close, &QAction::triggered, this, &GUI_Player::really_close);
+	connect(_action_shutdown, &QAction::triggered, this, &GUI_Player::shutdown_clicked);
+
+	// view
+	connect(action_viewLibrary, &QAction::toggled, this, &GUI_Player::show_library);
+	connect(action_Dark, &QAction::toggled, this, &GUI_Player::skin_toggled);
+	connect(action_Fullscreen, &QAction::toggled, this, &GUI_Player::show_fullscreen_toggled);
+	connect(action_logger, &QAction::triggered, _logger, &GUI_Logger::show);
+
+	connect(splitter, &QSplitter::splitterMoved, this, &GUI_Player::main_splitter_moved);
+
+	// about
+	connect(action_about, &QAction::triggered, this, &GUI_Player::about);
+	connect(action_help, &QAction::triggered, this, &GUI_Player::help);
 }
 
 
@@ -315,7 +217,7 @@ void GUI_Player::setup_tray_actions()
 
 	connect(tray_icon, &GUI_TrayIcon::sig_close_clicked, this, &GUI_Player::really_close);
 	connect(tray_icon, &GUI_TrayIcon::sig_show_clicked, this, &GUI_Player::raise);
-	connect(tray_icon, &GUI_TrayIcon::sig_wheel_changed, this, &GUI_Player::change_volume_by_tick);
+	connect(tray_icon, &GUI_TrayIcon::sig_wheel_changed, controls, &GUI_Controls::change_volume_by_tick);
 	connect(tray_icon, &GUI_TrayIcon::activated, this, &GUI_Player::tray_icon_activated);
 
 	if(_settings->get(Set::Player_ShowTrayIcon)){
@@ -405,6 +307,40 @@ void GUI_Player::check_library_menu_action()
 	}
 }
 
+
+/** LIBRARY AND PLAYLIST END **/
+void GUI_Player::register_preference_dialog(PreferenceDialogInterface* dialog)
+{
+	QList<QAction*> actions = menu_file->actions();
+	QAction* sep = actions[actions.size() - 3];
+
+	dialog->setParent(this);
+	menu_file->insertAction(sep, dialog->get_action());
+}
+
+
+
+void GUI_Player::playstate_changed(PlayState state)
+{
+	switch(state)
+	{
+		case PlayState::Stopped:
+			setWindowTitle("Sayonara");
+			break;
+		default:
+			break;
+	}
+}
+
+
+void GUI_Player::play_error(const QString& message)
+{
+	const MetaData& md = PlayManager::instance()->current_track();
+	QString err = message + "\n\n" + md.filepath();
+	Message::warning(err, "Player");
+}
+
+
 void GUI_Player::register_player_plugin_handler(PlayerPluginHandler* pph)
 {
 	_pph = pph;
@@ -423,146 +359,42 @@ void GUI_Player::register_player_plugin_handler(PlayerPluginHandler* pph)
 		i++;
 	}
 
+	connect(_pph, &PlayerPluginHandler::sig_show_plugin, this, &GUI_Player::show_plugin);
+	connect(_pph, &PlayerPluginHandler::sig_hide_all_plugins, this, &GUI_Player::hide_all_plugins);
+
 	menu_view->insertActions(action_Dark, actions);
 	menu_view->insertSeparator(action_Dark);
 }
 
 
-/** LIBRARY AND PLAYLIST END **/
-void GUI_Player::register_preference_dialog(PreferenceDialogInterface* dialog)
+void GUI_Player::hide_all_plugins()
 {
-	QList<QAction*> actions = menu_file->actions();
-	QAction* sep = actions[actions.size() - 3];
-
-	dialog->setParent(this);
-	menu_file->insertAction(sep, dialog->get_action());
-}
-
-
-void GUI_Player::set_radio_mode(RadioMode radio)
-{
-	check_record_button_visible();
-
-	if(radio != RadioMode::Off){
-		buffering(0);
-	}
-}
-
-void GUI_Player::_sl_sr_active_changed()
-{
-	check_record_button_visible();
-	btn_rec->setChecked(false);
-}
-
-void GUI_Player::check_record_button_visible()
-{
-	PlayManagerPtr play_manager = PlayManager::instance();
-
-	const MetaData& md = play_manager->current_track();
-	PlayState playstate = play_manager->playstate();
-
-	bool is_lame_available = _settings->get(SetNoDB::MP3enc_found);
-	bool is_sr_active = _settings->get(Set::Engine_SR_Active);
-	bool is_radio = ((md.radio_mode() != RadioMode::Off));
-	bool is_playing = (playstate == PlayState::Playing);
-
-	bool recording_enabled = (is_lame_available &&
-							  is_sr_active &&
-							  is_radio &&
-							  is_playing);
-
-	btn_play->setVisible(!recording_enabled);
-	btn_rec->setVisible(recording_enabled);
-
-	if(!recording_enabled){
-		btn_rec->setChecked(false);
-	}
-}
-
-
-void GUI_Player::ui_loaded()
-{
-	skin_changed();
-
-	PlayManagerPtr play_manager = PlayManager::instance();
-
-	bool fullscreen = _settings->get(Set::Player_Fullscreen);
-	bool maximized = _settings->get(Set::Player_Maximized);
-	QPoint pos = _settings->get(Set::Player_Pos);
-	QSize sz = _settings->get(Set::Player_Size);
-
-	action_Fullscreen->setChecked(fullscreen);
-
-	this->setGeometry(pos.x(), pos.y(), sz.width(), sz.height());
-
-	if(fullscreen){
-		this->showFullScreen();
-	}
-
-	else if(maximized){
-		this->showMaximized();
-	}
-
-	else{
-		this->showNormal();
-	}
-
-
-	if(play_manager->playstate() != PlayState::Stopped)
+	if(_pph)
 	{
-		track_changed(
-			play_manager->current_track()
-		);
+		QList<PlayerPluginInterface*> plugins = _pph->get_all_plugins();
+
+		for(PlayerPluginInterface* p : plugins){
+			QAction* action = p->get_action();
+			action->setChecked(false);
+		}
 	}
 
-	playstate_changed(play_manager->playstate());
-
-	if(_settings->get(Set::Player_NotifyNewVersion)){
-		AsyncWebAccess* awa = new AsyncWebAccess(this);
-		awa->run("http://sayonara-player.com/current_version");
-		connect(awa, &AsyncWebAccess::sig_finished, this, &GUI_Player::awa_version_finished);
-	}
-
-	QLayout* layout;
-	splitter->restoreState(_settings->get(Set::Player_SplitterState));
-	layout = splitter->layout();
-	if(layout){
-		layout->update();
-	}
-
-	splitter->update();
-
-	LibraryPluginHandler* lph = LibraryPluginHandler::instance();
-	LibraryContainerInterface* current_library = lph->current_library();
-	if(current_library){
-		QWidget* current_library_widget = current_library->widget();
-
-		if(current_library_widget == nullptr) return;
-
-		current_library_widget->show();
-		current_library_widget->resize(library_widget->size());
-	}
-
-	if(_settings->get(Set::Player_StartInTray)){
-		this->setHidden(true);
-	}
-
-	connect(_pph, &PlayerPluginHandler::sig_show_plugin, this, &GUI_Player::show_plugin);
-	connect(_pph, &PlayerPluginHandler::sig_hide_all_plugins, this, &GUI_Player::hide_all_plugins);
-
-	QString shown_plugin = _settings->get(Set::Player_ShownPlugin);
-	if(!shown_plugin.isEmpty()){
-		PlayerPluginInterface* p  = _pph->find_plugin(shown_plugin);
-		show_plugin(p);
-	}
+	plugin_widget->close();
 }
 
-void GUI_Player::play_error(const QString& message)
+
+void GUI_Player::show_plugin(PlayerPluginInterface* plugin)
 {
-	const MetaData& md = PlayManager::instance()->current_track();
-	QString err = message + "\n\n" + md.filepath();
-	Message::warning(err, "Player");
+	hide_all_plugins();
+
+	QAction* action = plugin->get_action();
+	if(action){
+		action->setChecked(true);
+	}
+
+	plugin_widget->show(plugin);
 }
+
 
 void GUI_Player::awa_version_finished()
 {
@@ -625,6 +457,41 @@ void GUI_Player::awa_translators_finished()
 }
 
 
+void GUI_Player::language_changed()
+{
+	QString language = _settings->get(Set::Player_Language);
+	_translator->load(language, Util::share_path("translations/"));
+
+	retranslateUi(this);
+
+	menu_file->setTitle(Lang::get(Lang::File));
+	action_OpenFile->setText(Lang::get(Lang::OpenFile).triplePt());
+	action_OpenFolder->setText(Lang::get(Lang::OpenDir).triplePt());
+	action_Close->setText(Lang::get(Lang::Close));
+	action_viewLibrary->setText(Lang::get(Lang::Library));
+	action_logger->setText(Lang::get(Lang::Logger));
+	action_about->setText(Lang::get(Lang::About).triplePt());
+}
+
+
+void GUI_Player::skin_changed()
+{
+	bool dark = (_settings->get(Set::Player_Style) == 1);
+
+	QString stylesheet = Style::get_style(dark);
+	this->setStyleSheet(stylesheet);
+
+	action_OpenFile->setIcon(IconLoader::icon("document-open", "play"));
+	action_OpenFolder->setIcon(IconLoader::icon("document-open", "play"));
+	action_Close->setIcon(IconLoader::icon("window-close", "power_off"));
+}
+
+void GUI_Player::skin_toggled(bool on)
+{
+	_settings->set(Set::Player_Style, (on ? 1 : 0) );
+}
+
+
 void GUI_Player::really_close()
 {
 	sp_log(Log::Info, this) << "closing player...";
@@ -633,5 +500,3 @@ void GUI_Player::really_close()
 
 	emit sig_player_closed();
 }
-
-

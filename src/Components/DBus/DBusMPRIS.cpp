@@ -24,7 +24,7 @@
 #include "Components/Covers/CoverLocation.h"
 #include "Components/PlayManager/PlayManager.h"
 
-#include "Utils/Random/RandomGenerator.h"
+#include "Utils/RandomGenerator.h"
 #include "Utils/Logger/Logger.h"
 #include "Utils/Settings/Settings.h"
 
@@ -35,27 +35,27 @@
 
 struct DBusAdaptor::Private
 {
-    PlayManagerPtr play_manager=nullptr;
+	PlayManagerPtr play_manager=nullptr;
 
-    QString		object_path;
-    QString		service_name;
-    QString		dbus_service;
-    QString		dbus_interface;
+	QString		object_path;
+	QString		service_name;
+	QString		dbus_service;
+	QString		dbus_interface;
 
-    Private(QStrRef object_path, QStrRef service_name, QStrRef dbus_service, QStrRef dbus_interface) :
-        object_path(object_path),
-        service_name(service_name),
-        dbus_service(dbus_service),
-        dbus_interface(dbus_interface)
-    {
-        play_manager = PlayManager::instance();
-    }
+	Private(QStrRef object_path, QStrRef service_name, QStrRef dbus_service, QStrRef dbus_interface) :
+		object_path(object_path),
+		service_name(service_name),
+		dbus_service(dbus_service),
+		dbus_interface(dbus_interface)
+	{
+		play_manager = PlayManager::instance();
+	}
 };
 
 DBusAdaptor::DBusAdaptor(QStrRef object_path, QStrRef service_name, QStrRef dbus_service, QStrRef dbus_interface, QObject *parent) :
 	QObject(parent)
 {
-    m = Pimpl::make<Private>(object_path, service_name, dbus_service, dbus_interface);
+	m = Pimpl::make<Private>(object_path, service_name, dbus_service, dbus_interface);
 }
 
 DBusAdaptor::~DBusAdaptor() {}
@@ -68,10 +68,10 @@ void DBusAdaptor::create_message(QString name, QVariant val)
 	bool success;
 
 	map.insert(name, val);
-    args << m->dbus_service << map << QStringList();
+	args << m->dbus_service << map << QStringList();
 
 	// path, interface, name
-    sig = QDBusMessage::createSignal(m->object_path, m->dbus_interface, "PropertiesChanged");
+	sig = QDBusMessage::createSignal(m->object_path, m->dbus_interface, "PropertiesChanged");
 	sig.setArguments(args);
 
 	success = QDBusConnection::sessionBus().send(sig);
@@ -84,118 +84,118 @@ void DBusAdaptor::create_message(QString name, QVariant val)
 
 QString DBusAdaptor::object_path() const
 {
-    return m->object_path;
+	return m->object_path;
 }
 
 QString DBusAdaptor::service_name() const
 {
-    return m->service_name;
+	return m->service_name;
 }
 
 QString DBusAdaptor::dbus_service() const
 {
-    return m->dbus_service;
+	return m->dbus_service;
 }
 
 QString DBusAdaptor::dbus_interface() const
 {
-    return m->dbus_interface;
+	return m->dbus_interface;
 }
 
 struct DBusMPRIS::MediaPlayer2::Private
 {
-    QMainWindow*	player=nullptr;
-    PlayManagerPtr  play_manager=nullptr;
+	QMainWindow*	player=nullptr;
+	PlayManagerPtr  play_manager=nullptr;
 
-    QStringList     supported_uri_schemes;
-    QStringList     supported_mime_types;
+	QStringList     supported_uri_schemes;
+	QStringList     supported_mime_types;
 
-    QString			playback_status;
-    MetaData		md;
-    int64_t			pos;
-    double			volume;
+	QString			playback_status;
+	MetaData		md;
+	int64_t			pos;
+	double			volume;
 
-    int				len_playlist;
-    int				cur_idx;
+	int				len_playlist;
+	int				cur_idx;
 
-    bool			can_next;
-    bool			can_previous;
+	bool			can_next;
+	bool			can_previous;
 
-    bool			initialized;
+	bool			initialized;
 
 
-    Private(QMainWindow* player) :
-        player(player),
-        pos(0),
-        volume(1.0),
-        len_playlist(0),
-        cur_idx(-1),
-        can_next(true),
-        can_previous(true),
-        initialized(false)
-    {
-        play_manager = PlayManager::instance();
-    }
+	Private(QMainWindow* player) :
+		player(player),
+		pos(0),
+		volume(1.0),
+		len_playlist(0),
+		cur_idx(-1),
+		can_next(true),
+		can_previous(true),
+		initialized(false)
+	{
+		play_manager = PlayManager::instance();
+	}
 };
 
 DBusMPRIS::MediaPlayer2::MediaPlayer2(QMainWindow* player, QObject *parent) :
-    DBusAdaptor("/org/mpris/MediaPlayer2", "org.mpris.MediaPlayer2.sayonara","org.mpris.MediaPlayer2.Player", "org.freedesktop.DBus.Properties", parent),
+	DBusAdaptor("/org/mpris/MediaPlayer2", "org.mpris.MediaPlayer2.sayonara","org.mpris.MediaPlayer2.Player", "org.freedesktop.DBus.Properties", parent),
 	SayonaraClass()
 {
-    m = Pimpl::make<Private>(player);
+	m = Pimpl::make<Private>(player);
 
-    connect(m->play_manager, &PlayManager::sig_playlist_changed,
+	connect(m->play_manager, &PlayManager::sig_playlist_changed,
 			this, &DBusMPRIS::MediaPlayer2::playlist_len_changed);
-    connect(m->play_manager, &PlayManager::sig_playstate_changed,
+	connect(m->play_manager, &PlayManager::sig_playstate_changed,
 			this, &DBusMPRIS::MediaPlayer2::playstate_changed);
-    connect(m->play_manager, &PlayManager::sig_track_changed,
+	connect(m->play_manager, &PlayManager::sig_track_changed,
 			this, &DBusMPRIS::MediaPlayer2::track_changed);
-    connect(m->play_manager, &PlayManager::sig_track_idx_changed,
+	connect(m->play_manager, &PlayManager::sig_track_idx_changed,
 			this, &DBusMPRIS::MediaPlayer2::track_idx_changed);
-    connect(m->play_manager, &PlayManager::sig_position_changed_ms,
+	connect(m->play_manager, &PlayManager::sig_position_changed_ms,
 			this, &DBusMPRIS::MediaPlayer2::position_changed);
-    connect(m->play_manager, &PlayManager::sig_volume_changed,
+	connect(m->play_manager, &PlayManager::sig_volume_changed,
 			this, &DBusMPRIS::MediaPlayer2::volume_changed);
 
-    if( m->play_manager->playstate() == PlayState::Playing ||
-            m->play_manager->playstate() == PlayState::Paused)
+	if( m->play_manager->playstate() == PlayState::Playing ||
+			m->play_manager->playstate() == PlayState::Paused)
 	{
-        track_changed(m->play_manager->current_track());
+		track_changed(m->play_manager->current_track());
 	}
 }
 
 
 DBusMPRIS::MediaPlayer2::~MediaPlayer2()
 {
-    QDBusConnection::sessionBus().unregisterObject(object_path());
-    QDBusConnection::sessionBus().unregisterService(service_name());
+	QDBusConnection::sessionBus().unregisterObject(object_path());
+	QDBusConnection::sessionBus().unregisterService(service_name());
 }
 
 void DBusMPRIS::MediaPlayer2::init()
 {
-    if(m->initialized){
+	if(m->initialized){
 		return;
 	}
 
 	new OrgMprisMediaPlayer2Adaptor(this);
 	new OrgMprisMediaPlayer2PlayerAdaptor(this);
 
-    if (!QDBusConnection::sessionBus().registerService(service_name())) {
+	if (!QDBusConnection::sessionBus().registerService(service_name())) {
 		sp_log(Log::Error)	<< "Failed to register "
-                            << service_name()
+							<< service_name()
 							<< " on the session bus";
 
-        m->initialized = true;
+		m->initialized = true;
 
 		return;
 	}
 
-    sp_log(Log::Info, this) << service_name() << " registered";
+	sp_log(Log::Info, this) << service_name() << " registered";
 
-    QDBusConnection::sessionBus().registerObject(object_path(), this);
+	QDBusConnection::sessionBus().registerObject(object_path(), this);
 	create_message("DesktopEntry", QString("sayonara"));
 
-    m->initialized = true;
+	m->initialized = true;
 }
 
 
@@ -263,17 +263,17 @@ void DBusMPRIS::MediaPlayer2::SetFullscreen(bool b){
 
 void DBusMPRIS::MediaPlayer2::Quit()
 {
-    m->player->close();
+	m->player->close();
 }
 
 void DBusMPRIS::MediaPlayer2::Raise()
 {
 	sp_log(Log::Debug, this) << "Raise";
 
-    m->player->show();
-    m->player->raise();
-    m->player->show();
-    m->player->raise();
+	m->player->show();
+	m->player->raise();
+	m->player->show();
+	m->player->raise();
 }
 
 
@@ -281,7 +281,7 @@ void DBusMPRIS::MediaPlayer2::Raise()
 
 QString DBusMPRIS::MediaPlayer2::PlaybackStatus()
 {
-    return m->playback_status;
+	return m->playback_status;
 }
 
 QString DBusMPRIS::MediaPlayer2::LoopStatus()
@@ -306,23 +306,23 @@ QVariantMap DBusMPRIS::MediaPlayer2::Metadata()
 	QVariantMap map;
 	QVariant v_object_path, v_length;
 
-    TrackID id = m->md.id;
+	TrackID id = m->md.id;
 	if(id == -1){
 		id = RandomGenerator::get_random_number(5000, 10000);
 	}
 	QDBusObjectPath object_path(QString("/org/sayonara/track") + QString::number(id));
 
 	v_object_path.setValue<QDBusObjectPath>(object_path);
-    v_length.setValue<qlonglong>(m->md.length_ms * 1000);
+	v_length.setValue<qlonglong>(m->md.length_ms * 1000);
 
-    Cover::Location cl = Cover::Location::get_cover_location(m->md);
+	Cover::Location cl = Cover::Location::get_cover_location(m->md);
 	cover_path = cl.preferred_path();
 
 	map["mpris:trackid"] = v_object_path;
 	map["mpris:length"] = v_length;
-    map["xesam:title"] = m->md.title;
-    map["xesam:album"] = m->md.album();
-    map["xesam:artist"] = QStringList() << m->md.artist();
+	map["xesam:title"] = m->md.title;
+	map["xesam:album"] = m->md.album();
+	map["xesam:artist"] = QStringList() << m->md.artist();
 	map["mpris:artUrl"] = QUrl::fromLocalFile(cover_path).toString();
 
 	return map;
@@ -330,12 +330,12 @@ QVariantMap DBusMPRIS::MediaPlayer2::Metadata()
 
 double DBusMPRIS::MediaPlayer2::Volume()
 {
-    return m->volume;
+	return m->volume;
 }
 
 int64_t DBusMPRIS::MediaPlayer2::Position()
 {
-    return m->pos;
+	return m->pos;
 }
 
 
@@ -351,12 +351,12 @@ double DBusMPRIS::MediaPlayer2::MaximumRate()
 
 bool DBusMPRIS::MediaPlayer2::CanGoNext()
 {
-    return m->can_next;
+	return m->can_next;
 }
 
 bool DBusMPRIS::MediaPlayer2::CanGoPrevious()
 {
-    return m->can_previous;
+	return m->can_previous;
 }
 
 bool DBusMPRIS::MediaPlayer2::CanPlay()
@@ -382,46 +382,46 @@ bool DBusMPRIS::MediaPlayer2::CanControl()
 
 void DBusMPRIS::MediaPlayer2::Next()
 {
-    m->play_manager->next();
+	m->play_manager->next();
 }
 
 
 void DBusMPRIS::MediaPlayer2::Previous()
 {
-    m->play_manager->previous();
+	m->play_manager->previous();
 }
 
 void DBusMPRIS::MediaPlayer2::Pause()
 {
-    m->play_manager->pause();
+	m->play_manager->pause();
 }
 
 
 void DBusMPRIS::MediaPlayer2::PlayPause()
 {
-    m->play_manager->play_pause();
+	m->play_manager->play_pause();
 }
 
 void DBusMPRIS::MediaPlayer2::Stop()
 {
-    m->play_manager->stop();
+	m->play_manager->stop();
 }
 
 void DBusMPRIS::MediaPlayer2::Play()
 {
-    m->playback_status = "Playing";
-    m->play_manager->play();
+	m->playback_status = "Playing";
+	m->play_manager->play();
 }
 
 void DBusMPRIS::MediaPlayer2::Seek(int64_t offset)
 {
-    m->play_manager->seek_rel_ms(offset / 1000);
+	m->play_manager->seek_rel_ms(offset / 1000);
 }
 
 void DBusMPRIS::MediaPlayer2::SetPosition(const QDBusObjectPath& track_id, int64_t position)
 {
 	Q_UNUSED(track_id)
-    m->play_manager->seek_abs_ms(position / 1000);
+	m->play_manager->seek_abs_ms(position / 1000);
 }
 
 void DBusMPRIS::MediaPlayer2::OpenUri(const QString& uri)
@@ -446,13 +446,13 @@ void DBusMPRIS::MediaPlayer2::SetShuffle(bool shuffle)
 
 void DBusMPRIS::MediaPlayer2::SetVolume(double volume)
 {
-    m->play_manager->set_volume((int) (volume * 100));
+	m->play_manager->set_volume((int) (volume * 100));
 }
 
 
 void DBusMPRIS::MediaPlayer2::volume_changed(int volume)
 {
-    if(!m->initialized){
+	if(!m->initialized){
 		init();
 	}
 
@@ -462,53 +462,53 @@ void DBusMPRIS::MediaPlayer2::volume_changed(int volume)
 
 void DBusMPRIS::MediaPlayer2::position_changed(uint64_t pos)
 {
-    if(!m->initialized){
+	if(!m->initialized){
 		init();
 	}
 
 	int64_t new_pos = pos * 1000;
-    int64_t difference = new_pos - m->pos;
+	int64_t difference = new_pos - m->pos;
 
 	if(difference < 0 || difference > 1000000){
 		emit Seeked(new_pos);
 	}
 
-    m->pos = new_pos;
+	m->pos = new_pos;
 }
 
 
 void DBusMPRIS::MediaPlayer2::track_idx_changed(int idx)
 {
-    if(!m->initialized){
+	if(!m->initialized){
 		init();
 	}
 
-    m->can_previous = (idx > 0);
-    m->can_next = (idx < m->len_playlist - 1);
+	m->can_previous = (idx > 0);
+	m->can_next = (idx < m->len_playlist - 1);
 
-    create_message("CanGoNext", m->can_next);
-    create_message("CanGoPrevious", m->can_previous);
+	create_message("CanGoNext", m->can_next);
+	create_message("CanGoPrevious", m->can_previous);
 
-    m->cur_idx = idx;
+	m->cur_idx = idx;
 }
 
 void DBusMPRIS::MediaPlayer2::playlist_len_changed(int len)
 {
-    if(!m->initialized){
+	if(!m->initialized){
 		init();
 	}
 
-    m->can_next = (m->cur_idx < len - 1 && m->cur_idx >= 0);
+	m->can_next = (m->cur_idx < len - 1 && m->cur_idx >= 0);
 
-    create_message("CanGoNext", m->can_next);
+	create_message("CanGoNext", m->can_next);
 
-    m->len_playlist = len;
+	m->len_playlist = len;
 }
 
 void DBusMPRIS::MediaPlayer2::track_changed(const MetaData& md)
 {
-    m->md = md;
-    if(!m->initialized){
+	m->md = md;
+	if(!m->initialized){
 		init();
 	}
 
@@ -519,7 +519,7 @@ void DBusMPRIS::MediaPlayer2::track_changed(const MetaData& md)
 void DBusMPRIS::MediaPlayer2::playstate_changed(PlayState state)
 {
 	QString playback_status;
-    if(!m->initialized){
+	if(!m->initialized){
 		init();
 	}
 
@@ -538,7 +538,7 @@ void DBusMPRIS::MediaPlayer2::playstate_changed(PlayState state)
 			break;
 	}
 
-    m->playback_status = playback_status;
+	m->playback_status = playback_status;
 
 	create_message("PlaybackStatus", playback_status);
 }

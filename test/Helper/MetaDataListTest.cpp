@@ -3,7 +3,7 @@
 #include <QDebug>
 
 #include "Utils/FileUtils.h"
-#include "Utils/Random/RandomGenerator.h"
+#include "Utils/RandomGenerator.h"
 #include "Utils/MetaData/MetaDataList.h"
 #include "Utils/Set.h"
 

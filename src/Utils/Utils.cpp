@@ -50,7 +50,7 @@
 
 #include "Utils/globals.h"
 #include "Utils/Utils.h"
-#include "Utils/Random/RandomGenerator.h"
+#include "Utils/RandomGenerator.h"
 #include "Utils/Macros.h"
 #include "Utils/Language.h"
 #include "Utils/FileUtils.h"

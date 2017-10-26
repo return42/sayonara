@@ -23,7 +23,7 @@
 #include "GUI/Utils/Widgets/ProgressBar.h"
 #include "GUI/Utils/IconLoader/IconLoader.h"
 #include "GUI/Utils/MenuTool/MenuTool.h"
-#include "GUI/Utils/Style/Style.h"
+#include "GUI/Utils/Style.h"
 
 #include "Utils/Parser/PlaylistParser.h"
 #include "Utils/Parser/PodcastParser.h"

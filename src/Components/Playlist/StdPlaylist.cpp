@@ -24,7 +24,7 @@
 #include "Utils/Settings/Settings.h"
 #include "Utils/FileUtils.h"
 #include "Utils/Parser/PlaylistParser.h"
-#include "Utils/Random/RandomGenerator.h"
+#include "Utils/RandomGenerator.h"
 #include "Utils/MetaData/MetaDataList.h"
 #include "Utils/Set.h"
 
@@ -42,7 +42,7 @@ struct StdPlaylist::Private
 StdPlaylist::StdPlaylist(int idx, const QString& name) :
 	AbstractPlaylist(idx, name)
 {
-    m = Pimpl::make<Private>();
+	m = Pimpl::make<Private>();
 	set_storable(true);
 }
 
@@ -57,10 +57,10 @@ void StdPlaylist::set_changed(bool b)
 {
 	AbstractPlaylist::set_changed(b);
 
-    m->track_idx_before_stop = metadata().current_track();
+	m->track_idx_before_stop = metadata().current_track();
 }
 
-int StdPlaylist::create_playlist(const MetaDataList& v_md) 
+int StdPlaylist::create_playlist(const MetaDataList& v_md)
 {
 	if(Playlist::Mode::isActiveAndEnabled(playlist_mode().append())){
 		metadata() << v_md;
@@ -77,12 +77,12 @@ int StdPlaylist::create_playlist(const MetaDataList& v_md)
 
 
 
-bool StdPlaylist::change_track(int idx) 
+bool StdPlaylist::change_track(int idx)
 {
-    bool success = AbstractPlaylist::change_track(idx);
-    if(!success){
-        return false;
-    }
+	bool success = AbstractPlaylist::change_track(idx);
+	if(!success){
+		return false;
+	}
 
 	metadata(idx).played = true;
 
@@ -100,17 +100,17 @@ bool StdPlaylist::change_track(int idx)
 
 bool StdPlaylist::wake_up()
 {
-    bool success = between(metadata().current_track(), count());
+	bool success = between(metadata().current_track(), count());
 
-    if(success) {
-        success = change_track(m->track_idx_before_stop);
+	if(success) {
+		success = change_track(m->track_idx_before_stop);
 	}
 
 	return success;
 }
 
 
-void StdPlaylist::play() 
+void StdPlaylist::play()
 {
 	if( metadata().isEmpty() ) {
 		stop();
@@ -129,9 +129,9 @@ void StdPlaylist::play()
 void StdPlaylist::pause() {}
 
 
-void StdPlaylist::stop() 
+void StdPlaylist::stop()
 {
-    m->track_idx_before_stop = metadata().current_track();
+	m->track_idx_before_stop = metadata().current_track();
 
 	if(!_settings->get(Set::PL_RememberTrackAfterStop)){
 		metadata().set_current_track(-1);
@@ -143,7 +143,7 @@ void StdPlaylist::stop()
 }
 
 
-void StdPlaylist::fwd() 
+void StdPlaylist::fwd()
 {
 	Playlist::Mode mode = playlist_mode();
 	Playlist::Mode mode_bak = mode;
@@ -157,14 +157,14 @@ void StdPlaylist::fwd()
 }
 
 
-void StdPlaylist::bwd() 
+void StdPlaylist::bwd()
 {
 	int cur_idx = metadata().current_track();
 	change_track( cur_idx - 1 );
 }
 
 
-void StdPlaylist::next() 
+void StdPlaylist::next()
 {
 	int cur_track = metadata().current_track();
 	int track_num = -1;
@@ -176,16 +176,16 @@ void StdPlaylist::next()
 	}
 
 	// stopped
-    if(cur_track == -1){
+	if(cur_track == -1){
 		track_num = 0;
 	}
 
-    else if(Playlist::Mode::isActiveAndEnabled(playlist_mode().rep1())){
+	else if(Playlist::Mode::isActiveAndEnabled(playlist_mode().rep1())){
 		track_num = cur_track;
 	}
 
 	// shuffle mode
-	else if(Playlist::Mode::isActiveAndEnabled(playlist_mode().shuffle())) 
+	else if(Playlist::Mode::isActiveAndEnabled(playlist_mode().shuffle()))
 	{
 		track_num = calc_shuffle_track();
 		if(track_num == -1){
@@ -230,8 +230,8 @@ int StdPlaylist::calc_shuffle_track()
 
 	// check all tracks played
 	i=0;
-    for(MetaData& md : metadata())
-    {
+	for(MetaData& md : metadata())
+	{
 		if(!md.played){
 			left_tracks << i;
 		}
@@ -257,7 +257,7 @@ int StdPlaylist::calc_shuffle_track()
 
 void StdPlaylist::metadata_deleted(const MetaDataList& v_md_deleted)
 {
-    IndexSet indexes;
+	IndexSet indexes;
 
 	int i=0;
 	for(const MetaData& md : metadata())
@@ -279,7 +279,7 @@ void StdPlaylist::metadata_deleted(const MetaDataList& v_md_deleted)
 }
 
 
-void StdPlaylist::metadata_changed(const MetaDataList& v_md_old, const MetaDataList& v_md_new) 
+void StdPlaylist::metadata_changed(const MetaDataList& v_md_old, const MetaDataList& v_md_new)
 {
 	Q_UNUSED(v_md_old)
 
@@ -303,9 +303,9 @@ void StdPlaylist::duration_changed(uint64_t ms)
 {
 	MetaDataList& v_md = metadata();
 
-	int cur_track = v_md.current_track();	
+	int cur_track = v_md.current_track();
 	if(cur_track < 0 || cur_track >= v_md.count()){
-		return;			
+		return;
 	}
 
 	IdxList idx_list = find_tracks(

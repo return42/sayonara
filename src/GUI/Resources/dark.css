@@ -140,7 +140,7 @@ QListView::item,
 QListWidget::item,
 QTableView::item,
 QTreeView::item,
-QComboBox QAbstracItemView::item
+QComboBox QAbstractItemView::item
 {
 	padding-top: 2px;
 	padding-bottom: 2px;
@@ -382,10 +382,10 @@ QComboBox::down-arrow
 QComboBox QAbstractItemView,
 QComboBox QAbstractItemView:focus
 {
-
 	background-color: #484848;
 	border: 1px solid #202020;
 	selection-background-color: #424e72;
+	padding-bottom: -7px;
 }
 
 QComboBox QAbstractItemView::item:focus,

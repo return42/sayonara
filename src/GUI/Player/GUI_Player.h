@@ -26,15 +26,12 @@
 #include "Components/PlayManager/PlayState.h"
 
 #include "Utils/Message/GlobalMessageReceiverInterface.h"
-#include "Utils/MetaData/RadioMode.h"
 #include "GUI/Utils/Widgets/Widget.h"
-#include "GUI/Utils/Shortcuts/ShortcutWidget.h"
 
 #include <QSystemTrayIcon>
 
 class GUI_TrayIcon;
 class MetaData;
-class PlayManager;
 class PlayerPluginInterface;
 class PlayerPluginHandler;
 class LibraryPluginHandler;
@@ -45,7 +42,6 @@ class GUI_Logger;
 
 class GUI_Player :
 		public Gui::MainWindow,
-		public ShortcutWidget,
 		public GlobalMessageReceiverInterface,
 		private Ui::Sayonara
 {
@@ -62,7 +58,7 @@ public:
 	void register_preference_dialog(PreferenceDialogInterface* dialog);
 
 	void ui_loaded();
-	QString get_shortcut_text(const QString &shortcut_identifier) const override;
+
 
 
 private:
@@ -83,16 +79,6 @@ private:
 	void setup_tray_actions ();
 	void setup_volume_button(int percent);
 	void setup_connections();
-
-	void set_album_label(const QString& album, int year);
-	void set_artist_label(const QString& artist);
-	void set_title_label(const QString& title);
-
-	void refresh_info_labels();
-	void set_info_labels(const MetaData& md);
-
-	void set_radio_mode(RadioMode mode);
-	void check_record_button_visible();
 
 	void closeEvent(QCloseEvent* e) override;
 	void keyPressEvent(QKeyEvent* e) override;
@@ -115,32 +101,8 @@ private:
 
 
 private slots:
-	void play_clicked();
-	void stop_clicked();
-	void prev_clicked();
-	void next_clicked();
-	void rec_clicked(bool);
-	void buffering(int progress);
-	void set_progress_tooltip(int val);
-
-	void played();
-	void paused();
-	void stopped();
 	void playstate_changed(PlayState state);
 	void play_error(const QString& message);
-
-	void track_changed(const MetaData& md);
-
-	void seek(int);
-
-	void mute_button_clicked();
-	void volume_slider_moved(int val);
-	void volume_changed(int val);
-	void mute_changed(bool mute);
-	void rec_changed(bool on);
-	void change_volume_by_tick(int val);
-	void increase_volume();
-	void decrease_volume();
 
 	/* File */
 	void open_files_clicked();
@@ -153,7 +115,6 @@ private slots:
 	void show_fullscreen_toggled(bool);
 	void skin_toggled(bool);
 
-
 	void main_splitter_moved(int pos, int idx);
 
 	void current_library_changed(const QString& name);
@@ -162,19 +123,8 @@ private slots:
 	void about();
 	void help();
 
-	void cover_changed(const QImage& cover);
-
 	void awa_version_finished();
 	void awa_translators_finished();
-
-	void id3_tags_changed(const MetaDataList& v_md_old, const MetaDataList& v_md_new);
-
-	void cur_pos_changed(uint64_t pos_ms);
-	void file_info_changed();
-
-	void md_changed(const MetaData& md);
-	void dur_changed(const MetaData& md);
-	void br_changed(const MetaData& md);
 
 	void really_close();
 
@@ -183,8 +133,6 @@ private slots:
 	/* Plugins */
 	void show_plugin(PlayerPluginInterface* plugin);
 	void hide_all_plugins();
-
-	void _sl_sr_active_changed();
 };
 
 #endif // GUI_SIMPLEPLAYER_H
