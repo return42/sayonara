@@ -22,15 +22,18 @@
 #include "Database/DatabasePodcasts.h"
 #include "Utils/Logger/Logger.h"
 
-DatabasePodcasts::DatabasePodcasts(const QSqlDatabase& db, uint8_t db_id) :
-	DatabaseModule(db, db_id) {}
+using DB::Podcasts;
+using DB::Query;
+
+Podcasts::Podcasts(const QSqlDatabase& db, uint8_t db_id) :
+	DB::Module(db, db_id) {}
 
 
-bool DatabasePodcasts::getAllPodcasts(QMap<QString, QString> & podcasts)
+bool Podcasts::getAllPodcasts(QMap<QString, QString> & podcasts)
 {
 	podcasts.clear();
 
-	SayonaraQuery q(this);
+	Query q(this);
 	q.prepare("SELECT name, url FROM savedpodcasts;");
 
 	if (!q.exec()){
@@ -49,9 +52,9 @@ bool DatabasePodcasts::getAllPodcasts(QMap<QString, QString> & podcasts)
 }
 
 
-bool DatabasePodcasts::deletePodcast(const QString& name)
+bool Podcasts::deletePodcast(const QString& name)
 {
-	SayonaraQuery q(this);
+	Query q(this);
 
 	q.prepare("DELETE FROM savedpodcasts WHERE name = :name;" );
 	q.bindValue(":name", name);
@@ -65,9 +68,9 @@ bool DatabasePodcasts::deletePodcast(const QString& name)
 }
 
 
-bool DatabasePodcasts::addPodcast(const QString& name, const QString& url)
+bool Podcasts::addPodcast(const QString& name, const QString& url)
 {
-	SayonaraQuery q(this);
+	Query q(this);
 	q.prepare("INSERT INTO savedpodcasts (name, url) VALUES (:name, :url); " );
 	q.bindValue(":name", name);
 	q.bindValue(":url", url);
@@ -82,9 +85,9 @@ bool DatabasePodcasts::addPodcast(const QString& name, const QString& url)
 }
 
 
-bool DatabasePodcasts::updatePodcastUrl(const QString& name, const QString& url)
+bool Podcasts::updatePodcastUrl(const QString& name, const QString& url)
 {
-	SayonaraQuery q(this);
+	Query q(this);
 
 	q.prepare("UPDATE savedpodcasts SET url=:url WHERE name=:name;");
 	q.bindValue(":name", name);

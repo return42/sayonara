@@ -22,34 +22,35 @@
 #define ENGINEPLUGIN_H
 
 #include "GUI_StyleSettings.h"
+#include "GUI/Plugins/Engine/StyleTypes.h"
 #include "Interfaces/PlayerPlugin/PlayerPlugin.h"
 #include "Components/PlayManager/PlayState.h"
+
 #include "Utils/Pimpl.h"
 
 #include <QTimer>
 #include <QPushButton>
-	
+
 class EngineColorStyleChooser;
-class PlayManager;
 
 namespace Engine
 {
-    class Handler;
+	class Handler;
 }
 
-class EnginePlugin : public PlayerPluginInterface 
+class EnginePlugin : public PlayerPlugin::Base
 {
 	Q_OBJECT
-    PIMPL(EnginePlugin)
+	PIMPL(EnginePlugin)
 
 protected:
-    GUI_StyleSettings*			_ui_style_settings=nullptr;
-	EngineColorStyleChooser*    _ecsc=nullptr;
-    ColorStyle                  _cur_style;
-    int                         _cur_style_idx;
+	GUI_StyleSettings*			_ui_style_settings=nullptr;
+	EngineColorStyleChooser*	_ecsc=nullptr;
+	ColorStyle					_cur_style;
+	int							_cur_style_idx;
 
 	void init_buttons(bool small);
-    Engine::Handler* engine() const;
+	Engine::Handler* engine() const;
 
 	virtual void closeEvent(QCloseEvent* e) override;
 	virtual void resizeEvent(QResizeEvent* e) override;
@@ -57,18 +58,18 @@ protected:
 	virtual void enterEvent(QEvent* e) override;
 	virtual void leaveEvent(QEvent* e) override;
 
-    virtual QWidget* widget()=0;
-    virtual bool has_small_buttons() const=0;
+	virtual QWidget* widget()=0;
+	virtual bool has_small_buttons() const=0;
 
-    void stop_fadeout_timer();
+	void stop_fadeout_timer();
 
 
 protected slots:
-    virtual void config_clicked();
-    virtual void next_clicked();
-    virtual void prev_clicked();
+	virtual void config_clicked();
+	virtual void next_clicked();
+	virtual void prev_clicked();
 
-    virtual void do_fadeout_step()=0;
+	virtual void do_fadeout_step()=0;
 
 	virtual void playstate_changed(PlayState play_state);
 	virtual void played();
@@ -84,7 +85,7 @@ public slots:
 
 public:
 	explicit EnginePlugin(QWidget* parent=nullptr);
-    virtual ~EnginePlugin();
+	virtual ~EnginePlugin();
 
 	virtual bool is_title_shown() const override;
 };

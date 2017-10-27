@@ -26,19 +26,21 @@ StreamHandlerPodcasts::StreamHandlerPodcasts(QObject* parent) :
 
 StreamHandlerPodcasts::~StreamHandlerPodcasts() {}
 
-bool StreamHandlerPodcasts::get_all_streams(StreamMap& streams){
-	return _db->getAllPodcasts(streams);
+bool StreamHandlerPodcasts::get_all_streams(StreamMap& streams)
+{
+
+	return DB::Connector::instance()->getAllPodcasts(streams);
 }
 
 bool StreamHandlerPodcasts::add_stream(const QString& station_name, const QString& url){
-	return _db->addPodcast(station_name, url);
+	return DB::Connector::instance()->addPodcast(station_name, url);
 }
 
 bool StreamHandlerPodcasts::delete_stream(const QString& station_name){
-	return _db->deletePodcast(station_name);
+	return DB::Connector::instance()->deletePodcast(station_name);
 }
 
 bool StreamHandlerPodcasts::update_url(const QString& station_name, const QString& url)
 {
-	return _db->updatePodcastUrl(station_name, url);
+	return DB::Connector::instance()->updatePodcastUrl(station_name, url);
 }

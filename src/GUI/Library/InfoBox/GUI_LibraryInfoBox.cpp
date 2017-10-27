@@ -49,9 +49,9 @@ GUI_LibraryInfoBox::GUI_LibraryInfoBox(int8_t library_id, QWidget* parent) :
 {
 	ui = new Ui::GUI_LibraryInfoBox();
 	ui->setupUi(this);
-    ui->lab_icon->setPixmap(
+	ui->lab_icon->setPixmap(
 		Gui::Util::pixmap("logo.png", QSize(24,24), true)
-    );
+	);
 
 	_library_id = library_id;
 }
@@ -60,7 +60,7 @@ GUI_LibraryInfoBox::~GUI_LibraryInfoBox() {}
 
 void GUI_LibraryInfoBox::language_changed()
 {
-    ui->retranslateUi(this);
+	ui->retranslateUi(this);
 
 	ui->lab_tracks->setText(Lang::get(Lang::Tracks).toFirstUpper());
 	ui->lab_artists->setText(Lang::get(Lang::Artists));
@@ -69,35 +69,35 @@ void GUI_LibraryInfoBox::language_changed()
 	ui->lab_filesize_descr->setText(Lang::get(Lang::Filesize));
 	ui->btn_close->setText(Lang::get(Lang::Close));
 
-    LibraryManager* manager = LibraryManager::instance();
-    LibraryInfo info = manager->library_info(_library_id);
+	LibraryManager* manager = LibraryManager::instance();
+	LibraryInfo info = manager->library_info(_library_id);
 
-    ui->lab_name->setText(Lang::get(Lang::Library) + ": " + info.name());
+	ui->lab_name->setText(Lang::get(Lang::Library) + ": " + info.name());
 
-    this->setWindowTitle(Lang::get(Lang::Info));
+	this->setWindowTitle(Lang::get(Lang::Info));
 }
 
 void GUI_LibraryInfoBox::skin_changed()
 {
-    LibraryManager* manager = LibraryManager::instance();
-    LibraryInfo info = manager->library_info(_library_id);
-    bool dark = (_settings->get(Set::Player_Style) == 1);
+	LibraryManager* manager = LibraryManager::instance();
+	LibraryInfo info = manager->library_info(_library_id);
+	bool dark = (_settings->get(Set::Player_Style) == 1);
 
-    ui->lab_path->setText(Util::create_link(info.path(), dark));
+	ui->lab_path->setText(Util::create_link(info.path(), dark));
 }
 
 
 void GUI_LibraryInfoBox::showEvent(QShowEvent *e)
 {
-    refresh();
-    Dialog::showEvent(e);
+	refresh();
+	Dialog::showEvent(e);
 }
 
 
 void GUI_LibraryInfoBox::refresh()
 {
-	DatabaseConnector* db = DatabaseConnector::instance();
-	LibraryDatabase* lib_db = db->library_db(_library_id, 0);
+	DB::Connector* db = DB::Connector::instance();
+	DB::LibraryDatabase* lib_db = db->library_db(_library_id, 0);
 
 	MetaDataList v_md;
 	AlbumList v_albums;

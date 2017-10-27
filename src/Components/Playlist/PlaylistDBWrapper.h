@@ -27,62 +27,66 @@
 
 class MetaDataList;
 
-/**
- * @brief PlaylistDBWrapper is responsible for fetching playlist data from database,
- * especially the handling between skeleton and the playlist itself
- * Most of the functions are wrappers for the DatabasePlaylist class
- * @ingroup Playlists
- */
-class PlaylistDBWrapper
+
+namespace Playlist
 {
-    PIMPL(PlaylistDBWrapper)
+	/**
+	 * @brief DBWrapper is responsible for fetching playlist data from database,
+	 * especially the handling between skeleton and the playlist itself
+	 * Most of the functions are wrappers for the DatabasePlaylist class
+	 * @ingroup Playlists
+	 */
+	class DBWrapper
+	{
+		PIMPL(DBWrapper)
 
-public:
-    PlaylistDBWrapper();
-    ~PlaylistDBWrapper();
+		public:
+			DBWrapper();
+			~DBWrapper();
 
-	bool get_skeletons(CustomPlaylistSkeletons& skeletons,
-						   DatabasePlaylist::PlaylistChooserType type,
-						   Playlist::SortOrder so=Playlist::SortOrder::IDAsc);
+			bool get_skeletons(CustomPlaylistSkeletons& skeletons,
+								   Playlist::StoreType type,
+								   Playlist::SortOrder so=Playlist::SortOrder::IDAsc);
 
-	bool get_all_skeletons(CustomPlaylistSkeletons& skeletons,
-						   Playlist::SortOrder so=Playlist::SortOrder::IDAsc);
+			bool get_all_skeletons(CustomPlaylistSkeletons& skeletons,
+								   Playlist::SortOrder so=Playlist::SortOrder::IDAsc);
 
-	bool get_non_temporary_skeletons(CustomPlaylistSkeletons& skeletons,
-						   Playlist::SortOrder so=Playlist::SortOrder::IDAsc);
+			bool get_non_temporary_skeletons(CustomPlaylistSkeletons& skeletons,
+								   Playlist::SortOrder so=Playlist::SortOrder::IDAsc);
 
-	bool get_temporary_skeletons(CustomPlaylistSkeletons& skeletons,
-								 Playlist::SortOrder so);
+			bool get_temporary_skeletons(CustomPlaylistSkeletons& skeletons,
+										 Playlist::SortOrder so);
 
-	bool get_all_playlists(CustomPlaylists& playlists,
-						   Playlist::SortOrder so=Playlist::SortOrder::IDAsc);
+			bool get_all_playlists(CustomPlaylists& playlists,
+								   Playlist::SortOrder so=Playlist::SortOrder::IDAsc);
 
-	bool get_temporary_playlists(CustomPlaylists& playlists,
-								 Playlist::SortOrder so=Playlist::SortOrder::IDAsc);
+			bool get_temporary_playlists(CustomPlaylists& playlists,
+										 Playlist::SortOrder so=Playlist::SortOrder::IDAsc);
 
-	bool get_non_temporary_playlists(CustomPlaylists& playlists,
-									 Playlist::SortOrder so=Playlist::SortOrder::IDAsc);
+			bool get_non_temporary_playlists(CustomPlaylists& playlists,
+											 Playlist::SortOrder so=Playlist::SortOrder::IDAsc);
 
-	CustomPlaylist get_playlist_by_id(int id);
-	CustomPlaylist get_playlist_by_name(const QString& name);
+			CustomPlaylist get_playlist_by_id(int id);
+			CustomPlaylist get_playlist_by_name(const QString& name);
 
-	bool rename_playlist(int id, const QString& new_name);
-	bool save_playlist_as(const MetaDataList& v_md, const QString& name);
-	bool save_playlist_temporary(const MetaDataList& v_md, const QString& name);
-	bool save_playlist(const CustomPlaylist& pl);
-	bool save_playlist(const MetaDataList& v_md, int id, bool is_temporary);
+			bool rename_playlist(int id, const QString& new_name);
+			bool save_playlist_as(const MetaDataList& v_md, const QString& name);
+			bool save_playlist_temporary(const MetaDataList& v_md, const QString& name);
+			bool save_playlist(const CustomPlaylist& pl);
+			bool save_playlist(const MetaDataList& v_md, int id, bool is_temporary);
 
-	bool delete_playlist(int id);
-	bool delete_playlist(const QString& name);
-	bool exists(const QString& name);
+			bool delete_playlist(int id);
+			bool delete_playlist(const QString& name);
+			bool exists(const QString& name);
 
-private:
-    void apply_tags(MetaDataList& v_md);
-    bool get_playlists(CustomPlaylists& playlists,
-                       DatabasePlaylist::PlaylistChooserType type,
-                       Playlist::SortOrder sortorder);
-};
+		private:
+			void apply_tags(MetaDataList& v_md);
+			bool get_playlists(CustomPlaylists& playlists,
+							   Playlist::StoreType type,
+							   Playlist::SortOrder sortorder);
+	};
 
-using PlaylistDBWrapperPtr=std::shared_ptr<PlaylistDBWrapper>;
+	using DBWrapperPtr=std::shared_ptr<DBWrapper>;
+}
 
 #endif // PLAYLISTDBCONNECTOR_H

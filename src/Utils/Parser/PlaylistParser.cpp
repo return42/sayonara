@@ -79,21 +79,21 @@ MetaDataList PlaylistParser::parse_playlist(const QString& local_filename)
 
 	v_md_tmp = playlist_parser->tracks();
 
-    for(const MetaData& md : v_md_tmp)
-    {
+	for(const MetaData& md : v_md_tmp)
+	{
 		if( Util::File::check_file(md.filepath()) ){
 			result << md;
 		}
 
-        else {
+		else {
 			v_md_to_delete << md;
 		}
 	}
 
-    if(!v_md_to_delete.isEmpty())
-    {
-		DatabaseConnector* db = DatabaseConnector::instance();
-		LibraryDatabase* lib_db = db->library_db(-1, 0);
+	if(!v_md_to_delete.isEmpty())
+	{
+		DB::Connector* db = DB::Connector::instance();
+		DB::LibraryDatabase* lib_db = db->library_db(-1, 0);
 		lib_db->deleteTracks(v_md_to_delete);
 	}
 

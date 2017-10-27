@@ -27,33 +27,36 @@
 #include "Database/DatabaseTracks.h"
 #include "Database/DatabaseLibrary.h"
 
-class LibraryDatabase :
-		public AbstractDatabase,
-		public DatabaseAlbums,
-		public DatabaseArtists,
-		public DatabaseTracks,
-		public DatabaseLibrary
+namespace DB
 {
-
-private:
-	int8_t _library_id;
-
-public:
-
-	enum class ArtistIDField : uint8_t
+	class LibraryDatabase :
+			public DB::Base,
+			public DB::Albums,
+			public DB::Artists,
+			public DB::Tracks,
+			public DB::Library
 	{
-		AlbumArtistID,
-		ArtistID
+
+	private:
+		int8_t _library_id;
+
+	public:
+
+		enum class ArtistIDField : uint8_t
+		{
+			AlbumArtistID,
+			ArtistID
+		};
+
+		LibraryDatabase(const QString& db_name, uint8_t db_id, int8_t library_id);
+		virtual ~LibraryDatabase();
+
+		void change_artistid_field(ArtistIDField field);
+		void clear();
+		bool apply_fixes() override;
+
+		int8_t library_id() const;
 	};
-
-	LibraryDatabase(const QString& db_name, uint8_t db_id, int8_t library_id);
-	virtual ~LibraryDatabase();
-
-	void change_artistid_field(ArtistIDField field);
-	void clear();
-	bool apply_fixes() override;
-
-	int8_t library_id() const;
-};
+}
 
 #endif // LIBRARYDATABASE_H

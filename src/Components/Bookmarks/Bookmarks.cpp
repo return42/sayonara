@@ -31,7 +31,7 @@
 
 struct Bookmarks::Private
 {
-	DatabaseConnector*		db=nullptr;
+	DB::Connector*		db=nullptr;
 	PlayManagerPtr			play_manager=nullptr;
 
 	QList<Bookmark>			bookmarks;
@@ -53,7 +53,7 @@ Bookmarks::Bookmarks(QObject *parent) :
 	m = Pimpl::make<Bookmarks::Private>();
 
 	m->play_manager = PlayManager::instance();
-	m->db = DatabaseConnector::instance();
+	m->db = DB::Connector::instance();
 	m->md = m->play_manager->current_track();
 
 	init_members();

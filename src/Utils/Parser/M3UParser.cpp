@@ -80,51 +80,51 @@ void M3UParser::parse()
 
 bool M3UParser::parse_first_line(const QString& line, MetaData& md)
 {
-    QRegExp re("^#EXTINF:\\s*([0-9]+)\\s*,\\s*(\\S)+\\s*-\\s*(\\S)+");
-    int idx = re.indexIn(line);
-    if(idx < 0){
-        return false;
-    }
+	QRegExp re("^#EXTINF:\\s*([0-9]+)\\s*,\\s*(\\S)+\\s*-\\s*(\\S)+");
+	int idx = re.indexIn(line);
+	if(idx < 0){
+		return false;
+	}
 
-    md.length_ms = re.cap(1).toInt() * 1000;
-    md.set_artist(re.cap(2));
-    md.title = re.cap(3);
+	md.length_ms = re.cap(1).toInt() * 1000;
+	md.set_artist(re.cap(2));
+	md.title = re.cap(3);
 
-    return true;
+	return true;
 }
 
 
 void M3UParser::parse_local_file(const QString& line, MetaData& md)
 {
-    MetaData md_db;
-    DatabaseConnector* db = DatabaseConnector::instance();
-    LibraryDatabase* lib_db = db->library_db(-1, 0);
+	MetaData md_db;
+	DB::Connector* db = DB::Connector::instance();
+	DB::LibraryDatabase* lib_db = db->library_db(-1, 0);
 
-    QString abs_filename = get_absolute_filename(line);
+	QString abs_filename = get_absolute_filename(line);
 
-    if(abs_filename.isEmpty()){
-        return;
-    }
+	if(abs_filename.isEmpty()){
+		return;
+	}
 
-    md_db = lib_db->getTrackByPath(abs_filename);
+	md_db = lib_db->getTrackByPath(abs_filename);
 
-    if( md_db.id >= 0 ) {
-        md = md_db;
-    }
+	if( md_db.id >= 0 ) {
+		md = md_db;
+	}
 
-    else {
-        md.set_filepath(abs_filename);
-        Tagging::Util::getMetaDataOfFile(md);
-    }
+	else {
+		md.set_filepath(abs_filename);
+		Tagging::Util::getMetaDataOfFile(md);
+	}
 }
 
 
 void M3UParser::parse_www_file(const QString& line, MetaData& md)
 {
-    if(md.artist().isEmpty()){
-        md.set_artist(line);
-    }
+	if(md.artist().isEmpty()){
+		md.set_artist(line);
+	}
 
-    md.set_filepath(line);
+	md.set_filepath(line);
 }
 

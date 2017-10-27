@@ -24,15 +24,18 @@
 #include "Database/DatabaseModule.h"
 #include <QMap>
 
-class DatabaseStreams : private DatabaseModule
+namespace DB
 {
-public:
-	DatabaseStreams(const QSqlDatabase& db, uint8_t db_id);
+	class Streams : private Module
+	{
+		public:
+			Streams(const QSqlDatabase& db, uint8_t db_id);
 
-	bool getAllStreams(QMap<QString, QString>& result);
-	bool deleteStream(const QString& name);
-	bool addStream(const QString& name, const QString& url);
-	bool updateStreamUrl(const QString& name, const QString& url);
-};
+			bool getAllStreams(QMap<QString, QString>& result);
+			bool deleteStream(const QString& name);
+			bool addStream(const QString& name, const QString& url);
+			bool updateStreamUrl(const QString& name, const QString& url);
+	};
+}
 
 #endif // DATABASESTREAMS_H

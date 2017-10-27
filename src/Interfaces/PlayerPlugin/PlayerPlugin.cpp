@@ -27,14 +27,16 @@
 #include <QLayout>
 #include <QCloseEvent>
 
-struct PlayerPluginInterface::Private
+using PlayerPlugin::Base;
+
+struct Base::Private
 {
 	QAction*	pp_action=nullptr;
-    bool		is_initialized;
+	bool		is_initialized;
 
-    Private() :
-        pp_action(new QAction(nullptr)),
-        is_initialized(false)
+	Private() :
+		pp_action(new QAction(nullptr)),
+		is_initialized(false)
 	{
 		pp_action->setCheckable(true);
 	}
@@ -45,34 +47,34 @@ struct PlayerPluginInterface::Private
 	}
 };
 
-PlayerPluginInterface::PlayerPluginInterface(QWidget *parent) :
+Base::Base(QWidget *parent) :
 	Widget(parent),
 	ShortcutWidget()
 {
 	m = Pimpl::make<Private>();
 
-	connect(m->pp_action, &QAction::triggered, this, &PlayerPluginInterface::action_triggered);
+	connect(m->pp_action, &QAction::triggered, this, &Base::action_triggered);
 
 	hide();
 }
 
 
-PlayerPluginInterface::~PlayerPluginInterface() {}
+Base::~Base() {}
 
-void PlayerPluginInterface::skin_changed() {}
+void Base::skin_changed() {}
 
-bool PlayerPluginInterface::is_title_shown() const
+bool Base::is_title_shown() const
 {
 	return true;
 }
 
-bool PlayerPluginInterface::has_loading_bar() const
+bool Base::has_loading_bar() const
 {
 	return false;
 }
 
 
-QString PlayerPluginInterface::get_shortcut_text(const QString& shortcut_identifier) const
+QString Base::get_shortcut_text(const QString& shortcut_identifier) const
 {
 	if(shortcut_identifier == "close_plugin"){
 		return tr("Close plugin");
@@ -82,19 +84,19 @@ QString PlayerPluginInterface::get_shortcut_text(const QString& shortcut_identif
 }
 
 
-QAction* PlayerPluginInterface::get_action() const 
+QAction* Base::get_action() const
 {
 	m->pp_action->setText( this->get_display_name() );
 	return m->pp_action;
 }
 
 
-QSize PlayerPluginInterface::get_size() const
+QSize Base::get_size() const
 {
 	return this->minimumSize();
 }
 
-void PlayerPluginInterface::finalize_initialization()
+void Base::finalize_initialization()
 {
 	QLayout* widget_layout = layout();
 	if(widget_layout){
@@ -116,15 +118,15 @@ void PlayerPluginInterface::finalize_initialization()
 		sc.create_qt_shortcut(this, parentWidget(), SLOT(close()));
 	}
 
-    Set::listen(Set::Player_Style, this, &PlayerPluginInterface::skin_changed);
+	Set::listen(Set::Player_Style, this, &Base::skin_changed);
 
 	set_ui_initialized();
 	retranslate_ui();
 }
 
-void PlayerPluginInterface::assign_ui_vars() {}
+void Base::assign_ui_vars() {}
 
-void PlayerPluginInterface::language_changed()
+void Base::language_changed()
 {
 	if(is_ui_initialized()){
 		retranslate_ui();
@@ -132,29 +134,33 @@ void PlayerPluginInterface::language_changed()
 }
 
 
-bool PlayerPluginInterface::is_ui_initialized() const
+bool Base::is_ui_initialized() const
 {
 	return m->is_initialized;
 }
 
 
-void PlayerPluginInterface::set_ui_initialized()
+void Base::set_ui_initialized()
 {
 	m->is_initialized = true;
 }
 
 
-void PlayerPluginInterface::showEvent(QShowEvent* e)
+void Base::showEvent(QShowEvent* e)
 {
 	if(!is_ui_initialized()){
 		init_ui();
 	}
 
 	Widget::showEvent(e);
+
+	m->pp_action->setChecked(true);
+
+	emit sig_opened();
 }
 
 
-void PlayerPluginInterface::closeEvent(QCloseEvent* e)
+void Base::closeEvent(QCloseEvent* e)
 {
 	Widget::closeEvent(e);
 
@@ -164,11 +170,11 @@ void PlayerPluginInterface::closeEvent(QCloseEvent* e)
 }
 
 
-void PlayerPluginInterface::action_triggered(bool b) 
+void Base::action_triggered(bool b)
 {
 	m->pp_action->setChecked(b);
 
-	emit sig_action_triggered(this, b);
+	emit sig_action_triggered(b);
 
 	skin_changed();
 }

@@ -283,10 +283,10 @@ void Base::sl_similar_artists_available(IDList artist_ids)
 		return;
 	}
 
-	DatabaseConnector* db = DatabaseConnector::instance();
-	LibraryDatabase* lib_db = db->library_db(-1, 0);
+	DB::Connector* db = DB::Connector::instance();
+	DB::LibraryDatabase* lib_db = db->library_db(-1, 0);
 
-	PlaylistHandler* plh = PlaylistHandler::instance();
+	Playlist::Handler* plh = Playlist::Handler::instance();
 
 	int active_idx = plh->get_active_idx();
 	PlaylistConstPtr active_playlist = plh->get_playlist_at(active_idx);

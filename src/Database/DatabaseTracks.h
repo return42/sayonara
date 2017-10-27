@@ -33,61 +33,64 @@ namespace Library {class Filter;}
 class MetaData;
 class MetaDataList;
 
-class DatabaseTracks :
-		private DatabaseSearchMode
+namespace DB
 {
-	PIMPL(DatabaseTracks)
+	class Tracks :
+			private SearchMode
+	{
+		PIMPL(Tracks)
 
-protected:
-    void change_artistid_field(const QString& id, const QString& name);
-	void change_track_lookup_field(const QString& track_lookup_field);
+		protected:
+			void change_artistid_field(const QString& id, const QString& name);
+			void change_track_lookup_field(const QString& track_lookup_field);
 
-	void check_track_views(int8_t library_id);
-	void check_track_view(int8_t library_id);
-	void check_track_search_view(const QString& track_view, const QString& track_search_view);
+			void check_track_views(int8_t library_id);
+			void check_track_view(int8_t library_id);
+			void check_track_search_view(const QString& track_view, const QString& track_search_view);
 
-protected:
-	QString append_track_sort_string(QString querytext, Library::SortOrder sort);
+		protected:
+			QString append_track_sort_string(QString querytext, ::Library::SortOrder sort);
 
-public:
-	DatabaseTracks(const QSqlDatabase& db, uint8_t db_id, int8_t _library_id);
-	~DatabaseTracks();
+		public:
+			Tracks(const QSqlDatabase& db, uint8_t db_id, int8_t _library_id);
+			~Tracks();
 
-	virtual bool db_fetch_tracks(SayonaraQuery& q, MetaDataList& result);
+			virtual bool db_fetch_tracks(Query& q, MetaDataList& result);
 
-	virtual bool getAllTracksByAlbum(int album, MetaDataList& result);
-	virtual bool getAllTracksByAlbum(int album, MetaDataList& result, const Library::Filter& filter, Library::SortOrder sortorder = Library::SortOrder::TrackArtistAsc, int discnumber=-1);
-	virtual bool getAllTracksByAlbum(IDList albums, MetaDataList& result);
-	virtual bool getAllTracksByAlbum(IDList albums, MetaDataList& result, const Library::Filter& filter, Library::SortOrder sortorder = Library::SortOrder::TrackArtistAsc);
+			virtual bool getAllTracksByAlbum(int album, MetaDataList& result);
+			virtual bool getAllTracksByAlbum(int album, MetaDataList& result, const ::Library::Filter& filter, ::Library::SortOrder sortorder = ::Library::SortOrder::TrackArtistAsc, int discnumber=-1);
+			virtual bool getAllTracksByAlbum(IDList albums, MetaDataList& result);
+			virtual bool getAllTracksByAlbum(IDList albums, MetaDataList& result, const ::Library::Filter& filter, ::Library::SortOrder sortorder = ::Library::SortOrder::TrackArtistAsc);
 
-	virtual bool getAllTracksByArtist(int artist, MetaDataList& result);
-	virtual bool getAllTracksByArtist(int artist, MetaDataList& result, const Library::Filter& filter, Library::SortOrder sortorder = Library::SortOrder::TrackArtistAsc);
-	virtual bool getAllTracksByArtist(IDList artists, MetaDataList& result);
-	virtual bool getAllTracksByArtist(IDList artists, MetaDataList& result, const Library::Filter& filter, Library::SortOrder sortorder = Library::SortOrder::TrackArtistAsc);
+			virtual bool getAllTracksByArtist(int artist, MetaDataList& result);
+			virtual bool getAllTracksByArtist(int artist, MetaDataList& result, const ::Library::Filter& filter, ::Library::SortOrder sortorder = ::Library::SortOrder::TrackArtistAsc);
+			virtual bool getAllTracksByArtist(IDList artists, MetaDataList& result);
+			virtual bool getAllTracksByArtist(IDList artists, MetaDataList& result, const ::Library::Filter& filter, ::Library::SortOrder sortorder = ::Library::SortOrder::TrackArtistAsc);
 
-	virtual bool getAllTracksBySearchString(const Library::Filter& filter, MetaDataList& result, Library::SortOrder sortorder = Library::SortOrder::TrackArtistAsc);
+			virtual bool getAllTracksBySearchString(const ::Library::Filter& filter, MetaDataList& result, ::Library::SortOrder sortorder = ::Library::SortOrder::TrackArtistAsc);
 
-	virtual bool insertTrackIntoDatabase (const MetaData& data,int artist_id, int album_id);
-	virtual bool insertTrackIntoDatabase (const MetaData& data,int artist_id, int album_id, int album_artist_id);
-	virtual bool updateTrack(const MetaData& data);
-	virtual bool updateTracks(const MetaDataList& lst);
+			virtual bool insertTrackIntoDatabase (const MetaData& data,int artist_id, int album_id);
+			virtual bool insertTrackIntoDatabase (const MetaData& data,int artist_id, int album_id, int album_artist_id);
+			virtual bool updateTrack(const MetaData& data);
+			virtual bool updateTracks(const MetaDataList& lst);
 
-	virtual bool getAllTracks(MetaDataList& returndata, Library::SortOrder sortorder = Library::SortOrder::TrackArtistAsc);
-	virtual MetaData getTrackById(int id);
-	virtual MetaData getTrackByPath(const QString& path);
-	virtual bool getMultipleTracksByPath(const QStringList& paths, MetaDataList& v_md);
+			virtual bool getAllTracks(MetaDataList& returndata, ::Library::SortOrder sortorder = ::Library::SortOrder::TrackArtistAsc);
+			virtual MetaData getTrackById(int id);
+			virtual MetaData getTrackByPath(const QString& path);
+			virtual bool getMultipleTracksByPath(const QStringList& paths, MetaDataList& v_md);
 
-	virtual bool deleteTrack(int id);
-	virtual bool deleteTracks(const MetaDataList&);
-	virtual bool deleteTracks(const IDList& ids);
-	virtual bool deleteInvalidTracks(const QString& library_path=QString());
+			virtual bool deleteTrack(int id);
+			virtual bool deleteTracks(const MetaDataList&);
+			virtual bool deleteTracks(const IDList& ids);
+			virtual bool deleteInvalidTracks(const QString& library_path=QString());
 
-	virtual QString fetch_query_tracks() const;
+			virtual QString fetch_query_tracks() const;
 
-	virtual QStringList getAllGenres();
-	virtual void updateTrackCissearch();
+			virtual QStringList getAllGenres();
+			virtual void updateTrackCissearch();
 
-	void deleteAllTracks();
-};
+			void deleteAllTracks();
+		};
+}
 
 #endif // DATABASETRACKS_H

@@ -34,14 +34,14 @@
 struct AbstractStreamHandler::Private
 {
 	StreamParser*					stream_parser=nullptr;
-	PlaylistHandler*				playlist=nullptr;
+	Playlist::Handler*				playlist=nullptr;
 	QMap<QString, MetaDataList>		station_contents;
 	QString							station_name;
 	bool							blocked;
 
 	Private()
 	{
-		playlist = PlaylistHandler::instance();
+		playlist = Playlist::Handler::instance();
 		blocked = false;
 	}
 };
@@ -51,7 +51,6 @@ AbstractStreamHandler::AbstractStreamHandler(QObject *parent) :
 	QObject(parent)
 {
 	m = Pimpl::make<AbstractStreamHandler::Private>();
-	_db = DatabaseConnector::instance();
 }
 
 AbstractStreamHandler::~AbstractStreamHandler() {}

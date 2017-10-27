@@ -166,12 +166,7 @@ void GUI_Player::ui_loaded()
 		this->setHidden(true);
 	}
 
-	QString shown_plugin = _settings->get(Set::Player_ShownPlugin);
-	if(_pph && !shown_plugin.isEmpty())
-	{
-		PlayerPluginInterface* p  = _pph->find_plugin(shown_plugin);
-		show_plugin(p);
-	}
+	plugin_opened();
 }
 
 
@@ -257,6 +252,7 @@ void GUI_Player::tray_icon_activated (QSystemTrayIcon::ActivationReason reason)
 	}
 }
 
+
 void GUI_Player::current_library_changed(const QString& name)
 {
 	Q_UNUSED(name)
@@ -341,15 +337,15 @@ void GUI_Player::play_error(const QString& message)
 }
 
 
-void GUI_Player::register_player_plugin_handler(PlayerPluginHandler* pph)
+void GUI_Player::register_player_plugin_handler(PlayerPlugin::Handler* pph)
 {
 	_pph = pph;
 
-	QList<PlayerPluginInterface*> lst = pph->get_all_plugins();
+	QList<PlayerPlugin::Base*> lst = pph->get_all_plugins();
 	QList<QAction*> actions;
 
 	int i=1;
-	for(PlayerPluginInterface* p : lst) {
+	for(PlayerPlugin::Base* p : lst) {
 		QAction* action = p->get_action();
 		QKeySequence ks("Ctrl+F" + QString::number(i));
 		action->setShortcut(ks);
@@ -359,40 +355,43 @@ void GUI_Player::register_player_plugin_handler(PlayerPluginHandler* pph)
 		i++;
 	}
 
-	connect(_pph, &PlayerPluginHandler::sig_show_plugin, this, &GUI_Player::show_plugin);
-	connect(_pph, &PlayerPluginHandler::sig_hide_all_plugins, this, &GUI_Player::hide_all_plugins);
+	connect(_pph, &PlayerPlugin::Handler::sig_plugin_closed, this, &GUI_Player::plugin_closed);
+	connect(_pph, &PlayerPlugin::Handler::sig_plugin_action_triggered, this, &GUI_Player::plugin_action_triggered);
 
 	menu_view->insertActions(action_Dark, actions);
 	menu_view->insertSeparator(action_Dark);
 }
 
-
-void GUI_Player::hide_all_plugins()
+void GUI_Player::plugin_action_triggered(bool b)
 {
-	if(_pph)
+	if(_pph && b)
 	{
-		QList<PlayerPluginInterface*> plugins = _pph->get_all_plugins();
-
-		for(PlayerPluginInterface* p : plugins){
-			QAction* action = p->get_action();
-			action->setChecked(false);
-		}
+		plugin_opened();
 	}
 
-	plugin_widget->close();
+	else{
+		plugin_closed();
+	}
 }
 
-
-void GUI_Player::show_plugin(PlayerPluginInterface* plugin)
+void GUI_Player::plugin_opened()
 {
-	hide_all_plugins();
+	PlayerPlugin::Base* current_plugin=nullptr;
 
-	QAction* action = plugin->get_action();
-	if(action){
-		action->setChecked(true);
+	if(_pph)
+	{
+		current_plugin = _pph->current_plugin();
 	}
 
-	plugin_widget->show(plugin);
+	if(current_plugin)
+	{
+		plugin_widget->show(current_plugin);
+	}
+}
+
+void GUI_Player::plugin_closed()
+{
+	plugin_widget->close();
 }
 
 

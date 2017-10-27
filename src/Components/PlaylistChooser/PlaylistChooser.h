@@ -25,8 +25,6 @@
 #include "Utils/Pimpl.h"
 #include <QObject>
 
-class PlaylistDBWrapper;
-class PlaylistHandler;
 class QString;
 class QStringList;
 

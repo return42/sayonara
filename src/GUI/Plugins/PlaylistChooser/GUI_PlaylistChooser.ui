@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>GUI_PlaylistChooser</class>
- <widget class="PlayerPluginInterface" name="GUI_PlaylistChooser">
+ <widget class="PlayerPlugin::Base" name="GUI_PlaylistChooser">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -45,7 +45,7 @@
    <header>GUI/Utils/Widgets/ComboBox.h</header>
   </customwidget>
   <customwidget>
-   <class>PlayerPluginInterface</class>
+   <class>PlayerPlugin::Base</class>
    <extends>QWidget</extends>
    <header>Interfaces/PlayerPlugin/PlayerPlugin.h</header>
    <container>1</container>

@@ -36,7 +36,7 @@ struct GUI_Broadcast::Private
 };
 
 GUI_Broadcast::GUI_Broadcast(QWidget *parent) :
-	PlayerPluginInterface(parent)
+	PlayerPlugin::Base(parent)
 {
 	m = Pimpl::make<GUI_Broadcast::Private>();
 	m->server = new StreamServer(this);

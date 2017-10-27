@@ -23,26 +23,29 @@
 #include "Utils/MetaData/Album.h"
 #include "Utils/Library/Filter.h"
 
-DatabaseAlbums::DatabaseAlbums(QSqlDatabase db, uint8_t db_id, int8_t library_id) :
-	DatabaseSearchMode(db, db_id)
+using DB::Albums;
+using DB::Query;
+
+Albums::Albums(QSqlDatabase db, uint8_t db_id, int8_t library_id) :
+	DB::SearchMode(db, db_id)
 {
 	_artistid_field = "artistID";
-    _artistname_field = "artistName";
+	_artistname_field = "artistName";
 
-    _search_view_name = "track_search_view_" + QString::number(library_id);
+	_search_view_name = "track_search_view_" + QString::number(library_id);
 
-    if(library_id < 0) {
-        _track_view_name = QString("tracks");
-    }
+	if(library_id < 0) {
+		_track_view_name = QString("tracks");
+	}
 
-    else {
-        _track_view_name = QString("track_view_%1").arg(library_id);
-    }
+	else {
+		_track_view_name = QString("track_view_%1").arg(library_id);
+	}
 }
 
-DatabaseAlbums::~DatabaseAlbums() {}
+Albums::~Albums() {}
 
-QString DatabaseAlbums::fetch_query_albums(bool also_empty) const
+QString Albums::fetch_query_albums(bool also_empty) const
 {
 	QString sql =
 			"SELECT "
@@ -65,13 +68,13 @@ QString DatabaseAlbums::fetch_query_albums(bool also_empty) const
 			join + " artists ON ("
 				   "    " + _track_view_name + ".artistID = artists.artistID OR "
 				   "    " + _track_view_name + ".albumArtistID = artists.artistID"
-                   " ) ";
+				   " ) ";
 
 	return sql;
 }
 
 
-bool DatabaseAlbums::db_fetch_albums(SayonaraQuery& q, AlbumList& result)
+bool Albums::db_fetch_albums(Query& q, AlbumList& result)
 {
 	result.clear();
 
@@ -117,7 +120,7 @@ bool DatabaseAlbums::db_fetch_albums(SayonaraQuery& q, AlbumList& result)
 }
 
 
-QString DatabaseAlbums::_create_order_string(Library::SortOrder sortorder)
+QString Albums::_create_order_string(Library::SortOrder sortorder)
 {
 	switch(sortorder)
 	{
@@ -156,9 +159,9 @@ QString DatabaseAlbums::_create_order_string(Library::SortOrder sortorder)
 	}
 }
 
-int DatabaseAlbums::getAlbumID (const QString & album)
+int Albums::getAlbumID (const QString & album)
 {
-	SayonaraQuery q(this);
+	Query q(this);
 	int albumID = -1;
 
 	q.prepare("SELECT albumID FROM albums WHERE name = ?;");
@@ -176,13 +179,13 @@ int DatabaseAlbums::getAlbumID (const QString & album)
 }
 
 
-bool DatabaseAlbums::getAlbumByID(const int& id, Album& album, bool also_empty)
+bool Albums::getAlbumByID(const int& id, Album& album, bool also_empty)
 {
 	if(id == -1) {
 		return false;
 	}
 
-	SayonaraQuery q(this);
+	Query q(this);
 	QString querytext =	fetch_query_albums(also_empty) +
 						" WHERE albums.albumID = :id "
 						" GROUP BY albums.albumID, albums.name, albums.rating ";
@@ -200,14 +203,14 @@ bool DatabaseAlbums::getAlbumByID(const int& id, Album& album, bool also_empty)
 	return (albums.size() > 0);
 }
 
-bool DatabaseAlbums::getAllAlbums(AlbumList& result, bool also_empty)
+bool Albums::getAllAlbums(AlbumList& result, bool also_empty)
 {
 	return getAllAlbums(result, Library::SortOrder::AlbumNameAsc, also_empty);
 }
 
-bool DatabaseAlbums::getAllAlbums(AlbumList& result, Library::SortOrder sortorder, bool also_empty)
+bool Albums::getAllAlbums(AlbumList& result, Library::SortOrder sortorder, bool also_empty)
 {
-	SayonaraQuery q(this);
+	Query q(this);
 	QString querytext = fetch_query_albums(also_empty);
 
 	querytext += " GROUP BY albums.albumID, albums.name, albums.rating ";
@@ -219,19 +222,19 @@ bool DatabaseAlbums::getAllAlbums(AlbumList& result, Library::SortOrder sortorde
 }
 
 
-bool DatabaseAlbums::getAllAlbumsByArtist(IDList artists, AlbumList& result)
+bool Albums::getAllAlbumsByArtist(IDList artists, AlbumList& result)
 {
 	return getAllAlbumsByArtist(artists, result, Library::Filter());
 }
 
 
-bool DatabaseAlbums::getAllAlbumsByArtist(IDList artists, AlbumList& result, const Library::Filter& filter, Library::SortOrder sortorder)
+bool Albums::getAllAlbumsByArtist(IDList artists, AlbumList& result, const Library::Filter& filter, Library::SortOrder sortorder)
 {
 	if(artists.isEmpty()) {
 		return false;
 	}
 
-	SayonaraQuery q(this);
+	Query q(this);
 	QString select = "SELECT "
 					 "  albumID"
 					 ", albumName"
@@ -295,12 +298,12 @@ bool DatabaseAlbums::getAllAlbumsByArtist(IDList artists, AlbumList& result, con
 	return db_fetch_albums(q, result);
 }
 
-bool DatabaseAlbums::getAllAlbumsByArtist(int artist, AlbumList& result)
+bool Albums::getAllAlbumsByArtist(int artist, AlbumList& result)
 {
 	return getAllAlbumsByArtist(artist, result, Library::Filter());
 }
 
-bool DatabaseAlbums::getAllAlbumsByArtist(int artist, AlbumList& result, const Library::Filter& filter, Library::SortOrder sortorder)
+bool Albums::getAllAlbumsByArtist(int artist, AlbumList& result, const Library::Filter& filter, Library::SortOrder sortorder)
 {
 	IDList list;
 	list << artist;
@@ -308,9 +311,9 @@ bool DatabaseAlbums::getAllAlbumsByArtist(int artist, AlbumList& result, const L
 }
 
 
-bool DatabaseAlbums::getAllAlbumsBySearchString(const Library::Filter& filter, AlbumList& result, Library::SortOrder sortorder)
+bool Albums::getAllAlbumsBySearchString(const Library::Filter& filter, AlbumList& result, Library::SortOrder sortorder)
 {
-	SayonaraQuery q(this);
+	Query q(this);
 	QString select = "SELECT "
 					 "  albumID"
 					 ", albumName"
@@ -355,9 +358,9 @@ bool DatabaseAlbums::getAllAlbumsBySearchString(const Library::Filter& filter, A
 	return db_fetch_albums(q, result);
 }
 
-int DatabaseAlbums::updateAlbum (const Album & album)
+int Albums::updateAlbum (const Album & album)
 {
-	SayonaraQuery q(this);
+	Query q(this);
 
 	q.prepare("UPDATE albums "
 			  "SET name=:name, "
@@ -380,9 +383,9 @@ int DatabaseAlbums::updateAlbum (const Album & album)
 	return getAlbumID (album.name());
 }
 
-void DatabaseAlbums::updateAlbumCissearch()
+void Albums::updateAlbumCissearch()
 {
-	DatabaseSearchMode::update_search_mode();
+	SearchMode::update_search_mode();
 
 	AlbumList albums;
 	getAllAlbums(albums, true);
@@ -392,7 +395,7 @@ void DatabaseAlbums::updateAlbumCissearch()
 	for(const Album& album : albums)
 	{
 		QString str = "UPDATE albums SET cissearch=:cissearch WHERE albumID=:id;";
-		SayonaraQuery q(this);
+		Query q(this);
 		QString cis = Library::Util::convert_search_string(album.name(), search_mode());
 		q.prepare(str);
 		q.bindValue(":cissearch", cis);
@@ -406,9 +409,9 @@ void DatabaseAlbums::updateAlbumCissearch()
 	module_db().commit();
 }
 
-int DatabaseAlbums::insertAlbumIntoDatabase (const QString& album)
+int Albums::insertAlbumIntoDatabase (const QString& album)
 {
-	SayonaraQuery q(this);
+	Query q(this);
 
 	int album_id = getAlbumID(album);
 	if(album_id >= 0){
@@ -430,13 +433,13 @@ int DatabaseAlbums::insertAlbumIntoDatabase (const QString& album)
 	return getAlbumID(album);
 }
 
-int DatabaseAlbums::insertAlbumIntoDatabase (const Album& album)
+int Albums::insertAlbumIntoDatabase (const Album& album)
 {
 	if(album.id >= 0){
 		return updateAlbum(album);
 	}
 
-	SayonaraQuery q(this);
+	Query q(this);
 	QString cissearch = Library::Util::convert_search_string(album.name(), search_mode());
 
 	q.prepare("INSERT INTO albums (name, cissearch, rating) values (:name, :cissearch, :rating);");
@@ -453,13 +456,13 @@ int DatabaseAlbums::insertAlbumIntoDatabase (const Album& album)
 	return album.id;
 }
 
-void DatabaseAlbums::change_artistid_field(const QString& id, const QString& name)
+void Albums::change_artistid_field(const QString& id, const QString& name)
 {
-    _artistid_field = id;
-    _artistname_field = name;
+	_artistid_field = id;
+	_artistname_field = name;
 }
 
-void DatabaseAlbums::change_track_lookup_field(const QString& track_lookup_field)
+void Albums::change_track_lookup_field(const QString& track_lookup_field)
 {
 	_search_view_name = track_lookup_field;
 }

@@ -27,7 +27,7 @@
 #include "Utils/Settings/SettingConverter.h"
 #include "Utils/Pimpl.h"
 
-class DatabaseSettings;
+class Settings;
 
 /**
  * @brief The AbstrSetting class\n

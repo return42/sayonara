@@ -28,37 +28,44 @@
 class MetaData;
 class MetaDataList;
 
-class DatabasePlaylist : private DatabaseModule
+namespace Playlist
 {
-public:
-
-	enum class PlaylistChooserType : uint8_t 
+	enum class StoreType : uint8_t
 	{
 		OnlyTemporary=1,
 		OnlyPermanent=2,
 		TemporaryAndPermanent=3
 	};
+}
+
+namespace DB
+{
+	class Playlist :
+			private Module
+	{
+		public:
 
 
-	DatabasePlaylist(const QSqlDatabase& db, uint8_t db_id);
+			Playlist(const QSqlDatabase& db, uint8_t db_id);
 
-	bool getAllPlaylistSkeletons(CustomPlaylistSkeletons& skeletons, DatabasePlaylist::PlaylistChooserType type, Playlist::SortOrder sortorder=Playlist::SortOrder::NameAsc);
-	bool getPlaylistSkeletonById(CustomPlaylistSkeleton& skeleton);
+			bool getAllPlaylistSkeletons(CustomPlaylistSkeletons& skeletons, ::Playlist::StoreType type, ::Playlist::SortOrder sortorder=::Playlist::SortOrder::NameAsc);
+			bool getPlaylistSkeletonById(CustomPlaylistSkeleton& skeleton);
 
-	int createPlaylist(QString playlist_name, bool temporary);
-	bool renamePlaylist(int id, const QString& new_name);
+			int createPlaylist(QString playlist_name, bool temporary);
+			bool renamePlaylist(int id, const QString& new_name);
 
-	int getPlaylistIdByName(const QString& name);
-	bool getPlaylistById(CustomPlaylist& pl);
+			int getPlaylistIdByName(const QString& name);
+			bool getPlaylistById(CustomPlaylist& pl);
 
-	// checks if playlist is already there and inserts it, if necessary
-	bool storePlaylist(const MetaDataList& vec_md, QString playlist_name, bool temporary);
-	bool storePlaylist(const MetaDataList& vec_md, int playlist_id, bool temporary);
+			// checks if playlist is already there and inserts it, if necessary
+			bool storePlaylist(const MetaDataList& vec_md, QString playlist_name, bool temporary);
+			bool storePlaylist(const MetaDataList& vec_md, int playlist_id, bool temporary);
 
-	bool deletePlaylist(int playlist_id);
-	bool emptyPlaylist(int playlist_id);
+			bool deletePlaylist(int playlist_id);
+			bool emptyPlaylist(int playlist_id);
 
-	bool insertTrackIntoPlaylist(const MetaData& md, int playlist_id, int pos);
-};
+			bool insertTrackIntoPlaylist(const MetaData& md, int playlist_id, int pos);
+	};
+}
 
 #endif // DATABASEPLAYLIST_H

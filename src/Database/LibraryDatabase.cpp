@@ -22,22 +22,24 @@
 #include "SayonaraQuery.h"
 #include "Utils/Settings/Settings.h"
 
+using DB::LibraryDatabase;
+
 LibraryDatabase::LibraryDatabase(const QString& db_name, uint8_t database_id, int8_t library_id) :
-	AbstractDatabase(database_id, "", db_name),
-    DatabaseAlbums(db(), db_id(), library_id),
-    DatabaseArtists(db(), db_id(), library_id),
-	DatabaseTracks(db(), db_id(), library_id),
-	DatabaseLibrary(db(), db_id(), library_id)
+	DB::Base(database_id, "", db_name),
+	DB::Albums(db(), db_id(), library_id),
+	DB::Artists(db(), db_id(), library_id),
+	DB::Tracks(db(), db_id(), library_id),
+	DB::Library(db(), db_id(), library_id)
 {
 	_library_id = library_id;
 
 	bool show_album_artists = false;
 
-    AbstrSetting* s = Settings::instance()->setting(SettingKey::Lib_ShowAlbumArtists);
-    QString db_key = s->db_key();
+	AbstrSetting* s = Settings::instance()->setting(SettingKey::Lib_ShowAlbumArtists);
+	QString db_key = s->db_key();
 
-	SayonaraQuery q(db());
-    QString querytext = "SELECT value FROM settings WHERE key = '" + db_key + "';";
+	Query q(db());
+	QString querytext = "SELECT value FROM settings WHERE key = '" + db_key + "';";
 
 	q.prepare(querytext);
 	if(q.exec()){
@@ -62,25 +64,25 @@ LibraryDatabase::~LibraryDatabase() {}
 
 void LibraryDatabase::change_artistid_field(LibraryDatabase::ArtistIDField field)
 {
-    QString id, name;
+	QString id, name;
 	if(field == LibraryDatabase::ArtistIDField::AlbumArtistID){
-        id = "albumArtistID";
-        name = "albumArtistName";
+		id = "albumArtistID";
+		name = "albumArtistName";
 	}
 
 	else{
-        id = "artistID";
-        name = "artistName";
+		id = "artistID";
+		name = "artistName";
 	}
 
-    DatabaseAlbums::change_artistid_field(id, name);
-    DatabaseArtists::change_artistid_field(id, name);
-    DatabaseTracks::change_artistid_field(id, name);
+	Albums::change_artistid_field(id, name);
+	Artists::change_artistid_field(id, name);
+	Tracks::change_artistid_field(id, name);
 }
 
 void LibraryDatabase::clear()
 {
-	DatabaseTracks::deleteAllTracks();
+	Tracks::deleteAllTracks();
 }
 
 int8_t LibraryDatabase::library_id() const

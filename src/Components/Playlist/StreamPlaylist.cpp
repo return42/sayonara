@@ -20,15 +20,17 @@
 
 #include "StreamPlaylist.h"
 
-StreamPlaylist::StreamPlaylist(int idx, QString name) :
-	StdPlaylist(idx, name)
+using Playlist::Stream;
+
+Stream::Stream(int idx, QString name) :
+	Standard(idx, name)
 {
 	set_storable(false);
 }
 
-StreamPlaylist::~StreamPlaylist() {}
+Stream::~Stream() {}
 
-Playlist::Type StreamPlaylist::type() const
+Playlist::Type Stream::type() const
 {
 	return Playlist::Type::Stream;
 }

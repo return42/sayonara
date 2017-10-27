@@ -83,8 +83,8 @@ AlbumInfo::AlbumInfo(const MetaDataList& v_md) :
 
 		int album_id = album_ids().first();
 
-		DatabaseConnector* db = DatabaseConnector::instance();
-		LibraryDatabase* lib_db = db->library_db(-1, m->db_id);
+		DB::Connector* db = DB::Connector::instance();
+		DB::LibraryDatabase* lib_db = db->library_db(-1, m->db_id);
 		if(lib_db)
 		{
 			// BIG TODO FOR SOUNDCLOUD
@@ -135,8 +135,8 @@ void AlbumInfo::calc_cover_location()
 {
 	if(album_ids().size() == 1)
 	{
-		DatabaseConnector* db = DatabaseConnector::instance();
-		LibraryDatabase* lib_db = db->library_db(-1, m->db_id);
+		DB::Connector* db = DB::Connector::instance();
+		DB::LibraryDatabase* lib_db = db->library_db(-1, m->db_id);
 
 		Album album;
 		album.id = album_ids().first();

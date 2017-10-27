@@ -1,4 +1,4 @@
-/* SayonaraQuery.h */
+/* Query.h */
 
 /* Copyright (C) 2011-2017  Lucio Carreras
  *
@@ -18,8 +18,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef SAYONARAQUERY_H
-#define SAYONARAQUERY_H
+#ifndef Query_H
+#define Query_H
 
 #include <QSqlQuery>
 #include <QString>
@@ -28,33 +28,37 @@
 #include <QSqlError>
 
 #include "Utils/Pimpl.h"
-class DatabaseModule;
 
-class SayonaraQuery : public QSqlQuery 
+
+namespace DB
 {
-	PIMPL(SayonaraQuery)
+	class Module;
+	class Query :
+			public QSqlQuery
+	{
+		PIMPL(Query)
 
-private:
-	explicit SayonaraQuery(const QString& query=QString(), const QSqlDatabase& db = QSqlDatabase()) = delete;
-	explicit SayonaraQuery(QSqlResult * result) = delete;
+		private:
+			explicit Query(const QString& query=QString(), const QSqlDatabase& db = QSqlDatabase()) = delete;
+			explicit Query(QSqlResult * result) = delete;
 
+		public:
+			explicit Query(const Module* module);
+			explicit Query(QSqlDatabase db);
+			Query(const Query& other);
 
-public:
-	explicit SayonaraQuery(const DatabaseModule* module);
-    explicit SayonaraQuery(QSqlDatabase db);
-	SayonaraQuery(const SayonaraQuery& other);
+			virtual ~Query();
 
-	virtual ~SayonaraQuery();
+			bool prepare(const QString& query);
+			void bindValue(const QString & placeholder, const QVariant & val, QSql::ParamType paramType = QSql::In);
+			bool exec();
 
-	bool prepare(const QString& query);
-	void bindValue(const QString & placeholder, const QVariant & val, QSql::ParamType paramType = QSql::In);
-	bool exec();
+			QString get_query_string() const;
+			void show_query() const;
+			void show_error(const QString& err_msg) const;
 
-	QString get_query_string() const;
-	void show_query() const;
-	void show_error(const QString& err_msg) const;
+			size_t fetched_rows();
+	};
+}
 
-	size_t fetched_rows();
-};
-
-#endif // SAYONARAQUERY_H
+#endif // Query_H

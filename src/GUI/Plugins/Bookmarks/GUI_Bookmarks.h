@@ -34,7 +34,7 @@ UI_FWD(GUI_Bookmarks)
  * @ingroup Bookmarks
  */
 class GUI_Bookmarks :
-		public PlayerPluginInterface
+		public PlayerPlugin::Base
 {
 	Q_OBJECT
 	UI_CLASS(GUI_Bookmarks)

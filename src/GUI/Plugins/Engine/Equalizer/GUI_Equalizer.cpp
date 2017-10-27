@@ -83,7 +83,7 @@ struct GUI_Equalizer::Private
 };
 
 GUI_Equalizer::GUI_Equalizer(QWidget *parent) :
-	PlayerPluginInterface(parent)
+	PlayerPlugin::Base(parent)
 {
 	m = Pimpl::make<Private>();
 }

@@ -97,8 +97,8 @@ struct Application::Private
 	QTime*				timer=nullptr;
 	GUI_Player*			player=nullptr;
 
-	PlaylistHandler*	plh=nullptr;
-	DatabaseConnector*	db=nullptr;
+	Playlist::Handler*	plh=nullptr;
+	DB::Connector*	db=nullptr;
 	InstanceThread*		instance_thread=nullptr;
 	QTranslator*		translator=nullptr;
 	MetaTypeRegistry*	metatype_registry=nullptr;
@@ -113,7 +113,7 @@ struct Application::Private
 		/* Tell the settings manager which settings are necessary */
 		settings_initialized = SettingRegistry::init();
 
-		db = DatabaseConnector::instance();
+		db = DB::Connector::instance();
 		db->load_settings();
 
 		if( !settings_initialized )
@@ -128,7 +128,7 @@ struct Application::Private
 		Q_INIT_RESOURCE(IconsWindows);
 #endif
 		timer = new QTime();
-		plh = PlaylistHandler::instance();
+		plh = Playlist::Handler::instance();
 	}
 
 	~Private()
@@ -282,7 +282,7 @@ void Application::init_preferences()
 	preferences->register_preference_dialog(new GUI_PlaylistPreferences());
 	preferences->register_preference_dialog(new GUI_LibraryPreferences());
 	preferences->register_preference_dialog(new GUI_Covers());
-	preferences->register_preference_dialog(new GUI_StreamPreferences());
+	//preferences->register_preference_dialog(new GUI_StreamPreferences());
 	preferences->register_preference_dialog(new GUI_StreamRecorder());
 	preferences->register_preference_dialog(new GUI_BroadcastSetup());
 	preferences->register_preference_dialog(new GUI_Shortcuts());
@@ -323,7 +323,7 @@ void Application::init_engine()
 void Application::init_plugins()
 {
 	sp_log(Log::Debug, this) << "Init plugins... " << m->timer->elapsed() << "ms";
-	PlayerPluginHandler* pph = new PlayerPluginHandler(this);
+	PlayerPlugin::Handler* pph = new PlayerPlugin::Handler(this);
 
 	pph->add_plugin(new GUI_LevelPainter());
 	pph->add_plugin(new GUI_Spectrum());

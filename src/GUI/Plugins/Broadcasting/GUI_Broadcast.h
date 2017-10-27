@@ -27,7 +27,7 @@
 UI_FWD(GUI_Broadcast)
 
 class GUI_Broadcast :
-		public PlayerPluginInterface
+		public PlayerPlugin::Base
 {
 	Q_OBJECT
 	PIMPL(GUI_Broadcast)

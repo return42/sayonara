@@ -54,12 +54,12 @@ void InstanceThread::run()
 	}
 
 	while(m->may_run)
-    {
+	{
 		char* ptr = (char*) m->memory.data();
 
 		if(memcmp(ptr, "Req", 3) == 0)
 		{
-            sp_log(Log::Debug, this) << "Second instance saying hello";
+			sp_log(Log::Debug, this) << "Second instance saying hello";
 
 			if(*(ptr + 3) == 'D'){
 				parse_memory();
@@ -70,10 +70,10 @@ void InstanceThread::run()
 			m->memory.unlock();
 
 			emit sig_player_raise();
-        }
+		}
 
 		if(m->may_run){
-            Util::sleep_ms(100);
+			Util::sleep_ms(100);
 		}
 	}
 }
@@ -118,7 +118,7 @@ void InstanceThread::parse_memory()
 			}
 		}
 
-		QString new_name =  PlaylistHandler::instance()->request_new_playlist_name();
+		QString new_name =  Playlist::Handler::instance()->request_new_playlist_name();
 		emit sig_create_playlist(file_list, new_name, true);
 	}
 

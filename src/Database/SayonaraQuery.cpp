@@ -1,4 +1,4 @@
-/* SayonaraQuery.cpp */
+/* Query.cpp */
 
 /* Copyright (C) 2011-2017  Lucio Carreras
  *
@@ -27,45 +27,47 @@
 
 //#define DB_DEBUG
 
-struct SayonaraQuery::Private
+using DB::Query;
+
+struct Query::Private
 {
 	QString query_string;
 };
 
-SayonaraQuery::SayonaraQuery(const DatabaseModule* module) :
+Query::Query(const Module* module) :
 	QSqlQuery(module->module_db())
 {
 	m = Pimpl::make<Private>();
 }
 
 
-SayonaraQuery::SayonaraQuery(QSqlDatabase db) :
-    QSqlQuery(db)
+Query::Query(QSqlDatabase db) :
+	QSqlQuery(db)
 {
-    m = Pimpl::make<Private>();
+	m = Pimpl::make<Private>();
 }
 
 
-SayonaraQuery::SayonaraQuery(const SayonaraQuery& other) :
+Query::Query(const Query& other) :
 	QSqlQuery(other)
 {
 	m = Pimpl::make<Private>();
 	m->query_string = other.m->query_string;
 }
 
-SayonaraQuery::~SayonaraQuery()
+Query::~Query()
 {
 	this->clear();
 }
 
-bool SayonaraQuery::prepare(const QString& query)
+bool Query::prepare(const QString& query)
 {
 	m->query_string = query;
 
 	return QSqlQuery::prepare(query);
 }
 
-void SayonaraQuery::bindValue(const QString& placeholder, const QVariant& val, QSql::ParamType param_type )
+void Query::bindValue(const QString& placeholder, const QVariant& val, QSql::ParamType param_type )
 {
 	QString replace_str = QString("'") + val.toString() + "'";
 
@@ -85,7 +87,7 @@ void SayonaraQuery::bindValue(const QString& placeholder, const QVariant& val, Q
 	static QHash<QString, int> query_map;
 #endif
 
-bool SayonaraQuery::exec()
+bool Query::exec()
 {
 #ifdef DB_DEBUG
 	QTime timer;
@@ -119,7 +121,7 @@ bool SayonaraQuery::exec()
 	return success;
 }
 
-QString SayonaraQuery::get_query_string() const
+QString Query::get_query_string() const
 {
 	QString str = m->query_string;
 	str.prepend("\n");
@@ -171,12 +173,12 @@ QString SayonaraQuery::get_query_string() const
 	return str;
 }
 
-void SayonaraQuery::show_query() const
+void Query::show_query() const
 {
 	sp_log(Log::Debug, this) << get_query_string();
 }
 
-void SayonaraQuery::show_error(const QString& err_msg) const
+void Query::show_error(const QString& err_msg) const
 {
 	sp_log(Log::Error) << "SQL ERROR: " << err_msg << ": " << (int) this->lastError().type();
 	sp_log(Log::Error) << this->lastError().text();
@@ -188,11 +190,11 @@ void SayonaraQuery::show_error(const QString& err_msg) const
 	sp_log(Log::Error) << this->get_query_string();
 }
 
-size_t SayonaraQuery::fetched_rows()
+size_t Query::fetched_rows()
 {
 	int last_pos = this->at();
 
-	this->last(); 
+	this->last();
 	int rows = this->at() + 1;
 	this->seek(last_pos);
 

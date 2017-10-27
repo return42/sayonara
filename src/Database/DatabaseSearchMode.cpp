@@ -22,8 +22,10 @@
 #include "Database/SayonaraQuery.h"
 #include "Utils/Settings/Settings.h"
 
-struct DatabaseSearchMode::Private
-{	
+using DB::SearchMode;
+
+struct SearchMode::Private
+{
 	bool initialized;
 	Library::SearchModeMask search_mode;
 
@@ -34,26 +36,26 @@ struct DatabaseSearchMode::Private
 	{}
 };
 
-DatabaseSearchMode::DatabaseSearchMode(const QSqlDatabase& db, uint8_t db_id) :
-	DatabaseModule(db, db_id)
+SearchMode::SearchMode(const QSqlDatabase& db, uint8_t db_id) :
+	DB::Module(db, db_id)
 {
-	m = Pimpl::make<DatabaseSearchMode::Private>();
+	m = Pimpl::make<SearchMode::Private>();
 }
 
-DatabaseSearchMode::~DatabaseSearchMode() {}
+SearchMode::~SearchMode() {}
 
 
-void DatabaseSearchMode::init()
+void SearchMode::init()
 {
 	if(m->initialized){
 		return;
 	}
 
-    AbstrSetting* s = Settings::instance()->setting(SettingKey::Lib_SearchMode);
-    QString db_key = s->db_key();
+	AbstrSetting* s = Settings::instance()->setting(SettingKey::Lib_SearchMode);
+	QString db_key = s->db_key();
 
-	SayonaraQuery q(this);
-    q.prepare("SELECT value FROM settings WHERE key = '" + db_key + "';");
+	Query q(this);
+	q.prepare("SELECT value FROM settings WHERE key = '" + db_key + "';");
 
 	if(q.exec()) {
 		if (q.next()) {
@@ -63,14 +65,14 @@ void DatabaseSearchMode::init()
 	}
 }
 
-Library::SearchModeMask DatabaseSearchMode::search_mode()
+Library::SearchModeMask SearchMode::search_mode()
 {
 	init();
 
 	return m->search_mode;
 }
 
-void DatabaseSearchMode::update_search_mode()
+void SearchMode::update_search_mode()
 {
 	m->initialized = false;
 	init();

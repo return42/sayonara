@@ -24,17 +24,20 @@
 #include <QSqlDatabase>
 #include "Utils/Pimpl.h"
 
-class SayonaraQuery;
-class DatabaseModule
+namespace DB
 {
-	PIMPL(DatabaseModule)
+	class Query;
+	class Module
+	{
+		PIMPL(Module)
 
-public:
-    DatabaseModule(QSqlDatabase db, uint8_t db_id);
-	virtual ~DatabaseModule();
+		public:
+			Module(QSqlDatabase db, uint8_t db_id);
+			virtual ~Module();
 
-	uint8_t module_db_id() const;
-    QSqlDatabase module_db() const;
-};
+			uint8_t module_db_id() const;
+			QSqlDatabase module_db() const;
+	};
+}
 
 #endif // DATABASEMODULE_H

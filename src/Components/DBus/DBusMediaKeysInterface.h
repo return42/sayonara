@@ -24,20 +24,19 @@
 #include <QDBusPendingCallWatcher>
 #include "Utils/Pimpl.h"
 
-class PlayManager;
 class DBusMediaKeysInterface :
 		public QObject
 {
 	Q_OBJECT
-    PIMPL(DBusMediaKeysInterface)
+	PIMPL(DBusMediaKeysInterface)
 
 public:
 	explicit DBusMediaKeysInterface(QObject *parent=nullptr);
 	virtual ~DBusMediaKeysInterface();
 
 protected:
-    bool initialized() const;
-    void set_initialized(bool b);
+	bool initialized() const;
+	void set_initialized(bool b);
 
 
 protected slots:

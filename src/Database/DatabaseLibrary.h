@@ -24,22 +24,24 @@
 #include "Database/DatabaseModule.h"
 
 class MetaDataList;
-
-class DatabaseLibrary :
-		private DatabaseModule
+namespace DB
 {
+	class Library :
+			private Module
+	{
 
-private:
-	uint8_t _library_id;
+		private:
+			uint8_t _library_id;
 
-public:
-	DatabaseLibrary(const QSqlDatabase& db, uint8_t db_id, int8_t library_id);
-	~DatabaseLibrary();
+		public:
+			Library(const QSqlDatabase& db, uint8_t db_id, int8_t library_id);
+			~Library();
 
-	virtual void dropIndexes();
-	virtual void createIndexes();
-	virtual bool storeMetadata(const MetaDataList& v_md);
-	virtual void addAlbumArtists();
-};
+			virtual void dropIndexes();
+			virtual void createIndexes();
+			virtual bool storeMetadata(const MetaDataList& v_md);
+			virtual void addAlbumArtists();
+	};
+}
 
 #endif // DATABASELIBRARY_H

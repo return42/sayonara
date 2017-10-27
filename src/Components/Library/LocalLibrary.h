@@ -25,13 +25,12 @@
 #include "Utils/Pimpl.h"
 
 class ReloadThread;
-class DatabaseConnector;
 class LibraryImporter;
 
 class LocalLibrary :
 		public AbstractLibrary
 {
-    Q_OBJECT
+	Q_OBJECT
 	PIMPL(LocalLibrary)
 
 signals:
@@ -63,7 +62,7 @@ public slots:
 	void merge_artists(const SP::Set<ArtistID>& artist_ids, ArtistID target_artist_id);
 	void merge_albums(const SP::Set<AlbumID>& albums_ids, AlbumID target_album_id);
 
-    void show_album_artists_changed(bool show_album_artists);
+	void show_album_artists_changed(bool show_album_artists);
 
 
 protected slots:

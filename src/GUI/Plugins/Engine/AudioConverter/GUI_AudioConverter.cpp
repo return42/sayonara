@@ -46,7 +46,7 @@ struct GUI_AudioConverter::Private
 };
 
 GUI_AudioConverter::GUI_AudioConverter(QWidget *parent) :
-	PlayerPluginInterface(parent)
+	PlayerPlugin::Base(parent)
 {
     m = Pimpl::make<Private>();
 }

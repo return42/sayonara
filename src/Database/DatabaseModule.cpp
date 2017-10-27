@@ -21,40 +21,42 @@
 #include "Database/DatabaseModule.h"
 #include "Utils/Logger/Logger.h"
 
-struct DatabaseModule::Private
+using DB::Module;
+
+struct Module::Private
 {
-    QString connection_name;
+	QString connection_name;
 	uint8_t db_id;
 
 	Private(const QSqlDatabase& db, uint8_t db_id) :
-        connection_name(db.connectionName()),
+		connection_name(db.connectionName()),
 		db_id(db_id)
-    {}
+	{}
 
-    ~Private(){}
+	~Private(){}
 };
 
-DatabaseModule::DatabaseModule(QSqlDatabase db, uint8_t db_id)
+Module::Module(QSqlDatabase db, uint8_t db_id)
 {
 	m = Pimpl::make<Private>(db, db_id);
 
-    this->module_db().open();
+	this->module_db().open();
 }
 
-DatabaseModule::~DatabaseModule() {}
+Module::~Module() {}
 
-uint8_t DatabaseModule::module_db_id() const
+uint8_t Module::module_db_id() const
 {
 	return m->db_id;
 }
 
-QSqlDatabase DatabaseModule::module_db() const
+QSqlDatabase Module::module_db() const
 {
-    if(!QSqlDatabase::isDriverAvailable("QSQLITE")){
-        return QSqlDatabase();
-    }
+	if(!QSqlDatabase::isDriverAvailable("QSQLITE")){
+		return QSqlDatabase();
+	}
 
-    return QSqlDatabase::database(m->connection_name);
+	return QSqlDatabase::database(m->connection_name);
 
 }
 

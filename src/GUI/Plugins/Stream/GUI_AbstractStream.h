@@ -32,7 +32,7 @@ class MenuToolButton;
 class AbstractStreamHandler;
 
 class GUI_AbstractStream :
-		public PlayerPluginInterface
+		public PlayerPlugin::Base
 {
 	Q_OBJECT
 
@@ -51,7 +51,7 @@ protected:
 	template<typename T, typename UiType>
 	void setup_parent(T* subclass, UiType** uiptr)
 	{
-		PlayerPluginInterface::setup_parent(subclass, uiptr);
+		PlayerPlugin::Base::setup_parent(subclass, uiptr);
 		GUI_AbstractStream::init_ui();
 	}
 

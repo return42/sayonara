@@ -39,7 +39,7 @@ struct GUI_Bookmarks::Private
 };
 
 GUI_Bookmarks::GUI_Bookmarks(QWidget *parent) :
-	PlayerPluginInterface(parent)
+	PlayerPlugin::Base(parent)
 {
 	m = Pimpl::make<Private>();
 }

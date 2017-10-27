@@ -29,7 +29,7 @@
 #include <QCursor>
 
 GUI_Speed::GUI_Speed(QWidget *parent) :
-	PlayerPluginInterface(parent) {}
+	PlayerPlugin::Base(parent) {}
 
 GUI_Speed::~GUI_Speed()
 {

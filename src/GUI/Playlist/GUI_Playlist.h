@@ -40,12 +40,9 @@
 #include "Components/PlayManager/PlayState.h"
 #include "Components/Playlist/PlaylistDBInterface.h"
 
-
 #include <QTextEdit>
 
-class PlayManager;
 class PlaylistView;
-class PlaylistHandler;
 
 UI_FWD(Playlist_Window)
 
@@ -54,7 +51,7 @@ class GUI_Playlist :
 {
 	Q_OBJECT
 	UI_CLASS(Playlist_Window)
-    PIMPL(GUI_Playlist)
+	PIMPL(GUI_Playlist)
 
 public:
 	explicit GUI_Playlist(QWidget *parent=nullptr);
@@ -78,7 +75,7 @@ private:
 	void dragMoveEvent(QDragMoveEvent* event) override;
 	void changeEvent(QEvent* e) override;
 
-	GlobalMessage::Answer show_save_message_box(PlaylistDBInterface::SaveAsAnswer answer);
+	GlobalMessage::Answer show_save_message_box(Playlist::DBInterface::SaveAsAnswer answer);
 
 private slots:
 
@@ -95,14 +92,14 @@ private slots:
 	// triggered by GUI
 	void tab_close_playlist_clicked(int pl_idx); // GUI_PlaylistTabs.cpp
 	void tab_save_playlist_clicked(int pl_idx); // GUI_PlaylistTabs.cpp
-    void tab_save_playlist_as_clicked(int pl_idx, const QString& str); // GUI_PlaylistTabs.cpp
-    void tab_save_playlist_to_file_clicked(int pl_idx, const QString& filename); // GUI_PlaylistTabs.cpp
+	void tab_save_playlist_as_clicked(int pl_idx, const QString& str); // GUI_PlaylistTabs.cpp
+	void tab_save_playlist_to_file_clicked(int pl_idx, const QString& filename); // GUI_PlaylistTabs.cpp
 	void tab_rename_clicked(int pl_idx, const QString& str);
 	void tab_delete_playlist_clicked(int pl_idx); // GUI_PlaylistTabs.cpp
 	void tab_metadata_dropped(int pl_idx, const MetaDataList& v_md);
 	void open_file_clicked(int pl_idx);
 	void open_dir_clicked(int pl_idx);
-    void delete_tracks_clicked(const IndexSet& rows);
+	void delete_tracks_clicked(const IndexSet& rows);
 
 	void check_tab_icon();
 	void check_playlist_menu(PlaylistConstPtr pl);

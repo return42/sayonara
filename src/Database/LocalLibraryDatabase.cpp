@@ -18,18 +18,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "LocalLibraryDatabase.h"
 
-LocalLibraryDatabase::LocalLibraryDatabase(int8_t library_id) :
-	LibraryDatabase("player.db", 0, library_id)
-{
+DB::LocalLibraryDatabase::LocalLibraryDatabase(int8_t library_id) :
+	DB::LibraryDatabase("player.db", 0, library_id)
+{}
 
-}
-
-LocalLibraryDatabase::~LocalLibraryDatabase()
-{
-
-}
+DB::LocalLibraryDatabase::~LocalLibraryDatabase() {}
 

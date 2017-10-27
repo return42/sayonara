@@ -24,18 +24,23 @@
 #include "Database/DatabaseModule.h"
 
 class QVariant;
-class DatabaseSettings : private DatabaseModule
+
+namespace DB
 {
-public:
-	DatabaseSettings(const QSqlDatabase& db, uint8_t db_id);
-	~DatabaseSettings();
+	class Settings :
+			private Module
+	{
+	public:
+		Settings(const QSqlDatabase& db, uint8_t db_id);
+		~Settings();
 
-	bool load_all_settings(QStringList& result);
-	bool load_setting(QString key, QString& val);
-	bool store_setting(QString key, const QVariant& val);
+		bool load_all_settings(QStringList& result);
+		bool load_setting(QString key, QString& val);
+		bool store_setting(QString key, const QVariant& val);
 
-	bool load_settings();
-	bool store_settings();
-};
+		bool load_settings();
+		bool store_settings();
+	};
+}
 
 #endif // DATABASESETTINGS_H

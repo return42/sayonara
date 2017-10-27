@@ -44,19 +44,19 @@
 
 struct PlaylistItemModel::Private
 {
-    PlaylistPtr pl=nullptr;
+	PlaylistPtr pl=nullptr;
 
-    Private(PlaylistPtr pl) :
-        pl(pl)
-    {}
+	Private(PlaylistPtr pl) :
+		pl(pl)
+	{}
 };
 
 PlaylistItemModel::PlaylistItemModel(PlaylistPtr pl, QObject* parent) :
-    AbstractSearchListModel(parent)
+	AbstractSearchListModel(parent)
 {
-    m = Pimpl::make<Private>(pl);
+	m = Pimpl::make<Private>(pl);
 
-    connect(m->pl.get(), &AbstractPlaylist::sig_data_changed, this, &PlaylistItemModel::playlist_changed);
+	connect(m->pl.get(), &Playlist::Base::sig_data_changed, this, &PlaylistItemModel::playlist_changed);
 }
 
 PlaylistItemModel::~PlaylistItemModel() {}
@@ -65,7 +65,7 @@ PlaylistItemModel::~PlaylistItemModel() {}
 int PlaylistItemModel::rowCount(const QModelIndex &parent) const
 {
 	Q_UNUSED(parent);
-    return m->pl->count();
+	return m->pl->count();
 }
 
 
@@ -75,12 +75,12 @@ QVariant PlaylistItemModel::data(const QModelIndex &index, int role) const
 		return QVariant();
 	}
 
-    if ( !between(index.row(), m->pl->count())) {
+	if ( !between(index.row(), m->pl->count())) {
 		return QVariant();
 	}
 
 	if (role == Qt::DisplayRole) {
-        return MetaData::toVariant( m->pl->at_const_ref(index.row()) );
+		return MetaData::toVariant( m->pl->at_const_ref(index.row()) );
 	}
 
 	return QVariant();
@@ -94,7 +94,7 @@ Qt::ItemFlags PlaylistItemModel::flags(const QModelIndex &index = QModelIndex())
 		return Qt::ItemIsEnabled;
 	}
 
-    if( row >= 0 && row < m->pl->count())
+	if( row >= 0 && row < m->pl->count())
 	{
 		const MetaData& md = metadata(row);
 		if(md.is_disabled){
@@ -108,18 +108,18 @@ Qt::ItemFlags PlaylistItemModel::flags(const QModelIndex &index = QModelIndex())
 
 void PlaylistItemModel::clear()
 {
-    m->pl->clear();
+	m->pl->clear();
 }
 
 
 void PlaylistItemModel::remove_rows(const IndexSet& indexes){
-    m->pl->delete_tracks(indexes);
+	m->pl->delete_tracks(indexes);
 }
 
 
 void PlaylistItemModel::move_rows(const IndexSet& indexes, int target_index)
 {
-    m->pl->move_tracks(indexes, target_index);
+	m->pl->move_tracks(indexes, target_index);
 
 	playlist_changed(0);
 }
@@ -127,82 +127,82 @@ void PlaylistItemModel::move_rows(const IndexSet& indexes, int target_index)
 
 IndexSet PlaylistItemModel::move_rows_up(const IndexSet& indexes)
 {
-    int min_row = *(std::min_element(indexes.begin(), indexes.end()));
-    if(min_row <= 0){
-        return IndexSet();
-    }
+	int min_row = *(std::min_element(indexes.begin(), indexes.end()));
+	if(min_row <= 0){
+		return IndexSet();
+	}
 
-    move_rows(indexes, min_row - 1);
+	move_rows(indexes, min_row - 1);
 
-    IndexSet new_indexes;
-    for(int i=0; i<indexes.count(); i++)
-    {
-        new_indexes.insert(i + min_row - 1);
-    }
+	IndexSet new_indexes;
+	for(int i=0; i<indexes.count(); i++)
+	{
+		new_indexes.insert(i + min_row - 1);
+	}
 
-    return new_indexes;
+	return new_indexes;
 }
 
 
 IndexSet PlaylistItemModel::move_rows_down(const IndexSet& indexes)
 {
-    auto min_max = std::minmax_element(indexes.begin(), indexes.end());
-    int min_row = *(min_max.first);
-    int max_row = *(min_max.second);
+	auto min_max = std::minmax_element(indexes.begin(), indexes.end());
+	int min_row = *(min_max.first);
+	int max_row = *(min_max.second);
 
-    if(max_row >= rowCount() - 1){
-        return IndexSet();
-    }
+	if(max_row >= rowCount() - 1){
+		return IndexSet();
+	}
 
-    IndexSet new_indexes;
-    move_rows(indexes, max_row + 2);
+	IndexSet new_indexes;
+	move_rows(indexes, max_row + 2);
 
-    for(int i=0; i<indexes.count(); i++)
-    {
-        new_indexes.insert(i + min_row + 1);
-    }
+	for(int i=0; i<indexes.count(); i++)
+	{
+		new_indexes.insert(i + min_row + 1);
+	}
 
-    return new_indexes;
+	return new_indexes;
 }
 
 void PlaylistItemModel::copy_rows(const IndexSet& indexes, int target_index){
-    m->pl->copy_tracks(indexes, target_index);
+	m->pl->copy_tracks(indexes, target_index);
 	playlist_changed(0);
 }
 
 
 int PlaylistItemModel::current_track() const
 {
-    return m->pl->current_track_index();
+	return m->pl->current_track_index();
 }
 
 
 void PlaylistItemModel::set_current_track(int row)
 {
-    m->pl->change_track(row);
+	m->pl->change_track(row);
 }
 
 const MetaData& PlaylistItemModel::metadata(int row) const
 {
-    return m->pl->at_const_ref(row);
+	return m->pl->at_const_ref(row);
 }
 
 template<typename T>
 MetaDataList gather_metadata(const T& rows, PlaylistPtr pl)
 {
-    MetaDataList v_md;
-    v_md.reserve(rows.size());
+	MetaDataList v_md;
+	v_md.reserve(rows.size());
 
-    for(int row : rows){
-        v_md << pl->at_const_ref(row);
-    }
+	for(int row : rows){
+		v_md << pl->at_const_ref(row);
+	}
 
-    return v_md;
+	return v_md;
 }
 
 MetaDataList PlaylistItemModel::metadata(const IndexSet &rows) const
 {
-    return gather_metadata(rows, m->pl);
+	return gather_metadata(rows, m->pl);
 }
 
 const static QChar album_search_prefix('%');
@@ -212,30 +212,30 @@ const static QChar jump_prefix=(':');
 
 bool PlaylistItemModel::has_items() const
 {
-    return (rowCount() > 0);
+	return (rowCount() > 0);
 }
 
-QModelIndex PlaylistItemModel::getPrevRowIndexOf(const QString& substr, int row, const QModelIndex &parent) 
+QModelIndex PlaylistItemModel::getPrevRowIndexOf(const QString& substr, int row, const QModelIndex &parent)
 {
 	Q_UNUSED(parent)
 
 	QString converted_string = substr;
 
-    int len = m->pl->count();
+	int len = m->pl->count();
 	if(len < row) row = len - 1;
 
 	// ALBUM
-    if(converted_string.startsWith(album_search_prefix))
+	if(converted_string.startsWith(album_search_prefix))
 	{
-        converted_string.remove(album_search_prefix);
+		converted_string.remove(album_search_prefix);
 		converted_string = converted_string.trimmed();
 
-		for(int i=0; i<len; i++) 
+		for(int i=0; i<len; i++)
 		{
 			if(row - i < 0) row = len - 1;
 			int row_idx = (row - i) % len;
 
-            QString album = m->pl->at_const_ref(row_idx).album();
+			QString album = m->pl->at_const_ref(row_idx).album();
 			album = Library::Util::convert_search_string(album, search_mode());
 
 			if(album.contains(converted_string))
@@ -246,17 +246,17 @@ QModelIndex PlaylistItemModel::getPrevRowIndexOf(const QString& substr, int row,
 	}
 
 	//ARTIST
-    else if(converted_string.startsWith(artist_search_prefix))
+	else if(converted_string.startsWith(artist_search_prefix))
 	{
-        converted_string.remove(artist_search_prefix);
+		converted_string.remove(artist_search_prefix);
 		converted_string = converted_string.trimmed();
 
-		for(int i=0; i<len; i++) 
+		for(int i=0; i<len; i++)
 		{
 			if(row - i < 0) row = len - 1;
 			int row_idx = (row - i) % len;
 
-            QString artist = m->pl->at_const_ref(row_idx).artist();
+			QString artist = m->pl->at_const_ref(row_idx).artist();
 			artist = Library::Util::convert_search_string(artist, search_mode());
 
 			if(artist.contains(converted_string))
@@ -267,9 +267,9 @@ QModelIndex PlaylistItemModel::getPrevRowIndexOf(const QString& substr, int row,
 	}
 
 	// JUMP
-    else if(converted_string.startsWith(jump_prefix))
+	else if(converted_string.startsWith(jump_prefix))
 	{
-        converted_string.remove(jump_prefix);
+		converted_string.remove(jump_prefix);
 		converted_string = converted_string.trimmed();
 		bool ok;
 		int line = converted_string.toInt(&ok);
@@ -279,13 +279,13 @@ QModelIndex PlaylistItemModel::getPrevRowIndexOf(const QString& substr, int row,
 	}
 
 	// TITLE
-	else 
+	else
 	{
 		for(int i=0; i<len; i++)
 		{
 			if(row - i < 0) row = len - 1;
 			int row_idx = (row - i) % len;
-            QString title = m->pl->at_const_ref(row_idx).title;
+			QString title = m->pl->at_const_ref(row_idx).title;
 			title = Library::Util::convert_search_string(title, search_mode());
 
 			if(title.contains(converted_string))
@@ -304,22 +304,22 @@ QModelIndex PlaylistItemModel::getNextRowIndexOf(const QString& substr, int row,
 
 	QString converted_string = substr;
 
-    int len = m->pl->count();
-    if(len < row) {
-        row = len - 1;
-    }
+	int len = m->pl->count();
+	if(len < row) {
+		row = len - 1;
+	}
 
 	// ALBUM
-    if(converted_string.startsWith(album_search_prefix))
-    {
-        converted_string.remove(album_search_prefix);
+	if(converted_string.startsWith(album_search_prefix))
+	{
+		converted_string.remove(album_search_prefix);
 		converted_string = converted_string.trimmed();
 
-        for(int i=0; i< len; i++)
-        {
+		for(int i=0; i< len; i++)
+		{
 			int row_idx = (i + row) % len;
 
-            QString album = m->pl->at_const_ref(row_idx).album();
+			QString album = m->pl->at_const_ref(row_idx).album();
 			album = Library::Util::convert_search_string(album, search_mode());
 
 			if(album.contains(converted_string))
@@ -330,35 +330,35 @@ QModelIndex PlaylistItemModel::getNextRowIndexOf(const QString& substr, int row,
 	}
 
 	//ARTIST
-    else if(converted_string.startsWith(artist_search_prefix))
+	else if(converted_string.startsWith(artist_search_prefix))
 	{
-        converted_string.remove(artist_search_prefix);
+		converted_string.remove(artist_search_prefix);
 		converted_string = converted_string.trimmed();
 
-        for(int i=0; i< len; i++)
-        {
+		for(int i=0; i< len; i++)
+		{
 			int row_idx = (i + row) % len;
 
-            QString artist = m->pl->at_const_ref(row_idx).artist();
+			QString artist = m->pl->at_const_ref(row_idx).artist();
 
 			artist = Library::Util::convert_search_string(artist, search_mode());
 
 			if(artist.contains(converted_string))
 			{
-                return this->index(row_idx, 0);
+				return this->index(row_idx, 0);
 			}
 		}
 	}
 
 	// JUMP
-    else if(converted_string.startsWith(jump_prefix))
+	else if(converted_string.startsWith(jump_prefix))
 	{
-        converted_string.remove(jump_prefix);
+		converted_string.remove(jump_prefix);
 		converted_string = converted_string.trimmed();
 
 		bool ok;
 		int line = converted_string.toInt(&ok);
-        if(ok && (m->pl->count() > line) ){
+		if(ok && (m->pl->count() > line) ){
 			return this->index(line, 0);
 		}
 
@@ -366,13 +366,13 @@ QModelIndex PlaylistItemModel::getNextRowIndexOf(const QString& substr, int row,
 	}
 
 	// TITLE
-	else 
+	else
 	{
-		for(int i=0; i< len; i++) 
+		for(int i=0; i< len; i++)
 		{
 			int row_idx = (i + row) % len;
 
-            QString title = m->pl->at_const_ref(row_idx).title;
+			QString title = m->pl->at_const_ref(row_idx).title;
 			title = Library::Util::convert_search_string(title, search_mode());
 
 			if(title.contains(converted_string))
@@ -386,13 +386,13 @@ QModelIndex PlaylistItemModel::getNextRowIndexOf(const QString& substr, int row,
 }
 
 
-QMap<QChar, QString> PlaylistItemModel::getExtraTriggers() 
+QMap<QChar, QString> PlaylistItemModel::getExtraTriggers()
 {
 	QMap<QChar, QString> map;
 
-    map.insert(artist_search_prefix, Lang::get(Lang::Artist));
-    map.insert(album_search_prefix, Lang::get(Lang::Album));
-    map.insert(jump_prefix, tr("Goto row"));
+	map.insert(artist_search_prefix, Lang::get(Lang::Artist));
+	map.insert(album_search_prefix, Lang::get(Lang::Album));
+	map.insert(jump_prefix, tr("Goto row"));
 
 	return map;
 }
@@ -403,26 +403,26 @@ CustomMimeData* PlaylistItemModel::custom_mimedata(const QModelIndexList& indexe
 	CustomMimeData* mimedata = new CustomMimeData();
 	QList<QUrl> urls;
 
-    MetaDataList v_md;
-    v_md.reserve(indexes.size());
+	MetaDataList v_md;
+	v_md.reserve(indexes.size());
 
-    for(const QModelIndex& idx : indexes)
-    {
-        if(idx.row() >= m->pl->count()){
+	for(const QModelIndex& idx : indexes)
+	{
+		if(idx.row() >= m->pl->count()){
 			continue;
 		}
 
-        v_md << m->pl->at_const_ref(idx.row());
-        QUrl url(QString("file://") + m->pl->at_const_ref(idx.row()).filepath());
+		v_md << m->pl->at_const_ref(idx.row());
+		QUrl url(QString("file://") + m->pl->at_const_ref(idx.row()).filepath());
 		urls << url;
 	}
 
-    if(v_md.empty()){
+	if(v_md.empty()){
 		return nullptr;
 	}
 
-    mimedata->set_inner_drag_drop();
-    mimedata->set_metadata(v_md);
+	mimedata->set_inner_drag_drop();
+	mimedata->set_metadata(v_md);
 	mimedata->setText("tracks");
 	mimedata->setUrls(urls);
 
@@ -432,26 +432,26 @@ CustomMimeData* PlaylistItemModel::custom_mimedata(const QModelIndexList& indexe
 QMimeData* PlaylistItemModel::mimeData(const QModelIndexList& indexes) const
 {
 	CustomMimeData* cmd =  custom_mimedata(indexes);
-    return static_cast<QMimeData*> (cmd);
+	return static_cast<QMimeData*> (cmd);
 }
 
 bool PlaylistItemModel::has_local_media(const IndexSet& rows) const
 {
-    const  MetaDataList& tracks = m->pl->playlist();
+	const  MetaDataList& tracks = m->pl->playlist();
 
-    for(int row : rows){
-        if(!Util::File::is_www(tracks[row].filepath())){
-            return true;
-        }
-    }
+	for(int row : rows){
+		if(!Util::File::is_www(tracks[row].filepath())){
+			return true;
+		}
+	}
 
-    return false;
+	return false;
 }
 
 void PlaylistItemModel::playlist_changed(int pl_idx)
 {
 	Q_UNUSED(pl_idx)
 	emit dataChanged(this->index(0),
-                     this->index(m->pl->count() - 1));
+					 this->index(m->pl->count() - 1));
 }
 

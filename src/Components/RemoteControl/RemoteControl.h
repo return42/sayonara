@@ -29,8 +29,6 @@
 
 #include "Utils/Pimpl.h"
 
-class PlaylistHandler;
-class PlayManager;
 class MetaData;
 class QByteArray;
 
@@ -76,11 +74,11 @@ class QByteArray;
  * @ingroup Components
  */
 class RemoteControl :
-        public QObject,
-        public SayonaraClass
+		public QObject,
+		public SayonaraClass
 {
 	Q_OBJECT
-    PIMPL(RemoteControl)
+	PIMPL(RemoteControl)
 
 public:
 	explicit RemoteControl(QObject *parent=nullptr);

@@ -29,41 +29,45 @@ namespace Library {class Filter;}
 
 class Artist;
 class ArtistList;
-class DatabaseArtists :
-		private DatabaseSearchMode
+
+namespace DB
 {
-private:
-	QString _search_view_name;
-	QString _track_view_name;
-	QString _artistid_field;
-    QString _artistname_field;
+	class Artists :
+			private SearchMode
+	{
+	private:
+		QString _search_view_name;
+		QString _track_view_name;
+		QString _artistid_field;
+		QString _artistname_field;
 
-	QString _create_order_string(Library::SortOrder sort);
+		QString _create_order_string(::Library::SortOrder sort);
 
-protected:
-    void change_artistid_field(const QString& id, const QString& name);
-	void change_track_lookup_field(const QString& track_lookup_field);
+	protected:
+		void change_artistid_field(const QString& id, const QString& name);
+		void change_track_lookup_field(const QString& track_lookup_field);
 
-	virtual QString fetch_query_artists(bool also_empty=false) const;
+		virtual QString fetch_query_artists(bool also_empty=false) const;
 
-public:
+	public:
 
-	DatabaseArtists(const QSqlDatabase& db, uint8_t db_id, int8_t library_id);
+		Artists(const QSqlDatabase& db, uint8_t db_id, int8_t library_id);
 
-	virtual bool db_fetch_artists(SayonaraQuery& q, ArtistList& result);
+		virtual bool db_fetch_artists(Query& q, ArtistList& result);
 
-	virtual int getArtistID (const QString& artist);
-	virtual bool getArtistByID(int id, Artist& artist, bool also_empty=false);
+		virtual int getArtistID (const QString& artist);
+		virtual bool getArtistByID(int id, Artist& artist, bool also_empty=false);
 
-	virtual bool getAllArtists(ArtistList& result, bool also_empty);
-	virtual bool getAllArtists(ArtistList& result, Library::SortOrder sortorder = Library::SortOrder::ArtistNameAsc, bool also_empty=false);
-	virtual bool getAllArtistsBySearchString(const Library::Filter& filter, ArtistList& result, Library::SortOrder sortorder = Library::SortOrder::ArtistNameAsc);
+		virtual bool getAllArtists(ArtistList& result, bool also_empty);
+		virtual bool getAllArtists(ArtistList& result, ::Library::SortOrder sortorder = ::Library::SortOrder::ArtistNameAsc, bool also_empty=false);
+		virtual bool getAllArtistsBySearchString(const ::Library::Filter& filter, ArtistList& result, ::Library::SortOrder sortorder = ::Library::SortOrder::ArtistNameAsc);
 
-	virtual int insertArtistIntoDatabase(const QString& artist);
-	virtual int insertArtistIntoDatabase(const Artist& artist);
-	virtual int updateArtist(const Artist& artist);
+		virtual int insertArtistIntoDatabase(const QString& artist);
+		virtual int insertArtistIntoDatabase(const Artist& artist);
+		virtual int updateArtist(const Artist& artist);
 
-	virtual void updateArtistCissearch();
-};
+		virtual void updateArtistCissearch();
+	};
+}
 
 #endif // DATABASEARTISTS_H

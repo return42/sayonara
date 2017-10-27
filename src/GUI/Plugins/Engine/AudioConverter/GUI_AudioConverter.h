@@ -22,20 +22,17 @@
 #define GUI_AUDIOCONVERTER_H
 
 #include "Utils/Pimpl.h"
-
 #include "Interfaces/PlayerPlugin/PlayerPlugin.h"
-
 #include "Components/PlayManager/PlayState.h"
 
 UI_FWD(GUI_AudioConverter)
 
-class Handler;
 class GUI_AudioConverter :
-		public PlayerPluginInterface
+		public PlayerPlugin::Base
 {
 	Q_OBJECT
 	UI_CLASS(GUI_AudioConverter)
-    PIMPL(GUI_AudioConverter)
+	PIMPL(GUI_AudioConverter)
 
 public:
 	explicit GUI_AudioConverter(QWidget *parent=nullptr);
@@ -43,7 +40,7 @@ public:
 
 	QString	get_name() const override;
 	QString	get_display_name() const override;
-	
+
 
 private slots:
 	void rb_cbr_toggled(bool b);

@@ -25,55 +25,56 @@
 #include "Utils/Pimpl.h"
 
 class MetaDataList;
-class PlaylistDBWrapper;
 
-/**
- * @brief The PlaylistDBInterface class
- * @ingroup Playlists
- */
-class PlaylistDBInterface :
-		public QObject
+namespace Playlist
 {
-	Q_OBJECT
-    PIMPL(PlaylistDBInterface)
-
-public:
-	enum class SaveAsAnswer : uint8_t 
+	/**
+	 * @brief The PlaylistDBInterface class
+	 * @ingroup Playlists
+	 */
+	class DBInterface :
+			public QObject
 	{
-		Success=0,
-		AlreadyThere,
-		ExternTracksError,
-		Error
+		Q_OBJECT
+		PIMPL(DBInterface)
+
+		public:
+			enum class SaveAsAnswer : uint8_t
+			{
+				Success=0,
+				AlreadyThere,
+				ExternTracksError,
+				Error
+			};
+
+			explicit DBInterface(const QString& name);
+			virtual ~DBInterface();
+
+			int get_id() const;
+			void set_id(int db_id);
+
+			QString get_name() const;
+			void set_name(const QString& name);
+
+			bool is_temporary() const;
+			void set_temporary(bool b);
+
+			bool insert_temporary_into_db();
+			SaveAsAnswer save();
+			SaveAsAnswer save_as(const QString& str, bool force_override);
+			SaveAsAnswer rename(const QString& str);
+			bool delete_playlist();
+			bool remove_from_db();
+
+			virtual const MetaDataList& playlist() const = 0;
+			virtual int count() const = 0;
+			virtual bool is_empty() const = 0;
+			virtual void set_changed(bool b) = 0;
+			virtual bool was_changed() const = 0;
+			virtual bool is_storable() const =0;
+
+			static QString request_new_db_name();
 	};
-
-	explicit PlaylistDBInterface(const QString& name);
-	virtual ~PlaylistDBInterface();
-
-	int get_id() const;
-	void set_id(int db_id);
-
-	QString get_name() const;
-	void set_name(const QString& name);
-
-	bool is_temporary() const;
-	void set_temporary(bool b);
-
-	bool insert_temporary_into_db();
-	SaveAsAnswer save();
-	SaveAsAnswer save_as(const QString& str, bool force_override);
-	SaveAsAnswer rename(const QString& str);
-	bool delete_playlist();
-	bool remove_from_db();
-
-
-	virtual const MetaDataList& playlist() const = 0;
-	virtual int count() const = 0;
-	virtual bool is_empty() const = 0;
-	virtual void set_changed(bool b) = 0;
-	virtual bool was_changed() const = 0;
-	virtual bool is_storable() const =0;
-
-	static QString request_new_db_name();
-};
+}
 
 #endif // PLAYLISTDBINTERFACE_H

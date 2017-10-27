@@ -25,12 +25,15 @@
 
 #include "LibraryDatabase.h"
 
-class LocalLibraryDatabase :
-		public LibraryDatabase
+namespace DB
 {
-public:
-	LocalLibraryDatabase(int8_t library_id);
-	~LocalLibraryDatabase();
-};
+	class LocalLibraryDatabase :
+			public LibraryDatabase
+	{
+		public:
+			LocalLibraryDatabase(int8_t library_id);
+			~LocalLibraryDatabase();
+	};
+}
 
 #endif // LOCALLIBRARYDATABASE_H

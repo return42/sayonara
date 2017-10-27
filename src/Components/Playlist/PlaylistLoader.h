@@ -27,28 +27,31 @@
 
 #include <QObject>
 
-class PlaylistDBWrapper;
-
-/**
- * @brief The PlaylistLoader class
- * @ingroup Playlists
- */
-class PlaylistLoader :
-		public QObject,
-		public SayonaraClass
+namespace Playlist
 {
-	Q_OBJECT
-    PIMPL(PlaylistLoader)
+	class DBWrapper;
 
-public:
-	explicit PlaylistLoader(QObject* parent=nullptr);
-	virtual ~PlaylistLoader();
+	/**
+	 * @brief The PlaylistLoader class
+	 * @ingroup Playlists
+	 */
+	class Loader :
+			public QObject,
+			public SayonaraClass
+	{
+		Q_OBJECT
+		PIMPL(Loader)
+
+		public:
+			explicit Loader(QObject* parent=nullptr);
+			virtual ~Loader();
 
 
-	CustomPlaylists			get_playlists() const;
-	int						get_last_playlist_idx() const;
-	int						get_last_track_idx() const;
-	int						create_playlists();
-};
+			CustomPlaylists			get_playlists() const;
+			int						get_last_playlist_idx() const;
+			int						get_last_track_idx() const;
+			int						create_playlists();
+	};
+}
 
 #endif // PLAYLISTLOADER_H

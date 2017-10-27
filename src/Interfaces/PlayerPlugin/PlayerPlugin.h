@@ -27,7 +27,6 @@
 #include "GUI/Utils/Shortcuts/ShortcutWidget.h"
 
 class QAction;
-class PlayerPluginHandler;
 
 /**
  * @brief Interface for PlayerPlugin classes.
@@ -35,155 +34,160 @@ class PlayerPluginHandler;
  * @ingroup Interfaces
  */
 
-class PlayerPluginInterface :
+namespace PlayerPlugin
+{
+	class Handler;
+	class Base :
 		public Gui::Widget,
 		public ShortcutWidget
-{
-	friend class PlayerPluginHandler;
-
-    Q_OBJECT
-
-private:
-	PIMPL(PlayerPluginInterface)
-
-
-public:
-	explicit PlayerPluginInterface(QWidget *parent=nullptr);
-	virtual ~PlayerPluginInterface();
-
-	virtual void skin_changed() override;
-
-
-signals:
-	/**
-	 * @brief signal is emitted when the plugin action is triggered\n
-	 * also emitted for when closeEvent is fired
-	 * @param plugin this pointer to current plugin
-	 * @param checked indicates whether checked or unchecked
-	 */
-	void sig_action_triggered(PlayerPluginInterface* plugin, bool checked);
-
-	/**
-	 * @brief emitted when reloading is requested, after firing this signal
-	 * the plugin will be painted new. Useful, if the size has changed
-	 */
-	void sig_reload(PlayerPluginInterface*);
-
-	/** 
-	 * @brief emitted when plugin is closed
-	 */
-	void sig_closed();
-
-
-private slots:
-	/**
-	 * @brief Checks/unchecks the action and emits sig_action_triggered signal
-	 * also called when closeEvent is fired
-	 * @param checked if action is checked or unchecked
-	 */
-	void action_triggered(bool checked);
-
-private:
-
-	/**
-	 * @brief mark ui as initialized
-	 */
-	void set_ui_initialized();
-	void finalize_initialization();
-
-	/**
-	 * @brief language_changed. Calls retranslate_ui in subclasses
-	 */
-	virtual void language_changed() final override;
-
-	/**
-	 * @brief GUI will be initialized on first show up. Please use this to make Sayonara starting fast
-	 */
-	virtual void init_ui()=0;
-
-
-protected:
-
-	/**
-	 * @brief Check if ui already was initialized
-	 * @return
-	 */
-	bool is_ui_initialized() const;
-	virtual void assign_ui_vars();
-
-	virtual void retranslate_ui()=0;
-
-	template<typename T, typename UiClass>
-	void setup_parent(T* widget, UiClass** ui)
 	{
-		if(is_ui_initialized()){
-			return;
+		friend class Handler;
+
+		Q_OBJECT
+
+	private:
+		PIMPL(Base)
+
+	public:
+		explicit Base(QWidget *parent=nullptr);
+		virtual ~Base();
+
+		virtual void skin_changed() override;
+
+
+	signals:
+		/**
+		 * @brief signal is emitted when the plugin action is triggered\n
+		 * also emitted for when closeEvent is fired
+		 * @param plugin this pointer to current plugin
+		 * @param checked indicates whether checked or unchecked
+		 */
+		void sig_action_triggered(bool checked);
+
+		/**
+		 * @brief emitted when reloading is requested, after firing this signal
+		 * the plugin will be painted new. Useful, if the size has changed
+		 */
+		void sig_reload(Base*);
+
+		/**
+		 * @brief emitted when plugin is closed
+		 */
+		void sig_closed();
+
+		void sig_opened();
+
+
+	private slots:
+		/**
+		 * @brief Checks/unchecks the action and emits sig_action_triggered signal
+		 * also called when closeEvent is fired
+		 * @param checked if action is checked or unchecked
+		 */
+		void action_triggered(bool checked);
+
+	private:
+
+		/**
+		 * @brief mark ui as initialized
+		 */
+		void set_ui_initialized();
+		void finalize_initialization();
+
+		/**
+		 * @brief language_changed. Calls retranslate_ui in subclasses
+		 */
+		virtual void language_changed() final override;
+
+		/**
+		 * @brief GUI will be initialized on first show up. Please use this to make Sayonara starting fast
+		 */
+		virtual void init_ui()=0;
+
+
+	protected:
+
+		/**
+		 * @brief Check if ui already was initialized
+		 * @return
+		 */
+		bool is_ui_initialized() const;
+		virtual void assign_ui_vars();
+
+		virtual void retranslate_ui()=0;
+
+		template<typename T, typename UiClass>
+		void setup_parent(T* widget, UiClass** ui)
+		{
+			if(is_ui_initialized()){
+				return;
+			}
+
+			*ui = new UiClass();
+			(*ui)->setupUi(widget);
+
+			assign_ui_vars();
+			finalize_initialization();
 		}
 
-		*ui = new UiClass();
-		(*ui)->setupUi(widget);
+		/**
+		 * @brief Event fired when closed overrides QWidget::closeEvent
+		 * @param e the event
+		 */
+		void closeEvent(QCloseEvent* e) override;
 
-		assign_ui_vars();
-		finalize_initialization();
-	}
-
-	/**
-	 * @brief Event fired when closed overrides QWidget::closeEvent
-	 * @param e the event
-	 */
-	void closeEvent(QCloseEvent* e) override;
-
-	void showEvent(QShowEvent* e) override;
+		void showEvent(QShowEvent* e) override;
 
 
-public:
-	/**
-	 * @brief needed by the player ui, final
-	 * @return miminum size of plugin
-	 */
-	virtual QSize			get_size() const final;
+	public:
+		/**
+		 * @brief needed by the player ui, final
+		 * @return miminum size of plugin
+		 */
+		virtual QSize		get_size() const final;
 
-	/**
-	 * @brief needed by the player ui, final
-	 * @return action of plugin
-	 */
-	virtual QAction*		get_action() const final;
-
-
-	/**
-	 * @brief must be overwritten
-	 * @return the NOT translated name of the plugin
-	 */
-	virtual QString			get_name() const=0;
-
-	/**
-	 * @brief must be overwritten
-	 * @return the translated name of the plugin
-	 */
-	virtual QString			get_display_name() const=0;
+		/**
+		 * @brief needed by the player ui, final
+		 * @return action of plugin
+		 */
+		virtual QAction*	get_action() const final;
 
 
-	/**
-	 * @brief indicates if title bar is shown or not
-	 */ 
-	virtual bool			is_title_shown() const;
+		/**
+		 * @brief must be overwritten
+		 * @return the NOT translated name of the plugin
+		 */
+		virtual QString		get_name() const=0;
 
-	/**
-	 * @brief indicates if the widget has a loading bar. If yes, there will be reserved
-	 * some extra space at the bottom of the widget
-	 * @return
-	 */
-	virtual bool			has_loading_bar() const;
+		/**
+		 * @brief must be overwritten
+		 * @return the translated name of the plugin
+		 */
+		virtual QString		get_display_name() const=0;
 
 
-	/**
-	 * @brief get translated text of shortcut (overridden)
-	 * @param shortcut_identifier shortcut id
-	 * @return translated shortcut text
-	 */
-	QString get_shortcut_text(const QString &shortcut_identifier) const override;
-};
+		/**
+		 * @brief indicates if title bar is shown or not
+		 */
+		virtual bool		is_title_shown() const;
 
-Q_DECLARE_INTERFACE(PlayerPluginInterface, "com.sayonara-player.playerplugin")
+		/**
+		 * @brief indicates if the widget has a loading bar. If yes, there will be reserved
+		 * some extra space at the bottom of the widget
+		 * @return
+		 */
+		virtual bool		has_loading_bar() const;
+
+
+		/**
+		 * @brief get translated text of shortcut (overridden)
+		 * @param shortcut_identifier shortcut id
+		 * @return translated shortcut text
+		 */
+		QString get_shortcut_text(const QString &shortcut_identifier) const override;
+	};
+}
+
+Q_DECLARE_INTERFACE(PlayerPlugin::Base, "com.sayonara-player.playerplugin")
 
 #endif // PLAYERPLUGIN_H

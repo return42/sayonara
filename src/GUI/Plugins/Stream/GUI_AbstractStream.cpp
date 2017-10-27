@@ -56,7 +56,7 @@ struct GUI_AbstractStream::Private
 };
 
 GUI_AbstractStream::GUI_AbstractStream(AbstractStreamHandler* stream_handler, QWidget* parent) :
-	PlayerPluginInterface(parent)
+	PlayerPlugin::Base(parent)
 {
 	m = Pimpl::make<Private>();
 	m->stream_handler = stream_handler;

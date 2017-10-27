@@ -39,53 +39,54 @@
 
 class LibraryDatabase;
 class LocalLibraryDatabase;
-class DatabaseConnector :
-		public AbstractDatabase,
-		public DatabaseBookmarks,
-		public DatabasePlaylist,
-		public DatabasePodcasts,
-		public DatabaseSettings,
-		public DatabaseStreams,
-		public DatabaseVisStyles
+namespace DB
 {
-	SINGLETON(DatabaseConnector)
-
-private:
-	QList<LibraryDatabase*> _library_dbs;
-	LocalLibraryDatabase*	_local_library=nullptr;
-
-
-protected:
-	bool updateAlbumCissearchFix();
-	bool updateArtistCissearchFix();
-	bool updateTrackCissearchFix();
-
-	virtual bool apply_fixes();
-
-public:
-	virtual void clean_up();
-	void register_library_db(int8_t library_id);
-	QList<LibraryDatabase*> library_dbs() const;
-	LibraryDatabase* library_db(int8_t library_id, uint8_t db_id);
-
-	template<typename T>
-	LibraryDatabase* register_library_db(int8_t library_id)
+	class Connector :
+			public Base,
+			public Bookmarks,
+			public Playlist,
+			public Podcasts,
+			public Settings,
+			public Streams,
+			public VisualStyles
 	{
-		for(int i=0; i<_library_dbs.size(); i++)
-		{
-			LibraryDatabase* lib_db = _library_dbs[i];
-			if(lib_db->library_id() == library_id &&
-			   lib_db->db_id() == db_id())
+		SINGLETON(Connector)
+
+		private:
+			QList<LibraryDatabase*> _library_dbs;
+			LocalLibraryDatabase*	_local_library=nullptr;
+
+
+		protected:
+			bool updateAlbumCissearchFix();
+			bool updateArtistCissearchFix();
+			bool updateTrackCissearchFix();
+
+			virtual bool apply_fixes();
+
+		public:
+			virtual void clean_up();
+			void register_library_db(int8_t library_id);
+			QList<LibraryDatabase*> library_dbs() const;
+			LibraryDatabase* library_db(int8_t library_id, uint8_t db_id);
+
+			template<typename T>
+			LibraryDatabase* register_library_db(int8_t library_id)
 			{
+				for(int i=0; i<_library_dbs.size(); i++)
+				{
+					LibraryDatabase* lib_db = _library_dbs[i];
+					if(lib_db->library_id() == library_id &&
+					   lib_db->db_id() == db_id())
+					{
+						return lib_db;
+					}
+				}
+
+				DB::LibraryDatabase* lib_db = new T(library_id);
+				_library_dbs << lib_db;
 				return lib_db;
 			}
-		}
-
-		LibraryDatabase* lib_db = new T(library_id);
-		_library_dbs << lib_db;
-		return lib_db;
-	}
-
-};
-
+	};
+}
 #endif // DatabaseConnector_H

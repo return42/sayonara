@@ -30,7 +30,7 @@ class PlaylistChooser;
 UI_FWD(GUI_PlaylistChooser)
 
 class GUI_PlaylistChooser :
-		public PlayerPluginInterface
+		public PlayerPlugin::Base
 {
 	Q_OBJECT
 	UI_CLASS(GUI_PlaylistChooser)

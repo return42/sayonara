@@ -27,13 +27,13 @@
 
 struct GUI_PlayerPlugin::Private
 {
-    PlayerPluginInterface* current_plugin=nullptr;
+	PlayerPlugin::Base* current_plugin=nullptr;
 };
 
 GUI_PlayerPlugin::GUI_PlayerPlugin(QWidget *parent) :
 	Widget(parent)
 {
-    m = Pimpl::make<Private>();
+	m = Pimpl::make<Private>();
 
 	ui = new Ui::GUI_PlayerPlugin();
 	ui->setupUi(this);
@@ -48,11 +48,11 @@ GUI_PlayerPlugin::~GUI_PlayerPlugin()
 }
 
 
-void GUI_PlayerPlugin::show(PlayerPluginInterface* player_plugin)
+void GUI_PlayerPlugin::show(PlayerPlugin::Base* player_plugin)
 {
 	close_cur_plugin();
 
-    m->current_plugin = player_plugin;
+	m->current_plugin = player_plugin;
 
 	bool show_title = player_plugin->is_title_shown();
 
@@ -68,13 +68,12 @@ void GUI_PlayerPlugin::show(PlayerPluginInterface* player_plugin)
 }
 
 
-void GUI_PlayerPlugin::language_changed() 
+void GUI_PlayerPlugin::language_changed()
 {
-    if(m->current_plugin){
-        ui->lab_title->setText(m->current_plugin->get_display_name());
+	if(m->current_plugin){
+		ui->lab_title->setText(m->current_plugin->get_display_name());
 	}
 }
-
 
 void GUI_PlayerPlugin::closeEvent(QCloseEvent* e)
 {
@@ -83,12 +82,11 @@ void GUI_PlayerPlugin::closeEvent(QCloseEvent* e)
 	Widget::closeEvent(e);
 }
 
-
 void GUI_PlayerPlugin::close_cur_plugin()
 {
-    if(m->current_plugin){
-        m->current_plugin->close();
+	if(m->current_plugin){
+		m->current_plugin->close();
 	}
 
-    m->current_plugin = nullptr;
+	m->current_plugin = nullptr;
 }

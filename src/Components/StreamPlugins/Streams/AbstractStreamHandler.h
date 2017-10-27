@@ -28,8 +28,6 @@
 
 using StreamMap=QMap<QString, QString>;
 
-class DatabaseConnector;
-
 /**
  * @brief Used to interprete website data as streams. Some methods have to be overridden,
  * to map their functions to their specific database functions.
@@ -40,6 +38,8 @@ class DatabaseConnector;
 class AbstractStreamHandler : public QObject
 {
 	Q_OBJECT
+	PIMPL(AbstractStreamHandler)
+
 	public:
 		explicit AbstractStreamHandler(QObject *parent=nullptr);
 		virtual ~AbstractStreamHandler();
@@ -111,12 +111,6 @@ class AbstractStreamHandler : public QObject
 		void clear();
 
 		void stop();
-
-	private:
-		PIMPL(AbstractStreamHandler)
-
-	protected:
-		DatabaseConnector*				_db=nullptr;
 
 	private slots:
 		void stream_parser_finished(bool success);

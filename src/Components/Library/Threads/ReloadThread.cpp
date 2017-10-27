@@ -47,7 +47,7 @@
 
 struct ReloadThread::Private
 {
-	DatabaseConnector*		db=nullptr;
+	DB::Connector*		db=nullptr;
 	QString					library_path;
 	int8_t					library_id;
 	MetaDataList			v_md;
@@ -60,7 +60,7 @@ struct ReloadThread::Private
 		paused = false;
 		running = false;
 		quality = Library::ReloadQuality::Fast;
-		db = DatabaseConnector::instance();
+		db = DB::Connector::instance();
 	}
 };
 
@@ -68,7 +68,7 @@ ReloadThread::ReloadThread(QObject *parent) :
 	QThread(parent),
 	SayonaraClass()
 {
-    m = Pimpl::make<Private>();
+	m = Pimpl::make<Private>();
 	m->library_path = _settings->get(Set::Lib_Path);
 }
 
@@ -105,7 +105,7 @@ bool compare_md(const MetaData& md1, const MetaData& md2)
 			);
 }
 
-int ReloadThread::get_and_save_all_files(const QHash<QString, MetaData>& md_map_lib) 
+int ReloadThread::get_and_save_all_files(const QHash<QString, MetaData>& md_map_lib)
 {
 	QString library_path = m->library_path;
 
@@ -113,8 +113,8 @@ int ReloadThread::get_and_save_all_files(const QHash<QString, MetaData>& md_map_
 		return 0;
 	}
 
-	DatabaseConnector* db = m->db;
-	LibraryDatabase* lib_db = db->library_db(m->library_id, 0);
+	DB::Connector* db = m->db;
+	DB::LibraryDatabase* lib_db = db->library_db(m->library_id, 0);
 	QDir dir(library_path);
 
 	MetaDataList v_md_to_store;
@@ -139,7 +139,7 @@ int ReloadThread::get_and_save_all_files(const QHash<QString, MetaData>& md_map_
 				continue;
 			}
 
-            file_was_read = Tagging::Util::getMetaDataOfFile(md, Tagging::Util::Quality::Dirty);
+			file_was_read = Tagging::Util::getMetaDataOfFile(md, Tagging::Util::Quality::Dirty);
 
 			if(!file_was_read){
 				continue;
@@ -150,7 +150,7 @@ int ReloadThread::get_and_save_all_files(const QHash<QString, MetaData>& md_map_
 			}
 		}
 
-        file_was_read = Tagging::Util::getMetaDataOfFile(md, Tagging::Util::Quality::Quality);
+		file_was_read = Tagging::Util::getMetaDataOfFile(md, Tagging::Util::Quality::Quality);
 
 		if(file_was_read){
 			v_md_to_store << md;
@@ -169,13 +169,13 @@ int ReloadThread::get_and_save_all_files(const QHash<QString, MetaData>& md_map_
 
 	lib_db->addAlbumArtists();
 	lib_db->createIndexes();
-	DatabaseConnector::instance()->clean_up();
+	DB::Connector::instance()->clean_up();
 
 	return v_md_to_store.size();
 }
 
 
-QStringList ReloadThread::get_files_recursive(QDir base_dir) 
+QStringList ReloadThread::get_files_recursive(QDir base_dir)
 {
 	QStringList ret;
 	QString message = tr("Reading files from file system") + "... ";
@@ -234,12 +234,12 @@ QStringList ReloadThread::process_sub_files(const QDir& base_dir, const QStringL
 }
 
 
-void ReloadThread::pause() 
+void ReloadThread::pause()
 {
 	m->paused = true;
 }
 
-void ReloadThread::goon() 
+void ReloadThread::goon()
 {
 	m->paused = false;
 }
@@ -254,7 +254,7 @@ void ReloadThread::set_quality(Library::ReloadQuality quality)
 	m->quality = quality;
 }
 
-void ReloadThread::run() 
+void ReloadThread::run()
 {
 	if(m->library_path.isEmpty())
 	{
@@ -266,7 +266,7 @@ void ReloadThread::run()
 		return;
 	}
 
-	LibraryDatabase* lib_db = m->db->library_db(m->library_id, 0);
+	DB::LibraryDatabase* lib_db = m->db->library_db(m->library_id, 0);
 
 	m->running = true;
 	m->paused = false;

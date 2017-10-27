@@ -7,7 +7,6 @@ SET(HEADERS
 SET(SOURCES
 
     AbstractDatabase.cpp
-	#    DatabaseHandler.cpp
 	LocalLibraryDatabase.cpp
     LibraryDatabase.cpp
     DatabaseSearchMode.cpp

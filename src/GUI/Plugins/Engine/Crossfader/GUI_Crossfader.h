@@ -26,7 +26,7 @@
 UI_FWD(GUI_Crossfader)
 
 class GUI_Crossfader :
-		public PlayerPluginInterface
+		public PlayerPlugin::Base
 {
 	Q_OBJECT
 	UI_CLASS(GUI_Crossfader)

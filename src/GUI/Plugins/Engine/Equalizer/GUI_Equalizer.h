@@ -32,18 +32,6 @@
 #include "Interfaces/PlayerPlugin/PlayerPlugin.h"
 #include "Utils/Pimpl.h"
 
-#include <QList>
-#include <QMenu>
-#include <QAction>
-
-class EQ_Setting;
-class EqSlider;
-
-namespace Engine
-{
-    class Handler;
-}
-
 UI_FWD(GUI_Equalizer)
 
 /**
@@ -51,11 +39,11 @@ UI_FWD(GUI_Equalizer)
  * @ingroup Equalizer
  */
 class GUI_Equalizer :
-		public PlayerPluginInterface
+		public PlayerPlugin::Base
 {
 	Q_OBJECT
 	UI_CLASS(GUI_Equalizer)
-    PIMPL(GUI_Equalizer)
+	PIMPL(GUI_Equalizer)
 
 public:
 	explicit GUI_Equalizer(QWidget* parent=nullptr);

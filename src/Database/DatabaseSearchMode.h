@@ -27,22 +27,25 @@
 
 class QSqlDatabase;
 
-class DatabaseSearchMode :
-	public DatabaseModule
+namespace DB
 {
-    PIMPL(DatabaseSearchMode)
+	class SearchMode :
+		public Module
+	{
+		PIMPL(SearchMode)
 
-private:
-    void init();
+		private:
+			void init();
 
-protected:
-	DatabaseSearchMode(const QSqlDatabase& db, uint8_t db_id);
+		protected:
+			SearchMode(const QSqlDatabase& db, uint8_t db_id);
 
-public:
-    virtual ~DatabaseSearchMode();
+		public:
+			virtual ~SearchMode();
 
-    Library::SearchModeMask search_mode();
-    void update_search_mode();
-};
+			::Library::SearchModeMask search_mode();
+			void update_search_mode();
+		};
+}
 
 #endif // DATABASESEARCHMODE_H

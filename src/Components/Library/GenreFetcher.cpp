@@ -33,11 +33,11 @@ struct GenreFetcher::Private
 	LocalLibrary* local_library=nullptr;
 	QStringList genres;
 	QStringList additional_genres; // empty genres that are inserted
-    Tagging::Editor* tag_edit=nullptr;
+	Tagging::Editor* tag_edit=nullptr;
 
 	Private() {}
 
-	LibraryDatabase* get_local_library_db()
+	DB::LibraryDatabase* get_local_library_db()
 	{
 		if(!local_library){
 			return nullptr;
@@ -45,8 +45,8 @@ struct GenreFetcher::Private
 
 		int8_t library_id = local_library->library_id();
 
-		DatabaseConnector* db = DatabaseConnector::instance();
-		LibraryDatabase* lib_db = db->library_db(library_id, 0);
+		DB::Connector* db = DB::Connector::instance();
+		DB::LibraryDatabase* lib_db = db->library_db(library_id, 0);
 		return lib_db;
 	}
 };
@@ -55,21 +55,21 @@ GenreFetcher::GenreFetcher(QObject* parent) :
 	QObject(parent)
 {
 	m = Pimpl::make<Private>();
-    m->tag_edit = new Tagging::Editor(this);
+	m->tag_edit = new Tagging::Editor(this);
 
-    Tagging::ChangeNotifier* mcn = Tagging::ChangeNotifier::instance();
+	Tagging::ChangeNotifier* mcn = Tagging::ChangeNotifier::instance();
 
-    connect(mcn, &Tagging::ChangeNotifier::sig_metadata_changed, this, &GenreFetcher::metadata_changed);
-    connect(mcn, &Tagging::ChangeNotifier::sig_metadata_deleted, this, &GenreFetcher::metadata_deleted);
-    connect(m->tag_edit, &Tagging::Editor::sig_progress, this, &GenreFetcher::sig_progress);
-    connect(m->tag_edit, &Tagging::Editor::finished, this, &GenreFetcher::tag_edit_finished);
+	connect(mcn, &Tagging::ChangeNotifier::sig_metadata_changed, this, &GenreFetcher::metadata_changed);
+	connect(mcn, &Tagging::ChangeNotifier::sig_metadata_deleted, this, &GenreFetcher::metadata_deleted);
+	connect(m->tag_edit, &Tagging::Editor::sig_progress, this, &GenreFetcher::sig_progress);
+	connect(m->tag_edit, &Tagging::Editor::finished, this, &GenreFetcher::tag_edit_finished);
 }
 
 GenreFetcher::~GenreFetcher() {}
 
 void GenreFetcher::reload_genres()
 {
-	LibraryDatabase* db = m->get_local_library_db();
+	DB::LibraryDatabase* db = m->get_local_library_db();
 	if(!db){
 		return;
 	}

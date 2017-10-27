@@ -43,14 +43,14 @@ struct LibraryImporter::Private
 	CopyThread*				copy_thread=nullptr;
 	ImportCachePtr			import_cache=nullptr;
 
-	DatabaseConnector*		db=nullptr;
+	DB::Connector*		db=nullptr;
 
 	LibraryImporter::ImportStatus status;
 	QString					src_dir;
 
 	Private(LocalLibrary* library) :
 		library(library),
-		db(DatabaseConnector::instance()),
+		db(DB::Connector::instance()),
 		status(LibraryImporter::ImportStatus::NoTracks)
 	{}
 };
@@ -60,8 +60,8 @@ LibraryImporter::LibraryImporter(LocalLibrary* library) :
 {
 	m = Pimpl::make<Private>(library);
 
-    Tagging::ChangeNotifier* md_change_notifier = Tagging::ChangeNotifier::instance();
-    connect(md_change_notifier, &Tagging::ChangeNotifier::sig_metadata_changed,
+	Tagging::ChangeNotifier* md_change_notifier = Tagging::ChangeNotifier::instance();
+	connect(md_change_notifier, &Tagging::ChangeNotifier::sig_metadata_changed,
 			this, &LibraryImporter::metadata_changed);
 }
 
@@ -159,7 +159,7 @@ void LibraryImporter::copy_thread_finished()
 	}
 
 	// store to db
-	LibraryDatabase* lib_db = m->db->library_db(m->library->library_id(), 0);
+	DB::LibraryDatabase* lib_db = m->db->library_db(m->library->library_id(), 0);
 	bool success = lib_db->storeMetadata(v_md);
 	int n_files_copied = copy_thread->get_n_copied_files();
 	int n_files_to_copy = m->import_cache->get_files().size();
@@ -184,7 +184,7 @@ void LibraryImporter::copy_thread_finished()
 
 		emit_status(ImportStatus::Imported);
 
-        Tagging::ChangeNotifier::instance()->change_metadata(MetaDataList(), MetaDataList());
+		Tagging::ChangeNotifier::instance()->change_metadata(MetaDataList(), MetaDataList());
 	}
 
 	else {

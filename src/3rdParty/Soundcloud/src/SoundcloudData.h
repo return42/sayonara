@@ -32,22 +32,22 @@ class MetaData;
 class MetaDataList;
 class Artist;
 class AlbumList;
-class SayonaraQuery;
+
 
 namespace SC
 {
 	class SearchInformationList;
 
 	class Database :
-			public LibraryDatabase
+			public DB::LibraryDatabase
 	{
 	public:
-        Database();
-        ~Database();
+		Database();
+		~Database();
 
-		bool db_fetch_tracks(SayonaraQuery& q, MetaDataList& result) override;
-		bool db_fetch_albums(SayonaraQuery& q, AlbumList& result) override;
-		bool db_fetch_artists(SayonaraQuery& q, ArtistList& result) override;
+		bool db_fetch_tracks(::DB::Query& q, MetaDataList& result) override;
+		bool db_fetch_albums(::DB::Query& q, AlbumList& result) override;
+		bool db_fetch_artists(::DB::Query& q, ArtistList& result) override;
 
 		int updateArtist(const Artist& artist) override;
 		int insertArtistIntoDatabase (const Artist& artist) override;

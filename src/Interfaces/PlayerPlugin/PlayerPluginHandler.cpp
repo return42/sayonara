@@ -25,92 +25,115 @@
 
 #include <QAction>
 
+using PlayerPlugin::Handler;
+using PlayerPlugin::Base;
 
-PlayerPluginHandler::PlayerPluginHandler(QObject *parent) :
+struct Handler::Private
+{
+	QList<Base*>	plugins;
+	Base*			current_plugin=nullptr;
+};
+
+Handler::Handler(QObject *parent) :
 	QObject(parent),
 	SayonaraClass()
 {
-	Set::listen(Set::Player_Language, this, &PlayerPluginHandler::language_changed);
+	m = Pimpl::make<Private>();
+
+	Set::listen(Set::Player_Language, this, &Handler::language_changed);
 }
 
-PlayerPluginHandler::~PlayerPluginHandler() {}
+Handler::~Handler() {}
 
-PlayerPluginInterface* PlayerPluginHandler::find_plugin(const QString& name) 
+
+Base* Handler::find_plugin(const QString& name)
 {
 	sp_log(Log::Debug, this) << "Search for plugin " << name;
 
-	for(PlayerPluginInterface* p : _plugins) {
-		if(p->get_name().compare(name) == 0){
+	for(Base* p : m->plugins)
+	{
+		if(p->get_name().compare(name) == 0)
+		{
 			return p;
 		}
-	}	
+	}
 
 	return nullptr;
 }
 
 
-void PlayerPluginHandler::add_plugin(PlayerPluginInterface* p) 
+void Handler::add_plugin(Base* p)
 {
 	if(!p){
 		return;
 	}
 
-	_plugins.push_back(p);
+	m->plugins.push_back(p);
 
-	connect(p, &PlayerPluginInterface::sig_action_triggered, this, &PlayerPluginHandler::plugin_action_triggered);
-	connect(p, &PlayerPluginInterface::sig_reload, this,  &PlayerPluginHandler::reload_plugin);
-	connect(p, &PlayerPluginInterface::sig_closed, this, &PlayerPluginHandler::plugin_closed);
+	connect(p, SIGNAL(sig_closed()), this, SLOT(plugin_closed()));
+	connect(p, SIGNAL(sig_opened()), this, SLOT(plugin_opened()));
+	connect(p, SIGNAL(sig_action_triggered(bool)), this, SLOT(plugin_action_triggered(bool)));
 
 	QString last_plugin = _settings->get(Set::Player_ShownPlugin);
-	if(p->get_name() == last_plugin){
+	if(p->get_name() == last_plugin)
+	{
+		m->current_plugin = p;
 		p->get_action()->setChecked(true);
-		plugin_action_triggered(p, true);
 	}
 }
 
-
-void PlayerPluginHandler::plugin_action_triggered(PlayerPluginInterface* p, bool b) 
+void Handler::plugin_action_triggered(bool b)
 {
-	if(!p){
-		return;
-	}
+	Base* plugin = static_cast<Base*>(sender());
 
-	if(b) {
-		emit sig_show_plugin(p);
-		_settings->set(Set::Player_ShownPlugin, p->get_name());
+	if(b){
+		m->current_plugin = plugin;
 	}
 
 	else {
-		plugin_closed();
+		m->current_plugin = nullptr;
+	}
+
+	emit sig_plugin_action_triggered(b);
+}
+
+void Handler::plugin_opened(Base* p)
+{
+	if(p){
+		_settings->set(Set::Player_ShownPlugin, p->get_name());
 	}
 }
 
-
-void PlayerPluginHandler::plugin_closed()
+void Handler::plugin_opened()
 {
-	emit sig_hide_all_plugins();
+	Base* p = static_cast<Base*>(sender());
+	plugin_opened(p);
+}
+
+void Handler::plugin_closed()
+{
+	m->current_plugin = nullptr;
 	_settings->set(Set::Player_ShownPlugin, QString());
+
+	emit sig_plugin_closed();
 }
 
-
-void PlayerPluginHandler::reload_plugin(PlayerPluginInterface* p) 
+void Handler::language_changed()
 {
-	if(p) {
-		emit sig_show_plugin(p);
-	}
-}
-
-
-void PlayerPluginHandler::language_changed()
-{
-	for(PlayerPluginInterface* p : _plugins) {
+	for(Base* p : m->plugins)
+	{
 		p->language_changed();
 		p->get_action()->setText(p->get_display_name());
 	}
 }
 
 
-QList<PlayerPluginInterface*> PlayerPluginHandler::get_all_plugins() const 
+QList<Base*> Handler::get_all_plugins() const
 {
-	return _plugins;
+	return m->plugins;
+}
+
+Base *Handler::current_plugin() const
+{
+	return m->current_plugin;
 }

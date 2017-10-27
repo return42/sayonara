@@ -25,16 +25,20 @@
 #include <QList>
 
 struct RawColorStyle;
-class DatabaseVisStyles : private DatabaseModule
-{
-public:
-	DatabaseVisStyles(const QSqlDatabase& db, uint8_t db_id);
 
-	QList<RawColorStyle> get_raw_color_styles();
-	bool insert_raw_color_style_to_db(const RawColorStyle& rcs);
-	bool update_raw_color_style(const RawColorStyle& rcs);
-	bool raw_color_style_exists(QString name);
-	bool delete_raw_color_style(QString name);
-};
+namespace DB
+{
+	class VisualStyles : private Module
+	{
+		public:
+			VisualStyles(const QSqlDatabase& db, uint8_t db_id);
+
+			QList<RawColorStyle> get_raw_color_styles();
+			bool insert_raw_color_style_to_db(const RawColorStyle& rcs);
+			bool update_raw_color_style(const RawColorStyle& rcs);
+			bool raw_color_style_exists(QString name);
+			bool delete_raw_color_style(QString name);
+	};
+}
 
 #endif // DATABASEVISSTYLES_H

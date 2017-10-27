@@ -24,11 +24,14 @@
 #include "Utils/MetaData/Artist.h"
 #include "Utils/Library/Filter.h"
 
-DatabaseArtists::DatabaseArtists(const QSqlDatabase& db, uint8_t db_id, int8_t library_id) :
-	DatabaseSearchMode(db, db_id)
+using DB::Artists;
+using DB::Query;
+
+Artists::Artists(const QSqlDatabase& db, uint8_t db_id, int8_t library_id) :
+	DB::SearchMode(db, db_id)
 {
 	_artistid_field = "artistID";
-    _artistname_field = "artistName";
+	_artistname_field = "artistName";
 
 	_search_view_name = "track_search_view_" + QString::number(library_id);
 
@@ -41,7 +44,7 @@ DatabaseArtists::DatabaseArtists(const QSqlDatabase& db, uint8_t db_id, int8_t l
 	}
 }
 
-QString DatabaseArtists::fetch_query_artists(bool also_empty) const
+QString Artists::fetch_query_artists(bool also_empty) const
 {
 	QString sql =
 			"SELECT "
@@ -62,7 +65,7 @@ QString DatabaseArtists::fetch_query_artists(bool also_empty) const
 	return sql;
 }
 
-bool DatabaseArtists::db_fetch_artists(SayonaraQuery& q, ArtistList& result)
+bool Artists::db_fetch_artists(Query& q, ArtistList& result)
 {
 	result.clear();
 
@@ -88,7 +91,7 @@ bool DatabaseArtists::db_fetch_artists(SayonaraQuery& q, ArtistList& result)
 	return true;
 }
 
-QString DatabaseArtists::_create_order_string(Library::SortOrder sort)
+QString Artists::_create_order_string(Library::SortOrder sort)
 {
 	switch(sort) {
 		case Library::SortOrder::ArtistNameAsc:
@@ -105,11 +108,11 @@ QString DatabaseArtists::_create_order_string(Library::SortOrder sort)
 }
 
 
-bool DatabaseArtists::getArtistByID(int id, Artist& artist, bool also_empty)
+bool Artists::getArtistByID(int id, Artist& artist, bool also_empty)
 {
 	if(id < 0) return false;
 
-	SayonaraQuery q(this);
+	Query q(this);
 
 	ArtistList artists;
 
@@ -137,9 +140,9 @@ bool DatabaseArtists::getArtistByID(int id, Artist& artist, bool also_empty)
 	return success;
 }
 
-int DatabaseArtists::getArtistID(const QString& artist)
+int Artists::getArtistID(const QString& artist)
 {
-	SayonaraQuery q(this);
+	Query q(this);
 	QString query = "SELECT artistID FROM artists WHERE name = ?;";
 
 	int artistID = -1;
@@ -157,14 +160,14 @@ int DatabaseArtists::getArtistID(const QString& artist)
 	return artistID;
 }
 
-bool DatabaseArtists::getAllArtists(ArtistList& result, bool also_empty)
+bool Artists::getAllArtists(ArtistList& result, bool also_empty)
 {
 	return getAllArtists(result, Library::SortOrder::ArtistNameAsc, also_empty);
 }
 
-bool DatabaseArtists::getAllArtists(ArtistList& result, Library::SortOrder sortorder, bool also_empty)
+bool Artists::getAllArtists(ArtistList& result, Library::SortOrder sortorder, bool also_empty)
 {
-	SayonaraQuery q(this);
+	Query q(this);
 	QString query = fetch_query_artists(also_empty);
 
 	query += "GROUP BY artists.artistID, artists.name ";
@@ -176,13 +179,13 @@ bool DatabaseArtists::getAllArtists(ArtistList& result, Library::SortOrder sorto
 }
 
 
-bool DatabaseArtists::getAllArtistsBySearchString(const Library::Filter& filter, ArtistList& result, Library::SortOrder sortorder)
+bool Artists::getAllArtistsBySearchString(const Library::Filter& filter, ArtistList& result, Library::SortOrder sortorder)
 {
-	SayonaraQuery q(this);
+	Query q(this);
 	QString query;
-    QString select = "SELECT " +
-                     _artistid_field + ", " +
-                     _artistname_field + ", " +
+	QString select = "SELECT " +
+					 _artistid_field + ", " +
+					 _artistname_field + ", " +
 					 "COUNT(DISTINCT trackID) AS trackCount "
 					 "FROM " + _search_view_name + " ";
 
@@ -207,7 +210,7 @@ bool DatabaseArtists::getAllArtistsBySearchString(const Library::Filter& filter,
 	if(query.isEmpty()){
 			query = select +
 					"WHERE " + search_field + " LIKE :searchterm "
-                    "GROUP BY " + _artistid_field + ", " + _artistname_field + " ";
+					"GROUP BY " + _artistid_field + ", " + _artistname_field + " ";
 	}
 
 	query += _create_order_string(sortorder) + ";";
@@ -219,14 +222,14 @@ bool DatabaseArtists::getAllArtistsBySearchString(const Library::Filter& filter,
 }
 
 
-int DatabaseArtists::insertArtistIntoDatabase (const QString& artist)
+int Artists::insertArtistIntoDatabase (const QString& artist)
 {
-    ArtistID id = getArtistID(artist);
+	ArtistID id = getArtistID(artist);
 	if(id >= 0){
 		return id;
 	}
 
-	SayonaraQuery q(this);
+	Query q(this);
 
 	QString cissearch = Library::Util::convert_search_string(artist, search_mode());
 	q.prepare("INSERT INTO artists (name, cissearch) values (:artist, :cissearch);");
@@ -241,7 +244,7 @@ int DatabaseArtists::insertArtistIntoDatabase (const QString& artist)
 	return getArtistID(artist);
 }
 
-int DatabaseArtists::insertArtistIntoDatabase (const Artist & artist)
+int Artists::insertArtistIntoDatabase (const Artist & artist)
 {
 	if(artist.id >= 0){
 		updateArtist(artist);
@@ -252,9 +255,9 @@ int DatabaseArtists::insertArtistIntoDatabase (const Artist & artist)
 }
 
 
-int DatabaseArtists::updateArtist(const Artist &artist)
+int Artists::updateArtist(const Artist &artist)
 {
-	SayonaraQuery q(this);
+	Query q(this);
 
 	if(artist.id < 0) return -1;
 
@@ -273,9 +276,9 @@ int DatabaseArtists::updateArtist(const Artist &artist)
 	return artist.id;
 }
 
-void DatabaseArtists::updateArtistCissearch()
+void Artists::updateArtistCissearch()
 {
-	DatabaseSearchMode::update_search_mode();
+	SearchMode::update_search_mode();
 
 	ArtistList artists;
 	getAllArtists(artists, true);
@@ -285,7 +288,7 @@ void DatabaseArtists::updateArtistCissearch()
 	for(const Artist& artist : artists)
 	{
 		QString str = "UPDATE artists SET cissearch=:cissearch WHERE artistID=:id;";
-		SayonaraQuery q(this);
+		Query q(this);
 		q.prepare(str);
 		q.bindValue(":cissearch", Library::Util::convert_search_string(artist.name(), search_mode()));
 		q.bindValue(":id", artist.id);
@@ -299,13 +302,13 @@ void DatabaseArtists::updateArtistCissearch()
 }
 
 
-void DatabaseArtists::change_artistid_field(const QString& id, const QString& name)
+void Artists::change_artistid_field(const QString& id, const QString& name)
 {
-    _artistid_field = id;
-    _artistname_field = name;
+	_artistid_field = id;
+	_artistname_field = name;
 }
 
-void DatabaseArtists::change_track_lookup_field(const QString& track_lookup_field)
+void Artists::change_track_lookup_field(const QString& track_lookup_field)
 {
 	_search_view_name = track_lookup_field;
 }

@@ -47,7 +47,7 @@ struct EnginePlugin::Private
 };
 
 EnginePlugin::EnginePlugin(QWidget* parent) :
-	PlayerPluginInterface(parent)
+	PlayerPlugin::Base(parent)
 {
     m = Pimpl::make<Private>();
 
@@ -213,14 +213,14 @@ void EnginePlugin::stopped()
 
 void EnginePlugin::closeEvent(QCloseEvent *e)
 {
-	PlayerPluginInterface::closeEvent(e);
+	PlayerPlugin::Base::closeEvent(e);
 	update();
 }
 
 
 void EnginePlugin::resizeEvent(QResizeEvent* e)
 {
-	PlayerPluginInterface::resizeEvent(e);
+	PlayerPlugin::Base::resizeEvent(e);
 
 	if(!is_ui_initialized()){
 		return;
@@ -287,7 +287,7 @@ void EnginePlugin::mousePressEvent(QMouseEvent *e)
 
 void EnginePlugin::enterEvent(QEvent* e)
 {
-	PlayerPluginInterface::enterEvent(e);
+	PlayerPlugin::Base::enterEvent(e);
 
     m->btn_config->show();
     m->btn_prev->show();
@@ -297,7 +297,7 @@ void EnginePlugin::enterEvent(QEvent* e)
 
 void EnginePlugin::leaveEvent(QEvent* e)
 {
-	PlayerPluginInterface::leaveEvent(e);
+	PlayerPlugin::Base::leaveEvent(e);
 
     m->btn_config->hide();
     m->btn_prev->hide();

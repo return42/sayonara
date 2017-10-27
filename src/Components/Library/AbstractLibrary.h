@@ -42,13 +42,12 @@
 
 namespace Tagging
 {
-    class Editor;
+	class Editor;
 }
 
-class PlaylistHandler;
 class AbstractLibrary :
-        public QObject,
-        public SayonaraClass
+		public QObject,
+		public SayonaraClass
 {
 	Q_OBJECT
 	PIMPL(AbstractLibrary)
@@ -58,25 +57,25 @@ public:
 	explicit AbstractLibrary(QObject *parent=nullptr);
 	virtual ~AbstractLibrary();
 
-    Library::Sortings   sortorder() const;
-    Library::Filter		filter() const;
-    // calls fetch_by_filter and emits
-    void change_filter(Library::Filter, bool force=false);
+	Library::Sortings   sortorder() const;
+	Library::Filter		filter() const;
+	// calls fetch_by_filter and emits
+	void change_filter(Library::Filter, bool force=false);
 
-    const MetaDataList& tracks() const;
-    const AlbumList& albums() const;
-    const ArtistList& artists() const;
-    const MetaDataList& current_tracks() const;
+	const MetaDataList& tracks() const;
+	const AlbumList& albums() const;
+	const ArtistList& artists() const;
+	const MetaDataList& current_tracks() const;
 
-    const SP::Set<TrackID>& selected_tracks() const;
-    const SP::Set<AlbumID>& selected_albums() const;
-    const SP::Set<ArtistID>& selected_artists() const;
+	const SP::Set<TrackID>& selected_tracks() const;
+	const SP::Set<AlbumID>& selected_albums() const;
+	const SP::Set<ArtistID>& selected_artists() const;
 
 signals:
 	void sig_track_mime_data_available();
-    void sig_all_tracks_loaded ();
-    void sig_all_albums_loaded();
-    void sig_all_artists_loaded();
+	void sig_all_tracks_loaded ();
+	void sig_all_albums_loaded();
+	void sig_all_artists_loaded();
 
 	void sig_reloading_library(const QString& message, int progress);
 	void sig_reloading_library_finished();
@@ -89,7 +88,7 @@ public slots:
 
 	virtual void load();
 
-    virtual void reload_library(bool clear_first, Library::ReloadQuality quality)=0;
+	virtual void reload_library(bool clear_first, Library::ReloadQuality quality)=0;
 
 	/* Clears all filters and searchstrings and fetches everything again */
 	virtual void refetch();
@@ -101,34 +100,34 @@ public slots:
 
 
 	/* selection changed */
-    virtual void selected_artists_changed(const IndexSet& indexes);
-    virtual void selected_albums_changed(const IndexSet& indexes);
-    virtual void selected_tracks_changed(const IndexSet& indexes);
+	virtual void selected_artists_changed(const IndexSet& indexes);
+	virtual void selected_albums_changed(const IndexSet& indexes);
+	virtual void selected_tracks_changed(const IndexSet& indexes);
 
 	// Those two functions are identical (1) calls (2)
-    virtual void prepare_tracks_for_playlist(bool new_playlist);
-    virtual void prepare_tracks_for_playlist(const QStringList& file_paths, bool new_playlist);
+	virtual void prepare_tracks_for_playlist(bool new_playlist);
+	virtual void prepare_tracks_for_playlist(const QStringList& file_paths, bool new_playlist);
 
 
 	/* append tracks after current played track in playlist */
-    virtual void play_next_all_tracks();
-    virtual void play_next_current_tracks();
+	virtual void play_next_all_tracks();
+	virtual void play_next_current_tracks();
 
 
 	/* append tracks after last track in playlist */
-    virtual void append_all_tracks();
-    virtual void append_current_tracks();
+	virtual void append_all_tracks();
+	virtual void append_current_tracks();
 
 	/* triggered by tagedit */
-    virtual void metadata_id3_changed(const MetaDataList&, const MetaDataList&);
+	virtual void metadata_id3_changed(const MetaDataList&, const MetaDataList&);
 
 
 
 	/* a searchfilter has been entered, nothing is emitted */
-    virtual void fetch_by_filter(Library::Filter filter, bool force);
+	virtual void fetch_by_filter(Library::Filter filter, bool force);
 
 	virtual void delete_tracks(const MetaDataList& v_md, Library::TrackDeletionMode mode)=0;
-    virtual void delete_tracks_by_idx(const IndexSet& indexes, Library::TrackDeletionMode mode);
+	virtual void delete_tracks_by_idx(const IndexSet& indexes, Library::TrackDeletionMode mode);
 	virtual void delete_all_tracks();
 	virtual void delete_current_tracks(Library::TrackDeletionMode mode);
 
@@ -139,7 +138,7 @@ public slots:
 	virtual void change_track_rating(int idx, int rating);
 	virtual void change_album_rating(int idx, int rating);
 
-    virtual void add_genre(const IDSet ids, const QString& genre);
+	virtual void add_genre(const IDSet ids, const QString& genre);
 	virtual void delete_genre(const QString& genre);
 	virtual void rename_genre(const QString& genre, const QString& new_name);
 
@@ -177,12 +176,12 @@ protected:
 	virtual void		update_tracks(const MetaDataList& v_md);
 	virtual void		update_album(const Album& album)=0;
 
-    Tagging::Editor*      tag_edit();
+	Tagging::Editor*      tag_edit();
 
 
-    MetaDataList        _tracks;
-    AlbumList			_albums;
-    ArtistList			_artists;
+	MetaDataList        _tracks;
+	AlbumList			_albums;
+	ArtistList			_artists;
 
 
 private:
@@ -190,9 +189,9 @@ private:
 	void tag_edit_commit();
 	void set_playlist_action_after_double_click();
 
-    void change_track_selection(const IndexSet& indexes);
-    void change_artist_selection(const IndexSet& indexes);
-    void change_album_selection(const IndexSet& indexes);
+	void change_track_selection(const IndexSet& indexes);
+	void change_artist_selection(const IndexSet& indexes);
+	void change_album_selection(const IndexSet& indexes);
 };
 
 #endif // ABSTRACTLIBRARY_H

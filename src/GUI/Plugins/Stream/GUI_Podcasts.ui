@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>GUI_Podcasts</class>
- <widget class="PlayerPluginInterface" name="GUI_Podcasts">
+ <widget class="PlayerPlugin::Base" name="GUI_Podcasts">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -120,7 +120,7 @@
    <header location="global">GUI/Utils/MenuTool/MenuTool.h</header>
   </customwidget>
   <customwidget>
-   <class>PlayerPluginInterface</class>
+   <class>PlayerPlugin::Base</class>
    <extends>QWidget</extends>
    <header>Interfaces/PlayerPlugin/PlayerPlugin.h</header>
    <container>1</container>

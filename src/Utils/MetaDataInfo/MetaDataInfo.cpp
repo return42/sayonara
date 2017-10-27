@@ -32,7 +32,6 @@
 #include "Utils/Library/LibraryInfo.h"
 
 #include "Components/Covers/CoverLocation.h"
-#include "Database/DatabaseHandler.h"
 
 #include <limits>
 #include <QStringList>

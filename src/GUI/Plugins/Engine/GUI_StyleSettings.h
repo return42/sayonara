@@ -21,67 +21,57 @@
 #ifndef STYLESETTINGS_H
 #define STYLESETTINGS_H
 
-#include "StyleTypes.h"
-
-#include "GUI/Plugins/Engine/ui_GUI_Style.h"
+#include "Utils/Pimpl.h"
+#include "GUI/Utils/GUIClass.h"
 #include "GUI/Utils/Widgets/Dialog.h"
 
-#include <QList>
+UI_FWD(GUI_Style)
 
-class DatabaseConnector;
-class GUI_StyleSettings : public Gui::Dialog, private Ui::GUI_Style
+class QSpinBox;
+class GUI_StyleSettings :
+		public Gui::Dialog
 {
-    Q_OBJECT
+	Q_OBJECT
+	PIMPL(GUI_StyleSettings)
+	UI_CLASS(GUI_Style)
+
 public:
-    explicit GUI_StyleSettings(QWidget *parent=nullptr);
+	explicit GUI_StyleSettings(QWidget *parent=nullptr);
 	virtual ~GUI_StyleSettings();
-    
+
 signals:
-    void sig_style_update();
-    
+	void sig_style_update();
+
 public slots:
-    void show(int);
+	void show(int);
 
 
 private slots:
-    void combo_styles_changed(int);
-    void combo_text_changed(const QString&);
-    void col1_activated();
-    void col2_activated();
-    void col3_activated();
-    void col4_activated();
-    void save_pressed();
-    void del_pressed();
-    void undo_pressed();
-    void spin_box_changed(int);
-    void col_changed();
+	void combo_styles_changed(int);
+	void combo_text_changed(const QString&);
+	void col1_activated();
+	void col2_activated();
+	void col3_activated();
+	void col4_activated();
+	void save_pressed();
+	void del_pressed();
+	void undo_pressed();
+	void spin_box_changed(int);
+	void col_changed();
 
 
 private:
-	DatabaseConnector*		_db=nullptr;
-
-	QList<RawColorStyle>	_styles;
-	QList<RawColorStyle>	_styles_old;
-
-	RawColorStyle			_cur_style;
-	QColor					_colors[4];
-
-	QString		_cur_text;
-	int			_cur_idx;
-	bool		_sth_changed;
-
-
-    void init();
+	void init();
 
 	void connect_spinbox(const QSpinBox* box);
 	void disconnect_spinbox(const QSpinBox* box);
-    void connect_spinboxes();
-    void disconnect_spinboxes();
-    void set_sth_changed(bool b);
+	void connect_spinboxes();
+	void disconnect_spinboxes();
+	void set_sth_changed(bool b);
 
 protected:
 	void closeEvent(QCloseEvent* event) override;
-    void language_changed() override;
+	void language_changed() override;
 
 	void connect_combo_idx_changed();
 	void disconnect_combo_idx_changed();

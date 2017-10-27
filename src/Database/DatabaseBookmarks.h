@@ -24,15 +24,19 @@
 #include "Database/DatabaseModule.h"
 #include <QMap>
 
-class DatabaseBookmarks : private DatabaseModule
+namespace DB
 {
-public:
-	DatabaseBookmarks(const QSqlDatabase& db, uint8_t db_id);
+	class Bookmarks :
+			private Module
+	{
+	public:
+		Bookmarks(const QSqlDatabase& db, uint8_t db_id);
 
-	bool searchBookmarks(int track_id, QMap<uint32_t, QString>& bookmarks);
-	bool insertBookmark(int track_id, uint32_t time, QString text);
-	bool removeBookmark(int track_id, uint32_t time);
-	bool removeAllBookmarks(int track_id);
-};
+		bool searchBookmarks(int track_id, QMap<uint32_t, QString>& bookmarks);
+		bool insertBookmark(int track_id, uint32_t time, QString text);
+		bool removeBookmark(int track_id, uint32_t time);
+		bool removeAllBookmarks(int track_id);
+	};
+}
 
 #endif // DATABASEBOOKMARKS_H

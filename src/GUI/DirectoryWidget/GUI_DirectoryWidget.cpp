@@ -169,7 +169,7 @@ void GUI_DirectoryWidget::dir_clicked(QModelIndex idx)
 void GUI_DirectoryWidget::dir_append_clicked()
 {
 	MetaDataList v_md = ui->tv_dirs->get_selected_metadata();
-	PlaylistHandler* plh = PlaylistHandler::instance();
+	Playlist::Handler* plh = Playlist::Handler::instance();
 	plh->append_tracks(v_md, plh->get_current_idx());
 }
 
@@ -177,14 +177,14 @@ void GUI_DirectoryWidget::dir_append_clicked()
 void GUI_DirectoryWidget::dir_play_next_clicked()
 {
 	MetaDataList v_md = ui->tv_dirs->get_selected_metadata();
-	PlaylistHandler* plh = PlaylistHandler::instance();
+	Playlist::Handler* plh = Playlist::Handler::instance();
 	plh->play_next(v_md);
 }
 
 
 void GUI_DirectoryWidget::dir_delete_clicked()
 {
-    GlobalMessage::Answer answer = GlobalMessage::question(Lang::get(Lang::Really) + "?");
+	GlobalMessage::Answer answer = GlobalMessage::question(Lang::get(Lang::Really) + "?");
 
 	if(answer != GlobalMessage::Answer::Yes){
 		return;
@@ -202,7 +202,7 @@ void GUI_DirectoryWidget::dir_delete_clicked()
 void GUI_DirectoryWidget::file_append_clicked()
 {
 	MetaDataList v_md = ui->lv_files->get_selected_metadata();
-	PlaylistHandler* plh = PlaylistHandler::instance();
+	Playlist::Handler* plh = Playlist::Handler::instance();
 	plh->append_tracks(v_md, plh->get_current_idx());
 }
 
@@ -210,14 +210,14 @@ void GUI_DirectoryWidget::file_append_clicked()
 void GUI_DirectoryWidget::file_play_next_clicked()
 {
 	MetaDataList v_md = ui->lv_files->get_selected_metadata();
-	PlaylistHandler* plh = PlaylistHandler::instance();
+	Playlist::Handler* plh = Playlist::Handler::instance();
 	plh->play_next(v_md);
 }
 
 
 void GUI_DirectoryWidget::file_delete_clicked()
 {
-    GlobalMessage::Answer answer = GlobalMessage::question(Lang::get(Lang::Really) + "?");
+	GlobalMessage::Answer answer = GlobalMessage::question(Lang::get(Lang::Really) + "?");
 
 	if(answer != GlobalMessage::Answer::Yes){
 		return;

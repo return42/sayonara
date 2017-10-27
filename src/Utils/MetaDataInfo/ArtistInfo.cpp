@@ -69,8 +69,8 @@ ArtistInfo::ArtistInfo(const MetaDataList& v_md) :
 
 		int artist_id = artist_ids().first();
 
-		DatabaseConnector* db = DatabaseConnector::instance();
-		LibraryDatabase* lib_db = db->library_db(-1, m->db_id);
+		DB::Connector* db = DB::Connector::instance();
+		DB::LibraryDatabase* lib_db = db->library_db(-1, m->db_id);
 
 		success = lib_db->getArtistByID(artist_id, artist);
 
@@ -176,8 +176,8 @@ QString ArtistInfo::additional_infostring() const
 		}
 
 		QString artist_name = _additional_info[sim_artist];
-		DatabaseConnector* db = DatabaseConnector::instance();
-		LibraryDatabase* lib_db = db->library_db(-1, m->db_id);
+		DB::Connector* db = DB::Connector::instance();
+		DB::LibraryDatabase* lib_db = db->library_db(-1, m->db_id);
 
 		ArtistID id = lib_db->getArtistID(artist_name);
 

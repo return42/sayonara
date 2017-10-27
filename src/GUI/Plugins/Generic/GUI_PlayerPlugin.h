@@ -29,27 +29,31 @@
 
 UI_FWD(GUI_PlayerPlugin)
 
-class PlayerPluginInterface;
+namespace PlayerPlugin
+{
+	class Base;
+}
+
 class GUI_PlayerPlugin :
 		public Gui::Widget
 {
 	Q_OBJECT
 	UI_CLASS(GUI_PlayerPlugin)
-    PIMPL(GUI_PlayerPlugin)
+	PIMPL(GUI_PlayerPlugin)
 
 public:
 	explicit GUI_PlayerPlugin(QWidget *parent = nullptr);
 	virtual ~GUI_PlayerPlugin();
 
-	void set_content(PlayerPluginInterface* player_plugin);
-	void show(PlayerPluginInterface* player_plugin);
+	void set_content(PlayerPlugin::Base* player_plugin);
+	void show(PlayerPlugin::Base* player_plugin);
 
 private:
 	void close_cur_plugin();
 
 protected:
-    void language_changed() override;
-    void closeEvent(QCloseEvent *e) override;
+	void language_changed() override;
+	void closeEvent(QCloseEvent *e) override;
 };
 
 #endif // GUI_PLAYERPLUGIN_H

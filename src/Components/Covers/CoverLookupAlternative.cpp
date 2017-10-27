@@ -21,7 +21,6 @@
 #include "CoverLookup.h"
 #include "CoverLookupAlternative.h"
 #include "CoverLocation.h"
-#include "Database/DatabaseHandler.h"
 #include "Utils/Logger/Logger.h"
 
 #include <QStringList>

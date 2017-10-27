@@ -37,21 +37,23 @@
 #include <tuple>
 #include <algorithm>
 
-DatabaseConnector::DatabaseConnector() :
-	AbstractDatabase(0, "", QString("player.db"), nullptr),
-	DatabaseBookmarks(db(), db_id()),
-	DatabasePlaylist(db(), db_id()),
-	DatabasePodcasts(db(), db_id()),
-	DatabaseSettings(db(), db_id()),
-	DatabaseStreams(db(), db_id()),
-	DatabaseVisStyles(db(), db_id())
+using DB::Connector;
+
+Connector::Connector() :
+	DB::Base(0, "", QString("player.db"), nullptr),
+	DB::Bookmarks(db(), db_id()),
+	DB::Playlist(db(), db_id()),
+	DB::Podcasts(db(), db_id()),
+	DB::Settings(db(), db_id()),
+	DB::Streams(db(), db_id()),
+	DB::VisualStyles(db(), db_id())
 {
 	apply_fixes();
 }
 
-DatabaseConnector::~DatabaseConnector() {}
+Connector::~Connector() {}
 
-bool DatabaseConnector::updateAlbumCissearchFix()
+bool Connector::updateAlbumCissearchFix()
 {
 #ifdef DEBUG_DB
 	sp_log(Log::Debug, this) << Q_FUNC_INFO;
@@ -63,7 +65,7 @@ bool DatabaseConnector::updateAlbumCissearchFix()
 	lib_db->getAllAlbums(albums);
 	for(const Album& album : albums) {
 		QString str = "UPDATE albums SET cissearch=:cissearch WHERE albumID=:id;";
-		SayonaraQuery q(db());
+		Query q(db());
 		q.prepare(str);
 		q.bindValue(":cissearch", album.name().toLower());
 		q.bindValue(":id", album.id);
@@ -77,7 +79,7 @@ bool DatabaseConnector::updateAlbumCissearchFix()
 }
 
 
-bool DatabaseConnector::updateArtistCissearchFix()
+bool Connector::updateArtistCissearchFix()
 {
 	ArtistList artists;
 	LibraryDatabase* lib_db = library_db(-1, 0);
@@ -87,7 +89,7 @@ bool DatabaseConnector::updateArtistCissearchFix()
 		QString str =
 				"UPDATE artists SET cissearch=:cissearch WHERE artistID=:id;";
 
-		SayonaraQuery q(db());
+		Query q(db());
 		q.prepare(str);
 		q.bindValue(":cissearch", artist.name().toLower());
 		q.bindValue(":id", artist.id);
@@ -100,7 +102,7 @@ bool DatabaseConnector::updateArtistCissearchFix()
 	return true;
 }
 
-bool DatabaseConnector::updateTrackCissearchFix()
+bool Connector::updateTrackCissearchFix()
 {
 	MetaDataList v_md;
 	LibraryDatabase* lib_db = library_db(-1, 0);
@@ -112,7 +114,7 @@ bool DatabaseConnector::updateTrackCissearchFix()
 	return true;
 }
 
-bool DatabaseConnector::apply_fixes()
+bool Connector::apply_fixes()
 {
 	QString str_version;
 	int version;
@@ -121,9 +123,9 @@ bool DatabaseConnector::apply_fixes()
 
 	success = load_setting("version", str_version);
 	version = str_version.toInt(&success);
-    sp_log(Log::Info, this)
-            << "Database Version:  " << version << ". "
-            << "Latest Version: " << LatestVersion;
+	sp_log(Log::Info, this)
+			<< "Database Version:  " << version << ". "
+			<< "Latest Version: " << LatestVersion;
 
 	if(version == LatestVersion) {
 		sp_log(Log::Info, this) << "No need to update db";
@@ -134,7 +136,7 @@ bool DatabaseConnector::apply_fixes()
 		 sp_log(Log::Warning, this) << "Cannot get database version";
 	}
 
-    sp_log(Log::Info, this) << "Apply fixes";
+	sp_log(Log::Info, this) << "Apply fixes";
 
 	if(version < 1)
 	{
@@ -234,7 +236,7 @@ bool DatabaseConnector::apply_fixes()
 		bool success = check_and_insert_column("playlists", "temporary", "integer");
 
 		if(success) {
-			SayonaraQuery q(db());
+			Query q(db());
 			QString querytext = "UPDATE playlists SET temporary=0;";
 			q.prepare(querytext);
 			if(q.exec()){
@@ -246,8 +248,8 @@ bool DatabaseConnector::apply_fixes()
 	if(version < 10){
 		bool success = check_and_insert_column("playlisttotracks", "db_id", "integer");
 		if(success) {
-			SayonaraQuery q(db());
-			SayonaraQuery q_index(db());
+			Query q(db());
+			Query q_index(db());
 			QString querytext = "UPDATE playlisttotracks SET db_id = (CASE WHEN trackid > 0 THEN 0 ELSE -1 END)";
 			QString index_query = "CREATE INDEX album_search ON albums(cissearch, albumID);"
 					"CREATE INDEX artist_search ON artists(cissearch, artistID);"
@@ -289,7 +291,7 @@ bool DatabaseConnector::apply_fixes()
 				"GROUP BY albums.albumID, albums.name";
 			;
 
-		SayonaraQuery q(db());
+		Query q(db());
 		q.prepare(querytext);
 
 		if(q.exec()){
@@ -300,7 +302,7 @@ bool DatabaseConnector::apply_fixes()
 	if(version < 13){
 		bool success = check_and_insert_column("tracks", "albumArtistID", "integer", "-1");
 
-		SayonaraQuery q(db());
+		Query q(db());
 		q.prepare("UPDATE tracks SET albumArtistID=artistID;");
 		success = success && q.exec();
 
@@ -311,8 +313,8 @@ bool DatabaseConnector::apply_fixes()
 
 	if(version < 14){
 		bool success=check_and_insert_column("tracks", "libraryID", "integer", "0");
-		SayonaraQuery q(db());
-        q.prepare("UPDATE tracks SET libraryID=0;");
+		Query q(db());
+		q.prepare("UPDATE tracks SET libraryID=0;");
 		success = success && q.exec();
 
 		if(success){
@@ -324,21 +326,21 @@ bool DatabaseConnector::apply_fixes()
 }
 
 
-void DatabaseConnector::clean_up()
+void Connector::clean_up()
 {
-	SayonaraQuery q(db());
+	Query q(db());
 	QString querytext = "VACUUM;";
 	q.prepare(querytext);
 	q.exec();
 }
 
-QList<LibraryDatabase*> DatabaseConnector::library_dbs() const
+QList<DB::LibraryDatabase*> Connector::library_dbs() const
 {
 	return _library_dbs;
 }
 
 
-LibraryDatabase* DatabaseConnector::library_db(int8_t library_id, uint8_t db_id)
+DB::LibraryDatabase* Connector::library_db(int8_t library_id, uint8_t db_id)
 {
 	for(LibraryDatabase* db : _library_dbs){
 		if((db->library_id() == library_id) && (db->db_id() == db_id)){

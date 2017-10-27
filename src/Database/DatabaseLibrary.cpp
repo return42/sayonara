@@ -30,15 +30,18 @@
 #include "Utils/MetaData/Artist.h"
 #include "Utils/Logger/Logger.h"
 
-DatabaseLibrary::DatabaseLibrary(const QSqlDatabase& db, uint8_t db_id, int8_t library_id) :
-	DatabaseModule(db, db_id)
+using DB::Library;
+using DB::Query;
+
+DB::Library::Library(const QSqlDatabase& db, uint8_t db_id, int8_t library_id) :
+	Module(db, db_id)
 {
 	_library_id = library_id;
 }
 
-DatabaseLibrary::~DatabaseLibrary() {}
+DB::Library::~Library() {}
 
-bool DatabaseLibrary::storeMetadata(const MetaDataList& v_md)
+bool DB::Library::storeMetadata(const MetaDataList& v_md)
 {
 	bool success = true;
 
@@ -48,9 +51,9 @@ bool DatabaseLibrary::storeMetadata(const MetaDataList& v_md)
 
 	module_db().transaction();
 
-	DatabaseAlbums db_albums(module_db(), v_md.first().db_id(), _library_id);
-	DatabaseArtists db_artists(module_db(), v_md.first().db_id(), _library_id);
-	DatabaseTracks db_tracks(module_db(), v_md.first().db_id(), _library_id);
+	DB::Albums db_albums(module_db(), v_md.first().db_id(), _library_id);
+	DB::Artists db_artists(module_db(), v_md.first().db_id(), _library_id);
+	DB::Tracks db_tracks(module_db(), v_md.first().db_id(), _library_id);
 
 	AlbumList albums;
 	ArtistList artists;
@@ -71,7 +74,8 @@ bool DatabaseLibrary::storeMetadata(const MetaDataList& v_md)
 	albums.clear();
 	artists.clear();
 
-	for(MetaData md : v_md) {
+	for(MetaData md : v_md)
+	{
 		int artist_id, album_id, album_artist_id;
 		//first check if we know the artist and its id
 		Album album = album_map[md.album()];
@@ -138,9 +142,9 @@ bool DatabaseLibrary::storeMetadata(const MetaDataList& v_md)
 	return success;
 }
 
-void DatabaseLibrary::addAlbumArtists()
+void DB::Library::addAlbumArtists()
 {
-	SayonaraQuery q(this);
+	Query q(this);
 	QString	querytext = "UPDATE tracks SET albumArtistID = artistID WHERE albumArtistID = -1;";
 	q.prepare(querytext);
 	if(!q.exec()){
@@ -148,7 +152,7 @@ void DatabaseLibrary::addAlbumArtists()
 	}
 }
 
-void DatabaseLibrary::dropIndexes()
+void DB::Library::dropIndexes()
 {
 	QStringList indexes;
 	indexes << "album_search";
@@ -157,7 +161,7 @@ void DatabaseLibrary::dropIndexes()
 
 	for(const QString& idx : indexes)
 	{
-		SayonaraQuery q(this);
+		Query q(this);
 		QString text = "DROP INDEX " + idx + ";";
 		q.prepare(text);
 		if(!q.exec()){
@@ -167,7 +171,7 @@ void DatabaseLibrary::dropIndexes()
 }
 
 using IndexDescription=std::tuple<QString, QString, QString>;
-void DatabaseLibrary::createIndexes()
+void DB::Library::createIndexes()
 {
 	dropIndexes();
 
@@ -178,7 +182,7 @@ void DatabaseLibrary::createIndexes()
 
 	for(const IndexDescription& idx : indexes)
 	{
-		SayonaraQuery q(this);
+		Query q(this);
 		QString name = std::get<0>(idx);
 		QString table = std::get<1>(idx);
 		QString column = std::get<2>(idx);

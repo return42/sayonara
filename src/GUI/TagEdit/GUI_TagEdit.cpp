@@ -369,8 +369,8 @@ void GUI_TagEdit::init_completer()
 	ArtistList artists;
 	QStringList albumstr, artiststr;
 
-	DatabaseConnector* db = DatabaseConnector::instance();
-	LibraryDatabase* lib_db = db->library_db(-1, 0);
+	DB::Connector* db = DB::Connector::instance();
+	DB::LibraryDatabase* lib_db = db->library_db(-1, 0);
 
 	lib_db->getAllAlbums(albums, true);
 	lib_db->getAllArtists(artists, true);

@@ -24,8 +24,11 @@
 
 #include <QColor>
 
-DatabaseVisStyles::DatabaseVisStyles(const QSqlDatabase& db, uint8_t db_id) :
-	DatabaseModule(db, db_id) {}
+using DB::VisualStyles;
+using DB::Module;
+
+VisualStyles::VisualStyles(const QSqlDatabase& db, uint8_t db_id) :
+	Module(db, db_id) {}
 
 
 QString col2String(QColor col) {
@@ -60,11 +63,11 @@ bool colFromString(QString str, QColor& c) {
 	return true;
 }
 
-QList<RawColorStyle> DatabaseVisStyles::get_raw_color_styles()
+QList<RawColorStyle> VisualStyles::get_raw_color_styles()
 {
 	QList<RawColorStyle> ret_val;
 
-	SayonaraQuery q(this);
+	Query q(this);
 	q.prepare("SELECT * FROM VisualStyles;" );
 
 	if(!q.exec()) {
@@ -106,7 +109,7 @@ QList<RawColorStyle> DatabaseVisStyles::get_raw_color_styles()
 }
 
 
-bool DatabaseVisStyles::insert_raw_color_style_to_db(const RawColorStyle& rcs)
+bool VisualStyles::insert_raw_color_style_to_db(const RawColorStyle& rcs)
 {
 	if(raw_color_style_exists(rcs.col_list.name))
 		return update_raw_color_style(rcs);
@@ -116,7 +119,7 @@ bool DatabaseVisStyles::insert_raw_color_style_to_db(const RawColorStyle& rcs)
 		col_str += ":col" + QString::number(i + 1) + ", ";
 	}
 
-	SayonaraQuery q(this);
+	Query q(this);
 	QString sql_str;
 	sql_str = "INSERT INTO VisualStyles VALUES ("
 			":name, "
@@ -165,7 +168,7 @@ bool DatabaseVisStyles::insert_raw_color_style_to_db(const RawColorStyle& rcs)
 }
 
 
-bool DatabaseVisStyles::update_raw_color_style(const RawColorStyle& rcs)
+bool VisualStyles::update_raw_color_style(const RawColorStyle& rcs)
 {
 	if(!raw_color_style_exists(rcs.col_list.name)) {
 		return insert_raw_color_style_to_db(rcs);
@@ -176,7 +179,7 @@ bool DatabaseVisStyles::update_raw_color_style(const RawColorStyle& rcs)
 		col_str += "col" + QString::number(i + 1) + "=:col" + QString::number(i + 1) + ", ";
 	}
 
-	SayonaraQuery q(this);
+	Query q(this);
 	QString sql_str;
 	sql_str = "UPDATE VisualStyles SET "
 
@@ -225,9 +228,9 @@ bool DatabaseVisStyles::update_raw_color_style(const RawColorStyle& rcs)
 }
 
 
-bool DatabaseVisStyles::delete_raw_color_style(QString name)
+bool VisualStyles::delete_raw_color_style(QString name)
 {
-	SayonaraQuery q(this);
+	Query q(this);
 	q.prepare("DELETE FROM visualstyles WHERE name=:name;");
 	q.bindValue(":name", name);
 
@@ -240,9 +243,9 @@ bool DatabaseVisStyles::delete_raw_color_style(QString name)
 }
 
 
-bool DatabaseVisStyles::raw_color_style_exists(QString name)
+bool VisualStyles::raw_color_style_exists(QString name)
 {
-	SayonaraQuery q(this);
+	Query q(this);
 	q.prepare("SELECT * FROM visualstyles WHERE name=:name;");
 	q.bindValue(":name", name);
 

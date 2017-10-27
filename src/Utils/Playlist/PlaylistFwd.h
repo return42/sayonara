@@ -24,21 +24,26 @@
 #include <memory>
 #include <QtGlobal>
 
-class AbstractPlaylist;
+
+namespace Playlist
+{
+	class Base;
+}
 
 /**
  * @brief PlaylistPtr Playlist Pointer (only used internally)
  * @ingroup Playlists
  * @ingroup PlaylistHelper
  */
-typedef std::shared_ptr<AbstractPlaylist> PlaylistPtr;
+typedef std::shared_ptr<Playlist::Base> PlaylistPtr;
 
 /**
  * @brief PlaylistConstPtr read only Playlist Pointer
  * @ingroup Playlists
  * @ingroup PlaylistHelper
  */
-typedef std::shared_ptr<const AbstractPlaylist> PlaylistConstPtr;
+typedef std::shared_ptr<const Playlist::Base> PlaylistConstPtr;
+
 
 
 /**
@@ -46,12 +51,12 @@ typedef std::shared_ptr<const AbstractPlaylist> PlaylistConstPtr;
  */
 namespace Playlist
 {
-    class Mode;
-    enum class Type : quint8
-    {
-	    Std=0,
-	    Stream
-    };
+	class Mode;
+	enum class Type : quint8
+	{
+		Std=0,
+		Stream
+	};
 }
 
 #endif

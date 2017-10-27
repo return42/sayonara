@@ -32,13 +32,17 @@
 
 class GUI_TrayIcon;
 class MetaData;
-class PlayerPluginInterface;
-class PlayerPluginHandler;
 class LibraryPluginHandler;
 class PreferenceDialogInterface;
 class QTranslator;
 class QMessageBox;
 class GUI_Logger;
+
+namespace PlayerPlugin
+{
+	class Base;
+	class Handler;
+}
 
 class GUI_Player :
 		public Gui::MainWindow,
@@ -54,7 +58,7 @@ public:
 	explicit GUI_Player(QTranslator* translator, QWidget *parent=nullptr);
 	~GUI_Player();
 
-	void register_player_plugin_handler(PlayerPluginHandler* pph);
+	void register_player_plugin_handler(PlayerPlugin::Handler* pph);
 	void register_preference_dialog(PreferenceDialogInterface* dialog);
 
 	void ui_loaded();
@@ -62,7 +66,7 @@ public:
 
 
 private:
-	PlayerPluginHandler*		_pph=nullptr;
+	PlayerPlugin::Handler*		_pph=nullptr;
 
 	QTranslator*				_translator=nullptr;
 	QStringList					_translators;
@@ -131,8 +135,9 @@ private slots:
 	void tray_icon_activated(QSystemTrayIcon::ActivationReason reason);
 
 	/* Plugins */
-	void show_plugin(PlayerPluginInterface* plugin);
-	void hide_all_plugins();
+	void plugin_opened();
+	void plugin_closed();
+	void plugin_action_triggered(bool b);
 };
 
 #endif // GUI_SIMPLEPLAYER_H

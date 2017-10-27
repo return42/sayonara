@@ -28,7 +28,6 @@
 #include "LFMSimArtistsParser.h"
 #include "ArtistMatch.h"
 
-#include "Database/DatabaseHandler.h"
 #include "Database/DatabaseConnector.h"
 
 #include "Utils/Utils.h"
@@ -65,13 +64,13 @@ struct TrackChangedThread::Private
 TrackChangedThread::TrackChangedThread(const QString& username, const QString& session_key, QObject* parent) :
 	QObject(parent)
 {
-    m = Pimpl::make<TrackChangedThread::Private>();
+	m = Pimpl::make<TrackChangedThread::Private>();
 	m->username = username;
 	m->session_key = session_key;
 
 	ArtistList artists;
-	DatabaseConnector* db = DatabaseConnector::instance();
-	LibraryDatabase* lib_db = db->library_db(-1, 0);
+	DB::Connector* db = DB::Connector::instance();
+	DB::LibraryDatabase* lib_db = db->library_db(-1, 0);
 
 	lib_db->getAllArtists(artists);
 
@@ -85,7 +84,7 @@ TrackChangedThread::~TrackChangedThread() {}
 
 void TrackChangedThread::set_session_key(const QString& session_key)
 {
-    m->session_key = session_key;
+	m->session_key = session_key;
 }
 
 void TrackChangedThread::set_username(const QString& username)
@@ -98,10 +97,10 @@ void TrackChangedThread::update_now_playing(const MetaData& md)
 {
 	m->md = md;
 
-    WebAccess* lfm_wa = new WebAccess();
+	WebAccess* lfm_wa = new WebAccess();
 
-    connect(lfm_wa, &WebAccess::sig_response, this, &TrackChangedThread::response_update);
-    connect(lfm_wa, &WebAccess::sig_error, this, &TrackChangedThread::error_update);
+	connect(lfm_wa, &WebAccess::sig_response, this, &TrackChangedThread::response_update);
+	connect(lfm_wa, &WebAccess::sig_error, this, &TrackChangedThread::error_update);
 
 	QString artist = m->md.artist();
 	QString title = m->md.title;
@@ -133,13 +132,13 @@ void TrackChangedThread::update_now_playing(const MetaData& md)
 void TrackChangedThread::response_update(const QByteArray& data)
 {
 	Q_UNUSED(data)
-    WebAccess* lfm_wa = static_cast<WebAccess*>(sender());
+	WebAccess* lfm_wa = static_cast<WebAccess*>(sender());
 	lfm_wa->deleteLater();
 }
 
 
 void TrackChangedThread::error_update(const QString& error){
-    WebAccess* lfm_wa = static_cast<WebAccess*>(sender());
+	WebAccess* lfm_wa = static_cast<WebAccess*>(sender());
 
 	sp_log(Log::Warning) << "Last.fm: Cannot update track";
 	sp_log(Log::Warning) << "Last.fm: " << error;
@@ -173,10 +172,10 @@ void TrackChangedThread::search_similar_artists(const MetaData& md)
 
 	m->artist = m->md.artist();
 
-    WebAccess* lfm_wa = new WebAccess();
+	WebAccess* lfm_wa = new WebAccess();
 
-    connect(lfm_wa, &WebAccess::sig_response, this, &TrackChangedThread::response_sim_artists);
-    connect(lfm_wa, &WebAccess::sig_error, this, &TrackChangedThread::error_sim_artists);
+	connect(lfm_wa, &WebAccess::sig_response, this, &TrackChangedThread::response_sim_artists);
+	connect(lfm_wa, &WebAccess::sig_error, this, &TrackChangedThread::error_sim_artists);
 
 	QString url = 	QString("http://ws.audioscrobbler.com/2.0/?");
 	QString encoded = QUrl::toPercentEncoding( m->md.artist() );
@@ -273,8 +272,8 @@ QMap<QString, int> TrackChangedThread::filter_available_artists(const ArtistMatc
 		}
 
 #else
-		DatabaseConnector* db = DatabaseConnector::instance();
-		LibraryDatabase* lib_db = db->library_db(-1, 0);
+		DB::Connector* db = DB::Connector::instance();
+		DB::LibraryDatabase* lib_db = db->library_db(-1, 0);
 		int artist_id = lib_db->getArtistID(key.artist_name);
 		if(artist_id >= 0 ){
 			possible_artists[key.artist_name] = artist_id;
@@ -289,9 +288,9 @@ QMap<QString, int> TrackChangedThread::filter_available_artists(const ArtistMatc
 
 void TrackChangedThread::response_sim_artists(const QByteArray& data)
 {
-    SimArtistsParser parser(m->artist, data);
+	SimArtistsParser parser(m->artist, data);
 
-    ArtistMatch artist_match = parser.artist_match();
+	ArtistMatch artist_match = parser.artist_match();
 
 	if(artist_match.is_valid()){
 		QString artist_name = artist_match.get_artist_name();

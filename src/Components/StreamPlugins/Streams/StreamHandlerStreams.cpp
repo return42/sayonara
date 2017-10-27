@@ -27,18 +27,18 @@ StreamHandlerStreams::StreamHandlerStreams(QObject* parent) :
 StreamHandlerStreams::~StreamHandlerStreams() {}
 
 bool StreamHandlerStreams::get_all_streams(StreamMap& streams){
-	return _db->getAllStreams(streams);
+	return DB::Connector::instance()->getAllStreams(streams);
 }
 
 bool StreamHandlerStreams::add_stream(const QString& station_name, const QString& url){
-	return _db->addStream(station_name, url);
+	return DB::Connector::instance()->addStream(station_name, url);
 }
 
 bool StreamHandlerStreams::delete_stream(const QString& station_name){
-	return _db->deleteStream(station_name);
+	return DB::Connector::instance()->deleteStream(station_name);
 }
 
 bool StreamHandlerStreams::update_url(const QString& station_name, const QString& url){
-	return _db->updateStreamUrl(station_name, url);
+	return DB::Connector::instance()->updateStreamUrl(station_name, url);
 }
 

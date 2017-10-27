@@ -118,17 +118,17 @@ MetaDataList DirectoryReader::get_md_from_filelist(const QStringList& lst)
 		}
 	}
 
-    DatabaseConnector* db = DatabaseConnector::instance();
-	LibraryDatabase* lib_db = db->library_db(-1, 0);
+	DB::Connector* db = DB::Connector::instance();
+	DB::LibraryDatabase* lib_db = db->library_db(-1, 0);
 
 	lib_db->getMultipleTracksByPath(sound_files, v_md);
 
 	auto it=v_md.begin();
 	while(it != v_md.end())
 	{
-		if( it->id < 0 ) 
+		if( it->id < 0 )
 		{
-            if(!Tagging::Util::getMetaDataOfFile(*it)) {
+			if(!Tagging::Util::getMetaDataOfFile(*it)) {
 				it = v_md.erase(it);
 				continue;
 			}

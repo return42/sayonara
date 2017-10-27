@@ -52,7 +52,7 @@ struct GUI_PlaylistChooser::Private
 };
 
 GUI_PlaylistChooser::GUI_PlaylistChooser(QWidget *parent) :
-	PlayerPluginInterface(parent)
+	PlayerPlugin::Base(parent)
 {
 	m = Pimpl::make<Private>();
 }

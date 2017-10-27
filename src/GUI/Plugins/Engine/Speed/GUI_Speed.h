@@ -25,7 +25,7 @@
 
 UI_FWD(GUI_Speed)
 
-class GUI_Speed : public PlayerPluginInterface
+class GUI_Speed : public PlayerPlugin::Base
 {
 	Q_OBJECT
 	UI_CLASS(GUI_Speed)

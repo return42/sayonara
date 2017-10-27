@@ -27,18 +27,20 @@
 
 #include <QStringList>
 
+using Playlist::Handler;
+
 struct PlaylistChooser::Private
 {
 	CustomPlaylistSkeletons	skeletons;
 	int						import_state;
 
-	PlaylistHandler*		playlist_handler=nullptr;
-	PlaylistDBWrapperPtr	playlist_db_connector=nullptr;
+	Handler*		playlist_handler=nullptr;
+	Playlist::DBWrapperPtr	playlist_db_connector=nullptr;
 
 	Private()
 	{
-		playlist_handler = PlaylistHandler::instance();
-		playlist_db_connector = std::make_shared<PlaylistDBWrapper>();
+		playlist_handler = Handler::instance();
+		playlist_db_connector = std::make_shared<Playlist::DBWrapper>();
 	}
 
 	CustomPlaylist find_custom_playlist(int id)
@@ -56,7 +58,7 @@ PlaylistChooser::PlaylistChooser()
 		m->skeletons, Playlist::SortOrder::NameAsc
 	);
 
-	connect(m->playlist_handler, &PlaylistHandler::sig_saved_playlists_changed,
+	connect(m->playlist_handler, &Handler::sig_saved_playlists_changed,
 			this, &PlaylistChooser::playlists_changed);
 }
 

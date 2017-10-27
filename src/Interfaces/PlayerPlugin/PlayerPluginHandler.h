@@ -21,46 +21,47 @@
 #ifndef PLAYERPLUGINHANDLER_H
 #define PLAYERPLUGINHANDLER_H
 
+#include "Utils/Settings/SayonaraClass.h"
+#include "Utils/Pimpl.h"
+
 #include <QObject>
 #include <QList>
-#include <QString>
 
-#include "Utils/Settings/SayonaraClass.h"
-
-
-class PlayerPluginInterface;
-class PlayerPluginHandler : 
-	public QObject, 
-	public SayonaraClass
+namespace PlayerPlugin
 {
-    Q_OBJECT
+	class Base;
 
-public:
-	explicit PlayerPluginHandler(QObject *parent=nullptr);
-    ~PlayerPluginHandler();
+	class Handler :
+		public QObject,
+		public SayonaraClass
+	{
+		Q_OBJECT
+		PIMPL(Handler)
 
+	public:
+		explicit Handler(QObject *parent=nullptr);
+		~Handler();
 
-signals:
-	void sig_show_plugin(PlayerPluginInterface*);
-    void sig_hide_all_plugins();
+	signals:
+		void sig_plugin_closed();
+		void sig_plugin_action_triggered(bool b);
 
+	private:
+		void plugin_opened(Base* p);
 
-private slots:
-	void plugin_action_triggered(PlayerPluginInterface* source, bool on);
-	void plugin_closed();
-	void reload_plugin(PlayerPluginInterface* p);
-	void language_changed();
+	private slots:
+		void plugin_action_triggered(bool b);
+		void plugin_opened();
+		void plugin_closed();
+		void language_changed();
 
+	public:
+		void add_plugin(Base* plugin);
 
-private:
-	QList<PlayerPluginInterface*>	_plugins;
-
-
-public:
-	void add_plugin(PlayerPluginInterface* plugin);
-
-	PlayerPluginInterface*        find_plugin(const QString& name);
-	QList<PlayerPluginInterface*> get_all_plugins() const;
-};
+		Base*			find_plugin(const QString& name);
+		QList<Base*>	get_all_plugins() const;
+		Base*			current_plugin() const;
+	};
+}
 
 #endif // PLAYERPLUGINHANDLER_H

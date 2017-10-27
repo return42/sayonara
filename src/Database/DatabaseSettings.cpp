@@ -23,58 +23,60 @@
 #include "Utils/Settings/Settings.h"
 #include "Utils/Logger/Logger.h"
 
-DatabaseSettings::DatabaseSettings(const QSqlDatabase& db, uint8_t db_id) :
-	DatabaseModule(db, db_id) {}
+using DB::Query;
 
-DatabaseSettings::~DatabaseSettings() {}
+DB::Settings::Settings(const QSqlDatabase& db, uint8_t db_id) :
+	DB::Module(db, db_id) {}
 
-bool DatabaseSettings::load_settings()
+DB::Settings::~Settings() {}
+
+bool DB::Settings::load_settings()
 {
-    const SettingArray& settings = Settings::instance()->settings();
+	const SettingArray& settings = ::Settings::instance()->settings();
 
-    for(AbstrSetting* s : settings)
-    {
+	for(AbstrSetting* s : settings)
+	{
 		if(!s || !s->is_db_setting()) {
 			continue;
 		}
 
-        QString value;
-        QString db_key = s->db_key();
+		QString value;
+		QString db_key = s->db_key();
 
-        bool success = load_setting(db_key, value);
-        if(success) {
-            s->assign_value(value);
-        }
+		bool success = load_setting(db_key, value);
+		if(success) {
+			s->assign_value(value);
+		}
 
 		else {
-            sp_log(Log::Info, this) << "Setting " << db_key << ": Not found. Use default value...";
-            s->assign_default_value();
-            sp_log(Log::Info, this) << "Load Setting " << db_key << ": " << s->value_to_string();
-        }
+			sp_log(Log::Info, this) << "Setting " << db_key << ": Not found. Use default value...";
+			s->assign_default_value();
+			sp_log(Log::Info, this) << "Load Setting " << db_key << ": " << s->value_to_string();
+		}
 	}
 
 	return true;
 }
 
-bool DatabaseSettings::store_settings()
+bool DB::Settings::store_settings()
 {
-    const SettingArray& settings = Settings::instance()->settings();
+	const SettingArray& settings = ::Settings::instance()->settings();
 
 	module_db().transaction();
 
-    for(AbstrSetting* s : settings)
-    {
-        if(!s) {
-            continue;
-        }
+	for(AbstrSetting* s : settings)
+	{
+		if(!s) {
+			continue;
+		}
 
-        if(s->is_db_setting())
-        {
-            store_setting(
-                s->db_key(),
-                s->value_to_string()
-            );
-        }
+		if(s->is_db_setting())
+		{
+			store_setting(
+				s->db_key(),
+				s->value_to_string()
+			);
+		}
 	}
 
 	module_db().commit();
@@ -82,9 +84,9 @@ bool DatabaseSettings::store_settings()
 	return true;
 }
 
-bool DatabaseSettings::load_all_settings(QStringList& result)
+bool DB::Settings::load_all_settings(QStringList& result)
 {
-	SayonaraQuery q(this);
+	Query q(this);
 	q.prepare("SELECT value FROM settings;");
 
 	if (!q.exec()) {
@@ -99,9 +101,9 @@ bool DatabaseSettings::load_all_settings(QStringList& result)
 	return (result.size() > 0);
 }
 
-bool DatabaseSettings::load_setting(QString key, QString& tgt_value)
+bool DB::Settings::load_setting(QString key, QString& tgt_value)
 {
-	SayonaraQuery q(this);
+	Query q(this);
 	q.prepare("SELECT value FROM settings WHERE key = ?;");
 	q.addBindValue(QVariant(key));
 
@@ -119,9 +121,9 @@ bool DatabaseSettings::load_setting(QString key, QString& tgt_value)
 }
 
 
-bool DatabaseSettings::store_setting(QString key, const QVariant& value)
+bool DB::Settings::store_setting(QString key, const QVariant& value)
 {
-	SayonaraQuery q(this);
+	Query q(this);
 	q.prepare("SELECT value FROM settings WHERE key = :key;");
 	q.bindValue(":key", key);
 

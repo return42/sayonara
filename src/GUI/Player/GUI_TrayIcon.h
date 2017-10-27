@@ -33,18 +33,17 @@
 
 class QTimer;
 class QAction;
-class PlayManager;
 class MetaData;
 /**
   * Small class to be used as tray icon
   */
 class GUI_TrayIcon :
 		public QSystemTrayIcon,
-        public NotificationInterface,
-        public SayonaraClass
+		public NotificationInterface,
+		public SayonaraClass
 {
 	Q_OBJECT
-    PIMPL(GUI_TrayIcon)
+	PIMPL(GUI_TrayIcon)
 
 public:
 
@@ -84,7 +83,7 @@ private slots:
 
 	void mute_changed(bool muted);
 	void _sl_show_tray_icon();
-	
+
 	void language_changed();
 	void skin_changed();
 

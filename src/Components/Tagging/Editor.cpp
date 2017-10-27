@@ -47,8 +47,8 @@ struct Editor::Private
 	QHash<QString, ArtistID> artist_map;
 	QHash<QString, AlbumID> album_map;
 
-	LibraryDatabase*		ldb=nullptr;	// database of LocalLibrary
-	bool					notify;
+	DB::LibraryDatabase*	ldb=nullptr;	// database of LocalLibrary
+	bool						notify;
 
 	ArtistID get_artist_id(const QString& artist_name)
 	{
@@ -83,7 +83,7 @@ Editor::Editor(QObject *parent) :
 	QThread(parent)
 {
 	m = Pimpl::make<Editor::Private>();
-	m->ldb = DatabaseConnector::instance()->library_db(-1, 0);
+	m->ldb = DB::Connector::instance()->library_db(-1, 0);
 	m->notify = true;
 
 	connect(this, &QThread::finished, this, &Editor::thread_finished);
@@ -183,7 +183,7 @@ void Editor::set_metadata(const MetaDataList& v_md)
 	m->changed_md.assign(v_md.size(), false);
 
 	if( v_md.size() > 0) {
-		m->ldb = DatabaseConnector::instance()->library_db(v_md.first().library_id, 0);
+		m->ldb = DB::Connector::instance()->library_db(v_md.first().library_id, 0);
 	}
 
 	emit sig_metadata_received(m->v_md);
@@ -247,7 +247,7 @@ void Editor::run()
 {
 	MetaDataList v_md;
 	MetaDataList v_md_orig;
-	DatabaseConnector* db;
+	DB::Connector* db;
 
 	sp_log(Log::Debug, this) << "Apply albums and artists";
 	apply_artists_and_albums_to_md();
@@ -291,7 +291,7 @@ void Editor::run()
 
 	m->ldb->createIndexes();
 
-	db = DatabaseConnector::instance();
+	db = DB::Connector::instance();
 	db->clean_up();
 
 	m->v_md_after_change = v_md;

@@ -28,10 +28,8 @@
 #include <QObject>
 
 class StreamDataSender;
-class Handler;
 class MetaData;
 class QTcpSocket;
-
 
 /**
  * @brief The StreamWriter class. This class is the interface between StreamDataSender and StreamServer.

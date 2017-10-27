@@ -24,15 +24,19 @@
 #include "Database/DatabaseModule.h"
 #include <QMap>
 
-class DatabasePodcasts : private DatabaseModule
+namespace DB
 {
-public:
-	DatabasePodcasts(const QSqlDatabase& db, uint8_t db_id);
+	class Podcasts :
+		private Module
+	{
+		public:
+			Podcasts(const QSqlDatabase& db, uint8_t db_id);
 
-	bool getAllPodcasts(QMap<QString, QString>& result);
-	bool deletePodcast(const QString& name);
-	bool addPodcast(const QString& name, const QString& url);
-	bool updatePodcastUrl(const QString& name, const QString& url);
-};
+			bool getAllPodcasts(QMap<QString, QString>& result);
+			bool deletePodcast(const QString& name);
+			bool addPodcast(const QString& name, const QString& url);
+			bool updatePodcastUrl(const QString& name, const QString& url);
+	};
+}
 
 #endif // DATABASEPODCASTS_H

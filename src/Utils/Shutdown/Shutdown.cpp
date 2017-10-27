@@ -149,7 +149,7 @@ void Shutdown::timeout()
 {
 
 	m->is_running = false;
-	DatabaseConnector::instance()->store_settings();
+	DB::Connector::instance()->store_settings();
 
 
 #ifdef Q_OS_WIN

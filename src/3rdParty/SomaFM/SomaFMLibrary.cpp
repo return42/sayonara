@@ -66,7 +66,7 @@ void SomaFM::Library::search_stations()
 
 	awa->run("https://somafm.com/listen/");
 }
-	
+
 
 SomaFM::Station SomaFM::Library::station(const QString& name)
 {
@@ -90,7 +90,7 @@ void SomaFM::Library::soma_website_fetched()
 	QStringList station_contents = content.split("<li");
 
 
-    for(const QString& station_content : station_contents)
+	for(const QString& station_content : station_contents)
 	{
 		SomaFM::Station station(station_content);
 		if(!station.is_valid()){
@@ -100,7 +100,7 @@ void SomaFM::Library::soma_website_fetched()
 		QString station_name = station.name();
 
 		bool loved = m->qsettings->value(station_name, false).toBool();
-			
+
 		station.set_loved( loved );
 
 		m->station_map[station_name] = station;
@@ -135,7 +135,7 @@ void SomaFM::Library::soma_station_playlists_fetched(bool success)
 	MetaDataList v_md  = parser->get_metadata();
 	SomaFM::Station station = m->station_map[m->requested_station];
 	QString cover_url;
-    Cover::Location cl = station.cover_location();
+	Cover::Location cl = station.cover_location();
 	if(cl.has_search_urls()){
 		cover_url = cl.search_urls().first();
 	}
@@ -148,7 +148,7 @@ void SomaFM::Library::soma_station_playlists_fetched(bool success)
 
 	m->station_map[m->requested_station] = station;
 
-	PlaylistHandler* plh = PlaylistHandler::instance();
+	Playlist::Handler* plh = Playlist::Handler::instance();
 	plh->create_playlist(v_md,
 						 station.name(),
 						 true,
@@ -164,7 +164,7 @@ void SomaFM::Library::create_playlist_from_playlist(int idx)
 	QStringList urls = station.urls();
 
 	if( !between(idx, urls)) {
-		return;		
+		return;
 	}
 
 	QString url = urls[idx];
@@ -187,7 +187,7 @@ void SomaFM::Library::soma_playlist_content_fetched(bool success)
 	MetaDataList v_md = parser->get_metadata();
 
 	SomaFM::Station station = m->station_map[m->requested_station];
-    Cover::Location cl = station.cover_location();
+	Cover::Location cl = station.cover_location();
 	QString cover_url;
 	if(cl.has_search_urls()){
 		cover_url = cl.search_urls().first();
@@ -201,7 +201,7 @@ void SomaFM::Library::soma_playlist_content_fetched(bool success)
 
 	m->station_map[m->requested_station] = station;
 
-	PlaylistHandler* plh = PlaylistHandler::instance();
+	Playlist::Handler* plh = Playlist::Handler::instance();
 	plh->create_playlist(v_md,
 						 station.name(),
 						 true,

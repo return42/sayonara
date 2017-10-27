@@ -23,17 +23,20 @@
 
 #include "StdPlaylist.h"
 
-/**
- * @brief The StreamPlaylist class
- * @ingroup Playlists
- */
-class StreamPlaylist : public StdPlaylist
+namespace Playlist
 {
-public:
-	explicit StreamPlaylist(int idx, QString name="");
-	virtual ~StreamPlaylist();
+	/**
+	 * @brief The StreamPlaylist class
+	 * @ingroup Playlists
+	 */
+	class Stream : public Standard
+	{
+	public:
+		explicit Stream(int idx, QString name="");
+		virtual ~Stream();
 
-	Playlist::Type type() const override;
-};
+		Playlist::Type type() const override;
+	};
+}
 
 #endif // STREAMPLAYLIST_H

@@ -25,26 +25,28 @@
 #include "Utils/Playlist/CustomPlaylist.h"
 #include "Utils/MetaData/Genre.h"
 
-DatabasePlaylist::DatabasePlaylist(const QSqlDatabase& db, uint8_t db_id) :
-	DatabaseModule(db, db_id) {}
+using DB::Query;
+
+DB::Playlist::Playlist(const QSqlDatabase& db, uint8_t db_id) :
+	Module(db, db_id) {}
 
 
-bool DatabasePlaylist::getAllPlaylistSkeletons(CustomPlaylistSkeletons& skeletons, DatabasePlaylist::PlaylistChooserType type, Playlist::SortOrder sortorder)
+bool DB::Playlist::getAllPlaylistSkeletons(CustomPlaylistSkeletons& skeletons, ::Playlist::StoreType type, ::Playlist::SortOrder sortorder)
 {
 	skeletons.clear();
 
 	QString sortorder_str;
 	switch(sortorder){
-		case Playlist::SortOrder::IDAsc:
+		case ::Playlist::SortOrder::IDAsc:
 			sortorder_str = " ORDER BY playlists.playlistID ASC ";
 			break;
-		case Playlist::SortOrder::IDDesc:
+		case ::Playlist::SortOrder::IDDesc:
 			sortorder_str = " ORDER BY playlists.playlistID DESC ";
 			break;
-		case Playlist::SortOrder::NameAsc:
+		case ::Playlist::SortOrder::NameAsc:
 			sortorder_str = " ORDER BY playlists.playlist ASC ";
 			break;
-		case Playlist::SortOrder::NameDesc:
+		case ::Playlist::SortOrder::NameDesc:
 			sortorder_str = " ORDER BY playlists.playlist DESC ";
 			break;
 		default:
@@ -53,10 +55,10 @@ bool DatabasePlaylist::getAllPlaylistSkeletons(CustomPlaylistSkeletons& skeleton
 
 	QString type_clause;
 	switch(type){
-		case DatabasePlaylist::PlaylistChooserType::OnlyTemporary:
+		case ::Playlist::StoreType::OnlyTemporary:
 			type_clause = " WHERE playlists.temporary = 1 ";
 			break;
-		case DatabasePlaylist::PlaylistChooserType::OnlyPermanent:
+		case ::Playlist::StoreType::OnlyPermanent:
 			type_clause = " WHERE playlists.temporary = 0 ";
 			break;
 		default:
@@ -64,7 +66,7 @@ bool DatabasePlaylist::getAllPlaylistSkeletons(CustomPlaylistSkeletons& skeleton
 
 	}
 
-	SayonaraQuery q(this);
+	Query q(this);
 
 	QString querytext = QString() +
 
@@ -106,14 +108,14 @@ bool DatabasePlaylist::getAllPlaylistSkeletons(CustomPlaylistSkeletons& skeleton
 	return true;
 }
 
-bool DatabasePlaylist::getPlaylistSkeletonById(CustomPlaylistSkeleton& skeleton)
+bool DB::Playlist::getPlaylistSkeletonById(CustomPlaylistSkeleton& skeleton)
 {
 	if(skeleton.id() < 0){
 		sp_log(Log::Warning) << "Cannot fetch playlist -1";
 		return false;
 	}
 
-	SayonaraQuery q(this);
+	Query q(this);
 
 	QString querytext = QString() +
 
@@ -149,7 +151,7 @@ bool DatabasePlaylist::getPlaylistSkeletonById(CustomPlaylistSkeleton& skeleton)
 	return false;
 }
 
-bool DatabasePlaylist::getPlaylistById(CustomPlaylist& pl)
+bool DB::Playlist::getPlaylistById(CustomPlaylist& pl)
 {
 	if(!getPlaylistSkeletonById(pl)){
 		sp_log(Log::Warning) << "Get playlist by id: cannot fetch skeleton id " << pl.id();
@@ -158,7 +160,7 @@ bool DatabasePlaylist::getPlaylistById(CustomPlaylist& pl)
 
 	pl.clear();
 
-	SayonaraQuery q(this);
+	Query q(this);
 
 	QString querytext = QString("SELECT ") +
 
@@ -214,7 +216,7 @@ bool DatabasePlaylist::getPlaylistById(CustomPlaylist& pl)
 			data.set_album(q.value(9).toString().trimmed());
 			data.set_artist(q.value(10).toString().trimmed());
 			QStringList genres = q.value(11).toString().split(",");
-            data.set_genres(genres);
+			data.set_genres(genres);
 			data.filesize =  q.value(12).toInt();
 			data.discnumber = q.value(13).toInt();
 			data.rating = q.value(14).toInt();
@@ -239,7 +241,7 @@ bool DatabasePlaylist::getPlaylistById(CustomPlaylist& pl)
 			"AND playlistToTracks.trackID <= 0 "
 			"ORDER BY playlistToTracks.position ASC; ";
 
-	SayonaraQuery q2(this);
+	Query q2(this);
 	q2.prepare(querytext2);
 	q2.bindValue(":playlist_id", pl.id());
 	q2.show_query();
@@ -261,9 +263,9 @@ bool DatabasePlaylist::getPlaylistById(CustomPlaylist& pl)
 		data.set_artist(filepath);
 		data.set_db_id(module_db_id());
 
-		for(int row=0; row<=pl.count(); row++) 
+		for(int row=0; row<=pl.count(); row++)
 		{
-			if( row >= position) 
+			if( row >= position)
 			{
 				pl.insert_track(data, row);
 				break;
@@ -276,9 +278,9 @@ bool DatabasePlaylist::getPlaylistById(CustomPlaylist& pl)
 
 // negative, if error
 // nonnegative else
-int DatabasePlaylist::getPlaylistIdByName(const QString& name)
+int DB::Playlist::getPlaylistIdByName(const QString& name)
 {
-	SayonaraQuery q(this);
+	Query q(this);
 
 	q.prepare("SELECT playlistid FROM playlists WHERE playlist = :playlist_name;");
 	q.bindValue(":playlist_name", name);
@@ -298,14 +300,14 @@ int DatabasePlaylist::getPlaylistIdByName(const QString& name)
 }
 
 
-bool DatabasePlaylist::insertTrackIntoPlaylist(const MetaData& md, int playlist_id, int pos)
+bool DB::Playlist::insertTrackIntoPlaylist(const MetaData& md, int playlist_id, int pos)
 {
 	if(md.is_disabled)
 	{
 		return false;
 	}
 
-	SayonaraQuery q(this);
+	Query q(this);
 
 	QString query_string = QString("INSERT INTO playlisttotracks ") +
 							"(trackid, playlistid, position, filepath, db_id) " +
@@ -331,13 +333,13 @@ bool DatabasePlaylist::insertTrackIntoPlaylist(const MetaData& md, int playlist_
 
 // returns id if everything ok
 // negative otherwise
-int DatabasePlaylist::createPlaylist(QString playlist_name, bool temporary)
+int DB::Playlist::createPlaylist(QString playlist_name, bool temporary)
 {
 	int temporary_int = (temporary) ? 1 : 0;
 
 	QString query_string = "INSERT INTO playlists (playlist, temporary) VALUES (:playlist_name, :temporary);";
 
-	SayonaraQuery q(this);
+	Query q(this);
 
 	q.prepare(query_string);
 	q.bindValue(":playlist_name", QVariant(playlist_name));
@@ -352,11 +354,11 @@ int DatabasePlaylist::createPlaylist(QString playlist_name, bool temporary)
 }
 
 
-bool DatabasePlaylist::renamePlaylist(int id, const QString& new_name)
+bool DB::Playlist::renamePlaylist(int id, const QString& new_name)
 {
 	QString query_string = "UPDATE playlists SET playlist=:playlist_name WHERE playlistId=:id;";
 
-	SayonaraQuery q(this);
+	Query q(this);
 
 	q.prepare(query_string);
 	q.bindValue(":playlist_name", new_name);
@@ -371,7 +373,7 @@ bool DatabasePlaylist::renamePlaylist(int id, const QString& new_name)
 }
 
 
-bool DatabasePlaylist::storePlaylist(const MetaDataList& vec_md, QString playlist_name, bool temporary)
+bool DB::Playlist::storePlaylist(const MetaDataList& vec_md, QString playlist_name, bool temporary)
 {
 	int playlist_id;
 
@@ -397,7 +399,7 @@ bool DatabasePlaylist::storePlaylist(const MetaDataList& vec_md, QString playlis
 	}
 
 	// fill playlist
-	for(int i=0; i<vec_md.count(); i++) 
+	for(int i=0; i<vec_md.count(); i++)
 	{
 		bool success = insertTrackIntoPlaylist(vec_md[i], playlist_id, i);
 
@@ -410,7 +412,7 @@ bool DatabasePlaylist::storePlaylist(const MetaDataList& vec_md, QString playlis
 }
 
 
-bool DatabasePlaylist::storePlaylist(const MetaDataList& vec_md, int playlist_id, bool temporary)
+bool DB::Playlist::storePlaylist(const MetaDataList& vec_md, int playlist_id, bool temporary)
 {
 	CustomPlaylist pl;
 	pl.set_id(playlist_id);
@@ -434,7 +436,7 @@ bool DatabasePlaylist::storePlaylist(const MetaDataList& vec_md, int playlist_id
 	}
 
 	// fill playlist
-	for(int i=0; i<vec_md.count(); i++) 
+	for(int i=0; i<vec_md.count(); i++)
 	{
 		bool success = insertTrackIntoPlaylist(vec_md[i], playlist_id, i);
 
@@ -446,9 +448,9 @@ bool DatabasePlaylist::storePlaylist(const MetaDataList& vec_md, int playlist_id
 	return true;
 }
 
-bool DatabasePlaylist::emptyPlaylist(int playlist_id)
+bool DB::Playlist::emptyPlaylist(int playlist_id)
 {
-	SayonaraQuery q(this);
+	Query q(this);
 	QString querytext = QString("DELETE FROM playlistToTracks WHERE playlistID = :playlist_id;");
 	q.prepare(querytext);
 	q.bindValue(":playlist_id", playlist_id);
@@ -461,11 +463,11 @@ bool DatabasePlaylist::emptyPlaylist(int playlist_id)
 	return true;
 }
 
-bool DatabasePlaylist::deletePlaylist(int playlist_id)
+bool DB::Playlist::deletePlaylist(int playlist_id)
 {
 	emptyPlaylist(playlist_id);
 
-	SayonaraQuery q(this);
+	Query q(this);
 	QString querytext = QString("DELETE FROM playlists WHERE playlistID = :playlist_id;");
 
 	q.prepare(querytext);

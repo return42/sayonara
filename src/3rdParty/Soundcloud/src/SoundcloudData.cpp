@@ -34,16 +34,18 @@
 
 #include <QList>
 
+using DB::Query;
+
 SC::Database::Database() :
-    LibraryDatabase("soundcloud.db", 25, -1)
+	::DB::LibraryDatabase("soundcloud.db", 25, -1)
 {
-    this->open_db();
+	this->open_db();
 	this->apply_fixes();
 }
 
 SC::Database::~Database()
 {
-    this->close_db();
+	this->close_db();
 }
 
 
@@ -129,7 +131,7 @@ QString SC::Database::fetch_query_tracks() const
 
 QString SC::Database::load_setting(const QString& key)
 {
-	SayonaraQuery q(db());
+	Query q(db());
 	q.prepare("SELECT value FROM Settings WHERE key=:key;");
 	q.bindValue(":key", key);
 	if(!q.exec()){
@@ -146,7 +148,7 @@ QString SC::Database::load_setting(const QString& key)
 
 bool SC::Database::save_setting(const QString& key, const QString& value)
 {
-	SayonaraQuery q(db());
+	Query q(db());
 
 	QString v = load_setting(key);
 	if(v.isNull()){
@@ -168,7 +170,7 @@ bool SC::Database::save_setting(const QString& key, const QString& value)
 
 bool SC::Database::insert_setting(const QString& key, const QString& value)
 {
-	SayonaraQuery q(db());
+	Query q(db());
 
 	q.prepare("INSERT INTO settings (key, value) VALUES (:key, :value);");
 	q.bindValue(":key", key);
@@ -185,7 +187,7 @@ bool SC::Database::insert_setting(const QString& key, const QString& value)
 
 bool SC::Database::getSearchInformation(SC::SearchInformationList& search_information)
 {
-	SayonaraQuery q(db());
+	Query q(db());
 
 	q.prepare("SELECT artistId, albumId, trackId, allCissearch "
 			  "FROM track_search_view;");
@@ -214,7 +216,7 @@ bool SC::Database::getSearchInformation(SC::SearchInformationList& search_inform
 }
 
 
-bool SC::Database::db_fetch_tracks(SayonaraQuery& q, MetaDataList& result)
+bool SC::Database::db_fetch_tracks(Query& q, MetaDataList& result)
 {
 	result.clear();
 
@@ -256,7 +258,7 @@ bool SC::Database::db_fetch_tracks(SayonaraQuery& q, MetaDataList& result)
 	return true;
 }
 
-bool SC::Database::db_fetch_albums(SayonaraQuery& q, AlbumList& result)
+bool SC::Database::db_fetch_albums(Query& q, AlbumList& result)
 {
 	result.clear();
 
@@ -306,7 +308,7 @@ bool SC::Database::db_fetch_albums(SayonaraQuery& q, AlbumList& result)
 	return true;
 }
 
-bool SC::Database::db_fetch_artists(SayonaraQuery& q, ArtistList& result)
+bool SC::Database::db_fetch_artists(Query& q, ArtistList& result)
 {
 	result.clear();
 
@@ -343,7 +345,7 @@ bool SC::Database::db_fetch_artists(SayonaraQuery& q, ArtistList& result)
 
 int SC::Database::updateArtist(const Artist& artist)
 {
-	SayonaraQuery q(db());
+	Query q(db());
 
 	QString query_text = QString("UPDATE artists SET ") +
 			"name = :name, "
@@ -379,7 +381,7 @@ int SC::Database::insertArtistIntoDatabase (const QString& artist)
 
 int SC::Database::insertArtistIntoDatabase (const Artist& artist)
 {
-	SayonaraQuery q(db());
+	Query q(db());
 
 	Artist tmp_artist;
 	if(getArtistByID(artist.id, tmp_artist)){
@@ -414,7 +416,7 @@ int SC::Database::insertArtistIntoDatabase (const Artist& artist)
 
 int SC::Database::updateAlbum(const Album& album)
 {
-	SayonaraQuery q(db());
+	Query q(db());
 
 	QString query_text = QString("UPDATE albums SET ") +
 			"name = :name, "
@@ -450,7 +452,7 @@ int SC::Database::insertAlbumIntoDatabase (const QString& album)
 
 int SC::Database::insertAlbumIntoDatabase (const Album& album)
 {
-	SayonaraQuery q(db());
+	Query q(db());
 
 	Album tmp_album;
 	if(getAlbumByID(album.id, tmp_album) && tmp_album.id > 0){
@@ -482,7 +484,7 @@ int SC::Database::insertAlbumIntoDatabase (const Album& album)
 
 bool SC::Database::updateTrack(const MetaData& md)
 {
-	SayonaraQuery q(db());
+	Query q(db());
 
 	sp_log(Log::Info) << "insert new track: " << md.filepath();
 
@@ -510,13 +512,13 @@ bool SC::Database::updateTrack(const MetaData& md)
 	q.bindValue(":filename", md.filepath());
 	q.bindValue(":albumID", md.album_id);
 	q.bindValue(":artistID",md.artist_id);
-    q.bindValue(":length", (uint32_t) md.length_ms);
+	q.bindValue(":length", (uint32_t) md.length_ms);
 	q.bindValue(":year", md.year);
 	q.bindValue(":title", md.title);
 	q.bindValue(":track", md.track_num);
 	q.bindValue(":bitrate", md.bitrate);
 	q.bindValue(":genre", md.genres_to_list().join(","));
-    q.bindValue(":filesize", (uint32_t) md.filesize);
+	q.bindValue(":filesize", (uint32_t) md.filesize);
 	q.bindValue(":discnumber", md.discnumber);
 	q.bindValue(":cissearch", md.title.toLower());
 	q.bindValue(":purchase_url", md.get_custom_field("purchase_url"));
@@ -538,7 +540,7 @@ bool SC::Database::insertTrackIntoDatabase(const MetaData& md, int artist_id, in
 
 bool SC::Database::insertTrackIntoDatabase(const MetaData &md, int artist_id, int album_id)
 {
-	SayonaraQuery q(db());
+	Query q(db());
 
 	int new_id = getTrackById(md.id).id;
 	if(new_id > 0){

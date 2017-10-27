@@ -29,51 +29,55 @@
 namespace Library {class Filter;}
 class Album;
 class AlbumList;
-class DatabaseAlbums :
-		private DatabaseSearchMode
+
+namespace DB
 {
-private:
-	QString _artistid_field;
-    QString _artistname_field;
-	QString _track_view_name;
-	QString _search_view_name;
+	class Albums :
+			private SearchMode
+	{
+		private:
+			QString _artistid_field;
+			QString _artistname_field;
+			QString _track_view_name;
+			QString _search_view_name;
 
-	QString _create_order_string(Library::SortOrder order);
-	virtual QString fetch_query_albums(bool also_empty=false) const;
+			QString _create_order_string(::Library::SortOrder order);
+			virtual QString fetch_query_albums(bool also_empty=false) const;
 
-protected:
-    void change_artistid_field(const QString& id, const QString& name);
-	void change_track_lookup_field(const QString& track_lookup_field);
+		protected:
+			void change_artistid_field(const QString& id, const QString& name);
+			void change_track_lookup_field(const QString& track_lookup_field);
 
-public:
+		public:
 
-	DatabaseAlbums(QSqlDatabase db, uint8_t db_id, int8_t library_id);
-	virtual ~DatabaseAlbums();
+			Albums(QSqlDatabase db, uint8_t db_id, int8_t library_id);
+			virtual ~Albums();
 
-	virtual bool db_fetch_albums(SayonaraQuery& q, AlbumList& result);
+			virtual bool db_fetch_albums(Query& q, AlbumList& result);
 
-	virtual int getAlbumID (const QString& album);
+			virtual int getAlbumID (const QString& album);
 
-	virtual bool getAlbumByID(const int& id, Album& album, bool also_empty=false);
+			virtual bool getAlbumByID(const int& id, Album& album, bool also_empty=false);
 
-	virtual bool getAllAlbums(AlbumList& result, bool also_empty);
-	virtual bool getAllAlbums(AlbumList& result, Library::SortOrder sortorder=Library::SortOrder::AlbumNameAsc, bool also_empty=false);
+			virtual bool getAllAlbums(AlbumList& result, bool also_empty);
+			virtual bool getAllAlbums(AlbumList& result, ::Library::SortOrder sortorder=::Library::SortOrder::AlbumNameAsc, bool also_empty=false);
 
 
-	virtual bool getAllAlbumsByArtist(int artist, AlbumList& result);
-	virtual bool getAllAlbumsByArtist(int artist, AlbumList& result, const Library::Filter& filter, Library::SortOrder sortorder = Library::SortOrder::AlbumNameAsc);
-	virtual bool getAllAlbumsByArtist(IDList artists, AlbumList& result);
-	virtual bool getAllAlbumsByArtist(IDList artists, AlbumList& result, const Library::Filter& filter, Library::SortOrder sortorder = Library::SortOrder::AlbumNameAsc);
+			virtual bool getAllAlbumsByArtist(int artist, AlbumList& result);
+			virtual bool getAllAlbumsByArtist(int artist, AlbumList& result, const ::Library::Filter& filter, ::Library::SortOrder sortorder = ::Library::SortOrder::AlbumNameAsc);
+			virtual bool getAllAlbumsByArtist(IDList artists, AlbumList& result);
+			virtual bool getAllAlbumsByArtist(IDList artists, AlbumList& result, const ::Library::Filter& filter, ::Library::SortOrder sortorder = ::Library::SortOrder::AlbumNameAsc);
 
-	virtual bool getAllAlbumsBySearchString(const Library::Filter& filter, AlbumList& result, Library::SortOrder sortorder = Library::SortOrder::AlbumNameAsc);
+			virtual bool getAllAlbumsBySearchString(const ::Library::Filter& filter, AlbumList& result, ::Library::SortOrder sortorder = ::Library::SortOrder::AlbumNameAsc);
 
-	virtual int insertAlbumIntoDatabase (const QString & album);
-	virtual int insertAlbumIntoDatabase (const Album& album);
+			virtual int insertAlbumIntoDatabase (const QString & album);
+			virtual int insertAlbumIntoDatabase (const Album& album);
 
-	virtual int updateAlbum(const Album& album);
+			virtual int updateAlbum(const Album& album);
 
-	virtual void updateAlbumCissearch();
+			virtual void updateAlbumCissearch();
 
-};
+	};
+}
 
 #endif // DATABASEALBUMS_H

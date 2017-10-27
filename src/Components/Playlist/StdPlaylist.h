@@ -23,41 +23,44 @@
 
 #include "AbstractPlaylist.h"
 
-/**
- * @brief The StdPlaylist class
- * @ingroup Playlists
- */
-class StdPlaylist :
-		public AbstractPlaylist
+namespace Playlist
 {
-	Q_OBJECT
-	PIMPL(StdPlaylist)
+	/**
+	 * @brief The StdPlaylist class
+	 * @ingroup Playlists
+	 */
+	class Standard :
+			public Base
+	{
+		Q_OBJECT
+		PIMPL(Standard)
 
-private:
-	int calc_shuffle_track();
+	private:
+		int calc_shuffle_track();
 
-public:
-	explicit StdPlaylist(int idx, const QString& name);
-	virtual ~StdPlaylist();
-    
-	void play() override;
-	void pause() override;
-	void stop() override;
-	void fwd() override;
-	void bwd() override;
-	void next() override;
-	bool change_track(int idx) override;
-	bool wake_up() override;
+	public:
+		explicit Standard(int idx, const QString& name);
+		virtual ~Standard();
 
-	int create_playlist(const MetaDataList& v_md) override;
+		void play() override;
+		void pause() override;
+		void stop() override;
+		void fwd() override;
+		void bwd() override;
+		void next() override;
+		bool change_track(int idx) override;
+		bool wake_up() override;
 
-	void metadata_deleted(const MetaDataList &v_md_deleted) override;
-	void metadata_changed(const MetaDataList& old_md, const MetaDataList& new_md) override;
-	void metadata_changed_single(const MetaData& metadata) override;
-	void duration_changed(uint64_t duration) override;
+		int create_playlist(const MetaDataList& v_md) override;
 
-	Playlist::Type type() const override;
-	void set_changed(bool b) override;
-};
+		void metadata_deleted(const MetaDataList &v_md_deleted) override;
+		void metadata_changed(const MetaDataList& old_md, const MetaDataList& new_md) override;
+		void metadata_changed_single(const MetaData& metadata) override;
+		void duration_changed(uint64_t duration) override;
+
+		Playlist::Type type() const override;
+		void set_changed(bool b) override;
+	};
+}
 
 #endif // STDPLAYLISTR_H

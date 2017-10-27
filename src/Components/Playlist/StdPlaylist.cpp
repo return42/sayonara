@@ -30,7 +30,9 @@
 
 #include <algorithm>
 
-struct StdPlaylist::Private
+using Playlist::Standard;
+
+struct Standard::Private
 {
 	int	track_idx_before_stop;
 
@@ -39,28 +41,28 @@ struct StdPlaylist::Private
 	{}
 };
 
-StdPlaylist::StdPlaylist(int idx, const QString& name) :
-	AbstractPlaylist(idx, name)
+Standard::Standard(int idx, const QString& name) :
+	Base(idx, name)
 {
 	m = Pimpl::make<Private>();
 	set_storable(true);
 }
 
-StdPlaylist::~StdPlaylist() {}
+Standard::~Standard() {}
 
-Playlist::Type StdPlaylist::type() const
+Playlist::Type Standard::type() const
 {
 	return Playlist::Type::Std;
 }
 
-void StdPlaylist::set_changed(bool b)
+void Standard::set_changed(bool b)
 {
-	AbstractPlaylist::set_changed(b);
+	Base::set_changed(b);
 
 	m->track_idx_before_stop = metadata().current_track();
 }
 
-int StdPlaylist::create_playlist(const MetaDataList& v_md)
+int Standard::create_playlist(const MetaDataList& v_md)
 {
 	if(Playlist::Mode::isActiveAndEnabled(playlist_mode().append())){
 		metadata() << v_md;
@@ -77,9 +79,9 @@ int StdPlaylist::create_playlist(const MetaDataList& v_md)
 
 
 
-bool StdPlaylist::change_track(int idx)
+bool Standard::change_track(int idx)
 {
-	bool success = AbstractPlaylist::change_track(idx);
+	bool success = Base::change_track(idx);
 	if(!success){
 		return false;
 	}
@@ -98,7 +100,7 @@ bool StdPlaylist::change_track(int idx)
 	return true;
 }
 
-bool StdPlaylist::wake_up()
+bool Standard::wake_up()
 {
 	bool success = between(metadata().current_track(), count());
 
@@ -110,7 +112,7 @@ bool StdPlaylist::wake_up()
 }
 
 
-void StdPlaylist::play()
+void Standard::play()
 {
 	if( metadata().isEmpty() ) {
 		stop();
@@ -126,10 +128,10 @@ void StdPlaylist::play()
 }
 
 
-void StdPlaylist::pause() {}
+void Standard::pause() {}
 
 
-void StdPlaylist::stop()
+void Standard::stop()
 {
 	m->track_idx_before_stop = metadata().current_track();
 
@@ -143,7 +145,7 @@ void StdPlaylist::stop()
 }
 
 
-void StdPlaylist::fwd()
+void Standard::fwd()
 {
 	Playlist::Mode mode = playlist_mode();
 	Playlist::Mode mode_bak = mode;
@@ -157,14 +159,14 @@ void StdPlaylist::fwd()
 }
 
 
-void StdPlaylist::bwd()
+void Standard::bwd()
 {
 	int cur_idx = metadata().current_track();
 	change_track( cur_idx - 1 );
 }
 
 
-void StdPlaylist::next()
+void Standard::next()
 {
 	int cur_track = metadata().current_track();
 	int track_num = -1;
@@ -218,7 +220,7 @@ void StdPlaylist::next()
 }
 
 
-int StdPlaylist::calc_shuffle_track()
+int Standard::calc_shuffle_track()
 {
 	if(metadata().size() <= 1){
 		return -1;
@@ -255,7 +257,7 @@ int StdPlaylist::calc_shuffle_track()
 	return left_tracks[left_tracks_idx];
 }
 
-void StdPlaylist::metadata_deleted(const MetaDataList& v_md_deleted)
+void Standard::metadata_deleted(const MetaDataList& v_md_deleted)
 {
 	IndexSet indexes;
 
@@ -279,7 +281,7 @@ void StdPlaylist::metadata_deleted(const MetaDataList& v_md_deleted)
 }
 
 
-void StdPlaylist::metadata_changed(const MetaDataList& v_md_old, const MetaDataList& v_md_new)
+void Standard::metadata_changed(const MetaDataList& v_md_old, const MetaDataList& v_md_new)
 {
 	Q_UNUSED(v_md_old)
 
@@ -299,7 +301,7 @@ void StdPlaylist::metadata_changed(const MetaDataList& v_md_old, const MetaDataL
 	emit sig_data_changed( playlist_index() );
 }
 
-void StdPlaylist::duration_changed(uint64_t ms)
+void Standard::duration_changed(uint64_t ms)
 {
 	MetaDataList& v_md = metadata();
 
@@ -321,7 +323,7 @@ void StdPlaylist::duration_changed(uint64_t ms)
 	}
 }
 
-void StdPlaylist::metadata_changed_single(const MetaData& md)
+void Standard::metadata_changed_single(const MetaData& md)
 {
 	IdxList idx_list = find_tracks(md.filepath());
 

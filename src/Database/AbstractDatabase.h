@@ -25,36 +25,39 @@
 #include <QSqlDatabase>
 #include "Utils/Pimpl.h"
 
-class AbstractDatabase : public QObject
+namespace DB
 {
-	PIMPL(AbstractDatabase)
+	class Base : public QObject
+	{
+		PIMPL(Base)
 
-public:
-	explicit AbstractDatabase(uint8_t db_id, const QString& db_dir, const QString& db_name, QObject *parent=nullptr);
-	virtual ~AbstractDatabase();
+		public:
+			explicit Base(uint8_t db_id, const QString& db_dir, const QString& db_name, QObject *parent=nullptr);
+			virtual ~Base();
 
-    virtual bool close_db();
-	virtual bool is_initialized();
+			virtual bool close_db();
+			virtual bool is_initialized();
 
-	virtual void transaction();
-	virtual void commit();
-	virtual void rollback();
+			virtual void transaction();
+			virtual void commit();
+			virtual void rollback();
 
-	uint8_t db_id() const;
-
-
-protected:
-	virtual bool exists();
-	virtual bool create_db();
-    virtual QSqlDatabase open_db();
-	virtual bool apply_fixes()=0;
-
-	virtual bool check_and_insert_column(const QString& tablename, const QString& column, const QString& sqltype, const QString& default_value=QString());
-	virtual bool check_and_create_table(const QString& tablename, const QString& sql_create_str);
-	virtual bool check_and_drop_table(const QString& tablename);
+			uint8_t db_id() const;
 
 
-    QSqlDatabase db() const;
-};
+		protected:
+			virtual bool exists();
+			virtual bool create_db();
+			virtual QSqlDatabase open_db();
+			virtual bool apply_fixes()=0;
+
+			virtual bool check_and_insert_column(const QString& tablename, const QString& column, const QString& sqltype, const QString& default_value=QString());
+			virtual bool check_and_create_table(const QString& tablename, const QString& sql_create_str);
+			virtual bool check_and_drop_table(const QString& tablename);
+
+
+			QSqlDatabase db() const;
+	};
+}
 
 #endif // ABSTRACTDATABASE_H
