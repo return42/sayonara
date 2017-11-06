@@ -149,6 +149,11 @@ bool Location::isInvalidLocation(const QString& cover_path)
 
 Location Location::get_cover_location(const QString& album_name, const QString& artist_name)
 {
+	if(album_name.trimmed().isEmpty() && artist_name.trimmed().isEmpty())
+	{
+		return getInvalidLocation();
+	}
+
 	QString cover_token = Cover::Util::calc_cover_token(artist_name, album_name);
 	QString cover_path = get_cover_directory( cover_token + ".jpg" );
 
@@ -251,7 +256,7 @@ Location Location::get_cover_location(const Artist& artist)
 {
 	Location cl = Location::get_cover_location(artist.name());
 
-	if(!artist.cover_download_url().isEmpty()){
+	if(!artist.cover_download_url().trimmed().isEmpty()){
 		cl.m->search_urls.clear();
 		cl.m->search_urls << artist.cover_download_url();
 	}
@@ -265,7 +270,9 @@ Location Location::get_cover_location(const Artist& artist)
 
 Location Location::get_cover_location(const QString& artist)
 {
-	if(artist.isEmpty()) return getInvalidLocation();
+	if(artist.trimmed().isEmpty()) {
+		return getInvalidLocation();
+	}
 
 	QString cover_token = QString("artist_") + Cover::Util::calc_cover_token(artist, "");
 	QString cover_path = get_cover_directory(cover_token + ".jpg");
@@ -294,6 +301,7 @@ Location Get_cover_location(int album_id, uint8_t db_id)
 	Album album;
 	MetaDataList v_md;
 
+
 	DB::Connector* db = DB::Connector::instance();
 	// TODO: Why?
 	DB::LibraryDatabase* lib_db = db->library_db(-1, db_id);
@@ -304,6 +312,12 @@ Location Get_cover_location(int album_id, uint8_t db_id)
 	bool success = lib_db->getAlbumByID(album_id, album, true);
 
 	if(!success) {
+		return Location::getInvalidLocation();
+	}
+
+	if(album.name().trimmed().isEmpty() &&
+	  (album.artists().isEmpty() && album.artists()[0].trimmed().isEmpty()))
+	{
 		return Location::getInvalidLocation();
 	}
 
@@ -329,6 +343,9 @@ Location Location::get_cover_location(const MetaData& md)
 {
 	Location cl;
 
+	if(md.album().trimmed().isEmpty() && md.artist().trimmed().isEmpty()){
+		return Location::getInvalidLocation();
+	}
 
 	if(md.album_id >= 0){
 		cl = Get_cover_location(md.album_id, md.db_id());

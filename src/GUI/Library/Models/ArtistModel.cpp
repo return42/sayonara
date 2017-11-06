@@ -60,7 +60,7 @@ ArtistModel::ArtistModel(QObject* parent, AbstractLibrary* library) :
 
 ArtistModel::~ArtistModel() {}
 
-int ArtistModel::get_id_by_row(int row)
+int ArtistModel::id_by_index(int row)
 {
     const ArtistList& artists = library()->artists();
 
@@ -164,7 +164,7 @@ Qt::ItemFlags ArtistModel::flags(const QModelIndex& index) const
 }
 
 
-Cover::Location ArtistModel::get_cover(const IndexSet& indexes) const
+Cover::Location ArtistModel::cover(const IndexSet& indexes) const
 {
 	if(indexes.isEmpty() || indexes.size() > 1){
         return Cover::Location();

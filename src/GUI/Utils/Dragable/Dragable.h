@@ -55,6 +55,7 @@ protected:
 	virtual void	drag_released(ReleaseReason reason);
 
 	virtual QMimeData*	get_mimedata() const=0;
+	virtual bool		is_valid_drag_position(const QPoint& p) const;
 	virtual QPixmap		pixmap() const;
 };
 

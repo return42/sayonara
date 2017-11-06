@@ -25,6 +25,7 @@
 #include "Utils/Settings/Settings.h"
 #include "Utils/Set.h"
 
+#include <QListView>
 #include <QAbstractItemModel>
 #include <QItemSelectionModel>
 #include <QKeyEvent>
@@ -46,8 +47,8 @@ public:
 
 private slots:
 	void edit_changed(const QString& str);
-    void select_next();
-    void select_previous();
+	void select_next();
+	void select_previous();
 
 public:
 	Private(SearchViewFunctionality* parent, QAbstractItemView* v) :
@@ -57,12 +58,12 @@ public:
 		search_view = parent;
 		search_model = nullptr;
 		cur_idx = -1;
-        mini_searcher = new MiniSearcher(v);
+		mini_searcher = new MiniSearcher(v);
 		settings = Settings::instance();
 
 		connect(mini_searcher, &MiniSearcher::sig_text_changed, this, &Private::edit_changed);
-        connect(mini_searcher, &MiniSearcher::sig_find_next_row, this, &Private::select_next);
-        connect(mini_searcher, &MiniSearcher::sig_find_prev_row, this, &Private::select_previous);
+		connect(mini_searcher, &MiniSearcher::sig_find_next_row, this, &Private::select_next);
+		connect(mini_searcher, &MiniSearcher::sig_find_prev_row, this, &Private::select_previous);
 	}
 };
 
@@ -164,10 +165,10 @@ void SearchViewFunctionality::select_match(const QString &str, SearchDirection d
 
 	m->cur_idx = get_index_by_model_index(idx);
 
-    IndexSet indexes(m->cur_idx);
+	IndexSet indexes(m->cur_idx);
 
-    switch(selection_type())
-    {
+	switch(selection_type())
+	{
 		case SayonaraSelectionView::SelectionType::Rows:
 			select_rows(indexes);
 			break;
@@ -181,17 +182,17 @@ void SearchViewFunctionality::select_match(const QString &str, SearchDirection d
 
 	this->set_current_index(m->cur_idx);
 
-    if(direction == SearchDirection::First){
-        m->view->scrollTo(idx, QListView::ScrollHint::PositionAtCenter);
-    }
+	if(direction == SearchDirection::First){
+		m->view->scrollTo(idx, QListView::ScrollHint::PositionAtCenter);
+	}
 
-    else if(direction == SearchDirection::Next){
-        m->view->scrollTo(idx, QListView::ScrollHint::PositionAtCenter);
-    }
+	else if(direction == SearchDirection::Next){
+		m->view->scrollTo(idx, QListView::ScrollHint::PositionAtCenter);
+	}
 
-    else if(direction == SearchDirection::Prev){
-        m->view->scrollTo(idx, QListView::ScrollHint::PositionAtCenter);
-    }
+	else if(direction == SearchDirection::Prev){
+		m->view->scrollTo(idx, QListView::ScrollHint::PositionAtCenter);
+	}
 
 }
 
@@ -210,11 +211,11 @@ void SearchViewFunctionality::set_current_index(int idx)
 
 void SearchViewFunctionality::handle_key_press(QKeyEvent* e)
 {
-    SayonaraSelectionView::handle_key_press(e);
+	SayonaraSelectionView::handle_key_press(e);
 
-    if(e->isAccepted()) {
-        return;
-    }
+	if(e->isAccepted()) {
+		return;
+	}
 
 	if(!m->search_model){
 		return;
@@ -223,7 +224,7 @@ void SearchViewFunctionality::handle_key_press(QKeyEvent* e)
 	Library::SearchModeMask search_mode = m->settings->get(Set::Lib_SearchMode);
 
 	m->search_model->set_search_mode(search_mode);
-    m->mini_searcher->handle_key_press(e);
+	m->mini_searcher->handle_key_press(e);
 }
 
 
@@ -231,7 +232,7 @@ void SearchViewFunctionality::Private::edit_changed(const QString& str)
 {
 	search_view->select_match(str, SearchDirection::First);
 
-    Library::SearchModeMask search_mode = Settings::instance()->get(Set::Lib_SearchMode);
+	Library::SearchModeMask search_mode = Settings::instance()->get(Set::Lib_SearchMode);
 	QString search_str = Library::Util::convert_search_string(str, search_mode);
 
 	mini_searcher->set_number_results(

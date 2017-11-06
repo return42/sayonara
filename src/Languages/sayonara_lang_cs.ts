@@ -4,7 +4,7 @@
 <context>
     <name>AbstractLibrary</name>
     <message>
-        <location filename="../Components/Library/AbstractLibrary.cpp" line="+662"/>
+        <location filename="../Components/Library/AbstractLibrary.cpp" line="+675"/>
         <source>All %1 could be removed</source>
         <translation>Všech %1 se podařilo smazat</translation>
     </message>
@@ -18,55 +18,31 @@
     <name>AlternativeCovers</name>
     <message>
         <location filename="../GUI/Covers/GUI_AlternativeCovers.ui" line="+14"/>
-        <location filename="../../build/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="+214"/>
-        <location filename="../../build-clang-debug/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="+214"/>
-        <location filename="../../build-clang-release/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="+214"/>
-        <location filename="../../build-release/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="+214"/>
         <source>Search alternative image</source>
         <translation>Hledat náhradní obrázek</translation>
     </message>
     <message>
         <location line="+221"/>
-        <location filename="../../build/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="+5"/>
-        <location filename="../../build-clang-debug/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="+5"/>
-        <location filename="../../build-clang-release/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="+5"/>
-        <location filename="../../build-release/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="+5"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
         <location line="-159"/>
-        <location filename="../../build/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="-4"/>
-        <location filename="../../build-clang-debug/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="-4"/>
-        <location filename="../../build-clang-release/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="-4"/>
-        <location filename="../../build-release/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="-4"/>
         <source>Online search</source>
         <translation>Hledání na internetu</translation>
     </message>
     <message>
         <location line="+87"/>
-        <location filename="../../build/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="+1"/>
-        <location filename="../../build-clang-debug/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="+1"/>
-        <location filename="../../build-clang-release/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="+1"/>
-        <location filename="../../build-release/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="+1"/>
         <source>Local search</source>
         <translation>Místní hledání</translation>
     </message>
     <message>
         <location line="+87"/>
-        <location filename="../../build/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="+4"/>
-        <location filename="../../build-clang-debug/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="+4"/>
-        <location filename="../../build-clang-release/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="+4"/>
-        <location filename="../../build-release/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="+4"/>
         <source>Select and preview multiple covers</source>
         <translation>Výběr a náhled více obalů</translation>
     </message>
     <message>
         <location line="+36"/>
-        <location filename="../../build/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="+1"/>
-        <location filename="../../build-clang-debug/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="+1"/>
-        <location filename="../../build-clang-release/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="+1"/>
-        <location filename="../../build-release/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="+1"/>
         <source>Alternative Cover</source>
         <translation>Náhradní obal</translation>
     </message>
@@ -82,12 +58,12 @@
 <context>
     <name>GUI_AbstractStream</name>
     <message>
-        <location filename="../GUI/Plugins/Stream/GUI_AbstractStream.cpp" line="+148"/>
+        <location filename="../GUI/Plugins/Stream/GUI_AbstractStream.cpp" line="+149"/>
         <source>Cannot open stream</source>
         <translation>Nelze otevřít proud</translation>
     </message>
     <message>
-        <location line="+189"/>
+        <location line="+187"/>
         <source>Overwrite?</source>
         <translation>Přepsat?</translation>
     </message>
@@ -124,38 +100,26 @@
     </message>
     <message>
         <location line="+41"/>
-        <source>0 (Best)</source>
-        <translation>0 (Nejlepší)</translation>
+        <source>Best</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+9"/>
-        <source>9 (Worst)</source>
-        <translation>9 (Nejhorší)</translation>
+        <source>Worst</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../GUI/Plugins/Engine/AudioConverter/GUI_AudioConverter.ui" line="+61"/>
-        <location filename="../../build/src/GUI/Plugins/Engine/ui_GUI_AudioConverter.h" line="+91"/>
-        <location filename="../../build-clang-debug/src/GUI/Plugins/Engine/ui_GUI_AudioConverter.h" line="+91"/>
-        <location filename="../../build-clang-release/src/GUI/Plugins/Engine/ui_GUI_AudioConverter.h" line="+91"/>
-        <location filename="../../build-release/src/GUI/Plugins/Engine/ui_GUI_AudioConverter.h" line="+91"/>
         <source>Variable Bitrate</source>
         <translation>Proměnlivý datový tok</translation>
     </message>
     <message>
         <location line="+16"/>
-        <location filename="../../build/src/GUI/Plugins/Engine/ui_GUI_AudioConverter.h" line="+1"/>
-        <location filename="../../build-clang-debug/src/GUI/Plugins/Engine/ui_GUI_AudioConverter.h" line="+1"/>
-        <location filename="../../build-clang-release/src/GUI/Plugins/Engine/ui_GUI_AudioConverter.h" line="+1"/>
-        <location filename="../../build-release/src/GUI/Plugins/Engine/ui_GUI_AudioConverter.h" line="+1"/>
         <source>Quality</source>
         <translation>Kvalita</translation>
     </message>
     <message>
         <location line="+10"/>
-        <location filename="../../build/src/GUI/Plugins/Engine/ui_GUI_AudioConverter.h" line="+1"/>
-        <location filename="../../build-clang-debug/src/GUI/Plugins/Engine/ui_GUI_AudioConverter.h" line="+1"/>
-        <location filename="../../build-clang-release/src/GUI/Plugins/Engine/ui_GUI_AudioConverter.h" line="+1"/>
-        <location filename="../../build-release/src/GUI/Plugins/Engine/ui_GUI_AudioConverter.h" line="+1"/>
         <source>Constant Bitrate</source>
         <translation>Stálý datový tok</translation>
     </message>
@@ -163,25 +127,18 @@
 <context>
     <name>GUI_Bookmarks</name>
     <message>
-        <location filename="../GUI/Plugins/Bookmarks/GUI_Bookmarks.ui" line="+140"/>
-        <location filename="../../build/src/GUI/Plugins/Bookmarks/ui_GUI_Bookmarks.h" line="+177"/>
-        <location filename="../../build-clang-debug/src/GUI/Plugins/Bookmarks/ui_GUI_Bookmarks.h" line="+177"/>
-        <location filename="../../build-clang-release/src/GUI/Plugins/Bookmarks/ui_GUI_Bookmarks.h" line="+177"/>
-        <location filename="../../build-release/src/GUI/Plugins/Bookmarks/ui_GUI_Bookmarks.h" line="+177"/>
+        <location filename="../GUI/Plugins/Bookmarks/GUI_Bookmarks.ui" line="+116"/>
         <source>Loop</source>
         <translation>Smyčka</translation>
     </message>
     <message>
-        <location line="+76"/>
-        <location filename="../../build/src/GUI/Plugins/Bookmarks/ui_GUI_Bookmarks.h" line="+3"/>
-        <location filename="../../build-clang-debug/src/GUI/Plugins/Bookmarks/ui_GUI_Bookmarks.h" line="+3"/>
-        <location filename="../../build-clang-release/src/GUI/Plugins/Bookmarks/ui_GUI_Bookmarks.h" line="+3"/>
-        <location filename="../../build-release/src/GUI/Plugins/Bookmarks/ui_GUI_Bookmarks.h" line="+3"/>
-        <source>No Bookmarks found</source>
-        <translation>Nenalezeny žádné záložky</translation>
+        <location filename="../GUI/Plugins/Bookmarks/GUI_Bookmarks.cpp" line="+74"/>
+        <location line="+52"/>
+        <source>No bookmarks found</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../GUI/Plugins/Bookmarks/GUI_Bookmarks.cpp" line="+221"/>
+        <location line="+122"/>
         <source>Sorry, bookmarks can only be set for library tracks at the moment.</source>
         <translation>Promiňte, ale v současnosti je záložky možné nastavit pouze pro skladby v hudební sbírce.</translation>
     </message>
@@ -189,34 +146,27 @@
 <context>
     <name>GUI_Broadcast</name>
     <message>
-        <location filename="../GUI/Plugins/Broadcasting/GUI_Broadcast.ui" line="+62"/>
-        <location filename="../../build/src/GUI/Plugins/Broadcasting/ui_GUI_Broadcast.h" line="+130"/>
-        <location filename="../../build-clang-debug/src/GUI/Plugins/Broadcasting/ui_GUI_Broadcast.h" line="+130"/>
-        <location filename="../../build-clang-release/src/GUI/Plugins/Broadcasting/ui_GUI_Broadcast.h" line="+130"/>
-        <location filename="../../build-release/src/GUI/Plugins/Broadcasting/ui_GUI_Broadcast.h" line="+130"/>
+        <location filename="../GUI/Plugins/Broadcasting/GUI_Broadcast.ui" line="+54"/>
+        <source>...</source>
+        <translation type="unfinished">...</translation>
+    </message>
+    <message>
+        <location line="+34"/>
         <source>Cannot Broadcast</source>
         <translation>Nelze vysílat</translation>
     </message>
     <message>
-        <location line="+47"/>
-        <location filename="../../build/src/GUI/Plugins/Broadcasting/ui_GUI_Broadcast.h" line="+1"/>
-        <location filename="../../build-clang-debug/src/GUI/Plugins/Broadcasting/ui_GUI_Broadcast.h" line="+1"/>
-        <location filename="../../build-clang-release/src/GUI/Plugins/Broadcasting/ui_GUI_Broadcast.h" line="+1"/>
-        <location filename="../../build-release/src/GUI/Plugins/Broadcasting/ui_GUI_Broadcast.h" line="+1"/>
+        <location filename="../GUI/Plugins/Broadcasting/GUI_Broadcast.cpp" line="+89"/>
         <source>Dismiss</source>
         <translation>Odmítnout</translation>
     </message>
     <message>
-        <location line="+20"/>
-        <location filename="../../build/src/GUI/Plugins/Broadcasting/ui_GUI_Broadcast.h" line="+1"/>
-        <location filename="../../build-clang-debug/src/GUI/Plugins/Broadcasting/ui_GUI_Broadcast.h" line="+1"/>
-        <location filename="../../build-clang-release/src/GUI/Plugins/Broadcasting/ui_GUI_Broadcast.h" line="+1"/>
-        <location filename="../../build-release/src/GUI/Plugins/Broadcasting/ui_GUI_Broadcast.h" line="+1"/>
+        <location line="+1"/>
         <source>Dismiss all</source>
         <translation>Odmítnout vše</translation>
     </message>
     <message>
-        <location filename="../GUI/Plugins/Broadcasting/GUI_Broadcast.cpp" line="+111"/>
+        <location line="+29"/>
         <source>%1 listener</source>
         <translation>%1 posluchač</translation>
     </message>
@@ -240,21 +190,41 @@
     <name>GUI_BroadcastSetup</name>
     <message>
         <location filename="../GUI/Preferences/Broadcast/GUI_BroadcastSetup.ui" line="+34"/>
-        <location filename="../../build/src/GUI/Preferences/ui_GUI_BroadcastSetup.h" line="+116"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_BroadcastSetup.h" line="+116"/>
-        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_BroadcastSetup.h" line="+116"/>
-        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_BroadcastSetup.h" line="+116"/>
         <source>Ask for permission</source>
         <translation>Požádat o dovolení</translation>
     </message>
     <message>
         <location line="-14"/>
-        <location filename="../../build/src/GUI/Preferences/ui_GUI_BroadcastSetup.h" line="-1"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_BroadcastSetup.h" line="-1"/>
-        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_BroadcastSetup.h" line="-1"/>
-        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_BroadcastSetup.h" line="-1"/>
         <source>Port</source>
         <translation>Přípojka</translation>
+    </message>
+</context>
+<context>
+    <name>GUI_Controls</name>
+    <message>
+        <location filename="../GUI/Player/GUI_Controls.ui" line="+774"/>
+        <source>Written by Lucio Carreras</source>
+        <translation type="unfinished">Od Lucia Carrerase</translation>
+    </message>
+    <message>
+        <location line="+28"/>
+        <source>Copyright 2011-2017</source>
+        <translation type="unfinished">Autorské právo 2011-2017</translation>
+    </message>
+    <message>
+        <location filename="../GUI/Player/GUI_Controls.cpp" line="+43"/>
+        <source>Sayonara Player</source>
+        <translation type="unfinished">Přehrávač Sayonara</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Written by</source>
+        <translation type="unfinished">Od</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Copyright</source>
+        <translation type="unfinished">Autorské právo</translation>
     </message>
 </context>
 <context>
@@ -269,19 +239,11 @@
     <name>GUI_EmptyLibrary</name>
     <message>
         <location filename="../GUI/Library/GUI_EmptyLibrary.ui" line="+26"/>
-        <location filename="../../build/src/GUI/Library/ui_GUI_EmptyLibrary.h" line="+134"/>
-        <location filename="../../build-clang-debug/src/GUI/Library/ui_GUI_EmptyLibrary.h" line="+134"/>
-        <location filename="../../build-clang-release/src/GUI/Library/ui_GUI_EmptyLibrary.h" line="+134"/>
-        <location filename="../../build-release/src/GUI/Library/ui_GUI_EmptyLibrary.h" line="+134"/>
         <source>Set library path</source>
         <translation type="unfinished">Nastavit cestu ke sbírce</translation>
     </message>
     <message>
         <location line="+17"/>
-        <location filename="../../build/src/GUI/Library/ui_GUI_EmptyLibrary.h" line="+1"/>
-        <location filename="../../build-clang-debug/src/GUI/Library/ui_GUI_EmptyLibrary.h" line="+1"/>
-        <location filename="../../build-clang-release/src/GUI/Library/ui_GUI_EmptyLibrary.h" line="+1"/>
-        <location filename="../../build-release/src/GUI/Library/ui_GUI_EmptyLibrary.h" line="+1"/>
         <source>You haven&apos;t specified a library path yet</source>
         <translation type="unfinished">Nebyla ještě zadána cesta k hudební sbírce</translation>
     </message>
@@ -289,16 +251,7 @@
 <context>
     <name>GUI_Equalizer</name>
     <message>
-        <location filename="../GUI/Plugins/Engine/Equalizer/GUI_Equalizer.ui" line="+378"/>
-        <location filename="../../build/src/GUI/Plugins/Engine/ui_GUI_Equalizer.h" line="+544"/>
-        <location filename="../../build-clang-debug/src/GUI/Plugins/Engine/ui_GUI_Equalizer.h" line="+544"/>
-        <location filename="../../build-clang-release/src/GUI/Plugins/Engine/ui_GUI_Equalizer.h" line="+544"/>
-        <location filename="../../build-release/src/GUI/Plugins/Engine/ui_GUI_Equalizer.h" line="+544"/>
-        <source>curve</source>
-        <translation>Křivka</translation>
-    </message>
-    <message>
-        <location filename="../GUI/Plugins/Engine/Equalizer/GUI_Equalizer.cpp" line="+149"/>
+        <location filename="../GUI/Plugins/Engine/Equalizer/GUI_Equalizer.cpp" line="+157"/>
         <source>Equalizer</source>
         <translation>Ekvalizér</translation>
     </message>
@@ -309,36 +262,16 @@
         <location filename="../GUI/Preferences/Fonts/GUI_FontConfig.ui" line="+58"/>
         <location line="+7"/>
         <location line="+28"/>
-        <location filename="../../build/src/GUI/Preferences/ui_GUI_FontConfig.h" line="+173"/>
-        <location line="+1"/>
-        <location line="+2"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_FontConfig.h" line="+173"/>
-        <location line="+1"/>
-        <location line="+2"/>
-        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_FontConfig.h" line="+173"/>
-        <location line="+1"/>
-        <location line="+2"/>
-        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_FontConfig.h" line="+173"/>
-        <location line="+1"/>
-        <location line="+2"/>
         <source>Font size</source>
         <translation>Velikost písma</translation>
     </message>
     <message>
         <location line="+7"/>
-        <location filename="../../build/src/GUI/Preferences/ui_GUI_FontConfig.h" line="+1"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_FontConfig.h" line="+1"/>
-        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_FontConfig.h" line="+1"/>
-        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_FontConfig.h" line="+1"/>
         <source>Font name</source>
         <translation>Název písma</translation>
     </message>
     <message>
         <location line="-83"/>
-        <location filename="../../build/src/GUI/Preferences/ui_GUI_FontConfig.h" line="-5"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_FontConfig.h" line="-5"/>
-        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_FontConfig.h" line="-5"/>
-        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_FontConfig.h" line="-5"/>
         <source>Bold</source>
         <translation>Tučné</translation>
     </message>
@@ -353,15 +286,11 @@
     <name>GUI_IconPreferences</name>
     <message>
         <location filename="../GUI/Preferences/Icons/GUI_IconPreferences.ui" line="+20"/>
-        <location filename="../../build/src/GUI/Preferences/ui_GUI_IconPreferences.h" line="+119"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_IconPreferences.h" line="+119"/>
-        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_IconPreferences.h" line="+119"/>
-        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_IconPreferences.h" line="+119"/>
         <source>These settings do not apply for the dark theme</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../GUI/Preferences/Icons/GUI_IconPreferences.cpp" line="+110"/>
+        <location filename="../GUI/Preferences/Icons/GUI_IconPreferences.cpp" line="+132"/>
         <location line="+65"/>
         <source>Automatic</source>
         <translation type="unfinished"></translation>
@@ -419,39 +348,21 @@
         <source>%1&lt;br /&gt;is no library directory</source>
         <translation>%1&lt;br /&gt;není adresářem v hudební sbírce</translation>
     </message>
-    <message>
-        <location line="-69"/>
-        <source>Cancel</source>
-        <translation>Zrušit</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Close</source>
-        <translation>Zavřít</translation>
-    </message>
 </context>
 <context>
     <name>GUI_LanguageChooser</name>
     <message>
-        <location filename="../GUI/Preferences/Language/GUI_LanguageChooser.cpp" line="+159"/>
+        <location filename="../GUI/Preferences/Language/GUI_LanguageChooser.cpp" line="+162"/>
         <source>Language</source>
         <translation>Jazyk</translation>
     </message>
     <message>
         <location filename="../GUI/Preferences/Language/GUI_LanguageChooser.ui" line="+31"/>
-        <location filename="../../build/src/GUI/Preferences/ui_GUI_LanguageChooser.h" line="+61"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LanguageChooser.h" line="+61"/>
-        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_LanguageChooser.h" line="+61"/>
-        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_LanguageChooser.h" line="+61"/>
         <source>English</source>
         <translation>Angličtina</translation>
     </message>
     <message>
         <location line="-14"/>
-        <location filename="../../build/src/GUI/Preferences/ui_GUI_LanguageChooser.h" line="-3"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LanguageChooser.h" line="-3"/>
-        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_LanguageChooser.h" line="-3"/>
-        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_LanguageChooser.h" line="-3"/>
         <source>For new languages I am always looking for translators</source>
         <translation>Vždy hledám překladatele programu do dalších jazyků</translation>
     </message>
@@ -470,37 +381,21 @@
     </message>
     <message>
         <location filename="../GUI/Preferences/LastFM/GUI_LastFM.ui" line="+34"/>
-        <location filename="../../build/src/GUI/Preferences/ui_GUI_LastFM.h" line="+135"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LastFM.h" line="+135"/>
-        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_LastFM.h" line="+135"/>
-        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_LastFM.h" line="+135"/>
         <source>Password</source>
         <translation>Heslo</translation>
     </message>
     <message>
         <location line="+20"/>
-        <location filename="../../build/src/GUI/Preferences/ui_GUI_LastFM.h" line="+2"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LastFM.h" line="+2"/>
-        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_LastFM.h" line="+2"/>
-        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_LastFM.h" line="+2"/>
         <source>Scrobble after</source>
         <translation>Odesílat údaje po</translation>
     </message>
     <message>
         <location line="+46"/>
-        <location filename="../../build/src/GUI/Preferences/ui_GUI_LastFM.h" line="+2"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LastFM.h" line="+2"/>
-        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_LastFM.h" line="+2"/>
-        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_LastFM.h" line="+2"/>
         <source>Login now</source>
         <translation>Přihlásit nyní</translation>
     </message>
     <message>
         <location line="-73"/>
-        <location filename="../../build/src/GUI/Preferences/ui_GUI_LastFM.h" line="-5"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LastFM.h" line="-5"/>
-        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_LastFM.h" line="-5"/>
-        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_LastFM.h" line="-5"/>
         <source>Username</source>
         <translation>Uživatelské jméno</translation>
     </message>
@@ -525,186 +420,102 @@
     <name>GUI_LibraryPreferences</name>
     <message>
         <location filename="../GUI/Preferences/LibraryPreferences/GUI_LibraryPreferences.ui" line="+24"/>
-        <location filename="../../build/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+303"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+303"/>
-        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+303"/>
-        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+303"/>
         <source>Libraries</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+8"/>
-        <location filename="../../build/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="-5"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="-5"/>
-        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="-5"/>
-        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="-5"/>
         <source>Up</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+20"/>
-        <location filename="../../build/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
-        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
-        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
         <source>New</source>
         <translation type="unfinished">Nový</translation>
     </message>
     <message>
         <location line="+14"/>
-        <location filename="../../build/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
-        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
-        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
         <source>Delete</source>
         <translation type="unfinished">Smazat</translation>
     </message>
     <message>
         <location line="+20"/>
-        <location filename="../../build/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
-        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
-        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
         <source>Down</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+24"/>
-        <location filename="../../build/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+8"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+8"/>
-        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+8"/>
-        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+8"/>
         <source>Search</source>
         <translation>Hledání</translation>
     </message>
     <message>
         <location line="+15"/>
-        <location filename="../../build/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="-5"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="-5"/>
-        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="-5"/>
-        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="-5"/>
         <source>Example</source>
         <translation>Příklad</translation>
     </message>
     <message>
         <location line="+7"/>
-        <location filename="../../build/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
-        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
-        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
         <source>Case insensitive</source>
         <translation>Rozlišovat velká a malá písmena</translation>
     </message>
     <message>
         <location line="+36"/>
-        <location filename="../../build/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
-        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
-        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
         <source>Option</source>
         <translation>Volba</translation>
     </message>
     <message>
         <location line="+10"/>
-        <location filename="../../build/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
-        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
-        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
         <source>Ignore special characters</source>
         <translation>Přehlížet zvláštní znaky</translation>
     </message>
     <message>
         <location line="+20"/>
-        <location filename="../../build/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
-        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
-        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
         <source>Ignore accents</source>
         <translation>Přehlížet diakritická znaménka</translation>
     </message>
     <message>
         <location line="+34"/>
-        <location filename="../../build/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+2"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+2"/>
-        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+2"/>
-        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+2"/>
         <source>On double click, create playlist and</source>
         <translation>Při dvojitém poklepání vytvořit seznam skladeb a </translation>
     </message>
     <message>
         <location line="+6"/>
         <location line="+30"/>
-        <location filename="../../build/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
-        <location line="+4"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
-        <location line="+4"/>
-        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
-        <location line="+4"/>
-        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
-        <location line="+4"/>
         <source>do nothing (default)</source>
         <translation>nedělat nic (výchozí)</translation>
     </message>
     <message>
         <location line="-23"/>
-        <location filename="../../build/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="-3"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="-3"/>
-        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="-3"/>
-        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="-3"/>
         <source>start playback if stopped</source>
         <translation>začít s přehráváním, je-li zastaveno</translation>
     </message>
     <message>
         <location line="+7"/>
-        <location filename="../../build/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
-        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
-        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
         <source>start playback immediately</source>
         <translation>začít okamžitě s přehráváním</translation>
     </message>
     <message>
         <location line="+10"/>
-        <location filename="../../build/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
-        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
-        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
         <source>When drag and drop into playlist </source>
         <translation>Při tažení a upuštění na seznam skladeb </translation>
     </message>
     <message>
         <location line="+13"/>
-        <location filename="../../build/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+2"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+2"/>
-        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+2"/>
-        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+2"/>
         <source>start if stopped and playlist is empty</source>
         <translation>začít s přehráváním, je-li zastaveno a seznam skladeb je prázdný</translation>
     </message>
     <message>
         <location line="+24"/>
-        <location filename="../../build/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+3"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+3"/>
-        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+3"/>
-        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+3"/>
         <source>Other</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+6"/>
-        <location filename="../../build/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="-1"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="-1"/>
-        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="-1"/>
-        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="-1"/>
-        <source>Show selection clear buttons</source>
+        <source>Show &quot;Clear selection&quot; buttons</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="-85"/>
-        <location filename="../../build/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="-1"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="-1"/>
-        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="-1"/>
-        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="-1"/>
         <source>Library-Playlist Interaction</source>
         <translation>Spolupráce mezi sbírkou a seznamem skladeb</translation>
     </message>
@@ -713,19 +524,11 @@
     <name>GUI_LocalLibrary</name>
     <message>
         <location filename="../GUI/Library/GUI_LocalLibrary.ui" line="+26"/>
-        <location filename="../../build/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+318"/>
-        <location filename="../../build-clang-debug/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+318"/>
-        <location filename="../../build-clang-release/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+318"/>
-        <location filename="../../build-release/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+318"/>
         <source>Library</source>
         <translation>Sbírka</translation>
     </message>
     <message>
-        <location line="+380"/>
-        <location filename="../../build/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+1"/>
-        <location filename="../../build-clang-debug/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+1"/>
-        <location filename="../../build-clang-release/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+1"/>
-        <location filename="../../build-release/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+1"/>
+        <location line="+379"/>
         <source>No genres found</source>
         <translation>Nenalezeny žádné žánry</translation>
     </message>
@@ -733,7 +536,7 @@
 <context>
     <name>GUI_Logger</name>
     <message>
-        <location filename="../GUI/Player/GUI_Logger.cpp" line="+132"/>
+        <location filename="../GUI/Player/GUI_Logger.cpp" line="+184"/>
         <source>Cannot open file</source>
         <translation>Nelze otevřít soubor</translation>
     </message>
@@ -742,28 +545,16 @@
     <name>GUI_Lyrics</name>
     <message>
         <location filename="../GUI/InfoDialog/GUI_Lyrics.ui" line="+28"/>
-        <location filename="../../build/src/GUI/InfoDialog/ui_GUI_Lyrics.h" line="+212"/>
-        <location filename="../../build-clang-debug/src/GUI/InfoDialog/ui_GUI_Lyrics.h" line="+212"/>
-        <location filename="../../build-clang-release/src/GUI/InfoDialog/ui_GUI_Lyrics.h" line="+212"/>
-        <location filename="../../build-release/src/GUI/InfoDialog/ui_GUI_Lyrics.h" line="+212"/>
         <source>Save Lyrics</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+125"/>
-        <location filename="../../build/src/GUI/InfoDialog/ui_GUI_Lyrics.h" line="+1"/>
-        <location filename="../../build-clang-debug/src/GUI/InfoDialog/ui_GUI_Lyrics.h" line="+1"/>
-        <location filename="../../build-clang-release/src/GUI/InfoDialog/ui_GUI_Lyrics.h" line="+1"/>
-        <location filename="../../build-release/src/GUI/InfoDialog/ui_GUI_Lyrics.h" line="+1"/>
         <source>switch</source>
         <translation>Přepnout</translation>
     </message>
     <message>
         <location line="+42"/>
-        <location filename="../../build/src/GUI/InfoDialog/ui_GUI_Lyrics.h" line="+1"/>
-        <location filename="../../build-clang-debug/src/GUI/InfoDialog/ui_GUI_Lyrics.h" line="+1"/>
-        <location filename="../../build-clang-release/src/GUI/InfoDialog/ui_GUI_Lyrics.h" line="+1"/>
-        <location filename="../../build-release/src/GUI/InfoDialog/ui_GUI_Lyrics.h" line="+1"/>
         <source>Zoom</source>
         <translation>Přiblížení</translation>
     </message>
@@ -792,28 +583,16 @@
     </message>
     <message>
         <location filename="../GUI/Preferences/Notifications/GUI_Notifications.ui" line="+17"/>
-        <location filename="../../build/src/GUI/Preferences/ui_GUI_Notifications.h" line="+77"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_Notifications.h" line="+77"/>
-        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_Notifications.h" line="+77"/>
-        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_Notifications.h" line="+77"/>
         <source>Timeout (ms)</source>
         <translation>Zavřít po (ms)</translation>
     </message>
     <message>
         <location line="+10"/>
-        <location filename="../../build/src/GUI/Preferences/ui_GUI_Notifications.h" line="+1"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_Notifications.h" line="+1"/>
-        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_Notifications.h" line="+1"/>
-        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_Notifications.h" line="+1"/>
         <source>Activate</source>
         <translation>Spustit</translation>
     </message>
     <message>
         <location line="+11"/>
-        <location filename="../../build/src/GUI/Preferences/ui_GUI_Notifications.h" line="+3"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_Notifications.h" line="+3"/>
-        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_Notifications.h" line="+3"/>
-        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_Notifications.h" line="+3"/>
         <source>Standard</source>
         <translation>Standardní</translation>
     </message>
@@ -821,27 +600,12 @@
 <context>
     <name>GUI_Player</name>
     <message>
-        <location filename="../GUI/Player/GUI_Player.cpp" line="+94"/>
-        <source>Sayonara Player</source>
-        <translation>Přehrávač Sayonara</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Written by</source>
-        <translation>Od</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Copyright</source>
-        <translation>Autorské právo</translation>
-    </message>
-    <message>
-        <location line="+490"/>
+        <location filename="../GUI/Player/GUI_Player.cpp" line="+424"/>
         <source>A new version is available!</source>
         <translation>Je dostupná nová verze!</translation>
     </message>
     <message>
-        <location filename="../GUI/Player/GUI_PlayerMenubar.cpp" line="+51"/>
+        <location filename="../GUI/Player/GUI_PlayerMenubar.cpp" line="+53"/>
         <source>Media files</source>
         <translation>Zvukové soubory a seznamy skladeb</translation>
     </message>
@@ -851,7 +615,7 @@
         <translation>Otevřít zvukové soubory a seznamy skladeb</translation>
     </message>
     <message>
-        <location line="+84"/>
+        <location line="+89"/>
         <source>Please visit the forum at</source>
         <translation>Navštivte, prosím, fórum na adrese</translation>
     </message>
@@ -890,37 +654,21 @@
     <name>GUI_PlayerPreferences</name>
     <message>
         <location filename="../GUI/Preferences/PlayerPreferences/GUI_PlayerPreferences.ui" line="+24"/>
-        <location filename="../../build/src/GUI/Preferences/ui_GUI_PlayerPreferences.h" line="+68"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_PlayerPreferences.h" line="+68"/>
-        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_PlayerPreferences.h" line="+68"/>
-        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_PlayerPreferences.h" line="+68"/>
         <source>Start in tray</source>
         <translation>Spustit v oznamovací oblasti panelu</translation>
     </message>
     <message>
         <location line="+7"/>
-        <location filename="../../build/src/GUI/Preferences/ui_GUI_PlayerPreferences.h" line="+1"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_PlayerPreferences.h" line="+1"/>
-        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_PlayerPreferences.h" line="+1"/>
-        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_PlayerPreferences.h" line="+1"/>
         <source>Close to tray</source>
         <translation>Zavřít do oznamovací oblasti panelu</translation>
     </message>
     <message>
         <location line="+7"/>
-        <location filename="../../build/src/GUI/Preferences/ui_GUI_PlayerPreferences.h" line="+1"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_PlayerPreferences.h" line="+1"/>
-        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_PlayerPreferences.h" line="+1"/>
-        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_PlayerPreferences.h" line="+1"/>
         <source>Show system tray icon</source>
         <translation>Ukázat ikonu v oznamovací oblasti panelu</translation>
     </message>
     <message>
         <location line="-21"/>
-        <location filename="../../build/src/GUI/Preferences/ui_GUI_PlayerPreferences.h" line="-3"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_PlayerPreferences.h" line="-3"/>
-        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_PlayerPreferences.h" line="-3"/>
-        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_PlayerPreferences.h" line="-3"/>
         <source>Update notifications</source>
         <translation>Oznamovatel aktualizací</translation>
     </message>
@@ -933,7 +681,7 @@
 <context>
     <name>GUI_Playlist</name>
     <message>
-        <location filename="../GUI/Playlist/GUI_Playlist.cpp" line="+356"/>
+        <location filename="../GUI/Playlist/GUI_Playlist.cpp" line="+357"/>
         <source>Playlist empty</source>
         <translation>Seznam skladeb je prázdný</translation>
     </message>
@@ -948,12 +696,12 @@
         <translation>Otevřít zvukové soubory a seznamy skladeb</translation>
     </message>
     <message>
-        <location line="+248"/>
+        <location line="+253"/>
         <source>Playlist name already exists</source>
         <translation>Název seznamu skladeb již je</translation>
     </message>
     <message>
-        <location line="+116"/>
+        <location line="+120"/>
         <source>Cannot save playlist.</source>
         <translation>Nelze uložit seznam skladeb.</translation>
     </message>
@@ -976,46 +724,22 @@
 <context>
     <name>GUI_PlaylistBottomBar</name>
     <message>
-        <location filename="../GUI/Playlist/BottomBar/GUI_PlaylistBottomBar.ui" line="+83"/>
+        <location filename="../GUI/Playlist/BottomBar/GUI_PlaylistBottomBar.ui" line="+61"/>
         <location line="+39"/>
         <location line="+39"/>
         <location line="+39"/>
         <location line="+38"/>
         <location line="+41"/>
-        <location filename="../../build/src/GUI/Playlist/ui_GUI_PlaylistBottomBar.h" line="+167"/>
-        <location line="+2"/>
-        <location line="+2"/>
-        <location line="+2"/>
-        <location line="+2"/>
-        <location line="+2"/>
-        <location filename="../../build-clang-debug/src/GUI/Playlist/ui_GUI_PlaylistBottomBar.h" line="+167"/>
-        <location line="+2"/>
-        <location line="+2"/>
-        <location line="+2"/>
-        <location line="+2"/>
-        <location line="+2"/>
-        <location filename="../../build-clang-release/src/GUI/Playlist/ui_GUI_PlaylistBottomBar.h" line="+167"/>
-        <location line="+2"/>
-        <location line="+2"/>
-        <location line="+2"/>
-        <location line="+2"/>
-        <location line="+2"/>
-        <location filename="../../build-release/src/GUI/Playlist/ui_GUI_PlaylistBottomBar.h" line="+167"/>
-        <location line="+2"/>
-        <location line="+2"/>
-        <location line="+2"/>
-        <location line="+2"/>
-        <location line="+2"/>
         <source>Enter</source>
         <translation>Enter</translation>
     </message>
     <message>
-        <location filename="../GUI/Playlist/BottomBar/GUI_PlaylistBottomBar.cpp" line="+218"/>
+        <location filename="../GUI/Playlist/BottomBar/GUI_PlaylistBottomBar.cpp" line="+199"/>
         <source>Please set library path first</source>
         <translation>Nejprve, prosím, zadejte cestu k hudební sbírce</translation>
     </message>
     <message>
-        <location line="+24"/>
+        <location line="+12"/>
         <source>Cancel shutdown?</source>
         <translation>Zrušit vypnutí?</translation>
     </message>
@@ -1023,163 +747,86 @@
 <context>
     <name>GUI_PlaylistChooser</name>
     <message>
-        <location filename="../GUI/Plugins/PlaylistChooser/GUI_PlaylistChooser.ui" line="+42"/>
-        <location filename="../../build/src/GUI/Plugins/PlaylistChooser/ui_GUI_PlaylistChooser.h" line="+124"/>
-        <location filename="../../build-clang-debug/src/GUI/Plugins/PlaylistChooser/ui_GUI_PlaylistChooser.h" line="+124"/>
-        <location filename="../../build-clang-release/src/GUI/Plugins/PlaylistChooser/ui_GUI_PlaylistChooser.h" line="+124"/>
-        <location filename="../../build-release/src/GUI/Plugins/PlaylistChooser/ui_GUI_PlaylistChooser.h" line="+124"/>
-        <source>Saved Playlists</source>
-        <translation>Uložené seznamy skladeb</translation>
-    </message>
-    <message>
-        <location line="+39"/>
-        <location filename="../../build/src/GUI/Plugins/PlaylistChooser/ui_GUI_PlaylistChooser.h" line="+2"/>
-        <location filename="../../build-clang-debug/src/GUI/Plugins/PlaylistChooser/ui_GUI_PlaylistChooser.h" line="+2"/>
-        <location filename="../../build-clang-release/src/GUI/Plugins/PlaylistChooser/ui_GUI_PlaylistChooser.h" line="+2"/>
-        <location filename="../../build-release/src/GUI/Plugins/PlaylistChooser/ui_GUI_PlaylistChooser.h" line="+2"/>
-        <source>Playlist file</source>
-        <translation>Soubor se seznamem skladeb</translation>
-    </message>
-    <message>
-        <location filename="../GUI/Plugins/PlaylistChooser/GUI_PlaylistChooser.cpp" line="+213"/>
-        <source>Open Playlist files</source>
-        <translation>Otevřít soubory se seznamy skladeb</translation>
+        <location filename="../GUI/Plugins/PlaylistChooser/GUI_PlaylistChooser.cpp" line="+90"/>
+        <location line="+37"/>
+        <source>No playlists found</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>GUI_PlaylistPreferences</name>
     <message>
         <location filename="../GUI/Preferences/PlaylistPreferences/GUI_PlaylistPreferences.ui" line="+291"/>
-        <location filename="../../build/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+310"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+310"/>
-        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+310"/>
-        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+310"/>
         <source>Show numbers</source>
         <translation>Ukázat čísla</translation>
     </message>
     <message>
         <location line="-161"/>
-        <location filename="../../build/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+2"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+2"/>
-        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+2"/>
-        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+2"/>
         <source>Look</source>
         <translation>Vzhled</translation>
     </message>
     <message>
         <location line="-71"/>
-        <location filename="../../build/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="-14"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="-14"/>
-        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="-14"/>
-        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="-14"/>
         <source>Start up</source>
         <translation>Spuštění programu</translation>
     </message>
     <message>
         <location line="+6"/>
-        <location filename="../../build/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
-        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
-        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
         <source>Load temporary playlists</source>
         <translation>Nahrát dočasné seznamy skladeb</translation>
     </message>
     <message>
         <location line="+38"/>
-        <location filename="../../build/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+4"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+4"/>
-        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+4"/>
-        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+4"/>
         <source>Remember time of last track</source>
         <translation>Nahrát poslední časovou polohu naposledy přehrávané skladby</translation>
     </message>
     <message>
         <location line="-31"/>
-        <location filename="../../build/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="-3"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="-3"/>
-        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="-3"/>
-        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="-3"/>
         <source>Load saved playlists</source>
         <translation>Nahrát uložené seznamy skladeb</translation>
     </message>
     <message>
         <location line="+24"/>
-        <location filename="../../build/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+2"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+2"/>
-        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+2"/>
-        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+2"/>
         <source>Load last track on startup</source>
         <translation>Nahrát poslední skladbu</translation>
     </message>
     <message>
         <location line="-7"/>
-        <location filename="../../build/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="-1"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="-1"/>
-        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="-1"/>
-        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="-1"/>
         <source>Start playing</source>
         <translation>Spustit přehrávání</translation>
     </message>
     <message>
         <location line="-56"/>
-        <location filename="../../build/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+5"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+5"/>
-        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+5"/>
-        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+5"/>
         <source>Behavior</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+80"/>
-        <location filename="../../build/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="-2"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="-2"/>
-        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="-2"/>
-        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="-2"/>
         <source>Stop behaviour</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+6"/>
-        <location filename="../../build/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
-        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
-        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
         <source>Load last track after pressing stop</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+53"/>
-        <location filename="../../build/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+2"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+2"/>
-        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+2"/>
-        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+2"/>
         <source>&apos;italic text&apos;</source>
         <translation>&apos;kurzivní text&apos;</translation>
     </message>
     <message>
         <location line="+7"/>
-        <location filename="../../build/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
-        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
-        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
         <source>Example</source>
         <translation>Příklad</translation>
     </message>
     <message>
         <location line="+27"/>
-        <location filename="../../build/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
-        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
-        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
         <source>*bold text*</source>
         <translation>*tučný text*</translation>
     </message>
     <message>
         <location line="+92"/>
-        <location filename="../../build/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+2"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+2"/>
-        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+2"/>
-        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+2"/>
         <source>Show clear button</source>
         <translation>Ukázat tlačítko pro vyprázdnění</translation>
     </message>
@@ -1188,10 +835,6 @@
     <name>GUI_Podcasts</name>
     <message>
         <location filename="../GUI/Plugins/Stream/GUI_Podcasts.ui" line="+80"/>
-        <location filename="../../build/src/GUI/Plugins/Stream/ui_GUI_Podcasts.h" line="+106"/>
-        <location filename="../../build-clang-debug/src/GUI/Plugins/Stream/ui_GUI_Podcasts.h" line="+106"/>
-        <location filename="../../build-clang-release/src/GUI/Plugins/Stream/ui_GUI_Podcasts.h" line="+106"/>
-        <location filename="../../build-release/src/GUI/Plugins/Stream/ui_GUI_Podcasts.h" line="+106"/>
         <source>Start stream</source>
         <translation>Spustit proud</translation>
     </message>
@@ -1210,38 +853,22 @@
     <name>GUI_PreferenceDialog</name>
     <message>
         <location filename="../GUI/Preferences/PreferenceDialog/GUI_PreferenceDialog.ui" line="+30"/>
-        <location filename="../../build/src/GUI/Preferences/ui_GUI_PreferenceDialog.h" line="+182"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_PreferenceDialog.h" line="+182"/>
-        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_PreferenceDialog.h" line="+182"/>
-        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_PreferenceDialog.h" line="+182"/>
         <location filename="../GUI/Preferences/PreferenceDialog/GUI_PreferenceDialog.cpp" line="+82"/>
         <source>Preferences</source>
         <translation>Nastavení</translation>
     </message>
     <message>
         <location line="+142"/>
-        <location filename="../../build/src/GUI/Preferences/ui_GUI_PreferenceDialog.h" line="+1"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_PreferenceDialog.h" line="+1"/>
-        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_PreferenceDialog.h" line="+1"/>
-        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_PreferenceDialog.h" line="+1"/>
         <source>Cancel</source>
         <translation>Zrušit</translation>
     </message>
     <message>
         <location line="+7"/>
-        <location filename="../../build/src/GUI/Preferences/ui_GUI_PreferenceDialog.h" line="+1"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_PreferenceDialog.h" line="+1"/>
-        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_PreferenceDialog.h" line="+1"/>
-        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_PreferenceDialog.h" line="+1"/>
         <source>Apply</source>
         <translation>Použít</translation>
     </message>
     <message>
         <location line="+7"/>
-        <location filename="../../build/src/GUI/Preferences/ui_GUI_PreferenceDialog.h" line="+1"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_PreferenceDialog.h" line="+1"/>
-        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_PreferenceDialog.h" line="+1"/>
-        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_PreferenceDialog.h" line="+1"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
@@ -1250,60 +877,36 @@
     <name>GUI_Proxy</name>
     <message>
         <location filename="../GUI/Preferences/ProxyPreferences/GUI_Proxy.ui" line="+30"/>
-        <location filename="../../build/src/GUI/Preferences/ui_GUI_Proxy.h" line="+125"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_Proxy.h" line="+125"/>
-        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_Proxy.h" line="+125"/>
-        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_Proxy.h" line="+125"/>
         <source>Password</source>
         <translation type="unfinished">Heslo</translation>
     </message>
     <message>
         <location line="+7"/>
-        <location filename="../../build/src/GUI/Preferences/ui_GUI_Proxy.h" line="+1"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_Proxy.h" line="+1"/>
-        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_Proxy.h" line="+1"/>
-        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_Proxy.h" line="+1"/>
         <source>Save username/password</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+7"/>
-        <location filename="../../build/src/GUI/Preferences/ui_GUI_Proxy.h" line="+1"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_Proxy.h" line="+1"/>
-        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_Proxy.h" line="+1"/>
-        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_Proxy.h" line="+1"/>
         <source>Active</source>
         <translation type="unfinished">Činný</translation>
     </message>
     <message>
         <location line="+13"/>
-        <location filename="../../build/src/GUI/Preferences/ui_GUI_Proxy.h" line="+1"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_Proxy.h" line="+1"/>
-        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_Proxy.h" line="+1"/>
-        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_Proxy.h" line="+1"/>
         <source>Port</source>
         <translation type="unfinished">Přípojka</translation>
     </message>
     <message>
         <location line="+7"/>
-        <location filename="../../build/src/GUI/Preferences/ui_GUI_Proxy.h" line="+1"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_Proxy.h" line="+1"/>
-        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_Proxy.h" line="+1"/>
-        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_Proxy.h" line="+1"/>
         <source>Username</source>
         <translation type="unfinished">Uživatelské jméno</translation>
     </message>
     <message>
         <location line="+27"/>
-        <location filename="../../build/src/GUI/Preferences/ui_GUI_Proxy.h" line="+1"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_Proxy.h" line="+1"/>
-        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_Proxy.h" line="+1"/>
-        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_Proxy.h" line="+1"/>
         <source>Host</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../GUI/Preferences/ProxyPreferences/GUI_Proxy.cpp" line="+33"/>
+        <location filename="../GUI/Preferences/ProxyPreferences/GUI_Proxy.cpp" line="+55"/>
         <source>Proxy</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1317,28 +920,16 @@
     </message>
     <message>
         <location filename="../GUI/Preferences/RemoteControl/GUI_RemoteControl.ui" line="+47"/>
-        <location filename="../../build/src/GUI/Preferences/ui_GUI_RemoteControl.h" line="+97"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_RemoteControl.h" line="+97"/>
-        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_RemoteControl.h" line="+97"/>
-        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_RemoteControl.h" line="+97"/>
         <source>Activate</source>
         <translation>Spustit</translation>
     </message>
     <message>
         <location line="+7"/>
-        <location filename="../../build/src/GUI/Preferences/ui_GUI_RemoteControl.h" line="+1"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_RemoteControl.h" line="+1"/>
-        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_RemoteControl.h" line="+1"/>
-        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_RemoteControl.h" line="+1"/>
         <source>Remote control URL</source>
         <translation>Adresa (URL) dálkového ovládání</translation>
     </message>
     <message>
         <location line="-17"/>
-        <location filename="../../build/src/GUI/Preferences/ui_GUI_RemoteControl.h" line="-2"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_RemoteControl.h" line="-2"/>
-        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_RemoteControl.h" line="-2"/>
-        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_RemoteControl.h" line="-2"/>
         <source>Port</source>
         <translation>Přípojka</translation>
     </message>
@@ -1347,10 +938,6 @@
     <name>GUI_ShortcutEntry</name>
     <message>
         <location filename="../GUI/Preferences/Shortcuts/GUI_ShortcutEntry.ui" line="+42"/>
-        <location filename="../../build/src/GUI/Preferences/ui_GUI_ShortcutEntry.h" line="+96"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_ShortcutEntry.h" line="+96"/>
-        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_ShortcutEntry.h" line="+96"/>
-        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_ShortcutEntry.h" line="+96"/>
         <source>Enter shortcut...</source>
         <translation>Zadat klávesovou zkratku...</translation>
     </message>
@@ -1369,10 +956,6 @@
     <name>GUI_Shortcuts</name>
     <message>
         <location filename="../GUI/Preferences/Shortcuts/GUI_Shortcuts.ui" line="+41"/>
-        <location filename="../../build/src/GUI/Preferences/ui_GUI_Shortcuts.h" line="+85"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_Shortcuts.h" line="+85"/>
-        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_Shortcuts.h" line="+85"/>
-        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_Shortcuts.h" line="+85"/>
         <location filename="../GUI/Preferences/Shortcuts/GUI_Shortcuts.cpp" line="+121"/>
         <source>Press shortcut</source>
         <translation>Stiskněte klávesovou zkratku</translation>
@@ -1388,59 +971,31 @@
     <message>
         <location filename="../GUI/ShutdownDialog/GUI_Shutdown.ui" line="+14"/>
         <location line="+92"/>
-        <location filename="../../build/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="+122"/>
-        <location line="+7"/>
-        <location filename="../../build-clang-debug/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="+122"/>
-        <location line="+7"/>
-        <location filename="../../build-clang-release/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="+122"/>
-        <location line="+7"/>
-        <location filename="../../build-release/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="+122"/>
-        <location line="+7"/>
         <source>Shutdown</source>
         <translation>Vypnout</translation>
     </message>
     <message>
         <location line="-76"/>
-        <location filename="../../build/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="-5"/>
-        <location filename="../../build-clang-debug/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="-5"/>
-        <location filename="../../build-clang-release/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="-5"/>
-        <location filename="../../build-release/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="-5"/>
         <source>Cancel</source>
         <translation>Zrušit</translation>
     </message>
     <message>
         <location line="+7"/>
-        <location filename="../../build/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="+1"/>
-        <location filename="../../build-clang-debug/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="+1"/>
-        <location filename="../../build-clang-release/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="+1"/>
-        <location filename="../../build-release/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="+1"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
         <location line="+24"/>
-        <location filename="../../build/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="+2"/>
-        <location filename="../../build-clang-debug/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="+2"/>
-        <location filename="../../build-clang-release/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="+2"/>
-        <location filename="../../build-release/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="+2"/>
         <source>minutes</source>
         <translation>minutách</translation>
     </message>
     <message>
         <location line="-7"/>
-        <location filename="../../build/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="-1"/>
-        <location filename="../../build-clang-debug/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="-1"/>
-        <location filename="../../build-clang-release/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="-1"/>
-        <location filename="../../build-release/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="-1"/>
         <source>Shutdown after</source>
         <translation>Vypnout po</translation>
     </message>
     <message>
         <location line="-34"/>
-        <location filename="../../build/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="-3"/>
-        <location filename="../../build-clang-debug/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="-3"/>
-        <location filename="../../build-clang-release/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="-3"/>
-        <location filename="../../build-release/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="-3"/>
         <source>Shutdown after playlist finished</source>
         <translation>Vypnout po dokončení seznamu skladeb</translation>
     </message>
@@ -1449,19 +1004,11 @@
     <name>GUI_SomaFM</name>
     <message>
         <location filename="../3rdParty/SomaFM/ui/GUI_SomaFM.ui" line="+42"/>
-        <location filename="../../build/src/3rdParty/SomaFM/ui_GUI_SomaFM.h" line="+200"/>
-        <location filename="../../build-clang-debug/src/3rdParty/SomaFM/ui_GUI_SomaFM.h" line="+200"/>
-        <location filename="../../build-clang-release/src/3rdParty/SomaFM/ui_GUI_SomaFM.h" line="+200"/>
-        <location filename="../../build-release/src/3rdParty/SomaFM/ui_GUI_SomaFM.h" line="+200"/>
         <source>Donate to Soma.fm</source>
         <translation>Darovat Soma.fm</translation>
     </message>
     <message>
         <location line="+102"/>
-        <location filename="../../build/src/3rdParty/SomaFM/ui_GUI_SomaFM.h" line="+2"/>
-        <location filename="../../build-clang-debug/src/3rdParty/SomaFM/ui_GUI_SomaFM.h" line="+2"/>
-        <location filename="../../build-clang-release/src/3rdParty/SomaFM/ui_GUI_SomaFM.h" line="+2"/>
-        <location filename="../../build-release/src/3rdParty/SomaFM/ui_GUI_SomaFM.h" line="+2"/>
         <source>Streams</source>
         <translation>Proudy</translation>
     </message>
@@ -1470,37 +1017,21 @@
     <name>GUI_SoundcloudArtistSearch</name>
     <message>
         <location filename="../3rdParty/Soundcloud/ui/GUI_SoundcloudArtistSearch.ui" line="+14"/>
-        <location filename="../../build/src/3rdParty/Soundcloud/ui_GUI_SoundcloudArtistSearch.h" line="+169"/>
-        <location filename="../../build-clang-debug/src/3rdParty/Soundcloud/ui_GUI_SoundcloudArtistSearch.h" line="+169"/>
-        <location filename="../../build-clang-release/src/3rdParty/Soundcloud/ui_GUI_SoundcloudArtistSearch.h" line="+169"/>
-        <location filename="../../build-release/src/3rdParty/Soundcloud/ui_GUI_SoundcloudArtistSearch.h" line="+169"/>
         <source>Search Soundcloud</source>
         <translation>Hledat na Soundcloud</translation>
     </message>
     <message>
         <location line="+55"/>
-        <location filename="../../build/src/3rdParty/Soundcloud/ui_GUI_SoundcloudArtistSearch.h" line="+4"/>
-        <location filename="../../build-clang-debug/src/3rdParty/Soundcloud/ui_GUI_SoundcloudArtistSearch.h" line="+4"/>
-        <location filename="../../build-clang-release/src/3rdParty/Soundcloud/ui_GUI_SoundcloudArtistSearch.h" line="+4"/>
-        <location filename="../../build-release/src/3rdParty/Soundcloud/ui_GUI_SoundcloudArtistSearch.h" line="+4"/>
         <source>Search artist</source>
         <translation>Hledat umělce</translation>
     </message>
     <message>
         <location line="-24"/>
-        <location filename="../../build/src/3rdParty/Soundcloud/ui_GUI_SoundcloudArtistSearch.h" line="-2"/>
-        <location filename="../../build-clang-debug/src/3rdParty/Soundcloud/ui_GUI_SoundcloudArtistSearch.h" line="-2"/>
-        <location filename="../../build-clang-release/src/3rdParty/Soundcloud/ui_GUI_SoundcloudArtistSearch.h" line="-2"/>
-        <location filename="../../build-release/src/3rdParty/Soundcloud/ui_GUI_SoundcloudArtistSearch.h" line="-2"/>
         <source>Cancel</source>
         <translation>Zrušit</translation>
     </message>
     <message>
         <location line="+7"/>
-        <location filename="../../build/src/3rdParty/Soundcloud/ui_GUI_SoundcloudArtistSearch.h" line="+1"/>
-        <location filename="../../build-clang-debug/src/3rdParty/Soundcloud/ui_GUI_SoundcloudArtistSearch.h" line="+1"/>
-        <location filename="../../build-clang-release/src/3rdParty/Soundcloud/ui_GUI_SoundcloudArtistSearch.h" line="+1"/>
-        <location filename="../../build-release/src/3rdParty/Soundcloud/ui_GUI_SoundcloudArtistSearch.h" line="+1"/>
         <source>Add</source>
         <translation>Přidat</translation>
     </message>
@@ -1509,19 +1040,11 @@
     <name>GUI_SoundcloudLibrary</name>
     <message>
         <location filename="../3rdParty/Soundcloud/ui/GUI_SoundcloudLibrary.ui" line="+26"/>
-        <location filename="../../build/src/3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h" line="+199"/>
-        <location filename="../../build-clang-debug/src/3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h" line="+199"/>
-        <location filename="../../build-clang-release/src/3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h" line="+199"/>
-        <location filename="../../build-release/src/3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h" line="+199"/>
         <source>Library</source>
         <translation>Sbírka</translation>
     </message>
     <message>
         <location line="+311"/>
-        <location filename="../../build/src/3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h" line="+4"/>
-        <location filename="../../build-clang-debug/src/3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h" line="+4"/>
-        <location filename="../../build-clang-release/src/3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h" line="+4"/>
-        <location filename="../../build-release/src/3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h" line="+4"/>
         <source>Search for title, interprets and albums</source>
         <translation>Hledat názvy, umělce a alba</translation>
     </message>
@@ -1538,29 +1061,17 @@
     <name>GUI_Speed</name>
     <message>
         <location filename="../GUI/Plugins/Engine/Speed/GUI_Speed.ui" line="+45"/>
-        <location filename="../../build/src/GUI/Plugins/Engine/ui_GUI_Speed.h" line="+151"/>
-        <location filename="../../build-clang-debug/src/GUI/Plugins/Engine/ui_GUI_Speed.h" line="+151"/>
-        <location filename="../../build-clang-release/src/GUI/Plugins/Engine/ui_GUI_Speed.h" line="+151"/>
-        <location filename="../../build-release/src/GUI/Plugins/Engine/ui_GUI_Speed.h" line="+151"/>
-        <location filename="../GUI/Plugins/Engine/Speed/GUI_Speed.cpp" line="+89"/>
+        <location filename="../GUI/Plugins/Engine/Speed/GUI_Speed.cpp" line="+117"/>
         <source>Speed</source>
         <translation>Rychlost</translation>
     </message>
     <message>
-        <location line="+54"/>
-        <location filename="../../build/src/GUI/Plugins/Engine/ui_GUI_Speed.h" line="-1"/>
-        <location filename="../../build-clang-debug/src/GUI/Plugins/Engine/ui_GUI_Speed.h" line="-1"/>
-        <location filename="../../build-clang-release/src/GUI/Plugins/Engine/ui_GUI_Speed.h" line="-1"/>
-        <location filename="../../build-release/src/GUI/Plugins/Engine/ui_GUI_Speed.h" line="-1"/>
+        <location line="+39"/>
         <source>Preserve pitch</source>
         <translation>Zachovat výšku tónu</translation>
     </message>
     <message>
-        <location line="+8"/>
-        <location filename="../../build/src/GUI/Plugins/Engine/ui_GUI_Speed.h" line="+2"/>
-        <location filename="../../build-clang-debug/src/GUI/Plugins/Engine/ui_GUI_Speed.h" line="+2"/>
-        <location filename="../../build-clang-release/src/GUI/Plugins/Engine/ui_GUI_Speed.h" line="+2"/>
-        <location filename="../../build-release/src/GUI/Plugins/Engine/ui_GUI_Speed.h" line="+2"/>
+        <location line="+30"/>
         <location filename="../GUI/Plugins/Engine/Speed/GUI_Speed.cpp" line="+0"/>
         <source>Pitch</source>
         <translation>Výška tónu</translation>
@@ -1615,67 +1126,80 @@
         <source>Webstreams</source>
         <translation>Internetové proudy</translation>
     </message>
+</context>
+<context>
+    <name>GUI_StreamPreferences</name>
     <message>
-        <location filename="../GUI/Plugins/Stream/GUI_Stream.ui" line="+71"/>
-        <location filename="../../build/src/GUI/Plugins/Stream/ui_GUI_Stream.h" line="+104"/>
-        <location filename="../../build-clang-debug/src/GUI/Plugins/Stream/ui_GUI_Stream.h" line="+104"/>
-        <location filename="../../build-clang-release/src/GUI/Plugins/Stream/ui_GUI_Stream.h" line="+104"/>
-        <location filename="../../build-release/src/GUI/Plugins/Stream/ui_GUI_Stream.h" line="+104"/>
-        <source>Start stream</source>
-        <translation>Spustit proud</translation>
+        <location filename="../GUI/Preferences/Streams/GUI_StreamPreferences.cpp" line="+27"/>
+        <source>Streams</source>
+        <translation type="unfinished">Proudy</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Podcasts</source>
+        <translation type="unfinished">Zvukové záznamy</translation>
     </message>
 </context>
 <context>
     <name>GUI_StreamRecorder</name>
     <message>
-        <location filename="../GUI/Preferences/StreamRecorder/GUI_StreamRecorder.ui" line="+95"/>
-        <location filename="../../build/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="+129"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="+129"/>
-        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="+129"/>
-        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="+129"/>
+        <location filename="../GUI/Preferences/StreamRecorder/GUI_StreamRecorder.ui" line="+33"/>
         <source>Target path:</source>
         <translation>Cílová cesta:</translation>
     </message>
     <message>
-        <location line="-69"/>
-        <location filename="../../build/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="-4"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="-4"/>
-        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="-4"/>
-        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="-4"/>
+        <location line="+50"/>
         <source>Activate</source>
         <translation>Zapnout</translation>
     </message>
     <message>
-        <location line="+76"/>
-        <location filename="../../build/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="+5"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="+5"/>
-        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="+5"/>
-        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="+5"/>
+        <location line="-7"/>
         <source>Automatic recording</source>
         <translation>Automatické nahrávání</translation>
     </message>
     <message>
-        <location line="-40"/>
-        <location filename="../../build/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="-3"/>
-        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="-3"/>
-        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="-3"/>
-        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="-3"/>
+        <location line="-49"/>
+        <source>General</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+100"/>
         <source>Create session folder</source>
         <translation>Vytvořit složku se sezením</translation>
     </message>
     <message>
-        <location filename="../GUI/Preferences/StreamRecorder/GUI_StreamRecorder.cpp" line="+79"/>
+        <location line="+8"/>
+        <source>Session Folder</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+22"/>
+        <source>Choose available placeholders</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+37"/>
+        <source>Path template</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+24"/>
+        <source>Example</source>
+        <translation type="unfinished">Příklad</translation>
+    </message>
+    <message>
+        <location filename="../GUI/Preferences/StreamRecorder/GUI_StreamRecorder.cpp" line="+140"/>
         <source>Choose target directory</source>
         <translation>Vybrat cílový adresář</translation>
     </message>
     <message>
-        <location line="+24"/>
-        <location line="+40"/>
+        <location line="+69"/>
+        <location line="+44"/>
         <source>Stream recorder</source>
         <translation>Nahrávač proudu</translation>
     </message>
     <message>
-        <location line="-40"/>
+        <location line="-44"/>
         <source> could not be created
 Please choose another folder</source>
         <translation> se nepodařilo vytvořit.
@@ -1686,151 +1210,79 @@ Vyberte, prosím, jinou složku</translation>
     <name>GUI_Style</name>
     <message>
         <location filename="../GUI/Plugins/Engine/GUI_Style.ui" line="+14"/>
-        <location filename="../../build/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+423"/>
-        <location filename="../../build-clang-debug/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+423"/>
-        <location filename="../../build-clang-release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+423"/>
-        <location filename="../../build-release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+423"/>
         <source>Style</source>
         <translation>Styl</translation>
     </message>
     <message>
         <location line="+38"/>
-        <location filename="../../build/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+1"/>
-        <location filename="../../build-clang-debug/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+1"/>
-        <location filename="../../build-clang-release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+1"/>
-        <location filename="../../build-release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+1"/>
         <source>Close</source>
         <translation>Zavřít</translation>
     </message>
     <message>
         <location line="+11"/>
-        <location filename="../../build/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+1"/>
-        <location filename="../../build-clang-debug/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+1"/>
-        <location filename="../../build-clang-release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+1"/>
-        <location filename="../../build-release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+1"/>
         <source>Spectrum</source>
         <translation>Spektrum</translation>
     </message>
     <message>
         <location line="+16"/>
-        <location filename="../../build/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+1"/>
-        <location filename="../../build-clang-debug/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+1"/>
-        <location filename="../../build-clang-release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+1"/>
-        <location filename="../../build-release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+1"/>
         <source>Vert. spacing</source>
         <translation>Svislý odstup</translation>
     </message>
     <message>
         <location line="+41"/>
         <location line="+75"/>
-        <location filename="../../build/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+3"/>
-        <location line="+7"/>
-        <location filename="../../build-clang-debug/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+3"/>
-        <location line="+7"/>
-        <location filename="../../build-clang-release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+3"/>
-        <location line="+7"/>
-        <location filename="../../build-release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+3"/>
-        <location line="+7"/>
         <source>Fading steps</source>
         <translation>Rychlost přechodu</translation>
     </message>
     <message>
         <location line="-89"/>
         <location line="+44"/>
-        <location filename="../../build/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="-8"/>
-        <location line="+4"/>
-        <location filename="../../build-clang-debug/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="-8"/>
-        <location line="+4"/>
-        <location filename="../../build-clang-release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="-8"/>
-        <location line="+4"/>
-        <location filename="../../build-release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="-8"/>
-        <location line="+4"/>
         <source>Hor. spacing</source>
         <translation>Vodorovný odstup</translation>
     </message>
     <message>
         <location line="-64"/>
         <location line="+88"/>
-        <location filename="../../build/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="-5"/>
-        <location line="+7"/>
-        <location filename="../../build-clang-debug/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="-5"/>
-        <location line="+7"/>
-        <location filename="../../build-clang-release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="-5"/>
-        <location line="+7"/>
-        <location filename="../../build-release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="-5"/>
-        <location line="+7"/>
         <source>Rect height</source>
         <translation>Výška obdélníku</translation>
     </message>
     <message>
         <location line="-30"/>
-        <location filename="../../build/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="-3"/>
-        <location filename="../../build-clang-debug/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="-3"/>
-        <location filename="../../build-clang-release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="-3"/>
-        <location filename="../../build-release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="-3"/>
         <source>Level</source>
         <translation>Úroveň</translation>
     </message>
     <message>
         <location line="+23"/>
-        <location filename="../../build/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+2"/>
-        <location filename="../../build-clang-debug/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+2"/>
-        <location filename="../../build-clang-release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+2"/>
-        <location filename="../../build-release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+2"/>
         <source>Rect width</source>
         <translation>Šířka obdélníku</translation>
     </message>
     <message>
         <location line="+14"/>
-        <location filename="../../build/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+2"/>
-        <location filename="../../build-clang-debug/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+2"/>
-        <location filename="../../build-clang-release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+2"/>
-        <location filename="../../build-release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+2"/>
         <source>Ver. spacing</source>
         <translation>Svislý odstup</translation>
     </message>
     <message>
         <location line="+54"/>
-        <location filename="../../build/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+2"/>
-        <location filename="../../build-clang-debug/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+2"/>
-        <location filename="../../build-clang-release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+2"/>
-        <location filename="../../build-release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+2"/>
         <source>Style settings</source>
         <translation>Nastavení stylů</translation>
     </message>
     <message>
         <location line="+129"/>
-        <location filename="../../build/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+4"/>
-        <location filename="../../build-clang-debug/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+4"/>
-        <location filename="../../build-clang-release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+4"/>
-        <location filename="../../build-release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+4"/>
         <source>Color 2</source>
         <translation>Barva 2</translation>
     </message>
     <message>
         <location line="+7"/>
-        <location filename="../../build/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+1"/>
-        <location filename="../../build-clang-debug/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+1"/>
-        <location filename="../../build-clang-release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+1"/>
-        <location filename="../../build-release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+1"/>
         <source>Color 1</source>
         <translation>Barva 1</translation>
     </message>
     <message>
         <location line="+32"/>
-        <location filename="../../build/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+2"/>
-        <location filename="../../build-clang-debug/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+2"/>
-        <location filename="../../build-clang-release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+2"/>
-        <location filename="../../build-release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+2"/>
         <source>Color 3</source>
         <translation>Barva 3</translation>
     </message>
     <message>
         <location line="+7"/>
-        <location filename="../../build/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+1"/>
-        <location filename="../../build-clang-debug/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+1"/>
-        <location filename="../../build-clang-release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+1"/>
-        <location filename="../../build-release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+1"/>
         <source>Color 4</source>
         <translation>Barva 4</translation>
     </message>
@@ -1838,17 +1290,17 @@ Vyberte, prosím, jinou složku</translation>
 <context>
     <name>GUI_StyleSettings</name>
     <message>
-        <location filename="../GUI/Plugins/Engine/GUI_StyleSettings.cpp" line="+153"/>
+        <location filename="../GUI/Plugins/Engine/GUI_StyleSettings.cpp" line="+186"/>
         <source>There are some unsaved settings&lt;br /&gt;Save now?</source>
         <translation>Nastavení ještě nejsou uložena&lt;br /&gt;Uložit?</translation>
     </message>
     <message>
-        <location line="+75"/>
+        <location line="+87"/>
         <source>Please specify a name</source>
         <translation>Zadejte, prosím, název</translation>
     </message>
     <message>
-        <location line="+154"/>
+        <location line="+168"/>
         <source>Save changes?</source>
         <translation>Uložit změny?</translation>
     </message>
@@ -1857,147 +1309,87 @@ Vyberte, prosím, jinou složku</translation>
     <name>GUI_TagEdit</name>
     <message>
         <location filename="../GUI/TagEdit/GUI_TagEdit.ui" line="+272"/>
-        <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+668"/>
-        <location filename="../../build-clang-debug/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+668"/>
-        <location filename="../../build-clang-release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+668"/>
-        <location filename="../../build-release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+668"/>
         <source>&lt;</source>
         <translation>&lt;</translation>
     </message>
     <message>
         <location line="+32"/>
-        <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+2"/>
-        <location filename="../../build-clang-debug/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+2"/>
-        <location filename="../../build-clang-release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+2"/>
-        <location filename="../../build-release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+2"/>
         <source>&gt;</source>
         <translation>&gt;</translation>
     </message>
     <message>
         <location line="+114"/>
-        <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+3"/>
-        <location filename="../../build-clang-debug/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+3"/>
-        <location filename="../../build-clang-release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+3"/>
-        <location filename="../../build-release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+3"/>
         <source>Disc Nr</source>
         <translation>Číslo disku</translation>
     </message>
     <message>
         <location line="+42"/>
-        <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+2"/>
-        <location filename="../../build-clang-debug/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+2"/>
-        <location filename="../../build-clang-release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+2"/>
-        <location filename="../../build-release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+2"/>
         <source>Expression</source>
         <translation>Výraz</translation>
     </message>
     <message>
         <location line="-7"/>
-        <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-1"/>
-        <location filename="../../build-clang-debug/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-1"/>
-        <location filename="../../build-clang-release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-1"/>
-        <location filename="../../build-release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-1"/>
         <source>?</source>
         <translation>?</translation>
     </message>
     <message>
         <location line="+324"/>
-        <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+4"/>
-        <location filename="../../build-clang-debug/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+4"/>
-        <location filename="../../build-clang-release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+4"/>
-        <location filename="../../build-release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+4"/>
         <source>Album artist</source>
         <translation>Umělec alba</translation>
     </message>
     <message>
         <location line="-635"/>
-        <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-17"/>
-        <location filename="../../build-clang-debug/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-17"/>
-        <location filename="../../build-clang-release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-17"/>
-        <location filename="../../build-release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-17"/>
         <source>Original</source>
         <translation>Originál</translation>
     </message>
     <message>
         <location line="+41"/>
-        <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+3"/>
-        <location filename="../../build-clang-debug/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+3"/>
-        <location filename="../../build-clang-release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+3"/>
-        <location filename="../../build-release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+3"/>
         <source>ID3v2 Cover</source>
         <translation>Obal ID3v2</translation>
     </message>
     <message>
         <location line="-27"/>
-        <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-2"/>
-        <location filename="../../build-clang-debug/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-2"/>
-        <location filename="../../build-clang-release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-2"/>
-        <location filename="../../build-release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-2"/>
         <source>Replace with</source>
         <translation>Nahradit za</translation>
     </message>
     <message>
         <location line="+34"/>
-        <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+3"/>
-        <location filename="../../build-clang-debug/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+3"/>
-        <location filename="../../build-clang-release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+3"/>
-        <location filename="../../build-release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+3"/>
         <source>Don&apos;t replace</source>
         <translation>Nenahrazovat</translation>
     </message>
     <message>
         <location line="-27"/>
-        <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-2"/>
-        <location filename="../../build-clang-debug/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-2"/>
-        <location filename="../../build-clang-release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-2"/>
-        <location filename="../../build-release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-2"/>
         <source>Replace</source>
         <translation>Nahradit</translation>
     </message>
     <message>
         <location line="+178"/>
-        <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+9"/>
-        <location filename="../../build-clang-debug/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+9"/>
-        <location filename="../../build-clang-release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+9"/>
-        <location filename="../../build-release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+9"/>
         <source>Apply to all</source>
         <translation>Použít na vše</translation>
     </message>
     <message>
         <location line="-245"/>
-        <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-13"/>
-        <location filename="../../build-clang-debug/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-13"/>
-        <location filename="../../build-clang-release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-13"/>
-        <location filename="../../build-release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-13"/>
         <source>Tag from path</source>
         <translatorcomment>ID3 tag from filepath</translatorcomment>
         <translation>Značka z cesty</translation>
     </message>
     <message>
         <location line="-58"/>
-        <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-1"/>
-        <location filename="../../build-clang-debug/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-1"/>
-        <location filename="../../build-clang-release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-1"/>
-        <location filename="../../build-release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-1"/>
         <source>Undo all</source>
         <translation>Zpět vše</translation>
     </message>
     <message>
         <location line="+481"/>
-        <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+18"/>
-        <location filename="../../build-clang-debug/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+18"/>
-        <location filename="../../build-clang-release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+18"/>
-        <location filename="../../build-release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+18"/>
         <source>Discnumber</source>
         <translation>Číslo disku</translation>
     </message>
     <message>
-        <location filename="../GUI/TagEdit/GUI_TagEdit.cpp" line="+295"/>
+        <location filename="../GUI/TagEdit/GUI_TagEdit.cpp" line="+303"/>
         <source>Tag</source>
         <translation>Značka</translation>
     </message>
     <message>
-        <location line="+389"/>
+        <location line="+385"/>
         <source>Cannot apply tag for</source>
         <translation>Nelze použít značku pro</translation>
     </message>
@@ -2011,55 +1403,31 @@ Vyberte, prosím, jinou složku</translation>
     <name>GUI_TargetPlaylistDialog</name>
     <message>
         <location filename="../GUI/Plugins/PlaylistChooser/GUI_TargetPlaylistDialog.ui" line="+14"/>
-        <location filename="../../build/src/GUI/Plugins/PlaylistChooser/ui_GUI_TargetPlaylistDialog.h" line="+109"/>
-        <location filename="../../build-clang-debug/src/GUI/Plugins/PlaylistChooser/ui_GUI_TargetPlaylistDialog.h" line="+109"/>
-        <location filename="../../build-clang-release/src/GUI/Plugins/PlaylistChooser/ui_GUI_TargetPlaylistDialog.h" line="+109"/>
-        <location filename="../../build-release/src/GUI/Plugins/PlaylistChooser/ui_GUI_TargetPlaylistDialog.h" line="+109"/>
         <source>Choose target playlist</source>
         <translation>Vybrat cílový seznam skladeb</translation>
     </message>
     <message>
         <location line="+25"/>
-        <location filename="../../build/src/GUI/Plugins/PlaylistChooser/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
-        <location filename="../../build-clang-debug/src/GUI/Plugins/PlaylistChooser/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
-        <location filename="../../build-clang-release/src/GUI/Plugins/PlaylistChooser/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
-        <location filename="../../build-release/src/GUI/Plugins/PlaylistChooser/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
         <source>relative filepaths</source>
         <translation>Relativní souborové cesty</translation>
     </message>
     <message>
         <location line="+19"/>
-        <location filename="../../build/src/GUI/Plugins/PlaylistChooser/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
-        <location filename="../../build-clang-debug/src/GUI/Plugins/PlaylistChooser/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
-        <location filename="../../build-clang-release/src/GUI/Plugins/PlaylistChooser/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
-        <location filename="../../build-release/src/GUI/Plugins/PlaylistChooser/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
         <source>...</source>
         <translation>...</translation>
     </message>
     <message>
         <location line="+15"/>
-        <location filename="../../build/src/GUI/Plugins/PlaylistChooser/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
-        <location filename="../../build-clang-debug/src/GUI/Plugins/PlaylistChooser/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
-        <location filename="../../build-clang-release/src/GUI/Plugins/PlaylistChooser/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
-        <location filename="../../build-release/src/GUI/Plugins/PlaylistChooser/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
         <source>Close</source>
         <translation>Zavřít</translation>
     </message>
     <message>
         <location line="+13"/>
-        <location filename="../../build/src/GUI/Plugins/PlaylistChooser/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
-        <location filename="../../build-clang-debug/src/GUI/Plugins/PlaylistChooser/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
-        <location filename="../../build-clang-release/src/GUI/Plugins/PlaylistChooser/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
-        <location filename="../../build-release/src/GUI/Plugins/PlaylistChooser/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
         <source>Save</source>
         <translation>Uložit</translation>
     </message>
     <message>
         <location line="+13"/>
-        <location filename="../../build/src/GUI/Plugins/PlaylistChooser/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
-        <location filename="../../build-clang-debug/src/GUI/Plugins/PlaylistChooser/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
-        <location filename="../../build-clang-release/src/GUI/Plugins/PlaylistChooser/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
-        <location filename="../../build-release/src/GUI/Plugins/PlaylistChooser/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
         <source>Save playlist as...</source>
         <translation>Uložit seznam skladeb jako...</translation>
     </message>
@@ -2078,37 +1446,21 @@ Vyberte, prosím, jinou složku</translation>
     <name>ImportFolder</name>
     <message>
         <location filename="../GUI/Library/ImportFolderDialog/GUI_ImportFolder.ui" line="+27"/>
-        <location filename="../../build/src/GUI/Library/ui_GUI_ImportFolder.h" line="+157"/>
-        <location filename="../../build-clang-debug/src/GUI/Library/ui_GUI_ImportFolder.h" line="+157"/>
-        <location filename="../../build-clang-release/src/GUI/Library/ui_GUI_ImportFolder.h" line="+157"/>
-        <location filename="../../build-release/src/GUI/Library/ui_GUI_ImportFolder.h" line="+157"/>
         <source>Import tracks to library</source>
         <translation>Zavést skladby do sbírky</translation>
     </message>
     <message>
         <location line="+7"/>
-        <location filename="../../build/src/GUI/Library/ui_GUI_ImportFolder.h" line="+1"/>
-        <location filename="../../build-clang-debug/src/GUI/Library/ui_GUI_ImportFolder.h" line="+1"/>
-        <location filename="../../build-clang-release/src/GUI/Library/ui_GUI_ImportFolder.h" line="+1"/>
-        <location filename="../../build-release/src/GUI/Library/ui_GUI_ImportFolder.h" line="+1"/>
         <source>Select target folder</source>
         <translation>Vybrat cílovou složku</translation>
     </message>
     <message>
         <location line="-20"/>
-        <location filename="../../build/src/GUI/Library/ui_GUI_ImportFolder.h" line="-2"/>
-        <location filename="../../build-clang-debug/src/GUI/Library/ui_GUI_ImportFolder.h" line="-2"/>
-        <location filename="../../build-clang-release/src/GUI/Library/ui_GUI_ImportFolder.h" line="-2"/>
-        <location filename="../../build-release/src/GUI/Library/ui_GUI_ImportFolder.h" line="-2"/>
         <source>Import</source>
         <translation>Zavést</translation>
     </message>
     <message>
         <location line="+63"/>
-        <location filename="../../build/src/GUI/Library/ui_GUI_ImportFolder.h" line="+4"/>
-        <location filename="../../build-clang-debug/src/GUI/Library/ui_GUI_ImportFolder.h" line="+4"/>
-        <location filename="../../build-clang-release/src/GUI/Library/ui_GUI_ImportFolder.h" line="+4"/>
-        <location filename="../../build-release/src/GUI/Library/ui_GUI_ImportFolder.h" line="+4"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
@@ -2117,10 +1469,6 @@ Vyberte, prosím, jinou složku</translation>
     <name>InfoDialog</name>
     <message>
         <location filename="../GUI/InfoDialog/GUI_InfoDialog.ui" line="+20"/>
-        <location filename="../../build/src/GUI/InfoDialog/ui_GUI_InfoDialog.h" line="+264"/>
-        <location filename="../../build-clang-debug/src/GUI/InfoDialog/ui_GUI_InfoDialog.h" line="+264"/>
-        <location filename="../../build-clang-release/src/GUI/InfoDialog/ui_GUI_InfoDialog.h" line="+264"/>
-        <location filename="../../build-release/src/GUI/InfoDialog/ui_GUI_InfoDialog.h" line="+264"/>
         <source>Info / Edit</source>
         <translation>Informace/Úpravy</translation>
     </message>
@@ -2173,7 +1521,7 @@ Vyberte, prosím, jinou složku</translation>
         <translation>Umělci</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+4"/>
         <source>Bitrate</source>
         <translation>Datový tok</translation>
     </message>
@@ -2238,7 +1586,7 @@ Vyberte, prosím, jinou složku</translation>
         <translation>Smazat</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+4"/>
         <source>Directory</source>
         <translation>Adresář</translation>
     </message>
@@ -2258,7 +1606,7 @@ Vyberte, prosím, jinou složku</translation>
         <translation>Doba trvání</translation>
     </message>
     <message>
-        <location line="-62"/>
+        <location line="-66"/>
         <source>Activate</source>
         <translation>Zapnout</translation>
     </message>
@@ -2283,7 +1631,12 @@ Vyberte, prosím, jinou složku</translation>
         <translation>Použít</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+6"/>
+        <source>Ascending</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+11"/>
         <source>Cancel</source>
         <translation>Zrušit</translation>
     </message>
@@ -2303,7 +1656,12 @@ Vyberte, prosím, jinou složku</translation>
         <translation>dnů</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+9"/>
+        <source>Descending</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+11"/>
         <source>Dynamic playback</source>
         <translation>Dynamické přehrávání</translation>
     </message>
@@ -2311,6 +1669,11 @@ Vyberte, prosím, jinou složku</translation>
         <location line="+2"/>
         <source>Edit</source>
         <translation>Upravit</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Empty input</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2429,6 +1792,21 @@ Vyberte, prosím, jinou složku</translation>
     </message>
     <message>
         <location line="+2"/>
+        <source>Loading</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Loading %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Invalid characters</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Library</source>
         <translation>Sbírka</translation>
     </message>
@@ -2466,6 +1844,11 @@ Vyberte, prosím, jinou složku</translation>
         <location line="+3"/>
         <source>m</source>
         <translation> m</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Missing</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2539,6 +1922,11 @@ Vyberte, prosím, jinou složku</translation>
     </message>
     <message>
         <location line="+2"/>
+        <source>or</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Overwrite</source>
         <translation>Přepsat</translation>
     </message>
@@ -2589,6 +1977,11 @@ Vyberte, prosím, jinou složku</translation>
     </message>
     <message>
         <location line="+2"/>
+        <source>Radio Station</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Rating</source>
         <translation>Hodnocení</translation>
     </message>
@@ -2628,12 +2021,22 @@ Vyberte, prosím, jinou složku</translation>
         <translation>Nahrát znovu</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+14"/>
+        <source>Save to file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+8"/>
         <source>seconds</source>
         <translation>sekundách</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+15"/>
+        <source>Sort by</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+4"/>
         <source>Stream URL</source>
         <translation>Adresa (URL) proudu</translation>
     </message>
@@ -2643,7 +2046,12 @@ Vyberte, prosím, jinou složku</translation>
         <translation>Číslo skladby</translation>
     </message>
     <message>
-        <location line="+26"/>
+        <location line="+10"/>
+        <source>Unknown placeholder</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+18"/>
         <source>Weeks</source>
         <translation>Týdny</translation>
     </message>
@@ -2658,7 +2066,7 @@ Vyberte, prosím, jinou složku</translation>
         <translation>Přiblížení</translation>
     </message>
     <message>
-        <location line="-95"/>
+        <location line="-101"/>
         <source>Refresh</source>
         <translation>Obnovit</translation>
     </message>
@@ -2693,7 +2101,7 @@ Vyberte, prosím, jinou složku</translation>
         <translation>Uložit jako</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+4"/>
         <source>Search</source>
         <translation>Hledat</translation>
     </message>
@@ -2738,7 +2146,7 @@ Vyberte, prosím, jinou složku</translation>
         <translation>Podobní umělci</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+4"/>
         <source>Stop</source>
         <translation>Zastavit</translation>
     </message>
@@ -2788,7 +2196,7 @@ Vyberte, prosím, jinou složku</translation>
         <translation>Zpět</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+4"/>
         <source>Various</source>
         <translation>Různé</translation>
     </message>
@@ -2839,6 +2247,19 @@ Vyberte, prosím, jinou složku</translation>
     </message>
 </context>
 <context>
+    <name>Library::CoverView</name>
+    <message>
+        <location filename="../GUI/Library/Views/CoverView.cpp" line="+237"/>
+        <source>Use Ctrl + mouse wheel to zoom</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Show utils</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>Library::GUI_EmptyLibrary</name>
     <message>
         <location filename="../GUI/Library/GUI_EmptyLibrary.cpp" line="+65"/>
@@ -2875,21 +2296,19 @@ Vyberte, prosím, jinou složku</translation>
 <context>
     <name>Library::LocalLibraryMenu</name>
     <message>
-        <location filename="../GUI/Library/Utils/LocalLibraryMenu.cpp" line="+91"/>
-        <location line="+67"/>
+        <location filename="../GUI/Library/Utils/LocalLibraryMenu.cpp" line="+158"/>
         <source>Live search</source>
         <translation type="unfinished">Hledat ve skutečném čase</translation>
     </message>
     <message>
-        <location line="-64"/>
-        <location line="+65"/>
+        <location line="+1"/>
         <source>Auto update</source>
         <translation type="unfinished">Aktualizovat automaticky</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Show album covers</source>
-        <translation type="unfinished">Ukázat obaly alb</translation>
+        <source>Cover view</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2900,7 +2319,7 @@ Vyberte, prosím, jinou složku</translation>
         <translation type="unfinished">Sloučit</translation>
     </message>
     <message>
-        <location line="+98"/>
+        <location line="+103"/>
         <source>Clear selection</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2915,13 +2334,13 @@ Vyberte, prosím, jinou složku</translation>
     <message>
         <location line="+6"/>
         <location line="+114"/>
-        <source>Switch to table view</source>
+        <source>Table view</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="-109"/>
         <location line="+114"/>
-        <source>Switch to cover view</source>
+        <source>Cover view</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2972,7 +2391,7 @@ Vyberte, prosím, jinou složku</translation>
 <context>
     <name>MiniSearcher</name>
     <message>
-        <location filename="../GUI/Utils/SearchableWidget/MiniSearcher.cpp" line="+241"/>
+        <location filename="../GUI/Utils/SearchableWidget/MiniSearcher.cpp" line="+238"/>
         <source>Up</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2998,12 +2417,12 @@ Vyberte, prosím, jinou složku</translation>
     </message>
 </context>
 <context>
-    <name>PlayerPluginInterface</name>
+    <name>PlayerPlugin::Base</name>
     <message>
-        <location filename="../Interfaces/PlayerPlugin/PlayerPlugin.cpp" line="+78"/>
+        <location filename="../Interfaces/PlayerPlugin/PlayerPlugin.cpp" line="+80"/>
         <location line="+34"/>
         <source>Close plugin</source>
-        <translation>Zavřít přídavný modul</translation>
+        <translation type="unfinished">Zavřít přídavný modul</translation>
     </message>
 </context>
 <context>
@@ -3030,7 +2449,7 @@ Vyberte, prosím, jinou složku</translation>
 <context>
     <name>SC::Database</name>
     <message>
-        <location filename="../3rdParty/Soundcloud/src/SoundcloudData.cpp" line="+248"/>
+        <location filename="../3rdParty/Soundcloud/src/SoundcloudData.cpp" line="+250"/>
         <source>Purchase Url</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3092,87 +2511,37 @@ Vyberte, prosím, jinou složku</translation>
     <name>Sayonara</name>
     <message>
         <location filename="../GUI/Player/GUI_Player.ui" line="+29"/>
-        <location filename="../../build/src/GUI/Player/ui_GUI_Player.h" line="+623"/>
-        <location filename="../../build-clang-debug/src/GUI/Player/ui_GUI_Player.h" line="+623"/>
-        <location filename="../../build-clang-release/src/GUI/Player/ui_GUI_Player.h" line="+623"/>
-        <location filename="../../build-release/src/GUI/Player/ui_GUI_Player.h" line="+623"/>
         <source>Sayonara Player</source>
         <translation>Přehrávač Sayonara</translation>
     </message>
     <message>
-        <location line="+618"/>
-        <location filename="../../build/src/GUI/Player/ui_GUI_Player.h" line="+13"/>
-        <location filename="../../build-clang-debug/src/GUI/Player/ui_GUI_Player.h" line="+13"/>
-        <location filename="../../build-clang-release/src/GUI/Player/ui_GUI_Player.h" line="+13"/>
-        <location filename="../../build-release/src/GUI/Player/ui_GUI_Player.h" line="+13"/>
-        <source>Written by Lucio Carreras</source>
-        <translation>Od Lucia Carrerase</translation>
-    </message>
-    <message>
-        <location line="+350"/>
-        <location filename="../../build/src/GUI/Player/ui_GUI_Player.h" line="+3"/>
-        <location filename="../../build-clang-debug/src/GUI/Player/ui_GUI_Player.h" line="+3"/>
-        <location filename="../../build-clang-release/src/GUI/Player/ui_GUI_Player.h" line="+3"/>
-        <location filename="../../build-release/src/GUI/Player/ui_GUI_Player.h" line="+3"/>
+        <location line="+133"/>
         <source>View</source>
         <translation>Pohled</translation>
     </message>
     <message>
         <location line="+10"/>
         <location line="+55"/>
-        <location filename="../../build/src/GUI/Player/ui_GUI_Player.h" line="-14"/>
-        <location line="+15"/>
-        <location filename="../../build-clang-debug/src/GUI/Player/ui_GUI_Player.h" line="-14"/>
-        <location line="+15"/>
-        <location filename="../../build-clang-release/src/GUI/Player/ui_GUI_Player.h" line="-14"/>
-        <location line="+15"/>
-        <location filename="../../build-release/src/GUI/Player/ui_GUI_Player.h" line="-14"/>
-        <location line="+15"/>
         <source>Help</source>
         <translation>Nápověda</translation>
     </message>
     <message>
         <location line="-5"/>
-        <location filename="../../build/src/GUI/Player/ui_GUI_Player.h" line="-16"/>
-        <location filename="../../build-clang-debug/src/GUI/Player/ui_GUI_Player.h" line="-16"/>
-        <location filename="../../build-clang-release/src/GUI/Player/ui_GUI_Player.h" line="-16"/>
-        <location filename="../../build-release/src/GUI/Player/ui_GUI_Player.h" line="-16"/>
         <source>Dark</source>
         <translation>Tmavá slitina</translation>
     </message>
     <message>
         <location line="+43"/>
-        <location filename="../../build/src/GUI/Player/ui_GUI_Player.h" line="+3"/>
-        <location filename="../../build-clang-debug/src/GUI/Player/ui_GUI_Player.h" line="+3"/>
-        <location filename="../../build-clang-release/src/GUI/Player/ui_GUI_Player.h" line="+3"/>
-        <location filename="../../build-release/src/GUI/Player/ui_GUI_Player.h" line="+3"/>
         <source>Devices</source>
         <translation>Zařízení</translation>
     </message>
     <message>
         <location line="+5"/>
-        <location filename="../../build/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
-        <location filename="../../build-clang-debug/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
-        <location filename="../../build-clang-release/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
-        <location filename="../../build-release/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
         <source>Donate</source>
         <translation>Dary</translation>
     </message>
     <message>
-        <location line="-395"/>
-        <location filename="../../build/src/GUI/Player/ui_GUI_Player.h" line="+9"/>
-        <location filename="../../build-clang-debug/src/GUI/Player/ui_GUI_Player.h" line="+9"/>
-        <location filename="../../build-clang-release/src/GUI/Player/ui_GUI_Player.h" line="+9"/>
-        <location filename="../../build-release/src/GUI/Player/ui_GUI_Player.h" line="+9"/>
-        <source>Copyright 2011-2017</source>
-        <translation>Autorské právo 2011-2017</translation>
-    </message>
-    <message>
-        <location line="+385"/>
-        <location filename="../../build/src/GUI/Player/ui_GUI_Player.h" line="-11"/>
-        <location filename="../../build-clang-debug/src/GUI/Player/ui_GUI_Player.h" line="-11"/>
-        <location filename="../../build-clang-release/src/GUI/Player/ui_GUI_Player.h" line="-11"/>
-        <location filename="../../build-release/src/GUI/Player/ui_GUI_Player.h" line="-11"/>
+        <location line="-10"/>
         <source>Fullscreen </source>
         <translation>Celá obrazovka</translation>
     </message>
@@ -3186,7 +2555,7 @@ Vyberte, prosím, jinou složku</translation>
     </message>
     <message>
         <location line="+25"/>
-        <location line="+25"/>
+        <location line="+27"/>
         <source>Computer will shutdown in %1 minutes</source>
         <translation>Počítač bude vypnut za %1 minut</translation>
     </message>
@@ -3194,12 +2563,7 @@ Vyberte, prosím, jinou složku</translation>
 <context>
     <name>SomaFM::StationModel</name>
     <message>
-        <location filename="../3rdParty/SomaFM/ui/SomaFMStationModel.cpp" line="+123"/>
-        <source>Initializing</source>
-        <translation type="unfinished">Probíhá inicializace</translation>
-    </message>
-    <message>
-        <location line="+4"/>
+        <location filename="../3rdParty/SomaFM/ui/SomaFMStationModel.cpp" line="+129"/>
         <source>Cannot fetch stations</source>
         <translation type="unfinished">Nelze natáhnout stanice</translation>
     </message>
@@ -3207,11 +2571,9 @@ Vyberte, prosím, jinou složku</translation>
 <context>
     <name>StreamServer</name>
     <message>
-        <location filename="../Components/Broadcasting/StreamServer.cpp" line="+194"/>
-        <source>%1 wants to listen to your music.
-OK?</source>
-        <translation>%1 chce poslouchat vaši hudbu.
-OK?</translation>
+        <location filename="../Components/Broadcasting/StreamServer.cpp" line="+212"/>
+        <source>%1 wants to listen to your music.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

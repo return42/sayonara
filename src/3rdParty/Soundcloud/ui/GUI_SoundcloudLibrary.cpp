@@ -56,9 +56,9 @@ GUI_Library::GUI_Library(Library* library, QWidget *parent) :
              LibraryContextMenu::EntryAppend |
              LibraryContextMenu::EntryRefresh);
 
-    ui->tb_title->show_rc_menu_actions(entry_mask);
-    ui->lv_album->show_rc_menu_actions(entry_mask);
-    ui->lv_artist->show_rc_menu_actions(entry_mask);
+    ui->tb_title->show_context_menu_actions(entry_mask);
+    ui->lv_album->show_context_menu_actions(entry_mask);
+    ui->lv_artist->show_context_menu_actions(entry_mask);
 
     library->load();
 }

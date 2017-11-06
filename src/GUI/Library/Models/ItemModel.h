@@ -29,7 +29,7 @@
 
 namespace Cover
 {
-    class Location;
+	class Location;
 }
 
 class CustomMimeData;
@@ -49,8 +49,8 @@ namespace Library
 		virtual ~ItemModel();
 
 		/** Overloaded from QAbstractTableModel **/
-		QVariant 	headerData ( int section, Qt::Orientation orientation, int role=Qt::DisplayRole ) const override;
-        bool        set_header_data(const QStringList& names);
+		QVariant		headerData ( int section, Qt::Orientation orientation, int role=Qt::DisplayRole ) const override;
+		bool			set_header_data(const QStringList& names);
 
 		virtual int     columnCount(const QModelIndex& parent=QModelIndex()) const override;
 		virtual bool	removeRows(int position, int rows, const QModelIndex& index=QModelIndex()) override;
@@ -58,7 +58,7 @@ namespace Library
 		int             last_row_count() const;
 
 		/** AbstractSearchTableModel **/
-		virtual bool has_items() const override;
+		virtual bool		has_items() const override;
 		virtual QModelIndex getNextRowIndexOf(const QString& substr, int row, const QModelIndex& parent=QModelIndex()) override;
 		virtual QModelIndex getPrevRowIndexOf(const QString& substr, int row, const QModelIndex& parent=QModelIndex()) override;
 		virtual QMap<QChar, QString> getExtraTriggers() override;
@@ -68,8 +68,8 @@ namespace Library
 
 		virtual int				get_searchable_column() const=0;
 		virtual QString			get_string(int row) const=0;
-		virtual int				get_id_by_row(int row)=0;
-        virtual Cover::Location	get_cover(const IndexSet& indexes) const=0;
+		virtual int				id_by_index(int row)=0;
+		virtual Cover::Location	cover(const IndexSet& indexes) const=0;
 
 		CustomMimeData*			get_mimedata() const;
 

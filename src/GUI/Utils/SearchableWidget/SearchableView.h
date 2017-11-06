@@ -24,11 +24,12 @@
 #include "GUI/Utils/SearchableWidget/SayonaraSelectionView.h"
 #include "Utils/Pimpl.h"
 
-#include <QListView>
-#include <QTableView>
-#include <QTreeView>
 #include <QKeyEvent>
+#include <QTableView>
+#include <QListView>
+#include <QTreeView>
 
+class QAbstractItemView;
 class QItemSelectionModel;
 class SearchModelFunctionality;
 
@@ -70,7 +71,7 @@ private:
 	void select_match(const QString& str, SearchDirection direction);
 
 protected:
-    void handle_key_press(QKeyEvent* e) override;
+	void handle_key_press(QKeyEvent* e) override;
 
 };
 
@@ -90,12 +91,12 @@ public:
 protected:
 	void keyPressEvent(QKeyEvent* e) override
 	{
-        if(!e->isAccepted()){
-            handle_key_press(e);
-            if(e->isAccepted()){
-                return;
-            }
-        }
+		if(!e->isAccepted()){
+			handle_key_press(e);
+			if(e->isAccepted()){
+				return;
+			}
+		}
 
 		AbstractView::keyPressEvent(e);
 	}

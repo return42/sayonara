@@ -37,19 +37,19 @@ struct ItemModel::Private
 {
 	AbstractLibrary*	library=nullptr;
 	QStringList			header_names;
-    int                 old_row_count;
+	int                 old_row_count;
 
-    Private(AbstractLibrary* library) :
-        library(library),
-        old_row_count(0)
-    {}
+	Private(AbstractLibrary* library) :
+		library(library),
+		old_row_count(0)
+	{}
 };
 
 
 ItemModel::ItemModel(QObject* parent, AbstractLibrary* library) :
 	AbstractSearchTableModel(parent)
 {
-    m = Pimpl::make<ItemModel::Private>(library);
+	m = Pimpl::make<ItemModel::Private>(library);
 }
 
 ItemModel::~ItemModel() {}
@@ -91,7 +91,7 @@ bool ItemModel::removeRows(int row, int count, const QModelIndex& index)
 	Q_UNUSED(index)
 
 	beginRemoveRows(QModelIndex(), row, row + count - 1);
-    m->old_row_count -= count;
+	m->old_row_count -= count;
 	endRemoveRows();
 
 	return true;
@@ -102,15 +102,15 @@ bool ItemModel::insertRows(int row, int count, const QModelIndex& index)
 	Q_UNUSED(index)
 
 	beginInsertRows(QModelIndex(), row, row + count - 1);
-    m->old_row_count += count;
+	m->old_row_count += count;
 	endInsertRows();
 
-    return true;
+	return true;
 }
 
 int ItemModel::last_row_count() const
 {
-    return m->old_row_count;
+	return m->old_row_count;
 }
 
 
@@ -138,28 +138,28 @@ CustomMimeData* ItemModel::get_mimedata() const
 			urls << url;
 		}
 
-        mimedata->set_metadata(track_mimedata);
+		mimedata->set_metadata(track_mimedata);
 		mimedata->setText("tracks");
 		mimedata->setUrls(urls);
 	}
 
-    return mimedata;
+	return mimedata;
 }
 
 void ItemModel::refresh_data()
 {
-    emit dataChanged(index(0,0), index(rowCount(), columnCount()));
+	emit dataChanged(index(0,0), index(rowCount(), columnCount()));
 }
 
 
 bool ItemModel::is_selected(int id) const
 {
-    return selections().contains(id);
+	return selections().contains(id);
 }
 
 bool ItemModel::has_items() const
 {
-    return (rowCount() > 0);
+	return (rowCount() > 0);
 }
 
 QModelIndex ItemModel::getNextRowIndexOf(const QString& substr, int row, const QModelIndex& parent)
@@ -216,10 +216,10 @@ QModelIndex ItemModel::getPrevRowIndexOf(const QString& substr, int row, const Q
 
 AbstractLibrary* ItemModel::library()
 {
-    return m->library;
+	return m->library;
 }
 
 const AbstractLibrary *ItemModel::library() const
 {
-    return m->library;
+	return m->library;
 }

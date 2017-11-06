@@ -192,7 +192,6 @@ bool DB::Playlist::getPlaylistById(CustomPlaylist& pl)
 
 	q.prepare(querytext);
 	q.bindValue(":playlist_id", pl.id());
-	q.show_query();
 
 	if (!q.exec()) {
 		q.show_error( QString("Cannot get tracks for playlist %1").arg(pl.id()) );
@@ -244,7 +243,6 @@ bool DB::Playlist::getPlaylistById(CustomPlaylist& pl)
 	Query q2(this);
 	q2.prepare(querytext2);
 	q2.bindValue(":playlist_id", pl.id());
-	q2.show_query();
 
 	if(!q2.exec()) {
 		q2.show_error(QString("Playlist by id: Cannot fetch playlist %1").arg(pl.id()));

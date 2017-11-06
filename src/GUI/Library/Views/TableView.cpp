@@ -93,7 +93,7 @@ HeaderView* TableView::get_header_view()
 
 void TableView::header_actions_triggered()
 {
-    IndexSet sel_indexes = get_selected_items();
+    IndexSet sel_indexes = selected_items();
 
 	std::for_each(sel_indexes.begin(), sel_indexes.end(), [this](int row){
 		this->selectRow(row);

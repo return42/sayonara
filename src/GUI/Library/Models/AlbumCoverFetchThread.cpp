@@ -35,15 +35,15 @@ using Cover::Lookup;
 
 struct AlbumCoverFetchThread::Private
 {
-    QString current_hash;
-    Location current_cl;
+	QString current_hash;
+	Location current_cl;
 	QStringList hashes;
 	QList<Location> cover_locations;
 
 	std::atomic<bool> goon;
 	std::mutex mutex;
 
-    bool may_run;
+	bool may_run;
 
 	Private()
 	{
@@ -68,7 +68,14 @@ AlbumCoverFetchThread::AlbumCoverFetchThread(QObject* parent) :
 	m = Pimpl::make<Private>();
 }
 
-AlbumCoverFetchThread::~AlbumCoverFetchThread() {}
+AlbumCoverFetchThread::~AlbumCoverFetchThread()
+{
+	m->may_run = false;
+
+	while(this->isRunning()){
+		Util::sleep_ms(50);
+	}
+}
 
 
 void AlbumCoverFetchThread::run()
@@ -77,19 +84,24 @@ void AlbumCoverFetchThread::run()
 	const int PauseBetweenRequests = 300;
 	const int NumParallelRequests = 10;
 
-	while(m->may_run) {
-
-		while(m->hashes.isEmpty() || !m->goon) {
+	while(m->may_run)
+	{
+		while(m->hashes.isEmpty() || !m->goon)
+		{
 			Util::sleep_ms(PauseBetweenRequests);
+			if(!m->may_run){
+				return;
+			}
 		}
 
 		m->goon = false;
 
 		if(!m->may_run){
-			break;
+			return;
 		}
 
-		for(int i=0; i<NumParallelRequests; i++){
+		for(int i=0; i<NumParallelRequests; i++)
+		{
 			if(m->hashes.isEmpty()) {
 				break;
 			}
@@ -108,6 +120,10 @@ void AlbumCoverFetchThread::run()
 			} catch(std::exception* e) {
 				sp_log(Log::Warning, this) << "1 Exception" << e->what();
 				Util::sleep_ms(PauseBetweenRequests);
+			}
+
+			if(!m->may_run){
+				return;
 			}
 		}
 	}

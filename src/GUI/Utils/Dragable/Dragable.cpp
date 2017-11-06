@@ -38,13 +38,15 @@ struct Dragable::Private
 	QPoint		start_drag_pos;
 	QWidget*	parent=nullptr;
 	QDrag*		drag=nullptr;
+	bool		valid;
 
 	bool		dragging=false;
 
-    Private(QWidget* parent) :
+	Private(QWidget* parent) :
 		parent(parent),
+		valid(false),
 		dragging(false)
-    {}
+	{}
 
 	QStringList get_strings(const QMimeData* data)
 	{
@@ -89,13 +91,14 @@ struct Dragable::Private
 
 Dragable::Dragable(QWidget* parent)
 {
-    m = Pimpl::make<Dragable::Private>(parent);
+	m = Pimpl::make<Dragable::Private>(parent);
 }
 
 Dragable::~Dragable() {}
 
 void Dragable::drag_pressed(const QPoint& p)
 {
+	m->valid = is_valid_drag_position(p);
 	m->dragging = false;
 	m->start_drag_pos = p;
 }
@@ -103,6 +106,10 @@ void Dragable::drag_pressed(const QPoint& p)
 
 QDrag* Dragable::drag_moving(const QPoint& p)
 {
+	if(!m->valid){
+		return nullptr;
+	}
+
 	int distance = (p - m->start_drag_pos).manhattanLength();
 
 	if( distance < QApplication::startDragDistance())
@@ -180,7 +187,7 @@ QDrag* Dragable::drag_moving(const QPoint& p)
 
 void Dragable::drag_released(Dragable::ReleaseReason reason)
 {
-    if(!m){
+	if(!m){
 		return;
 	}
 
@@ -195,6 +202,12 @@ void Dragable::drag_released(Dragable::ReleaseReason reason)
 
 	m->dragging = false;
 	m->start_drag_pos = QPoint();
+}
+
+bool Dragable::is_valid_drag_position(const QPoint &p) const
+{
+	Q_UNUSED(p)
+	return true;
 }
 
 

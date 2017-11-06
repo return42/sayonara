@@ -45,6 +45,7 @@
 class LibraryContextMenu;
 class ColumnHeaderList;
 class QStringList;
+class QMenu;
 
 namespace Library
 {
@@ -57,7 +58,6 @@ namespace Library
 		PIMPL(View)
 
 	signals:
-
 		void sig_middle_button_clicked(const QPoint&);
 		void sig_all_selected();
 		void sig_delete_clicked();
@@ -80,9 +80,9 @@ namespace Library
 		using QTableView::setModel;
 		virtual void setModel(ItemModel* model);
 
-		void show_rc_menu_actions(int entries);
-        void add_context_action(QAction* action);
-        void remove_context_action(QAction* action);
+		void show_context_menu_actions(int entries);
+		void add_context_action(QAction* action);
+		void remove_context_action(QAction* action);
 
 		/** Dragable **/
 		QMimeData* get_mimedata() const override;
@@ -94,12 +94,14 @@ namespace Library
 		void show_clear_button(bool visible);
 		void use_clear_button(bool yesno);
 
+		bool is_valid_drag_position(const QPoint &p) const override;
+
 
 	protected:
 		// Events implemented in LibraryViewEvents.cpp
 		virtual void mousePressEvent(QMouseEvent* event) override;
 		virtual void mouseMoveEvent(QMouseEvent* event) override;
-        virtual void keyPressEvent(QKeyEvent* event) override;
+		virtual void keyPressEvent(QKeyEvent* event) override;
 		virtual void contextMenuEvent(QContextMenuEvent* event) override;
 
 		virtual void dragEnterEvent(QDragEnterEvent *event) override;
@@ -109,7 +111,8 @@ namespace Library
 		virtual void resizeEvent(QResizeEvent *event) override;
 
 		virtual void selectionChanged (const QItemSelection& selected, const QItemSelection& deselected ) override;
-		virtual void rc_menu_init();
+		virtual void init_context_menu();
+		QMenu* context_menu() const;
 
 		virtual MD::Interpretation metadata_interpretation() const override final;
 		MetaDataList info_dialog_data() const override;
@@ -120,7 +123,7 @@ namespace Library
 
 
 	protected slots:
-		virtual void rc_menu_show(const QPoint&);
+		virtual void context_menu_show(const QPoint&);
 		virtual void merge_action_triggered();
 
 

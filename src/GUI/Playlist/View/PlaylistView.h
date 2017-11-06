@@ -79,7 +79,7 @@ public slots:
 	void clear();
 
 private:
-    void init_rc_menu();
+    void init_context_menu();
 
 	// d & d
 	void clear_drag_drop_lines(int row);

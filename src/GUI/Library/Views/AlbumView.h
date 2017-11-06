@@ -53,7 +53,7 @@ namespace Library
 		void delete_discmenu();
 		void init_discmenu(QModelIndex idx);
 		void show_discmenu();
-		void rc_menu_show(const QPoint& p);
+		void context_menu_show(const QPoint& p);
 
 	public:
 		template <typename T, typename ModelType>

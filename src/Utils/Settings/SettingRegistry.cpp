@@ -38,17 +38,17 @@
 template<typename DataType, SettingKey keyIndex>
 void register_setting(const SettingIdentifier<DataType, keyIndex>& key, const char* db_key, const DataType& default_value)
 {
-    auto setting = new Setting<DataType>(key, db_key, default_value);
+	auto setting = new Setting<DataType>(key, db_key, default_value);
 
-    Settings::instance()->register_setting( setting );
+	Settings::instance()->register_setting( setting );
 }
 
 template<typename DataType, SettingKey keyIndex>
 void register_setting(const SettingIdentifier<DataType, keyIndex>& key, const DataType& default_value)
 {
-    auto setting = new Setting<DataType>(key, default_value);
+	auto setting = new Setting<DataType>(key, default_value);
 
-    Settings::instance()->register_setting( setting );
+	Settings::instance()->register_setting( setting );
 }
 
 bool SettingRegistry::init()
@@ -76,7 +76,7 @@ bool SettingRegistry::init()
 	register_setting( Set::Lib_Sorting, "lib_sortings", Library::Sortings() );
 	register_setting( Set::Lib_Path, "library_path", QString() );
 	register_setting( Set::Lib_Show, "show_library", true );
-    register_setting( Set::Lib_CurPlugin ,"last_lib_plugin", QString("local_library"));
+	register_setting( Set::Lib_CurPlugin ,"last_lib_plugin", QString("local_library"));
 	register_setting( Set::Lib_SplitterStateArtist ,"splitter_state_artist", QByteArray());
 	register_setting( Set::Lib_SplitterStateGenre ,"splitter_state_genre", QByteArray());
 	register_setting( Set::Lib_SplitterStateTrack ,"splitter_state_track", QByteArray());
@@ -87,11 +87,12 @@ bool SettingRegistry::init()
 	register_setting( Set::Lib_DC_PlayImmediately ,"lib_dc_play_immediately", false);
 	register_setting( Set::Lib_DD_DoNothing ,"lib_dd_do_nothing", true);
 	register_setting( Set::Lib_DD_PlayIfStoppedAndEmpty ,"lib_dd_play_if_stopped_and_empty", false);
-    register_setting( Set::Lib_SearchMode, "lib_search_mode", (int) Library::CaseInsensitve);
+	register_setting( Set::Lib_SearchMode, "lib_search_mode", (int) Library::CaseInsensitve);
 	register_setting( Set::Lib_AutoUpdate, "lib_auto_update", false);
 	register_setting( Set::Lib_ShowAlbumArtists, "lib_show_album_artists", false);
 	register_setting( Set::Lib_ShowAlbumCovers, "lib_show_album_covers", false);
 	register_setting( Set::Lib_CoverZoom, "lib_cover_zoom", 100);
+	register_setting( Set::Lib_CoverShowUtils, "lib_cover_show_utils", false);
 	register_setting( Set::Lib_GenreTree, "lib_show_genre_tree", true);
 	register_setting( Set::Lib_LastIndex, "lib_last_idx", -1);
 	register_setting( Set::Lib_AllLibraries, "lib_all_libraries", QList<LibraryInfo>());
@@ -104,10 +105,10 @@ bool SettingRegistry::init()
 	register_setting( Set::Lib_FontSize ,"lib_font_size", -1);
 #endif
 
-    register_setting( Set::Lib_UseViewClearButton, "lib_view_clear_button", false);
+	register_setting( Set::Lib_UseViewClearButton, "lib_view_clear_button", false);
 
 	register_setting( Set::Player_Version, "player_version", QString(SAYONARA_VERSION));
-    register_setting( Set::Player_Language, "player_language", QString("sayonara_lang_en"));
+	register_setting( Set::Player_Language, "player_language", QString("sayonara_lang_en"));
 	register_setting( Set::Player_Style, "player_style", 0 );
 	register_setting( Set::Player_FontName, "player_font", QString() );
 	register_setting( Set::Player_FontSize, "player_font_size", 10 );
@@ -141,7 +142,7 @@ bool SettingRegistry::init()
 
 	register_setting( Set::Notification_Show, "show_notifications", true );
 	register_setting( Set::Notification_Timeout, "notification_timeout", 5000 );
-    register_setting( Set::Notification_Name, "notification_name", QString("DBus") );
+	register_setting( Set::Notification_Name, "notification_name", QString("DBus") );
 
 	register_setting( Set::Engine_Name, "sound_engine", QString() );
 	register_setting( Set::Engine_CurTrackPos_s, "last_track_pos", 0 );
@@ -157,7 +158,7 @@ bool SettingRegistry::init()
 	register_setting( Set::Engine_SR_Warning, "streamripper_warning", true );
 	register_setting( Set::Engine_SR_Path, "streamripper_path", QDir::homePath() );
 	register_setting( Set::Engine_SR_SessionPath, "streamripper_session_path", true );
-    register_setting( Set::Engine_SR_SessionPathTemplate, "streamripper_session_path_template", QString());
+	register_setting( Set::Engine_SR_SessionPathTemplate, "streamripper_session_path_template", QString());
 	register_setting( Set::Engine_SR_AutoRecord, "streamripper_auto_recording", false);
 	register_setting( Set::Engine_CrossFaderActive, "crossfader_active", false);
 	register_setting( Set::Engine_CrossFaderTime, "crossfader_time", 5000);
@@ -186,19 +187,19 @@ bool SettingRegistry::init()
 
 	register_setting( Set::Icon_Theme, "icon_theme", QString());
 
-    register_setting( Set::Proxy_Active, "proxy_active", false);
-    register_setting( Set::Proxy_Hostname, "proxy_hostname", QString());
-    register_setting( Set::Proxy_Port, "proxy_port", 3128);
-    register_setting( Set::Proxy_Username, "proxy_username", QString());
-    register_setting( Set::Proxy_Password, "proxy_password", QString());
-    register_setting( Set::Proxy_SavePw, "proxy_save_pw", false);
+	register_setting( Set::Proxy_Active, "proxy_active", false);
+	register_setting( Set::Proxy_Hostname, "proxy_hostname", QString());
+	register_setting( Set::Proxy_Port, "proxy_port", 3128);
+	register_setting( Set::Proxy_Username, "proxy_username", QString());
+	register_setting( Set::Proxy_Password, "proxy_password", QString());
+	register_setting( Set::Proxy_SavePw, "proxy_save_pw", false);
 
 
 	register_setting( SetNoDB::MP3enc_found, true );
 	register_setting( SetNoDB::Pitch_found, true );
 	register_setting( SetNoDB::Player_Quit, false );
 
-    bool success = Settings::instance()->check_settings();
+	bool success = Settings::instance()->check_settings();
 	if (!success){
 		return false;
 	}

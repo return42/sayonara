@@ -176,7 +176,7 @@ int TrackModel::rowCount(const QModelIndex&) const
 }
 
 
-int TrackModel::get_id_by_row(int row)
+int TrackModel::id_by_index(int row)
 {
     const MetaDataList& tracks = library()->tracks();
 
@@ -203,7 +203,7 @@ QString TrackModel::get_string(int row) const
 }
 
 
-Cover::Location TrackModel::get_cover(const IndexSet& indexes) const
+Cover::Location TrackModel::cover(const IndexSet& indexes) const
 {
 	if(indexes.isEmpty()){
         return Cover::Location();

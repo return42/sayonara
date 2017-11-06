@@ -44,11 +44,11 @@ AlbumView::AlbumView(QWidget *parent) :
 
 AlbumView::~AlbumView() {}
 
-void AlbumView::rc_menu_show(const QPoint & p)
+void AlbumView::context_menu_show(const QPoint & p)
 {
 	delete_discmenu();
 
-    TableView::rc_menu_show(p);
+    TableView::context_menu_show(p);
 }
 
 
