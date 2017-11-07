@@ -32,21 +32,23 @@
 #include <QObject>
 #include <QString>
 
+using Library::Manager;
+using Library::Info;
 
-struct LibraryManager::Private
+struct Manager::Private
 {
-	QList<LibraryInfo> all_libs;
+	QList<Info> all_libs;
 	QMap<int8_t, LocalLibrary*> lib_map;
-	LibraryPluginHandler* lph=nullptr;
+	PluginHandler* lph=nullptr;
 
 	Private()
 	{
-		lph = LibraryPluginHandler::instance();
+		lph = PluginHandler::instance();
 	}
 
 	bool contains_path(const QString& path) const
 	{
-		for(const LibraryInfo& info : all_libs){
+		for(const Info& info : all_libs){
 			//QString info_path = info.path();
 			if(path.compare(info.path(), Qt::CaseInsensitive) == 0){
 				return true;
@@ -60,7 +62,7 @@ struct LibraryManager::Private
 	{
 		for(int i=0; i<all_libs.size(); i++)
 		{
-			const LibraryInfo& info = all_libs[i];
+			const Info& info = all_libs[i];
 
 			if(info.id() != library_id){
 				continue;
@@ -72,7 +74,7 @@ struct LibraryManager::Private
 
 			QFile::remove(info.symlink_path());
 
-			all_libs[i] = LibraryInfo(name, info.path(), info.id());
+			all_libs[i] = Info(name, info.path(), info.id());
 			lib_map[library_id]->set_library_name(name);
 
 			Util::File::create_symlink(all_libs[i].path(), all_libs[i].symlink_path());
@@ -86,7 +88,7 @@ struct LibraryManager::Private
 	{
 		for(int i=0; i<all_libs.size(); i++)
 		{
-			LibraryInfo info = all_libs[i];
+			Info info = all_libs[i];
 
 			if(info.id() != library_id){
 				continue;
@@ -96,7 +98,7 @@ struct LibraryManager::Private
 				break;
 			}
 
-			LibraryInfo new_info(info.name(), new_path, info.id());
+			Info new_info(info.name(), new_path, info.id());
 			all_libs[i] = new_info;
 
 			LocalLibrary* library = lib_map[info.id()];
@@ -113,7 +115,7 @@ struct LibraryManager::Private
 	{
 		int8_t id=0;
 		QList<int8_t> ids;
-		for(const LibraryInfo& li : all_libs){
+		for(const Info& li : all_libs){
 			ids << li.id();
 		}
 
@@ -126,7 +128,7 @@ struct LibraryManager::Private
 
 	LocalLibrary* get_library(int8_t library_id)
 	{
-		for(const LibraryInfo& li : all_libs)
+		for(const Info& li : all_libs)
 		{
 			if(li.id() == library_id){
 				if(lib_map.contains(library_id)){
@@ -144,16 +146,16 @@ struct LibraryManager::Private
 		return nullptr;
 	}
 
-	LibraryInfo get_library_info(int8_t id)
+	Info get_library_info(int8_t id)
 	{
-		for(const LibraryInfo& li : all_libs)
+		for(const Info& li : all_libs)
 		{
 			if(li.id() == id){
 				return li;
 			}
 		}
 
-		return LibraryInfo();
+		return Info();
 	}
 
 	void move_library(int row, int new_row)
@@ -177,7 +179,7 @@ struct LibraryManager::Private
 
 		Util::File::create_directories(dir);
 
-		for(const LibraryInfo& info : all_libs)
+		for(const Info& info : all_libs)
 		{
 			QString target = info.symlink_path();
 
@@ -189,7 +191,7 @@ struct LibraryManager::Private
 };
 
 
-LibraryManager::LibraryManager() :
+Manager::Manager() :
 	SayonaraClass()
 {
 	m = Pimpl::make<Private>();
@@ -198,9 +200,9 @@ LibraryManager::LibraryManager() :
 	m->init_symlinks();
 }
 
-LibraryManager::~LibraryManager() {}
+Manager::~Manager() {}
 
-int8_t LibraryManager::add_library(const QString& name, const QString& path)
+int8_t Manager::add_library(const QString& name, const QString& path)
 {
 	if(path.isEmpty() || name.isEmpty()){
 		return -1;
@@ -211,7 +213,7 @@ int8_t LibraryManager::add_library(const QString& name, const QString& path)
 	}
 
 	int8_t id = m->get_next_id();
-	LibraryInfo li(name, path, id);
+	Info li(name, path, id);
 
 	m->all_libs << li;
 	m->lph->add_local_library(li);
@@ -223,13 +225,13 @@ int8_t LibraryManager::add_library(const QString& name, const QString& path)
 	return id;
 }
 
-void LibraryManager::rename_library(int8_t id, const QString& new_name)
+void Manager::rename_library(int8_t id, const QString& new_name)
 {
 	m->rename_library(id, new_name);
 	_settings->set(Set::Lib_AllLibraries, m->all_libs);
 }
 
-void LibraryManager::remove_library(int8_t id)
+void Manager::remove_library(int8_t id)
 {
 	for(int i=0; i<m->all_libs.size(); i++)
 	{
@@ -239,7 +241,7 @@ void LibraryManager::remove_library(int8_t id)
 
 		m->lph->remove_local_library(id);
 
-		LibraryInfo info = m->all_libs.takeAt(i);
+		Info info = m->all_libs.takeAt(i);
 		QFile::remove(info.symlink_path());
 
 
@@ -260,7 +262,7 @@ void LibraryManager::remove_library(int8_t id)
 	}
 }
 
-void LibraryManager::move_library(int old_row, int new_row)
+void Manager::move_library(int old_row, int new_row)
 {
 	m->move_library(old_row, new_row);
 
@@ -268,35 +270,35 @@ void LibraryManager::move_library(int old_row, int new_row)
 	_settings->set(Set::Lib_AllLibraries, m->all_libs);
 }
 
-void LibraryManager::change_library_path(int8_t id, const QString& path)
+void Manager::change_library_path(int8_t id, const QString& path)
 {
 	m->change_library_path(id, path);
 	_settings->set(Set::Lib_AllLibraries, m->all_libs);
 }
 
 
-QString LibraryManager::request_library_name(const QString& path)
+QString Manager::request_library_name(const QString& path)
 {
 	QDir d(path);
 	return Util::cvt_str_to_first_upper(d.dirName());
 }
 
-QList<LibraryInfo> LibraryManager::all_libraries() const
+QList<Info> Manager::all_libraries() const
 {
 	return m->all_libs;
 }
 
-int LibraryManager::count() const
+int Manager::count() const
 {
 	return m->all_libs.size();
 }
 
-LibraryInfo LibraryManager::library_info(int8_t id) const
+Info Manager::library_info(int8_t id) const
 {
 	return m->get_library_info(id);
 }
 
-LocalLibrary* LibraryManager::library_instance(int8_t id) const
+LocalLibrary* Manager::library_instance(int8_t id) const
 {
 	return m->get_library(id);
 }
@@ -304,7 +306,7 @@ LocalLibrary* LibraryManager::library_instance(int8_t id) const
 
 
 
-void LibraryManager::revert()
+void Manager::revert()
 {
 	m->all_libs = _settings->get(Set::Lib_AllLibraries);
 	QList<int> invalid;
@@ -317,7 +319,7 @@ void LibraryManager::revert()
 	if(m->all_libs.isEmpty()) {
 		QString old_path = _settings->get(Set::Lib_Path);
 		if(!old_path.isEmpty()) {
-			LibraryInfo li("Local Library", old_path, 0);
+			Info li("Local Library", old_path, 0);
 			m->all_libs << li;
 			_settings->set(Set::Lib_AllLibraries, m->all_libs);
 		}

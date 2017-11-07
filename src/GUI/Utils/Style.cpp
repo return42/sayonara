@@ -39,7 +39,7 @@
 
 #define NEWLINE "\n";
 
-QString Style::get_style(bool dark)
+QString Style::style(bool dark)
 {
 	Settings* settings = Settings::instance();
 
@@ -86,7 +86,7 @@ QString Style::get_style(bool dark)
     return style;
 }
 
-QFont Style::get_current_font()
+QFont Style::current_font()
 {
 	Settings* settings = Settings::instance();
 	QFont std_font = QApplication::font();
@@ -117,16 +117,16 @@ QFont Style::get_current_font()
 	return QFont(font_family, font_size);
 }
 
-QString Style::get_current_style()
+QString Style::current_style()
 {
 	bool dark = (Settings::instance()->get(Set::Player_Style) == 1);
-	return get_style(dark);
+	return style(dark);
 }
 
-int Style::get_recommended_height()
+int Style::recommended_height()
 {
 
-	QFontMetrics fm(get_current_font());
+	QFontMetrics fm(current_font());
 	int h = fm.height();
 	return h;
 }

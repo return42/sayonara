@@ -21,7 +21,7 @@
 #define PLAYLISTTABMENU_H
 
 #include "GUI/Utils/Widgets/WidgetTemplate.h"
-#include "PlaylistMenuEntry.h"
+#include "MenuEntry.h"
 #include "Utils/Pimpl.h"
 
 #include <QMenu>
@@ -31,7 +31,7 @@ class PlaylistTabMenu :
 		public Gui::WidgetTemplate<QMenu>
 {
 	Q_OBJECT
-    PIMPL(PlaylistTabMenu)
+	PIMPL(PlaylistTabMenu)
 
 signals:
 	void sig_delete_clicked();
@@ -44,11 +44,11 @@ signals:
 	void sig_clear_clicked();
 	void sig_open_file_clicked();
 	void sig_open_dir_clicked();
-    void sig_save_to_file_clicked();
+	void sig_save_to_file_clicked();
 
 protected:
-    void language_changed() override;
-    void skin_changed() override;
+	void language_changed() override;
+	void skin_changed() override;
 
 
 public:

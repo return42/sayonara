@@ -299,7 +299,7 @@ void RemoteControl::seek_rel_ms(int pos_ms)
 
 void RemoteControl::change_track(int idx)
 {
-	m->plh->change_track(idx - 1, m->plh->get_active_idx());
+	m->plh->change_track(idx - 1, m->plh->active_index());
 }
 
 
@@ -327,7 +327,7 @@ void RemoteControl::write_cur_track()
 
 	const MetaData& md = m->play_manager->current_track();
 
-	PlaylistConstPtr pl = m->plh->get_playlist_at(m->plh->get_active_idx());
+	PlaylistConstPtr pl = m->plh->playlist(m->plh->active_index());
 	int cur_track_idx = pl->current_track_index();
 
 
@@ -398,7 +398,7 @@ void RemoteControl::write_playstate()
 void RemoteControl::write_playlist()
 {
 	QByteArray data;
-	PlaylistConstPtr pl = m->plh->get_playlist_at(m->plh->get_active_idx());
+	PlaylistConstPtr pl = m->plh->playlist(m->plh->active_index());
 
 	if(pl){
 		int i=1;

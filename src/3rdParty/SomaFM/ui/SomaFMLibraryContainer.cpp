@@ -30,7 +30,7 @@ static void soma_fm_init_icons()
 }
 
 SomaFM::LibraryContainer::LibraryContainer(QObject* parent) :
-	LibraryContainerInterface(parent)
+	::Library::Container(parent)
 {
 	soma_fm_init_icons();
 }

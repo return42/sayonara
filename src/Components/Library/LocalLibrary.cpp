@@ -438,7 +438,7 @@ void LocalLibrary::set_library_path(const QString& library_path)
 		return;
 	}
 
-	LibraryManager* library_manager = LibraryManager::instance();
+	Library::Manager* library_manager = Library::Manager::instance();
 	library_manager->change_library_path(this->library_id(), library_path);
 
 	m->library_path = library_path;
@@ -452,7 +452,7 @@ void LocalLibrary::set_library_name(const QString& library_name)
 		return;
 	}
 
-	LibraryManager* library_manager = LibraryManager::instance();
+	Library::Manager* library_manager = Library::Manager::instance();
 	library_manager->rename_library(this->library_id(), library_name);
 
 	m->library_name = library_name;

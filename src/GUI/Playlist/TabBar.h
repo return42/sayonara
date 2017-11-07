@@ -21,7 +21,7 @@
 #ifndef PLAYLISTTABBAR_H
 #define PLAYLISTTABBAR_H
 
-#include "PlaylistMenuEntry.h"
+#include "MenuEntry.h"
 #include "GUI/Utils/Shortcuts/ShortcutWidget.h"
 #include "Utils/Pimpl.h"
 
@@ -34,7 +34,7 @@ class PlaylistTabBar :
 		public ShortcutWidget
 {
 	Q_OBJECT
-    PIMPL(PlaylistTabBar)
+	PIMPL(PlaylistTabBar)
 
 signals:
 
@@ -44,7 +44,7 @@ signals:
 	void sig_tab_reset(int tab_idx);
 	void sig_tab_save(int tab_idx);
 	void sig_tab_save_as(int tab_idx, const QString& name);
-    void sig_tab_save_to_file(int tab_idx, const QString& filename);
+	void sig_tab_save_to_file(int tab_idx, const QString& filename);
 	void sig_tab_rename(int tab_idx, const QString& name);
 	void sig_tab_clear(int tab_idx);
 
@@ -83,7 +83,7 @@ private slots:
 	void reset_pressed();
 	void save_pressed();
 	void save_as_pressed();
-    void save_to_file_pressed();
+	void save_to_file_pressed();
 	void clear_pressed();
 	void delete_pressed();
 	void close_pressed();

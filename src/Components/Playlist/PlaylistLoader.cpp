@@ -200,9 +200,8 @@ int Loader::create_playlists()
 	// no playlists found
 	if( m->playlists.isEmpty() )
 	{
-		QString name = plh->request_new_playlist_name();
-		int idx = plh->create_empty_playlist(name);
-		plh->set_current_idx(idx);
+		int idx = plh->create_empty_playlist();
+		plh->set_current_index(idx);
 	}
 
 	else {

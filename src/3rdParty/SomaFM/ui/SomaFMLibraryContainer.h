@@ -24,15 +24,15 @@
 #ifndef GUI_SOMAFMLIBRARY_CONTAINER_H
 #define GUI_SOMAFMLIBRARY_CONTAINER_H
 
+#include <QtGlobal>
 #include "Interfaces/LibraryInterface/LibraryContainer/LibraryContainer.h"
-#include <QtPlugin>
 
 namespace SomaFM
 {
 	class GUI_SomaFM;
 
 	class LibraryContainer :
-		public LibraryContainerInterface
+		public ::Library::Container
 	{
 		Q_OBJECT
 

@@ -25,26 +25,29 @@
 
 class GUI_DirectoryWidget;
 
-// for showing up in library tree
-class DirectoryLibraryContainer :
-		public LibraryContainerInterface
+namespace Library
 {
-	Q_OBJECT
+	// for showing up in library tree
+	class DirectoryContainer :
+			public Library::Container
+	{
+		Q_OBJECT
 
-private:
-	GUI_DirectoryWidget*		ui=nullptr;
+	private:
+		GUI_DirectoryWidget*		ui=nullptr;
 
-public:
+	public:
 
-	explicit DirectoryLibraryContainer(QObject* parent=nullptr);
-	virtual ~DirectoryLibraryContainer();
+		explicit DirectoryContainer(QObject* parent=nullptr);
+		virtual ~DirectoryContainer();
 
-	QString				display_name() const override;
-	QString				name() const override;
-	QWidget*			widget() const override;
-	QFrame*				header() const override;
-	QPixmap				icon() const override;
-	void				init_ui() override;
-};
+		QString				display_name() const override;
+		QString				name() const override;
+		QWidget*			widget() const override;
+		QFrame*				header() const override;
+		QPixmap				icon() const override;
+		void				init_ui() override;
+	};
+}
 
 #endif // DIRECTORYWIDGETCONTAINER_H

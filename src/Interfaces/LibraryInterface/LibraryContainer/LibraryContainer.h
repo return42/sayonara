@@ -32,7 +32,7 @@ class QMenu;
 class QWidget;
 class QComboBox;
 class Settings;
-class LibraryPluginHandler;
+
 
 /**
  * @brief An interface class needed when implementing a library plugin
@@ -40,86 +40,91 @@ class LibraryPluginHandler;
  * @ingroup Interfaces
  */
 
-class LibraryContainerInterface :
-	public QObject,
-	public SayonaraClass
+namespace Library
 {
-	Q_OBJECT
-	PIMPL(LibraryContainerInterface)
+	class PluginHandler;
 
-	friend class LibraryPluginHandler;
+	class Container :
+		public QObject,
+		public SayonaraClass
+	{
+		Q_OBJECT
+		PIMPL(Container)
 
-private:
-	void set_initialized();
+		friend class PluginHandler;
 
-private slots:
-	void language_changed();
+		private:
+			void set_initialized();
 
-public:
-	explicit LibraryContainerInterface(QObject* parent=nullptr);
-	virtual ~LibraryContainerInterface();
+		private slots:
+			void language_changed();
 
-	/**
-	 * @brief Should return an untranslated name used for identifying this widget
-	 * @return name
-	 */
-	virtual QString				name() const=0;
+		public:
+			explicit Container(QObject* parent=nullptr);
+			virtual ~Container();
 
-	/**
-	 * @brief Should return the translated name displayed in the library view combobox
-	 * @return display name
-	 */
-	virtual QString				display_name() const;
+			/**
+			 * @brief Should return an untranslated name used for identifying this widget
+			 * @return name
+			 */
+			virtual QString				name() const=0;
 
-	/**
-	 * @brief Should return the UI for the library view
-	 * @return pointer to the ui
-	 */
-	virtual QWidget*			widget() const=0;
+			/**
+			 * @brief Should return the translated name displayed in the library view combobox
+			 * @return display name
+			 */
+			virtual QString				display_name() const;
 
-	virtual QFrame*				header() const=0;
+			/**
+			 * @brief Should return the UI for the library view
+			 * @return pointer to the ui
+			 */
+			virtual QWidget*			widget() const=0;
 
-	virtual QPixmap				icon() const=0;
+			virtual QFrame*				header() const=0;
 
-
-	/**
-	 * @brief return actions menu (may be nullptr). The title does not have to be set
-	 * @return the translated menu relevant for the corresponding library
-	 */
-	virtual QMenu*				menu();
+			virtual QPixmap				icon() const=0;
 
 
-	/**
-	 * @brief sets the action member field used in the player menu bar. This is
-	 * called by the player if the language has changed
-	 * @param action the new translated action
-	 */
-	void						set_menu_action(QAction* action);
+			/**
+			 * @brief return actions menu (may be nullptr). The title does not have to be set
+			 * @return the translated menu relevant for the corresponding library
+			 */
+			virtual QMenu*				menu();
 
-	/**
-	 * @brief get the action in the player menubar.
-	 * @return pointer to action field
-	 */
-	QAction*					menu_action() const;
 
-	
-	/**
-	 * @brief Should initialize the ui. The ui constructor should be called within this function
-	 */
-	virtual void				init_ui()=0;
+			/**
+			 * @brief sets the action member field used in the player menu bar. This is
+			 * called by the player if the language has changed
+			 * @param action the new translated action
+			 */
+			void						set_menu_action(QAction* action);
 
-	/**
-	 * @brief tests, if the ui already has been initialized
-	 * @return true if ui has been initialized, false else
-	 */
-	bool						is_initialized() const;
+			/**
+			 * @brief get the action in the player menubar.
+			 * @return pointer to action field
+			 */
+			QAction*					menu_action() const;
 
-	virtual	void				show();
 
-	virtual void				hide();
+			/**
+			 * @brief Should initialize the ui. The ui constructor should be called within this function
+			 */
+			virtual void				init_ui()=0;
 
-};
+			/**
+			 * @brief tests, if the ui already has been initialized
+			 * @return true if ui has been initialized, false else
+			 */
+			bool						is_initialized() const;
 
+			virtual	void				show();
+
+			virtual void				hide();
+	};
+}
+
+using LibraryContainerInterface=Library::Container;
 Q_DECLARE_INTERFACE(LibraryContainerInterface, "com.sayonara-player.library")
 
 #endif // LIBRARYCONTAINER_H

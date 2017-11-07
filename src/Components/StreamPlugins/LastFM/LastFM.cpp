@@ -288,8 +288,8 @@ void Base::sl_similar_artists_available(IDList artist_ids)
 
 	Playlist::Handler* plh = Playlist::Handler::instance();
 
-	int active_idx = plh->get_active_idx();
-	PlaylistConstPtr active_playlist = plh->get_playlist_at(active_idx);
+	int active_idx = plh->active_index();
+	PlaylistConstPtr active_playlist = plh->playlist(active_idx);
 	const MetaDataList& v_md = active_playlist->playlist();
 
 	std::random_shuffle(artist_ids.begin(), artist_ids.end());

@@ -180,7 +180,8 @@ bool DB::Playlist::getPlaylistById(CustomPlaylist& pl)
 			"tracks.discnumber AS discnumber, "			// 13
 			"tracks.rating AS rating, "					// 14
 			"playlistToTracks.filepath AS filepath, "	// 15
-			"playlistToTracks.db_id AS db_id "			// 16
+			"playlistToTracks.db_id AS db_id, "			// 16
+			"tracks.libraryID AS library_id "			// 17
 
 			"FROM tracks, albums, artists, playlists, playlisttotracks "
 			"WHERE playlists.playlistID = :playlist_id "
@@ -219,6 +220,7 @@ bool DB::Playlist::getPlaylistById(CustomPlaylist& pl)
 			data.filesize =  q.value(12).toInt();
 			data.discnumber = q.value(13).toInt();
 			data.rating = q.value(14).toInt();
+			data.library_id = q.value(17).toInt();
 
 			data.is_extern = false;
 			data.set_db_id(module_db_id());

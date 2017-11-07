@@ -31,14 +31,11 @@ class PlaylistMenu;
 	class GUI_Shutdown;
 #endif
 
-UI_FWD(GUI_PlaylistBottomBar)
-
 class GUI_PlaylistBottomBar :
 		public Gui::Widget
 {
 	Q_OBJECT
 	PIMPL(GUI_PlaylistBottomBar)
-	UI_CLASS(GUI_PlaylistBottomBar)
 
 signals:
 	void sig_show_numbers_changed(bool active);

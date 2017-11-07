@@ -23,7 +23,9 @@
 
 #include <QAction>
 
-struct LibraryContainerInterface::Private
+using Library::Container;
+
+struct Container::Private
 {
 	QAction*	action=nullptr;
 	bool		initialized;
@@ -40,49 +42,49 @@ struct LibraryContainerInterface::Private
 
 };
 
-LibraryContainerInterface::LibraryContainerInterface(QObject* parent) :
+Container::Container(QObject* parent) :
 	QObject(parent),
 	SayonaraClass()
 {
 	m = Pimpl::make<Private>();
 
-	Set::listen(Set::Player_Language, this, &LibraryContainerInterface::language_changed);
+	Set::listen(Set::Player_Language, this, &Container::language_changed);
 }
 
-LibraryContainerInterface::~LibraryContainerInterface() {}
+Container::~Container() {}
 
-QString LibraryContainerInterface::display_name() const
+QString Container::display_name() const
 {
 	return name();
 }
 
-QMenu* LibraryContainerInterface::menu()
+QMenu* Container::menu()
 {
 	return nullptr;
 }
 
-void LibraryContainerInterface::set_menu_action(QAction* action)
+void Container::set_menu_action(QAction* action)
 {
 	m->action = action;
 }
 
-QAction* LibraryContainerInterface::menu_action() const
+QAction* Container::menu_action() const
 {
 	return m->action;
 }
 
-void LibraryContainerInterface::set_initialized()
+void Container::set_initialized()
 {
 	m->set_initialized();
 }
 
-bool LibraryContainerInterface::is_initialized() const
+bool Container::is_initialized() const
 {
 	return m->initialized;
 }
 
 
-void LibraryContainerInterface::language_changed()
+void Container::language_changed()
 {
 	if(m->action){
 		m->action->setText(this->display_name());
@@ -90,7 +92,7 @@ void LibraryContainerInterface::language_changed()
 }
 
 
-void LibraryContainerInterface::show()
+void Container::show()
 {
 	QWidget* own_widget = widget();
 
@@ -110,7 +112,7 @@ void LibraryContainerInterface::show()
 	}
 }
 
-void LibraryContainerInterface::hide()
+void Container::hide()
 {
 	if(!this->is_initialized()){
 		return;

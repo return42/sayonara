@@ -18,33 +18,37 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef CHANGEOPERATIONS_H
 #define CHANGEOPERATIONS_H
 
-#include <QString>
-class LibraryManager;
+#include "Utils/Pimpl.h"
+
+namespace Library
+{
+	class Manager;
+}
+
+class QString;
 
 class ChangeOperation
 {
-protected:
-	LibraryManager* _library_manager=nullptr;
-
 public:
 	ChangeOperation();
 	virtual ~ChangeOperation();
 	virtual void exec()=0;
+
+	Library::Manager* manager() const;
 };
 
 class MoveOperation :
 	public ChangeOperation
 {
-private:
-	int _from, _to;
+	PIMPL(MoveOperation)
 
 public:
 	MoveOperation(int from, int to);
+	~MoveOperation();
+
 	void exec() override;
 };
 
@@ -52,23 +56,23 @@ public:
 class RenameOperation :
 	public ChangeOperation
 {
-private:
-	int8_t _id;
-	QString _new_name;
+	PIMPL(RenameOperation)
 
 public:
 	RenameOperation(int8_t id, const QString& new_name);
+	~RenameOperation();
+
 	void exec() override;
 };
 
 class RemoveOperation :
 		public ChangeOperation
 {
-private:
-	int8_t _id;
+	PIMPL(RemoveOperation)
 
 public:
 	RemoveOperation(int8_t id);
+	~RemoveOperation();
 
 	void exec() override;
 };
@@ -76,11 +80,11 @@ public:
 class AddOperation :
 		public ChangeOperation
 {
-private:
-	QString _name, _path;
+	PIMPL(AddOperation)
 
 public:
 	AddOperation(const QString& name, const QString& path);
+	~AddOperation();
 
 	void exec() override;
 };
@@ -88,12 +92,11 @@ public:
 class ChangePathOperation :
 		public ChangeOperation
 {
-private:
-	int8_t _id;
-	QString _new_path;
+	PIMPL(ChangePathOperation)
 
 public:
 	ChangePathOperation(int8_t id, const QString& new_path);
+	~ChangePathOperation();
 
 	void exec() override;
 };

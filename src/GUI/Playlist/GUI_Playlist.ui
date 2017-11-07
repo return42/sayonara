@@ -143,13 +143,13 @@
   <customwidget>
    <class>PlaylistTabWidget</class>
    <extends>QTabWidget</extends>
-   <header>GUI/Playlist/TabWidget/PlaylistTabWidget.h</header>
+   <header>GUI/Playlist/TabWidget.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>GUI_PlaylistBottomBar</class>
    <extends>QWidget</extends>
-   <header>GUI/Playlist/BottomBar/GUI_PlaylistBottomBar.h</header>
+   <header>GUI/Playlist/BottomBar.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

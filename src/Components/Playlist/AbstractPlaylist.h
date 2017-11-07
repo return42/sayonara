@@ -58,11 +58,6 @@ namespace Playlist
 		signals:
 			void sig_data_changed(int idx);
 
-		protected:
-			MetaDataList& metadata();
-			MetaData& metadata(int idx);
-
-
 		public:
 			explicit Base(int idx, const QString& name=QString());
 			virtual ~Base();
@@ -103,14 +98,17 @@ namespace Playlist
 			virtual void		next()=0;
 			virtual bool		wake_up()=0;
 
-
-
 		protected:
 			void				set_storable(bool b);
 
 		public:
 			const MetaData& operator[](int idx) const;
-			const MetaData& at_const_ref(int idx) const;
+
+			MetaData& metadata(int idx);
+			const MetaData& metadata(int idx) const;
+
+			MetaDataList& metadata();
+			const MetaDataList& metadata() const;
 
 			virtual void clear();
 

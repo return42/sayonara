@@ -161,19 +161,6 @@ void Base::replace_track(int idx, const MetaData& md)
 	emit sig_data_changed( playlist_index() );
 }
 
-
-MetaDataList& Base::metadata()
-{
-	return m->v_md;
-}
-
-
-MetaData& Base::metadata(int i)
-{
-	return m->v_md[i];
-}
-
-
 int Base::playlist_index() const
 {
 	return m->playlist_idx;
@@ -306,7 +293,25 @@ const MetaData& Base::operator[](int idx) const
 	return m->v_md[idx];
 }
 
-const MetaData& Base::at_const_ref(int idx) const
+const MetaDataList& Base::metadata() const
+{
+	return m->v_md;
+}
+
+const MetaData& Base::metadata(int idx) const
 {
 	return m->v_md[idx];
 }
+
+
+MetaDataList& Base::metadata()
+{
+	return m->v_md;
+}
+
+
+MetaData& Base::metadata(int idx)
+{
+	return m->v_md[idx];
+}
+

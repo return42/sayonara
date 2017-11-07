@@ -25,38 +25,40 @@
 #include <QStringList>
 #include <QFile>
 
-struct LibraryInfo::Private
+using Library::Info;
+
+struct Info::Private
 {
 	QString path;
 	QString name;
 	int8_t id;
 };
 
-LibraryInfo::LibraryInfo()
+Info::Info()
 {
 	m = Pimpl::make<Private>();
 	m->id = -1;
 }
 
-LibraryInfo::LibraryInfo(const QString& name, const QString& path, int id) :
-	LibraryInfo()
+Info::Info(const QString& name, const QString& path, int id) :
+	Info()
 {
 	m->name = name;
 	m->path = Util::File::clean_filename(path);
 	m->id = id;
 }
 
-LibraryInfo::LibraryInfo(const LibraryInfo& other) :
-	LibraryInfo()
+Info::Info(const Info& other) :
+	Info()
 {
 	m->name = other.name();
 	m->path = other.path();
 	m->id = other.id();
 }
 
-LibraryInfo::~LibraryInfo() {}
+Info::~Info() {}
 
-LibraryInfo& LibraryInfo::operator =(const LibraryInfo& other)
+Info& Info::operator =(const Info& other)
 {
 	m->name = other.name();
 	m->path = other.path();
@@ -66,17 +68,17 @@ LibraryInfo& LibraryInfo::operator =(const LibraryInfo& other)
 }
 
 
-QString LibraryInfo::name() const
+QString Info::name() const
 {
 	return m->name;
 }
 
-QString LibraryInfo::path() const
+QString Info::path() const
 {
 	return m->path;
 }
 
-QString LibraryInfo::symlink_path() const
+QString Info::symlink_path() const
 {
 	QString dir = Util::sayonara_path("Libraries");
 
@@ -104,21 +106,21 @@ QString LibraryInfo::symlink_path() const
 	return target;
 }
 
-int8_t LibraryInfo::id() const
+int8_t Info::id() const
 {
 	return m->id;
 }
 
-bool LibraryInfo::valid() const
+bool Info::valid() const
 {
 	return (!m->name.isEmpty()) && (!m->path.isEmpty());
 }
 
-LibraryInfo LibraryInfo::fromString(const QString& str)
+Info Info::fromString(const QString& str)
 {
 	QStringList lst = str.split("::");
 	if(lst.size() != 3){
-		return LibraryInfo();
+		return Info();
 	}
 
 	bool ok;
@@ -126,13 +128,13 @@ LibraryInfo LibraryInfo::fromString(const QString& str)
 	QString path = lst[1];
 	int id = lst[2].toInt(&ok);
 	if(!ok){
-		return LibraryInfo();
+		return Info();
 	}
 
-	return LibraryInfo(name, path, id);
+	return Info(name, path, id);
 }
 
-QString LibraryInfo::toString() const
+QString Info::toString() const
 {
 	QStringList lst;
 	lst << m->name;
@@ -142,7 +144,7 @@ QString LibraryInfo::toString() const
 	return lst.join("::");
 }
 
-bool LibraryInfo::operator==(const LibraryInfo& other) const
+bool Info::operator==(const Info& other) const
 {
 	return (other.toString() == this->toString());
 }

@@ -2,23 +2,20 @@ PROJECT(say_gui_playlist)
 
 SET(SOURCES
 	GUI_Playlist.cpp
-	GUI_PlaylistTabs.cpp
 	BookmarksMenu.cpp
 
-	BottomBar/GUI_PlaylistBottomBar.cpp
-	Delegate/PlaylistItemDelegate.cpp
-	Model/PlaylistItemModel.cpp
+	BottomBar.cpp
+	Delegate.cpp
+	Model.cpp
 
-	TabWidget/PlaylistTabBar.cpp
-	TabWidget/PlaylistTabMenu.cpp
-	TabWidget/PlaylistTabWidget.cpp
-	View/PlaylistView.cpp
+	TabBar.cpp
+	TabMenu.cpp
+	TabWidget.cpp
+	ListView.cpp
 )
 
 QT5_WRAP_UI(FORMS_UIC
 	GUI_Playlist.ui
-	BottomBar/GUI_PlaylistBottomBar.ui
-	View/GUI_PlaylistView.ui
 )
 
 SET(LINK_LIBS

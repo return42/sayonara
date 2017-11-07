@@ -23,59 +23,122 @@
 #include "ChangeOperations.h"
 #include "Components/Library/LibraryManager.h"
 
-
-ChangeOperation::ChangeOperation()
-{
-	_library_manager = LibraryManager::instance();
-}
+ChangeOperation::ChangeOperation() {}
 
 ChangeOperation::~ChangeOperation() {}
 
+Library::Manager* ChangeOperation::manager() const
+{
+	return Library::Manager::instance();
+}
 
-MoveOperation::MoveOperation(int from, int to) :
-	_from(from), _to(to)
-{}
+struct MoveOperation::Private
+{
+	int from, to;
+	Private(int from, int to) :
+		from(from),
+		to(to)
+	{}
+};
+
+MoveOperation::MoveOperation(int from, int to)
+{
+	m = Pimpl::make<Private>(from, to);
+}
+
+MoveOperation::~MoveOperation() {}
 
 void MoveOperation::exec()
 {
-	_library_manager->move_library(_from, _to);
+	manager()->move_library(m->from, m->to);
 }
 
-RenameOperation::RenameOperation(int8_t id, const QString& new_name) :
-	_id(id),
-	_new_name(new_name)
-{}
+
+struct RenameOperation::Private
+{
+	int8_t id;
+	QString new_name;
+
+	Private(int8_t id, const QString& new_name) :
+		id(id),
+		new_name(new_name)
+	{}
+};
+
+RenameOperation::RenameOperation(int8_t id, const QString& new_name)
+{
+	m = Pimpl::make<Private>(id, new_name);
+}
+
+RenameOperation::~RenameOperation() {}
 
 void RenameOperation::exec()
 {
-	_library_manager->rename_library(_id, _new_name);
+	manager()->rename_library(m->id, m->new_name);
 }
 
-RemoveOperation::RemoveOperation(int8_t id) :
-	_id(id)
-{}
+struct RemoveOperation::Private
+{
+	int8_t id;
+
+	Private(int8_t id) :
+		id(id)
+	{}
+};
+
+RemoveOperation::RemoveOperation(int8_t id)
+{
+	m = Pimpl::make<Private>(id);
+}
+
+RemoveOperation::~RemoveOperation() {}
 
 void RemoveOperation::exec()
 {
-	_library_manager->remove_library(_id);
+	manager()->remove_library(m->id);
 }
 
-AddOperation::AddOperation(const QString& name, const QString& path) :
-	_name(name), _path(path)
-{}
+struct AddOperation::Private
+{
+	QString name, path;
 
+	Private(const QString& name, const QString& path) :
+		name(name),
+		path(path)
+	{}
+};
+
+AddOperation::AddOperation(const QString& name, const QString& path)
+{
+	m = Pimpl::make<Private>(name, path);
+}
+
+AddOperation::~AddOperation() {}
 
 void AddOperation::exec()
 {
-	_library_manager->add_library(_name, _path);
+	manager()->add_library(m->name, m->path);
 }
 
-ChangePathOperation::ChangePathOperation(int8_t id, const QString& new_path) :
-	_id(id),
-	_new_path(new_path)
-{}
+struct ChangePathOperation::Private
+{
+	int8_t id;
+	QString new_path;
+
+	Private(int8_t id, const QString& new_path) :
+		id(id),
+		new_path(new_path)
+	{}
+};
+
+ChangePathOperation::ChangePathOperation(int8_t id, const QString& new_path)
+{
+	m = Pimpl::make<Private>(id, new_path);
+}
+
+ChangePathOperation::~ChangePathOperation() {}
 
 void ChangePathOperation::exec()
 {
-	_library_manager->change_library_path(_id, _new_path);
+	manager()->change_library_path(m->id, m->new_path);
 }

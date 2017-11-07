@@ -30,19 +30,19 @@ using namespace Library;
 struct LocalLibraryContainer::Private
 {
 	GUI_LocalLibrary*   ui=nullptr;
-	LibraryInfo			library;
+	Info			library;
 	QString				name;
 	QString				library_path;
 
-	Private(const LibraryInfo& library) :
+	Private(const Info& library) :
 		library(library)
 	{
 		name = library.name();
 	}
 };
 
-LocalLibraryContainer::LocalLibraryContainer(const LibraryInfo& library, QObject* parent) :
-	LibraryContainerInterface(parent)
+LocalLibraryContainer::LocalLibraryContainer(const Library::Info& library, QObject* parent) :
+	Container(parent)
 {
 	m = Pimpl::make<Private>(library);
 }

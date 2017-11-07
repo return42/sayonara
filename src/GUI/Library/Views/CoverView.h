@@ -58,7 +58,6 @@ namespace Library
 		void init_sorting_actions();
 		void init_zoom_actions();
 
-
 	private:
 		void change_zoom(int zoom=-1);
 
@@ -72,6 +71,7 @@ namespace Library
 		void combo_sorting_changed(int idx);
 		void combo_zoom_changed(int idx);
 		void show_utils_triggered();
+		void cover_changed();
 	};
 }
 

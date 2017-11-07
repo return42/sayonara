@@ -190,7 +190,7 @@ void GUI_AbstractStream::_sl_skin_changed()
 	QAbstractItemView* view = m->combo_stream->view();
 
 	view->parentWidget()->setStyleSheet("margin: 0px; padding: -4px -1px; border: 1px solid #282828; background: none;");
-	view->setStyleSheet(Style::get_current_style());
+	view->setStyleSheet(Style::current_style());
 	view->setMinimumHeight(20 * view->model()->rowCount());
 
 	set_searching(m->searching);

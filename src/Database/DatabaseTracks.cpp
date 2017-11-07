@@ -683,7 +683,8 @@ void Tracks::deleteAllTracks()
 
 bool Tracks::updateTrack(const MetaData& md)
 {
-	if(md.id < 0 || md.album_id < 0 || md.artist_id < 0 || md.library_id < 0) {
+	if(md.id < 0 || md.album_id < 0 || md.artist_id < 0 || md.library_id < 0)
+	{
 		sp_log(Log::Warning, this) << "Cannot update track: "
 								   << " ArtistID: " << md.artist_id
 								   << " AlbumID: " << md.album_id
@@ -696,7 +697,7 @@ bool Tracks::updateTrack(const MetaData& md)
 
 	QString cissearch = ::Library::Util::convert_search_string(md.title, search_mode());
 
-	q.prepare("UPDATE Tracks "
+	q.prepare("UPDATE tracks "
 			  "SET albumID=:albumID, "
 			  "artistID=:artistID, "
 			  "albumID=:albumID, "

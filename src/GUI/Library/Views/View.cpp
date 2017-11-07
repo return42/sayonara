@@ -53,14 +53,14 @@ using namespace Library;
 
 struct Library::View::Private
 {
-	QPushButton*        btn_clear_selection=nullptr;
+	QPushButton*		btn_clear_selection=nullptr;
 	QAction*			merge_action=nullptr;
 	QMenu*				merge_menu=nullptr;
 	LibraryContextMenu*	context_menu=nullptr;
 
 	MD::Interpretation	type;
 	bool				cur_filling;
-	bool                use_clear_button;
+	bool				use_clear_button;
 
 	Private() :
 		type(MD::Interpretation::None),

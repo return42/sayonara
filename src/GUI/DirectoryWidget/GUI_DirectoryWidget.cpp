@@ -70,7 +70,7 @@ GUI_DirectoryWidget::GUI_DirectoryWidget(QWidget *parent) :
 	m = Pimpl::make<GUI_DirectoryWidget::Private>();
 
 	m->selected_widget = Private::SelectedWidget::None;
-	m->local_library = LibraryManager::instance()->library_instance(0);
+	m->local_library = Library::Manager::instance()->library_instance(0);
 	m->dir_model = ui->tv_dirs->get_model();
 
 	connect(ui->tv_dirs, &QTreeView::clicked, this, &GUI_DirectoryWidget::dir_clicked);
@@ -170,7 +170,7 @@ void GUI_DirectoryWidget::dir_append_clicked()
 {
 	MetaDataList v_md = ui->tv_dirs->get_selected_metadata();
 	Playlist::Handler* plh = Playlist::Handler::instance();
-	plh->append_tracks(v_md, plh->get_current_idx());
+	plh->append_tracks(v_md, plh->current_index());
 }
 
 
@@ -203,7 +203,7 @@ void GUI_DirectoryWidget::file_append_clicked()
 {
 	MetaDataList v_md = ui->lv_files->get_selected_metadata();
 	Playlist::Handler* plh = Playlist::Handler::instance();
-	plh->append_tracks(v_md, plh->get_current_idx());
+	plh->append_tracks(v_md, plh->current_index());
 }
 
 

@@ -28,40 +28,42 @@
 #include <QIcon>
 #include <QPixmap>
 
-DirectoryLibraryContainer::DirectoryLibraryContainer(QObject* parent) :
-	LibraryContainerInterface(parent) {}
+using Library::DirectoryContainer;
 
-DirectoryLibraryContainer::~DirectoryLibraryContainer() {}
+DirectoryContainer::DirectoryContainer(QObject* parent) :
+	Library::Container(parent) {}
 
-QString DirectoryLibraryContainer::name() const
+DirectoryContainer::~DirectoryContainer() {}
+
+QString DirectoryContainer::name() const
 {
 	return "directories";
 }
 
-QString DirectoryLibraryContainer::display_name() const
+QString DirectoryContainer::display_name() const
 {
 	return Lang::get(Lang::Directories);
 }
 
-QWidget* DirectoryLibraryContainer::widget() const
+QWidget* DirectoryContainer::widget() const
 {
 	return static_cast<QWidget*>(ui);
 }
 
-void DirectoryLibraryContainer::init_ui()
+void DirectoryContainer::init_ui()
 {
 	ui = new GUI_DirectoryWidget(nullptr);
 }
 
 
-QFrame* DirectoryLibraryContainer::header() const
+QFrame* DirectoryContainer::header() const
 {
 	return ui->header_frame();
 }
 
-QPixmap DirectoryLibraryContainer::icon() const
+QPixmap DirectoryContainer::icon() const
 {
-    QIcon icon = IconLoader::icon("folder", "dir_view");
+	QIcon icon = IconLoader::icon("folder", "dir_view");
 	QList<QSize> sizes = icon.availableSizes();
 
 	auto it = std::max_element(sizes.begin(), sizes.end(), [](const QSize& sz1, const QSize& sz2){

@@ -26,10 +26,10 @@
  *      Author: Lucio Carreras
  */
 
-#include "PlaylistView.h"
-#include "GUI/Playlist/BookmarksMenu.h"
-#include "GUI/Playlist/Model/PlaylistItemModel.h"
-#include "GUI/Playlist/Delegate/PlaylistItemDelegate.h"
+#include "ListView.h"
+#include "Model.h"
+#include "Delegate.h"
+#include "BookmarksMenu.h"
 
 #include "GUI/Utils/ContextMenu/LibraryContextMenu.h"
 #include "GUI/Utils/CustomMimeData.h"
@@ -173,14 +173,14 @@ void PlaylistView::scroll_up()
 	}
 }
 
-
 void PlaylistView::scroll_down()
 {
 	QPoint p(5, this->y() + this->height() - 5);
 
 	QModelIndex idx = this->indexAt(p);
 
-	if(idx.isValid() && (idx.row() < row_count() - 1)) {
+	if(idx.isValid() && (idx.row() < row_count() - 1))
+	{
 		goto_row(idx.row() + 1);
 	}
 }
@@ -254,7 +254,7 @@ void PlaylistView::handle_drop(QDropEvent* event)
 	if(!v_md.isEmpty())
 	{
 		Playlist::Handler* plh = Playlist::Handler::instance();
-		plh->insert_tracks(v_md, row+1, plh->get_current_idx());
+		plh->insert_tracks(v_md, row+1, plh->current_index());
 	}
 
 	QStringList playlists = Util::MimeData::get_playlists(mimedata);
@@ -289,7 +289,7 @@ void PlaylistView::async_drop_finished(bool success)
 
 	if(success){
 		MetaDataList v_md = stream_parser->get_metadata();
-		plh->insert_tracks(v_md, m->async_drop_index+1, plh->get_current_idx());
+		plh->insert_tracks(v_md, m->async_drop_index+1, plh->current_index());
 	}
 
 	stream_parser->deleteLater();
@@ -310,7 +310,6 @@ void PlaylistView::handle_inner_drag_drop(int row, bool copy)
 	if(copy)
 	{
 		m->model->copy_rows(cur_selected_rows, row + 1);
-		emit sig_time_changed();
 	}
 
 	else
@@ -497,22 +496,6 @@ void PlaylistView::keyPressEvent(QKeyEvent* event)
 			{
 				IndexSet new_selections = m->model->move_rows_down(selections);
 				select_rows(new_selections);
-				return;
-			}
-
-			break;
-
-		case Qt::Key_Left:
-			if(ctrl_pressed) {
-				emit sig_left_tab_clicked();
-				return;
-			}
-
-			break;
-
-		case Qt::Key_Right:
-			if(ctrl_pressed) {
-				emit sig_right_tab_clicked();
 				return;
 			}
 

@@ -30,24 +30,25 @@
 
 class QEvent;
 
-class LibraryPluginCombobox :
-		public Gui::ComboBox
+namespace Library
 {
-	Q_OBJECT
-	PIMPL(LibraryPluginCombobox)
+	class PluginCombobox :
+			public Gui::ComboBox
+	{
+		Q_OBJECT
+		PIMPL(PluginCombobox)
 
-public:
-	explicit LibraryPluginCombobox(const QString& text, QWidget* parent=nullptr);
-	~LibraryPluginCombobox();
+		public:
+			explicit PluginCombobox(const QString& text, QWidget* parent=nullptr);
+			~PluginCombobox();
 
-public slots:
-	void setup_actions();
+		public slots:
+			void setup_actions();
 
-private slots:
-	void action_triggered(bool b);
-	void current_library_changed(const QString& name);
-};
-
-
+		private slots:
+			void action_triggered(bool b);
+			void current_library_changed(const QString& name);
+	};
+}
 
 #endif // LIBRARYPLUGINCOMBOBOX_H

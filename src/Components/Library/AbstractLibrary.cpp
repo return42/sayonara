@@ -189,12 +189,12 @@ void AbstractLibrary::set_playlist_action_after_double_click()
 	else if(_settings->get(Set::Lib_DC_PlayIfStopped))
 	{
 		if(play_manager->playstate() != PlayState::Playing){
-			m->playlist->change_track(0, m->playlist->get_current_idx());
+			m->playlist->change_track(0, m->playlist->current_index());
 		}
 	}
 
 	else {
-		m->playlist->change_track(0, m->playlist->get_current_idx());
+		m->playlist->change_track(0, m->playlist->current_index());
 	}
 }
 
@@ -212,12 +212,12 @@ void AbstractLibrary::play_next_current_tracks()
 
 void AbstractLibrary::append_all_tracks()
 {
-	m->playlist->append_tracks(_tracks, m->playlist->get_current_idx());
+	m->playlist->append_tracks(_tracks, m->playlist->current_index());
 }
 
 void AbstractLibrary::append_current_tracks()
 {
-	m->playlist->append_tracks(current_tracks(), m->playlist->get_current_idx());
+	m->playlist->append_tracks(current_tracks(), m->playlist->current_index());
 }
 
 void AbstractLibrary::change_artist_selection(const IndexSet& indexes)

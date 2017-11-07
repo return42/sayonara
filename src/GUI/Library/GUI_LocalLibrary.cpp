@@ -72,13 +72,13 @@ struct GUI_LocalLibrary::Private
 
 
 GUI_LocalLibrary::GUI_LocalLibrary(int id, QWidget* parent) :
-	GUI_AbstractLibrary(LibraryManager::instance()->library_instance(id), parent)
+	GUI_AbstractLibrary(Manager::instance()->library_instance(id), parent)
 {
 	setup_parent(this, &ui);
 
 	m = Pimpl::make<Private>();
 
-	m->library = LibraryManager::instance()->library_instance(id);
+	m->library = Manager::instance()->library_instance(id);
 	m->library_menu = new LocalLibraryMenu(
 						   m->library->library_name(),
 						   m->library->library_path(),

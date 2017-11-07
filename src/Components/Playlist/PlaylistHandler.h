@@ -171,10 +171,10 @@ namespace Playlist
 			 * @brief get active playlist index
 			 * @return
 			 */
-			int	get_active_idx() const;
+			int	active_index() const;
 
-			int get_current_idx() const;
-			void set_current_idx(int pl_idx);
+			int current_index() const;
+			void set_current_index(int pl_idx);
 
 
 			/**
@@ -182,7 +182,7 @@ namespace Playlist
 			 * @param pl_idx playlist index
 			 * @return read only pointer object to a playlist, may be nullptr
 			 */
-			PlaylistConstPtr get_playlist_at(int pl_idx) const;
+			PlaylistConstPtr playlist(int pl_idx) const;
 
 
 			/**
@@ -304,6 +304,8 @@ namespace Playlist
 			 * @param name new playlist name. If no name given, current playlist will be overwritten
 			 * @return new playlist index
 			 */
+			int create_empty_playlist(bool override_current=false);
+
 			int create_empty_playlist(const QString& name);
 
 
@@ -371,15 +373,15 @@ namespace Playlist
 			 * If there's no active index, the current index is used
 			 * @return
 			 */
-			PlaylistPtr get_active();
+			PlaylistPtr active_playlist();
 
 			/**
-			 * @brief get_playlist at a given index, return fallback if index is invalid
+			 * @brief get playlist at a given index, return fallback if index is invalid
 			 * @param pl_idx playlist index
 			 * @param fallback playlist returned when index is invalid
 			 * @return
 			 */
-			PlaylistPtr get_playlist(int pl_idx, PlaylistPtr fallback) const;
+			PlaylistPtr playlist(int pl_idx, PlaylistPtr fallback) const;
 
 
 			/**

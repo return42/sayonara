@@ -19,15 +19,18 @@
  */
 
 #include "CoverView.h"
+
+#include "Components/Covers/CoverChangeNotifier.h"
+
 #include "GUI/Library/Models/CoverModel.h"
 #include "GUI/Library/Delegates/CoverDelegate.h"
 #include "GUI/Utils/Widgets/ComboBox.h"
+#include "GUI/Utils/IconLoader/IconLoader.h"
+
 #include "Utils/Library/Sorting.h"
 #include "Utils/Settings/Settings.h"
 #include "Utils/Logger/Logger.h"
 #include "Utils/Language.h"
-#include "GUI/Utils/IconLoader/IconLoader.h"
-
 
 #include <QHeaderView>
 #include <QWheelEvent>
@@ -37,7 +40,6 @@
 #include <QLayout>
 #include <QLabel>
 #include <QFrame>
-
 
 #include <atomic>
 
@@ -153,6 +155,9 @@ CoverView::CoverView(QWidget* topbar, QWidget* parent) :
 	}
 
 	connect(m->buffer_timer, &QTimer::timeout, this, &CoverView::timed_out, Qt::QueuedConnection);
+	Cover::ChangeNotfier* ccn = Cover::ChangeNotfier::instance();
+
+	connect(ccn, &Cover::ChangeNotfier::sig_covers_changed, this, &CoverView::cover_changed);
 }
 
 CoverView::~CoverView() {}
@@ -506,5 +511,12 @@ void CoverView::resizeEvent(QResizeEvent* e)
 void CoverView::showEvent(QShowEvent* e)
 {
 	View::showEvent(e);
+	refresh();
+}
+
+
+void Library::CoverView::cover_changed()
+{
+	m->model->reload();
 	refresh();
 }

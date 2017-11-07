@@ -32,7 +32,7 @@
 class InfoDialogContainer;
 namespace Cover
 {
-    class Location;
+	class Location;
 }
 
 
@@ -51,7 +51,7 @@ class GUI_InfoDialog :
 
 public:
 
-	enum class Tab : uint8_t 
+	enum class Tab : uint8_t
 	{
 		Info=0,
 		Lyrics=1,
@@ -68,8 +68,8 @@ public:
 
 
 protected:
-    void skin_changed() override;
-    void language_changed() override;
+	void skin_changed() override;
+	void language_changed() override;
 
 
 private slots:
@@ -80,7 +80,7 @@ private slots:
 private:
 	void init();
 
-    void prepare_cover(const Cover::Location& cover_path);
+	void prepare_cover(const Cover::Location& cover_path);
 	void prepare_info(MD::Interpretation mode);
 
 	void closeEvent(QCloseEvent *e) override;

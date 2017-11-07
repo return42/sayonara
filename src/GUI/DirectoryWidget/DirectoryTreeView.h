@@ -32,7 +32,11 @@ class LibraryContextMenu;
 class SearchableFileTreeModel;
 class MetaDataList;
 class IconProvider;
-class LibraryInfo;
+
+namespace Library
+{
+	class Info;
+}
 
 class DirectoryTreeView :
 		public SearchableTreeView,

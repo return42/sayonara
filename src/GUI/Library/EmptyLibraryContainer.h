@@ -27,7 +27,7 @@
 #include "Interfaces/LibraryInterface/LibraryContainer/LibraryContainer.h"
 
 class EmptyLibraryContainer :
-		public LibraryContainerInterface
+		public Library::Container
 {
 	PIMPL(EmptyLibraryContainer)
 

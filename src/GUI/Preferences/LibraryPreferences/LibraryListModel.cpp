@@ -28,10 +28,12 @@
 
 #include <QList>
 
+using Library::Info;
+
 struct LibraryListModel::Private
 {
-	QList<LibraryInfo> library_info;
-	QList<LibraryInfo> shown_library_info;
+	QList<Info> library_info;
+	QList<Info> shown_library_info;
 	QList<ChangeOperation*> operations;
 
 	Private()
@@ -41,7 +43,7 @@ struct LibraryListModel::Private
 
 	void reload()
 	{
-		library_info = LibraryManager::instance()->all_libraries();
+		library_info = Library::Manager::instance()->all_libraries();
 		shown_library_info = library_info;
 	}
 
@@ -91,7 +93,7 @@ QVariant LibraryListModel::data(const QModelIndex& index, int role) const
 void LibraryListModel::append_row(const LibName& name, const LibPath& path)
 {
 	m->operations << new AddOperation(name, path);
-	m->shown_library_info << LibraryInfo(name, path, -1);
+	m->shown_library_info << Info(name, path, -1);
 
 	emit dataChanged(index(0), index(rowCount()));
 
@@ -103,11 +105,11 @@ void LibraryListModel::rename_row(int row, const LibName& new_name)
 		return;
 	}
 
-	LibraryInfo info = m->shown_library_info[row];
+	Info info = m->shown_library_info[row];
 
 	m->operations << new RenameOperation(info.id(), new_name);
 	m->shown_library_info[row] =
-			LibraryInfo(new_name, info.path(), info.id());
+			Info(new_name, info.path(), info.id());
 }
 
 void LibraryListModel::change_path(int row, const LibPath& path)
@@ -116,11 +118,11 @@ void LibraryListModel::change_path(int row, const LibPath& path)
 		return;
 	}
 
-	LibraryInfo info = m->shown_library_info[row];
+	Info info = m->shown_library_info[row];
 
 	m->operations << new ChangePathOperation(info.id(), path);
 	m->shown_library_info[row] =
-			LibraryInfo(info.name(), path, info.id());
+			Info(info.name(), path, info.id());
 }
 
 void LibraryListModel::move_row(int from, int to)
@@ -145,7 +147,7 @@ void LibraryListModel::remove_row(int row)
 		return;
 	}
 
-	LibraryInfo info = m->shown_library_info[row];
+	Info info = m->shown_library_info[row];
 
 	m->operations << new RemoveOperation(info.id());
 	m->shown_library_info.removeAt(row);
@@ -157,7 +159,7 @@ QStringList LibraryListModel::all_names() const
 {
 	QStringList ret;
 
-	for(const LibraryInfo& info : m->shown_library_info) {
+	for(const Info& info : m->shown_library_info) {
 		ret << info.name();
 	}
 
@@ -168,7 +170,7 @@ QStringList LibraryListModel::all_paths() const
 {
 	QStringList ret;
 
-	for(const LibraryInfo& info : m->shown_library_info) {
+	for(const Info& info : m->shown_library_info) {
 		ret << info.path();
 	}
 

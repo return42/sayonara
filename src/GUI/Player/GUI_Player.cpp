@@ -82,7 +82,7 @@ GUI_Player::~GUI_Player()
 
 void GUI_Player::init_gui()
 {
-	LibraryPluginHandler::instance()->set_library_parent(this->library_widget);
+	Library::PluginHandler::instance()->set_library_parent(this->library_widget);
 	action_viewLibrary->setChecked(_settings->get(Set::Lib_Show));
 	action_viewLibrary->setText(Lang::get(Lang::Library));
 
@@ -150,8 +150,8 @@ void GUI_Player::ui_loaded()
 
 	splitter->update();
 
-	LibraryPluginHandler* lph = LibraryPluginHandler::instance();
-	LibraryContainerInterface* current_library = lph->current_library();
+	Library::PluginHandler* lph = Library::PluginHandler::instance();
+	Library::Container* current_library = lph->current_library();
 	if(current_library)
 	{
 		QWidget* current_library_widget = current_library->widget();
@@ -173,12 +173,12 @@ void GUI_Player::ui_loaded()
 void GUI_Player::setup_connections()
 {
 	PlayManagerPtr play_manager = PlayManager::instance();
-	LibraryPluginHandler* lph = LibraryPluginHandler::instance();
+	Library::PluginHandler* lph = Library::PluginHandler::instance();
 
-	connect(lph, &LibraryPluginHandler::sig_current_library_changed,
+	connect(lph, &Library::PluginHandler::sig_current_library_changed,
 			this, &GUI_Player::current_library_changed);
 
-	connect(lph, &LibraryPluginHandler::sig_initialized,
+	connect(lph, &Library::PluginHandler::sig_initialized,
 			this, &GUI_Player::check_library_menu_action);
 
 	connect(play_manager, &PlayManager::sig_playstate_changed, this, &GUI_Player::playstate_changed);
@@ -261,10 +261,10 @@ void GUI_Player::current_library_changed(const QString& name)
 
 void GUI_Player::check_library_menu_action()
 {
-	QList<LibraryContainerInterface*> libraries;
+	QList<Library::Container*> libraries;
 	bool library_visible;
 
-	LibraryPluginHandler* lph = LibraryPluginHandler::instance();
+	Library::PluginHandler* lph = Library::PluginHandler::instance();
 	libraries = lph->get_libraries();
 	if(libraries.isEmpty()){
 		return;
@@ -272,10 +272,10 @@ void GUI_Player::check_library_menu_action()
 
 	library_visible = _settings->get(Set::Lib_Show);
 
-	for(LibraryContainerInterface* container : libraries)
+	for(Library::Container* container : libraries)
 	{
 		QAction* action;
-		LibraryContainerInterface* library = lph->current_library();
+		Library::Container* library = lph->current_library();
 		QMenu* menu = lph->current_library_menu();
 		if(!menu){
 			continue;
@@ -477,7 +477,7 @@ void GUI_Player::skin_changed()
 {
 	bool dark = (_settings->get(Set::Player_Style) == 1);
 
-	QString stylesheet = Style::get_style(dark);
+	QString stylesheet = Style::style(dark);
 	this->setStyleSheet(stylesheet);
 
 	action_OpenFile->setIcon(IconLoader::icon("document-open", "play"));

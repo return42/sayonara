@@ -30,6 +30,7 @@
 #include "Utils/Logger/Logger.h"
 #include "Utils/Set.h"
 #include "Utils/Settings/Settings.h"
+#include "Utils/Language.h"
 
 #include <QStringList>
 #include <QPixmap>
@@ -158,7 +159,14 @@ QVariant CoverModel::data(const QModelIndex& index, int role) const
 	switch(role)
 	{
 		case Qt::DisplayRole:
-			return m->albums[lin_idx].name();
+			{
+				QString name = m->albums[lin_idx].name();
+				if(name.trimmed().isEmpty()){
+					name = Lang::get(Lang::None);
+				}
+
+				return name;
+			}
 
 		case Qt::TextAlignmentRole:
 			return Qt::AlignHCenter;
@@ -239,6 +247,11 @@ void CoverModel::set_zoom(int zoom, const QSize& view_size)
 
 	int new_columns = (view_size.width() / this->item_size().width());
 	set_max_columns(new_columns);
+}
+
+void CoverModel::reload()
+{
+	m->pixmaps.clear();
 }
 
 

@@ -18,8 +18,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #include "LibraryPluginCombobox.h"
 #include "LibraryPluginHandler.h"
 #include "LibraryContainer/LibraryContainer.h"
@@ -29,19 +27,23 @@
 #include <QAction>
 #include <QSize>
 
-struct LibraryPluginCombobox::Private
+using Library::Container;
+using Library::PluginHandler;
+using Library::PluginCombobox;
+
+struct PluginCombobox::Private
 {
-	LibraryPluginHandler* lph=nullptr;
+	PluginHandler* lph=nullptr;
 	QList<QAction*> actions;
 
 	Private()
 	{
-		lph = LibraryPluginHandler::instance();
+		lph = PluginHandler::instance();
 	}
 };
 
 
-LibraryPluginCombobox::LibraryPluginCombobox(const QString& text, QWidget* parent) :
+PluginCombobox::PluginCombobox(const QString& text, QWidget* parent) :
 	ComboBox(parent)
 {
 	m = Pimpl::make<Private>();
@@ -49,42 +51,42 @@ LibraryPluginCombobox::LibraryPluginCombobox(const QString& text, QWidget* paren
 	this->setSizeAdjustPolicy(QComboBox::AdjustToContents);
 	this->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 	this->setFrame(false);
-    this->setIconSize(QSize(16, 16));
-    this->setFocusPolicy(Qt::ClickFocus);
+	this->setIconSize(QSize(16, 16));
+	this->setFocusPolicy(Qt::ClickFocus);
 
-	connect(m->lph, &LibraryPluginHandler::sig_initialized, this, &LibraryPluginCombobox::setup_actions);
-	connect(m->lph, &LibraryPluginHandler::sig_libraries_changed, this, &LibraryPluginCombobox::setup_actions);
-	connect(m->lph, &LibraryPluginHandler::sig_current_library_changed, this, &LibraryPluginCombobox::current_library_changed);
+	connect(m->lph, &PluginHandler::sig_initialized, this, &PluginCombobox::setup_actions);
+	connect(m->lph, &PluginHandler::sig_libraries_changed, this, &PluginCombobox::setup_actions);
+	connect(m->lph, &PluginHandler::sig_current_library_changed, this, &PluginCombobox::current_library_changed);
 
-    Set::listen(Set::Player_Language, this, &LibraryPluginCombobox::setup_actions, false);
+	Set::listen(Set::Player_Language, this, &PluginCombobox::setup_actions, false);
 
-    setup_actions();
+	setup_actions();
 	setCurrentText(text);
 }
 
-LibraryPluginCombobox::~LibraryPluginCombobox() {}
+PluginCombobox::~PluginCombobox() {}
 
-void LibraryPluginCombobox::setup_actions()
+void PluginCombobox::setup_actions()
 {
 	this->clear();
 
-	QList<LibraryContainerInterface*> libraries = m->lph->get_libraries();
+	QList<Container*> libraries = m->lph->get_libraries();
 
-	for(const LibraryContainerInterface* container : libraries)
+	for(const Container* container : libraries)
 	{
-        QPixmap pm = container->icon().scaled(
-                    this->iconSize(),
-                    Qt::KeepAspectRatio,
-                    Qt::SmoothTransformation
-        );
+		QPixmap pm = container->icon().scaled(
+					this->iconSize(),
+					Qt::KeepAspectRatio,
+					Qt::SmoothTransformation
+		);
 
-        this->addItem(QIcon(pm), container->display_name(), container->name());
+		this->addItem(QIcon(pm), container->display_name(), container->name());
 	}
 
 	current_library_changed(m->lph->current_library()->name());
 }
 
-void LibraryPluginCombobox::action_triggered(bool b)
+void PluginCombobox::action_triggered(bool b)
 {
 	if(!b){
 		return;
@@ -93,7 +95,7 @@ void LibraryPluginCombobox::action_triggered(bool b)
 	QAction* action = static_cast<QAction*>(sender());
 	QString name = action->data().toString();
 
-	LibraryPluginHandler::instance()->set_current_library(name);
+	PluginHandler::instance()->set_current_library(name);
 	for(QAction* library_action : m->actions)
 	{
 		if(library_action == action){
@@ -104,7 +106,7 @@ void LibraryPluginCombobox::action_triggered(bool b)
 	}
 }
 
-void LibraryPluginCombobox::current_library_changed(const QString& name)
+void PluginCombobox::current_library_changed(const QString& name)
 {
 	for(int i=0; i<this->count(); i++) {
 		if(this->itemData(i).toString().compare(name) == 0){

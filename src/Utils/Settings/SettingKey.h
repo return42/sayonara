@@ -27,7 +27,6 @@ class QString;
 class QStringList;
 class QPoint;
 class QSize;
-class LibraryInfo;
 class QByteArray;
 
 class EQ_Setting;
@@ -41,6 +40,7 @@ namespace Playlist
 namespace Library
 {
 	class Sortings;
+	class Info;
 }
 
 
@@ -173,6 +173,7 @@ enum class SettingKey : unsigned short
 	Lyrics_Server,
 
 	Cover_Server,
+	Cover_LoadFromFile,
 	Icon_Theme,
 
 	Proxy_Active,
@@ -248,7 +249,7 @@ namespace Set
 	INST(int,				Lib_CoverZoom);				/* Zoom of album cover view */
 	INST(bool,				Lib_CoverShowUtils);		/* Show utils bar in cover view */
 	INST(bool,				Lib_GenreTree);				/* Show tree view of genres */
-	INST(QList<LibraryInfo>,Lib_AllLibraries);
+	INST(QList<::Library::Info>, Lib_AllLibraries);
 	INST(int,				Lib_LastIndex);				/* Last selected library */
 	INST(bool,				Lib_UseViewClearButton);	/* Show clear button in single view */
 
@@ -329,6 +330,7 @@ namespace Set
 	INST(QString,			Lyrics_Server);				/* Lyrics server */
 
 	INST(QStringList,		Cover_Server);				/* Cover server */
+	INST(bool,				Cover_LoadFromFile);		/* load covers from audio file, if available */
 	INST(QString,			Icon_Theme);				/* Current icon theme */
 
 	INST(bool,				Proxy_Active);				/* Is proxy server active */

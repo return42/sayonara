@@ -77,6 +77,7 @@ namespace Library
 
 		public slots:
 			void            set_zoom(int zoom, const QSize& view_size);
+			void			reload();
 
 		private slots:
 			void            next_hash();

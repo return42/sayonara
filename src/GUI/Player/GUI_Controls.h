@@ -10,6 +10,7 @@
 #include "GUI/Utils/GUIClass.h"
 #include "GUI/Utils/Shortcuts/ShortcutWidget.h"
 #include "GUI/Utils/Widgets/Widget.h"
+#include "GUI/InfoDialog/InfoDialogContainer.h"
 
 UI_FWD(GUI_Controls)
 
@@ -18,7 +19,8 @@ class MetaDataList;
 
 class GUI_Controls :
 		public Gui::Widget,
-		public ShortcutWidget
+		public ShortcutWidget,
+		public InfoDialogContainer
 {
 	Q_OBJECT
 	PIMPL(GUI_Controls)
@@ -51,6 +53,7 @@ private:
 protected:
 	void resizeEvent(QResizeEvent* e) override;
 	void showEvent(QShowEvent* e) override;
+	void contextMenuEvent(QContextMenuEvent* e) override;
 
 public:
 	explicit GUI_Controls(QWidget *parent = 0);
@@ -96,8 +99,14 @@ private slots:
 	void dur_changed(const MetaData &md);
 	void br_changed(const MetaData &md);
 
-	void cover_changed(const QImage &img);
+	// cover changed by engine
+	void force_cover(const QImage &img);
 
+
+	// InfoDialogContainer interface
+protected:
+	MD::Interpretation metadata_interpretation() const override;
+	MetaDataList info_dialog_data() const override;
 };
 
 #endif // GUI_CONTROLS_H

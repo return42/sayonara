@@ -57,6 +57,9 @@ namespace Library
 		Q_OBJECT
 		PIMPL(View)
 
+	protected:
+		ItemModel* _model=nullptr;
+
 	signals:
 		void sig_middle_button_clicked(const QPoint&);
 		void sig_all_selected();
@@ -114,13 +117,9 @@ namespace Library
 		virtual void init_context_menu();
 		QMenu* context_menu() const;
 
+		// InfoDialogContainer
 		virtual MD::Interpretation metadata_interpretation() const override final;
 		MetaDataList info_dialog_data() const override;
-
-
-	protected:
-		ItemModel*			_model=nullptr;
-
 
 	protected slots:
 		virtual void context_menu_show(const QPoint&);

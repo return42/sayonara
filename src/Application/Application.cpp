@@ -297,18 +297,18 @@ void Application::init_preferences()
 
 void Application::init_libraries()
 {
-	LibraryPluginHandler* library_plugin_loader = LibraryPluginHandler::instance();
+	Library::PluginHandler* library_plugin_loader = Library::PluginHandler::instance();
 
-	QList<LibraryContainerInterface*> library_containers;
-	DirectoryLibraryContainer* directory_container = new DirectoryLibraryContainer(this);
+	QList<Library::Container*> library_containers;
+	Library::DirectoryContainer* directory_container = new Library::DirectoryContainer(this);
 
-	library_containers << static_cast<LibraryContainerInterface*>(directory_container);
+	library_containers << static_cast<Library::Container*>(directory_container);
 
 #ifdef Q_OS_WIN
-	SoundcloudLibraryContainer* soundcloud_container = new SoundcloudLibraryContainer(this);
-	SomaFMLibraryContainer* somafm_container = new SomaFMLibraryContainer(this);
-	library_containers << static_cast<LibraryContainerInterface*>(soundcloud_container);
-	library_containers << static_cast<LibraryContainerInterface*>(somafm_container);
+	SC::LibraryContainer* soundcloud_container = new SC::LibraryContainer(this);
+	SomaFM::LibraryContainer* somafm_container = new SomaFM::LibraryContainer(this);
+	library_containers << static_cast<Library::ContainerInterface*>(soundcloud_container);
+	library_containers << static_cast<Library::ContainerInterface*>(somafm_container);
 #endif
 	library_plugin_loader->init(library_containers);
 

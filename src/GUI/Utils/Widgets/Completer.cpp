@@ -35,7 +35,7 @@ Completer::Completer(const QStringList& lst, QObject* parent) :
 	setCaseSensitivity(Qt::CaseInsensitive);
 	setCompletionMode(QCompleter::UnfilteredPopupCompletion);
 	popup()->setItemDelegate(new ComboBoxDelegate(this));
-	popup()->setStyleSheet(Style::get_current_style());
+	popup()->setStyleSheet(Style::current_style());
 }
 
 Completer::~Completer() {}

@@ -32,7 +32,6 @@
 
 class GUI_TrayIcon;
 class MetaData;
-class LibraryPluginHandler;
 class PreferenceDialogInterface;
 class QTranslator;
 class QMessageBox;

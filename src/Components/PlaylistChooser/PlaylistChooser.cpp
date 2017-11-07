@@ -78,7 +78,7 @@ void PlaylistChooser::load_single_playlist(int id)
 	CustomPlaylist pl = m->find_custom_playlist(id);
 
 	int idx = m->playlist_handler->create_playlist(pl);
-	m->playlist_handler->set_current_idx(idx);
+	m->playlist_handler->set_current_index(idx);
 }
 
 

@@ -50,12 +50,15 @@ void GUI_Covers::commit()
 {
 	Settings* settings = Settings::instance();
 	QStringList active_items;
-	for(int i=0; i<ui->lv_active->count(); i++){
+
+	for(int i=0; i<ui->lv_active->count(); i++)
+	{
 		QListWidgetItem* item = ui->lv_active->item(i);
 		active_items << item->text();
 	}
 
 	settings->set(Set::Cover_Server, active_items);
+	settings->set(Set::Cover_LoadFromFile, ui->cb_load_covers_from_file->isChecked());
 }
 
 void GUI_Covers::revert()
@@ -66,11 +69,11 @@ void GUI_Covers::revert()
 	ui->lv_active->clear();
 	ui->lv_inactive->clear();
 
-    Fetcher::Manager* cfm = Fetcher::Manager::instance();
+	Fetcher::Manager* cfm = Fetcher::Manager::instance();
 
-    QList<Fetcher::Base*> cfis = cfm->available_coverfetchers();
-    for(const Fetcher::Base* cfi : cfis)
-    {
+	QList<Fetcher::Base*> cfis = cfm->available_coverfetchers();
+	for(const Fetcher::Base* cfi : cfis)
+	{
 		if(cfi->keyword().isEmpty()){
 			continue;
 		}
@@ -83,6 +86,8 @@ void GUI_Covers::revert()
 			ui->lv_inactive->addItem(cfi->keyword());
 		}
 	}
+
+	ui->cb_load_covers_from_file->setChecked(settings->get(Set::Cover_LoadFromFile));
 }
 
 QString GUI_Covers::get_action_name() const
