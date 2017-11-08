@@ -72,6 +72,8 @@ namespace Library
 
 		void edit_clicked();
 		void edit_accepted();
+
+		void show_album_covers_changed();
 	};
 }
 

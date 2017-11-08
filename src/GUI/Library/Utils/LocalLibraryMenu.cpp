@@ -129,10 +129,7 @@ void LocalLibraryMenu::init_menu()
 
 	this->addActions(actions);
 
-	Set::listen(Set::Lib_ShowAlbumCovers, this, [=](){
-		 bool show_covers = Settings::instance()->get(Set::Lib_ShowAlbumCovers);
-		 m->show_album_cover_view->setChecked(show_covers);
-	});
+	Set::listen(Set::Lib_ShowAlbumCovers, this, &LocalLibraryMenu::show_album_covers_changed);
 
 	m->initialized = true;
 }
@@ -211,6 +208,12 @@ void LocalLibraryMenu::edit_accepted()
 	if(edit_dialog->has_path_changed()){
 		emit sig_path_changed(path);
 	}
+}
+
+void LocalLibraryMenu::show_album_covers_changed()
+{
+	bool show_covers = Settings::instance()->get(Set::Lib_ShowAlbumCovers);
+	m->show_album_cover_view->setChecked(show_covers);
 }
 
 void LocalLibraryMenu::show_album_cover_view_changed()

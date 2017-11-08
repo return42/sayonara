@@ -18,31 +18,61 @@
     <name>AlternativeCovers</name>
     <message>
         <location filename="../GUI/Covers/GUI_AlternativeCovers.ui" line="+14"/>
+        <location filename="../../build/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="+255"/>
+        <location filename="../../build-clang-debug/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="+214"/>
+        <location filename="../../build-clang-release/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="+214"/>
+        <location filename="../../build-release/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="+214"/>
         <source>Search alternative image</source>
         <translation>Пошук альтернативних обкладинок</translation>
     </message>
     <message>
-        <location line="+221"/>
+        <location line="+271"/>
+        <location filename="../../build/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="+8"/>
+        <location filename="../../build-clang-debug/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="+5"/>
+        <location filename="../../build-clang-release/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="+5"/>
+        <location filename="../../build-release/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="+5"/>
         <source>OK</source>
         <translation>ОК</translation>
     </message>
     <message>
-        <location line="-159"/>
+        <location line="-213"/>
+        <location filename="../../build/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="-4"/>
+        <location filename="../../build-clang-debug/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="-4"/>
+        <location filename="../../build-clang-release/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="-4"/>
+        <location filename="../../build-release/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="-4"/>
         <source>Online search</source>
         <translation>Онлайн пошук</translation>
     </message>
     <message>
-        <location line="+87"/>
+        <location line="-43"/>
+        <location filename="../../build/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="-3"/>
+        <location filename="../../build-clang-debug/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="+1"/>
+        <location filename="../../build-clang-release/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="+1"/>
+        <location filename="../../build-release/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="+1"/>
         <source>Local search</source>
         <translation>Локальний пошук</translation>
     </message>
     <message>
-        <location line="+87"/>
+        <location line="+75"/>
+        <location filename="../../build/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="+4"/>
+        <location filename="../../build-clang-debug/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="+4"/>
+        <location filename="../../build-clang-release/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="+4"/>
+        <location filename="../../build-release/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="+4"/>
         <source>Select and preview multiple covers</source>
         <translation>Вибір та попередній перегляд декількох обкладинок</translation>
     </message>
     <message>
-        <location line="+36"/>
+        <location line="+210"/>
+        <location filename="../../build/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="+4"/>
+        <source>Use custom search engine</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="-258"/>
+        <location filename="../../build/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="-6"/>
+        <location filename="../../build-clang-debug/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="+1"/>
+        <location filename="../../build-clang-release/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="+1"/>
+        <location filename="../../build-release/src/GUI/Covers/ui_GUI_AlternativeCovers.h" line="+1"/>
         <source>Alternative Cover</source>
         <translation>Альтернативна обкладинка</translation>
     </message>
@@ -76,12 +106,12 @@
 <context>
     <name>GUI_AlternativeCovers</name>
     <message>
-        <location filename="../GUI/Covers/GUI_AlternativeCovers.cpp" line="+188"/>
+        <location filename="../GUI/Covers/GUI_AlternativeCovers.cpp" line="+225"/>
         <source>This cover does not exist</source>
         <translation>Дана обкладинка не існує</translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location line="+55"/>
         <source>%1 covers found</source>
         <translation>Знайдено %1 обкладинок</translation>
     </message>
@@ -110,16 +140,28 @@
     </message>
     <message>
         <location filename="../GUI/Plugins/Engine/AudioConverter/GUI_AudioConverter.ui" line="+61"/>
+        <location filename="../../build/src/GUI/Plugins/Engine/ui_GUI_AudioConverter.h" line="+91"/>
+        <location filename="../../build-clang-debug/src/GUI/Plugins/Engine/ui_GUI_AudioConverter.h" line="+91"/>
+        <location filename="../../build-clang-release/src/GUI/Plugins/Engine/ui_GUI_AudioConverter.h" line="+91"/>
+        <location filename="../../build-release/src/GUI/Plugins/Engine/ui_GUI_AudioConverter.h" line="+91"/>
         <source>Variable Bitrate</source>
         <translation>Змінний бітрейт</translation>
     </message>
     <message>
         <location line="+16"/>
+        <location filename="../../build/src/GUI/Plugins/Engine/ui_GUI_AudioConverter.h" line="+1"/>
+        <location filename="../../build-clang-debug/src/GUI/Plugins/Engine/ui_GUI_AudioConverter.h" line="+1"/>
+        <location filename="../../build-clang-release/src/GUI/Plugins/Engine/ui_GUI_AudioConverter.h" line="+1"/>
+        <location filename="../../build-release/src/GUI/Plugins/Engine/ui_GUI_AudioConverter.h" line="+1"/>
         <source>Quality</source>
         <translation>Якість</translation>
     </message>
     <message>
         <location line="+10"/>
+        <location filename="../../build/src/GUI/Plugins/Engine/ui_GUI_AudioConverter.h" line="+1"/>
+        <location filename="../../build-clang-debug/src/GUI/Plugins/Engine/ui_GUI_AudioConverter.h" line="+1"/>
+        <location filename="../../build-clang-release/src/GUI/Plugins/Engine/ui_GUI_AudioConverter.h" line="+1"/>
+        <location filename="../../build-release/src/GUI/Plugins/Engine/ui_GUI_AudioConverter.h" line="+1"/>
         <source>Constant Bitrate</source>
         <translation>Сталий бітрейт</translation>
     </message>
@@ -128,6 +170,10 @@
     <name>GUI_Bookmarks</name>
     <message>
         <location filename="../GUI/Plugins/Bookmarks/GUI_Bookmarks.ui" line="+116"/>
+        <location filename="../../build/src/GUI/Plugins/Bookmarks/ui_GUI_Bookmarks.h" line="+129"/>
+        <location filename="../../build-clang-debug/src/GUI/Plugins/Bookmarks/ui_GUI_Bookmarks.h" line="+129"/>
+        <location filename="../../build-clang-release/src/GUI/Plugins/Bookmarks/ui_GUI_Bookmarks.h" line="+129"/>
+        <location filename="../../build-release/src/GUI/Plugins/Bookmarks/ui_GUI_Bookmarks.h" line="+129"/>
         <source>Loop</source>
         <translation>Повторення</translation>
     </message>
@@ -147,11 +193,19 @@
     <name>GUI_Broadcast</name>
     <message>
         <location filename="../GUI/Plugins/Broadcasting/GUI_Broadcast.ui" line="+54"/>
+        <location filename="../../build/src/GUI/Plugins/Broadcasting/ui_GUI_Broadcast.h" line="+114"/>
+        <location filename="../../build-clang-debug/src/GUI/Plugins/Broadcasting/ui_GUI_Broadcast.h" line="+114"/>
+        <location filename="../../build-clang-release/src/GUI/Plugins/Broadcasting/ui_GUI_Broadcast.h" line="+114"/>
+        <location filename="../../build-release/src/GUI/Plugins/Broadcasting/ui_GUI_Broadcast.h" line="+114"/>
         <source>...</source>
         <translation type="unfinished">...</translation>
     </message>
     <message>
         <location line="+34"/>
+        <location filename="../../build/src/GUI/Plugins/Broadcasting/ui_GUI_Broadcast.h" line="+1"/>
+        <location filename="../../build-clang-debug/src/GUI/Plugins/Broadcasting/ui_GUI_Broadcast.h" line="+1"/>
+        <location filename="../../build-clang-release/src/GUI/Plugins/Broadcasting/ui_GUI_Broadcast.h" line="+1"/>
+        <location filename="../../build-release/src/GUI/Plugins/Broadcasting/ui_GUI_Broadcast.h" line="+1"/>
         <source>Cannot Broadcast</source>
         <translation>Потік неможливий</translation>
     </message>
@@ -190,11 +244,19 @@
     <name>GUI_BroadcastSetup</name>
     <message>
         <location filename="../GUI/Preferences/Broadcast/GUI_BroadcastSetup.ui" line="+34"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_BroadcastSetup.h" line="+116"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_BroadcastSetup.h" line="+116"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_BroadcastSetup.h" line="+116"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_BroadcastSetup.h" line="+116"/>
         <source>Ask for permission</source>
         <translation>Запитати дозвіл</translation>
     </message>
     <message>
         <location line="-14"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_BroadcastSetup.h" line="-1"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_BroadcastSetup.h" line="-1"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_BroadcastSetup.h" line="-1"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_BroadcastSetup.h" line="-1"/>
         <source>Port</source>
         <translation>Порт</translation>
     </message>
@@ -202,17 +264,25 @@
 <context>
     <name>GUI_Controls</name>
     <message>
-        <location filename="../GUI/Player/GUI_Controls.ui" line="+774"/>
+        <location filename="../GUI/Player/GUI_Controls.ui" line="+529"/>
+        <location filename="../../build/src/GUI/Player/ui_GUI_Controls.h" line="+454"/>
+        <location filename="../../build-clang-debug/src/GUI/Player/ui_GUI_Controls.h" line="+430"/>
+        <location filename="../../build-clang-release/src/GUI/Player/ui_GUI_Controls.h" line="+430"/>
+        <location filename="../../build-release/src/GUI/Player/ui_GUI_Controls.h" line="+430"/>
         <source>Written by Lucio Carreras</source>
         <translation type="unfinished">Автор Lucio Carreras</translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location line="-88"/>
+        <location filename="../../build/src/GUI/Player/ui_GUI_Controls.h" line="-2"/>
+        <location filename="../../build-clang-debug/src/GUI/Player/ui_GUI_Controls.h" line="+1"/>
+        <location filename="../../build-clang-release/src/GUI/Player/ui_GUI_Controls.h" line="+1"/>
+        <location filename="../../build-release/src/GUI/Player/ui_GUI_Controls.h" line="+1"/>
         <source>Copyright 2011-2017</source>
         <translation type="unfinished">Copyright 2011-2017</translation>
     </message>
     <message>
-        <location filename="../GUI/Player/GUI_Controls.cpp" line="+43"/>
+        <location filename="../GUI/Player/GUI_Controls.cpp" line="+47"/>
         <source>Sayonara Player</source>
         <translation type="unfinished">Sayonara Player</translation>
     </message>
@@ -228,6 +298,15 @@
     </message>
 </context>
 <context>
+    <name>GUI_Covers</name>
+    <message>
+        <location filename="../GUI/Preferences/Covers/GUI_Covers.ui" line="+95"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_Covers.h" line="+105"/>
+        <source>If available, load covers from audio files</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>GUI_Crossfader</name>
     <message>
         <location filename="../GUI/Plugins/Engine/Crossfader/GUI_Crossfader.cpp" line="+73"/>
@@ -239,11 +318,19 @@
     <name>GUI_EmptyLibrary</name>
     <message>
         <location filename="../GUI/Library/GUI_EmptyLibrary.ui" line="+26"/>
+        <location filename="../../build/src/GUI/Library/ui_GUI_EmptyLibrary.h" line="+134"/>
+        <location filename="../../build-clang-debug/src/GUI/Library/ui_GUI_EmptyLibrary.h" line="+134"/>
+        <location filename="../../build-clang-release/src/GUI/Library/ui_GUI_EmptyLibrary.h" line="+134"/>
+        <location filename="../../build-release/src/GUI/Library/ui_GUI_EmptyLibrary.h" line="+134"/>
         <source>Set library path</source>
         <translation type="unfinished">Вказати шлях до бібліотеки</translation>
     </message>
     <message>
         <location line="+17"/>
+        <location filename="../../build/src/GUI/Library/ui_GUI_EmptyLibrary.h" line="+1"/>
+        <location filename="../../build-clang-debug/src/GUI/Library/ui_GUI_EmptyLibrary.h" line="+1"/>
+        <location filename="../../build-clang-release/src/GUI/Library/ui_GUI_EmptyLibrary.h" line="+1"/>
+        <location filename="../../build-release/src/GUI/Library/ui_GUI_EmptyLibrary.h" line="+1"/>
         <source>You haven&apos;t specified a library path yet</source>
         <translation type="unfinished">Ви ще не вказали шлях до бібліотеки</translation>
     </message>
@@ -262,21 +349,41 @@
         <location filename="../GUI/Preferences/Fonts/GUI_FontConfig.ui" line="+58"/>
         <location line="+7"/>
         <location line="+28"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_FontConfig.h" line="+173"/>
+        <location line="+1"/>
+        <location line="+2"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_FontConfig.h" line="+173"/>
+        <location line="+1"/>
+        <location line="+2"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_FontConfig.h" line="+173"/>
+        <location line="+1"/>
+        <location line="+2"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_FontConfig.h" line="+173"/>
+        <location line="+1"/>
+        <location line="+2"/>
         <source>Font size</source>
         <translation>Розмір шрифту</translation>
     </message>
     <message>
         <location line="+7"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_FontConfig.h" line="+1"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_FontConfig.h" line="+1"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_FontConfig.h" line="+1"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_FontConfig.h" line="+1"/>
         <source>Font name</source>
         <translation>Найменування шрифта</translation>
     </message>
     <message>
         <location line="-83"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_FontConfig.h" line="-5"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_FontConfig.h" line="-5"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_FontConfig.h" line="-5"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_FontConfig.h" line="-5"/>
         <source>Bold</source>
         <translation>Жирний</translation>
     </message>
     <message>
-        <location filename="../GUI/Preferences/Fonts/GUI_FontConfig.cpp" line="+123"/>
+        <location filename="../GUI/Preferences/Fonts/GUI_FontConfig.cpp" line="+124"/>
         <location line="+1"/>
         <source>Inherit</source>
         <translation>Запам&apos;ятати</translation>
@@ -286,6 +393,10 @@
     <name>GUI_IconPreferences</name>
     <message>
         <location filename="../GUI/Preferences/Icons/GUI_IconPreferences.ui" line="+20"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_IconPreferences.h" line="+119"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_IconPreferences.h" line="+119"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_IconPreferences.h" line="+119"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_IconPreferences.h" line="+119"/>
         <source>These settings do not apply for the dark theme</source>
         <translation type="unfinished"></translation>
     </message>
@@ -352,17 +463,25 @@
 <context>
     <name>GUI_LanguageChooser</name>
     <message>
-        <location filename="../GUI/Preferences/Language/GUI_LanguageChooser.cpp" line="+162"/>
+        <location filename="../GUI/Preferences/Language/GUI_LanguageChooser.cpp" line="+161"/>
         <source>Language</source>
         <translation>Мова</translation>
     </message>
     <message>
         <location filename="../GUI/Preferences/Language/GUI_LanguageChooser.ui" line="+31"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_LanguageChooser.h" line="+61"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LanguageChooser.h" line="+61"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_LanguageChooser.h" line="+61"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_LanguageChooser.h" line="+61"/>
         <source>English</source>
         <translation>English</translation>
     </message>
     <message>
         <location line="-14"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_LanguageChooser.h" line="-3"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LanguageChooser.h" line="-3"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_LanguageChooser.h" line="-3"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_LanguageChooser.h" line="-3"/>
         <source>For new languages I am always looking for translators</source>
         <translation>Для нових мов я постійно шукаю перекладачів</translation>
     </message>
@@ -381,21 +500,37 @@
     </message>
     <message>
         <location filename="../GUI/Preferences/LastFM/GUI_LastFM.ui" line="+34"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_LastFM.h" line="+135"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LastFM.h" line="+135"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_LastFM.h" line="+135"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_LastFM.h" line="+135"/>
         <source>Password</source>
         <translation>Пароль</translation>
     </message>
     <message>
         <location line="+20"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_LastFM.h" line="+2"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LastFM.h" line="+2"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_LastFM.h" line="+2"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_LastFM.h" line="+2"/>
         <source>Scrobble after</source>
         <translation>Скроблінг через</translation>
     </message>
     <message>
         <location line="+46"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_LastFM.h" line="+2"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LastFM.h" line="+2"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_LastFM.h" line="+2"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_LastFM.h" line="+2"/>
         <source>Login now</source>
         <translation>Ввійти</translation>
     </message>
     <message>
         <location line="-73"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_LastFM.h" line="-5"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LastFM.h" line="-5"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_LastFM.h" line="-5"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_LastFM.h" line="-5"/>
         <source>Username</source>
         <translation>Ім&apos;я користувача</translation>
     </message>
@@ -420,102 +555,186 @@
     <name>GUI_LibraryPreferences</name>
     <message>
         <location filename="../GUI/Preferences/LibraryPreferences/GUI_LibraryPreferences.ui" line="+24"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+303"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+303"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+303"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+303"/>
         <source>Libraries</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+8"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="-5"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="-5"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="-5"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="-5"/>
         <source>Up</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+20"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
         <source>New</source>
         <translation type="unfinished">Нова</translation>
     </message>
     <message>
         <location line="+14"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
         <source>Delete</source>
         <translation type="unfinished">Видалити</translation>
     </message>
     <message>
         <location line="+20"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
         <source>Down</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+24"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+8"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+8"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+8"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+8"/>
         <source>Search</source>
         <translation>Пошук</translation>
     </message>
     <message>
         <location line="+15"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="-5"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="-5"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="-5"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="-5"/>
         <source>Example</source>
         <translation>Приклад</translation>
     </message>
     <message>
         <location line="+7"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
         <source>Case insensitive</source>
         <translation>Ігнорувати написання з вел і мал літер</translation>
     </message>
     <message>
         <location line="+36"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
         <source>Option</source>
         <translation>Параметр</translation>
     </message>
     <message>
         <location line="+10"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
         <source>Ignore special characters</source>
         <translation>Ігнорувати спеціальні символи</translation>
     </message>
     <message>
         <location line="+20"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
         <source>Ignore accents</source>
         <translation>Ігнорувати гравіс</translation>
     </message>
     <message>
         <location line="+34"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+2"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+2"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+2"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+2"/>
         <source>On double click, create playlist and</source>
         <translation>Подвійний натиск: створити новий плейлист і </translation>
     </message>
     <message>
         <location line="+6"/>
         <location line="+30"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
+        <location line="+4"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
+        <location line="+4"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
+        <location line="+4"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
+        <location line="+4"/>
         <source>do nothing (default)</source>
         <translation>залишити без змін</translation>
     </message>
     <message>
         <location line="-23"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="-3"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="-3"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="-3"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="-3"/>
         <source>start playback if stopped</source>
         <translation>розпочати відтворення у разі зупинки</translation>
     </message>
     <message>
         <location line="+7"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
         <source>start playback immediately</source>
         <translation>розпочати відтворення негайно</translation>
     </message>
     <message>
         <location line="+10"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+1"/>
         <source>When drag and drop into playlist </source>
         <translation>Drag and Drop: Вставити назву в плейлист і </translation>
     </message>
     <message>
         <location line="+13"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+2"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+2"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+2"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+2"/>
         <source>start if stopped and playlist is empty</source>
         <translation>розпочати відтворення у разі зупинки і якщо плейлист порожній</translation>
     </message>
     <message>
         <location line="+24"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+3"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+3"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+3"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="+3"/>
         <source>Other</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+6"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="-1"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="-1"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="-1"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="-1"/>
         <source>Show &quot;Clear selection&quot; buttons</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="-85"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="-1"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="-1"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="-1"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_LibraryPreferences.h" line="-1"/>
         <source>Library-Playlist Interaction</source>
         <translation>Бібліотека і плейлист</translation>
     </message>
@@ -524,11 +743,19 @@
     <name>GUI_LocalLibrary</name>
     <message>
         <location filename="../GUI/Library/GUI_LocalLibrary.ui" line="+26"/>
+        <location filename="../../build/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+333"/>
+        <location filename="../../build-clang-debug/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+331"/>
+        <location filename="../../build-clang-release/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+331"/>
+        <location filename="../../build-release/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+318"/>
         <source>Library</source>
         <translation>Бібліотека</translation>
     </message>
     <message>
-        <location line="+379"/>
+        <location line="+394"/>
+        <location filename="../../build/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+1"/>
+        <location filename="../../build-clang-debug/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+1"/>
+        <location filename="../../build-clang-release/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+1"/>
+        <location filename="../../build-release/src/GUI/Library/ui_GUI_LocalLibrary.h" line="+1"/>
         <source>No genres found</source>
         <translation>Жанри не знайдені</translation>
     </message>
@@ -545,16 +772,28 @@
     <name>GUI_Lyrics</name>
     <message>
         <location filename="../GUI/InfoDialog/GUI_Lyrics.ui" line="+28"/>
+        <location filename="../../build/src/GUI/InfoDialog/ui_GUI_Lyrics.h" line="+212"/>
+        <location filename="../../build-clang-debug/src/GUI/InfoDialog/ui_GUI_Lyrics.h" line="+212"/>
+        <location filename="../../build-clang-release/src/GUI/InfoDialog/ui_GUI_Lyrics.h" line="+212"/>
+        <location filename="../../build-release/src/GUI/InfoDialog/ui_GUI_Lyrics.h" line="+212"/>
         <source>Save Lyrics</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+125"/>
+        <location filename="../../build/src/GUI/InfoDialog/ui_GUI_Lyrics.h" line="+1"/>
+        <location filename="../../build-clang-debug/src/GUI/InfoDialog/ui_GUI_Lyrics.h" line="+1"/>
+        <location filename="../../build-clang-release/src/GUI/InfoDialog/ui_GUI_Lyrics.h" line="+1"/>
+        <location filename="../../build-release/src/GUI/InfoDialog/ui_GUI_Lyrics.h" line="+1"/>
         <source>switch</source>
         <translation>Перемкнути</translation>
     </message>
     <message>
         <location line="+42"/>
+        <location filename="../../build/src/GUI/InfoDialog/ui_GUI_Lyrics.h" line="+1"/>
+        <location filename="../../build-clang-debug/src/GUI/InfoDialog/ui_GUI_Lyrics.h" line="+1"/>
+        <location filename="../../build-clang-release/src/GUI/InfoDialog/ui_GUI_Lyrics.h" line="+1"/>
+        <location filename="../../build-release/src/GUI/InfoDialog/ui_GUI_Lyrics.h" line="+1"/>
         <source>Zoom</source>
         <translation>Масштаб</translation>
     </message>
@@ -583,16 +822,28 @@
     </message>
     <message>
         <location filename="../GUI/Preferences/Notifications/GUI_Notifications.ui" line="+17"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_Notifications.h" line="+77"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_Notifications.h" line="+77"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_Notifications.h" line="+77"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_Notifications.h" line="+77"/>
         <source>Timeout (ms)</source>
         <translation>Затримка(мс)</translation>
     </message>
     <message>
         <location line="+10"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_Notifications.h" line="+1"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_Notifications.h" line="+1"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_Notifications.h" line="+1"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_Notifications.h" line="+1"/>
         <source>Activate</source>
         <translation>Активувати</translation>
     </message>
     <message>
         <location line="+11"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_Notifications.h" line="+3"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_Notifications.h" line="+3"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_Notifications.h" line="+3"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_Notifications.h" line="+3"/>
         <source>Standard</source>
         <translation>Стандарт</translation>
     </message>
@@ -654,21 +905,37 @@
     <name>GUI_PlayerPreferences</name>
     <message>
         <location filename="../GUI/Preferences/PlayerPreferences/GUI_PlayerPreferences.ui" line="+24"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_PlayerPreferences.h" line="+68"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_PlayerPreferences.h" line="+68"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_PlayerPreferences.h" line="+68"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_PlayerPreferences.h" line="+68"/>
         <source>Start in tray</source>
         <translation>Відкрити в мінімальному режимі</translation>
     </message>
     <message>
         <location line="+7"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_PlayerPreferences.h" line="+1"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_PlayerPreferences.h" line="+1"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_PlayerPreferences.h" line="+1"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_PlayerPreferences.h" line="+1"/>
         <source>Close to tray</source>
         <translation>Згорнути</translation>
     </message>
     <message>
         <location line="+7"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_PlayerPreferences.h" line="+1"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_PlayerPreferences.h" line="+1"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_PlayerPreferences.h" line="+1"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_PlayerPreferences.h" line="+1"/>
         <source>Show system tray icon</source>
         <translation>Показувати піктограму системного лотка</translation>
     </message>
     <message>
         <location line="-21"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_PlayerPreferences.h" line="-3"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_PlayerPreferences.h" line="-3"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_PlayerPreferences.h" line="-3"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_PlayerPreferences.h" line="-3"/>
         <source>Update notifications</source>
         <translation>Повідомлення про оновлення</translation>
     </message>
@@ -681,7 +948,7 @@
 <context>
     <name>GUI_Playlist</name>
     <message>
-        <location filename="../GUI/Playlist/GUI_Playlist.cpp" line="+357"/>
+        <location filename="../GUI/Playlist/GUI_Playlist.cpp" line="+272"/>
         <source>Playlist empty</source>
         <translation>Плейлист порожній</translation>
     </message>
@@ -696,7 +963,7 @@
         <translation>Відкрити медіа файли</translation>
     </message>
     <message>
-        <location line="+253"/>
+        <location line="+219"/>
         <source>Playlist name already exists</source>
         <translation>Ім&apos;я плейлиста вже існує</translation>
     </message>
@@ -724,17 +991,35 @@
 <context>
     <name>GUI_PlaylistBottomBar</name>
     <message>
-        <location filename="../GUI/Playlist/BottomBar/GUI_PlaylistBottomBar.ui" line="+61"/>
-        <location line="+39"/>
-        <location line="+39"/>
-        <location line="+39"/>
-        <location line="+38"/>
-        <location line="+41"/>
+        <location filename="../../build/src/GUI/Playlist/ui_GUI_PlaylistBottomBar.h" line="+155"/>
+        <location line="+2"/>
+        <location line="+2"/>
+        <location line="+2"/>
+        <location line="+2"/>
+        <location line="+2"/>
+        <location filename="../../build-clang-debug/src/GUI/Playlist/ui_GUI_PlaylistBottomBar.h" line="+155"/>
+        <location line="+2"/>
+        <location line="+2"/>
+        <location line="+2"/>
+        <location line="+2"/>
+        <location line="+2"/>
+        <location filename="../../build-clang-release/src/GUI/Playlist/ui_GUI_PlaylistBottomBar.h" line="+155"/>
+        <location line="+2"/>
+        <location line="+2"/>
+        <location line="+2"/>
+        <location line="+2"/>
+        <location line="+2"/>
+        <location filename="../../build-release/src/GUI/Playlist/ui_GUI_PlaylistBottomBar.h" line="+155"/>
+        <location line="+2"/>
+        <location line="+2"/>
+        <location line="+2"/>
+        <location line="+2"/>
+        <location line="+2"/>
         <source>Enter</source>
         <translation>Ввід</translation>
     </message>
     <message>
-        <location filename="../GUI/Playlist/BottomBar/GUI_PlaylistBottomBar.cpp" line="+199"/>
+        <location filename="../GUI/Playlist/BottomBar.cpp" line="+247"/>
         <source>Please set library path first</source>
         <translation>Будь ласка,задайте спочатку шлях до бібліотеки</translation>
     </message>
@@ -757,76 +1042,136 @@
     <name>GUI_PlaylistPreferences</name>
     <message>
         <location filename="../GUI/Preferences/PlaylistPreferences/GUI_PlaylistPreferences.ui" line="+291"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+310"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+310"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+310"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+310"/>
         <source>Show numbers</source>
         <translation>Показати нумерацію</translation>
     </message>
     <message>
         <location line="-161"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+2"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+2"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+2"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+2"/>
         <source>Look</source>
         <translation>Подивитися</translation>
     </message>
     <message>
         <location line="-71"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="-14"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="-14"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="-14"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="-14"/>
         <source>Start up</source>
         <translation>Налаштування запуску</translation>
     </message>
     <message>
         <location line="+6"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
         <source>Load temporary playlists</source>
         <translation>Завантажити тимчасові плейлисти</translation>
     </message>
     <message>
         <location line="+38"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+4"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+4"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+4"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+4"/>
         <source>Remember time of last track</source>
         <translation>Запам&apos;ятати час відтворення останнього треку</translation>
     </message>
     <message>
         <location line="-31"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="-3"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="-3"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="-3"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="-3"/>
         <source>Load saved playlists</source>
         <translation>Завантажити збережені плейлисти</translation>
     </message>
     <message>
         <location line="+24"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+2"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+2"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+2"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+2"/>
         <source>Load last track on startup</source>
         <translation>Вибрати останній відтворюваний трек</translation>
     </message>
     <message>
         <location line="-7"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="-1"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="-1"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="-1"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="-1"/>
         <source>Start playing</source>
         <translation>Розпочати відтворення</translation>
     </message>
     <message>
         <location line="-56"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+5"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+5"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+5"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+5"/>
         <source>Behavior</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+80"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="-2"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="-2"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="-2"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="-2"/>
         <source>Stop behaviour</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+6"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
         <source>Load last track after pressing stop</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+53"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+2"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+2"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+2"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+2"/>
         <source>&apos;italic text&apos;</source>
         <translation>&apos;текст курсивом&apos;</translation>
     </message>
     <message>
         <location line="+7"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
         <source>Example</source>
         <translation>Приклад</translation>
     </message>
     <message>
         <location line="+27"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+1"/>
         <source>*bold text*</source>
         <translation>*жирний текст*</translation>
     </message>
     <message>
         <location line="+92"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+2"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+2"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+2"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_PlaylistPreferences.h" line="+2"/>
         <source>Show clear button</source>
         <translation>Показати кнопку скидання налаштувань</translation>
     </message>
@@ -835,6 +1180,10 @@
     <name>GUI_Podcasts</name>
     <message>
         <location filename="../GUI/Plugins/Stream/GUI_Podcasts.ui" line="+80"/>
+        <location filename="../../build/src/GUI/Plugins/Stream/ui_GUI_Podcasts.h" line="+106"/>
+        <location filename="../../build-clang-debug/src/GUI/Plugins/Stream/ui_GUI_Podcasts.h" line="+106"/>
+        <location filename="../../build-clang-release/src/GUI/Plugins/Stream/ui_GUI_Podcasts.h" line="+106"/>
+        <location filename="../../build-release/src/GUI/Plugins/Stream/ui_GUI_Podcasts.h" line="+106"/>
         <source>Start stream</source>
         <translation>Розпочати стрімінг</translation>
     </message>
@@ -853,22 +1202,38 @@
     <name>GUI_PreferenceDialog</name>
     <message>
         <location filename="../GUI/Preferences/PreferenceDialog/GUI_PreferenceDialog.ui" line="+30"/>
-        <location filename="../GUI/Preferences/PreferenceDialog/GUI_PreferenceDialog.cpp" line="+82"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_PreferenceDialog.h" line="+182"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_PreferenceDialog.h" line="+182"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_PreferenceDialog.h" line="+182"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_PreferenceDialog.h" line="+182"/>
+        <location filename="../GUI/Preferences/PreferenceDialog/GUI_PreferenceDialog.cpp" line="+104"/>
         <source>Preferences</source>
         <translation>Налаштування</translation>
     </message>
     <message>
         <location line="+142"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_PreferenceDialog.h" line="+1"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_PreferenceDialog.h" line="+1"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_PreferenceDialog.h" line="+1"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_PreferenceDialog.h" line="+1"/>
         <source>Cancel</source>
         <translation>Відмінити</translation>
     </message>
     <message>
         <location line="+7"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_PreferenceDialog.h" line="+1"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_PreferenceDialog.h" line="+1"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_PreferenceDialog.h" line="+1"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_PreferenceDialog.h" line="+1"/>
         <source>Apply</source>
         <translation>Застосувати</translation>
     </message>
     <message>
         <location line="+7"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_PreferenceDialog.h" line="+1"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_PreferenceDialog.h" line="+1"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_PreferenceDialog.h" line="+1"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_PreferenceDialog.h" line="+1"/>
         <source>OK</source>
         <translation>ОК</translation>
     </message>
@@ -877,31 +1242,55 @@
     <name>GUI_Proxy</name>
     <message>
         <location filename="../GUI/Preferences/ProxyPreferences/GUI_Proxy.ui" line="+30"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_Proxy.h" line="+125"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_Proxy.h" line="+125"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_Proxy.h" line="+125"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_Proxy.h" line="+125"/>
         <source>Password</source>
         <translation type="unfinished">Пароль</translation>
     </message>
     <message>
         <location line="+7"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_Proxy.h" line="+1"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_Proxy.h" line="+1"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_Proxy.h" line="+1"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_Proxy.h" line="+1"/>
         <source>Save username/password</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+7"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_Proxy.h" line="+1"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_Proxy.h" line="+1"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_Proxy.h" line="+1"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_Proxy.h" line="+1"/>
         <source>Active</source>
         <translation type="unfinished">Активний</translation>
     </message>
     <message>
         <location line="+13"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_Proxy.h" line="+1"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_Proxy.h" line="+1"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_Proxy.h" line="+1"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_Proxy.h" line="+1"/>
         <source>Port</source>
         <translation type="unfinished">Порт</translation>
     </message>
     <message>
         <location line="+7"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_Proxy.h" line="+1"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_Proxy.h" line="+1"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_Proxy.h" line="+1"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_Proxy.h" line="+1"/>
         <source>Username</source>
         <translation type="unfinished">Ім&apos;я користувача</translation>
     </message>
     <message>
         <location line="+27"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_Proxy.h" line="+1"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_Proxy.h" line="+1"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_Proxy.h" line="+1"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_Proxy.h" line="+1"/>
         <source>Host</source>
         <translation type="unfinished"></translation>
     </message>
@@ -920,16 +1309,28 @@
     </message>
     <message>
         <location filename="../GUI/Preferences/RemoteControl/GUI_RemoteControl.ui" line="+47"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_RemoteControl.h" line="+97"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_RemoteControl.h" line="+97"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_RemoteControl.h" line="+97"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_RemoteControl.h" line="+97"/>
         <source>Activate</source>
         <translation>Активувати</translation>
     </message>
     <message>
         <location line="+7"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_RemoteControl.h" line="+1"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_RemoteControl.h" line="+1"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_RemoteControl.h" line="+1"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_RemoteControl.h" line="+1"/>
         <source>Remote control URL</source>
         <translation>Дистанційне управління URL</translation>
     </message>
     <message>
         <location line="-17"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_RemoteControl.h" line="-2"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_RemoteControl.h" line="-2"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_RemoteControl.h" line="-2"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_RemoteControl.h" line="-2"/>
         <source>Port</source>
         <translation>Порт</translation>
     </message>
@@ -938,6 +1339,10 @@
     <name>GUI_ShortcutEntry</name>
     <message>
         <location filename="../GUI/Preferences/Shortcuts/GUI_ShortcutEntry.ui" line="+42"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_ShortcutEntry.h" line="+96"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_ShortcutEntry.h" line="+96"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_ShortcutEntry.h" line="+96"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_ShortcutEntry.h" line="+96"/>
         <source>Enter shortcut...</source>
         <translation>Ввести комбінацію клавіш...</translation>
     </message>
@@ -956,6 +1361,10 @@
     <name>GUI_Shortcuts</name>
     <message>
         <location filename="../GUI/Preferences/Shortcuts/GUI_Shortcuts.ui" line="+41"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_Shortcuts.h" line="+85"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_Shortcuts.h" line="+85"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_Shortcuts.h" line="+85"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_Shortcuts.h" line="+85"/>
         <location filename="../GUI/Preferences/Shortcuts/GUI_Shortcuts.cpp" line="+121"/>
         <source>Press shortcut</source>
         <translation>Натиснути shortcut</translation>
@@ -971,31 +1380,59 @@
     <message>
         <location filename="../GUI/ShutdownDialog/GUI_Shutdown.ui" line="+14"/>
         <location line="+92"/>
+        <location filename="../../build/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="+122"/>
+        <location line="+7"/>
+        <location filename="../../build-clang-debug/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="+122"/>
+        <location line="+7"/>
+        <location filename="../../build-clang-release/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="+122"/>
+        <location line="+7"/>
+        <location filename="../../build-release/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="+122"/>
+        <location line="+7"/>
         <source>Shutdown</source>
         <translation>Завершення роботи</translation>
     </message>
     <message>
         <location line="-76"/>
+        <location filename="../../build/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="-5"/>
+        <location filename="../../build-clang-debug/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="-5"/>
+        <location filename="../../build-clang-release/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="-5"/>
+        <location filename="../../build-release/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="-5"/>
         <source>Cancel</source>
         <translation>Відмінити</translation>
     </message>
     <message>
         <location line="+7"/>
+        <location filename="../../build/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="+1"/>
+        <location filename="../../build-clang-debug/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="+1"/>
+        <location filename="../../build-clang-release/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="+1"/>
+        <location filename="../../build-release/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="+1"/>
         <source>OK</source>
         <translation>ОК</translation>
     </message>
     <message>
         <location line="+24"/>
+        <location filename="../../build/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="+2"/>
+        <location filename="../../build-clang-debug/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="+2"/>
+        <location filename="../../build-clang-release/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="+2"/>
+        <location filename="../../build-release/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="+2"/>
         <source>minutes</source>
         <translation>хвилин</translation>
     </message>
     <message>
         <location line="-7"/>
+        <location filename="../../build/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="-1"/>
+        <location filename="../../build-clang-debug/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="-1"/>
+        <location filename="../../build-clang-release/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="-1"/>
+        <location filename="../../build-release/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="-1"/>
         <source>Shutdown after</source>
         <translation>Завершення після</translation>
     </message>
     <message>
         <location line="-34"/>
+        <location filename="../../build/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="-3"/>
+        <location filename="../../build-clang-debug/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="-3"/>
+        <location filename="../../build-clang-release/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="-3"/>
+        <location filename="../../build-release/src/GUI/ShutdownDialog/ui_GUI_Shutdown.h" line="-3"/>
         <source>Shutdown after playlist finished</source>
         <translation>Після останньої пісні завершити роботу</translation>
     </message>
@@ -1004,11 +1441,19 @@
     <name>GUI_SomaFM</name>
     <message>
         <location filename="../3rdParty/SomaFM/ui/GUI_SomaFM.ui" line="+42"/>
+        <location filename="../../build/src/3rdParty/SomaFM/ui_GUI_SomaFM.h" line="+200"/>
+        <location filename="../../build-clang-debug/src/3rdParty/SomaFM/ui_GUI_SomaFM.h" line="+200"/>
+        <location filename="../../build-clang-release/src/3rdParty/SomaFM/ui_GUI_SomaFM.h" line="+200"/>
+        <location filename="../../build-release/src/3rdParty/SomaFM/ui_GUI_SomaFM.h" line="+200"/>
         <source>Donate to Soma.fm</source>
         <translation>Пожертвувати Soma.fm</translation>
     </message>
     <message>
         <location line="+102"/>
+        <location filename="../../build/src/3rdParty/SomaFM/ui_GUI_SomaFM.h" line="+2"/>
+        <location filename="../../build-clang-debug/src/3rdParty/SomaFM/ui_GUI_SomaFM.h" line="+2"/>
+        <location filename="../../build-clang-release/src/3rdParty/SomaFM/ui_GUI_SomaFM.h" line="+2"/>
+        <location filename="../../build-release/src/3rdParty/SomaFM/ui_GUI_SomaFM.h" line="+2"/>
         <source>Streams</source>
         <translation>Веб-потоки</translation>
     </message>
@@ -1017,21 +1462,37 @@
     <name>GUI_SoundcloudArtistSearch</name>
     <message>
         <location filename="../3rdParty/Soundcloud/ui/GUI_SoundcloudArtistSearch.ui" line="+14"/>
+        <location filename="../../build/src/3rdParty/Soundcloud/ui_GUI_SoundcloudArtistSearch.h" line="+169"/>
+        <location filename="../../build-clang-debug/src/3rdParty/Soundcloud/ui_GUI_SoundcloudArtistSearch.h" line="+169"/>
+        <location filename="../../build-clang-release/src/3rdParty/Soundcloud/ui_GUI_SoundcloudArtistSearch.h" line="+169"/>
+        <location filename="../../build-release/src/3rdParty/Soundcloud/ui_GUI_SoundcloudArtistSearch.h" line="+169"/>
         <source>Search Soundcloud</source>
         <translation>Шукати в Soundcloud</translation>
     </message>
     <message>
         <location line="+55"/>
+        <location filename="../../build/src/3rdParty/Soundcloud/ui_GUI_SoundcloudArtistSearch.h" line="+4"/>
+        <location filename="../../build-clang-debug/src/3rdParty/Soundcloud/ui_GUI_SoundcloudArtistSearch.h" line="+4"/>
+        <location filename="../../build-clang-release/src/3rdParty/Soundcloud/ui_GUI_SoundcloudArtistSearch.h" line="+4"/>
+        <location filename="../../build-release/src/3rdParty/Soundcloud/ui_GUI_SoundcloudArtistSearch.h" line="+4"/>
         <source>Search artist</source>
         <translation>Шукати виконавця</translation>
     </message>
     <message>
         <location line="-24"/>
+        <location filename="../../build/src/3rdParty/Soundcloud/ui_GUI_SoundcloudArtistSearch.h" line="-2"/>
+        <location filename="../../build-clang-debug/src/3rdParty/Soundcloud/ui_GUI_SoundcloudArtistSearch.h" line="-2"/>
+        <location filename="../../build-clang-release/src/3rdParty/Soundcloud/ui_GUI_SoundcloudArtistSearch.h" line="-2"/>
+        <location filename="../../build-release/src/3rdParty/Soundcloud/ui_GUI_SoundcloudArtistSearch.h" line="-2"/>
         <source>Cancel</source>
         <translation>Відмінити</translation>
     </message>
     <message>
         <location line="+7"/>
+        <location filename="../../build/src/3rdParty/Soundcloud/ui_GUI_SoundcloudArtistSearch.h" line="+1"/>
+        <location filename="../../build-clang-debug/src/3rdParty/Soundcloud/ui_GUI_SoundcloudArtistSearch.h" line="+1"/>
+        <location filename="../../build-clang-release/src/3rdParty/Soundcloud/ui_GUI_SoundcloudArtistSearch.h" line="+1"/>
+        <location filename="../../build-release/src/3rdParty/Soundcloud/ui_GUI_SoundcloudArtistSearch.h" line="+1"/>
         <source>Add</source>
         <translation>Додати</translation>
     </message>
@@ -1040,11 +1501,19 @@
     <name>GUI_SoundcloudLibrary</name>
     <message>
         <location filename="../3rdParty/Soundcloud/ui/GUI_SoundcloudLibrary.ui" line="+26"/>
+        <location filename="../../build/src/3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h" line="+199"/>
+        <location filename="../../build-clang-debug/src/3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h" line="+199"/>
+        <location filename="../../build-clang-release/src/3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h" line="+199"/>
+        <location filename="../../build-release/src/3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h" line="+199"/>
         <source>Library</source>
         <translation>Бібліотека</translation>
     </message>
     <message>
         <location line="+311"/>
+        <location filename="../../build/src/3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h" line="+4"/>
+        <location filename="../../build-clang-debug/src/3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h" line="+4"/>
+        <location filename="../../build-clang-release/src/3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h" line="+4"/>
+        <location filename="../../build-release/src/3rdParty/Soundcloud/ui_GUI_SoundcloudLibrary.h" line="+4"/>
         <source>Search for title, interprets and albums</source>
         <translation>Пошук за назвами,виконавцями та альбомами</translation>
     </message>
@@ -1061,17 +1530,29 @@
     <name>GUI_Speed</name>
     <message>
         <location filename="../GUI/Plugins/Engine/Speed/GUI_Speed.ui" line="+45"/>
+        <location filename="../../build/src/GUI/Plugins/Engine/ui_GUI_Speed.h" line="+147"/>
+        <location filename="../../build-clang-debug/src/GUI/Plugins/Engine/ui_GUI_Speed.h" line="+147"/>
+        <location filename="../../build-clang-release/src/GUI/Plugins/Engine/ui_GUI_Speed.h" line="+147"/>
+        <location filename="../../build-release/src/GUI/Plugins/Engine/ui_GUI_Speed.h" line="+147"/>
         <location filename="../GUI/Plugins/Engine/Speed/GUI_Speed.cpp" line="+117"/>
         <source>Speed</source>
         <translation>Швидкість</translation>
     </message>
     <message>
         <location line="+39"/>
+        <location filename="../../build/src/GUI/Plugins/Engine/ui_GUI_Speed.h" line="-1"/>
+        <location filename="../../build-clang-debug/src/GUI/Plugins/Engine/ui_GUI_Speed.h" line="-1"/>
+        <location filename="../../build-clang-release/src/GUI/Plugins/Engine/ui_GUI_Speed.h" line="-1"/>
+        <location filename="../../build-release/src/GUI/Plugins/Engine/ui_GUI_Speed.h" line="-1"/>
         <source>Preserve pitch</source>
         <translation>Не змінювати висоту</translation>
     </message>
     <message>
         <location line="+30"/>
+        <location filename="../../build/src/GUI/Plugins/Engine/ui_GUI_Speed.h" line="+2"/>
+        <location filename="../../build-clang-debug/src/GUI/Plugins/Engine/ui_GUI_Speed.h" line="+2"/>
+        <location filename="../../build-clang-release/src/GUI/Plugins/Engine/ui_GUI_Speed.h" line="+2"/>
+        <location filename="../../build-release/src/GUI/Plugins/Engine/ui_GUI_Speed.h" line="+2"/>
         <location filename="../GUI/Plugins/Engine/Speed/GUI_Speed.cpp" line="+0"/>
         <source>Pitch</source>
         <translation>Висота</translation>
@@ -1139,56 +1620,104 @@
         <source>Podcasts</source>
         <translation type="unfinished">Подкасти</translation>
     </message>
+    <message>
+        <location filename="../GUI/Preferences/Streams/GUI_StreamPreferences.ui" line="+17"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_StreamPreferences.h" line="+61"/>
+        <source>Open Streams in new tab</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_StreamPreferences.h" line="+1"/>
+        <source>Show history</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>GUI_StreamRecorder</name>
     <message>
         <location filename="../GUI/Preferences/StreamRecorder/GUI_StreamRecorder.ui" line="+33"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="+241"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="+241"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="+241"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="+241"/>
         <source>Target path:</source>
         <translation>Адреса:</translation>
     </message>
     <message>
         <location line="+50"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="+3"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="+3"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="+3"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="+3"/>
         <source>Activate</source>
         <translation>Активувати</translation>
     </message>
     <message>
         <location line="-7"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="-1"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="-1"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="-1"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="-1"/>
         <source>Automatic recording</source>
         <translation>Автоматичний запис</translation>
     </message>
     <message>
         <location line="-49"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="+6"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="+6"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="+6"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="+6"/>
         <source>General</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+100"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="-1"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="-1"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="-1"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="-1"/>
         <source>Create session folder</source>
         <translation>Створити каталог для сесії</translation>
     </message>
     <message>
         <location line="+8"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="+5"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="+5"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="+5"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="+5"/>
         <source>Session Folder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+22"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="-3"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="-3"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="-3"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="-3"/>
         <source>Choose available placeholders</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+37"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="+1"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="+1"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="+1"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="+1"/>
         <source>Path template</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+24"/>
+        <location filename="../../build/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="+1"/>
+        <location filename="../../build-clang-debug/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="+1"/>
+        <location filename="../../build-clang-release/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="+1"/>
+        <location filename="../../build-release/src/GUI/Preferences/ui_GUI_StreamRecorder.h" line="+1"/>
         <source>Example</source>
         <translation type="unfinished">Приклад</translation>
     </message>
     <message>
-        <location filename="../GUI/Preferences/StreamRecorder/GUI_StreamRecorder.cpp" line="+140"/>
+        <location filename="../GUI/Preferences/StreamRecorder/GUI_StreamRecorder.cpp" line="+138"/>
         <source>Choose target directory</source>
         <translation>Вибрати каталог</translation>
     </message>
@@ -1210,79 +1739,151 @@ Please choose another folder</source>
     <name>GUI_Style</name>
     <message>
         <location filename="../GUI/Plugins/Engine/GUI_Style.ui" line="+14"/>
+        <location filename="../../build/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+423"/>
+        <location filename="../../build-clang-debug/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+423"/>
+        <location filename="../../build-clang-release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+423"/>
+        <location filename="../../build-release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+423"/>
         <source>Style</source>
         <translation>Стиль</translation>
     </message>
     <message>
         <location line="+38"/>
+        <location filename="../../build/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+1"/>
+        <location filename="../../build-clang-debug/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+1"/>
+        <location filename="../../build-clang-release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+1"/>
+        <location filename="../../build-release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+1"/>
         <source>Close</source>
         <translation>Закрити</translation>
     </message>
     <message>
         <location line="+11"/>
+        <location filename="../../build/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+1"/>
+        <location filename="../../build-clang-debug/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+1"/>
+        <location filename="../../build-clang-release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+1"/>
+        <location filename="../../build-release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+1"/>
         <source>Spectrum</source>
         <translation>Діапазон</translation>
     </message>
     <message>
         <location line="+16"/>
+        <location filename="../../build/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+1"/>
+        <location filename="../../build-clang-debug/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+1"/>
+        <location filename="../../build-clang-release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+1"/>
+        <location filename="../../build-release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+1"/>
         <source>Vert. spacing</source>
         <translation>Верт. розташування</translation>
     </message>
     <message>
         <location line="+41"/>
         <location line="+75"/>
+        <location filename="../../build/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+3"/>
+        <location line="+7"/>
+        <location filename="../../build-clang-debug/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+3"/>
+        <location line="+7"/>
+        <location filename="../../build-clang-release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+3"/>
+        <location line="+7"/>
+        <location filename="../../build-release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+3"/>
+        <location line="+7"/>
         <source>Fading steps</source>
         <translation>Налаштування переходу</translation>
     </message>
     <message>
         <location line="-89"/>
         <location line="+44"/>
+        <location filename="../../build/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="-8"/>
+        <location line="+4"/>
+        <location filename="../../build-clang-debug/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="-8"/>
+        <location line="+4"/>
+        <location filename="../../build-clang-release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="-8"/>
+        <location line="+4"/>
+        <location filename="../../build-release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="-8"/>
+        <location line="+4"/>
         <source>Hor. spacing</source>
         <translation>Гориз. розташування</translation>
     </message>
     <message>
         <location line="-64"/>
         <location line="+88"/>
+        <location filename="../../build/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="-5"/>
+        <location line="+7"/>
+        <location filename="../../build-clang-debug/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="-5"/>
+        <location line="+7"/>
+        <location filename="../../build-clang-release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="-5"/>
+        <location line="+7"/>
+        <location filename="../../build-release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="-5"/>
+        <location line="+7"/>
         <source>Rect height</source>
         <translation>Висота прямокутника</translation>
     </message>
     <message>
         <location line="-30"/>
+        <location filename="../../build/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="-3"/>
+        <location filename="../../build-clang-debug/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="-3"/>
+        <location filename="../../build-clang-release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="-3"/>
+        <location filename="../../build-release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="-3"/>
         <source>Level</source>
         <translation>Рівень</translation>
     </message>
     <message>
         <location line="+23"/>
+        <location filename="../../build/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+2"/>
+        <location filename="../../build-clang-debug/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+2"/>
+        <location filename="../../build-clang-release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+2"/>
+        <location filename="../../build-release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+2"/>
         <source>Rect width</source>
         <translation>Ширина прямокутника</translation>
     </message>
     <message>
         <location line="+14"/>
+        <location filename="../../build/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+2"/>
+        <location filename="../../build-clang-debug/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+2"/>
+        <location filename="../../build-clang-release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+2"/>
+        <location filename="../../build-release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+2"/>
         <source>Ver. spacing</source>
         <translation>Верт. розташування</translation>
     </message>
     <message>
         <location line="+54"/>
+        <location filename="../../build/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+2"/>
+        <location filename="../../build-clang-debug/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+2"/>
+        <location filename="../../build-clang-release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+2"/>
+        <location filename="../../build-release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+2"/>
         <source>Style settings</source>
         <translation>Налаштування стилю</translation>
     </message>
     <message>
         <location line="+129"/>
+        <location filename="../../build/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+4"/>
+        <location filename="../../build-clang-debug/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+4"/>
+        <location filename="../../build-clang-release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+4"/>
+        <location filename="../../build-release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+4"/>
         <source>Color 2</source>
         <translation>Колір 2</translation>
     </message>
     <message>
         <location line="+7"/>
+        <location filename="../../build/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+1"/>
+        <location filename="../../build-clang-debug/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+1"/>
+        <location filename="../../build-clang-release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+1"/>
+        <location filename="../../build-release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+1"/>
         <source>Color 1</source>
         <translation>Колір 1</translation>
     </message>
     <message>
         <location line="+32"/>
+        <location filename="../../build/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+2"/>
+        <location filename="../../build-clang-debug/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+2"/>
+        <location filename="../../build-clang-release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+2"/>
+        <location filename="../../build-release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+2"/>
         <source>Color 3</source>
         <translation>Колір 3</translation>
     </message>
     <message>
         <location line="+7"/>
+        <location filename="../../build/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+1"/>
+        <location filename="../../build-clang-debug/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+1"/>
+        <location filename="../../build-clang-release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+1"/>
+        <location filename="../../build-release/src/GUI/Plugins/Engine/ui_GUI_Style.h" line="+1"/>
         <source>Color 4</source>
         <translation>Коліра 4</translation>
     </message>
@@ -1309,76 +1910,136 @@ Please choose another folder</source>
     <name>GUI_TagEdit</name>
     <message>
         <location filename="../GUI/TagEdit/GUI_TagEdit.ui" line="+453"/>
+        <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+674"/>
+        <location filename="../../build-clang-debug/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+674"/>
+        <location filename="../../build-clang-release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+674"/>
+        <location filename="../../build-release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+674"/>
         <source>?</source>
         <translation>?</translation>
     </message>
     <message>
         <location line="+66"/>
+        <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+2"/>
+        <location filename="../../build-clang-debug/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+2"/>
+        <location filename="../../build-clang-release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+2"/>
+        <location filename="../../build-release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+2"/>
         <source>Discnumber</source>
         <translation>Номер диска</translation>
     </message>
     <message>
         <location line="-101"/>
+        <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-3"/>
+        <location filename="../../build-clang-debug/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-3"/>
+        <location filename="../../build-clang-release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-3"/>
+        <location filename="../../build-release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-3"/>
         <source>Disc Nr</source>
         <translation>CD Ном</translation>
     </message>
     <message>
         <location line="+42"/>
+        <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+2"/>
+        <location filename="../../build-clang-debug/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+2"/>
+        <location filename="../../build-clang-release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+2"/>
+        <location filename="../../build-release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+2"/>
         <source>Expression</source>
         <translation>Вираз</translation>
     </message>
     <message>
         <location line="+317"/>
+        <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+3"/>
+        <location filename="../../build-clang-debug/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+3"/>
+        <location filename="../../build-clang-release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+3"/>
+        <location filename="../../build-release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+3"/>
         <source>Album artist</source>
         <translation>Виконавець альбому</translation>
     </message>
     <message>
         <location line="-635"/>
+        <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-17"/>
+        <location filename="../../build-clang-debug/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-17"/>
+        <location filename="../../build-clang-release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-17"/>
+        <location filename="../../build-release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-17"/>
         <source>Original</source>
         <translation>Оригінал</translation>
     </message>
     <message>
         <location line="+41"/>
+        <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+3"/>
+        <location filename="../../build-clang-debug/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+3"/>
+        <location filename="../../build-clang-release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+3"/>
+        <location filename="../../build-release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+3"/>
         <source>ID3v2 Cover</source>
         <translation>ID3v2 обкладинка</translation>
     </message>
     <message>
         <location line="-27"/>
+        <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-2"/>
+        <location filename="../../build-clang-debug/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-2"/>
+        <location filename="../../build-clang-release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-2"/>
+        <location filename="../../build-release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-2"/>
         <source>Replace with</source>
         <translation>Замінити на</translation>
     </message>
     <message>
         <location line="+34"/>
+        <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+3"/>
+        <location filename="../../build-clang-debug/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+3"/>
+        <location filename="../../build-clang-release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+3"/>
+        <location filename="../../build-release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+3"/>
         <source>Don&apos;t replace</source>
         <translation>Не замінювати</translation>
     </message>
     <message>
         <location line="-27"/>
+        <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-2"/>
+        <location filename="../../build-clang-debug/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-2"/>
+        <location filename="../../build-clang-release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-2"/>
+        <location filename="../../build-release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-2"/>
         <source>Replace</source>
         <translation>Замінити</translation>
     </message>
     <message>
         <location line="+178"/>
+        <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+9"/>
+        <location filename="../../build-clang-debug/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+9"/>
+        <location filename="../../build-clang-release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+9"/>
+        <location filename="../../build-release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+9"/>
         <source>Apply to all</source>
         <translation>Застосувати до всього</translation>
     </message>
     <message>
         <location line="-245"/>
+        <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-13"/>
+        <location filename="../../build-clang-debug/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-13"/>
+        <location filename="../../build-clang-release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-13"/>
+        <location filename="../../build-release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-13"/>
         <source>Tag from path</source>
         <translation>ID3 тег добути зі шляху файла </translation>
     </message>
     <message>
         <location line="-58"/>
+        <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-1"/>
+        <location filename="../../build-clang-debug/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-1"/>
+        <location filename="../../build-clang-release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-1"/>
+        <location filename="../../build-release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="-1"/>
         <source>Undo all</source>
         <translation>Повернути все</translation>
     </message>
     <message>
         <location line="+234"/>
+        <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+10"/>
+        <location filename="../../build-clang-debug/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+10"/>
+        <location filename="../../build-clang-release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+10"/>
+        <location filename="../../build-release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+10"/>
         <source>&lt;</source>
         <translation>&lt;</translation>
     </message>
     <message>
         <location line="+32"/>
+        <location filename="../../build/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+2"/>
+        <location filename="../../build-clang-debug/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+2"/>
+        <location filename="../../build-clang-release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+2"/>
+        <location filename="../../build-release/src/GUI/TagEdit/ui_GUI_TagEdit.h" line="+2"/>
         <source>&gt;</source>
         <translation>&gt;</translation>
     </message>
@@ -1402,31 +2063,55 @@ Please choose another folder</source>
     <name>GUI_TargetPlaylistDialog</name>
     <message>
         <location filename="../GUI/Plugins/PlaylistChooser/GUI_TargetPlaylistDialog.ui" line="+14"/>
+        <location filename="../../build/src/GUI/Plugins/PlaylistChooser/ui_GUI_TargetPlaylistDialog.h" line="+109"/>
+        <location filename="../../build-clang-debug/src/GUI/Plugins/PlaylistChooser/ui_GUI_TargetPlaylistDialog.h" line="+109"/>
+        <location filename="../../build-clang-release/src/GUI/Plugins/PlaylistChooser/ui_GUI_TargetPlaylistDialog.h" line="+109"/>
+        <location filename="../../build-release/src/GUI/Plugins/PlaylistChooser/ui_GUI_TargetPlaylistDialog.h" line="+109"/>
         <source>Choose target playlist</source>
         <translation>Вибрати плейлист</translation>
     </message>
     <message>
         <location line="+25"/>
+        <location filename="../../build/src/GUI/Plugins/PlaylistChooser/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
+        <location filename="../../build-clang-debug/src/GUI/Plugins/PlaylistChooser/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
+        <location filename="../../build-clang-release/src/GUI/Plugins/PlaylistChooser/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
+        <location filename="../../build-release/src/GUI/Plugins/PlaylistChooser/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
         <source>relative filepaths</source>
         <translation>відносні шляхи</translation>
     </message>
     <message>
         <location line="+19"/>
+        <location filename="../../build/src/GUI/Plugins/PlaylistChooser/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
+        <location filename="../../build-clang-debug/src/GUI/Plugins/PlaylistChooser/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
+        <location filename="../../build-clang-release/src/GUI/Plugins/PlaylistChooser/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
+        <location filename="../../build-release/src/GUI/Plugins/PlaylistChooser/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
         <source>...</source>
         <translation>...</translation>
     </message>
     <message>
         <location line="+15"/>
+        <location filename="../../build/src/GUI/Plugins/PlaylistChooser/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
+        <location filename="../../build-clang-debug/src/GUI/Plugins/PlaylistChooser/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
+        <location filename="../../build-clang-release/src/GUI/Plugins/PlaylistChooser/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
+        <location filename="../../build-release/src/GUI/Plugins/PlaylistChooser/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
         <source>Close</source>
         <translation>Закрити</translation>
     </message>
     <message>
         <location line="+13"/>
+        <location filename="../../build/src/GUI/Plugins/PlaylistChooser/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
+        <location filename="../../build-clang-debug/src/GUI/Plugins/PlaylistChooser/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
+        <location filename="../../build-clang-release/src/GUI/Plugins/PlaylistChooser/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
+        <location filename="../../build-release/src/GUI/Plugins/PlaylistChooser/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
         <source>Save</source>
         <translation>Зберегти</translation>
     </message>
     <message>
         <location line="+13"/>
+        <location filename="../../build/src/GUI/Plugins/PlaylistChooser/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
+        <location filename="../../build-clang-debug/src/GUI/Plugins/PlaylistChooser/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
+        <location filename="../../build-clang-release/src/GUI/Plugins/PlaylistChooser/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
+        <location filename="../../build-release/src/GUI/Plugins/PlaylistChooser/ui_GUI_TargetPlaylistDialog.h" line="+1"/>
         <source>Save playlist as...</source>
         <translation>Зберегти плейлист як...</translation>
     </message>
@@ -1444,21 +2129,37 @@ Please choose another folder</source>
     <name>ImportFolder</name>
     <message>
         <location filename="../GUI/Library/ImportFolderDialog/GUI_ImportFolder.ui" line="+27"/>
+        <location filename="../../build/src/GUI/Library/ui_GUI_ImportFolder.h" line="+157"/>
+        <location filename="../../build-clang-debug/src/GUI/Library/ui_GUI_ImportFolder.h" line="+157"/>
+        <location filename="../../build-clang-release/src/GUI/Library/ui_GUI_ImportFolder.h" line="+157"/>
+        <location filename="../../build-release/src/GUI/Library/ui_GUI_ImportFolder.h" line="+157"/>
         <source>Import tracks to library</source>
         <translation>Імпортувати треки в бібліотеку</translation>
     </message>
     <message>
         <location line="+7"/>
+        <location filename="../../build/src/GUI/Library/ui_GUI_ImportFolder.h" line="+1"/>
+        <location filename="../../build-clang-debug/src/GUI/Library/ui_GUI_ImportFolder.h" line="+1"/>
+        <location filename="../../build-clang-release/src/GUI/Library/ui_GUI_ImportFolder.h" line="+1"/>
+        <location filename="../../build-release/src/GUI/Library/ui_GUI_ImportFolder.h" line="+1"/>
         <source>Select target folder</source>
         <translation>Вибрати каталог</translation>
     </message>
     <message>
         <location line="-20"/>
+        <location filename="../../build/src/GUI/Library/ui_GUI_ImportFolder.h" line="-2"/>
+        <location filename="../../build-clang-debug/src/GUI/Library/ui_GUI_ImportFolder.h" line="-2"/>
+        <location filename="../../build-clang-release/src/GUI/Library/ui_GUI_ImportFolder.h" line="-2"/>
+        <location filename="../../build-release/src/GUI/Library/ui_GUI_ImportFolder.h" line="-2"/>
         <source>Import</source>
         <translation>Імпорт</translation>
     </message>
     <message>
         <location line="+63"/>
+        <location filename="../../build/src/GUI/Library/ui_GUI_ImportFolder.h" line="+4"/>
+        <location filename="../../build-clang-debug/src/GUI/Library/ui_GUI_ImportFolder.h" line="+4"/>
+        <location filename="../../build-clang-release/src/GUI/Library/ui_GUI_ImportFolder.h" line="+4"/>
+        <location filename="../../build-release/src/GUI/Library/ui_GUI_ImportFolder.h" line="+4"/>
         <source>OK</source>
         <translation>ОК</translation>
     </message>
@@ -1467,6 +2168,10 @@ Please choose another folder</source>
     <name>InfoDialog</name>
     <message>
         <location filename="../GUI/InfoDialog/GUI_InfoDialog.ui" line="+20"/>
+        <location filename="../../build/src/GUI/InfoDialog/ui_GUI_InfoDialog.h" line="+266"/>
+        <location filename="../../build-clang-debug/src/GUI/InfoDialog/ui_GUI_InfoDialog.h" line="+264"/>
+        <location filename="../../build-clang-release/src/GUI/InfoDialog/ui_GUI_InfoDialog.h" line="+264"/>
+        <location filename="../../build-release/src/GUI/InfoDialog/ui_GUI_InfoDialog.h" line="+264"/>
         <source>Info / Edit</source>
         <translation>Інформація/Зміна</translation>
     </message>
@@ -2247,7 +2952,7 @@ Please choose another folder</source>
 <context>
     <name>Library::CoverView</name>
     <message>
-        <location filename="../GUI/Library/Views/CoverView.cpp" line="+237"/>
+        <location filename="../GUI/Library/Views/CoverView.cpp" line="+240"/>
         <source>Use Ctrl + mouse wheel to zoom</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2286,7 +2991,7 @@ Please choose another folder</source>
 <context>
     <name>Library::GenreView</name>
     <message>
-        <location filename="../GUI/Library/Views/GenreView.cpp" line="+115"/>
+        <location filename="../GUI/Library/Views/GenreView.cpp" line="+114"/>
         <source>Updating genres</source>
         <translation type="unfinished">Оновити жанри</translation>
     </message>
@@ -2426,7 +3131,7 @@ Please choose another folder</source>
 <context>
     <name>PlaylistItemModel</name>
     <message>
-        <location filename="../GUI/Playlist/Model/PlaylistItemModel.cpp" line="+395"/>
+        <location filename="../GUI/Playlist/Model.cpp" line="+397"/>
         <source>Goto row</source>
         <translation>Стрибни до рядка</translation>
     </message>
@@ -2509,37 +3214,69 @@ Please choose another folder</source>
     <name>Sayonara</name>
     <message>
         <location filename="../GUI/Player/GUI_Player.ui" line="+29"/>
+        <location filename="../../build/src/GUI/Player/ui_GUI_Player.h" line="+226"/>
+        <location filename="../../build-clang-debug/src/GUI/Player/ui_GUI_Player.h" line="+226"/>
+        <location filename="../../build-clang-release/src/GUI/Player/ui_GUI_Player.h" line="+226"/>
+        <location filename="../../build-release/src/GUI/Player/ui_GUI_Player.h" line="+226"/>
         <source>Sayonara Player</source>
         <translation>Sayonara Player</translation>
     </message>
     <message>
         <location line="+133"/>
+        <location filename="../../build/src/GUI/Player/ui_GUI_Player.h" line="+6"/>
+        <location filename="../../build-clang-debug/src/GUI/Player/ui_GUI_Player.h" line="+6"/>
+        <location filename="../../build-clang-release/src/GUI/Player/ui_GUI_Player.h" line="+6"/>
+        <location filename="../../build-release/src/GUI/Player/ui_GUI_Player.h" line="+6"/>
         <source>View</source>
         <translation>Вигляд</translation>
     </message>
     <message>
         <location line="+10"/>
         <location line="+55"/>
+        <location filename="../../build/src/GUI/Player/ui_GUI_Player.h" line="-4"/>
+        <location line="+5"/>
+        <location filename="../../build-clang-debug/src/GUI/Player/ui_GUI_Player.h" line="-4"/>
+        <location line="+5"/>
+        <location filename="../../build-clang-release/src/GUI/Player/ui_GUI_Player.h" line="-4"/>
+        <location line="+5"/>
+        <location filename="../../build-release/src/GUI/Player/ui_GUI_Player.h" line="-4"/>
+        <location line="+5"/>
         <source>Help</source>
         <translation>Допомога</translation>
     </message>
     <message>
         <location line="-5"/>
+        <location filename="../../build/src/GUI/Player/ui_GUI_Player.h" line="-6"/>
+        <location filename="../../build-clang-debug/src/GUI/Player/ui_GUI_Player.h" line="-6"/>
+        <location filename="../../build-clang-release/src/GUI/Player/ui_GUI_Player.h" line="-6"/>
+        <location filename="../../build-release/src/GUI/Player/ui_GUI_Player.h" line="-6"/>
         <source>Dark</source>
         <translation>Темний інтерфейс</translation>
     </message>
     <message>
         <location line="+38"/>
+        <location filename="../../build/src/GUI/Player/ui_GUI_Player.h" line="+2"/>
+        <location filename="../../build-clang-debug/src/GUI/Player/ui_GUI_Player.h" line="+2"/>
+        <location filename="../../build-clang-release/src/GUI/Player/ui_GUI_Player.h" line="+2"/>
+        <location filename="../../build-release/src/GUI/Player/ui_GUI_Player.h" line="+2"/>
         <source>Fullscreen </source>
         <translation>Повний екран</translation>
     </message>
     <message>
         <location line="+5"/>
+        <location filename="../../build/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
+        <location filename="../../build-clang-debug/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
+        <location filename="../../build-clang-release/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
+        <location filename="../../build-release/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
         <source>Devices</source>
         <translation>Зовнішні пристрої</translation>
     </message>
     <message>
         <location line="+5"/>
+        <location filename="../../build/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
+        <location filename="../../build-clang-debug/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
+        <location filename="../../build-clang-release/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
+        <location filename="../../build-release/src/GUI/Player/ui_GUI_Player.h" line="+1"/>
         <source>Donate</source>
         <translation>Пожертвувати</translation>
     </message>
@@ -2547,7 +3284,7 @@ Please choose another folder</source>
 <context>
     <name>Shutdown</name>
     <message>
-        <location filename="../Utils/Shutdown/Shutdown.cpp" line="+90"/>
+        <location filename="../Utils/Shutdown/Shutdown.cpp" line="+92"/>
         <source>Computer will shutdown after playlist has finished</source>
         <translation>Комп&apos;ютер завершить роботу після поточного плейлиста</translation>
     </message>

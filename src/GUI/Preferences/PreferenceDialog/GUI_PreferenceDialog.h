@@ -62,7 +62,7 @@ protected slots:
 
 protected:
 	void init_ui();
-	void retranslate_ui();
+	void language_changed() override;
 	void showEvent(QShowEvent *e) override;
 
 	void hide_all();

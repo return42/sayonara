@@ -23,6 +23,7 @@
 
 #include "GUI/Utils/GUIClass.h"
 #include "GUI/Utils/Widgets/Widget.h"
+#include "Utils/Pimpl.h"
 
 namespace Preferences
 {

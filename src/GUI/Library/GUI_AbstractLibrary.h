@@ -109,6 +109,7 @@ namespace Library
 		virtual void play_next_tracks();
 
 		virtual void show_delete_answer(QString);
+		void use_view_clear_button_changed();
 
 
 	public slots:

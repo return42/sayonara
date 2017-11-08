@@ -28,10 +28,7 @@
 #include "Application/Application.h"
 #include "Utils/Utils.h"
 #include "Utils/Parser/CommandLineParser.h"
-#include "Utils/Settings/SettingRegistry.h"
-#include "Utils/Settings/Settings.h"
 #include "Utils/Logger/Logger.h"
-#include "GUI/Utils/GuiUtils.h"
 
 #include <QSharedMemory>
 #include <QTranslator>
@@ -40,7 +37,6 @@
 #include <QDir>
 #include <QIcon>
 #include <algorithm>
-#include "Utils/Settings/SettingNotifier.h"
 
 #ifdef Q_OS_UNIX
 	#include <execinfo.h>		// backtrace
@@ -55,8 +51,6 @@
 	#include <gio/gio.h>
 
 #endif
-
-
 
 #ifdef Q_OS_WIN
 void init_gio()
@@ -190,8 +184,6 @@ int main(int argc, char *argv[])
 	}
 
 	app.exec();
-
-	NotifyClassRegistry::instance()->destroy();
 
 	return 0;
 }

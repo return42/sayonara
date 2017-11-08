@@ -77,12 +77,7 @@ void GUI_AbstractLibrary::init()
     m->lv_tracks = lv_tracks();
     m->le_search = le_search();
 
-    Set::listen(Set::Lib_UseViewClearButton, this, [&]()
-    {
-        bool use_clear_button = _settings->get(Set::Lib_UseViewClearButton);
-        m->lv_album->use_clear_button(use_clear_button);
-        m->lv_artist->use_clear_button(use_clear_button);
-    });
+	Set::listen(Set::Lib_UseViewClearButton, this, &GUI_AbstractLibrary::use_view_clear_button_changed);
 
     init_views();
     init_headers();
@@ -429,6 +424,14 @@ void GUI_AbstractLibrary::sortorder_title_changed(SortOrder s)
 
     _settings->set(Set::Lib_Sorting, so);
 }
+
+void GUI_AbstractLibrary::use_view_clear_button_changed()
+{
+	bool use_clear_button = _settings->get(Set::Lib_UseViewClearButton);
+	m->lv_album->use_clear_button(use_clear_button);
+	m->lv_artist->use_clear_button(use_clear_button);
+}
+
 
 
 void GUI_AbstractLibrary::delete_current_tracks()

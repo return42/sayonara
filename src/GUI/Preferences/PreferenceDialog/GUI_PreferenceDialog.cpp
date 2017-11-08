@@ -74,7 +74,7 @@ void GUI_PreferenceDialog::show_preference_dialog(const QString& identifier)
 }
 
 
-void GUI_PreferenceDialog::retranslate_ui()
+void GUI_PreferenceDialog::language_changed()
 {
 	ui->retranslateUi(this);
 
