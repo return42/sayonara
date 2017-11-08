@@ -437,8 +437,22 @@ void Location::set_search_term(const QString& search_term)
 	m->search_urls = cfm->search_addresses(search_term);
 }
 
+void Location::set_search_term(const QString &search_term,
+							   const QString &cover_fetcher_identifier)
+{
+	Fetcher::Manager* cfm = Fetcher::Manager::instance();
+
+	m->search_term = search_term;
+	m->search_urls = cfm->search_addresses(search_term, cover_fetcher_identifier);
+}
+
 QString Location::to_string() const
 {
-	return "Cover Location: Valid? " + QString::number(m->valid) +
-			" - Cover path: " + m->cover_path + " - " + m->local_paths.join(",");
+	return	"Cover Location: Valid? " + QString::number(m->valid) + ", "
+			"Cover Path: " + cover_path() + ", "
+			"LocalPaths: " + m->local_paths.join(',') + ", "
+			"Preferred Path: " + preferred_path() + ", "
+			"Search Urls: " + search_urls().join(',') + ", "
+			"Search Term: " + search_term() + ", "
+			"Identifier: " + identifer();
 }

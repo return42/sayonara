@@ -91,6 +91,15 @@ namespace Fetcher
 		 */
 		QStringList search_addresses(const QString& str) const;
 
+
+		/**
+		 * @brief get urls for a fuzzy query
+		 * @param str query string
+		 * @return list of urls
+		 */
+		QStringList search_addresses(const QString& str,
+									 const QString& cover_fetcher_identifier) const;
+
 		/**
 		 * @brief get a CoverFetcherInterface by a specific url
 		 * @param url cover search url

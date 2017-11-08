@@ -26,11 +26,14 @@
 #include <QStringList>
 
 using Cover::AlternativeLookup;
+using Cover::Location;
+using Cover::Lookup;
 
 struct AlternativeLookup::Private
 {
-	LookupPtr   cl;
-	Location    cover_location;
+	Lookup*		cl=nullptr;
+	Location	cover_location;
+	QString		cover_location_string;
 
 	int			n_covers;
 	bool		run;
@@ -53,6 +56,7 @@ AlternativeLookup::AlternativeLookup(QObject* parent, const Location& cl, int n_
 	AlternativeLookup(parent, n_covers)
 {
 	m->cover_location = cl;
+	m->cover_location_string = cl.to_string();
 
 	sp_log(Log::Debug, this) << cl.search_urls();
 }
@@ -68,10 +72,10 @@ void AlternativeLookup::start()
 {
 	m->run = true;
 
-	m->cl = LookupPtr(new Lookup(this, m->n_covers));
+	m->cl = new Lookup(this, m->n_covers);
 
-	connect(m->cl.get(), &Lookup::sig_cover_found, this, &AlternativeLookup::cover_found);
-	connect(m->cl.get(), &Lookup::sig_finished, this, &AlternativeLookup::finished);
+	connect(m->cl, &Lookup::sig_cover_found, this, &AlternativeLookup::cover_found);
+	connect(m->cl, &Lookup::sig_finished, this, &AlternativeLookup::finished);
 
 	bool can_fetch = m->cl->fetch_cover(m->cover_location, true);
 	if(!can_fetch)
@@ -80,14 +84,23 @@ void AlternativeLookup::start()
 	}
 }
 
-Cover::Location AlternativeLookup::cover_location() const
+void AlternativeLookup::start(const QString& cover_fetcher_identifier)
+{
+	QString search_term = m->cover_location.search_term();
+	m->cover_location.set_search_term(search_term, cover_fetcher_identifier);
+
+	start();
+}
+
+Location AlternativeLookup::cover_location() const
 {
 	return m->cover_location;
 }
 
-void AlternativeLookup::set_cover_location(const Cover::Location &location)
+void AlternativeLookup::set_cover_location(const Location& location)
 {
 	m->cover_location = location;
+	m->cover_location_string = location.to_string();
 }
 
 void AlternativeLookup::cover_found(const QString& cover_path)

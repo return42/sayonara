@@ -47,6 +47,7 @@ namespace Cover
 
 		void stop() override;
 		void start();
+		void start(const QString& cover_fetcher_identifier);
 
 		Cover::Location cover_location() const;
 		void set_cover_location(const Cover::Location& location);

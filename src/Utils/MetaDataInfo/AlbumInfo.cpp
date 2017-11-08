@@ -139,10 +139,13 @@ void AlbumInfo::calc_cover_location()
 		DB::LibraryDatabase* lib_db = db->library_db(-1, m->db_id);
 
 		Album album;
-		album.id = album_ids().first();
-		album.set_name(albums().first());
-		album.set_artists(artists().toList());
-		album.set_db_id(lib_db->db_id());
+		bool success = lib_db->getAlbumByID(album_ids().first(), album, true);
+		if(!success) {
+			album.id = album_ids().first();
+			album.set_name(albums().first());
+			album.set_artists(artists().toList());
+			album.set_db_id(lib_db->db_id());
+		}
 
 		m->cover_location = Cover::Location::cover_location(album);
 	}

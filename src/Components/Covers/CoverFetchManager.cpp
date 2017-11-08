@@ -251,3 +251,23 @@ QStringList Manager::search_addresses(const QString& str) const
 
 	return urls;
 }
+
+QStringList Manager::search_addresses(const QString &str, const QString& cover_fetcher_identifier) const
+{
+	QStringList urls;
+
+	for(const Fetcher::Base* cfi : m->coverfetchers)
+	{
+		if( (cfi->is_search_supported()) &&
+			(cover_fetcher_identifier.compare(cfi->keyword()) == 0))
+		{
+			urls << cfi->search_address(str);
+		}
+	}
+
+	if(urls.isEmpty()){
+		return search_addresses(str);
+	}
+
+	return urls;
+}

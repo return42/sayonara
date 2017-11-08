@@ -35,6 +35,8 @@
 
 #include "Components/Covers/CoverLocation.h"
 #include "Components/Covers/CoverLookupAlternative.h"
+#include "Components/Covers/CoverFetchManager.h"
+#include "Components/Covers/CoverFetcherInterface.h"
 #include "Components/Library/LibraryManager.h"
 
 #include "Utils/Message/Message.h"
@@ -95,6 +97,21 @@ GUI_AlternativeCovers::GUI_AlternativeCovers(QWidget* parent) :
 
 	ui->setupUi(this);
 
+	ui->cb_custom_search_engine->setVisible(ui->rb_online->isChecked());
+	ui->cb_custom_search_engine->setChecked(false);
+	ui->combo_custom_search_engine->setVisible(false);
+
+	Cover::Fetcher::Manager* cfm = Cover::Fetcher::Manager::instance();
+
+	QList<Cover::Fetcher::Base*> available_cover_fetchers = cfm->available_coverfetchers();
+	for(const Cover::Fetcher::Base* cover_fetcher : available_cover_fetchers)
+	{
+		if(cover_fetcher->is_search_supported())
+		{
+			ui->combo_custom_search_engine->addItem(cover_fetcher->keyword());
+		}
+	}
+
 	m->loading_bar = new ProgressBar(ui->tv_images);
 	m->model = new AlternativeCoverItemModel(this);
 	m->delegate = new AlternativeCoverItemDelegate(this);
@@ -108,6 +125,16 @@ GUI_AlternativeCovers::GUI_AlternativeCovers(QWidget* parent) :
 	connect(ui->tv_images, &QTableView::pressed, this, &GUI_AlternativeCovers::cover_pressed);
 	connect(ui->btn_file, &QPushButton::clicked, this, &GUI_AlternativeCovers::open_file_dialog);
 	connect(ui->btn_close, &QPushButton::clicked, this, &Dialog::close);
+
+	connect(ui->rb_online, &QRadioButton::toggled, [=](bool b)
+	{
+		ui->cb_custom_search_engine->setVisible(b);
+		ui->combo_custom_search_engine->setVisible(
+			ui->cb_custom_search_engine->isChecked() && b
+		);
+	});
+
+	connect(ui->cb_custom_search_engine, &QCheckBox::toggled, ui->combo_custom_search_engine, &QComboBox::setVisible);
 }
 
 
@@ -128,6 +155,10 @@ void GUI_AlternativeCovers::start(const Location& cl)
 	ui->le_search->setText( cl.search_term() );
 	ui->rb_local->setChecked(false);
 	ui->rb_online->setChecked(true);
+
+	sp_log(Log::Develop, this) << "Search alternative cover";
+	sp_log(Log::Develop, this) << cl.to_string();
+
 
 	connect_and_start(cl);
 }
@@ -157,8 +188,6 @@ void GUI_AlternativeCovers::connect_and_start(const Location& cl)
 
 	show();
 }
-
-
 
 void GUI_AlternativeCovers::language_changed()
 {
@@ -221,6 +250,13 @@ void GUI_AlternativeCovers::search_clicked()
 
 	else{
 		ui->le_search->setText( m->cover_location.search_term() );
+	}
+
+	if( ui->cb_custom_search_engine->isVisible() &&
+		ui->cb_custom_search_engine->isChecked())
+	{
+		QString search_term = m->cover_location.search_term();
+		m->cover_location.set_search_term(search_term, ui->combo_custom_search_engine->currentText());
 	}
 
 	connect_and_start(m->cover_location);

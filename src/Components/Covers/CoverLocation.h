@@ -123,6 +123,9 @@ namespace Cover
 		 */
 		void			set_search_term(const QString& search_term);
 
+		void			set_search_term(const QString& search_term,
+										const QString& cover_fetcher_identifier);
+
 		/**
 		 * @brief to_string
 		 * @return

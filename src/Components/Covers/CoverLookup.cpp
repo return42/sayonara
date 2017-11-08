@@ -104,7 +104,8 @@ bool Lookup::fetch_cover(const Location& cl, bool also_www)
 	}
 
 	// we have to fetch the cover from the internet
-	if(also_www){
+	if(also_www)
+	{
 		if(!start_new_thread( cl )){
 			return false;
 		}
