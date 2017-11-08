@@ -42,243 +42,241 @@
 
 namespace SR=StreamRecorder;
 
-
-
-GUI_StreamRecorder::GUI_StreamRecorder(QWidget* parent) :
-    PreferenceWidgetInterface(parent)
+GUI_StreamRecorder::GUI_StreamRecorder(const QString& identifier) :
+	Base(identifier)
 {}
 
 GUI_StreamRecorder::~GUI_StreamRecorder()
 {
-    if(ui)
-    {
-        delete ui; ui=nullptr;
-    }
+	if(ui)
+	{
+		delete ui; ui=nullptr;
+	}
 }
 
 void GUI_StreamRecorder::init_ui()
 {
-    setup_parent(this, &ui);
+	setup_parent(this, &ui);
 
-    QGridLayout* layout = new QGridLayout(ui->button_widget);
+	QGridLayout* layout = new QGridLayout(ui->button_widget);
 
-    ui->button_widget->setLayout(layout);
-    ui->le_result_path->setReadOnly(true);
-    ui->le_template->setClearButtonEnabled(true);
-    ui->le_template->setMouseTracking(true);
-    ui->tabWidget->setCurrentIndex(0);
-    ui->tabWidget->setTabEnabled(1, _settings->get(Set::Engine_SR_SessionPath));
-
-
-    QList<QPair<QString, QString>> desc = StreamRecorder::Utils::descriptions();
-
-    int i=0;
-    for(const QPair<QString, QString>& keyval : desc)
-    {
-        TagButton* btn = new TagButton(keyval.first, this);
-        btn->setText(
-            Util::cvt_str_to_first_upper(keyval.second)
-        );
-
-        connect(btn, &QPushButton::clicked, [=]()
-        {
-            int old_position = ui->le_template->cursorPosition();
-
-            ui->le_template->insert("<" + keyval.first + ">");
-            ui->le_template->setFocus();
-            ui->le_template->setCursorPosition(old_position + keyval.first.size() + 2);
-            ui->le_template->setModified(true);
-        });
-
-        int row = i / 2;
-        int col = i % 2;
-
-        layout->addWidget(btn, row, col);
-        i++;
-    }
+	ui->button_widget->setLayout(layout);
+	ui->le_result_path->setReadOnly(true);
+	ui->le_template->setClearButtonEnabled(true);
+	ui->le_template->setMouseTracking(true);
+	ui->tabWidget->setCurrentIndex(0);
+	ui->tabWidget->setTabEnabled(1, _settings->get(Set::Engine_SR_SessionPath));
 
 
-    revert();
+	QList<QPair<QString, QString>> desc = StreamRecorder::Utils::descriptions();
 
-    connect(ui->cb_activate, &QCheckBox::toggled, this, &GUI_StreamRecorder::sl_cb_activate_toggled);
-    connect(ui->btn_path, &QPushButton::clicked, this, &GUI_StreamRecorder::sl_btn_path_clicked);
-    connect(ui->le_template, &QLineEdit::textChanged, this, &GUI_StreamRecorder::sl_line_edit_changed);
-    connect(ui->le_path, &QLineEdit::textChanged, this, &GUI_StreamRecorder::sl_line_edit_changed);
-    connect(ui->cb_create_session_path, &QCheckBox::toggled, [=](bool b){
-        ui->tabWidget->setTabEnabled(1, b);
-    });
+	int i=0;
+	for(const QPair<QString, QString>& keyval : desc)
+	{
+		TagButton* btn = new TagButton(keyval.first, this);
+		btn->setText(
+			Util::cvt_str_to_first_upper(keyval.second)
+		);
 
-    connect(ui->btn_default, &QPushButton::clicked, this, &GUI_StreamRecorder::sl_btn_default_clicked);
-    connect(ui->btn_undo, &QPushButton::clicked, this, [=](){
-        ui->le_template->undo();
-    });
+		connect(btn, &QPushButton::clicked, [=]()
+		{
+			int old_position = ui->le_template->cursorPosition();
 
-    sl_line_edit_changed(ui->le_template->text());
+			ui->le_template->insert("<" + keyval.first + ">");
+			ui->le_template->setFocus();
+			ui->le_template->setCursorPosition(old_position + keyval.first.size() + 2);
+			ui->le_template->setModified(true);
+		});
+
+		int row = i / 2;
+		int col = i % 2;
+
+		layout->addWidget(btn, row, col);
+		i++;
+	}
+
+
+	revert();
+
+	connect(ui->cb_activate, &QCheckBox::toggled, this, &GUI_StreamRecorder::sl_cb_activate_toggled);
+	connect(ui->btn_path, &QPushButton::clicked, this, &GUI_StreamRecorder::sl_btn_path_clicked);
+	connect(ui->le_template, &QLineEdit::textChanged, this, &GUI_StreamRecorder::sl_line_edit_changed);
+	connect(ui->le_path, &QLineEdit::textChanged, this, &GUI_StreamRecorder::sl_line_edit_changed);
+	connect(ui->cb_create_session_path, &QCheckBox::toggled, [=](bool b){
+		ui->tabWidget->setTabEnabled(1, b);
+	});
+
+	connect(ui->btn_default, &QPushButton::clicked, this, &GUI_StreamRecorder::sl_btn_default_clicked);
+	connect(ui->btn_undo, &QPushButton::clicked, this, [=](){
+		ui->le_template->undo();
+	});
+
+	sl_line_edit_changed(ui->le_template->text());
 }
 
 void GUI_StreamRecorder::retranslate_ui()
 {
-    ui->retranslateUi(this);
+	ui->retranslateUi(this);
 
-    ui->btn_undo->setText(Lang::get(Lang::Undo));
-    ui->btn_default->setText(Lang::get(Lang::Default));
+	ui->btn_undo->setText(Lang::get(Lang::Undo));
+	ui->btn_default->setText(Lang::get(Lang::Default));
 }
 
 void GUI_StreamRecorder::sl_cb_activate_toggled(bool b)
 {
-    ui->le_path->setEnabled(b);
-    ui->btn_path->setEnabled(b);
-    ui->cb_auto_rec->setEnabled(b);
-    ui->cb_create_session_path->setEnabled(b);
-    ui->le_template->setEnabled(b);
+	ui->le_path->setEnabled(b);
+	ui->btn_path->setEnabled(b);
+	ui->cb_auto_rec->setEnabled(b);
+	ui->cb_create_session_path->setEnabled(b);
+	ui->le_template->setEnabled(b);
 }
 
 
 void GUI_StreamRecorder::sl_btn_path_clicked()
 {
-    QString path = ui->cb_create_session_path->text();
-    QString dir = QFileDialog::getExistingDirectory(this, tr("Choose target directory"), path, QFileDialog::ShowDirsOnly);
-    if(dir.size() > 0) {
-        ui->le_path->setText(dir);
-    }
+	QString path = ui->cb_create_session_path->text();
+	QString dir = QFileDialog::getExistingDirectory(this, tr("Choose target directory"), path, QFileDialog::ShowDirsOnly);
+	if(dir.size() > 0) {
+		ui->le_path->setText(dir);
+	}
 }
 
 void GUI_StreamRecorder::sl_btn_default_clicked()
 {
-    QString default_template = SR::Utils::target_path_template_default(true);
+	QString default_template = SR::Utils::target_path_template_default(true);
 
-    ui->le_template->setText(default_template);
+	ui->le_template->setText(default_template);
 }
 
 void GUI_StreamRecorder::sl_line_edit_changed(const QString& new_text)
 {
-    Q_UNUSED(new_text)
+	Q_UNUSED(new_text)
 
-    QString template_text = ui->le_template->text();
+	QString template_text = ui->le_template->text();
 
-    MetaData md;
-    md.title = "Happy Song";
-    md.set_artist("Al White");
-    md.set_album("Rock Radio");
-    md.track_num = 1;
+	MetaData md;
+	md.title = "Happy Song";
+	md.set_artist("Al White");
+	md.set_album("Rock Radio");
+	md.track_num = 1;
 
-    int err_idx;
-    SR::Utils::ErrorCode err = SR::Utils::validate_template(template_text, &err_idx);
+	int err_idx;
+	SR::Utils::ErrorCode err = SR::Utils::validate_template(template_text, &err_idx);
 
-    if(err == SR::Utils::ErrorCode::OK)
-    {
-        SR::Utils::TargetPaths target_path =
-        SR::Utils::full_target_path(ui->le_path->text(),
-                                    template_text,
-                                    md,
-                                    QDate::currentDate(),
-                                    QTime::currentTime());
+	if(err == SR::Utils::ErrorCode::OK)
+	{
+		SR::Utils::TargetPaths target_path =
+		SR::Utils::full_target_path(ui->le_path->text(),
+									template_text,
+									md,
+									QDate::currentDate(),
+									QTime::currentTime());
 
-        ui->le_result_path->setText(target_path.first);
-    }
+		ui->le_result_path->setText(target_path.first);
+	}
 
-    else
-    {
-        QString error_string = SR::Utils::parse_error_code(err);
+	else
+	{
+		QString error_string = SR::Utils::parse_error_code(err);
 
-        int max_sel = std::min(err_idx + 5, template_text.size());
-        ui->le_result_path->setText(
-            error_string + ": '..." + template_text.mid(err_idx, max_sel - err_idx) + "...'"
-        );
+		int max_sel = std::min(err_idx + 5, template_text.size());
+		ui->le_result_path->setText(
+			error_string + ": '..." + template_text.mid(err_idx, max_sel - err_idx) + "...'"
+		);
 
-    }
+	}
 }
 
 void GUI_StreamRecorder::commit()
 {
-    _settings->set(Set::Engine_SR_Active, ui->cb_activate->isChecked());
+	_settings->set(Set::Engine_SR_Active, ui->cb_activate->isChecked());
 
-    if(!ui->le_path->isEnabled()){
-        return;
-    }
+	if(!ui->le_path->isEnabled()){
+		return;
+	}
 
-    QString str = ui->le_path->text();
-    if(!QFile::exists(str))
-    {
-        bool create_success = QDir::root().mkpath(str);
-        if(!create_success)
-        {
-            QString sr_path = _settings->get(Set::Engine_SR_Path);
-            ui->le_path->setText(sr_path);
+	QString str = ui->le_path->text();
+	if(!QFile::exists(str))
+	{
+		bool create_success = QDir::root().mkpath(str);
+		if(!create_success)
+		{
+			QString sr_path = _settings->get(Set::Engine_SR_Path);
+			ui->le_path->setText(sr_path);
 
-            Message::warning(str + tr(" could not be created\nPlease choose another folder"), tr("Stream recorder"));
-        }
-    }
+			Message::warning(str + tr(" could not be created\nPlease choose another folder"), tr("Stream recorder"));
+		}
+	}
 
-    _settings->set(Set::Engine_SR_Path, str);
-    _settings->set(Set::Engine_SR_AutoRecord, ui->cb_auto_rec->isChecked());
-    _settings->set(Set::Engine_SR_SessionPath, ui->cb_create_session_path->isChecked());
-    _settings->set(Set::Engine_SR_SessionPathTemplate, ui->le_template->text().trimmed());
+	_settings->set(Set::Engine_SR_Path, str);
+	_settings->set(Set::Engine_SR_AutoRecord, ui->cb_auto_rec->isChecked());
+	_settings->set(Set::Engine_SR_SessionPath, ui->cb_create_session_path->isChecked());
+	_settings->set(Set::Engine_SR_SessionPathTemplate, ui->le_template->text().trimmed());
 }
 
 void GUI_StreamRecorder::revert()
 {
-    bool lame_available = _settings->get(SetNoDB::MP3enc_found);
+	bool lame_available = _settings->get(SetNoDB::MP3enc_found);
 
-    QString path = _settings->get(Set::Engine_SR_Path);
-    QString template_path = _settings->get(Set::Engine_SR_SessionPathTemplate);
-    bool active = _settings->get(Set::Engine_SR_Active) && lame_available;
-    bool create_session_path = _settings->get(Set::Engine_SR_SessionPath);
-    bool auto_rec = _settings->get(Set::Engine_SR_AutoRecord);
+	QString path = _settings->get(Set::Engine_SR_Path);
+	QString template_path = _settings->get(Set::Engine_SR_SessionPathTemplate);
+	bool active = _settings->get(Set::Engine_SR_Active) && lame_available;
+	bool create_session_path = _settings->get(Set::Engine_SR_SessionPath);
+	bool auto_rec = _settings->get(Set::Engine_SR_AutoRecord);
 
-    ui->cb_activate->setEnabled(lame_available);
-    ui->le_path->setText(path);
-    ui->cb_activate->setChecked(active);
-    ui->cb_create_session_path->setChecked(create_session_path);
-    ui->cb_auto_rec->setChecked(auto_rec);
+	ui->cb_activate->setEnabled(lame_available);
+	ui->le_path->setText(path);
+	ui->cb_activate->setChecked(active);
+	ui->cb_create_session_path->setChecked(create_session_path);
+	ui->cb_auto_rec->setChecked(auto_rec);
 
-    ui->cb_create_session_path->setEnabled(active);
-    ui->btn_path->setEnabled(active);
-    ui->le_path->setEnabled(active);
-    ui->cb_auto_rec->setEnabled(active);
-    ui->le_template->setEnabled(active);
-    ui->le_template->setText(template_path);
+	ui->cb_create_session_path->setEnabled(active);
+	ui->btn_path->setEnabled(active);
+	ui->le_path->setEnabled(active);
+	ui->cb_auto_rec->setEnabled(active);
+	ui->le_template->setEnabled(active);
+	ui->le_template->setText(template_path);
 
-    if(!lame_available){
-        ui->lab_warning->setText(Lang::get(Lang::CannotFindLame));
-    }
-    else{
-        ui->lab_warning->clear();
-    }
+	if(!lame_available){
+		ui->lab_warning->setText(Lang::get(Lang::CannotFindLame));
+	}
+	else{
+		ui->lab_warning->clear();
+	}
 }
 
 
-QString GUI_StreamRecorder::get_action_name() const
+QString GUI_StreamRecorder::action_name() const
 {
-    return tr("Stream recorder");
+	return tr("Stream recorder");
 }
 
 
 struct TagButton::Private
 {
-    QString tag_name;
+	QString tag_name;
 
-    Private(const QString& tag_name) :
-        tag_name(tag_name)
-    {}
+	Private(const QString& tag_name) :
+		tag_name(tag_name)
+	{}
 };
 
 TagButton::TagButton(const QString& tag_name, QWidget* parent) :
-    Gui::WidgetTemplate<QPushButton>(parent)
+	Gui::WidgetTemplate<QPushButton>(parent)
 {
-    m = Pimpl::make<Private>(tag_name);
+	m = Pimpl::make<Private>(tag_name);
 }
 
 TagButton::~TagButton() {}
 
 void TagButton::language_changed()
 {
-    QList<QPair<QString, QString>> descs = SR::Utils::descriptions();
-    for(auto d : descs)
-    {
-        if(d.first.compare(m->tag_name) == 0){
-            this->setText(Util::cvt_str_to_first_upper(d.second));
-            break;
-        }
-    }
+	QList<QPair<QString, QString>> descs = SR::Utils::descriptions();
+	for(auto d : descs)
+	{
+		if(d.first.compare(m->tag_name) == 0){
+			this->setText(Util::cvt_str_to_first_upper(d.second));
+			break;
+		}
+	}
 }

@@ -353,7 +353,7 @@ void RemoteControl::write_cover()
 
 void RemoteControl::write_cover(const MetaData& md)
 {
-	Cover::Location cl = Cover::Location::get_cover_location(md);
+	Cover::Location cl = Cover::Location::cover_location(md);
 	QByteArray img_data;
 	QString cover_path = cl.preferred_path();
 	QImage img(cover_path);

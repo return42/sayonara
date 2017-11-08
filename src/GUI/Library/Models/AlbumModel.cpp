@@ -103,7 +103,7 @@ Cover::Location AlbumModel::cover(const IndexSet& indexes) const
 
     const Album& album = albums[idx];
 
-    return Cover::Location::get_cover_location(album);
+    return Cover::Location::cover_location(album);
 }
 
 

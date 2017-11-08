@@ -33,15 +33,24 @@
 using DB::Library;
 using DB::Query;
 
+struct DB::Library::Private
+{
+	uint8_t library_id;
+
+	Private(uint8_t library_id) :
+		library_id(library_id)
+	{}
+};
+
 DB::Library::Library(const QSqlDatabase& db, uint8_t db_id, int8_t library_id) :
 	Module(db, db_id)
 {
-	_library_id = library_id;
+	m = Pimpl::make<Private>(library_id);
 }
 
 DB::Library::~Library() {}
 
-bool DB::Library::storeMetadata(const MetaDataList& v_md)
+bool DB::Library::store_metadata(const MetaDataList& v_md)
 {
 	bool success = true;
 
@@ -51,9 +60,9 @@ bool DB::Library::storeMetadata(const MetaDataList& v_md)
 
 	module_db().transaction();
 
-	DB::Albums db_albums(module_db(), v_md.first().db_id(), _library_id);
-	DB::Artists db_artists(module_db(), v_md.first().db_id(), _library_id);
-	DB::Tracks db_tracks(module_db(), v_md.first().db_id(), _library_id);
+	DB::Albums db_albums(module_db(), v_md.first().db_id(), m->library_id);
+	DB::Artists db_artists(module_db(), v_md.first().db_id(), m->library_id);
+	DB::Tracks db_tracks(module_db(), v_md.first().db_id(), m->library_id);
 
 	AlbumList albums;
 	ArtistList artists;
@@ -127,7 +136,7 @@ bool DB::Library::storeMetadata(const MetaDataList& v_md)
 
 		md.album_id = album_id;
 		md.artist_id = artist_id;
-		md.library_id = _library_id;
+		md.library_id = m->library_id;
 
 		if(album_id == -1 || artist_id == -1 || md.library_id == -1){
 			sp_log(Log::Warning) << "Cannot insert artist or album of " << md.filepath();
@@ -142,7 +151,7 @@ bool DB::Library::storeMetadata(const MetaDataList& v_md)
 	return success;
 }
 
-void DB::Library::addAlbumArtists()
+void DB::Library::add_album_artists()
 {
 	Query q(this);
 	QString	querytext = "UPDATE tracks SET albumArtistID = artistID WHERE albumArtistID = -1;";
@@ -152,7 +161,7 @@ void DB::Library::addAlbumArtists()
 	}
 }
 
-void DB::Library::dropIndexes()
+void DB::Library::drop_indexes()
 {
 	QStringList indexes;
 	indexes << "album_search";
@@ -171,9 +180,9 @@ void DB::Library::dropIndexes()
 }
 
 using IndexDescription=std::tuple<QString, QString, QString>;
-void DB::Library::createIndexes()
+void DB::Library::create_indexes()
 {
-	dropIndexes();
+	drop_indexes();
 
 	QList<IndexDescription> indexes;
 	indexes << std::make_tuple("album_search", "albums", "albumID");

@@ -135,12 +135,12 @@ void ArtistInfo::calc_cover_location()
 	if( artists().size() == 1)
 	{
 		QString artist = artists().first();
-		m->cover_location = Cover::Location::get_cover_location(artist);
+		m->cover_location = Cover::Location::cover_location(artist);
 	}
 
 	else
 	{
-		m->cover_location = Cover::Location::getInvalidLocation();
+		m->cover_location = Cover::Location::invalid_location();
 	}
 }
 

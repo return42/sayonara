@@ -24,24 +24,24 @@
 #ifndef GUI_PLAYLISTPREFERENCES_H
 #define GUI_PLAYLISTPREFERENCES_H
 
-#include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
+#include "Interfaces/PreferenceDialog/PreferenceWidget.h"
 
 UI_FWD(GUI_PlaylistPreferences)
 
 class GUI_PlaylistPreferences :
-		public PreferenceWidgetInterface
+		public Preferences::Base
 {
 	Q_OBJECT
 	UI_CLASS(GUI_PlaylistPreferences)
 
 public:
-	explicit GUI_PlaylistPreferences(QWidget *parent = 0);
+	explicit GUI_PlaylistPreferences(const QString& identifier);
 	~GUI_PlaylistPreferences();
 
 	void commit() override;
 	void revert() override;
 
-	QString get_action_name() const override;
+	QString action_name() const override;
 
 protected:
 	void init_ui() override;

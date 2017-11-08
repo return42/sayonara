@@ -583,7 +583,7 @@ bool SC::Database::insertTrackIntoDatabase(const MetaData &md, int artist_id, in
 }
 
 
-bool SC::Database::storeMetadata(const MetaDataList& v_md)
+bool SC::Database::store_metadata(const MetaDataList& v_md)
 {
 	if(v_md.isEmpty()) return true;
 

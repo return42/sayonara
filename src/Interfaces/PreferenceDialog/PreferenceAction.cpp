@@ -18,9 +18,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "PreferenceInterface.h"
+#include "PreferenceAction.h"
+#include <QWidget>
 
-PreferenceAction::PreferenceAction(const QString &text, QWidget *preference_interface) :
+using Preferences::Action;
+
+Action::Action(const QString &text, QWidget *preference_interface) :
 	QAction(nullptr)
 {
 	this->setText(text + "...");

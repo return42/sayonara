@@ -21,24 +21,24 @@
 #ifndef GUI_PLAYERPREFERENCES_H
 #define GUI_PLAYERPREFERENCES_H
 
-#include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
+#include "Interfaces/PreferenceDialog/PreferenceWidget.h"
 
 UI_FWD(GUI_PlayerPreferences)
 
 class GUI_PlayerPreferences :
-		public PreferenceWidgetInterface
+		public Preferences::Base
 {
 	Q_OBJECT
 	UI_CLASS(GUI_PlayerPreferences)
 
 public:
-	explicit GUI_PlayerPreferences(QWidget *parent = 0);
+	explicit GUI_PlayerPreferences(const QString& identifier);
 	~GUI_PlayerPreferences();
 
 	void commit() override;
 	void revert() override;
 
-	QString get_action_name() const override;
+	QString action_name() const override;
 
 protected:
 	void init_ui() override;

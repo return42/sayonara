@@ -60,7 +60,7 @@ void AlternativeCoverItemDelegate::paint(QPainter *painter, const QStyleOptionVi
 
 	QString cover_path = index.data(Qt::UserRole).toString();
 
-	label->setDisabled( Location::isInvalidLocation(cover_path) );
+	label->setDisabled( Location::is_invalid(cover_path) );
 	label->setMinimumHeight(100);
 	label->setMinimumWidth(100);
     label->resize(100, 100);

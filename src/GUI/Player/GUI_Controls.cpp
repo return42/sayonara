@@ -611,14 +611,14 @@ void GUI_Controls::check_record_button_visible()
 
 void GUI_Controls::set_cover_location(const MetaData& md)
 {
-	Location cl = Location::get_cover_location(md);
+	Location cl = Location::cover_location(md);
 
 	ui->albumCover->set_cover_location(cl);
 }
 
 void GUI_Controls::set_standard_cover()
 {
-	ui->albumCover->set_cover_location(Location::getInvalidLocation());
+	ui->albumCover->set_cover_location(Location::invalid_location());
 }
 
 void GUI_Controls::force_cover(const QImage& img)

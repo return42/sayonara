@@ -346,7 +346,7 @@ void GUI_TagEdit::reset()
 	ui->btn_cover_replacement->setEnabled(true);
 	show_replacement_field(false);
 
-	QIcon icon(Cover::Location::getInvalidLocation().cover_path());
+	QIcon icon(Cover::Location::invalid_location().cover_path());
 	ui->btn_cover_replacement->setIcon( icon );
 
 	ui->lab_filepath->clear();
@@ -575,7 +575,7 @@ void GUI_TagEdit::set_cover(const MetaData& md)
 		ui->btn_cover_original->setText(QString());
 	}
 
-	Cover::Location cl = Cover::Location::get_cover_location(md);
+	Cover::Location cl = Cover::Location::cover_location(md);
 	ui->btn_cover_replacement->set_cover_location(cl);
 
 	ui->cb_cover_all->setEnabled(cl.valid());

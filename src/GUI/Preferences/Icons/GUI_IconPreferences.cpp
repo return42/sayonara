@@ -63,8 +63,8 @@ struct GUI_IconPreferences::Private
 	}
 };
 
-GUI_IconPreferences::GUI_IconPreferences(QWidget* parent) :
-	PreferenceWidgetInterface(parent)
+GUI_IconPreferences::GUI_IconPreferences(const QString& identifier) :
+	Base(identifier)
 {
 	m = Pimpl::make<Private>();
 }
@@ -200,7 +200,7 @@ void GUI_IconPreferences::retranslate_ui()
 	}
 }
 
-QString GUI_IconPreferences::get_action_name() const
+QString GUI_IconPreferences::action_name() const
 {
 	return tr("Icons");
 }

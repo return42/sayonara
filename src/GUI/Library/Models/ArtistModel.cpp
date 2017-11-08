@@ -178,7 +178,7 @@ Cover::Location ArtistModel::cover(const IndexSet& indexes) const
 	}
 
     const Artist& artist = artists[idx];
-    return Cover::Location::get_cover_location(artist);
+    return Cover::Location::cover_location(artist);
 }
 
 

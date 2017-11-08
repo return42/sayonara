@@ -33,7 +33,7 @@
 
 struct GUI_StyleSettings::Private
 {
-	DB::Connector*	db=nullptr;
+	DB::VisualStyles*		db=nullptr;
 
 	QList<RawColorStyle>	styles;
 	QList<RawColorStyle>	styles_old;

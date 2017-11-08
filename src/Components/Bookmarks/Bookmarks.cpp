@@ -31,19 +31,39 @@
 
 struct Bookmarks::Private
 {
-	DB::Connector*		db=nullptr;
-	PlayManagerPtr			play_manager=nullptr;
+	DB::Bookmarks*	db=nullptr;
+	PlayManager*	play_manager=nullptr;
 
-	QList<Bookmark>			bookmarks;
-	MetaData				md;
+	QList<Bookmark>	bookmarks;
+	MetaData		md;
 
-	int						prev_idx;
-	int						next_idx;
+	int				prev_idx;
+	int				next_idx;
 
-	uint32_t				cur_time;
+	uint32_t		cur_time;
 
-	uint32_t				loop_start;
-	uint32_t				loop_end;
+	uint32_t		loop_start;
+	uint32_t		loop_end;
+
+	Private()
+	{
+		play_manager = PlayManager::instance();
+		db = DB::Connector::instance();
+
+		reset();
+	}
+
+	void reset()
+	{
+		bookmarks.clear();
+		cur_time = 0;
+		prev_idx = -1;
+		next_idx = -1;
+		loop_start = 0;
+		loop_end = 0;
+
+		md = play_manager->current_track();
+	}
 };
 
 
@@ -51,12 +71,6 @@ Bookmarks::Bookmarks(QObject *parent) :
 	QObject(parent)
 {
 	m = Pimpl::make<Bookmarks::Private>();
-
-	m->play_manager = PlayManager::instance();
-	m->db = DB::Connector::instance();
-	m->md = m->play_manager->current_track();
-
-	init_members();
 
 	connect(m->play_manager, &PlayManager::sig_track_changed, this, &Bookmarks::track_changed);
 	connect(m->play_manager, &PlayManager::sig_position_changed_ms, this, &Bookmarks::pos_changed_ms);
@@ -67,19 +81,6 @@ Bookmarks::Bookmarks(QObject *parent) :
 }
 
 Bookmarks::~Bookmarks() {}
-
-void Bookmarks::init_members()
-{
-	m->bookmarks.clear();
-	m->cur_time = 0;
-	m->prev_idx = -1;
-	m->next_idx = -1;
-	m->loop_start = 0;
-	m->loop_end = 0;
-
-	m->md = m->play_manager->current_track();
-}
-
 
 void Bookmarks::sort_bookmarks()
 {
@@ -284,11 +285,13 @@ void Bookmarks::track_changed(const MetaData& md)
 
 	}
 
-	else if(md.id < 0){
-		init_members();
+	else if(md.id < 0)
+	{
+		m->reset();
 	}
 
-	else {
+	else
+	{
 		QMap<uint32_t, QString> bookmarks;
 		m->db->searchBookmarks(md.id, bookmarks);
 
@@ -308,8 +311,10 @@ void Bookmarks::track_changed(const MetaData& md)
 
 void Bookmarks::playstate_changed(PlayState state)
 {
-	if(state == PlayState::Stopped){
-		init_members();
+	if(state == PlayState::Stopped)
+	{
+		m->reset();
+
 		emit sig_bookmarks_changed();
 		emit sig_prev_changed(Bookmark());
 		emit sig_next_changed(Bookmark());

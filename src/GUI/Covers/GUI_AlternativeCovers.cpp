@@ -45,9 +45,7 @@
 #include <QFile>
 #include <QDir>
 #include <QFileDialog>
-#include <QRegExp>
-#include <QPixmap>
-#include <QList>
+#include <QStringList>
 #include <QModelIndex>
 
 using Cover::AlternativeLookup;
@@ -57,7 +55,7 @@ using Gui::ProgressBar;
 struct GUI_AlternativeCovers::Private
 {
 	int						cur_idx;
-    Location                cover_location;
+	Location				cover_location;
 	QStringList				filelist;
 	bool					is_searching;
 	ProgressBar*			loading_bar=nullptr;
@@ -67,10 +65,20 @@ struct GUI_AlternativeCovers::Private
 
 	AlternativeLookup*			cl_alternative=nullptr;
 
+	Private() :
+		cur_idx(-1),
+		is_searching(false)
+	{}
+
 	~Private()
 	{
-		delete model;
-		delete delegate;
+		if(model){
+			delete model;
+		}
+
+		if(delegate){
+			delete delegate;
+		}
 
 		if(cl_alternative) {
 			cl_alternative->stop();
@@ -88,9 +96,6 @@ GUI_AlternativeCovers::GUI_AlternativeCovers(QWidget* parent) :
 	ui->setupUi(this);
 
 	m->loading_bar = new ProgressBar(ui->tv_images);
-	m->cur_idx = -1;
-	m->is_searching = false;
-
 	m->model = new AlternativeCoverItemModel(this);
 	m->delegate = new AlternativeCoverItemDelegate(this);
 
@@ -100,7 +105,7 @@ GUI_AlternativeCovers::GUI_AlternativeCovers(QWidget* parent) :
 	connect(ui->btn_ok, &QPushButton::clicked, this, &GUI_AlternativeCovers::ok_clicked);
 	connect(ui->btn_apply, &QPushButton::clicked, this, &GUI_AlternativeCovers::apply_clicked);
 	connect(ui->btn_search, &QPushButton::clicked, this, &GUI_AlternativeCovers::search_clicked);
-	connect(ui->tv_images, &QTableView::pressed, this, &GUI_AlternativeCovers::cover_pressed);	
+	connect(ui->tv_images, &QTableView::pressed, this, &GUI_AlternativeCovers::cover_pressed);
 	connect(ui->btn_file, &QPushButton::clicked, this, &GUI_AlternativeCovers::open_file_dialog);
 	connect(ui->btn_close, &QPushButton::clicked, this, &Dialog::close);
 }
@@ -114,14 +119,19 @@ GUI_AlternativeCovers::~GUI_AlternativeCovers()
 }
 
 
-void GUI_AlternativeCovers::language_changed()
+void GUI_AlternativeCovers::start(const Location& cl)
 {
-	ui->retranslateUi(this);
+	if(!cl.valid()){
+		return;
+	}
 
-	ui->btn_search->setText(Lang::get(Lang::Search));
-	ui->btn_close->setText(Lang::get(Lang::Close));
-	ui->btn_apply->setText(Lang::get(Lang::Apply));
+	ui->le_search->setText( cl.search_term() );
+	ui->rb_local->setChecked(false);
+	ui->rb_online->setChecked(true);
+
+	connect_and_start(cl);
 }
+
 
 void GUI_AlternativeCovers::connect_and_start(const Location& cl)
 {
@@ -148,17 +158,15 @@ void GUI_AlternativeCovers::connect_and_start(const Location& cl)
 	show();
 }
 
-void GUI_AlternativeCovers::start(const Location& cl)
+
+
+void GUI_AlternativeCovers::language_changed()
 {
-	if(!cl.valid()){
-		return;
-	}
+	ui->retranslateUi(this);
 
-	ui->le_search->setText( cl.search_term() );
-	ui->rb_local->setChecked(false);
-	ui->rb_online->setChecked(true);
-
-	connect_and_start(cl);
+	ui->btn_search->setText(Lang::get(Lang::Search));
+	ui->btn_close->setText(Lang::get(Lang::Close));
+	ui->btn_apply->setText(Lang::get(Lang::Apply));
 }
 
 void GUI_AlternativeCovers::ok_clicked()
@@ -276,15 +284,15 @@ void GUI_AlternativeCovers::reset_model()
 
 void GUI_AlternativeCovers::open_file_dialog()
 {
-    QStringList filters;
-        filters << "*.jpg";
-        filters << "*.png";
-        filters << "*.gif";
+	QStringList filters;
+		filters << "*.jpg";
+		filters << "*.png";
+		filters << "*.gif";
 
-    QStringList lst = QFileDialog::getOpenFileNames(this,
-                                  tr("Open image files"),
+	QStringList lst = QFileDialog::getOpenFileNames(this,
+								  tr("Open image files"),
 								  QDir::homePath(),
-                                  filters.join(" "));
+								  filters.join(" "));
 	if(lst.isEmpty())
 	{
 		return;
@@ -298,15 +306,16 @@ void GUI_AlternativeCovers::open_file_dialog()
 		RowColumn rc = m->model->cvt_2_row_col( idx );
 		m->model->set_cover(rc.row, rc.col, path);
 
-        idx ++;
-    }
+		idx ++;
+	}
 }
 
 
 void GUI_AlternativeCovers::delete_all_files()
 {
-	for(const QString& cover_path : m->filelist) {
-		if(Location::isInvalidLocation(cover_path)){
+	for(const QString& cover_path : m->filelist)
+	{
+		if(Location::is_invalid(cover_path)){
 			continue;
 		}
 

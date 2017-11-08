@@ -224,7 +224,7 @@ Cover::Location TrackModel::cover(const IndexSet& indexes) const
 		}
 	}
 
-    return Cover::Location::get_cover_location( tracks.first() );
+    return Cover::Location::cover_location( tracks.first() );
 }
 
 

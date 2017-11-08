@@ -219,7 +219,7 @@ void GUI_InfoDialog::show(GUI_InfoDialog::Tab tab)
 
 	QTabWidget* tab_widget = ui->tab_widget;
 
-	prepare_cover(Cover::Location::getInvalidLocation());
+	prepare_cover(Cover::Location::invalid_location());
 
 	bool lyric_enabled = (m->v_md.size() == 1);
 	bool tag_edit_enabled = std::any_of(m->v_md.begin(), m->v_md.end(), [](const MetaData& md){

@@ -58,8 +58,8 @@ CoverButton::CoverButton(QWidget* parent) :
 {
 	m = Pimpl::make<CoverButton::Private>();
 
-	m->current_cover_path = Location::getInvalidLocation().preferred_path();
-	m->search_cover_location = Location::getInvalidLocation();
+	m->current_cover_path = Location::invalid_location().preferred_path();
+	m->search_cover_location = Location::invalid_location();
 
 
 	this->setIconSize(this->size());

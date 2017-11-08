@@ -20,7 +20,7 @@
 #ifndef GUI_FONTCONFIG_H
 #define GUI_FONTCONFIG_H
 
-#include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
+#include "Interfaces/PreferenceDialog/PreferenceWidget.h"
 #include "Utils/Pimpl.h"
 
 UI_FWD(GUI_FontConfig)
@@ -29,20 +29,20 @@ class QFont;
 class QFontDatabase;
 
 class GUI_FontConfig :
-		public PreferenceWidgetInterface
+		public Preferences::Base
 {
 	Q_OBJECT
 	UI_CLASS(GUI_FontConfig)
-    PIMPL(GUI_FontConfig)
+	PIMPL(GUI_FontConfig)
 
 public:
-	explicit GUI_FontConfig(QWidget* parent=nullptr);
+	explicit GUI_FontConfig(const QString& identifier);
 	virtual ~GUI_FontConfig();
 
 	void commit() override;
 	void revert() override;
 
-	QString get_action_name() const override;
+	QString action_name() const override;
 
 
 protected:

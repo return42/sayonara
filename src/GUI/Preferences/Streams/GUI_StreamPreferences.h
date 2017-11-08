@@ -1,12 +1,12 @@
 #ifndef GUI_STREAMPREFERENCES_H
 #define GUI_STREAMPREFERENCES_H
 
-#include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
+#include "Interfaces/PreferenceDialog/PreferenceWidget.h"
 
 UI_FWD(GUI_StreamPreferences)
 
 class GUI_StreamPreferences :
-	public PreferenceWidgetInterface
+	public Preferences::Base
 {
 	Q_OBJECT
 	UI_CLASS(GUI_StreamPreferences)
@@ -18,7 +18,7 @@ public:
 	void commit() override;
 	void revert() override;
 
-	QString get_action_name() const override;
+	QString action_name() const override;
 
 protected:
 	void init_ui() override;

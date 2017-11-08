@@ -28,8 +28,8 @@
 #include "Utils/Language.h"
 
 
-GUI_PlaylistPreferences::GUI_PlaylistPreferences(QWidget *parent) :
-	PreferenceWidgetInterface(parent) {}
+GUI_PlaylistPreferences::GUI_PlaylistPreferences(const QString& identifier) :
+	Base(identifier) {}
 
 GUI_PlaylistPreferences::~GUI_PlaylistPreferences()
 {
@@ -101,7 +101,7 @@ void GUI_PlaylistPreferences::init_ui()
 	});
 }
 
-QString GUI_PlaylistPreferences::get_action_name() const
+QString GUI_PlaylistPreferences::action_name() const
 {
 	return Lang::get(Lang::Playlist);
 }

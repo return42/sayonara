@@ -27,22 +27,38 @@
 using DB::Artists;
 using DB::Query;
 
+struct Artists::Private
+{
+	QString search_view;
+	QString track_view;
+	QString artistid_field;
+	QString artistname_field;
+
+	Private(int8_t library_id)
+	{
+		artistid_field = "artistID";
+		artistname_field = "artistName";
+
+		search_view = QString("track_search_view_%1").arg(library_id);
+
+		if(library_id < 0) {
+			track_view = QString("tracks");
+		}
+
+		else {
+			track_view = QString("track_view_%1").arg(library_id);
+		}
+	}
+};
+
+
 Artists::Artists(const QSqlDatabase& db, uint8_t db_id, int8_t library_id) :
 	DB::SearchMode(db, db_id)
 {
-	_artistid_field = "artistID";
-	_artistname_field = "artistName";
-
-	_search_view_name = "track_search_view_" + QString::number(library_id);
-
-	if(library_id < 0) {
-		_track_view_name = QString("tracks");
-	}
-
-	else {
-		_track_view_name = QString("track_view_%1").arg(library_id);
-	}
+	m = Pimpl::make<Private>(library_id);
 }
+
+Artists::~Artists() {}
 
 QString Artists::fetch_query_artists(bool also_empty) const
 {
@@ -50,7 +66,7 @@ QString Artists::fetch_query_artists(bool also_empty) const
 			"SELECT "
 			"artists.artistID AS artistID "
 			", artists.name AS artistName "
-			", COUNT(DISTINCT " + _track_view_name + ".trackID) AS trackCount "
+			", COUNT(DISTINCT " + m->track_view + ".trackID) AS trackCount "
 			" FROM artists ";
 
 	QString join = " INNER JOIN ";
@@ -59,8 +75,8 @@ QString Artists::fetch_query_artists(bool also_empty) const
 	}
 
 
-	sql += join + " " + _track_view_name + " ON " + _track_view_name + "." + _artistid_field + " = artists.artistID ";
-	sql += join + " albums ON " + _track_view_name + ".albumID = albums.albumID ";
+	sql += join + " " + m->track_view + " ON " + m->track_view + "." + m->artistid_field + " = artists.artistID ";
+	sql += join + " albums ON " + m->track_view + ".albumID = albums.albumID ";
 
 	return sql;
 }
@@ -184,10 +200,10 @@ bool Artists::getAllArtistsBySearchString(const Library::Filter& filter, ArtistL
 	Query q(this);
 	QString query;
 	QString select = "SELECT " +
-					 _artistid_field + ", " +
-					 _artistname_field + ", " +
+					 m->artistid_field + ", " +
+					 m->artistname_field + ", " +
 					 "COUNT(DISTINCT trackID) AS trackCount "
-					 "FROM " + _search_view_name + " ";
+					 "FROM " + m->search_view + " ";
 
 	QString search_field;
 
@@ -210,7 +226,7 @@ bool Artists::getAllArtistsBySearchString(const Library::Filter& filter, ArtistL
 	if(query.isEmpty()){
 			query = select +
 					"WHERE " + search_field + " LIKE :searchterm "
-					"GROUP BY " + _artistid_field + ", " + _artistname_field + " ";
+					"GROUP BY " + m->artistid_field + ", " + m->artistname_field + " ";
 	}
 
 	query += _create_order_string(sortorder) + ";";
@@ -304,11 +320,11 @@ void Artists::updateArtistCissearch()
 
 void Artists::change_artistid_field(const QString& id, const QString& name)
 {
-	_artistid_field = id;
-	_artistname_field = name;
+	m->artistid_field = id;
+	m->artistname_field = name;
 }
 
-void Artists::change_track_lookup_field(const QString& track_lookup_field)
+void Artists::change_track_lookup_field(const QString& search_view)
 {
-	_search_view_name = track_lookup_field;
+	m->search_view = search_view;
 }

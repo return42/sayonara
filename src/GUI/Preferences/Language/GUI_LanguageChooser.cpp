@@ -32,13 +32,13 @@
 
 struct GUI_LanguageChooser::Private
 {
-    QMap<QString, QString>  map;
+	QMap<QString, QString>  map;
 };
 
-GUI_LanguageChooser::GUI_LanguageChooser(QWidget *parent) :
-    PreferenceWidgetInterface(parent)
+GUI_LanguageChooser::GUI_LanguageChooser(const QString& identifier) :
+	Preferences::Base(identifier)
 {
-    m = Pimpl::make<Private>();
+	m = Pimpl::make<Private>();
 }
 
 GUI_LanguageChooser::~GUI_LanguageChooser()
@@ -76,7 +76,7 @@ void GUI_LanguageChooser::renew_combo()
 
 	QString lang_setting = _settings->get(Set::Player_Language);
 
-    sp_log(Log::Info, this) << "Language setting = " << lang_setting;
+	sp_log(Log::Info, this) << "Language setting = " << lang_setting;
 	QDir dir(Util::share_path("translations"));
 
 	QStringList filters;
@@ -86,8 +86,8 @@ void GUI_LanguageChooser::renew_combo()
 	ui->combo_lang->clear();
 
 	int i=0;
-    for(const QString& file : files)
-    {
+	for(const QString& file : files)
+	{
 		QRegExp re(".*lang_(.*)\\.qm");
 		re.setMinimal(true);
 
@@ -108,7 +108,7 @@ void GUI_LanguageChooser::renew_combo()
 					"translations/icons/" + country_code + ".png"
 		);
 
-        QString language_name = m->map.value(country_code);
+		QString language_name = m->map.value(country_code);
 
 		if(language_name.size() > 0){
 			ui->combo_lang->addItem(QIcon(icon_path), language_name, file);
@@ -131,33 +131,33 @@ void GUI_LanguageChooser::init_ui()
 {
 	setup_parent(this, &ui);
 
-    m->map["br"] = QString::fromUtf8("Português (Brasil)");
-    m->map["cs"] = QString::fromUtf8("Český");
-    m->map["de"] = "Deutsch";
-    m->map["en"] = "English";
-    m->map["es"] = QString::fromUtf8("Español");
-    m->map["fr"] = "Francais";
-    m->map["hu"] = "Magyar";
-    m->map["it"] = "Italiano";
-    m->map["ja"] = QString::fromUtf8("日本語");
-    m->map["nl"] = "Nederlands";
-    m->map["pl"] = QString::fromUtf8("Polski");
-    m->map["pt"] = QString::fromUtf8("Português");
-    m->map["ro"] = QString::fromUtf8("Limba română");
-    m->map["ru"] = QString::fromUtf8("Русский");
-    m->map["ua"] = QString::fromUtf8("Українська");
-    m->map["zh_cn"] = QString::fromUtf8("中文");
+	m->map["br"] = QString::fromUtf8("Português (Brasil)");
+	m->map["cs"] = QString::fromUtf8("Český");
+	m->map["de"] = "Deutsch";
+	m->map["en"] = "English";
+	m->map["es"] = QString::fromUtf8("Español");
+	m->map["fr"] = "Francais";
+	m->map["hu"] = "Magyar";
+	m->map["it"] = "Italiano";
+	m->map["ja"] = QString::fromUtf8("日本語");
+	m->map["nl"] = "Nederlands";
+	m->map["pl"] = QString::fromUtf8("Polski");
+	m->map["pt"] = QString::fromUtf8("Português");
+	m->map["ro"] = QString::fromUtf8("Limba română");
+	m->map["ru"] = QString::fromUtf8("Русский");
+	m->map["ua"] = QString::fromUtf8("Українська");
+	m->map["zh_cn"] = QString::fromUtf8("中文");
 }
 
 void GUI_LanguageChooser::showEvent(QShowEvent* e)
 {
-	PreferenceWidgetInterface::showEvent(e);
+	Base::showEvent(e);
 
 	renew_combo();
 }
 
-
-QString GUI_LanguageChooser::get_action_name() const
+QString GUI_LanguageChooser::action_name() const
 {
 	return tr("Language") + QString(" (Language)");
 }
+

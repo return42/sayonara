@@ -25,6 +25,7 @@
 #include "GUI/Utils/GuiUtils.h"
 #include "GUI/Utils/Style.h"
 
+
 #include "Utils/Message/Message.h"
 #include "Utils/Logger/Logger.h"
 #include "Utils/Language.h"
@@ -40,7 +41,7 @@
 #include "Interfaces/LibraryInterface/LibraryContainer/LibraryContainer.h"
 #include "Interfaces/PlayerPlugin/PlayerPluginHandler.h"
 #include "Interfaces/PlayerPlugin/PlayerPlugin.h"
-#include "Interfaces/PreferenceDialog/PreferenceDialogInterface.h"
+#include "Interfaces/PreferenceDialog/PreferenceDialog.h"
 
 #include <QTranslator>
 #include <QAction>
@@ -305,15 +306,14 @@ void GUI_Player::check_library_menu_action()
 
 
 /** LIBRARY AND PLAYLIST END **/
-void GUI_Player::register_preference_dialog(PreferenceDialogInterface* dialog)
+void GUI_Player::register_preference_dialog(PreferenceDialog* dialog)
 {
 	QList<QAction*> actions = menu_file->actions();
 	QAction* sep = actions[actions.size() - 3];
 
 	dialog->setParent(this);
-	menu_file->insertAction(sep, dialog->get_action());
+	menu_file->insertAction(sep, dialog->action());
 }
-
 
 
 void GUI_Player::playstate_changed(PlayState state)

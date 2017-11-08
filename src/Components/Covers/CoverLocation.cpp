@@ -112,20 +112,8 @@ QString Location::get_cover_directory(const QString& append_path)
 	return ::Util::File::clean_filename(cover_dir);
 }
 
-QString Location::preferred_path() const
-{
-	if(!this->local_paths().isEmpty()){
-		return this->local_paths().first();
-	}
 
-	if(QFile::exists(this->cover_path())){
-		return this->cover_path();
-	}
-
-	return getInvalidLocation().cover_path();
-}
-
-Location Location::getInvalidLocation()
+Location Location::invalid_location()
 {
 	Location cl;
 
@@ -138,20 +126,20 @@ Location Location::getInvalidLocation()
 	return cl;
 }
 
-bool Location::isInvalidLocation(const QString& cover_path)
+bool Location::is_invalid(const QString& cover_path)
 {
 	QString path1 = ::Util::File::clean_filename(cover_path);
-	QString path2 = getInvalidLocation().cover_path();
+	QString path2 = invalid_location().cover_path();
 
 	return (path1 == path2);
 }
 
 
-Location Location::get_cover_location(const QString& album_name, const QString& artist_name)
+Location Location::cover_location(const QString& album_name, const QString& artist_name)
 {
 	if(album_name.trimmed().isEmpty() && artist_name.trimmed().isEmpty())
 	{
-		return getInvalidLocation();
+		return invalid_location();
 	}
 
 	QString cover_token = Cover::Util::calc_cover_token(artist_name, album_name);
@@ -162,8 +150,7 @@ Location Location::get_cover_location(const QString& album_name, const QString& 
 
 	ret.m->cover_path = cover_path;
 	ret.m->search_term = artist_name + " " + album_name;
-	ret.m->search_urls.clear();
-	ret.m->search_urls << cfm->album_addresses(artist_name, album_name);
+	ret.m->search_urls = cfm->album_addresses(artist_name, album_name);
 	ret.m->valid = true;
 
 	ret.m->identifier = "CL:By album: " + album_name + " by " + artist_name;
@@ -171,10 +158,10 @@ Location Location::get_cover_location(const QString& album_name, const QString& 
 	return ret;
 }
 
-Location Location::get_cover_location(const QString& album_name, const QStringList& artists)
+Location Location::cover_location(const QString& album_name, const QStringList& artists)
 {
 	QString major_artist = ArtistList::get_major_artist(artists);
-	return get_cover_location(album_name, major_artist);
+	return cover_location(album_name, major_artist);
 }
 
 
@@ -183,22 +170,22 @@ Location Location::get_cover_location(const QString& album_name, const QStringLi
 // TODO: Check for albumID
 // TODO: Check for dbid
 // TODO: Make this class nicer: e.g. valid(), isInvalidLocation()
-Location Location::get_cover_location(const Album& album)
+Location Location::cover_location(const Album& album)
 {
 	int n_artists = album.artists().size();
 
 	Location cl;
 
 	if( n_artists > 1 ) {
-		cl = Location::get_cover_location(album.name(), album.artists());
+		cl = Location::cover_location(album.name(), album.artists());
 	}
 
 	else if( n_artists == 1 ) {
-		cl = Location::get_cover_location(album.name(), album.artists().first());
+		cl = Location::cover_location(album.name(), album.artists().first());
 	}
 
 	else {
-		cl = Location::get_cover_location(album.name(), "");
+		cl = Location::cover_location(album.name(), "");
 	}
 
 	if(!album.cover_download_url().isEmpty()){
@@ -220,7 +207,8 @@ Location Location::get_cover_location(const Album& album)
 		MetaDataList v_md;
 		lib_db->getAllTracksByAlbum(album.id, v_md);
 
-		for(const MetaData& md : v_md){
+		for(const MetaData& md : v_md)
+		{
 			cl.m->local_paths = Cover::LocalSearcher::cover_paths_from_filename(md.filepath());
 			if(!cl.m->local_paths.isEmpty()){
 				break;
@@ -228,19 +216,20 @@ Location Location::get_cover_location(const Album& album)
 		}
 
 		Location tmpcl;
-		if(!Location::isInvalidLocation(cl.preferred_path())){
+		if(!Location::is_invalid(cl.preferred_path()))
+		{
 			QImage img(cl.preferred_path());
 
 			if( n_artists > 1){
-				tmpcl = Location::get_cover_location(album.name(), album.artists());
+				tmpcl = Location::cover_location(album.name(), album.artists());
 			}
 
 			else if( n_artists == 1){
-				tmpcl = Location::get_cover_location(album.name(), album.artists().first());
+				tmpcl = Location::cover_location(album.name(), album.artists().first());
 			}
 
 			else{
-				tmpcl = Location::get_cover_location(album.name(), "");
+				tmpcl = Location::cover_location(album.name(), "");
 			}
 
 			img.save(tmpcl.cover_path());
@@ -252,9 +241,9 @@ Location Location::get_cover_location(const Album& album)
 	return cl;
 }
 
-Location Location::get_cover_location(const Artist& artist)
+Location Location::cover_location(const Artist& artist)
 {
-	Location cl = Location::get_cover_location(artist.name());
+	Location cl = Location::cover_location(artist.name());
 
 	if(!artist.cover_download_url().trimmed().isEmpty()){
 		cl.m->search_urls.clear();
@@ -268,10 +257,10 @@ Location Location::get_cover_location(const Artist& artist)
 }
 
 
-Location Location::get_cover_location(const QString& artist)
+Location Location::cover_location(const QString& artist)
 {
 	if(artist.trimmed().isEmpty()) {
-		return getInvalidLocation();
+		return invalid_location();
 	}
 
 	QString cover_token = QString("artist_") + Cover::Util::calc_cover_token(artist, "");
@@ -289,45 +278,43 @@ Location Location::get_cover_location(const QString& artist)
 	return ret;
 }
 
-
-
-
 Location Get_cover_location(int album_id, uint8_t db_id)
 {
 	if(album_id < 0) {
-		return Location::getInvalidLocation();
+		return Location::invalid_location();
 	}
 
-	Album album;
-	MetaDataList v_md;
-
-
 	DB::Connector* db = DB::Connector::instance();
-	// TODO: Why?
 	DB::LibraryDatabase* lib_db = db->library_db(-1, db_id);
+
 	if(!lib_db){
 		return Location();
 	}
 
+	Album album;
 	bool success = lib_db->getAlbumByID(album_id, album, true);
 
 	if(!success) {
-		return Location::getInvalidLocation();
+		return Location::invalid_location();
 	}
 
 	if(album.name().trimmed().isEmpty() &&
 	  (album.artists().isEmpty() && album.artists()[0].trimmed().isEmpty()))
 	{
-		return Location::getInvalidLocation();
+		return Location::invalid_location();
 	}
 
-	Location cl = Location::get_cover_location(album);
+	Location cl = Location::cover_location(album);
 
+	MetaDataList v_md;
 	lib_db->getAllTracksByAlbum(album_id, v_md);
+
 	for(const MetaData& md : v_md)
 	{
 		QStringList local_paths = Cover::LocalSearcher::cover_paths_from_filename(md.filepath());
-		for(const QString& local_path : local_paths){
+
+		for(const QString& local_path : local_paths)
+		{
 			cl.add_local_path(local_path);
 		}
 
@@ -339,12 +326,12 @@ Location Get_cover_location(int album_id, uint8_t db_id)
 	return cl;
 }
 
-Location Location::get_cover_location(const MetaData& md)
+Location Location::cover_location(const MetaData& md)
 {
 	Location cl;
 
 	if(md.album().trimmed().isEmpty() && md.artist().trimmed().isEmpty()){
-		return Location::getInvalidLocation();
+		return Location::invalid_location();
 	}
 
 	if(md.album_id >= 0){
@@ -352,7 +339,7 @@ Location Location::get_cover_location(const MetaData& md)
 	}
 
 	if(!cl.valid()){
-		cl = get_cover_location(md.album(), md.artist());
+		cl = cover_location(md.album(), md.artist());
 	}
 
 	if(!md.cover_download_url().isEmpty())
@@ -362,7 +349,7 @@ Location Location::get_cover_location(const MetaData& md)
 		QString cover_token = Cover::Util::calc_cover_token(md.artist(), md.album());
 		QString cover_path = get_cover_directory(cover_token + "." + extension);
 
-		cl = get_cover_location(QUrl(md.cover_download_url()), cover_path);
+		cl = cover_location(QUrl(md.cover_download_url()), cover_path);
 	}
 
 	if(cl.m->search_urls.isEmpty()){
@@ -376,7 +363,7 @@ Location Location::get_cover_location(const MetaData& md)
 }
 
 
-Location Location::get_cover_location(const QUrl& url, const QString& target_path)
+Location Location::cover_location(const QUrl& url, const QString& target_path)
 {
 	Location cl;
 	cl.m->cover_path = target_path;
@@ -403,19 +390,24 @@ void Location::add_local_path(const QString& path)
 	m->local_paths << path;
 }
 
-QString Location::local_path(int idx) const
-{
-	if(!between(idx, m->local_paths)){
-		return QString();
-	}
-
-	return m->local_paths[idx];
-}
-
 QString Location::cover_path() const
 {
 	return m->cover_path;
 }
+
+QString Location::preferred_path() const
+{
+	if(!this->local_paths().isEmpty()){
+		return this->local_paths().first();
+	}
+
+	if(QFile::exists(this->cover_path())){
+		return this->cover_path();
+	}
+
+	return invalid_location().cover_path();
+}
+
 
 QString Location::identifer() const
 {
@@ -425,13 +417,6 @@ QString Location::identifer() const
 QStringList Location::search_urls() const
 {
 	return m->search_urls;
-}
-
-void Location::remove_first_search_url()
-{
-	if(!m->search_urls.isEmpty()){
-		m->search_urls.removeFirst();
-	}
 }
 
 bool Location::has_search_urls() const

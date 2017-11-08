@@ -43,7 +43,7 @@ struct LibraryImporter::Private
 	CopyThread*				copy_thread=nullptr;
 	ImportCachePtr			import_cache=nullptr;
 
-	DB::Connector*		db=nullptr;
+	DB::Connector*			db=nullptr;
 
 	LibraryImporter::ImportStatus status;
 	QString					src_dir;
@@ -160,7 +160,7 @@ void LibraryImporter::copy_thread_finished()
 
 	// store to db
 	DB::LibraryDatabase* lib_db = m->db->library_db(m->library->library_id(), 0);
-	bool success = lib_db->storeMetadata(v_md);
+	bool success = lib_db->store_metadata(v_md);
 	int n_files_copied = copy_thread->get_n_copied_files();
 	int n_files_to_copy = m->import_cache->get_files().size();
 

@@ -203,7 +203,7 @@ void MetaDataInfo::calc_cover_location(const MetaDataList& lst)
 	if(lst.size() == 1)
 	{
 		const MetaData& md = lst[0];
-		m->cover_location = Cover::Location::get_cover_location(md);
+		m->cover_location = Cover::Location::cover_location(md);
 	}
 
 	else if(album_ids().size() == 1)
@@ -215,7 +215,7 @@ void MetaDataInfo::calc_cover_location(const MetaDataList& lst)
 		album.set_artists(m->artists.toList());
 		album.set_db_id(lst[0].db_id());
 
-		m->cover_location = Cover::Location::get_cover_location(album);
+		m->cover_location = Cover::Location::cover_location(album);
 	}
 
 	else if(m->albums.size() == 1 && m->artists.size() == 1)
@@ -223,18 +223,18 @@ void MetaDataInfo::calc_cover_location(const MetaDataList& lst)
 		QString album = m->albums.first();
 		QString artist = m->artists.first();
 
-		m->cover_location = Cover::Location::get_cover_location(album, artist);
+		m->cover_location = Cover::Location::cover_location(album, artist);
 	}
 
 	else if(m->albums.size() == 1)
 	{
 		QString album = m->albums.first();
-		m->cover_location = Cover::Location::get_cover_location(album, m->artists.toList());
+		m->cover_location = Cover::Location::cover_location(album, m->artists.toList());
 	}
 
 	else
 	{
-		m->cover_location = Cover::Location::getInvalidLocation();
+		m->cover_location = Cover::Location::invalid_location();
 	}
 }
 

@@ -34,7 +34,7 @@
 
 namespace Cover
 {
-    class Location;
+	class Location;
 }
 
 
@@ -56,11 +56,11 @@ public:
 	explicit GUI_AlternativeCovers(QWidget* parent=nullptr);
 	virtual ~GUI_AlternativeCovers();
 
-signals:
-    void sig_cover_changed(const Cover::Location& cl);
-
 public slots:
-    void start(const Cover::Location& cl);
+	void start(const Cover::Location& cl);
+
+signals:
+	void sig_cover_changed(const Cover::Location& cl);
 
 private slots:
 	void ok_clicked();
@@ -73,7 +73,7 @@ private slots:
 
 private:
 	void reset_model();
-    void connect_and_start(const Cover::Location& cl);
+	void connect_and_start(const Cover::Location& cl);
 	void delete_all_files();
 
 protected:

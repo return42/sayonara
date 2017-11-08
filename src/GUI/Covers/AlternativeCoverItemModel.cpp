@@ -124,7 +124,7 @@ Qt::ItemFlags AlternativeCoverItemModel::flags(const QModelIndex &index) const
 		return QAbstractItemModel::flags(index);
 	}
 
-	bool invalid = Location::isInvalidLocation(_pathlist[index.row()]);
+	bool invalid = Location::is_invalid(_pathlist[index.row()]);
 	if(invalid){
 		return (Qt::NoItemFlags);
 	}
@@ -169,7 +169,7 @@ bool AlternativeCoverItemModel::insertRows(int position, int rows, const QModelI
 	beginInsertRows(QModelIndex(), position, position+rows-1);
 
 	_pathlist.clear();
-	QString invalid_path = Location::getInvalidLocation().cover_path();
+	QString invalid_path = Location::invalid_location().cover_path();
 
 	for(int i=0; i<rows; i++) {
 		for(int j=0; j<columnCount(); j++) {
@@ -200,7 +200,7 @@ bool AlternativeCoverItemModel::is_valid(int row, int col)
     int idx = cvt_2_idx(row, col);
     if(idx < 0) return false;
 
-	return ( !Location::isInvalidLocation(_pathlist[ idx ]) );
+	return ( !Location::is_invalid(_pathlist[ idx ]) );
 }
 
 QSize AlternativeCoverItemModel::get_cover_size(const QModelIndex& idx) const

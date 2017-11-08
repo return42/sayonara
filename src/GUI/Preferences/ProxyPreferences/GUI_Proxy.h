@@ -23,33 +23,33 @@
 #ifndef GUI_PROXY_H
 #define GUI_PROXY_H
 
-#include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
+#include "Interfaces/PreferenceDialog/PreferenceWidget.h"
 #include "GUI/Utils/GUIClass.h"
 
 UI_FWD(GUI_Proxy)
 
 class GUI_Proxy :
-        public PreferenceWidgetInterface
+		public Preferences::Base
 {
 	Q_OBJECT
 	UI_CLASS(GUI_Proxy)
 
 public:
-    explicit GUI_Proxy(QWidget *parent = 0);
-    ~GUI_Proxy();
+	explicit GUI_Proxy(const QString& identifier);
+	~GUI_Proxy();
 
-    // PreferenceInterface interface
+	// PreferenceInterface interface
 protected:
-    void init_ui() override;
-    void retranslate_ui() override;
+	void init_ui() override;
+	void retranslate_ui() override;
 
 public:
-    QString get_action_name() const override;
-    void commit() override;
-    void revert() override;
+	QString action_name() const override;
+	void commit() override;
+	void revert() override;
 
 private slots:
-    void active_toggled(bool active);
+	void active_toggled(bool active);
 };
 
 

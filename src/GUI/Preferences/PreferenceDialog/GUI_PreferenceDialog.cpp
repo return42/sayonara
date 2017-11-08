@@ -22,20 +22,25 @@
 #include "GUI/Preferences/ui_GUI_PreferenceDialog.h"
 
 #include "GUI/Utils/Delegates/StyledItemDelegate.h"
-#include "Interfaces/PreferenceDialog/PreferenceWidgetInterface.h"
+#include "Interfaces/PreferenceDialog/PreferenceWidget.h"
+#include "Interfaces/PreferenceDialog/PreferenceAction.h"
 #include "Utils/globals.h"
 
 #include <QLayout>
 
+using Preferences::Base;
+using Preferences::Action;
+
 struct GUI_PreferenceDialog::Private
 {
-    QList<PreferenceWidgetInterface*> dialogs;
+	QList<Base*>	pref_widgets;
+	Action*			action=nullptr;
 };
 
 GUI_PreferenceDialog::GUI_PreferenceDialog(QWidget *parent) :
-    PreferenceDialogInterface(parent)
+	PreferenceDialog(parent)
 {
-    m = Pimpl::make<Private>();
+	m = Pimpl::make<Private>();
 }
 
 GUI_PreferenceDialog::~GUI_PreferenceDialog()
@@ -46,9 +51,26 @@ GUI_PreferenceDialog::~GUI_PreferenceDialog()
 	}
 }
 
-void GUI_PreferenceDialog::register_preference_dialog(PreferenceWidgetInterface* dialog)
+void GUI_PreferenceDialog::register_preference_dialog(Base* pref_widget)
 {
-    m->dialogs << dialog;
+	m->pref_widgets << pref_widget;
+}
+
+void GUI_PreferenceDialog::show_preference_dialog(const QString& identifier)
+{
+	int i=0;
+	for(Preferences::Base* pwi : m->pref_widgets)
+	{
+		if(identifier.compare(pwi->identifier()) == 0)
+		{
+			row_changed(i);
+			return;
+		}
+
+		i++;
+	}
+
+	sp_log(Log::Warning, this) << "Cannot find preference widget " << identifier;
 }
 
 
@@ -60,16 +82,16 @@ void GUI_PreferenceDialog::retranslate_ui()
 	bool is_empty = (ui->list_preferences->count() == 0);
 
 	int i=0;
-    for(PreferenceWidgetInterface* dialog : m->dialogs)
+	for(Base* dialog : m->pref_widgets)
 	{
 		QListWidgetItem* item;
 		if(is_empty){
-			item = new QListWidgetItem(dialog->get_action_name());
+			item = new QListWidgetItem(dialog->action_name());
 			ui->list_preferences->addItem(item);
 		}
 		else{
 			item = ui->list_preferences->item(i);
-			item->setText(dialog->get_action_name());
+			item->setText(dialog->action_name());
 		}
 
 		i++;
@@ -77,9 +99,22 @@ void GUI_PreferenceDialog::retranslate_ui()
 }
 
 
-QString GUI_PreferenceDialog::get_action_name() const
+QString GUI_PreferenceDialog::action_name() const
 {
 	return tr("Preferences");
+}
+
+QAction* GUI_PreferenceDialog::action()
+{
+	// action has to be initialized here, because pure
+	// virtual get_action_name should not be called from ctor
+	QString name = action_name();
+	if(!m->action){
+		m->action = new Action(name, this);
+	}
+
+	m->action->setText(name + "...");
+	return m->action;
 }
 
 
@@ -92,7 +127,7 @@ void GUI_PreferenceDialog::commit_and_close()
 
 void GUI_PreferenceDialog::commit()
 {
-    for(PreferenceWidgetInterface* iface : m->dialogs){
+	for(Base* iface : m->pref_widgets){
 		if(iface->is_ui_initialized()){
 			iface->commit();
 		}
@@ -102,7 +137,7 @@ void GUI_PreferenceDialog::commit()
 
 void GUI_PreferenceDialog::revert()
 {
-    for(PreferenceWidgetInterface* iface : m->dialogs){
+	for(Base* iface : m->pref_widgets){
 		if(iface->is_ui_initialized()){
 			iface->revert();
 		}
@@ -114,13 +149,13 @@ void GUI_PreferenceDialog::revert()
 
 void GUI_PreferenceDialog::row_changed(int row)
 {
-    if(!between(row, m->dialogs)){
+	if(!between(row, m->pref_widgets)){
 		return;
 	}
 
 	hide_all();
 
-    PreferenceWidgetInterface* widget = m->dialogs[row];
+	Base* widget = m->pref_widgets[row];
 
 	QLayout* layout = ui->widget_preferences->layout();
 	layout->setContentsMargins(0,0,0,0);
@@ -130,7 +165,7 @@ void GUI_PreferenceDialog::row_changed(int row)
 		layout->setAlignment(Qt::AlignTop);
 	}
 
-	ui->lab_pref_title->setText(widget->get_action_name());
+	ui->lab_pref_title->setText(widget->action_name());
 
 	widget->show();
 }
@@ -138,7 +173,7 @@ void GUI_PreferenceDialog::row_changed(int row)
 
 void GUI_PreferenceDialog::hide_all()
 {
-    for(PreferenceWidgetInterface* iface : m->dialogs){
+	for(Base* iface : m->pref_widgets){
 		iface->setParent(nullptr);
 		iface->hide();
 	}
@@ -153,11 +188,17 @@ void GUI_PreferenceDialog::showEvent(QShowEvent* e)
 
 void GUI_PreferenceDialog::init_ui()
 {
-	if(is_ui_initialized()){
+	if(ui){
 		return;
 	}
 
-	setup_parent(this, &ui);
+	ui = new Ui::GUI_PreferenceDialog();
+	ui->setupUi(this);
+
+	for(Base* widget : m->pref_widgets)
+	{
+		ui->list_preferences->addItem(widget->action_name());
+	}
 
 	ui->list_preferences->setMouseTracking(false);
 	ui->list_preferences->setItemDelegate(

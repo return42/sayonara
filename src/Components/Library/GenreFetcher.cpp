@@ -147,6 +147,8 @@ void GenreFetcher::set_local_library(LocalLibrary* local_library)
 	m->local_library = local_library;
 	connect(m->local_library, &LocalLibrary::sig_reloading_library_finished,
 			this, &GenreFetcher::reload_genres);
+
+	reload_genres();
 }
 
 

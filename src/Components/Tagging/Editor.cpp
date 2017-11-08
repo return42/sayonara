@@ -289,7 +289,7 @@ void Editor::run()
 		emit sig_progress( (i++ * 100) / n_operations);
 	}
 
-	m->ldb->createIndexes();
+	m->ldb->create_indexes();
 
 	db = DB::Connector::instance();
 	db->clean_up();

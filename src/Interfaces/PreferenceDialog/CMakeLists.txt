@@ -1,9 +1,8 @@
 PROJECT(say_interfaces_preference_dialog)
 
 SET(SOURCES
-	PreferenceInterface.cpp
-	PreferenceDialogInterface.cpp
-	PreferenceWidgetInterface.cpp
+	PreferenceAction.cpp
+	PreferenceWidget.cpp
 )
 
 ADD_LIBRARY(${PROJECT_NAME} STATIC ${SOURCES})

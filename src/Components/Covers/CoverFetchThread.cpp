@@ -47,23 +47,26 @@ struct FetchThread::Private
 {
 	QList<AsyncWebAccess*> active_connections;
 
-    Location		cl;
-    Fetcher::Base* acf=nullptr;
+	Location		cl;
+	Fetcher::Base* acf=nullptr;
 
 	QString				url;
 	QString				id;
 	QStringList			addresses;
+	QStringList			search_urls;
 	int					n_covers;
 	int					n_covers_found;
 	bool				may_run;
 
-    Private(const Location& cl, int n_covers) :
+	Private(const Location& cl, int n_covers) :
 		cl(cl),
 		id(Util::random_string(8)),
 		n_covers(n_covers),
 		n_covers_found(0),
 		may_run(true)
-	{}
+	{
+		search_urls = cl.search_urls();
+	}
 };
 
 FetchThread::FetchThread() {}
@@ -74,22 +77,28 @@ FetchThread::FetchThread(QObject* parent, const Location& cl, const int n_covers
 	m = Pimpl::make<Private>(cl, n_covers);
 }
 
-FetchThread::~FetchThread() {}
+FetchThread::~FetchThread()
+{
+	while(!m->active_connections.isEmpty())
+	{
+		Util::sleep_ms(50);
+	}
+}
 
 bool FetchThread::start()
 {
 	m->may_run = true;
 
-	if(m->cl.has_search_urls()){
-		m->url = m->cl.search_urls().first();
-		m->cl.remove_first_search_url();
+	if(!m->search_urls.isEmpty())
+	{
+		m->url = m->search_urls.takeFirst();
 	}
 
 	else {
 		return false;
 	}
 
-    Fetcher::Manager* cfm = Fetcher::Manager::instance();
+	Fetcher::Manager* cfm = Fetcher::Manager::instance();
 	m->acf = cfm->active_coverfetcher(m->url);
 
 	if(!m->acf){

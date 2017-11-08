@@ -24,8 +24,8 @@
 #include "Utils/Settings/Settings.h"
 #include "Interfaces/Notification/NotificationHandler.h"
 
-GUI_Notifications::GUI_Notifications(QWidget *parent) :
-	PreferenceWidgetInterface(parent) {}
+GUI_Notifications::GUI_Notifications(const QString& identifier) :
+	Preferences::Base(identifier) {}
 
 GUI_Notifications::~GUI_Notifications()
 {
@@ -42,8 +42,8 @@ void GUI_Notifications::retranslate_ui()
 
 void GUI_Notifications::notifications_changed()
 {
-    NotificationHandler* nh = NotificationHandler::instance();
-    NotificatonList notifications = nh->get_notificators();
+	NotificationHandler* nh = NotificationHandler::instance();
+	NotificatonList notifications = nh->get_notificators();
 
 	ui->combo_notification->clear();
 
@@ -51,24 +51,24 @@ void GUI_Notifications::notifications_changed()
 		ui->combo_notification->addItem(notification->get_name());
 	}
 
-    ui->combo_notification->setCurrentIndex(nh->get_cur_idx());
+	ui->combo_notification->setCurrentIndex(nh->get_cur_idx());
 }
 
 
 
 void GUI_Notifications::commit()
 {
-    NotificationHandler* nh = NotificationHandler::instance();
+	NotificationHandler* nh = NotificationHandler::instance();
 
 	bool active =       ui->cb_activate->isChecked();
 	int timeout =       ui->sb_timeout->value();
 	QString cur_text =  ui->combo_notification->currentText();
-    
+
 	_settings->set(Set::Notification_Name, cur_text);
 	_settings->set(Set::Notification_Timeout, timeout);
 	_settings->set(Set::Notification_Show, active);
 
-    nh->notificator_changed(cur_text);
+	nh->notificator_changed(cur_text);
 }
 
 void GUI_Notifications::revert()
@@ -81,7 +81,7 @@ void GUI_Notifications::revert()
 }
 
 
-QString GUI_Notifications::get_action_name() const
+QString GUI_Notifications::action_name() const
 {
 	return tr("Notifications");
 }
@@ -90,12 +90,12 @@ void GUI_Notifications::init_ui()
 {
 	setup_parent(this, &ui);
 
-    NotificationHandler* nh = NotificationHandler::instance();
+	NotificationHandler* nh = NotificationHandler::instance();
 
 	revert();
 
 	notifications_changed();
 
-    connect(nh,	&NotificationHandler::sig_notifications_changed,
-            this, &GUI_Notifications::notifications_changed);
+	connect(nh,	&NotificationHandler::sig_notifications_changed,
+			this, &GUI_Notifications::notifications_changed);
 }

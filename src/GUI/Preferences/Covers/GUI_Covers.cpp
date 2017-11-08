@@ -35,8 +35,8 @@
 
 using namespace Cover;
 
-GUI_Covers::GUI_Covers(QWidget* parent) :
-	PreferenceWidgetInterface (parent) {}
+GUI_Covers::GUI_Covers(const QString& identifier) :
+	Base (identifier) {}
 
 
 GUI_Covers::~GUI_Covers()
@@ -90,11 +90,10 @@ void GUI_Covers::revert()
 	ui->cb_load_covers_from_file->setChecked(settings->get(Set::Cover_LoadFromFile));
 }
 
-QString GUI_Covers::get_action_name() const
+QString GUI_Covers::action_name() const
 {
 	return Lang::get(Lang::Covers);
 }
-
 
 void GUI_Covers::init_ui()
 {

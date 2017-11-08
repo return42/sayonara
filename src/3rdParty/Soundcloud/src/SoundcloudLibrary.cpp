@@ -423,7 +423,7 @@ void SC::Library::insert_tracks(const MetaDataList& v_md, const ArtistList& arti
 		m->scd->insertAlbumIntoDatabase(album);
 	}
 
-	m->scd->storeMetadata(v_md);
+	m->scd->store_metadata(v_md);
 
 	AbstractLibrary::insert_tracks(v_md);
 

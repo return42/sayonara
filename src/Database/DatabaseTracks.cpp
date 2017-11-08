@@ -45,17 +45,29 @@ struct Tracks::Private
 	QString artistname_field;
 
 	int8_t library_id;
+
+	Private(int8_t library_id) :
+		library_id(library_id)
+	{
+		artistid_field = "artistID";
+		artistname_field = "artistName";
+
+		if(library_id < 0) {
+			track_view_name = QString("tracks");
+			track_search_view_name = QString("track_search_view");
+		}
+
+		else {
+			track_view_name = QString("track_view_%1").arg(library_id);
+			track_search_view_name = QString("track_search_view_%1").arg(library_id);
+		}
+	}
 };
 
 Tracks::Tracks(const QSqlDatabase& db, uint8_t db_id, int8_t library_id) :
 	DB::SearchMode(db, db_id)
 {
-	m = Pimpl::make<Private>();
-
-	m->artistid_field = "artistID";
-	m->artistname_field = "artistName";
-
-	m->library_id = library_id;
+	m = Pimpl::make<Private>(library_id);
 
 	check_track_view(library_id);
 }
@@ -65,16 +77,6 @@ Tracks::~Tracks() {}
 
 void Tracks::check_track_view(int8_t library_id)
 {
-	if(library_id < 0) {
-		m->track_view_name = QString("tracks");
-		m->track_search_view_name = QString("track_search_view");
-	}
-
-	else {
-		m->track_view_name = QString("track_view_%1").arg(library_id);
-		m->track_search_view_name = QString("track_search_view_%1").arg(library_id);
-	}
-
 	QString select = "SELECT "
 					"trackID, "									// 0
 					"title, "									// 1
@@ -133,7 +135,8 @@ void Tracks::check_track_view(int8_t library_id)
 	view_q.prepare(view_query);
 	search_view_q.prepare(search_view_query);
 
-	if(library_id >= 0){
+	if(library_id >= 0)
+	{
 		if(!view_q.exec())
 		{
 			view_q.show_error("Cannot create track view");
@@ -605,7 +608,7 @@ bool Tracks::deleteInvalidTracks(const QString& library_path)
 	success = deleteTracks(v_md_update);
 	sp_log(Log::Debug, this) << "delete other tracks: " << success;
 
-	success = db_library.storeMetadata(v_md_update);
+	success = db_library.store_metadata(v_md_update);
 	sp_log(Log::Debug, this) << "update tracks: " << success;
 
 	return false;
@@ -685,7 +688,7 @@ bool Tracks::updateTrack(const MetaData& md)
 {
 	if(md.id < 0 || md.album_id < 0 || md.artist_id < 0 || md.library_id < 0)
 	{
-		sp_log(Log::Warning, this) << "Cannot update track: "
+		sp_log(Log::Warning, this) << "Cannot update track (value negative): "
 								   << " ArtistID: " << md.artist_id
 								   << " AlbumID: " << md.album_id
 								   << " TrackID: " << md.id
@@ -698,7 +701,8 @@ bool Tracks::updateTrack(const MetaData& md)
 	QString cissearch = ::Library::Util::convert_search_string(md.title, search_mode());
 
 	q.prepare("UPDATE tracks "
-			  "SET albumID=:albumID, "
+			  "SET "
+			  "albumID=:albumID, "
 			  "artistID=:artistID, "
 			  "albumID=:albumID, "
 			  "albumArtistID=:albumArtistID, "

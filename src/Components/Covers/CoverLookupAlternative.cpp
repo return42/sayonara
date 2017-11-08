@@ -29,11 +29,11 @@ using Cover::AlternativeLookup;
 
 struct AlternativeLookup::Private
 {
-    LookupPtr   cl;
-    Location    cover_location;
+	LookupPtr   cl;
+	Location    cover_location;
 
-    int			n_covers;
-    bool		run;
+	int			n_covers;
+	bool		run;
 
 	~Private()
 	{
@@ -49,7 +49,7 @@ AlternativeLookup::AlternativeLookup(QObject* parent, int n_covers) :
 	m->n_covers = n_covers;
 }
 
-AlternativeLookup::AlternativeLookup(QObject* parent, const Location& cl, int n_covers) : 
+AlternativeLookup::AlternativeLookup(QObject* parent, const Location& cl, int n_covers) :
 	AlternativeLookup(parent, n_covers)
 {
 	m->cover_location = cl;
@@ -68,15 +68,26 @@ void AlternativeLookup::start()
 {
 	m->run = true;
 
-    m->cl = LookupPtr(new Lookup(this, m->n_covers));
+	m->cl = LookupPtr(new Lookup(this, m->n_covers));
 
 	connect(m->cl.get(), &Lookup::sig_cover_found, this, &AlternativeLookup::cover_found);
 	connect(m->cl.get(), &Lookup::sig_finished, this, &AlternativeLookup::finished);
 
 	bool can_fetch = m->cl->fetch_cover(m->cover_location, true);
-	if(!can_fetch){
+	if(!can_fetch)
+	{
 		emit sig_finished(false);
 	}
+}
+
+Cover::Location AlternativeLookup::cover_location() const
+{
+	return m->cover_location;
+}
+
+void AlternativeLookup::set_cover_location(const Cover::Location &location)
+{
+	m->cover_location = location;
 }
 
 void AlternativeLookup::cover_found(const QString& cover_path)

@@ -199,7 +199,7 @@ void SomaFM::GUI_SomaFM::playlist_double_clicked(const QModelIndex& idx)
 void SomaFM::GUI_SomaFM::cover_found(const QString &cover_path)
 {
     Cover::Lookup* cl = static_cast<Cover::Lookup*>(sender());
-    if(Cover::Location::isInvalidLocation(cover_path)){
+    if(Cover::Location::is_invalid(cover_path)){
 		return;
 	}
 

@@ -181,7 +181,7 @@ QVariant CoverModel::data(const QModelIndex& index, int role) const
 					Location cl;
 					if(!m->cover_locations.contains(hash)){
 						QString str = album.to_string();
-						cl = Location::get_cover_location(album);
+						cl = Location::cover_location(album);
 						m->cover_locations[hash] = cl;
 					}
 
@@ -190,7 +190,7 @@ QVariant CoverModel::data(const QModelIndex& index, int role) const
 					}
 
 					p = QPixmap(cl.preferred_path());
-					if(!Location::isInvalidLocation(cl.preferred_path())){
+					if(!Location::is_invalid(cl.preferred_path())){
 						m->pixmaps[hash] = p.scaled(m->zoom, m->zoom, Qt::KeepAspectRatio);
 					}
 
@@ -376,17 +376,17 @@ int CoverModel::id_by_index(int idx)
 Location CoverModel::cover(const IndexSet& indexes) const
 {
 	if(indexes.size() != 1){
-		return Location::getInvalidLocation();
+		return Location::invalid_location();
 	}
 
 	int idx = indexes.first();
 	if(idx < 0 || idx >= m->albums.count() ){
-		return Location::getInvalidLocation();
+		return Location::invalid_location();
 	}
 
 	QString hash = get_hash( m->albums[idx] );
 	if(!m->cover_locations.contains(hash)){
-		return Location::getInvalidLocation();
+		return Location::invalid_location();
 	}
 
 	return m->cover_locations[hash];

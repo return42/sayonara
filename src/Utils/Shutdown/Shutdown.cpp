@@ -41,6 +41,7 @@
 
 struct Shutdown::Private
 {
+	DB::Settings*	db=nullptr;
 	QTimer*			timer=nullptr;
 	QTimer*			timer_countdown=nullptr;
 	PlayManagerPtr	play_manager=nullptr;
@@ -52,6 +53,7 @@ struct Shutdown::Private
 		msecs2go(0),
 		is_running(false)
 	{
+		db = DB::Connector::instance();
 		play_manager = PlayManager::instance();
 
 		timer = new QTimer(parent);
@@ -147,10 +149,8 @@ void Shutdown::countdown_timeout()
 
 void Shutdown::timeout()
 {
-
 	m->is_running = false;
-	DB::Connector::instance()->store_settings();
-
+	m->db->store_settings();
 
 #ifdef Q_OS_WIN
 	//ExitWindowsEx(

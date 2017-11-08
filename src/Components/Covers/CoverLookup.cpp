@@ -44,8 +44,8 @@ using Cover::FetchThread;
 
 struct Lookup::Private
 {
-    int             n_covers;
-    FetchThread*    cft=nullptr;
+	int             n_covers;
+	FetchThread*    cft=nullptr;
 
 	Private(int n_covers) :
 		n_covers(n_covers)
@@ -58,7 +58,12 @@ Lookup::Lookup(QObject* parent, int n_covers) :
 	m = Pimpl::make<Private>(n_covers);
 }
 
-Lookup::~Lookup() {}
+Lookup::~Lookup()
+{
+	if(m->cft){
+		m->cft->stop();
+	}
+}
 
 bool Lookup::start_new_thread(const Cover::Location& cl )
 {
@@ -89,10 +94,11 @@ bool Lookup::fetch_cover(const Location& cl, bool also_www)
 		return true;
 	}
 
+	QStringList local_paths = cl.local_paths();
 	// For one cover, we also can use the local cover path
-	if(!cl.local_paths().isEmpty() && m->n_covers == 1)
-	{	
-		emit sig_cover_found(cl.local_path(0));
+	if(!local_paths.isEmpty() && m->n_covers == 1)
+	{
+		emit sig_cover_found(local_paths.first());
 		emit sig_finished(true);
 		return true;
 	}
@@ -114,7 +120,7 @@ bool Lookup::fetch_cover(const Location& cl, bool also_www)
 
 bool Lookup::fetch_album_cover(const Album& album, bool also_www)
 {
-	Location cl = Location::get_cover_location(album);
+	Location cl = Location::cover_location(album);
 	return fetch_cover(cl, also_www);
 }
 
@@ -122,14 +128,14 @@ bool Lookup::fetch_album_cover(const Album& album, bool also_www)
 void Lookup::finished(bool success)
 {
 	m->cft = nullptr;
-    emit sig_finished(success);
+	emit sig_finished(success);
 }
 
 
 void Lookup::cover_found(const QString& file_path)
 {
 	FetchThread* cft = static_cast<FetchThread*>(sender());
-    emit sig_cover_found(file_path);
+	emit sig_cover_found(file_path);
 
 	if(!cft->more()){
 		emit sig_finished(true);

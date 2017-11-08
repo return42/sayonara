@@ -39,6 +39,12 @@
 
 using DB::Connector;
 
+struct Connector::Private
+{
+	QList<LibraryDatabase*> library_dbs;
+	LocalLibraryDatabase*	local_library_database=nullptr;
+};
+
 Connector::Connector() :
 	DB::Base(0, "", QString("player.db"), nullptr),
 	DB::Bookmarks(db(), db_id()),
@@ -48,10 +54,19 @@ Connector::Connector() :
 	DB::Streams(db(), db_id()),
 	DB::VisualStyles(db(), db_id())
 {
+	m = Pimpl::make<Private>();
 	apply_fixes();
+
+	m->local_library_database = new DB::LocalLibraryDatabase(-1);
+	m->library_dbs << m->local_library_database;
 }
 
 Connector::~Connector() {}
+
+void Connector::add_library_db(LibraryDatabase* lib_db)
+{
+	m->library_dbs << lib_db;
+}
 
 bool Connector::updateAlbumCissearchFix()
 {
@@ -63,7 +78,9 @@ bool Connector::updateAlbumCissearchFix()
 
 	LibraryDatabase* lib_db = library_db(-1, 0);
 	lib_db->getAllAlbums(albums);
-	for(const Album& album : albums) {
+
+	for(const Album& album : albums)
+	{
 		QString str = "UPDATE albums SET cissearch=:cissearch WHERE albumID=:id;";
 		Query q(db());
 		q.prepare(str);
@@ -334,38 +351,50 @@ void Connector::clean_up()
 	q.exec();
 }
 
-QList<DB::LibraryDatabase*> Connector::library_dbs() const
+DB::LibraryDatabases Connector::library_dbs() const
 {
-	return _library_dbs;
+	return m->library_dbs;
 }
 
 
 DB::LibraryDatabase* Connector::library_db(int8_t library_id, uint8_t db_id)
 {
-	for(LibraryDatabase* db : _library_dbs){
-		if((db->library_id() == library_id) && (db->db_id() == db_id)){
+	for(LibraryDatabase* db : m->library_dbs)
+	{
+		if( (db->library_id() == library_id) &&
+			(db->db_id() == db_id))
+		{
 			return db;
 		}
 	}
 
-	if(db_id == 0 && library_id == -1){
-		if(_local_library == nullptr){
-			return register_library_db<LocalLibraryDatabase>(-1);
-		}
-	}
-
-	sp_log(Log::Debug, this) << "Could not find Library:"
+	sp_log(Log::Warning, this) << "Could not find Library:"
 								" DB ID = " << (int) db_id
 							 << " LibraryID = " << (int) library_id;
 
-	sp_log(Log::Develop, this) << "Available Libraries:";
-	for(LibraryDatabase* db : _library_dbs){
+	return m->local_library_database;
+}
 
-		sp_log(Log::Develop, this) << "DB ID = " << (int) this->db_id()
-								   << " LibraryID = " << (int) db->library_id();
-
-
+DB::LibraryDatabase *Connector::find_library_db(int8_t library_id) const
+{
+	for(DB::LibraryDatabase* db : m->library_dbs)
+	{
+		if( (db->library_id() == library_id)){
+			return db;
+		}
 	}
 
 	return nullptr;
+}
+
+DB::LibraryDatabase* Connector::register_library_db(int8_t library_id)
+{
+	DB::LibraryDatabase* lib_db = find_library_db(library_id);
+
+	if(!lib_db) {
+		lib_db = new DB::LocalLibraryDatabase(library_id);
+		add_library_db(lib_db);
+	}
+
+	return lib_db;
 }
