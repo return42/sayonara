@@ -21,9 +21,6 @@
 #include "CoverLookup.h"
 #include "CoverLookupAlternative.h"
 #include "CoverLocation.h"
-#include "Utils/Logger/Logger.h"
-
-#include <QStringList>
 
 using Cover::AlternativeLookup;
 using Cover::Location;
@@ -31,10 +28,16 @@ using Cover::Lookup;
 
 struct AlternativeLookup::Private
 {
-	Lookup*		lookup=nullptr;
 	Location	cover_location;
+	Lookup*		lookup=nullptr;
 
 	int			n_covers;
+
+	Private(AlternativeLookup* alt_lookup, int n_covers) :
+		n_covers(n_covers)
+	{
+		lookup = new Lookup(alt_lookup, n_covers);
+	}
 
 	~Private()
 	{
@@ -45,9 +48,7 @@ struct AlternativeLookup::Private
 AlternativeLookup::AlternativeLookup(QObject* parent, int n_covers) :
 	LookupBase(parent)
 {
-	m = Pimpl::make<AlternativeLookup::Private>();
-	m->n_covers = n_covers;
-	m->lookup = new Lookup(this, m->n_covers);
+	m = Pimpl::make<Private>(this, n_covers);
 
 	connect(m->lookup, &Lookup::sig_cover_found, this, &AlternativeLookup::cover_found);
 	connect(m->lookup, &Lookup::sig_finished, this, &AlternativeLookup::finished);
@@ -113,7 +114,6 @@ void AlternativeLookup::set_cover_location(const Location& location)
 
 void AlternativeLookup::cover_found(const QString& cover_path)
 {
-	sp_log(Log::Warning, this) << "Cover found " << cover_path;
 	emit sig_cover_found(cover_path);
 }
 
