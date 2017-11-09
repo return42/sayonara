@@ -22,19 +22,30 @@
 
 using Gui::ProgressBar;
 
+struct Gui::ProgressBar::Private
+{
+	QWidget*	parent=nullptr;
+	int			fixed_height;
+	Position	position;
+
+	Private(QWidget* parent) :
+		parent(parent),
+		fixed_height(5),
+		position(ProgressBar::Position::Bottom)
+	{}
+};
+
+
 ProgressBar::ProgressBar(QWidget* parent) :
 	QProgressBar(parent)
 {
-	_parent = parent;
-
-	_position = ProgressBar::Position::Bottom;
-	_fixed_height = 5;
+	m = Pimpl::make<Private>(parent);
 
 	this->setEnabled(false);
 	this->setObjectName("loading_bar");
 
 	this->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-	this->setMaximumHeight(_fixed_height);
+	this->setMaximumHeight(m->fixed_height);
 	this->setMinimum(0);
 	this->setMaximum(0);
 }
@@ -43,7 +54,7 @@ ProgressBar::~ProgressBar() {}
 
 void ProgressBar::set_position(ProgressBar::Position o)
 {
-	_position = o;
+	m->position = o;
 }
 
 void ProgressBar::showEvent(QShowEvent* e)
@@ -51,22 +62,22 @@ void ProgressBar::showEvent(QShowEvent* e)
 	QProgressBar::showEvent(e);
 
 	int y;
-	switch(_position)
+	switch(m->position)
 	{
 		case ProgressBar::Position::Top:
 			 y = 2;
 			break;
 		case ProgressBar::Position::Middle:
-			y = (_parent->height() - _fixed_height) / 2;
+			y = (m->parent->height() - m->fixed_height) / 2;
 			break;
 		case ProgressBar::Position::Bottom:
 		default:
-			 y = _parent->height() - _fixed_height - 2;
+			 y = m->parent->height() - m->fixed_height - 2;
 			break;
 	}
 
 	this->setGeometry(2,
 					  y,
-					  _parent->width() - 4,
-					  _fixed_height);
+					  m->parent->width() - 4,
+					  m->fixed_height);
 }

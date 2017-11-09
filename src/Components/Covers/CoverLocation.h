@@ -22,6 +22,7 @@
 #define COVERLOCATION_H
 
 #include <QMetaType>
+#include <QMap>
 #include "Utils/Pimpl.h"
 
 class QUrl;
@@ -110,6 +111,9 @@ namespace Cover
 		 */
 		bool			has_search_urls() const;
 
+
+		QMap<QString, QString> all_search_urls() const;
+
 		/**
 		 * @brief Search term for a free search. As a human you would
 		 * type that search term into your browser
@@ -125,6 +129,8 @@ namespace Cover
 
 		void			set_search_term(const QString& search_term,
 										const QString& cover_fetcher_identifier);
+
+		void			set_search_urls(const QStringList& urls);
 
 		/**
 		 * @brief to_string

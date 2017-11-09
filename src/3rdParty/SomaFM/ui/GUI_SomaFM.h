@@ -23,10 +23,10 @@
 #ifndef GUI_SOMAFM_H
 #define GUI_SOMAFM_H
 
+#include "Utils/Pimpl.h"
 #include "GUI/Utils/Widgets/Widget.h"
 
 #include <QItemSelection>
-
 
 class QComboBox;
 class QFrame;
@@ -42,9 +42,7 @@ namespace SomaFM
 	{
 		Q_OBJECT
 		UI_CLASS(GUI_SomaFM)
-
-	private:
-		SomaFM::Library*	_library=nullptr;
+		PIMPL(GUI_SomaFM)
 
 	public:
 		explicit GUI_SomaFM(QWidget *parent = 0);

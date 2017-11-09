@@ -145,7 +145,8 @@ void Lookup::cover_found(const QString& file_path)
 
 void Lookup::stop()
 {
-	if(m->cft){
+	if(m->cft)
+	{
 		m->cft->stop();
 		emit sig_finished(true);
 	}

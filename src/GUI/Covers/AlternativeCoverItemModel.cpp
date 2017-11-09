@@ -53,15 +53,15 @@ RowColumn AlternativeCoverItemModel::cvt_2_row_col(int idx) const
 {
 	RowColumn p;
 
-    if(idx < 0) {
-        p.row = -1;
-        p.col = -1;
-        p.valid = false;
-    }
+	if(idx < 0) {
+		p.row = -1;
+		p.col = -1;
+		p.valid = false;
+	}
 
 	p.row = idx / columnCount();
 	p.col = idx % columnCount();
-    p.valid = true;
+	p.valid = true;
 
 	return p;
 }
@@ -69,7 +69,7 @@ RowColumn AlternativeCoverItemModel::cvt_2_row_col(int idx) const
 
 int AlternativeCoverItemModel::cvt_2_idx(int row, int col) const
 {
-    if(row < 0 || col < 0) return -1;
+	if(row < 0 || col < 0) return -1;
 
 	return row * columnCount() + col;
 }
@@ -98,8 +98,8 @@ QVariant AlternativeCoverItemModel::data(const QModelIndex &index, int role) con
 	}
 
 	 if ( !index.isValid() || !between(lin_idx, _pathlist) ) {
-         return QVariant();
-     }
+		 return QVariant();
+	 }
 
 	 else if(role == Qt::UserRole){
 		 return _pathlist[lin_idx];
@@ -156,9 +156,13 @@ void AlternativeCoverItemModel::reset()
 
 	QString sayonara_logo = Util::share_path("logo.png");
 	_pathlist.clear();
-	for(int i=0; i<rows*cols; i++){
+
+	for(int i=0; i<rows*cols; i++)
+	{
 		_pathlist << sayonara_logo;
 	}
+
+	emit dataChanged(index(0, 0), index(rowCount()-1, columnCount() - 1));
 }
 
 
@@ -197,8 +201,8 @@ bool AlternativeCoverItemModel::removeRows(int position, int rows, const QModelI
 
 bool AlternativeCoverItemModel::is_valid(int row, int col)
 {
-    int idx = cvt_2_idx(row, col);
-    if(idx < 0) return false;
+	int idx = cvt_2_idx(row, col);
+	if(idx < 0) return false;
 
 	return ( !Location::is_invalid(_pathlist[ idx ]) );
 }

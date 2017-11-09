@@ -47,15 +47,15 @@ public:
 
 template<typename KeyClass>
 class SettingNotifier :
-    public AbstrSettingNotifier
+	public AbstrSettingNotifier
 {
 
 private:
-    SettingNotifier() :
+	SettingNotifier() :
 		AbstrSettingNotifier()
 	{}
 
-    SettingNotifier(const SettingNotifier& other) = delete;
+	SettingNotifier(const SettingNotifier& other) = delete;
 
 
 public:
@@ -85,9 +85,9 @@ namespace Set
 
 		SettingNotifier<KeyClass>::instance()->add_listener(t, fn);
 
-		auto callable = std::bind(fn, t);
-
-		if(run){
+		if(run)
+		{
+			auto callable = std::bind(fn, t);
 			callable();
 		}
 	}

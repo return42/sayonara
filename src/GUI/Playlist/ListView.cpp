@@ -64,12 +64,15 @@ struct PlaylistView::Private
 	QAction*				bookmarks_action=nullptr;
 
 	int						async_drop_index;
+	int						playlist_index;
 
 	Private(PlaylistPtr pl, PlaylistView* parent) :
 		model(new PlaylistItemModel(pl, parent)),
 		delegate(new PlaylistItemDelegate(parent)),
 		async_drop_index(-1)
-	{}
+	{
+		playlist_index = pl->index();
+	}
 };
 
 PlaylistView::PlaylistView(PlaylistPtr pl, QWidget* parent) :
@@ -233,17 +236,17 @@ int PlaylistView::calc_drag_drop_line(QPoint pos)
 
 void PlaylistView::handle_drop(QDropEvent* event)
 {
-	const QMimeData* mimedata = event->mimeData();
-
 	int row = m->delegate->drag_index();
 	clear_drag_drop_lines(row);
 
+	const QMimeData* mimedata = event->mimeData();
 	if(!mimedata) {
 		return;
 	}
 
-	bool inner_drag_drop = Util::MimeData::is_inner_drag_drop(mimedata);
-	if(inner_drag_drop)
+	bool is_inner_drag_drop = Util::MimeData::is_inner_drag_drop(mimedata, m->playlist_index);
+
+	if(is_inner_drag_drop)
 	{
 		bool copy = (event->keyboardModifiers() & Qt::ControlModifier);
 		handle_inner_drag_drop(row, copy);
@@ -325,7 +328,7 @@ void PlaylistView::handle_inner_drag_drop(int row, bool copy)
 		new_selected_rows.insert(i - n_lines_before_tgt + 1);
 	}
 
-	this->select_rows( new_selected_rows );
+	this->select_rows(new_selected_rows);
 }
 
 
@@ -532,7 +535,7 @@ void PlaylistView::dragMoveEvent(QDragMoveEvent* event)
 {
 	event->accept();
 
-	int first_row = indexAt(QPoint(5, 5)).row();
+	int first_row =	indexAt(QPoint(5, 5)).row();
 	int last_row = indexAt(QPoint(5, this->height())).row() - 1;
 	int row = calc_drag_drop_line(event->pos() );
 

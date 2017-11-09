@@ -43,14 +43,14 @@ namespace Cover
  * @ingroup GUICovers
  */
 
-UI_FWD(AlternativeCovers)
+UI_FWD(GUI_AlternativeCovers)
 
 class GUI_AlternativeCovers :
 		public Gui::Dialog
 {
 	Q_OBJECT
 	PIMPL(GUI_AlternativeCovers)
-	UI_CLASS(AlternativeCovers)
+	UI_CLASS(GUI_AlternativeCovers)
 
 public:
 	explicit GUI_AlternativeCovers(QWidget* parent=nullptr);
@@ -73,10 +73,12 @@ private slots:
 
 private:
 	void reset_model();
-	void connect_and_start(const Cover::Location& cl);
+	void connect_and_start();
 	void delete_all_files();
+	void init_combobox();
 
 protected:
+	void resizeEvent(QResizeEvent* e) override;
 	void closeEvent(QCloseEvent* e) override;
 	void language_changed() override;
 };

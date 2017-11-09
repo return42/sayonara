@@ -39,11 +39,14 @@ namespace Gui
 
 			QStringList get_playlists(const QMimeData* data);
 
-			bool is_inner_drag_drop(const QMimeData* data);
-			void set_inner_drag_drop(QMimeData* data);
-
 			void set_cover_url(QMimeData* data, const QString& url);
 			QString cover_url(const QMimeData* data);
+
+			CustomMimeData* custom_mimedata(QMimeData* data);
+			const CustomMimeData* custom_mimedata(const QMimeData* data);
+
+			bool is_inner_drag_drop(const QMimeData* data, int target_playlist_idx);
+			bool is_drag_from_playlist(const QMimeData* data);
 		}
 	}
 }

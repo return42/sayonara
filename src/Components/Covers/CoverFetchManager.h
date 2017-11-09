@@ -75,6 +75,7 @@ namespace Fetcher
 		 * @return list of urls
 		 */
 		QStringList artist_addresses(const QString& artist) const;
+		QMap<QString, QString> all_artist_addresses(const QString& artist) const;
 
 		/**
 		 * @brief get urls for a album search query
@@ -83,6 +84,7 @@ namespace Fetcher
 		 * @return list of urls
 		 */
 		QStringList album_addresses(const QString& artist, const QString& album) const;
+		QMap<QString, QString> all_album_addresses(const QString& artist, const QString& album) const;
 
 		/**
 		 * @brief get urls for a fuzzy query

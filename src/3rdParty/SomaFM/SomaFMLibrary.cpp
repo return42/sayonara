@@ -61,6 +61,8 @@ SomaFM::Library::~Library()
 
 void SomaFM::Library::search_stations()
 {
+	emit sig_loading_started();
+
 	AsyncWebAccess* awa = new AsyncWebAccess(this);
 	connect(awa, &AsyncWebAccess::sig_finished, this, &SomaFM::Library::soma_website_fetched);
 
@@ -80,9 +82,13 @@ void SomaFM::Library::soma_website_fetched()
 	AsyncWebAccess* awa = static_cast<AsyncWebAccess*>(sender());
 	QList<SomaFM::Station> stations;
 
-	if(awa->status() != AsyncWebAccess::Status::GotData){
+	if(awa->status() != AsyncWebAccess::Status::GotData)
+	{
 		awa->deleteLater();
+
 		emit sig_stations_loaded(stations);
+		emit sig_loading_finished();
+
 		return;
 	}
 
@@ -108,7 +114,9 @@ void SomaFM::Library::soma_website_fetched()
 	}
 
 	sort_stations(stations);
+
 	emit sig_stations_loaded(stations);
+	emit sig_loading_finished();
 
 	awa->deleteLater();
 }
@@ -116,6 +124,8 @@ void SomaFM::Library::soma_website_fetched()
 void SomaFM::Library::create_playlist_from_station(int row)
 {
 	Q_UNUSED(row)
+
+	emit sig_loading_started();
 
 	SomaFM::Station station = m->station_map[m->requested_station];
 	StreamParser* parser = new StreamParser(station.name(), this);
@@ -129,6 +139,7 @@ void SomaFM::Library::soma_station_playlists_fetched(bool success)
 
 	if(!success){
 		parser->deleteLater();
+		emit sig_loading_finished();
 		return;
 	}
 
@@ -155,23 +166,28 @@ void SomaFM::Library::soma_station_playlists_fetched(bool success)
 						 Playlist::Type::Stream);
 
 	parser->deleteLater();
+	emit sig_loading_finished();
 }
 
 
-void SomaFM::Library::create_playlist_from_playlist(int idx)
+bool SomaFM::Library::create_playlist_from_playlist(int idx)
 {
 	SomaFM::Station station = m->station_map[m->requested_station];
 	QStringList urls = station.urls();
 
 	if( !between(idx, urls)) {
-		return;
+		return false;
 	}
+
+	emit sig_loading_started();
 
 	QString url = urls[idx];
 	StreamParser* stream_parser = new StreamParser(station.name(), this);
 	connect(stream_parser, &StreamParser::sig_finished, this, &SomaFM::Library::soma_playlist_content_fetched);
 
 	stream_parser->parse_stream(url);
+
+	return true;
 }
 
 
@@ -181,6 +197,7 @@ void SomaFM::Library::soma_playlist_content_fetched(bool success)
 
 	if(!success){
 		parser->deleteLater();
+		emit sig_loading_finished();
 		return;
 	}
 
@@ -208,6 +225,8 @@ void SomaFM::Library::soma_playlist_content_fetched(bool success)
 						 Playlist::Type::Stream);
 
 	parser->deleteLater();
+
+	emit sig_loading_finished();
 }
 
 

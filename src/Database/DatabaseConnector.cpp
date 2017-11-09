@@ -368,9 +368,11 @@ DB::LibraryDatabase* Connector::library_db(int8_t library_id, uint8_t db_id)
 		}
 	}
 
-	sp_log(Log::Warning, this) << "Could not find Library:"
+	if(db_id == 0){
+		sp_log(Log::Warning, this) << "Could not find Library:"
 								" DB ID = " << (int) db_id
 							 << " LibraryID = " << (int) library_id;
+	}
 
 	return m->local_library_database;
 }

@@ -282,7 +282,7 @@ void Application::init_preferences()
 	preferences->register_preference_dialog(new GUI_PlaylistPreferences("playlist"));
 	preferences->register_preference_dialog(new GUI_LibraryPreferences("library"));
 	preferences->register_preference_dialog(new GUI_Covers("covers"));
-	preferences->register_preference_dialog(new GUI_StreamPreferences("streams"));
+	//preferences->register_preference_dialog(new GUI_StreamPreferences("streams"));
 	preferences->register_preference_dialog(new GUI_StreamRecorder("streamrecorder"));
 	preferences->register_preference_dialog(new GUI_BroadcastSetup("broadcast"));
 	preferences->register_preference_dialog(new GUI_Shortcuts("shortcuts"));

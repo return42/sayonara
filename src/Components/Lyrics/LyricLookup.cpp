@@ -106,13 +106,17 @@ QString LyricLookupThread::calc_server_url(QString artist, QString song)
 
 	QMap<QString, QString> replacements = m->server_list[m->cur_server].replacements;
 
-	for(QString key : replacements.keys()) {
-		while(artist.indexOf(key) >= 0){
-			artist.replace(key, replacements.value(key));
-		}
+	for(int i=0; i<2; i++)
+	{
+		for(QString key : replacements.keys())
+		{
+			while(artist.indexOf(key) >= 0){
+				artist.replace(key, replacements.value(key));
+			}
 
-		while(song.indexOf(key) >= 0){
-			song.replace(key, replacements.value(key));
+			while(song.indexOf(key) >= 0){
+				song.replace(key, replacements.value(key));
+			}
 		}
 	}
 
@@ -323,7 +327,7 @@ void LyricLookupThread::init_server_list()
 
 	ServerTemplate musixmatch;
 	musixmatch.display_str = "Musixmatch";
-	musixmatch.server_address = "https://www.musixmatch.com/";
+	musixmatch.server_address = "https://www.musixmatch.com";
 	musixmatch.call_policy = "<SERVER>/lyrics/<ARTIST>/<TITLE>";
 	musixmatch.addReplacement(" ", "-");
 	musixmatch.addReplacement("'", "");

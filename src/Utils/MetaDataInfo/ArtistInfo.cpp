@@ -23,7 +23,6 @@
 #include "Database/DatabaseConnector.h"
 #include "Database/LibraryDatabase.h"
 
-
 #include "Utils/MetaData/Artist.h"
 #include "Utils/MetaData/MetaData.h"
 #include "Utils/MetaData/MetaDataList.h"
@@ -58,8 +57,6 @@ ArtistInfo::ArtistInfo(const MetaDataList& v_md) :
 
 	insert_numeric_info_field(InfoStrings::nAlbums, albums().count());
 
-	// clear, because it's from Metadata. We are not interested in these
-	// rather fetch artists' additional data, if there's only one artist
 	_additional_info.clear();
 
 	if(artist_ids().size() == 1)
@@ -74,7 +71,8 @@ ArtistInfo::ArtistInfo(const MetaDataList& v_md) :
 
 		success = lib_db->getArtistByID(artist_id, artist);
 
-		if(success){
+		if(success)
+		{
 			_additional_info.clear();
 			calc_similar_artists(artist);
 			// custom fields
@@ -135,6 +133,12 @@ void ArtistInfo::calc_cover_location()
 	if( artists().size() == 1)
 	{
 		QString artist = artists().first();
+		m->cover_location = Cover::Location::cover_location(artist);
+	}
+
+	else if(album_artists().size() == 1)
+	{
+		QString artist = album_artists().first();
 		m->cover_location = Cover::Location::cover_location(artist);
 	}
 

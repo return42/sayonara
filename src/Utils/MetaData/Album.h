@@ -68,6 +68,9 @@ public:
 	QStringList artists() const;
 	void set_artists(const QStringList& artists);
 
+	QStringList album_artists() const;
+	void set_album_artists(const QStringList& album_artists);
+
 	static QVariant toVariant(const Album& album);
 	static bool fromVariant(const QVariant& v, Album& album);
 	QString to_string() const;

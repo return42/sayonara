@@ -31,16 +31,14 @@ using Cover::Lookup;
 
 struct AlternativeLookup::Private
 {
-	Lookup*		cl=nullptr;
+	Lookup*		lookup=nullptr;
 	Location	cover_location;
-	QString		cover_location_string;
 
 	int			n_covers;
-	bool		run;
 
 	~Private()
 	{
-		cl->stop();
+		lookup->stop();
 	}
 };
 
@@ -48,48 +46,59 @@ AlternativeLookup::AlternativeLookup(QObject* parent, int n_covers) :
 	LookupBase(parent)
 {
 	m = Pimpl::make<AlternativeLookup::Private>();
-	m->run = true;
 	m->n_covers = n_covers;
-}
+	m->lookup = new Lookup(this, m->n_covers);
 
-AlternativeLookup::AlternativeLookup(QObject* parent, const Location& cl, int n_covers) :
-	AlternativeLookup(parent, n_covers)
-{
-	m->cover_location = cl;
-	m->cover_location_string = cl.to_string();
-
-	sp_log(Log::Debug, this) << cl.search_urls();
+	connect(m->lookup, &Lookup::sig_cover_found, this, &AlternativeLookup::cover_found);
+	connect(m->lookup, &Lookup::sig_finished, this, &AlternativeLookup::finished);
 }
 
 AlternativeLookup::~AlternativeLookup() {}
 
 void AlternativeLookup::stop()
 {
-	m->cl->stop();
+	m->lookup->stop();
 }
 
-void AlternativeLookup::start()
+void AlternativeLookup::go(const Cover::Location& location)
 {
-	m->run = true;
-
-	m->cl = new Lookup(this, m->n_covers);
-
-	connect(m->cl, &Lookup::sig_cover_found, this, &AlternativeLookup::cover_found);
-	connect(m->cl, &Lookup::sig_finished, this, &AlternativeLookup::finished);
-
-	bool can_fetch = m->cl->fetch_cover(m->cover_location, true);
+	bool can_fetch = m->lookup->fetch_cover(location, true);
 	if(!can_fetch)
 	{
 		emit sig_finished(false);
 	}
 }
 
+void AlternativeLookup::start()
+{
+	go(m->cover_location);
+}
+
 void AlternativeLookup::start(const QString& cover_fetcher_identifier)
 {
-	QString search_term = m->cover_location.search_term();
-	m->cover_location.set_search_term(search_term, cover_fetcher_identifier);
+	Cover::Location cl = m->cover_location;
+	QMap<QString, QString> all_search_urls = m->cover_location.all_search_urls();
+	QString search_url = all_search_urls[cover_fetcher_identifier];
 
-	start();
+	if(!search_url.isEmpty()){
+		cl.set_search_urls({search_url});
+	}
+
+	go(cl);
+}
+
+void AlternativeLookup::start_text_search(const QString& search_term)
+{
+	Cover::Location cl = m->cover_location;
+	cl.set_search_term(search_term);
+	go(cl);
+}
+
+void AlternativeLookup::start_text_search(const QString& search_term, const QString &cover_fetcher_identifier)
+{
+	Cover::Location cl = m->cover_location;
+	cl.set_search_term(search_term, cover_fetcher_identifier);
+	go(cl);
 }
 
 Location AlternativeLookup::cover_location() const
@@ -100,11 +109,11 @@ Location AlternativeLookup::cover_location() const
 void AlternativeLookup::set_cover_location(const Location& location)
 {
 	m->cover_location = location;
-	m->cover_location_string = location.to_string();
 }
 
 void AlternativeLookup::cover_found(const QString& cover_path)
 {
+	sp_log(Log::Warning, this) << "Cover found " << cover_path;
 	emit sig_cover_found(cover_path);
 }
 
@@ -112,5 +121,4 @@ void AlternativeLookup::finished(bool success)
 {
 	emit sig_finished(success);
 }
-
 

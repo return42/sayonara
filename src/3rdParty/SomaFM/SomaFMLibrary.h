@@ -41,6 +41,8 @@ namespace SomaFM
 		signals:
 			void sig_stations_loaded(const QList<Station>& stations);
 			void sig_station_changed(const Station& station);
+			void sig_loading_finished();
+			void sig_loading_started();
 
 		public:
 			explicit Library(QObject* parent=nullptr);
@@ -48,7 +50,7 @@ namespace SomaFM
 
 			Station station(const QString& name);
 			void create_playlist_from_station(int idx);
-			void create_playlist_from_playlist(int idx);
+			bool create_playlist_from_playlist(int idx);
 			void search_stations();
 			void set_station_loved(const QString& station_name, bool loved);
 

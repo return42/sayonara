@@ -68,11 +68,11 @@ namespace Playlist
 			IdxList			find_tracks(const QString& filepath) const;
 			int				current_track_index() const;
 			bool			current_track(MetaData& metadata) const;
-			int				playlist_index() const;
-			void			set_playlist_index(int idx);
-			void			set_playlist_mode(const Playlist::Mode& mode);
+			int				index() const;
+			void			set_index(int idx);
+			void			set_mode(const Playlist::Mode& mode);
 			uint64_t		running_time() const;
-			Playlist::Mode	playlist_mode() const;
+			Playlist::Mode	mode() const;
 
 			virtual
 			Playlist::Type	type() const = 0;

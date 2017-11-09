@@ -25,6 +25,7 @@
 #define SAYONARALOADINGBAR_H
 
 #include <QProgressBar>
+#include "Utils/Pimpl.h"
 
 namespace Gui
 {
@@ -35,28 +36,25 @@ namespace Gui
 	class ProgressBar :
 			public QProgressBar
 	{
+		Q_OBJECT
+		PIMPL(ProgressBar)
 
-	public:
-		enum class Position
-		{
-			Top=0,
-			Middle,
-			Bottom
-		};
+		public:
+			enum class Position
+			{
+				Top=0,
+				Middle,
+				Bottom
+			};
 
-	private:
-		QWidget*	_parent=nullptr;
-		int			_fixed_height;
-		Position	_position;
+		public:
+			explicit ProgressBar(QWidget* parent);
+			~ProgressBar();
 
-	public:
-		explicit ProgressBar(QWidget* parent);
-		~ProgressBar();
+			void set_position(ProgressBar::Position o);
 
-		void set_position(ProgressBar::Position o);
-
-	protected:
-		void showEvent(QShowEvent* e) override;
+		protected:
+			void showEvent(QShowEvent* e) override;
 	};
 }
 

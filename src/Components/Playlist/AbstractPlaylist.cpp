@@ -158,22 +158,22 @@ void Base::replace_track(int idx, const MetaData& md)
 	m->v_md[idx].is_disabled = !(Util::File::check_file(md.filepath()));
 	m->v_md[idx].pl_playing = is_playing;
 
-	emit sig_data_changed( playlist_index() );
+	emit sig_data_changed( index() );
 }
 
-int Base::playlist_index() const
+int Base::index() const
 {
 	return m->playlist_idx;
 }
 
 
-void Base::set_playlist_index(int idx)
+void Base::set_index(int idx)
 {
 	m->playlist_idx = idx;
 }
 
 
-void Base::set_playlist_mode(const Playlist::Mode& mode)
+void Base::set_mode(const Playlist::Mode& mode)
 {
 	if( m->playlist_mode.shuffle() != mode.shuffle()){
 		for(MetaData& md : m->v_md){
@@ -195,7 +195,7 @@ uint64_t Base::running_time() const
 	return dur_ms;
 }
 
-Playlist::Mode Base::playlist_mode() const
+Playlist::Mode Base::mode() const
 {
 	return m->playlist_mode;
 }
@@ -284,7 +284,7 @@ void Base::set_storable(bool b)
 void Base::_sl_playlist_mode_changed()
 {
 	Playlist::Mode mode = _settings->get(Set::PL_Mode);
-	set_playlist_mode(mode);
+	set_mode(mode);
 }
 
 

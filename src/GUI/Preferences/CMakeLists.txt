@@ -20,7 +20,7 @@ SET(SOURCES
 	Shortcuts/ShortcutLineEdit.cpp
 	StreamRecorder/GUI_StreamRecorder.cpp
 	Covers/GUI_Covers.cpp
-	Streams/GUI_StreamPreferences.cpp
+	#Streams/GUI_StreamPreferences.cpp
 )
 
 QT5_WRAP_UI(UI_FILES
@@ -40,7 +40,7 @@ QT5_WRAP_UI(UI_FILES
 	Shortcuts/GUI_ShortcutEntry.ui
 	StreamRecorder/GUI_StreamRecorder.ui
 	Covers/GUI_Covers.ui
-	Streams/GUI_StreamPreferences.ui
+	#Streams/GUI_StreamPreferences.ui
 )
 
 ADD_LIBRARY(${PROJECT_NAME} STATIC ${SOURCES} ${UI_FILES})

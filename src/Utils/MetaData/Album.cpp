@@ -27,6 +27,7 @@
 struct Album::Private
 {
 	std::list<HashValue> artist_idxs;
+	std::list<HashValue> album_artist_idxs;
 	HashValue album_idx;
 
 	Private() {}
@@ -34,17 +35,20 @@ struct Album::Private
 
 	Private(const Private& other) :
 		CASSIGN(artist_idxs),
+		CASSIGN(album_artist_idxs),
 		CASSIGN(album_idx)
 	{}
 
 	Private(Private&& other) :
 		CMOVE(artist_idxs),
+		CMOVE(album_artist_idxs),
 		CMOVE(album_idx)
 	{}
 
 	Private& operator=(const Private& other)
 	{
 		ASSIGN(artist_idxs);
+		ASSIGN(album_artist_idxs);
 		ASSIGN(album_idx);
 
 		return *this;
@@ -53,6 +57,7 @@ struct Album::Private
 	Private& operator=(Private&& other)
 	{
 		MOVE(artist_idxs);
+		MOVE(album_artist_idxs);
 		MOVE(album_idx);
 
 		return *this;
@@ -83,7 +88,7 @@ Album::Album(const Album& other) :
 	CASSIGN(rating),
 	CASSIGN(is_sampler)
 {
-    m = Pimpl::make<Private>(*(other.m));
+	m = Pimpl::make<Private>(*(other.m));
 }
 
 Album::Album(Album&& other) :
@@ -186,10 +191,39 @@ void Album::set_artists(const QStringList& artists)
 	}
 }
 
+QStringList Album::album_artists() const
+{
+	QStringList lst;
+
+	for(const HashValue& v : m->album_artist_idxs)
+	{
+		lst << artist_pool()[v];
+	}
+
+	return lst;
+}
+
+void Album::set_album_artists(const QStringList &album_artists)
+{
+	m->album_artist_idxs.clear();
+
+	for(const QString& artist : album_artists)
+	{
+		HashValue hashed = qHash(artist);
+
+		if(!artist_pool().contains(hashed))
+		{
+			artist_pool()[hashed] = artist;
+		}
+
+		m->album_artist_idxs.push_back(hashed);
+	}
+}
+
 
 QVariant Album::toVariant(const Album& album)
 {
-	QVariant var; 
+	QVariant var;
 	var.setValue(album);
 	return var;
 }
@@ -198,16 +232,16 @@ QVariant Album::toVariant(const Album& album)
 bool Album::fromVariant(const QVariant& v, Album& album) {
 	if( !v.canConvert<Album>() ) return false;
 	album =	v.value<Album>();
-    return true;
+	return true;
 }
 
 QString Album::to_string() const
 {
-    QString str("Album: ");
-    str += name() + " by " + artists().join(",");
-    str += QString::number(num_songs) + " Songs, " + QString::number(length_sec) + "sec";
+	QString str("Album: ");
+	str += name() + " by " + artists().join(",");
+	str += QString::number(num_songs) + " Songs, " + QString::number(length_sec) + "sec";
 
-    return str;
+	return str;
 }
 
 
@@ -219,25 +253,25 @@ bool AlbumList::contains(AlbumID album_id) const
 		}
 	}
 
-    return false;
+	return false;
 }
 
 int AlbumList::count() const
 {
-    return static_cast<int>(this->size());
+	return static_cast<int>(this->size());
 }
 
 AlbumList& AlbumList::operator <<(const Album &album)
 {
-    this->push_back(album);
-    return *this;
+	this->push_back(album);
+	return *this;
 }
 
 Album AlbumList::first() const
 {
-    if(this->empty()){
-        return Album();
-    }
+	if(this->empty()){
+		return Album();
+	}
 
-    return this->at(0);
+	return this->at(0);
 }

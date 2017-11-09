@@ -423,7 +423,7 @@ CustomMimeData* PlaylistItemModel::custom_mimedata(const QModelIndexList& indexe
 		return nullptr;
 	}
 
-	mimedata->set_inner_drag_drop();
+	mimedata->set_playlist_source_index(m->pl->index());
 	mimedata->set_metadata(v_md);
 	mimedata->setText("tracks");
 	mimedata->setUrls(urls);

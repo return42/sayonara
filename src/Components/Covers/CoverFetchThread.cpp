@@ -47,8 +47,8 @@ struct FetchThread::Private
 {
 	QList<AsyncWebAccess*> active_connections;
 
-	Location		cl;
-	Fetcher::Base* acf=nullptr;
+	Location			cl;
+	Fetcher::Base*		acf=nullptr;
 
 	QString				url;
 	QString				id;
@@ -99,7 +99,7 @@ bool FetchThread::start()
 	}
 
 	Fetcher::Manager* cfm = Fetcher::Manager::instance();
-	m->acf = cfm->active_coverfetcher(m->url);
+	m->acf = cfm->available_coverfetcher(m->url);
 
 	if(!m->acf){
 		return false;
@@ -150,7 +150,6 @@ bool FetchThread::more()
 
 		return success;
 	}
-
 
 	QString address = m->addresses.takeFirst();
 	AsyncWebAccess* awa = new AsyncWebAccess(this);
@@ -207,7 +206,8 @@ void FetchThread::single_image_fetched()
 	{
 		QImage img  = awa->image();
 
-		if(!img.isNull()) {
+		if(!img.isNull())
+		{
 			QString target_file = m->cl.cover_path();
 			m->n_covers_found++;
 			save_and_emit_image(target_file, img);
@@ -238,8 +238,8 @@ FetchThread::multi_image_fetched()
 
 		QImage img  = awa->image();
 
-		if(!img.isNull()){
-
+		if(!img.isNull())
+		{
 			QString filename, dir, cover_path;
 			QString target_file = m->cl.cover_path();
 			Util::File::split_filename(target_file, dir, filename);

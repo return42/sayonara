@@ -138,7 +138,7 @@ void GUI_Playlist::playlist_track_changed(int row, int playlist_idx)
 
 void GUI_Playlist::playlist_created(PlaylistPtr pl)
 {
-	int pl_idx = pl->playlist_index();
+	int pl_idx = pl->index();
 	PlaylistView* plv = view_by_index(pl_idx);
 
 	if( !plv ) {
@@ -417,9 +417,9 @@ void GUI_Playlist::playlist_idx_changed(int pl_idx)
 void GUI_Playlist::playlist_added(PlaylistPtr pl)
 {
 	PlaylistView* pl_view = new PlaylistView(pl);
-	pl_view->setObjectName("playlist_view" + QString::number(pl->playlist_index()));
+	pl_view->setObjectName("playlist_view" + QString::number(pl->index()));
 
-	int idx = pl->playlist_index();
+	int idx = pl->index();
 	QString name = pl->get_name();
 
 	ui->tw_playlists->insertTab(ui->tw_playlists->count() - 1, pl_view, name);
@@ -632,7 +632,7 @@ void GUI_Playlist::check_playlist_name(PlaylistConstPtr pl)
 		name.prepend("* ");
 	}
 
-	ui->tw_playlists->setTabText(pl->playlist_index(), name);
+	ui->tw_playlists->setTabText(pl->index(), name);
 }
 
 

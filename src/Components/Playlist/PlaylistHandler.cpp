@@ -93,7 +93,7 @@ void Handler::emit_cur_track_changed()
 	bool success = pl->current_track(md);
 	int cur_track_idx = pl->current_track_index();
 
-	m->playlist_idx_before_stop = pl->playlist_index();
+	m->playlist_idx_before_stop = pl->index();
 
 	if(!success || cur_track_idx == -1){
 		m->play_manager->stop();
@@ -104,7 +104,7 @@ void Handler::emit_cur_track_changed()
 
 	m->play_manager->change_track(md, cur_track_idx);
 
-	emit sig_cur_track_idx_changed( cur_track_idx,	pl->playlist_index() );
+	emit sig_cur_track_idx_changed( cur_track_idx,	pl->index() );
 }
 
 
@@ -172,7 +172,7 @@ int Handler::add_new_playlist(const QString& name, bool temporary, Playlist::Typ
 
 	emit sig_new_playlist_added(pl);
 
-	return pl->playlist_index();
+	return pl->index();
 }
 
 
@@ -234,14 +234,14 @@ int Handler::create_playlist(const CustomPlaylist& cpl)
 	}
 
 	else{
-		idx = (*it)->playlist_index();
+		idx = (*it)->index();
 	}
 
 	pl = m->playlists[idx];
 	pl->create_playlist(cpl);
 	pl->set_changed(false);
 
-	return pl->playlist_index();
+	return pl->index();
 }
 
 int Handler::create_empty_playlist(bool override_current)
@@ -352,7 +352,7 @@ void Handler::change_track(int track_idx, int playlist_idx)
 	PlaylistPtr pl;
 
 	if( !between(playlist_idx, m->playlists) ) {
-		playlist_idx = active_playlist()->playlist_index();
+		playlist_idx = active_playlist()->index();
 	}
 
 	if( playlist_idx != m->active_playlist_idx &&
@@ -383,7 +383,7 @@ void Handler::set_active_idx(int idx)
 	}
 
 	else{
-		m->active_playlist_idx = active_playlist()->playlist_index();
+		m->active_playlist_idx = active_playlist()->index();
 	}
 
 	_settings->set(Set::PL_LastPlaylist, active_playlist()->get_id());
@@ -503,8 +503,8 @@ void Handler::close_playlist(int idx)
 	}
 
 	for(PlaylistPtr pl : m->playlists){
-		if(pl->playlist_index() >= idx){
-			pl->set_playlist_index(pl->playlist_index() - 1);
+		if(pl->index() >= idx){
+			pl->set_index(pl->index() - 1);
 		}
 	}
 
@@ -582,7 +582,7 @@ int Handler::exists(const QString& name) const
 
 	for(const PlaylistPtr& pl : m->playlists){
 		if(pl->get_name().compare(name, Qt::CaseInsensitive) == 0){
-			return pl->playlist_index();
+			return pl->index();
 		}
 	}
 
