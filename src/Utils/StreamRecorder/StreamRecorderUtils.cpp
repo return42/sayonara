@@ -3,11 +3,11 @@
 #include "Utils/FileUtils.h"
 #include "Utils/Language.h"
 
-#include <QString>
+#include <QStringList>
 #include <QDateTime>
+#include <QRegExp>
 
 using namespace StreamRecorder;
-
 
 QList<QString> Utils::supported_tags()
 {
@@ -21,8 +21,6 @@ QList<QString> Utils::supported_tags()
 
     return tags;
 }
-
-
 
 Utils::ErrorCode Utils::validate_template(const QString &target_path_template, int* invalid_idx)
 {

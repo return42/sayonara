@@ -269,7 +269,8 @@ void LibraryPluginHandler::set_current_library(LibraryContainerInterface* cur_li
 		}
 	}
 
-	if(m->current_library) {
+	if(m->current_library)
+	{
 	   init_library(m->current_library);
 	   m->current_library->show();
 	}

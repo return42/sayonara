@@ -27,6 +27,7 @@
 #include "Database/LibraryDatabase.h"
 #include "Database/DatabaseConnector.h"
 
+#include <QStringList>
 
 struct AlbumInfo::Private
 {

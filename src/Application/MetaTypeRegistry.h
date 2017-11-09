@@ -1,11 +1,15 @@
 #ifndef METATYPEREGISTRY_H
 #define METATYPEREGISTRY_H
 
+#include <QObject>
 
-class MetaTypeRegistry
+class MetaTypeRegistry :
+		public QObject
 {
+	Q_OBJECT
+
 public:
-	MetaTypeRegistry();
+	MetaTypeRegistry(QObject* parent=nullptr);
 	~MetaTypeRegistry();
 };
 

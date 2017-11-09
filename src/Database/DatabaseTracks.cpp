@@ -613,6 +613,7 @@ bool Tracks::deleteInvalidTracks(const QString& library_path)
 
 QStringList Tracks::getAllGenres()
 {
+	sp_log(Log::Debug, this) << "Load all genres";
 	QString querystring;
 	bool success;
 
@@ -627,7 +628,8 @@ QStringList Tracks::getAllGenres()
 	}
 
 	QHash<QString, bool> hash;
-	while(q.next()){
+	while(q.next())
+	{
 		QString genre = q.value("genre").toString();
 		QStringList subgenres = genre.split(",");
 
@@ -636,6 +638,7 @@ QStringList Tracks::getAllGenres()
 		}
 	}
 
+	sp_log(Log::Debug, this) << "Load all genres finished";
 	return QStringList(hash.keys());
 }
 
