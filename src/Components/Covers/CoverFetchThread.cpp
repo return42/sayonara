@@ -47,7 +47,7 @@ struct FetchThread::Private
 {
 	QList<AsyncWebAccess*> active_connections;
 
-	Location			cl;
+	Cover::Location		cl;
 	Fetcher::Base*		acf=nullptr;
 
 	QString				url;
